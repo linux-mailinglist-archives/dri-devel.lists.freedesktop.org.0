@@ -2,107 +2,96 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5ADD6ADA3A6
-	for <lists+dri-devel@lfdr.de>; Sun, 15 Jun 2025 22:42:00 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 02340ADA3B8
+	for <lists+dri-devel@lfdr.de>; Sun, 15 Jun 2025 22:49:35 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 23C2310E22F;
-	Sun, 15 Jun 2025 20:41:57 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5A29210E23E;
+	Sun, 15 Jun 2025 20:49:17 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="WihhFccw";
+	dkim=pass (2048-bit key; unprotected) header.d=oldschoolsolutions.biz header.i=jens.glathe@oldschoolsolutions.biz header.b="y7gQIWZL";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lj1-f172.google.com (mail-lj1-f172.google.com
- [209.85.208.172])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 26CD610E07A
- for <dri-devel@lists.freedesktop.org>; Sun, 15 Jun 2025 20:41:56 +0000 (UTC)
-Received: by mail-lj1-f172.google.com with SMTP id
- 38308e7fff4ca-32addf54a00so31743911fa.1
- for <dri-devel@lists.freedesktop.org>; Sun, 15 Jun 2025 13:41:56 -0700 (PDT)
+X-Greylist: delayed 368 seconds by postgrey-1.36 at gabe;
+ Sun, 15 Jun 2025 20:49:15 UTC
+Received: from mout.kundenserver.de (mout.kundenserver.de [212.227.126.131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D572110E23E;
+ Sun, 15 Jun 2025 20:49:15 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1750020114; x=1750624914; darn=lists.freedesktop.org;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc:subject:date
- :message-id:reply-to;
- bh=m8tUEHrU+aAiCA1wzd/2v+KwHHK/16tsTm7dd1xb+Qw=;
- b=WihhFccwGSHBQUH9Aa1Io4r+6BNenTJdfA4honkheQMKRBg44fP8ITjojHsqS2neiF
- BCWJ10NHIGDVgQg803ZBDyfefq+zHmdIA14VIZ7lS02nnd2vth9XTV2/ITHxggPHz7E6
- WeWs6cZPHawy99U0mgb7cLf4iukIeccVDjhqdY9HEOkdki7E9QLulb/1z4ZRlKBilWaK
- TmoAuTpkoa7HV2JFcs4H5uaLw2Rb5iPUD6RB3WodaZyWhuqQVRrR5Xl0xEdqehzM5vIY
- dGFm9aA5EuQBUyLGb/DgSF1Zg8zpp8fuca5vThLnIGsOG7Z/TkUG9rVJ1uxY1vOO+cAy
- Rzmw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1750020114; x=1750624914;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=m8tUEHrU+aAiCA1wzd/2v+KwHHK/16tsTm7dd1xb+Qw=;
- b=MwRkc2mtuNthvUXZlCYvjEmtxYXUzwl3OTdPHXxX+5/+bKb1NuTu3AzrXl3J7AyXYn
- uozdCbdK1Ld8J93PVBd//OJrvzDz5NWK0W/8gEiEY0VxLYGiYgUu6InhtoHZATXXLRvV
- zXohgETrqHYRxCaBrfpZY2VfLZG6j9EmMsPkFZR2eti4tNOlTgkYl5Yz5Ew6R73A4qm3
- tql7hAm58XX16nAnrvjuw/V7BxdbQo+YhSfjKY2yw0E0Vn91RaP+N9nj4xVrnSD8HT27
- madgz3MH0oHrWf9AGfKHgrmTcrJ4sHJfgQqFk4u9JR0ckhR8YTJNwdLUgHS4SW40RK1D
- mhVg==
-X-Forwarded-Encrypted: i=1;
- AJvYcCXrAucc0Qi/ngPNZNtYB3cmr7Xuyb76wSI+7XDagrH8WaG+S1x38PtghxzCmkbr56WtRz97XMPOT3Q=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YxJ/UO+573vWb1+LMU+XoJps+9zsy6B8eXtRdJKYPL2FMHlqM9s
- BvmMuksKkIW3zUa0qAJ0qZcrO1Dtv2kdy+u86a0hWzPqg/xkNGQZ/7wG/JgSNER5FayN0UmAHcI
- uW4AGvstzmeXlfuFfek1N9o2Lu/XY+aE=
-X-Gm-Gg: ASbGncsEJmAsXTzmrMOlVzVJtPEmECcjN5FXTEel8YzmpzPS/neZEOwR7c/oe0OCwGd
- piWJQQU0Oxvz/7MsS2um1UcwZutwDnNGiCuykgnV9x9bnRGBMGv48TfJugOlBrDAVerxEqmmK2W
- ZqVAq9QVgapk+r+nL+PizQXgYX+7PWwNGMs/0uVRfGTHMCqTyTS1Im6OWQAnvW7ywUbBPjAkMac
- YGA+Q==
-X-Google-Smtp-Source: AGHT+IF17qm+FSbVV14Pg7FJ215dDeNSyp0hu+3UB0vAUnPJ/I/b7hzjcOF97wvz/4vYu6TXyZ0HeK2zzMOU3xxjgxE=
-X-Received: by 2002:a05:651c:507:b0:32b:3cf5:2ff3 with SMTP id
- 38308e7fff4ca-32b4a5a5c9cmr14597681fa.22.1750020113944; Sun, 15 Jun 2025
- 13:41:53 -0700 (PDT)
+ d=oldschoolsolutions.biz; s=s1-ionos; t=1750020551; x=1750625351;
+ i=jens.glathe@oldschoolsolutions.biz;
+ bh=onUUPi4Wsm0wWvtRzn7J1Is1tHETTLIUY7qL9YrjcWs=;
+ h=X-UI-Sender-Class:Message-ID:Date:MIME-Version:Subject:To:Cc:
+ References:From:In-Reply-To:Content-Type:
+ Content-Transfer-Encoding:cc:content-transfer-encoding:
+ content-type:date:from:message-id:mime-version:reply-to:subject:
+ to;
+ b=y7gQIWZLpu0/YjHqAvPVPFIL+o9QBJOyf3dkhL6T4TWwvwmbVG4JGoXjTIOUdOeK
+ LDG6b3lkaHTua6q0ulId5kja6lFa4bI1HDVqulZKLkmrYg/o3vwzZb4WCAu1qBHZ2
+ e7BaBAt/fS9XFLxR7CKw/uykiEgz6Vuf4dxkb8VAutsKRQQlYVT5ysmE2W4UYNMZ2
+ tpzTLr/zcuHWW0YIA23TsSBt5QvKA25xs+6/rEk+40RcQdDfdaYbwsk7rVe0rWgjZ
+ mPc3zTpSWnSh00cRVKg6ONs11f7V2KXw5FMGArkwZdfupvXsXTYZywkiYOgR/eE+o
+ 5rUZ2SwsmCX34bqbUQ==
+X-UI-Sender-Class: 55c96926-9e95-11ee-ae09-1f7a4046a0f6
+Received: from [192.168.0.174] ([62.226.41.128]) by mrelayeu.kundenserver.de
+ (mreue011 [212.227.15.167]) with ESMTPSA (Nemesis) id
+ 1MqsGv-1vD7Bk1UkT-00lJbT; Sun, 15 Jun 2025 22:42:53 +0200
+Message-ID: <df125ce9-c271-4cd2-b9ee-798d7b1c8648@oldschoolsolutions.biz>
+Date: Sun, 15 Jun 2025 22:42:50 +0200
 MIME-Version: 1.0
-References: <20250611-ptr-as-ptr-v11-0-ce5b41c6e9c6@gmail.com>
- <CANiq72m1ZWxPgCda1C-8X5XOvEq9Z9JfJZqhU4ZUzZ64=N+2fQ@mail.gmail.com>
-In-Reply-To: <CANiq72m1ZWxPgCda1C-8X5XOvEq9Z9JfJZqhU4ZUzZ64=N+2fQ@mail.gmail.com>
-From: Tamir Duberstein <tamird@gmail.com>
-Date: Sun, 15 Jun 2025 16:41:17 -0400
-X-Gm-Features: AX0GCFsBQDbpDdusKYtZ8m3QzN_wjkIx6XFjpQUGjjmQDdCD-7AoaM2XitZK-IE
-Message-ID: <CAJ-ks9=eWA-CCJn32cVQZhBnz=dgjPTt6av0Uw2m+_nfRXYcbA@mail.gmail.com>
-Subject: Re: [PATCH v11 0/6] rust: reduce `as` casts, enable related lints
-To: Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>
-Cc: Masahiro Yamada <masahiroy@kernel.org>,
- Nathan Chancellor <nathan@kernel.org>, 
- Miguel Ojeda <ojeda@kernel.org>, Alex Gaynor <alex.gaynor@gmail.com>, 
- Boqun Feng <boqun.feng@gmail.com>, Gary Guo <gary@garyguo.net>, 
- =?UTF-8?Q?Bj=C3=B6rn_Roy_Baron?= <bjorn3_gh@protonmail.com>, 
- Andreas Hindborg <a.hindborg@kernel.org>, Alice Ryhl <aliceryhl@google.com>, 
- Trevor Gross <tmgross@umich.edu>, Danilo Krummrich <dakr@kernel.org>, 
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- "Rafael J. Wysocki" <rafael@kernel.org>, 
- Brendan Higgins <brendan.higgins@linux.dev>, David Gow <davidgow@google.com>, 
- Rae Moar <rmoar@google.com>, Bjorn Helgaas <bhelgaas@google.com>, 
- Luis Chamberlain <mcgrof@kernel.org>, Russ Weight <russ.weight@linux.dev>,
- Rob Herring <robh@kernel.org>, Saravana Kannan <saravanak@google.com>,
- Abdiel Janulgue <abdiel.janulgue@gmail.com>, 
- Daniel Almeida <daniel.almeida@collabora.com>,
- Robin Murphy <robin.murphy@arm.com>, 
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, 
- Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
- Simona Vetter <simona@ffwll.ch>, 
- FUJITA Tomonori <fujita.tomonori@gmail.com>,
- Nicolas Schier <nicolas.schier@linux.dev>, 
- Frederic Weisbecker <frederic@kernel.org>, Lyude Paul <lyude@redhat.com>, 
- Thomas Gleixner <tglx@linutronix.de>,
- Anna-Maria Behnsen <anna-maria@linutronix.de>, 
- Benno Lossin <lossin@kernel.org>,
- =?UTF-8?Q?Krzysztof_Wilczy=C5=84ski?= <kwilczynski@kernel.org>, 
- John Stultz <jstultz@google.com>, Stephen Boyd <sboyd@kernel.org>, 
- Lorenzo Stoakes <lorenzo.stoakes@oracle.com>,
- "Liam R. Howlett" <Liam.Howlett@oracle.com>, 
- linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org, 
- rust-for-linux@vger.kernel.org, linux-kselftest@vger.kernel.org, 
- kunit-dev@googlegroups.com, linux-pci@vger.kernel.org, 
- linux-block@vger.kernel.org, devicetree@vger.kernel.org, 
- dri-devel@lists.freedesktop.org, netdev@vger.kernel.org, linux-mm@kvack.org
-Content-Type: text/plain; charset="UTF-8"
+User-Agent: Mozilla Thunderbird Beta
+Subject: Re: [PATCH v2 0/4] Support for Adreno X1-45 GPU
+To: Akhil P Oommen <akhilpo@oss.qualcomm.com>,
+ Catalin Marinas <catalin.marinas@arm.com>, Will Deacon <will@kernel.org>,
+ Rob Clark <robin.clark@oss.qualcomm.com>, Sean Paul <sean@poorly.run>,
+ Konrad Dybcio <konradybcio@kernel.org>, Dmitry Baryshkov <lumag@kernel.org>,
+ Abhinav Kumar <abhinav.kumar@linux.dev>,
+ Jessica Zhang <jessica.zhang@oss.qualcomm.com>,
+ Marijn Suijten <marijn.suijten@somainline.org>,
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+ Bjorn Andersson <andersson@kernel.org>, Rob Herring <robh@kernel.org>,
+ Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
+ <conor+dt@kernel.org>, Viresh Kumar <vireshk@kernel.org>,
+ Nishanth Menon <nm@ti.com>, Stephen Boyd <sboyd@kernel.org>
+Cc: linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
+ linux-arm-msm@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ freedreno@lists.freedesktop.org, devicetree@vger.kernel.org,
+ linux-pm@vger.kernel.org, Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>,
+ Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
+References: <20250611-x1p-adreno-v2-0-5074907bebbd@oss.qualcomm.com>
+ <0e6fd97d-9a56-426b-8b98-dc8aa50d02d2@oldschoolsolutions.biz>
+ <036e739c-54e4-4252-b6f0-c8eed5557d15@oss.qualcomm.com>
+Content-Language: en-US
+From: Jens Glathe <jens.glathe@oldschoolsolutions.biz>
+In-Reply-To: <036e739c-54e4-4252-b6f0-c8eed5557d15@oss.qualcomm.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: quoted-printable
+X-Provags-ID: V03:K1:NPypNcwQLw4G4JWfH5eQewUs1fAhXA4gnmLwZKj+YXP2JQCVDLw
+ hHHaFiRxV8yKAi8HhsY8i7ZxODi73S6CjKM9nVFccdGkPhfkB5pOrBOyVW9yaBNN4b0H+Ns
+ dg9kfLxx2wyWiBgoyv/B9zEcXS+CPe57RHvxQpv2+5cF8Zfq1sB+eFs/1EV0GqXTBh6gg++
+ +pqFx1RAv2flOXyJR+vlg==
+X-Spam-Flag: NO
+UI-OutboundReport: notjunk:1;M01:P0:uIJ1F0medxg=;4Jpk9D+KU6zM8oJH2OhyjGCRX00
+ ZLBzbcvmchKoYL3Yvux/9Ztm6mf/1c/6dd/Z+Y6/lWdWkTaNTrb0PbNkujfwJBXg4K5oC8uva
+ laiILTryWn63pLvoQy9qrPelZJ6QSxlWrVUg0XdS8lco8YatTsVMHnQTp7WJf/l6HIRNBPFRo
+ KnK7JheOUUGJu1fVgbJozvzeG2/O4KXyWCSWIYq9Xe14IvKOcDgfgffyH2FDs1jNWw0qd1BXw
+ 3QgiQRPvHTdIXZYxSC0IOK48R4VGotuZAJmL7hK5qL7Hb0TnsUsJQ1anGLdAUI9UgPFxWm9a5
+ NBmNWydte+kwJ5CLpa65m/AaHiYmdiika2VknKjzAV880Y8Ga/V959kXeDHVNQI/kMC8g5/tq
+ AkCQDirNP2gJdrGKUa3W+i9QD3MmW8angHUsjHYOXUicufyAYW5rsGmgfmd99eNpmTmIYW6os
+ zN9yjKhKR+Hu0nQt1gvfs4qOIPghatP2LV0Mj+VlGFvfVkJlPfxNNFi8LZgtwLkPxeU5QMfRi
+ bDvxm/LFr6y1jrXZtRbDVHzQJz7Uf6vi79WQb7vLLybUr5nXve8T8V8sbXaHEZtqdiRnssjMX
+ gl69/icO94eVauqYYNV6zyaJ/ooETGrwexi5WmrGmb/kC+PM1HNJOoUN0wAZwbd74I8pAqBZC
+ z/WkEeoLBQJYnZHx75p2gwjwPzP2GzaQiCyMzDLmOp2YU1ddJZoYsx18B0ZjP0sMWEhESJaPm
+ mQwEjnDgzKDL7scv9bUQ0eWsKMsOqq8JlgrxhBrV36Hhlar9PIgJ2fUG8KUT2SE0k5aWfi14u
+ D8ZVxqwVsJtXVBKq2p3hhCWSHCJ1QjwW4GYziBeEwcnWB4tZ0ooeCROzh6KCuWyfAe6vBfwyA
+ CS4dp6f46e2V4nGZsOOTftQsHkB02irM1pa8WPWWV/5/4P3cjInilRrP00M+hN9ErqrDzEsfN
+ DQ/hWIq2WdM4Ia6A3n6H92IrG/FZxrJdRryj3qBT5ErYbF1srQ5G5k97Slqu5a5UJtAvjvoB+
+ PKR+jmSXMTTx8Vp+jc2eQOLIDF/I/FTB/e54NOX91xj8TXcbJjuyMmvYPL5Wg2G0hfeuf4nqq
+ gkiUQy/16M1/aankbUgvJZ4g1QOjhmCVLsRh+EGcioEbJQZNOY2BzBph012ih1BeuqHNNkFui
+ 8Bz8ymu2xw2Ac/+KWzrjCFATxT0d2Z+5UBUUoHklO0/axhyXtRk0w0WVHv46tb0eWloNbVBtL
+ LUmGv1PwIs+4j9ITQ+6LpsFomDSmHpnOIeIklUMVPA8/tAVfZtHnKyOZ8UwAfCwF6seTtI/uj
+ kLVxuPxvSHaWoZy6lyIwo/jL0hOaxawrS96Tytb9XmX9dXwdmFJI/c7HRJFd7m8Lyz1Y6MKDf
+ nxHp4/YbbGp101G1GrrknMJA9ZTOytY8iRG4VpfCam4aOVCO1x7lhtm3yq
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -118,97 +107,38 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, Jun 13, 2025 at 2:14=E2=80=AFPM Miguel Ojeda
-<miguel.ojeda.sandonis@gmail.com> wrote:
+On 12.06.25 23:19, Akhil P Oommen wrote:
+> Hi Jens,
 >
-> On Wed, Jun 11, 2025 at 12:23=E2=80=AFPM Tamir Duberstein <tamird@gmail.c=
-om> wrote:
-> >
-> > This series depends on "rust: retain pointer mut-ness in
-> > `container_of!`"[1].
+> Could you please try the below patch?
 >
-> Not anymore! :)
+> diff --git a/drivers/gpu/drm/msm/adreno/a6xx_catalog.c
+> b/drivers/gpu/drm/msm/adreno/a6xx_catalog.c
+> index 2db748ce7df5..7748f92919b8 100644
+> --- a/drivers/gpu/drm/msm/adreno/a6xx_catalog.c
+> +++ b/drivers/gpu/drm/msm/adreno/a6xx_catalog.c
+> @@ -1510,7 +1510,8 @@ static const struct adreno_info a7xx_gpus[] =3D {
+>                          { 0,   0 },
+>                          { 294, 1 },
+>                          { 263, 2 },
+> -                       { 141, 3 },
+> +                       { 233, 3 },
+> +                       { 141, 4 },
+>                  ),
+>          }
+>   };
 >
-> > Signed-off-by: Tamir Duberstein <tamird@gmail.com>
+> With this, you should see 1107Mhz as the GPU Fmax.
 >
-> Thanks for rebasing, Tamir, I appreciate it.
->
-> This has a bunch of hits in configfs, cpufreq and Nova [1]. I guess
-> you built without those enabled.
->
-> Could you please fix those? Since this affects other maintainers that
-> we need to ask the Acked-by to, let's try to at least give them the
-> final state.
+jglathe@tb16-jg:~$ cat /sys/class/devfreq/*gpu*/available_frequencies
+280000000 380000000 550000000 666000000 720000000 825000000 940000000=20
+1014000000 1107000000
 
-Oops, I missed this email! I will send v12 shortly with these fixed.
-Is there an easy way to enable all the relevant rust configs?
+Looking good. Thanks!
 
->
-> Thanks!
->
-> Cheers,
-> Miguel
->
-> [1]
->
-> warning: reference as raw pointer
->    --> rust/kernel/configfs.rs:429:9
->
-> warning: reference as raw pointer
->    --> rust/kernel/configfs.rs:467:9
->
-> warning: reference as raw pointer
->    --> rust/kernel/configfs.rs:479:9
->
-> warning: `as` casting between raw pointers without changing their constne=
-ss
->    --> rust/kernel/configfs.rs:564:48
->
-> warning: reference as raw pointer
->    --> rust/kernel/configfs.rs:721:39
->
-> warning: reference as raw pointer
->    --> rust/kernel/configfs.rs:764:35
->
-> warning: reference as raw pointer
->    --> rust/kernel/configfs.rs:783:35
->
-> warning: reference as raw pointer
->    --> rust/kernel/configfs.rs:764:35
->
-> warning: reference as raw pointer
->    --> rust/kernel/configfs.rs:783:35
->
-> warning: using `as _` conversion
->    --> rust/kernel/cpufreq.rs:650:45
->
-> warning: `as` casting between raw pointers without changing their constne=
-ss
->    --> rust/kernel/cpufreq.rs:650:45
->
-> warning: using `as _` conversion
->   --> drivers/gpu/nova-core/driver.rs:22:64
->
-> warning: casts from `u8` to `u32` can be expressed infallibly using `From=
-`
->    --> drivers/gpu/nova-core/regs/macros.rs:267:26
->
-> warning: casts from `u8` to `u32` can be expressed infallibly using `From=
-`
->    --> drivers/gpu/nova-core/regs/macros.rs:267:26
->
-> warning: casts from `u8` to `u32` can be expressed infallibly using `From=
-`
->    --> drivers/gpu/nova-core/regs/macros.rs:267:26
->
-> warning: casts from `u8` to `u32` can be expressed infallibly using `From=
-`
->    --> drivers/gpu/nova-core/regs/macros.rs:267:26
->
-> warning: casts from `u8` to `u32` can be expressed infallibly using `From=
-`
->    --> drivers/gpu/nova-core/regs/macros.rs:267:26
->
-> warning: casts from `u8` to `u32` can be expressed infallibly using `From=
-`
->   --> drivers/gpu/nova-core/regs.rs:35:65
+Tested-by: Jens Glathe <jens.glathe@oldschoolsolutions.biz>
+
+with best regards
+
+Jens
+
