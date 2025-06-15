@@ -2,96 +2,71 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 02340ADA3B8
-	for <lists+dri-devel@lfdr.de>; Sun, 15 Jun 2025 22:49:35 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0065AADA3B2
+	for <lists+dri-devel@lfdr.de>; Sun, 15 Jun 2025 22:44:19 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5A29210E23E;
-	Sun, 15 Jun 2025 20:49:17 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3746210E07A;
+	Sun, 15 Jun 2025 20:44:17 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=oldschoolsolutions.biz header.i=jens.glathe@oldschoolsolutions.biz header.b="y7gQIWZL";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="eRJ6fTpF";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-X-Greylist: delayed 368 seconds by postgrey-1.36 at gabe;
- Sun, 15 Jun 2025 20:49:15 UTC
-Received: from mout.kundenserver.de (mout.kundenserver.de [212.227.126.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D572110E23E;
- Sun, 15 Jun 2025 20:49:15 +0000 (UTC)
+Received: from mail-yw1-f177.google.com (mail-yw1-f177.google.com
+ [209.85.128.177])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 04DFC10E07A
+ for <dri-devel@lists.freedesktop.org>; Sun, 15 Jun 2025 20:44:17 +0000 (UTC)
+Received: by mail-yw1-f177.google.com with SMTP id
+ 00721157ae682-70e40e3f316so27273177b3.0
+ for <dri-devel@lists.freedesktop.org>; Sun, 15 Jun 2025 13:44:16 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=oldschoolsolutions.biz; s=s1-ionos; t=1750020551; x=1750625351;
- i=jens.glathe@oldschoolsolutions.biz;
- bh=onUUPi4Wsm0wWvtRzn7J1Is1tHETTLIUY7qL9YrjcWs=;
- h=X-UI-Sender-Class:Message-ID:Date:MIME-Version:Subject:To:Cc:
- References:From:In-Reply-To:Content-Type:
- Content-Transfer-Encoding:cc:content-transfer-encoding:
- content-type:date:from:message-id:mime-version:reply-to:subject:
- to;
- b=y7gQIWZLpu0/YjHqAvPVPFIL+o9QBJOyf3dkhL6T4TWwvwmbVG4JGoXjTIOUdOeK
- LDG6b3lkaHTua6q0ulId5kja6lFa4bI1HDVqulZKLkmrYg/o3vwzZb4WCAu1qBHZ2
- e7BaBAt/fS9XFLxR7CKw/uykiEgz6Vuf4dxkb8VAutsKRQQlYVT5ysmE2W4UYNMZ2
- tpzTLr/zcuHWW0YIA23TsSBt5QvKA25xs+6/rEk+40RcQdDfdaYbwsk7rVe0rWgjZ
- mPc3zTpSWnSh00cRVKg6ONs11f7V2KXw5FMGArkwZdfupvXsXTYZywkiYOgR/eE+o
- 5rUZ2SwsmCX34bqbUQ==
-X-UI-Sender-Class: 55c96926-9e95-11ee-ae09-1f7a4046a0f6
-Received: from [192.168.0.174] ([62.226.41.128]) by mrelayeu.kundenserver.de
- (mreue011 [212.227.15.167]) with ESMTPSA (Nemesis) id
- 1MqsGv-1vD7Bk1UkT-00lJbT; Sun, 15 Jun 2025 22:42:53 +0200
-Message-ID: <df125ce9-c271-4cd2-b9ee-798d7b1c8648@oldschoolsolutions.biz>
-Date: Sun, 15 Jun 2025 22:42:50 +0200
+ d=gmail.com; s=20230601; t=1750020256; x=1750625056; darn=lists.freedesktop.org;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:from:to:cc:subject:date:message-id:reply-to;
+ bh=lHgtfG07kn1L2/mK1tjQeox1/bdpp/rMlCmk9Dyqin8=;
+ b=eRJ6fTpFqg5vKDwmxYcbiQilFAn4G6KVAT9uTX9p9YULCudX5fmrWCc7P8s+ZQCdGF
+ if2ELLVBYUZyJdZnwwSjF8YVoW7r6TyXEBEppsGkBqiBVHksgk+j4tfmwe6ESpOZW7Je
+ OhdmwMfmTNxugDvJ4RjtXrCeVI9bXXZ2ZSq+PDNj2X6cc5AewgSU/quPlQxV93pIYnNR
+ 7Pr2EXcHQEEAAjMqeYZSAnretAZR+b/2dOcbYnyjq+/YuxtYbI5k06W6G6Mb11FHOJnK
+ wYOt3BOogwKJCfmwx8yA0hUZ0xp68lc70LDMaOlU5HYYnmy6nNJjJXFFC1krHYAB7oKc
+ vJtQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1750020256; x=1750625056;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=lHgtfG07kn1L2/mK1tjQeox1/bdpp/rMlCmk9Dyqin8=;
+ b=RpeRGk+s3EFlZZ0VqweKP2Hfoqgl7Xk9IZ2/O9e+WdA1AocckJ+TWeWKQpTlJ4baxo
+ /hAdA079GLXPsYeZRdQWXd8EIv2krfrc2uhCLNGdnT/GVtjtk/0czrHr1V0l97O85zYQ
+ 9QOlyiVoxRsa7KJjJBnqe2B15Lcn+fhVwcG6AIvvdhFEkrmOPJcwN99Fwv7WpWbdo8ki
+ vOW8WFX5B4PZHR9O6aU/w2DOAlpuKe0QMpefwyAW0G0DJhunRJPhhPaNlILS19HgxABE
+ 3XqtAIOB8xKx0IWJsxcWCzZRrIUgtiveiw/0SPHtkV1g1jZ40KzikW7Rz7v2VixxE6CZ
+ vPCA==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCUKrS6W7IKX6iB6mo6apaFSL3hJKx4bcZmqEhuySO/JMehpGQ8C5fLW1QxbCFNawQS+lNcmxvqDvyU=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0Yx85AYFaUthXg7BsnMNuep+PwfMWM/tJCFk1qlUK8BOGGhVDO8w
+ OfHcdPMt6wRaeUBqI7j9dluLbsZmtJ31IlT7sCs5pg6S1cZf638+KvZC4RrHTqiBZh3oFhMo2KT
+ 50Ysvr2uABCGH36q+iFG8abj7/P6kw7k=
+X-Gm-Gg: ASbGncsdyVxhnz78iJ+SSMIR++h1Axd1WNLztvYCZNvxe2uMuN2lKsUDu5aUAF/mhOd
+ nqhPE2YvTmbosH1MyjbB+1Lp2BwIB8Z2kerLG/+mezfo9xIhFdLBVHtvGhlC2xq7GFymnbAiFri
+ SWdvL2W28VECnQ6cu4fkNhSlXkRZua+CxXL5t9+rirf05A+ArOVuF34Dc=
+X-Google-Smtp-Source: AGHT+IEtdqfJv6hFQUMyRpyQvID8YThBWJw5yL7MonWvEdVoM8T83GHE8qZxTwaWJZW1oNWUIMVWlpuOl4BcUfL9/bg=
+X-Received: by 2002:a05:690c:f07:b0:70c:9478:6090 with SMTP id
+ 00721157ae682-7117544ca4amr90393077b3.28.1750020255851; Sun, 15 Jun 2025
+ 13:44:15 -0700 (PDT)
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird Beta
-Subject: Re: [PATCH v2 0/4] Support for Adreno X1-45 GPU
-To: Akhil P Oommen <akhilpo@oss.qualcomm.com>,
- Catalin Marinas <catalin.marinas@arm.com>, Will Deacon <will@kernel.org>,
- Rob Clark <robin.clark@oss.qualcomm.com>, Sean Paul <sean@poorly.run>,
- Konrad Dybcio <konradybcio@kernel.org>, Dmitry Baryshkov <lumag@kernel.org>,
- Abhinav Kumar <abhinav.kumar@linux.dev>,
- Jessica Zhang <jessica.zhang@oss.qualcomm.com>,
- Marijn Suijten <marijn.suijten@somainline.org>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- Bjorn Andersson <andersson@kernel.org>, Rob Herring <robh@kernel.org>,
- Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
- <conor+dt@kernel.org>, Viresh Kumar <vireshk@kernel.org>,
- Nishanth Menon <nm@ti.com>, Stephen Boyd <sboyd@kernel.org>
-Cc: linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
- linux-arm-msm@vger.kernel.org, dri-devel@lists.freedesktop.org,
- freedreno@lists.freedesktop.org, devicetree@vger.kernel.org,
- linux-pm@vger.kernel.org, Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>,
- Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
-References: <20250611-x1p-adreno-v2-0-5074907bebbd@oss.qualcomm.com>
- <0e6fd97d-9a56-426b-8b98-dc8aa50d02d2@oldschoolsolutions.biz>
- <036e739c-54e4-4252-b6f0-c8eed5557d15@oss.qualcomm.com>
-Content-Language: en-US
-From: Jens Glathe <jens.glathe@oldschoolsolutions.biz>
-In-Reply-To: <036e739c-54e4-4252-b6f0-c8eed5557d15@oss.qualcomm.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: quoted-printable
-X-Provags-ID: V03:K1:NPypNcwQLw4G4JWfH5eQewUs1fAhXA4gnmLwZKj+YXP2JQCVDLw
- hHHaFiRxV8yKAi8HhsY8i7ZxODi73S6CjKM9nVFccdGkPhfkB5pOrBOyVW9yaBNN4b0H+Ns
- dg9kfLxx2wyWiBgoyv/B9zEcXS+CPe57RHvxQpv2+5cF8Zfq1sB+eFs/1EV0GqXTBh6gg++
- +pqFx1RAv2flOXyJR+vlg==
-X-Spam-Flag: NO
-UI-OutboundReport: notjunk:1;M01:P0:uIJ1F0medxg=;4Jpk9D+KU6zM8oJH2OhyjGCRX00
- ZLBzbcvmchKoYL3Yvux/9Ztm6mf/1c/6dd/Z+Y6/lWdWkTaNTrb0PbNkujfwJBXg4K5oC8uva
- laiILTryWn63pLvoQy9qrPelZJ6QSxlWrVUg0XdS8lco8YatTsVMHnQTp7WJf/l6HIRNBPFRo
- KnK7JheOUUGJu1fVgbJozvzeG2/O4KXyWCSWIYq9Xe14IvKOcDgfgffyH2FDs1jNWw0qd1BXw
- 3QgiQRPvHTdIXZYxSC0IOK48R4VGotuZAJmL7hK5qL7Hb0TnsUsJQ1anGLdAUI9UgPFxWm9a5
- NBmNWydte+kwJ5CLpa65m/AaHiYmdiika2VknKjzAV880Y8Ga/V959kXeDHVNQI/kMC8g5/tq
- AkCQDirNP2gJdrGKUa3W+i9QD3MmW8angHUsjHYOXUicufyAYW5rsGmgfmd99eNpmTmIYW6os
- zN9yjKhKR+Hu0nQt1gvfs4qOIPghatP2LV0Mj+VlGFvfVkJlPfxNNFi8LZgtwLkPxeU5QMfRi
- bDvxm/LFr6y1jrXZtRbDVHzQJz7Uf6vi79WQb7vLLybUr5nXve8T8V8sbXaHEZtqdiRnssjMX
- gl69/icO94eVauqYYNV6zyaJ/ooETGrwexi5WmrGmb/kC+PM1HNJOoUN0wAZwbd74I8pAqBZC
- z/WkEeoLBQJYnZHx75p2gwjwPzP2GzaQiCyMzDLmOp2YU1ddJZoYsx18B0ZjP0sMWEhESJaPm
- mQwEjnDgzKDL7scv9bUQ0eWsKMsOqq8JlgrxhBrV36Hhlar9PIgJ2fUG8KUT2SE0k5aWfi14u
- D8ZVxqwVsJtXVBKq2p3hhCWSHCJ1QjwW4GYziBeEwcnWB4tZ0ooeCROzh6KCuWyfAe6vBfwyA
- CS4dp6f46e2V4nGZsOOTftQsHkB02irM1pa8WPWWV/5/4P3cjInilRrP00M+hN9ErqrDzEsfN
- DQ/hWIq2WdM4Ia6A3n6H92IrG/FZxrJdRryj3qBT5ErYbF1srQ5G5k97Slqu5a5UJtAvjvoB+
- PKR+jmSXMTTx8Vp+jc2eQOLIDF/I/FTB/e54NOX91xj8TXcbJjuyMmvYPL5Wg2G0hfeuf4nqq
- gkiUQy/16M1/aankbUgvJZ4g1QOjhmCVLsRh+EGcioEbJQZNOY2BzBph012ih1BeuqHNNkFui
- 8Bz8ymu2xw2Ac/+KWzrjCFATxT0d2Z+5UBUUoHklO0/axhyXtRk0w0WVHv46tb0eWloNbVBtL
- LUmGv1PwIs+4j9ITQ+6LpsFomDSmHpnOIeIklUMVPA8/tAVfZtHnKyOZ8UwAfCwF6seTtI/uj
- kLVxuPxvSHaWoZy6lyIwo/jL0hOaxawrS96Tytb9XmX9dXwdmFJI/c7HRJFd7m8Lyz1Y6MKDf
- nxHp4/YbbGp101G1GrrknMJA9ZTOytY8iRG4VpfCam4aOVCO1x7lhtm3yq
+References: <20250614051837.3544959-1-alexguo1023@gmail.com>
+ <20250615093003.6e524fa9@pumpkin>
+In-Reply-To: <20250615093003.6e524fa9@pumpkin>
+From: Jin D <alexguo1023@gmail.com>
+Date: Sun, 15 Jun 2025 16:43:58 -0400
+X-Gm-Features: AX0GCFsH__qGjb2CAQIRD2ho9nsc9hYQHRyUD1yhot_JNp-ePWICpYWnhEuSTCE
+Message-ID: <CAAi4Z-fDFw1gD2MbqucWRMN0DvKf5mk6B+GDD95x9o23G8iK6w@mail.gmail.com>
+Subject: Re: [PATCH] fbdev: i740: Fix potential divide by zero
+To: David Laight <david.laight.linux@gmail.com>
+Cc: deller@gmx.de, linux-fbdev@vger.kernel.org, 
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
+Content-Type: multipart/alternative; boundary="000000000000b327c70637a2570b"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -107,38 +82,132 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 12.06.25 23:19, Akhil P Oommen wrote:
-> Hi Jens,
+--000000000000b327c70637a2570b
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+>       bpp =3D var->bits_per_pixel;
+> +     if (!var->pixclock){
+> +             dev_err(info->device, "pixclock must not be zero\n");
+> +             return -EINVAL;
+> +     }
+>       switch (bpp) {
+>       case 1 ... 8:
+>               bpp =3D 8;
+
+The value used in the switch condition is var->bits_per_pixel. I can not
+find a deterministic relationship between var->bits_per_pixel and
+var->pixclock.
+
+On Sun, Jun 15, 2025 at 4:30=E2=80=AFAM David Laight <david.laight.linux@gm=
+ail.com>
+wrote:
+
+> On Sat, 14 Jun 2025 01:18:37 -0400
+> Alex Guo <alexguo1023@gmail.com> wrote:
 >
-> Could you please try the below patch?
+> > Variable var->pixclock can be set by user. In case it equals to
+> > zero, divide by zero would occur in 4 switch branches in
+> > i740fb_decode_var.
+> > Similar crashes have happened in other fbdev drivers. We fix this
+> > by checking whether 'pixclock' is zero.
 >
-> diff --git a/drivers/gpu/drm/msm/adreno/a6xx_catalog.c
-> b/drivers/gpu/drm/msm/adreno/a6xx_catalog.c
-> index 2db748ce7df5..7748f92919b8 100644
-> --- a/drivers/gpu/drm/msm/adreno/a6xx_catalog.c
-> +++ b/drivers/gpu/drm/msm/adreno/a6xx_catalog.c
-> @@ -1510,7 +1510,8 @@ static const struct adreno_info a7xx_gpus[] =3D {
->                          { 0,   0 },
->                          { 294, 1 },
->                          { 263, 2 },
-> -                       { 141, 3 },
-> +                       { 233, 3 },
-> +                       { 141, 4 },
->                  ),
->          }
->   };
+> Doesn't it already hit the 'default' clause of the switch statement?
 >
-> With this, you should see 1107Mhz as the GPU Fmax.
+>         David
 >
-jglathe@tb16-jg:~$ cat /sys/class/devfreq/*gpu*/available_frequencies
-280000000 380000000 550000000 666000000 720000000 825000000 940000000=20
-1014000000 1107000000
+> >
+> > Similar commit: commit 16844e58704 ("video: fbdev: tridentfb:
+> > Error out if 'pixclock' equals zero")
+> >
+> > Signed-off-by: Alex Guo <alexguo1023@gmail.com>
+> > ---
+> >  drivers/video/fbdev/i740fb.c | 4 ++++
+> >  1 file changed, 4 insertions(+)
+> >
+> > diff --git a/drivers/video/fbdev/i740fb.c b/drivers/video/fbdev/i740fb.=
+c
+> > index 9b74dae71472..861e9e397b4e 100644
+> > --- a/drivers/video/fbdev/i740fb.c
+> > +++ b/drivers/video/fbdev/i740fb.c
+> > @@ -419,6 +419,10 @@ static int i740fb_decode_var(const struct
+> fb_var_screeninfo *var,
+> >
+> >
+> >       bpp =3D var->bits_per_pixel;
+> > +     if (!var->pixclock){
+> > +             dev_err(info->device, "pixclock must not be zero\n");
+> > +             return -EINVAL;
+> > +     }
+> >       switch (bpp) {
+> >       case 1 ... 8:
+> >               bpp =3D 8;
+>
+>
 
-Looking good. Thanks!
+--000000000000b327c70637a2570b
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Tested-by: Jens Glathe <jens.glathe@oldschoolsolutions.biz>
+<div dir=3D"ltr"><div>&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0bpp =3D var-&gt;bits_p=
+er_pixel;<br>&gt; +=C2=A0 =C2=A0 =C2=A0if (!var-&gt;pixclock){<br>&gt; +=C2=
+=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0dev_err(info-&gt;device, &quot=
+;pixclock must not be zero\n&quot;);<br>&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =
+=C2=A0 =C2=A0 =C2=A0return -EINVAL;<br>&gt; +=C2=A0 =C2=A0 =C2=A0}<br>&gt;=
+=C2=A0 =C2=A0 =C2=A0 =C2=A0switch (bpp) {<br>&gt;=C2=A0 =C2=A0 =C2=A0 =C2=
+=A0case 1 ... 8:<br>&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
+=C2=A0bpp =3D 8;</div><div><br></div><div>The value used in the switch cond=
+ition is var-&gt;bits_per_pixel. I can not find a deterministic relationshi=
+p between var-&gt;bits_per_pixel and var-&gt;pixclock.</div><br><div class=
+=3D"gmail_quote gmail_quote_container"><div dir=3D"ltr" class=3D"gmail_attr=
+">On Sun, Jun 15, 2025 at 4:30=E2=80=AFAM David Laight &lt;<a href=3D"mailt=
+o:david.laight.linux@gmail.com">david.laight.linux@gmail.com</a>&gt; wrote:=
+<br></div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8=
+ex;border-left:1px solid rgb(204,204,204);padding-left:1ex">On Sat, 14 Jun =
+2025 01:18:37 -0400<br>
+Alex Guo &lt;<a href=3D"mailto:alexguo1023@gmail.com" target=3D"_blank">ale=
+xguo1023@gmail.com</a>&gt; wrote:<br>
+<br>
+&gt; Variable var-&gt;pixclock can be set by user. In case it equals to<br>
+&gt; zero, divide by zero would occur in 4 switch branches in<br>
+&gt; i740fb_decode_var.<br>
+&gt; Similar crashes have happened in other fbdev drivers. We fix this<br>
+&gt; by checking whether &#39;pixclock&#39; is zero.<br>
+<br>
+Doesn&#39;t it already hit the &#39;default&#39; clause of the switch state=
+ment?<br>
+<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 David<br>
+<br>
+&gt; <br>
+&gt; Similar commit: commit 16844e58704 (&quot;video: fbdev: tridentfb:<br>
+&gt; Error out if &#39;pixclock&#39; equals zero&quot;)<br>
+&gt; <br>
+&gt; Signed-off-by: Alex Guo &lt;<a href=3D"mailto:alexguo1023@gmail.com" t=
+arget=3D"_blank">alexguo1023@gmail.com</a>&gt;<br>
+&gt; ---<br>
+&gt;=C2=A0 drivers/video/fbdev/i740fb.c | 4 ++++<br>
+&gt;=C2=A0 1 file changed, 4 insertions(+)<br>
+&gt; <br>
+&gt; diff --git a/drivers/video/fbdev/i740fb.c b/drivers/video/fbdev/i740fb=
+.c<br>
+&gt; index 9b74dae71472..861e9e397b4e 100644<br>
+&gt; --- a/drivers/video/fbdev/i740fb.c<br>
+&gt; +++ b/drivers/video/fbdev/i740fb.c<br>
+&gt; @@ -419,6 +419,10 @@ static int i740fb_decode_var(const struct fb_var_=
+screeninfo *var,<br>
+&gt;=C2=A0 <br>
+&gt;=C2=A0 <br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0bpp =3D var-&gt;bits_per_pixel;<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0if (!var-&gt;pixclock){<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0dev_err(info-&gt;devi=
+ce, &quot;pixclock must not be zero\n&quot;);<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0return -EINVAL;<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0}<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0switch (bpp) {<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0case 1 ... 8:<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0bpp =3D 8;<br>
+<br>
+</blockquote></div></div>
 
-with best regards
-
-Jens
-
+--000000000000b327c70637a2570b--
