@@ -2,161 +2,88 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id CB2C8ADA8CB
-	for <lists+dri-devel@lfdr.de>; Mon, 16 Jun 2025 09:03:19 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 88832ADA8D8
+	for <lists+dri-devel@lfdr.de>; Mon, 16 Jun 2025 09:04:58 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id DF81610E2BE;
-	Mon, 16 Jun 2025 07:03:16 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E8F9410E2BF;
+	Mon, 16 Jun 2025 07:04:56 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=amd.com header.i=@amd.com header.b="YLOuPtXk";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="KcilyJ9k";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from NAM10-DM6-obe.outbound.protection.outlook.com
- (mail-dm6nam10on2048.outbound.protection.outlook.com [40.107.93.48])
- by gabe.freedesktop.org (Postfix) with ESMTPS id DBBAC10E2BE;
- Mon, 16 Jun 2025 07:03:15 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=LT+KAMyMXqvBv22GPUWwsIb/jBlt5rltEVAGpEOk/QzbejXFntdzxfjbFkHEpF3pRLeIFSsLwkyeNRjymMZxHJLYTAf6ymAT+Ecd54u9Xy8FlXlqWMu1PF33N+dvQQmL8hThHtoCZ9C/799FXkVaSvYDOnKTQ4/kzv60Boa/sgmJ77r7ThZHp7+1jzBhPeWZGpvkKpUTBIRoDLeHrxh1gWhfyIfqTPecKA44yV7D6Kq9uFfouLMjk7AO6NRtnfcd9BHj7O2dAA6PVkbXRmFT05UpBHKIj20fjg75gRsij3XzVGcD8RonunUhcN1j4w8tri1Uy/hGgijJWTHqisXwAw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=m7tFcDJcKTcavCnpA3kY+UvomL9GyPBjfhmbHArBrwY=;
- b=FHwp1ifLw5NuiDmDBM23v3zAAFU9NDIkwu+fWdqJXpnpJkUUZH9fZpAXnpH/hCBQIu7lTXStQrayo0I6AjjEJAyiBvUCJqDHPZvs0mmzRp+5JvNP0QpG2rtq2JN0cFltX0SfVBfm/VxYlmkLuWC/BdRq2yuumLsYuSiafTneVPmFe9PpQA24NYKB1F31PMGGa6DoPwphwRJAU+7jXYv1Wvn6hLSkfEkJw9iOqJCD4JJlweeW0k8MPRpsHv7EA/wMZyOAC15YqCnvds1O04Z6Fn3QwrVX95LymydtjBomyEQLmfym1mirWrBWJBJTufk8saoFIGCBx0rLzL5HBCxU+w==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
- header.d=amd.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=m7tFcDJcKTcavCnpA3kY+UvomL9GyPBjfhmbHArBrwY=;
- b=YLOuPtXk3hwNmV2MT5DITHDBlbT2ft3F7gp9sa723mB5nMSnnkWUxZKWMjDng7OmwWEMlIVG6/ioLnkXaUiJ48/XBU0/SIcR/LGghwWrwbCC9agQopaLclW9VXfO7e/B9IXB0giWx1U7HDz+iYdR4TYG2fIS2R/DJBv78/QIK7U=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=amd.com;
-Received: from PH7PR12MB5685.namprd12.prod.outlook.com (2603:10b6:510:13c::22)
- by BL3PR12MB6476.namprd12.prod.outlook.com (2603:10b6:208:3bc::8)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8835.23; Mon, 16 Jun
- 2025 07:03:11 +0000
-Received: from PH7PR12MB5685.namprd12.prod.outlook.com
- ([fe80::46fb:96f2:7667:7ca5]) by PH7PR12MB5685.namprd12.prod.outlook.com
- ([fe80::46fb:96f2:7667:7ca5%7]) with mapi id 15.20.8722.031; Mon, 16 Jun 2025
- 07:03:11 +0000
-Message-ID: <22217fcd-f408-49f8-b52e-99196e2872e1@amd.com>
-Date: Mon, 16 Jun 2025 09:03:03 +0200
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v7 1/5] drm: amdgpu: Create amdgpu_vm_print_task_info()
-To: =?UTF-8?Q?Andr=C3=A9_Almeida?= <andrealmeid@igalia.com>,
- Alex Deucher <alexander.deucher@amd.com>, siqueira@igalia.com,
- airlied@gmail.com, simona@ffwll.ch, Raag Jadav <raag.jadav@intel.com>,
- rodrigo.vivi@intel.com, jani.nikula@linux.intel.com,
- Xaver Hugl <xaver.hugl@gmail.com>,
- Krzysztof Karas <krzysztof.karas@intel.com>
-Cc: dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- kernel-dev@igalia.com, amd-gfx@lists.freedesktop.org,
- intel-xe@lists.freedesktop.org, intel-gfx@lists.freedesktop.org
-References: <20250613184348.1761020-1-andrealmeid@igalia.com>
- <20250613184348.1761020-2-andrealmeid@igalia.com>
-Content-Language: en-US
-From: =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
-In-Reply-To: <20250613184348.1761020-2-andrealmeid@igalia.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-ClientProxiedBy: FR2P281CA0082.DEUP281.PROD.OUTLOOK.COM
- (2603:10a6:d10:9b::9) To PH7PR12MB5685.namprd12.prod.outlook.com
- (2603:10b6:510:13c::22)
+Received: from mail-wr1-f53.google.com (mail-wr1-f53.google.com
+ [209.85.221.53])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A4C7D10E2BF
+ for <dri-devel@lists.freedesktop.org>; Mon, 16 Jun 2025 07:04:55 +0000 (UTC)
+Received: by mail-wr1-f53.google.com with SMTP id
+ ffacd0b85a97d-3a531fcaa05so2513808f8f.3
+ for <dri-devel@lists.freedesktop.org>; Mon, 16 Jun 2025 00:04:55 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20230601; t=1750057494; x=1750662294; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=1oEG3ysHjpdeGsIwj4yEvz5h+q+F2S7yXPMXla1Oxuw=;
+ b=KcilyJ9kYJ7tINDmnDXSmJ0gMC7IZZIBfl+6fGXNi+BE6i5xA2//gGH9hIPSxPUEgI
+ WTBGDkdvyDXXDpkIPiUPVyH8UjCOtOsFDtLFkihDjeH8876XrVjd3eg12VOIfRQ9FIee
+ +2jnniCGnb4LOcaRL57I7ZM4a2CZ1oRgglqv+LKlyXllfpIM9Zn4YG4sIh7ODqQuN2iq
+ ThdHC5kFX06d6U4rObJi7vehv5k0OxsqN4o8pMCvxEanDUfFp9NYB+opx3TrSvJlDGba
+ OO/kiLf1tduX8xJKEetCBsCzLjQwx+Izb62MQxnh6FznBHPlZyKibepPoGQkvWlatHm8
+ wyYw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1750057494; x=1750662294;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=1oEG3ysHjpdeGsIwj4yEvz5h+q+F2S7yXPMXla1Oxuw=;
+ b=uWYmkBDjN5YSApNOKBOaMr7nYVQcssqU0OECq8IUJWuNPC6/1RJQs1jLr+IaKYg/ym
+ VW99iX1/+X4HEUfM2sEYF5FpWtdoT3kEL/Wo80ZfAYzJTE1lBgC34dDLEJy2puUNLeAY
+ /cbx4WosArUK9WtPvYyzKlycxnYQuqspUFt4skqyjY8FlsTx5pDJ75UHw+oPYsssJYGi
+ N7Kf/SCoiOsm75hzBXTymbnqzzQSWOjdfrfkSJCAnDx4OktHuDORoCSiHWPIg1xBREE4
+ v5psQ6QeM8JWO3UEh+yyzXPclgbe5dQq8oAJDnUU3UlN/SY9lAv98lBEGWaIZ8ll1MFm
+ Vdhg==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCWw7T2Bq+YOoIBq7T+EhNPJRQe0TvmGtW/OzSFAuuqR7VifROp32wrsCaiEH/HSZaH9vPlzrlT2TBk=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YyhsoO1sqjeaBEfeuGTmeSydiH1X1OXDLGkh9sPSO8kS0zBedC9
+ 1XqsCc5JSvYOs2p++DUJ+ZgUeGU5qOTJ7iiawvvzUmv4uFJCwVsLTktTLA278WNkQcZmHP97opY
+ Fk74JagLMJlWmq711IPyV0oFX1QMbgR0=
+X-Gm-Gg: ASbGncvCfL/wR0fO2FS42BGkDyt7dqWyK+qs6ETl+5WBCotDILdW0pfgmCeNAXlimQY
+ UkihYn5hOWu2Ut8AKINMtnjhgBC+5s3nUAaz5o5JOnFG5qXEIY8f7eLUquI63BmHV+lxdiDDrL6
+ mPuinZhwU0OzmnYmS4Z1sQDXFXpW2FB9VnJehmoEON7n3s5mSYyIsXFRc=
+X-Google-Smtp-Source: AGHT+IH+83iGOUs6KGgkeXxI/hwC4jIryRkMXCNB4fAggGMDyUiBwodLdgfD+uL39t6KuVYf6bfWBRlf2qKO4sXhC4A=
+X-Received: by 2002:a05:6000:711:b0:3a5:27ba:47a8 with SMTP id
+ ffacd0b85a97d-3a572e99895mr6366894f8f.52.1750057494053; Mon, 16 Jun 2025
+ 00:04:54 -0700 (PDT)
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: PH7PR12MB5685:EE_|BL3PR12MB6476:EE_
-X-MS-Office365-Filtering-Correlation-Id: f72aa8d5-83e9-41ce-f694-08ddaca3daf6
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
- ARA:13230040|1800799024|366016|7416014|376014|921020|7053199007; 
-X-Microsoft-Antispam-Message-Info: =?utf-8?B?NWpTdVJZZDRNMDdXcVMwbjJUSWdLQTlHNlRVUVhIcEx6UW1tSDJqbFpHQVAy?=
- =?utf-8?B?L2VJVUxzaEdmMkZMNXNwaTFzeW5XdkphLy9yellrcndhUWdsNHQvYkpMNWM0?=
- =?utf-8?B?dSsrTzNQeXl3MisrMVBOSkl1RHJZbDFMeFdmNmZVUDRJREgwWkR4UjBZNzNV?=
- =?utf-8?B?VzhGN3crZTFsSjRDSUlBaDd5WTBMbjNuOHhtVlhBMmsrRHJKS3ZzNWxvUG5X?=
- =?utf-8?B?Nk1wOGJzcjF5aEFLQy9NOEVpb0tBMUJldUFQVTZld0pYTUxiNEMyMkRDMEp6?=
- =?utf-8?B?a0Vmd2RSUjJQbTdBSkpXV0p2WElBNFRrUXcyRHNDZ3l5RDVxUDg0aW5GVTV0?=
- =?utf-8?B?ZEhPWnRjTTlMaWk2U3o0dnI1MWNsZnZCL09tQXFsOUFpZlc5aERaL00xc1U2?=
- =?utf-8?B?a0ljcmxQRXlNVHBjakhnRjZTS0xtUnkzMXFzR3VtVzE0dGQ2SmxjVkp0UVcz?=
- =?utf-8?B?NktPeVM4WFhjSVZLMXpUbmZQaEdzVkxweXVadDM5UWMvUmZNcmRCaXZ2UHpq?=
- =?utf-8?B?by9GTXRBTjB5YXZKZGFuNjNaWEFOWnBZTlpzZ2xLbGlUWGRFaEUwZmkyZ3E3?=
- =?utf-8?B?ZGIyaW9NVFFGZ3Y1dnNwMzRHblhkQWIyN1pyL3Q2WmIxbHoyUXFCaFZvRUlD?=
- =?utf-8?B?VkRaaVZjNVBkRjJRTjFLb0czQUhab3NEK0l4RzNBdXFFSG1zTFNraHVPWVd4?=
- =?utf-8?B?ZnUxNTYwdks1YW9Ib3A3cEwvUGxsYTZZd1FRTE14cGxOQmlUT080US93WTcy?=
- =?utf-8?B?NFVlRHhCalplejNQQkxoVFV4MTV1TTZJTHVJYmpEVlhKSFZVRmYyS29lNzZ3?=
- =?utf-8?B?Mk82eG94OTBoTUZvVUh3V25wc0xGKzdNM0xPSENsMytRczlKUUprOFBIQVBY?=
- =?utf-8?B?V21Wd0xhayt4WStqOEFidUpMb2FoaVpJNmczWXk0ZDBtMExWYXpMRmtCV25h?=
- =?utf-8?B?RFhVSFlPSHRUODNsMHNldmkwR2FVMlpVeHAwNEZyQnloSWhTMW1hRlZRd0VJ?=
- =?utf-8?B?eTlpVlFlbEhQWVI1N2FKSlE3QkRIMlRPbGtDR1oydlRmUHM4S2xXT2h2VlZR?=
- =?utf-8?B?L1oxcW5jYW1LWTFSSE95bG9JVnhqZWdGNnZaRTMrckkxTy9KM0dwME5YMFVr?=
- =?utf-8?B?UzJmckNzM2JCYzNmaFBQRHE4NTV2QTVWTUpuVmd6UG04VW5xZHBYMzAzcmp6?=
- =?utf-8?B?N2s0bkQzMGxxSFNsNDNYUExsZ3B6dzZ5MXhnTEMvQVVTNzdWWm9TMjVKcHRs?=
- =?utf-8?B?amhNWll3Q1E0emlMSHpLajJkUVZWQ0prUGlCa2o5Ym82REIyc3l3R29oYW4v?=
- =?utf-8?B?ajBETlk2Lzhka01QdGNKdHFLNU9DUDk2K09CaVRUczNXdEpJSTlRTDZSU2hi?=
- =?utf-8?B?UEdsMHlZRDUzUjRjaU5XU3p4Z2l1czRtTjBrdEZxaE5uYzZ3YnhiQklkendB?=
- =?utf-8?B?WmNFOUd1WHFGRGVyd2h2WktnM2tIUGJaZXpaZnd1eS9LaEI0WXdrRmFEbkgx?=
- =?utf-8?B?VjV2WEJXWVRta2NIK1FLZnZlaEVtS1g4b0lRSDZ6MVdKNnczdWRTQUxJbWJo?=
- =?utf-8?B?RmNsRlpxRXFYTUQwMFZvQnlleEhjdis4QlBhdGRZQmlpN1ZTTzJxUndYMUhV?=
- =?utf-8?B?RHh0YlJJV0RsT0pTYUtsYlg0WGt0d0pPOTBLMzl4UzcvTk12ZzVNZXdZWmFx?=
- =?utf-8?B?UElPUVVZQUZzL0I3NHFRcWxtaExPOUl5MEJncldPUkx0NmFmKytQeVFobG9Z?=
- =?utf-8?B?ZlhmU1lJb2xMNDJaV2ZOMlQ3OFlqa3B2Y1p5endIRFA1STg5bnpJS2YvamVY?=
- =?utf-8?B?Yk9IN2NvVnN5LzZyN0tkd0hPOFhGQ2ZZZ2Y4RnlkV1JmeFFNb1Qwc1RpVU5C?=
- =?utf-8?B?Y2xFbkZhbE1YQUlVNkRuZG85bnprQzRhbHVmZTVlK2FsVVVhZmpGcFpDOGYw?=
- =?utf-8?B?Z1Rpc202TlQ3QU5Jd0wwcHJwcnp2SnNIQmU0WkVMMGtrUzQyeGpoWXNQcUta?=
- =?utf-8?B?T3BhbFhJRlJBPT0=?=
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:PH7PR12MB5685.namprd12.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230040)(1800799024)(366016)(7416014)(376014)(921020)(7053199007);
- DIR:OUT; SFP:1101; 
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?Q3FGcXV4OE12eDIwMUJqSFRscFU2VjdHanJmejRSdGVvYklseW5FdktWemFC?=
- =?utf-8?B?RUs4b2JkOW9OWFp3SXBhU2FMM1NEYlpsNUtyWlE3Yk1XZEpscWZHRWNDVGth?=
- =?utf-8?B?cmh5NUpwZHRaanNSaTB1NGJxdjR4TklDdHR6cGJBdVNwL0FMUEtMcXBaNHFL?=
- =?utf-8?B?VGZHVGs4cittMkJMTnVmM0lnNzZ1K1ZnM0lsUU1WbFJGaExBVmtjYVFncVI1?=
- =?utf-8?B?NEpPMEdwc0RwK3k5MG5nWXVGWDdVbjR6b0lqaERzS0JaSWxYZnpMUWZFcSth?=
- =?utf-8?B?a2ZTY1dzZ0FNS0FPdUZNTlV0VWJlUlpVUTBuVzFydktFZjRSbTR3YVhscWUr?=
- =?utf-8?B?Z3o3THB4VU9kMlgxWFVSdjFIc1VxZTJ2a1c0V00zeEV6YlZlUDZWMUJiRjVE?=
- =?utf-8?B?eUE4d0l4Z1Q3U0RmL21EeWVtYlNDZk1DcXl2QTZ2RFhNU00rcWZKOENaandh?=
- =?utf-8?B?TCtVU0llU3dkcVhZbGdnQzVPbHJkT2pRbzJrRXhpZHYrOEcyR2hkTy90UU40?=
- =?utf-8?B?bnl5YjYvcERPMmwwTGIxbnV6NnR4WGRrU3hlZlN5RFBwS25nNGlJbnI2SDgw?=
- =?utf-8?B?WXdTeURZdVVrYk5BTEVqY3dEKytuV0pyR2xDcmd3bnhoTnQzY0NSblJ3Vm85?=
- =?utf-8?B?Z0EzQ3Z3WXMyTXhWNHRTdnU5dS9sc3NhTGJ3eEgzUXYxWkNvL2tKS2pkRWh5?=
- =?utf-8?B?UkZ6ZEdSSFZQYkExNW9jVzh4eFV2NFZkeUxYUDdBT1lscC9URnhEc3JobExl?=
- =?utf-8?B?UDc5M1NTaThqTlh1TlM1blMvdEo5cmNNL2sxN1M2OS9rdGhXY1ZPeS96QXFL?=
- =?utf-8?B?c2dXWHlJR0ZNbnBRUG4vdUJGK0g1Z0VBQm02Zk9RWVY1SVVFa1lYSVVtZ0hL?=
- =?utf-8?B?U1VlSVl5OEs4SG95dFA4Vmt1MWtCSm9MR1JmajloekMxakdDSkc1ZzRTOGJv?=
- =?utf-8?B?NTVaSnE1U1NHTnVDakJweTlzbU5KUVovejBmU3VOUXFtZE1PZzVkK3pDTm81?=
- =?utf-8?B?Tyt4WTMyeWhncnptdjBNMXR5QmhsOWNoS0NOeGh5NXhmQ2NpMWZiYXQ2Vk1k?=
- =?utf-8?B?N1E0Yjk0aUxuN29VL2JhemVyNldzdE40SU93NENnOUJBb0Z1NkZ4eDVtSGlS?=
- =?utf-8?B?R3pMYWdrOXMycXJ5SVNZODVzV3l6V3U1WFliY2prOU5jSWkvNDRkZktUeUVr?=
- =?utf-8?B?aUkreVZ6eHdTQnlzNEpsRjJ3STROa3FZbUFvVVNENEYwdnlMSk1zZEhDRHhQ?=
- =?utf-8?B?K0pHUndYdnFhM1JUUFQ5djM1YktqYmlKTFJaVnVTbUVzTldlSDhMT0NUOXVm?=
- =?utf-8?B?b24xMDhqb0hMTFdMbGZ4Uk0xYzBuRHZmRlg2NnN1UkJZcFFpU2tvbDUwZFVh?=
- =?utf-8?B?UTRqZmgzejhPZ2xBZFpvb2dzVUpWb3FNMUtVcXEya25LdmdmTFd5cjBqRjFS?=
- =?utf-8?B?dGt0eGhYRDNGb1VLRGZVN1dKZGZLK2VWMG00L0xLMnBudmFER2JCRU4yMUNS?=
- =?utf-8?B?WmR6MVp1TngyUVBTRjZPelA0TGxoUDhHWXJsVVFkOWw1b3hWbkpjVUt2OHdV?=
- =?utf-8?B?L0tDSENHMlNZWEdCV080N1ROUTZ0ZUcvd3lVSnY0OG0zZjJ1VG01OFVIaEhJ?=
- =?utf-8?B?Z2RlczA3TkJ4UjREOGMyMUNiVFQya3FyQVRyejRmclU5UTBVTTJiRWtNaGVv?=
- =?utf-8?B?RzlvTTBzOGVVTDlPTUcwbDJZN0NmL2xTbUVnVHpsRkpFZzZhTVFUWkJGZkVu?=
- =?utf-8?B?MmpCMmtTVjBIOHR2dy9QTFlRcXlWUkhuWlJUb3FFVmVmOWE4Q2RFZTRveUxU?=
- =?utf-8?B?cENydG9FdGdJZ0ZjakExTSs4SVZvbFVHSEh5ekpCOW9lQ01ZMWFmc3RrYkJj?=
- =?utf-8?B?QlZiYU1SRU0rejJtZ0xkb2dFeXRCRnZPMThZUkxKVEZHbWMyOWluRG9GS0hE?=
- =?utf-8?B?aXB5RDBLbktZTTdqeElsNGV4c1pRbVVQdEtzS3owcjd3OFNOclp4MXBHRi9H?=
- =?utf-8?B?aHJQKzlRNEVLY2JGUkJqSFNNL1JacEtaTklnbGRVSHBRdDdUUk1LSzVNL2Zn?=
- =?utf-8?B?VTJkcXJoRStzUVMyTlVaOWYydzNLazRFTzVITFdaeXdhU0wrVXZEUkZRYmRH?=
- =?utf-8?Q?YYJeDjW5b2Q/MZmw/ejC4B7re?=
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: f72aa8d5-83e9-41ce-f694-08ddaca3daf6
-X-MS-Exchange-CrossTenant-AuthSource: PH7PR12MB5685.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 16 Jun 2025 07:03:11.3452 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: /2FfmrNCxGDJgHmmntUPwtPZ9/7cT//DwAtbze90QUizSBswdTqeO6/ZoACByXNQ
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: BL3PR12MB6476
+References: <20250303120455.90156-1-clamor95@gmail.com>
+ <CAPVz0n0XSzxzkPocRVx6QF7xwmA4otSeSEiRZgJQ3oStyUBrLA@mail.gmail.com>
+ <CAPVz0n2MLmHfVNb25=o1_woE7v16hoamwFbbT3ecE+BP1Bn9aw@mail.gmail.com>
+ <6df6ecc4-088a-4b27-bebf-abc4560b00ae@kernel.org>
+ <CAPVz0n1S2rWW_08FoL+jsVJEOkQ0JJZBu+bB2U5K=fF-g87Y0A@mail.gmail.com>
+ <c2bd6a03-6f65-41ff-ad26-71287068f2f9@kernel.org>
+In-Reply-To: <c2bd6a03-6f65-41ff-ad26-71287068f2f9@kernel.org>
+From: Svyatoslav Ryhel <clamor95@gmail.com>
+Date: Mon, 16 Jun 2025 10:04:42 +0300
+X-Gm-Features: AX0GCFupqmFcmgFpPCRebWxKUhnQj80OD2Gl-qOuC42ZRRk2nSdbfDWbKgqNKoU
+Message-ID: <CAPVz0n1udjVZY3400hYMY07DjNKfOt4bwpW6He6A4qo_3pXtqQ@mail.gmail.com>
+Subject: Re: [PATCH v3 0/3] drm: bridge: add support for Triple 10-BIT
+To: Krzysztof Kozlowski <krzk@kernel.org>
+Cc: Andrzej Hajda <andrzej.hajda@intel.com>,
+ Neil Armstrong <neil.armstrong@linaro.org>, 
+ Robert Foss <rfoss@kernel.org>,
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>, 
+ Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>, 
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, 
+ Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
+ Simona Vetter <simona@ffwll.ch>, 
+ Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
+ Conor Dooley <conor+dt@kernel.org>, 
+ Maxim Schwalm <maxim.schwalm@gmail.com>, dri-devel@lists.freedesktop.org, 
+ devicetree@vger.kernel.org, linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -172,153 +99,62 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 6/13/25 20:43, André Almeida wrote:
-> To avoid repetitive code in amdgpu, create a function that prints the
-> content of struct amdgpu_task_info.
-> 
-> Signed-off-by: André Almeida <andrealmeid@igalia.com>
-> ---
-> v7: new patch
-> ---
->  drivers/gpu/drm/amd/amdgpu/amdgpu_job.c | 4 +---
->  drivers/gpu/drm/amd/amdgpu/amdgpu_vm.c  | 9 +++++++++
->  drivers/gpu/drm/amd/amdgpu/amdgpu_vm.h  | 3 +++
->  drivers/gpu/drm/amd/amdgpu/gmc_v10_0.c  | 5 +----
->  drivers/gpu/drm/amd/amdgpu/gmc_v11_0.c  | 5 +----
->  drivers/gpu/drm/amd/amdgpu/gmc_v12_0.c  | 5 +----
->  drivers/gpu/drm/amd/amdgpu/gmc_v8_0.c   | 4 +---
->  drivers/gpu/drm/amd/amdgpu/gmc_v9_0.c   | 5 +----
->  8 files changed, 18 insertions(+), 22 deletions(-)
-> 
-> diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_job.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_job.c
-> index 75262ce8db27..3d887428ca2b 100644
-> --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_job.c
-> +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_job.c
-> @@ -124,9 +124,7 @@ static enum drm_gpu_sched_stat amdgpu_job_timedout(struct drm_sched_job *s_job)
->  
->  	ti = amdgpu_vm_get_task_info_pasid(ring->adev, job->pasid);
->  	if (ti) {
-> -		dev_err(adev->dev,
-> -			"Process information: process %s pid %d thread %s pid %d\n",
-> -			ti->process_name, ti->tgid, ti->task_name, ti->pid);
-> +		amdgpu_vm_print_task_info(adev, ti);
->  		amdgpu_vm_put_task_info(ti);
->  	}
->  
-> diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_vm.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_vm.c
-> index 3911c78f8282..f2a0132521c2 100644
-> --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_vm.c
-> +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_vm.c
-> @@ -3156,3 +3156,12 @@ bool amdgpu_vm_is_bo_always_valid(struct amdgpu_vm *vm, struct amdgpu_bo *bo)
->  {
->  	return bo && bo->tbo.base.resv == vm->root.bo->tbo.base.resv;
->  }
-> +
-> +inline void amdgpu_vm_print_task_info(struct amdgpu_device *adev,
-> +				      struct amdgpu_task_info *task_info)
+=D0=BF=D0=BD, 16 =D1=87=D0=B5=D1=80=D0=B2. 2025=E2=80=AF=D1=80. =D0=BE 10:0=
+2 Krzysztof Kozlowski <krzk@kernel.org> =D0=BF=D0=B8=D1=88=D0=B5:
+>
+> On 16/06/2025 08:54, Svyatoslav Ryhel wrote:
+> > =D0=BF=D0=BD, 16 =D1=87=D0=B5=D1=80=D0=B2. 2025=E2=80=AF=D1=80. =D0=BE =
+09:50 Krzysztof Kozlowski <krzk@kernel.org> =D0=BF=D0=B8=D1=88=D0=B5:
+> >>
+> >> On 16/06/2025 08:42, Svyatoslav Ryhel wrote:
+> >>>>>
+> >>>>>  .../devicetree/bindings/display/bridge/lvds-codec.yaml       | 1 +
+> >>>>>  .../devicetree/bindings/display/bridge/simple-bridge.yaml    | 1 +
+> >>>>>  drivers/gpu/drm/bridge/simple-bridge.c                       | 5 +=
+++++
+> >>>>>  3 files changed, 7 insertions(+)
+> >>>>>
+> >>>>> --
+> >>>>> 2.43.0
+> >>>>>
+> >>>>
+> >>>> These patches had no activity/feedback from maintainers for a while,
+> >>>> so, in case they got lost in the depths of email box, this is a
+> >>>> friendly reminder that they are still relevant and I would like them
+> >>>> to move on.
+> >>>>
+> >>>> Best regards,
+> >>>> Svyatoslav R.
+> >>>
+> >>> These patches had no activity/feedback from maintainers for a while,
+> >>
+> >> Really? No activity/feedback?
+> >>
+> >> What is this then:
+> >>
+> >> https://lore.kernel.org/all/567addb4-169b-4fd0-aabb-78ceded22702@kerne=
+l.org/#t
+> >>
+> >> https://lore.kernel.org/all/ptyvn34i377pdu7mqital6v2bqe36oy3yprxb5c3hz=
+tni7h52j@6eo64gzxvgg3/
+> >>
+> >> You already were sending such pings claiming there is no activity whil=
+e
+> >> we provide you the reviews.
+> >>
+> >>
+> >
+> > Then why these patches were not picked for more then 2 month if
+> > everyone acked and reviewed them? I am pinging every month to remind
+> > that they are still relevant and were not picked!
+> So acking and reviewing is an activity or not? Because if it is not an
+> activity, there is no point for me to keep doing it.
+>
+> It's not a question to me why DRM maintainers do not pick up such
+> patches, but your message did not question that.
+>
 
-Please drop the inline, neither performance critical nor really applicable.
+I will ensure that you will not get such pings in future.
 
-Apart from that looks good to me.
-
-Regards,
-Christian. 
-
-> +{
-> +	dev_err(adev->dev,
-> +		" Process %s pid %d thread %s pid %d\n",
-> +		task_info->process_name, task_info->tgid,
-> +		task_info->task_name, task_info->pid);
-> +}
-> diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_vm.h b/drivers/gpu/drm/amd/amdgpu/amdgpu_vm.h
-> index f3ad687125ad..3862a256b9b8 100644
-> --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_vm.h
-> +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_vm.h
-> @@ -668,4 +668,7 @@ void amdgpu_vm_tlb_fence_create(struct amdgpu_device *adev,
->  				 struct amdgpu_vm *vm,
->  				 struct dma_fence **fence);
->  
-> +inline void amdgpu_vm_print_task_info(struct amdgpu_device *adev,
-> +			       struct amdgpu_task_info *task_info);
-> +
->  #endif
-> diff --git a/drivers/gpu/drm/amd/amdgpu/gmc_v10_0.c b/drivers/gpu/drm/amd/amdgpu/gmc_v10_0.c
-> index a3e2787501f1..7923f491cf73 100644
-> --- a/drivers/gpu/drm/amd/amdgpu/gmc_v10_0.c
-> +++ b/drivers/gpu/drm/amd/amdgpu/gmc_v10_0.c
-> @@ -164,10 +164,7 @@ static int gmc_v10_0_process_interrupt(struct amdgpu_device *adev,
->  		entry->src_id, entry->ring_id, entry->vmid, entry->pasid);
->  	task_info = amdgpu_vm_get_task_info_pasid(adev, entry->pasid);
->  	if (task_info) {
-> -		dev_err(adev->dev,
-> -			" in process %s pid %d thread %s pid %d\n",
-> -			task_info->process_name, task_info->tgid,
-> -			task_info->task_name, task_info->pid);
-> +		amdgpu_vm_print_task_info(adev, task_info);
->  		amdgpu_vm_put_task_info(task_info);
->  	}
->  
-> diff --git a/drivers/gpu/drm/amd/amdgpu/gmc_v11_0.c b/drivers/gpu/drm/amd/amdgpu/gmc_v11_0.c
-> index 72211409227b..f15d691e9a20 100644
-> --- a/drivers/gpu/drm/amd/amdgpu/gmc_v11_0.c
-> +++ b/drivers/gpu/drm/amd/amdgpu/gmc_v11_0.c
-> @@ -134,10 +134,7 @@ static int gmc_v11_0_process_interrupt(struct amdgpu_device *adev,
->  			entry->src_id, entry->ring_id, entry->vmid, entry->pasid);
->  		task_info = amdgpu_vm_get_task_info_pasid(adev, entry->pasid);
->  		if (task_info) {
-> -			dev_err(adev->dev,
-> -				" in process %s pid %d thread %s pid %d)\n",
-> -				task_info->process_name, task_info->tgid,
-> -				task_info->task_name, task_info->pid);
-> +			amdgpu_vm_print_task_info(adev, task_info);
->  			amdgpu_vm_put_task_info(task_info);
->  		}
->  
-> diff --git a/drivers/gpu/drm/amd/amdgpu/gmc_v12_0.c b/drivers/gpu/drm/amd/amdgpu/gmc_v12_0.c
-> index b645d3e6a6c8..de763105fdfd 100644
-> --- a/drivers/gpu/drm/amd/amdgpu/gmc_v12_0.c
-> +++ b/drivers/gpu/drm/amd/amdgpu/gmc_v12_0.c
-> @@ -127,10 +127,7 @@ static int gmc_v12_0_process_interrupt(struct amdgpu_device *adev,
->  			entry->src_id, entry->ring_id, entry->vmid, entry->pasid);
->  		task_info = amdgpu_vm_get_task_info_pasid(adev, entry->pasid);
->  		if (task_info) {
-> -			dev_err(adev->dev,
-> -				" in process %s pid %d thread %s pid %d)\n",
-> -				task_info->process_name, task_info->tgid,
-> -				task_info->task_name, task_info->pid);
-> +			amdgpu_vm_print_task_info(adev, task_info);
->  			amdgpu_vm_put_task_info(task_info);
->  		}
->  
-> diff --git a/drivers/gpu/drm/amd/amdgpu/gmc_v8_0.c b/drivers/gpu/drm/amd/amdgpu/gmc_v8_0.c
-> index 99ca08e9bdb5..b45fa0cea9d2 100644
-> --- a/drivers/gpu/drm/amd/amdgpu/gmc_v8_0.c
-> +++ b/drivers/gpu/drm/amd/amdgpu/gmc_v8_0.c
-> @@ -1458,9 +1458,7 @@ static int gmc_v8_0_process_interrupt(struct amdgpu_device *adev,
->  
->  		task_info = amdgpu_vm_get_task_info_pasid(adev, entry->pasid);
->  		if (task_info) {
-> -			dev_err(adev->dev, " for process %s pid %d thread %s pid %d\n",
-> -				task_info->process_name, task_info->tgid,
-> -				task_info->task_name, task_info->pid);
-> +			amdgpu_vm_print_task_info(adev, task_info);
->  			amdgpu_vm_put_task_info(task_info);
->  		}
->  
-> diff --git a/drivers/gpu/drm/amd/amdgpu/gmc_v9_0.c b/drivers/gpu/drm/amd/amdgpu/gmc_v9_0.c
-> index 282197f4ffb1..78f65aea03f8 100644
-> --- a/drivers/gpu/drm/amd/amdgpu/gmc_v9_0.c
-> +++ b/drivers/gpu/drm/amd/amdgpu/gmc_v9_0.c
-> @@ -641,10 +641,7 @@ static int gmc_v9_0_process_interrupt(struct amdgpu_device *adev,
->  
->  	task_info = amdgpu_vm_get_task_info_pasid(adev, entry->pasid);
->  	if (task_info) {
-> -		dev_err(adev->dev,
-> -			" for process %s pid %d thread %s pid %d)\n",
-> -			task_info->process_name, task_info->tgid,
-> -			task_info->task_name, task_info->pid);
-> +		amdgpu_vm_print_task_info(adev, task_info);
->  		amdgpu_vm_put_task_info(task_info);
->  	}
->  
-
+> Best regards,
+> Krzysztof
