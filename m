@@ -2,104 +2,52 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id AE679ADB641
-	for <lists+dri-devel@lfdr.de>; Mon, 16 Jun 2025 18:09:35 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id EC542ADB674
+	for <lists+dri-devel@lfdr.de>; Mon, 16 Jun 2025 18:17:31 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2D87610E3BA;
-	Mon, 16 Jun 2025 16:09:33 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C742D10E33D;
+	Mon, 16 Jun 2025 16:17:29 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=suse.de header.i=@suse.de header.b="saAwb6ic";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="YWzwOCuD";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="ue3TZ7yi";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="Gq51MwMk";
+	dkim=fail reason="signature verification failed" (2048-bit key; secure) header.d=infradead.org header.i=@infradead.org header.b="tPdjG3SN";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 585CE10E33D
- for <dri-devel@lists.freedesktop.org>; Mon, 16 Jun 2025 16:09:28 +0000 (UTC)
-Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org
- [IPv6:2a07:de40:b281:104:10:150:64:97])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
- (No client certificate requested)
- by smtp-out1.suse.de (Postfix) with ESMTPS id 62C8221215;
- Mon, 16 Jun 2025 16:09:12 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1750090162; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version: content-transfer-encoding:content-transfer-encoding;
- bh=Bx6i2NZ8BbZBrNkIElY6uzwl2GaqIZIIjwPFKMYv8is=;
- b=saAwb6icJLSPyayJZyeWCYcfF6sLhVl2GprjCYXgMLgkyF76PdevYHAbY6b2wsVkHh7RXX
- giSBC0eCWznrXSpSsga8e93B4x2sLXsZ/5HgLvtwO7AKORufCD8cAh4+cVjkUDBoNXl3hV
- U/9D/dNn7RDXLkvzU5DDb27/YFGW9TE=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1750090162;
- h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version: content-transfer-encoding:content-transfer-encoding;
- bh=Bx6i2NZ8BbZBrNkIElY6uzwl2GaqIZIIjwPFKMYv8is=;
- b=YWzwOCuDrVxMk/dZk/+rwM2wTjzFlIUDz2rysRQcXwNQ75zYE6ntpMRIsG7eYDSHIyKag7
- lvj25i3r92pDAODw==
-Authentication-Results: smtp-out1.suse.de;
- dkim=pass header.d=suse.de header.s=susede2_rsa header.b=ue3TZ7yi;
- dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=Gq51MwMk
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1750090157; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version: content-transfer-encoding:content-transfer-encoding;
- bh=Bx6i2NZ8BbZBrNkIElY6uzwl2GaqIZIIjwPFKMYv8is=;
- b=ue3TZ7yiQq865YUUlgGbbdCLmNL/TkQTkRUu+r25AlbdBgLa4YQzpe0tfrzpvOup9sbtlR
- BYfzL9tmbJidhZ4TheHub78Avob4IzdeZNgRb8EmAFAFSOf0XHCJSdw+oKV+9wG256GQx3
- 6OQf6f0aFzipYl5300ZFqotgRT/d+E4=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1750090157;
- h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version: content-transfer-encoding:content-transfer-encoding;
- bh=Bx6i2NZ8BbZBrNkIElY6uzwl2GaqIZIIjwPFKMYv8is=;
- b=Gq51MwMkyjQs/bLBV9jOh+Av8HGn3aFzXBqBjuNojMHe5NAQaR5Loh0RlR2b/T5FRFX9Yc
- gfVm9DFmFPs+frCg==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
- (No client certificate requested)
- by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 28E0E13A6B;
- Mon, 16 Jun 2025 16:09:12 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
- by imap1.dmz-prg2.suse.org with ESMTPSA id qAOqCKhBUGi5cQAAD6G6ig
- (envelope-from <tiwai@suse.de>); Mon, 16 Jun 2025 16:09:12 +0000
-From: Takashi Iwai <tiwai@suse.de>
-To: amd-gfx@lists.freedesktop.org
-Cc: dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- Harry Wentland <harry.wentland@amd.com>, Leo Li <sunpeng.li@amd.com>,
- Alex Deucher <alexander.deucher@amd.com>,
- =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>
-Subject: [PATCH RESEND] drm/amd/display: Add sanity checks for drm_edid_raw()
-Date: Mon, 16 Jun 2025 18:08:41 +0200
-Message-ID: <20250616160908.26333-1-tiwai@suse.de>
-X-Mailer: git-send-email 2.49.0
+Received: from casper.infradead.org (casper.infradead.org [90.155.50.34])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6F8D810E33D
+ for <dri-devel@lists.freedesktop.org>; Mon, 16 Jun 2025 16:17:23 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+ d=infradead.org; s=casper.20170209; h=Content-Transfer-Encoding:Content-Type:
+ In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:Message-ID:Sender
+ :Reply-To:Content-ID:Content-Description;
+ bh=qMUs8krXpT3RxJC3nLENkT9+r0tAUvQgrF/aF9nQOVc=; b=tPdjG3SNgqONBCjSzAb74LT7R6
+ qgqINN8bEw7vV0HB3o6Jet97v9TucGDYw4M5+jcPd1IwakNDPixlUiAnPoU23A/uz8Mh+2LP6qyxp
+ h4ll3CEZ5wpKRuNRkY3EPpXesyy1MpLNyGvJ8XsuCwC/2tb3x2FLJmxc29eWFx6TmlXR/LEkQCRtI
+ 4VYWZqG3OLBQaTKAUf/Q1a4sCs2imZu45cTWmHQVflixi51tc3ahDMB4W0JOiwftZiMr9t3/zbiGj
+ B1aNMupR4IAKzHztNzB17gLigAKOprfax/2qIjRr50XIcAsKeUfVrOg5IDV2i4A7kSW9GKLWu8RzD
+ zxVvVvfw==;
+Received: from [50.53.25.54] (helo=[192.168.254.17])
+ by casper.infradead.org with esmtpsa (Exim 4.98.2 #2 (Red Hat Linux))
+ id 1uRCWB-0000000G8qT-1kZM; Mon, 16 Jun 2025 16:17:07 +0000
+Message-ID: <2bc21d27-c7e9-4b74-bae5-d10ad0963e70@infradead.org>
+Date: Mon, 16 Jun 2025 09:17:03 -0700
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Spamd-Result: default: False [-3.01 / 50.00]; BAYES_HAM(-3.00)[99.99%];
- MID_CONTAINS_FROM(1.00)[]; NEURAL_HAM_LONG(-1.00)[-1.000];
- R_MISSING_CHARSET(0.50)[];
- R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
- NEURAL_HAM_SHORT(-0.20)[-1.000]; MIME_GOOD(-0.10)[text/plain];
- MX_GOOD(-0.01)[]; FUZZY_BLOCKED(0.00)[rspamd.com];
- RCVD_VIA_SMTP_AUTH(0.00)[]; ARC_NA(0.00)[];
- ASN_FAIL(0.00)[7.9.0.0.4.6.0.0.0.5.1.0.0.1.0.0.4.0.1.0.1.8.2.b.0.4.e.d.7.0.a.2.asn6.rspamd.com:server
- fail]; MIME_TRACE(0.00)[0:+]; RCPT_COUNT_SEVEN(0.00)[7];
- DNSWL_BLOCKED(0.00)[2a07:de40:b281:106:10:150:64:167:received,2a07:de40:b281:104:10:150:64:97:from];
- DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
- RCVD_TLS_ALL(0.00)[]; FROM_EQ_ENVFROM(0.00)[];
- FROM_HAS_DN(0.00)[]; TO_DN_SOME(0.00)[];
- RCVD_COUNT_TWO(0.00)[2]; TO_MATCH_ENVRCPT_ALL(0.00)[];
- DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:helo,imap1.dmz-prg2.suse.org:rdns,suse.de:dkim,suse.de:mid,suse.de:email,suse.com:url];
- SPAMHAUS_XBL(0.00)[2a07:de40:b281:104:10:150:64:97:from];
- DKIM_TRACE(0.00)[suse.de:+]
-X-Spam-Level: 
-X-Spam-Flag: NO
-X-Rspamd-Queue-Id: 62C8221215
-X-Rspamd-Action: no action
-X-Rspamd-Server: rspamd1.dmz-prg2.suse.org
-X-Spam-Score: -3.01
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2] Documentation: dma-buf: heaps: Add naming guidelines
+To: Maxime Ripard <mripard@kernel.org>, Sumit Semwal <sumit.semwal@linaro.org>,
+ Benjamin Gaignard <benjamin.gaignard@collabora.com>,
+ Brian Starkey <Brian.Starkey@arm.com>, John Stultz <jstultz@google.com>,
+ "T.J. Mercier" <tjmercier@google.com>, Jonathan Corbet <corbet@lwn.net>
+Cc: linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ linaro-mm-sig@lists.linaro.org, linux-doc@vger.kernel.org,
+ linux-kernel@vger.kernel.org, Jared Kangas <jkangas@redhat.com>,
+ Mattijs Korpershoek <mkorpershoek@kernel.org>,
+ Bagas Sanjaya <bagasdotme@gmail.com>
+References: <20250616-dma-buf-heap-names-doc-v2-1-8ae43174cdbf@kernel.org>
+Content-Language: en-US
+From: Randy Dunlap <rdunlap@infradead.org>
+In-Reply-To: <20250616-dma-buf-heap-names-doc-v2-1-8ae43174cdbf@kernel.org>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -115,40 +63,92 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-When EDID is retrieved via drm_edid_raw(), it doesn't guarantee to
-return proper EDID bytes the caller wants: it may be either NULL (that
-leads to an Oops) or with too long bytes over the fixed size raw_edid
-array (that may lead to memory corruption).  The latter was reported
-actually when connected with a bad adapter.
 
-Add sanity checks for drm_edid_raw() to address the above corner
-cases, and return EDID_BAD_INPUT accordingly.
 
-Fixes: 48edb2a4256e ("drm/amd/display: switch amdgpu_dm_connector to use struct drm_edid")
-Link: https://bugzilla.suse.com/show_bug.cgi?id=1236415
-Signed-off-by: Takashi Iwai <tiwai@suse.de>
----
+On 6/16/25 8:21 AM, Maxime Ripard wrote:
+> We've discussed a number of times of how some heap names are bad, but
+> not really what makes a good heap name.
+> 
+> Let's document what we expect the heap names to look like.
+> 
+> Reviewed-by: Bagas Sanjaya <bagasdotme@gmail.com>
+> Signed-off-by: Maxime Ripard <mripard@kernel.org>
+> ---
+> Changes in v2:
+> - Added justifications for each requirement / suggestions
+> - Added a mention and example of buffer attributes
+> - Link to v1: https://lore.kernel.org/r/20250520-dma-buf-heap-names-doc-v1-1-ab31f74809ee@kernel.org
+> ---
+>  Documentation/userspace-api/dma-buf-heaps.rst | 38 +++++++++++++++++++++++++++
+>  1 file changed, 38 insertions(+)
+> 
+> diff --git a/Documentation/userspace-api/dma-buf-heaps.rst b/Documentation/userspace-api/dma-buf-heaps.rst
+> index 535f49047ce6450796bf4380c989e109355efc05..835ad1c3a65bc07b6f41d387d85c57162909e859 100644
+> --- a/Documentation/userspace-api/dma-buf-heaps.rst
+> +++ b/Documentation/userspace-api/dma-buf-heaps.rst
+> @@ -21,5 +21,43 @@ following heaps:
+>     usually created either through the kernel commandline through the
+>     `cma` parameter, a memory region Device-Tree node with the
+>     `linux,cma-default` property set, or through the `CMA_SIZE_MBYTES` or
+>     `CMA_SIZE_PERCENTAGE` Kconfig options. Depending on the platform, it
+>     might be called ``reserved``, ``linux,cma``, or ``default-pool``.
+> +
+> +Naming Convention
+> +=================
+> +
+> +``dma-buf`` heaps name should meet a number of constraints:
+> +
 
-Just resent, as the previous submission seems overlooked
+For these points below, I would s/That name/The name/ (3 places).
 
- drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_helpers.c | 4 ++++
- 1 file changed, 4 insertions(+)
+> +- That name must be stable, and must not change from one version to the
+> +  other. Userspace identifies heaps by their name, so if the names ever
+> +  changes, we would be likely to introduce regressions.
 
-diff --git a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_helpers.c b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_helpers.c
-index d4395b92fb85..9e3e51a2dc49 100644
---- a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_helpers.c
-+++ b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_helpers.c
-@@ -1029,6 +1029,10 @@ enum dc_edid_status dm_helpers_read_local_edid(
- 			return EDID_NO_RESPONSE;
- 
- 		edid = drm_edid_raw(drm_edid); // FIXME: Get rid of drm_edid_raw()
-+		if (!edid ||
-+		    edid->extensions >= sizeof(sink->dc_edid.raw_edid) / EDID_LENGTH)
-+			return EDID_BAD_INPUT;
-+
- 		sink->dc_edid.length = EDID_LENGTH * (edid->extensions + 1);
- 		memmove(sink->dc_edid.raw_edid, (uint8_t *)edid, sink->dc_edid.length);
- 
+     change,
+
+> +
+> +- That name must describe the memory region the heap will allocate from,
+> +  and must uniquely identify it in a given platform. Since userspace
+> +  applications use the heap name as the discriminant, it must be able to
+> +  tell which heap it wants to use reliably if there's multiple heaps.
+
+                                              if there are
+
+> +
+> +- That name must not mention implementation details, such as the
+> +  allocator. The heap driver will change over time, and implementation
+> +  details when it was introduced might not be relevant in the future.
+> +
+> +- The name should describe properties of the buffers that would be
+> +  allocated. Doing so will make heap identification easier for
+> +  userspace. Such properties are:
+> +
+> +  - ``cacheable`` / ``uncacheable`` for buffers with CPU caches enabled
+> +    or disabled;
+> +
+> +  - ``contiguous`` for physically contiguous buffers;
+> +
+> +  - ``protected`` for encrypted buffers not accessible the OS;
+> +
+> +- The name may describe intended usage. Doing so will make heap
+> +  identification easier for userspace applications and users.
+> +
+> +For example, assuming a platform with a reserved memory region located
+> +at the RAM address 0x42000000, intended to allocate video framebuffers,
+> +physically contiguous, and backed by the CMA kernel allocator. Good
+
+   ^^^ Not a complete sentence. Change '.' to ',':     allocator, good
+
+> +names would be ``memory@42000000-cacheable-contiguous`` or
+> +``video@42000000``, but ``cma-video`` wouldn't.
+> 
+> ---
+> base-commit: 19272b37aa4f83ca52bdf9c16d5d81bdd1354494
+> change-id: 20250520-dma-buf-heap-names-doc-31261aa0cfe6
+> 
+> Best regards,
+
 -- 
-2.49.0
+~Randy
 
