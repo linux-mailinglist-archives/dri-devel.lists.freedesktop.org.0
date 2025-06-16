@@ -2,66 +2,92 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 455E5ADABF8
-	for <lists+dri-devel@lfdr.de>; Mon, 16 Jun 2025 11:33:12 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id E7A5FADAC29
+	for <lists+dri-devel@lfdr.de>; Mon, 16 Jun 2025 11:41:22 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4939C10E118;
-	Mon, 16 Jun 2025 09:33:10 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5498510E31A;
+	Mon, 16 Jun 2025 09:41:07 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=ti.com header.i=@ti.com header.b="F7U72Yyw";
+	dkim=pass (2048-bit key; unprotected) header.d=bgdev-pl.20230601.gappssmtp.com header.i=@bgdev-pl.20230601.gappssmtp.com header.b="vUk6DQPl";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from fllvem-ot04.ext.ti.com (fllvem-ot04.ext.ti.com [198.47.19.246])
- by gabe.freedesktop.org (Postfix) with ESMTPS id F2A0610E118
- for <dri-devel@lists.freedesktop.org>; Mon, 16 Jun 2025 09:33:08 +0000 (UTC)
-Received: from lelvem-sh02.itg.ti.com ([10.180.78.226])
- by fllvem-ot04.ext.ti.com (8.15.2/8.15.2) with ESMTP id 55G9Wgs22547230;
- Mon, 16 Jun 2025 04:32:42 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
- s=ti-com-17Q1; t=1750066362;
- bh=FMKsK8MsLoeoZo/zKx62EbrjGAGZA4tE7r2K7Q4U/9U=;
- h=From:To:CC:Subject:Date;
- b=F7U72Yyw2uRHDLygZLsq7GK2wQiJrL6mouhcpgp7NBuz98/ga7gBmYOVUK2csB9P8
- IwZYTNj3GTLEn0SYC7+Y0t8cdMbtinByxfCGFbJoIhi/MOUldyW3I2PSAP7c8lLQ+i
- fQRA5JF8QwuISKXkme/ldhP3bNH4Cb9K70IGOhws=
-Received: from DLEE111.ent.ti.com (dlee111.ent.ti.com [157.170.170.22])
- by lelvem-sh02.itg.ti.com (8.18.1/8.18.1) with ESMTPS id 55G9Wfnk2535591
- (version=TLSv1.2 cipher=ECDHE-RSA-AES128-SHA256 bits=128 verify=FAIL);
- Mon, 16 Jun 2025 04:32:42 -0500
-Received: from DLEE104.ent.ti.com (157.170.170.34) by DLEE111.ent.ti.com
- (157.170.170.22) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2507.55; Mon, 16
- Jun 2025 04:32:41 -0500
-Received: from lelvem-mr06.itg.ti.com (10.180.75.8) by DLEE104.ent.ti.com
- (157.170.170.34) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2507.55 via
- Frontend Transport; Mon, 16 Jun 2025 04:32:41 -0500
-Received: from localhost (jayesh-hp-z2-tower-g5-workstation.dhcp.ti.com
- [172.24.227.143])
- by lelvem-mr06.itg.ti.com (8.18.1/8.18.1) with ESMTP id 55G9Wede3821589;
- Mon, 16 Jun 2025 04:32:41 -0500
-From: Jayesh Choudhary <j-choudhary@ti.com>
-To: <dianders@chromium.org>, <andrzej.hajda@intel.com>,
- <neil.armstrong@linaro.org>, <rfoss@kernel.org>,
- <Laurent.pinchart@ideasonboard.com>, <dri-devel@lists.freedesktop.org>,
- <tomi.valkeinen@ideasonboard.com>, <max.krummenacher@toradex.com>,
- <ernestvanhoecke@gmail.com>
-CC: <jonas@kwiboo.se>, <jernej.skrabec@gmail.com>,
- <maarten.lankhorst@linux.intel.com>, <mripard@kernel.org>,
- <tzimmermann@suse.de>, <airlied@gmail.com>, <simona@ffwll.ch>,
- <kieran.bingham+renesas@ideasonboard.com>,
- <linux-kernel@vger.kernel.org>, <max.oss.09@gmail.com>,
- <devarsht@ti.com>, <j-choudhary@ti.com>, <geert@linux-m68k.org>
-Subject: [PATCH v5] drm/bridge: ti-sn65dsi86: Add HPD for DisplayPort
- connector type
-Date: Mon, 16 Jun 2025 15:02:40 +0530
-Message-ID: <20250616093240.499094-1-j-choudhary@ti.com>
-X-Mailer: git-send-email 2.34.1
+Received: from mail-lf1-f48.google.com (mail-lf1-f48.google.com
+ [209.85.167.48])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5E32A10E31A
+ for <dri-devel@lists.freedesktop.org>; Mon, 16 Jun 2025 09:41:05 +0000 (UTC)
+Received: by mail-lf1-f48.google.com with SMTP id
+ 2adb3069b0e04-553c31542b1so646216e87.2
+ for <dri-devel@lists.freedesktop.org>; Mon, 16 Jun 2025 02:41:05 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=bgdev-pl.20230601.gappssmtp.com; s=20230601; t=1750066864; x=1750671664;
+ darn=lists.freedesktop.org; 
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=ZadNMdHIaOPYoMnd8DCHGg9pjL54W3auftd8ZPyuMno=;
+ b=vUk6DQPlvYR6/0uPqA6zuT8waw8AvQ99D20M9ZmfxmP26wGw5/LrQDpeOOcBDn20gV
+ Q28s5gp84TOndIcyr2seYFX9ojnaP7oU2j1zpBNEfPSUpYGb2cLkTCTTh0FqItGUedss
+ /7KfdyLmotCqMQRlwTUHlqGfiFcQi5Bj5wNDQrraH0hUoQdB5D+gdNjCrGmLNaDn/bC9
+ WZ7tLkHMSSo3wPi2aeabnOIteVTxOppPqQS0iLwb5rDAzhbhqN6JBxn782cTsfNlFsUd
+ TTBVDg/EferZz/xiq/owvOhFBDpLrLHGLIT6oxUtvpLSUTbAcGopZS6czv5VsokY8kIK
+ rELA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1750066864; x=1750671664;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=ZadNMdHIaOPYoMnd8DCHGg9pjL54W3auftd8ZPyuMno=;
+ b=P9CiZCeWnjM3KzFAZbS5/jZHWE3JzwyogPvEh6zOKh1gQdj+tzOekqHole0ukwn2xG
+ w0BdWobfbcrEvdK1IPy98J0QDoTLgIU1L2H28vU8TZDsOQZ8+vUdmWZ7S1nu2xpu6T0Z
+ GPdBqRkYS6AdwlxocRSm6moQJpmK091Uenjneq0XC+++C63nzxMYhi4rlc3ucBE91ru0
+ FqPozxxJrJCEReMTqUACxIOCsSk9u+TBRCe1UI67ulVlPZYyp4n7qTs3s7gSComwYeeI
+ 7yEYnFW/lG5pLP4wR8y8zSl0v1aPBanlKMB60CzMLABPBnJlS/qeFahBWipwa1Yblt15
+ 09ng==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCXE3BTY2u5Ys/hTnyQyg1y5OMMfpE+36/qRQyzhPp3SBZjsdFMBiusfG7uzS6ZyTDXfNchjsj8TJuc=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YyanbhVCYLEuSnC6MqpsNa9WgpEDouwlULULWdIk7mNbQNsL5mn
+ oHijFUPe4oz19bP9QQdYGaK0Vx/HIWEIddQYqmXTGm/wyaq2ZkM4AXofmCGZRMe57iil6od9tPI
+ loov35Sob6BnJSpdfQzMzlhC/crKx9lu+dUzcmev5Uw==
+X-Gm-Gg: ASbGncsHXelt4US4uzQ/TpECa2hQ27D6KWAKnQCl9nCCFtL2hYjqULy+HfRLrU3OMUq
+ AD2kP9uoBmshvD/qF6f/psNAoplf1JWu35Sr6OGUK+RUewR7fnNvCmPWgYYG+UxlXPGG3Ud06kh
+ tCCTP9G6Jch6VyB3pbx0LbDwnkiR4oV5hxHCXuToFcNq6FuJWeKk2/sGsMaeOodMm7r9oUoowUz
+ iI=
+X-Google-Smtp-Source: AGHT+IGQWWfUkusHDrOLuRcyzoECeHHGTF7H0pzgq8rg6Tj7LyO4hdSVch5xZMTnr/dQPwUpgGJMqB60ks8Us882nLo=
+X-Received: by 2002:a05:6512:12d1:b0:553:663d:7354 with SMTP id
+ 2adb3069b0e04-553b6f31175mr1628391e87.48.1750066863507; Mon, 16 Jun 2025
+ 02:41:03 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-C2ProcessedOrg: 333ef613-75bf-4e12-a4b1-8e3623f5dcea
+References: <CGME20250614180911eucas1p16c9fb4a8160253c253f623bec2529f70@eucas1p1.samsung.com>
+ <20250614-apr_14_for_sending-v4-0-8e3945c819cd@samsung.com>
+ <20250614-apr_14_for_sending-v4-4-8e3945c819cd@samsung.com>
+In-Reply-To: <20250614-apr_14_for_sending-v4-4-8e3945c819cd@samsung.com>
+From: Bartosz Golaszewski <brgl@bgdev.pl>
+Date: Mon, 16 Jun 2025 11:40:50 +0200
+X-Gm-Features: AX0GCFt1wszk0eSWs2NPgAoE3A4kwN-NyBJ_b5il4mUmGBJkPe4uMiqiWgyvPn0
+Message-ID: <CAMRc=MfdBd6HBwM4F1TcjDvwbOJ03kxgRk4hJQ8HFK7Wz2XBAg@mail.gmail.com>
+Subject: Re: [PATCH v4 4/8] drm/imagination: Use pwrseq for TH1520 GPU power
+ management
+To: Michal Wilczynski <m.wilczynski@samsung.com>
+Cc: Drew Fustini <drew@pdp7.com>, Guo Ren <guoren@kernel.org>,
+ Fu Wei <wefu@redhat.com>, 
+ Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
+ Conor Dooley <conor+dt@kernel.org>, 
+ Philipp Zabel <p.zabel@pengutronix.de>, Frank Binns <frank.binns@imgtec.com>, 
+ Matt Coster <matt.coster@imgtec.com>, 
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, 
+ Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
+ Simona Vetter <simona@ffwll.ch>, 
+ Paul Walmsley <paul.walmsley@sifive.com>, Palmer Dabbelt <palmer@dabbelt.com>, 
+ Albert Ou <aou@eecs.berkeley.edu>, Alexandre Ghiti <alex@ghiti.fr>, 
+ Ulf Hansson <ulf.hansson@linaro.org>,
+ Marek Szyprowski <m.szyprowski@samsung.com>, 
+ linux-riscv@lists.infradead.org, devicetree@vger.kernel.org, 
+ linux-kernel@vger.kernel.org, linux-pm@vger.kernel.org, 
+ dri-devel@lists.freedesktop.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -77,180 +103,105 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-By default, HPD was disabled on SN65DSI86 bridge. When the driver was
-added (commit "a095f15c00e27"), the HPD_DISABLE bit was set in pre-enable
-call which was moved to other function calls subsequently.
-Later on, commit "c312b0df3b13" added detect utility for DP mode. But with
-HPD_DISABLE bit set, all the HPD events are disabled[0] and the debounced
-state always return 1 (always connected state).
+On Sat, Jun 14, 2025 at 8:09=E2=80=AFPM Michal Wilczynski
+<m.wilczynski@samsung.com> wrote:
+>
+> Update the Imagination PVR DRM driver to leverage the pwrseq framework
+> for managing the power sequence of the GPU on the T-HEAD TH1520 SoC.
+>
+> To cleanly handle the TH1520's specific power requirements in the
+> generic driver, this patch implements the "driver match data" pattern. A
+> has_pwrseq flag in a new pvr_soc_data struct is now associated with
+> thead,th1520-gpu compatible string in the of_device_id table.
+>
+> At probe time, the driver checks this flag. If true, it calls
+> devm_pwrseq_get("gpu-power"), requiring a valid sequencer and deferring
+> probe on failure. In this mode, all power and reset control is delegated
+> to the pwrseq provider. If the flag is false, the driver skips this
+> logic and falls back to its standard manual power management. Clock
+> handles are still acquired directly by this driver in both cases for
+> other purposes like devfreq.
+>
+> The runtime PM callbacks, pvr_power_device_resume() and
+> pvr_power_device_suspend(), are modified to call pwrseq_power_on() and
+> pwrseq_power_off() respectively when the sequencer is present.  A helper
+> function, pvr_power_off_sequence_manual(), is introduced to encapsulate
+> the manual power-down logic.
+>
+> Reviewed-by: Ulf Hansson <ulf.hansson@linaro.org>
+> Signed-off-by: Michal Wilczynski <m.wilczynski@samsung.com>
+> ---
 
-Set HPD_DISABLE bit conditionally based on display sink's connector type.
-Since the HPD_STATE is reflected correctly only after waiting for debounce
-time (~100-400ms) and adding this delay in detect() is not feasible
-owing to the performace impact (glitches and frame drop), remove runtime
-calls in detect() and add hpd_enable()/disable() bridge hooks with runtime
-calls, to detect hpd properly without any delay.
+[snip]
 
-[0]: <https://www.ti.com/lit/gpn/SN65DSI86> (Pg. 32)
+>
+> +static int pvr_power_off_sequence_manual(struct pvr_device *pvr_dev)
+> +{
+> +       int err;
+> +
+> +       err =3D reset_control_assert(pvr_dev->reset);
+> +
+> +       clk_disable_unprepare(pvr_dev->mem_clk);
+> +       clk_disable_unprepare(pvr_dev->sys_clk);
+> +       clk_disable_unprepare(pvr_dev->core_clk);
+> +
+> +       return err;
+> +}
+> +
+>  int
+>  pvr_power_device_suspend(struct device *dev)
+>  {
+> @@ -252,11 +266,10 @@ pvr_power_device_suspend(struct device *dev)
+>                         goto err_drm_dev_exit;
+>         }
+>
+> -       clk_disable_unprepare(pvr_dev->mem_clk);
+> -       clk_disable_unprepare(pvr_dev->sys_clk);
+> -       clk_disable_unprepare(pvr_dev->core_clk);
+> -
+> -       err =3D reset_control_assert(pvr_dev->reset);
+> +       if (pvr_dev->pwrseq)
+> +               err =3D pwrseq_power_off(pvr_dev->pwrseq);
+> +       else
+> +               err =3D pvr_power_off_sequence_manual(pvr_dev);
+>
+>  err_drm_dev_exit:
+>         drm_dev_exit(idx);
+> @@ -276,44 +289,55 @@ pvr_power_device_resume(struct device *dev)
+>         if (!drm_dev_enter(drm_dev, &idx))
+>                 return -EIO;
+>
+> -       err =3D clk_prepare_enable(pvr_dev->core_clk);
+> -       if (err)
+> -               goto err_drm_dev_exit;
+> +       if (pvr_dev->pwrseq) {
+> +               err =3D pwrseq_power_on(pvr_dev->pwrseq);
+> +               if (err)
+> +                       goto err_drm_dev_exit;
+> +       } else {
+> +               err =3D clk_prepare_enable(pvr_dev->core_clk);
+> +               if (err)
+> +                       goto err_drm_dev_exit;
+>
+> -       err =3D clk_prepare_enable(pvr_dev->sys_clk);
+> -       if (err)
+> -               goto err_core_clk_disable;
+> +               err =3D clk_prepare_enable(pvr_dev->sys_clk);
+> +               if (err)
+> +                       goto err_core_clk_disable;
+>
+> -       err =3D clk_prepare_enable(pvr_dev->mem_clk);
+> -       if (err)
+> -               goto err_sys_clk_disable;
+> +               err =3D clk_prepare_enable(pvr_dev->mem_clk);
+> +               if (err)
+> +                       goto err_sys_clk_disable;
+>
 
-Fixes: c312b0df3b13 ("drm/bridge: ti-sn65dsi86: Implement bridge connector operations for DP")
-Cc: Max Krummenacher <max.krummenacher@toradex.com>
-Signed-off-by: Jayesh Choudhary <j-choudhary@ti.com>
----
+In order to decrease the number of if-elses, would it make sense to
+put the "manual" and "pwrseq" operations into their own separate
+functions and then store addresses of these functions in the device
+match data struct as function pointers (instead of the has_pwrseq
+flag)? This way we'd just call them directly.
 
-Changelog v4->v5:
-- Make suspend asynchronous in hpd_disable()
-- Update HPD_DISABLE in probe function to address the case for when
-  comms are already enabled. Comments taken verbatim from [2]
-- Update comments
-
-v4 patch:
-<https://lore.kernel.org/all/20250611052947.5776-1-j-choudhary@ti.com/>
-
-Changelog v3->v4:
-- Remove "no-hpd" support due to backward compatibility issues
-- Change the conditional from "no-hpd" back to connector type
-  but still address [1]
-
-v3 patch link:
-<https://lore.kernel.org/all/20250529110418.481756-1-j-choudhary@ti.com/>
-
-Changelog v2->v3:
-- Change conditional based on no-hpd property to address [1]
-- Remove runtime calls in detect() with appropriate comments
-- Add hpd_enable() and hpd_disable() in drm_bridge_funcs
-
-v2 patch link:
-<https://lore.kernel.org/all/20250508115433.449102-1-j-choudhary@ti.com/>
-
-Changelog v1->v2:
-- Drop additional property in bindings and use conditional.
-- Instead of register read for HPD state, use dpcd read which returns 0
-  for success and error codes for no connection
-- Add relevant history for the required change in commit message
-- Drop RFC subject-prefix in v2
-- Add "Cc:" tag
-
-v1 patch link:
-<https://lore.kernel.org/all/20250424105432.255309-1-j-choudhary@ti.com/>
-
-[1]: <https://lore.kernel.org/all/mwh35anw57d6nvre3sguetzq3miu4kd43rokegvul7fk266lys@5h2euthpk7vq/>
-[2]: <https://lore.kernel.org/all/CAD=FV=WvH73d78De3PrbiG7b6OaS_BysGtxQ=mJTj4z-h0LYWA@mail.gmail.com/>
-
- drivers/gpu/drm/bridge/ti-sn65dsi86.c | 70 +++++++++++++++++++++++----
- 1 file changed, 61 insertions(+), 9 deletions(-)
-
-diff --git a/drivers/gpu/drm/bridge/ti-sn65dsi86.c b/drivers/gpu/drm/bridge/ti-sn65dsi86.c
-index 60224f476e1d..c6a826e8091e 100644
---- a/drivers/gpu/drm/bridge/ti-sn65dsi86.c
-+++ b/drivers/gpu/drm/bridge/ti-sn65dsi86.c
-@@ -348,12 +348,18 @@ static void ti_sn65dsi86_enable_comms(struct ti_sn65dsi86 *pdata,
- 	 * 200 ms.  We'll assume that the panel driver will have the hardcoded
- 	 * delay in its prepare and always disable HPD.
- 	 *
--	 * If HPD somehow makes sense on some future panel we'll have to
--	 * change this to be conditional on someone specifying that HPD should
--	 * be used.
-+	 * For DisplayPort bridge type, we need HPD. So we use the bridge type
-+	 * to conditionally disable HPD.
-+	 * NOTE: The bridge type is set in ti_sn_bridge_probe() but enable_comms()
-+	 * can be called before. So for DisplayPort, HPD will be enabled once
-+	 * bridge type is set. We are using bridge type instead of "no-hpd"
-+	 * property because it is not used properly in devicetree description
-+	 * and hence is unreliable.
- 	 */
--	regmap_update_bits(pdata->regmap, SN_HPD_DISABLE_REG, HPD_DISABLE,
--			   HPD_DISABLE);
-+
-+	if (pdata->bridge.type != DRM_MODE_CONNECTOR_DisplayPort)
-+		regmap_update_bits(pdata->regmap, SN_HPD_DISABLE_REG, HPD_DISABLE,
-+				   HPD_DISABLE);
- 
- 	pdata->comms_enabled = true;
- 
-@@ -1195,9 +1201,14 @@ static enum drm_connector_status ti_sn_bridge_detect(struct drm_bridge *bridge)
- 	struct ti_sn65dsi86 *pdata = bridge_to_ti_sn65dsi86(bridge);
- 	int val = 0;
- 
--	pm_runtime_get_sync(pdata->dev);
-+	/*
-+	 * Runtime reference is grabbed in ti_sn_bridge_hpd_enable()
-+	 * as the chip won't report HPD just after being powered on.
-+	 * HPD_DEBOUNCED_STATE reflects correct state only after the
-+	 * debounce time (~100-400 ms).
-+	 */
-+
- 	regmap_read(pdata->regmap, SN_HPD_DISABLE_REG, &val);
--	pm_runtime_put_autosuspend(pdata->dev);
- 
- 	return val & HPD_DEBOUNCED_STATE ? connector_status_connected
- 					 : connector_status_disconnected;
-@@ -1220,6 +1231,27 @@ static void ti_sn65dsi86_debugfs_init(struct drm_bridge *bridge, struct dentry *
- 	debugfs_create_file("status", 0600, debugfs, pdata, &status_fops);
- }
- 
-+static void ti_sn_bridge_hpd_enable(struct drm_bridge *bridge)
-+{
-+	struct ti_sn65dsi86 *pdata = bridge_to_ti_sn65dsi86(bridge);
-+
-+	/*
-+	 * Device needs to be powered on before reading the HPD state
-+	 * for reliable hpd detection in ti_sn_bridge_detect() due to
-+	 * the high debounce time.
-+	 */
-+
-+	pm_runtime_get_sync(pdata->dev);
-+}
-+
-+static void ti_sn_bridge_hpd_disable(struct drm_bridge *bridge)
-+{
-+	struct ti_sn65dsi86 *pdata = bridge_to_ti_sn65dsi86(bridge);
-+
-+	pm_runtime_mark_last_busy(pdata->dev);
-+	pm_runtime_put_autosuspend(pdata->dev);
-+}
-+
- static const struct drm_bridge_funcs ti_sn_bridge_funcs = {
- 	.attach = ti_sn_bridge_attach,
- 	.detach = ti_sn_bridge_detach,
-@@ -1234,6 +1266,8 @@ static const struct drm_bridge_funcs ti_sn_bridge_funcs = {
- 	.atomic_duplicate_state = drm_atomic_helper_bridge_duplicate_state,
- 	.atomic_destroy_state = drm_atomic_helper_bridge_destroy_state,
- 	.debugfs_init = ti_sn65dsi86_debugfs_init,
-+	.hpd_enable = ti_sn_bridge_hpd_enable,
-+	.hpd_disable = ti_sn_bridge_hpd_disable,
- };
- 
- static void ti_sn_bridge_parse_lanes(struct ti_sn65dsi86 *pdata,
-@@ -1321,8 +1355,26 @@ static int ti_sn_bridge_probe(struct auxiliary_device *adev,
- 	pdata->bridge.type = pdata->next_bridge->type == DRM_MODE_CONNECTOR_DisplayPort
- 			   ? DRM_MODE_CONNECTOR_DisplayPort : DRM_MODE_CONNECTOR_eDP;
- 
--	if (pdata->bridge.type == DRM_MODE_CONNECTOR_DisplayPort)
--		pdata->bridge.ops = DRM_BRIDGE_OP_EDID | DRM_BRIDGE_OP_DETECT;
-+	if (pdata->bridge.type == DRM_MODE_CONNECTOR_DisplayPort) {
-+		pdata->bridge.ops = DRM_BRIDGE_OP_EDID | DRM_BRIDGE_OP_DETECT |
-+				    DRM_BRIDGE_OP_HPD;
-+		/*
-+		 * If comms were already enabled they would have been enabled
-+		 * with the wrong value of HPD_DISABLE. Update it now. Comms
-+		 * could be enabled if anyone is holding a pm_runtime reference
-+		 * (like if a GPIO is in use). Note that in most cases nobody
-+		 * is doing AUX channel xfers before the bridge is added so
-+		 * HPD doesn't _really_ matter then. The only exception is in
-+		 * the eDP case where the panel wants to read the EDID before
-+		 * the bridge is added. We always consistently have HPD disabled
-+		 * for eDP.
-+		 */
-+		mutex_lock(&pdata->comms_mutex);
-+		if (pdata->comms_enabled)
-+			regmap_update_bits(pdata->regmap, SN_HPD_DISABLE_REG,
-+					   HPD_DISABLE, 0);
-+		mutex_unlock(&pdata->comms_mutex);
-+	};
- 
- 	drm_bridge_add(&pdata->bridge);
- 
--- 
-2.34.1
-
+Bart
