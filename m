@@ -2,117 +2,169 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0A5F6ADB6C2
-	for <lists+dri-devel@lfdr.de>; Mon, 16 Jun 2025 18:26:45 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 75D52ADB6D6
+	for <lists+dri-devel@lfdr.de>; Mon, 16 Jun 2025 18:28:55 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 61BE710E3E9;
-	Mon, 16 Jun 2025 16:26:43 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id CF44B10E3F3;
+	Mon, 16 Jun 2025 16:28:50 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="Dvt6LI+E";
+	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="AcsRFNCz";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-f44.google.com (mail-wr1-f44.google.com
- [209.85.221.44])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3D9AD10E3E9
- for <dri-devel@lists.freedesktop.org>; Mon, 16 Jun 2025 16:26:39 +0000 (UTC)
-Received: by mail-wr1-f44.google.com with SMTP id
- ffacd0b85a97d-3a5096158dcso4098549f8f.1
- for <dri-devel@lists.freedesktop.org>; Mon, 16 Jun 2025 09:26:39 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1750091197; x=1750695997; darn=lists.freedesktop.org;
- h=content-transfer-encoding:in-reply-to:organization:autocrypt
- :content-language:references:cc:to:subject:reply-to:from:user-agent
- :mime-version:date:message-id:from:to:cc:subject:date:message-id
- :reply-to; bh=vmnHCgaI282hq5PTGqcYx/EtjiMY2Bi1AAenUCB2ygA=;
- b=Dvt6LI+EZHyYt7sUq7Ftzru/Y4CFUsf2sj9HRHNIqoNgWbzvqwTZCFMmN+XwTiHtxE
- dIVQoqD7YMJ3X/A7aQbPBMifMq1imoQSHKzKqIe/x1O4CDfEzv0lLTwWPaan436Cxaxd
- OaKQ1rqBJbGx1YDpjJjtiBtJOKRkd8MUHKuKX4aNBIEZ4wXnFpw7eQufFQv3tfCD6RAz
- Z+p2bpAiLyelbzsyYmdOvjNVCEASYuCxQ0Ith/lTb7DgI+KkjAVXqoEjOBbtALN+6pwe
- sgdH5YHja1iza/W+IZuJIQkkRQ1FV5lGJ70EfoSiaxcRjFLTzU3jgl7nkhk3HViqJEiG
- f7Lw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1750091197; x=1750695997;
- h=content-transfer-encoding:in-reply-to:organization:autocrypt
- :content-language:references:cc:to:subject:reply-to:from:user-agent
- :mime-version:date:message-id:x-gm-message-state:from:to:cc:subject
- :date:message-id:reply-to;
- bh=vmnHCgaI282hq5PTGqcYx/EtjiMY2Bi1AAenUCB2ygA=;
- b=O2G6CQ5+ioXvWL7XCW4S8ztnwTQ/C1EWOdIuIpjtZa4rjLUA13LcXaOPUP/ABM66ta
- kSQHHQcIjMVoX40CIT24Y/kjVhL1o2kM3HQzWhLyR0R6Xj6KuLIP/KaVecJTDxHZsgP/
- Q3FhUOeK+TqHVpoWdIVLbLtShmP/afmN36kpNOmWJdxPwkUi9/enBhs0UnkZ14kzeUSs
- jM9nNAjriMF4GTkbl7CCRu3flIqdjILQC+KYFVPRndgSUHEgBlB0Z5jhJXWDXLfJWHS6
- OzdFY8cwSkk3NV5kQp0EwVH/3poU2lXtLG+vhiWx20qSVBW0zbdo5GwljgHVUo7mjp/Q
- NU5g==
-X-Forwarded-Encrypted: i=1;
- AJvYcCUERjeZZ2Lmk1MECbyyn6hTn4vAzmZAa1xGU6x9gjaPe89PzrMwryqWLpSunK9lAsTk/q6Kt4KB8z0=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YxKmIljAJCFxBNRAVG/y81k/RTd2QqnZm/LTWrqlRTQaUFkjcy9
- X/aq0gSOVowzccqJ6Wb9Tmc6zpbfj/UM7k2DEjqBEZbKvDCrQ9xa8+u3sGQGlvxu+eU=
-X-Gm-Gg: ASbGncubCZDdWCrAddL9WBV9CTfbhVW5LYj2ue7/pHcTM6RIjVZhnkuB/aZJycjOrlR
- E7jebq8LinM1Li3MVUZ73QiN0BaE+goQI1DSSD38/KIpgmLrzYjHAHV0tB2oBs2vIEUqxdPgsNL
- h9QY+52URbm65Au5YK4yzrU/7wGyl+0uPGDwktVX2HFh+OxTAxttkRGirElTK2w3v5vBujQrdE2
- yy7yt6yCAKYHOO4bq1eIlLd1Ach+aMvGGe9SGuSbyxxirnHGTHmwaaywUeOvVrh1JauwRslcEq4
- KHn2JuGTavcycWZ21+VgE9rLTzIkYkAPwOHPnxuA/XEgE5E0WW+wPREUxB3MxWjoVihtM0EXB19
- tLXJUi5FOe0Pj+SKVe7SjdBW60czQW2S+rqt1gWvDktqX4cI=
-X-Google-Smtp-Source: AGHT+IEBsVprmiQDzo7Lhhgb6lnLHo5f9u47o1+S2nphrseLHkPh/y+JSdd4Hu/+yocYYy7Vn5IDbw==
-X-Received: by 2002:a5d:588a:0:b0:3a3:5f36:33ee with SMTP id
- ffacd0b85a97d-3a5723a3abamr7848727f8f.32.1750091197126; 
- Mon, 16 Jun 2025 09:26:37 -0700 (PDT)
-Received: from ?IPV6:2a01:e0a:3d9:2080:6c7:97de:65a8:488a?
- ([2a01:e0a:3d9:2080:6c7:97de:65a8:488a])
- by smtp.gmail.com with ESMTPSA id
- ffacd0b85a97d-3a568b70d77sm11619355f8f.94.2025.06.16.09.26.36
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 16 Jun 2025 09:26:36 -0700 (PDT)
-Message-ID: <67da8003-ced9-4b52-a484-b37147068ae7@linaro.org>
-Date: Mon, 16 Jun 2025 18:26:36 +0200
-MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-From: Neil Armstrong <neil.armstrong@linaro.org>
-Subject: Re: [PATCH] drm/panel: ilitek-ili9881c: Use u8 for lane count
-To: Marek Vasut <marek.vasut@mailbox.org>,
- Marek Vasut <marek.vasut+renesas@mailbox.org>,
- dri-devel@lists.freedesktop.org
-Cc: Geert Uytterhoeven <geert@linux-m68k.org>,
- David Airlie <airlied@gmail.com>,
- Jessica Zhang <jessica.zhang@oss.qualcomm.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, Simona Vetter <simona@ffwll.ch>,
- Thomas Zimmermann <tzimmermann@suse.de>, linux-renesas-soc@vger.kernel.org
-References: <20250611234913.161861-1-marek.vasut+renesas@mailbox.org>
- <109b5c25-f54c-4413-aa62-8e2ae621c8e6@linaro.org>
- <a263d600-4f62-4d40-864c-e0b0c42f6863@mailbox.org>
- <ef842208-069e-4471-8680-f945d5ccb1a7@linaro.org>
- <e6c51a8d-978e-44f0-bff1-efcd05617aa7@mailbox.org>
-Content-Language: en-US, fr
-Autocrypt: addr=neil.armstrong@linaro.org; keydata=
- xsBNBE1ZBs8BCAD78xVLsXPwV/2qQx2FaO/7mhWL0Qodw8UcQJnkrWmgTFRobtTWxuRx8WWP
- GTjuhvbleoQ5Cxjr+v+1ARGCH46MxFP5DwauzPekwJUD5QKZlaw/bURTLmS2id5wWi3lqVH4
- BVF2WzvGyyeV1o4RTCYDnZ9VLLylJ9bneEaIs/7cjCEbipGGFlfIML3sfqnIvMAxIMZrvcl9
- qPV2k+KQ7q+aXavU5W+yLNn7QtXUB530Zlk/d2ETgzQ5FLYYnUDAaRl+8JUTjc0CNOTpCeik
- 80TZcE6f8M76Xa6yU8VcNko94Ck7iB4vj70q76P/J7kt98hklrr85/3NU3oti3nrIHmHABEB
- AAHNKk5laWwgQXJtc3Ryb25nIDxuZWlsLmFybXN0cm9uZ0BsaW5hcm8ub3JnPsLAkQQTAQoA
- OwIbIwULCQgHAwUVCgkICwUWAgMBAAIeAQIXgBYhBInsPQWERiF0UPIoSBaat7Gkz/iuBQJk
- Q5wSAhkBAAoJEBaat7Gkz/iuyhMIANiD94qDtUTJRfEW6GwXmtKWwl/mvqQtaTtZID2dos04
- YqBbshiJbejgVJjy+HODcNUIKBB3PSLaln4ltdsV73SBcwUNdzebfKspAQunCM22Mn6FBIxQ
- GizsMLcP/0FX4en9NaKGfK6ZdKK6kN1GR9YffMJd2P08EO8mHowmSRe/ExAODhAs9W7XXExw
- UNCY4pVJyRPpEhv373vvff60bHxc1k/FF9WaPscMt7hlkbFLUs85kHtQAmr8pV5Hy9ezsSRa
- GzJmiVclkPc2BY592IGBXRDQ38urXeM4nfhhvqA50b/nAEXc6FzqgXqDkEIwR66/Gbp0t3+r
- yQzpKRyQif3OwE0ETVkGzwEIALyKDN/OGURaHBVzwjgYq+ZtifvekdrSNl8TIDH8g1xicBYp
- QTbPn6bbSZbdvfeQPNCcD4/EhXZuhQXMcoJsQQQnO4vwVULmPGgtGf8PVc7dxKOeta+qUh6+
- SRh3vIcAUFHDT3f/Zdspz+e2E0hPV2hiSvICLk11qO6cyJE13zeNFoeY3ggrKY+IzbFomIZY
- 4yG6xI99NIPEVE9lNBXBKIlewIyVlkOaYvJWSV+p5gdJXOvScNN1epm5YHmf9aE2ZjnqZGoM
- Mtsyw18YoX9BqMFInxqYQQ3j/HpVgTSvmo5ea5qQDDUaCsaTf8UeDcwYOtgI8iL4oHcsGtUX
- oUk33HEAEQEAAcLAXwQYAQIACQUCTVkGzwIbDAAKCRAWmrexpM/4rrXiB/sGbkQ6itMrAIfn
- M7IbRuiSZS1unlySUVYu3SD6YBYnNi3G5EpbwfBNuT3H8//rVvtOFK4OD8cRYkxXRQmTvqa3
- 3eDIHu/zr1HMKErm+2SD6PO9umRef8V82o2oaCLvf4WeIssFjwB0b6a12opuRP7yo3E3gTCS
- KmbUuLv1CtxKQF+fUV1cVaTPMyT25Od+RC1K+iOR0F54oUJvJeq7fUzbn/KdlhA8XPGzwGRy
- 4zcsPWvwnXgfe5tk680fEKZVwOZKIEuJC3v+/yZpQzDvGYJvbyix0lHnrCzq43WefRHI5XTT
- QbM0WUIBIcGmq38+OgUsMYu4NzLu7uZFAcmp6h8g
-Organization: Linaro
-In-Reply-To: <e6c51a8d-978e-44f0-bff1-efcd05617aa7@mailbox.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.8])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2869E10E102;
+ Mon, 16 Jun 2025 16:28:49 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1750091329; x=1781627329;
+ h=date:from:to:cc:subject:message-id:reply-to:references:
+ content-transfer-encoding:in-reply-to:mime-version;
+ bh=nBg4rfOwgW33TTBY34AcjDPMPug/Xw9OhH6s5Drp9DM=;
+ b=AcsRFNCzv93s3hiiRVnj4kVfBxY7OwPf2KH8hQduu39WPmSO3JJGK1u7
+ T1I/Uh4TAiGCn7urMfa2wJ6N7pvrfrrdVk3QI4Zbjb4egz+2VsggdeZUi
+ 12Kr08ascJb2sxE8bjDHy6joasESZFpHIi3l4hZ89dgmQ9pxdLaFpY7NW
+ xhpBaATrqi2IykxJD/wmEWBRVhASvEv0H2otIkLug0gmufMLfCvuvioY/
+ ioKRWf0IbMWX2z1BHRThHFb1purrPf4hKxTi38aE3tGhcPJtjJCefP9lb
+ +7kCwsJLehBV+WtH5A7QXEm9vt+PuRWvtr2/IcroKHcbTbAlOfYXK4oa+ w==;
+X-CSE-ConnectionGUID: zpMaMK2RTe2m3dLXMiHzcA==
+X-CSE-MsgGUID: EiJMUEuWRDCtsmu0XLc6VQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11465"; a="69821196"
+X-IronPort-AV: E=Sophos;i="6.16,241,1744095600"; d="scan'208";a="69821196"
+Received: from orviesa007.jf.intel.com ([10.64.159.147])
+ by fmvoesa102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 16 Jun 2025 09:28:49 -0700
+X-CSE-ConnectionGUID: M6/f3tnORrCQ3RiBxUR9Vg==
+X-CSE-MsgGUID: p8/yOdENRIGlfZO9hr/JXw==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.16,241,1744095600"; d="scan'208";a="149058015"
+Received: from orsmsx901.amr.corp.intel.com ([10.22.229.23])
+ by orviesa007.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 16 Jun 2025 09:28:48 -0700
+Received: from ORSMSX902.amr.corp.intel.com (10.22.229.24) by
+ ORSMSX901.amr.corp.intel.com (10.22.229.23) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.1544.25; Mon, 16 Jun 2025 09:28:48 -0700
+Received: from ORSEDG901.ED.cps.intel.com (10.7.248.11) by
+ ORSMSX902.amr.corp.intel.com (10.22.229.24) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.1544.25 via Frontend Transport; Mon, 16 Jun 2025 09:28:48 -0700
+Received: from NAM10-DM6-obe.outbound.protection.outlook.com (40.107.93.74) by
+ edgegateway.intel.com (134.134.137.111) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.1544.25; Mon, 16 Jun 2025 09:28:45 -0700
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=YrejaLnuMRSF9H/70pObZTOYbpSK/gmDM/+BvtCOhWhWo+e90RBGUIKz4jrxwYBbGGT0rfrkBlbENGuw4rQ0PtSiNDbhJBXle9rPo3hEC7YLLNfPkqrNIWhoHy3T6Pgzx+zdmA0lxzAPAU0BFKghSDgCbULQABytsCevIEOoutA0N5YLHdu+Fy8tIYL4CV+lHwuhw6jA7F9qvy/Fje0uJoA38YSCZAJ12ViCqVfpiNvJUzX4Bf70JWwOn96+Y3TZZrZgyse3O/k6vtCYcomzsvKvG66RuqL/KtzQCDmNrjW7sz0gLKUzhPKPnqFLl80IxuA7V3eHc9hm5cKncSF/Tw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=zLaOdQqReIbtyjoBa1k9uNfHM4GfHb0yLFiGdAqoID4=;
+ b=wKLLFBcHx2gVJ8zdjrj0hqinRp9iAw51EFr/qGvP0vcJQgQlMkHLknoBm+/tQ+ffrsi+NmueMup8QVCfEQEHfynLhIiGmnleiXnaTKJmwuzkAFMf5BT/Mo7EoULGkK0ZBSdccRwh3EGvxOJWzzJJNFJeOQTcra0WdoSIPMG2xxFEXeSFYA0OTmO/dt3AFeit4Yzcc8LH2pUMFx2Xo4U014buF3ye4aUx27It4yG0+0FWWmqDzc6Vo+HtWVV8X72AYauJtKuOO1d3/XLuF5NluJqJSCIcVljxq+8VZwQ3yH9KCbO2bewGbBMP8aX/rNYitUeWyeWTgaajjaX155QQuA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
+ dkim=pass header.d=intel.com; arc=none
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=intel.com;
+Received: from SJ0PR11MB4845.namprd11.prod.outlook.com (2603:10b6:a03:2d1::10)
+ by IA3PR11MB8988.namprd11.prod.outlook.com (2603:10b6:208:57d::9)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8769.24; Mon, 16 Jun
+ 2025 16:28:44 +0000
+Received: from SJ0PR11MB4845.namprd11.prod.outlook.com
+ ([fe80::8900:d137:e757:ac9f]) by SJ0PR11MB4845.namprd11.prod.outlook.com
+ ([fe80::8900:d137:e757:ac9f%5]) with mapi id 15.20.8835.027; Mon, 16 Jun 2025
+ 16:28:42 +0000
+Date: Mon, 16 Jun 2025 19:28:37 +0300
+From: Imre Deak <imre.deak@intel.com>
+To: Ville Syrjala <ville.syrjala@linux.intel.com>
+CC: <intel-gfx@lists.freedesktop.org>, <intel-xe@lists.freedesktop.org>,
+ <dri-devel@lists.freedesktop.org>
+Subject: Re: [PATCH v2 1/9] drm/dp: Add definitions for POST_LT_ADJ training
+ sequence
+Message-ID: <aFBGNcJoqdswLT8u@ideak-desk>
+References: <20250224172645.15763-2-ville.syrjala@linux.intel.com>
+ <20250227204232.15624-1-ville.syrjala@linux.intel.com>
+Content-Type: text/plain; charset="iso-8859-1"
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
+In-Reply-To: <20250227204232.15624-1-ville.syrjala@linux.intel.com>
+X-ClientProxiedBy: DB9PR06CA0005.eurprd06.prod.outlook.com
+ (2603:10a6:10:1db::10) To SJ0PR11MB4845.namprd11.prod.outlook.com
+ (2603:10b6:a03:2d1::10)
+MIME-Version: 1.0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: SJ0PR11MB4845:EE_|IA3PR11MB8988:EE_
+X-MS-Office365-Filtering-Correlation-Id: 4211a452-128e-4cee-ee97-08ddacf2db8c
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;ARA:13230040|366016|376014|1800799024|7053199007;
+X-Microsoft-Antispam-Message-Info: =?iso-8859-1?Q?Bm6cG6E97+9eyaHWdlFsdVchn6L0hxhqGup1TxW2FgFLJhcReRGe15lv+S?=
+ =?iso-8859-1?Q?OgZe+YPe2lE0EQvH+WErJy0jiUdYg49/ZZW+pVFLS61PCbbV6l7B88Mg7Z?=
+ =?iso-8859-1?Q?tMpUVaKZv0nIUAwaDW9XepYiu7NUnqSGQMyRPr5pFt38NQfUhe0aslEMpu?=
+ =?iso-8859-1?Q?JXxF6LlSX60cbBwc8mTxgZ4wzMdpk6hk8sE/mmcVov8YhWoXj41aFcfLfr?=
+ =?iso-8859-1?Q?sGeaEwKNgdLwsLvmT0LsYwkH6leT714jZ5zXuQTJBepvzH5pumCjU4ZaRh?=
+ =?iso-8859-1?Q?vgrQRTCCaR18FIohBfSi/mRaK8gZXVyjIYaltfR6tQM4KfqRF5fP91t77O?=
+ =?iso-8859-1?Q?nbJnuP2IstFV/jReYby7PDUaZeTj3E6j5seKiN4GUcOi1J82V6h3zYIUOr?=
+ =?iso-8859-1?Q?NbSvUGyNmdrkcQ2huPhh9wR7opQ4tK6bQIBqMhqmEcle5pGJ9uF4uvZvfR?=
+ =?iso-8859-1?Q?dt+5j9se0Lmo3vpbMYxvvLSWGtpYk+bsIOfPPk2MvNJNX4bGsJcZksR7pW?=
+ =?iso-8859-1?Q?jSS8AOWKOB4gDHQzdukpJ8UErVkW5JLxykICN8yiBT3X8POxsjI9a4DZgM?=
+ =?iso-8859-1?Q?zHLAXy6//ukO9JviyuEDF2t8bxK/eBej8LCrc7QQCCg9w2Bn1VOc8tZlRp?=
+ =?iso-8859-1?Q?OZ3D/TbhfzXfxtugmssCMyI1ObC4sLYWgTXjS/ewZadQsX0EFFHwINR9YE?=
+ =?iso-8859-1?Q?dJaGlwkLG1g4gO/UdbLMv1ROU3RVSgih26qSFwEynrAO24D04ARgMC4IgH?=
+ =?iso-8859-1?Q?wrP76BYvtgLuadyccNGW1hbnNmSK3FqgSPkoOEK33bIsobkpqYdzqD3DA2?=
+ =?iso-8859-1?Q?sLc90KXipn06p1QmEaoh8WaXP/u36cUmxEFVe11NB6fzjnqFWOzl1XFxPp?=
+ =?iso-8859-1?Q?Q21/3KBuqRbwyOMrJiO/S8ryDeJhrHWNEPTnUWS031LqkwpZo/phgVoZ5p?=
+ =?iso-8859-1?Q?6SV26UtGO+K1GACv4HP+aU7Rx4Z9ml/DXqCK7ANbEeYUpdB31sFUUy4fh1?=
+ =?iso-8859-1?Q?G/QZVp6xmdpwYGZWTl5xY+g8BAbRJ4b3EA0SXa/RoKf1oF0MK2KlVrZtmh?=
+ =?iso-8859-1?Q?oNFDWR4WjXmkEV7H+XcNDtsBS9gRkVWXUSq5zyb0CY+iM7X03XOvyppOrw?=
+ =?iso-8859-1?Q?/rLmifNQIpl6yf524tphDcxz2XGx1fUqKvHfuV5KfjiQSegBPWG6CgRF5x?=
+ =?iso-8859-1?Q?WSRS+ekRJ1S5QMUmnZke7dhy33VFVYDT5qjb6PhPCS7aUNJ21/sTS4UdPD?=
+ =?iso-8859-1?Q?mOi62XC33QvIHh5Qi3ohdBEnnTPtaQQp6xDQRzBS2VZljf3zk0RZGb2pVN?=
+ =?iso-8859-1?Q?jeedmOw2sna4nxZbdHSlrchJwGLHBjjwMBZRDcNI7pfH5yiGHoeBs4zymK?=
+ =?iso-8859-1?Q?gFxg4+1jbBK2deGm7umDSlU431MSnYWr3zrk8AhTIdSmzOpM59KzZG73i+?=
+ =?iso-8859-1?Q?c38j4gRgoltqVcRuUCn7+N7tkt4v/JtCkGRAOg=3D=3D?=
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:SJ0PR11MB4845.namprd11.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230040)(366016)(376014)(1800799024)(7053199007); DIR:OUT; SFP:1101; 
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?iso-8859-1?Q?zErj7pzO23zWLZm7Hu4AAJ72C7RN8p2K8tBaZBO+Rvfov99pTLlWvxuOAe?=
+ =?iso-8859-1?Q?/9PUhQApNv/vI22MTE0PaNNOLEehGk+IdG7/ApaWC19oLhFgcm04Xd4DnI?=
+ =?iso-8859-1?Q?2XzIGPiNHCQPpA3jecnwnhLctzosv522neNGddSdYhQRNS51oHGRPU/Bht?=
+ =?iso-8859-1?Q?q7Jr5ChdS9DRNwSBR6MdwAe5ViF0ZVrvw+tehhr5eqqGaTlkyJUGzANXgM?=
+ =?iso-8859-1?Q?IddWLnePvkLIExD6pVHMi7P4U1cwZYBEBQuLgVq0YwMozaBuNzDT1qlNFB?=
+ =?iso-8859-1?Q?lGmbBQZ8Z23oAt2CysGeFaa0es/pTBKlL7c2aPyVY7jhiGsedqQcYIYwHi?=
+ =?iso-8859-1?Q?Sjj3VMUc48WBiXvnpFYOdnKYJD0PJtqp7uSGX+VDVNOqxmm1ajUvyQfGQI?=
+ =?iso-8859-1?Q?gIRmR6beiCVCcfo6DTluQDQWOipl86W9cKvW9TzNj+mB/kDXoPL+e1cggX?=
+ =?iso-8859-1?Q?seuYW+06BxVbS+rquwlEV5blcUCAO2LTob2f5MQRvUQdxJo8l4NcLO2FrD?=
+ =?iso-8859-1?Q?9mBnu4VRPKXFTegQaYPOTCLeQfY74Dq4pKS8uY6rG0PdtUMLktsFThyvxQ?=
+ =?iso-8859-1?Q?UfRjlGeTv9c4rNXVqJuDPur6NY8SLWUksrQE1YZTXUlBVUqeQRkStz+RVz?=
+ =?iso-8859-1?Q?ir1FWN1xymeGuxdlBgR9bQoTS70g9bZmTKTbpJ87woEnzKcJ2tKolxL/TA?=
+ =?iso-8859-1?Q?pcwtOHj7E56ZRC5SrrpYaP1mCBTCqNGlosDYdNNVhB7u8QjsqdO4129a1v?=
+ =?iso-8859-1?Q?Tylxs3hv1rmIksE4C35HcQv7U2IWONzb8YHjOnFErZaAn/mxA+sr+SzhQ/?=
+ =?iso-8859-1?Q?FJpCBVl6UnONxbvGzyordaQVOS68EGxs/hwmHfCha3w0f1CCmHljdVwPzq?=
+ =?iso-8859-1?Q?zu9OJbXbzmwKhvJ6zsGjnys7UARF+4bf6q4zTy6avV7JpbXh6C238tWLJF?=
+ =?iso-8859-1?Q?MzNKKLmEVG5uGqbrfiEZnceKq5I4fKJex+l/QkBvtolfL1zq78BfLBmp9v?=
+ =?iso-8859-1?Q?JYzyHHhl8gw7sa90onDyMgfMjTQ20hHbM/LTtBnLddBlArsIgFGuYCxT4e?=
+ =?iso-8859-1?Q?B4Wq1B8+PVaxXsBzGM/AERS+kqoBlfN4wBEJWZT8iklCQRbb6coITNe6C/?=
+ =?iso-8859-1?Q?gJ/kl32VQCRDVH9S07tdOW7UeFNqL64lob9YsEMuOlIMPx98Qui86O0ryw?=
+ =?iso-8859-1?Q?E2HpUz6aNQ6AwSgspYud/fcSMgy6AAVk1AFKbCvt3sPpKvvkPeE0iclfPd?=
+ =?iso-8859-1?Q?jOfBh2eV4sf2NMtzzax1C16yl/C9gAv/5AWZooYr5n2s1oHKMFbqAqeOY1?=
+ =?iso-8859-1?Q?UKdLoG/Peq2HaCXAYYIRGAIuYQjMEiXIg1b1tRetyLyIL3JBo3RKD4uI9/?=
+ =?iso-8859-1?Q?oZoAAdimDeFxTQ1wjoPKZcChw86iSNvtWy/yJI6uEkQwNZOV+wq7VeWWSp?=
+ =?iso-8859-1?Q?gvrZz/CrKRWmzzebC9/0B87s4Fgz04XMOLuRI6ZQvaZl1B01EEYE+Lt1wB?=
+ =?iso-8859-1?Q?vizYtabq+WOBTNnz/O1fAmaKqGu0bE6EYfDzkLt3iUTQpU5EdbyY7Relv6?=
+ =?iso-8859-1?Q?dZJrnc4bgE7a9FKEFS7GJSe/SKBsItH8XAPoE/oVlA7Re9RHkdYzZInJ00?=
+ =?iso-8859-1?Q?mbcUghMVgpjFSKaLK+aS9XjCcWwTA7Zsp4?=
+X-MS-Exchange-CrossTenant-Network-Message-Id: 4211a452-128e-4cee-ee97-08ddacf2db8c
+X-MS-Exchange-CrossTenant-AuthSource: SJ0PR11MB4845.namprd11.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 16 Jun 2025 16:28:42.3554 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: dH+wEh2vOuNploWRd4T5AByMv2H/lyhkRA3nF9+UrDVz7dGLfjDM7rW4XOt91ubr2TWX46MhHlL8uATyDDaH3A==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: IA3PR11MB8988
+X-OriginatorOrg: intel.com
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -125,83 +177,55 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Reply-To: Neil Armstrong <neil.armstrong@linaro.org>
+Reply-To: imre.deak@intel.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 16/06/2025 18:05, Marek Vasut wrote:
-> On 6/16/25 1:45 PM, Neil Armstrong wrote:
->> On 13/06/2025 12:54, Marek Vasut wrote:
->>> On 6/13/25 11:29 AM, Neil Armstrong wrote:
->>>> On 12/06/2025 01:49, Marek Vasut wrote:
->>>>> Use u8 to hold lane count in struct ili9881c_desc {} to avoid
->>>>> alignment gap between default_address_mode and lanes members.
->>>>> The ili9881c controller can only operate up to 4 DSI lanes, so
->>>>> there is no chance this value can ever be larger than 4. No
->>>>> functional change.
->>>>
->>>> The u8 will still take at least 4 bytes and cpu will still
->>>> do at least a 32bit memory access, so there's no point to change
->>>> it to u8.
->>> Assuming this layout:
->>>
->>>    40 struct ili9881c_desc {
->>>    41         const struct ili9881c_instr *init;
->>>    42         const size_t init_length;
->>>    43         const struct drm_display_mode *mode;
->>>    44         const unsigned long mode_flags;
->>>    45         u8 default_address_mode;
->>>    46         u8 lanes;
->>>    47 };
->>>
->>> I wrote a quick test:
->>>
->>> $ cat test.c
->>> #include <stdio.h>
->>> #include <stdint.h>
->>>
->>> struct foo {
->>>      void *a;
->>>      size_t b;
->>>      void *c;
->>>      unsigned long d;
->>>
->>>      uint8_t x;
->>>      unsigned long y; // ~= lanes
->>> };
->>>
->>> struct bar {
->>>      void *a;
->>>      size_t b;
->>>      void *c;
->>>      unsigned long d;
->>>
->>>      uint8_t x;
->>>      uint8_t y; // ~= lanes
->>> };
->>>
->>> int main(void)
->>> {
->>>      printf("%d %d\n", sizeof(struct foo), sizeof(struct bar));
->>>      return 0;
->>> }
->>>
->>> With which I get these results on x86-64:
->>>
->>> $ gcc -o test test.c && ./test
->>> 48 40
->>>
->>> And on x86 32bit:
->>>
->>> $ i686-linux-gnu-gcc -o test test.c && ./test
->>> 24 20
->>>
->>> Maybe there is some improvement ?
->>
->> Try again with code size included, and other archs since 99% of the users would be an arm/riscv based boards.
-> Doesn't that mean, that one some systems it wins us a bit of memory utilization improvement, and on other systems it has no impact ?
+On Thu, Feb 27, 2025 at 10:42:32PM +0200, Ville Syrjala wrote:
+> From: Ville Syrj�l� <ville.syrjala@linux.intel.com>
+> 
+> Add the bit definitions needed for POST_LT_ADJ sequence.
+> 
+> v2: DP_POST_LT_ADJ_REQ_IN_PROGRESS is bit 1 not 5 (Jani)
+> 
+> Signed-off-by: Ville Syrj�l� <ville.syrjala@linux.intel.com>
+> ---
+>  include/drm/display/drm_dp.h | 3 +++
+>  1 file changed, 3 insertions(+)
+> 
+> diff --git a/include/drm/display/drm_dp.h b/include/drm/display/drm_dp.h
+> index c413ef68f9a3..e2d2ae573d8b 100644
+> --- a/include/drm/display/drm_dp.h
+> +++ b/include/drm/display/drm_dp.h
+> @@ -115,6 +115,7 @@
+>  
+>  #define DP_MAX_LANE_COUNT                   0x002
+>  # define DP_MAX_LANE_COUNT_MASK		    0x1f
+> +# define DP_POST_LT_ADJ_REQ_SUPPORTED	    (1 << 5) /* 1.3 */
+>  # define DP_TPS3_SUPPORTED		    (1 << 6) /* 1.2 */
+>  # define DP_ENHANCED_FRAME_CAP		    (1 << 7)
+>  
+> @@ -571,6 +572,7 @@
+>  
+>  #define DP_LANE_COUNT_SET	            0x101
+>  # define DP_LANE_COUNT_MASK		    0x0f
+> +# define DP_POST_LT_ADJ_REQ_GRANTED         (1 << 5) /* 1.3 */
+>  # define DP_LANE_COUNT_ENHANCED_FRAME_EN    (1 << 7)
+>  
+>  #define DP_TRAINING_PATTERN_SET	            0x102
+> @@ -788,6 +790,7 @@
+>  
+>  #define DP_LANE_ALIGN_STATUS_UPDATED                    0x204
+>  #define  DP_INTERLANE_ALIGN_DONE                        (1 << 0)
+> +#define  DP_POST_LT_ADJ_REQ_IN_PROGRESS                 (1 << 1) /* 1.3 */
 
-4 or 8 bytes less in a dynamically allocated struct which is by default aligned
-on 64 bytes by default on x86, 128 on aarch64, 32/64/128 on arm32, 64 on riscv, sorry this is negligible.
+DP2.1a also uses this flag as
+"LANE_CNT_CONVERSION_FAILED" on UHBR, I guess that should be added
+separately.
 
-Neil
+>  #define  DP_128B132B_DPRX_EQ_INTERLANE_ALIGN_DONE       (1 << 2) /* 2.0 E11 */
+>  #define  DP_128B132B_DPRX_CDS_INTERLANE_ALIGN_DONE      (1 << 3) /* 2.0 E11 */
+>  #define  DP_128B132B_LT_FAILED                          (1 << 4) /* 2.0 E11 */
+> -- 
+> 2.45.3
+> 
