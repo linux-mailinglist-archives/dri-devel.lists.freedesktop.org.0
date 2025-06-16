@@ -2,50 +2,131 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7F699ADA8E8
-	for <lists+dri-devel@lfdr.de>; Mon, 16 Jun 2025 09:06:06 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 37651ADA8F6
+	for <lists+dri-devel@lfdr.de>; Mon, 16 Jun 2025 09:10:13 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id DE39010E2C4;
-	Mon, 16 Jun 2025 07:06:04 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id EC69110E2BC;
+	Mon, 16 Jun 2025 07:10:09 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=163.com header.i=@163.com header.b="N784zPPY";
+	dkim=pass (1024-bit key; unprotected) header.d=suse.de header.i=@suse.de header.b="IXIolfxh";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="RqlOBvXP";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="IXIolfxh";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="RqlOBvXP";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from m16.mail.163.com (m16.mail.163.com [117.135.210.5])
- by gabe.freedesktop.org (Postfix) with ESMTP id E564510E2C4
- for <dri-devel@lists.freedesktop.org>; Mon, 16 Jun 2025 07:06:02 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=163.com;
- s=s110527; h=From:To:Subject:Date:Message-ID:MIME-Version; bh=wh
- +CPnClds++E2FomsMltkrI9VhXG10y8m6a304zDFY=; b=N784zPPYbzkId2zVdi
- HJqnG2zlh0hp2ckBXIxuiEBAr7bRt6ej4gaswDJBE38iIoEwaGWdtjNMqK+Ye0m7
- jsTo6D/VfFHobyuX80ljT6vJQ1EWzzqSBiYrKCFYnhBTiwzcyVJfd4hENzOfYx/X
- IBNbLTrazHTADNTGJWgTpI2zI=
-Received: from ProDesk.. (unknown [])
- by gzga-smtp-mtada-g1-3 (Coremail) with SMTP id
- _____wCXq3hDwk9oF3UMIg--.6743S3; 
- Mon, 16 Jun 2025 15:05:44 +0800 (CST)
-From: Andy Yan <andyshrk@163.com>
-To: neil.armstrong@linaro.org
-Cc: conor+dt@kernel.org, quic_jesszhan@quicinc.com, krzk+dt@kernel.org,
- robh@kernel.org, sebastian.reichel@collabora.com, tzimmermann@suse.de,
- devicetree@vger.kernel.org, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org, Andy Yan <andy.yan@rock-chips.com>
-Subject: [PATCH 2/2] drivers/panel: raydium-rm67200: Make reset-gpio optional
-Date: Mon, 16 Jun 2025 15:05:17 +0800
-Message-ID: <20250616070536.670519-2-andyshrk@163.com>
-X-Mailer: git-send-email 2.43.0
-In-Reply-To: <20250616070536.670519-1-andyshrk@163.com>
-References: <20250616070536.670519-1-andyshrk@163.com>
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 198B110E2BC
+ for <dri-devel@lists.freedesktop.org>; Mon, 16 Jun 2025 07:10:04 +0000 (UTC)
+Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ (No client certificate requested)
+ by smtp-out1.suse.de (Postfix) with ESMTPS id B3CEF211F2;
+ Mon, 16 Jun 2025 07:10:02 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+ t=1750057802; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+ bh=pSLfgKBj7P1iVw1tjusf9SIu25HIVtE9a440EadTRLA=;
+ b=IXIolfxhSNUcuP3NsoniQ6y40VVbX47u2WV06JiAgW06QON8W1rkjn4issIkcNZKdPBZic
+ lPrUga59mnK0JCqIhXBXzE2WFoYqCF+EQjfP6ww+O0/975GnXtY0q4pAlPXkbFDilKs/TI
+ RYajGLaY4xK5LlF9yTJeOQB8r1ViEHg=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+ s=susede2_ed25519; t=1750057802;
+ h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+ bh=pSLfgKBj7P1iVw1tjusf9SIu25HIVtE9a440EadTRLA=;
+ b=RqlOBvXPuMxPuLexUgqFp411yUVmSV/anL6m3txNILWmbU40mhLRru9zMT9gfKSVoY1N+f
+ aHfowxIqxrr35mBw==
+Authentication-Results: smtp-out1.suse.de;
+	none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+ t=1750057802; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+ bh=pSLfgKBj7P1iVw1tjusf9SIu25HIVtE9a440EadTRLA=;
+ b=IXIolfxhSNUcuP3NsoniQ6y40VVbX47u2WV06JiAgW06QON8W1rkjn4issIkcNZKdPBZic
+ lPrUga59mnK0JCqIhXBXzE2WFoYqCF+EQjfP6ww+O0/975GnXtY0q4pAlPXkbFDilKs/TI
+ RYajGLaY4xK5LlF9yTJeOQB8r1ViEHg=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+ s=susede2_ed25519; t=1750057802;
+ h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+ bh=pSLfgKBj7P1iVw1tjusf9SIu25HIVtE9a440EadTRLA=;
+ b=RqlOBvXPuMxPuLexUgqFp411yUVmSV/anL6m3txNILWmbU40mhLRru9zMT9gfKSVoY1N+f
+ aHfowxIqxrr35mBw==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ (No client certificate requested)
+ by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 84662139E2;
+ Mon, 16 Jun 2025 07:10:02 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+ by imap1.dmz-prg2.suse.org with ESMTPSA id hSnuHkrDT2j0HgAAD6G6ig
+ (envelope-from <tzimmermann@suse.de>); Mon, 16 Jun 2025 07:10:02 +0000
+Message-ID: <ded132d5-7fb0-462b-ae64-0b5dab573ba6@suse.de>
+Date: Mon, 16 Jun 2025 09:10:02 +0200
 MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 0/9] drm: Fix includes of <linux/export.h>
+To: =?UTF-8?Q?Andr=C3=A9_Almeida?= <andrealmeid@igalia.com>
+Cc: dri-devel@lists.freedesktop.org, mripard@kernel.org,
+ simona.vetter@ffwll.ch, maarten.lankhorst@linux.intel.com, airlied@gmail.com
+References: <20250612121633.229222-1-tzimmermann@suse.de>
+ <11d5ca25-0fb5-4a37-8bd2-ec3eff117a16@igalia.com>
+Content-Language: en-US
+From: Thomas Zimmermann <tzimmermann@suse.de>
+Autocrypt: addr=tzimmermann@suse.de; keydata=
+ xsBNBFs50uABCADEHPidWt974CaxBVbrIBwqcq/WURinJ3+2WlIrKWspiP83vfZKaXhFYsdg
+ XH47fDVbPPj+d6tQrw5lPQCyqjwrCPYnq3WlIBnGPJ4/jreTL6V+qfKRDlGLWFjZcsrPJGE0
+ BeB5BbqP5erN1qylK9i3gPoQjXGhpBpQYwRrEyQyjuvk+Ev0K1Jc5tVDeJAuau3TGNgah4Yc
+ hdHm3bkPjz9EErV85RwvImQ1dptvx6s7xzwXTgGAsaYZsL8WCwDaTuqFa1d1jjlaxg6+tZsB
+ 9GluwvIhSezPgnEmimZDkGnZRRSFiGP8yjqTjjWuf0bSj5rUnTGiyLyRZRNGcXmu6hjlABEB
+ AAHNJ1Rob21hcyBaaW1tZXJtYW5uIDx0emltbWVybWFubkBzdXNlLmRlPsLAjgQTAQgAOAIb
+ AwULCQgHAgYVCgkICwIEFgIDAQIeAQIXgBYhBHIX+6yM6c9jRKFo5WgNwR1TC3ojBQJftODH
+ AAoJEGgNwR1TC3ojx1wH/0hKGWugiqDgLNXLRD/4TfHBEKmxIrmfu9Z5t7vwUKfwhFL6hqvo
+ lXPJJKQpQ2z8+X2vZm/slsLn7J1yjrOsoJhKABDi+3QWWSGkaGwRJAdPVVyJMfJRNNNIKwVb
+ U6B1BkX2XDKDGffF4TxlOpSQzdtNI/9gleOoUA8+jy8knnDYzjBNOZqLG2FuTdicBXblz0Mf
+ vg41gd9kCwYXDnD91rJU8tzylXv03E75NCaTxTM+FBXPmsAVYQ4GYhhgFt8S2UWMoaaABLDe
+ 7l5FdnLdDEcbmd8uLU2CaG4W2cLrUaI4jz2XbkcPQkqTQ3EB67hYkjiEE6Zy3ggOitiQGcqp
+ j//OwE0EWznS4AEIAMYmP4M/V+T5RY5at/g7rUdNsLhWv1APYrh9RQefODYHrNRHUE9eosYb
+ T6XMryR9hT8XlGOYRwKWwiQBoWSDiTMo/Xi29jUnn4BXfI2px2DTXwc22LKtLAgTRjP+qbU6
+ 3Y0xnQN29UGDbYgyyK51DW3H0If2a3JNsheAAK+Xc9baj0LGIc8T9uiEWHBnCH+RdhgATnWW
+ GKdDegUR5BkDfDg5O/FISymJBHx2Dyoklv5g4BzkgqTqwmaYzsl8UxZKvbaxq0zbehDda8lv
+ hFXodNFMAgTLJlLuDYOGLK2AwbrS3Sp0AEbkpdJBb44qVlGm5bApZouHeJ/+n+7r12+lqdsA
+ EQEAAcLAdgQYAQgAIAIbDBYhBHIX+6yM6c9jRKFo5WgNwR1TC3ojBQJftOH6AAoJEGgNwR1T
+ C3ojVSkIALpAPkIJPQoURPb1VWjh34l0HlglmYHvZszJWTXYwavHR8+k6Baa6H7ufXNQtThR
+ yIxJrQLW6rV5lm7TjhffEhxVCn37+cg0zZ3j7zIsSS0rx/aMwi6VhFJA5hfn3T0TtrijKP4A
+ SAQO9xD1Zk9/61JWk8OysuIh7MXkl0fxbRKWE93XeQBhIJHQfnc+YBLprdnxR446Sh8Wn/2D
+ Ya8cavuWf2zrB6cZurs048xe0UbSW5AOSo4V9M0jzYI4nZqTmPxYyXbm30Kvmz0rYVRaitYJ
+ 4kyYYMhuULvrJDMjZRvaNe52tkKAvMevcGdt38H4KSVXAylqyQOW5zvPc4/sq9c=
+In-Reply-To: <11d5ca25-0fb5-4a37-8bd2-ec3eff117a16@igalia.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-X-CM-TRANSID: _____wCXq3hDwk9oF3UMIg--.6743S3
-X-Coremail-Antispam: 1Uf129KBjvJXoW7KF18ZFW8Gw1DGrWftw48tFb_yoW8Zw4rpr
- 43Gay3AFykXFsIvFWvvan7uFyrAF1IqF4SkFn7K39xCw1UXw4UKw1akry5Wry2gryxtFya
- grZIkF13uFW0krJanT9S1TB71UUUUU7qnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
- 9KBjDUYxBIdaVFxhVjvjDU0xZFpf9x07jo1v3UUUUU=
-X-Originating-IP: [58.22.7.114]
-X-CM-SenderInfo: 5dqg52xkunqiywtou0bp/xtbB0hFuXmhPwHxAuQAAsR
+X-Spamd-Result: default: False [-4.30 / 50.00]; BAYES_HAM(-3.00)[100.00%];
+ NEURAL_HAM_LONG(-1.00)[-1.000];
+ NEURAL_HAM_SHORT(-0.20)[-1.000]; MIME_GOOD(-0.10)[text/plain];
+ RCVD_VIA_SMTP_AUTH(0.00)[]; ARC_NA(0.00)[];
+ MIME_TRACE(0.00)[0:+]; RCVD_TLS_ALL(0.00)[];
+ TO_DN_SOME(0.00)[]; MID_RHS_MATCH_FROM(0.00)[];
+ FREEMAIL_ENVRCPT(0.00)[gmail.com];
+ DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+ FROM_HAS_DN(0.00)[];
+ FREEMAIL_CC(0.00)[lists.freedesktop.org,kernel.org,ffwll.ch,linux.intel.com,gmail.com];
+ RCPT_COUNT_FIVE(0.00)[6]; FROM_EQ_ENVFROM(0.00)[];
+ TO_MATCH_ENVRCPT_ALL(0.00)[]; RCVD_COUNT_TWO(0.00)[2];
+ FUZZY_BLOCKED(0.00)[rspamd.com];
+ DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:mid,imap1.dmz-prg2.suse.org:helo]
+X-Spam-Level: 
+X-Spam-Flag: NO
+X-Spam-Score: -4.30
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -61,59 +142,54 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Andy Yan <andy.yan@rock-chips.com>
+Hi
 
-Although the datasheet of the panel module describes that it has a
-reset pin, in the actual hardware design, we often use an RC circuit
-to control the reset, and rarely use GPIO to control the reset. This
-is the way it is done on our numerous development boards (such as
-RK3568/RK3576 EVB).
+Am 13.06.25 um 20:19 schrieb André Almeida:
+> Hi Thomas,
+>
+> Em 12/06/2025 09:09, Thomas Zimmermann escreveu:
+>> Some source files in DRM do not include <linux/export.h> properly;
+>> others do when they don't have to. The build scripts now warn about
+>> these cases.
+>>
+>> This series fixes DRM core and helpers. There are a few more warnings
+>> in drivers.
+>>
+>> Commit 7d95680d64ac ("scripts/misc-check: check unnecessary #include
+>> <linux/export.h> when W=1") and commit a934a57a42f6 
+>> ("scripts/misc-check:
+>> check missing #include <linux/export.h> when W=1") added these new
+>> warnings in v6.16-rc1.
+>>
+>> Thomas Zimmermann (9):
+>>    drm: Do not include <linux/export.h>
+>>    drm: Include <linux/export.h>
+>>    drm/bridge: Include <linux/export.h>
+>>    drm/client: Include <linux/export.h>
+>>    drm/display: Include <linux/export.h>
+>>    drm/gem: Include <linux/export.h>
+>>    drm/panel: Include <linux/export.h>
+>>    drm/scheduler: Include <linux/export.h>
+>>    drm/ttm: Include <linux/export.h>
+>>
+>
+> This series is:
+>
+>     Reviewed-by: André Almeida <andrealmeid@igalia.com>
 
-So make the reset-gpio optional.
+Thanks a lot. I've added Fixes tags and merged the series into 
+drm-misc-next.
 
-Signed-off-by: Andy Yan <andy.yan@rock-chips.com>
----
+Best regards
+Thomas
 
- drivers/gpu/drm/panel/panel-raydium-rm67200.c | 16 +++++++++-------
- 1 file changed, 9 insertions(+), 7 deletions(-)
 
-diff --git a/drivers/gpu/drm/panel/panel-raydium-rm67200.c b/drivers/gpu/drm/panel/panel-raydium-rm67200.c
-index 205273163cb97..add6099ae8a64 100644
---- a/drivers/gpu/drm/panel/panel-raydium-rm67200.c
-+++ b/drivers/gpu/drm/panel/panel-raydium-rm67200.c
-@@ -36,12 +36,14 @@ static inline struct raydium_rm67200 *to_raydium_rm67200(struct drm_panel *panel
- 
- static void raydium_rm67200_reset(struct raydium_rm67200 *ctx)
- {
--	gpiod_set_value_cansleep(ctx->reset_gpio, 0);
--	msleep(60);
--	gpiod_set_value_cansleep(ctx->reset_gpio, 1);
--	msleep(60);
--	gpiod_set_value_cansleep(ctx->reset_gpio, 0);
--	msleep(60);
-+	if (ctx->reset_gpio) {
-+		gpiod_set_value_cansleep(ctx->reset_gpio, 0);
-+		msleep(60);
-+		gpiod_set_value_cansleep(ctx->reset_gpio, 1);
-+		msleep(60);
-+		gpiod_set_value_cansleep(ctx->reset_gpio, 0);
-+		msleep(60);
-+	}
- }
- 
- static void raydium_rm67200_write(struct mipi_dsi_multi_context *ctx,
-@@ -412,7 +414,7 @@ static int raydium_rm67200_probe(struct mipi_dsi_device *dsi)
- 	if (ret < 0)
- 		return ret;
- 
--	ctx->reset_gpio = devm_gpiod_get(dev, "reset", GPIOD_OUT_LOW);
-+	ctx->reset_gpio = devm_gpiod_get_optional(dev, "reset", GPIOD_OUT_LOW);
- 	if (IS_ERR(ctx->reset_gpio))
- 		return dev_err_probe(dev, PTR_ERR(ctx->reset_gpio),
- 				     "Failed to get reset-gpios\n");
 -- 
-2.43.0
-
-base-commit: 8c98c2c9ebeaa472e742d664b714aed5ab7c6f53
-branch: rk356x_rk3588_rk3576_dsi
+--
+Thomas Zimmermann
+Graphics Driver Developer
+SUSE Software Solutions Germany GmbH
+Frankenstrasse 146, 90461 Nuernberg, Germany
+GF: Ivo Totev, Andrew Myers, Andrew McDonald, Boudien Moerman
+HRB 36809 (AG Nuernberg)
 
