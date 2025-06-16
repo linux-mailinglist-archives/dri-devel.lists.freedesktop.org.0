@@ -2,58 +2,53 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id EBA48ADB806
-	for <lists+dri-devel@lfdr.de>; Mon, 16 Jun 2025 19:50:47 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 73D0BADB89F
+	for <lists+dri-devel@lfdr.de>; Mon, 16 Jun 2025 20:15:40 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 46C7A10E414;
-	Mon, 16 Jun 2025 17:50:46 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D4C6B10E420;
+	Mon, 16 Jun 2025 18:15:35 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="h7ow5wJg";
+	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=igalia.com header.i=@igalia.com header.b="PpKrbbTW";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from sea.source.kernel.org (sea.source.kernel.org [172.234.252.31])
- by gabe.freedesktop.org (Postfix) with ESMTPS id AC32C10E407;
- Mon, 16 Jun 2025 17:50:40 +0000 (UTC)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by sea.source.kernel.org (Postfix) with ESMTP id 949274ADCC;
- Mon, 16 Jun 2025 17:50:40 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1A46AC4CEF0;
- Mon, 16 Jun 2025 17:50:39 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1750096240;
- bh=kzKMod4I7trzDSgNu24uRFQQmwK7y0+QIxuaSSqQlpQ=;
- h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=h7ow5wJgVkPm9yWdKVjD60KWlSRkSmm6cw/oTDox6/0rJnALyI2LzVVZmftnEbk1a
- cj19J5s9m/xSEt0Q1lGfyisLPD/xhUWj3eJ09ZV7Cq2eDPmHpFKxV9ttKVAXRYO9xL
- t3i75y+Zn+c41hwcIVmbXzN/gyJv/L/HXJ9RMmvRcJWAYVbn7Jsm+qspDe1DC5VhaI
- cwuktwZSEI59MRvzFnWWFepW6VoI0xSUtYpv3awwFbio469BFaBdVvfj8WcGXMvj9t
- TFKV9Aoh0KnDwKQtpZ/8VlqOm2A7m2x7gAcDDj2Nru3AaKfILw0lJ+N9Iz9jFs4TIV
- bTShavQtFBzpQ==
-From: Mario Limonciello <superm1@kernel.org>
-To: "Rafael J . Wysocki" <rafael@kernel.org>,
- Alex Deucher <alexander.deucher@amd.com>,
- Bjorn Helgaas <bhelgaas@google.com>
-Cc: amd-gfx@lists.freedesktop.org (open list:RADEON and AMDGPU DRM DRIVERS),
- linux-pm@vger.kernel.org (open list:HIBERNATION (aka Software Suspend,
- aka swsusp)), linux-pci@vger.kernel.org (open list:PCI SUBSYSTEM),
- linux-kernel@vger.kernel.org (open list),
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- Danilo Krummrich <dakr@kernel.org>,
- "James E . J . Bottomley" <James.Bottomley@HansenPartnership.com>,
- "Martin K . Petersen" <martin.petersen@oracle.com>,
- dri-devel@lists.freedesktop.org (open list:DRM DRIVERS),
- linux-scsi@vger.kernel.org (open list:SCSI SUBSYSTEM),
- linux-usb@vger.kernel.org (open list:USB SUBSYSTEM),
- Mario Limonciello <mario.limonciello@amd.com>
-Subject: [PATCH v4 5/5] usb: sl811-hcd: Add PM_EVENT_POWEROFF into suspend
- callbacks
-Date: Mon, 16 Jun 2025 12:50:19 -0500
-Message-ID: <20250616175019.3471583-6-superm1@kernel.org>
-X-Mailer: git-send-email 2.43.0
-In-Reply-To: <20250616175019.3471583-1-superm1@kernel.org>
-References: <20250616175019.3471583-1-superm1@kernel.org>
+Received: from fanzine2.igalia.com (fanzine2.igalia.com [213.97.179.56])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id ABC8F10E423;
+ Mon, 16 Jun 2025 18:15:30 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com; 
+ s=20170329;
+ h=Content-Transfer-Encoding:Content-Type:MIME-Version:Message-ID:
+ Date:Subject:Cc:To:From:Sender:Reply-To:Content-ID:Content-Description:
+ Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
+ In-Reply-To:References:List-Id:List-Help:List-Unsubscribe:List-Subscribe:
+ List-Post:List-Owner:List-Archive;
+ bh=vDKcW68nzROUj9CbHR0FyUYWXknhrv44YLJ1qPZX0+0=; b=PpKrbbTWxEZovYBMAIrzJBDH+T
+ vp7VyvpfLx6c59EjZciDSaNTp3n3mnwVTXfKefVGnm/rRD/r/wdSJl82HwxqY5E2e/oJmqQXo09MM
+ ME3kjsugkBIhWb3E4hvHM3+b9TkCFyiOhbVhnRjRQHoGQA1/fSaYMQB/xRLYEU6Xfsc+1wOYUjZRP
+ gstaU4CflbOXWQAA6iWXlAxMxRlAXEg1KcyTiEYPZ0K56W3oGqxovS/7gTBLxbREqBpYRKXkqIpZ+
+ 3WFugXmi3AV61B7ImMOC7k4A7BDvllYH2065J/Qnw8qF9S5TMkesWWTXDbXzzLfYEx0No3oIyryj9
+ myFKVQ8g==;
+Received: from [191.204.192.64] (helo=localhost.localdomain)
+ by fanzine2.igalia.com with esmtpsa 
+ (Cipher TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_256_GCM:256) (Exim)
+ id 1uREMW-004Eh6-2G; Mon, 16 Jun 2025 20:15:16 +0200
+From: =?UTF-8?q?Andr=C3=A9=20Almeida?= <andrealmeid@igalia.com>
+To: "Alex Deucher" <alexander.deucher@amd.com>,
+ =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>,
+ siqueira@igalia.com, airlied@gmail.com, simona@ffwll.ch,
+ "Raag Jadav" <raag.jadav@intel.com>, rodrigo.vivi@intel.com,
+ jani.nikula@linux.intel.com, Xaver Hugl <xaver.hugl@gmail.com>,
+ Krzysztof Karas <krzysztof.karas@intel.com>
+Cc: dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ kernel-dev@igalia.com, amd-gfx@lists.freedesktop.org,
+ intel-xe@lists.freedesktop.org, intel-gfx@lists.freedesktop.org,
+ =?UTF-8?q?Andr=C3=A9=20Almeida?= <andrealmeid@igalia.com>
+Subject: [PATCH v8 0/6] drm: Create a task info option for wedge events
+Date: Mon, 16 Jun 2025 15:14:32 -0300
+Message-ID: <20250616181438.2124656-1-andrealmeid@igalia.com>
+X-Mailer: git-send-email 2.49.0
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -70,31 +65,94 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Mario Limonciello <mario.limonciello@amd.com>
+This patchset implements a request made by Xaver Hugl about wedge events:
 
-When the ACPI core uses hibernation callbacks for shutdown drivers
-will receive PM_EVENT_POWEROFF and should handle it the same as
-PM_EVENT_HIBERNATE would have been used.
+"I'd really like to have the PID of the client that triggered the GPU
+reset, so that we can kill it if multiple resets are triggered in a
+row (or switch to software rendering if it's KWin itself) and show a
+user-friendly notification about why their app(s) crashed, but that
+can be added later."
 
-Signed-off-by: Mario Limonciello <mario.limonciello@amd.com>
----
-v3: https://lore.kernel.org/linux-pm/20250609024619.407257-1-superm1@kernel.org/T/#me6db0fb946e3d604a8f3d455128844ed802c82bb
----
- drivers/usb/host/sl811-hcd.c | 1 +
- 1 file changed, 1 insertion(+)
+From https://lore.kernel.org/dri-devel/CAFZQkGwJ4qgHV8WTp2=svJ_VXhb-+Y8_VNtKB=jLsk6DqMYp9w@mail.gmail.com/
 
-diff --git a/drivers/usb/host/sl811-hcd.c b/drivers/usb/host/sl811-hcd.c
-index ea3cab99c5d40..5d6dba681e503 100644
---- a/drivers/usb/host/sl811-hcd.c
-+++ b/drivers/usb/host/sl811-hcd.c
-@@ -1748,6 +1748,7 @@ sl811h_suspend(struct platform_device *dev, pm_message_t state)
- 		break;
- 	case PM_EVENT_SUSPEND:
- 	case PM_EVENT_HIBERNATE:
-+	case PM_EVENT_POWEROFF:
- 	case PM_EVENT_PRETHAW:		/* explicitly discard hw state */
- 		port_power(sl811, 0);
- 		break;
+For testing, I've used amdgpu's debug_mask options debug_disable_soft_recovery
+and debug_disable_gpu_ring_reset to test both wedge event paths in the driver.
+To trigger a ring timeout, I've used this app:
+https://gitlab.freedesktop.org/andrealmeid/gpu-timeout
+
+Thanks!
+
+Changelog:
+
+v8:
+ - New patch "Allow NULL pointers at amdgpu_vm_put_task_info()"
+ - Dropped inline for amdgpu_vm_print_task_info()
+ - Code style changes for "Create a task info option for wedge events"
+ - Drop check before calling amdgpu_vm_put_task_info()
+
+v7:
+ - Change `char *comm` to `char comm[TASK_COMM_LEN]`
+ - New patches to encapsulate struct drm_wedge_task_info inside of struct
+   amdgpu_task_info
+ - Remove struct cast for struct amdgpu_task_info, now we can use `info =
+   &ti->task`
+ - Fix struct lifetime, move amdgpu_vm_put_task_info() after
+   drm_dev_wedged_event() call
+
+v6:
+ - Check if PID >= 0 for displaying the task info
+ - s/app/task in a comment
+
+v5:
+ - Change from app to task also in structs, commit message and docs
+ - Add a check for NULL or empty task name string
+
+v4:
+ - Change from APP to TASK
+ - Add defines for event_string and pid_string length
+
+v3:
+ - Make comm_string and pid_string empty when there's no app info
+ - Change "app that caused ..." to "app involved ..."
+ - Clarify that devcoredump have more information about what happened
+
+v2:
+  - Rebased on top of drm/drm-next
+  - Added new patch for documentation
+
+André Almeida (6):
+  drm: amdgpu: Allow NULL pointers at amdgpu_vm_put_task_info()
+  drm: amdgpu: Create amdgpu_vm_print_task_info()
+  drm: Create a task info option for wedge events
+  drm/doc: Add a section about "Task information" for the wedge API
+  drm: amdgpu: Use struct drm_wedge_task_info inside of struct
+    amdgpu_task_info
+  drm/amdgpu: Make use of drm_wedge_task_info
+
+ Documentation/gpu/drm-uapi.rst                | 17 ++++++++++++++
+ drivers/gpu/drm/amd/amdgpu/amdgpu_debugfs.c   |  2 +-
+ .../gpu/drm/amd/amdgpu/amdgpu_dev_coredump.c  |  4 ++--
+ drivers/gpu/drm/amd/amdgpu/amdgpu_device.c    | 13 +++++++++--
+ drivers/gpu/drm/amd/amdgpu/amdgpu_gem.c       |  2 +-
+ drivers/gpu/drm/amd/amdgpu/amdgpu_job.c       | 11 +++++-----
+ drivers/gpu/drm/amd/amdgpu/amdgpu_vm.c        | 22 ++++++++++++++-----
+ drivers/gpu/drm/amd/amdgpu/amdgpu_vm.h        |  6 +++--
+ drivers/gpu/drm/amd/amdgpu/gmc_v10_0.c        |  5 +----
+ drivers/gpu/drm/amd/amdgpu/gmc_v11_0.c        |  5 +----
+ drivers/gpu/drm/amd/amdgpu/gmc_v12_0.c        |  5 +----
+ drivers/gpu/drm/amd/amdgpu/gmc_v8_0.c         |  4 +---
+ drivers/gpu/drm/amd/amdgpu/gmc_v9_0.c         |  5 +----
+ drivers/gpu/drm/amd/amdgpu/sdma_v4_0.c        |  2 +-
+ drivers/gpu/drm/amd/amdgpu/sdma_v4_4_2.c      |  2 +-
+ drivers/gpu/drm/amd/amdkfd/kfd_events.c       |  2 +-
+ drivers/gpu/drm/amd/amdkfd/kfd_smi_events.c   |  8 +++----
+ drivers/gpu/drm/drm_drv.c                     | 21 ++++++++++++++----
+ drivers/gpu/drm/i915/gt/intel_reset.c         |  3 ++-
+ drivers/gpu/drm/xe/xe_device.c                |  3 ++-
+ include/drm/drm_device.h                      |  9 ++++++++
+ include/drm/drm_drv.h                         |  3 ++-
+ 22 files changed, 103 insertions(+), 51 deletions(-)
+
 -- 
-2.43.0
+2.49.0
 
