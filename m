@@ -2,82 +2,93 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id D02CBADAD9E
-	for <lists+dri-devel@lfdr.de>; Mon, 16 Jun 2025 12:43:01 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 56396ADADA9
+	for <lists+dri-devel@lfdr.de>; Mon, 16 Jun 2025 12:45:30 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 997C210E279;
-	Mon, 16 Jun 2025 10:42:59 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C3F4410E32F;
+	Mon, 16 Jun 2025 10:45:27 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; secure) header.d=ffwll.ch header.i=@ffwll.ch header.b="aqAGRWh1";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="U65PkL/y";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-f44.google.com (mail-wr1-f44.google.com
- [209.85.221.44])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B1B4F10E279
- for <dri-devel@lists.freedesktop.org>; Mon, 16 Jun 2025 10:42:57 +0000 (UTC)
-Received: by mail-wr1-f44.google.com with SMTP id
- ffacd0b85a97d-3a365a6804eso3060807f8f.3
- for <dri-devel@lists.freedesktop.org>; Mon, 16 Jun 2025 03:42:57 -0700 (PDT)
+Received: from mail-wr1-f51.google.com (mail-wr1-f51.google.com
+ [209.85.221.51])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0560D10E32F
+ for <dri-devel@lists.freedesktop.org>; Mon, 16 Jun 2025 10:45:27 +0000 (UTC)
+Received: by mail-wr1-f51.google.com with SMTP id
+ ffacd0b85a97d-3a507e88b0aso4259165f8f.1
+ for <dri-devel@lists.freedesktop.org>; Mon, 16 Jun 2025 03:45:26 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=ffwll.ch; s=google; t=1750070576; x=1750675376; darn=lists.freedesktop.org; 
- h=in-reply-to:content-transfer-encoding:content-disposition
- :mime-version:references:message-id:subject:cc:to:from:date:from:to
- :cc:subject:date:message-id:reply-to;
- bh=0dmHiX7ThKhvjRrZoVWGMu+tBTpC78WnUTk67XRLtOE=;
- b=aqAGRWh1LFi+3Ukc8u7scABw0b01f8GlCnoQCoLIBAF2Qi7F6hOV0RGAuW1QafsQOC
- 7jRpe1D4eddkrDNX/jL0+0ik9ppDBiQJX58XUbCJZxQY/0XQZMqwwMdToLBopct8wdEM
- +TQl8wA8KSLU/beIwXAO1oo/6RV3SqbXPmGbE=
+ d=gmail.com; s=20230601; t=1750070725; x=1750675525; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=NSDl2PiJGaG4FkK+fLWvA+1Qct2FhEDuUrKC3P6/vhQ=;
+ b=U65PkL/yGNx5BW7DBcDBjEOQg3/WB2MLg9yQgKr/iNGPCam+ZyheO34C3qDOjaM4tp
+ 8k4C8/se89ms2R0xLztxdWm9tIC2o6LNa67izL5LPnYq9F7ClrtZ/bVn7Ny6IDmLh+/C
+ O8k6CdeV+LZZSLCwwTkhWBp+m0vzK6stnZCIggkIROBlwkluAa3pMS7OJYToprYfZyOq
+ vay3kOFry2jsIsthedddaXjajO7AEn1hPA9OoUrxI2PIJ3toq3OTenJpUQrihmbP5D1w
+ 7++UMnYCidJkpmHwiQA2oV4Ea772F30HVKko4hncIJn9AkYWoYtWPvax0ffITtpG5jie
+ eDmw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1750070576; x=1750675376;
- h=in-reply-to:content-transfer-encoding:content-disposition
- :mime-version:references:message-id:subject:cc:to:from:date
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=0dmHiX7ThKhvjRrZoVWGMu+tBTpC78WnUTk67XRLtOE=;
- b=hzqsUMG6Gzczj0OOfd34vOy2drZsZ0fRB8kPFna6WnPdr6blPqxhKZFsHKNwRmZMoL
- 8mPw3H7ORdb9QGW+S9wzYsxCi2YWywF3fOCQTme8LYcS0AhMYJE051jeRcZOFszn/2pP
- sYsf0Ks8yYiTzgV0QA7N1QcKKoTLmO7w04t1UORmjJa+IOIIy7QyZNTREI+JLY6nD6M/
- 7J40PPYWL3vh05GnrVfFwQbPVnQ8UlVgUBJtxDh7zX3VIcP18LUhmZo3wPa11epubimd
- u0v7yFA0d+gX1ZLrCRRK2AfyTKAtjTuGjjHZ8/1f8lzn7NaMlPh96TH9AMZX9GF+7AwL
- WpMA==
+ d=1e100.net; s=20230601; t=1750070725; x=1750675525;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=NSDl2PiJGaG4FkK+fLWvA+1Qct2FhEDuUrKC3P6/vhQ=;
+ b=Ouo+8wEdCJjy8naumwjCQ0OOEI+6JxNf9M51hXgGDorc8pzRGff8DqqoSzNkFZld2l
+ Va36ewKhHOsFTHxC+7MR5FE5KSRulEwTLsvJouUBSEQ7rfpLYvwk0VfomgVYY9Gs8AOT
+ sn067oxdsf3PBx72IBTbJKP9WUbNOl9lhsYF7u+gzBm7KE7mM0EaO34JhlQoBXQdPXRG
+ RFzCHqLxvE1Km/CIzKRkRrb6PTniW/gt++I9VzYo5BlSR+QZTVKUPj8rLuKNwjGcS6wP
+ 3DlDeEH17ERqiSCelNC8VnRcTjF/bncUoDYwyyGlsIzUP3Ak0YLP7LhFiNRvnbE2/fbH
+ bkiQ==
 X-Forwarded-Encrypted: i=1;
- AJvYcCU5tUupahO30/MgU9om3qlSO8MhlfEwA8lFMG87Of7YdUN/YnrbStwYrsbfTn9UmAum36b8DS99P1k=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YxcFVjr0jlbAGWRZJjLZj3xHxTJHRnu7WGZwOy11kL/gZkA9LjB
- RFqnrP3RH6Vp6uTlXjBUIQ5HnuPucBtwhBWjV+EfDyUwGoVrV8udFKilZvGADyLCV1AFQmxXQpw
- eWtyJ
-X-Gm-Gg: ASbGncvhyb+cWKYBXycndI09VE5AYdIysrF/2rjzNI65RtBovkISFarjNMwWp5mBL/b
- HNgz3QlhZrjBSXSmqB3FUa6S9NDTpZHOSJWxriXcBoUTx6Km4AFwQ+w1y2wPHcrQ6azvvTLLd/T
- EHefuqeVtV1xbFm+yLX5wezIiGKmkMScKTlwjdkGsTLCx8JGCXvPzUPDIjA9x2ctO06dICZZmT4
- qA8TuZI2tWP+djttPvNz+OQuhKJmuXT93xHP1Qe0/yGquASdUEvrlp30jkWDEDrv85MfmZej8AT
- gNpIhQwpBV6/Ne53jWTs2ZwxR+YOXagUUrV1yCKV3deRABGSFXoVa+z+1tR6WUEQ4BolwYoNyA=
- =
-X-Google-Smtp-Source: AGHT+IHJtNv0fBZGj9f47JNFKLS9ZbGL8K8h5+IcNT/hk9ymyMUa1spjhB7nOYUXmbf61C76WcbfCw==
-X-Received: by 2002:a05:6000:2310:b0:3a5:52b2:fa65 with SMTP id
- ffacd0b85a97d-3a57236780emr7834822f8f.5.1750070576069; 
- Mon, 16 Jun 2025 03:42:56 -0700 (PDT)
-Received: from phenom.ffwll.local ([2a02:168:57f4:0:5485:d4b2:c087:b497])
- by smtp.gmail.com with ESMTPSA id
- ffacd0b85a97d-3a568a54423sm10473100f8f.20.2025.06.16.03.42.55
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 16 Jun 2025 03:42:55 -0700 (PDT)
-Date: Mon, 16 Jun 2025 12:42:53 +0200
-From: Simona Vetter <simona.vetter@ffwll.ch>
-To: Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>
-Cc: Matthew Brost <matthew.brost@intel.com>, dakr@kernel.org,
- pstanner@redhat.com, simona.vetter@ffwll.ch,
- dri-devel@lists.freedesktop.org
-Subject: Re: DRM scheduler issue with spsc_queue
-Message-ID: <aE_1LTJoszaYK49i@phenom.ffwll.local>
-References: <aExZdkcnBVvX1DCa@lstrano-desk.jf.intel.com>
- <0b0b8367-abd4-4982-aeec-08f8b95a286a@amd.com>
- <aEx3zmQ4T1n5wdKO@lstrano-desk.jf.intel.com>
- <7636678c-d5fe-439f-a86a-4f038e7cf692@amd.com>
+ AJvYcCXwK6PYpZlbkORTWpeR0qXR9UO4rwh76vY52bGQXzXWFbVrjmML+Aby2GOOzACrVjNWQBBpPseXzog=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0Yzw1qXPjAaZRnbxcqBCM2TjeybbykBISqzc0INWNzzwR5zDKb0a
+ WvPhpHCZkHnCl9ImUYcow8SH1kgOtkS/5heT3WvqAIEet+sDnwiRx1zdVeRrlNZZMs/9D+waGC5
+ OUvQkmvd8hEVvDTtSCcq4AIjXQNHH5Y0=
+X-Gm-Gg: ASbGncumOJX7HyCnmXCOwJDUUPuzaQs295lfs9gmSpJgCDT1suP31xtfzo3Ou/CFAva
+ ObL9+Isg5Q/nY3+WjqZEdCylefxIEL7uZz3Rd4yNCcFKw+Fgp8nKNFLTGbMwV3p2MJcsS0xAH+6
+ 0JiBzD7LDG0QBkQJQJ2sYrTK+/BYnlH184Ifb6GsuzaQ==
+X-Google-Smtp-Source: AGHT+IEgQgiyztxqvtZKll0mOfiV5M1uoxnaWLnIuq/McTRUg97y7B4O7fuqHTvpQIDbJeirPhUGsHjX7qpzXfEpLio=
+X-Received: by 2002:a05:6000:2088:b0:3a5:3e47:8af5 with SMTP id
+ ffacd0b85a97d-3a5723a26d6mr7502087f8f.27.1750070725289; Mon, 16 Jun 2025
+ 03:45:25 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <7636678c-d5fe-439f-a86a-4f038e7cf692@amd.com>
-X-Operating-System: Linux phenom 6.12.30-amd64 
+References: <20250530171841.423274-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
+ <20250530171841.423274-2-prabhakar.mahadev-lad.rj@bp.renesas.com>
+ <TY3PR01MB1134654039BA3BAB5DA8C0BB08677A@TY3PR01MB11346.jpnprd01.prod.outlook.com>
+In-Reply-To: <TY3PR01MB1134654039BA3BAB5DA8C0BB08677A@TY3PR01MB11346.jpnprd01.prod.outlook.com>
+From: "Lad, Prabhakar" <prabhakar.csengg@gmail.com>
+Date: Mon, 16 Jun 2025 11:44:58 +0100
+X-Gm-Features: AX0GCFslazxqxWe5-uy3WUsn7KLkJazXk2uLh7M8KS7bYpORB5xGv-n0ot5eFC8
+Message-ID: <CA+V-a8tSMt9SaHAdeEd4vj=QmaDz5bMd4hwJUCx_mBF8-mw2kw@mail.gmail.com>
+Subject: Re: [PATCH v6 1/4] clk: renesas: rzv2h-cpg: Add support for DSI clocks
+To: Biju Das <biju.das.jz@bp.renesas.com>
+Cc: Geert Uytterhoeven <geert+renesas@glider.be>,
+ Andrzej Hajda <andrzej.hajda@intel.com>, 
+ Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>, 
+ "laurent.pinchart" <laurent.pinchart@ideasonboard.com>,
+ Jonas Karlman <jonas@kwiboo.se>, 
+ Jernej Skrabec <jernej.skrabec@gmail.com>, 
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, 
+ Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
+ Simona Vetter <simona@ffwll.ch>, 
+ Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
+ Conor Dooley <conor+dt@kernel.org>, 
+ Michael Turquette <mturquette@baylibre.com>, Stephen Boyd <sboyd@kernel.org>, 
+ Magnus Damm <magnus.damm@gmail.com>, 
+ "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>, 
+ "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>, 
+ "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>, 
+ "linux-renesas-soc@vger.kernel.org" <linux-renesas-soc@vger.kernel.org>, 
+ "linux-clk@vger.kernel.org" <linux-clk@vger.kernel.org>, 
+ Fabrizio Castro <fabrizio.castro.jz@renesas.com>, 
+ Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -93,163 +104,391 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, Jun 16, 2025 at 09:24:38AM +0200, Christian König wrote:
-> On 6/13/25 21:11, Matthew Brost wrote:
-> > On Fri, Jun 13, 2025 at 07:26:22PM +0200, Christian König wrote:
-> >> On 6/13/25 19:01, Matthew Brost wrote:
-> >>> All,
-> >>>
-> >>> After about six hours of debugging, I found an issue in a fairly
-> >>> aggressive test case involving the DRM scheduler function
-> >>> drm_sched_entity_push_job. The problem is that spsc_queue_push does not
-> >>> correctly return first on a job push, causing the queue to fail to run
-> >>> even though it is ready.
-> >>>
-> >>> I know this sounds a bit insane, but I assure you it’s happening and is
-> >>> quite reproducible. I'm working off a pull of drm-tip from a few days
-> >>> ago + some local change to Xe's memory management, with a Kconfig that
-> >>> has no debug options enabled. I’m not sure if there’s a bug somewhere in
-> >>> the kernel related to barriers or atomics in the recent drm-tip. That
-> >>> seems unlikely—but just as unlikely is that this bug has existed for a
-> >>> while without being triggered until now.
-> >>>
-> >>> I've verified the hang in several ways: using printks, adding a debugfs
-> >>> entry to manually kick the DRM scheduler queue when it's stuck (which
-> >>> gets it unstuck), and replacing the SPSC queue with one guarded by a
-> >>> spinlock (which completely fixes the issue).
-> >>>
-> >>> That last point raises a big question: why are we using a convoluted
-> >>> lockless algorithm here instead of a simple spinlock? This isn't a
-> >>> critical path—and even if it were, how much performance benefit are we
-> >>> actually getting from the lockless design? Probably very little.
-> >>>
-> >>> Any objections to me rewriting this around a spinlock-based design? My
-> >>> head hurts from chasing this bug, and I feel like this is the best way
-> >>> forward rather than wasting more time here.
-> >>
-> >> Well the spsc queue is some standard code I used in previous projects and we have never experienced any issue with that.
-> >>
-> > 
-> > I can quite clearly see this not working on my test setup. I can (kinda)
-> > explain it a bit more.
-> > 
-> > Look at this code:
-> > 
-> >  65 static inline bool spsc_queue_push(struct spsc_queue *queue, struct spsc_node *node)
-> >  66 {
-> >  67         struct spsc_node **tail;
-> >  68
-> >  69         node->next = NULL;
-> >  70
-> >  71         preempt_disable();
-> >  72
-> >  73         tail = (struct spsc_node **)atomic_long_xchg(&queue->tail, (long)&node->next);
-> >  74         WRITE_ONCE(*tail, node);
-> >  75         atomic_inc(&queue->job_count);
-> >  76
-> >  77         /*
-> >  78          * In case of first element verify new node will be visible to the consumer
-> >  79          * thread when we ping the kernel thread that there is new work to do.
-> >  80          */
-> >  81         smp_wmb();
-> >  82
-> >  83         preempt_enable();
-> >  84
-> >  85         return tail == &queue->head;
-> >  86 }
-> > 
-> > Between the execution of atomic_long_xchg and atomic_inc, the submission
-> > worker could dequeue the previous last job, reducing job_count to zero,
-> > run the job, observe that job_count == 0 (drm_sched_entity_is_ready),
-> > and then go to sleep. This function has swapped for the previous tail,
-> > so it returns false (i.e., not the first, and does not requeue the
-> > submit worker at caller).
-> > 
-> > The race window here is tiny, and I would think preempt_disable would
-> > make it impossible (or preempt_disable is broken drm-tip a few days
-> > ago), so I’m still a bit perplexed by it. But again, I assure you this
-> > is, in fact, happening on my test setup. My test case is an SVM one,
-> > which involves all sorts of CPU/GPU faults, migrations, etc. Not sure if
-> > that contributes. I can show this race occurring in dmesg if you need
-> > proof.
-> > 
-> > The change below fixes the problem. I'm going to post it to unblock
-> > myself.
-> > 
-> > diff --git a/include/drm/spsc_queue.h b/include/drm/spsc_queue.h
-> > index 125f096c88cb..ee9df8cc67b7 100644
-> > --- a/include/drm/spsc_queue.h
-> > +++ b/include/drm/spsc_queue.h
-> > @@ -70,9 +70,11 @@ static inline bool spsc_queue_push(struct spsc_queue
-> > *queue, struct spsc_node *n
-> > 
-> >         preempt_disable();
-> > 
-> > +       atomic_inc(&queue->job_count);
-> > +       smp_mb__after_atomic();
+Hi Biju,
+
+Thank you for the review.
+
+On Fri, Jun 13, 2025 at 6:57=E2=80=AFAM Biju Das <biju.das.jz@bp.renesas.co=
+m> wrote:
+>
+> Hi Prabhakar,
+>
+> > -----Original Message-----
+> > From: Prabhakar <prabhakar.csengg@gmail.com>
+> > Sent: 30 May 2025 18:19
+> .castro.jz@renesas.com>; Prabhakar Mahadev Lad <prabhakar.mahadev-
+> > lad.rj@bp.renesas.com>
+> > Subject: [PATCH v6 1/4] clk: renesas: rzv2h-cpg: Add support for DSI cl=
+ocks
+> >
+> > From: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+> >
+> > Add support for PLLDSI and PLLDSI divider clocks.
+> >
+> > Introduce the `renesas-rzv2h-dsi.h` header to centralize and share PLLD=
+SI-related data structures,
+> > limits, and algorithms between the RZ/V2H CPG and DSI drivers.
+> >
+> > The DSI PLL is functionally similar to the CPG's PLLDSI, but has slight=
+ly different parameter limits
+> > and omits the programmable divider present in CPG. To ensure precise fr=
+equency calculations-especially
+> > for milliHz-level accuracy needed by the DSI driver-the shared algorith=
+m allows both drivers to
+> > compute PLL parameters consistently using the same logic and input cloc=
+k.
+> >
+> > Co-developed-by: Fabrizio Castro <fabrizio.castro.jz@renesas.com>
+> > Signed-off-by: Fabrizio Castro <fabrizio.castro.jz@renesas.com>
+> > Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+> > ---
+> > v5->v6:
+> > - Renamed CPG_PLL_STBY_SSCGEN_WEN to CPG_PLL_STBY_SSC_EN_WEN
+> > - Updated CPG_PLL_CLK1_DIV_K, CPG_PLL_CLK1_DIV_M, and
+> >   CPG_PLL_CLK1_DIV_P macros to use GENMASK
+> > - Updated req->rate in rzv2h_cpg_plldsi_div_determine_rate()
+> > - Dropped the cast in rzv2h_cpg_plldsi_div_set_rate()
+> > - Dropped rzv2h_cpg_plldsi_round_rate() and implemented
+> >   rzv2h_cpg_plldsi_determine_rate() instead
+> > - Made use of FIELD_PREP()
+> > - Moved CPG_CSDIV1 macro in patch 2/4
+> > - Dropped two_pow_s in rzv2h_dsi_get_pll_parameters_values()
+> > - Used mul_u32_u32() while calculating output_m and output_k_range
+> > - Used div_s64() instead of div64_s64() while calculating
+> >   pll_k
+> > - Used mul_u32_u32() while calculating fvco and fvco checks
+> > - Rounded the final output using DIV_U64_ROUND_CLOSEST()
+> >
+> > v4->v5:
+> > - No changes
+> >
+> > v3->v4:
+> > - Corrected parameter name in rzv2h_dsi_get_pll_parameters_values()
+> >   description freq_millihz
+> >
+> > v2->v3:
+> > - Update the commit message to clarify the purpose of `renesas-rzv2h-ds=
+i.h`
+> >   header
+> > - Used mul_u32_u32() in rzv2h_cpg_plldsi_div_determine_rate()
+> > - Replaced *_mhz to *_millihz for clarity
+> > - Updated u64->u32 for fvco limits
+> > - Initialized the members in declaration order for
+> >   RZV2H_CPG_PLL_DSI_LIMITS() macro
+> > - Used clk_div_mask() in rzv2h_cpg_plldsi_div_recalc_rate()
+> > - Replaced `unsigned long long` with u64
+> > - Dropped rzv2h_cpg_plldsi_clk_recalc_rate() and reused
+> >   rzv2h_cpg_pll_clk_recalc_rate() instead
+> > - In rzv2h_cpg_plldsi_div_set_rate() followed the same style
+> >   of RMW-operation as done in the other functions
+> > - Renamed rzv2h_cpg_plldsi_set_rate() to rzv2h_cpg_pll_set_rate()
+> > - Dropped rzv2h_cpg_plldsi_clk_register() and reused
+> >   rzv2h_cpg_pll_clk_register() instead
+> > - Added a gaurd in renesas-rzv2h-dsi.h header
+> >
+> > v1->v2:
+> > - No changes
+> > ---
+> >  drivers/clk/renesas/rzv2h-cpg.c       | 278 +++++++++++++++++++++++++-
+> >  drivers/clk/renesas/rzv2h-cpg.h       |  13 ++
+> >  include/linux/clk/renesas-rzv2h-dsi.h | 210 +++++++++++++++++++
+> >  3 files changed, 492 insertions(+), 9 deletions(-)  create mode 100644=
+ include/linux/clk/renesas-
+> > rzv2h-dsi.h
+> >
+> > diff --git a/drivers/clk/renesas/rzv2h-cpg.c b/drivers/clk/renesas/rzv2=
+h-cpg.c index
+> > 761da3bf77ce..d590f9f47371 100644
+> > --- a/drivers/clk/renesas/rzv2h-cpg.c
+> > +++ b/drivers/clk/renesas/rzv2h-cpg.c
+> > @@ -14,9 +14,13 @@
+> >  #include <linux/bitfield.h>
+> >  #include <linux/clk.h>
+> >  #include <linux/clk-provider.h>
+> > +#include <linux/clk/renesas-rzv2h-dsi.h>
+> >  #include <linux/delay.h>
+> >  #include <linux/init.h>
+> >  #include <linux/iopoll.h>
+> > +#include <linux/math.h>
+> > +#include <linux/math64.h>
+> > +#include <linux/minmax.h>
+> >  #include <linux/mod_devicetable.h>
+> >  #include <linux/module.h>
+> >  #include <linux/of.h>
+> > @@ -26,6 +30,7 @@
+> >  #include <linux/refcount.h>
+> >  #include <linux/reset-controller.h>
+> >  #include <linux/string_choices.h>
+> > +#include <linux/units.h>
+> >
+> >  #include <dt-bindings/clock/renesas-cpg-mssr.h>
+> >
+> > @@ -48,12 +53,13 @@
+> >  #define CPG_PLL_STBY(x)              ((x))
+> >  #define CPG_PLL_STBY_RESETB  BIT(0)
+> >  #define CPG_PLL_STBY_RESETB_WEN      BIT(16)
+> > +#define CPG_PLL_STBY_SSC_EN_WEN BIT(18)
+> >  #define CPG_PLL_CLK1(x)              ((x) + 0x004)
+> > -#define CPG_PLL_CLK1_KDIV(x) ((s16)FIELD_GET(GENMASK(31, 16), (x)))
+> > -#define CPG_PLL_CLK1_MDIV(x) FIELD_GET(GENMASK(15, 6), (x))
+> > -#define CPG_PLL_CLK1_PDIV(x) FIELD_GET(GENMASK(5, 0), (x))
+> > +#define CPG_PLL_CLK1_KDIV    GENMASK(31, 16)
+> > +#define CPG_PLL_CLK1_MDIV    GENMASK(15, 6)
+> > +#define CPG_PLL_CLK1_PDIV    GENMASK(5, 0)
+> >  #define CPG_PLL_CLK2(x)              ((x) + 0x008)
+> > -#define CPG_PLL_CLK2_SDIV(x) FIELD_GET(GENMASK(2, 0), (x))
+> > +#define CPG_PLL_CLK2_SDIV    GENMASK(2, 0)
+> >  #define CPG_PLL_MON(x)               ((x) + 0x010)
+> >  #define CPG_PLL_MON_RESETB   BIT(0)
+> >  #define CPG_PLL_MON_LOCK     BIT(4)
+> > @@ -79,6 +85,8 @@
+> >   * @last_dt_core_clk: ID of the last Core Clock exported to DT
+> >   * @mstop_count: Array of mstop values
+> >   * @rcdev: Reset controller entity
+> > + * @dsi_limits: PLL DSI parameters limits
+> > + * @plldsi_div_parameters: PLL DSI and divider parameters configuratio=
+n
+> >   */
+> >  struct rzv2h_cpg_priv {
+> >       struct device *dev;
+> > @@ -95,6 +103,9 @@ struct rzv2h_cpg_priv {
+> >       atomic_t *mstop_count;
+> >
+> >       struct reset_controller_dev rcdev;
 > > +
-> >         tail = (struct spsc_node **)atomic_long_xchg(&queue->tail,
-> > (long)&node->next);
-> >         WRITE_ONCE(*tail, node);
-> > -       atomic_inc(&queue->job_count);
-> > 
-> >         /*
-> >          * In case of first element verify new node will be visible to
-> >          * the consumer
-> 
-> I need to double check the code path once more, but that we got this wrong while could certainly be.
-> 
-> The code originated in userspace and atomics are also memory barriers
-> there. Sima had to point out that we have to manually add smp_mb()s here
-> to make it work. 
+> > +     const struct rzv2h_pll_div_limits *dsi_limits;
+> > +     struct rzv2h_plldsi_parameters plldsi_div_parameters;
+> >  };
+> >
+> >  #define rcdev_to_priv(x)     container_of(x, struct rzv2h_cpg_priv, rc=
+dev)
+> > @@ -150,6 +161,24 @@ struct ddiv_clk {
+> >
+> >  #define to_ddiv_clock(_div) container_of(_div, struct ddiv_clk, div)
+> >
+> > +/**
+> > + * struct rzv2h_plldsi_div_clk - PLL DSI DDIV clock
+> > + *
+> > + * @dtable: divider table
+> > + * @priv: CPG private data
+> > + * @hw: divider clk
+> > + * @ddiv: divider configuration
+> > + */
+> > +struct rzv2h_plldsi_div_clk {
+> > +     const struct clk_div_table *dtable;
+> > +     struct rzv2h_cpg_priv *priv;
+> > +     struct clk_hw hw;
+> > +     struct ddiv ddiv;
+> > +};
+> > +
+> > +#define to_plldsi_div_clk(_hw) \
+> > +     container_of(_hw, struct rzv2h_plldsi_div_clk, hw)
+> > +
+> >  static int rzv2h_cpg_pll_clk_is_enabled(struct clk_hw *hw)  {
+> >       struct pll_clk *pll_clk =3D to_pll(hw);
+> > @@ -198,6 +227,214 @@ static int rzv2h_cpg_pll_clk_enable(struct clk_hw=
+ *hw)
+> >       return ret;
+> >  }
+> >
+> > +static unsigned long rzv2h_cpg_plldsi_div_recalc_rate(struct clk_hw *h=
+w,
+> > +                                                   unsigned long paren=
+t_rate)
+> > +{
+> > +     struct rzv2h_plldsi_div_clk *dsi_div =3D to_plldsi_div_clk(hw);
+> > +     struct rzv2h_cpg_priv *priv =3D dsi_div->priv;
+> > +     struct ddiv ddiv =3D dsi_div->ddiv;
+> > +     u32 div;
+> > +
+> > +     div =3D readl(priv->base + ddiv.offset);
+> > +     div >>=3D ddiv.shift;
+> > +     div &=3D clk_div_mask(ddiv.width);
+> > +     div =3D dsi_div->dtable[div].div;
+> > +
+> > +     return DIV_ROUND_CLOSEST_ULL(parent_rate, div); }
+> > +
+> > +static int rzv2h_cpg_plldsi_div_determine_rate(struct clk_hw *hw,
+> > +                                            struct clk_rate_request *r=
+eq) {
+> > +     struct rzv2h_plldsi_div_clk *dsi_div =3D to_plldsi_div_clk(hw);
+> > +     struct rzv2h_cpg_priv *priv =3D dsi_div->priv;
+> > +     struct rzv2h_plldsi_parameters *dsi_dividers =3D &priv->plldsi_di=
+v_parameters;
+> > +     u64 rate_millihz;
+> > +
+> > +     /*
+> > +      * Adjust the requested clock rate (`req->rate`) to ensure it fal=
+ls within
+> > +      * the supported range of 5.44 MHz to 187.5 MHz.
+> > +      */
+> > +     req->rate =3D clamp(req->rate, 5440000UL, 187500000UL);
+> > +
+> > +     rate_millihz =3D mul_u32_u32(req->rate, MILLI);
+> > +     if (rate_millihz =3D=3D dsi_dividers->error_millihz + dsi_divider=
+s->freq_millihz)
+> > +             goto exit_determine_rate;
+> > +
+> > +     if (!rzv2h_dsi_get_pll_parameters_values(priv->dsi_limits,
+> > +                                              dsi_dividers, rate_milli=
+hz)) {
+> > +             dev_err(priv->dev,
+> > +                     "failed to determine rate for req->rate: %lu\n",
+> > +                     req->rate);
+> > +             return -EINVAL;
+> > +     }
+>
+>
+> > +
+> > +exit_determine_rate:
+> > +     req->best_parent_rate =3D req->rate * dsi_dividers->csdiv;
+>
+> I believe this has to go after below assignment.
+>
+Good catch, agreed.
 
-Yeah last time I looked (which I think was years ago) spsc lacked the
-needed barriers, and lacked even more the comments to explain how the
-barriers match up (since some are there as implied ones). I kinda decided
-that it's above my skill level to really dig into the entire thing and do
-a formal proof and all that, which is imo what we need for lockless code
-in the kernel or it's just going to be busted in strange ways.
+> As parent_rate =3D rate * calculated DSI divider value.
+>
+> req->rate =3D DIV_ROUND_CLOSEST_ULL(dsi_dividers->freq_millihz, MILLI);
+> req->best_parent_rate =3D req->rate * dsi_dividers->csdiv;
+>
+>
+>
+> > +     req->rate =3D DIV_ROUND_CLOSEST_ULL(dsi_dividers->freq_millihz, M=
+ILLI);
+> > +
+> > +     return 0;
+> > +};
+> > +
+> > +static int rzv2h_cpg_plldsi_div_set_rate(struct clk_hw *hw,
+> > +                                      unsigned long rate,
+> > +                                      unsigned long parent_rate)
+> > +{
+> > +     struct rzv2h_plldsi_div_clk *dsi_div =3D to_plldsi_div_clk(hw);
+> > +     struct rzv2h_cpg_priv *priv =3D dsi_div->priv;
+> > +     struct rzv2h_plldsi_parameters *dsi_dividers =3D &priv->plldsi_di=
+v_parameters;
+> > +     struct ddiv ddiv =3D dsi_div->ddiv;
+> > +     const struct clk_div_table *clkt;
+> > +     bool div_found =3D false;
+> > +     u32 val, shift, div;
+> > +
+> > +     div =3D dsi_dividers->csdiv;
+> > +     for (clkt =3D dsi_div->dtable; clkt->div; clkt++) {
+> > +             if (clkt->div =3D=3D div) {
+> > +                     div_found =3D true;
+> > +                     break;
+> > +             }
+> > +     }
+> > +
+> > +     if (!div_found)
+> > +             return -EINVAL;
+>
+> This check can be done in determine rate and cache the divider??
+>
+Ok, I'll drop this check as the divider is already cached. The for
+loop above is to determine the val which is used below to program the
+registers.
 
-Note that thanks to compilers becoming real good you need barriers even on
-x86.
--Sima
+> > +
+> > +     shift =3D ddiv.shift;
+> > +     val =3D readl(priv->base + ddiv.offset) | DDIV_DIVCTL_WEN(shift);
+> > +     val &=3D ~(clk_div_mask(ddiv.width) << shift);
+> > +     val |=3D clkt->val << shift;
+> > +     writel(val, priv->base + ddiv.offset);
+> > +
+> > +     return 0;
+> > +};
+> > +
+> > +static const struct clk_ops rzv2h_cpg_plldsi_div_ops =3D {
+> > +     .recalc_rate =3D rzv2h_cpg_plldsi_div_recalc_rate,
+> > +     .determine_rate =3D rzv2h_cpg_plldsi_div_determine_rate,
+> > +     .set_rate =3D rzv2h_cpg_plldsi_div_set_rate, };
+> > +
+> > +static struct clk * __init
+> > +rzv2h_cpg_plldsi_div_clk_register(const struct cpg_core_clk *core,
+> > +                               struct rzv2h_cpg_priv *priv)
+> > +{
+> > +     struct rzv2h_plldsi_div_clk *clk_hw_data;
+> > +     struct clk **clks =3D priv->clks;
+> > +     struct clk_init_data init;
+> > +     const struct clk *parent;
+> > +     const char *parent_name;
+> > +     struct clk_hw *clk_hw;
+> > +     int ret;
+> > +
+> > +     parent =3D clks[core->parent];
+> > +     if (IS_ERR(parent))
+> > +             return ERR_CAST(parent);
+> > +
+> > +     clk_hw_data =3D devm_kzalloc(priv->dev, sizeof(*clk_hw_data), GFP=
+_KERNEL);
+> > +     if (!clk_hw_data)
+> > +             return ERR_PTR(-ENOMEM);
+> > +
+> > +     clk_hw_data->priv =3D priv;
+> > +     clk_hw_data->ddiv =3D core->cfg.ddiv;
+> > +     clk_hw_data->dtable =3D core->dtable;
+> > +
+> > +     parent_name =3D __clk_get_name(parent);
+> > +     init.name =3D core->name;
+> > +     init.ops =3D &rzv2h_cpg_plldsi_div_ops;
+> > +     init.flags =3D core->flag;
+> > +     init.parent_names =3D &parent_name;
+> > +     init.num_parents =3D 1;
+> > +
+> > +     clk_hw =3D &clk_hw_data->hw;
+> > +     clk_hw->init =3D &init;
+> > +
+> > +     ret =3D devm_clk_hw_register(priv->dev, clk_hw);
+> > +     if (ret)
+> > +             return ERR_PTR(ret);
+> > +
+> > +     return clk_hw->clk;
+> > +}
+> > +
+> > +static int rzv2h_cpg_plldsi_determine_rate(struct clk_hw *hw,
+> > +                                        struct clk_rate_request *req)
+> > +{
+> > +     struct rzv2h_pll_div_limits dsi_limits;
+> > +     struct rzv2h_plldsi_parameters dsi_dividers;
+> > +     struct pll_clk *pll_clk =3D to_pll(hw);
+> > +     struct rzv2h_cpg_priv *priv =3D pll_clk->priv;
+> > +     u64 rate_millihz;
+> > +
+> > +     memcpy(&dsi_limits, priv->dsi_limits, sizeof(dsi_limits));
+> > +     dsi_limits.csdiv.min =3D 1;
+> > +     dsi_limits.csdiv.max =3D 1;
+> > +
+> > +     req->rate =3D clamp(req->rate, 25000000UL, 375000000UL);
+>
+> I guess this clamping is not required as the child already has clamping
+> and max DSI divider is fixed.
+>
+> rate(Max) =3D 187500 * 1000 * divider =3D 187.5 MHz(clamped value) * dsi =
+divider
+>
+Agreed, I will drop the clamp.
 
-> 
-> >> This is a massively performance critical code path and we need to make sure that we move as few cache lines as possible between the producer and consumer side.
-> >>
-> > 
-> > Well, I can't say I buy this argument. If you can show me any real
-> > workload where using a spinlock here vs. going lockless makes a
-> > measurable impact, I'd eat my hat. Also, FWIW, this code seemingly
-> > violates the DRM locking guidelines we're all supposed to follow… But
-> > anyway, I'll go ahead with the fix above.
-> 
-> I probably have to take that back, see another comment below.
-> 
-> > 
-> > Matt
-> > 
-> >> That was the reason why we replaced the spinlock with the spsc queue before.
-> 
-> Well we replaced spinlock+kfifo with spsc the for round robing peeking implementation.
-> 
-> Background is that because of the spinlock even a "peek" transfers the cache line as write to the sheduler thread, and when you do the "peek" even on the idle entities then that starts to not scale at all.
-> 
-> Since we now have the FIFO implementation and avoiding peeking all the time into the job queue of idle entities that might as well not suck that badly any more.
-> 
-> Regards,
-> Christian. 
-> 
-> >>
-> >> Regards,
-> >> Christian.
-> >>
-> >>>
-> >>> Matt
-> >>
-> 
+> > +
+> > +     rate_millihz =3D mul_u32_u32(req->rate, MILLI);
+> > +     if (!rzv2h_dsi_get_pll_parameters_values(priv->dsi_limits,
+> > +                                              &dsi_dividers, rate_mill=
+ihz)) {
+> > +             dev_err(priv->dev,
+> > +                     "failed to determine rate for req->rate: %lu\n",
+> > +                     req->rate);
+> > +             return -EINVAL;
+> > +     }
+> > +
+> > +     req->best_parent_rate =3D req->rate * dsi_dividers.csdiv;
+>
+> This is wrong as it will lead to high value for  parent as the rate is fi=
+xed 24MHz.
+>
+> 24MHz-> PLL_DSI(This clock) -> DSI DIVIDER-> DoT clock
+>
+Agreed we cannot adjust the best_parent_rate here.
 
--- 
-Simona Vetter
-Software Engineer, Intel Corporation
-http://blog.ffwll.ch
+Cheers,
+Prabhakar
