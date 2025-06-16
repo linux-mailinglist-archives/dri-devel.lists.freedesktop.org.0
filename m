@@ -2,111 +2,53 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8794CADBCD0
-	for <lists+dri-devel@lfdr.de>; Tue, 17 Jun 2025 00:25:28 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 811D6ADBD3D
+	for <lists+dri-devel@lfdr.de>; Tue, 17 Jun 2025 00:50:09 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B623310E462;
-	Mon, 16 Jun 2025 22:25:26 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5CB2210E0A0;
+	Mon, 16 Jun 2025 22:50:06 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=qualcomm.com header.i=@qualcomm.com header.b="QWcv7X10";
+	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=igalia.com header.i=@igalia.com header.b="NXofV0iz";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com
- [205.220.180.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A8C6B10E462
- for <dri-devel@lists.freedesktop.org>; Mon, 16 Jun 2025 22:25:21 +0000 (UTC)
-Received: from pps.filterd (m0279868.ppops.net [127.0.0.1])
- by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 55GHOGgH002991
- for <dri-devel@lists.freedesktop.org>; Mon, 16 Jun 2025 22:25:21 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
- cc:content-transfer-encoding:content-type:date:from:in-reply-to
- :message-id:mime-version:references:reply-to:subject:to; s=
- qcppdkim1; bh=BKywj4VHkEs0JU42aBEgCevEgvNKao+BH8DsvhKGCeQ=; b=QW
- cv7X101Rmwv6xFw+4znvDH6w6EZfXm+oYvYXcRBhXYo5xJWI78z9xk6jhBWuBH5N
- ZAvzMWBrPvPlBclgm0e8bTpCUgPJfX26iI31cUEp60M499IGVguwBfaZIEDYw4Xt
- bXY2DzqODWsXDStlJ7s0lMb9ILHmI16M6Ygq0GsET9R6K2uIQ/B3Z1f9xzP/uSCB
- Btb6S0Am+V3pTUVBZtAES+SRO8Ti0/ntw3SbCpDv1h04jZWMHx6f8bDDRzaYuFKJ
- cm3wxiEjQg4U5pg8UqqZsBRGGBwrKz7Dja3rXjSvcXwHerdGW/yn7eAdHmSfzNBi
- Cjs5Qa+y6dXiKMC9fW8A==
-Received: from mail-oo1-f69.google.com (mail-oo1-f69.google.com
- [209.85.161.69])
- by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 47ag2327au-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
- for <dri-devel@lists.freedesktop.org>; Mon, 16 Jun 2025 22:25:21 +0000 (GMT)
-Received: by mail-oo1-f69.google.com with SMTP id
- 006d021491bc7-60f39b59860so1043095eaf.1
- for <dri-devel@lists.freedesktop.org>; Mon, 16 Jun 2025 15:25:21 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1750112720; x=1750717520;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :reply-to:in-reply-to:references:mime-version:x-gm-message-state
- :from:to:cc:subject:date:message-id:reply-to;
- bh=BKywj4VHkEs0JU42aBEgCevEgvNKao+BH8DsvhKGCeQ=;
- b=TvX15HLPagMHdN1l1MXzdbl6vwkNsFTFnv9JbelIxQYttypDkewTK1gTkWR+ILgjUV
- 9X2fKNHibOUI/ElGMce7+OIL4lBPxegMFpQ1tWunIlgWuBLlUAQj8y7oNMpR/VZNTBaV
- 1eydk/XojBmCIa6Chx6USnSXOTxyABrQtIrgDRLGfj+GBWJ9Mtx8OzNJfH8LZGRTpP1d
- U+ssZtmlxYEzRSgWY19biNUJfSaek7OphFFnkcJ8hn0Ig0w28YG83XhRdi1BT5sP7dDZ
- C7wFYNEawgEiIY+Igsb5VzrU8406kWniqo7uBXHJs6rURY96hWniE8SNNzhbeOGBTeeK
- 6mGA==
-X-Gm-Message-State: AOJu0YzoDpz/zVzchJANXEZp/MiOXKuAVd4YpXNnQnzoGbxTZJEhj6te
- kFVytH3vJWgfJlgF2W1MIqBT1pjgtRM1yKrijVQ05dFAgin49MyJ0NHZKILtnbq18hpXBz+pE0a
- XBTt/BTtOhUwPgHHAhJneffpWdXjv/S+0I+//e7GgAT3v1MFXsfuqRbiePVv0AAFsuaz8JZTA6n
- Dw197wOqqs5rlndXpniCjHRvZ/t8CsSEnXoI/q1pEqHQY6qw==
-X-Gm-Gg: ASbGncstO3y4aUp6bkiZcskZ8NJMCBzZeYdN8ntmC0VjuQCLUqKxflqvusYkpsqQ7Bb
- +s0bB1lFIy46x1sDl3aAI1L4l4EdOo/kRRT0sWcyazx7kxvcPn6Duz0pH1yBI44FGO6ALpCyjY+
- XIs8iJXVnHdt4rVneItpQZKJkXtC2J7pOEd2E=
-X-Received: by 2002:a05:6871:3a06:b0:2b7:7abf:df6b with SMTP id
- 586e51a60fabf-2eaf08af8f4mr6927184fac.26.1750112720126; 
- Mon, 16 Jun 2025 15:25:20 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IFqmXfWLhQeUMt/Jl85rjVo4uK/LrD8KsRZegFSv17dxtAYSc5JIIXm1M0FOijdpfihvv5RfghpXpsD5Ezmz34=
-X-Received: by 2002:a05:6871:3a06:b0:2b7:7abf:df6b with SMTP id
- 586e51a60fabf-2eaf08af8f4mr6927167fac.26.1750112719638; Mon, 16 Jun 2025
- 15:25:19 -0700 (PDT)
+Received: from fanzine2.igalia.com (fanzine2.igalia.com [213.97.179.56])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B7DDE10E0A0
+ for <dri-devel@lists.freedesktop.org>; Mon, 16 Jun 2025 22:50:03 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com; 
+ s=20170329;
+ h=Content-Transfer-Encoding:Content-Type:In-Reply-To:From:
+ References:Cc:To:Subject:MIME-Version:Date:Message-ID:Sender:Reply-To:
+ Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
+ Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
+ List-Subscribe:List-Post:List-Owner:List-Archive;
+ bh=STkfK+n2QqOrf5nWntXxakMH/bhkRXMM6hSudnVMFW4=; b=NXofV0izkEYEama37BKSWMu3qu
+ jOpn9HWlpUyFB1538ccXM/l79uwnjuknbhis02ug2Skxai5aO+SsBcM8ObDgfrf5cF4Lv83WslHM3
+ XY7RSmU99R4jIrloskxtGvJuM+EYrZ12khoNEy9sh0MiezGtrBZACnZIdUUcjm9cbgNUtG7TyQwi8
+ epjrEHmENrgJvgArJsVo3YLwqJx14wi0waJureW5XB+rE6NbFrVUZfikyeWcdiFicLsz2wcwZVZnX
+ LVmVv5oA9pF32roZzbOWL+OeZ5Sn/jcYfPFzAj0WStlLwpPJ9+dp9VIMCZzhTxJMjCc8Yr0mm+6aN
+ Syjyfp7g==;
+Received: from [189.7.87.79] (helo=[192.168.0.7])
+ by fanzine2.igalia.com with esmtpsa 
+ (Cipher TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_128_GCM:128) (Exim)
+ id 1uRIeP-004Ju1-8c; Tue, 17 Jun 2025 00:50:02 +0200
+Message-ID: <060d2738-064a-4075-9352-dfc43fff207b@igalia.com>
+Date: Mon, 16 Jun 2025 19:49:54 -0300
 MIME-Version: 1.0
-References: <20250613235705.28006-1-robin.clark@oss.qualcomm.com>
- <20250613235705.28006-3-robin.clark@oss.qualcomm.com>
- <aE1RPZ_-oFyM4COy@pollux>
- <CACSVV00uwmuAC4eMi-4QiF4sOu4r9u8eXxyAgt83YS8Yfgoemg@mail.gmail.com>
- <aFCO7_RHuAaGyq1Q@pollux>
-In-Reply-To: <aFCO7_RHuAaGyq1Q@pollux>
-From: Rob Clark <rob.clark@oss.qualcomm.com>
-Date: Mon, 16 Jun 2025 15:25:08 -0700
-X-Gm-Features: AX0GCFtOto0zyVpQeYp5jBop9UvSHgX2u-zFbK-GGootkeuIkxZ2PZ8ZpDl8bmA
-Message-ID: <CACSVV03WboQp_A1bzQ+xpX5DDkfaoXmbTuo9RfZ9bMaVTqdU+A@mail.gmail.com>
-Subject: Re: [PATCH 2/2] drm/gpuvm: Add locking helpers
-To: Danilo Krummrich <dakr@redhat.com>
-Cc: dri-devel@lists.freedesktop.org, linux-arm-msm@vger.kernel.org,
- freedreno@lists.freedesktop.org,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- open list <linux-kernel@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Proofpoint-ORIG-GUID: iQ4jxnrcPDV62pxvNQXwUFrGN7ocJxjE
-X-Authority-Analysis: v=2.4 cv=edY9f6EH c=1 sm=1 tr=0 ts=685099d1 cx=c_pps
- a=lVi5GcDxkcJcfCmEjVJoaw==:117 a=IkcTkHD0fZMA:10 a=6IFa9wvqVegA:10
- a=20KFwNOVAAAA:8 a=PboIhGL1U7HzPZusu2gA:9 a=QEXdDO2ut3YA:10
- a=rBiNkAWo9uy_4UTK5NWh:22
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwNjE2MDE1OSBTYWx0ZWRfXyQHzLeLyz7Up
- lL40Y03KWPLYiddUSuffB+RhmVVsyqp37mdLGkD73pLaS+c/P5PqzNbMbs/2cn6ECfMRBtajR0j
- sUj/ShAO/QQxjkWnc36n3tGplbm3wt1kIPtdgYuQYqsFkARhl/lqOqAcKStGJsk+qIvBkFE/2wA
- DfQyh/DArDcyd5wHrHbN/a7sudFTYUegHOK2N13URKF1z3jVTvFpdoU4NT4AjdlgTKuqYSD64In
- bzvNC5SxIfGg9uVjd+Q5o+/XwZsN7WCz9amb0KHuW2ZsjJSCizX1YeuUuQ4/DlV9vNCbZkwrwPF
- vBW7Oa7Y+OCwqJxs3wFv4NmOEp+Kr1xO5rJANCXWk/dvb3ik8G1XZzNlqf71TnmF7d6+c3UqLCy
- A6NhpdogpAlIb/sl5fcp9zOwM6E3bOolgu4diCy4CfbmRDsNNNc+fUeZZAJU/WkFbsTJwma4
-X-Proofpoint-GUID: iQ4jxnrcPDV62pxvNQXwUFrGN7ocJxjE
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1099,Hydra:6.0.736,FMLib:17.12.80.40
- definitions=2025-06-16_11,2025-06-13_01,2025-03-28_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- lowpriorityscore=0 priorityscore=1501 suspectscore=0 spamscore=0 bulkscore=0
- impostorscore=0 mlxscore=0 clxscore=1015 mlxlogscore=999 malwarescore=0
- phishscore=0 adultscore=0 classifier=spam authscore=0 authtc=n/a authcc=
- route=outbound adjust=0 reason=mlx scancount=1 engine=8.19.0-2505280000
- definitions=main-2506160159
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] drm/v3d: Avoid NULL pointer dereference in
+ `v3d_job_update_stats()`
+To: Chema Casanova <jmcasanova@igalia.com>, Melissa Wen <mwen@igalia.com>,
+ Iago Toral <itoral@igalia.com>
+Cc: dri-devel@lists.freedesktop.org, kernel-dev@igalia.com,
+ stable@vger.kernel.org
+References: <20250602151451.10161-1-mcanal@igalia.com>
+ <26c90825-35d3-4362-9eaa-28316c7b6b6b@igalia.com>
+Content-Language: en-US
+From: =?UTF-8?Q?Ma=C3=ADra_Canal?= <mcanal@igalia.com>
+In-Reply-To: <26c90825-35d3-4362-9eaa-28316c7b6b6b@igalia.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -119,134 +61,154 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Reply-To: rob.clark@oss.qualcomm.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, Jun 16, 2025 at 2:39=E2=80=AFPM Danilo Krummrich <dakr@redhat.com> =
-wrote:
->
-> On Sat, Jun 14, 2025 at 08:03:20AM -0700, Rob Clark wrote:
-> > On Sat, Jun 14, 2025 at 3:39=E2=80=AFAM Danilo Krummrich <dakr@redhat.c=
-om> wrote:
-> > >
-> > > On Fri, Jun 13, 2025 at 04:57:03PM -0700, Rob Clark wrote:
-> > > > For UNMAP/REMAP steps we could be needing to lock objects that are =
-not
-> > > > explicitly listed in the VM_BIND ioctl in order to tear-down unmapp=
-ed
-> > > > VAs.  These helpers handle locking/preparing the needed objects.
-> > >
-> > > Yes, that's a common use-case. I think drivers typically iterate thro=
-ugh their
-> > > drm_gpuva_ops to lock those objects.
-> > >
-> > > I had a look at you link [1] and it seems that you keep a list of ops=
- as well by
-> > > calling vm_op_enqueue() with a new struct msm_vm_op from the callback=
-s.
-> > >
-> > > Please note that for exactly this case there is the op_alloc callback=
- in
-> > > struct drm_gpuvm_ops, such that you can allocate a custom op type (i.=
-e. struct
-> > > msm_vm_op) that embedds a struct drm_gpuva_op.
-> >
-> > I did use drm_gpuvm_sm_xyz_ops_create() in an earlier iteration of my
-> > VM_BIND series, but it wasn't quite what I was after.  I wanted to
-> > apply the VM updates immediately to avoid issues with a later
-> > map/unmap overlapping an earlier map, which
-> > drm_gpuvm_sm_xyz_ops_create() doesn't really handle.  I'm not even
-> > sure why this isn't a problem for other drivers unless userspace is
-> > providing some guarantees.
->
-> The drm_gpuva_ops are usually used in a pattern like this.
->
->         vm_bind {
->                 for_each_vm_bind_operation {
->                         drm_gpuva_for_each_op {
->                                 // modify drm_gpuvm's interval tree
->                                 // pre-allocate memory
->                                 // lock and prepare objects
->                         }
->                 }
->
->                 drm_sched_entity_push_job();
->         }
->
->         run_job {
->                 for_each_vm_bind_operation {
->                         drm_gpuva_for_each_op {
->                                 // modify page tables
->                         }
->                 }
->         }
->
->         run_job {
->                 for_each_vm_bind_operation {
->                         drm_gpuva_for_each_op {
->                                 // free page table structures, if any
->                                 // free unused pre-allocated memory
->                         }
->                 }
->         }
->
-> What did you do instead to get map/unmap overlapping? Even more interesti=
-ng,
-> what are you doing now?
+Hi Chema,
 
-From what I can tell, the drivers using drm_gpva_for_each_op()/etc are
-doing drm_gpuva_remove() while iterating the ops list..
-drm_gpuvm_sm_xyz_ops_create() itself does not modify the VM.  So this
-can only really work if you perform one MAP or UNMAP at a time.  Or at
-least if you process the VM modifying part of the ops list before
-proceeding to the next op.
+On 05/06/25 06:27, Chema Casanova wrote:
+> This patch is:
+> 
+> Reviewed-by: Jose Maria Casanova Crespo <jmcasanova@igalia.com>
+> 
+> But I have a question. Could we see this scenario of the process finishing
+> before other access to job->file->driver_priv in other parts of the v3d 
+> driver?
 
->
-> > Once I realized I only wanted to defer the
-> > application of the pgtable changes, but keep all the
-> > locking/allocation/etc in the synchronous part of the ioctl,
-> > vm_op_enqueue() was the natural solution.
->
-> But vm_op_enqueue() creates exactly this list of operations you would get=
- from
-> drm_gpuvm_sm_{map,unmap}_ops_create(), just manually, no?
+Although we access `job->file->driver_priv` in other parts of the
+driver, the other accesses aren't problematic as far as I could check.
 
-Only if each job only has a single VM_BIND MAP or UNMAP or if you
-process the ops immediately.
+With that, I applied the patch to misc/kernel.git (drm-misc-fixes).
 
-OTOH vm_op_enqueue() generates the list of pgtable updates to perform
-for a list of MAP/UNMAP ioctl ops.  I guess it would be an equivalent
-of combining drm_gpuvm_sm_xyz_ops_create() plus the actual driver
-callbacks in a single pass.
+Thanks for the review!
 
-BR,
--R
+Best Regards,
+- Maíra
 
-> <snip>
->
-> > > > Note that these functions do not strictly require the VM changes to=
- be
-> > > > applied before the next drm_gpuvm_sm_map_lock()/_unmap_lock() call.=
-  In
-> > > > the case that VM changes from an earlier drm_gpuvm_sm_map()/_unmap(=
-)
-> > > > call result in a differing sequence of steps when the VM changes ar=
-e
-> > > > actually applied, it will be the same set of GEM objects involved, =
-so
-> > > > the locking is still correct.
-> > >
-> > > I'm not sure about this part, how can we be sure that's the case?
-> >
-> > I could be not imaginative enough here, so it is certainly worth a
-> > second opinion.  And why I explicitly called it out in the commit msg.
-> > But my reasoning is that any new op in the second pass that actually
-> > applies the VM updates which results from overlapping with a previous
-> > update in the current VM_BIND will only involve GEM objects from that
-> > earlier update, which are already locked.
->
-> Yeah, it's probably fine, since, as you say, the only additional object c=
-an be
-> the req_obj from the previous iteration.
->
+> 
+> Regards,
+> 
+> Chema
+> 
+> El 2/6/25 a las 17:14, Maíra Canal escribió:
+>> The following kernel Oops was recently reported by Mesa CI:
+>>
+>> [  800.139824] Unable to handle kernel NULL pointer dereference at 
+>> virtual address 0000000000000588
+>> [  800.148619] Mem abort info:
+>> [  800.151402]   ESR = 0x0000000096000005
+>> [  800.155141]   EC = 0x25: DABT (current EL), IL = 32 bits
+>> [  800.160444]   SET = 0, FnV = 0
+>> [  800.163488]   EA = 0, S1PTW = 0
+>> [  800.166619]   FSC = 0x05: level 1 translation fault
+>> [  800.171487] Data abort info:
+>> [  800.174357]   ISV = 0, ISS = 0x00000005, ISS2 = 0x00000000
+>> [  800.179832]   CM = 0, WnR = 0, TnD = 0, TagAccess = 0
+>> [  800.184873]   GCS = 0, Overlay = 0, DirtyBit = 0, Xs = 0
+>> [  800.190176] user pgtable: 4k pages, 39-bit VAs, pgdp=00000001014c2000
+>> [  800.196607] [0000000000000588] pgd=0000000000000000, 
+>> p4d=0000000000000000, pud=0000000000000000
+>> [  800.205305] Internal error: Oops: 0000000096000005 [#1] PREEMPT SMP
+>> [  800.211564] Modules linked in: vc4 snd_soc_hdmi_codec 
+>> drm_display_helper v3d cec gpu_sched drm_dma_helper drm_shmem_helper 
+>> drm_kms_helper drm drm_panel_orientation_quirks snd_soc_core 
+>> snd_compress snd_pcm_dmaengine snd_pcm i2c_brcmstb snd_timer snd 
+>> backlight
+>> [  800.234448] CPU: 0 UID: 0 PID: 0 Comm: swapper/0 Not tainted 
+>> 6.12.25+rpt-rpi-v8 #1  Debian 1:6.12.25-1+rpt1
+>> [  800.244182] Hardware name: Raspberry Pi 4 Model B Rev 1.4 (DT)
+>> [  800.250005] pstate: 600000c5 (nZCv daIF -PAN -UAO -TCO -DIT -SSBS 
+>> BTYPE=--)
+>> [  800.256959] pc : v3d_job_update_stats+0x60/0x130 [v3d]
+>> [  800.262112] lr : v3d_job_update_stats+0x48/0x130 [v3d]
+>> [  800.267251] sp : ffffffc080003e60
+>> [  800.270555] x29: ffffffc080003e60 x28: ffffffd842784980 x27: 
+>> 0224012000000000
+>> [  800.277687] x26: ffffffd84277f630 x25: ffffff81012fd800 x24: 
+>> 0000000000000020
+>> [  800.284818] x23: ffffff8040238b08 x22: 0000000000000570 x21: 
+>> 0000000000000158
+>> [  800.291948] x20: 0000000000000000 x19: ffffff8040238000 x18: 
+>> 0000000000000000
+>> [  800.299078] x17: ffffffa8c1bd2000 x16: ffffffc080000000 x15: 
+>> 0000000000000000
+>> [  800.306208] x14: 0000000000000000 x13: 0000000000000000 x12: 
+>> 0000000000000000
+>> [  800.313338] x11: 0000000000000040 x10: 0000000000001a40 x9 : 
+>> ffffffd83b39757c
+>> [  800.320468] x8 : ffffffd842786420 x7 : 7fffffffffffffff x6 : 
+>> 0000000000ef32b0
+>> [  800.327598] x5 : 00ffffffffffffff x4 : 0000000000000015 x3 : 
+>> ffffffd842784980
+>> [  800.334728] x2 : 0000000000000004 x1 : 0000000000010002 x0 : 
+>> 000000ba4c0ca382
+>> [  800.341859] Call trace:
+>> [  800.344294]  v3d_job_update_stats+0x60/0x130 [v3d]
+>> [  800.349086]  v3d_irq+0x124/0x2e0 [v3d]
+>> [  800.352835]  __handle_irq_event_percpu+0x58/0x218
+>> [  800.357539]  handle_irq_event+0x54/0xb8
+>> [  800.361369]  handle_fasteoi_irq+0xac/0x240
+>> [  800.365458]  handle_irq_desc+0x48/0x68
+>> [  800.369200]  generic_handle_domain_irq+0x24/0x38
+>> [  800.373810]  gic_handle_irq+0x48/0xd8
+>> [  800.377464]  call_on_irq_stack+0x24/0x58
+>> [  800.381379]  do_interrupt_handler+0x88/0x98
+>> [  800.385554]  el1_interrupt+0x34/0x68
+>> [  800.389123]  el1h_64_irq_handler+0x18/0x28
+>> [  800.393211]  el1h_64_irq+0x64/0x68
+>> [  800.396603]  default_idle_call+0x3c/0x168
+>> [  800.400606]  do_idle+0x1fc/0x230
+>> [  800.403827]  cpu_startup_entry+0x40/0x50
+>> [  800.407742]  rest_init+0xe4/0xf0
+>> [  800.410962]  start_kernel+0x5e8/0x790
+>> [  800.414616]  __primary_switched+0x80/0x90
+>> [  800.418622] Code: 8b170277 8b160296 11000421 b9000861 (b9401ac1)
+>> [  800.424707] ---[ end trace 0000000000000000 ]---
+>> [  800.457313] ---[ end Kernel panic - not syncing: Oops: Fatal 
+>> exception in interrupt ]---
+>>
+>> This issue happens when the file descriptor is closed before the jobs
+>> submitted by it are completed. When the job completes, we update the
+>> global GPU stats and the per-fd GPU stats, which are exposed through
+>> fdinfo. If the file descriptor was closed, then the struct 
+>> `v3d_file_priv`
+>> and its stats were already freed and we can't update the per-fd stats.
+>>
+>> Therefore, if the file descriptor was already closed, don't update the
+>> per-fd GPU stats, only update the global ones.
+>>
+>> Cc: stable@vger.kernel.org # v6.12+
+>> Signed-off-by: Maíra Canal <mcanal@igalia.com>
+>> ---
+>>   drivers/gpu/drm/v3d/v3d_sched.c | 8 ++++++--
+>>   1 file changed, 6 insertions(+), 2 deletions(-)
+>>
+>> diff --git a/drivers/gpu/drm/v3d/v3d_sched.c b/drivers/gpu/drm/v3d/ 
+>> v3d_sched.c
+>> index 466d28ceee28..5ed676304964 100644
+>> --- a/drivers/gpu/drm/v3d/v3d_sched.c
+>> +++ b/drivers/gpu/drm/v3d/v3d_sched.c
+>> @@ -199,7 +199,6 @@ v3d_job_update_stats(struct v3d_job *job, enum 
+>> v3d_queue queue)
+>>       struct v3d_dev *v3d = job->v3d;
+>>       struct v3d_file_priv *file = job->file->driver_priv;
+>>       struct v3d_stats *global_stats = &v3d->queue[queue].stats;
+>> -    struct v3d_stats *local_stats = &file->stats[queue];
+>>       u64 now = local_clock();
+>>       unsigned long flags;
+>> @@ -209,7 +208,12 @@ v3d_job_update_stats(struct v3d_job *job, enum 
+>> v3d_queue queue)
+>>       else
+>>           preempt_disable();
+>> -    v3d_stats_update(local_stats, now);
+>> +    /* Don't update the local stats if the file context has already 
+>> closed */
+>> +    if (file)
+>> +        v3d_stats_update(&file->stats[queue], now);
+>> +    else
+>> +        drm_dbg(&v3d->drm, "The file descriptor was closed before job 
+>> completion\n");
+>> +
+>>       v3d_stats_update(global_stats, now);
+>>       if (IS_ENABLED(CONFIG_LOCKDEP))
+
