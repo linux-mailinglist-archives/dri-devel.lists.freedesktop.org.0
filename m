@@ -2,119 +2,152 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1F551ADAB24
+	by mail.lfdr.de (Postfix) with ESMTPS id 2447DADAB26
 	for <lists+dri-devel@lfdr.de>; Mon, 16 Jun 2025 10:51:52 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2634B10E2E5;
-	Mon, 16 Jun 2025 08:42:30 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 25A8010E2E7;
+	Mon, 16 Jun 2025 08:51:41 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=suse.de header.i=@suse.de header.b="2EcYXRFo";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="2yTJLDjS";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="TUj2wYbY";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="Ekx0wZu1";
+	dkim=pass (1024-bit key; unprotected) header.d=amd.com header.i=@amd.com header.b="wyXbFBHp";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 71E3810E2E4
- for <dri-devel@lists.freedesktop.org>; Mon, 16 Jun 2025 08:42:28 +0000 (UTC)
-Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org
- [IPv6:2a07:de40:b281:104:10:150:64:97])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
- (No client certificate requested)
- by smtp-out2.suse.de (Postfix) with ESMTPS id D5EC61F394;
- Mon, 16 Jun 2025 08:42:22 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1750063343; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=dO1ZlPdHaQwjXf1LVEhclyhylG6HhgDk1ipIK1QaNMw=;
- b=2EcYXRFofgQHrIVCYa5xl6j66Ii+FtRRpwXzhaLemYfx3kAMPJW0++wA3NWiWjGyHbJO3g
- JMuj7/DFoGRn/qpvMaL3Oo94GqgQA+EZnGYlFOAzZi2njV/qnPSlVWfIfXePyjlSGu6Yka
- skoeDzyoR0BagsilRteqJDQWtKW3vCw=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1750063343;
- h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=dO1ZlPdHaQwjXf1LVEhclyhylG6HhgDk1ipIK1QaNMw=;
- b=2yTJLDjSW6ynfC8EP2ultA0tqvxlFMrMzezLdt0T2u56FDc0XQ4dMGO1dmkW6KrydXkQYU
- ycl5zubErNTKlKCA==
-Authentication-Results: smtp-out2.suse.de;
- dkim=pass header.d=suse.de header.s=susede2_rsa header.b=TUj2wYbY;
- dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=Ekx0wZu1
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1750063342; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=dO1ZlPdHaQwjXf1LVEhclyhylG6HhgDk1ipIK1QaNMw=;
- b=TUj2wYbYnS1PmSF9k8h1RdcVE+FJaaNWGRRBgjcpCjRQfC02kZOLVapVEvaJ0aUqrEvLjx
- K4bk9y+qUfBaMIDHUhdXTWBYslbm1LIhMuWKtYCPuCfmndI3Mz8lBdjTjXfLbMIFbNoBYv
- OPcvxTnU5cAzr+C9LZF1MLY2R0S1Eyg=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1750063342;
- h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=dO1ZlPdHaQwjXf1LVEhclyhylG6HhgDk1ipIK1QaNMw=;
- b=Ekx0wZu10U76RjyjLaURRzebdfNTC+HXaCM8qQVISEkgrnE6bSLu2tXYOm0YNUhazaUx2+
- qn+hzLbEiE0VUSDA==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
- (No client certificate requested)
- by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 8CFF913A9C;
- Mon, 16 Jun 2025 08:42:22 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
- by imap1.dmz-prg2.suse.org with ESMTPSA id AIQeIe7YT2gwPgAAD6G6ig
- (envelope-from <tzimmermann@suse.de>); Mon, 16 Jun 2025 08:42:22 +0000
-From: Thomas Zimmermann <tzimmermann@suse.de>
-To: arthurgrillo@riseup.net, jose.exposito89@gmail.com, javierm@redhat.com,
- maarten.lankhorst@linux.intel.com, mripard@kernel.org
-Cc: dri-devel@lists.freedesktop.org,
-	Thomas Zimmermann <tzimmermann@suse.de>
-Subject: [PATCH v3 3/3] drm/format-helper: Move drm_fb_build_fourcc_list() to
- sysfb helpers
-Date: Mon, 16 Jun 2025 10:37:06 +0200
-Message-ID: <20250616083846.221396-4-tzimmermann@suse.de>
-X-Mailer: git-send-email 2.49.0
-In-Reply-To: <20250616083846.221396-1-tzimmermann@suse.de>
-References: <20250616083846.221396-1-tzimmermann@suse.de>
-MIME-Version: 1.0
+Received: from NAM12-BN8-obe.outbound.protection.outlook.com
+ (mail-bn8nam12on2062.outbound.protection.outlook.com [40.107.237.62])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 74DE810E2E7
+ for <dri-devel@lists.freedesktop.org>; Mon, 16 Jun 2025 08:51:38 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=PNbjKhsQ8QE8ZGQJNV/z/rougEE8jE8ivjomQOkXt8nQ4HFvTOuH63PMtslraJuB3udK+Lrln7tzt54MVVO+H4jGbnYhDCXgjB2cYMJWEgsVmzJkKINZkaGrGujGJpBluW30Aa6qOmPKu7AgUW4sz1iFHRKvDm6TRJilYTyI4RSKkNk8gbt8pFY4SW+J39eLOHkeKOXXSrtYk06MRAJT8HQEemxorA7GN0xJMBhWYaA/WHguHIVtZjWbGutfkWuH8xvJih0yPuo7Snf9Ja8aBhYMyq7af4MoHPtbOhF1fp2wgG34XqUklJDUxDVajwT2P4LNkRUQquLbz75FeEFdIg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=JYu5YFqOWCGLxoda+i++ExOi2sxqKYiNiHH9dEYGVRw=;
+ b=V7Gn46Bywkh2YPMNQP419SpdZLSkXAUkGHFUe9ya1b8hXxpIhjJLBnPts5JD4jKPGZiK8sekFq4DckljcKseaQ4GfHcczq46bChkDZYnqlf/LFwUZYw1jp5vr5lydfDlLbbMNZZtBipD1tefQAl3d5UlC4I3+t1H5FzoBMVCtY2HkLO5aeET5qXVCTCzHkZdpUpZJYUA28SK/e2RakADTfgVyu/wch4klm0kvDbiLYMuB4mEMcvB3Y7CCK941FljUWtAQBl3PqeyEHT211Tkz3mzJtOU9oT+WNpRo/sZrSmsLWAGHeqJZAdo8pWuEMXXlJxvAc9/y7LxyFWXoOiP+A==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
+ header.d=amd.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=JYu5YFqOWCGLxoda+i++ExOi2sxqKYiNiHH9dEYGVRw=;
+ b=wyXbFBHpLCeTnveEgrLe8jkW4t5S7TdEOMnDNOJObfiiVMEI7QtFIvM/f+48H451x4Qf/b6J+fkzy8htIo8x6dBgzc9B267QfsuXUhO1J3VEMD0fFqTJ1SsxUn0hcoBT2uYBK7tc/UrJwIZUFG9Se0sVqGt0U32RnqgHsu+3dv0=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=amd.com;
+Received: from PH7PR12MB5685.namprd12.prod.outlook.com (2603:10b6:510:13c::22)
+ by MN2PR12MB4062.namprd12.prod.outlook.com (2603:10b6:208:1d0::15)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8835.28; Mon, 16 Jun
+ 2025 08:51:34 +0000
+Received: from PH7PR12MB5685.namprd12.prod.outlook.com
+ ([fe80::46fb:96f2:7667:7ca5]) by PH7PR12MB5685.namprd12.prod.outlook.com
+ ([fe80::46fb:96f2:7667:7ca5%7]) with mapi id 15.20.8722.031; Mon, 16 Jun 2025
+ 08:51:33 +0000
+Message-ID: <ba8e22cf-18d6-407c-9ed5-cc7de0180c29@amd.com>
+Date: Mon, 16 Jun 2025 10:51:28 +0200
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 1/3] drm: Add DRM prime interfaces to reassign GEM handle
+To: David Francis <David.Francis@amd.com>, dri-devel@lists.freedesktop.org
+Cc: tvrtko.ursulin@igalia.com, Felix.Kuehling@amd.com, David.YatSin@amd.com,
+ Chris.Freehill@amd.com, dcostantino@meta.com, sruffell@meta.com,
+ simona@ffwll.ch, mripard@kernel.org, tzimmermann@suse.de
+References: <20250613182337.3767389-1-David.Francis@amd.com>
+ <20250613182337.3767389-2-David.Francis@amd.com>
+Content-Language: en-US
+From: =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
+In-Reply-To: <20250613182337.3767389-2-David.Francis@amd.com>
 Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-Rspamd-Server: rspamd2.dmz-prg2.suse.org
-X-Rspamd-Queue-Id: D5EC61F394
-X-Rspamd-Action: no action
-X-Spam-Flag: NO
-X-Spamd-Result: default: False [-2.01 / 50.00]; BAYES_HAM(-3.00)[100.00%];
- SUSPICIOUS_RECIPS(1.50)[]; NEURAL_HAM_LONG(-1.00)[-1.000];
- MID_CONTAINS_FROM(1.00)[];
- R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
- NEURAL_HAM_SHORT(-0.20)[-1.000]; MIME_GOOD(-0.10)[text/plain];
- MX_GOOD(-0.01)[]; TO_MATCH_ENVRCPT_ALL(0.00)[]; ARC_NA(0.00)[];
- DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
- FUZZY_BLOCKED(0.00)[rspamd.com]; MIME_TRACE(0.00)[0:+];
- RBL_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:104:10:150:64:97:from]; 
- TO_DN_SOME(0.00)[];
- FREEMAIL_TO(0.00)[riseup.net,gmail.com,redhat.com,linux.intel.com,kernel.org]; 
- FREEMAIL_ENVRCPT(0.00)[gmail.com]; RCVD_TLS_ALL(0.00)[];
- RCVD_COUNT_TWO(0.00)[2];
- DNSWL_BLOCKED(0.00)[2a07:de40:b281:106:10:150:64:167:received,2a07:de40:b281:104:10:150:64:97:from];
- FROM_EQ_ENVFROM(0.00)[]; FROM_HAS_DN(0.00)[];
- SPAMHAUS_XBL(0.00)[2a07:de40:b281:104:10:150:64:97:from];
- RCPT_COUNT_SEVEN(0.00)[7]; TAGGED_RCPT(0.00)[];
- RECEIVED_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:106:10:150:64:167:received];
- DKIM_TRACE(0.00)[suse.de:+]; RCVD_VIA_SMTP_AUTH(0.00)[];
- DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:mid, suse.de:dkim, suse.de:email,
- imap1.dmz-prg2.suse.org:rdns, imap1.dmz-prg2.suse.org:helo]
-X-Spam-Score: -2.01
-X-Spam-Level: 
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: FR2P281CA0058.DEUP281.PROD.OUTLOOK.COM
+ (2603:10a6:d10:93::9) To PH7PR12MB5685.namprd12.prod.outlook.com
+ (2603:10b6:510:13c::22)
+MIME-Version: 1.0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: PH7PR12MB5685:EE_|MN2PR12MB4062:EE_
+X-MS-Office365-Filtering-Correlation-Id: e8d4d449-0583-4d20-2a64-08ddacb2feaf
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;ARA:13230040|1800799024|366016|376014;
+X-Microsoft-Antispam-Message-Info: =?utf-8?B?Wjh1NDVScFRhd2dIR3lRMzJaam9aeG5OREZpRFlsa3p4RkZQUlZoMndIZXZy?=
+ =?utf-8?B?QXo5V3ZmZjlLV0NTWExvTHRSSnlVTzYweTJKVno3MkdpQUtIYlBSMjlnTUJw?=
+ =?utf-8?B?STJtWUJHNGROQ0RUQW02QzFTZm5kWjhHVU1QaUVNOW8wbDE3bDJwRnpVc0w3?=
+ =?utf-8?B?OGVlN3ZuU21MUzBFNFpVYmNjcDhORllpVEtzTEpSb2FCQ01IbnhoRUQ2eDh1?=
+ =?utf-8?B?SlJudHpoS1cyVW43Q3A2RHpWQnVKUmJzaytJV1REc2ZBTDRFK1dEQTBENlJi?=
+ =?utf-8?B?RGVlMWEzak80d1NHMUZkbkhRbW1STGlwc2FVSW00dFNpYnczcHB1bUEzN29r?=
+ =?utf-8?B?Uy9veXY4Z0tINGVFeDloZDh0ejJGd0syUzRoejB3UjRXbWlLRzRvR3N0OFNs?=
+ =?utf-8?B?aXBGWDNDUHVSL0ZIUUJJa2l4MG4yekkrTnE0b2w3ZmZnbkRZS0c1STJlODEx?=
+ =?utf-8?B?SHVJcFh4NkxIZjgyemdYSlNDQU4wRHpDNXpTakFNY242WVV6MXBnaDBIbnU2?=
+ =?utf-8?B?ajhjRThJNW01SGs4Q2NVZGgzV1ZmZ3l5dGUxNUw4Yk5pWEgzZGFJeUw0SlRj?=
+ =?utf-8?B?aDF1aTBnU1dwOXJHR3FDaUlrWHhjM1JJQ2x4WURpV0xtQ3ZTUzR6MTFXVTRT?=
+ =?utf-8?B?U3FzdnhnNldzYStlNHdBZmd0d0JhVEl5NE1abEtYWkd6UUtJVGtwTXRLSGVi?=
+ =?utf-8?B?blFyOTFFRFBPNTUzSk9Pdk02YUxQUjE4QUhremNrT2hENlYxbEthMU5iRTVq?=
+ =?utf-8?B?dUdIWEREd2lxRURHUlVBK2UyazFmZlh0MWJZS0xKMWM0N2RRWlU2dzlOQWpU?=
+ =?utf-8?B?REphazVyZG9iVjVxTExEb3Y4VVhKdTFvbzdDTjcxMkZTV3dpQVpBSHdqOWpy?=
+ =?utf-8?B?Yy9jMnBxSlQrbWkyZFBOVlpjV2FuTERFclkxZHhZTVc5WGpVMFF2bmo4VjFW?=
+ =?utf-8?B?M0ttdGlKOU53QnJ2WkRISXZQTkZhNklzZi90eTBDMjlQVTN0TWpRcjRCYWVu?=
+ =?utf-8?B?NzBlN2RmRUZsN2M5VjR6UEZFemJmcHY4UThNK0RQbHJ4QWZuM2lFa0c5Ykdh?=
+ =?utf-8?B?aGRSb1lPd1I5cm5oS25lMHRxb1lDVGc0V2VKcy85clFRb09WTllHQjdua3Yz?=
+ =?utf-8?B?MEdXbkFVd1YrNVRBVUJQTnkwaFk5d1Zhd3d3QmY1cUdNdFlUMDJ3M0Z4amJB?=
+ =?utf-8?B?cW5STWxhSTBxZW8zSmtxc3ZsM1hGQmNRUmxybWJGQVFzbkVVL3pwYWxyM3NE?=
+ =?utf-8?B?czU5Vk8vS0U4RWN2aGcvaWFHazFRQVlFZ0NlU2llcVppOGJCNDByTnlybm1v?=
+ =?utf-8?B?YWpxT1lhN29TbmZxUzJmS0tYb3ZNMlJNTXFNdGg4UnZhV25wZCtNeUpUd0Nw?=
+ =?utf-8?B?RkdQY2o5VmgvQ3RCOHZwRkZUd3l2L1Mxa0Z6VzZVVDFXU3Y2d0NDVm9vNzNU?=
+ =?utf-8?B?RmpaSGRuMEtWaEJNdkUwVXlrZktKUXF0T0RxUEsrOGFxMElVT2VBeVowQmhV?=
+ =?utf-8?B?VFdLSWRTSUE3TEVuWG92VksxOHkzZnNEelFsSHFkdVFRNGNpeUM2K0JDaHVN?=
+ =?utf-8?B?R2NaMEtLUXBCeHUxNjBNdGhrL0RlUzFlZUs3RkpUOVNJVWFBdGZobFFGYWJk?=
+ =?utf-8?B?dEtlNjJHZG9jQ0tSNTdtSlZkeUU3YVFTbVdHQjZEMkt0eTd4ZXpaaTg5MTJO?=
+ =?utf-8?B?R3Q0NXNxZ1RnNXZ2cVBzb0ptaEZXL3lMSEdJNFF1M29uS0s1NmJ6OWNlbkFB?=
+ =?utf-8?B?aUJQd1RMUm9jQlBXT0FwVFZKS2pTNStpOVJCd2NWZXlzL0dZNHJPSUFQZHVY?=
+ =?utf-8?B?NVd6ejJnY2VDYUlrckZKV0RTNS9BbUg4ZGVzZy9pV0d6ekE1VElpWTNOd0I4?=
+ =?utf-8?B?ZHVmU0d6dWlWOE5ndFpjT1NkR0o4cHlQT2FIWkxtYndvdGc9PQ==?=
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:PH7PR12MB5685.namprd12.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230040)(1800799024)(366016)(376014); DIR:OUT; SFP:1101; 
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?NlVVKzZNS2NSZm9IckZONkgwMEp2MFdDMjI1bjlIS1FrUkhuNWJmMVRYZW80?=
+ =?utf-8?B?bE44bHRscWQ4eHpsc05ma2VZYURzT0ZpRmZrbk41eDVldGF5SUpqdGpDV1c0?=
+ =?utf-8?B?TFdsSFc5ZmtTdloyS3JNUERRbDF5NE9EdkhKZTZHckFPOWRxQnZLK2pBSk1G?=
+ =?utf-8?B?U3JWcFJmbnlrbXlLd0FTV3ZWYXFoZFB5aXJWRW1jOGtCdWUwbm94OWc3Z3Fh?=
+ =?utf-8?B?dllUQVNLNHNETGF5NDZYSUdTeTBCMGpEbWkweUluL2JHUkxNVHpVaFp4TmhK?=
+ =?utf-8?B?NWlsNkF0eXNhTXdkRTA3bjZkNlozVWVtZVVVZTgrUDBJOTlMWThJanpxWE02?=
+ =?utf-8?B?TXNBUXpzMG4vNXpVcFFibzUyaEh4bEpHc3NCK2dPQVF1VE5jZzVwMk5IOHpn?=
+ =?utf-8?B?T01oUFVXbVpQelVET0RsK2ZBMERNZFZNVHE1UkZyS1Z2THFPNVN3ODZZWEZ6?=
+ =?utf-8?B?WStzVy9Vc0tGa1NFQUNka1dEZVc1bU16MkxpSUNUUTFKZ0ZXWjRhVThucUVs?=
+ =?utf-8?B?MzhtOXNSNFVvaHdmSTNUQXB4MUQrT3BjTnRFSDlYYWRlZkZyRzJVWHJMRFEz?=
+ =?utf-8?B?OU9JVkE1QkRWdmtvdWw0NU5lYktsTHZTOUhybUNTWmtKUUVFczQ3K1VnV3Fh?=
+ =?utf-8?B?NThsQUFyYm1URHB2bjBkUUlJaFF6Mzg1amUrakVXNTdlYksrbTBoZDFGVUN6?=
+ =?utf-8?B?M1VZYW8ya1JHVFVCcW9KakJ2UUlzT0xyVDUxSlJyazY0ZTBsbG82VzBvanRO?=
+ =?utf-8?B?dXFMWENYNDFlRk51dVFDc1pWd04zbms2MlBOdWNjT08zYlpML1VsTlRxUTdo?=
+ =?utf-8?B?TWZ6UUZ2VHY0MjA4NHhZRUhUbEo3cUx6UEdiZDFqaHk0eU5TOVZPWXRnSzcz?=
+ =?utf-8?B?ZEIvQllyTXp5WW55WHU4dWRHZzBBc2V1Q0lwRnk5Wm5EaFc0aHZyakNHbVYx?=
+ =?utf-8?B?SnpTMFIzVVk4UlB3bDcva0k4RUNpMXRSemJSZnlYcy9mY2NsVXpuMDQ4cFBX?=
+ =?utf-8?B?dzNsWTQ3dXo1VlNWMWcxdyszQXhqQ0lvM3Z6aVdybXZYaWkvVEZiNEJVcHFl?=
+ =?utf-8?B?a2MycUFDY3BwVUJtaC9kRmFIWEZ4MnFwV01hOVV0TS9IOGhJblQzWWhWdUJU?=
+ =?utf-8?B?S3BieUk1aUN1eWRGZUJPcWFKVkxPQllDR2p0Ym5XUHd4eGJkQnBXZzd0N245?=
+ =?utf-8?B?WlRNWXprT3RUNUM3RldwV0tzYnFTa2MyQU5rdG5Tei9SMXpZdUlkWXE3amc3?=
+ =?utf-8?B?Q1pWNkxlR0RlQTliZXFHWkk5TlB5bTlnb25jbUhhWXk1V25wTnhDVFh0eTZq?=
+ =?utf-8?B?UXUzN1IyNUN2bHVRQnJVYkYxSlFlaU5LdkViRnhjcWxiVUxZU09GNGhiZGtV?=
+ =?utf-8?B?WG1Jd29wVFBqdTFTbkJWa2JQRXBaT1N1N0VzQm9VbTZxNlVaRi9UYWIzUXA4?=
+ =?utf-8?B?eElwUERGam4xQ3JJOGsvNlRJQUFSMlZCVlpoQ09HRFY4NWJyZUZESkVRUlRX?=
+ =?utf-8?B?eGhZd0hGdnBOM0V2RnN2TXdOcCtMRXQrUi9wQk05N0tTOTdyMWtNL21Saysx?=
+ =?utf-8?B?SkU1TEp3VllXenJoUXBVL2pBb1gwMm4vMlZrK21tUmpYTHJOazF3eXE4bitY?=
+ =?utf-8?B?QSs1OHJGRGZ3TFBPUW95bmlBT2pOUXp3ODFSczFLYllPV1FRQ3Q2WUFVN1JZ?=
+ =?utf-8?B?NzZiL3RESnBzTFMxMUU5N0xjYzVCZWV1enlmcU1WUFMzNTUxKzR2WWlBMlNH?=
+ =?utf-8?B?emV5MnlCTnpOaE45Kzg5RWMwbXgrODFlbnBtbmptMjR3NmFKcmNHN0NPNUwv?=
+ =?utf-8?B?cXQ1RFdjcUdMWngwSllNUUJPS2MzaXJYWkVIQ3EzdURkVlBTMTRmcmZTWlhH?=
+ =?utf-8?B?bG1leXBZeUo3dHRWQThqb25WUUpuVzhOeWJiSUhESkNwaGtHTzZpTDRXTG5t?=
+ =?utf-8?B?dWZhK3hETk9ZUzY2UzQzeE9wWlRuZ1VmdFZ5WGVxeGtLdDVWWjdOay9ncXhD?=
+ =?utf-8?B?c0FRVm5VWUlkeVVGWUNTMStTVEZSNGt6WEhEbEIvT2hFVlVaZ2ZZWVpma0dZ?=
+ =?utf-8?B?RjF4UGVJQ3h5TytvaG1Pa3hHZTV1NVA4bE5PU3lWNnlMY1Vjb2FGTTZuai9D?=
+ =?utf-8?Q?uE2cHHqnP5T+Q6B58Zvds8CkO?=
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: e8d4d449-0583-4d20-2a64-08ddacb2feaf
+X-MS-Exchange-CrossTenant-AuthSource: PH7PR12MB5685.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 16 Jun 2025 08:51:33.5056 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: vWWcReUfwdWUVkPqvRzR7wq/Wf6MptuHjjTdDqGOYyJdSOA8bdn49Q2ODsUX2Pc+
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: MN2PR12MB4062
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -130,515 +163,212 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Only sysfb drivers use drm_fb_build_fourcc_list(). Move the function
-to sysfb helpers and rename it accordingly. Update drivers and tests.
+On 6/13/25 20:23, David Francis wrote:
+> CRIU restore of drm buffer objects requires the ability to create
+> or import a buffer object with a specific gem handle.
+> 
+> Add new drm ioctl DRM_IOCTL_GEM_CHANGE_HANDLE, which takes
+> the gem handle of an object and moves that object to a
+> specified new gem handle.
+> 
+> This ioctl needs to call drm_prime_remove_buf_handle,
+> but that function acquires the prime lock, which the ioctl
+> needs to hold for other purposes.
+> 
+> Make drm_prime_remove_buf_handle not acquire the prime lock,
+> and change its other caller to reflect this.
+> 
+> Signed-off-by: David Francis <David.Francis@amd.com>
+> ---
+>  drivers/gpu/drm/drm_gem.c      | 56 ++++++++++++++++++++++++++++++++++
+>  drivers/gpu/drm/drm_internal.h |  4 +++
+>  drivers/gpu/drm/drm_ioctl.c    |  1 +
+>  drivers/gpu/drm/drm_prime.c    |  6 +---
+>  include/uapi/drm/drm.h         | 17 +++++++++++
+>  5 files changed, 79 insertions(+), 5 deletions(-)
+> 
+> diff --git a/drivers/gpu/drm/drm_gem.c b/drivers/gpu/drm/drm_gem.c
+> index c6240bab3fa5..31fe2f1d1137 100644
+> --- a/drivers/gpu/drm/drm_gem.c
+> +++ b/drivers/gpu/drm/drm_gem.c
+> @@ -282,7 +282,12 @@ drm_gem_object_release_handle(int id, void *ptr, void *data)
+>  	if (obj->funcs->close)
+>  		obj->funcs->close(obj, file_priv);
+>  
+> +	mutex_lock(&file_priv->prime.lock);
+> +
+>  	drm_prime_remove_buf_handle(&file_priv->prime, id);
+> +
+> +	mutex_unlock(&file_priv->prime.lock);
+> +
+>  	drm_vma_node_revoke(&obj->vma_node, file_priv);
+>  
+>  	drm_gem_object_handle_put_unlocked(obj);
+> @@ -888,6 +893,57 @@ drm_gem_flink_ioctl(struct drm_device *dev, void *data,
+>  	return ret;
+>  }
+>  
+> +/**
+> + * drm_gem_open_ioctl - implementation of the GEM_CHANGE_HANDLE ioctl
+> + * @dev: drm_device
+> + * @data: ioctl data
+> + * @file_priv: drm file-private structure
+> + *
+> + * Change the handle of a GEM object to the specified one.
+> + * The new handle must be unused. On success the old handle is closed
+> + * and all further IOCTL should refer to the new handle only.
+> + * Calls to DRM_IOCTL_PRIME_FD_TO_HANDLE will return the new handle.
+> + */
+> +int drm_gem_change_handle_ioctl(struct drm_device *dev, void *data,
+> +				struct drm_file *file_priv)
+> +{
+> +	struct drm_gem_change_handle *args = data;
+> +	struct drm_gem_object *obj;
+> +	int ret;
+> +
+> +	obj = drm_gem_object_lookup(file_priv, args->handle);
+> +	if (!obj)
+> +		return -ENOENT;
+> +
+> +	if (args->handle == args->new_handle)
+> +		return 0;
+> +
+> +	mutex_lock(&file_priv->prime.lock);
+> +	spin_lock(&file_priv->table_lock);
+> +
+> +	ret = idr_alloc(&file_priv->object_idr, obj, args->new_handle, args->new_handle + 1, GFP_NOWAIT);
+> +	if (ret < 0)
+> +		goto out_unlock_table;
+> +
+> +	spin_unlock(&file_priv->table_lock);
+> +
 
-v3:
-- update naming in tests
-v2:
-- select DRM_SYSFB_HELPER (kernel test robot)
+> +	ret = drm_prime_add_buf_handle(&file_priv->prime, obj->dma_buf, args->new_handle);
+> +	if (ret < 0)
+> +		goto out_unlock_prime;
+> +
+> +	drm_prime_remove_buf_handle(&file_priv->prime, args->handle);
 
-Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
-Reviewed-by: José Expósito <jose.exposito89@gmail.com>
-Acked-by: Maxime Ripard <mripard@kernel.org>
-Acked-by: Javier Martinez Canillas <javierm@redhat.com>
----
- drivers/gpu/drm/Kconfig.debug                 |   1 +
- drivers/gpu/drm/drm_format_helper.c           | 138 ------------------
- drivers/gpu/drm/sysfb/drm_sysfb_helper.h      |   4 +
- drivers/gpu/drm/sysfb/drm_sysfb_modeset.c     | 138 ++++++++++++++++++
- drivers/gpu/drm/sysfb/efidrm.c                |   4 +-
- drivers/gpu/drm/sysfb/ofdrm.c                 |   5 +-
- drivers/gpu/drm/sysfb/simpledrm.c             |   5 +-
- drivers/gpu/drm/sysfb/vesadrm.c               |   4 +-
- .../gpu/drm/tests/drm_sysfb_modeset_test.c    |  24 +--
- include/drm/drm_format_helper.h               |   4 -
- 10 files changed, 164 insertions(+), 163 deletions(-)
+We need to put this into an "if (obj->dma_buf)", exporting a GEM handle as DMA-buf is only optional.
 
-diff --git a/drivers/gpu/drm/Kconfig.debug b/drivers/gpu/drm/Kconfig.debug
-index fa6ee76f4d3c..05dc43c0b8c5 100644
---- a/drivers/gpu/drm/Kconfig.debug
-+++ b/drivers/gpu/drm/Kconfig.debug
-@@ -70,6 +70,7 @@ config DRM_KUNIT_TEST
- 	select DRM_GEM_SHMEM_HELPER
- 	select DRM_KUNIT_TEST_HELPERS
- 	select DRM_LIB_RANDOM
-+	select DRM_SYSFB_HELPER
- 	select PRIME_NUMBERS
- 	default KUNIT_ALL_TESTS
- 	help
-diff --git a/drivers/gpu/drm/drm_format_helper.c b/drivers/gpu/drm/drm_format_helper.c
-index 63dc46f9fc49..99d9f7bbc261 100644
---- a/drivers/gpu/drm/drm_format_helper.c
-+++ b/drivers/gpu/drm/drm_format_helper.c
-@@ -1339,141 +1339,3 @@ void drm_fb_xrgb8888_to_mono(struct iosys_map *dst, const unsigned int *dst_pitc
- 	}
- }
- EXPORT_SYMBOL(drm_fb_xrgb8888_to_mono);
--
--static uint32_t drm_fb_nonalpha_fourcc(uint32_t fourcc)
--{
--	/* only handle formats with depth != 0 and alpha channel */
--	switch (fourcc) {
--	case DRM_FORMAT_ARGB1555:
--		return DRM_FORMAT_XRGB1555;
--	case DRM_FORMAT_ABGR1555:
--		return DRM_FORMAT_XBGR1555;
--	case DRM_FORMAT_RGBA5551:
--		return DRM_FORMAT_RGBX5551;
--	case DRM_FORMAT_BGRA5551:
--		return DRM_FORMAT_BGRX5551;
--	case DRM_FORMAT_ARGB8888:
--		return DRM_FORMAT_XRGB8888;
--	case DRM_FORMAT_ABGR8888:
--		return DRM_FORMAT_XBGR8888;
--	case DRM_FORMAT_RGBA8888:
--		return DRM_FORMAT_RGBX8888;
--	case DRM_FORMAT_BGRA8888:
--		return DRM_FORMAT_BGRX8888;
--	case DRM_FORMAT_ARGB2101010:
--		return DRM_FORMAT_XRGB2101010;
--	case DRM_FORMAT_ABGR2101010:
--		return DRM_FORMAT_XBGR2101010;
--	case DRM_FORMAT_RGBA1010102:
--		return DRM_FORMAT_RGBX1010102;
--	case DRM_FORMAT_BGRA1010102:
--		return DRM_FORMAT_BGRX1010102;
--	}
--
--	return fourcc;
--}
--
--static bool is_listed_fourcc(const uint32_t *fourccs, size_t nfourccs, uint32_t fourcc)
--{
--	const uint32_t *fourccs_end = fourccs + nfourccs;
--
--	while (fourccs < fourccs_end) {
--		if (*fourccs == fourcc)
--			return true;
--		++fourccs;
--	}
--	return false;
--}
--
--/**
-- * drm_fb_build_fourcc_list - Filters a list of supported color formats against
-- *                            the device's native formats
-- * @dev: DRM device
-- * @native_fourccs: 4CC codes of natively supported color formats
-- * @native_nfourccs: The number of entries in @native_fourccs
-- * @fourccs_out: Returns 4CC codes of supported color formats
-- * @nfourccs_out: The number of available entries in @fourccs_out
-- *
-- * This function create a list of supported color format from natively
-- * supported formats and additional emulated formats.
-- * At a minimum, most userspace programs expect at least support for
-- * XRGB8888 on the primary plane. Devices that have to emulate the
-- * format, and possibly others, can use drm_fb_build_fourcc_list() to
-- * create a list of supported color formats. The returned list can
-- * be handed over to drm_universal_plane_init() et al. Native formats
-- * will go before emulated formats. Native formats with alpha channel
-- * will be replaced by such without, as primary planes usually don't
-- * support alpha. Other heuristics might be applied
-- * to optimize the order. Formats near the beginning of the list are
-- * usually preferred over formats near the end of the list.
-- *
-- * Returns:
-- * The number of color-formats 4CC codes returned in @fourccs_out.
-- */
--size_t drm_fb_build_fourcc_list(struct drm_device *dev,
--				const u32 *native_fourccs, size_t native_nfourccs,
--				u32 *fourccs_out, size_t nfourccs_out)
--{
--	/*
--	 * XRGB8888 is the default fallback format for most of userspace
--	 * and it's currently the only format that should be emulated for
--	 * the primary plane. Only if there's ever another default fallback,
--	 * it should be added here.
--	 */
--	static const uint32_t extra_fourccs[] = {
--		DRM_FORMAT_XRGB8888,
--	};
--	static const size_t extra_nfourccs = ARRAY_SIZE(extra_fourccs);
--
--	u32 *fourccs = fourccs_out;
--	const u32 *fourccs_end = fourccs_out + nfourccs_out;
--	size_t i;
--
--	/*
--	 * The device's native formats go first.
--	 */
--
--	for (i = 0; i < native_nfourccs; ++i) {
--		/*
--		 * Several DTs, boot loaders and firmware report native
--		 * alpha formats that are non-alpha formats instead. So
--		 * replace alpha formats by non-alpha formats.
--		 */
--		u32 fourcc = drm_fb_nonalpha_fourcc(native_fourccs[i]);
--
--		if (is_listed_fourcc(fourccs_out, fourccs - fourccs_out, fourcc)) {
--			continue; /* skip duplicate entries */
--		} else if (fourccs == fourccs_end) {
--			drm_warn(dev, "Ignoring native format %p4cc\n", &fourcc);
--			continue; /* end of available output buffer */
--		}
--
--		drm_dbg_kms(dev, "adding native format %p4cc\n", &fourcc);
--
--		*fourccs = fourcc;
--		++fourccs;
--	}
--
--	/*
--	 * The extra formats, emulated by the driver, go second.
--	 */
--
--	for (i = 0; (i < extra_nfourccs) && (fourccs < fourccs_end); ++i) {
--		u32 fourcc = extra_fourccs[i];
--
--		if (is_listed_fourcc(fourccs_out, fourccs - fourccs_out, fourcc)) {
--			continue; /* skip duplicate and native entries */
--		} else if (fourccs == fourccs_end) {
--			drm_warn(dev, "Ignoring emulated format %p4cc\n", &fourcc);
--			continue; /* end of available output buffer */
--		}
--
--		drm_dbg_kms(dev, "adding emulated format %p4cc\n", &fourcc);
--
--		*fourccs = fourcc;
--		++fourccs;
--	}
--
--	return fourccs - fourccs_out;
--}
--EXPORT_SYMBOL(drm_fb_build_fourcc_list);
-diff --git a/drivers/gpu/drm/sysfb/drm_sysfb_helper.h b/drivers/gpu/drm/sysfb/drm_sysfb_helper.h
-index cb08a88242cc..1424b63dde99 100644
---- a/drivers/gpu/drm/sysfb/drm_sysfb_helper.h
-+++ b/drivers/gpu/drm/sysfb/drm_sysfb_helper.h
-@@ -93,6 +93,10 @@ static inline struct drm_sysfb_device *to_drm_sysfb_device(struct drm_device *de
-  * Plane
-  */
- 
-+size_t drm_sysfb_build_fourcc_list(struct drm_device *dev,
-+				   const u32 *native_fourccs, size_t native_nfourccs,
-+				   u32 *fourccs_out, size_t nfourccs_out);
-+
- int drm_sysfb_plane_helper_atomic_check(struct drm_plane *plane,
- 					struct drm_atomic_state *new_state);
- void drm_sysfb_plane_helper_atomic_update(struct drm_plane *plane,
-diff --git a/drivers/gpu/drm/sysfb/drm_sysfb_modeset.c b/drivers/gpu/drm/sysfb/drm_sysfb_modeset.c
-index ffaa2522ab96..1bcdb5ee8f09 100644
---- a/drivers/gpu/drm/sysfb/drm_sysfb_modeset.c
-+++ b/drivers/gpu/drm/sysfb/drm_sysfb_modeset.c
-@@ -47,6 +47,144 @@ EXPORT_SYMBOL(drm_sysfb_mode);
-  * Plane
-  */
- 
-+static u32 to_nonalpha_fourcc(u32 fourcc)
-+{
-+	/* only handle formats with depth != 0 and alpha channel */
-+	switch (fourcc) {
-+	case DRM_FORMAT_ARGB1555:
-+		return DRM_FORMAT_XRGB1555;
-+	case DRM_FORMAT_ABGR1555:
-+		return DRM_FORMAT_XBGR1555;
-+	case DRM_FORMAT_RGBA5551:
-+		return DRM_FORMAT_RGBX5551;
-+	case DRM_FORMAT_BGRA5551:
-+		return DRM_FORMAT_BGRX5551;
-+	case DRM_FORMAT_ARGB8888:
-+		return DRM_FORMAT_XRGB8888;
-+	case DRM_FORMAT_ABGR8888:
-+		return DRM_FORMAT_XBGR8888;
-+	case DRM_FORMAT_RGBA8888:
-+		return DRM_FORMAT_RGBX8888;
-+	case DRM_FORMAT_BGRA8888:
-+		return DRM_FORMAT_BGRX8888;
-+	case DRM_FORMAT_ARGB2101010:
-+		return DRM_FORMAT_XRGB2101010;
-+	case DRM_FORMAT_ABGR2101010:
-+		return DRM_FORMAT_XBGR2101010;
-+	case DRM_FORMAT_RGBA1010102:
-+		return DRM_FORMAT_RGBX1010102;
-+	case DRM_FORMAT_BGRA1010102:
-+		return DRM_FORMAT_BGRX1010102;
-+	}
-+
-+	return fourcc;
-+}
-+
-+static bool is_listed_fourcc(const u32 *fourccs, size_t nfourccs, u32 fourcc)
-+{
-+	const u32 *fourccs_end = fourccs + nfourccs;
-+
-+	while (fourccs < fourccs_end) {
-+		if (*fourccs == fourcc)
-+			return true;
-+		++fourccs;
-+	}
-+	return false;
-+}
-+
-+/**
-+ * drm_sysfb_build_fourcc_list - Filters a list of supported color formats against
-+ *                               the device's native formats
-+ * @dev: DRM device
-+ * @native_fourccs: 4CC codes of natively supported color formats
-+ * @native_nfourccs: The number of entries in @native_fourccs
-+ * @fourccs_out: Returns 4CC codes of supported color formats
-+ * @nfourccs_out: The number of available entries in @fourccs_out
-+ *
-+ * This function create a list of supported color format from natively
-+ * supported formats and additional emulated formats.
-+ * At a minimum, most userspace programs expect at least support for
-+ * XRGB8888 on the primary plane. Sysfb devices that have to emulate
-+ * the format should use drm_sysfb_build_fourcc_list() to create a list
-+ * of supported color formats. The returned list can be handed over to
-+ * drm_universal_plane_init() et al. Native formats will go before
-+ * emulated formats. Native formats with alpha channel will be replaced
-+ * by equal formats without alpha channel, as primary planes usually
-+ * don't support alpha. Other heuristics might be applied to optimize
-+ * the sorting order. Formats near the beginning of the list are usually
-+ * preferred over formats near the end of the list.
-+ *
-+ * Returns:
-+ * The number of color-formats 4CC codes returned in @fourccs_out.
-+ */
-+size_t drm_sysfb_build_fourcc_list(struct drm_device *dev,
-+				   const u32 *native_fourccs, size_t native_nfourccs,
-+				   u32 *fourccs_out, size_t nfourccs_out)
-+{
-+	/*
-+	 * XRGB8888 is the default fallback format for most of userspace
-+	 * and it's currently the only format that should be emulated for
-+	 * the primary plane. Only if there's ever another default fallback,
-+	 * it should be added here.
-+	 */
-+	static const u32 extra_fourccs[] = {
-+		DRM_FORMAT_XRGB8888,
-+	};
-+	static const size_t extra_nfourccs = ARRAY_SIZE(extra_fourccs);
-+
-+	u32 *fourccs = fourccs_out;
-+	const u32 *fourccs_end = fourccs_out + nfourccs_out;
-+	size_t i;
-+
-+	/*
-+	 * The device's native formats go first.
-+	 */
-+
-+	for (i = 0; i < native_nfourccs; ++i) {
-+		/*
-+		 * Several DTs, boot loaders and firmware report native
-+		 * alpha formats that are non-alpha formats instead. So
-+		 * replace alpha formats by non-alpha formats.
-+		 */
-+		u32 fourcc = to_nonalpha_fourcc(native_fourccs[i]);
-+
-+		if (is_listed_fourcc(fourccs_out, fourccs - fourccs_out, fourcc)) {
-+			continue; /* skip duplicate entries */
-+		} else if (fourccs == fourccs_end) {
-+			drm_warn(dev, "Ignoring native format %p4cc\n", &fourcc);
-+			continue; /* end of available output buffer */
-+		}
-+
-+		drm_dbg_kms(dev, "adding native format %p4cc\n", &fourcc);
-+
-+		*fourccs = fourcc;
-+		++fourccs;
-+	}
-+
-+	/*
-+	 * The extra formats, emulated by the driver, go second.
-+	 */
-+
-+	for (i = 0; (i < extra_nfourccs) && (fourccs < fourccs_end); ++i) {
-+		u32 fourcc = extra_fourccs[i];
-+
-+		if (is_listed_fourcc(fourccs_out, fourccs - fourccs_out, fourcc)) {
-+			continue; /* skip duplicate and native entries */
-+		} else if (fourccs == fourccs_end) {
-+			drm_warn(dev, "Ignoring emulated format %p4cc\n", &fourcc);
-+			continue; /* end of available output buffer */
-+		}
-+
-+		drm_dbg_kms(dev, "adding emulated format %p4cc\n", &fourcc);
-+
-+		*fourccs = fourcc;
-+		++fourccs;
-+	}
-+
-+	return fourccs - fourccs_out;
-+}
-+EXPORT_SYMBOL(drm_sysfb_build_fourcc_list);
-+
- int drm_sysfb_plane_helper_atomic_check(struct drm_plane *plane,
- 					struct drm_atomic_state *new_state)
- {
-diff --git a/drivers/gpu/drm/sysfb/efidrm.c b/drivers/gpu/drm/sysfb/efidrm.c
-index 46912924636a..9562f9dc7835 100644
---- a/drivers/gpu/drm/sysfb/efidrm.c
-+++ b/drivers/gpu/drm/sysfb/efidrm.c
-@@ -271,8 +271,8 @@ static struct efidrm_device *efidrm_device_create(struct drm_driver *drv,
- 
- 	/* Primary plane */
- 
--	nformats = drm_fb_build_fourcc_list(dev, &format->format, 1,
--					    efi->formats, ARRAY_SIZE(efi->formats));
-+	nformats = drm_sysfb_build_fourcc_list(dev, &format->format, 1,
-+					       efi->formats, ARRAY_SIZE(efi->formats));
- 
- 	primary_plane = &efi->primary_plane;
- 	ret = drm_universal_plane_init(dev, primary_plane, 0, &efidrm_primary_plane_funcs,
-diff --git a/drivers/gpu/drm/sysfb/ofdrm.c b/drivers/gpu/drm/sysfb/ofdrm.c
-index c9415f0cb3ed..8d8ab39c5f36 100644
---- a/drivers/gpu/drm/sysfb/ofdrm.c
-+++ b/drivers/gpu/drm/sysfb/ofdrm.c
-@@ -15,7 +15,6 @@
- #include <drm/drm_drv.h>
- #include <drm/drm_edid.h>
- #include <drm/drm_fbdev_shmem.h>
--#include <drm/drm_format_helper.h>
- #include <drm/drm_framebuffer.h>
- #include <drm/drm_gem_atomic_helper.h>
- #include <drm/drm_gem_framebuffer_helper.h>
-@@ -1015,8 +1014,8 @@ static struct ofdrm_device *ofdrm_device_create(struct drm_driver *drv,
- 
- 	/* Primary plane */
- 
--	nformats = drm_fb_build_fourcc_list(dev, &format->format, 1,
--					    odev->formats, ARRAY_SIZE(odev->formats));
-+	nformats = drm_sysfb_build_fourcc_list(dev, &format->format, 1,
-+					       odev->formats, ARRAY_SIZE(odev->formats));
- 
- 	primary_plane = &odev->primary_plane;
- 	ret = drm_universal_plane_init(dev, primary_plane, 0, &ofdrm_primary_plane_funcs,
-diff --git a/drivers/gpu/drm/sysfb/simpledrm.c b/drivers/gpu/drm/sysfb/simpledrm.c
-index a1c3119330de..8530a3ef8a7a 100644
---- a/drivers/gpu/drm/sysfb/simpledrm.c
-+++ b/drivers/gpu/drm/sysfb/simpledrm.c
-@@ -18,7 +18,6 @@
- #include <drm/drm_device.h>
- #include <drm/drm_drv.h>
- #include <drm/drm_fbdev_shmem.h>
--#include <drm/drm_format_helper.h>
- #include <drm/drm_framebuffer.h>
- #include <drm/drm_gem_atomic_helper.h>
- #include <drm/drm_gem_framebuffer_helper.h>
-@@ -765,8 +764,8 @@ static struct simpledrm_device *simpledrm_device_create(struct drm_driver *drv,
- 
- 	/* Primary plane */
- 
--	nformats = drm_fb_build_fourcc_list(dev, &format->format, 1,
--					    sdev->formats, ARRAY_SIZE(sdev->formats));
-+	nformats = drm_sysfb_build_fourcc_list(dev, &format->format, 1,
-+					       sdev->formats, ARRAY_SIZE(sdev->formats));
- 
- 	primary_plane = &sdev->primary_plane;
- 	ret = drm_universal_plane_init(dev, primary_plane, 0, &simpledrm_primary_plane_funcs,
-diff --git a/drivers/gpu/drm/sysfb/vesadrm.c b/drivers/gpu/drm/sysfb/vesadrm.c
-index 7945544ba73e..86e0b88dd51b 100644
---- a/drivers/gpu/drm/sysfb/vesadrm.c
-+++ b/drivers/gpu/drm/sysfb/vesadrm.c
-@@ -402,8 +402,8 @@ static struct vesadrm_device *vesadrm_device_create(struct drm_driver *drv,
- 
- 	/* Primary plane */
- 
--	nformats = drm_fb_build_fourcc_list(dev, &format->format, 1,
--					    vesa->formats, ARRAY_SIZE(vesa->formats));
-+	nformats = drm_sysfb_build_fourcc_list(dev, &format->format, 1,
-+					       vesa->formats, ARRAY_SIZE(vesa->formats));
- 
- 	primary_plane = &vesa->primary_plane;
- 	ret = drm_universal_plane_init(dev, primary_plane, 0, &vesadrm_primary_plane_funcs,
-diff --git a/drivers/gpu/drm/tests/drm_sysfb_modeset_test.c b/drivers/gpu/drm/tests/drm_sysfb_modeset_test.c
-index 5104fb21c6bc..e875d876118f 100644
---- a/drivers/gpu/drm/tests/drm_sysfb_modeset_test.c
-+++ b/drivers/gpu/drm/tests/drm_sysfb_modeset_test.c
-@@ -2,13 +2,14 @@
- 
- #include <kunit/test.h>
- 
--#include <drm/drm_format_helper.h>
- #include <drm/drm_fourcc.h>
- #include <drm/drm_kunit_helpers.h>
- 
-+#include "../sysfb/drm_sysfb_helper.h"
-+
- #define TEST_BUF_SIZE 50
- 
--struct fb_build_fourcc_list_case {
-+struct sysfb_build_fourcc_list_case {
- 	const char *name;
- 	u32 native_fourccs[TEST_BUF_SIZE];
- 	size_t native_fourccs_size;
-@@ -16,7 +17,7 @@ struct fb_build_fourcc_list_case {
- 	size_t expected_fourccs_size;
- };
- 
--static struct fb_build_fourcc_list_case fb_build_fourcc_list_cases[] = {
-+static struct sysfb_build_fourcc_list_case sysfb_build_fourcc_list_cases[] = {
- 	{
- 		.name = "no native formats",
- 		.native_fourccs = { },
-@@ -120,16 +121,17 @@ static struct fb_build_fourcc_list_case fb_build_fourcc_list_cases[] = {
- 	},
- };
- 
--static void fb_build_fourcc_list_case_desc(struct fb_build_fourcc_list_case *t, char *desc)
-+static void sysfb_build_fourcc_list_case_desc(struct sysfb_build_fourcc_list_case *t, char *desc)
- {
- 	strscpy(desc, t->name, KUNIT_PARAM_DESC_SIZE);
- }
- 
--KUNIT_ARRAY_PARAM(fb_build_fourcc_list, fb_build_fourcc_list_cases, fb_build_fourcc_list_case_desc);
-+KUNIT_ARRAY_PARAM(sysfb_build_fourcc_list, sysfb_build_fourcc_list_cases,
-+		  sysfb_build_fourcc_list_case_desc);
- 
--static void drm_test_fb_build_fourcc_list(struct kunit *test)
-+static void drm_test_sysfb_build_fourcc_list(struct kunit *test)
- {
--	const struct fb_build_fourcc_list_case *params = test->param_value;
-+	const struct sysfb_build_fourcc_list_case *params = test->param_value;
- 	u32 fourccs_out[TEST_BUF_SIZE] = {0};
- 	size_t nfourccs_out;
- 	struct drm_device *drm;
-@@ -141,16 +143,16 @@ static void drm_test_fb_build_fourcc_list(struct kunit *test)
- 	drm = __drm_kunit_helper_alloc_drm_device(test, dev, sizeof(*drm), 0, DRIVER_MODESET);
- 	KUNIT_ASSERT_NOT_ERR_OR_NULL(test, drm);
- 
--	nfourccs_out = drm_fb_build_fourcc_list(drm, params->native_fourccs,
--						params->native_fourccs_size,
--						fourccs_out, TEST_BUF_SIZE);
-+	nfourccs_out = drm_sysfb_build_fourcc_list(drm, params->native_fourccs,
-+						   params->native_fourccs_size,
-+						   fourccs_out, TEST_BUF_SIZE);
- 
- 	KUNIT_EXPECT_EQ(test, nfourccs_out, params->expected_fourccs_size);
- 	KUNIT_EXPECT_MEMEQ(test, fourccs_out, params->expected, TEST_BUF_SIZE);
- }
- 
- static struct kunit_case drm_sysfb_modeset_test_cases[] = {
--	KUNIT_CASE_PARAM(drm_test_fb_build_fourcc_list, fb_build_fourcc_list_gen_params),
-+	KUNIT_CASE_PARAM(drm_test_sysfb_build_fourcc_list, sysfb_build_fourcc_list_gen_params),
- 	{}
- };
- 
-diff --git a/include/drm/drm_format_helper.h b/include/drm/drm_format_helper.h
-index 49a2e09155d1..0d3ee2a1313f 100644
---- a/include/drm/drm_format_helper.h
-+++ b/include/drm/drm_format_helper.h
-@@ -134,8 +134,4 @@ void drm_fb_xrgb8888_to_mono(struct iosys_map *dst, const unsigned int *dst_pitc
- 			     const struct iosys_map *src, const struct drm_framebuffer *fb,
- 			     const struct drm_rect *clip, struct drm_format_conv_state *state);
- 
--size_t drm_fb_build_fourcc_list(struct drm_device *dev,
--				const u32 *native_fourccs, size_t native_nfourccs,
--				u32 *fourccs_out, size_t nfourccs_out);
--
- #endif /* __LINUX_DRM_FORMAT_HELPER_H */
--- 
-2.49.0
+@Sima any objections to this? Or can you think of a better approach?
+
+Thanks,
+Christian.
+
+> +
+> +	spin_lock(&file_priv->table_lock);
+> +	idr_remove(&file_priv->object_idr, args->handle);
+> +
+> +out_unlock_table:
+> +	spin_unlock(&file_priv->table_lock);
+> +out_unlock_prime:
+> +	mutex_unlock(&file_priv->prime.lock);
+> +
+> +	return ret;
+> +}
+> +
+>  /**
+>   * drm_gem_open_ioctl - implementation of the GEM_OPEN ioctl
+>   * @dev: drm_device
+> diff --git a/drivers/gpu/drm/drm_internal.h b/drivers/gpu/drm/drm_internal.h
+> index b2b6a8e49dda..e9d5cdf7e033 100644
+> --- a/drivers/gpu/drm/drm_internal.h
+> +++ b/drivers/gpu/drm/drm_internal.h
+> @@ -85,6 +85,8 @@ int drm_prime_fd_to_handle_ioctl(struct drm_device *dev, void *data,
+>  
+>  void drm_prime_init_file_private(struct drm_prime_file_private *prime_fpriv);
+>  void drm_prime_destroy_file_private(struct drm_prime_file_private *prime_fpriv);
+> +int drm_prime_add_buf_handle(struct drm_prime_file_private *prime_fpriv,
+> +			     struct dma_buf *dma_buf, uint32_t handle);
+>  void drm_prime_remove_buf_handle(struct drm_prime_file_private *prime_fpriv,
+>  				 uint32_t handle);
+>  
+> @@ -168,6 +170,8 @@ int drm_gem_close_ioctl(struct drm_device *dev, void *data,
+>  			struct drm_file *file_priv);
+>  int drm_gem_flink_ioctl(struct drm_device *dev, void *data,
+>  			struct drm_file *file_priv);
+> +int drm_gem_change_handle_ioctl(struct drm_device *dev, void *data,
+> +				struct drm_file *file_priv);
+>  int drm_gem_open_ioctl(struct drm_device *dev, void *data,
+>  		       struct drm_file *file_priv);
+>  void drm_gem_open(struct drm_device *dev, struct drm_file *file_private);
+> diff --git a/drivers/gpu/drm/drm_ioctl.c b/drivers/gpu/drm/drm_ioctl.c
+> index f593dc569d31..d8a24875a7ba 100644
+> --- a/drivers/gpu/drm/drm_ioctl.c
+> +++ b/drivers/gpu/drm/drm_ioctl.c
+> @@ -653,6 +653,7 @@ static const struct drm_ioctl_desc drm_ioctls[] = {
+>  	DRM_IOCTL_DEF(DRM_IOCTL_GEM_CLOSE, drm_gem_close_ioctl, DRM_RENDER_ALLOW),
+>  	DRM_IOCTL_DEF(DRM_IOCTL_GEM_FLINK, drm_gem_flink_ioctl, DRM_AUTH),
+>  	DRM_IOCTL_DEF(DRM_IOCTL_GEM_OPEN, drm_gem_open_ioctl, DRM_AUTH),
+> +	DRM_IOCTL_DEF(DRM_IOCTL_GEM_CHANGE_HANDLE, drm_gem_change_handle_ioctl, DRM_RENDER_ALLOW),
+>  
+>  	DRM_IOCTL_DEF(DRM_IOCTL_MODE_GETRESOURCES, drm_mode_getresources, 0),
+>  
+> diff --git a/drivers/gpu/drm/drm_prime.c b/drivers/gpu/drm/drm_prime.c
+> index bdb51c8f262e..1f2e858e5000 100644
+> --- a/drivers/gpu/drm/drm_prime.c
+> +++ b/drivers/gpu/drm/drm_prime.c
+> @@ -93,7 +93,7 @@ struct drm_prime_member {
+>  	struct rb_node handle_rb;
+>  };
+>  
+> -static int drm_prime_add_buf_handle(struct drm_prime_file_private *prime_fpriv,
+> +int drm_prime_add_buf_handle(struct drm_prime_file_private *prime_fpriv,
+>  				    struct dma_buf *dma_buf, uint32_t handle)
+>  {
+>  	struct drm_prime_member *member;
+> @@ -190,8 +190,6 @@ void drm_prime_remove_buf_handle(struct drm_prime_file_private *prime_fpriv,
+>  {
+>  	struct rb_node *rb;
+>  
+> -	mutex_lock(&prime_fpriv->lock);
+> -
+>  	rb = prime_fpriv->handles.rb_node;
+>  	while (rb) {
+>  		struct drm_prime_member *member;
+> @@ -210,8 +208,6 @@ void drm_prime_remove_buf_handle(struct drm_prime_file_private *prime_fpriv,
+>  			rb = rb->rb_left;
+>  		}
+>  	}
+> -
+> -	mutex_unlock(&prime_fpriv->lock);
+>  }
+>  
+>  void drm_prime_init_file_private(struct drm_prime_file_private *prime_fpriv)
+> diff --git a/include/uapi/drm/drm.h b/include/uapi/drm/drm.h
+> index 7fba37b94401..84c819c171d2 100644
+> --- a/include/uapi/drm/drm.h
+> +++ b/include/uapi/drm/drm.h
+> @@ -625,6 +625,15 @@ struct drm_gem_open {
+>  	__u64 size;
+>  };
+>  
+> +/* DRM_IOCTL_GEM_CHANGE_HANDLE ioctl argument type */
+> +struct drm_gem_change_handle {
+> +	/** Current handle of object */
+> +	__u32 handle;
+> +
+> +	/** Handle to change that object to */
+> +	__u32 new_handle;
+> +};
+> +
+>  /**
+>   * DRM_CAP_DUMB_BUFFER
+>   *
+> @@ -1305,6 +1314,14 @@ extern "C" {
+>   */
+>  #define DRM_IOCTL_SET_CLIENT_NAME	DRM_IOWR(0xD1, struct drm_set_client_name)
+>  
+> +/**
+> + * DRM_IOCTL_GEM_CHANGE_HANDLE - Move an object to a different handle
+> + *
+> + * Some applications (notably CRIU) need objects to have specific gem handles.
+> + * This ioctl changes the object at one gem handle to use a new gem handle.
+> + */
+> +#define DRM_IOCTL_GEM_CHANGE_HANDLE    DRM_IOWR(0xD2, struct drm_gem_change_handle)
+> +
+>  /*
+>   * Device specific ioctls should only be in their respective headers
+>   * The device specific ioctl range is from 0x40 to 0x9f.
 
