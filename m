@@ -2,126 +2,157 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9C905ADAE8B
-	for <lists+dri-devel@lfdr.de>; Mon, 16 Jun 2025 13:32:30 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2C6D7ADAEC6
+	for <lists+dri-devel@lfdr.de>; Mon, 16 Jun 2025 13:38:29 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 038D510E328;
-	Mon, 16 Jun 2025 11:32:29 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4F06610E339;
+	Mon, 16 Jun 2025 11:38:26 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=qualcomm.com header.i=@qualcomm.com header.b="ltHrVmla";
+	dkim=pass (1024-bit key; unprotected) header.d=amd.com header.i=@amd.com header.b="cz95459N";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com
- [205.220.168.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9955710E328
- for <dri-devel@lists.freedesktop.org>; Mon, 16 Jun 2025 11:32:25 +0000 (UTC)
-Received: from pps.filterd (m0279864.ppops.net [127.0.0.1])
- by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 55G8uLpc028921
- for <dri-devel@lists.freedesktop.org>; Mon, 16 Jun 2025 11:32:25 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
- cc:content-transfer-encoding:content-type:date:from:in-reply-to
- :message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
- VhReFJIFGzRzknyzHaRK8EX3c4dPqPcybLOZHXiPHaI=; b=ltHrVmlaevrDM6Yw
- vDwkUIrqFh5TtWieEbQC1jISg4cA4vqe9qAL8rEjWPgMd+7nKkvyTI2vGQZPHX3J
- Ebht9/fAeja80kT38fIzNMbgJDtuIX1bZlc5fS8bpFIVrj7yjLFc7H9Dz1ONNZyo
- IJVa8Z2UnsW88IoOwiLZzC75BZvj73zwO7CEDs3Hzvb4V5L8EYBJkAC9G4H5REE6
- Ml3yJrduYbLAoLtHQad1xeiwOXzgDbkwTH6trNnrOgeNwdZB3dmMhXClZ4BK6Kem
- CPxBhCKqp9xTdPOFo9LV5GEg6u5nCHYBIp8x9V0Vk/i2TfVoEBQBApoNjyEsDUHA
- a2BqtQ==
-Received: from mail-qk1-f199.google.com (mail-qk1-f199.google.com
- [209.85.222.199])
- by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 47928mc8s9-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
- for <dri-devel@lists.freedesktop.org>; Mon, 16 Jun 2025 11:32:24 +0000 (GMT)
-Received: by mail-qk1-f199.google.com with SMTP id
- af79cd13be357-7d399070cecso938231285a.3
- for <dri-devel@lists.freedesktop.org>; Mon, 16 Jun 2025 04:32:24 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1750073541; x=1750678341;
- h=content-transfer-encoding:in-reply-to:from:content-language
- :references:cc:to:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=VhReFJIFGzRzknyzHaRK8EX3c4dPqPcybLOZHXiPHaI=;
- b=E7+hrsR9UrVReEChuwpwynCq4+PPztlFTxtRy6+Cc75vC4TzGHJPPgfUddcVCnJCdv
- Mc9AjqMAW4ssNOPpUwe60FXz8PsWwUg/UwcequMikXqqmnUYUlUua8kJHWcwuURGs/WM
- NmVRvXYasIYuM4JaAGa7eW/CDw/j5spcuwt8DOcuCa1VD4yiyOIR5X62IJuA4fARmlBq
- YxBSP/vL/ODbbsg/UiXMeNY/J5DaeN1f4SKXRcVmrj2FDrSRkrlCDqQXGD499xaDTJGO
- AJAvt53U1rILU++U2BkonDTHotLVDL4yxfzOPXX2BxHWqEqlV9XRLjLSot2AcA/Lhy3d
- M4Zw==
-X-Forwarded-Encrypted: i=1;
- AJvYcCV7aZVHjUVM8bwHT7hqXAKupqn8HH5UgMnXxsbEZrXjtnl9eflGBm+Zx798EBLqewF6vLvfWSZNq7o=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YwlnKuTzpLg6yU+kPuuZVf4dQL8nxbPQwVTNyHidFq4b3fcCoH4
- qJ59RaGVULncUff9jlwf1bwi3LSCEINXvpTEyNQyUYUsIf9yx2eauDPMfUNG6fXFQ0UrPREavjT
- ZB33gddZKBemTmhz3o2l5FTfQsgdKOh5JQOfxazycaOgkOWCcfCkbj92Fg333VZNzyEJvQPs=
-X-Gm-Gg: ASbGncvA47p2Y7OHtJtKOevfz04CqmhmyVt1geocyxqw64uCls9Dn7OXGE5ofKGKMU9
- g9orr2xSu0klF7TbVxwMTx7T2Z3ETTF8SxqchB571zD58m7k21P8uUL+2nvLgSJyyyuw5vzSCUX
- L6Hkj3sKTagB6JpLrW1FgiY4qF+k5zrpUvINKvpK43KMszU1ArOzl2wOzAb+PMD/v43BEdqF2Sl
- 1CLVBpHiQqwCYUdUIk44xvt0ZVodovi3H+BtJtyxNvFfDGAV61LcQ/KsEOYDsk5IhVH4T3SrUhk
- VPF2Tw9xTJKtkAT1MGdL19a7k1qpVV6v0RprW+6AFOLj4SvucB1IQ0TFtVudpjIU2Ia/mIUdv3Y
- hze27rPliixNfg6h1TWsaywXzOQBu4Xu6FVS5cDyjWe+L6LtfZOpKCAEShMaxxt0Xr0rZ2ipvMY
- g=
-X-Received: by 2002:a05:6214:3d9c:b0:6fb:3e3e:89da with SMTP id
- 6a1803df08f44-6fb4776e0e4mr143194836d6.25.1750073540801; 
- Mon, 16 Jun 2025 04:32:20 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IGwjE7NgqGQJ5dlBHGyGS3GLtFKWMEQiXrYgTad8WhvvEtddvjIxuizLej1JtENs1oh6vFd5Q==
-X-Received: by 2002:a05:6214:3d9c:b0:6fb:3e3e:89da with SMTP id
- 6a1803df08f44-6fb4776e0e4mr143194396d6.25.1750073540332; 
- Mon, 16 Jun 2025 04:32:20 -0700 (PDT)
-Received: from ?IPV6:2001:14bb:a4:c3fb:c59f:e024:c669:a69b?
- (2001-14bb-a4-c3fb-c59f-e024-c669-a69b.rev.dnainternet.fi.
- [2001:14bb:a4:c3fb:c59f:e024:c669:a69b])
- by smtp.gmail.com with ESMTPSA id
- 2adb3069b0e04-553ac1c1195sm1509064e87.141.2025.06.16.04.32.18
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 16 Jun 2025 04:32:19 -0700 (PDT)
-Message-ID: <cdf0accd-82dd-49e5-a8e5-1b4865e97356@oss.qualcomm.com>
-Date: Mon, 16 Jun 2025 14:32:17 +0300
-MIME-Version: 1.0
+Received: from NAM12-MW2-obe.outbound.protection.outlook.com
+ (mail-mw2nam12on2047.outbound.protection.outlook.com [40.107.244.47])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 41B6710E339
+ for <dri-devel@lists.freedesktop.org>; Mon, 16 Jun 2025 11:38:24 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=TuYUBXvrvn/XilmIe8NYkD+JQJPghsBgdPvhu/SFtvSIu+2DQM81+soYrPWwbiAv1n+tMLrA+k6toWBYdxbJWXJTs2/EdPyMUt60nKl5pSZ18Omjy2oXWBNHFIfeOGz5QH0a/LdNJxRxvphJs57iKUL+LnS2hR4PdLJcEVelBzTZ3B/i47NpCTv/UlkkQTGB0oBSK2Tn4O5zNe7fVU4Jk957VMr0BVHWyjs7URjseK+qntpQImkLhQiMLxU/UueQIjdTGKNogZJN+IGktsdhB5HtC67955TDOQqYfn6MjjXmEbo0F1+3KG0xLhsn4h2QIxHteQglx2KWX03j192WEg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=cj4AV9CoXsCdpVWG8I6um3WVGz02a3znAIUbnFHNbkc=;
+ b=cDIg2nWQzaYOY1DhpsXdlRQsx0WICUu01Bo7jHLMvur7m3TCpCxOxq9R5EGntIWrvWajunRkAbA3g+hNNIgvDUsT/jordkXc2pPTQnq6h8PJl4ChVw36yRVlHHPNMa8eAFUBHbF9Yvz1kbA2Vb7Fxhfv9AX+71BflYgjBArxJpBFjFXTxk4HrjatbQqu/F+2/Nm6PBvZqlncifTr+m6yXzP0JS8FXrNenyS9j77l63vmlit50zGKFFvfAqN8JeHG57xRojVJrluGNX5qcGOTgUkF4AUFVNnnfeFHtoCPV/yW1LUuQ5DcPXyFF3jxJm1Kck1jE2K7T542fMk1DtKkHw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
+ header.d=amd.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=cj4AV9CoXsCdpVWG8I6um3WVGz02a3znAIUbnFHNbkc=;
+ b=cz95459N3rOI4dQk0UDF7njORee1tAzLZzPzfBDXsnUidx0j8zCeqQRQRY5jqfWcrFJZK7HJJrDE+4XSM4gUk4MqBMyNAg3y+3nW7KgIHKURp1nDMT3N/gMc27NM/euhAZAE6fxPvBSoykXzgfWmQ0WCPG7eZjzcH5gzPc9ClVc=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=amd.com;
+Received: from PH7PR12MB5685.namprd12.prod.outlook.com (2603:10b6:510:13c::22)
+ by DS0PR12MB9446.namprd12.prod.outlook.com (2603:10b6:8:192::16) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8835.28; Mon, 16 Jun
+ 2025 11:38:22 +0000
+Received: from PH7PR12MB5685.namprd12.prod.outlook.com
+ ([fe80::46fb:96f2:7667:7ca5]) by PH7PR12MB5685.namprd12.prod.outlook.com
+ ([fe80::46fb:96f2:7667:7ca5%7]) with mapi id 15.20.8722.031; Mon, 16 Jun 2025
+ 11:38:22 +0000
+Message-ID: <28ef7ee3-0f02-4609-bb56-926cda563d60@amd.com>
+Date: Mon, 16 Jun 2025 13:38:17 +0200
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 2/3] misc: fastrpc: add support for gpdsp remoteproc
-To: Ling Xu <quic_lxu5@quicinc.com>,
- Srinivas Kandagatla <srinivas.kandagatla@linaro.org>,
- andersson@kernel.org, konradybcio@kernel.org, robh@kernel.org,
- krzk+dt@kernel.org, conor+dt@kernel.org, amahesh@qti.qualcomm.com,
- arnd@arndb.de, gregkh@linuxfoundation.org
-Cc: quic_kuiw@quicinc.com, quic_ekangupt@quicinc.com,
- linux-arm-msm@vger.kernel.org, devicetree@vger.kernel.org,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org
-References: <20250320091446.3647918-1-quic_lxu5@quicinc.com>
- <20250320091446.3647918-3-quic_lxu5@quicinc.com>
- <30bba296-8e6f-41ee-880e-2d5ecc8fe5a4@linaro.org>
- <e2a8528b-fa18-471f-9cb8-da64bb488f2a@quicinc.com>
- <07bfc5f3-1bcb-4018-bd63-8317ec6dac48@linaro.org>
- <5f70a482-6e61-4817-afdb-d5db4747897a@quicinc.com>
+Subject: Re: [PATCH] drm/prime: fix drm_prime_add_buf_handle
+To: Simona Vetter <simona.vetter@ffwll.ch>
+Cc: jani.saarinen@intel.com, jani.nikula@linux.intel.com,
+ tursulin@ursulin.net, tzimmermann@suse.de, dri-devel@lists.freedesktop.org
+References: <20250613131201.2141-1-christian.koenig@amd.com>
+ <20250613131201.2141-2-christian.koenig@amd.com>
+ <aEwv_sV3V6p8dmkP@phenom.ffwll.local>
+ <238ce166-2dd5-4599-865b-1c263f01a465@amd.com>
+ <aEw3IRn565keDO6B@phenom.ffwll.local>
+ <26705733-0c24-4f3b-a6ce-d5f2fd8c935d@amd.com>
+ <aE_0PLfh3h2IeTun@phenom.ffwll.local>
 Content-Language: en-US
-From: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
-In-Reply-To: <5f70a482-6e61-4817-afdb-d5db4747897a@quicinc.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwNjE2MDA3MSBTYWx0ZWRfX3G6AEXbaCYtM
- 2qgl4lImn3UjNdNpIqz0IxobFLDWo+bq2YVgE4UKd7yElsbaafRrnEz/Eo3wLUql9dgYjg9BEub
- hC19AITvQrOjMB+C8X+GfhBRq69fuAZOFOIuP+DThlFQpl0s2OWH4DLXUVQrwEEwZO17O+eoPyS
- 79arliOC9fBdA7WTlLec2zfdZI1MCq81jvGHhwguzQEXE7QhB8h/vCFo0cvpuGdLXca6KYxf+n4
- krdskJaqIKdnxNsjnWZlY/5teI4EFR1qfX9y9DI3JDjW4zeJv0rTDIPSjO9a0kvDGAZzWhA54r9
- 4/yHEcLPCEezC+nwLrJ0qlHzKV+BCJUiOOwePCSb8AO/++YANmG+QFlQwitSpYdL9k0fSi2zZdS
- fGPTYRRKXSbMl1w7SaH7Gq79tg/Bz3PS5OR3SgyrbxlYrAEvAzfWsQM7JPJfX15f6T/lmmf1
-X-Authority-Analysis: v=2.4 cv=fvbcZE4f c=1 sm=1 tr=0 ts=685000c8 cx=c_pps
- a=HLyN3IcIa5EE8TELMZ618Q==:117 a=xqWC_Br6kY4A:10 a=IkcTkHD0fZMA:10
- a=6IFa9wvqVegA:10 a=NEAV23lmAAAA:8 a=EUspDBNiAAAA:8 a=COk6AnOGAAAA:8
- a=KKAkSRfTAAAA:8 a=iV2O8m49h_L4xXlhIwoA:9 a=3ZKOabzyN94A:10 a=QEXdDO2ut3YA:10
- a=bTQJ7kPSJx9SKPbeHEYW:22 a=TjNXssC_j7lpFel5tvFf:22 a=cvBusfyB2V15izCimMoJ:22
-X-Proofpoint-GUID: HnAQsJaYJxsBpWOKNIPOZCncj2ShSvVQ
-X-Proofpoint-ORIG-GUID: HnAQsJaYJxsBpWOKNIPOZCncj2ShSvVQ
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1099,Hydra:6.0.736,FMLib:17.12.80.40
- definitions=2025-06-16_05,2025-06-13_01,2025-03-28_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- malwarescore=0 lowpriorityscore=0 bulkscore=0 priorityscore=1501
- mlxlogscore=999 phishscore=0 clxscore=1015 mlxscore=0 impostorscore=0
- adultscore=0 spamscore=0 suspectscore=0 classifier=spam authscore=0
- authtc=n/a authcc= route=outbound adjust=0 reason=mlx scancount=1
- engine=8.19.0-2505280000 definitions=main-2506160071
+From: =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
+In-Reply-To: <aE_0PLfh3h2IeTun@phenom.ffwll.local>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: FR2P281CA0044.DEUP281.PROD.OUTLOOK.COM
+ (2603:10a6:d10:92::18) To PH7PR12MB5685.namprd12.prod.outlook.com
+ (2603:10b6:510:13c::22)
+MIME-Version: 1.0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: PH7PR12MB5685:EE_|DS0PR12MB9446:EE_
+X-MS-Office365-Filtering-Correlation-Id: 50a186b9-e7d4-436e-319b-08ddacca4c16
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;ARA:13230040|1800799024|376014|366016;
+X-Microsoft-Antispam-Message-Info: =?utf-8?B?RVhBbkJtNjdYVDBYVmdwdzVwcUgyT2l3YU9vaHQwMXhBSi9vZmJlSTB1NGYz?=
+ =?utf-8?B?NnozRlNFb2NieG1pdllwWGRkamMzcGszTjJScnpxblhOL1VvSVZRbmwxOFNm?=
+ =?utf-8?B?Wi9FQnZ4cXhSN1YzTHhXTm1LSWNUNXNpS0NJdjBDZGF3RWxWOTlTU09rY29D?=
+ =?utf-8?B?K1JvN09FYXAyWTQydWp1Y0ZrdVZHOTBaNTMvVlBDZis4bTFFUHNXbTVraTNS?=
+ =?utf-8?B?L1lRSjF2alBPVjZQNzVoWmsvMzZNVHg0cVZka1BvemxhZ3RSSzF6OUlza1hI?=
+ =?utf-8?B?KzRrWjZmaFN0aEhUaGJCTHo4eHpsUWo3dmd4MjdnazA4MmxOU3kxc3Y2Uldv?=
+ =?utf-8?B?ZlFrTTU1RG9oaUN5eGlISnc0ZWdwVW9UMFkrelY3MmZPSkZ5c1JGZzV0TE9I?=
+ =?utf-8?B?Q2NGRXJ1eDVlTjA0UDRodnFTQjRjQ0pqZHlwRFI5dW5BYk1NQUIzMFFVQVFX?=
+ =?utf-8?B?cHdrR245cGkrL05VTVFFejNWYzlDckE3TVBSVUZKT2dOYVFrcmxkdnQwTkU0?=
+ =?utf-8?B?cnkyekxVZitLOHVBdFQ5LzNwUkZiWlhKOVRsVmtCUkNDZ1JOWCtxMTV0ZlNm?=
+ =?utf-8?B?b01ENmpUREVCa3VuZTJOclNFTkRPWkxvaGxWamZJNkJlRHc0eUN5VWhvTVZE?=
+ =?utf-8?B?TnJza0Flc29WdEFpbEkwU1ArUTBrVHB2VEJPcXpwR3FsTUp4WDF5RlViVnFO?=
+ =?utf-8?B?MkhDRCtGMjk5VVg3QktlRDNRRUdLb3NNVE5kRkdkWHhQa2k3blJQa1dhYnVC?=
+ =?utf-8?B?YVBNbW5iSU0wclRjZDJHZWxCN1BDWXFtb3ZhVzJ5NlkxcWxXdExrYjBmMDR2?=
+ =?utf-8?B?Z0pvM1ZGZUN1aEdGTDB3UTE4OGpTVndsREdrOVBMb1hNVVgyclpMcWRlSXd3?=
+ =?utf-8?B?UzBBU1FWeFVoSy9nU2ZzK3VSQ04wNC82U3pVZThkcEhrcUN1VVhieEswZWlh?=
+ =?utf-8?B?SWlSYXRzbmZmNjR6Q3Q5Yis1ZTVETG5NK1RzNE5ObkRhaHdkMmFpeGRiKzNJ?=
+ =?utf-8?B?Z1I4aS9Rck9PcU10N1pjTnVaVEE1M1puWGZOK2RXUHdXRHViUnlKOU5WUmda?=
+ =?utf-8?B?aitWVjVZaWhCR3ZjaUo2QWxMK1hQd2hqWU5RUFByLzdXV3NQR2VsT3YwRVZt?=
+ =?utf-8?B?V2s0T1U1R1pNc20xUTZnNmNkTEt4L0NoSGdHUjNVQlRVQ2hCSlRKYjZhbDd3?=
+ =?utf-8?B?M2tObDRpaUppSGVYZllEZW9ZQ3JPclpISFJLZXpJQUNSWSs1U3h5RVNDeWd0?=
+ =?utf-8?B?L2RjZk1UbUZYNExscHFxei9SMXd4d1pzUmRXTGYrRUtZMDVpRGgwSFRhQnl2?=
+ =?utf-8?B?V3RRaGR5anozbndJUEw0dnlnaEZQUzJwU3JHdmgxK1BlUlBlQXBYQ21XbjJE?=
+ =?utf-8?B?TEoyZmpYWUlPV1FqRGV2OTJkeDBjOHpRYkJjMkRrUUFyY3V3czhwQUhNOXY2?=
+ =?utf-8?B?dG9zczZpUjliVWUzUHdPREhCNlBHMXMxemp3Rm1pN0xTL2FXeWFIMU15d21u?=
+ =?utf-8?B?K2M5RmNjSG5IMG1SUUlkbG5CNlJ3QmNMbjQzL295RnhaNXI0R3pOUk9YRERE?=
+ =?utf-8?B?MXVTUTJPcFRsQS9tVUxUZmY5VnFucmdvTzQrMW1mbUZ0SXlZNFltaDdjR2dm?=
+ =?utf-8?B?Y0hQcEF3R001NUxVTElCaUUwRXZ5NXFZaDJkK3dlVzNkOXRpdDFEelZKTldO?=
+ =?utf-8?B?cHgxVExyU0FYeE5uMTYwbDk5SnJ6S1JzcEk5VWdmOUdSQjNkcUp3bkVjV1JW?=
+ =?utf-8?B?V3lNM1Rid0FUQk8rREdISUpsc2w1ZERydFZPZGJiVnROZ1pTUUxBK28zVW1q?=
+ =?utf-8?B?ZGpjM2tBRDNhSy9tMHFJY2JFb2UyN3pYS3hTVFBqeVZsSElTQ2Y1d3FSQ2JB?=
+ =?utf-8?B?Tk1nSy8vUm1IRUxhYk05aGFzVkVoRnc5MEI1UFZkaEtnNjhoQnZWNU9TRjV4?=
+ =?utf-8?Q?Sg2Ccnee44k=3D?=
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:PH7PR12MB5685.namprd12.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230040)(1800799024)(376014)(366016); DIR:OUT; SFP:1101; 
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?M3pia29RV0Z1VXdQUEQvbkVRK2JMbXRNZTVmZ3VrYVhyNjM0Yzc1ZlFiTlZi?=
+ =?utf-8?B?eHgzZDhMVWdheGxMRmNGTW5US1FpbG1PNzN5RFpldXpBazd5MDI1Q0xnekM3?=
+ =?utf-8?B?eTlaUXZ0UU1Xemg5SVpPOVRFTXRjM2hmWG4rVjVXVUR6Q0RESVFzbmZ0SG1o?=
+ =?utf-8?B?a0EzWFZ2S1FuUmp4aGNQNEdwb3psRXVSSU9jS2dqT25GcHJJMFRHMjkrNzFD?=
+ =?utf-8?B?ZGh1dVFwaEE5VGxFbTBLK3NBTTVNbHpPVm0wcnBYcmR2d01KUHpmTGJDalp3?=
+ =?utf-8?B?TlFRTlBRUW41aVNxRWxUWnF3K2hiWklWV3loRlAySkNKUGtnR1Q2Ry9Wc2ZM?=
+ =?utf-8?B?SE9GN0FmelIvNDNPVkIrdEdDL0JCZlNBbW14bENSdXZ4TlRzT1YvRFF3OHNX?=
+ =?utf-8?B?Yy8xOUN4MHNXSk03YTgxVnFDYXVWRzNWMVZkK2FFYkx4SFNrZGtOaWlkVExF?=
+ =?utf-8?B?N2dJQW5IcjJiRXNKQlA0a3lmY05LdXEyeXhtOXE4T1ZSWkdJaDcxa2pXVkhH?=
+ =?utf-8?B?M2ZhY2tPbit2VUtudE9mNnZNZzVOTjNROVdBaDFKalBwckswUUJ0ZWxRcGVL?=
+ =?utf-8?B?NUpRS3ZQUXhTdFNiRUpBeWJ5NzF3dXJBcHdpcU1ROXd1a3VreE1uV0k0K2t4?=
+ =?utf-8?B?dWxsQk93emo0UlRrSVlTYk5ldHp5RXdMdmdnK1A1ZmliczRwbFVRRm5nQVNT?=
+ =?utf-8?B?bmZoUm51Q3JSdHIyRitGbk82aS9zYVhkb0tmd3R6aGJmV2RibDhJU2RCTmNz?=
+ =?utf-8?B?MGx0d1d3K29USWhaNmdqZnZNYWoyTG9DNXhwTHBhMHN0dE85aG81cXkyTldV?=
+ =?utf-8?B?MDNCK2JMUFNlMjgzam1COEU5eUhsNlF3M0g5RlRQVHExbkZHR2R2dFpNalZE?=
+ =?utf-8?B?Nzl2eVRYa2pIYVZsbWpLVi9BWnlON2dSVHQvMnlXcmx0YlNKc3pDeENtelhR?=
+ =?utf-8?B?UTJDbVE5TisrZTJweFVEWW0yUkpPZzB6T1RaL084ZDEwME1CUFd0ZTB6SUY0?=
+ =?utf-8?B?TURMS2tEK3lON2lxTlB0TlIwS1N3QllCaWhqQU9tVzl2bDRvdVZ4YlYxbG5i?=
+ =?utf-8?B?RHRmTjJmVU5QUE5NdHl1RmJFSVd5aTA4QlRJcVhDN0N5OEtNZG4wOWswWlBG?=
+ =?utf-8?B?ZzFNeHZBbkErUXJDRXIraEZ1ejN1cTczbXhlTWJJVHh6emxFQVBWVkdFd210?=
+ =?utf-8?B?bzhHckxVYVhDMWtvNmkyOUpHR2hSTjhLK2xaUDJpQkZoZFcrbVV5V0ppVFBQ?=
+ =?utf-8?B?eVR3V0pYaUt6eFlBeG9SQ1ZqWFBDeTJuZWs4OEdhNkR0c0xKT0xCaldMYU5s?=
+ =?utf-8?B?QnFmcHBmcUpKUUJTUWhIV29uR09QU1VyMC9KUEVYQUkwVHZwbFhOQ28vSkNr?=
+ =?utf-8?B?a09PTEFvOXV2ME1QWnBqK0ZRaWE2Zm5ua1dDTmt4UzBmTzc3aDVGa0pZVUtp?=
+ =?utf-8?B?ZEt3T2g4dUptMkxGZTRwN0d2bWd2OXdKYUNFYmYvRmNhYW1qMlZDNm93M2pO?=
+ =?utf-8?B?a2ZqaURIejYrYlVoeFRodUZNakhTUkpsSnlSQlZKQllWTUNwTVhVRmY2Zllu?=
+ =?utf-8?B?ZEp6OHUvTzBid3BpazRuVVJXam1sbHlNMDhvZU5WY3lod2hlVndGcTRmb0ls?=
+ =?utf-8?B?UWFkVS9UZkM2WFlpOTVIMUMyWGpJRzlTNHVaM3l6WWJVL2Y4NHJhQUFneUtq?=
+ =?utf-8?B?d0d3VWliNER0ME1lc3d1YlFPWU9VOThtUjNsdFU2UGQ1VmFCN0pRSmEyd01B?=
+ =?utf-8?B?RENaZ1BmSXVqOXV4dFdLVUpCZnkyek5RQWViVmFhVSsxZ29vU1AyZEo5RDB5?=
+ =?utf-8?B?a1hGOTRiSktENkdWSUZrM2pWanNPakI1Z0QrMXhnT0Z5UzgwWGtwMzNMVEhl?=
+ =?utf-8?B?dEgxVjhXaS93dXJIZTJ1eXRVSFV6bVFPRGptTjE0bEowa3JtQWVhNUkxRzAv?=
+ =?utf-8?B?K0MrSmlRbmZUbG1rWW5nUkpxcnBxKytFQ3JTd3JQSkVuUGFBS0hOeWZ0Q1pS?=
+ =?utf-8?B?ZkRvNG9WUUsxOEllY3JKbzZpV3lTT1Y5WGtuZGlBbjlDaFpkRXZVbnhLdnp6?=
+ =?utf-8?B?bTY4bFpSL1didkNNVkhZNTc0NVBBTUY2YW42b1pxTXpFRForb1pISU44THZS?=
+ =?utf-8?Q?qyyLkl0+HewaJQHZ8E9Vy62l0?=
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 50a186b9-e7d4-436e-319b-08ddacca4c16
+X-MS-Exchange-CrossTenant-AuthSource: PH7PR12MB5685.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 16 Jun 2025 11:38:21.8494 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: UasGQMcpv/YXQdrIUpQtYq6SnglNPU7687tK6EHXxQ5ELjtuqa6kuXvICZIPV1Dy
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DS0PR12MB9446
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -137,265 +168,68 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 16/06/2025 14:28, Ling Xu wrote:
-> 在 4/8/2025 4:14 PM, Srinivas Kandagatla 写道:
+On 6/16/25 12:38, Simona Vetter wrote:
+>> 6. Now FD2HANDLE is called with 10 and here is what happens:
 >>
+>> 	drm_prime_lookup_buf_by_handle() is called for handle 10, so we
+>> 	don't find anything.
 >>
->> On 07/04/2025 10:13, Ling Xu wrote:
->>> 在 3/21/2025 1:11 AM, Srinivas Kandagatla 写道:
->>>>
->>>>
->>>> On 20/03/2025 09:14, Ling Xu wrote:
->>>>> The fastrpc driver has support for 5 types of remoteprocs. There are
->>>>> some products which support GPDSP remoteprocs. Add changes to support
->>>>> GPDSP remoteprocs.
->>>>>
->>>>> Reviewed-by: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
->>>>> Signed-off-by: Ling Xu <quic_lxu5@quicinc.com>
->>>>> ---
->>>>>     drivers/misc/fastrpc.c | 10 ++++++++--
->>>>>     1 file changed, 8 insertions(+), 2 deletions(-)
->>>>>
->>>>> diff --git a/drivers/misc/fastrpc.c b/drivers/misc/fastrpc.c
->>>>> index 7b7a22c91fe4..80aa554b3042 100644
->>>>> --- a/drivers/misc/fastrpc.c
->>>>> +++ b/drivers/misc/fastrpc.c
->>>>> @@ -28,7 +28,9 @@
->>>>>     #define SDSP_DOMAIN_ID (2)
->>>>>     #define CDSP_DOMAIN_ID (3)
->>>>>     #define CDSP1_DOMAIN_ID (4)
->>>>> -#define FASTRPC_DEV_MAX        5 /* adsp, mdsp, slpi, cdsp, cdsp1 */
->>>>> +#define GDSP0_DOMAIN_ID (5)
->>>>> +#define GDSP1_DOMAIN_ID (6)
->>>>
->>>> We have already made the driver look silly here, Lets not add domain ids for each instance, which is not a scalable.
->>>>
->>>> Domain ids are strictly for a domain not each instance.
->>>>
->>>>
->>>>> +#define FASTRPC_DEV_MAX        7 /* adsp, mdsp, slpi, cdsp, cdsp1, gdsp0, gdsp1 */
->>>>>     #define FASTRPC_MAX_SESSIONS    14
->>>>>     #define FASTRPC_MAX_VMIDS    16
->>>>>     #define FASTRPC_ALIGN        128
->>>>> @@ -107,7 +109,9 @@
->>>>>     #define miscdev_to_fdevice(d) container_of(d, struct fastrpc_device, miscdev)
->>>>>       static const char *domains[FASTRPC_DEV_MAX] = { "adsp", "mdsp",
->>>>> -                        "sdsp", "cdsp", "cdsp1" };
->>>>> +                        "sdsp", "cdsp",
->>>>> +                        "cdsp1", "gdsp0",
->>>>> +                        "gdsp1" };
->>>>>     struct fastrpc_phy_page {
->>>>>         u64 addr;        /* physical address */
->>>>>         u64 size;        /* size of contiguous region */
->>>>> @@ -2338,6 +2342,8 @@ static int fastrpc_rpmsg_probe(struct rpmsg_device *rpdev)
->>>>>             break;
->>>>>         case CDSP_DOMAIN_ID:
->>>>>         case CDSP1_DOMAIN_ID:
->>>>> +    case GDSP0_DOMAIN_ID:
->>>>> +    case GDSP1_DOMAIN_ID:
->>>>>             data->unsigned_support = true;
->>>>>             /* Create both device nodes so that we can allow both Signed and Unsigned PD */
->>>>>             err = fastrpc_device_register(rdev, data, true, domains[domain_id]);
->>>>
->>>>
->>>> Can you try this patch: only compile tested.
->>>>
->>>> ---------------------------------->cut<---------------------------------------
->>>>   From 3f8607557162e16673b26fa253d11cafdc4444cf Mon Sep 17 00:00:00 2001
->>>> From: Srinivas Kandagatla <srinivas.kandagatla@linaro.org>
->>>> Date: Thu, 20 Mar 2025 17:07:05 +0000
->>>> Subject: [PATCH] misc: fastrpc: cleanup the domain names
->>>>
->>>> Currently the domain ids are added for each instance of domain, this is
->>>> totally not scalable approch.
->>>>
->>>> Clean this mess and create domain ids for only domains not its
->>>> instances.
->>>> This patch also moves the domain ids to uapi header as this is required
->>>> for FASTRPC_IOCTL_GET_DSP_INFO ioctl.
->>>>
->>>> Signed-off-by: Srinivas Kandagatla <srinivas.kandagatla@linaro.org>
->>>> ---
->>>>    drivers/misc/fastrpc.c      | 45 ++++++++++++++++++++-----------------
->>>>    include/uapi/misc/fastrpc.h |  7 ++++++
->>>>    2 files changed, 32 insertions(+), 20 deletions(-)
->>>>
->>>> diff --git a/drivers/misc/fastrpc.c b/drivers/misc/fastrpc.c
->>>> index 7b7a22c91fe4..b3932897a437 100644
->>>> --- a/drivers/misc/fastrpc.c
->>>> +++ b/drivers/misc/fastrpc.c
->>>> @@ -23,12 +23,6 @@
->>>>    #include <uapi/misc/fastrpc.h>
->>>>    #include <linux/of_reserved_mem.h>
->>>>
->>>> -#define ADSP_DOMAIN_ID (0)
->>>> -#define MDSP_DOMAIN_ID (1)
->>>> -#define SDSP_DOMAIN_ID (2)
->>>> -#define CDSP_DOMAIN_ID (3)
->>>> -#define CDSP1_DOMAIN_ID (4)
->>>> -#define FASTRPC_DEV_MAX        5 /* adsp, mdsp, slpi, cdsp, cdsp1 */
->>>>    #define FASTRPC_MAX_SESSIONS    14
->>>>    #define FASTRPC_MAX_VMIDS    16
->>>>    #define FASTRPC_ALIGN        128
->>>> @@ -106,8 +100,6 @@
->>>>
->>>>    #define miscdev_to_fdevice(d) container_of(d, struct fastrpc_device, miscdev)
->>>>
->>>> -static const char *domains[FASTRPC_DEV_MAX] = { "adsp", "mdsp",
->>>> -                        "sdsp", "cdsp", "cdsp1" };
->>>>    struct fastrpc_phy_page {
->>>>        u64 addr;        /* physical address */
->>>>        u64 size;        /* size of contiguous region */
->>>> @@ -1769,7 +1761,7 @@ static int fastrpc_get_dsp_info(struct fastrpc_user *fl, char __user *argp)
->>>>            return  -EFAULT;
->>>>
->>>>        cap.capability = 0;
->>>> -    if (cap.domain >= FASTRPC_DEV_MAX) {
->>>> +    if (cap.domain >= FASTRPC_DOMAIN_MAX) {
->>>>            dev_err(&fl->cctx->rpdev->dev, "Error: Invalid domain id:%d, err:%d\n",
->>>>                cap.domain, err);
->>>>            return -ECHRNG;
->>>
->>> I tested this patch and saw one issue.
->>> Here FASTRPC_DOMAIN_MAX is set to 4, but in userspace, cdsp1 is 4, gdsp0 is 5 and gdsp1 is 6.
+>> 	obj->dma_buf is true so we branch into the if and call
+>> 	drm_prime_add_buf_handle() with handle 10.
 >>
+>> Now we have called drm_prime_add_buf_handle() both for handle 8 and
+>> handle 10 and so we have both 8 and 10 for the same DMA-buf in our tree.
+> 
+> So this is the case that broke, and which the various igt prime tests
+> actually had testcases for. Unless I'm completely confused here now.
+> 
+>> So FD2HANDLE could return either 8 or 10 depending on which is looked up
+>> first.
 >>
->> Why is the userspace using something that is not uAPI?
+>> I'm not 100% sure if that has any bad consequences, but I'm pretty sure
+>> that this is not intentional.
 >>
->> Why does it matter if its gdsp0 or gdsp1 for the userspace?
->> It should only matter if its gdsp domain or not.
->>
+>> Should we fix that? If yes than how?
 > 
-> Give an example here:
-> In test example, user can use below API to query the notification capability of the specific domain_id,
-> (actually this will not have any functional issue, but just return an error and lead wrong message):
-> request_status_notifications_enable(domain_id, (void*)STATUS_CONTEXT, pd_status_notifier_callback)
+> I dont think there's an issue, all we guarantee is that if you call
+> FD2HANDLE or HANDLE2FD, then you get something consistent back. From a
+> userspace pov there's two cases:
 > 
-> this will call ioctl_getdspinfo in fastrpc_ioctl.c:
-> https://github.com/quic-lxu5/fastrpc/blob/8feccfd2eb46272ad1fabed195bfddb7fd680cbd/src/fastrpc_ioctl.c#L201
+> 1. We've already seen this buffer, it got handle 8, that's the one we've
+> stored in the lookup caches. If you then do GETFB2 you get handle 10,
+> which could be confusing. So you do
 > 
-> code snip:
-> 	FARF(ALWAYS, "ioctl_getdspinfo in ioctl.c domain:%d", domain);
-> 	ioErr = ioctl(dev, FASTRPC_IOCTL_GET_DSP_INFO, &cap);
-> 	FARF(ALWAYS, "done ioctl_getdspinfo in ioctl.c ioErr:%x", ioErr);
+> 	temp_dmabuf_fd = ioctl(HANDLE2FD, 10);
+> 	new_id = ioctl(FD2HANDLE, temp_dmabuf_fd);
+> 	close(temp_dma_buf_fd);
+> 	ioctl(GEM_CLOSE, 10);
 > 
-> and finally call fastrpc_get_dsp_info in fastrpc.c.
-> 
-> if I use the patch you shared, it will report below error:
-> 
-> UMD log:
-> 2025-01-08T18:45:03.168718+00:00 qcs9100-ride-sx calculator: fastrpc_ioctl.c:201: ioctl_getdspinfo in ioctl.c domain:5
-> 2025-01-08T18:45:03.169307+00:00 qcs9100-ride-sx calculator: log_config.c:396: file_watcher_thread starting for domain 5
-> 2025-01-08T18:45:03.180355+00:00 qcs9100-ride-sx calculator: fastrpc_ioctl.c:203: done ioctl_getdspinfo in ioctl.c ioErr:ffffffff
-> 
-> putty log:
-> [ 1332.308444] qcom,fastrpc 20c00000.remoteproc:glink-edge.fastrpcglink-apps-dsp.-1.-1: Error: Invalid domain id:5, err:0
-> 
-> Because on the user side, gdsp0 and gdsp1 will be distinguished to 5 and 6.
-> so do you mean you want me to modify UMD code to transfer both gdsp0 and gdsp1 to gdsp just in ioctl_getdspinfo?
+> At this point new_id is 8,
 
-No, we need to modify the kernel code to ignore cap.domain here. The 
-user has already open the particular FastRPC device. All queries should 
-be target that device and that domain. As such, cap.domain doesn't make 
-sense and should be ignored by the kernel.
+No, exactly that is not guaranteed.
 
->>
->> --srini
->>
->>
->>> For example, if we run a demo on gdsp0, cap.domain copied from userspace will be 5 which could lead to wrong message.
->>>
->>> --Ling Xu
->>>
->>>> @@ -2255,6 +2247,24 @@ static int fastrpc_device_register(struct device *dev, struct fastrpc_channel_ct
->>>>        return err;
->>>>    }
->>>>
->>>> +static int fastrpc_get_domain_id(const char *domain)
->>>> +{
->>>> +    if (strncmp(domain, "adsp", 4) == 0) {
->>>> +        return ADSP_DOMAIN_ID;
->>>> +    } else    if (strncmp(domain, "cdsp", 4) == 0) {
->>>> +        return CDSP_DOMAIN_ID;
->>>> +    } else if (strncmp(domain, "mdsp", 4) ==0) {
->>>> +        return MDSP_DOMAIN_ID;
->>>> +    } else if (strncmp(domain, "sdsp", 4) ==0) {
->>>> +        return SDSP_DOMAIN_ID;
->>>> +    } else if (strncmp(domain, "gdsp", 4) ==0) {
->>>> +        return GDSP_DOMAIN_ID;
->>>> +    }
->>>> +
->>>> +    return -EINVAL;
->>>> +
->>>> +}
->>>> +
->>>>    static int fastrpc_rpmsg_probe(struct rpmsg_device *rpdev)
->>>>    {
->>>>        struct device *rdev = &rpdev->dev;
->>>> @@ -2272,15 +2282,10 @@ static int fastrpc_rpmsg_probe(struct rpmsg_device *rpdev)
->>>>            return err;
->>>>        }
->>>>
->>>> -    for (i = 0; i < FASTRPC_DEV_MAX; i++) {
->>>> -        if (!strcmp(domains[i], domain)) {
->>>> -            domain_id = i;
->>>> -            break;
->>>> -        }
->>>> -    }
->>>> +    domain_id = fastrpc_get_domain_id(domain);
->>>>
->>>>        if (domain_id < 0) {
->>>> -        dev_info(rdev, "FastRPC Invalid Domain ID %d\n", domain_id);
->>>> +        dev_info(rdev, "FastRPC Domain %s not supported\n", domain);
->>>>            return -EINVAL;
->>>>        }
->>>>
->>>> @@ -2332,19 +2337,19 @@ static int fastrpc_rpmsg_probe(struct rpmsg_device *rpdev)
->>>>        case SDSP_DOMAIN_ID:
->>>>            /* Unsigned PD offloading is only supported on CDSP and CDSP1 */
->>>>            data->unsigned_support = false;
->>>> -        err = fastrpc_device_register(rdev, data, secure_dsp, domains[domain_id]);
->>>> +        err = fastrpc_device_register(rdev, data, secure_dsp, domain);
->>>>            if (err)
->>>>                goto fdev_error;
->>>>            break;
->>>>        case CDSP_DOMAIN_ID:
->>>> -    case CDSP1_DOMAIN_ID:
->>>> +    case GDSP_DOMAIN_ID:
->>>>            data->unsigned_support = true;
->>>>            /* Create both device nodes so that we can allow both Signed and Unsigned PD */
->>>> -        err = fastrpc_device_register(rdev, data, true, domains[domain_id]);
->>>> +        err = fastrpc_device_register(rdev, data, true, domain);
->>>>            if (err)
->>>>                goto fdev_error;
->>>>
->>>> -        err = fastrpc_device_register(rdev, data, false, domains[domain_id]);
->>>> +        err = fastrpc_device_register(rdev, data, false, domain);
->>>>            if (err)
->>>>                goto populate_error;
->>>>            break;
->>>> diff --git a/include/uapi/misc/fastrpc.h b/include/uapi/misc/fastrpc.h
->>>> index f33d914d8f46..89516abd258f 100644
->>>> --- a/include/uapi/misc/fastrpc.h
->>>> +++ b/include/uapi/misc/fastrpc.h
->>>> @@ -133,6 +133,13 @@ struct fastrpc_mem_unmap {
->>>>        __s32 reserved[5];
->>>>    };
->>>>
->>>> +#define ADSP_DOMAIN_ID (0)
->>>> +#define MDSP_DOMAIN_ID (1)
->>>> +#define SDSP_DOMAIN_ID (2)
->>>> +#define CDSP_DOMAIN_ID (3)
->>>> +#define GDSP_DOMAIN_ID (4)
->>>> +
->>>> +#define FASTRPC_DOMAIN_MAX    4
->>>>    struct fastrpc_ioctl_capability {
->>>>        __u32 domain;
->>>>        __u32 attribute_id;
->>>
+The previous call to HANDLE2FD stored 10 into the lookup cache additionally to 8 with the same dma_buf pointer.
+
+And if you now get 8 or 10 as return from FD2HANDLE depends on how the red/black tree is balanced. It can be that 8 comes first or it can be that 10 comes first because the tree is only sorted by dma_buf pointer and that criteria is identical for both 8 and 10.
+
+As far as I can see this case is not correctly handled.
+
+Regards,
+Christian.
+
+ and you already have that in your userspace
+> cache, so all is good.
 > 
-
-
--- 
-With best wishes
-Dmitry
+> 2. Userspace doesn't have the buffer already, but it doesn't know that. It
+> does the exact dance as above, except this time around it gets back the
+> same gem_handle as it got from GETFB2 and knows that it does not have to
+> close that handle (since it's the only one), and that it should add that
+> handle to the userspace-side dma-buf import/export side.
+> 
+> It's a bit a contrived dance, but I don't think we have an issue here.
+> 
+> Cheers, Sima
+> 
+>>
+>> Regards,
+>> Christian.
