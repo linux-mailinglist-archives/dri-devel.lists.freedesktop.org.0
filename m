@@ -2,34 +2,34 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1E567ADB7FC
-	for <lists+dri-devel@lfdr.de>; Mon, 16 Jun 2025 19:50:39 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 80BC7ADB803
+	for <lists+dri-devel@lfdr.de>; Mon, 16 Jun 2025 19:50:44 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1099910E33E;
-	Mon, 16 Jun 2025 17:50:37 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id BF78E10E40F;
+	Mon, 16 Jun 2025 17:50:40 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="hn0Pr24D";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="DaBQxFfG";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from nyc.source.kernel.org (nyc.source.kernel.org [147.75.193.91])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 33EA910E089;
- Mon, 16 Jun 2025 17:50:35 +0000 (UTC)
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 26DA110E089;
+ Mon, 16 Jun 2025 17:50:36 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by nyc.source.kernel.org (Postfix) with ESMTP id 3C9C3A51DC5;
+ by dfw.source.kernel.org (Postfix) with ESMTP id CA9EA5C64B2;
+ Mon, 16 Jun 2025 17:48:18 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 24A97C4CEEA;
  Mon, 16 Jun 2025 17:50:33 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id AD7A5C4CEF1;
- Mon, 16 Jun 2025 17:50:30 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1750096232;
- bh=2ytWF/7SIpfbD7yOzituaGU5LwnAlgIhjJ9QXwC4Y6A=;
+ s=k20201202; t=1750096235;
+ bh=rPAEJ+ASm+g9X6l6YwS5O6Kfw80LTcLKN28gRYQ4fuk=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=hn0Pr24DtnGOUqJ/kmQjhrtwMZuimBo7odY2imHpvrHUDWD0+YWdiFdLmoSRB5n85
- rMysdFVo9391bI5GDklrvjrISytPIPpXuWlX69hS84OqTVvpO61QaOf3Pmx5Fwa4op
- 9VDLDjM/KinP4s2YfTDLLdJjwZO/sjycuB5PFxBSjSswwQkSSz8YBtS6Zur8DZG+re
- OtJvHDe1op5VlPsJJio7hRjE2Zstmkz4eC8z0+EdB1Jh9JC3jotgl5xctqD1UXAuoD
- eRopTbVJIUkVZzCtICxuHT7nqamqxgFIdzpuHewdEXiLlvDIIhguGYlKdne6L66IeW
- BBpg287Ed766w==
+ b=DaBQxFfGVWobzGSUEZXNTgLjBASLT/VCT8mL35g1iKdtPXp8U6q2GWisNZKPO7HcQ
+ eT12IuU80gPlkx6Y1pGb7ABzYIDYgmmxM93S58A3ymYb1G/VmfauE3ZA+1Qy+CdjnO
+ XTo/TORgkfUquUOjOORZli9Zmuwu32HnRR06gxb/TENIL1rSpxigJ1To52Ymc2T9pR
+ BXsAGJb57W+10LuCWKy8hw3EenTa2QQiKavvJhAGz0zHCY30rOAjcZ9RcT82jeCCs5
+ eAjZWhKhRI7EOhV+nV7T6pfiMaWGii64nFETUakZPjuRIVWRr/5EoHnMx2jWdk2vYa
+ vEM8ihboc2Slw==
 From: Mario Limonciello <superm1@kernel.org>
 To: "Rafael J . Wysocki" <rafael@kernel.org>,
  Alex Deucher <alexander.deucher@amd.com>,
@@ -48,11 +48,12 @@ Cc: amd-gfx@lists.freedesktop.org (open list:RADEON and AMDGPU DRM DRIVERS),
  Mario Limonciello <mario.limonciello@amd.com>,
  AceLan Kao <acelan.kao@canonical.com>, Kai-Heng Feng <kaihengf@nvidia.com>,
  Mark Pearson <mpearson-lenovo@squebb.ca>,
- =?UTF-8?q?Merthan=20Karaka=C5=9F?= <m3rthn.k@gmail.com>,
- Denis Benato <benato.denis96@gmail.com>
-Subject: [PATCH v4 1/5] PM: Use hibernate flows for system power off
-Date: Mon, 16 Jun 2025 12:50:15 -0500
-Message-ID: <20250616175019.3471583-2-superm1@kernel.org>
+ Denis Benato <benato.denis96@gmail.com>,
+ =?UTF-8?q?Merthan=20Karaka=C5=9F?= <m3rthn.k@gmail.com>
+Subject: [PATCH v4 2/5] PCI: Put PCIe ports with downstream devices into D3 at
+ hibernate
+Date: Mon, 16 Jun 2025 12:50:16 -0500
+Message-ID: <20250616175019.3471583-3-superm1@kernel.org>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <20250616175019.3471583-1-superm1@kernel.org>
 References: <20250616175019.3471583-1-superm1@kernel.org>
@@ -76,163 +77,179 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 From: Mario Limonciello <mario.limonciello@amd.com>
 
-When the system is powered off the kernel will call device_shutdown()
-which will issue callbacks into PCI core to wake up a device and call
-it's shutdown() callback.  This will leave devices in ACPI D0 which can
-cause some devices to misbehave with spurious wakeups and also leave some
-devices on which will consume power needlessly.
+For the suspend flow PCIe ports that have downstream devices are put into
+the appropriate D3 state when children are not in D0. For the hibernate
+flow, PCIe ports with downstream devices stay in D0 however. This can
+lead to PCIe ports that are remained powered on needlessly during
+hibernate.
 
-The issue won't happen if the device is in D3 before system shutdown, so
-putting device to low power state before shutdown solves the issue.
-
-ACPI Spec 6.5, "7.4.2.5 System \_S4 State" says "Devices states are
-compatible with the current Power Resource states. In other words, all
-devices are in the D3 state when the system state is S4."
-
-The following "7.4.2.6 System \_S5 State (Soft Off)" states "The S5
-state is similar to the S4 state except that OSPM does not save any
-context." so it's safe to assume devices should be at D3 for S5.
-
-To accomplish this, introduce a new PMSG_POWEROFF event that the PM core
-will use. During shutdown the use the new event to call all the device
-hibernate callbacks when the kernel is compiled with hibernate support.
-If compiled without hibernate support or hibernate fails fall back into
-the previous shutdown flow.
+Adjust the pci_pm_poweroff_noirq() to follow the same flow as
+pci_pm_suspend_noirq() in that PCIe ports that are power manageable should
+without downstream devices in D0 should be put into their appropriate
+sleep state.
 
 Cc: AceLan Kao <acelan.kao@canonical.com>
 Cc: Kai-Heng Feng <kaihengf@nvidia.com>
 Cc: Mark Pearson <mpearson-lenovo@squebb.ca>
+Cc: Denis Benato <benato.denis96@gmail.com>
 Cc: Merthan Karakaş <m3rthn.k@gmail.com>
-Tested-by: Denis Benato <benato.denis96@gmail.com>
-Link: https://lore.kernel.org/linux-pci/20231213182656.6165-1-mario.limonciello@amd.com/
-Link: https://lore.kernel.org/linux-pci/20250506041934.1409302-1-superm1@kernel.org/
 Signed-off-by: Mario Limonciello <mario.limonciello@amd.com>
 ---
+v4:
+ * Use helper even when CONFIG_SUSPEND not set (LKP robot)
 v3:
- * Add new PMSG_POWEROFF and PM_EVENT_POWEROFF which alias to poweroff
-   callbacks
- * Don't try to cleanup on dpm_suspend_start() or dpm_suspend_end() failures
-   Jump right into normal shutdown flow instead.
+ * Split out common code between suspend_noirq() and poweroff_noirq()
+   to a helper function
  * https://lore.kernel.org/linux-pm/20250609024619.407257-1-superm1@kernel.org/T/#me6db0fb946e3d604a8f3d455128844ed802c82bb
 ---
- drivers/base/power/main.c    | 7 +++++++
- include/linux/pm.h           | 3 +++
- include/trace/events/power.h | 3 ++-
- kernel/reboot.c              | 6 ++++++
- 4 files changed, 18 insertions(+), 1 deletion(-)
+ drivers/pci/pci-driver.c | 94 ++++++++++++++++++++++++++--------------
+ 1 file changed, 61 insertions(+), 33 deletions(-)
 
-diff --git a/drivers/base/power/main.c b/drivers/base/power/main.c
-index bf77d28e959fd..4970a804afb6d 100644
---- a/drivers/base/power/main.c
-+++ b/drivers/base/power/main.c
-@@ -85,6 +85,8 @@ static const char *pm_verb(int event)
- 		return "restore";
- 	case PM_EVENT_RECOVER:
- 		return "recover";
-+	case PM_EVENT_POWEROFF:
-+		return "poweroff";
- 	default:
- 		return "(unknown PM event)";
+diff --git a/drivers/pci/pci-driver.c b/drivers/pci/pci-driver.c
+index 0d4c67829958b..f7a0c23515718 100644
+--- a/drivers/pci/pci-driver.c
++++ b/drivers/pci/pci-driver.c
+@@ -759,6 +759,56 @@ static void pci_pm_complete(struct device *dev)
+ 
+ #endif /* !CONFIG_PM_SLEEP */
+ 
++#if defined(CONFIG_SUSPEND) || defined(CONFIG_HIBERNATE_CALLBACKS)
++/**
++ * pci_pm_set_prepare_bus_pm
++ * @pci_dev: pci device
++ *
++ * Prepare the device to go into a low power state by saving state
++ * and configure bus PM policy.
++ *
++ * Return: TRUE for bus PM will be used
++ *         FALSE for bus PM will be skipped
++ */
++static bool pci_pm_set_prepare_bus_pm(struct pci_dev *pci_dev)
++{
++	if (!pci_dev->state_saved) {
++		pci_save_state(pci_dev);
++
++		/*
++		 * If the device is a bridge with a child in D0 below it,
++		 * it needs to stay in D0, so check skip_bus_pm to avoid
++		 * putting it into a low-power state in that case.
++		 */
++		if (!pci_dev->skip_bus_pm && pci_power_manageable(pci_dev))
++			pci_prepare_to_sleep(pci_dev);
++	}
++
++	pci_dbg(pci_dev, "PCI PM: Sleep power state: %s\n",
++		pci_power_name(pci_dev->current_state));
++
++	if (pci_dev->current_state == PCI_D0) {
++		pci_dev->skip_bus_pm = true;
++		/*
++		 * Per PCI PM r1.2, table 6-1, a bridge must be in D0 if any
++		 * downstream device is in D0, so avoid changing the power state
++		 * of the parent bridge by setting the skip_bus_pm flag for it.
++		 */
++		if (pci_dev->bus->self)
++			pci_dev->bus->self->skip_bus_pm = true;
++	}
++
++	if (pci_dev->skip_bus_pm && pm_suspend_no_platform()) {
++		pci_dbg(pci_dev, "PCI PM: Skipped\n");
++		return FALSE;
++	}
++
++	pci_pm_set_unknown_state(pci_dev);
++
++	return TRUE;
++}
++#endif /* CONFIG_SUSPEND || CONFIG_HIBERNATE_CALLBACKS */
++
+ #ifdef CONFIG_SUSPEND
+ static void pcie_pme_root_status_cleanup(struct pci_dev *pci_dev)
+ {
+@@ -878,38 +928,8 @@ static int pci_pm_suspend_noirq(struct device *dev)
+ 		}
  	}
-@@ -355,6 +357,7 @@ static pm_callback_t pm_op(const struct dev_pm_ops *ops, pm_message_t state)
- 	case PM_EVENT_FREEZE:
- 	case PM_EVENT_QUIESCE:
- 		return ops->freeze;
-+	case PM_EVENT_POWEROFF:
- 	case PM_EVENT_HIBERNATE:
- 		return ops->poweroff;
- 	case PM_EVENT_THAW:
-@@ -389,6 +392,7 @@ static pm_callback_t pm_late_early_op(const struct dev_pm_ops *ops,
- 	case PM_EVENT_FREEZE:
- 	case PM_EVENT_QUIESCE:
- 		return ops->freeze_late;
-+	case PM_EVENT_POWEROFF:
- 	case PM_EVENT_HIBERNATE:
- 		return ops->poweroff_late;
- 	case PM_EVENT_THAW:
-@@ -423,6 +427,7 @@ static pm_callback_t pm_noirq_op(const struct dev_pm_ops *ops, pm_message_t stat
- 	case PM_EVENT_FREEZE:
- 	case PM_EVENT_QUIESCE:
- 		return ops->freeze_noirq;
-+	case PM_EVENT_POWEROFF:
- 	case PM_EVENT_HIBERNATE:
- 		return ops->poweroff_noirq;
- 	case PM_EVENT_THAW:
-@@ -1297,6 +1302,8 @@ static pm_message_t resume_event(pm_message_t sleep_state)
- 		return PMSG_RECOVER;
- 	case PM_EVENT_HIBERNATE:
- 		return PMSG_RESTORE;
-+	case PM_EVENT_POWEROFF:
-+		return PMSG_ON;
+ 
+-	if (!pci_dev->state_saved) {
+-		pci_save_state(pci_dev);
+-
+-		/*
+-		 * If the device is a bridge with a child in D0 below it,
+-		 * it needs to stay in D0, so check skip_bus_pm to avoid
+-		 * putting it into a low-power state in that case.
+-		 */
+-		if (!pci_dev->skip_bus_pm && pci_power_manageable(pci_dev))
+-			pci_prepare_to_sleep(pci_dev);
+-	}
+-
+-	pci_dbg(pci_dev, "PCI PM: Suspend power state: %s\n",
+-		pci_power_name(pci_dev->current_state));
+-
+-	if (pci_dev->current_state == PCI_D0) {
+-		pci_dev->skip_bus_pm = true;
+-		/*
+-		 * Per PCI PM r1.2, table 6-1, a bridge must be in D0 if any
+-		 * downstream device is in D0, so avoid changing the power state
+-		 * of the parent bridge by setting the skip_bus_pm flag for it.
+-		 */
+-		if (pci_dev->bus->self)
+-			pci_dev->bus->self->skip_bus_pm = true;
+-	}
+-
+-	if (pci_dev->skip_bus_pm && pm_suspend_no_platform()) {
+-		pci_dbg(pci_dev, "PCI PM: Skipped\n");
++	if (!pci_pm_set_prepare_bus_pm(pci_dev))
+ 		goto Fixup;
+-	}
+-
+-	pci_pm_set_unknown_state(pci_dev);
+ 
+ 	/*
+ 	 * Some BIOSes from ASUS have a bug: If a USB EHCI host controller's
+@@ -1136,6 +1156,8 @@ static int pci_pm_poweroff(struct device *dev)
+ 	struct pci_dev *pci_dev = to_pci_dev(dev);
+ 	const struct dev_pm_ops *pm = dev->driver ? dev->driver->pm : NULL;
+ 
++	pci_dev->skip_bus_pm = false;
++
+ 	if (pci_has_legacy_pm_support(pci_dev))
+ 		return pci_legacy_suspend(dev, PMSG_HIBERNATE);
+ 
+@@ -1199,8 +1221,8 @@ static int pci_pm_poweroff_noirq(struct device *dev)
+ 			return error;
  	}
- 	return PMSG_ON;
- }
-diff --git a/include/linux/pm.h b/include/linux/pm.h
-index f0bd8fbae4f2c..cb66f47631a70 100644
---- a/include/linux/pm.h
-+++ b/include/linux/pm.h
-@@ -506,6 +506,7 @@ const struct dev_pm_ops name = { \
-  * RECOVER	Creation of a hibernation image or restoration of the main
-  *		memory contents from a hibernation image has failed, call
-  *		->thaw() and ->complete() for all devices.
-+ * POWEROFF	System will poweroff, call ->poweroff() for all devices.
-  *
-  * The following PM_EVENT_ messages are defined for internal use by
-  * kernel subsystems.  They are never issued by the PM core.
-@@ -536,6 +537,7 @@ const struct dev_pm_ops name = { \
- #define PM_EVENT_USER		0x0100
- #define PM_EVENT_REMOTE		0x0200
- #define PM_EVENT_AUTO		0x0400
-+#define PM_EVENT_POWEROFF	0x0800
  
- #define PM_EVENT_SLEEP		(PM_EVENT_SUSPEND | PM_EVENT_HIBERNATE)
- #define PM_EVENT_USER_SUSPEND	(PM_EVENT_USER | PM_EVENT_SUSPEND)
-@@ -550,6 +552,7 @@ const struct dev_pm_ops name = { \
- #define PMSG_QUIESCE	((struct pm_message){ .event = PM_EVENT_QUIESCE, })
- #define PMSG_SUSPEND	((struct pm_message){ .event = PM_EVENT_SUSPEND, })
- #define PMSG_HIBERNATE	((struct pm_message){ .event = PM_EVENT_HIBERNATE, })
-+#define PMSG_POWEROFF	((struct pm_message){ .event = PM_EVENT_POWEROFF, })
- #define PMSG_RESUME	((struct pm_message){ .event = PM_EVENT_RESUME, })
- #define PMSG_THAW	((struct pm_message){ .event = PM_EVENT_THAW, })
- #define PMSG_RESTORE	((struct pm_message){ .event = PM_EVENT_RESTORE, })
-diff --git a/include/trace/events/power.h b/include/trace/events/power.h
-index 6c631eec23e32..8fa70f2397379 100644
---- a/include/trace/events/power.h
-+++ b/include/trace/events/power.h
-@@ -199,7 +199,8 @@ TRACE_EVENT(pstate_sample,
- 		{ PM_EVENT_HIBERNATE, "hibernate" }, \
- 		{ PM_EVENT_THAW, "thaw" }, \
- 		{ PM_EVENT_RESTORE, "restore" }, \
--		{ PM_EVENT_RECOVER, "recover" })
-+		{ PM_EVENT_RECOVER, "recover" }, \
-+		{ PM_EVENT_POWEROFF, "poweroff" })
+-	if (!pci_dev->state_saved && !pci_has_subordinate(pci_dev))
+-		pci_prepare_to_sleep(pci_dev);
++	if (!pci_pm_set_prepare_bus_pm(pci_dev))
++		goto Fixup;
  
- DEFINE_EVENT(cpu, cpu_frequency,
+ 	/*
+ 	 * The reason for doing this here is the same as for the analogous code
+@@ -1209,6 +1231,7 @@ static int pci_pm_poweroff_noirq(struct device *dev)
+ 	if (pci_dev->class == PCI_CLASS_SERIAL_USB_EHCI)
+ 		pci_write_config_word(pci_dev, PCI_COMMAND, 0);
  
-diff --git a/kernel/reboot.c b/kernel/reboot.c
-index ec087827c85cd..c8835f8e5f271 100644
---- a/kernel/reboot.c
-+++ b/kernel/reboot.c
-@@ -13,6 +13,7 @@
- #include <linux/kexec.h>
- #include <linux/kmod.h>
- #include <linux/kmsg_dump.h>
-+#include <linux/pm.h>
- #include <linux/reboot.h>
- #include <linux/suspend.h>
- #include <linux/syscalls.h>
-@@ -305,6 +306,11 @@ static void kernel_shutdown_prepare(enum system_states state)
- 		(state == SYSTEM_HALT) ? SYS_HALT : SYS_POWER_OFF, NULL);
- 	system_state = state;
- 	usermodehelper_disable();
-+#ifdef CONFIG_HIBERNATE_CALLBACKS
-+	if (!dpm_suspend_start(PMSG_POWEROFF) && !dpm_suspend_end(PMSG_POWEROFF))
-+		return;
-+	pr_emerg("Failed to power off devices, using shutdown instead.\n");
-+#endif
- 	device_shutdown();
- }
- /**
++Fixup:
+ 	pci_fixup_device(pci_fixup_suspend_late, pci_dev);
+ 
+ 	return 0;
+@@ -1218,10 +1241,15 @@ static int pci_pm_restore_noirq(struct device *dev)
+ {
+ 	struct pci_dev *pci_dev = to_pci_dev(dev);
+ 	const struct dev_pm_ops *pm = dev->driver ? dev->driver->pm : NULL;
++	pci_power_t prev_state = pci_dev->current_state;
++	bool skip_bus_pm = pci_dev->skip_bus_pm;
+ 
+ 	pci_pm_default_resume_early(pci_dev);
+ 	pci_fixup_device(pci_fixup_resume_early, pci_dev);
+ 
++	if (!skip_bus_pm && prev_state == PCI_D3cold)
++		pci_pm_bridge_power_up_actions(pci_dev);
++
+ 	if (pci_has_legacy_pm_support(pci_dev))
+ 		return 0;
+ 
 -- 
 2.43.0
 
