@@ -2,60 +2,112 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 72D49ADAA7E
-	for <lists+dri-devel@lfdr.de>; Mon, 16 Jun 2025 10:17:05 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 26C0EADAB27
+	for <lists+dri-devel@lfdr.de>; Mon, 16 Jun 2025 10:51:52 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 927B410E2CF;
-	Mon, 16 Jun 2025 08:17:02 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2038B10E2E1;
+	Mon, 16 Jun 2025 08:42:26 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="lf96xJkg";
+	dkim=pass (1024-bit key; unprotected) header.d=suse.de header.i=@suse.de header.b="lRBnRwYa";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="elInvWUk";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="Oi8o5FE5";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="kyyfGkqk";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from sea.source.kernel.org (sea.source.kernel.org [172.234.252.31])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 42FA110E2CF
- for <dri-devel@lists.freedesktop.org>; Mon, 16 Jun 2025 08:17:01 +0000 (UTC)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by sea.source.kernel.org (Postfix) with ESMTP id 33DAB43784;
- Mon, 16 Jun 2025 08:16:56 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5F7A2C4CEEF;
- Mon, 16 Jun 2025 08:16:46 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1750061816;
- bh=ly1IWPhnZ1mdLMMMt0ZwbtlmSqYG5wNvS1Mp/mjCGh8=;
- h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
- b=lf96xJkgz6KBIDKXutGdJKHWBKiiYSI3P6IV8Rt4Ezx881d0N/1Wijd5CsuRIrmEH
- iO0ucq0zXsVTGRDCftXbROmy1p+s47E4JpV7ohXYepO9R7fK74pYfzjnB9FPr2Dlx+
- D9NmY1kqgsg4kqDo/WT/NtXgtFSN2gwawJtsZ8RQTdBYPsqQTV/Q6+/FKiJNkmFfpH
- 38ON4HibYUOxRIYYPLb0P68B7/oMeIWR9jxB6ugZJYqrpWHcs86OBbGakdHQuLjjdL
- QV9OSCvZIdRlCd+8xO5J6YwfLV78gsg+hBMUxv6kqHIlfm5xqRf9CiuRuve6uXlEVF
- 3uekUV373Yc3w==
-X-Mailer: emacs 30.1 (via feedmail 11-beta-1 I)
-From: Aneesh Kumar K.V <aneesh.kumar@kernel.org>
-To: Xu Yilun <yilun.xu@linux.intel.com>
-Cc: kvm@vger.kernel.org, sumit.semwal@linaro.org, christian.koenig@amd.com,
- pbonzini@redhat.com, seanjc@google.com, alex.williamson@redhat.com,
- jgg@nvidia.com, dan.j.williams@intel.com, aik@amd.com,
- linux-coco@lists.linux.dev, dri-devel@lists.freedesktop.org,
- linux-media@vger.kernel.org, linaro-mm-sig@lists.linaro.org,
- vivek.kasireddy@intel.com, yilun.xu@intel.com,
- linux-kernel@vger.kernel.org, lukas@wunner.de, yan.y.zhao@intel.com,
- daniel.vetter@ffwll.ch, leon@kernel.org, baolu.lu@linux.intel.com,
- zhenzhong.duan@intel.com, tao1.su@intel.com,
- linux-pci@vger.kernel.org, zhiw@nvidia.com, simona.vetter@ffwll.ch,
- shameerali.kolothum.thodi@huawei.com, iommu@lists.linux.dev,
- kevin.tian@intel.com
-Subject: Re: [RFC PATCH 19/30] vfio/pci: Add TSM TDI bind/unbind IOCTLs for
- TEE-IO support
-In-Reply-To: <aEFmPaYorqaYCKBY@yilunxu-OptiPlex-7050>
-References: <20250529053513.1592088-1-yilun.xu@linux.intel.com>
- <20250529053513.1592088-20-yilun.xu@linux.intel.com>
- <yq5aplfn210z.fsf@kernel.org> <aD24r44v0g1NgeZs@yilunxu-OptiPlex-7050>
- <yq5ajz5r8w6p.fsf@kernel.org> <aEFmPaYorqaYCKBY@yilunxu-OptiPlex-7050>
-Date: Mon, 16 Jun 2025 13:46:42 +0530
-Message-ID: <yq5a5xgwt82d.fsf@kernel.org>
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 98C6310E2E1
+ for <dri-devel@lists.freedesktop.org>; Mon, 16 Jun 2025 08:42:24 +0000 (UTC)
+Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org
+ [IPv6:2a07:de40:b281:104:10:150:64:97])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ (No client certificate requested)
+ by smtp-out1.suse.de (Postfix) with ESMTPS id 05909211F3;
+ Mon, 16 Jun 2025 08:42:22 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+ t=1750063343; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=sdnwZbC4WmFoxvhyZ68HdYr1pvQI3x6TFStQjNMQ4R4=;
+ b=lRBnRwYawMlRcoppx6yADktRR6ABbc+/SXSiBJrvZrOCvLlgFhqoy1w8SvsBmG9ZmBdOFv
+ BE4SNwJRRDxJJyWgNFPmOuav+GOuMtiG8UNfG9TnA7e78HqTpKyhIpsbqbHjuXQemJT66L
+ qEPlYaSmW89Q0GF+6itjOo5Upqlh7Nw=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+ s=susede2_ed25519; t=1750063343;
+ h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=sdnwZbC4WmFoxvhyZ68HdYr1pvQI3x6TFStQjNMQ4R4=;
+ b=elInvWUkasLhw8t3L+fgJUga++uJZ14RrelYx4BhLpQNIA79kSqbVUCKt8YYncX+OgsPbX
+ iQePZPJopxt+vvAg==
+Authentication-Results: smtp-out1.suse.de;
+ dkim=pass header.d=suse.de header.s=susede2_rsa header.b=Oi8o5FE5;
+ dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=kyyfGkqk
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+ t=1750063342; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=sdnwZbC4WmFoxvhyZ68HdYr1pvQI3x6TFStQjNMQ4R4=;
+ b=Oi8o5FE5cV3vNVh+KjLvgFHQMCj0Jq2zxJoN9wEfR3lBApcbzdpl+Y56WQ79N6G9NY8/ha
+ U07MX6stV7s9yuTdQaaOYlMnq+JejFOmNpP4lwEc6K7LQcZGh/bLfLa89hYnDWPro/ajw6
+ riRYXVamKWZJdKE5KUi9Z8GawaY/fEk=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+ s=susede2_ed25519; t=1750063342;
+ h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=sdnwZbC4WmFoxvhyZ68HdYr1pvQI3x6TFStQjNMQ4R4=;
+ b=kyyfGkqks2d4+nDZobG6QLyvsuW1Vly7jzuDdeNNaEzu5BBEuAz6aRgk7aFtat78KM1tW7
+ P+bU5QUMcT9SnFBA==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ (No client certificate requested)
+ by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id BDDE4139E2;
+ Mon, 16 Jun 2025 08:42:21 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+ by imap1.dmz-prg2.suse.org with ESMTPSA id 8jbHLO3YT2gwPgAAD6G6ig
+ (envelope-from <tzimmermann@suse.de>); Mon, 16 Jun 2025 08:42:21 +0000
+From: Thomas Zimmermann <tzimmermann@suse.de>
+To: arthurgrillo@riseup.net, jose.exposito89@gmail.com, javierm@redhat.com,
+ maarten.lankhorst@linux.intel.com, mripard@kernel.org
+Cc: dri-devel@lists.freedesktop.org,
+	Thomas Zimmermann <tzimmermann@suse.de>
+Subject: [PATCH v3 0/3] drm/tests: Update format-helper tests for sysfb
+Date: Mon, 16 Jun 2025 10:37:03 +0200
+Message-ID: <20250616083846.221396-1-tzimmermann@suse.de>
+X-Mailer: git-send-email 2.49.0
 MIME-Version: 1.0
-Content-Type: text/plain
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-Rspamd-Server: rspamd2.dmz-prg2.suse.org
+X-Rspamd-Queue-Id: 05909211F3
+X-Rspamd-Action: no action
+X-Spam-Flag: NO
+X-Spamd-Result: default: False [-2.01 / 50.00]; BAYES_HAM(-3.00)[100.00%];
+ SUSPICIOUS_RECIPS(1.50)[]; NEURAL_HAM_LONG(-1.00)[-1.000];
+ MID_CONTAINS_FROM(1.00)[];
+ R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+ NEURAL_HAM_SHORT(-0.20)[-1.000]; MIME_GOOD(-0.10)[text/plain];
+ MX_GOOD(-0.01)[]; TO_MATCH_ENVRCPT_ALL(0.00)[]; ARC_NA(0.00)[];
+ DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+ FUZZY_BLOCKED(0.00)[rspamd.com]; MIME_TRACE(0.00)[0:+];
+ RBL_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:104:10:150:64:97:from]; 
+ TO_DN_SOME(0.00)[];
+ FREEMAIL_TO(0.00)[riseup.net,gmail.com,redhat.com,linux.intel.com,kernel.org]; 
+ FREEMAIL_ENVRCPT(0.00)[gmail.com]; RCVD_TLS_ALL(0.00)[];
+ RCVD_COUNT_TWO(0.00)[2];
+ DNSWL_BLOCKED(0.00)[2a07:de40:b281:104:10:150:64:97:from,2a07:de40:b281:106:10:150:64:167:received];
+ FROM_EQ_ENVFROM(0.00)[]; FROM_HAS_DN(0.00)[];
+ SPAMHAUS_XBL(0.00)[2a07:de40:b281:104:10:150:64:97:from];
+ RCPT_COUNT_SEVEN(0.00)[7]; TAGGED_RCPT(0.00)[];
+ RECEIVED_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:106:10:150:64:167:received];
+ DKIM_TRACE(0.00)[suse.de:+]; RCVD_VIA_SMTP_AUTH(0.00)[];
+ DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:dkim, suse.de:mid,
+ imap1.dmz-prg2.suse.org:rdns, imap1.dmz-prg2.suse.org:helo]
+X-Spam-Score: -2.01
+X-Spam-Level: 
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -71,94 +123,40 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Xu Yilun <yilun.xu@linux.intel.com> writes:
+The helpers drm_fb_blit() and drm_fb_build_fourcc_list() will be
+integrated into sysfb helpers. Update the DRM format-helper tests
+accordingly in patches 1 and 2.
 
-> On Wed, Jun 04, 2025 at 07:07:18PM +0530, Aneesh Kumar K.V wrote:
->> Xu Yilun <yilun.xu@linux.intel.com> writes:
->> 
->> > On Sun, Jun 01, 2025 at 04:15:32PM +0530, Aneesh Kumar K.V wrote:
->> >> Xu Yilun <yilun.xu@linux.intel.com> writes:
->> >> 
->> >> > Add new IOCTLs to do TSM based TDI bind/unbind. These IOCTLs are
->> >> > expected to be called by userspace when CoCo VM issues TDI bind/unbind
->> >> > command to VMM. Specifically for TDX Connect, these commands are some
->> >> > secure Hypervisor call named GHCI (Guest-Hypervisor Communication
->> >> > Interface).
->> >> >
->> >> > The TSM TDI bind/unbind operations are expected to be initiated by a
->> >> > running CoCo VM, which already have the legacy assigned device in place.
->> >> > The TSM bind operation is to request VMM make all secure configurations
->> >> > to support device work as a TDI, and then issue TDISP messages to move
->> >> > the TDI to CONFIG_LOCKED or RUN state, waiting for guest's attestation.
->> >> >
->> >> > Do TSM Unbind before vfio_pci_core_disable(), otherwise will lead
->> >> > device to TDISP ERROR state.
->> >> >
->> >> 
->> >> Any reason these need to be a vfio ioctl instead of iommufd ioctl?
->> >> For ex: https://lore.kernel.org/all/20250529133757.462088-3-aneesh.kumar@kernel.org/
->> >
->> > A general reason is, the device driver - VFIO should be aware of the
->> > bound state, and some operations break the bound state. VFIO should also
->> > know some operations on bound may crash kernel because of platform TSM
->> > firmware's enforcement. E.g. zapping MMIO, because private MMIO mapping
->> > in secure page tables cannot be unmapped before TDI STOP [1].
->> >
->> > Specifically, for TDX Connect, the firmware enforces MMIO unmapping in
->> > S-EPT would fail if TDI is bound. For AMD there seems also some
->> > requirement about this but I need Alexey's confirmation.
->> >
->> > [1] https://lore.kernel.org/all/aDnXxk46kwrOcl0i@yilunxu-OptiPlex-7050/
->> >
->> 
->> According to the TDISP specification (Section 11.2.6), clearing either
->> the Bus Master Enable (BME) or Memory Space Enable (MSE) bits will cause
->> the TDI to transition to an error state. To handle this gracefully, it
->> seems necessary to unbind the TDI before modifying the BME or MSE bits.
->
-> Yes. But now the suggestion is never let VFIO do unbind, instead VFIO
-> should block these operations when device is bound.
->
->> 
->> If I understand correctly, we also need to unmap the Stage-2 mapping due
->> to the issue described in commit
->> abafbc551fddede3e0a08dee1dcde08fc0eb8476. Are there any additional
->> reasons we would want to unmap the Stage-2 mapping for the BAR (as done
->> in vfio_pci_zap_and_down_write_memory_lock)?
->
-> I think no more reason. 
->
->> 
->> Additionally, with TDX, it appears that before unmapping the Stage-2
->> mapping for the BAR, we should first unbind the TDI (ie, move it to the
->> "unlock" state?) Is this step related Section 11.2.6 of the TDISP spec,
->> or is it driven by a different requirement?
->
-> No, this is not device side TDISP requirement. It is host side
-> requirement to fix DMA silent drop issue. TDX enforces CPU S2 PT share
-> with IOMMU S2 PT (does ARM do the same?), so unmap CPU S2 PT in KVM equals
-> unmap IOMMU S2 PT.
->
-> If we allow IOMMU S2 PT unmapped when TDI is running, host could fool
-> guest by just unmap some PT entry and suppress the fault event. Guest
-> thought a DMA writting is successful but it is not and may cause
-> data integrity issue.
->
+The change to drm_fb_build_fourcc_list() is simple enough that we
+can apply it here in patch 3.
 
-I am still trying to find more details here. How did the guest conclude
-DMA writing is successful? Guest would timeout waiting for DMA to complete
-if the host hides the interrupt delivery of failed DMA transfer?
+v3:
+- rename symbols (José)
+v2:
+- fix test filename (Maxime)
+- fix dependencies (kernel test robot)
 
->
-> This is not a TDX specific problem, but different vendors has different
-> mechanisms for this. For TDX, firmware fails the MMIO unmap for S2. For
-> AMD, will trigger some HW protection called "ASID fence" [1]. Not sure
-> how ARM handles this?
->
-> https://lore.kernel.org/all/aDnXxk46kwrOcl0i@yilunxu-OptiPlex-7050/
->
-> Thanks,
-> Yilun
->
+Thomas Zimmermann (3):
+  drm/tests: Do not use drm_fb_blit() in format-helper tests
+  drm/tests: Test drm_fb_build_fourcc_list() in separate test suite
+  drm/format-helper: Move drm_fb_build_fourcc_list() to sysfb helpers
 
--aneesh
+ drivers/gpu/drm/Kconfig.debug                 |   1 +
+ drivers/gpu/drm/drm_format_helper.c           | 246 +++++++----------
+ drivers/gpu/drm/drm_format_internal.h         |   8 +
+ drivers/gpu/drm/sysfb/drm_sysfb_helper.h      |   4 +
+ drivers/gpu/drm/sysfb/drm_sysfb_modeset.c     | 138 ++++++++++
+ drivers/gpu/drm/sysfb/efidrm.c                |   4 +-
+ drivers/gpu/drm/sysfb/ofdrm.c                 |   5 +-
+ drivers/gpu/drm/sysfb/simpledrm.c             |   5 +-
+ drivers/gpu/drm/sysfb/vesadrm.c               |   4 +-
+ drivers/gpu/drm/tests/Makefile                |   3 +-
+ .../gpu/drm/tests/drm_format_helper_test.c    | 250 ++----------------
+ .../gpu/drm/tests/drm_sysfb_modeset_test.c    | 168 ++++++++++++
+ include/drm/drm_format_helper.h               |  13 +-
+ 13 files changed, 452 insertions(+), 397 deletions(-)
+ create mode 100644 drivers/gpu/drm/tests/drm_sysfb_modeset_test.c
+
+-- 
+2.49.0
+
