@@ -2,81 +2,49 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2ADE8ADA3F0
-	for <lists+dri-devel@lfdr.de>; Sun, 15 Jun 2025 22:57:44 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id C4461ADA6A8
+	for <lists+dri-devel@lfdr.de>; Mon, 16 Jun 2025 05:05:21 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6C65A10E248;
-	Sun, 15 Jun 2025 20:57:41 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8E76C10E036;
+	Mon, 16 Jun 2025 03:05:18 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="WsFipkWG";
+	dkim=fail reason="signature verification failed" (2048-bit key; secure) header.d=infradead.org header.i=@infradead.org header.b="JGgWzD73";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-f53.google.com (mail-wr1-f53.google.com
- [209.85.221.53])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D40EF10E244
- for <dri-devel@lists.freedesktop.org>; Sun, 15 Jun 2025 20:57:39 +0000 (UTC)
-Received: by mail-wr1-f53.google.com with SMTP id
- ffacd0b85a97d-3a503d9ef59so3378215f8f.3
- for <dri-devel@lists.freedesktop.org>; Sun, 15 Jun 2025 13:57:39 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1750021058; x=1750625858; darn=lists.freedesktop.org;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:subject:cc:to:from:date:from:to:cc:subject:date
- :message-id:reply-to;
- bh=T2aI5ojTa0fVOmRjpVaA+YiywY9TgSfTBgCLyg00I5Q=;
- b=WsFipkWGlntKg2ucH9Q+R2Q2E3/KzKJEjlumm/3LYpq8a0paVFE6hiI//oyDTGn6mw
- iKxWouD7wbI6NPzgHU1Fx0eeqcmTgBTeGoua11I+fYHfixYnoyNOaJJzrRxVpR99iCfM
- b8GZ4pPMHQ0e4CTsJBvG/cMRoIMNRSSn3OIqO5cm2yTztADoItqWBEapXZSrl2rnMhSP
- cRG/vBqoghVAGPuYdEfbzzRSjo5HsT/3AzARXjcrx6v9Neo94z0qoJpN8uYGIoT5yBcH
- XVR/79A6szRr5HxTTSXXNi/Y01CJR1oGVGAN4Hnjca34M6WTc0AvK2FCKjtXxaeWJvEc
- Y8ug==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1750021058; x=1750625858;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:subject:cc:to:from:date:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=T2aI5ojTa0fVOmRjpVaA+YiywY9TgSfTBgCLyg00I5Q=;
- b=nnViDhiNElUjM7fev12bnCGlryVvbBnGj71Z5NOCmbiQc4vkOaIXjGxQHK4v1rshfr
- 5NDWVvweayUGHiyghdGloOvgCmHookakuelJP5MqJwJFhNAvaXbLl6a4Fjmp9l7Rb/Hd
- 9K+l54EvCNxdIsTw3sm1n+M/0KFg34EcAw9AeZRokqZZAEhSkrPMeI+FgM92n8wYbW7P
- BCm4fG/j2j2338NWKMU1XmIiS0tW2K0gsIlizF2MDXj2Hq5ab5aSE/tpoxMKRp3xMvFB
- U3A0+QtWq/cuB2FWmZts0kwrjBYs7/o5cORFfxTrfsJfpyxPyuZi7pH4ZUlAxTf/KfAw
- am6g==
-X-Forwarded-Encrypted: i=1;
- AJvYcCViVArZlBeBaWDzwqyqTMtBO04bAjWngVQuEQACngiT61+yQOoynvq/gcD1NAJf3FKWsl6TskWlvto=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0Yx+xPKdhliQ0znKew8dapDfzluDhHmUe1IJnDD741VW8Xr6SMIP
- WUgGrA8b85yphYsY79Uk/6CNq0qAtZdS2F17urKsvj/HTmZALdqX9Xq03uQxlg==
-X-Gm-Gg: ASbGncuLqG7X+XvurwyU8BKqA+M9M0ODF06b1s1kFwoC/XFbYel0On2cXIlgNteiZHG
- E6rsK8KfCPHF66v1k8m744+YNJR784KSU5hdkitOGxZhhFzYFJZpdQpr1uED1dlUJ2iNB9RZttu
- SN4/Bun3H8+QWSTv5MWMT+WgQmTI5+xxqZIPeuHIXlnFokjVN+V1UJQ5QKsNK58h3n4ozoJvnAo
- JJftTQNey9+r8b8llaYJtNf96xPafcLqmOsdOhuMChp8o/KniD/WwSc6jDctU06JaoMAwJZiM5p
- hFahYf1VFsudA/3A/TsESDHaVZyEGxw2Qq41JMtPJ1Yfhr34KSGrOemcYdDHHSBAIeHgXAVdU8R
- lhzTdwPvFEUk1r/YtYYrRFzaQ
-X-Google-Smtp-Source: AGHT+IGHopTKMDLrNy91dcBwnlGeBYYk8YgDhfPG4599R3YYx5c7CIxOz1VmF8L04MqVsJlAZiVs2A==
-X-Received: by 2002:a05:6000:2404:b0:3a3:652d:1640 with SMTP id
- ffacd0b85a97d-3a57238b3dbmr6086391f8f.2.1750021057845; 
- Sun, 15 Jun 2025 13:57:37 -0700 (PDT)
-Received: from pumpkin (82-69-66-36.dsl.in-addr.zen.co.uk. [82.69.66.36])
- by smtp.gmail.com with ESMTPSA id
- ffacd0b85a97d-3a568a547d2sm8947987f8f.19.2025.06.15.13.57.37
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sun, 15 Jun 2025 13:57:37 -0700 (PDT)
-Date: Sun, 15 Jun 2025 21:57:36 +0100
-From: David Laight <david.laight.linux@gmail.com>
-To: Jin D <alexguo1023@gmail.com>
-Cc: deller@gmx.de, linux-fbdev@vger.kernel.org,
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] fbdev: i740: Fix potential divide by zero
-Message-ID: <20250615215736.3d850bdd@pumpkin>
-In-Reply-To: <CAAi4Z-fDFw1gD2MbqucWRMN0DvKf5mk6B+GDD95x9o23G8iK6w@mail.gmail.com>
-References: <20250614051837.3544959-1-alexguo1023@gmail.com>
- <20250615093003.6e524fa9@pumpkin>
- <CAAi4Z-fDFw1gD2MbqucWRMN0DvKf5mk6B+GDD95x9o23G8iK6w@mail.gmail.com>
-X-Mailer: Claws Mail 4.1.1 (GTK 3.24.38; arm-unknown-linux-gnueabihf)
+Received: from casper.infradead.org (casper.infradead.org [90.155.50.34])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D61F410E036
+ for <dri-devel@lists.freedesktop.org>; Mon, 16 Jun 2025 03:05:12 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+ d=infradead.org; s=casper.20170209; h=Content-Transfer-Encoding:Content-Type:
+ In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:Message-ID:Sender
+ :Reply-To:Content-ID:Content-Description;
+ bh=r39SR+iYOnU6Tptcpr3GxcMEhIdvdrMkRtTp26UKitU=; b=JGgWzD73KSGpQXt23KGBF6q05e
+ JTM2DsY2r5Dy65wbPP69S5cW7pDc3DnU4qzOAjp6rErRjhrMvLj/k5Uz8Xk1pY5PnbfD8uvbdD8MG
+ TN0Lc1nTibAv04NAfHPM5/H/tmOASQ4c1OoNWsTFmphmp5fSLJSmHafFXXceUuohQRAwKRckWyNIp
+ nc3k7T1/reqWlk+IYnMGuvNn/nfxQM8MidZwPqMVOfehR/V7oAfBQU9i6H4no02FkkG1WLShdJISJ
+ RQEpM5YnyJbtxg6j9jDZQITiOfYfe9JbzgwDxoPnDnKL6QXRPKMhUs5OSj8ozS4TOve44UTgzoTIN
+ ubdsa7lA==;
+Received: from [50.53.25.54] (helo=[192.168.254.17])
+ by casper.infradead.org with esmtpsa (Exim 4.98.2 #2 (Red Hat Linux))
+ id 1uR09b-0000000FUVX-1sBg; Mon, 16 Jun 2025 03:04:59 +0000
+Message-ID: <217e3774-8a28-4adc-b2df-a31b6ba5a382@infradead.org>
+Date: Sun, 15 Jun 2025 20:04:56 -0700
 MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] docs: nouveau: remove invalid kernel-doc reference to
+ r535.c
+To: HyeonSu Jeon <dev.hyeonsu.jeon@gmail.com>,
+ maarten.lankhorst@linux.intel.com, mripard@kernel.org, airlied@gmail.com,
+ simona@ffwll.ch, corbet@lwn.net
+Cc: dri-devel@lists.freedesktop.org, linux-doc@vger.kernel.org,
+ linux-kernel@vger.kernel.org
+References: <20250616021742.8304-1-dev.hyeonsu.jeon@gmail.com>
+Content-Language: en-US
+From: Randy Dunlap <rdunlap@infradead.org>
+In-Reply-To: <20250616021742.8304-1-dev.hyeonsu.jeon@gmail.com>
 Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -92,68 +60,40 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Sun, 15 Jun 2025 16:43:58 -0400
-Jin D <alexguo1023@gmail.com> wrote:
+Hi,
 
-> >       bpp =3D var->bits_per_pixel;
-> > +     if (!var->pixclock){
-> > +             dev_err(info->device, "pixclock must not be zero\n");
-> > +             return -EINVAL;
-> > +     }
-> >       switch (bpp) {
-> >       case 1 ... 8:
-> >               bpp =3D 8; =20
->=20
-> The value used in the switch condition is var->bits_per_pixel. I can not
-> find a deterministic relationship between var->bits_per_pixel and
-> var->pixclock.
+On 6/15/25 7:17 PM, HyeonSu Jeon wrote:
+> The file drivers/gpu/drm/nouveau/nvkm/subdev/gsp/r535.c does not exist
+> in the tree, but is referenced in gsp.rst via a kernel-doc directive.
+> This causes an error during the documentation build
+> 
+> Removing this refernce resolves the error
+> 
+> Signed-off-by: HyeonSu Jeon <dev.hyeonsu.jeon@gmail.com>
 
-Brain-fade ...
+Thanks for your patch.
+A previous patch has already been applied to drm-misc-fixes:
 
->=20
-> On Sun, Jun 15, 2025 at 4:30=E2=80=AFAM David Laight <david.laight.linux@=
-gmail.com>
-> wrote:
->=20
-> > On Sat, 14 Jun 2025 01:18:37 -0400
-> > Alex Guo <alexguo1023@gmail.com> wrote:
-> > =20
-> > > Variable var->pixclock can be set by user. In case it equals to
-> > > zero, divide by zero would occur in 4 switch branches in
-> > > i740fb_decode_var.
-> > > Similar crashes have happened in other fbdev drivers. We fix this
-> > > by checking whether 'pixclock' is zero. =20
-> >
-> > Doesn't it already hit the 'default' clause of the switch statement?
-> >
-> >         David
-> > =20
-> > >
-> > > Similar commit: commit 16844e58704 ("video: fbdev: tridentfb:
-> > > Error out if 'pixclock' equals zero")
-> > >
-> > > Signed-off-by: Alex Guo <alexguo1023@gmail.com>
-> > > ---
-> > >  drivers/video/fbdev/i740fb.c | 4 ++++
-> > >  1 file changed, 4 insertions(+)
-> > >
-> > > diff --git a/drivers/video/fbdev/i740fb.c b/drivers/video/fbdev/i740f=
-b.c
-> > > index 9b74dae71472..861e9e397b4e 100644
-> > > --- a/drivers/video/fbdev/i740fb.c
-> > > +++ b/drivers/video/fbdev/i740fb.c
-> > > @@ -419,6 +419,10 @@ static int i740fb_decode_var(const struct =20
-> > fb_var_screeninfo *var, =20
-> > >
-> > >
-> > >       bpp =3D var->bits_per_pixel;
-> > > +     if (!var->pixclock){
-> > > +             dev_err(info->device, "pixclock must not be zero\n");
-> > > +             return -EINVAL;
-> > > +     }
-> > >       switch (bpp) {
-> > >       case 1 ... 8:
-> > >               bpp =3D 8; =20
-> >
-> > =20
+https://lore.kernel.org/linux-doc/20250611020805.22418-2-bagasdotme@gmail.com/
+
+> ---
+>  Documentation/gpu/nouveau.rst | 3 ---
+>  1 file changed, 3 deletions(-)
+> 
+> diff --git a/Documentation/gpu/nouveau.rst b/Documentation/gpu/nouveau.rst
+> index b8c801e0068c..cab4a8eda850 100644
+> --- a/Documentation/gpu/nouveau.rst
+> +++ b/Documentation/gpu/nouveau.rst
+> @@ -25,8 +25,5 @@ providing a consistent API to upper layers of the driver stack.
+>  GSP Support
+>  ------------------------
+>  
+> -.. kernel-doc:: drivers/gpu/drm/nouveau/nvkm/subdev/gsp/r535.c
+> -   :doc: GSP message queue element
+> -
+>  .. kernel-doc:: drivers/gpu/drm/nouveau/include/nvkm/subdev/gsp.h
+>     :doc: GSP message handling policy
+
+-- 
+~Randy
 
