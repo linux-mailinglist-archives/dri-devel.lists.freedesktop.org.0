@@ -2,57 +2,76 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B3DD2ADAB6B
-	for <lists+dri-devel@lfdr.de>; Mon, 16 Jun 2025 11:04:18 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id AFDA1ADAB7F
+	for <lists+dri-devel@lfdr.de>; Mon, 16 Jun 2025 11:09:56 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 13DDF10E2ED;
-	Mon, 16 Jun 2025 09:04:17 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 77FA410E2F7;
+	Mon, 16 Jun 2025 09:09:53 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="vCCjnVs1";
+	dkim=pass (1024-bit key; unprotected) header.d=samsung.com header.i=@samsung.com header.b="NJjjWtui";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from nyc.source.kernel.org (nyc.source.kernel.org [147.75.193.91])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6B3C910E2F4;
- Mon, 16 Jun 2025 09:04:16 +0000 (UTC)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by nyc.source.kernel.org (Postfix) with ESMTP id 516C4A51651;
- Mon, 16 Jun 2025 09:04:15 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id D7566C4CEEA;
- Mon, 16 Jun 2025 09:04:09 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1750064655;
- bh=0cC6uUPoW8D1ceNhr+gzB+r6cQqyjYO+BddOkail6Jg=;
- h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
- b=vCCjnVs15JhLr+gkD0415uzKKH65zw2YauahA6dRUAPnpTJy+lPsBQ6ucpj7PZf0N
- vvkhTkiUXBcywJwff0Ncy4b2zFm0yVpVGV7GiQuquOXqrE8cfvYNHeHu6FGWeHja/x
- rfJWVhb++gX0S2D9XIaUSle/unVj5pwTs1H3JrDm2IZdLO9fPHfwRLNxEvmC6xRKl0
- lR8bJSr2kBTAqCOF6bvWtcySDjgslavLj1rC0+8r3MbFhjezmcdlaPYgmL6J/AUDln
- bGUrLl7+vAMzJmABMvhYZUPclEUIhdfWrZ2jA9D3eDwjPsKI+PbGyr/WDrHMIoeExR
- bGrh9zQ+C8llA==
-Message-ID: <92df9bdd-734b-461c-bf98-070e4fc59d50@kernel.org>
-Date: Mon, 16 Jun 2025 11:04:08 +0200
+Received: from mailout2.w1.samsung.com (mailout2.w1.samsung.com
+ [210.118.77.12])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id EC2AD10E300
+ for <dri-devel@lists.freedesktop.org>; Mon, 16 Jun 2025 09:09:46 +0000 (UTC)
+Received: from eucas1p1.samsung.com (unknown [182.198.249.206])
+ by mailout2.w1.samsung.com (KnoxPortal) with ESMTP id
+ 20250616090945euoutp0271c0410735c3643358e256dd51e8040e~JetToJfm11964519645euoutp02g
+ for <dri-devel@lists.freedesktop.org>; Mon, 16 Jun 2025 09:09:45 +0000 (GMT)
+DKIM-Filter: OpenDKIM Filter v2.11.0 mailout2.w1.samsung.com
+ 20250616090945euoutp0271c0410735c3643358e256dd51e8040e~JetToJfm11964519645euoutp02g
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=samsung.com;
+ s=mail20170921; t=1750064985;
+ bh=Z0yVDNlBuUeI2U5G9pnG88sUo+3LU8vld6YvrIkhECY=;
+ h=Date:Subject:To:Cc:From:In-Reply-To:References:From;
+ b=NJjjWtuiH8rQP1rLO+Qn29ldm7aH/ChlGrzo5voO7FGEzkE4eRwYtrAghrMJ1qEdP
+ pYXMDPXEvc2SPnERO/SvJoRqMWNMp9pPt5+Fk5/14cuWB2tFCkCnyX/0IA0ziX3vRw
+ E3glhShhovdXx4zJ4e/ZUFX1+Bhtz2spsF/SNLmQ=
+Received: from eusmtip1.samsung.com (unknown [203.254.199.221]) by
+ eucas1p1.samsung.com (KnoxPortal) with ESMTPA id
+ 20250616090944eucas1p1ffc6fcf91024df239946d55f78cd73ab~JetTDE54A2755827558eucas1p16;
+ Mon, 16 Jun 2025 09:09:44 +0000 (GMT)
+Received: from [192.168.1.44] (unknown [106.210.136.40]) by
+ eusmtip1.samsung.com (KnoxPortal) with ESMTPA id
+ 20250616090943eusmtip1582353473f82f3f625b89a1041e9e149~JetR4HUmp2738727387eusmtip1M;
+ Mon, 16 Jun 2025 09:09:43 +0000 (GMT)
+Message-ID: <9765c970-55cc-4413-9fd0-5e0cdfa900fa@samsung.com>
+Date: Mon, 16 Jun 2025 11:09:42 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 0/6] rust: add support for port io
-To: Alice Ryhl <aliceryhl@google.com>
-Cc: Andrew Ballance <andrewjballance@gmail.com>, a.hindborg@kernel.org,
- airlied@gmail.com, akpm@linux-foundation.org, alex.gaynor@gmail.com,
- andriy.shevchenko@linux.intel.com, arnd@arndb.de, benno.lossin@proton.me,
- bhelgaas@google.com, bjorn3_gh@protonmail.com, boqun.feng@gmail.com,
- daniel.almeida@collabora.com, fujita.tomonori@gmail.com, gary@garyguo.net,
- gregkh@linuxfoundation.org, kwilczynski@kernel.org, me@kloenk.dev,
- ojeda@kernel.org, raag.jadav@intel.com, rafael@kernel.org, simona@ffwll.ch,
- tmgross@umich.edu, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org, linux-pci@vger.kernel.org,
- nouveau@lists.freedesktop.org, rust-for-linux@vger.kernel.org
-References: <20250514105734.3898411-1-andrewjballance@gmail.com>
- <CAH5fLgjgtLQMaAZxufttzoVCJpAfTifn6VWwKZ7Q6vAOOvG+ug@mail.gmail.com>
-From: Danilo Krummrich <dakr@kernel.org>
+Subject: Re: [PATCH v4 8/8] drm/imagination: Enable PowerVR driver for RISC-V
+To: kernel test robot <lkp@intel.com>, Drew Fustini <drew@pdp7.com>, Guo Ren
+ <guoren@kernel.org>, Fu Wei <wefu@redhat.com>, Rob Herring
+ <robh@kernel.org>, Krzysztof Kozlowski <krzk@kernel.org>, Conor Dooley
+ <conor+dt@kernel.org>, Bartosz Golaszewski <brgl@bgdev.pl>, Philipp Zabel
+ <p.zabel@pengutronix.de>, Frank Binns <frank.binns@imgtec.com>, Matt Coster
+ <matt.coster@imgtec.com>, Maarten Lankhorst
+ <maarten.lankhorst@linux.intel.com>, Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
+ Simona Vetter <simona@ffwll.ch>, Paul Walmsley <paul.walmsley@sifive.com>,
+ Palmer Dabbelt <palmer@dabbelt.com>, Albert Ou <aou@eecs.berkeley.edu>,
+ Alexandre Ghiti <alex@ghiti.fr>, Ulf Hansson <ulf.hansson@linaro.org>, Marek
+ Szyprowski <m.szyprowski@samsung.com>
+Cc: Paul Gazzillo <paul@pgazz.com>, Necip Fazil Yildiran
+ <fazilyildiran@gmail.com>, oe-kbuild-all@lists.linux.dev,
+ linux-riscv@lists.infradead.org, devicetree@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-pm@vger.kernel.org,
+ dri-devel@lists.freedesktop.org
 Content-Language: en-US
-In-Reply-To: <CAH5fLgjgtLQMaAZxufttzoVCJpAfTifn6VWwKZ7Q6vAOOvG+ug@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+From: Michal Wilczynski <m.wilczynski@samsung.com>
+In-Reply-To: <202506151839.IKkZs0Z0-lkp@intel.com>
+Content-Transfer-Encoding: 7bit
+X-CMS-MailID: 20250616090944eucas1p1ffc6fcf91024df239946d55f78cd73ab
+X-Msg-Generator: CA
+Content-Type: text/plain; charset="utf-8"
+X-RootMTR: 20250615105256eucas1p21dba29a1450757d9201b2a9c7f0e34e8
+X-EPHeader: CA
+X-CMS-RootMailID: 20250615105256eucas1p21dba29a1450757d9201b2a9c7f0e34e8
+References: <20250614-apr_14_for_sending-v4-8-8e3945c819cd@samsung.com>
+ <CGME20250615105256eucas1p21dba29a1450757d9201b2a9c7f0e34e8@eucas1p2.samsung.com>
+ <202506151839.IKkZs0Z0-lkp@intel.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -68,34 +87,44 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 6/16/25 10:03 AM, Alice Ryhl wrote:
-> On Wed, May 14, 2025 at 12:58 PM Andrew Ballance
-> <andrewjballance@gmail.com> wrote:
->>
->> currently the rust `Io` type maps to the c read{b, w, l, q}/write{b, w, l, q}
->> functions and have no support for port io. this can be a problem for pci::Bar
->> because the pointer returned by pci_iomap can be either PIO or MMIO [0].
->>
->> this patch series splits the `Io` type into `Io`, and `MMIo`. `Io` can be
->> used to access PIO or MMIO. `MMIo` can only access memory mapped IO but
->> might, depending on the arch, be faster than `Io`. and updates pci::Bar,
->> so that it is generic over Io and, a user can optionally give a compile
->> time hint about the type of io.
->>
->> Link: https://docs.kernel.org/6.11/driver-api/pci/pci.html#c.pci_iomap [0]
+
+
+On 6/15/25 12:51, kernel test robot wrote:
+> Hi Michal,
 > 
-> This series seems to try and solve parts of the same problems as
-> Daniel's patchset:
-> https://lore.kernel.org/rust-for-linux/20250603-topics-tyr-platform_iomem-v9-0-a27e04157e3e@collabora.com/#r
+> kernel test robot noticed the following build warnings:
 > 
-> We should probably align these two patchsets so that they do not add
-> incompatible abstractions for the same thing.
+> [auto build test WARNING on 4774cfe3543abb8ee98089f535e28ebfd45b975a]
+> 
+> url:    https://protect2.fireeye.com/v1/url?k=6c3bc994-0cd954c9-6c3a42db-000babd9f1ba-30c2378fa012fc4a&q=1&e=c39c960c-4d5f-44d7-aed7-0097394dfc81&u=https%3A%2F%2Fgithub.com%2Fintel-lab-lkp%2Flinux%2Fcommits%2FMichal-Wilczynski%2Fpower-sequencing-Add-T-HEAD-TH1520-GPU-power-sequencer-driver%2F20250615-021142
+> base:   4774cfe3543abb8ee98089f535e28ebfd45b975a
+> patch link:    https://lore.kernel.org/r/20250614-apr_14_for_sending-v4-8-8e3945c819cd%40samsung.com
+> patch subject: [PATCH v4 8/8] drm/imagination: Enable PowerVR driver for RISC-V
+> config: riscv-kismet-CONFIG_DRM_GEM_SHMEM_HELPER-CONFIG_DRM_POWERVR-0-0 (https://download.01.org/0day-ci/archive/20250615/202506151839.IKkZs0Z0-lkp@intel.com/config)
+> reproduce: (https://download.01.org/0day-ci/archive/20250615/202506151839.IKkZs0Z0-lkp@intel.com/reproduce)
+> 
+> If you fix the issue in a separate patch/commit (i.e. not just a new version of
+> the same patch/commit), kindly add following tags
+> | Reported-by: kernel test robot <lkp@intel.com>
+> | Closes: https://lore.kernel.org/oe-kbuild-all/202506151839.IKkZs0Z0-lkp@intel.com/
+> 
+> kismet warnings: (new ones prefixed by >>)
+>>> kismet: WARNING: unmet direct dependencies detected for DRM_GEM_SHMEM_HELPER when selected by DRM_POWERVR
+>    WARNING: unmet direct dependencies detected for DRM_GEM_SHMEM_HELPER
+>      Depends on [n]: HAS_IOMEM [=y] && DRM [=y] && MMU [=n]
 
-AFAICS, they solve different problems, i.e.
+I believe this is triggered because RISC-V can be compiled without MMU
+support, while MMU support is mandatory for ARM64.
 
-   1) Add Port I/O support to the generic I/O abstractions.
-   2) Add an abstraction for generic ioremap() used to map a struct resource
-      obtained from a platform device.
+Would an acceptable fix be to require an explicit dependency on the MMU,
+like so?
 
-The patch series will conflict though, I think it would be best to rebase this
-one onto Daniel's patch series, since it is close to land.
+depends on (ARM64 || RISCV) && MMU
+
+>      Selected by [y]:
+>      - DRM_POWERVR [=y] && HAS_IOMEM [=y] && (ARM64 || RISCV [=y]) && DRM [=y] && PM [=y]
+> 
+
+Best regards,
+-- 
+Michal Wilczynski <m.wilczynski@samsung.com>
