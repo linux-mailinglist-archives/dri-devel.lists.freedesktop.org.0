@@ -2,34 +2,65 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 48C0DADACEC
-	for <lists+dri-devel@lfdr.de>; Mon, 16 Jun 2025 12:05:22 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5B9B9ADAD0C
+	for <lists+dri-devel@lfdr.de>; Mon, 16 Jun 2025 12:08:56 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 896DA10E31D;
-	Mon, 16 Jun 2025 10:05:15 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 15DF010E31E;
+	Mon, 16 Jun 2025 10:08:54 +0000 (UTC)
+Authentication-Results: gabe.freedesktop.org;
+	dkim=pass (2048-bit key; secure) header.d=mailbox.org header.i=@mailbox.org header.b="turY0Mg0";
+	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from rtg-sunil-navi33.amd.com (unknown [165.204.156.251])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0FDD610E308;
- Mon, 16 Jun 2025 10:05:11 +0000 (UTC)
-Received: from rtg-sunil-navi33.amd.com (localhost [127.0.0.1])
- by rtg-sunil-navi33.amd.com (8.15.2/8.15.2/Debian-22ubuntu3) with ESMTP id
- 55GA54DA1204204; Mon, 16 Jun 2025 15:35:04 +0530
-Received: (from sunil@localhost)
- by rtg-sunil-navi33.amd.com (8.15.2/8.15.2/Submit) id 55GA540J1204203;
- Mon, 16 Jun 2025 15:35:04 +0530
-From: Sunil Khatri <sunil.khatri@amd.com>
-To: =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>,
- dri-devel@lists.freedesktop.org
-Cc: amd-gfx@lists.freedesktop.org, Sunil Khatri <sunil.khatri@amd.com>
-Subject: [PATCH v2 2/2] drm: add debugfs support on per client-id basis
-Date: Mon, 16 Jun 2025 15:35:03 +0530
-Message-Id: <20250616100503.1204166-3-sunil.khatri@amd.com>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20250616100503.1204166-1-sunil.khatri@amd.com>
-References: <20250616100503.1204166-1-sunil.khatri@amd.com>
+Received: from mout-p-201.mailbox.org (mout-p-201.mailbox.org [80.241.56.171])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E969910E31E;
+ Mon, 16 Jun 2025 10:08:51 +0000 (UTC)
+Received: from smtp102.mailbox.org (smtp102.mailbox.org [10.196.197.102])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ (No client certificate requested)
+ by mout-p-201.mailbox.org (Postfix) with ESMTPS id 4bLQgz507Bz9sqj;
+ Mon, 16 Jun 2025 12:08:47 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mailbox.org;
+ s=mail20150812; 
+ t=1750068527; h=from:from:reply-to:reply-to:subject:subject:date:date:
+ message-id:message-id:to:to:cc:cc:mime-version:mime-version:
+ content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=o3szePmqcHJryvA1er9S8PcvbfWuy6iFHHcrJVIXtWM=;
+ b=turY0Mg0O+tfBX/no06qt5IutDn3NPSQsTsTMZLHDtwvFlKz/4uzFzCZFRqpfJxH9n633Q
+ XIsvXO9v4YQCXe396xopdx0KS90FHEEc+blHCSQjyeOWFjOhyx0NkFCQPThCrSG3kExsUu
+ Qrguz8OgAbVZg8LZJImDkC1jI4+99RqUbMC7hsxu6JDuGzPhpIHjdVuw5o+vmxZm6d1uCn
+ 1UGZ2i1P04hU9S/uHS0rnZe9Q/A73/5BlueoyH2/yBf9yilf4X/rkn8Ormy/8T1VgsHewi
+ eCamfwEtewpBO6OKYaAWlIvTKAMfFYkE3yLyoEXQ3tIWZevQPXDHHdcLt5BRyQ==
+Message-ID: <d1ecec0124edcf70f682e91e52f3f349c7a1b33c.camel@mailbox.org>
+Subject: Re: [RFC PATCH 1/6] drm/sched: Avoid memory leaks with cancel_job()
+ callback
+From: Philipp Stanner <phasta@mailbox.org>
+To: Tvrtko Ursulin <tvrtko.ursulin@igalia.com>, phasta@kernel.org, Lyude
+ Paul <lyude@redhat.com>, Danilo Krummrich <dakr@kernel.org>, David Airlie
+ <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, Matthew Brost
+ <matthew.brost@intel.com>, Christian =?ISO-8859-1?Q?K=F6nig?=
+ <ckoenig.leichtzumerken@gmail.com>, Maarten Lankhorst
+ <maarten.lankhorst@linux.intel.com>, Maxime Ripard <mripard@kernel.org>, 
+ Thomas Zimmermann <tzimmermann@suse.de>, Sumit Semwal
+ <sumit.semwal@linaro.org>, Pierre-Eric Pelloux-Prayer
+ <pierre-eric.pelloux-prayer@amd.com>
+Cc: dri-devel@lists.freedesktop.org, nouveau@lists.freedesktop.org, 
+ linux-kernel@vger.kernel.org, linux-media@vger.kernel.org
+Date: Mon, 16 Jun 2025 12:08:40 +0200
+In-Reply-To: <18cd6b1f-8872-4a16-9ceb-50fd1ecfea39@igalia.com>
+References: <20250603093130.100159-2-phasta@kernel.org>
+ <20250603093130.100159-3-phasta@kernel.org>
+ <62ff8ddb-b2f1-4e52-a026-290561ab5337@igalia.com>
+ <f4f326a0ecb98a9996919c3f827b3247b8207feb.camel@mailbox.org>
+ <18cd6b1f-8872-4a16-9ceb-50fd1ecfea39@igalia.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+X-MBO-RS-META: xugczu8yqt6ag77z8f3qkcye1jaikzbn
+X-MBO-RS-ID: 549f6941f9059223189
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -42,129 +73,221 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
+Reply-To: phasta@kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-add support to add a directory for each client-id
-with root at the dri level. Since the clients are
-unique and not just related to one single drm device,
-so it makes more sense to add all the client based
-nodes with root as dri.
+On Mon, 2025-06-16 at 10:27 +0100, Tvrtko Ursulin wrote:
+>=20
+> On 12/06/2025 15:20, Philipp Stanner wrote:
+> > On Thu, 2025-06-12 at 15:17 +0100, Tvrtko Ursulin wrote:
+> > >=20
+> > > On 03/06/2025 10:31, Philipp Stanner wrote:
+> > > > Since its inception, the GPU scheduler can leak memory if the
+> > > > driver
+> > > > calls drm_sched_fini() while there are still jobs in flight.
+> > > >=20
+> > > > The simplest way to solve this in a backwards compatible manner
+> > > > is
+> > > > by
+> > > > adding a new callback, drm_sched_backend_ops.cancel_job(),
+> > > > which
+> > > > instructs the driver to signal the hardware fence associated
+> > > > with
+> > > > the
+> > > > job. Afterwards, the scheduler can savely use the established
+> > > > free_job()
+> > > > callback for freeing the job.
+> > > >=20
+> > > > Implement the new backend_ops callback cancel_job().
+> > > >=20
+> > > > Suggested-by: Tvrtko Ursulin <tvrtko.ursulin@igalia.com>
+> > >=20
+> > > Please just add the link to the patch here (it is only in the
+> > > cover
+> > > letter):
+> > >=20
+> > > Link:
+> > > https://lore.kernel.org/dri-devel/20250418113211.69956-1-tvrtko.ursul=
+in@igalia.com/
+> >=20
+> > That I can do, sure
+>=20
+> Cool, with that, for this patch:
+>=20
+> Acked-by: Tvrtko Ursulin <tvrtko.ursulin@igalia.com>
+>=20
+> > > And you probably want to take the unit test modifications from
+> > > the
+> > > same
+> > > patch too. You could put them in the same patch or separate.
+> >=20
+> > Necessary adjustments for the unit tests are already implemented
+> > and
+> > are waiting for review separately, since this can be done
+> > independently
+> > from this entire series:
+> >=20
+> > https://lore.kernel.org/dri-devel/20250605134154.191764-2-phasta@kernel=
+.org/
+>=20
+> For me it would make most sense to fold that into 2/6 from this
+> series.=20
+> I don't see it making sense as standalone. So if you could repost the
+> series with it integrated I will give it a spin and can review that=20
+> patch at least.
 
-Also create a symlink back to the parent drm device
-from each client.
+It does make sense as an independent patch, because it is: independent.
+It improves the unit tests in a way that they become a better role
+model for the driver callbacks. All fences always must get signaled,
+which is not the case there currently. Unit tests serve as a reference
+implementation for new users, which is why I am stressing that point.
 
-Signed-off-by: Sunil Khatri <sunil.khatri@amd.com>
----
- drivers/gpu/drm/drm_debugfs.c |  1 +
- drivers/gpu/drm/drm_file.c    | 26 ++++++++++++++++++++++++++
- include/drm/drm_device.h      |  4 ++++
- include/drm/drm_file.h        |  7 +++++++
- 4 files changed, 38 insertions(+)
+If you disagree with that patch's content, please answer on it
 
-diff --git a/drivers/gpu/drm/drm_debugfs.c b/drivers/gpu/drm/drm_debugfs.c
-index 2d43bda82887..b4956960ae76 100644
---- a/drivers/gpu/drm/drm_debugfs.c
-+++ b/drivers/gpu/drm/drm_debugfs.c
-@@ -296,6 +296,7 @@ EXPORT_SYMBOL(drm_debugfs_remove_files);
- void drm_debugfs_dev_init(struct drm_device *dev, struct dentry *root)
- {
- 	dev->debugfs_root = debugfs_create_dir(dev->unique, root);
-+	dev->drm_debugfs_root = root;
- }
- 
- /**
-diff --git a/drivers/gpu/drm/drm_file.c b/drivers/gpu/drm/drm_file.c
-index 06ba6dcbf5ae..32012e39dcb4 100644
---- a/drivers/gpu/drm/drm_file.c
-+++ b/drivers/gpu/drm/drm_file.c
-@@ -39,6 +39,7 @@
- #include <linux/poll.h>
- #include <linux/slab.h>
- #include <linux/vga_switcheroo.h>
-+#include <linux/debugfs.h>
- 
- #include <drm/drm_client_event.h>
- #include <drm/drm_drv.h>
-@@ -133,6 +134,7 @@ struct drm_file *drm_file_alloc(struct drm_minor *minor)
- 	struct drm_device *dev = minor->dev;
- 	struct drm_file *file;
- 	int ret;
-+	char *dir_name, *drm_name, *symlink;
- 
- 	file = kzalloc(sizeof(*file), GFP_KERNEL);
- 	if (!file)
-@@ -143,6 +145,27 @@ struct drm_file *drm_file_alloc(struct drm_minor *minor)
- 	rcu_assign_pointer(file->pid, get_pid(task_tgid(current)));
- 	file->minor = minor;
- 
-+	dir_name = kasprintf(GFP_KERNEL, "client-%llu", file->client_id);
-+	if (!dir_name)
-+		return ERR_PTR(-ENOMEM);
-+
-+	/* Create a debugfs directory for the client in root on drm debugfs */
-+	file->debugfs_client = debugfs_create_dir(dir_name, dev->drm_debugfs_root);
-+	kfree(dir_name);
-+
-+	drm_name = kasprintf(GFP_KERNEL, "%d", minor->index);
-+	if (!drm_name)
-+		return ERR_PTR(-ENOMEM);
-+
-+	symlink = kasprintf(GFP_KERNEL, "../%d", minor->index);
-+	if (!symlink)
-+		return ERR_PTR(-ENOMEM);
-+
-+	/* Create a link from client_id to the drm device this client id belongs to */
-+	debugfs_create_symlink(drm_name, file->debugfs_client, symlink);
-+	kfree(drm_name);
-+	kfree(symlink);
-+
- 	/* for compatibility root is always authenticated */
- 	file->authenticated = capable(CAP_SYS_ADMIN);
- 
-@@ -237,6 +260,9 @@ void drm_file_free(struct drm_file *file)
- 
- 	drm_events_release(file);
- 
-+	debugfs_remove_recursive(file->debugfs_client);
-+	file->debugfs_client = NULL;
-+
- 	if (drm_core_check_feature(dev, DRIVER_MODESET)) {
- 		drm_fb_release(file);
- 		drm_property_destroy_user_blobs(dev, file);
-diff --git a/include/drm/drm_device.h b/include/drm/drm_device.h
-index 6ea54a578cda..ec20b777b3cc 100644
---- a/include/drm/drm_device.h
-+++ b/include/drm/drm_device.h
-@@ -325,6 +325,10 @@ struct drm_device {
- 	 * Root directory for debugfs files.
- 	 */
- 	struct dentry *debugfs_root;
-+	/**
-+	 * @drm_debugfs_root;
-+	 */
-+	struct dentry *drm_debugfs_root;
- };
- 
- #endif
-diff --git a/include/drm/drm_file.h b/include/drm/drm_file.h
-index 5c3b2aa3e69d..eab7546aad79 100644
---- a/include/drm/drm_file.h
-+++ b/include/drm/drm_file.h
-@@ -400,6 +400,13 @@ struct drm_file {
- 	 * @client_name_lock: Protects @client_name.
- 	 */
- 	struct mutex client_name_lock;
-+
-+	/**
-+	 * @debugfs_client:
-+	 *
-+	 * debugfs directory for each client under a drm node.
-+	 */
-+	struct dentry *debugfs_client;
- };
- 
- /**
--- 
-2.34.1
+P.
+
+>=20
+> Regards,
+>=20
+> Tvrtko
+>=20
+> >=20
+> > Thx
+> > P.
+> >=20
+> > >=20
+> > > Regards,
+> > >=20
+> > > Tvrtko
+> > >=20
+> > > > Signed-off-by: Philipp Stanner <phasta@kernel.org>
+> > > > ---
+> > > > =C2=A0=C2=A0 drivers/gpu/drm/scheduler/sched_main.c | 34
+> > > > ++++++++++++++++-----
+> > > > -----
+> > > > =C2=A0=C2=A0 include/drm/gpu_scheduler.h=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 |=C2=A0 9 +++++++
+> > > > =C2=A0=C2=A0 2 files changed, 30 insertions(+), 13 deletions(-)
+> > > >=20
+> > > > diff --git a/drivers/gpu/drm/scheduler/sched_main.c
+> > > > b/drivers/gpu/drm/scheduler/sched_main.c
+> > > > index d20726d7adf0..3f14f1e151fa 100644
+> > > > --- a/drivers/gpu/drm/scheduler/sched_main.c
+> > > > +++ b/drivers/gpu/drm/scheduler/sched_main.c
+> > > > @@ -1352,6 +1352,18 @@ int drm_sched_init(struct
+> > > > drm_gpu_scheduler
+> > > > *sched, const struct drm_sched_init_
+> > > > =C2=A0=C2=A0 }
+> > > > =C2=A0=C2=A0 EXPORT_SYMBOL(drm_sched_init);
+> > > > =C2=A0=C2=A0=20
+> > > > +static void drm_sched_kill_remaining_jobs(struct
+> > > > drm_gpu_scheduler
+> > > > *sched)
+> > > > +{
+> > > > +	struct drm_sched_job *job, *tmp;
+> > > > +
+> > > > +	/* All other accessors are stopped. No locking
+> > > > necessary.
+> > > > */
+> > > > +	list_for_each_entry_safe_reverse(job, tmp, &sched-
+> > > > > pending_list, list) {
+> > > > +		sched->ops->cancel_job(job);
+> > > > +		list_del(&job->list);
+> > > > +		sched->ops->free_job(job);
+> > > > +	}
+> > > > +}
+> > > > +
+> > > > =C2=A0=C2=A0 /**
+> > > > =C2=A0=C2=A0=C2=A0 * drm_sched_fini - Destroy a gpu scheduler
+> > > > =C2=A0=C2=A0=C2=A0 *
+> > > > @@ -1359,19 +1371,11 @@ EXPORT_SYMBOL(drm_sched_init);
+> > > > =C2=A0=C2=A0=C2=A0 *
+> > > > =C2=A0=C2=A0=C2=A0 * Tears down and cleans up the scheduler.
+> > > > =C2=A0=C2=A0=C2=A0 *
+> > > > - * This stops submission of new jobs to the hardware through
+> > > > - * drm_sched_backend_ops.run_job(). Consequently,
+> > > > drm_sched_backend_ops.free_job()
+> > > > - * will not be called for all jobs still in
+> > > > drm_gpu_scheduler.pending_list.
+> > > > - * There is no solution for this currently. Thus, it is up to
+> > > > the
+> > > > driver to make
+> > > > - * sure that:
+> > > > - *
+> > > > - *=C2=A0 a) drm_sched_fini() is only called after for all submitte=
+d
+> > > > jobs
+> > > > - *=C2=A0=C2=A0=C2=A0=C2=A0 drm_sched_backend_ops.free_job() has be=
+en called or
+> > > > that
+> > > > - *=C2=A0 b) the jobs for which drm_sched_backend_ops.free_job() ha=
+s
+> > > > not
+> > > > been called
+> > > > - *=C2=A0=C2=A0=C2=A0=C2=A0 after drm_sched_fini() ran are freed ma=
+nually.
+> > > > - *
+> > > > - * FIXME: Take care of the above problem and prevent this
+> > > > function
+> > > > from leaking
+> > > > - * the jobs in drm_gpu_scheduler.pending_list under any
+> > > > circumstances.
+> > > > + * This stops submission of new jobs to the hardware through
+> > > > &struct
+> > > > + * drm_sched_backend_ops.run_job. If &struct
+> > > > drm_sched_backend_ops.cancel_job
+> > > > + * is implemented, all jobs will be canceled through it and
+> > > > afterwards cleaned
+> > > > + * up through &struct drm_sched_backend_ops.free_job. If
+> > > > cancel_job is not
+> > > > + * implemented, memory could leak.
+> > > > =C2=A0=C2=A0=C2=A0 */
+> > > > =C2=A0=C2=A0 void drm_sched_fini(struct drm_gpu_scheduler *sched)
+> > > > =C2=A0=C2=A0 {
+> > > > @@ -1401,6 +1405,10 @@ void drm_sched_fini(struct
+> > > > drm_gpu_scheduler
+> > > > *sched)
+> > > > =C2=A0=C2=A0=C2=A0	/* Confirm no work left behind accessing device
+> > > > structures
+> > > > */
+> > > > =C2=A0=C2=A0=C2=A0	cancel_delayed_work_sync(&sched->work_tdr);
+> > > > =C2=A0=C2=A0=20
+> > > > +	/* Avoid memory leaks if supported by the driver. */
+> > > > +	if (sched->ops->cancel_job)
+> > > > +		drm_sched_kill_remaining_jobs(sched);
+> > > > +
+> > > > =C2=A0=C2=A0=C2=A0	if (sched->own_submit_wq)
+> > > > =C2=A0=C2=A0=C2=A0		destroy_workqueue(sched->submit_wq);
+> > > > =C2=A0=C2=A0=C2=A0	sched->ready =3D false;
+> > > > diff --git a/include/drm/gpu_scheduler.h
+> > > > b/include/drm/gpu_scheduler.h
+> > > > index e62a7214e052..81dcbfc8c223 100644
+> > > > --- a/include/drm/gpu_scheduler.h
+> > > > +++ b/include/drm/gpu_scheduler.h
+> > > > @@ -512,6 +512,15 @@ struct drm_sched_backend_ops {
+> > > > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 =
+* and it's time to clean it up.
+> > > > =C2=A0=C2=A0=C2=A0	 */
+> > > > =C2=A0=C2=A0=C2=A0	void (*free_job)(struct drm_sched_job *sched_job=
+);
+> > > > +
+> > > > +	/**
+> > > > +	 * @cancel_job: Used by the scheduler to guarantee
+> > > > remaining jobs' fences
+> > > > +	 * get signaled in drm_sched_fini().
+> > > > +	 *
+> > > > +	 * Drivers need to signal the passed job's hardware
+> > > > fence
+> > > > with
+> > > > +	 * -ECANCELED in this callback. They must not free the
+> > > > job.
+> > > > +	 */
+> > > > +	void (*cancel_job)(struct drm_sched_job *sched_job);
+> > > > =C2=A0=C2=A0 };
+> > > > =C2=A0=C2=A0=20
+> > > > =C2=A0=C2=A0 /**
+> > >=20
+> >=20
+>=20
 
