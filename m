@@ -2,19 +2,19 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id A1B34ADB955
-	for <lists+dri-devel@lfdr.de>; Mon, 16 Jun 2025 21:09:49 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 01079ADB95E
+	for <lists+dri-devel@lfdr.de>; Mon, 16 Jun 2025 21:13:12 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7DE5810E42F;
-	Mon, 16 Jun 2025 19:09:45 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4D0DC10E28A;
+	Mon, 16 Jun 2025 19:13:10 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=igalia.com header.i=@igalia.com header.b="BjtTqY89";
+	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=igalia.com header.i=@igalia.com header.b="gS15LYbB";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from fanzine2.igalia.com (fanzine2.igalia.com [213.97.179.56])
- by gabe.freedesktop.org (Postfix) with ESMTPS id DC44610E16D;
- Mon, 16 Jun 2025 19:09:42 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 094FB10E28A;
+ Mon, 16 Jun 2025 19:13:09 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com; 
  s=20170329;
  h=Content-Transfer-Encoding:Content-Type:In-Reply-To:From:
@@ -22,35 +22,37 @@ DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com;
  Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
  Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
  List-Subscribe:List-Post:List-Owner:List-Archive;
- bh=4vYYAYEP2FDjtuz94rrjVWrYx72Vhx5cqq0+nfigndo=; b=BjtTqY89n7KunPG7xKbXqI4U+c
- PRBXITDeFivFCZpgmgnDeEnUTzIHd55PCkekqYC/fJKWZEG8+2TGEfcY2SVne0E75sg1xa2muhBI6
- EiS3BzjTJS8r3tE7IIFV60DeTuhomx5bb3zuJY4qvTJmia50sYb8sD3U44di0+S9le/VeggUqjblk
- YRy1+w+Kn1LZyenFIxyKCuE4nbBHLSPhL+h0spGA2NtDI1xp5aC1+0BGprBi9NSSk1I1sRLbkDWvJ
- GqK/4iuTKAYffeSnmb45Sh8640N+RtQl1DGG7EcOs7iG9s4KQ0C0URvQdbJjSG/Ji5AMerfH4K4nj
- S59nKz2g==;
+ bh=33k/FvPvMaC+hf6YPX4/vljLuOlQN/BmgQAwGZPy+g8=; b=gS15LYbBuC+HZ2Vav8uE/GGJng
+ pLDvPWCuey5EcyjrqAIlpS0vwvHZ6SERuOo1vjy66/NOP8xETaFmlvBdXbIFH77Gba0JryQOW5wd1
+ +jAa0KT23h+3aRbEv6bFsJSlWYdGrpithfkdozKlpawOypur21IDDkOeojhUvBaT1yJOIoAfFIJ8D
+ CGl+77RRLvfCSyV2zB2krHzyDg/vqgNBU/gVPJ62w5hXxBk77YEdV0HIOhlKfj768Buf/1Kb8X+GP
+ VWeDwCqmvnmThQl/kUXiL+AC2j27ttCglYTYK+E/glR7YC2Veicgh+0x1Gz4hS7x1jiTU8MhVHxCh
+ t1yyqt5Q==;
 Received: from [189.6.13.79] (helo=[192.168.0.55])
  by fanzine2.igalia.com with esmtpsa 
  (Cipher TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_128_GCM:128) (Exim)
- id 1uRFCx-004FkH-K5; Mon, 16 Jun 2025 21:09:28 +0200
-Message-ID: <c95a6be8-a8e6-4b65-8eea-038c19d46c92@igalia.com>
-Date: Mon, 16 Jun 2025 16:09:18 -0300
+ id 1uRFGJ-004FqP-Hm; Mon, 16 Jun 2025 21:12:55 +0200
+Message-ID: <bfc3db45-9403-46e6-a1e0-320d74689fc7@igalia.com>
+Date: Mon, 16 Jun 2025 16:12:48 -0300
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v4 14/14] drm/amd/display: move dc_sink from dc_edid to
- drm_edid
-To: Mario Limonciello <mario.limonciello@amd.com>,
- Alex Hung <alex.hung@amd.com>, Rodrigo Siqueira <siqueira@igalia.com>,
+Subject: Re: [PATCH v4 13/14] drm/amd/display: add drm_edid to dc_sink
+To: Mario Limonciello <mario.limonciello@amd.com>
+Cc: Alex Hung <alex.hung@amd.com>, Rodrigo Siqueira <siqueira@igalia.com>,
  harry.wentland@amd.com, sunpeng.li@amd.com, alexander.deucher@amd.com,
- christian.koenig@amd.com, airlied@gmail.com, simona@ffwll.ch
-Cc: Jani Nikula <jani.nikula@linux.intel.com>,
+ christian.koenig@amd.com, airlied@gmail.com, simona@ffwll.ch,
+ maarten.lankhorst@linux.intel.com, mripard@kernel.org, tzimmermann@suse.de,
+ Jani Nikula <jani.nikula@linux.intel.com>,
  Michel Daenzer <michel.daenzer@mailbox.org>, amd-gfx@lists.freedesktop.org,
  dri-devel@lists.freedesktop.org, kernel-dev@igalia.com
 References: <20250613150015.245917-1-mwen@igalia.com>
- <20250613150015.245917-15-mwen@igalia.com>
- <03d50a89-0da1-40f6-a81f-f4332fac8799@amd.com>
+ <20250613150015.245917-14-mwen@igalia.com>
+ <e8f4fb73-cb63-4662-b041-4719785c5b37@amd.com>
+ <jau2ceehoydonrbqfsgsdhvgcoltqtxq6ahms3zenwqhlgu3k3@zno3kendzxg6>
+ <4e5b6615-6ef6-41fa-8794-e274d509b37a@amd.com>
 Content-Language: en-US
 From: Melissa Wen <mwen@igalia.com>
-In-Reply-To: <03d50a89-0da1-40f6-a81f-f4332fac8799@amd.com>
+In-Reply-To: <4e5b6615-6ef6-41fa-8794-e274d509b37a@amd.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -70,320 +72,150 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 
 
-On 13/06/2025 15:26, Mario Limonciello wrote:
-> On 6/13/2025 9:58 AM, Melissa Wen wrote:
->> Reduce direct handling of edid data by resorting to drm helpers that
->> deal with this info inside drm_edid infrastructure.
+On 13/06/2025 15:23, Mario Limonciello wrote:
+> On 6/13/2025 12:42 PM, Melissa Wen wrote:
+>> On 06/13, Mario Limonciello wrote:
+>>> On 6/13/2025 7:58 AM, Melissa Wen wrote:
+>>>> Add Linux opaque object to dc_sink for storing edid data cross driver,
+>>>> drm_edid. Also include the Linux call to free this object, the
+>>>> drm_edid_free()
+>>>>
+>>>> v3:
+>>>> - remove uneccessary include (jani)
+>>>>
+>>>> Signed-off-by: Melissa Wen <mwen@igalia.com>
+>>>> ---
+>>>>    drivers/gpu/drm/amd/display/amdgpu_dm/dc_edid.c | 6 ++++++
+>>>>    drivers/gpu/drm/amd/display/amdgpu_dm/dc_edid.h | 1 +
+>>>>    drivers/gpu/drm/amd/display/dc/core/dc_sink.c   | 3 +++
+>>>>    drivers/gpu/drm/amd/display/dc/dc.h             | 1 +
+>>>>    include/drm/drm_edid.h                          | 4 ++--
+>>>>    5 files changed, 13 insertions(+), 2 deletions(-)
+>>>>
+>>>> diff --git a/drivers/gpu/drm/amd/display/amdgpu_dm/dc_edid.c 
+>>>> b/drivers/gpu/drm/amd/display/amdgpu_dm/dc_edid.c
+>>>> index a90545b176cc..9e86dc15557b 100644
+>>>> --- a/drivers/gpu/drm/amd/display/amdgpu_dm/dc_edid.c
+>>>> +++ b/drivers/gpu/drm/amd/display/amdgpu_dm/dc_edid.c
+>>>> @@ -1,6 +1,7 @@
+>>>>    // SPDX-License-Identifier: MIT
+>>>>    #include "amdgpu_dm/dc_edid.h"
+>>>>    #include "dc.h"
+>>>> +#include <drm/drm_edid.h>
+>>>>    bool dc_edid_is_same_edid(struct dc_sink *prev_sink,
+>>>>                  struct dc_sink *current_sink)
+>>>> @@ -25,3 +26,8 @@ void dc_edid_copy_edid_to_dc(struct dc_sink 
+>>>> *dc_sink,
+>>>>        memmove(dc_sink->dc_edid.raw_edid, edid, len);
+>>>>        dc_sink->dc_edid.length = len;
+>>>>    }
+>>>> +
+>>>> +void dc_edid_sink_edid_free(struct dc_sink *sink)
+>>>> +{
+>>>> +    drm_edid_free(sink->drm_edid);
+>>>> +}
+>>>> diff --git a/drivers/gpu/drm/amd/display/amdgpu_dm/dc_edid.h 
+>>>> b/drivers/gpu/drm/amd/display/amdgpu_dm/dc_edid.h
+>>>> index f42cd5bbc730..2c76768be459 100644
+>>>> --- a/drivers/gpu/drm/amd/display/amdgpu_dm/dc_edid.h
+>>>> +++ b/drivers/gpu/drm/amd/display/amdgpu_dm/dc_edid.h
+>>>> @@ -9,5 +9,6 @@ bool dc_edid_is_same_edid(struct dc_sink *prev_sink,
+>>>>                  struct dc_sink *current_sink);
+>>>>    void dc_edid_copy_edid_to_dc(struct dc_sink *dc_sink,
+>>>>                     const void *edid, int len);
+>>>> +void dc_edid_sink_edid_free(struct dc_sink *sink);
+>>>>    #endif /* __DC_EDID_H__ */
+>>>> diff --git a/drivers/gpu/drm/amd/display/dc/core/dc_sink.c 
+>>>> b/drivers/gpu/drm/amd/display/dc/core/dc_sink.c
+>>>> index 455fa5dd1420..3774a3245506 100644
+>>>> --- a/drivers/gpu/drm/amd/display/dc/core/dc_sink.c
+>>>> +++ b/drivers/gpu/drm/amd/display/dc/core/dc_sink.c
+>>>> @@ -26,6 +26,7 @@
+>>>>    #include "dm_services.h"
+>>>>    #include "dm_helpers.h"
+>>>>    #include "core_types.h"
+>>>> +#include "dc_edid.h"
+>>>> /*******************************************************************************
+>>>>     * Private functions
+>>>> @@ -65,6 +66,8 @@ void dc_sink_retain(struct dc_sink *sink)
+>>>>    static void dc_sink_free(struct kref *kref)
+>>>>    {
+>>>>        struct dc_sink *sink = container_of(kref, struct dc_sink, 
+>>>> refcount);
+>>>> +
+>>>> +    dc_edid_sink_edid_free(sink);
+>>>>        kfree(sink->dc_container_id);
+>>>>        kfree(sink);
+>>>>    }
+>>>> diff --git a/drivers/gpu/drm/amd/display/dc/dc.h 
+>>>> b/drivers/gpu/drm/amd/display/dc/dc.h
+>>>> index 86feef038de6..cf56a0405a4f 100644
+>>>> --- a/drivers/gpu/drm/amd/display/dc/dc.h
+>>>> +++ b/drivers/gpu/drm/amd/display/dc/dc.h
+>>>> @@ -2466,6 +2466,7 @@ struct scdc_caps {
+>>>>    struct dc_sink {
+>>>>        enum signal_type sink_signal;
+>>>>        struct dc_edid dc_edid; /* raw edid */
+>>>> +    const struct drm_edid *drm_edid; /* Linux DRM edid*/
+>>>
+>>> Don't you need a forward declaration for 'struct drm_edid' in dc.h 
+>>> to be
+>>> able to do this?
 >>
->> v3:
->> - use dc_edid_sink_edid_free in link_detection
->>
->> Signed-off-by: Melissa Wen <mwen@igalia.com>
->> ---
->>   .../gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c | 26 +++++++------------
->>   .../amd/display/amdgpu_dm/amdgpu_dm_helpers.c | 24 +++++------------
->>   .../display/amdgpu_dm/amdgpu_dm_mst_types.c   | 21 +++++----------
->>   .../gpu/drm/amd/display/amdgpu_dm/dc_edid.c   | 26 +++++++++----------
->>   .../gpu/drm/amd/display/amdgpu_dm/dc_edid.h   |  1 +
->>   .../drm/amd/display/dc/link/link_detection.c  |  3 ++-
->>   6 files changed, 40 insertions(+), 61 deletions(-)
->>
->> diff --git a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c 
->> b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
->> index c7efeb9f38b6..ec33a6236e37 100644
->> --- a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
->> +++ b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
->> @@ -68,6 +68,7 @@
->>   #endif
->>   #include "amdgpu_dm_psr.h"
->>   #include "amdgpu_dm_replay.h"
->> +#include "dc_edid.h"
->>     #include "ivsrcid/ivsrcid_vislands30.h"
->>   @@ -3708,6 +3709,8 @@ void amdgpu_dm_update_connector_after_detect(
->>        * 2. Send an event and let userspace tell us what to do
->>        */
->>       if (sink) {
->> +        const struct drm_edid *drm_edid = sink->drm_edid;
->> +
->>           /*
->>            * TODO: check if we still need the S3 mode update workaround.
->>            * If yes, put it here.
->> @@ -3719,16 +3722,15 @@ void amdgpu_dm_update_connector_after_detect(
->>             aconnector->dc_sink = sink;
->>           dc_sink_retain(aconnector->dc_sink);
->> -        if (sink->dc_edid.length == 0) {
->> +
->> +        if (!drm_edid_valid(drm_edid)) {
->>               aconnector->drm_edid = NULL;
->>               hdmi_cec_unset_edid(aconnector);
->>               if (aconnector->dc_link->aux_mode) {
->> drm_dp_cec_unset_edid(&aconnector->dm_dp_aux.aux);
->>               }
->>           } else {
->> -            const struct edid *edid = (const struct edid 
->> *)sink->dc_edid.raw_edid;
->> -
->> -            aconnector->drm_edid = drm_edid_alloc(edid, 
->> sink->dc_edid.length);
->> +            aconnector->drm_edid = drm_edid_dup(sink->drm_edid);
->>               drm_edid_connector_update(connector, 
->> aconnector->drm_edid);
->>                 hdmi_cec_set_edid(aconnector);
->> @@ -7378,12 +7380,8 @@ static void 
->> amdgpu_dm_connector_funcs_force(struct drm_connector *connector)
->>       aconnector->drm_edid = drm_edid;
->>       /* Update emulated (virtual) sink's EDID */
->>       if (dc_em_sink && dc_link) {
->> -        // FIXME: Get rid of drm_edid_raw()
->> -        const struct edid *edid = drm_edid_raw(drm_edid);
->> -
->>           memset(&dc_em_sink->edid_caps, 0, sizeof(struct 
->> dc_edid_caps));
->> -        memmove(dc_em_sink->dc_edid.raw_edid, edid,
->> -            (edid->extensions + 1) * EDID_LENGTH);
->> +        dc_edid_copy_edid_to_dc(dc_em_sink, drm_edid, 0);
->>           dm_helpers_parse_edid_caps(dc_link, dc_em_sink);
->>       }
->>   }
->> @@ -7416,7 +7414,6 @@ static void create_eml_sink(struct 
->> amdgpu_dm_connector *aconnector)
->>               .sink_signal = SIGNAL_TYPE_VIRTUAL
->>       };
->>       const struct drm_edid *drm_edid;
->> -    const struct edid *edid;
->>       struct i2c_adapter *ddc;
->>         if (dc_link && dc_link->aux_mode)
->> @@ -7436,12 +7433,9 @@ static void create_eml_sink(struct 
->> amdgpu_dm_connector *aconnector)
->>         aconnector->drm_edid = drm_edid;
->>   -    edid = drm_edid_raw(drm_edid); // FIXME: Get rid of 
->> drm_edid_raw()
->> -    aconnector->dc_em_sink = dc_link_add_remote_sink(
->> -        aconnector->dc_link,
->> -        (uint8_t *)edid,
->> -        (edid->extensions + 1) * EDID_LENGTH,
->> -        &init_params);
->> +    aconnector->dc_em_sink = 
->> dc_link_add_remote_sink(aconnector->dc_link,
->> +                             drm_edid, 0,
->> +                             &init_params);
->>         if (aconnector->base.force == DRM_FORCE_ON) {
->>           aconnector->dc_sink = aconnector->dc_link->local_sink ?
->> diff --git 
->> a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_helpers.c 
->> b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_helpers.c
->> index abfce44dcee7..3e9d04760c21 100644
->> --- a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_helpers.c
->> +++ b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_helpers.c
->> @@ -48,6 +48,7 @@
->>   #include "dm_helpers.h"
->>   #include "ddc_service_types.h"
->>   #include "clk_mgr.h"
->> +#include "dc_edid.h"
->>     static void apply_edid_quirks(struct drm_device *dev,
->>                     const struct drm_edid *drm_edid,
->> @@ -100,20 +101,16 @@ enum dc_edid_status 
->> dm_helpers_parse_edid_caps(struct dc_link *link,
->>       struct amdgpu_dm_connector *aconnector = link->priv;
->>       struct drm_connector *connector = &aconnector->base;
->>       struct drm_device *dev = connector->dev;
->> -    struct edid *edid_buf;
->> -    const struct drm_edid *drm_edid;
->> +    const struct drm_edid *drm_edid = sink->drm_edid;
->>       struct drm_edid_product_id product_id;
->>       struct dc_edid_caps *edid_caps = &sink->edid_caps;
->>       int sad_count;
->>       int i = 0;
->>       enum dc_edid_status result = EDID_OK;
->>   -    edid_buf = (struct edid *) &sink->dc_edid.raw_edid;
->> -    if (!edid_caps || !edid_buf)
->> +    if (!edid_caps || !drm_edid)
->>           return EDID_BAD_INPUT;
->>   -    drm_edid = drm_edid_alloc(edid_buf, EDID_LENGTH * 
->> (edid_buf->extensions + 1));
->> -
->>       if (!drm_edid_valid(drm_edid))
->>           result = EDID_BAD_CHECKSUM;
->>   @@ -135,10 +132,8 @@ enum dc_edid_status 
->> dm_helpers_parse_edid_caps(struct dc_link *link,
->>       apply_edid_quirks(dev, drm_edid, edid_caps);
->>         sad_count = drm_eld_sad_count(connector->eld);
->> -    if (sad_count <= 0) {
->> -        drm_edid_free(drm_edid);
->> +    if (sad_count <= 0)
->>           return result;
->> -    }
->>         edid_caps->audio_mode_count = min(sad_count, 
->> DC_MAX_AUDIO_DESC_COUNT);
->>       for (i = 0; i < edid_caps->audio_mode_count; ++i) {
->> @@ -158,8 +153,6 @@ enum dc_edid_status 
->> dm_helpers_parse_edid_caps(struct dc_link *link,
->>       else
->>           edid_caps->speaker_flags = DEFAULT_SPEAKER_LOCATION;
->>   -    drm_edid_free(drm_edid);
->> -
->>       return result;
->>   }
->>   @@ -991,7 +984,6 @@ enum dc_edid_status dm_helpers_read_local_edid(
->>       int retry = 3;
->>       enum dc_edid_status edid_status;
->>       const struct drm_edid *drm_edid;
->> -    const struct edid *edid;
->>         if (link->aux_mode)
->>           ddc = &aconnector->dm_dp_aux.aux.ddc;
->> @@ -1021,11 +1013,7 @@ enum dc_edid_status dm_helpers_read_local_edid(
->>           if (!drm_edid)
->>               return EDID_NO_RESPONSE;
->>   -        edid = drm_edid_raw(drm_edid); // FIXME: Get rid of 
->> drm_edid_raw()
->> -        sink->dc_edid.length = EDID_LENGTH * (edid->extensions + 1);
->> -        memmove(sink->dc_edid.raw_edid, (uint8_t *)edid, 
->> sink->dc_edid.length);
->> -
->> -        /* We don't need the original edid anymore */
->> +        sink->drm_edid = drm_edid_dup(drm_edid);
->>           drm_edid_free(drm_edid);
+>> I understand that, as it's just a pointer (the compiler knows the size)
+>> and there is no circular dependencies between dc_sink and drm_edid, we
+>> don't need a forward declaration. So I think we are fine also because
+>> dc_sink->drm_edid dereference only happens in dc_edid.h that already
+>> needs to include drm_edid.h for drm_edid helpers... but let me know if
+>> I'm missing something.
 >
-> Is the duplication actually necessary?  Can you "steal" the pointer by 
-> just assigning directly?
+> Did you compile with CONFIG_WERROR or at least W=1?  I feel like I've 
+> seen issues with this in the past that the compiler doesn't like having
+> unknown types, even if a pointer.
 
-Now you pointed it out and I realized there is a memory leak here if the 
-loop continues.
-I'll fix that.
+Yeah, I don't see complaints here with the warning as error option enabled.
+But let me know if you think forward declaration is safer or better for 
+maintainance.
+I just tried to reduce the number of linux-related stuff on DC as much 
+as possible.
 
-Thanks for reviewing.
+BR,
 
 Melissa
-
 >
+> But if it works with W=1 / CONFIG_WERROR I must have been thinking 
+> about a dereference case and thus no concerns on my side.
 >
->>             edid_status = dm_helpers_parse_edid_caps(link, sink);
->> @@ -1051,6 +1039,8 @@ enum dc_edid_status dm_helpers_read_local_edid(
->>             test_response.bits.EDID_CHECKSUM_WRITE = 1;
->>   +        // TODO: drm_edid doesn't have a helper for dp_write_dpcd yet
->> +        dc_edid_copy_edid_to_sink(sink);
->>           dm_helpers_dp_write_dpcd(ctx,
->>                       link,
->>                       DP_TEST_EDID_CHECKSUM,
->> diff --git 
->> a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_mst_types.c 
->> b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_mst_types.c
->> index 7187d5aedf0a..5ca3e668c8aa 100644
->> --- a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_mst_types.c
->> +++ b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_mst_types.c
->> @@ -359,12 +359,10 @@ static int dm_dp_mst_get_modes(struct 
->> drm_connector *connector)
->>                       .link = aconnector->dc_link,
->>                       .sink_signal = SIGNAL_TYPE_DISPLAY_PORT_MST };
->>   -                dc_sink = dc_link_add_remote_sink(
->> -                    aconnector->dc_link,
->> -                    NULL,
->> -                    0,
->> -                    &init_params);
->> -
->> +                dc_sink = dc_link_add_remote_sink(aconnector->dc_link,
->> +                                  NULL,
->> +                                  0,
->> +                                  &init_params);
->>                   if (!dc_sink) {
->>                       DRM_ERROR("Unable to add a remote sink\n");
->>                       return 0;
->> @@ -397,15 +395,10 @@ static int dm_dp_mst_get_modes(struct 
->> drm_connector *connector)
->>           struct dc_sink_init_data init_params = {
->>                   .link = aconnector->dc_link,
->>                   .sink_signal = SIGNAL_TYPE_DISPLAY_PORT_MST };
->> -        const struct edid *edid;
->> -
->> -        edid = drm_edid_raw(aconnector->drm_edid); // FIXME: Get rid 
->> of drm_edid_raw()
->> -        dc_sink = dc_link_add_remote_sink(
->> -            aconnector->dc_link,
->> -            (uint8_t *)edid,
->> -            (edid->extensions + 1) * EDID_LENGTH,
->> -            &init_params);
->>   +        dc_sink = dc_link_add_remote_sink(aconnector->dc_link,
->> +                          aconnector->drm_edid, 0,
->> +                          &init_params);
->>           if (!dc_sink) {
->>               DRM_ERROR("Unable to add a remote sink\n");
->>               return 0;
->> diff --git a/drivers/gpu/drm/amd/display/amdgpu_dm/dc_edid.c 
->> b/drivers/gpu/drm/amd/display/amdgpu_dm/dc_edid.c
->> index 9e86dc15557b..ce4a7f9e268a 100644
->> --- a/drivers/gpu/drm/amd/display/amdgpu_dm/dc_edid.c
->> +++ b/drivers/gpu/drm/amd/display/amdgpu_dm/dc_edid.c
->> @@ -6,25 +6,25 @@
->>   bool dc_edid_is_same_edid(struct dc_sink *prev_sink,
->>                 struct dc_sink *current_sink)
->>   {
->> -    struct dc_edid *old_edid = &prev_sink->dc_edid;
->> -    struct dc_edid *new_edid = &current_sink->dc_edid;
->> -
->> -       if (old_edid->length != new_edid->length)
->> -               return false;
->> -
->> -       if (new_edid->length == 0)
->> -               return false;
->> -
->> -       return (memcmp(old_edid->raw_edid,
->> -                      new_edid->raw_edid, new_edid->length) == 0);
->> +    return drm_edid_eq(prev_sink->drm_edid, current_sink->drm_edid);
->>   }
->>     void dc_edid_copy_edid_to_dc(struct dc_sink *dc_sink,
->>                    const void *edid,
->>                    int len)
->>   {
->> -    memmove(dc_sink->dc_edid.raw_edid, edid, len);
->> -    dc_sink->dc_edid.length = len;
->> +    dc_sink->drm_edid = drm_edid_dup((const struct drm_edid *) edid);
->> +}
->> +
->> +void dc_edid_copy_edid_to_sink(struct dc_sink *sink)
->> +{
->> +    const struct edid *edid;
->> +    uint32_t edid_length;
->> +
->> +    edid = drm_edid_raw(sink->drm_edid); // FIXME: Get rid of 
->> drm_edid_raw()
->> +    edid_length = EDID_LENGTH * (edid->extensions + 1);
->> +    memcpy(sink->dc_edid.raw_edid, (uint8_t *) edid, edid_length);
->> +    sink->dc_edid.length = edid_length;
->>   }
->>     void dc_edid_sink_edid_free(struct dc_sink *sink)
->> diff --git a/drivers/gpu/drm/amd/display/amdgpu_dm/dc_edid.h 
->> b/drivers/gpu/drm/amd/display/amdgpu_dm/dc_edid.h
->> index 2c76768be459..a95cc6ccc743 100644
->> --- a/drivers/gpu/drm/amd/display/amdgpu_dm/dc_edid.h
->> +++ b/drivers/gpu/drm/amd/display/amdgpu_dm/dc_edid.h
->> @@ -9,6 +9,7 @@ bool dc_edid_is_same_edid(struct dc_sink *prev_sink,
->>                 struct dc_sink *current_sink);
->>   void dc_edid_copy_edid_to_dc(struct dc_sink *dc_sink,
->>                    const void *edid, int len);
->> +void dc_edid_copy_edid_to_sink(struct dc_sink *sink);
->>   void dc_edid_sink_edid_free(struct dc_sink *sink);
->>     #endif /* __DC_EDID_H__ */
->> diff --git a/drivers/gpu/drm/amd/display/dc/link/link_detection.c 
->> b/drivers/gpu/drm/amd/display/dc/link/link_detection.c
->> index c28072f980cc..bddcfd8f02ba 100644
->> --- a/drivers/gpu/drm/amd/display/dc/link/link_detection.c
->> +++ b/drivers/gpu/drm/amd/display/dc/link/link_detection.c
->> @@ -1133,6 +1133,7 @@ static bool detect_link_and_local_sink(struct 
->> dc_link *link,
->>               dp_trace_init(link);
->>             /* Connectivity log: detection */
->> +        dc_edid_copy_edid_to_sink(sink);
->>           for (i = 0; i < sink->dc_edid.length / DC_EDID_BLOCK_SIZE; 
->> i++) {
->>               CONN_DATA_DETECT(link,
->>                        &sink->dc_edid.raw_edid[i * DC_EDID_BLOCK_SIZE],
->> @@ -1415,7 +1416,7 @@ struct dc_sink *link_add_remote_sink(
->>        * parsing fails
->>        */
->>       if (edid_status != EDID_OK && edid_status != EDID_PARTIAL_VALID) {
->> -        dc_sink->dc_edid.length = 0;
->> +        dc_edid_sink_edid_free(dc_sink);
->>           dm_error("Bad EDID, status%d!\n", edid_status);
->>       }
+>>
+>>>
+>>> Also you're missing a space at the end of the comment before the '*/'.
+>>
+>> ack. I'll wait for more comments to send it fixed.
+>>
+>> Thanks for reviewing.
+>>
+>> Melissa
+>>
+>>>
+>>>>        struct dc_edid_caps edid_caps; /* parse display caps */
+>>>>        struct dc_container_id *dc_container_id;
+>>>>        uint32_t dongle_max_pix_clk;
+>>>> diff --git a/include/drm/drm_edid.h b/include/drm/drm_edid.h
+>>>> index e7a9a4928b97..8617d2285f38 100644
+>>>> --- a/include/drm/drm_edid.h
+>>>> +++ b/include/drm/drm_edid.h
+>>>> @@ -469,8 +469,8 @@ int drm_edid_connector_update(struct 
+>>>> drm_connector *connector,
+>>>>                      const struct drm_edid *edid);
+>>>>    int drm_edid_connector_add_modes(struct drm_connector *connector);
+>>>>    bool drm_edid_is_digital(const struct drm_edid *drm_edid);
+>>>> -bool drm_edid_eq(const struct drm_edid *drm_edid_first,
+>>>> -             const struct drm_edid *drm_edid_second);
+>>>> +bool drm_edid_eq(const struct drm_edid *drm_edid_1,
+>>>> +         const struct drm_edid *drm_edid_2);
+>>>>    void drm_edid_get_product_id(const struct drm_edid *drm_edid,
+>>>>                     struct drm_edid_product_id *id);
+>>>>    void drm_edid_print_product_id(struct drm_printer *p,
+>>>
 >
 
