@@ -2,19 +2,19 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 01079ADB95E
-	for <lists+dri-devel@lfdr.de>; Mon, 16 Jun 2025 21:13:12 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6574DADB985
+	for <lists+dri-devel@lfdr.de>; Mon, 16 Jun 2025 21:26:52 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4D0DC10E28A;
-	Mon, 16 Jun 2025 19:13:10 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3C73610E41A;
+	Mon, 16 Jun 2025 19:26:49 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=igalia.com header.i=@igalia.com header.b="gS15LYbB";
+	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=igalia.com header.i=@igalia.com header.b="Y1Pdcicv";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from fanzine2.igalia.com (fanzine2.igalia.com [213.97.179.56])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 094FB10E28A;
- Mon, 16 Jun 2025 19:13:09 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 94C6E10E41A;
+ Mon, 16 Jun 2025 19:26:48 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com; 
  s=20170329;
  h=Content-Transfer-Encoding:Content-Type:In-Reply-To:From:
@@ -22,37 +22,36 @@ DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com;
  Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
  Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
  List-Subscribe:List-Post:List-Owner:List-Archive;
- bh=33k/FvPvMaC+hf6YPX4/vljLuOlQN/BmgQAwGZPy+g8=; b=gS15LYbBuC+HZ2Vav8uE/GGJng
- pLDvPWCuey5EcyjrqAIlpS0vwvHZ6SERuOo1vjy66/NOP8xETaFmlvBdXbIFH77Gba0JryQOW5wd1
- +jAa0KT23h+3aRbEv6bFsJSlWYdGrpithfkdozKlpawOypur21IDDkOeojhUvBaT1yJOIoAfFIJ8D
- CGl+77RRLvfCSyV2zB2krHzyDg/vqgNBU/gVPJ62w5hXxBk77YEdV0HIOhlKfj768Buf/1Kb8X+GP
- VWeDwCqmvnmThQl/kUXiL+AC2j27ttCglYTYK+E/glR7YC2Veicgh+0x1Gz4hS7x1jiTU8MhVHxCh
- t1yyqt5Q==;
+ bh=AmdyMDMOdhvn8R+G8lx3KGWpeafNSjB9gXcXyS2Tzw8=; b=Y1PdcicvD8bRdhQr/r+Sao+Xk4
+ VGmR4/M1B55nLbvfHIbwEkT/fwveL4dONbpcW/pK0Qm40CvP9ZyLi2SWmD2lmLrhg0EWULNmqr322
+ S1L2JH1qDZ7B/Jxa7jmsi0aRGXuLYORohMq8RqK9IF8FzZVzJLsF4Ta2Ibn5NRyC5aws4GCFYun3C
+ ZE7bJ7HIsFQIp4LaS1VfQBNc+FYHVxAHAK+LpfM8ynqAu/ZGlfIghgW4NqTuY0ycSQmpuFFlAaOIa
+ FHuAGtcAy30HAIry4H1y88MuEBqr+KEFQTuCoOMa5jkkad2fTMR34xLV76nOeYs+yzBl+RXw0lQha
+ RuGHbqdQ==;
 Received: from [189.6.13.79] (helo=[192.168.0.55])
  by fanzine2.igalia.com with esmtpsa 
  (Cipher TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_128_GCM:128) (Exim)
- id 1uRFGJ-004FqP-Hm; Mon, 16 Jun 2025 21:12:55 +0200
-Message-ID: <bfc3db45-9403-46e6-a1e0-320d74689fc7@igalia.com>
-Date: Mon, 16 Jun 2025 16:12:48 -0300
+ id 1uRFTW-004G7u-UR; Mon, 16 Jun 2025 21:26:35 +0200
+Message-ID: <8191efcf-9301-45a5-b277-57825d2240e1@igalia.com>
+Date: Mon, 16 Jun 2025 16:26:27 -0300
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v4 13/14] drm/amd/display: add drm_edid to dc_sink
-To: Mario Limonciello <mario.limonciello@amd.com>
-Cc: Alex Hung <alex.hung@amd.com>, Rodrigo Siqueira <siqueira@igalia.com>,
- harry.wentland@amd.com, sunpeng.li@amd.com, alexander.deucher@amd.com,
- christian.koenig@amd.com, airlied@gmail.com, simona@ffwll.ch,
+Subject: Re: [PATCH v4 12/14] drm/edid: introduce a helper that compares edid
+ data from two drm_edid
+To: Mario Limonciello <mario.limonciello@amd.com>,
+ Alex Hung <alex.hung@amd.com>, Rodrigo Siqueira <siqueira@igalia.com>,
  maarten.lankhorst@linux.intel.com, mripard@kernel.org, tzimmermann@suse.de,
- Jani Nikula <jani.nikula@linux.intel.com>,
+ airlied@gmail.com, simona@ffwll.ch
+Cc: Jani Nikula <jani.nikula@linux.intel.com>,
  Michel Daenzer <michel.daenzer@mailbox.org>, amd-gfx@lists.freedesktop.org,
- dri-devel@lists.freedesktop.org, kernel-dev@igalia.com
+ Jani Nikula <jani.nikula@intel.com>, dri-devel@lists.freedesktop.org,
+ kernel-dev@igalia.com
 References: <20250613150015.245917-1-mwen@igalia.com>
- <20250613150015.245917-14-mwen@igalia.com>
- <e8f4fb73-cb63-4662-b041-4719785c5b37@amd.com>
- <jau2ceehoydonrbqfsgsdhvgcoltqtxq6ahms3zenwqhlgu3k3@zno3kendzxg6>
- <4e5b6615-6ef6-41fa-8794-e274d509b37a@amd.com>
+ <20250613150015.245917-13-mwen@igalia.com>
+ <28470c12-cc2a-4327-ba72-e926960d5c81@amd.com>
 Content-Language: en-US
 From: Melissa Wen <mwen@igalia.com>
-In-Reply-To: <4e5b6615-6ef6-41fa-8794-e274d509b37a@amd.com>
+In-Reply-To: <28470c12-cc2a-4327-ba72-e926960d5c81@amd.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -72,150 +71,147 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 
 
-On 13/06/2025 15:23, Mario Limonciello wrote:
-> On 6/13/2025 12:42 PM, Melissa Wen wrote:
->> On 06/13, Mario Limonciello wrote:
->>> On 6/13/2025 7:58 AM, Melissa Wen wrote:
->>>> Add Linux opaque object to dc_sink for storing edid data cross driver,
->>>> drm_edid. Also include the Linux call to free this object, the
->>>> drm_edid_free()
->>>>
->>>> v3:
->>>> - remove uneccessary include (jani)
->>>>
->>>> Signed-off-by: Melissa Wen <mwen@igalia.com>
->>>> ---
->>>>    drivers/gpu/drm/amd/display/amdgpu_dm/dc_edid.c | 6 ++++++
->>>>    drivers/gpu/drm/amd/display/amdgpu_dm/dc_edid.h | 1 +
->>>>    drivers/gpu/drm/amd/display/dc/core/dc_sink.c   | 3 +++
->>>>    drivers/gpu/drm/amd/display/dc/dc.h             | 1 +
->>>>    include/drm/drm_edid.h                          | 4 ++--
->>>>    5 files changed, 13 insertions(+), 2 deletions(-)
->>>>
->>>> diff --git a/drivers/gpu/drm/amd/display/amdgpu_dm/dc_edid.c 
->>>> b/drivers/gpu/drm/amd/display/amdgpu_dm/dc_edid.c
->>>> index a90545b176cc..9e86dc15557b 100644
->>>> --- a/drivers/gpu/drm/amd/display/amdgpu_dm/dc_edid.c
->>>> +++ b/drivers/gpu/drm/amd/display/amdgpu_dm/dc_edid.c
->>>> @@ -1,6 +1,7 @@
->>>>    // SPDX-License-Identifier: MIT
->>>>    #include "amdgpu_dm/dc_edid.h"
->>>>    #include "dc.h"
->>>> +#include <drm/drm_edid.h>
->>>>    bool dc_edid_is_same_edid(struct dc_sink *prev_sink,
->>>>                  struct dc_sink *current_sink)
->>>> @@ -25,3 +26,8 @@ void dc_edid_copy_edid_to_dc(struct dc_sink 
->>>> *dc_sink,
->>>>        memmove(dc_sink->dc_edid.raw_edid, edid, len);
->>>>        dc_sink->dc_edid.length = len;
->>>>    }
->>>> +
->>>> +void dc_edid_sink_edid_free(struct dc_sink *sink)
->>>> +{
->>>> +    drm_edid_free(sink->drm_edid);
->>>> +}
->>>> diff --git a/drivers/gpu/drm/amd/display/amdgpu_dm/dc_edid.h 
->>>> b/drivers/gpu/drm/amd/display/amdgpu_dm/dc_edid.h
->>>> index f42cd5bbc730..2c76768be459 100644
->>>> --- a/drivers/gpu/drm/amd/display/amdgpu_dm/dc_edid.h
->>>> +++ b/drivers/gpu/drm/amd/display/amdgpu_dm/dc_edid.h
->>>> @@ -9,5 +9,6 @@ bool dc_edid_is_same_edid(struct dc_sink *prev_sink,
->>>>                  struct dc_sink *current_sink);
->>>>    void dc_edid_copy_edid_to_dc(struct dc_sink *dc_sink,
->>>>                     const void *edid, int len);
->>>> +void dc_edid_sink_edid_free(struct dc_sink *sink);
->>>>    #endif /* __DC_EDID_H__ */
->>>> diff --git a/drivers/gpu/drm/amd/display/dc/core/dc_sink.c 
->>>> b/drivers/gpu/drm/amd/display/dc/core/dc_sink.c
->>>> index 455fa5dd1420..3774a3245506 100644
->>>> --- a/drivers/gpu/drm/amd/display/dc/core/dc_sink.c
->>>> +++ b/drivers/gpu/drm/amd/display/dc/core/dc_sink.c
->>>> @@ -26,6 +26,7 @@
->>>>    #include "dm_services.h"
->>>>    #include "dm_helpers.h"
->>>>    #include "core_types.h"
->>>> +#include "dc_edid.h"
->>>> /*******************************************************************************
->>>>     * Private functions
->>>> @@ -65,6 +66,8 @@ void dc_sink_retain(struct dc_sink *sink)
->>>>    static void dc_sink_free(struct kref *kref)
->>>>    {
->>>>        struct dc_sink *sink = container_of(kref, struct dc_sink, 
->>>> refcount);
->>>> +
->>>> +    dc_edid_sink_edid_free(sink);
->>>>        kfree(sink->dc_container_id);
->>>>        kfree(sink);
->>>>    }
->>>> diff --git a/drivers/gpu/drm/amd/display/dc/dc.h 
->>>> b/drivers/gpu/drm/amd/display/dc/dc.h
->>>> index 86feef038de6..cf56a0405a4f 100644
->>>> --- a/drivers/gpu/drm/amd/display/dc/dc.h
->>>> +++ b/drivers/gpu/drm/amd/display/dc/dc.h
->>>> @@ -2466,6 +2466,7 @@ struct scdc_caps {
->>>>    struct dc_sink {
->>>>        enum signal_type sink_signal;
->>>>        struct dc_edid dc_edid; /* raw edid */
->>>> +    const struct drm_edid *drm_edid; /* Linux DRM edid*/
->>>
->>> Don't you need a forward declaration for 'struct drm_edid' in dc.h 
->>> to be
->>> able to do this?
+On 13/06/2025 15:35, Mario Limonciello wrote:
+> On 6/13/2025 9:58 AM, Melissa Wen wrote:
+>> AMD driver has a function used to compare if two edid are the same; this
+>> is useful to some of the link detection algorithms implemented by
+>> amdgpu. Since the amdgpu function can be helpful for other drivers, this
+>> commit abstracts the AMD function to make it available at the DRM level
+>> by wrapping existent drm_edid_eq().
 >>
->> I understand that, as it's just a pointer (the compiler knows the size)
->> and there is no circular dependencies between dc_sink and drm_edid, we
->> don't need a forward declaration. So I think we are fine also because
->> dc_sink->drm_edid dereference only happens in dc_edid.h that already
->> needs to include drm_edid.h for drm_edid helpers... but let me know if
->> I'm missing something.
+>> v2:
+>> - rename drm_edid_eq to drm_edid_eq_buf (jani)
+>> - add NULL checks (jani)
+>>
+>> v3:
+>> - fix kernel-doc (jani)
+>> - fix parameter names
+>>
+>> Reviewed-by: Jani Nikula <jani.nikula@intel.com>
+>> Co-developed-by: Rodrigo Siqueira <siqueira@igalia.com>
+>> Signed-off-by: Rodrigo Siqueira <siqueira@igalia.com>
+>> Signed-off-by: Melissa Wen <mwen@igalia.com>
+>> ---
+>>   drivers/gpu/drm/drm_edid.c | 24 +++++++++++++++++++++---
+>>   include/drm/drm_edid.h     |  2 ++
+>>   2 files changed, 23 insertions(+), 3 deletions(-)
+>>
+>> diff --git a/drivers/gpu/drm/drm_edid.c b/drivers/gpu/drm/drm_edid.c
+>> index d5772a3d27f1..056e070b2f55 100644
+>> --- a/drivers/gpu/drm/drm_edid.c
+>> +++ b/drivers/gpu/drm/drm_edid.c
+>> @@ -1820,8 +1820,8 @@ static bool edid_block_is_zero(const void *edid)
+>>       return mem_is_zero(edid, EDID_LENGTH);
+>>   }
+>>   -static bool drm_edid_eq(const struct drm_edid *drm_edid,
+>> -            const void *raw_edid, size_t raw_edid_size)
+>> +static bool drm_edid_eq_buf(const struct drm_edid *drm_edid,
+>> +                const void *raw_edid, size_t raw_edid_size)
+>>   {
+>>       bool edid1_present = drm_edid && drm_edid->edid && drm_edid->size;
+>>       bool edid2_present = raw_edid && raw_edid_size;
+>> @@ -6915,7 +6915,7 @@ static int 
+>> _drm_edid_connector_property_update(struct drm_connector *connector,
+>>           const void *old_edid = connector->edid_blob_ptr->data;
+>>           size_t old_edid_size = connector->edid_blob_ptr->length;
+>>   -        if (old_edid && !drm_edid_eq(drm_edid, old_edid, 
+>> old_edid_size)) {
+>> +        if (old_edid && !drm_edid_eq_buf(drm_edid, old_edid, 
+>> old_edid_size)) {
+>>               connector->epoch_counter++;
+>>               drm_dbg_kms(dev, "[CONNECTOR:%d:%s] EDID changed, epoch 
+>> counter %llu\n",
+>>                       connector->base.id, connector->name,
+>> @@ -7520,3 +7520,21 @@ bool drm_edid_is_digital(const struct drm_edid 
+>> *drm_edid)
+>>           drm_edid->edid->input & DRM_EDID_INPUT_DIGITAL;
+>>   }
+>>   EXPORT_SYMBOL(drm_edid_is_digital);
+>> +
+>> +/**
+>> + * drm_edid_eq - Check if EDIDs are equal
+>> + *
+>> + * @drm_edid_1: first drm_edid to compare edid
+>> + * @drm_edid_2: second drm_edid to compare edid
+>> + *
+>> + * Return true if EDIDs are equal.
+>> + */
+>> +bool drm_edid_eq(const struct drm_edid *drm_edid_1,
+>> +         const struct drm_edid *drm_edid_2)
+>> +{
+>> +    const void *edid_1 = drm_edid_1 ? drm_edid_1->edid : NULL;
+>> +    size_t edid_1_size = drm_edid_1 ? drm_edid_1->size : 0;
+>> +
+>> +    return drm_edid_eq_buf(drm_edid_2, edid_1, edid_1_size);
 >
-> Did you compile with CONFIG_WERROR or at least W=1?  I feel like I've 
-> seen issues with this in the past that the compiler doesn't like having
-> unknown types, even if a pointer.
+> What happens when the size for edid 2 is different than edid 1? Does 
+> drm_edid_eq_buf() already handle this well (I didn't immediately look)?
 
-Yeah, I don't see complaints here with the warning as error option enabled.
-But let me know if you think forward declaration is safer or better for 
-maintainance.
-I just tried to reduce the number of linux-related stuff on DC as much 
-as possible.
+drm_edid_eq_buf handles this case.
+This is the code:
 
-BR,
+static bool drm_edid_eq_buf(const struct drm_edid *drm_edid,
+                                              const void *raw_edid, 
+size_t raw_edid_size)
+{
+     bool edid1_present = drm_edid && drm_edid->edid && drm_edid->size;
+     bool edid2_present = raw_edid && raw_edid_size;
 
-Melissa
+     if (edid1_present != edid2_present)
+         return false;
+
+     if (edid1_present) {
+         if (drm_edid->size != raw_edid_size)
+             return false;
+
+         if (memcmp(drm_edid->edid, raw_edid, drm_edid->size))
+             return false;
+     }
+
+     return true;
+}
+
 >
-> But if it works with W=1 / CONFIG_WERROR I must have been thinking 
-> about a dereference case and thus no concerns on my side.
 >
->>
->>>
->>> Also you're missing a space at the end of the comment before the '*/'.
->>
->> ack. I'll wait for more comments to send it fixed.
->>
->> Thanks for reviewing.
->>
->> Melissa
->>
->>>
->>>>        struct dc_edid_caps edid_caps; /* parse display caps */
->>>>        struct dc_container_id *dc_container_id;
->>>>        uint32_t dongle_max_pix_clk;
->>>> diff --git a/include/drm/drm_edid.h b/include/drm/drm_edid.h
->>>> index e7a9a4928b97..8617d2285f38 100644
->>>> --- a/include/drm/drm_edid.h
->>>> +++ b/include/drm/drm_edid.h
->>>> @@ -469,8 +469,8 @@ int drm_edid_connector_update(struct 
->>>> drm_connector *connector,
->>>>                      const struct drm_edid *edid);
->>>>    int drm_edid_connector_add_modes(struct drm_connector *connector);
->>>>    bool drm_edid_is_digital(const struct drm_edid *drm_edid);
->>>> -bool drm_edid_eq(const struct drm_edid *drm_edid_first,
->>>> -             const struct drm_edid *drm_edid_second);
->>>> +bool drm_edid_eq(const struct drm_edid *drm_edid_1,
->>>> +         const struct drm_edid *drm_edid_2);
->>>>    void drm_edid_get_product_id(const struct drm_edid *drm_edid,
->>>>                     struct drm_edid_product_id *id);
->>>>    void drm_edid_print_product_id(struct drm_printer *p,
->>>
+> If not; how about including an extra check directly in this function?
+>
+> I was thinking this will handle it effectively:
+>
+> if (!drm_edid_1 || !drm_edid_2)
+>     return false;
+If both EDIDs are NULL, they are equal (and we don't need to update 
+anything).
+So drm_edid_eq() should return true.
+
+
+> if (drm_edid_1->size != drm_edid_2->size)
+>     return false;
+>
+And the size comparison is handled by drm_edid_eq_buf() in this part:
+
+     if (edid1_present) {
+         if (drm_edid->size != raw_edid_size)
+             return false;
+
+> return drm_edid_eq_buf();
+>
+>
+>
+>> +}
+>> +EXPORT_SYMBOL(drm_edid_eq);
+>> diff --git a/include/drm/drm_edid.h b/include/drm/drm_edid.h
+>> index 960592167486..e7a9a4928b97 100644
+>> --- a/include/drm/drm_edid.h
+>> +++ b/include/drm/drm_edid.h
+>> @@ -469,6 +469,8 @@ int drm_edid_connector_update(struct 
+>> drm_connector *connector,
+>>                     const struct drm_edid *edid);
+>>   int drm_edid_connector_add_modes(struct drm_connector *connector);
+>>   bool drm_edid_is_digital(const struct drm_edid *drm_edid);
+>> +bool drm_edid_eq(const struct drm_edid *drm_edid_first,
+>> +             const struct drm_edid *drm_edid_second);
+>>   void drm_edid_get_product_id(const struct drm_edid *drm_edid,
+>>                    struct drm_edid_product_id *id);
+>>   void drm_edid_print_product_id(struct drm_printer *p,
 >
 
