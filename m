@@ -2,170 +2,95 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id CEBB2ADBBDC
-	for <lists+dri-devel@lfdr.de>; Mon, 16 Jun 2025 23:22:19 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 94D53ADBBFB
+	for <lists+dri-devel@lfdr.de>; Mon, 16 Jun 2025 23:39:11 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D022F10E45B;
-	Mon, 16 Jun 2025 21:22:16 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 85FFC8913D;
+	Mon, 16 Jun 2025 21:39:08 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=amd.com header.i=@amd.com header.b="GassCnck";
+	dkim=pass (1024-bit key; unprotected) header.d=redhat.com header.i=@redhat.com header.b="N9s0yTSi";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from NAM04-DM6-obe.outbound.protection.outlook.com
- (mail-dm6nam04on2073.outbound.protection.outlook.com [40.107.102.73])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2594E10E459;
- Mon, 16 Jun 2025 21:22:15 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=uJYcTXRWFHHy0emeaFT4P5i0Vsv8I7WedUg6GaZ6Mb6fzGtbcco+hC3FwdipXYcV80Utk6A8637oVxQhuWwhyIvOlWTkqLAGRSrNm639scdQ74pR8K2qFUTZMNL1Nx2MLLVJRX4pa/3ap40GPy63SaCWoFftIgNsaja0FXC6QY9+Eot0bDIWJgqevO2O6OVdnYHxJ8Ys9tObBNT3BMDnKI3QCDsWgPkBsKUMITiUM8A9Xpwy+I2BcbULFhbPgzs27mx/nWCCWRRHhd2/bn73gTW5OoA5kXFd5ZVhoFikyltVYn+HVF+DK6WRJsSwDzLjn5xKQ0lPiawGmquL3EugRw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=n0+I7jf3QkRusXt0zFFxpWZmxoB6JXaVjVsCQDbbU+U=;
- b=PhDVISIdrMzl4ihAeKYgCfW64LcRDY6V/zyYkD+TWVy3xiwLfK737vjGMowV1Mqd+EufP9aT0lEUSCBF3WQVvFwCcSFfTyg84DrmV53iIIiyukFV5pcBjT3cnQSyGAnOO1oxRT/1iSkWVlGp7WXYDY2qF1DlE9xf/wCbx/PBHV+x+DiCvnT+wY8XxCmaGBlW89D+WxKd8FhSJZCZ0UFZy0p1Hz9443gPdoeVkvczvbYbM1yJ9v3GWBYr0Q1OqrslnXnNtq8fen09+Mh/nOYm07/0u2qmQe+X8yx6mPS4np4S9F4Ek5ZBvtKSKld0IirjY6QpXbwzCFx28IoItAW4oQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
- header.d=amd.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=n0+I7jf3QkRusXt0zFFxpWZmxoB6JXaVjVsCQDbbU+U=;
- b=GassCnckSIoDm4lXTIkoHtXyyfiGOggsrx4vBtm8Z2pWz53xBtEksiG1Xn1pZwZIrtSq9eJrruKxOZzpDi9wbNIyIXBF9cMw4PwkyhlYLWeajL1swbe+9SBtVkMhC1owNGdsSPmc6ivBjoqif0GqO7Aw/KARF9f4DTRu8KG3/ls=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=amd.com;
-Received: from DM4PR12MB8476.namprd12.prod.outlook.com (2603:10b6:8:17e::15)
- by SN7PR12MB6840.namprd12.prod.outlook.com (2603:10b6:806:264::14) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8835.29; Mon, 16 Jun
- 2025 21:22:12 +0000
-Received: from DM4PR12MB8476.namprd12.prod.outlook.com
- ([fe80::2ed6:28e6:241e:7fc1]) by DM4PR12MB8476.namprd12.prod.outlook.com
- ([fe80::2ed6:28e6:241e:7fc1%5]) with mapi id 15.20.8835.027; Mon, 16 Jun 2025
- 21:22:12 +0000
-Message-ID: <ba89d859-f132-4e7d-ba29-47331e02152a@amd.com>
-Date: Mon, 16 Jun 2025 15:22:06 -0600
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v3] drm/amd/display: Fix exception handling in
- dm_validate_stream_and_context()
-To: Markus Elfring <Markus.Elfring@web.de>, amd-gfx@lists.freedesktop.org,
- dri-devel@lists.freedesktop.org, Alex Deucher <alexander.deucher@amd.com>,
- Aurabindo Pillai <aurabindo.pillai@amd.com>,
- =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
- Daniel Vetter <daniel@ffwll.ch>, David Airlie <airlied@gmail.com>,
- Dominik Kaszewski <dominik.kaszewski@amd.com>,
- Fangzhi Zuo <Jerry.Zuo@amd.com>, Harry Wentland <harry.wentland@amd.com>,
- Leo Li <sunpeng.li@amd.com>, Mario Limonciello <mario.limonciello@amd.com>,
- Roman Li <roman.li@amd.com>, Simona Vetter <simona@ffwll.ch>,
- Tom Chung <chiahsuan.chung@amd.com>, Wayne Lin <Wayne.Lin@amd.com>
-Cc: LKML <linux-kernel@vger.kernel.org>, kernel-janitors@vger.kernel.org,
- lkp@intel.com, oe-kbuild-all@lists.linux.dev, llvm@lists.linux.dev,
- cocci@inria.fr, Melissa Wen <mwen@igalia.com>,
- Fangzhi Zuo <jerry.zuo@amd.com>
-References: <f9303bdc-b1a7-be5e-56c6-dfa8232b8b55@web.de>
- <e6656c83-ee7a-a253-2028-109138779c94@web.de>
- <ea0ff67b-3665-db82-9792-67a633ba07f5@web.de>
- <32674bac-92c2-8fc7-0977-6d2d81b3257f@amd.com>
- <da489521-7786-4716-8fb8-d79b3c08d93c@web.de>
- <8684e2ba-b644-44c8-adf7-9f1423a1251d@web.de>
-Content-Language: en-US
-From: Alex Hung <alex.hung@amd.com>
-In-Reply-To: <8684e2ba-b644-44c8-adf7-9f1423a1251d@web.de>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-ClientProxiedBy: YQBPR0101CA0123.CANPRD01.PROD.OUTLOOK.COM
- (2603:10b6:c01:5::26) To DM4PR12MB8476.namprd12.prod.outlook.com
- (2603:10b6:8:17e::15)
+Received: from us-smtp-delivery-124.mimecast.com
+ (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 491E68913D
+ for <dri-devel@lists.freedesktop.org>; Mon, 16 Jun 2025 21:39:02 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1750109941;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=7emt/zNGr/CBhfVNgDPKicHgy2P2Bp4GbdXMzFzaVxk=;
+ b=N9s0yTSi2DUgcDMwl2XLDF+1jzncb9KWx1Xk9/E9u6Owqe69wQeJNQozswUu7atK7qQpzt
+ ykdGCClt9H5rHwROBU7eKBkbMSI0I2dB8xDaL0/CQUxnKDc74OwIdDkcg4jTMQF9/I3cbQ
+ rAE6R/MY2JxfGixoRhgwPtUZz0qJEG0=
+Received: from mail-wr1-f71.google.com (mail-wr1-f71.google.com
+ [209.85.221.71]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-436-o8Iiv4RDOxKhmNSzfPyB6Q-1; Mon, 16 Jun 2025 17:39:00 -0400
+X-MC-Unique: o8Iiv4RDOxKhmNSzfPyB6Q-1
+X-Mimecast-MFC-AGG-ID: o8Iiv4RDOxKhmNSzfPyB6Q_1750109939
+Received: by mail-wr1-f71.google.com with SMTP id
+ ffacd0b85a97d-3a50816ccc6so2796440f8f.1
+ for <dri-devel@lists.freedesktop.org>; Mon, 16 Jun 2025 14:38:59 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1750109939; x=1750714739;
+ h=in-reply-to:content-transfer-encoding:content-disposition
+ :mime-version:references:message-id:subject:cc:to:from:date
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=7emt/zNGr/CBhfVNgDPKicHgy2P2Bp4GbdXMzFzaVxk=;
+ b=f/hoJrFusyvOkAElLwRDle2jNiCDWpPdgjCBQQhJc9/5eZ8SCEmIA6iuuC5wcSwx1a
+ sFPcd2boW3EUhm2aX8k/CDJ4PzRufa1sRX12s8pFGxDkICY1+dXaRanDIWPkxj8+6ga2
+ PkuhCuTZViOS6WTxU+bVxT161Y3dAfrhMt7M2mydb/fyuLHvrO9T7Q6mcorGW5XXLRPz
+ Or6Sd3X9tlMP9XfWqXcsvDDchvcIBC6TNMXPgkp/wDXHtDGvHzqohZ+D/0jVO3b/IZ/J
+ JErnA6VcaW6EB3NykS63znap0OVcQKZCAumQ20xHqV1LpBq4UI6fyrf9jCTFHWGYULp5
+ l3wA==
+X-Gm-Message-State: AOJu0Yw5+0e4eMN4rU+i6h6rDSaS7iWgh6im/vey6KPu9kLA8363nwbL
+ J/Jo/ST26umP/BbvAqMYVCfyxXWUyE6avelYOQi08rcT9adFcyjDai61FcdH0Kp2RHdZWZYvU22
+ MXazCmUNg/iAexSXpXIS+Lot47zHDbsrcOQDsZjMP1CG+K4S+vwvkZXfdp1eGLGPO8lKGmg==
+X-Gm-Gg: ASbGncszAektWrw6T1qdoFD3JIvkh5I0DuWzF80gRQCmRiVM/Q98c8c5SNl57R+9Teo
+ yK1NWo30WjHJ2y3tn6TETf3TkbzDDOwQ2aOUcVN4h265fztNSVAsVGHQyGN+gBnoWUF6lh+q1+V
+ vG5oKBH4Ooo1XlcdyTOOXajOxTADBMv/VQ4RcUKDtAafBDRxEWe2FRjOFFHBS9uUpQKguMCFI7w
+ V5aU5beuRItP05WZazN0xq6ToGRA+hFPQkxT2GrWEPRmpdo4imqiWC9JA+9y7u33EMLngax9Vdh
+ T9Ycn+AaTP8=
+X-Received: by 2002:a05:6000:400a:b0:3a5:2cb5:63fd with SMTP id
+ ffacd0b85a97d-3a57238b522mr9595366f8f.10.1750109938545; 
+ Mon, 16 Jun 2025 14:38:58 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IEzpDB07Ow6Aq7oaibwATYH2bwGc1v46BbhwhcmxYHu7okQGHS3ELJ0eFf8b83N36p9EgRDvg==
+X-Received: by 2002:a05:6000:400a:b0:3a5:2cb5:63fd with SMTP id
+ ffacd0b85a97d-3a57238b522mr9595351f8f.10.1750109938128; 
+ Mon, 16 Jun 2025 14:38:58 -0700 (PDT)
+Received: from pollux ([2a00:79c0:662:b300:abf:b8ff:feee:998b])
+ by smtp.gmail.com with ESMTPSA id
+ ffacd0b85a97d-3a568b089a7sm11887641f8f.49.2025.06.16.14.38.56
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 16 Jun 2025 14:38:57 -0700 (PDT)
+Date: Mon, 16 Jun 2025 23:38:55 +0200
+From: Danilo Krummrich <dakr@redhat.com>
+To: Rob Clark <rob.clark@oss.qualcomm.com>
+Cc: dri-devel@lists.freedesktop.org, linux-arm-msm@vger.kernel.org,
+ freedreno@lists.freedesktop.org,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>,
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+ open list <linux-kernel@vger.kernel.org>
+Subject: Re: [PATCH 2/2] drm/gpuvm: Add locking helpers
+Message-ID: <aFCO7_RHuAaGyq1Q@pollux>
+References: <20250613235705.28006-1-robin.clark@oss.qualcomm.com>
+ <20250613235705.28006-3-robin.clark@oss.qualcomm.com>
+ <aE1RPZ_-oFyM4COy@pollux>
+ <CACSVV00uwmuAC4eMi-4QiF4sOu4r9u8eXxyAgt83YS8Yfgoemg@mail.gmail.com>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: DM4PR12MB8476:EE_|SN7PR12MB6840:EE_
-X-MS-Office365-Filtering-Correlation-Id: f91f6eb8-3e97-4f22-08ac-08ddad1bdbba
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
- ARA:13230040|366016|376014|7416014|1800799024|921020; 
-X-Microsoft-Antispam-Message-Info: =?utf-8?B?YXBjYVBWczIxRTF3bTJsRklpUlZjUmlXRjRDTXhDK3NacTRqNjEwWG5nd0xI?=
- =?utf-8?B?blkrWHNWNmNsOThSVUZ2ZDU4R3R3VjA4UUZDajNxRkFLb3ZaRWFXMlN1SUVG?=
- =?utf-8?B?Q3JoNTN4a25iZHUrQ214cUJpVzljNGk5eXJKZ3VNS0t2ZWdLT0o1SUFmT3I3?=
- =?utf-8?B?TWhpU3BWbG9pR3A5d1NoNnhZZThCdXc1VHdQMWUrUXNxU3U3b2NwZDJVZ1Rj?=
- =?utf-8?B?Nmd6cEo4bWpUMGtjbVdFcVQ5c1RyMEh5QXZ4VkdxamhIdkNvRERET2pQWVQw?=
- =?utf-8?B?Umh1N25TY3plSitRRVRNcU16OGFQRU1HRUlMRWlsWTNzbGJnUCtmVFRDOVA0?=
- =?utf-8?B?Y3J5elJ6MFowOFZoSlFpQnhmOFF0Q3ZpTlRDUnIwRW1WM3BTR28zODJ0L3dH?=
- =?utf-8?B?TVhRc0gvZFVWWEFMeVMxazB2cjJHcDhMcGhFVGhKbWt4Z0N0RTVPSzhXZFp0?=
- =?utf-8?B?RkV2RzdWM2J5SHRicU9kaWlwTFE3K3pMQi83TDVOcDJoZWpmcmNURnlQbEU4?=
- =?utf-8?B?cFBPK2RjS3lmZGltaWkxSEpDOGdGR1psSzRwcDYvak1KMHBFT2p5Z2xHR1lT?=
- =?utf-8?B?dmZBc1pBT0dLWGU0ZVpyOHpNNlpnOXNjSHhGMUM0VFhBUUR3NVpYLy9xU0VD?=
- =?utf-8?B?amhJcG84OFlueEdTejlOS05VczV0MDBTSjlBcWhMZ2FabGtjZGJoYWNpUDBi?=
- =?utf-8?B?NGRqWHlHaFRmWFBMdy90WEJvZ2Yyd1lYKzFDVzVYVTZIRkFTRUVkRmk5NzJr?=
- =?utf-8?B?RExLeUdobFkvNnI2cmlJZXJCM2dCVXM2RjNsQ0QvVkVwWXpiQnRGbFhMYmV1?=
- =?utf-8?B?NXkrMGQxMERMY3BQaTdKMElNOG0vbnhBb0FFK001U09xNVBxdytHbWZUMCtx?=
- =?utf-8?B?Rmh2TUQ3ZllWa3JoZE1hVVFNRUd1Z3kzd2ZlcUZMOVRmNDdGTjlxL3l0WDdH?=
- =?utf-8?B?UkZnVXdWNTE4S3VHdExDOEZ6VE8ydlYxUnl3NERPdFBwQ2poaXRGWGFucHIz?=
- =?utf-8?B?QlJJdXBWTVhBSVZnR3dzUUYzKzg1U21sSEFOTGUvcktaUHVnMlRxaU1ad29K?=
- =?utf-8?B?SHNQSG82NWVJTXp3bWZOS0YvM1RnUU93SHN2VEJzWTk1MlJHSlMzTEROZmNR?=
- =?utf-8?B?TkZLU1dOdyttdEdXUUp2bkkyN3JUMnJQNWJxSjl4Nm95RTVGWkxTYmFiOVpO?=
- =?utf-8?B?NjVQdnVwODk1WjNWdmdNaTZkZ2dLNFV4MXgrRkgxUHhGaTV4aVFQQjZVTFM4?=
- =?utf-8?B?SjVrZ08yckI1dWp1ajFmUzAyVi9mWlhmdGxRQ3RCSXoybmZrbFhlWXR3b1dv?=
- =?utf-8?B?QTN5bTQrbU5pc2NlVHk3b3g0N1RyMkgrWHFnYlhHWlJwamtoRW16azIyYk00?=
- =?utf-8?B?bUFOdldUWCtkTWdNNlV0MExoWWMyK2ovaENpR0FjYVBJYzM3Nlc5QjhhMm5N?=
- =?utf-8?B?YkZQN0puSjF6WTUvdnViVjA3Y0lJeGxhb2RJNXRkQWY0WnIwQ0FoOXgvL2Vw?=
- =?utf-8?B?b0lHNzdrTnRTcFBrclYzeVdBVVlMU2VINFJmZVZVY0RodGZOb28vVStsMkl2?=
- =?utf-8?B?aU1QSCtKdkpnUnRIVDFENElqenZwU0tqeFRNV0VLL0ZJaFFDYnhHMm9CcGs2?=
- =?utf-8?B?dEFRdktybFliMUVwRTB3bk1iSU1wUzNJNGx1bGFKWlpJMDlkS2J4OHlybXNW?=
- =?utf-8?B?NmRpQ21WcnJZa2pEMjA5MHlzaSt0WlFYL2RsVzFvUXF6NXQ4c2lySlc4N2RJ?=
- =?utf-8?B?Nnl2QmRvRURTT25Na3ptaEVFNDdqVDFWNDE0ZSt2Lzg2MEVKc3FNSDFoMjFB?=
- =?utf-8?B?TVZDaWtCU3liV3cyRGJVTmpKamYra1NxbG1jOThuK1Z6RXFuTVpnazhtd1hv?=
- =?utf-8?B?dDRmL2tDdkRQczZIUTdEejM0YnM1RTdHOTNhQWNCRFR5bUZWaVh0VU9KbWtt?=
- =?utf-8?B?N2dsQTQ0STZNQTU2U3JZKzdGeElRTkVteFNoRGQ1OFV3Q1M3UFlDbGNoRy8x?=
- =?utf-8?B?c2h3TmxVOFNRPT0=?=
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:DM4PR12MB8476.namprd12.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230040)(366016)(376014)(7416014)(1800799024)(921020); DIR:OUT; SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?dVRXTnJ6VEVRSG14cXJyMXhZd1M3WTZjazVaTzFaZElvcU1abmNzdzFiMGha?=
- =?utf-8?B?L2pOUXE3dUhSblM0WWowcXNnZFdwRUxia2tRMW92MHpwUG5hU28wZi9UdHNO?=
- =?utf-8?B?eUNzSHoxZXlVOFJNallLNHp0VzN3TmQrOVdFZDl0QzhxRXBJTlY4cDkxc2Vz?=
- =?utf-8?B?R0drdjZvODVHbjUvSkhRcFdxc2Rsb2twQThORUl2c05kZllVOGhrV3FXRElL?=
- =?utf-8?B?UHpzdXM1d01SVTVMc1BSZ0NHNTNYMU1qNC9yTHJFMVV5OGhLNTlQT2xSa0ZH?=
- =?utf-8?B?YjJVY0lOY1ZuZVYvOVd3VmpMek1sbENUUlhCT0VNTnR2dFBKb1VxYlk2Zjgz?=
- =?utf-8?B?eE1GNWU3Z3BMRmNTVG5JTTUxcTNzUGtQL3JERlZvUkRVTUVNVjhDWEFnZ2lO?=
- =?utf-8?B?MHBEK3FoV2hzdVQ3aFlON0FVY2dZRW9KYityYlJoMzFBVVVEVC9UdjAzMjdi?=
- =?utf-8?B?dXA0eUZPaldqWUczSzRQaVJMUmcwMzRtNS9mZ2V2Ri9ralpzeTl1M283NnVZ?=
- =?utf-8?B?d0MrbWZTTVBHR3BlVEFzdG9Oa0x5ZGxZMU83RWhMUWpvMjVqV2h3ZGVmcnQ3?=
- =?utf-8?B?Y1lINWJlVzd4YUFnTHZqV0pTZmk3UXhPckFtck5ydW05VExUSG9ITVd2dG8v?=
- =?utf-8?B?eG9pYi9MNTZLaE5aWHprUEcwakxCQkgvK1NvRjVlbENPSlp0akRWQjVZaktz?=
- =?utf-8?B?WjJyUWVDdzVqci8vUkRYdGxKRGRjaVhJWmhucFBSTXQ0WXovOUR2b0pOSWFH?=
- =?utf-8?B?VE1nK2V0R3NUK2ZEcUUxYmwybitBbDdqQVpKa3Fsb3lIN2lVbSsxdUlEd0hI?=
- =?utf-8?B?SEFETkhHWFE1RnRJdGhFT25vYlZpUFZJUXJKeng0WmVkM0R4cWx2NjlkUmM3?=
- =?utf-8?B?a3VxTVdkSndFRFpEdVNtMm83b1ljSjdFRjlaM3VrdTZ5VHlvbkp3YVA2cGps?=
- =?utf-8?B?NlVwRDFLZFFPcEpncklCbzNjLzBjN0VFY2wrTElUTXlUVnc5Ui85MEZtRWpz?=
- =?utf-8?B?d0hNQ04zN1NwRkc2aEJ1ZURrWERjQlNUcGtLN3NoWWVaMVlZSXBialJOdlVy?=
- =?utf-8?B?bTNIMVE1QnE4dUx3NW0rUDRLU01pNkE0UWIrdm1OUHJOV1BjL3Qxdm5ySnZH?=
- =?utf-8?B?VEFvSUtXNTJCTHFVV2xsRGhNSTZEQ3h0WUFJYlhsWWZ5NGRRZ2h5eXlwa0g2?=
- =?utf-8?B?UCtlTnhVY3V4M1laTElaaGloL3FWR1ZxNUZlNVBudStncENhdTMrVGxCdlE0?=
- =?utf-8?B?dXRMT0hUdkFMVUhDMS9XakFEVmhuclFkaUlUc2Qya0ZSLzdZRzdpNFNraWsr?=
- =?utf-8?B?RUdrakliMjBheDd1cTQrVGJEdnlqS1M0ZURBVzFwdElHVXJWZ21GdlBSZnho?=
- =?utf-8?B?NjlYcThnNlcrUnpOUzlqUXZHa1A0N0YyTld2azJIRFVpNElVeWhtUG5LWGoy?=
- =?utf-8?B?dnd6dmJ1SGIxOEtQZGRCZlJ5Skp4Z0pJbXlvNlN3dTNqN2pQZFJhdDlPZWpM?=
- =?utf-8?B?eGM4TGh1ekJ2bmNEUmFlYWg3OThMWFBBT3ErU0RBRHNpeHlhU1B1Z3ViMEgx?=
- =?utf-8?B?aExnUW1BUDRRQU1pS1ZaL3lZaDdaSUFLU1BpN1VFQ0ttaW1zaGMyYS9tSGl3?=
- =?utf-8?B?dE40NDdQU0NoSHA1WVRUcSs5MWZsQkRrMVVwRWlaeklRSHpGTVltRDFzdHps?=
- =?utf-8?B?QzNaM29uRkhES0tGN25nQWsxbjhTQTNVZVN0K1JZZTltcUNGcDhUazhYc3Rn?=
- =?utf-8?B?NEhSd1VuSnNwR1BNdmduWUMzMm0vamlEYlA5N1JnT0dCa0ZxOWtCbVRqVzVa?=
- =?utf-8?B?TlRJSVMwejFaY0xFb3RqNmxqVzlHcUtZb1dZdGpmcEczV2ZGbmEyWVR6T3pE?=
- =?utf-8?B?TmVsanZqbEhHRFlvS0thRThJdFZLc0tKajZWYzc1eDI3MzU4ZHNJWDE3MmhO?=
- =?utf-8?B?YUZ3cmVLL082cHVybmF2Q0dXZU1SWlkyeC9lTmZ3aVhuNXhUTVR2aFJZclRi?=
- =?utf-8?B?Wk5CTGxzbU1Cek5ldk9nOVd2ZHgxbktQcnM3R2pZazRLaXREQ1J1QVhCV2ZY?=
- =?utf-8?B?WkVnT0p6MHA4TlE1Qlh6ZHIvZkRKU2JyNlVDYzdWbFdlQUhGWEhDT1A2UDFN?=
- =?utf-8?Q?od+ykZKz9Qex0ORcWuyQNQFJ1?=
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: f91f6eb8-3e97-4f22-08ac-08ddad1bdbba
-X-MS-Exchange-CrossTenant-AuthSource: DM4PR12MB8476.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 16 Jun 2025 21:22:12.0761 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: p3J63Nl9YFLxiaLTiWt3ROc7QennhjzmBYIbVfAQFkSdrpcvht92nZbtQM8zPm8qQzc29gQYQ00APIKTEGFmUw==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SN7PR12MB6840
+In-Reply-To: <CACSVV00uwmuAC4eMi-4QiF4sOu4r9u8eXxyAgt83YS8Yfgoemg@mail.gmail.com>
+X-Mimecast-Spam-Score: 0
+X-Mimecast-MFC-PROC-ID: erjkMZMW1RvqM-KfYqo4vnkOJ7xmUJ75mQf9sEb8DFo_1750109939
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -181,114 +106,92 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+On Sat, Jun 14, 2025 at 08:03:20AM -0700, Rob Clark wrote:
+> On Sat, Jun 14, 2025 at 3:39 AM Danilo Krummrich <dakr@redhat.com> wrote:
+> >
+> > On Fri, Jun 13, 2025 at 04:57:03PM -0700, Rob Clark wrote:
+> > > For UNMAP/REMAP steps we could be needing to lock objects that are not
+> > > explicitly listed in the VM_BIND ioctl in order to tear-down unmapped
+> > > VAs.  These helpers handle locking/preparing the needed objects.
+> >
+> > Yes, that's a common use-case. I think drivers typically iterate through their
+> > drm_gpuva_ops to lock those objects.
+> >
+> > I had a look at you link [1] and it seems that you keep a list of ops as well by
+> > calling vm_op_enqueue() with a new struct msm_vm_op from the callbacks.
+> >
+> > Please note that for exactly this case there is the op_alloc callback in
+> > struct drm_gpuvm_ops, such that you can allocate a custom op type (i.e. struct
+> > msm_vm_op) that embedds a struct drm_gpuva_op.
+> 
+> I did use drm_gpuvm_sm_xyz_ops_create() in an earlier iteration of my
+> VM_BIND series, but it wasn't quite what I was after.  I wanted to
+> apply the VM updates immediately to avoid issues with a later
+> map/unmap overlapping an earlier map, which
+> drm_gpuvm_sm_xyz_ops_create() doesn't really handle.  I'm not even
+> sure why this isn't a problem for other drivers unless userspace is
+> providing some guarantees.
 
+The drm_gpuva_ops are usually used in a pattern like this.
 
-On 6/10/25 00:10, Markus Elfring wrote:
-> From: Markus Elfring <elfring@users.sourceforge.net>
-> Date: Tue, 10 Jun 2025 07:42:40 +0200
-> 
-> The label “cleanup” was used to jump to another pointer check despite of
-> the detail in the implementation of the function “dm_validate_stream_and_context”
-> that it was determined already that corresponding variables contained
-> still null pointers.
-> 
-> 1. Thus return directly if
->     * a null pointer was passed for the function parameter “stream”
->       or
->     * a call of the function “dc_create_plane_state” failed.
-> 
-> 2. Use a more appropriate label instead.
-> 
-> 3. Delete two questionable checks.
-> 
-> 4. Omit extra initialisations (for the variables “dc_state” and “dc_plane_state”)
->     which became unnecessary with this refactoring.
-> 
-> 
-> This issue was detected by using the Coccinelle software.
-> 
-> Reported-by: kernel test robot <lkp@intel.com>
-> Closes: https://lore.kernel.org/oe-kbuild-all/202506100312.Ms4XgAzW-lkp@intel.com/
-> Fixes: 5468c36d6285 ("drm/amd/display: Filter Invalid 420 Modes for HDMI TMDS")
-> Signed-off-by: Markus Elfring <elfring@users.sourceforge.net>
-> ---
-> 
-> V3:
-> * Another function call was renamed.
-> 
-> * Recipient lists were adjusted once more.
-> 
-> V2:
-> * The change suggestion was rebased on source files of
->    the software “Linux next-20250606”.
-> 
-> * Recipient lists were adjusted accordingly.
-> 
-> 
->   .../gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c | 20 ++++++++-----------
->   1 file changed, 8 insertions(+), 12 deletions(-)
-> 
-> diff --git a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
-> index 78816712afbb..7dc80b2fbd30 100644
-> --- a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
-> +++ b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
-> @@ -7473,19 +7473,19 @@ static enum dc_status dm_validate_stream_and_context(struct dc *dc,
->   						struct dc_stream_state *stream)
->   {
->   	enum dc_status dc_result = DC_ERROR_UNEXPECTED;
-> -	struct dc_plane_state *dc_plane_state = NULL;
-> -	struct dc_state *dc_state = NULL;
-> +	struct dc_plane_state *dc_plane_state;
-> +	struct dc_state *dc_state;
->   
->   	if (!stream)
-> -		goto cleanup;
-> +		return dc_result;
->   
->   	dc_plane_state = dc_create_plane_state(dc);
->   	if (!dc_plane_state)
-> -		goto cleanup;
-> +		return dc_result;
+	vm_bind {
+		for_each_vm_bind_operation {
+			drm_gpuva_for_each_op {
+				// modify drm_gpuvm's interval tree
+				// pre-allocate memory
+				// lock and prepare objects
+			}
+		}
+		
+		drm_sched_entity_push_job();
+	}
 
-I think the two early returns look fine, but the rest of the changes 
-reduces the readability and reusability.
+	run_job {
+		for_each_vm_bind_operation {
+			drm_gpuva_for_each_op {
+				// modify page tables
+			}
+		}
+	}
 
->   
->   	dc_state = dc_state_create(dc, NULL);
->   	if (!dc_state)
-> -		goto cleanup;
-> +		goto release_plane_state;
->   
->   	/* populate stream to plane */
->   	dc_plane_state->src_rect.height  = stream->src.height;
-> @@ -7522,13 +7522,9 @@ static enum dc_status dm_validate_stream_and_context(struct dc *dc,
->   	if (dc_result == DC_OK)
->   		dc_result = dc_validate_global_state(dc, dc_state, DC_VALIDATE_MODE_ONLY);
->   
-> -cleanup:
-> -	if (dc_state)
-> -		dc_state_release(dc_state);
-> -
-> -	if (dc_plane_state)
-> -		dc_plane_state_release(dc_plane_state);
-> -
-> +	dc_state_release(dc_state);
-> +release_plane_state:
-> +	dc_plane_state_release(dc_plane_state);
+	run_job {
+		for_each_vm_bind_operation {
+			drm_gpuva_for_each_op {
+				// free page table structures, if any
+				// free unused pre-allocated memory
+			}
+		}
+	}
 
-This clean was intended to be reused for now and for future changes, and 
-the changes here remove the reusability. Also "cleanup" is commonly used 
-already.
+What did you do instead to get map/unmap overlapping? Even more interesting,
+what are you doing now?
 
->   	return dc_result;
->   }
->   
+> Once I realized I only wanted to defer the
+> application of the pgtable changes, but keep all the
+> locking/allocation/etc in the synchronous part of the ioctl,
+> vm_op_enqueue() was the natural solution.
 
-I guess the intention was to reduce goto statements. If that's the case, 
-it would be better to eliminate all goto and then to remove cleanup + 
-two checks.
+But vm_op_enqueue() creates exactly this list of operations you would get from
+drm_gpuvm_sm_{map,unmap}_ops_create(), just manually, no?
 
-On the other hand, I don't see anything wrong with goto/cleanup approach 
-either. Multiple exits in a function do not hurt if managed correctly.
+<snip>
 
+> > > Note that these functions do not strictly require the VM changes to be
+> > > applied before the next drm_gpuvm_sm_map_lock()/_unmap_lock() call.  In
+> > > the case that VM changes from an earlier drm_gpuvm_sm_map()/_unmap()
+> > > call result in a differing sequence of steps when the VM changes are
+> > > actually applied, it will be the same set of GEM objects involved, so
+> > > the locking is still correct.
+> >
+> > I'm not sure about this part, how can we be sure that's the case?
+> 
+> I could be not imaginative enough here, so it is certainly worth a
+> second opinion.  And why I explicitly called it out in the commit msg.
+> But my reasoning is that any new op in the second pass that actually
+> applies the VM updates which results from overlapping with a previous
+> update in the current VM_BIND will only involve GEM objects from that
+> earlier update, which are already locked.
+
+Yeah, it's probably fine, since, as you say, the only additional object can be
+the req_obj from the previous iteration.
 
