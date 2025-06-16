@@ -2,101 +2,167 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id E36F4ADA761
-	for <lists+dri-devel@lfdr.de>; Mon, 16 Jun 2025 07:07:50 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8C286ADA769
+	for <lists+dri-devel@lfdr.de>; Mon, 16 Jun 2025 07:14:11 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 934D010E284;
-	Mon, 16 Jun 2025 05:07:47 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 74D5710E289;
+	Mon, 16 Jun 2025 05:14:07 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=quicinc.com header.i=@quicinc.com header.b="NsrY6JIM";
+	dkim=pass (2048-bit key; unprotected) header.d=Nvidia.com header.i=@Nvidia.com header.b="CV571F48";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com
- [205.220.180.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1E60E10E284;
- Mon, 16 Jun 2025 05:07:45 +0000 (UTC)
-Received: from pps.filterd (m0279871.ppops.net [127.0.0.1])
- by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 55FNH7lU003033;
- Mon, 16 Jun 2025 05:07:21 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
- cc:content-transfer-encoding:content-type:date:from:in-reply-to
- :message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
- LG1DruV5us004oEXjXeEWd09Q+FV9MdQYIAAnTRm6ao=; b=NsrY6JIMbu523Umh
- ZfT7NUFJ5xZtJRD4p2pw3WYI/YqptavI+g0VEdarYY3Q9Ahiyx6+H4mf3V5R5PFK
- //pVxDbkeuBeAvsTeKWnqotFjDN5K5iogcqHyKHFfDWDIv2TVYy2cU9c0XY2KXYm
- hfQZI5fzHOXzVAZu+1dr4EO8wgaX99H1v6M/bcub24oF/oSndBYuZWMEUpfC/5ra
- TJdZyGQJUZVQgsa6KDMY8+Sakr8fHWNvRHBGzaEoaCYSClWKsvJvq5YGACBQlyth
- Ena5lhgbpDJGtq63YntEoK5JcDCOI7rSQYAY+B2q5SWirARArhNRM9SrnZ77NWWT
- kaZecA==
-Received: from nalasppmta02.qualcomm.com (Global_NAT1.qualcomm.com
- [129.46.96.20])
- by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4791crk2qy-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Mon, 16 Jun 2025 05:07:21 +0000 (GMT)
-Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com
- [10.47.209.196])
- by NALASPPMTA02.qualcomm.com (8.18.1.2/8.18.1.2) with ESMTPS id 55G57KGj003709
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Mon, 16 Jun 2025 05:07:20 GMT
-Received: from [10.216.9.13] (10.80.80.8) by nalasex01a.na.qualcomm.com
- (10.47.209.196) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.9; Sun, 15 Jun
- 2025 22:07:13 -0700
-Message-ID: <4143e209-7701-44d2-b9f0-dbe646542376@quicinc.com>
-Date: Mon, 16 Jun 2025 10:37:09 +0530
+Received: from NAM11-CO1-obe.outbound.protection.outlook.com
+ (mail-co1nam11on2076.outbound.protection.outlook.com [40.107.220.76])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1BD5C10E289;
+ Mon, 16 Jun 2025 05:14:04 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=Kn3PN5AlmUlq/rZb2sLkrEXbkByJOH6fXdG3NpDlsO33ixk23oZwV5bCoXVEmGUc9cmXvvEyeK7R8AXyTmktdNIv5uRtoYEUrB0zScp0Rqt5E5Z0NvOYjWgCJj+l6cluS6bk0UQG9eHUKt01mgjLW5v3B6AB2bed8vR7/zYJcGbEEFdisPba9RYQbK0aPInMKJvmcIEalbdDJwsUuBLZCTNQNlx2OiEfP31hXRjLk8xDhOX6omDytol/JgWaQWRKKxWPGlZQv9wTtMV/Hq9hUDJh9tBvpR3t6DsYK+ky4yl2jt7VtKB7nfrIFv9A8/A27sWbqAZXE0zGK3bNe6IkVQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=z9jADYAQNwfE400LwG2hUM+yDvWjtnHuNrbvDNYGPt4=;
+ b=F3QO73DZCmXlGOlvNr0iNb7sjyuD7o8Qsa4TGfLUDbFqg0nwWTmdF/mvuDAjzJyA7VRmcL/x22zOk+6/07lWGigrD4DO51s8fW8rj9PFbu7PiahNGJGxgIvqKgkKTtT2EbBTNsCbQz0z/3m7/DMLeS1z0RxRi/GhGPxRj3Y9TWhCacF2naE7SpJjbHdXzhAT5Kp71kE6ttQaUsa70YJyCYxuhe7Pdc9wkT/z683S5i1KDU9n+aa2GWJL9GA8c8JfuiAbbt8EZ/OINlHOLhYdGt7GDyiz54eyk0kaF0zBSu2k/asvhNM8bTSTBF9l5Nseq0nT5rJo/H6jbeFs2LUgNA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
+ dkim=pass header.d=nvidia.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=z9jADYAQNwfE400LwG2hUM+yDvWjtnHuNrbvDNYGPt4=;
+ b=CV571F48LSieyvP9xVrkjFmFFtwx2Dl6r0IY2zq7rQGJ3hhnS/51bUwY3UZO+RZKE73Ndpfs8j0RwDYR2Wog/eejoPSy1jzcwqLFvCVGs/vi7dP83Dz63KHwkXUYRbOSDFKWdGG8OH2naTILD+5Gi5qtfxK+UO7Gw81pUvaopWdVKKoy20Ozw31Hzv5Vf4jT0n0oRqKFyJ2Hka+HO9Pf0zxS1e4RBVLovldaSJgOFPAlNsmWiIHT2TthoR82ekwrE/2GOefqu2uLTd1c5zeowfRacsiTKfTjJz+7kjdI79zvBsXPom0lP/J15rCX08ER8BVodpGsxtzhDPqwxspxrw==
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=nvidia.com;
+Received: from CH2PR12MB3990.namprd12.prod.outlook.com (2603:10b6:610:28::18)
+ by CY8PR12MB7610.namprd12.prod.outlook.com (2603:10b6:930:9a::11)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8835.29; Mon, 16 Jun
+ 2025 05:14:00 +0000
+Received: from CH2PR12MB3990.namprd12.prod.outlook.com
+ ([fe80::6e37:569f:82ee:3f99]) by CH2PR12MB3990.namprd12.prod.outlook.com
+ ([fe80::6e37:569f:82ee:3f99%4]) with mapi id 15.20.8835.027; Mon, 16 Jun 2025
+ 05:14:00 +0000
+Content-Type: text/plain; charset=UTF-8
+Date: Mon, 16 Jun 2025 14:13:56 +0900
+Message-Id: <DANP8VIXMJ0Y.3U3ZP64DCB1ZM@nvidia.com>
+Cc: "Miguel Ojeda" <ojeda@kernel.org>, "Alex Gaynor"
+ <alex.gaynor@gmail.com>, "Boqun Feng" <boqun.feng@gmail.com>, "Gary Guo"
+ <gary@garyguo.net>, =?utf-8?q?Bj=C3=B6rn_Roy_Baron?=
+ <bjorn3_gh@protonmail.com>, "Andreas Hindborg" <a.hindborg@kernel.org>,
+ "Alice Ryhl" <aliceryhl@google.com>, "Trevor Gross" <tmgross@umich.edu>,
+ "Danilo Krummrich" <dakr@kernel.org>, "David Airlie" <airlied@gmail.com>,
+ "Simona Vetter" <simona@ffwll.ch>, "Maarten Lankhorst"
+ <maarten.lankhorst@linux.intel.com>, "Maxime Ripard" <mripard@kernel.org>,
+ "Thomas Zimmermann" <tzimmermann@suse.de>, "Benno Lossin"
+ <lossin@kernel.org>, "John Hubbard" <jhubbard@nvidia.com>, "Ben Skeggs"
+ <bskeggs@nvidia.com>, "Joel Fernandes" <joelagnelf@nvidia.com>, "Timur
+ Tabi" <ttabi@nvidia.com>, "Alistair Popple" <apopple@nvidia.com>,
+ <linux-kernel@vger.kernel.org>, <rust-for-linux@vger.kernel.org>,
+ <nouveau@lists.freedesktop.org>, <dri-devel@lists.freedesktop.org>
+Subject: Re: [PATCH v5 04/23] rust: add new `num` module with `PowerOfTwo` type
+From: "Alexandre Courbot" <acourbot@nvidia.com>
+To: "Miguel Ojeda" <miguel.ojeda.sandonis@gmail.com>
+Content-Transfer-Encoding: quoted-printable
+X-Mailer: aerc 0.20.1-0-g2ecb8770224a
+References: <20250612-nova-frts-v5-0-14ba7eaf166b@nvidia.com>
+ <20250612-nova-frts-v5-4-14ba7eaf166b@nvidia.com>
+ <CANiq72nS5DR2NxLoba1w83=Qsqzi-gdK7Le=y7BxPxQP5U6Rmg@mail.gmail.com>
+In-Reply-To: <CANiq72nS5DR2NxLoba1w83=Qsqzi-gdK7Le=y7BxPxQP5U6Rmg@mail.gmail.com>
+X-ClientProxiedBy: TY4PR01CA0036.jpnprd01.prod.outlook.com
+ (2603:1096:405:2bd::6) To CH2PR12MB3990.namprd12.prod.outlook.com
+ (2603:10b6:610:28::18)
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 0/3] Support for Adreno X1-45 GPU
-To: <rob.clark@oss.qualcomm.com>, Akhil P Oommen <akhilpo@oss.qualcomm.com>
-CC: Catalin Marinas <catalin.marinas@arm.com>, Will Deacon <will@kernel.org>, 
- Sean Paul <sean@poorly.run>, Konrad Dybcio <konradybcio@kernel.org>,
- "Dmitry Baryshkov" <lumag@kernel.org>,
- Abhinav Kumar <abhinav.kumar@linux.dev>,
- Jessica Zhang <jessica.zhang@oss.qualcomm.com>, Marijn Suijten
- <marijn.suijten@somainline.org>, David Airlie <airlied@gmail.com>, "Simona
- Vetter" <simona@ffwll.ch>, Bjorn Andersson <andersson@kernel.org>, Rob
- Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor
- Dooley <conor+dt@kernel.org>,
- <linux-arm-kernel@lists.infradead.org>, <linux-kernel@vger.kernel.org>,
- <linux-arm-msm@vger.kernel.org>, <dri-devel@lists.freedesktop.org>,
- <freedreno@lists.freedesktop.org>, <devicetree@vger.kernel.org>
-References: <20250607-x1p-adreno-v1-0-a8ea80f3b18b@oss.qualcomm.com>
- <CACSVV01A8aqyoM4KYuUYVXTHnM1egn5-4UxqPrQVVjuvxxbC6g@mail.gmail.com>
-From: Akhil P Oommen <quic_akhilpo@quicinc.com>
-Content-Language: en-US
-In-Reply-To: <CACSVV01A8aqyoM4KYuUYVXTHnM1egn5-4UxqPrQVVjuvxxbC6g@mail.gmail.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 8bit
-X-Originating-IP: [10.80.80.8]
-X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
- nalasex01a.na.qualcomm.com (10.47.209.196)
-X-QCInternal: smtphost
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
- signatures=585085
-X-Proofpoint-ORIG-GUID: p20DTFGx5sjMNBbGJteEwPmMiXWb8CjM
-X-Authority-Analysis: v=2.4 cv=BoedwZX5 c=1 sm=1 tr=0 ts=684fa689 cx=c_pps
- a=ouPCqIW2jiPt+lZRy3xVPw==:117 a=ouPCqIW2jiPt+lZRy3xVPw==:17
- a=GEpy-HfZoHoA:10 a=IkcTkHD0fZMA:10 a=6IFa9wvqVegA:10 a=e5mUnYsNAAAA:8
- a=VwQbUJbxAAAA:8 a=EUspDBNiAAAA:8 a=aVaGKPbtQoTzMs4lowsA:9 a=3ZKOabzyN94A:10
- a=QEXdDO2ut3YA:10 a=Vxmtnl_E_bksehYqCbjh:22
-X-Proofpoint-GUID: p20DTFGx5sjMNBbGJteEwPmMiXWb8CjM
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwNjE2MDAzMiBTYWx0ZWRfX8Bh76SsUtogs
- mfGW/AwkRHGK+2P8cfAgzoD0TMtKJfz2AlGZO7oeySnyM+ymbhQFWQWpDoMUJG5c0VNBj4dF4FJ
- qYkmh4znPXd/uIuKNYv117/4oLVnmxoemloFlNas/Sbv/B5yT20dD8SMTxmoSw+VW96IVwewU4l
- ofGuWwK2gXGdzwo8rGq80VX8qYMMRlp99R2PW4/o41QYOyTV3Tqxr4hOAypKJjlpId8vrVW71ue
- yJ7wUgX3ThYXMGrxP4Gp7bkmvEtQUI5ITYT0tH9+2ES+WcN0nyuuaDoxtFEVMyYHZGj0QVOT0HT
- GW6Htbhvy/0MwZWaEm3GM1I11DuDHEbCpb1HekTpOCQdTNgUJ8WNMi9IQ+UapzTRX8sJfz2a0Ys
- h5qqfhAk1T9ln0ZTfg4G69JrUTmURnqu4JU0Enw2hO9Snkkgp4ovVyCJmYUsXAqBqxvVEQst
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1099,Hydra:6.0.736,FMLib:17.12.80.40
- definitions=2025-06-16_02,2025-06-13_01,2025-03-28_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- impostorscore=0 mlxscore=0 adultscore=0 phishscore=0 lowpriorityscore=0
- mlxlogscore=949 bulkscore=0 malwarescore=0 priorityscore=1501 clxscore=1015
- spamscore=0 suspectscore=0 classifier=spam authscore=0 authtc=n/a authcc=
- route=outbound adjust=0 reason=mlx scancount=1 engine=8.19.0-2505280000
- definitions=main-2506160032
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: CH2PR12MB3990:EE_|CY8PR12MB7610:EE_
+X-MS-Office365-Filtering-Correlation-Id: d48e330b-25a6-4d13-87e2-08ddac949a3d
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+ ARA:13230040|10070799003|366016|1800799024|7416014|376014; 
+X-Microsoft-Antispam-Message-Info: =?utf-8?B?SmEzYWpQSVFGRUhsVDVZa1RKUVVPS1FDNjFEaVdRNytXajVGK0EySHgvNEZy?=
+ =?utf-8?B?emN2S3EyNkhzNUFEbmEwR0hoRHgrUHBPYWNUTExkNWJoeWFmQUd3RjJuNW1k?=
+ =?utf-8?B?QjZ6ZzU1dENtdUxycWhEZ2tvd09zcnRmZnZpbktRTkx3b2NFWHVQZ0ZGaVRR?=
+ =?utf-8?B?RC9vTkptWEVwVE5BVytCYjJvYUxRTnFlYngvcWtpYTBpdC9KSFJnakdiYmcy?=
+ =?utf-8?B?V1dHZUMxeEdZbzV1Q25FaEMxN3BoKzQ5SG1idnRFZDdSL1ZVQ2FBQmxpZDJG?=
+ =?utf-8?B?cnFZcWh4NlIwWHo4clQ5VUNmN1BGZlBReVFHdW1iR041Yy8wSG5GSWh3NTJn?=
+ =?utf-8?B?cDQ5UG9vVFE4NXRTTVJrM3k0NEt4QUtWTmMxOVM0WWphSEZTQWtDNE1qNFJD?=
+ =?utf-8?B?R2xmTjJXckl1Kzh5QTM4UUxLRkp0L3V0b1pGMWpwOExnazRXUW9mTTNEQ0xz?=
+ =?utf-8?B?QWw3d1hIemhtdXlpb2E3K1hVTFVjUkhTZWRNVTNhUHNOcDEyYTZTWjZpRkow?=
+ =?utf-8?B?aXlmb1hwOVliSmVoZWpLcW92bjk5RUYxRHNEMnE5RE1KUDNOZUVoN0lKT1pz?=
+ =?utf-8?B?MU9jUXFMM2pJc0txYi9ZRHBJK1JMZEQvRGFmdm9SMkgycmJhU2JjdlVoMjlH?=
+ =?utf-8?B?QTdjQkZMVXlib0xKREJtT2NleFl1a1VFM3Z4S1VRQ1hGUGJGKzZ3R3hIMFpw?=
+ =?utf-8?B?WktNaTZFRW5ITUNyVEgvQ3B5dHR0M1pTelRCLys1SzM3TW5kOHdsa2hUMnNm?=
+ =?utf-8?B?ZkpZN1hBeXdWUGp5VWYvR0NUdlgwdm9zanNaNFlMcEFwS0RaK2tuU283akUy?=
+ =?utf-8?B?cE15RW1ZYUdMcDhRYm1LQXNteEJIVHA5RGpnbFBCd1IyajlsU1cxV3lmdXF0?=
+ =?utf-8?B?QXovVitBOTN1T3BYblFXMG0wK1lEZC9MNlNTYWdndmN6RjAzZTR6YUVERzlh?=
+ =?utf-8?B?MmZkQXU2Q0M0M2J5K3BEV1AyTFBlbG5Uclh1WTF0VFMzZkV3eGFsUnVhR2U3?=
+ =?utf-8?B?TEhZdnhFMmpZb2ljSW5vQ1V0TlNKZ2U2TytnbDNNMVd4bStmazRhaDRTR2Vq?=
+ =?utf-8?B?WVdxdmZ5UWRvZGpuZEhVZVAvYjNxUG05UFptVXpoaXUzZlA4QUp3dW5YdWRt?=
+ =?utf-8?B?eUtNNHlQLzY2YTcwZGlOVFZGZ0VDK081UkpsNzlsbjdJUmpOYlFDRURvYXhz?=
+ =?utf-8?B?ZStCODB5VW9xY29WUEttOE16ME5kLzI0V1pwQXREVkdud1hKNmNscVBrd1RI?=
+ =?utf-8?B?STRJYUd1RG5uSmg2aDNQdTJIRnhEdTZNZjUzclZtYll0eDdsOXpSbk5HTlpq?=
+ =?utf-8?B?T3FvMkJEQU1leU9OV1hvbjFmSkVhODdkWjNhSU5ZTU5lcmtNZmJCYlIrQTZX?=
+ =?utf-8?B?dDRkOUJnY1k0Y3FVS2VjQUl5dHRhandRajJDSFkreTNHeG55L3oxbG5JTmF4?=
+ =?utf-8?B?NWlFUW9ybTdCZmVtQ01kZW43a1BzNGNhZGJSZmI4ZlpNeXRmNlRrVzlIM1RU?=
+ =?utf-8?B?VHlwMUxlY0tTNHgxSS9jTVB1aXU0bXFjZ2laR2k3RkhYcmdaZVpCSWpUNGw3?=
+ =?utf-8?B?c2J0Q0xaWVdJMmFSL2Q1WjV1NzJlZnpWS1JLaVREemJIL2ZEUUNlNVhKcnB5?=
+ =?utf-8?B?bkp2SjRVcVE2ZzRzZ1NxSnB3VTZXOFRaWjJ1cVV3WE1GY1VZbW16c2Q1VFVm?=
+ =?utf-8?B?c2RBaVM4dmpvRVhMekpyMDBOK0RTZmwyWnUxdjZsOW9iRWIvQ0I4QmlLQ1JB?=
+ =?utf-8?B?N2xFd2d2U09TYitENXBVTXVaQ1B1RjU1QjBTL2liRUlveGNuY0pXVUJyR1Ix?=
+ =?utf-8?B?RDBFTTRLVnRVeXZhK1ExWFNaOVYrQ1AzWlRqN21XNXZqWnhZUkowdk5VYk9G?=
+ =?utf-8?B?bFd0Z1YySDhYZjhUeHpHbDc3TGtqOVVRSzNUd0xaZkpxNFE9PQ==?=
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:CH2PR12MB3990.namprd12.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230040)(10070799003)(366016)(1800799024)(7416014)(376014); DIR:OUT;
+ SFP:1101; 
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?bmw4VnlSL0hiTklQSjFRS1JQZnhqOExXdEdpWGw0eGoyUkoyZDNBZ3VRdDRs?=
+ =?utf-8?B?eCtscm00cGlWOGpzMnh3RzFvVEFPRlozaVRjbkVpWFFFRmRlY3gxWk04RzVZ?=
+ =?utf-8?B?Y1RMOGFleUZSc21ER0JQVTMvVFhHWm1MaUdWYmdQYnlKeVpEY2dvcmplR0JD?=
+ =?utf-8?B?OUowUlF6SERpZ0NDdGhabVhoTTJBTnpOdmJ0ZVdQR0FRQTRyVzBtUlR3MTNP?=
+ =?utf-8?B?eGN1NVlvWDZBSFlyZDhoV1JTdnlRL3YxLzhheVpMU20vaDFOcHJkSWtLTm9k?=
+ =?utf-8?B?bFUwLzJaRVNkc3ZhNW9JTENKQlBQSGhBRGxBWXVrV2N6eld3ZHBKUzRZWXRh?=
+ =?utf-8?B?OExvYlNXM3ArYzVvL1QrV0hiWmF3ZERSK1BXelNmNTJWZzZCc2RJeE1iK2R4?=
+ =?utf-8?B?L2d2dU1OWkJqRXJ4dit6T0NTSnVNbXpja0JkRm1OcEFGdnR5SXh0K0kzVFVu?=
+ =?utf-8?B?L3F5UnlTSjhEWkc1NUZaUnV3eTUwR1lRM0k4Qkh0S0FyeFJ3TUJ0MHlSQ3U4?=
+ =?utf-8?B?b0Y4MHVWelJtOENaZ0dZcnBFVm54Nk9UeGN5ejNyMVNjRSswNUp0SzZXL01u?=
+ =?utf-8?B?T3NGeURYdm94SHNrZGR6K0hudVo3cUd1dlNpL1RaalVhSHdPcEljRmNsNExp?=
+ =?utf-8?B?UHB2SmFJMXgvZHFpLzBUTk93VXZWUWpBU1lLKzFDb1U3UjRRWEdzd2dhb2la?=
+ =?utf-8?B?b3k5SjJac2FKMjhxSnp3TkduRVdtL3docFJ3QVllcUtSRGFDdlhGRWhDbER6?=
+ =?utf-8?B?dzZhSzhQcWNXcHVtMDJOQXRrU0pNb0dDVzFGeWx6b1ZqamlzeTVNdU9NdHYx?=
+ =?utf-8?B?SVRWUEc0bkUxT2h2eDNKbjcyYW4ycWdFdHVDVWhyc0l3OGlqRjBTQVJTdzhW?=
+ =?utf-8?B?WG4zWHl2THN4YmFSV2lNMitHRWlHVnNYNTl1VjkxYnBoeE93VEcxZG5QSS9I?=
+ =?utf-8?B?UWhsR0ZiNFNQbE5lY0tMTW16U3BzcXhzamw4TDlSWUljaUlUZUdYZDdyeEdo?=
+ =?utf-8?B?SEt3TmxPYUpWaUl2d2o0WkNvZzV0QjZrTFJXSjVyWWZkUnoxSXFXaGlOcm8x?=
+ =?utf-8?B?SGJNYkRobkpWK2NxeFRQMFE5M216bWtHRnNXZnA0YTBHOVV6enhCUC84REU2?=
+ =?utf-8?B?V05qVUVoc2lMQW85djVaN3JSNVdXcHRrQ2d5L2l1RVZlWXk0ZUJtRzhiaVM3?=
+ =?utf-8?B?ZVYyOWlQNnFqTnB6eDcwYVNaVUhwMldYTTU2b29VT1AzWks1K2JRWStOM2o4?=
+ =?utf-8?B?KytkeTNiTzVZR3VkNUFZN0NmcjFKd2tXRTllRjN2RjVkQjZaQ3pmUENWSnFl?=
+ =?utf-8?B?VHlMQTQrOUY5MG5DekQrSW1ObVBDYlF5NUovc3kya0pJaVluSlY4T1JTam1l?=
+ =?utf-8?B?ODV4TG16bythS2I1R29BL01LQW1aa2tKd2R3a3hxSWh5QWVEdGNIMFhCbjJv?=
+ =?utf-8?B?ZEtHWTV3L3ZHbW5OUkJYeFN1ZlBCY0VwRjFXYitVem83Q2tTa2pPZ21IN21M?=
+ =?utf-8?B?V0JkVU91b0JHRGk4NitsZWQzZ3d0Mll2cmJ6NHpBVkVheEJ0SlpVRUJoT1dB?=
+ =?utf-8?B?NEVhc0FKNXYwMVJhOHlTdUJrRURoT1d0UW5RSGtNNDNGY2I3aTI4Q1p0bkJK?=
+ =?utf-8?B?a29zMGJBS2NIdXFrbEtnblpRWE9rUk9CSUd1dWFOSDgvNHJaeEg2NnFEckRy?=
+ =?utf-8?B?YnRxeEdvZUVLOEkvcjdjUExhaGtMc1d4KzBEVGxJU2ozZHBKWXEwZ0xxV0Jp?=
+ =?utf-8?B?VG00MFR1cTR3dTNIMk84ZmE3QURuWlBTZy9OdUhicWFzek9YTUpjdVFJV0Vt?=
+ =?utf-8?B?c0xCUlpGYWh0RENNeUsvMXkrUXhMZTJJdVZRZi9mc012cjhDQnZLcUlEWDVR?=
+ =?utf-8?B?MkF0Z0NRaEhUK0JsczBqL283emZlN0RSVUR5bUdjSjZrVkU5WHNLS0FqM3pt?=
+ =?utf-8?B?V0diYnRaTE05djZrdENiLzVoZ2kvTHBxYmxDcVd4UWFTYll6c0wxbWtlSkt3?=
+ =?utf-8?B?anNid3lZVnlyUi9DbW1ucDlGbVAwK3hzcU1KeVRmUDl3cjB0UXBqZFI4NE03?=
+ =?utf-8?B?NGE4eVNTT2lyY2pMdzN0Q2Uvcko3YzRLWmR0dEoya004Tlc3aDJ6eDR2dFE1?=
+ =?utf-8?B?eDNFVUxUV0FKdEFIdDdnSUZUeE9LNDRLV2RBcklIeHh0QnB4dXlIcUN3QS91?=
+ =?utf-8?Q?ONREWtEA2BfahHJXJ3lTZjPbVFkzSiV/Zs57f4ONelY4?=
+X-OriginatorOrg: Nvidia.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: d48e330b-25a6-4d13-87e2-08ddac949a3d
+X-MS-Exchange-CrossTenant-AuthSource: CH2PR12MB3990.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 16 Jun 2025 05:14:00.2015 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: 15L3w3kpsAQ7hGyynF2Z/kvwllgiWb0tRoVXn4+g41CmAULrxs33rBIufj27Vx113ig6ZbnWad0ft8nWlKtqng==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: CY8PR12MB7610
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -112,46 +178,33 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 6/8/2025 8:51 PM, Rob Clark wrote:
-> On Sat, Jun 7, 2025 at 7:15 AM Akhil P Oommen <akhilpo@oss.qualcomm.com> wrote:
+On Sun Jun 15, 2025 at 10:32 PM JST, Miguel Ojeda wrote:
+> On Thu, Jun 12, 2025 at 4:02=E2=80=AFPM Alexandre Courbot <acourbot@nvidi=
+a.com> wrote:
 >>
->> Add support for X1-45 GPU found in X1P41200 chipset (8 cpu core
->> version). X1-45 is a smaller version of X1-85 with lower core count and
->> smaller memories. From UMD perspective, this is similar to "FD735"
->> present in Mesa.
->>
->> Tested Glmark & Vkmark on Debian Gnome desktop.
->>
->> Signed-off-by: Akhil P Oommen <akhilpo@oss.qualcomm.com>
-> 
-> fyi, mesa part: https://gitlab.freedesktop.org/mesa/mesa/-/merge_requests/35404
+>> +                /// assert_eq!(PowerOfTwo::<u32>::try_new(16).unwrap().=
+value(), 16);
+>
+> By the way, we are trying to write examples close to normal kernel
+> code as possible, so could you please use `?` here instead of
+> `unwrap()`?
+>
+> It is not a big deal, when within `assert`s, but there is value in not
+> showing any `unwrap()`s, and to spot easily places where we actually
+> do `unwrap()`.
 
-fyi, gpu firmwares: https://lore.kernel.org/linux-firmware/e036373e-0356-4fa1-b39b-78eaf02179d6@oss.qualcomm.com/T/#u
+The fact that `try_new` returns an `Option` makes it a bit difficult to do
+nicely - one would have to add a verbose `ok_or` to turn it into a
+`Result`.
 
--Akhil
+But that doesn't matter as this test can be (better) written as follows:
 
-> 
-> BR,
-> -R
-> 
->> ---
->> Akhil P Oommen (3):
->>       arm64: defconfig: Enable X1P42100_GPUCC driver
->>       drm/msm/adreno: Add Adreno X1-45 support
->>       arm64: dts: qcom: Add GPU support to X1P42100 SoC
->>
->>  arch/arm64/boot/dts/qcom/x1e80100.dtsi    |   7 ++
->>  arch/arm64/boot/dts/qcom/x1p42100-crd.dts |   4 +
->>  arch/arm64/boot/dts/qcom/x1p42100.dtsi    | 121 +++++++++++++++++++++++++++++-
->>  arch/arm64/configs/defconfig              |   1 +
->>  drivers/gpu/drm/msm/adreno/a6xx_catalog.c |  38 ++++++++++
->>  5 files changed, 170 insertions(+), 1 deletion(-)
->> ---
->> base-commit: b3bded85d838336326ce78e394e7818445e11f20
->> change-id: 20250603-x1p-adreno-219da2fd4ca4
->>
->> Best regards,
->> --
->> Akhil P Oommen <akhilpo@oss.qualcomm.com>
->>
+    assert_eq!(PowerOfTwo::<u32>::try_new(16), Some(PowerOfTwo::<u32>::new(=
+16)));
 
+And all is well.
+
+> Also, please use intra-doc links wherever they may work, e.g. I think
+> [`PowerOfTwo`] and [`None`] will work.
+
+Added the links where relevant, sorry for the omission!
