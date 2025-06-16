@@ -2,76 +2,104 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9F9CDADB61C
-	for <lists+dri-devel@lfdr.de>; Mon, 16 Jun 2025 18:05:40 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id AE679ADB641
+	for <lists+dri-devel@lfdr.de>; Mon, 16 Jun 2025 18:09:35 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 724F010E345;
-	Mon, 16 Jun 2025 16:05:38 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2D87610E3BA;
+	Mon, 16 Jun 2025 16:09:33 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; secure) header.d=mailbox.org header.i=@mailbox.org header.b="NEGfm5OI";
-	dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b="wiv79ZhW";
+	dkim=pass (1024-bit key; unprotected) header.d=suse.de header.i=@suse.de header.b="saAwb6ic";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="YWzwOCuD";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="ue3TZ7yi";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="Gq51MwMk";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mout-p-102.mailbox.org (mout-p-102.mailbox.org [80.241.56.152])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6086E10E345
- for <dri-devel@lists.freedesktop.org>; Mon, 16 Jun 2025 16:05:32 +0000 (UTC)
-Received: from smtp1.mailbox.org (smtp1.mailbox.org
- [IPv6:2001:67c:2050:b231:465::1])
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 585CE10E33D
+ for <dri-devel@lists.freedesktop.org>; Mon, 16 Jun 2025 16:09:28 +0000 (UTC)
+Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org
+ [IPv6:2a07:de40:b281:104:10:150:64:97])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
  (No client certificate requested)
- by mout-p-102.mailbox.org (Postfix) with ESMTPS id 4bLZbZ1X6Cz9tZT;
- Mon, 16 Jun 2025 18:05:30 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mailbox.org;
- s=mail20150812; t=1750089930;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=lUyKn+KNUkQsExEifEck7guNUldalSigDR2Ao58orTk=;
- b=NEGfm5OIWtpYvf2lCnLXIDqrsQUAawHzxNq0rjjuIV/96LEaw5AJEktYyk3+tBvitSM/yc
- 5aDJrDzOZeAx386XsMiSTCfSmU8CyAZGddXbYPvM+ZpxgPWVQzbclAIb2fprJQByFsmPx5
- IuvQHCn5xs72tQUCQQxG939fzp20gqSTK8cJxGQeH2wnw+gWsZj6PE0f2hiblXKBfMxWgm
- WYqv+cMZulxcmpektkSYFBsd1YH25cgbpjnJqkf8ol6aB8Io6Bkyf9LbhPdoVh/9y2pWX8
- QA9tL4K/cJVlClQItLIwK/8c9dD/Wtqn9L5cV7XQ1h7E2ieQhJ5+JxZELnur1w==
-Message-ID: <e6c51a8d-978e-44f0-bff1-efcd05617aa7@mailbox.org>
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mailbox.org;
- s=mail20150812; t=1750089928;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=lUyKn+KNUkQsExEifEck7guNUldalSigDR2Ao58orTk=;
- b=wiv79ZhWmZTqxkJVt2kC7Mzxws0LvgFVPjzcRdMIO+e/hrv4IKpfv4RBc9mBwkHIAA7cqK
- 8ekxsppOELlHLLwmZhEJ7aJNZxCxolXF+xXm6ImwkywXIP4bILO9Nof9/MtVlX9ddR0DKV
- QCCG+WIkwT6NxJVIwWuSCpZaIFYtVZDda8Tc2vQ0DEAmCRP8zRIhcVtowBfeT9GyIu/niR
- O+5sHwx3N4+ZHOtvCU9/FLnG87Udk2vg+nxVsVgOT2IVPezWfi7Gvu1RQl9Ek8fcQT+wYZ
- wcFI5MeGQE2G0YXLj3PKOD2tc1aYW4Q6eKHFDHdNntVcIOZ3G45cZMPjw5bQow==
-Date: Mon, 16 Jun 2025 18:05:25 +0200
+ by smtp-out1.suse.de (Postfix) with ESMTPS id 62C8221215;
+ Mon, 16 Jun 2025 16:09:12 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+ t=1750090162; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version: content-transfer-encoding:content-transfer-encoding;
+ bh=Bx6i2NZ8BbZBrNkIElY6uzwl2GaqIZIIjwPFKMYv8is=;
+ b=saAwb6icJLSPyayJZyeWCYcfF6sLhVl2GprjCYXgMLgkyF76PdevYHAbY6b2wsVkHh7RXX
+ giSBC0eCWznrXSpSsga8e93B4x2sLXsZ/5HgLvtwO7AKORufCD8cAh4+cVjkUDBoNXl3hV
+ U/9D/dNn7RDXLkvzU5DDb27/YFGW9TE=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+ s=susede2_ed25519; t=1750090162;
+ h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version: content-transfer-encoding:content-transfer-encoding;
+ bh=Bx6i2NZ8BbZBrNkIElY6uzwl2GaqIZIIjwPFKMYv8is=;
+ b=YWzwOCuDrVxMk/dZk/+rwM2wTjzFlIUDz2rysRQcXwNQ75zYE6ntpMRIsG7eYDSHIyKag7
+ lvj25i3r92pDAODw==
+Authentication-Results: smtp-out1.suse.de;
+ dkim=pass header.d=suse.de header.s=susede2_rsa header.b=ue3TZ7yi;
+ dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=Gq51MwMk
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+ t=1750090157; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version: content-transfer-encoding:content-transfer-encoding;
+ bh=Bx6i2NZ8BbZBrNkIElY6uzwl2GaqIZIIjwPFKMYv8is=;
+ b=ue3TZ7yiQq865YUUlgGbbdCLmNL/TkQTkRUu+r25AlbdBgLa4YQzpe0tfrzpvOup9sbtlR
+ BYfzL9tmbJidhZ4TheHub78Avob4IzdeZNgRb8EmAFAFSOf0XHCJSdw+oKV+9wG256GQx3
+ 6OQf6f0aFzipYl5300ZFqotgRT/d+E4=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+ s=susede2_ed25519; t=1750090157;
+ h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version: content-transfer-encoding:content-transfer-encoding;
+ bh=Bx6i2NZ8BbZBrNkIElY6uzwl2GaqIZIIjwPFKMYv8is=;
+ b=Gq51MwMkyjQs/bLBV9jOh+Av8HGn3aFzXBqBjuNojMHe5NAQaR5Loh0RlR2b/T5FRFX9Yc
+ gfVm9DFmFPs+frCg==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ (No client certificate requested)
+ by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 28E0E13A6B;
+ Mon, 16 Jun 2025 16:09:12 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+ by imap1.dmz-prg2.suse.org with ESMTPSA id qAOqCKhBUGi5cQAAD6G6ig
+ (envelope-from <tiwai@suse.de>); Mon, 16 Jun 2025 16:09:12 +0000
+From: Takashi Iwai <tiwai@suse.de>
+To: amd-gfx@lists.freedesktop.org
+Cc: dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ Harry Wentland <harry.wentland@amd.com>, Leo Li <sunpeng.li@amd.com>,
+ Alex Deucher <alexander.deucher@amd.com>,
+ =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>
+Subject: [PATCH RESEND] drm/amd/display: Add sanity checks for drm_edid_raw()
+Date: Mon, 16 Jun 2025 18:08:41 +0200
+Message-ID: <20250616160908.26333-1-tiwai@suse.de>
+X-Mailer: git-send-email 2.49.0
 MIME-Version: 1.0
-Subject: Re: [PATCH] drm/panel: ilitek-ili9881c: Use u8 for lane count
-To: Neil Armstrong <neil.armstrong@linaro.org>,
- Marek Vasut <marek.vasut+renesas@mailbox.org>,
- dri-devel@lists.freedesktop.org
-Cc: Geert Uytterhoeven <geert@linux-m68k.org>,
- David Airlie <airlied@gmail.com>,
- Jessica Zhang <jessica.zhang@oss.qualcomm.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, Simona Vetter <simona@ffwll.ch>,
- Thomas Zimmermann <tzimmermann@suse.de>, linux-renesas-soc@vger.kernel.org
-References: <20250611234913.161861-1-marek.vasut+renesas@mailbox.org>
- <109b5c25-f54c-4413-aa62-8e2ae621c8e6@linaro.org>
- <a263d600-4f62-4d40-864c-e0b0c42f6863@mailbox.org>
- <ef842208-069e-4471-8680-f945d5ccb1a7@linaro.org>
-Content-Language: en-US
-From: Marek Vasut <marek.vasut@mailbox.org>
-In-Reply-To: <ef842208-069e-4471-8680-f945d5ccb1a7@linaro.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-X-MBO-RS-META: ymmzxqrt38hfyau94duu1s7y3efjq78n
-X-MBO-RS-ID: be874eff82ee2f5c952
-X-Rspamd-Queue-Id: 4bLZbZ1X6Cz9tZT
+X-Spamd-Result: default: False [-3.01 / 50.00]; BAYES_HAM(-3.00)[99.99%];
+ MID_CONTAINS_FROM(1.00)[]; NEURAL_HAM_LONG(-1.00)[-1.000];
+ R_MISSING_CHARSET(0.50)[];
+ R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+ NEURAL_HAM_SHORT(-0.20)[-1.000]; MIME_GOOD(-0.10)[text/plain];
+ MX_GOOD(-0.01)[]; FUZZY_BLOCKED(0.00)[rspamd.com];
+ RCVD_VIA_SMTP_AUTH(0.00)[]; ARC_NA(0.00)[];
+ ASN_FAIL(0.00)[7.9.0.0.4.6.0.0.0.5.1.0.0.1.0.0.4.0.1.0.1.8.2.b.0.4.e.d.7.0.a.2.asn6.rspamd.com:server
+ fail]; MIME_TRACE(0.00)[0:+]; RCPT_COUNT_SEVEN(0.00)[7];
+ DNSWL_BLOCKED(0.00)[2a07:de40:b281:106:10:150:64:167:received,2a07:de40:b281:104:10:150:64:97:from];
+ DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+ RCVD_TLS_ALL(0.00)[]; FROM_EQ_ENVFROM(0.00)[];
+ FROM_HAS_DN(0.00)[]; TO_DN_SOME(0.00)[];
+ RCVD_COUNT_TWO(0.00)[2]; TO_MATCH_ENVRCPT_ALL(0.00)[];
+ DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:helo,imap1.dmz-prg2.suse.org:rdns,suse.de:dkim,suse.de:mid,suse.de:email,suse.com:url];
+ SPAMHAUS_XBL(0.00)[2a07:de40:b281:104:10:150:64:97:from];
+ DKIM_TRACE(0.00)[suse.de:+]
+X-Spam-Level: 
+X-Spam-Flag: NO
+X-Rspamd-Queue-Id: 62C8221215
+X-Rspamd-Action: no action
+X-Rspamd-Server: rspamd1.dmz-prg2.suse.org
+X-Spam-Score: -3.01
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -87,75 +115,40 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 6/16/25 1:45 PM, Neil Armstrong wrote:
-> On 13/06/2025 12:54, Marek Vasut wrote:
->> On 6/13/25 11:29 AM, Neil Armstrong wrote:
->>> On 12/06/2025 01:49, Marek Vasut wrote:
->>>> Use u8 to hold lane count in struct ili9881c_desc {} to avoid
->>>> alignment gap between default_address_mode and lanes members.
->>>> The ili9881c controller can only operate up to 4 DSI lanes, so
->>>> there is no chance this value can ever be larger than 4. No
->>>> functional change.
->>>
->>> The u8 will still take at least 4 bytes and cpu will still
->>> do at least a 32bit memory access, so there's no point to change
->>> it to u8.
->> Assuming this layout:
->>
->>    40 struct ili9881c_desc {
->>    41         const struct ili9881c_instr *init;
->>    42         const size_t init_length;
->>    43         const struct drm_display_mode *mode;
->>    44         const unsigned long mode_flags;
->>    45         u8 default_address_mode;
->>    46         u8 lanes;
->>    47 };
->>
->> I wrote a quick test:
->>
->> $ cat test.c
->> #include <stdio.h>
->> #include <stdint.h>
->>
->> struct foo {
->>      void *a;
->>      size_t b;
->>      void *c;
->>      unsigned long d;
->>
->>      uint8_t x;
->>      unsigned long y; // ~= lanes
->> };
->>
->> struct bar {
->>      void *a;
->>      size_t b;
->>      void *c;
->>      unsigned long d;
->>
->>      uint8_t x;
->>      uint8_t y; // ~= lanes
->> };
->>
->> int main(void)
->> {
->>      printf("%d %d\n", sizeof(struct foo), sizeof(struct bar));
->>      return 0;
->> }
->>
->> With which I get these results on x86-64:
->>
->> $ gcc -o test test.c && ./test
->> 48 40
->>
->> And on x86 32bit:
->>
->> $ i686-linux-gnu-gcc -o test test.c && ./test
->> 24 20
->>
->> Maybe there is some improvement ?
-> 
-> Try again with code size included, and other archs since 99% of the 
-> users would be an arm/riscv based boards.
-Doesn't that mean, that one some systems it wins us a bit of memory 
-utilization improvement, and on other systems it has no impact ?
+When EDID is retrieved via drm_edid_raw(), it doesn't guarantee to
+return proper EDID bytes the caller wants: it may be either NULL (that
+leads to an Oops) or with too long bytes over the fixed size raw_edid
+array (that may lead to memory corruption).  The latter was reported
+actually when connected with a bad adapter.
+
+Add sanity checks for drm_edid_raw() to address the above corner
+cases, and return EDID_BAD_INPUT accordingly.
+
+Fixes: 48edb2a4256e ("drm/amd/display: switch amdgpu_dm_connector to use struct drm_edid")
+Link: https://bugzilla.suse.com/show_bug.cgi?id=1236415
+Signed-off-by: Takashi Iwai <tiwai@suse.de>
+---
+
+Just resent, as the previous submission seems overlooked
+
+ drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_helpers.c | 4 ++++
+ 1 file changed, 4 insertions(+)
+
+diff --git a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_helpers.c b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_helpers.c
+index d4395b92fb85..9e3e51a2dc49 100644
+--- a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_helpers.c
++++ b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_helpers.c
+@@ -1029,6 +1029,10 @@ enum dc_edid_status dm_helpers_read_local_edid(
+ 			return EDID_NO_RESPONSE;
+ 
+ 		edid = drm_edid_raw(drm_edid); // FIXME: Get rid of drm_edid_raw()
++		if (!edid ||
++		    edid->extensions >= sizeof(sink->dc_edid.raw_edid) / EDID_LENGTH)
++			return EDID_BAD_INPUT;
++
+ 		sink->dc_edid.length = EDID_LENGTH * (edid->extensions + 1);
+ 		memmove(sink->dc_edid.raw_edid, (uint8_t *)edid, sink->dc_edid.length);
+ 
+-- 
+2.49.0
+
