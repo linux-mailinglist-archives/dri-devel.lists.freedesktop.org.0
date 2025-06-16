@@ -2,193 +2,126 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2C414ADAE83
-	for <lists+dri-devel@lfdr.de>; Mon, 16 Jun 2025 13:30:35 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9C905ADAE8B
+	for <lists+dri-devel@lfdr.de>; Mon, 16 Jun 2025 13:32:30 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id DBACB10E325;
-	Mon, 16 Jun 2025 11:30:30 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 038D510E328;
+	Mon, 16 Jun 2025 11:32:29 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="iAe7X67v";
+	dkim=pass (2048-bit key; unprotected) header.d=qualcomm.com header.i=@qualcomm.com header.b="ltHrVmla";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.16])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 32AA410E2F0;
- Mon, 16 Jun 2025 11:30:29 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1750073430; x=1781609430;
- h=from:to:cc:subject:date:message-id:references:
- in-reply-to:content-transfer-encoding:mime-version;
- bh=s0c4eQSVu/SyQ786E1/9y9Ksjo4373HGg+gjhzpIhM4=;
- b=iAe7X67vDR46pyealN4lYXD8KyZe5Jyw2JoBdZw6A1p5jIY+qaYm1IU1
- lFa1gL/AC+vrou4G1+mv8ccBBkdnBpiLgS53krJKrZ7RMluf8vReGTMnK
- +2CdDud4Bn5heNMip29zRHv2N+d6ZKkTPj5MdLg4iplLu4RY1dV3D4abM
- LrlfHIVp28UL7q4j823//FmC3dj18AkvH+drasH2+JOEt6uJKfhft/UaN
- RfGHYLVbftf2sFMOxExDegVEnpNpXCYC1Fbv6FznR4L/uqFMaEUoNAZJn
- TBn88cMA4nsv+Ellj4T9e8FVAuv9DRX/FlTXNPuDKVPvgxlN7alhl8cRF w==;
-X-CSE-ConnectionGUID: oQtV69UBRBOk1WW2p//LwQ==
-X-CSE-MsgGUID: L9ZqcqOcQXagpIlb8Oy/Qg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11465"; a="52302596"
-X-IronPort-AV: E=Sophos;i="6.16,241,1744095600"; d="scan'208";a="52302596"
-Received: from orviesa006.jf.intel.com ([10.64.159.146])
- by orvoesa108.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 16 Jun 2025 04:30:29 -0700
-X-CSE-ConnectionGUID: 4y4POLInRymdcmZbXBTeFQ==
-X-CSE-MsgGUID: 7Hp0nfb2SgqcM3pyUqpmQg==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.16,241,1744095600"; d="scan'208";a="148281489"
-Received: from orsmsx902.amr.corp.intel.com ([10.22.229.24])
- by orviesa006.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 16 Jun 2025 04:30:28 -0700
-Received: from ORSMSX903.amr.corp.intel.com (10.22.229.25) by
- ORSMSX902.amr.corp.intel.com (10.22.229.24) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.1544.25; Mon, 16 Jun 2025 04:30:27 -0700
-Received: from ORSEDG901.ED.cps.intel.com (10.7.248.11) by
- ORSMSX903.amr.corp.intel.com (10.22.229.25) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.1544.25 via Frontend Transport; Mon, 16 Jun 2025 04:30:27 -0700
-Received: from NAM12-MW2-obe.outbound.protection.outlook.com (40.107.244.40)
- by edgegateway.intel.com (134.134.137.111) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.1544.25; Mon, 16 Jun 2025 04:30:27 -0700
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=jq76TR/C9QZaglarb3ncK+vXyz5W/5yo8OAPfl2YbZa5HJSW/utV4WlmqkmU6uiJ2QhRp3QV53Wa2LPKZSqXaJXEHpgv0IL8bB3vgw6xfP4l+0POqz+gmosQgW04zSGHU/DPzDsh44wyyeyM2wrN4MD2l2/VxPGaK5JgYDV87NirrJpFtL7iQv8/8u6sUFQLUW+X7eN1ox8NCT/1ZP2cNZPhh8tJqaP0LB4O9KvrldRgKqGDlKfFwrUNG0RiKa5F3k6OBHQKLBDOVivNTbYCPl8ZAFekP6PVuFGRdxi+e8GlEo6cHQbnI1uUnUzp/fNub1znb5jnB093f3TI91SXSg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=Q7QeqW35966BMU7XGc6Gz1KGGAg/GukyBBAGPGP9C4Q=;
- b=YwTnEGVuykfXGWNDxkDjnV2uhalxhFvVx1IpG30hfhJ0jTnnfENmMH5M1XBbFB6El1sRW8ogRFJ5dRvZOlhyjwiubCQQtFakZuZz7rzh3OZF7aKV9yiAfIvAo1g1kHYExq+KFdAb5KgFVI0YqfNFKlM6ATRFyrp+fh7wgONK4d0A9ybRzl+cKWERNSZ1u6RWxOBVKLYHzU7avjIlEuFbnd9GDr1HFNpukZu8yNPUA76m/mfWEILN2QqGHzpxPEjAcyh0e+X0SisJE9Ks9xAtdedBquHTw2NhmUc/TFcNm29xA5KJ67DHrvNjwVy1XA9osxuioZMolEbryUqqz4rmZA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
- dkim=pass header.d=intel.com; arc=none
-Received: from SJ1PR11MB6129.namprd11.prod.outlook.com (2603:10b6:a03:488::12)
- by DM3PPF2B3CC4BE4.namprd11.prod.outlook.com (2603:10b6:f:fc00::f16)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8835.29; Mon, 16 Jun
- 2025 11:30:23 +0000
-Received: from SJ1PR11MB6129.namprd11.prod.outlook.com
- ([fe80::21c3:4b36:8cc5:b525]) by SJ1PR11MB6129.namprd11.prod.outlook.com
- ([fe80::21c3:4b36:8cc5:b525%5]) with mapi id 15.20.8835.023; Mon, 16 Jun 2025
- 11:30:23 +0000
-From: "Borah, Chaitanya Kumar" <chaitanya.kumar.borah@intel.com>
-To: Alex Hung <alex.hung@amd.com>, "dri-devel@lists.freedesktop.org"
- <dri-devel@lists.freedesktop.org>, "amd-gfx@lists.freedesktop.org"
- <amd-gfx@lists.freedesktop.org>
-CC: "wayland-devel@lists.freedesktop.org"
- <wayland-devel@lists.freedesktop.org>, "harry.wentland@amd.com"
- <harry.wentland@amd.com>, "leo.liu@amd.com" <leo.liu@amd.com>,
- "ville.syrjala@linux.intel.com" <ville.syrjala@linux.intel.com>,
- "pekka.paalanen@collabora.com" <pekka.paalanen@collabora.com>,
- "contact@emersion.fr" <contact@emersion.fr>, "mwen@igalia.com"
- <mwen@igalia.com>, "jadahl@redhat.com" <jadahl@redhat.com>,
- "sebastian.wick@redhat.com" <sebastian.wick@redhat.com>,
- "shashank.sharma@amd.com" <shashank.sharma@amd.com>, "agoins@nvidia.com"
- <agoins@nvidia.com>, "joshua@froggi.es" <joshua@froggi.es>,
- "mdaenzer@redhat.com" <mdaenzer@redhat.com>, "aleixpol@kde.org"
- <aleixpol@kde.org>, "xaver.hugl@gmail.com" <xaver.hugl@gmail.com>,
- "victoria@system76.com" <victoria@system76.com>, "daniel@ffwll.ch"
- <daniel@ffwll.ch>, "Shankar, Uma" <uma.shankar@intel.com>,
- "quic_naseer@quicinc.com" <quic_naseer@quicinc.com>,
- "quic_cbraga@quicinc.com" <quic_cbraga@quicinc.com>,
- "quic_abhinavk@quicinc.com" <quic_abhinavk@quicinc.com>, "marcan@marcan.st"
- <marcan@marcan.st>, "Liviu.Dudau@arm.com" <Liviu.Dudau@arm.com>,
- "sashamcintosh@google.com" <sashamcintosh@google.com>,
- "louis.chauvet@bootlin.com" <louis.chauvet@bootlin.com>, Daniel Stone
- <daniels@collabora.com>
-Subject: RE: [PATCH V9 16/43] drm/colorop: Add 3x4 CTM type
-Thread-Topic: [PATCH V9 16/43] drm/colorop: Add 3x4 CTM type
-Thread-Index: AQHbuW1y8ppcMGuHuk6AWeupHiSmprQF7Wag
-Date: Mon, 16 Jun 2025 11:30:23 +0000
-Message-ID: <SJ1PR11MB61298CC231B8739FD48E30E1B970A@SJ1PR11MB6129.namprd11.prod.outlook.com>
-References: <20250430011115.223996-1-alex.hung@amd.com>
- <20250430011115.223996-17-alex.hung@amd.com>
-In-Reply-To: <20250430011115.223996-17-alex.hung@amd.com>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-authentication-results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=intel.com;
-x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: SJ1PR11MB6129:EE_|DM3PPF2B3CC4BE4:EE_
-x-ms-office365-filtering-correlation-id: 59f1145a-63d7-4a07-e91a-08ddacc92f1c
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam: BCL:0;
- ARA:13230040|366016|1800799024|376014|7416014|7053199007|38070700018; 
-x-microsoft-antispam-message-info: =?us-ascii?Q?aNVC8Y6XeSvlT8EkI7iqusvRzDcGfYMvQbew86XXM+SFyGQlqx0GAS83XLhg?=
- =?us-ascii?Q?gsx9lJnE9Z9mnJ2KdEET//fNjLpPwf91sQcWfVX9or2eISoLRYXO9UpDqQTv?=
- =?us-ascii?Q?ibhGkfYCMFAmq8QOL4FKAlT0EnCQKm0XYv8BWyc5i1SsixBWtNiYNw8cIhUV?=
- =?us-ascii?Q?U0vjMGUsthBtcbYYfsL+xD5MA7Z3ya2cHw94xfPV1ZiaOUpxNo7Lxlm+bYpI?=
- =?us-ascii?Q?trBQMpdhQqtZG9K0aTlZd0obQT0/JvhMyxGjy1u0w72gWqpS0z0zzaff54Xk?=
- =?us-ascii?Q?fJV+H+borPgKfbb9VrRY75UtYzUxeb8L4AkBNjxuvCzooHYp110suaQd4lpB?=
- =?us-ascii?Q?DpHd5ti4k3GroOudk/P7ag2l1otBD58bVywV41kmqlEwXUdLCjJ1Yp5xTNqu?=
- =?us-ascii?Q?4RKpJT/bhOAVNMApSUmMIiTozuLAGBW90Qif/XEP5IF/D5Ms8fXe7bkhS+Zx?=
- =?us-ascii?Q?eq+5G/9WWp1gyKcfCBhXhEmLY8fT20tpjK9brLUUGXprJ8kLXuTZgypVWFIW?=
- =?us-ascii?Q?Czo9+EHW9aEQ3Re6/HphW+mcX/iaq1me/A1wKKLZHWdkXa2rnWYgVe093bo0?=
- =?us-ascii?Q?0D7s/DXLeWJRDfvaN9Si+XxLGdfCYHbr9OO3OykI2WfDGnYLaYJpt5kkZSBY?=
- =?us-ascii?Q?/Pk9VsPKUt/B6OLerPyEJpxCXdie117xNWRl2ixIybNCeGdNRhlbXW3jdGbp?=
- =?us-ascii?Q?Nvaw3c+dz2uS7KoaOosp+Qmv1PvML94CYlIqbVVPjFr0Mjw1HGJFjgg/3jss?=
- =?us-ascii?Q?mEgI/E3c9c842gxKka5k9WBQGstloP+hQo1HAgDD08SLstsyLL+L56B08r0g?=
- =?us-ascii?Q?6bY3fbRj2TCFln1Aqiv2IelItmFIhlxtvCI+GT8jBhqRsjXiR3JBYSEVhzwW?=
- =?us-ascii?Q?O84xYH3i2V5+eCIN+RXgCJZWjEkBTND6AZQsZ/L1nBmp6dIx4p3Z9e1TlAsd?=
- =?us-ascii?Q?VSpvA8R2TXrjYKlLGZu+K5Xwj7t1t6u5A2J7sEXj80lu3p1UegGldHqUzT+Y?=
- =?us-ascii?Q?QPoHYOYAyQAlUkfLKVfOXRiF248HdK0kb9CDG+FzVBxi5C8AnUhsTyhJbMGt?=
- =?us-ascii?Q?LCr1USoC8R7lDnIVHd8RTh8CQk6zHLYOAFvUDLNq+jw+RDZLVbghBA6p0347?=
- =?us-ascii?Q?AwTP1NX/mKlFgSHViQ1jG1WDnIgfmhF5rgQDyxzfE4v9kKyTOPp9xeeu/+9I?=
- =?us-ascii?Q?sh45ws+Aoe60TFpOaa9b/EbRdmJXOJOty9FF9zyKAFiEwLc0zda5K0uSdS4A?=
- =?us-ascii?Q?hXpDaGh09D1TG9K7c+4Zi0amhvr8Vc0xT9kaur7Kw0vjuEGZpDuwcEwjIC+M?=
- =?us-ascii?Q?wvfCyZluNoEU+Tk2ev4t4XoXEM8tewRJBlztP3yskDdll9mHzRa7giWnTYxP?=
- =?us-ascii?Q?xNyQU8yAL4c4Fdxldijd7yNA104zbb4/a/YkDJ5d8yks71wRzods8XBdIAPF?=
- =?us-ascii?Q?fx44T7NkD7g=3D?=
-x-forefront-antispam-report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:SJ1PR11MB6129.namprd11.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230040)(366016)(1800799024)(376014)(7416014)(7053199007)(38070700018);
- DIR:OUT; SFP:1101; 
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0: =?us-ascii?Q?pluE/38K8tD0G7VopxNYe/2ZtquDchsJoNIs5VvIaXW5kOPEUdcVgf8jT/Ak?=
- =?us-ascii?Q?0TC35JgOO90VmWHnvKMnB0qXJ/acLmgkuXmigH9bCIJGB/+jLpda+rUof3hF?=
- =?us-ascii?Q?NCWSn8Ywyz2bVTOh47zH2pW2hBOa7CFg8XmppUPrPT/Jj7B1McfRlDQPM9Q3?=
- =?us-ascii?Q?p/7/GobkUJSXOhUHyDY3J9FE21qIxyoWV6/X5VQkQ1luhislgUo+f6Trbiz0?=
- =?us-ascii?Q?Ug9UkHF55+FKyYFkDBqMkjtmfSi79xmGnuKZLEzpfW5KaKnU32CbonTnE20v?=
- =?us-ascii?Q?tgXAaQCTOTkTODIdC0o6UQzet7/9Kei32f12l3PI3nPMAsWAHSRswiyF/v35?=
- =?us-ascii?Q?o/JTDZYXpi32CgYn73m1qahc12lzwztkFxcyf+joGVXsC4Y//8dAAi01s6Wu?=
- =?us-ascii?Q?b8B+AT0aoUSQNNdMstrwo9gH+vfnADydL2oghZPtzswpGzeel8PLcMK4meYh?=
- =?us-ascii?Q?EeFYdSc/0R2Vg4lUYlRAybkhdXPTA3k29CZVL2Ji+xAqZrVoxq3hmeO+6Q3p?=
- =?us-ascii?Q?m6Qb7GNItT8e/5wzWEdKVJ2qFYErHQ6IA4IDLUDxQMUJC86ZyYHS9Kp/Ep82?=
- =?us-ascii?Q?azyDPEi+tmGzJ9OX5hbgqbr6/GxAxe0MxQgKM03Kd6EuQc2KGxdkcAkN+nep?=
- =?us-ascii?Q?xso59m4wKt7nuQKBSscxeM3oyiQv4Ech7BJRyz1r5AwmrFrPOGatIJM786hS?=
- =?us-ascii?Q?RyOrGnZk4Fg2xKtRKRoGjCdMO2c+iXGcOQXGWtp/huNTsbbh6somgigRUmh7?=
- =?us-ascii?Q?dNtLpaDRpm6JZ92jlyvorRUD0cPY9z1CJCOouO1kUFxqi715D74fERbusQHu?=
- =?us-ascii?Q?kIR66fArZY2XSJg3s+obrKgj560M7IQXHiEboGM9+ELmbiExNUjSLt2TDf2N?=
- =?us-ascii?Q?xpx7LjQJFHtd4w4OiOMg7cMCna63aMw8t9IQo3Obkt+7Sd/OXjgzINjYSyLP?=
- =?us-ascii?Q?3GpMp74IoxNURkbdKc6NRyyiUwvqDirn538Va+mGTCBn053ZcEKK/A+EE/SP?=
- =?us-ascii?Q?9+VwGArgUm0pjZWIAKX2Bzzvoytn/m94jv8H81rPSxLd000WUL1GYpWoaajZ?=
- =?us-ascii?Q?b3T7B8cFPy1YW9CwHGS64gCZeIhYDU0fs0a95VtWEfx+8oPVxc8jv32VAWCH?=
- =?us-ascii?Q?4nBW1tmK8wwuvKj9jYQOZtmRYqxByzdcQeujME1BxFQrg4MvUcLnTJHo4PwU?=
- =?us-ascii?Q?FtGRZD28dX98bRPL0rbotsKf6Fj8ElrgKbyykT/5rUlu6wYbN3mHmE0PTYEj?=
- =?us-ascii?Q?DZwmgxU2rVcaJrAN6zisMdk688Rgxg51WmyRB6sqj2pqAfDxmYoaQvHRWdcs?=
- =?us-ascii?Q?hI4eA9HKkyjSdpLoLkyIXO01Js2UFDLVxsiFk69uO5Qs58UOwutqE6oEba/k?=
- =?us-ascii?Q?nsI0WHG1+9wCjoSPSZ0K3wAft9yN9dDgPLVo6vz/IdAD2V2ocoz+tiDxyHUl?=
- =?us-ascii?Q?sjw5ls/NHV1IqnQu1a/zRPx8AgKrUKVHGP40jMwwzxu3w9RIwWxzkZZGj4hP?=
- =?us-ascii?Q?W8lkzkmXcd03kgfkCsO+DF1etv+iE7PuedR0bP7xsqAdi3Lxt3amS6qRFTI2?=
- =?us-ascii?Q?6nz51YESPPTf+HI6pbylVoAn2YJYNZuPJaU76WT2hBBXbjSrs6085Cs/nLWT?=
- =?us-ascii?Q?yA=3D=3D?=
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com
+ [205.220.168.131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9955710E328
+ for <dri-devel@lists.freedesktop.org>; Mon, 16 Jun 2025 11:32:25 +0000 (UTC)
+Received: from pps.filterd (m0279864.ppops.net [127.0.0.1])
+ by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 55G8uLpc028921
+ for <dri-devel@lists.freedesktop.org>; Mon, 16 Jun 2025 11:32:25 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
+ cc:content-transfer-encoding:content-type:date:from:in-reply-to
+ :message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
+ VhReFJIFGzRzknyzHaRK8EX3c4dPqPcybLOZHXiPHaI=; b=ltHrVmlaevrDM6Yw
+ vDwkUIrqFh5TtWieEbQC1jISg4cA4vqe9qAL8rEjWPgMd+7nKkvyTI2vGQZPHX3J
+ Ebht9/fAeja80kT38fIzNMbgJDtuIX1bZlc5fS8bpFIVrj7yjLFc7H9Dz1ONNZyo
+ IJVa8Z2UnsW88IoOwiLZzC75BZvj73zwO7CEDs3Hzvb4V5L8EYBJkAC9G4H5REE6
+ Ml3yJrduYbLAoLtHQad1xeiwOXzgDbkwTH6trNnrOgeNwdZB3dmMhXClZ4BK6Kem
+ CPxBhCKqp9xTdPOFo9LV5GEg6u5nCHYBIp8x9V0Vk/i2TfVoEBQBApoNjyEsDUHA
+ a2BqtQ==
+Received: from mail-qk1-f199.google.com (mail-qk1-f199.google.com
+ [209.85.222.199])
+ by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 47928mc8s9-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
+ for <dri-devel@lists.freedesktop.org>; Mon, 16 Jun 2025 11:32:24 +0000 (GMT)
+Received: by mail-qk1-f199.google.com with SMTP id
+ af79cd13be357-7d399070cecso938231285a.3
+ for <dri-devel@lists.freedesktop.org>; Mon, 16 Jun 2025 04:32:24 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1750073541; x=1750678341;
+ h=content-transfer-encoding:in-reply-to:from:content-language
+ :references:cc:to:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=VhReFJIFGzRzknyzHaRK8EX3c4dPqPcybLOZHXiPHaI=;
+ b=E7+hrsR9UrVReEChuwpwynCq4+PPztlFTxtRy6+Cc75vC4TzGHJPPgfUddcVCnJCdv
+ Mc9AjqMAW4ssNOPpUwe60FXz8PsWwUg/UwcequMikXqqmnUYUlUua8kJHWcwuURGs/WM
+ NmVRvXYasIYuM4JaAGa7eW/CDw/j5spcuwt8DOcuCa1VD4yiyOIR5X62IJuA4fARmlBq
+ YxBSP/vL/ODbbsg/UiXMeNY/J5DaeN1f4SKXRcVmrj2FDrSRkrlCDqQXGD499xaDTJGO
+ AJAvt53U1rILU++U2BkonDTHotLVDL4yxfzOPXX2BxHWqEqlV9XRLjLSot2AcA/Lhy3d
+ M4Zw==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCV7aZVHjUVM8bwHT7hqXAKupqn8HH5UgMnXxsbEZrXjtnl9eflGBm+Zx798EBLqewF6vLvfWSZNq7o=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YwlnKuTzpLg6yU+kPuuZVf4dQL8nxbPQwVTNyHidFq4b3fcCoH4
+ qJ59RaGVULncUff9jlwf1bwi3LSCEINXvpTEyNQyUYUsIf9yx2eauDPMfUNG6fXFQ0UrPREavjT
+ ZB33gddZKBemTmhz3o2l5FTfQsgdKOh5JQOfxazycaOgkOWCcfCkbj92Fg333VZNzyEJvQPs=
+X-Gm-Gg: ASbGncvA47p2Y7OHtJtKOevfz04CqmhmyVt1geocyxqw64uCls9Dn7OXGE5ofKGKMU9
+ g9orr2xSu0klF7TbVxwMTx7T2Z3ETTF8SxqchB571zD58m7k21P8uUL+2nvLgSJyyyuw5vzSCUX
+ L6Hkj3sKTagB6JpLrW1FgiY4qF+k5zrpUvINKvpK43KMszU1ArOzl2wOzAb+PMD/v43BEdqF2Sl
+ 1CLVBpHiQqwCYUdUIk44xvt0ZVodovi3H+BtJtyxNvFfDGAV61LcQ/KsEOYDsk5IhVH4T3SrUhk
+ VPF2Tw9xTJKtkAT1MGdL19a7k1qpVV6v0RprW+6AFOLj4SvucB1IQ0TFtVudpjIU2Ia/mIUdv3Y
+ hze27rPliixNfg6h1TWsaywXzOQBu4Xu6FVS5cDyjWe+L6LtfZOpKCAEShMaxxt0Xr0rZ2ipvMY
+ g=
+X-Received: by 2002:a05:6214:3d9c:b0:6fb:3e3e:89da with SMTP id
+ 6a1803df08f44-6fb4776e0e4mr143194836d6.25.1750073540801; 
+ Mon, 16 Jun 2025 04:32:20 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IGwjE7NgqGQJ5dlBHGyGS3GLtFKWMEQiXrYgTad8WhvvEtddvjIxuizLej1JtENs1oh6vFd5Q==
+X-Received: by 2002:a05:6214:3d9c:b0:6fb:3e3e:89da with SMTP id
+ 6a1803df08f44-6fb4776e0e4mr143194396d6.25.1750073540332; 
+ Mon, 16 Jun 2025 04:32:20 -0700 (PDT)
+Received: from ?IPV6:2001:14bb:a4:c3fb:c59f:e024:c669:a69b?
+ (2001-14bb-a4-c3fb-c59f-e024-c669-a69b.rev.dnainternet.fi.
+ [2001:14bb:a4:c3fb:c59f:e024:c669:a69b])
+ by smtp.gmail.com with ESMTPSA id
+ 2adb3069b0e04-553ac1c1195sm1509064e87.141.2025.06.16.04.32.18
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 16 Jun 2025 04:32:19 -0700 (PDT)
+Message-ID: <cdf0accd-82dd-49e5-a8e5-1b4865e97356@oss.qualcomm.com>
+Date: Mon, 16 Jun 2025 14:32:17 +0300
 MIME-Version: 1.0
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: SJ1PR11MB6129.namprd11.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 59f1145a-63d7-4a07-e91a-08ddacc92f1c
-X-MS-Exchange-CrossTenant-originalarrivaltime: 16 Jun 2025 11:30:23.5275 (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 46c98d88-e344-4ed4-8496-4ed7712e255d
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: JriMII3KLL16mqKYY4t599OVMfhjgGAIMbxjyLzFZpo+jNSy2qZULrlWWrZZTI1QekEThmli6oZphOaVwD+J1BUs72DrWNEaQdRvOLBVWSE=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM3PPF2B3CC4BE4
-X-OriginatorOrg: intel.com
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2 2/3] misc: fastrpc: add support for gpdsp remoteproc
+To: Ling Xu <quic_lxu5@quicinc.com>,
+ Srinivas Kandagatla <srinivas.kandagatla@linaro.org>,
+ andersson@kernel.org, konradybcio@kernel.org, robh@kernel.org,
+ krzk+dt@kernel.org, conor+dt@kernel.org, amahesh@qti.qualcomm.com,
+ arnd@arndb.de, gregkh@linuxfoundation.org
+Cc: quic_kuiw@quicinc.com, quic_ekangupt@quicinc.com,
+ linux-arm-msm@vger.kernel.org, devicetree@vger.kernel.org,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org
+References: <20250320091446.3647918-1-quic_lxu5@quicinc.com>
+ <20250320091446.3647918-3-quic_lxu5@quicinc.com>
+ <30bba296-8e6f-41ee-880e-2d5ecc8fe5a4@linaro.org>
+ <e2a8528b-fa18-471f-9cb8-da64bb488f2a@quicinc.com>
+ <07bfc5f3-1bcb-4018-bd63-8317ec6dac48@linaro.org>
+ <5f70a482-6e61-4817-afdb-d5db4747897a@quicinc.com>
+Content-Language: en-US
+From: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
+In-Reply-To: <5f70a482-6e61-4817-afdb-d5db4747897a@quicinc.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwNjE2MDA3MSBTYWx0ZWRfX3G6AEXbaCYtM
+ 2qgl4lImn3UjNdNpIqz0IxobFLDWo+bq2YVgE4UKd7yElsbaafRrnEz/Eo3wLUql9dgYjg9BEub
+ hC19AITvQrOjMB+C8X+GfhBRq69fuAZOFOIuP+DThlFQpl0s2OWH4DLXUVQrwEEwZO17O+eoPyS
+ 79arliOC9fBdA7WTlLec2zfdZI1MCq81jvGHhwguzQEXE7QhB8h/vCFo0cvpuGdLXca6KYxf+n4
+ krdskJaqIKdnxNsjnWZlY/5teI4EFR1qfX9y9DI3JDjW4zeJv0rTDIPSjO9a0kvDGAZzWhA54r9
+ 4/yHEcLPCEezC+nwLrJ0qlHzKV+BCJUiOOwePCSb8AO/++YANmG+QFlQwitSpYdL9k0fSi2zZdS
+ fGPTYRRKXSbMl1w7SaH7Gq79tg/Bz3PS5OR3SgyrbxlYrAEvAzfWsQM7JPJfX15f6T/lmmf1
+X-Authority-Analysis: v=2.4 cv=fvbcZE4f c=1 sm=1 tr=0 ts=685000c8 cx=c_pps
+ a=HLyN3IcIa5EE8TELMZ618Q==:117 a=xqWC_Br6kY4A:10 a=IkcTkHD0fZMA:10
+ a=6IFa9wvqVegA:10 a=NEAV23lmAAAA:8 a=EUspDBNiAAAA:8 a=COk6AnOGAAAA:8
+ a=KKAkSRfTAAAA:8 a=iV2O8m49h_L4xXlhIwoA:9 a=3ZKOabzyN94A:10 a=QEXdDO2ut3YA:10
+ a=bTQJ7kPSJx9SKPbeHEYW:22 a=TjNXssC_j7lpFel5tvFf:22 a=cvBusfyB2V15izCimMoJ:22
+X-Proofpoint-GUID: HnAQsJaYJxsBpWOKNIPOZCncj2ShSvVQ
+X-Proofpoint-ORIG-GUID: HnAQsJaYJxsBpWOKNIPOZCncj2ShSvVQ
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1099,Hydra:6.0.736,FMLib:17.12.80.40
+ definitions=2025-06-16_05,2025-06-13_01,2025-03-28_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ malwarescore=0 lowpriorityscore=0 bulkscore=0 priorityscore=1501
+ mlxlogscore=999 phishscore=0 clxscore=1015 mlxscore=0 impostorscore=0
+ adultscore=0 spamscore=0 suspectscore=0 classifier=spam authscore=0
+ authtc=n/a authcc= route=outbound adjust=0 reason=mlx scancount=1
+ engine=8.19.0-2505280000 definitions=main-2506160071
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -204,388 +137,265 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+On 16/06/2025 14:28, Ling Xu wrote:
+> 在 4/8/2025 4:14 PM, Srinivas Kandagatla 写道:
+>>
+>>
+>> On 07/04/2025 10:13, Ling Xu wrote:
+>>> 在 3/21/2025 1:11 AM, Srinivas Kandagatla 写道:
+>>>>
+>>>>
+>>>> On 20/03/2025 09:14, Ling Xu wrote:
+>>>>> The fastrpc driver has support for 5 types of remoteprocs. There are
+>>>>> some products which support GPDSP remoteprocs. Add changes to support
+>>>>> GPDSP remoteprocs.
+>>>>>
+>>>>> Reviewed-by: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
+>>>>> Signed-off-by: Ling Xu <quic_lxu5@quicinc.com>
+>>>>> ---
+>>>>>     drivers/misc/fastrpc.c | 10 ++++++++--
+>>>>>     1 file changed, 8 insertions(+), 2 deletions(-)
+>>>>>
+>>>>> diff --git a/drivers/misc/fastrpc.c b/drivers/misc/fastrpc.c
+>>>>> index 7b7a22c91fe4..80aa554b3042 100644
+>>>>> --- a/drivers/misc/fastrpc.c
+>>>>> +++ b/drivers/misc/fastrpc.c
+>>>>> @@ -28,7 +28,9 @@
+>>>>>     #define SDSP_DOMAIN_ID (2)
+>>>>>     #define CDSP_DOMAIN_ID (3)
+>>>>>     #define CDSP1_DOMAIN_ID (4)
+>>>>> -#define FASTRPC_DEV_MAX        5 /* adsp, mdsp, slpi, cdsp, cdsp1 */
+>>>>> +#define GDSP0_DOMAIN_ID (5)
+>>>>> +#define GDSP1_DOMAIN_ID (6)
+>>>>
+>>>> We have already made the driver look silly here, Lets not add domain ids for each instance, which is not a scalable.
+>>>>
+>>>> Domain ids are strictly for a domain not each instance.
+>>>>
+>>>>
+>>>>> +#define FASTRPC_DEV_MAX        7 /* adsp, mdsp, slpi, cdsp, cdsp1, gdsp0, gdsp1 */
+>>>>>     #define FASTRPC_MAX_SESSIONS    14
+>>>>>     #define FASTRPC_MAX_VMIDS    16
+>>>>>     #define FASTRPC_ALIGN        128
+>>>>> @@ -107,7 +109,9 @@
+>>>>>     #define miscdev_to_fdevice(d) container_of(d, struct fastrpc_device, miscdev)
+>>>>>       static const char *domains[FASTRPC_DEV_MAX] = { "adsp", "mdsp",
+>>>>> -                        "sdsp", "cdsp", "cdsp1" };
+>>>>> +                        "sdsp", "cdsp",
+>>>>> +                        "cdsp1", "gdsp0",
+>>>>> +                        "gdsp1" };
+>>>>>     struct fastrpc_phy_page {
+>>>>>         u64 addr;        /* physical address */
+>>>>>         u64 size;        /* size of contiguous region */
+>>>>> @@ -2338,6 +2342,8 @@ static int fastrpc_rpmsg_probe(struct rpmsg_device *rpdev)
+>>>>>             break;
+>>>>>         case CDSP_DOMAIN_ID:
+>>>>>         case CDSP1_DOMAIN_ID:
+>>>>> +    case GDSP0_DOMAIN_ID:
+>>>>> +    case GDSP1_DOMAIN_ID:
+>>>>>             data->unsigned_support = true;
+>>>>>             /* Create both device nodes so that we can allow both Signed and Unsigned PD */
+>>>>>             err = fastrpc_device_register(rdev, data, true, domains[domain_id]);
+>>>>
+>>>>
+>>>> Can you try this patch: only compile tested.
+>>>>
+>>>> ---------------------------------->cut<---------------------------------------
+>>>>   From 3f8607557162e16673b26fa253d11cafdc4444cf Mon Sep 17 00:00:00 2001
+>>>> From: Srinivas Kandagatla <srinivas.kandagatla@linaro.org>
+>>>> Date: Thu, 20 Mar 2025 17:07:05 +0000
+>>>> Subject: [PATCH] misc: fastrpc: cleanup the domain names
+>>>>
+>>>> Currently the domain ids are added for each instance of domain, this is
+>>>> totally not scalable approch.
+>>>>
+>>>> Clean this mess and create domain ids for only domains not its
+>>>> instances.
+>>>> This patch also moves the domain ids to uapi header as this is required
+>>>> for FASTRPC_IOCTL_GET_DSP_INFO ioctl.
+>>>>
+>>>> Signed-off-by: Srinivas Kandagatla <srinivas.kandagatla@linaro.org>
+>>>> ---
+>>>>    drivers/misc/fastrpc.c      | 45 ++++++++++++++++++++-----------------
+>>>>    include/uapi/misc/fastrpc.h |  7 ++++++
+>>>>    2 files changed, 32 insertions(+), 20 deletions(-)
+>>>>
+>>>> diff --git a/drivers/misc/fastrpc.c b/drivers/misc/fastrpc.c
+>>>> index 7b7a22c91fe4..b3932897a437 100644
+>>>> --- a/drivers/misc/fastrpc.c
+>>>> +++ b/drivers/misc/fastrpc.c
+>>>> @@ -23,12 +23,6 @@
+>>>>    #include <uapi/misc/fastrpc.h>
+>>>>    #include <linux/of_reserved_mem.h>
+>>>>
+>>>> -#define ADSP_DOMAIN_ID (0)
+>>>> -#define MDSP_DOMAIN_ID (1)
+>>>> -#define SDSP_DOMAIN_ID (2)
+>>>> -#define CDSP_DOMAIN_ID (3)
+>>>> -#define CDSP1_DOMAIN_ID (4)
+>>>> -#define FASTRPC_DEV_MAX        5 /* adsp, mdsp, slpi, cdsp, cdsp1 */
+>>>>    #define FASTRPC_MAX_SESSIONS    14
+>>>>    #define FASTRPC_MAX_VMIDS    16
+>>>>    #define FASTRPC_ALIGN        128
+>>>> @@ -106,8 +100,6 @@
+>>>>
+>>>>    #define miscdev_to_fdevice(d) container_of(d, struct fastrpc_device, miscdev)
+>>>>
+>>>> -static const char *domains[FASTRPC_DEV_MAX] = { "adsp", "mdsp",
+>>>> -                        "sdsp", "cdsp", "cdsp1" };
+>>>>    struct fastrpc_phy_page {
+>>>>        u64 addr;        /* physical address */
+>>>>        u64 size;        /* size of contiguous region */
+>>>> @@ -1769,7 +1761,7 @@ static int fastrpc_get_dsp_info(struct fastrpc_user *fl, char __user *argp)
+>>>>            return  -EFAULT;
+>>>>
+>>>>        cap.capability = 0;
+>>>> -    if (cap.domain >= FASTRPC_DEV_MAX) {
+>>>> +    if (cap.domain >= FASTRPC_DOMAIN_MAX) {
+>>>>            dev_err(&fl->cctx->rpdev->dev, "Error: Invalid domain id:%d, err:%d\n",
+>>>>                cap.domain, err);
+>>>>            return -ECHRNG;
+>>>
+>>> I tested this patch and saw one issue.
+>>> Here FASTRPC_DOMAIN_MAX is set to 4, but in userspace, cdsp1 is 4, gdsp0 is 5 and gdsp1 is 6.
+>>
+>>
+>> Why is the userspace using something that is not uAPI?
+>>
+>> Why does it matter if its gdsp0 or gdsp1 for the userspace?
+>> It should only matter if its gdsp domain or not.
+>>
+> 
+> Give an example here:
+> In test example, user can use below API to query the notification capability of the specific domain_id,
+> (actually this will not have any functional issue, but just return an error and lead wrong message):
+> request_status_notifications_enable(domain_id, (void*)STATUS_CONTEXT, pd_status_notifier_callback)
+> 
+> this will call ioctl_getdspinfo in fastrpc_ioctl.c:
+> https://github.com/quic-lxu5/fastrpc/blob/8feccfd2eb46272ad1fabed195bfddb7fd680cbd/src/fastrpc_ioctl.c#L201
+> 
+> code snip:
+> 	FARF(ALWAYS, "ioctl_getdspinfo in ioctl.c domain:%d", domain);
+> 	ioErr = ioctl(dev, FASTRPC_IOCTL_GET_DSP_INFO, &cap);
+> 	FARF(ALWAYS, "done ioctl_getdspinfo in ioctl.c ioErr:%x", ioErr);
+> 
+> and finally call fastrpc_get_dsp_info in fastrpc.c.
+> 
+> if I use the patch you shared, it will report below error:
+> 
+> UMD log:
+> 2025-01-08T18:45:03.168718+00:00 qcs9100-ride-sx calculator: fastrpc_ioctl.c:201: ioctl_getdspinfo in ioctl.c domain:5
+> 2025-01-08T18:45:03.169307+00:00 qcs9100-ride-sx calculator: log_config.c:396: file_watcher_thread starting for domain 5
+> 2025-01-08T18:45:03.180355+00:00 qcs9100-ride-sx calculator: fastrpc_ioctl.c:203: done ioctl_getdspinfo in ioctl.c ioErr:ffffffff
+> 
+> putty log:
+> [ 1332.308444] qcom,fastrpc 20c00000.remoteproc:glink-edge.fastrpcglink-apps-dsp.-1.-1: Error: Invalid domain id:5, err:0
+> 
+> Because on the user side, gdsp0 and gdsp1 will be distinguished to 5 and 6.
+> so do you mean you want me to modify UMD code to transfer both gdsp0 and gdsp1 to gdsp just in ioctl_getdspinfo?
+
+No, we need to modify the kernel code to ignore cap.domain here. The 
+user has already open the particular FastRPC device. All queries should 
+be target that device and that domain. As such, cap.domain doesn't make 
+sense and should be ignored by the kernel.
+
+>>
+>> --srini
+>>
+>>
+>>> For example, if we run a demo on gdsp0, cap.domain copied from userspace will be 5 which could lead to wrong message.
+>>>
+>>> --Ling Xu
+>>>
+>>>> @@ -2255,6 +2247,24 @@ static int fastrpc_device_register(struct device *dev, struct fastrpc_channel_ct
+>>>>        return err;
+>>>>    }
+>>>>
+>>>> +static int fastrpc_get_domain_id(const char *domain)
+>>>> +{
+>>>> +    if (strncmp(domain, "adsp", 4) == 0) {
+>>>> +        return ADSP_DOMAIN_ID;
+>>>> +    } else    if (strncmp(domain, "cdsp", 4) == 0) {
+>>>> +        return CDSP_DOMAIN_ID;
+>>>> +    } else if (strncmp(domain, "mdsp", 4) ==0) {
+>>>> +        return MDSP_DOMAIN_ID;
+>>>> +    } else if (strncmp(domain, "sdsp", 4) ==0) {
+>>>> +        return SDSP_DOMAIN_ID;
+>>>> +    } else if (strncmp(domain, "gdsp", 4) ==0) {
+>>>> +        return GDSP_DOMAIN_ID;
+>>>> +    }
+>>>> +
+>>>> +    return -EINVAL;
+>>>> +
+>>>> +}
+>>>> +
+>>>>    static int fastrpc_rpmsg_probe(struct rpmsg_device *rpdev)
+>>>>    {
+>>>>        struct device *rdev = &rpdev->dev;
+>>>> @@ -2272,15 +2282,10 @@ static int fastrpc_rpmsg_probe(struct rpmsg_device *rpdev)
+>>>>            return err;
+>>>>        }
+>>>>
+>>>> -    for (i = 0; i < FASTRPC_DEV_MAX; i++) {
+>>>> -        if (!strcmp(domains[i], domain)) {
+>>>> -            domain_id = i;
+>>>> -            break;
+>>>> -        }
+>>>> -    }
+>>>> +    domain_id = fastrpc_get_domain_id(domain);
+>>>>
+>>>>        if (domain_id < 0) {
+>>>> -        dev_info(rdev, "FastRPC Invalid Domain ID %d\n", domain_id);
+>>>> +        dev_info(rdev, "FastRPC Domain %s not supported\n", domain);
+>>>>            return -EINVAL;
+>>>>        }
+>>>>
+>>>> @@ -2332,19 +2337,19 @@ static int fastrpc_rpmsg_probe(struct rpmsg_device *rpdev)
+>>>>        case SDSP_DOMAIN_ID:
+>>>>            /* Unsigned PD offloading is only supported on CDSP and CDSP1 */
+>>>>            data->unsigned_support = false;
+>>>> -        err = fastrpc_device_register(rdev, data, secure_dsp, domains[domain_id]);
+>>>> +        err = fastrpc_device_register(rdev, data, secure_dsp, domain);
+>>>>            if (err)
+>>>>                goto fdev_error;
+>>>>            break;
+>>>>        case CDSP_DOMAIN_ID:
+>>>> -    case CDSP1_DOMAIN_ID:
+>>>> +    case GDSP_DOMAIN_ID:
+>>>>            data->unsigned_support = true;
+>>>>            /* Create both device nodes so that we can allow both Signed and Unsigned PD */
+>>>> -        err = fastrpc_device_register(rdev, data, true, domains[domain_id]);
+>>>> +        err = fastrpc_device_register(rdev, data, true, domain);
+>>>>            if (err)
+>>>>                goto fdev_error;
+>>>>
+>>>> -        err = fastrpc_device_register(rdev, data, false, domains[domain_id]);
+>>>> +        err = fastrpc_device_register(rdev, data, false, domain);
+>>>>            if (err)
+>>>>                goto populate_error;
+>>>>            break;
+>>>> diff --git a/include/uapi/misc/fastrpc.h b/include/uapi/misc/fastrpc.h
+>>>> index f33d914d8f46..89516abd258f 100644
+>>>> --- a/include/uapi/misc/fastrpc.h
+>>>> +++ b/include/uapi/misc/fastrpc.h
+>>>> @@ -133,6 +133,13 @@ struct fastrpc_mem_unmap {
+>>>>        __s32 reserved[5];
+>>>>    };
+>>>>
+>>>> +#define ADSP_DOMAIN_ID (0)
+>>>> +#define MDSP_DOMAIN_ID (1)
+>>>> +#define SDSP_DOMAIN_ID (2)
+>>>> +#define CDSP_DOMAIN_ID (3)
+>>>> +#define GDSP_DOMAIN_ID (4)
+>>>> +
+>>>> +#define FASTRPC_DOMAIN_MAX    4
+>>>>    struct fastrpc_ioctl_capability {
+>>>>        __u32 domain;
+>>>>        __u32 attribute_id;
+>>>
+> 
 
 
-> -----Original Message-----
-> From: Alex Hung <alex.hung@amd.com>
-> Sent: Wednesday, April 30, 2025 6:41 AM
-> To: dri-devel@lists.freedesktop.org; amd-gfx@lists.freedesktop.org
-> Cc: wayland-devel@lists.freedesktop.org; harry.wentland@amd.com;
-> alex.hung@amd.com; leo.liu@amd.com; ville.syrjala@linux.intel.com;
-> pekka.paalanen@collabora.com; contact@emersion.fr; mwen@igalia.com;
-> jadahl@redhat.com; sebastian.wick@redhat.com;
-> shashank.sharma@amd.com; agoins@nvidia.com; joshua@froggi.es;
-> mdaenzer@redhat.com; aleixpol@kde.org; xaver.hugl@gmail.com;
-> victoria@system76.com; daniel@ffwll.ch; Shankar, Uma
-> <uma.shankar@intel.com>; quic_naseer@quicinc.com;
-> quic_cbraga@quicinc.com; quic_abhinavk@quicinc.com; marcan@marcan.st;
-> Liviu.Dudau@arm.com; sashamcintosh@google.com; Borah, Chaitanya
-> Kumar <chaitanya.kumar.borah@intel.com>; louis.chauvet@bootlin.com;
-> Daniel Stone <daniels@collabora.com>
-> Subject: [PATCH V9 16/43] drm/colorop: Add 3x4 CTM type
->=20
-> From: Harry Wentland <harry.wentland@amd.com>
->=20
-> This type is used to support a 3x4 matrix in colorops. A 3x4 matrix uses =
-the
-> last column as a "bias" column. Some HW exposes support for 3x4. The
-> calculation looks like:
->=20
->  out   matrix    in
->  |R|   |0  1  2  3 |   | R |
->  |G| =3D |4  5  6  7 | x | G |
->  |B|   |8  9  10 11|   | B |
->                        |1.0|
->=20
-> This is also the first colorop where we need a blob property to program t=
-he
-> property. For that we'll introduce a new DATA property that can be used b=
-y all
-> colorop TYPEs requiring a blob. The way a DATA blob is read depends on th=
-e
-> TYPE of the colorop.
->=20
-> We only create the DATA property for property types that need it.
-
-Is there any value to adding pre-offsets [1] in the uapi?=20
-
- |R/Cr|    | c0 c1 c2 |   ( |R/Cr|   |preoff0| )   |postoff0|
- |G/Y | =3D | c3 c4 c5 | x ( |G/Y | + |preoff1| ) + |postoff1|
- |B/Cb|   | c6 c7 c8 |   ( |B/Cb|   |preoff2| )   |postoff2|
-
-Handling limited range values is one use case that I can think of. =20
-
-[1] https://cgit.freedesktop.org/drm-tip/tree/drivers/gpu/drm/i915/display/=
-intel_color.c#n112
-
-Regards
-
-Chaitanya
-
->=20
-> Reviewed-by: Simon Ser <contact@emersion.fr>
-> Reviewed-by: Louis Chauvet <louis.chauvet@bootlin.com>
-> Signed-off-by: Alex Hung <alex.hung@amd.com>
-> Signed-off-by: Harry Wentland <harry.wentland@amd.com>
-> Reviewed-by: Daniel Stone <daniels@collabora.com>
-> ---
-> v9:
->  - Merge cleanup code for colorop->state->data in drm_colorop_cleanup
-> (Simon Ser)
->  - Update function names by _plane_ (Chaitanya Kumar Borah)
->=20
-> v6:
->  - take ref for DATA blob in duplicate_state func (Xaver Hugl)
->=20
-> v5:
->  - Add function signature for init (Sebastian)
->  - Fix kernel-doc
->=20
-> v4:
->  - Create helper function for creating 3x4 CTM colorop
->  - Fix CTM indexes in comment (Pekka)
->=20
->  drivers/gpu/drm/drm_atomic.c      |  3 ++
->  drivers/gpu/drm/drm_atomic_uapi.c | 30 ++++++++++++++++++++
->  drivers/gpu/drm/drm_colorop.c     | 47 +++++++++++++++++++++++++++++++
->  include/drm/drm_colorop.h         | 24 ++++++++++++++++
->  include/uapi/drm/amdgpu_drm.h     |  9 ------
->  include/uapi/drm/drm_mode.h       | 32 ++++++++++++++++++++-
->  6 files changed, 135 insertions(+), 10 deletions(-)
->=20
-> diff --git a/drivers/gpu/drm/drm_atomic.c b/drivers/gpu/drm/drm_atomic.c
-> index 7b042c38d50d..809bd856d378 100644
-> --- a/drivers/gpu/drm/drm_atomic.c
-> +++ b/drivers/gpu/drm/drm_atomic.c
-> @@ -793,6 +793,9 @@ static void drm_atomic_colorop_print_state(struct
-> drm_printer *p,
->  		drm_printf(p, "\tcurve_1d_type=3D%s\n",
->  			   drm_get_colorop_curve_1d_type_name(state-
-> >curve_1d_type));
->  		break;
-> +	case DRM_COLOROP_CTM_3X4:
-> +		drm_printf(p, "\tdata blob id=3D%d\n", state->data ? state-
-> >data->base.id : 0);
-> +		break;
->  	default:
->  		break;
->  	}
-> diff --git a/drivers/gpu/drm/drm_atomic_uapi.c
-> b/drivers/gpu/drm/drm_atomic_uapi.c
-> index c0bcaec249de..be73cb9f502e 100644
-> --- a/drivers/gpu/drm/drm_atomic_uapi.c
-> +++ b/drivers/gpu/drm/drm_atomic_uapi.c
-> @@ -702,6 +702,31 @@ drm_atomic_plane_get_property(struct drm_plane
-> *plane,
->  	return 0;
->  }
->=20
-> +static int drm_atomic_color_set_data_property(struct drm_colorop
-> *colorop,
-> +					      struct drm_colorop_state *state,
-> +					      struct drm_property *property,
-> +					      uint64_t val)
-> +{
-> +	ssize_t elem_size =3D -1;
-> +	ssize_t size =3D -1;
-> +	bool replaced =3D false;
-> +
-> +	switch (colorop->type) {
-> +	case DRM_COLOROP_CTM_3X4:
-> +		size =3D sizeof(struct drm_color_ctm_3x4);
-> +		break;
-> +	default:
-> +		/* should never get here */
-> +		return -EINVAL;
-> +	}
-> +
-> +	return drm_property_replace_blob_from_id(colorop->dev,
-> +						 &state->data,
-> +						 val,
-> +						 size,
-> +						 elem_size,
-> +						 &replaced);
-> +}
->=20
->  static int drm_atomic_colorop_set_property(struct drm_colorop *colorop,
->  		struct drm_colorop_state *state, struct drm_file *file_priv,
-> @@ -711,6 +736,9 @@ static int drm_atomic_colorop_set_property(struct
-> drm_colorop *colorop,
->  		state->bypass =3D val;
->  	} else if (property =3D=3D colorop->curve_1d_type_property) {
->  		state->curve_1d_type =3D val;
-> +	} else if (property =3D=3D colorop->data_property) {
-> +		return drm_atomic_color_set_data_property(colorop, state,
-> +							  property, val);
->  	} else {
->  		drm_dbg_atomic(colorop->dev,
->  			       "[COLOROP:%d:%d] unknown property
-> [PROP:%d:%s]]\n", @@ -733,6 +761,8 @@
-> drm_atomic_colorop_get_property(struct drm_colorop *colorop,
->  		*val =3D state->bypass;
->  	} else if (property =3D=3D colorop->curve_1d_type_property) {
->  		*val =3D state->curve_1d_type;
-> +	} else if (property =3D=3D colorop->data_property) {
-> +		*val =3D (state->data) ? state->data->base.id : 0;
->  	} else {
->  		return -EINVAL;
->  	}
-> diff --git a/drivers/gpu/drm/drm_colorop.c b/drivers/gpu/drm/drm_colorop.=
-c
-> index 57a8c1063fdd..65351aaa7771 100644
-> --- a/drivers/gpu/drm/drm_colorop.c
-> +++ b/drivers/gpu/drm/drm_colorop.c
-> @@ -64,6 +64,7 @@
->=20
->  static const struct drm_prop_enum_list drm_colorop_type_enum_list[] =3D =
-{
->  	{ DRM_COLOROP_1D_CURVE, "1D Curve" },
-> +	{ DRM_COLOROP_CTM_3X4, "3x4 Matrix"},
->  };
->=20
->  static const char * const colorop_curve_1d_type_names[] =3D { @@ -148,6
-> +149,11 @@ static void drm_colorop_cleanup(struct drm_colorop *colorop)
->  	list_del(&colorop->head);
->  	config->num_colorop--;
->=20
-> +	if (colorop->state && colorop->state->data) {
-> +		drm_property_blob_put(colorop->state->data);
-> +		colorop->state->data =3D NULL;
-> +	}
-> +
->  	kfree(colorop->state);
->  }
->=20
-> @@ -238,11 +244,51 @@ int drm_plane_colorop_curve_1d_init(struct
-> drm_device *dev, struct drm_colorop *  }
-> EXPORT_SYMBOL(drm_plane_colorop_curve_1d_init);
->=20
-> +static int drm_colorop_create_data_prop(struct drm_device *dev, struct
-> +drm_colorop *colorop) {
-> +	struct drm_property *prop;
-> +
-> +	/* data */
-> +	prop =3D drm_property_create(dev, DRM_MODE_PROP_ATOMIC |
-> DRM_MODE_PROP_BLOB,
-> +				   "DATA", 0);
-> +	if (!prop)
-> +		return -ENOMEM;
-> +
-> +	colorop->data_property =3D prop;
-> +	drm_object_attach_property(&colorop->base,
-> +				   colorop->data_property,
-> +				   0);
-> +
-> +	return 0;
-> +}
-> +
-> +int drm_plane_colorop_ctm_3x4_init(struct drm_device *dev, struct
-> drm_colorop *colorop,
-> +				   struct drm_plane *plane)
-> +{
-> +	int ret;
-> +
-> +	ret =3D drm_plane_colorop_init(dev, colorop, plane,
-> DRM_COLOROP_CTM_3X4);
-> +	if (ret)
-> +		return ret;
-> +
-> +	ret =3D drm_colorop_create_data_prop(dev, colorop);
-> +	if (ret)
-> +		return ret;
-> +
-> +	drm_colorop_reset(colorop);
-> +
-> +	return 0;
-> +}
-> +EXPORT_SYMBOL(drm_plane_colorop_ctm_3x4_init);
-> +
->  static void __drm_atomic_helper_colorop_duplicate_state(struct
-> drm_colorop *colorop,
->  							struct
-> drm_colorop_state *state)  {
->  	memcpy(state, colorop->state, sizeof(*state));
->=20
-> +	if (state->data)
-> +		drm_property_blob_get(state->data);
-> +
->  	state->bypass =3D true;
->  }
->=20
-> @@ -324,6 +370,7 @@ void drm_colorop_reset(struct drm_colorop
-> *colorop)
->=20
->  static const char * const colorop_type_name[] =3D {
->  	[DRM_COLOROP_1D_CURVE] =3D "1D Curve",
-> +	[DRM_COLOROP_CTM_3X4] =3D "3x4 Matrix",
->  };
->=20
->  const char *drm_get_colorop_type_name(enum drm_colorop_type type)
-> diff --git a/include/drm/drm_colorop.h b/include/drm/drm_colorop.h index
-> 8e4d79ba1eff..5f0cddc3922f 100644
-> --- a/include/drm/drm_colorop.h
-> +++ b/include/drm/drm_colorop.h
-> @@ -99,6 +99,17 @@ struct drm_colorop_state {
->  	 */
->  	enum drm_colorop_curve_1d_type curve_1d_type;
->=20
-> +	/**
-> +	 * @data:
-> +	 *
-> +	 * Data blob for any TYPE that requires such a blob. The
-> +	 * interpretation of the blob is TYPE-specific.
-> +	 *
-> +	 * See the &drm_colorop_type documentation for how blob is laid
-> +	 * out.
-> +	 */
-> +	struct drm_property_blob *data;
-> +
->  	/** @state: backpointer to global drm_atomic_state */
->  	struct drm_atomic_state *state;
->  };
-> @@ -208,6 +219,17 @@ struct drm_colorop {
->  	 */
->  	struct drm_property *curve_1d_type_property;
->=20
-> +	/**
-> +	 * @data_property:
-> +	 *
-> +	 * blob property for any TYPE that requires a blob of data,
-> +	 * such as 1DLUT, CTM, 3DLUT, etc.
-> +	 *
-> +	 * The way this blob is interpreted depends on the TYPE of
-> +	 * this
-> +	 */
-> +	struct drm_property *data_property;
-> +
->  	/**
->  	 * @next_property:
->  	 *
-> @@ -243,6 +265,8 @@ void drm_colorop_pipeline_destroy(struct drm_plane
-> *plane);
->=20
->  int drm_plane_colorop_curve_1d_init(struct drm_device *dev, struct
-> drm_colorop *colorop,
->  				    struct drm_plane *plane, u64
-> supported_tfs);
-> +int drm_plane_colorop_ctm_3x4_init(struct drm_device *dev, struct
-> drm_colorop *colorop,
-> +				   struct drm_plane *plane);
->=20
->  struct drm_colorop_state *
->  drm_atomic_helper_colorop_duplicate_state(struct drm_colorop *colorop);
-> diff --git a/include/uapi/drm/amdgpu_drm.h
-> b/include/uapi/drm/amdgpu_drm.h index 25d5c6e90a99..96fabf9c9827
-> 100644
-> --- a/include/uapi/drm/amdgpu_drm.h
-> +++ b/include/uapi/drm/amdgpu_drm.h
-> @@ -1300,15 +1300,6 @@ struct drm_amdgpu_info_gpuvm_fault {
->  #define AMDGPU_FAMILY_GC_11_5_0			150 /* GC 11.5.0 */
->  #define AMDGPU_FAMILY_GC_12_0_0			152 /* GC 12.0.0 */
->=20
-> -/* FIXME wrong namespace! */
-> -struct drm_color_ctm_3x4 {
-> -	/*
-> -	 * Conversion matrix with 3x4 dimensions in S31.32 sign-magnitude
-> -	 * (not two's complement!) format.
-> -	 */
-> -	__u64 matrix[12];
-> -};
-> -
->  #if defined(__cplusplus)
->  }
->  #endif
-> diff --git a/include/uapi/drm/drm_mode.h b/include/uapi/drm/drm_mode.h
-> index ea6d88f683cd..651bdf48b766 100644
-> --- a/include/uapi/drm/drm_mode.h
-> +++ b/include/uapi/drm/drm_mode.h
-> @@ -847,6 +847,20 @@ struct drm_color_ctm {
->  	__u64 matrix[9];
->  };
->=20
-> +struct drm_color_ctm_3x4 {
-> +	/*
-> +	 * Conversion matrix with 3x4 dimensions in S31.32 sign-magnitude
-> +	 * (not two's complement!) format.
-> +	 *
-> +	 * out   matrix          in
-> +	 * |R|   |0  1  2  3 |   | R |
-> +	 * |G| =3D |4  5  6  7 | x | G |
-> +	 * |B|   |8  9  10 11|   | B |
-> +	 *                       |1.0|
-> +	 */
-> +	__u64 matrix[12];
-> +};
-> +
->  struct drm_color_lut {
->  	/*
->  	 * Values are mapped linearly to 0.0 - 1.0 range, with 0x0 =3D=3D 0.0 a=
-nd
-> @@ -874,7 +888,23 @@ enum drm_colorop_type {
->  	 * A 1D curve that is being applied to all color channels. The
->  	 * curve is specified via the CURVE_1D_TYPE colorop property.
->  	 */
-> -	DRM_COLOROP_1D_CURVE
-> +	DRM_COLOROP_1D_CURVE,
-> +
-> +	/**
-> +	 * @DRM_COLOROP_CTM_3X4:
-> +	 *
-> +	 * enum string "3x4 Matrix"
-> +	 *
-> +	 * A 3x4 matrix. Its values are specified via the
-> +	 * &drm_color_ctm_3x4 struct provided via the DATA property.
-> +	 *
-> +	 * The DATA blob is a float[12]:
-> +	 * out   matrix          in
-> +	 * | R |   | 0  1  2  3  |   | R |
-> +	 * | G | =3D | 4  5  6  7  | x | G |
-> +	 * | B |   | 8  9  10 12 |   | B |
-> +	 */
-> +	DRM_COLOROP_CTM_3X4,
->  };
->=20
->  /**
-> --
-> 2.43.0
-
+-- 
+With best wishes
+Dmitry
