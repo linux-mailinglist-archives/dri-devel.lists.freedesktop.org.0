@@ -2,78 +2,94 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9257BADABC3
-	for <lists+dri-devel@lfdr.de>; Mon, 16 Jun 2025 11:23:55 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id C6B6DADABB1
+	for <lists+dri-devel@lfdr.de>; Mon, 16 Jun 2025 11:22:48 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id AF20D10E2FD;
-	Mon, 16 Jun 2025 09:23:51 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 387C110E2F3;
+	Mon, 16 Jun 2025 09:22:47 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=foss.st.com header.i=@foss.st.com header.b="5ZCpChom";
+	dkim=pass (2048-bit key; unprotected) header.d=bgdev-pl.20230601.gappssmtp.com header.i=@bgdev-pl.20230601.gappssmtp.com header.b="YyVwo6Zr";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx07-00178001.pphosted.com (mx08-00178001.pphosted.com
- [91.207.212.93])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8B9D210E2FB
- for <dri-devel@lists.freedesktop.org>; Mon, 16 Jun 2025 09:23:50 +0000 (UTC)
-Received: from pps.filterd (m0046661.ppops.net [127.0.0.1])
- by mx07-00178001.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 55G8ZTHg015551;
- Mon, 16 Jun 2025 11:23:43 +0200
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=foss.st.com; h=
- cc:content-transfer-encoding:content-type:date:from:in-reply-to
- :message-id:mime-version:references:subject:to; s=selector1; bh=
- D7+OvSwoVVqlTBMuJc+wtSrz4tCpMidCNQSt7hN5EuU=; b=5ZCpChomjD8v6Dpd
- BSAnGf7q4nAfcJfY0pqThRSytnvP2fFHENUwg0vr3dxsvaVgbeNxpOAaUuImM9BY
- qSWd3CqntARsHX30eJ3Ane5ZfwcUVL3HYKX1NIaVEZNpka9fWSEDjKT78jN0LTTp
- uQI+B3+uej8gnHaAEeNuUs9S4E6VnZSbHPOB21jt7VlaTvJy5xlIVBWl77UobqCv
- s+R+jwlJrszondh2KF7jTv4/6Dym+dtjvWtuNGqXyp41HhCPgbvtFV8gSe+eDixl
- 7Cmft5m2p4g2E3RAemd847tDRuVFcJu4nVLHtC0W5PQQJ2Ixav6ImSrj/Yj8lwjb
- +RbWaQ==
-Received: from beta.dmz-ap.st.com (beta.dmz-ap.st.com [138.198.100.35])
- by mx07-00178001.pphosted.com (PPS) with ESMTPS id 47afw1g9hw-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Mon, 16 Jun 2025 11:23:43 +0200 (MEST)
-Received: from euls16034.sgp.st.com (euls16034.sgp.st.com [10.75.44.20])
- by beta.dmz-ap.st.com (STMicroelectronics) with ESMTP id 5BAD04004F;
- Mon, 16 Jun 2025 11:22:28 +0200 (CEST)
-Received: from Webmail-eu.st.com (shfdag1node2.st.com [10.75.129.70])
- by euls16034.sgp.st.com (STMicroelectronics) with ESMTP id 2068AA7D8DB;
- Mon, 16 Jun 2025 11:21:12 +0200 (CEST)
-Received: from localhost (10.252.14.42) by SHFDAG1NODE2.st.com (10.75.129.70)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.39; Mon, 16 Jun
- 2025 11:21:11 +0200
-From: =?utf-8?q?Cl=C3=A9ment_Le_Goffic?= <clement.legoffic@foss.st.com>
-Date: Mon, 16 Jun 2025 11:21:07 +0200
-Subject: [PATCH 6/6] dt-bindings: spi: stm32: deprecate `st,spi-midi-ns`
- property
+Received: from mail-lf1-f42.google.com (mail-lf1-f42.google.com
+ [209.85.167.42])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0EDCF10E2F3
+ for <dri-devel@lists.freedesktop.org>; Mon, 16 Jun 2025 09:22:46 +0000 (UTC)
+Received: by mail-lf1-f42.google.com with SMTP id
+ 2adb3069b0e04-553be4d2fbfso1126808e87.0
+ for <dri-devel@lists.freedesktop.org>; Mon, 16 Jun 2025 02:22:45 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=bgdev-pl.20230601.gappssmtp.com; s=20230601; t=1750065764; x=1750670564;
+ darn=lists.freedesktop.org; 
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=L4clW0hfNM59uFuEpnawSRjVBJDyxSvonnhwsOilymQ=;
+ b=YyVwo6ZrXc/VJ6J47kS7zxDgMk45bfNwCzK7m1TmzvTKc9c2/G/BWDdQsDEkbPYSQe
+ GptAXOaXHlDLsD/qB2fFRrXz6VT2LHUnsWlcgSYeQHssx/BitYgAW3M7gUpemDv7QH3/
+ oriQGvtV81JzNSruA4XihNFiKHmPnMfV64cp5BJ+AqoaeqZOx1PXMBcb9vmDYZ6VqR5U
+ s7BatfZ+FMcjKixHwXfgaIDSWKsjU/kymXbVMt7dxZOK30faVBMevEktBRV0Ypnjq5XX
+ xC8DJGwyx4cuADkdjbBv8UmB+qyK0wPgDspo0s0V8MndxdDf7FCwsVgO7khCrM5w4ZC0
+ WCRA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1750065764; x=1750670564;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=L4clW0hfNM59uFuEpnawSRjVBJDyxSvonnhwsOilymQ=;
+ b=gXCCNmNVSF8YezM+sA0GgBqLBINvQEQXhbH+jhcAdINFaO4Vyxt9kLKGyefI0M061x
+ DN4xCCRlhC7T/llPoNd3KatjsgcGX84ue/aZy4ohkezvKaPnKTpDrrRWwQWwlJDcqyoC
+ 2GrUurHTNHUb9FVznejzCg1wxmuvPtdMj8Um4z8pjfWMKltViQMdqlPwvhf9K7ltC35q
+ afMsK4WzLuJ4ufdyMbf2+LsgAiEOqfurruencfhRl/0y/mVKESPvS5zwF0gS3n7DAkCg
+ U0tvj4g3ApvBjOwCjOEyF0yQp/plSdZaZ+rHTIIggq2Q5LbrZQuKueU6JSSis40J+TRG
+ zmLA==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCWVYV8qeQPRLzPhfu3I82HVj/kwARWc7dXGh3W4BQ5SCigVaM1l4h+coQNYLS3o9y0028g8YD5Omq8=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YyyG5rksCC9IZ5q4/dGhPdONkTDTa8/hwfoB8uHx723UF44bsh+
+ XDb0ky3G4JyyOYiqZDR6l4zWCTus9vJV/+iA/rl/oGE2iMEUeiZvqo/nrabPy0EDT5eMCZ/xx5g
+ crjwYDrIpbPW7+pW9I+QRTWjZG1hoFAa1ldps0Mb++w==
+X-Gm-Gg: ASbGncumQb4aPfVWRZUhus0/i1xEdZp/W7xuXDiRaXj9yN6mhzDgBd3pQr1Hoq095Uz
+ ulrlscr0XsYrlqrPgp5QwwS15UwFgvylJ40i7ko9MRtSkxkQf8kmFbJAQaY7WFsZ01MxjLW42v4
+ FYzZVGDdY+T8+ipJEPzMmfUqImJAdQHK/gXdEYHMxkVxjrsGUj27kdgPlTBWyHqYmrjhFNeWdO1
+ yw=
+X-Google-Smtp-Source: AGHT+IEsBvyH0Zky97WuBrKbbjvEScgzySvzxn3rYYtDfdyw86suCq566xBi9HBUjAShIE2Mm9O+XZUWm2PEcQ1RjmQ=
+X-Received: by 2002:a05:6512:12ca:b0:553:2ed2:15b4 with SMTP id
+ 2adb3069b0e04-553b6f4d916mr2068254e87.57.1750065764330; Mon, 16 Jun 2025
+ 02:22:44 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
-Message-ID: <20250616-spi-upstream-v1-6-7e8593f3f75d@foss.st.com>
-References: <20250616-spi-upstream-v1-0-7e8593f3f75d@foss.st.com>
-In-Reply-To: <20250616-spi-upstream-v1-0-7e8593f3f75d@foss.st.com>
-To: Alain Volmat <alain.volmat@foss.st.com>, Mark Brown <broonie@kernel.org>, 
- Maxime Coquelin <mcoquelin.stm32@gmail.com>, Alexandre Torgue
- <alexandre.torgue@foss.st.com>,
- Valentin Caron <valentin.caron@foss.st.com>, Rob Herring <robh@kernel.org>,
- Krzysztof Kozlowski <krzk+dt@kernel.org>,
- Conor Dooley <conor+dt@kernel.org>, Erwan Leray <erwan.leray@foss.st.com>,
- Fabrice Gasnier <fabrice.gasnier@foss.st.com>, Sumit Semwal
- <sumit.semwal@linaro.org>, =?utf-8?q?Christian_K=C3=B6nig?=
- <christian.koenig@amd.com>
-CC: <linux-spi@vger.kernel.org>, <linux-stm32@st-md-mailman.stormreply.com>,
- <linux-arm-kernel@lists.infradead.org>, <linux-kernel@vger.kernel.org>,
- <devicetree@vger.kernel.org>, <linux-media@vger.kernel.org>,
- <dri-devel@lists.freedesktop.org>, <linaro-mm-sig@lists.linaro.org>,
- =?utf-8?q?Cl=C3=A9ment_Le_Goffic?= <clement.legoffic@foss.st.com>
-X-Mailer: b4 0.15-dev-c25d1
-X-Originating-IP: [10.252.14.42]
-X-ClientProxiedBy: SHFCAS1NODE2.st.com (10.75.129.73) To SHFDAG1NODE2.st.com
- (10.75.129.70)
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1099,Hydra:6.0.736,FMLib:17.12.80.40
- definitions=2025-06-16_04,2025-06-13_01,2025-03-28_01
+References: <20250614-apr_14_for_sending-v4-8-8e3945c819cd@samsung.com>
+ <CGME20250615105256eucas1p21dba29a1450757d9201b2a9c7f0e34e8@eucas1p2.samsung.com>
+ <202506151839.IKkZs0Z0-lkp@intel.com>
+ <9765c970-55cc-4413-9fd0-5e0cdfa900fa@samsung.com>
+In-Reply-To: <9765c970-55cc-4413-9fd0-5e0cdfa900fa@samsung.com>
+From: Bartosz Golaszewski <brgl@bgdev.pl>
+Date: Mon, 16 Jun 2025 11:22:32 +0200
+X-Gm-Features: AX0GCFvGdfEg2CPyKVWjNTkacG-9vOyaV6LbrgzY6YJIQBzVINyrlmiwiBnsQKI
+Message-ID: <CAMRc=MeG40TxMj3ezeC0iUBBo8w99RXQWOQBsfG4ZAJdbA+dYg@mail.gmail.com>
+Subject: Re: [PATCH v4 8/8] drm/imagination: Enable PowerVR driver for RISC-V
+To: Michal Wilczynski <m.wilczynski@samsung.com>
+Cc: kernel test robot <lkp@intel.com>, Drew Fustini <drew@pdp7.com>,
+ Guo Ren <guoren@kernel.org>, 
+ Fu Wei <wefu@redhat.com>, Rob Herring <robh@kernel.org>,
+ Krzysztof Kozlowski <krzk@kernel.org>, 
+ Conor Dooley <conor+dt@kernel.org>, Philipp Zabel <p.zabel@pengutronix.de>, 
+ Frank Binns <frank.binns@imgtec.com>, Matt Coster <matt.coster@imgtec.com>, 
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, 
+ Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
+ Simona Vetter <simona@ffwll.ch>, 
+ Paul Walmsley <paul.walmsley@sifive.com>, Palmer Dabbelt <palmer@dabbelt.com>, 
+ Albert Ou <aou@eecs.berkeley.edu>, Alexandre Ghiti <alex@ghiti.fr>, 
+ Ulf Hansson <ulf.hansson@linaro.org>,
+ Marek Szyprowski <m.szyprowski@samsung.com>, 
+ Paul Gazzillo <paul@pgazz.com>, Necip Fazil Yildiran <fazilyildiran@gmail.com>,
+ oe-kbuild-all@lists.linux.dev, 
+ linux-riscv@lists.infradead.org, devicetree@vger.kernel.org, 
+ linux-kernel@vger.kernel.org, linux-pm@vger.kernel.org, 
+ dri-devel@lists.freedesktop.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -89,27 +105,66 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The vendor `st,spi-midi-ns` property is no longer needed and
-has been deprecated in favor of a generic solution.
+On Mon, Jun 16, 2025 at 11:09=E2=80=AFAM Michal Wilczynski
+<m.wilczynski@samsung.com> wrote:
+>
+>
+>
+> On 6/15/25 12:51, kernel test robot wrote:
+> > Hi Michal,
+> >
+> > kernel test robot noticed the following build warnings:
+> >
+> > [auto build test WARNING on 4774cfe3543abb8ee98089f535e28ebfd45b975a]
+> >
+> > url:    https://protect2.fireeye.com/v1/url?k=3D6c3bc994-0cd954c9-6c3a4=
+2db-000babd9f1ba-30c2378fa012fc4a&q=3D1&e=3Dc39c960c-4d5f-44d7-aed7-0097394=
+dfc81&u=3Dhttps%3A%2F%2Fgithub.com%2Fintel-lab-lkp%2Flinux%2Fcommits%2FMich=
+al-Wilczynski%2Fpower-sequencing-Add-T-HEAD-TH1520-GPU-power-sequencer-driv=
+er%2F20250615-021142
+> > base:   4774cfe3543abb8ee98089f535e28ebfd45b975a
+> > patch link:    https://lore.kernel.org/r/20250614-apr_14_for_sending-v4=
+-8-8e3945c819cd%40samsung.com
+> > patch subject: [PATCH v4 8/8] drm/imagination: Enable PowerVR driver fo=
+r RISC-V
+> > config: riscv-kismet-CONFIG_DRM_GEM_SHMEM_HELPER-CONFIG_DRM_POWERVR-0-0=
+ (https://download.01.org/0day-ci/archive/20250615/202506151839.IKkZs0Z0-lk=
+p@intel.com/config)
+> > reproduce: (https://download.01.org/0day-ci/archive/20250615/2025061518=
+39.IKkZs0Z0-lkp@intel.com/reproduce)
+> >
+> > If you fix the issue in a separate patch/commit (i.e. not just a new ve=
+rsion of
+> > the same patch/commit), kindly add following tags
+> > | Reported-by: kernel test robot <lkp@intel.com>
+> > | Closes: https://lore.kernel.org/oe-kbuild-all/202506151839.IKkZs0Z0-l=
+kp@intel.com/
+> >
+> > kismet warnings: (new ones prefixed by >>)
+> >>> kismet: WARNING: unmet direct dependencies detected for DRM_GEM_SHMEM=
+_HELPER when selected by DRM_POWERVR
+> >    WARNING: unmet direct dependencies detected for DRM_GEM_SHMEM_HELPER
+> >      Depends on [n]: HAS_IOMEM [=3Dy] && DRM [=3Dy] && MMU [=3Dn]
+>
+> I believe this is triggered because RISC-V can be compiled without MMU
+> support, while MMU support is mandatory for ARM64.
+>
+> Would an acceptable fix be to require an explicit dependency on the MMU,
+> like so?
+>
+> depends on (ARM64 || RISCV) && MMU
+>
 
-Signed-off-by: Clément Le Goffic <clement.legoffic@foss.st.com>
----
- Documentation/devicetree/bindings/spi/spi-peripheral-props.yaml | 1 +
- 1 file changed, 1 insertion(+)
+I'd put them on separate lines. While at it: how about enabling build
+with COMPILE_TEST to extend build coverage too?
 
-diff --git a/Documentation/devicetree/bindings/spi/spi-peripheral-props.yaml b/Documentation/devicetree/bindings/spi/spi-peripheral-props.yaml
-index 8fc17e16efb2..8b6e8fc009db 100644
---- a/Documentation/devicetree/bindings/spi/spi-peripheral-props.yaml
-+++ b/Documentation/devicetree/bindings/spi/spi-peripheral-props.yaml
-@@ -115,6 +115,7 @@ properties:
-     maxItems: 4
- 
-   st,spi-midi-ns:
-+    deprecated: true
-     description: |
-       Only for STM32H7, (Master Inter-Data Idleness) minimum time
-       delay in nanoseconds inserted between two consecutive data frames.
+Bart
 
--- 
-2.43.0
-
+> >      Selected by [y]:
+> >      - DRM_POWERVR [=3Dy] && HAS_IOMEM [=3Dy] && (ARM64 || RISCV [=3Dy]=
+) && DRM [=3Dy] && PM [=3Dy]
+> >
+>
+> Best regards,
+> --
+> Michal Wilczynski <m.wilczynski@samsung.com>
