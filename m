@@ -2,134 +2,83 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 145DCADAD81
-	for <lists+dri-devel@lfdr.de>; Mon, 16 Jun 2025 12:35:10 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 27CD5ADAD8B
+	for <lists+dri-devel@lfdr.de>; Mon, 16 Jun 2025 12:39:13 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0527410E329;
-	Mon, 16 Jun 2025 10:35:07 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E57E610E322;
+	Mon, 16 Jun 2025 10:39:09 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=suse.de header.i=@suse.de header.b="HIu2nVG5";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="WD/t+h+P";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="HIu2nVG5";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="WD/t+h+P";
+	dkim=pass (1024-bit key; secure) header.d=ffwll.ch header.i=@ffwll.ch header.b="lxlTsox0";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id BF3B910E329
- for <dri-devel@lists.freedesktop.org>; Mon, 16 Jun 2025 10:35:05 +0000 (UTC)
-Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
- (No client certificate requested)
- by smtp-out2.suse.de (Postfix) with ESMTPS id 6DD0D1F456;
- Mon, 16 Jun 2025 10:35:04 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1750070104; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=clhWd0hp84y4IW6UM2+OzdBBA8i/DDCrmUgLvUJC5Pg=;
- b=HIu2nVG5OfLF8redHj3QRSPHETtzoWm3hcJ8dSJotH3viiiOHqNAOntcvLQkJf/lqIm5PI
- 5JWiOfpbtbuyTVYlfekjLp/GHh5pj3iympKyLcej50KYNxd2MyD7mCTMy2EUrYBcJPwm0+
- N9fKYp3qKvM+3+tUV9GQhBqOeVJBJ8M=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1750070104;
- h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=clhWd0hp84y4IW6UM2+OzdBBA8i/DDCrmUgLvUJC5Pg=;
- b=WD/t+h+PTAWxbZHjJ8bW3h62HcDxc52g3+qIrcEHaFFxyw+4b7Cc4ojH5wSU1ubYJhjxSX
- Pgsu3yps64eAeVAA==
-Authentication-Results: smtp-out2.suse.de;
-	none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1750070104; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=clhWd0hp84y4IW6UM2+OzdBBA8i/DDCrmUgLvUJC5Pg=;
- b=HIu2nVG5OfLF8redHj3QRSPHETtzoWm3hcJ8dSJotH3viiiOHqNAOntcvLQkJf/lqIm5PI
- 5JWiOfpbtbuyTVYlfekjLp/GHh5pj3iympKyLcej50KYNxd2MyD7mCTMy2EUrYBcJPwm0+
- N9fKYp3qKvM+3+tUV9GQhBqOeVJBJ8M=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1750070104;
- h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=clhWd0hp84y4IW6UM2+OzdBBA8i/DDCrmUgLvUJC5Pg=;
- b=WD/t+h+PTAWxbZHjJ8bW3h62HcDxc52g3+qIrcEHaFFxyw+4b7Cc4ojH5wSU1ubYJhjxSX
- Pgsu3yps64eAeVAA==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
- (No client certificate requested)
- by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id C5C7B139E2;
- Mon, 16 Jun 2025 10:35:03 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
- by imap1.dmz-prg2.suse.org with ESMTPSA id rIx9LlfzT2ihYgAAD6G6ig
- (envelope-from <tzimmermann@suse.de>); Mon, 16 Jun 2025 10:35:03 +0000
-Message-ID: <146a906f-03e8-4153-9bc8-73dd74cfdc7e@suse.de>
-Date: Mon, 16 Jun 2025 12:35:03 +0200
+Received: from mail-wr1-f41.google.com (mail-wr1-f41.google.com
+ [209.85.221.41])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4B1AA10E322
+ for <dri-devel@lists.freedesktop.org>; Mon, 16 Jun 2025 10:38:56 +0000 (UTC)
+Received: by mail-wr1-f41.google.com with SMTP id
+ ffacd0b85a97d-3a4f72cba73so3690072f8f.1
+ for <dri-devel@lists.freedesktop.org>; Mon, 16 Jun 2025 03:38:56 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=ffwll.ch; s=google; t=1750070335; x=1750675135; darn=lists.freedesktop.org; 
+ h=in-reply-to:content-transfer-encoding:content-disposition
+ :mime-version:references:message-id:subject:cc:to:from:date:from:to
+ :cc:subject:date:message-id:reply-to;
+ bh=LiqpqPQtrFsnbmqFYsDHbTcG5O1V7XPSXXU7AIcQykw=;
+ b=lxlTsox0KUvXWPtpIyXMLlgYqP6P6dY9ghq+NkwwjaWrbZ5HMnHb9F0fyJLsJtYI//
+ 6Bi7J0UUba/L9AOeHHghYdy2tGE233QaQMXpdkV88fAJH8reCraUCENuC6nfWBZv4uW3
+ wCi9DDwvHtVaq6UejueMSEvItOiwhy41Z2Qpc=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1750070335; x=1750675135;
+ h=in-reply-to:content-transfer-encoding:content-disposition
+ :mime-version:references:message-id:subject:cc:to:from:date
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=LiqpqPQtrFsnbmqFYsDHbTcG5O1V7XPSXXU7AIcQykw=;
+ b=ppoT1Ss5MRhHY+1JF6U3rnfL9ZpO2BuAClqOorUVWQJygK/a1ifPRHwnBrg+8FBVox
+ bbmqQ6jmRAdlrdvFRq7AVbUNXFPAInPTxOwsqwop/H7fKEJY7EK/QOyKC1vZQ6Fv7uHe
+ 074//nlrABsfST6ipfEmqdrPKBP9ZAwSZGIvVj6AG0WQD3uTTzcTv6GFg9wTTFo4B0/A
+ c4PtP61VAOfSH8UmQrLsM8gOv63+hJlacv6iHgYYNAKNqu12Gud0XNjfu2ni+ydtFuOa
+ +k3/GE7IuEZ3eO3wcvj4VzALheE+zstUM3vU4maT1uYbaM+29OIt4zw8XdtNf7MkFXkm
+ wnQQ==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCUHyBM2zECz57a81/h4nh0xyxPYiyiE2Dw3T3IBK8k0wTyE5bGU1ZBfNtO+eN0mkBiKvb2fo5ikzVA=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0Yw3py+wzgLHmKZwWtLmSroL0CqRt/DxRFvU22RFFXsAiELSja90
+ hgVRr57W5Lc3j09gPuAn4FVp/AdnIlSxCDV7paMCUqOrOPE8c3a3gnsfHg0OLe8+rk8=
+X-Gm-Gg: ASbGncv4YwMGjzRSJAPNflCNgWg2S6ay2UqKUg/7FdcEVC6l1brsPLxho5m4O4mfOOG
+ juHSYnQdN1PXDqHsxo46N+RtdCPQ51iSuiAC5MZzMVQ8GGPZ9QfVMXYN1WHXUW8XXlM5ZMniE9e
+ JBmKD2vcivvhcQD8nqlAcql7luK96fAs1zi7hHUVPZJfDBSS3362vvhVlvOKj3oF5mex5lP11Cd
+ FqiQLGnXEaQQESIK8mdL3pK5XvrW2TG2kScuaZSFLzsobxKn7ImsQea4I4ZyIj93KjdVRsja+0C
+ AmsZCfE0xv+HlK4Z/ixvd29gCDFOs5T9xUVJ8fPzqceBqy8vzd/AMLnXwT+Vkqh8IcC6jo1xDg=
+ =
+X-Google-Smtp-Source: AGHT+IHgWBleMuR1LhdIIySAqRh7zgcQH0Xx7TfDdQW7tKZ4tZM1eUDZcj35BU9TZV4w4Ap86q9ShA==
+X-Received: by 2002:a5d:5f54:0:b0:3a5:1397:51a7 with SMTP id
+ ffacd0b85a97d-3a56d7cd5b7mr8501162f8f.7.1750070334910; 
+ Mon, 16 Jun 2025 03:38:54 -0700 (PDT)
+Received: from phenom.ffwll.local ([2a02:168:57f4:0:5485:d4b2:c087:b497])
+ by smtp.gmail.com with ESMTPSA id
+ ffacd0b85a97d-3a568a5546asm10524502f8f.3.2025.06.16.03.38.53
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 16 Jun 2025 03:38:54 -0700 (PDT)
+Date: Mon, 16 Jun 2025 12:38:52 +0200
+From: Simona Vetter <simona.vetter@ffwll.ch>
+To: Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>
+Cc: Simona Vetter <simona.vetter@ffwll.ch>, jani.saarinen@intel.com,
+ jani.nikula@linux.intel.com, tursulin@ursulin.net,
+ tzimmermann@suse.de, dri-devel@lists.freedesktop.org
+Subject: Re: [PATCH] drm/prime: fix drm_prime_add_buf_handle
+Message-ID: <aE_0PLfh3h2IeTun@phenom.ffwll.local>
+References: <20250613131201.2141-1-christian.koenig@amd.com>
+ <20250613131201.2141-2-christian.koenig@amd.com>
+ <aEwv_sV3V6p8dmkP@phenom.ffwll.local>
+ <238ce166-2dd5-4599-865b-1c263f01a465@amd.com>
+ <aEw3IRn565keDO6B@phenom.ffwll.local>
+ <26705733-0c24-4f3b-a6ce-d5f2fd8c935d@amd.com>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2] drm/fbdev-client: Skip DRM clients if modesetting is
- absent
-To: Thierry Reding <thierry.reding@gmail.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>
-Cc: Jonathan Hunter <jonathanh@nvidia.com>,
- Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>,
- dri-devel@lists.freedesktop.org, linux-tegra@vger.kernel.org
-References: <20250613122838.2082334-1-thierry.reding@gmail.com>
-Content-Language: en-US
-From: Thomas Zimmermann <tzimmermann@suse.de>
-Autocrypt: addr=tzimmermann@suse.de; keydata=
- xsBNBFs50uABCADEHPidWt974CaxBVbrIBwqcq/WURinJ3+2WlIrKWspiP83vfZKaXhFYsdg
- XH47fDVbPPj+d6tQrw5lPQCyqjwrCPYnq3WlIBnGPJ4/jreTL6V+qfKRDlGLWFjZcsrPJGE0
- BeB5BbqP5erN1qylK9i3gPoQjXGhpBpQYwRrEyQyjuvk+Ev0K1Jc5tVDeJAuau3TGNgah4Yc
- hdHm3bkPjz9EErV85RwvImQ1dptvx6s7xzwXTgGAsaYZsL8WCwDaTuqFa1d1jjlaxg6+tZsB
- 9GluwvIhSezPgnEmimZDkGnZRRSFiGP8yjqTjjWuf0bSj5rUnTGiyLyRZRNGcXmu6hjlABEB
- AAHNJ1Rob21hcyBaaW1tZXJtYW5uIDx0emltbWVybWFubkBzdXNlLmRlPsLAjgQTAQgAOAIb
- AwULCQgHAgYVCgkICwIEFgIDAQIeAQIXgBYhBHIX+6yM6c9jRKFo5WgNwR1TC3ojBQJftODH
- AAoJEGgNwR1TC3ojx1wH/0hKGWugiqDgLNXLRD/4TfHBEKmxIrmfu9Z5t7vwUKfwhFL6hqvo
- lXPJJKQpQ2z8+X2vZm/slsLn7J1yjrOsoJhKABDi+3QWWSGkaGwRJAdPVVyJMfJRNNNIKwVb
- U6B1BkX2XDKDGffF4TxlOpSQzdtNI/9gleOoUA8+jy8knnDYzjBNOZqLG2FuTdicBXblz0Mf
- vg41gd9kCwYXDnD91rJU8tzylXv03E75NCaTxTM+FBXPmsAVYQ4GYhhgFt8S2UWMoaaABLDe
- 7l5FdnLdDEcbmd8uLU2CaG4W2cLrUaI4jz2XbkcPQkqTQ3EB67hYkjiEE6Zy3ggOitiQGcqp
- j//OwE0EWznS4AEIAMYmP4M/V+T5RY5at/g7rUdNsLhWv1APYrh9RQefODYHrNRHUE9eosYb
- T6XMryR9hT8XlGOYRwKWwiQBoWSDiTMo/Xi29jUnn4BXfI2px2DTXwc22LKtLAgTRjP+qbU6
- 3Y0xnQN29UGDbYgyyK51DW3H0If2a3JNsheAAK+Xc9baj0LGIc8T9uiEWHBnCH+RdhgATnWW
- GKdDegUR5BkDfDg5O/FISymJBHx2Dyoklv5g4BzkgqTqwmaYzsl8UxZKvbaxq0zbehDda8lv
- hFXodNFMAgTLJlLuDYOGLK2AwbrS3Sp0AEbkpdJBb44qVlGm5bApZouHeJ/+n+7r12+lqdsA
- EQEAAcLAdgQYAQgAIAIbDBYhBHIX+6yM6c9jRKFo5WgNwR1TC3ojBQJftOH6AAoJEGgNwR1T
- C3ojVSkIALpAPkIJPQoURPb1VWjh34l0HlglmYHvZszJWTXYwavHR8+k6Baa6H7ufXNQtThR
- yIxJrQLW6rV5lm7TjhffEhxVCn37+cg0zZ3j7zIsSS0rx/aMwi6VhFJA5hfn3T0TtrijKP4A
- SAQO9xD1Zk9/61JWk8OysuIh7MXkl0fxbRKWE93XeQBhIJHQfnc+YBLprdnxR446Sh8Wn/2D
- Ya8cavuWf2zrB6cZurs048xe0UbSW5AOSo4V9M0jzYI4nZqTmPxYyXbm30Kvmz0rYVRaitYJ
- 4kyYYMhuULvrJDMjZRvaNe52tkKAvMevcGdt38H4KSVXAylqyQOW5zvPc4/sq9c=
-In-Reply-To: <20250613122838.2082334-1-thierry.reding@gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Spam-Flag: NO
-X-Spam-Score: -2.80
-X-Spamd-Result: default: False [-2.80 / 50.00]; BAYES_HAM(-3.00)[100.00%];
- SUSPICIOUS_RECIPS(1.50)[]; NEURAL_HAM_LONG(-1.00)[-1.000];
- NEURAL_HAM_SHORT(-0.20)[-1.000]; MIME_GOOD(-0.10)[text/plain];
- RCPT_COUNT_SEVEN(0.00)[7];
- FREEMAIL_TO(0.00)[gmail.com,linux.intel.com,kernel.org];
- ARC_NA(0.00)[]; TAGGED_RCPT(0.00)[];
- RCVD_VIA_SMTP_AUTH(0.00)[]; MIME_TRACE(0.00)[0:+];
- MID_RHS_MATCH_FROM(0.00)[]; FREEMAIL_ENVRCPT(0.00)[gmail.com];
- DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
- FROM_EQ_ENVFROM(0.00)[]; FROM_HAS_DN(0.00)[];
- TO_DN_SOME(0.00)[]; RCVD_TLS_ALL(0.00)[];
- RCVD_COUNT_TWO(0.00)[2]; TO_MATCH_ENVRCPT_ALL(0.00)[];
- FUZZY_BLOCKED(0.00)[rspamd.com];
- DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:mid,suse.de:email,nvidia.com:email]
-X-Spam-Level: 
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <26705733-0c24-4f3b-a6ce-d5f2fd8c935d@amd.com>
+X-Operating-System: Linux phenom 6.12.30-amd64 
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -145,71 +94,178 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+On Fri, Jun 13, 2025 at 05:03:39PM +0200, Christian König wrote:
+> On 6/13/25 16:35, Simona Vetter wrote:
+> > On Fri, Jun 13, 2025 at 04:12:47PM +0200, Christian König wrote:
+> >> On 6/13/25 16:04, Simona Vetter wrote:
+> >>> On Fri, Jun 13, 2025 at 03:12:01PM +0200, Christian König wrote:
+> >>>> It is possible through flink or IOCTLs like MODE_GETFB2 to create
+> >>>> multiple handles for the same underlying GEM object.
+> >>>>
+> >>>> But in prime we explicitely don't want to have multiple handles for the
+> >>>> same DMA-buf. So just ignore it if a DMA-buf is exported with another
+> >>>> handle.
+> >>>>
+> >>>> This was made obvious by removing the extra check in
+> >>>> drm_gem_prime_handle_to_dmabuf() to not add the handle if we could already
+> >>>> find it in the housekeeping structures.
+> >>>>
+> >>>> Signed-off-by: Christian König <christian.koenig@amd.com>
+> >>>> ---
+> >>>>  drivers/gpu/drm/drm_prime.c | 11 +++++++++++
+> >>>>  1 file changed, 11 insertions(+)
+> >>>>
+> >>>> diff --git a/drivers/gpu/drm/drm_prime.c b/drivers/gpu/drm/drm_prime.c
+> >>>> index 1d93b44c00c4..f5f30d947b61 100644
+> >>>> --- a/drivers/gpu/drm/drm_prime.c
+> >>>> +++ b/drivers/gpu/drm/drm_prime.c
+> >>>> @@ -113,6 +113,17 @@ static int drm_prime_add_buf_handle(struct drm_prime_file_private *prime_fpriv,
+> >>>>  
+> >>>>  		rb = *p;
+> >>>>  		pos = rb_entry(rb, struct drm_prime_member, dmabuf_rb);
+> >>>> +
+> >>>> +		/*
+> >>>> +		 * Just ignore the new handle if we already have an handle for
+> >>>> +		 * this DMA-buf.
+> >>>> +		 */
+> >>>> +		if (dma_buf == pos->dma_buf) {
+> >>>> +			dma_buf_put(dma_buf);
+> >>>> +			kfree(member);
+> >>>> +			return 0;
+> >>>
+> >>> This feels a bit brittle, because this case should only be possible when
+> >>> called from drm_gem_prime_handle_to_dmabuf and not from
+> >>> drm_gem_prime_fd_to_handle() (where it would indicate a real race and
+> >>> hence bug in our code).
+> >>>
+> >>> I think  drm_gem_prime_fd_to_handle() should WARN_ON if it hits this case. 
+> >>>
+> >>> Otherwise yes this is the functional change that I've missed :-/ Note that
+> >>> there's no race in the original code, because it's all protected by the
+> >>> file_priv->prime.lock. Which means I think you're claim that you've only
+> >>> widened the race with your patch is wrong.
+> >>
+> >> Yeah, agree. I'm always confused that there are two locks to protect the data structures.
+> >>
+> >> But there is indeed a problem in the existing code. What happens if a
+> >> GEM handle duplicate is exported with drm_prime_add_buf_handle()? E.g.
+> >> something created by GETFB2? 
+> > 
+> > The uniqueness guarantee only extends to FB2HANDLE, because that's the
+> > case userspace cannot figure out any other way.
+> 
+> Well that sounds like you didn't understood what I meant.
+> 
+> The problem here is that we mess up FD2HANDLE if I'm not completely mistaken.
+> 
+> > For flink import you can
+> > compare the flink name (those are global), and for other ioctl like
+> > GETFB(2) you just always get a new name that you need to close() yourself.
+> > 
+> > I guess if you want a unique name for these others you could do a
+> > rount-trip through a dma-buf :-P
 
+I guess I should have elaborated what I mean here with this off-hand
+remark, see below.
 
-Am 13.06.25 um 14:28 schrieb Thierry Reding:
-> From: Thierry Reding <treding@nvidia.com>
->
-> Recent generations of Tegra have moved the display components outside of
-> host1x, leading to a device that has no CRTCs attached and hence doesn't
-> support any of the modesetting functionality. When this is detected, the
-> driver clears the DRIVER_MODESET and DRIVER_ATOMIC flags for the device.
->
-> Unfortunately, this causes the following errors during boot:
->
->      [      15.418958] ERR KERN drm drm: [drm] *ERROR* Failed to register client: -95
->      [      15.425311] WARNING KERN drm drm: [drm] Failed to set up DRM client; error -95
->
-> These originate from the fbdev client checking for the presence of the
-> DRIVER_MODESET flag and returning -EOPNOTSUPP. However, if a driver does
-> not support DRIVER_MODESET this is entirely expected and the error isn't
-> helpful.
->
-> Prevent this misleading error message by setting up the DRM clients only
-> if modesetting is enabled.
->
-> Changes in v2:
-> - use DRIVER_MODESET check to avoid registering any clients
->
-> Reported-by: Jonathan Hunter <jonathanh@nvidia.com>
-> Signed-off-by: Thierry Reding <treding@nvidia.com>
+> I advised that before as well, but exactly that's what is not working as far as I can see.
+> 
+> Let's go over this example:
+> 1. We have GEM handle 8.
+> 2. Export GEM handle 8 as DMA-buf and get an FD.
+> 3. Import the DMA-buf FD again with FD2HANDLE and get 8.
+> 4. Now 8 is used in a FB config.
+> 5. Somebody calls GETFB2 and gets 10 instead 8 for the same BO.
+> 
+> 6. Now FD2HANDLE is called with 10 and here is what happens:
+> 
+> 	drm_prime_lookup_buf_by_handle() is called for handle 10, so we
+> 	don't find anything.
+> 
+> 	obj->dma_buf is true so we branch into the if and call
+> 	drm_prime_add_buf_handle() with handle 10.
+> 
+> Now we have called drm_prime_add_buf_handle() both for handle 8 and
+> handle 10 and so we have both 8 and 10 for the same DMA-buf in our tree.
 
-Reviewed-by: Thomas Zimmermann <tzimmermann@suse.de>
+So this is the case that broke, and which the various igt prime tests
+actually had testcases for. Unless I'm completely confused here now.
 
-> ---
->   drivers/gpu/drm/clients/drm_client_setup.c | 5 +++++
->   1 file changed, 5 insertions(+)
->
-> diff --git a/drivers/gpu/drm/clients/drm_client_setup.c b/drivers/gpu/drm/clients/drm_client_setup.c
-> index e17265039ca8..e460ad354de2 100644
-> --- a/drivers/gpu/drm/clients/drm_client_setup.c
-> +++ b/drivers/gpu/drm/clients/drm_client_setup.c
-> @@ -2,6 +2,7 @@
->   
->   #include <drm/clients/drm_client_setup.h>
->   #include <drm/drm_device.h>
-> +#include <drm/drm_drv.h>
->   #include <drm/drm_fourcc.h>
->   #include <drm/drm_print.h>
->   
-> @@ -31,6 +32,10 @@ MODULE_PARM_DESC(active,
->    */
->   void drm_client_setup(struct drm_device *dev, const struct drm_format_info *format)
->   {
-> +	if (!drm_core_check_feature(dev, DRIVER_MODESET)) {
-> +		drm_dbg(dev, "driver does not support mode-setting, skipping DRM clients\n");
-> +		return;
-> +	}
->   
->   #ifdef CONFIG_DRM_FBDEV_EMULATION
->   	if (!strcmp(drm_client_default, "fbdev")) {
+> So FD2HANDLE could return either 8 or 10 depending on which is looked up
+> first.
+> 
+> I'm not 100% sure if that has any bad consequences, but I'm pretty sure
+> that this is not intentional.
+> 
+> Should we fix that? If yes than how?
+
+I dont think there's an issue, all we guarantee is that if you call
+FD2HANDLE or HANDLE2FD, then you get something consistent back. From a
+userspace pov there's two cases:
+
+1. We've already seen this buffer, it got handle 8, that's the one we've
+stored in the lookup caches. If you then do GETFB2 you get handle 10,
+which could be confusing. So you do
+
+	temp_dmabuf_fd = ioctl(HANDLE2FD, 10);
+	new_id = ioctl(FD2HANDLE, temp_dmabuf_fd);
+	close(temp_dma_buf_fd);
+	ioctl(GEM_CLOSE, 10);
+
+At this point new_id is 8, and you already have that in your userspace
+cache, so all is good.
+
+2. Userspace doesn't have the buffer already, but it doesn't know that. It
+does the exact dance as above, except this time around it gets back the
+same gem_handle as it got from GETFB2 and knows that it does not have to
+close that handle (since it's the only one), and that it should add that
+handle to the userspace-side dma-buf import/export side.
+
+It's a bit a contrived dance, but I don't think we have an issue here.
+
+Cheers, Sima
+
+> 
+> Regards,
+> Christian.
+> 
+> 
+> > > But the reaons dma-buf import was special was that before we had a real
+> > inode or the KMP syscall there was just no way to compare dma-buf for
+> > identity, and so we needed a special guarantee. Probably the funniest
+> > piece of uapi we have :-/
+> > 
+> >> IIRC AMD once had a test case which exercised exactly that. I'm not 100%
+> >> sure what would happen here, but it looks not correct to me.
+> > 
+> > Yeah I think the real-world GETFB are only for when you know it's not one
+> > of your own buffers, so all fine. Or we haven't tested this stuff enough
+> > yet ... Either way, userpace can fix it with a round-trip through
+> > FD2HANDLE.
+> > 
+> > Cheers, Sima
+> > 
+> >>
+> >> Regards,
+> >> Christian.
+> >>
+> >>>
+> >>> Cheers, Sima
+> >>>
+> >>>> +
+> >>>> +		}
+> >>>>  		if (dma_buf > pos->dma_buf)
+> >>>>  			p = &rb->rb_right;
+> >>>>  		else
+> >>>> -- 
+> >>>> 2.34.1
+> >>>>
+> >>>
+> >>
+> > 
+> 
 
 -- 
---
-Thomas Zimmermann
-Graphics Driver Developer
-SUSE Software Solutions Germany GmbH
-Frankenstrasse 146, 90461 Nuernberg, Germany
-GF: Ivo Totev, Andrew Myers, Andrew McDonald, Boudien Moerman
-HRB 36809 (AG Nuernberg)
-
+Simona Vetter
+Software Engineer, Intel Corporation
+http://blog.ffwll.ch
