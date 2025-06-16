@@ -2,107 +2,71 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 44A5FADB1E7
-	for <lists+dri-devel@lfdr.de>; Mon, 16 Jun 2025 15:30:28 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 83AEBADB1FC
+	for <lists+dri-devel@lfdr.de>; Mon, 16 Jun 2025 15:32:32 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C5D9510E39B;
-	Mon, 16 Jun 2025 13:30:25 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7BC4310E38B;
+	Mon, 16 Jun 2025 13:32:30 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="LgUZo73m";
+	dkim=pass (2048-bit key; unprotected) header.d=collabora.com header.i=@collabora.com header.b="bKNGXXHb";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-yb1-f171.google.com (mail-yb1-f171.google.com
- [209.85.219.171])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B9A0810E39B
- for <dri-devel@lists.freedesktop.org>; Mon, 16 Jun 2025 13:30:22 +0000 (UTC)
-Received: by mail-yb1-f171.google.com with SMTP id
- 3f1490d57ef6-e81ec95d944so4710801276.1
- for <dri-devel@lists.freedesktop.org>; Mon, 16 Jun 2025 06:30:22 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1750080621; x=1750685421; darn=lists.freedesktop.org;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:from:to:cc:subject:date:message-id:reply-to;
- bh=8dIM4ggq6nkqhLbVMKcT1ezBsK840f8IM9RKNGuYHjk=;
- b=LgUZo73mZGjkQRuUrw40j08/V6kwmeIJp7KcRPG4kv3Cb28Vn/Wz1ycexvhtnPQQ8B
- OfrZZdoWdTWB+9D5V1+WZUU51fkUNXGZtfUr1vY3Q/HVibik7t5Mu10sOs7HF0MEvF19
- YTOeMU45r4iBW/4/qdhjF1Z1ZmDimyqynbinWzV6mHTArB2tNoGO/T7HWbcQFYm4ZNBk
- 2LZMEPD54z9N87xNTTBNfk3jljoG/Lk1yLvg0MLiOAqsCbKesml8hCf9LQGc3k1K+LQ/
- Uesf4Pd7i/zv672j2lwjZCKaxrMCj01WVAgOsbnUro64OfSAQWl9NDd9MqSrsuO2oNQg
- Cryg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1750080621; x=1750685421;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=8dIM4ggq6nkqhLbVMKcT1ezBsK840f8IM9RKNGuYHjk=;
- b=C6v6lXXYEFAqAg/2Xwyp/CHdqa0l7Vc5bumlCzGNACuDsEa0ccQPiaMuvjgRpMynuL
- HoLLo6xTWrBMg2EELdBKON+mKPwLEy28jqNdYHHppdD1zLy7NSaelvEICIS3q59Nv8h+
- AWMJqVcFuWM9UhlFF8jPAuqIa5B04v0dm118byd7anMX4Z+zIKT8VP6Bz97qvTkUplWG
- pYaFrkQVBp6WfrP0HqFffa08GlLXi1/g8GfNcRhYUwDSL8bzMqVZuq4BU3zOSWJ8p9Yi
- ahVkEIOAHeIgZDoW5YEcAqe9X/Ie7NU/8pTfUZPN18ehn9eiI5y8AW6+I+zGxrFhIqu5
- h9QQ==
-X-Forwarded-Encrypted: i=1;
- AJvYcCWbepyKoU+R3uqvP8a9EsSG7uSie1wBvmCohMJW5YA5auawfI2FR4nSAFQdZYjdSofuLPNAVNwoyGg=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YziOY6RMIGECZdOKeQSFyNoaDJvB8gUCLcEZrx3oWfhhD0qHv2Y
- HLhKp4CKZ/CuGFSH7XJ1n7ts2myQy8ejR2v2sRCippSVU0u1fD6ksNODJKxuF5fEqMtn4G4h2pY
- IRsgbw8s5Cmy7JkgNYUBHtQvETqO0/Co73UUsO+lkAQ==
-X-Gm-Gg: ASbGncsQ9dFLACWePlTQM/YY1XHVprD9j3mVX262V1Mji1D6NSfHZPVObzcz2tlmc9S
- lRVBJUL3V8S71c0i6drXj8fLD+s0GRUrdMJIwaCqNv5GgGrerfzPh8fP4cd66uS9oL7116bu7Dm
- +L8sQupscfMWYUWWDJ4kQRxbQo4p6Iz5LS/VuzXIof83Jl
-X-Google-Smtp-Source: AGHT+IHvwFdTtrctzoiWIaPE71W/8FTAI+xhZY2HkhDJbIaDsGip4BNw9qrbXT3Tk9Kd8tGyhyS35T/gDOg+zFs+nYI=
-X-Received: by 2002:a05:6902:703:b0:e81:566c:3085 with SMTP id
- 3f1490d57ef6-e8227f0e61bmr12875927276.1.1750080620760; Mon, 16 Jun 2025
- 06:30:20 -0700 (PDT)
+Received: from bali.collaboradmins.com (bali.collaboradmins.com
+ [148.251.105.195])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id AEC4A10E38B;
+ Mon, 16 Jun 2025 13:32:27 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+ s=mail; t=1750080746;
+ bh=8k8I7nKGUakfQ6zb/kzp99Iekk+1EYDKSkxMrzwM4Lw=;
+ h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+ b=bKNGXXHbCWVSanxrc7oomr3W6aNTAWUjw623pBavKgrUyNx9JZ7CAKmBrjqA4mV+x
+ ym/XaK3rlOFKW3MVcQfu8xm2rmYdpBF414TroUaqMi7JekVjifNmUN2YnlDsPTCZBu
+ n0yx8Ig55k5cZUifeAfI1E+A/ANxOHBp2n+5Q47dsYLunMBLa9skMMvN3q4lR6zy/N
+ ELj2GLrFkY0pn1P2rTb8Pc6ewVYTUKC+GFyU+E0ChD5H2Am9PL0gkBAmoUNbvLvZCC
+ 9xXr7rY6mpIk9XG5GeV9bXbvMMQtkEpe5J8sDPjj+jfNEniVkCd6Q2DNoGdllnDm5Q
+ lypsKWu443vYQ==
+Received: from eldfell (unknown [194.136.85.206])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange ECDHE (prime256v1) server-signature RSA-PSS (4096 bits)
+ server-digest SHA256) (No client certificate requested)
+ (Authenticated sender: pq)
+ by bali.collaboradmins.com (Postfix) with ESMTPSA id 4081F17E0E8F;
+ Mon, 16 Jun 2025 15:32:25 +0200 (CEST)
+Date: Mon, 16 Jun 2025 16:32:12 +0300
+From: Pekka Paalanen <pekka.paalanen@collabora.com>
+To: "Borah, Chaitanya Kumar" <chaitanya.kumar.borah@intel.com>
+Cc: Alex Hung <alex.hung@amd.com>, "dri-devel@lists.freedesktop.org"
+ <dri-devel@lists.freedesktop.org>, "amd-gfx@lists.freedesktop.org"
+ <amd-gfx@lists.freedesktop.org>, "wayland-devel@lists.freedesktop.org"
+ <wayland-devel@lists.freedesktop.org>, "harry.wentland@amd.com"
+ <harry.wentland@amd.com>, "leo.liu@amd.com" <leo.liu@amd.com>,
+ "ville.syrjala@linux.intel.com" <ville.syrjala@linux.intel.com>,
+ "mwen@igalia.com" <mwen@igalia.com>, "jadahl@redhat.com"
+ <jadahl@redhat.com>, "sebastian.wick@redhat.com"
+ <sebastian.wick@redhat.com>, "shashank.sharma@amd.com"
+ <shashank.sharma@amd.com>, "agoins@nvidia.com" <agoins@nvidia.com>,
+ "joshua@froggi.es" <joshua@froggi.es>, "mdaenzer@redhat.com"
+ <mdaenzer@redhat.com>, "aleixpol@kde.org" <aleixpol@kde.org>,
+ "xaver.hugl@gmail.com" <xaver.hugl@gmail.com>, "victoria@system76.com"
+ <victoria@system76.com>, "daniel@ffwll.ch" <daniel@ffwll.ch>, "Shankar,
+ Uma" <uma.shankar@intel.com>, "quic_naseer@quicinc.com"
+ <quic_naseer@quicinc.com>, "quic_cbraga@quicinc.com"
+ <quic_cbraga@quicinc.com>, "quic_abhinavk@quicinc.com"
+ <quic_abhinavk@quicinc.com>, "marcan@marcan.st" <marcan@marcan.st>,
+ "Liviu.Dudau@arm.com" <Liviu.Dudau@arm.com>, "sashamcintosh@google.com"
+ <sashamcintosh@google.com>, "louis.chauvet@bootlin.com"
+ <louis.chauvet@bootlin.com>, Daniel Stone <daniels@collabora.com>
+Subject: Re: [PATCH V9 16/43] drm/colorop: Add 3x4 CTM type
+Message-ID: <20250616163212.62361605@eldfell>
+In-Reply-To: <SJ1PR11MB61298CC231B8739FD48E30E1B970A@SJ1PR11MB6129.namprd11.prod.outlook.com>
+References: <20250430011115.223996-1-alex.hung@amd.com>
+ <20250430011115.223996-17-alex.hung@amd.com>
+ <SJ1PR11MB61298CC231B8739FD48E30E1B970A@SJ1PR11MB6129.namprd11.prod.outlook.com>
+X-Mailer: Claws Mail 4.1.1 (GTK 3.24.38; x86_64-pc-linux-gnu)
 MIME-Version: 1.0
-References: <20250612-byeword-update-v1-0-f4afb8f6313f@collabora.com>
- <20250612-byeword-update-v1-2-f4afb8f6313f@collabora.com>
-In-Reply-To: <20250612-byeword-update-v1-2-f4afb8f6313f@collabora.com>
-From: Ulf Hansson <ulf.hansson@linaro.org>
-Date: Mon, 16 Jun 2025 15:29:44 +0200
-X-Gm-Features: AX0GCFucmmVjhuxKNu1-kopwQ1Ifcn7b36ykDZEf_SV72XMHIWGaSa8Aqxa6A60
-Message-ID: <CAPDyKFr_-aQ+YoRqYVUFhRR=94NWOredaSYQsVb-xvot83HJ3w@mail.gmail.com>
-Subject: Re: [PATCH 02/20] mmc: dw_mmc-rockchip: switch to HWORD_UPDATE macro
-To: Nicolas Frattaroli <nicolas.frattaroli@collabora.com>
-Cc: Yury Norov <yury.norov@gmail.com>,
- Rasmus Villemoes <linux@rasmusvillemoes.dk>, 
- Jaehoon Chung <jh80.chung@samsung.com>, Heiko Stuebner <heiko@sntech.de>, 
- Shreeya Patel <shreeya.patel@collabora.com>,
- Mauro Carvalho Chehab <mchehab@kernel.org>, 
- Sandy Huang <hjc@rock-chips.com>, Andy Yan <andy.yan@rock-chips.com>, 
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, 
- Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
- Simona Vetter <simona@ffwll.ch>, 
- Vinod Koul <vkoul@kernel.org>, Kishon Vijay Abraham I <kishon@kernel.org>, 
- Nicolas Frattaroli <frattaroli.nicolas@gmail.com>,
- Liam Girdwood <lgirdwood@gmail.com>, 
- Mark Brown <broonie@kernel.org>, Jaroslav Kysela <perex@perex.cz>,
- Takashi Iwai <tiwai@suse.com>, 
- Andrew Lunn <andrew+netdev@lunn.ch>, "David S. Miller" <davem@davemloft.net>, 
- Eric Dumazet <edumazet@google.com>, Jakub Kicinski <kuba@kernel.org>,
- Paolo Abeni <pabeni@redhat.com>, 
- Maxime Coquelin <mcoquelin.stm32@gmail.com>,
- Alexandre Torgue <alexandre.torgue@foss.st.com>, 
- Shawn Lin <shawn.lin@rock-chips.com>, Lorenzo Pieralisi <lpieralisi@kernel.org>,
- =?UTF-8?Q?Krzysztof_Wilczy=C5=84ski?= <kwilczynski@kernel.org>, 
- Manivannan Sadhasivam <mani@kernel.org>, Rob Herring <robh@kernel.org>,
- Bjorn Helgaas <bhelgaas@google.com>, 
- Chanwoo Choi <cw00.choi@samsung.com>, MyungJoo Ham <myungjoo.ham@samsung.com>, 
- Kyungmin Park <kyungmin.park@samsung.com>, Qin Jian <qinjian@cqplus1.com>, 
- Michael Turquette <mturquette@baylibre.com>, Stephen Boyd <sboyd@kernel.org>, 
- Nathan Chancellor <nathan@kernel.org>,
- Nick Desaulniers <nick.desaulniers+lkml@gmail.com>, 
- Bill Wendling <morbo@google.com>, Justin Stitt <justinstitt@google.com>,
- kernel@collabora.com, 
- linux-kernel@vger.kernel.org, linux-mmc@vger.kernel.org, 
- linux-arm-kernel@lists.infradead.org, linux-rockchip@lists.infradead.org, 
- linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org, 
- linux-phy@lists.infradead.org, linux-sound@vger.kernel.org, 
- netdev@vger.kernel.org, linux-stm32@st-md-mailman.stormreply.com, 
- linux-pci@vger.kernel.org, linux-pm@vger.kernel.org, 
- linux-clk@vger.kernel.org, llvm@lists.linux.dev
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: multipart/signed; boundary="Sig_/T3duQgSDnptyMjxoNQll_bn";
+ protocol="application/pgp-signature"; micalg=pgp-sha256
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -118,62 +82,97 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, 12 Jun 2025 at 20:57, Nicolas Frattaroli
-<nicolas.frattaroli@collabora.com> wrote:
->
-> The era of hand-rolled HIWORD_UPDATE macros is over, at least for those
-> drivers that use constant masks.
->
-> Switch to the new HWORD_UPDATE macro in bitfield.h, which has error
-> checking. Instead of redefining the driver's HIWORD_UPDATE macro in this
-> case, replace the two only instances of it with the new macro, as I
-> could test that they result in an equivalent value.
->
-> Signed-off-by: Nicolas Frattaroli <nicolas.frattaroli@collabora.com>
+--Sig_/T3duQgSDnptyMjxoNQll_bn
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: quoted-printable
 
-Acked-by: Ulf Hansson <ulf.hansson@linaro.org>
+On Mon, 16 Jun 2025 11:30:23 +0000
+"Borah, Chaitanya Kumar" <chaitanya.kumar.borah@intel.com> wrote:
 
-Kind regards
-Uffe
+> > -----Original Message-----
+> > From: Alex Hung <alex.hung@amd.com>
+> > Sent: Wednesday, April 30, 2025 6:41 AM
+> > To: dri-devel@lists.freedesktop.org; amd-gfx@lists.freedesktop.org
+> > Cc: wayland-devel@lists.freedesktop.org; harry.wentland@amd.com;
+> > alex.hung@amd.com; leo.liu@amd.com; ville.syrjala@linux.intel.com;
+> > pekka.paalanen@collabora.com; contact@emersion.fr; mwen@igalia.com;
+> > jadahl@redhat.com; sebastian.wick@redhat.com;
+> > shashank.sharma@amd.com; agoins@nvidia.com; joshua@froggi.es;
+> > mdaenzer@redhat.com; aleixpol@kde.org; xaver.hugl@gmail.com;
+> > victoria@system76.com; daniel@ffwll.ch; Shankar, Uma
+> > <uma.shankar@intel.com>; quic_naseer@quicinc.com;
+> > quic_cbraga@quicinc.com; quic_abhinavk@quicinc.com; marcan@marcan.st;
+> > Liviu.Dudau@arm.com; sashamcintosh@google.com; Borah, Chaitanya
+> > Kumar <chaitanya.kumar.borah@intel.com>; louis.chauvet@bootlin.com;
+> > Daniel Stone <daniels@collabora.com>
+> > Subject: [PATCH V9 16/43] drm/colorop: Add 3x4 CTM type
+> >=20
+> > From: Harry Wentland <harry.wentland@amd.com>
+> >=20
+> > This type is used to support a 3x4 matrix in colorops. A 3x4 matrix use=
+s the
+> > last column as a "bias" column. Some HW exposes support for 3x4. The
+> > calculation looks like:
+> >=20
+> >  out   matrix    in
+> >  |R|   |0  1  2  3 |   | R |
+> >  |G| =3D |4  5  6  7 | x | G |
+> >  |B|   |8  9  10 11|   | B |
+> >                        |1.0|
+> >=20
+> > This is also the first colorop where we need a blob property to program=
+ the
+> > property. For that we'll introduce a new DATA property that can be used=
+ by all
+> > colorop TYPEs requiring a blob. The way a DATA blob is read depends on =
+the
+> > TYPE of the colorop.
+> >=20
+> > We only create the DATA property for property types that need it. =20
+>=20
+> Is there any value to adding pre-offsets [1] in the uapi?=20
+>=20
+>  |R/Cr|    | c0 c1 c2 |   ( |R/Cr|   |preoff0| )   |postoff0|
+>  |G/Y | =3D | c3 c4 c5 | x ( |G/Y | + |preoff1| ) + |postoff1|
+>  |B/Cb|   | c6 c7 c8 |   ( |B/Cb|   |preoff2| )   |postoff2|
+>=20
+> Handling limited range values is one use case that I can think of. =20
 
-> ---
->  drivers/mmc/host/dw_mmc-rockchip.c | 7 +++----
->  1 file changed, 3 insertions(+), 4 deletions(-)
->
-> diff --git a/drivers/mmc/host/dw_mmc-rockchip.c b/drivers/mmc/host/dw_mmc-rockchip.c
-> index baa23b51773127b4137f472581259b61649273a5..9e3d17becf65ffb60fe3d32d2cdec341fbd30b1e 100644
-> --- a/drivers/mmc/host/dw_mmc-rockchip.c
-> +++ b/drivers/mmc/host/dw_mmc-rockchip.c
-> @@ -5,6 +5,7 @@
->
->  #include <linux/module.h>
->  #include <linux/platform_device.h>
-> +#include <linux/bitfield.h>
->  #include <linux/clk.h>
->  #include <linux/mmc/host.h>
->  #include <linux/of_address.h>
-> @@ -24,8 +25,6 @@
->  #define ROCKCHIP_MMC_DELAYNUM_OFFSET   2
->  #define ROCKCHIP_MMC_DELAYNUM_MASK     (0xff << ROCKCHIP_MMC_DELAYNUM_OFFSET)
->  #define ROCKCHIP_MMC_DELAY_ELEMENT_PSEC        60
-> -#define HIWORD_UPDATE(val, mask, shift) \
-> -               ((val) << (shift) | (mask) << ((shift) + 16))
->
->  static const unsigned int freqs[] = { 100000, 200000, 300000, 400000 };
->
-> @@ -148,9 +147,9 @@ static int rockchip_mmc_set_internal_phase(struct dw_mci *host, bool sample, int
->         raw_value |= nineties;
->
->         if (sample)
-> -               mci_writel(host, TIMING_CON1, HIWORD_UPDATE(raw_value, 0x07ff, 1));
-> +               mci_writel(host, TIMING_CON1, HWORD_UPDATE(GENMASK(11, 1), raw_value));
->         else
-> -               mci_writel(host, TIMING_CON0, HIWORD_UPDATE(raw_value, 0x07ff, 1));
-> +               mci_writel(host, TIMING_CON0, HWORD_UPDATE(GENMASK(11, 1), raw_value));
->
->         dev_dbg(host->dev, "set %s_phase(%d) delay_nums=%u actual_degrees=%d\n",
->                 sample ? "sample" : "drv", degrees, delay_num,
->
-> --
-> 2.49.0
->
+Hi,
+
+in the mathematical sense, no. A pre-offset can always be converted
+into a post-offset by multiplying it with the 3x3 matrix (and adding to
+the existing post-offset). This can be pre-computed, no need to do
+it separately for every pixel.
+
+For hardware reasons, I have no idea.
+
+> [1] https://cgit.freedesktop.org/drm-tip/tree/drivers/gpu/drm/i915/displa=
+y/intel_color.c#n112
+>=20
+
+Thanks,
+pq
+
+--Sig_/T3duQgSDnptyMjxoNQll_bn
+Content-Type: application/pgp-signature
+Content-Description: OpenPGP digital signature
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAEBCAAdFiEEJQjwWQChkWOYOIONI1/ltBGqqqcFAmhQHNwACgkQI1/ltBGq
+qqccYBAAj9hZL1XZgGR1bvYIXfjb500MXuAbnT1uyPSmsEs1gxhHH6G5I55vcgDI
+sLn+ur+/KyGFrovN3qHFVhJM7TGPyeFJIfnV+cpapCNh12M0L8nQ80+IXtbjSjzR
+TgaseaQAp4EYQFzOHn79qZvQQ+xkCfVXDIqgIOZBNd6VuRLKpWurlE5k2TuNgde0
+ULopgVimIOUeI45qKaTGXmIrcUk20aU4LNcWzN9dJ12qtqnWTMIj/DJmUVYH9GSE
+Lcb2mAzfgt75zgvZWJL+C/fJK96EtudqVnliiK/LCr4qynOq7ZHVT6FK8y0cK9rB
+dqgUzDKPth130DyHMndIrkrcQ7obFxdisHNJHIKAe8BQsVMLxbJ8RVp5Il0eiAtP
+8vAodv6TGioqOETMcKHtVlo6K4oSaQQvzBuQMoXxjdQTAhoTUl3DOZvZDMkR3MuS
+T8g+LBLNg7xCg/dY5kPiQYbr+tq3Uga76Ktwdl3im0VAq5TEsm3wM8MWcQZgAmvv
+7WvxdUKMdyFvSicELVM0GAnlSR8XKWa85tXbhZIsEEuqMArDvJTG4If995xZXBAf
+VNpVLbF5muVSHWbuZqLDTJjpxG7MQDJ1ntUhkS/V7ZJ9cx53Gio0tqUmdJI7M187
+MGL3nRJdcP1gUJvfb21ZLiVRHXj9lqTQgztNEAVdVKbLajMwazc=
+=ONXQ
+-----END PGP SIGNATURE-----
+
+--Sig_/T3duQgSDnptyMjxoNQll_bn--
