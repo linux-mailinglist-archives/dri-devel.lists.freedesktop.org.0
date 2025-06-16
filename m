@@ -2,154 +2,155 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 13C01ADB16D
-	for <lists+dri-devel@lfdr.de>; Mon, 16 Jun 2025 15:15:29 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4BAF7ADB1BC
+	for <lists+dri-devel@lfdr.de>; Mon, 16 Jun 2025 15:23:50 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 54FCA10E37A;
-	Mon, 16 Jun 2025 13:15:26 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 659F410E306;
+	Mon, 16 Jun 2025 13:23:47 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=amd.com header.i=@amd.com header.b="BYI/tut3";
+	dkim=pass (1024-bit key; unprotected) header.d=amd.com header.i=@amd.com header.b="1rP//rSs";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from NAM04-MW2-obe.outbound.protection.outlook.com
- (mail-mw2nam04on2068.outbound.protection.outlook.com [40.107.101.68])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C974010E306;
- Mon, 16 Jun 2025 13:15:21 +0000 (UTC)
+Received: from NAM10-DM6-obe.outbound.protection.outlook.com
+ (mail-dm6nam10on2044.outbound.protection.outlook.com [40.107.93.44])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 308B410E306;
+ Mon, 16 Jun 2025 13:23:43 +0000 (UTC)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=cZcgPKP7tnSnD2nrCs6tBFTSGycJmEczw7dkBrrvFNAE/ZQQ7PaEol6Xmc80/BsXxEcufdfZnGbN9Yn1sHNsalX8RCPiwdz3mANE4vw1oBOrwqAxK5g77qu8/P4M6f/wK3SnTw79X5O0368ni2wlFwS2iY5ESGJQGja7uzYRdAD83X/+B0FwSS8CAVqCocjoPOFc57huvgXdC75AMzfJf4IeVRauTu9qzglOMF47rRRnk98h6d5hmN/wuKz5cxUbziJxajIgn5VctPkAJyKJkvUg1eQTpv+/QHoLwzUxuNBjgcx0j3q9Tk2L87sdSGPlRNrksnz5I9qRzNlE3peZOQ==
+ b=w7i1WvCzausveLlxsl0tcrxpmNSPBO0llAGdYcFQ3SAtYxexJcRRowk968nKbxDGCtn43n1enffOePmTOmcyCrLedg/DmLZyRdnxvlIt1u25MDhJEHgjaBUvO5f4DTq6D7ajcmD3WxldtpoN++do26DyVEcCOaRYSMpp0/ALjv2+GI9C/7BipyN8XJafdyvH4Z/uY1Bcngokf7lMYwXftuoUrL12IsMDg7kc3wBWC4FyDfvvxVOC8C+GQdvVh95O6/VqswLfZoj3+LSQnn+pQnEgOSPEdtJPngN8Wpyl0ZfmeXk504nOcZobw5sLqj7foXF2XxoHBokAsqxe3kEVnQ==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=r6/ARpgtn3TyGt7G+wrKOrQP6POfbgOm+3x0jE2BXqI=;
- b=OxazJIaAGumXPlKCKYCG8mE6JcJdlb1ofUK4fA2nQbjzak/bSbMS4hwaHgFVddlFtJbdmHOvLnRyDeguxwqkAyvMz+bfPV8JzNQR8gFd3tWcOWVcZOxQffN60qd0f8TRQuSBMbBJ38WwQm41M5hxMQVxx96NKDbxy2s7+RC38PSP99hC4hMmGAXGL1ExoYmBP0Vr0X3ijwd0iHtq6lIi6khIBF5/xDtNE/JoM5yEQavDc7jCT/t2uBsR94ipnLhzJOs7PrhnR2eqsIl6gylSgChRRQ/jMigAknAjpvIeuMzAoGvdg5/gvyleDUsgwQoXdVfkDsFkqHT5INmsr5yopQ==
+ bh=GdoT1J5rFmDOUFjkDcjvHkYtb2BoxGTz1VFl3IsD8yk=;
+ b=bvuS54rheBFz23qAZvjRmBwsO0bfOH0T9W677j5FGq5SJRQkuDiKbE40D0HPg+UHeoDKe/PLPhroM2Oqxna/XxMMUPR2Ro6A2CEJS9R8UAdXrUmLOZLQMD5m3c6c85cRY5FZnnTbHiQt+E8c7zr6apBSyVU/pCuOGUF72bl6UwaSY/WdTXeYpObB+qrC0IOFP9wQ8KPPb68FnmYKigd+imu+cA4M1yJ2tkUwyIbr62y9qIEbRk0z9z/Ka4aLHccT7jhd3YRKY/Ox0kAOwoKHOdlhHZpz2xBDqvZ24lNtvh+94hytl5dqDGe5Lkj+36S059KGHBntAir/upSdVifZhQ==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
  header.d=amd.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=r6/ARpgtn3TyGt7G+wrKOrQP6POfbgOm+3x0jE2BXqI=;
- b=BYI/tut3fUmH/M1VcaVbiQFYNEmJy6qbexaQFoQZfHHnrwS0inhxjFp1plM7JagKPBv1HvQgg+6l7a1BPFM5whIw1Sd0dYuM7z5dZ9xKaEYJhY8X1mBDBwTD/Qwcucqfp+O//KFGazamGfodWgZ6Hs8BdYRTYP+BepFhPy3j49M=
+ bh=GdoT1J5rFmDOUFjkDcjvHkYtb2BoxGTz1VFl3IsD8yk=;
+ b=1rP//rSsTRdj3nsCEw2cJOTaMOHJirudkyff6Go9PEfH2MULlp9KFWRcGbafgtp7ldCCVguivFALJIy3jh2fMGQBAYPW8nZwlwdDQrYDrhf6qAvf8qe1zP+EH54Nheoq5dztg5YdAN9ZqwE7b9qE1iBubZ0VTx+oyEI2uTSqXsw=
 Authentication-Results: dkim=none (message not signed)
  header.d=none;dmarc=none action=none header.from=amd.com;
 Received: from PH7PR12MB5685.namprd12.prod.outlook.com (2603:10b6:510:13c::22)
- by SA1PR12MB6845.namprd12.prod.outlook.com (2603:10b6:806:25c::21)
- with Microsoft SMTP Server (version=TLS1_2,
+ by DM6PR12MB4251.namprd12.prod.outlook.com (2603:10b6:5:21e::12) with
+ Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8835.29; Mon, 16 Jun
- 2025 13:15:19 +0000
+ 2025 13:23:40 +0000
 Received: from PH7PR12MB5685.namprd12.prod.outlook.com
  ([fe80::46fb:96f2:7667:7ca5]) by PH7PR12MB5685.namprd12.prod.outlook.com
  ([fe80::46fb:96f2:7667:7ca5%7]) with mapi id 15.20.8722.031; Mon, 16 Jun 2025
- 13:15:19 +0000
-Message-ID: <b40bb76e-0643-4376-b9a1-978830747668@amd.com>
-Date: Mon, 16 Jun 2025 15:15:14 +0200
+ 13:23:40 +0000
+Message-ID: <04728a48-d755-4839-86b6-f4214cc2f7b5@amd.com>
+Date: Mon, 16 Jun 2025 15:23:35 +0200
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 2/3] drm/ttm, drm/xe: Modify the struct
- ttm_bo_lru_walk_cursor initialization
+Subject: Re: [PATCH 3/3] drm/ttm, drm_xe, Implement ttm_lru_walk_for_evict()
+ using the guarded LRU iteration
 To: =?UTF-8?Q?Thomas_Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>,
  intel-xe@lists.freedesktop.org
 Cc: dri-devel@lists.freedesktop.org, airlied@gmail.com,
  Matthew Brost <matthew.brost@intel.com>,
  Matthew Auld <matthew.auld@intel.com>
 References: <20250613151824.178650-1-thomas.hellstrom@linux.intel.com>
- <20250613151824.178650-3-thomas.hellstrom@linux.intel.com>
+ <20250613151824.178650-4-thomas.hellstrom@linux.intel.com>
 Content-Language: en-US
 From: =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
-In-Reply-To: <20250613151824.178650-3-thomas.hellstrom@linux.intel.com>
+In-Reply-To: <20250613151824.178650-4-thomas.hellstrom@linux.intel.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-ClientProxiedBy: FR2P281CA0015.DEUP281.PROD.OUTLOOK.COM
- (2603:10a6:d10:a::25) To PH7PR12MB5685.namprd12.prod.outlook.com
+X-ClientProxiedBy: FR4P281CA0111.DEUP281.PROD.OUTLOOK.COM
+ (2603:10a6:d10:bb::12) To PH7PR12MB5685.namprd12.prod.outlook.com
  (2603:10b6:510:13c::22)
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: PH7PR12MB5685:EE_|SA1PR12MB6845:EE_
-X-MS-Office365-Filtering-Correlation-Id: f3f9c696-24f1-448d-8aca-08ddacd7d783
+X-MS-TrafficTypeDiagnostic: PH7PR12MB5685:EE_|DM6PR12MB4251:EE_
+X-MS-Office365-Filtering-Correlation-Id: ba7d0e69-d516-450a-91cd-08ddacd901fe
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: BCL:0;ARA:13230040|366016|1800799024|376014|7053199007;
-X-Microsoft-Antispam-Message-Info: =?utf-8?B?SVBTd25PeGZvaUVXQUhHZCs3dC9kcVlhU0NyeSt3T3pzenZEZ2I2Y0Nvallm?=
- =?utf-8?B?KzhXQnFINU1OTERacnJFL1A2SDhQRVpOWm5LUURJL1JFTWgxZWhZRGcyeklz?=
- =?utf-8?B?OUlxYS9XY0c2S1FwKzlPd1VYYjVPTWRYWjhNR3Y5VVRyUldOVDArNjhjRm1a?=
- =?utf-8?B?M3FuU0NUb3FtRERhN21xOVQzQmgvZXgxMks3dmRabmFRN1o5ZXNsZUh0Witv?=
- =?utf-8?B?RDlXMFlzQU50THdLNUg3dSs1SEx2a3VadTVCTFVwc091QjJ4THVqSDd3cE1k?=
- =?utf-8?B?cUhPUmlqSHZJMGZDb2NsaG1JT2xsSitwUUdBdkVUWkRpK1FpdXBUZS95a3BF?=
- =?utf-8?B?R0h0ZW94QW9jRGl6cDJNMUxqUk9aUXZtUlNiTjVKR2dndkVIcmMxN2ZyL2Jp?=
- =?utf-8?B?K25oR3VtMzJWbXBUTGFsSmtLNjNBUklManVoZlFEbURlSzZzdzNaQ3E3eFpR?=
- =?utf-8?B?TjUrcmc2MVlYdUJyUllDQ2hmdVJGMzVmQTFsNXBPSXlBLzdOSzF3ZGR0WktJ?=
- =?utf-8?B?aWtEU1pBaVRQak1kRk1URU43YjYzcm1raTROc1ZRbHFYOW80YU9saFViM1U1?=
- =?utf-8?B?Q0N2TU5ycGZIaUtVWk1SZUJ3YUJuZk9pYjlCSHFYbkZiUExlQnNDVTN5RVEy?=
- =?utf-8?B?a1dXZEJyR3I3bXB2UUtuaDhhM3o0RGY3SXUva05lT2lWWTNMZytUR0JHSHh6?=
- =?utf-8?B?Y0pyMmppUXFUNU1wUlBxQXA5cjA5Qmd1U0dLa09VbmcvVGZkR3o1d2RPVVQ5?=
- =?utf-8?B?YnJZL0l3RUFGQXBPVU80SXZMbzduY1kyRThWZkFKUlh1UXV2Qk5mdmdLNXNN?=
- =?utf-8?B?cjY3VmZnTUNENllJRmxLRTlsSWprZ2pNUGI0eGZEaXRTSldlVjNJSVJHczVF?=
- =?utf-8?B?a3Bvdm9yNUlsZ05GZnRKelFFVmw2SFlqZHd4OTlYZnVYdEE4Z0VFUnB5dDdW?=
- =?utf-8?B?VitXRThZSWxVU1g0S0FpUXczN0t1emNlRksrNy9OVEpQSDJDZDd6bG1WNnA2?=
- =?utf-8?B?cVM5MWhrY0g0ZzJKM0Z0ckMzUU5qY2thd25ZY1RzajFzdHgyMXlwSkNEK1ZX?=
- =?utf-8?B?TDNSd1NsQ3dMdGV2dkRYL040MElQQ29BeGJ2SHRlOHI0M1BLNkU0dFc1SFVn?=
- =?utf-8?B?ektGeEJuaVZKV3lRcUtjZllzaHdLSW5DelM3Z05BZlVLUE1JdlZ4dkI1OFVH?=
- =?utf-8?B?djh5Y1RXaHIrZDFkNWtmZkpTMWo1VWg3RkdiQWEyZzVzdEcvK1pPRDZPUjRJ?=
- =?utf-8?B?ZTVaMVpXR3YrMldSVk83c1U0TWQxRXovL2FoWWMvZCtrSDI3MTVCWHIrYTg2?=
- =?utf-8?B?K2lyNFBCU3JmdFE2anJmVm1ZcGtNVyt1ZUZYdldxS3ZCUnNkK1dnWXp6YVdB?=
- =?utf-8?B?UjJ3SGlHaDl1a094NTY1d3VoWFpzZzFEenIrYUNSbllqVXpyMUowSkZ3YWVu?=
- =?utf-8?B?UzdkSHE1VE5POXpGRURZcmtYZ0FMQWxCemZKQytFa0tjcm9DRUFiNXk1a2Fw?=
- =?utf-8?B?bk5scFhFYng3VUxVUVhkOG5aZEMzOUlpRWNrdW9VOTl5bURUUTBVNzlxWmNU?=
- =?utf-8?B?MmZXMlZlSkc2ZlVPbXJrT3NkTEJmZWVqY0NTU01OcVBzN1BianJGZ0JiWkdo?=
- =?utf-8?B?bFRxbzNybzNGbTRFUFVWcE1sL3FlSTNXNzZXbEkwZlpNMmpJRktuUnZKaDY4?=
- =?utf-8?B?WXBwNDVPdGxGVmE2MmVSUE9hazhZYXpLb0EvK3pOYWRiRXpVcSs1TEtPL2Zv?=
- =?utf-8?B?ZGRhWGhIVVpwRC94VUFzTzM4TzBaakc1RVZjaWhBKzh1MkV1QkNINTZFQ21m?=
- =?utf-8?B?QXpSa0tSUUpUM2ZKajFnQTArWjRrVG5kR3ZXTmU4S3lzSmdRSnJrNk84R0Zx?=
- =?utf-8?B?WEhieldxYTBnTTJZeS80YkRMT2IxbnZOeVRwSS90Q0ViOFE9PQ==?=
+X-Microsoft-Antispam-Message-Info: =?utf-8?B?WXVFNXVEOG1nMnRNRWtjTlpNZWhQdjQzNGJzNU1wVTJjc0lDQnZpQVRIS1F3?=
+ =?utf-8?B?RHZQTTl1VjlybXlBakJmV2dvVDBMcDEzc2o0dGxYV2k2Sm1QbUhyOWhTOEUr?=
+ =?utf-8?B?d3FSL29xQUtyOUhub3BUOFFxNXhDVnBCRHI4Rk4yWitaVGt3Sjd3WDVrTVJJ?=
+ =?utf-8?B?ZnBtYnp2Z0hXK1pMdGFNbThSSlo5a1JmRUlHQmRPOFdUQWVJYTZtMzBpRitx?=
+ =?utf-8?B?dnZYRndLZURSamxINDBPUHVRZ2swaHZOeHM0RnVWYmRadE15d0Z2bGJIMnNS?=
+ =?utf-8?B?bHdZWVVEKzFVWXVRUThQWU5FRG85ZFo1VjZHOHNQVDlnMERPREQ0R1JTUno4?=
+ =?utf-8?B?bWxiUEplbURWSkw5ZnoxMC9GWG9VeGM3SjBCK2xPRWFaTnlqU1I1bjBERHJs?=
+ =?utf-8?B?SW5lU2RJZjg2d3NiaU9pSWhnUjZBaDBQZXg4S2NEZWdFL214SkVENlVMS3JV?=
+ =?utf-8?B?alE0NVFjajl4UVdoV1hqYVkyYzZBRExxNDVLQlcybDJlTXZvQmhGa2tWK2NJ?=
+ =?utf-8?B?NkxETkNpQUFFSWVqOXpSdDhieWhhbmhJMDFPUnhLTGo2T09KS1R6M1VyT0hL?=
+ =?utf-8?B?MVRWUVNoaGZkM01ZMjU4ekgwMDg2Y3p2MmlpZUw3T1JYUDZneWNFZS8vME9Z?=
+ =?utf-8?B?eER4NytDVmtqYU1VbnRqNXlHeDNLOWJxejFWVEt6V1k0aVlSSjNnMlFGWnJF?=
+ =?utf-8?B?a0VkVjV0NXg5ejdUK1dZaUxHRktTMjI3ZTVSd1ZVZERVTURBb0hGVnRISEdS?=
+ =?utf-8?B?RWlXYlpaQlNFUDg5dmEvYWY1Z0s3VUNiU3lYdVg1alRseXp5WjlCRXZvaCsx?=
+ =?utf-8?B?c01zb1F3bGdvQjBrcXdFV1NPelVMbmNVSVdGdndLbi8vZ3lsRnIvNzZMK1Q1?=
+ =?utf-8?B?K0hHbFByZDZjdlA1UW5Za2lvNXpUZXAveDN1bUlBTnE5amhSejExQkRvVkUz?=
+ =?utf-8?B?aFVpcjRqenVWRjBzYTRZU1hyZGtqNGc5WkhwOFpiNHA5TUNZbDh1NEwwME1F?=
+ =?utf-8?B?KzNzQkZMVHJsd21JeVM1K1JDaTV6dlNleTd5dmdXSmdyMW1iVXBjVXBGaEhy?=
+ =?utf-8?B?Y3pkeE11NktIZXphd3lmRUltVVFzU0VDM0p3eWMvUWRVdDJETlNaQkRVeHB6?=
+ =?utf-8?B?YzhtVVRFN0JTQ3ZJd2RzN1p5ZUFKaDFZRzUycW91R3N4Z3Z4eUtPa21GcDI2?=
+ =?utf-8?B?R3ZGbVFkTHVEQnJzbWJvMHNVK0VKaHJkOGpHR1ZFVVlrbjZuU0tiVVNidlBk?=
+ =?utf-8?B?dDJTTHRESnNvNmhjazBZRTZtSG1DcWNnbW5VUWJ4eXladjRqV0dIdkdUbUJ6?=
+ =?utf-8?B?cXAydnVNQ1MvMjQxSmtHUE5Td2tVTSthK2NMQlFIWUljcWFYb213Mjk3eEFz?=
+ =?utf-8?B?eGkrcHR6bWx6UEFIbjY3NDBZa2xQSDViMUFiZDFaMi9tcUU1b3NtanY3R0NI?=
+ =?utf-8?B?eXYrNUs1L1R1ZTFEZ2NIeStZNWErVU5NWStJSGR1b2N2bDlwM1o2eUtBaXVU?=
+ =?utf-8?B?aGlGZjZHeGl2Njh6YmpmdUkxM3J3Wm9wd3crZy9XUkkzWWk4bHNkWm1ITXNu?=
+ =?utf-8?B?T3cvRlhnRUIzejVnK05aekw0cnVUVzYzbkY4YVZrSXJGWDhveDBXa3o3NXRW?=
+ =?utf-8?B?RmV3TXd6TlJQakROcHpxZEI0V2NpOGZobS9yOVowRlcyY0tvT21MT0Zxandt?=
+ =?utf-8?B?eGhIYURPREt1M0xoYW4xZDFlVldSR25Tc0J0L2diVHp5WWhpUHVRQTdxTnc0?=
+ =?utf-8?B?OW16Sk9CNXU1TUd2Zy92N09HaG0rajRoTlR4dGJoeG1LY05kNUI5a2UrWWpT?=
+ =?utf-8?B?TWxmUndDRTRBbG82MjcvSTgyKzIxRWR0Z1NlTTRiaUtmTWJIZ3kvVytDbE4v?=
+ =?utf-8?B?ayt3c1hRa3RlNVcyYTBPMjFmVWxYc0F6Qlp1YzU3S1B2dDBDWmNUdHhlTzlj?=
+ =?utf-8?Q?EMPuZE5e5Jg=3D?=
 X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
  IPV:NLI; SFV:NSPM; H:PH7PR12MB5685.namprd12.prod.outlook.com; PTR:; CAT:NONE;
  SFS:(13230040)(366016)(1800799024)(376014)(7053199007); DIR:OUT; SFP:1101; 
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?dStVK1NaWmpERkhTb0xHb2lrSUYzb0xtY1pyVnIvbUMvZDFDVCtoL3JCclJa?=
- =?utf-8?B?ZERyTEUvNUhxL2wreVdPa0gvQU16Mno4RnhubWtJdVJwK1pJMFdqQy9FbDdN?=
- =?utf-8?B?OVhNamJ6ZkhTcUlwRTNkYkFVQ01TUHphSTMzWWM3MWY1c0FJR1hQd2F1M00x?=
- =?utf-8?B?bVVqS01IZCt4dFRDOW9IMGdkb3RWVjJuWUQ3YlVwdEpTMDlQZzQvbXpzbkQx?=
- =?utf-8?B?WTQyMEQxY3A0c2xxVjUzMHI5V1BhUmRzZG14c2FwZXlMeHVaVXVIYmZ0eXpk?=
- =?utf-8?B?S3ZxTW9palRiWkxzbkJWQmhGaVI1UytPeG5uOElBMnZNR2huZXp6ek5ENEh0?=
- =?utf-8?B?Y0plVmpKT005RTdqL3d4Z1VnckRhYm5sZDFpZ01GZ3BRQmVyMEFSQWFrZFhK?=
- =?utf-8?B?Y090RmlkcUZKbUZZd1pLbXJrODN2bm5NRFBzd2Z0RGJHWXBVZVhTMzVDdGRR?=
- =?utf-8?B?L0VqaUN6b3drZkp6TnJscGZlSEdaV3JrVG92OUc0ZGNvSXlpcjNNLy9JWXJ2?=
- =?utf-8?B?SVBzOHlDemluTXQyRHBoUWlYaHdXWlBEc1dpa1lSR0RaV0FHdnpSM0JNQVNM?=
- =?utf-8?B?a2w4WEtSdW5YRmNkaGFZc1JmRkY2anljOEtja3ByRFdzYUNrcWM3NDJkbVBZ?=
- =?utf-8?B?SEY5Vit2VGhNWWlNdEJqYklKZHBzalFRdWxQRm9TZjNUK05TdE9hYUQ0Uk53?=
- =?utf-8?B?Y1RwY2FJbHJyZ1BucDBmbDZKQUd0YUdJV3VCVGMxOFVJbWZvVEVLWmQ2bUxv?=
- =?utf-8?B?VnhRYlNpWHA2ZXFuRFhrMFBqMkNrc01POXh5UE5lYVJld1hVaW56KzZjMjRW?=
- =?utf-8?B?K1NYTVlyRmp5Z1RUL2NBWUp4SUROQmt1UzFPbXNOS29DNzU4a1BKQjRsM1lK?=
- =?utf-8?B?cEFnV292ZWw3S09vNENlUzVvYklONjBIelJ0bWFJdnA1V0YzZzF0cFdGTC9J?=
- =?utf-8?B?THZyc1AxOTlIZkpkN1l6SWp3bkxsR1FWRHl6Wno4a2VwanRTWU16TjJVMnZS?=
- =?utf-8?B?bFFZdVVaRHdiaWhNV3MvOG5waURsWjJiOSt5RnhNY00xUVV3UlJSaUVISWx1?=
- =?utf-8?B?V2ZwZzFTd2ZENXJ3SjBFYXBFQ0E5a0phSG82Y2RCeGU4QWozSVdIaXRwTFgy?=
- =?utf-8?B?dmxRWHVpR3IrU1Y3TDVqb1EvRGx3bjVQTzdVeEZSZXFBa3Q1dDh4OU1aajR2?=
- =?utf-8?B?TDQ2VUxqQVNiUXY1UkZxQWhnOTJQNzI0UjhlT3pZWEpML0loNWV3TWw2T1Q0?=
- =?utf-8?B?QlBsVHdxTjJncS8wcWFXN05qT1ErZkQxS3hTOURiU1E3dWJ1TWtad2wzUTcx?=
- =?utf-8?B?L1FuN3B5K0tuM3BLQm5PY2VEbEsrelNva0V5MDdKdHlCZCtFeGtucHIxSEtT?=
- =?utf-8?B?M2ZVR1ZoZHdGYnQ1bXBFZHZ2cUJHSkJXd2EwSXJYV0NlUE5NTXg5R1NVYUhi?=
- =?utf-8?B?czdNLzgyYnpuYUNkZU9IQThpMDI0dWFlVzQ5WlBWc0IyRXNXZUJ4TTV2TGND?=
- =?utf-8?B?RkJ1YmNjS2lqMlBpUFpVd2NJTnhFaDJaTjlpMmJqcng0UDFhSlFYREV0cW40?=
- =?utf-8?B?WG14c29PaTA1VlRRN3UxVi9uUEF1UkIwaEtIaEFpVlN5dXk2ZUhpczZlQWYr?=
- =?utf-8?B?aCtCY2NGR0gzKzJhZnh3QkZPS25zOThDT3R6OHZITGlqZmJuL2p3MitPZll5?=
- =?utf-8?B?ald2Y1B1N01EV04zUGF2YVovRHUyRy9BRWtUNm83QzJJbDZ0MzI2VDhOMnJR?=
- =?utf-8?B?ZDJxU1FzcXZ5RXJtMGh6RzgvbUQ4RmNxNkZjMEtCd3c4emhDVE05bWxYSDMv?=
- =?utf-8?B?enNVQmlqS0UybE90NUkwcjZsNlJxMzE1b2RZOWFUUW9kbkx6eFpQbjYyYjNG?=
- =?utf-8?B?T2JMMlVqUnRjTEdFYllRK3JUZC92RC9oZlFzdFY5M1NaSW1YUjd6c1FyeDV0?=
- =?utf-8?B?S3BaS016c3lEMGpmVXpwbkUyUTFjQitQZXVWYmxvSFRneitOam5KQkNSZkxB?=
- =?utf-8?B?eWM1NlpuZThXaHh5aFZuT25aNklUcGtBMmovUmdGVmlBcm5mK2lGc0tCa1FZ?=
- =?utf-8?B?ajlYYjVDWEFFS055ZjdYTU5BMkF3Smlmc1ZQaWNOcjlpeDFRRDVhU1Y1TkRF?=
- =?utf-8?Q?mw2/ycKgcpKlLt+SAWAIvfpwJ?=
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?ZVV4bjg0V21yUEppOVJkT3kreWpqK0VzMUkxTkpQNGdBVVk0QmVneGFHaHpz?=
+ =?utf-8?B?R0lHM0hwL29pRmlRRTRSakxrK2psZXJ0aHhBZXBJbHRVdWRrRkcyLytwT2FY?=
+ =?utf-8?B?cm9NTC9vL1I2MXNHcDd6Um1saGVVY09LK0VFT3l0UFhPSTB3NjM5emhQTUJO?=
+ =?utf-8?B?SFhoZk1JektraWhGSkh1d01TekpwL3ZJV3hnTXY4NXlSVGVoNWRDWHdDMVU4?=
+ =?utf-8?B?TmlhRE80bEs3MzRGV0VyUkJxMzgzUkF0Zjl1ZGZiL2FkSDRaM2xlRFhxWkVC?=
+ =?utf-8?B?TkNQMjI3Y01XNC9VYzB4Wjhra1BTZzc2L2xndndvemRHMDNKMnd3dmprWlRn?=
+ =?utf-8?B?RkR2THZvZjdMcE1BY0pmNUxwbGc2cm40TDA0Nmx5Q0ZKOURFMUlLaUYyREZW?=
+ =?utf-8?B?VkZKeHkwbEZDMWswTkNBaERZeDZOSTkyaHdTLzRTTEJ4WE42NUNpZFI0bjNn?=
+ =?utf-8?B?dEErTzh3dUFqOGRPRUphUVdKV1hvTU9DalZYRE40OEtNa0Urd2tNSEFWcHFl?=
+ =?utf-8?B?c3NmZmZuNFpDT1F0MVY4VXZZYldmSFhKMFRLd2RzUUtMRlRnVVExYjE5cXIr?=
+ =?utf-8?B?dTFKT3hhbFRLNmo5S0ptcjdnWDdYdG1uTWZvMFNXR2pHZVNObDk4WTNJNFYw?=
+ =?utf-8?B?V1dTQ2k3N3ZaUFM2ZlVVVWJoQm1VWTBDd2JHbVJVd0VzT1lJdXpMSnNUWmJw?=
+ =?utf-8?B?bUFpTUwvZ1lNcU5NNnllVWRRcjRZcXcyWjIycnBMYkM2b1djT21GMlFURVha?=
+ =?utf-8?B?dU5USjI1MGVxOHpLN2RiMElqNU4yS3FCSmpqclhobkQrYVNvUFo5YW9RTnRu?=
+ =?utf-8?B?L0lGVWFDL0UwbnpXdWliT2E4a2lzNE04aExONmkrbW5tT1JEU1ZaVkxaSHJS?=
+ =?utf-8?B?cEZpUS92N0ZOcDFGSk1OZDZyNTVTR1dsdWdPa2xQVFdVbENrUzA5NXovNnc2?=
+ =?utf-8?B?cERXbXo5Y0hWc2tjc0poU01IejNoTVl1S2ZTeE5IKzVzYlFVclVwUHluWnJL?=
+ =?utf-8?B?NEM5WWFKQVpNcWg5azVtUXAyZlFscFNMZFdYY2VTQm9ocGc2QU9NNTJJbmNE?=
+ =?utf-8?B?ZVhpemcxdytHZnpBNEg4V3hGdVd3bm9pVlZPejlPdllVN3Zpd05McFRtSG5x?=
+ =?utf-8?B?Sk4vbHBtWDhGdGx6MVNoMDA4ZDhiQTJIV05ESWxkVjc3QWNzM2tRTWp5VDhs?=
+ =?utf-8?B?NWxQdlVnckFHdzFJRnJEcm5xbk5XdU13THR0K2FBSExDUEN2SldRclFuK2t2?=
+ =?utf-8?B?Sko3NWxBcVZPc3J4MjV6ajBaMktXak9vSDE1eFJ3RjUrWmpyaTlmZ21oc2lD?=
+ =?utf-8?B?VWVTU0Q2THhlNzhMZGptbHQxZDBHSDRTM1hpakp1TElFbDJnd0oyNWxxdFRk?=
+ =?utf-8?B?dVhCa1IvN0xaT0UrOUNCWFU2UU5LSGpYM1VUNkFBZEtLWVYvSHFJcFoyb2Zw?=
+ =?utf-8?B?SXhINDhEOUROY040WUZYcmF1TjNrRFJteXZyRENOOGY3MlZVQzBCOUFvTDZi?=
+ =?utf-8?B?RmlXZjVnclhla0hyL0hpbEJ5WmdKMmxkYnp4OXhhZHNwdTd3Q0Y1MXBFRWVx?=
+ =?utf-8?B?SXkyMFIzN2dhb0RPOGVwNzVFMkpWQjJMVU03LzFGemM3UVRPQ1YrWWoxMTIx?=
+ =?utf-8?B?cGc0bEovMjJyZDZheVB6QVE5L3IvRFhCamdBNjBneUtjRys4ZTR1cThaTlNu?=
+ =?utf-8?B?SDVxRUJvQllDQnRDR29HVi9wbVZsRW1jOW8xbFhoZmZGeHY4WHE5TmNDeFRZ?=
+ =?utf-8?B?Zk8xOXBUa1ZNZDZldmQyWDZKM3FZaWhYZXNTVWo5Vk9XSHZWSjc0RjNFQ2w3?=
+ =?utf-8?B?ZitnR2RxSVhna2VzUWhhczRJakpycXZ1SlFGTkIycDZ0b2xPY2NYV1I5SW05?=
+ =?utf-8?B?aXZ5THdwcFp6TlpMYS9GQjdMMklQa25OT0lDS0MxVDVUbmpzRkF4eGtucUpE?=
+ =?utf-8?B?QmhtM1praCtHR1BtcTVNcTdhbnRjb3NvWWtieTgzY05YV0pDa3dHeTdSVGQz?=
+ =?utf-8?B?ZWFSVC9RVTYwbUNyM2pCWkpVbFVLY3oyczdFZStEM2JlcXpBZkh6cE56ano2?=
+ =?utf-8?B?SVkrNGY5dUFuekh5bEdJT0pOMEdNaVFyQW5wUXZVMmJla21TTVpFVDFEQXkv?=
+ =?utf-8?Q?S8Wv8Dms3s/ZLOUpcjNzWMzhU?=
 X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: f3f9c696-24f1-448d-8aca-08ddacd7d783
+X-MS-Exchange-CrossTenant-Network-Message-Id: ba7d0e69-d516-450a-91cd-08ddacd901fe
 X-MS-Exchange-CrossTenant-AuthSource: PH7PR12MB5685.namprd12.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 16 Jun 2025 13:15:19.1926 (UTC)
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 16 Jun 2025 13:23:40.0958 (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: Bwk1xP8+TjGVsZn9+rfexkWgnt/yJOsaePaDQgerJHVm3bdNb3yjfCp8mQ1eECUG
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SA1PR12MB6845
+X-MS-Exchange-CrossTenant-UserPrincipalName: DH3+4PxlEUZfrFiSOxQ3sCJg8Oqih+UxQFaD37NpxGCX3hoYpiDF2YQWVVLNWiEE
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM6PR12MB4251
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -166,133 +167,306 @@ Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 On 6/13/25 17:18, Thomas Hellström wrote:
-> Instead of the struct ttm_operation_ctx, Pass a struct ttm_lru_walk_arg
-> to enable us to easily extend the walk functionality, and to
-> implement ttm_lru_walk_for_evict() using the guarded LRU iteration.
+> To avoid duplicating the tricky bo locking implementation,
+> Implement ttm_lru_walk_for_evict() using the guarded bo LRU iteration.
+> 
+> To facilitate this, support ticketlocking from the guarded bo LRU
+> iteration.
+
+That looks mostly identical to a patch I have in my drm_exec branch.
+
+A few questions below.
+
 > 
 > Signed-off-by: Thomas Hellström <thomas.hellstrom@linux.intel.com>
-
-Reviewed-by: Christian König <christian.koenig@amd.com>
-
 > ---
->  drivers/gpu/drm/ttm/ttm_bo_util.c | 10 +++++-----
->  drivers/gpu/drm/xe/xe_shrinker.c  |  3 ++-
->  include/drm/ttm/ttm_bo.h          | 16 ++++++++--------
->  3 files changed, 15 insertions(+), 14 deletions(-)
+>  drivers/gpu/drm/ttm/ttm_bo_util.c | 166 ++++++++++++------------------
+>  drivers/gpu/drm/xe/xe_shrinker.c  |   7 +-
+>  include/drm/ttm/ttm_bo.h          |   9 +-
+>  3 files changed, 76 insertions(+), 106 deletions(-)
 > 
 > diff --git a/drivers/gpu/drm/ttm/ttm_bo_util.c b/drivers/gpu/drm/ttm/ttm_bo_util.c
-> index 600145cdeb9c..62b76abac578 100644
+> index 62b76abac578..9bc17ea1adb2 100644
 > --- a/drivers/gpu/drm/ttm/ttm_bo_util.c
 > +++ b/drivers/gpu/drm/ttm/ttm_bo_util.c
-> @@ -956,11 +956,11 @@ EXPORT_SYMBOL(ttm_bo_lru_cursor_fini);
->   * ttm_bo_lru_cursor_init() - Initialize a struct ttm_bo_lru_cursor
->   * @curs: The ttm_bo_lru_cursor to initialize.
+> @@ -821,12 +821,6 @@ static int ttm_lru_walk_ticketlock(struct ttm_lru_walk_arg *arg,
+>  	return ret;
+>  }
+>  
+> -static void ttm_lru_walk_unlock(struct ttm_buffer_object *bo, bool locked)
+> -{
+> -	if (locked)
+> -		dma_resv_unlock(bo->base.resv);
+> -}
+> -
+>  /**
+>   * ttm_lru_walk_for_evict() - Perform a LRU list walk, with actions taken on
+>   * valid items.
+> @@ -861,64 +855,21 @@ static void ttm_lru_walk_unlock(struct ttm_buffer_object *bo, bool locked)
+>  s64 ttm_lru_walk_for_evict(struct ttm_lru_walk *walk, struct ttm_device *bdev,
+>  			   struct ttm_resource_manager *man, s64 target)
+>  {
+> -	struct ttm_resource_cursor cursor;
+> -	struct ttm_resource *res;
+> +	struct ttm_bo_lru_cursor cursor;
+> +	struct ttm_buffer_object *bo;
+>  	s64 progress = 0;
+>  	s64 lret;
+>  
+> -	spin_lock(&bdev->lru_lock);
+> -	ttm_resource_cursor_init(&cursor, man);
+> -	ttm_resource_manager_for_each_res(&cursor, res) {
+> -		struct ttm_buffer_object *bo = res->bo;
+> -		bool bo_needs_unlock = false;
+> -		bool bo_locked = false;
+> -		int mem_type;
+> -
+> -		/*
+> -		 * Attempt a trylock before taking a reference on the bo,
+> -		 * since if we do it the other way around, and the trylock fails,
+> -		 * we need to drop the lru lock to put the bo.
+> -		 */
+> -		if (ttm_lru_walk_trylock(&walk->arg, bo, &bo_needs_unlock))
+> -			bo_locked = true;
+> -		else if (!walk->arg.ticket || walk->arg.ctx->no_wait_gpu ||
+> -			 walk->arg.trylock_only)
+> -			continue;
+> -
+> -		if (!ttm_bo_get_unless_zero(bo)) {
+> -			ttm_lru_walk_unlock(bo, bo_needs_unlock);
+> -			continue;
+> -		}
+> -
+> -		mem_type = res->mem_type;
+> -		spin_unlock(&bdev->lru_lock);
+> -
+> -		lret = 0;
+> -		if (!bo_locked)
+> -			lret = ttm_lru_walk_ticketlock(&walk->arg, bo, &bo_needs_unlock);
+> -
+> -		/*
+> -		 * Note that in between the release of the lru lock and the
+> -		 * ticketlock, the bo may have switched resource,
+> -		 * and also memory type, since the resource may have been
+> -		 * freed and allocated again with a different memory type.
+> -		 * In that case, just skip it.
+> -		 */
+> -		if (!lret && bo->resource && bo->resource->mem_type == mem_type)
+> -			lret = walk->ops->process_bo(walk, bo);
+> -
+> -		ttm_lru_walk_unlock(bo, bo_needs_unlock);
+> -		ttm_bo_put(bo);
+> +	ttm_bo_lru_for_each_reserved_guarded(&cursor, man, &walk->arg, bo) {
+> +		lret = walk->ops->process_bo(walk, bo);
+>  		if (lret == -EBUSY || lret == -EALREADY)
+>  			lret = 0;
+>  		progress = (lret < 0) ? lret : progress + lret;
+> -
+> -		spin_lock(&bdev->lru_lock);
+>  		if (progress < 0 || progress >= target)
+>  			break;
+>  	}
+> -	ttm_resource_cursor_fini(&cursor);
+> -	spin_unlock(&bdev->lru_lock);
+> +	if (IS_ERR(bo))
+> +		return PTR_ERR(bo);
+>  
+>  	return progress;
+>  }
+> @@ -958,10 +909,7 @@ EXPORT_SYMBOL(ttm_bo_lru_cursor_fini);
 >   * @man: The ttm resource_manager whose LRU lists to iterate over.
-> - * @ctx: The ttm_operation_ctx to govern the locking.
-> + * @arg: The ttm_lru_walk_arg to govern the walk.
+>   * @arg: The ttm_lru_walk_arg to govern the walk.
 >   *
->   * Initialize a struct ttm_bo_lru_cursor. Currently only trylocking
->   * or prelocked buffer objects are available as detailed by
-> - * @ctx::resv and @ctx::allow_res_evict. Ticketlocking is not
-> + * @arg->ctx.resv and @arg->ctx.allow_res_evict. Ticketlocking is not
->   * supported.
+> - * Initialize a struct ttm_bo_lru_cursor. Currently only trylocking
+> - * or prelocked buffer objects are available as detailed by
+> - * @arg->ctx.resv and @arg->ctx.allow_res_evict. Ticketlocking is not
+> - * supported.
+> + * Initialize a struct ttm_bo_lru_cursor.
 >   *
 >   * Return: Pointer to @curs. The function does not fail.
-> @@ -968,11 +968,11 @@ EXPORT_SYMBOL(ttm_bo_lru_cursor_fini);
->  struct ttm_bo_lru_cursor *
->  ttm_bo_lru_cursor_init(struct ttm_bo_lru_cursor *curs,
->  		       struct ttm_resource_manager *man,
-> -		       struct ttm_operation_ctx *ctx)
-> +		       struct ttm_lru_walk_arg *arg)
->  {
->  	memset(curs, 0, sizeof(*curs));
->  	ttm_resource_cursor_init(&curs->res_curs, man);
-> -	curs->arg.ctx = ctx;
-> +	curs->arg = arg;
+>   */
+> @@ -979,21 +927,65 @@ ttm_bo_lru_cursor_init(struct ttm_bo_lru_cursor *curs,
+>  EXPORT_SYMBOL(ttm_bo_lru_cursor_init);
 >  
->  	return curs;
+>  static struct ttm_buffer_object *
+> -ttm_bo_from_res_reserved(struct ttm_resource *res, struct ttm_bo_lru_cursor *curs)
+> +__ttm_bo_lru_cursor_next(struct ttm_bo_lru_cursor *curs, bool first)
+
+Giving first as bool parameter here looks really ugly. Isn't there any other way to do this?
+
+>  {
+> -	struct ttm_buffer_object *bo = res->bo;
+> +	spinlock_t *lru_lock = &curs->res_curs.man->bdev->lru_lock;
+> +	struct ttm_resource *res = NULL;
+> +	struct ttm_buffer_object *bo;
+> +	struct ttm_lru_walk_arg *arg = curs->arg;
+>  
+> -	if (!ttm_lru_walk_trylock(curs->arg, bo, &curs->needs_unlock))
+> -		return NULL;
+> +	ttm_bo_lru_cursor_cleanup_bo(curs);
+>  
+> -	if (!ttm_bo_get_unless_zero(bo)) {
+> -		if (curs->needs_unlock)
+> -			dma_resv_unlock(bo->base.resv);
+> -		return NULL;
+> +	spin_lock(lru_lock);
+> +	for (;;) {
+> +		int mem_type, ret;
+> +		bool bo_locked = false;
+> +
+> +		if (first) {
+> +			res = ttm_resource_manager_first(&curs->res_curs);
+> +			first = false;
+> +		} else {
+> +			res = ttm_resource_manager_next(&curs->res_curs);
+> +		}
+> +		if (!res)
+> +			break;
+> +
+> +		bo = res->bo;
+> +		if (ttm_lru_walk_trylock(arg, bo, &curs->needs_unlock))
+
+Could/should we move needs_unlock into arg as well?
+
+Apart from that looks good to me.
+
+Regards,
+Christian.
+
+> +			bo_locked = true;
+> +		else if (!arg->ticket || arg->ctx->no_wait_gpu || arg->trylock_only)
+> +			continue;
+> +
+> +		if (!ttm_bo_get_unless_zero(bo)) {
+> +			if (curs->needs_unlock)
+> +				dma_resv_unlock(bo->base.resv);
+> +			continue;
+> +		}
+> +
+> +		mem_type = res->mem_type;
+> +		spin_unlock(lru_lock);
+> +		if (!bo_locked)
+> +			ret = ttm_lru_walk_ticketlock(arg, bo, &curs->needs_unlock);
+> +		/*
+> +		 * Note that in between the release of the lru lock and the
+> +		 * ticketlock, the bo may have switched resource,
+> +		 * and also memory type, since the resource may have been
+> +		 * freed and allocated again with a different memory type.
+> +		 * In that case, just skip it.
+> +		 */
+> +		curs->bo = bo;
+> +		if (!ret && bo->resource && bo->resource->mem_type == mem_type)
+> +			return bo;
+> +
+> +		ttm_bo_lru_cursor_cleanup_bo(curs);
+> +		if (ret)
+> +			return ERR_PTR(ret);
+> +
+> +		spin_lock(lru_lock);
+>  	}
+>  
+> -	curs->bo = bo;
+> -	return bo;
+> +	spin_unlock(lru_lock);
+> +	return res ? bo : NULL;
 >  }
-> @@ -983,7 +983,7 @@ ttm_bo_from_res_reserved(struct ttm_resource *res, struct ttm_bo_lru_cursor *cur
+>  
+>  /**
+> @@ -1007,25 +999,7 @@ ttm_bo_from_res_reserved(struct ttm_resource *res, struct ttm_bo_lru_cursor *cur
+>   */
+>  struct ttm_buffer_object *ttm_bo_lru_cursor_next(struct ttm_bo_lru_cursor *curs)
 >  {
->  	struct ttm_buffer_object *bo = res->bo;
+> -	spinlock_t *lru_lock = &curs->res_curs.man->bdev->lru_lock;
+> -	struct ttm_resource *res = NULL;
+> -	struct ttm_buffer_object *bo;
+> -
+> -	ttm_bo_lru_cursor_cleanup_bo(curs);
+> -
+> -	spin_lock(lru_lock);
+> -	for (;;) {
+> -		res = ttm_resource_manager_next(&curs->res_curs);
+> -		if (!res)
+> -			break;
+> -
+> -		bo = ttm_bo_from_res_reserved(res, curs);
+> -		if (bo)
+> -			break;
+> -	}
+> -
+> -	spin_unlock(lru_lock);
+> -	return res ? bo : NULL;
+> +	return __ttm_bo_lru_cursor_next(curs, false);
+>  }
+>  EXPORT_SYMBOL(ttm_bo_lru_cursor_next);
 >  
-> -	if (!ttm_lru_walk_trylock(&curs->arg, bo, &curs->needs_unlock))
-> +	if (!ttm_lru_walk_trylock(curs->arg, bo, &curs->needs_unlock))
->  		return NULL;
+> @@ -1039,21 +1013,7 @@ EXPORT_SYMBOL(ttm_bo_lru_cursor_next);
+>   */
+>  struct ttm_buffer_object *ttm_bo_lru_cursor_first(struct ttm_bo_lru_cursor *curs)
+>  {
+> -	spinlock_t *lru_lock = &curs->res_curs.man->bdev->lru_lock;
+> -	struct ttm_buffer_object *bo;
+> -	struct ttm_resource *res;
+> -
+> -	spin_lock(lru_lock);
+> -	res = ttm_resource_manager_first(&curs->res_curs);
+> -	if (!res) {
+> -		spin_unlock(lru_lock);
+> -		return NULL;
+> -	}
+> -
+> -	bo = ttm_bo_from_res_reserved(res, curs);
+> -	spin_unlock(lru_lock);
+> -
+> -	return bo ? bo : ttm_bo_lru_cursor_next(curs);
+> +	return __ttm_bo_lru_cursor_next(curs, true);
+>  }
+>  EXPORT_SYMBOL(ttm_bo_lru_cursor_first);
 >  
->  	if (!ttm_bo_get_unless_zero(bo)) {
 > diff --git a/drivers/gpu/drm/xe/xe_shrinker.c b/drivers/gpu/drm/xe/xe_shrinker.c
-> index 125c836e0ee4..f8a1129da2c3 100644
+> index f8a1129da2c3..1c3c04d52f55 100644
 > --- a/drivers/gpu/drm/xe/xe_shrinker.c
 > +++ b/drivers/gpu/drm/xe/xe_shrinker.c
-> @@ -66,11 +66,12 @@ static s64 xe_shrinker_walk(struct xe_device *xe,
+> @@ -66,7 +66,10 @@ static s64 xe_shrinker_walk(struct xe_device *xe,
 >  		struct ttm_resource_manager *man = ttm_manager_type(&xe->ttm, mem_type);
 >  		struct ttm_bo_lru_cursor curs;
 >  		struct ttm_buffer_object *ttm_bo;
-> +		struct ttm_lru_walk_arg arg = {.ctx = ctx};
+> -		struct ttm_lru_walk_arg arg = {.ctx = ctx};
+> +		struct ttm_lru_walk_arg arg = {
+> +			.ctx = ctx,
+> +			.trylock_only = true,
+> +		};
 >  
 >  		if (!man || !man->use_tt)
 >  			continue;
+> @@ -83,6 +86,8 @@ static s64 xe_shrinker_walk(struct xe_device *xe,
+>  			if (*scanned >= to_scan)
+>  				break;
+>  		}
+> +		/* Trylocks should never error, just fail. */
+> +		xe_assert(xe, !IS_ERR(ttm_bo));
+>  	}
 >  
-> -		ttm_bo_lru_for_each_reserved_guarded(&curs, man, ctx, ttm_bo) {
-> +		ttm_bo_lru_for_each_reserved_guarded(&curs, man, &arg, ttm_bo) {
->  			if (!ttm_bo_shrink_suitable(ttm_bo, ctx))
->  				continue;
->  
+>  	return freed;
 > diff --git a/include/drm/ttm/ttm_bo.h b/include/drm/ttm/ttm_bo.h
-> index 4e52283e5db1..8f04fa48b332 100644
+> index 8f04fa48b332..d3a85d76aaff 100644
 > --- a/include/drm/ttm/ttm_bo.h
 > +++ b/include/drm/ttm/ttm_bo.h
-> @@ -484,8 +484,8 @@ struct ttm_bo_lru_cursor {
->  	 * unlock before the next iteration or after loop exit.
->  	 */
->  	bool needs_unlock;
-> -	/** @arg: Common BO LRU walk arguments. */
-> -	struct ttm_lru_walk_arg arg;
-> +	/** @arg: Pointer to common BO LRU walk arguments. */
-> +	struct ttm_lru_walk_arg *arg;
->  };
->  
->  void ttm_bo_lru_cursor_fini(struct ttm_bo_lru_cursor *curs);
-> @@ -493,7 +493,7 @@ void ttm_bo_lru_cursor_fini(struct ttm_bo_lru_cursor *curs);
->  struct ttm_bo_lru_cursor *
->  ttm_bo_lru_cursor_init(struct ttm_bo_lru_cursor *curs,
->  		       struct ttm_resource_manager *man,
-> -		       struct ttm_operation_ctx *ctx);
-> +		       struct ttm_lru_walk_arg *arg);
->  
->  struct ttm_buffer_object *ttm_bo_lru_cursor_first(struct ttm_bo_lru_cursor *curs);
->  
-> @@ -504,9 +504,9 @@ struct ttm_buffer_object *ttm_bo_lru_cursor_next(struct ttm_bo_lru_cursor *curs)
->   */
->  DEFINE_CLASS(ttm_bo_lru_cursor, struct ttm_bo_lru_cursor *,
->  	     if (_T) {ttm_bo_lru_cursor_fini(_T); },
-> -	     ttm_bo_lru_cursor_init(curs, man, ctx),
-> +	     ttm_bo_lru_cursor_init(curs, man, arg),
->  	     struct ttm_bo_lru_cursor *curs, struct ttm_resource_manager *man,
-> -	     struct ttm_operation_ctx *ctx);
-> +	     struct ttm_lru_walk_arg *arg);
->  static inline void *
->  class_ttm_bo_lru_cursor_lock_ptr(class_ttm_bo_lru_cursor_t *_T)
->  { return *_T; }
-> @@ -517,7 +517,7 @@ class_ttm_bo_lru_cursor_lock_ptr(class_ttm_bo_lru_cursor_t *_T)
->   * resources on LRU lists.
->   * @_cursor: struct ttm_bo_lru_cursor to use for the iteration.
->   * @_man: The resource manager whose LRU lists to iterate over.
-> - * @_ctx: The struct ttm_operation_context to govern the @_bo locking.
-> + * @_arg: The struct ttm_lru_walk_arg to govern the LRU walk.
->   * @_bo: The struct ttm_buffer_object pointer pointing to the buffer object
->   * for the current iteration.
->   *
-> @@ -530,8 +530,8 @@ class_ttm_bo_lru_cursor_lock_ptr(class_ttm_bo_lru_cursor_t *_T)
+> @@ -529,10 +529,15 @@ class_ttm_bo_lru_cursor_lock_ptr(class_ttm_bo_lru_cursor_t *_T)
+>   * up at looping termination, even if terminated prematurely by, for
 >   * example a return or break statement. Exiting the loop will also unlock
 >   * (if needed) and unreference @_bo.
+> + *
+> + * Return: If locking of a bo returns an error, then iteration is terminated
+> + * and @_bo is set to a corresponding error pointer. It's illegal to
+> + * dereference @_bo after loop exit.
 >   */
-> -#define ttm_bo_lru_for_each_reserved_guarded(_cursor, _man, _ctx, _bo)	\
-> -	scoped_guard(ttm_bo_lru_cursor, _cursor, _man, _ctx)		\
-> +#define ttm_bo_lru_for_each_reserved_guarded(_cursor, _man, _arg, _bo)	\
-> +	scoped_guard(ttm_bo_lru_cursor, _cursor, _man, _arg)		\
->  		for ((_bo) = ttm_bo_lru_cursor_first(_cursor); (_bo);	\
->  		     (_bo) = ttm_bo_lru_cursor_next(_cursor))
+>  #define ttm_bo_lru_for_each_reserved_guarded(_cursor, _man, _arg, _bo)	\
+>  	scoped_guard(ttm_bo_lru_cursor, _cursor, _man, _arg)		\
+> -		for ((_bo) = ttm_bo_lru_cursor_first(_cursor); (_bo);	\
+> -		     (_bo) = ttm_bo_lru_cursor_next(_cursor))
+> +		for ((_bo) = ttm_bo_lru_cursor_first(_cursor);		\
+> +		       !IS_ERR_OR_NULL(_bo);				\
+> +		       (_bo) = ttm_bo_lru_cursor_next(_cursor))
 >  
+>  #endif
 
