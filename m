@@ -2,45 +2,60 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9DD2EADDCAF
-	for <lists+dri-devel@lfdr.de>; Tue, 17 Jun 2025 21:53:14 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id DA136ADDD09
+	for <lists+dri-devel@lfdr.de>; Tue, 17 Jun 2025 22:14:25 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id AF2F610E0A6;
-	Tue, 17 Jun 2025 19:53:12 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id ED41910E101;
+	Tue, 17 Jun 2025 20:14:22 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=ispras.ru header.i=@ispras.ru header.b="XOzGSRoQ";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="S/ViDK5R";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-X-Greylist: delayed 319 seconds by postgrey-1.36 at gabe;
- Tue, 17 Jun 2025 19:53:10 UTC
-Received: from mail.ispras.ru (mail.ispras.ru [83.149.199.84])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9C03010E0A6
- for <dri-devel@lists.freedesktop.org>; Tue, 17 Jun 2025 19:53:10 +0000 (UTC)
-Received: from localhost (unknown [5.228.116.177])
- by mail.ispras.ru (Postfix) with ESMTPSA id BD70C552F52E;
- Tue, 17 Jun 2025 19:47:48 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 mail.ispras.ru BD70C552F52E
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ispras.ru;
- s=default; t=1750189668;
- bh=Ky902UmEJ2rxlwfcpu5ICzPaQwIKBWouHsS2V00UnZU=;
- h=Date:From:To:Cc:Subject:From;
- b=XOzGSRoQedoSyNgwuYswoFa9hiFGpmMHTrZX0tWFC6BpC5axO37pXAr1AqrvpAkJB
- baWWxB0GBAuvvTjVHrCdRcxo63zfWolg6KWXH2xVOoVVjVdmOMZraEhGTgQAZe1I+v
- v0pv66CjUrvxAZjaamGS4RbcRxzN+WAxxon8JJ8c=
-Date: Tue, 17 Jun 2025 22:47:48 +0300
-From: Fedor Pchelkin <pchelkin@ispras.ru>
-To: Lukas Wunner <lukas@wunner.de>, Ben Hutchings <ben@decadent.org.uk>
-Cc: Bjorn Helgaas <helgaas@kernel.org>, Joerg Roedel <joro@8bytes.org>, 
- Suravee Suthikulpanit <suravee.suthikulpanit@amd.com>,
- linux-pci@vger.kernel.org, iommu@lists.linux.dev, 
- dri-devel@lists.freedesktop.org, David Airlie <airlied@redhat.com>,
- lvc-project@linuxtesting.org
-Subject: amd-iommu / agpgart-amd64 problem: Resources present before probing
-Message-ID: <wpoivftgshz5b5aovxbkxl6ivvquinukqfvb5z6yi4mv7d25ew@edtzr2p74ckg>
+Received: from sea.source.kernel.org (sea.source.kernel.org [172.234.252.31])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 166D110E101;
+ Tue, 17 Jun 2025 20:14:22 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+ by sea.source.kernel.org (Postfix) with ESMTP id B9C2D4A284;
+ Tue, 17 Jun 2025 20:14:12 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8BBC7C4CEE3;
+ Tue, 17 Jun 2025 20:14:07 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1750191252;
+ bh=oLvbT+kATQP0niwsl8Ion+MRezBTBGDHphjSJvl1ykY=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=S/ViDK5R04yKbjdvPIPz4/BNAf4yzkDlToY5S8CwWpHwbVWDHzCK7ZAe4tJnURvr0
+ hc4QS5ZPDiWFMK6ZLA2fCwKb5EZvmgftWSgtQfSWND9d5fQzMXCP23ffUMbVaQNjxl
+ mh7AuPF3M5CYBbZQTApdJ3HFvcRXvSCfmfdSh2S+/Yz0csJJJLP0FdI69cHs/DsmDl
+ AktoECLMXQrAhCD1PQ1BYBrYdxD9PMqmS1DKajFz8/qhaC9TVy4dGfttH7hfbUr4of
+ zM1sI/P5V5Ze5oIhU3z9Ayj+MKPcyZaiKZ+J80LXdYYrZ7hhkMNW5Tm+o9N4z9D21m
+ gUAR1B/HPXD0g==
+Date: Tue, 17 Jun 2025 22:14:04 +0200
+From: Danilo Krummrich <dakr@kernel.org>
+To: Alexandre Courbot <acourbot@nvidia.com>
+Cc: Miguel Ojeda <ojeda@kernel.org>, Alex Gaynor <alex.gaynor@gmail.com>,
+ Boqun Feng <boqun.feng@gmail.com>, Gary Guo <gary@garyguo.net>,
+ =?iso-8859-1?Q?Bj=F6rn?= Roy Baron <bjorn3_gh@protonmail.com>,
+ Andreas Hindborg <a.hindborg@kernel.org>,
+ Alice Ryhl <aliceryhl@google.com>, Trevor Gross <tmgross@umich.edu>,
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>, Benno Lossin <lossin@kernel.org>,
+ John Hubbard <jhubbard@nvidia.com>, Ben Skeggs <bskeggs@nvidia.com>,
+ Joel Fernandes <joelagnelf@nvidia.com>,
+ Timur Tabi <ttabi@nvidia.com>, Alistair Popple <apopple@nvidia.com>,
+ linux-kernel@vger.kernel.org, rust-for-linux@vger.kernel.org,
+ nouveau@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+ Lyude Paul <lyude@redhat.com>, Shirish Baskaran <sbaskaran@nvidia.com>
+Subject: Re: [PATCH v5 00/23] nova-core: run FWSEC-FRTS to perform first
+ stage of GSP initialization
+Message-ID: <aFHMjEt7KrjClom_@pollux>
+References: <20250612-nova-frts-v5-0-14ba7eaf166b@nvidia.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20250612-nova-frts-v5-0-14ba7eaf166b@nvidia.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -56,81 +71,47 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hello,
+On Thu, Jun 12, 2025 at 11:01:28PM +0900, Alexandre Courbot wrote:
+> Hi everyone,
+> 
+> The feedback on v4 has been (hopefully) addressed. I guess the main
+> remaining unknown is the direction of the `num` module ; for this
+> iteration, following the received feedback I have eschewed the extension
+> trait and implemented the alignment functions as methods of the new
+> `PowerOfTwo` type. This has the benefit of making it impossible to call
+> them with undesirable (i.e. non-power of two) values. The `fls` function
+> is now provided as a series of const functions for each supported type,
+> generated by a macro.
+> 
+> It feels like the `num` module could be its own series though, so if
+> there is still discussion about it, I can also extract it and implement
+> the functionality we need in nova-core as local helper functions until
+> it gets merged at its own pace.
+> 
+> As previously, this series only successfully probes Ampere GPUs, but
+> support for other generations is on the way.
+> 
+> Upon successful probe, the driver will display the range of the WPR2
+> region constructed by FWSEC-FRTS with debug priority:
+> 
+>   [   95.436000] NovaCore 0000:01:00.0: WPR2: 0xffc00000-0xffce0000
+>   [   95.436002] NovaCore 0000:01:00.0: GPU instance built
+> 
+> This series is based on v6.16-rc1 with no other dependencies.
+> 
+> There are bits of documentation still missing, these are addressed by
+> Joel in his own documentation patch series [1]. I'll also double-check
+> and send follow-up patches if anything is still missing after that.
+> 
+> [1] https://lore.kernel.org/rust-for-linux/20250503040802.1411285-1-joelagnelf@nvidia.com/
 
-there is a 
+I think this series collected quite a few TODOs to follow up on once the
+corresponding abstractions are in place, etc. This is fine and expected.
 
-  [    0.579232] pci 0000:00:00.2: Resources present before probing
+However, I think we should list those things in a central place, e.g. our TODO
+list, in order to make it easier to follow up.
 
-error message observed after
+Additionally, it might get us more contributors who might be interested in
+following up on those things.
 
-  commit 3be5fa236649da6404f1bca1491bf02d4b0d5cce
-  Author: Lukas Wunner <lukas@wunner.de>
-  Date:   Fri Apr 25 11:24:21 2025 +0200
-  
-      Revert "iommu/amd: Prevent binding other PCI drivers to IOMMU PCI devices"
-
-
-After tracking this down I've found that it's agpgart-amd64 driver trying
-to bind to the IOMMU device:
-
-  00:00.2 IOMMU: Advanced Micro Devices, Inc. [AMD] Family 17h-19h IOMMU
-          Subsystem: Lenovo Device 3803
-          Flags: bus master, fast devsel, latency 0, IRQ 25
-          Capabilities: <access denied>
-
-IOMMU device itself has no pci_driver attached to it but has a pci_dev,
-and its struct device already has some devres associated with it.
-
-agpgart-amd64 driver booting with 'agp_try_unsupported=1' (turns out it's
-a default behavior) traverses the devices on the PCI bus and tries to
-attach:
-
-
-static const struct pci_device_id agp_amd64_pci_promisc_table[] = {
-	{ PCI_DEVICE_CLASS(0, 0) },
-	{ }
-};
-
-...
-
-int __init agp_amd64_init(void)
-{
-...
-		/* Look for any AGP bridge */
-		agp_amd64_pci_driver.id_table = agp_amd64_pci_promisc_table;
-		err = driver_attach(&agp_amd64_pci_driver.driver);
-		if (err == 0 && agp_bridges_found == 0) {
-			pci_unregister_driver(&agp_amd64_pci_driver);
-			err = -ENODEV;
-		}
-
-
-IOMMU device is busy at the moment but, to my mind, lack of pci_driver
-associated with it leads driver core trying to bind it, too.
-
-But registering a pci_driver for IOMMU device is no good.
-
-Initial commit cbbc00be2ce3 ("iommu/amd: Prevent binding other PCI drivers
-to IOMMU PCI devices") was added in 2015, not sure whether the problem
-manifested before that. At least the commit message doesn't state that
-it tried to fix such kind of a bug.
-
-The problem on itself is no harm at the end as driver core handles the
-error and skips the device. But it still indicates a logical bug.
-
-
-The partial revert of the revert does work, obviously. Though it badly
-contradicts the intention to hide priv_flags manipulation in the PCI core.
-
-So I wonder whether agpgart-amd64 should be somehow fixed instead... to
-skip IOMMU device from its wildcard promiscuous PCI ID table? Or drop this
-'try_unsupported' feature entirely? 
-
-Would be glad to hear your thoughts on this.
-
-Found by Linux Verification Center (linuxtesting.org).
-
---
-Thanks,
-Fedor
+@Alex: Can you please add such a list?
