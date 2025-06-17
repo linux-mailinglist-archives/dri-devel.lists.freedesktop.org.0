@@ -2,66 +2,66 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id E3F21ADDD0E
-	for <lists+dri-devel@lfdr.de>; Tue, 17 Jun 2025 22:15:49 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 12569ADDD24
+	for <lists+dri-devel@lfdr.de>; Tue, 17 Jun 2025 22:22:42 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D0CFF10E161;
-	Tue, 17 Jun 2025 20:15:44 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id F139310E03D;
+	Tue, 17 Jun 2025 20:22:39 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="SqxBtrMP";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="HDGsc1mh";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0B34B10E161
- for <dri-devel@lists.freedesktop.org>; Tue, 17 Jun 2025 20:15:44 +0000 (UTC)
+Received: from sea.source.kernel.org (sea.source.kernel.org [172.234.252.31])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 47CC610E03D
+ for <dri-devel@lists.freedesktop.org>; Tue, 17 Jun 2025 20:22:38 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by dfw.source.kernel.org (Postfix) with ESMTP id 42BFB5C473A;
- Tue, 17 Jun 2025 20:13:23 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4E109C4CEE3;
- Tue, 17 Jun 2025 20:15:37 +0000 (UTC)
+ by sea.source.kernel.org (Postfix) with ESMTP id E27E84512A;
+ Tue, 17 Jun 2025 20:22:37 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 34571C4CEE3;
+ Tue, 17 Jun 2025 20:22:35 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1750191339;
- bh=BNmUk/sbpT2Q5E9Oblw1xlKKw3xh8sEe5PplgbpLbTg=;
+ s=k20201202; t=1750191757;
+ bh=J6g0JMbLqQPGqasC6o9XOXSYlfEwiBhYFRmGDDOKVKk=;
  h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
- b=SqxBtrMPRLIKOxbCYb1xaHgCUukvdgMdXu4fowXJ1lglpg4sRhuJf0XGs17YWxogV
- dgeX/Hq36Cxoa6LbNaU8XmYkdIhvBvS3CR4K5vkENCnyvYUyrWuaVkK3f6IDQRbw03
- runwmunafiBWbZuXGxd0xuOdrp3t/PYUoPLn5Ln4TC/MFLZ36yTHqtVWaPgrqk8Ns8
- jFo/rmKNciAxyvl3JvQpjNP2j04xUXAzCC4Vh9/nxaZ1oFmZ1YXRIyFrDdLnS0sAMM
- GVqvtkUJlNkVFxcm3Bm8qGRKCA1NHpSiqu71h3yGnqYhTaGnzwVqrWsln3xqXe6XSC
- vL01ibke7ghUQ==
-Message-ID: <d40a585f-6eca-45dd-aa9f-7dcda065c80a@kernel.org>
-Date: Tue, 17 Jun 2025 15:15:35 -0500
+ b=HDGsc1mhUWSEa8FKP84Yqh4/mc3eosyuoTZNAuaZ99uZ59tERqY8mwEvz697A9CN5
+ zwTIptPUEfGyGckjrte0eOrnVVQz8D/DNKApTH8LhLCSUN8/pPNWRYqnEM5mPoXj0J
+ iBV1EOkAm5encrjRlcZqXylH6PFTOr4T21z0EqN+Ly+6YPTuUN3LBYIqJsseDThtbP
+ easTYu+UXRUBZxf22exZF3zuvZagMPzQMQqL8vYL48flKYuqiZN89cg5MuniBRc2Bz
+ tj9ULiqqIorn0Znw+DqFFYSZxt5mLf11wgUJILhzv1YFVekciGl98+MftbF1rTyFzw
+ Up8otWSF17luA==
+Message-ID: <08257531-c8e4-47b1-a5d1-1e67378ff129@kernel.org>
+Date: Tue, 17 Jun 2025 15:22:34 -0500
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
 Subject: Re: [PATCH v2 6/6] vgaarb: Look at all PCI display devices in VGA
  arbiter
-To: Daniel Dadap <ddadap@nvidia.com>
+To: Alex Williamson <alex.williamson@redhat.com>,
+ David Airlie <airlied@gmail.com>
 Cc: Bjorn Helgaas <bhelgaas@google.com>,
  Alex Deucher <alexander.deucher@amd.com>,
  =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- Lukas Wunner <lukas@wunner.de>,
+ Simona Vetter <simona@ffwll.ch>, Lukas Wunner <lukas@wunner.de>,
  Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
  Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
  David Woodhouse <dwmw2@infradead.org>, Lu Baolu <baolu.lu@linux.intel.com>,
  Joerg Roedel <joro@8bytes.org>, Will Deacon <will@kernel.org>,
- Robin Murphy <robin.murphy@arm.com>,
- Alex Williamson <alex.williamson@redhat.com>,
- Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
+ Robin Murphy <robin.murphy@arm.com>, Jaroslav Kysela <perex@perex.cz>,
+ Takashi Iwai <tiwai@suse.com>,
  "open list:DRM DRIVERS" <dri-devel@lists.freedesktop.org>,
  open list <linux-kernel@vger.kernel.org>,
  "open list:INTEL IOMMU (VT-d)" <iommu@lists.linux.dev>,
  "open list:PCI SUBSYSTEM" <linux-pci@vger.kernel.org>,
  "open list:VFIO DRIVER" <kvm@vger.kernel.org>,
  "open list:SOUND" <linux-sound@vger.kernel.org>,
+ Daniel Dadap <ddadap@nvidia.com>,
  Mario Limonciello <mario.limonciello@amd.com>
 References: <20250617175910.1640546-1-superm1@kernel.org>
  <20250617175910.1640546-7-superm1@kernel.org>
- <aFHABY5yTYrJ4OUw@ddadap-lakeline.nvidia.com>
+ <20250617132228.434adebf.alex.williamson@redhat.com>
 Content-Language: en-US
 From: Mario Limonciello <superm1@kernel.org>
-In-Reply-To: <aFHABY5yTYrJ4OUw@ddadap-lakeline.nvidia.com>
+In-Reply-To: <20250617132228.434adebf.alex.williamson@redhat.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -81,8 +81,10 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 
 
-On 6/17/25 2:20 PM, Daniel Dadap wrote:
-> On Tue, Jun 17, 2025 at 12:59:10PM -0500, Mario Limonciello wrote:
+On 6/17/25 2:22 PM, Alex Williamson wrote:
+> On Tue, 17 Jun 2025 12:59:10 -0500
+> Mario Limonciello <superm1@kernel.org> wrote:
+> 
 >> From: Mario Limonciello <mario.limonciello@amd.com>
 >>
 >> On a mobile system with an AMD integrated GPU + NVIDIA discrete GPU the
@@ -128,67 +130,6 @@ On 6/17/25 2:20 PM, Daniel Dadap wrote:
 >> -	if (a == &dev_attr_boot_vga.attr && pci_is_vga(pdev))
 >> +	if (a == &dev_attr_boot_vga.attr && pci_is_display(pdev))
 >>   		return a->mode;
-> 
-> I can't help but worry about userspace clients that might be checking for
-> the presence of the boot_vga sysfs file but don't check its contents. 
-
-Wouldn't those clients "already" be broken by such an assumption?
-We know today that there are systems with two VGA devices in them too.
-
-I'd think those should have both GPUs exporting a file and one having a 
-0 the other 1.
-
-> I
-> understand that it's the intention to expose the file for non-VGA display
-> controllers in the case where none of the display controllers are of the
-> VGA subclass, but one of them is the boot console device and should be
-> considered "VGA" for the purposes of the overloaded meaning of "VGA", but
-> if it isn't too much trouble to minimize the change to UAPI here, I'd be
-> more comfortable with only exposing this file for devices that really are
-> VGA and/or the firmware default.
-> 
-> Maybe something like making the condition:
-> 
-> if (a == &dev_attr_boot_vga.attr) {
-> 	if (pci_is_vga(pdev) ||
-> 	    (pci_is_display(pdev) && vga_default_device() == pdev))
-> 		return a->mode;
-> }
-> 
-> (maybe we don't even need the pci_is_display() check at that point? I
-> feel more comfortable leaving it in, though)
-
-I suppose it depends upon call order whether the above works or not.
-
-I'm not sure 'off hand' right now.
-
- > > I'd expect that to do something like (assuming two-GPU hybrid system):
-> 
-> * Systems with one VGA controller and one 3D controller:
->    * VGA controller gets boot_vga file, contents are "1"
->    * 3D controller does not get boot_vga file
-> * Systems with no VGA controllers and two 3D controllers:
->    * 3D controller driving the console gets boot_vga file: "1"
->    * 3D controller not driving the console does not get boot_vga file
-> * Systems with two VGA controllers and no 3D controllers:
->    * VGA controller driving the console gets boot_vga file: "1"
->    * VGA controller not driving the console gets boot_vga file: "0"
-> 
-> i.e., the behavior would only be visibly different in the case with two
-> 3D controllers, like the one targeted by this patch. You and I have seen
-> the two VGA controller case in the wild, so we know it exists. 
-
-Yeah I wish we had some more data from that reporter right now to 
-potentially support a proposal that would help their system too.
-
-This patch as it is today will only help case 1 and 2.
-
-> The one 3D
-> and one VGA controller case is what I'd expect to be the common one, and
-> hopefully this will have the same behavior before and after this change
-> regardless of whether a muxed system defaults to dGPU (like hybrid Mac
-> notebooks) or iGPU (like other hybrid systems I'm accustomed to).
-> 
 >>   
 >>   	return 0;
 >> diff --git a/drivers/pci/vgaarb.c b/drivers/pci/vgaarb.c
@@ -221,7 +162,31 @@ This patch as it is today will only help case 1 and 2.
 >>   			vga_arbiter_add_pci_device(pdev);
 >>   	}
 >>   
->> -- 
->> 2.43.0
->>
+> 
+> At the very least a non-VGA device should not mark that it decodes
+> legacy resources, marking the boot VGA device is only a part of what
+> the VGA arbiter does.  It seems none of the actual VGA arbitration
+> interfaces have been considered here though.
+> 
+> I still think this is a bad idea and I'm not sure Thomas didn't
+> withdraw his ack in the previous round[1].  Thanks,
+
+Ah; I didn't realize that was intended to be a withdrawl.
+If there's another version of this I'll remove it.
+
+Dave,
+
+What is your current temperature on this approach?
+
+Do you still think it's best for something in the kernel or is this 
+better done in libpciaccess?
+
+Mutter, Kwin, and Cosmic all handle this case in the compositor.
+
+
+> 
+> Alex
+> 
+> [1]https://lore.kernel.org/all/bc0a3ac2-c86c-43b8-b83f-edfdfa5ee184@suse.de/
+> 
 
