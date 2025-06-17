@@ -2,45 +2,45 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id D6279ADC053
-	for <lists+dri-devel@lfdr.de>; Tue, 17 Jun 2025 06:22:24 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 62D14ADC057
+	for <lists+dri-devel@lfdr.de>; Tue, 17 Jun 2025 06:22:37 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2F33010E538;
-	Tue, 17 Jun 2025 04:22:23 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9818210E571;
+	Tue, 17 Jun 2025 04:22:35 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=amd.com header.i=@amd.com header.b="iXHnvxrH";
+	dkim=pass (1024-bit key; unprotected) header.d=amd.com header.i=@amd.com header.b="a5kHW5I1";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from NAM04-DM6-obe.outbound.protection.outlook.com
- (mail-dm6nam04on2057.outbound.protection.outlook.com [40.107.102.57])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 864E210E538;
- Tue, 17 Jun 2025 04:22:21 +0000 (UTC)
+ (mail-dm6nam04on2061.outbound.protection.outlook.com [40.107.102.61])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1245310E55F;
+ Tue, 17 Jun 2025 04:22:34 +0000 (UTC)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=BfX90OTzL0cYp08H+zEYOJMI5vEORCxDmLDxMuxohPAbm6YqLIJHJKZoIoBZYqMCulKx63xdjuL/0JKnXMUiPBJaqTZ0F8K0JRiQjqEvVeKnXmWLDKg86dfm9xzhE0E/7NWxc0uYH82SjoenwIj0JqYvSkJ1P7Yt/OIcM8Z3gZ2p5DrsPQQFGa/AbJXI9SxskNay3YJxAKY8ULaYlslPk833Dz4tgLJZ7vCk4bj+EqGxzN2hJr3cUw/tfhFhOEXwbe3QymHp1/nUUUW5WtKYzY89W22ryXQzpTPxRtwXbdQElMYLfBdvTBbl2qsbGTrh2yzGnTsNrrUpEKnOv3a5Mg==
+ b=PngDqNuZH3CRRu6AUPt8HM72+vY9KaEjUHwllenJJMLxhqmzpcHAfwlpJlm9aLwWbuZ1WV9HF0z/wwevGk2rA+ZbitpBqZQf926TIrv/aplFvCJ51YNIaa3K+ZSajtVllPSdHa4jiWkhVJbdwkmgHsEndRPrINyfB9SggptD60OTL/yiV9aVNxxW/utXrl9vslRS+Q7GrUo4rzysenmaPI51h5L8/wBGj23/393CTSaB8ViwfONtKbhEdqWrbEEbefGgNL+V8JuSV9hr2mOoBpTP8YlL/mf4VB4Ap96gVB4jYPVrUijVVbIcJSjq372rMM65z4CYPl9AuqHVrdMg9g==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=Z/YhSkPzf7jiFC7TBY+3x+F8rdiwmm+jxGhyQ7cMt1g=;
- b=BLkP7sLLrB2NAce85c05sV9RevYPwnjEYpq5QjznhYtNUhgWxv/6ZNk8C6TiYpqc3tw6dm4JFgf1l+9t+/2euC7Mxgc2bcN8s/evivnk7M1exIPQbOx7mg4q9+p6nlwnZiywzFnSMbZwe5sP8rQGv9+0+HPKP92Pw95ozTSDqjSUphHBDXTDudIxCWz0wDUCmA4Ylg0AnlZEqAFxFK36Vzu+QUyM7LKAVk4qe5LtC39DIE+awQCXxBy0ai2X/jJrqNCWWO2IG5Em/1C0LPM0tnhyR47t36D7NmIv3mwZn0REaVElvSHtvKrb2m1gogsiTkpoJiP3+T/98VaS/NSQ7Q==
+ bh=V3eGPWzq2e1d2t/TAWy9AnmJhlh3M8S5ypmyUCfNAgU=;
+ b=LJgEstCv5t0ArbOHiEVOgzDm+3/8gwpfhx7ns0h0NymQ1lWzja0Iu0zdusItLWVnZE6EpkHf7JdxgVaNzAOdJrKJ8caPcP2LOB8AhKwrU7At62sA5oLJNHp1rf9wHTdaedmFcZVhk6yfihcyOU+Uvy9GfaE66kBRs7y0uqFIhmooZ1ntldeDYfyDjExnbJ2az8aKPS1TA+FoE9ZeYl0gVFj9rI842szMlWr4BOrTm7OaMfgo6dj9BcSQOGwKwJq45QkT60zQ9e8vVwHtzYslaaTs4ooJP8ALoic81tOuhy24+VqSq8ymBqZla/kX9AP5SWYwMNKhs0AQd9LO2neRCg==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
  165.204.84.17) smtp.rcpttodomain=lists.freedesktop.org smtp.mailfrom=amd.com; 
  dmarc=pass (p=quarantine sp=quarantine pct=100) action=none
  header.from=amd.com; dkim=none (message not signed); arc=none (0)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=Z/YhSkPzf7jiFC7TBY+3x+F8rdiwmm+jxGhyQ7cMt1g=;
- b=iXHnvxrHyuXnT7VXt6GFdHjP1OnjwH+ONTvQwjD1rp6RGb+ZJkfYUfAG48EVATHmAzLkGIC63xEcIB4968832mNl/db0vjkCUwaU5KDt0em+9HOPVk86CywwnezRJXPSK4yxWUFqzv6Q0ngKtAgu6XpAlorAN9tKBbCf5eWuWok=
-Received: from CH2PR05CA0031.namprd05.prod.outlook.com (2603:10b6:610::44) by
- MW4PR12MB7467.namprd12.prod.outlook.com (2603:10b6:303:212::10) with
- Microsoft SMTP Server (version=TLS1_2,
+ bh=V3eGPWzq2e1d2t/TAWy9AnmJhlh3M8S5ypmyUCfNAgU=;
+ b=a5kHW5I1Joxrz8nWrzDIbJBdKllRQ+9+k4K6aSqqU+NtgChdk7nOMX3pP/rSNrQTWmfKLGmVx/cZ8+imOhly+LEXShKD6Dd+GOj0y3QY8crW/FqotKnpJIJx8S6ZG+dno1aKKM30lEJTGmrE5n0IxGO8TRUtOWRXOl6hrNOsqOU=
+Received: from SA1PR04CA0017.namprd04.prod.outlook.com (2603:10b6:806:2ce::22)
+ by SN7PR12MB8060.namprd12.prod.outlook.com (2603:10b6:806:343::15)
+ with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8835.28; Tue, 17 Jun
- 2025 04:22:16 +0000
-Received: from CH2PEPF00000148.namprd02.prod.outlook.com
- (2603:10b6:610:0:cafe::f3) by CH2PR05CA0031.outlook.office365.com
- (2603:10b6:610::44) with Microsoft SMTP Server (version=TLS1_3,
- cipher=TLS_AES_256_GCM_SHA384) id 15.20.8769.18 via Frontend Transport; Tue,
- 17 Jun 2025 04:22:15 +0000
+ 2025 04:22:30 +0000
+Received: from SN1PEPF00026368.namprd02.prod.outlook.com
+ (2603:10b6:806:2ce:cafe::4) by SA1PR04CA0017.outlook.office365.com
+ (2603:10b6:806:2ce::22) with Microsoft SMTP Server (version=TLS1_3,
+ cipher=TLS_AES_256_GCM_SHA384) id 15.20.8835.23 via Frontend Transport; Tue,
+ 17 Jun 2025 04:22:30 +0000
 X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 165.204.84.17)
  smtp.mailfrom=amd.com; dkim=none (message not signed)
  header.d=none;dmarc=pass action=none header.from=amd.com;
@@ -48,13 +48,13 @@ Received-SPF: Pass (protection.outlook.com: domain of amd.com designates
  165.204.84.17 as permitted sender) receiver=protection.outlook.com;
  client-ip=165.204.84.17; helo=SATLEXMB04.amd.com; pr=C
 Received: from SATLEXMB04.amd.com (165.204.84.17) by
- CH2PEPF00000148.mail.protection.outlook.com (10.167.244.105) with Microsoft
+ SN1PEPF00026368.mail.protection.outlook.com (10.167.241.133) with Microsoft
  SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.20.8835.15 via Frontend Transport; Tue, 17 Jun 2025 04:22:15 +0000
+ 15.20.8835.15 via Frontend Transport; Tue, 17 Jun 2025 04:22:30 +0000
 Received: from SATLEXMB03.amd.com (10.180.168.240) by SATLEXMB04.amd.com
  (10.181.40.145) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.39; Mon, 16 Jun
- 2025 23:22:12 -0500
+ 2025 23:22:26 -0500
 From: Alex Hung <alex.hung@amd.com>
 To: <dri-devel@lists.freedesktop.org>, <amd-gfx@lists.freedesktop.org>
 CC: <wayland-devel@lists.freedesktop.org>, <harry.wentland@amd.com>,
@@ -68,10 +68,9 @@ CC: <wayland-devel@lists.freedesktop.org>, <harry.wentland@amd.com>,
  <Liviu.Dudau@arm.com>, <sashamcintosh@google.com>,
  <chaitanya.kumar.borah@intel.com>, <louis.chauvet@bootlin.com>,
  <arthurgrillo@riseup.net>, Daniel Stone <daniels@collabora.com>
-Subject: [PATCH V10 17/46] drm/vkms: Use s32 for internal color pipeline
- precision
-Date: Mon, 16 Jun 2025 22:16:59 -0600
-Message-ID: <20250617041746.2884343-18-alex.hung@amd.com>
+Subject: [PATCH V10 18/46] drm/vkms: add 3x4 matrix in color pipeline
+Date: Mon, 16 Jun 2025 22:17:00 -0600
+Message-ID: <20250617041746.2884343-19-alex.hung@amd.com>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <20250617041746.2884343-1-alex.hung@amd.com>
 References: <20250617041746.2884343-1-alex.hung@amd.com>
@@ -83,52 +82,52 @@ X-ClientProxiedBy: SATLEXMB04.amd.com (10.181.40.145) To SATLEXMB04.amd.com
  (10.181.40.145)
 X-EOPAttributedMessage: 0
 X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: CH2PEPF00000148:EE_|MW4PR12MB7467:EE_
-X-MS-Office365-Filtering-Correlation-Id: bbac10c4-c3dc-4e81-4007-08ddad568a5d
+X-MS-TrafficTypeDiagnostic: SN1PEPF00026368:EE_|SN7PR12MB8060:EE_
+X-MS-Office365-Filtering-Correlation-Id: fab3ceb9-2afa-43f3-49e2-08ddad5692fe
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: BCL:0;
- ARA:13230040|36860700013|7416014|376014|82310400026|1800799024; 
-X-Microsoft-Antispam-Message-Info: =?us-ascii?Q?ihB0xYd0T6sNfR541np3NEVSF/6oY6Ir1htYZf9NeoHaKr9F4JezOEBuWZLT?=
- =?us-ascii?Q?Zc1WqjkZmuNzDmOV8KgODmVqtqX1aHFSApD7WapQpNj/H9yJBVnYsNi2W35b?=
- =?us-ascii?Q?jCSVwOlY9Ly5ryjy4+V6CGXKq4KJlFRUYoOzi4JU85O7+gLQGdF0PheHK/om?=
- =?us-ascii?Q?om8WOuaNK1Dv1w6OIAuFDepFeFFVTV2LWYr+H+LLsAHZ/wKvJ25RybmFSbJr?=
- =?us-ascii?Q?/jzKYnqVFG89XquCvj75SerVEZL7JBjX5oxlTDtVpyUYi4fcGknkqufIS+JF?=
- =?us-ascii?Q?2XhXC0uUgoyB7ucSO2+xvif01o9P/L//YzsMFQdTtVwbvnBqac+qmIChDok0?=
- =?us-ascii?Q?b1YPsRS80GQqScNLZn4dQJb4EbG+T1a2S2Rzrq6c0mAtyMMN9ChqCY0XHzzj?=
- =?us-ascii?Q?vRZrv4yTDU/KuEmWAYONrtK/4Q1WXfikx6bhTHs7R8EamKs4/4rexk66WCEf?=
- =?us-ascii?Q?RX+FScX0NAxzHu3Xl2+iNUBLtCJmfZoXEY3OwsQGPQksujFfE4SNlZI8Cfk7?=
- =?us-ascii?Q?1CuOO/4WHmilN0/FwvrNU99MINk6p6EY9ONoMZUMCDJgO9JyoFHRMp4QBllG?=
- =?us-ascii?Q?zenNYJdKYsx2Oq6JFALh4YG7yCLGOpv6dWY+/79pfSYDGSUBNL5q2c1iTKsY?=
- =?us-ascii?Q?FLfVjvOvC8qZcDjagNGb8lmxzKEAPYlYncXqWDK1Vs2tlGJp5clVdlHRhUkb?=
- =?us-ascii?Q?B/4VTAR3KjwWkL8vzyU5gQ+J59sHE5IqyB6TcJQEXhQS4xibUM7sZB8Gfw0T?=
- =?us-ascii?Q?OVK3Xf+NsIe9t88kGjaBo+QGLhYNPrODLXpdbm4FHiiZleUSr6eWeoWStFEe?=
- =?us-ascii?Q?41IUbFoEmhcVH0lS40sc0q4iAeSaSNuebf1zqj3ovQdZo6PupGOyDJACBdOY?=
- =?us-ascii?Q?2iapwUQ0hQRmCPlhavkUjvfQuPQ3gHNpUe70YhgkfW5DS593d655JzNlD6eQ?=
- =?us-ascii?Q?2LMMFSWD0LqeGwytgBQ6/+crjhC3O5DCZ3xMFqTFUB9HQw/UOCVTE7E3YoJ7?=
- =?us-ascii?Q?MQNbgPjqHyvDUdNWHlulajxR5g+cf4M/edVUbJoLdYAaD6i1i+5d9Bk5+Il0?=
- =?us-ascii?Q?lpjoMtHBeqSdfLftn/xFz87NsCG//xDM9tBUu4lOTIRxZKxK5L/R47btHyRm?=
- =?us-ascii?Q?DIJX7Z/FhhHgAz+f7HO+a6qiATudtpRmF6PcreYBRTW6VH9zaCTpSJCaYYYt?=
- =?us-ascii?Q?j0qDw6MOYrZ5Hn3VV53IFLCA/gz9reuCho8mmqaY7684xXsPVPV4v8XpyJpW?=
- =?us-ascii?Q?uDRtp9DKKo2ZB1SI2yvk1w1WE5a0+8g75zkg0wE9aRS2KtC075m9etv+iwMd?=
- =?us-ascii?Q?gTtLOV7zm38ugdHfR5570W5NW69aNyNr45JnmmCP6JqGqI/9lXulVxhoxWAM?=
- =?us-ascii?Q?i2zhB+AVPLst1ZV8iF7ZORGIALdRV+F0MAqygyA6T8RUvsqyzTX6xLH5HMBN?=
- =?us-ascii?Q?uQ2xEkyz0zAbATYee7NWlq3HGJYkZF+zeOsY+eNGhPDUfBJTYh3ixc+bHMu3?=
- =?us-ascii?Q?v8Ku7NrjBUM+4T0QAald/zjxQ4fTiRQHyotk?=
+ ARA:13230040|36860700013|82310400026|1800799024|7416014|376014; 
+X-Microsoft-Antispam-Message-Info: =?us-ascii?Q?o5ou5+n3pDqyhxkMxSpgWRN+Zp9iT14mkuZezcLecIObZeY33DHnVGaIGS7o?=
+ =?us-ascii?Q?S/V8ZEVmYCZSYYjVQD3XO6pM+Zi20mxKcBHv48CntFuLUaIl38q7se+78hQ7?=
+ =?us-ascii?Q?00sFFS2PWb8EjdiCWKGpczS+lYDbxHZuc0y3r7oesWGgesT72thIYJ7dUh9l?=
+ =?us-ascii?Q?BVs2ux1D2KMi75kv0xopD/cTy3JN1RyCRjxynRJzPPccjTPLvM6cDkEHL4hI?=
+ =?us-ascii?Q?lqgcLf83kh6+8geD58VEZHem6UUh5uVY7UMr+j/44WoxZqX1JV9SqQsr7ObP?=
+ =?us-ascii?Q?WU+NQtGOEyYATxDvmh2RhM0qrqGKy3H1lpVY+BPtMvw8+77yW2RRaPEA6I9u?=
+ =?us-ascii?Q?/U5EOecX3wtqtTk7iJEgvF/vh9ZuUIIYd/xa/BK1qwTKw7GUxWqhuB1WJMlu?=
+ =?us-ascii?Q?C4YuTv8fB+qRGykD3DANFUXRd+TrXLxoWA4PoQRwtzqMGhDatgtgwRcoJJCg?=
+ =?us-ascii?Q?CSW8dN9jqoERuxmNvOTknjU7pH4ZZBk4LIoJMzOyBB7hhp8QY4E+NN5WLCgF?=
+ =?us-ascii?Q?UlSrh6vKr2AwD+8uws0mC2iS4BOq3t6LlO2x/h5NtVYobf10dLwq4FipgUr6?=
+ =?us-ascii?Q?Qr2S54JRsphX9amExSslD15v8sWjBoOfmzSvsG0M1VkJvEste3aK1olIh3bD?=
+ =?us-ascii?Q?g2R3aMYK1X4nkM1oc+C/4OeY9VIH3TsESUDhMz6aKzanYN1S7NPyzJUbzqLn?=
+ =?us-ascii?Q?oMoNGOkE7VYHQArlUIxzHAZ+76bP4LVjCOGcHFzhv2dDStGwdzJnh0RgEcWK?=
+ =?us-ascii?Q?uRx00ufm3LH4oKJO8LQ58d+9d/FW+t3uzW53iEIS0JNOYkfh6dgubZjMila7?=
+ =?us-ascii?Q?gTHYJjUHSIKiVpMFLsqVlsGH58XfgCY/D16hNh+yPW4/+OwLaTNhb+fmjX9y?=
+ =?us-ascii?Q?lfsPLA58eKqT7lIrQaHeb8fFvY2mZnDphYKMQlC1Z67UZlAsc9ttjTN+OIPh?=
+ =?us-ascii?Q?yqsGgIloO1+WApPPCQnSSYkCYYg7rMxyGNvJBnkHIhNIqyTp+ccxxcYnlZwJ?=
+ =?us-ascii?Q?l/3K4NsVmrV1ZwZutl/0ltXJlQd9YzcJMOM2qtLx2TqCQyez2WCROVVVrNbb?=
+ =?us-ascii?Q?rjtYrQqJr1oQQpiAofT8Y/IqKd4HDa27zx5jhz8lTelWElK+b+K7gGehqLe/?=
+ =?us-ascii?Q?C5oMxiBcls6NiO7QcK1CBrnrBQMuO4AOQZ8RJ2CZX/StyiOMuiHhiROBMnlt?=
+ =?us-ascii?Q?1eId8fkIMdYgeUOIq3107SGLseIO0Wr1D2obzZJgw888llHwq9UB/E1dBMcz?=
+ =?us-ascii?Q?yTv4qjfYLS4H9G6COIdLj3I2dGqXrK4lOLaUv4kNhV69C7RBAz6r89nVBdyv?=
+ =?us-ascii?Q?av3rEhhzXVZbEcBTK8MWXdRysIjPhG9wG4lQ2UXYJq7TMeds4NI7TQhvpQwZ?=
+ =?us-ascii?Q?s9epaBMVrUyVnrZ5ovoNvGBcNGsIla3QNx29vHit2CyMF8YiHJBPrDeAAXd6?=
+ =?us-ascii?Q?KDBjbh2UJD6/p9XN4sM4z2Zv1iFkdnkhFTvnKRrhhqF7vnBWwR7Ul5Ga8mF6?=
+ =?us-ascii?Q?Be9uMHZU6k4Gu6a4LHdiSeqVccMgWi/kZR4h?=
 X-Forefront-Antispam-Report: CIP:165.204.84.17; CTRY:US; LANG:en; SCL:1; SRV:;
  IPV:CAL; SFV:NSPM; H:SATLEXMB04.amd.com; PTR:InfoDomainNonexistent; CAT:NONE;
- SFS:(13230040)(36860700013)(7416014)(376014)(82310400026)(1800799024); DIR:OUT;
+ SFS:(13230040)(36860700013)(82310400026)(1800799024)(7416014)(376014); DIR:OUT;
  SFP:1101; 
 X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 17 Jun 2025 04:22:15.6096 (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: bbac10c4-c3dc-4e81-4007-08ddad568a5d
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 17 Jun 2025 04:22:30.0762 (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: fab3ceb9-2afa-43f3-49e2-08ddad5692fe
 X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
 X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=3dd8961f-e488-4e60-8e11-a82d994e183d; Ip=[165.204.84.17];
  Helo=[SATLEXMB04.amd.com]
-X-MS-Exchange-CrossTenant-AuthSource: CH2PEPF00000148.namprd02.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthSource: SN1PEPF00026368.namprd02.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Anonymous
 X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: MW4PR12MB7467
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SN7PR12MB8060
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -146,120 +145,145 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 From: Harry Wentland <harry.wentland@amd.com>
 
-Certain operations require us to preserve values below 0.0 and
-above 1.0 (0x0 and 0xffff respectively in 16 bpc unorm). One
-such operation is a BT709 encoding operation followed by its
-decoding operation, or the reverse.
+We add two 3x4 matrices into the VKMS color pipeline. The reason
+we're adding matrices is so that we can test that application
+of a matrix and its inverse yields an output equal to the input
+image.
 
-We'll use s32 values as intermediate in and outputs of our
-color operations, for the operations where it matters.
-
-For now this won't apply to LUT operations. We might want to
-update those to work on s32 as well, but it's unclear how
-that should work for unorm LUT definitions. We'll revisit
-that once we add LUT + CTM tests.
-
-In order to allow for this we'll also invert the nesting of our
-colorop processing loops. We now use the pixel iteration loop
-on the outside and the colorop iteration on the inside.
+One complication with the matrix implementation has to do with
+the fact that the matrix entries are in signed-magnitude fixed
+point, whereas the drm_fixed.h implementation uses 2s-complement.
+The latter one is the one that we want for easy addition and
+subtraction, so we convert all entries to 2s-complement.
 
 Reviewed-by: Louis Chauvet <louis.chauvet@bootlin.com>
 Signed-off-by: Alex Hung <alex.hung@amd.com>
 Signed-off-by: Harry Wentland <harry.wentland@amd.com>
 Reviewed-by: Daniel Stone <daniels@collabora.com>
 ---
+V9:
+ - Update function names by _plane_ (Chaitanya Kumar Borah)
+
+v8:
+ - Replace DRM_ERROR with drm_err (Louis Chauvet)
+
 v7:
  - Fix checkpatch warnings
-  - Add a commit messages
-  - Fix code styles by adding and removing spaces (new lines, tabs and so on)
+  - Change kzalloc(sizeof(struct drm_colorop) ...) to kzalloc(sizeof(*ops[i]) ...)
+  - Change i-1to i - 1
+  - Add a new line at EOF
 
 v6:
- - use clamp_val instead of manual clamping (Louis Chauvet)
+ - pre-compute colors (Louis Chauvet)
+ - round matrix output (Louis Chauvet)
 
-v4:
- - Clarify that we're packing 16-bit UNORM into s32, not
-   converting values to a different representation (Pekka)
+ drivers/gpu/drm/vkms/vkms_colorop.c  | 34 +++++++++++++++++++++++++++-
+ drivers/gpu/drm/vkms/vkms_composer.c | 33 +++++++++++++++++++++++++++
+ 2 files changed, 66 insertions(+), 1 deletion(-)
 
-v3:
- - Use new colorop->next pointer
-
- drivers/gpu/drm/vkms/vkms_composer.c | 27 +++++++++++++++++++++++++--
- drivers/gpu/drm/vkms/vkms_drv.h      |  4 ++++
- 2 files changed, 29 insertions(+), 2 deletions(-)
-
+diff --git a/drivers/gpu/drm/vkms/vkms_colorop.c b/drivers/gpu/drm/vkms/vkms_colorop.c
+index 2fb74b2bd001..70be35804ea9 100644
+--- a/drivers/gpu/drm/vkms/vkms_colorop.c
++++ b/drivers/gpu/drm/vkms/vkms_colorop.c
+@@ -12,7 +12,7 @@ static const u64 supported_tfs =
+ 	BIT(DRM_COLOROP_1D_CURVE_SRGB_EOTF) |
+ 	BIT(DRM_COLOROP_1D_CURVE_SRGB_INV_EOTF);
+ 
+-#define MAX_COLOR_PIPELINE_OPS 2
++#define MAX_COLOR_PIPELINE_OPS 4
+ 
+ static int vkms_initialize_color_pipeline(struct drm_plane *plane, struct drm_prop_enum_list *list)
+ {
+@@ -48,6 +48,38 @@ static int vkms_initialize_color_pipeline(struct drm_plane *plane, struct drm_pr
+ 		goto cleanup;
+ 	}
+ 
++	ret = drm_plane_colorop_ctm_3x4_init(dev, ops[i], plane);
++	if (ret)
++		goto cleanup;
++
++	drm_colorop_set_next_property(ops[i - 1], ops[i]);
++
++	i++;
++
++	/* 3rd op: 3x4 matrix */
++	ops[i] = kzalloc(sizeof(*ops[i]), GFP_KERNEL);
++	if (!ops[i]) {
++		drm_err(dev, "KMS: Failed to allocate colorop\n");
++		ret = -ENOMEM;
++		goto cleanup;
++	}
++
++	ret = drm_plane_colorop_ctm_3x4_init(dev, ops[i], plane);
++	if (ret)
++		goto cleanup;
++
++	drm_colorop_set_next_property(ops[i - 1], ops[i]);
++
++	i++;
++
++	/* 4th op: 1d curve */
++	ops[i] = kzalloc(sizeof(*ops[i]), GFP_KERNEL);
++	if (!ops[i]) {
++		drm_err(dev, "KMS: Failed to allocate colorop\n");
++		ret = -ENOMEM;
++		goto cleanup;
++	}
++
+ 	ret = drm_plane_colorop_curve_1d_init(dev, ops[i], plane, supported_tfs);
+ 	if (ret)
+ 		goto cleanup;
 diff --git a/drivers/gpu/drm/vkms/vkms_composer.c b/drivers/gpu/drm/vkms/vkms_composer.c
-index 72890ffea13a..36f0caabb67b 100644
+index 36f0caabb67b..8fe16d26d680 100644
 --- a/drivers/gpu/drm/vkms/vkms_composer.c
 +++ b/drivers/gpu/drm/vkms/vkms_composer.c
-@@ -128,7 +128,7 @@ static void apply_lut(const struct vkms_crtc_state *crtc_state, struct line_buff
+@@ -128,6 +128,35 @@ static void apply_lut(const struct vkms_crtc_state *crtc_state, struct line_buff
  	}
  }
  
--static void apply_colorop(struct pixel_argb_u16 *pixel, struct drm_colorop *colorop)
-+static void apply_colorop(struct pixel_argb_s32 *pixel, struct drm_colorop *colorop)
++static void apply_3x4_matrix(struct pixel_argb_s32 *pixel, const struct drm_color_ctm_3x4 *matrix)
++{
++	s64 rf, gf, bf;
++	s64 r, g, b;
++
++	r = drm_int2fixp(pixel->r);
++	g = drm_int2fixp(pixel->g);
++	b = drm_int2fixp(pixel->b);
++
++	rf = drm_fixp_mul(drm_sm2fixp(matrix->matrix[0]), r) +
++	     drm_fixp_mul(drm_sm2fixp(matrix->matrix[1]), g) +
++	     drm_fixp_mul(drm_sm2fixp(matrix->matrix[2]), b) +
++	     drm_sm2fixp(matrix->matrix[3]);
++
++	gf = drm_fixp_mul(drm_sm2fixp(matrix->matrix[4]), r) +
++	     drm_fixp_mul(drm_sm2fixp(matrix->matrix[5]), g) +
++	     drm_fixp_mul(drm_sm2fixp(matrix->matrix[6]), b) +
++	     drm_sm2fixp(matrix->matrix[7]);
++
++	bf = drm_fixp_mul(drm_sm2fixp(matrix->matrix[8]), r) +
++	     drm_fixp_mul(drm_sm2fixp(matrix->matrix[9]), g) +
++	     drm_fixp_mul(drm_sm2fixp(matrix->matrix[10]), b) +
++	     drm_sm2fixp(matrix->matrix[11]);
++
++	pixel->r = drm_fixp2int_round(rf);
++	pixel->g = drm_fixp2int_round(gf);
++	pixel->b = drm_fixp2int_round(bf);
++}
++
+ static void apply_colorop(struct pixel_argb_s32 *pixel, struct drm_colorop *colorop)
  {
  	struct drm_colorop_state *colorop_state = colorop->state;
- 	struct drm_device *dev = colorop->dev;
-@@ -157,9 +157,26 @@ static void apply_colorop(struct pixel_argb_u16 *pixel, struct drm_colorop *colo
- static void pre_blend_color_transform(const struct vkms_plane_state *plane_state,
- 				      struct line_buffer *output_buffer)
- {
-+	struct pixel_argb_s32 pixel;
-+
- 	for (size_t x = 0; x < output_buffer->n_pixels; x++) {
- 		struct drm_colorop *colorop = plane_state->base.base.color_pipeline;
- 
-+		/*
-+		 * Some operations, such as applying a BT709 encoding matrix,
-+		 * followed by a decoding matrix, require that we preserve
-+		 * values above 1.0 and below 0.0 until the end of the pipeline.
-+		 *
-+		 * Pack the 16-bit UNORM values into s32 to give us head-room to
-+		 * avoid clipping until we're at the end of the pipeline. Clip
-+		 * intentionally at the end of the pipeline before packing
-+		 * UNORM values back into u16.
-+		 */
-+		pixel.a = output_buffer->pixels[x].a;
-+		pixel.r = output_buffer->pixels[x].r;
-+		pixel.g = output_buffer->pixels[x].g;
-+		pixel.b = output_buffer->pixels[x].b;
-+
- 		while (colorop) {
- 			struct drm_colorop_state *colorop_state;
- 
-@@ -169,10 +186,16 @@ static void pre_blend_color_transform(const struct vkms_plane_state *plane_state
- 				return;
- 
- 			if (!colorop_state->bypass)
--				apply_colorop(&output_buffer->pixels[x], colorop);
-+				apply_colorop(&pixel, colorop);
- 
- 			colorop = colorop->next;
+@@ -151,6 +180,10 @@ static void apply_colorop(struct pixel_argb_s32 *pixel, struct drm_colorop *colo
+ 				      colorop_state->curve_1d_type);
+ 			break;
  		}
-+
-+		/* clamp values */
-+		output_buffer->pixels[x].a = clamp_val(pixel.a, 0, 0xffff);
-+		output_buffer->pixels[x].r = clamp_val(pixel.r, 0, 0xffff);
-+		output_buffer->pixels[x].g = clamp_val(pixel.g, 0, 0xffff);
-+		output_buffer->pixels[x].b = clamp_val(pixel.b, 0, 0xffff);
++	} else if (colorop->type == DRM_COLOROP_CTM_3X4) {
++		if (colorop_state->data)
++			apply_3x4_matrix(pixel,
++					 (struct drm_color_ctm_3x4 *) colorop_state->data->data);
  	}
  }
  
-diff --git a/drivers/gpu/drm/vkms/vkms_drv.h b/drivers/gpu/drm/vkms/vkms_drv.h
-index 2e192b1e5be8..5b340ffbf7d0 100644
---- a/drivers/gpu/drm/vkms/vkms_drv.h
-+++ b/drivers/gpu/drm/vkms/vkms_drv.h
-@@ -45,6 +45,10 @@ struct vkms_frame_info {
- 	unsigned int rotation;
- };
- 
-+struct pixel_argb_s32 {
-+	s32 a, r, g, b;
-+};
-+
- struct pixel_argb_u16 {
- 	u16 a, r, g, b;
- };
 -- 
 2.43.0
 
