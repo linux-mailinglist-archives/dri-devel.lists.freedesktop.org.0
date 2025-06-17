@@ -2,103 +2,56 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id EDFA6ADDBAD
-	for <lists+dri-devel@lfdr.de>; Tue, 17 Jun 2025 20:52:51 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 601ACADDBBC
+	for <lists+dri-devel@lfdr.de>; Tue, 17 Jun 2025 20:56:32 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 56D4710E0AD;
-	Tue, 17 Jun 2025 18:52:50 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 520ED10E0F7;
+	Tue, 17 Jun 2025 18:56:30 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=redhat.com header.i=@redhat.com header.b="BZxCee7J";
+	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=igalia.com header.i=@igalia.com header.b="Dy3CC0fX";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [170.10.129.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id F204110E00C
- for <dri-devel@lists.freedesktop.org>; Tue, 17 Jun 2025 18:52:45 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1750186365;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=j7GR8b6oq+VKsS7zEblPcoLobXIu9Z0EZdf91JZ1evE=;
- b=BZxCee7J+REm65pWAt4vMMk2MBzboHYoIB0bB892iLKG4lnGvI6zzk147A3OeKwF05lR2r
- h7PkqaLGAgxZXlmVPvQO8+51UH2bwSDAL7tziFFsoWIf52SVVble+BxvlTJAlBePDqTSfF
- 4ZOfr5BfB52B3rqrk3Sv1cgxDeis4jU=
-Received: from mail-io1-f69.google.com (mail-io1-f69.google.com
- [209.85.166.69]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-465-HnvdTEg3OIm8g6KpAZQt5g-1; Tue, 17 Jun 2025 14:52:43 -0400
-X-MC-Unique: HnvdTEg3OIm8g6KpAZQt5g-1
-X-Mimecast-MFC-AGG-ID: HnvdTEg3OIm8g6KpAZQt5g_1750186362
-Received: by mail-io1-f69.google.com with SMTP id
- ca18e2360f4ac-86cf803792dso44668639f.3
- for <dri-devel@lists.freedesktop.org>; Tue, 17 Jun 2025 11:52:43 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1750186362; x=1750791162;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:subject:cc:to:from:date:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=j7GR8b6oq+VKsS7zEblPcoLobXIu9Z0EZdf91JZ1evE=;
- b=BvzjbalDNTc+FfulHuvE55icMmxPnYeJJP5JiQXdbFoTgEZaOI5MZYVxt9VcIwsC/V
- ukLAS5Q1GZhfE1KYwt2lx4XIYUyRT7S4w5KlHwYHLPUCBQaYiNwrNUyIEpSz2kRphkuY
- qW/y+0lohFbMX/DrYo5xGdQT4UptHJaccjkrgemHc32t1uc0pwJigkZmoy53qkLj+8Cw
- qhOJBhDa/75DdPHGWa83BWFmjqbkSjgVnmikSbbJbvKSSz1wvC03QW/+zINSiwIFYmxG
- HSq5+uv57MDRnGCvsn6cGcZT+SWqLXwhD+S0ZqlOUP3f1oeDg0aulwLrEg1w/d0GKg9R
- AGMQ==
-X-Forwarded-Encrypted: i=1;
- AJvYcCXZkcY1mwj+ylu2fwqQi3HHC+YXz8CTEbExk1uDCOn3X7P+i1SzLjYp4e/wUph2Ie9QaK8gssiHtgE=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YyR+p4zL0pMBcuMWsffzrMEnJqL80YMSzfZ/cw8mH8kK1nSKo5N
- IcXk4zSBd2ImALwH7TwaK4NNwohX3cKjexdPBxyO+hRW5IZPPq2trqrNao/bNPLdzaFaQnxUbX5
- gXHPfPGSaPamj6q84EIyl/IRwDSYRBW78GBotCIhAVB2BiioPUZhvJZCIxUzJAmEl2TCSew==
-X-Gm-Gg: ASbGncutK4d/98D0hh7/SHcMjTRdic69pX2Dmc1Ilr59oERDLgp5kdb1fz8E528bO9E
- fBANsucaRxirBiplj75l94p6eQo+RFbaQBu0ejaIpKFy8mn9b7cyW4bHQGPNSFLdKp3CRI2UbNr
- TRYj6nmccng7xMqJX74HOD8KYxl4gfF6Atxh2QUaKqo+DB4K3ZoWFEa9lFkbgehH3dgDos9CkGW
- ZatzOqCU9G3NsCsBzOhzu6cbxvWuMcbfZldW+wEsZNZ+TA7gD2rW8nJURT2iziTON4LeJidWsGH
- XaaCu3zobyN6WQ20f+6mWX1RcQ==
-X-Received: by 2002:a05:6602:3414:b0:86a:24c0:8829 with SMTP id
- ca18e2360f4ac-87601391479mr183502839f.0.1750186362595; 
- Tue, 17 Jun 2025 11:52:42 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IEKthDmryWBtQYhqN8X3vXXpFX6gedZAuw/STdWF8X1NR60JiUUJho0FZmRHCrhQiS9JYovUQ==
-X-Received: by 2002:a05:6602:3414:b0:86a:24c0:8829 with SMTP id
- ca18e2360f4ac-87601391479mr183500639f.0.1750186362211; 
- Tue, 17 Jun 2025 11:52:42 -0700 (PDT)
-Received: from redhat.com ([38.15.36.11]) by smtp.gmail.com with ESMTPSA id
- ca18e2360f4ac-875d5842a19sm225353839f.44.2025.06.17.11.52.38
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 17 Jun 2025 11:52:40 -0700 (PDT)
-Date: Tue, 17 Jun 2025 12:52:35 -0600
-From: Alex Williamson <alex.williamson@redhat.com>
-To: Mario Limonciello <superm1@kernel.org>
-Cc: Bjorn Helgaas <bhelgaas@google.com>, Alex Deucher
- <alexander.deucher@amd.com>, Christian =?UTF-8?B?S8O2bmln?=
- <christian.koenig@amd.com>, David Airlie <airlied@gmail.com>, Simona Vetter
- <simona@ffwll.ch>, Lukas Wunner <lukas@wunner.de>, Maarten Lankhorst
- <maarten.lankhorst@linux.intel.com>, Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>, David Woodhouse
- <dwmw2@infradead.org>, Lu Baolu <baolu.lu@linux.intel.com>, Joerg Roedel
- <joro@8bytes.org>, Will Deacon <will@kernel.org>, Robin Murphy
- <robin.murphy@arm.com>, Jaroslav Kysela <perex@perex.cz>, Takashi Iwai
- <tiwai@suse.com>, dri-devel@lists.freedesktop.org (open list:DRM DRIVERS),
- linux-kernel@vger.kernel.org (open list), iommu@lists.linux.dev (open
- list:INTEL IOMMU (VT-d)), linux-pci@vger.kernel.org (open list:PCI
- SUBSYSTEM), kvm@vger.kernel.org (open list:VFIO DRIVER),
- linux-sound@vger.kernel.org (open list:SOUND), Daniel Dadap
- <ddadap@nvidia.com>, Mario Limonciello <mario.limonciello@amd.com>, Bjorn
- Helgaas <helgaas@kernel.org>
-Subject: Re: [PATCH v2 2/6] vfio/pci: Use pci_is_display()
-Message-ID: <20250617125235.13017540.alex.williamson@redhat.com>
-In-Reply-To: <20250617175910.1640546-3-superm1@kernel.org>
-References: <20250617175910.1640546-1-superm1@kernel.org>
- <20250617175910.1640546-3-superm1@kernel.org>
-X-Mailer: Claws Mail 4.3.1 (GTK 3.24.43; x86_64-redhat-linux-gnu)
+Received: from fanzine2.igalia.com (fanzine2.igalia.com [213.97.179.56])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 70BA510E0F5;
+ Tue, 17 Jun 2025 18:56:27 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com; 
+ s=20170329;
+ h=In-Reply-To:Content-Type:MIME-Version:References:Message-ID:
+ Subject:Cc:To:From:Date:Sender:Reply-To:Content-Transfer-Encoding:Content-ID:
+ Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc
+ :Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:List-Subscribe:
+ List-Post:List-Owner:List-Archive;
+ bh=MF023Q8HSmTBGWurby8sXRqhhKfc6YDuwn9AghQmEpg=; b=Dy3CC0fXzfi336iu8Yezf8aQ4i
+ l6wJvllFZJwIoiC5OAnMfCrDoqo+ukKncovtLIiU4sFepWBrTVFPpDvR8AMu4/9YFrWWLUNT3mTeW
+ jjtzbsC3gVwPcvyUMTvsd/I+2nSuh8reGSM6lJf+9DpBs/w5V9ZHZHHVtKFe85NOwo7TJgszG1LOr
+ /c3uM856+OlkcSqRatgmRwVCgH2gFO95S9/joSA5TONyt8TFgfxXew83GtPC6na8J1poaEN4vvJ+T
+ 7tL+PTAxhVvDOIhSGnd2GyKTmnzNldrkU/5ly/Pho+8D/0vj43AQnDvvuzq4RLiwG+A3+sCDSZsQh
+ ID2MWP+g==;
+Received: from [193.32.248.132] (helo=debian.lan)
+ by fanzine2.igalia.com with esmtpsa 
+ (Cipher TLS1.3:ECDHE_SECP256R1__RSA_PSS_RSAE_SHA256__AES_256_GCM:256) (Exim)
+ id 1uRbTi-004jWI-No; Tue, 17 Jun 2025 20:56:15 +0200
+Date: Tue, 17 Jun 2025 12:56:08 -0600
+From: Rodrigo Siqueira <siqueira@igalia.com>
+To: Mario Limonciello <mario.limonciello@amd.com>
+Cc: Melissa Wen <mwen@igalia.com>, Alex Hung <alex.hung@amd.com>, 
+ harry.wentland@amd.com, sunpeng.li@amd.com, alexander.deucher@amd.com, 
+ christian.koenig@amd.com, airlied@gmail.com, simona@ffwll.ch, 
+ Jani Nikula <jani.nikula@linux.intel.com>,
+ Michel Daenzer <michel.daenzer@mailbox.org>, 
+ amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+ kernel-dev@igalia.com
+Subject: Re: [PATCH v4 10/14] drm/amd/display: add a mid-layer file to handle
+ EDID in DC
+Message-ID: <u4dtlkxce4iukyzmeoka7upof6uu63zpi3asegsawm27gxfhaa@xl24g6uhs77l>
+References: <20250613150015.245917-1-mwen@igalia.com>
+ <20250613150015.245917-11-mwen@igalia.com>
+ <2b05cc7d-c2bd-442a-87dd-d1f0abc11629@amd.com>
 MIME-Version: 1.0
-X-Mimecast-Spam-Score: 0
-X-Mimecast-MFC-PROC-ID: gA-USqsebHgVE3um_ONY8LWC1xlvPePw2NhFrrR20s4_1750186362
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <2b05cc7d-c2bd-442a-87dd-d1f0abc11629@amd.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -114,33 +67,149 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, 17 Jun 2025 12:59:06 -0500
-Mario Limonciello <superm1@kernel.org> wrote:
-
-> From: Mario Limonciello <mario.limonciello@amd.com>
+On 06/13, Mario Limonciello wrote:
+> On 6/13/2025 9:58 AM, Melissa Wen wrote:
+> > From: Rodrigo Siqueira <siqueira@igalia.com>
+> > 
+> > Since DC is a shared code, this commit introduces a new file to work as
+> > a mid-layer in DC for the edid manipulation.
+> > 
+> > v3:
+> > - rebase on top of asdn
+> Can you put changelog below cutlist (---)?
+> > 
+> > Signed-off-by: Rodrigo Siqueira <siqueira@igalia.com>
+> > Co-developed-by: Melissa Wen <mwen@igalia.com>
+> > Signed-off-by: Melissa Wen <mwen@igalia.com>
+> > ---
+> >   .../gpu/drm/amd/display/amdgpu_dm/Makefile    |  1 +
+> >   .../gpu/drm/amd/display/amdgpu_dm/dc_edid.c   | 19 +++++++++++++++++++
+> >   .../gpu/drm/amd/display/amdgpu_dm/dc_edid.h   | 11 +++++++++++
+> >   .../drm/amd/display/dc/link/link_detection.c  | 17 +++--------------
+> >   4 files changed, 34 insertions(+), 14 deletions(-)
+> >   create mode 100644 drivers/gpu/drm/amd/display/amdgpu_dm/dc_edid.c
+> >   create mode 100644 drivers/gpu/drm/amd/display/amdgpu_dm/dc_edid.h
+> > 
+> > diff --git a/drivers/gpu/drm/amd/display/amdgpu_dm/Makefile b/drivers/gpu/drm/amd/display/amdgpu_dm/Makefile
+> > index 7329b8cc2576..09cb94d8e0e4 100644
+> > --- a/drivers/gpu/drm/amd/display/amdgpu_dm/Makefile
+> > +++ b/drivers/gpu/drm/amd/display/amdgpu_dm/Makefile
+> > @@ -39,6 +39,7 @@ AMDGPUDM = \
+> >   	amdgpu_dm_psr.o \
+> >   	amdgpu_dm_replay.o \
+> >   	amdgpu_dm_quirks.o \
+> > +	dc_edid.o \
+> >   	amdgpu_dm_wb.o
+> >   ifdef CONFIG_DRM_AMD_DC_FP
+> > diff --git a/drivers/gpu/drm/amd/display/amdgpu_dm/dc_edid.c b/drivers/gpu/drm/amd/display/amdgpu_dm/dc_edid.c
+> > new file mode 100644
+> > index 000000000000..fab873b091f5
+> > --- /dev/null
+> > +++ b/drivers/gpu/drm/amd/display/amdgpu_dm/dc_edid.c
+> > @@ -0,0 +1,19 @@
+> > +// SPDX-License-Identifier: MIT
+> > +#include "amdgpu_dm/dc_edid.h"
+> > +#include "dc.h"
+> > +
+> > +bool dc_edid_is_same_edid(struct dc_sink *prev_sink,
+> > +			  struct dc_sink *current_sink)
+> > +{
+> > +	struct dc_edid *old_edid = &prev_sink->dc_edid;
+> > +	struct dc_edid *new_edid = &current_sink->dc_edid;
+> > +
+> > +       if (old_edid->length != new_edid->length)
+> > +               return false;
+> > +
+> > +       if (new_edid->length == 0)
+> > +               return false;
+> > +
+> > +       return (memcmp(old_edid->raw_edid,
+> > +                      new_edid->raw_edid, new_edid->length) == 0);
+> > +}
+> > diff --git a/drivers/gpu/drm/amd/display/amdgpu_dm/dc_edid.h b/drivers/gpu/drm/amd/display/amdgpu_dm/dc_edid.h
+> > new file mode 100644
+> > index 000000000000..7e3b1177bc8a
+> > --- /dev/null
+> > +++ b/drivers/gpu/drm/amd/display/amdgpu_dm/dc_edid.h
+> > @@ -0,0 +1,11 @@
+> > +/* SPDX-License-Identifier: MIT */
+> > +
+> > +#ifndef __DC_EDID_H__
+> > +#define __DC_EDID_H__
+> > +
+> > +#include "dc.h"
+> > +
+> > +bool dc_edid_is_same_edid(struct dc_sink *prev_sink,
+> > +			  struct dc_sink *current_sink);
+> > +
+> > +#endif /* __DC_EDID_H__ */
+> > diff --git a/drivers/gpu/drm/amd/display/dc/link/link_detection.c b/drivers/gpu/drm/amd/display/dc/link/link_detection.c
+> > index 863c24fe1117..344356e26f8b 100644
+> > --- a/drivers/gpu/drm/amd/display/dc/link/link_detection.c
+> > +++ b/drivers/gpu/drm/amd/display/dc/link/link_detection.c
+> > @@ -48,6 +48,8 @@
+> >   #include "dm_helpers.h"
+> >   #include "clk_mgr.h"
+> > +#include "dc_edid.h"
 > 
-> The inline pci_is_display() helper does the same thing.  Use it.
+> There's a problem with the header location.  If you're naming it dc_edid.h
+> but putting the header in amdgpu_dm/ directory then it's only going to
+> compile for amdgpu.
 > 
-> Suggested-by: Bjorn Helgaas <helgaas@kernel.org>
-> Signed-off-by: Mario Limonciello <mario.limonciello@amd.com>
-> ---
->  drivers/vfio/pci/vfio_pci_igd.c | 3 +--
->  1 file changed, 1 insertion(+), 2 deletions(-)
+> I think dc_edid.h needs to go into dc/ directory.
+
+Hey Mario,
+
+DC is shared with other OSes, and sometimes, we need to find ways to
+maintain this synergy with some tricks. One of them is to implement a
+set of files with standard functions, but these files get different
+implementations per OSes. One good example of this approach was the
+introduction of the `dc_fpu.[c|h]` file:
+
+ https://gitlab.freedesktop.org/agd5f/linux/-/commit/96ee63730fa30
+
+The idea is that every other OS can implement the dc_fpu.c file as they
+want, and we maintain the same interface. The same idea applies to this
+patch. We want to keep all the drm-specific things isolated in the
+amdgpu_dm, call the generic functions in DC, but other OSes will do the
+same with their specific implementation. Additionally, I think that
+keeping the dc_ name in the amdgpu folder is also a good indication of
+this approach.
+
+Thanks
+Siqueira
+
 > 
-> diff --git a/drivers/vfio/pci/vfio_pci_igd.c b/drivers/vfio/pci/vfio_pci_igd.c
-> index ef490a4545f48..988b6919c2c31 100644
-> --- a/drivers/vfio/pci/vfio_pci_igd.c
-> +++ b/drivers/vfio/pci/vfio_pci_igd.c
-> @@ -437,8 +437,7 @@ static int vfio_pci_igd_cfg_init(struct vfio_pci_core_device *vdev)
->  
->  bool vfio_pci_is_intel_display(struct pci_dev *pdev)
->  {
-> -	return (pdev->vendor == PCI_VENDOR_ID_INTEL) &&
-> -	       ((pdev->class >> 16) == PCI_BASE_CLASS_DISPLAY);
-> +	return (pdev->vendor == PCI_VENDOR_ID_INTEL) && pci_is_display(pdev);
->  }
->  
->  int vfio_pci_igd_init(struct vfio_pci_core_device *vdev)
+> > +
+> >    // Offset DPCD 050Eh == 0x5A
+> >   #define MST_HUB_ID_0x5A  0x5A
+> > @@ -617,18 +619,6 @@ static bool detect_dp(struct dc_link *link,
+> >   	return true;
+> >   }
+> > -static bool is_same_edid(struct dc_edid *old_edid, struct dc_edid *new_edid)
+> > -{
+> > -	if (old_edid->length != new_edid->length)
+> > -		return false;
+> > -
+> > -	if (new_edid->length == 0)
+> > -		return false;
+> > -
+> > -	return (memcmp(old_edid->raw_edid,
+> > -		       new_edid->raw_edid, new_edid->length) == 0);
+> > -}
+> > -
+> >   static bool wait_for_entering_dp_alt_mode(struct dc_link *link)
+> >   {
+> > @@ -1105,8 +1095,7 @@ static bool detect_link_and_local_sink(struct dc_link *link,
+> >   		// Check if edid is the same
+> >   		if ((prev_sink) &&
+> >   		    (edid_status == EDID_THE_SAME || edid_status == EDID_OK))
+> > -			same_edid = is_same_edid(&prev_sink->dc_edid,
+> > -						 &sink->dc_edid);
+> > +			same_edid = dc_edid_is_same_edid(prev_sink, sink);
+> >   		if (sink->edid_caps.panel_patch.skip_scdc_overwrite)
+> >   			link->ctx->dc->debug.hdmi20_disable = true;
+> 
 
-Acked-by: Alex Williamson <alex.williamson@redhat.com>
-
+-- 
+Rodrigo Siqueira
