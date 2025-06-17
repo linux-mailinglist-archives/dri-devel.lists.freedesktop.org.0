@@ -2,34 +2,34 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7AFD3ADDB09
+	by mail.lfdr.de (Postfix) with ESMTPS id 7A9ABADDB08
 	for <lists+dri-devel@lfdr.de>; Tue, 17 Jun 2025 19:59:56 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1DF4910E784;
-	Tue, 17 Jun 2025 17:59:36 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3F2B710E0D6;
+	Tue, 17 Jun 2025 17:59:35 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="DJyEf2oc";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="UwHew9lW";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 446A510E072
- for <dri-devel@lists.freedesktop.org>; Tue, 17 Jun 2025 17:59:31 +0000 (UTC)
+Received: from sea.source.kernel.org (sea.source.kernel.org [172.234.252.31])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 18F5E10E0D6
+ for <dri-devel@lists.freedesktop.org>; Tue, 17 Jun 2025 17:59:33 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by dfw.source.kernel.org (Postfix) with ESMTP id 32EFB5C681D;
- Tue, 17 Jun 2025 17:57:14 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 33C51C4CEE7;
- Tue, 17 Jun 2025 17:59:28 +0000 (UTC)
+ by sea.source.kernel.org (Postfix) with ESMTP id F304A4A7D3;
+ Tue, 17 Jun 2025 17:59:32 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id AC524C4CEF1;
+ Tue, 17 Jun 2025 17:59:30 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1750183170;
- bh=7UZGrblneAtFey369IMyzZF/udvRe/m3MafrVy9aQVg=;
+ s=k20201202; t=1750183172;
+ bh=7syN+VGWAq1nVYbtNhebxuTb7b5k+6al9zHWrp5oKB4=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=DJyEf2oc+Mu+ag8PcFekljMuzR1hwylZlTEtwPiy6tb3X4dNQgDD9Jf5EnwaLG8i5
- 9LwFWjBxWLi9ifSe9I+8Iz3wX7ICzMDfh2/hg1VrCzeH3XDlwkbtdMkOZkZ+yY9n5I
- 3Lq1mogn3jjDGe9Rd1I3oTDJkCehnVRyITTXDVLunW8gRCautJP1gOWjiB6BP8ZU+S
- y1iexDbE+ZSmmFjlZ4lS3aZPC90kxI2FpibS54PUi2/PnIGNqbxS4mJOxtCRsS4K9j
- WBb02/8p3FuGu05xLzsT4oZR1tTx+P0RcxnzGaC+F2CYDeFNQYyI4dNBD3eNjkwLR7
- 4q22JkK9np3CA==
+ b=UwHew9lWylxUDH4E7K0yq7jCjZRraVLumM+ZA1jiaOqySEHkDs1UdMIeO94w9HzIg
+ YvlFjXEIEHIO0sd4309vR5tVaHCTHkFBZ/K21VTSeiJbWNdry+vBV/w7sKPNTIvVwh
+ bzWVUTSxSLzn3d7Q+jTaz8W2Ix72tD3Xf/HVEVNRKp/rle8kjqxgl2DiLjhPMn4oMD
+ EFg0gO9Bz3PP1DKCN8QE5rc5Uh7rTJiVtfeKRvfjV3d1LoDX34xLFuwRZ9CHZ4qZLR
+ C3cAn1ZSTBaXOrGxe9ijkLM6omGEZWPwpJoWXkMTXLhroNpqq2bCMWFOvHsVxiuSe6
+ K1OUptgkmKoOA==
 From: Mario Limonciello <superm1@kernel.org>
 To: Bjorn Helgaas <bhelgaas@google.com>
 Cc: Alex Deucher <alexander.deucher@amd.com>,
@@ -51,11 +51,10 @@ Cc: Alex Deucher <alexander.deucher@amd.com>,
  kvm@vger.kernel.org (open list:VFIO DRIVER),
  linux-sound@vger.kernel.org (open list:SOUND),
  Daniel Dadap <ddadap@nvidia.com>,
- Mario Limonciello <mario.limonciello@amd.com>,
- Bjorn Helgaas <helgaas@kernel.org>
-Subject: [PATCH v2 5/6] ALSA: hda: Use pci_is_display()
-Date: Tue, 17 Jun 2025 12:59:09 -0500
-Message-ID: <20250617175910.1640546-6-superm1@kernel.org>
+ Mario Limonciello <mario.limonciello@amd.com>
+Subject: [PATCH v2 6/6] vgaarb: Look at all PCI display devices in VGA arbiter
+Date: Tue, 17 Jun 2025 12:59:10 -0500
+Message-ID: <20250617175910.1640546-7-superm1@kernel.org>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <20250617175910.1640546-1-superm1@kernel.org>
 References: <20250617175910.1640546-1-superm1@kernel.org>
@@ -78,50 +77,81 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 From: Mario Limonciello <mario.limonciello@amd.com>
 
-The inline pci_is_display() helper does the same thing.  Use it.
+On a mobile system with an AMD integrated GPU + NVIDIA discrete GPU the
+AMD GPU is not being selected by some desktop environments for any
+rendering tasks. This is because neither GPU is being treated as
+"boot_vga" but that is what some environments use to select a GPU [1].
 
-Suggested-by: Bjorn Helgaas <helgaas@kernel.org>
+The VGA arbiter driver only looks at devices that report as PCI display
+VGA class devices. Neither GPU on the system is a PCI display VGA class
+device:
+
+c5:00.0 3D controller: NVIDIA Corporation Device 2db9 (rev a1)
+c6:00.0 Display controller: Advanced Micro Devices, Inc. [AMD/ATI] Device 150e (rev d1)
+
+If the GPUs were looked at the vga_is_firmware_default() function actually
+does do a good job at recognizing the case from the device used for the
+firmware framebuffer.
+
+Modify the VGA arbiter code and matching sysfs file entries to examine all
+PCI display class devices. The existing logic stays the same.
+
+This will cause all GPUs to gain a `boot_vga` file, but the correct device
+(AMD GPU in this case) will now show `1` and the incorrect device shows `0`.
+Userspace then picks the right device as well.
+
+Link: https://github.com/robherring/libpciaccess/commit/b2838fb61c3542f107014b285cbda097acae1e12 [1]
+Suggested-by: Daniel Dadap <ddadap@nvidia.com>
+Acked-by: Thomas Zimmermann <tzimmermann@suse.de>
 Signed-off-by: Mario Limonciello <mario.limonciello@amd.com>
 ---
- sound/hda/hdac_i915.c     | 2 +-
- sound/pci/hda/hda_intel.c | 4 ++--
- 2 files changed, 3 insertions(+), 3 deletions(-)
+ drivers/pci/pci-sysfs.c | 2 +-
+ drivers/pci/vgaarb.c    | 8 ++++----
+ 2 files changed, 5 insertions(+), 5 deletions(-)
 
-diff --git a/sound/hda/hdac_i915.c b/sound/hda/hdac_i915.c
-index e9425213320ea..44438c799f957 100644
---- a/sound/hda/hdac_i915.c
-+++ b/sound/hda/hdac_i915.c
-@@ -155,7 +155,7 @@ static int i915_gfx_present(struct pci_dev *hdac_pci)
+diff --git a/drivers/pci/pci-sysfs.c b/drivers/pci/pci-sysfs.c
+index 268c69daa4d57..c314ee1b3f9ac 100644
+--- a/drivers/pci/pci-sysfs.c
++++ b/drivers/pci/pci-sysfs.c
+@@ -1707,7 +1707,7 @@ static umode_t pci_dev_attrs_are_visible(struct kobject *kobj,
+ 	struct device *dev = kobj_to_dev(kobj);
+ 	struct pci_dev *pdev = to_pci_dev(dev);
  
- 	for_each_pci_dev(display_dev) {
- 		if (display_dev->vendor != PCI_VENDOR_ID_INTEL ||
--		    (display_dev->class >> 16) != PCI_BASE_CLASS_DISPLAY)
-+		    !pci_is_display(display_dev))
- 			continue;
+-	if (a == &dev_attr_boot_vga.attr && pci_is_vga(pdev))
++	if (a == &dev_attr_boot_vga.attr && pci_is_display(pdev))
+ 		return a->mode;
  
- 		if (pci_match_id(denylist, display_dev))
-diff --git a/sound/pci/hda/hda_intel.c b/sound/pci/hda/hda_intel.c
-index e5210ed48ddf1..a165c44b43940 100644
---- a/sound/pci/hda/hda_intel.c
-+++ b/sound/pci/hda/hda_intel.c
-@@ -1465,7 +1465,7 @@ static struct pci_dev *get_bound_vga(struct pci_dev *pci)
- 				 * the dGPU is the one who is involved in
- 				 * vgaswitcheroo.
- 				 */
--				if (((p->class >> 16) == PCI_BASE_CLASS_DISPLAY) &&
-+				if (pci_is_display(p) &&
- 				    (atpx_present() || apple_gmux_detect(NULL, NULL)))
- 					return p;
- 				pci_dev_put(p);
-@@ -1477,7 +1477,7 @@ static struct pci_dev *get_bound_vga(struct pci_dev *pci)
- 			p = pci_get_domain_bus_and_slot(pci_domain_nr(pci->bus),
- 							pci->bus->number, 0);
- 			if (p) {
--				if ((p->class >> 16) == PCI_BASE_CLASS_DISPLAY)
-+				if (pci_is_display(p))
- 					return p;
- 				pci_dev_put(p);
- 			}
+ 	return 0;
+diff --git a/drivers/pci/vgaarb.c b/drivers/pci/vgaarb.c
+index 78748e8d2dbae..63216e5787d73 100644
+--- a/drivers/pci/vgaarb.c
++++ b/drivers/pci/vgaarb.c
+@@ -1499,8 +1499,8 @@ static int pci_notify(struct notifier_block *nb, unsigned long action,
+ 
+ 	vgaarb_dbg(dev, "%s\n", __func__);
+ 
+-	/* Only deal with VGA class devices */
+-	if (!pci_is_vga(pdev))
++	/* Only deal with PCI display class devices */
++	if (!pci_is_display(pdev))
+ 		return 0;
+ 
+ 	/*
+@@ -1546,12 +1546,12 @@ static int __init vga_arb_device_init(void)
+ 
+ 	bus_register_notifier(&pci_bus_type, &pci_notifier);
+ 
+-	/* Add all VGA class PCI devices by default */
++	/* Add all PCI display class devices by default */
+ 	pdev = NULL;
+ 	while ((pdev =
+ 		pci_get_subsys(PCI_ANY_ID, PCI_ANY_ID, PCI_ANY_ID,
+ 			       PCI_ANY_ID, pdev)) != NULL) {
+-		if (pci_is_vga(pdev))
++		if (pci_is_display(pdev))
+ 			vga_arbiter_add_pci_device(pdev);
+ 	}
+ 
 -- 
 2.43.0
 
