@@ -2,36 +2,36 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1B21AADCBED
-	for <lists+dri-devel@lfdr.de>; Tue, 17 Jun 2025 14:50:28 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id A840AADCBE8
+	for <lists+dri-devel@lfdr.de>; Tue, 17 Jun 2025 14:50:22 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 29CE410E643;
-	Tue, 17 Jun 2025 12:50:24 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A511710E630;
+	Tue, 17 Jun 2025 12:50:20 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=igalia.com header.i=@igalia.com header.b="GA7/1iJL";
+	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=igalia.com header.i=@igalia.com header.b="lcwt4GNH";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from fanzine2.igalia.com (fanzine2.igalia.com [213.97.179.56])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 344F710E629;
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3245A10E3C5;
  Tue, 17 Jun 2025 12:50:16 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com; 
  s=20170329;
- h=Content-Transfer-Encoding:Content-Type:MIME-Version:Message-ID:
- Date:Subject:Cc:To:From:Sender:Reply-To:Content-ID:Content-Description:
- Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
- In-Reply-To:References:List-Id:List-Help:List-Unsubscribe:List-Subscribe:
+ h=Content-Transfer-Encoding:Content-Type:MIME-Version:References:
+ In-Reply-To:Message-ID:Date:Subject:Cc:To:From:Sender:Reply-To:Content-ID:
+ Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc
+ :Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:List-Subscribe:
  List-Post:List-Owner:List-Archive;
- bh=O2OFhfn/1VI9M++uzWjDUIjHLZVYB0R/5cmHbOXDhAI=; b=GA7/1iJLvjBp52WPEbJNxdN9mA
- +P8N9bdC9zXlBd2OUXUjZrOGwNd5gNdEsjrDvWbrywDjwuzpmFZlgodNw8mF1zUQ1/F7SaN2ZZ59F
- b1G3JEGo8U4HNhrdlihKbSng91JKKX0svXDfEs4U8FL4zW+/D5s5oC8al+dgq6EnflLQLcsEhAirI
- LI+sHGjGLXEfIbuvnEnK4OwRzrAWExY6lRxu0JyFwgxYKcwVirR/zwzJntjW1B4I1JFwhWzxRfWVU
- 2r1/FViBKTLhMtNQ4aVNPsxUwVlvpjDYPJiE8JPpGPWbWZso0u5lSuSxgAH/471ll9tR2EI4a6yMc
- cSCF4Khw==;
+ bh=yrfDzOT2kIl7hEsjyNVf8qR8CQoShiARpH5JLckqStg=; b=lcwt4GNHHejK7Yucp1nwlPtmO3
+ /SnV2hmq66V2+D3YE6T7zCdhrmH0mUfx/0SE4//A82ZdqXmiKrouvypINmRZV9ZTcfsJMLzfJWvSg
+ 227qsOh1Z/JqUS7K1i+mMIx0VqUGqY72/8FIpWGhZTrPI1LgCtiAeXik8RytUYmgSNrJufgMf2NWw
+ /CLxsJaxuhNRhpnMS/NK10TimdUqISWeHxR42QEa1bUepFs3xX0QZKWlUDl4BXN8oPONtrZtqECPZ
+ 0L/GX4sSUSspbcxb5ilAHJQABXi964+Sfvcig3bL/zPNw6LB2l+eTAX7ccjStNzjGUGRP5GBM1W8z
+ KSEIqD8g==;
 Received: from [191.204.192.64] (helo=localhost.localdomain)
  by fanzine2.igalia.com with esmtpsa 
  (Cipher TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_256_GCM:256) (Exim)
- id 1uRVlI-004ans-Od; Tue, 17 Jun 2025 14:50:01 +0200
+ id 1uRVlM-004ans-Mu; Tue, 17 Jun 2025 14:50:05 +0200
 From: =?UTF-8?q?Andr=C3=A9=20Almeida?= <andrealmeid@igalia.com>
 To: "Alex Deucher" <alexander.deucher@amd.com>,
  =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>,
@@ -43,10 +43,13 @@ Cc: dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
  kernel-dev@igalia.com, amd-gfx@lists.freedesktop.org,
  intel-xe@lists.freedesktop.org, intel-gfx@lists.freedesktop.org,
  =?UTF-8?q?Andr=C3=A9=20Almeida?= <andrealmeid@igalia.com>
-Subject: [PATCH v9 0/6] drm: Create a task info option for wedge events
-Date: Tue, 17 Jun 2025 09:49:43 -0300
-Message-ID: <20250617124949.2151549-1-andrealmeid@igalia.com>
+Subject: [PATCH v9 1/6] drm: amdgpu: Allow NULL pointers at
+ amdgpu_vm_put_task_info()
+Date: Tue, 17 Jun 2025 09:49:44 -0300
+Message-ID: <20250617124949.2151549-2-andrealmeid@igalia.com>
 X-Mailer: git-send-email 2.49.0
+In-Reply-To: <20250617124949.2151549-1-andrealmeid@igalia.com>
+References: <20250617124949.2151549-1-andrealmeid@igalia.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
@@ -65,98 +68,32 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-This patchset implements a request made by Xaver Hugl about wedge events:
+Allow NULL pointers at amdgpu_vm_put_task_info() as it common practice
+for "put" or "free" functions. This avoid an extra check for NULL for
+callers.
 
-"I'd really like to have the PID of the client that triggered the GPU
-reset, so that we can kill it if multiple resets are triggered in a
-row (or switch to software rendering if it's KWin itself) and show a
-user-friendly notification about why their app(s) crashed, but that
-can be added later."
+Signed-off-by: André Almeida <andrealmeid@igalia.com>
+---
+v9: use if (task) instead of if (ZERO_OR_NULL_PTR(task))
+v8: New patch
+---
+ drivers/gpu/drm/amd/amdgpu/amdgpu_vm.c | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
 
-From https://lore.kernel.org/dri-devel/CAFZQkGwJ4qgHV8WTp2=svJ_VXhb-+Y8_VNtKB=jLsk6DqMYp9w@mail.gmail.com/
-
-For testing, I've used amdgpu's debug_mask options debug_disable_soft_recovery
-and debug_disable_gpu_ring_reset to test both wedge event paths in the driver.
-To trigger a ring timeout, I've used this app:
-https://gitlab.freedesktop.org/andrealmeid/gpu-timeout
-
-Thanks!
-
-Changelog:
-
-v9:
- - use `if (task)` instead of `if (ZERO_OR_NULL_PTR(task))` at
-   amdgpu_vm_put_task_info()
-
-v8:
- - New patch "Allow NULL pointers at amdgpu_vm_put_task_info()"
- - Dropped inline for amdgpu_vm_print_task_info()
- - Code style changes for "Create a task info option for wedge events"
- - Drop check before calling amdgpu_vm_put_task_info()
-
-v7:
- - Change `char *comm` to `char comm[TASK_COMM_LEN]`
- - New patches to encapsulate struct drm_wedge_task_info inside of struct
-   amdgpu_task_info
- - Remove struct cast for struct amdgpu_task_info, now we can use `info =
-   &ti->task`
- - Fix struct lifetime, move amdgpu_vm_put_task_info() after
-   drm_dev_wedged_event() call
-
-v6:
- - Check if PID >= 0 for displaying the task info
- - s/app/task in a comment
-
-v5:
- - Change from app to task also in structs, commit message and docs
- - Add a check for NULL or empty task name string
-
-v4:
- - Change from APP to TASK
- - Add defines for event_string and pid_string length
-
-v3:
- - Make comm_string and pid_string empty when there's no app info
- - Change "app that caused ..." to "app involved ..."
- - Clarify that devcoredump have more information about what happened
-
-v2:
-  - Rebased on top of drm/drm-next
-  - Added new patch for documentation
-
-André Almeida (6):
-  drm: amdgpu: Allow NULL pointers at amdgpu_vm_put_task_info()
-  drm: amdgpu: Create amdgpu_vm_print_task_info()
-  drm: Create a task info option for wedge events
-  drm/doc: Add a section about "Task information" for the wedge API
-  drm: amdgpu: Use struct drm_wedge_task_info inside of struct
-    amdgpu_task_info
-  drm/amdgpu: Make use of drm_wedge_task_info
-
- Documentation/gpu/drm-uapi.rst                | 17 ++++++++++++++
- drivers/gpu/drm/amd/amdgpu/amdgpu_debugfs.c   |  2 +-
- .../gpu/drm/amd/amdgpu/amdgpu_dev_coredump.c  |  4 ++--
- drivers/gpu/drm/amd/amdgpu/amdgpu_device.c    | 13 +++++++++--
- drivers/gpu/drm/amd/amdgpu/amdgpu_gem.c       |  2 +-
- drivers/gpu/drm/amd/amdgpu/amdgpu_job.c       | 11 +++++-----
- drivers/gpu/drm/amd/amdgpu/amdgpu_vm.c        | 22 ++++++++++++++-----
- drivers/gpu/drm/amd/amdgpu/amdgpu_vm.h        |  6 +++--
- drivers/gpu/drm/amd/amdgpu/gmc_v10_0.c        |  5 +----
- drivers/gpu/drm/amd/amdgpu/gmc_v11_0.c        |  5 +----
- drivers/gpu/drm/amd/amdgpu/gmc_v12_0.c        |  5 +----
- drivers/gpu/drm/amd/amdgpu/gmc_v8_0.c         |  4 +---
- drivers/gpu/drm/amd/amdgpu/gmc_v9_0.c         |  5 +----
- drivers/gpu/drm/amd/amdgpu/sdma_v4_0.c        |  2 +-
- drivers/gpu/drm/amd/amdgpu/sdma_v4_4_2.c      |  2 +-
- drivers/gpu/drm/amd/amdkfd/kfd_events.c       |  2 +-
- drivers/gpu/drm/amd/amdkfd/kfd_smi_events.c   |  8 +++----
- drivers/gpu/drm/drm_drv.c                     | 21 ++++++++++++++----
- drivers/gpu/drm/i915/gt/intel_reset.c         |  3 ++-
- drivers/gpu/drm/xe/xe_device.c                |  3 ++-
- include/drm/drm_device.h                      |  9 ++++++++
- include/drm/drm_drv.h                         |  3 ++-
- 22 files changed, 102 insertions(+), 52 deletions(-)
-
+diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_vm.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_vm.c
+index 3911c78f8282..de914a39e3f6 100644
+--- a/drivers/gpu/drm/amd/amdgpu/amdgpu_vm.c
++++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_vm.c
+@@ -2447,7 +2447,8 @@ amdgpu_vm_get_vm_from_pasid(struct amdgpu_device *adev, u32 pasid)
+  */
+ void amdgpu_vm_put_task_info(struct amdgpu_task_info *task_info)
+ {
+-	kref_put(&task_info->refcount, amdgpu_vm_destroy_task_info);
++	if (task_info)
++		kref_put(&task_info->refcount, amdgpu_vm_destroy_task_info);
+ }
+ 
+ /**
 -- 
 2.49.0
 
