@@ -2,64 +2,103 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7A9ABADDB08
-	for <lists+dri-devel@lfdr.de>; Tue, 17 Jun 2025 19:59:56 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id EDFA6ADDBAD
+	for <lists+dri-devel@lfdr.de>; Tue, 17 Jun 2025 20:52:51 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3F2B710E0D6;
-	Tue, 17 Jun 2025 17:59:35 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 56D4710E0AD;
+	Tue, 17 Jun 2025 18:52:50 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="UwHew9lW";
+	dkim=pass (1024-bit key; unprotected) header.d=redhat.com header.i=@redhat.com header.b="BZxCee7J";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from sea.source.kernel.org (sea.source.kernel.org [172.234.252.31])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 18F5E10E0D6
- for <dri-devel@lists.freedesktop.org>; Tue, 17 Jun 2025 17:59:33 +0000 (UTC)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by sea.source.kernel.org (Postfix) with ESMTP id F304A4A7D3;
- Tue, 17 Jun 2025 17:59:32 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id AC524C4CEF1;
- Tue, 17 Jun 2025 17:59:30 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1750183172;
- bh=7syN+VGWAq1nVYbtNhebxuTb7b5k+6al9zHWrp5oKB4=;
- h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=UwHew9lWylxUDH4E7K0yq7jCjZRraVLumM+ZA1jiaOqySEHkDs1UdMIeO94w9HzIg
- YvlFjXEIEHIO0sd4309vR5tVaHCTHkFBZ/K21VTSeiJbWNdry+vBV/w7sKPNTIvVwh
- bzWVUTSxSLzn3d7Q+jTaz8W2Ix72tD3Xf/HVEVNRKp/rle8kjqxgl2DiLjhPMn4oMD
- EFg0gO9Bz3PP1DKCN8QE5rc5Uh7rTJiVtfeKRvfjV3d1LoDX34xLFuwRZ9CHZ4qZLR
- C3cAn1ZSTBaXOrGxe9ijkLM6omGEZWPwpJoWXkMTXLhroNpqq2bCMWFOvHsVxiuSe6
- K1OUptgkmKoOA==
-From: Mario Limonciello <superm1@kernel.org>
-To: Bjorn Helgaas <bhelgaas@google.com>
-Cc: Alex Deucher <alexander.deucher@amd.com>,
- =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- Lukas Wunner <lukas@wunner.de>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>,
- David Woodhouse <dwmw2@infradead.org>, Lu Baolu <baolu.lu@linux.intel.com>,
- Joerg Roedel <joro@8bytes.org>, Will Deacon <will@kernel.org>,
- Robin Murphy <robin.murphy@arm.com>,
- Alex Williamson <alex.williamson@redhat.com>,
- Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
- dri-devel@lists.freedesktop.org (open list:DRM DRIVERS),
- linux-kernel@vger.kernel.org (open list),
- iommu@lists.linux.dev (open list:INTEL IOMMU (VT-d)),
- linux-pci@vger.kernel.org (open list:PCI SUBSYSTEM),
- kvm@vger.kernel.org (open list:VFIO DRIVER),
- linux-sound@vger.kernel.org (open list:SOUND),
- Daniel Dadap <ddadap@nvidia.com>,
- Mario Limonciello <mario.limonciello@amd.com>
-Subject: [PATCH v2 6/6] vgaarb: Look at all PCI display devices in VGA arbiter
-Date: Tue, 17 Jun 2025 12:59:10 -0500
-Message-ID: <20250617175910.1640546-7-superm1@kernel.org>
-X-Mailer: git-send-email 2.43.0
-In-Reply-To: <20250617175910.1640546-1-superm1@kernel.org>
+Received: from us-smtp-delivery-124.mimecast.com
+ (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id F204110E00C
+ for <dri-devel@lists.freedesktop.org>; Tue, 17 Jun 2025 18:52:45 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1750186365;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=j7GR8b6oq+VKsS7zEblPcoLobXIu9Z0EZdf91JZ1evE=;
+ b=BZxCee7J+REm65pWAt4vMMk2MBzboHYoIB0bB892iLKG4lnGvI6zzk147A3OeKwF05lR2r
+ h7PkqaLGAgxZXlmVPvQO8+51UH2bwSDAL7tziFFsoWIf52SVVble+BxvlTJAlBePDqTSfF
+ 4ZOfr5BfB52B3rqrk3Sv1cgxDeis4jU=
+Received: from mail-io1-f69.google.com (mail-io1-f69.google.com
+ [209.85.166.69]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-465-HnvdTEg3OIm8g6KpAZQt5g-1; Tue, 17 Jun 2025 14:52:43 -0400
+X-MC-Unique: HnvdTEg3OIm8g6KpAZQt5g-1
+X-Mimecast-MFC-AGG-ID: HnvdTEg3OIm8g6KpAZQt5g_1750186362
+Received: by mail-io1-f69.google.com with SMTP id
+ ca18e2360f4ac-86cf803792dso44668639f.3
+ for <dri-devel@lists.freedesktop.org>; Tue, 17 Jun 2025 11:52:43 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1750186362; x=1750791162;
+ h=content-transfer-encoding:mime-version:references:in-reply-to
+ :message-id:subject:cc:to:from:date:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=j7GR8b6oq+VKsS7zEblPcoLobXIu9Z0EZdf91JZ1evE=;
+ b=BvzjbalDNTc+FfulHuvE55icMmxPnYeJJP5JiQXdbFoTgEZaOI5MZYVxt9VcIwsC/V
+ ukLAS5Q1GZhfE1KYwt2lx4XIYUyRT7S4w5KlHwYHLPUCBQaYiNwrNUyIEpSz2kRphkuY
+ qW/y+0lohFbMX/DrYo5xGdQT4UptHJaccjkrgemHc32t1uc0pwJigkZmoy53qkLj+8Cw
+ qhOJBhDa/75DdPHGWa83BWFmjqbkSjgVnmikSbbJbvKSSz1wvC03QW/+zINSiwIFYmxG
+ HSq5+uv57MDRnGCvsn6cGcZT+SWqLXwhD+S0ZqlOUP3f1oeDg0aulwLrEg1w/d0GKg9R
+ AGMQ==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCXZkcY1mwj+ylu2fwqQi3HHC+YXz8CTEbExk1uDCOn3X7P+i1SzLjYp4e/wUph2Ie9QaK8gssiHtgE=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YyR+p4zL0pMBcuMWsffzrMEnJqL80YMSzfZ/cw8mH8kK1nSKo5N
+ IcXk4zSBd2ImALwH7TwaK4NNwohX3cKjexdPBxyO+hRW5IZPPq2trqrNao/bNPLdzaFaQnxUbX5
+ gXHPfPGSaPamj6q84EIyl/IRwDSYRBW78GBotCIhAVB2BiioPUZhvJZCIxUzJAmEl2TCSew==
+X-Gm-Gg: ASbGncutK4d/98D0hh7/SHcMjTRdic69pX2Dmc1Ilr59oERDLgp5kdb1fz8E528bO9E
+ fBANsucaRxirBiplj75l94p6eQo+RFbaQBu0ejaIpKFy8mn9b7cyW4bHQGPNSFLdKp3CRI2UbNr
+ TRYj6nmccng7xMqJX74HOD8KYxl4gfF6Atxh2QUaKqo+DB4K3ZoWFEa9lFkbgehH3dgDos9CkGW
+ ZatzOqCU9G3NsCsBzOhzu6cbxvWuMcbfZldW+wEsZNZ+TA7gD2rW8nJURT2iziTON4LeJidWsGH
+ XaaCu3zobyN6WQ20f+6mWX1RcQ==
+X-Received: by 2002:a05:6602:3414:b0:86a:24c0:8829 with SMTP id
+ ca18e2360f4ac-87601391479mr183502839f.0.1750186362595; 
+ Tue, 17 Jun 2025 11:52:42 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IEKthDmryWBtQYhqN8X3vXXpFX6gedZAuw/STdWF8X1NR60JiUUJho0FZmRHCrhQiS9JYovUQ==
+X-Received: by 2002:a05:6602:3414:b0:86a:24c0:8829 with SMTP id
+ ca18e2360f4ac-87601391479mr183500639f.0.1750186362211; 
+ Tue, 17 Jun 2025 11:52:42 -0700 (PDT)
+Received: from redhat.com ([38.15.36.11]) by smtp.gmail.com with ESMTPSA id
+ ca18e2360f4ac-875d5842a19sm225353839f.44.2025.06.17.11.52.38
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 17 Jun 2025 11:52:40 -0700 (PDT)
+Date: Tue, 17 Jun 2025 12:52:35 -0600
+From: Alex Williamson <alex.williamson@redhat.com>
+To: Mario Limonciello <superm1@kernel.org>
+Cc: Bjorn Helgaas <bhelgaas@google.com>, Alex Deucher
+ <alexander.deucher@amd.com>, Christian =?UTF-8?B?S8O2bmln?=
+ <christian.koenig@amd.com>, David Airlie <airlied@gmail.com>, Simona Vetter
+ <simona@ffwll.ch>, Lukas Wunner <lukas@wunner.de>, Maarten Lankhorst
+ <maarten.lankhorst@linux.intel.com>, Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>, David Woodhouse
+ <dwmw2@infradead.org>, Lu Baolu <baolu.lu@linux.intel.com>, Joerg Roedel
+ <joro@8bytes.org>, Will Deacon <will@kernel.org>, Robin Murphy
+ <robin.murphy@arm.com>, Jaroslav Kysela <perex@perex.cz>, Takashi Iwai
+ <tiwai@suse.com>, dri-devel@lists.freedesktop.org (open list:DRM DRIVERS),
+ linux-kernel@vger.kernel.org (open list), iommu@lists.linux.dev (open
+ list:INTEL IOMMU (VT-d)), linux-pci@vger.kernel.org (open list:PCI
+ SUBSYSTEM), kvm@vger.kernel.org (open list:VFIO DRIVER),
+ linux-sound@vger.kernel.org (open list:SOUND), Daniel Dadap
+ <ddadap@nvidia.com>, Mario Limonciello <mario.limonciello@amd.com>, Bjorn
+ Helgaas <helgaas@kernel.org>
+Subject: Re: [PATCH v2 2/6] vfio/pci: Use pci_is_display()
+Message-ID: <20250617125235.13017540.alex.williamson@redhat.com>
+In-Reply-To: <20250617175910.1640546-3-superm1@kernel.org>
 References: <20250617175910.1640546-1-superm1@kernel.org>
+ <20250617175910.1640546-3-superm1@kernel.org>
+X-Mailer: Claws Mail 4.3.1 (GTK 3.24.43; x86_64-redhat-linux-gnu)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+X-Mimecast-Spam-Score: 0
+X-Mimecast-MFC-PROC-ID: gA-USqsebHgVE3um_ONY8LWC1xlvPePw2NhFrrR20s4_1750186362
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -75,83 +114,33 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Mario Limonciello <mario.limonciello@amd.com>
+On Tue, 17 Jun 2025 12:59:06 -0500
+Mario Limonciello <superm1@kernel.org> wrote:
 
-On a mobile system with an AMD integrated GPU + NVIDIA discrete GPU the
-AMD GPU is not being selected by some desktop environments for any
-rendering tasks. This is because neither GPU is being treated as
-"boot_vga" but that is what some environments use to select a GPU [1].
+> From: Mario Limonciello <mario.limonciello@amd.com>
+> 
+> The inline pci_is_display() helper does the same thing.  Use it.
+> 
+> Suggested-by: Bjorn Helgaas <helgaas@kernel.org>
+> Signed-off-by: Mario Limonciello <mario.limonciello@amd.com>
+> ---
+>  drivers/vfio/pci/vfio_pci_igd.c | 3 +--
+>  1 file changed, 1 insertion(+), 2 deletions(-)
+> 
+> diff --git a/drivers/vfio/pci/vfio_pci_igd.c b/drivers/vfio/pci/vfio_pci_igd.c
+> index ef490a4545f48..988b6919c2c31 100644
+> --- a/drivers/vfio/pci/vfio_pci_igd.c
+> +++ b/drivers/vfio/pci/vfio_pci_igd.c
+> @@ -437,8 +437,7 @@ static int vfio_pci_igd_cfg_init(struct vfio_pci_core_device *vdev)
+>  
+>  bool vfio_pci_is_intel_display(struct pci_dev *pdev)
+>  {
+> -	return (pdev->vendor == PCI_VENDOR_ID_INTEL) &&
+> -	       ((pdev->class >> 16) == PCI_BASE_CLASS_DISPLAY);
+> +	return (pdev->vendor == PCI_VENDOR_ID_INTEL) && pci_is_display(pdev);
+>  }
+>  
+>  int vfio_pci_igd_init(struct vfio_pci_core_device *vdev)
 
-The VGA arbiter driver only looks at devices that report as PCI display
-VGA class devices. Neither GPU on the system is a PCI display VGA class
-device:
-
-c5:00.0 3D controller: NVIDIA Corporation Device 2db9 (rev a1)
-c6:00.0 Display controller: Advanced Micro Devices, Inc. [AMD/ATI] Device 150e (rev d1)
-
-If the GPUs were looked at the vga_is_firmware_default() function actually
-does do a good job at recognizing the case from the device used for the
-firmware framebuffer.
-
-Modify the VGA arbiter code and matching sysfs file entries to examine all
-PCI display class devices. The existing logic stays the same.
-
-This will cause all GPUs to gain a `boot_vga` file, but the correct device
-(AMD GPU in this case) will now show `1` and the incorrect device shows `0`.
-Userspace then picks the right device as well.
-
-Link: https://github.com/robherring/libpciaccess/commit/b2838fb61c3542f107014b285cbda097acae1e12 [1]
-Suggested-by: Daniel Dadap <ddadap@nvidia.com>
-Acked-by: Thomas Zimmermann <tzimmermann@suse.de>
-Signed-off-by: Mario Limonciello <mario.limonciello@amd.com>
----
- drivers/pci/pci-sysfs.c | 2 +-
- drivers/pci/vgaarb.c    | 8 ++++----
- 2 files changed, 5 insertions(+), 5 deletions(-)
-
-diff --git a/drivers/pci/pci-sysfs.c b/drivers/pci/pci-sysfs.c
-index 268c69daa4d57..c314ee1b3f9ac 100644
---- a/drivers/pci/pci-sysfs.c
-+++ b/drivers/pci/pci-sysfs.c
-@@ -1707,7 +1707,7 @@ static umode_t pci_dev_attrs_are_visible(struct kobject *kobj,
- 	struct device *dev = kobj_to_dev(kobj);
- 	struct pci_dev *pdev = to_pci_dev(dev);
- 
--	if (a == &dev_attr_boot_vga.attr && pci_is_vga(pdev))
-+	if (a == &dev_attr_boot_vga.attr && pci_is_display(pdev))
- 		return a->mode;
- 
- 	return 0;
-diff --git a/drivers/pci/vgaarb.c b/drivers/pci/vgaarb.c
-index 78748e8d2dbae..63216e5787d73 100644
---- a/drivers/pci/vgaarb.c
-+++ b/drivers/pci/vgaarb.c
-@@ -1499,8 +1499,8 @@ static int pci_notify(struct notifier_block *nb, unsigned long action,
- 
- 	vgaarb_dbg(dev, "%s\n", __func__);
- 
--	/* Only deal with VGA class devices */
--	if (!pci_is_vga(pdev))
-+	/* Only deal with PCI display class devices */
-+	if (!pci_is_display(pdev))
- 		return 0;
- 
- 	/*
-@@ -1546,12 +1546,12 @@ static int __init vga_arb_device_init(void)
- 
- 	bus_register_notifier(&pci_bus_type, &pci_notifier);
- 
--	/* Add all VGA class PCI devices by default */
-+	/* Add all PCI display class devices by default */
- 	pdev = NULL;
- 	while ((pdev =
- 		pci_get_subsys(PCI_ANY_ID, PCI_ANY_ID, PCI_ANY_ID,
- 			       PCI_ANY_ID, pdev)) != NULL) {
--		if (pci_is_vga(pdev))
-+		if (pci_is_display(pdev))
- 			vga_arbiter_add_pci_device(pdev);
- 	}
- 
--- 
-2.43.0
+Acked-by: Alex Williamson <alex.williamson@redhat.com>
 
