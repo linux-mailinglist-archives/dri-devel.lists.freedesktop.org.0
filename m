@@ -2,34 +2,34 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 004F4ADDB03
-	for <lists+dri-devel@lfdr.de>; Tue, 17 Jun 2025 19:59:29 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 54AADADDB05
+	for <lists+dri-devel@lfdr.de>; Tue, 17 Jun 2025 19:59:56 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 396CD10E76F;
-	Tue, 17 Jun 2025 17:59:28 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 928F110E06D;
+	Tue, 17 Jun 2025 17:59:31 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="bMnXfgCK";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="rl6veiUA";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from sea.source.kernel.org (sea.source.kernel.org [172.234.252.31])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7978E10E072
- for <dri-devel@lists.freedesktop.org>; Tue, 17 Jun 2025 17:59:27 +0000 (UTC)
+Received: from tor.source.kernel.org (tor.source.kernel.org [172.105.4.254])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 202F710E0D6
+ for <dri-devel@lists.freedesktop.org>; Tue, 17 Jun 2025 17:59:29 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by sea.source.kernel.org (Postfix) with ESMTP id 17E394A7D9;
+ by tor.source.kernel.org (Postfix) with ESMTP id BC3B6629C5;
+ Tue, 17 Jun 2025 17:59:25 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3850BC4CEE3;
  Tue, 17 Jun 2025 17:59:23 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id B23ADC4CEE7;
- Tue, 17 Jun 2025 17:59:20 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1750183163;
- bh=B2FqUgZDEIDRlLyoS0B3XrTjH48AtuNlz8x59tWs8Po=;
+ s=k20201202; t=1750183165;
+ bh=M+G2okprc7+csSbyn38orLtA+o98910c7qxr3mrgQiw=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=bMnXfgCKWH7ZHJPyONokxGJ0RFN0/TbVOSyc/TMGOiOgz5VuUCzU65y7xACwEzMGi
- Ioy1oZBgygLGt4yhtjO77Da9Zwkd9mEfdIVSJu9hNhu4beHBcC/0VZFtuyZ9wUV7OX
- +F/q0gqEM8jJTZLnUsCYrPuD50ILPCRNt8D2NtEhD2rYemvdms1A2EjcIwr0p/l5US
- UNSPekpvY9VaSb8tSP2V7mUnxHAcD8m1QBUObGoNMLEdNgR0hV/Hxy6evno3gUIt8Z
- O7iofwWYsvsllYDU3wt/ZVOSANez/+k4kofEVBlKp95i0FBYrD8+rEQjL9TvGRxaAg
- /rVNldiLppkXg==
+ b=rl6veiUAib3xReD7XXP9/zLBFitwjhmyJXERFXpRFXnhu58yR13sVv7nZkHU153tJ
+ iA9l1o37CB2gms2CnYwsP3Y0WUa86pgo00i4UlsVWAnTdV6CrPf8aCZWvLXhDX2qJO
+ rUAiPjErGsVj7SBIB++oozmLZmUhMH0VfvvR76IOw1sfA/lCJ/nkUa8WyeJZykj/wT
+ I3oTLAJK1/SACScCH1DbJINI4brngZ7/FdDGvrlWOPtzzdy1UpmJEAIW8zk6lz5ttQ
+ lLrr8kFbteuoamIOyXkcK88md4djWrNKGRBCYDZWWqLYsLZG+FPCZXkveA8DEqxpXg
+ uZK6uUeJguEnw==
 From: Mario Limonciello <superm1@kernel.org>
 To: Bjorn Helgaas <bhelgaas@google.com>
 Cc: Alex Deucher <alexander.deucher@amd.com>,
@@ -53,9 +53,9 @@ Cc: Alex Deucher <alexander.deucher@amd.com>,
  Daniel Dadap <ddadap@nvidia.com>,
  Mario Limonciello <mario.limonciello@amd.com>,
  Bjorn Helgaas <helgaas@kernel.org>
-Subject: [PATCH v2 2/6] vfio/pci: Use pci_is_display()
-Date: Tue, 17 Jun 2025 12:59:06 -0500
-Message-ID: <20250617175910.1640546-3-superm1@kernel.org>
+Subject: [PATCH v2 3/6] vga_switcheroo: Use pci_is_display()
+Date: Tue, 17 Jun 2025 12:59:07 -0500
+Message-ID: <20250617175910.1640546-4-superm1@kernel.org>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <20250617175910.1640546-1-superm1@kernel.org>
 References: <20250617175910.1640546-1-superm1@kernel.org>
@@ -83,23 +83,22 @@ The inline pci_is_display() helper does the same thing.  Use it.
 Suggested-by: Bjorn Helgaas <helgaas@kernel.org>
 Signed-off-by: Mario Limonciello <mario.limonciello@amd.com>
 ---
- drivers/vfio/pci/vfio_pci_igd.c | 3 +--
- 1 file changed, 1 insertion(+), 2 deletions(-)
+ drivers/gpu/vga/vga_switcheroo.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/drivers/vfio/pci/vfio_pci_igd.c b/drivers/vfio/pci/vfio_pci_igd.c
-index ef490a4545f48..988b6919c2c31 100644
---- a/drivers/vfio/pci/vfio_pci_igd.c
-+++ b/drivers/vfio/pci/vfio_pci_igd.c
-@@ -437,8 +437,7 @@ static int vfio_pci_igd_cfg_init(struct vfio_pci_core_device *vdev)
- 
- bool vfio_pci_is_intel_display(struct pci_dev *pdev)
+diff --git a/drivers/gpu/vga/vga_switcheroo.c b/drivers/gpu/vga/vga_switcheroo.c
+index 18f2c92beff8e..68e45a26e85f7 100644
+--- a/drivers/gpu/vga/vga_switcheroo.c
++++ b/drivers/gpu/vga/vga_switcheroo.c
+@@ -437,7 +437,7 @@ find_active_client(struct list_head *head)
+  */
+ bool vga_switcheroo_client_probe_defer(struct pci_dev *pdev)
  {
--	return (pdev->vendor == PCI_VENDOR_ID_INTEL) &&
--	       ((pdev->class >> 16) == PCI_BASE_CLASS_DISPLAY);
-+	return (pdev->vendor == PCI_VENDOR_ID_INTEL) && pci_is_display(pdev);
- }
- 
- int vfio_pci_igd_init(struct vfio_pci_core_device *vdev)
+-	if ((pdev->class >> 16) == PCI_BASE_CLASS_DISPLAY) {
++	if (pci_is_display(pdev)) {
+ 		/*
+ 		 * apple-gmux is needed on pre-retina MacBook Pro
+ 		 * to probe the panel if pdev is the inactive GPU.
 -- 
 2.43.0
 
