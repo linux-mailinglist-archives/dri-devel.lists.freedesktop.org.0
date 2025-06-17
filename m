@@ -2,61 +2,60 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id BAE82ADC902
-	for <lists+dri-devel@lfdr.de>; Tue, 17 Jun 2025 13:04:48 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0F5E9ADC976
+	for <lists+dri-devel@lfdr.de>; Tue, 17 Jun 2025 13:32:54 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7833E10E4D6;
-	Tue, 17 Jun 2025 11:04:44 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id F1D4610E4E3;
+	Tue, 17 Jun 2025 11:32:51 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=igalia.com header.i=@igalia.com header.b="MVAcs4tn";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="kzkXwuL1";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from fanzine2.igalia.com (fanzine2.igalia.com [213.97.179.56])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1097710E144;
- Tue, 17 Jun 2025 11:04:42 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com; 
- s=20170329;
- h=Content-Transfer-Encoding:Content-Type:In-Reply-To:From:
- References:Cc:To:Subject:MIME-Version:Date:Message-ID:Sender:Reply-To:
- Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
- Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
- List-Subscribe:List-Post:List-Owner:List-Archive;
- bh=yooUum23d4Xs+zPJPb7zQ9ouAmTI9/a+ibmXXVbyQ4I=; b=MVAcs4tnTWSkV2tgtDB/Ggjzlm
- NQLkSpAQ6wxTmWSBFt2+t3DmzaTNOevziarRxWUK/tCMaKOvXlQmIvFO17mVWVMcSaG/DQ5LgLrJ/
- q+0VW/yDFTrf5pNwJmG4wgGvIUdy0sHbPl0WRX03uhBgWhAlW8zg82H0GCpo1xN8BrJWlqJD/vD+d
- R5ubnso/5T4Bv8g6bHWTh9uQr99T94hNSdKO5FZ5KDtZrjLGW+4/F3vOrMCCgXsoMEb3Umiq0oZOY
- Qc02Mf02iwHbretvG4h5HA2K6tdJCMZ1autZHgqMZTI3xOIripxuvWjYqYAkSJxZv51b+eP/GrXGM
- 4tCfq13A==;
-Received: from [189.7.87.79] (helo=[192.168.0.7])
- by fanzine2.igalia.com with esmtpsa 
- (Cipher TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_128_GCM:128) (Exim)
- id 1uRU7J-004Ycd-TX; Tue, 17 Jun 2025 13:04:38 +0200
-Message-ID: <6bc0883c-beeb-4460-8919-77dbce00ac12@igalia.com>
-Date: Tue, 17 Jun 2025 08:04:27 -0300
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C4E8F10E4E3
+ for <dri-devel@lists.freedesktop.org>; Tue, 17 Jun 2025 11:32:50 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+ by dfw.source.kernel.org (Postfix) with ESMTP id 7BAB25C61E5;
+ Tue, 17 Jun 2025 11:30:33 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 32DEFC4CEE3;
+ Tue, 17 Jun 2025 11:32:42 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1750159969;
+ bh=CRnbVtr0GLb3lzwVaUxRD662hwv3QeuvoQMwpeWJVEU=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=kzkXwuL1P9QjyVWGow80aEJoOUAhmHjnyJjnxodlDQK10dgSZTFCk9cUHzT6a+xEI
+ F4zaSAlMkQVtSgZKqGqp6f4J4dWVQNSt5+oYMNV5WUyzGJLNmq+QQdPlRnApG4baEb
+ 8Wo7h32OsM5SlumGiOB5doGG0MqgC333Y5Qd7ykvbR5MfovNQx6HgAz+7FPo/Q+6Bv
+ Bj+9MsrH2tz0ybMehGhQeP799yQ/J7kKd85Y3srd4EitEdzbtRnSV8sKxLhWvEF1pk
+ J8QgypJY63uKLSp3o+pohBAWSC3hKHrBIKw1/EbVNQIDBQzCjZn/UVKoVdV40eJCZz
+ x9VcIgMi/7nng==
+Date: Tue, 17 Jun 2025 17:02:40 +0530
+From: Sumit Garg <sumit.garg@kernel.org>
+To: Jens Wiklander <jens.wiklander@linaro.org>
+Cc: linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org,
+ op-tee@lists.trustedfirmware.org, linux-arm-kernel@lists.infradead.org,
+ Olivier Masse <olivier.masse@nxp.com>,
+ Thierry Reding <thierry.reding@gmail.com>, Yong Wu <yong.wu@mediatek.com>,
+ Sumit Semwal <sumit.semwal@linaro.org>,
+ Benjamin Gaignard <benjamin.gaignard@collabora.com>,
+ Brian Starkey <Brian.Starkey@arm.com>, John Stultz <jstultz@google.com>,
+ "T . J . Mercier" <tjmercier@google.com>,
+ Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
+ Matthias Brugger <matthias.bgg@gmail.com>,
+ AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
+ azarrabi@qti.qualcomm.com, Simona Vetter <simona.vetter@ffwll.ch>,
+ Daniel Stone <daniel@fooishbar.org>,
+ Rouven Czerwinski <rouven.czerwinski@linaro.org>, robin.murphy@arm.com
+Subject: Re: [PATCH v10 6/9] tee: add tee_shm_alloc_dma_mem()
+Message-ID: <aFFSWDiVsxA1CbCX@sumit-X1>
+References: <20250610131600.2972232-1-jens.wiklander@linaro.org>
+ <20250610131600.2972232-7-jens.wiklander@linaro.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH V10 19/46] drm/tests: Add a few tests around drm_fixed.h
-To: Alex Hung <alex.hung@amd.com>, dri-devel@lists.freedesktop.org,
- amd-gfx@lists.freedesktop.org
-Cc: wayland-devel@lists.freedesktop.org, harry.wentland@amd.com,
- leo.liu@amd.com, ville.syrjala@linux.intel.com,
- pekka.paalanen@collabora.com, contact@emersion.fr, mwen@igalia.com,
- jadahl@redhat.com, sebastian.wick@redhat.com, shashank.sharma@amd.com,
- agoins@nvidia.com, joshua@froggi.es, mdaenzer@redhat.com, aleixpol@kde.org,
- xaver.hugl@gmail.com, victoria@system76.com, daniel@ffwll.ch,
- uma.shankar@intel.com, quic_naseer@quicinc.com, quic_cbraga@quicinc.com,
- quic_abhinavk@quicinc.com, marcan@marcan.st, Liviu.Dudau@arm.com,
- sashamcintosh@google.com, chaitanya.kumar.borah@intel.com,
- louis.chauvet@bootlin.com, arthurgrillo@riseup.net,
- Daniel Stone <daniels@collabora.com>
-References: <20250617041746.2884343-1-alex.hung@amd.com>
- <20250617041746.2884343-20-alex.hung@amd.com>
-Content-Language: en-US
-From: =?UTF-8?Q?Ma=C3=ADra_Canal?= <mcanal@igalia.com>
-In-Reply-To: <20250617041746.2884343-20-alex.hung@amd.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20250610131600.2972232-7-jens.wiklander@linaro.org>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -72,141 +71,172 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Alex,
-
-On 17/06/25 01:17, Alex Hung wrote:
-> From: Harry Wentland <harry.wentland@amd.com>
+On Tue, Jun 10, 2025 at 03:13:50PM +0200, Jens Wiklander wrote:
+> Add tee_shm_alloc_dma_mem() to allocate DMA memory. The memory is
+> represented by a tee_shm object using the new flag TEE_SHM_DMA_MEM to
+> identify it as DMA memory. The allocated memory will later be lent to
+> the TEE to be used as protected memory.
 > 
-> While working on the CTM implementation of VKMS I had to ascertain
-> myself of a few assumptions. One of those is whether drm_fixed.h
-> treats its numbers using signed-magnitude or twos-complement. It is
-> twos-complement.
-> 
-> In order to make someone else's day easier I am adding the
-> drm_test_int2fixp test that validates the above assumption.
-> 
-> I am also adding a test for the new sm2fixp function that converts
-> from a signed-magnitude fixed point to the twos-complement fixed
-> point.
-> 
-> Reviewed-by: Louis Chauvet <louis.chauvet@bootlin.com>
-> Signed-off-by: Alex Hung <alex.hung@amd.com>
-> Signed-off-by: Harry Wentland <harry.wentland@amd.com>
-> Reviewed-by: Daniel Stone <daniels@collabora.com>
+> Signed-off-by: Jens Wiklander <jens.wiklander@linaro.org>
 > ---
-> v7:
->   - Fix checkpatch warnings (Louis Chauvet)
+>  drivers/tee/tee_shm.c    | 85 +++++++++++++++++++++++++++++++++++++++-
+>  include/linux/tee_core.h |  5 +++
+>  2 files changed, 88 insertions(+), 2 deletions(-)
 > 
-> v6:
->   - add missing MODULE_DESCRIPTION (Jeff Johnson)
->   - fix buffer overflow
-> 
-> 
->   drivers/gpu/drm/tests/Makefile        |  3 +-
->   drivers/gpu/drm/tests/drm_fixp_test.c | 71 +++++++++++++++++++++++++++
->   2 files changed, 73 insertions(+), 1 deletion(-)
->   create mode 100644 drivers/gpu/drm/tests/drm_fixp_test.c
-> 
-> diff --git a/drivers/gpu/drm/tests/Makefile b/drivers/gpu/drm/tests/Makefile
-> index 3afd6587df08..91437cf34d92 100644
-> --- a/drivers/gpu/drm/tests/Makefile
-> +++ b/drivers/gpu/drm/tests/Makefile
-> @@ -23,6 +23,7 @@ obj-$(CONFIG_DRM_KUNIT_TEST) += \
->   	drm_modes_test.o \
->   	drm_plane_helper_test.o \
->   	drm_probe_helper_test.o \
-> -	drm_rect_test.o
-> +	drm_rect_test.o	\
-> +	drm_fixp_test.o
->   
->   CFLAGS_drm_mm_test.o := $(DISABLE_STRUCTLEAK_PLUGIN)
-> diff --git a/drivers/gpu/drm/tests/drm_fixp_test.c b/drivers/gpu/drm/tests/drm_fixp_test.c
-> new file mode 100644
-> index 000000000000..de91177af213
-> --- /dev/null
-> +++ b/drivers/gpu/drm/tests/drm_fixp_test.c
-> @@ -0,0 +1,71 @@
-> +// SPDX-License-Identifier: MIT
-> +/*
-> + * Copyright 2022 Advanced Micro Devices, Inc.
+> diff --git a/drivers/tee/tee_shm.c b/drivers/tee/tee_shm.c
+> index e63095e84644..60b0f3932cee 100644
+> --- a/drivers/tee/tee_shm.c
+> +++ b/drivers/tee/tee_shm.c
+> @@ -5,6 +5,8 @@
+>  #include <linux/anon_inodes.h>
+>  #include <linux/device.h>
+>  #include <linux/dma-buf.h>
+> +#include <linux/dma-mapping.h>
+> +#include <linux/highmem.h>
+>  #include <linux/idr.h>
+>  #include <linux/io.h>
+>  #include <linux/mm.h>
+> @@ -13,9 +15,14 @@
+>  #include <linux/tee_core.h>
+>  #include <linux/uaccess.h>
+>  #include <linux/uio.h>
+> -#include <linux/highmem.h>
+>  #include "tee_private.h"
+>  
+> +struct tee_shm_dma_mem {
+> +	struct tee_shm shm;
+> +	dma_addr_t dma_addr;
+> +	struct page *page;
+> +};
+> +
+>  static void shm_put_kernel_pages(struct page **pages, size_t page_count)
+>  {
+>  	size_t n;
+> @@ -48,7 +55,16 @@ static void tee_shm_release(struct tee_device *teedev, struct tee_shm *shm)
+>  {
+>  	void *p = shm;
+>  
+> -	if (shm->flags & TEE_SHM_DMA_BUF) {
+> +	if (shm->flags & TEE_SHM_DMA_MEM) {
+> +#if IS_ENABLED(CONFIG_TEE_DMABUF_HEAPS)
+
+nit: this config check can be merged into the above if check.
+
+> +		struct tee_shm_dma_mem *dma_mem;
+> +
+> +		dma_mem = container_of(shm, struct tee_shm_dma_mem, shm);
+> +		p = dma_mem;
+> +		dma_free_pages(&teedev->dev, shm->size, dma_mem->page,
+> +			       dma_mem->dma_addr, DMA_BIDIRECTIONAL);
+> +#endif
+> +	} else if (shm->flags & TEE_SHM_DMA_BUF) {
+
+Do we need a similar config check for this flag too?
+
+With these addressed, feel free to add:
+
+Reviewed-by: Sumit Garg <sumit.garg@oss.qualcomm.com>
+
+-Sumit
+
+>  		struct tee_shm_dmabuf_ref *ref;
+>  
+>  		ref = container_of(shm, struct tee_shm_dmabuf_ref, shm);
+> @@ -303,6 +319,71 @@ struct tee_shm *tee_shm_alloc_priv_buf(struct tee_context *ctx, size_t size)
+>  }
+>  EXPORT_SYMBOL_GPL(tee_shm_alloc_priv_buf);
+>  
+> +#if IS_ENABLED(CONFIG_TEE_DMABUF_HEAPS)
+> +/**
+> + * tee_shm_alloc_dma_mem() - Allocate DMA memory as shared memory object
+> + * @ctx:	Context that allocates the shared memory
+> + * @page_count:	Number of pages
+> + *
+> + * The allocated memory is expected to be lent (made inaccessible to the
+> + * kernel) to the TEE while it's used and returned (accessible to the
+> + * kernel again) before it's freed.
+> + *
+> + * This function should normally only be used internally in the TEE
+> + * drivers.
+> + *
+> + * @returns a pointer to 'struct tee_shm'
 > + */
-> +
-> +#include <kunit/test.h>
-> +#include <drm/drm_fixed.h>
-> +
-> +static void drm_test_sm2fixp(struct kunit *test)
+> +struct tee_shm *tee_shm_alloc_dma_mem(struct tee_context *ctx,
+> +				      size_t page_count)
 > +{
-> +	KUNIT_EXPECT_EQ(test, 0x7fffffffffffffffll, ((1ull << 63) - 1));
+> +	struct tee_device *teedev = ctx->teedev;
+> +	struct tee_shm_dma_mem *dma_mem;
+> +	dma_addr_t dma_addr;
+> +	struct page *page;
 > +
-> +	/* 1 */
-> +	KUNIT_EXPECT_EQ(test, drm_int2fixp(1), drm_sm2fixp(1ull << DRM_FIXED_POINT));
+> +	if (!tee_device_get(teedev))
+> +		return ERR_PTR(-EINVAL);
 > +
-> +	/* -1 */
-> +	KUNIT_EXPECT_EQ(test, drm_int2fixp(-1),
-> +			drm_sm2fixp((1ull << 63) | (1ull << DRM_FIXED_POINT)));
+> +	page = dma_alloc_pages(&teedev->dev, page_count * PAGE_SIZE,
+> +			       &dma_addr, DMA_BIDIRECTIONAL, GFP_KERNEL);
+> +	if (!page)
+> +		goto err_put_teedev;
 > +
-> +	/* 0.5 */
-> +	KUNIT_EXPECT_EQ(test, drm_fixp_from_fraction(1, 2),
-> +			drm_sm2fixp(1ull << (DRM_FIXED_POINT - 1)));
+> +	dma_mem = kzalloc(sizeof(*dma_mem), GFP_KERNEL);
+> +	if (!dma_mem)
+> +		goto err_free_pages;
 > +
-> +	/* -0.5 */
-> +	KUNIT_EXPECT_EQ(test, drm_fixp_from_fraction(-1, 2),
-> +			drm_sm2fixp((1ull << 63) | (1ull << (DRM_FIXED_POINT - 1))));
+> +	refcount_set(&dma_mem->shm.refcount, 1);
+> +	dma_mem->shm.ctx = ctx;
+> +	dma_mem->shm.paddr = page_to_phys(page);
+> +	dma_mem->dma_addr = dma_addr;
+> +	dma_mem->page = page;
+> +	dma_mem->shm.size = page_count * PAGE_SIZE;
+> +	dma_mem->shm.flags = TEE_SHM_DMA_MEM;
+> +
+> +	teedev_ctx_get(ctx);
+> +
+> +	return &dma_mem->shm;
+> +
+> +err_free_pages:
+> +	dma_free_pages(&teedev->dev, page_count * PAGE_SIZE, page, dma_addr,
+> +		       DMA_BIDIRECTIONAL);
+> +err_put_teedev:
+> +	tee_device_put(teedev);
+> +
+> +	return ERR_PTR(-ENOMEM);
 > +}
-> +
-> +static void drm_test_int2fixp(struct kunit *test)
+> +EXPORT_SYMBOL_GPL(tee_shm_alloc_dma_mem);
+> +#else
+> +struct tee_shm *tee_shm_alloc_dma_mem(struct tee_context *ctx,
+> +				      size_t page_count)
 > +{
-> +	/* 1 */
-> +	KUNIT_EXPECT_EQ(test, 1ll << 32, drm_int2fixp(1));
-> +
-> +	/* -1 */
-> +	KUNIT_EXPECT_EQ(test, -(1ll << 32), drm_int2fixp(-1));
-> +
-> +	/* 1 + (-1) = 0 */
-> +	KUNIT_EXPECT_EQ(test, 0, drm_int2fixp(1) + drm_int2fixp(-1));
-> +
-> +	/* 1 / 2 */
-> +	KUNIT_EXPECT_EQ(test, 1ll << 31, drm_fixp_from_fraction(1, 2));
-> +
-> +	/* -0.5 */
-> +	KUNIT_EXPECT_EQ(test, -(1ll << 31), drm_fixp_from_fraction(-1, 2));
-> +
-> +	/* (1 / 2) + (-1) = 0.5 */
-> +	KUNIT_EXPECT_EQ(test, 1ll << 31, drm_fixp_from_fraction(-1, 2) + drm_int2fixp(1));
-> +
-> +	/* (1 / 2) - 1) = 0.5 */
-> +	KUNIT_EXPECT_EQ(test, -(1ll << 31), drm_fixp_from_fraction(1, 2) + drm_int2fixp(-1));
-> +
-> +	/* (1 / 2) - 1) = 0.5 */
-> +	KUNIT_EXPECT_EQ(test, -(1ll << 31), drm_fixp_from_fraction(1, 2) - drm_int2fixp(1));
+> +	return ERR_PTR(-EINVAL);
 > +}
+> +EXPORT_SYMBOL_GPL(tee_shm_alloc_dma_mem);
+> +#endif
 > +
-> +static struct kunit_case drm_fixp_tests[] = {
-> +	KUNIT_CASE(drm_test_int2fixp),
-> +	KUNIT_CASE(drm_test_sm2fixp),
-> +	{ }
-> +};
+>  int tee_dyn_shm_alloc_helper(struct tee_shm *shm, size_t size, size_t align,
+>  			     int (*shm_register)(struct tee_context *ctx,
+>  						 struct tee_shm *shm,
+> diff --git a/include/linux/tee_core.h b/include/linux/tee_core.h
+> index f17710196c4c..e46a53e753af 100644
+> --- a/include/linux/tee_core.h
+> +++ b/include/linux/tee_core.h
+> @@ -29,6 +29,8 @@
+>  #define TEE_SHM_POOL		BIT(2)  /* Memory allocated from pool */
+>  #define TEE_SHM_PRIV		BIT(3)  /* Memory private to TEE driver */
+>  #define TEE_SHM_DMA_BUF		BIT(4)	/* Memory with dma-buf handle */
+> +#define TEE_SHM_DMA_MEM		BIT(5)	/* Memory allocated with */
+> +					/* dma_alloc_pages() */
+>  
+>  #define TEE_DEVICE_FLAG_REGISTERED	0x1
+>  #define TEE_MAX_DEV_NAME_LEN		32
+> @@ -310,6 +312,9 @@ void *tee_get_drvdata(struct tee_device *teedev);
+>   */
+>  struct tee_shm *tee_shm_alloc_priv_buf(struct tee_context *ctx, size_t size);
+>  
+> +struct tee_shm *tee_shm_alloc_dma_mem(struct tee_context *ctx,
+> +				      size_t page_count);
 > +
-> +static struct kunit_suite drm_rect_test_suite = {
-
-Instead of `drm_rect_test_suite`, how about `drm_fixp_test_suite`?
-
-> +	.name = "drm_fixp",
-> +	.test_cases = drm_fixp_tests,
-> +};
-> +
-> +kunit_test_suite(drm_rect_test_suite);
-> +
-> +MODULE_AUTHOR("AMD");
-> +MODULE_LICENSE("GPL and additional rights");
-
- From the kernel docs, "GPL and additional rights" shouldn't be used in
-new code [1].
-
-[1] https://docs.kernel.org/process/license-rules.html#id1
-
-Best Regards,
-- Maíra
-
-> +MODULE_DESCRIPTION("Unit tests for drm_fixed.h");
-
+>  int tee_dyn_shm_alloc_helper(struct tee_shm *shm, size_t size, size_t align,
+>  			     int (*shm_register)(struct tee_context *ctx,
+>  						 struct tee_shm *shm,
+> -- 
+> 2.43.0
+> 
