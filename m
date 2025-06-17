@@ -2,58 +2,57 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 01DCEADF65F
-	for <lists+dri-devel@lfdr.de>; Wed, 18 Jun 2025 20:56:08 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id AA34CADF672
+	for <lists+dri-devel@lfdr.de>; Wed, 18 Jun 2025 20:56:34 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9DCCD10E90D;
-	Wed, 18 Jun 2025 18:55:53 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id DFC9310E905;
+	Wed, 18 Jun 2025 18:56:32 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="i76Wd947";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="tFaXplkY";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from sea.source.kernel.org (sea.source.kernel.org [172.234.252.31])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 59CA810E22E;
- Tue, 17 Jun 2025 11:48:31 +0000 (UTC)
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 72F0B10E625;
+ Tue, 17 Jun 2025 11:54:52 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by sea.source.kernel.org (Postfix) with ESMTP id E682744DD6;
- Tue, 17 Jun 2025 11:48:30 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 40C6FC4CEE3;
- Tue, 17 Jun 2025 11:48:07 +0000 (UTC)
+ by dfw.source.kernel.org (Postfix) with ESMTP id 8187D5C644F;
+ Tue, 17 Jun 2025 11:52:31 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5FE2BC4CEE3;
+ Tue, 17 Jun 2025 11:54:24 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1750160910;
- bh=Vnr3kmvDQPz8s5uZNmSkWKP9XPj/+f6PNSLS1Tx/MzQ=;
+ s=k20201202; t=1750161287;
+ bh=FM4A89teoGTiVHD+mgfi0AiySK9n5DYBMecgMr0uDqg=;
  h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=i76Wd947DS4XwAcDpAS8fpuf+Ela4lfUx5B4Zl+sE1WJ8kzwgrCbFciE3rigUUS/6
- wkwvrTbKDnBSYG4C5HYytRyvy7B3ZkCeJ/5F35ij31zEXxn65NXesNNhKSYHlLq/2D
- R33NY8eYZWteN9O+9G//EUF0UQxUiz+Y2C7gC+ejd2PqldQ355joR8oksRp/9Bu+B9
- HCJ+eqE2ygFdOjJuUuFVDO+rKmgk2g66UaZmVaAWhJlsobI+L+ldnr5kvasHnLLQtL
- 3ZDhNpWvRvvYFALgNe61XXKpKO8zT2d+3DmY+NeMp1GFEAHy45cWCYw7RMgE+f8kCe
- WOUfPvP6PlRuw==
-Date: Tue, 17 Jun 2025 13:48:04 +0200
+ b=tFaXplkY5nyo20ol4Egr1jKpFof+Bu6EVWj8rd7Q/XVflaJDEuUt2QBZbBOzt+ds9
+ QqRJ0416pNcF2gR1cOk/fhlCLM2NyYyFsqO7E+6LcmkPsrh7dOxbot5r+EPV6Mf/Eg
+ m8Y6DUqcdfGWwY+D64Xca2p2YAi1GLXZEZrvZUt4zBrfooL7qgslbeGTMTkIs72Kmi
+ ZyPQ8xq03VfK0FOehVNSaD+X4yl6DS92oWcHFB7su60iMijW1l2mzbjqhQKi8Q2XlY
+ I0aiDlWsnalkNnHvD2WZzlIylBsOw4cpNRmvr5us4RCENbN2fbk5X67yCW3LloR+n5
+ oLveA9uaTcrqQ==
+Date: Tue, 17 Jun 2025 13:54:21 +0200
 From: Christian Brauner <brauner@kernel.org>
 To: Jan Kara <jack@suse.cz>
 Cc: Lorenzo Stoakes <lorenzo.stoakes@oracle.com>, 
- Christoph Hellwig <hch@infradead.org>,
- Andrew Morton <akpm@linux-foundation.org>, 
- "Liam R . Howlett" <Liam.Howlett@oracle.com>, Jens Axboe <axboe@kernel.dk>, 
- Jani Nikula <jani.nikula@linux.intel.com>,
- Joonas Lahtinen <joonas.lahtinen@linux.intel.com>, 
- Rodrigo Vivi <rodrigo.vivi@intel.com>, Tvrtko Ursulin <tursulin@ursulin.net>, 
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, 
- Eric Van Hensbergen <ericvh@kernel.org>, Latchesar Ionkov <lucho@ionkov.net>, 
- Dominique Martinet <asmadeus@codewreck.org>,
- Christian Schoenebeck <linux_oss@crudebyte.com>, 
- David Sterba <dsterba@suse.com>, David Howells <dhowells@redhat.com>, 
- Marc Dionne <marc.dionne@auristor.com>,
- Alexander Viro <viro@zeniv.linux.org.uk>, 
- Benjamin LaHaise <bcrl@kvack.org>, Miklos Szeredi <miklos@szeredi.hu>, 
- Amir Goldstein <amir73il@gmail.com>,
- Kent Overstreet <kent.overstreet@linux.dev>, 
- "Tigran A . Aivazian" <aivazian.tigran@gmail.com>, Kees Cook <kees@kernel.org>,
- Chris Mason <clm@fb.com>, 
- Josef Bacik <josef@toxicpanda.com>, Xiubo Li <xiubli@redhat.com>,
- Ilya Dryomov <idryomov@gmail.com>, 
+ Andrew Morton <akpm@linux-foundation.org>,
+ "Liam R . Howlett" <Liam.Howlett@oracle.com>, 
+ Jens Axboe <axboe@kernel.dk>, Jani Nikula <jani.nikula@linux.intel.com>, 
+ Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
+ Rodrigo Vivi <rodrigo.vivi@intel.com>, 
+ Tvrtko Ursulin <tursulin@ursulin.net>, David Airlie <airlied@gmail.com>, 
+ Simona Vetter <simona@ffwll.ch>, Eric Van Hensbergen <ericvh@kernel.org>, 
+ Latchesar Ionkov <lucho@ionkov.net>,
+ Dominique Martinet <asmadeus@codewreck.org>, 
+ Christian Schoenebeck <linux_oss@crudebyte.com>,
+ David Sterba <dsterba@suse.com>, 
+ David Howells <dhowells@redhat.com>, Marc Dionne <marc.dionne@auristor.com>, 
+ Alexander Viro <viro@zeniv.linux.org.uk>, Benjamin LaHaise <bcrl@kvack.org>, 
+ Miklos Szeredi <miklos@szeredi.hu>, Amir Goldstein <amir73il@gmail.com>, 
+ Kent Overstreet <kent.overstreet@linux.dev>,
+ "Tigran A . Aivazian" <aivazian.tigran@gmail.com>, 
+ Kees Cook <kees@kernel.org>, Chris Mason <clm@fb.com>,
+ Josef Bacik <josef@toxicpanda.com>, 
+ Xiubo Li <xiubli@redhat.com>, Ilya Dryomov <idryomov@gmail.com>, 
  Jan Harkes <jaharkes@cs.cmu.edu>, coda@cs.cmu.edu,
  Tyler Hicks <code@tyhicks.com>, 
  Gao Xiang <xiang@kernel.org>, Chao Yu <chao@kernel.org>,
@@ -104,18 +103,16 @@ Cc: Lorenzo Stoakes <lorenzo.stoakes@oracle.com>,
  linux-cifs@vger.kernel.org, 
  samba-technical@lists.samba.org, linux-xfs@vger.kernel.org,
  nvdimm@lists.linux.dev
-Subject: Re: [PATCH 03/10] fs: consistently use file_has_valid_mmap_hooks()
- helper
-Message-ID: <20250617-mitstreiter-bewahren-455b96bd1d50@brauner>
+Subject: Re: [PATCH 09/10] fs: convert most other generic_file_*mmap() users
+ to .mmap_prepare()
+Message-ID: <20250617-allenfalls-brummen-3ce2da5794f8@brauner>
 References: <cover.1750099179.git.lorenzo.stoakes@oracle.com>
- <b68145b609532e62bab603dd9686faa6562046ec.1750099179.git.lorenzo.stoakes@oracle.com>
- <aFD5AP7B80np-Szz@infradead.org>
- <b91c387e-5226-4c5e-94c3-04e80409ed62@lucifer.local>
- <kzp4cei5qq6gbtzzng7hmqj5avzblopfzzrks4e2gahcdvr7ro@cwziankavxw4>
+ <08db85970d89b17a995d2cffae96fb4cc462377f.1750099179.git.lorenzo.stoakes@oracle.com>
+ <gexpfonlstqrggxbwxlorn7c6qvt42e2dof6lahipfyfecgfru@vexc23jbaxwc>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <kzp4cei5qq6gbtzzng7hmqj5avzblopfzzrks4e2gahcdvr7ro@cwziankavxw4>
+In-Reply-To: <gexpfonlstqrggxbwxlorn7c6qvt42e2dof6lahipfyfecgfru@vexc23jbaxwc>
 X-Mailman-Approved-At: Wed, 18 Jun 2025 18:55:50 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -132,32 +129,101 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, Jun 17, 2025 at 12:08:13PM +0200, Jan Kara wrote:
-> On Tue 17-06-25 06:25:34, Lorenzo Stoakes wrote:
-> > On Mon, Jun 16, 2025 at 10:11:28PM -0700, Christoph Hellwig wrote:
-> > > On Mon, Jun 16, 2025 at 08:33:22PM +0100, Lorenzo Stoakes wrote:
-> > > > Since commit c84bf6dd2b83 ("mm: introduce new .mmap_prepare() file
-> > > > callback"), the f_op->mmap() hook has been deprecated in favour of
-> > > > f_op->mmap_prepare().
-> > > >
-> > > > Additionally, commit bb666b7c2707 ("mm: add mmap_prepare() compatibility
-> > > > layer for nested file systems") permits the use of the .mmap_prepare() hook
-> > > > even in nested filesystems like overlayfs.
-> > > >
-> > > > There are a number of places where we check only for f_op->mmap - this is
-> > > > incorrect now mmap_prepare exists, so update all of these to use the
-> > > > general helper file_has_valid_mmap_hooks().
-> > > >
-> > > > Most notably, this updates the elf logic to allow for the ability to
-> > > > execute binaries on filesystems which have the .mmap_prepare hook, but
-> > > > additionally we update nested filesystems.
-> > >
-> > > Can you please give the function a better name before spreading it?
-> > > file operations aren't hooks by any classic definition.
-> > >
+On Tue, Jun 17, 2025 at 12:23:41PM +0200, Jan Kara wrote:
+> On Mon 16-06-25 20:33:28, Lorenzo Stoakes wrote:
+> > Update nearly all generic_file_mmap() and generic_file_readonly_mmap()
+> > callers to use generic_file_mmap_prepare() and
+> > generic_file_readonly_mmap_prepare() respectively.
 > > 
-> > can_mmap_file()?
+> > We update blkdev, 9p, afs, erofs, ext2, nfs, ntfs3, smb, ubifs and vboxsf
+> > file systems this way.
+> > 
+> > Remaining users we cannot yet update are ecryptfs, fuse and cramfs. The
+> > former two are nested file systems that must support any underlying file
+> > ssytem, and cramfs inserts a mixed mapping which currently requires a VMA.
+> > 
+> > Once all file systems have been converted to mmap_prepare(), we can then
+> > update nested file systems.
+> > 
+> > Signed-off-by: Lorenzo Stoakes <lorenzo.stoakes@oracle.com>
 > 
-> I like this name more as well :). With this patch looks good to me. Again a
+> Overall the patch looks good. Just a couple of notes regarding pointless
+> local variable being created...
+> 
+> > ---
+> >  block/fops.c           |  9 +++++----
+> >  fs/9p/vfs_file.c       | 11 ++++++-----
+> >  fs/afs/file.c          | 11 ++++++-----
+> >  fs/erofs/data.c        | 16 +++++++++-------
+> >  fs/ext2/file.c         | 12 +++++++-----
+> >  fs/nfs/file.c          | 13 +++++++------
+> >  fs/nfs/internal.h      |  2 +-
+> >  fs/nfs/nfs4file.c      |  2 +-
+> >  fs/ntfs3/file.c        | 15 ++++++++-------
+> >  fs/smb/client/cifsfs.c | 12 ++++++------
+> >  fs/smb/client/cifsfs.h |  4 ++--
+> >  fs/smb/client/file.c   | 14 ++++++++------
+> >  fs/ubifs/file.c        |  8 ++++----
+> >  fs/vboxsf/file.c       |  8 ++++----
+> >  14 files changed, 74 insertions(+), 63 deletions(-)
+> > 
+> > diff --git a/block/fops.c b/block/fops.c
+> > index 1309861d4c2c..5a0ebc81e489 100644
+> > --- a/block/fops.c
+> > +++ b/block/fops.c
+> > @@ -911,14 +911,15 @@ static long blkdev_fallocate(struct file *file, int mode, loff_t start,
+> >  	return error;
+> >  }
+> >  
+> > -static int blkdev_mmap(struct file *file, struct vm_area_struct *vma)
+> > +static int blkdev_mmap_prepare(struct vm_area_desc *desc)
+> >  {
+> > +	struct file *file = desc->file;
+> >  	struct inode *bd_inode = bdev_file_inode(file);
+> 
+> I guess no need to create 'file' variable here since it has only one use in
+> the line above...
 
-Fixed in-tree.
+Agreed, fixed in-tree.
+
+> > -static int afs_file_mmap(struct file *file, struct vm_area_struct *vma)
+> > +static int afs_file_mmap_prepare(struct vm_area_desc *desc)
+> >  {
+> > +	struct file *file = desc->file;
+> >  	struct afs_vnode *vnode = AFS_FS_I(file_inode(file));
+> 
+> Same comment about pointless local variable here as well.
+
+Same.
+
+> > -static int erofs_file_mmap(struct file *file, struct vm_area_struct *vma)
+> > +static int erofs_file_mmap_prepare(struct vm_area_desc *desc)
+> >  {
+> > +	struct file *file = desc->file;
+> > +
+> >  	if (!IS_DAX(file_inode(file)))
+> 
+> And here...
+
+Same.
+
+> > -int cifs_file_strict_mmap(struct file *file, struct vm_area_struct *vma)
+> > +int cifs_file_strict_mmap_prepare(struct vm_area_desc *desc)
+> >  {
+> > +	struct file *file = desc->file;
+> >  	int xid, rc = 0;
+> >  	struct inode *inode = file_inode(file);
+> 
+> Again pointless local variable 'file' here.
+
+Same.
+
+> > -int cifs_file_mmap(struct file *file, struct vm_area_struct *vma)
+> > +int cifs_file_mmap_prepare(struct vm_area_desc *desc)
+> >  {
+> > +	struct file *file = desc->file;
+> >  	int rc, xid;
+> 
+> And here (the only use is in cifs_revalidate_file(file)).
+
+Same.
