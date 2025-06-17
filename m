@@ -2,45 +2,45 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id D8F09ADD0DD
-	for <lists+dri-devel@lfdr.de>; Tue, 17 Jun 2025 17:05:34 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7A5F8ADD0E1
+	for <lists+dri-devel@lfdr.de>; Tue, 17 Jun 2025 17:05:40 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 33BAD10E736;
-	Tue, 17 Jun 2025 15:05:32 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3D66010E753;
+	Tue, 17 Jun 2025 15:05:38 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="SZRnD5r9";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="YjZ75WEW";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D273B10E736;
- Tue, 17 Jun 2025 15:05:30 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 08E3B10E758;
+ Tue, 17 Jun 2025 15:05:37 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1750172731; x=1781708731;
- h=from:to:cc:subject:date:message-id:mime-version:
- content-transfer-encoding;
- bh=DX0cysxt7A+oa4cRvsJUSUuglXznBhRfZDERFVFd1ek=;
- b=SZRnD5r94syGop2Wx9L+SHvUFP5t6MZwTVZXdNTOf8olpC90TYG8kzTa
- 1A0Rumm5NLWNoCJzrqbAEIsG9BL7edDMC9wXHSbZJiC+DX2gcHe3r5sWB
- juUPDtrvMx2mKJgMv8Gf/z2iZueRqY/EH7A3VyWoO4bAGVql/jl3N6i+2
- lClirqhz1VXslpiYxKs/E4tGhB6GY57lPcw20Tx2iPOYqdDrrTr3thM5Z
- F+jeORR9M2DN7BF+lGYKToQSA2I+qACZH/SNvbiBUVCUC0nKN/R5Iqlcr
- OAVtM9NFaypn2amgpVJ8RMVb/1bjQ2zHwZqGOazBdnJc46NLiv1IPxZEL A==;
-X-CSE-ConnectionGUID: PyyUBxLRSK6DweVhzNj6JA==
-X-CSE-MsgGUID: sc7tGU5IRZKQwoCPoJ9weA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11467"; a="63008702"
-X-IronPort-AV: E=Sophos;i="6.16,243,1744095600"; d="scan'208";a="63008702"
+ t=1750172737; x=1781708737;
+ h=from:to:cc:subject:date:message-id:in-reply-to:
+ references:mime-version:content-transfer-encoding;
+ bh=whBs2iAagZKltqwmIXWaToW4Srekvx9gqm0G/7aOwhc=;
+ b=YjZ75WEWMSyusE5PPF/QhyiexgsFrrY2h09x7hDFGyRz0VbN2+WdDgTE
+ hQBclWf4lm2ASpFU4XxHxaEewWer8aNt9Pr2h5RRyb9jG7UneaWhZpQu6
+ 5u1nSUPIEwptHivovvNSj8b2Pe3zr+Rxfk5gDXLeBIqAdCjKr5qt8Mpga
+ mPxSb0nPHYD3wuzxERc1l+U9nKhhdf8gXdNMUayxJwonIG9O2Y+36h0fJ
+ JrXM+V3Xa5RPY2h+/YcBy82KH657E3sLJmHVGxJbgqSgnxhf01BExBuWJ
+ ExXc/VzQn5HvEukTLNwlQuO9RbbX7N3tDCjkCtwgwjB1dd4XYNYlTisIC Q==;
+X-CSE-ConnectionGUID: h7X/WkrWRJeL0z0lL08VjQ==
+X-CSE-MsgGUID: N/Rz+FckQMeIcZiMrILJOg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11467"; a="63008742"
+X-IronPort-AV: E=Sophos;i="6.16,243,1744095600"; d="scan'208";a="63008742"
 Received: from fmviesa003.fm.intel.com ([10.60.135.143])
  by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 17 Jun 2025 08:05:30 -0700
-X-CSE-ConnectionGUID: lUYQSzGuSgGKTYlYLKHIVA==
-X-CSE-MsgGUID: ouRr0Fn7QaGWRa6lpD92yQ==
+ 17 Jun 2025 08:05:37 -0700
+X-CSE-ConnectionGUID: kdMoRDLJTxGzpmGblCnDKw==
+X-CSE-MsgGUID: Eeux6R3QT4+Zehgvx1wkWA==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.16,243,1744095600"; d="scan'208";a="152672070"
+X-IronPort-AV: E=Sophos;i="6.16,243,1744095600"; d="scan'208";a="152672151"
 Received: from sannilnx-dsk.jer.intel.com ([10.12.231.107])
  by fmviesa003-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 17 Jun 2025 08:05:24 -0700
+ 17 Jun 2025 08:05:30 -0700
 From: Alexander Usyskin <alexander.usyskin@intel.com>
 To: Miquel Raynal <miquel.raynal@bootlin.com>,
  Richard Weinberger <richard@nod.at>, Vignesh Raghavendra <vigneshr@ti.com>,
@@ -57,11 +57,15 @@ To: Miquel Raynal <miquel.raynal@bootlin.com>,
 Cc: Reuven Abliyev <reuven.abliyev@intel.com>, linux-mtd@lists.infradead.org,
  intel-xe@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
  intel-gfx@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- Alexander Usyskin <alexander.usyskin@intel.com>
-Subject: [PATCH v14 0/8] mtd: add driver for Intel discrete graphics
-Date: Tue, 17 Jun 2025 17:51:50 +0300
-Message-ID: <20250617145159.3803852-1-alexander.usyskin@intel.com>
+ Alexander Usyskin <alexander.usyskin@intel.com>,
+ Tomas Winkler <tomasw@gmail.com>
+Subject: [PATCH v14 1/8] mtd: add driver for intel graphics non-volatile
+ memory device
+Date: Tue, 17 Jun 2025 17:51:51 +0300
+Message-ID: <20250617145159.3803852-2-alexander.usyskin@intel.com>
 X-Mailer: git-send-email 2.43.0
+In-Reply-To: <20250617145159.3803852-1-alexander.usyskin@intel.com>
+References: <20250617145159.3803852-1-alexander.usyskin@intel.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -79,98 +83,254 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Add driver for access to Intel discrete graphics card
-internal NVM device.
-Expose device on auxiliary bus by i915 and Xe drivers and
-provide mtd driver to register this device with MTD framework.
+Add auxiliary driver for intel discrete graphics
+non-volatile memory device.
 
-This is a rewrite of "drm/i915/spi: spi access for discrete graphics"
-and "spi: add driver for Intel discrete graphics"
-series with connection to the Xe driver and splitting
-the spi driver part to separate module in mtd subsystem.
-
-This series intended to be pushed through drm-xe-next.
-
-V2: Replace dev_* prints with drm_* prints in drm (xe and i915) patches.
-    Enable NVM device on Battlemage HW (xe driver patch)
-    Fix overwrite register address (xe driver patch)
-    Add Rodrigo's r-b
-
-V3: Use devm_pm_runtime_enable to simplify flow.
-    Drop print in i915 unload that was accidentally set as error.
-    Drop HAS_GSC_NVM macro in line with latest Xe changes.
-    Add more Rodrigo's r-b and Miquel's ack.
-
-V4: Add patch that always creates mtd master device
-    and adjust mtd-intel-dg power management to use this device.
-
-V5: Fix master device creation to accomodate for devices without
-    partitions (create partitoned master in this case)
-    Rebase over latest drm-xe-next
-    Add ack's
-V6: Fix master device release (use rigth idr in release)
-    Rebase over latest drm-xe-next
-    Grammar and style fixes
-
-V7: Add patch with non-posted erase support (fix hang on BMG)
-    Rebase over latest drm-xe-next
-
-V8: Create separate partition device under master device, if requested
-    and configure parent of usual partitions to this partition.
-    Rebase over drm-tip.
-
-V9: Fix checkpatch warning on non-posted erase patch.
-    Add Rodrigo's review and ack.
-
-V10: Drop master device creation patch as it now in mtd-next.
-     Drop power-management patch, it will be merged lately after
-     master device patch is propagated.
-     Rebase over drm-tip.
-
-V11: Fix review comments.
-     Add reviewed-by.
-     Add cleanup in error path.
-     Add PADDING region that exists on some BMG devices.
-
-V12: Add Raag's r-b.
-     Rebase over drm-tip.
-
-V13: Rebase over drm-tip again to make it mergable.
-
-V14: Drop i915 patches for now by Rodrigo's request.
-     They will be merged later.
-
-Alexander Usyskin (7):
-  mtd: add driver for intel graphics non-volatile memory device
-  mtd: intel-dg: implement region enumeration
-  mtd: intel-dg: implement access functions
-  mtd: intel-dg: register with mtd
-  mtd: intel-dg: align 64bit read and write
-  drm/xe/nvm: add on-die non-volatile memory device
-  drm/xe/nvm: add support for access mode
-
-Reuven Abliyev (1):
-  drm/xe/nvm: add support for non-posted erase
-
- MAINTAINERS                           |   7 +
- drivers/gpu/drm/xe/Makefile           |   1 +
- drivers/gpu/drm/xe/regs/xe_gsc_regs.h |   4 +
- drivers/gpu/drm/xe/xe_device.c        |   5 +
- drivers/gpu/drm/xe/xe_device_types.h  |   6 +
- drivers/gpu/drm/xe/xe_heci_gsc.c      |   5 +-
- drivers/gpu/drm/xe/xe_nvm.c           | 167 ++++++
- drivers/gpu/drm/xe/xe_nvm.h           |  15 +
- drivers/gpu/drm/xe/xe_pci.c           |   6 +
- drivers/mtd/devices/Kconfig           |  11 +
- drivers/mtd/devices/Makefile          |   1 +
- drivers/mtd/devices/mtd_intel_dg.c    | 830 ++++++++++++++++++++++++++
- include/linux/intel_dg_nvm_aux.h      |  32 +
- 13 files changed, 1086 insertions(+), 4 deletions(-)
- create mode 100644 drivers/gpu/drm/xe/xe_nvm.c
- create mode 100644 drivers/gpu/drm/xe/xe_nvm.h
+CC: Lucas De Marchi <lucas.demarchi@intel.com>
+Reviewed-by: Raag Jadav <raag.jadav@intel.com>
+Reviewed-by: Rodrigo Vivi <rodrigo.vivi@intel.com>
+Acked-by: Miquel Raynal <miquel.raynal@bootlin.com>
+Co-developed-by: Tomas Winkler <tomasw@gmail.com>
+Signed-off-by: Tomas Winkler <tomasw@gmail.com>
+Signed-off-by: Alexander Usyskin <alexander.usyskin@intel.com>
+---
+ MAINTAINERS                        |   7 ++
+ drivers/mtd/devices/Kconfig        |  11 +++
+ drivers/mtd/devices/Makefile       |   1 +
+ drivers/mtd/devices/mtd_intel_dg.c | 134 +++++++++++++++++++++++++++++
+ include/linux/intel_dg_nvm_aux.h   |  30 +++++++
+ 5 files changed, 183 insertions(+)
  create mode 100644 drivers/mtd/devices/mtd_intel_dg.c
  create mode 100644 include/linux/intel_dg_nvm_aux.h
 
+diff --git a/MAINTAINERS b/MAINTAINERS
+index 7e7515a412e9..521730530243 100644
+--- a/MAINTAINERS
++++ b/MAINTAINERS
+@@ -12086,6 +12086,13 @@ L:	linux-kernel@vger.kernel.org
+ S:	Supported
+ F:	arch/x86/include/asm/intel-family.h
+ 
++INTEL DISCRETE GRAPHICS NVM MTD DRIVER
++M:	Alexander Usyskin <alexander.usyskin@intel.com>
++L:	linux-mtd@lists.infradead.org
++S:	Supported
++F:	drivers/mtd/devices/mtd_intel_dg.c
++F:	include/linux/intel_dg_nvm_aux.h
++
+ INTEL DRM DISPLAY FOR XE AND I915 DRIVERS
+ M:	Jani Nikula <jani.nikula@linux.intel.com>
+ M:	Rodrigo Vivi <rodrigo.vivi@intel.com>
+diff --git a/drivers/mtd/devices/Kconfig b/drivers/mtd/devices/Kconfig
+index aed653ce8fa2..46cebde79f34 100644
+--- a/drivers/mtd/devices/Kconfig
++++ b/drivers/mtd/devices/Kconfig
+@@ -183,6 +183,17 @@ config MTD_POWERNV_FLASH
+ 	  platforms from Linux. This device abstracts away the
+ 	  firmware interface for flash access.
+ 
++config MTD_INTEL_DG
++	tristate "Intel Discrete Graphics non-volatile memory driver"
++	depends on AUXILIARY_BUS
++	depends on MTD
++	help
++	  This provides an MTD device to access Intel Discrete Graphics
++	  non-volatile memory.
++
++	  To compile this driver as a module, choose M here: the module
++	  will be called mtd-intel-dg.
++
+ comment "Disk-On-Chip Device Drivers"
+ 
+ config MTD_DOCG3
+diff --git a/drivers/mtd/devices/Makefile b/drivers/mtd/devices/Makefile
+index d11eb2b8b6f8..9fe4ce9cffde 100644
+--- a/drivers/mtd/devices/Makefile
++++ b/drivers/mtd/devices/Makefile
+@@ -18,6 +18,7 @@ obj-$(CONFIG_MTD_SST25L)	+= sst25l.o
+ obj-$(CONFIG_MTD_BCM47XXSFLASH)	+= bcm47xxsflash.o
+ obj-$(CONFIG_MTD_ST_SPI_FSM)    += st_spi_fsm.o
+ obj-$(CONFIG_MTD_POWERNV_FLASH)	+= powernv_flash.o
++obj-$(CONFIG_MTD_INTEL_DG)	+= mtd_intel_dg.o
+ 
+ 
+ CFLAGS_docg3.o			+= -I$(src)
+diff --git a/drivers/mtd/devices/mtd_intel_dg.c b/drivers/mtd/devices/mtd_intel_dg.c
+new file mode 100644
+index 000000000000..c2d0dbfb0378
+--- /dev/null
++++ b/drivers/mtd/devices/mtd_intel_dg.c
+@@ -0,0 +1,134 @@
++// SPDX-License-Identifier: GPL-2.0
++/*
++ * Copyright(c) 2019-2025, Intel Corporation. All rights reserved.
++ */
++
++#include <linux/device.h>
++#include <linux/intel_dg_nvm_aux.h>
++#include <linux/io.h>
++#include <linux/kernel.h>
++#include <linux/module.h>
++#include <linux/string.h>
++#include <linux/slab.h>
++#include <linux/types.h>
++
++struct intel_dg_nvm {
++	struct kref refcnt;
++	void __iomem *base;
++	size_t size;
++	unsigned int nregions;
++	struct {
++		const char *name;
++		u8 id;
++		u64 offset;
++		u64 size;
++	} regions[] __counted_by(nregions);
++};
++
++static void intel_dg_nvm_release(struct kref *kref)
++{
++	struct intel_dg_nvm *nvm = container_of(kref, struct intel_dg_nvm, refcnt);
++	int i;
++
++	pr_debug("freeing intel_dg nvm\n");
++	for (i = 0; i < nvm->nregions; i++)
++		kfree(nvm->regions[i].name);
++	kfree(nvm);
++}
++
++static int intel_dg_mtd_probe(struct auxiliary_device *aux_dev,
++			      const struct auxiliary_device_id *aux_dev_id)
++{
++	struct intel_dg_nvm_dev *invm = auxiliary_dev_to_intel_dg_nvm_dev(aux_dev);
++	struct intel_dg_nvm *nvm;
++	struct device *device;
++	unsigned int nregions;
++	unsigned int i, n;
++	int ret;
++
++	device = &aux_dev->dev;
++
++	/* count available regions */
++	for (nregions = 0, i = 0; i < INTEL_DG_NVM_REGIONS; i++) {
++		if (invm->regions[i].name)
++			nregions++;
++	}
++
++	if (!nregions) {
++		dev_err(device, "no regions defined\n");
++		return -ENODEV;
++	}
++
++	nvm = kzalloc(struct_size(nvm, regions, nregions), GFP_KERNEL);
++	if (!nvm)
++		return -ENOMEM;
++
++	kref_init(&nvm->refcnt);
++
++	for (n = 0, i = 0; i < INTEL_DG_NVM_REGIONS; i++) {
++		if (!invm->regions[i].name)
++			continue;
++
++		char *name = kasprintf(GFP_KERNEL, "%s.%s",
++				       dev_name(&aux_dev->dev), invm->regions[i].name);
++		if (!name)
++			continue;
++		nvm->regions[n].name = name;
++		nvm->regions[n].id = i;
++		n++;
++	}
++	nvm->nregions = n; /* in case where kasprintf fail */
++
++	nvm->base = devm_ioremap_resource(device, &invm->bar);
++	if (IS_ERR(nvm->base)) {
++		ret = PTR_ERR(nvm->base);
++		goto err;
++	}
++
++	dev_set_drvdata(&aux_dev->dev, nvm);
++
++	return 0;
++
++err:
++	kref_put(&nvm->refcnt, intel_dg_nvm_release);
++	return ret;
++}
++
++static void intel_dg_mtd_remove(struct auxiliary_device *aux_dev)
++{
++	struct intel_dg_nvm *nvm = dev_get_drvdata(&aux_dev->dev);
++
++	if (!nvm)
++		return;
++
++	dev_set_drvdata(&aux_dev->dev, NULL);
++
++	kref_put(&nvm->refcnt, intel_dg_nvm_release);
++}
++
++static const struct auxiliary_device_id intel_dg_mtd_id_table[] = {
++	{
++		.name = "i915.nvm",
++	},
++	{
++		.name = "xe.nvm",
++	},
++	{
++		/* sentinel */
++	}
++};
++MODULE_DEVICE_TABLE(auxiliary, intel_dg_mtd_id_table);
++
++static struct auxiliary_driver intel_dg_mtd_driver = {
++	.probe  = intel_dg_mtd_probe,
++	.remove = intel_dg_mtd_remove,
++	.driver = {
++		/* auxiliary_driver_register() sets .name to be the modname */
++	},
++	.id_table = intel_dg_mtd_id_table
++};
++module_auxiliary_driver(intel_dg_mtd_driver);
++
++MODULE_LICENSE("GPL");
++MODULE_AUTHOR("Intel Corporation");
++MODULE_DESCRIPTION("Intel DGFX MTD driver");
+diff --git a/include/linux/intel_dg_nvm_aux.h b/include/linux/intel_dg_nvm_aux.h
+new file mode 100644
+index 000000000000..00b6c1301bd8
+--- /dev/null
++++ b/include/linux/intel_dg_nvm_aux.h
+@@ -0,0 +1,30 @@
++/* SPDX-License-Identifier: MIT */
++/*
++ * Copyright(c) 2019-2025, Intel Corporation. All rights reserved.
++ */
++
++#ifndef __INTEL_DG_NVM_AUX_H__
++#define __INTEL_DG_NVM_AUX_H__
++
++#include <linux/auxiliary_bus.h>
++#include <linux/container_of.h>
++#include <linux/ioport.h>
++#include <linux/types.h>
++
++#define INTEL_DG_NVM_REGIONS 13
++
++struct intel_dg_nvm_region {
++	const char *name;
++};
++
++struct intel_dg_nvm_dev {
++	struct auxiliary_device aux_dev;
++	bool writable_override;
++	struct resource bar;
++	const struct intel_dg_nvm_region *regions;
++};
++
++#define auxiliary_dev_to_intel_dg_nvm_dev(auxiliary_dev) \
++	container_of(auxiliary_dev, struct intel_dg_nvm_dev, aux_dev)
++
++#endif /* __INTEL_DG_NVM_AUX_H__ */
 -- 
 2.43.0
 
