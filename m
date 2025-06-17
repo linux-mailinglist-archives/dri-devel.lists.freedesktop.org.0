@@ -2,82 +2,83 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 600ACADC6B5
-	for <lists+dri-devel@lfdr.de>; Tue, 17 Jun 2025 11:37:25 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 224EFADC6BC
+	for <lists+dri-devel@lfdr.de>; Tue, 17 Jun 2025 11:37:45 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C662710E58D;
-	Tue, 17 Jun 2025 09:37:23 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 855E010E58E;
+	Tue, 17 Jun 2025 09:37:43 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=redhat.com header.i=@redhat.com header.b="ItTJ/5Fu";
+	dkim=pass (1024-bit key; unprotected) header.d=redhat.com header.i=@redhat.com header.b="PcsDhlyV";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from us-smtp-delivery-124.mimecast.com
  (us-smtp-delivery-124.mimecast.com [170.10.129.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9B7EF10E58D
- for <dri-devel@lists.freedesktop.org>; Tue, 17 Jun 2025 09:37:22 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 504B910E58E
+ for <dri-devel@lists.freedesktop.org>; Tue, 17 Jun 2025 09:37:42 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1750153041;
+ s=mimecast20190719; t=1750153061;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=0iZWBl/87jpgBtc7g8vCiBj8fMDtEnqMgq5VqeHe2b4=;
- b=ItTJ/5Fur50l5GlpLwnDNdaF5NgAZNgCWWH5Q8k7KCmBdqoD39DxJdqYxvZnXcyzbJB7HU
- Py7L+dNufvpOmObURzRY7YOEPw23thqZUOWxJQzEXcTr2RZ+610Siuom0AyjsWREvEB+6+
- Z1C9bMbrzP9EqZQaVNl57AIzeksEC8U=
-Received: from mail-wr1-f69.google.com (mail-wr1-f69.google.com
- [209.85.221.69]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=2tVggpdHRMe70SNIVLjgFowvBJ62eIYbXphR2T3zCDQ=;
+ b=PcsDhlyVvDorkmhP8uemET1+nb5ry+oepbX4PejvDmQD5bxIQk55Ka6kfk/Mv0rUhTDkQY
+ q8FlvuPFuEg2kAGzM7CjS6GWG4fpE1KRBayUfCg5uRjpFueEJtuPkIqNVfqW8AACRSJRCY
+ 2ZwvWIGaoKqvcVOp7Yfl+uc7Dv0oZBY=
+Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
+ [209.85.128.71]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-225-H1MhSAXyOsCqdE6Io2W7RQ-1; Tue, 17 Jun 2025 05:37:20 -0400
-X-MC-Unique: H1MhSAXyOsCqdE6Io2W7RQ-1
-X-Mimecast-MFC-AGG-ID: H1MhSAXyOsCqdE6Io2W7RQ_1750153040
-Received: by mail-wr1-f69.google.com with SMTP id
- ffacd0b85a97d-3a578958000so999464f8f.3
- for <dri-devel@lists.freedesktop.org>; Tue, 17 Jun 2025 02:37:20 -0700 (PDT)
+ us-mta-641-r4yk-idvNIS0_THFuCApqQ-1; Tue, 17 Jun 2025 05:37:36 -0400
+X-MC-Unique: r4yk-idvNIS0_THFuCApqQ-1
+X-Mimecast-MFC-AGG-ID: r4yk-idvNIS0_THFuCApqQ_1750153056
+Received: by mail-wm1-f71.google.com with SMTP id
+ 5b1f17b1804b1-450d57a0641so38922005e9.3
+ for <dri-devel@lists.freedesktop.org>; Tue, 17 Jun 2025 02:37:36 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1750153039; x=1750757839;
+ d=1e100.net; s=20230601; t=1750153055; x=1750757855;
  h=content-transfer-encoding:in-reply-to:organization:autocrypt
  :content-language:from:references:cc:to:subject:user-agent
  :mime-version:date:message-id:x-gm-message-state:from:to:cc:subject
  :date:message-id:reply-to;
- bh=0iZWBl/87jpgBtc7g8vCiBj8fMDtEnqMgq5VqeHe2b4=;
- b=ZGzTxFEFtbZCVAcEXkkMtHpXfq20pliSlpNIrfGTHdUjTqC1jpNVOOX82WzM4IYD92
- XPa5etXIp4fqiDxgGiv/g6QP6TakUg0FuB5CTWF4hsjd1lenHn7y0i3+8rfC+Uza9i4A
- SE3K0BaVAGhzfQ5kWr0+FW9L4EtZ7CEwpX30kPYSVLXPZOCWaYwlTSsP0mnAhaJPo9jY
- DfE1WpSdZRyIDl2HlAFus9S7fPftyJmfOmCDK41pNdhzXp3/X+iz12KGCszin6PRx+G0
- 6ObCON4+n5F6XVxIpD/wZiKmitqzi34g/7SUOBX6X68I10crq77fmAy1BJqw7ErNzTYf
- YBmg==
+ bh=2tVggpdHRMe70SNIVLjgFowvBJ62eIYbXphR2T3zCDQ=;
+ b=S5QwzThcBuSOVN1hno41VW/Nzbv3g80WJbDRQR6QytIizlKXHyiA4zygEvpq2h9fA9
+ CJCN2kcxTg103/bFumlsu11CMmPdr9o2Ph+wR+nvKz2lLV18gUum6eVSfJOkGr4z+uXs
+ caKk+mpBWnZ4rnElaP9mf9Xf2CWkZ0IGS/qSML5XY5d2stOZCo58KJ0H3ZrB07s75l1l
+ vzSDF2vPI3JPFMqWZqJtG4qIiqYXCFhqwMyz8VnAcN7asFUlucw4LHrIjcJ7dyRnjflQ
+ bhxPm0piVqwIjwHFD8QEeatvsHwC4jo47Iyc/A+LDdo4DwH9/ndDUVVtThVwdwQtyFfG
+ T9xQ==
 X-Forwarded-Encrypted: i=1;
- AJvYcCXktuSiB3+HtxdkrUJJ0hibbORir0OcrVT0uiO/9RGM3kEMlj+rA7scQEerGMmfPJWsvg5+4tnaXiA=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YybmKb9MvvbDDD8lNaIRuVfCnxFbDsOGmh+P1ZC4+lUGLbDdTVQ
- 3gUwQzUUerTfaPTQPPcHUXhH1PPmqSE5cwtLvtryLaUkB+liV5v2mQvZQv7EqKDKq/IGb8s7sQX
- Nh0CEgx4wT2RnMVOqKTZEbeLGLx7pHw6M+7eoc1ZsMfqTXGfuqy83LlRwNgKjGezVH4mR5g==
-X-Gm-Gg: ASbGnctouy5WHIHW4MqBTj8wIC78sDHdRBCXx8IcalYER58Dh30Vrw/DbjpN/Xo51J4
- wd3/uhnnVtUXhnBHQ4EYFPrO9wi11+4+cGhpI2d57tTc8yAw4BPVfln+DlKs41aARq9pnjS/7Ht
- po3B4fgdp98wrkOVsnS11rQAbeu/TuiK9itOh+ixAjSA+Yi+vaaSSQCgSF2fB1u1Xhd6EpuvCrF
- xY83fKfuZNWRZ2tk0LuPpAszk8BxmmzqPVpPLxuGY5KUMapHENaUjbrVPwdE+r+TEX7qxte44kK
- BjytR09nfpVKe2+XcwrSp70TjQVgkhjYUNS9+XxzrO0urlnWcFlyN+8CIuQ/yL7lOL8bjA71Cba
- WtzsDu51NVm8yUmF7eRXwAhC0zsdynh6JIKyEs+OSuZ5KdJU=
-X-Received: by 2002:a05:6000:2089:b0:3a5:2ec5:35b8 with SMTP id
- ffacd0b85a97d-3a572398cecmr9501309f8f.11.1750153039541; 
- Tue, 17 Jun 2025 02:37:19 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IGn0r2S94rVo2KuanbuIlCONOQLmf7OLS7ZUZs7agOAWDn3Sa7W8ftax638hwNbov3D5qaGyQ==
-X-Received: by 2002:a05:6000:2089:b0:3a5:2ec5:35b8 with SMTP id
- ffacd0b85a97d-3a572398cecmr9501261f8f.11.1750153038988; 
- Tue, 17 Jun 2025 02:37:18 -0700 (PDT)
+ AJvYcCU1goXVqQqgewnPjClrYdbvhHl4WMSUFtwE1VmzrF0LavwF9cKwF3aLeiSW4wY5zd5VxF8B3Jl18Hk=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0Yy2di9pogQp4KA9lXoikihlvfgg5qivK/bfOOTg6V6/BrL+TYGc
+ PqQ1mOtNNwijqqckOcS+xER+euWY8HexK6ZDguNJM/3DDEK8whiRWgFCs34i2Wtj94DF2Wor9dM
+ 11JmEfI8FL1mGRovvgdeXgicWtCFm7bNUBQsYAQtQ6NKudzv4PfmKlLpm3tXlogVG/GLzNw==
+X-Gm-Gg: ASbGncuq6c1oWnDkIXDL8SDIGys5uKDwt+AHDwvg5puoDWXmaI7XcPIVyAmjCyNKlnw
+ 6cQw53J3zs0/kqY9OO8CN3gP9agtX6NdjIkT0VbTnXWsJ+fx+3FMZu7TSKTrejOwIQCP8y46rAA
+ +Yf0fi0TU6Lu6LmXwNR88oB/6QFjZjjyj838PNWzk62srrW/Ry6MTZwwSLGi0KOttf/VKBxg6r7
+ mCWgDw+YmlqPhJ3kuBXyy0CbS4Lk+SINswYqSVvPxUxOCknZseiSXtC3yWnUORw2PKYM8LQTw3S
+ cdV4sJb0cnA4DhH5uV5ZkLjwVkFd5Ub4aDuiy2prDJ4jM4jys9+LtKQFd0IYv8O5yxuPh9lj5pU
+ UWLlw4vbsYs2+RC9z818Ld1ipei1TzJfHWoT6QzWbEqyg7BM=
+X-Received: by 2002:a05:600c:3587:b0:43c:fda5:41e9 with SMTP id
+ 5b1f17b1804b1-4533cad1aa0mr127695105e9.31.1750153055570; 
+ Tue, 17 Jun 2025 02:37:35 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IE33mK7aAFnuzBQX82pmdkrCA/cX+3l1nAlm3F6BLNfxNOkhwo9+uvgQ5HQNw5b5NLLg7ZP1w==
+X-Received: by 2002:a05:600c:3587:b0:43c:fda5:41e9 with SMTP id
+ 5b1f17b1804b1-4533cad1aa0mr127694505e9.31.1750153055045; 
+ Tue, 17 Jun 2025 02:37:35 -0700 (PDT)
 Received: from ?IPV6:2003:d8:2f31:700:3851:c66a:b6b9:3490?
  (p200300d82f3107003851c66ab6b93490.dip0.t-ipconnect.de.
  [2003:d8:2f31:700:3851:c66a:b6b9:3490])
  by smtp.gmail.com with ESMTPSA id
- 5b1f17b1804b1-4532de8c64esm175838425e9.7.2025.06.17.02.37.17
+ 5b1f17b1804b1-4532e224888sm172776835e9.1.2025.06.17.02.37.33
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 17 Jun 2025 02:37:18 -0700 (PDT)
-Message-ID: <d9fc2e4f-3a4d-4bf2-9a45-b4d890f2b0d8@redhat.com>
-Date: Tue, 17 Jun 2025 11:37:16 +0200
+ Tue, 17 Jun 2025 02:37:34 -0700 (PDT)
+Message-ID: <338a45b0-40dd-4c11-bbe8-a047559fb77c@redhat.com>
+Date: Tue, 17 Jun 2025 11:37:32 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 10/14] fs/dax: Remove FS_DAX_LIMITED config option
+Subject: Re: [PATCH v2 09/14] powerpc: Remove checks for devmap pages and
+ PMDs/PUDs
 To: Alistair Popple <apopple@nvidia.com>, akpm@linux-foundation.org
 Cc: linux-mm@kvack.org, gerald.schaefer@linux.ibm.com,
  dan.j.williams@intel.com, jgg@ziepe.ca, willy@infradead.org,
@@ -89,9 +90,9 @@ Cc: linux-mm@kvack.org, gerald.schaefer@linux.ibm.com,
  linux-arm-kernel@lists.infradead.org, loongarch@lists.linux.dev,
  linuxppc-dev@lists.ozlabs.org, linux-riscv@lists.infradead.org,
  linux-cxl@vger.kernel.org, dri-devel@lists.freedesktop.org, John@Groves.net,
- m.szyprowski@samsung.com
+ m.szyprowski@samsung.com, Jason Gunthorpe <jgg@nvidia.com>
 References: <cover.8d04615eb17b9e46fc0ae7402ca54b69e04b1043.1750075065.git-series.apopple@nvidia.com>
- <bbade6a3154d14d958f5f9cf65fd6424897ec9c2.1750075065.git-series.apopple@nvidia.com>
+ <818b2fb2f2cf7450ecdd698f2fa019aed3be7b85.1750075065.git-series.apopple@nvidia.com>
 From: David Hildenbrand <david@redhat.com>
 Autocrypt: addr=david@redhat.com; keydata=
  xsFNBFXLn5EBEAC+zYvAFJxCBY9Tr1xZgcESmxVNI/0ffzE/ZQOiHJl6mGkmA1R7/uUpiCjJ
@@ -138,9 +139,9 @@ Autocrypt: addr=david@redhat.com; keydata=
  jPrnvUsUUsjRoRNJjKKA/REq+sAnhkNPPZ/NNMjaZ5b8Tovi8C0tmxiCHaQYqj7G2rgnT0kt
  WNyWQQ==
 Organization: Red Hat
-In-Reply-To: <bbade6a3154d14d958f5f9cf65fd6424897ec9c2.1750075065.git-series.apopple@nvidia.com>
+In-Reply-To: <818b2fb2f2cf7450ecdd698f2fa019aed3be7b85.1750075065.git-series.apopple@nvidia.com>
 X-Mimecast-Spam-Score: 0
-X-Mimecast-MFC-PROC-ID: 8GeONX3XmHxuL6mXswNGSP4IgF-yYQ019GcEufWUsEI_1750153040
+X-Mimecast-MFC-PROC-ID: 5Sk_VxiJ_KJJhb3Tpwu7rAQrn-J11XdL1oWqIAMhMBg_1750153056
 X-Mimecast-Originator: redhat.com
 Content-Language: en-US
 Content-Type: text/plain; charset=UTF-8; format=flowed
@@ -161,12 +162,14 @@ Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 On 16.06.25 13:58, Alistair Popple wrote:
-> The dcssblk driver was the last user of FS_DAX_LIMITED. That was marked
-> broken by 653d7825c149 ("dcssblk: mark DAX broken, remove FS_DAX_LIMITED
-> support") to allow removal of PFN_SPECIAL. However the FS_DAX_LIMITED
-> config option itself was not removed, so do that now.
+> PFN_DEV no longer exists. This means no devmap PMDs or PUDs will be
+> created, so checking for them is redundant. Instead mappings of pages that
+> would have previously returned true for pXd_devmap() will return true for
+> pXd_trans_huge()
 > 
 > Signed-off-by: Alistair Popple <apopple@nvidia.com>
+> Reviewed-by: Jason Gunthorpe <jgg@nvidia.com>
+> ---
 
 Acked-by: David Hildenbrand <david@redhat.com>
 
