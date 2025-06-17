@@ -2,72 +2,123 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 09B20ADDC7E
-	for <lists+dri-devel@lfdr.de>; Tue, 17 Jun 2025 21:37:38 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id A30C5ADDC9C
+	for <lists+dri-devel@lfdr.de>; Tue, 17 Jun 2025 21:46:00 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A91BC10E110;
-	Tue, 17 Jun 2025 19:37:35 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 531EC10E0E8;
+	Tue, 17 Jun 2025 19:45:58 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="dujnD3/s";
+	dkim=pass (1024-bit key; unprotected) header.d=amd.com header.i=@amd.com header.b="1gtsUM4H";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5EAFD10E110;
- Tue, 17 Jun 2025 19:37:34 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1750189055; x=1781725055;
- h=message-id:subject:from:to:cc:date:in-reply-to:
- references:content-transfer-encoding:mime-version;
- bh=zdx0r8kYKzjls7Lcb3MIIAgVJm/j0BwST+fk8XBnvq0=;
- b=dujnD3/sbE3PEJi6sI+C2kxJeNRXx++JUu0nSAlFCBb0PlJ+xqkkDRaj
- frgxqyZLCuEIGUFjAjlBYm8+E60epoxCBCD5hKWrnoYw1hQWNiDCPhbhM
- xxhUU2ot5cKNCy/geyixOtvoSAyIzy8yJoRySZJixi7+Cnwzltj4neann
- dkvaBJENB/B4VB8xxz6TCchOUEL3Mp5IqA/N69b/vduu9bJa/u/giJn5L
- NwjsFRNAVZoYdiMO/PSbMvEQMSWF7x0dgC0JkzOhMrf9hn5QvMAjMzkuq
- CzhDm/vtqJwam3oZnkEsEkIeqbFJ5/r9c+LV6O8Fy9f38gHo0mllOLhgv Q==;
-X-CSE-ConnectionGUID: oWGTfmJmRbahgtTUJDfWeA==
-X-CSE-MsgGUID: ecoM3bpCS2SiR98ZVdfLZw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11467"; a="69835865"
-X-IronPort-AV: E=Sophos;i="6.16,244,1744095600"; d="scan'208";a="69835865"
-Received: from orviesa010.jf.intel.com ([10.64.159.150])
- by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 17 Jun 2025 12:37:34 -0700
-X-CSE-ConnectionGUID: dwQ0VBD7Ss+iAaKBMTEFIA==
-X-CSE-MsgGUID: Owkl9dVBR+aab/M3AyAxfQ==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.16,244,1744095600"; d="scan'208";a="148787219"
-Received: from zzombora-mobl1 (HELO [10.245.245.188]) ([10.245.245.188])
- by orviesa010-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 17 Jun 2025 12:37:31 -0700
-Message-ID: <e1abbee8dc401e7790049d151e6a2ef3c7b045d9.camel@linux.intel.com>
-Subject: Re: [PATCH v3 1/3] drm/gpusvm, drm/pagemap: Move migration
- functionality to drm_pagemap
-From: Thomas =?ISO-8859-1?Q?Hellstr=F6m?= <thomas.hellstrom@linux.intel.com>
-To: Matthew Brost <matthew.brost@intel.com>
-Cc: "Ghimiray, Himal Prasad" <himal.prasad.ghimiray@intel.com>, 
- intel-xe@lists.freedesktop.org, dri-devel@lists.freedesktop.org, 
- apopple@nvidia.com, airlied@gmail.com, Simona Vetter
- <simona.vetter@ffwll.ch>,  Felix =?ISO-8859-1?Q?K=FChling?=	
- <felix.kuehling@amd.com>, Philip Yang <philip.yang@amd.com>, Christian
- =?ISO-8859-1?Q?K=F6nig?=	 <christian.koenig@amd.com>, dakr@kernel.org,
- "Mrozek, Michal"	 <michal.mrozek@intel.com>, Joonas Lahtinen
- <joonas.lahtinen@linux.intel.com>
-Date: Tue, 17 Jun 2025 21:37:28 +0200
-In-Reply-To: <aFGgD3BpT4yLwhGg@lstrano-desk.jf.intel.com>
-References: <20250613140219.87479-1-thomas.hellstrom@linux.intel.com>
- <20250613140219.87479-2-thomas.hellstrom@linux.intel.com>
- <93e663cf-01e7-4241-89ea-3bdda3d19437@intel.com>
- <f08ed0c71c8f193bbf09888e14d0171802415dcf.camel@linux.intel.com>
- <e4d37eb0-ec91-47c5-b888-0b5bbb74db84@intel.com>
- <5da4b6f81517a6c091411a92e1c9d3fd5b902dba.camel@linux.intel.com>
- <aFGgD3BpT4yLwhGg@lstrano-desk.jf.intel.com>
-Organization: Intel Sweden AB, Registration Number: 556189-6027
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.54.3 (3.54.3-1.fc41) 
+Received: from NAM11-BN8-obe.outbound.protection.outlook.com
+ (mail-bn8nam11on2074.outbound.protection.outlook.com [40.107.236.74])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id F1E9C10E0E8
+ for <dri-devel@lists.freedesktop.org>; Tue, 17 Jun 2025 19:45:56 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=v4DU2EbxO+RM7uW4fJUwy0M6njZFEYM8anuTVkz1CdHPqIae4D0zDceDr55h8COjZWr9WQTNk/8yTENMVlsLTO6cj7M8JeV4oRCfSeokEGiB1owoT02gotFugGLfdmGbnG0zMlSggXfARpKerLiQ04pm0Cwxqb3GCZbU4wCGkF+CJl0wtJ2ifsmsOzNssXon+BN0gJVsZSDVg6UO+rE0fClSUW+mC+bASYz5F903kLn9ZnHzdfrJ+kEUQdSgAVILJIn1TXj7uUzUmm5+3iAQ1x9MWdxZsUbl5HtfVWVaymZ/Y9Ec8q0dRO+5xz4WQNTO/JqOxDg3i//ZeSNk5sjmog==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=drHeIBQ2KxLgnqEgN2TWEyAF9K1tD8c5kSMw4GesanE=;
+ b=pr3Ya4vBeSBvAMAkQg6+dhx4zl+2WOXTqPRSuBY/MdqvvsWR66Vjll/ALqXKfarsr9lIeUy241q1fl7vfSxZfasr9keXZtffpY2yNxc2wG/ZUhyfvD0VxOkgyBZ6zVGxLwZUXfVjUzswhyEl3FEXriZKhoIzmUi2rJqED8lxcYX+/ME7GVUxP/N1dn85FVtIZTMz+DsGODQkfMg4+z31WdhXsLonjB7FGnFZdJhsPU+1f72Beafp/iwqAC8rgD7nE7m0ZJAQMo1hxntRE36iJRHztj5/TJVmAYxKCgqnjLUGThizISR5xUtDJd+QGqGvKDhO2+axYMzhI5QaJVVwBA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
+ 165.204.84.17) smtp.rcpttodomain=lists.freedesktop.org smtp.mailfrom=amd.com; 
+ dmarc=pass (p=quarantine sp=quarantine pct=100) action=none
+ header.from=amd.com; dkim=none (message not signed); arc=none (0)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=drHeIBQ2KxLgnqEgN2TWEyAF9K1tD8c5kSMw4GesanE=;
+ b=1gtsUM4H/cj34lM2j3UF03W5vDCdBmO5b4tKPiR5u06MDy04hCBRxCzoayu0LOPE5b0FgM68a49H233FZVI8sv2g3GbuAfsAMGNn+jtlz2Qqnr0WhEIg2SbOfcE8gcWW6x+LHhvLp4lxKFPu+ohbRu2iVlA12KdyFQuFzv7z1mM=
+Received: from CH0PR07CA0001.namprd07.prod.outlook.com (2603:10b6:610:32::6)
+ by DM6PR12MB4331.namprd12.prod.outlook.com (2603:10b6:5:21a::20) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8835.30; Tue, 17 Jun
+ 2025 19:45:53 +0000
+Received: from CH2PEPF00000143.namprd02.prod.outlook.com
+ (2603:10b6:610:32:cafe::51) by CH0PR07CA0001.outlook.office365.com
+ (2603:10b6:610:32::6) with Microsoft SMTP Server (version=TLS1_3,
+ cipher=TLS_AES_256_GCM_SHA384) id 15.20.8792.35 via Frontend Transport; Tue,
+ 17 Jun 2025 19:45:53 +0000
+X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 165.204.84.17)
+ smtp.mailfrom=amd.com; dkim=none (message not signed)
+ header.d=none;dmarc=pass action=none header.from=amd.com;
+Received-SPF: Pass (protection.outlook.com: domain of amd.com designates
+ 165.204.84.17 as permitted sender) receiver=protection.outlook.com;
+ client-ip=165.204.84.17; helo=SATLEXMB04.amd.com; pr=C
+Received: from SATLEXMB04.amd.com (165.204.84.17) by
+ CH2PEPF00000143.mail.protection.outlook.com (10.167.244.100) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.20.8835.15 via Frontend Transport; Tue, 17 Jun 2025 19:45:53 +0000
+Received: from fdavid-dev.amd.com (10.180.168.240) by SATLEXMB04.amd.com
+ (10.181.40.145) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.39; Tue, 17 Jun
+ 2025 14:45:51 -0500
+From: David Francis <David.Francis@amd.com>
+To: <dri-devel@lists.freedesktop.org>
+CC: <tvrtko.ursulin@igalia.com>, <Felix.Kuehling@amd.com>,
+ <David.YatSin@amd.com>, <Chris.Freehill@amd.com>, <Christian.Koenig@amd.com>, 
+ <dcostantino@meta.com>, <sruffell@meta.com>, <simona@ffwll.ch>,
+ <mripard@kernel.org>, <tzimmermann@suse.de>
+Subject: [PATCH v7] Add CRIU support for amdgpu dmabuf
+Date: Tue, 17 Jun 2025 15:45:32 -0400
+Message-ID: <20250617194536.538681-1-David.Francis@amd.com>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-Originating-IP: [10.180.168.240]
+X-ClientProxiedBy: SATLEXMB04.amd.com (10.181.40.145) To SATLEXMB04.amd.com
+ (10.181.40.145)
+X-EOPAttributedMessage: 0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: CH2PEPF00000143:EE_|DM6PR12MB4331:EE_
+X-MS-Office365-Filtering-Correlation-Id: 156c2366-c3ee-4cb9-f5de-08ddadd791c0
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+ ARA:13230040|36860700013|376014|82310400026|1800799024; 
+X-Microsoft-Antispam-Message-Info: =?us-ascii?Q?1bBP4nZKXj7HUqkUZe3vdcqtGgyzPI8bsUN17rLaDWR8SZZhb3xYSlWg/SYR?=
+ =?us-ascii?Q?0cVH45mVJWlIWIC9K7/qzQuJv+W91jqm1ivDKvxDlg0mQvnTGLvr+2CmXN07?=
+ =?us-ascii?Q?IDZtBTd93mGHTdgrCxKc7RzzSOkQz52ONa7a3wowRVbyKPFv7OlTGhfTXcaE?=
+ =?us-ascii?Q?zM82kEZo7naP8zYBd05WZdhc6bBq/QVvTtzCua00Tk/gI7o09aBUkRIG+Gwk?=
+ =?us-ascii?Q?pROL7LZhNfm9qLtd5pE4aeCm90MgYkKGcr+WGHk7O0gpT8UL8LP17/wLa4i5?=
+ =?us-ascii?Q?Q6ZpDhVCOAXmF8lMWVYPSOScy57DWqjh4J0460V1EGtwdyLBK1jVQteGv/zg?=
+ =?us-ascii?Q?uTEAxXHwiZBxptfhUWIHf37CN7saO8oYYqFcoE1uLGDovV1W3Y63hSMt9gri?=
+ =?us-ascii?Q?QNOjn2PJ6CMwZTKTHSICKum4cStPMHR66+Vnb/ybpuTsOi6t0hO3Nq4Al669?=
+ =?us-ascii?Q?N6cf0NgXxNPZ2EYuQyS5nkVgEle0Cr6OVxehTP8rbTy+wp6yo9qmRfX4Rx0d?=
+ =?us-ascii?Q?tgoDUMmcSX9vCrJUB2RVRFaiZ7pddS+3eP2USgg0OXmEJ+w9OQ27D5RXnos+?=
+ =?us-ascii?Q?vSTEtBkgqoqSFRGTz9B/3XTnVFgqvEKML2lhNGTfgmOiibcQ+Ed7ldub4ALJ?=
+ =?us-ascii?Q?f+82Tcz+J9llORXDJTZ0rw0DFEjnCE+L9Qfo5p4yER7Ptg+WpCwEhxdmag3b?=
+ =?us-ascii?Q?qI8082pFP6m/6CWljXiV+mHIHH2NFUUeVICso0qqAA9gGrhB0jZptJBZpGOi?=
+ =?us-ascii?Q?AePFMgtWyAg+B/hU/ukFGPjBbC4uXjHGw9Yqf8Phmswc1AXrkFqvfd/i8C+Y?=
+ =?us-ascii?Q?qNOenRFxRJ7cWfZGV8u9XOlN1mmmBKBSxhpFRghz4+40XUbJg4dpy35iBqkh?=
+ =?us-ascii?Q?MzlZuOBBDUpJUVl5Ws8hW83CbLDALpy4hFLOKSLYQjs+an8JWJ3qqyasxmta?=
+ =?us-ascii?Q?5JwMAsUDQlJdRblCytHgoEQC3Faw4OK1ijD1AnsoAph9MbxTGq0yMCeQ37NG?=
+ =?us-ascii?Q?5ytHgL4QjEKaslSkJSFcI0OkSsqR4qGtMly9Myp0xKi+H3Rw5sXcyddldMLc?=
+ =?us-ascii?Q?x+4vPE15jDbcR8KjO9Z416Fme6VedREFHDjiQVZf5RvUmLfyBnsA6EpBZS8Y?=
+ =?us-ascii?Q?rMH9gkSzK4o62C0HSBGPWG6mfNUgrX7Hyow5xNTTUWHB0IUDTWIvrhlMrIHX?=
+ =?us-ascii?Q?MV0PQI5/vlxlF9EJTRx1wtQC7Tq/7F+syaCGqhaprCB+D4PcdCuYH07vbk4R?=
+ =?us-ascii?Q?6fbaOknBOqSVjyc2OM4ldW4FS1GRilE7MBKbylD9jXH6v+vgch7iS1YKn1lm?=
+ =?us-ascii?Q?/uclkt87qq1L1ZaP4eM+NHE+L2W6R3aAZR/fwcl89XjYhIHky5APKbGg82ga?=
+ =?us-ascii?Q?izVuebg+77G1/AxGm4azVvNmfZx4WbGMK7k9YS/q9Ufi2nqgyeNjl+a3W15a?=
+ =?us-ascii?Q?86YhKijnmf9hFLsB6dbTASoqfgeI6sf+AFlJcXE2wCup/chH9PlV8QiOQXPt?=
+ =?us-ascii?Q?4A24rHtiN4gVR3mORyqhA80hX7XeVlL0vymM?=
+X-Forefront-Antispam-Report: CIP:165.204.84.17; CTRY:US; LANG:en; SCL:1; SRV:;
+ IPV:CAL; SFV:NSPM; H:SATLEXMB04.amd.com; PTR:InfoDomainNonexistent; CAT:NONE;
+ SFS:(13230040)(36860700013)(376014)(82310400026)(1800799024); DIR:OUT;
+ SFP:1101; 
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 17 Jun 2025 19:45:53.0165 (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: 156c2366-c3ee-4cb9-f5de-08ddadd791c0
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=3dd8961f-e488-4e60-8e11-a82d994e183d; Ip=[165.204.84.17];
+ Helo=[SATLEXMB04.amd.com]
+X-MS-Exchange-CrossTenant-AuthSource: CH2PEPF00000143.namprd02.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM6PR12MB4331
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -83,351 +134,12 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, 2025-06-17 at 10:04 -0700, Matthew Brost wrote:
-> On Tue, Jun 17, 2025 at 04:55:26PM +0200, Thomas Hellstr=C3=B6m wrote:
-> > On Tue, 2025-06-17 at 20:17 +0530, Ghimiray, Himal Prasad wrote:
-> > >=20
-> > >=20
-> > > On 17-06-2025 18:41, Thomas Hellstr=C3=B6m wrote:
-> > > > On Tue, 2025-06-17 at 18:25 +0530, Ghimiray, Himal Prasad
-> > > > wrote:
-> > > > >=20
-> > > > >=20
-> > > > > On 13-06-2025 19:32, Thomas Hellstr=C3=B6m wrote:
-> > > > > > From: Matthew Brost <matthew.brost@intel.com>
-> > > > > >=20
-> > > > > > The migration functionality and track-keeping of per-
-> > > > > > pagemap
-> > > > > > VRAM
-> > > > > > mapped to the CPU mm is not per GPU_vm, but rather per
-> > > > > > pagemap.
-> > > > > > This is also reflected by the functions not needing the
-> > > > > > drm_gpusvm
-> > > > > > structures. So move to drm_pagemap.
-> > > > > >=20
-> > > > > > With this, drm_gpusvm shouldn't really access the page
-> > > > > > zone-
-> > > > > > device-
-> > > > > > data
-> > > > > > since its meaning is internal to drm_pagemap. Currently
-> > > > > > it's
-> > > > > > used
-> > > > > > to
-> > > > > > reject mapping ranges backed by multiple drm_pagemap
-> > > > > > allocations.
-> > > > > > For now, make the zone-device-data a void pointer.
-> > > > > >=20
-> > > > > > Alter the interface of drm_gpusvm_migrate_to_devmem() to
-> > > > > > ensure
-> > > > > > we
-> > > > > > don't
-> > > > > > pass a gpusvm pointer.
-> > > > > >=20
-> > > > > > Rename CONFIG_DRM_XE_DEVMEM_MIRROR to
-> > > > > > CONFIG_DRM_XE_PAGEMAP.
-> > > > > >=20
-> > > > > > Matt is listed as author of this commit since he wrote most
-> > > > > > of
-> > > > > > the
-> > > > > > code,
-> > > > > > and it makes sense to retain his git authorship.
-> > > > > > Thomas mostly moved the code around.
-> > > > >=20
-> > > > > >=20
-> > > > > > v3:
-> > > > > > - Kerneldoc fixes (CI)
-> > > > > > - Don't update documentation about how the drm_pagemap
-> > > > > > =C2=A0=C2=A0=C2=A0 migration should be interpreted until upcomi=
-ng
-> > > > > > =C2=A0=C2=A0=C2=A0 patches where the functionality is implement=
-ed.
-> > > > > > =C2=A0=C2=A0=C2=A0 (Matt Brost)
-> > > > > >=20
-> > > > > > Co-developed-by: Thomas Hellstr=C3=B6m
-> > > > > > <thomas.hellstrom@linux.intel.com>
-> > > > > > Signed-off-by: Thomas Hellstr=C3=B6m
-> > > > > > <thomas.hellstrom@linux.intel.com>
-> > > > > > ---
-> > > > > > =C2=A0=C2=A0 Documentation/gpu/rfc/gpusvm.rst=C2=A0=C2=A0=C2=A0=
-=C2=A0 |=C2=A0 12 +-
-> > > > > > =C2=A0=C2=A0 drivers/gpu/drm/Makefile=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 |=C2=A0=C2=A0 6 +-
-> > > > > > =C2=A0=C2=A0 drivers/gpu/drm/drm_gpusvm.c=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0 | 759 +------------
-> > > > > > ----
-> > > > > > -----
-> > > > > > ----
-> > > > > > =C2=A0=C2=A0 drivers/gpu/drm/drm_pagemap.c=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0 | 788
-> > > > > > +++++++++++++++++++++++++++
-> > > > > > =C2=A0=C2=A0 drivers/gpu/drm/xe/Kconfig=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 |=C2=A0 10 +-
-> > > > > > =C2=A0=C2=A0 drivers/gpu/drm/xe/xe_bo_types.h=C2=A0=C2=A0=C2=A0=
-=C2=A0 |=C2=A0=C2=A0 2 +-
-> > > > > > =C2=A0=C2=A0 drivers/gpu/drm/xe/xe_device_types.h |=C2=A0=C2=A0=
- 2 +-
-> > > > > > =C2=A0=C2=A0 drivers/gpu/drm/xe/xe_svm.c=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 |=C2=A0 47 +-
-> > > > > > =C2=A0=C2=A0 include/drm/drm_gpusvm.h=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 |=C2=A0 96 ----
-> > > > > > =C2=A0=C2=A0 include/drm/drm_pagemap.h=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 | 101 ++++
-> > > > > > =C2=A0=C2=A0 10 files changed, 950 insertions(+), 873 deletions=
-(-)
-> > > > > > =C2=A0=C2=A0 create mode 100644 drivers/gpu/drm/drm_pagemap.c
-> > > > > >=20
-> > > > > > diff --git a/Documentation/gpu/rfc/gpusvm.rst
-> > > > > > b/Documentation/gpu/rfc/gpusvm.rst
-> > > > > > index bcf66a8137a6..469db1372f16 100644
-> > > > > > --- a/Documentation/gpu/rfc/gpusvm.rst
-> > > > > > +++ b/Documentation/gpu/rfc/gpusvm.rst
-> > > > > > @@ -73,15 +73,21 @@ Overview of baseline design
-> > > > > > =C2=A0=C2=A0 .. kernel-doc:: drivers/gpu/drm/drm_gpusvm.c
-> > > > > > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 :doc: Locking
-> > > > > > =C2=A0=C2=A0=20
-> > > > > > -.. kernel-doc:: drivers/gpu/drm/drm_gpusvm.c
-> > > > > > -=C2=A0=C2=A0 :doc: Migration
-> > > > > > -
-> > > > > > =C2=A0=C2=A0 .. kernel-doc:: drivers/gpu/drm/drm_gpusvm.c
-> > > > > > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 :doc: Partial Unmapping of Range=
-s
-> > > > > > =C2=A0=C2=A0=20
-> > > > > > =C2=A0=C2=A0 .. kernel-doc:: drivers/gpu/drm/drm_gpusvm.c
-> > > > > > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 :doc: Examples
-> > > > > > =C2=A0=C2=A0=20
-> > > > > > +Overview of drm_pagemap design
-> > > > > > +=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
-> > > > > > +
-> > > > > > +.. kernel-doc:: drivers/gpu/drm/drm_pagemap.c
-> > > > > > +=C2=A0=C2=A0 :doc: Overview
-> > > > > > +
-> > > > > > +.. kernel-doc:: drivers/gpu/drm/drm_pagemap.c
-> > > > > > +=C2=A0=C2=A0 :doc: Migration
-> > > > > > +
-> > > > > > =C2=A0=C2=A0 Possible future design features
-> > > > > > =C2=A0=C2=A0 =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
-> > > > > > =C2=A0=C2=A0=20
-> > > > > > diff --git a/drivers/gpu/drm/Makefile
-> > > > > > b/drivers/gpu/drm/Makefile
-> > > > > > index 5050ac32bba2..4dafbdc8f86a 100644
-> > > > > > --- a/drivers/gpu/drm/Makefile
-> > > > > > +++ b/drivers/gpu/drm/Makefile
-> > > > > > @@ -104,7 +104,11 @@ obj-
-> > > > > > $(CONFIG_DRM_PANEL_BACKLIGHT_QUIRKS)
-> > > > > > +=3D
-> > > > > > drm_panel_backlight_quirks.o
-> > > > > > =C2=A0=C2=A0 #
-> > > > > > =C2=A0=C2=A0 obj-$(CONFIG_DRM_EXEC) +=3D drm_exec.o
-> > > > > > =C2=A0=C2=A0 obj-$(CONFIG_DRM_GPUVM) +=3D drm_gpuvm.o
-> > > > > > -obj-$(CONFIG_DRM_GPUSVM) +=3D drm_gpusvm.o
-> > > > > > +
-> > > > > > +drm_gpusvm_helper-y :=3D \
-> > > > > > +	drm_gpusvm.o\
-> > > > > > +	drm_pagemap.o
-> > > > > > +obj-$(CONFIG_DRM_GPUSVM) +=3D drm_gpusvm_helper.o
-> > > > > > =C2=A0=C2=A0=20
-> > > > > > =C2=A0=C2=A0 obj-$(CONFIG_DRM_BUDDY) +=3D drm_buddy.o
-> > > > > > =C2=A0=C2=A0=20
-> > > > > > diff --git a/drivers/gpu/drm/drm_gpusvm.c
-> > > > > > b/drivers/gpu/drm/drm_gpusvm.c
-> > > > > > index 7ff81aa0a1ca..ef81381609de 100644
-> > > > > > --- a/drivers/gpu/drm/drm_gpusvm.c
-> > > > > > +++ b/drivers/gpu/drm/drm_gpusvm.c
-> > > > > > @@ -8,10 +8,9 @@
-> > > > > > =C2=A0=C2=A0=20
-> > > > > > =C2=A0=C2=A0 #include <linux/dma-mapping.h>
-> > > > > > =C2=A0=C2=A0 #include <linux/hmm.h>
-> > > > > > +#include <linux/hugetlb_inline.h>
-> > > > > > =C2=A0=C2=A0 #include <linux/memremap.h>
-> > > > > > -#include <linux/migrate.h>
-> > > > > > =C2=A0=C2=A0 #include <linux/mm_types.h>
-> > > > > > -#include <linux/pagemap.h>
-> > > > > > =C2=A0=C2=A0 #include <linux/slab.h>
-> > > > > > =C2=A0=C2=A0=20
-> > > > > > =C2=A0=C2=A0 #include <drm/drm_device.h>
-> > > > > > @@ -107,21 +106,6 @@
-> > > > > > =C2=A0=C2=A0=C2=A0 * to add annotations to GPU SVM.
-> > > > > > =C2=A0=C2=A0=C2=A0 */
-> > > > > > =C2=A0=C2=A0=20
-> > > > > > -/**
-> > > > > > - * DOC: Migration
-> > > > > > - *
-> > > > > > - * The migration support is quite simple, allowing
-> > > > > > migration
-> > > > > > between RAM and
-> > > > > > - * device memory at the range granularity. For example,
-> > > > > > GPU
-> > > > > > SVM
-> > > > > > currently does
-> > > > > > - * not support mixing RAM and device memory pages within a
-> > > > > > range.
-> > > > > > This means
-> > > > > > - * that upon GPU fault, the entire range can be migrated
-> > > > > > to
-> > > > > > device
-> > > > > > memory, and
-> > > > > > - * upon CPU fault, the entire range is migrated to RAM.
-> > > > > > Mixed
-> > > > > > RAM
-> > > > > > and device
-> > > > > > - * memory storage within a range could be added in the
-> > > > > > future
-> > > > > > if
-> > > > > > required.
-> > > > > > - *
-> > > > > > - * The reasoning for only supporting range granularity is
-> > > > > > as
-> > > > > > follows: it
-> > > > > > - * simplifies the implementation, and range sizes are
-> > > > > > driver-
-> > > > > > defined and should
-> > > > > > - * be relatively small.
-> > > > > > - */
-> > > > > > -
-> > > > > > =C2=A0=C2=A0 /**
-> > > > > > =C2=A0=C2=A0=C2=A0 * DOC: Partial Unmapping of Ranges
-> > > > > > =C2=A0=C2=A0=C2=A0 *
-> > > > > > @@ -193,10 +177,9 @@
-> > > > > > =C2=A0=C2=A0=C2=A0 *		if (driver_migration_policy(range)) {
-> > > > > > =C2=A0=C2=A0=C2=A0 *			mmap_read_lock(mm);
-> > > > > > =C2=A0=C2=A0=C2=A0 *			devmem =3D driver_alloc_devmem();
-> > > > > > - *			err =3D
-> > > > > > drm_gpusvm_migrate_to_devmem(gpusvm,
-> > > > > > range,
-> > > > > > - *						=09
-> > > > > > devmem_allocation,
-> > > > > > - *							=C2=A0=C2=A0
-> > > > > > &ctx);
-> > > > > > - *			mmap_read_unlock(mm);
-> > > > > > + *			err =3D
-> > > > > > drm_pagemap_migrate_to_devmem(devmem, gpusvm->mm,
-> > > > > > gpuva_start,
-> > > > > > + *
-> > > > > > gpuva_end, driver_pgmap_owner());
-> > > > >=20
-> > > > >=20
-> > > > >=20
-> > > > > fix doc passing timeslice as parameter.
-> > > >=20
-> > > > Will fix.
-> > > >=20
-> > > > >=20
-> > > >=20
-> > > > 8<-------------------------------------------------------------
-> > > > ----
-> > > > ----
-> > > > > > +/**
-> > > > > > + * drm_pagemap_migrate_to_devmem() - Migrate a struct
-> > > > > > mm_struct
-> > > > > > range to device memory
-> > > > > > + * @devmem_allocation: The device memory allocation to
-> > > > > > migrate
-> > > > > > to.
-> > > > > > + * The caller should hold a reference to the device memory
-> > > > > > allocation,
-> > > > > > + * and the reference is consumed by this function unless
-> > > > > > it
-> > > > > > returns with
-> > > > > > + * an error.
-> > > > > > + * @mm: Pointer to the struct mm_struct.
-> > > > > > + * @start: Start of the virtual address range to migrate.
-> > > > > > + * @end: End of the virtual address range to migrate.
-> > > > > > + * @timeslice_ms: The time requested for the migrated
-> > > > > > pages to
-> > > > > > + * be present in the cpu memory map before migrated back.
->=20
-> As Himal suggests and see below...
->=20
-> s/cpu/gpu
->=20
-> > > > >=20
-> > > > > Shouldn't this be present in gpu or cpu memory map ? We are
-> > > > > using
-> > > > > this
-> > > > > to ensure pagefault can be handled effectively by ensuring
-> > > > > pages
-> > > > > remain
-> > > > > in vram here for prescribed time too.
-> > > >=20
-> > > > So with this split, drm_pagemap is responsible for migrating
-> > > > memory
-> > > > and
-> > > > updating the CPU memory map only, whereas drm_gpusvm is
-> > > > responsible
-> > > > for
-> > > > setting up the GPU memory maps. So if it remains in the CPU
-> > > > memory
-> > > > map,
-> > > > then nothing will force the gpu vms to invalidate, unless the
-> > > > gpu
-> > > > driver decides to invalidate itself.
-> > >=20
-> > > Thats true.
-> > >=20
-> > > >=20
-> > > > But looking at this i should probably rephrase "before migrated
-> > > > back"
-> > > > to "before being allowed to be migrated back".
-> > >=20
-> > > The confusion for me is that timeslice_ms does not represent the
-> > > time
-> > > pages are required to stay in the CPU memory map, but rather the
-> > > time
-> > > they must remain in the GPU memory map. We defer migrate_to_smem
-> > > until=20
-> > > this timeslice has expired.
->=20
-> Ideally, we'd want the timeslice to ensure CPU residency as well. The
-> issue arises because the timeslice is attached to the physical memory
-> (drm_gpusvm_devmem), which is not readily available on the GPU fault
-> handling side. UMD testing showed that ensuring CPU residency is not
-> required for atomics to work, so this part of the implementation was
-> left out. We can revisit and find a solution here if it turns out to
-> be
-> required.
->=20
-> For now, I'd fix the kernel doc above (s/cpu/gpu) with my suggestion
-> and
-> perhaps put in a comment why we don't wait on the GPU fault side.
+This patch series adds support for CRIU checkpointing of processes that
+share memory with the amdgpu dmabuf interface.
 
->=20
-> Matt
+This v7 splits the bo and mapping info patches and uses the valid and
+invalid lists instead of the rb tree.
 
-Hi, Matt, Please see my second response to Himal.
+A single macro that iterates over both lists is in the works.
 
-It might be that there is a confusion between "pages present in the cpu
-memory map" and "memory present in system memory"?
-
-What I mean with "present in the cpu memory map" is that the pagemap
-pages (device private memory) is present in the struct mm_struct for at
-least xx ms. The struct mm is the authoritative information of which
-pages currently hold the data.
-
-So "migrated pages are present in the cpu memory map" is therefore more
-or less equivalent to "data is present in device private memory".
-
-So maybe I should rephrase this as
-"The time requested for the pagemap pages to be present in @mm"? And
-add a discussion like in Himal's reply on the typical use-case?
-
-the pagemap itself has no control of how and if the gpu vms choose to
-expose this. It can only guarantee that the authoritative location of
-data is the device private memory for timeslice_ms.
-
-/Thomas
-
-
-
->=20
-> >=20
-> > Yeah, although drm_pagemap is not aware of any gpu memory map so it
-> > would be incorrect to bring that up in the api docs. Could add some
-> > discussion, though, that "this could be used to..." and give the
-> > typical gpu use-case?
-> >=20
-> > Thanks,
-> > Thomas
-> >=20
 
