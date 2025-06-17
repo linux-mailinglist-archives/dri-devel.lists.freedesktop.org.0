@@ -2,85 +2,103 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 12801ADCE5A
-	for <lists+dri-devel@lfdr.de>; Tue, 17 Jun 2025 15:55:21 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id CA17CADCF00
+	for <lists+dri-devel@lfdr.de>; Tue, 17 Jun 2025 16:13:00 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6F0C310E704;
-	Tue, 17 Jun 2025 13:55:19 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D4E5710E3F8;
+	Tue, 17 Jun 2025 14:12:58 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; secure) header.d=ffwll.ch header.i=@ffwll.ch header.b="PdkeJRJr";
+	dkim=pass (1024-bit key; unprotected) header.d=suse.de header.i=@suse.de header.b="MBcCW8rL";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="ij/8+Q1s";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="BwNT/Rce";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="Skzv/Uv9";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-f46.google.com (mail-wr1-f46.google.com
- [209.85.221.46])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 137E810E704
- for <dri-devel@lists.freedesktop.org>; Tue, 17 Jun 2025 13:55:11 +0000 (UTC)
-Received: by mail-wr1-f46.google.com with SMTP id
- ffacd0b85a97d-3a525eee2e3so4382555f8f.2
- for <dri-devel@lists.freedesktop.org>; Tue, 17 Jun 2025 06:55:11 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=ffwll.ch; s=google; t=1750168510; x=1750773310; darn=lists.freedesktop.org; 
- h=in-reply-to:content-transfer-encoding:content-disposition
- :mime-version:references:message-id:subject:cc:to:from:date:from:to
- :cc:subject:date:message-id:reply-to;
- bh=SdHhdWey0/d/NpZD62B8im5YiGSFH+Yv8719uzu2IhE=;
- b=PdkeJRJro9tkDyRsrGVUTfVv2psnpwm5OU3a0VnrP2Q0w7r97ZukyxU5TwlqyzjYka
- oYw/iZfUgV/9hqmIpgtPA8VsINldpL7JiNNDjYY4ScKuv1+B5PvVo9+1k7a6C/36NRnH
- xe4Yy9ABtE9edVKOxE14PgrJ6AeKjMdeiAlJE=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1750168510; x=1750773310;
- h=in-reply-to:content-transfer-encoding:content-disposition
- :mime-version:references:message-id:subject:cc:to:from:date
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=SdHhdWey0/d/NpZD62B8im5YiGSFH+Yv8719uzu2IhE=;
- b=nM0QY2yTm15Xy/kwOVvO0UVlA/VT9VQKgq7W+p38jqEv21y2DyEn+zLKMkZ8YooP3r
- kbg+KoLqg0Rdv6+3yd9r/kt6yX3C1t/vswPUsSVvR9ce5PEHWy7sVGVmxr3Vwjbz/Gyr
- Oe8XjTMO60IcrpDBwrTQ7Ngw7rvBJtcMynFKiWjjKyULn5uNyebV/ZPnLURdBeYHqSmJ
- Y5w7Egm8qG2HpALIMQc3Lg6a2X83m0LNJBVr9rYrZVfWtK9dmcXG4BD/+icmBOmuVP94
- YrZV+fbS6kqDhHFktw1PG+xbicVUZKJC/9TuP6XZE/33zwdUwdQGzZlytHTqJOjXm0lo
- U+xg==
-X-Forwarded-Encrypted: i=1;
- AJvYcCUJKqHKxqTCDd11DSQcIKKKJ6xXohm3EsQwmiqEzEXA93Z4uVDf3AplYlapSUxLL7bwVvOq20cIHXU=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YxdlyTKvOk3PxveI6EbW6LysNtLt2GD1Rh/mG3qDKqYKeA/iQxi
- ZGKTjV7nHy78bKFfIXE+Me1S1tBEPjGQ625vbI6cmFJZOZt+v4dLhiNSlxMI+Zj3maE=
-X-Gm-Gg: ASbGncuJsx6V6cNlR8AB/HsiKei1Rjmrqg9jmZvozMSNWr/blUIAL9lm+oqgWSpJArZ
- Ly9xKY5W14tPaDq48yRuezSLq/+FNWx1jBEPQyFxC9X4aJ4AUAFDy3v/z0v1Z2IpLPkbL+owMEr
- e8VkBWzJM2LPwgcaBWBiYGBnvYN/FXAp+pOwreehjUDlBiVFRVeKV8s0c0Fw42UAJo6JJMPyriW
- sCAJgK/nnBEBLU8ayKvpQ5I63KFOoQxWn9Wo6xb/KyWCM+1FY9k6XJdYAyke+34vgiM44jxVhMH
- bUfq1+huHNCbFKze94JYIq/SN6LO/hiMgkDKVz1yfPzZt4I+qARw+umBPN8pqUvljD6UBVz1jA=
- =
-X-Google-Smtp-Source: AGHT+IGJ+m09gQWsDd4UfkeOF5T8mBRUSIg0URHGjc06ZG0oq829d88zDbJcG/ihK5SQerGPR4Q+3A==
-X-Received: by 2002:a05:6000:178e:b0:3a4:c909:ce16 with SMTP id
- ffacd0b85a97d-3a572e92862mr10399134f8f.49.1750168509899; 
- Tue, 17 Jun 2025 06:55:09 -0700 (PDT)
-Received: from phenom.ffwll.local ([2a02:168:57f4:0:5485:d4b2:c087:b497])
- by smtp.gmail.com with ESMTPSA id
- ffacd0b85a97d-3a568b09148sm14545683f8f.58.2025.06.17.06.55.09
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 17 Jun 2025 06:55:09 -0700 (PDT)
-Date: Tue, 17 Jun 2025 15:55:07 +0200
-From: Simona Vetter <simona.vetter@ffwll.ch>
-To: Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>
-Cc: Simona Vetter <simona.vetter@ffwll.ch>, jani.saarinen@intel.com,
- jani.nikula@linux.intel.com, tursulin@ursulin.net,
- tzimmermann@suse.de, dri-devel@lists.freedesktop.org
-Subject: Re: [PATCH] drm/prime: fix drm_prime_add_buf_handle
-Message-ID: <aFFzuzS8b7KgykZP@phenom.ffwll.local>
-References: <20250613131201.2141-1-christian.koenig@amd.com>
- <20250613131201.2141-2-christian.koenig@amd.com>
- <aEwv_sV3V6p8dmkP@phenom.ffwll.local>
- <238ce166-2dd5-4599-865b-1c263f01a465@amd.com>
- <aEw3IRn565keDO6B@phenom.ffwll.local>
- <26705733-0c24-4f3b-a6ce-d5f2fd8c935d@amd.com>
- <aE_0PLfh3h2IeTun@phenom.ffwll.local>
- <28ef7ee3-0f02-4609-bb56-926cda563d60@amd.com>
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E021E10E3F8
+ for <dri-devel@lists.freedesktop.org>; Tue, 17 Jun 2025 14:12:57 +0000 (UTC)
+Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org
+ [IPv6:2a07:de40:b281:104:10:150:64:97])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ (No client certificate requested)
+ by smtp-out1.suse.de (Postfix) with ESMTPS id E9594211CF;
+ Tue, 17 Jun 2025 14:12:55 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+ t=1750169576; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version: content-transfer-encoding:content-transfer-encoding;
+ bh=b8QCjZmOBpee5iL8BS3OVLiqMOBfrP9Ftap0nwyyeWc=;
+ b=MBcCW8rLVBz0haLuN9wch6vAmPme/aKqLEoQgu/SWLtG9QIXzagyXjz2TpkBldwRC7sr0m
+ CbAOFtf5Oce5SJJxF1onzIn3fsQk4rgNJ9R0TKmcX8z97atGbL54qT0XevGcZWxSzztsQ0
+ B+tOPEGWHquyBnItqEOs7IVPn+tAqgo=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+ s=susede2_ed25519; t=1750169576;
+ h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version: content-transfer-encoding:content-transfer-encoding;
+ bh=b8QCjZmOBpee5iL8BS3OVLiqMOBfrP9Ftap0nwyyeWc=;
+ b=ij/8+Q1sXlII7wT4ihfWGwhFYhaXA9ZRKjWD7bCuTp7CkkCDQrEegckWkgPbkKK7cUGzzG
+ umGBxDgdDa+SpxCA==
+Authentication-Results: smtp-out1.suse.de;
+ dkim=pass header.d=suse.de header.s=susede2_rsa header.b="BwNT/Rce";
+ dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b="Skzv/Uv9"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+ t=1750169575; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version: content-transfer-encoding:content-transfer-encoding;
+ bh=b8QCjZmOBpee5iL8BS3OVLiqMOBfrP9Ftap0nwyyeWc=;
+ b=BwNT/Rce1kPShvhQspaytobFUSBHdZ6dk/MNsB1rb7jRS1TK312sWefln2fpSbLCI13Nqt
+ ssNj8qKAS1PVqkQfmP85HExYUBrjBR3YM7e04b4j6I9Fj3CyAZEjXpKJ95sfgN+FJ91C5u
+ HwZoeNIku6TAdJJUnq2CWdDG12fxS0c=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+ s=susede2_ed25519; t=1750169575;
+ h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version: content-transfer-encoding:content-transfer-encoding;
+ bh=b8QCjZmOBpee5iL8BS3OVLiqMOBfrP9Ftap0nwyyeWc=;
+ b=Skzv/Uv9xBkNXjSP5whcrG213GDXnACF7suVNh3WA1aVgDHRAf1ou7ZXpCdyDBC94iYJ9O
+ pcgHRiGO5KnKMrCQ==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ (No client certificate requested)
+ by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id C7D6813A69;
+ Tue, 17 Jun 2025 14:12:55 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+ by imap1.dmz-prg2.suse.org with ESMTPSA id U3JdL+d3UWglZQAAD6G6ig
+ (envelope-from <tzimmermann@suse.de>); Tue, 17 Jun 2025 14:12:55 +0000
+From: Thomas Zimmermann <tzimmermann@suse.de>
+To: javierm@redhat.com
+Cc: dri-devel@lists.freedesktop.org,
+	Thomas Zimmermann <tzimmermann@suse.de>
+Subject: [PATCH] drm/vesadrm: Avoid NULL-ptr deref in vesadrm_pmi_cmap_write()
+Date: Tue, 17 Jun 2025 16:09:34 +0200
+Message-ID: <20250617140944.142392-1-tzimmermann@suse.de>
+X-Mailer: git-send-email 2.49.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <28ef7ee3-0f02-4609-bb56-926cda563d60@amd.com>
-X-Operating-System: Linux phenom 6.12.30-amd64 
+X-Rspamd-Server: rspamd2.dmz-prg2.suse.org
+X-Rspamd-Queue-Id: E9594211CF
+X-Rspamd-Action: no action
+X-Spam-Flag: NO
+X-Spamd-Result: default: False [-3.01 / 50.00]; BAYES_HAM(-3.00)[100.00%];
+ NEURAL_HAM_LONG(-1.00)[-1.000]; MID_CONTAINS_FROM(1.00)[];
+ R_MISSING_CHARSET(0.50)[];
+ R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+ NEURAL_HAM_SHORT(-0.20)[-1.000]; MIME_GOOD(-0.10)[text/plain];
+ MX_GOOD(-0.01)[]; RCVD_VIA_SMTP_AUTH(0.00)[]; ARC_NA(0.00)[];
+ RCVD_COUNT_TWO(0.00)[2]; MIME_TRACE(0.00)[0:+];
+ RBL_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:104:10:150:64:97:from]; 
+ SPAMHAUS_XBL(0.00)[2a07:de40:b281:104:10:150:64:97:from];
+ TO_DN_SOME(0.00)[];
+ RECEIVED_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:106:10:150:64:167:received];
+ FUZZY_BLOCKED(0.00)[rspamd.com]; FROM_HAS_DN(0.00)[];
+ TO_MATCH_ENVRCPT_ALL(0.00)[];
+ DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:rdns,imap1.dmz-prg2.suse.org:helo,suse.de:mid,suse.de:dkim,suse.de:email,bootlin.com:url,lists.freedesktop.org:email];
+ RCVD_TLS_ALL(0.00)[]; FROM_EQ_ENVFROM(0.00)[];
+ RCPT_COUNT_THREE(0.00)[3];
+ DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+ DKIM_TRACE(0.00)[suse.de:+]
+X-Spam-Score: -3.01
+X-Spam-Level: 
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -96,83 +114,54 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, Jun 16, 2025 at 01:38:17PM +0200, Christian König wrote:
-> On 6/16/25 12:38, Simona Vetter wrote:
-> >> 6. Now FD2HANDLE is called with 10 and here is what happens:
-> >>
-> >> 	drm_prime_lookup_buf_by_handle() is called for handle 10, so we
-> >> 	don't find anything.
-> >>
-> >> 	obj->dma_buf is true so we branch into the if and call
-> >> 	drm_prime_add_buf_handle() with handle 10.
-> >>
-> >> Now we have called drm_prime_add_buf_handle() both for handle 8 and
-> >> handle 10 and so we have both 8 and 10 for the same DMA-buf in our tree.
-> > 
-> > So this is the case that broke, and which the various igt prime tests
-> > actually had testcases for. Unless I'm completely confused here now.
-> > 
-> >> So FD2HANDLE could return either 8 or 10 depending on which is looked up
-> >> first.
-> >>
-> >> I'm not 100% sure if that has any bad consequences, but I'm pretty sure
-> >> that this is not intentional.
-> >>
-> >> Should we fix that? If yes than how?
-> > 
-> > I dont think there's an issue, all we guarantee is that if you call
-> > FD2HANDLE or HANDLE2FD, then you get something consistent back. From a
-> > userspace pov there's two cases:
-> > 
-> > 1. We've already seen this buffer, it got handle 8, that's the one we've
-> > stored in the lookup caches. If you then do GETFB2 you get handle 10,
-> > which could be confusing. So you do
-> > 
-> > 	temp_dmabuf_fd = ioctl(HANDLE2FD, 10);
-> > 	new_id = ioctl(FD2HANDLE, temp_dmabuf_fd);
-> > 	close(temp_dma_buf_fd);
-> > 	ioctl(GEM_CLOSE, 10);
-> > 
-> > At this point new_id is 8,
-> 
-> No, exactly that is not guaranteed.
-> 
-> The previous call to HANDLE2FD stored 10 into the lookup cache
-> additionally to 8 with the same dma_buf pointer.
-> 
-> And if you now get 8 or 10 as return from FD2HANDLE depends on how the
-> red/black tree is balanced. It can be that 8 comes first or it can be
-> that 10 comes first because the tree is only sorted by dma_buf pointer
-> and that criteria is identical for both 8 and 10.
-> 
-> As far as I can see this case is not correctly handled.
+Only set PMI fields if the screen_info's Vesa PM segment has been
+set. Vesa PMI is the power-management interface. It also provides
+means to set the color palette. The interface is optional, so not
+all VESA graphics cards support it. Print vesafb's warning [1] if
+the hardware palette cannot be set at all.
 
-Hm right, I did type some testcases with flink, but not one that does
-funny stuff like this :-/
--Sima
+If unsupported the field PrimaryPalette in struct vesadrm.pmi is
+NULL, which results in a segmentation fault. Happens with qemu's
+Cirrus emulation.
 
-> 
-> Regards,
-> Christian.
-> 
->  and you already have that in your userspace
-> > cache, so all is good.
-> > 
-> > 2. Userspace doesn't have the buffer already, but it doesn't know that. It
-> > does the exact dance as above, except this time around it gets back the
-> > same gem_handle as it got from GETFB2 and knows that it does not have to
-> > close that handle (since it's the only one), and that it should add that
-> > handle to the userspace-side dma-buf import/export side.
-> > 
-> > It's a bit a contrived dance, but I don't think we have an issue here.
-> > 
-> > Cheers, Sima
-> > 
-> >>
-> >> Regards,
-> >> Christian.
+Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
+Fixes: 814d270b31d2 ("drm/sysfb: vesadrm: Add gamma correction")
+Link: https://elixir.bootlin.com/linux/v6.15/source/drivers/video/fbdev/vesafb.c#L375 # 1
+Cc: Thomas Zimmermann <tzimmermann@suse.de>
+Cc: Javier Martinez Canillas <javierm@redhat.com>
+Cc: dri-devel@lists.freedesktop.org
+---
+ drivers/gpu/drm/sysfb/vesadrm.c | 13 +++++++++----
+ 1 file changed, 9 insertions(+), 4 deletions(-)
 
+diff --git a/drivers/gpu/drm/sysfb/vesadrm.c b/drivers/gpu/drm/sysfb/vesadrm.c
+index c5216dbe21ec..074d2bae9db3 100644
+--- a/drivers/gpu/drm/sysfb/vesadrm.c
++++ b/drivers/gpu/drm/sysfb/vesadrm.c
+@@ -334,14 +334,19 @@ static struct vesadrm_device *vesadrm_device_create(struct drm_driver *drv,
+ 
+ 	if (!__screen_info_vbe_mode_nonvga(si)) {
+ 		vesa->cmap_write = vesadrm_vga_cmap_write;
+-#if defined(CONFIG_X86_32)
+ 	} else {
++#if defined(CONFIG_X86_32)
+ 		phys_addr_t pmi_base = __screen_info_vesapm_info_base(si);
+-		const u16 *pmi_addr = phys_to_virt(pmi_base);
+ 
+-		vesa->pmi.PrimaryPalette = (u8 *)pmi_addr + pmi_addr[2];
+-		vesa->cmap_write = vesadrm_pmi_cmap_write;
++		if (pmi_base) {
++			const u16 *pmi_addr = phys_to_virt(pmi_base);
++
++			vesa->pmi.PrimaryPalette = (u8 *)pmi_addr + pmi_addr[2];
++			vesa->cmap_write = vesadrm_pmi_cmap_write;
++		} else
+ #endif
++		if (format->is_color_indexed)
++			drm_warn(dev, "hardware palette is unchangeable, colors may be incorrect\n");
+ 	}
+ 
+ #if defined(CONFIG_FIRMWARE_EDID)
 -- 
-Simona Vetter
-Software Engineer, Intel Corporation
-http://blog.ffwll.ch
+2.49.0
+
