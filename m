@@ -2,60 +2,68 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id DA136ADDD09
-	for <lists+dri-devel@lfdr.de>; Tue, 17 Jun 2025 22:14:25 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id E3F21ADDD0E
+	for <lists+dri-devel@lfdr.de>; Tue, 17 Jun 2025 22:15:49 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id ED41910E101;
-	Tue, 17 Jun 2025 20:14:22 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D0CFF10E161;
+	Tue, 17 Jun 2025 20:15:44 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="S/ViDK5R";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="SqxBtrMP";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from sea.source.kernel.org (sea.source.kernel.org [172.234.252.31])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 166D110E101;
- Tue, 17 Jun 2025 20:14:22 +0000 (UTC)
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0B34B10E161
+ for <dri-devel@lists.freedesktop.org>; Tue, 17 Jun 2025 20:15:44 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by sea.source.kernel.org (Postfix) with ESMTP id B9C2D4A284;
- Tue, 17 Jun 2025 20:14:12 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8BBC7C4CEE3;
- Tue, 17 Jun 2025 20:14:07 +0000 (UTC)
+ by dfw.source.kernel.org (Postfix) with ESMTP id 42BFB5C473A;
+ Tue, 17 Jun 2025 20:13:23 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4E109C4CEE3;
+ Tue, 17 Jun 2025 20:15:37 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1750191252;
- bh=oLvbT+kATQP0niwsl8Ion+MRezBTBGDHphjSJvl1ykY=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=S/ViDK5R04yKbjdvPIPz4/BNAf4yzkDlToY5S8CwWpHwbVWDHzCK7ZAe4tJnURvr0
- hc4QS5ZPDiWFMK6ZLA2fCwKb5EZvmgftWSgtQfSWND9d5fQzMXCP23ffUMbVaQNjxl
- mh7AuPF3M5CYBbZQTApdJ3HFvcRXvSCfmfdSh2S+/Yz0csJJJLP0FdI69cHs/DsmDl
- AktoECLMXQrAhCD1PQ1BYBrYdxD9PMqmS1DKajFz8/qhaC9TVy4dGfttH7hfbUr4of
- zM1sI/P5V5Ze5oIhU3z9Ayj+MKPcyZaiKZ+J80LXdYYrZ7hhkMNW5Tm+o9N4z9D21m
- gUAR1B/HPXD0g==
-Date: Tue, 17 Jun 2025 22:14:04 +0200
-From: Danilo Krummrich <dakr@kernel.org>
-To: Alexandre Courbot <acourbot@nvidia.com>
-Cc: Miguel Ojeda <ojeda@kernel.org>, Alex Gaynor <alex.gaynor@gmail.com>,
- Boqun Feng <boqun.feng@gmail.com>, Gary Guo <gary@garyguo.net>,
- =?iso-8859-1?Q?Bj=F6rn?= Roy Baron <bjorn3_gh@protonmail.com>,
- Andreas Hindborg <a.hindborg@kernel.org>,
- Alice Ryhl <aliceryhl@google.com>, Trevor Gross <tmgross@umich.edu>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>, Benno Lossin <lossin@kernel.org>,
- John Hubbard <jhubbard@nvidia.com>, Ben Skeggs <bskeggs@nvidia.com>,
- Joel Fernandes <joelagnelf@nvidia.com>,
- Timur Tabi <ttabi@nvidia.com>, Alistair Popple <apopple@nvidia.com>,
- linux-kernel@vger.kernel.org, rust-for-linux@vger.kernel.org,
- nouveau@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
- Lyude Paul <lyude@redhat.com>, Shirish Baskaran <sbaskaran@nvidia.com>
-Subject: Re: [PATCH v5 00/23] nova-core: run FWSEC-FRTS to perform first
- stage of GSP initialization
-Message-ID: <aFHMjEt7KrjClom_@pollux>
-References: <20250612-nova-frts-v5-0-14ba7eaf166b@nvidia.com>
+ s=k20201202; t=1750191339;
+ bh=BNmUk/sbpT2Q5E9Oblw1xlKKw3xh8sEe5PplgbpLbTg=;
+ h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+ b=SqxBtrMPRLIKOxbCYb1xaHgCUukvdgMdXu4fowXJ1lglpg4sRhuJf0XGs17YWxogV
+ dgeX/Hq36Cxoa6LbNaU8XmYkdIhvBvS3CR4K5vkENCnyvYUyrWuaVkK3f6IDQRbw03
+ runwmunafiBWbZuXGxd0xuOdrp3t/PYUoPLn5Ln4TC/MFLZ36yTHqtVWaPgrqk8Ns8
+ jFo/rmKNciAxyvl3JvQpjNP2j04xUXAzCC4Vh9/nxaZ1oFmZ1YXRIyFrDdLnS0sAMM
+ GVqvtkUJlNkVFxcm3Bm8qGRKCA1NHpSiqu71h3yGnqYhTaGnzwVqrWsln3xqXe6XSC
+ vL01ibke7ghUQ==
+Message-ID: <d40a585f-6eca-45dd-aa9f-7dcda065c80a@kernel.org>
+Date: Tue, 17 Jun 2025 15:15:35 -0500
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20250612-nova-frts-v5-0-14ba7eaf166b@nvidia.com>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2 6/6] vgaarb: Look at all PCI display devices in VGA
+ arbiter
+To: Daniel Dadap <ddadap@nvidia.com>
+Cc: Bjorn Helgaas <bhelgaas@google.com>,
+ Alex Deucher <alexander.deucher@amd.com>,
+ =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+ Lukas Wunner <lukas@wunner.de>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
+ David Woodhouse <dwmw2@infradead.org>, Lu Baolu <baolu.lu@linux.intel.com>,
+ Joerg Roedel <joro@8bytes.org>, Will Deacon <will@kernel.org>,
+ Robin Murphy <robin.murphy@arm.com>,
+ Alex Williamson <alex.williamson@redhat.com>,
+ Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
+ "open list:DRM DRIVERS" <dri-devel@lists.freedesktop.org>,
+ open list <linux-kernel@vger.kernel.org>,
+ "open list:INTEL IOMMU (VT-d)" <iommu@lists.linux.dev>,
+ "open list:PCI SUBSYSTEM" <linux-pci@vger.kernel.org>,
+ "open list:VFIO DRIVER" <kvm@vger.kernel.org>,
+ "open list:SOUND" <linux-sound@vger.kernel.org>,
+ Mario Limonciello <mario.limonciello@amd.com>
+References: <20250617175910.1640546-1-superm1@kernel.org>
+ <20250617175910.1640546-7-superm1@kernel.org>
+ <aFHABY5yTYrJ4OUw@ddadap-lakeline.nvidia.com>
+Content-Language: en-US
+From: Mario Limonciello <superm1@kernel.org>
+In-Reply-To: <aFHABY5yTYrJ4OUw@ddadap-lakeline.nvidia.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -71,47 +79,149 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, Jun 12, 2025 at 11:01:28PM +0900, Alexandre Courbot wrote:
-> Hi everyone,
-> 
-> The feedback on v4 has been (hopefully) addressed. I guess the main
-> remaining unknown is the direction of the `num` module ; for this
-> iteration, following the received feedback I have eschewed the extension
-> trait and implemented the alignment functions as methods of the new
-> `PowerOfTwo` type. This has the benefit of making it impossible to call
-> them with undesirable (i.e. non-power of two) values. The `fls` function
-> is now provided as a series of const functions for each supported type,
-> generated by a macro.
-> 
-> It feels like the `num` module could be its own series though, so if
-> there is still discussion about it, I can also extract it and implement
-> the functionality we need in nova-core as local helper functions until
-> it gets merged at its own pace.
-> 
-> As previously, this series only successfully probes Ampere GPUs, but
-> support for other generations is on the way.
-> 
-> Upon successful probe, the driver will display the range of the WPR2
-> region constructed by FWSEC-FRTS with debug priority:
-> 
->   [   95.436000] NovaCore 0000:01:00.0: WPR2: 0xffc00000-0xffce0000
->   [   95.436002] NovaCore 0000:01:00.0: GPU instance built
-> 
-> This series is based on v6.16-rc1 with no other dependencies.
-> 
-> There are bits of documentation still missing, these are addressed by
-> Joel in his own documentation patch series [1]. I'll also double-check
-> and send follow-up patches if anything is still missing after that.
-> 
-> [1] https://lore.kernel.org/rust-for-linux/20250503040802.1411285-1-joelagnelf@nvidia.com/
 
-I think this series collected quite a few TODOs to follow up on once the
-corresponding abstractions are in place, etc. This is fine and expected.
 
-However, I think we should list those things in a central place, e.g. our TODO
-list, in order to make it easier to follow up.
+On 6/17/25 2:20 PM, Daniel Dadap wrote:
+> On Tue, Jun 17, 2025 at 12:59:10PM -0500, Mario Limonciello wrote:
+>> From: Mario Limonciello <mario.limonciello@amd.com>
+>>
+>> On a mobile system with an AMD integrated GPU + NVIDIA discrete GPU the
+>> AMD GPU is not being selected by some desktop environments for any
+>> rendering tasks. This is because neither GPU is being treated as
+>> "boot_vga" but that is what some environments use to select a GPU [1].
+>>
+>> The VGA arbiter driver only looks at devices that report as PCI display
+>> VGA class devices. Neither GPU on the system is a PCI display VGA class
+>> device:
+>>
+>> c5:00.0 3D controller: NVIDIA Corporation Device 2db9 (rev a1)
+>> c6:00.0 Display controller: Advanced Micro Devices, Inc. [AMD/ATI] Device 150e (rev d1)
+>>
+>> If the GPUs were looked at the vga_is_firmware_default() function actually
+>> does do a good job at recognizing the case from the device used for the
+>> firmware framebuffer.
+>>
+>> Modify the VGA arbiter code and matching sysfs file entries to examine all
+>> PCI display class devices. The existing logic stays the same.
+>>
+>> This will cause all GPUs to gain a `boot_vga` file, but the correct device
+>> (AMD GPU in this case) will now show `1` and the incorrect device shows `0`.
+>> Userspace then picks the right device as well.
+>>
+>> Link: https://github.com/robherring/libpciaccess/commit/b2838fb61c3542f107014b285cbda097acae1e12 [1]
+>> Suggested-by: Daniel Dadap <ddadap@nvidia.com>
+>> Acked-by: Thomas Zimmermann <tzimmermann@suse.de>
+>> Signed-off-by: Mario Limonciello <mario.limonciello@amd.com>
+>> ---
+>>   drivers/pci/pci-sysfs.c | 2 +-
+>>   drivers/pci/vgaarb.c    | 8 ++++----
+>>   2 files changed, 5 insertions(+), 5 deletions(-)
+>>
+>> diff --git a/drivers/pci/pci-sysfs.c b/drivers/pci/pci-sysfs.c
+>> index 268c69daa4d57..c314ee1b3f9ac 100644
+>> --- a/drivers/pci/pci-sysfs.c
+>> +++ b/drivers/pci/pci-sysfs.c
+>> @@ -1707,7 +1707,7 @@ static umode_t pci_dev_attrs_are_visible(struct kobject *kobj,
+>>   	struct device *dev = kobj_to_dev(kobj);
+>>   	struct pci_dev *pdev = to_pci_dev(dev);
+>>   
+>> -	if (a == &dev_attr_boot_vga.attr && pci_is_vga(pdev))
+>> +	if (a == &dev_attr_boot_vga.attr && pci_is_display(pdev))
+>>   		return a->mode;
+> 
+> I can't help but worry about userspace clients that might be checking for
+> the presence of the boot_vga sysfs file but don't check its contents. 
 
-Additionally, it might get us more contributors who might be interested in
-following up on those things.
+Wouldn't those clients "already" be broken by such an assumption?
+We know today that there are systems with two VGA devices in them too.
 
-@Alex: Can you please add such a list?
+I'd think those should have both GPUs exporting a file and one having a 
+0 the other 1.
+
+> I
+> understand that it's the intention to expose the file for non-VGA display
+> controllers in the case where none of the display controllers are of the
+> VGA subclass, but one of them is the boot console device and should be
+> considered "VGA" for the purposes of the overloaded meaning of "VGA", but
+> if it isn't too much trouble to minimize the change to UAPI here, I'd be
+> more comfortable with only exposing this file for devices that really are
+> VGA and/or the firmware default.
+> 
+> Maybe something like making the condition:
+> 
+> if (a == &dev_attr_boot_vga.attr) {
+> 	if (pci_is_vga(pdev) ||
+> 	    (pci_is_display(pdev) && vga_default_device() == pdev))
+> 		return a->mode;
+> }
+> 
+> (maybe we don't even need the pci_is_display() check at that point? I
+> feel more comfortable leaving it in, though)
+
+I suppose it depends upon call order whether the above works or not.
+
+I'm not sure 'off hand' right now.
+
+ > > I'd expect that to do something like (assuming two-GPU hybrid system):
+> 
+> * Systems with one VGA controller and one 3D controller:
+>    * VGA controller gets boot_vga file, contents are "1"
+>    * 3D controller does not get boot_vga file
+> * Systems with no VGA controllers and two 3D controllers:
+>    * 3D controller driving the console gets boot_vga file: "1"
+>    * 3D controller not driving the console does not get boot_vga file
+> * Systems with two VGA controllers and no 3D controllers:
+>    * VGA controller driving the console gets boot_vga file: "1"
+>    * VGA controller not driving the console gets boot_vga file: "0"
+> 
+> i.e., the behavior would only be visibly different in the case with two
+> 3D controllers, like the one targeted by this patch. You and I have seen
+> the two VGA controller case in the wild, so we know it exists. 
+
+Yeah I wish we had some more data from that reporter right now to 
+potentially support a proposal that would help their system too.
+
+This patch as it is today will only help case 1 and 2.
+
+> The one 3D
+> and one VGA controller case is what I'd expect to be the common one, and
+> hopefully this will have the same behavior before and after this change
+> regardless of whether a muxed system defaults to dGPU (like hybrid Mac
+> notebooks) or iGPU (like other hybrid systems I'm accustomed to).
+> 
+>>   
+>>   	return 0;
+>> diff --git a/drivers/pci/vgaarb.c b/drivers/pci/vgaarb.c
+>> index 78748e8d2dbae..63216e5787d73 100644
+>> --- a/drivers/pci/vgaarb.c
+>> +++ b/drivers/pci/vgaarb.c
+>> @@ -1499,8 +1499,8 @@ static int pci_notify(struct notifier_block *nb, unsigned long action,
+>>   
+>>   	vgaarb_dbg(dev, "%s\n", __func__);
+>>   
+>> -	/* Only deal with VGA class devices */
+>> -	if (!pci_is_vga(pdev))
+>> +	/* Only deal with PCI display class devices */
+>> +	if (!pci_is_display(pdev))
+>>   		return 0;
+>>   
+>>   	/*
+>> @@ -1546,12 +1546,12 @@ static int __init vga_arb_device_init(void)
+>>   
+>>   	bus_register_notifier(&pci_bus_type, &pci_notifier);
+>>   
+>> -	/* Add all VGA class PCI devices by default */
+>> +	/* Add all PCI display class devices by default */
+>>   	pdev = NULL;
+>>   	while ((pdev =
+>>   		pci_get_subsys(PCI_ANY_ID, PCI_ANY_ID, PCI_ANY_ID,
+>>   			       PCI_ANY_ID, pdev)) != NULL) {
+>> -		if (pci_is_vga(pdev))
+>> +		if (pci_is_display(pdev))
+>>   			vga_arbiter_add_pci_device(pdev);
+>>   	}
+>>   
+>> -- 
+>> 2.43.0
+>>
+
