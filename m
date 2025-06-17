@@ -2,100 +2,61 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 24959ADBDF8
-	for <lists+dri-devel@lfdr.de>; Tue, 17 Jun 2025 02:14:58 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id EA8F3ADBEEA
+	for <lists+dri-devel@lfdr.de>; Tue, 17 Jun 2025 04:08:41 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7616510E476;
-	Tue, 17 Jun 2025 00:14:56 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id F311010E408;
+	Tue, 17 Jun 2025 02:08:35 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=chromium.org header.i=@chromium.org header.b="NFp340Fi";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="l8iNKa4C";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pl1-f173.google.com (mail-pl1-f173.google.com
- [209.85.214.173])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2599710E475
- for <dri-devel@lists.freedesktop.org>; Tue, 17 Jun 2025 00:14:55 +0000 (UTC)
-Received: by mail-pl1-f173.google.com with SMTP id
- d9443c01a7336-23633a6ac50so72671565ad.2
- for <dri-devel@lists.freedesktop.org>; Mon, 16 Jun 2025 17:14:55 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=chromium.org; s=google; t=1750119292; x=1750724092;
- darn=lists.freedesktop.org; 
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc:subject:date
- :message-id:reply-to;
- bh=Tdpbl3k/YSmDDGdsuwN+GlqcV59+7D5igTv++Q9dI5Q=;
- b=NFp340FiAJ7ZTmP6gWXuwbPDzOYSeJJRdbARI6kqrcjTtxjKpOWXO0omRD4sDguDWW
- Ab+38kNxcHXCeBKGHWfuBsx/P1yEGYXcryd3o0EZ4qSe3Gdutn9+t3kW58EDzBBMIJe3
- EczxsYUYSD4ARFw8hOQa8Bpz0shNNKfwK1swc=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1750119292; x=1750724092;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=Tdpbl3k/YSmDDGdsuwN+GlqcV59+7D5igTv++Q9dI5Q=;
- b=fvKb3QfyOVbz8rJci2LhmhKY/uWXj/1/xs9gKAeoxpi8ulJxuaOjMBVWLoQ5L29tug
- zVVjeCpHIOBPnKu5XIC/wAt95cQZ+XrgZplnMbwpSyyThKJw7vLcdruduAnSu++9mpuU
- 6OCHo2ziDTSXILJo5/baE8pkGqsrXPqVklcSV0Hyd4bXUk8YUtgzUcDXCtAv1EMUYq3T
- D+SV98IjXlFewnbUEL9DTc0Voif0L0f/Ezjl9XsWutZ+PBSwCLodaX1WxA2/wMqZu+7E
- Q6qAiwCafT8CvTgcP8wEdq+/7jHQf5l/rq0LVIwj00O5GykIYv969z1roSTqZG6SkXX5
- yTvQ==
-X-Forwarded-Encrypted: i=1;
- AJvYcCV3OD6ag4FrR3QkDiiZJbgOJfKDtC3ffu3ESvJPq3Jk+OITDYXOsroAyylKLMN7qHMMxSRb0LPKXDw=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YygXTZIQYPUbWWxu1VGyGSht+OrCUOr+qI8hy5j5EjOJUoO/3Uk
- /+JEl9tZBc1RQ4EHh2mbgIfK81rHFTDgDhAjHXt4Aiz9F/NdSaLCKlPvBq3jCoYxvO04+7U7a1b
- /GLk=
-X-Gm-Gg: ASbGncu09OjQBJv6tOiKRoDjHNfJh0r4jlk4p3zBrizn9Mxi1V0neDFxuWwIxihpfg1
- uaLRofYpMpZvVm0dCcZTc39pXWvtGL6LpFaZU9D2grpzLHx9TfaUNzL6jG2xrq3wh4aHaPQEMB1
- iMULhjyEVhzKqMiMXJHwXsijckeGjuFLIxcqsuPiK+WkcC6zxxbE/U7kRoGlH0fCTr/ZwVBbbqp
- hbocwHo/BvEJOXXZkKLiKOVnwaTKbLU+Y9vBSx5eRvoyRfHp5gPzzLa7C0duBDz6SpToBKPIGP4
- bYtFoYYeU84mH6VmVL5BM8OnxQ+4sZ84FI0yaQqaVOSdSkdiHiKuqmFHvknJWNwSpAfKr6/577K
- f0cav/p+9J0qLB7ETRRf9JZ18jrYm8g==
-X-Google-Smtp-Source: AGHT+IGpmEXpEzCAeN2QIHh2x3fvia/MXXlvkoaxloUlaSi0sCpspOjvN/lmX02Wjdt6F+lKuQboUQ==
-X-Received: by 2002:a17:902:f750:b0:236:7079:fafd with SMTP id
- d9443c01a7336-2367079fdb1mr102923425ad.36.1750119292542; 
- Mon, 16 Jun 2025 17:14:52 -0700 (PDT)
-Received: from mail-pg1-f175.google.com (mail-pg1-f175.google.com.
- [209.85.215.175]) by smtp.gmail.com with ESMTPSA id
- d9443c01a7336-2365d88bdedsm67495035ad.15.2025.06.16.17.14.44
- for <dri-devel@lists.freedesktop.org>
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 16 Jun 2025 17:14:48 -0700 (PDT)
-Received: by mail-pg1-f175.google.com with SMTP id
- 41be03b00d2f7-b3182c6d03bso3445450a12.0
- for <dri-devel@lists.freedesktop.org>; Mon, 16 Jun 2025 17:14:44 -0700 (PDT)
-X-Forwarded-Encrypted: i=1;
- AJvYcCWPwNy1CRQ17Z9B7x1rf5ysA06CuCY2+G+2DzkF+B6XkL1pmYCDFK/YcUXfFcOy9j01wDlyrYho/Eo=@lists.freedesktop.org
-X-Received: by 2002:a17:90b:5104:b0:311:ad7f:329c with SMTP id
- 98e67ed59e1d1-313f1ce5cacmr19759622a91.18.1750119283755; Mon, 16 Jun 2025
- 17:14:43 -0700 (PDT)
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.19])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2DAED10E2AB;
+ Tue, 17 Jun 2025 02:08:33 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1750126114; x=1781662114;
+ h=date:from:to:cc:subject:message-id:references:
+ mime-version:in-reply-to;
+ bh=hkmxoAth24IUQdWeWg/PW1kvEopOf7zFgXKj55VjQDM=;
+ b=l8iNKa4CTW7jGfkyH4hRqtpBYgvA7STYlnKIsxF77ZEThjCp5kwQVFfc
+ 1Zo4aCU/B+HQMUpP5Kd7IhsO9ULXdpW8cQ5LcjgyUtH8R7YaCQMzNbnZy
+ +lkypGpaQePuQvk0pFnl6fViEpF6nNxkkZryHH1UdWs08v5T3tl/fzr/r
+ fJUH26oEzc39TykclkRUzEd4Pn2d0tb1fvCiyfTOEwj2dzWSE2l4i4+Od
+ 95E5sIPzWiHkJ/XO4lOPNe7T2XkxnciCO5FdvhvXyyWXRXZ1iIFKOXPC7
+ lkjwodZovDg3fCxJ3XAohMo22YB1MfObMdBHXvpiIdlcher+yF1kFOXmy w==;
+X-CSE-ConnectionGUID: J+9T6E2TQce941cgTqKwkg==
+X-CSE-MsgGUID: 1mG/XBUBRSyzxbIAWV/eeA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11465"; a="52152772"
+X-IronPort-AV: E=Sophos;i="6.16,242,1744095600"; d="scan'208";a="52152772"
+Received: from fmviesa010.fm.intel.com ([10.60.135.150])
+ by orvoesa111.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 16 Jun 2025 19:08:31 -0700
+X-CSE-ConnectionGUID: 7FqgPxr3S8OW7DheVNUUYQ==
+X-CSE-MsgGUID: h7mtKchlQ8Op5htLGZgezw==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.16,242,1744095600"; d="scan'208";a="149093529"
+Received: from lkp-server01.sh.intel.com (HELO e8142ee1dce2) ([10.239.97.150])
+ by fmviesa010.fm.intel.com with ESMTP; 16 Jun 2025 19:08:29 -0700
+Received: from kbuild by e8142ee1dce2 with local (Exim 4.96)
+ (envelope-from <lkp@intel.com>) id 1uRLkQ-000FVc-34;
+ Tue, 17 Jun 2025 02:08:26 +0000
+Date: Tue, 17 Jun 2025 10:08:17 +0800
+From: kernel test robot <lkp@intel.com>
+To: Christian =?iso-8859-1?Q?K=F6nig?= <ckoenig.leichtzumerken@gmail.com>,
+ thomas.hellstrom@linux.intel.com, intel-xe@lists.freedesktop.org,
+ dri-devel@lists.freedesktop.org, matthew.brost@intel.com,
+ matthew.auld@intel.com
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: Re: [PATCH 4/6] drm/ttm: rename ttm_bo_put to _fini
+Message-ID: <202506170945.w3e0EBJ6-lkp@intel.com>
+References: <20250616130726.22863-4-christian.koenig@amd.com>
 MIME-Version: 1.0
-References: <20250610-gpiochip-set-rv-gpu-v1-1-ac0a21e74b71@linaro.org>
- <CAD=FV=Unb1LdKV7iuPME1KJ35OBbP5OXD=_=A0ESQFCOzFBSXQ@mail.gmail.com>
-In-Reply-To: <CAD=FV=Unb1LdKV7iuPME1KJ35OBbP5OXD=_=A0ESQFCOzFBSXQ@mail.gmail.com>
-From: Doug Anderson <dianders@chromium.org>
-Date: Mon, 16 Jun 2025 17:14:30 -0700
-X-Gmail-Original-Message-ID: <CAD=FV=XXCkqWmKT-bA5wqtbUy0nFRkewyApAkAx_1OCGAXV9Eg@mail.gmail.com>
-X-Gm-Features: AX0GCFuDw-NZx-6lsELE9bQYvQioo6Vrln5eCE046cB2GyvGfvnR5APAhOiGf30
-Message-ID: <CAD=FV=XXCkqWmKT-bA5wqtbUy0nFRkewyApAkAx_1OCGAXV9Eg@mail.gmail.com>
-Subject: Re: [PATCH] drm/bridge: ti-sn65dsi86: use new GPIO line value setter
- callbacks
-To: Bartosz Golaszewski <brgl@bgdev.pl>
-Cc: Andrzej Hajda <andrzej.hajda@intel.com>,
- Neil Armstrong <neil.armstrong@linaro.org>, 
- Robert Foss <rfoss@kernel.org>,
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>, 
- Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>, 
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, 
- Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
- Simona Vetter <simona@ffwll.ch>, 
- Linus Walleij <linus.walleij@linaro.org>, dri-devel@lists.freedesktop.org, 
- linux-kernel@vger.kernel.org, linux-gpio@vger.kernel.org, 
- Bartosz Golaszewski <bartosz.golaszewski@linaro.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20250616130726.22863-4-christian.koenig@amd.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -111,39 +72,52 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi,
+Hi Christian,
 
-On Tue, Jun 10, 2025 at 9:27=E2=80=AFAM Doug Anderson <dianders@chromium.or=
-g> wrote:
->
-> Hi,
->
-> On Tue, Jun 10, 2025 at 5:34=E2=80=AFAM Bartosz Golaszewski <brgl@bgdev.p=
-l> wrote:
-> >
-> > From: Bartosz Golaszewski <bartosz.golaszewski@linaro.org>
-> >
-> > struct gpio_chip now has callbacks for setting line values that return
-> > an integer, allowing to indicate failures. Convert the driver to using
-> > them.
-> >
-> > Signed-off-by: Bartosz Golaszewski <bartosz.golaszewski@linaro.org>
-> > ---
-> > Commit 98ce1eb1fd87e ("gpiolib: introduce gpio_chip setters that return
-> > values") added new line setter callbacks to struct gpio_chip. They allo=
-w
-> > to indicate failures to callers. We're in the process of converting all
-> > GPIO controllers to using them before removing the old ones.
-> > ---
-> >  drivers/gpu/drm/bridge/ti-sn65dsi86.c | 18 +++++++-----------
-> >  1 file changed, 7 insertions(+), 11 deletions(-)
->
-> Reviewed-by: Douglas Anderson <dianders@chromium.org>
->
-> Looks like this should be fine to go through drm-misc. I'll plan to
-> apply it next week unless I get overly distracted.
+kernel test robot noticed the following build errors:
 
-Pushed to drm-misc-next:
+[auto build test ERROR on drm-misc/drm-misc-next]
+[also build test ERROR on next-20250616]
+[cannot apply to drm-xe/drm-xe-next drm-exynos/exynos-drm-next linus/master drm/drm-next drm-intel/for-linux-next drm-intel/for-linux-next-fixes drm-tip/drm-tip v6.16-rc2]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-[1/1] drm/bridge: ti-sn65dsi86: use new GPIO line value setter callbacks
-      commit: 98df1626ae036c1ba8c844c9fd995ab8f23bbe37
+url:    https://github.com/intel-lab-lkp/linux/commits/Christian-K-nig/drm-xe-stop-asserting-on-the-TTM-refcount/20250616-210818
+base:   git://anongit.freedesktop.org/drm/drm-misc drm-misc-next
+patch link:    https://lore.kernel.org/r/20250616130726.22863-4-christian.koenig%40amd.com
+patch subject: [PATCH 4/6] drm/ttm: rename ttm_bo_put to _fini
+config: riscv-randconfig-002-20250617 (https://download.01.org/0day-ci/archive/20250617/202506170945.w3e0EBJ6-lkp@intel.com/config)
+compiler: riscv32-linux-gcc (GCC) 10.5.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250617/202506170945.w3e0EBJ6-lkp@intel.com/reproduce)
+
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202506170945.w3e0EBJ6-lkp@intel.com/
+
+All errors (new ones prefixed by >>):
+
+   In file included from drivers/gpu/drm/nouveau/nouveau_dma.h:30,
+                    from drivers/gpu/drm/nouveau/nouveau_chan.c:31:
+   drivers/gpu/drm/nouveau/nouveau_bo.h: In function 'nouveau_bo_fini':
+>> drivers/gpu/drm/nouveau/nouveau_bo.h:60:2: error: implicit declaration of function 'ttm_bo_put'; did you mean 'ttm_bo_pin'? [-Werror=implicit-function-declaration]
+      60 |  ttm_bo_put(&bo->bo);
+         |  ^~~~~~~~~~
+         |  ttm_bo_pin
+   cc1: some warnings being treated as errors
+
+
+vim +60 drivers/gpu/drm/nouveau/nouveau_bo.h
+
+8be21a6402baa5 Ben Skeggs       2012-07-18  56  
+bf32a3a1268638 Danilo Krummrich 2024-07-18  57  static inline void
+bf32a3a1268638 Danilo Krummrich 2024-07-18  58  nouveau_bo_fini(struct nouveau_bo *bo)
+8be21a6402baa5 Ben Skeggs       2012-07-18  59  {
+bf32a3a1268638 Danilo Krummrich 2024-07-18 @60  	ttm_bo_put(&bo->bo);
+8be21a6402baa5 Ben Skeggs       2012-07-18  61  }
+8be21a6402baa5 Ben Skeggs       2012-07-18  62  
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
