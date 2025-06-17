@@ -2,58 +2,90 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3D474ADD022
-	for <lists+dri-devel@lfdr.de>; Tue, 17 Jun 2025 16:40:16 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id D3549ADCF98
+	for <lists+dri-devel@lfdr.de>; Tue, 17 Jun 2025 16:25:16 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7FA0710E74B;
-	Tue, 17 Jun 2025 14:40:14 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3B44710E494;
+	Tue, 17 Jun 2025 14:25:14 +0000 (UTC)
+Authentication-Results: gabe.freedesktop.org;
+	dkim=pass (1024-bit key; secure) header.d=ffwll.ch header.i=@ffwll.ch header.b="GzSIeVU2";
+	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0358010E752
- for <dri-devel@lists.freedesktop.org>; Tue, 17 Jun 2025 14:40:07 +0000 (UTC)
-Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org
- [IPv6:2a07:de40:b281:104:10:150:64:97])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
- (No client certificate requested)
- by smtp-out1.suse.de (Postfix) with ESMTPS id 7F0B9211D7;
- Tue, 17 Jun 2025 14:39:49 +0000 (UTC)
-Authentication-Results: smtp-out1.suse.de;
-	none
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
- (No client certificate requested)
- by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 5DF1813A69;
- Tue, 17 Jun 2025 14:39:49 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
- by imap1.dmz-prg2.suse.org with ESMTPSA id qJyHFTV+UWh8bQAAD6G6ig
- (envelope-from <tzimmermann@suse.de>); Tue, 17 Jun 2025 14:39:49 +0000
-From: Thomas Zimmermann <tzimmermann@suse.de>
-To: javierm@redhat.com
-Cc: dri-devel@lists.freedesktop.org,
-	Thomas Zimmermann <tzimmermann@suse.de>
-Subject: [PATCH 9/9] drm/vesadrm: Support DRM_FORMAT_C8
-Date: Tue, 17 Jun 2025 16:23:21 +0200
-Message-ID: <20250617143649.143967-10-tzimmermann@suse.de>
-X-Mailer: git-send-email 2.49.0
-In-Reply-To: <20250617143649.143967-1-tzimmermann@suse.de>
-References: <20250617143649.143967-1-tzimmermann@suse.de>
+Received: from mail-wr1-f52.google.com (mail-wr1-f52.google.com
+ [209.85.221.52])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id EBA3510E494
+ for <dri-devel@lists.freedesktop.org>; Tue, 17 Jun 2025 14:25:12 +0000 (UTC)
+Received: by mail-wr1-f52.google.com with SMTP id
+ ffacd0b85a97d-3a36748920cso6819431f8f.2
+ for <dri-devel@lists.freedesktop.org>; Tue, 17 Jun 2025 07:25:12 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=ffwll.ch; s=google; t=1750170311; x=1750775111; darn=lists.freedesktop.org; 
+ h=in-reply-to:content-disposition:mime-version:references
+ :mail-followup-to:message-id:subject:cc:to:from:date:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=XXt3dy96emDfUbi5YZOyss2yuwnnqq07rcmYyztRQSY=;
+ b=GzSIeVU2X2tqrfIgVOMqcsyJJto4n6VLyU2gdPNMIkbHxJONNqjKlKYqdU3q2Yd6ZP
+ poe7yhuuGHTivg7pYnXZhTt+3jr4qVWp/umureerL/ifqZrYRtdx40bERITmKUQucadJ
+ DxzHLSajHvdXM64lw+Kn+ZAG/gA+on1Glz17o=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1750170311; x=1750775111;
+ h=in-reply-to:content-disposition:mime-version:references
+ :mail-followup-to:message-id:subject:cc:to:from:date
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=XXt3dy96emDfUbi5YZOyss2yuwnnqq07rcmYyztRQSY=;
+ b=lZ/4DCMOjBufwSnx9Jh31Gi/6Pcm8aOgpU9pz+wNCXbOkgkN9jVaKwn/X51JQPjsWD
+ WwaYjlPdlI+h2PLhS1Ezq3Nnr0ro/McD0tdq4SegaVuqaup12bwopYoKjYlLFiKRHPbv
+ CEHBWJxDrnvvUjH6BhaFNVatySCID6wxeEHr8rShQP9GksvlCMVN9M54RtCGTHTSi4ok
+ bOwJji8+lvr5E0Xam+s62lzFEaEooFobjKPmXQnt/+VNcqjT2v1iehxyNaQtcG4lt4Hy
+ m7UdtATzJVjDxk0eNHz+NhsAhh+VpT7UlT+AvC9h4X5xrOpGeirVdHp6txkXG9F+4nc0
+ e7xw==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCVXqjJlyBIE/IhoOePf8+CMmdE4+QUOh5KrUCRdZBBeWttxAzKUezar3tZh1nNvlcROdBxPWHEE2pE=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YyifOKG5KDUsn+u4iWpwfFYhb9C7K9mt5hbuU6yZgVV9hwLMrxU
+ 4Jq5bXAXCqCXmQs1MhqW18TTsBE1bsxUYvf8znFUgr7yNWWQvdANRskZkPowGr0QnOo=
+X-Gm-Gg: ASbGnctP1vBsragzsnU0umJc9O+3RfM6dYFgb0mQue+FIQZPxKXJZwJfhRRJ30OpTX1
+ 7ocXwhPk6eUIgfckJGFdtLgE1HqIbiDJau55YU81CUD5LTxyIIX1DxsCNDugsHzBOyizaIUYqcr
+ VNxhvhPkBNSLzmFd1TgF6QecvSNZ9iF+PrerTG1X/5s0u2Fuj2pLZChqssjB4j1aetOehtr5ThY
+ hlTUe7oD6xG9VS8V+FvW+ojYFktgsr1/0a2EP9HxDRwz/JFad1xzf+6rxFGZDo1sjB9+rnFbRS3
+ W/KlCo7iwRbrsnpCGxiVsboPSRvIcHcvIsahYKve42kvzj+LXXYJcuGia+pfk7rgSuXHeesq+w=
+ =
+X-Google-Smtp-Source: AGHT+IEbdYZbQa6vrYSOaM4WdmPVqMOqkP9lVIxOcii3jXSSMba4JKehblrgcpHlbRQBeXzMM6KpFQ==
+X-Received: by 2002:a5d:64ee:0:b0:3a4:e1e1:7779 with SMTP id
+ ffacd0b85a97d-3a5723a2be9mr10791911f8f.32.1750170311421; 
+ Tue, 17 Jun 2025 07:25:11 -0700 (PDT)
+Received: from phenom.ffwll.local ([2a02:168:57f4:0:5485:d4b2:c087:b497])
+ by smtp.gmail.com with ESMTPSA id
+ ffacd0b85a97d-3a568b1bc97sm14245947f8f.68.2025.06.17.07.25.10
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 17 Jun 2025 07:25:10 -0700 (PDT)
+Date: Tue, 17 Jun 2025 16:25:09 +0200
+From: Simona Vetter <simona.vetter@ffwll.ch>
+To: Danilo Krummrich <dakr@kernel.org>
+Cc: Philipp Stanner <phasta@kernel.org>,
+ Matthew Brost <matthew.brost@intel.com>,
+ Christian =?iso-8859-1?Q?K=F6nig?= <ckoenig.leichtzumerken@gmail.com>,
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+ Sumit Semwal <sumit.semwal@linaro.org>,
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ linux-media@vger.kernel.org
+Subject: Re: [PATCH v2] drm/sched: Clarify scenarios for separate workqueues
+Message-ID: <aFF6xeu78cXTGFH0@phenom.ffwll.local>
+Mail-Followup-To: Danilo Krummrich <dakr@kernel.org>,
+ Philipp Stanner <phasta@kernel.org>,
+ Matthew Brost <matthew.brost@intel.com>,
+ Christian =?iso-8859-1?Q?K=F6nig?= <ckoenig.leichtzumerken@gmail.com>,
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+ Sumit Semwal <sumit.semwal@linaro.org>,
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ linux-media@vger.kernel.org
+References: <20250612144953.111829-2-phasta@kernel.org>
+ <aFFy5aG1eOeMU44S@phenom.ffwll.local> <aFF3YIAFkgsAKvQV@pollux>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Rspamd-Pre-Result: action=no action; module=replies;
- Message is reply to one we originated
-X-Spamd-Result: default: False [-4.00 / 50.00];
-	REPLY(-4.00)[]
-X-Rspamd-Queue-Id: 7F0B9211D7
-X-Rspamd-Pre-Result: action=no action; module=replies;
- Message is reply to one we originated
-X-Rspamd-Action: no action
-X-Spam-Level: 
-X-Spam-Flag: NO
-X-Rspamd-Server: rspamd1.dmz-prg2.suse.org
-X-Spam-Score: -4.00
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <aFF3YIAFkgsAKvQV@pollux>
+X-Operating-System: Linux phenom 6.12.30-amd64 
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -69,185 +101,56 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Add support for DRM_FORMAT_C8 to vesadrm. The new pixel-format
-description PIXEL_FORMAT_C8 describes the layout. Vesadrm's helpers
-vesadrm_fill_palette_lut() and vesadrm_load_palette_lut() set the
-hardware palette according to the CRTC's output format.
+On Tue, Jun 17, 2025 at 04:10:40PM +0200, Danilo Krummrich wrote:
+> On Tue, Jun 17, 2025 at 03:51:33PM +0200, Simona Vetter wrote:
+> > On Thu, Jun 12, 2025 at 04:49:54PM +0200, Philipp Stanner wrote:
+> > > + * NOTE that sharing &struct drm_sched_init_args.submit_wq with the driver
+> > > + * theoretically can deadlock. It must be guaranteed that submit_wq never has
+> > > + * more than max_active - 1 active tasks, or if max_active tasks are reached at
+> > > + * least one of them does not execute operations that may block on dma_fences
+> > > + * that potentially make progress through this scheduler instance. Otherwise,
+> > > + * it is possible that all max_active tasks end up waiting on a dma_fence (that
+> > > + * can only make progress through this schduler instance), while the
+> > > + * scheduler's queued work waits for at least one of the max_active tasks to
+> > > + * finish. Thus, this can result in a deadlock.
+> > 
+> > Uh if you have an ordered wq you deadlock with just one misuse. I'd just
+> > explain that the wq must provide sufficient forward-progress guarantees
+> > for the scheduler, specifically that it's on the dma_fence signalling
+> > critical path and leave the concrete examples for people to figure out
+> > when the design a specific locking scheme.
+> 
+> This isn't a concrete example, is it? It's exactly what you say in slightly
+> different words, with the addition of highlighting the impact of the workqueue's
+> max_active configuration.
+> 
+> I think that's relevant, because N - 1 active tasks can be on the dma_fence
+> signalling critical path without issues.
+> 
+> We could change
+> 
+> 	"if max_active tasks are reached at least one of them must not execute
+> 	 operations that may block on dma_fences that potentially make progress
+> 	 through this scheduler instance"
+> 
+> to 
+> 
+> 	"if max_active tasks are reached at least one of them must not be on the
+> 	 dma_fence signalling critical path"
+> 
+> which is a bit more to the point I think.
 
-The driver emulates XRGB8888 by converting the source buffer to
-RGB332 and using the resulting 256 colors as index into the hardware
-palette. The hardware palette converts back to RGB during scanout.
-This has no overhead compared to other format conversion, but allows
-common userspace, such as Wayland compositors, to operate on the
-display.
+My point was to more state that the wq must be suitable for the scheduler
+jobs as the general issue, and specifically then also highlight the
+dma_fence concurrency issue. But it's not the only one, you can have
+driver locks and other fun involved here too.
 
-Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
----
- drivers/gpu/drm/sysfb/vesadrm.c | 114 +++++++++++++++++++++++++++++++-
- include/video/pixel_format.h    |   3 +
- 2 files changed, 116 insertions(+), 1 deletion(-)
-
-diff --git a/drivers/gpu/drm/sysfb/vesadrm.c b/drivers/gpu/drm/sysfb/vesadrm.c
-index 559650a00857..a1429c562fc5 100644
---- a/drivers/gpu/drm/sysfb/vesadrm.c
-+++ b/drivers/gpu/drm/sysfb/vesadrm.c
-@@ -46,6 +46,7 @@ static const struct drm_format_info *vesadrm_get_format_si(struct drm_device *de
- 		{ PIXEL_FORMAT_RGB888, DRM_FORMAT_RGB888, },
- 		{ PIXEL_FORMAT_XRGB8888, DRM_FORMAT_XRGB8888, },
- 		{ PIXEL_FORMAT_XBGR8888, DRM_FORMAT_XBGR8888, },
-+		{ PIXEL_FORMAT_C8, DRM_FORMAT_C8, },
- 	};
- 
- 	return drm_sysfb_get_format_si(dev, formats, ARRAY_SIZE(formats), si);
-@@ -192,6 +193,44 @@ static void vesadrm_load_gamma_lut(struct vesadrm_device *vesa,
- 	}
- }
- 
-+static void vesadrm_fill_palette_lut(struct vesadrm_device *vesa,
-+				     const struct drm_format_info *format)
-+{
-+	struct drm_device *dev = &vesa->sysfb.dev;
-+	struct drm_crtc *crtc = &vesa->crtc;
-+
-+	switch (format->format) {
-+	case DRM_FORMAT_C8:
-+		drm_crtc_fill_palette_8(crtc, vesadrm_set_color_lut);
-+		break;
-+	case DRM_FORMAT_RGB332:
-+		drm_crtc_fill_palette_332(crtc, vesadrm_set_color_lut);
-+		break;
-+	default:
-+		drm_warn_once(dev, "Unsupported format %p4cc for palette\n",
-+			      &format->format);
-+		break;
-+	}
-+}
-+
-+static void vesadrm_load_palette_lut(struct vesadrm_device *vesa,
-+				     const struct drm_format_info *format,
-+				     struct drm_color_lut *lut)
-+{
-+	struct drm_device *dev = &vesa->sysfb.dev;
-+	struct drm_crtc *crtc = &vesa->crtc;
-+
-+	switch (format->format) {
-+	case DRM_FORMAT_C8:
-+		drm_crtc_load_palette_8(crtc, lut, vesadrm_set_color_lut);
-+		break;
-+	default:
-+		drm_warn_once(dev, "Unsupported format %p4cc for gamma correction\n",
-+			      &format->format);
-+		break;
-+	}
-+}
-+
- /*
-  * Modesetting
-  */
-@@ -200,8 +239,67 @@ static const u64 vesadrm_primary_plane_format_modifiers[] = {
- 	DRM_SYSFB_PLANE_FORMAT_MODIFIERS,
- };
- 
-+static int vesadrm_primary_plane_helper_atomic_check(struct drm_plane *plane,
-+						     struct drm_atomic_state *new_state)
-+{
-+	struct drm_sysfb_device *sysfb = to_drm_sysfb_device(plane->dev);
-+	struct drm_plane_state *new_plane_state = drm_atomic_get_new_plane_state(new_state, plane);
-+	struct drm_framebuffer *new_fb = new_plane_state->fb;
-+	struct drm_crtc_state *new_crtc_state;
-+	struct drm_sysfb_crtc_state *new_sysfb_crtc_state;
-+	int ret;
-+
-+	ret = drm_sysfb_plane_helper_atomic_check(plane, new_state);
-+	if (ret)
-+		return ret;
-+	else if (!new_plane_state->visible)
-+		return 0;
-+
-+	/*
-+	 * Fix up format conversion for specific cases
-+	 */
-+
-+	switch (sysfb->fb_format->format) {
-+	case DRM_FORMAT_C8:
-+		new_crtc_state = drm_atomic_get_new_crtc_state(new_state, new_plane_state->crtc);
-+		new_sysfb_crtc_state = to_drm_sysfb_crtc_state(new_crtc_state);
-+
-+		switch (new_fb->format->format) {
-+		case DRM_FORMAT_XRGB8888:
-+			/*
-+			 * Reduce XRGB8888 to RGB332. Each resulting pixel is an index
-+			 * into the C8 hardware palette, which stores RGB332 colors.
-+			 */
-+			if (new_sysfb_crtc_state->format->format != DRM_FORMAT_RGB332) {
-+				new_sysfb_crtc_state->format =
-+					drm_format_info(DRM_FORMAT_RGB332);
-+				new_crtc_state->color_mgmt_changed = true;
-+			}
-+			break;
-+		case DRM_FORMAT_C8:
-+			/*
-+			 * Restore original output. Emulation of XRGB8888 set RBG332
-+			 * output format and hardware palette. This needs to be undone
-+			 * when we switch back to DRM_FORMAT_C8.
-+			 */
-+			if (new_sysfb_crtc_state->format->format == DRM_FORMAT_RGB332) {
-+				new_sysfb_crtc_state->format = sysfb->fb_format;
-+				new_crtc_state->color_mgmt_changed = true;
-+			}
-+			break;
-+		}
-+		break;
-+	};
-+
-+	return 0;
-+}
-+
- static const struct drm_plane_helper_funcs vesadrm_primary_plane_helper_funcs = {
--	DRM_SYSFB_PLANE_HELPER_FUNCS,
-+	DRM_GEM_SHADOW_PLANE_HELPER_FUNCS,
-+	.atomic_check = vesadrm_primary_plane_helper_atomic_check,
-+	.atomic_update = drm_sysfb_plane_helper_atomic_update,
-+	.atomic_disable = drm_sysfb_plane_helper_atomic_disable,
-+	.get_scanout_buffer = drm_sysfb_plane_helper_get_scanout_buffer,
- };
- 
- static const struct drm_plane_funcs vesadrm_primary_plane_funcs = {
-@@ -224,6 +322,20 @@ static void vesadrm_crtc_helper_atomic_flush(struct drm_crtc *crtc,
- 	 */
- 	if (crtc_state->enable && crtc_state->color_mgmt_changed) {
- 		switch (sysfb->fb_format->format) {
-+		/*
-+		 * Index formats
-+		 */
-+		case DRM_FORMAT_C8:
-+			if (sysfb_crtc_state->format->format == DRM_FORMAT_RGB332) {
-+				vesadrm_fill_palette_lut(vesa, sysfb_crtc_state->format);
-+			} else if (crtc->state->gamma_lut) {
-+				vesadrm_load_palette_lut(vesa,
-+							 sysfb_crtc_state->format,
-+							 crtc_state->gamma_lut->data);
-+			} else {
-+				vesadrm_fill_palette_lut(vesa, sysfb_crtc_state->format);
-+			}
-+			break;
- 		/*
- 		 * Component formats
- 		 */
-diff --git a/include/video/pixel_format.h b/include/video/pixel_format.h
-index c57019cd6ea8..6874754b0474 100644
---- a/include/video/pixel_format.h
-+++ b/include/video/pixel_format.h
-@@ -20,6 +20,9 @@ struct pixel_format {
- 	};
- };
- 
-+#define PIXEL_FORMAT_C8 \
-+	{ 8, true, { .index = {0, 8}, } }
-+
- #define PIXEL_FORMAT_XRGB1555 \
- 	{ 16, false, { .alpha = {0, 0}, .red = {10, 5}, .green = {5, 5}, .blue = {0, 5} } }
- 
+Also since all the paragraphs above talk about ordered wq as the example
+where specifying your own wq makes sense, it's a bit confusing to now
+suddenly only talk about the concurrent wq case without again mentioned
+that the ordered wq case is really limited.
+-Sima
 -- 
-2.49.0
-
+Simona Vetter
+Software Engineer, Intel Corporation
+http://blog.ffwll.ch
