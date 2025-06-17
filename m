@@ -2,84 +2,82 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 89968ADC662
-	for <lists+dri-devel@lfdr.de>; Tue, 17 Jun 2025 11:30:30 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id C279BADC692
+	for <lists+dri-devel@lfdr.de>; Tue, 17 Jun 2025 11:34:36 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 89EA810E5C6;
-	Tue, 17 Jun 2025 09:30:28 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2E07110E5AB;
+	Tue, 17 Jun 2025 09:34:35 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=redhat.com header.i=@redhat.com header.b="V5GvZj85";
+	dkim=pass (1024-bit key; unprotected) header.d=redhat.com header.i=@redhat.com header.b="Uc44c+In";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [170.10.129.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 17AC910E5AB
- for <dri-devel@lists.freedesktop.org>; Tue, 17 Jun 2025 09:30:27 +0000 (UTC)
+ (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D86BE10E5AB
+ for <dri-devel@lists.freedesktop.org>; Tue, 17 Jun 2025 09:34:33 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1750152626;
+ s=mimecast20190719; t=1750152873;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=AycC/SqlmFtbCkiK+UJFsVg8F5mY3OZuVJE4LIVGke0=;
- b=V5GvZj85cMVYyTXDJ7amQOXGXFjlyN8mAUKTBMuuuQEI3RPN9p2IvKq6dYgC5Fa9XepOOj
- HD8aDGmNAn3oXuemf3pdbsjZBELecH/anmpPZ80kNnxlggFgE//AiyZIG/vWi/VZG6QeZD
- 9p5rR1QOR7ma/eWWb+xhCDWQ5tQ75FI=
-Received: from mail-wr1-f70.google.com (mail-wr1-f70.google.com
- [209.85.221.70]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=UoO6Im3sdMj9qrKiZw97K0g1BjWI//UD+48kISxcxhU=;
+ b=Uc44c+InMbW3xwmn/mqqVBeGtM93CihYLN2uTFhHilNZV3+QFPBnfXLM3ItpVVTnkvveeY
+ d2ODiz9qY1JEeUeUe+WszfHjuwKx5uDdTKnzVxlYgnoTATUIrrcR64R66lF4AWjFl6vhzW
+ PAMm+uGQYbJu/OSFM3i82gPp89eoMFc=
+Received: from mail-wr1-f69.google.com (mail-wr1-f69.google.com
+ [209.85.221.69]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-599-QEjQPf6HOJKtrRud-4McJQ-1; Tue, 17 Jun 2025 05:30:24 -0400
-X-MC-Unique: QEjQPf6HOJKtrRud-4McJQ-1
-X-Mimecast-MFC-AGG-ID: QEjQPf6HOJKtrRud-4McJQ_1750152624
-Received: by mail-wr1-f70.google.com with SMTP id
- ffacd0b85a97d-3a4e713e05bso2475325f8f.3
- for <dri-devel@lists.freedesktop.org>; Tue, 17 Jun 2025 02:30:24 -0700 (PDT)
+ us-mta-318-gG7gZHnSMY2_1VTEOXANLg-1; Tue, 17 Jun 2025 05:34:29 -0400
+X-MC-Unique: gG7gZHnSMY2_1VTEOXANLg-1
+X-Mimecast-MFC-AGG-ID: gG7gZHnSMY2_1VTEOXANLg_1750152868
+Received: by mail-wr1-f69.google.com with SMTP id
+ ffacd0b85a97d-3a3696a0d3aso2057710f8f.2
+ for <dri-devel@lists.freedesktop.org>; Tue, 17 Jun 2025 02:34:28 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1750152623; x=1750757423;
+ d=1e100.net; s=20230601; t=1750152868; x=1750757668;
  h=content-transfer-encoding:in-reply-to:organization:autocrypt
- :content-language:references:cc:to:from:subject:user-agent
+ :content-language:from:references:cc:to:subject:user-agent
  :mime-version:date:message-id:x-gm-message-state:from:to:cc:subject
  :date:message-id:reply-to;
- bh=AycC/SqlmFtbCkiK+UJFsVg8F5mY3OZuVJE4LIVGke0=;
- b=hVh6KSIXw7rxThb8+icPklpE2Lf/MP5PQbu41euj+rY6LKcSCiXxuIkOZBzatBDo3h
- zycwOkSxz33kVsyV4tT6xlU2dE7pO1JTCO60bG+m/nATm8x0PJj//kCU/ds/wSCVD9u+
- 8i+Ax7QDYCRMTWsldLb3AeyCrerdlegQizwr0Azms1bEXylr6XJituBeG8ztiFS99ts/
- xVrS2A+/JX7zUkvEgiz7H/VR1p6IqZ4ELW1uHLnh48OmWhhrt81Bb4ZIFn3PhsUoXgzA
- HI+MWyZgoNX3ea+Nl23U8n7meSd9K1CIoMUjPpmICXV81nZQVLW5B9Cq6zYVRCm2VFi+
- FwwA==
+ bh=UoO6Im3sdMj9qrKiZw97K0g1BjWI//UD+48kISxcxhU=;
+ b=iC0irh655RyI0zL/ROtGDtX5rx5h28UgPhIfEle7ORhSVENkEv9cgHhegx3AzAziEf
+ VrX0LzEtxOss6lGFw4p0y7w3CaLMlyEVywFairqqGyyJaiXfSpmNUjBtTXv2PoUQbVDK
+ fTKUuwDgtR5MRikjk/KAnCr/7QIT7LuCfJz2ltplw0dNIuCMiAjEktA22ZbfBb/IJDR7
+ 6dO1aBiq7/74z7Ri+Ifs3KPXsqOla0b67DklUJ4PYYROOWybCHest4HvVkg0AOBz1fqY
+ ioq8fYqkqn2ttNX1KzxeAhSlquSfhjLZBDYOAMoiIM0Yfhz8hCbwWsz4y9Nj2qGOYq82
+ QBAg==
 X-Forwarded-Encrypted: i=1;
- AJvYcCWXDxcna4c00MWMubZzRqVpV9mKr2BS1hPAzqBOtuIPE725uURYLsE5vjZ8yIQKhIBWmHuWZmPYAj0=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YzQaS1Wnt3Wivc1os/eCJECQhGA204wopTZ+tbr85TJ8H88o8p5
- PyD1PjpBr+foQfpEP2nhflV0QzFYpLfdSdtdCvVj8Zo0JcMkFGPchQ5a1KHI2JLB9jJCjI8Of1h
- byIHiWusjMGrQyzjWmMwMrb2TgOaduQgt+osZ0rnWN3rJlLpq+JZrwNN7vJdlY9L9i5hC6g==
-X-Gm-Gg: ASbGnctayg761/cM0WqnNE4n78bvFa3ajPDvtv/ZTcbs/QVbzlXU0kWL9O6dt4DYJ3j
- CvHJsKk1RdsW8qi4ELFIs8Dl1lpYBhHhyH6ZIfdP4V9VRfU+mFNaUD0JTM5xW9bhabXPzW89KRq
- bZN7wNzmr5D9xIiL9Y/7Si8ifyXWCwOJxx9IuHvdHwPt6igliaHi7SjRWzdiGgu3WKL42M7NRa2
- gibfkUXFr5CwWJqBNBbhUwHQsv0BHVKyAiL00zJOUh+qoBefsH06r/XZQWm/by+QZpeNKL37kDx
- FA3osP3UQ9hbudAdSaaIZUI96aTRz1mHY1saSo0fOBE5C95uOnAecpCtovoyaH6Fmbx235/58Uo
- OFGc/zuMUWcmGClQ0vZWyZbiyOQq9qoZJeMCIEUGCp/CfCA0=
-X-Received: by 2002:a05:6000:3109:b0:3a3:7387:3078 with SMTP id
- ffacd0b85a97d-3a572367b6bmr10595434f8f.4.1750152623496; 
- Tue, 17 Jun 2025 02:30:23 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IHzIdOD1Y0VrtNcMDMGER4ExUmFNXEczyRtVtoCy/fV6z201YqQ8+qNgA+yjmzITUoW9nwVOw==
-X-Received: by 2002:a05:6000:3109:b0:3a3:7387:3078 with SMTP id
- ffacd0b85a97d-3a572367b6bmr10595381f8f.4.1750152622944; 
- Tue, 17 Jun 2025 02:30:22 -0700 (PDT)
+ AJvYcCVXd/Hu3yjhpTP+lecGTxeRB/PrvelR7WadMo8KiL6O/LlDakUqtKLS75vQEUP2xiQEd/z2hI68O5I=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0Ywv09RIwDiwAlFKOBM69E29nM0z9u3wK9AXXh7sD7JwVoJBmUpF
+ 1ySl/xfrdXtkffU/8sAGqGD0VQM72gzBvbKkAjsmYAqHpkXSf07pY6fUv64rPu1mDbAIMRAApql
+ e9hVTbIenVke+5Xp4xwOY5N7B77bQjHNWLDfmsoos5npYvqGwSdrWM3PvIDwUBweoFKoSpQ==
+X-Gm-Gg: ASbGncsQrKXxfg6hRG01nTGIpcaBkF0Ri7ekOrWPp9MPM96EKzLpJB6o0si9Ucw512K
+ ca2Pvm9CR1LHVcBl9fOPqcc7qZnJFyyLuChPZCyctX5VapGsnnN+DcUYIHxrQTCGAa0gBlMRxWo
+ sP4sP6MffOlQGSWTeEiwl8a8NMjGmgctJKI+85m5CiEF3xj4iERMGao9uCfIVJmWBGHcV8O+sxW
+ 3V0ZqLC/MYySd3y1zy/bpuIts56aOP/gdYdShAsqHr5rFngRd4rZ987BSTB4cGtzgeA1DsnmVAc
+ XrM32FkNQHwLMS/44+mwQyMv6iDlIRUC2TdzI/wY3jZRvJk0zPok8APm+SNlhRUW+Guyjo2/Gbe
+ oHcmOvliiDVzDLZdk4qHOFDqoIRKOaYRFaXagqFj6tjsf+Ng=
+X-Received: by 2002:a05:6000:480d:b0:3a4:ed2f:e82d with SMTP id
+ ffacd0b85a97d-3a5723a49e0mr9462624f8f.22.1750152867964; 
+ Tue, 17 Jun 2025 02:34:27 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IGAmkCmIe8r1op6vQb6TFjyJmDKs7yVrH6V8NRIzvLkSM/8ZQuEH09JTbMfp0YgKwsQ3nxlSg==
+X-Received: by 2002:a05:6000:480d:b0:3a4:ed2f:e82d with SMTP id
+ ffacd0b85a97d-3a5723a49e0mr9462594f8f.22.1750152867607; 
+ Tue, 17 Jun 2025 02:34:27 -0700 (PDT)
 Received: from ?IPV6:2003:d8:2f31:700:3851:c66a:b6b9:3490?
  (p200300d82f3107003851c66ab6b93490.dip0.t-ipconnect.de.
  [2003:d8:2f31:700:3851:c66a:b6b9:3490])
  by smtp.gmail.com with ESMTPSA id
- ffacd0b85a97d-3a568b79f45sm13384674f8f.101.2025.06.17.02.30.21
+ ffacd0b85a97d-3a568a7f8f9sm13367621f8f.42.2025.06.17.02.34.26
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 17 Jun 2025 02:30:22 -0700 (PDT)
-Message-ID: <b67f8dea-dc22-4c83-a71f-f5a2ecc8a8d7@redhat.com>
-Date: Tue, 17 Jun 2025 11:30:20 +0200
+ Tue, 17 Jun 2025 02:34:27 -0700 (PDT)
+Message-ID: <b2640810-d528-4a3f-b69a-87847943dc2b@redhat.com>
+Date: Tue, 17 Jun 2025 11:34:25 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 02/14] mm: Filter zone device pages returned from
- folio_walk_start()
-From: David Hildenbrand <david@redhat.com>
+Subject: Re: [PATCH v2 14/14] mm/memremap: Remove unused devmap_managed_key
 To: Alistair Popple <apopple@nvidia.com>, akpm@linux-foundation.org
 Cc: linux-mm@kvack.org, gerald.schaefer@linux.ibm.com,
  dan.j.williams@intel.com, jgg@ziepe.ca, willy@infradead.org,
@@ -91,10 +89,10 @@ Cc: linux-mm@kvack.org, gerald.schaefer@linux.ibm.com,
  linux-arm-kernel@lists.infradead.org, loongarch@lists.linux.dev,
  linuxppc-dev@lists.ozlabs.org, linux-riscv@lists.infradead.org,
  linux-cxl@vger.kernel.org, dri-devel@lists.freedesktop.org, John@Groves.net,
- m.szyprowski@samsung.com
+ m.szyprowski@samsung.com, Jason Gunthorpe <jgg@nvidia.com>
 References: <cover.8d04615eb17b9e46fc0ae7402ca54b69e04b1043.1750075065.git-series.apopple@nvidia.com>
- <11dd5b70546ec67593a4bf79f087b113f15d6bb1.1750075065.git-series.apopple@nvidia.com>
- <6afc2e67-3ecb-41a5-9c8f-00ecd64f035a@redhat.com>
+ <51ccdbbc3d7b76a7f6e2aefb543eba52d653a230.1750075065.git-series.apopple@nvidia.com>
+From: David Hildenbrand <david@redhat.com>
 Autocrypt: addr=david@redhat.com; keydata=
  xsFNBFXLn5EBEAC+zYvAFJxCBY9Tr1xZgcESmxVNI/0ffzE/ZQOiHJl6mGkmA1R7/uUpiCjJ
  dBrn+lhhOYjjNefFQou6478faXE6o2AhmebqT4KiQoUQFV4R7y1KMEKoSyy8hQaK1umALTdL
@@ -140,9 +138,9 @@ Autocrypt: addr=david@redhat.com; keydata=
  jPrnvUsUUsjRoRNJjKKA/REq+sAnhkNPPZ/NNMjaZ5b8Tovi8C0tmxiCHaQYqj7G2rgnT0kt
  WNyWQQ==
 Organization: Red Hat
-In-Reply-To: <6afc2e67-3ecb-41a5-9c8f-00ecd64f035a@redhat.com>
+In-Reply-To: <51ccdbbc3d7b76a7f6e2aefb543eba52d653a230.1750075065.git-series.apopple@nvidia.com>
 X-Mimecast-Spam-Score: 0
-X-Mimecast-MFC-PROC-ID: DAuNZ1N0OuJlK5iM36Jfvrjxe76I8PGuRzXo3zbA3d0_1750152624
+X-Mimecast-MFC-PROC-ID: mE5FWN53KKRUe3bQTPz5sqqXdM2hnPUubFpyZUrlCWo_1750152868
 X-Mimecast-Originator: redhat.com
 Content-Language: en-US
 Content-Type: text/plain; charset=UTF-8; format=flowed
@@ -162,107 +160,14 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 17.06.25 11:25, David Hildenbrand wrote:
-> On 16.06.25 13:58, Alistair Popple wrote:
->> Previously dax pages were skipped by the pagewalk code as pud_special() or
->> vm_normal_page{_pmd}() would be false for DAX pages. Now that dax pages are
->> refcounted normally that is no longer the case, so the pagewalk code will
->> start returning them.
->>
->> Most callers already explicitly filter for DAX or zone device pages so
->> don't need updating. However some don't, so add checks to those callers.
->>
->> Signed-off-by: Alistair Popple <apopple@nvidia.com>
->>
->> ---
->>
->> Changes since v1:
->>
->>    - Dropped "mm/pagewalk: Skip dax pages in pagewalk" and replaced it
->>      with this new patch for v2
->>
->>    - As suggested by David and Jason we can filter the folios in the
->>      callers instead of doing it in folio_start_walk(). Most callers
->>      already do this (see below).
->>
->> I audited all callers of folio_walk_start() and found the following:
->>
->> mm/ksm.c:
->>
->> break_ksm() - doesn't need to filter zone_device pages because the can
->> never be KSM pages.
->>
->> get_mergeable_page() - already filters out zone_device pages.
->> scan_get_next_rmap_iterm() - already filters out zone_device_pages.
->>
->> mm/huge_memory.c:
->>
->> split_huge_pages_pid() - already checks for DAX with
->> vma_not_suitable_for_thp_split()
->>
->> mm/rmap.c:
->>
->> make_device_exclusive() - only works on anonymous pages, although
->> there'd be no issue with finding a DAX page even if support was extended
->> to file-backed pages.
->>
->> mm/migrate.c:
->>
->> add_folio_for_migration() - already checks the vma with vma_migratable()
->> do_pages_stat_array() - explicitly checks for zone_device folios
->>
->> kernel/event/uprobes.c:
->>
->> uprobe_write_opcode() - only works on anonymous pages, not sure if
->> zone_device could ever work so add an explicit check
->>
->> arch/s390/mm/fault.c:
->>
->> do_secure_storage_access() - not sure so be conservative and add a check
->>
->> arch/s390/kernel/uv.c:
->>
->> make_hva_secure() - not sure so be conservative and add a check
->> ---
->>    arch/s390/kernel/uv.c   | 2 +-
->>    arch/s390/mm/fault.c    | 2 +-
->>    kernel/events/uprobes.c | 2 +-
->>    3 files changed, 3 insertions(+), 3 deletions(-)
->>
->> diff --git a/arch/s390/kernel/uv.c b/arch/s390/kernel/uv.c
->> index b99478e..55aa280 100644
->> --- a/arch/s390/kernel/uv.c
->> +++ b/arch/s390/kernel/uv.c
->> @@ -424,7 +424,7 @@ int make_hva_secure(struct mm_struct *mm, unsigned long hva, struct uv_cb_header
->>    		return -EFAULT;
->>    	}
->>    	folio = folio_walk_start(&fw, vma, hva, 0);
->> -	if (!folio) {
->> +	if (!folio || folio_is_zone_device(folio)) {
->>    		mmap_read_unlock(mm);
->>    		return -ENXIO;
->>    	}
->> diff --git a/arch/s390/mm/fault.c b/arch/s390/mm/fault.c
->> index e1ad05b..df1a067 100644
->> --- a/arch/s390/mm/fault.c
->> +++ b/arch/s390/mm/fault.c
->> @@ -449,7 +449,7 @@ void do_secure_storage_access(struct pt_regs *regs)
->>    		if (!vma)
->>    			return handle_fault_error(regs, SEGV_MAPERR);
->>    		folio = folio_walk_start(&fw, vma, addr, 0);
->> -		if (!folio) {
->> +		if (!folio || folio_is_zone_device(folio)) {
->>    			mmap_read_unlock(mm);
->>    			return;
->>    		}
+On 16.06.25 13:58, Alistair Popple wrote:
+> It's no longer used so remove it.
 > 
-> Curious, does s390 even support ZONE_DEVICE and could trigger this?
+> Signed-off-by: Alistair Popple <apopple@nvidia.com>
+> Reviewed-by: Jason Gunthorpe <jgg@nvidia.com>
+> ---
 
-Ah, I see you raised this above. Even if it could be triggered (which I 
-don't think), I wonder if there would actually be a problem with 
-zone_device folios in here?
-
-I think these two can be dropped for now
+Acked-by: David Hildenbrand <david@redhat.com>
 
 -- 
 Cheers,
