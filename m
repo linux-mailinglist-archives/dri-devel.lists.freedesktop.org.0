@@ -2,107 +2,94 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 308B4ADDE2F
-	for <lists+dri-devel@lfdr.de>; Tue, 17 Jun 2025 23:50:15 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 681F4ADDE91
+	for <lists+dri-devel@lfdr.de>; Wed, 18 Jun 2025 00:14:17 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id F250310E191;
-	Tue, 17 Jun 2025 21:50:11 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B022110E0FE;
+	Tue, 17 Jun 2025 22:14:14 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=redhat.com header.i=@redhat.com header.b="BoDRcv46";
+	dkim=pass (2048-bit key; unprotected) header.d=pdp7-com.20230601.gappssmtp.com header.i=@pdp7-com.20230601.gappssmtp.com header.b="rp5P0ZRb";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [170.10.129.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A328810E112
- for <dri-devel@lists.freedesktop.org>; Tue, 17 Jun 2025 21:50:07 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1750197006;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=fBKdNTag+8kHHBGbrlvR1RGtOCqp0CC7Lr8789j1j90=;
- b=BoDRcv46lkSSl7ihlC+APm9cSE7dlpN510TZEkGzC7RRfxvHBd+dgqNPRhdpiDmLxJqHOv
- Md3K6Lz/UWeifJhvICdRXjvJrxx61ilJQWhmDB2CrPuF1uZlgOPkC7ir/ViVXpqwcKx0vC
- 2eOpzD98lSHnpGdNEbji6LjaWR9B2f8=
-Received: from mail-io1-f72.google.com (mail-io1-f72.google.com
- [209.85.166.72]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-653-U7wDpssZMAiNmAbNAdsxYQ-1; Tue, 17 Jun 2025 17:50:03 -0400
-X-MC-Unique: U7wDpssZMAiNmAbNAdsxYQ-1
-X-Mimecast-MFC-AGG-ID: U7wDpssZMAiNmAbNAdsxYQ_1750197002
-Received: by mail-io1-f72.google.com with SMTP id
- ca18e2360f4ac-875fff4d6afso36392639f.1
- for <dri-devel@lists.freedesktop.org>; Tue, 17 Jun 2025 14:50:03 -0700 (PDT)
+Received: from mail-pj1-f53.google.com (mail-pj1-f53.google.com
+ [209.85.216.53])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 043E310E0FE
+ for <dri-devel@lists.freedesktop.org>; Tue, 17 Jun 2025 22:14:11 +0000 (UTC)
+Received: by mail-pj1-f53.google.com with SMTP id
+ 98e67ed59e1d1-313bb9b2f5bso7265438a91.3
+ for <dri-devel@lists.freedesktop.org>; Tue, 17 Jun 2025 15:14:11 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=pdp7-com.20230601.gappssmtp.com; s=20230601; t=1750198451; x=1750803251;
+ darn=lists.freedesktop.org; 
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+ bh=Rht1pWqTVlNemlSkA4kJuYwRKU6KD6oE4FAwP7gkVd8=;
+ b=rp5P0ZRbC4fAYxPVhNEvdY5LMzBYFdqNI278tGQ+87AeI8JQuJvoNRs42t75jGIyJp
+ XLpsgpJ41MmJdKemywYCL/egxlDJ3kDVbw5oBtVRiYI8Amw648kO3CUxh5Ysol+HrPqS
+ nzEv3Xjp8WNlAZYRnfmu3N/RWB7EjT5xvQqs470JfBvS2I3UyjvEg1J3I97QfJ5Xqrsk
+ 925b14dP6RC9PIhtvgLr75qSbocvCcES1YXyxnyRe1LrTG1+DmePTvo9LlE/GjfNiwyO
+ UaeuVZ3/c8FbxIfdMBI54ED0MiIm3fcrtADb1vl1fElAGate0Hlw6NhAW3IZaKleRlzl
+ wPEg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1750197002; x=1750801802;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:subject:cc:to:from:date:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=fBKdNTag+8kHHBGbrlvR1RGtOCqp0CC7Lr8789j1j90=;
- b=NNWYDSytchWKXkb6+XadAiHGb9jCQLtQRJkAE9H3c3Z8XwlF0/nOymEUjBZS+Jrpbz
- Bk4Oe+652WPJFa+6oVNQjJwzvhZyxHNlJ91RrwCrFMZw0z2HvuhoiYPMkldKcfXPmZnQ
- Yd1Dj20h8XNi2j79v9Hb8yr5xK3CZeVjcxZYIdE+bznCV3BrpYXE4bQjXEwusDVMhbRJ
- n7j7sd2aK8LC2hSrnNlsiWdYN5s9VrW6S3M/mYGf7genSn7YiVrefaKWpUIDTeSaaIIC
- 3gMhyEcTXZqsHkxaOrTMMUATjdSZFx5+rH+BsIho7OWuq6MukSwS1k1vfWfxuYn5xO0b
- aAjw==
+ d=1e100.net; s=20230601; t=1750198451; x=1750803251;
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=Rht1pWqTVlNemlSkA4kJuYwRKU6KD6oE4FAwP7gkVd8=;
+ b=jazxhKs4o+3KVYbWOukzp4+GuoH+EeX3iPRyQkQnzScXE4AQO3GWkTT3iJWUqLTdcz
+ k0QG4Hq9e42K0z8baCYDIDLMGbQY06xrjtllP7R50bOKEaa0Oja3OeA0V2VHilJol6KK
+ 7cJbzfA7ABIgl+9FmwYq8y4Rsy1qmd5XqJsQ5IxkQGC0BArB2VwRxFyH1HuJFOc+Bw8f
+ C7YQ0wnEDlhORKjK365MJa9at/p2z7fh5UlllDIv/HFShulHof332b3iH1ZZSCxPtDNN
+ 1/EVcneAHodjtGmcrBzRRHGyGwdR9t2W+utu+ry8c6/tTOCBAYe2V71f3W8cwi6usqCR
+ kutA==
 X-Forwarded-Encrypted: i=1;
- AJvYcCU7oKCbN9OKc/v8NC3VW2DKioG1xUPIxQ6jdVrmV1v5qGm74mbQ4hWtIKGR9zy2XysduW1T9qJ65Y8=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0Ywh0lIwsi7yb7EZNhg0xDNptEzeRCkSVBKlSIvlCWU63sidmXmV
- gMl1rOapxSV3ONLysLzclc++xw/cvFZbCkfc4aLoiUGZk8a+p2lqzEL4+hiWwcmck8YyzqOyjaR
- lz/ymFevMwxGXPjgDcxpVUwULDQ7KnqUZ/Lvg2OAj0kDP7t4J22FM53yQ1TPBN6SNbtXsaQ==
-X-Gm-Gg: ASbGncv8QbIrq1GAz3t7FLmEq8tNQhAtP383wlC4HM+ZJ5lae2q75+u3+9ccjQPtUZG
- ESNoIuDma4d4lBxx8Wnn6GBBpW8Y9PToYy700Fd1BEeqswcVJypGu1BYfmBrgHEAYnlyHrLKtRi
- QlBn4gdYj3HtvGqAn1DA1/pTO4pniBzITFe0uGCpqwQtV7ermQfAnIPEQoXtz47B7z+XLOk+nZD
- VQXclMXm1L08ZC93ve8CwQLv13iRHzqjt21GIU3k03q62dZhTVezinUPZyHQr/djf4Zlm9t0dxP
- YLXJCKOkkNkZ1VXLKGY6pd3wIg==
-X-Received: by 2002:a92:c267:0:b0:3dc:7ba2:7a2e with SMTP id
- e9e14a558f8ab-3de07cd4de3mr48365935ab.3.1750197002228; 
- Tue, 17 Jun 2025 14:50:02 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IEw17zHi8Y9Wb/PhxrxSkYd31JRhlQUJWVwqBEfsj4LLkKjncc5bMw2gyst2ZndPGvwl0QioA==
-X-Received: by 2002:a92:c267:0:b0:3dc:7ba2:7a2e with SMTP id
- e9e14a558f8ab-3de07cd4de3mr48365855ab.3.1750197001760; 
- Tue, 17 Jun 2025 14:50:01 -0700 (PDT)
-Received: from redhat.com ([38.15.36.11]) by smtp.gmail.com with ESMTPSA id
- 8926c6da1cb9f-50149bb529fsm2445872173.60.2025.06.17.14.49.59
+ AJvYcCWVjg3grmKuZudjm4WWQf8SWt3Jlzwq2vH/uDtBJVjf4yG68U+bQjUTVM2FBJwvFYNdTSP+rCsqdVA=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YzZ2agcZonYQxVksbGSDuFBWYGkrwHrWtPg/LP4b+G/LxSiVhyb
+ 0AIEJQfD74EF8GCN/aDvw/YBNyS+dIAgnmSn5OsvDK2eKScQGbvjpa/1OwLvCtyXp0g=
+X-Gm-Gg: ASbGncuLZ8l1SN3/G7M38pkAZasuT31IhQopmk0+ihslVMq33cfzRxj2YPHHAnLXpwX
+ lIelVPIqWNZncgu5/uxdYVdusP/9V6d3YQEMCCUv/l46q9xp4b4AubsVDBE1H1I+TvAXeVSTrq9
+ MwrP3esJGz6O/tnVijmBQiQ0BWWTtxQnMBqtgTuiOIOgDDToMLHTltLc2scCU8Yq7jOKfSJo0Fs
+ kppeBpRiCrXfZRKVF6Zap+O+sc0fpvnuiz+nBVoWD7MH8bNrj2s72R7o1fSKDvYdusCYRtwz5cT
+ e+dpnxDGbru43R05MYxbTA46zImMLHuKYUKyqxUsEhT2L5uC2zvUN2m+BeI2TVTOX0Wju5Y=
+X-Google-Smtp-Source: AGHT+IGjtDH8+7Qdmc6DGmjSJpavFXI06zS+xsVxnGKMVqLF3EoMugjqqf5A/sV2C5cZ3H3jbI/Tpg==
+X-Received: by 2002:a17:90a:dfc8:b0:311:f05b:86a5 with SMTP id
+ 98e67ed59e1d1-313f19d2977mr26267870a91.0.1750198450546; 
+ Tue, 17 Jun 2025 15:14:10 -0700 (PDT)
+Received: from x1 (97-120-250-80.ptld.qwest.net. [97.120.250.80])
+ by smtp.gmail.com with ESMTPSA id
+ d9443c01a7336-2365deb0fabsm85895565ad.181.2025.06.17.15.14.09
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 17 Jun 2025 14:50:01 -0700 (PDT)
-Date: Tue, 17 Jun 2025 15:49:57 -0600
-From: Alex Williamson <alex.williamson@redhat.com>
-To: Daniel Dadap <ddadap@nvidia.com>
-Cc: Mario Limonciello <superm1@kernel.org>, Bjorn Helgaas
- <bhelgaas@google.com>, Alex Deucher <alexander.deucher@amd.com>, Christian
- =?UTF-8?B?S8O2bmln?= <christian.koenig@amd.com>, David Airlie
- <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, Lukas Wunner
- <lukas@wunner.de>, Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann
- <tzimmermann@suse.de>, David Woodhouse <dwmw2@infradead.org>, Lu Baolu
- <baolu.lu@linux.intel.com>, Joerg Roedel <joro@8bytes.org>, Will Deacon
- <will@kernel.org>, Robin Murphy <robin.murphy@arm.com>, Jaroslav Kysela
- <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, "open list:DRM DRIVERS"
- <dri-devel@lists.freedesktop.org>, open list
- <linux-kernel@vger.kernel.org>, "open list:INTEL IOMMU (VT-d)"
- <iommu@lists.linux.dev>, "open list:PCI SUBSYSTEM"
- <linux-pci@vger.kernel.org>, "open list:VFIO DRIVER" <kvm@vger.kernel.org>,
- "open list:SOUND" <linux-sound@vger.kernel.org>, Mario Limonciello
- <mario.limonciello@amd.com>
-Subject: Re: [PATCH v2 6/6] vgaarb: Look at all PCI display devices in VGA
- arbiter
-Message-ID: <20250617154957.67144f0a.alex.williamson@redhat.com>
-In-Reply-To: <aFHWejvqNpGv-3UI@ddadap-lakeline.nvidia.com>
-References: <20250617175910.1640546-1-superm1@kernel.org>
- <20250617175910.1640546-7-superm1@kernel.org>
- <aFHABY5yTYrJ4OUw@ddadap-lakeline.nvidia.com>
- <d40a585f-6eca-45dd-aa9f-7dcda065c80a@kernel.org>
- <aFHWejvqNpGv-3UI@ddadap-lakeline.nvidia.com>
-X-Mailer: Claws Mail 4.3.1 (GTK 3.24.43; x86_64-redhat-linux-gnu)
+ Tue, 17 Jun 2025 15:14:10 -0700 (PDT)
+Date: Tue, 17 Jun 2025 15:14:08 -0700
+From: Drew Fustini <drew@pdp7.com>
+To: Michal Wilczynski <m.wilczynski@samsung.com>
+Cc: Guo Ren <guoren@kernel.org>, Fu Wei <wefu@redhat.com>,
+ Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
+ Conor Dooley <conor+dt@kernel.org>, Bartosz Golaszewski <brgl@bgdev.pl>,
+ Philipp Zabel <p.zabel@pengutronix.de>,
+ Frank Binns <frank.binns@imgtec.com>, Matt Coster <matt.coster@imgtec.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>,
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+ Paul Walmsley <paul.walmsley@sifive.com>,
+ Palmer Dabbelt <palmer@dabbelt.com>,
+ Albert Ou <aou@eecs.berkeley.edu>, Alexandre Ghiti <alex@ghiti.fr>,
+ Ulf Hansson <ulf.hansson@linaro.org>,
+ Marek Szyprowski <m.szyprowski@samsung.com>,
+ linux-riscv@lists.infradead.org, devicetree@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-pm@vger.kernel.org,
+ dri-devel@lists.freedesktop.org,
+ Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+Subject: Re: [PATCH v4 0/8] Add TH1520 GPU support with power sequencing
+Message-ID: <aFHosEvn35Fr3LFv@x1>
+References: <CGME20250614180906eucas1p116f8a13a4013edd3bbedfd2e4a8b0aa3@eucas1p1.samsung.com>
+ <20250614-apr_14_for_sending-v4-0-8e3945c819cd@samsung.com>
 MIME-Version: 1.0
-X-Mimecast-Spam-Score: 0
-X-Mimecast-MFC-PROC-ID: hHtMfd6_a7mOsb18FnNkMzD9pM3B6nK5AZSs_t2UHmw_1750197002
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20250614-apr_14_for_sending-v4-0-8e3945c819cd@samsung.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -118,133 +105,72 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, 17 Jun 2025 15:56:26 -0500
-Daniel Dadap <ddadap@nvidia.com> wrote:
-
-> On Tue, Jun 17, 2025 at 03:15:35PM -0500, Mario Limonciello wrote:
-> > 
-> > 
-> > On 6/17/25 2:20 PM, Daniel Dadap wrote:  
-> > > On Tue, Jun 17, 2025 at 12:59:10PM -0500, Mario Limonciello wrote:  
-> > > > From: Mario Limonciello <mario.limonciello@amd.com>
-> > > > 
-> > > > On a mobile system with an AMD integrated GPU + NVIDIA discrete GPU the
-> > > > AMD GPU is not being selected by some desktop environments for any
-> > > > rendering tasks. This is because neither GPU is being treated as
-> > > > "boot_vga" but that is what some environments use to select a GPU [1].
-> > > > 
-> > > > The VGA arbiter driver only looks at devices that report as PCI display
-> > > > VGA class devices. Neither GPU on the system is a PCI display VGA class
-> > > > device:
-> > > > 
-> > > > c5:00.0 3D controller: NVIDIA Corporation Device 2db9 (rev a1)
-> > > > c6:00.0 Display controller: Advanced Micro Devices, Inc. [AMD/ATI] Device 150e (rev d1)
-> > > > 
-> > > > If the GPUs were looked at the vga_is_firmware_default() function actually
-> > > > does do a good job at recognizing the case from the device used for the
-> > > > firmware framebuffer.
-> > > > 
-> > > > Modify the VGA arbiter code and matching sysfs file entries to examine all
-> > > > PCI display class devices. The existing logic stays the same.
-> > > > 
-> > > > This will cause all GPUs to gain a `boot_vga` file, but the correct device
-> > > > (AMD GPU in this case) will now show `1` and the incorrect device shows `0`.
-> > > > Userspace then picks the right device as well.
-> > > > 
-> > > > Link: https://github.com/robherring/libpciaccess/commit/b2838fb61c3542f107014b285cbda097acae1e12 [1]
-> > > > Suggested-by: Daniel Dadap <ddadap@nvidia.com>
-> > > > Acked-by: Thomas Zimmermann <tzimmermann@suse.de>
-> > > > Signed-off-by: Mario Limonciello <mario.limonciello@amd.com>
-> > > > ---
-> > > >   drivers/pci/pci-sysfs.c | 2 +-
-> > > >   drivers/pci/vgaarb.c    | 8 ++++----
-> > > >   2 files changed, 5 insertions(+), 5 deletions(-)
-> > > > 
-> > > > diff --git a/drivers/pci/pci-sysfs.c b/drivers/pci/pci-sysfs.c
-> > > > index 268c69daa4d57..c314ee1b3f9ac 100644
-> > > > --- a/drivers/pci/pci-sysfs.c
-> > > > +++ b/drivers/pci/pci-sysfs.c
-> > > > @@ -1707,7 +1707,7 @@ static umode_t pci_dev_attrs_are_visible(struct kobject *kobj,
-> > > >   	struct device *dev = kobj_to_dev(kobj);
-> > > >   	struct pci_dev *pdev = to_pci_dev(dev);
-> > > > -	if (a == &dev_attr_boot_vga.attr && pci_is_vga(pdev))
-> > > > +	if (a == &dev_attr_boot_vga.attr && pci_is_display(pdev))
-> > > >   		return a->mode;  
-> > > 
-> > > I can't help but worry about userspace clients that might be checking for
-> > > the presence of the boot_vga sysfs file but don't check its contents.  
-> > 
-> > Wouldn't those clients "already" be broken by such an assumption?
-> > We know today that there are systems with two VGA devices in them too.
-> >  
+On Sat, Jun 14, 2025 at 08:06:06PM +0200, Michal Wilczynski wrote:
+> This patch series introduces support for the Imagination IMG BXM-4-64
+> GPU found on the T-HEAD TH1520 SoC. A key aspect of this support is
+> managing the GPU's complex power-up and power-down sequence, which
+> involves multiple clocks and resets.
 > 
-> Yes, for systems with multiple VGA devices, which is an uncommon case. I
-> think that on systems with one VGA device and one 3D device, which is
-> probably the most common case, this change might break such clients.
-
-FWIW, this is exactly the opposite of what I'd expect is the common
-case.  IME, an integrated GPU and discrete GPU, or multiple discrete
-GPUs are all VGA devices.
-
-> > I'd think those should have both GPUs exporting a file and one having a 0
-> > the other 1.  
+> The TH1520 GPU requires a specific sequence to be followed for its
+> clocks and resets to ensure correct operation. Initial discussions and
+> an earlier version of this series explored managing this via the generic
+> power domain (genpd) framework. However, following further discussions
+> with kernel maintainers [1], the approach has been reworked to utilize
+> the dedicated power sequencing (pwrseq) framework.
 > 
-> Yeah, agreed. I'd consider it a userspace bug if the client only tests for
-> the presence of the file but doesn't look at its contents, but it's still
-> preferable not to break (hypothetical, buggy) clients unnecessarily. One
-> could make a philosophical argument that "boot_vga" should really mean VGA
-> subclass, as the name implies, but even so I think that, in lieu of a new
-> interface to report what the desktop environments are actually trying to
-> test for (which nobody uses yet because it doesn't exist), exposing the
-> boot_vga file for a non-VGA GPU in the special case of there being zero
-> VGA GPUs on the system is a reasonable and practical compromise to allow
-> existing code to work on the zero-VGA systems.
+> This revised series now employs a new pwrseq provider driver
+> (pwrseq-thead-gpu.c) specifically for the TH1520 GPU. This driver
+> encapsulates the SoC specific power sequence details. The Imagination
+> GPU driver (pvr_device.c) is updated to act as a consumer of this power
+> sequencer, requesting the "gpu-power" target. The sequencer driver,
+> during its match phase with the GPU device, acquires the necessary clock
+> and reset handles from the GPU device node to perform the full sequence.
 > 
-> I think it ultimately comes down to a semantic argument about what "VGA"
-> is really supposed to mean here. There's the real, honest-to-goodness VGA
-> interface with INT 10h and VBE, and then there's the common de facto sort
-> of shorthand convention (commonly but not universally followed) where VGA
-> means it can drive displays and 3D means it can't. It used to be the case
-> (at least on x86) that display controllers which could drive real display
-> hardware were always VGA-compatible, and display controllers were not VGA
-> compatible could never drive real display hardware, which I think is how
-> that convention originated, but on UEFI systems with no CSM support, it's
-> not necessarily true any more. However, there's so much existing software
-> out there that conflates VGA-ness with display-ness that some controllers
-> with no actual VGA support get listed with the VGA controller subclass to
-> avoid breaking such software.
+> This approach aligns with the goal of abstracting SoC specific power
+> management details away from generic device drivers and leverages the
+> pwrseq framework as recommended.
 > 
-> If you go by the language of the definitions for the subclasses of PCI
-> base class 03h, it seems pretty clear that the VGA subclass is supposed
-> to mean actually compatible with real honest-to-goodness VGA. So those
-> non-VGA devices that pretend to be VGA for software compatibility aren't
-> following the spec. I'd be willing to wager that the system in question
-> is being accurate when it says that it has no VGA controllers. It is
-> arguably a userspace bug that these desktop environments are testing for
-> "VGA" when they really probably mean something else, but it will probably
-> take some time to hunt down everything that's relying on boot_vga for
-> possibly wrong reasons, and I think the pragmatic option is to lie about
-> it until we have a better way to test for whatever the desktops really
-> want to know, and that better way is widely used. But it would be nice to
-> limit the lying to cases where it unbreaks things if we can.
+> The series is structured as follows:
+> 
+> Patch 1: Introduces the pwrseq-thead-gpu auxiliary driver to manage the
+>          GPU's power-on/off sequence.
+> Patch 2: Adds device tree bindings for the gpu-clkgen reset to the
+>          existing thead,th1520-aon binding.
+> Patch 3: Extends the pm-domains driver to detect the gpu-clkgen reset
+>          and spawn the pwrseq-thead-gpu auxiliary driver.
+> Patch 4: Updates the Imagination DRM driver to utilize the pwrseq
+>          framework for TH1520 GPU power management.
+> Patch 5: Adds the thead,th1520-gpu compatible string to the PowerVR GPU
+>          device tree bindings.
+> Patch 6: Adds the gpu-clkgen reset property to the aon node in the
+>          TH1520 device tree source.
+> Patch 7: Adds the device tree node for the IMG BXM-4-64 GPU and its
+>          required fixed-clock.
+> Patch 8: Enables compilation of the Imagination PowerVR driver on the
+>          RISC-V architecture.
+> 
+> This patchset finishes the work started in bigger series [2] by adding
+> all remaining GPU power sequencing piece. After this patchset the GPU
+> probes correctly.
+> 
+> This series supersedes the previous genpd based approach. Testing on
+> T-HEAD TH1520 SoC indicates the new pwrseq based solution works
+> correctly.
+> 
+> An open point in Patch 7/8 concerns the GPU memory clock (gpu_mem_clk),
+> defined as a fixed-clock. The specific hardware frequency for this clock
+> on the TH1520 could not be determined from available public
+> documentation. Consequently, clock-frequency = <0>; has been used as a
+> placeholder to enable driver functionality.
+> 
 
-I don't know if you have wiggle room with boot_vga specifically, I
-generally take it at face value that it's a VGA device and imo seems
-inconsistent to suggest otherwise.  I do note however that there's
-really no philosophical discussion related to the VGA arbiter, it is
-managing devices and routing among them according to the strict PCI
-definition of VGA.
+I don't have any more information that what is in the public PDFs [1],
+so I think it is okay to have a placeholder frequency.
 
-Elsewhere in the kernel we can see that vga_default_device() is being
-used for strictly VGA related things, the VGA shadow ROM and legacy VGA
-resource aperture resolution for instance.  It's unfortunate that the
-x86 video_is_primary_device() relies on it, but that seems like a
-growing pain of introducing non-VGA displays on a largely legacy
-encumbered architecture and should be addressed.
+Is it the case that the frequency doesn't really matter from the
+perspective of the driver?
 
-Note that it should probably be considered whether VGA_ARB_MAX_GPUS
-needs a new default value if all display adapters were to be included.
 Thanks,
+Drew
 
-Alex
-
+[1] https://git.beagleboard.org/beaglev-ahead/beaglev-ahead/-/tree/main/docs
