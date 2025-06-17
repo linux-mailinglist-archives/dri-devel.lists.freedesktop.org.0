@@ -2,45 +2,44 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id E4D67ADC02A
-	for <lists+dri-devel@lfdr.de>; Tue, 17 Jun 2025 06:18:59 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 73BA6ADC029
+	for <lists+dri-devel@lfdr.de>; Tue, 17 Jun 2025 06:18:58 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id AD65710E4B5;
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9D01410E4B3;
 	Tue, 17 Jun 2025 04:18:51 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=amd.com header.i=@amd.com header.b="o2CYYLOd";
+	dkim=pass (1024-bit key; unprotected) header.d=amd.com header.i=@amd.com header.b="YeF4MM5K";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from NAM11-DM6-obe.outbound.protection.outlook.com
- (mail-dm6nam11on2045.outbound.protection.outlook.com [40.107.223.45])
- by gabe.freedesktop.org (Postfix) with ESMTPS id F0B3810E4AB;
- Tue, 17 Jun 2025 04:18:44 +0000 (UTC)
+ (mail-dm6nam11on2080.outbound.protection.outlook.com [40.107.223.80])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6719210E4AE;
+ Tue, 17 Jun 2025 04:18:46 +0000 (UTC)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=K7KrwVIXVHuw+HPX+m9r+wQ0qGkGVqz1pyFgIPZHcoQI4M6iS94zgLEQT3WXvYXcKV3iN8XnaSFDT6ku7Ydw6VKzZKLar2p431kUsc6+49lDEoDRn4xEi1fkPVVHHF17+Ecx1JcMgC7XkghAMh9rFHoM3gtrva6GJsVSUOMW65CY7fRz+wM8jvlXaKJB3yyTiw8ABgpJyclJ8M0f3FlMHTk/TSkCSg46tmWcYdKMFIg16C9IDzHSVFeiwHyXICBUeKSTTBHRcT4DZkwOauEuRbXAsHRM1pDxQV2zKrxR17U2jPGIvtk1JDvw0ijVl/RUOgFBguTdusgWsw5cgKJ0UQ==
+ b=kunq9IFtrc5OpqdGfFCkjnxE9xmf+sOoNwsZRjuk3RKNsgaGe5OzpiuFGE57e92RYxnVjt32GNCS2L8W90sbdC4yOtY5uCn79GKVwxUfX0T5JCnESur/2r3hRzFZmIsMNB00hefQmBB6wdkdohMJsRwNWCSD6IiokWQmRmDbupNLsZhJ+6UcC6980Tz89OQvWpSN3NGAIyEJCbsvyvA7VS8vV8O9sOd4NFvcegW/vV2pzTiKekFSMV+7T8YQRaqEY3AZg/uTiRYyECRVnYEc0DX1BTVTxb1NFjxPPRpzuxboibfgv2Kw06UkQbBSEzMfsuwAZQWc6wbZ9O04inrCNA==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=nBbvKsjvaWuYbuv4gsL2e+7uqu1go96ACil0oQ3K5C0=;
- b=xPuPfaF4rrgZUXY+iKYtxwSMnYoCAqh1kXjSRUU9myk0JqSF8tMzDbLjUd2Q/ScXC2fCHpFJHRtO6Ko4K5AgUmF8fCoL9bju6WOKyVLekapyU1a7ZBKCVL3DxxeQwmFgLndZMXXFDw/5wv5kOElykTeKf/VZxOdseXydjAsyR3NZGtuqaXRP1FsRgv0enj3NLHJLoGBcDdQuDXATApLVydn6wpV4DpHYAdvDqnjfleJPPcG2cmzhrcMKDf7I44ygv80OGZFHCubhRI5snLir2SNLJ5zper5/3s+QGX+VES9tKyEO/2OP2d9DL7vNDqGvyy3dFD2zSo8N7Xs8NuJhxA==
+ bh=fL3cjuC/bWo1Ax+Hq7TK19gmTcWub2E3bwv0bh12Xyw=;
+ b=R/qA62+pAIyj+n1VtSc1P+F1Bv4oeeEPBTzSgqO1i21QcDP1uCHzcjBj5hIWA2txXfKeanf2I5jzyLCvY8/987R/VR2XIl37fYKmztuVINob4ZhPYQaQCATi9qLKlDzNjWGf9eXWOBqaY3iH/A2WXcDN2zaku7eCQvq2yd9mZRgo2uvMoWZYEHo8KB2q9To8UL1F/dNWXCkqCmFqplCDN1md1wnuBTbf/pEvDeMcLkdLDQo7MLPh6JDJ4C9QtuUflo6wNNyuC+a6bzwgHSnMdZD+XknscBs40q/pQo5oZIYsalOWrNmU2RDpu0D1TUF21rBSXJ4dRknpa2pQeXbBMA==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
  165.204.84.17) smtp.rcpttodomain=lists.freedesktop.org smtp.mailfrom=amd.com; 
  dmarc=pass (p=quarantine sp=quarantine pct=100) action=none
  header.from=amd.com; dkim=none (message not signed); arc=none (0)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=nBbvKsjvaWuYbuv4gsL2e+7uqu1go96ACil0oQ3K5C0=;
- b=o2CYYLOdHKdxwAqC/mUH4Y3ScEYy0DJzNYxNYz4V2QKUAbIW3iKXMM0I+DqlbGK/HHgRXHSdM16zLLWmgNgqCZJTukYo1WZenWg2ZSLwvGGEpsk7Mjic8BiLKnCORVxIFjMlBJv8LyN5gZnX/D8C6hXY1w5N/yMsrSxeBruPqLg=
-Received: from SA9PR11CA0008.namprd11.prod.outlook.com (2603:10b6:806:6e::13)
- by CH1PPFF9270C127.namprd12.prod.outlook.com
- (2603:10b6:61f:fc00::62b) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8835.26; Tue, 17 Jun
- 2025 04:18:38 +0000
+ bh=fL3cjuC/bWo1Ax+Hq7TK19gmTcWub2E3bwv0bh12Xyw=;
+ b=YeF4MM5KgT3IoQXLMwbYEmB8mRW3W3Q5PXrSTouTADXDBrPIcLsJ88aUZK/vt5l6raBg0L7/1bCagwkQRs0FrVH1UMSPdt1TQFfvs48rRiw46dnlGrDRLsKNUtIqTn/UDTzNVaoy9e6xGeshAThAlHTsRaow5xgfgUMlTOh/nZA=
+Received: from SA9PR11CA0001.namprd11.prod.outlook.com (2603:10b6:806:6e::6)
+ by DS0PR12MB8069.namprd12.prod.outlook.com (2603:10b6:8:f0::7) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.8835.29; Tue, 17 Jun 2025 04:18:39 +0000
 Received: from SA2PEPF00001507.namprd04.prod.outlook.com
- (2603:10b6:806:6e:cafe::85) by SA9PR11CA0008.outlook.office365.com
- (2603:10b6:806:6e::13) with Microsoft SMTP Server (version=TLS1_3,
+ (2603:10b6:806:6e:cafe::27) by SA9PR11CA0001.outlook.office365.com
+ (2603:10b6:806:6e::6) with Microsoft SMTP Server (version=TLS1_3,
  cipher=TLS_AES_256_GCM_SHA384) id 15.20.8835.29 via Frontend Transport; Tue,
- 17 Jun 2025 04:18:37 +0000
+ 17 Jun 2025 04:18:39 +0000
 X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 165.204.84.17)
  smtp.mailfrom=amd.com; dkim=none (message not signed)
  header.d=none;dmarc=pass action=none header.from=amd.com;
@@ -50,11 +49,11 @@ Received-SPF: Pass (protection.outlook.com: domain of amd.com designates
 Received: from SATLEXMB04.amd.com (165.204.84.17) by
  SA2PEPF00001507.mail.protection.outlook.com (10.167.242.39) with Microsoft
  SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.20.8835.15 via Frontend Transport; Tue, 17 Jun 2025 04:18:37 +0000
+ 15.20.8835.15 via Frontend Transport; Tue, 17 Jun 2025 04:18:39 +0000
 Received: from SATLEXMB03.amd.com (10.180.168.240) by SATLEXMB04.amd.com
  (10.181.40.145) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.39; Mon, 16 Jun
- 2025 23:18:21 -0500
+ 2025 23:18:35 -0500
 From: Alex Hung <alex.hung@amd.com>
 To: <dri-devel@lists.freedesktop.org>, <amd-gfx@lists.freedesktop.org>
 CC: <wayland-devel@lists.freedesktop.org>, <harry.wentland@amd.com>,
@@ -68,9 +67,9 @@ CC: <wayland-devel@lists.freedesktop.org>, <harry.wentland@amd.com>,
  <Liviu.Dudau@arm.com>, <sashamcintosh@google.com>,
  <chaitanya.kumar.borah@intel.com>, <louis.chauvet@bootlin.com>,
  <arthurgrillo@riseup.net>, Daniel Stone <daniels@collabora.com>
-Subject: [PATCH V10 01/46] drm: Add helper for conversion from signed-magnitude
-Date: Mon, 16 Jun 2025 22:16:43 -0600
-Message-ID: <20250617041746.2884343-2-alex.hung@amd.com>
+Subject: [PATCH V10 02/46] drm/vkms: Add kunit tests for VKMS LUT handling
+Date: Mon, 16 Jun 2025 22:16:44 -0600
+Message-ID: <20250617041746.2884343-3-alex.hung@amd.com>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <20250617041746.2884343-1-alex.hung@amd.com>
 References: <20250617041746.2884343-1-alex.hung@amd.com>
@@ -82,52 +81,52 @@ X-ClientProxiedBy: SATLEXMB04.amd.com (10.181.40.145) To SATLEXMB04.amd.com
  (10.181.40.145)
 X-EOPAttributedMessage: 0
 X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: SA2PEPF00001507:EE_|CH1PPFF9270C127:EE_
-X-MS-Office365-Filtering-Correlation-Id: 9a82d0d4-8ea0-4f1a-12d9-08ddad560898
+X-MS-TrafficTypeDiagnostic: SA2PEPF00001507:EE_|DS0PR12MB8069:EE_
+X-MS-Office365-Filtering-Correlation-Id: 7de48ad2-f9fb-4f87-3188-08ddad560969
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: BCL:0;
- ARA:13230040|7416014|376014|82310400026|36860700013|1800799024; 
-X-Microsoft-Antispam-Message-Info: =?us-ascii?Q?dQr7ufttxMGfb+6NDcdErKtlMFiyr5NHzbEJhVu+ha7ekqe5On7NE2xctHCo?=
- =?us-ascii?Q?Z4kIfWIwqGzzsGoEliYOGQH0t67woR7pnsvgIFaNoiISum14Cb3JpxWpduIG?=
- =?us-ascii?Q?amygrQdNLlYwLQC3g4+40WSIScjgvVl+vXh9eIoPrnJnSR316Xc2Z0APnZr4?=
- =?us-ascii?Q?T3EDQpulgRbeIzM6+rUmXxwFrO3X2YZl6iRmvvCInxRGor8pLlg2xi8goLY7?=
- =?us-ascii?Q?GsIH9Tbo2rvCYpZrW0g/p45YW1gqAdeQqNHUON3Yr9hLfO2l2Cj9pCHV3Cac?=
- =?us-ascii?Q?LcjxT4CdJ//QT6XvyQnVagFyFc557j6Gb0jjSRkcqTxvMy5+JTvTCU+8D7tj?=
- =?us-ascii?Q?wcOruDzRnhlWRDhV5WuI2g1sNPMAE9hekuVogIX2Ii1vgXNuWg5kEoXV8/4B?=
- =?us-ascii?Q?9gXWVt9Sr2kbJnGfWWK8r9fBwuVNR5zSy0LXxZ6UjHByaAvvwoync1Rb4lfw?=
- =?us-ascii?Q?8VTkKptm62UZ23Ucr6FcimxNzNTiMMSSfLUEFbNhIDhctluMx8XBzhNvTZDE?=
- =?us-ascii?Q?XYSV9ACKlwNGoO6KpSCNwJxVZaLHkDgUhLYNLmtebgVB4WniwCS9w45/UATz?=
- =?us-ascii?Q?wfAyC8omlSvdMh4HJUx/6h0zZVhZtgV+wQSvDsdC7HX6qyItQL1dt5NkS+Ux?=
- =?us-ascii?Q?0EEokOzhhIIPFaNMAs8gfwNFAYAGbaQSJ+7+ZkoDj0eioteoUqA/1xl3qUp0?=
- =?us-ascii?Q?zucuDFNsNaav6WoN2aHvhGyVKo/2nJykdQiPJS4dhhDr4LgBUIIcTzDk5ny2?=
- =?us-ascii?Q?tRbZ762JBKalf6IB7VlPyz5CRumxxpg3hmzT3OhT1C3MZ/xai9CINyVFi1W3?=
- =?us-ascii?Q?gVPLNfcqTsOxaklgG+x8+H+E6EZ8b8MVpkgeOksrkCB4UCE0KDr+t2MotjJp?=
- =?us-ascii?Q?DIv6peR6EDJEQo8IYR/4wqa2YFhaxVWrI5Gh+FufO5Scssrst/kBzUhQXKfo?=
- =?us-ascii?Q?hG0ew9I/ubxCbmz/7hoXLt7ITQfyfVNsotGMvQ4D0bgM9FDfegE3PyBj1KOh?=
- =?us-ascii?Q?s8E7Wevp4csVN/xBoSUBS2oQDkSLCB5hUaGHzvWYzARpYEGIojkMRIjMihEE?=
- =?us-ascii?Q?ZycNCkrF2UiO5Oo0mV4gD19d/yjt+/1R3tdjHLMDOUs5566XlEpvDdSRyZ9l?=
- =?us-ascii?Q?/YZPXaYcOFRThpmr79ROx90xzYci+ZUVsmviWRePUBfTHVtkw8P33hVxEOdY?=
- =?us-ascii?Q?QJJF3nciAKLiIMsdkmxv/uRxk4B2zzRT+d1QYU7JSdTqOoYuRUGBmChag96G?=
- =?us-ascii?Q?j5rH4i9wJ93Re3B6ByA5ZHwkyF7ugX29p2+QvX7u1PW6fTmM5J9ORr/LWMW5?=
- =?us-ascii?Q?Cu5/1aejK+bjACKnzrsbrxSdxyp+Sxae3QUZNW0VljitMIxcQBEIHUuQQQ+Q?=
- =?us-ascii?Q?4D2vU4mdRB334HoM1IBSpZLuKigqP47aIyh8IlbhsYsxsoDl+luJ1l7jVI67?=
- =?us-ascii?Q?30jkfsszr2a/Y3n9ky/zm03M1hN2MrI+Kyuc6gJtNmed51COHI6Xu8qyVJjK?=
- =?us-ascii?Q?l8yHW4IWG+jgehIau5l7omHqcjVzS5+DOud1?=
+ ARA:13230040|1800799024|376014|7416014|82310400026|36860700013; 
+X-Microsoft-Antispam-Message-Info: =?us-ascii?Q?tqDu2iqm8F/GFGatAen+aYTfcSKw+PhEvaXm88Br1jvzSDYS0tJOpMCTOycA?=
+ =?us-ascii?Q?iQBMCXflaoIwHs8LfpmQAKUHXp+Zu49XQl8QW6Y8eAd15OPwdd6fFZSxd94f?=
+ =?us-ascii?Q?ruDCs+RbFiVM/fEHYZMydQ0Noch7UWTdh0CelmIcIkVk4dfl7FkZwVy2aNDJ?=
+ =?us-ascii?Q?n82oCqzPMWp2pi/P3gwxlFOEfko6tmp0EdK7AEboRVjEmTqaZMgqoEyUpdla?=
+ =?us-ascii?Q?zusf2In0Zt98NdvPB9oyqb3gpv8fNvovcvg2NVgIeZ9fBXK++42lC2k0yop3?=
+ =?us-ascii?Q?hZe0NaAR5i1iWXeisOdytppaCqkvw+haKLsOrmlCyGHMWXYKvILEtaezA2H5?=
+ =?us-ascii?Q?q5Hkvl0YJrxsLELt27xmOZq10RrOasJNuwVD1p1ab+WAD+smVtVJzgGd9WS4?=
+ =?us-ascii?Q?Gg9vFJSXFwmKxjQ2l7sXNmjsUyrSm9Jcg/2t3pxTtS0fCx+HbNheTfki6HR9?=
+ =?us-ascii?Q?3gtUVmR8ythXRDELtR9Vp49xYqQNPVLGGdxDDo6K7vpUbAXD9SuIS/YPhjeL?=
+ =?us-ascii?Q?Gbs7J0O9NWgSf47nH/++WsfqgIfQzyNPfKSDEKKcGRDuCgwWtSOJ/rJF/52v?=
+ =?us-ascii?Q?4nWxS6Gnj46G2blGmrua+LPj/pNeqH0wy7chLaaGSuUfBMOeXhrTD17qp0/1?=
+ =?us-ascii?Q?/WfYSn8ao16wcwWKVMeybpAD2VJuQiBNezRie9Wslk6n3kXpcLVuXoB9vpGP?=
+ =?us-ascii?Q?1DQtlasWwKXudPeBOtSiaJm7FcwVbKxvNzjPtRjiAKSLd9pTipCrTGw8YUy3?=
+ =?us-ascii?Q?IlIGTGHfid8bQQBg1go2ZJevDFUSgvpYCyva0gITf7RXb56DyxPPyRMgp7gQ?=
+ =?us-ascii?Q?HZLVOTPC7GucLyuLLI4CI6n27JSYbWauwgjTu7RRLYXic+rjcocxb9udGikM?=
+ =?us-ascii?Q?mUTdanA4eFk7jN8ppyqcM4WRTvZwUx8nlI2IFtl5DRHCAZzz6z7jG3Tp63uw?=
+ =?us-ascii?Q?aBcATPSqJ/fDvt51Uzy+8P05uArLO4kk3yxxLsVB4QZZldpMTOYEr6XGjMSQ?=
+ =?us-ascii?Q?yc1QB1IMhXQDyRY6fDmEcH460wgxrf1FVmZtNcDr1YSiPKEVy4036/YY57nI?=
+ =?us-ascii?Q?8lPeS0z4TJ6rHZcoxNFK17J4BQ8zbdz0KQmY07W9XR9WG7hpivh9XEcAZzVg?=
+ =?us-ascii?Q?43YfXyCV4bkfU3dmisESxUsQPLtdylRxkbdKZTas+vYn/rX/hbBLP0agpwxQ?=
+ =?us-ascii?Q?NiWIu4RuOqqpG7qidAOMqpQ7l2DiLAUTdtbYLQYkU8FmrcUwWC6HtbAHke6W?=
+ =?us-ascii?Q?ETJNvAD0wtmjsJmikDWqrpvvd2OpxEiTkRuRRO7IlwLKKiJ9iwEu7XCwD29z?=
+ =?us-ascii?Q?W6oE7Vzhj4gTH+Wd03y29SaTWajbPZI6w9YN0zoC8ZPj7G5Fs1P8fuo3Fdme?=
+ =?us-ascii?Q?xChjLbF7pxG83RCqOMSXGQN+p3ckRhCWbuREtza4/syLaz8xVrVavwBCiGVl?=
+ =?us-ascii?Q?DQm7wPwv0nkejzqI3esuWk0dRUtwPu72ztlArTVClTsXvy5qpWdbGMPC8OWB?=
+ =?us-ascii?Q?FuAzHHHf+k6/s4mdQSxRKub/iFU4m7crz1YF?=
 X-Forefront-Antispam-Report: CIP:165.204.84.17; CTRY:US; LANG:en; SCL:1; SRV:;
  IPV:CAL; SFV:NSPM; H:SATLEXMB04.amd.com; PTR:InfoDomainNonexistent; CAT:NONE;
- SFS:(13230040)(7416014)(376014)(82310400026)(36860700013)(1800799024); DIR:OUT;
+ SFS:(13230040)(1800799024)(376014)(7416014)(82310400026)(36860700013); DIR:OUT;
  SFP:1101; 
 X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 17 Jun 2025 04:18:37.8804 (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: 9a82d0d4-8ea0-4f1a-12d9-08ddad560898
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 17 Jun 2025 04:18:39.2516 (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: 7de48ad2-f9fb-4f87-3188-08ddad560969
 X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
 X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=3dd8961f-e488-4e60-8e11-a82d994e183d; Ip=[165.204.84.17];
  Helo=[SATLEXMB04.amd.com]
 X-MS-Exchange-CrossTenant-AuthSource: SA2PEPF00001507.namprd04.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Anonymous
 X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: CH1PPFF9270C127
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DS0PR12MB8069
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -145,48 +144,293 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 From: Harry Wentland <harry.wentland@amd.com>
 
-CTM values are defined as signed-magnitude values. Add
-a helper that converts from CTM signed-magnitude fixed
-point value to the twos-complement value used by
-drm_fixed.
+Debugging LUT math is much easier when we can unit test
+it. Add kunit functionality to VKMS and add tests for
+ - get_lut_index
+ - lerp_u16
 
 Reviewed-by: Louis Chauvet <louis.chauvet@bootlin.com>
+Signed-off-by: Alex Hung <alex.hung@amd.com>
 Signed-off-by: Harry Wentland <harry.wentland@amd.com>
+Cc: Arthur Grillo <arthurgrillo@riseup.net>
 Reviewed-by: Daniel Stone <daniels@collabora.com>
-Reviewed-by: Melissa Wen <mwen@igalia.com>
 ---
- include/drm/drm_fixed.h | 18 ++++++++++++++++++
- 1 file changed, 18 insertions(+)
+v8:
+ - Update config names (Louis Chauvet)
 
-diff --git a/include/drm/drm_fixed.h b/include/drm/drm_fixed.h
-index 1922188f00e8..0b44f2f294ce 100644
---- a/include/drm/drm_fixed.h
-+++ b/include/drm/drm_fixed.h
-@@ -78,6 +78,24 @@ static inline u32 dfixed_div(fixed20_12 A, fixed20_12 B)
- #define DRM_FIXED_EPSILON	1LL
- #define DRM_FIXED_ALMOST_ONE	(DRM_FIXED_ONE - DRM_FIXED_EPSILON)
+v7:
+ - Fix checkpatch warnings and errors (Louis Chauvet)
+  - Change SPDX-License-Identifier: GPL-2.0+ from /* */ to //
+  - Fix checkpatch errors and warnings (new line at EOF, redundant spaces, and long lines)
+  - Add static to const struct vkms_color_lut test_linear_lut
+ - Add "MODULE_DESCRIPTION" (Jeff Johnson)
+
+
+v6:
+ - Eliminate need to include test as .c file (Louis Chauvet)
+
+v5:
+ - Bring back static for lerp_u16 and get_lut_index (Arthur)
+
+v4:
+ - Test the critical points of the lerp function (Pekka)
+
+v3:
+ - Use include way of testing static functions (Arthur)
+
+ drivers/gpu/drm/vkms/tests/Makefile          |   2 +-
+ drivers/gpu/drm/vkms/tests/vkms_color_test.c | 172 +++++++++++++++++++
+ drivers/gpu/drm/vkms/vkms_composer.c         |   8 +-
+ drivers/gpu/drm/vkms/vkms_composer.h         |  13 ++
+ 4 files changed, 192 insertions(+), 3 deletions(-)
+ create mode 100644 drivers/gpu/drm/vkms/tests/vkms_color_test.c
+ create mode 100644 drivers/gpu/drm/vkms/vkms_composer.h
+
+diff --git a/drivers/gpu/drm/vkms/tests/Makefile b/drivers/gpu/drm/vkms/tests/Makefile
+index 9ded37b67a46..e92f7143e540 100644
+--- a/drivers/gpu/drm/vkms/tests/Makefile
++++ b/drivers/gpu/drm/vkms/tests/Makefile
+@@ -1,3 +1,3 @@
+ # SPDX-License-Identifier: GPL-2.0-only
  
-+/**
-+ * @drm_sm2fixp
-+ *
-+ * Convert a 1.31.32 signed-magnitude fixed point to 32.32
-+ * 2s-complement fixed point
-+ *
-+ * @return s64 2s-complement fixed point
-+ */
-+static inline s64 drm_sm2fixp(__u64 a)
-+{
-+	if ((a & (1LL << 63))) {
-+		return -(a & 0x7fffffffffffffffll);
-+	} else {
-+		return a;
-+	}
+-obj-$(CONFIG_DRM_VKMS_KUNIT_TEST) += vkms_config_test.o
++obj-$(CONFIG_DRM_VKMS_KUNIT_TEST) += vkms_config_test.o vkms_color_test.o
+diff --git a/drivers/gpu/drm/vkms/tests/vkms_color_test.c b/drivers/gpu/drm/vkms/tests/vkms_color_test.c
+new file mode 100644
+index 000000000000..affca56cac7b
+--- /dev/null
++++ b/drivers/gpu/drm/vkms/tests/vkms_color_test.c
+@@ -0,0 +1,172 @@
++// SPDX-License-Identifier: GPL-2.0+
 +
++#include <kunit/test.h>
++
++#include <drm/drm_fixed.h>
++#include <drm/drm_mode.h>
++#include "../vkms_drv.h"
++#include "../vkms_composer.h"
++
++#define TEST_LUT_SIZE 16
++
++MODULE_IMPORT_NS("EXPORTED_FOR_KUNIT_TESTING");
++
++static struct drm_color_lut test_linear_array[TEST_LUT_SIZE] = {
++	{ 0x0, 0x0, 0x0, 0 },
++	{ 0x1111, 0x1111, 0x1111, 0 },
++	{ 0x2222, 0x2222, 0x2222, 0 },
++	{ 0x3333, 0x3333, 0x3333, 0 },
++	{ 0x4444, 0x4444, 0x4444, 0 },
++	{ 0x5555, 0x5555, 0x5555, 0 },
++	{ 0x6666, 0x6666, 0x6666, 0 },
++	{ 0x7777, 0x7777, 0x7777, 0 },
++	{ 0x8888, 0x8888, 0x8888, 0 },
++	{ 0x9999, 0x9999, 0x9999, 0 },
++	{ 0xaaaa, 0xaaaa, 0xaaaa, 0 },
++	{ 0xbbbb, 0xbbbb, 0xbbbb, 0 },
++	{ 0xcccc, 0xcccc, 0xcccc, 0 },
++	{ 0xdddd, 0xdddd, 0xdddd, 0 },
++	{ 0xeeee, 0xeeee, 0xeeee, 0 },
++	{ 0xffff, 0xffff, 0xffff, 0 },
++};
++
++static const struct vkms_color_lut test_linear_lut = {
++	.base = test_linear_array,
++	.lut_length = TEST_LUT_SIZE,
++	.channel_value2index_ratio = 0xf000fll
++};
++
++
++static void vkms_color_test_get_lut_index(struct kunit *test)
++{
++	s64 lut_index;
++	int i;
++
++	lut_index = get_lut_index(&test_linear_lut, test_linear_array[0].red);
++	KUNIT_EXPECT_EQ(test, drm_fixp2int(lut_index), 0);
++
++	for (i = 0; i < TEST_LUT_SIZE; i++) {
++		lut_index = get_lut_index(&test_linear_lut, test_linear_array[i].red);
++		KUNIT_EXPECT_EQ(test, drm_fixp2int_ceil(lut_index), i);
++	}
 +}
 +
- static inline s64 drm_int2fixp(int a)
++static void vkms_color_test_lerp(struct kunit *test)
++{
++	/*** half-way round down ***/
++	s64 t = 0x80000000 - 1;
++
++	KUNIT_EXPECT_EQ(test, lerp_u16(0x0, 0x10, t), 0x8);
++
++	/* odd a */
++	KUNIT_EXPECT_EQ(test, lerp_u16(0x1, 0x10, t), 0x8);
++
++	/* odd b */
++	KUNIT_EXPECT_EQ(test, lerp_u16(0x1, 0xf, t), 0x8);
++
++	/* b = a */
++	KUNIT_EXPECT_EQ(test, lerp_u16(0x10, 0x10, t), 0x10);
++
++	/* b = a + 1 */
++	KUNIT_EXPECT_EQ(test, lerp_u16(0x10, 0x11, t), 0x10);
++
++	/*** half-way round up ***/
++	t = 0x80000000;
++	KUNIT_EXPECT_EQ(test, lerp_u16(0x0, 0x10, t), 0x8);
++
++	/* odd a */
++	KUNIT_EXPECT_EQ(test, lerp_u16(0x1, 0x10, t), 0x9);
++
++	/* odd b */
++	KUNIT_EXPECT_EQ(test, lerp_u16(0x1, 0xf, t), 0x8);
++
++	/* b = a */
++	KUNIT_EXPECT_EQ(test, lerp_u16(0x10, 0x10, t), 0x10);
++
++	/* b = a + 1 */
++	KUNIT_EXPECT_EQ(test, lerp_u16(0x10, 0x11, t), 0x11);
++
++	/*** t = 0.0 ***/
++	t = 0x0;
++	KUNIT_EXPECT_EQ(test, lerp_u16(0x0, 0x10, t), 0x0);
++
++	/* odd a */
++	KUNIT_EXPECT_EQ(test, lerp_u16(0x1, 0x10, t), 0x1);
++
++	/* odd b */
++	KUNIT_EXPECT_EQ(test, lerp_u16(0x1, 0xf, t), 0x1);
++
++	/* b = a */
++	KUNIT_EXPECT_EQ(test, lerp_u16(0x10, 0x10, t), 0x10);
++
++	/* b = a + 1 */
++	KUNIT_EXPECT_EQ(test, lerp_u16(0x10, 0x11, t), 0x10);
++
++	/*** t = 1.0 ***/
++	t = 0x100000000;
++	KUNIT_EXPECT_EQ(test, lerp_u16(0x0, 0x10, t), 0x10);
++
++	/* odd a */
++	KUNIT_EXPECT_EQ(test, lerp_u16(0x1, 0x10, t), 0x10);
++
++	/* odd b */
++	KUNIT_EXPECT_EQ(test, lerp_u16(0x1, 0xf, t), 0xf);
++
++	/* b = a */
++	KUNIT_EXPECT_EQ(test, lerp_u16(0x10, 0x10, t), 0x10);
++
++	/* b = a + 1 */
++	KUNIT_EXPECT_EQ(test, lerp_u16(0x10, 0x11, t), 0x11);
++
++	/*** t = 0.0 + 1 ***/
++	t = 0x0 + 1;
++	KUNIT_EXPECT_EQ(test, lerp_u16(0x0, 0x10, t), 0x0);
++
++	/* odd a */
++	KUNIT_EXPECT_EQ(test, lerp_u16(0x1, 0x10, t), 0x1);
++
++	/* odd b */
++	KUNIT_EXPECT_EQ(test, lerp_u16(0x1, 0xf, t), 0x1);
++
++	/* b = a */
++	KUNIT_EXPECT_EQ(test, lerp_u16(0x10, 0x10, t), 0x10);
++
++	/* b = a + 1 */
++	KUNIT_EXPECT_EQ(test, lerp_u16(0x10, 0x11, t), 0x10);
++
++	/*** t = 1.0 - 1 ***/
++	t = 0x100000000 - 1;
++	KUNIT_EXPECT_EQ(test, lerp_u16(0x0, 0x10, t), 0x10);
++
++	/* odd a */
++	KUNIT_EXPECT_EQ(test, lerp_u16(0x1, 0x10, t), 0x10);
++
++	/* odd b */
++	KUNIT_EXPECT_EQ(test, lerp_u16(0x1, 0xf, t), 0xf);
++
++	/* b = a */
++	KUNIT_EXPECT_EQ(test, lerp_u16(0x10, 0x10, t), 0x10);
++
++	/* b = a + 1 */
++	KUNIT_EXPECT_EQ(test, lerp_u16(0x10, 0x11, t), 0x11);
++
++	/*** t chosen to verify the flipping point of result a (or b) to a+1 (or b-1) ***/
++	KUNIT_EXPECT_EQ(test, lerp_u16(0x0, 0x1, 0x80000000 - 1), 0x0);
++	KUNIT_EXPECT_EQ(test, lerp_u16(0x0, 0x1, 0x80000000), 0x1);
++}
++
++static struct kunit_case vkms_color_test_cases[] = {
++	KUNIT_CASE(vkms_color_test_get_lut_index),
++	KUNIT_CASE(vkms_color_test_lerp),
++	{}
++};
++
++static struct kunit_suite vkms_color_test_suite = {
++	.name = "vkms-color",
++	.test_cases = vkms_color_test_cases,
++};
++
++kunit_test_suite(vkms_color_test_suite);
++
++MODULE_DESCRIPTION("Kunit test for VKMS LUT handling");
++MODULE_LICENSE("GPL");
+diff --git a/drivers/gpu/drm/vkms/vkms_composer.c b/drivers/gpu/drm/vkms/vkms_composer.c
+index fa269d279e25..b0dc95f971d8 100644
+--- a/drivers/gpu/drm/vkms/vkms_composer.c
++++ b/drivers/gpu/drm/vkms/vkms_composer.c
+@@ -12,6 +12,8 @@
+ #include <linux/minmax.h>
+ 
+ #include "vkms_drv.h"
++#include <kunit/visibility.h>
++#include "vkms_composer.h"
+ 
+ static u16 pre_mul_blend_channel(u16 src, u16 dst, u16 alpha)
  {
- 	return ((s64)a) << DRM_FIXED_POINT;
+@@ -60,7 +62,7 @@ static void fill_background(const struct pixel_argb_u16 *background_color,
+ }
+ 
+ // lerp(a, b, t) = a + (b - a) * t
+-static u16 lerp_u16(u16 a, u16 b, s64 t)
++VISIBLE_IF_KUNIT u16 lerp_u16(u16 a, u16 b, s64 t)
+ {
+ 	s64 a_fp = drm_int2fixp(a);
+ 	s64 b_fp = drm_int2fixp(b);
+@@ -69,13 +71,15 @@ static u16 lerp_u16(u16 a, u16 b, s64 t)
+ 
+ 	return drm_fixp2int_round(a_fp + delta);
+ }
++EXPORT_SYMBOL_IF_KUNIT(lerp_u16);
+ 
+-static s64 get_lut_index(const struct vkms_color_lut *lut, u16 channel_value)
++VISIBLE_IF_KUNIT s64 get_lut_index(const struct vkms_color_lut *lut, u16 channel_value)
+ {
+ 	s64 color_channel_fp = drm_int2fixp(channel_value);
+ 
+ 	return drm_fixp_mul(color_channel_fp, lut->channel_value2index_ratio);
+ }
++EXPORT_SYMBOL_IF_KUNIT(get_lut_index);
+ 
+ /*
+  * This enum is related to the positions of the variables inside
+diff --git a/drivers/gpu/drm/vkms/vkms_composer.h b/drivers/gpu/drm/vkms/vkms_composer.h
+new file mode 100644
+index 000000000000..9316a053e7d7
+--- /dev/null
++++ b/drivers/gpu/drm/vkms/vkms_composer.h
+@@ -0,0 +1,13 @@
++/* SPDX-License-Identifier: GPL-2.0+ */
++
++#ifndef _VKMS_COMPOSER_H_
++#define _VKMS_COMPOSER_H_
++
++#include <kunit/visibility.h>
++
++#if IS_ENABLED(CONFIG_KUNIT)
++u16 lerp_u16(u16 a, u16 b, s64 t);
++s64 get_lut_index(const struct vkms_color_lut *lut, u16 channel_value);
++#endif
++
++#endif /* _VKMS_COMPOSER_H_ */
 -- 
 2.43.0
 
