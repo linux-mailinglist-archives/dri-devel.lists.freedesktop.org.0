@@ -2,85 +2,85 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 52429ADF359
-	for <lists+dri-devel@lfdr.de>; Wed, 18 Jun 2025 19:04:29 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id A7C87ADF36B
+	for <lists+dri-devel@lfdr.de>; Wed, 18 Jun 2025 19:06:22 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3ACF610E1F0;
-	Wed, 18 Jun 2025 17:04:27 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2ECEA10E14F;
+	Wed, 18 Jun 2025 17:06:20 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="iV6NFl/4";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="KSGtuTxV";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pj1-f54.google.com (mail-pj1-f54.google.com
- [209.85.216.54])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E97F310E1F0;
- Wed, 18 Jun 2025 17:04:25 +0000 (UTC)
-Received: by mail-pj1-f54.google.com with SMTP id
- 98e67ed59e1d1-31384c8ba66so1295491a91.1; 
- Wed, 18 Jun 2025 10:04:25 -0700 (PDT)
+Received: from mail-pj1-f46.google.com (mail-pj1-f46.google.com
+ [209.85.216.46])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 145EA10E14F;
+ Wed, 18 Jun 2025 17:06:16 +0000 (UTC)
+Received: by mail-pj1-f46.google.com with SMTP id
+ 98e67ed59e1d1-312efc384fcso1231075a91.3; 
+ Wed, 18 Jun 2025 10:06:16 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1750266265; x=1750871065; darn=lists.freedesktop.org;
+ d=gmail.com; s=20230601; t=1750266376; x=1750871176; darn=lists.freedesktop.org;
  h=content-transfer-encoding:cc:to:subject:message-id:date:from
  :in-reply-to:references:mime-version:from:to:cc:subject:date
  :message-id:reply-to;
- bh=bzVpmXFF+T69S76tPY21hKIVM7O6QGPZHJ4LN2Hdnks=;
- b=iV6NFl/4eIFX+e/CuR0zNnwZPxvq1vopVSHEPzSzM99PvIep2dmJpwdWPDGPP1c/RQ
- 8g0oTrv+sBcIG3mL8g9HYZAPcHqzQIRaLuLXQB9NzTQdF1pEdgbRHKz7sR9ucv9gdInv
- rpjS55Kq8NFm/1xuyPZ7YmKwOQoMT5ioMTR1cudnqCpPcf9csE+CKzF/9NrxIaeYnyfa
- e0NGFChUKP/bwsIxmBn8rZvZT1WKIft1uhaw4Go605UgJgo+6AOsAGibnW+Sb8dH63Ld
- Wdr0MpPbo7jLK6apzFzCiN9cO/UWL+dkxWW9i3BUVeO2na/B6KYcorAYB9/ElUvQPdU0
- g47A==
+ bh=IQ+ULoaBxec9yBNcJflV6Y412Q8N+SG1nYyU9X2N3BA=;
+ b=KSGtuTxVeh7oPMOLO9KkKVtg2mkOCBpyKuWbR+/LmxfJXQTWFFg9WKrJJ6VnniAZ1A
+ PIJyY5erUiyXWZb3E4hhItXVUQyYb02rHgFySMlu98UECLKgi5iOu1R8khrw4WmVfkFv
+ 77arELRrpZqHFVvhbPfXx7wUgZlCLMKc+akByn3V+3w3yVc/Mt+4WZ59yDYAGNB9WiZ+
+ scdcsK/Ck5irKWlh0nsZpQujRCa3iDI0pNaZuYHBBqmi+OotvsmfXCyhEK9jD3+Qnv95
+ a2RHW64FzrABTEx6LZuOb2sj7fi+9KgFqMk4JoASG4Zu3PYR40WPSK5hYIZWLFFjiWmv
+ IcIw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1750266265; x=1750871065;
+ d=1e100.net; s=20230601; t=1750266376; x=1750871176;
  h=content-transfer-encoding:cc:to:subject:message-id:date:from
  :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=bzVpmXFF+T69S76tPY21hKIVM7O6QGPZHJ4LN2Hdnks=;
- b=T9Euf8Mjfid9UUX0sMQJ+2gnyRmKMnXo09wv1AHsl04700Mw5WScSCSxgpUuvkOfI6
- fnaSYu8lQ5x8giBSUfTgYVC5d8BM0Cu6uqzDwH7P1gHCxbcd7p9LnnOZpXNEI8+Fngf3
- dWYXcf6YjxahGNzC19m/SP08a01cQ2SLFgEVV0y7c+uTjCf8ABTggTXsY8UAl46iqnDf
- DK9qe0OZpQMdaKxsEq9lUmFgo/XB0c3CIeJTozfEEa0qrH01cctTPCLzfHDlWSUpN1qz
- HTbhy4AFO0riTTZn0eLn6UnLBA7wam89oLv9pkYlxf0oOhcazOt02CaSFZfVwMvpJWRS
- ZQYw==
+ bh=IQ+ULoaBxec9yBNcJflV6Y412Q8N+SG1nYyU9X2N3BA=;
+ b=JYQLvtJ2P8Zleh8J2vfcmVIknnckd8QGwC+cUNGfl5EzYQfEN7JyWfg/Zub/F38Ejz
+ qLxa5QxNtRCYCwxenux8xQr9WDu07QgrgYCeIVviUTLAz5pehKzABFDjT5KGyDg4fBej
+ 4cKuWHvBg4vVl0H64vpZy1ZaZwsSyK7yjTW/vf/unH1k80L4GaoAeLzJ7qXYEdP99Dc4
+ rlwxLCCyMX0Z9ddKsSZccdPsu6n/S79kOA+5fmRSZUg02dlyoVOtKTyOHOrlso/NCkPC
+ ZCz+9G83wdMThg+iIAh685cn8MEMDX+27SUkiVH7kg1OG2vwP5ntugT7cAnLOIA/ViR8
+ e7aA==
 X-Forwarded-Encrypted: i=1;
- AJvYcCVbPBn4qcfD/BeyHvRXMjpoNuxhVOw1WG+WXesui9TEV+Y/VjpTVgpQrlKwTo5WYAIgM5Fvkt3Rtg==@lists.freedesktop.org,
- AJvYcCX2ffE6HtCqxZHy67gDOcrfqEud3G2f1q3lxj1ID4+lnZdxZ3IjP2QPZqEfNJTJZdW5R84nTkK3M4M=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YzCwIgmwziJWCkFfYyEelVFoEAUbfts/DF0zuvg+o3JwJmjmYNa
- g6fk2PAXI+BON1bOUbtdSXZsFM6/075R9fyU08pbL3WdAN4NPCXfEE02ps0bW9guy/tcJgmnBxr
- ftC8w1lYMNeRlo84LB0Db1/UI9mqN8qs=
-X-Gm-Gg: ASbGncv+Zt/n3vawQdB26vlybtxR9DXXTfFdmkC0SeT/FRPFy/6o4claZT0MJhlO0Sb
- faiILCVlEorV3daBIRSDQcJR/xLo/Wy87qDzGSZysLWrlItEqeTR6e7fYxKXJpEWswhb6jy2fbm
- lqQuGQiTLWEOiHQ0NUYdCOZnKUeh6NOUiZkXryLW54U+U=
-X-Google-Smtp-Source: AGHT+IGLPSVFYPhvf1j/K9i5Ol5itQWfSDa0TfKsaOdtXXSM6IGI5PpH0AQX2y0lYKJIABjfvnv4mQ4chj2kWgpmo4Q=
-X-Received: by 2002:a17:90b:4d12:b0:310:8d79:dfe4 with SMTP id
- 98e67ed59e1d1-31425ae54f4mr4444282a91.4.1750266265350; Wed, 18 Jun 2025
- 10:04:25 -0700 (PDT)
+ AJvYcCU/OTJhr+etgA676waOCCjpjskIAvq4rsQB417cegBBfiFQPARSk14M9O2KJUs82v3A1RFIJchzqg==@lists.freedesktop.org,
+ AJvYcCUTPjJRYXNr8V0lNJyb6/0RpN42Pj624XCa7+6vwAZ/fgjgudTVhxWXnzO0fufMgdiPZliC3VxNM1I=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0Yw1fHpb4qv9O88SUr9HkPUc1g6pvlf3vJ8mbJr+wGQoortF6UiC
+ FS4S7c88x1kSJ9ou3kZwzfOjfY2O4EHwnB+nr4tHW2+rXoweaV2DD7Y8s+5q62qspgBku09v/XH
+ r7AIGBtVqW7p4D92J/z1L71HzF3wyKpM=
+X-Gm-Gg: ASbGncsiaYM/oQqDFGuzj+OcZKON8knrfSN9iTrSGnphuSIG2v+zx43XFroGpynY0Ig
+ noscLgX3gZlWGijrEpAOyw6yitAZznS71GyVukXP3Gw6/8EV+AOGCALQk2rUdp8iMoNmM+s2xQD
+ 3t/UENT3NEgp1JYn8NqN+xahaYn6Y0ucxYb2plYIY+i04=
+X-Google-Smtp-Source: AGHT+IHirtqhFXsuURYJFw2U0NHBhqBhBYGB1DxViI/aU8M6gaMBzEOkQBGGBiqg7VHDZ1qURJrmwHpGk9SmvSWMmek=
+X-Received: by 2002:a17:90b:5825:b0:30a:80bc:ad4 with SMTP id
+ 98e67ed59e1d1-31425261c29mr3942028a91.0.1750266375986; Wed, 18 Jun 2025
+ 10:06:15 -0700 (PDT)
 MIME-Version: 1.0
 References: <20250615-ptr-as-ptr-v12-0-f43b024581e8@gmail.com>
- <20250615-ptr-as-ptr-v12-4-f43b024581e8@gmail.com>
- <CAJ-ks9k0vAw9UHx-s9uD9u0LufvgnojtrFoG=AH40Gp9HnxEDg@mail.gmail.com>
-In-Reply-To: <CAJ-ks9k0vAw9UHx-s9uD9u0LufvgnojtrFoG=AH40Gp9HnxEDg@mail.gmail.com>
+ <20250615-ptr-as-ptr-v12-5-f43b024581e8@gmail.com>
+ <CAJ-ks9=P=N=5L8yre_C7xKoEt=t0f=Sf3ZY5POHuhb_3+5GO3w@mail.gmail.com>
+In-Reply-To: <CAJ-ks9=P=N=5L8yre_C7xKoEt=t0f=Sf3ZY5POHuhb_3+5GO3w@mail.gmail.com>
 From: Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>
-Date: Wed, 18 Jun 2025 19:04:11 +0200
-X-Gm-Features: Ac12FXzqpoYx_1GdDyAZ3UU1L_A1NGXd58Gt0NSR1KeeHmAk1xTtSvY9Na-qvaw
-Message-ID: <CANiq72n4rr-S5NtFECxpd8FzkZvE8mg++p0qWDLK7+C0ru1Tew@mail.gmail.com>
-Subject: Re: [PATCH v12 4/6] rust: enable `clippy::as_underscore` lint
-To: Tamir Duberstein <tamird@gmail.com>, Alice Ryhl <aliceryhl@google.com>, 
- Christian Brauner <brauner@kernel.org>, Danilo Krummrich <dakr@kernel.org>, 
- Greg KH <gregkh@linuxfoundation.org>, Tejun Heo <tj@kernel.org>
+Date: Wed, 18 Jun 2025 19:06:02 +0200
+X-Gm-Features: Ac12FXyBNxzN0lq5c5vwJkk5sgyraS1J6su2qYnb3x7QnOeHycaA3OMq8R_Q0z8
+Message-ID: <CANiq72nkN4u3tTihF9MQFtFe4AizBvb_Te9oSLtvOjNfzxq3QQ@mail.gmail.com>
+Subject: Re: [PATCH v12 5/6] rust: enable `clippy::cast_lossless` lint
+To: Tamir Duberstein <tamird@gmail.com>, Jocelyn Falempe <jfalempe@redhat.com>,
+ FUJITA Tomonori <fujita.tomonori@gmail.com>
 Cc: Masahiro Yamada <masahiroy@kernel.org>,
  Nathan Chancellor <nathan@kernel.org>, 
  Miguel Ojeda <ojeda@kernel.org>, Alex Gaynor <alex.gaynor@gmail.com>, 
  Boqun Feng <boqun.feng@gmail.com>, Gary Guo <gary@garyguo.net>, 
  =?UTF-8?Q?Bj=C3=B6rn_Roy_Baron?= <bjorn3_gh@protonmail.com>, 
- Andreas Hindborg <a.hindborg@kernel.org>, Trevor Gross <tmgross@umich.edu>, 
- "Rafael J. Wysocki" <rafael@kernel.org>,
- Brendan Higgins <brendan.higgins@linux.dev>, 
- David Gow <davidgow@google.com>, Rae Moar <rmoar@google.com>, 
- Bjorn Helgaas <bhelgaas@google.com>, Luis Chamberlain <mcgrof@kernel.org>, 
- Russ Weight <russ.weight@linux.dev>, Rob Herring <robh@kernel.org>, 
- Saravana Kannan <saravanak@google.com>,
+ Andreas Hindborg <a.hindborg@kernel.org>, Alice Ryhl <aliceryhl@google.com>, 
+ Trevor Gross <tmgross@umich.edu>, Danilo Krummrich <dakr@kernel.org>, 
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ "Rafael J. Wysocki" <rafael@kernel.org>, 
+ Brendan Higgins <brendan.higgins@linux.dev>, David Gow <davidgow@google.com>, 
+ Rae Moar <rmoar@google.com>, Bjorn Helgaas <bhelgaas@google.com>, 
+ Luis Chamberlain <mcgrof@kernel.org>, Russ Weight <russ.weight@linux.dev>,
+ Rob Herring <robh@kernel.org>, Saravana Kannan <saravanak@google.com>,
  Abdiel Janulgue <abdiel.janulgue@gmail.com>, 
  Daniel Almeida <daniel.almeida@collabora.com>,
  Robin Murphy <robin.murphy@arm.com>, 
@@ -88,12 +88,10 @@ Cc: Masahiro Yamada <masahiroy@kernel.org>,
  Maxime Ripard <mripard@kernel.org>, 
  Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
  Simona Vetter <simona@ffwll.ch>, 
- FUJITA Tomonori <fujita.tomonori@gmail.com>,
- Nicolas Schier <nicolas.schier@linux.dev>, 
- Frederic Weisbecker <frederic@kernel.org>, Lyude Paul <lyude@redhat.com>, 
- Thomas Gleixner <tglx@linutronix.de>,
- Anna-Maria Behnsen <anna-maria@linutronix.de>, 
- Benno Lossin <lossin@kernel.org>,
+ Nicolas Schier <nicolas.schier@linux.dev>,
+ Frederic Weisbecker <frederic@kernel.org>, 
+ Lyude Paul <lyude@redhat.com>, Thomas Gleixner <tglx@linutronix.de>, 
+ Anna-Maria Behnsen <anna-maria@linutronix.de>, Benno Lossin <lossin@kernel.org>,
  =?UTF-8?Q?Krzysztof_Wilczy=C5=84ski?= <kwilczynski@kernel.org>, 
  John Stultz <jstultz@google.com>, Stephen Boyd <sboyd@kernel.org>, 
  Lorenzo Stoakes <lorenzo.stoakes@oracle.com>,
@@ -122,13 +120,12 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, Jun 18, 2025 at 3:51=E2=80=AFPM Tamir Duberstein <tamird@gmail.com>=
+On Wed, Jun 18, 2025 at 3:52=E2=80=AFPM Tamir Duberstein <tamird@gmail.com>=
  wrote:
 >
-> @Danilo Krummrich could you please have a look for nova?
+> @Danilo Krummrich could you please have a look for drm and nova?
 
-Alice, Christian, Danilo, Greg, Tejun: it would also be nice to get
-Acked-by's for your (other) bits.
+Jocelyn, Tomo: it would also be nice to get Acked-by's for your bits.
 
 Thanks!
 
