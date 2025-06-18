@@ -2,71 +2,55 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2A4F0ADE74F
-	for <lists+dri-devel@lfdr.de>; Wed, 18 Jun 2025 11:41:42 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id B6BCCADE72B
+	for <lists+dri-devel@lfdr.de>; Wed, 18 Jun 2025 11:38:57 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7522510E7D9;
-	Wed, 18 Jun 2025 09:41:40 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8109910E05B;
+	Wed, 18 Jun 2025 09:38:55 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=redhat.com header.i=@redhat.com header.b="KJoxqxES";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="nDAMDTLM";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [170.10.129.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1C07110E7DB
- for <dri-devel@lists.freedesktop.org>; Wed, 18 Jun 2025 09:41:39 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1750239698;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=aWTTi8FZbYEDW5xiUYs3MEDmgqvF5cs/pip6jmk+Nrw=;
- b=KJoxqxESAadilK2U0hcaYro1bjAj2cQKwjOC8l1eTZQz5rvSF/lUvX3GATrMFZTJcC0IBf
- EY+Gfti7G6q53FMqhsnqtOVlibktjrNRO8ZQvzdfxMLV42eRPqd89oYJ1ZUNhHm9zYqUJI
- X6lKN/NgwED2xGUBixeag28HsDvGdtE=
-Received: from mx-prod-mc-06.mail-002.prod.us-west-2.aws.redhat.com
- (ec2-35-165-154-97.us-west-2.compute.amazonaws.com [35.165.154.97]) by
- relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
- cipher=TLS_AES_256_GCM_SHA384) id us-mta-557-9cm4Ya36MEKpJK4UZSDBcw-1; Wed,
- 18 Jun 2025 05:41:33 -0400
-X-MC-Unique: 9cm4Ya36MEKpJK4UZSDBcw-1
-X-Mimecast-MFC-AGG-ID: 9cm4Ya36MEKpJK4UZSDBcw_1750239691
-Received: from mx-prod-int-04.mail-002.prod.us-west-2.aws.redhat.com
- (mx-prod-int-04.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.40])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
- (No client certificate requested)
- by mx-prod-mc-06.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS
- id 9A98B180028D; Wed, 18 Jun 2025 09:41:31 +0000 (UTC)
-Received: from hydra.redhat.com (unknown [10.45.225.137])
- by mx-prod-int-04.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTP
- id E3AEC19560A3; Wed, 18 Jun 2025 09:41:25 +0000 (UTC)
-From: Jocelyn Falempe <jfalempe@redhat.com>
-To: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Jani Nikula <jani.nikula@linux.intel.com>,
- Rodrigo Vivi <rodrigo.vivi@intel.com>,
- Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
- Tvrtko Ursulin <tursulin@ursulin.net>,
- =?UTF-8?q?Ville=20Syrj=C3=A4l=C3=A4?= <ville.syrjala@linux.intel.com>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- Christian Koenig <christian.koenig@amd.com>, Huang Rui <ray.huang@amd.com>,
- Matthew Auld <matthew.auld@intel.com>,
- Matthew Brost <matthew.brost@intel.com>,
+Received: from tor.source.kernel.org (tor.source.kernel.org [172.105.4.254])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B30DE10E05B
+ for <dri-devel@lists.freedesktop.org>; Wed, 18 Jun 2025 09:38:53 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+ by tor.source.kernel.org (Postfix) with ESMTP id 91E71629C5;
+ Wed, 18 Jun 2025 09:38:46 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0AA3AC4CEE7;
+ Wed, 18 Jun 2025 09:38:42 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1750239526;
+ bh=Dk4yynuLUZzdLhb5FVHjc9U3LZysX6xe3JJlSsT39M8=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=nDAMDTLM1J0youlb6K3un6RIsegAIe71aAVZKYlZNqCocGSR1R4PGVdnOydOBOIsi
+ EaVptVlHCw/gjGeceazkbSOUt01S2EhCdYXpBsw78uvD1o0CVJnVf15FhCbqRpdKVN
+ 4+JeXwh/gKjy88xTZZVaKQSj1PTL2COk76mN+pYDnRCc7+pIyQuNf8qGW9ZWYfdVm0
+ +UclJJlLzHN3EAfbl6leKnMXLxYz3I/cgnylMcgqGnkhcWk7K26SYeKj4fWNM2zoyl
+ 6+Szq0KbGRb8q6pIKRaO+P6UzhwFFv03vuj1NlnwL+fU8LIUMFFv6K1MoFNlo/cXm+
+ nMOFBPg4llGtQ==
+Date: Wed, 18 Jun 2025 11:38:40 +0200
+From: Danilo Krummrich <dakr@kernel.org>
+To: Alice Ryhl <aliceryhl@google.com>
+Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
  Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>, intel-gfx@lists.freedesktop.org,
- intel-xe@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org
-Cc: Jocelyn Falempe <jfalempe@redhat.com>
-Subject: [PATCH v10 10/10] drm/i915/psr: Add intel_psr2_panic_force_full_update
-Date: Wed, 18 Jun 2025 11:31:28 +0200
-Message-ID: <20250618094011.238154-11-jfalempe@redhat.com>
-In-Reply-To: <20250618094011.238154-1-jfalempe@redhat.com>
-References: <20250618094011.238154-1-jfalempe@redhat.com>
+ Thomas Zimmermann <tzimmermann@suse.de>,
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+ Miguel Ojeda <ojeda@kernel.org>, Boqun Feng <boqun.feng@gmail.com>,
+ Gary Guo <gary@garyguo.net>,
+ =?iso-8859-1?Q?Bj=F6rn?= Roy Baron <bjorn3_gh@protonmail.com>,
+ Benno Lossin <lossin@kernel.org>, Andreas Hindborg <a.hindborg@kernel.org>,
+ Trevor Gross <tmgross@umich.edu>, dri-devel@lists.freedesktop.org,
+ rust-for-linux@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] rust: types: add Opaque::from_raw
+Message-ID: <aFKJILuksX90AJHc@pollux>
+References: <20250617-opaque-from-raw-v1-1-a2e99efa3ba2@google.com>
+ <aFFzi88miMbCZ0yQ@pollux> <aFJx2IqLfCjWsbVv@google.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Scanned-By: MIMEDefang 3.0 on 10.30.177.40
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <aFJx2IqLfCjWsbVv@google.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -82,97 +66,54 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-When the panic handler is called, configure the psr to send the full
-framebuffer to the monitor, otherwise the panic screen is only
-partially visible.
+On Wed, Jun 18, 2025 at 07:59:20AM +0000, Alice Ryhl wrote:
+> On Tue, Jun 17, 2025 at 03:54:19PM +0200, Danilo Krummrich wrote:
+> > On Tue, Jun 17, 2025 at 01:36:47PM +0000, Alice Ryhl wrote:
+> > > Since commit b20fbbc08a36 ("rust: check type of `$ptr` in
+> > > `container_of!`") we have enforced that the field pointer passed to
+> > > container_of! must match the declared field. This caused mismatches when
+> > > using a pointer to bindings::x for fields of type Opaque<bindings::x>.
+> > > 
+> > > This situation encourages the user to simply pass field.cast() to the
+> > > container_of! macro, but this is not great because you might
+> > > accidentally pass a *mut bindings::y when the field type is
+> > > Opaque<bindings::x>, which would be wrong.
+> > > 
+> > > To help catch this kind of mistake, add a new Opaque::from_raw that
+> > > wraps a raw pointer in Opaque without changing the inner type.
+> > 
+> > The patch does more than that, it also adds a hint to container_of!() and fixes
+> > up two occurences. I feel like we should split it up.
+> 
+> I think they go together pretty naturally, but I can split it if you
+> insist.
 
-Signed-off-by: Jocelyn Falempe <jfalempe@redhat.com>
----
+Nah, it's also fine for me to keep it as is, but in that case we should also
+mention the other changes in the commit message.
 
-v8:
- * Added in v8
+> > > +    /// The opposite operation of [`Opaque::raw_get`].
+> > > +    pub const fn from_raw(this: *const T) -> *const Self {
+> > 
+> > Do we want to name this from_raw()? Usually from_raw() methods return either
+> > Self or &'a Self.
+> > 
+> > Maybe something like cast_from() and rename raw_get() to cast_into()? I think
+> > the latter may be confusing anyways, since it sounds like it would do somthing
+> > with reference counting.
+> 
+> The name raw_get() mirrors the stdlib function UnsafeCell::raw_get().
+> The stdlib uses this naming because in Rust the word "get" normally has
+> nothing to do with reference counting - outside of the kernel, we use
+> "clone" for incrementing refcounts and nobody would ever call it "get".
 
- .../gpu/drm/i915/display/intel_atomic_plane.c |  7 +++++++
- drivers/gpu/drm/i915/display/intel_psr.c      | 20 +++++++++++++++++++
- drivers/gpu/drm/i915/display/intel_psr.h      |  2 ++
- 3 files changed, 29 insertions(+)
+Yeah, I'm aware. The main reason I proposed cast_into() is that it would fit
+much better with the newly introduced cast_from() (in case we go with that
+name).
 
-diff --git a/drivers/gpu/drm/i915/display/intel_atomic_plane.c b/drivers/gpu/drm/i915/display/intel_atomic_plane.c
-index 086195a11af9..82669367647a 100644
---- a/drivers/gpu/drm/i915/display/intel_atomic_plane.c
-+++ b/drivers/gpu/drm/i915/display/intel_atomic_plane.c
-@@ -58,6 +58,7 @@
- #include "intel_fb.h"
- #include "intel_fb_pin.h"
- #include "intel_fbdev.h"
-+#include "intel_psr.h"
- #include "skl_scaler.h"
- #include "skl_universal_plane.h"
- #include "skl_watermark.h"
-@@ -1319,6 +1320,7 @@ static unsigned int intel_4tile_get_offset(unsigned int width, unsigned int x, u
- static void intel_panic_flush(struct drm_plane *plane)
- {
- 	struct intel_plane_state *plane_state = to_intel_plane_state(plane->state);
-+	struct intel_crtc_state *crtc_state = to_intel_crtc_state(plane->state->crtc->state);
- 	struct intel_plane *iplane = to_intel_plane(plane);
- 	struct intel_display *display = to_intel_display(iplane);
- 	struct drm_framebuffer *fb = plane_state->hw.fb;
-@@ -1326,6 +1328,11 @@ static void intel_panic_flush(struct drm_plane *plane)
- 
- 	intel_bo_panic_finish(intel_fb);
- 
-+	if (crtc_state->enable_psr2_sel_fetch) {
-+		/* Force a full update for psr2 */
-+		intel_psr2_panic_force_full_update(display, crtc_state);
-+	}
-+
- 	/* Flush the cache and don't disable tiling if it's the fbdev framebuffer.*/
- 	if (intel_fb == intel_fbdev_framebuffer(display->fbdev.fbdev)) {
- 		struct iosys_map map;
-diff --git a/drivers/gpu/drm/i915/display/intel_psr.c b/drivers/gpu/drm/i915/display/intel_psr.c
-index 8bee2f592ae7..73bdc54d7831 100644
---- a/drivers/gpu/drm/i915/display/intel_psr.c
-+++ b/drivers/gpu/drm/i915/display/intel_psr.c
-@@ -2889,6 +2889,26 @@ int intel_psr2_sel_fetch_update(struct intel_atomic_state *state,
- 	return 0;
- }
- 
-+void intel_psr2_panic_force_full_update(struct intel_display *display,
-+					struct intel_crtc_state *crtc_state)
-+{
-+	struct intel_crtc *crtc = to_intel_crtc(crtc_state->uapi.crtc);
-+	enum transcoder cpu_transcoder = crtc_state->cpu_transcoder;
-+	u32 val = man_trk_ctl_enable_bit_get(display);
-+
-+	/* SF partial frame enable has to be set even on full update */
-+	val |= man_trk_ctl_partial_frame_bit_get(display);
-+	val |= man_trk_ctl_continuos_full_frame(display);
-+
-+	/* Directly write the register */
-+	intel_de_write_fw(display, PSR2_MAN_TRK_CTL(display, cpu_transcoder), val);
-+
-+	if (!crtc_state->enable_psr2_su_region_et)
-+		return;
-+
-+	intel_de_write_fw(display, PIPE_SRCSZ_ERLY_TPT(crtc->pipe), 0);
-+}
-+
- void intel_psr_pre_plane_update(struct intel_atomic_state *state,
- 				struct intel_crtc *crtc)
- {
-diff --git a/drivers/gpu/drm/i915/display/intel_psr.h b/drivers/gpu/drm/i915/display/intel_psr.h
-index 0cf53184f13f..9b061a22361f 100644
---- a/drivers/gpu/drm/i915/display/intel_psr.h
-+++ b/drivers/gpu/drm/i915/display/intel_psr.h
-@@ -57,6 +57,8 @@ int intel_psr2_sel_fetch_update(struct intel_atomic_state *state,
- 				struct intel_crtc *crtc);
- void intel_psr2_program_trans_man_trk_ctl(struct intel_dsb *dsb,
- 					  const struct intel_crtc_state *crtc_state);
-+void intel_psr2_panic_force_full_update(struct intel_display *display,
-+					struct intel_crtc_state *crtc_state);
- void intel_psr_pause(struct intel_dp *intel_dp);
- void intel_psr_resume(struct intel_dp *intel_dp);
- bool intel_psr_needs_vblank_notification(const struct intel_crtc_state *crtc_state);
--- 
-2.49.0
+I'm happy with other proposals too, I just think that from_raw() would be a bit
+inconsistent with how we use this name otherwise.
 
+> That said, it may still be worth to rename the method. Thoughts?
+
+I think it'd be good if it aligns naming wise with its counter part added in
+this patch and I don't see this happening with raw_get(). :-)
