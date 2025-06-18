@@ -2,19 +2,19 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id A4B46ADF136
-	for <lists+dri-devel@lfdr.de>; Wed, 18 Jun 2025 17:23:18 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2C2D6ADF13A
+	for <lists+dri-devel@lfdr.de>; Wed, 18 Jun 2025 17:23:23 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A0A8110E2C0;
-	Wed, 18 Jun 2025 15:23:15 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8CC1F10E89C;
+	Wed, 18 Jun 2025 15:23:21 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=igalia.com header.i=@igalia.com header.b="q/nbc807";
+	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=igalia.com header.i=@igalia.com header.b="rrz89Pep";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from fanzine2.igalia.com (fanzine2.igalia.com [213.97.179.56])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B6AFB10E2C0;
- Wed, 18 Jun 2025 15:23:14 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7742210E8A5;
+ Wed, 18 Jun 2025 15:23:20 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com; 
  s=20170329;
  h=Content-Transfer-Encoding:MIME-Version:References:In-Reply-To:
@@ -22,16 +22,16 @@ DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com;
  Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc
  :Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:List-Subscribe:
  List-Post:List-Owner:List-Archive;
- bh=6j/rjlgI8RVIRAvBBWO3UMww4myFRy9sztlLbnIGYuw=; b=q/nbc807U46in6qjsfcyrQhpkI
- 8g2mv3PbMzD6c/bW/GKNbxzbfFdEH52/0mWBM1SxKoh1pv2GZaCNK1lKwqCxImFhNUxdwXWjSLotH
- SZ/iBeNdGcw+pH+581ldOxD8WyuLOPjKocLZwYMqR9orti1Yx8ZnklwDK9pONlKKmnzKaFZje7XVp
- bhCcjL1EIIS9Ehd1BHftYeWM+xCSBaI9oKHmgNigvcCpMoOtvRj+cru6WmxD6Q34wbA2Awy5B7gep
- n+OnKF/5GZWfqaquiYVMgWA1a2U0vhXQ8Z2/0Nv3sNdcNxrcaZrB08MuU4Ys4SLm/UofMj2s69prB
- XIdgWicw==;
+ bh=Z3cFWrbQiY93WQg7GRii7C93h4vrxQiyIgdIvc/ni84=; b=rrz89PepaWbl2+xokGFGKn3Rlu
+ Wj8eIoWq2QhAr9qEng6AQiUnbo+KXJFV6dIvH7n43RMJxvsErsdOi0LcoDZXgwSdYrXi1HKefempa
+ x7Mfz3Fmlm6kU69qbxQHzwiE2zDnMnZLPGxFm8UgTMa586MbuZH1Tw/+PGo6iUuAqgFfDfvY6TtZA
+ dk27+WfewHSoc6O/Y4qjMGZCMZWz5Zd0witzDFyRtJkjJilx00wldh7T58PWDCJrXwqLqvsOrReRG
+ wbOeGW/OWvAOBLiRRD/GRVfIhyfMFA0IcV04Mttp2zLNSnCnbqDqxtAm8svpuze/Jz9peBnX8+cxA
+ WYcCeBTQ==;
 Received: from [189.6.13.79] (helo=killbill.home)
  by fanzine2.igalia.com with esmtpsa 
  (Cipher TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_256_GCM:256) (Exim)
- id 1uRud0-0057e5-Ur; Wed, 18 Jun 2025 17:23:07 +0200
+ id 1uRud6-0057e5-CM; Wed, 18 Jun 2025 17:23:12 +0200
 From: Melissa Wen <mwen@igalia.com>
 To: Alex Hung <alex.hung@amd.com>,
  Mario Limonciello <mario.limonciello@amd.com>,
@@ -41,10 +41,10 @@ To: Alex Hung <alex.hung@amd.com>,
 Cc: Jani Nikula <jani.nikula@linux.intel.com>,
  Michel Daenzer <michel.daenzer@mailbox.org>, amd-gfx@lists.freedesktop.org,
  dri-devel@lists.freedesktop.org, kernel-dev@igalia.com
-Subject: [PATCH v5 07/14] drm/amd/display: get SADB from drm_eld when parsing
- EDID caps
-Date: Wed, 18 Jun 2025 12:19:46 -0300
-Message-ID: <20250618152216.948406-8-mwen@igalia.com>
+Subject: [PATCH v5 08/14] drm/amd/display: simplify dm_helpers_parse_edid_caps
+ signature
+Date: Wed, 18 Jun 2025 12:19:47 -0300
+Message-ID: <20250618152216.948406-9-mwen@igalia.com>
 X-Mailer: git-send-email 2.47.2
 In-Reply-To: <20250618152216.948406-1-mwen@igalia.com>
 References: <20250618152216.948406-1-mwen@igalia.com>
@@ -65,54 +65,125 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-drm_edid_connector_update() updates display info, filling ELD with
-speaker allocation data in the last step of update_dislay_info(). Our
-goal is stopping using raw edid, so we can extract SADB from drm_eld
-instead of access raw edid to get audio caps.
+Pass dc_sink to dm_helpers_parse_edid_caps(), since it already contains
+edid info. It's a groundwork to get rid of raw edid stored as dc_edid.
 
-Reviewed-by: Mario Limonciello <mario.limonciello@amd.com>
 Signed-off-by: Melissa Wen <mwen@igalia.com>
 ---
- .../drm/amd/display/amdgpu_dm/amdgpu_dm_helpers.c | 15 +++------------
- 1 file changed, 3 insertions(+), 12 deletions(-)
 
+v4:
+- fix kernel-doc
+---
+ .../gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c |  5 +---
+ .../amd/display/amdgpu_dm/amdgpu_dm_helpers.c | 23 ++++++++-----------
+ drivers/gpu/drm/amd/display/dc/dm_helpers.h   |  7 ++----
+ .../drm/amd/display/dc/link/link_detection.c  |  5 +---
+ 4 files changed, 13 insertions(+), 27 deletions(-)
+
+diff --git a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
+index 2f806bc6322b..c7efeb9f38b6 100644
+--- a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
++++ b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
+@@ -7384,10 +7384,7 @@ static void amdgpu_dm_connector_funcs_force(struct drm_connector *connector)
+ 		memset(&dc_em_sink->edid_caps, 0, sizeof(struct dc_edid_caps));
+ 		memmove(dc_em_sink->dc_edid.raw_edid, edid,
+ 			(edid->extensions + 1) * EDID_LENGTH);
+-		dm_helpers_parse_edid_caps(
+-			dc_link,
+-			&dc_em_sink->dc_edid,
+-			&dc_em_sink->edid_caps);
++		dm_helpers_parse_edid_caps(dc_link, dc_em_sink);
+ 	}
+ }
+ 
 diff --git a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_helpers.c b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_helpers.c
-index 10af9db47c39..e7cfbee6c67f 100644
+index e7cfbee6c67f..abfce44dcee7 100644
 --- a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_helpers.c
 +++ b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_helpers.c
-@@ -106,9 +106,8 @@ enum dc_edid_status dm_helpers_parse_edid_caps(
- 	struct edid *edid_buf = edid ? (struct edid *) edid->raw_edid : NULL;
+@@ -89,29 +89,27 @@ static void apply_edid_quirks(struct drm_device *dev,
+ /**
+  * dm_helpers_parse_edid_caps() - Parse edid caps
+  *
+- * @link: current detected link
+- * @edid:	[in] pointer to edid
+- * @edid_caps:	[in] pointer to edid caps
++ * @link: current detected link (connector)
++ * @sink: current detected sink (display)
+  *
+  * Return: void
+  */
+-enum dc_edid_status dm_helpers_parse_edid_caps(
+-		struct dc_link *link,
+-		const struct dc_edid *edid,
+-		struct dc_edid_caps *edid_caps)
++enum dc_edid_status dm_helpers_parse_edid_caps(struct dc_link *link,
++					       struct dc_sink *sink)
+ {
+ 	struct amdgpu_dm_connector *aconnector = link->priv;
+ 	struct drm_connector *connector = &aconnector->base;
+ 	struct drm_device *dev = connector->dev;
+-	struct edid *edid_buf = edid ? (struct edid *) edid->raw_edid : NULL;
++	struct edid *edid_buf;
  	const struct drm_edid *drm_edid;
  	struct drm_edid_product_id product_id;
--	int sad_count, sadb_count;
-+	int sad_count;
++	struct dc_edid_caps *edid_caps = &sink->edid_caps;
+ 	int sad_count;
  	int i = 0;
--	uint8_t *sadb = NULL;
  	enum dc_edid_status result = EDID_OK;
  
- 
-@@ -156,19 +155,11 @@ enum dc_edid_status dm_helpers_parse_edid_caps(
- 		edid_caps->audio_modes[i].sample_size = sad.byte2;
- 	}
- 
--	sadb_count = drm_edid_to_speaker_allocation((struct edid *) edid->raw_edid, &sadb);
 -
--	if (sadb_count < 0) {
--		DRM_ERROR("Couldn't read Speaker Allocation Data Block: %d\n", sadb_count);
--		sadb_count = 0;
--	}
+-	if (!edid_caps || !edid)
++	edid_buf = (struct edid *) &sink->dc_edid.raw_edid;
++	if (!edid_caps || !edid_buf)
+ 		return EDID_BAD_INPUT;
+ 
+ 	drm_edid = drm_edid_alloc(edid_buf, EDID_LENGTH * (edid_buf->extensions + 1));
+@@ -1030,10 +1028,7 @@ enum dc_edid_status dm_helpers_read_local_edid(
+ 		/* We don't need the original edid anymore */
+ 		drm_edid_free(drm_edid);
+ 
+-		edid_status = dm_helpers_parse_edid_caps(
+-						link,
+-						&sink->dc_edid,
+-						&sink->edid_caps);
++		edid_status = dm_helpers_parse_edid_caps(link, sink);
+ 
+ 	} while (edid_status == EDID_BAD_CHECKSUM && --retry > 0);
+ 
+diff --git a/drivers/gpu/drm/amd/display/dc/dm_helpers.h b/drivers/gpu/drm/amd/display/dc/dm_helpers.h
+index 9d160b39e8c5..ce6a70368bd0 100644
+--- a/drivers/gpu/drm/amd/display/dc/dm_helpers.h
++++ b/drivers/gpu/drm/amd/display/dc/dm_helpers.h
+@@ -59,11 +59,8 @@ void dm_helpers_free_gpu_mem(
+ 		enum dc_gpu_mem_alloc_type type,
+ 		void *pvMem);
+ 
+-enum dc_edid_status dm_helpers_parse_edid_caps(
+-	struct dc_link *link,
+-	const struct dc_edid *edid,
+-	struct dc_edid_caps *edid_caps);
 -
--	if (sadb_count)
--		edid_caps->speaker_flags = sadb[0];
-+	if (connector->eld[DRM_ELD_SPEAKER])
-+		edid_caps->speaker_flags = connector->eld[DRM_ELD_SPEAKER];
- 	else
- 		edid_caps->speaker_flags = DEFAULT_SPEAKER_LOCATION;
++enum dc_edid_status dm_helpers_parse_edid_caps(struct dc_link *link,
++					       struct dc_sink *sink);
  
--	kfree(sadb);
- 	drm_edid_free(drm_edid);
+ /*
+  * Update DP branch info
+diff --git a/drivers/gpu/drm/amd/display/dc/link/link_detection.c b/drivers/gpu/drm/amd/display/dc/link/link_detection.c
+index 9655e6fa53a4..5ac361c59371 100644
+--- a/drivers/gpu/drm/amd/display/dc/link/link_detection.c
++++ b/drivers/gpu/drm/amd/display/dc/link/link_detection.c
+@@ -1420,10 +1420,7 @@ struct dc_sink *link_add_remote_sink(
+ 			dc_sink))
+ 		goto fail_add_sink;
  
- 	return result;
+-	edid_status = dm_helpers_parse_edid_caps(
+-			link,
+-			&dc_sink->dc_edid,
+-			&dc_sink->edid_caps);
++	edid_status = dm_helpers_parse_edid_caps(link, dc_sink);
+ 
+ 	/*
+ 	 * Treat device as no EDID device if EDID
 -- 
 2.47.2
 
