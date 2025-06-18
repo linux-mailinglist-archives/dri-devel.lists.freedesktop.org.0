@@ -2,74 +2,60 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7FFF2ADE7C3
-	for <lists+dri-devel@lfdr.de>; Wed, 18 Jun 2025 12:02:18 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6019FADE7E5
+	for <lists+dri-devel@lfdr.de>; Wed, 18 Jun 2025 12:05:33 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id CCD0889A5D;
-	Wed, 18 Jun 2025 10:02:16 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9F84810E1D7;
+	Wed, 18 Jun 2025 10:05:30 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=samsung.com header.i=@samsung.com header.b="GC3BPgKI";
+	dkim=pass (1024-bit key; unprotected) header.d=ti.com header.i=@ti.com header.b="HdoevnXe";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mailout1.w1.samsung.com (mailout1.w1.samsung.com
- [210.118.77.11])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 90B7D10E80A
- for <dri-devel@lists.freedesktop.org>; Wed, 18 Jun 2025 10:02:15 +0000 (UTC)
-Received: from eucas1p2.samsung.com (unknown [182.198.249.207])
- by mailout1.w1.samsung.com (KnoxPortal) with ESMTP id
- 20250618100214euoutp013d1cddc67f74ff406795cdd5466fdcef~KGttPgkKl2874528745euoutp01U
- for <dri-devel@lists.freedesktop.org>; Wed, 18 Jun 2025 10:02:14 +0000 (GMT)
-DKIM-Filter: OpenDKIM Filter v2.11.0 mailout1.w1.samsung.com
- 20250618100214euoutp013d1cddc67f74ff406795cdd5466fdcef~KGttPgkKl2874528745euoutp01U
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=samsung.com;
- s=mail20170921; t=1750240934;
- bh=mnBVL+TiGzXcC6y2voLdZWspxbuthkDVJJY2G1jD6rI=;
- h=Date:Subject:To:Cc:From:In-Reply-To:References:From;
- b=GC3BPgKISPlo40xYj6LKCbLn1TG1GuRBIKI9k6RDE0adYjbjWW3V+CNPIUK9POa+G
- rg5JrO6X8a5L6Cb9k6vfyFay+hzBb0YwAiYLKJJETW4/vcj5VXxJiUG4KTiBXAVNCG
- 6dlS2WNdMZmzVtCi5Co7nZdwml43AG3hXU3q4lFQ=
-Received: from eusmtip2.samsung.com (unknown [203.254.199.222]) by
- eucas1p1.samsung.com (KnoxPortal) with ESMTPA id
- 20250618100213eucas1p10ead7541682e1c8b8985121bf634c83a~KGts1_7dl0901009010eucas1p1v;
- Wed, 18 Jun 2025 10:02:13 +0000 (GMT)
-Received: from [192.168.1.44] (unknown [106.210.136.40]) by
- eusmtip2.samsung.com (KnoxPortal) with ESMTPA id
- 20250618100212eusmtip23b29d2b5e5877af3f8f5b7582a97d35d~KGtr0JUpH2681926819eusmtip2Q;
- Wed, 18 Jun 2025 10:02:12 +0000 (GMT)
-Message-ID: <4772bf3d-c7d7-4108-8bc6-ee28953c89c1@samsung.com>
-Date: Wed, 18 Jun 2025 12:02:12 +0200
+Received: from lelvem-ot01.ext.ti.com (lelvem-ot01.ext.ti.com [198.47.23.234])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 532CB10E1D7
+ for <dri-devel@lists.freedesktop.org>; Wed, 18 Jun 2025 10:05:29 +0000 (UTC)
+Received: from fllvem-sh03.itg.ti.com ([10.64.41.86])
+ by lelvem-ot01.ext.ti.com (8.15.2/8.15.2) with ESMTP id 55IA5CUY204660;
+ Wed, 18 Jun 2025 05:05:12 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
+ s=ti-com-17Q1; t=1750241112;
+ bh=SUPIbMRvcUOUX0yS8ijo8OimduZh/OQY25aJoVLxKbg=;
+ h=From:To:CC:Subject:Date;
+ b=HdoevnXeSifK8nPbNOn3kK0ZJhxE6tIzOjE+cx+Q0bCCguYCTeYzyhT1dC2kGPCEt
+ BILOy7nAr27K5UNlzRq07nFOqqWPPQEaVzAJAIxFI3I9X/cELAftcSwvmW4OviQw/8
+ MqC6S+QyL8sCOaN23fpgXrHesK329WOyhJ3mfwoI=
+Received: from DLEE113.ent.ti.com (dlee113.ent.ti.com [157.170.170.24])
+ by fllvem-sh03.itg.ti.com (8.18.1/8.18.1) with ESMTPS id 55IA5CUZ2646800
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES128-SHA256 bits=128 verify=FAIL);
+ Wed, 18 Jun 2025 05:05:12 -0500
+Received: from DLEE105.ent.ti.com (157.170.170.35) by DLEE113.ent.ti.com
+ (157.170.170.24) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2507.55; Wed, 18
+ Jun 2025 05:05:10 -0500
+Received: from lelvem-mr06.itg.ti.com (10.180.75.8) by DLEE105.ent.ti.com
+ (157.170.170.35) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2507.55 via
+ Frontend Transport; Wed, 18 Jun 2025 05:05:10 -0500
+Received: from localhost (jayesh-hp-z2-tower-g5-workstation.dhcp.ti.com
+ [172.24.227.143])
+ by lelvem-mr06.itg.ti.com (8.18.1/8.18.1) with ESMTP id 55IA59gi3290106;
+ Wed, 18 Jun 2025 05:05:10 -0500
+From: Jayesh Choudhary <j-choudhary@ti.com>
+To: <jyri.sarha@iki.fi>, <dri-devel@lists.freedesktop.org>, <devarsht@ti.com>, 
+ <tomi.valkeinen@ideasonboard.com>
+CC: <maarten.lankhorst@linux.intel.com>, <mripard@kernel.org>,
+ <tzimmermann@suse.de>, <airlied@gmail.com>, <simona@ffwll.ch>,
+ <linux-kernel@vger.kernel.org>, <j-choudhary@ti.com>
+Subject: [PATCH v2] drm/tidss: Decouple max_pclk from tidss feats to remove
+ clock dependency
+Date: Wed, 18 Jun 2025 15:35:09 +0530
+Message-ID: <20250618100509.20386-1-j-choudhary@ti.com>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v4 0/8] Add TH1520 GPU support with power sequencing
-To: Drew Fustini <drew@pdp7.com>
-Cc: Guo Ren <guoren@kernel.org>, Fu Wei <wefu@redhat.com>, Rob Herring
- <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
- <conor+dt@kernel.org>, Bartosz Golaszewski <brgl@bgdev.pl>, Philipp Zabel
- <p.zabel@pengutronix.de>, Frank Binns <frank.binns@imgtec.com>, Matt Coster
- <matt.coster@imgtec.com>, Maarten Lankhorst
- <maarten.lankhorst@linux.intel.com>, Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
- Simona Vetter <simona@ffwll.ch>, Paul Walmsley <paul.walmsley@sifive.com>,
- Palmer Dabbelt <palmer@dabbelt.com>, Albert Ou <aou@eecs.berkeley.edu>,
- Alexandre Ghiti <alex@ghiti.fr>, Ulf Hansson <ulf.hansson@linaro.org>, Marek
- Szyprowski <m.szyprowski@samsung.com>, linux-riscv@lists.infradead.org,
- devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-pm@vger.kernel.org, dri-devel@lists.freedesktop.org, Krzysztof
- Kozlowski <krzysztof.kozlowski@linaro.org>
-Content-Language: en-US
-From: Michal Wilczynski <m.wilczynski@samsung.com>
-In-Reply-To: <aFHosEvn35Fr3LFv@x1>
-Content-Transfer-Encoding: 7bit
-X-CMS-MailID: 20250618100213eucas1p10ead7541682e1c8b8985121bf634c83a
-X-Msg-Generator: CA
-Content-Type: text/plain; charset="utf-8"
-X-RootMTR: 20250614180906eucas1p116f8a13a4013edd3bbedfd2e4a8b0aa3
-X-EPHeader: CA
-X-CMS-RootMailID: 20250614180906eucas1p116f8a13a4013edd3bbedfd2e4a8b0aa3
-References: <CGME20250614180906eucas1p116f8a13a4013edd3bbedfd2e4a8b0aa3@eucas1p1.samsung.com>
- <20250614-apr_14_for_sending-v4-0-8e3945c819cd@samsung.com>
- <aFHosEvn35Fr3LFv@x1>
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-C2ProcessedOrg: 333ef613-75bf-4e12-a4b1-8e3623f5dcea
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -85,85 +71,244 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+TIDSS hardware by itself does not have variable max_pclk for each VP.
+Each VP supports a fixed maximum pixel clock. K2 devices and AM62*
+devices uses "ultra-light" version where each VP supports a max of
+300MHz whereas J7* devices uses TIDSS where all VP can support a
+max pclk of 600MHz.
+The limitation that has been modeled till now comes from the clock
+(PLL can only be programmed to a particular max value). Due to this
+we end up using different compatible for each SoC when the clocking
+architecture changes for VPs, even when the hardware is essentially
+the same.
+max_pclk cannot be entirely removed since the display controller
+should tell if a particular mode clock can be supported or not in crtc's
+"mode_valid()" call. So remove "max_pclk_khz" from the static display
+feat and add it to "tidss_device" structure which would be modified in
+runtime. In mode_valid() call, check if a best frequency match for mode
+clock can be found or not using "clk_round_rate()". Based on that,
+propagate "max_pclk" and check max_clk again only if the requested mode
+clock is greater than saved value. (As the preferred display mode is
+usually the max resolution, driver ends up checking the maximum clock
+the first time itself which is used in subsequent checks)
+Since TIDSS display controller provides clock tolerance of 5%, we use
+this while checking the max_pclk. Also, move up "dispc_pclk_diff()"
+before it is called.
 
+This will make the existing compatibles reusable.
 
-On 6/18/25 00:14, Drew Fustini wrote:
-> On Sat, Jun 14, 2025 at 08:06:06PM +0200, Michal Wilczynski wrote:
->> This patch series introduces support for the Imagination IMG BXM-4-64
->> GPU found on the T-HEAD TH1520 SoC. A key aspect of this support is
->> managing the GPU's complex power-up and power-down sequence, which
->> involves multiple clocks and resets.
->>
->> The TH1520 GPU requires a specific sequence to be followed for its
->> clocks and resets to ensure correct operation. Initial discussions and
->> an earlier version of this series explored managing this via the generic
->> power domain (genpd) framework. However, following further discussions
->> with kernel maintainers [1], the approach has been reworked to utilize
->> the dedicated power sequencing (pwrseq) framework.
->>
->> This revised series now employs a new pwrseq provider driver
->> (pwrseq-thead-gpu.c) specifically for the TH1520 GPU. This driver
->> encapsulates the SoC specific power sequence details. The Imagination
->> GPU driver (pvr_device.c) is updated to act as a consumer of this power
->> sequencer, requesting the "gpu-power" target. The sequencer driver,
->> during its match phase with the GPU device, acquires the necessary clock
->> and reset handles from the GPU device node to perform the full sequence.
->>
->> This approach aligns with the goal of abstracting SoC specific power
->> management details away from generic device drivers and leverages the
->> pwrseq framework as recommended.
->>
->> The series is structured as follows:
->>
->> Patch 1: Introduces the pwrseq-thead-gpu auxiliary driver to manage the
->>          GPU's power-on/off sequence.
->> Patch 2: Adds device tree bindings for the gpu-clkgen reset to the
->>          existing thead,th1520-aon binding.
->> Patch 3: Extends the pm-domains driver to detect the gpu-clkgen reset
->>          and spawn the pwrseq-thead-gpu auxiliary driver.
->> Patch 4: Updates the Imagination DRM driver to utilize the pwrseq
->>          framework for TH1520 GPU power management.
->> Patch 5: Adds the thead,th1520-gpu compatible string to the PowerVR GPU
->>          device tree bindings.
->> Patch 6: Adds the gpu-clkgen reset property to the aon node in the
->>          TH1520 device tree source.
->> Patch 7: Adds the device tree node for the IMG BXM-4-64 GPU and its
->>          required fixed-clock.
->> Patch 8: Enables compilation of the Imagination PowerVR driver on the
->>          RISC-V architecture.
->>
->> This patchset finishes the work started in bigger series [2] by adding
->> all remaining GPU power sequencing piece. After this patchset the GPU
->> probes correctly.
->>
->> This series supersedes the previous genpd based approach. Testing on
->> T-HEAD TH1520 SoC indicates the new pwrseq based solution works
->> correctly.
->>
->> An open point in Patch 7/8 concerns the GPU memory clock (gpu_mem_clk),
->> defined as a fixed-clock. The specific hardware frequency for this clock
->> on the TH1520 could not be determined from available public
->> documentation. Consequently, clock-frequency = <0>; has been used as a
->> placeholder to enable driver functionality.
->>
-> 
-> I don't have any more information that what is in the public PDFs [1],
-> so I think it is okay to have a placeholder frequency.
-> 
-> Is it the case that the frequency doesn't really matter from the
-> perspective of the driver?
+Signed-off-by: Jayesh Choudhary <j-choudhary@ti.com>
+---
 
-Yeah it doesn't matter, I asked simply because it would be better in the
-DT to accurately describe the HW. I would omit the 'clock-frequency'
-altogether, but doing that makes the driver probe fail.
+Changelog v1->v2:
+- Rebase it on linux-next after OLDI support series[0] as all of its
+  patches are reviewed and tested and it touches one of the functions
+  used.
+  
+v1 patch link:
+<https://lore.kernel.org/all/20250618075804.139844-1-j-choudhary@ti.com/>
 
-> 
-> Thanks,
-> Drew
-> 
-> [1] https://protect2.fireeye.com/v1/url?k=260051e8-477bfb60-2601daa7-74fe4860018a-782a548f971ff58f&q=1&e=7e973bd1-ed36-4a12-af1c-1cf44bea2e5c&u=https%3A%2F%2Fgit.beagleboard.org%2Fbeaglev-ahead%2Fbeaglev-ahead%2F-%2Ftree%2Fmain%2Fdocs
-> 
+Test log on TI's J784S4 SoC with a couple of downstream patches
+to integrate DSI support on one of the video ports:
+<https://gist.github.com/Jayesh2000/ad4ab87028740efa60e5eb83fb892097>
 
-Best regards,
+From the logs, we can see that for CLK ID 218 (DSS), we do not have to
+call sci_clk_determine_rate() multiple times. So there is very little
+overhead of this call even with multiple mode_valid() called during
+display run.
+From weston-simple-egl application, I have seen that there is no frame
+drop or performance impact.
+
+Once this patch gets in, I will send patches for AM62P and J722S DSS
+support.
+
+[0]: https://lore.kernel.org/all/20250528122544.817829-1-aradhya.bhatia@linux.dev/
+
+ drivers/gpu/drm/tidss/tidss_dispc.c | 74 ++++++++++++-----------------
+ drivers/gpu/drm/tidss/tidss_dispc.h |  1 -
+ drivers/gpu/drm/tidss/tidss_drv.h   |  2 +
+ 3 files changed, 33 insertions(+), 44 deletions(-)
+
+diff --git a/drivers/gpu/drm/tidss/tidss_dispc.c b/drivers/gpu/drm/tidss/tidss_dispc.c
+index c0277fa36425..ad9ffc3685b4 100644
+--- a/drivers/gpu/drm/tidss/tidss_dispc.c
++++ b/drivers/gpu/drm/tidss/tidss_dispc.c
+@@ -58,10 +58,6 @@ static const u16 tidss_k2g_common_regs[DISPC_COMMON_REG_TABLE_LEN] = {
+ const struct dispc_features dispc_k2g_feats = {
+ 	.min_pclk_khz = 4375,
+ 
+-	.max_pclk_khz = {
+-		[DISPC_VP_DPI] = 150000,
+-	},
+-
+ 	/*
+ 	 * XXX According TRM the RGB input buffer width up to 2560 should
+ 	 *     work on 3 taps, but in practice it only works up to 1280.
+@@ -144,11 +140,6 @@ static const u16 tidss_am65x_common_regs[DISPC_COMMON_REG_TABLE_LEN] = {
+ };
+ 
+ const struct dispc_features dispc_am65x_feats = {
+-	.max_pclk_khz = {
+-		[DISPC_VP_DPI] = 165000,
+-		[DISPC_VP_OLDI_AM65X] = 165000,
+-	},
+-
+ 	.scaling = {
+ 		.in_width_max_5tap_rgb = 1280,
+ 		.in_width_max_3tap_rgb = 2560,
+@@ -244,11 +235,6 @@ static const u16 tidss_j721e_common_regs[DISPC_COMMON_REG_TABLE_LEN] = {
+ };
+ 
+ const struct dispc_features dispc_j721e_feats = {
+-	.max_pclk_khz = {
+-		[DISPC_VP_DPI] = 170000,
+-		[DISPC_VP_INTERNAL] = 600000,
+-	},
+-
+ 	.scaling = {
+ 		.in_width_max_5tap_rgb = 2048,
+ 		.in_width_max_3tap_rgb = 4096,
+@@ -315,11 +301,6 @@ const struct dispc_features dispc_j721e_feats = {
+ };
+ 
+ const struct dispc_features dispc_am625_feats = {
+-	.max_pclk_khz = {
+-		[DISPC_VP_DPI] = 165000,
+-		[DISPC_VP_INTERNAL] = 170000,
+-	},
+-
+ 	.scaling = {
+ 		.in_width_max_5tap_rgb = 1280,
+ 		.in_width_max_3tap_rgb = 2560,
+@@ -380,10 +361,6 @@ const struct dispc_features dispc_am62a7_feats = {
+ 	 * if the code reaches dispc_mode_valid with VP1,
+ 	 * it should return MODE_BAD.
+ 	 */
+-	.max_pclk_khz = {
+-		[DISPC_VP_TIED_OFF] = 0,
+-		[DISPC_VP_DPI] = 165000,
+-	},
+ 
+ 	.scaling = {
+ 		.in_width_max_5tap_rgb = 1280,
+@@ -441,10 +418,6 @@ const struct dispc_features dispc_am62a7_feats = {
+ };
+ 
+ const struct dispc_features dispc_am62l_feats = {
+-	.max_pclk_khz = {
+-		[DISPC_VP_DPI] = 165000,
+-	},
+-
+ 	.subrev = DISPC_AM62L,
+ 
+ 	.common = "common",
+@@ -1347,25 +1320,48 @@ static void dispc_vp_set_default_color(struct dispc_device *dispc,
+ 			DISPC_OVR_DEFAULT_COLOR2, (v >> 32) & 0xffff);
+ }
+ 
++/*
++ * Calculate the percentage difference between the requested pixel clock rate
++ * and the effective rate resulting from calculating the clock divider value.
++ */
++unsigned int dispc_pclk_diff(unsigned long rate, unsigned long real_rate)
++{
++	int r = rate / 100, rr = real_rate / 100;
++
++	return (unsigned int)(abs(((rr - r) * 100) / r));
++}
++
++static int check_max_pixel_clock(struct dispc_device *dispc,
++				 u32 hw_videoport, unsigned long clock)
++{
++	if (clock > dispc->tidss->max_pclk[hw_videoport]) {
++		unsigned long round_clock = clk_round_rate(dispc->vp_clk[hw_videoport], clock);
++
++		if (dispc_pclk_diff(clock, round_clock) > 5)
++			return -EINVAL;
++
++		dispc->tidss->max_pclk[hw_videoport] = round_clock;
++	}
++
++	return 0;
++}
++
+ enum drm_mode_status dispc_vp_mode_valid(struct dispc_device *dispc,
+ 					 u32 hw_videoport,
+ 					 const struct drm_display_mode *mode)
+ {
+ 	u32 hsw, hfp, hbp, vsw, vfp, vbp;
+ 	enum dispc_vp_bus_type bus_type;
+-	int max_pclk;
+ 
+ 	bus_type = dispc->feat->vp_bus_type[hw_videoport];
+ 
+-	max_pclk = dispc->feat->max_pclk_khz[bus_type];
+-
+-	if (WARN_ON(max_pclk == 0))
++	if (bus_type == DISPC_VP_TIED_OFF)
+ 		return MODE_BAD;
+ 
+ 	if (mode->clock < dispc->feat->min_pclk_khz)
+ 		return MODE_CLOCK_LOW;
+ 
+-	if (mode->clock > max_pclk)
++	if (check_max_pixel_clock(dispc, hw_videoport, mode->clock * 1000))
+ 		return MODE_CLOCK_HIGH;
+ 
+ 	if (mode->hdisplay > 4096)
+@@ -1437,17 +1433,6 @@ void dispc_vp_disable_clk(struct dispc_device *dispc, u32 hw_videoport)
+ 	clk_disable_unprepare(dispc->vp_clk[hw_videoport]);
+ }
+ 
+-/*
+- * Calculate the percentage difference between the requested pixel clock rate
+- * and the effective rate resulting from calculating the clock divider value.
+- */
+-unsigned int dispc_pclk_diff(unsigned long rate, unsigned long real_rate)
+-{
+-	int r = rate / 100, rr = real_rate / 100;
+-
+-	return (unsigned int)(abs(((rr - r) * 100) / r));
+-}
+-
+ int dispc_vp_set_clk_rate(struct dispc_device *dispc, u32 hw_videoport,
+ 			  unsigned long rate)
+ {
+@@ -3087,6 +3072,9 @@ int dispc_init(struct tidss_device *tidss)
+ 	}
+ 	dev_dbg(dev, "DSS fclk %lu Hz\n", clk_get_rate(dispc->fclk));
+ 
++	for (i = 0; i < dispc->feat->num_vps; i++)
++		dispc->tidss->max_pclk[i] = 0;
++
+ 	of_property_read_u32(dispc->dev->of_node, "max-memory-bandwidth",
+ 			     &dispc->memory_bandwidth_limit);
+ 
+diff --git a/drivers/gpu/drm/tidss/tidss_dispc.h b/drivers/gpu/drm/tidss/tidss_dispc.h
+index b8614f62186c..45b1a8aa9089 100644
+--- a/drivers/gpu/drm/tidss/tidss_dispc.h
++++ b/drivers/gpu/drm/tidss/tidss_dispc.h
+@@ -75,7 +75,6 @@ enum dispc_dss_subrevision {
+ 
+ struct dispc_features {
+ 	int min_pclk_khz;
+-	int max_pclk_khz[DISPC_VP_MAX_BUS_TYPE];
+ 
+ 	struct dispc_features_scaling scaling;
+ 
+diff --git a/drivers/gpu/drm/tidss/tidss_drv.h b/drivers/gpu/drm/tidss/tidss_drv.h
+index d14d5d28f0a3..59c67ae8e721 100644
+--- a/drivers/gpu/drm/tidss/tidss_drv.h
++++ b/drivers/gpu/drm/tidss/tidss_drv.h
+@@ -22,6 +22,8 @@ struct tidss_device {
+ 
+ 	const struct dispc_features *feat;
+ 	struct dispc_device *dispc;
++	long max_pclk[TIDSS_MAX_PORTS];
++
+ 
+ 	unsigned int num_crtcs;
+ 	struct drm_crtc *crtcs[TIDSS_MAX_PORTS];
 -- 
-Michal Wilczynski <m.wilczynski@samsung.com>
+2.34.1
+
