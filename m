@@ -2,101 +2,169 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id DD322ADE2F0
-	for <lists+dri-devel@lfdr.de>; Wed, 18 Jun 2025 07:15:40 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 473F1ADE305
+	for <lists+dri-devel@lfdr.de>; Wed, 18 Jun 2025 07:27:09 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B78BD10E1E2;
-	Wed, 18 Jun 2025 05:15:37 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3560210E268;
+	Wed, 18 Jun 2025 05:27:05 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=quicinc.com header.i=@quicinc.com header.b="iOGHIrpA";
+	dkim=pass (2048-bit key; unprotected) header.d=Nvidia.com header.i=@Nvidia.com header.b="Zb7VZHG+";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com
- [205.220.180.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 36D5D10E1E2
- for <dri-devel@lists.freedesktop.org>; Wed, 18 Jun 2025 05:15:36 +0000 (UTC)
-Received: from pps.filterd (m0279871.ppops.net [127.0.0.1])
- by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 55HNQGKJ017747;
- Wed, 18 Jun 2025 05:15:24 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
- cc:content-transfer-encoding:content-type:date:from:in-reply-to
- :message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
- zYwBcLDqSZXEmkD+XgiK2pi5Ul4Qa6msN9KN86EaU2o=; b=iOGHIrpAEcfm03R1
- qnkZjPm7THg+77P5o861YH+5q4tYBBmfacTCxWK/VhSAHphw0L3zd1YaF42ARY48
- cCZF1wFdmX095cUTxFI5DFHzDY7glxiR+silYLdlX2I76bGBzmpA3u18PccvOuGQ
- upw+UIpXbYUVKez/9uYQH7mtjJ4KbNZGidUX7VePCWjNkM232MO+u4yDWQg2vM9U
- s+M/Z83ftSU6gGuBME6UMPOXpL5pNcNEZLaYrxz6+ZbcNDzA91OZHn+tUw1NQ9td
- eFn3ZCjUUJx99wyZaRKCZqE7t537AdNzerdmWPjnakZYKCAtRDV8EUL+Kk0MZ7Ca
- m7fO9w==
-Received: from nasanppmta03.qualcomm.com (i-global254.qualcomm.com
- [199.106.103.254])
- by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4791crtkmr-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Wed, 18 Jun 2025 05:15:24 +0000 (GMT)
-Received: from nasanex01c.na.qualcomm.com (nasanex01c.na.qualcomm.com
- [10.45.79.139])
- by NASANPPMTA03.qualcomm.com (8.18.1.2/8.18.1.2) with ESMTPS id 55I5FMdn006302
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Wed, 18 Jun 2025 05:15:22 GMT
-Received: from [10.239.29.49] (10.80.80.8) by nasanex01c.na.qualcomm.com
- (10.45.79.139) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.9; Tue, 17 Jun
- 2025 22:15:18 -0700
-Message-ID: <36464d9c-9bbb-488e-85c0-7e5318a16bf8@quicinc.com>
-Date: Wed, 18 Jun 2025 13:15:16 +0800
+Received: from NAM10-DM6-obe.outbound.protection.outlook.com
+ (mail-dm6nam10on2057.outbound.protection.outlook.com [40.107.93.57])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8D1E810E1A1;
+ Wed, 18 Jun 2025 05:26:59 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=oiLOBgiqzbXQ93V/HkgrfWNA8KorizpEOvMYytiq3RQTFXt5AdP/oC4uueViq1rBL4UOrrE+MNgA0b0KPRBit5xl2vAxeyRchYfdAaqnDD6AOJZttTb8oIn4/dxac9SjY8goe1XULvPdBzArMr4Q/O8vKrfKqUDOpWmpOyhAFNMmELphLoNVwDDzCIBMiLnskW7WeoCX4saurNB8eqE6VxaASa0LYAecqDRoAnqCOi7+2WvcChrHHbNdH2yeDtrK51ceu9L/kq6QQIlviVy/He2TBf9BsQw6vdvul6vkGcRIZFZHU2GuZopzENz10kmc6m+ZSHJd57l1/GZcgzWY5g==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=e53FY15+L5V4Sj4zx8ZSRztx+wdrEbYaPA0Rfmx9HyI=;
+ b=Eod+T54ylOjvv0bJqUc8xQcynXcT/9IuxozIvXvzPNrck91a8cxFobFRvE1W4Lo0U1UDNQG+ctCxwbLdXr0I9owQBNo8bey/eCiXD87y10WjgwkPYaYeFVtWzmWAgNHN6Kl9aXYby5EIj19t28F3KgTAOKE83yCxh5yzQs67kwhF2yaC8STSq7HihycQRZjyeiHd+6X5BwKLVsWVb9Rqpe5z5rVLw+wmxdncw0CA3up7cU0G4SQwiekMu6IbH/H3QKIVau1S975UnJVIKCcIyJmpW/ZdcXbOgZDbmz1KOjzL8PTEWymPRd99llpi2X0lzufFeakiFPHmTbm1HKAj3Q==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
+ dkim=pass header.d=nvidia.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=e53FY15+L5V4Sj4zx8ZSRztx+wdrEbYaPA0Rfmx9HyI=;
+ b=Zb7VZHG+EK1ykTALuvcqTeFl49PsPaKXyaH3JOEqF0s0xCalWESzrO0UqJQ0EcRSb5kA/lxeWkiUYLzGp99SdSMqUER69ZLkzNhVpDoCEmb6m1FjZyxNIE+Wj5om0L6kSM1MyivadZ/AcHHyXv8Vaxj8+FVa6nKJXPjgt4I4k+1b9dEccS1DubEL3YzOWlCyYUEWpOqn40Ikl3K6difEwq7plOHlYoLHnjXnnCYYXv+J6CbhBfioQ6msORaMU7BJgJ74C4X4C3ePGcWJ6dLGFmBQglHVuX2qfJAfQ/CAlAHW3i/WhpxEZkup05Hci94imswmCnQZFvpH8YuqpN0CBg==
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=nvidia.com;
+Received: from CH2PR12MB3990.namprd12.prod.outlook.com (2603:10b6:610:28::18)
+ by LV8PR12MB9134.namprd12.prod.outlook.com (2603:10b6:408:180::21)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8835.30; Wed, 18 Jun
+ 2025 05:26:56 +0000
+Received: from CH2PR12MB3990.namprd12.prod.outlook.com
+ ([fe80::6e37:569f:82ee:3f99]) by CH2PR12MB3990.namprd12.prod.outlook.com
+ ([fe80::6e37:569f:82ee:3f99%4]) with mapi id 15.20.8835.027; Wed, 18 Jun 2025
+ 05:26:56 +0000
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=UTF-8
+Date: Wed, 18 Jun 2025 14:26:52 +0900
+Message-Id: <DAPERUYR0C7C.4LXQU1B8HB9Q@nvidia.com>
+Subject: Re: [PATCH v5 15/23] gpu: nova-core: add falcon register
+ definitions and base code
+From: "Alexandre Courbot" <acourbot@nvidia.com>
+To: "Danilo Krummrich" <dakr@kernel.org>
+Cc: "Miguel Ojeda" <ojeda@kernel.org>, "Alex Gaynor"
+ <alex.gaynor@gmail.com>, "Boqun Feng" <boqun.feng@gmail.com>, "Gary Guo"
+ <gary@garyguo.net>, =?utf-8?q?Bj=C3=B6rn_Roy_Baron?=
+ <bjorn3_gh@protonmail.com>, "Andreas Hindborg" <a.hindborg@kernel.org>,
+ "Alice Ryhl" <aliceryhl@google.com>, "Trevor Gross" <tmgross@umich.edu>,
+ "David Airlie" <airlied@gmail.com>, "Simona Vetter" <simona@ffwll.ch>,
+ "Maarten Lankhorst" <maarten.lankhorst@linux.intel.com>, "Maxime Ripard"
+ <mripard@kernel.org>, "Thomas Zimmermann" <tzimmermann@suse.de>, "Benno
+ Lossin" <lossin@kernel.org>, "John Hubbard" <jhubbard@nvidia.com>, "Ben
+ Skeggs" <bskeggs@nvidia.com>, "Joel Fernandes" <joelagnelf@nvidia.com>,
+ "Timur Tabi" <ttabi@nvidia.com>, "Alistair Popple" <apopple@nvidia.com>,
+ <linux-kernel@vger.kernel.org>, <rust-for-linux@vger.kernel.org>,
+ <nouveau@lists.freedesktop.org>, <dri-devel@lists.freedesktop.org>, "Lyude
+ Paul" <lyude@redhat.com>
+X-Mailer: aerc 0.20.1-0-g2ecb8770224a
+References: <20250612-nova-frts-v5-0-14ba7eaf166b@nvidia.com>
+ <20250612-nova-frts-v5-15-14ba7eaf166b@nvidia.com>
+ <aFGYyXS21tZFdldX@pollux>
+In-Reply-To: <aFGYyXS21tZFdldX@pollux>
+X-ClientProxiedBy: TYCP286CA0078.JPNP286.PROD.OUTLOOK.COM
+ (2603:1096:400:2b3::15) To CH2PR12MB3990.namprd12.prod.outlook.com
+ (2603:10b6:610:28::18)
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 2/3] misc: fastrpc: add support for gpdsp remoteproc
-From: Ling Xu <quic_lxu5@quicinc.com>
-To: Srinivas Kandagatla <srinivas.kandagatla@linaro.org>,
- <andersson@kernel.org>, <konradybcio@kernel.org>, <robh@kernel.org>,
- <krzk+dt@kernel.org>, <conor+dt@kernel.org>,
- <amahesh@qti.qualcomm.com>, <arnd@arndb.de>, <gregkh@linuxfoundation.org>
-CC: <quic_kuiw@quicinc.com>, <quic_ekangupt@quicinc.com>,
- <linux-arm-msm@vger.kernel.org>, <devicetree@vger.kernel.org>,
- <linux-kernel@vger.kernel.org>, <dri-devel@lists.freedesktop.org>, "Dmitry
- Baryshkov" <dmitry.baryshkov@oss.qualcomm.com>
-References: <20250320091446.3647918-1-quic_lxu5@quicinc.com>
- <20250320091446.3647918-3-quic_lxu5@quicinc.com>
- <30bba296-8e6f-41ee-880e-2d5ecc8fe5a4@linaro.org>
- <e2a8528b-fa18-471f-9cb8-da64bb488f2a@quicinc.com>
- <07bfc5f3-1bcb-4018-bd63-8317ec6dac48@linaro.org>
- <5f70a482-6e61-4817-afdb-d5db4747897a@quicinc.com>
-Content-Language: en-US
-In-Reply-To: <5f70a482-6e61-4817-afdb-d5db4747897a@quicinc.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 8bit
-X-Originating-IP: [10.80.80.8]
-X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
- nasanex01c.na.qualcomm.com (10.45.79.139)
-X-QCInternal: smtphost
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
- signatures=585085
-X-Proofpoint-ORIG-GUID: LQme4HAp6VPPDX9ZXZ5qmACbY6suSGID
-X-Authority-Analysis: v=2.4 cv=BoedwZX5 c=1 sm=1 tr=0 ts=68524b6c cx=c_pps
- a=JYp8KDb2vCoCEuGobkYCKw==:117 a=JYp8KDb2vCoCEuGobkYCKw==:17
- a=GEpy-HfZoHoA:10 a=IkcTkHD0fZMA:10 a=6IFa9wvqVegA:10 a=NEAV23lmAAAA:8
- a=EUspDBNiAAAA:8 a=COk6AnOGAAAA:8 a=KKAkSRfTAAAA:8 a=vofbUKIwNjXqtydJ3YAA:9
- a=3ZKOabzyN94A:10 a=QEXdDO2ut3YA:10 a=TjNXssC_j7lpFel5tvFf:22
- a=cvBusfyB2V15izCimMoJ:22
-X-Proofpoint-GUID: LQme4HAp6VPPDX9ZXZ5qmACbY6suSGID
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwNjE4MDA0MiBTYWx0ZWRfXw6wora67F3DJ
- Lglk1ONJ2VONaC+U9nUB1XQBDgFEKW8/8Ak8IEZiYE3gBkxVe1wgzLpq2x7OJvG0aI69LUDE7tF
- dLSln09KLLnEQgc3Er82fYP83D0UAgbJKJN8Kq00OmwKxgXyRgxnjpOwOxxXl3YOJEqyeyY1SM3
- JqWgFstm7LPUg7gofkQqlHSrk4nd8Is7hvHKPrA7RcWCddm3HORwmR5+0ceCi1S859gsgSX2are
- jtGp6SqKe/SrJZVo1Dh0ShaNc1Qb8KxJO4J3GXkObpAVA8MTbSIJlqmQ4+qNP4j2YaaHASTq6qt
- xslpEkAMHx19h6NtFPZuhE2dHMdSdxG7C/iYigN9kXTsq4aj/2XAdqkpawvgcHuOOUokPwiQIOv
- CdAl0iLReclvg0fdBSzBNSrbI5XihgAIQt48dZhGC9bDYix5KwUqtBjDoVzTWsXZW6nwS1m7
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1099,Hydra:6.0.736,FMLib:17.12.80.40
- definitions=2025-06-18_01,2025-06-13_01,2025-03-28_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- impostorscore=0 mlxscore=0 adultscore=0 phishscore=0 lowpriorityscore=0
- mlxlogscore=999 bulkscore=0 malwarescore=0 priorityscore=1501 clxscore=1015
- spamscore=0 suspectscore=0 classifier=spam authscore=0 authtc=n/a authcc=
- route=outbound adjust=0 reason=mlx scancount=1 engine=8.19.0-2505280000
- definitions=main-2506180042
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: CH2PR12MB3990:EE_|LV8PR12MB9134:EE_
+X-MS-Office365-Filtering-Correlation-Id: a76a9f75-fc02-48ee-49c2-08ddae28bce4
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+ ARA:13230040|7416014|376014|1800799024|10070799003|366016; 
+X-Microsoft-Antispam-Message-Info: =?utf-8?B?aDcveSt0NEtqTGZxQkorZHJzbU8yMXRzSmNnbnVMc3JqcEJkbkg1Tko0bmVt?=
+ =?utf-8?B?SU9qY3Y4bWEvTENpZzdNSDFvZk1DNHhsYURnS0RGM3RkYitHZUlTSDhraWpy?=
+ =?utf-8?B?UmxTN3V2TnBHNVlUMUcvcW1pM1Rsc3d0V3daaTRnenRFOXVJVEJwUUVEMEt1?=
+ =?utf-8?B?TTJBZjFENE1SLzRwSHYvZTR4cDdJN1RSSzB0TERIcUR5Z1QwNlg5OFFqM001?=
+ =?utf-8?B?Vm5mZkdITytNbzhxd290Q1JsY2JXRUtheXFKLzYzN3oyalFqT0xVVEZXV3Ez?=
+ =?utf-8?B?VzJVYlJMWDdJOCtXNWFFamNlTzdQSGE0WCtMVkhFVkdpZmg3elgyNHA2eHEr?=
+ =?utf-8?B?d2lWOEVwSkU2aWRGMktHbWxkNkgzc3JEcW5GMzBTNHRUWk5ySmZCQlk2YWRS?=
+ =?utf-8?B?bFZWOEdIRmhQdWNtamExdmR6cUFuQUpPRm9KVE1aTjFNVjlIRXRrdCtIcVBO?=
+ =?utf-8?B?S1NuVHFueXhUOWViakdvOTExbUNsVUZmMy9iUUpSc29kaTBhL0FwZkNBZjNC?=
+ =?utf-8?B?akthSDVVeFRZYW1YbWVrRzR5WTB6QjFDZEp2NVg3L1U3WXNtL3FtRUNyd01r?=
+ =?utf-8?B?ZG1mSm9xbmlxdURLQk13aWNuM3JJV0xTRVF4QTV2RWc0bFk0ejdTYW5LR2tp?=
+ =?utf-8?B?blhOcmVXaVhUaitUSml4cWFGTk0vL0pDVmdsWG5oaktxZ3UwRmhGbklBc0ZK?=
+ =?utf-8?B?SjVWTUZTNVFqL1ZMakJrSjRxdHJoNWRTTThFaEdGQmIyTmlORjgxZFBnNXlm?=
+ =?utf-8?B?SHJ4R083YlBxblRhMUhaNmV3M2NDUCt2ekRwQ0F5aWNFb3IzelRNR29OZ2p2?=
+ =?utf-8?B?TU9VNC9LbXh5ZUdTdVFoRlBUQlp6YzJaVDVsNXowZW5hcHVxTzlmUytNWlpK?=
+ =?utf-8?B?ZW8zOFRRL2tSaFdCeU5XTHhHNVVWN3F5eDNVN0lzeUNJbEZXUXF4SlFaNk5W?=
+ =?utf-8?B?TTRpU0NQUTM3WXJyVlZ4MnFDTElRN3JvdTVJNHJSaGFXUm5EWG1xNTZsWHBM?=
+ =?utf-8?B?MjlqQVE3K0JIM05BalhLZllRNlQ4WFdvRnc5djhGUndvWC8wbUIwcy9PWVdB?=
+ =?utf-8?B?NlRUcFFucFdRNW4ybVUyTzZJdlk2U1JucTF3c1NHeXFicFpXcFVPVXhWZmM3?=
+ =?utf-8?B?eVYxRXVvTXJadTJKcWdlRk9VbHZjakpXZC9rTUJsaG1ZTDc5WXZ2dmpIOG9v?=
+ =?utf-8?B?MVBDbWpxZkVUOFQvcHQyUTdzejA3QXFIdU9DdjEvK29QQVhnVFJ6WUNCRmFu?=
+ =?utf-8?B?QzRjK1l2Wkg0WUFFMFhlRDI5MHNHZ1ptKzJIK2JVa2ZYdTR4U2pyYTNVOEVu?=
+ =?utf-8?B?bkM4bUhIN0k2MVFXbjhFenVIZlZwTXpodkU0TmsxOVQwdjMrSWcrdzVnOXd6?=
+ =?utf-8?B?b0E0emZMdmZIZllIZUY0czdXSmVEVjBkTGQzT2U2RDdPZGI1eFlnRW9OZXNP?=
+ =?utf-8?B?U1YrcExlWmdUTExNKzdUa3ZFY1dub2h4NWppUzNiQjdtL3FDMFZIS3dLVmdO?=
+ =?utf-8?B?bVZlWXczbVUwUHpNMzVVR2RUdTR0TnppT2FQeVF0VU9SblU5MXh1L000eVEv?=
+ =?utf-8?B?ZWRYR0xDbkwxU01KN2RlL2tabTNpVThEdTZDbGtXeERHQTgwWk1vTmEva2NE?=
+ =?utf-8?B?T2ZpcGJXZEYvYXFvUTJ4cGpEeWlGeTBZdm5uZm12eExYN0xlUVcvYTdtM1VW?=
+ =?utf-8?B?NTdqSExpTEozQlltVkZ5eG1NVmx0eDF6cUN0azVjNzQ1bnMwQkdLMHVMYUhu?=
+ =?utf-8?B?cHViMDJHZ0xQZVFyeWxRcitSUkhpRG5CT2FtTnNVUXEvcWkrNVJld1hOYUl2?=
+ =?utf-8?B?NFF2c0Zka3JRaUZ1ZU5QWWwzb2EvTUpQaUVJMTlTSDAzanRvdXRROEhMYUNn?=
+ =?utf-8?B?VDRlT05USGx5TE5zZW96SmloQUtxLzFvYno5UnlPRStiNGdRS2VWTExVUHNv?=
+ =?utf-8?Q?B+uZGRQJPkE=3D?=
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:CH2PR12MB3990.namprd12.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230040)(7416014)(376014)(1800799024)(10070799003)(366016); DIR:OUT;
+ SFP:1101; 
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?Mjc2M3RZQnpYSEVxY0xsNnpxRUlDMlIzK2czODR2TCtpNU00ZEVrVGRFZCtS?=
+ =?utf-8?B?Q2lZcW5aT0czNmdRT2tKOXA0ZVZBQ1kvMGU4Q0hTNTJqTTk4NlkrdktLbWVo?=
+ =?utf-8?B?SDdJYlZ2Q2pkUy9ZN252Q1g0bDBOZ1lDMENSZjhkcEdhMVZ6aUY3T1ErUjZw?=
+ =?utf-8?B?RFlwL0t6RmxIaUl1MlV5ODM1TyttV3pXVi8yVFZJRzIxNkJQT0plNERpME1p?=
+ =?utf-8?B?RWM0ZFdvQXdTeUZabEJuNHVUbUp4SmJmd3NNSGQ0LzVhekh3RCtsK2QzcTlC?=
+ =?utf-8?B?WTdsVm03M1FVdXFwY2hveVVxMktzQWFia1R4S0ZMc3pGcG53QkpBRDlESFZP?=
+ =?utf-8?B?ZEZkRi84OUdXVk1LUnBONktRNGhXdmlFdW1LNlRKQnlCNlpWRUw3b0J5bVJC?=
+ =?utf-8?B?Mm1MRE5aQWY5TEh1Q3dXTXN3L054VHZ3cG5MclU4dFRlTm13QTVpSGx2WGlz?=
+ =?utf-8?B?K0p0Um1wRmQ3WVRhSm1lamkyV3VIRm5wRE5sZ1JNTUxjRjdTbjVlVjBBRUZl?=
+ =?utf-8?B?UVpKN2lPS0RaUWdFOEtOTHRteHlhc0RHdW1Tc1pYQ0d4eG9lbis3RWJpRFdn?=
+ =?utf-8?B?dmdXS2NPU3c3cGpNWkFIY2E4dlBjaTY0ODBBNTJITDJMS09sR2h1SHpWNU1C?=
+ =?utf-8?B?bjc1VyttTkg0VlJMZ3AyVm5wclJKZFNCdFBBb2V3b0s3VE1Rb1A0U3FxVGlR?=
+ =?utf-8?B?UmpwMU9UUXd0SVJjU0JLd1hjMEpqVUxKL1RHc0RrMFdmSVhYd2FuYXovcEl6?=
+ =?utf-8?B?dHZyOG9WK3pMR1E5QmtVVFMyMWRiVHRpSXRqc2FGTWhMcXFqVnVUTWp5UUM5?=
+ =?utf-8?B?blA3bjhWSzMyRG1QNmhaZUp2ODF0VHE1VS9pSkw1d2VuMXl4SEY4RFlxSVBw?=
+ =?utf-8?B?VHcvOHJ1eGYwSDU0aEtXdXhLUjdZQ3NZOWZINWI2RXYxTnRwM2VlcCs4Yyts?=
+ =?utf-8?B?QlZTa3QvOGowM0JUMW00TUpzcHIxYVVZL3gwd0JZeFNWRXRmb3VPd1RVcTlz?=
+ =?utf-8?B?NGxMQXBCQWNmTmpCUFpwbi9Ob0FkYUlPL2Ntbk9MMDkreEVzTkZKeUlydTdv?=
+ =?utf-8?B?ZHZwS0Y3RmcvRGNkOC9KSStnTU1DNjFFK3k0ajhBbWdDMnROTkJhbFJDdWVn?=
+ =?utf-8?B?eFpnYTlNRVdNWkUzWlNuVDhGS3REVGRkYlp2bExvSUhTYnVrK0o0b1VLSUhw?=
+ =?utf-8?B?WVhzUHBLUGdMYlBkMFJhMHJxL1hBVUpKd1hhZjNHSjFSVnJlNldSVnp0bzJq?=
+ =?utf-8?B?VjVnSVY0ejgxOUN0eUE5TzkvdWYraTBMa3VPaVVmMW5qV0lvL01uRjc0T3RS?=
+ =?utf-8?B?dlJGNHp2NmRhSEJlcWhlTDZYcS9uQXFWb1dWalYyc1lTNkVEaFZsbHdXWkhG?=
+ =?utf-8?B?RzZzWXRHcTJyUXlDSG1hKzIrR2pORTZlQ2JydnJpUHRCQUkyT0NwYTBYR05D?=
+ =?utf-8?B?T1JqT1VXT3I1cCtuSGxrRW5mYVZVOTJONXBiNWRhVHJsZ3l4SEoxaUkxOEkz?=
+ =?utf-8?B?WnYzejRPc29Pd3B4U2t4dUFjVUxsMDhQc0RPNTFjd092L3VkQ0dXMDRQaEE2?=
+ =?utf-8?B?MTdEcEpJVktnR2Z4bkcwdWwyZG5OUVVidkpKME90TGlmb2tuV3E0QkJDL1Q2?=
+ =?utf-8?B?VUVzOWtOSW0zajVFZStuckxhZUpERUh4S0ZhdjRLTmhmbEMwZy9jK0FWREgw?=
+ =?utf-8?B?c0FKdlM5c1lQM01TRCtXQ1R4RzU4UFJlM1VPeDY5b2FMWDdaZ0Nkdjh6SVJr?=
+ =?utf-8?B?UVEzaTc4ajIyWTRzcG9LWHRwVFppRS9uYkErN0hUaDZKRmNXZE1JYXlTZncz?=
+ =?utf-8?B?NWRyb3ZKSVlHZWhON1A0VWIwZDBDOEcyZUtDdDREcFVZTDlIREJFclVqWlZi?=
+ =?utf-8?B?aFRzL3BUMStQL1VLVkw1TEdjek45ZXEwa1pqTVhCR2d6dDdVazE1c1FWSURq?=
+ =?utf-8?B?NlB2eWorTFNVT0IxQ1VrWHZpcmx0cktLNXFhdHkzNEk4NVpSTzhaZVpBbzZu?=
+ =?utf-8?B?SGdGdjlKM2cwcG11L1ZPNEkydWtJaU9BS1RqNk9LTTVvTXJPNlpnb3M5Sncx?=
+ =?utf-8?B?UUZOWVhJTndBSVhtRnNtcExwd0R5cGVTQ2M1NGh3MGplMWxqRFlhMy9kZTJm?=
+ =?utf-8?B?Q3J1azdyUkE4NEVIcEFVbzRNSGRieXBRMDNPRWlvT2c5SklycVk1TkJ6dVky?=
+ =?utf-8?Q?I3Thxqn94a33qW9zKpuYjn+9Z28us5ciQyNHGXx2Km9E?=
+X-OriginatorOrg: Nvidia.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: a76a9f75-fc02-48ee-49c2-08ddae28bce4
+X-MS-Exchange-CrossTenant-AuthSource: CH2PR12MB3990.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 18 Jun 2025 05:26:56.4565 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: 6q2q6XB7DrCJ/+D65LfGcTyr8F4NzHahvMqyrBWG7+2I1cnJvGKzWbwQmrtovlfoVkRXfcAq3cQ9rz0SF25WDw==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: LV8PR12MB9134
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -112,280 +180,161 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-在 6/16/2025 7:28 PM, Ling Xu 写道:
-> 在 4/8/2025 4:14 PM, Srinivas Kandagatla 写道:
->>
->>
->> On 07/04/2025 10:13, Ling Xu wrote:
->>> 在 3/21/2025 1:11 AM, Srinivas Kandagatla 写道:
->>>>
->>>>
->>>> On 20/03/2025 09:14, Ling Xu wrote:
->>>>> The fastrpc driver has support for 5 types of remoteprocs. There are
->>>>> some products which support GPDSP remoteprocs. Add changes to support
->>>>> GPDSP remoteprocs.
->>>>>
->>>>> Reviewed-by: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
->>>>> Signed-off-by: Ling Xu <quic_lxu5@quicinc.com>
->>>>> ---
->>>>>    drivers/misc/fastrpc.c | 10 ++++++++--
->>>>>    1 file changed, 8 insertions(+), 2 deletions(-)
->>>>>
->>>>> diff --git a/drivers/misc/fastrpc.c b/drivers/misc/fastrpc.c
->>>>> index 7b7a22c91fe4..80aa554b3042 100644
->>>>> --- a/drivers/misc/fastrpc.c
->>>>> +++ b/drivers/misc/fastrpc.c
->>>>> @@ -28,7 +28,9 @@
->>>>>    #define SDSP_DOMAIN_ID (2)
->>>>>    #define CDSP_DOMAIN_ID (3)
->>>>>    #define CDSP1_DOMAIN_ID (4)
->>>>> -#define FASTRPC_DEV_MAX        5 /* adsp, mdsp, slpi, cdsp, cdsp1 */
->>>>> +#define GDSP0_DOMAIN_ID (5)
->>>>> +#define GDSP1_DOMAIN_ID (6)
->>>>
->>>> We have already made the driver look silly here, Lets not add domain ids for each instance, which is not a scalable.
->>>>
->>>> Domain ids are strictly for a domain not each instance.
->>>>
->>>>
->>>>> +#define FASTRPC_DEV_MAX        7 /* adsp, mdsp, slpi, cdsp, cdsp1, gdsp0, gdsp1 */
->>>>>    #define FASTRPC_MAX_SESSIONS    14
->>>>>    #define FASTRPC_MAX_VMIDS    16
->>>>>    #define FASTRPC_ALIGN        128
->>>>> @@ -107,7 +109,9 @@
->>>>>    #define miscdev_to_fdevice(d) container_of(d, struct fastrpc_device, miscdev)
->>>>>      static const char *domains[FASTRPC_DEV_MAX] = { "adsp", "mdsp",
->>>>> -                        "sdsp", "cdsp", "cdsp1" };
->>>>> +                        "sdsp", "cdsp",
->>>>> +                        "cdsp1", "gdsp0",
->>>>> +                        "gdsp1" };
->>>>>    struct fastrpc_phy_page {
->>>>>        u64 addr;        /* physical address */
->>>>>        u64 size;        /* size of contiguous region */
->>>>> @@ -2338,6 +2342,8 @@ static int fastrpc_rpmsg_probe(struct rpmsg_device *rpdev)
->>>>>            break;
->>>>>        case CDSP_DOMAIN_ID:
->>>>>        case CDSP1_DOMAIN_ID:
->>>>> +    case GDSP0_DOMAIN_ID:
->>>>> +    case GDSP1_DOMAIN_ID:
->>>>>            data->unsigned_support = true;
->>>>>            /* Create both device nodes so that we can allow both Signed and Unsigned PD */
->>>>>            err = fastrpc_device_register(rdev, data, true, domains[domain_id]);
->>>>
->>>>
->>>> Can you try this patch: only compile tested.
->>>>
->>>> ---------------------------------->cut<---------------------------------------
->>>>  From 3f8607557162e16673b26fa253d11cafdc4444cf Mon Sep 17 00:00:00 2001
->>>> From: Srinivas Kandagatla <srinivas.kandagatla@linaro.org>
->>>> Date: Thu, 20 Mar 2025 17:07:05 +0000
->>>> Subject: [PATCH] misc: fastrpc: cleanup the domain names
->>>>
->>>> Currently the domain ids are added for each instance of domain, this is
->>>> totally not scalable approch.
->>>>
->>>> Clean this mess and create domain ids for only domains not its
->>>> instances.
->>>> This patch also moves the domain ids to uapi header as this is required
->>>> for FASTRPC_IOCTL_GET_DSP_INFO ioctl.
->>>>
->>>> Signed-off-by: Srinivas Kandagatla <srinivas.kandagatla@linaro.org>
->>>> ---
->>>>   drivers/misc/fastrpc.c      | 45 ++++++++++++++++++++-----------------
->>>>   include/uapi/misc/fastrpc.h |  7 ++++++
->>>>   2 files changed, 32 insertions(+), 20 deletions(-)
->>>>
->>>> diff --git a/drivers/misc/fastrpc.c b/drivers/misc/fastrpc.c
->>>> index 7b7a22c91fe4..b3932897a437 100644
->>>> --- a/drivers/misc/fastrpc.c
->>>> +++ b/drivers/misc/fastrpc.c
->>>> @@ -23,12 +23,6 @@
->>>>   #include <uapi/misc/fastrpc.h>
->>>>   #include <linux/of_reserved_mem.h>
->>>>
->>>> -#define ADSP_DOMAIN_ID (0)
->>>> -#define MDSP_DOMAIN_ID (1)
->>>> -#define SDSP_DOMAIN_ID (2)
->>>> -#define CDSP_DOMAIN_ID (3)
->>>> -#define CDSP1_DOMAIN_ID (4)
->>>> -#define FASTRPC_DEV_MAX        5 /* adsp, mdsp, slpi, cdsp, cdsp1 */
->>>>   #define FASTRPC_MAX_SESSIONS    14
->>>>   #define FASTRPC_MAX_VMIDS    16
->>>>   #define FASTRPC_ALIGN        128
->>>> @@ -106,8 +100,6 @@
->>>>
->>>>   #define miscdev_to_fdevice(d) container_of(d, struct fastrpc_device, miscdev)
->>>>
->>>> -static const char *domains[FASTRPC_DEV_MAX] = { "adsp", "mdsp",
->>>> -                        "sdsp", "cdsp", "cdsp1" };
->>>>   struct fastrpc_phy_page {
->>>>       u64 addr;        /* physical address */
->>>>       u64 size;        /* size of contiguous region */
->>>> @@ -1769,7 +1761,7 @@ static int fastrpc_get_dsp_info(struct fastrpc_user *fl, char __user *argp)
->>>>           return  -EFAULT;
->>>>
->>>>       cap.capability = 0;
->>>> -    if (cap.domain >= FASTRPC_DEV_MAX) {
->>>> +    if (cap.domain >= FASTRPC_DOMAIN_MAX) {
->>>>           dev_err(&fl->cctx->rpdev->dev, "Error: Invalid domain id:%d, err:%d\n",
->>>>               cap.domain, err);
->>>>           return -ECHRNG;
->>>
->>> I tested this patch and saw one issue.
->>> Here FASTRPC_DOMAIN_MAX is set to 4, but in userspace, cdsp1 is 4, gdsp0 is 5 and gdsp1 is 6.
->>
->>
->> Why is the userspace using something that is not uAPI?
->>
->> Why does it matter if its gdsp0 or gdsp1 for the userspace?
->> It should only matter if its gdsp domain or not.
->>
-> 
-> Give an example here:
-> In test example, user can use below API to query the notification capability of the specific domain_id,
-> (actually this will not have any functional issue, but just return an error and lead wrong message):
-> request_status_notifications_enable(domain_id, (void*)STATUS_CONTEXT, pd_status_notifier_callback)
-> 
-> this will call ioctl_getdspinfo in fastrpc_ioctl.c:
-> https://github.com/quic-lxu5/fastrpc/blob/8feccfd2eb46272ad1fabed195bfddb7fd680cbd/src/fastrpc_ioctl.c#L201
-> 
-> code snip:
-> 	FARF(ALWAYS, "ioctl_getdspinfo in ioctl.c domain:%d", domain);
-> 	ioErr = ioctl(dev, FASTRPC_IOCTL_GET_DSP_INFO, &cap);
-> 	FARF(ALWAYS, "done ioctl_getdspinfo in ioctl.c ioErr:%x", ioErr);
-> 
-> and finally call fastrpc_get_dsp_info in fastrpc.c.
-> 
-> if I use the patch you shared, it will report below error:
-> 
-> UMD log:
-> 2025-01-08T18:45:03.168718+00:00 qcs9100-ride-sx calculator: fastrpc_ioctl.c:201: ioctl_getdspinfo in ioctl.c domain:5
-> 2025-01-08T18:45:03.169307+00:00 qcs9100-ride-sx calculator: log_config.c:396: file_watcher_thread starting for domain 5
-> 2025-01-08T18:45:03.180355+00:00 qcs9100-ride-sx calculator: fastrpc_ioctl.c:203: done ioctl_getdspinfo in ioctl.c ioErr:ffffffff
-> 
-> putty log:
-> [ 1332.308444] qcom,fastrpc 20c00000.remoteproc:glink-edge.fastrpcglink-apps-dsp.-1.-1: Error: Invalid domain id:5, err:0
-> 
-> Because on the user side, gdsp0 and gdsp1 will be distinguished to 5 and 6.
-> so do you mean you want me to modify UMD code to transfer both gdsp0 and gdsp1 to gdsp just in ioctl_getdspinfo?
->>
+On Wed Jun 18, 2025 at 1:33 AM JST, Danilo Krummrich wrote:
+> On Thu, Jun 12, 2025 at 11:01:43PM +0900, Alexandre Courbot wrote:
+>> +    /// Perform a DMA write according to `load_offsets` from `dma_handl=
+e` into the falcon's
+>> +    /// `target_mem`.
+>> +    ///
+>> +    /// `sec` is set if the loaded firmware is expected to run in secur=
+e mode.
+>> +    fn dma_wr(
+>> +        &self,
+>> +        bar: &Bar0,
+>> +        dma_handle: bindings::dma_addr_t,
+>
+> I think we should pass &F from dma_load() rather than the raw handle.
 
-There is no error message after removing these lines based on srini's patch, is this modification appropriate? If so, I will submit a new patch.
-@@ -1771,17 +1763,6 @@ static int fastrpc_get_dsp_info(struct fastrpc_user *fl, char __user *argp)
-                return  -EFAULT;
+Agreed, done.
 
-        cap.capability = 0;
--       if (cap.domain >= FASTRPC_DEV_MAX) {
--               dev_err(&fl->cctx->rpdev->dev, "Error: Invalid domain id:%d, err:%d\n",
--                       cap.domain, err);
--               return -ECHRNG;
--       }
--
--       /* Fastrpc Capablities does not support modem domain */
--       if (cap.domain == MDSP_DOMAIN_ID) {
--               dev_err(&fl->cctx->rpdev->dev, "Error: modem not supported %d\n", err);
--               return -ECHRNG;
--       }
+>
+> <snip>
+>
+>> +fn select_core_ga102<E: FalconEngine>(bar: &Bar0) -> Result {
+>> +    let bcr_ctrl =3D regs::NV_PRISCV_RISCV_BCR_CTRL::read(bar, E::BASE)=
+;
+>> +    if bcr_ctrl.core_select() !=3D PeregrineCoreSelect::Falcon {
+>> +        regs::NV_PRISCV_RISCV_BCR_CTRL::default()
+>> +            .set_core_select(PeregrineCoreSelect::Falcon)
+>> +            .write(bar, E::BASE);
+>> +
+>> +        util::wait_on(Duration::from_millis(10), || {
+>
+> As agreed, can you please add a brief comment to justify the timeout?
 
-        if (cap.attribute_id >= FASTRPC_MAX_DSP_ATTRIBUTES) {
-                dev_err(&fl->cctx->rpdev->dev, "Error: invalid attribute: %d, err: %d\n",
+Oops, for some reason I haven't addressed that part of your comment last
+time, sorry about that. Added `// TIMEOUT:` statements above all calls
+to `wait_on`. Note that sometimes the justification for these cannot be
+more than "arbitrarily high value indicating something went wrong".
 
->> --srini
->>
->>
->>> For example, if we run a demo on gdsp0, cap.domain copied from userspace will be 5 which could lead to wrong message.
->>>
->>> --Ling Xu
->>>
->>>> @@ -2255,6 +2247,24 @@ static int fastrpc_device_register(struct device *dev, struct fastrpc_channel_ct
->>>>       return err;
->>>>   }
->>>>
->>>> +static int fastrpc_get_domain_id(const char *domain)
->>>> +{
->>>> +    if (strncmp(domain, "adsp", 4) == 0) {
->>>> +        return ADSP_DOMAIN_ID;
->>>> +    } else    if (strncmp(domain, "cdsp", 4) == 0) {
->>>> +        return CDSP_DOMAIN_ID;
->>>> +    } else if (strncmp(domain, "mdsp", 4) ==0) {
->>>> +        return MDSP_DOMAIN_ID;
->>>> +    } else if (strncmp(domain, "sdsp", 4) ==0) {
->>>> +        return SDSP_DOMAIN_ID;
->>>> +    } else if (strncmp(domain, "gdsp", 4) ==0) {
->>>> +        return GDSP_DOMAIN_ID;
->>>> +    }
->>>> +
->>>> +    return -EINVAL;
->>>> +
->>>> +}
->>>> +
->>>>   static int fastrpc_rpmsg_probe(struct rpmsg_device *rpdev)
->>>>   {
->>>>       struct device *rdev = &rpdev->dev;
->>>> @@ -2272,15 +2282,10 @@ static int fastrpc_rpmsg_probe(struct rpmsg_device *rpdev)
->>>>           return err;
->>>>       }
->>>>
->>>> -    for (i = 0; i < FASTRPC_DEV_MAX; i++) {
->>>> -        if (!strcmp(domains[i], domain)) {
->>>> -            domain_id = i;
->>>> -            break;
->>>> -        }
->>>> -    }
->>>> +    domain_id = fastrpc_get_domain_id(domain);
->>>>
->>>>       if (domain_id < 0) {
->>>> -        dev_info(rdev, "FastRPC Invalid Domain ID %d\n", domain_id);
->>>> +        dev_info(rdev, "FastRPC Domain %s not supported\n", domain);
->>>>           return -EINVAL;
->>>>       }
->>>>
->>>> @@ -2332,19 +2337,19 @@ static int fastrpc_rpmsg_probe(struct rpmsg_device *rpdev)
->>>>       case SDSP_DOMAIN_ID:
->>>>           /* Unsigned PD offloading is only supported on CDSP and CDSP1 */
->>>>           data->unsigned_support = false;
->>>> -        err = fastrpc_device_register(rdev, data, secure_dsp, domains[domain_id]);
->>>> +        err = fastrpc_device_register(rdev, data, secure_dsp, domain);
->>>>           if (err)
->>>>               goto fdev_error;
->>>>           break;
->>>>       case CDSP_DOMAIN_ID:
->>>> -    case CDSP1_DOMAIN_ID:
->>>> +    case GDSP_DOMAIN_ID:
->>>>           data->unsigned_support = true;
->>>>           /* Create both device nodes so that we can allow both Signed and Unsigned PD */
->>>> -        err = fastrpc_device_register(rdev, data, true, domains[domain_id]);
->>>> +        err = fastrpc_device_register(rdev, data, true, domain);
->>>>           if (err)
->>>>               goto fdev_error;
->>>>
->>>> -        err = fastrpc_device_register(rdev, data, false, domains[domain_id]);
->>>> +        err = fastrpc_device_register(rdev, data, false, domain);
->>>>           if (err)
->>>>               goto populate_error;
->>>>           break;
->>>> diff --git a/include/uapi/misc/fastrpc.h b/include/uapi/misc/fastrpc.h
->>>> index f33d914d8f46..89516abd258f 100644
->>>> --- a/include/uapi/misc/fastrpc.h
->>>> +++ b/include/uapi/misc/fastrpc.h
->>>> @@ -133,6 +133,13 @@ struct fastrpc_mem_unmap {
->>>>       __s32 reserved[5];
->>>>   };
->>>>
->>>> +#define ADSP_DOMAIN_ID (0)
->>>> +#define MDSP_DOMAIN_ID (1)
->>>> +#define SDSP_DOMAIN_ID (2)
->>>> +#define CDSP_DOMAIN_ID (3)
->>>> +#define GDSP_DOMAIN_ID (4)
->>>> +
->>>> +#define FASTRPC_DOMAIN_MAX    4
->>>>   struct fastrpc_ioctl_capability {
->>>>       __u32 domain;
->>>>       __u32 attribute_id;
->>>
-> 
+(similarly, I have added a `dma_handle_with_offset` method to
+`CoherentAllocation` as I said I would in v4).
 
--- 
-Thx and BRs,
-Ling Xu
+>
+>> +            let r =3D regs::NV_PRISCV_RISCV_BCR_CTRL::read(bar, E::BASE=
+);
+>> +            if r.valid() {
+>> +                Some(())
+>> +            } else {
+>> +                None
+>> +            }
+>> +        })?;
+>> +    }
+>> +
+>> +    Ok(())
+>> +}
+>> +
+>> +fn signature_reg_fuse_version_ga102(
+>> +    dev: &device::Device,
+>> +    bar: &Bar0,
+>> +    engine_id_mask: u16,
+>> +    ucode_id: u8,
+>> +) -> Result<u32> {
+>> +    // The ucode fuse versions are contained in the FUSE_OPT_FPF_<ENGIN=
+E>_UCODE<X>_VERSION
+>> +    // registers, which are an array. Our register definition macros do=
+ not allow us to manage them
+>> +    // properly, so we need to hardcode their addresses for now.
+>
+> Sounds like a TODO?
 
+Yes, although it is addressed in the next iteration of the register
+macro (which I will send after this series), which supports register
+arrays. Marked this as a TODO nonetheless.
+
+>
+>> +
+>> +    // Each engine has 16 ucode version registers numbered from 1 to 16=
+.
+>> +    if ucode_id =3D=3D 0 || ucode_id > 16 {
+>> +        dev_err!(dev, "invalid ucode id {:#x}", ucode_id);
+>> +        return Err(EINVAL);
+>> +    }
+>> +
+>> +    // Base address of the FUSE registers array corresponding to the en=
+gine.
+>> +    let reg_fuse_base =3D if engine_id_mask & 0x0001 !=3D 0 {
+>> +        regs::NV_FUSE_OPT_FPF_SEC2_UCODE1_VERSION::OFFSET
+>> +    } else if engine_id_mask & 0x0004 !=3D 0 {
+>> +        regs::NV_FUSE_OPT_FPF_NVDEC_UCODE1_VERSION::OFFSET
+>> +    } else if engine_id_mask & 0x0400 !=3D 0 {
+>> +        regs::NV_FUSE_OPT_FPF_GSP_UCODE1_VERSION::OFFSET
+>> +    } else {
+>> +        dev_err!(dev, "unexpected engine_id_mask {:#x}", engine_id_mask=
+);
+>> +        return Err(EINVAL);
+>> +    };
+>> +
+>> +    // Read `reg_fuse_base[ucode_id - 1]`.
+>> +    let reg_fuse_version =3D
+>> +        bar.read32(reg_fuse_base + ((ucode_id - 1) as usize * core::mem=
+::size_of::<u32>()));
+>> +
+>> +    Ok(fls_u32(reg_fuse_version))
+>> +}
+>> +
+>> +fn program_brom_ga102<E: FalconEngine>(bar: &Bar0, params: &FalconBromP=
+arams) -> Result {
+>> +    regs::NV_PFALCON2_FALCON_BROM_PARAADDR::default()
+>> +        .set_value(params.pkc_data_offset)
+>> +        .write(bar, E::BASE);
+>> +    regs::NV_PFALCON2_FALCON_BROM_ENGIDMASK::default()
+>> +        .set_value(params.engine_id_mask as u32)
+>> +        .write(bar, E::BASE);
+>> +    regs::NV_PFALCON2_FALCON_BROM_CURR_UCODE_ID::default()
+>> +        .set_ucode_id(params.ucode_id)
+>> +        .write(bar, E::BASE);
+>> +    regs::NV_PFALCON2_FALCON_MOD_SEL::default()
+>> +        .set_algo(FalconModSelAlgo::Rsa3k)
+>> +        .write(bar, E::BASE);
+>> +
+>> +    Ok(())
+>> +}
+>> +
+>> +pub(super) struct Ga102<E: FalconEngine>(PhantomData<E>);
+>> +
+>> +impl<E: FalconEngine> Ga102<E> {
+>> +    pub(super) fn new() -> Self {
+>> +        Self(PhantomData)
+>> +    }
+>> +}
+>> +
+>> +impl<E: FalconEngine> FalconHal<E> for Ga102<E> {
+>> +    fn select_core(&self, _falcon: &Falcon<E>, bar: &Bar0) -> Result {
+>> +        select_core_ga102::<E>(bar)
+>> +    }
+>> +
+>> +    fn signature_reg_fuse_version(
+>> +        &self,
+>> +        falcon: &Falcon<E>,
+>> +        bar: &Bar0,
+>> +        engine_id_mask: u16,
+>> +        ucode_id: u8,
+>> +    ) -> Result<u32> {
+>> +        signature_reg_fuse_version_ga102(&falcon.dev, bar, engine_id_ma=
+sk, ucode_id)
+>> +    }
+>> +
+>> +    fn program_brom(&self, _falcon: &Falcon<E>, bar: &Bar0, params: &Fa=
+lconBromParams) -> Result {
+>> +        program_brom_ga102::<E>(bar, params)
+>> +    }
+>
+> Why are those two separate functions?
+
+Do you mean why does `program_brom` calls `program_brom_ga102`? This is
+so HAL methods can be re-used in other architectures. For instance,
+Hopper's HAL be identical to Ampere save for `select_core`, so having
+everything in separate functions allows the Hopper HAL to just call
+`program_brom_ga102`. It's a sane convention to have IMHO, maybe we
+should codify it via a HAL paragraph in the guidelines document?
