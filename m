@@ -2,83 +2,84 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id CE359ADF51C
-	for <lists+dri-devel@lfdr.de>; Wed, 18 Jun 2025 19:56:50 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id D1441ADF525
+	for <lists+dri-devel@lfdr.de>; Wed, 18 Jun 2025 19:57:49 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C10ED10E05F;
-	Wed, 18 Jun 2025 17:56:47 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2F54C10E1E6;
+	Wed, 18 Jun 2025 17:57:48 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="irZjxVv/";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="aax1AkfI";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lj1-f172.google.com (mail-lj1-f172.google.com
- [209.85.208.172])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8CFEB10E05F;
- Wed, 18 Jun 2025 17:56:46 +0000 (UTC)
-Received: by mail-lj1-f172.google.com with SMTP id
- 38308e7fff4ca-32addf54a01so75586821fa.3; 
- Wed, 18 Jun 2025 10:56:46 -0700 (PDT)
+Received: from mail-lj1-f179.google.com (mail-lj1-f179.google.com
+ [209.85.208.179])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 004AA10E8F6;
+ Wed, 18 Jun 2025 17:57:46 +0000 (UTC)
+Received: by mail-lj1-f179.google.com with SMTP id
+ 38308e7fff4ca-32b78b5aa39so16266851fa.1; 
+ Wed, 18 Jun 2025 10:57:46 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1750269405; x=1750874205; darn=lists.freedesktop.org;
+ d=gmail.com; s=20230601; t=1750269465; x=1750874265; darn=lists.freedesktop.org;
  h=content-transfer-encoding:cc:to:subject:message-id:date:from
  :in-reply-to:references:mime-version:from:to:cc:subject:date
  :message-id:reply-to;
- bh=RFrhjba+jX00ww6cE0VuGNNBUQaISwhdA2R1o+tAwj8=;
- b=irZjxVv/a2ID6a5h8JsfVg2ZqHiX20uLph5zxWs7x6MdW3JZn0UrwBDY+S5GnlIF8t
- 4IzFw8hfAPSX9EDRicG2BMQw0pTKjdSgxHN6NjckD7oP5rAngMpe1+ll5gfO8fhdYGv8
- UizvuooYaofmJhLbJZaHVQhMXZ1bz3tKrcpzOF9IXan1Khy/7Fz7XaetLlhm8xSvrlur
- 4qQ38MTcsmIjq9v1EuQmp3iRqae0JaEIe+fS0LGA7yHqwHwVriFJyWQXBCRM/jG8OijA
- 73XQNBixp6I6vxQKcVZ8HsNYqO+TWX8GRJijLeaCD/vB9jD6C5Gkvrk7qIaSBkgPtKed
- Zlog==
+ bh=xvbpCHoh061DVA2zXXba49YyPXgWLFHdq9S5LqMpTVY=;
+ b=aax1AkfIJ9uE5wUREEGAX7ThCEre7PpLYwzAOjIRaKj9spGRij+/imyds7LiP8nk/a
+ BDHWQsxaEOmZ/YpO89R2vLDph3iowUAEEHOJqfRyQfDe7KEyX5+9RGav2nhnemIbSbAZ
+ wwRudx875ZZWnbbd+cUf+pz0BvAIjZGAFo1osQXyc+5ivpVjusxMpevIWCG0N4l9JddT
+ erNWZ0xpi1d1VmOZFHY+Q24PNFMw7SfRY+YvANfq4kTwH1ArP3izzqsYPHw7r2BwsUmt
+ hIrMisvJkdmVSorUjZpeGtzT9Plh2AUC8xzVTe2nn5AC5gbTWqF2SECAJ0ZiqmdloPKA
+ ucQw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1750269405; x=1750874205;
+ d=1e100.net; s=20230601; t=1750269465; x=1750874265;
  h=content-transfer-encoding:cc:to:subject:message-id:date:from
  :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=RFrhjba+jX00ww6cE0VuGNNBUQaISwhdA2R1o+tAwj8=;
- b=o6Ne453yuTrCRuwIShZEJPMuZjYqAAgSg/whEEhu7hDqHuafyA4+EhTFf5Dx4ZEI83
- 0C6f882H0ECp1qxgQOa6kh7wLfenY7FN0OVsIitZbMvVpVD74GYcUxeOmbDVsCba0uUe
- /mho3mKtRKy7XSpih9v41A13egiaYY2me3+kp8X8C/bW7xOEvKognw3eafqWRpi+i6S6
- irmIpCwIN+/qe5f/gJAq33OZDLB9HoiRjmJ2PGTp22PYMm+gEN/3nOt0H0dDmRzRYwPz
- Ujm1pt6B5HHCHGN/Otsysv6T/RXeyO5TyTcdcSkLEdprYOarjVECZh4uTrhO4YmyquFS
- XIuA==
+ bh=xvbpCHoh061DVA2zXXba49YyPXgWLFHdq9S5LqMpTVY=;
+ b=YwT1Ih8uAX7meT+PG6JBVPa9z+grjJ4Jot61uMXqT1wMq5zFat48hPPFmHrI3CJJhO
+ NrXjBcJLwXYIvdbbcjPW/UJIhxTHoV8qdnDTNTrX1Yss+7ZeNTVok9FpJzadTSNG5dzy
+ jxUZpnWYvPOQ8tSuZ/BpA9Gwn2gZ+XJcIvpQkDEpgmNmWDeZIweRP9xwFpqoEpSAbcOT
+ xfFqBfD/rKeBCUwD6QRjeNMKUK3JlgCsF7TDMIonp5r+JRsBiHtiwC4NqH8ccs0k5Kl6
+ VN+/bGsDzZe+3MHCCcQ4e9+osJtFBYWm9ShcCAwJRKPh6GC5ymxxdSCpQx+e9IMro3uQ
+ /wXw==
 X-Forwarded-Encrypted: i=1;
- AJvYcCUfztxGQBgQl/S665VlU5r5rV5qxPPuZDFICNaubgwefeGqvv6z7u0+m9ynq3YauCEP5hnsbAmmkg==@lists.freedesktop.org,
- AJvYcCX+rFpGNVPO3U7DQBiA+yzYYvgsa94jH+EIs0waUD0bD/PiHrvJppMg6xg2Rhi5abM+xcrApcHZ5u0=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YwiKEetwL9OAHG/69jemMi6PVs7wImO0YPAdETUChBRlB6Q1t0F
- mfhMUS5FxjhHnHNFh511rDQ22cJf8RWp1OsYmxrz88hY6VHXXxrcCXWnpA71k6flV+2y+0i1pFU
- yOGzUvvDdpUYaDJ8N0aVXKbX5ldt91gQ=
-X-Gm-Gg: ASbGncue1LtHERE44J4nz0O8KhyVo0sP0T5aXAWrqdC4hE447v7pZrTk1JvJ/YeCF+t
- YQTUo4yCD70ViZ8YJi7H0ggoVT2kCvrlYPYOKZ1aPGqPKNHBEH510H2vAnaPeRiEb+ggjLQXrSL
- w/qBgHTt837XSCJJx5QrzBuJEmKI+PqD1l3ilRRY1YYPTPWrmbq6CxuDjvMxdup+HV57353Q==
-X-Google-Smtp-Source: AGHT+IFYpQNeIBg62gf2bJKGY02IKzd8mHZl9tpr1i/aaJGRezLkroXz7FNXVmmWP0ibkJJnM2113j3XPbjKe0XRBDs=
-X-Received: by 2002:a2e:a7c1:0:b0:32b:53b1:c86a with SMTP id
- 38308e7fff4ca-32b53b1ce9fmr41415971fa.24.1750269404558; Wed, 18 Jun 2025
- 10:56:44 -0700 (PDT)
+ AJvYcCUcfWb1WD5rj4PLHrHXAPBtkoG+aRs2QNt5owX6pWenfwaswjChe7MVeC5vkh9dxL22GeEkwBp6UO0=@lists.freedesktop.org,
+ AJvYcCUy4EDWLe5t7TWnqogDyOp0UVGEyyPeayu6QYtWxxIEAPUlpWDFW6u2+B6myGU/yZ2n9FwKzLchxA==@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YwmEExDqiD4IIA2mnQYpxFhOpnNTRHM/9xqMvs3u/cbHzSsfLC2
+ D7nsxVBxBCB+p3p2eGhwTRFyHkQ9UTXjrH0I28LNNFQe+RGgTF82METw4UWhrPougZtfQakmHUl
+ pdX+d1gIQGoC9G3xaH8bzNfRm0cR8icE=
+X-Gm-Gg: ASbGncu9c0yupRgenhLyHIWiyZsS8ov0OhItStK5SMl9lWscgETrM7D7A8y3BnPJhcw
+ q3w0aYkfkzs2jSAFSxqb5U+smWbsVQHf6h7GEsnthggTDRXLPHbODvg80mmw6qyd7iyQk7Sa9ZE
+ Q/YPfThbQ3qPDWN9hsK83lsonxdvQHYlrNs3G9GZZE84mRmqiqjKcRdoHVeAs=
+X-Google-Smtp-Source: AGHT+IFGH5gYRz7HzyAkXc6xFQTZHx1HyKujaRGU1VWJSVoGv01/xHq7AkSOADDbcwptpLJI4NKBOCX7lc78OHe1zqc=
+X-Received: by 2002:a05:651c:a0b:b0:32a:8591:6689 with SMTP id
+ 38308e7fff4ca-32b4a2d830bmr47463571fa.7.1750269465105; Wed, 18 Jun 2025
+ 10:57:45 -0700 (PDT)
 MIME-Version: 1.0
 References: <20250615-ptr-as-ptr-v12-0-f43b024581e8@gmail.com>
- <20250615-ptr-as-ptr-v12-4-f43b024581e8@gmail.com>
- <de30bc80-3dc9-4fac-afe8-bf6b0df42ea9@kernel.org>
- <CANiq72mOHbxt3xOJw8f=j184TRYs9y3wvcopH-h6P2SLe4jVNQ@mail.gmail.com>
-In-Reply-To: <CANiq72mOHbxt3xOJw8f=j184TRYs9y3wvcopH-h6P2SLe4jVNQ@mail.gmail.com>
+ <20250615-ptr-as-ptr-v12-1-f43b024581e8@gmail.com>
+ <CAJ-ks9=6RSaLmNmDBv-TzJfGF8WzEi9Vd-s=1wyqBcF7_f7qQQ@mail.gmail.com>
+ <CANiq72kgnKH2SSp76EdPeysExBWasqhTyf1JyReR65g6FMsidA@mail.gmail.com>
+ <ccbc2a76-20fe-4f70-b69b-9d05b59f24b8@kernel.org>
+In-Reply-To: <ccbc2a76-20fe-4f70-b69b-9d05b59f24b8@kernel.org>
 From: Tamir Duberstein <tamird@gmail.com>
-Date: Wed, 18 Jun 2025 13:56:08 -0400
-X-Gm-Features: AX0GCFtQa8QSLL1IyAtkspzHqh-LWDey5MUYh6_rGpgLIHwPpEpm3BqmaQGaU5c
-Message-ID: <CAJ-ks9nnNjBfzCasOtFZGXBj=UKqZxuyh3-Emj3yFrz=9f8tmg@mail.gmail.com>
-Subject: Re: [PATCH v12 4/6] rust: enable `clippy::as_underscore` lint
-To: Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>
-Cc: Danilo Krummrich <dakr@kernel.org>, Masahiro Yamada <masahiroy@kernel.org>,
+Date: Wed, 18 Jun 2025 13:57:08 -0400
+X-Gm-Features: AX0GCFshtGegkfZ_3VnmKgAk7O_-RQpc08IGr2vNv8IcZdaPQIit0uo4DnD-Ozw
+Message-ID: <CAJ-ks9kkmmHtMz0rubwEqGLu_08+gSzsG09gphVZ5e8Ccc77SQ@mail.gmail.com>
+Subject: Re: [PATCH v12 1/6] rust: enable `clippy::ptr_as_ptr` lint
+To: Danilo Krummrich <dakr@kernel.org>
+Cc: Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>,
+ Christian Brauner <brauner@kernel.org>, David Gow <davidgow@google.com>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
+ Tejun Heo <tj@kernel.org>, Masahiro Yamada <masahiroy@kernel.org>, 
  Nathan Chancellor <nathan@kernel.org>, Miguel Ojeda <ojeda@kernel.org>, 
  Alex Gaynor <alex.gaynor@gmail.com>, Boqun Feng <boqun.feng@gmail.com>, 
  Gary Guo <gary@garyguo.net>,
  =?UTF-8?Q?Bj=C3=B6rn_Roy_Baron?= <bjorn3_gh@protonmail.com>, 
  Andreas Hindborg <a.hindborg@kernel.org>, Alice Ryhl <aliceryhl@google.com>, 
- Trevor Gross <tmgross@umich.edu>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
- "Rafael J. Wysocki" <rafael@kernel.org>,
- Brendan Higgins <brendan.higgins@linux.dev>, 
- David Gow <davidgow@google.com>, Rae Moar <rmoar@google.com>, 
+ Trevor Gross <tmgross@umich.edu>, "Rafael J. Wysocki" <rafael@kernel.org>, 
+ Brendan Higgins <brendan.higgins@linux.dev>, Rae Moar <rmoar@google.com>, 
  Bjorn Helgaas <bhelgaas@google.com>, Luis Chamberlain <mcgrof@kernel.org>, 
  Russ Weight <russ.weight@linux.dev>, Rob Herring <robh@kernel.org>, 
  Saravana Kannan <saravanak@google.com>,
@@ -123,21 +124,35 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, Jun 18, 2025 at 1:50=E2=80=AFPM Miguel Ojeda
-<miguel.ojeda.sandonis@gmail.com> wrote:
+On Wed, Jun 18, 2025 at 1:44=E2=80=AFPM Danilo Krummrich <dakr@kernel.org> =
+wrote:
 >
-> On Wed, Jun 18, 2025 at 7:38=E2=80=AFPM Danilo Krummrich <dakr@kernel.org=
-> wrote:
+> On 6/18/25 6:45 PM, Miguel Ojeda wrote:
+> > On Wed, Jun 18, 2025 at 3:54=E2=80=AFPM Tamir Duberstein <tamird@gmail.=
+com> wrote:
+> >>
+> >> @Andreas Hindborg could you please have a look for configfs?
+> >>
+> >> @Rafael J. Wysocki @Viresh Kumar could you please have a look for cpuf=
+req?
 > >
-> > Shouldn't this be `c_long`?
+> > Thanks Tamir.
+> >
+> > Christian, Danilo, David, Greg, Tejun: It would also be nice to get
+> > Acked-by's for your bits. Thanks!
 >
-> Yeah, agreed, it is clearer -- I mentioned that for similar ones in a
-> previous version.
+> For the whole series and the bits I maintain:
+>
+> Acked-by: Danilo Krummrich <dakr@kernel.org>
+>
+> --
+>
+> Independent from that, won't this potentially leave us with a lot of warn=
+ings
+> from code that goes through other trees in the upcoming merge window? How=
+ do we
+> deal with that?
 
-+1
-
-Miguel, would you mind taking care of this on apply? Quite a big
-series to send again.
-
-Cheers.
-Tamir
+I think the idea was to take this during rc so that all trees have it
+by the start of the next merge window. I'm not 100% clear on the
+kernel mechanics here, but that's my understanding.
