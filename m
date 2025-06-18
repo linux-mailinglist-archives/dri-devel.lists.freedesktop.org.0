@@ -2,35 +2,35 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 48C0FADF7F7
-	for <lists+dri-devel@lfdr.de>; Wed, 18 Jun 2025 22:42:33 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 67566ADF7EE
+	for <lists+dri-devel@lfdr.de>; Wed, 18 Jun 2025 22:42:27 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7B62E10E95E;
-	Wed, 18 Jun 2025 20:42:29 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 64ECD10E952;
+	Wed, 18 Jun 2025 20:42:24 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=collabora.com header.i=@collabora.com header.b="XciBH6Tx";
+	dkim=pass (2048-bit key; unprotected) header.d=collabora.com header.i=@collabora.com header.b="phghBS4W";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from bali.collaboradmins.com (bali.collaboradmins.com
  [148.251.105.195])
- by gabe.freedesktop.org (Postfix) with ESMTPS id CF33C10E94F;
+ by gabe.freedesktop.org (Postfix) with ESMTPS id CFCD610E955;
  Wed, 18 Jun 2025 20:42:21 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
  s=mail; t=1750279337;
- bh=J6V/lWrwi9SsMBmzCiPDoKNqm/YDWe50nHVIVs90nIQ=;
+ bh=vRSop1esSI6ViSFxoz+SiFvJXRkVP03/6Jr3Bmz4YpI=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=XciBH6TxyzLidGEdaRtYrDfrHfgrT582Yz2GjjKp48AsoxnGntrVeKFB1mwRCNKw9
- 6CWoGmZdAlEMzD3k6XRmehO+ycvBwTX5gOS5N/cXAsDHyam0IyqZcGsWTCjHCyOdrV
- eSK69uMb9mof4a9joj0gq/DyqCoW995XO0AnTgIx5wDLTmX0DdZ0wWEnH5I9Y1+iDC
- HZ21Y3CNxzvHNFcz8i6UeqqmXDRK8W6Nb1RTUuFhRznW8gH1EEDTWbSrwRMPgUVjUJ
- fRUzqPdmVUFu9M+2bIvud5q+89aS5oNs4IFpLVe/M9OAhd0l7wqCKmI/sIFlqnk1SQ
- 6L5XD8uvY7sxg==
+ b=phghBS4Wc2i9/G9cl1tOOTJc1saDZEGCLOVhag1lO+rHhmBWBYQ4skci8wALmaHko
+ hp/GlDrZP5Nrz1yII9Uv/TtVV3NgJ+sdtek2El7e33kFuU40OjuKySCHkvRf+kHq16
+ ut5pzIQPCq++wxjEU1V2d6vLaOcs+DbSf3UEblgIa6/wzfJvddouJrDsVrkDy1LK5f
+ afHsXreKfS2L0Re0FNtjh7ih88Lyhgm10wZnWyK9ybbEHDcgzI7qN4zx7zPieH5WWU
+ W+gU9l0r7diMIr0brdrq3i4fZ/MWNSYOdnEQmjMaTqc8aYaygOGR75bxHL2DCrmcGk
+ tAXJNzkRICVUQ==
 Received: from localhost.localdomain (unknown [89.186.158.57])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
  (No client certificate requested) (Authenticated sender: gerddie)
- by bali.collaboradmins.com (Postfix) with ESMTPSA id 3E0D217E155C;
+ by bali.collaboradmins.com (Postfix) with ESMTPSA id 9CABF17E156A;
  Wed, 18 Jun 2025 22:42:17 +0200 (CEST)
 From: Gert Wollny <gert.wollny@collabora.com>
 To: Lucas Stach <l.stach@pengutronix.de>,
@@ -38,10 +38,9 @@ To: Lucas Stach <l.stach@pengutronix.de>,
  Christian Gmeiner <christian.gmeiner@gmail.com>
 Cc: etnaviv@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
  linux-kernel@vger.kernel.org, Gert Wollny <gert.wollny@collabora.com>
-Subject: [PATCH v2 3/6] drm/etnaviv: Add a new function to emit a series of
- states to cmd stream
-Date: Wed, 18 Jun 2025 22:43:31 +0200
-Message-ID: <20250618204400.21808-4-gert.wollny@collabora.com>
+Subject: [PATCH v2 4/6] drm/etnaviv: Identify GPU already when binding
+Date: Wed, 18 Jun 2025 22:43:32 +0200
+Message-ID: <20250618204400.21808-5-gert.wollny@collabora.com>
 X-Mailer: git-send-email 2.49.0
 In-Reply-To: <20250618204400.21808-1-gert.wollny@collabora.com>
 References: <20250618204400.21808-1-gert.wollny@collabora.com>
@@ -62,37 +61,48 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-v2: fix formatting and remove superfluous masking (Lucas)
+This is required to know whether to be able to avoid allocating
+the flop reset data if non of the available GPUs actually need
+it.
 
 Signed-off-by: Gert Wollny <gert.wollny@collabora.com>
 ---
- drivers/gpu/drm/etnaviv/etnaviv_buffer.h | 13 +++++++++++++
- 1 file changed, 13 insertions(+)
+ drivers/gpu/drm/etnaviv/etnaviv_gpu.c | 15 +++++++--------
+ 1 file changed, 7 insertions(+), 8 deletions(-)
 
-diff --git a/drivers/gpu/drm/etnaviv/etnaviv_buffer.h b/drivers/gpu/drm/etnaviv/etnaviv_buffer.h
-index caf820d91ef5..842a7ca55c44 100644
---- a/drivers/gpu/drm/etnaviv/etnaviv_buffer.h
-+++ b/drivers/gpu/drm/etnaviv/etnaviv_buffer.h
-@@ -41,6 +41,19 @@ static inline void CMD_LOAD_STATE(struct etnaviv_cmdbuf *buffer,
- 	OUT(buffer, value);
- }
+diff --git a/drivers/gpu/drm/etnaviv/etnaviv_gpu.c b/drivers/gpu/drm/etnaviv/etnaviv_gpu.c
+index cf0d9049bcf1..dc8a7ff3e797 100644
+--- a/drivers/gpu/drm/etnaviv/etnaviv_gpu.c
++++ b/drivers/gpu/drm/etnaviv/etnaviv_gpu.c
+@@ -829,14 +829,6 @@ int etnaviv_gpu_init(struct etnaviv_gpu *gpu)
+ 		goto fail;
+ 	}
  
-+static inline void CMD_LOAD_STATES_START(struct etnaviv_cmdbuf *buffer,
-+					u32 reg, u32 nvalues)
-+{
-+	u32 index = reg >> VIV_FE_LOAD_STATE_HEADER_OFFSET__SHR;
+-	etnaviv_hw_identify(gpu);
+-
+-	if (gpu->identity.model == 0) {
+-		dev_err(gpu->dev, "Unknown GPU model\n");
+-		ret = -ENXIO;
+-		goto fail;
+-	}
+-
+ 	if (gpu->identity.nn_core_count > 0)
+ 		dev_warn(gpu->dev, "etnaviv has been instantiated on a NPU, "
+                                    "for which the UAPI is still experimental\n");
+@@ -1808,6 +1800,13 @@ static int etnaviv_gpu_bind(struct device *dev, struct device *master,
+ 	INIT_WORK(&gpu->sync_point_work, sync_point_worker);
+ 	init_waitqueue_head(&gpu->fence_event);
+ 
++	etnaviv_hw_identify(gpu);
 +
-+	buffer->user_size = ALIGN(buffer->user_size, 8);
-+
-+	/* write a register via cmd stream */
-+	OUT(buffer, VIV_FE_LOAD_STATE_HEADER_OP_LOAD_STATE |
-+	            VIV_FE_LOAD_STATE_HEADER_OFFSET(index) |
-+	            VIV_FE_LOAD_STATE_HEADER_COUNT(nvalues));
-+}
-+
- static inline void CMD_END(struct etnaviv_cmdbuf *buffer)
- {
- 	buffer->user_size = ALIGN(buffer->user_size, 8);
++	if (gpu->identity.model == 0) {
++		dev_err(gpu->dev, "Unknown GPU model\n");
++		ret = -ENXIO;
++		goto out_sched;
++	}
+ 	priv->gpu[priv->num_gpus++] = gpu;
+ 
+ 	return 0;
 -- 
 2.49.0
 
