@@ -2,72 +2,72 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 96AC6ADEE18
-	for <lists+dri-devel@lfdr.de>; Wed, 18 Jun 2025 15:41:33 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 272C7ADEE21
+	for <lists+dri-devel@lfdr.de>; Wed, 18 Jun 2025 15:42:43 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 017B010E834;
-	Wed, 18 Jun 2025 13:41:32 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2CD4810E835;
+	Wed, 18 Jun 2025 13:42:40 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=bgdev-pl.20230601.gappssmtp.com header.i=@bgdev-pl.20230601.gappssmtp.com header.b="KYYI8c1I";
+	dkim=pass (2048-bit key; unprotected) header.d=bgdev-pl.20230601.gappssmtp.com header.i=@bgdev-pl.20230601.gappssmtp.com header.b="hfPkObP5";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pj1-f52.google.com (mail-pj1-f52.google.com
- [209.85.216.52])
- by gabe.freedesktop.org (Postfix) with ESMTPS id BF1FC10E834
- for <dri-devel@lists.freedesktop.org>; Wed, 18 Jun 2025 13:41:30 +0000 (UTC)
-Received: by mail-pj1-f52.google.com with SMTP id
- 98e67ed59e1d1-313910f392dso6120248a91.2
- for <dri-devel@lists.freedesktop.org>; Wed, 18 Jun 2025 06:41:30 -0700 (PDT)
+Received: from mail-pl1-f176.google.com (mail-pl1-f176.google.com
+ [209.85.214.176])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C55CD10E835
+ for <dri-devel@lists.freedesktop.org>; Wed, 18 Jun 2025 13:42:38 +0000 (UTC)
+Received: by mail-pl1-f176.google.com with SMTP id
+ d9443c01a7336-236377f00a1so62571075ad.3
+ for <dri-devel@lists.freedesktop.org>; Wed, 18 Jun 2025 06:42:38 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=bgdev-pl.20230601.gappssmtp.com; s=20230601; t=1750254090; x=1750858890;
+ d=bgdev-pl.20230601.gappssmtp.com; s=20230601; t=1750254158; x=1750858958;
  darn=lists.freedesktop.org; 
  h=content-transfer-encoding:cc:to:subject:message-id:date:from
  :in-reply-to:references:mime-version:from:to:cc:subject:date
  :message-id:reply-to;
- bh=yl0PcNOIcNCw+lBv442hGsxXVF1DxIoZVa0h3oivgnQ=;
- b=KYYI8c1IIVgVA1m/4JoWOfnir0XLnGpnACDybAl92b/6OQMbi5DpC1Mey+DohMkY6+
- +8Z3Ur+pOQmsyKdLgKTh6v7NKYQ0snMXO1AZ8j/7n0fJeHdW6o+gsg/DHsaSMSQVKUlE
- j12ZAagdf7OZ/n1JKQKmoFcQJaYlj8cZo7kRJN/UsxE9Bh9BDl+khdzGMKRi9jRiO2BP
- Esy+GFhgjvrgPSDIeKUhvaGqJ1B4yPbFjb5bPbt/FWFniu6R6RAom1QOeDPGSm9FK3hb
- tnDSsO71HdblrkTn/HbbU5HG1n4urXjlMPtERgGvjqcXGachPJTd7BB9F3VcnduyB7bx
- Ipgg==
+ bh=eEO+Aw2g4Ye3zeBEqfCg7cLkZgwkmnjuAHAb/18yzBw=;
+ b=hfPkObP5EKRCp0VS1fGPmzxfEFQCooe0FlijyBiw9Gp244si4W+U05F+81KYd1WOVd
+ uT5tADgA/hUza1IO1dIqjKig+B5EVQ+fiXg0eWafNKqRKWPfua3W4ruUB9ATWXI4T748
+ bfxKC6SEHjj3eUwd+Z9t38Y4im5i/ZDfNjrO55/JDpV7xfOh79cuJD8Lo2rO1IDXkEYb
+ 7Sa/DQwuX2qn3CllUKu/3S+3xyl1huRTQmKL5r7ierGTi30AGDQ+NtvBoN2m3EvdXSuT
+ 9KK6eD/NSrHQC8sImf0yGahQevMpE9+n+LpELFVWUjyRANyq2xEIvchj60bus//jJmal
+ 8F8w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1750254090; x=1750858890;
+ d=1e100.net; s=20230601; t=1750254158; x=1750858958;
  h=content-transfer-encoding:cc:to:subject:message-id:date:from
  :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=yl0PcNOIcNCw+lBv442hGsxXVF1DxIoZVa0h3oivgnQ=;
- b=SCeKS4TrnNRVRI8kQkLIGnvqeEhyDarIxnJaT+vEDqHzd+vNqIQPN3J6PqWY54o9fx
- /CmCkw+Nn0vLMUBS+VJAOkpGrUEcjYDFkgqAo35/WED9pXC8v6GwUZfL+vDPulvdg/XW
- ol5z4YozD1ukvfrHMu6s2ei67bqV0Q89mforrCra36KylxZJSbV6HWzbzQH9oKU31cWo
- QwSDnsS54PXFfaw6PQW9zBbZODNsTxs2VmSpQefd5kUP+rBHMrnB/l9efY5JVRawMYcm
- QmOldmuQg2pfcIth3yqM1hrpOboOzRpbRzCTjNfDBETHw4wKXgdh2CEfzf1zQ80ViSqV
- 46tw==
+ bh=eEO+Aw2g4Ye3zeBEqfCg7cLkZgwkmnjuAHAb/18yzBw=;
+ b=Ig93hGDwUp2NTw3qpm16+Pvvxnut3A5dzv0HEzfNw8lCbMjLms28f1GZ7QeAQ42Pd9
+ WDMvMe4reh5xL43tRHvmqQl3aA+Hugwf9Zc+RPyXRQMen0wmnU0FVTTsBuJVBk3WSMK0
+ KUtTS1Me9VR5NtARKbw1M8AQzSey3vWroXs5kzFzdS57jcok0lvO7clbjH1uFN1bPuxi
+ GNHWhRDezQkHGs4ghtymgjmGqJkH2O3xboE5N0ZF0LZZt1k8ORuvkWvVZoGcz3M1smcY
+ CcbnIvXS7Zwcp8MxCD/VEvJy2+BlyP5L2Yx5CvE5AovFhucRb6jw0f7D5FqhohxBSLow
+ Aj3g==
 X-Forwarded-Encrypted: i=1;
- AJvYcCXXxVqwX7yqrCf68rrmD0GVpMgBWI/gmePnIqDy//qTagTa0387IPlihIFyT6eP8uYMOLwiObNMtKg=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YxFaddEtl8zYjnk2YOSIApDPFVMsTUx6d5iAuLcuoDlG8lDKzf1
- Oh9zJaCZBXdwHhAQdhU/ZJv2twbmtZyCFxu4XcJvXu6tP+Q4WXjnw+rgzhTul16RX9hM8Ri+gBi
- 8flcBQ8pvBK8L8zY2f/SaruuIAyaJmqJ6PflVFeTkrA==
-X-Gm-Gg: ASbGncu2D2F5UwraESzND7IerP/0s0412MgAXJjal8HHV2kFz2Q6+mkvjKWFDjuYrH8
- kfOk9dRwYqxcpfimyBMDreKL4rROIS8xZ+LE2OI7gSbEWfLYhS7fIWoIcPqW2qWh0lEg6jqRMVX
- l7V7HASnykBqN7Dp0nj017JW1PRRuetr7cg+/So3J9y5cxMeSnAIpG1sL/8cauoB/duisBZWPhH
- g==
-X-Google-Smtp-Source: AGHT+IGM3MsC055WE6RGdmTL7+xpqbeOwcWlIGInX1z822Wu3bYLUR0ECZj1HH7bbG4yZBVpGpNdgZd2k9tfvrFyAoE=
-X-Received: by 2002:a17:90b:52c6:b0:311:f05b:869b with SMTP id
- 98e67ed59e1d1-313f1dcbbc1mr25929568a91.30.1750254090220; Wed, 18 Jun 2025
- 06:41:30 -0700 (PDT)
+ AJvYcCXb9y115KV7NPv+LkRfDJBvdcZUj3HpYe2A2Kl8BpT6ySfC6Fcgl3dH6XzsLxaAK3HWvDELK/m0jk4=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0Yxa0BKjgMbKO6GHq/nVpqKyX3KiUnriXyFNbjEA50uakWfHzsla
+ RiZerbnHCsMCIRxAA9lILVE7FdCFic4tYmpIWpxCPVKiWg3qQgq/C6sOFUbYhHeJx3KdX1dl/hK
+ y7SOIzJk7Qia3R9D3bj1eNzMtPRR/oKgJF1zKtO6cNQ==
+X-Gm-Gg: ASbGncv76lWaFVdKhB4WnzTaCoCIiRFu00MjTakOn5flngsIoBzbjzZX/dA+yqMRVN2
+ duWRwdWgkWGhp463ir9F/wY+pvYmnDh61uhHJh/WhlXCMxrYtb+8IaYEdq8QUAvcu6RMBQ8R+XE
+ y6EDcQ4mD8d82YyYjQ3mGBqXaEL8pMiUdheD5cGilG4Y0Iwh6iV9ZVq+bSXP13UH9eoXDNm+Cn9
+ w==
+X-Google-Smtp-Source: AGHT+IE9RRF0iBcbNFXcUb8SkJRKabvVWjmiE253LTqxfYGXwndQn6/QT3ohHBsxRY1SrMjuBvVMrN/uQK3qBsQXw3o=
+X-Received: by 2002:a17:902:cf0e:b0:234:d7b2:2aa9 with SMTP id
+ d9443c01a7336-2366b1221femr273087145ad.29.1750254158312; Wed, 18 Jun 2025
+ 06:42:38 -0700 (PDT)
 MIME-Version: 1.0
-References: <CGME20250618102228eucas1p1906803f73cc004e68f281b2bdf871da3@eucas1p1.samsung.com>
+References: <CGME20250618102229eucas1p2a5d38013ee52a8a4a10d43449073e79e@eucas1p2.samsung.com>
  <20250618-apr_14_for_sending-v5-0-27ed33ea5c6f@samsung.com>
- <20250618-apr_14_for_sending-v5-3-27ed33ea5c6f@samsung.com>
-In-Reply-To: <20250618-apr_14_for_sending-v5-3-27ed33ea5c6f@samsung.com>
+ <20250618-apr_14_for_sending-v5-4-27ed33ea5c6f@samsung.com>
+In-Reply-To: <20250618-apr_14_for_sending-v5-4-27ed33ea5c6f@samsung.com>
 From: Bartosz Golaszewski <brgl@bgdev.pl>
-Date: Wed, 18 Jun 2025 15:41:16 +0200
-X-Gm-Features: AX0GCFvz_RthrqCGUMHniOjba_9qiDf9mc2HoVSIdoi-DY1O9poo5r9j_4HtbqM
-Message-ID: <CAMRc=MfarMrUrdgAwa6dR2JuWooRhaqPmJeEY9H6LhVkCxf4kA@mail.gmail.com>
-Subject: Re: [PATCH v5 3/8] pmdomain: thead: Instantiate GPU power sequencer
- via auxiliary bus
+Date: Wed, 18 Jun 2025 15:42:23 +0200
+X-Gm-Features: AX0GCFtH0tHQpQVePKw4GRZe0_n4DXj2kfns9aQPVtqgBIhjJI4B39bCzPcceGU
+Message-ID: <CAMRc=Mcv6KJOCypOHF-KtFk6N-Z=eoMCqH0KuuUND=8J1YvrEw@mail.gmail.com>
+Subject: Re: [PATCH v5 4/8] drm/imagination: Use pwrseq for TH1520 GPU power
+ management
 To: Michal Wilczynski <m.wilczynski@samsung.com>
 Cc: Drew Fustini <drew@pdp7.com>, Guo Ren <guoren@kernel.org>,
  Fu Wei <wefu@redhat.com>, 
@@ -106,20 +106,30 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 On Wed, Jun 18, 2025 at 12:22=E2=80=AFPM Michal Wilczynski
 <m.wilczynski@samsung.com> wrote:
 >
-> In order to support the complex power sequencing required by the TH1520
-> GPU, the AON power domain driver must be responsible for initiating the
-> corresponding sequencer driver. This functionality is specific to
-> platforms where the GPU power sequencing hardware is controlled by the
-> AON block.
+> Update the Imagination PVR DRM driver to leverage the pwrseq framework
+> for managing the power sequence of the GPU on the T-HEAD TH1520 SoC.
 >
-> Extend the AON power domain driver to check for the presence of the
-> "gpu-clkgen" reset in its own device tree node.
+> To cleanly handle the TH1520's specific power requirements in the
+> generic driver, this patch implements the "driver match data" pattern.
+> The pvr_soc_data struct, associated with a compatible string in the
+> of_device_id table, now holds pointers to platform-specific power_on and
+> power_off functions.
 >
-> If the property is found, create and register a new auxiliary device.
-> This device acts as a proxy that allows the dedicated `pwrseq-thead-gpu`
-> auxiliary driver to bind and take control of the sequencing logic.
+> At probe time, the driver inspects the assigned power_on function
+> pointer. If it points to the pwrseq variant, the driver calls
+> devm_pwrseq_get("gpu-power"), requiring a valid sequencer and deferring
+> probe on failure. Otherwise, it falls back to its standard manual reset
+> initialization.
 >
+> The runtime PM callbacks, pvr_power_device_resume() and
+> pvr_power_device_suspend(), call the power_on and power_off function
+> pointers. Helper functions for both manual and pwrseq-based sequences
+> are introduced to support this.
+>
+> Reviewed-by: Ulf Hansson <ulf.hansson@linaro.org>
 > Signed-off-by: Michal Wilczynski <m.wilczynski@samsung.com>
 > ---
+
+IMO it's much better this way, thanks.
 
 Reviewed-by: Bartosz Golaszewski <bartosz.golaszewski@linaro.org>
