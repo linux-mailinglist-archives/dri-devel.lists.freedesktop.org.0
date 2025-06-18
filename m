@@ -2,79 +2,60 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id F3485ADE4F3
-	for <lists+dri-devel@lfdr.de>; Wed, 18 Jun 2025 09:54:09 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id A1956ADE50D
+	for <lists+dri-devel@lfdr.de>; Wed, 18 Jun 2025 09:59:35 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 156C210E7A5;
-	Wed, 18 Jun 2025 07:54:06 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 645DC10E1C5;
+	Wed, 18 Jun 2025 07:59:18 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; secure) header.d=linutronix.de header.i=@linutronix.de header.b="H//lwHnr";
-	dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="P5G7mtx1";
+	dkim=pass (1024-bit key; unprotected) header.d=ti.com header.i=@ti.com header.b="wCzxNFTb";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from galois.linutronix.de (Galois.linutronix.de [193.142.43.55])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 03AAA10E79C;
- Wed, 18 Jun 2025 07:54:00 +0000 (UTC)
-From: =?utf-8?q?Thomas_Wei=C3=9Fschuh?= <thomas.weissschuh@linutronix.de>
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
- s=2020; t=1750233234;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=hRSi6LPnJlewbz9+M2YF21yD0hWG5s8j8Ev4VekeCS4=;
- b=H//lwHnrCxwgr5Qyne1dSebZ0C/TyDzHnxgNkRFUbl7V9Foo1dPQAUyndYYFRSCve24JFX
- +U9gITtVlgE+7icVecD1ruTrs8B1ggford7mBnDhhcfkXaKQiOenSTkKfdHtKErvXHr2XB
- w+45928VjRAOcQlJZdr2j+y20Pm2ghWlXG84ccC/DWt+8bQnmtnMSX9IFOoYsK0lVnfxi+
- uJFCp42Jf5r3Qo9P9YIiNofXWn736P+O17Rcmzy7GVZD8tPg7ZvVVgnKsUxm9bqTHw8XKs
- wHH6f/WEy/TK+k7+qfG6YVagctnRjA7zvJ9rVAMlmv/yAxA1v1Tps/lDHa1xlg==
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=linutronix.de;
- s=2020e; t=1750233234;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=hRSi6LPnJlewbz9+M2YF21yD0hWG5s8j8Ev4VekeCS4=;
- b=P5G7mtx1ZaQLqKuTMGNxDi36WMAI+1JfQ/MuzORfSpbSJ49TWx3v/9mFK4n2WTbB6gO3fC
- Zm2GV+ALFLNk5bDQ==
-Date: Wed, 18 Jun 2025 09:52:22 +0200
-Subject: [PATCH 3/3] drm/msm: Don't use %pK through printk
+Received: from fllvem-ot03.ext.ti.com (fllvem-ot03.ext.ti.com [198.47.19.245])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2641810E1C5
+ for <dri-devel@lists.freedesktop.org>; Wed, 18 Jun 2025 07:59:17 +0000 (UTC)
+Received: from fllvem-sh04.itg.ti.com ([10.64.41.54])
+ by fllvem-ot03.ext.ti.com (8.15.2/8.15.2) with ESMTP id 55I7w7OO045975;
+ Wed, 18 Jun 2025 02:58:07 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
+ s=ti-com-17Q1; t=1750233487;
+ bh=CpArHiSJG2AiZ5RKGHjm9INHc2O3KtIyN9fu0n+I6HA=;
+ h=From:To:CC:Subject:Date;
+ b=wCzxNFTbTCjWOqlQpo/Soq2+ndOit7oEh5PQ6K2DNaxbz7fhTM/txAk1jYAvaEDtC
+ wCQmzRHAy6q6pj22w1kEyNBNqRURMymVLEEgwLc1oRWjLIxRpUBF1P6Q4vmAFPfCWg
+ vArXg5eKQWvG74ccX2uKOcOF9jsjg/YDN7PJhPfE=
+Received: from DLEE103.ent.ti.com (dlee103.ent.ti.com [157.170.170.33])
+ by fllvem-sh04.itg.ti.com (8.18.1/8.18.1) with ESMTPS id 55I7w67O2727886
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES128-SHA256 bits=128 verify=FAIL);
+ Wed, 18 Jun 2025 02:58:06 -0500
+Received: from DLEE100.ent.ti.com (157.170.170.30) by DLEE103.ent.ti.com
+ (157.170.170.33) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2507.55; Wed, 18
+ Jun 2025 02:58:05 -0500
+Received: from lelvem-mr06.itg.ti.com (10.180.75.8) by DLEE100.ent.ti.com
+ (157.170.170.30) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2507.55 via
+ Frontend Transport; Wed, 18 Jun 2025 02:58:05 -0500
+Received: from localhost (jayesh-hp-z2-tower-g5-workstation.dhcp.ti.com
+ [172.24.227.143])
+ by lelvem-mr06.itg.ti.com (8.18.1/8.18.1) with ESMTP id 55I7w5J23114640;
+ Wed, 18 Jun 2025 02:58:05 -0500
+From: Jayesh Choudhary <j-choudhary@ti.com>
+To: <jyri.sarha@iki.fi>, <dri-devel@lists.freedesktop.org>, <devarsht@ti.com>, 
+ <tomi.valkeinen@ideasonboard.com>
+CC: <maarten.lankhorst@linux.intel.com>, <mripard@kernel.org>,
+ <tzimmermann@suse.de>, <airlied@gmail.com>, <simona@ffwll.ch>,
+ <linux-kernel@vger.kernel.org>, <j-choudhary@ti.com>
+Subject: [PATCH] drm/tidss: Decouple max_pclk from tidss feats to remove clock
+ dependency
+Date: Wed, 18 Jun 2025 13:28:04 +0530
+Message-ID: <20250618075804.139844-1-j-choudhary@ti.com>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
-Message-Id: <20250618-restricted-pointers-drm-v1-3-781e0d88cd92@linutronix.de>
-References: <20250618-restricted-pointers-drm-v1-0-781e0d88cd92@linutronix.de>
-In-Reply-To: <20250618-restricted-pointers-drm-v1-0-781e0d88cd92@linutronix.de>
-To: Inki Dae <inki.dae@samsung.com>, Jagan Teki <jagan@amarulasolutions.com>, 
- Marek Szyprowski <m.szyprowski@samsung.com>, 
- Andrzej Hajda <andrzej.hajda@intel.com>, 
- Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>, 
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>, 
- Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>, 
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, 
- Seung-Woo Kim <sw0312.kim@samsung.com>, 
- Kyungmin Park <kyungmin.park@samsung.com>, 
- Krzysztof Kozlowski <krzk@kernel.org>, 
- Alim Akhtar <alim.akhtar@samsung.com>, 
- Rob Clark <robin.clark@oss.qualcomm.com>, 
- Dmitry Baryshkov <lumag@kernel.org>, 
- Abhinav Kumar <abhinav.kumar@linux.dev>, 
- Jessica Zhang <jessica.zhang@oss.qualcomm.com>, Sean Paul <sean@poorly.run>, 
- Marijn Suijten <marijn.suijten@somainline.org>
-Cc: dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org, 
- linux-arm-kernel@lists.infradead.org, linux-samsung-soc@vger.kernel.org, 
- linux-arm-msm@vger.kernel.org, freedreno@lists.freedesktop.org, 
- =?utf-8?q?Thomas_Wei=C3=9Fschuh?= <thomas.weissschuh@linutronix.de>
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1750233231; l=3885;
- i=thomas.weissschuh@linutronix.de; s=20240209; h=from:subject:message-id;
- bh=+2X4ysqtRsTHUcY7E66k0quE5SROmLVa6c2NEYuHLu8=;
- b=MeeQzXgwzNU70goRi3hW4b0ZRIX5paYKudW6CbBEdnXyP3jia+DNmdrTI96uSVghsbe/qLu+G
- rR+U5ckgaEMAZhybeZ7KstPqWrBTAGqWMDI8Grel1fif13GmYkJa2OT
-X-Developer-Key: i=thomas.weissschuh@linutronix.de; a=ed25519;
- pk=pfvxvpFUDJV2h2nY0FidLUml22uGLSjByFbM6aqQQws=
+Content-Type: text/plain
+X-C2ProcessedOrg: 333ef613-75bf-4e12-a4b1-8e3623f5dcea
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -90,95 +71,236 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-In the past %pK was preferable to %p as it would not leak raw pointer
-values into the kernel log.
-Since commit ad67b74d2469 ("printk: hash addresses printed with %p")
-the regular %p has been improved to avoid this issue.
-Furthermore, restricted pointers ("%pK") were never meant to be used
-through printk(). They can still unintentionally leak raw pointers or
-acquire sleeping locks in atomic contexts.
+TIDSS hardware by itself does not have variable max_pclk for each VP.
+Each VP supports a fixed maximum pixel clock. K2 devices and AM62*
+devices uses "ultra-light" version where each VP supports a max of
+300MHz whereas J7* devices uses TIDSS where all VP can support a
+max pclk of 600MHz.
+The limitation that has been modeled till now comes from the clock
+(PLL can only be programmed to a particular max value). Due to this
+we end up using different compatible for each SoC when the clocking
+architecture changes for VPs, even when the hardware is essentially
+the same.
+max_pclk cannot be entirely removed since the display controller
+should tell if a particular mode clock can be supported or not in crtc's
+"mode_valid()" call. So remove "max_pclk_khz" from the static display
+feat and add it to "tidss_device" structure which would be modified in
+runtime. In mode_valid() call, check if a best frequency match for mode
+clock can be found or not using "clk_round_rate()". Based on that,
+propagate "max_pclk" and check max_clk again only if the requested mode
+clock is greater than saved value. (As the preferred display mode is
+usually the max resolution, driver ends up checking the maximum clock
+the first time itself which is used in subsequent checks)
+Since TIDSS display controller provides clock tolerance of 5%, we use
+this while checking the max_pclk. Also, move up "dispc_pclk_diff()"
+before it is called.
 
-Switch to the regular pointer formatting which is safer and
-easier to reason about.
+This will make the existing compatibles reusable.
 
-Signed-off-by: Thomas Weißschuh <thomas.weissschuh@linutronix.de>
+Signed-off-by: Jayesh Choudhary <j-choudhary@ti.com>
 ---
- drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.c    | 2 +-
- drivers/gpu/drm/msm/disp/dpu1/dpu_hw_dspp.c | 4 ++--
- drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c     | 4 ++--
- drivers/gpu/drm/msm/msm_mdss.c              | 2 +-
- 4 files changed, 6 insertions(+), 6 deletions(-)
 
-diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.c
-index a4b0fe0d9899b32141928f0b6a16503a49b3c27a..9aa635f9462df6e496635e3316217f0245e03157 100644
---- a/drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.c
-+++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.c
-@@ -565,7 +565,7 @@ static void _dpu_crtc_complete_flip(struct drm_crtc *crtc)
- 
- 	spin_lock_irqsave(&dev->event_lock, flags);
- 	if (dpu_crtc->event) {
--		DRM_DEBUG_VBL("%s: send event: %pK\n", dpu_crtc->name,
-+		DRM_DEBUG_VBL("%s: send event: %p\n", dpu_crtc->name,
- 			      dpu_crtc->event);
- 		trace_dpu_crtc_complete_flip(DRMID(crtc));
- 		drm_crtc_send_vblank_event(crtc, dpu_crtc->event);
-diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_dspp.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_dspp.c
-index 829ca272873e45b122c04bea7da22dc569732e10..08cb1014299bcc9ce146b564721a6058df824cf0 100644
---- a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_dspp.c
-+++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_dspp.c
-@@ -31,14 +31,14 @@ static void dpu_setup_dspp_pcc(struct dpu_hw_dspp *ctx,
- 	u32 base;
- 
- 	if (!ctx) {
--		DRM_ERROR("invalid ctx %pK\n", ctx);
-+		DRM_ERROR("invalid ctx %p\n", ctx);
- 		return;
- 	}
- 
- 	base = ctx->cap->sblk->pcc.base;
- 
- 	if (!base) {
--		DRM_ERROR("invalid ctx %pK pcc base 0x%x\n", ctx, base);
-+		DRM_ERROR("invalid ctx %p pcc base 0x%x\n", ctx, base);
- 		return;
- 	}
- 
-diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c
-index 1fd82b6747e9058ce11dc2620729921492d5ebdd..4290ef3004985376ebd13afd1f014265cf887490 100644
---- a/drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c
-+++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c
-@@ -1345,7 +1345,7 @@ static int dpu_kms_mmap_mdp5(struct dpu_kms *dpu_kms)
- 		dpu_kms->mmio = NULL;
- 		return ret;
- 	}
--	DRM_DEBUG("mapped dpu address space @%pK\n", dpu_kms->mmio);
-+	DRM_DEBUG("mapped dpu address space @%p\n", dpu_kms->mmio);
- 
- 	dpu_kms->vbif[VBIF_RT] = msm_ioremap_mdss(mdss_dev,
- 						  dpu_kms->pdev,
-@@ -1380,7 +1380,7 @@ static int dpu_kms_mmap_dpu(struct dpu_kms *dpu_kms)
- 		dpu_kms->mmio = NULL;
- 		return ret;
- 	}
--	DRM_DEBUG("mapped dpu address space @%pK\n", dpu_kms->mmio);
-+	DRM_DEBUG("mapped dpu address space @%p\n", dpu_kms->mmio);
- 
- 	dpu_kms->vbif[VBIF_RT] = msm_ioremap(pdev, "vbif");
- 	if (IS_ERR(dpu_kms->vbif[VBIF_RT])) {
-diff --git a/drivers/gpu/drm/msm/msm_mdss.c b/drivers/gpu/drm/msm/msm_mdss.c
-index 709979fcfab6062c0f316f7655823e888638bfea..c5e6e98e0ced3adae9086b220fc9d5d026ac3fd1 100644
---- a/drivers/gpu/drm/msm/msm_mdss.c
-+++ b/drivers/gpu/drm/msm/msm_mdss.c
-@@ -456,7 +456,7 @@ static struct msm_mdss *msm_mdss_init(struct platform_device *pdev, bool is_mdp5
- 	if (IS_ERR(msm_mdss->mmio))
- 		return ERR_CAST(msm_mdss->mmio);
- 
--	dev_dbg(&pdev->dev, "mapped mdss address space @%pK\n", msm_mdss->mmio);
-+	dev_dbg(&pdev->dev, "mapped mdss address space @%p\n", msm_mdss->mmio);
- 
- 	ret = msm_mdss_parse_data_bus_icc_path(&pdev->dev, msm_mdss);
- 	if (ret)
+Test log on TI's J784S4 SoC with a couple of downstream patches
+to integrate DSI support on one of the video ports:
+<https://gist.github.com/Jayesh2000/ad4ab87028740efa60e5eb83fb892097>
 
+From the logs, we can see that for CLK ID 218 (DSS), we do not have to
+call sci_clk_determine_rate() multiple times. So there is very little
+overhead of this call even with multiple mode_valid() called during
+display run.
+From weston-simple-egl application, I have seen that there is no frame
+drop or performance impact.
+
+Once this patch gets in, I will send patches for AM62P and J722S DSS
+support.
+
+ drivers/gpu/drm/tidss/tidss_dispc.c | 76 ++++++++++++-----------------
+ drivers/gpu/drm/tidss/tidss_dispc.h |  1 -
+ drivers/gpu/drm/tidss/tidss_drv.h   |  2 +
+ 3 files changed, 34 insertions(+), 45 deletions(-)
+
+diff --git a/drivers/gpu/drm/tidss/tidss_dispc.c b/drivers/gpu/drm/tidss/tidss_dispc.c
+index 542c3e10e0be..5196afe200f9 100644
+--- a/drivers/gpu/drm/tidss/tidss_dispc.c
++++ b/drivers/gpu/drm/tidss/tidss_dispc.c
+@@ -58,10 +58,6 @@ static const u16 tidss_k2g_common_regs[DISPC_COMMON_REG_TABLE_LEN] = {
+ const struct dispc_features dispc_k2g_feats = {
+ 	.min_pclk_khz = 4375,
+ 
+-	.max_pclk_khz = {
+-		[DISPC_VP_DPI] = 150000,
+-	},
+-
+ 	/*
+ 	 * XXX According TRM the RGB input buffer width up to 2560 should
+ 	 *     work on 3 taps, but in practice it only works up to 1280.
+@@ -144,11 +140,6 @@ static const u16 tidss_am65x_common_regs[DISPC_COMMON_REG_TABLE_LEN] = {
+ };
+ 
+ const struct dispc_features dispc_am65x_feats = {
+-	.max_pclk_khz = {
+-		[DISPC_VP_DPI] = 165000,
+-		[DISPC_VP_OLDI] = 165000,
+-	},
+-
+ 	.scaling = {
+ 		.in_width_max_5tap_rgb = 1280,
+ 		.in_width_max_3tap_rgb = 2560,
+@@ -244,11 +235,6 @@ static const u16 tidss_j721e_common_regs[DISPC_COMMON_REG_TABLE_LEN] = {
+ };
+ 
+ const struct dispc_features dispc_j721e_feats = {
+-	.max_pclk_khz = {
+-		[DISPC_VP_DPI] = 170000,
+-		[DISPC_VP_INTERNAL] = 600000,
+-	},
+-
+ 	.scaling = {
+ 		.in_width_max_5tap_rgb = 2048,
+ 		.in_width_max_3tap_rgb = 4096,
+@@ -315,11 +301,6 @@ const struct dispc_features dispc_j721e_feats = {
+ };
+ 
+ const struct dispc_features dispc_am625_feats = {
+-	.max_pclk_khz = {
+-		[DISPC_VP_DPI] = 165000,
+-		[DISPC_VP_INTERNAL] = 170000,
+-	},
+-
+ 	.scaling = {
+ 		.in_width_max_5tap_rgb = 1280,
+ 		.in_width_max_3tap_rgb = 2560,
+@@ -380,10 +361,6 @@ const struct dispc_features dispc_am62a7_feats = {
+ 	 * if the code reaches dispc_mode_valid with VP1,
+ 	 * it should return MODE_BAD.
+ 	 */
+-	.max_pclk_khz = {
+-		[DISPC_VP_TIED_OFF] = 0,
+-		[DISPC_VP_DPI] = 165000,
+-	},
+ 
+ 	.scaling = {
+ 		.in_width_max_5tap_rgb = 1280,
+@@ -441,10 +418,6 @@ const struct dispc_features dispc_am62a7_feats = {
+ };
+ 
+ const struct dispc_features dispc_am62l_feats = {
+-	.max_pclk_khz = {
+-		[DISPC_VP_DPI] = 165000,
+-	},
+-
+ 	.subrev = DISPC_AM62L,
+ 
+ 	.common = "common",
+@@ -1326,25 +1299,49 @@ static void dispc_vp_set_default_color(struct dispc_device *dispc,
+ 			DISPC_OVR_DEFAULT_COLOR2, (v >> 32) & 0xffff);
+ }
+ 
++/*
++ * Calculate the percentage difference between the requested pixel clock rate
++ * and the effective rate resulting from calculating the clock divider value.
++ */
++static
++unsigned int dispc_pclk_diff(unsigned long rate, unsigned long real_rate)
++{
++	int r = rate / 100, rr = real_rate / 100;
++
++	return (unsigned int)(abs(((rr - r) * 100) / r));
++}
++
++static int check_max_pixel_clock(struct dispc_device *dispc,
++				 u32 hw_videoport, unsigned long clock)
++{
++	if (clock > dispc->tidss->max_pclk[hw_videoport]) {
++		unsigned long round_clock = clk_round_rate(dispc->vp_clk[hw_videoport], clock);
++
++		if (dispc_pclk_diff(clock, round_clock) > 5)
++			return -EINVAL;
++
++		dispc->tidss->max_pclk[hw_videoport] = round_clock;
++	}
++
++	return 0;
++}
++
+ enum drm_mode_status dispc_vp_mode_valid(struct dispc_device *dispc,
+ 					 u32 hw_videoport,
+ 					 const struct drm_display_mode *mode)
+ {
+ 	u32 hsw, hfp, hbp, vsw, vfp, vbp;
+ 	enum dispc_vp_bus_type bus_type;
+-	int max_pclk;
+ 
+ 	bus_type = dispc->feat->vp_bus_type[hw_videoport];
+ 
+-	max_pclk = dispc->feat->max_pclk_khz[bus_type];
+-
+-	if (WARN_ON(max_pclk == 0))
++	if (bus_type == DISPC_VP_TIED_OFF)
+ 		return MODE_BAD;
+ 
+ 	if (mode->clock < dispc->feat->min_pclk_khz)
+ 		return MODE_CLOCK_LOW;
+ 
+-	if (mode->clock > max_pclk)
++	if (check_max_pixel_clock(dispc, hw_videoport, mode->clock * 1000))
+ 		return MODE_CLOCK_HIGH;
+ 
+ 	if (mode->hdisplay > 4096)
+@@ -1416,18 +1413,6 @@ void dispc_vp_disable_clk(struct dispc_device *dispc, u32 hw_videoport)
+ 	clk_disable_unprepare(dispc->vp_clk[hw_videoport]);
+ }
+ 
+-/*
+- * Calculate the percentage difference between the requested pixel clock rate
+- * and the effective rate resulting from calculating the clock divider value.
+- */
+-static
+-unsigned int dispc_pclk_diff(unsigned long rate, unsigned long real_rate)
+-{
+-	int r = rate / 100, rr = real_rate / 100;
+-
+-	return (unsigned int)(abs(((rr - r) * 100) / r));
+-}
+-
+ long dispc_vp_round_clk_rate(struct dispc_device *dispc, u32 hw_videoport,
+ 			     unsigned long rate)
+ {
+@@ -3073,6 +3058,9 @@ int dispc_init(struct tidss_device *tidss)
+ 	}
+ 	dev_dbg(dev, "DSS fclk %lu Hz\n", clk_get_rate(dispc->fclk));
+ 
++	for (i = 0; i < dispc->feat->num_vps; i++)
++		dispc->tidss->max_pclk[i] = 0;
++
+ 	of_property_read_u32(dispc->dev->of_node, "max-memory-bandwidth",
+ 			     &dispc->memory_bandwidth_limit);
+ 
+diff --git a/drivers/gpu/drm/tidss/tidss_dispc.h b/drivers/gpu/drm/tidss/tidss_dispc.h
+index 422b7b324a2f..940c067987a7 100644
+--- a/drivers/gpu/drm/tidss/tidss_dispc.h
++++ b/drivers/gpu/drm/tidss/tidss_dispc.h
+@@ -78,7 +78,6 @@ enum dispc_dss_subrevision {
+ 
+ struct dispc_features {
+ 	int min_pclk_khz;
+-	int max_pclk_khz[DISPC_VP_MAX_BUS_TYPE];
+ 
+ 	struct dispc_features_scaling scaling;
+ 
+diff --git a/drivers/gpu/drm/tidss/tidss_drv.h b/drivers/gpu/drm/tidss/tidss_drv.h
+index 56a2020e20d0..675cb4fabfa0 100644
+--- a/drivers/gpu/drm/tidss/tidss_drv.h
++++ b/drivers/gpu/drm/tidss/tidss_drv.h
+@@ -22,6 +22,8 @@ struct tidss_device {
+ 
+ 	const struct dispc_features *feat;
+ 	struct dispc_device *dispc;
++	long max_pclk[TIDSS_MAX_PORTS];
++
+ 
+ 	unsigned int num_crtcs;
+ 	struct drm_crtc *crtcs[TIDSS_MAX_PORTS];
 -- 
-2.49.0
+2.34.1
 
