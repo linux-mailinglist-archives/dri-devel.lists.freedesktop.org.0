@@ -2,76 +2,138 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 66C22ADEE9B
-	for <lists+dri-devel@lfdr.de>; Wed, 18 Jun 2025 15:57:48 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 646B5ADEE9D
+	for <lists+dri-devel@lfdr.de>; Wed, 18 Jun 2025 15:58:12 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 03D6B10E852;
-	Wed, 18 Jun 2025 13:57:46 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id BD76010E855;
+	Wed, 18 Jun 2025 13:58:10 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; secure) header.d=ffwll.ch header.i=@ffwll.ch header.b="XLb0U9Su";
+	dkim=pass (2048-bit key; unprotected) header.d=qualcomm.com header.i=@qualcomm.com header.b="KZ0QXeDB";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ed1-f42.google.com (mail-ed1-f42.google.com
- [209.85.208.42])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0431510E852
- for <dri-devel@lists.freedesktop.org>; Wed, 18 Jun 2025 13:57:39 +0000 (UTC)
-Received: by mail-ed1-f42.google.com with SMTP id
- 4fb4d7f45d1cf-60780d74c85so10652962a12.2
- for <dri-devel@lists.freedesktop.org>; Wed, 18 Jun 2025 06:57:39 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=ffwll.ch; s=google; t=1750255058; x=1750859858; darn=lists.freedesktop.org; 
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
- bh=XbaxxxxlsK1/WbFmos2jPouear+VV9P5VeLTIDzDubU=;
- b=XLb0U9Su6LZRbKp0qG8mwi76tgAF+XjckKCBxiZKUNwMjcZ4dM0RAycpIS0sluyGXP
- US4NsKbLRR+Sma0vn8gRdQMmcEH0vDk782Daa2+JBwMBpmVgdciW21gzD+e+Q5siXiVm
- jtEN9GJ20AvKKyukNnz1UyprghC/0UNZtb6sw=
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com
+ [205.220.168.131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id CCF1F10E854
+ for <dri-devel@lists.freedesktop.org>; Wed, 18 Jun 2025 13:58:09 +0000 (UTC)
+Received: from pps.filterd (m0279865.ppops.net [127.0.0.1])
+ by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 55IBu57e013337
+ for <dri-devel@lists.freedesktop.org>; Wed, 18 Jun 2025 13:58:09 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
+ cc:content-transfer-encoding:content-type:date:from:in-reply-to
+ :message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
+ xWNDuLjs61HKmyKQ2RsY6PEfjDT+y4fR+sdFhZngCW0=; b=KZ0QXeDBzvd6Mwq4
+ eMA+TaaUD2+g74++ti18W5sHxyIUJIJ2kSFT0W7lb+A0Xc6BYG2vj8vlVui3ariX
+ 8jpvxvY8dZVDsTEG+GidvlPspaAKEkeV2NcatB50sMDmaw2Cdue6uzK68+qpQYWD
+ 8se0xUS5kCFqKkiR2SWffx78w/iPxFKG+q9Kz+7sVRhoInTh5ukrffhOHEMdFoQ3
+ GFq5fbKDLjzNpWyllnGjKsg0lHZAE47QKMW+7yOlU8Tr7fGGbiVgMzAlKTYUQATB
+ BOt+jBkzup7/cJ7U7G+1PfqgKdgSCyr9GmqITDMoOGO/E95pZYxfGP1llotGPEVe
+ w0RoMA==
+Received: from mail-qk1-f199.google.com (mail-qk1-f199.google.com
+ [209.85.222.199])
+ by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4791hfme9x-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
+ for <dri-devel@lists.freedesktop.org>; Wed, 18 Jun 2025 13:58:08 +0000 (GMT)
+Received: by mail-qk1-f199.google.com with SMTP id
+ af79cd13be357-7d3cbf784acso1275110285a.0
+ for <dri-devel@lists.freedesktop.org>; Wed, 18 Jun 2025 06:58:08 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1750255058; x=1750859858;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
- :message-id:reply-to;
- bh=XbaxxxxlsK1/WbFmos2jPouear+VV9P5VeLTIDzDubU=;
- b=LLRmDE0dJ9wWrk5WMarsQVFj9MhFDsNY6FesyzTpKFBtFzmXxqgYkX+/O59hP0P1ZH
- 3ZitajQC4O13lgMeg3c5HO16UzN2BWYhUdzQa8tj0dD0Rt7uzB6ewZAd3z7IVg5epIyh
- /6VqnDS8FcUt1s5/kigcSSorMUaPw/9lSn13z/L6rJm1u3HAVmRayFWv4tmZKUj21/aW
- OUPxxRo/b4CR0Jj2gpB5ksn0R2kMuToAJeN3tHrDNgyjvfz/qBd+x6zLS+wAvoKJlRtF
- VSAOXmRWONTKputWxSF3X0x0ILa4wJDhAXGj5GHXeaA9beDwLA+lSDAMPBqJS3nzELX2
- xilg==
+ d=1e100.net; s=20230601; t=1750255087; x=1750859887;
+ h=content-transfer-encoding:in-reply-to:from:content-language
+ :references:cc:to:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=xWNDuLjs61HKmyKQ2RsY6PEfjDT+y4fR+sdFhZngCW0=;
+ b=mOHfE38mdZskOwMl0NiVZkGnx+1P0F3aSEcBUc+KpILJHaZica0gUIBafmsegbCgTX
+ xo21a4IGk/koPjUUkAWlWw7DLJp8k/7z3QQK8YofjRwoC/ouM2tV07sZRML2FEDlxZ58
+ 1PX2Bc/2oQRG9I5qCt2XYzTceiUoyM/7E0zy5GzpSLVADlNF/ZxoeLxxZzy9CHMyHEYO
+ JuqQwd2E30cxkQZhtQsgG93hC2mhQNFPHAgehF9WiUbrmD7OGtRTScg2CChBW+Ho1b4Z
+ o4oX0pM2mlvzSPXLm6Xb/OtjUBsyxc6X3WWUVnmZgM8euqRpEeA6DkRiOcioF0M/PK/U
+ G9hQ==
 X-Forwarded-Encrypted: i=1;
- AJvYcCXrUH2pJLT5ocjNM7HZ5lVldeKbmuk06Hxo7CY0hs+tYGRKlEqkNhi1wjdqSq2jUxa921Lt2mSiID0=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YzhJ2zc3WTQ/l7N6hc4B9qxgiLZFUEnHIzwzBeemHZhrJQbgScs
- KxGD5tSjapoN1JrtkVITBpIcoAKJkcRlCB6oiRoF+OrUMKCwl78hsIZS/oamkAWEJ1w=
-X-Gm-Gg: ASbGnctv0AT81RntvyqNlQFgl3XbJeVMB8YvUDhpwaYFV/VVhN8dwir0QuLedhDJXJ5
- YUF7LGSa+RtcmSrLett6quEAlIK1OUe6lFs5pOymE1sE7cpSqfzH+5bHxaGKzJrHBc5jGGbVN5n
- brEkCQiT8lRpgXEYSaUBeak+KdnDlenZ7CZIZ9Uk5AqVxPOkqOCYGb35tfFvCVbm5qdAljtBiQ0
- GUchvFV27SDMTBueQn4PAEBtBJOE1zPPzTrdaIlqClqrH4St8NZtlqC26XpeYPtR+i2Av4Tap+3
- 3n2TriRQFzupM72FCCDRN37MOxSBnJKEanQrLXB/X3bXRrMoFqqFkpAO5Xx50i4NkWPBtK94lA=
- =
-X-Google-Smtp-Source: AGHT+IHSLvWaxr+yFt86isAiGtpM4boKjYyQcs4o/wVXByNvnpRd3h/hwuvizch2sRm38xRaf1aVBA==
-X-Received: by 2002:a05:6402:2811:b0:607:6097:2faa with SMTP id
- 4fb4d7f45d1cf-608d08b5d2fmr14774994a12.8.1750255057949; 
- Wed, 18 Jun 2025 06:57:37 -0700 (PDT)
-Received: from phenom.ffwll.local ([2a02:168:57f4:0:5485:d4b2:c087:b497])
+ AJvYcCWSXLaVYZhCpWAvfC0JQt0ahVXh5ETV67CiK/dF81dXM+3NH39TTTlEIcZUv8C7YrVaqMj7FmvTiBk=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0Yw2PBGoWomfxf0i7AVcNplEzmF5Rsi/CR8zZiAr62llFEL3RmRS
+ uP9wF1CiwqzlpV1Wpk8+n+6MYLDqiXzQWNEriRF4Q0nh+nIkoasm9WPGzrkiGuXejX0B+4gHTTK
+ FrgmCDWy9P9YX6f8Hdpbomre48Aix24zOn6OY2WpjJm+RT/cDMHDk3NnTxVfF8NC+R2lQa9c=
+X-Gm-Gg: ASbGncvU4QfedpokhxWSNXvxxjX8T2ogkutycBopi2ZhUrCcfUj4VTSbo0cAzyduhdA
+ y6o+U20NqmEO2h9NOxPTvfX/bzhAQ39LCptEaMVcv1L441aOPw1VTIx7r2wTZoutZY+Oagj9wlT
+ wVMUgEQSCgHGR3lFgndVUOtEYfH5VdfBvqR/KlPdwBU0F3hhdfMXuQQVmDWkAD75ywVn+3NuVwB
+ kYY3lna8T4GanmsW4+XKAmIgYhLr28/W6hPZgdLwTf10dXYxXL8NK753Gk9UiJl33M92YBKvhwX
+ kvet3m4KUcj9BXPAIOAjrfZliWfYkDm0Zi5Bhw24xw==
+X-Received: by 2002:a05:620a:4494:b0:7d3:c688:a4ee with SMTP id
+ af79cd13be357-7d3c6c17879mr2527939585a.24.1750255087412; 
+ Wed, 18 Jun 2025 06:58:07 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IG0At7/LCw5/M/SPoralsaQOAVP/W8VEhHHYH6eAAF5BZgq79hxI+OOdeDg1uWbxWnHFjh9Cg==
+X-Received: by 2002:a05:620a:4494:b0:7d3:c688:a4ee with SMTP id
+ af79cd13be357-7d3c6c17879mr2527933285a.24.1750255086908; 
+ Wed, 18 Jun 2025 06:58:06 -0700 (PDT)
+Received: from [10.92.240.160] ([212.136.9.4])
  by smtp.gmail.com with ESMTPSA id
- 4fb4d7f45d1cf-60900cdd4f1sm6851187a12.2.2025.06.18.06.57.37
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 18 Jun 2025 06:57:37 -0700 (PDT)
-Date: Wed, 18 Jun 2025 15:57:35 +0200
-From: Simona Vetter <simona.vetter@ffwll.ch>
-To: Maarten Lankhorst <dev@lankhorst.se>
-Cc: intel-xe@lists.freedesktop.org, dri-devel@lists.freedesktop.org
-Subject: Re: [RFC PATCH 8/8] drm/xe: Allow mapping DMA-BUF buffer objects
- connected through IAF
-Message-ID: <aFLFz_20G9R8h-Tu@phenom.ffwll.local>
-References: <20250613134520.2458175-10-dev@lankhorst.se>
- <20250613134520.2458175-18-dev@lankhorst.se>
+ a640c23a62f3a-adec81bb9cesm1051140966b.49.2025.06.18.06.58.04
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Wed, 18 Jun 2025 06:58:06 -0700 (PDT)
+Message-ID: <28992d6c-eb98-412e-86d8-d35a96f69fd1@oss.qualcomm.com>
+Date: Wed, 18 Jun 2025 16:58:03 +0300
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20250613134520.2458175-18-dev@lankhorst.se>
-X-Operating-System: Linux phenom 6.12.30-amd64 
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v6 08/17] drm/msm/dsi/phy: Fix reading zero as PLL rates
+ when unprepared
+To: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+Cc: Abhinav Kumar <quic_abhinavk@quicinc.com>, Sean Paul <sean@poorly.run>,
+ Marijn Suijten <marijn.suijten@somainline.org>,
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>, Rob Herring <robh@kernel.org>,
+ Krzysztof Kozlowski <krzk+dt@kernel.org>,
+ Conor Dooley <conor+dt@kernel.org>,
+ Krishna Manikandan <quic_mkrishn@quicinc.com>,
+ Jonathan Marek <jonathan@marek.ca>, Kuogee Hsieh <quic_khsieh@quicinc.com>,
+ Neil Armstrong <neil.armstrong@linaro.org>,
+ Dmitry Baryshkov <lumag@kernel.org>,
+ Bjorn Andersson <andersson@kernel.org>,
+ Michael Turquette <mturquette@baylibre.com>, Stephen Boyd
+ <sboyd@kernel.org>, Rob Clark <robin.clark@oss.qualcomm.com>,
+ linux-arm-msm@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ freedreno@lists.freedesktop.org, devicetree@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-clk@vger.kernel.org,
+ Abel Vesa <abel.vesa@linaro.org>, Srinivas Kandagatla <srini@kernel.org>
+References: <20250610-b4-sm8750-display-v6-0-ee633e3ddbff@linaro.org>
+ <20250610-b4-sm8750-display-v6-8-ee633e3ddbff@linaro.org>
+ <n5djafe2bm4cofoa3z4urfogchhfacybzou763nelttgfspo25@bywfd5febe6g>
+ <dbcfcb3c-0cba-45f6-aaed-b79494d96cde@linaro.org>
+ <738a889d-9bd5-40c3-a8f5-f76fcde512f4@oss.qualcomm.com>
+ <8a986ebb-5c25-46d9-8a2f-7c0ad7702c15@linaro.org>
+ <24xkss4bw6ww43x2gbjchcm4gtmqhdecncmxopnnhf7y2tblc2@iibgqhuix5rm>
+ <f2654844-091f-46bf-88c6-6f6d4edc5533@linaro.org>
+ <fa8d4af9-e822-4dec-a8dc-f3bbf5dd0100@oss.qualcomm.com>
+ <07af3f49-6992-4897-acec-b2d46158fa00@linaro.org>
+Content-Language: en-US
+From: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
+In-Reply-To: <07af3f49-6992-4897-acec-b2d46158fa00@linaro.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwNjE4MDExNyBTYWx0ZWRfX1YCWWNq5hy6V
+ NI/Hi0QmIRzwN/GqA8V+FRNXdkyAiPS8QdBgSypJgPHrdUaAv27qrlq3EmWlOqFgi6Uj0vLUCGF
+ mtSKpJfu3AYB/UtBFaZsfKBMlJWYrwLjhzdzNW786vxkUheQuJDJyuRPYmR3vNBFwhCzKBP42D7
+ kKFwQTCJZtSqMrpwaRJp6CXgwQX5/Z9C8bljKgqtcTGJ25G9zHzIuF8FSg7JllOFQ6HfaNfkjdi
+ H/HAbVYqKQhAfOovd15qTqlNeQQrga7v7EOdrMorZenJbWlhWcApt9YrR8yjL3AaNqBSf6GA0LW
+ vXq8A5ITYO7DK7/HLUpM332bQyQIkt0MW/cy5ZO24C/Nkc007Icx6KhIgHtH+7JChJcIReMnz0s
+ keSPOp7FngDZpMQbTBlkpJtxZiFxGZn/W8McSPBav9cs1oPGOPzGeLQbOYCN38DzF1dkymJ7
+X-Authority-Analysis: v=2.4 cv=VvEjA/2n c=1 sm=1 tr=0 ts=6852c5f1 cx=c_pps
+ a=HLyN3IcIa5EE8TELMZ618Q==:117 a=dNlqnMcrdpbb+gQrTujlOQ==:17
+ a=IkcTkHD0fZMA:10 a=6IFa9wvqVegA:10 a=Yv6ZAifYCY2YzpHKyskA:9
+ a=QEXdDO2ut3YA:10 a=bTQJ7kPSJx9SKPbeHEYW:22
+X-Proofpoint-GUID: ql2QOs9qBm-fuBbNSvzbRrzeGuQMKvxh
+X-Proofpoint-ORIG-GUID: ql2QOs9qBm-fuBbNSvzbRrzeGuQMKvxh
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1099,Hydra:6.0.736,FMLib:17.12.80.40
+ definitions=2025-06-18_05,2025-06-18_02,2025-03-28_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ adultscore=0 mlxscore=0 lowpriorityscore=0 spamscore=0 mlxlogscore=999
+ malwarescore=0 impostorscore=0 clxscore=1015 bulkscore=0 suspectscore=0
+ priorityscore=1501 phishscore=0 classifier=spam authscore=0 authtc=n/a
+ authcc= route=outbound adjust=0 reason=mlx scancount=1
+ engine=8.19.0-2505280000 definitions=main-2506180117
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -87,542 +149,115 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, Jun 13, 2025 at 03:45:27PM +0200, Maarten Lankhorst wrote:
-> IAF allows multiple xe devices to import VRAM from each other.
-> It's mapped as local VRAM, but outside the local device range.
+On 18/06/2025 16:54, Krzysztof Kozlowski wrote:
+> On 18/06/2025 15:39, Dmitry Baryshkov wrote:
+>> On 18/06/2025 16:34, Krzysztof Kozlowski wrote:
+>>> On 18/06/2025 15:07, Dmitry Baryshkov wrote:
+>>>> On Wed, Jun 18, 2025 at 10:28:10AM +0200, Krzysztof Kozlowski wrote:
+>>>>> On 13/06/2025 16:04, Dmitry Baryshkov wrote:
+>>>>>> On 13/06/2025 17:02, Krzysztof Kozlowski wrote:
+>>>>>>> On 13/06/2025 15:55, Dmitry Baryshkov wrote:
+>>>>>>>>>     
+>>>>>>>>> @@ -361,24 +373,47 @@ static int dsi_pll_7nm_lock_status(struct dsi_pll_7nm *pll)
+>>>>>>>>>     
+>>>>>>>>>     static void dsi_pll_disable_pll_bias(struct dsi_pll_7nm *pll)
+>>>>>>>>>     {
+>>>>>>>>> +	unsigned long flags;
+>>>>>>>>>     	u32 data;
+>>>>>>>>>     
+>>>>>>>>> +	spin_lock_irqsave(&pll->pll_enable_lock, flags);
+>>>>>>>>> +	--pll->pll_enable_cnt;
+>>>>>>>>> +	if (pll->pll_enable_cnt < 0) {
+>>>>>>>>> +		spin_unlock_irqrestore(&pll->pll_enable_lock, flags);
+>>>>>>>>> +		DRM_DEV_ERROR_RATELIMITED(&pll->phy->pdev->dev,
+>>>>>>>>> +					  "bug: imbalance in disabling PLL bias\n");
+>>>>>>>>> +		return;
+>>>>>>>>> +	} else if (pll->pll_enable_cnt > 0) {
+>>>>>>>>> +		spin_unlock_irqrestore(&pll->pll_enable_lock, flags);
+>>>>>>>>> +		return;
+>>>>>>>>> +	} /* else: == 0 */
+>>>>>>>>> +
+>>>>>>>>>     	data = readl(pll->phy->base + REG_DSI_7nm_PHY_CMN_CTRL_0);
+>>>>>>>>>     	data &= ~DSI_7nm_PHY_CMN_CTRL_0_PLL_SHUTDOWNB;
+>>>>>>>>>     	writel(0, pll->phy->pll_base + REG_DSI_7nm_PHY_PLL_SYSTEM_MUXES);
+>>>>>>>>>     	writel(data, pll->phy->base + REG_DSI_7nm_PHY_CMN_CTRL_0);
+>>>>>>>>> +	spin_unlock_irqrestore(&pll->pll_enable_lock, flags);
+>>>>>>>>>     	ndelay(250);
+>>>>>>>>
+>>>>>>>> What is this ndelay protecting? Is is to let the hardware to wind down
+>>>>>>>> correctly? I'm worried about dsi_pll_disable_pll_bias() beng followed up
+>>>>>>>> by dsi_pll_enable_pll_bias() in another thread, which would mean that
+>>>>>>>> corresponding writes to the REG_DSI_7nm_PHY_CMN_CTRL_0 can come up
+>>>>>>>> without any delay between them.
+>>>>>>>>
+>>>>>>>
+>>>>>>> Great question, but why do you ask me? The code was there already and
+>>>>>>> MSM DRM drivers are not something I know and could provide context about.
+>>>>>>
+>>>>>> Because it's you who are changing the code as you've faced the issue
+>>>>>> with recalc_rate.
+>>>>>>
+>>>>> Heh, the answer is then: I don't know. I think authors of the code could
+>>>>> know.
+>>>>
+>>>> The 10nm HPG documents a 250ns interval between enabling PLL bias and
+>>>> and enabling the PLL via the CMN_PLL_CNTRL register. There is no extra
+>>>> delay between disabling the PLL, disabling FIFO and remobing PLL bias.
+>>>> Please adjust the code for 7nm and 10nm PHYs accordingly.
+>>>>
+>>>>
+>>>
+>>> I can drop this 250 ns here, if that's what you ask me. But fixing
+>>> anything in 10nm is not relevant to this patchset. You were already
+>>> asking me for different fixes for some different things and I find it
+>>> not acceptable anymore. Stop blocking this patchset with every little
+>>> existing issue.
+>>
+>> I think that it is a common practice to ask to fix the issue in relevant
 > 
-> To support this, Xe is changed to allow a special case of
-> same-implementation importing with direction = DMA_NONE.
+> No, it is not.
 > 
-> If this DMA direction is used, the physical VRAM addresses are exported,
-> and can be imported into a xe_vm with the device memory bit set.
+> It is common practice to fix things everywhere, but you rejecting the
+> patches on that basis (coming again with some requests for unrelated
+> issues) is not common and not correct.
 > 
-> In order to prevent bugs, we ensure that this is only allowed for
-> xe <-> xe imports/exports, and only when the VRAM flag is set.
+>> pieces. For example, we frequently ask to fix all the DT files if there
+>> was an issue / workaround reported against a selected set of those.
 > 
-> If any of the steps required fails for IAF-import, the default
-> non-IAF import path is attempted.
+> And you reject the submitted fix of one DT file based because
+> contributor did not fix the rest? Really? Since when do you employ such
+> practice?
+
+On a case-by-case basis. See the USB snps workarounds for an example.
+
 > 
-> Signed-off-by: Maarten Lankhorst <dev@lankhorst.se>
-> ---
->  drivers/gpu/drm/xe/xe_bo.c           | 85 ++++++++++++++++++++++++----
->  drivers/gpu/drm/xe/xe_bo.h           |  2 +
->  drivers/gpu/drm/xe/xe_dma_buf.c      | 27 ++++++++-
->  drivers/gpu/drm/xe/xe_dma_buf.h      |  1 +
->  drivers/gpu/drm/xe/xe_ggtt.c         |  4 +-
->  drivers/gpu/drm/xe/xe_iaf.c          | 42 ++++++++++++++
->  drivers/gpu/drm/xe/xe_iaf.h          | 16 ++++++
->  drivers/gpu/drm/xe/xe_pt.c           |  4 ++
->  drivers/gpu/drm/xe/xe_ttm_vram_mgr.c | 23 +++++---
->  drivers/gpu/drm/xe/xe_vm.c           |  2 +-
->  10 files changed, 184 insertions(+), 22 deletions(-)
+>>
+>> In this case you can send a fix for 10nm separately, but please post a
+>> fix for that platform too.
+>>
+>>>
+>>> Or merge this code without this patch if a fix for reading PLL as zero
+>>> anyhow is questionable for you.
+>>
+>> I think I've asked it at some point, to split the generic code parts and
+>> the DSI enablement into two different patch series, so that they could
+>> be picked up separately.
+>>
+>> No, the fix is not questionable. The patch causes questions though.
 > 
-> diff --git a/drivers/gpu/drm/xe/xe_bo.c b/drivers/gpu/drm/xe/xe_bo.c
-> index 4e39188a021ab..13f0c685a012f 100644
-> --- a/drivers/gpu/drm/xe/xe_bo.c
-> +++ b/drivers/gpu/drm/xe/xe_bo.c
-> @@ -24,6 +24,7 @@
->  #include "xe_drm_client.h"
->  #include "xe_ggtt.h"
->  #include "xe_gt.h"
-> +#include "xe_iaf.h"
->  #include "xe_map.h"
->  #include "xe_migrate.h"
->  #include "xe_pm.h"
-> @@ -82,6 +83,11 @@ bool mem_type_is_vram(u32 mem_type)
->  	return mem_type >= XE_PL_VRAM0 && mem_type != XE_PL_STOLEN;
->  }
->  
-> +bool xe_bo_is_iaf(struct xe_bo *bo)
-> +{
-> +	return bo->flags & XE_BO_FLAG_IAF;
-> +}
-> +
->  static bool resource_is_stolen_vram(struct xe_device *xe, struct ttm_resource *res)
->  {
->  	return res->mem_type == XE_PL_STOLEN && IS_DGFX(xe);
-> @@ -656,6 +662,68 @@ static int xe_bo_trigger_rebind(struct xe_device *xe, struct xe_bo *bo,
->  	return ret;
->  }
->  
-> +static void bo_unmap_dma_buf(struct xe_bo *bo)
-> +{
-> +	enum dma_data_direction dir = DMA_BIDIRECTIONAL;
-> +	struct dma_buf_attachment *attach = bo->ttm.base.import_attach;
-> +	struct dma_buf *dmabuf;
-> +
-> +	if (xe_bo_is_iaf(bo))
-> +		dir = DMA_NONE;
-> +
-> +	dma_buf_unmap_attachment(attach, bo->ttm.sg, dir);
-> +	bo->ttm.sg = NULL;
-> +
-> +	if (xe_bo_is_iaf(bo)) {
-> +		/* Cleanup IAF bindings */
-> +		dmabuf = attach->dmabuf;
-> +		xe_iaf_mapping_put(xe_bo_device(gem_to_xe_bo(dmabuf->priv))->iaf);
-> +		xe_iaf_mapping_put(xe_bo_device(bo)->iaf);
-> +		bo->flags &= ~XE_BO_FLAG_IAF;
-> +	}
-> +}
-> +
-> +static struct sg_table *bo_map_dma_buf(struct xe_bo *bo)
-> +{
-> +	struct dma_buf_attachment *attach = bo->ttm.base.import_attach;
-> +	struct dma_buf *dmabuf = attach->dmabuf;
-> +	struct sg_table *sg;
-> +
-> +	if (is_xe_dma_buf(dmabuf)) {
-> +		struct xe_device *src = xe_bo_device(gem_to_xe_bo(dmabuf->priv));
-> +		struct xe_device *dst = xe_bo_device(bo);
-> +		int err;
-> +
-> +		if (!xe_iaf_fabrics_connected(dst->iaf, src->iaf))
+> I have no interests in fixing DRM code. This is not my subsystem, this
+> is not part I am responsible for. If it raises questions, why not
+> devoting your time to fix it?
 
-Ok, so bunch of comments on the actual interface below, but I also looked
-at the iaf patches to see how that's all implemented. And it's not the
-worst hand-rolled locking and refcounting I've seen, but I'm pretty sure
-it's buggy. Specifically the wait_for_completion_killable() in
-mappings_ref_wait() means that a simple ^C on module unload or sysfs
-unbind gives you a nice kernel UAF.
+Then why are you submitting patches towards the DRM driver? I think the 
+usual rules apply, you not having interest doesn't lower the bar for 
+your submissions.
 
-[Aside: the other wait_for_completion_killable() also look equally fishy]
-
-I think the right way to sort that issue out is:
-
-- refcount the structures with a proper kref_t.
-
-- no waiting for access to cease (that needs to be protected by the
-  separate mutex you have, and not dropping that lock between checkis and
-  ref acquisition here is another reason why I think you want a single
-  xe_iaf_() interface that takes care of everything). Instead all
-  functions need to check whether the hw is gone and just bail out in that
-  case.
-
-- You need to nuke all dma_buf mappings with the move_notify stuff. That's
-  needed for p2p dma already anyway, so if that's not there we have bigger
-  issues. IAF just makes this problem bigger.
-
-I think ideally we'd not hand-roll this all, but component doesn't really
-fit that well for reasons. And I'm not sure anything else exists that
-makes sense. I've had some chats with amd folks over the years about how
-to do this all, and it's a ton of work. The important part is to have at
-least some refcounting instead of only relying on locking, you have that,
-so for me this is good enough. But the implementation needs to be fixed to
-not be exploitable with a SIGKILL ;-)
-
-> +			goto no_iaf;
-> +
-> +		err = xe_iaf_mapping_get(dst->iaf);
-> +		if (err) {
-> +			drm_warn(&dst->drm, "Getting DST IAF mapping ref failed with %pe", ERR_PTR(err));
-> +			goto no_iaf;
-> +		}
-> +
-> +		err = xe_iaf_mapping_get(src->iaf);
-> +		if (err) {
-> +			drm_warn(&src->drm, "Getting SRC IAF mapping ref failed with %pe", ERR_PTR(err));
-> +			goto err_put_dst;
-> +		}
-> +
-> +		sg = dma_buf_map_attachment(attach, DMA_NONE);
-
-I think this is a bit too much of a hack, especially since you also need
-to do a bunch of refcounting outside of the dma_buf call, so you
-definitely have a different contract here. I think much better would be to
-just have an xe_iaf_map_attachment, which does it all:
-
-
-	if (is_xe_dma_buf(dmabuf)) {
-		err = xe_iaf_map_attachment(attach);
-		if (err)
-			goto no_iaf;
-	}	
-
-I also think there's a missing fallback here for the case where you can't
-migrate the bo into vram. I guess eventually you want a mode that forces
-iaf access mode, but that would need to be checked in VM_BIND or similar:
-Essentially checking that the placements are vram only and you have iaf
-connectivity to everything, and you probably also want to grab all the
-refcounts there.
-
-You might want to split out the bo move into the caller here, depending
-how the placement hints all work out, but I think that's the only thing
-you want to pull out from that single function.
-
-Of course the implementation of xe_iaf_map_attachment can and should
-probably share a lot of code with the map_attachment callback for dma_buf.
-But that really shouldn't go through the dma_buf layer in any shape or
-form.
-
-> +		if (!IS_ERR(sg)) {
-> +			bo->flags |= XE_BO_FLAG_IAF;
-> +			return sg;
-> +		}
-> +
-> +		xe_iaf_mapping_put(src->iaf);
-> +err_put_dst:
-> +		xe_iaf_mapping_put(dst->iaf);
-> +	}
-> +
-> +no_iaf:
-> +	return dma_buf_map_attachment(attach, DMA_BIDIRECTIONAL);
-> +}
-> +
->  /*
->   * The dma-buf map_attachment() / unmap_attachment() is hooked up here.
->   * Note that unmapping the attachment is deferred to the next
-> @@ -665,9 +733,9 @@ static int xe_bo_trigger_rebind(struct xe_device *xe, struct xe_bo *bo,
->   * backing store out. Should that assumption not hold, then we will be able
->   * to unconditionally call unmap_attachment() when moving out to system.
->   */
-> -static int xe_bo_move_dmabuf(struct ttm_buffer_object *ttm_bo,
-> -			     struct ttm_resource *new_res)
-> +static int xe_bo_move_dmabuf(struct xe_bo *bo, struct ttm_resource *new_res)
->  {
-> +	struct ttm_buffer_object *ttm_bo = &bo->ttm;
->  	struct dma_buf_attachment *attach = ttm_bo->base.import_attach;
->  	struct xe_ttm_tt *xe_tt = container_of(ttm_bo->ttm, struct xe_ttm_tt,
->  					       ttm);
-> @@ -682,19 +750,16 @@ static int xe_bo_move_dmabuf(struct ttm_buffer_object *ttm_bo,
->  	    ttm_bo->sg) {
->  		dma_resv_wait_timeout(ttm_bo->base.resv, DMA_RESV_USAGE_BOOKKEEP,
->  				      false, MAX_SCHEDULE_TIMEOUT);
-> -		dma_buf_unmap_attachment(attach, ttm_bo->sg, DMA_BIDIRECTIONAL);
-> -		ttm_bo->sg = NULL;
-> +		bo_unmap_dma_buf(bo);
->  	}
->  
->  	if (new_res->mem_type == XE_PL_SYSTEM)
->  		goto out;
->  
-> -	if (ttm_bo->sg) {
-> -		dma_buf_unmap_attachment(attach, ttm_bo->sg, DMA_BIDIRECTIONAL);
-> -		ttm_bo->sg = NULL;
-> -	}
-> +	if (ttm_bo->sg)
-> +		bo_unmap_dma_buf(bo);
->  
-> -	sg = dma_buf_map_attachment(attach, DMA_BIDIRECTIONAL);
-> +	sg = bo_map_dma_buf(bo);
->  	if (IS_ERR(sg))
->  		return PTR_ERR(sg);
->  
-> @@ -797,7 +862,7 @@ static int xe_bo_move(struct ttm_buffer_object *ttm_bo, bool evict,
->  	if (ttm_bo->type == ttm_bo_type_sg) {
->  		ret = xe_bo_move_notify(bo, ctx);
->  		if (!ret)
-> -			ret = xe_bo_move_dmabuf(ttm_bo, new_mem);
-> +			ret = xe_bo_move_dmabuf(bo, new_mem);
->  		return ret;
->  	}
->  
-> diff --git a/drivers/gpu/drm/xe/xe_bo.h b/drivers/gpu/drm/xe/xe_bo.h
-> index ecb5fe3b1c1dc..210ee49d6a04d 100644
-> --- a/drivers/gpu/drm/xe/xe_bo.h
-> +++ b/drivers/gpu/drm/xe/xe_bo.h
-> @@ -44,6 +44,7 @@
->  #define XE_BO_FLAG_GGTT2		BIT(22)
->  #define XE_BO_FLAG_GGTT3		BIT(23)
->  #define XE_BO_FLAG_CPU_ADDR_MIRROR	BIT(24)
-> +#define XE_BO_FLAG_IAF			BIT(25)
->  
->  /* this one is trigger internally only */
->  #define XE_BO_FLAG_INTERNAL_TEST	BIT(30)
-> @@ -262,6 +263,7 @@ void xe_bo_vunmap(struct xe_bo *bo);
->  int xe_bo_read(struct xe_bo *bo, u64 offset, void *dst, int size);
->  
->  bool mem_type_is_vram(u32 mem_type);
-> +bool xe_bo_is_iaf(struct xe_bo *bo);
->  bool xe_bo_is_vram(struct xe_bo *bo);
->  bool xe_bo_is_stolen(struct xe_bo *bo);
->  bool xe_bo_is_stolen_devmem(struct xe_bo *bo);
-> diff --git a/drivers/gpu/drm/xe/xe_dma_buf.c b/drivers/gpu/drm/xe/xe_dma_buf.c
-> index 346f857f38374..2e8aca5d572ae 100644
-> --- a/drivers/gpu/drm/xe/xe_dma_buf.c
-> +++ b/drivers/gpu/drm/xe/xe_dma_buf.c
-> @@ -86,6 +86,8 @@ static void xe_dma_buf_unpin(struct dma_buf_attachment *attach)
->  	xe_bo_unpin_external(bo);
->  }
->  
-> +static const struct dma_buf_attach_ops xe_dma_buf_attach_ops;
-> +
->  static struct sg_table *xe_dma_buf_map(struct dma_buf_attachment *attach,
->  				       enum dma_data_direction dir)
->  {
-> @@ -94,12 +96,21 @@ static struct sg_table *xe_dma_buf_map(struct dma_buf_attachment *attach,
->  	struct xe_bo *bo = gem_to_xe_bo(obj);
->  	struct sg_table *sgt;
->  	int r = 0;
-> +	bool iaf = false;
-> +
-> +	if (dir == DMA_NONE) {
-> +		if (attach->importer_ops != &xe_dma_buf_attach_ops)
-> +			return ERR_PTR(-EOPNOTSUPP);
-
-I think this check here is the giveaway that you _really_ want a direct
-function call here, since this only works if both importer and exporter
-exactly agree on what they're doing. Hence xe_iaf_map_attachment.
-
-That also prepares you for a future where other drivers might want to be
-involved in this interconnect special path. And it mirrors the design we
-already have for vfio buffers and their magic uuid. You can also use that
-pattern for handling multiple exporters, see virtio_dma_buf_attach().
-
-> +
-> +		iaf = true;
-> +	}
->  
-> -	if (!attach->peer2peer && !xe_bo_can_migrate(bo, XE_PL_TT))
-> +	if (!attach->peer2peer && !iaf &&
-> +	    !xe_bo_can_migrate(bo, XE_PL_TT))
->  		return ERR_PTR(-EOPNOTSUPP);
->  
->  	if (!xe_bo_is_pinned(bo)) {
-> -		if (!attach->peer2peer)
-> +		if (!attach->peer2peer && !iaf)
->  			r = xe_bo_migrate(bo, XE_PL_TT);
->  		else
->  			r = xe_bo_validate(bo, NULL, false);
-> @@ -109,6 +120,10 @@ static struct sg_table *xe_dma_buf_map(struct dma_buf_attachment *attach,
->  
->  	switch (bo->ttm.resource->mem_type) {
->  	case XE_PL_TT:
-> +		/* IAF only available for VRAM */
-> +		if (iaf)
-> +			return ERR_PTR(-EOPNOTSUPP);
-> +
->  		sgt = drm_prime_pages_to_sg(obj->dev,
->  					    bo->ttm.ttm->pages,
->  					    bo->ttm.ttm->num_pages);
-> @@ -146,7 +161,8 @@ static void xe_dma_buf_unmap(struct dma_buf_attachment *attach,
->  			     enum dma_data_direction dir)
->  {
->  	if (sg_page(sgt->sgl)) {
-> -		dma_unmap_sgtable(attach->dev, sgt, dir, 0);
-> +		if (dir != DMA_NONE)
-> +			dma_unmap_sgtable(attach->dev, sgt, dir, 0);
->  		sg_free_table(sgt);
->  		kfree(sgt);
->  	} else {
-> @@ -187,6 +203,11 @@ static const struct dma_buf_ops xe_dmabuf_ops = {
->  	.vunmap = drm_gem_dmabuf_vunmap,
->  };
->  
-> +bool is_xe_dma_buf(struct dma_buf *dma_buf)
-> +{
-> +	return dma_buf->ops == &xe_dmabuf_ops;
-> +}
-> +
->  struct dma_buf *xe_gem_prime_export(struct drm_gem_object *obj, int flags)
->  {
->  	struct xe_bo *bo = gem_to_xe_bo(obj);
-> diff --git a/drivers/gpu/drm/xe/xe_dma_buf.h b/drivers/gpu/drm/xe/xe_dma_buf.h
-> index 861dd28a862c7..80d12c624b921 100644
-> --- a/drivers/gpu/drm/xe/xe_dma_buf.h
-> +++ b/drivers/gpu/drm/xe/xe_dma_buf.h
-> @@ -11,5 +11,6 @@
->  struct dma_buf *xe_gem_prime_export(struct drm_gem_object *obj, int flags);
->  struct drm_gem_object *xe_gem_prime_import(struct drm_device *dev,
->  					   struct dma_buf *dma_buf);
-> +bool is_xe_dma_buf(struct dma_buf *dma_buf);
->  
->  #endif
-> diff --git a/drivers/gpu/drm/xe/xe_ggtt.c b/drivers/gpu/drm/xe/xe_ggtt.c
-> index b8e1b44452e4d..c6ff18deb9db1 100644
-> --- a/drivers/gpu/drm/xe/xe_ggtt.c
-> +++ b/drivers/gpu/drm/xe/xe_ggtt.c
-> @@ -122,7 +122,9 @@ static u64 xelp_ggtt_pte_flags(struct xe_bo *bo, u16 pat_index)
->  {
->  	u64 pte = XE_PAGE_PRESENT;
->  
-> -	if (xe_bo_is_vram(bo) || xe_bo_is_stolen_devmem(bo))
-> +	if (xe_bo_is_vram(bo) || xe_bo_is_stolen_devmem(bo) ||
-> +	    /* It's likely legal to map IAF to GGTT, but it should be impossible? */
-> +	    drm_WARN_ON(bo->ttm.base.dev, xe_bo_is_iaf(bo)))
->  		pte |= XE_GGTT_PTE_DM;
->  
->  	return pte;
-> diff --git a/drivers/gpu/drm/xe/xe_iaf.c b/drivers/gpu/drm/xe/xe_iaf.c
-> index 431d20fea5369..af2a8d045b593 100644
-> --- a/drivers/gpu/drm/xe/xe_iaf.c
-> +++ b/drivers/gpu/drm/xe/xe_iaf.c
-> @@ -416,3 +416,45 @@ struct query_info *xe_iaf_connectivity_query(struct xe_iaf *iaf, u32 fabric_id)
->  
->  	return iaf->ops->connectivity_query(iaf->handle, fabric_id);
->  }
-> +
-> +bool xe_iaf_fabrics_connected(struct xe_iaf *src, struct xe_iaf *dst)
-> +{
-> +	struct query_info *qi;
-> +	bool connected;
-> +
-> +	if (!src || !dst || !src->ops || !dst->ops)
-> +		return false;
-> +
-> +	qi = xe_iaf_connectivity_query(src, dst->fabric_id);
-> +	if (IS_ERR(qi))
-> +		return false;
-> +
-> +	if (WARN_ON_ONCE(!qi))
-> +		return true;
-> +
-> +	connected = true;
-> +	for (int i = 0, n = qi->src_cnt * qi->dst_cnt; i < n; i++)
-> +		if (!qi->sd2sd[i].bandwidth) {
-> +			connected = false;
-> +			break;
-> +		}
-> +
-> +	kfree(qi);
-> +	return connected;
-> +}
-> +
-> +int xe_iaf_mapping_get(struct xe_iaf *iaf)
-> +{
-> +	if (!iaf || !iaf->ops)
-> +		return -ENODEV;
-> +
-> +	return iaf->ops->parent_event(iaf->handle, IAF_PARENT_MAPPING_GET);
-> +}
-> +
-> +void xe_iaf_mapping_put(struct xe_iaf *iaf)
-> +{
-> +	if (!iaf || !iaf->ops)
-> +		return;
-> +
-> +	iaf->ops->parent_event(iaf->handle, IAF_PARENT_MAPPING_PUT);
-> +}
-> diff --git a/drivers/gpu/drm/xe/xe_iaf.h b/drivers/gpu/drm/xe/xe_iaf.h
-> index df6b8f9f2bc5f..b8e75640e8967 100644
-> --- a/drivers/gpu/drm/xe/xe_iaf.h
-> +++ b/drivers/gpu/drm/xe/xe_iaf.h
-> @@ -38,6 +38,9 @@ int xe_iaf_init(struct xe_device *xe);
->  int xe_iaf_init_aux(struct xe_device *xe);
->  u64 xe_iaf_dpa_base(struct xe_device *xe);
->  struct query_info *xe_iaf_connectivity_query(struct xe_iaf *iaf, u32 fabric_id);
-> +bool xe_iaf_fabrics_connected(struct xe_iaf *src, struct xe_iaf *dst);
-> +int xe_iaf_mapping_get(struct xe_iaf *iaf);
-> +void xe_iaf_mapping_put(struct xe_iaf *iaf);
->  
->  #else
->  
-> @@ -61,6 +64,19 @@ struct query_info *xe_iaf_connectivity_query(struct xe_iaf *iaf, u32 fabric_id)
->  	return ERR_PTR(-ENODEV);
->  }
->  
-> +static inline int xe_iaf_mapping_get(struct xe_iaf *iaf)
-> +{
-> +	return -ENODEV;
-> +}
-> +
-> +static inline void xe_iaf_mapping_put(struct xe_iaf *iaf)
-> +{}
-> +
-> +static inline bool xe_iaf_fabrics_connected(struct xe_iaf *src, struct xe_iaf *dst)
-> +{
-> +	return false;
-> +}
-> +
->  #endif
->  
->  #endif
-> diff --git a/drivers/gpu/drm/xe/xe_pt.c b/drivers/gpu/drm/xe/xe_pt.c
-> index f39d5cc9f411e..2231882b2bc45 100644
-> --- a/drivers/gpu/drm/xe/xe_pt.c
-> +++ b/drivers/gpu/drm/xe/xe_pt.c
-> @@ -764,6 +764,10 @@ xe_pt_stage_bind(struct xe_tile *tile, struct xe_vma *vma,
->  		else
->  			xe_res_first_sg(xe_bo_sg(bo), xe_vma_bo_offset(vma),
->  					xe_vma_size(vma), &curs);
-> +
-> +		/* When IAF is used, the bo requires the DM flag */
-> +		if (xe_bo_is_iaf(bo))
-> +			curs.mem_type = XE_PL_VRAM0;
->  	} else if (!range) {
->  		curs.size = xe_vma_size(vma);
->  	}
-> diff --git a/drivers/gpu/drm/xe/xe_ttm_vram_mgr.c b/drivers/gpu/drm/xe/xe_ttm_vram_mgr.c
-> index 9e375a40aee90..94a572693e139 100644
-> --- a/drivers/gpu/drm/xe/xe_ttm_vram_mgr.c
-> +++ b/drivers/gpu/drm/xe/xe_ttm_vram_mgr.c
-> @@ -396,11 +396,16 @@ int xe_ttm_vram_mgr_alloc_sgt(struct xe_device *xe,
->  		size_t size = min_t(u64, cursor.size, SZ_2G);
->  		dma_addr_t addr;
->  
-> -		addr = dma_map_resource(dev, phys, size, dir,
-> -					DMA_ATTR_SKIP_CPU_SYNC);
-> -		r = dma_mapping_error(dev, addr);
-> -		if (r)
-> -			goto error_unmap;
-> +		if (valid_dma_direction(dir)) {
-
-I guess you want additional flags or an XE_DMA_MODE enum with a special
-XE_XIAF flag instead of abusing DMA_NONE in a pile of places.
-
-> +			addr = dma_map_resource(dev, phys, size, dir,
-> +						DMA_ATTR_SKIP_CPU_SYNC);
-> +			r = dma_mapping_error(dev, addr);
-> +			if (r)
-> +				goto error_unmap;
-> +		} else {
-> +			/* Only want the SG table for fabric */
-> +			addr = cursor.start + tile->mem.vram.dpa_base;
-
-I guess we do have the discussion of whether it's really ok to stuff this
-into an sg table or not. But for lack of better options I think this is
-all fine, but please make sure xe_iaf_map_attachment has it all properly
-documented - especially if/once that gets exported to other drivers.
-
-Cheers, Sima
-
-> +		}
->  
->  		sg_set_page(sg, NULL, size, 0);
->  		sg_dma_address(sg) = addr;
-> @@ -413,7 +418,7 @@ int xe_ttm_vram_mgr_alloc_sgt(struct xe_device *xe,
->  
->  error_unmap:
->  	for_each_sgtable_sg((*sgt), sg, i) {
-> -		if (!sg->length)
-> +		if (!sg->length || !valid_dma_direction(dir))
->  			continue;
->  
->  		dma_unmap_resource(dev, sg->dma_address,
-> @@ -433,10 +438,14 @@ void xe_ttm_vram_mgr_free_sgt(struct device *dev, enum dma_data_direction dir,
->  	struct scatterlist *sg;
->  	int i;
->  
-> -	for_each_sgtable_sg(sgt, sg, i)
-> +	for_each_sgtable_sg(sgt, sg, i) {
-> +		if (!valid_dma_direction(dir))
-> +			continue;
-> +
->  		dma_unmap_resource(dev, sg->dma_address,
->  				   sg->length, dir,
->  				   DMA_ATTR_SKIP_CPU_SYNC);
-> +	}
->  	sg_free_table(sgt);
->  	kfree(sgt);
->  }
-> diff --git a/drivers/gpu/drm/xe/xe_vm.c b/drivers/gpu/drm/xe/xe_vm.c
-> index 18f967ce1f1a6..f3dd38c95deb5 100644
-> --- a/drivers/gpu/drm/xe/xe_vm.c
-> +++ b/drivers/gpu/drm/xe/xe_vm.c
-> @@ -1534,7 +1534,7 @@ static u64 xelp_pte_encode_bo(struct xe_bo *bo, u64 bo_offset,
->  	pte |= pte_encode_pat_index(pat_index, pt_level);
->  	pte |= pte_encode_ps(pt_level);
->  
-> -	if (xe_bo_is_vram(bo) || xe_bo_is_stolen_devmem(bo))
-> +	if (xe_bo_is_vram(bo) || xe_bo_is_stolen_devmem(bo) || xe_bo_is_iaf(bo))
->  		pte |= XE_PPGTT_PTE_DM;
->  
->  	return pte;
-> -- 
-> 2.45.2
 > 
+> Best regards,
+> Krzysztof
+
 
 -- 
-Simona Vetter
-Software Engineer, Intel Corporation
-http://blog.ffwll.ch
+With best wishes
+Dmitry
