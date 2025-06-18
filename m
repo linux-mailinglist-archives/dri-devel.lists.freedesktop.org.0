@@ -2,149 +2,165 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B7DF2ADEE84
-	for <lists+dri-devel@lfdr.de>; Wed, 18 Jun 2025 15:54:33 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 52A22ADEE91
+	for <lists+dri-devel@lfdr.de>; Wed, 18 Jun 2025 15:55:46 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1D32310E84D;
-	Wed, 18 Jun 2025 13:54:32 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B398F10E83E;
+	Wed, 18 Jun 2025 13:55:44 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="YDVaJepl";
+	dkim=pass (1024-bit key; unprotected) header.d=amd.com header.i=@amd.com header.b="dIPbOaQI";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-f54.google.com (mail-wr1-f54.google.com
- [209.85.221.54])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4696510E84D
- for <dri-devel@lists.freedesktop.org>; Wed, 18 Jun 2025 13:54:31 +0000 (UTC)
-Received: by mail-wr1-f54.google.com with SMTP id
- ffacd0b85a97d-3a4f64cdc2dso697648f8f.1
- for <dri-devel@lists.freedesktop.org>; Wed, 18 Jun 2025 06:54:31 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1750254870; x=1750859670; darn=lists.freedesktop.org;
- h=content-transfer-encoding:in-reply-to:autocrypt:content-language
- :from:references:cc:to:subject:user-agent:mime-version:date
- :message-id:from:to:cc:subject:date:message-id:reply-to;
- bh=AWjIwRrGgNhijgz5jxbu7f3s/HYrSgK/4vHwebpDl+0=;
- b=YDVaJeplnXjRUBSLLNK3lPD0eU7SA/Y36Sm611OYBSV3XWEazIuN5PaxvpSJhJCByD
- +Lm0xIPcijbTCRGnf4h4MdK3ZVfKXQdVQVPKGRVMyo/9jucES+bdVFBBMzGRzYXKxqGi
- yatk2nMPmsECBut1kSkgz7UVjOuIWZMGRR2wOeiXF49pD3CiZiVLuPjhQ86wvwPz7XhT
- fVQCPcvGosZSRbQVWsnD5TfOmlGZKIndbM0BzhWBCoIl2gNNaV0YVD/1CYt7tkjimY+J
- /LcKVfuvTqDCYJJIeuUjoCta8hTRIMaA4L9MJqH/2ZaCMpdLEO6Jjzx3iYSlZI9TvKew
- sJOw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1750254870; x=1750859670;
- h=content-transfer-encoding:in-reply-to:autocrypt:content-language
- :from:references:cc:to:subject:user-agent:mime-version:date
- :message-id:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=AWjIwRrGgNhijgz5jxbu7f3s/HYrSgK/4vHwebpDl+0=;
- b=Y1leBDq2WN9vAWnJLCr9Lz3XVssOKCBNOkeGl37FR8+KrEWoKP6+8QtXRDgm+KeTam
- HIJRMx6v+mRnHJ0fnWbUA35ClfswKS6sfDMu3u0DhyDWb3uSRqfuTzjqov/TSicqyxMZ
- Ouwp/oVkAlozGn0toeY56bAGh+Rx/3acwuT8yJa7PvHAEyOYVbkUB6ddFP9nfaOP/Trx
- 4niD3FEBPKXtwzakGcytmpJRgvJKhFCpD5qlOuR96R3e7rl/42K5igZrM7TrsJStk6qW
- wcrMv94ifgY0ML0FgGPqhZdnL/+t8CyhD8zm0cm44dwefGUdZbwhEzQijw7TJCKgYpCw
- kmZQ==
-X-Forwarded-Encrypted: i=1;
- AJvYcCXFAkK6ufPalYSFaXE+zyrZ9AKn0dAwoM899zqRylLp3Vu+LqX5NogC39+OsgCr0+43kawNnIDLXhA=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YzKCVcnSzQKbhU8SA7lH8Ivc1InF3xQcrx3OJachDHc5dQdw5v9
- 5q+LZXCUfSM/WUeR+5nt3x2GtMeAdUJtQQLLOPUN0imZ+SbZcxpePMqp2B3wC+TL0RA=
-X-Gm-Gg: ASbGncukdKk6IzTiKf/I1SL1X29HgpyQ5brKO1xBeyeBQmmordC13249IIhWfpLKozy
- 7GD2YoIDzVSNCywUZSUloTm8DA6pmMKqQPUYEsKdFLX5FhwGzkv9z58/jOyhi+bUOGObswaI74Y
- 7KgYxq/8CBYK29dOqg+o0daitj+5m5k07QLJW2DG57TQLgcyT5VcbrxeOaV90HbMCfE43WBfNco
- AzgjpjA2qhVRxvKazMBvdqd6PCWy3K9RlIZLK+ra8y2gFxmBbticJfnLcKyBnsoZ7A4VPaS7zt6
- NMKG6SQZN9U7L2WdP/nGHW/STA/ir2jhgXUEsKkdNd4JbRkzOuDFE3P1b5dbzf0bhxDFkDrYg2v
- gQO+zFsM=
-X-Google-Smtp-Source: AGHT+IFIDwtsgZPAfFivmPBda4I5bWtgd3I8v5X2E5jG1PRTDFnTfpxzy7dAaPeCl1P4AggaKF1pUA==
-X-Received: by 2002:a05:6000:1a8e:b0:3a3:5c97:70c with SMTP id
- ffacd0b85a97d-3a572e8c559mr5703696f8f.14.1750254869706; 
- Wed, 18 Jun 2025 06:54:29 -0700 (PDT)
-Received: from [192.168.1.29] ([178.197.223.125])
- by smtp.gmail.com with ESMTPSA id
- ffacd0b85a97d-3a58a03f059sm4450137f8f.44.2025.06.18.06.54.27
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 18 Jun 2025 06:54:29 -0700 (PDT)
-Message-ID: <07af3f49-6992-4897-acec-b2d46158fa00@linaro.org>
-Date: Wed, 18 Jun 2025 15:54:26 +0200
-MIME-Version: 1.0
+Received: from NAM11-DM6-obe.outbound.protection.outlook.com
+ (mail-dm6nam11on2065.outbound.protection.outlook.com [40.107.223.65])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 01C1310E83E;
+ Wed, 18 Jun 2025 13:55:43 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=CTd4Jj+kknyJrCFgk0bm01fP/h6D9aKAwA1FyrUmZ/JaxJFSoYoJ+Sls4ZTGIqJwZhEXrTx4dl+rxvjaWeqeXO7sI7YIztW+ol1qfqs53lLEU9xOsqIO1vEoC0xcKMAppMzAflGmbdektFGeMwdLlg6agCyZWAb0M4LoxyBfVLw8ytCVciZT53u5cs836eV1HPnpA7xOxpusc1qCZkjCCus9vbZniYYnmsnHEORRnHQZkIgzDURQMlipwiJ/twAE3IGA5HI9o2M7pPkg9Voitkkts23Dazu9uHGn7eT9e5M8Z+m4XHM3m7OtH/7C/buzT0fCEkFIh97B5Ain6vx12Q==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=Ujlqi084Abajt2dYjhW8/uYeVbtQZ3Zo6ZXUDO0T2jk=;
+ b=gGpCFI/OdEAcL9K7ZRRQlQNq/kg5jS49AoqFp4yC/goKDUwx84a+4YMg/F5/LYvNwb4VYuikZQ4KzNfbEL8BC0qaSKW9awEOI3eTGoAR+8A7Uj0U/pMHeDR8FvqifTMm8z7VFyLmKWC8V+UcdulCNdexmIMsNFTQ+viLAb9w/jxk2Dfu2Ms9DhXQgsFFZI4iMW0gfkMerdzLNZJH7hcKt80kzd3wEH2UTnZfcyCap3946EeJkrAUoOQ16EZ9xOI/MTDk4gfVdfheeQLmJ9pyYN7K+hPUOYGVHzNikik2yn8/CfJFBrNRuCUX2VDHNUhy5+58HrhUhu0Xiea8ZNt8nw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
+ header.d=amd.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=Ujlqi084Abajt2dYjhW8/uYeVbtQZ3Zo6ZXUDO0T2jk=;
+ b=dIPbOaQI3iK2zTBYDchkBKG4ME6CRE/NVSvI46npoEZ10Ogzk/SDKAtSHU+jzFQXWjVC0w/ABerJda1PRrhDBV0MuN+YXRBlVe9kCocQTcHDXmXtlhPyQ1E3dS0F+jR3RZKfGelXhrFDoFZcoRCmcnYZoCmhfQ4DGgMNPFjWeHE=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=amd.com;
+Received: from PH7PR12MB5685.namprd12.prod.outlook.com (2603:10b6:510:13c::22)
+ by SA3PR12MB8022.namprd12.prod.outlook.com (2603:10b6:806:307::7)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8792.39; Wed, 18 Jun
+ 2025 13:55:35 +0000
+Received: from PH7PR12MB5685.namprd12.prod.outlook.com
+ ([fe80::46fb:96f2:7667:7ca5]) by PH7PR12MB5685.namprd12.prod.outlook.com
+ ([fe80::46fb:96f2:7667:7ca5%7]) with mapi id 15.20.8722.031; Wed, 18 Jun 2025
+ 13:55:35 +0000
+Message-ID: <c44f4194-69e5-41bf-bbc6-2e399be2b627@amd.com>
+Date: Wed, 18 Jun 2025 15:55:28 +0200
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v6 08/17] drm/msm/dsi/phy: Fix reading zero as PLL rates
- when unprepared
-To: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
-Cc: Abhinav Kumar <quic_abhinavk@quicinc.com>, Sean Paul <sean@poorly.run>,
- Marijn Suijten <marijn.suijten@somainline.org>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+Subject: Re: [PATCH v10 05/10] drm/ttm: Add ttm_bo_kmap_try_from_panic()
+To: Jocelyn Falempe <jfalempe@redhat.com>,
  Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
- Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
- Conor Dooley <conor+dt@kernel.org>,
- Krishna Manikandan <quic_mkrishn@quicinc.com>,
- Jonathan Marek <jonathan@marek.ca>, Kuogee Hsieh <quic_khsieh@quicinc.com>,
- Neil Armstrong <neil.armstrong@linaro.org>,
- Dmitry Baryshkov <lumag@kernel.org>, Bjorn Andersson <andersson@kernel.org>,
- Michael Turquette <mturquette@baylibre.com>, Stephen Boyd
- <sboyd@kernel.org>, Rob Clark <robin.clark@oss.qualcomm.com>,
- linux-arm-msm@vger.kernel.org, dri-devel@lists.freedesktop.org,
- freedreno@lists.freedesktop.org, devicetree@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-clk@vger.kernel.org,
- Abel Vesa <abel.vesa@linaro.org>, Srinivas Kandagatla <srini@kernel.org>
-References: <20250610-b4-sm8750-display-v6-0-ee633e3ddbff@linaro.org>
- <20250610-b4-sm8750-display-v6-8-ee633e3ddbff@linaro.org>
- <n5djafe2bm4cofoa3z4urfogchhfacybzou763nelttgfspo25@bywfd5febe6g>
- <dbcfcb3c-0cba-45f6-aaed-b79494d96cde@linaro.org>
- <738a889d-9bd5-40c3-a8f5-f76fcde512f4@oss.qualcomm.com>
- <8a986ebb-5c25-46d9-8a2f-7c0ad7702c15@linaro.org>
- <24xkss4bw6ww43x2gbjchcm4gtmqhdecncmxopnnhf7y2tblc2@iibgqhuix5rm>
- <f2654844-091f-46bf-88c6-6f6d4edc5533@linaro.org>
- <fa8d4af9-e822-4dec-a8dc-f3bbf5dd0100@oss.qualcomm.com>
-From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+ Jani Nikula <jani.nikula@linux.intel.com>,
+ Rodrigo Vivi <rodrigo.vivi@intel.com>,
+ Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
+ Tvrtko Ursulin <tursulin@ursulin.net>,
+ =?UTF-8?B?VmlsbGUgU3lyasOkbMOk?= <ville.syrjala@linux.intel.com>,
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+ Huang Rui <ray.huang@amd.com>, Matthew Auld <matthew.auld@intel.com>,
+ Matthew Brost <matthew.brost@intel.com>, Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>, intel-gfx@lists.freedesktop.org,
+ intel-xe@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org
+References: <20250618094011.238154-1-jfalempe@redhat.com>
+ <20250618094011.238154-6-jfalempe@redhat.com>
 Content-Language: en-US
-Autocrypt: addr=krzysztof.kozlowski@linaro.org; keydata=
- xsFNBFVDQq4BEAC6KeLOfFsAvFMBsrCrJ2bCalhPv5+KQF2PS2+iwZI8BpRZoV+Bd5kWvN79
- cFgcqTTuNHjAvxtUG8pQgGTHAObYs6xeYJtjUH0ZX6ndJ33FJYf5V3yXqqjcZ30FgHzJCFUu
- JMp7PSyMPzpUXfU12yfcRYVEMQrmplNZssmYhiTeVicuOOypWugZKVLGNm0IweVCaZ/DJDIH
- gNbpvVwjcKYrx85m9cBVEBUGaQP6AT7qlVCkrf50v8bofSIyVa2xmubbAwwFA1oxoOusjPIE
- J3iadrwpFvsZjF5uHAKS+7wHLoW9hVzOnLbX6ajk5Hf8Pb1m+VH/E8bPBNNYKkfTtypTDUCj
- NYcd27tjnXfG+SDs/EXNUAIRefCyvaRG7oRYF3Ec+2RgQDRnmmjCjoQNbFrJvJkFHlPeHaeS
- BosGY+XWKydnmsfY7SSnjAzLUGAFhLd/XDVpb1Een2XucPpKvt9ORF+48gy12FA5GduRLhQU
- vK4tU7ojoem/G23PcowM1CwPurC8sAVsQb9KmwTGh7rVz3ks3w/zfGBy3+WmLg++C2Wct6nM
- Pd8/6CBVjEWqD06/RjI2AnjIq5fSEH/BIfXXfC68nMp9BZoy3So4ZsbOlBmtAPvMYX6U8VwD
- TNeBxJu5Ex0Izf1NV9CzC3nNaFUYOY8KfN01X5SExAoVTr09ewARAQABzTRLcnp5c3p0b2Yg
- S296bG93c2tpIDxrcnp5c3p0b2Yua296bG93c2tpQGxpbmFyby5vcmc+wsGUBBMBCgA+AhsD
- BQsJCAcCBhUKCQgLAgQWAgMBAh4BAheAFiEEm9B+DgxR+NWWd7dUG5NDfTtBYpsFAmgXUEoF
- CRaWdJoACgkQG5NDfTtBYpudig/+Inb3Kjx1B7w2IpPKmpCT20QQQstx14Wi+rh2FcnV6+/9
- tyHtYwdirraBGGerrNY1c14MX0Tsmzqu9NyZ43heQB2uJuQb35rmI4dn1G+ZH0BD7cwR+M9m
- lSV9YlF7z3Ycz2zHjxL1QXBVvwJRyE0sCIoe+0O9AW9Xj8L/dmvmRfDdtRhYVGyU7fze+lsH
- 1pXaq9fdef8QsAETCg5q0zxD+VS+OoZFx4ZtFqvzmhCs0eFvM7gNqiyczeVGUciVlO3+1ZUn
- eqQnxTXnqfJHptZTtK05uXGBwxjTHJrlSKnDslhZNkzv4JfTQhmERyx8BPHDkzpuPjfZ5Jp3
- INcYsxgttyeDS4prv+XWlT7DUjIzcKih0tFDoW5/k6OZeFPba5PATHO78rcWFcduN8xB23B4
- WFQAt5jpsP7/ngKQR9drMXfQGcEmqBq+aoVHobwOfEJTErdku05zjFmm1VnD55CzFJvG7Ll9
- OsRfZD/1MKbl0k39NiRuf8IYFOxVCKrMSgnqED1eacLgj3AWnmfPlyB3Xka0FimVu5Q7r1H/
- 9CCfHiOjjPsTAjE+Woh+/8Q0IyHzr+2sCe4g9w2tlsMQJhixykXC1KvzqMdUYKuE00CT+wdK
- nXj0hlNnThRfcA9VPYzKlx3W6GLlyB6umd6WBGGKyiOmOcPqUK3GIvnLzfTXR5DOwU0EVUNc
- NAEQAM2StBhJERQvgPcbCzjokShn0cRA4q2SvCOvOXD+0KapXMRFE+/PZeDyfv4dEKuCqeh0
- hihSHlaxTzg3TcqUu54w2xYskG8Fq5tg3gm4kh1Gvh1LijIXX99ABA8eHxOGmLPRIBkXHqJY
- oHtCvPc6sYKNM9xbp6I4yF56xVLmHGJ61KaWKf5KKWYgA9kfHufbja7qR0c6H79LIsiYqf92
- H1HNq1WlQpu/fh4/XAAaV1axHFt/dY/2kU05tLMj8GjeQDz1fHas7augL4argt4e+jum3Nwt
- yupodQBxncKAUbzwKcDrPqUFmfRbJ7ARw8491xQHZDsP82JRj4cOJX32sBg8nO2N5OsFJOcd
- 5IE9v6qfllkZDAh1Rb1h6DFYq9dcdPAHl4zOj9EHq99/CpyccOh7SrtWDNFFknCmLpowhct9
- 5ZnlavBrDbOV0W47gO33WkXMFI4il4y1+Bv89979rVYn8aBohEgET41SpyQz7fMkcaZU+ok/
- +HYjC/qfDxT7tjKXqBQEscVODaFicsUkjheOD4BfWEcVUqa+XdUEciwG/SgNyxBZepj41oVq
- FPSVE+Ni2tNrW/e16b8mgXNngHSnbsr6pAIXZH3qFW+4TKPMGZ2rZ6zITrMip+12jgw4mGjy
- 5y06JZvA02rZT2k9aa7i9dUUFggaanI09jNGbRA/ABEBAAHCwXwEGAEKACYCGwwWIQSb0H4O
- DFH41ZZ3t1Qbk0N9O0FimwUCaBdQXwUJFpZbKgAKCRAbk0N9O0Fim07TD/92Vcmzn/jaEBcq
- yT48ODfDIQVvg2nIDW+qbHtJ8DOT0d/qVbBTU7oBuo0xuHo+MTBp0pSTWbThLsSN1AuyP8wF
- KChC0JPcwOZZRS0dl3lFgg+c+rdZUHjsa247r+7fvm2zGG1/u+33lBJgnAIH5lSCjhP4VXiG
- q5ngCxGRuBq+0jNCKyAOC/vq2cS/dgdXwmf2aL8G7QVREX7mSl0x+CjWyrpFc1D/9NV/zIWB
- G1NR1fFb+oeOVhRGubYfiS62htUQjGLK7qbTmrd715kH9Noww1U5HH7WQzePt/SvC0RhQXNj
- XKBB+lwwM+XulFigmMF1KybRm7MNoLBrGDa3yGpAkHMkJ7NM4iSMdSxYAr60RtThnhKc2kLI
- zd8GqyBh0nGPIL+1ZVMBDXw1Eu0/Du0rWt1zAKXQYVAfBLCTmkOnPU0fjR7qVT41xdJ6KqQM
- NGQeV+0o9X91X6VBeK6Na3zt5y4eWkve65DRlk1aoeBmhAteioLZlXkqu0pZv+PKIVf+zFKu
- h0At/TN/618e/QVlZPbMeNSp3S3ieMP9Q6y4gw5CfgiDRJ2K9g99m6Rvlx1qwom6QbU06ltb
- vJE2K9oKd9nPp1NrBfBdEhX8oOwdCLJXEq83vdtOEqE42RxfYta4P3by0BHpcwzYbmi/Et7T
- 2+47PN9NZAOyb771QoVr8A==
-In-Reply-To: <fa8d4af9-e822-4dec-a8dc-f3bbf5dd0100@oss.qualcomm.com>
+From: =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
+In-Reply-To: <20250618094011.238154-6-jfalempe@redhat.com>
 Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
+X-ClientProxiedBy: BL1PR13CA0113.namprd13.prod.outlook.com
+ (2603:10b6:208:2b9::28) To PH7PR12MB5685.namprd12.prod.outlook.com
+ (2603:10b6:510:13c::22)
+MIME-Version: 1.0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: PH7PR12MB5685:EE_|SA3PR12MB8022:EE_
+X-MS-Office365-Filtering-Correlation-Id: 8e64cceb-13ec-4b89-1dff-08ddae6fcc65
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+ ARA:13230040|376014|7416014|1800799024|366016|7053199007|921020; 
+X-Microsoft-Antispam-Message-Info: =?utf-8?B?UW1QMU4zTkFMU0RrdnIwci9IeGk1VGNGWWVFQUhYejBVRmxYUVlYSGxQRkdP?=
+ =?utf-8?B?a0xlU0JuS0xDd244RFRvQXN5UTdCcWszejVJUVNZdHN1aEdjSEtZVUFnd1ZE?=
+ =?utf-8?B?WnNtYTExQTZXVDJJMVZTWTB2RWxQbUtJVDJMSW1kU3JWZnh1bm1NTUVieHRI?=
+ =?utf-8?B?ODJBZTlNbDhZeDlEd1kraWd6NVBaYXNoYzdNS1hNOUlibEFsblUvTlZSS0Vy?=
+ =?utf-8?B?TkNhaktnYVZVd2phYW92ZTBhQXlHbmU5cXptSml5eGhKNnNzQkFaRkNCc0pH?=
+ =?utf-8?B?OUQraEw0MWN1WVlPR01kc1lFaEkvdFdwUFVGdjhTZCtCMWJUSU1kWWJqcUtq?=
+ =?utf-8?B?RXNBVERUR3ZIcEFUaGhFWldtbXIwY2ZBbHQ3TXFORjMraTNyN2hob1dwZWdw?=
+ =?utf-8?B?cXhhM1dwYmc4dmJzckNGRVdiV3c1aFRxazBvMVVYWFE2OUxsSU9EMmxXSmVK?=
+ =?utf-8?B?akQwSG1uendSWUU2eVVLQTdJYjlobm02Y1Jtc1IzemZ6TEVLamgyTTVRcjZ2?=
+ =?utf-8?B?cTkxb1ZQeTNoYjZzRFg5YWRsblNKenZnMW1IbTVmUmQvQnNIV1YwOFhUeVdr?=
+ =?utf-8?B?dzJ6Q29wbnZ4aE1JbzloT1dDRlh1RWtnZ1huTWNWcUxERUZwOWpFekhLZjRr?=
+ =?utf-8?B?dU9LUWsvMVo3ZTRsTU44ZDV3TW93UkQxTEFtZFZhN1l0KzZRV2tlWEZJRldq?=
+ =?utf-8?B?VnA4bktBTWxqNDdyZU1NWlBrOURvRDRaUG1EQ1BNYXRTUi9QSnV0T3ZPeERO?=
+ =?utf-8?B?SVV3dG03YmlQbDZPN2xVejJKUm1LaEtJenhyVEF5SmprbjB5akc0ejZuQkcv?=
+ =?utf-8?B?WEs1RkR6MXF0ejhnd0FHRE96amhLejBXOFltdkJhMGtIaDdTSXF5Q1BXa0tG?=
+ =?utf-8?B?RGw2SCtabzA1U1Z4SlVPYlZRR0NTUG9naEdWNHdqSFFFcHVsQ0FlZmY1VUwr?=
+ =?utf-8?B?LzgyTGw4OWt5cUYxUENIcWJCT0dnVi9taENESjNVWko3amVmWG15anYzczNs?=
+ =?utf-8?B?ZXlhbzVGTkF6Y3pIanRvS2o5MzFBbk9Eb0tsSUF1QXdNdGp0L2x2N0kyNlVV?=
+ =?utf-8?B?SEQ1S0J5SHZGSTZvdmIyZktDdjFxNTRaTUJJNEtpVFlnQU5ZcklVcjJhT2Rs?=
+ =?utf-8?B?WXdvTTF5N0pZZ3hVL29VR0ZKeVkvd3R2MzltdHNTaTZZWXNQVGtrbFVYeVJQ?=
+ =?utf-8?B?dG1DclJYM0FDVDJpUldVN0N1bHhDajIrUEFTVTc1QjBJeG5kQ201enVXc3ZP?=
+ =?utf-8?B?b1FSMzlSbVA2WW9yd3gwQm8vcEdzaVRCQURQWWpQNG41dk5jY1BVdGUzdC93?=
+ =?utf-8?B?ejZacG96SDBXb1dYd2NMMHNoQ3V0R3k4QWc1Z01NZWxXOVYwcSszMVRhQnUy?=
+ =?utf-8?B?NmdSRlhuLzhVQlp2cjVLQkFiUWpicVR3dVRib3BkcVgvQXo1TVVCT0Y2aDdv?=
+ =?utf-8?B?TTlneUp3T1Z6SWhaNzhUL3hRSUhQVFkxQlFuMVdXTlgwKyt4MGFoNXN1OHgr?=
+ =?utf-8?B?WkFES24xRUt4bzdUM01xRGZqK004cnB1N2poVk9XUHRFc2dmamNYcVJQc0FG?=
+ =?utf-8?B?UnlhMlBKUk5XejNNRVFFemRhVmVwQmYzWmw2dkhNcHhjZTQ1eDRmemFLTjUy?=
+ =?utf-8?B?QXcxdmNnTSt1MGNNTExJa05kVTJlUEhIb0tvNTd6RmpRcmZwam1ZQ05naFg2?=
+ =?utf-8?B?WmpIR2RxY205S0haWnA5cE04Q3pXNktiRU1BUWxFczdIUFhBSDM5cFU5MGxt?=
+ =?utf-8?B?YkRoSTg5WUE5eUNHY1FjUFpSbitYSGtvdTNXSEpYcUhaWThPYXJmMnJiMnYv?=
+ =?utf-8?B?RlM3Y3gyNER3Ry80T3BMeXBabFVVbmFzcHJtbDJGVU45eS9JUnJyZ256S2h3?=
+ =?utf-8?B?MGhaa0o3RUxmRjZOMzc4YklOYmpJbExqREpkYm9xMlcyckVtS1c5RktCcFRF?=
+ =?utf-8?B?RG1uTDhqNm5LcVJhYUhMa28yM044bGRmbVc4elFDYTAzZTdiVHR1TVh5RnBM?=
+ =?utf-8?B?NVJVT2pBazBBPT0=?=
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:PH7PR12MB5685.namprd12.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230040)(376014)(7416014)(1800799024)(366016)(7053199007)(921020);
+ DIR:OUT; SFP:1101; 
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?blZnS2pWTDVjdHZ3U05DQWU1UDVjZ0NWQjlmbWhXRkMwWjdjbVhlSnE5VnY5?=
+ =?utf-8?B?R3FHVjRlU0I0T0trVnRQS0RuTlRwUVl4TTBQV0o2YzIxaGhRVll3OFNCR2lM?=
+ =?utf-8?B?d1ViTUNMQllnYnV2R0NIbHdwODlvdDM5aUgxeWhEV0E0azdzYndVNzZGVUVI?=
+ =?utf-8?B?KzJYUEdNU3JLQWhFdUlqVWxWT2RwWFJFeTQzYnhMdW1VNEVoYzFsbXNZU0FE?=
+ =?utf-8?B?SSt0OXZjQmM1a3prZnpaLzZ5c3BKemVqQmd1QVJXakttTHFNZU9NNU40aGNC?=
+ =?utf-8?B?OTZUeG55TlpTblBuTng5SEYxeU9kd1BzalI1U082TDZHSW1EcXYraUpORzFv?=
+ =?utf-8?B?NndIRm1BUUE5WnhpWTQwdE5veEdyWHVlYlA3V2E5TFVWVitOR2VxT0lqWEdh?=
+ =?utf-8?B?bElCb2loZ1VRdTJ4Wm11WW1pUWk4dDFWMkZDQnlOM1VwREFSRC9vTGpORUQr?=
+ =?utf-8?B?c0NBOTIyZGJLeVFsRmtUWlJFM1dRZVNHKzZ1eGxWN1lKalZ6ZWpodCtFQ09S?=
+ =?utf-8?B?M2FiYmVlbytEcVZJalZBQ2lrSHZyM1dWMVlSa3llWm9JQjRNVTd4dGZxbm4z?=
+ =?utf-8?B?aDJPY2xIVHFHMXo0U2FMQ2NLTzFrdlk3KzQySTVZOG5QOTgwNW9KN0NYOFFZ?=
+ =?utf-8?B?b1E5SWZPZ1RVMUQ3WGVxcld4YStxd25kZjVOaXJuZUtTSzR5NGFuZFR5czhH?=
+ =?utf-8?B?QnFPejE3Y1dhdkFtVTU2dVhpN0pSc0FNaW5LazBpdUJjTmNYOTg5TkgvazBt?=
+ =?utf-8?B?Ulk3bkJkaFREdFZHYys3aWIyOGVUUW9oeThUWDhZUW1UTFQ2QWRDY0xEYlNS?=
+ =?utf-8?B?MlpGdTlkRmpCQnNkTGtzOWdQclcwclFMc0hocnVrcGVxL2xnOFh0THo2dkNv?=
+ =?utf-8?B?TlNKVGlSYnE1YVQ1VWJCc0xkTkM1U1d1UG95aTdVb3J6QUpsL3JURkM1WDVC?=
+ =?utf-8?B?NzdoUEIybml2SEd1STMvV0RLckxZMEVkcUpSMmNlVlNsSkVsc1FBRlM0bzZv?=
+ =?utf-8?B?M0V5N1ZWSFZrTFpBSWRwMG0wSncwZXFONHBaSXB1aUhVK1d0M0J3MW5mTmJ1?=
+ =?utf-8?B?MERTYjN2MWhMTlEyNXlIQ2NFM0szYUlPcVgrVUJiZW5yeTJITWlDOVI2MFd0?=
+ =?utf-8?B?cHY0ZFZyTUlQTFpRR1Jtdk02YUtqdVJaTDF5bVNrZ0c1RTY5aDY4bG1HdWZV?=
+ =?utf-8?B?ZE5HRTh6aVpJb215eUZaSG9adUFrb2pKV2ZzSFR1SFpGMXQ1eXRITC80RldH?=
+ =?utf-8?B?MlNnbmIyVHFRdEtQNTV6RWdVRURsVG5UVG4zMVk4cmFPYWt4OFp4VjBvajc2?=
+ =?utf-8?B?a1JRSXpoNU5XbHZoVlFJYXBON1JwcnNvdElFOHJ5WXRTdmJhVDZ0K0k3RVU3?=
+ =?utf-8?B?RStmWWRaY0RmOTh1cHdid2tBdW5RQ0dIV3JmU1VwTXFFaHUyT2RUMEdlTE9m?=
+ =?utf-8?B?d1lJNnVWa2syTFJtQWpOYnNzeWE3cFVRVWhUSkcyY0FhMUcvZU1hLzg5OG9R?=
+ =?utf-8?B?N1M1YlBlbFJsRFhLQXFhUjJOUW1abXpFWm5QVHFORmd6U0liVjdYWEg4WnZC?=
+ =?utf-8?B?WThoSTdjTmhCcytZNTZndUdGQmpna1M5U2NuMElPc3N6RXhoZVpka1UvZExF?=
+ =?utf-8?B?aFc3dUt0UFZWNkI3WEIzWEpJNmJZSUdGUGx0QXVHaUxaMk94eS91YzZ4T3hu?=
+ =?utf-8?B?b1Z3bzdObm9PRFN0Q1ZYS0YwYnB2dHNQWlZEM2NtTEoyZ0RyMythdUdGOENK?=
+ =?utf-8?B?OFpIQTFaR205akdaZW40aXU3S3RkY0FZZ1p6Z0dOQVdvVTAxZE5tdDVZOUl5?=
+ =?utf-8?B?T09iOCtMSjQ0TVAvMVRCYjNYeUJ1UGEweFJ1THhCL1Q3NmdhQjlDUXNUbFA3?=
+ =?utf-8?B?djJlY2JxTVcvMzBsSzZTSGtaNTJDTVIybEFjZTRwSFVsNlJJUVpJR0lobHNw?=
+ =?utf-8?B?UUdKUzY5RWFid3MyRXljQ2tLZHRSVzFiNURiMTFZR3BEWjcyQVBZUzdibGNT?=
+ =?utf-8?B?MndkU05McXpjbDd4YkhTK0pOKzQ1dnNGbFc5MllRUWVya0dmVkc0cGhMWUM1?=
+ =?utf-8?B?b1FFcG5JdjFiWVEvanNrc2hGZEtUQXhETFNkMHpqSmM0Vlo1Ty9rbGQ5SFRJ?=
+ =?utf-8?Q?7XfIPAxM6SfQbQXdSj4MXTEtL?=
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 8e64cceb-13ec-4b89-1dff-08ddae6fcc65
+X-MS-Exchange-CrossTenant-AuthSource: PH7PR12MB5685.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 18 Jun 2025 13:55:35.3219 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: C+ebL5Fb+FySYTabMyaXJ84+Iwe12zBTvMEBFKPU18Bw9lMQiGyucCbSPfycz2OD
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SA3PR12MB8022
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -160,101 +176,85 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 18/06/2025 15:39, Dmitry Baryshkov wrote:
-> On 18/06/2025 16:34, Krzysztof Kozlowski wrote:
->> On 18/06/2025 15:07, Dmitry Baryshkov wrote:
->>> On Wed, Jun 18, 2025 at 10:28:10AM +0200, Krzysztof Kozlowski wrote:
->>>> On 13/06/2025 16:04, Dmitry Baryshkov wrote:
->>>>> On 13/06/2025 17:02, Krzysztof Kozlowski wrote:
->>>>>> On 13/06/2025 15:55, Dmitry Baryshkov wrote:
->>>>>>>>    
->>>>>>>> @@ -361,24 +373,47 @@ static int dsi_pll_7nm_lock_status(struct dsi_pll_7nm *pll)
->>>>>>>>    
->>>>>>>>    static void dsi_pll_disable_pll_bias(struct dsi_pll_7nm *pll)
->>>>>>>>    {
->>>>>>>> +	unsigned long flags;
->>>>>>>>    	u32 data;
->>>>>>>>    
->>>>>>>> +	spin_lock_irqsave(&pll->pll_enable_lock, flags);
->>>>>>>> +	--pll->pll_enable_cnt;
->>>>>>>> +	if (pll->pll_enable_cnt < 0) {
->>>>>>>> +		spin_unlock_irqrestore(&pll->pll_enable_lock, flags);
->>>>>>>> +		DRM_DEV_ERROR_RATELIMITED(&pll->phy->pdev->dev,
->>>>>>>> +					  "bug: imbalance in disabling PLL bias\n");
->>>>>>>> +		return;
->>>>>>>> +	} else if (pll->pll_enable_cnt > 0) {
->>>>>>>> +		spin_unlock_irqrestore(&pll->pll_enable_lock, flags);
->>>>>>>> +		return;
->>>>>>>> +	} /* else: == 0 */
->>>>>>>> +
->>>>>>>>    	data = readl(pll->phy->base + REG_DSI_7nm_PHY_CMN_CTRL_0);
->>>>>>>>    	data &= ~DSI_7nm_PHY_CMN_CTRL_0_PLL_SHUTDOWNB;
->>>>>>>>    	writel(0, pll->phy->pll_base + REG_DSI_7nm_PHY_PLL_SYSTEM_MUXES);
->>>>>>>>    	writel(data, pll->phy->base + REG_DSI_7nm_PHY_CMN_CTRL_0);
->>>>>>>> +	spin_unlock_irqrestore(&pll->pll_enable_lock, flags);
->>>>>>>>    	ndelay(250);
->>>>>>>
->>>>>>> What is this ndelay protecting? Is is to let the hardware to wind down
->>>>>>> correctly? I'm worried about dsi_pll_disable_pll_bias() beng followed up
->>>>>>> by dsi_pll_enable_pll_bias() in another thread, which would mean that
->>>>>>> corresponding writes to the REG_DSI_7nm_PHY_CMN_CTRL_0 can come up
->>>>>>> without any delay between them.
->>>>>>>
->>>>>>
->>>>>> Great question, but why do you ask me? The code was there already and
->>>>>> MSM DRM drivers are not something I know and could provide context about.
->>>>>
->>>>> Because it's you who are changing the code as you've faced the issue
->>>>> with recalc_rate.
->>>>>
->>>> Heh, the answer is then: I don't know. I think authors of the code could
->>>> know.
->>>
->>> The 10nm HPG documents a 250ns interval between enabling PLL bias and
->>> and enabling the PLL via the CMN_PLL_CNTRL register. There is no extra
->>> delay between disabling the PLL, disabling FIFO and remobing PLL bias.
->>> Please adjust the code for 7nm and 10nm PHYs accordingly.
->>>
->>>
->>
->> I can drop this 250 ns here, if that's what you ask me. But fixing
->> anything in 10nm is not relevant to this patchset. You were already
->> asking me for different fixes for some different things and I find it
->> not acceptable anymore. Stop blocking this patchset with every little
->> existing issue.
+
+
+On 6/18/25 11:31, Jocelyn Falempe wrote:
+> If the ttm bo is backed by pages, then it's possible to safely kmap
+> one page at a time, using kmap_try_from_panic().
+> Unfortunately there is no way to do the same with ioremap, so it
+> only supports the kmap case.
+> This is needed for proper drm_panic support with xe driver.
 > 
-> I think that it is a common practice to ask to fix the issue in relevant 
+> Signed-off-by: Jocelyn Falempe <jfalempe@redhat.com>
 
-No, it is not.
+Reviewed-by: Christian König <christian.koenig@amd.com>
 
-It is common practice to fix things everywhere, but you rejecting the
-patches on that basis (coming again with some requests for unrelated
-issues) is not common and not correct.
+Preferred through drm-misc-next, but feel free to merge it through every branch you want if it makes thinks easier for you.
 
-> pieces. For example, we frequently ask to fix all the DT files if there 
-> was an issue / workaround reported against a selected set of those.
+Regards,
+Christian.
 
-And you reject the submitted fix of one DT file based because
-contributor did not fix the rest? Really? Since when do you employ such
-practice?
-
+> ---
 > 
-> In this case you can send a fix for 10nm separately, but please post a 
-> fix for that platform too.
+> v8:
+>  * Added in v8
 > 
->>
->> Or merge this code without this patch if a fix for reading PLL as zero
->> anyhow is questionable for you.
+> v9:
+>  * Fix comment in ttm_bo_kmap_try_from_panic(), this can *only* be called
+>    from the panic handler (Christian König)
 > 
-> I think I've asked it at some point, to split the generic code parts and 
-> the DSI enablement into two different patch series, so that they could 
-> be picked up separately.
+>  drivers/gpu/drm/ttm/ttm_bo_util.c | 27 +++++++++++++++++++++++++++
+>  include/drm/ttm/ttm_bo.h          |  1 +
+>  2 files changed, 28 insertions(+)
 > 
-> No, the fix is not questionable. The patch causes questions though.
+> diff --git a/drivers/gpu/drm/ttm/ttm_bo_util.c b/drivers/gpu/drm/ttm/ttm_bo_util.c
+> index 15cab9bda17f..6912e6dfda25 100644
+> --- a/drivers/gpu/drm/ttm/ttm_bo_util.c
+> +++ b/drivers/gpu/drm/ttm/ttm_bo_util.c
+> @@ -377,6 +377,33 @@ static int ttm_bo_kmap_ttm(struct ttm_buffer_object *bo,
+>  	return (!map->virtual) ? -ENOMEM : 0;
+>  }
+>  
+> +/**
+> + *
+> + * ttm_bo_kmap_try_from_panic
+> + *
+> + * @bo: The buffer object
+> + * @page: The page to map
+> + *
+> + * Sets up a kernel virtual mapping using kmap_local_page_try_from_panic().
+> + * This should only be called from the panic handler, if you make sure the bo
+> + * is the one being displayed, so is properly allocated, and protected.
+> + *
+> + * Returns the vaddr, that you can use to write to the bo, and that you should
+> + * pass to kunmap_local() when you're done with this page, or NULL if the bo
+> + * is in iomem.
+> + */
+> +void *ttm_bo_kmap_try_from_panic(struct ttm_buffer_object *bo, unsigned long page)
+> +{
+> +	if (page + 1 > PFN_UP(bo->resource->size))
+> +		return NULL;
+> +
+> +	if (!bo->resource->bus.is_iomem && bo->ttm->pages && bo->ttm->pages[page])
+> +		return kmap_local_page_try_from_panic(bo->ttm->pages[page]);
+> +
+> +	return NULL;
+> +}
+> +EXPORT_SYMBOL(ttm_bo_kmap_try_from_panic);
+> +
+>  /**
+>   * ttm_bo_kmap
+>   *
+> diff --git a/include/drm/ttm/ttm_bo.h b/include/drm/ttm/ttm_bo.h
+> index cf027558b6db..8c0ce3fa077f 100644
+> --- a/include/drm/ttm/ttm_bo.h
+> +++ b/include/drm/ttm/ttm_bo.h
+> @@ -429,6 +429,7 @@ int ttm_bo_init_validate(struct ttm_device *bdev, struct ttm_buffer_object *bo,
+>  int ttm_bo_kmap(struct ttm_buffer_object *bo, unsigned long start_page,
+>  		unsigned long num_pages, struct ttm_bo_kmap_obj *map);
+>  void ttm_bo_kunmap(struct ttm_bo_kmap_obj *map);
+> +void *ttm_bo_kmap_try_from_panic(struct ttm_buffer_object *bo, unsigned long page);
+>  int ttm_bo_vmap(struct ttm_buffer_object *bo, struct iosys_map *map);
+>  void ttm_bo_vunmap(struct ttm_buffer_object *bo, struct iosys_map *map);
+>  int ttm_bo_mmap_obj(struct vm_area_struct *vma, struct ttm_buffer_object *bo);
 
-I have no interests in fixing DRM code. This is not my subsystem, this
-is not part I am responsible for. If it raises questions, why not
-devoting your time to fix it?
-
-Best regards,
-Krzysztof
