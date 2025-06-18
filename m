@@ -2,48 +2,48 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 03F1EADE2DB
-	for <lists+dri-devel@lfdr.de>; Wed, 18 Jun 2025 07:03:59 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2987FADE2EB
+	for <lists+dri-devel@lfdr.de>; Wed, 18 Jun 2025 07:13:14 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 481C110E190;
-	Wed, 18 Jun 2025 05:03:53 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9E96F10E1E1;
+	Wed, 18 Jun 2025 05:13:10 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; secure) header.d=canb.auug.org.au header.i=@canb.auug.org.au header.b="laKLAJ69";
+	dkim=pass (2048-bit key; secure) header.d=canb.auug.org.au header.i=@canb.auug.org.au header.b="TpCiFQh9";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mail.ozlabs.org (gandalf.ozlabs.org [150.107.74.76])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D53CB10E18D;
- Wed, 18 Jun 2025 05:03:45 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8B29410E1E1;
+ Wed, 18 Jun 2025 05:13:09 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=canb.auug.org.au;
- s=202503; t=1750223015;
- bh=kqKSRJ/guIUFt5BzI3NN6IQBXj+pHJejH9za0Jf/xPE=;
+ s=202503; t=1750223588;
+ bh=yIHVCIPxF7xdB0tqcZOY3hEED87RnCBwqBxtmKp7hmo=;
  h=Date:From:To:Cc:Subject:From;
- b=laKLAJ69vBRPhMQY02vaJAO+FL9FAYvlRZ9Vjpoix9Nhi02Wes9sQi/ANAKqA7qcN
- AkszBzFYEj7OdophJ8ckxbC73yxBALgwr/HGxh+2kuZli8CvidF1Kaow3UnfnMLtoH
- vtINK4n8pl/RNks8O2QlB1FIwkBGSTTkM0TmyKiJTRqfXZHck+N0dByxkGJfKIErxe
- 4NRdNckiAeeFbo6kVLDfAx8IOKkFCJA9fVJpZGM5+b4nMjlyn8jvcxgtaFvwaMRB0b
- JNi1UcbruGHr0NfpLc4DAiQ3oZ8BVg4qAZ5xegjeqymPcNqvLNUzhusgu6Cge7wJrt
- qrjk4iZ2tI0NQ==
+ b=TpCiFQh9kvhJWgj9JxwNb2Nfc55tOzD01dd05A4Xqz6XN7IK7bO3SUjD08ea4uQFu
+ I1rwvOpBBnR+5huRJgsB4plZrVp9Ht9pi0eo3cZTg9BM7lHBgLEGRkC0QMZQbVP0u9
+ gAGHcaHr6Io4ru4cWvifYCDo2ruz++JUrqEa5Y7a2B/mBcy5KgGM2NKoODni8YGH47
+ 46dQYQziBn5G0EFd92FqivcbV00Ar40yuXniEWrzdyztvcHexvO7CCSodjRU5rRnJa
+ 5dtnVpKuhkM/QYvjNCwNKPNJgbKmj6OB4TZpkVqW4J9fA6Kzk2ttALg/74ygRzjVw4
+ CtZiq38hoEGjg==
 Received: from authenticated.ozlabs.org (localhost [127.0.0.1])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
  (Client did not present a certificate)
- by mail.ozlabs.org (Postfix) with ESMTPSA id 4bMWpt3Srrz4wb0;
- Wed, 18 Jun 2025 15:03:33 +1000 (AEST)
-Date: Wed, 18 Jun 2025 15:03:33 +1000
+ by mail.ozlabs.org (Postfix) with ESMTPSA id 4bMX1v41RXz4wb0;
+ Wed, 18 Jun 2025 15:13:07 +1000 (AEST)
+Date: Wed, 18 Jun 2025 15:13:06 +1000
 From: Stephen Rothwell <sfr@canb.auug.org.au>
 To: Simona Vetter <simona.vetter@ffwll.ch>
 Cc: =?UTF-8?B?QW5kcsOp?= Almeida <andrealmeid@igalia.com>, Krzysztof Karas
- <krzysztof.karas@intel.com>, Raag Jadav <raag.jadav@intel.com>, Christian
- =?UTF-8?B?S8O2bmln?= <christian.koenig@amd.com>, Intel Graphics
- <intel-gfx@lists.freedesktop.org>, DRI <dri-devel@lists.freedesktop.org>,
- Linux Kernel Mailing List <linux-kernel@vger.kernel.org>, Linux Next
- Mailing List <linux-next@vger.kernel.org>
-Subject: linux-next: build warning after merge of the drm-misc tree
-Message-ID: <20250618150333.5ded99a0@canb.auug.org.au>
+ <krzysztof.karas@intel.com>, Raag Jadav <raag.jadav@intel.com>, Intel
+ Graphics <intel-gfx@lists.freedesktop.org>, DRI
+ <dri-devel@lists.freedesktop.org>, Linux Kernel Mailing List
+ <linux-kernel@vger.kernel.org>, Linux Next Mailing List
+ <linux-next@vger.kernel.org>
+Subject: linux-next: build warnings after merge of the drm-misc tree
+Message-ID: <20250618151307.4a1a5e17@canb.auug.org.au>
 MIME-Version: 1.0
-Content-Type: multipart/signed; boundary="Sig_/trREsfRjxJARIWUtxbQwCwy";
+Content-Type: multipart/signed; boundary="Sig_/iD+KY8PERACOXW4l=/R4X9O";
  protocol="application/pgp-signature"; micalg=pgp-sha256
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -60,43 +60,42 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
---Sig_/trREsfRjxJARIWUtxbQwCwy
+--Sig_/iD+KY8PERACOXW4l=/R4X9O
 Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: quoted-printable
 
 Hi all,
 
 After merging the drm-misc tree, today's linux-next build (htmldocs)
-produced this warning:
+produced these warnings:
 
-Documentation/gpu/drm-uapi.rst:450: WARNING: Title underline too short.
-
-Task information
---------------- [docutils]
+include/drm/drm_device.h:40: warning: Function parameter or struct member '=
+pid' not described in 'drm_wedge_task_info'
+include/drm/drm_device.h:40: warning: Function parameter or struct member '=
+comm' not described in 'drm_wedge_task_info'
 
 Introduced by commit
 
-  cd37124b4093 ("drm/doc: Add a section about "Task information" for the we=
-dge API")
+  183bccafa176 ("drm: Create a task info option for wedge events")
 
 --=20
 Cheers,
 Stephen Rothwell
 
---Sig_/trREsfRjxJARIWUtxbQwCwy
+--Sig_/iD+KY8PERACOXW4l=/R4X9O
 Content-Type: application/pgp-signature
 Content-Description: OpenPGP digital signature
 
 -----BEGIN PGP SIGNATURE-----
 
-iQEzBAEBCAAdFiEENIC96giZ81tWdLgKAVBC80lX0GwFAmhSSKUACgkQAVBC80lX
-0Gz1gQf/fuPRHjtEJ9udvL2k+NPjFWGeST3ipVD1JZujraPfXxA79hMBUog64gM/
-8V9knscyoYfQQ129RZ69XHnOKOBK64wIDxEU010j5toVfx+C5ofQLQswE+SXorIY
-TYkM+Ztm1prkIq4mepvOP4oA/UX/hJp0WzX6JdsMN/HEbIOWDmqVGKp1Hp148qI8
-21eG9LufC0FhhjSKLBqIgzPYaegNxvnCTFKT8MMkFGAT/NQSP9L7FxRWfMZTBFzh
-KYFG6njPydzCSzcxMyJy2fC4RbnOstZx2bKJoaA+j73vm+U0v5aP9BbbYB+Hn1wX
-RL2oqxWORxL6Xfg0ZKi1WaRP0Pc2vQ==
-=m8hK
+iQEzBAEBCAAdFiEENIC96giZ81tWdLgKAVBC80lX0GwFAmhSSuMACgkQAVBC80lX
+0Gyqygf+OaQ5moAPkZ0CrA2HsLYfWC+3PSQzbVJK61WL5jsOOCtl73OWV62/u7wt
+iHfwz1WjzQsR5zcNebpOj9D8cvSBQl98iBdPEASFgrFHTS16JHdOgv+QL/p5ckq/
+AHztYucQAD63GZ3alDPJtdCXAiXCbeQgi7COOo0sM4Wt9hBbNvuhHXQsAtBFBCLy
+XFrthPeB4kvxlzY/73gEL6OyE1eLTxaSDzouKyerECIooEOcdkVjoTCNIeyCB999
+j9wy6b1/3kxs9ts9B2hqViQaVQzopOj9RQrIDi2ny4zpE/ISa7EGFmxcw3sOUH3p
+/I7BMoZADm/aWcRrotCKScGWsmgcOQ==
+=5AOb
 -----END PGP SIGNATURE-----
 
---Sig_/trREsfRjxJARIWUtxbQwCwy--
+--Sig_/iD+KY8PERACOXW4l=/R4X9O--
