@@ -2,72 +2,72 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7243EADEE29
-	for <lists+dri-devel@lfdr.de>; Wed, 18 Jun 2025 15:43:18 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3CDCBADEE2E
+	for <lists+dri-devel@lfdr.de>; Wed, 18 Jun 2025 15:43:38 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D619510E838;
-	Wed, 18 Jun 2025 13:43:16 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9907810E839;
+	Wed, 18 Jun 2025 13:43:36 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=bgdev-pl.20230601.gappssmtp.com header.i=@bgdev-pl.20230601.gappssmtp.com header.b="Lhnr5EyI";
+	dkim=pass (2048-bit key; unprotected) header.d=bgdev-pl.20230601.gappssmtp.com header.i=@bgdev-pl.20230601.gappssmtp.com header.b="B+mKDaeZ";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-f48.google.com (mail-lf1-f48.google.com
- [209.85.167.48])
- by gabe.freedesktop.org (Postfix) with ESMTPS id AA12B10E838
- for <dri-devel@lists.freedesktop.org>; Wed, 18 Jun 2025 13:43:15 +0000 (UTC)
-Received: by mail-lf1-f48.google.com with SMTP id
- 2adb3069b0e04-553644b8f56so7139821e87.1
- for <dri-devel@lists.freedesktop.org>; Wed, 18 Jun 2025 06:43:15 -0700 (PDT)
+Received: from mail-lf1-f41.google.com (mail-lf1-f41.google.com
+ [209.85.167.41])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8BE5110E839
+ for <dri-devel@lists.freedesktop.org>; Wed, 18 Jun 2025 13:43:35 +0000 (UTC)
+Received: by mail-lf1-f41.google.com with SMTP id
+ 2adb3069b0e04-553cf020383so1814804e87.2
+ for <dri-devel@lists.freedesktop.org>; Wed, 18 Jun 2025 06:43:35 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=bgdev-pl.20230601.gappssmtp.com; s=20230601; t=1750254194; x=1750858994;
+ d=bgdev-pl.20230601.gappssmtp.com; s=20230601; t=1750254214; x=1750859014;
  darn=lists.freedesktop.org; 
  h=content-transfer-encoding:cc:to:subject:message-id:date:from
  :in-reply-to:references:mime-version:from:to:cc:subject:date
  :message-id:reply-to;
- bh=9XesD6Pa6NIjfeeecwOLBDGIW61X59xU1PHMFDOzpvY=;
- b=Lhnr5EyIzaLkIqO4myjI2NVUnQtKOT3kusUTPjJhc6vnHJ4QvXa1pAS9MXNAgmtP/p
- W9KfhwEqywY3A1Mj0whOO3OVm5FMUXQ5qAKQhigdXit15MSJyNGdmUVssgzRf5C4qB+b
- JDvlzZBqDQitRcsLONL0m+vzyG3ixY5DrckeZ5D2B86rmwXfIjwi7ec8KrrtQqas7bHi
- 5TtZhRs1CLDmfLVAkbxGqV5eLwRndjmo3/5FyYmhF5XiM5sQKb5VUm8+sYpaT3wYvehf
- LgAvTHgVqdQVvm7QmubLbm93apY+4L8TAsp7Y+8bd/g0JPkq9ol6p0lgb3N3wui/p9i9
- Y8wQ==
+ bh=DH2TdO4qlgMmdVZuOlcVSevdsjnZbtIfQYEMA25f/cg=;
+ b=B+mKDaeZlfs39os/Hgfa6fbB9wwsoMQ3mhC3lYmq3pgFiQx7znVsdA4UBNpASmMaYm
+ vuQVopMmonLzJ5QdL2hY6b4st8sAXhO1gcwaty1Wssdde1vmGIHxPuiZ1ss6NU0kGMEb
+ F/QQ2eL1BHGyyz9aoM1wVGcHh6aYEnZ3vFwiY0yrv0P4S8l8onDxwDO2FpuAobOasbNI
+ e7pdMq3FHCGJB6+GM1Qj0aKm4d/tbUGRV4uLqeMneOsAEkyHof4qiw4dmoX44jtn1tzq
+ DlsBRLDt5YlGs+Z9Iq2VMeml+yEL29/0Okyd/6Lm1EFJFUsC6LLYtXEEVCtdoE5bQOsM
+ /ryg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1750254194; x=1750858994;
+ d=1e100.net; s=20230601; t=1750254214; x=1750859014;
  h=content-transfer-encoding:cc:to:subject:message-id:date:from
  :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=9XesD6Pa6NIjfeeecwOLBDGIW61X59xU1PHMFDOzpvY=;
- b=RrHgxWg90DwZPfjf73S4CSMDReOLa3CY+nDrNAl5o0kAciqgAeI3W4f5RSmDbeUsHs
- 2J6F0wcMofqzjspTCjgq3EwykFtlg+fofSzymqtgb5PlUW63z+roU/wRs+olqXc2t3HI
- HYH8XtvJ8uC3ASXsY5loi+B4h/xpLaRdV7Hro5UvkKB5A/6yVPBDkKz0U4TF+JvCp9RS
- ztzBmzeO1AKWk7Pjl3GRZfnEG0JdFh51n0YrBUBkLeH1nKtneKKncP1MJltEhOCNZ2wG
- 0QI9pnK6HhwJMz/0/CVyKPmOUkz4wnFc5QXZYjVGESf7/+5sqByOXgbmgeYE+iZuLQsy
- hpsA==
+ bh=DH2TdO4qlgMmdVZuOlcVSevdsjnZbtIfQYEMA25f/cg=;
+ b=Lz4BtHjwDnw4uJBmfNBQ+JFgRDECUFSB/9AKXPERRDf6URfjVIKZ1Sen4iEJvErZaP
+ tooA+Bk84sLTeylcycx5hRZCt6QWJ9cjB9TbIavJ0wARIbN/09XIMmIpg8L3Ym26hbYS
+ kTWI9BztUOuktEtswYO0gNah5q0EzKD1DVz+wbYJFWr7q7ufFjQN07ikcziOsLpwY9av
+ N8+Vh3yxxsDpJ8BKaxYUZlvjN4CCedzeVidHYcAtuAlMmwoGjR55Qas3OfzyXddTBU+O
+ UbjZZD4dJ5R2jwR23IZC6BflBlR7Cja5r+dt+9Pe3QSbLjRTgM5+sk0CBQuG5UgF19jM
+ f0eg==
 X-Forwarded-Encrypted: i=1;
- AJvYcCUVve95kIq5DkXeDXNB4FUefWTiFs509V/Sl3sjuTsqq6wEY8bc4Ey7vQbkQx7VhwYsVkQhWuLDQjE=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YxspyUL4KL0kCmwr20vTIH4byFSbMMErkq38V6+eaBl4c+jchFi
- SwS2c51wMdG6E8yODxmgifJMZ6OusUiOIJx+1W67V2szzfwY59JQUJbWaapNxv8N1PFbj3ondo5
- 0xZf9RNV1rFCD0rrRmKm8ATAtSmhZOJv3Um5WNmGNSA==
-X-Gm-Gg: ASbGnct166tVu4TjjXnBSXx1KvVYfTPsMpH+jnw7v71peIjCZTsQXrLtDQYU8uSn4RC
- A1yqHBondY2uxj/i0N0JwqdoB0/fEGS9Axm/WGQsE5H5gZ64FKoMro+ZVt8E6xmaKCos1G8coy4
- od3X1jinjCS3hz9vfsbqIJSuWWDe0+1VYEetRJQz6HzmnOxPHw3Edtn95QAFi7btioDSuge4e2K
+ AJvYcCW1YxINL0Tsy1Kpi1GDnEGkYtzQn3iqzkHqNF49ezNg80eFXdLqsDngZJ05+HEEO/S1jFU3VevogKM=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YwHcABH73J8kV/NPU4rxwvfXHEG7GOBGIL0Rf3+pCrrVikRH8Sl
+ xRtIJQuFQwxHMsGetuztQW7uyDj336uln/cum7IKmNjG/GtA2YYS4NjjJZR3Dn36hgC3OXYgL5B
+ PJqFXc/7W0T88dItOdGZi+zD260KLR1BWZbEib/EBFA==
+X-Gm-Gg: ASbGncvh1jOjztQB7tVWxWuIIerfIt8iRIgIe3kMuMwl9ySxyvsG09UwjWND2ZXCZwA
+ oZ5xDez8qoM77iJFNhB8T4NAI/0HZ0ISoD63ruEJX7EZyQuLW0G1yo2rsUif1vxb64jsd7k1qXh
+ Sc0qNKw2YyFUdR3pWrJd2tbMlyLGrOA4qNNhokrAAuL59fH06gYEm32zAC/2f2oav60XbG792Wq
  w==
-X-Google-Smtp-Source: AGHT+IEECYD65Et/LmSBnvEiKApYIkAD1brUDvo7BBfhvnXlFl9/WYj3FARtHuaHKB5NARXPoTCzd7KIs42A0Z1Qt14=
-X-Received: by 2002:a05:6512:2351:b0:553:24b7:2f61 with SMTP id
- 2adb3069b0e04-553b6f5a056mr4801515e87.57.1750254193987; Wed, 18 Jun 2025
- 06:43:13 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IHftNw+Eih04FWqkzxlxHZa0pUq9QbEcwUOmlySQIbB01O/3QL4rt3xwi2A6yMgr8Es7P1LaWGFLlQxbE/YI0U=
+X-Received: by 2002:a05:6512:39cc:b0:553:3770:c912 with SMTP id
+ 2adb3069b0e04-553b6f42a3fmr4662087e87.47.1750254213943; Wed, 18 Jun 2025
+ 06:43:33 -0700 (PDT)
 MIME-Version: 1.0
-References: <CGME20250618102231eucas1p1ec99058179825cb1250a1f189313b3eb@eucas1p1.samsung.com>
+References: <CGME20250618102233eucas1p228b24f58e4cb3d15b0f273530b582cea@eucas1p2.samsung.com>
  <20250618-apr_14_for_sending-v5-0-27ed33ea5c6f@samsung.com>
- <20250618-apr_14_for_sending-v5-6-27ed33ea5c6f@samsung.com>
-In-Reply-To: <20250618-apr_14_for_sending-v5-6-27ed33ea5c6f@samsung.com>
+ <20250618-apr_14_for_sending-v5-7-27ed33ea5c6f@samsung.com>
+In-Reply-To: <20250618-apr_14_for_sending-v5-7-27ed33ea5c6f@samsung.com>
 From: Bartosz Golaszewski <brgl@bgdev.pl>
-Date: Wed, 18 Jun 2025 15:43:02 +0200
-X-Gm-Features: AX0GCFv-psDNb6_Ffk6XjHdwrMsid_b9idm2knOXcGXYQtnqAYke8L-CxfsFZ0k
-Message-ID: <CAMRc=MeiCT2f902h4viFbue1tejv7EGBvEjdQhOTuqDqEViwRg@mail.gmail.com>
-Subject: Re: [PATCH v5 6/8] riscv: dts: thead: th1520: Add GPU clkgen reset to
- AON node
+Date: Wed, 18 Jun 2025 15:43:23 +0200
+X-Gm-Features: AX0GCFsy7p_bfVyodl4lMK_1wlqkCV9i-ffK-YbNgbQ1QgrzZEcf4YhKpp98eDM
+Message-ID: <CAMRc=McvK2Og1kxDmN-5YW0UHxe-EEXPg88zh=oVEvSvCZ+-EA@mail.gmail.com>
+Subject: Re: [PATCH v5 7/8] riscv: dts: thead: th1520: Add IMG BXM-4-64 GPU
+ node
 To: Michal Wilczynski <m.wilczynski@samsung.com>
 Cc: Drew Fustini <drew@pdp7.com>, Guo Ren <guoren@kernel.org>,
  Fu Wei <wefu@redhat.com>, 
@@ -106,50 +106,19 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 On Wed, Jun 18, 2025 at 12:22=E2=80=AFPM Michal Wilczynski
 <m.wilczynski@samsung.com> wrote:
 >
-> Add the "gpu-clkgen" reset property to the AON device tree node. This
-> allows the AON power domain driver to detect the capability to power
-> sequence the GPU and spawn the necessary pwrseq-thead-gpu auxiliary
-> driver for managing the GPU's complex power sequence.
+> Add a device tree node for the IMG BXM-4-64 GPU present in the T-HEAD
+> TH1520 SoC used by the Lichee Pi 4A board. This node enables support for
+> the GPU using the drm/imagination driver.
 >
-> This commit also adds the prerequisite
-> dt-bindings/reset/thead,th1520-reset.h include to make the
-> TH1520_RESET_ID_GPU_CLKGEN available. This include was previously
-> dropped during a conflict resolution [1].
+> By adding this node, the kernel can recognize and initialize the GPU,
+> providing graphics acceleration capabilities on the Lichee Pi 4A and
+> other boards based on the TH1520 SoC.
 >
-> Link: https://lore.kernel.org/all/aAvfn2mq0Ksi8DF2@x1/ [1]
+> Add fixed clock gpu_mem_clk, as the MEM clock on the T-HEAD SoC can't be
+> controlled programatically.
 >
 > Reviewed-by: Ulf Hansson <ulf.hansson@linaro.org>
 > Signed-off-by: Michal Wilczynski <m.wilczynski@samsung.com>
 > ---
->  arch/riscv/boot/dts/thead/th1520.dtsi | 3 +++
->  1 file changed, 3 insertions(+)
->
-> diff --git a/arch/riscv/boot/dts/thead/th1520.dtsi b/arch/riscv/boot/dts/=
-thead/th1520.dtsi
-> index 1db0054c4e093400e9dbebcee5fcfa5b5cae6e32..f3f5db0201ab8c0306d4d6307=
-2a1573431e51893 100644
-> --- a/arch/riscv/boot/dts/thead/th1520.dtsi
-> +++ b/arch/riscv/boot/dts/thead/th1520.dtsi
-> @@ -7,6 +7,7 @@
->  #include <dt-bindings/interrupt-controller/irq.h>
->  #include <dt-bindings/clock/thead,th1520-clk-ap.h>
->  #include <dt-bindings/power/thead,th1520-power.h>
-> +#include <dt-bindings/reset/thead,th1520-reset.h>
->
->  / {
->         compatible =3D "thead,th1520";
-> @@ -234,6 +235,8 @@ aon: aon {
->                 compatible =3D "thead,th1520-aon";
->                 mboxes =3D <&mbox_910t 1>;
->                 mbox-names =3D "aon";
-> +               resets =3D <&rst TH1520_RESET_ID_GPU_CLKGEN>;
-> +               reset-names =3D "gpu-clkgen";
->                 #power-domain-cells =3D <1>;
->         };
->
->
-> --
-> 2.34.1
->
 
 Reviewed-by: Bartosz Golaszewski <bartosz.golaszewski@linaro.org>
