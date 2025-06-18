@@ -2,168 +2,68 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id DBEA3ADE57F
-	for <lists+dri-devel@lfdr.de>; Wed, 18 Jun 2025 10:25:50 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id EEE63ADE582
+	for <lists+dri-devel@lfdr.de>; Wed, 18 Jun 2025 10:27:46 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D15FE89E33;
-	Wed, 18 Jun 2025 08:25:47 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2DD3710E7A1;
+	Wed, 18 Jun 2025 08:27:45 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=Nvidia.com header.i=@Nvidia.com header.b="SWmhF//Y";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="ET/cBAI/";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from NAM11-DM6-obe.outbound.protection.outlook.com
- (mail-dm6nam11on2088.outbound.protection.outlook.com [40.107.223.88])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4A7EE10E1B3;
- Wed, 18 Jun 2025 08:25:42 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=a4VEoObp4SAXJUr2ojFMEEH1jQeWzT9yx0DiuwhAWlGuDfpqA3SvHcx9odMYGa1gwx4W8dGuTq9Hjx9wTqb7CpdpWiMLC5k4k5uAhf2qUAEMdcl+5Nc3JbckucUS9m1u8DRQpyvJ0q2QTu37iPndgjzuhrUZpzIL8gwk4T6gedxyacSbhZkMfgqc8HfpjjnOtRIH3qBdEbsnQqPTNk4m/nqaWRNAHtClp49VWoh8nzvOGGap/zDS3g97vgD//ENBWnahV3e27Q6P+qBLaDR3T2HK6lTEKe7/qq7CdTtp2fVaUbGuzb2Hhp5p7jc1DgvlCrjwiO7VuXLrEUCawIzo9w==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=PoFX5UpFHdxMBMVswKL04cydLsueXynRyd8tZkPcNWQ=;
- b=AVJOj8y/ANc5NJawlGPI5V+VVBwhyFwUvJxwDhN8U8eDOMLAli8S3T78JzSKH1uz94dbSwdAznWzPPr4tZK9vv6LIKnuBGjUMoS7lo61P4xV1AwmPxhndSR53VOo4z3FPhSA5Zidtx2efXFpM/9UY5UhgBVUiLpjJto8HGgCRRzdsDMB4b+/tqb7TtqmQyJfoxzICKeuVy0VSGhT406f8HsB75sjVXxbHymNEfF48Oi6iThWelBzja/7zeSGV8eMZJtQCsCn2NRaAqS7yFtKMMScfjIDvjQByMa6hW70msPTfIVZOGil0L8OPyImnioz0yCtsLgGvopHz7vG5ol8GA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
- dkim=pass header.d=nvidia.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=PoFX5UpFHdxMBMVswKL04cydLsueXynRyd8tZkPcNWQ=;
- b=SWmhF//YWf2/RL7HEo6mRPucvbZw50mqV6EEoIA7EjDDtJs+GuKp2+ZpwP8BAGkwspLMg0O6hT5uh3zVOQPUBGphm2jU7tCjbuDBil9YbnhTy3WSmV2sjSLH4d+WRbcBSaX3R9noNRpI2aTBPMN5a5rIxvAuI7LwgR6+Wreo5379znn8DYFg+Sjd7CeZ+H92w7EI56pQluNlsNN6/sV7OTkmMU5ZMQoAAlcwaiAOgbOiCl2h2f2gWuQj/QRT+L1thutdKNmwFAYQNpjP3hCjn8PFXNZ8adfG7dTvbJXzBJwQrbuDPUwdVHPrl9rq12x6d1FMcCoJ2YueuBg/1mJKkQ==
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=nvidia.com;
-Received: from MN2PR12MB3997.namprd12.prod.outlook.com (2603:10b6:208:161::11)
- by SJ2PR12MB9088.namprd12.prod.outlook.com (2603:10b6:a03:565::15)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8835.29; Wed, 18 Jun
- 2025 08:25:37 +0000
-Received: from MN2PR12MB3997.namprd12.prod.outlook.com
- ([fe80::d161:329:fdd3:e316]) by MN2PR12MB3997.namprd12.prod.outlook.com
- ([fe80::d161:329:fdd3:e316%6]) with mapi id 15.20.8857.016; Wed, 18 Jun 2025
- 08:25:36 +0000
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset=UTF-8
-Date: Wed, 18 Jun 2025 17:25:25 +0900
-Message-Id: <DAPIKKLD8T6M.1I9DCC7WNFZDF@nvidia.com>
-Cc: "Miguel Ojeda" <ojeda@kernel.org>, "Alex Gaynor"
- <alex.gaynor@gmail.com>, "Boqun Feng" <boqun.feng@gmail.com>, "Gary Guo"
- <gary@garyguo.net>, =?utf-8?q?Bj=C3=B6rn_Roy_Baron?=
- <bjorn3_gh@protonmail.com>, "Andreas Hindborg" <a.hindborg@kernel.org>,
- "Alice Ryhl" <aliceryhl@google.com>, "Trevor Gross" <tmgross@umich.edu>,
- "David Airlie" <airlied@gmail.com>, "Simona Vetter" <simona@ffwll.ch>,
- "Maarten Lankhorst" <maarten.lankhorst@linux.intel.com>, "Maxime Ripard"
- <mripard@kernel.org>, "Thomas Zimmermann" <tzimmermann@suse.de>, "Benno
- Lossin" <lossin@kernel.org>, "John Hubbard" <jhubbard@nvidia.com>, "Ben
- Skeggs" <bskeggs@nvidia.com>, "Joel Fernandes" <joelagnelf@nvidia.com>,
- "Timur Tabi" <ttabi@nvidia.com>, "Alistair Popple" <apopple@nvidia.com>,
- <linux-kernel@vger.kernel.org>, <rust-for-linux@vger.kernel.org>,
- <nouveau@lists.freedesktop.org>, <dri-devel@lists.freedesktop.org>, "Lyude
- Paul" <lyude@redhat.com>, "Shirish Baskaran" <sbaskaran@nvidia.com>
-Subject: Re: [PATCH v5 00/23] nova-core: run FWSEC-FRTS to perform first
- stage of GSP initialization
-From: "Alexandre Courbot" <acourbot@nvidia.com>
-To: "Danilo Krummrich" <dakr@kernel.org>
-X-Mailer: aerc 0.20.1-0-g2ecb8770224a
-References: <20250612-nova-frts-v5-0-14ba7eaf166b@nvidia.com>
- <aFHMjEt7KrjClom_@pollux>
-In-Reply-To: <aFHMjEt7KrjClom_@pollux>
-X-ClientProxiedBy: TYCP286CA0364.JPNP286.PROD.OUTLOOK.COM
- (2603:1096:405:79::8) To BY5PR12MB3986.namprd12.prod.outlook.com
- (2603:10b6:a03:195::27)
+Received: from tor.source.kernel.org (tor.source.kernel.org [172.105.4.254])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id CE05710E7A1
+ for <dri-devel@lists.freedesktop.org>; Wed, 18 Jun 2025 08:27:42 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+ by tor.source.kernel.org (Postfix) with ESMTP id 8E86F6112C;
+ Wed, 18 Jun 2025 08:27:38 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id A0DADC4CEE7;
+ Wed, 18 Jun 2025 08:27:37 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1750235258;
+ bh=kpbFuyronYx4WqaCOXcmArGTDXwxpcw1dFYS6oUoq2s=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=ET/cBAI/4PdmQXgKUdpf7Aq+7hduBZsquH8BDMKkNSsRNEtntVOT0NGgbqEbaY7nP
+ wad/A36DuBIaQMEM7AlyoWegvBZsRcY30//yAlPreT+tDW2/gIKD3bHooGfq7CYUJU
+ AIcGa00OfjgxeZy9nsn5JLxAq1+9see65gZanUtAr32CeM7+h1NE3AmotJ77w/iPuT
+ j+NTKXiJtvmFxxkToyba9HhqDfaBdqFM/dWEjaDNZQFImdtqLMMseUHb47tVG8GnPI
+ cqpVZQXewGwGGZtrWWH3QHrx+/SJ3zo5TK+u0utMX1wSOPwTYXdsJ7oznu43D12D7l
+ 2rgDvPTaO9y2w==
+Date: Wed, 18 Jun 2025 10:27:34 +0200
+From: Maxime Ripard <mripard@kernel.org>
+To: Marek Szyprowski <m.szyprowski@samsung.com>
+Cc: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>, 
+ Aradhya Bhatia <aradhya.bhatia@linux.dev>,
+ DRI Development List <dri-devel@lists.freedesktop.org>, 
+ Linux Kernel List <linux-kernel@vger.kernel.org>, Nishanth Menon <nm@ti.com>, 
+ Vignesh Raghavendra <vigneshr@ti.com>, Devarsh Thakkar <devarsht@ti.com>, 
+ Jayesh Choudhary <j-choudhary@ti.com>,
+ Alexander Sverdlin <alexander.sverdlin@siemens.com>, 
+ Dmitry Baryshkov <lumag@kernel.org>, Andrzej Hajda <andrzej.hajda@intel.com>, 
+ Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>, 
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
+ Jonas Karlman <jonas@kwiboo.se>, 
+ Jernej Skrabec <jernej.skrabec@gmail.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
+ Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>, 
+ Simona Vetter <simona@ffwll.ch>
+Subject: Re: [PATCH v13 3/4] drm/atomic-helper: Re-order bridge chain
+ pre-enable and post-disable
+Message-ID: <20250618-silent-oriole-of-fertility-3cbbd6@houat>
+References: <20250605171524.27222-1-aradhya.bhatia@linux.dev>
+ <20250605171524.27222-4-aradhya.bhatia@linux.dev>
+ <CGME20250611104512eucas1p22450fccf3bb7521760bd2d9a2a56ba19@eucas1p2.samsung.com>
+ <2c51cf39-13cb-413f-8dd5-53bc1c11467a@samsung.com>
+ <306f142f-f9c9-44ab-a5b9-c71db76b2b80@ideasonboard.com>
+ <b4d8c5b2-3ad7-4327-9985-d097d095ccb5@samsung.com>
+ <3adb1d12-7cd5-4beb-9978-c3cae702f338@ideasonboard.com>
+ <d005ad5c-aded-4dea-b6eb-a9ce78c04728@samsung.com>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: MN2PR12MB3997:EE_|SJ2PR12MB9088:EE_
-X-MS-Office365-Filtering-Correlation-Id: 324fe4d6-1294-4305-22c7-08ddae41b243
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
- ARA:13230040|366016|1800799024|376014|7416014|10070799003; 
-X-Microsoft-Antispam-Message-Info: =?utf-8?B?N0pEWmlkSUNETEJxSGNrUmU0UDMxNnUvYkFOcWU3RGgvZmZMV0hwZDFDaC9Q?=
- =?utf-8?B?NnErWFVsZmRCZFVndVgxajF1UVZOcTlkaHEwY0lVOHFhQVdGakRvczl3QVVT?=
- =?utf-8?B?SEw4NHUxN0hJU1RXblczYlhyaTJWdk4wM0dyU2VhZGtwdUVwQlJrUDF5dWN0?=
- =?utf-8?B?NlFJdkljdmIwQThVWnBRSmRMMG13VzlnVU9HUERmelFsTEJLL1FvdkhlNEYy?=
- =?utf-8?B?UWdMOFN2cUtYQVI2ODJiMXFhREJHSXFwZFBuMjhBN1Q3YkNoZUxnOHY0STQr?=
- =?utf-8?B?OFhmdnJZckpGRjJJOVByKy9UOUl1NDFYWU5SdGdvZlVkSzJIMStmWGNoYnlw?=
- =?utf-8?B?cDYxTk1zZjQ2WURkQUNMRzZlK3pXc2pPNkVIUnJ0V2tTc0oyRTVaVy92VTlv?=
- =?utf-8?B?ZzV3VFp2WU14STQ3NFl0OFYxZ09RQ092MURORHlpTXZVM0JHaENYZmxLRmtq?=
- =?utf-8?B?bDQ5ZkhJY2F6WjBvNTN1STI0OGhQajVYUW9jaVNlREZnMGpkbVVLMUtydkhV?=
- =?utf-8?B?ZU1hR0cvZ2dvUmtVZjFTN2Z2MTFXVHhURkFZL2FKMUUzRGJSMk9Ud05iVnht?=
- =?utf-8?B?NnBWZ2NvekRlWUp2MmNWeGk0N2FNaUY0cGUwUFRwNGFGSS9qTXNxRFJKd005?=
- =?utf-8?B?VGo5NDYwdGVDOFdKRG1CRGtPbk1ZcG9yMlBMbWl2Zk5MbUM1b0RYUldnWFg0?=
- =?utf-8?B?b3EwS1FvY1RSZWM5TEhOMjlzZHo1c2piSmdkelRnN0srMGhmU0tQNzY0a0V6?=
- =?utf-8?B?YWsyZ3pJWllHN0JWcWNEZjF6d3l3emYvZ2FoNGY2U1V3UHc3V2lMajZ0UHR4?=
- =?utf-8?B?SGpRb29zQmwrM09lUng3SWtHd0pORXllUUQ2WmV4NFdEL0QzS00zU3NuK1gw?=
- =?utf-8?B?T0dsaHNKNUJOdTlIUzd6QUdQL2YvZlBwblF2eTZRM2tOaDdJQ3Z3SE1oR3l1?=
- =?utf-8?B?Y3NDdTB5TWY4aUZrQi9FdVRmNzZNNUlXaEVUUFAvd3lUMGM3UFljVm56VklF?=
- =?utf-8?B?S1g1UWNBWUJwZ29aQ3FNVmtHVlJQWXEzMFBSNFhFcmVOdDVoYnJkQVc4SGdY?=
- =?utf-8?B?S0JtR3d1WnJMV0VROFJmdlFROHYyNnNBeHFXOGM2V0hQOFFyZW51MTJPajJ0?=
- =?utf-8?B?cXJpVTF0UXBCQ0tHVEhCQVIrdEk4d2VtTmw3NzYrOFhIL25QRFl6VmxyU29w?=
- =?utf-8?B?SWhtVnM4ZWxvY1BJVjZ5YkdrenhEYktyYnQvaHFUNDUwRzBPWmhCdHgwZEhO?=
- =?utf-8?B?ZlV2eUgrc3dvelZZSElZY3Z5ZDFub3oweUlOVnFEbzUxc1dIL2djY01FR0dp?=
- =?utf-8?B?aEZrS2pPS1NjOE1YWmlNT3RWelkwTTNIQW1WU2tHdEVMRHV4SUllbndqSGhs?=
- =?utf-8?B?R0tIT1BFdkh3QVBuQmFPVUlISGw4ZWh5V3lrMXEzeDhJTDk1QmliQ1RmWlJo?=
- =?utf-8?B?RE5rM09oa3BvSmdIdjE5YWR3TjhCSU5ETXVLU0xjN083Vlhtc3YwUU94b3B1?=
- =?utf-8?B?QUd5bWRXb3htNlB1VU92R2ZZRU5JaEdva3A0L2IwK0k0U0x0UFM2YWpLT2pz?=
- =?utf-8?B?VFMzejg3TVNwME5neGtLenNJMTJHQWV6RmdxZmI1VEk1YkdPUmdHdmpjb2xl?=
- =?utf-8?B?b1BCRUVLVFU3SG13bTIvdUJWQ2drTkYwcWVNMTI4M0dqc0JUWDRJRjNFdDVy?=
- =?utf-8?B?RnJvbko3K3RBNjVwcW5yWkI3VnB2WDI4MVRkLzlLTzRZTVZERGducHI1WnIy?=
- =?utf-8?B?RE10WXk0TXJ3OVZTZmhpeUd4b0E5RU1GeGtZR3U2M3k4MWpQT3ljcXM0UTdH?=
- =?utf-8?B?OTNRN0thWmVzTGt6TUt3RUVxcS9DSjFtRlFvNmoyb1oxR1Jxc3VDQy9xa3da?=
- =?utf-8?B?b2RPNm5NU2NmaWhCWGZlSVVmZmVUUitnUU03dENncnpsTDVrendzYkt5dTE5?=
- =?utf-8?Q?S14pCCKFXOM=3D?=
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:MN2PR12MB3997.namprd12.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230040)(366016)(1800799024)(376014)(7416014)(10070799003); DIR:OUT;
- SFP:1101; 
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?UW0zUlhUYUxZNEdDQTZjTHlCdEtyMVpUbW11MzlQejk3b05hSlZTZklrWFdh?=
- =?utf-8?B?SlBRRExNMVo2TWNWMzVncE1ldlNhVXpRWXI4bnMzMDAwWlN3QzVlcUVueEtn?=
- =?utf-8?B?SEdsZjhtdXhEak1NdTFqQm1IWEp4ZW5zdVVjWmpOeEVxY0ZRZi9qWDM2SDc1?=
- =?utf-8?B?RTRUbWN0UEw4UkJRMzZGeW9TNWZLcmc3S3h0Z0FxNVVZY2ZPTEk3TDZ0Y1VI?=
- =?utf-8?B?ZVVrbDFWNXVyUzFyWnVpWnZQQlE1ZlhFY0VvK1l1WmNBZlRPQW44TmxkSFZz?=
- =?utf-8?B?YWhrYzZ4OHFINUV4ZDY2N2VBdjBKWWZEbm50THlzSHk0TGVSNHF1dklJQlJE?=
- =?utf-8?B?OG92eFdRQnBHWmZ5aUl3MDVmbmxhUXRuaEVGbUNUSk1lc0JQUDcrNms5Z0VL?=
- =?utf-8?B?Tm90V2hEZDNhbkxOVnd1QS9BMXQ0WTBUOGZvT1E2ci9mTDM5TjVyUndxYkR4?=
- =?utf-8?B?ZHJJWWtPTUpSOVplYm9abmRpMnN4NzJ3Tis1Q3g3dHNsaTZwUVkyMG1Md2ZO?=
- =?utf-8?B?SXVVRTFLV1FGZjhwWElSRjJtRHcxc3JHSzdpZTJIMWdFZXRJTy9DbFBqUmQw?=
- =?utf-8?B?YmhqUVNuTW1wb0d1aDhha0NzNFJqSjFLRVBYUmI5VFlmbXNQMmp6SSszNTNu?=
- =?utf-8?B?N0JIUExveFNDamNGa1FrYmk1N0dzQnZzVTJLQ2FlK1I0a2tvYjZXNEZCcVZj?=
- =?utf-8?B?ODQ1VHM1cVVuRURtbldGUkJhUytpQVk1dlQzT214SWljMVhjRk9DeG1CWXJW?=
- =?utf-8?B?eGN5MzI4MVdUamxFalFQa0hGcjJYZVVMVU4yN1JtUVVWWUFtNnBSajRFOXlM?=
- =?utf-8?B?c3JCTWZJamk2SWk4R2RSSVc0RHFCN2FLTEh5ci9uZ0pER2tMSGxZUmZPU0wy?=
- =?utf-8?B?ZjBSZ1RRcXBHZ2E1ODRWUzF3d1F0eHZsK25PZlR5NExsL3ZYdjVNa1A5dHl5?=
- =?utf-8?B?Y1hFbGgwYXpHc2lJQVgxY0pEUkc3YzZXS21RK0pMUC90emdzUWtNU0RhTXR1?=
- =?utf-8?B?OEdjWTNId0NyVGlNRmRjREZyMGxzTnlpcjFNSU80Uko5Ym5NQW54ZlA4eE1J?=
- =?utf-8?B?ZFkvbXdiWVpLMXNHeFZiUkh3dzdxblh0cnBsTEpaNnBuNmZuamxLWW84dUl2?=
- =?utf-8?B?ZWNXVWNmUkhOQTR5c2xsRFA3NlFNM1NEdHNyYzY5T2hxOUhxelIxd29iRm1p?=
- =?utf-8?B?V1FtZ2J3ZzRuZUNtWkFTbkt0RUpDc0tSaFY4Sy9jSHY2dXBqZnBBbmxjakFS?=
- =?utf-8?B?YjdqSmdpTDVhbExTVEJZakMwSUN5QmE3RVYwT2M4MjRBUGZrcHFRMlhycEYv?=
- =?utf-8?B?SFZ0ZjVSTUFrTTBTOTNWYnl4ajBRVmErdlljWXRXL0dac0NJT21CbnQ1Q1d3?=
- =?utf-8?B?Vi93dXo4Q3AyYmZISmx0aG9GbXl3TW9yYWoxSWVYQVhoUE9HbFFWUk5uVHdl?=
- =?utf-8?B?UkJldnIrZm1hRVUxWjZCcE9TVnViVHQ2VU41NXJlVVZmRjNGeUZkb3UwRlFC?=
- =?utf-8?B?dmZqVUI0dy90UGVNeklhS0h6WVd3QnBPaTQ1bXluZTY4REZZZ29qTDNkS1Zv?=
- =?utf-8?B?cVB1b2srMThSSGZwa050c1RPS1c5YzFJSWhOcldiWEVxWU90RzdkYWdZVmZp?=
- =?utf-8?B?Z0tVWHFCUFRwSDBvMmdLUGk5TXB1VWY2aXlkeXV0bVFBaGgzcmI4ZnI3UUNQ?=
- =?utf-8?B?TjhhNlI4VjZiT25PckJUSnZaRjI1R3A4WnlqMHJrOWpTaFlxNDhJTlE0U0xE?=
- =?utf-8?B?aXdwNGkrOVJPUlBUV2pOcCt2SlZoRFlVM1IrVUVFc2Mzck9RUlloTkdpS1N4?=
- =?utf-8?B?ZUMxMEdDbFNIMk9RUUZsekdNdE95K1U4UU54Ymc5TldLYlFoWUdWakZvUDBx?=
- =?utf-8?B?SVdnbDFBb1lYajZJUmVlT3MvOHdWOFh4aDdWZVhvNFJJMm9ITmtIaEczbEEr?=
- =?utf-8?B?RUxJSmdGQ0wva1M1Q0hGbDJDVEVFSjVjeVFNKzVNRjNaYm5BUmZCaExoWS9H?=
- =?utf-8?B?NzJwM0lBOHc3V2Z0VGtkbHhHazlhM2hZOXVoY2QxQjhYYk4vY3ByanN3NWxp?=
- =?utf-8?B?Nll3N0pKRjd0eWNSVTdPbGE5UVl4bEwreDcwOE0yY3hzQXNWTnhHTVJnc0Qz?=
- =?utf-8?B?MHZ3Rms4M3pKd1FvdkZSNG8xcG1jNmd3RG0wZ1dmdGFSVXF4ODBuaWpWR3BQ?=
- =?utf-8?Q?GOoGxjMJGNxYFKtHfLKnxC/KvVovtAe27XGX9pikVA9B?=
-X-OriginatorOrg: Nvidia.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 324fe4d6-1294-4305-22c7-08ddae41b243
-X-MS-Exchange-CrossTenant-AuthSource: BY5PR12MB3986.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 18 Jun 2025 08:25:36.7363 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: 2vd/9LcuZKDWxvme3VfBh6+UpKzDDsDvkt0nTN/iYN3vQER7aXl21nrbNlNamPxA7vgn3mrM6BGNZ7FyUlrB+g==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SJ2PR12MB9088
+Content-Type: multipart/signed; micalg=pgp-sha384;
+ protocol="application/pgp-signature"; boundary="srkvtn4pcvx6dzsz"
+Content-Disposition: inline
+In-Reply-To: <d005ad5c-aded-4dea-b6eb-a9ce78c04728@samsung.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -179,67 +79,137 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed Jun 18, 2025 at 5:14 AM JST, Danilo Krummrich wrote:
-> On Thu, Jun 12, 2025 at 11:01:28PM +0900, Alexandre Courbot wrote:
->> Hi everyone,
->>=20
->> The feedback on v4 has been (hopefully) addressed. I guess the main
->> remaining unknown is the direction of the `num` module ; for this
->> iteration, following the received feedback I have eschewed the extension
->> trait and implemented the alignment functions as methods of the new
->> `PowerOfTwo` type. This has the benefit of making it impossible to call
->> them with undesirable (i.e. non-power of two) values. The `fls` function
->> is now provided as a series of const functions for each supported type,
->> generated by a macro.
->>=20
->> It feels like the `num` module could be its own series though, so if
->> there is still discussion about it, I can also extract it and implement
->> the functionality we need in nova-core as local helper functions until
->> it gets merged at its own pace.
->>=20
->> As previously, this series only successfully probes Ampere GPUs, but
->> support for other generations is on the way.
->>=20
->> Upon successful probe, the driver will display the range of the WPR2
->> region constructed by FWSEC-FRTS with debug priority:
->>=20
->>   [   95.436000] NovaCore 0000:01:00.0: WPR2: 0xffc00000-0xffce0000
->>   [   95.436002] NovaCore 0000:01:00.0: GPU instance built
->>=20
->> This series is based on v6.16-rc1 with no other dependencies.
->>=20
->> There are bits of documentation still missing, these are addressed by
->> Joel in his own documentation patch series [1]. I'll also double-check
->> and send follow-up patches if anything is still missing after that.
->>=20
->> [1] https://lore.kernel.org/rust-for-linux/20250503040802.1411285-1-joel=
-agnelf@nvidia.com/
->
-> I think this series collected quite a few TODOs to follow up on once the
-> corresponding abstractions are in place, etc. This is fine and expected.
->
-> However, I think we should list those things in a central place, e.g. our=
- TODO
-> list, in order to make it easier to follow up.
->
-> Additionally, it might get us more contributors who might be interested i=
-n
-> following up on those things.
->
-> @Alex: Can you please add such a list?
 
-I went through every TODO in the code and found the following could be
-done:
+--srkvtn4pcvx6dzsz
+Content-Type: text/plain; protected-headers=v1; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
+Subject: Re: [PATCH v13 3/4] drm/atomic-helper: Re-order bridge chain
+ pre-enable and post-disable
+MIME-Version: 1.0
 
-- Update the entry about the registers macro with remaining sub-tasks
-  before it can "graduate" from Nova (notably register arrays, which are
-  several TODOs by themselves),
-- Mention the missing `FromBytes::from_bytes` that will allow us to
-  remove some unsafe code,
-- Mention the missing features of `CoherentAllocation` (write() and
-  as_slice()) that require us to use unsafe code,
-- I wanted to mention the missing xarray but noticed it has been merged,
-  so we can just use it and remove the corresponding TODO. :)
+On Wed, Jun 18, 2025 at 08:30:39AM +0200, Marek Szyprowski wrote:
+> On 16.06.2025 17:40, Tomi Valkeinen wrote:
+> > On 12/06/2025 09:31, Marek Szyprowski wrote:
+> >> On 12.06.2025 07:49, Tomi Valkeinen wrote:
+> >>> On 11/06/2025 13:45, Marek Szyprowski wrote:
+> >>>> On 05.06.2025 19:15, Aradhya Bhatia wrote:
+> >>>>> From: Aradhya Bhatia <a-bhatia1@ti.com>
+> >>>>>
+> >>>>> Move the bridge pre_enable call before crtc enable, and the bridge
+> >>>>> post_disable call after the crtc disable.
+> >>>>>
+> >>>>> The sequence of enable after this patch will look like:
+> >>>>>
+> >>>>> 	bridge[n]_pre_enable
+> >>>>> 	...
+> >>>>> 	bridge[1]_pre_enable
+> >>>>>
+> >>>>> 	crtc_enable
+> >>>>> 	encoder_enable
+> >>>>>
+> >>>>> 	bridge[1]_enable
+> >>>>> 	...
+> >>>>> 	bridge[n]_enable
+> >>>>>
+> >>>>> And, the disable sequence for the display pipeline will look like:
+> >>>>>
+> >>>>> 	bridge[n]_disable
+> >>>>> 	...
+> >>>>> 	bridge[1]_disable
+> >>>>>
+> >>>>> 	encoder_disable
+> >>>>> 	crtc_disable
+> >>>>>
+> >>>>> 	bridge[1]_post_disable
+> >>>>> 	...
+> >>>>> 	bridge[n]_post_disable
+> >>>>>
+> >>>>> The definition of bridge pre_enable hook says that,
+> >>>>> "The display pipe (i.e. clocks and timing signals) feeding this bri=
+dge
+> >>>>> will not yet be running when this callback is called".
+> >>>>>
+> >>>>> Since CRTC is also a source feeding the bridge, it should not be en=
+abled
+> >>>>> before the bridges in the pipeline are pre_enabled. Fix that by
+> >>>>> re-ordering the sequence of bridge pre_enable and bridge post_disab=
+le.
+> >>>>>
+> >>>>> While at it, update the drm bridge API documentation as well.
+> >>>>>
+> >>>>> Acked-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+> >>>>> Reviewed-by: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
+> >>>>> Reviewed-by: Thomas Zimmermann <tzimmermann@suse.de>
+> >>>>> Tested-by: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
+> >>>>> Tested-by: Alexander Sverdlin <alexander.sverdlin@siemens.com>
+> >>>>> Signed-off-by: Aradhya Bhatia <a-bhatia1@ti.com>
+> >>>>> Signed-off-by: Aradhya Bhatia <aradhya.bhatia@linux.dev>
+> >>>> This patch landed in today's linux-next as commit c9b1150a68d9
+> >>>> ("drm/atomic-helper: Re-order bridge chain pre-enable and
+> >>>> post-disable"). In my tests I found that it breaks booting of Samsung
+> >>>> Exynos 5420/5800 based Chromebooks (Peach-Pit and Peach-Pi). Both of
+> >>>> them use Exynos DRM with Exynos_DP sub-driver (Analogix DP) and EDP
+> >>>> panel. Booting stops at '[drm] Initialized exynos 1.1.0 for exynos-d=
+rm
+> >>>> on minor 0' message. On the other hand, the Samsung Exynos5250 based
+> >>>> Snow Chromebook boots fine, but it uses dp-lvds nxp,ptn3460 bridge a=
+nd
+> >>>> lvds panel instead of edp panels. This looks like some sort of deadl=
+ock,
+> >>>> because if I disable FBDEV emulation, those boards boots fine and I'm
+> >>>> able to run modetest and enable the display. Also the DRM kernel log=
+ger
+> >>>> seems to be working fine, although I didn't check the screen output =
+yet,
+> >>>> as I only have a remote access to those boards. I will investigate it
+> >>>> further and let You know.
+> >>> Thanks for the report. I was trying to understand the pipeline, but I=
+'m
+> >>> a bit confused. Above you say Peach-Pit uses DP and EDP panel, but if=
+ I
+> >>> look at arch/arm/boot/dts/samsung/exynos5420-peach-pit.dts, it connec=
+ts
+> >>> a dp->lvds bridge (parade,ps8625). Peach-Pi seems to connect to an eDP
+> >>> panel.
+> >>>
+> >>> Is the above correct? Do both Peach-Pi and Peach-Pit fail?
+> >> Yes, sorry, my fault. I much have checked the same (peach-pi) dts 2
+> >> times. Both Peach-Pi and Peach-Pit fails, while Snow works fine. All
+> >> three use the same Exynos DP (based on analogix dp) driver. I will try
+> >> to play a bit more with those boards in the afternoon, hopefully getti=
+ng
+> >> some more hints where the issue is.
+> > Did you get a chance to test this more? Any hints what happens will hel=
+p =3D)
+>=20
+> I've spent some time debugging this issue, but so far I only got=20
+> something I don't really understand. This issue is somehow related with=
+=20
+> the DP clock enabling and disabling, what is being done from=20
+> exynos_dp_poweron() and exynos_dp_poweroff() functions, which are called=
+=20
+> from analogix_dp_resume() and analogix_dp_suspend(). The lockup happens=
+=20
+> somewhere while registering the fbdev console, with console lock held,=20
+> what makes debugging much harder.
 
-... and that's all I noticed, but please let me know if I missed
-something.
+You can skip the locking part with the fb.lockless_register_fb=3D1 kernel
+parameter. It's of course not meant for anything but debugging, but it's
+useful :)
+
+Maxime
+
+--srkvtn4pcvx6dzsz
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iJUEABMJAB0WIQTkHFbLp4ejekA/qfgnX84Zoj2+dgUCaFJ4cgAKCRAnX84Zoj2+
+duP5AYC+rLDwkCpwsUlhFRbv4bnc/8Ppp+L8VIchHfy/uPiLFcUaxqhFy2HIGYHh
+Ie/wRgcBgNhFkUByyHFT4QHOXTgIEnQcqZ5nhHjnkEmcqMkrpkU2udUPFG6JYAmJ
+ZAS3kP2Wbg==
+=hKdL
+-----END PGP SIGNATURE-----
+
+--srkvtn4pcvx6dzsz--
