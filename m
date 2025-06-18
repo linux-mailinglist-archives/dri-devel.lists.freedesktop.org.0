@@ -2,83 +2,68 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 69487ADF8B1
-	for <lists+dri-devel@lfdr.de>; Wed, 18 Jun 2025 23:23:49 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id EEBE7ADF8FD
+	for <lists+dri-devel@lfdr.de>; Wed, 18 Jun 2025 23:56:53 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E8B7710E960;
-	Wed, 18 Jun 2025 21:23:46 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 57F1510E965;
+	Wed, 18 Jun 2025 21:56:52 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=redhat.com header.i=@redhat.com header.b="GB40cQNO";
+	dkim=pass (2048-bit key; unprotected) header.d=qualcomm.com header.i=@qualcomm.com header.b="RWimqCUK";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [170.10.133.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5D4AB10E960
- for <dri-devel@lists.freedesktop.org>; Wed, 18 Jun 2025 21:23:41 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1750281820;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=lD3zh9LSKFVLiBeGdrP5eT4T6VTWKD7Got03vgBF8Pk=;
- b=GB40cQNOblbY2o3qcszXeN/510fUoUs7/awKM7JOhpGLcz4bG83bMb9sC3ywiYw9fhQBXB
- vRe00QFeXVxRkBMjMqU+2bfd2awcOlDqhkSd+XjFxkmGwXU9/Q4SGq2JF5ZVvdDrALSpFe
- raGNZ1sB6qHDvZVDzkrUajYPJyjZJaA=
-Received: from mail-wr1-f71.google.com (mail-wr1-f71.google.com
- [209.85.221.71]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-592-gmXzY2AQO72UElsIW7PF3Q-1; Wed, 18 Jun 2025 17:23:39 -0400
-X-MC-Unique: gmXzY2AQO72UElsIW7PF3Q-1
-X-Mimecast-MFC-AGG-ID: gmXzY2AQO72UElsIW7PF3Q_1750281818
-Received: by mail-wr1-f71.google.com with SMTP id
- ffacd0b85a97d-3a4ff581df3so28817f8f.1
- for <dri-devel@lists.freedesktop.org>; Wed, 18 Jun 2025 14:23:39 -0700 (PDT)
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com
+ [205.220.168.131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8107810E965
+ for <dri-devel@lists.freedesktop.org>; Wed, 18 Jun 2025 21:56:51 +0000 (UTC)
+Received: from pps.filterd (m0279862.ppops.net [127.0.0.1])
+ by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 55ILUL83024580
+ for <dri-devel@lists.freedesktop.org>; Wed, 18 Jun 2025 21:56:51 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
+ cc:content-transfer-encoding:content-type:date:from:in-reply-to
+ :message-id:mime-version:references:reply-to:subject:to; s=
+ qcppdkim1; bh=yhi2gUMJI0GE6nkozrV+9GIwcZZGzNlNIqUIg0Ii+H0=; b=RW
+ imqCUKuFGFflkZYP4qCHeriH/9TLGe/K4aDUHOQNRu8GjS0eib6V26+M4zsBoop0
+ S385uPczv6cabfmOlL1rZnajQ2sjxvPou9g6AvwJZlo8ir0O/huOGVozrUtOD6iw
+ d9QWfP06oN1nt7ZijwDrueEC3oeDKM1QFDqE9WOuMRO+U8iLLyU6RogCjSsKDYWH
+ WS4ovx4USd8sZchLL3Fhy2n1QLHqUpUchiwlsIBuT9dqtOUviKOSrbZRCPynuWxB
+ Iw01CyrlqtxYa8ow9KVGv5FEGv2W2EX4CPjCSNZQXZEFE1yI4uL2ULwxdJ8dCMwi
+ 0wiUaUmzC0kylWUhcrNQ==
+Received: from mail-oo1-f70.google.com (mail-oo1-f70.google.com
+ [209.85.161.70])
+ by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 47bw139r1h-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
+ for <dri-devel@lists.freedesktop.org>; Wed, 18 Jun 2025 21:56:50 +0000 (GMT)
+Received: by mail-oo1-f70.google.com with SMTP id
+ 006d021491bc7-60bf020e4a1so184579eaf.0
+ for <dri-devel@lists.freedesktop.org>; Wed, 18 Jun 2025 14:56:50 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1750281818; x=1750886618;
- h=in-reply-to:content-transfer-encoding:content-disposition
- :mime-version:references:message-id:subject:cc:to:from:date
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=lD3zh9LSKFVLiBeGdrP5eT4T6VTWKD7Got03vgBF8Pk=;
- b=DWDvgE6/R82YfyQUPCkXylzerwOmwxc563VnADP7w/kwyrMb38E7f4leFna7HBDDeA
- 0T22LSms0KcYhQSiam3owEWy0rlQyJ3Auih427j4HZntoo8EaK1mW3LgUML2dW/vpRzo
- O4KEtUti+npWXbE7GbCdHOUvVaUcJbxeOsGyEQdZDChMbjKoXbzA3iu5ZFo1wjDeEMB2
- 3YhmQ83B8Ry0kPIHDZZZHLGpIYFH/lIr4dM7J7elhH6SqpEFLlwB7JYY4sp6G/8Hd0HY
- vSBxZOAzEQETYhu13iY9dUEYno9P8XE+gDsiwGUrJNfgXgT4Wabc+vs5pnn4se+dnAR4
- 3aAA==
-X-Gm-Message-State: AOJu0YwE9IiWuCbEZsYpj8lNVBew2/T8aEmKFAp/WV/V65AZnb4lsO06
- 3jDp+41vd8PYGLbKaV6juGTF3v9A3lNeITHXfxkpO4uyytUZAmvMNGfvOBOmCuYD9wT9lH4pL9q
- cWMKs/LJWp5hB8CU0nvvXIPc93bJosXI07uHMNhRJ0Udd8XBjYnsROKL9Ks7Aa1VNk3HYZA==
-X-Gm-Gg: ASbGncsp18WJ5Z2yho29RqmzVWCggO00060SSvJAO1V2rgbGtGZgf0/x4NNBBgtXO1R
- IJ4VIaymptfnYE3y+U+ZRvtVhX31YbZVqtXGdDOBAjgyGkg+ybMXyEYZcxvM0widIb0uwgLuSPk
- 3o2NvBpvD05SJT2MzGkLh5AWs2UCQFvelFxTmeDjC0U5VGbwTZBoFw3W/u2ubMn2T/Azyh8aRj8
- s1RF/uxUyPpCYYB1BnfKbrg0/7rZW2hH6oerfWWJxgC1YFvSUdukkRpTvZvMbAuRR1HF2ARtRnW
- bbUhlRDGE5s=
-X-Received: by 2002:a05:6000:2a04:b0:3a5:5130:1c71 with SMTP id
- ffacd0b85a97d-3a6c962b2d8mr700663f8f.0.1750281818005; 
- Wed, 18 Jun 2025 14:23:38 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IHu4QU3bk7dkTV8y21m8O4yJStIuE5s16gVEUTckk6g/n5f2Lm6JEA/tzq7cPIYOVYMNwo42A==
-X-Received: by 2002:a05:6000:2a04:b0:3a5:5130:1c71 with SMTP id
- ffacd0b85a97d-3a6c962b2d8mr700648f8f.0.1750281817462; 
- Wed, 18 Jun 2025 14:23:37 -0700 (PDT)
-Received: from pollux ([2a00:79c0:6b9:ae00:abf:b8ff:feee:998b])
- by smtp.gmail.com with ESMTPSA id
- ffacd0b85a97d-3a5780c5004sm14370775f8f.56.2025.06.18.14.23.36
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 18 Jun 2025 14:23:36 -0700 (PDT)
-Date: Wed, 18 Jun 2025 23:23:35 +0200
-From: Danilo Krummrich <dakr@redhat.com>
-To: Rob Clark <rob.clark@oss.qualcomm.com>
-Cc: dri-devel@lists.freedesktop.org, linux-arm-msm@vger.kernel.org,
- freedreno@lists.freedesktop.org,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- open list <linux-kernel@vger.kernel.org>
-Subject: Re: [PATCH 2/2] drm/gpuvm: Add locking helpers
-Message-ID: <aFMuV7PNfSZVWb-b@pollux>
+ d=1e100.net; s=20230601; t=1750283810; x=1750888610;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :reply-to:in-reply-to:references:mime-version:x-gm-message-state
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=yhi2gUMJI0GE6nkozrV+9GIwcZZGzNlNIqUIg0Ii+H0=;
+ b=pol3Z9dzZ5E6IKhtSJwUsJ54iKSuudoJHddLWAf1utUuKLY77oO31tMEUSEvMkVotl
+ 8Gq+1tfS2AWuUBfgv7WhPO/xtym9cbRqWqZJW8863TcVrkIanTSrgUBxA9K7QTP+tDz9
+ DqOudtQM4R6V7Pgy+kgx1J0F8h7si6Ch1jvdjKVzlChxHSRUQD+VHuFDy7ECzL8yvNvJ
+ BmuTev5ZxbwyS+8WOdQHrYOBknuUajccWu5DbfoD/PhcAw/+4VBezoMYfqsqEEWWnpFC
+ S8O/Tqw2N12PGg4AdN1ObXKO1BsuLjSBuE7cILd4FwSr0TPpyD8ki+XVT4VhAcykKdIy
+ Xn0A==
+X-Gm-Message-State: AOJu0Ywdzg8KMAbr/zTyiTk6zja4eOcgd5PG1pgRaEZ9x9hUEGq9S1Es
+ F+r7LXIiDLIszhNRQ7mScEVUrZVhXzX5OF2e5R+K38y4fjcKMrd8ykbHbgauP6RLg2N4k1/cq9Y
+ uRZty2eGdIfX5JlrzFnIOI8ZQsQvicHoh4cUtAu4uX3nBJvR2NCDmykPC88uI1RmY65/vdwl+7J
+ GZBZR87U8pC+5mHzGxL0/oflIWjTpmjtdax9fUbXcerNzymA==
+X-Gm-Gg: ASbGnct9n8oFot7f94f1amhSGDepnOA0AXGvnPq8C+IPSLuSanG+zr3lsf97z6MpZqX
+ 20SRBGt8kyhTmYsMtj3jiP+NqVFpvoQO0fsad2XIACUqxAX6x2xNETlBzfNUG7vLN9HpgXGu/2w
+ V6z0lE7x2DteSgZR9ZDQeEzRDQD3E2bwXwTAw=
+X-Received: by 2002:a05:6870:b413:b0:2d6:7266:a8d8 with SMTP id
+ 586e51a60fabf-2eaf07f45edmr11310583fac.3.1750283809644; 
+ Wed, 18 Jun 2025 14:56:49 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IHUI4eoCFyxm0AQjdCzb9oYhfBUJv5zftI1me8lyA42OhvAvHVS0Y5LoZkIu8ti01QiSTWjmhk5JnrDmlBbqq4=
+X-Received: by 2002:a05:6870:b413:b0:2d6:7266:a8d8 with SMTP id
+ 586e51a60fabf-2eaf07f45edmr11310569fac.3.1750283809238; Wed, 18 Jun 2025
+ 14:56:49 -0700 (PDT)
+MIME-Version: 1.0
 References: <20250613235705.28006-1-robin.clark@oss.qualcomm.com>
  <20250613235705.28006-3-robin.clark@oss.qualcomm.com>
  <aE1RPZ_-oFyM4COy@pollux>
@@ -88,14 +73,45 @@ References: <20250613235705.28006-1-robin.clark@oss.qualcomm.com>
  <aFE6pq8l33NXfFdT@pollux>
  <CACSVV00VzOfTDh2sKst+POzkZ-5MH+0BDY-GVB2WKTyONRrHjw@mail.gmail.com>
  <CACSVV00cng4PzHzqydGw_L34_f+6KiZTyCRdggNfHaDePGzFOA@mail.gmail.com>
-MIME-Version: 1.0
-In-Reply-To: <CACSVV00cng4PzHzqydGw_L34_f+6KiZTyCRdggNfHaDePGzFOA@mail.gmail.com>
-X-Mimecast-Spam-Score: 0
-X-Mimecast-MFC-PROC-ID: MJi9Ijml5o7rLTH7IoJ0YoHr7YrX9Y4FavcF2EwIlos_1750281818
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
+ <aFMuV7PNfSZVWb-b@pollux>
+In-Reply-To: <aFMuV7PNfSZVWb-b@pollux>
+From: Rob Clark <rob.clark@oss.qualcomm.com>
+Date: Wed, 18 Jun 2025 14:56:37 -0700
+X-Gm-Features: Ac12FXz1hvs2DatuE2Jl92AC0Ic67ojrFvzA6PneWV9sFClqIYfa-8ye6_PjtCE
+Message-ID: <CACSVV00MJDTXk-qVB3FZV36CPuJ4LLtCDPFpF07EQXBfyqncuQ@mail.gmail.com>
+Subject: Re: [PATCH 2/2] drm/gpuvm: Add locking helpers
+To: Danilo Krummrich <dakr@redhat.com>
+Cc: dri-devel@lists.freedesktop.org, linux-arm-msm@vger.kernel.org,
+ freedreno@lists.freedesktop.org,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>,
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+ open list <linux-kernel@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Authority-Analysis: v=2.4 cv=QbBmvtbv c=1 sm=1 tr=0 ts=68533622 cx=c_pps
+ a=lkkFf9KBb43tY3aOjL++dA==:117 a=IkcTkHD0fZMA:10 a=6IFa9wvqVegA:10
+ a=20KFwNOVAAAA:8 a=EUspDBNiAAAA:8 a=OZCDo3Bp5fOm185c5pAA:9 a=QEXdDO2ut3YA:10
+ a=k4UEASGLJojhI9HsvVT1:22
+X-Proofpoint-ORIG-GUID: 96viQEI97hx28xsPu6tkhpf2eHiGytE0
+X-Proofpoint-GUID: 96viQEI97hx28xsPu6tkhpf2eHiGytE0
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwNjE4MDE4OCBTYWx0ZWRfX4/qbMNoq/fyx
+ Ma1/2qMlAReeW+M21fbl6eLrZVuIPVK89GiyHY4yxFaK019RVA78DDTdvebYEjsO5kfPTcinJtO
+ eEHZISH2SSQyNKkziVdrAmZfb8J4yqXLiBI05+LKbKEINsiApqks/tBbE7VFKv+GkUYvhidRs8n
+ FE6yvIo5Ije3ExZbYymbSzML2sd81H5wgUn11YiGNajMadyAg7DQ5llijMpvz0b99PTou9AlTMp
+ aNaDBNuwlvGsdOqIEDA5Yl8+Zh5NEEiDD51L/7qW/BxGIW608FKcjushSQAyM5MhzIe+1Px2Ph9
+ fhgpy9uIEVZYE6l9T0TjWzi2nMU6WFyr9AkNToypjFIOQyCxnaB+j4oNPpuSavQ+1S1BPXY+Zuh
+ cLDqiUpzfis26899QQATNMxMCUOq0oEhFhHK6e+gtHHes8c4+1d+3dMnnzz++gLBJ8onBSt1
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1099,Hydra:6.0.736,FMLib:17.12.80.40
+ definitions=2025-06-18_06,2025-06-18_03,2025-03-28_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ priorityscore=1501 spamscore=0 malwarescore=0 mlxlogscore=999 bulkscore=0
+ adultscore=0 phishscore=0 clxscore=1015 suspectscore=0 lowpriorityscore=0
+ mlxscore=0 impostorscore=0 classifier=spam authscore=0 authtc=n/a authcc=
+ route=outbound adjust=0 reason=mlx scancount=1 engine=8.19.0-2505280000
+ definitions=main-2506180188
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -108,155 +124,206 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
+Reply-To: rob.clark@oss.qualcomm.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, Jun 17, 2025 at 06:43:21AM -0700, Rob Clark wrote:
-> On Tue, Jun 17, 2025 at 5:48 AM Rob Clark <rob.clark@oss.qualcomm.com> wrote:
-> >
-> > On Tue, Jun 17, 2025 at 2:51 AM Danilo Krummrich <dakr@redhat.com> wrote:
+On Wed, Jun 18, 2025 at 2:23=E2=80=AFPM Danilo Krummrich <dakr@redhat.com> =
+wrote:
+>
+> On Tue, Jun 17, 2025 at 06:43:21AM -0700, Rob Clark wrote:
+> > On Tue, Jun 17, 2025 at 5:48=E2=80=AFAM Rob Clark <rob.clark@oss.qualco=
+mm.com> wrote:
 > > >
-> > > On Mon, Jun 16, 2025 at 03:25:08PM -0700, Rob Clark wrote:
-> > > > On Mon, Jun 16, 2025 at 2:39 PM Danilo Krummrich <dakr@redhat.com> wrote:
-> > > > >
-> > > > > On Sat, Jun 14, 2025 at 08:03:20AM -0700, Rob Clark wrote:
-> > > > > > On Sat, Jun 14, 2025 at 3:39 AM Danilo Krummrich <dakr@redhat.com> wrote:
-> > > > > > >
-> > > > > > > On Fri, Jun 13, 2025 at 04:57:03PM -0700, Rob Clark wrote:
-> > > > > > > > For UNMAP/REMAP steps we could be needing to lock objects that are not
-> > > > > > > > explicitly listed in the VM_BIND ioctl in order to tear-down unmapped
-> > > > > > > > VAs.  These helpers handle locking/preparing the needed objects.
-> > > > > > >
-> > > > > > > Yes, that's a common use-case. I think drivers typically iterate through their
-> > > > > > > drm_gpuva_ops to lock those objects.
-> > > > > > >
-> > > > > > > I had a look at you link [1] and it seems that you keep a list of ops as well by
-> > > > > > > calling vm_op_enqueue() with a new struct msm_vm_op from the callbacks.
-> > > > > > >
-> > > > > > > Please note that for exactly this case there is the op_alloc callback in
-> > > > > > > struct drm_gpuvm_ops, such that you can allocate a custom op type (i.e. struct
-> > > > > > > msm_vm_op) that embedds a struct drm_gpuva_op.
-> > > > > >
-> > > > > > I did use drm_gpuvm_sm_xyz_ops_create() in an earlier iteration of my
-> > > > > > VM_BIND series, but it wasn't quite what I was after.  I wanted to
-> > > > > > apply the VM updates immediately to avoid issues with a later
-> > > > > > map/unmap overlapping an earlier map, which
-> > > > > > drm_gpuvm_sm_xyz_ops_create() doesn't really handle.  I'm not even
-> > > > > > sure why this isn't a problem for other drivers unless userspace is
-> > > > > > providing some guarantees.
-> > > > >
-> > > > > The drm_gpuva_ops are usually used in a pattern like this.
-> > > > >
-> > > > >         vm_bind {
-> > > > >                 for_each_vm_bind_operation {
-> > >                             drm_gpuvm_sm_xyz_ops_create();
-> > > > >                         drm_gpuva_for_each_op {
-> > > > >                                 // modify drm_gpuvm's interval tree
-> > > > >                                 // pre-allocate memory
-> > > > >                                 // lock and prepare objects
-> > > > >                         }
-> > > > >                 }
-> > > > >
-> > > > >                 drm_sched_entity_push_job();
-> > > > >         }
-> > > > >
-> > > > >         run_job {
-> > > > >                 for_each_vm_bind_operation {
-> > > > >                         drm_gpuva_for_each_op {
-> > > > >                                 // modify page tables
-> > > > >                         }
-> > > > >                 }
-> > > > >         }
-> > > > >
-> > > > >         run_job {
-> > > > >                 for_each_vm_bind_operation {
-> > > > >                         drm_gpuva_for_each_op {
-> > > > >                                 // free page table structures, if any
-> > > > >                                 // free unused pre-allocated memory
-> > > > >                         }
-> > > > >                 }
-> > > > >         }
-> > > > >
-> > > > > What did you do instead to get map/unmap overlapping? Even more interesting,
-> > > > > what are you doing now?
+> > > On Tue, Jun 17, 2025 at 2:51=E2=80=AFAM Danilo Krummrich <dakr@redhat=
+.com> wrote:
 > > > >
-> > > > From what I can tell, the drivers using drm_gpva_for_each_op()/etc are
-> > > > doing drm_gpuva_remove() while iterating the ops list..
-> > > > drm_gpuvm_sm_xyz_ops_create() itself does not modify the VM.  So this
-> > > > can only really work if you perform one MAP or UNMAP at a time.  Or at
-> > > > least if you process the VM modifying part of the ops list before
-> > > > proceeding to the next op.
+> > > > On Mon, Jun 16, 2025 at 03:25:08PM -0700, Rob Clark wrote:
+> > > > > On Mon, Jun 16, 2025 at 2:39=E2=80=AFPM Danilo Krummrich <dakr@re=
+dhat.com> wrote:
+> > > > > >
+> > > > > > On Sat, Jun 14, 2025 at 08:03:20AM -0700, Rob Clark wrote:
+> > > > > > > On Sat, Jun 14, 2025 at 3:39=E2=80=AFAM Danilo Krummrich <dak=
+r@redhat.com> wrote:
+> > > > > > > >
+> > > > > > > > On Fri, Jun 13, 2025 at 04:57:03PM -0700, Rob Clark wrote:
+> > > > > > > > > For UNMAP/REMAP steps we could be needing to lock objects=
+ that are not
+> > > > > > > > > explicitly listed in the VM_BIND ioctl in order to tear-d=
+own unmapped
+> > > > > > > > > VAs.  These helpers handle locking/preparing the needed o=
+bjects.
+> > > > > > > >
+> > > > > > > > Yes, that's a common use-case. I think drivers typically it=
+erate through their
+> > > > > > > > drm_gpuva_ops to lock those objects.
+> > > > > > > >
+> > > > > > > > I had a look at you link [1] and it seems that you keep a l=
+ist of ops as well by
+> > > > > > > > calling vm_op_enqueue() with a new struct msm_vm_op from th=
+e callbacks.
+> > > > > > > >
+> > > > > > > > Please note that for exactly this case there is the op_allo=
+c callback in
+> > > > > > > > struct drm_gpuvm_ops, such that you can allocate a custom o=
+p type (i.e. struct
+> > > > > > > > msm_vm_op) that embedds a struct drm_gpuva_op.
+> > > > > > >
+> > > > > > > I did use drm_gpuvm_sm_xyz_ops_create() in an earlier iterati=
+on of my
+> > > > > > > VM_BIND series, but it wasn't quite what I was after.  I want=
+ed to
+> > > > > > > apply the VM updates immediately to avoid issues with a later
+> > > > > > > map/unmap overlapping an earlier map, which
+> > > > > > > drm_gpuvm_sm_xyz_ops_create() doesn't really handle.  I'm not=
+ even
+> > > > > > > sure why this isn't a problem for other drivers unless usersp=
+ace is
+> > > > > > > providing some guarantees.
+> > > > > >
+> > > > > > The drm_gpuva_ops are usually used in a pattern like this.
+> > > > > >
+> > > > > >         vm_bind {
+> > > > > >                 for_each_vm_bind_operation {
+> > > >                             drm_gpuvm_sm_xyz_ops_create();
+> > > > > >                         drm_gpuva_for_each_op {
+> > > > > >                                 // modify drm_gpuvm's interval =
+tree
+> > > > > >                                 // pre-allocate memory
+> > > > > >                                 // lock and prepare objects
+> > > > > >                         }
+> > > > > >                 }
+> > > > > >
+> > > > > >                 drm_sched_entity_push_job();
+> > > > > >         }
+> > > > > >
+> > > > > >         run_job {
+> > > > > >                 for_each_vm_bind_operation {
+> > > > > >                         drm_gpuva_for_each_op {
+> > > > > >                                 // modify page tables
+> > > > > >                         }
+> > > > > >                 }
+> > > > > >         }
+> > > > > >
+> > > > > >         run_job {
+> > > > > >                 for_each_vm_bind_operation {
+> > > > > >                         drm_gpuva_for_each_op {
+> > > > > >                                 // free page table structures, =
+if any
+> > > > > >                                 // free unused pre-allocated me=
+mory
+> > > > > >                         }
+> > > > > >                 }
+> > > > > >         }
+> > > > > >
+> > > > > > What did you do instead to get map/unmap overlapping? Even more=
+ interesting,
+> > > > > > what are you doing now?
+> > > > >
+> > > > > From what I can tell, the drivers using drm_gpva_for_each_op()/et=
+c are
+> > > > > doing drm_gpuva_remove() while iterating the ops list..
+> > > > > drm_gpuvm_sm_xyz_ops_create() itself does not modify the VM.  So =
+this
+> > > > > can only really work if you perform one MAP or UNMAP at a time.  =
+Or at
+> > > > > least if you process the VM modifying part of the ops list before
+> > > > > proceeding to the next op.
+> > > >
+> > > > (Added the drm_gpuvm_sm_xyz_ops_create() step above.)
+> > > >
+> > > > I went through the code you posted [1] and conceptually you're impl=
+ementing
+> > > > exactly the pattern I described above, i.e. you do:
+> > > >
+> > > >         vm_bind {
+> > > >                 for_each_vm_bind_operation {
+> > > >                         drm_gpuvm_sm_xyz_exec_lock();
+> > > >                 }
+> > > >
+> > > >                 for_each_vm_bind_operation {
+> > > >                         drm_gpuvm_sm_xyz() {
+> > > >                                 // modify drm_gpuvm's interval tree
+> > > >                                 // create custom ops
+> > > >                         }
+> > > >                 }
+> > > >
+> > > >                 drm_sched_entity_push_job();
+> > > >         }
+> > > >
+> > > >         run_job {
+> > > >                 for_each_vm_bind_operation {
+> > > >                         for_each_custom_op() {
+> > > >                                 // do stuff
+> > > >                         }
+> > > >                 }
+> > > >         }
 > > >
-> > > (Added the drm_gpuvm_sm_xyz_ops_create() step above.)
-> > >
-> > > I went through the code you posted [1] and conceptually you're implementing
-> > > exactly the pattern I described above, i.e. you do:
-> > >
-> > >         vm_bind {
-> > >                 for_each_vm_bind_operation {
-> > >                         drm_gpuvm_sm_xyz_exec_lock();
-> > >                 }
-> > >
-> > >                 for_each_vm_bind_operation {
-> > >                         drm_gpuvm_sm_xyz() {
-> > >                                 // modify drm_gpuvm's interval tree
-> > >                                 // create custom ops
-> > >                         }
-> > >                 }
-> > >
-> > >                 drm_sched_entity_push_job();
-> > >         }
+> > > Close, but by the time we get to run_job there is just a single list
+> > > of ops covering all the vm_bind operations:
 > > >
 > > >         run_job {
-> > >                 for_each_vm_bind_operation {
-> > >                         for_each_custom_op() {
-> > >                                 // do stuff
-> > >                         }
+> > >                 for_each_custom_op() {
+> > >                         // do stuff
 > > >                 }
 > > >         }
-> >
-> > Close, but by the time we get to run_job there is just a single list
-> > of ops covering all the vm_bind operations:
-> >
-> >         run_job {
-> >                 for_each_custom_op() {
-> >                         // do stuff
-> >                 }
-> >         }
-> >
-> > rather than a list of va ops per vm_bind op.
-> >
-> > > However, GPUVM intends to solve your use-case with the following, semantically
-> > > identical, approach.
 > > >
-> > >         vm_bind {
-> > >                 for_each_vm_bind_operation {
-> > >                         drm_gpuvm_sm_xyz_ops_create();
+> > > rather than a list of va ops per vm_bind op.
 > > >
-> > >                         drm_gpuva_for_each_op {
-> > >                                 // modify drm_gpuvm's interval tree
-> > >                                 // lock and prepare objects (1)
+> > > > However, GPUVM intends to solve your use-case with the following, s=
+emantically
+> > > > identical, approach.
+> > > >
+> > > >         vm_bind {
+> > > >                 for_each_vm_bind_operation {
+> > > >                         drm_gpuvm_sm_xyz_ops_create();
+> > > >
+> > > >                         drm_gpuva_for_each_op {
+> > > >                                 // modify drm_gpuvm's interval tree
+> > > >                                 // lock and prepare objects (1)
+> > >
+> > > I currently decouple lock+pin from VM modification to avoid an error
+> > > path that leaves the VM partially modified.  Once you add this back
+> > > in, the va-ops approach isn't simpler, IMHO.
 > >
-> > I currently decouple lock+pin from VM modification to avoid an error
-> > path that leaves the VM partially modified.  Once you add this back
-> > in, the va-ops approach isn't simpler, IMHO.
-> 
-> Oh, actually scratch that.. using va-ops, it is not even possible to
-> decouple locking/prepare from VM modifications.  So using
-> DRM_EXEC_INTERRUPTIBLE_WAIT, for ex, with va-ops list would be an
-> actively bad idea.
+> > Oh, actually scratch that.. using va-ops, it is not even possible to
+> > decouple locking/prepare from VM modifications.  So using
+> > DRM_EXEC_INTERRUPTIBLE_WAIT, for ex, with va-ops list would be an
+> > actively bad idea.
+>
+> Well, you would need to unwind the VM modifications. I think so far this =
+hasn't
+> been an issue for drivers, since they have to unwind VM modifications for=
+ other
+> reasons anyways.
 
-Well, you would need to unwind the VM modifications. I think so far this hasn't
-been an issue for drivers, since they have to unwind VM modifications for other
-reasons anyways.
+Only thing that can fail at this point are the drm_gpuvm_sm_xyz()
+calls[1].  Which should only be for small kmalloc's which should not
+fail.  But all the "usual" errors (bad params from userspace,
+interrupted locking, etc) are dealt with before we begin to modify the
+VM.  If anything does fail after we start modifying the VM we mark the
+vm as unusable, similar to a gpu fault.
 
-Do you never need to unwind for other reasons than locking dma_resv and
-preparing GEM objects? Are you really sure there's nothing else in the critical
-path?
+[1] ok, I should put some drm_gpuvm_range_valid() checks earlier in
+the ioctl, while parsing out and validating args/flags/etc.  I
+overlooked this.
 
-If there really isn't anything, I agree that those helpers have value and we
-should add them. So, if we do so, please document in detail the conditions under
-which drm_gpuvm_sm_{map,unmap}_exec_lock() can be called for multiple VM_BIND
-ops *without* updating GPUVM's interval tree intermediately, including an
-example.
+> Do you never need to unwind for other reasons than locking dma_resv and
+> preparing GEM objects? Are you really sure there's nothing else in the cr=
+itical
+> path?
+>
+> If there really isn't anything, I agree that those helpers have value and=
+ we
+> should add them. So, if we do so, please document in detail the condition=
+s under
+> which drm_gpuvm_sm_{map,unmap}_exec_lock() can be called for multiple VM_=
+BIND
+> ops *without* updating GPUVM's interval tree intermediately, including an
+> example.
 
+Ok.. in the function headerdoc comment block?  Or did you have
+somewhere else in mind?
+
+BR,
+-R
