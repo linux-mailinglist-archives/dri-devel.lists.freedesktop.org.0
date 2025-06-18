@@ -2,91 +2,36 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6102AADEE3A
-	for <lists+dri-devel@lfdr.de>; Wed, 18 Jun 2025 15:44:53 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id C9AC2ADEE50
+	for <lists+dri-devel@lfdr.de>; Wed, 18 Jun 2025 15:48:32 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id CA28310E83A;
-	Wed, 18 Jun 2025 13:44:51 +0000 (UTC)
-Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=bgdev-pl.20230601.gappssmtp.com header.i=@bgdev-pl.20230601.gappssmtp.com header.b="PWCKmb+l";
-	dkim-atps=neutral
+	by gabe.freedesktop.org (Postfix) with ESMTP id 787BE10E840;
+	Wed, 18 Jun 2025 13:48:27 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-f52.google.com (mail-lf1-f52.google.com
- [209.85.167.52])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 950C910E83A
- for <dri-devel@lists.freedesktop.org>; Wed, 18 Jun 2025 13:44:48 +0000 (UTC)
-Received: by mail-lf1-f52.google.com with SMTP id
- 2adb3069b0e04-54e98f73850so6543121e87.1
- for <dri-devel@lists.freedesktop.org>; Wed, 18 Jun 2025 06:44:48 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=bgdev-pl.20230601.gappssmtp.com; s=20230601; t=1750254287; x=1750859087;
- darn=lists.freedesktop.org; 
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc:subject:date
- :message-id:reply-to;
- bh=EOnqA9glXHMp+wjKPZ26EK/2be4ewo0aSocx50Gz+sQ=;
- b=PWCKmb+lu37jyArlOnidM8eBjSynCWR0wWlAfSzUzbLBz+TwgDmr9RXubHEVDMXgS2
- J+JioCdyIKPWYorb1blQtO7MwHvslCMKB9V3wyzXWdj0Po77xZViAo+SCRPgjXgJRNK4
- /9nEC+aTnqbqcvp/drfERhEYZ2YxF4I50MpS/GIjIDkVJlNZ/Dxzwfy/b256U5+gOUQi
- JhR0DbDSjKzfPNu+pfk9TfDiwCni7UnkIqEWgkZJM5c6fjfrxhnqthqmyjcxfLDz8d3O
- bZxk7AZGIwAHusUezf59VS8w1EaOv9Av2Ll0NXNvrNJudk1ugTvvRjwlKpLorYZ3qPKY
- CWlg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1750254287; x=1750859087;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=EOnqA9glXHMp+wjKPZ26EK/2be4ewo0aSocx50Gz+sQ=;
- b=gLDcLzlRMzkbaY3x2k6Du6V13rLksB54rr7EIIzICTgC6KxYAPg2nZ8+jNVp5aBZXC
- pSL1EUaeW+VOze2BXLUlHoLlGQnLR0VT98gh5u+vcaGkQFqVy8/iiYoXeIK+vHdzsrIF
- i4VNrKYIaacZRHlEF57ko7u/tRY8Q2wCKkGiy8t7vBuAZNcd5zHd4VH7maAPljB5VAKL
- Udv+5GJUGLyrqdAfdCIg1iKQ/tL47VuMHVsnDa7MFoyxVkFG39cER5FDpTIZ07EbRQL2
- dAQ99NRUOX8LB8UZdoTUJeeI+156xB5T2AE5Elu25+Czi51Nu3qy2YXVrttHMD4e0O5k
- lblg==
-X-Forwarded-Encrypted: i=1;
- AJvYcCV6jNK0Xo93pf2pZc2S2Z/fQ5KXTJ0flnO35WLmwCSzLtQvVg76KR4yjHuW+aZHUwnRLFi3dnYTqrI=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0Yz0Dg/6L51OVtGCBlMt/jbA6Pg08yVwbNUgwbJv/6jzzM0uii21
- NZZxL8rihdizI/kQe5UjcoCrLT23XQitG46Rje0KVZn0rHqf4YR4ZLR2bRnB4LtQCYhl7QyUpYX
- 2EF21+QNH+0Ix2DaKpIXLqvGpqjYQ/Dtih/nUSBfvVg==
-X-Gm-Gg: ASbGncut+goPsaykzxmnLzd2EqMU0NuZywZZ4HDf6bcbZxYvRyKvaHGteOwIVMxP8zr
- v5iMNYYq20K3uCXqUdsARut9qRs35nL2UzKEG4TDsAvBVezPBValqkjWAa32BMyTqYNWUic31bl
- K0PoAYPeBDnhaMq2V937knAP6YurCjecmhjumZfwaU4qLuyyZ5t14vIyi71dRkOOFkvzFKcQWzp
- g==
-X-Google-Smtp-Source: AGHT+IH6Ld+eVfdvk23fMVj2Sr97EjUVBPbCt4xJwvj5ob6oDsk8hpgZs7OsgvSQaNDiPWolo67AHI2eB2C2BKgawwc=
-X-Received: by 2002:a05:6512:3ba5:b0:553:25f4:695c with SMTP id
- 2adb3069b0e04-553b6f4470cmr4999420e87.50.1750254287228; Wed, 18 Jun 2025
- 06:44:47 -0700 (PDT)
-MIME-Version: 1.0
-References: <CGME20250618102234eucas1p2a1899b494c5ed75e0f39ea517d81c81d@eucas1p2.samsung.com>
- <20250618-apr_14_for_sending-v5-0-27ed33ea5c6f@samsung.com>
- <20250618-apr_14_for_sending-v5-8-27ed33ea5c6f@samsung.com>
-In-Reply-To: <20250618-apr_14_for_sending-v5-8-27ed33ea5c6f@samsung.com>
-From: Bartosz Golaszewski <brgl@bgdev.pl>
-Date: Wed, 18 Jun 2025 15:44:35 +0200
-X-Gm-Features: AX0GCFuxF3RhQHueJgJf3bU829GFZMlCkCu1kP_wz3N4DTe6r8qi2RcA-BS33s4
-Message-ID: <CAMRc=MdXmtZ3EbPDSGQeVaH40oZS7yc8MSMO2TbHza+F2HnBng@mail.gmail.com>
-Subject: Re: [PATCH v5 8/8] drm/imagination: Enable PowerVR driver for RISC-V
-To: Michal Wilczynski <m.wilczynski@samsung.com>
-Cc: Drew Fustini <drew@pdp7.com>, Guo Ren <guoren@kernel.org>,
- Fu Wei <wefu@redhat.com>, 
- Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
- Conor Dooley <conor+dt@kernel.org>, 
- Philipp Zabel <p.zabel@pengutronix.de>, Frank Binns <frank.binns@imgtec.com>, 
- Matt Coster <matt.coster@imgtec.com>, 
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, 
- Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
- Simona Vetter <simona@ffwll.ch>, 
- Paul Walmsley <paul.walmsley@sifive.com>, Palmer Dabbelt <palmer@dabbelt.com>, 
- Albert Ou <aou@eecs.berkeley.edu>, Alexandre Ghiti <alex@ghiti.fr>, 
- Ulf Hansson <ulf.hansson@linaro.org>,
- Marek Szyprowski <m.szyprowski@samsung.com>, 
- linux-riscv@lists.infradead.org, devicetree@vger.kernel.org, 
- linux-kernel@vger.kernel.org, linux-pm@vger.kernel.org, 
+Received: from rtg-sunil-navi33.amd.com (unknown [165.204.156.251])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A831910E83E;
+ Wed, 18 Jun 2025 13:48:24 +0000 (UTC)
+Received: from rtg-sunil-navi33.amd.com (localhost [127.0.0.1])
+ by rtg-sunil-navi33.amd.com (8.15.2/8.15.2/Debian-22ubuntu3) with ESMTP id
+ 55IDlt693893203; Wed, 18 Jun 2025 19:17:55 +0530
+Received: (from sunil@localhost)
+ by rtg-sunil-navi33.amd.com (8.15.2/8.15.2/Submit) id 55IDlrLT3893190;
+ Wed, 18 Jun 2025 19:17:53 +0530
+From: Sunil Khatri <sunil.khatri@amd.com>
+To: =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>,
  dri-devel@lists.freedesktop.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Cc: amd-gfx@lists.freedesktop.org, simona@ffwll.ch, tzimmermann@suse.de,
+ tursulin@ursulin.net, phasta@kernel.org, dakr@kernel.org,
+ Sunil Khatri <sunil.khatri@amd.com>
+Subject: [PATCH v4 1/4] drm: move debugfs functionality from drm_drv.c to
+ drm_debugfs.c
+Date: Wed, 18 Jun 2025 19:17:44 +0530
+Message-Id: <20250618134747.3893138-1-sunil.khatri@amd.com>
+X-Mailer: git-send-email 2.34.1
+MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -102,53 +47,182 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, Jun 18, 2025 at 12:22=E2=80=AFPM Michal Wilczynski
-<m.wilczynski@samsung.com> wrote:
->
-> Several RISC-V boards feature Imagination GPUs that are compatible with
-> the PowerVR driver. An example is the IMG BXM-4-64 GPU on the Lichee Pi
-> 4A board. This commit adjusts the driver's Kconfig dependencies to allow
-> the PowerVR driver to be compiled on the RISC-V architecture.
->
-> By enabling compilation on RISC-V, we expand support for these GPUs,
-> providing graphics acceleration capabilities and enhancing hardware
-> compatibility on RISC-V platforms.
->
-> Add a dependency on MMU to fix a build warning on RISC-V configurations
-> without an MMU and enable COMPILE_TEST to improve build coverage.
->
-> Reviewed-by: Ulf Hansson <ulf.hansson@linaro.org>
-> Signed-off-by: Michal Wilczynski <m.wilczynski@samsung.com>
-> ---
->  drivers/gpu/drm/imagination/Kconfig | 3 ++-
->  1 file changed, 2 insertions(+), 1 deletion(-)
->
-> diff --git a/drivers/gpu/drm/imagination/Kconfig b/drivers/gpu/drm/imagin=
-ation/Kconfig
-> index 5f9fff43d6baadc42ebf48d91729bfbf27e06caa..48fd31c031628c70b1e095227=
-1baccf7f4694810 100644
-> --- a/drivers/gpu/drm/imagination/Kconfig
-> +++ b/drivers/gpu/drm/imagination/Kconfig
-> @@ -3,9 +3,10 @@
->
->  config DRM_POWERVR
->         tristate "Imagination Technologies PowerVR (Series 6 and later) &=
- IMG Graphics"
-> -       depends on ARM64
-> +       depends on (ARM64 || RISCV) || COMPILE_TEST
+move the functions from drm_drv.c which uses the static
+drm_debugfs_root as parent node in the debugfs by drm.
 
-Some maintainers could say that the COMPILE_TEST bit should be a
-separate commit but it's typically fine with me.
+move this root node to the debugfs for easily handling
+of future requirements to add more information in the
+root directory and one of which is planned to have
+directories for each client in the root directory
+which is dri.
 
->         depends on DRM
->         depends on PM
-> +       depends on MMU
->         select DRM_EXEC
->         select DRM_GEM_SHMEM_HELPER
->         select DRM_SCHED
->
-> --
-> 2.34.1
->
+Suggested-by: Christian König <christian.koenig@amd.com>
+Signed-off-by: Sunil Khatri <sunil.khatri@amd.com>
+---
+ drivers/gpu/drm/drm_debugfs.c  | 22 ++++++++++++++++++----
+ drivers/gpu/drm/drm_drv.c      | 11 ++++-------
+ drivers/gpu/drm/drm_internal.h |  6 ++----
+ include/drm/drm_drv.h          | 10 ++++++++++
+ 4 files changed, 34 insertions(+), 15 deletions(-)
 
-Reviewed-by: Bartosz Golaszewski <bartosz.golaszewski@linaro.org>
+diff --git a/drivers/gpu/drm/drm_debugfs.c b/drivers/gpu/drm/drm_debugfs.c
+index 2d43bda82887..5a33ec299c04 100644
+--- a/drivers/gpu/drm/drm_debugfs.c
++++ b/drivers/gpu/drm/drm_debugfs.c
+@@ -44,6 +44,8 @@
+ #include "drm_crtc_internal.h"
+ #include "drm_internal.h"
+ 
++static struct dentry *drm_debugfs_root;
++
+ /***************************************************
+  * Initialization, etc.
+  **************************************************/
+@@ -286,6 +288,16 @@ int drm_debugfs_remove_files(const struct drm_info_list *files, int count,
+ }
+ EXPORT_SYMBOL(drm_debugfs_remove_files);
+ 
++void drm_debugfs_create_dir(void)
++{
++	drm_debugfs_root = debugfs_create_dir("dri", NULL);
++}
++
++void drm_debugfs_remove_dir(void)
++{
++	debugfs_remove(drm_debugfs_root);
++}
++
+ /**
+  * drm_debugfs_dev_init - create debugfs directory for the device
+  * @dev: the device which we want to create the directory for
+@@ -295,7 +307,10 @@ EXPORT_SYMBOL(drm_debugfs_remove_files);
+  */
+ void drm_debugfs_dev_init(struct drm_device *dev, struct dentry *root)
+ {
+-	dev->debugfs_root = debugfs_create_dir(dev->unique, root);
++	if (!root)
++		dev->debugfs_root = debugfs_create_dir(dev->unique, drm_debugfs_root);
++	else
++		dev->debugfs_root = debugfs_create_dir(dev->unique, root);
+ }
+ 
+ /**
+@@ -322,14 +337,13 @@ void drm_debugfs_dev_register(struct drm_device *dev)
+ 		drm_atomic_debugfs_init(dev);
+ }
+ 
+-int drm_debugfs_register(struct drm_minor *minor, int minor_id,
+-			 struct dentry *root)
++int drm_debugfs_register(struct drm_minor *minor, int minor_id)
+ {
+ 	struct drm_device *dev = minor->dev;
+ 	char name[64];
+ 
+ 	sprintf(name, "%d", minor_id);
+-	minor->debugfs_symlink = debugfs_create_symlink(name, root,
++	minor->debugfs_symlink = debugfs_create_symlink(name, drm_debugfs_root,
+ 							dev->unique);
+ 
+ 	/* TODO: Only for compatibility with drivers */
+diff --git a/drivers/gpu/drm/drm_drv.c b/drivers/gpu/drm/drm_drv.c
+index 17fc5dc708f4..8abc52eac8f3 100644
+--- a/drivers/gpu/drm/drm_drv.c
++++ b/drivers/gpu/drm/drm_drv.c
+@@ -69,8 +69,6 @@ DEFINE_XARRAY_ALLOC(drm_minors_xa);
+  */
+ static bool drm_core_init_complete;
+ 
+-static struct dentry *drm_debugfs_root;
+-
+ DEFINE_STATIC_SRCU(drm_unplug_srcu);
+ 
+ /*
+@@ -183,8 +181,7 @@ static int drm_minor_register(struct drm_device *dev, enum drm_minor_type type)
+ 		return 0;
+ 
+ 	if (minor->type != DRM_MINOR_ACCEL) {
+-		ret = drm_debugfs_register(minor, minor->index,
+-					   drm_debugfs_root);
++		ret = drm_debugfs_register(minor, minor->index);
+ 		if (ret) {
+ 			DRM_ERROR("DRM: Failed to initialize /sys/kernel/debug/dri.\n");
+ 			goto err_debugfs;
+@@ -754,7 +751,7 @@ static int drm_dev_init(struct drm_device *dev,
+ 	if (drm_core_check_feature(dev, DRIVER_COMPUTE_ACCEL))
+ 		accel_debugfs_init(dev);
+ 	else
+-		drm_debugfs_dev_init(dev, drm_debugfs_root);
++		drm_debugfs_dev_init(dev, NULL);
+ 
+ 	return 0;
+ 
+@@ -1168,7 +1165,7 @@ static void drm_core_exit(void)
+ 	drm_panic_exit();
+ 	accel_core_exit();
+ 	unregister_chrdev(DRM_MAJOR, "drm");
+-	debugfs_remove(drm_debugfs_root);
++	drm_debugfs_remove_dir();
+ 	drm_sysfs_destroy();
+ 	WARN_ON(!xa_empty(&drm_minors_xa));
+ 	drm_connector_ida_destroy();
+@@ -1187,7 +1184,7 @@ static int __init drm_core_init(void)
+ 		goto error;
+ 	}
+ 
+-	drm_debugfs_root = debugfs_create_dir("dri", NULL);
++	drm_debugfs_create_dir();
+ 
+ 	ret = register_chrdev(DRM_MAJOR, "drm", &drm_stub_fops);
+ 	if (ret < 0)
+diff --git a/drivers/gpu/drm/drm_internal.h b/drivers/gpu/drm/drm_internal.h
+index b2b6a8e49dda..d2d8e72f32d9 100644
+--- a/drivers/gpu/drm/drm_internal.h
++++ b/drivers/gpu/drm/drm_internal.h
+@@ -186,8 +186,7 @@ void drm_gem_vunmap(struct drm_gem_object *obj, struct iosys_map *map);
+ #if defined(CONFIG_DEBUG_FS)
+ void drm_debugfs_dev_fini(struct drm_device *dev);
+ void drm_debugfs_dev_register(struct drm_device *dev);
+-int drm_debugfs_register(struct drm_minor *minor, int minor_id,
+-			 struct dentry *root);
++int drm_debugfs_register(struct drm_minor *minor, int minor_id);
+ void drm_debugfs_unregister(struct drm_minor *minor);
+ void drm_debugfs_connector_add(struct drm_connector *connector);
+ void drm_debugfs_connector_remove(struct drm_connector *connector);
+@@ -205,8 +204,7 @@ static inline void drm_debugfs_dev_register(struct drm_device *dev)
+ {
+ }
+ 
+-static inline int drm_debugfs_register(struct drm_minor *minor, int minor_id,
+-				       struct dentry *root)
++static inline int drm_debugfs_register(struct drm_minor *minor, int minor_id)
+ {
+ 	return 0;
+ }
+diff --git a/include/drm/drm_drv.h b/include/drm/drm_drv.h
+index a43d707b5f36..4e77a0c4a7f9 100644
+--- a/include/drm/drm_drv.h
++++ b/include/drm/drm_drv.h
+@@ -567,10 +567,20 @@ static inline bool drm_firmware_drivers_only(void)
+ 
+ #if defined(CONFIG_DEBUG_FS)
+ void drm_debugfs_dev_init(struct drm_device *dev, struct dentry *root);
++void drm_debugfs_create_dir(void);
++void drm_debugfs_remove_dir(void);
+ #else
+ static inline void drm_debugfs_dev_init(struct drm_device *dev, struct dentry *root)
+ {
+ }
++
++static inline void drm_debugfs_create_dir(void)
++{
++}
++
++static inline void drm_debugfs_remove_dir(void)
++{
++}
+ #endif
+ 
+ #endif
+-- 
+2.34.1
+
