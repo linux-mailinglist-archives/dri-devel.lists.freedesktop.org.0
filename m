@@ -2,42 +2,42 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id A7665ADEF38
-	for <lists+dri-devel@lfdr.de>; Wed, 18 Jun 2025 16:24:58 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8552AADEF2F
+	for <lists+dri-devel@lfdr.de>; Wed, 18 Jun 2025 16:24:46 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1ABC710E874;
-	Wed, 18 Jun 2025 14:24:57 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D38B510E876;
+	Wed, 18 Jun 2025 14:24:44 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="Mla81/jA";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="NLHdTVfh";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from tor.source.kernel.org (tor.source.kernel.org [172.105.4.254])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 86F5010E86C;
- Wed, 18 Jun 2025 14:24:41 +0000 (UTC)
+Received: from sea.source.kernel.org (sea.source.kernel.org [172.234.252.31])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1BE1210E86A;
+ Wed, 18 Jun 2025 14:24:43 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by tor.source.kernel.org (Postfix) with ESMTP id 070EE629CE;
- Wed, 18 Jun 2025 14:24:41 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id D6F49C4CEF2;
- Wed, 18 Jun 2025 14:24:38 +0000 (UTC)
+ by sea.source.kernel.org (Postfix) with ESMTP id E334144F89;
+ Wed, 18 Jun 2025 14:24:42 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id EA30AC4CEEE;
+ Wed, 18 Jun 2025 14:24:40 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1750256680;
- bh=H+DYm16YFoz7vb/N3DPXrXYoaKJ781Yi0vxcEF804go=;
+ s=k20201202; t=1750256682;
+ bh=5X69klc0I5PpzlSj7ikkdfXm51zSMkRP81iDMAIdLbs=;
  h=From:Date:Subject:References:In-Reply-To:To:Cc:From;
- b=Mla81/jAR53nQq/R5J3d3n7OhWUugj6x11fyLrc+BE1lldZUmq92rPi3PUUvgOnjQ
- gXY6Q00HoV91lVq9IgYaA6uo16nQy7zokiM4fk3bgqYqIX6AoqdAU0ONMSGPeAbGOU
- zQCerlqAhCFAI2ypErkNGNJW0ZmWEckad39nWLCYlSxp7GvDz88s6+pd9M9E1TeNKq
- 7nOlvgzZk++sjJgylGQLGdjsjuoCRyAVLpESxKjf/8BqmgxMxRW4wcISsfL2//pxJt
- rz0gybqmVTSshcZj992ZJoYBlMGfb6AOyDf6a9trTlF4cInL7UKliA+8uT9fr8he0h
- A2ZXDQvpE5/pw==
+ b=NLHdTVfhf+n09kp2/BsHGxYMJOUEDMSvfM9bPGpayWSnxgFXSeDYVer+kaP0e2a2N
+ 6AFVVqeLpBlqgSjo4cfx+PkGIRUr0BB4jgwtEzfDHDu0VeFQEny2rvlZm5PnyXanRJ
+ mI5w9o2GwhqIPV+GSD/R3VTkMMgA8hIjVh5lu8KEH+xSmbJQJg6RBJCODjkr7frczt
+ doGj0PItYd6guPnAAPniHArgqhut7BJhiHNCyyMvnY0gF6Iqfv3dyDCmQcI6ZS0A7F
+ aVZB6ozSZtpu9iaqSHnPf3nW7F2Jrmcyq2+uufQOjAWuFsKW/Qqpiaf7FJ45KNtRgD
+ ZsCn+JFkEcMOA==
 From: Jeff Layton <jlayton@kernel.org>
-Date: Wed, 18 Jun 2025 10:24:19 -0400
-Subject: [PATCH v15 6/9] ref_tracker: automatically register a file in
- debugfs for a ref_tracker_dir
+Date: Wed, 18 Jun 2025 10:24:20 -0400
+Subject: [PATCH v15 7/9] ref_tracker: add a way to create a symlink to the
+ ref_tracker_dir debugfs file
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20250618-reftrack-dbgfs-v15-6-24fc37ead144@kernel.org>
+Message-Id: <20250618-reftrack-dbgfs-v15-7-24fc37ead144@kernel.org>
 References: <20250618-reftrack-dbgfs-v15-0-24fc37ead144@kernel.org>
 In-Reply-To: <20250618-reftrack-dbgfs-v15-0-24fc37ead144@kernel.org>
 To: Andrew Morton <akpm@linux-foundation.org>, 
@@ -58,20 +58,20 @@ Cc: Krzysztof Karas <krzysztof.karas@intel.com>,
  dri-devel@lists.freedesktop.org, intel-gfx@lists.freedesktop.org, 
  Jeff Layton <jlayton@kernel.org>
 X-Mailer: b4 0.14.2
-X-Developer-Signature: v=1; a=openpgp-sha256; l=8693; i=jlayton@kernel.org;
- h=from:subject:message-id; bh=H+DYm16YFoz7vb/N3DPXrXYoaKJ781Yi0vxcEF804go=;
- b=owEBbQKS/ZANAwAKAQAOaEEZVoIVAcsmYgBoUswZYrzoIrTsJLyKavwVYpLG6JiZ5EIlpy+cH
- Cx9niTrZo+JAjMEAAEKAB0WIQRLwNeyRHGyoYTq9dMADmhBGVaCFQUCaFLMGQAKCRAADmhBGVaC
- FTOjD/98opNEqzZ+o/C7K1wPS283gvKPeT7/zF0fQKMehIQHmQqznvDkRInmGQh6A4uqSBodd4Q
- lWgWBDEQueERDoh+Ik8Ja42qx1WokNOSiM3RzH+t9FgSMXAh1OmURJJaO3wJnTnxm8qnGwwXjjc
- cnYzrYD55spomz6NL0KOw7+cw8uw2KUDHvRQNLrDaEpD+uZeSZ1CIHjKrsJvEAIgLQOeDj4LXiy
- gkVfSPeyrA1bvTfLD05L6ib6hk47wdTCaO71ueGCWL90xOy9sfFwS2gyByEIcdjEhW8OIWnEEkg
- mk/TQne37znykHgL32IdW3zvE3OvzrqsW3Wujx7suUjQq3METJPWhRkKa0N19fq+WHbou6O2Ta6
- H6X7ulrTR0VKmOvU+5wHTNNPQAVL+pJI4UhjCCQWRrZIkHYLyIYUq+49y9Xu6ORPKOKbhmVA9uX
- yc5VIMOFElQh/2qraKAPxlSafaNmvIuYSx/Bd2iwOiKq03RZoOot3Gv2CJwfX/oafYISEZzhOaZ
- E3G7GgGaiYctQ4b2p6fbyDo/0PY5lVUkDyPSUSpmFsldLx6bL73UbOzi40l+6zxY07QnOe3VgH+
- GpNIbX/Ngjtj90RXQC2CdG4qrKKqbL21xo06v1lXI2JZ6cSpCPIAd8xsv0IV26TQDXK+NqX4e1f
- Vnqebfc/6X+gl4w==
+X-Developer-Signature: v=1; a=openpgp-sha256; l=4548; i=jlayton@kernel.org;
+ h=from:subject:message-id; bh=5X69klc0I5PpzlSj7ikkdfXm51zSMkRP81iDMAIdLbs=;
+ b=owEBbQKS/ZANAwAKAQAOaEEZVoIVAcsmYgBoUswZRy4G7laETNP8iYtaM4jXEjG6wT1hnrchO
+ CixQWnlh3qJAjMEAAEKAB0WIQRLwNeyRHGyoYTq9dMADmhBGVaCFQUCaFLMGQAKCRAADmhBGVaC
+ FZocD/9FIdqyye26ITj4dkHQP+/w8rMXrzB//J5h34BcHu5Avlrgjr+fRQTYN07cws9TQTXQKDF
+ H1Ykh37fmprvQqyXXXjpe6T6SxfWBbWz8svJyUe62aAG2IPOAcMGkKm1bU564ijNkwFiYC94ffk
+ vhbdrXV8Se8dbzj2P9WKYJVDdJrsia79ChZdyTELowz0QauGzw+VP14RiPLlP1LO4JvqnMTlnpM
+ +oEBw5uXDR/X2mLdIcNu2LHvL/hS0SLWCYG0IPCZK0wcAWihK98WAQjwYPyK3toRikgqxTCHTsD
+ EkNPl0xQXiH580B6nxkk43yig1zHOQGBITHcdEWHRixChIli8RvSVAL4/M9tg3x60qIvJe0YiQd
+ iSIyE82WGIEmVqqR1b3h7IQ6eLPX/LvzPJ3RcdeVUfw3AzCS6eA9Y/gFaFwjDz24AgOpGf2yDB4
+ QulbwmYnmZOlz7carI0FlYepCY8DDdctusqUgE8Y/Uk0yHhjRTCsfIq+ZdnJ6A36+ciHH7Igg5J
+ w9L/S1CMlSPdY7hJRWWIeSd0yzz8/fj7TsGEq0iBXlkd1DWyndF5Ad0wQ8BkNmaF7uY2/dVyoFQ
+ gzJ+9l5maT08SeJrZp6r66avIHCPZOu16MAK5S9BTLFgrXycWRKy9lFQ7lWgeNnXGOO7rw5wLCc
+ xf/aF+dgG8Btj3Q==
 X-Developer-Key: i=jlayton@kernel.org; a=openpgp;
  fpr=4BC0D7B24471B2A184EAF5D3000E684119568215
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -89,72 +89,47 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Currently, there is no convenient way to see the info that the
-ref_tracking infrastructure collects. Attempt to create a file in
-debugfs when called from ref_tracker_dir_init().
-
-The file is given the name "class@%px", as having the unmodified address
-is helpful for debugging. This should be safe since this directory is only
-accessible by root
-
-While ref_tracker_dir_init() is generally called from a context where
-sleeping is OK, ref_tracker_dir_exit() can be called from anywhere.
-Thus, dentry cleanup must be handled asynchronously.
-
-Add a new global xarray that has entries with the ref_tracker_dir
-pointer as the index and the corresponding debugfs dentry pointer as the
-value. Instead of removing the debugfs dentry, have
-ref_tracker_dir_exit() set a mark on the xarray entry and schedule a
-workqueue job. The workqueue job then walks the xarray looking for
-marked entries, and removes their xarray entries and the debugfs
-dentries.
-
-Because of this, the debugfs dentry can outlive the corresponding
-ref_tracker_dir. Have ref_tracker_debugfs_show() take extra care to
-ensure that it's safe to dereference the dir pointer before using it.
+Add the ability for a subsystem to add a user-friendly symlink that
+points to a ref_tracker_dir's debugfs file. Add a separate
+debugfs_symlinks xarray and use that to track symlinks. The reaper
+workqueue job will remove symlinks before their corresponding dentries.
 
 Signed-off-by: Jeff Layton <jlayton@kernel.org>
 ---
- include/linux/ref_tracker.h |  17 +++++
- lib/ref_tracker.c           | 152 ++++++++++++++++++++++++++++++++++++++++++--
- 2 files changed, 164 insertions(+), 5 deletions(-)
+ include/linux/ref_tracker.h | 11 ++++++++++
+ lib/ref_tracker.c           | 50 +++++++++++++++++++++++++++++++++++++++++++++
+ 2 files changed, 61 insertions(+)
 
 diff --git a/include/linux/ref_tracker.h b/include/linux/ref_tracker.h
-index 3968f993db81e95c0d58c81454311841c1b9cd35..28bbf436a8f4646cfac181d618195a9460bda196 100644
+index 28bbf436a8f4646cfac181d618195a9460bda196..e1323de93bf6b891aa14ad8d9b4b28d02e10f9f7 100644
 --- a/include/linux/ref_tracker.h
 +++ b/include/linux/ref_tracker.h
-@@ -26,6 +26,18 @@ struct ref_tracker_dir {
+@@ -29,6 +29,7 @@ struct ref_tracker_dir {
+ #ifdef CONFIG_DEBUG_FS
  
- #ifdef CONFIG_REF_TRACKER
+ void ref_tracker_dir_debugfs(struct ref_tracker_dir *dir);
++void ref_tracker_dir_symlink(struct ref_tracker_dir *dir, const char *fmt, ...);
  
-+#ifdef CONFIG_DEBUG_FS
-+
-+void ref_tracker_dir_debugfs(struct ref_tracker_dir *dir);
-+
-+#else /* CONFIG_DEBUG_FS */
-+
-+static inline void ref_tracker_dir_debugfs(struct ref_tracker_dir *dir)
-+{
-+}
-+
-+#endif /* CONFIG_DEBUG_FS */
-+
- static inline void ref_tracker_dir_init(struct ref_tracker_dir *dir,
- 					unsigned int quarantine_count,
- 					const char *class,
-@@ -40,6 +52,7 @@ static inline void ref_tracker_dir_init(struct ref_tracker_dir *dir,
- 	refcount_set(&dir->no_tracker, 1);
- 	dir->class = class;
- 	strscpy(dir->name, name, sizeof(dir->name));
-+	ref_tracker_dir_debugfs(dir);
- 	stack_depot_init();
- }
+ #else /* CONFIG_DEBUG_FS */
  
-@@ -68,6 +81,10 @@ static inline void ref_tracker_dir_init(struct ref_tracker_dir *dir,
+@@ -36,6 +37,11 @@ static inline void ref_tracker_dir_debugfs(struct ref_tracker_dir *dir)
  {
  }
  
-+static inline void ref_tracker_dir_debugfs(struct ref_tracker_dir *dir)
++static inline __ostream_printf
++void ref_tracker_dir_symlink(struct ref_tracker_dir *dir, const char *fmt, ...)
++{
++}
++
+ #endif /* CONFIG_DEBUG_FS */
+ 
+ static inline void ref_tracker_dir_init(struct ref_tracker_dir *dir,
+@@ -85,6 +91,11 @@ static inline void ref_tracker_dir_debugfs(struct ref_tracker_dir *dir)
+ {
+ }
+ 
++static inline __ostream_printf
++void ref_tracker_dir_symlink(struct ref_tracker_dir *dir, const char *fmt, ...)
 +{
 +}
 +
@@ -162,191 +137,91 @@ index 3968f993db81e95c0d58c81454311841c1b9cd35..28bbf436a8f4646cfac181d618195a94
  {
  }
 diff --git a/lib/ref_tracker.c b/lib/ref_tracker.c
-index 73b606570cce9e551d13e65365a87dc4ce748b13..c938ef56954b2169458e9b23a3db2441bcf91aa6 100644
+index c938ef56954b2169458e9b23a3db2441bcf91aa6..6608520d6118685a9cfa497827f6a89318b3360c 100644
 --- a/lib/ref_tracker.c
 +++ b/lib/ref_tracker.c
-@@ -29,6 +29,40 @@ struct ref_tracker_dir_stats {
- 	} stacks[];
- };
+@@ -44,6 +44,7 @@ struct ref_tracker_dir_stats {
+  * dentries asynchronously.
+  */
+ static struct xarray		debugfs_dentries;
++static struct xarray		debugfs_symlinks;
+ static struct work_struct	debugfs_reap_worker;
  
-+#ifdef CONFIG_DEBUG_FS
-+#include <linux/xarray.h>
-+
-+/*
-+ * ref_tracker_dir_init() is usually called in allocation-safe contexts, but
-+ * the same is not true of ref_tracker_dir_exit() which can be called from
-+ * anywhere an object is freed. Removing debugfs dentries is a blocking
-+ * operation, so we defer that work to the debugfs_reap_worker.
-+ *
-+ * Each dentry is tracked in the appropriate xarray.  When
-+ * ref_tracker_dir_exit() is called, its entries in the xarrays are marked and
-+ * the workqueue job is scheduled. The worker then runs and deletes any marked
-+ * dentries asynchronously.
-+ */
-+static struct xarray		debugfs_dentries;
-+static struct work_struct	debugfs_reap_worker;
-+
-+#define REF_TRACKER_DIR_DEAD	XA_MARK_0
-+static inline void ref_tracker_debugfs_mark(struct ref_tracker_dir *dir)
-+{
-+	unsigned long flags;
-+
-+	xa_lock_irqsave(&debugfs_dentries, flags);
-+	__xa_set_mark(&debugfs_dentries, (unsigned long)dir, REF_TRACKER_DIR_DEAD);
-+	xa_unlock_irqrestore(&debugfs_dentries, flags);
-+
-+	schedule_work(&debugfs_reap_worker);
-+}
-+#else
-+static inline void ref_tracker_debugfs_mark(struct ref_tracker_dir *dir)
-+{
-+}
-+#endif
-+
- static struct ref_tracker_dir_stats *
- ref_tracker_get_stats(struct ref_tracker_dir *dir, unsigned int limit)
- {
-@@ -185,6 +219,11 @@ void ref_tracker_dir_exit(struct ref_tracker_dir *dir)
- 	bool leak = false;
+ #define REF_TRACKER_DIR_DEAD	XA_MARK_0
+@@ -55,6 +56,10 @@ static inline void ref_tracker_debugfs_mark(struct ref_tracker_dir *dir)
+ 	__xa_set_mark(&debugfs_dentries, (unsigned long)dir, REF_TRACKER_DIR_DEAD);
+ 	xa_unlock_irqrestore(&debugfs_dentries, flags);
  
- 	dir->dead = true;
-+	/*
-+	 * The xarray entries must be marked before the dir->lock is taken to
-+	 * protect simultaneous debugfs readers.
-+	 */
-+	ref_tracker_debugfs_mark(dir);
- 	spin_lock_irqsave(&dir->lock, flags);
- 	list_for_each_entry_safe(tracker, n, &dir->quarantine, head) {
- 		list_del(&tracker->head);
-@@ -312,23 +351,126 @@ static void __ostream_printf pr_ostream_seq(struct ostream *stream, char *fmt, .
- 	va_end(args);
++	xa_lock_irqsave(&debugfs_symlinks, flags);
++	__xa_set_mark(&debugfs_symlinks, (unsigned long)dir, REF_TRACKER_DIR_DEAD);
++	xa_unlock_irqrestore(&debugfs_symlinks, flags);
++
+ 	schedule_work(&debugfs_reap_worker);
  }
- 
--static __maybe_unused int
--ref_tracker_dir_seq_print(struct ref_tracker_dir *dir, struct seq_file *seq)
-+static int ref_tracker_dir_seq_print(struct ref_tracker_dir *dir, struct seq_file *seq)
- {
- 	struct ostream os = { .func = pr_ostream_seq,
- 			      .prefix = "",
- 			      .seq = seq };
--	unsigned long flags;
- 
--	spin_lock_irqsave(&dir->lock, flags);
- 	__ref_tracker_dir_pr_ostream(dir, 16, &os);
--	spin_unlock_irqrestore(&dir->lock, flags);
- 
- 	return os.used;
+ #else
+@@ -451,6 +456,45 @@ void ref_tracker_dir_debugfs(struct ref_tracker_dir *dir)
  }
+ EXPORT_SYMBOL(ref_tracker_dir_debugfs);
  
-+static int ref_tracker_debugfs_show(struct seq_file *f, void *v)
-+{
-+	struct ref_tracker_dir *dir = f->private;
-+	unsigned long index = (unsigned long)dir;
-+	unsigned long flags;
-+	int ret;
-+
-+	/*
-+	 * "dir" may not exist at this point if ref_tracker_dir_exit() has
-+	 * already been called. Take care not to dereference it until its
-+	 * legitimacy is established.
-+	 *
-+	 * The xa_lock is necessary to ensure that "dir" doesn't disappear
-+	 * before its lock can be taken. If it's in the hash and not marked
-+	 * dead, then it's safe to take dir->lock which prevents
-+	 * ref_tracker_dir_exit() from completing. Once the dir->lock is
-+	 * acquired, the xa_lock can be released. All of this must be IRQ-safe.
-+	 */
-+	xa_lock_irqsave(&debugfs_dentries, flags);
-+	if (!xa_load(&debugfs_dentries, index) ||
-+	    xa_get_mark(&debugfs_dentries, index, REF_TRACKER_DIR_DEAD)) {
-+		xa_unlock_irqrestore(&debugfs_dentries, flags);
-+		return -ENODATA;
-+	}
-+
-+	spin_lock(&dir->lock);
-+	xa_unlock(&debugfs_dentries);
-+	ret = ref_tracker_dir_seq_print(dir, f);
-+	spin_unlock_irqrestore(&dir->lock, flags);
-+	return ret;
-+}
-+
-+static int ref_tracker_debugfs_open(struct inode *inode, struct file *filp)
-+{
-+	struct ref_tracker_dir *dir = inode->i_private;
-+
-+	return single_open(filp, ref_tracker_debugfs_show, dir);
-+}
-+
-+static const struct file_operations ref_tracker_debugfs_fops = {
-+	.owner		= THIS_MODULE,
-+	.open		= ref_tracker_debugfs_open,
-+	.read		= seq_read,
-+	.llseek		= seq_lseek,
-+	.release	= single_release,
-+};
-+
-+/**
-+ * ref_tracker_dir_debugfs - create debugfs file for ref_tracker_dir
-+ * @dir: ref_tracker_dir to be associated with debugfs file
-+ *
-+ * In most cases, a debugfs file will be created automatically for every
-+ * ref_tracker_dir. If the object was created before debugfs is brought up
-+ * then that may fail. In those cases, it is safe to call this at a later
-+ * time to create the file.
-+ */
-+void ref_tracker_dir_debugfs(struct ref_tracker_dir *dir)
++void __ostream_printf ref_tracker_dir_symlink(struct ref_tracker_dir *dir, const char *fmt, ...)
 +{
 +	char name[NAME_MAX + 1];
-+	struct dentry *dentry;
++	struct dentry *symlink, *dentry;
++	va_list args;
 +	int ret;
 +
-+	/* No-op if already created */
++	symlink = xa_load(&debugfs_symlinks, (unsigned long)dir);
 +	dentry = xa_load(&debugfs_dentries, (unsigned long)dir);
-+	if (dentry && !xa_is_err(dentry))
++
++	/* Already created?*/
++	if (symlink && !xa_is_err(symlink))
 +		return;
 +
-+	ret = snprintf(name, sizeof(name), "%s@%px", dir->class, dir);
++	if (!dentry || xa_is_err(dentry))
++		return;
++
++	va_start(args, fmt);
++	ret = vsnprintf(name, sizeof(name), fmt, args);
++	va_end(args);
 +	name[sizeof(name) - 1] = '\0';
 +
 +	if (ret < sizeof(name)) {
-+		dentry = debugfs_create_file(name, S_IFREG | 0400,
-+					     ref_tracker_debug_dir, dir,
-+					     &ref_tracker_debugfs_fops);
-+		if (!IS_ERR(dentry)) {
++		symlink = debugfs_create_symlink(name, ref_tracker_debug_dir,
++						 dentry->d_name.name);
++		if (!IS_ERR(symlink)) {
 +			void *old;
 +
-+			old = xa_store_irq(&debugfs_dentries, (unsigned long)dir,
-+					   dentry, GFP_KERNEL);
-+
++			old = xa_store_irq(&debugfs_symlinks, (unsigned long)dir,
++					   symlink, GFP_KERNEL);
 +			if (xa_is_err(old))
-+				debugfs_remove(dentry);
++				debugfs_remove(symlink);
 +			else
 +				WARN_ON_ONCE(old);
 +		}
 +	}
 +}
-+EXPORT_SYMBOL(ref_tracker_dir_debugfs);
++EXPORT_SYMBOL(ref_tracker_dir_symlink);
 +
-+static void debugfs_reap_work(struct work_struct *work)
-+{
-+	struct dentry *dentry;
-+	unsigned long index;
-+	bool reaped;
-+
-+	do {
-+		reaped = false;
-+		xa_for_each_marked(&debugfs_dentries, index, dentry, REF_TRACKER_DIR_DEAD) {
-+			xa_erase_irq(&debugfs_dentries, index);
+ static void debugfs_reap_work(struct work_struct *work)
+ {
+ 	struct dentry *dentry;
+@@ -459,6 +503,11 @@ static void debugfs_reap_work(struct work_struct *work)
+ 
+ 	do {
+ 		reaped = false;
++		xa_for_each_marked(&debugfs_symlinks, index, dentry, REF_TRACKER_DIR_DEAD) {
++			xa_erase_irq(&debugfs_symlinks, index);
 +			debugfs_remove(dentry);
 +			reaped = true;
 +		}
-+	} while (reaped);
-+}
-+
- static int __init ref_tracker_debugfs_init(void)
+ 		xa_for_each_marked(&debugfs_dentries, index, dentry, REF_TRACKER_DIR_DEAD) {
+ 			xa_erase_irq(&debugfs_dentries, index);
+ 			debugfs_remove(dentry);
+@@ -471,6 +520,7 @@ static int __init ref_tracker_debugfs_init(void)
  {
-+	INIT_WORK(&debugfs_reap_worker, debugfs_reap_work);
-+	xa_init_flags(&debugfs_dentries, XA_FLAGS_LOCK_IRQ);
+ 	INIT_WORK(&debugfs_reap_worker, debugfs_reap_work);
+ 	xa_init_flags(&debugfs_dentries, XA_FLAGS_LOCK_IRQ);
++	xa_init_flags(&debugfs_symlinks, XA_FLAGS_LOCK_IRQ);
  	ref_tracker_debug_dir = debugfs_create_dir("ref_tracker", NULL);
  	return 0;
  }
