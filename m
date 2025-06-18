@@ -2,165 +2,76 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 52A22ADEE91
-	for <lists+dri-devel@lfdr.de>; Wed, 18 Jun 2025 15:55:46 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 66C22ADEE9B
+	for <lists+dri-devel@lfdr.de>; Wed, 18 Jun 2025 15:57:48 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B398F10E83E;
-	Wed, 18 Jun 2025 13:55:44 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 03D6B10E852;
+	Wed, 18 Jun 2025 13:57:46 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=amd.com header.i=@amd.com header.b="dIPbOaQI";
+	dkim=pass (1024-bit key; secure) header.d=ffwll.ch header.i=@ffwll.ch header.b="XLb0U9Su";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from NAM11-DM6-obe.outbound.protection.outlook.com
- (mail-dm6nam11on2065.outbound.protection.outlook.com [40.107.223.65])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 01C1310E83E;
- Wed, 18 Jun 2025 13:55:43 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=CTd4Jj+kknyJrCFgk0bm01fP/h6D9aKAwA1FyrUmZ/JaxJFSoYoJ+Sls4ZTGIqJwZhEXrTx4dl+rxvjaWeqeXO7sI7YIztW+ol1qfqs53lLEU9xOsqIO1vEoC0xcKMAppMzAflGmbdektFGeMwdLlg6agCyZWAb0M4LoxyBfVLw8ytCVciZT53u5cs836eV1HPnpA7xOxpusc1qCZkjCCus9vbZniYYnmsnHEORRnHQZkIgzDURQMlipwiJ/twAE3IGA5HI9o2M7pPkg9Voitkkts23Dazu9uHGn7eT9e5M8Z+m4XHM3m7OtH/7C/buzT0fCEkFIh97B5Ain6vx12Q==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=Ujlqi084Abajt2dYjhW8/uYeVbtQZ3Zo6ZXUDO0T2jk=;
- b=gGpCFI/OdEAcL9K7ZRRQlQNq/kg5jS49AoqFp4yC/goKDUwx84a+4YMg/F5/LYvNwb4VYuikZQ4KzNfbEL8BC0qaSKW9awEOI3eTGoAR+8A7Uj0U/pMHeDR8FvqifTMm8z7VFyLmKWC8V+UcdulCNdexmIMsNFTQ+viLAb9w/jxk2Dfu2Ms9DhXQgsFFZI4iMW0gfkMerdzLNZJH7hcKt80kzd3wEH2UTnZfcyCap3946EeJkrAUoOQ16EZ9xOI/MTDk4gfVdfheeQLmJ9pyYN7K+hPUOYGVHzNikik2yn8/CfJFBrNRuCUX2VDHNUhy5+58HrhUhu0Xiea8ZNt8nw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
- header.d=amd.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=Ujlqi084Abajt2dYjhW8/uYeVbtQZ3Zo6ZXUDO0T2jk=;
- b=dIPbOaQI3iK2zTBYDchkBKG4ME6CRE/NVSvI46npoEZ10Ogzk/SDKAtSHU+jzFQXWjVC0w/ABerJda1PRrhDBV0MuN+YXRBlVe9kCocQTcHDXmXtlhPyQ1E3dS0F+jR3RZKfGelXhrFDoFZcoRCmcnYZoCmhfQ4DGgMNPFjWeHE=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=amd.com;
-Received: from PH7PR12MB5685.namprd12.prod.outlook.com (2603:10b6:510:13c::22)
- by SA3PR12MB8022.namprd12.prod.outlook.com (2603:10b6:806:307::7)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8792.39; Wed, 18 Jun
- 2025 13:55:35 +0000
-Received: from PH7PR12MB5685.namprd12.prod.outlook.com
- ([fe80::46fb:96f2:7667:7ca5]) by PH7PR12MB5685.namprd12.prod.outlook.com
- ([fe80::46fb:96f2:7667:7ca5%7]) with mapi id 15.20.8722.031; Wed, 18 Jun 2025
- 13:55:35 +0000
-Message-ID: <c44f4194-69e5-41bf-bbc6-2e399be2b627@amd.com>
-Date: Wed, 18 Jun 2025 15:55:28 +0200
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v10 05/10] drm/ttm: Add ttm_bo_kmap_try_from_panic()
-To: Jocelyn Falempe <jfalempe@redhat.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Jani Nikula <jani.nikula@linux.intel.com>,
- Rodrigo Vivi <rodrigo.vivi@intel.com>,
- Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
- Tvrtko Ursulin <tursulin@ursulin.net>,
- =?UTF-8?B?VmlsbGUgU3lyasOkbMOk?= <ville.syrjala@linux.intel.com>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- Huang Rui <ray.huang@amd.com>, Matthew Auld <matthew.auld@intel.com>,
- Matthew Brost <matthew.brost@intel.com>, Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>, intel-gfx@lists.freedesktop.org,
- intel-xe@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org
-References: <20250618094011.238154-1-jfalempe@redhat.com>
- <20250618094011.238154-6-jfalempe@redhat.com>
-Content-Language: en-US
-From: =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
-In-Reply-To: <20250618094011.238154-6-jfalempe@redhat.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-ClientProxiedBy: BL1PR13CA0113.namprd13.prod.outlook.com
- (2603:10b6:208:2b9::28) To PH7PR12MB5685.namprd12.prod.outlook.com
- (2603:10b6:510:13c::22)
+Received: from mail-ed1-f42.google.com (mail-ed1-f42.google.com
+ [209.85.208.42])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0431510E852
+ for <dri-devel@lists.freedesktop.org>; Wed, 18 Jun 2025 13:57:39 +0000 (UTC)
+Received: by mail-ed1-f42.google.com with SMTP id
+ 4fb4d7f45d1cf-60780d74c85so10652962a12.2
+ for <dri-devel@lists.freedesktop.org>; Wed, 18 Jun 2025 06:57:39 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=ffwll.ch; s=google; t=1750255058; x=1750859858; darn=lists.freedesktop.org; 
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+ bh=XbaxxxxlsK1/WbFmos2jPouear+VV9P5VeLTIDzDubU=;
+ b=XLb0U9Su6LZRbKp0qG8mwi76tgAF+XjckKCBxiZKUNwMjcZ4dM0RAycpIS0sluyGXP
+ US4NsKbLRR+Sma0vn8gRdQMmcEH0vDk782Daa2+JBwMBpmVgdciW21gzD+e+Q5siXiVm
+ jtEN9GJ20AvKKyukNnz1UyprghC/0UNZtb6sw=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1750255058; x=1750859858;
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=XbaxxxxlsK1/WbFmos2jPouear+VV9P5VeLTIDzDubU=;
+ b=LLRmDE0dJ9wWrk5WMarsQVFj9MhFDsNY6FesyzTpKFBtFzmXxqgYkX+/O59hP0P1ZH
+ 3ZitajQC4O13lgMeg3c5HO16UzN2BWYhUdzQa8tj0dD0Rt7uzB6ewZAd3z7IVg5epIyh
+ /6VqnDS8FcUt1s5/kigcSSorMUaPw/9lSn13z/L6rJm1u3HAVmRayFWv4tmZKUj21/aW
+ OUPxxRo/b4CR0Jj2gpB5ksn0R2kMuToAJeN3tHrDNgyjvfz/qBd+x6zLS+wAvoKJlRtF
+ VSAOXmRWONTKputWxSF3X0x0ILa4wJDhAXGj5GHXeaA9beDwLA+lSDAMPBqJS3nzELX2
+ xilg==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCXrUH2pJLT5ocjNM7HZ5lVldeKbmuk06Hxo7CY0hs+tYGRKlEqkNhi1wjdqSq2jUxa921Lt2mSiID0=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YzhJ2zc3WTQ/l7N6hc4B9qxgiLZFUEnHIzwzBeemHZhrJQbgScs
+ KxGD5tSjapoN1JrtkVITBpIcoAKJkcRlCB6oiRoF+OrUMKCwl78hsIZS/oamkAWEJ1w=
+X-Gm-Gg: ASbGnctv0AT81RntvyqNlQFgl3XbJeVMB8YvUDhpwaYFV/VVhN8dwir0QuLedhDJXJ5
+ YUF7LGSa+RtcmSrLett6quEAlIK1OUe6lFs5pOymE1sE7cpSqfzH+5bHxaGKzJrHBc5jGGbVN5n
+ brEkCQiT8lRpgXEYSaUBeak+KdnDlenZ7CZIZ9Uk5AqVxPOkqOCYGb35tfFvCVbm5qdAljtBiQ0
+ GUchvFV27SDMTBueQn4PAEBtBJOE1zPPzTrdaIlqClqrH4St8NZtlqC26XpeYPtR+i2Av4Tap+3
+ 3n2TriRQFzupM72FCCDRN37MOxSBnJKEanQrLXB/X3bXRrMoFqqFkpAO5Xx50i4NkWPBtK94lA=
+ =
+X-Google-Smtp-Source: AGHT+IHSLvWaxr+yFt86isAiGtpM4boKjYyQcs4o/wVXByNvnpRd3h/hwuvizch2sRm38xRaf1aVBA==
+X-Received: by 2002:a05:6402:2811:b0:607:6097:2faa with SMTP id
+ 4fb4d7f45d1cf-608d08b5d2fmr14774994a12.8.1750255057949; 
+ Wed, 18 Jun 2025 06:57:37 -0700 (PDT)
+Received: from phenom.ffwll.local ([2a02:168:57f4:0:5485:d4b2:c087:b497])
+ by smtp.gmail.com with ESMTPSA id
+ 4fb4d7f45d1cf-60900cdd4f1sm6851187a12.2.2025.06.18.06.57.37
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 18 Jun 2025 06:57:37 -0700 (PDT)
+Date: Wed, 18 Jun 2025 15:57:35 +0200
+From: Simona Vetter <simona.vetter@ffwll.ch>
+To: Maarten Lankhorst <dev@lankhorst.se>
+Cc: intel-xe@lists.freedesktop.org, dri-devel@lists.freedesktop.org
+Subject: Re: [RFC PATCH 8/8] drm/xe: Allow mapping DMA-BUF buffer objects
+ connected through IAF
+Message-ID: <aFLFz_20G9R8h-Tu@phenom.ffwll.local>
+References: <20250613134520.2458175-10-dev@lankhorst.se>
+ <20250613134520.2458175-18-dev@lankhorst.se>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: PH7PR12MB5685:EE_|SA3PR12MB8022:EE_
-X-MS-Office365-Filtering-Correlation-Id: 8e64cceb-13ec-4b89-1dff-08ddae6fcc65
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
- ARA:13230040|376014|7416014|1800799024|366016|7053199007|921020; 
-X-Microsoft-Antispam-Message-Info: =?utf-8?B?UW1QMU4zTkFMU0RrdnIwci9IeGk1VGNGWWVFQUhYejBVRmxYUVlYSGxQRkdP?=
- =?utf-8?B?a0xlU0JuS0xDd244RFRvQXN5UTdCcWszejVJUVNZdHN1aEdjSEtZVUFnd1ZE?=
- =?utf-8?B?WnNtYTExQTZXVDJJMVZTWTB2RWxQbUtJVDJMSW1kU3JWZnh1bm1NTUVieHRI?=
- =?utf-8?B?ODJBZTlNbDhZeDlEd1kraWd6NVBaYXNoYzdNS1hNOUlibEFsblUvTlZSS0Vy?=
- =?utf-8?B?TkNhaktnYVZVd2phYW92ZTBhQXlHbmU5cXptSml5eGhKNnNzQkFaRkNCc0pH?=
- =?utf-8?B?OUQraEw0MWN1WVlPR01kc1lFaEkvdFdwUFVGdjhTZCtCMWJUSU1kWWJqcUtq?=
- =?utf-8?B?RXNBVERUR3ZIcEFUaGhFWldtbXIwY2ZBbHQ3TXFORjMraTNyN2hob1dwZWdw?=
- =?utf-8?B?cXhhM1dwYmc4dmJzckNGRVdiV3c1aFRxazBvMVVYWFE2OUxsSU9EMmxXSmVK?=
- =?utf-8?B?akQwSG1uendSWUU2eVVLQTdJYjlobm02Y1Jtc1IzemZ6TEVLamgyTTVRcjZ2?=
- =?utf-8?B?cTkxb1ZQeTNoYjZzRFg5YWRsblNKenZnMW1IbTVmUmQvQnNIV1YwOFhUeVdr?=
- =?utf-8?B?dzJ6Q29wbnZ4aE1JbzloT1dDRlh1RWtnZ1huTWNWcUxERUZwOWpFekhLZjRr?=
- =?utf-8?B?dU9LUWsvMVo3ZTRsTU44ZDV3TW93UkQxTEFtZFZhN1l0KzZRV2tlWEZJRldq?=
- =?utf-8?B?VnA4bktBTWxqNDdyZU1NWlBrOURvRDRaUG1EQ1BNYXRTUi9QSnV0T3ZPeERO?=
- =?utf-8?B?SVV3dG03YmlQbDZPN2xVejJKUm1LaEtJenhyVEF5SmprbjB5akc0ejZuQkcv?=
- =?utf-8?B?WEs1RkR6MXF0ejhnd0FHRE96amhLejBXOFltdkJhMGtIaDdTSXF5Q1BXa0tG?=
- =?utf-8?B?RGw2SCtabzA1U1Z4SlVPYlZRR0NTUG9naEdWNHdqSFFFcHVsQ0FlZmY1VUwr?=
- =?utf-8?B?LzgyTGw4OWt5cUYxUENIcWJCT0dnVi9taENESjNVWko3amVmWG15anYzczNs?=
- =?utf-8?B?ZXlhbzVGTkF6Y3pIanRvS2o5MzFBbk9Eb0tsSUF1QXdNdGp0L2x2N0kyNlVV?=
- =?utf-8?B?SEQ1S0J5SHZGSTZvdmIyZktDdjFxNTRaTUJJNEtpVFlnQU5ZcklVcjJhT2Rs?=
- =?utf-8?B?WXdvTTF5N0pZZ3hVL29VR0ZKeVkvd3R2MzltdHNTaTZZWXNQVGtrbFVYeVJQ?=
- =?utf-8?B?dG1DclJYM0FDVDJpUldVN0N1bHhDajIrUEFTVTc1QjBJeG5kQ201enVXc3ZP?=
- =?utf-8?B?b1FSMzlSbVA2WW9yd3gwQm8vcEdzaVRCQURQWWpQNG41dk5jY1BVdGUzdC93?=
- =?utf-8?B?ejZacG96SDBXb1dYd2NMMHNoQ3V0R3k4QWc1Z01NZWxXOVYwcSszMVRhQnUy?=
- =?utf-8?B?NmdSRlhuLzhVQlp2cjVLQkFiUWpicVR3dVRib3BkcVgvQXo1TVVCT0Y2aDdv?=
- =?utf-8?B?TTlneUp3T1Z6SWhaNzhUL3hRSUhQVFkxQlFuMVdXTlgwKyt4MGFoNXN1OHgr?=
- =?utf-8?B?WkFES24xRUt4bzdUM01xRGZqK004cnB1N2poVk9XUHRFc2dmamNYcVJQc0FG?=
- =?utf-8?B?UnlhMlBKUk5XejNNRVFFemRhVmVwQmYzWmw2dkhNcHhjZTQ1eDRmemFLTjUy?=
- =?utf-8?B?QXcxdmNnTSt1MGNNTExJa05kVTJlUEhIb0tvNTd6RmpRcmZwam1ZQ05naFg2?=
- =?utf-8?B?WmpIR2RxY205S0haWnA5cE04Q3pXNktiRU1BUWxFczdIUFhBSDM5cFU5MGxt?=
- =?utf-8?B?YkRoSTg5WUE5eUNHY1FjUFpSbitYSGtvdTNXSEpYcUhaWThPYXJmMnJiMnYv?=
- =?utf-8?B?RlM3Y3gyNER3Ry80T3BMeXBabFVVbmFzcHJtbDJGVU45eS9JUnJyZ256S2h3?=
- =?utf-8?B?MGhaa0o3RUxmRjZOMzc4YklOYmpJbExqREpkYm9xMlcyckVtS1c5RktCcFRF?=
- =?utf-8?B?RG1uTDhqNm5LcVJhYUhMa28yM044bGRmbVc4elFDYTAzZTdiVHR1TVh5RnBM?=
- =?utf-8?B?NVJVT2pBazBBPT0=?=
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:PH7PR12MB5685.namprd12.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230040)(376014)(7416014)(1800799024)(366016)(7053199007)(921020);
- DIR:OUT; SFP:1101; 
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?blZnS2pWTDVjdHZ3U05DQWU1UDVjZ0NWQjlmbWhXRkMwWjdjbVhlSnE5VnY5?=
- =?utf-8?B?R3FHVjRlU0I0T0trVnRQS0RuTlRwUVl4TTBQV0o2YzIxaGhRVll3OFNCR2lM?=
- =?utf-8?B?d1ViTUNMQllnYnV2R0NIbHdwODlvdDM5aUgxeWhEV0E0azdzYndVNzZGVUVI?=
- =?utf-8?B?KzJYUEdNU3JLQWhFdUlqVWxWT2RwWFJFeTQzYnhMdW1VNEVoYzFsbXNZU0FE?=
- =?utf-8?B?SSt0OXZjQmM1a3prZnpaLzZ5c3BKemVqQmd1QVJXakttTHFNZU9NNU40aGNC?=
- =?utf-8?B?OTZUeG55TlpTblBuTng5SEYxeU9kd1BzalI1U082TDZHSW1EcXYraUpORzFv?=
- =?utf-8?B?NndIRm1BUUE5WnhpWTQwdE5veEdyWHVlYlA3V2E5TFVWVitOR2VxT0lqWEdh?=
- =?utf-8?B?bElCb2loZ1VRdTJ4Wm11WW1pUWk4dDFWMkZDQnlOM1VwREFSRC9vTGpORUQr?=
- =?utf-8?B?c0NBOTIyZGJLeVFsRmtUWlJFM1dRZVNHKzZ1eGxWN1lKalZ6ZWpodCtFQ09S?=
- =?utf-8?B?M2FiYmVlbytEcVZJalZBQ2lrSHZyM1dWMVlSa3llWm9JQjRNVTd4dGZxbm4z?=
- =?utf-8?B?aDJPY2xIVHFHMXo0U2FMQ2NLTzFrdlk3KzQySTVZOG5QOTgwNW9KN0NYOFFZ?=
- =?utf-8?B?b1E5SWZPZ1RVMUQ3WGVxcld4YStxd25kZjVOaXJuZUtTSzR5NGFuZFR5czhH?=
- =?utf-8?B?QnFPejE3Y1dhdkFtVTU2dVhpN0pSc0FNaW5LazBpdUJjTmNYOTg5TkgvazBt?=
- =?utf-8?B?Ulk3bkJkaFREdFZHYys3aWIyOGVUUW9oeThUWDhZUW1UTFQ2QWRDY0xEYlNS?=
- =?utf-8?B?MlpGdTlkRmpCQnNkTGtzOWdQclcwclFMc0hocnVrcGVxL2xnOFh0THo2dkNv?=
- =?utf-8?B?TlNKVGlSYnE1YVQ1VWJCc0xkTkM1U1d1UG95aTdVb3J6QUpsL3JURkM1WDVC?=
- =?utf-8?B?NzdoUEIybml2SEd1STMvV0RLckxZMEVkcUpSMmNlVlNsSkVsc1FBRlM0bzZv?=
- =?utf-8?B?M0V5N1ZWSFZrTFpBSWRwMG0wSncwZXFONHBaSXB1aUhVK1d0M0J3MW5mTmJ1?=
- =?utf-8?B?MERTYjN2MWhMTlEyNXlIQ2NFM0szYUlPcVgrVUJiZW5yeTJITWlDOVI2MFd0?=
- =?utf-8?B?cHY0ZFZyTUlQTFpRR1Jtdk02YUtqdVJaTDF5bVNrZ0c1RTY5aDY4bG1HdWZV?=
- =?utf-8?B?ZE5HRTh6aVpJb215eUZaSG9adUFrb2pKV2ZzSFR1SFpGMXQ1eXRITC80RldH?=
- =?utf-8?B?MlNnbmIyVHFRdEtQNTV6RWdVRURsVG5UVG4zMVk4cmFPYWt4OFp4VjBvajc2?=
- =?utf-8?B?a1JRSXpoNU5XbHZoVlFJYXBON1JwcnNvdElFOHJ5WXRTdmJhVDZ0K0k3RVU3?=
- =?utf-8?B?RStmWWRaY0RmOTh1cHdid2tBdW5RQ0dIV3JmU1VwTXFFaHUyT2RUMEdlTE9m?=
- =?utf-8?B?d1lJNnVWa2syTFJtQWpOYnNzeWE3cFVRVWhUSkcyY0FhMUcvZU1hLzg5OG9R?=
- =?utf-8?B?N1M1YlBlbFJsRFhLQXFhUjJOUW1abXpFWm5QVHFORmd6U0liVjdYWEg4WnZC?=
- =?utf-8?B?WThoSTdjTmhCcytZNTZndUdGQmpna1M5U2NuMElPc3N6RXhoZVpka1UvZExF?=
- =?utf-8?B?aFc3dUt0UFZWNkI3WEIzWEpJNmJZSUdGUGx0QXVHaUxaMk94eS91YzZ4T3hu?=
- =?utf-8?B?b1Z3bzdObm9PRFN0Q1ZYS0YwYnB2dHNQWlZEM2NtTEoyZ0RyMythdUdGOENK?=
- =?utf-8?B?OFpIQTFaR205akdaZW40aXU3S3RkY0FZZ1p6Z0dOQVdvVTAxZE5tdDVZOUl5?=
- =?utf-8?B?T09iOCtMSjQ0TVAvMVRCYjNYeUJ1UGEweFJ1THhCL1Q3NmdhQjlDUXNUbFA3?=
- =?utf-8?B?djJlY2JxTVcvMzBsSzZTSGtaNTJDTVIybEFjZTRwSFVsNlJJUVpJR0lobHNw?=
- =?utf-8?B?UUdKUzY5RWFid3MyRXljQ2tLZHRSVzFiNURiMTFZR3BEWjcyQVBZUzdibGNT?=
- =?utf-8?B?MndkU05McXpjbDd4YkhTK0pOKzQ1dnNGbFc5MllRUWVya0dmVkc0cGhMWUM1?=
- =?utf-8?B?b1FFcG5JdjFiWVEvanNrc2hGZEtUQXhETFNkMHpqSmM0Vlo1Ty9rbGQ5SFRJ?=
- =?utf-8?Q?7XfIPAxM6SfQbQXdSj4MXTEtL?=
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 8e64cceb-13ec-4b89-1dff-08ddae6fcc65
-X-MS-Exchange-CrossTenant-AuthSource: PH7PR12MB5685.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 18 Jun 2025 13:55:35.3219 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: C+ebL5Fb+FySYTabMyaXJ84+Iwe12zBTvMEBFKPU18Bw9lMQiGyucCbSPfycz2OD
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SA3PR12MB8022
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20250613134520.2458175-18-dev@lankhorst.se>
+X-Operating-System: Linux phenom 6.12.30-amd64 
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -176,85 +87,542 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-
-
-On 6/18/25 11:31, Jocelyn Falempe wrote:
-> If the ttm bo is backed by pages, then it's possible to safely kmap
-> one page at a time, using kmap_try_from_panic().
-> Unfortunately there is no way to do the same with ioremap, so it
-> only supports the kmap case.
-> This is needed for proper drm_panic support with xe driver.
+On Fri, Jun 13, 2025 at 03:45:27PM +0200, Maarten Lankhorst wrote:
+> IAF allows multiple xe devices to import VRAM from each other.
+> It's mapped as local VRAM, but outside the local device range.
 > 
-> Signed-off-by: Jocelyn Falempe <jfalempe@redhat.com>
-
-Reviewed-by: Christian König <christian.koenig@amd.com>
-
-Preferred through drm-misc-next, but feel free to merge it through every branch you want if it makes thinks easier for you.
-
-Regards,
-Christian.
-
+> To support this, Xe is changed to allow a special case of
+> same-implementation importing with direction = DMA_NONE.
+> 
+> If this DMA direction is used, the physical VRAM addresses are exported,
+> and can be imported into a xe_vm with the device memory bit set.
+> 
+> In order to prevent bugs, we ensure that this is only allowed for
+> xe <-> xe imports/exports, and only when the VRAM flag is set.
+> 
+> If any of the steps required fails for IAF-import, the default
+> non-IAF import path is attempted.
+> 
+> Signed-off-by: Maarten Lankhorst <dev@lankhorst.se>
 > ---
+>  drivers/gpu/drm/xe/xe_bo.c           | 85 ++++++++++++++++++++++++----
+>  drivers/gpu/drm/xe/xe_bo.h           |  2 +
+>  drivers/gpu/drm/xe/xe_dma_buf.c      | 27 ++++++++-
+>  drivers/gpu/drm/xe/xe_dma_buf.h      |  1 +
+>  drivers/gpu/drm/xe/xe_ggtt.c         |  4 +-
+>  drivers/gpu/drm/xe/xe_iaf.c          | 42 ++++++++++++++
+>  drivers/gpu/drm/xe/xe_iaf.h          | 16 ++++++
+>  drivers/gpu/drm/xe/xe_pt.c           |  4 ++
+>  drivers/gpu/drm/xe/xe_ttm_vram_mgr.c | 23 +++++---
+>  drivers/gpu/drm/xe/xe_vm.c           |  2 +-
+>  10 files changed, 184 insertions(+), 22 deletions(-)
 > 
-> v8:
->  * Added in v8
-> 
-> v9:
->  * Fix comment in ttm_bo_kmap_try_from_panic(), this can *only* be called
->    from the panic handler (Christian König)
-> 
->  drivers/gpu/drm/ttm/ttm_bo_util.c | 27 +++++++++++++++++++++++++++
->  include/drm/ttm/ttm_bo.h          |  1 +
->  2 files changed, 28 insertions(+)
-> 
-> diff --git a/drivers/gpu/drm/ttm/ttm_bo_util.c b/drivers/gpu/drm/ttm/ttm_bo_util.c
-> index 15cab9bda17f..6912e6dfda25 100644
-> --- a/drivers/gpu/drm/ttm/ttm_bo_util.c
-> +++ b/drivers/gpu/drm/ttm/ttm_bo_util.c
-> @@ -377,6 +377,33 @@ static int ttm_bo_kmap_ttm(struct ttm_buffer_object *bo,
->  	return (!map->virtual) ? -ENOMEM : 0;
+> diff --git a/drivers/gpu/drm/xe/xe_bo.c b/drivers/gpu/drm/xe/xe_bo.c
+> index 4e39188a021ab..13f0c685a012f 100644
+> --- a/drivers/gpu/drm/xe/xe_bo.c
+> +++ b/drivers/gpu/drm/xe/xe_bo.c
+> @@ -24,6 +24,7 @@
+>  #include "xe_drm_client.h"
+>  #include "xe_ggtt.h"
+>  #include "xe_gt.h"
+> +#include "xe_iaf.h"
+>  #include "xe_map.h"
+>  #include "xe_migrate.h"
+>  #include "xe_pm.h"
+> @@ -82,6 +83,11 @@ bool mem_type_is_vram(u32 mem_type)
+>  	return mem_type >= XE_PL_VRAM0 && mem_type != XE_PL_STOLEN;
 >  }
 >  
-> +/**
-> + *
-> + * ttm_bo_kmap_try_from_panic
-> + *
-> + * @bo: The buffer object
-> + * @page: The page to map
-> + *
-> + * Sets up a kernel virtual mapping using kmap_local_page_try_from_panic().
-> + * This should only be called from the panic handler, if you make sure the bo
-> + * is the one being displayed, so is properly allocated, and protected.
-> + *
-> + * Returns the vaddr, that you can use to write to the bo, and that you should
-> + * pass to kunmap_local() when you're done with this page, or NULL if the bo
-> + * is in iomem.
-> + */
-> +void *ttm_bo_kmap_try_from_panic(struct ttm_buffer_object *bo, unsigned long page)
+> +bool xe_bo_is_iaf(struct xe_bo *bo)
 > +{
-> +	if (page + 1 > PFN_UP(bo->resource->size))
-> +		return NULL;
-> +
-> +	if (!bo->resource->bus.is_iomem && bo->ttm->pages && bo->ttm->pages[page])
-> +		return kmap_local_page_try_from_panic(bo->ttm->pages[page]);
-> +
-> +	return NULL;
+> +	return bo->flags & XE_BO_FLAG_IAF;
 > +}
-> +EXPORT_SYMBOL(ttm_bo_kmap_try_from_panic);
 > +
->  /**
->   * ttm_bo_kmap
->   *
-> diff --git a/include/drm/ttm/ttm_bo.h b/include/drm/ttm/ttm_bo.h
-> index cf027558b6db..8c0ce3fa077f 100644
-> --- a/include/drm/ttm/ttm_bo.h
-> +++ b/include/drm/ttm/ttm_bo.h
-> @@ -429,6 +429,7 @@ int ttm_bo_init_validate(struct ttm_device *bdev, struct ttm_buffer_object *bo,
->  int ttm_bo_kmap(struct ttm_buffer_object *bo, unsigned long start_page,
->  		unsigned long num_pages, struct ttm_bo_kmap_obj *map);
->  void ttm_bo_kunmap(struct ttm_bo_kmap_obj *map);
-> +void *ttm_bo_kmap_try_from_panic(struct ttm_buffer_object *bo, unsigned long page);
->  int ttm_bo_vmap(struct ttm_buffer_object *bo, struct iosys_map *map);
->  void ttm_bo_vunmap(struct ttm_buffer_object *bo, struct iosys_map *map);
->  int ttm_bo_mmap_obj(struct vm_area_struct *vma, struct ttm_buffer_object *bo);
+>  static bool resource_is_stolen_vram(struct xe_device *xe, struct ttm_resource *res)
+>  {
+>  	return res->mem_type == XE_PL_STOLEN && IS_DGFX(xe);
+> @@ -656,6 +662,68 @@ static int xe_bo_trigger_rebind(struct xe_device *xe, struct xe_bo *bo,
+>  	return ret;
+>  }
+>  
+> +static void bo_unmap_dma_buf(struct xe_bo *bo)
+> +{
+> +	enum dma_data_direction dir = DMA_BIDIRECTIONAL;
+> +	struct dma_buf_attachment *attach = bo->ttm.base.import_attach;
+> +	struct dma_buf *dmabuf;
+> +
+> +	if (xe_bo_is_iaf(bo))
+> +		dir = DMA_NONE;
+> +
+> +	dma_buf_unmap_attachment(attach, bo->ttm.sg, dir);
+> +	bo->ttm.sg = NULL;
+> +
+> +	if (xe_bo_is_iaf(bo)) {
+> +		/* Cleanup IAF bindings */
+> +		dmabuf = attach->dmabuf;
+> +		xe_iaf_mapping_put(xe_bo_device(gem_to_xe_bo(dmabuf->priv))->iaf);
+> +		xe_iaf_mapping_put(xe_bo_device(bo)->iaf);
+> +		bo->flags &= ~XE_BO_FLAG_IAF;
+> +	}
+> +}
+> +
+> +static struct sg_table *bo_map_dma_buf(struct xe_bo *bo)
+> +{
+> +	struct dma_buf_attachment *attach = bo->ttm.base.import_attach;
+> +	struct dma_buf *dmabuf = attach->dmabuf;
+> +	struct sg_table *sg;
+> +
+> +	if (is_xe_dma_buf(dmabuf)) {
+> +		struct xe_device *src = xe_bo_device(gem_to_xe_bo(dmabuf->priv));
+> +		struct xe_device *dst = xe_bo_device(bo);
+> +		int err;
+> +
+> +		if (!xe_iaf_fabrics_connected(dst->iaf, src->iaf))
 
+Ok, so bunch of comments on the actual interface below, but I also looked
+at the iaf patches to see how that's all implemented. And it's not the
+worst hand-rolled locking and refcounting I've seen, but I'm pretty sure
+it's buggy. Specifically the wait_for_completion_killable() in
+mappings_ref_wait() means that a simple ^C on module unload or sysfs
+unbind gives you a nice kernel UAF.
+
+[Aside: the other wait_for_completion_killable() also look equally fishy]
+
+I think the right way to sort that issue out is:
+
+- refcount the structures with a proper kref_t.
+
+- no waiting for access to cease (that needs to be protected by the
+  separate mutex you have, and not dropping that lock between checkis and
+  ref acquisition here is another reason why I think you want a single
+  xe_iaf_() interface that takes care of everything). Instead all
+  functions need to check whether the hw is gone and just bail out in that
+  case.
+
+- You need to nuke all dma_buf mappings with the move_notify stuff. That's
+  needed for p2p dma already anyway, so if that's not there we have bigger
+  issues. IAF just makes this problem bigger.
+
+I think ideally we'd not hand-roll this all, but component doesn't really
+fit that well for reasons. And I'm not sure anything else exists that
+makes sense. I've had some chats with amd folks over the years about how
+to do this all, and it's a ton of work. The important part is to have at
+least some refcounting instead of only relying on locking, you have that,
+so for me this is good enough. But the implementation needs to be fixed to
+not be exploitable with a SIGKILL ;-)
+
+> +			goto no_iaf;
+> +
+> +		err = xe_iaf_mapping_get(dst->iaf);
+> +		if (err) {
+> +			drm_warn(&dst->drm, "Getting DST IAF mapping ref failed with %pe", ERR_PTR(err));
+> +			goto no_iaf;
+> +		}
+> +
+> +		err = xe_iaf_mapping_get(src->iaf);
+> +		if (err) {
+> +			drm_warn(&src->drm, "Getting SRC IAF mapping ref failed with %pe", ERR_PTR(err));
+> +			goto err_put_dst;
+> +		}
+> +
+> +		sg = dma_buf_map_attachment(attach, DMA_NONE);
+
+I think this is a bit too much of a hack, especially since you also need
+to do a bunch of refcounting outside of the dma_buf call, so you
+definitely have a different contract here. I think much better would be to
+just have an xe_iaf_map_attachment, which does it all:
+
+
+	if (is_xe_dma_buf(dmabuf)) {
+		err = xe_iaf_map_attachment(attach);
+		if (err)
+			goto no_iaf;
+	}	
+
+I also think there's a missing fallback here for the case where you can't
+migrate the bo into vram. I guess eventually you want a mode that forces
+iaf access mode, but that would need to be checked in VM_BIND or similar:
+Essentially checking that the placements are vram only and you have iaf
+connectivity to everything, and you probably also want to grab all the
+refcounts there.
+
+You might want to split out the bo move into the caller here, depending
+how the placement hints all work out, but I think that's the only thing
+you want to pull out from that single function.
+
+Of course the implementation of xe_iaf_map_attachment can and should
+probably share a lot of code with the map_attachment callback for dma_buf.
+But that really shouldn't go through the dma_buf layer in any shape or
+form.
+
+> +		if (!IS_ERR(sg)) {
+> +			bo->flags |= XE_BO_FLAG_IAF;
+> +			return sg;
+> +		}
+> +
+> +		xe_iaf_mapping_put(src->iaf);
+> +err_put_dst:
+> +		xe_iaf_mapping_put(dst->iaf);
+> +	}
+> +
+> +no_iaf:
+> +	return dma_buf_map_attachment(attach, DMA_BIDIRECTIONAL);
+> +}
+> +
+>  /*
+>   * The dma-buf map_attachment() / unmap_attachment() is hooked up here.
+>   * Note that unmapping the attachment is deferred to the next
+> @@ -665,9 +733,9 @@ static int xe_bo_trigger_rebind(struct xe_device *xe, struct xe_bo *bo,
+>   * backing store out. Should that assumption not hold, then we will be able
+>   * to unconditionally call unmap_attachment() when moving out to system.
+>   */
+> -static int xe_bo_move_dmabuf(struct ttm_buffer_object *ttm_bo,
+> -			     struct ttm_resource *new_res)
+> +static int xe_bo_move_dmabuf(struct xe_bo *bo, struct ttm_resource *new_res)
+>  {
+> +	struct ttm_buffer_object *ttm_bo = &bo->ttm;
+>  	struct dma_buf_attachment *attach = ttm_bo->base.import_attach;
+>  	struct xe_ttm_tt *xe_tt = container_of(ttm_bo->ttm, struct xe_ttm_tt,
+>  					       ttm);
+> @@ -682,19 +750,16 @@ static int xe_bo_move_dmabuf(struct ttm_buffer_object *ttm_bo,
+>  	    ttm_bo->sg) {
+>  		dma_resv_wait_timeout(ttm_bo->base.resv, DMA_RESV_USAGE_BOOKKEEP,
+>  				      false, MAX_SCHEDULE_TIMEOUT);
+> -		dma_buf_unmap_attachment(attach, ttm_bo->sg, DMA_BIDIRECTIONAL);
+> -		ttm_bo->sg = NULL;
+> +		bo_unmap_dma_buf(bo);
+>  	}
+>  
+>  	if (new_res->mem_type == XE_PL_SYSTEM)
+>  		goto out;
+>  
+> -	if (ttm_bo->sg) {
+> -		dma_buf_unmap_attachment(attach, ttm_bo->sg, DMA_BIDIRECTIONAL);
+> -		ttm_bo->sg = NULL;
+> -	}
+> +	if (ttm_bo->sg)
+> +		bo_unmap_dma_buf(bo);
+>  
+> -	sg = dma_buf_map_attachment(attach, DMA_BIDIRECTIONAL);
+> +	sg = bo_map_dma_buf(bo);
+>  	if (IS_ERR(sg))
+>  		return PTR_ERR(sg);
+>  
+> @@ -797,7 +862,7 @@ static int xe_bo_move(struct ttm_buffer_object *ttm_bo, bool evict,
+>  	if (ttm_bo->type == ttm_bo_type_sg) {
+>  		ret = xe_bo_move_notify(bo, ctx);
+>  		if (!ret)
+> -			ret = xe_bo_move_dmabuf(ttm_bo, new_mem);
+> +			ret = xe_bo_move_dmabuf(bo, new_mem);
+>  		return ret;
+>  	}
+>  
+> diff --git a/drivers/gpu/drm/xe/xe_bo.h b/drivers/gpu/drm/xe/xe_bo.h
+> index ecb5fe3b1c1dc..210ee49d6a04d 100644
+> --- a/drivers/gpu/drm/xe/xe_bo.h
+> +++ b/drivers/gpu/drm/xe/xe_bo.h
+> @@ -44,6 +44,7 @@
+>  #define XE_BO_FLAG_GGTT2		BIT(22)
+>  #define XE_BO_FLAG_GGTT3		BIT(23)
+>  #define XE_BO_FLAG_CPU_ADDR_MIRROR	BIT(24)
+> +#define XE_BO_FLAG_IAF			BIT(25)
+>  
+>  /* this one is trigger internally only */
+>  #define XE_BO_FLAG_INTERNAL_TEST	BIT(30)
+> @@ -262,6 +263,7 @@ void xe_bo_vunmap(struct xe_bo *bo);
+>  int xe_bo_read(struct xe_bo *bo, u64 offset, void *dst, int size);
+>  
+>  bool mem_type_is_vram(u32 mem_type);
+> +bool xe_bo_is_iaf(struct xe_bo *bo);
+>  bool xe_bo_is_vram(struct xe_bo *bo);
+>  bool xe_bo_is_stolen(struct xe_bo *bo);
+>  bool xe_bo_is_stolen_devmem(struct xe_bo *bo);
+> diff --git a/drivers/gpu/drm/xe/xe_dma_buf.c b/drivers/gpu/drm/xe/xe_dma_buf.c
+> index 346f857f38374..2e8aca5d572ae 100644
+> --- a/drivers/gpu/drm/xe/xe_dma_buf.c
+> +++ b/drivers/gpu/drm/xe/xe_dma_buf.c
+> @@ -86,6 +86,8 @@ static void xe_dma_buf_unpin(struct dma_buf_attachment *attach)
+>  	xe_bo_unpin_external(bo);
+>  }
+>  
+> +static const struct dma_buf_attach_ops xe_dma_buf_attach_ops;
+> +
+>  static struct sg_table *xe_dma_buf_map(struct dma_buf_attachment *attach,
+>  				       enum dma_data_direction dir)
+>  {
+> @@ -94,12 +96,21 @@ static struct sg_table *xe_dma_buf_map(struct dma_buf_attachment *attach,
+>  	struct xe_bo *bo = gem_to_xe_bo(obj);
+>  	struct sg_table *sgt;
+>  	int r = 0;
+> +	bool iaf = false;
+> +
+> +	if (dir == DMA_NONE) {
+> +		if (attach->importer_ops != &xe_dma_buf_attach_ops)
+> +			return ERR_PTR(-EOPNOTSUPP);
+
+I think this check here is the giveaway that you _really_ want a direct
+function call here, since this only works if both importer and exporter
+exactly agree on what they're doing. Hence xe_iaf_map_attachment.
+
+That also prepares you for a future where other drivers might want to be
+involved in this interconnect special path. And it mirrors the design we
+already have for vfio buffers and their magic uuid. You can also use that
+pattern for handling multiple exporters, see virtio_dma_buf_attach().
+
+> +
+> +		iaf = true;
+> +	}
+>  
+> -	if (!attach->peer2peer && !xe_bo_can_migrate(bo, XE_PL_TT))
+> +	if (!attach->peer2peer && !iaf &&
+> +	    !xe_bo_can_migrate(bo, XE_PL_TT))
+>  		return ERR_PTR(-EOPNOTSUPP);
+>  
+>  	if (!xe_bo_is_pinned(bo)) {
+> -		if (!attach->peer2peer)
+> +		if (!attach->peer2peer && !iaf)
+>  			r = xe_bo_migrate(bo, XE_PL_TT);
+>  		else
+>  			r = xe_bo_validate(bo, NULL, false);
+> @@ -109,6 +120,10 @@ static struct sg_table *xe_dma_buf_map(struct dma_buf_attachment *attach,
+>  
+>  	switch (bo->ttm.resource->mem_type) {
+>  	case XE_PL_TT:
+> +		/* IAF only available for VRAM */
+> +		if (iaf)
+> +			return ERR_PTR(-EOPNOTSUPP);
+> +
+>  		sgt = drm_prime_pages_to_sg(obj->dev,
+>  					    bo->ttm.ttm->pages,
+>  					    bo->ttm.ttm->num_pages);
+> @@ -146,7 +161,8 @@ static void xe_dma_buf_unmap(struct dma_buf_attachment *attach,
+>  			     enum dma_data_direction dir)
+>  {
+>  	if (sg_page(sgt->sgl)) {
+> -		dma_unmap_sgtable(attach->dev, sgt, dir, 0);
+> +		if (dir != DMA_NONE)
+> +			dma_unmap_sgtable(attach->dev, sgt, dir, 0);
+>  		sg_free_table(sgt);
+>  		kfree(sgt);
+>  	} else {
+> @@ -187,6 +203,11 @@ static const struct dma_buf_ops xe_dmabuf_ops = {
+>  	.vunmap = drm_gem_dmabuf_vunmap,
+>  };
+>  
+> +bool is_xe_dma_buf(struct dma_buf *dma_buf)
+> +{
+> +	return dma_buf->ops == &xe_dmabuf_ops;
+> +}
+> +
+>  struct dma_buf *xe_gem_prime_export(struct drm_gem_object *obj, int flags)
+>  {
+>  	struct xe_bo *bo = gem_to_xe_bo(obj);
+> diff --git a/drivers/gpu/drm/xe/xe_dma_buf.h b/drivers/gpu/drm/xe/xe_dma_buf.h
+> index 861dd28a862c7..80d12c624b921 100644
+> --- a/drivers/gpu/drm/xe/xe_dma_buf.h
+> +++ b/drivers/gpu/drm/xe/xe_dma_buf.h
+> @@ -11,5 +11,6 @@
+>  struct dma_buf *xe_gem_prime_export(struct drm_gem_object *obj, int flags);
+>  struct drm_gem_object *xe_gem_prime_import(struct drm_device *dev,
+>  					   struct dma_buf *dma_buf);
+> +bool is_xe_dma_buf(struct dma_buf *dma_buf);
+>  
+>  #endif
+> diff --git a/drivers/gpu/drm/xe/xe_ggtt.c b/drivers/gpu/drm/xe/xe_ggtt.c
+> index b8e1b44452e4d..c6ff18deb9db1 100644
+> --- a/drivers/gpu/drm/xe/xe_ggtt.c
+> +++ b/drivers/gpu/drm/xe/xe_ggtt.c
+> @@ -122,7 +122,9 @@ static u64 xelp_ggtt_pte_flags(struct xe_bo *bo, u16 pat_index)
+>  {
+>  	u64 pte = XE_PAGE_PRESENT;
+>  
+> -	if (xe_bo_is_vram(bo) || xe_bo_is_stolen_devmem(bo))
+> +	if (xe_bo_is_vram(bo) || xe_bo_is_stolen_devmem(bo) ||
+> +	    /* It's likely legal to map IAF to GGTT, but it should be impossible? */
+> +	    drm_WARN_ON(bo->ttm.base.dev, xe_bo_is_iaf(bo)))
+>  		pte |= XE_GGTT_PTE_DM;
+>  
+>  	return pte;
+> diff --git a/drivers/gpu/drm/xe/xe_iaf.c b/drivers/gpu/drm/xe/xe_iaf.c
+> index 431d20fea5369..af2a8d045b593 100644
+> --- a/drivers/gpu/drm/xe/xe_iaf.c
+> +++ b/drivers/gpu/drm/xe/xe_iaf.c
+> @@ -416,3 +416,45 @@ struct query_info *xe_iaf_connectivity_query(struct xe_iaf *iaf, u32 fabric_id)
+>  
+>  	return iaf->ops->connectivity_query(iaf->handle, fabric_id);
+>  }
+> +
+> +bool xe_iaf_fabrics_connected(struct xe_iaf *src, struct xe_iaf *dst)
+> +{
+> +	struct query_info *qi;
+> +	bool connected;
+> +
+> +	if (!src || !dst || !src->ops || !dst->ops)
+> +		return false;
+> +
+> +	qi = xe_iaf_connectivity_query(src, dst->fabric_id);
+> +	if (IS_ERR(qi))
+> +		return false;
+> +
+> +	if (WARN_ON_ONCE(!qi))
+> +		return true;
+> +
+> +	connected = true;
+> +	for (int i = 0, n = qi->src_cnt * qi->dst_cnt; i < n; i++)
+> +		if (!qi->sd2sd[i].bandwidth) {
+> +			connected = false;
+> +			break;
+> +		}
+> +
+> +	kfree(qi);
+> +	return connected;
+> +}
+> +
+> +int xe_iaf_mapping_get(struct xe_iaf *iaf)
+> +{
+> +	if (!iaf || !iaf->ops)
+> +		return -ENODEV;
+> +
+> +	return iaf->ops->parent_event(iaf->handle, IAF_PARENT_MAPPING_GET);
+> +}
+> +
+> +void xe_iaf_mapping_put(struct xe_iaf *iaf)
+> +{
+> +	if (!iaf || !iaf->ops)
+> +		return;
+> +
+> +	iaf->ops->parent_event(iaf->handle, IAF_PARENT_MAPPING_PUT);
+> +}
+> diff --git a/drivers/gpu/drm/xe/xe_iaf.h b/drivers/gpu/drm/xe/xe_iaf.h
+> index df6b8f9f2bc5f..b8e75640e8967 100644
+> --- a/drivers/gpu/drm/xe/xe_iaf.h
+> +++ b/drivers/gpu/drm/xe/xe_iaf.h
+> @@ -38,6 +38,9 @@ int xe_iaf_init(struct xe_device *xe);
+>  int xe_iaf_init_aux(struct xe_device *xe);
+>  u64 xe_iaf_dpa_base(struct xe_device *xe);
+>  struct query_info *xe_iaf_connectivity_query(struct xe_iaf *iaf, u32 fabric_id);
+> +bool xe_iaf_fabrics_connected(struct xe_iaf *src, struct xe_iaf *dst);
+> +int xe_iaf_mapping_get(struct xe_iaf *iaf);
+> +void xe_iaf_mapping_put(struct xe_iaf *iaf);
+>  
+>  #else
+>  
+> @@ -61,6 +64,19 @@ struct query_info *xe_iaf_connectivity_query(struct xe_iaf *iaf, u32 fabric_id)
+>  	return ERR_PTR(-ENODEV);
+>  }
+>  
+> +static inline int xe_iaf_mapping_get(struct xe_iaf *iaf)
+> +{
+> +	return -ENODEV;
+> +}
+> +
+> +static inline void xe_iaf_mapping_put(struct xe_iaf *iaf)
+> +{}
+> +
+> +static inline bool xe_iaf_fabrics_connected(struct xe_iaf *src, struct xe_iaf *dst)
+> +{
+> +	return false;
+> +}
+> +
+>  #endif
+>  
+>  #endif
+> diff --git a/drivers/gpu/drm/xe/xe_pt.c b/drivers/gpu/drm/xe/xe_pt.c
+> index f39d5cc9f411e..2231882b2bc45 100644
+> --- a/drivers/gpu/drm/xe/xe_pt.c
+> +++ b/drivers/gpu/drm/xe/xe_pt.c
+> @@ -764,6 +764,10 @@ xe_pt_stage_bind(struct xe_tile *tile, struct xe_vma *vma,
+>  		else
+>  			xe_res_first_sg(xe_bo_sg(bo), xe_vma_bo_offset(vma),
+>  					xe_vma_size(vma), &curs);
+> +
+> +		/* When IAF is used, the bo requires the DM flag */
+> +		if (xe_bo_is_iaf(bo))
+> +			curs.mem_type = XE_PL_VRAM0;
+>  	} else if (!range) {
+>  		curs.size = xe_vma_size(vma);
+>  	}
+> diff --git a/drivers/gpu/drm/xe/xe_ttm_vram_mgr.c b/drivers/gpu/drm/xe/xe_ttm_vram_mgr.c
+> index 9e375a40aee90..94a572693e139 100644
+> --- a/drivers/gpu/drm/xe/xe_ttm_vram_mgr.c
+> +++ b/drivers/gpu/drm/xe/xe_ttm_vram_mgr.c
+> @@ -396,11 +396,16 @@ int xe_ttm_vram_mgr_alloc_sgt(struct xe_device *xe,
+>  		size_t size = min_t(u64, cursor.size, SZ_2G);
+>  		dma_addr_t addr;
+>  
+> -		addr = dma_map_resource(dev, phys, size, dir,
+> -					DMA_ATTR_SKIP_CPU_SYNC);
+> -		r = dma_mapping_error(dev, addr);
+> -		if (r)
+> -			goto error_unmap;
+> +		if (valid_dma_direction(dir)) {
+
+I guess you want additional flags or an XE_DMA_MODE enum with a special
+XE_XIAF flag instead of abusing DMA_NONE in a pile of places.
+
+> +			addr = dma_map_resource(dev, phys, size, dir,
+> +						DMA_ATTR_SKIP_CPU_SYNC);
+> +			r = dma_mapping_error(dev, addr);
+> +			if (r)
+> +				goto error_unmap;
+> +		} else {
+> +			/* Only want the SG table for fabric */
+> +			addr = cursor.start + tile->mem.vram.dpa_base;
+
+I guess we do have the discussion of whether it's really ok to stuff this
+into an sg table or not. But for lack of better options I think this is
+all fine, but please make sure xe_iaf_map_attachment has it all properly
+documented - especially if/once that gets exported to other drivers.
+
+Cheers, Sima
+
+> +		}
+>  
+>  		sg_set_page(sg, NULL, size, 0);
+>  		sg_dma_address(sg) = addr;
+> @@ -413,7 +418,7 @@ int xe_ttm_vram_mgr_alloc_sgt(struct xe_device *xe,
+>  
+>  error_unmap:
+>  	for_each_sgtable_sg((*sgt), sg, i) {
+> -		if (!sg->length)
+> +		if (!sg->length || !valid_dma_direction(dir))
+>  			continue;
+>  
+>  		dma_unmap_resource(dev, sg->dma_address,
+> @@ -433,10 +438,14 @@ void xe_ttm_vram_mgr_free_sgt(struct device *dev, enum dma_data_direction dir,
+>  	struct scatterlist *sg;
+>  	int i;
+>  
+> -	for_each_sgtable_sg(sgt, sg, i)
+> +	for_each_sgtable_sg(sgt, sg, i) {
+> +		if (!valid_dma_direction(dir))
+> +			continue;
+> +
+>  		dma_unmap_resource(dev, sg->dma_address,
+>  				   sg->length, dir,
+>  				   DMA_ATTR_SKIP_CPU_SYNC);
+> +	}
+>  	sg_free_table(sgt);
+>  	kfree(sgt);
+>  }
+> diff --git a/drivers/gpu/drm/xe/xe_vm.c b/drivers/gpu/drm/xe/xe_vm.c
+> index 18f967ce1f1a6..f3dd38c95deb5 100644
+> --- a/drivers/gpu/drm/xe/xe_vm.c
+> +++ b/drivers/gpu/drm/xe/xe_vm.c
+> @@ -1534,7 +1534,7 @@ static u64 xelp_pte_encode_bo(struct xe_bo *bo, u64 bo_offset,
+>  	pte |= pte_encode_pat_index(pat_index, pt_level);
+>  	pte |= pte_encode_ps(pt_level);
+>  
+> -	if (xe_bo_is_vram(bo) || xe_bo_is_stolen_devmem(bo))
+> +	if (xe_bo_is_vram(bo) || xe_bo_is_stolen_devmem(bo) || xe_bo_is_iaf(bo))
+>  		pte |= XE_PPGTT_PTE_DM;
+>  
+>  	return pte;
+> -- 
+> 2.45.2
+> 
+
+-- 
+Simona Vetter
+Software Engineer, Intel Corporation
+http://blog.ffwll.ch
