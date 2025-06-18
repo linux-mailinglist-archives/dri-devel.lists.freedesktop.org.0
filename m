@@ -2,57 +2,56 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 16AA4ADE30F
-	for <lists+dri-devel@lfdr.de>; Wed, 18 Jun 2025 07:32:00 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0FCD1ADE314
+	for <lists+dri-devel@lfdr.de>; Wed, 18 Jun 2025 07:36:39 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 605A910E19A;
-	Wed, 18 Jun 2025 05:31:57 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6EFCB10E2D3;
+	Wed, 18 Jun 2025 05:36:37 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="ehb/1alr";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="gh+aWsKr";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.16])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A604D10E2A3
- for <dri-devel@lists.freedesktop.org>; Wed, 18 Jun 2025 05:31:55 +0000 (UTC)
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id BCEE810E35E
+ for <dri-devel@lists.freedesktop.org>; Wed, 18 Jun 2025 05:36:28 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1750224716; x=1781760716;
+ t=1750224989; x=1781760989;
  h=from:to:cc:subject:date:message-id:mime-version:
  content-transfer-encoding;
- bh=/FgyepksKQamByFxIQwQQroYIx5NJmNPynT6uogUlQQ=;
- b=ehb/1alroRCbOVSQUSfYQdr5nN/P//U6aLLAhn5cVQ2jOM66Vqs6fuN1
- MKiUtMmawrGYrckGnBPgBAINbO33fAM2tm3CyKbcJRaTjR9WMP/6OGeOC
- uBzqzLQKGTM5T0LfwuAnh7xjySrQL0F0SkOlaz7lWpvFr7xPU25lujZum
- qv7XJzOlUtxZglHTfU7HJvEPuCPKqXIl8dpZ2FJdsUGxxjq8+CQz4ZIRt
- X7i9vDZmZP/Gs32lfpyKMV0rfRO9vla8b/LHtSBMyRbU3cIJc6c+PXnZi
- zb0jUMW+nsX7r60C5LXYsqEBRsLjVFXYxjaK2WXot5/V5igHMvjH6oOJG A==;
-X-CSE-ConnectionGUID: 66fk3JiEQ5OqZUCjq+urCA==
-X-CSE-MsgGUID: nTD/RmuWT1ycyBOUTGtb8g==
-X-IronPort-AV: E=McAfee;i="6800,10657,11467"; a="52512888"
-X-IronPort-AV: E=Sophos;i="6.16,245,1744095600"; d="scan'208";a="52512888"
-Received: from fmviesa006.fm.intel.com ([10.60.135.146])
- by orvoesa108.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 17 Jun 2025 22:31:56 -0700
-X-CSE-ConnectionGUID: HbXvy4m2QOSEuf3ehwZW7g==
-X-CSE-MsgGUID: JwTJlabjQQeP5UfsDcw9Gw==
+ bh=m88kqVNqnnDUVjj5Atyst3lKGSUQZUmWCqaEkDepKE8=;
+ b=gh+aWsKrV+VJwl1vCbaLnGpW0CuE4mPCHZU0hHNkV+tpGjDHCQUTGjbO
+ Y/8CrsDr1jpPDlP0xZIgRXmzToD9AIKPxDOMRBTfCX4W0i38w6pRbN7q8
+ 0AEAb/4RXV3QFhgUAamkPJzWNXjECQ5cKgjLH9DJnfyKBRRZz0GoFNgju
+ slcpDTqUy/+H0IzZFI0lWohOPv6XEsNKezR0JXaLBCeUxWfhKecZ0JhLQ
+ bJwjxNQlwVGXrCZJcTbutY/JFHqmhXxqDobkulkTiEiiSaFTbVNGO5IHm
+ YycdxPaehVDZXUSu1/3GXysyidlH6q6OYIbkzu4bQ2ZW2n2lDoLI0EORZ g==;
+X-CSE-ConnectionGUID: SPCiD/9VQUGEigsk6o4g6A==
+X-CSE-MsgGUID: C+MxzlVlRg6kXKEFrVLyQg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11467"; a="74960304"
+X-IronPort-AV: E=Sophos;i="6.16,245,1744095600"; d="scan'208";a="74960304"
+Received: from fmviesa007.fm.intel.com ([10.60.135.147])
+ by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 17 Jun 2025 22:36:29 -0700
+X-CSE-ConnectionGUID: 9a50KhduROytwV1Bgs2gfA==
+X-CSE-MsgGUID: MAcqMJLQTcKDhgCVTIlClQ==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.16,245,1744095600"; d="scan'208";a="149206283"
+X-IronPort-AV: E=Sophos;i="6.16,245,1744095600"; d="scan'208";a="149052928"
 Received: from vkasired-desk2.fm.intel.com ([10.105.128.132])
- by fmviesa006-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 17 Jun 2025 22:31:55 -0700
+ by fmviesa007-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 17 Jun 2025 22:36:27 -0700
 From: Vivek Kasireddy <vivek.kasireddy@intel.com>
 To: dri-devel@lists.freedesktop.org,
 	linux-mm@kvack.org
 Cc: Vivek Kasireddy <vivek.kasireddy@intel.com>,
- syzbot+a504cb5bae4fe117ba94@syzkaller.appspotmail.com,
+ Gerd Hoffmann <kraxel@redhat.com>,
  Steve Sistare <steven.sistare@oracle.com>,
  Muchun Song <muchun.song@linux.dev>, David Hildenbrand <david@redhat.com>,
  Andrew Morton <akpm@linux-foundation.org>
-Subject: [PATCH] mm/hugetlb: Don't crash when allocating a folio if there are
- no resv
-Date: Tue, 17 Jun 2025 22:28:40 -0700
-Message-ID: <20250618052840.1036164-1-vivek.kasireddy@intel.com>
+Subject: [PATCH v4 0/3] mm/memfd: Reserve hugetlb folios before allocation
+Date: Tue, 17 Jun 2025 22:30:52 -0700
+Message-ID: <20250618053415.1036185-1-vivek.kasireddy@intel.com>
 X-Mailer: git-send-email 2.49.0
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
@@ -73,88 +72,64 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 There are cases when we try to pin a folio but discover that it has
 not been faulted-in. So, we try to allocate it in memfd_alloc_folio()
-but there is a chance that we might encounter a fatal crash/failure
-(VM_BUG_ON(!h->resv_huge_pages) in alloc_hugetlb_folio_reserve()) if
-there are no active reservations at that instant. This issue was
-reported by syzbot:
+but the allocation request may not succeed if there are no active
+reservations in the system at that instant.
 
-kernel BUG at mm/hugetlb.c:2403!
-Oops: invalid opcode: 0000 [#1] PREEMPT SMP KASAN NOPTI
-CPU: 0 UID: 0 PID: 5315 Comm: syz.0.0 Not tainted
-6.13.0-rc5-syzkaller-00161-g63676eefb7a0 #0
-Hardware name: QEMU Standard PC (Q35 + ICH9, 2009), BIOS
-1.16.3-debian-1.16.3-2~bpo12+1 04/01/2014
-RIP: 0010:alloc_hugetlb_folio_reserve+0xbc/0xc0 mm/hugetlb.c:2403
-Code: 1f eb 05 e8 56 18 a0 ff 48 c7 c7 40 56 61 8e e8 ba 21 cc 09 4c 89
-f0 5b 41 5c 41 5e 41 5f 5d c3 cc cc cc cc e8 35 18 a0 ff 90 <0f> 0b 66
-90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 f3 0f
-RSP: 0018:ffffc9000d3d77f8 EFLAGS: 00010087
-RAX: ffffffff81ff6beb RBX: 0000000000000000 RCX: 0000000000100000
-RDX: ffffc9000e51a000 RSI: 00000000000003ec RDI: 00000000000003ed
-RBP: 1ffffffff34810d9 R08: ffffffff81ff6ba3 R09: 1ffffd4000093005
-R10: dffffc0000000000 R11: fffff94000093006 R12: dffffc0000000000
-R13: dffffc0000000000 R14: ffffea0000498000 R15: ffffffff9a4086c8
-FS:  00007f77ac12e6c0(0000) GS:ffff88801fc00000(0000)
-knlGS:0000000000000000
-CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
-CR2: 00007f77ab54b170 CR3: 0000000040b70000 CR4: 0000000000352ef0
-DR0: 0000000000000000 DR1: 0000000000000000 DR2: 0000000000000000
-DR3: 0000000000000000 DR6: 00000000fffe0ff0 DR7: 0000000000000400
-Call Trace:
- <TASK>
- memfd_alloc_folio+0x1bd/0x370 mm/memfd.c:88
- memfd_pin_folios+0xf10/0x1570 mm/gup.c:3750
- udmabuf_pin_folios drivers/dma-buf/udmabuf.c:346 [inline]
- udmabuf_create+0x70e/0x10c0 drivers/dma-buf/udmabuf.c:443
- udmabuf_ioctl_create drivers/dma-buf/udmabuf.c:495 [inline]
- udmabuf_ioctl+0x301/0x4e0 drivers/dma-buf/udmabuf.c:526
- vfs_ioctl fs/ioctl.c:51 [inline]
- __do_sys_ioctl fs/ioctl.c:906 [inline]
- __se_sys_ioctl+0xf5/0x170 fs/ioctl.c:892
- do_syscall_x64 arch/x86/entry/common.c:52 [inline]
- do_syscall_64+0xf3/0x230 arch/x86/entry/common.c:83
- entry_SYSCALL_64_after_hwframe+0x77/0x7f
+Therefore, making a reservation (by calling hugetlb_reserve_pages())
+associated with the allocation will ensure that our request would
+not fail due to lack of reservations. This will also ensure that
+proper region/subpool accounting is done with our allocation.
 
-Therefore, prevent the above crash by replacing the VM_BUG_ON()
-with WARN_ON_ONCE() as there is no need to crash the system in
-this situation and instead we could just warn and fail the
-allocation.
+-----------------------------
 
-Fixes: 26a8ea80929c ("mm/hugetlb: fix memfd_pin_folios resv_huge_pages leak")
-Reported-by: syzbot+a504cb5bae4fe117ba94@syzkaller.appspotmail.com
-Closes: https://syzkaller.appspot.com/bug?extid=a504cb5bae4fe117ba94
+Patchset overview:
+
+Patch 1: Return nr of updated entries from hugetlb_reserve_pages()
+Patch 2: Make reservation (hugetlb_reserve_pages) in memfd_alloc_folio()
+Patch 3: New udmabuf selftest to invoke memfd_alloc_folio()
+
+This series is tested by running the new udmabuf selftest introduced
+in patch #3 along with the other selftests.
+
+Changelog:
+v3 -> v4:
+- Create a standalone patch to fix the BUG reported by syzbot that
+  can be backported to stable kernels (Andrew)
+- Split the changes in memfd_alloc_folio() that add a call to
+  hugetlb_reserve_pages() into a separate patch
+
+v2 -> v3:
+- Call hugetlb_unreserve_pages() only if the reservation was actively
+  (and successfully) made from memfd_alloc_folio() (David)
+
+v1 -> v2:
+- Replace VM_BUG_ON() with WARN_ON_ONCE() in the function
+  alloc_hugetlb_folio_reserve() (David)
+- Move the inline function subpool_inode() from hugetlb.c into the
+  relevant header (hugetlb.h)
+- Call hugetlb_unreserve_pages() if the folio cannot be added to
+  the page cache as well
+- Added a new udmabuf selftest to exercise the same path as that
+  of syzbot
+
+Cc: Gerd Hoffmann <kraxel@redhat.com>
 Cc: Steve Sistare <steven.sistare@oracle.com>
 Cc: Muchun Song <muchun.song@linux.dev>
 Cc: David Hildenbrand <david@redhat.com>
 Cc: Andrew Morton <akpm@linux-foundation.org>
-Signed-off-by: Vivek Kasireddy <vivek.kasireddy@intel.com>
----
- mm/hugetlb.c | 9 ++++++---
- 1 file changed, 6 insertions(+), 3 deletions(-)
 
-diff --git a/mm/hugetlb.c b/mm/hugetlb.c
-index 8746ed2fec13..f74c54ecf955 100644
---- a/mm/hugetlb.c
-+++ b/mm/hugetlb.c
-@@ -2340,12 +2340,15 @@ struct folio *alloc_hugetlb_folio_reserve(struct hstate *h, int preferred_nid,
- 	struct folio *folio;
- 
- 	spin_lock_irq(&hugetlb_lock);
-+	if (WARN_ON_ONCE(!h->resv_huge_pages)) {
-+		spin_unlock_irq(&hugetlb_lock);
-+		return NULL;
-+	}
-+
- 	folio = dequeue_hugetlb_folio_nodemask(h, gfp_mask, preferred_nid,
- 					       nmask);
--	if (folio) {
--		VM_BUG_ON(!h->resv_huge_pages);
-+	if (folio)
- 		h->resv_huge_pages--;
--	}
- 
- 	spin_unlock_irq(&hugetlb_lock);
- 	return folio;
+Vivek Kasireddy (3):
+  mm/hugetlb: Make hugetlb_reserve_pages() return nr of entries updated
+  mm/memfd: Reserve hugetlb folios before allocation
+  selftests/udmabuf: Add a test to pin first before writing to memfd
+
+ fs/hugetlbfs/inode.c                          |  8 +++----
+ include/linux/hugetlb.h                       |  7 +++++-
+ mm/hugetlb.c                                  | 24 ++++++++++---------
+ mm/memfd.c                                    | 17 ++++++++++---
+ .../selftests/drivers/dma-buf/udmabuf.c       | 20 +++++++++++++++-
+ 5 files changed, 56 insertions(+), 20 deletions(-)
+
 -- 
 2.49.0
 
