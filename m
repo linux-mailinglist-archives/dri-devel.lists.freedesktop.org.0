@@ -2,188 +2,125 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 351D8ADF854
-	for <lists+dri-devel@lfdr.de>; Wed, 18 Jun 2025 23:05:26 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 15A1EADF869
+	for <lists+dri-devel@lfdr.de>; Wed, 18 Jun 2025 23:09:06 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 946D810E4CC;
-	Wed, 18 Jun 2025 21:05:24 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C226F10E942;
+	Wed, 18 Jun 2025 21:09:02 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="TxgMQx4l";
+	dkim=pass (2048-bit key; unprotected) header.d=qualcomm.com header.i=@qualcomm.com header.b="FQSxftuI";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.15])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9C18510E4CC;
- Wed, 18 Jun 2025 21:05:23 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1750280724; x=1781816724;
- h=message-id:date:subject:to:cc:references:from:
- in-reply-to:content-transfer-encoding:mime-version;
- bh=Xp5MaqtbmQWsCTw6+rJZmPI0T4+mcXXG+8QB+KPyDoI=;
- b=TxgMQx4lyEwPl6SWyFI6jnqAANurNKb7wE0gYZxx0vF4wMGdurLMvZL6
- TsDeAdMOnCx7pO+d36Kiy7JqSahf2/1tKswCYEXK8rUwlA5P5V0jqdlfy
- +iZbwcjC1cU54avY58bBXM7a8bSHJSZ18QO0p13/yYzJr/e0AEqB6osOD
- oYTM9GNul6xj7CxGDDmoUw5A/H8ob6rgSEUe8Qugoqc0yCnD22MrekXGD
- AeVxSU/blk+/pWlEofof73iZMnsxjwqTnY5K/Jz4yslX06ucYk1gfBAeI
- HsiiQxc1p+XQmDjgBDoPo0rwFV12e1x/OyUtm4OFSUbCsb8kkoJ3Uw1if g==;
-X-CSE-ConnectionGUID: ei7ZPDsBSIaey83lvRN7GA==
-X-CSE-MsgGUID: +moX2rh7QTC7qYJ62EgOtQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11468"; a="52668617"
-X-IronPort-AV: E=Sophos;i="6.16,246,1744095600"; d="scan'208";a="52668617"
-Received: from fmviesa005.fm.intel.com ([10.60.135.145])
- by fmvoesa109.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 18 Jun 2025 14:05:23 -0700
-X-CSE-ConnectionGUID: vY2Ej+diQnGYHH8nC5cqUw==
-X-CSE-MsgGUID: Lrep3UjcSl20PGlMtZCk0Q==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.16,246,1744095600"; d="scan'208";a="154554303"
-Received: from orsmsx901.amr.corp.intel.com ([10.22.229.23])
- by fmviesa005.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 18 Jun 2025 14:05:23 -0700
-Received: from ORSMSX902.amr.corp.intel.com (10.22.229.24) by
- ORSMSX901.amr.corp.intel.com (10.22.229.23) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.1544.25; Wed, 18 Jun 2025 14:05:22 -0700
-Received: from ORSEDG901.ED.cps.intel.com (10.7.248.11) by
- ORSMSX902.amr.corp.intel.com (10.22.229.24) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.1544.25 via Frontend Transport; Wed, 18 Jun 2025 14:05:22 -0700
-Received: from NAM10-DM6-obe.outbound.protection.outlook.com (40.107.93.46) by
- edgegateway.intel.com (134.134.137.111) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.1544.25; Wed, 18 Jun 2025 14:05:22 -0700
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=gR47qFN2fJUN95+h/+nQpePKwpILjFnhRRQcDwBRThCr5ARgXbOrWEvmDaFwFa68KqH6xyTp476oBBiLyFa9107ol0BeZH5vaFvN9D5RKU+KxQmu09QC1sfvTKJuNacHYVxFmDpWaTfENcIDvEMafcFKTX8v+UzTZ2N/7RDzd2HH22EU8RMSto4o9IPAU6wKRV5ql0uitceOFgxH2MBb6vqN5bIA3Y2o5pQ3WkGm/w1dBl18k73sOhIbRxFJzbKtxWsUvTlrkISH1TqOhLY7nyGvNJ3Ta6VIHH0fEsmexqd66+2a9EqhWaQrDu4GdAugA9g8SCkXQeHXbm2SAjHMbw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=yD+a6b/y7yvwfldGjfZYQGlqwS2bO6BuIaqVmgTkAgw=;
- b=dYETXOD+E0HRXDEN7gYcaQ5NHx9Y1ETlqD0GemnHVF1/ecvSD7DmhpjlOQVfeHkJBlZJAOYVp34/PeUutVkNOhztQWjQec3UhTnrNFmcqkEBvsLtcF/p76Jj8YQUrPOjBnsY2h8/xbwFJ1mOWE17n4RgS/LeZy6nAGmblF+BZyiwhCkLlqmtvAPjCZIzkVGVcC9zvw2kWMZ8RgZ1FmlOtHDQL/BmM/Y1WxK08HVWLNZl27o9yU56PrdXJtMnmK0RtG7rZ/+0Yk+UsDC+BD+6I/T07WdtdqbXS/65wdI8xoYSnGuDBKWpd9wve9+GcZL1PztqYo8Ugr3XcjOVWFvRKg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
- dkim=pass header.d=intel.com; arc=none
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=intel.com;
-Received: from PH7PR11MB7605.namprd11.prod.outlook.com (2603:10b6:510:277::5)
- by DS0PR11MB7903.namprd11.prod.outlook.com (2603:10b6:8:f7::10) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8835.28; Wed, 18 Jun
- 2025 21:05:07 +0000
-Received: from PH7PR11MB7605.namprd11.prod.outlook.com
- ([fe80::d720:25db:67bb:6f50]) by PH7PR11MB7605.namprd11.prod.outlook.com
- ([fe80::d720:25db:67bb:6f50%4]) with mapi id 15.20.8835.027; Wed, 18 Jun 2025
- 21:05:06 +0000
-Message-ID: <2c4f410a-3abd-4abc-84c8-13e7e3b40a73@intel.com>
-Date: Wed, 18 Jun 2025 14:05:05 -0700
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v3 06/10] drm/xe/xe_late_bind_fw: Reload late binding fw
- in rpm resume
-To: Badal Nilawar <badal.nilawar@intel.com>, <intel-xe@lists.freedesktop.org>, 
- <dri-devel@lists.freedesktop.org>, <linux-kernel@vger.kernel.org>
-CC: <anshuman.gupta@intel.com>, <rodrigo.vivi@intel.com>,
- <alexander.usyskin@intel.com>, <gregkh@linuxfoundation.org>, <jgg@nvidia.com>
-References: <20250618190007.2932322-1-badal.nilawar@intel.com>
- <20250618190007.2932322-7-badal.nilawar@intel.com>
-Content-Language: en-US
-From: Daniele Ceraolo Spurio <daniele.ceraolospurio@intel.com>
-In-Reply-To: <20250618190007.2932322-7-badal.nilawar@intel.com>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: SJ0PR03CA0219.namprd03.prod.outlook.com
- (2603:10b6:a03:39f::14) To PH7PR11MB7605.namprd11.prod.outlook.com
- (2603:10b6:510:277::5)
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com
+ [205.220.180.131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2B35010E942
+ for <dri-devel@lists.freedesktop.org>; Wed, 18 Jun 2025 21:08:54 +0000 (UTC)
+Received: from pps.filterd (m0279868.ppops.net [127.0.0.1])
+ by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 55IIufnV002594
+ for <dri-devel@lists.freedesktop.org>; Wed, 18 Jun 2025 21:08:50 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
+ cc:content-transfer-encoding:content-type:date:from:in-reply-to
+ :message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
+ oZZgfZpn0e87Lod9geC1UWJI/T0Tg96q19feXlWFtc0=; b=FQSxftuIXchxNov9
+ BGwc8DyI9eKhLzN2dYFMiANHlbCHHRcm4bGYzr5U0wfCp70SYKKNCzaSF/uphfdQ
+ waHw4sVK5KJVdtVqpaJFvj9SvuBUqel4lihnHBI97nEn6nlWthZSA7zki6AdZrXg
+ t90ygYi+SquAPRvM8tuS3u+LW4hQY+7M4/szcXH1ENf8vGDkf1fZrdXPVO3ZXRmh
+ 243R+TJFji1oobZ1TY1P4EeZK1oMOtf+Qrnn7Tbe9mBGlV39cTK7oMK6s05Dd3oU
+ FNsfeEyfMRw771kxO6iqUME9feutMTHm5Re/Mv4PxQhKPTvqTVZDipGrBwcsYU2i
+ 7zalVA==
+Received: from mail-qk1-f198.google.com (mail-qk1-f198.google.com
+ [209.85.222.198])
+ by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 47ag239myx-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
+ for <dri-devel@lists.freedesktop.org>; Wed, 18 Jun 2025 21:08:50 +0000 (GMT)
+Received: by mail-qk1-f198.google.com with SMTP id
+ af79cd13be357-7ceb5b5140eso17734485a.2
+ for <dri-devel@lists.freedesktop.org>; Wed, 18 Jun 2025 14:08:50 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1750280928; x=1750885728;
+ h=in-reply-to:content-transfer-encoding:content-disposition
+ :mime-version:references:message-id:subject:cc:to:from:date
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=oZZgfZpn0e87Lod9geC1UWJI/T0Tg96q19feXlWFtc0=;
+ b=j9Fo3FEQ0Gnd9g+J+TccKiKvxYagm/E+3qW2urxY58zRK2++OzE52dsqsONOc6aUFL
+ BfxZP3/7wKhr49zH+TSaGVheCRYGOQIrG56coxrIZeozHB+Cpe/lkqLv/Gn5cRHAjYUZ
+ YefyzH26ELUfKuRCtN9OB38MiOUpxGz6jaQJ8BCo3opWr5nNbE5qH+E6Y3bZK/BWO8HO
+ IcyJ8dC5hX4UGeeaZUi1SLuELZaiOf/Sn8hhitR/68sqxRTx+0CriQpN9L9Y/JbCLB4Z
+ fuSLmQVSdqOHccul5pL9HH9grVbUbXEPoeNoq0LgTknHoBBuszVaDGhOQNB5EDI7gVtZ
+ 3e4Q==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCVNOLLKUqIChextEmFWmhrrfDeuS/LwaY9DjpVBTiTLdIBw908gY7AS1pklZ1lofJBjmGr/cz+0egY=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0Yw62O8174fq23n4Aobew2MbHvb5da1bECRVIwx2na6RVKBVR7gK
+ /zl0uazQj/L1W1HLVnK6e530VDZZejeegdU8gZxVljwbGdFLhLVJLjyqLUu7M/Uc0V/kUg7RXVn
+ 202/YphAAYo2zomfar6fNtr3PfTRK96ZP0jv7Lghl5d039JKMBoMr4I7a/D3x9w/Dc+R5t1k=
+X-Gm-Gg: ASbGncvYhaARY3f7AgM7qZIh4Tlk5oafcA3NwMpYOHvEhs7UcgUHoVd9VByLpxnqprO
+ Jg7ciSm1W6VPcb2LImHpjX48cU6RefLJzWMZKZpQNYOZaHLSNjsQ6XsVl9DZqHEIa1p0k0kJ2tb
+ DpqtWcyu2kdmLRk03YJjYXNkUkaIfaZuN8+MTd4fb4lHOxoUX69DV//qXc8cUyxNeIhOiIdKbsd
+ YsdvESVp6GParjH7nVtjMUf/tSWzN150Ba4JhQO8gdxP4wrM3LWm/1ZdGi1Qz7McrrRxd2/uUu+
+ jH5pOPzaQOt6F4BaNPYIcEugBzDK1aXPnGar0cqDjLuKIgqq+Hq39WguA6Bii0dI+KSEhbERQjq
+ Er0lxkJK3Hv5q6sP1oZH0nz8RsoyZliB8Drs=
+X-Received: by 2002:a05:620a:44c3:b0:7d2:25df:8127 with SMTP id
+ af79cd13be357-7d3c6c0c812mr2722650085a.3.1750280927764; 
+ Wed, 18 Jun 2025 14:08:47 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IF9/yWYHoYaBzzZfCfai+E+Ab4AeWWLpR9EfmwBRPMg36MSAuxZVVX7d9IxCZVdlBAf8T4vxw==
+X-Received: by 2002:a05:620a:44c3:b0:7d2:25df:8127 with SMTP id
+ af79cd13be357-7d3c6c0c812mr2722645485a.3.1750280927217; 
+ Wed, 18 Jun 2025 14:08:47 -0700 (PDT)
+Received: from umbar.lan
+ (2001-14ba-a0c3-3a00-264b-feff-fe8b-be8a.rev.dnainternet.fi.
+ [2001:14ba:a0c3:3a00:264b:feff:fe8b:be8a])
+ by smtp.gmail.com with ESMTPSA id
+ 2adb3069b0e04-553ac134e8esm2361698e87.56.2025.06.18.14.08.44
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 18 Jun 2025 14:08:45 -0700 (PDT)
+Date: Thu, 19 Jun 2025 00:08:43 +0300
+From: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
+To: Ling Xu <quic_lxu5@quicinc.com>
+Cc: Srinivas Kandagatla <srinivas.kandagatla@linaro.org>, andersson@kernel.org,
+ konradybcio@kernel.org, robh@kernel.org, krzk+dt@kernel.org,
+ conor+dt@kernel.org, amahesh@qti.qualcomm.com, arnd@arndb.de,
+ gregkh@linuxfoundation.org, quic_kuiw@quicinc.com,
+ quic_ekangupt@quicinc.com, linux-arm-msm@vger.kernel.org,
+ devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org
+Subject: Re: [PATCH v2 2/3] misc: fastrpc: add support for gpdsp remoteproc
+Message-ID: <i6uwqhso4h4vih6fnvnb72byvvmftd4bca3llahlxhnvafnjp2@kxktdrna6qmc>
+References: <20250320091446.3647918-1-quic_lxu5@quicinc.com>
+ <20250320091446.3647918-3-quic_lxu5@quicinc.com>
+ <30bba296-8e6f-41ee-880e-2d5ecc8fe5a4@linaro.org>
+ <e2a8528b-fa18-471f-9cb8-da64bb488f2a@quicinc.com>
+ <07bfc5f3-1bcb-4018-bd63-8317ec6dac48@linaro.org>
+ <5f70a482-6e61-4817-afdb-d5db4747897a@quicinc.com>
+ <36464d9c-9bbb-488e-85c0-7e5318a16bf8@quicinc.com>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: PH7PR11MB7605:EE_|DS0PR11MB7903:EE_
-X-MS-Office365-Filtering-Correlation-Id: f63ada2f-b627-4c35-56d2-08ddaeabcd30
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;ARA:13230040|366016|376014|1800799024;
-X-Microsoft-Antispam-Message-Info: =?utf-8?B?TnFQazZGSTBjS1IzTjVWTFVWeHovOGRoUy9wU1Y1eExON0dPNEdUVW94VEVu?=
- =?utf-8?B?d2RETDlUcjRzTjA0Rm5MdUZiTDRqd2ZCYXZmZ1lDYmduZkxsRldNQnZqSHZ5?=
- =?utf-8?B?VW5TS3ExUGNUQURxTzNWS1lmTUJiZmZZSU1nUWVRL2hNZitJZWdubS8zTTVx?=
- =?utf-8?B?REY5bmNaY1ZyNER2SGEwWFJ0b2dNTXg0YlN4a2pHOWhUSU5zckdwbFdZa3Mx?=
- =?utf-8?B?RXFyRTFVMVJXZWt1dGdpVE9MSVpidmV0bU1MZFhONG5MSjdjaVVhZXJ0RHBR?=
- =?utf-8?B?WGxuK01VNmNzd2h3cWhoVzhlaHMwa0E1cW03WUk2SjNIMzlYb1A2WU11OWFO?=
- =?utf-8?B?Y1FtMVl6bU8vODEyTEMzbmM2U2JwbzlmWlgyMFFyR1J6Z1BsTzhBOXZoR2tL?=
- =?utf-8?B?NHNmM2J3ckpwd0d4QTFwcXlwT3UvclJzbjYzYnNGb1ZUV21yWUNBbWFqOXpl?=
- =?utf-8?B?aXhHdTFtUXJvdUE5VUNndGJiTHo3VkxrT3l3Z2RQdUNaNHNVUjdRem5STllC?=
- =?utf-8?B?OHNPR0VwdVNPM0xqK3BCamE4eVRnSVRVNVB0bFgwWDNIZlRyYWpFYkNQUUxh?=
- =?utf-8?B?cEtnZnlRTEh3TUFyN1RBMkdhTnZPZWpCL1lqSWF3bTlWcDNNaFhnTzF2RnAz?=
- =?utf-8?B?bm0zYWxVeG1CZzE4bmVubVhEdVlWZER2MWYrNkVacFBmYkxZWGhGcHFIZk9E?=
- =?utf-8?B?bmhwWWFKNHFrbGpPSWtBT0EwK1F5S1AvWlZicHljZU9CQzFnL2VzN3VOY3lz?=
- =?utf-8?B?L1V0cEVyV0pCN0F3SmRnQ21NSmRjRmprVDhrUnQ3U09Ubk5FeDFHU3cra2Ft?=
- =?utf-8?B?dmVKNHBhNDd0MEtyZHRNelZkRUNnK1QxbW1lRUFwb3NIL2kyUFNBZU1Hdng0?=
- =?utf-8?B?aGpNR0NxNjlKSE1hOStiRTQ1RTB4OGw3NGd3aVkzWVA4bVpwamJGZldUSEQ0?=
- =?utf-8?B?UFVOUEo4d09wam9XaU4wcEtNTzNub2N0MFczLzgxcEVMZHRIc3VHeFhnZGtu?=
- =?utf-8?B?MkdnbzU0ZEFCZEJMU1pkRzZhK3QzOW1aRmhINnhxRFpJeXkwUU00SUwvcEJt?=
- =?utf-8?B?ZWlwSHp0MGhzTFh4TjRlVEJwVGFXYWFwaEJGbjBqQ1FnUWJyeW1qWGYyZkQy?=
- =?utf-8?B?TDFjRGpOOUxpSUJvYk5NWlp2Um9zK0I4bmxyMGdsbEwzUGw0TFhqZG42V2l2?=
- =?utf-8?B?MitZVUhqYXB1WUsraHZzamExZTFrUVBUblJST1E1Zmlha1JISU5obTlJRGIz?=
- =?utf-8?B?M3lqaWkrUTVDcno3NUNpcnhheEVuL1VGakJvQVZXL2k0UER0aDY2Rnp1TmlG?=
- =?utf-8?B?bDRlbG9RbjBoNXI5VFF0MmtvcDRtcktKb3diVEcyeHNkZnd6UFhlK2swMHJl?=
- =?utf-8?B?Rm1PLzB2R1VPWllQYml0YjI4dlp2SUpMazNyekxYT3Mza1ZUaFBMbDZ0bld2?=
- =?utf-8?B?YnVSR1d0akd0dHl0RjBhYTVlQmU2TlBuWnRCd3hDUk1uN0E3RXN1cG5sYnRh?=
- =?utf-8?B?anRjWi9CK3VIZklNZzd3ck5zOFdvU3lMMEgzKzlmUktpSC9wcE10Z2VCYzVJ?=
- =?utf-8?B?bFpsbEFFdVdvS2xpRmZjd1BKL3lXWVFJeUUvMFpGRkpMNmpLamxkN3dBQ0hG?=
- =?utf-8?B?QTZneEp4QW1xclBiUXdyb1lMVEd6TUpQaWNkV2FKTi9Wc1YxK3pBandFNzNY?=
- =?utf-8?B?cmI4K1NQd3BRS3dkVElsTWRMdDRwNGlBalNndkpTelQ5aGtyLzZWdlJXbFZu?=
- =?utf-8?B?U1RieHFOVTlrdjlKZ0hzd25YV3d1TjVhLzA1OFFhNUQ5VUwxeFJ0NEdxbnZG?=
- =?utf-8?B?VUN3TXZ5TGlycnYvNmlxOWU5UWxJY21iRWtKeUJqcmVrNzJ4NVh5eUQ2d3I1?=
- =?utf-8?B?VE94a0dHcXdRSFl2YVE4aFVYbXRSRzg1WitGTEhuVnFLUU8zbUpvdDUxZmo1?=
- =?utf-8?Q?V6LYQImppsA=3D?=
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:PH7PR11MB7605.namprd11.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230040)(366016)(376014)(1800799024); DIR:OUT; SFP:1101; 
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?UFBtUitSbTVZdEE3SW45dXI4UUdJd1ZTRVN6cnZjUzZnWjMvcFFxd09mQkZq?=
- =?utf-8?B?eUdOTlJpMlljVFd0c00xdWhSOWtRN0UxaXlUWVRXcjltUVhEQVZ1Wlo0VHpG?=
- =?utf-8?B?T3RMWGNQditCQ1c4QjJoSGpqVWlNemJ5NHl4WHBNMjgwaUxDZXRieTAzOWx2?=
- =?utf-8?B?b3VSZmo2Vy8welRLRVlNSGRpdE9kZ2V0dFA3aVB1ZzF6bHF2T0xYZktPeUI3?=
- =?utf-8?B?MHp5c2MxcEZZRDFpNlNSRHhjcmVkQUEzb1VkdDMvWXJ3RDd2UCs1czdFdVE5?=
- =?utf-8?B?V05QMWZLdWk0N2RiMms0UW14bDlsMzFSZVFrMjV4OHBHYVdYTXJZVzVKaDl0?=
- =?utf-8?B?V2d5dklvMndlMnpzYzc2NUMvdUlVZ0V2ZnB5U0xDN0ptM0NORGMrQ0pVcWxC?=
- =?utf-8?B?bjVTNWc3RUZBMWs4ZGtwUmdmTE1sdVFQNzJ1TmNRMkd6TEhWdTM2M2ZwelZ2?=
- =?utf-8?B?Ny9mR1d5UFhTMEgybDNweFp4VGNod25DMytmR0pkRkY3Wm53R0J6SGUrQ1R3?=
- =?utf-8?B?eHdPeXE1Tmthb3cxTGtGMFpXRzBvVzZueFF2NG8vaVhZSUttb0E5eG9ZTExP?=
- =?utf-8?B?OG5NcmRZK3hMMGh1YU1ZaVJBS1MzU2xCSzV3V3RpdUppZU1SL0tFeTBIejJI?=
- =?utf-8?B?N2hLOXJYcEdRMnFzdDB1bFRVVXozdHZFVHd0UnRaZEg0L2YxcGVkRmlJaHcy?=
- =?utf-8?B?aktsdW5aVGVrc0QzdlhLbkpjWFYxbmZaMjljaWRPWWF5UGkzc0F1UGNBb2lu?=
- =?utf-8?B?NmYzUjhIVHFxRS91MnNZWEFRR2pUTFBRejNtNVVlMG9GeUlLcENKQ0crNUNB?=
- =?utf-8?B?QmlqNS9pR3JCVHptUHZKaEh6ekM5emlXeEs3bDZTYVZnNkRNZEdHNm5OL3R5?=
- =?utf-8?B?N0xHNy9FQWlMdmdHa01oTnc2dHJsUjFoWWc1Y08vMkRuS0ZwYjRJL2hkQTN2?=
- =?utf-8?B?bFlaaUhtOTJpb0tUei8vZDE2a21CdjlCZjVYRXNrbVFpTU1VVGlEeXlnN3hx?=
- =?utf-8?B?aTArNHVRTlhSR0IrcnJDVThpUmQ5azJkc0FEWTlVajJuUWx0TFFRUXNkQ3Mx?=
- =?utf-8?B?NFdIN2c4YzAzTkYxY1BGRmkxY091Z2xmeEluTmRDVlNFakorQzdPLzFPODFD?=
- =?utf-8?B?OVF5amFjMVZ1WVRPV2NseXU0UVdPd2VobnpEYTAvZk5MeTI2dTFHSGJXQmI4?=
- =?utf-8?B?NU43R2p4M1E2ZDlEK2QyZndOam5HVWxCbXpsSVNwTkYySjQxRTRISjFENVNL?=
- =?utf-8?B?c0R5K0xFQzZWdkNCeWRyMm14cGE1VitOY1JHK2swdUNGRVdEMXlmMm5OVWht?=
- =?utf-8?B?bzlpbDZyYTJqSlZyejhXMzduOWdxeTBqNXBOT0liR0d2Vytra0VFV21tRzN5?=
- =?utf-8?B?QmF1V0M1RjNQbE10VzlES3U1bzB4ZzhZQlFZa2RWbHVsY0hKZ1pjREFDQnRW?=
- =?utf-8?B?OUhBcHNLWGxpVldUdjV1T2IvbEw5aWFQYVROMFNYdnZ3d2k5ZHRkU2h6dmlX?=
- =?utf-8?B?T0F6YkdmRFppNXpjOVl5N2cwcDJWd1JiVmU3ckxMVFU5azNJVncxaURYRFhV?=
- =?utf-8?B?MHdvR2FFYTBJRkFYUktvekk4ZE9rdXUrT2RCdWluVy9CY1RWaEM2ZVVOam1J?=
- =?utf-8?B?ZmZnL0o5QW1mY0wvMG9scnZZTFRuQlJXWGw0WjFFSXNJUWJzeDQ5Q1hHUmVV?=
- =?utf-8?B?c0pwUG9hZ0ZZUERpY2w0dFpCVFFTWVdNVTlKcUppZTl5Vm1GajBoeDAvWWNu?=
- =?utf-8?B?QVJIWnIyRGUwNmh3U2pLOURUUTVTSlJ3aGJuWVlvSktXcS9HNXdFMW5MZjVj?=
- =?utf-8?B?bDNDSDBOaHQrYUlRV21pbUlnZkxNbDl4NzJudHA4TVVtYUtWZjFJdXFUbGNV?=
- =?utf-8?B?dGNPeEdXU0piS2VjTHUvQ2toYmUwT24xWTFZTy9reDZwTHI2dHZ1WkxTdFIv?=
- =?utf-8?B?aFVtQ3ZPd2xtL0M3S2Mrb1NaWThROFlyM1plR1RoNDVnSURJdlowRS9GQmF2?=
- =?utf-8?B?UnVBSW53djVOQmwrZCtvRFJyWm0xU1RwNzdTak1QSlN2T0RraGhTUk9RcG04?=
- =?utf-8?B?TktrVm56YUNPelBGaFdaN3NEWCs1cHlEaUs1Qi9IallGamNGVTErYkljVCtQ?=
- =?utf-8?B?Y1owc2dzMzlTRU9QWDlvS1MrT2pNcHlkRUsxeXN6RjZpcCtMV1UzVEhaeFRM?=
- =?utf-8?Q?wNEGAw2URTe9zHkMXVI+zEU=3D?=
-X-MS-Exchange-CrossTenant-Network-Message-Id: f63ada2f-b627-4c35-56d2-08ddaeabcd30
-X-MS-Exchange-CrossTenant-AuthSource: PH7PR11MB7605.namprd11.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 18 Jun 2025 21:05:06.3272 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: LGW8hUwUuaCjR6tZE+b7DN12iZMJ+DOmG5za6upLDl5swz+qGjFm3teS9caAofdSD5aBnxckuoKfzhz8yVYyL7PoE/QUguGQelNnYcz5r/A=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DS0PR11MB7903
-X-OriginatorOrg: intel.com
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <36464d9c-9bbb-488e-85c0-7e5318a16bf8@quicinc.com>
+X-Proofpoint-ORIG-GUID: 1ckR6E5PV8Eaim5RlZlU-omDxJIfd3nu
+X-Authority-Analysis: v=2.4 cv=edY9f6EH c=1 sm=1 tr=0 ts=68532ae2 cx=c_pps
+ a=qKBjSQ1v91RyAK45QCPf5w==:117 a=xqWC_Br6kY4A:10 a=IkcTkHD0fZMA:10
+ a=6IFa9wvqVegA:10 a=NEAV23lmAAAA:8 a=EUspDBNiAAAA:8 a=COk6AnOGAAAA:8
+ a=KKAkSRfTAAAA:8 a=sZcHxptgyyGb2YZAEgQA:9 a=3ZKOabzyN94A:10 a=QEXdDO2ut3YA:10
+ a=NFOGd7dJGGMPyQGDc5-O:22 a=TjNXssC_j7lpFel5tvFf:22 a=cvBusfyB2V15izCimMoJ:22
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwNjE4MDE3OSBTYWx0ZWRfXwjfU+TgBliDU
+ wZFt5RsW0ONPAVLUUnXMjIOZ2JnAkPdWTSdzTdCjEJBFKKvAUydYTcJw05CmvtQEHSTwDSw8F9q
+ Shcm6Pcm9FqiU3sPOgO/pSDZ5pSCkiEWSYWrZAz53drEF/6o8yjcmUcXn6pmkVnitPoWGb1358t
+ ADQY9VS7RxHYScOMYOPuEqq2YW3Pv6osYVKMaQUzGfKh+6GdTGcmcaFU2gdNnjokKuj33NxPi+m
+ jEjUp1aPXuF9Xgm7pl/UoD86lFD66EuDPJbuLFB1O/ZowhF6648Qe9ZfU/gyrZ9AqDp+QVONR2U
+ zdFwbbSKcG7m5NRa9dFkFCsf9Goo8YHNOncI9I3YbuEqCAgmgb/4aVu/qFx1A+nyjW88dkJCAUl
+ iFQaQFXcqkbnpFvJt6jS9B2UZs+JWIf9G7wYrMbAAJic56O+wvBxP2C+hUCzM3sSkswrONCI
+X-Proofpoint-GUID: 1ckR6E5PV8Eaim5RlZlU-omDxJIfd3nu
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1099,Hydra:6.0.736,FMLib:17.12.80.40
+ definitions=2025-06-18_05,2025-06-18_03,2025-03-28_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ lowpriorityscore=0 priorityscore=1501 suspectscore=0 spamscore=0 bulkscore=0
+ impostorscore=0 mlxscore=0 clxscore=1015 mlxlogscore=999 malwarescore=0
+ phishscore=0 adultscore=0 classifier=spam authscore=0 authtc=n/a authcc=
+ route=outbound adjust=0 reason=mlx scancount=1 engine=8.19.0-2505280000
+ definitions=main-2506180179
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -199,85 +136,190 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+On Wed, Jun 18, 2025 at 01:15:16PM +0800, Ling Xu wrote:
+> 在 6/16/2025 7:28 PM, Ling Xu 写道:
+> > 在 4/8/2025 4:14 PM, Srinivas Kandagatla 写道:
+> >>
+> >>
+> >> On 07/04/2025 10:13, Ling Xu wrote:
+> >>> 在 3/21/2025 1:11 AM, Srinivas Kandagatla 写道:
+> >>>>
+> >>>>
+> >>>> On 20/03/2025 09:14, Ling Xu wrote:
+> >>>>> The fastrpc driver has support for 5 types of remoteprocs. There are
+> >>>>> some products which support GPDSP remoteprocs. Add changes to support
+> >>>>> GPDSP remoteprocs.
+> >>>>>
+> >>>>> Reviewed-by: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
+> >>>>> Signed-off-by: Ling Xu <quic_lxu5@quicinc.com>
+> >>>>> ---
+> >>>>>    drivers/misc/fastrpc.c | 10 ++++++++--
+> >>>>>    1 file changed, 8 insertions(+), 2 deletions(-)
+> >>>>>
+> >>>>> diff --git a/drivers/misc/fastrpc.c b/drivers/misc/fastrpc.c
+> >>>>> index 7b7a22c91fe4..80aa554b3042 100644
+> >>>>> --- a/drivers/misc/fastrpc.c
+> >>>>> +++ b/drivers/misc/fastrpc.c
+> >>>>> @@ -28,7 +28,9 @@
+> >>>>>    #define SDSP_DOMAIN_ID (2)
+> >>>>>    #define CDSP_DOMAIN_ID (3)
+> >>>>>    #define CDSP1_DOMAIN_ID (4)
+> >>>>> -#define FASTRPC_DEV_MAX        5 /* adsp, mdsp, slpi, cdsp, cdsp1 */
+> >>>>> +#define GDSP0_DOMAIN_ID (5)
+> >>>>> +#define GDSP1_DOMAIN_ID (6)
+> >>>>
+> >>>> We have already made the driver look silly here, Lets not add domain ids for each instance, which is not a scalable.
+> >>>>
+> >>>> Domain ids are strictly for a domain not each instance.
+> >>>>
+> >>>>
+> >>>>> +#define FASTRPC_DEV_MAX        7 /* adsp, mdsp, slpi, cdsp, cdsp1, gdsp0, gdsp1 */
+> >>>>>    #define FASTRPC_MAX_SESSIONS    14
+> >>>>>    #define FASTRPC_MAX_VMIDS    16
+> >>>>>    #define FASTRPC_ALIGN        128
+> >>>>> @@ -107,7 +109,9 @@
+> >>>>>    #define miscdev_to_fdevice(d) container_of(d, struct fastrpc_device, miscdev)
+> >>>>>      static const char *domains[FASTRPC_DEV_MAX] = { "adsp", "mdsp",
+> >>>>> -                        "sdsp", "cdsp", "cdsp1" };
+> >>>>> +                        "sdsp", "cdsp",
+> >>>>> +                        "cdsp1", "gdsp0",
+> >>>>> +                        "gdsp1" };
+> >>>>>    struct fastrpc_phy_page {
+> >>>>>        u64 addr;        /* physical address */
+> >>>>>        u64 size;        /* size of contiguous region */
+> >>>>> @@ -2338,6 +2342,8 @@ static int fastrpc_rpmsg_probe(struct rpmsg_device *rpdev)
+> >>>>>            break;
+> >>>>>        case CDSP_DOMAIN_ID:
+> >>>>>        case CDSP1_DOMAIN_ID:
+> >>>>> +    case GDSP0_DOMAIN_ID:
+> >>>>> +    case GDSP1_DOMAIN_ID:
+> >>>>>            data->unsigned_support = true;
+> >>>>>            /* Create both device nodes so that we can allow both Signed and Unsigned PD */
+> >>>>>            err = fastrpc_device_register(rdev, data, true, domains[domain_id]);
+> >>>>
+> >>>>
+> >>>> Can you try this patch: only compile tested.
+> >>>>
+> >>>> ---------------------------------->cut<---------------------------------------
+> >>>>  From 3f8607557162e16673b26fa253d11cafdc4444cf Mon Sep 17 00:00:00 2001
+> >>>> From: Srinivas Kandagatla <srinivas.kandagatla@linaro.org>
+> >>>> Date: Thu, 20 Mar 2025 17:07:05 +0000
+> >>>> Subject: [PATCH] misc: fastrpc: cleanup the domain names
+> >>>>
+> >>>> Currently the domain ids are added for each instance of domain, this is
+> >>>> totally not scalable approch.
+> >>>>
+> >>>> Clean this mess and create domain ids for only domains not its
+> >>>> instances.
+> >>>> This patch also moves the domain ids to uapi header as this is required
+> >>>> for FASTRPC_IOCTL_GET_DSP_INFO ioctl.
+> >>>>
+> >>>> Signed-off-by: Srinivas Kandagatla <srinivas.kandagatla@linaro.org>
+> >>>> ---
+> >>>>   drivers/misc/fastrpc.c      | 45 ++++++++++++++++++++-----------------
+> >>>>   include/uapi/misc/fastrpc.h |  7 ++++++
+> >>>>   2 files changed, 32 insertions(+), 20 deletions(-)
+> >>>>
+> >>>> diff --git a/drivers/misc/fastrpc.c b/drivers/misc/fastrpc.c
+> >>>> index 7b7a22c91fe4..b3932897a437 100644
+> >>>> --- a/drivers/misc/fastrpc.c
+> >>>> +++ b/drivers/misc/fastrpc.c
+> >>>> @@ -23,12 +23,6 @@
+> >>>>   #include <uapi/misc/fastrpc.h>
+> >>>>   #include <linux/of_reserved_mem.h>
+> >>>>
+> >>>> -#define ADSP_DOMAIN_ID (0)
+> >>>> -#define MDSP_DOMAIN_ID (1)
+> >>>> -#define SDSP_DOMAIN_ID (2)
+> >>>> -#define CDSP_DOMAIN_ID (3)
+> >>>> -#define CDSP1_DOMAIN_ID (4)
+> >>>> -#define FASTRPC_DEV_MAX        5 /* adsp, mdsp, slpi, cdsp, cdsp1 */
+> >>>>   #define FASTRPC_MAX_SESSIONS    14
+> >>>>   #define FASTRPC_MAX_VMIDS    16
+> >>>>   #define FASTRPC_ALIGN        128
+> >>>> @@ -106,8 +100,6 @@
+> >>>>
+> >>>>   #define miscdev_to_fdevice(d) container_of(d, struct fastrpc_device, miscdev)
+> >>>>
+> >>>> -static const char *domains[FASTRPC_DEV_MAX] = { "adsp", "mdsp",
+> >>>> -                        "sdsp", "cdsp", "cdsp1" };
+> >>>>   struct fastrpc_phy_page {
+> >>>>       u64 addr;        /* physical address */
+> >>>>       u64 size;        /* size of contiguous region */
+> >>>> @@ -1769,7 +1761,7 @@ static int fastrpc_get_dsp_info(struct fastrpc_user *fl, char __user *argp)
+> >>>>           return  -EFAULT;
+> >>>>
+> >>>>       cap.capability = 0;
+> >>>> -    if (cap.domain >= FASTRPC_DEV_MAX) {
+> >>>> +    if (cap.domain >= FASTRPC_DOMAIN_MAX) {
+> >>>>           dev_err(&fl->cctx->rpdev->dev, "Error: Invalid domain id:%d, err:%d\n",
+> >>>>               cap.domain, err);
+> >>>>           return -ECHRNG;
+> >>>
+> >>> I tested this patch and saw one issue.
+> >>> Here FASTRPC_DOMAIN_MAX is set to 4, but in userspace, cdsp1 is 4, gdsp0 is 5 and gdsp1 is 6.
+> >>
+> >>
+> >> Why is the userspace using something that is not uAPI?
+> >>
+> >> Why does it matter if its gdsp0 or gdsp1 for the userspace?
+> >> It should only matter if its gdsp domain or not.
+> >>
+> > 
+> > Give an example here:
+> > In test example, user can use below API to query the notification capability of the specific domain_id,
+> > (actually this will not have any functional issue, but just return an error and lead wrong message):
+> > request_status_notifications_enable(domain_id, (void*)STATUS_CONTEXT, pd_status_notifier_callback)
+> > 
+> > this will call ioctl_getdspinfo in fastrpc_ioctl.c:
+> > https://github.com/quic-lxu5/fastrpc/blob/8feccfd2eb46272ad1fabed195bfddb7fd680cbd/src/fastrpc_ioctl.c#L201
+> > 
+> > code snip:
+> > 	FARF(ALWAYS, "ioctl_getdspinfo in ioctl.c domain:%d", domain);
+> > 	ioErr = ioctl(dev, FASTRPC_IOCTL_GET_DSP_INFO, &cap);
+> > 	FARF(ALWAYS, "done ioctl_getdspinfo in ioctl.c ioErr:%x", ioErr);
+> > 
+> > and finally call fastrpc_get_dsp_info in fastrpc.c.
+> > 
+> > if I use the patch you shared, it will report below error:
+> > 
+> > UMD log:
+> > 2025-01-08T18:45:03.168718+00:00 qcs9100-ride-sx calculator: fastrpc_ioctl.c:201: ioctl_getdspinfo in ioctl.c domain:5
+> > 2025-01-08T18:45:03.169307+00:00 qcs9100-ride-sx calculator: log_config.c:396: file_watcher_thread starting for domain 5
+> > 2025-01-08T18:45:03.180355+00:00 qcs9100-ride-sx calculator: fastrpc_ioctl.c:203: done ioctl_getdspinfo in ioctl.c ioErr:ffffffff
+> > 
+> > putty log:
+> > [ 1332.308444] qcom,fastrpc 20c00000.remoteproc:glink-edge.fastrpcglink-apps-dsp.-1.-1: Error: Invalid domain id:5, err:0
+> > 
+> > Because on the user side, gdsp0 and gdsp1 will be distinguished to 5 and 6.
+> > so do you mean you want me to modify UMD code to transfer both gdsp0 and gdsp1 to gdsp just in ioctl_getdspinfo?
+> >>
+> 
+> There is no error message after removing these lines based on srini's patch, is this modification appropriate? If so, I will submit a new patch.
+> @@ -1771,17 +1763,6 @@ static int fastrpc_get_dsp_info(struct fastrpc_user *fl, char __user *argp)
+>                 return  -EFAULT;
+> 
+>         cap.capability = 0;
+> -       if (cap.domain >= FASTRPC_DEV_MAX) {
+> -               dev_err(&fl->cctx->rpdev->dev, "Error: Invalid domain id:%d, err:%d\n",
+> -                       cap.domain, err);
+> -               return -ECHRNG;
+> -       }
+> -
+> -       /* Fastrpc Capablities does not support modem domain */
+> -       if (cap.domain == MDSP_DOMAIN_ID) {
+> -               dev_err(&fl->cctx->rpdev->dev, "Error: modem not supported %d\n", err);
+> -               return -ECHRNG;
+> -       }
+> 
+>         if (cap.attribute_id >= FASTRPC_MAX_DSP_ATTRIBUTES) {
+>                 dev_err(&fl->cctx->rpdev->dev, "Error: invalid attribute: %d, err: %d\n",
 
 
-On 6/18/2025 12:00 PM, Badal Nilawar wrote:
-> Reload late binding fw during runtime resume.
->
-> v2: Flush worker during runtime suspend
->
-> Signed-off-by: Badal Nilawar <badal.nilawar@intel.com>
-> ---
->   drivers/gpu/drm/xe/xe_late_bind_fw.c | 2 +-
->   drivers/gpu/drm/xe/xe_late_bind_fw.h | 1 +
->   drivers/gpu/drm/xe/xe_pm.c           | 6 ++++++
->   3 files changed, 8 insertions(+), 1 deletion(-)
->
-> diff --git a/drivers/gpu/drm/xe/xe_late_bind_fw.c b/drivers/gpu/drm/xe/xe_late_bind_fw.c
-> index 54aa08c6bdfd..c0be9611c73b 100644
-> --- a/drivers/gpu/drm/xe/xe_late_bind_fw.c
-> +++ b/drivers/gpu/drm/xe/xe_late_bind_fw.c
-> @@ -58,7 +58,7 @@ static int xe_late_bind_fw_num_fans(struct xe_late_bind *late_bind)
->   		return 0;
->   }
->   
-> -static void xe_late_bind_wait_for_worker_completion(struct xe_late_bind *late_bind)
-> +void xe_late_bind_wait_for_worker_completion(struct xe_late_bind *late_bind)
->   {
->   	struct xe_device *xe = late_bind_to_xe(late_bind);
->   	struct xe_late_bind_fw *lbfw;
-> diff --git a/drivers/gpu/drm/xe/xe_late_bind_fw.h b/drivers/gpu/drm/xe/xe_late_bind_fw.h
-> index 28d56ed2bfdc..07e437390539 100644
-> --- a/drivers/gpu/drm/xe/xe_late_bind_fw.h
-> +++ b/drivers/gpu/drm/xe/xe_late_bind_fw.h
-> @@ -12,5 +12,6 @@ struct xe_late_bind;
->   
->   int xe_late_bind_init(struct xe_late_bind *late_bind);
->   int xe_late_bind_fw_load(struct xe_late_bind *late_bind);
-> +void xe_late_bind_wait_for_worker_completion(struct xe_late_bind *late_bind);
->   
->   #endif
-> diff --git a/drivers/gpu/drm/xe/xe_pm.c b/drivers/gpu/drm/xe/xe_pm.c
-> index ff749edc005b..91923fd4af80 100644
-> --- a/drivers/gpu/drm/xe/xe_pm.c
-> +++ b/drivers/gpu/drm/xe/xe_pm.c
-> @@ -20,6 +20,7 @@
->   #include "xe_gt.h"
->   #include "xe_guc.h"
->   #include "xe_irq.h"
-> +#include "xe_late_bind_fw.h"
->   #include "xe_pcode.h"
->   #include "xe_pxp.h"
->   #include "xe_trace.h"
-> @@ -460,6 +461,8 @@ int xe_pm_runtime_suspend(struct xe_device *xe)
->   	if (err)
->   		goto out;
->   
-> +	xe_late_bind_wait_for_worker_completion(&xe->late_bind);
+You also need to modify fastrpc_ioctl_capability definition to drop the
+domain field and also modify fastrpc_get_info_from_kernel().
 
-I thing this can deadlock, because you do an rpm_put from within the 
-worker and if that's the last put it'll end up here and wait for the 
-worker to complete.
-We could probably just skip this wait, because the worker can handle rpm 
-itself. What we might want to be careful about is to nor re-queue it 
-(from xe_late_bind_fw_load below) if it's currently being executed; we 
-could also just let the fw be loaded twice if we hit that race 
-condition, that shouldn't be an issue apart from doing something not needed.
 
-Daniele
-
-> +
->   	/*
->   	 * Applying lock for entire list op as xe_ttm_bo_destroy and xe_bo_move_notify
->   	 * also checks and deletes bo entry from user fault list.
-> @@ -550,6 +553,9 @@ int xe_pm_runtime_resume(struct xe_device *xe)
->   
->   	xe_pxp_pm_resume(xe->pxp);
->   
-> +	if (xe->d3cold.allowed)
-> +		xe_late_bind_fw_load(&xe->late_bind);
-> +
->   out:
->   	xe_rpm_lockmap_release(xe);
->   	xe_pm_write_callback_task(xe, NULL);
-
+-- 
+With best wishes
+Dmitry
