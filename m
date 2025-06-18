@@ -2,188 +2,100 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 74975ADF89E
-	for <lists+dri-devel@lfdr.de>; Wed, 18 Jun 2025 23:20:20 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 69487ADF8B1
+	for <lists+dri-devel@lfdr.de>; Wed, 18 Jun 2025 23:23:49 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5CDA310E549;
-	Wed, 18 Jun 2025 21:20:17 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E8B7710E960;
+	Wed, 18 Jun 2025 21:23:46 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="FXHhTlsa";
+	dkim=pass (1024-bit key; unprotected) header.d=redhat.com header.i=@redhat.com header.b="GB40cQNO";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.14])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9B12110E549;
- Wed, 18 Jun 2025 21:20:15 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1750281616; x=1781817616;
- h=message-id:date:subject:to:cc:references:from:
- in-reply-to:content-transfer-encoding:mime-version;
- bh=30g5iy1S/SYl9RoXVLtSnlLZgZmbej3KoeLxQ66SG1c=;
- b=FXHhTlsa8NFz+WN8B+1Aa0Cx3wwjC+wry4mT1FKRwkCj1QiNoHj9WbeM
- TWv6jgPt5f2ColHKLyYeYUqzbjdGZdFJt0RmlAls1JvZW+wz2aUHMT0GW
- OFt7hmPH0NwC2E8TXWK1Ba8F8WFHPM22chqe1tVeCEJlgJaK8SPyDhfxJ
- KQGLje8FSzFVJ5iKfb/Qu9uFBD292+Cq5wodGU7zKbdIty4oq58Vb+964
- KXFyQQS88kLx35GD+p9D1gSv3QqOplfh23EEYXNyKfoymt5GOWnvjvi93
- YK48pn7klCud4xj20qOaUz6B9ZSFFdWgqWtlypiWa66x8Bql9gLJlhVmN A==;
-X-CSE-ConnectionGUID: keWA1+ewS3KOnRHUT8GjFA==
-X-CSE-MsgGUID: zl/lbT88SDOErDtjbWTkQg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11468"; a="52604664"
-X-IronPort-AV: E=Sophos;i="6.16,246,1744095600"; d="scan'208";a="52604664"
-Received: from orviesa008.jf.intel.com ([10.64.159.148])
- by fmvoesa108.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 18 Jun 2025 14:20:15 -0700
-X-CSE-ConnectionGUID: eeyFIup9Sse9JLWLrLya4g==
-X-CSE-MsgGUID: OnBOtb7yRLKwWUTMj891eA==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.16,246,1744095600"; d="scan'208";a="150859202"
-Received: from orsmsx903.amr.corp.intel.com ([10.22.229.25])
- by orviesa008.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 18 Jun 2025 14:20:15 -0700
-Received: from ORSMSX901.amr.corp.intel.com (10.22.229.23) by
- ORSMSX903.amr.corp.intel.com (10.22.229.25) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.1544.25; Wed, 18 Jun 2025 14:20:14 -0700
-Received: from ORSEDG901.ED.cps.intel.com (10.7.248.11) by
- ORSMSX901.amr.corp.intel.com (10.22.229.23) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.1544.25 via Frontend Transport; Wed, 18 Jun 2025 14:20:14 -0700
-Received: from NAM04-DM6-obe.outbound.protection.outlook.com (40.107.102.77)
- by edgegateway.intel.com (134.134.137.111) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.1544.25; Wed, 18 Jun 2025 14:20:13 -0700
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=dtSK3wQyBmrVePxYMfVhjbmP1Bf8RTPeY0qFj0mijfrMDpUTEMVw/S0GtOK8nEm46658Zh3n7Ra3IDT/sWQXQytc20AL5n5SSjWfcr7yqTCpf8+fNhoczKFOLmHEv1rmcNd98oOUAh3tFIx+dDqISEvC9S8Y7RwbGK8n83hGNzNjNX5TMIOhalr4doUFkhHNSOaQZE+Q41F+lXOF2A+j1SrxWLLGCG+A0KPluxzC0LN5ufW0fycNJjrhfhKZWDyL/+E8n4buIrD4KGCuOLDObUtWhaAYlzov6JW5nrlirFY+jLzlTvRQy9OMm8vSXBYJEcL4fKxZNaCND9OveRHHIg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=cCV7MAYZ3cQf6auy1v7hduPS44yX+Zg7oEoD8v1B0sw=;
- b=hJrCT9k/szwiG8IVFI0Vq2MwFUCdwcfu+VPiQ1pw8nIc6uijXMOpnJHUQJoKW7kYXVpdK0v7GFLcYu6MzQz2UB0BrUj/p2J0eYrMGbSt2NvO2Cn54ShOxemme9TtWfAE+rNcgw7ZncPJbKKs4XBgf3b6cP+YF0+RmlLaZSmTGmtMlNlMS0RXosHosVXuY9sq/M08xF/juKnNEY4wH4EwTYGU6k0UUrwYWhOUEAmMdwIAI3k/NX7kehhJ2FCig8/41rE8aeP+kcZOMj/7a6/St9eY0Jy57p0D7sJokM48OeuNQp0VKuMP/9wftvphRZpIztriK/7S3jfRwxPPZt7a+g==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
- dkim=pass header.d=intel.com; arc=none
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=intel.com;
-Received: from PH7PR11MB7605.namprd11.prod.outlook.com (2603:10b6:510:277::5)
- by CY8PR11MB7171.namprd11.prod.outlook.com (2603:10b6:930:92::16)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8857.21; Wed, 18 Jun
- 2025 21:19:57 +0000
-Received: from PH7PR11MB7605.namprd11.prod.outlook.com
- ([fe80::d720:25db:67bb:6f50]) by PH7PR11MB7605.namprd11.prod.outlook.com
- ([fe80::d720:25db:67bb:6f50%4]) with mapi id 15.20.8835.027; Wed, 18 Jun 2025
- 21:19:57 +0000
-Message-ID: <b9a468c0-53ed-4da4-a044-76c5e8461b95@intel.com>
-Date: Wed, 18 Jun 2025 14:19:56 -0700
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v3 08/10] drm/xe/xe_late_bind_fw: Introduce debug fs node
- to disable late binding
-To: Badal Nilawar <badal.nilawar@intel.com>, <intel-xe@lists.freedesktop.org>, 
- <dri-devel@lists.freedesktop.org>, <linux-kernel@vger.kernel.org>
-CC: <anshuman.gupta@intel.com>, <rodrigo.vivi@intel.com>,
- <alexander.usyskin@intel.com>, <gregkh@linuxfoundation.org>, <jgg@nvidia.com>
-References: <20250618190007.2932322-1-badal.nilawar@intel.com>
- <20250618190007.2932322-9-badal.nilawar@intel.com>
-Content-Language: en-US
-From: Daniele Ceraolo Spurio <daniele.ceraolospurio@intel.com>
-In-Reply-To: <20250618190007.2932322-9-badal.nilawar@intel.com>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: BY5PR16CA0034.namprd16.prod.outlook.com
- (2603:10b6:a03:1a0::47) To PH7PR11MB7605.namprd11.prod.outlook.com
- (2603:10b6:510:277::5)
+Received: from us-smtp-delivery-124.mimecast.com
+ (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5D4AB10E960
+ for <dri-devel@lists.freedesktop.org>; Wed, 18 Jun 2025 21:23:41 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1750281820;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=lD3zh9LSKFVLiBeGdrP5eT4T6VTWKD7Got03vgBF8Pk=;
+ b=GB40cQNOblbY2o3qcszXeN/510fUoUs7/awKM7JOhpGLcz4bG83bMb9sC3ywiYw9fhQBXB
+ vRe00QFeXVxRkBMjMqU+2bfd2awcOlDqhkSd+XjFxkmGwXU9/Q4SGq2JF5ZVvdDrALSpFe
+ raGNZ1sB6qHDvZVDzkrUajYPJyjZJaA=
+Received: from mail-wr1-f71.google.com (mail-wr1-f71.google.com
+ [209.85.221.71]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-592-gmXzY2AQO72UElsIW7PF3Q-1; Wed, 18 Jun 2025 17:23:39 -0400
+X-MC-Unique: gmXzY2AQO72UElsIW7PF3Q-1
+X-Mimecast-MFC-AGG-ID: gmXzY2AQO72UElsIW7PF3Q_1750281818
+Received: by mail-wr1-f71.google.com with SMTP id
+ ffacd0b85a97d-3a4ff581df3so28817f8f.1
+ for <dri-devel@lists.freedesktop.org>; Wed, 18 Jun 2025 14:23:39 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1750281818; x=1750886618;
+ h=in-reply-to:content-transfer-encoding:content-disposition
+ :mime-version:references:message-id:subject:cc:to:from:date
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=lD3zh9LSKFVLiBeGdrP5eT4T6VTWKD7Got03vgBF8Pk=;
+ b=DWDvgE6/R82YfyQUPCkXylzerwOmwxc563VnADP7w/kwyrMb38E7f4leFna7HBDDeA
+ 0T22LSms0KcYhQSiam3owEWy0rlQyJ3Auih427j4HZntoo8EaK1mW3LgUML2dW/vpRzo
+ O4KEtUti+npWXbE7GbCdHOUvVaUcJbxeOsGyEQdZDChMbjKoXbzA3iu5ZFo1wjDeEMB2
+ 3YhmQ83B8Ry0kPIHDZZZHLGpIYFH/lIr4dM7J7elhH6SqpEFLlwB7JYY4sp6G/8Hd0HY
+ vSBxZOAzEQETYhu13iY9dUEYno9P8XE+gDsiwGUrJNfgXgT4Wabc+vs5pnn4se+dnAR4
+ 3aAA==
+X-Gm-Message-State: AOJu0YwE9IiWuCbEZsYpj8lNVBew2/T8aEmKFAp/WV/V65AZnb4lsO06
+ 3jDp+41vd8PYGLbKaV6juGTF3v9A3lNeITHXfxkpO4uyytUZAmvMNGfvOBOmCuYD9wT9lH4pL9q
+ cWMKs/LJWp5hB8CU0nvvXIPc93bJosXI07uHMNhRJ0Udd8XBjYnsROKL9Ks7Aa1VNk3HYZA==
+X-Gm-Gg: ASbGncsp18WJ5Z2yho29RqmzVWCggO00060SSvJAO1V2rgbGtGZgf0/x4NNBBgtXO1R
+ IJ4VIaymptfnYE3y+U+ZRvtVhX31YbZVqtXGdDOBAjgyGkg+ybMXyEYZcxvM0widIb0uwgLuSPk
+ 3o2NvBpvD05SJT2MzGkLh5AWs2UCQFvelFxTmeDjC0U5VGbwTZBoFw3W/u2ubMn2T/Azyh8aRj8
+ s1RF/uxUyPpCYYB1BnfKbrg0/7rZW2hH6oerfWWJxgC1YFvSUdukkRpTvZvMbAuRR1HF2ARtRnW
+ bbUhlRDGE5s=
+X-Received: by 2002:a05:6000:2a04:b0:3a5:5130:1c71 with SMTP id
+ ffacd0b85a97d-3a6c962b2d8mr700663f8f.0.1750281818005; 
+ Wed, 18 Jun 2025 14:23:38 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IHu4QU3bk7dkTV8y21m8O4yJStIuE5s16gVEUTckk6g/n5f2Lm6JEA/tzq7cPIYOVYMNwo42A==
+X-Received: by 2002:a05:6000:2a04:b0:3a5:5130:1c71 with SMTP id
+ ffacd0b85a97d-3a6c962b2d8mr700648f8f.0.1750281817462; 
+ Wed, 18 Jun 2025 14:23:37 -0700 (PDT)
+Received: from pollux ([2a00:79c0:6b9:ae00:abf:b8ff:feee:998b])
+ by smtp.gmail.com with ESMTPSA id
+ ffacd0b85a97d-3a5780c5004sm14370775f8f.56.2025.06.18.14.23.36
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 18 Jun 2025 14:23:36 -0700 (PDT)
+Date: Wed, 18 Jun 2025 23:23:35 +0200
+From: Danilo Krummrich <dakr@redhat.com>
+To: Rob Clark <rob.clark@oss.qualcomm.com>
+Cc: dri-devel@lists.freedesktop.org, linux-arm-msm@vger.kernel.org,
+ freedreno@lists.freedesktop.org,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>,
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+ open list <linux-kernel@vger.kernel.org>
+Subject: Re: [PATCH 2/2] drm/gpuvm: Add locking helpers
+Message-ID: <aFMuV7PNfSZVWb-b@pollux>
+References: <20250613235705.28006-1-robin.clark@oss.qualcomm.com>
+ <20250613235705.28006-3-robin.clark@oss.qualcomm.com>
+ <aE1RPZ_-oFyM4COy@pollux>
+ <CACSVV00uwmuAC4eMi-4QiF4sOu4r9u8eXxyAgt83YS8Yfgoemg@mail.gmail.com>
+ <aFCO7_RHuAaGyq1Q@pollux>
+ <CACSVV03WboQp_A1bzQ+xpX5DDkfaoXmbTuo9RfZ9bMaVTqdU+A@mail.gmail.com>
+ <aFE6pq8l33NXfFdT@pollux>
+ <CACSVV00VzOfTDh2sKst+POzkZ-5MH+0BDY-GVB2WKTyONRrHjw@mail.gmail.com>
+ <CACSVV00cng4PzHzqydGw_L34_f+6KiZTyCRdggNfHaDePGzFOA@mail.gmail.com>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: PH7PR11MB7605:EE_|CY8PR11MB7171:EE_
-X-MS-Office365-Filtering-Correlation-Id: a86404fa-02cb-4af0-8cea-08ddaeade090
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;ARA:13230040|1800799024|366016|376014;
-X-Microsoft-Antispam-Message-Info: =?utf-8?B?aDVBQ3NzZmxLcktUL01DN0NQcEt2TDh0VkUySmhjNURFVlpEZFhTR003K2V1?=
- =?utf-8?B?bk52aHBmUUJaSlpRMlBXanlBRmdrejlVcEo0RFIwenpSb3JQYjlLYkVSNDJ3?=
- =?utf-8?B?U1BXSHFUUm5FMGo5WXA4alFSQUUzU1loemduNGZKVm83N1lueGtnK3ZSWWlh?=
- =?utf-8?B?SS9zV3J4RktHN0pWT2d5K3lCbmk5Ny9zUlVXQVprT01vMXl5UEx2Z1lIQmRW?=
- =?utf-8?B?RGUrQlZHdWZyMitIUWw5YmFmUUMwNjNhTThDVFZvWHVwM2c5WEs4TE02MzN6?=
- =?utf-8?B?YjVNZE9DWTZsazk3eEdlenNFWVQvWnJYWXdyYjlnMS9GUHdRNmwxYm1ZOWth?=
- =?utf-8?B?WEU5NXJoSmdxR1VlSEF2d3c3TUZKVXdxclpjN05oTzJzYW96TVBsY2JjOE9H?=
- =?utf-8?B?eHZLTE1kUnhib3E2bEJTMUVkd3AwRnRpeVMrYWMrTFBYd1kvdVRXaC9PRFZJ?=
- =?utf-8?B?c0syWFBWaGhQVVp1elc0bVdxUUlxTGJQdFc0RU5yRWpaMmhHVEVHSXlKNXF5?=
- =?utf-8?B?a2JWSEFtdC9CeDNZNktudFFUdlZmR2wzZ1p6L2xmYk9wNE03Q21tb05GSnVU?=
- =?utf-8?B?KzJpTUV0UTZDZU44S3Z3SUt5eklGeHBURWV1Tmk3KzROYm9KN3Myb3BSQ3V6?=
- =?utf-8?B?WU5FVXZSMWI0OXR2VG5oNkU0b1o2OTJxdFFwUHZiejc1M2xIMzB2L3NJaEVx?=
- =?utf-8?B?N3BKa3JNNWxINys4Q0liSW5iSUpoTllxMlJEblQ3VUJ2a2NuNWxNOVVjaXZo?=
- =?utf-8?B?UVFLbUtrYm5ZcURYQU03Ym0zMFUvR2JBaE9ab1BOR0orYmpBTmh5TWRsZjZM?=
- =?utf-8?B?TDI4Y2F2T2Fib1F2WDhtcE96ZXJzbENrVWg2cnFSMmsxWWxvaTArajVuOGx5?=
- =?utf-8?B?S2h6ZlZSZU5peVFDajVyRVExYjNRN0I1cDJvVHU5aWliS1RTVVQ4VnBHUkZs?=
- =?utf-8?B?T0kyRzBiUTR0VUg0b1NUTlpMYW54RE0wODduYW9ZNjdmNnZJWXdBVGl6bzMz?=
- =?utf-8?B?TCtMcGNMSnZTdUZaY05BWnl0TVo4ckp6c0Y0T0ZQcWdoTm9Ub0RJMW5BN2Ra?=
- =?utf-8?B?SkJwR0FUdmwyVUdESVg2Sys4blZzYVNlK1dDTThuTTRiZVJ5UUYwbUxTQU52?=
- =?utf-8?B?TG40dCtwcnhQbWNJaFZvbER6QlRpN3FhSjJydGc0V0FXaG9kaWwvL0JBL28y?=
- =?utf-8?B?NGVMMWpNdVljSmFuT1VzWjlTZkIycXdpZnE5S2FxQTd4eGhMelBReVVuNlZX?=
- =?utf-8?B?eUU1WDJCcWJJSGgwenowRWJpeWc5WXVONitGcUpVUW5ia3JhSU1EdVp2cms0?=
- =?utf-8?B?bzFVZmtDckpRL2k5KytNeTFKeDdCOUE2N3ZSWE9FeVJqdkVzQWpoWjNOMUhn?=
- =?utf-8?B?MDBjQ1RSNzIrbkw4MEhHdUdySk9pTGVvRGRvWGFlU0U0Z2JDWFhmWlNOUkJP?=
- =?utf-8?B?eld6NVhBdUJwZWs3WExzSExjZ1c2MHBSbHptUHA1NkxseVZXNnRCVjNUSzhK?=
- =?utf-8?B?OWtaTHJZV2RyQzFmRGVFdFN1bWRsMHJGNlBZeWQxQTJvd2RhdmdhNC9iWkZw?=
- =?utf-8?B?WWJldDJXNm5uTGZJZDRtdDMyV0tLbFUwZzVrWitwWHVEUU5PN3RZSnJLTjMr?=
- =?utf-8?B?U09mTlU4U2V1dWJzdU1oNjZ4N3RiaC9pOUQxRzY2b29yaVgxWlJRVXJMbGVR?=
- =?utf-8?B?cTd5YURydW11bzVHSGFnM1RjOVBSVTJadHlJcXpwcU81VVArdUQvTnBmZmJD?=
- =?utf-8?B?bkpJMEVZSFk3SDNaRWJ3WnlEbWdhTTFBME9Vbm8xb1BsbDA3bG9xT0FpcGhQ?=
- =?utf-8?B?N1VSUlkvaVFxeUp3Z213aExYTW5LMDdNb2hIdER3WlVnZGJHK0hHQk5ITDFt?=
- =?utf-8?B?QVlVNzgrc0Y1Ykx3aXZibmdmMXJtRWhwZi9sVzlibmVWVFY3aFFWSUh2Mjln?=
- =?utf-8?Q?8KQqVDmri/o=3D?=
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:PH7PR11MB7605.namprd11.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230040)(1800799024)(366016)(376014); DIR:OUT; SFP:1101; 
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?amFUL2Jsa09LSk5VYXE1MHZJNk12bTZEdUtmS3J6TTlYdVo2dlFVNEVSSWtr?=
- =?utf-8?B?c3p0Q2FOQ1l5c1BtK2VNWHJ3Tm1RaHpPQUdZOCs4bHdXYkZ0NElDYUpvdjhp?=
- =?utf-8?B?OEE2S1RQS0tYQXVwL0hWT0UyNksySFlLUkdUOUFaU1VDSXVGQmRBS3pUM1k1?=
- =?utf-8?B?Z3FGWGc1UElUdlZBTTRLWkNHU0p3T1owSEhyZnZYNVl3ektheUgwNnhocGFs?=
- =?utf-8?B?QjIwaXpjU25XblozaEVSMU9hMDlsZXBRaXI3ZTJpeEdvbHR4YzY3RG5BaHha?=
- =?utf-8?B?RHo2MGJvUTRGVlY1elIwVVgyd0dRcnVKcWRzazArNXpIQnlvNWwyRXp1TFFP?=
- =?utf-8?B?bFhiSXVtdTVBVE5SQ1d2Qm8rV0hBaUxOTHNXSCt2L2ZUcmlJVHI5by9LU1dY?=
- =?utf-8?B?cTlRWHFKTk9hdGZobFVVVTNNUUlhd3hLM1dKNi9oOUtsVEpaS1FLdDN6N1V0?=
- =?utf-8?B?VURTR3FaQ0lvNmtXUjk4OHliSVRRNVUrRTFTQldlYXExM3l6eDFYdnVWcnhl?=
- =?utf-8?B?SGZHSmtoY091dVRkY1EvM1FlQ2EvMkpDTmlHWnlxNzJWS3QzS1d0aXZBK3Rq?=
- =?utf-8?B?aDg3SDUrUEszcFo1RUJselZja0Jxa1pXaXRyZ1EyQU9Wa3dpRlpITGxXcWFI?=
- =?utf-8?B?d3o5Y05VcE5zeDdKd3RBR1RKZ21zWWkzc25YNFZ2QzA5RXVuVXhkMDhGcmww?=
- =?utf-8?B?TkxSRWtSZ21ubnhJMDVLQ2pqU0x0SUpiTXQ2VjZsRk9jVFUwc2FnSFNYb0ty?=
- =?utf-8?B?LzBZVC85UFN5MnVaMVlkVWdCOG0zdkJONFRrd01CNktxdUJiTUpQNWcrWVV2?=
- =?utf-8?B?K0k4RHdEMWlrcjdJak4vZGdwd3BhZS8xbVpjTHN1Q0FIWElYZHJ0ZnZoQUNY?=
- =?utf-8?B?SHJBeFFpNHNkSFhXMmpuejYwb1NncWtmT01FU0s2OHA4azVJZkdlMGs2THBX?=
- =?utf-8?B?ZkNkTDlBTERNRVVpajNjbERSUUY0WEpURGFLa0xPT3NpclpOeUhrRm85WEFD?=
- =?utf-8?B?UVRmbjFrYWpGckQwQ1NyWEZ1SVQxNUNYLzBwbjZlSnVlZk5veDQrMkVDTmZK?=
- =?utf-8?B?N3BhR3lVcWRVaHRWU1RIa2ZTYXo2SzJUQ0E2YXVEb3dpMVd3V1d1QmNqQVBK?=
- =?utf-8?B?eXRxN0FRQUJteVRHSkZJVWtjUm56VnlaaXFvT1RzekpQRTgreFdGUjA0bnF4?=
- =?utf-8?B?WXk0dDE4U2UvYTN3T0Mrem5LWEpxZ0pMRUJTZWQzM0NTVW5sQzQ0MW9FRGE0?=
- =?utf-8?B?SGlZcjNpZ3lacnVvZVV5eStXL25hWEtKSXJxOWcxMlBkb0J4YXZJT2VRTWt2?=
- =?utf-8?B?dkFpSWN2alpSL0VlYnAvbDBSOG8xUTN2V2VEMHg1V0VCSkFidGYvN1ppaHV0?=
- =?utf-8?B?Zk1VeWowaTNtT3hWcmhjL0lvaXlsdUErUGFjakpWY1FvRGxQTHZhWnhWTmds?=
- =?utf-8?B?WVpIRDE1dHA4UkNxUGVNK0NZVXhPdGJMbXBqYzVhNXR1R2tLbGJYdWJDaXV3?=
- =?utf-8?B?ZmhEeVdEeER2U1FpbzVJSXRZZEJnbU5FdVZ2bWlzNG96SXJ3WkNSalY5ZmhF?=
- =?utf-8?B?L3gzc1REeGdsL0piUUdtTUJsUjYxSldUci9pQXdtenVCZG82VzNJRjUydDh3?=
- =?utf-8?B?U2Y3YzA0eG1rVnJNL0Y1ZTY4TmIrM2pZOCtxeXVwVE8zNkx4UUNENnRZMGxX?=
- =?utf-8?B?blFWZWdtRUluaUtyVEhZNDQzbWNIaktmN0tYOHRrK3ZnUksxRHA5Qi8zQUNo?=
- =?utf-8?B?L1JXUEhvaUw2TGFkeVRaV0FTTTlJWkszMUlEdzQwRjBGUHIvZDZWd0ZXc0Fr?=
- =?utf-8?B?K1ZVWHdLRTgwZHFTb3EwSkhKOWVjZXJOYStyRDhHemVJRiszcTNoUVBxQk9u?=
- =?utf-8?B?cWRRS1o5dGhBZ0RRMVNCTW9EeGE3MGRJb1VGeGdlT1dxTytNSExtRW9aSkRX?=
- =?utf-8?B?SkUzT2cvUmFLQU1jV1d0OFRSeHhSZGdmNUZjcG9ONjRHd1FiQkxuczFPVVNw?=
- =?utf-8?B?Z3RNYloySnQ2MCt3N1dITnFlUWNONjQ1RDNpMFhGZ1A0MkthcjNPZ0VhRG4v?=
- =?utf-8?B?Z01FaEtHNlBqTnJlYXJzY2FDMy9FblUrcU80Qy95RWc4QjlLWEhFdTg2bVkv?=
- =?utf-8?B?cFRrZ2prS1FnREc4ZWxMQjVvT3BtVTlWVlcyL3M3Yk80dFpUcmNtT2tYUDhE?=
- =?utf-8?Q?VwhG0ubLyQAHa8oKqXlfpuc=3D?=
-X-MS-Exchange-CrossTenant-Network-Message-Id: a86404fa-02cb-4af0-8cea-08ddaeade090
-X-MS-Exchange-CrossTenant-AuthSource: PH7PR11MB7605.namprd11.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 18 Jun 2025 21:19:57.7923 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: Ft3bV6DWbfHmLzK6q2VzH6XYu2EV9I51ku91e2pp9QVisU0uUaAyQTTsXuMuVDKRgR1YrTgLLIww15o/PFeIfdNkxE2RTBmhaxZriEINPg4=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: CY8PR11MB7171
-X-OriginatorOrg: intel.com
+In-Reply-To: <CACSVV00cng4PzHzqydGw_L34_f+6KiZTyCRdggNfHaDePGzFOA@mail.gmail.com>
+X-Mimecast-Spam-Score: 0
+X-Mimecast-MFC-PROC-ID: MJi9Ijml5o7rLTH7IoJ0YoHr7YrX9Y4FavcF2EwIlos_1750281818
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -199,119 +111,152 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+On Tue, Jun 17, 2025 at 06:43:21AM -0700, Rob Clark wrote:
+> On Tue, Jun 17, 2025 at 5:48 AM Rob Clark <rob.clark@oss.qualcomm.com> wrote:
+> >
+> > On Tue, Jun 17, 2025 at 2:51 AM Danilo Krummrich <dakr@redhat.com> wrote:
+> > >
+> > > On Mon, Jun 16, 2025 at 03:25:08PM -0700, Rob Clark wrote:
+> > > > On Mon, Jun 16, 2025 at 2:39 PM Danilo Krummrich <dakr@redhat.com> wrote:
+> > > > >
+> > > > > On Sat, Jun 14, 2025 at 08:03:20AM -0700, Rob Clark wrote:
+> > > > > > On Sat, Jun 14, 2025 at 3:39 AM Danilo Krummrich <dakr@redhat.com> wrote:
+> > > > > > >
+> > > > > > > On Fri, Jun 13, 2025 at 04:57:03PM -0700, Rob Clark wrote:
+> > > > > > > > For UNMAP/REMAP steps we could be needing to lock objects that are not
+> > > > > > > > explicitly listed in the VM_BIND ioctl in order to tear-down unmapped
+> > > > > > > > VAs.  These helpers handle locking/preparing the needed objects.
+> > > > > > >
+> > > > > > > Yes, that's a common use-case. I think drivers typically iterate through their
+> > > > > > > drm_gpuva_ops to lock those objects.
+> > > > > > >
+> > > > > > > I had a look at you link [1] and it seems that you keep a list of ops as well by
+> > > > > > > calling vm_op_enqueue() with a new struct msm_vm_op from the callbacks.
+> > > > > > >
+> > > > > > > Please note that for exactly this case there is the op_alloc callback in
+> > > > > > > struct drm_gpuvm_ops, such that you can allocate a custom op type (i.e. struct
+> > > > > > > msm_vm_op) that embedds a struct drm_gpuva_op.
+> > > > > >
+> > > > > > I did use drm_gpuvm_sm_xyz_ops_create() in an earlier iteration of my
+> > > > > > VM_BIND series, but it wasn't quite what I was after.  I wanted to
+> > > > > > apply the VM updates immediately to avoid issues with a later
+> > > > > > map/unmap overlapping an earlier map, which
+> > > > > > drm_gpuvm_sm_xyz_ops_create() doesn't really handle.  I'm not even
+> > > > > > sure why this isn't a problem for other drivers unless userspace is
+> > > > > > providing some guarantees.
+> > > > >
+> > > > > The drm_gpuva_ops are usually used in a pattern like this.
+> > > > >
+> > > > >         vm_bind {
+> > > > >                 for_each_vm_bind_operation {
+> > >                             drm_gpuvm_sm_xyz_ops_create();
+> > > > >                         drm_gpuva_for_each_op {
+> > > > >                                 // modify drm_gpuvm's interval tree
+> > > > >                                 // pre-allocate memory
+> > > > >                                 // lock and prepare objects
+> > > > >                         }
+> > > > >                 }
+> > > > >
+> > > > >                 drm_sched_entity_push_job();
+> > > > >         }
+> > > > >
+> > > > >         run_job {
+> > > > >                 for_each_vm_bind_operation {
+> > > > >                         drm_gpuva_for_each_op {
+> > > > >                                 // modify page tables
+> > > > >                         }
+> > > > >                 }
+> > > > >         }
+> > > > >
+> > > > >         run_job {
+> > > > >                 for_each_vm_bind_operation {
+> > > > >                         drm_gpuva_for_each_op {
+> > > > >                                 // free page table structures, if any
+> > > > >                                 // free unused pre-allocated memory
+> > > > >                         }
+> > > > >                 }
+> > > > >         }
+> > > > >
+> > > > > What did you do instead to get map/unmap overlapping? Even more interesting,
+> > > > > what are you doing now?
+> > > >
+> > > > From what I can tell, the drivers using drm_gpva_for_each_op()/etc are
+> > > > doing drm_gpuva_remove() while iterating the ops list..
+> > > > drm_gpuvm_sm_xyz_ops_create() itself does not modify the VM.  So this
+> > > > can only really work if you perform one MAP or UNMAP at a time.  Or at
+> > > > least if you process the VM modifying part of the ops list before
+> > > > proceeding to the next op.
+> > >
+> > > (Added the drm_gpuvm_sm_xyz_ops_create() step above.)
+> > >
+> > > I went through the code you posted [1] and conceptually you're implementing
+> > > exactly the pattern I described above, i.e. you do:
+> > >
+> > >         vm_bind {
+> > >                 for_each_vm_bind_operation {
+> > >                         drm_gpuvm_sm_xyz_exec_lock();
+> > >                 }
+> > >
+> > >                 for_each_vm_bind_operation {
+> > >                         drm_gpuvm_sm_xyz() {
+> > >                                 // modify drm_gpuvm's interval tree
+> > >                                 // create custom ops
+> > >                         }
+> > >                 }
+> > >
+> > >                 drm_sched_entity_push_job();
+> > >         }
+> > >
+> > >         run_job {
+> > >                 for_each_vm_bind_operation {
+> > >                         for_each_custom_op() {
+> > >                                 // do stuff
+> > >                         }
+> > >                 }
+> > >         }
+> >
+> > Close, but by the time we get to run_job there is just a single list
+> > of ops covering all the vm_bind operations:
+> >
+> >         run_job {
+> >                 for_each_custom_op() {
+> >                         // do stuff
+> >                 }
+> >         }
+> >
+> > rather than a list of va ops per vm_bind op.
+> >
+> > > However, GPUVM intends to solve your use-case with the following, semantically
+> > > identical, approach.
+> > >
+> > >         vm_bind {
+> > >                 for_each_vm_bind_operation {
+> > >                         drm_gpuvm_sm_xyz_ops_create();
+> > >
+> > >                         drm_gpuva_for_each_op {
+> > >                                 // modify drm_gpuvm's interval tree
+> > >                                 // lock and prepare objects (1)
+> >
+> > I currently decouple lock+pin from VM modification to avoid an error
+> > path that leaves the VM partially modified.  Once you add this back
+> > in, the va-ops approach isn't simpler, IMHO.
+> 
+> Oh, actually scratch that.. using va-ops, it is not even possible to
+> decouple locking/prepare from VM modifications.  So using
+> DRM_EXEC_INTERRUPTIBLE_WAIT, for ex, with va-ops list would be an
+> actively bad idea.
 
+Well, you would need to unwind the VM modifications. I think so far this hasn't
+been an issue for drivers, since they have to unwind VM modifications for other
+reasons anyways.
 
-On 6/18/2025 12:00 PM, Badal Nilawar wrote:
-> Introduce a debug filesystem node to disable late binding fw reload
-> during the system or runtime resume. This is intended for situations
-> where the late binding fw needs to be loaded from user mode.
+Do you never need to unwind for other reasons than locking dma_resv and
+preparing GEM objects? Are you really sure there's nothing else in the critical
+path?
 
-You haven't replied to my question on the previous rev in regards to the 
-expected use-case here.
-Is this for testing only, or something an actual user might want to do? 
-If we only need this for testing, please specify so.
-
-Also, what happens if we suspend with a user-loaded binary? userspace 
-doesn't have visibility to know that they have to re-load their binary.
-
-Daniele
-
->
-> v2:
->    -s/(uval == 1) ? true : false/!!uval/ (Daniele)
->
-> Signed-off-by: Badal Nilawar <badal.nilawar@intel.com>
-> ---
->   drivers/gpu/drm/xe/xe_debugfs.c            | 41 ++++++++++++++++++++++
->   drivers/gpu/drm/xe/xe_late_bind_fw.c       |  3 ++
->   drivers/gpu/drm/xe/xe_late_bind_fw_types.h |  3 ++
->   3 files changed, 47 insertions(+)
->
-> diff --git a/drivers/gpu/drm/xe/xe_debugfs.c b/drivers/gpu/drm/xe/xe_debugfs.c
-> index d83cd6ed3fa8..d1f6f556efa2 100644
-> --- a/drivers/gpu/drm/xe/xe_debugfs.c
-> +++ b/drivers/gpu/drm/xe/xe_debugfs.c
-> @@ -226,6 +226,44 @@ static const struct file_operations atomic_svm_timeslice_ms_fops = {
->   	.write = atomic_svm_timeslice_ms_set,
->   };
->   
-> +static ssize_t disable_late_binding_show(struct file *f, char __user *ubuf,
-> +					 size_t size, loff_t *pos)
-> +{
-> +	struct xe_device *xe = file_inode(f)->i_private;
-> +	struct xe_late_bind *late_bind = &xe->late_bind;
-> +	char buf[32];
-> +	int len;
-> +
-> +	len = scnprintf(buf, sizeof(buf), "%d\n", late_bind->disable);
-> +
-> +	return simple_read_from_buffer(ubuf, size, pos, buf, len);
-> +}
-> +
-> +static ssize_t disable_late_binding_set(struct file *f, const char __user *ubuf,
-> +					size_t size, loff_t *pos)
-> +{
-> +	struct xe_device *xe = file_inode(f)->i_private;
-> +	struct xe_late_bind *late_bind = &xe->late_bind;
-> +	u32 uval;
-> +	ssize_t ret;
-> +
-> +	ret = kstrtouint_from_user(ubuf, size, sizeof(uval), &uval);
-> +	if (ret)
-> +		return ret;
-> +
-> +	if (uval > 1)
-> +		return -EINVAL;
-> +
-> +	late_bind->disable = !!uval;
-> +	return size;
-> +}
-> +
-> +static const struct file_operations disable_late_binding_fops = {
-> +	.owner = THIS_MODULE,
-> +	.read = disable_late_binding_show,
-> +	.write = disable_late_binding_set,
-> +};
-> +
->   void xe_debugfs_register(struct xe_device *xe)
->   {
->   	struct ttm_device *bdev = &xe->ttm;
-> @@ -249,6 +287,9 @@ void xe_debugfs_register(struct xe_device *xe)
->   	debugfs_create_file("atomic_svm_timeslice_ms", 0600, root, xe,
->   			    &atomic_svm_timeslice_ms_fops);
->   
-> +	debugfs_create_file("disable_late_binding", 0600, root, xe,
-> +			    &disable_late_binding_fops);
-> +
->   	for (mem_type = XE_PL_VRAM0; mem_type <= XE_PL_VRAM1; ++mem_type) {
->   		man = ttm_manager_type(bdev, mem_type);
->   
-> diff --git a/drivers/gpu/drm/xe/xe_late_bind_fw.c b/drivers/gpu/drm/xe/xe_late_bind_fw.c
-> index c0be9611c73b..001e526e569a 100644
-> --- a/drivers/gpu/drm/xe/xe_late_bind_fw.c
-> +++ b/drivers/gpu/drm/xe/xe_late_bind_fw.c
-> @@ -129,6 +129,9 @@ int xe_late_bind_fw_load(struct xe_late_bind *late_bind)
->   	if (!late_bind->component_added)
->   		return -EINVAL;
->   
-> +	if (late_bind->disable)
-> +		return 0;
-> +
->   	for (fw_id = 0; fw_id < MAX_FW_ID; fw_id++) {
->   		lbfw = &late_bind->late_bind_fw[fw_id];
->   		if (lbfw->valid)
-> diff --git a/drivers/gpu/drm/xe/xe_late_bind_fw_types.h b/drivers/gpu/drm/xe/xe_late_bind_fw_types.h
-> index d256f53d59e6..f79f0c0b2c4a 100644
-> --- a/drivers/gpu/drm/xe/xe_late_bind_fw_types.h
-> +++ b/drivers/gpu/drm/xe/xe_late_bind_fw_types.h
-> @@ -71,6 +71,9 @@ struct xe_late_bind {
->   	struct xe_late_bind_fw late_bind_fw[MAX_FW_ID];
->   	/** @late_bind.wq: workqueue to submit request to download late bind blob */
->   	struct workqueue_struct *wq;
-> +
-> +	/** @late_bind.disable to block late binding reload during pm resume flow*/
-> +	bool disable;
->   };
->   
->   #endif
+If there really isn't anything, I agree that those helpers have value and we
+should add them. So, if we do so, please document in detail the conditions under
+which drm_gpuvm_sm_{map,unmap}_exec_lock() can be called for multiple VM_BIND
+ops *without* updating GPUVM's interval tree intermediately, including an
+example.
 
