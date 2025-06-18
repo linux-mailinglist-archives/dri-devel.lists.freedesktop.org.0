@@ -2,87 +2,98 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 581BAADF0B7
-	for <lists+dri-devel@lfdr.de>; Wed, 18 Jun 2025 17:08:31 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 90424ADF105
+	for <lists+dri-devel@lfdr.de>; Wed, 18 Jun 2025 17:19:17 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0C55E10E023;
-	Wed, 18 Jun 2025 15:08:29 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id EA96A10E881;
+	Wed, 18 Jun 2025 15:19:15 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="frGNmGy3";
+	dkim=pass (2048-bit key; unprotected) header.d=jannau.net header.i=@jannau.net header.b="kBAG2d/k";
+	dkim=pass (2048-bit key; unprotected) header.d=messagingengine.com header.i=@messagingengine.com header.b="OqXrceS/";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pj1-f51.google.com (mail-pj1-f51.google.com
- [209.85.216.51])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E994A10E023
- for <dri-devel@lists.freedesktop.org>; Wed, 18 Jun 2025 15:08:27 +0000 (UTC)
-Received: by mail-pj1-f51.google.com with SMTP id
- 98e67ed59e1d1-311da0bef4aso7719266a91.3
- for <dri-devel@lists.freedesktop.org>; Wed, 18 Jun 2025 08:08:27 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1750259307; x=1750864107; darn=lists.freedesktop.org;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date:message-id:reply-to;
- bh=NlXLcdl0xMjJ43b63DNA4aQ9Nj5CoTCVpP0YbONQKfs=;
- b=frGNmGy33ufU+mU/9+ieqGYISJSxKmoqaNcRNhfCpRrUqJxGoejTXivhmcfQiefFCv
- uSrlHZXqO2Q0I2kgQ+e0o3Ppl1e6K3hPE40TBqh1172NnhDwB5nOv7JD03mRuLBvMTtP
- rz0BIWSaJq42kmWxWZMG+TyS5e0veDQjN7m7P/ddUHcC+BuE2kF/UJ3cmVyKnu03KQG9
- f2QaZaZttsfjSGq8qy6fLhXP3rvR0lsTbG5JQaiNjemAi0eOy3Nanh7/7pSIzRufpsiI
- qF3Kbr5KP8XPVV5Jw61xowe7uc1mNe5VGOuoZsVnwidUXYobBVi+kYOkIvGSvYvAC++K
- ZVlA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1750259307; x=1750864107;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=NlXLcdl0xMjJ43b63DNA4aQ9Nj5CoTCVpP0YbONQKfs=;
- b=nykj/xQFH78QUTVxFaQ3ozT2BHgTUNmQXqnTTmBunsTyHJ1rzgdqSJvKSA4n0Yi+Rz
- eKe0YdhY5cer1gZlhVBbr2dwo0FQa7DTFuYZovyEwVdeBVaeBtH2Jec3mzPmKJrV32CS
- S+aGTrznObRUyKkGLTdVnlBDXhJuk0JDka09VlQuR6oDVfbRHBjDI9JyAznBKF1F2vn2
- 79IiwYJccx8mTWd/zxsFjae5zfJmqqEfm/9JTkbPEE8/JtHNRqnZ2Tod9g79ZCTQp3sb
- nJwsrrSJwBt7nQ1co47vuTOqcXJt5LrAmX5u/QIjYryMEky/byOVGiBJtTW3+N8mRJCM
- Id3A==
-X-Gm-Message-State: AOJu0YyMa9fqMBFdLMLOpL9E3AmizUe0vkBNBZmsn+0eZJ2y5Mi0DoDj
- fwKJC/Dhtyuh9DPma6MlceW4sQuKirZMrC0o+mdo1g2JtX8KbPiBUd3y
-X-Gm-Gg: ASbGncso/UgLeI947tLaBocslLAtXW79DG08UsN+xqN29eFC1A99a8hujpn/TpBgxAb
- G2K0v3OqKoA8zN8ZcQptUAA/M13XWud1p93Hj8ZiMG1hC/WrXc7QBNk+K6cuWoXqvEy1WsJYVH0
- ilrD6tsGUNkEPcq4NOYgdzzJIzsmLejhUE9akYlYVyHjydmJ0u+sE3BwNVgi/I8gqApCGarzPJM
- +9iqkaUyFi4KwB3PBWWjARB4gHZcSe5Eh5jDvVcjOAYvxCzfVjzgE5l3/BNnd7f3tf5lzsYCXP+
- B5YQ/bSWy7OynmzMxAeGYtG/nzYVRrmuVx6GIENQZu+ljLbW8iARbMDcN9qK+NVqzqlUzA==
-X-Google-Smtp-Source: AGHT+IGMfD1en+jAPfFZnyKfP/6fLNvoxSDJknXoysVlOSdS/kFg5+qkb2avdYMr18aUztSudZuFfA==
-X-Received: by 2002:a17:90b:528d:b0:314:2a2e:9da9 with SMTP id
- 98e67ed59e1d1-3142a2e9e1cmr8449811a91.25.1750259307379; 
- Wed, 18 Jun 2025 08:08:27 -0700 (PDT)
-Received: from [192.168.0.123] ([59.188.211.160])
- by smtp.gmail.com with ESMTPSA id
- 98e67ed59e1d1-3158a22418dsm16968a91.9.2025.06.18.08.08.23
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 18 Jun 2025 08:08:27 -0700 (PDT)
-Message-ID: <c7ff4ca4-da9c-4b86-893b-1ffd9fb0fb4f@gmail.com>
-Date: Wed, 18 Jun 2025 23:08:21 +0800
-MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 07/12] backlight: apple_dwi_bl: Include
- <linux/mod_devicetable.h>
-Content-Language: en-MW
-To: Thomas Zimmermann <tzimmermann@suse.de>, lee@kernel.org,
- danielt@kernel.org, jingoohan1@gmail.com, neil.armstrong@linaro.org,
- jessica.zhang@oss.qualcomm.com, maarten.lankhorst@linux.intel.com,
- mripard@kernel.org, airlied@gmail.com, simona@ffwll.ch,
- fnkl.kernel@gmail.com, j@jannau.net, hdegoede@redhat.com,
- ilpo.jarvinen@linux.intel.com, sven@kernel.org, alyssa@rosenzweig.io,
- neal@gompa.dev, deller@gmx.de, support.opensource@diasemi.com,
- duje.mihanovic@skole.hr
-Cc: dri-devel@lists.freedesktop.org, asahi@lists.linux.dev,
- platform-driver-x86@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
- linux-fbdev@vger.kernel.org
+Received: from fhigh-a4-smtp.messagingengine.com
+ (fhigh-a4-smtp.messagingengine.com [103.168.172.155])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3FD7A10E884
+ for <dri-devel@lists.freedesktop.org>; Wed, 18 Jun 2025 15:19:14 +0000 (UTC)
+Received: from phl-compute-05.internal (phl-compute-05.phl.internal
+ [10.202.2.45])
+ by mailfhigh.phl.internal (Postfix) with ESMTP id 0AD4211401DC;
+ Wed, 18 Jun 2025 11:19:11 -0400 (EDT)
+Received: from phl-mailfrontend-01 ([10.202.2.162])
+ by phl-compute-05.internal (MEProxy); Wed, 18 Jun 2025 11:19:11 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=jannau.net; h=cc
+ :cc:content-type:content-type:date:date:from:from:in-reply-to
+ :in-reply-to:message-id:mime-version:references:reply-to:subject
+ :subject:to:to; s=fm3; t=1750259951; x=1750346351; bh=WO/z6nXKHh
+ mPKqTYhrdKPVyjJIEwheeScnSf5HObDQk=; b=kBAG2d/k3jYQcWwudKuhwnZoIg
+ bT8BGaGnO89+e2XdGsV8mXWAXXeBpDnr3+Z8+pd/GFblR4xe8NpgIH1hQ1cBEq2I
+ 21Lfl2whGWeFJkTqu/p+LYyNhUx693Pi4jcMu8aCbtnT8HWBmcJl3hFhYb2xRuvR
+ ePneY+oeIhsWCtMyGUAu/I06c4iCMBjXsS06bp4nfy+zWPm/lYE8SREdlpRSCpcZ
+ xb5w/BN+lOKxIgcfFILV5zQfPBrY+fR5vFk40JxbL6gu83NLM4CNiQgwxeQo9rqP
+ QRIVojQgY8cFyf0OpFKqd5aQ3Rz2DA4jQ558rNT/AfiLnISk+uyCxFVH4EWw==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+ messagingengine.com; h=cc:cc:content-type:content-type:date:date
+ :feedback-id:feedback-id:from:from:in-reply-to:in-reply-to
+ :message-id:mime-version:references:reply-to:subject:subject:to
+ :to:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm1; t=
+ 1750259951; x=1750346351; bh=WO/z6nXKHhmPKqTYhrdKPVyjJIEwheeScnS
+ f5HObDQk=; b=OqXrceS/LN7ABzPOO7vhJH6ksoO3UMevC6RoZWmTsilbltXbhiN
+ sIXM/OiSLFfDsTyhAuy5Opu6ckXdUJi73JxF38E9IkJ6ns2McCvVp3hxkhMlvr9B
+ Oue7iDYv/UztIqRXeQfPuGfKQYD+7yv7DQ/37dAhQHVoIM5rW7oj4BNNrbeJXlHr
+ 4Dvwq9XcUWsCfyMIcICAfmcKobCBeYNMNCJQldN0i3eQye/emLZmRavWcH/Ld4T6
+ 6323urQz6KmEzMZc4JGwR2iGHuJw52BEyBy3lPtb7PWRJEkl5xegpKHJNVOJ5YwI
+ ZFIT1vgL/waOce4NKSC8u3oqGEKOePE2w8Q==
+X-ME-Sender: <xms:7dhSaJIP82tX6p7DEl8JOHr7c7Z5DNE5mzALKcty1TNEdbzeKHPKiA>
+ <xme:7dhSaFLpCJXfsREoXkQR-5wOmgpFpFCsPWijN3ug8Ltqvy_ocTWGwRItNy_zBXkgn
+ 1SP4pn_gwYpTWOldtU>
+X-ME-Received: <xmr:7dhSaBtcY6EJYMGN10cQtbN9EXV3QKTaSmD_dCuSEleLlb214gX1gEO4UE89FqQa6CwcxU_DBm69Tmogtmr6ec8VXzARWf7jxus>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeeffedrtddvgddvleekucetufdoteggodetrfdotf
+ fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdggtfgfnhhsuhgsshgtrhhisggvpdfu
+ rfetoffkrfgpnffqhgenuceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnh
+ htshculddquddttddmnecujfgurhepfffhvfevuffkfhggtggujgesthdtredttddtjeen
+ ucfhrhhomheplfgrnhhnvgcuifhruhhnrghuuceojhesjhgrnhhnrghurdhnvghtqeenuc
+ ggtffrrghtthgvrhhnpefgvdffveelgedujeeffeehheekheelheefgfejffeftedugeet
+ hfeuudefheefteenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfh
+ hrohhmpehjsehjrghnnhgruhdrnhgvthdpnhgspghrtghpthhtohepvdegpdhmohguvgep
+ shhmthhpohhuthdprhgtphhtthhopehtiihimhhmvghrmhgrnhhnsehsuhhsvgdruggvpd
+ hrtghpthhtoheplhgvvgeskhgvrhhnvghlrdhorhhgpdhrtghpthhtohepuggrnhhivghl
+ theskhgvrhhnvghlrdhorhhgpdhrtghpthhtohepjhhinhhgohhohhgrnhdusehgmhgrih
+ hlrdgtohhmpdhrtghpthhtohepnhgvihhlrdgrrhhmshhtrhhonhhgsehlihhnrghrohdr
+ ohhrghdprhgtphhtthhopehjvghsshhitggrrdiihhgrnhhgsehoshhsrdhquhgrlhgtoh
+ hmmhdrtghomhdprhgtphhtthhopehmrggrrhhtvghnrdhlrghnkhhhohhrshhtsehlihhn
+ uhigrdhinhhtvghlrdgtohhmpdhrtghpthhtohepmhhrihhprghrugeskhgvrhhnvghlrd
+ horhhgpdhrtghpthhtoheprghirhhlihgvugesghhmrghilhdrtghomh
+X-ME-Proxy: <xmx:7dhSaKbl1ZMotpjMQtM5yHRTHJc6TdIhRYJX4-2F-PuetDl30Wj4gQ>
+ <xmx:7dhSaAawsQO09J05y418B2N8d7WUoBEceWh2y08wPM6ASdEcmHVvAA>
+ <xmx:7dhSaODyOzGssvtqXZgRJie55tA53yYoxKaT8Ks5LuYffaw0oOepFw>
+ <xmx:7dhSaOY62WvDxdzEWfY-d_WOEyGTNRpVaFWfrFDJvIs-quOX6EAPJQ>
+ <xmx:79hSaGULqo-ojzHZEr62DhrX1iqgwD9W1XclI2m9nwJuc7QEZNUdEZIk>
+Feedback-ID: i47b949f6:Fastmail
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Wed,
+ 18 Jun 2025 11:19:08 -0400 (EDT)
+Date: Wed, 18 Jun 2025 17:19:06 +0200
+From: Janne Grunau <j@jannau.net>
+To: Thomas Zimmermann <tzimmermann@suse.de>
+Cc: lee@kernel.org, danielt@kernel.org, jingoohan1@gmail.com,
+ neil.armstrong@linaro.org, jessica.zhang@oss.qualcomm.com,
+ maarten.lankhorst@linux.intel.com, mripard@kernel.org,
+ airlied@gmail.com, simona@ffwll.ch, fnkl.kernel@gmail.com,
+ hdegoede@redhat.com, ilpo.jarvinen@linux.intel.com, sven@kernel.org,
+ alyssa@rosenzweig.io, neal@gompa.dev, deller@gmx.de,
+ support.opensource@diasemi.com, duje.mihanovic@skole.hr,
+ dri-devel@lists.freedesktop.org, asahi@lists.linux.dev,
+ platform-driver-x86@vger.kernel.org,
+ linux-arm-kernel@lists.infradead.org, linux-fbdev@vger.kernel.org
+Subject: Re: [PATCH 04/12] drm/panel: panel-summit: Include <linux/of.h>
+Message-ID: <20250618151906.GA103923@robin.jannau.net>
 References: <20250618122436.379013-1-tzimmermann@suse.de>
- <20250618122436.379013-8-tzimmermann@suse.de>
-From: Nick Chan <towinchenmi@gmail.com>
-In-Reply-To: <20250618122436.379013-8-tzimmermann@suse.de>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+ <20250618122436.379013-5-tzimmermann@suse.de>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <20250618122436.379013-5-tzimmermann@suse.de>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -98,28 +109,27 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-
-
-On 18/6/2025 20:16, Thomas Zimmermann wrote:
-> Include <linux/mod_devicetable.h> to declare struct of_device_id.
-> Avoids dependency on backlight header to include it.
+On Wed, Jun 18, 2025 at 02:16:36PM +0200, Thomas Zimmermann wrote:
+> Include <linux/of.h> to declare device_property_read_u32() and
+> struct of_device_id. Avoids dependency on backlight header to include
+> it.
 > 
 > Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
 > ---
->  drivers/video/backlight/apple_dwi_bl.c | 1 +
+>  drivers/gpu/drm/panel/panel-summit.c | 1 +
 >  1 file changed, 1 insertion(+)
 > 
-> diff --git a/drivers/video/backlight/apple_dwi_bl.c b/drivers/video/backlight/apple_dwi_bl.c
-> index 93bd744972d6..ed8bf13d3f51 100644
-> --- a/drivers/video/backlight/apple_dwi_bl.c
-> +++ b/drivers/video/backlight/apple_dwi_bl.c
-> @@ -9,6 +9,7 @@
->  #include <linux/bitfield.h>
->  #include <linux/device.h>
->  #include <linux/io.h>
-> +#include <linux/mod_devicetable.h>
->  #include <linux/module.h>
->  #include <linux/platform_device.h>
+> diff --git a/drivers/gpu/drm/panel/panel-summit.c b/drivers/gpu/drm/panel/panel-summit.c
+> index 4854437e2899..02aa1ec287d6 100644
+> --- a/drivers/gpu/drm/panel/panel-summit.c
+> +++ b/drivers/gpu/drm/panel/panel-summit.c
+> @@ -1,6 +1,7 @@
+>  // SPDX-License-Identifier: GPL-2.0-only
 >  
+>  #include <linux/backlight.h>
+> +#include <linux/of.h>
+>  #include <drm/drm_device.h>
+>  #include <drm/drm_mipi_dsi.h>
+>  #include <drm/drm_mode.h>
 
-Reviewed-by: Nick Chan <towinchenmi@gmail.com>
+Reviewed-by: Janne Grunau <j@jannau.net>
