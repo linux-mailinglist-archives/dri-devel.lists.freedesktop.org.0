@@ -2,55 +2,77 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B6BCCADE72B
-	for <lists+dri-devel@lfdr.de>; Wed, 18 Jun 2025 11:38:57 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 872FCADE78C
+	for <lists+dri-devel@lfdr.de>; Wed, 18 Jun 2025 11:59:39 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8109910E05B;
-	Wed, 18 Jun 2025 09:38:55 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D0A9610E7BC;
+	Wed, 18 Jun 2025 09:59:36 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="nDAMDTLM";
+	dkim=pass (1024-bit key; unprotected) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="fhnDaZYk";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from tor.source.kernel.org (tor.source.kernel.org [172.105.4.254])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B30DE10E05B
- for <dri-devel@lists.freedesktop.org>; Wed, 18 Jun 2025 09:38:53 +0000 (UTC)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by tor.source.kernel.org (Postfix) with ESMTP id 91E71629C5;
- Wed, 18 Jun 2025 09:38:46 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0AA3AC4CEE7;
- Wed, 18 Jun 2025 09:38:42 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1750239526;
- bh=Dk4yynuLUZzdLhb5FVHjc9U3LZysX6xe3JJlSsT39M8=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=nDAMDTLM1J0youlb6K3un6RIsegAIe71aAVZKYlZNqCocGSR1R4PGVdnOydOBOIsi
- EaVptVlHCw/gjGeceazkbSOUt01S2EhCdYXpBsw78uvD1o0CVJnVf15FhCbqRpdKVN
- 4+JeXwh/gKjy88xTZZVaKQSj1PTL2COk76mN+pYDnRCc7+pIyQuNf8qGW9ZWYfdVm0
- +UclJJlLzHN3EAfbl6leKnMXLxYz3I/cgnylMcgqGnkhcWk7K26SYeKj4fWNM2zoyl
- 6+Szq0KbGRb8q6pIKRaO+P6UzhwFFv03vuj1NlnwL+fU8LIUMFFv6K1MoFNlo/cXm+
- nMOFBPg4llGtQ==
-Date: Wed, 18 Jun 2025 11:38:40 +0200
-From: Danilo Krummrich <dakr@kernel.org>
-To: Alice Ryhl <aliceryhl@google.com>
-Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- Miguel Ojeda <ojeda@kernel.org>, Boqun Feng <boqun.feng@gmail.com>,
- Gary Guo <gary@garyguo.net>,
- =?iso-8859-1?Q?Bj=F6rn?= Roy Baron <bjorn3_gh@protonmail.com>,
- Benno Lossin <lossin@kernel.org>, Andreas Hindborg <a.hindborg@kernel.org>,
- Trevor Gross <tmgross@umich.edu>, dri-devel@lists.freedesktop.org,
- rust-for-linux@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] rust: types: add Opaque::from_raw
-Message-ID: <aFKJILuksX90AJHc@pollux>
-References: <20250617-opaque-from-raw-v1-1-a2e99efa3ba2@google.com>
- <aFFzi88miMbCZ0yQ@pollux> <aFJx2IqLfCjWsbVv@google.com>
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
+ [213.167.242.64])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5D74F10E7BC
+ for <dri-devel@lists.freedesktop.org>; Wed, 18 Jun 2025 09:59:36 +0000 (UTC)
+Received: from [127.0.1.1] (91-158-153-178.elisa-laajakaista.fi
+ [91.158.153.178])
+ by perceval.ideasonboard.com (Postfix) with ESMTPSA id 39549F06;
+ Wed, 18 Jun 2025 11:59:18 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+ s=mail; t=1750240759;
+ bh=O+64+98CK/mpPNF+GEnXjzDTEUr4OHAhCpB8oN0WYvc=;
+ h=From:Subject:Date:To:Cc:From;
+ b=fhnDaZYkfMPhGNyk5HaohAfjVthtageKg1grn6N5LL4BDIBPgS72tPtHVlDIXqReU
+ orAfxs7QA5N6g896FviKYE4KABll35IEVjCpR3Yxb9wtBsNk/Jqtwf6lbVEKxlW9j6
+ D7hutKgurj0k+ScroDMYFtJYNLdirmqL5yO17KzY=
+From: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
+Subject: [PATCH v4 00/17] drm/bridge: cdns-dsi: Make it work a bit better
+Date: Wed, 18 Jun 2025 12:59:03 +0300
+Message-Id: <20250618-cdns-dsi-impro-v4-0-862c841dbe02@ideasonboard.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <aFJx2IqLfCjWsbVv@google.com>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-B4-Tracking: v=1; b=H4sIAOmNUmgC/3XNQQ7CIBCF4asY1mJggFBdeQ/jgnamOguLgjYa0
+ 7tL66Im6vJ/yXzzFJkSUxabxVMk6jlz7ErY5UI0x9AdSDKWFqDAKQNKNthliZkln84pSoNVW6O
+ vbIValKNzopbvE7jbvzvR5Vbc6zweOV9jekxPez2uf/1eSyU9OPC+ca019ZaRQo5dHUPCVRNPY
+ hR7mBWr4EuBotig1oZCcAT+j2I+FG2/FDMq5MA5jbZVv5RhGF7V7lwnVAEAAA==
+X-Change-ID: 20250320-cdns-dsi-impro-3d8fbd7848d1
+To: Jyri Sarha <jyri.sarha@iki.fi>, 
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, 
+ Vinod Koul <vkoul@kernel.org>, Kishon Vijay Abraham I <kishon@kernel.org>, 
+ Andrzej Hajda <andrzej.hajda@intel.com>, 
+ Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>, 
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>, 
+ Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>, 
+ Jayesh Choudhary <j-choudhary@ti.com>, Dmitry Baryshkov <lumag@kernel.org>
+Cc: dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org, 
+ linux-phy@lists.infradead.org, Francesco Dolcini <francesco@dolcini.it>, 
+ Aradhya Bhatia <aradhya.bhatia@linux.dev>, 
+ Devarsh Thakkar <devarsht@ti.com>, 
+ Parth Pancholi <parth.pancholi@toradex.com>, 
+ Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
+X-Mailer: b4 0.15-dev-c25d1
+X-Developer-Signature: v=1; a=openpgp-sha256; l=4536;
+ i=tomi.valkeinen@ideasonboard.com; h=from:subject:message-id;
+ bh=O+64+98CK/mpPNF+GEnXjzDTEUr4OHAhCpB8oN0WYvc=;
+ b=owEBbQKS/ZANAwAIAfo9qoy8lh71AcsmYgBoUo35wgz/CzFjE5sBtKmbQk+LBL4L4cUG3wUxf
+ B7ly88ipcGJAjMEAAEIAB0WIQTEOAw+ll79gQef86f6PaqMvJYe9QUCaFKN+QAKCRD6PaqMvJYe
+ 9aYSEACpygFmsKoDvt78cPmpvqSLXgIc1tSvCy0fc+6lIFUoH5Od89Kpa0v82qa/IRM8O9u7x7P
+ KuGZNOFN27f6yX5TZalWbllDXaUezpMnU+9J/cDxRbDAbcHvcOGjGa7epFv9vpHolMWMRvHnsga
+ cW5oxObVEkUJxih8QZvwd5AdDDF6YaWkqq68IhGPWB5nGMe6K7IPRkdScTng0bshtf7EDhoTM64
+ lEl3/yMVxIhqGmK5YVQKhZD/KYavaARn2yWFPIq7LXwS5qJpziD26V67s48KSkdqxJE8WxiQ18o
+ UDmLwXOm/+Qix9KcFrVCbnT3M2JR3oNRcKBcoKH8NixRHD0PKzUerdCt2IzIQ58FDcvptxdSfXc
+ QpALzPcV+iWA8tipMvZtpl0ADK2StpnwFrglBse2GWsQLhp/GlSnYndyVy69ZySsICjoZu9SMBA
+ nTiAEVWSXKUhkH2+dtse2Q52F0hAooO3WVUraci2FBAOKsggOLAU/FsciJ+24q2KY31d7sKyP+1
+ nrdyRLewY2CjRsU7+i/qioq1qDkEC8g4JduV4aYOglneq8kJ7fSAj/mckue1jvpmisw/FXuQxPn
+ pVDqSDyELwWOQaFXqQhVx9U0VEerRPNtmhceoETpg9TtTmTr+U4xsAtdCFrBPptJdDmY3B44jp4
+ Y4upc99KisQwTzw==
+X-Developer-Key: i=tomi.valkeinen@ideasonboard.com; a=openpgp;
+ fpr=C4380C3E965EFD81079FF3A7FA3DAA8CBC961EF5
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -66,54 +88,99 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, Jun 18, 2025 at 07:59:20AM +0000, Alice Ryhl wrote:
-> On Tue, Jun 17, 2025 at 03:54:19PM +0200, Danilo Krummrich wrote:
-> > On Tue, Jun 17, 2025 at 01:36:47PM +0000, Alice Ryhl wrote:
-> > > Since commit b20fbbc08a36 ("rust: check type of `$ptr` in
-> > > `container_of!`") we have enforced that the field pointer passed to
-> > > container_of! must match the declared field. This caused mismatches when
-> > > using a pointer to bindings::x for fields of type Opaque<bindings::x>.
-> > > 
-> > > This situation encourages the user to simply pass field.cast() to the
-> > > container_of! macro, but this is not great because you might
-> > > accidentally pass a *mut bindings::y when the field type is
-> > > Opaque<bindings::x>, which would be wrong.
-> > > 
-> > > To help catch this kind of mistake, add a new Opaque::from_raw that
-> > > wraps a raw pointer in Opaque without changing the inner type.
-> > 
-> > The patch does more than that, it also adds a hint to container_of!() and fixes
-> > up two occurences. I feel like we should split it up.
-> 
-> I think they go together pretty naturally, but I can split it if you
-> insist.
+While trying to get the cdns-dsi to work on Toradex's AM69 Aquila
+platform, I hit multiple issues in the driver. Basicaly nothing worked
+for with the board.
 
-Nah, it's also fine for me to keep it as is, but in that case we should also
-mention the other changes in the commit message.
+This series fixes those issues. While I itch to make much larger changes
+to the cdns-dsi driver, I opted to keep this series relatively simple to
+make the fixes more clear and possibly help with backporting.
 
-> > > +    /// The opposite operation of [`Opaque::raw_get`].
-> > > +    pub const fn from_raw(this: *const T) -> *const Self {
-> > 
-> > Do we want to name this from_raw()? Usually from_raw() methods return either
-> > Self or &'a Self.
-> > 
-> > Maybe something like cast_from() and rename raw_get() to cast_into()? I think
-> > the latter may be confusing anyways, since it sounds like it would do somthing
-> > with reference counting.
-> 
-> The name raw_get() mirrors the stdlib function UnsafeCell::raw_get().
-> The stdlib uses this naming because in Rust the word "get" normally has
-> nothing to do with reference counting - outside of the kernel, we use
-> "clone" for incrementing refcounts and nobody would ever call it "get".
+The series also touches tidss, but those changes are not strictly
+needed, and can be merged separately. And the series also touches
+cdns-dphy, and those changes are needed.
 
-Yeah, I'm aware. The main reason I proposed cast_into() is that it would fit
-much better with the newly introduced cast_from() (in case we go with that
-name).
+This has been tested on Toradex AM69 Aquila (upstream) and AM62P Verdin
+(Toradex's BSP), with:
+- HDMI output using lontium lt8912b
+- LVDS panel (sn65dsi84 + panel-lvds)
 
-I'm happy with other proposals too, I just think that from_raw() would be a bit
-inconsistent with how we use this name otherwise.
+ Tomi
 
-> That said, it may still be worth to rename the method. Thoughts?
+Signed-off-by: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
+---
+Changes in v4:
+- Rebased on top of drm-misc-next, which has most of the dependencies
+  merged
+- Moved one dependency, "drm/bridge: cdns-dsi: Fix the _atomic_check()"
+  into this series
+- Dropped "drm/tidss: Adjust the pclk based on the HW capabilities".
+  This causes a regression with OLDI outputs, and is not strictly
+  required. Fixing this needs restructuring tidss clock handling.
+- Link to v3: https://lore.kernel.org/r/20250414-cdns-dsi-impro-v3-0-4e52551d4f07@ideasonboard.com
 
-I think it'd be good if it aligns naming wise with its counter part added in
-this patch and I don't see this happening with raw_get(). :-)
+Changes in v3:
+- Add Aradhya's "drm/bridge: cdns-dsi: Fix the _atomic_check()" to the
+  dependencies
+- The above patch from Aradhya allowed adding "drm/bridge: cdns-dsi:
+  Drop crtc_* code", which resulted in quite large changes in the
+  commits, even if the end result doesn't really differ.
+- Reordered commits to decrease back-and-forth (e.g. fixing something in
+  a a code that will be removed in the next commits)
+- The reordering caused quite big changes in the commits (even if the
+  final end result is more or less the same), so I chose not to add
+  tested-by tags.
+- Rename 'cdns_get_dphy_pll_cfg' to 'cdns_dphy_get_pll_cfg'
+- Use div_u64() instead of div64_u64()
+- Drop "Fail if HS rate changed when validating PHY config". This was
+  too strict, as clock rounding (especially with DRM's 1kHz
+  resolution...) leads to clock rates that do not match exactly.
+  However, the rate mismatch should be fine as the commits adjust the
+  pixel clock, and the resulting differences should be so small that we
+  can't even improve the timings match by adjusting the DSI HFP, as the
+  adjustment rounds to 0.
+- Link to v2: https://lore.kernel.org/r/20250402-cdns-dsi-impro-v2-0-4a093eaa5e27@ideasonboard.com
+
+Changes in v2:
+- Change the tidss clock adjustment from mode_fixup() to atomic_check()
+- Link to v1: https://lore.kernel.org/r/20250320-cdns-dsi-impro-v1-0-725277c5f43b@ideasonboard.com
+
+---
+Aradhya Bhatia (1):
+      drm/bridge: cdns-dsi: Fix the _atomic_check()
+
+Tomi Valkeinen (16):
+      drm/tidss: Fix missing includes and struct decls
+      drm/tidss: Use the crtc_* timings when programming the HW
+      phy: cdns-dphy: Store hs_clk_rate and return it
+      phy: cdns-dphy: Remove leftover code
+      drm/bridge: cdns-dsi: Remove extra line at the end of the file
+      drm/bridge: cdns-dsi: Drop crtc_* code
+      drm/bridge: cdns-dsi: Remove broken fifo emptying check
+      drm/bridge: cdns-dsi: Drop checks that shouldn't be in .mode_valid()
+      drm/bridge: cdns-dsi: Update htotal in cdns_dsi_mode2cfg()
+      drm/bridge: cdns-dsi: Drop cdns_dsi_adjust_phy_config()
+      drm/bridge: cdns-dsi: Adjust mode to negative syncs
+      drm/bridge: cdns-dsi: Fix REG_WAKEUP_TIME value
+      drm/bridge: cdns-dsi: Use video mode and clean up cdns_dsi_mode2cfg()
+      drm/bridge: cdns-dsi: Fix event mode
+      drm/bridge: cdns-dsi: Tune adjusted_mode->clock according to dsi needs
+      drm/bridge: cdns-dsi: Don't fail on MIPI_DSI_MODE_VIDEO_BURST
+
+ drivers/gpu/drm/bridge/cadence/cdns-dsi-core.c | 211 +++++++++++--------------
+ drivers/gpu/drm/tidss/tidss_crtc.c             |   2 +-
+ drivers/gpu/drm/tidss/tidss_dispc.c            |  16 +-
+ drivers/gpu/drm/tidss/tidss_dispc.h            |   3 +
+ drivers/gpu/drm/tidss/tidss_drv.h              |   2 +
+ drivers/gpu/drm/tidss/tidss_plane.h            |   2 +
+ drivers/gpu/drm/tidss/tidss_scale_coefs.h      |   2 +
+ drivers/phy/cadence/cdns-dphy.c                |  24 ++-
+ 8 files changed, 115 insertions(+), 147 deletions(-)
+---
+base-commit: 261a603062a87bad0b54904c76dacb15fa126c74
+change-id: 20250320-cdns-dsi-impro-3d8fbd7848d1
+
+Best regards,
+-- 
+Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
+
