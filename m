@@ -2,98 +2,54 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 90424ADF105
-	for <lists+dri-devel@lfdr.de>; Wed, 18 Jun 2025 17:19:17 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5463EADF12A
+	for <lists+dri-devel@lfdr.de>; Wed, 18 Jun 2025 17:22:54 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id EA96A10E881;
-	Wed, 18 Jun 2025 15:19:15 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E29A410E890;
+	Wed, 18 Jun 2025 15:22:51 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=jannau.net header.i=@jannau.net header.b="kBAG2d/k";
-	dkim=pass (2048-bit key; unprotected) header.d=messagingengine.com header.i=@messagingengine.com header.b="OqXrceS/";
+	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=igalia.com header.i=@igalia.com header.b="b/ROIEup";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from fhigh-a4-smtp.messagingengine.com
- (fhigh-a4-smtp.messagingengine.com [103.168.172.155])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3FD7A10E884
- for <dri-devel@lists.freedesktop.org>; Wed, 18 Jun 2025 15:19:14 +0000 (UTC)
-Received: from phl-compute-05.internal (phl-compute-05.phl.internal
- [10.202.2.45])
- by mailfhigh.phl.internal (Postfix) with ESMTP id 0AD4211401DC;
- Wed, 18 Jun 2025 11:19:11 -0400 (EDT)
-Received: from phl-mailfrontend-01 ([10.202.2.162])
- by phl-compute-05.internal (MEProxy); Wed, 18 Jun 2025 11:19:11 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=jannau.net; h=cc
- :cc:content-type:content-type:date:date:from:from:in-reply-to
- :in-reply-to:message-id:mime-version:references:reply-to:subject
- :subject:to:to; s=fm3; t=1750259951; x=1750346351; bh=WO/z6nXKHh
- mPKqTYhrdKPVyjJIEwheeScnSf5HObDQk=; b=kBAG2d/k3jYQcWwudKuhwnZoIg
- bT8BGaGnO89+e2XdGsV8mXWAXXeBpDnr3+Z8+pd/GFblR4xe8NpgIH1hQ1cBEq2I
- 21Lfl2whGWeFJkTqu/p+LYyNhUx693Pi4jcMu8aCbtnT8HWBmcJl3hFhYb2xRuvR
- ePneY+oeIhsWCtMyGUAu/I06c4iCMBjXsS06bp4nfy+zWPm/lYE8SREdlpRSCpcZ
- xb5w/BN+lOKxIgcfFILV5zQfPBrY+fR5vFk40JxbL6gu83NLM4CNiQgwxeQo9rqP
- QRIVojQgY8cFyf0OpFKqd5aQ3Rz2DA4jQ558rNT/AfiLnISk+uyCxFVH4EWw==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
- messagingengine.com; h=cc:cc:content-type:content-type:date:date
- :feedback-id:feedback-id:from:from:in-reply-to:in-reply-to
- :message-id:mime-version:references:reply-to:subject:subject:to
- :to:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm1; t=
- 1750259951; x=1750346351; bh=WO/z6nXKHhmPKqTYhrdKPVyjJIEwheeScnS
- f5HObDQk=; b=OqXrceS/LN7ABzPOO7vhJH6ksoO3UMevC6RoZWmTsilbltXbhiN
- sIXM/OiSLFfDsTyhAuy5Opu6ckXdUJi73JxF38E9IkJ6ns2McCvVp3hxkhMlvr9B
- Oue7iDYv/UztIqRXeQfPuGfKQYD+7yv7DQ/37dAhQHVoIM5rW7oj4BNNrbeJXlHr
- 4Dvwq9XcUWsCfyMIcICAfmcKobCBeYNMNCJQldN0i3eQye/emLZmRavWcH/Ld4T6
- 6323urQz6KmEzMZc4JGwR2iGHuJw52BEyBy3lPtb7PWRJEkl5xegpKHJNVOJ5YwI
- ZFIT1vgL/waOce4NKSC8u3oqGEKOePE2w8Q==
-X-ME-Sender: <xms:7dhSaJIP82tX6p7DEl8JOHr7c7Z5DNE5mzALKcty1TNEdbzeKHPKiA>
- <xme:7dhSaFLpCJXfsREoXkQR-5wOmgpFpFCsPWijN3ug8Ltqvy_ocTWGwRItNy_zBXkgn
- 1SP4pn_gwYpTWOldtU>
-X-ME-Received: <xmr:7dhSaBtcY6EJYMGN10cQtbN9EXV3QKTaSmD_dCuSEleLlb214gX1gEO4UE89FqQa6CwcxU_DBm69Tmogtmr6ec8VXzARWf7jxus>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeeffedrtddvgddvleekucetufdoteggodetrfdotf
- fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdggtfgfnhhsuhgsshgtrhhisggvpdfu
- rfetoffkrfgpnffqhgenuceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnh
- htshculddquddttddmnecujfgurhepfffhvfevuffkfhggtggujgesthdtredttddtjeen
- ucfhrhhomheplfgrnhhnvgcuifhruhhnrghuuceojhesjhgrnhhnrghurdhnvghtqeenuc
- ggtffrrghtthgvrhhnpefgvdffveelgedujeeffeehheekheelheefgfejffeftedugeet
- hfeuudefheefteenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfh
- hrohhmpehjsehjrghnnhgruhdrnhgvthdpnhgspghrtghpthhtohepvdegpdhmohguvgep
- shhmthhpohhuthdprhgtphhtthhopehtiihimhhmvghrmhgrnhhnsehsuhhsvgdruggvpd
- hrtghpthhtoheplhgvvgeskhgvrhhnvghlrdhorhhgpdhrtghpthhtohepuggrnhhivghl
- theskhgvrhhnvghlrdhorhhgpdhrtghpthhtohepjhhinhhgohhohhgrnhdusehgmhgrih
- hlrdgtohhmpdhrtghpthhtohepnhgvihhlrdgrrhhmshhtrhhonhhgsehlihhnrghrohdr
- ohhrghdprhgtphhtthhopehjvghsshhitggrrdiihhgrnhhgsehoshhsrdhquhgrlhgtoh
- hmmhdrtghomhdprhgtphhtthhopehmrggrrhhtvghnrdhlrghnkhhhohhrshhtsehlihhn
- uhigrdhinhhtvghlrdgtohhmpdhrtghpthhtohepmhhrihhprghrugeskhgvrhhnvghlrd
- horhhgpdhrtghpthhtoheprghirhhlihgvugesghhmrghilhdrtghomh
-X-ME-Proxy: <xmx:7dhSaKbl1ZMotpjMQtM5yHRTHJc6TdIhRYJX4-2F-PuetDl30Wj4gQ>
- <xmx:7dhSaAawsQO09J05y418B2N8d7WUoBEceWh2y08wPM6ASdEcmHVvAA>
- <xmx:7dhSaODyOzGssvtqXZgRJie55tA53yYoxKaT8Ks5LuYffaw0oOepFw>
- <xmx:7dhSaOY62WvDxdzEWfY-d_WOEyGTNRpVaFWfrFDJvIs-quOX6EAPJQ>
- <xmx:79hSaGULqo-ojzHZEr62DhrX1iqgwD9W1XclI2m9nwJuc7QEZNUdEZIk>
-Feedback-ID: i47b949f6:Fastmail
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Wed,
- 18 Jun 2025 11:19:08 -0400 (EDT)
-Date: Wed, 18 Jun 2025 17:19:06 +0200
-From: Janne Grunau <j@jannau.net>
-To: Thomas Zimmermann <tzimmermann@suse.de>
-Cc: lee@kernel.org, danielt@kernel.org, jingoohan1@gmail.com,
- neil.armstrong@linaro.org, jessica.zhang@oss.qualcomm.com,
- maarten.lankhorst@linux.intel.com, mripard@kernel.org,
- airlied@gmail.com, simona@ffwll.ch, fnkl.kernel@gmail.com,
- hdegoede@redhat.com, ilpo.jarvinen@linux.intel.com, sven@kernel.org,
- alyssa@rosenzweig.io, neal@gompa.dev, deller@gmx.de,
- support.opensource@diasemi.com, duje.mihanovic@skole.hr,
- dri-devel@lists.freedesktop.org, asahi@lists.linux.dev,
- platform-driver-x86@vger.kernel.org,
- linux-arm-kernel@lists.infradead.org, linux-fbdev@vger.kernel.org
-Subject: Re: [PATCH 04/12] drm/panel: panel-summit: Include <linux/of.h>
-Message-ID: <20250618151906.GA103923@robin.jannau.net>
-References: <20250618122436.379013-1-tzimmermann@suse.de>
- <20250618122436.379013-5-tzimmermann@suse.de>
+Received: from fanzine2.igalia.com (fanzine2.igalia.com [213.97.179.56])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5A30310E891;
+ Wed, 18 Jun 2025 15:22:48 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com; 
+ s=20170329;
+ h=Content-Transfer-Encoding:MIME-Version:Message-ID:Date:Subject:
+ Cc:To:From:Sender:Reply-To:Content-Type:Content-ID:Content-Description:
+ Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
+ In-Reply-To:References:List-Id:List-Help:List-Unsubscribe:List-Subscribe:
+ List-Post:List-Owner:List-Archive;
+ bh=P34gDqPSDK73KppbsoUcDGWvvoaeMXnbw8wQv3IrFQ0=; b=b/ROIEup3zPxTN77iMoaDZemt3
+ GW2vk7t0d1yyrA2jzWTKltRVZIh5mYTu9tYlvafZDkfPsyZ8y2io42OY/MsK5aH0L1udk+TCDo+CH
+ 1Bxd+McVDTOehaFln2IT528Bn7pkDyYIjC/oMiPQ6b5xOaiP27uBMpE2b0KUzFS8qlEVMB1zcPcC6
+ x+9vUx4CLo9y2wDEPauwWeJ2yCE6pmhRZgI6saRjVNCep6SAa+jsxqVGvftfVQZh534HxYPK+1nP2
+ 500B6Y1ikLzCZZ8FtHMYREoVyXFZ/lL5D1HQzw6hsLFNxHlWX9FXem6eMRJAOJ8IdIA/9vHDAFvR0
+ Z6TPerlA==;
+Received: from [189.6.13.79] (helo=killbill.home)
+ by fanzine2.igalia.com with esmtpsa 
+ (Cipher TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_256_GCM:256) (Exim)
+ id 1uRucN-0057e5-E0; Wed, 18 Jun 2025 17:22:28 +0200
+From: Melissa Wen <mwen@igalia.com>
+To: Alex Hung <alex.hung@amd.com>,
+ Mario Limonciello <mario.limonciello@amd.com>,
+ Rodrigo Siqueira <siqueira@igalia.com>, airlied@gmail.com,
+ alexander.deucher@amd.com, andrzej.hajda@intel.com,
+ christian.koenig@amd.com, harry.wentland@amd.com,
+ maarten.lankhorst@linux.intel.com, mripard@kernel.org, mwen@igalia.com,
+ neil.armstrong@linaro.org, rfoss@kernel.org, simona@ffwll.ch,
+ sunpeng.li@amd.com, tzimmermann@suse.de
+Cc: Jani Nikula <jani.nikula@linux.intel.com>,
+ Michel Daenzer <michel.daenzer@mailbox.org>, amd-gfx@lists.freedesktop.org,
+ dri-devel@lists.freedesktop.org, kernel-dev@igalia.com
+Subject: [PATCH v5 00/14] drm/amd/display: more drm_edid to AMD display driver
+Date: Wed, 18 Jun 2025 12:19:39 -0300
+Message-ID: <20250618152216.948406-1-mwen@igalia.com>
+X-Mailer: git-send-email 2.47.2
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20250618122436.379013-5-tzimmermann@suse.de>
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -109,27 +65,131 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, Jun 18, 2025 at 02:16:36PM +0200, Thomas Zimmermann wrote:
-> Include <linux/of.h> to declare device_property_read_u32() and
-> struct of_device_id. Avoids dependency on backlight header to include
-> it.
-> 
-> Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
-> ---
->  drivers/gpu/drm/panel/panel-summit.c | 1 +
->  1 file changed, 1 insertion(+)
-> 
-> diff --git a/drivers/gpu/drm/panel/panel-summit.c b/drivers/gpu/drm/panel/panel-summit.c
-> index 4854437e2899..02aa1ec287d6 100644
-> --- a/drivers/gpu/drm/panel/panel-summit.c
-> +++ b/drivers/gpu/drm/panel/panel-summit.c
-> @@ -1,6 +1,7 @@
->  // SPDX-License-Identifier: GPL-2.0-only
->  
->  #include <linux/backlight.h>
-> +#include <linux/of.h>
->  #include <drm/drm_device.h>
->  #include <drm/drm_mipi_dsi.h>
->  #include <drm/drm_mode.h>
+Hi,
 
-Reviewed-by: Janne Grunau <j@jannau.net>
+Siqueira and I have been working on a solution to reduce the usage of
+drm_edid_raw in the AMD display driver, since the current guideline in
+the DRM subsystem is to stop handling raw edid data in driver-specific
+implementation and use opaque `drm_edid` object with common-code
+helpers.
+
+In short, this series approaches the issue of maintaining DC as an
+OS-agnostic component by creating a mid layer to isolate `drm_edid`
+helpers that need to be called in the DC code, while allowing other OSes
+to implement their specific implementation. This is an extension of [1].
+
+- Patch 1 addresses a possible leak added by previous migration to
+  drm_edid.
+- Patch 2 allocates a temporary drm_edid from raw edid for parsing.
+- Patches 3-7 use common-code, drm_edid helpers to parse edid
+  capabilities instead of driver-specific solutions. For this, patch 4
+  introduces a new helper that gets monitor name from drm_edid.
+- Patches 8-9 are groundwork to reduce the noise of Linux/DRM specific
+  code in the DC shared code
+- Patch 10 creates a mid layer to make DC embraces different ways of
+  handling EDID by platforms.
+- Patch 11 move open-coded management of raw EDID data to the mid
+  layer created before.
+- Patch 12 introduces a helper that compares EDIDs from two drm_edids.
+- Patch 13 adds drm_edid to dc_sink struct and a mid-layer helper to
+  free `drm_edid`.
+- Patch 14 switch dc_edid to drm_edid across the driver in a way that
+  the DC shared code is little affected by Linux specific stuff.
+
+[v1] https://lore.kernel.org/dri-devel/20250411201333.151335-1-mwen@igalia.com/
+Changes:
+- fix broken approach to get monitor name from eld (Jani)
+  - I introduced a new helper that gets monitor name from drm_edid
+- rename drm_edid_eq to drm_edid_eq_buf and doc fixes (Jani)
+- add NULL edid checks (Jani)
+- fix mishandling of product_id.manufacturer_name (Michel)
+  - I directly set it to manufacturer_id since sparse didn't complain.
+- add Mario's r-b in the first fix patch and fix commit msg typo.
+
+[v2] https://lore.kernel.org/dri-devel/20250507001712.120215-1-mwen@igalia.com/
+Changes:
+- kernel-doc and commit msg fixes (Jani)
+- use drm_edid_legacy_init instead of open coded (Jani)
+- place drm_edid new func into the right section (Jani)
+- paramenter names fix (Jani)
+- add Jani's r-b to the patch 12
+- remove unnecessary include (Jani)
+- call dc_edid_sink_edid_free in link_detection, instead of drm_edid_free
+- rebase on top of asdn
+
+[v3] https://lore.kernel.org/dri-devel/20250514202130.291324-1-mwen@igalia.com/
+Changes:
+- rebase to asdn
+- some kernel-doc fixes
+- move some changes to the right commit
+
+[v4] https://lore.kernel.org/amd-gfx/20250613150015.245917-1-mwen@igalia.com/
+Changes:
+- fix comments and commit messages (Mario)
+- remove unnecessary drm_edid dup and fix mem leak (Mario)
+- add Mario's rb to patches 5-7
+
+---
+
+There are three specific points where we still use drm_edid_raw() in the
+driver:
+1. raw edid data for write EDID checksum in DP_TEST_EDID_CHECKSUM via
+   drm_dp_dpcd_write(), that AFAIK there is no common code solution yet;
+2. open-coded connectivity log for dc link detection, that maybe can be
+   moved to drm (?);
+3. open-coded parser that I suspect is a lot of duplicated code, but
+   needs careful examining.
+
+I suggest to address those points in a next phase for regression control.
+
+Finally, I'm not sure amdgpu_dm/dc_edid is the right place and file name
+for the mid-layer. Suggestions?
+
+[1] https://lore.kernel.org/amd-gfx/20250308142650.35920-1-mwen@igalia.com/
+
+Let me know yours thoughts!
+
+Melissa
+
+Melissa Wen (12):
+  drm/amd/display: make sure drm_edid stored in aconnector doesn't leak
+  drm/amd/display: start using drm_edid helpers to parse EDID caps
+  drm/amd/display: use drm_edid_product_id for parsing EDID product info
+  drm/edid: introduce a helper that gets monitor name from drm_edid
+  drm/amd/display: get panel id with drm_edid helper
+  drm/amd/display: get SAD from drm_eld when parsing EDID caps
+  drm/amd/display: get SADB from drm_eld when parsing EDID caps
+  drm/amd/display: simplify dm_helpers_parse_edid_caps signature
+  drm/amd/display: change DC functions to accept private types for edid
+  drm/edid: introduce a helper that compares edid data from two drm_edid
+  drm/amd/display: add drm_edid to dc_sink
+  drm/amd/display: move dc_sink from dc_edid to drm_edid
+
+Rodrigo Siqueira (2):
+  drm/amd/display: add a mid-layer file to handle EDID in DC
+  drm/amd/display: create a function to fill dc_sink with edid data
+
+ .../gpu/drm/amd/display/amdgpu_dm/Makefile    |   1 +
+ .../gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c |  33 +++---
+ .../amd/display/amdgpu_dm/amdgpu_dm_helpers.c | 105 +++++++-----------
+ .../display/amdgpu_dm/amdgpu_dm_mst_types.c   |  21 ++--
+ .../gpu/drm/amd/display/amdgpu_dm/dc_edid.c   |  33 ++++++
+ .../gpu/drm/amd/display/amdgpu_dm/dc_edid.h   |  15 +++
+ .../drm/amd/display/dc/core/dc_link_exports.c |   9 +-
+ drivers/gpu/drm/amd/display/dc/core/dc_sink.c |   3 +
+ drivers/gpu/drm/amd/display/dc/dc.h           |  10 +-
+ drivers/gpu/drm/amd/display/dc/dm_helpers.h   |   7 +-
+ drivers/gpu/drm/amd/display/dc/inc/link.h     |   9 +-
+ .../drm/amd/display/dc/link/link_detection.c  |  30 ++---
+ .../drm/amd/display/dc/link/link_detection.h  |   9 +-
+ drivers/gpu/drm/bridge/sil-sii8620.c          |   2 +-
+ drivers/gpu/drm/display/drm_dp_mst_topology.c |   2 +-
+ drivers/gpu/drm/drm_edid.c                    |  54 +++++++--
+ include/drm/drm_edid.h                        |  10 +-
+ 17 files changed, 193 insertions(+), 160 deletions(-)
+ create mode 100644 drivers/gpu/drm/amd/display/amdgpu_dm/dc_edid.c
+ create mode 100644 drivers/gpu/drm/amd/display/amdgpu_dm/dc_edid.h
+
+-- 
+2.47.2
+
