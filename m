@@ -2,60 +2,60 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id D1441ADF525
-	for <lists+dri-devel@lfdr.de>; Wed, 18 Jun 2025 19:57:49 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1923DADF527
+	for <lists+dri-devel@lfdr.de>; Wed, 18 Jun 2025 19:57:54 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2F54C10E1E6;
-	Wed, 18 Jun 2025 17:57:48 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8045A10E24E;
+	Wed, 18 Jun 2025 17:57:52 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="aax1AkfI";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="Wg8sO82e";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lj1-f179.google.com (mail-lj1-f179.google.com
- [209.85.208.179])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 004AA10E8F6;
- Wed, 18 Jun 2025 17:57:46 +0000 (UTC)
-Received: by mail-lj1-f179.google.com with SMTP id
- 38308e7fff4ca-32b78b5aa39so16266851fa.1; 
- Wed, 18 Jun 2025 10:57:46 -0700 (PDT)
+Received: from mail-pl1-f169.google.com (mail-pl1-f169.google.com
+ [209.85.214.169])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8A04D10E24E;
+ Wed, 18 Jun 2025 17:57:49 +0000 (UTC)
+Received: by mail-pl1-f169.google.com with SMTP id
+ d9443c01a7336-234c26f8a25so8007405ad.1; 
+ Wed, 18 Jun 2025 10:57:49 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1750269465; x=1750874265; darn=lists.freedesktop.org;
+ d=gmail.com; s=20230601; t=1750269469; x=1750874269; darn=lists.freedesktop.org;
  h=content-transfer-encoding:cc:to:subject:message-id:date:from
  :in-reply-to:references:mime-version:from:to:cc:subject:date
  :message-id:reply-to;
- bh=xvbpCHoh061DVA2zXXba49YyPXgWLFHdq9S5LqMpTVY=;
- b=aax1AkfIJ9uE5wUREEGAX7ThCEre7PpLYwzAOjIRaKj9spGRij+/imyds7LiP8nk/a
- BDHWQsxaEOmZ/YpO89R2vLDph3iowUAEEHOJqfRyQfDe7KEyX5+9RGav2nhnemIbSbAZ
- wwRudx875ZZWnbbd+cUf+pz0BvAIjZGAFo1osQXyc+5ivpVjusxMpevIWCG0N4l9JddT
- erNWZ0xpi1d1VmOZFHY+Q24PNFMw7SfRY+YvANfq4kTwH1ArP3izzqsYPHw7r2BwsUmt
- hIrMisvJkdmVSorUjZpeGtzT9Plh2AUC8xzVTe2nn5AC5gbTWqF2SECAJ0ZiqmdloPKA
- ucQw==
+ bh=X6XFf8IdJRgq64/sNAX2ri3Q7ZGbdF1/uOpdG54+E2M=;
+ b=Wg8sO82eadnUM+ZlM/kE6u9/dITt3dgifarSlbcY6xPh3aRdP7nej5C7AkfclDELyl
+ 0P3PhGOkrW2wsuVWBzxD/TsuvI2FTgG3pnHCy3av4BZ5DFo/pufz/AkuhMaWp7BsSHdm
+ dcjAMR9kY7rA5S3+e8Bi+GD0VLo2q+wUm6Px7zrEYFeoZ6cuWTsMCS8cKF2TxrzrYUpV
+ JcWZgIEszNTNxS4i+zY/UhqaMVu95J43foitu7mVEtZkhnXBE67AOnPwHbgoZEDPemKU
+ 5jMVE09ES5WgbXGzde7kjFLZPXdK43E98BBWKPOLtEhkye+o1Rzbm+/15f8+F1HVhEyd
+ KKQg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1750269465; x=1750874265;
+ d=1e100.net; s=20230601; t=1750269469; x=1750874269;
  h=content-transfer-encoding:cc:to:subject:message-id:date:from
  :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=xvbpCHoh061DVA2zXXba49YyPXgWLFHdq9S5LqMpTVY=;
- b=YwT1Ih8uAX7meT+PG6JBVPa9z+grjJ4Jot61uMXqT1wMq5zFat48hPPFmHrI3CJJhO
- NrXjBcJLwXYIvdbbcjPW/UJIhxTHoV8qdnDTNTrX1Yss+7ZeNTVok9FpJzadTSNG5dzy
- jxUZpnWYvPOQ8tSuZ/BpA9Gwn2gZ+XJcIvpQkDEpgmNmWDeZIweRP9xwFpqoEpSAbcOT
- xfFqBfD/rKeBCUwD6QRjeNMKUK3JlgCsF7TDMIonp5r+JRsBiHtiwC4NqH8ccs0k5Kl6
- VN+/bGsDzZe+3MHCCcQ4e9+osJtFBYWm9ShcCAwJRKPh6GC5ymxxdSCpQx+e9IMro3uQ
- /wXw==
+ bh=X6XFf8IdJRgq64/sNAX2ri3Q7ZGbdF1/uOpdG54+E2M=;
+ b=Ex4RfclJjNHqjD5+3N73kBqZ3g9Z6yF3lkOxX6PcNuYBFJ41XNcl6XktauPQvMlx1f
+ LSl83Y7JjF+2pXSC0ObU5UYloGcq+R9aJ2vzTkiX+pI8j83tsoy/NssEIqIR0+bSpjSD
+ URY3cMH4PV25h0nyKKG00CuSK+EYzNCnn1ZpnTbTDJBBAOsuHue14vQH8CMWSbSwmv49
+ qm2/IWfplHMeiMUnqCP21Sc2OGEV8kg81UeuZbHBqeD23Q9qLTGPWo/KHVbld+wy7wyR
+ qZwiroSfu3+x6OfJ4KJY3K5dpSdZ7DUgMq6NCZloBKqak9Oqt+bSUAGYJFmjfH/LCcw8
+ QuaA==
 X-Forwarded-Encrypted: i=1;
- AJvYcCUcfWb1WD5rj4PLHrHXAPBtkoG+aRs2QNt5owX6pWenfwaswjChe7MVeC5vkh9dxL22GeEkwBp6UO0=@lists.freedesktop.org,
- AJvYcCUy4EDWLe5t7TWnqogDyOp0UVGEyyPeayu6QYtWxxIEAPUlpWDFW6u2+B6myGU/yZ2n9FwKzLchxA==@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YwmEExDqiD4IIA2mnQYpxFhOpnNTRHM/9xqMvs3u/cbHzSsfLC2
- D7nsxVBxBCB+p3p2eGhwTRFyHkQ9UTXjrH0I28LNNFQe+RGgTF82METw4UWhrPougZtfQakmHUl
- pdX+d1gIQGoC9G3xaH8bzNfRm0cR8icE=
-X-Gm-Gg: ASbGncu9c0yupRgenhLyHIWiyZsS8ov0OhItStK5SMl9lWscgETrM7D7A8y3BnPJhcw
- q3w0aYkfkzs2jSAFSxqb5U+smWbsVQHf6h7GEsnthggTDRXLPHbODvg80mmw6qyd7iyQk7Sa9ZE
- Q/YPfThbQ3qPDWN9hsK83lsonxdvQHYlrNs3G9GZZE84mRmqiqjKcRdoHVeAs=
-X-Google-Smtp-Source: AGHT+IFGH5gYRz7HzyAkXc6xFQTZHx1HyKujaRGU1VWJSVoGv01/xHq7AkSOADDbcwptpLJI4NKBOCX7lc78OHe1zqc=
-X-Received: by 2002:a05:651c:a0b:b0:32a:8591:6689 with SMTP id
- 38308e7fff4ca-32b4a2d830bmr47463571fa.7.1750269465105; Wed, 18 Jun 2025
- 10:57:45 -0700 (PDT)
+ AJvYcCWFNjlPN2v+4zivpXgTiW+c77QO9MW2hOj4xaNdhb8eioF8GqbK5JiE/aI0SwvU89pqpWZQ08/VIbY=@lists.freedesktop.org,
+ AJvYcCXQl0oZq5YqRDDsBlP00vS/1vlxrgm9Ru5sqfGd5Js1sCVjF8mnZP0rokVqdGmM5NW4OSMrLLQDWw==@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YwXkkHoLbhGrQwYqkhLXrXmV3g0btEp/ejMzw86zLMsSDr6/gdq
+ Uvl0/ELItJXVJgY7EBEnZ5lyfmAhrV8S7NdiC6ZmuoMIn+nOQpaniLtfN2Es1cDUgLF+swhlTJE
+ OSaMXd0Bpe0olvIAP00BWbIG0tJBrrx4=
+X-Gm-Gg: ASbGnct7V/cdyYtaqRFQLoPhwBkvFJsVyVrtHYiiWbtU+8b3VfiQiE9o3raqqCmLpHg
+ EhDUXiWzflJ1PJRpCJbKwzblAeRQKtl30H4iYxO8Mp68wZ6Pq0sRV6eOG4c/DNWBIzDdkpN4Wx6
+ y66Qv7y5kdG5LnOCW20LcAZFQh3U83kcPY4IncaqWLJEE=
+X-Google-Smtp-Source: AGHT+IEVtT/3f0vGFFzsBMs3GOlT0P6QvR0Bn0p1lko9fCNW+9HJclQmxYU6vH8Ok8iI/KHslbJ7BSrFR23F0qaUQxU=
+X-Received: by 2002:a17:90b:5251:b0:312:e9d:4001 with SMTP id
+ 98e67ed59e1d1-3158c10362dmr113240a91.8.1750269468961; Wed, 18 Jun 2025
+ 10:57:48 -0700 (PDT)
 MIME-Version: 1.0
 References: <20250615-ptr-as-ptr-v12-0-f43b024581e8@gmail.com>
  <20250615-ptr-as-ptr-v12-1-f43b024581e8@gmail.com>
@@ -63,14 +63,14 @@ References: <20250615-ptr-as-ptr-v12-0-f43b024581e8@gmail.com>
  <CANiq72kgnKH2SSp76EdPeysExBWasqhTyf1JyReR65g6FMsidA@mail.gmail.com>
  <ccbc2a76-20fe-4f70-b69b-9d05b59f24b8@kernel.org>
 In-Reply-To: <ccbc2a76-20fe-4f70-b69b-9d05b59f24b8@kernel.org>
-From: Tamir Duberstein <tamird@gmail.com>
-Date: Wed, 18 Jun 2025 13:57:08 -0400
-X-Gm-Features: AX0GCFshtGegkfZ_3VnmKgAk7O_-RQpc08IGr2vNv8IcZdaPQIit0uo4DnD-Ozw
-Message-ID: <CAJ-ks9kkmmHtMz0rubwEqGLu_08+gSzsG09gphVZ5e8Ccc77SQ@mail.gmail.com>
+From: Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>
+Date: Wed, 18 Jun 2025 19:57:35 +0200
+X-Gm-Features: Ac12FXxqyN47ZI8vqKVbteA5mz5j0mgRRC1KtP63MHI54ZnGo4ZP4CLfw3Of01s
+Message-ID: <CANiq72mboC5iz0Z0ZnAAMNr70aQT1vddZ=cXFSO-5_CveVTCng@mail.gmail.com>
 Subject: Re: [PATCH v12 1/6] rust: enable `clippy::ptr_as_ptr` lint
 To: Danilo Krummrich <dakr@kernel.org>
-Cc: Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>,
- Christian Brauner <brauner@kernel.org>, David Gow <davidgow@google.com>,
+Cc: Tamir Duberstein <tamird@gmail.com>, Christian Brauner <brauner@kernel.org>,
+ David Gow <davidgow@google.com>,
  Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
  Tejun Heo <tj@kernel.org>, Masahiro Yamada <masahiroy@kernel.org>, 
  Nathan Chancellor <nathan@kernel.org>, Miguel Ojeda <ojeda@kernel.org>, 
@@ -124,28 +124,8 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, Jun 18, 2025 at 1:44=E2=80=AFPM Danilo Krummrich <dakr@kernel.org> =
+On Wed, Jun 18, 2025 at 7:44=E2=80=AFPM Danilo Krummrich <dakr@kernel.org> =
 wrote:
->
-> On 6/18/25 6:45 PM, Miguel Ojeda wrote:
-> > On Wed, Jun 18, 2025 at 3:54=E2=80=AFPM Tamir Duberstein <tamird@gmail.=
-com> wrote:
-> >>
-> >> @Andreas Hindborg could you please have a look for configfs?
-> >>
-> >> @Rafael J. Wysocki @Viresh Kumar could you please have a look for cpuf=
-req?
-> >
-> > Thanks Tamir.
-> >
-> > Christian, Danilo, David, Greg, Tejun: It would also be nice to get
-> > Acked-by's for your bits. Thanks!
->
-> For the whole series and the bits I maintain:
->
-> Acked-by: Danilo Krummrich <dakr@kernel.org>
->
-> --
 >
 > Independent from that, won't this potentially leave us with a lot of warn=
 ings
@@ -153,6 +133,22 @@ ings
  do we
 > deal with that?
 
-I think the idea was to take this during rc so that all trees have it
-by the start of the next merge window. I'm not 100% clear on the
-kernel mechanics here, but that's my understanding.
+Yeah, good question.
+
+Since they are Clippy ones, it should not be a big deal (e.g. we
+already had a case of a lint Clippy lingering for a long time due to
+timing of merge window etc. in the QR code).
+
+In this case, I didn't see new ones in -next yet when I looked, so it
+should be mostly fine I think. It is also why I asked Tamir to re-send
+it at the beginning of the cycle, and then a v12 to include a few
+newer parts that were missed that landed lately.
+
+So, worst case, they get fixed during the -rcs.
+
+But, yeah, a while ago I proposed to have -rc1 to -rc2 as "treewide
+cleanups time" -- it would make this sort of things (that is not fully
+automated, but close) easy.
+
+Cheers,
+Miguel
