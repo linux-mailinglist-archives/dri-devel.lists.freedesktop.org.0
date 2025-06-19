@@ -2,78 +2,141 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id D8806AE0084
-	for <lists+dri-devel@lfdr.de>; Thu, 19 Jun 2025 10:54:29 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 184C8AE00A3
+	for <lists+dri-devel@lfdr.de>; Thu, 19 Jun 2025 10:58:28 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2FB4110E0D9;
-	Thu, 19 Jun 2025 08:54:27 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E7F5210E06A;
+	Thu, 19 Jun 2025 08:58:25 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="iHW7YRq0";
+	dkim=pass (2048-bit key; unprotected) header.d=Nvidia.com header.i=@Nvidia.com header.b="cFm3brsO";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-f50.google.com (mail-wr1-f50.google.com
- [209.85.221.50])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9EFEF10E0D9
- for <dri-devel@lists.freedesktop.org>; Thu, 19 Jun 2025 08:54:25 +0000 (UTC)
-Received: by mail-wr1-f50.google.com with SMTP id
- ffacd0b85a97d-3a57c8e247cso524256f8f.1
- for <dri-devel@lists.freedesktop.org>; Thu, 19 Jun 2025 01:54:25 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1750323264; x=1750928064; darn=lists.freedesktop.org;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc:subject:date
- :message-id:reply-to;
- bh=2BgTuvT3u6AIqLm/PQRYt/22SDLcCwFXFs+qer6/yKE=;
- b=iHW7YRq0JklMEYRc+YH3pYUslA9jDLHgad/eMawddxG/OnUZHqXyZU2qO64D5SPx0n
- +q0ct1/f2IDPp4xadd2jFotHsj5vhmJxNqCc0b5yVasWVQdGL3kp7BNDE5+RnpTsF290
- HgPXYLuZK2qb4HUrVqNREA8C6DSUa63LMmAFDCQyv8jS/FOkipvfVD5KyXj0PNt89eYG
- Vci5au0XkjX9YMnT19xY3W1yTg87g+dpG3GFD/ZYoa0kv6mUrEGRdNH22As/RCmsiOoZ
- xG2MFNPdytDzKMTCVCcfEmib2xdZg7cd522uOUFzcIt/Ytj+CfFl82J9sERQP/bznNcB
- kb7Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1750323264; x=1750928064;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=2BgTuvT3u6AIqLm/PQRYt/22SDLcCwFXFs+qer6/yKE=;
- b=kxk9h7Q80oM+p664fOZd7l9SFc0ts8VRVyn9e96i+Lu8+1U+8ERfWIySFe5zi7ulR2
- ARs3OjTTXnOJLEfoKZCi0dmF5RKw38NtupVGpLrN5Qd7oUojEw9FNURmtAlpU5PQx6IM
- g9p8hBmjVkiH2Fo0Sd0eD3ayF0arAqcNTErKG6otAsS15hO7ZbPJ33Pw6ddn8IycG64C
- 2HPtsO0/YuxWsnPMmZiBfcKiGeaqEjvRMuwELNv3bNeYtR4X0HdeqzidvOr5afyR+Jo1
- h4z21ybRacJnRG1NOA2qGWWqhxpLrNp9ax1K7OpCa3UeZOB+zfhADVH9cQSeorBD+7UD
- YglA==
-X-Gm-Message-State: AOJu0YzJF1TEbIo/CZq1KJ5vrxU3QmBzvF2BSfa7K2XJPnek3tlvDJxD
- +Dngk2fRkeaZjnIU/DK+I7tAeIbWetQIaXdrbTQrLGDMvBsVCiPWplMU4N7vwR8ENFrse8hoRZk
- gcFmKmwCyeS1D34KoZXfglD82Azz4ixs=
-X-Gm-Gg: ASbGncveN0gvFkMWbcCmsL8UNvugEofsWLfwD1FdXEQU+/w9JpEXtNgG8A8RuWWOPBl
- B+yJUbmpJq69bL6m3j8QGUVW24M2V2bBk/zq6dbet2BLJq4g/eGTZ3UCM244HCR6okE7TCuHexb
- Z74d7LdSDtBwWyjKaT4JtxCRAyKz3jJV55NcP4kmxB22Ma
-X-Google-Smtp-Source: AGHT+IEPcrAct2MvP6lMu67WHWgZkRHjbRH9x4L5SPSXZCedtmDIaEdykoVs3GdsAansa3lx+5kGChF4gR2TEuObCOU=
-X-Received: by 2002:a05:6000:144f:b0:3a4:f72a:b18a with SMTP id
- ffacd0b85a97d-3a5723a197amr16822801f8f.26.1750323263687; Thu, 19 Jun 2025
- 01:54:23 -0700 (PDT)
+Received: from NAM10-BN7-obe.outbound.protection.outlook.com
+ (mail-bn7nam10on2055.outbound.protection.outlook.com [40.107.92.55])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id BD8A810E06A
+ for <dri-devel@lists.freedesktop.org>; Thu, 19 Jun 2025 08:58:23 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=YC/lfeNr9mhS8hPbBI6YEZAkJYrV147QxI/m98uwTgK5231EHaW3sRGivn/BB1CXAdU/Au3/+3cRnF4kl7mmhNL0qusDj9ALv4RvDkGrneDwfpmjYZTmD9NPrtdpuXc5ndLsF5YqegPWZ3eVyJhQ5Q9b3q7hPZ8k3Ra0yU4Y+RDAgIz1Etuo5q3vgXsCzRzOQzTip/qbwPv7ie+oWMnM0Gru/93BNSQ2u0qfSCWv2i2N2aDFMa0k2EKuwo7DYZZvS109JDxIpX28LwLW14BCUFsXN1+aTdWAEw/vaRLPDhgLMExNlcEIk8lDSSGirVHZsCQI5wPvMIMKyMbQR+UKhg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=ehHSUH0k0nOXkAjiMBZeP2x96QtUWsagF5CVEhlaLHU=;
+ b=gZ9E1xmyLP4cLTMMvHPpf4l7L2FiO+CWhjgqpvOow9lvZ0tNknzjZ15MzbftpFKCAxeikR94omDuONUtiMrEo7JDIp/GMGgW9oFcGfezwA4m96ZNg+Zi/+l6nGF0kD2JayajqbOdOKvNAuLl+q2js1T3tFwfYadaw3pNmqtz6mPWeQQayoDetJ0vVsgYDJST/Wh65oHn+pNlI8Xoim6pm6mDXaf0YrMxf5KKBwRhU+JVDekCwIeCzSBNnQuLQqshNWJTSTLhiVBRNrtw85QsIQqI7txy7emWxfvkILZFs6ri5RxVk80/7EJoC4uFvhb64bu349mEkbmEBDCnqon8PA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
+ dkim=pass header.d=nvidia.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=ehHSUH0k0nOXkAjiMBZeP2x96QtUWsagF5CVEhlaLHU=;
+ b=cFm3brsO1Y8xD6CnkVQzVg6sqUYx3WKvV7pGX4olcd3rbb+4UHiXAUzuFs+f1K8ws9dxU/DBCgFyG6zHJ5pwPi9KiS5UBBTd8iY8ZfYW3KwT6JX6Pfp8rBygznubtUFtm3ggT746Bg2FwYeFMzN6D1Q7QKjt4GQ1bB/PimXU+VrTL76pAfO1f35csrX62SdcAE77q7NJT0OS8Wb7kklNi/FGxvZFtgNc+p4T2amb0N8l6utlJC5eG1R/pYyipwaAQEPVdZePW4P7pRoYitv4h5s04p7jkclSNae/pxtI29Vst3Az6/QmSOJkSYugrkvye7aLTzbWYoTJB/pdZiSQ6g==
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=nvidia.com;
+Received: from CY8PR12MB7705.namprd12.prod.outlook.com (2603:10b6:930:84::9)
+ by SN7PR12MB7956.namprd12.prod.outlook.com (2603:10b6:806:328::18) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8769.25; Thu, 19 Jun
+ 2025 08:58:20 +0000
+Received: from CY8PR12MB7705.namprd12.prod.outlook.com
+ ([fe80::4b06:5351:3db4:95f6]) by CY8PR12MB7705.namprd12.prod.outlook.com
+ ([fe80::4b06:5351:3db4:95f6%5]) with mapi id 15.20.8835.026; Thu, 19 Jun 2025
+ 08:58:20 +0000
+From: Alistair Popple <apopple@nvidia.com>
+To: akpm@linux-foundation.org
+Cc: linux-mm@kvack.org, Alistair Popple <apopple@nvidia.com>,
+ gerald.schaefer@linux.ibm.com, dan.j.williams@intel.com, jgg@ziepe.ca,
+ willy@infradead.org, david@redhat.com, linux-kernel@vger.kernel.org,
+ nvdimm@lists.linux.dev, linux-fsdevel@vger.kernel.org,
+ linux-ext4@vger.kernel.org, linux-xfs@vger.kernel.org, jhubbard@nvidia.com,
+ hch@lst.de, zhang.lyra@gmail.com, debug@rivosinc.com, bjorn@kernel.org,
+ balbirs@nvidia.com, lorenzo.stoakes@oracle.com,
+ linux-arm-kernel@lists.infradead.org, loongarch@lists.linux.dev,
+ linuxppc-dev@lists.ozlabs.org, linux-riscv@lists.infradead.org,
+ linux-cxl@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ John@Groves.net, m.szyprowski@samsung.com
+Subject: [PATCH v3 00/14] mm: Remove pXX_devmap page table bit and pfn_t type
+Date: Thu, 19 Jun 2025 18:57:52 +1000
+Message-ID: <cover.176965585864cb8d2cf41464b44dcc0471e643a0.1750323463.git-series.apopple@nvidia.com>
+X-Mailer: git-send-email 2.47.2
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-ClientProxiedBy: SY5PR01CA0088.ausprd01.prod.outlook.com
+ (2603:10c6:10:1f5::16) To CY8PR12MB7705.namprd12.prod.outlook.com
+ (2603:10b6:930:84::9)
 MIME-Version: 1.0
-References: <20250526114353.12081-1-clamor95@gmail.com>
-In-Reply-To: <20250526114353.12081-1-clamor95@gmail.com>
-From: Svyatoslav Ryhel <clamor95@gmail.com>
-Date: Thu, 19 Jun 2025 11:54:12 +0300
-X-Gm-Features: Ac12FXzaBC7401W2R75FUry1Dj9NV-cb1lVlcCWDqwkSkHUUU5xEZJLQ_IxV-to
-Message-ID: <CAPVz0n3QJHBVbTvfW8A-4nTDmagEiav4iwiekFd-z2nQTvUegg@mail.gmail.com>
-Subject: Re: [PATCH v6 0/2] drm: bridge: add ssd2825 RGB/DSI bridge support
-To: Andrzej Hajda <andrzej.hajda@intel.com>,
- Neil Armstrong <neil.armstrong@linaro.org>, 
- Robert Foss <rfoss@kernel.org>,
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>, 
- Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>, 
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, 
- Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
- Simona Vetter <simona@ffwll.ch>, Svyatoslav Ryhel <clamor95@gmail.com>
-Cc: dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org, 
- linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: CY8PR12MB7705:EE_|SN7PR12MB7956:EE_
+X-MS-Office365-Filtering-Correlation-Id: b3238171-a4cc-4aac-1240-08ddaf0f7043
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;ARA:13230040|366016|1800799024|376014|7416014;
+X-Microsoft-Antispam-Message-Info: =?us-ascii?Q?DclWk3yMAG/KXJnsqL7FIW072e8FnC9YiQJOPGy3JD05ciVPa1+/OH9Umboh?=
+ =?us-ascii?Q?OatoQd/xvxAv1lCFR6p5TQJvefwrLtI8olUDX+cvJpYLCp6M3wAhgmyETD0B?=
+ =?us-ascii?Q?TFL4XFW1nXBkjGupXc7JS1QaaQzbWbhbXulNipfdRCg06nTPImgBNLE8/1ez?=
+ =?us-ascii?Q?dRInUPAAmEidnsIkc4AB05y3gWn0eAiFPtC5XKaFiyCgOwFcttjbqackawGs?=
+ =?us-ascii?Q?SiiWrPW6himpTS5Inkh1ZyTqf3dzrF10pEHEhh7NKrg27qpUhZk9x7OVhLHL?=
+ =?us-ascii?Q?AN5p7SBAupS39tqx4COmJjuODgadc9ueZ5HoaX+mTknF1chjx4r5hE58ZrTB?=
+ =?us-ascii?Q?KIDO/GmkDdmv4c0DmbsmFeNkR+1jgFjdRnhpMsmAIfDDUrYgcOVn7qVgloNV?=
+ =?us-ascii?Q?F1DIT9HJihRZM7yvXQWSrTaU+04ZgM0Hp17unIf8rdiPILUVqLd506u29IB9?=
+ =?us-ascii?Q?J7byDZXRLGaQYitB07fzt4FtNXg4B8uD/3l4dKK/ex6QjIKk+N1YKGo9SjHQ?=
+ =?us-ascii?Q?Q1t3V7MtRKvdi5FpG2pGtHLz12Uo7Q0PKeLUQoBoqYHKkLvQypYFlaQNI2c3?=
+ =?us-ascii?Q?SQDwxIX17fHy+8IB3SKlk8F9deLRvQybuU2GEAFsmXbWBDnBLhziHBvVb8yQ?=
+ =?us-ascii?Q?MT1oN9gmC+kZMveMw/U0pFpGcLst/7BsX1ruU7ZXyXtUCWRuP7bi2pidXwB0?=
+ =?us-ascii?Q?o3/06L+/CEbPvCE2eVwGFaKSzJPAXcPaSJt3LZzUBNIJoBa2tIeu3W3eMByn?=
+ =?us-ascii?Q?6p+XWp7TQOIqOldwOAdgCtJvJ+sJosoJthzuDnfn61CTD9wq1mtpvdANJOkg?=
+ =?us-ascii?Q?MqQNFXi4o9+4Cl+6vskb2bevyzgIFClsQriRxbRfueeHT/RzsW+ytpWr3tXt?=
+ =?us-ascii?Q?PxvO/e4p/rb6jwr9F4pvkQkSiKAGI6kwgGHt+9IJ6BlVrZTLwsXqlm6KVIdn?=
+ =?us-ascii?Q?OWS0gx71bmsPegbWDrHaNl2+REUMPNuRMyX63qOOHwrDTtJdjuVYpVHQt3/E?=
+ =?us-ascii?Q?i0gCdaDIWijpWlHPGOsaQk0iETaV7qxmZCKEJSslu2KX+dlziswCD0UVUuFZ?=
+ =?us-ascii?Q?LhzN2f0DIRjayT5rUNzs2C18DDyvdgzHb/rgu+h0c00aAo/rq+5WUg2EHree?=
+ =?us-ascii?Q?6wV7ahzIAdzdPmbCiuUspE/UtKicTyWU4rUMqP8kvnbklIHjeMKlyBZ9V0Y6?=
+ =?us-ascii?Q?pNQHGFY4+Q7hS+1PlVvVvASKXmbHFRmxeXUYyiPaB4mFnRX48vtfFJyn+5/0?=
+ =?us-ascii?Q?R7TE7VNRJfyqQQRNj97EEGbcuzIyjvi42jZHqgtK7JjLigKn/9MZzkZP5mQn?=
+ =?us-ascii?Q?DQbOyolDfVzj+37ViiOHxXNCs8xycAR5Vzk8ftEjrB/QRCzYIug+BMtNxq7p?=
+ =?us-ascii?Q?NKrD0z2lhNFAj60/SiHEQj7Nt2PtNAJEHS7QnMpoYTnVRE+cMGoqJE+sF4GW?=
+ =?us-ascii?Q?3lamti7uT4c=3D?=
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:CY8PR12MB7705.namprd12.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230040)(366016)(1800799024)(376014)(7416014); DIR:OUT; SFP:1101; 
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?fTXmmnWAqRUcX97n3oK1TnH/htjlYN3HtHo0x7QngE0491zi0EtIxMdAvPHt?=
+ =?us-ascii?Q?N6agoge+rvnaxyNBctnmPaRUb/9JVCjAtPkfKinOaii7LIf7FSOgMwlqvSOi?=
+ =?us-ascii?Q?R+89iv4MCd3oYugUi00Aax/1xPHbOk2Yw/EddwbxIB9S80fI5VTGjlTJI9a2?=
+ =?us-ascii?Q?9Vp3xDzQ1nnkwk0EyoKAdlUB5XHB/1PMd91PXJVcsejXHCTQq7elCvhmkwZF?=
+ =?us-ascii?Q?wSaiDplda7NusKVtoVCSUsd6ahReUtTNYtqLbjTUGlR79z9kFbnvQYxPcpXk?=
+ =?us-ascii?Q?Lq7m++vtVGg3eq2d+z55PX1q2KOoSCMv19cZxhdW6P6LGvaGRrygCmcUj1+C?=
+ =?us-ascii?Q?n2i/j8z3s9ksZN2ctdzA9e1khWlaen6VkdCY+jJ8CattlwtYsHz0yGE5ES5Q?=
+ =?us-ascii?Q?izi8Hdt+lhGTzzgYcRnEb3T/uMs3qznSdZttR9YAzXAEnZcG5Wzkm3CbORk1?=
+ =?us-ascii?Q?OD2LQl/lU9Ir5r5sRIna2QH+sTM1J6JAM5A6K8/Gow+xI1QURu1Sm8dX8dK2?=
+ =?us-ascii?Q?Uj2XPHrCcEh2aHZKNFsL8atH1z35u2VmMaqcsHn8pdbzkJWktrbD+UvNY6dO?=
+ =?us-ascii?Q?xuJQi4hy6BQAwSHp2+lq5iAFOZ5NrDz5ZyEJSOgD6axqJOIch/3UQiAi1DvX?=
+ =?us-ascii?Q?vvUHG+RG9hSq1trM+t7Q8O5cIH6eC+ra6Kq57paCRrDYXdVg7A8nHV5Crakv?=
+ =?us-ascii?Q?vccx854VmBq+9E4di/I3XucHSJtAnDvoihGs13ex/Y6XPV1agipt4uYt8tpI?=
+ =?us-ascii?Q?v7ZyFLdYNPE1wr7TO7ByQ7bkwjlcSmIogl8QjuZFCkqZb+tc413VXzWuZMSd?=
+ =?us-ascii?Q?UQnAtLIEWmYdJ4LGToALWpUUk7/yXJrlvoOBGkRcqkvO5odP+xsiGPyvoBvU?=
+ =?us-ascii?Q?h7cU2+v+MFLRKr5DwWIIGK9bJqV5O7aDrrzw6HoCIBeFw8LbEXCgOK6Zq09S?=
+ =?us-ascii?Q?xHQiyuwalY9XrFewNobj43hUmxOpv6TvXh1hIPQtJ+UWtuZD7Uz5SLFiRgvl?=
+ =?us-ascii?Q?PrKGf+UZB7b3qs7BRLqT4ZdboaDSn1C03FfNwk0t1WvPvPL/ir60cU26Hd5f?=
+ =?us-ascii?Q?7TzSouNV+n6+IFMrJ1p+eyYdHWM+rrZIUQZchiz095tBANskppl1wQUuMUTH?=
+ =?us-ascii?Q?Va/pP7MxOUW3cqb6WZFpU7Z6SVC5y3vjf1en9J0AiNSLv9PSCmK05XBy8CRu?=
+ =?us-ascii?Q?1eQxxsuEUIingkTOGrQ0n2SNrfsEmJkDTBti8lsqxdZBZfO+n8MY6CTFH52t?=
+ =?us-ascii?Q?x9Hw+mgQIxF+72ncZJomuLIxMg9kIcNpEFgljUOWSkGCfHWmRJpRc8DmOKVN?=
+ =?us-ascii?Q?fqqLTLjov58sQgt2kuPZ13JuBdS9/oVqB/Xzea3zyk37eVfBlE7psOIDBeHp?=
+ =?us-ascii?Q?08K7hz/raOOjh9Sf5Qr4Nnfxnd6qpydvQ8UrNKbZlBUR2wbk25b5OSwvruB3?=
+ =?us-ascii?Q?6V83VeUWRCX/6Hmy1BRz+9f4/m9e12Lbw2jEF/i42V+vzMt2GGTMzQ+oQ3H5?=
+ =?us-ascii?Q?LxmBh3nX4UkqtO1tllTr0nysH50gZ062y7bnmJ27Vw5GfuGH0V6huD5s2WRU?=
+ =?us-ascii?Q?F8W5dIMHjdEm93Ksl/6xqUIodDUPaoKQ7Mxtkvwi?=
+X-OriginatorOrg: Nvidia.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: b3238171-a4cc-4aac-1240-08ddaf0f7043
+X-MS-Exchange-CrossTenant-AuthSource: CY8PR12MB7705.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 19 Jun 2025 08:58:20.1316 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: bjYh0D8L4S2AJt3/lOp17I6mOkvuA9UYnmi/4io7M3eh7k5LkjK/zORUVOwiA0DauxgfxYX807/BpWU3Hw1KmQ==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SN7PR12MB7956
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -89,69 +152,214 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-=D0=BF=D0=BD, 26 =D1=82=D1=80=D0=B0=D0=B2. 2025=E2=80=AF=D1=80. =D0=BE 14:4=
-4 Svyatoslav Ryhel <clamor95@gmail.com> =D0=BF=D0=B8=D1=88=D0=B5:
->
-> Solomon SSD2825 is a RGB to MIPI DSI bridge used in LG Optimus 4D P880
-> and LG Optimus Vu P895
->
-> ---
-> Changes on switching from v5 to v6:
-> - set correct module name in Kconfig help
-> - return error if spi sync failed for reading
->
-> Changes on switching from v4 to v5:
-> - rebased on top of drm-misc-next with adjustments to fit
->
-> Changes on switching from v3 to v4:
-> - no changes, resend
->
-> Changes on switching from v2 to v3:
-> - added mutex guard
-> - configuration register flags parametrized using panel flags
-> - removed unneded debug messages
-> - removed unimplemented modes checks
-> - added check for maximum pixel row length
-> - use types header
-> - remove ssd2825_to_ns
-> - shift bridge setup into atomic pre-enable
-> - cleaned default values of hzd and hpd
->
-> Changes on switching from v1 to v2:
-> - added description for clock
-> - removed clock-names
-> - added boundries for hs-zero-delay-ns and hs-prep-delay-ns
-> - added mutex lock for host transfers
-> - converted to atomic ops
-> - get drm_display_mode mode with atomic helpers
-> - parameterized INTERFACE_CTRL_REG_6 configuration
-> - added video mode validation and fixup
-> - removed clock name
-> - switched to devm_regulator_bulk_get_const
-> - added default timings
-> ---
->
-> Svyatoslav Ryhel (2):
->   dt-bindings: display: bridge: Document Solomon SSD2825
->   drm: bridge: Add support for Solomon SSD2825 RGB/DSI bridge
->
->  .../display/bridge/solomon,ssd2825.yaml       | 141 +++
->  drivers/gpu/drm/bridge/Kconfig                |  13 +
->  drivers/gpu/drm/bridge/Makefile               |   1 +
->  drivers/gpu/drm/bridge/ssd2825.c              | 814 ++++++++++++++++++
->  4 files changed, 969 insertions(+)
->  create mode 100644 Documentation/devicetree/bindings/display/bridge/solo=
-mon,ssd2825.yaml
->  create mode 100644 drivers/gpu/drm/bridge/ssd2825.c
->
-> --
-> 2.48.1
->
+Changes from v2:
 
-These patches had no activity/feedback from DRM maintainers for a
-while, so, in case they got lost in the depths of email box, this is a
-friendly reminder that they are still relevant and I would like them
-to move on.
+ - Addressed minor comments from David (thanks!).
 
-Best regards,
-Svyatoslav R.
+ - Reordered removal of the devmap functions.
+
+ - Fixed a minor RISC-V build error introduced by a recent change to mm-unstable
+   which added pud_mkdevmap() to RISC-V
+
+Changes from v1:
+
+ - Moved "mm: Remove PFN_MAP, PFN_SPECIAL, PFN_SG_CHAIN and PFN_SG_LAST" later
+   in the series to avoid creating a temporary boot issue on RISC-V as reported
+   by Marek[1].
+
+ - Rebased on mm-unstable which includes David's insert_pXd() fixes
+
+ - Stop skipping DAX folios in folio_walk_start(). Instead callers not expecting
+   ZONE_DEVICE pages should filter these out, as most already do.
+
+Changes from v2 of the RFC[2]:
+
+ - My ZONE_DEVICE refcount series has been merged as commit 7851bf649d42 (Patch series
+   "fs/dax: Fix ZONE_DEVICE page reference counts", v9.) which is included in
+   v6.15 so have rebased on top of that.
+
+ - No major changes required for the rebase other than fixing up a new user of
+   the pfn_t type (intel_th).
+
+ - As a reminder the main benefit of this series is it frees up a PTE bit
+   (pte_devmap).
+
+ - This may be a bit late to consider for inclusion in v6.16 unless it can get
+   some more reviews before the merge window closes. I don't think missing v6.16
+   is a huge issue though.
+
+ - This passed xfstests for a XFS filesystem with DAX enabled on my system and
+   as many of the ndctl tests that pass on my system without it.
+
+Changes for v2:
+
+ - This is an update to my previous RFC[3] removing just pfn_t rebased
+   on today's mm-unstable which includes my ZONE_DEVICE refcounting
+   clean-up.
+
+ - The removal of the devmap PTE bit and associated infrastructure was
+   dropped from that series so I have rolled it into this series.
+
+ - Logically this series makes sense to me, but the dropping of devmap
+   is wide ranging and touches some areas I'm less familiar with so
+   would definitely appreciate any review comments there.
+
+[1] - https://lore.kernel.org/linux-mm/957c0d9d-2c37-4d5f-a8b8-8bf90cd0aedb@samsung.com/
+[2] - https://lore.kernel.org/linux-mm/cover.95ff0627bc727f2bae44bea4c00ad7a83fbbcfac.1739941374.git-series.apopple@nvidia.com/
+[3] - https://lore.kernel.org/linux-mm/cover.a7cdeffaaa366a10c65e2e7544285059cc5d55a4.1736299058.git-series.apopple@nvidia.com/
+
+All users of dax now require a ZONE_DEVICE page which is properly
+refcounted. This means there is no longer any need for the PFN_DEV, PFN_MAP
+and PFN_SPECIAL flags. Furthermore the PFN_SG_CHAIN and PFN_SG_LAST flags
+never appear to have been used. It is therefore possible to remove the
+pfn_t type and replace any usage with raw pfns.
+
+The remaining users of PFN_DEV have simply passed this to
+vmf_insert_mixed() to create pte_devmap() mappings. It is unclear why this
+was the case but presumably to ensure vm_normal_page() does not return
+these pages. These users can be trivially converted to raw pfns and
+creating a pXX_special() mapping to ensure vm_normal_page() still doesn't
+return these pages.
+
+Now that there are no users of PFN_DEV we can remove the devmap page table
+bit and all associated functions and macros, freeing up a software page
+table bit.
+
+---
+
+Cc: gerald.schaefer@linux.ibm.com
+Cc: dan.j.williams@intel.com
+Cc: jgg@ziepe.ca
+Cc: willy@infradead.org
+Cc: david@redhat.com
+Cc: linux-kernel@vger.kernel.org
+Cc: nvdimm@lists.linux.dev
+Cc: linux-fsdevel@vger.kernel.org
+Cc: linux-mm@kvack.org
+Cc: linux-ext4@vger.kernel.org
+Cc: linux-xfs@vger.kernel.org
+Cc: jhubbard@nvidia.com
+Cc: hch@lst.de
+Cc: zhang.lyra@gmail.com
+Cc: debug@rivosinc.com
+Cc: bjorn@kernel.org
+Cc: balbirs@nvidia.com
+Cc: lorenzo.stoakes@oracle.com
+Cc: linux-arm-kernel@lists.infradead.org
+Cc: loongarch@lists.linux.dev
+Cc: linuxppc-dev@lists.ozlabs.org
+Cc: linux-riscv@lists.infradead.org
+Cc: nvdimm@lists.linux.dev
+Cc: linux-cxl@vger.kernel.org
+Cc: dri-devel@lists.freedesktop.org
+Cc: John@Groves.net
+Cc: m.szyprowski@samsung.com
+
+Alistair Popple (14):
+  mm: Convert pXd_devmap checks to vma_is_dax
+  mm: Filter zone device pages returned from folio_walk_start()
+  mm: Remove remaining uses of PFN_DEV
+  mm: Convert vmf_insert_mixed() from using pte_devmap to pte_special
+  mm/gup: Remove pXX_devmap usage from get_user_pages()
+  mm/huge_memory: Remove pXd_devmap usage from insert_pXd_pfn()
+  mm: Remove redundant pXd_devmap calls
+  mm/khugepaged: Remove redundant pmd_devmap() check
+  powerpc: Remove checks for devmap pages and PMDs/PUDs
+  fs/dax: Remove FS_DAX_LIMITED config option
+  mm: Remove devmap related functions and page table bits
+  mm: Remove PFN_DEV, PFN_MAP, PFN_SPECIAL, PFN_SG_CHAIN and PFN_SG_LAST
+  mm: Remove callers of pfn_t functionality
+  mm/memremap: Remove unused devmap_managed_key
+
+ Documentation/mm/arch_pgtable_helpers.rst     |   6 +-
+ arch/arm64/Kconfig                            |   1 +-
+ arch/arm64/include/asm/pgtable-prot.h         |   1 +-
+ arch/arm64/include/asm/pgtable.h              |  24 +---
+ arch/loongarch/Kconfig                        |   1 +-
+ arch/loongarch/include/asm/pgtable-bits.h     |   6 +-
+ arch/loongarch/include/asm/pgtable.h          |  19 +--
+ arch/powerpc/Kconfig                          |   1 +-
+ arch/powerpc/include/asm/book3s/64/hash-4k.h  |   6 +-
+ arch/powerpc/include/asm/book3s/64/hash-64k.h |   7 +-
+ arch/powerpc/include/asm/book3s/64/pgtable.h  |  53 +------
+ arch/powerpc/include/asm/book3s/64/radix.h    |  14 +--
+ arch/powerpc/mm/book3s64/hash_hugepage.c      |   2 +-
+ arch/powerpc/mm/book3s64/hash_pgtable.c       |   3 +-
+ arch/powerpc/mm/book3s64/hugetlbpage.c        |   2 +-
+ arch/powerpc/mm/book3s64/pgtable.c            |  10 +-
+ arch/powerpc/mm/book3s64/radix_pgtable.c      |   5 +-
+ arch/powerpc/mm/pgtable.c                     |   2 +-
+ arch/riscv/Kconfig                            |   1 +-
+ arch/riscv/include/asm/pgtable-64.h           |  16 +--
+ arch/riscv/include/asm/pgtable-bits.h         |   1 +-
+ arch/riscv/include/asm/pgtable.h              |  22 +---
+ arch/x86/Kconfig                              |   1 +-
+ arch/x86/include/asm/pgtable.h                |  51 +------
+ arch/x86/include/asm/pgtable_types.h          |   5 +-
+ arch/x86/mm/pat/memtype.c                     |   1 +-
+ drivers/dax/device.c                          |  23 +--
+ drivers/dax/hmem/hmem.c                       |   1 +-
+ drivers/dax/kmem.c                            |   1 +-
+ drivers/dax/pmem.c                            |   1 +-
+ drivers/dax/super.c                           |   3 +-
+ drivers/gpu/drm/exynos/exynos_drm_gem.c       |   1 +-
+ drivers/gpu/drm/gma500/fbdev.c                |   3 +-
+ drivers/gpu/drm/i915/gem/i915_gem_mman.c      |   1 +-
+ drivers/gpu/drm/msm/msm_gem.c                 |   1 +-
+ drivers/gpu/drm/omapdrm/omap_gem.c            |   7 +-
+ drivers/gpu/drm/v3d/v3d_bo.c                  |   1 +-
+ drivers/hwtracing/intel_th/msu.c              |   3 +-
+ drivers/md/dm-linear.c                        |   2 +-
+ drivers/md/dm-log-writes.c                    |   2 +-
+ drivers/md/dm-stripe.c                        |   2 +-
+ drivers/md/dm-target.c                        |   2 +-
+ drivers/md/dm-writecache.c                    |  11 +-
+ drivers/md/dm.c                               |   2 +-
+ drivers/nvdimm/pmem.c                         |   8 +-
+ drivers/nvdimm/pmem.h                         |   4 +-
+ drivers/s390/block/dcssblk.c                  |  10 +-
+ drivers/vfio/pci/vfio_pci_core.c              |   7 +-
+ fs/Kconfig                                    |   9 +-
+ fs/cramfs/inode.c                             |   5 +-
+ fs/dax.c                                      |  67 +++-----
+ fs/ext4/file.c                                |   2 +-
+ fs/fuse/dax.c                                 |   3 +-
+ fs/fuse/virtio_fs.c                           |   5 +-
+ fs/userfaultfd.c                              |   2 +-
+ fs/xfs/xfs_file.c                             |   2 +-
+ include/linux/dax.h                           |   9 +-
+ include/linux/device-mapper.h                 |   2 +-
+ include/linux/huge_mm.h                       |  19 +--
+ include/linux/mm.h                            |  11 +-
+ include/linux/pfn.h                           |   9 +-
+ include/linux/pfn_t.h                         | 131 +----------------
+ include/linux/pgtable.h                       |  21 +--
+ kernel/events/uprobes.c                       |   2 +-
+ mm/Kconfig                                    |   4 +-
+ mm/debug_vm_pgtable.c                         |  60 +-------
+ mm/gup.c                                      | 160 +-------------------
+ mm/hmm.c                                      |  12 +-
+ mm/huge_memory.c                              |  96 ++---------
+ mm/khugepaged.c                               |   2 +-
+ mm/madvise.c                                  |   8 +-
+ mm/mapping_dirty_helpers.c                    |   4 +-
+ mm/memory.c                                   |  64 ++------
+ mm/memremap.c                                 |  32 +----
+ mm/migrate.c                                  |   1 +-
+ mm/migrate_device.c                           |   2 +-
+ mm/mprotect.c                                 |   2 +-
+ mm/mremap.c                                   |   9 +-
+ mm/page_vma_mapped.c                          |   5 +-
+ mm/pagewalk.c                                 |   8 +-
+ mm/pgtable-generic.c                          |   7 +-
+ mm/userfaultfd.c                              |  10 +-
+ mm/vmscan.c                                   |   5 +-
+ tools/testing/nvdimm/pmem-dax.c               |   6 +-
+ tools/testing/nvdimm/test/iomap.c             |  11 +-
+ tools/testing/nvdimm/test/nfit_test.h         |   1 +-
+ 86 files changed, 189 insertions(+), 976 deletions(-)
+ delete mode 100644 include/linux/pfn_t.h
+
+base-commit: f97971f859dd7d22e63982a493aec85d9e75a69e
+-- 
+git-series 0.9.1
