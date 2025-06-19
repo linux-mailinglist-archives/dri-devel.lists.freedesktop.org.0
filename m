@@ -2,54 +2,46 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id D5797AE0848
-	for <lists+dri-devel@lfdr.de>; Thu, 19 Jun 2025 16:07:16 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 208EBAE0956
+	for <lists+dri-devel@lfdr.de>; Thu, 19 Jun 2025 16:57:12 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3C5E010EA70;
-	Thu, 19 Jun 2025 14:07:15 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2F2E410E067;
+	Thu, 19 Jun 2025 14:57:09 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=igalia.com header.i=@igalia.com header.b="TGa5At8y";
+	dkim=pass (1024-bit key; unprotected) header.d=linux.dev header.i=@linux.dev header.b="EM7TdPOK";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from fanzine2.igalia.com (fanzine2.igalia.com [213.97.179.56])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 62CA510EA71
- for <dri-devel@lists.freedesktop.org>; Thu, 19 Jun 2025 14:07:10 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com; 
- s=20170329;
- h=Content-Transfer-Encoding:Content-Type:MIME-Version:References:
- In-Reply-To:Message-ID:Date:Subject:Cc:To:From:Sender:Reply-To:Content-ID:
- Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc
- :Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:List-Subscribe:
- List-Post:List-Owner:List-Archive;
- bh=UUtQRbUMspX+La2rBM5GNHMx0Wkm1+Ue9LoMVET1CII=; b=TGa5At8yUqcDq/f0Kt0K5tAzlF
- 40yNDvwls1IdT6SshstNyF/iGFyRN1DORAlf1vpn6GGBx7DTr1Y6jeBwRuGudGahBKlYfxkECqJSr
- O+Zu+lSethCRkc5sqiphwvGGsffNfiBrUuKPGNjmqLRdG8mEG8uS9f+HL4wFzjd1Ef1TXlXTuA6m1
- htvQD+Ll+r3wHiMWm62bz/ttMWETIqrvKsVqrBn2aP6u4260fDCN5nAmzIXduVW+J1xZl/e7m9zHS
- gKAqNVkHe82QBI+7heDfmUAlccIfS+dkeRJ9ITFF7dh+ig96HJyaqITA3osXCUpuMlAMI7dD4PFiv
- mdIsaCDA==;
-Received: from [191.204.192.64] (helo=localhost.localdomain)
- by fanzine2.igalia.com with esmtpsa 
- (Cipher TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_256_GCM:256) (Exim)
- id 1uSFuv-005afy-JC; Thu, 19 Jun 2025 16:07:01 +0200
-From: =?UTF-8?q?Andr=C3=A9=20Almeida?= <andrealmeid@igalia.com>
-To: Stephen Rothwell <sfr@canb.auug.org.au>,
- Linux Next Mailing List <linux-next@vger.kernel.org>, airlied@gmail.com,
- simona@ffwll.ch, " Raag Jadav " <raag.jadav@intel.com>, 
- Krzysztof Karas <krzysztof.karas@intel.com>
-Cc: dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- kernel-dev@igalia.com,
- =?UTF-8?q?Andr=C3=A9=20Almeida?= <andrealmeid@igalia.com>,
- Stephen Rothwell <sfr@canb.auug.org.au>
-Subject: [PATCH v2 2/2] drm: Add missing struct drm_wedge_task_info kernel doc
-Date: Thu, 19 Jun 2025 11:06:55 -0300
-Message-ID: <20250619140655.2468014-2-andrealmeid@igalia.com>
-X-Mailer: git-send-email 2.49.0
-In-Reply-To: <20250619140655.2468014-1-andrealmeid@igalia.com>
-References: <20250619140655.2468014-1-andrealmeid@igalia.com>
+X-Greylist: delayed 306 seconds by postgrey-1.36 at gabe;
+ Thu, 19 Jun 2025 14:57:02 UTC
+Received: from out-173.mta0.migadu.com (out-173.mta0.migadu.com
+ [91.218.175.173])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 368A210E067
+ for <dri-devel@lists.freedesktop.org>; Thu, 19 Jun 2025 14:57:02 +0000 (UTC)
+X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and
+ include these headers.
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
+ t=1750344711;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=l3nM082bM78TtBWdFK27NatUNhqNWPO8Kx/xITC8UGs=;
+ b=EM7TdPOKpvU+MJQ5gqoIAob74dfFrYeIh7KJnKLuRa1HyJGqLxI7AxuWdpwg1WUqCht6bE
+ e32VwPk2JrAyZDIyLKO+UHkSyhlVzSEWZbeK0iXIHgJdaT9qM8eGnmujin2bPtZdHreHEq
+ EUnfdEvIQdgjvxGezOf52Xi0PHoxLmk=
+From: Thorsten Blum <thorsten.blum@linux.dev>
+To: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
+ Simona Vetter <simona@ffwll.ch>
+Cc: Thorsten Blum <thorsten.blum@linux.dev>, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org
+Subject: [PATCH RESEND] drm: Use strscpy() instead of strscpy_pad()
+Date: Thu, 19 Jun 2025 16:51:36 +0200
+Message-ID: <20250619145136.174064-1-thorsten.blum@linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
+X-Migadu-Flow: FLOW_OUT
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -65,33 +57,43 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Fix the following kernel doc warning:
+kzalloc() already zero-initializes the destination buffers, making
+strscpy() sufficient for safely copying the names. The additional
+NUL-padding performed by strscpy_pad() is unnecessary.
 
-include/drm/drm_device.h:40: warning: Function parameter or struct member 'pid' not described in 'drm_wedge_task_info'
-include/drm/drm_device.h:40: warning: Function parameter or struct member 'comm' not described in 'drm_wedge_task_info'
+If the destination buffer has a fixed length, strscpy() automatically
+determines its size using sizeof() when the argument is omitted. This
+makes the explicit size arguments unnecessary.
 
-Fixes: 183bccafa176 ("drm: Create a task info option for wedge events")
-Reported-by: Stephen Rothwell <sfr@canb.auug.org.au>
-Signed-off-by: André Almeida <andrealmeid@igalia.com>
+No functional changes intended.
+
+Signed-off-by: Thorsten Blum <thorsten.blum@linux.dev>
 ---
-v2: Add Reported-by tag
----
- include/drm/drm_device.h | 2 ++
- 1 file changed, 2 insertions(+)
+ drivers/gpu/drm/drm_property.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/include/drm/drm_device.h b/include/drm/drm_device.h
-index 08b3b2467c4c..aae0800ccef1 100644
---- a/include/drm/drm_device.h
-+++ b/include/drm/drm_device.h
-@@ -33,6 +33,8 @@ struct pci_controller;
+diff --git a/drivers/gpu/drm/drm_property.c b/drivers/gpu/drm/drm_property.c
+index 596272149a35..47f2891f3f06 100644
+--- a/drivers/gpu/drm/drm_property.c
++++ b/drivers/gpu/drm/drm_property.c
+@@ -128,7 +128,7 @@ struct drm_property *drm_property_create(struct drm_device *dev,
+ 	property->num_values = num_values;
+ 	INIT_LIST_HEAD(&property->enum_list);
  
- /**
-  * struct drm_wedge_task_info - information about the guilty task of a wedge dev
-+ * @pid:	the pid of the task
-+ * @comm:	the command name of the task
-  */
- struct drm_wedge_task_info {
- 	pid_t pid;
+-	strscpy_pad(property->name, name, DRM_PROP_NAME_LEN);
++	strscpy(property->name, name);
+ 
+ 	list_add_tail(&property->head, &dev->mode_config.property_list);
+ 
+@@ -421,7 +421,7 @@ int drm_property_add_enum(struct drm_property *property,
+ 	if (!prop_enum)
+ 		return -ENOMEM;
+ 
+-	strscpy_pad(prop_enum->name, name, DRM_PROP_NAME_LEN);
++	strscpy(prop_enum->name, name);
+ 	prop_enum->value = value;
+ 
+ 	property->values[index] = value;
 -- 
 2.49.0
 
