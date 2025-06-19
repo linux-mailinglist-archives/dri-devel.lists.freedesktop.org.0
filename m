@@ -2,67 +2,76 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B7F67AE079B
-	for <lists+dri-devel@lfdr.de>; Thu, 19 Jun 2025 15:41:09 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9A728AE07C3
+	for <lists+dri-devel@lfdr.de>; Thu, 19 Jun 2025 15:50:15 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id AC0CB10EA6B;
-	Thu, 19 Jun 2025 13:41:07 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6D54510EA59;
+	Thu, 19 Jun 2025 13:50:03 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="e7w+1r1O";
+	dkim=pass (1024-bit key; unprotected) header.d=collabora.com header.i=daniel.almeida@collabora.com header.b="ZJFOMio7";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.11])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 314D610EA69;
- Thu, 19 Jun 2025 13:41:06 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1750340466; x=1781876466;
- h=from:to:cc:subject:date:message-id:in-reply-to:
- references:mime-version:content-transfer-encoding;
- bh=/xatWmCtw6t7pROi4L8wl4C9MS4v66nMHLvmXiuCeIw=;
- b=e7w+1r1OyaJIKucM0W1DqNGkpb7ofD7FobGXyGDd2KlGtpES8Fv6qoJ7
- 9d7ZYD6/AXiO9nSnInRRRZp64+TL/JY3lMgw7Rtpsjkln657NAEY+UdnM
- QQKzOa8xMfNyzHc1aN5i+f1gNkQk/KltamB8Zx/g1YCPg1smHz5EigH/Z
- iI6yyNzkDkS20/CJbf0tDy6toPZTE+B98lgCexhg2i//1kb0jj3sZwzWG
- kyMWBhNKg+CvBWAWka4iH8c3nVBxsndCHFJgJ8rTaubfGIms8KlGw6QQk
- q0prfr5e3MaW2rp39J2Q55Hn6SLIejJdYQteEtVxhWTNgJxoT9wljpEZI w==;
-X-CSE-ConnectionGUID: qpg0O5CZRuuHenR1gHta/Q==
-X-CSE-MsgGUID: hGoR0W2MT6uNCWvjasiQPQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11469"; a="62862146"
-X-IronPort-AV: E=Sophos;i="6.16,248,1744095600"; d="scan'208";a="62862146"
-Received: from fmviesa007.fm.intel.com ([10.60.135.147])
- by orvoesa103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 19 Jun 2025 06:41:06 -0700
-X-CSE-ConnectionGUID: vDBVbVFYQLyAFLHvKNZy0Q==
-X-CSE-MsgGUID: v96w2T+vRbKZwMLvxT+yTA==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.16,248,1744095600"; d="scan'208";a="150247445"
-Received: from ijarvine-mobl1.ger.corp.intel.com (HELO fedora..)
- ([10.245.244.196])
- by fmviesa007-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 19 Jun 2025 06:41:02 -0700
-From: =?UTF-8?q?Thomas=20Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>
-To: intel-xe@lists.freedesktop.org
-Cc: =?UTF-8?q?Thomas=20Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>,
- Matthew Brost <matthew.brost@intel.com>, dri-devel@lists.freedesktop.org,
- himal.prasad.ghimiray@intel.com, apopple@nvidia.com, airlied@gmail.com,
- Simona Vetter <simona.vetter@ffwll.ch>,
- =?UTF-8?q?Felix=20K=C3=BChling?= <felix.kuehling@amd.com>,
- "Philip Yang" <philip.yang@amd.com>,
- =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>,
- dakr@kernel.org, "Mrozek, Michal" <michal.mrozek@intel.com>,
- Joonas Lahtinen <joonas.lahtinen@linux.intel.com>
-Subject: [PATCH v6 3/3] drm/xe: Implement and use the drm_pagemap populate_mm
- op
-Date: Thu, 19 Jun 2025 15:40:35 +0200
-Message-ID: <20250619134035.170086-4-thomas.hellstrom@linux.intel.com>
-X-Mailer: git-send-email 2.49.0
-In-Reply-To: <20250619134035.170086-1-thomas.hellstrom@linux.intel.com>
-References: <20250619134035.170086-1-thomas.hellstrom@linux.intel.com>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Received: from sender4-pp-f112.zoho.com (sender4-pp-f112.zoho.com
+ [136.143.188.112])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D74D810EA6F
+ for <dri-devel@lists.freedesktop.org>; Thu, 19 Jun 2025 13:49:57 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; t=1750340994; cv=none; 
+ d=zohomail.com; s=zohoarc; 
+ b=Xg4E1OYxArkD3TA1ZtARJFjUqeqTKd93T1Gb8XIrs6l9YDUw6pIyxDn4MTmXLAejSPJgYyUlSI7leHyQ3mJfnx3ktfngXuUFCz6k6UuIFRqc73I1WuXe369HBwIB6AqUIEedQl9l1ACKWQKcf/Aof9CC37G/IUq2EDawe8hgX0o=
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com;
+ s=zohoarc; t=1750340994;
+ h=Content-Type:Content-Transfer-Encoding:Cc:Cc:Date:Date:From:From:In-Reply-To:MIME-Version:Message-ID:References:Subject:Subject:To:To:Message-Id:Reply-To;
+ bh=HXoig7Q+/oEFtN4SjomCo2nMhWyT3fJq8sjjjfihsNI=; 
+ b=RA09koLz/duxiHOQ0bw1Qj5jhhBDus7rzm2Abchy6wWSgiJg/fCSzRT5Eaak0I2Srcyy0VXxDIwtw9vTS4qaejnAP79LeKvh2gTBKTOnyaeAV69tPABiEhrBCY96GaaZbj7q1WO/22A93dAn/8ZzavZszVsJEmNhLUkyyOP1/i8=
+ARC-Authentication-Results: i=1; mx.zohomail.com;
+ dkim=pass  header.i=collabora.com;
+ spf=pass  smtp.mailfrom=daniel.almeida@collabora.com;
+ dmarc=pass header.from=<daniel.almeida@collabora.com>
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1750340993; 
+ s=zohomail; d=collabora.com; i=daniel.almeida@collabora.com;
+ h=Content-Type:Mime-Version:Subject:Subject:From:From:In-Reply-To:Date:Date:Cc:Cc:Content-Transfer-Encoding:Message-Id:Message-Id:References:To:To:Reply-To;
+ bh=HXoig7Q+/oEFtN4SjomCo2nMhWyT3fJq8sjjjfihsNI=;
+ b=ZJFOMio78GQ7fSVmxwSZmU49YIRL5zTfMV119aCb6oNzx1bsjhE7xZlPoBup++02
+ ZwRTz2KV7MswUOatZ1YGja/p41Ol9MyhFqZxYnGFx/GFVNgO7Jul2a+gZ8sZbSZVI7K
+ IDpHbUV3sE+114KbCGKPJE9KPfFmHo3Jn/r6qV2M=
+Received: by mx.zohomail.com with SMTPS id 1750340992098417.30853778923847;
+ Thu, 19 Jun 2025 06:49:52 -0700 (PDT)
+Content-Type: text/plain;
+	charset=utf-8
+Mime-Version: 1.0 (Mac OS X Mail 16.0 \(3826.600.51.1.1\))
+Subject: Re: [PATCH v2 2/2] rust: drm: Add GPUVM abstraction
+From: Daniel Almeida <daniel.almeida@collabora.com>
+In-Reply-To: <20250619135709.634625e0@collabora.com>
+Date: Thu, 19 Jun 2025 10:49:34 -0300
+Cc: Danilo Krummrich <dakr@kernel.org>, Miguel Ojeda <ojeda@kernel.org>,
+ Alex Gaynor <alex.gaynor@gmail.com>, Boqun Feng <boqun.feng@gmail.com>,
+ Gary Guo <gary@garyguo.net>,
+ =?utf-8?Q?Bj=C3=B6rn_Roy_Baron?= <bjorn3_gh@protonmail.com>,
+ Benno Lossin <benno.lossin@proton.me>,
+ Andreas Hindborg <a.hindborg@kernel.org>,
+ Alice Ryhl <aliceryhl@google.com>, Trevor Gross <tmgross@umich.edu>,
+ Sumit Semwal <sumit.semwal@linaro.org>,
+ =?utf-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
+ Alyssa Rosenzweig <alyssa@rosenzweig.io>, Lyude Paul <lyude@redhat.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
+ Simona Vetter <simona@ffwll.ch>, linux-kernel@vger.kernel.org,
+ rust-for-linux@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ Asahi Lina <lina@asahilina.net>
+Content-Transfer-Encoding: quoted-printable
+Message-Id: <477186AF-A8D4-4D4E-9F58-86958C654333@collabora.com>
+References: <20250422-gpuvm-v2-0-44d4fc25e411@collabora.com>
+ <20250422-gpuvm-v2-2-44d4fc25e411@collabora.com>
+ <aAgHGuzCZzh7YPz2@cassiopeiae>
+ <DBB3E8CE-19AA-437D-AF54-BF23763B254F@collabora.com>
+ <aAj7gAzFVRX3dN7L@pollux>
+ <F731D6F7-312D-4633-B677-69B7CC7194A6@collabora.com>
+ <20250619135709.634625e0@collabora.com>
+To: Boris Brezillon <boris.brezillon@collabora.com>
+X-Mailer: Apple Mail (2.3826.600.51.1.1)
+X-ZohoMailClient: External
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -78,288 +87,216 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Add runtime PM since we might call populate_mm on a foreign device.
+Hi Boris,
 
-v3:
-- Fix a kerneldoc failure (Matt Brost)
-- Revert the bo type change from device to kernel (Matt Brost)
-v4:
-- Add an assert in xe_svm_alloc_vram (Matt Brost)
+> On 19 Jun 2025, at 08:57, Boris Brezillon =
+<boris.brezillon@collabora.com> wrote:
+>=20
+> Hi,
+>=20
+> On Fri, 13 Jun 2025 13:42:59 -0300
+> Daniel Almeida <daniel.almeida@collabora.com> wrote:
+>=20
+>> Danilo,
+>>=20
+>>=20
+>>> <snip>
+>>>=20
+>>>>>> +// SAFETY: DRM GpuVmBo objects are always reference counted and =
+the get/put functions
+>>>>>> +// satisfy the requirements.
+>>>>>> +unsafe impl<T: DriverGpuVm> AlwaysRefCounted for GpuVmBo<T> {
+>>>>>> +    fn inc_ref(&self) {
+>>>>>> +        // SAFETY: The drm_gpuvm_get function satisfies the =
+requirements for inc_ref().
+>>>>>> +        unsafe { bindings::drm_gpuvm_bo_get(&self.bo as *const _ =
+as *mut _) };
+>>>>>> +    }
+>>>>>> +
+>>>>>> +    unsafe fn dec_ref(mut obj: NonNull<Self>) {
+>>>>>> +        // SAFETY: drm_gpuvm_bo_put() requires holding the gpuva =
+lock, which is
+>>>>>> +        // the dma_resv lock by default.
+>>>>>> +        // The drm_gpuvm_put function satisfies the requirements =
+for dec_ref().
+>>>>>> +        // (We do not support custom locks yet.)
+>>>>>> +        unsafe {
+>>>>>> +            let resv =3D (*obj.as_mut().bo.obj).resv;
+>>>>>> +            bindings::dma_resv_lock(resv, =
+core::ptr::null_mut());
+>>>>>> +            bindings::drm_gpuvm_bo_put(&mut obj.as_mut().bo);
+>>>>>> +            bindings::dma_resv_unlock(resv); =20
+>>>>>=20
+>>>>> What if the resv_lock is held already? Please also make sure to =
+put multiple
+>>>>> unsafe calls each in a separate unsafe block. =20
+>>>>=20
+>>>> By whom? =20
+>>>=20
+>>> The lock might be held already by the driver or by TTM when things =
+are called
+>>> from TTM callbacks.
+>>>=20
+>>> This is why GPUVM never takes locks by itself, but asserts that the =
+correct lock
+>>> is held.
+>>>=20
+>>> I think we really want to get proof by the driver by providing lock =
+guard
+>>> references.
+>>>=20
+>>=20
+>> There doesn=E2=80=99t seem to be a solution that fits all the boxes =
+here.
+>>=20
+>> As you said, at this point the current status of the resv is unknown. =
+If we
+>> simply assume that it is not taken, we run into the problem you =
+pointed out:
+>> i.e.: recursive locking where ttm or some other layer has the lock =
+already.
+>>=20
+>> Alternatively, if we assume that the resv must be locked in =
+dec_ref(), then we
+>> may build a lock::Guard from it and assert that it is held, but in =
+any case
+>> it's very confusing to expect the reservation to be locked on a =
+dec_ref() call.
+>>=20
+>> The fact that dec_ref() is placed automatically on drop will =
+massively
+>> complicate the call sites:
+>=20
+> I'm digressing, but there's an aspect I found very annoying in the C
+> version of the API: the fact that we have to take a BO ref, then lock,
+> then release the vm_bo [1], because otherwise the vm_bo might be the
+> last owner of a BO ref leading to a UAF on the lock itself. This to =
+me,
+> denotes a lifetime issue that I think would be good to address in the
+> rust version of the API.
+>=20
+> It's not exactly the same problem, but I think it comes from the same
+> root issue: lax ownership definition. By that I mean it's not clear
+> who's the owner and who's the owned. gem_object::gpuva::list has
+> weak refs on the vm_bos contained in this list, which kinda makes =
+sense
+> because vm_bos themselves have a ref on the gem_object, and if we were
+> to make this weak ref a strong ref we'd never free any of these two
+> objects. The lock is also part of the BO (either the BO resv lock, or =
+a
+> custom lock), and since it's the very same lock we use to =
+insert/remove
+> vm_bos, that's problematic.
+>=20
+> If we were making the gpuvm_bo_list a separate object that's =
+originally
+> created by the BO, and then let the GPUVM layer manipulate only this
+> list, it could work. Of course that means the resv lock/driver custom
+> lock should come from this object too, and I'm not too sure that's an
+> option when dma_buf imports are involved.
 
-Signed-off-by: Thomas Hellström <thomas.hellstrom@linux.intel.com>
-Reviewed-by: Matthew Brost <matthew.brost@intel.com>
----
- drivers/gpu/drm/drm_pagemap.c |   1 +
- drivers/gpu/drm/xe/xe_svm.c   | 102 ++++++++++++++++++++--------------
- drivers/gpu/drm/xe/xe_svm.h   |  10 ++--
- drivers/gpu/drm/xe/xe_tile.h  |  11 ++++
- drivers/gpu/drm/xe/xe_vm.c    |   2 +-
- 5 files changed, 77 insertions(+), 49 deletions(-)
+This would require changes to the C side, because the C helpers expect =
+the gpuva
+list to be inside drm_gem_object, and these helpers are used in the Rust
+bindings.
 
-diff --git a/drivers/gpu/drm/drm_pagemap.c b/drivers/gpu/drm/drm_pagemap.c
-index 13e1519aa6d6..1da55322af12 100644
---- a/drivers/gpu/drm/drm_pagemap.c
-+++ b/drivers/gpu/drm/drm_pagemap.c
-@@ -835,3 +835,4 @@ int drm_pagemap_populate_mm(struct drm_pagemap *dpagemap,
- 
- 	return err;
- }
-+EXPORT_SYMBOL(drm_pagemap_populate_mm);
-diff --git a/drivers/gpu/drm/xe/xe_svm.c b/drivers/gpu/drm/xe/xe_svm.c
-index a4bb219b2407..a7ff5975873f 100644
---- a/drivers/gpu/drm/xe/xe_svm.c
-+++ b/drivers/gpu/drm/xe/xe_svm.c
-@@ -3,13 +3,17 @@
-  * Copyright © 2024 Intel Corporation
-  */
- 
-+#include <drm/drm_drv.h>
-+
- #include "xe_bo.h"
- #include "xe_gt_stats.h"
- #include "xe_gt_tlb_invalidation.h"
- #include "xe_migrate.h"
- #include "xe_module.h"
-+#include "xe_pm.h"
- #include "xe_pt.h"
- #include "xe_svm.h"
-+#include "xe_tile.h"
- #include "xe_ttm_vram_mgr.h"
- #include "xe_vm.h"
- #include "xe_vm_types.h"
-@@ -491,8 +495,10 @@ static struct xe_bo *to_xe_bo(struct drm_pagemap_devmem *devmem_allocation)
- static void xe_svm_devmem_release(struct drm_pagemap_devmem *devmem_allocation)
- {
- 	struct xe_bo *bo = to_xe_bo(devmem_allocation);
-+	struct xe_device *xe = xe_bo_device(bo);
- 
- 	xe_bo_put_async(bo);
-+	xe_pm_runtime_put(xe);
- }
- 
- static u64 block_offset_to_pfn(struct xe_vram_region *vr, u64 offset)
-@@ -682,76 +688,63 @@ static struct xe_vram_region *tile_to_vr(struct xe_tile *tile)
- 	return &tile->mem.vram;
- }
- 
--/**
-- * xe_svm_alloc_vram()- Allocate device memory pages for range,
-- * migrating existing data.
-- * @vm: The VM.
-- * @tile: tile to allocate vram from
-- * @range: SVM range
-- * @ctx: DRM GPU SVM context
-- *
-- * Return: 0 on success, error code on failure.
-- */
--int xe_svm_alloc_vram(struct xe_vm *vm, struct xe_tile *tile,
--		      struct xe_svm_range *range,
--		      const struct drm_gpusvm_ctx *ctx)
-+static int xe_drm_pagemap_populate_mm(struct drm_pagemap *dpagemap,
-+				      unsigned long start, unsigned long end,
-+				      struct mm_struct *mm,
-+				      unsigned long timeslice_ms)
- {
--	struct mm_struct *mm = vm->svm.gpusvm.mm;
-+	struct xe_tile *tile = container_of(dpagemap, typeof(*tile), mem.vram.dpagemap);
-+	struct xe_device *xe = tile_to_xe(tile);
-+	struct device *dev = xe->drm.dev;
- 	struct xe_vram_region *vr = tile_to_vr(tile);
- 	struct drm_buddy_block *block;
- 	struct list_head *blocks;
- 	struct xe_bo *bo;
--	ktime_t end = 0;
--	int err;
--
--	if (!range->base.flags.migrate_devmem)
--		return -EINVAL;
-+	ktime_t time_end = 0;
-+	int err, idx;
- 
--	range_debug(range, "ALLOCATE VRAM");
-+	if (!drm_dev_enter(&xe->drm, &idx))
-+		return -ENODEV;
- 
--	if (!mmget_not_zero(mm))
--		return -EFAULT;
--	mmap_read_lock(mm);
-+	xe_pm_runtime_get(xe);
- 
--retry:
--	bo = xe_bo_create_locked(tile_to_xe(tile), NULL, NULL,
--				 xe_svm_range_size(range),
-+ retry:
-+	bo = xe_bo_create_locked(tile_to_xe(tile), NULL, NULL, end - start,
- 				 ttm_bo_type_device,
- 				 XE_BO_FLAG_VRAM_IF_DGFX(tile) |
- 				 XE_BO_FLAG_CPU_ADDR_MIRROR);
- 	if (IS_ERR(bo)) {
- 		err = PTR_ERR(bo);
--		if (xe_vm_validate_should_retry(NULL, err, &end))
-+		if (xe_vm_validate_should_retry(NULL, err, &time_end))
- 			goto retry;
--		goto unlock;
-+		goto out_pm_put;
- 	}
- 
--	drm_pagemap_devmem_init(&bo->devmem_allocation,
--				vm->xe->drm.dev, mm,
-+	drm_pagemap_devmem_init(&bo->devmem_allocation, dev, mm,
- 				&dpagemap_devmem_ops,
- 				&tile->mem.vram.dpagemap,
--				xe_svm_range_size(range));
-+				end - start);
- 
- 	blocks = &to_xe_ttm_vram_mgr_resource(bo->ttm.resource)->blocks;
- 	list_for_each_entry(block, blocks, link)
- 		block->private = vr;
- 
- 	xe_bo_get(bo);
--	err = drm_pagemap_migrate_to_devmem(&bo->devmem_allocation,
--					    mm,
--					    xe_svm_range_start(range),
--					    xe_svm_range_end(range),
--					    ctx->timeslice_ms,
--					    xe_svm_devm_owner(vm->xe));
-+
-+	/* Ensure the device has a pm ref while there are device pages active. */
-+	xe_pm_runtime_get_noresume(xe);
-+	err = drm_pagemap_migrate_to_devmem(&bo->devmem_allocation, mm,
-+					    start, end, timeslice_ms,
-+					    xe_svm_devm_owner(xe));
- 	if (err)
- 		xe_svm_devmem_release(&bo->devmem_allocation);
- 
- 	xe_bo_unlock(bo);
- 	xe_bo_put(bo);
- 
--unlock:
--	mmap_read_unlock(mm);
--	mmput(mm);
-+out_pm_put:
-+	xe_pm_runtime_put(xe);
-+	drm_dev_exit(idx);
- 
- 	return err;
- }
-@@ -859,7 +852,7 @@ int xe_svm_handle_pagefault(struct xe_vm *vm, struct xe_vma *vma,
- 
- 	if (--migrate_try_count >= 0 &&
- 	    xe_svm_range_needs_migrate_to_vram(range, vma, IS_DGFX(vm->xe))) {
--		err = xe_svm_alloc_vram(vm, tile, range, &ctx);
-+		err = xe_svm_alloc_vram(tile, range, &ctx);
- 		ctx.timeslice_ms <<= 1;	/* Double timeslice if we have to retry */
- 		if (err) {
- 			if (migrate_try_count || !ctx.devmem_only) {
-@@ -1006,6 +999,30 @@ int xe_svm_range_get_pages(struct xe_vm *vm, struct xe_svm_range *range,
- 
- #if IS_ENABLED(CONFIG_DRM_XE_PAGEMAP)
- 
-+/**
-+ * xe_svm_alloc_vram()- Allocate device memory pages for range,
-+ * migrating existing data.
-+ * @tile: tile to allocate vram from
-+ * @range: SVM range
-+ * @ctx: DRM GPU SVM context
-+ *
-+ * Return: 0 on success, error code on failure.
-+ */
-+int xe_svm_alloc_vram(struct xe_tile *tile, struct xe_svm_range *range,
-+		      const struct drm_gpusvm_ctx *ctx)
-+{
-+	struct drm_pagemap *dpagemap;
-+
-+	xe_assert(tile_to_xe(tile), range->base.flags.migrate_devmem);
-+	range_debug(range, "ALLOCATE VRAM");
-+
-+	dpagemap = xe_tile_local_pagemap(tile);
-+	return drm_pagemap_populate_mm(dpagemap, xe_svm_range_start(range),
-+				       xe_svm_range_end(range),
-+				       range->base.gpusvm->mm,
-+				       ctx->timeslice_ms);
-+}
-+
- static struct drm_pagemap_device_addr
- xe_drm_pagemap_device_map(struct drm_pagemap *dpagemap,
- 			  struct device *dev,
-@@ -1030,6 +1047,7 @@ xe_drm_pagemap_device_map(struct drm_pagemap *dpagemap,
- 
- static const struct drm_pagemap_ops xe_drm_pagemap_ops = {
- 	.device_map = xe_drm_pagemap_device_map,
-+	.populate_mm = xe_drm_pagemap_populate_mm,
- };
- 
- /**
-@@ -1082,7 +1100,7 @@ int xe_devm_add(struct xe_tile *tile, struct xe_vram_region *vr)
- 	return 0;
- }
- #else
--int xe_svm_alloc_vram(struct xe_vm *vm, struct xe_tile *tile,
-+int xe_svm_alloc_vram(struct xe_tile *tile,
- 		      struct xe_svm_range *range,
- 		      const struct drm_gpusvm_ctx *ctx)
- {
-diff --git a/drivers/gpu/drm/xe/xe_svm.h b/drivers/gpu/drm/xe/xe_svm.h
-index 19ce4f2754a7..da9a69ea0bb1 100644
---- a/drivers/gpu/drm/xe/xe_svm.h
-+++ b/drivers/gpu/drm/xe/xe_svm.h
-@@ -70,8 +70,7 @@ int xe_svm_bo_evict(struct xe_bo *bo);
- 
- void xe_svm_range_debug(struct xe_svm_range *range, const char *operation);
- 
--int xe_svm_alloc_vram(struct xe_vm *vm, struct xe_tile *tile,
--		      struct xe_svm_range *range,
-+int xe_svm_alloc_vram(struct xe_tile *tile, struct xe_svm_range *range,
- 		      const struct drm_gpusvm_ctx *ctx);
- 
- struct xe_svm_range *xe_svm_range_find_or_insert(struct xe_vm *vm, u64 addr,
-@@ -237,10 +236,9 @@ void xe_svm_range_debug(struct xe_svm_range *range, const char *operation)
- {
- }
- 
--static inline
--int xe_svm_alloc_vram(struct xe_vm *vm, struct xe_tile *tile,
--		      struct xe_svm_range *range,
--		      const struct drm_gpusvm_ctx *ctx)
-+static inline int
-+xe_svm_alloc_vram(struct xe_tile *tile, struct xe_svm_range *range,
-+		  const struct drm_gpusvm_ctx *ctx)
- {
- 	return -EOPNOTSUPP;
- }
-diff --git a/drivers/gpu/drm/xe/xe_tile.h b/drivers/gpu/drm/xe/xe_tile.h
-index eb939316d55b..066a3d0cea79 100644
---- a/drivers/gpu/drm/xe/xe_tile.h
-+++ b/drivers/gpu/drm/xe/xe_tile.h
-@@ -16,4 +16,15 @@ int xe_tile_init(struct xe_tile *tile);
- 
- void xe_tile_migrate_wait(struct xe_tile *tile);
- 
-+#if IS_ENABLED(CONFIG_DRM_XE_PAGEMAP)
-+static inline struct drm_pagemap *xe_tile_local_pagemap(struct xe_tile *tile)
-+{
-+	return &tile->mem.vram.dpagemap;
-+}
-+#else
-+static inline struct drm_pagemap *xe_tile_local_pagemap(struct xe_tile *tile)
-+{
-+	return NULL;
-+}
-+#endif
- #endif
-diff --git a/drivers/gpu/drm/xe/xe_vm.c b/drivers/gpu/drm/xe/xe_vm.c
-index 04d1a43b81e3..f590b1553e98 100644
---- a/drivers/gpu/drm/xe/xe_vm.c
-+++ b/drivers/gpu/drm/xe/xe_vm.c
-@@ -2913,7 +2913,7 @@ static int prefetch_ranges(struct xe_vm *vm, struct xe_vma_op *op)
- 
- 		if (xe_svm_range_needs_migrate_to_vram(svm_range, vma, region)) {
- 			tile = &vm->xe->tiles[region_to_mem_type[region] - XE_PL_VRAM0];
--			err = xe_svm_alloc_vram(vm, tile, svm_range, &ctx);
-+			err = xe_svm_alloc_vram(tile, svm_range, &ctx);
- 			if (err) {
- 				drm_dbg(&vm->xe->drm, "VRAM allocation failed, retry from userspace, asid=%u, gpusvm=%p, errno=%pe\n",
- 					vm->usm.asid, &vm->svm.gpusvm, ERR_PTR(err));
--- 
-2.49.0
+Don't get me wrong, IMHO we can definitely pursue this if needed, or if =
+it's an
+improvement. I am merely stating the fact that it's a more elaborate =
+solution
+that what I had originally proposed so that we are all aware.
+
+>=20
+>>=20
+>> We will have to ensure that the resv is locked at all times where we =
+interface
+>> with a GpuVmBo, because each of these points could possibly be the =
+last active
+>> ref. If we don't, then we've introduced a race where the list is =
+modified but
+>> no lock is taken, which will be a pretty easy mistake to make. This =
+seems to
+>> also be the case in C, which we should try to improve upon.
+>=20
+> Yep, with auto-unref thrown into the mix you have to be very careful =
+on
+> which paths might release the last vm_bo ref, and make sure an extra
+> ref is taken on the BO, and the resv/custom lock is held when that
+> happens.
+>=20
+>>=20
+>> My suggestion is to introduce a separate GPU-VA lock here:
+>>=20
+>> /// A base GEM object.
+>> #[repr(C)]
+>> #[pin_data]
+>> pub struct Object<T: DriverObject> {
+>>    obj: bindings::drm_gem_object,
+>>    // The DRM core ensures the Device exists as long as its objects =
+exist, so we don't need to
+>>    // manage the reference count here.
+>>    dev: *const bindings::drm_device,
+>>    #[pin]
+>>    inner: T,
+>>    #[pin]
+>>    _p: PhantomPinned,
+>>    // Add a GPU-VA lock here <--------
+>> }
+>>=20
+>> And only support custom locks in Rust, to the detriment of the =
+optimization
+>> where the resv is used and to the detriment of any perf improvements =
+that
+>> reusing the reservation might bring to the table.
+>=20
+> Yes, if it was only about perf optimizations, then I'd like to see
+> numbers that prove taking an extra lock that's always going to be free
+> in a path where you already took the BO resv lock actually makes a
+> difference, and honestly, I doubt it. But my fear is that it's not so
+> much about avoiding an extra lock to be taken, and more about making
+> sure this list insertion/deletion doesn't race with other paths that
+> are assuming that taking the resv lock is enough to guarantee =
+exclusive
+> access to this vm_bo list (I mean places outside gpuvm, in the drivers
+> directly). I guess the is fixable.
+>=20
+>>=20
+>> Notice that this would sidestep this entire discussion: nobody else =
+would be
+>> aware of this new lock so we could safely lock it in dec_ref(). We =
+would also
+>> be transparently managing the locking on behalf of drivers in all the =
+other
+>> calls where the VA list is accessed, which is another plus as I said =
+above.
+>=20
+> If the lock is part of the gem_object, it's not solving the problem I
+> described above, because you might be taking a lock that disappears if
+> you don't take a BO ref before taking the lock. In the end, that's
+> still a risky business.
+
+I must confess I was not aware of the issue you're discussing. We can =
+add an
+instance of gem::ObjectRef in gpuvm::GpuVmBo if you think this will =
+solve it.
+This will make sure that the vmbo owns the gem object (or rather that it =
+has a
++1 on the refcount) for its lifetime. That seems to be the semantics =
+you're
+looking for?
+
+I thought about adding this lock to the Rust wrapper for the vmbo, but =
+then
+we'd run into the issue of shared BOs, where each would be connected to =
+a
+different vmbo and would thus take a different lock when attempting to =
+modify
+the same underlying gpuva list.
+
+Just to be clear, by shared BO here I specifically mean a BO that's =
+connected
+to more than one VM, which is possible, IIUC.
+
+=E2=80=94 Daniel
+
 
