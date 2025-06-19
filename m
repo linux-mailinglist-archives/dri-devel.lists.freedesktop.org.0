@@ -2,65 +2,49 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 35A91AE0B07
-	for <lists+dri-devel@lfdr.de>; Thu, 19 Jun 2025 18:04:02 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1BFE7AE0B14
+	for <lists+dri-devel@lfdr.de>; Thu, 19 Jun 2025 18:07:37 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id CA05510E19C;
-	Thu, 19 Jun 2025 16:03:58 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6F48B10E0E5;
+	Thu, 19 Jun 2025 16:07:33 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="igwa8+ah";
+	dkim=pass (1024-bit key; unprotected) header.d=linux.dev header.i=@linux.dev header.b="VtnZw2YR";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.19])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9922310E111;
- Thu, 19 Jun 2025 16:03:56 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1750349036; x=1781885036;
- h=date:from:to:cc:subject:message-id:mime-version;
- bh=g1wuA+3Bm5fjSAmJaxDskX5yucV1m/wl7q9NanZXzi4=;
- b=igwa8+ah+Vb0DahOdX/r/qyXDscmZeDiQ6IFuyegQPcu9IJwk99uo1ZF
- fNL9XmpskynC9slc9u16y9AtohZKIDYSm9Bu5wdqLM46o2QKbKmlYMRJS
- ySoiToaWBr3h4LFeqUtfaK2KQ8ZPfwibiwuGOvttxDVUg31148T0M//gQ
- MpO3O6PvkNWvMVKjfWFlqkFs7xPNbHUGd5JanRxUmHkDP8CjpZWekV8cS
- RNSqE6bw8NN2aTWsLtKMEaBZClL69VEFJjuImVWddOWeizBdFyzWiYJg2
- O/RdDCI+ox4bhkVH7welmhkAJ0kee7SdCTdgSywp/lUvwB5cbz2nYn2XB A==;
-X-CSE-ConnectionGUID: D9mk/KO4SdSK3Awk5f48+g==
-X-CSE-MsgGUID: ctGb3GwBRL2i/t/GtFu9DQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11469"; a="51715785"
-X-IronPort-AV: E=Sophos;i="6.16,249,1744095600"; d="scan'208";a="51715785"
-Received: from fmviesa009.fm.intel.com ([10.60.135.149])
- by fmvoesa113.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 19 Jun 2025 09:03:56 -0700
-X-CSE-ConnectionGUID: wRRBmDLNRJKW6lRUBtru0Q==
-X-CSE-MsgGUID: p+T1KRIXT6Krr7FnJqwxlw==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.16,249,1744095600"; d="scan'208";a="151007900"
-Received: from ijarvine-mobl1.ger.corp.intel.com (HELO fedora)
- ([10.245.244.196])
- by fmviesa009-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 19 Jun 2025 09:03:53 -0700
-Date: Thu, 19 Jun 2025 18:03:42 +0200
-From: Thomas Hellstrom <thomas.hellstrom@linux.intel.com>
-To: Dave Airlie <airlied@gmail.com>, Simona Vetter <simona.vetter@ffwll.ch>
-Cc: Jani Nikula <jani.nikula@linux.intel.com>,
- Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
- Tvrtko Ursulin <tursulin@ursulin.net>,
- Rodrigo Vivi <rodrigo.vivi@intel.com>,
- Thomas Zimmermann <tzimmermann@suse.de>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>,
- Thomas =?iso-8859-1?Q?Hellstr=F6m?= <thomas.hellstrom@linux.intel.com>,
- Oded Gabbay <ogabbay@kernel.org>,
- Lucas De Marchi <lucas.demarchi@intel.com>,
- dri-devel@lists.freedesktop.org, intel-gfx@lists.freedesktop.org,
- intel-xe@lists.freedesktop.org, dim-tools@lists.freedesktop.org
-Subject: [PULL] drm-xe-fixes
-Message-ID: <aFQ03kNzhbiNK7gW@fedora>
+Received: from out-178.mta1.migadu.com (out-178.mta1.migadu.com
+ [95.215.58.178])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id F063110E0E5
+ for <dri-devel@lists.freedesktop.org>; Thu, 19 Jun 2025 16:07:26 +0000 (UTC)
+Message-ID: <1506c0e7-85a3-47e4-9c70-77b01e30accb@linux.dev>
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
+ t=1750349236;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=cTojXNX5CIjMfi7YHEbgz18E+hKTxA8Gwzc3F8Ro3/0=;
+ b=VtnZw2YRAW53vBuv+uVae2B+yXTexQv1yy+JvMAKWb8g9Ag1tW1k0pLKrCodDFjxKcGakT
+ JsbBfpjikg7Yuy2luTa0q5e937vvoIB6SyCUkGXpQrhTj3/S3yradCYWfYf3vW3leSnnQr
+ JDxA/ylOW3NaOtHl3GRA2fGpIpHD+8k=
+Date: Fri, 20 Jun 2025 00:07:04 +0800
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+Subject: Re: [report] DMA-API: platform vgem: mapping sg segment longer than
+ device claims to support [len=1048576] [max=65536]
+To: Thomas Zimmermann <tzimmermann@suse.de>
+Cc: dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ airlied@gmail.com, simona@ffwll.ch, maarten.lankhorst@linux.intel.com,
+ mripard@kernel.org
+References: <6d22bce3-4533-4cfa-96ba-64352b715741@linux.dev>
+ <17d14458-a035-4793-8f19-38f4405e02a3@suse.de>
+Content-Language: en-US
+X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and
+ include these headers.
+From: Zenghui Yu <zenghui.yu@linux.dev>
+In-Reply-To: <17d14458-a035-4793-8f19-38f4405e02a3@suse.de>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-Migadu-Flow: FLOW_OUT
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -76,50 +60,48 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Dave, Simona
+Hi Thomas,
 
-Three fixes for -rc3. There are a couple more pending with
-non-trivial merge conflicts that need to be properly
-backported.
+On 2025/6/19 00:25, Thomas Zimmermann wrote:
+> Hi
+> 
+> Am 18.06.25 um 18:03 schrieb Zenghui Yu:
+> > Hi all,
+> >
+> > Running the dmabuf-heap test [*] on mainline kernel triggers the
+> > following splat:
+> >
+> >  ------------[ cut here ]------------
+> >  DMA-API: platform vgem: mapping sg segment longer than device claims to support [len=1048576] [max=65536]
+> 
+> Thanks for the bug report. We have a possible fix in the latest drm-
+> misc-next tree. Does it work if use replace DRM_GEM_SHMEM_DRIVER_OPS
+> with DRM_GEM_SHMEM_DRIVER_OPS_NO_MAP_SGT at [1]?
+> 
+> [1] https://elixir.bootlin.com/linux/v6.16-rc2/source/drivers/gpu/drm/vgem/vgem_drv.c#L118
 
-drm-xe-fixes-2025-06-19:
-Driver Changes:
-- A workaround update (Vinay)
-- Fix memset on iomem (Lucas)
-- Fix early wedge on GuC Load failure (Daniele)
+Thanks for the heads up! So I applied commit 660cd44659a0
+("drm/shmem-helper: Import dmabuf without mapping its sg_table") [*] in
+my local tree, together with your suggestion:
 
-The following changes since commit 9c7632faad434c98f1f2cc06f3647a5a5d05ddbf:
+diff --git a/drivers/gpu/drm/vgem/vgem_drv.c
+b/drivers/gpu/drm/vgem/vgem_drv.c
+index 2752ab4f1c97..ba0d4e611bd2 100644
+--- a/drivers/gpu/drm/vgem/vgem_drv.c
++++ b/drivers/gpu/drm/vgem/vgem_drv.c
+@@ -115,7 +115,7 @@ static const struct drm_driver vgem_driver = {
+ 	.num_ioctls 			= ARRAY_SIZE(vgem_ioctls),
+ 	.fops				= &vgem_driver_fops,
 
-  drm/xe/lrc: Use a temporary buffer for WA BB (2025-06-12 18:09:50 +0200)
+-	DRM_GEM_SHMEM_DRIVER_OPS,
++	DRM_GEM_SHMEM_DRIVER_OPS_NO_MAP_SGT,
+ 	.gem_create_object		= vgem_gem_create_object,
 
-are available in the Git repository at:
+ 	.name	= DRIVER_NAME,
 
-  https://gitlab.freedesktop.org/drm/xe/kernel.git tags/drm-xe-fixes-2025-06-19
+The warning message disappeared with that. Thanks again!
 
-for you to fetch changes up to a39d082c3553d35b4fe5585e1e2fb221c130cae8:
+[*]
+https://gitlab.freedesktop.org/drm/kernel/-/commit/660cd44659a05c5fbfce6d2bb1ce448aa0f35594
 
-  drm/xe: Fix early wedge on GuC load failure (2025-06-19 17:24:30 +0200)
-
-----------------------------------------------------------------
-Driver Changes:
-- A workaround update (Vinay)
-- Fix memset on iomem (Lucas)
-- Fix early wedge on GuC Load failure (Daniele)
-
-----------------------------------------------------------------
-Daniele Ceraolo Spurio (1):
-      drm/xe: Fix early wedge on GuC load failure
-
-Lucas De Marchi (1):
-      drm/xe: Fix memset on iomem
-
-Vinay Belgaumkar (1):
-      drm/xe/bmg: Update Wa_16023588340
-
- drivers/gpu/drm/xe/xe_gt.c                  | 2 +-
- drivers/gpu/drm/xe/xe_gt_tlb_invalidation.c | 8 ++++++++
- drivers/gpu/drm/xe/xe_guc_ct.c              | 7 +++++--
- drivers/gpu/drm/xe/xe_guc_ct.h              | 5 +++++
- drivers/gpu/drm/xe/xe_guc_pc.c              | 2 +-
- drivers/gpu/drm/xe/xe_guc_submit.c          | 3 +++
- 6 files changed, 23 insertions(+), 4 deletions(-)
+Zenghui
