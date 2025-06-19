@@ -2,110 +2,90 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 91AEDAE07E2
-	for <lists+dri-devel@lfdr.de>; Thu, 19 Jun 2025 15:53:42 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id B12FDAE0838
+	for <lists+dri-devel@lfdr.de>; Thu, 19 Jun 2025 16:05:49 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E890010EA67;
-	Thu, 19 Jun 2025 13:53:40 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 37A1410E090;
+	Thu, 19 Jun 2025 14:05:47 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=suse.de header.i=@suse.de header.b="RSqSqFOS";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="3Hd89UBV";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="wWKpEPUM";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="bMvxdIDi";
+	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="qgCf3/gD";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3337E10EA68
- for <dri-devel@lists.freedesktop.org>; Thu, 19 Jun 2025 13:53:38 +0000 (UTC)
-Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org
- [IPv6:2a07:de40:b281:104:10:150:64:97])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
- (No client certificate requested)
- by smtp-out1.suse.de (Postfix) with ESMTPS id 5CD8621237;
- Thu, 19 Jun 2025 13:53:35 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1750341216; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=QU7KKbijEzMms4D6GVjWRBs1rODRU8wDUnBXbCMlc1M=;
- b=RSqSqFOSb61pa+atB+JGsI4s3YT7tpSSUWHjK+mmD2uKZpbuLBYxvvQGbpGoMVPZ5N+2QO
- H0DX9LXFUQwbZ024HOeFuhVwoyFoMuygwi2zPXF7rScG81WlideRdAHKeNm/QGZylENZG9
- jv/KReXJ3G/3AM7ia4aCjB7QuQbDGuk=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1750341216;
- h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=QU7KKbijEzMms4D6GVjWRBs1rODRU8wDUnBXbCMlc1M=;
- b=3Hd89UBVMfXSGIfBkjVao4/l/Y2SRVh/gbHiIT0yGygTQKgWg8F3FKUtodIuMj4MkAxgAC
- MfpbRwgS0ITmfZBA==
-Authentication-Results: smtp-out1.suse.de;
- dkim=pass header.d=suse.de header.s=susede2_rsa header.b=wWKpEPUM;
- dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=bMvxdIDi
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1750341215; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=QU7KKbijEzMms4D6GVjWRBs1rODRU8wDUnBXbCMlc1M=;
- b=wWKpEPUMNJIbUkg5YNnUMXzmAQ/wlFza3xofQIZ8M4cgSbkpIFVo78B884nst/vrzWEldi
- irx4vmdRTsNv69nFP/NnCbQNSD2XlCS1i8soxM6gAeXcg6RZIHu09+YVNpMmd87ew0i0qP
- 7cu8xjW9XGKVBFkzV7HK4O/mvE+Iq0w=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1750341215;
- h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=QU7KKbijEzMms4D6GVjWRBs1rODRU8wDUnBXbCMlc1M=;
- b=bMvxdIDiNxzMpKzcscns5t4kbU1NiSeUAxIIwr/FaNem4/kDno+OwtPSBko4hfJ2AeW2wo
- LARfFQQu2t9PNMBA==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
- (No client certificate requested)
- by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id B7674136CC;
- Thu, 19 Jun 2025 13:53:34 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
- by imap1.dmz-prg2.suse.org with ESMTPSA id k5idKF4WVGjMFwAAD6G6ig
- (envelope-from <osalvador@suse.de>); Thu, 19 Jun 2025 13:53:34 +0000
-Date: Thu, 19 Jun 2025 15:53:28 +0200
-From: Oscar Salvador <osalvador@suse.de>
-To: Vivek Kasireddy <vivek.kasireddy@intel.com>
-Cc: dri-devel@lists.freedesktop.org, linux-mm@kvack.org,
- syzbot+a504cb5bae4fe117ba94@syzkaller.appspotmail.com,
- Steve Sistare <steven.sistare@oracle.com>,
- Muchun Song <muchun.song@linux.dev>, David Hildenbrand <david@redhat.com>,
- Andrew Morton <akpm@linux-foundation.org>
-Subject: Re: [PATCH] mm/hugetlb: Don't crash when allocating a folio if there
- are no resv
-Message-ID: <aFQWWFGSKMpdk5k4@localhost.localdomain>
-References: <20250618052840.1036164-1-vivek.kasireddy@intel.com>
+Received: from mail-yb1-f171.google.com (mail-yb1-f171.google.com
+ [209.85.219.171])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3B10F10E090
+ for <dri-devel@lists.freedesktop.org>; Thu, 19 Jun 2025 14:05:42 +0000 (UTC)
+Received: by mail-yb1-f171.google.com with SMTP id
+ 3f1490d57ef6-e733cd55f9eso745732276.1
+ for <dri-devel@lists.freedesktop.org>; Thu, 19 Jun 2025 07:05:42 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=linaro.org; s=google; t=1750341941; x=1750946741; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=RKg0ba0YiDbucRJJP0q5rGzXl3UtGTSrIi2K7UJJiDI=;
+ b=qgCf3/gDysFI/4HoDuDsp8Bj6C5V1d+USspQ0NjIjO2278wzhrufnifOZ3P+7CmVJ8
+ NPsk0w2Q2mGvEw1wBBL+Um9N3/mHHCKflWqiXFRB9cvaiHmKG9Zm7tLRJRDzFgiUT0Bj
+ Jd6p2UReh4r14rgNhMScJHhVIuf1B1SMcSyjm9YpEZsDLX/M+DQTG+alWVXKr3UeK41T
+ N7d5P6pS24g/g0LzZM/Hl0QRE6a5XsfJwkm895ySXN/wuEnTySizgypgs4V55LA9Vg3D
+ jvMBb6JkrfvlI+bqEtflKtIxmMfWrC5bdLnEGkThN0tHutYn8SWuskITiqCfFWsXHG9K
+ 7i5A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1750341941; x=1750946741;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=RKg0ba0YiDbucRJJP0q5rGzXl3UtGTSrIi2K7UJJiDI=;
+ b=XrtLkdNaXTFJqJw4oRMLQWTSmTyar0whKSHIB+e1x2cdy1hFgjO+/4yINQOzLUEKMK
+ odqggZk1a74TAmcrkSIRQjGoXdO53GamHbvkoVpNHa47z3Lp0p2k0PLWtUFGZj9uMuCq
+ hicaOnSbFf/yTJczBYmg9x7t9n5t3lCdjyD/uALTATRCnyLoCS+dxfshegPf2YB32WIl
+ PPx0aXiwqrNcrc1NXCJsn4SBH6RXIWXc5QqF4LHpjYXXSs2VFZeCLnf6FRtRibTJ3MFk
+ F+ZbbGP4oJcCn0IKM1kRhVyiIel9mSCxkDG0pG+g3+Lar+U+sZgFjC1a4rQzNGVXEF2Q
+ JYaA==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCWKIM1vAKjtpPLkgATGb7biwsKlwUA3rRPDf+byiW4tg/5jTR/FtBcbC1qyjn/SXXBd9cGAYaAFV/k=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YzU531ogTZSrqIqEeMLZCeWHKmgSWBYvpwXWyrYciFhbUl7Sqru
+ 1TZ3jZJDJCA8KQ6eBSqBBoMYBx14ESgBEBFqX9vtsdIKWlJGIiSxEs7/jaR/3pdQcU6Io/zEEaE
+ sL1156yh+OzzTon5LDtd3Q3C1yjgzZ4ykvCbgug50hA==
+X-Gm-Gg: ASbGncvsbo0AIwDVLpZU2qACJdTXQn6KX6+ftL48IQb/khbxTeuOu9xq0ylDe3XTADD
+ yvRxVgTBXxLuHkfqMYt95oRLOWHtr9pRLPBXSufGNwbtWGhZ3jEHl5y8hElZtt17APR0VfCYMkr
+ EF6NNiUTTOemEiD4yTa1BAYGKQe9KIdWkrK6047v38QHXS
+X-Google-Smtp-Source: AGHT+IH0AH5eQCmkoaKuxJOOgz4lFGdC1+XDKcfPC3cVk26SzauKoptzIDMdTxuXWb+pjp6Y/soe1VeW59yNxFQhyjU=
+X-Received: by 2002:a05:6902:1a49:b0:e7d:a4a7:439b with SMTP id
+ 3f1490d57ef6-e822ad08e62mr28105508276.48.1750341940771; Thu, 19 Jun 2025
+ 07:05:40 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20250618052840.1036164-1-vivek.kasireddy@intel.com>
-X-Spamd-Result: default: False [-3.01 / 50.00]; BAYES_HAM(-3.00)[100.00%];
- SUSPICIOUS_RECIPS(1.50)[]; NEURAL_HAM_LONG(-1.00)[-1.000];
- R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
- NEURAL_HAM_SHORT(-0.20)[-1.000]; MIME_GOOD(-0.10)[text/plain];
- MX_GOOD(-0.01)[]; TAGGED_RCPT(0.00)[a504cb5bae4fe117ba94];
- RCVD_TLS_ALL(0.00)[]; ARC_NA(0.00)[]; MISSING_XM_UA(0.00)[];
- RCVD_VIA_SMTP_AUTH(0.00)[]; MIME_TRACE(0.00)[0:+];
- FUZZY_BLOCKED(0.00)[rspamd.com];
- DNSWL_BLOCKED(0.00)[2a07:de40:b281:106:10:150:64:167:received,2a07:de40:b281:104:10:150:64:97:from];
- TO_DN_SOME(0.00)[]; FROM_EQ_ENVFROM(0.00)[];
- FROM_HAS_DN(0.00)[]; RCPT_COUNT_SEVEN(0.00)[8];
- DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:dkim,intel.com:email,oracle.com:email]; 
- RCVD_COUNT_TWO(0.00)[2]; TO_MATCH_ENVRCPT_ALL(0.00)[];
- DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
- DKIM_TRACE(0.00)[suse.de:+]
-X-Spam-Level: 
-X-Spam-Flag: NO
-X-Rspamd-Queue-Id: 5CD8621237
-X-Rspamd-Action: no action
-X-Rspamd-Server: rspamd1.dmz-prg2.suse.org
-X-Spam-Score: -3.01
+References: <CGME20250618102228eucas1p1906803f73cc004e68f281b2bdf871da3@eucas1p1.samsung.com>
+ <20250618-apr_14_for_sending-v5-0-27ed33ea5c6f@samsung.com>
+ <20250618-apr_14_for_sending-v5-3-27ed33ea5c6f@samsung.com>
+ <CAPDyKFq_4W7bPr1NiuEGzMDoY6tQuHbw5uOXrkJagbEbtmqMWg@mail.gmail.com>
+ <CAMRc=Mf+o524rewPrtZGJhE11Gwp6v8A2V6zjGr3e1PmQq7aJw@mail.gmail.com>
+In-Reply-To: <CAMRc=Mf+o524rewPrtZGJhE11Gwp6v8A2V6zjGr3e1PmQq7aJw@mail.gmail.com>
+From: Ulf Hansson <ulf.hansson@linaro.org>
+Date: Thu, 19 Jun 2025 16:05:03 +0200
+X-Gm-Features: AX0GCFv2RIICzft_XZewOUAZZhSSWv8Je60KaQi8kC_SyLtOZnxRamWoHqyfp3U
+Message-ID: <CAPDyKFpsq6qaRaP4YDMkB=JrW+o3obKoirfHrdmost-kV4ct0Q@mail.gmail.com>
+Subject: Re: [PATCH v5 3/8] pmdomain: thead: Instantiate GPU power sequencer
+ via auxiliary bus
+To: Bartosz Golaszewski <brgl@bgdev.pl>
+Cc: Michal Wilczynski <m.wilczynski@samsung.com>, Drew Fustini <drew@pdp7.com>,
+ Guo Ren <guoren@kernel.org>, 
+ Fu Wei <wefu@redhat.com>, Rob Herring <robh@kernel.org>, 
+ Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
+ Philipp Zabel <p.zabel@pengutronix.de>, Frank Binns <frank.binns@imgtec.com>, 
+ Matt Coster <matt.coster@imgtec.com>, 
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, 
+ Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
+ Simona Vetter <simona@ffwll.ch>, 
+ Paul Walmsley <paul.walmsley@sifive.com>, Palmer Dabbelt <palmer@dabbelt.com>, 
+ Albert Ou <aou@eecs.berkeley.edu>, Alexandre Ghiti <alex@ghiti.fr>, 
+ Marek Szyprowski <m.szyprowski@samsung.com>, linux-riscv@lists.infradead.org, 
+ devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, 
+ linux-pm@vger.kernel.org, dri-devel@lists.freedesktop.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -121,72 +101,48 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, Jun 17, 2025 at 10:28:40PM -0700, Vivek Kasireddy wrote:
-> There are cases when we try to pin a folio but discover that it has
-> not been faulted-in. So, we try to allocate it in memfd_alloc_folio()
-> but there is a chance that we might encounter a fatal crash/failure
-> (VM_BUG_ON(!h->resv_huge_pages) in alloc_hugetlb_folio_reserve()) if
-> there are no active reservations at that instant. This issue was
-> reported by syzbot:
-> 
-> kernel BUG at mm/hugetlb.c:2403!
-> Oops: invalid opcode: 0000 [#1] PREEMPT SMP KASAN NOPTI
-> CPU: 0 UID: 0 PID: 5315 Comm: syz.0.0 Not tainted
-> 6.13.0-rc5-syzkaller-00161-g63676eefb7a0 #0
-> Hardware name: QEMU Standard PC (Q35 + ICH9, 2009), BIOS
-> 1.16.3-debian-1.16.3-2~bpo12+1 04/01/2014
-> RIP: 0010:alloc_hugetlb_folio_reserve+0xbc/0xc0 mm/hugetlb.c:2403
-> Code: 1f eb 05 e8 56 18 a0 ff 48 c7 c7 40 56 61 8e e8 ba 21 cc 09 4c 89
-> f0 5b 41 5c 41 5e 41 5f 5d c3 cc cc cc cc e8 35 18 a0 ff 90 <0f> 0b 66
-> 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 f3 0f
-> RSP: 0018:ffffc9000d3d77f8 EFLAGS: 00010087
-> RAX: ffffffff81ff6beb RBX: 0000000000000000 RCX: 0000000000100000
-> RDX: ffffc9000e51a000 RSI: 00000000000003ec RDI: 00000000000003ed
-> RBP: 1ffffffff34810d9 R08: ffffffff81ff6ba3 R09: 1ffffd4000093005
-> R10: dffffc0000000000 R11: fffff94000093006 R12: dffffc0000000000
-> R13: dffffc0000000000 R14: ffffea0000498000 R15: ffffffff9a4086c8
-> FS:  00007f77ac12e6c0(0000) GS:ffff88801fc00000(0000)
-> knlGS:0000000000000000
-> CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
-> CR2: 00007f77ab54b170 CR3: 0000000040b70000 CR4: 0000000000352ef0
-> DR0: 0000000000000000 DR1: 0000000000000000 DR2: 0000000000000000
-> DR3: 0000000000000000 DR6: 00000000fffe0ff0 DR7: 0000000000000400
-> Call Trace:
->  <TASK>
->  memfd_alloc_folio+0x1bd/0x370 mm/memfd.c:88
->  memfd_pin_folios+0xf10/0x1570 mm/gup.c:3750
->  udmabuf_pin_folios drivers/dma-buf/udmabuf.c:346 [inline]
->  udmabuf_create+0x70e/0x10c0 drivers/dma-buf/udmabuf.c:443
->  udmabuf_ioctl_create drivers/dma-buf/udmabuf.c:495 [inline]
->  udmabuf_ioctl+0x301/0x4e0 drivers/dma-buf/udmabuf.c:526
->  vfs_ioctl fs/ioctl.c:51 [inline]
->  __do_sys_ioctl fs/ioctl.c:906 [inline]
->  __se_sys_ioctl+0xf5/0x170 fs/ioctl.c:892
->  do_syscall_x64 arch/x86/entry/common.c:52 [inline]
->  do_syscall_64+0xf3/0x230 arch/x86/entry/common.c:83
->  entry_SYSCALL_64_after_hwframe+0x77/0x7f
-> 
-> Therefore, prevent the above crash by replacing the VM_BUG_ON()
-> with WARN_ON_ONCE() as there is no need to crash the system in
-> this situation and instead we could just warn and fail the
-> allocation.
-> 
-> Fixes: 26a8ea80929c ("mm/hugetlb: fix memfd_pin_folios resv_huge_pages leak")
-> Reported-by: syzbot+a504cb5bae4fe117ba94@syzkaller.appspotmail.com
-> Closes: https://syzkaller.appspot.com/bug?extid=a504cb5bae4fe117ba94
-> Cc: Steve Sistare <steven.sistare@oracle.com>
-> Cc: Muchun Song <muchun.song@linux.dev>
-> Cc: David Hildenbrand <david@redhat.com>
-> Cc: Andrew Morton <akpm@linux-foundation.org>
-> Signed-off-by: Vivek Kasireddy <vivek.kasireddy@intel.com>
+On Thu, 19 Jun 2025 at 14:31, Bartosz Golaszewski <brgl@bgdev.pl> wrote:
+>
+> On Thu, Jun 19, 2025 at 12:25=E2=80=AFPM Ulf Hansson <ulf.hansson@linaro.=
+org> wrote:
+> >
+> > On Wed, 18 Jun 2025 at 12:22, Michal Wilczynski
+> > <m.wilczynski@samsung.com> wrote:
+> > >
+> > > In order to support the complex power sequencing required by the TH15=
+20
+> > > GPU, the AON power domain driver must be responsible for initiating t=
+he
+> > > corresponding sequencer driver. This functionality is specific to
+> > > platforms where the GPU power sequencing hardware is controlled by th=
+e
+> > > AON block.
+> > >
+> > > Extend the AON power domain driver to check for the presence of the
+> > > "gpu-clkgen" reset in its own device tree node.
+> > >
+> > > If the property is found, create and register a new auxiliary device.
+> > > This device acts as a proxy that allows the dedicated `pwrseq-thead-g=
+pu`
+> > > auxiliary driver to bind and take control of the sequencing logic.
+> > >
+> > > Signed-off-by: Michal Wilczynski <m.wilczynski@samsung.com>
+> >
+> > Reviewed-by: Ulf Hansson <ulf.hansson@linaro.org>
+> >
+> > It looks like there is another re-spin needed, but thinking of the
+> > merge-strategy I could potentially take patch1->patch3 via my pmdomain
+> > tree, as it seems reasonable to keep those changes together. Unless
+> > Bartosz sees any problem with that, of course.
+> >
+>
+> I have another change planned for the pwrseq API for this cycle.
+> Nothing major but it still will require patch 1/8 to be in my tree so
+> if you don't mind, I'll take it hrough the pwrseq tree and provide you
+> an immutable tag to pull before you apply the rest?
 
-Who is supossed to reserve these hugepages?
-hugetlb_reserve_pages() is only called at mmap/file setup, and you mention that
-you try to allocate the folios even before mmap, so who's in charge of
-making those reservations for you?
+Right, that works perfectly fine too. I will wait for you to give me
+the branch then, before applying anything.
 
- 
-
--- 
-Oscar Salvador
-SUSE Labs
+Kind regards
+Uffe
