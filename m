@@ -2,52 +2,52 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 840D3AE0722
-	for <lists+dri-devel@lfdr.de>; Thu, 19 Jun 2025 15:25:52 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id B6DF7AE0724
+	for <lists+dri-devel@lfdr.de>; Thu, 19 Jun 2025 15:25:54 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2EE5910EA5E;
-	Thu, 19 Jun 2025 13:25:50 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id DDB3D10EA63;
+	Thu, 19 Jun 2025 13:25:52 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=Nvidia.com header.i=@Nvidia.com header.b="IUkHRu74";
+	dkim=pass (2048-bit key; unprotected) header.d=Nvidia.com header.i=@Nvidia.com header.b="Rs7eoXR4";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from NAM10-MW2-obe.outbound.protection.outlook.com
- (mail-mw2nam10on2043.outbound.protection.outlook.com [40.107.94.43])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9A3B110EA5E;
- Thu, 19 Jun 2025 13:25:47 +0000 (UTC)
+ (mail-mw2nam10on2087.outbound.protection.outlook.com [40.107.94.87])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6C9E810EA5F;
+ Thu, 19 Jun 2025 13:25:51 +0000 (UTC)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=zF45zxhHUlpbEY0/8Kif34VIdh3gU8blYo2qaL6kkJa+02aONRUOV4Q32FRnJYAe4fKqjWgKnX+dyNYOoSc4VKTb548wt0F+hXEPrFHBoqkO33VllmN8LxcruDsh0ewutsNwlng1n3I8JV96gmEwRbZdefuPVIx8pf5PfSSGZiGAfo8A6eTJvMm18acK8tTpd+il9/rfBufupYAE4L/fZmPKdYljXRaG4KgYJavwkpxyRsaDw0iD7EV5x7Ws0vm11FpBAN1wg4hjsX4LSjdVYI4wWczEDbbvW4P+0LWdEC3y78BwyEpz6p7eH3SvQ1+6kzhW+Aj8g56yqSpD3T5GlA==
+ b=IhUpkrrPd01aTqoOVd3/QpDHT1mb9Mxxy2rWFeUppP8hStWzvH+lkfjrQGYq4OKSBtDv9/G843cQ81iESdSHaZxvkhVmVmeDOlncl8Loaq+8CXCz1PFUwkRGMkahHqadrYaKG1X5y36RULxw0yod5g9YwaKIURV7Yuw91LjJW9N/gae56QwgSFRpYJN5ia5lJvEPN3KBQdoc3R+mzbzpx1SRd4QKxmDlJv24itqEriFcpnVhGDHLpq49q6nX5zERyZbyloRDiYSzFnys71OsCdcK8xdkbP6CuYJDaIqzHKtGviLx/ZqvN1+LEfSpaok05Z7WTeY+nmCCIFrcELkhgQ==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=LAWQnVXBSxAMjnu9ReB+dPNH7MqVlQj/9iTkQ2xjme0=;
- b=M+dflRyF9+4EaDAUq4YyEn2xtmI4kye3BehXqaBKY7Kfd6w/D1vv82LoM0ayW3vxNBf02+Z7k7mn1o3lVMFhZjd7jm5PaZoBHgncE1OXkbNTfp2P3Wb19nMO/IohsdE1mYNhjjEZv4+D0JhEUvf4eskaRj5YeiFQWGlzcBoQG17Y06mXlZyNr1q06hkS7thtDNhHKaDdfLCvNb/09LcKG8+5CGqdRqLzhrxaGx/7EML7rbCMYsnn64VuThu6+EDBPAGT+KuhZ5iCPXCo2CZAWUhRObkv/A/0E5F3u0XJHPGQJUaL52D6KuiiBeuPSS1ujdgwbx+diSQn4VfM0bRF5w==
+ bh=rdrrO8d2gatIqHnuEQo2nq8kP+X6B1eFNdIzWh2dgV0=;
+ b=VVj4MSWU1X5icTtthcx8jLa3mqo9zjwL8biWJ92EK+X8orPg6Yhos9xA1id2a0cl4VLejMF4vAnzbvOnqBXM4xx/a0j9+jZhGuYDZjDS241XhQcqrGi8RCd8kmIQT2h/GyNbRGp+IQqXw9fVQ+WFiR3Zb91zb4AnN/h0Z0I6m7da/f/3XUDWS1/ZrAjd5HLijuVpESJhmGbrxKtoirJOtYmZMbLmrcg0cJi/afymTNQSNn7z4Ubk/Mi+r1gVtkFsPuYDKNALsp9AQ0pZxOg6l3vg21+I/Amdaq5RUvttSKgIsYAoCx07Ru+m0GCYwAvgHvfN+aLfbL8b00ij9KfR+g==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
  dkim=pass header.d=nvidia.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
  s=selector2;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=LAWQnVXBSxAMjnu9ReB+dPNH7MqVlQj/9iTkQ2xjme0=;
- b=IUkHRu74QwFoY5gmlGwEa5ItWAm8on6ufgnKqVGZdqRyXlUYC+BeLk2MYEmyYdobWKT05F4txPhJWur+W4VBaVJJdYMuS4my7bKeibScpgZQNA8LPXZiq9I15qEWwxfaB+ojsZuhZ1e1Q2zUv2wJqvLdQp3RNkG7ULA5cj2j5UKXKiNYFXLJJoKc9V8G8ok++bUf6I6OhIrP1ENk2TMKzBUxa+K4yfq0V6whU0t33HeJW2qTcESLZYmgxTmfEboV9uW0L4/4boV5JrWSW7YyoP8emA0zCg5bcquRcezXi0AnQOPneEwJDeYyHUSFDrNmIrPt+SVH64CklscqVw1hhQ==
+ bh=rdrrO8d2gatIqHnuEQo2nq8kP+X6B1eFNdIzWh2dgV0=;
+ b=Rs7eoXR4Ri5DtYpnMXwanyBmBxwfS0ZQTqY8E1XvkoMNEXdcjPPRSs3mlZAGlaBYovZYlSvZKD3RtNezIRXulTf0nbFgFzmkgcWIOG0BeiXaX7DdVCipZkxl7qZFqsigoFxCqjIrOtrpMicZoI8+Gqps7VpddcVwdKQXaX21x5u2AhRbg0G1IzKfpMbeBAyJpVbhsDcU6Yr7Tex761DuZ0me/ggH96XIGX+GYiMEHXOQplltTcNa5Z9TqyzjQfDCDM9PY8gkaMWVpmyi/XsIL822fXtVYw7B0Ht91hZFbJ8TRxKPBVsXa2PXs4kWFa8UycV3n2kq6QYD29/eG5q3Kw==
 Authentication-Results: dkim=none (message not signed)
  header.d=none;dmarc=none action=none header.from=nvidia.com;
 Received: from CH2PR12MB3990.namprd12.prod.outlook.com (2603:10b6:610:28::18)
  by DM6PR12MB4353.namprd12.prod.outlook.com (2603:10b6:5:2a6::12) with
  Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8857.21; Thu, 19 Jun
- 2025 13:25:45 +0000
+ 2025 13:25:47 +0000
 Received: from CH2PR12MB3990.namprd12.prod.outlook.com
  ([fe80::6e37:569f:82ee:3f99]) by CH2PR12MB3990.namprd12.prod.outlook.com
  ([fe80::6e37:569f:82ee:3f99%4]) with mapi id 15.20.8857.019; Thu, 19 Jun 2025
- 13:25:44 +0000
+ 13:25:47 +0000
 From: Alexandre Courbot <acourbot@nvidia.com>
-Date: Thu, 19 Jun 2025 22:24:07 +0900
-Subject: [PATCH v6 23/24] gpu: nova-core: load and run FWSEC-FRTS
+Date: Thu, 19 Jun 2025 22:24:08 +0900
+Subject: [PATCH v6 24/24] gpu: nova-core: update and annotate TODO list
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20250619-nova-frts-v6-23-ecf41ef99252@nvidia.com>
+Message-Id: <20250619-nova-frts-v6-24-ecf41ef99252@nvidia.com>
 References: <20250619-nova-frts-v6-0-ecf41ef99252@nvidia.com>
 In-Reply-To: <20250619-nova-frts-v6-0-ecf41ef99252@nvidia.com>
 To: Miguel Ojeda <ojeda@kernel.org>, Alex Gaynor <alex.gaynor@gmail.com>, 
@@ -63,105 +63,104 @@ Cc: John Hubbard <jhubbard@nvidia.com>, Ben Skeggs <bskeggs@nvidia.com>,
  Joel Fernandes <joelagnelf@nvidia.com>, Timur Tabi <ttabi@nvidia.com>, 
  Alistair Popple <apopple@nvidia.com>, linux-kernel@vger.kernel.org, 
  rust-for-linux@vger.kernel.org, nouveau@lists.freedesktop.org, 
- dri-devel@lists.freedesktop.org, Alexandre Courbot <acourbot@nvidia.com>, 
- Lyude Paul <lyude@redhat.com>
+ dri-devel@lists.freedesktop.org, Alexandre Courbot <acourbot@nvidia.com>
 X-Mailer: b4 0.14.2
-X-ClientProxiedBy: TYAPR01CA0212.jpnprd01.prod.outlook.com
- (2603:1096:404:29::32) To CH2PR12MB3990.namprd12.prod.outlook.com
+X-ClientProxiedBy: TYCP286CA0252.JPNP286.PROD.OUTLOOK.COM
+ (2603:1096:400:456::10) To CH2PR12MB3990.namprd12.prod.outlook.com
  (2603:10b6:610:28::18)
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
 X-MS-TrafficTypeDiagnostic: CH2PR12MB3990:EE_|DM6PR12MB4353:EE_
-X-MS-Office365-Filtering-Correlation-Id: 11ab3a32-5409-4bcf-be8e-08ddaf34cb53
+X-MS-Office365-Filtering-Correlation-Id: f855b9fb-5d28-4a37-10e3-08ddaf34cd6e
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: BCL:0;
  ARA:13230040|7416014|10070799003|376014|366016|1800799024|921020; 
-X-Microsoft-Antispam-Message-Info: =?utf-8?B?SFc0N1ZML28ydnZUQU1QNmFJTmNNUHNHR1k0OEttdzJiUDlNemJ4RDEzd2kz?=
- =?utf-8?B?RTJ3eCtMVUlNUEVBUTZvUExsYTZ5OHAyUVRSTWxHcjErREsxQ1FURTFXem1M?=
- =?utf-8?B?L00yaFN4b0FTZE1MVjg4TkRjVGcyNHFFQmZSbzF4MWEvSlY4clRrbTRycDBn?=
- =?utf-8?B?K1hVRHNiTk4vTGJUeUZ2TVd6eGdGZG1CL2RpWS9ZeVE5MmFzMnhOZ1B0U0pz?=
- =?utf-8?B?Uy82aW45bERmbHZTR281cFVjUVQ4Z0ZIQXZ5ajVZM1Eva2lWaGpXek5yQVMr?=
- =?utf-8?B?Q2lxNFJuemNVVWZyZDEwZ0VkbGZsV2hsKzlkNFBzb1lwbE50OStadFBrWmhV?=
- =?utf-8?B?eGV3K3hpK3ZQRmtBV1hvSk12V0MyVVdVdlpxdEd0bGVZTDdEZlNYckQxWWxt?=
- =?utf-8?B?MDdNdU40Zmw1MjQrWmlYZDArTTJYdDJKclkrWmVDNldDa2tha3J6eW8wclkw?=
- =?utf-8?B?Q2Nzd2JMMk53Q1k4QXpNNzdxWTVYMmVoZEo3d2UvMUhCcWV6R01ISG5vdUk5?=
- =?utf-8?B?d21HN3BQV2NSaWtrb0ZzWHoxeHBreUp2SkdhajNDN1BTdXFSQitXSFBCNno3?=
- =?utf-8?B?enhmYlVUSzVhakl0aXZFc3VMZjcvRjYzQU5iWHE4VDhoMDNtS1VXMTdrVjJS?=
- =?utf-8?B?MEFnbmVRcEJ1dWFvZ1NzdklqRk9lenZTRWloUWgyYms2czZQNCtOaGVxcU5L?=
- =?utf-8?B?d1ArQkdMQ2psY0NCQ3RSdFhaSjhjWmh2dmlDMDcvb2kyalUyNDBDWEtiY0tF?=
- =?utf-8?B?a2JsSXhsSmdVM2NpYkNZQ2k1ZXNkNzhEUkdVZW0za3BjRk5wM1V2MVBaSFc4?=
- =?utf-8?B?TTlNak0xKzdNTW5kUWlTZGxpanZ5dUU2OG5MTFlWT0Q5dmNRRnlneVk5emVR?=
- =?utf-8?B?d2ltVEhZbkZyZ1VFL2hZS3lSSFJGZ2pFRlhuZkNZSWx1ZEpaSHNpQ0h0VHFZ?=
- =?utf-8?B?RjE0KzFBVW1mbUNPci9yQ2I4SkliWlBLc3IrdjNUdzhicWpCa3lQNnBIbVpr?=
- =?utf-8?B?UXN5dGd3RHBuZmpsSk9oYk10NW9WRXI3RnpHa0JHb3BLNjVBVmVrWUhyUWJX?=
- =?utf-8?B?NDVqL0x0R1dRRmgvT2Mya1kvVkZhTWQvRlVpVUhsUFI5ejZZNHFXUGZXTkRs?=
- =?utf-8?B?Z0dEM01EZEYzSUozaHZzQm9HcUxlQmlIQWhzb1o5WGtMbFF5M3Q4N2YvRyta?=
- =?utf-8?B?QUJlbjRvSHRPVVdrRlVvaEZhWmIxWUJvOFVGVXNXUXRjcm51QXJWQmtFOUFO?=
- =?utf-8?B?em5mbTZXK2ZWbjVaVGNHNTcrYnd5VFRGR1RxYXhiQ3U3RDJKdDlleWpoRE5o?=
- =?utf-8?B?a0p2NzRJa3JPZThtZ09oZDFUQ1hBcXBEa1JmZFMyUU5hSVhuaVZ5d2c0aHpa?=
- =?utf-8?B?TlJQRmdCZ0JOTmkva0gwUUpuTkg4MnEwKy9DMmttMzIvL05EazZhNUhiOTdy?=
- =?utf-8?B?SUVEY28vYnVsenp4dWlhU1hMZnMyMjdWVVlpU0FpTkxHbDZZZ3REZVVJVVgw?=
- =?utf-8?B?ME9qdm84Q1YxWnRRK0FxMUI2NGhYT3dPbVFsa21mL1BaeURpcUJkNGFoT3hm?=
- =?utf-8?B?NTM1TWVRNGQzNktVRzVNNkZQSi9pNUNjWExpM0JPaE9XNlBvcWViOE5ycndJ?=
- =?utf-8?B?cVptTDNWK1lqekZ0OGRqV25MeHBDREZMbFFsNTFEVHpPUVFCVi9yMzJoc0lH?=
- =?utf-8?B?dEdNN0xMeVphWENKTWllYW1Ob081WU5hV3BwU2pwa0hlS3RYVkh4MnM4UjZ5?=
- =?utf-8?B?cERRNGp4MHN2V1VrSnpRS2hmRWIwOHlEdFh6TlpBdGxWdEI5eHdPSVBtdWdy?=
- =?utf-8?B?TGlodzZZQyswUHcweEpqWFJEYWExcG9NYXd5elhFbDh2MTJvSGI1czJVdHRw?=
- =?utf-8?B?NmsvaHRUdGlYalBqSkZwUzFoZS8za1RRS3JLL1FEZ2R3VHNwNVE4bi9BZDNH?=
- =?utf-8?B?bGpUWTBiY3E5Zm12cmhLeGJTbXhjQnBad0l2czhCYnp3R2Z6eXFKbDdwZHpj?=
- =?utf-8?B?c0F0bkQva2xBPT0=?=
+X-Microsoft-Antispam-Message-Info: =?utf-8?B?bVhHMWJSQnNlUGpjSFFtRS9tRitxTk5xZDlDZjV6Yk04a3NmT1hUMC9WbElJ?=
+ =?utf-8?B?NW9iTVgzRUJVb3M5VkRocGZrWSttVDVhdURBWlVTakhuMmtmYVNlQ3VOSCsw?=
+ =?utf-8?B?cFlTTmNLTG5hV2xaVG5PamJ3SmtyN3VBZnNXSUEzcXdhR3A5N2tuQWRVVlE2?=
+ =?utf-8?B?Y2NwMzNTYjUzSjRqUTRKaDVJU0lrU0ZyQTM3WENjayt5WjU5NXgxWS9VYzVv?=
+ =?utf-8?B?TXIycTQ0bVRrVlVTV0p3RXh0akovRUFxQzZTMWhzKzZPS3p4TjJOazN4emd3?=
+ =?utf-8?B?M3JjanM0eHhMYkZlaVlScnltN3dNOE41M2RncFhzcHA1cm1DYndCbTNIMERw?=
+ =?utf-8?B?Yk9wbnNQY0trU1BqVHo5UitXR0p6REExOTMxdjVIMUZZUEc5eGhlajJ6RVpT?=
+ =?utf-8?B?bUY4MDRLMXgwdzZwU2FtSUJreDlVamFram5PZWpqY3doTmF0WTJGN1ovUFFL?=
+ =?utf-8?B?OG8wNHRCbHVNOFM2dWhockdSM1psRk9jdVJQYmlBc25MeFpwbjNxUjI4S0lX?=
+ =?utf-8?B?V1R3dU9PSVF2N2lsMnljV2JCQlorV3VGY3dIeVhib005WU9EM1pBYVZFL3BY?=
+ =?utf-8?B?ajFNcXpYeE9seExjOGovMUVzcTZRTVdEMUxrNEg0cFdJM1lSd1dIOUVWWEdH?=
+ =?utf-8?B?enl6bkFDem0wVnp4OWd1a3gwRkZDU2Z0c1ZGY1JWdDlaVm11VTJzcVpxNjVJ?=
+ =?utf-8?B?QjRDS2Zkajd5Zkg5R0VjY0gxWUp4ZUZiRGx2QVpDRFU2ZFVtejEvTzQxN2hB?=
+ =?utf-8?B?Tk9obFJXTmpRK0JyN0U1SmFiNmY2eGZTTC9JRlp2dmw3TzdWZG8va0lzeGVB?=
+ =?utf-8?B?S1lzY1RMMzdoOG5mdXhGMndTREw3Z01PRUFUTzE1S0JYd01lTlJxUXMyMWRI?=
+ =?utf-8?B?enp3M1RtMjJXVEIxckF3Vy9TMGpUNDE1eTU3SWFzcFBBMmJGLzA1cXo5Vjcx?=
+ =?utf-8?B?SGhmSUVCSnZHYklIckFDWWNRVFA3WWNqSU8zNFowNU14Qk1lYi9rYU9RM01Z?=
+ =?utf-8?B?VzF3ZEc1Wk5lL3ZCYUx6UkI2RGQ4Tmpzbm1HY2ZOYkluZWdWOVFjdTNFZXUw?=
+ =?utf-8?B?V0cxa1FzNk0wSE55dDlzNUpMUUtSdHA3R1UvSzNwVnlVbFRTU1dPbXQ2R0tB?=
+ =?utf-8?B?eEtlMXllVnNsQWFBeVhZVmR3Z2c0aUVHWEZHOTJQUGxNdmVrU0h6UlFYWUZa?=
+ =?utf-8?B?VCtaOG1HODd2WjZhbG92R1pEc2s2YjJVN0xadzVud1VIM0t1OTYwU2E3dlZy?=
+ =?utf-8?B?NWwxdkNNSFVKVElIS3ZLZkhsdm5oZmpyQzVXZndDM25KN1NBY2dOaU5mcm52?=
+ =?utf-8?B?dXBXbmxFNENDVnRHYnJlbXQ5YWFJY1RicThKS0dRSFVSeHVvQzhhRCtvM09W?=
+ =?utf-8?B?M0llQzJSQk5JWElBWjBhTCtDRXhCWmpydG5BUlkxQ0RNZnVzMUgvWjlicENx?=
+ =?utf-8?B?V3VhUVZKU2FWWFlpOGNFYXRVZVVKL3AyNHVWYVEwNWl6Tm1vd1pRRUN0OTE2?=
+ =?utf-8?B?THMrM3hxRGVFQWhjWHMzRUZNMUp6SzJ4YjFOL25hZUJXY29VQms3YytPbUJX?=
+ =?utf-8?B?Y0c1b29vK2FsMEVLVjNBU0lDN21OaS92V3FlOHRhaEJwa0NRNHVpWnNOL09W?=
+ =?utf-8?B?cktVVWJPYzd4TVJwNzJpVVMxSW04WlprQXJURFJqZkR2MklEN2sxWU05Q29a?=
+ =?utf-8?B?VkNLazBnTzZXVlhYbnN0a0Q3K2dnRnFHcndUZEsxT01INFR3NHZCOU5qU3Jt?=
+ =?utf-8?B?YS9sUVA2ckxveWd0K3RHOE1YMWYzMjFJS09Fb3NES1phTXBzRzlraG9ZeTJB?=
+ =?utf-8?B?YUZDbnJ2b1I4T3FJbWNkSEZHV20rNU5TeDZpdDZxWnJHN1QvTkc5anVxNUZN?=
+ =?utf-8?B?cXRyVGp0SSs3Qnc2LzdmMzhta0tTQjJNZGFhZW50M0lEemk2Z05KZ2xkL3Uy?=
+ =?utf-8?B?NkVPRjFtVTJxRjk0eUNDR2ZWamJPTHEzYXFrSWt0TElKaTlUcWptQy9RN1Nu?=
+ =?utf-8?B?WWlOemJ5N0x3PT0=?=
 X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
  IPV:NLI; SFV:NSPM; H:CH2PR12MB3990.namprd12.prod.outlook.com; PTR:; CAT:NONE;
  SFS:(13230040)(7416014)(10070799003)(376014)(366016)(1800799024)(921020);
  DIR:OUT; SFP:1101; 
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?WC9tZWRoZDMzWVpkeHFUdmk2bkY2K3lZeVZLVkNxT0YwVUM0Mk92b2pHbUJS?=
- =?utf-8?B?ZGd2bXZHOHpLTXZkZndDYkpPMk5TbWpZUDJzZHBzNG4yY293NXg5UXFlRmti?=
- =?utf-8?B?VXNuZ05Sbng3alM1ZEUvRWJnVEJPaVQyMGMwc0lFL0hmYTZMNGl0Y0hYRlp3?=
- =?utf-8?B?ckl0aC9Xb3RSQzU0Kzl6dDB0Sm44ZFRwQkNReFNDekZlZUN6MmVRUHQ3blNw?=
- =?utf-8?B?ZzlyemJERmExOVM3SHpSRHR0OGJQSVR3UjBabFhCcEFJOXZwTWQwdTBoeGIv?=
- =?utf-8?B?U1JLdHh3MFNVRlcvQnd6aU1QdzJZTnZMaXk4OEZwZkRrN0tvcTBrS2RvV0pz?=
- =?utf-8?B?aUw4b0x5eUsrcC94VUU2RXVXTXJIVE41NE1DZzIxODRTdUx3VnhrYW1mcnNB?=
- =?utf-8?B?YkRuS3ZIUDN1TWFyVlRYUUhwUi9kUDBodUsrUW44VjJVSlNjZUdYamh3Um5H?=
- =?utf-8?B?RHI0ekh6SU9tRDZnZFNCcndKN0FJNy9wZTcxOFNmSmV3dVJDdys1N1BJL3E4?=
- =?utf-8?B?SHdmemJkU29SOS9nUkNQelJkYVZPc0JuODlhU0NBeTZSVG1heEdDbmJGV0Za?=
- =?utf-8?B?clJHMTk4RzJmZXhuL1NLQ2ZUY0NiQnVzbTlwenFGMllHTTBMOHJVc2RjUlNU?=
- =?utf-8?B?SWtZaU4raXdkYTF3QkpkQVhKcDBUZVU0ME5wbGZKb000QzJsWVBDTnltOWQ0?=
- =?utf-8?B?S2llWC9SeUt6TUtTMGhNWE1BelQrd0p3UDNXd2JYeHY2bGxnekZoTFFqM3R1?=
- =?utf-8?B?UHg1WkxDby9KYUZYZkdJS1FwTVlUcmtpaG51Ry9rWUpyWWFuRnVHU0U2OE1y?=
- =?utf-8?B?YnJkRHZlQklFck56WnhrTDRyUWFNY0piQk9hek9RQXhRYmNNK3JyN0x3dmVy?=
- =?utf-8?B?L1pabUoxZmNUY3Z2ZlIxc1NhSjVSKzVXUDAveTRyOXQ0WG1nZkhPV1VHRXNL?=
- =?utf-8?B?VVBRSDBYeCtwWjJGSkRhNW1NY0s0azh1RThLcDVtSEV3UmJzaS9xYjNSdlFP?=
- =?utf-8?B?SGh2bzlIME1ZNm9KUEh5VDRuYW11Vk1UWG5aUDZ0Y2VpVjdYRHhrbUFOSmor?=
- =?utf-8?B?QlBDK1h6R0JxWCtENVlkMU9ZY3lNdE1SeENzcXcrQnp6anB1aWZldytUU3E1?=
- =?utf-8?B?SFVMTzIvR284bzFtajB4VmVmUDh3RnhBT2RRMUVhYzNERW11QS82ZzdvUWR2?=
- =?utf-8?B?WWh2dm1hUVZVdEgxQjZCbHAvT25JL1ZoWStNVEZDRzFWd3U4NnJCZkZ2Yk4x?=
- =?utf-8?B?Zzk1N1RJU3FFdUdHeCswMUVLVEV1WUFDZFkzWEszMXZ5ZHQ3MHpFU0NaVnhO?=
- =?utf-8?B?alBMUlF6OUxNVlo5eGVsNGNQNGU0ZEZBclBvQys4ZitUTWZwalRwSk5iR25O?=
- =?utf-8?B?ODBqbk9BcytsYXV0bVU5N0pQVUdmWnZYcWJnWmF5UkVaUmh2Ykw5TW9zR2dH?=
- =?utf-8?B?dGxiNTU4Um5SblJ0Zk9XWDYwSUFxYnJJTjFSVVV3dnNUMGlPOElxQmJ3aEVa?=
- =?utf-8?B?bnVXcGM0UkNxSk9GU3pGYmc2QkNtajJDd01VYVZBVS9PTUdDUFduR0p4ZkFu?=
- =?utf-8?B?UVBSQnVtbHYwMFptdXVuL0VZUEVvUUZsejRPZmlsRHFCdFd1QVp3L3JKMnY3?=
- =?utf-8?B?OHpXWGtKTE5lZ0s3aXVVUTNVMytRTFUwL1ZBbjQ0VTFnQjdnZkh2YnZYMFZG?=
- =?utf-8?B?eUFxc3N2bjZBTXVpRFh3enR6bFA5REJxb0hscFB0eXZyNnRUbzRtV3A1S1lX?=
- =?utf-8?B?N0l4cTJtOUZxT21hRlhVUmhmYTRTc2pnbllXMkNXRWZrYlpLNzFpNEpMRkpi?=
- =?utf-8?B?ZCtIWkx5bzVXcWNyWGpKb2gwNEVVRmxhd1FoSE85VWwyRHVjMzJhTWxpak4y?=
- =?utf-8?B?TGdrZnJNWFBDZXhMM1NVOVhGbklwSTU3U0lVdVh1NE9MR3cwazhKekZoZGow?=
- =?utf-8?B?OGs3VFZKUWRqTFl1QmJtV0NsUS95VDcxSEpWQStPMDh3ZGJuQkNXOVV5RTNB?=
- =?utf-8?B?Qjd6YXNac1ZCUHV5dmswcXVzYzRiZk4rUlloRmVyWkRlalh4N0w2bVo3cDhP?=
- =?utf-8?B?Q29VUWRSQnBXZ1hQOFZRNkJqRXIxMzk0TmR5RHY5TDhrMVpKQWYvNWFzUUVJ?=
- =?utf-8?B?T1VqWlRwL1RNTGxXZGRmcWl4YUFYemxHZFpvMUl1WDcwelYyMVBiZGhzV1RT?=
- =?utf-8?Q?09xHvyJTm0l6GfIc1YYd4JMsnufHNiC3pTxO6tvGefec?=
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?c09SSHEvRG5FSVVKVnhYZkZhWkNZZ1RjWGJPOWRSN29TaC9kdDNyRlVHbUwx?=
+ =?utf-8?B?bTJnckJxTDJ4NW9qMm9iOGJzeERuUWZkTHNMZlhzREoyeTRPM1VaVGh2d2h5?=
+ =?utf-8?B?bkFSMDRpREdXSTZjbHYvWmRrRTZwTFAydmlmdkwrQzRSSDV6cVIwRHpyOWpw?=
+ =?utf-8?B?b1hHMXlkODhRV3BHTGxZdDFPdjJmUEFudDd4eW1welZja3o1K2p4VHVZeU5O?=
+ =?utf-8?B?VWt5bDNJVXBqQStIbiszSkZicVJNbUV2TldWSktzcFR4NjlXd2ZKVS9CMldU?=
+ =?utf-8?B?cFdySGxqMk5oaGl6WFpIVDdscWc0am9rWU9oL3dZODdpNUF3VEhUQlpkOEsy?=
+ =?utf-8?B?c3FQZHJNWXBndFNSeTNZWE1FODZZVGZqLy9DMGtabVlWNm12WWpCWjIwcVlG?=
+ =?utf-8?B?MHphbjBNWkdQK2h1RHpQdy9IZHFTeTFiY0c5RnRLSFpkcCt4dStOenlBb1dI?=
+ =?utf-8?B?NkxpZUpGaC81ZUttejZaN3VhYXM4S1FWZDRNSU9rV25LOUs1eTRCNE11ZTIz?=
+ =?utf-8?B?d25keWNwQ2k0S0puWDZIdStNR3lZbDlUaTd3TDl4Zyt3UUxFMFN3aFkxUEt2?=
+ =?utf-8?B?bHRvZTB0TzUyNVpTY2Vsb3podGp4MXhoQkh1ZDRXWEtIN0UrMVc3ZlZmSEc5?=
+ =?utf-8?B?elI4TTZrWVhlOGIyVlNqVFZQM0dwMzc4R2ZaMFFhMXpjYmpqSFlMYkJQNll6?=
+ =?utf-8?B?SHZxTCtpUjh3Q0hlVnJFaHNhM0c4aWp1U1p2Ykg3Zkk2VExIbFAvYkIrVUNX?=
+ =?utf-8?B?VkVyZzc5K1hvNTN2Mk9WR1VPZmFqY2RLSnpJSEdSRDJhMFJkb0VnZnYxaFVQ?=
+ =?utf-8?B?djdIWXp1YUZDZWFSQklmYVBlT3krTzlIN0FGTEJoQmh5aUFyRGtqRVFWaExl?=
+ =?utf-8?B?SmN4bm9IVnVBUVNZVnRjcU9WT3I1SmdQaE1oNFlJSW1ZSHVpRXBreVZOcUVB?=
+ =?utf-8?B?eXBtaUhPMWlhSFB3ZnlmbkJQWHFOekp3WmJCMlU4c0oydmJ1V3huQUhPN28v?=
+ =?utf-8?B?REdmazVVeXA5U1RrekM2QU0zUS9jQjhBL0s2d2llNk4rUTgvV29NUzFyQzY1?=
+ =?utf-8?B?aEJkdk5sQ1UxN3VTOFlPbC9jT0M1eWZDUjJ5UWxVR1pDM2ZQM1BCbi90WEpy?=
+ =?utf-8?B?bEFXOFJBVlRQK1lzK1Z4ankwL29oa3NsY3JDelhweUlnZGZ3ZWE2dUQvbm9u?=
+ =?utf-8?B?UDBMV0N2QkpCY0pKbWMzSWxqTGdRU1ZpcmhmTTF2RkdFVUNOTUUvUDBhRFFK?=
+ =?utf-8?B?VjBiZkdrcGg2aVBUYVg5RTk0TmdMdHljZGc4R1J4OStZS0tqd3BxSkVVRjFU?=
+ =?utf-8?B?R3dBTzl6dkoyRzIxQS96VW1XL3h6MnF4a0FXZnpsTzZVcS96eTd5OUk4b3NX?=
+ =?utf-8?B?TmtYb1FmRjh5Sm9tbGxsTVhzSTUyS2ptSTg2VTZoNUs2V2F0bzVLNk1laE1W?=
+ =?utf-8?B?ZGhBdG1oOW5MR2x1SklZMm1OSlZ4d1Zxa2cwTjBPOTBHRkdIanlrVk4vcGtW?=
+ =?utf-8?B?a0srSnJTemY0UGJaTHN4NDZjNmREM1ZaTXA1d0pXRGtkRVZtV1FyTHNFQ3JF?=
+ =?utf-8?B?ODhIQlR4bUVtZGplMEVDNDJhUktpODdsblM2Q0JEenZ3R3ZKenNhblo5Vkw2?=
+ =?utf-8?B?czdzZ25lV1NGTUhPSk9KbTF1T2JFZWpVMzZMNzlUQzFCYVBpWTlWQWJhZVVk?=
+ =?utf-8?B?VDMwUzF2WFdGMFJYUitIdDRuamo4MDZmTjNnTUk2dzF0ODBkeFQzOUo4OHZE?=
+ =?utf-8?B?TnNra2ZGQU9wRlhUcDExNmFLeFJLb2p4U3ZxemliKzM5b1pidExmUGZLbWk1?=
+ =?utf-8?B?d094WG12YnpVTHF2MHlSUDc0bUVMVmRmZEVpaDBDbllqZERsZ0Ixa29ncVZS?=
+ =?utf-8?B?VlVSNU9GSzVZUGJuRHFnRkRwTWZjM1FxNm0zWHR1WHk4ZkozY2wrWkVLeFdy?=
+ =?utf-8?B?TCtsTmd3WktnTUtUdzJ2TmpFbWFGUHJHWlVBaXNocjZoZkZqZ1ZlRzRSNW8r?=
+ =?utf-8?B?UzlmMi9aODlybjByRlQ1VW1TMExnRUdDYVFmejhXU0JoalFuVVh5Z3ljWGgy?=
+ =?utf-8?B?eDA3VFFWbWxNaTQ1SkVMQVNwVUYrVVI5NGlobFN1UVh5eDhncmppWkovK3or?=
+ =?utf-8?B?bHlMdUNiVU9YWHpoTlpJM00zQ0xqVHVja1RaOHowN1Z2TjNIVnZyayt4R2VJ?=
+ =?utf-8?Q?sP9MCxdSuDs8w21pPbaqmb9hF+NqjPMkWbTecZ/BdtmB?=
 X-OriginatorOrg: Nvidia.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 11ab3a32-5409-4bcf-be8e-08ddaf34cb53
+X-MS-Exchange-CrossTenant-Network-Message-Id: f855b9fb-5d28-4a37-10e3-08ddaf34cd6e
 X-MS-Exchange-CrossTenant-AuthSource: CH2PR12MB3990.namprd12.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 19 Jun 2025 13:25:44.2517 (UTC)
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 19 Jun 2025 13:25:47.7670 (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: +UjhBCX1pFSB5dyZcYK8yAGw7HX2MH8RhNXeaP0znWKKwmQjNIoHSHhoZ1OY0gTC1uzX0xon1PJLd3NdXHqd+w==
+X-MS-Exchange-CrossTenant-UserPrincipalName: YEimDk9puCYonJ2bw1px/gp13EzI5lB5XxulxOlbqUNzFDWo60RgNVgiMiQyzAxpT1fqGpHEnir8y2dSunEo6Q==
 X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM6PR12MB4353
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -178,224 +177,476 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-With all the required pieces in place, load FWSEC-FRTS onto the GSP
-falcon, run it, and check that it successfully carved out the WPR2
-region out of framebuffer memory.
+A few new dependencies are required to remove some of the TODO items:
 
-Reviewed-by: Lyude Paul <lyude@redhat.com>
+- A way to safely convert from byte slices to types implementing
+  `FromBytes`,
+- A way to obtain slices and write into a `CoherentAllocation`,
+- Several improvements to the `register!()` macro,
+- Alignment operations to powers of two, and an equivalent to the C
+  `fls`,
+- Support for `xa_alloc` in the XAlloc bindings.
+
+Some items have also become obsolete:
+
+- The auxiliary bus abstractions have been implemented and are in use,
+- The ELF utilities are not considered for being part of the core kernel
+  bindings anymore.
+- VBIOS, falcon and GPU timer have been completed.
+
+We now have quite a few TODO entries in the code, so annotate them with
+a 4 letter code representing the corresponding task in `todo.rst`. This
+allows to easily find which part of the code corresponds to a given
+entry (and conversely).
+
 Signed-off-by: Alexandre Courbot <acourbot@nvidia.com>
 ---
- drivers/gpu/nova-core/falcon.rs         |  3 --
- drivers/gpu/nova-core/firmware/fwsec.rs | 25 +++++++++
- drivers/gpu/nova-core/gpu.rs            | 90 +++++++++++++++++++++++++++++----
- drivers/gpu/nova-core/regs.rs           | 31 ++++++++++++
- 4 files changed, 136 insertions(+), 13 deletions(-)
+ Documentation/gpu/nova/core/todo.rst      | 107 ++++++++++++++++--------------
+ drivers/gpu/nova-core/dma.rs              |   2 +-
+ drivers/gpu/nova-core/driver.rs           |   2 +-
+ drivers/gpu/nova-core/falcon.rs           |   8 ++-
+ drivers/gpu/nova-core/falcon/hal/ga102.rs |  10 +--
+ drivers/gpu/nova-core/fb.rs               |   2 +-
+ drivers/gpu/nova-core/firmware/fwsec.rs   |   6 +-
+ drivers/gpu/nova-core/gfw.rs              |   2 +-
+ drivers/gpu/nova-core/gpu.rs              |   2 +-
+ drivers/gpu/nova-core/regs.rs             |   8 +--
+ drivers/gpu/nova-core/regs/macros.rs      |   2 +-
+ drivers/gpu/nova-core/util.rs             |   2 +-
+ drivers/gpu/nova-core/vbios.rs            |   2 +-
+ 13 files changed, 84 insertions(+), 71 deletions(-)
 
+diff --git a/Documentation/gpu/nova/core/todo.rst b/Documentation/gpu/nova/core/todo.rst
+index 8a459fc088121f770bfcda5dfb4ef51c712793ce..894a1e9c3741a43ad4eb76d24a9486862999874e 100644
+--- a/Documentation/gpu/nova/core/todo.rst
++++ b/Documentation/gpu/nova/core/todo.rst
+@@ -14,14 +14,17 @@ Tasks may have the following fields:
+ - ``Contact``: The person that can be contacted for further information about
+   the task.
+ 
++A task might have `[ABCD]` code after its name. This code can be used to grep
++into the code for `TODO` entries related to it.
++
+ Enablement (Rust)
+ =================
+ 
+ Tasks that are not directly related to nova-core, but are preconditions in terms
+ of required APIs.
+ 
+-FromPrimitive API
+------------------
++FromPrimitive API [FPRI]
++------------------------
+ 
+ Sometimes the need arises to convert a number to a value of an enum or a
+ structure.
+@@ -41,8 +44,27 @@ automatically generates the corresponding mappings between a value and a number.
+ | Complexity: Beginner
+ | Link: https://docs.rs/num/latest/num/trait.FromPrimitive.html
+ 
+-Generic register abstraction
+-----------------------------
++Conversion from byte slices for types implementing FromBytes [TRSM]
++-------------------------------------------------------------------
++
++We retrieve several structures from byte streams coming from the BIOS or loaded
++firmware. At the moment converting the bytes slice into the proper type require
++an inelegant `unsafe` operation; this will go away once `FromBytes` implements
++a proper `from_bytes` method.
++
++| Complexity: Beginner
++
++CoherentAllocation improvements [COHA]
++--------------------------------------
++
++`CoherentAllocation` needs a safe way to write into the allocation, and to
++obtain slices within the allocation.
++
++| Complexity: Beginner
++| Contact: Abdiel Janulgue
++
++Generic register abstraction [REGA]
++-----------------------------------
+ 
+ Work out how register constants and structures can be automatically generated
+ through generalized macros.
+@@ -102,16 +124,40 @@ Usage:
+ 	let boot0 = Boot0::read(&bar);
+ 	pr_info!("Revision: {}\n", boot0.revision());
+ 
+-Note: a work-in-progress implementation currently resides in
++A work-in-progress implementation currently resides in
+ `drivers/gpu/nova-core/regs/macros.rs` and is used in nova-core. It would be
+ nice to improve it (possibly using proc macros) and move it to the `kernel`
+ crate so it can be used by other components as well.
+ 
++Features desired before this happens:
++
++* Relative register with build-time base address validation,
++* Arrays of registers with build-time index validation,
++* Make I/O optional I/O (for field values that are not registers),
++* Support other sizes than `u32`,
++* Allow visibility control for registers and individual fields,
++* Use Rust slice syntax to express fields ranges.
++
+ | Complexity: Advanced
+ | Contact: Alexandre Courbot
+ 
+-Delay / Sleep abstractions
+---------------------------
++Numerical operations [NUMM]
++---------------------------
++
++Nova uses integer operations that are not part of the standard library (or not
++implemented in an optimized way for the kernel). These include:
++
++- Aligning up and down to a power of two,
++- The "Find Last Set Bit" (`fls` function of the C part of the kernel)
++  operation.
++
++A `num` core kernel module is being designed to provide these operations.
++
++| Complexity: Intermediate
++| Contact: Alexandre Courbot
++
++Delay / Sleep abstractions [DLAY]
++---------------------------------
+ 
+ Rust abstractions for the kernel's delay() and sleep() functions.
+ 
+@@ -159,18 +205,6 @@ mailing list yet.
+ | Complexity: Intermediate
+ | Contact: Abdiel Janulgue
+ 
+-ELF utils
+----------
+-
+-Rust implementation of ELF header representation to retrieve section header
+-tables, names, and data from an ELF-formatted images.
+-
+-There is preceding work from Abdiel Janulgue, which hasn't made it to the
+-mailing list yet.
+-
+-| Complexity: Beginner
+-| Contact: Abdiel Janulgue
+-
+ PCI MISC APIs
+ -------------
+ 
+@@ -179,12 +213,11 @@ capability, MSI API abstractions.
+ 
+ | Complexity: Beginner
+ 
+-Auxiliary bus abstractions
+---------------------------
++XArray bindings [XARR]
++----------------------
+ 
+-Rust abstraction for the auxiliary bus APIs.
+-
+-This is needed to connect nova-core to the nova-drm driver.
++We need bindings for `xa_alloc`/`xa_alloc_cyclic` in order to generate the
++auxiliary device IDs.
+ 
+ | Complexity: Intermediate
+ 
+@@ -216,15 +249,6 @@ Build the radix3 page table to map the firmware.
+ | Complexity: Intermediate
+ | Contact: Abdiel Janulgue
+ 
+-vBIOS support
+--------------
+-
+-Parse the vBIOS and probe the structures required for driver initialization.
+-
+-| Contact: Dave Airlie
+-| Reference: Vec extensions
+-| Complexity: Intermediate
+-
+ Initial Devinit support
+ -----------------------
+ 
+@@ -234,23 +258,6 @@ configuration.
+ | Contact: Dave Airlie
+ | Complexity: Beginner
+ 
+-Boot Falcon controller
+-----------------------
+-
+-Infrastructure to load and execute falcon (sec2) firmware images; handle the
+-GSP falcon processor and fwsec loading.
+-
+-| Complexity: Advanced
+-| Contact: Dave Airlie
+-
+-GPU Timer support
+------------------
+-
+-Support for the GPU's internal timer peripheral.
+-
+-| Complexity: Beginner
+-| Contact: Dave Airlie
+-
+ MMU / PT management
+ -------------------
+ 
+diff --git a/drivers/gpu/nova-core/dma.rs b/drivers/gpu/nova-core/dma.rs
+index 1f1f8c378d8e2cf51edc772e7afe392e9c9c8831..94f44bcfd748d18ea42c520e36a618bde9635e55 100644
+--- a/drivers/gpu/nova-core/dma.rs
++++ b/drivers/gpu/nova-core/dma.rs
+@@ -26,7 +26,7 @@ pub(crate) fn new(dev: &device::Device<device::Bound>, len: usize) -> Result<Sel
+ 
+     pub(crate) fn from_data(dev: &device::Device<device::Bound>, data: &[u8]) -> Result<Self> {
+         Self::new(dev, data.len()).map(|mut dma_obj| {
+-            // TODO: replace with `CoherentAllocation::write()` once available.
++            // TODO[COHA]: replace with `CoherentAllocation::write()` once available.
+             // SAFETY:
+             // - `dma_obj`'s size is at least `data.len()`.
+             // - We have just created this object and there is no other user at this stage.
+diff --git a/drivers/gpu/nova-core/driver.rs b/drivers/gpu/nova-core/driver.rs
+index ffe25c7a2fdad289549460f7fd87d6e09299a35c..518ef8739550fd0b63b5a4aa98cd1fd814770725 100644
+--- a/drivers/gpu/nova-core/driver.rs
++++ b/drivers/gpu/nova-core/driver.rs
+@@ -42,7 +42,7 @@ fn probe(pdev: &pci::Device<Core>, _info: &Self::IdInfo) -> Result<Pin<KBox<Self
+                 _reg: auxiliary::Registration::new(
+                     pdev.as_ref(),
+                     c_str!("nova-drm"),
+-                    0, // TODO: Once it lands, use XArray; for now we don't use the ID.
++                    0, // TODO[XARR]: Once it lands, use XArray; for now we don't use the ID.
+                     crate::MODULE_NAME
+                 )?,
+             }),
 diff --git a/drivers/gpu/nova-core/falcon.rs b/drivers/gpu/nova-core/falcon.rs
-index ba14cb24b80db89901191000a617bee683cbc060..fe4d3d458a6b105bfdd6257111d3eed8ed8aba7c 100644
+index fe4d3d458a6b105bfdd6257111d3eed8ed8aba7c..07be1c30668c4bef9e073fe6ad49234aceb7fb81 100644
 --- a/drivers/gpu/nova-core/falcon.rs
 +++ b/drivers/gpu/nova-core/falcon.rs
-@@ -2,9 +2,6 @@
+@@ -35,6 +35,7 @@ pub(crate) enum FalconCoreRev {
+     Rev7 = 7,
+ }
  
- //! Falcon microprocessor base support
++// TODO[FPRI]: replace with `FromPrimitive`.
+ impl TryFrom<u8> for FalconCoreRev {
+     type Error = Error;
  
--// To be removed when all code is used.
--#![expect(dead_code)]
--
- use core::ops::Deref;
- use core::time::Duration;
- use hal::FalconHal;
+@@ -68,6 +69,7 @@ pub(crate) enum FalconCoreRevSubversion {
+     Subversion3 = 3,
+ }
+ 
++// TODO[FPRI]: replace with `FromPrimitive`.
+ impl TryFrom<u8> for FalconCoreRevSubversion {
+     type Error = Error;
+ 
+@@ -101,6 +103,7 @@ pub(crate) enum FalconSecurityModel {
+     Heavy = 3,
+ }
+ 
++// TODO[FPRI]: replace with `FromPrimitive`.
+ impl TryFrom<u8> for FalconSecurityModel {
+     type Error = Error;
+ 
+@@ -128,6 +131,7 @@ pub(crate) enum FalconModSelAlgo {
+     Rsa3k = 1,
+ }
+ 
++// TODO[FPRI]: replace with `FromPrimitive`.
+ impl TryFrom<u8> for FalconModSelAlgo {
+     type Error = Error;
+ 
+@@ -148,6 +152,7 @@ pub(crate) enum DmaTrfCmdSize {
+     Size256B = 0x6,
+ }
+ 
++// TODO[FPRI]: replace with `FromPrimitive`.
+ impl TryFrom<u8> for DmaTrfCmdSize {
+     type Error = Error;
+ 
+@@ -199,6 +204,7 @@ pub(crate) enum FalconFbifTarget {
+     NoncoherentSysmem = 2,
+ }
+ 
++// TODO[FPRI]: replace with `FromPrimitive`.
+ impl TryFrom<u8> for FalconFbifTarget {
+     type Error = Error;
+ 
+@@ -354,7 +360,7 @@ fn reset_eng(&self, bar: &Bar0) -> Result {
+ 
+         regs::NV_PFALCON_FALCON_ENGINE::alter(bar, E::BASE, |v| v.set_reset(true));
+ 
+-        // TODO: replace with udelay() or equivalent once available.
++        // TODO[DLAY]: replace with udelay() or equivalent once available.
+         // TIMEOUT: falcon engine should not take more than 10us to reset.
+         let _: Result = util::wait_on(Duration::from_micros(10), || None);
+ 
+diff --git a/drivers/gpu/nova-core/falcon/hal/ga102.rs b/drivers/gpu/nova-core/falcon/hal/ga102.rs
+index 0a4e5e7adf8cbcec9f67bb09ba758a9cb2887bae..664327f75cf4199cca37d22ca18b2b9abac781f8 100644
+--- a/drivers/gpu/nova-core/falcon/hal/ga102.rs
++++ b/drivers/gpu/nova-core/falcon/hal/ga102.rs
+@@ -42,10 +42,10 @@ fn signature_reg_fuse_version_ga102(
+     engine_id_mask: u16,
+     ucode_id: u8,
+ ) -> Result<u32> {
+-    // TODO: The ucode fuse versions are contained in the FUSE_OPT_FPF_<ENGINE>_UCODE<X>_VERSION
+-    // registers, which are an array. Our register definition macros do not allow us to manage them
+-    // properly, so we need to hardcode their addresses for now. Clean this up once we support
+-    // register arrays.
++    // TODO[REGA]: The ucode fuse versions are contained in the
++    // FUSE_OPT_FPF_<ENGINE>_UCODE<X>_VERSION registers, which are an array. Our register
++    // definition macros do not allow us to manage them properly, so we need to hardcode their
++    // addresses for now. Clean this up once we support register arrays.
+ 
+     // Each engine has 16 ucode version registers numbered from 1 to 16.
+     if ucode_id == 0 || ucode_id > 16 {
+@@ -69,7 +69,7 @@ fn signature_reg_fuse_version_ga102(
+     let reg_fuse_version =
+         bar.read32(reg_fuse_base + ((ucode_id - 1) as usize * core::mem::size_of::<u32>()));
+ 
+-    // TODO: replace with `last_set_bit` once it lands.
++    // TODO[NUMM]: replace with `last_set_bit` once it lands.
+     Ok(u32::BITS - reg_fuse_version.leading_zeros())
+ }
+ 
+diff --git a/drivers/gpu/nova-core/fb.rs b/drivers/gpu/nova-core/fb.rs
+index dc009a3ed44c2de7ffeb8cc0be06a72cf2ca5309..48003527a2472a4a8b784af0d481a441c8d2426e 100644
+--- a/drivers/gpu/nova-core/fb.rs
++++ b/drivers/gpu/nova-core/fb.rs
+@@ -121,7 +121,7 @@ pub(crate) fn new(chipset: Chipset, bar: &Bar0) -> Result<Self> {
+         let frts = {
+             const FRTS_DOWN_ALIGN: u64 = SZ_128K as u64;
+             const FRTS_SIZE: u64 = SZ_1M as u64;
+-            // TODO: replace with `align_down` once it lands.
++            // TODO[NUMM]: replace with `align_down` once it lands.
+             let frts_base = (vga_workspace.start & !(FRTS_DOWN_ALIGN - 1)) - FRTS_SIZE;
+ 
+             frts_base..frts_base + FRTS_SIZE
 diff --git a/drivers/gpu/nova-core/firmware/fwsec.rs b/drivers/gpu/nova-core/firmware/fwsec.rs
-index de179c2011396fa789e868ec564b09eb48aa07ff..6058598ce76e25484cc4ebebd1be80b9dd1b469c 100644
+index 6058598ce76e25484cc4ebebd1be80b9dd1b469c..047aab76470ecb0a0486f6917f6fda69b5381391 100644
 --- a/drivers/gpu/nova-core/firmware/fwsec.rs
 +++ b/drivers/gpu/nova-core/firmware/fwsec.rs
-@@ -395,4 +395,29 @@ pub(crate) fn new(
-             ucode: ucode_signed,
-         })
-     }
-+
-+    /// Loads the FWSEC firmware into `falcon` and execute it.
-+    pub(crate) fn run(
-+        &self,
-+        dev: &Device<device::Bound>,
-+        falcon: &Falcon<Gsp>,
-+        bar: &Bar0,
-+    ) -> Result<()> {
-+        // Reset falcon, load the firmware, and run it.
-+        falcon
-+            .reset(bar)
-+            .inspect_err(|e| dev_err!(dev, "Failed to reset GSP falcon: {:?}\n", e))?;
-+        falcon
-+            .dma_load(bar, self)
-+            .inspect_err(|e| dev_err!(dev, "Failed to load FWSEC firmware: {:?}\n", e))?;
-+        let (mbox0, _) = falcon
-+            .boot(bar, Some(0), None)
-+            .inspect_err(|e| dev_err!(dev, "Failed to boot FWSEC firmware: {:?}\n", e))?;
-+        if mbox0 != 0 {
-+            dev_err!(dev, "FWSEC firmware returned error {}\n", mbox0);
-+            Err(EIO)
-+        } else {
-+            Ok(())
-+        }
-+    }
- }
+@@ -150,8 +150,8 @@ impl FirmwareSignature<FwsecFirmware> for Bcrt30Rsa3kSignature {}
+ /// Callers must ensure that the region of memory returned is not written for as long as the
+ /// returned reference is alive.
+ ///
+-/// TODO: Remove this and `transmute_mut` once `CoherentAllocation::as_slice` is available and we
+-/// have a way to transmute objects implementing FromBytes, e.g.:
++/// TODO[TRSM][COHA]: Remove this and `transmute_mut` once `CoherentAllocation::as_slice` is
++/// available and we have a way to transmute objects implementing FromBytes, e.g.:
+ /// https://lore.kernel.org/lkml/20250330234039.29814-1-christiansantoslima21@gmail.com/
+ unsafe fn transmute<'a, 'b, T: Sized + FromBytes>(
+     fw: &'a DmaObject,
+@@ -218,7 +218,7 @@ fn dmem_load_params(&self) -> FalconLoadTarget {
+         FalconLoadTarget {
+             src_start: self.desc.imem_load_size,
+             dst_start: self.desc.dmem_phys_base,
+-            // TODO: replace with `align_up` once it lands.
++            // TODO[NUMM]: replace with `align_up` once it lands.
+             len: self
+                 .desc
+                 .dmem_load_size
+diff --git a/drivers/gpu/nova-core/gfw.rs b/drivers/gpu/nova-core/gfw.rs
+index fa3f642bc814c7eea1ce1f2c2e24e684d1ae5fda..97fdd311a1f842c1c4e5c28d10bb26066a7aa586 100644
+--- a/drivers/gpu/nova-core/gfw.rs
++++ b/drivers/gpu/nova-core/gfw.rs
+@@ -31,7 +31,7 @@ pub(crate) fn wait_gfw_boot_completion(bar: &Bar0) -> Result {
+         } else {
+             // Avoid busy-looping.
+             // SAFETY: msleep should be safe to call with any parameter.
+-            // TODO: replace with [1] once it merges.
++            // TODO[DLAY]: replace with [1] once it merges.
+             // [1] https://lore.kernel.org/rust-for-linux/20250423192857.199712-6-fujita.tomonori@gmail.com/
+             unsafe { bindings::msleep(1) };
+ 
 diff --git a/drivers/gpu/nova-core/gpu.rs b/drivers/gpu/nova-core/gpu.rs
-index ba926162c1a016f7e1c88da50308fb0a8686924a..ae454c0e2fb4d485e99fbf9cd80c2ebb89884887 100644
+index ae454c0e2fb4d485e99fbf9cd80c2ebb89884887..7a6ff6d89cb2a5e3176489e54552d04633861ad6 100644
 --- a/drivers/gpu/nova-core/gpu.rs
 +++ b/drivers/gpu/nova-core/gpu.rs
-@@ -188,6 +188,85 @@ fn drop(mut self: Pin<&mut Self>) {
- }
+@@ -37,7 +37,7 @@ impl Chipset {
+             ];
+         }
  
- impl Gpu {
-+    /// Helper function to load and run the FWSEC-FRTS firmware and confirm that it has properly
-+    /// created the WPR2 region.
-+    ///
-+    /// TODO: this needs to be moved into a larger type responsible for booting the whole GSP
-+    /// (`GspBooter`?).
-+    fn run_fwsec_frts(
-+        dev: &device::Device<device::Bound>,
-+        falcon: &Falcon<Gsp>,
-+        bar: &Bar0,
-+        bios: &Vbios,
-+        fb_layout: &FbLayout,
-+    ) -> Result<()> {
-+        // Check that the WPR2 region does not already exists - if it does, we cannot run
-+        // FWSEC-FRTS until the GPU is reset.
-+        if regs::NV_PFB_PRI_MMU_WPR2_ADDR_HI::read(bar).higher_bound() != 0 {
-+            dev_err!(
-+                dev,
-+                "WPR2 region already exists - GPU needs to be reset to proceed\n"
-+            );
-+            return Err(EBUSY);
-+        }
-+
-+        let fwsec_frts = FwsecFirmware::new(
-+            dev,
-+            falcon,
-+            bar,
-+            bios,
-+            FwsecCommand::Frts {
-+                frts_addr: fb_layout.frts.start,
-+                frts_size: fb_layout.frts.end - fb_layout.frts.start,
-+            },
-+        )?;
-+
-+        // Run FWSEC-FRTS to create the WPR2 region.
-+        fwsec_frts.run(dev, falcon, bar)?;
-+
-+        // SCRATCH_E contains the error code for FWSEC-FRTS.
-+        let frts_status = regs::NV_PBUS_SW_SCRATCH_0E::read(bar).frts_err_code();
-+        if frts_status != 0 {
-+            dev_err!(
-+                dev,
-+                "FWSEC-FRTS returned with error code {:#x}",
-+                frts_status
-+            );
-+
-+            return Err(EIO);
-+        }
-+
-+        // Check that the WPR2 region has been created as we requested.
-+        let (wpr2_lo, wpr2_hi) = (
-+            regs::NV_PFB_PRI_MMU_WPR2_ADDR_LO::read(bar).lower_bound(),
-+            regs::NV_PFB_PRI_MMU_WPR2_ADDR_HI::read(bar).higher_bound(),
-+        );
-+
-+        match (wpr2_lo, wpr2_hi) {
-+            (_, 0) => {
-+                dev_err!(dev, "WPR2 region not created after running FWSEC-FRTS\n");
-+
-+                Err(EIO)
-+            }
-+            (wpr2_lo, _) if wpr2_lo != fb_layout.frts.start => {
-+                dev_err!(
-+                    dev,
-+                    "WPR2 region created at unexpected address {:#x}; expected {:#x}\n",
-+                    wpr2_lo,
-+                    fb_layout.frts.start,
-+                );
-+
-+                Err(EIO)
-+            }
-+            (wpr2_lo, wpr2_hi) => {
-+                dev_dbg!(dev, "WPR2: {:#x}-{:#x}\n", wpr2_lo, wpr2_hi);
-+                dev_dbg!(dev, "GPU instance built\n");
-+
-+                Ok(())
-+            }
-+        }
-+    }
-+
-     pub(crate) fn new(
-         pdev: &pci::Device<device::Bound>,
-         devres_bar: Devres<Bar0>,
-@@ -226,16 +305,7 @@ pub(crate) fn new(
+-        // TODO replace with something like derive(FromPrimitive)
++        // TODO[FPRI]: replace with something like derive(FromPrimitive)
+         impl TryFrom<u32> for Chipset {
+             type Error = kernel::error::Error;
  
-         let bios = Vbios::new(pdev, bar)?;
- 
--        let _fwsec_frts = FwsecFirmware::new(
--            pdev.as_ref(),
--            &gsp_falcon,
--            bar,
--            &bios,
--            FwsecCommand::Frts {
--                frts_addr: fb_layout.frts.start,
--                frts_size: fb_layout.frts.end - fb_layout.frts.start,
--            },
--        )?;
-+        Self::run_fwsec_frts(pdev.as_ref(), &gsp_falcon, bar, &bios, &fb_layout)?;
- 
-         Ok(pin_init!(Self {
-             spec,
 diff --git a/drivers/gpu/nova-core/regs.rs b/drivers/gpu/nova-core/regs.rs
-index 8ca7bcb5a93f4b60ee9ee488f26469af48e2f1d8..ccfaeed55cff90e66ac0acf37dcbd0eb344994c5 100644
+index ccfaeed55cff90e66ac0acf37dcbd0eb344994c5..707f87d6828df54c959af87fd13bbdd3a25aa020 100644
 --- a/drivers/gpu/nova-core/regs.rs
 +++ b/drivers/gpu/nova-core/regs.rs
-@@ -42,6 +42,13 @@ pub(crate) fn chipset(self) -> Result<Chipset> {
-     }
- }
+@@ -44,7 +44,7 @@ pub(crate) fn chipset(self) -> Result<Chipset> {
  
-+/* PBUS */
-+
-+// TODO: this is an array of registers.
-+register!(NV_PBUS_SW_SCRATCH_0E@0x00001438  {
-+    31:16   frts_err_code as u16;
-+});
-+
- /* PFB */
+ /* PBUS */
  
- register!(NV_PFB_NISO_FLUSH_SYSMEM_ADDR @ 0x00100c10 {
-@@ -73,6 +80,30 @@ pub(crate) fn usable_fb_size(self) -> u64 {
-     }
- }
+-// TODO: this is an array of registers.
++// TODO[REGA]: this is an array of registers.
+ register!(NV_PBUS_SW_SCRATCH_0E@0x00001438  {
+     31:16   frts_err_code as u16;
+ });
+@@ -110,7 +110,7 @@ pub(crate) fn higher_bound(self) -> u64 {
+     0:0     read_protection_level0 as bool, "Set after FWSEC lowers its protection level";
+ });
  
-+register!(NV_PFB_PRI_MMU_WPR2_ADDR_LO@0x001fa824  {
-+    31:4    lo_val as u32, "Bits 12..40 of the lower (inclusive) bound of the WPR2 region";
-+});
-+
-+impl NV_PFB_PRI_MMU_WPR2_ADDR_LO {
-+    /// Returns the lower (inclusive) bound of the WPR2 region.
-+    pub(crate) fn lower_bound(self) -> u64 {
-+        (self.lo_val() as u64) << 12
-+    }
-+}
-+
-+register!(NV_PFB_PRI_MMU_WPR2_ADDR_HI@0x001fa828  {
-+    31:4    hi_val as u32, "Bits 12..40 of the higher (exclusive) bound of the WPR2 region";
-+});
-+
-+impl NV_PFB_PRI_MMU_WPR2_ADDR_HI {
-+    /// Returns the higher (exclusive) bound of the WPR2 region.
-+    ///
-+    /// A value of zero means the WPR2 region is not set.
-+    pub(crate) fn higher_bound(self) -> u64 {
-+        (self.hi_val() as u64) << 12
-+    }
-+}
-+
- /* PGC6 */
+-// TODO: This is an array of registers.
++// TODO[REGA]: This is an array of registers.
+ register!(NV_PGC6_AON_SECURE_SCRATCH_GROUP_05 @ 0x00118234 {
+     31:0    value as u32;
+ });
+@@ -272,7 +272,7 @@ pub(crate) fn mem_scrubbing_done(self) -> bool {
+     0:0     reset as bool;
+ });
  
- register!(NV_PGC6_AON_SECURE_SCRATCH_GROUP_05_PRIV_LEVEL_MASK @ 0x00118128 {
+-// TODO: this is an array of registers.
++// TODO[REGA]: this is an array of registers.
+ register!(NV_PFALCON_FBIF_TRANSCFG @ +0x00000600 {
+     1:0     target as u8 ?=> FalconFbifTarget;
+     2:2     mem_type as bool => FalconFbifMemType;
+@@ -294,7 +294,7 @@ pub(crate) fn mem_scrubbing_done(self) -> bool {
+     31:0    value as u32;
+ });
+ 
+-// TODO: this is an array of registers.
++// TODO[REGA]: this is an array of registers.
+ register!(NV_PFALCON2_FALCON_BROM_PARAADDR @ +0x00001210 {
+     31:0    value as u32;
+ });
+diff --git a/drivers/gpu/nova-core/regs/macros.rs b/drivers/gpu/nova-core/regs/macros.rs
+index e0e6fef3796f9dd2ce4e0223444a05bcc53075a6..cdf668073480ed703c89ffa8628f5c9de6494687 100644
+--- a/drivers/gpu/nova-core/regs/macros.rs
++++ b/drivers/gpu/nova-core/regs/macros.rs
+@@ -147,7 +147,7 @@ impl $name {
+             pub(crate) const OFFSET: usize = $offset;
+         }
+ 
+-        // TODO: display the raw hex value, then the value of all the fields. This requires
++        // TODO[REGA]: display the raw hex value, then the value of all the fields. This requires
+         // matching the fields, which will complexify the syntax considerably...
+         impl ::core::fmt::Debug for $name {
+             fn fmt(&self, f: &mut ::core::fmt::Formatter<'_>) -> ::core::fmt::Result {
+diff --git a/drivers/gpu/nova-core/util.rs b/drivers/gpu/nova-core/util.rs
+index 69f29238b25ed949b00def1b748df3ff7567d83c..5cafe0797cd6f9567afb7e1e9af23b961a8a87f6 100644
+--- a/drivers/gpu/nova-core/util.rs
++++ b/drivers/gpu/nova-core/util.rs
+@@ -32,7 +32,7 @@ pub(crate) const fn const_bytes_to_str(bytes: &[u8]) -> &str {
+ /// `Err(ETIMEDOUT)` is returned if `timeout` has been reached without `cond` evaluating to
+ /// `Some`.
+ ///
+-/// TODO: replace with `read_poll_timeout` once it is available.
++/// TODO[DLAY]: replace with `read_poll_timeout` once it is available.
+ /// (https://lore.kernel.org/lkml/20250220070611.214262-8-fujita.tomonori@gmail.com/)
+ pub(crate) fn wait_on<R, F: Fn() -> Option<R>>(timeout: Duration, cond: F) -> Result<R> {
+     let start_time = Instant::now();
+diff --git a/drivers/gpu/nova-core/vbios.rs b/drivers/gpu/nova-core/vbios.rs
+index c029c600b9b3081ad1e1dd4112acd4ed914e9d8d..a5889eb149a16beabc0ddbdc87666520114c8aec 100644
+--- a/drivers/gpu/nova-core/vbios.rs
++++ b/drivers/gpu/nova-core/vbios.rs
+@@ -175,7 +175,7 @@ fn next(&mut self) -> Option<Self::Item> {
+ 
+         // Advance to next image (aligned to 512 bytes)
+         self.current_offset += image_size;
+-        // TODO: replace with `align_up` once it lands.
++        // TODO[NUMM]: replace with `align_up` once it lands.
+         self.current_offset = self.current_offset.next_multiple_of(512);
+ 
+         Some(Ok(full_image))
 
 -- 
 2.49.0
