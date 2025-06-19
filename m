@@ -2,65 +2,66 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id E7A93AE0766
-	for <lists+dri-devel@lfdr.de>; Thu, 19 Jun 2025 15:34:44 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 760FDAE0797
+	for <lists+dri-devel@lfdr.de>; Thu, 19 Jun 2025 15:41:00 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2F65310EA53;
-	Thu, 19 Jun 2025 13:34:43 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id CC27310EA5C;
+	Thu, 19 Jun 2025 13:40:57 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=collabora.com header.i=sebastian.reichel@collabora.com header.b="jQcBGJRu";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="PH1NQGVt";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from sender4-pp-f112.zoho.com (sender4-pp-f112.zoho.com
- [136.143.188.112])
- by gabe.freedesktop.org (Postfix) with ESMTPS id F29EB10EA53
- for <dri-devel@lists.freedesktop.org>; Thu, 19 Jun 2025 13:34:40 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; t=1750340072; cv=none; 
- d=zohomail.com; s=zohoarc; 
- b=QQsSrN4Dkjsu5zTv7CLcp2MysHYWKvRp55QFeGAgNKlql/zQHvYu+AOh6QPwWftbJAaGpfLXJ+8cv+/Zx7hr+mLBEeqZuuAYI3lRV5RbePLXFMEMnYbHdbLeHiYuxrBZwUGS/kv5MTwgZohm57t7sHcIuT2+7dCf6Bop4+FJEGc=
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com;
- s=zohoarc; t=1750340072;
- h=Content-Type:Cc:Cc:Date:Date:From:From:In-Reply-To:MIME-Version:Message-ID:References:Subject:Subject:To:To:Message-Id:Reply-To;
- bh=qWNEcMBoxu8wUH3B/aSwOcDmxt4JxKtTOFWBvNpr6T4=; 
- b=PMEQKHu0UwJn5LBzFo6dwmsa5MR8YiXKxeNBEE7DabwhaSeycq5JZ5oqjb/bOVQZDQ1vLQ3YQsGjgymzf+rrrBsMm4LfQc2S2txvZInKbVBYWA4dDncjM1vmEd1qNY6EsfGsxgUtES72mIj9Srj4nmFU3IIVET99W+UjDKhsl8c=
-ARC-Authentication-Results: i=1; mx.zohomail.com;
- dkim=pass  header.i=collabora.com;
- spf=pass  smtp.mailfrom=sebastian.reichel@collabora.com;
- dmarc=pass header.from=<sebastian.reichel@collabora.com>
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1750340072; 
- s=zohomail; d=collabora.com; i=sebastian.reichel@collabora.com;
- h=Date:Date:From:From:To:To:Cc:Cc:Subject:Subject:Message-ID:References:MIME-Version:Content-Type:In-Reply-To:Message-Id:Reply-To;
- bh=qWNEcMBoxu8wUH3B/aSwOcDmxt4JxKtTOFWBvNpr6T4=;
- b=jQcBGJRu6QaEZqEhNDwkfp6y3DPalwwRYLWgZ9K0i5BdSEbx21Q5gEYmVhs3T4u4
- 7QJn22A1cC/OX06PNaGMlEtwlSdtc+0hFIHZOoAhmPG/pMH4+MYcpjMVfyrBSHxbKJk
- mC/bC5LVD/D3DSSoNJwBG+Xbcjb4DH2bRLQireBI=
-Received: by mx.zohomail.com with SMTPS id 1750340070603195.6541748579583;
- Thu, 19 Jun 2025 06:34:30 -0700 (PDT)
-Received: by venus (Postfix, from userid 1000)
- id E8BE21805A8; Thu, 19 Jun 2025 15:34:26 +0200 (CEST)
-Date: Thu, 19 Jun 2025 15:34:26 +0200
-From: Sebastian Reichel <sebastian.reichel@collabora.com>
-To: Andy Yan <andyshrk@163.com>
-Cc: neil.armstrong@linaro.org, conor+dt@kernel.org, 
- quic_jesszhan@quicinc.com, krzk+dt@kernel.org, robh@kernel.org,
- tzimmermann@suse.de, 
- devicetree@vger.kernel.org, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org, Andy Yan <andy.yan@rock-chips.com>
-Subject: Re: [PATCH 2/2] drivers/panel: raydium-rm67200: Make reset-gpio
- optional
-Message-ID: <ydqx6qhm53m5p7g3ust7jsdaftqugdfp65m223zoo6awy5qsgb@s4fzof6e3oh2>
-References: <20250616070536.670519-1-andyshrk@163.com>
- <20250616070536.670519-2-andyshrk@163.com>
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.11])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3EFED10EA59;
+ Thu, 19 Jun 2025 13:40:56 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1750340456; x=1781876456;
+ h=from:to:cc:subject:date:message-id:mime-version:
+ content-transfer-encoding;
+ bh=olyk2Z08y9yVfDz1dq6kysTGfQdXE+8we6FETMScyTI=;
+ b=PH1NQGVtY0HIekWD7Qg6oleobhUTK+QP1MJxZyyGUTMEcko8YhWMiEN6
+ 5h7PKH9IXGs6vtirvBneqSOWbPApxgCQ8AnxssqPzUm3aaKn8hviLUtM0
+ 1Rg12cb6wzZQtEjNJ32ZTC2FchwYb1nSpwG0R1CyA12fPrKY/GV84DelP
+ TTNYNcsEYG/J29VCd9STjTmWcaBKa1PVxFzLsSzxYkG6VWxmHF647nDnZ
+ 149yKWD7pKiKIcYsRAswm2BEL7HmJIpm3yuA5V+lh30gHD5lZMNFl6thW
+ O3Zn/8EyWU6+PhUAP2kN2YCYlg1Xk1hf+ETbqnOhDoMQjHtZADlvc6z/n w==;
+X-CSE-ConnectionGUID: B4dDbu8lSEyT6BXAEWjDgA==
+X-CSE-MsgGUID: tv3ZqckfRc+zb8DBKud9BQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11469"; a="62862121"
+X-IronPort-AV: E=Sophos;i="6.16,248,1744095600"; d="scan'208";a="62862121"
+Received: from fmviesa007.fm.intel.com ([10.60.135.147])
+ by orvoesa103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 19 Jun 2025 06:40:56 -0700
+X-CSE-ConnectionGUID: GuDOm9jNTnOjD9Wc6WX8ow==
+X-CSE-MsgGUID: sERTmzvIS8SDm5wpQF1fgg==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.16,248,1744095600"; d="scan'208";a="150247417"
+Received: from ijarvine-mobl1.ger.corp.intel.com (HELO fedora..)
+ ([10.245.244.196])
+ by fmviesa007-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 19 Jun 2025 06:40:52 -0700
+From: =?UTF-8?q?Thomas=20Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>
+To: intel-xe@lists.freedesktop.org
+Cc: =?UTF-8?q?Thomas=20Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>,
+ dri-devel@lists.freedesktop.org, himal.prasad.ghimiray@intel.com,
+ apopple@nvidia.com, airlied@gmail.com,
+ Simona Vetter <simona.vetter@ffwll.ch>,
+ =?UTF-8?q?Felix=20K=C3=BChling?= <felix.kuehling@amd.com>,
+ "Philip Yang" <philip.yang@amd.com>,
+ Matthew Brost <matthew.brost@intel.com>,
+ =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>,
+ dakr@kernel.org, "Mrozek, Michal" <michal.mrozek@intel.com>,
+ Joonas Lahtinen <joonas.lahtinen@linux.intel.com>
+Subject: [PATCH v6 0/3] drm/gpusvm, drm/pagemap,
+ drm/xe: Restructure migration in preparation for multi-device
+Date: Thu, 19 Jun 2025 15:40:32 +0200
+Message-ID: <20250619134035.170086-1-thomas.hellstrom@linux.intel.com>
+X-Mailer: git-send-email 2.49.0
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
- protocol="application/pgp-signature"; boundary="bguhyq47rfsodvla"
-Content-Disposition: inline
-In-Reply-To: <20250616070536.670519-2-andyshrk@163.com>
-X-Zoho-Virus-Status: 1
-X-Zoho-Virus-Status: 1
-X-Zoho-AV-Stamp: zmail-av-1.4.2/250.326.2
-X-ZohoMailClient: External
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -76,104 +77,60 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+This patchset modifies the migration part of drm_gpusvm to drm_pagemap and
+adds a populate_mm() op to drm_pagemap.
 
---bguhyq47rfsodvla
-Content-Type: text/plain; protected-headers=v1; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-Subject: Re: [PATCH 2/2] drivers/panel: raydium-rm67200: Make reset-gpio
- optional
-MIME-Version: 1.0
+The idea is that the device that receives a pagefault determines if it wants to
+migrate content and to where. It then calls the populate_mm() method of relevant
+drm_pagemap.
 
-Hi,
+This functionality was mostly already in place, but hard-coded for xe only without
+going through a pagemap op. Since we might be dealing with separate devices moving
+forward, it also now becomes the responsibilit of the populate_mm() op to
+grab any necessary local device runtime pm references and keep them held while
+its pages are present in an mm (struct mm_struct).
 
-On Mon, Jun 16, 2025 at 03:05:17PM +0800, Andy Yan wrote:
-> From: Andy Yan <andy.yan@rock-chips.com>
->=20
-> Although the datasheet of the panel module describes that it has a
-> reset pin, in the actual hardware design, we often use an RC circuit
-> to control the reset, and rarely use GPIO to control the reset. This
-> is the way it is done on our numerous development boards (such as
-> RK3568/RK3576 EVB).
->=20
-> So make the reset-gpio optional.
->=20
-> Signed-off-by: Andy Yan <andy.yan@rock-chips.com>
-> ---
+On thing to decide here is whether the populate_mm() callback should sit on a
+struct drm_pagemap for now while we sort multi-device usability out or whether
+we should add it (or something equivalent) to struct dev_pagemap.
 
-Reviewed-by: Sebastian Reichel <sebastian.reichel@collabora.com>
+v2:
+- Rebase.
+v3:
+- Documentation updates (CI, Matt Brost)
+- Don't change TTM buffer object type for VRAM allocations (Matt Brost)
+v4:
+- Documentation Updates (Himal Ghimiray, Matt Brost)
+- Add an assert (Matt Brost)
+v5:
+- Rebase
+- Add R-Bs and SOBs.
+v6:
+- Fix an uninitialized variable (CI)
 
-Greetings,
+Matthew Brost (1):
+  drm/gpusvm, drm/pagemap: Move migration functionality to drm_pagemap
 
--- Sebastian
+Thomas Hellström (2):
+  drm/pagemap: Add a populate_mm op
+  drm/xe: Implement and use the drm_pagemap populate_mm op
 
->=20
->  drivers/gpu/drm/panel/panel-raydium-rm67200.c | 16 +++++++++-------
->  1 file changed, 9 insertions(+), 7 deletions(-)
->=20
-> diff --git a/drivers/gpu/drm/panel/panel-raydium-rm67200.c b/drivers/gpu/=
-drm/panel/panel-raydium-rm67200.c
-> index 205273163cb97..add6099ae8a64 100644
-> --- a/drivers/gpu/drm/panel/panel-raydium-rm67200.c
-> +++ b/drivers/gpu/drm/panel/panel-raydium-rm67200.c
-> @@ -36,12 +36,14 @@ static inline struct raydium_rm67200 *to_raydium_rm67=
-200(struct drm_panel *panel
-> =20
->  static void raydium_rm67200_reset(struct raydium_rm67200 *ctx)
->  {
-> -	gpiod_set_value_cansleep(ctx->reset_gpio, 0);
-> -	msleep(60);
-> -	gpiod_set_value_cansleep(ctx->reset_gpio, 1);
-> -	msleep(60);
-> -	gpiod_set_value_cansleep(ctx->reset_gpio, 0);
-> -	msleep(60);
-> +	if (ctx->reset_gpio) {
-> +		gpiod_set_value_cansleep(ctx->reset_gpio, 0);
-> +		msleep(60);
-> +		gpiod_set_value_cansleep(ctx->reset_gpio, 1);
-> +		msleep(60);
-> +		gpiod_set_value_cansleep(ctx->reset_gpio, 0);
-> +		msleep(60);
-> +	}
->  }
-> =20
->  static void raydium_rm67200_write(struct mipi_dsi_multi_context *ctx,
-> @@ -412,7 +414,7 @@ static int raydium_rm67200_probe(struct mipi_dsi_devi=
-ce *dsi)
->  	if (ret < 0)
->  		return ret;
-> =20
-> -	ctx->reset_gpio =3D devm_gpiod_get(dev, "reset", GPIOD_OUT_LOW);
-> +	ctx->reset_gpio =3D devm_gpiod_get_optional(dev, "reset", GPIOD_OUT_LOW=
-);
->  	if (IS_ERR(ctx->reset_gpio))
->  		return dev_err_probe(dev, PTR_ERR(ctx->reset_gpio),
->  				     "Failed to get reset-gpios\n");
-> --=20
-> 2.43.0
->=20
-> base-commit: 8c98c2c9ebeaa472e742d664b714aed5ab7c6f53
-> branch: rk356x_rk3588_rk3576_dsi
->=20
+ Documentation/gpu/rfc/gpusvm.rst     |  12 +-
+ drivers/gpu/drm/Makefile             |   6 +-
+ drivers/gpu/drm/drm_gpusvm.c         | 762 +-----------------------
+ drivers/gpu/drm/drm_pagemap.c        | 838 +++++++++++++++++++++++++++
+ drivers/gpu/drm/xe/Kconfig           |  10 +-
+ drivers/gpu/drm/xe/xe_bo_types.h     |   2 +-
+ drivers/gpu/drm/xe/xe_device_types.h |   2 +-
+ drivers/gpu/drm/xe/xe_svm.c          | 125 ++--
+ drivers/gpu/drm/xe/xe_svm.h          |  10 +-
+ drivers/gpu/drm/xe/xe_tile.h         |  11 +
+ drivers/gpu/drm/xe/xe_vm.c           |   2 +-
+ include/drm/drm_gpusvm.h             |  96 ---
+ include/drm/drm_pagemap.h            | 135 +++++
+ 13 files changed, 1099 insertions(+), 912 deletions(-)
+ create mode 100644 drivers/gpu/drm/drm_pagemap.c
 
---bguhyq47rfsodvla
-Content-Type: application/pgp-signature; name="signature.asc"
+-- 
+2.49.0
 
------BEGIN PGP SIGNATURE-----
-
-iQIzBAABCgAdFiEE72YNB0Y/i3JqeVQT2O7X88g7+poFAmhUEd4ACgkQ2O7X88g7
-+poOug//apfY0XCMcV2DAO++NpXT0RHAyq8Aj7isCoLxs4sNs+S5ig+hPf0Fa139
-fIkh8M6UcsNxlxu5/0nDTkf3tVtqANFjWaoCNoPnM8XJpISGJKXnuBKBIIh/kfLs
-TbqXX2+Yg1l6lhDcSkDmahIp2zCg2Cz9t4vlbCKesgXb50paD0KRoHnWEcC6rK5N
-0NayI5m7a9k12Ptdxkdy6vOz0YIa3JmzbAHH38zOHswNaIXNRJUqh43vIWXwZ/pg
-A0Px1vXXnjqxxnbd6HFqMJUtWwiQ8BtxIyQ4uY8A1EtCHvEIMTsIRXIkM44dg83r
-5s324sv3xeNh8nffl4oUVg+imgDi4PC3yWq9BygwmCp/0wgze+Wbgjhc5IL2HCu0
-tzrl5nuN2zYIp8gJoqZBiEFcb2KyjPPVgKWAbYCbEhJawSOZSiiyg5n7+8WMG2Np
-dUKzUGsjkGOk4fGA4gGPP4jRoaiKmHwahTLYQ01UFZdWI5fUg6JSmnXhkbKclruX
-kQWLzjDwlGXdzdoB/NfJ0yZJa5cwp/P2nvUhSGHRWVY3uQCW6Op93m7E5WwsKUm3
-b/50D1hN1gihDWoF4INM/JfQqXVwnMO5Fh/Y30d3Wo6+dYtZ4aqe/f1kodwDFW3A
-FunJeIG7TCAcXTVSMLWc2zL0vuUfH4Ba6U3Yf+buu40nmstgbmQ=
-=Rm48
------END PGP SIGNATURE-----
-
---bguhyq47rfsodvla--
