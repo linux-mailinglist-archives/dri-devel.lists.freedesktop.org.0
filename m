@@ -2,180 +2,155 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id A9149ADFEC1
-	for <lists+dri-devel@lfdr.de>; Thu, 19 Jun 2025 09:32:53 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id D2282ADFEC8
+	for <lists+dri-devel@lfdr.de>; Thu, 19 Jun 2025 09:33:48 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4938710E9C9;
-	Thu, 19 Jun 2025 07:32:51 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D9BB310E9CD;
+	Thu, 19 Jun 2025 07:33:41 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="alaF8gxB";
+	dkim=pass (1024-bit key; unprotected) header.d=amd.com header.i=@amd.com header.b="EulV4F39";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.13])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0943210E9C7;
- Thu, 19 Jun 2025 07:32:50 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1750318371; x=1781854371;
- h=from:to:cc:subject:date:message-id:references:
- in-reply-to:content-transfer-encoding:mime-version;
- bh=sA5DVztFEiYu3xwiFqxYbceCqyPrMmaUTllABND2plY=;
- b=alaF8gxB3IYfTJURJbEsirhTo5asKOnJSu0xocjkColUXjghDErptRlr
- vrwC1dPngKaKELd+Ed4ITpcFGlfMTsWKrXVaRFB4OV8nbkVhq/nEUNyLN
- j3XE/bQSIXLZj8K1h91A4tQ69ikjcUWMBnZ1gg7lpjU9uHlsEMquhASRU
- fsi+tofDok0YZNjTdOMzuMYy4nQzwpAogeCcA1sC9He0czKU+woc+X7om
- wFSWrBibiVScYj/+/CeYBIJ7/ZdrtKsFRwPccEuhN04XDQe5I8UwVLGcK
- a3ypgC1Fk40S+QuoQcnvhsF0PP8Vycs7QQj0MCSQyXU/MS+baVefn/Na1 Q==;
-X-CSE-ConnectionGUID: 3xLi7gR/TxC113JZmejSfg==
-X-CSE-MsgGUID: UgYfsJsiQ+iewG+9Xk0Cnw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11468"; a="63604556"
-X-IronPort-AV: E=Sophos;i="6.16,247,1744095600"; d="scan'208";a="63604556"
-Received: from fmviesa005.fm.intel.com ([10.60.135.145])
- by orvoesa105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 19 Jun 2025 00:32:50 -0700
-X-CSE-ConnectionGUID: r4EPJKEmRFiXR5ieVIj8jg==
-X-CSE-MsgGUID: 3qYw3VBvSJWe21f8P3VZkg==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.16,247,1744095600"; d="scan'208";a="154805817"
-Received: from orsmsx902.amr.corp.intel.com ([10.22.229.24])
- by fmviesa005.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 19 Jun 2025 00:32:49 -0700
-Received: from ORSMSX903.amr.corp.intel.com (10.22.229.25) by
- ORSMSX902.amr.corp.intel.com (10.22.229.24) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.1544.25; Thu, 19 Jun 2025 00:32:48 -0700
-Received: from ORSEDG902.ED.cps.intel.com (10.7.248.12) by
- ORSMSX903.amr.corp.intel.com (10.22.229.25) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.1544.25 via Frontend Transport; Thu, 19 Jun 2025 00:32:48 -0700
-Received: from NAM11-DM6-obe.outbound.protection.outlook.com (40.107.223.75)
- by edgegateway.intel.com (134.134.137.112) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.1544.25; Thu, 19 Jun 2025 00:32:47 -0700
+Received: from NAM11-CO1-obe.outbound.protection.outlook.com
+ (mail-co1nam11on2087.outbound.protection.outlook.com [40.107.220.87])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B854E10E9CA;
+ Thu, 19 Jun 2025 07:33:39 +0000 (UTC)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=fIakc+i/uH/zrsAQOw2Q0K2fxba8jTeSwOepmHzzGapTgGejVpPDX9GEAeH2j6brXLdEcxC/hZsVmffPe4SwFmBx+ME6B8kli6d+GEHHWo7OVHzMAT/u5HSun0tjox3HgwGV1sU07jLnVtUPWvmONApvHdirL9sKwxTVktE8CIT+l3uXBUSGXBVrNAU38wESNysXLsLeLq8NPLzLs9Vwa4DC3MKNffeahM9IIhvdN5DWjgWV+lsOIEpuWksNIMhtWNNfHDCHwQ2QkMqYMFx7Fuo/uVFw6/5TLOIQ+9ZoPITdN5qu2WnYoiKflRqN1rVZdfmhPObKqNfjfnG3Rl/BmQ==
+ b=GGnp4dh20nG4L5f3WDl9bgCL2QjnU7kjKNECoN80cb5URL0bznAT35+xN6GJdSHlLii5n7jSXp6S8YdLwpGWra6eejacKk03s7B8C4BMjMAp3gMhyjFU1+41CWs8UUxWvOoGPKxplU+hCtg7afDoT9D1/D9EzOzEhG6t8+r8+UE0qPgsnZ70nf2FLY7RqpcYjrwqw7yRUwXVMLHzzbW+KBARmVyTdqf3O6hkpqbl2YImTmmnh7jy0RgQ4Lpqqilo6brZBCNuug2BdjuhBpo9uH9hBBep2pgYosOzOkE6slSCmB+MkuoVEBuYUYx9ToPAyUlh542wC5sdRlad7rKoRA==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=GVTL9SAqgEs2qfOPZG5YJbctdZLGslKGt6+ghqJFoqA=;
- b=D5eywN1c6NwnLeo3SHQF8ecKHGH7etnUYwtukqHe/dRF2J70ZSepuNGqejFImo+2SbIY4dYQwsSu+wqqiivwa1I6RKf8REqtwEN3o9Lwqg1R6s7rRbNCCnvmrl0NukZmsiYyaAZ9sxPzdXzEPN1OZVTgbK5AzMlZFH9TR4GQvvhAmlTGR7Z02UAu2uL5TzepPJdyTLjyxEcbXYjQKpV/aAYSVYr4YspAFDmOwpPKC3yGsQ0zWQ75B1X80XExTl7C7DUFEqL05c84dvw+cfe5mc/OO8spWKRAPBVF38zfovQKKZQVcNIT1DtHdHs4rzWlMnMOB3ZzluuguAVtIyBcgQ==
+ bh=vSPJIn9/7YlORPVjC/k9hTZ/NjGD3Oh189LUt/Ldfz8=;
+ b=CDhp/N8wKF3u3ST4Y5itNbruzgaST4VZeGzqVNfT69Ck82zZPlcZ+/XmEcXwG+IBLKqeMoINOxkaAEQWBZPoyuIVJIFYEwgQ8UXa++gsJr8pkBS8Aj8tl6HwuQvfg9t9OwhDusV6JObdC+Tut2FcTH86uvYYxX2d3yZP/48KxtwBawQkgS7YnPdIvCqW2sVJ8gz/VfKylm7OHX7T89qzaD8cR3rkRuPuFb45JEwkJdXlJNvqdHMIa1FwmtHaADBact0vGTGMcvLiImwYORDtzRaWRUcOSNnLHsVO6X2NO8/vCw1oWl1tAImgsNSO8wbAqF/EYh9EXM397zAYn7CilA==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
- dkim=pass header.d=intel.com; arc=none
-Received: from CY5PR11MB6211.namprd11.prod.outlook.com (2603:10b6:930:25::6)
- by IA4PR11MB9279.namprd11.prod.outlook.com (2603:10b6:208:561::15) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8835.18; Thu, 19 Jun
- 2025 07:32:45 +0000
-Received: from CY5PR11MB6211.namprd11.prod.outlook.com
- ([fe80::df5a:a32c:8904:15f1]) by CY5PR11MB6211.namprd11.prod.outlook.com
- ([fe80::df5a:a32c:8904:15f1%4]) with mapi id 15.20.8835.026; Thu, 19 Jun 2025
- 07:32:45 +0000
-From: "Gupta, Anshuman" <anshuman.gupta@intel.com>
-To: "Vivi, Rodrigo" <rodrigo.vivi@intel.com>, "Nilawar, Badal"
- <badal.nilawar@intel.com>, "intel-xe@lists.freedesktop.org"
- <intel-xe@lists.freedesktop.org>, "dri-devel@lists.freedesktop.org"
- <dri-devel@lists.freedesktop.org>, "linux-kernel@vger.kernel.org"
- <linux-kernel@vger.kernel.org>, Jani Nikula <jani.nikula@linux.intel.com>,
- "Usyskin, Alexander" <alexander.usyskin@intel.com>
-CC: "gregkh@linuxfoundation.org" <gregkh@linuxfoundation.org>, "Ceraolo
- Spurio, Daniele" <daniele.ceraolospurio@intel.com>, "jgg@nvidia.com"
- <jgg@nvidia.com>
-Subject: RE: [PATCH v3 02/10] mei: late_bind: add late binding component driver
-Thread-Topic: [PATCH v3 02/10] mei: late_bind: add late binding component
- driver
-Thread-Index: AQHb4IK9G2lrWQniLECnzugcN3P0hrQJ4Atw
-Date: Thu, 19 Jun 2025 07:32:45 +0000
-Message-ID: <CY5PR11MB6211128133CF5AEDC50B3968957DA@CY5PR11MB6211.namprd11.prod.outlook.com>
-References: <20250618190007.2932322-1-badal.nilawar@intel.com>
- <20250618190007.2932322-3-badal.nilawar@intel.com>
-In-Reply-To: <20250618190007.2932322-3-badal.nilawar@intel.com>
-Accept-Language: en-US
+ smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
+ header.d=amd.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=vSPJIn9/7YlORPVjC/k9hTZ/NjGD3Oh189LUt/Ldfz8=;
+ b=EulV4F39tbyBCFSoBYR1q3oFDXJAoVYj9CNQQP7VMqiCBHn5ryGEXTbJg3GkLWmFses3uEYbj60cE7FrN1U9vjAlLGZZ2ZA4dxZbZRfmzt6/0cCy0fJkrIppvDQyVcJogyDxL4qVH9kKIk/XzRDAs8me0TpAYQuDBP42MjkhzXw=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=amd.com;
+Received: from BL1PR12MB5753.namprd12.prod.outlook.com (2603:10b6:208:390::15)
+ by SN7PR12MB8146.namprd12.prod.outlook.com (2603:10b6:806:323::10)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8835.30; Thu, 19 Jun
+ 2025 07:33:36 +0000
+Received: from BL1PR12MB5753.namprd12.prod.outlook.com
+ ([fe80::2b0e:7fc3:1d21:5d2e]) by BL1PR12MB5753.namprd12.prod.outlook.com
+ ([fe80::2b0e:7fc3:1d21:5d2e%3]) with mapi id 15.20.8835.026; Thu, 19 Jun 2025
+ 07:33:36 +0000
+Message-ID: <dd5a1e53-28d2-4dda-8686-a42b99ead3fe@amd.com>
+Date: Thu, 19 Jun 2025 13:03:30 +0530
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v4 1/4] drm: move debugfs functionality from drm_drv.c to
+ drm_debugfs.c
+From: "Khatri, Sunil" <sukhatri@amd.com>
+To: =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
+ Sunil Khatri <sunil.khatri@amd.com>, dri-devel@lists.freedesktop.org
+Cc: amd-gfx@lists.freedesktop.org, simona@ffwll.ch, tzimmermann@suse.de,
+ tursulin@ursulin.net, phasta@kernel.org, dakr@kernel.org
+References: <20250618134747.3893138-1-sunil.khatri@amd.com>
+ <752cd912-b4d2-4ca1-84f4-70aa95c4e97a@amd.com>
+ <3e1b9a3b-9a38-4f48-bbae-26faeeed6f42@amd.com>
 Content-Language: en-US
-X-Mentions: rodrigo.vivi@intel.com
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-authentication-results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=intel.com;
-x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: CY5PR11MB6211:EE_|IA4PR11MB9279:EE_
-x-ms-office365-filtering-correlation-id: 7af98bc8-5816-4bd0-cad7-08ddaf037bd1
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam: BCL:0;
- ARA:13230040|366016|1800799024|376014|38070700018|921020|7053199007; 
-x-microsoft-antispam-message-info: =?us-ascii?Q?HKsohWNuZCpxDua3Vjftus0uyoBZFaBOnBwLoZG6iKBbVxHn4WRc4e+bW417?=
- =?us-ascii?Q?57bLeWoXL5sHxRDiRkrgPRqYj3BcWM6I++25S0oHuJPfe18E/HKyB5jDtHnI?=
- =?us-ascii?Q?7ADfalRcQjHQAqQ4n2YcnMPr5QaMy+KLhY2LdFIf0VtEyN7eWtJIHmHkiEfG?=
- =?us-ascii?Q?Q4NRGgQEc1J1aDyf3pZi/ZaaomE9WxGTMPULcRCwmp3nAvCV4TGoj9sZ7YL0?=
- =?us-ascii?Q?5VDC7oCP5l7vspw6Rs2P69zQ2TC0GjSZZOTs8ypPuMP+PJKskeOvw2K6gHeB?=
- =?us-ascii?Q?VAZ2xAsliexuFCnFGW0ScD4upsaVBBE70eowuVl4YbDn11NLTHIZJ389LEpF?=
- =?us-ascii?Q?OVY1u1aqWoDrk0l87z0AacMKynXaPdDD6Dojvmya5DEwxFasfFuA2WvnNle4?=
- =?us-ascii?Q?3XE6kXxwkD9vpr4a4HYavlQf+Eunx2QHzf2UID1YCoEgDcOP8NbhxyAuSg1Q?=
- =?us-ascii?Q?DGePRRX272otc/A+SzdZisGVfmudYywQa6VcBpT9niNU/NfM+26kpAY0U9g0?=
- =?us-ascii?Q?+Fp0gwDbRTr0He77QZ+Wmuu//LjJhAl84ihsHGWN/o6HCmcN/xU/wNwPlp+N?=
- =?us-ascii?Q?6AZDzDduDWYH/KDKb1/yVH6PLgGdFDwW0zWRqKpmYJ9uvYK66GB16MDR7Cti?=
- =?us-ascii?Q?JDTznTU6NOCZN5fBwgfAQn9MMmSBgdE9uJE+QHRk7UIUzOzXfuL0jcDE+w87?=
- =?us-ascii?Q?IJ5CyrfPNQLOWfaBn3y8riZjCyJJj3QY5KKmiRIKbVs5sZ5nMUXSTBdRJ1PG?=
- =?us-ascii?Q?TuGSr897WwmbSEa7+owJNARc616T2uC0ejVbE+Mw0riYLc1hgacjSC2zcL6L?=
- =?us-ascii?Q?Lxp4etUGbHk+W8K+X47sRl4P0oAFVHWTi68rJFVoP5LYhGQ5vm5HFipn8yZX?=
- =?us-ascii?Q?wQAUoDKkfqx9nY8adUn3Ef+Q2glVlNK0IajcSraYm1giEokxKkzPI2lTLmF1?=
- =?us-ascii?Q?EBqjWtXZHSxzJWSD5O2/ZAok7wQxe4S/MaUzp5XcbqCFIDok8HpmC6Mn2TDE?=
- =?us-ascii?Q?VbjpxYiac8GnMUTPu8tjVcqPZlBGRS+ng/8/qigMTmFXUfGBmrmhdpUoPvjW?=
- =?us-ascii?Q?ACaiCkGmAxpDDIZpQ+5xvTOkBSs4450BXWXDb+HIjCaAhspJOt5IyVAUZPci?=
- =?us-ascii?Q?m+5Gjmn7BB9rYx+1d9zSndHSSJKVI9QwbBHtFowyIVAjbEq8n88msvWC0fVm?=
- =?us-ascii?Q?sVpaRBR3++r2Pde3+sQ9n7gRLSbNB/HP1uTSNc70Vt1vAIN5GA3hyK/xeLbn?=
- =?us-ascii?Q?SoQiwtdu1V9QKdhqOoEtdeWalFS/0oyUOFaVqNVo2VEYGRwBbdxJZ4ByjYv9?=
- =?us-ascii?Q?9Of2M+z+10+OrABcYdcAclAYCYM7of45rjc3ir/ywGQJuGCLXdS3EGApWtpR?=
- =?us-ascii?Q?9yRnBTXtt6jJgP9B7w4MRCixaoUlcMW08P95EYbo2+XiBSKqX4xyazgAvWDx?=
- =?us-ascii?Q?oPh2WiTZY7IH/880yETb8OjmSmdvMT0S5q/1S7AcxsZ+sDq+iTdBFZJujQZS?=
- =?us-ascii?Q?T7LosVnNkYiA9cQ=3D?=
-x-forefront-antispam-report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:CY5PR11MB6211.namprd11.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230040)(366016)(1800799024)(376014)(38070700018)(921020)(7053199007);
- DIR:OUT; SFP:1101; 
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0: =?us-ascii?Q?e5NlyYMPMs/0luxcOD4WsuOqfR8HRCOYzmWqOKr8K48GeMmYqenmwhWtEfrF?=
- =?us-ascii?Q?yDjbNDAkLGhsTjNjpgouasktlJ79Ru33Hu0xtGdK7oMX8Ozeck6yiPcKM2vN?=
- =?us-ascii?Q?vjfWK/Y8wWPx/0fLP80RikGd2xAD/vgF021Bzyl7eP+BwoqruBwvdB6rcn9K?=
- =?us-ascii?Q?0c9NGo1oHCvF+wNyFyXO+wrOn3QaDJBBWozaTRFKyjnYnsyqY1HuiHRimUJ7?=
- =?us-ascii?Q?NS6bOJFtZIrD8hsh+wValDt6sA27b1azv/Cwr6nDlr8XVi6rpODMGpj0VmO2?=
- =?us-ascii?Q?6R3XWLG8T3BseWcbdv+SmeUDwr8CsLNWBpE75qyt0PmddHm54LlhjysB2CFJ?=
- =?us-ascii?Q?beP+LzsYdgIQuM/BNcDtOcUa4zotkBg3gUSY7NZRndwoJ9LuvLz2TEb1L2Sn?=
- =?us-ascii?Q?aXEgkkXKuSA8LE8Cg1NBt9mTQgXqHihqjX28wzoFe7YuhTapf3LCpyWGTFmS?=
- =?us-ascii?Q?IGx/ERY5wSqdqfbpyNKCHmM5jgKCcpEykruHlb5M4IP3MogeEmn8gUQRYKl1?=
- =?us-ascii?Q?Sl40HjnQH5YIlqqhfcpSZPHuHtnJ/Ry321/HjiRuCNXAWvWlOHuNf2q8vJTY?=
- =?us-ascii?Q?uum09lgeYLHLu6tAf5EufFBzGHCNceRGEJ6F3foKb4b4ZMF4f/lSDBdvVRIE?=
- =?us-ascii?Q?ui7IdRhNav6M7dUAkVz/uZjKg6HX+Br1yrB12xgXbYqoWE+ysVWn06ty3ddA?=
- =?us-ascii?Q?CtQ1QMRa/OI3ghNSQ0S/00uQxmx4wSZ+r22QmjJCDweCjahVeyaQxFAYXTEy?=
- =?us-ascii?Q?0x2ZXtZQt6vPr/Bw4OjpZkbe2+uSgO2LpksD+Ti0x50FGg3Qvoo2IojZAMO6?=
- =?us-ascii?Q?hoXOI6chbxXAJsRuLRBQ0uZQhsgv9H1x7BkqmQT5xdEvRyuTrwoUm4ZSaF0S?=
- =?us-ascii?Q?DHU28pOQC/qy0rC5dRbX9JKLehuhUy6xlnHU+BjI8lopIFpOxVGS+c1nEPgN?=
- =?us-ascii?Q?/WvaQKOgt/UwIqAV4H36zJyX9GP/Bg5y6W5n0SUSIFfVSDqNWTJy6aXINfO2?=
- =?us-ascii?Q?YO6WFLUMAqzcUIcXyWqNCywEvF8+saUTEfdPvS1u6Eaw3VO9V5iZJbYHxJPY?=
- =?us-ascii?Q?+WTMN6tW8ClbhTzN0tbiT5bA/oaTNp2FvF71wHYfaD//VAE53x2qtLD79nj4?=
- =?us-ascii?Q?SY0SvAUfoJozSFNs80eQK8PrNg9nj7XH8+/XDNSEVPjYaaCuPxCe/utEYBvm?=
- =?us-ascii?Q?p+KHVcXETssC8r23D+W4oF98mVxP0uV3uvrvzqRV9tUXRyuFunyGU7CA1v9z?=
- =?us-ascii?Q?hdmdusfYLhzfe/97GT2Xiot1wTWDN/acWAv0JGpneETdKXgPozVU8lL+GCJD?=
- =?us-ascii?Q?G305KE2svj0qbo9U3WiPA4hDybYx4QgV9CGqft4xxTxMPr/RKBWiRb1iWV2i?=
- =?us-ascii?Q?FO/BAaQHeV4BCOJrqU33WdQpxBlvj5txwuScll+HIXBYgjSPFkYvsSK+E2Vw?=
- =?us-ascii?Q?H3e5xAVqHr2BXrAKsPf+97HWzJS7DKp66ng3MUJwRfzXat2X/TYTRCZpDILH?=
- =?us-ascii?Q?F4tBh82+O0Dw/eUS3qCCGzqqaussWpyp2A6dxcepLeJbc8Erc/JCeZvHDo5Y?=
- =?us-ascii?Q?vptm2eKyd83dCY7CdJGbQjPLvS0xatRTedmmO7iu?=
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
+In-Reply-To: <3e1b9a3b-9a38-4f48-bbae-26faeeed6f42@amd.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-ClientProxiedBy: PN3PR01CA0106.INDPRD01.PROD.OUTLOOK.COM
+ (2603:1096:c01:9b::14) To BL1PR12MB5753.namprd12.prod.outlook.com
+ (2603:10b6:208:390::15)
 MIME-Version: 1.0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: BL1PR12MB5753:EE_|SN7PR12MB8146:EE_
+X-MS-Office365-Filtering-Correlation-Id: b0409719-5fe9-4515-c4b0-08ddaf039a16
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;ARA:13230040|1800799024|376014|366016;
+X-Microsoft-Antispam-Message-Info: =?utf-8?B?TDI1MitFTCtxdjlHN3lNY1VVSjhQZm51QjdIMmt3a0NQVHYyZXF0TWpqNGxp?=
+ =?utf-8?B?Wi9yb2xHQ2tLa05KTGRoTElsclNZSDM3V3UrcEIvQlZiYkpBUnpBRXcwTDhu?=
+ =?utf-8?B?bEw2Y2JIUjU5OFdkUWEwbkNWZU5HR2RTUisyR1crMXJiTUpESFFmK3JFN2F6?=
+ =?utf-8?B?QTBWSU1nZnM4WGpSUWl2SDZseUJtMjJ4V2RQaHlJTzRZRUp3bm1rWkpFb1k2?=
+ =?utf-8?B?MlBKNlk3S2dMd3ptUlgwKzdsYW5wUWlzMno2SWlVQmhST0VVakFJQUVZRGpl?=
+ =?utf-8?B?YU9VS3Q1U3AyM3M1cGkyTmVrTmJIYkM0bmE1cTJEN2J1Q2k4TGpWTmNpNlRD?=
+ =?utf-8?B?UWRRbTkrSkErVm5OWmo3OWZFTGkwS1NtTElLOEV3dCsxdGwvVzBzWjVjbmdh?=
+ =?utf-8?B?WDV4ellwcWZtZEs2MWJVS0ZWcFE1SkMxbm5ESHhKaklDM3VtVkJTc2VzbXkv?=
+ =?utf-8?B?aUh4dG1LNHVYUEhDdDNMdnJkZjA5dy9OZ3QyUzdOSllPaW5LS2djSk85WFd5?=
+ =?utf-8?B?V2pVQXY3R0dzMHRrZXVvSk1DVS9VeWRkb283dFc0b2lMN3g5Njgyb1phT1Ni?=
+ =?utf-8?B?ZDRBZ295YmRleDhCeEVQYW9RN1czQkZZZUZMM3lqU3ZKV1RLYUhvYTQ5Qmlh?=
+ =?utf-8?B?NEFSSnMzNXREbHE5ZXBxKzlvSFc2S2pWY3ZQVEFEcE5uNWxzdzRscG4xV2g3?=
+ =?utf-8?B?NUtyNWU5N2Q4QWgzL3ZsZGxpbXEyUk9mdmZUb3pqckt3WldYeWZzWjJkbGdp?=
+ =?utf-8?B?WmdLTFAzKzU1a2E0NFpCSE1zakVjamhLSmlWandUYXNwTzA5TVBoWmZ4QVJP?=
+ =?utf-8?B?eHVRdk1kcXpDUFRwNVhKS3g2MFRUZ1V6V01WeGc5L083U1A3UGJ5d2hWZmwv?=
+ =?utf-8?B?OEw1TkpGa2lBUGkwVE5pdW1sSTdYd2RBNElkUVBmVTcyYytFQVFmRXRsWDlh?=
+ =?utf-8?B?d1NMc3JUd1BMVVVpK3hycWN2UFNTdXd2UldYYVdpdUp3Uk0xMGlrT3ZhaFZ2?=
+ =?utf-8?B?dHI0YjE3OUhCVFEreEhNYWcwTWxNMDdyNjJVYzNDWCtLNnpWZXFCNURxT1A1?=
+ =?utf-8?B?dG1UbFBZaEMzQjhIUW4rdEt2WU9OSlEyNkYxQWNuSzN4dDhTUjg0WHNZcEM3?=
+ =?utf-8?B?NUxsdktVakRGSEo5YWk4emltZnVneHFXMHV6eS9TY2RwdXNaUEpWLzJ4ZktW?=
+ =?utf-8?B?cG9HS0tiWmtCQTdtYVpsYWRlU1NHbUdaOEtlYzhwUkdFRS85LzZER3dWT2No?=
+ =?utf-8?B?RHJaZ2xPOWNOdzZ1WkR4MTlHaFJrT3BHUUk2eTlXbkk2NHhPZDErL0NNeWI5?=
+ =?utf-8?B?SXR1Qk10d09Rb0U1UWo3UWx3VWF5TXVlNjFJZXBkbWNlcVo3L0NmeTJjZUgz?=
+ =?utf-8?B?b1haY1kvUUUzd2J1WlNQUGpQZGJGODdUSzQ4a2dkZVZtRG53WjVNRTk1NExa?=
+ =?utf-8?B?dlJnQURabEhUekp0QitHTUdKN3p1U1dvSlBSOUV6NUtGejVvYXdoY1dNeHNh?=
+ =?utf-8?B?amVUTzRDcVZGcjBicVJSc1cxOTNtMUhrenhKdUNnL2xWQmV4WXhEY0wwT0VM?=
+ =?utf-8?B?bEhyM21xb3cvRnZSaUVEcXBlL3lrb0s1UVhDdXFFVTFDNElYNFY0YThzeExl?=
+ =?utf-8?B?RGppTUgzWEtNY21sSm1VdWNCdG9MemJ4ajUxOTVQT3pkSi9LTUIwckRSRHRa?=
+ =?utf-8?B?L2E1TjNEYVFqNTByNkZJVXlzMkJpNEZvY3p1bW0zVzNybWVYQjB3Sk5HenRR?=
+ =?utf-8?B?dEZhZGRSd2pnaVFwMmFhaFpCdUl1b0pVN3RHL3dCVC9XSFE2b3VZRFZSL3lP?=
+ =?utf-8?B?N2luRFFPcHRqNTY5Mmh1Y0Q5MDZCZDJCOGwzMHBrQXJFOEdHaDBFbE1GK2RP?=
+ =?utf-8?B?TmhVc2YyQmJUdDJvdU16WGxTWjFjc1RKbDBkK1ZybnR6L1hFdWUyZmJSUk00?=
+ =?utf-8?Q?gXdJ+w+ewVI=3D?=
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:BL1PR12MB5753.namprd12.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230040)(1800799024)(376014)(366016); DIR:OUT; SFP:1101; 
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?VlJheVJqWmpqWTNTZnFhcFZBMXlmdHp4Q0wxMEc1ZzdqbGlXZ1lZSlM0cUxI?=
+ =?utf-8?B?OXh3QkJMNmNOcHNOOHBhZ3JoTm5RaUdBSTFuNE13dkoycU1TY2I4ZWNzL2Z2?=
+ =?utf-8?B?cnhIMnFORHFTY1pDRjFrVTVLTURuUm1JM2R4dUxqT0lVY050UmJqak54czhx?=
+ =?utf-8?B?REwvTnlQQTVPVjA0dUtQRkxTQmJQbHM4ZStoTWNKZGNCcE4vZk5kcDhzYS9i?=
+ =?utf-8?B?U20vQ0tGd1FpQUhxYlpXQjBmSlZBWFh4MmhMb3lRVmlwZGVjOWs0Rk1RQzNV?=
+ =?utf-8?B?NjFtcDArSzd3a3h6cGdYSFdPaDBHM3hyZ3hBQm90RmE5VmFieVE1OE1Cck5q?=
+ =?utf-8?B?dHZDTWVLcXVmUEpsaE14NDVyVG1NUldXdTU3SStORmllYUdiUU1EY0Y3QW9q?=
+ =?utf-8?B?bUVrc3NUVjRka0RpY2ZXMjk2OGZDYS9VY0RtbkVTVkZ4ZWNOQWRtWUpHNnFl?=
+ =?utf-8?B?YTlPVDBQRW1mdHFSdVBqSnJMVm5IVzQ2ZTdFQWRRVnc1OTdYZmlOaHJjV0VV?=
+ =?utf-8?B?Q1c4UWFqa3BVa3RUbC9La0JCTnhoYVVvdkREUTRVSmJNcmlVdCs5NEF1ZExO?=
+ =?utf-8?B?d2RrZ2hQNGRzTWNoVlhaNnVyUVZleVJNTkRXNEIwQVRVNEtQMmxtMzJYREJr?=
+ =?utf-8?B?bUJLa2ZWU2hrL0lYR2laVG84SmpDUlFRVEtEMUdkUzc5dlZSYXFWcnBxNU53?=
+ =?utf-8?B?L0RLNHJmRGRpRDJvTlpST2NZOUEycjNZUnZHR3hneUVTUjBOWEpYTGQva0dN?=
+ =?utf-8?B?Y3hhMEc4UEhDcVFTTlBFSEcrQWp4RnlqZHBEUjdXTjhCYmF0NDRLYUlYUit4?=
+ =?utf-8?B?c2UwbHdJb055RzBwYlRhY21GUXFPYzNYUGhHL3RMalZvUDFtRDdwTXZSYWFP?=
+ =?utf-8?B?eE1XdnNOby91K3pCWlNCWWFIakIwK2V0Ni9xdkhIUE5kaGhGZzUzRXZwSVJH?=
+ =?utf-8?B?ZWMwNFVBR2hyb21RcUtOM1BMd290MUJXWlkrcXdqOTZrSGdRcGtUWG9XWjlw?=
+ =?utf-8?B?dm1SRmVMY2lFWlBxNzdPaHhlanY3bWdBZ1pBNTN0cUwxckpRTWsza1M5bWhO?=
+ =?utf-8?B?aFdmWFJud3F0Y2tLUk9VcDEzNVZzbnJmaGFkTzcwQnhKemlBME5yYWMxbFpK?=
+ =?utf-8?B?MEhRLzhjMHlFYmd5QWJoTkJyelJWVUZpZFJjTE12eWNkZ0h0cjdZMWYxMWw4?=
+ =?utf-8?B?VEoyVS8yUllnMTdRM2lTQi96QTcyNHk0RExiSXN1azVqSk94aHQ0QXVYdGxP?=
+ =?utf-8?B?NmdUTW9ZTGMzQWVaUTEySk1udU1kTytQTUhJSWIzMlNnK05JQTZBckFwdFY5?=
+ =?utf-8?B?UGcvcTFXblZ3TjM3Y3JvSkNTZGorMWgxQTVuSllucFVqcVB5WTI0blNyRUw5?=
+ =?utf-8?B?K0h3M1hxOERrU21ncTVGZDF3dkduZGlJc3JNOTBpN3dNUGNjMXo0d1ZueTY2?=
+ =?utf-8?B?bzBKNlBvaWZ3TUdCMlBJRzQzUWhQcHhCcFpYeHVDUEdTOGV2RmQxR2Y3MVZZ?=
+ =?utf-8?B?Q2JHbUxLMERER252TDdlNDZYWWM4bzZlVmljYWRNOUJ0T3BCN3ZlNFYrTWph?=
+ =?utf-8?B?M0M5UDlUZlFpRFF1YUczcUpyRUlVNGlKRGRNQUtKcm5od3RwK0NCbStvbHBJ?=
+ =?utf-8?B?MlM4S0Y3SU5NOWJ4a3M2VUw5OUIrM3FFZGh5dkpnMWF6aHAxZEZtQTZqL2Vu?=
+ =?utf-8?B?QUNRV2g2NllYR0sxUm5QckRyc2lLN1ZsZHhvTFVJWU91eHFkc0FUdDBrZGZH?=
+ =?utf-8?B?U1ExN0QrV2xTVDZZVFBaQVVMR1V6aTU2ZTErSXJVeDE2Z0JIdHlXY093WFhI?=
+ =?utf-8?B?cXdMSXRLNHMzMHRTcXhKWmlIN0xaUzNJSmhIZGJKdFVlN0M4MmUwVE5mUDgw?=
+ =?utf-8?B?UWl3OFJuMW5kYlVHY2haQitYSU0xYWwzQjRlblUzMVF4L0QvOVJKb2hHSVB6?=
+ =?utf-8?B?YXU5Z0ZhQ1hUN2Z2a0JXU0s0K05tMW9aREJUWXV0RE9DcEc5MTlQZXl2TjRQ?=
+ =?utf-8?B?M2VDclI0dmlTS0dITi9IQmZQdDFnb2ZJRktBVEl2ZzdKaWZaelRGaTQ1QWIr?=
+ =?utf-8?B?eFRraWliSU1ZKzZlNmxOWnFxSHRGUis1a0FQSEYrS0x0eE1hSk1BRDB4dmVZ?=
+ =?utf-8?Q?1lNSnO/cXLpHcqpiN3AQteKj0?=
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: b0409719-5fe9-4515-c4b0-08ddaf039a16
+X-MS-Exchange-CrossTenant-AuthSource: BL1PR12MB5753.namprd12.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: CY5PR11MB6211.namprd11.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 7af98bc8-5816-4bd0-cad7-08ddaf037bd1
-X-MS-Exchange-CrossTenant-originalarrivaltime: 19 Jun 2025 07:32:45.3433 (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 46c98d88-e344-4ed4-8496-4ed7712e255d
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: nVbh4LO8eutj6B0PKC2Wk3+YcALtGmo5uSIl2r48ypvxYGgHL4+r8QuxthQv+eHRPiSjOUCRzXX9zeBHjJsqfDCRy9EBoqfwLB/Jmqzoc7Y=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: IA4PR11MB9279
-X-OriginatorOrg: intel.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 19 Jun 2025 07:33:36.4453 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: mEm1C7qFVRQvo6z++zis8yMEasbii+bsu9p7PtWt0Eycu4rG5AIk9yv6epxGrsTh9bMZ+JaIzqJQjFrLWtyMAw==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SN7PR12MB8146
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -192,478 +167,240 @@ Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 
+On 6/19/2025 10:37 AM, Khatri, Sunil wrote:
+>
+> On 6/18/2025 7:38 PM, Christian König wrote:
+>> On 6/18/25 15:47, Sunil Khatri wrote:
+>>> move the functions from drm_drv.c which uses the static
+>>> drm_debugfs_root as parent node in the debugfs by drm.
+>>>
+>>> move this root node to the debugfs for easily handling
+>>> of future requirements to add more information in the
+>>> root directory and one of which is planned to have
+>>> directories for each client in the root directory
+>>> which is dri.
+>>>
+>>> Suggested-by: Christian König <christian.koenig@amd.com>
+>>> Signed-off-by: Sunil Khatri <sunil.khatri@amd.com>
+>>> ---
+>>>   drivers/gpu/drm/drm_debugfs.c  | 22 ++++++++++++++++++----
+>>>   drivers/gpu/drm/drm_drv.c      | 11 ++++-------
+>>>   drivers/gpu/drm/drm_internal.h |  6 ++----
+>>>   include/drm/drm_drv.h          | 10 ++++++++++
+>>>   4 files changed, 34 insertions(+), 15 deletions(-)
+>>>
+>>> diff --git a/drivers/gpu/drm/drm_debugfs.c 
+>>> b/drivers/gpu/drm/drm_debugfs.c
+>>> index 2d43bda82887..5a33ec299c04 100644
+>>> --- a/drivers/gpu/drm/drm_debugfs.c
+>>> +++ b/drivers/gpu/drm/drm_debugfs.c
+>>> @@ -44,6 +44,8 @@
+>>>   #include "drm_crtc_internal.h"
+>>>   #include "drm_internal.h"
+>>>   +static struct dentry *drm_debugfs_root;
+>>> +
+>>>   /***************************************************
+>>>    * Initialization, etc.
+>>>    **************************************************/
+>>> @@ -286,6 +288,16 @@ int drm_debugfs_remove_files(const struct 
+>>> drm_info_list *files, int count,
+>>>   }
+>>>   EXPORT_SYMBOL(drm_debugfs_remove_files);
+>>>   +void drm_debugfs_create_dir(void)
+>> I think we need a better name for this. drm_debugfs_init_root maybe? 
+>> Ideas welcome.
+You mean the function name drm_debugfs_create_dir ??
+>
+> Sounds good to me.
+>
+> Regards
+> Sunil Khatri
+>
+>>
+>>> +{
+>>> +    drm_debugfs_root = debugfs_create_dir("dri", NULL);
+>>> +}
+>>> +
+>>> +void drm_debugfs_remove_dir(void)
+>>> +{
+>>> +    debugfs_remove(drm_debugfs_root);
+>>> +}
+>>> +
+>>>   /**
+>>>    * drm_debugfs_dev_init - create debugfs directory for the device
+>>>    * @dev: the device which we want to create the directory for
+>>> @@ -295,7 +307,10 @@ EXPORT_SYMBOL(drm_debugfs_remove_files);
+>>>    */
+>>>   void drm_debugfs_dev_init(struct drm_device *dev, struct dentry 
+>>> *root)
+>>>   {
+>>> -    dev->debugfs_root = debugfs_create_dir(dev->unique, root);
+>>> +    if (!root)
+>>> +        dev->debugfs_root = debugfs_create_dir(dev->unique, 
+>>> drm_debugfs_root);
+>>> +    else
+>>> +        dev->debugfs_root = debugfs_create_dir(dev->unique, root);
+>> Ah! That is also used from the accel subsystem, isn't it?
+> Yes
+>>
+>> Probably best to move accel_debugfs_root into this here as well and 
+>> distinct based on drm_core_check_feature(dev, DRIVER_COMPUTE_ACCEL) 
+>> where to create the debugfs directory.
+I checked this code again and we could not use 
+drm_core_check_feature(dev, DRIVER_COMPUTE_ACCEL) as at that time as 
+there is no drm_device as its done too early and done before any 
+drm_device is created.
 
-> -----Original Message-----
-> From: Nilawar, Badal <badal.nilawar@intel.com>
-> Sent: Thursday, June 19, 2025 12:30 AM
-> To: intel-xe@lists.freedesktop.org; dri-devel@lists.freedesktop.org; linu=
-x-
-> kernel@vger.kernel.org
-> Cc: Gupta, Anshuman <anshuman.gupta@intel.com>; Vivi, Rodrigo
-> <rodrigo.vivi@intel.com>; Usyskin, Alexander <alexander.usyskin@intel.com=
->;
-> gregkh@linuxfoundation.org; Ceraolo Spurio, Daniele
-> <daniele.ceraolospurio@intel.com>; jgg@nvidia.com
-> Subject: [PATCH v3 02/10] mei: late_bind: add late binding component driv=
-er
->=20
-> From: Alexander Usyskin <alexander.usyskin@intel.com>
->=20
-> Add late binding component driver.
-> It allows pushing the late binding configuration from, for example, the X=
-e graphics
-> driver to the Intel discrete graphics card's CSE device.
->=20
-> Signed-off-by: Alexander Usyskin <alexander.usyskin@intel.com>
-> Signed-off-by: Badal Nilawar <badal.nilawar@intel.com>
-> ---
-> v2:
->  - Use generic naming (Jani)
-This patch still wrong naming I915_COMPONENT_LATE_BIND.
-LATE_BIND will never be supported by i915, it is a wrong prefix.
-@Nikula, Jani @Vivi, Rodrigo is it ok use the i915 naming prefix here ?
-We can use INTEL_COMPONENT_LATE_BIND here ?
+I have something in mind as i found that accel_core_init is called from 
+drm_drv and we can do something there itself. I will push another patch 
+set and lets see how you find that.
 
-This header include/drm/intel/i915_component.h is used by both XE and i915.
-May be a separate series later requires refactoring this header.
+Regards
+Sunil khatri
 
-
->  - Drop xe_late_bind_component struct to move to xe code (Daniele/Sasha)
-> v3:
->  - Updated kconfig description
->  - Move CSC late binding specific flags/defines to late_bind_mei_interfac=
-e.h
-> (Daniele)
-> v4:
->  - Add match for PCI_CLASS_DISPLAY_OTHER to support headless cards
-> (Anshuman)
-> ---
->  drivers/misc/mei/Kconfig                    |   1 +
->  drivers/misc/mei/Makefile                   |   1 +
->  drivers/misc/mei/late_bind/Kconfig          |  13 +
->  drivers/misc/mei/late_bind/Makefile         |   9 +
->  drivers/misc/mei/late_bind/mei_late_bind.c  | 264 ++++++++++++++++++++
->  include/drm/intel/i915_component.h          |   1 +
->  include/drm/intel/late_bind_mei_interface.h |  50 ++++
->  7 files changed, 339 insertions(+)
->  create mode 100644 drivers/misc/mei/late_bind/Kconfig
->  create mode 100644 drivers/misc/mei/late_bind/Makefile
->  create mode 100644 drivers/misc/mei/late_bind/mei_late_bind.c
->  create mode 100644 include/drm/intel/late_bind_mei_interface.h
->=20
-> diff --git a/drivers/misc/mei/Kconfig b/drivers/misc/mei/Kconfig index
-> 7575fee96cc6..771becc68095 100644
-> --- a/drivers/misc/mei/Kconfig
-> +++ b/drivers/misc/mei/Kconfig
-> @@ -84,5 +84,6 @@ config INTEL_MEI_VSC
->  source "drivers/misc/mei/hdcp/Kconfig"
->  source "drivers/misc/mei/pxp/Kconfig"
->  source "drivers/misc/mei/gsc_proxy/Kconfig"
-> +source "drivers/misc/mei/late_bind/Kconfig"
->=20
->  endif
-> diff --git a/drivers/misc/mei/Makefile b/drivers/misc/mei/Makefile index
-> 6f9fdbf1a495..84bfde888d81 100644
-> --- a/drivers/misc/mei/Makefile
-> +++ b/drivers/misc/mei/Makefile
-> @@ -31,6 +31,7 @@ CFLAGS_mei-trace.o =3D -I$(src)
->  obj-$(CONFIG_INTEL_MEI_HDCP) +=3D hdcp/
->  obj-$(CONFIG_INTEL_MEI_PXP) +=3D pxp/
->  obj-$(CONFIG_INTEL_MEI_GSC_PROXY) +=3D gsc_proxy/
-> +obj-$(CONFIG_INTEL_MEI_LATE_BIND) +=3D late_bind/
->=20
->  obj-$(CONFIG_INTEL_MEI_VSC_HW) +=3D mei-vsc-hw.o  mei-vsc-hw-y :=3D vsc-=
-tp.o
-> diff --git a/drivers/misc/mei/late_bind/Kconfig
-> b/drivers/misc/mei/late_bind/Kconfig
-> new file mode 100644
-> index 000000000000..65c7180c5678
-> --- /dev/null
-> +++ b/drivers/misc/mei/late_bind/Kconfig
-> @@ -0,0 +1,13 @@
-> +# SPDX-License-Identifier: GPL-2.0
-> +# Copyright (c) 2025, Intel Corporation. All rights reserved.
-> +#
-> +config INTEL_MEI_LATE_BIND
-> +	tristate "Intel late binding support on ME Interface"
-> +	select INTEL_MEI_ME
-> +	depends on DRM_XE
-> +	help
-> +	  MEI Support for Late Binding for Intel graphics card.
-> +
-> +	  Enables the ME FW interfaces for Late Binding feature,
-> +	  allowing loading of firmware for the devices like Fan
-> +	  Controller during by Intel Xe driver.
-> diff --git a/drivers/misc/mei/late_bind/Makefile
-> b/drivers/misc/mei/late_bind/Makefile
-> new file mode 100644
-> index 000000000000..a0aeda5853f0
-> --- /dev/null
-> +++ b/drivers/misc/mei/late_bind/Makefile
-> @@ -0,0 +1,9 @@
-> +# SPDX-License-Identifier: GPL-2.0
-> +#
-> +# Copyright (c) 2025, Intel Corporation. All rights reserved.
-> +#
-> +# Makefile - Late Binding client driver for Intel MEI Bus Driver.
-> +
-> +subdir-ccflags-y +=3D -I$(srctree)/drivers/misc/mei/
-> +
-> +obj-$(CONFIG_INTEL_MEI_LATE_BIND) +=3D mei_late_bind.o
-> diff --git a/drivers/misc/mei/late_bind/mei_late_bind.c
-> b/drivers/misc/mei/late_bind/mei_late_bind.c
-> new file mode 100644
-> index 000000000000..cb985f32309e
-> --- /dev/null
-> +++ b/drivers/misc/mei/late_bind/mei_late_bind.c
-> @@ -0,0 +1,264 @@
-> +// SPDX-License-Identifier: GPL-2.0
-> +/*
-> + * Copyright (C) 2025 Intel Corporation  */ #include
-> +<drm/drm_connector.h> #include <drm/intel/i915_component.h> #include
-> +<drm/intel/late_bind_mei_interface.h>
-> +#include <linux/component.h>
-> +#include <linux/pci.h>
-> +#include <linux/mei_cl_bus.h>
-> +#include <linux/module.h>
-> +#include <linux/overflow.h>
-> +#include <linux/slab.h>
-> +#include <linux/uuid.h>
-> +
-> +#include "mkhi.h"
-> +
-> +#define GFX_SRV_MKHI_LATE_BINDING_CMD 0x12 #define
-> +GFX_SRV_MKHI_LATE_BINDING_RSP (GFX_SRV_MKHI_LATE_BINDING_CMD |
-> 0x80)
-> +
-> +#define LATE_BIND_SEND_TIMEOUT_MSEC 3000 #define
-> +LATE_BIND_RECV_TIMEOUT_MSEC 3000
-I commented earlier in V2 series as well, is this timeout specific only to =
-LATE BINDING ?
-If this is generic timeout for mei_cldev_{send,recv}_timeout(),=20
-then this marco should be part of standard MEI headers not late binding.
-Other consumers of mei_cldev_{send,recv}_timeout() send the timeout input b=
-y component-ops callback .
-
-@Shahsa could you please explained that.
-> +
-> +/**
-> + * struct csc_heci_late_bind_req - late binding request
-> + * @header: @ref mkhi_msg_hdr
-> + * @type: type of the late binding payload
-> + * @flags: flags to be passed to the firmware
-> + * @reserved: reserved field
-> + * @payload_size: size of the payload data in bytes
-> + * @payload: data to be sent to the firmware  */ struct
-> +csc_heci_late_bind_req {
-> +	struct mkhi_msg_hdr header;
-> +	u32 type;
-> +	u32 flags;
-> +	u32 reserved[2];
-> +	u32 payload_size;
-> +	u8  payload[] __counted_by(payload_size); } __packed;
-> +
-> +/**
-> + * struct csc_heci_late_bind_rsp - late binding response
-> + * @header: @ref mkhi_msg_hdr
-> + * @type: type of the late binding payload
-> + * @reserved: reserved field
-> + * @status: status of the late binding command execution by firmware
-> +*/ struct csc_heci_late_bind_rsp {
-> +	struct mkhi_msg_hdr header;
-> +	u32 type;
-> +	u32 reserved[2];
-> +	u32 status;
-> +} __packed;
-> +
-> +static int mei_late_bind_check_response(const struct device *dev, const
-> +struct mkhi_msg_hdr *hdr) {
-> +	if (hdr->group_id !=3D MKHI_GROUP_ID_GFX) {
-> +		dev_err(dev, "Mismatch group id: 0x%x instead of 0x%x\n",
-> +			hdr->group_id, MKHI_GROUP_ID_GFX);
-> +		return -EINVAL;
-> +	}
-> +
-> +	if (hdr->command !=3D GFX_SRV_MKHI_LATE_BINDING_RSP) {
-> +		dev_err(dev, "Mismatch command: 0x%x instead of 0x%x\n",
-> +			hdr->command, GFX_SRV_MKHI_LATE_BINDING_RSP);
-> +		return -EINVAL;
-> +	}
-Why are we not checking mkhi_msg_hdr hdr->result here ?
-> +
-> +	return 0;
-> +}
-> +
-> +/**
-> + * mei_late_bind_push_config - Sends a config to the firmware.
-> + * @dev: device struct corresponding to the mei device
-> + * @type: payload type
-> + * @flags: payload flags
-> + * @payload: payload buffer
-> + * @payload_size: payload buffer size
-> + *
-> + * Return: 0 success, negative errno value on transport failure,
-> + *         positive status returned by FW
-> + */
-> +static int mei_late_bind_push_config(struct device *dev, u32 type, u32 f=
-lags,
-> +				     const void *payload, size_t payload_size) {
-> +	struct mei_cl_device *cldev;
-> +	struct csc_heci_late_bind_req *req =3D NULL;
-> +	struct csc_heci_late_bind_rsp rsp;
-> +	size_t req_size;
-> +	int ret;
-> +
-> +	if (!dev || !payload || !payload_size)
-> +		return -EINVAL;
-> +
-> +	cldev =3D to_mei_cl_device(dev);
-> +
-> +	ret =3D mei_cldev_enable(cldev);
-> +	if (ret < 0) {
-> +		dev_dbg(dev, "mei_cldev_enable failed. %d\n", ret);
-> +		return ret;
-> +	}
-> +
-> +	req_size =3D struct_size(req, payload, payload_size);
-> +	if (req_size > mei_cldev_mtu(cldev)) {
-> +		dev_err(dev, "Payload is too big %zu\n", payload_size);
-> +		ret =3D -EMSGSIZE;
-> +		goto end;
-> +	}
-> +
-> +	req =3D kmalloc(req_size, GFP_KERNEL);
-> +	if (!req) {
-> +		ret =3D -ENOMEM;
-> +		goto end;
-> +	}
-Use Kzalloc here, to make sure reserved filed of header is zeroed.
-> +
-> +	req->header.group_id =3D MKHI_GROUP_ID_GFX;
-> +	req->header.command =3D GFX_SRV_MKHI_LATE_BINDING_CMD;
-> +	req->type =3D type;
-> +	req->flags =3D flags;
-> +	req->reserved[0] =3D 0;
-> +	req->reserved[1] =3D 0;
-> +	req->payload_size =3D payload_size;
-> +	memcpy(req->payload, payload, payload_size);
-> +
-> +	ret =3D mei_cldev_send_timeout(cldev, (void *)req, req_size,
-> LATE_BIND_SEND_TIMEOUT_MSEC);
-> +	if (ret < 0) {
-> +		dev_err(dev, "mei_cldev_send failed. %d\n", ret);
-> +		goto end;
-> +	}
-> +	ret =3D mei_cldev_recv_timeout(cldev, (void *)&rsp, sizeof(rsp),
-> LATE_BIND_RECV_TIMEOUT_MSEC);
-> +	if (ret < 0) {
-> +		dev_err(dev, "mei_cldev_recv failed. %d\n", ret);
-> +		goto end;
-> +	}
-> +	ret =3D mei_late_bind_check_response(dev, &rsp.header);
-> +	if (ret) {
-> +		dev_err(dev, "bad result response from the firmware: 0x%x\n",
-> +			*(uint32_t *)&rsp.header);
-
-> +		goto end;
-> +	}
-> +	ret =3D (int)rsp.status;
-> +	dev_dbg(dev, "%s status =3D %d\n", __func__, ret);
-AFAIU It would be useful to add the status enum in late_bind_mei_interface.=
-h.
-> +
-> +end:
-> +	mei_cldev_disable(cldev);
-> +	kfree(req);
-> +	return ret;
-> +}
-> +
-> +static const struct late_bind_component_ops mei_late_bind_ops =3D {
-> +	.owner =3D THIS_MODULE,
-> +	.push_config =3D mei_late_bind_push_config, };
-> +
-> +static int mei_component_master_bind(struct device *dev) {
-> +	return component_bind_all(dev, (void *)&mei_late_bind_ops); }
-> +
-> +static void mei_component_master_unbind(struct device *dev) {
-> +	component_unbind_all(dev, (void *)&mei_late_bind_ops); }
-> +
-> +static const struct component_master_ops mei_component_master_ops =3D {
-> +	.bind =3D mei_component_master_bind,
-> +	.unbind =3D mei_component_master_unbind, };
-> +
-> +/**
-> + * mei_late_bind_component_match - compare function for matching mei lat=
-e
-> bind.
-> + *
-> + *    The function checks if requested is Intel VGA device
-Please modify the Kenel Doc comment here, as per the function.
-> + *    and the parent of requester and the grand parent of mei_if are the=
- same
-We are matching against the requester not parent of requester.
-Modify the Kernel Doc comment properly.
-> + *    device.
-> + *
-> + * @dev: master device
-> + * @subcomponent: subcomponent to match (I915_COMPONENT_LATE_BIND)
-> + * @data: compare data (mei late-bind bus device)
-AFAIK It is mei client device not mei bus device.
-> + *
-> + * Return:
-> + * * 1 - if components match
-> + * * 0 - otherwise
-> + */
-> +static int mei_late_bind_component_match(struct device *dev, int
-> subcomponent,
-> +					 void *data)
-> +{
-> +	struct device *base =3D data;
-> +	struct pci_dev *pdev;
-> +
-> +	if (!dev)
-> +		return 0;
-> +
-> +	if (!dev_is_pci(dev))
-> +		return 0;
-> +
-> +	pdev =3D to_pci_dev(dev);
-> +
-> +	if (pdev->vendor !=3D PCI_VENDOR_ID_INTEL)
-> +		return 0;
-> +
-> +	if (pdev->class !=3D (PCI_CLASS_DISPLAY_VGA << 8) ||
-> +	    pdev->class !=3D (PCI_CLASS_DISPLAY_OTHER << 8))
-> +		return 0;
-This condition should be like below,  if I am not missing anything.=20
-if (pdev->class !=3D (PCI_CLASS_DISPLAY_VGA << 8) &&
- pdev->class !=3D (PCI_CLASS_DISPLAY_OTHER << 8))
-
-Thanks,
-Anshuman.
-> +
-> +	if (subcomponent !=3D I915_COMPONENT_LATE_BIND)
-> +		return 0;
-> +
-> +	base =3D base->parent;
-> +	if (!base) /* mei device */
-> +		return 0;
-> +
-> +	base =3D base->parent; /* pci device */
-> +
-> +	return !!base && dev =3D=3D base;
-> +}
-> +
-> +static int mei_late_bind_probe(struct mei_cl_device *cldev,
-> +			       const struct mei_cl_device_id *id) {
-> +	struct component_match *master_match =3D NULL;
-> +	int ret;
-> +
-> +	component_match_add_typed(&cldev->dev, &master_match,
-> +				  mei_late_bind_component_match, &cldev-
-> >dev);
-> +	if (IS_ERR_OR_NULL(master_match))
-> +		return -ENOMEM;
-> +
-> +	ret =3D component_master_add_with_match(&cldev->dev,
-> +					      &mei_component_master_ops,
-> +					      master_match);
-> +	if (ret < 0)
-> +		dev_err(&cldev->dev, "Master comp add failed %d\n", ret);
-> +
-> +	return ret;
-> +}
-> +
-> +static void mei_late_bind_remove(struct mei_cl_device *cldev) {
-> +	component_master_del(&cldev->dev, &mei_component_master_ops); }
-> +
-> +#define MEI_GUID_MKHI UUID_LE(0xe2c2afa2, 0x3817, 0x4d19, \
-> +			      0x9d, 0x95, 0x6, 0xb1, 0x6b, 0x58, 0x8a, 0x5d)
-> +
-> +static struct mei_cl_device_id mei_late_bind_tbl[] =3D {
-> +	{ .uuid =3D MEI_GUID_MKHI, .version =3D MEI_CL_VERSION_ANY },
-> +	{ }
-> +};
-> +MODULE_DEVICE_TABLE(mei, mei_late_bind_tbl);
-> +
-> +static struct mei_cl_driver mei_late_bind_driver =3D {
-> +	.id_table =3D mei_late_bind_tbl,
-> +	.name =3D KBUILD_MODNAME,
-> +	.probe =3D mei_late_bind_probe,
-> +	.remove	=3D mei_late_bind_remove,
-> +};
-> +
-> +module_mei_cl_driver(mei_late_bind_driver);
-> +
-> +MODULE_AUTHOR("Intel Corporation");
-> +MODULE_LICENSE("GPL");
-> +MODULE_DESCRIPTION("MEI Late Binding");
-> diff --git a/include/drm/intel/i915_component.h
-> b/include/drm/intel/i915_component.h
-> index 4ea3b17aa143..4945044d41e6 100644
-> --- a/include/drm/intel/i915_component.h
-> +++ b/include/drm/intel/i915_component.h
-> @@ -31,6 +31,7 @@ enum i915_component_type {
->  	I915_COMPONENT_HDCP,
->  	I915_COMPONENT_PXP,
->  	I915_COMPONENT_GSC_PROXY,
-> +	I915_COMPONENT_LATE_BIND,
->  };
->=20
->  /* MAX_PORT is the number of port
-> diff --git a/include/drm/intel/late_bind_mei_interface.h
-> b/include/drm/intel/late_bind_mei_interface.h
-> new file mode 100644
-> index 000000000000..2c53657ce91b
-> --- /dev/null
-> +++ b/include/drm/intel/late_bind_mei_interface.h
-> @@ -0,0 +1,50 @@
-> +/* SPDX-License-Identifier: MIT */
-> +/*
-> + * Copyright (c) 2025 Intel Corporation  */
-> +
-> +#ifndef _LATE_BIND_MEI_INTERFACE_H_
-> +#define _LATE_BIND_MEI_INTERFACE_H_
-> +
-> +#include <linux/types.h>
-> +
-> +struct device;
-> +struct module;
-> +
-> +/**
-> + * Late Binding flags
-> + * Persistent across warm reset
-> + */
-> +#define CSC_LATE_BINDING_FLAGS_IS_PERSISTENT	BIT(0)
-> +
-> +/**
-> + * xe_late_bind_fw_type - enum to determine late binding fw type  */
-> +enum late_bind_type {
-> +	CSC_LATE_BINDING_TYPE_FAN_CONTROL =3D 1, };
-> +
-> +/**
-> + * struct late_bind_component_ops - ops for Late Binding services.
-> + * @owner: Module providing the ops
-> + * @push_config: Sends a config to FW.
-> + */
-> +struct late_bind_component_ops {
-> +	struct module *owner;
-> +
-> +	/**
-> +	 * @push_config: Sends a config to FW.
-> +	 * @dev: device struct corresponding to the mei device
-> +	 * @type: payload type
-> +	 * @flags: payload flags
-> +	 * @payload: payload buffer
-> +	 * @payload_size: payload buffer size
-> +	 *
-> +	 * Return: 0 success, negative errno value on transport failure,
-> +	 *         positive status returned by FW
-> +	 */
-> +	int (*push_config)(struct device *dev, u32 type, u32 flags,
-> +			   const void *payload, size_t payload_size); };
-> +
-> +#endif /* _LATE_BIND_MEI_INTERFACE_H_ */
-> --
-> 2.34.1
-
+>>
+>> We probably need the same distinction for other use cases as well, so 
+>> probably best to create a helper function for that.
+> I did explore that accel_debugfs_init in file 
+> drivers/accel/drm_accel.c and i dont think of a clear and acceptable 
+> design. It is a different module all together and we dont want to 
+> create debugfs directory for it in drm code. If the module fail for 
+> some reason and also removing the debugfs directory is another 
+> problem. We do not know when we want to init/exit the module.
+>
+> The approach that i used is that drm_debugfs_dev_init is used by other 
+> module(right now there is one but we never know in future) as well as 
+> drm itself. The parent node is passed by the caller and for drm itself 
+> the parent node is defined statically.  So with the approach i took is 
+> if parent node is NULL its an internal call within drm and we can 
+> directly use the the static dentry i.e drm_debugfs_root.
+>
+>
+> Can we move below call from accel_core_init to drm_debugfs.c although 
+> its a different module all together for accel ??
+>
+> accel_debugfs_root = debugfs_create_dir("accel", NULL);
+>
+>>
+>> Apart from that looks really good to me.
+>>
+>> Regards,
+>> Christian.
+>>
+>>>   }
+>>>     /**
+>>> @@ -322,14 +337,13 @@ void drm_debugfs_dev_register(struct 
+>>> drm_device *dev)
+>>>           drm_atomic_debugfs_init(dev);
+>>>   }
+>>>   -int drm_debugfs_register(struct drm_minor *minor, int minor_id,
+>>> -             struct dentry *root)
+>>> +int drm_debugfs_register(struct drm_minor *minor, int minor_id)
+>>>   {
+>>>       struct drm_device *dev = minor->dev;
+>>>       char name[64];
+>>>         sprintf(name, "%d", minor_id);
+>>> -    minor->debugfs_symlink = debugfs_create_symlink(name, root,
+>>> +    minor->debugfs_symlink = debugfs_create_symlink(name, 
+>>> drm_debugfs_root,
+>>>                               dev->unique);
+>>>         /* TODO: Only for compatibility with drivers */
+>>> diff --git a/drivers/gpu/drm/drm_drv.c b/drivers/gpu/drm/drm_drv.c
+>>> index 17fc5dc708f4..8abc52eac8f3 100644
+>>> --- a/drivers/gpu/drm/drm_drv.c
+>>> +++ b/drivers/gpu/drm/drm_drv.c
+>>> @@ -69,8 +69,6 @@ DEFINE_XARRAY_ALLOC(drm_minors_xa);
+>>>    */
+>>>   static bool drm_core_init_complete;
+>>>   -static struct dentry *drm_debugfs_root;
+>>> -
+>>>   DEFINE_STATIC_SRCU(drm_unplug_srcu);
+>>>     /*
+>>> @@ -183,8 +181,7 @@ static int drm_minor_register(struct drm_device 
+>>> *dev, enum drm_minor_type type)
+>>>           return 0;
+>>>         if (minor->type != DRM_MINOR_ACCEL) {
+>>> -        ret = drm_debugfs_register(minor, minor->index,
+>>> -                       drm_debugfs_root);
+>>> +        ret = drm_debugfs_register(minor, minor->index);
+>>>           if (ret) {
+>>>               DRM_ERROR("DRM: Failed to initialize 
+>>> /sys/kernel/debug/dri.\n");
+>>>               goto err_debugfs;
+>>> @@ -754,7 +751,7 @@ static int drm_dev_init(struct drm_device *dev,
+>>>       if (drm_core_check_feature(dev, DRIVER_COMPUTE_ACCEL))
+>>>           accel_debugfs_init(dev);
+>>>       else
+>>> -        drm_debugfs_dev_init(dev, drm_debugfs_root);
+>>> +        drm_debugfs_dev_init(dev, NULL);
+>>>         return 0;
+>>>   @@ -1168,7 +1165,7 @@ static void drm_core_exit(void)
+>>>       drm_panic_exit();
+>>>       accel_core_exit();
+>>>       unregister_chrdev(DRM_MAJOR, "drm");
+>>> -    debugfs_remove(drm_debugfs_root);
+>>> +    drm_debugfs_remove_dir();
+>>>       drm_sysfs_destroy();
+>>>       WARN_ON(!xa_empty(&drm_minors_xa));
+>>>       drm_connector_ida_destroy();
+>>> @@ -1187,7 +1184,7 @@ static int __init drm_core_init(void)
+>>>           goto error;
+>>>       }
+>>>   -    drm_debugfs_root = debugfs_create_dir("dri", NULL);
+>>> +    drm_debugfs_create_dir();
+>>>         ret = register_chrdev(DRM_MAJOR, "drm", &drm_stub_fops);
+>>>       if (ret < 0)
+>>> diff --git a/drivers/gpu/drm/drm_internal.h 
+>>> b/drivers/gpu/drm/drm_internal.h
+>>> index b2b6a8e49dda..d2d8e72f32d9 100644
+>>> --- a/drivers/gpu/drm/drm_internal.h
+>>> +++ b/drivers/gpu/drm/drm_internal.h
+>>> @@ -186,8 +186,7 @@ void drm_gem_vunmap(struct drm_gem_object *obj, 
+>>> struct iosys_map *map);
+>>>   #if defined(CONFIG_DEBUG_FS)
+>>>   void drm_debugfs_dev_fini(struct drm_device *dev);
+>>>   void drm_debugfs_dev_register(struct drm_device *dev);
+>>> -int drm_debugfs_register(struct drm_minor *minor, int minor_id,
+>>> -             struct dentry *root);
+>>> +int drm_debugfs_register(struct drm_minor *minor, int minor_id);
+>>>   void drm_debugfs_unregister(struct drm_minor *minor);
+>>>   void drm_debugfs_connector_add(struct drm_connector *connector);
+>>>   void drm_debugfs_connector_remove(struct drm_connector *connector);
+>>> @@ -205,8 +204,7 @@ static inline void 
+>>> drm_debugfs_dev_register(struct drm_device *dev)
+>>>   {
+>>>   }
+>>>   -static inline int drm_debugfs_register(struct drm_minor *minor, 
+>>> int minor_id,
+>>> -                       struct dentry *root)
+>>> +static inline int drm_debugfs_register(struct drm_minor *minor, int 
+>>> minor_id)
+>>>   {
+>>>       return 0;
+>>>   }
+>>> diff --git a/include/drm/drm_drv.h b/include/drm/drm_drv.h
+>>> index a43d707b5f36..4e77a0c4a7f9 100644
+>>> --- a/include/drm/drm_drv.h
+>>> +++ b/include/drm/drm_drv.h
+>>> @@ -567,10 +567,20 @@ static inline bool 
+>>> drm_firmware_drivers_only(void)
+>>>     #if defined(CONFIG_DEBUG_FS)
+>>>   void drm_debugfs_dev_init(struct drm_device *dev, struct dentry 
+>>> *root);
+>>> +void drm_debugfs_create_dir(void);
+>>> +void drm_debugfs_remove_dir(void);
+>>>   #else
+>>>   static inline void drm_debugfs_dev_init(struct drm_device *dev, 
+>>> struct dentry *root)
+>>>   {
+>>>   }
+>>> +
+>>> +static inline void drm_debugfs_create_dir(void)
+>>> +{
+>>> +}
+>>> +
+>>> +static inline void drm_debugfs_remove_dir(void)
+>>> +{
+>>> +}
+>>>   #endif
+>>>     #endif
