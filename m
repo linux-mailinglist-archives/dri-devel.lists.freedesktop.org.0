@@ -2,87 +2,50 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id CBEB3AE0293
-	for <lists+dri-devel@lfdr.de>; Thu, 19 Jun 2025 12:25:27 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 85949AE02F9
+	for <lists+dri-devel@lfdr.de>; Thu, 19 Jun 2025 12:55:21 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5CC8210E081;
-	Thu, 19 Jun 2025 10:25:25 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0561E10EA03;
+	Thu, 19 Jun 2025 10:55:19 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="pbHsg+Uo";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="TL962kE8";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-yb1-f173.google.com (mail-yb1-f173.google.com
- [209.85.219.173])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A906710E081
- for <dri-devel@lists.freedesktop.org>; Thu, 19 Jun 2025 10:25:24 +0000 (UTC)
-Received: by mail-yb1-f173.google.com with SMTP id
- 3f1490d57ef6-e81749142b3so588762276.3
- for <dri-devel@lists.freedesktop.org>; Thu, 19 Jun 2025 03:25:24 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1750328723; x=1750933523; darn=lists.freedesktop.org;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:from:to:cc:subject:date:message-id:reply-to;
- bh=ua4ESBOBusXcEPYVXoT+f1Oc5QbUn+Vjv+tNr5h2kMY=;
- b=pbHsg+UoIGZtchq/0hdQtgRUvD/I9A9S4Y2sWN5fCZ/DYFjT1yGxn2boTJWFw4rB+N
- KWEYSGnYgs5rJhROcnfe2f8vLPS21mKPDTXRb2dbwhaHuophwFiJInvL7RFHNgPZ1NRN
- k6XqUgaxCNrPbza3RsD8VQ1+YKbvmhhcfsgh8mfYVSXM1IP8VLROXFx0MR/he8cOBwIT
- euFjOuj1PM/fPsG8iOCAzc6OSmFvz3ca2MdpxkM83MikGtTBDnZZus8yaoMQ2AKDeFw8
- 3S5iAVWhUZAe7RDx905cIl5SZ3nn2FbIJvaYeYhqqruA7fRkO0f2EZopQ3pMylHh2ECm
- xv8Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1750328723; x=1750933523;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=ua4ESBOBusXcEPYVXoT+f1Oc5QbUn+Vjv+tNr5h2kMY=;
- b=FSAB9e4y/oGgREU2LJzBKgYhBxodmSJjIP6mPA4V8HkPFgz6OcpOjlG7uZYiEs2OHe
- K6fQWSEKe2ZGNBkUTM/61MBVOMnp6ncWQwSzVuDNRx6VsLNkvt0/tgSxtVe58NZnRxjx
- pje+CILkMEzqsMR1Xl7tziV6NwND7qMaesiE7JD+2WG+aJoJMBVg/NR7dCJerP/5l5VO
- m9+X+EnBLiVkzxHyA+wuLQSeHAvjvnYCtj1EPDCWAahpitBbQTQX2oI2SBSSfvQZOzZ3
- u2FFLjZEIiJLJd2NbDVrBZTm9pRQfW+qBwyn1G0jNFOxLR+wGEzL3ZGy8hXs+kTCqrh+
- IMwA==
-X-Forwarded-Encrypted: i=1;
- AJvYcCWUhqBgQNkawbp/cpSNnEiNmsPF+GGqocOPbQI1H+g4/M3/Llpdx4P6Intod2V8ZK35EY5aFL9LQ8A=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YwzkVFvvMcziFmnq7HJC6N1ryzIWk/ZSCgHnebVBxOtKwrKwmYd
- i6WNGwxe43smM9yByNlXbGuN1vDc17v8+6fL7uImNm3CtabTK51JmThxNnF3btFrClzbN/K2RAW
- 2PmDgKoUq4dyDxkE40sHZHcaXoF7bf/xFXgbAd3sUdA==
-X-Gm-Gg: ASbGnctr2Cvk6IwkkA/kxXJDFS8MIJVd2IXc+PfXrGrc8CY6XKMXILxd0fQERAh3zW5
- KidawL9cDKf9rOHbaMLVrgnJkFQeCQqkyBLMgsY7YgwcHygxa3k+baLw5Ang3j/mI564M36HU7i
- /dtFNFGa5Lihj6Z0MnL2TazpIRmAMYhfcYrYA11B9IJThF
-X-Google-Smtp-Source: AGHT+IEd1Y2dYwu5kQzmOiqV3OZ5X0v2pCQJYBuRmzgW1uRqeViVETMJf6n3heh0RuoVtnPHqbuzFhL0HpKezAowQ9Y=
-X-Received: by 2002:a05:6902:1207:b0:e7d:13f2:943c with SMTP id
- 3f1490d57ef6-e822ad92dedmr26314262276.41.1750328723568; Thu, 19 Jun 2025
- 03:25:23 -0700 (PDT)
+Received: from tor.source.kernel.org (tor.source.kernel.org [172.105.4.254])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8780E10EA03
+ for <dri-devel@lists.freedesktop.org>; Thu, 19 Jun 2025 10:55:16 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+ by tor.source.kernel.org (Postfix) with ESMTP id CAAB962A2C;
+ Thu, 19 Jun 2025 10:55:14 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 704C7C4CEEA;
+ Thu, 19 Jun 2025 10:55:11 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1750330514;
+ bh=DsxkiLrEvnYYL3LtCmbLHbPeRaeKYhQpEGZGUUC0dts=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=TL962kE8WnCwuRVxzoRr7K58ahO16l4pdqiTzb3KsC+oAcykwFfR1pEy9tfHT79PD
+ Gq7oXj3fdPhrXdogo0M9f7pE/vJmGRD5mx3ZzWej3+Cqi0foaKp/Jbowel0YWzjFcK
+ LXnP805PsjX58Qv6VsACSFenMwcpiTggsp+wrT5Bzc7YDEcLQIx5xAyLCMnXCAtmB1
+ UYFIYzZK+TuHZIpGebne/vzTac1ow7Sbogs2Og/Ri72ZklqVRnJHMnXHrjlxtJNypm
+ JPhTfL5yxEQmCEEJ7VS938r4DzOSn4RXl4+SaBB/98ktgj8bZOcd5naXMeQAzn10cK
+ QI6SwuquW1tlQ==
+Date: Thu, 19 Jun 2025 12:55:08 +0200
+From: Danilo Krummrich <dakr@kernel.org>
+To: Beata Michalska <beata.michalska@arm.com>
+Cc: ojeda@kernel.org, alex.gaynor@gmail.com, aliceryhl@google.com,
+ daniel.almeida@collabora.com, boqun.feng@gmail.com,
+ gary@garyguo.net, bjorn3_gh@protonmail.com, lossin@kernel.org,
+ a.hindborg@kernel.org, tmgross@umich.edu, alyssa@rosenzweig.io,
+ lyude@redhat.com, rust-for-linux@vger.kernel.org,
+ dri-devel@lists.freedesktop.org
+Subject: Re: [PATCH] rust: drm: Drop the use of Opaque for ioctl arguments
+Message-ID: <aFPsjIFIC1J2qtdc@pollux>
+References: <20250619102102.750668-1-beata.michalska@arm.com>
 MIME-Version: 1.0
-References: <CGME20250618102228eucas1p1906803f73cc004e68f281b2bdf871da3@eucas1p1.samsung.com>
- <20250618-apr_14_for_sending-v5-0-27ed33ea5c6f@samsung.com>
- <20250618-apr_14_for_sending-v5-3-27ed33ea5c6f@samsung.com>
-In-Reply-To: <20250618-apr_14_for_sending-v5-3-27ed33ea5c6f@samsung.com>
-From: Ulf Hansson <ulf.hansson@linaro.org>
-Date: Thu, 19 Jun 2025 12:24:47 +0200
-X-Gm-Features: Ac12FXzw77jNMgM4ecKpiOyLqo41UGjlRF2A49p8Af0bxhXr8nkUTTfXWCm5OqM
-Message-ID: <CAPDyKFq_4W7bPr1NiuEGzMDoY6tQuHbw5uOXrkJagbEbtmqMWg@mail.gmail.com>
-Subject: Re: [PATCH v5 3/8] pmdomain: thead: Instantiate GPU power sequencer
- via auxiliary bus
-To: Michal Wilczynski <m.wilczynski@samsung.com>,
- Bartosz Golaszewski <brgl@bgdev.pl>
-Cc: Drew Fustini <drew@pdp7.com>, Guo Ren <guoren@kernel.org>,
- Fu Wei <wefu@redhat.com>, 
- Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
- Conor Dooley <conor+dt@kernel.org>, 
- Philipp Zabel <p.zabel@pengutronix.de>, Frank Binns <frank.binns@imgtec.com>, 
- Matt Coster <matt.coster@imgtec.com>, 
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, 
- Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
- Simona Vetter <simona@ffwll.ch>, 
- Paul Walmsley <paul.walmsley@sifive.com>, Palmer Dabbelt <palmer@dabbelt.com>, 
- Albert Ou <aou@eecs.berkeley.edu>, Alexandre Ghiti <alex@ghiti.fr>, 
- Marek Szyprowski <m.szyprowski@samsung.com>, linux-riscv@lists.infradead.org, 
- devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, 
- linux-pm@vger.kernel.org, dri-devel@lists.freedesktop.org
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20250619102102.750668-1-beata.michalska@arm.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -98,130 +61,86 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, 18 Jun 2025 at 12:22, Michal Wilczynski
-<m.wilczynski@samsung.com> wrote:
->
-> In order to support the complex power sequencing required by the TH1520
-> GPU, the AON power domain driver must be responsible for initiating the
-> corresponding sequencer driver. This functionality is specific to
-> platforms where the GPU power sequencing hardware is controlled by the
-> AON block.
->
-> Extend the AON power domain driver to check for the presence of the
-> "gpu-clkgen" reset in its own device tree node.
->
-> If the property is found, create and register a new auxiliary device.
-> This device acts as a proxy that allows the dedicated `pwrseq-thead-gpu`
-> auxiliary driver to bind and take control of the sequencing logic.
->
-> Signed-off-by: Michal Wilczynski <m.wilczynski@samsung.com>
+On Thu, Jun 19, 2025 at 12:21:02PM +0200, Beata Michalska wrote:
+> With the Opaque<T>, the expectations are that Rust should not make any
+> assumptions on the layout or invariants of the wrapped C types.
+> That runs rather counter to ioctl arguments, which must adhere to
+> certain data-layout constraints. By using Opaque<T>, ioctl handlers
+> end up doing unsound castings,
 
-Reviewed-by: Ulf Hansson <ulf.hansson@linaro.org>
+Which unsound casts? Please see [1] and [2] for how nova implements those IOCTL
+handlers.
 
-It looks like there is another re-spin needed, but thinking of the
-merge-strategy I could potentially take patch1->patch3 via my pmdomain
-tree, as it seems reasonable to keep those changes together. Unless
-Bartosz sees any problem with that, of course.
+Speaking of which, this patch breaks the build, since it doesn't adjust the
+users of the API, i.e. nova.
 
-Kind regards
-Uffe
+If you want I can post a diff to fix up nova accordingly for you to add to this
+patch.
 
+[1] https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tree/drivers/gpu/drm/nova/uapi.rs
+[2] https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tree/drivers/gpu/drm/nova/file.rs
+
+> which adds needless complexity and
+> maintenance overhead, brining no safety benefits.
+> Drop the use of Opaque for ioctl arguments as that is not the best
+> fit here.
+> 
+> Signed-off-by: Beata Michalska <beata.michalska@arm.com>
 > ---
->  drivers/pmdomain/thead/Kconfig             |  1 +
->  drivers/pmdomain/thead/th1520-pm-domains.c | 51 ++++++++++++++++++++++++++++++
->  2 files changed, 52 insertions(+)
->
-> diff --git a/drivers/pmdomain/thead/Kconfig b/drivers/pmdomain/thead/Kconfig
-> index 7d52f8374b074167d508a80fd807929c53faef12..208828e0fa0dc91256bf808b905bea32bb84250d 100644
-> --- a/drivers/pmdomain/thead/Kconfig
-> +++ b/drivers/pmdomain/thead/Kconfig
-> @@ -4,6 +4,7 @@ config TH1520_PM_DOMAINS
->         tristate "Support TH1520 Power Domains"
->         depends on TH1520_AON_PROTOCOL
->         select REGMAP_MMIO
-> +       select AUXILIARY_BUS
->         help
->           This driver enables power domain management for the T-HEAD
->           TH-1520 SoC. On this SoC there are number of power domains,
-> diff --git a/drivers/pmdomain/thead/th1520-pm-domains.c b/drivers/pmdomain/thead/th1520-pm-domains.c
-> index f702e20306f469aeb0ed15e54bd4f8309f28018c..9040b698e7f7f2400163841530fecacfb0f917bc 100644
-> --- a/drivers/pmdomain/thead/th1520-pm-domains.c
-> +++ b/drivers/pmdomain/thead/th1520-pm-domains.c
-> @@ -5,6 +5,7 @@
->   * Author: Michal Wilczynski <m.wilczynski@samsung.com>
->   */
->
-> +#include <linux/auxiliary_bus.h>
->  #include <linux/firmware/thead/thead,th1520-aon.h>
->  #include <linux/slab.h>
->  #include <linux/platform_device.h>
-> @@ -128,6 +129,50 @@ static void th1520_pd_init_all_off(struct generic_pm_domain **domains,
->         }
->  }
->
-> +static void th1520_pd_pwrseq_unregister_adev(void *adev)
-> +{
-> +       auxiliary_device_delete(adev);
-> +       auxiliary_device_uninit(adev);
-> +}
-> +
-> +static int th1520_pd_pwrseq_gpu_init(struct device *dev)
-> +{
-> +       struct auxiliary_device *adev;
-> +       int ret;
-> +
-> +       /*
-> +        * Correctly check only for the property's existence in the DT node.
-> +        * We don't need to get/claim the reset here; that is the job of
-> +        * the auxiliary driver that we are about to spawn.
-> +        */
-> +       if (device_property_match_string(dev, "reset-names", "gpu-clkgen") < 0)
-> +               /*
-> +                * This is not an error. It simply means the optional sequencer
-> +                * is not described in the device tree.
-> +                */
-> +               return 0;
-> +
-> +       adev = devm_kzalloc(dev, sizeof(*adev), GFP_KERNEL);
-> +       if (!adev)
-> +               return -ENOMEM;
-> +
-> +       adev->name = "pwrseq-gpu";
-> +       adev->dev.parent = dev;
-> +
-> +       ret = auxiliary_device_init(adev);
-> +       if (ret)
-> +               return ret;
-> +
-> +       ret = auxiliary_device_add(adev);
-> +       if (ret) {
-> +               auxiliary_device_uninit(adev);
-> +               return ret;
-> +       }
-> +
-> +       return devm_add_action_or_reset(dev, th1520_pd_pwrseq_unregister_adev,
-> +                                       adev);
-> +}
-> +
->  static int th1520_pd_probe(struct platform_device *pdev)
->  {
->         struct generic_pm_domain **domains;
-> @@ -186,8 +231,14 @@ static int th1520_pd_probe(struct platform_device *pdev)
->         if (ret)
->                 goto err_clean_genpd;
->
-> +       ret = th1520_pd_pwrseq_gpu_init(dev);
-> +       if (ret)
-> +               goto err_clean_provider;
-> +
->         return 0;
->
-> +err_clean_provider:
-> +       of_genpd_del_provider(dev->of_node);
->  err_clean_genpd:
->         for (i--; i >= 0; i--)
->                 pm_genpd_remove(domains[i]);
->
-> --
-> 2.34.1
->
+> 
+>  Additional comments:
+>  - UAPI types already automatically derive MaybeZeroable,
+>    so it probably makes little sense to add any verification for that
+>  - FromBytes is pending, but due to the orphan rule, adding verification
+>    of it being implemented for IOCTL args here is pointless
+>  - Verifying pointer alignment could make use of strict_provenance,
+>    but that one is unstable and I am not sure what are the exact rules
+>    here for using those. Without that one though, verifying alignment in
+>    some cases (i.e. pointer tagging) might require more extensive changes.
+>    Happy to deal with either.
+> 
+>  rust/kernel/drm/ioctl.rs | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+> 
+> diff --git a/rust/kernel/drm/ioctl.rs b/rust/kernel/drm/ioctl.rs
+> index 445639404fb7..12b296131672 100644
+> --- a/rust/kernel/drm/ioctl.rs
+> +++ b/rust/kernel/drm/ioctl.rs
+> @@ -139,7 +139,7 @@ pub mod internal {
+>                              // asserted above matches the size of this type, and all bit patterns of
+>                              // UAPI structs must be valid.
+>                              let data = unsafe {
+> -                                &*(raw_data as *const $crate::types::Opaque<$crate::uapi::$struct>)
+> +                                &mut *(raw_data as *mut $crate::uapi::$struct)
+
+I think we have to document the guarantees we rely on to create this mutable
+reference.
+
+>                              };
+
+This should be formatted as one single line and also adjust the doc-comment of
+the macro accordingly, i.e.:
+
+diff --git a/rust/kernel/drm/ioctl.rs b/rust/kernel/drm/ioctl.rs
+index 12b296131672..f0c599f15a41 100644
+--- a/rust/kernel/drm/ioctl.rs
++++ b/rust/kernel/drm/ioctl.rs
+@@ -83,7 +83,7 @@ pub mod internal {
+ ///
+ /// ```ignore
+ /// fn foo(device: &kernel::drm::Device<Self>,
+-///        data: &Opaque<uapi::argument_type>,
++///        data: &mut uapi::argument_type,
+ ///        file: &kernel::drm::File<Self::File>,
+ /// ) -> Result<u32>
+ /// ```
+@@ -138,9 +138,7 @@ macro_rules! declare_drm_ioctls {
+                             // SAFETY: The ioctl argument has size `_IOC_SIZE(cmd)`, which we
+                             // asserted above matches the size of this type, and all bit patterns of
+                             // UAPI structs must be valid.
+-                            let data = unsafe {
+-                                &mut *(raw_data as *mut $crate::uapi::$struct)
+-                            };
++                            let data = unsafe { &mut *(raw_data as *mut $crate::uapi::$struct) };
+                             // SAFETY: This is just the DRM file structure
+                             let file = unsafe { $crate::drm::File::as_ref(raw_file) };
