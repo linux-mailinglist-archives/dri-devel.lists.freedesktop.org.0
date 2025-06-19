@@ -2,54 +2,54 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2D6B6AE0D6C
-	for <lists+dri-devel@lfdr.de>; Thu, 19 Jun 2025 21:18:34 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 468DEAE0D71
+	for <lists+dri-devel@lfdr.de>; Thu, 19 Jun 2025 21:18:39 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 845B510E126;
-	Thu, 19 Jun 2025 19:18:32 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A606110E128;
+	Thu, 19 Jun 2025 19:18:37 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=redhat.com header.i=@redhat.com header.b="FqLk/Z0a";
+	dkim=pass (1024-bit key; unprotected) header.d=redhat.com header.i=@redhat.com header.b="gwhNbL+m";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [170.10.129.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 551F910E128
- for <dri-devel@lists.freedesktop.org>; Thu, 19 Jun 2025 19:18:30 +0000 (UTC)
+ (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E331710E127
+ for <dri-devel@lists.freedesktop.org>; Thu, 19 Jun 2025 19:18:35 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1750360709;
+ s=mimecast20190719; t=1750360715;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=jxDQ3jR/+h+n67XLoWIayKPN0jU8tc4bO5K5PyY3GoA=;
- b=FqLk/Z0aiZSm4sp4xLrH1abU56N+qaQhnxge7cCXA5WZC2qTkFMlDvi2ESvTy59YQpLXHk
- mv0BA9iFIX5++DXwqamR3+nT7xFfziAvuGzyORMK6SyZBBVAzB+b+/fK3mibah44OVgu9e
- NkSqpPNBKJP9R4rSpOU76IiZgYXSWro=
+ bh=4ZxgkDT6dse2bUp83U9mVS2fL/N7ehegYmETLcYa52M=;
+ b=gwhNbL+mrR4UlFtFJmUmGPS0FGgYUO1Zo9vt2qzrdsjqd77uv6QZLuBYPRWbiBImU/Dbye
+ GAqv4S6W5IbARQUuWNIxoN7iJtAqzZQpPDq3XA8Omx5cvOqYP2TuCI6+OGlE1F5DPrPubQ
+ tLlPHcaKxTHx9gW2bsV/9yB2vvqbSDc=
 Received: from mx-prod-mc-04.mail-002.prod.us-west-2.aws.redhat.com
  (ec2-54-186-198-63.us-west-2.compute.amazonaws.com [54.186.198.63]) by
  relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
- cipher=TLS_AES_256_GCM_SHA384) id us-mta-81-nAKsXH1MOUuDhXf05kSPmw-1; Thu,
- 19 Jun 2025 15:18:23 -0400
-X-MC-Unique: nAKsXH1MOUuDhXf05kSPmw-1
-X-Mimecast-MFC-AGG-ID: nAKsXH1MOUuDhXf05kSPmw_1750360698
+ cipher=TLS_AES_256_GCM_SHA384) id us-mta-408-iX7tiqNuMJmfgTkwsiQeeA-1; Thu,
+ 19 Jun 2025 15:18:33 -0400
+X-MC-Unique: iX7tiqNuMJmfgTkwsiQeeA-1
+X-Mimecast-MFC-AGG-ID: iX7tiqNuMJmfgTkwsiQeeA_1750360709
 Received: from mx-prod-int-03.mail-002.prod.us-west-2.aws.redhat.com
  (mx-prod-int-03.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.12])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
  (No client certificate requested)
  by mx-prod-mc-04.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS
- id EB97A19560B3; Thu, 19 Jun 2025 19:18:17 +0000 (UTC)
+ id 55A4C19560B2; Thu, 19 Jun 2025 19:18:28 +0000 (UTC)
 Received: from asrivats-na.rmtustx.csb (unknown [10.2.16.132])
  by mx-prod-int-03.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTP
- id 73D9D19560B3; Thu, 19 Jun 2025 19:18:08 +0000 (UTC)
+ id 52EE919560A3; Thu, 19 Jun 2025 19:18:18 +0000 (UTC)
 From: Anusha Srivatsa <asrivats@redhat.com>
-Date: Thu, 19 Jun 2025 14:15:57 -0500
-Subject: [PATCH v2 05/16] drm/panel/exynos: Keep up with refcounting
+Date: Thu, 19 Jun 2025 14:15:58 -0500
+Subject: [PATCH v2 06/16] drm/panel/rcar_du_encoder: Keep up with refcounting
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20250619-b4-of_drm_find_panel_part1-v2-5-0df94aecc43d@redhat.com>
+Message-Id: <20250619-b4-of_drm_find_panel_part1-v2-6-0df94aecc43d@redhat.com>
 References: <20250619-b4-of_drm_find_panel_part1-v2-0-0df94aecc43d@redhat.com>
 In-Reply-To: <20250619-b4-of_drm_find_panel_part1-v2-0-0df94aecc43d@redhat.com>
 To: Neil Armstrong <neil.armstrong@linaro.org>, 
@@ -83,11 +83,11 @@ Cc: dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
  linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev, 
  linux-samsung-soc@vger.kernel.org, linux-renesas-soc@vger.kernel.org, 
  linux-tegra@vger.kernel.org, Anusha Srivatsa <asrivats@redhat.com>
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1750360565; l=776;
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1750360565; l=933;
  i=asrivats@redhat.com; s=20250122; h=from:subject:message-id;
- bh=XnZ4VdQSGCSbeK0k5QdLpsdKH75XYw09FKKV6TJegL8=;
- b=LK7e2E8NJMcgbXOaMpcRjP30A7Rw1UUvfZXliZN4uZDvWsCr669l/2mkqtxyUkVQ6m4+I+XU1
- 58NTpKIkBpNCMRHGFQ862OVjsnCPFsoZQdWbjAyVXLfAUpljlbxxuyA
+ bh=YALXQz2Q0/yuQrIopDCTKEAJ3XHgqfCy/EgPk2fI0Z0=;
+ b=BraNF0Mjh/d+MGIDhAqtL5nSx8iVHPYNXuzRZZRkJUxtZ9kRf8aNKrYASePFe/ecsbtpK2Kpy
+ /N370guTuKZD3iFcNtcO8HeVx5qbolV/tn/nnY4YxGpZCWkqUehh2Fp
 X-Developer-Key: i=asrivats@redhat.com; a=ed25519;
  pk=brnIHkBsUZEhyW6Zyn0U92AeIZ1psws/q8VFbIkf1AU=
 X-Scanned-By: MIMEDefang 3.0 on 10.30.177.12
@@ -106,28 +106,30 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Put the panel reference back when driver is no
-longer using it.
+The panel returned by of_drm_find_panel() is used to be
+passed to devm_drm_panel_bridge_add_typed(). Put the
+reference back accordingly.
+
+This patch added in v2.
 
 Signed-off-by: Anusha Srivatsa <asrivats@redhat.com>
 ---
-v2: move drm_panel_put() inside the if()
----
- drivers/gpu/drm/exynos/exynos_drm_dpi.c | 1 +
- 1 file changed, 1 insertion(+)
+ drivers/gpu/drm/renesas/rcar-du/rcar_du_encoder.c | 2 ++
+ 1 file changed, 2 insertions(+)
 
-diff --git a/drivers/gpu/drm/exynos/exynos_drm_dpi.c b/drivers/gpu/drm/exynos/exynos_drm_dpi.c
-index 0dc36df6ada34cd0d4544f14e616fe3c52dafc73..3a258c4623b92a5a7c9aea3371d11a6c2df1cc8c 100644
---- a/drivers/gpu/drm/exynos/exynos_drm_dpi.c
-+++ b/drivers/gpu/drm/exynos/exynos_drm_dpi.c
-@@ -137,6 +137,7 @@ static void exynos_dpi_disable(struct drm_encoder *encoder)
- 	if (ctx->panel) {
- 		drm_panel_disable(ctx->panel);
- 		drm_panel_unprepare(ctx->panel);
-+		drm_panel_put(ctx->panel);
- 	}
- }
+diff --git a/drivers/gpu/drm/renesas/rcar-du/rcar_du_encoder.c b/drivers/gpu/drm/renesas/rcar-du/rcar_du_encoder.c
+index 7ecec7b04a8d0b0794bdd784fd0d7c7c5ba0a71c..b16cafc66e60d7f6c5167beb9e9d0606b17b0281 100644
+--- a/drivers/gpu/drm/renesas/rcar-du/rcar_du_encoder.c
++++ b/drivers/gpu/drm/renesas/rcar-du/rcar_du_encoder.c
+@@ -69,6 +69,8 @@ int rcar_du_encoder_init(struct rcar_du_device *rcdu,
  
+ 		bridge = devm_drm_panel_bridge_add_typed(rcdu->dev, panel,
+ 							 DRM_MODE_CONNECTOR_DPI);
++		drm_panel_put(panel);
++
+ 		if (IS_ERR(bridge))
+ 			return PTR_ERR(bridge);
+ 	} else {
 
 -- 
 2.48.1
