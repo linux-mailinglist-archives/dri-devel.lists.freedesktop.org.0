@@ -2,154 +2,108 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6D855ADFCBB
-	for <lists+dri-devel@lfdr.de>; Thu, 19 Jun 2025 07:07:46 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id C30E5ADFCBD
+	for <lists+dri-devel@lfdr.de>; Thu, 19 Jun 2025 07:10:42 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6CF6110E988;
-	Thu, 19 Jun 2025 05:07:39 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B0AFF10E98E;
+	Thu, 19 Jun 2025 05:10:39 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=amd.com header.i=@amd.com header.b="vUiDMW6y";
+	dkim=pass (2048-bit key; unprotected) header.d=qualcomm.com header.i=@qualcomm.com header.b="pQYQpTIg";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from NAM10-MW2-obe.outbound.protection.outlook.com
- (mail-mw2nam10on2085.outbound.protection.outlook.com [40.107.94.85])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7A30610E988;
- Thu, 19 Jun 2025 05:07:33 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=vuX15+GaHErtuNxmpROWEq5lYP/vw+WbeGQtZJ6fJwXkDnJlVxImEnywvl26rVXF0WR+FkHm/W3fQ8l70T2DGsI/0/55MMzOh2PBVhFyQ6+NDe4pxuHvyOo3RyUteahgvA6YKyoEceLPRwUwij+3jw2r1PQCx4lI1cbdm25/u6N2pF1fUvjByRrOU+TE4v/B0xj/294nxFsMSTXgNLYlcmFwYicBvnbPRgF/+I7QyICCskiDWrEW9CLlkz+hptLnwlXGJoC6q6pen8kKWTki5GwtwyC2y/IIMEL9nmTxrtJAh9wUo4wW/a5OzcXMU1ye+zJ6BHCCBZtu1WXTR+3f8g==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=aRoYK5p64BHHzaZ2W4aC5jT6xs6N3sR+FxXgVczyNwA=;
- b=ol2d+tR6MGuteKF2tiiDXUIo/UeYV/iMi2ICA6PMgsZzFIfcl+kZgKpaEdxqLzfpd3Og7H28eTQyCp98UcgEQNQbD93B/L2vlkxGAJKxf8DHLrdX50uf3kXxkSLbcqPEiq6xveeYjGOaPyioplMLM3r1n/pgvS75Fh5haVC/BHS9XP4k1BDk9rabUkT4grRd27C0k/FfwW0kXUDHW5E+pS+B76VsjEa8leT6/j45eYyIpk0Szy/H9Wt7i2M9TDRRqlT/3gKiGgkMpPl67hHYw/Aw0sYpRcxF/nrElOHQq6UVzoEG1yaQBNaJTssiUfLSXguUYpSt1VEl8AyPn7JdAw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
- header.d=amd.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=aRoYK5p64BHHzaZ2W4aC5jT6xs6N3sR+FxXgVczyNwA=;
- b=vUiDMW6y9GwfpWX7MsorQ0UyQtBtADxZJHlN4USgZSosOUDwaVQTNQnihWAnvhiLekGpJfclzErSLMoubbXYB0q6qgVTuLgGdv8IeaM1OFYBtGYHeiHJ2jaa5T5HRzdWUXCAgzqvEYSccZkJRhe9UwWXbMgWHfgoVvntqixhcy4=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=amd.com;
-Received: from BL1PR12MB5753.namprd12.prod.outlook.com (2603:10b6:208:390::15)
- by DS5PPF5A66AFD1C.namprd12.prod.outlook.com (2603:10b6:f:fc00::64d)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8678.33; Thu, 19 Jun
- 2025 05:07:29 +0000
-Received: from BL1PR12MB5753.namprd12.prod.outlook.com
- ([fe80::2b0e:7fc3:1d21:5d2e]) by BL1PR12MB5753.namprd12.prod.outlook.com
- ([fe80::2b0e:7fc3:1d21:5d2e%3]) with mapi id 15.20.8835.026; Thu, 19 Jun 2025
- 05:07:29 +0000
-Message-ID: <3e1b9a3b-9a38-4f48-bbae-26faeeed6f42@amd.com>
-Date: Thu, 19 Jun 2025 10:37:23 +0530
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v4 1/4] drm: move debugfs functionality from drm_drv.c to
- drm_debugfs.c
-To: =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
- Sunil Khatri <sunil.khatri@amd.com>, dri-devel@lists.freedesktop.org
-Cc: amd-gfx@lists.freedesktop.org, simona@ffwll.ch, tzimmermann@suse.de,
- tursulin@ursulin.net, phasta@kernel.org, dakr@kernel.org
-References: <20250618134747.3893138-1-sunil.khatri@amd.com>
- <752cd912-b4d2-4ca1-84f4-70aa95c4e97a@amd.com>
-Content-Language: en-US
-From: "Khatri, Sunil" <sukhatri@amd.com>
-In-Reply-To: <752cd912-b4d2-4ca1-84f4-70aa95c4e97a@amd.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-ClientProxiedBy: PN2PR01CA0244.INDPRD01.PROD.OUTLOOK.COM
- (2603:1096:c01:21a::13) To BL1PR12MB5753.namprd12.prod.outlook.com
- (2603:10b6:208:390::15)
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com
+ [205.220.168.131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id ADA4C10E98E
+ for <dri-devel@lists.freedesktop.org>; Thu, 19 Jun 2025 05:10:34 +0000 (UTC)
+Received: from pps.filterd (m0279864.ppops.net [127.0.0.1])
+ by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 55IJq4p3029414
+ for <dri-devel@lists.freedesktop.org>; Thu, 19 Jun 2025 05:10:34 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
+ cc:content-transfer-encoding:date:from:message-id:mime-version
+ :subject:to; s=qcppdkim1; bh=yBSzG2njIyjzGMlaHr5sTGjTp0z/ExZCJsw
+ dGgzeFLU=; b=pQYQpTIgtxWm/1W7ghUqnJkFV7qvxjQQ+QSzv7u9+f6EMrqz3+f
+ AWnkeLqOK3ek/+1/FzB/qLN80ffRNf37VXDOkVatWWCRaKCMwSCA2CkPDKd4OtOc
+ RfDVcYIspZPueM3umo5wPDzzmvV98bMDzGHcqoRrWp/UFJIygGkRFwhNU/Y6Lg4V
+ vXKgTc/5iHInW6+wRXEpNNbyUsZseteUGgMu2gkgqY+fCqaL8tdTADI7hvE1Lj2r
+ PE7Sg+OF8CXNvXiGNTlGZVv9uzakKHqhSCheK0ZMql51We85rqJJgMowzrJZqNTA
+ AqFBNbo71S314pLaxxQZBYjINnfbuBp1tQQ==
+Received: from mail-pf1-f199.google.com (mail-pf1-f199.google.com
+ [209.85.210.199])
+ by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 47928mpgyb-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
+ for <dri-devel@lists.freedesktop.org>; Thu, 19 Jun 2025 05:10:33 +0000 (GMT)
+Received: by mail-pf1-f199.google.com with SMTP id
+ d2e1a72fcca58-748a4f5e735so303315b3a.3
+ for <dri-devel@lists.freedesktop.org>; Wed, 18 Jun 2025 22:10:33 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1750309833; x=1750914633;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=yBSzG2njIyjzGMlaHr5sTGjTp0z/ExZCJswdGgzeFLU=;
+ b=MbpzqJ5dEI9d4VBfehDGccpi2OBxGLatdo95FeoG0Zp/SBu05gSAMik1OA+jnjVe05
+ /GMwwKHsba9p5rpRcIjkUlzcJxAELI6ru6PPclCz8u4aZW7VqF1fZAJ34dPYotmACjUK
+ 8NbmU0q7z9eiz4boeSGV7nTUssYPI9bDAbTc5H+br6i4kuPA2aizEt730iGfbyaXuaS2
+ LQ1qt15fWsPhrHmhYk4WaS5YO5v3VZjeMd6kk409eCdyp1ydXR8ki5P6qVHAH87pb4KG
+ MkNRmGcBhMIZ8rwZnbmRQSxi6XExqoQzhZPpz8AjwVDgPrxct2Hi4FwYvtLx2ucCgl4J
+ wFgA==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCX0+IyU4yLJESjAxvwJegXo+bksTj6IojueyhC9+d+rIGh0q0xtgBdvYGWRGjm+FMdoZP/PG9UPe7s=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0Yx4V6labvGVwQSQd14t4usFK+XoPmV72PkIGkca6KrvNUxvSyvk
+ iKL6qNTap1jH36e9L2EJVHd7PKFpkTf19MW5sJXlKbjACn/wARSUtxeN+gJ/V5OC/BYXGzcCSQV
+ 1NhgKj/+WhCbGfx/XQLBJmSvvMey5QKxl7vp6r2U2ORHd8HySntwuV6fyRmMy9naPt3j/KUQ=
+X-Gm-Gg: ASbGncsVo3g9aar5H01ik1qsrhpkR5jMmkIP4kF8zfTfcfbyz0voiZT8ojyxqU83I4/
+ 19ILO8NRa2GJn8roNVDWQExhLLQvWYnxPCUmhUFQ0IFzmKoDOvtKx+d8ZqI4TC6ICKpbSij5OQm
+ 0TBINJLxBpILA1oU8m6E+KeBxNhjlQ575HYVuYNfpyZiGH7HnX93aSEWdYfoTWoqCpC0dwXaIve
+ W3EyYhEqRBkYxdQw1bLjL9ZswWwUjx7KswdI8ALuY3/r986MYAfluEQODKnNKDWt+yKAaQyI/6L
+ xzg0mf8lR2gdAEodD6m8ZIxd3yl2QdNufKJi+i3PapFG4Bq332SmuCY=
+X-Received: by 2002:a05:6a00:2d8e:b0:740:6f69:f52a with SMTP id
+ d2e1a72fcca58-7489cd5c0b9mr26579011b3a.0.1750309832741; 
+ Wed, 18 Jun 2025 22:10:32 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IEA/WHenrVOufZGpGW9L1DNeVeFkF/dZeZeaY+6zyszeiKYWdLj6ZMmiPckF+pSaxxsR2z9iQ==
+X-Received: by 2002:a05:6a00:2d8e:b0:740:6f69:f52a with SMTP id
+ d2e1a72fcca58-7489cd5c0b9mr26578984b3a.0.1750309832315; 
+ Wed, 18 Jun 2025 22:10:32 -0700 (PDT)
+Received: from hu-ekangupt-hyd.qualcomm.com ([202.46.23.25])
+ by smtp.gmail.com with ESMTPSA id
+ d2e1a72fcca58-748900e3a09sm12124060b3a.180.2025.06.18.22.10.28
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 18 Jun 2025 22:10:31 -0700 (PDT)
+From: Ekansh Gupta <ekansh.gupta@oss.qualcomm.com>
+To: srinivas.kandagatla@linaro.org, linux-arm-msm@vger.kernel.org
+Cc: gregkh@linuxfoundation.org, quic_bkumar@quicinc.com,
+ linux-kernel@vger.kernel.org, quic_chennak@quicinc.com,
+ dri-devel@lists.freedesktop.org, arnd@arndb.de,
+ dmitry.baryshkov@oss.qualcomm.com, stable@kernel.org
+Subject: [PATCH v2] misc: fastrpc: Fix channel resource access in device_open
+Date: Thu, 19 Jun 2025 10:40:26 +0530
+Message-Id: <20250619051026.984361-1-ekansh.gupta@oss.qualcomm.com>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: BL1PR12MB5753:EE_|DS5PPF5A66AFD1C:EE_
-X-MS-Office365-Filtering-Correlation-Id: 3d42ee5a-29f4-45e9-4980-08ddaeef308f
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;ARA:13230040|376014|1800799024|366016;
-X-Microsoft-Antispam-Message-Info: =?utf-8?B?ei9udGF2eEpRVzJ5ZHI4RmtwRHFUaVZKT1FMZXF3djZ6R3NaZWhyUnhVZ1hx?=
- =?utf-8?B?QTZnakVJSDBpZ1RtRUlDMU9ZalBTeFVBYzFhZ2V4bEpVcERpREdHYjZBa3ZB?=
- =?utf-8?B?RnpOamtXazJGWlhoUTJLMmlmU0FFTnJha2VBdTJKQ01oSm02VkZwbnRTRXFu?=
- =?utf-8?B?MWxMZXQzY0ZVczRsdkJIN3pDZTNSSzJTM2ZKNVNkS0s3YUJpVTNCTTQzNmcr?=
- =?utf-8?B?MW45b1B3ejFiSjF0NHVHdExKUUtxSGI3Mys1VUlIRWJRbGZnd0hMUzc0aTV5?=
- =?utf-8?B?TDF4YjNERHRoZTZqM29ZMHBzdkRhNFQ5V1hkUE9xUzZLL2hVTXpkdldyRHly?=
- =?utf-8?B?VXBmT1lrQ3ZpRzBrbGlPRHJwWmpxZGcydVU5c3FNWUxaQ0VWdWFrcEdJY0Fh?=
- =?utf-8?B?ODlkVnpibjZvME1XM1E2bnpyT3dHc2Y1U3g2bFdIQUtXdkErZHZmVVltVzZF?=
- =?utf-8?B?eEV4MW1pV3c4QTN1TUNseHRuM3J3Y1BzWFBFWWFvSm1ZZjlmblBYRnlEZ1pQ?=
- =?utf-8?B?RGlUeU9YZHduMXh6blhTV0dxQkhpS0FtbHZIQ3RwR3ZHaTFoUTBCSUY2Um9r?=
- =?utf-8?B?d0YvbVI1QTg2eWw3SE1nQlFGY28xMnY0UndWQ2lBZ1c0bms1bUdkQTZRc1Vk?=
- =?utf-8?B?Nk1Sbng5RUhHRXpWUHZsdmtzNncwcWIraUdSSzc4T3dNY1VQZjczK1dWV1lJ?=
- =?utf-8?B?VUdWclBPSnJrWVpnTHd1WDhpUm0vTlVuUDdaT3k4MGFQUzJMbFp4VXdhUUIr?=
- =?utf-8?B?amEzYmllUUJTWkQrR3kzeS9Zb1RpckFWZUlSeERTeVArTEF5YUNienEwSVlL?=
- =?utf-8?B?MFNzSUMrVlBoU3d1dEJoUklFU1BXYmhpYnZiWVVVaVZ1ZFJrajdQUE5ZOUxt?=
- =?utf-8?B?UzRMU1dnaUQ2TW1OK0M3bXNQb1NqRlhkUGJuTHk1ZXBrWWREMlVzRzRBU1dR?=
- =?utf-8?B?ZmtTdjhoSldZMnB3bjBlVlR4QkxhRlRsN1dLRG56ZUpENFk0cUlrSjRqc0Rm?=
- =?utf-8?B?YnB5c0ZjdGwvdUo0anF1M0IrdDE1NzNtRmxKZ1daL2JVZ05kdjh1eWZXVnlx?=
- =?utf-8?B?VTBVVXllYitxTVpoYWo2MUxCekx2blpUbXhzRm9FVCtsdHJQNkhYNmRPVGpv?=
- =?utf-8?B?NFhhdE1LcGhCQkVjOEcrL1NtZWtqRytGN0tyUW9MMTY0UlRaR1U2RGdHdFNT?=
- =?utf-8?B?azB6cHE1MlF3dW84TTJCMlJJVkdVRGZ4RDl3dTBScUllTkhTQmRvcFgrNGdJ?=
- =?utf-8?B?K2VrS2lkNTlNTHM3OXdmdmVpeHZhYjMwYmNIZXRTVkcwbGJLeVFKQkpVYzdm?=
- =?utf-8?B?V056aHFCNWw3QnRLTHJpcmpFQ09RTnVQd0dYbEdRL2grYlhuTzdsWU44cEVY?=
- =?utf-8?B?cEFQbHlpRUd6V0lzMjlUWVo5T1M2bXVVMWFLaVZOVFlvUC9pQStMT0RTNE0v?=
- =?utf-8?B?U2ViTVhLc0YvUUgvLzJpR3dBYVBXSDNzeWluOWNISm5xczJsb0VhUUlrK1hv?=
- =?utf-8?B?MG9sVmNrdGV4VDBRU1Fkc2xrbWt5Z0hDVEIvMnF3TjlHOW9IRk1pTmVoeUp5?=
- =?utf-8?B?ZHh5MjJrQ2orTlVkS0FINkdOUDhLcnhnekFvT0xQeStTUVAxd3RZUU52dmF3?=
- =?utf-8?B?VmJwZEloLyt4REZ0SW5ubk04Y2NZWmRNSS9zaWNNWGZ4VE9zUEV6VDVrVDBv?=
- =?utf-8?B?MW9uSEZ3ODk2S2F2em8rWHpsUHdjaVFPZFVtRTQ1VnhkTXg2Z3JGdHdZTmpk?=
- =?utf-8?B?U0llc291eW0rSTRFYVJJMUtIeW53RHJaN3ZQUmdGZEZtTVZvSDFES1RhUEUx?=
- =?utf-8?B?bkRlY2NRQWNOeUtqaGdQd1E1T0dTS1NYOXFWWUhxSm95c3psMUtLb3d2NUZv?=
- =?utf-8?B?VVJ4SkhlRTlyZUdnVEIzZnBpV1BLSUcxMDk2czY0bFJkZ0NZL0xOVjdwWEYz?=
- =?utf-8?Q?MtX8ciJR96A=3D?=
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:BL1PR12MB5753.namprd12.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230040)(376014)(1800799024)(366016); DIR:OUT; SFP:1101; 
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?OTFuUjZ3K1d6RWYwUmNqbVlEOWZZYm1qYjhwbkJzYlROYTJYa0hCOWdLUTJz?=
- =?utf-8?B?OU5qY2xxRDhYQUJqRHlWTUNQei9rRGNYRmFWSldJOWY3d2Z0MzVPT0dCYW1X?=
- =?utf-8?B?alZkMFRCUGZhOUZYd3pwbGN6YUdML2xobmpjS2MyTW1XV0xzVFVHMy9pcDdz?=
- =?utf-8?B?MENOQmU1THdVa1dtaXQwSWxEb0xPYklVRkQ5eGpQMTRmREw2VllNY2pxVXhH?=
- =?utf-8?B?bEp2SUdpUnA3LzRaS3JCR2l2U2VSQ294cGtPVmpwV05tU1FSTzVuYUsrZkdI?=
- =?utf-8?B?VVExQURwTFlVdnFEVnVpSXpuRUQ3Q0w0YjhCMUtrRHdOYWxnTVVJQWN2cml2?=
- =?utf-8?B?TWZwS09jTmMxdDM3LzJDRDJwa2FONnE1WlJJdWROajA3c1NFcnF5UC9NYXR0?=
- =?utf-8?B?U0U0YURpbWpMc1d1Q1lNTktmU2tuTHhhK2JITTd1RGh0T3BRZ2Q5QkEyYTZw?=
- =?utf-8?B?R25ubGY2bkpPZmZ4dkZoMUVnQzB6SnNSY1VlNnFoMVdrNDF2VEI0TGxlU3VO?=
- =?utf-8?B?eWlOdldRRGRPNVVFQmxVL1V6OWZIMEMwczlhZlZ6KzRvck5tMFZBb0tPd1Vi?=
- =?utf-8?B?RHBwMzFtVzJ0aXl1TmxDTU5qOEE4Z29TSEE3TEltaUZrY25VU2JoYmNjbGZS?=
- =?utf-8?B?VERTclh5Mm1LZkNDYVNOOUl2WWZVUkhZKzNzd3V6RncwVUhoWW5CY09BTlFx?=
- =?utf-8?B?UlAvdk5FRVZHVWNwYUdpVlhGWC9uQk1RdHR0bWhFK0w2Y3pjbk1tZEhrUVNm?=
- =?utf-8?B?TUt6ald3bEtzaFBVU3VFTlJiMWh2bmNxN0xwTlFjbWlzU25tK3QyaVJRTE53?=
- =?utf-8?B?cTJONTloTXdXNHR3N083cjlRb1IrSmhwM01NclpOMHV3SjRJTHhwOEFLNzFU?=
- =?utf-8?B?c0pjemRsK0MvZ09kVWJoSVdMMktIMXhiRjhOTGVwMjZmcDVQVWhkeUppQng2?=
- =?utf-8?B?cmZQcWxyMVAyWDFDVzVmdFMvNmVua1lnSnI5TUdiWE9jS3FSenBJclpRQ0dy?=
- =?utf-8?B?MndBZmNOQ1BhVjdPTDlVL2lveUpDSGsvcVUwb0YzUnV2NEgzUFBSWEtoZHlX?=
- =?utf-8?B?YlBsdmZFTkxVTVpQclhHUXFYcDlQMnFFRlpicXA0MWpOMkhRR2lNbm1KZlUy?=
- =?utf-8?B?Z2R0LzgxZlFlV1RKc2hVZ2V6M1lMRjc1bjlNSnBSWHl5Z3kxQ3d2Y0VFMlZZ?=
- =?utf-8?B?L1h5NG84emsweXBRc1RGQ0lTcjYxZFJhT0MybTAxeEpzK01nWFROem93dzh1?=
- =?utf-8?B?Mm1pMkZpalozZXlldDVMdHlWQk9xNkZiRXFYMng0VU9CV2lNQ0huUXpteVNv?=
- =?utf-8?B?UC9ta0RYSGVXOXozbHVZSmp6SkdWd3RGL2hDWXVFZ2t4cjFaUUhFS3EzaUx0?=
- =?utf-8?B?ekdHbFNNUFltVStaY09qTGhmV0lKUVVldUtLR0p6NjAwb2J0TXNPcTN5V013?=
- =?utf-8?B?VXc1RUhDQVk4K09XZHRyRmlmNEszSkZVYmY1T3JpU2ZYNnh6VUxyWGtkUVRB?=
- =?utf-8?B?SE96am5ReVVEaUZqUE9FSVlNdHJtWmJkZ3R4dzNxTVZTMUZpczhLUXJSWEUx?=
- =?utf-8?B?MStSVTBJUzk1R2MxU2plYkR6YkU5U24ycW9YY1h3YjJndFJhT3RjaytRb2Fr?=
- =?utf-8?B?a1ZTcmszOHVzR2x2d0kwNkJFSk13WVJ0VjdLR0VPc0Z5dTdOK2tMOVdpNWxW?=
- =?utf-8?B?ekFPSndDZjZSNjVRU2RvNUdROS9lVHlLMTRhNEY4M3RGalE5RkNrRG1UcG5B?=
- =?utf-8?B?em9CZjJjd3lIQzc2QlV4RmZoZTNkdGhOZ3ExSm1KYlBiRS92bmVHc0JlV0JN?=
- =?utf-8?B?bk0zUi9lY0VIZjRvVmtVdFBHUStJZEhPeHc2UTZKTUVHTkxQMlAvaGhObUdt?=
- =?utf-8?B?bkxPaHZkMm9kUDBaTGZKOHMvU0FaZkErZTdFMDJRMjFMNzVPaVRSRklEOFM3?=
- =?utf-8?B?SzRDNDg4dlVOMlMzMkFBQ0s1YWo3bGovaVZDMTlmQlpSWTZCRUY5bkVxeUNH?=
- =?utf-8?B?MTl0dUl4K3ZtTXRGdTVDMEpKSTczNklOZ1VzOVJRL252ZmVmcVBpTHFNUlg0?=
- =?utf-8?B?QWtWd0RxZFNhWDJhb2duWVJWY1NsN2pZQnlvVUcxYmlOUzY2T0U1L1lvd0NP?=
- =?utf-8?Q?3Ld6veYGLazZKLbVUBipQN7sF?=
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 3d42ee5a-29f4-45e9-4980-08ddaeef308f
-X-MS-Exchange-CrossTenant-AuthSource: BL1PR12MB5753.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 19 Jun 2025 05:07:29.4570 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: oJk+3s5vdVNBqBtePLkr8ZtdUmHhNR2eFvmIK1InAE4RHopJTPUG5C4kr8CSwFzuteIKKBGfsVBm3w3ZUgGowg==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DS5PPF5A66AFD1C
+Content-Transfer-Encoding: 8bit
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwNjE5MDA0MiBTYWx0ZWRfX+RCxwZJGn7XV
+ aMFWvSEl11y+HLsWiRoheoA4dLLXCXnhdESNqC79FEuugpYW9v+m1hIGU+7y514T0gpEKLyoUoO
+ 4J8311QA8eWc63wOyQWAaJx/xAhb4X3S6S6SpcI4ParT4XzOj2x61pgYAlSllZDp+p1sdc8N0Qf
+ 2IJUyugoC3aSABMsmLQ0F5xcb7PQfXSOrIdZN02UEMNwjmx0k8pNvc1KN9KvX3UPvgibI66uOot
+ qeA28nEJ8vdI41r6WjYPhNhrZFNWu58MRyVTW7UtN2/3APKXlTCTB3c5ENfxXfhvEgosLSg8lL/
+ CdBBPZPpPDps/l3aqoOTmvxMLEJ1S/BFUNd+ei0hV1cndnOjbuuKeTOMZZbqNeNlA6CLQykDwcP
+ RdNwvCMix6uWbrRmP2RhBtR1EEdZ+WoVogLSjpcmjcNqHqoYOUvK0jKuMwhSOTzTi+wr3yyd
+X-Authority-Analysis: v=2.4 cv=fvbcZE4f c=1 sm=1 tr=0 ts=68539bc9 cx=c_pps
+ a=WW5sKcV1LcKqjgzy2JUPuA==:117 a=ZePRamnt/+rB5gQjfz0u9A==:17
+ a=6IFa9wvqVegA:10 a=VwQbUJbxAAAA:8 a=EUspDBNiAAAA:8 a=pYQKlj0DQmeGCljNor0A:9
+ a=OpyuDcXvxspvyRM73sMx:22
+X-Proofpoint-GUID: vLJdB3Ud-ybTrSeu3Gmw4lDxc4_81leo
+X-Proofpoint-ORIG-GUID: vLJdB3Ud-ybTrSeu3Gmw4lDxc4_81leo
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1099,Hydra:6.0.736,FMLib:17.12.80.40
+ definitions=2025-06-19_01,2025-06-18_03,2025-03-28_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ malwarescore=0 lowpriorityscore=0 bulkscore=0 priorityscore=1501
+ mlxlogscore=999 phishscore=0 clxscore=1015 mlxscore=0 impostorscore=0
+ adultscore=0 spamscore=0 suspectscore=0 classifier=spam authscore=0
+ authtc=n/a authcc= route=outbound adjust=0 reason=mlx scancount=1
+ engine=8.19.0-2505280000 definitions=main-2506190042
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -165,222 +119,79 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+During rpmsg_probe, fastrpc device nodes are created first, then
+channel specific resources are initialized, followed by
+of_platform_populate, which triggers context bank probing. This
+sequence can cause issues as applications might open the device
+node before channel resources are initialized or the session is
+available, leading to problems. For example, spin_lock is initialized
+after the device node creation, but it is used in device_open,
+potentially before initialization. Move device registration after
+channel resource initialization in fastrpc_rpmsg_probe.
 
-On 6/18/2025 7:38 PM, Christian König wrote:
-> On 6/18/25 15:47, Sunil Khatri wrote:
->> move the functions from drm_drv.c which uses the static
->> drm_debugfs_root as parent node in the debugfs by drm.
->>
->> move this root node to the debugfs for easily handling
->> of future requirements to add more information in the
->> root directory and one of which is planned to have
->> directories for each client in the root directory
->> which is dri.
->>
->> Suggested-by: Christian König <christian.koenig@amd.com>
->> Signed-off-by: Sunil Khatri <sunil.khatri@amd.com>
->> ---
->>   drivers/gpu/drm/drm_debugfs.c  | 22 ++++++++++++++++++----
->>   drivers/gpu/drm/drm_drv.c      | 11 ++++-------
->>   drivers/gpu/drm/drm_internal.h |  6 ++----
->>   include/drm/drm_drv.h          | 10 ++++++++++
->>   4 files changed, 34 insertions(+), 15 deletions(-)
->>
->> diff --git a/drivers/gpu/drm/drm_debugfs.c b/drivers/gpu/drm/drm_debugfs.c
->> index 2d43bda82887..5a33ec299c04 100644
->> --- a/drivers/gpu/drm/drm_debugfs.c
->> +++ b/drivers/gpu/drm/drm_debugfs.c
->> @@ -44,6 +44,8 @@
->>   #include "drm_crtc_internal.h"
->>   #include "drm_internal.h"
->>   
->> +static struct dentry *drm_debugfs_root;
->> +
->>   /***************************************************
->>    * Initialization, etc.
->>    **************************************************/
->> @@ -286,6 +288,16 @@ int drm_debugfs_remove_files(const struct drm_info_list *files, int count,
->>   }
->>   EXPORT_SYMBOL(drm_debugfs_remove_files);
->>   
->> +void drm_debugfs_create_dir(void)
-> I think we need a better name for this. drm_debugfs_init_root maybe? Ideas welcome.
+Fixes: f6f9279f2bf0e ("misc: fastrpc: Add Qualcomm fastrpc basic driver model")
+Cc: stable@kernel.org
+Signed-off-by: Ekansh Gupta <ekansh.gupta@oss.qualcomm.com>
+---
+Patch v1: https://lore.kernel.org/all/20250517072432.1331803-1-ekansh.gupta@oss.qualcomm.com/
+Changes in v2:
+  - Moved device registration after channel resource initialization
+    to resolve the problem.
+  - Modified commit text accordingly.
 
-Sounds good to me.
+ drivers/misc/fastrpc.c | 32 ++++++++++++++++----------------
+ 1 file changed, 16 insertions(+), 16 deletions(-)
 
-Regards
-Sunil Khatri
+diff --git a/drivers/misc/fastrpc.c b/drivers/misc/fastrpc.c
+index 378923594f02..f9a2ab82d823 100644
+--- a/drivers/misc/fastrpc.c
++++ b/drivers/misc/fastrpc.c
+@@ -2326,6 +2326,22 @@ static int fastrpc_rpmsg_probe(struct rpmsg_device *rpdev)
+ 	secure_dsp = !(of_property_read_bool(rdev->of_node, "qcom,non-secure-domain"));
+ 	data->secure = secure_dsp;
+ 
++	kref_init(&data->refcount);
++
++	dev_set_drvdata(&rpdev->dev, data);
++	rdev->dma_mask = &data->dma_mask;
++	dma_set_mask_and_coherent(rdev, DMA_BIT_MASK(32));
++	INIT_LIST_HEAD(&data->users);
++	INIT_LIST_HEAD(&data->invoke_interrupted_mmaps);
++	spin_lock_init(&data->lock);
++	idr_init(&data->ctx_idr);
++	data->domain_id = domain_id;
++	data->rpdev = rpdev;
++
++	err = of_platform_populate(rdev->of_node, NULL, NULL, rdev);
++	if (err)
++		goto err_free_data;
++
+ 	switch (domain_id) {
+ 	case ADSP_DOMAIN_ID:
+ 	case MDSP_DOMAIN_ID:
+@@ -2353,22 +2369,6 @@ static int fastrpc_rpmsg_probe(struct rpmsg_device *rpdev)
+ 		goto err_free_data;
+ 	}
+ 
+-	kref_init(&data->refcount);
+-
+-	dev_set_drvdata(&rpdev->dev, data);
+-	rdev->dma_mask = &data->dma_mask;
+-	dma_set_mask_and_coherent(rdev, DMA_BIT_MASK(32));
+-	INIT_LIST_HEAD(&data->users);
+-	INIT_LIST_HEAD(&data->invoke_interrupted_mmaps);
+-	spin_lock_init(&data->lock);
+-	idr_init(&data->ctx_idr);
+-	data->domain_id = domain_id;
+-	data->rpdev = rpdev;
+-
+-	err = of_platform_populate(rdev->of_node, NULL, NULL, rdev);
+-	if (err)
+-		goto err_deregister_fdev;
+-
+ 	return 0;
+ 
+ err_deregister_fdev:
+-- 
+2.34.1
 
->
->> +{
->> +	drm_debugfs_root = debugfs_create_dir("dri", NULL);
->> +}
->> +
->> +void drm_debugfs_remove_dir(void)
->> +{
->> +	debugfs_remove(drm_debugfs_root);
->> +}
->> +
->>   /**
->>    * drm_debugfs_dev_init - create debugfs directory for the device
->>    * @dev: the device which we want to create the directory for
->> @@ -295,7 +307,10 @@ EXPORT_SYMBOL(drm_debugfs_remove_files);
->>    */
->>   void drm_debugfs_dev_init(struct drm_device *dev, struct dentry *root)
->>   {
->> -	dev->debugfs_root = debugfs_create_dir(dev->unique, root);
->> +	if (!root)
->> +		dev->debugfs_root = debugfs_create_dir(dev->unique, drm_debugfs_root);
->> +	else
->> +		dev->debugfs_root = debugfs_create_dir(dev->unique, root);
-> Ah! That is also used from the accel subsystem, isn't it?
-Yes
->
-> Probably best to move accel_debugfs_root into this here as well and distinct based on drm_core_check_feature(dev, DRIVER_COMPUTE_ACCEL) where to create the debugfs directory.
->
-> We probably need the same distinction for other use cases as well, so probably best to create a helper function for that.
-I did explore that accel_debugfs_init in file drivers/accel/drm_accel.c 
-and i dont think of a clear and acceptable design. It is a different 
-module all together and we dont want to create debugfs directory for it 
-in drm code. If the module fail for some reason and also removing the 
-debugfs directory is another problem. We do not know when we want to 
-init/exit the module.
-
-The approach that i used is that drm_debugfs_dev_init is used by other 
-module(right now there is one but we never know in future) as well as 
-drm itself. The parent node is passed by the caller and for drm itself 
-the parent node is defined statically.  So with the approach i took is 
-if parent node is NULL its an internal call within drm and we can 
-directly use the the static dentry i.e drm_debugfs_root.
-
-
-Can we move below call from accel_core_init to drm_debugfs.c although 
-its a different module all together for accel ??
-
-accel_debugfs_root = debugfs_create_dir("accel", NULL);
-
->
-> Apart from that looks really good to me.
->
-> Regards,
-> Christian.
->
->>   }
->>   
->>   /**
->> @@ -322,14 +337,13 @@ void drm_debugfs_dev_register(struct drm_device *dev)
->>   		drm_atomic_debugfs_init(dev);
->>   }
->>   
->> -int drm_debugfs_register(struct drm_minor *minor, int minor_id,
->> -			 struct dentry *root)
->> +int drm_debugfs_register(struct drm_minor *minor, int minor_id)
->>   {
->>   	struct drm_device *dev = minor->dev;
->>   	char name[64];
->>   
->>   	sprintf(name, "%d", minor_id);
->> -	minor->debugfs_symlink = debugfs_create_symlink(name, root,
->> +	minor->debugfs_symlink = debugfs_create_symlink(name, drm_debugfs_root,
->>   							dev->unique);
->>   
->>   	/* TODO: Only for compatibility with drivers */
->> diff --git a/drivers/gpu/drm/drm_drv.c b/drivers/gpu/drm/drm_drv.c
->> index 17fc5dc708f4..8abc52eac8f3 100644
->> --- a/drivers/gpu/drm/drm_drv.c
->> +++ b/drivers/gpu/drm/drm_drv.c
->> @@ -69,8 +69,6 @@ DEFINE_XARRAY_ALLOC(drm_minors_xa);
->>    */
->>   static bool drm_core_init_complete;
->>   
->> -static struct dentry *drm_debugfs_root;
->> -
->>   DEFINE_STATIC_SRCU(drm_unplug_srcu);
->>   
->>   /*
->> @@ -183,8 +181,7 @@ static int drm_minor_register(struct drm_device *dev, enum drm_minor_type type)
->>   		return 0;
->>   
->>   	if (minor->type != DRM_MINOR_ACCEL) {
->> -		ret = drm_debugfs_register(minor, minor->index,
->> -					   drm_debugfs_root);
->> +		ret = drm_debugfs_register(minor, minor->index);
->>   		if (ret) {
->>   			DRM_ERROR("DRM: Failed to initialize /sys/kernel/debug/dri.\n");
->>   			goto err_debugfs;
->> @@ -754,7 +751,7 @@ static int drm_dev_init(struct drm_device *dev,
->>   	if (drm_core_check_feature(dev, DRIVER_COMPUTE_ACCEL))
->>   		accel_debugfs_init(dev);
->>   	else
->> -		drm_debugfs_dev_init(dev, drm_debugfs_root);
->> +		drm_debugfs_dev_init(dev, NULL);
->>   
->>   	return 0;
->>   
->> @@ -1168,7 +1165,7 @@ static void drm_core_exit(void)
->>   	drm_panic_exit();
->>   	accel_core_exit();
->>   	unregister_chrdev(DRM_MAJOR, "drm");
->> -	debugfs_remove(drm_debugfs_root);
->> +	drm_debugfs_remove_dir();
->>   	drm_sysfs_destroy();
->>   	WARN_ON(!xa_empty(&drm_minors_xa));
->>   	drm_connector_ida_destroy();
->> @@ -1187,7 +1184,7 @@ static int __init drm_core_init(void)
->>   		goto error;
->>   	}
->>   
->> -	drm_debugfs_root = debugfs_create_dir("dri", NULL);
->> +	drm_debugfs_create_dir();
->>   
->>   	ret = register_chrdev(DRM_MAJOR, "drm", &drm_stub_fops);
->>   	if (ret < 0)
->> diff --git a/drivers/gpu/drm/drm_internal.h b/drivers/gpu/drm/drm_internal.h
->> index b2b6a8e49dda..d2d8e72f32d9 100644
->> --- a/drivers/gpu/drm/drm_internal.h
->> +++ b/drivers/gpu/drm/drm_internal.h
->> @@ -186,8 +186,7 @@ void drm_gem_vunmap(struct drm_gem_object *obj, struct iosys_map *map);
->>   #if defined(CONFIG_DEBUG_FS)
->>   void drm_debugfs_dev_fini(struct drm_device *dev);
->>   void drm_debugfs_dev_register(struct drm_device *dev);
->> -int drm_debugfs_register(struct drm_minor *minor, int minor_id,
->> -			 struct dentry *root);
->> +int drm_debugfs_register(struct drm_minor *minor, int minor_id);
->>   void drm_debugfs_unregister(struct drm_minor *minor);
->>   void drm_debugfs_connector_add(struct drm_connector *connector);
->>   void drm_debugfs_connector_remove(struct drm_connector *connector);
->> @@ -205,8 +204,7 @@ static inline void drm_debugfs_dev_register(struct drm_device *dev)
->>   {
->>   }
->>   
->> -static inline int drm_debugfs_register(struct drm_minor *minor, int minor_id,
->> -				       struct dentry *root)
->> +static inline int drm_debugfs_register(struct drm_minor *minor, int minor_id)
->>   {
->>   	return 0;
->>   }
->> diff --git a/include/drm/drm_drv.h b/include/drm/drm_drv.h
->> index a43d707b5f36..4e77a0c4a7f9 100644
->> --- a/include/drm/drm_drv.h
->> +++ b/include/drm/drm_drv.h
->> @@ -567,10 +567,20 @@ static inline bool drm_firmware_drivers_only(void)
->>   
->>   #if defined(CONFIG_DEBUG_FS)
->>   void drm_debugfs_dev_init(struct drm_device *dev, struct dentry *root);
->> +void drm_debugfs_create_dir(void);
->> +void drm_debugfs_remove_dir(void);
->>   #else
->>   static inline void drm_debugfs_dev_init(struct drm_device *dev, struct dentry *root)
->>   {
->>   }
->> +
->> +static inline void drm_debugfs_create_dir(void)
->> +{
->> +}
->> +
->> +static inline void drm_debugfs_remove_dir(void)
->> +{
->> +}
->>   #endif
->>   
->>   #endif
