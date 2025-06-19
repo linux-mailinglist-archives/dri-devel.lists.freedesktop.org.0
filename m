@@ -2,96 +2,91 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3E955ADFCF5
-	for <lists+dri-devel@lfdr.de>; Thu, 19 Jun 2025 07:31:22 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8CA00ADFCF7
+	for <lists+dri-devel@lfdr.de>; Thu, 19 Jun 2025 07:34:55 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6EF8510E1F9;
-	Thu, 19 Jun 2025 05:31:19 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id ACD3810E997;
+	Thu, 19 Jun 2025 05:34:52 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="WEVZBWjg";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="b95uRwxp";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.14])
- by gabe.freedesktop.org (Postfix) with ESMTPS id F1B3610E1F9
- for <dri-devel@lists.freedesktop.org>; Thu, 19 Jun 2025 05:31:17 +0000 (UTC)
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.18])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4B5DC10E997
+ for <dri-devel@lists.freedesktop.org>; Thu, 19 Jun 2025 05:34:51 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1750311078; x=1781847078;
+ t=1750311291; x=1781847291;
  h=from:to:cc:subject:date:message-id:references:
  in-reply-to:content-transfer-encoding:mime-version;
- bh=kxJ3SLQeGj2iSyaTHx0jG1RFhkjDcoTq1h5iWFhL2u4=;
- b=WEVZBWjgIj0OQFg0Fk70Gf29nCtG/F/XXuy9HiU4sW15z5DyltL1vRDP
- StRZ/sg+WCpTXtEOy4SjFMTEFwZfW841xaC2RH0C+7CzcnswS9mp4NbN7
- 9QVdHWeVYAw0JqEYU4vXl6ccJlBpKkvvEBXULBoHzjXf59ABqBB6VL+eA
- rerdNtPKb8s8aVIL9YKZqCXYZcig7ZWB4OhSYrxu1U3OWlfxY2D3WFMUf
- DAGbBWWB16Zb8SWR5P+t9WkFKrk+ox52dnFPypuk37dqENhIyMDDtTUUF
- P9HKAgZcaEhNvIXeV2+VgHuDTwSKlPknr1WmbFOuN24wSrsy0AgL3VsPY g==;
-X-CSE-ConnectionGUID: vE00jMfzSoe2zW4sEAShFw==
-X-CSE-MsgGUID: UVC4JheBQ9GxMeuUZBuIeA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11468"; a="52635911"
-X-IronPort-AV: E=Sophos;i="6.16,247,1744095600"; d="scan'208";a="52635911"
-Received: from fmviesa007.fm.intel.com ([10.60.135.147])
- by fmvoesa108.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 18 Jun 2025 22:31:18 -0700
-X-CSE-ConnectionGUID: RA6U9kmsQCSM9G6jL/NifA==
-X-CSE-MsgGUID: J4Xmck0QRCipvFX/knKPBA==
+ bh=s9MLdWn4zNg2GyzW9XCIYLNcs2TzvzBxCgNvn0a12so=;
+ b=b95uRwxpZqxHZn4v21Ea3eVioRoNZqYMpG/tXfahgNXJENZJr+fUXUXs
+ nLYUAkm57Wgqofk+ijO8BI3+XBXprGY2SZirYdnE58t1VjuQRJ5lQw5+z
+ QdI5T/sqTuYkxTYW2uv3IMfNF52LkkQ5e4UrK/90U22QCNLF/9DvkqTrA
+ Oe07jA2UU9DRwJtn7SsSm68rLzT78eLRs3xLjZthEXcv+/eLQJGJve2sp
+ 13W6Re5l9HFrB9djsqEaO6oaqmmCoKZAcgerdX2adjTmVa0MmSERl6jb9
+ ZuEq85NOJohskZZPLZCOvgavUs5ez7kqHf6dftUAKlh1S/Lp0em2EQ1t8 A==;
+X-CSE-ConnectionGUID: ZiFVUcuDTW2Fg/OOjQtSPw==
+X-CSE-MsgGUID: pM4GXZOVSE+C2fegOJHjlg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11468"; a="51786264"
+X-IronPort-AV: E=Sophos;i="6.16,247,1744095600"; d="scan'208";a="51786264"
+Received: from fmviesa010.fm.intel.com ([10.60.135.150])
+ by fmvoesa112.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 18 Jun 2025 22:34:46 -0700
+X-CSE-ConnectionGUID: EszgmaB6S7u2yWLYYiQ1sA==
+X-CSE-MsgGUID: UYwK/H1UTq+wivqyqs9PTA==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.16,247,1744095600"; d="scan'208";a="150067943"
-Received: from orsmsx901.amr.corp.intel.com ([10.22.229.23])
- by fmviesa007.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 18 Jun 2025 22:31:10 -0700
-Received: from ORSMSX901.amr.corp.intel.com (10.22.229.23) by
- ORSMSX901.amr.corp.intel.com (10.22.229.23) with Microsoft SMTP Server
+X-IronPort-AV: E=Sophos;i="6.16,247,1744095600"; d="scan'208";a="151116392"
+Received: from orsmsx903.amr.corp.intel.com ([10.22.229.25])
+ by fmviesa010.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 18 Jun 2025 22:34:41 -0700
+Received: from ORSMSX902.amr.corp.intel.com (10.22.229.24) by
+ ORSMSX903.amr.corp.intel.com (10.22.229.25) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.1544.25; Wed, 18 Jun 2025 22:31:09 -0700
+ 15.2.1544.25; Wed, 18 Jun 2025 22:34:40 -0700
 Received: from ORSEDG902.ED.cps.intel.com (10.7.248.12) by
- ORSMSX901.amr.corp.intel.com (10.22.229.23) with Microsoft SMTP Server
+ ORSMSX902.amr.corp.intel.com (10.22.229.24) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.1544.25 via Frontend Transport; Wed, 18 Jun 2025 22:31:09 -0700
-Received: from NAM04-BN8-obe.outbound.protection.outlook.com (40.107.100.67)
+ 15.2.1544.25 via Frontend Transport; Wed, 18 Jun 2025 22:34:40 -0700
+Received: from NAM11-BN8-obe.outbound.protection.outlook.com (40.107.236.69)
  by edgegateway.intel.com (134.134.137.112) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.1544.25; Wed, 18 Jun 2025 22:31:08 -0700
+ 15.2.1544.25; Wed, 18 Jun 2025 22:34:40 -0700
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=a6zsvIoOoucfPGeVVqgVvOvIODdiBsKWLhkqvvYN6HtnXLq1Mc6fIw2meBFpE6wl/DuZvZdd4Qk+J7Iad6jksPfOpI7HMwM7g8TvZZRYvREFcHc8IWlj0W7gjw5ekEVBUrNLK1Q0nVJOMlH+X7lgTM50l187mlWsm7QqUOO6NOCPi67oJYjGs7S1c4mO9hQbgJKBeR9ewEYN/PayXThKlssRSzgRc7MWKzN7yT0Scl4GW+paB2TXWJn67ktIhOsJGVYD2nVNo2nC+Bo4l9wk9pIL3wl6DFww1/qNsqSLJP1/D2CXAUQx+umgKX7RfV4iMXXq8rysv5z2kBOe8Y4cWQ==
+ b=K0bVgZAT1G6aBr5jCci38Z65uhT00KRFlgBQr8HhCM1puSXdADYYGgW9Nic9spaO+o8e3U5mSK6QJ4v2ZUrOLF55WK/oNYErC5u/amEqoBoHLG0ct96NZhwCfU/U2Pmu1ha8HcFDToHpNf0jSShlojpkelOnlZrRUVKXdMrfc5wSlC8eo5ZvZ6tZ9SlwwHhHDm7qpX2XQSg6nTR1GxJdEIbFBrqhc0dw+oN379wJJWKHD7YLLs/nXUat7OtFOyJLHb+TfAVaToZRZaRwRv05rEPGcOiMrqgk02pZmjZsoG6WnOrHTQbTzZUVckYy0mgoAifFgFInc72VFD5z8xT+rg==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=k44cs322EmW+WeNMjbDDRNdxJZxe7jC72v4+cyeMwiI=;
- b=MIIBSuoYayIkuf71WMHqENWSeyjjpNZsZiweYnaqDWtaQeel2NCOmOuxl0p+f0Szkv5THULIRQQIpOHSqIXTbFiPqol/G07Pr+VQOE1a2Eo4jHeSA49TLUUZwaOprSj+YoKaQAhmtDju01VjPFlcQH11PVKSRWVm3TUHf2Hb0reiJcNsAwRTX9LcNr/Jsn7/N7Z1CBEEcJyIA1+civ1sX/UMVhdRS4BcoJRBvViMowgjJxh+7ufvuWle+P1qC3gnnkNn8MGxLzIHLy0NXQcRyem3SXJFbPv10VFZHHW2dq9WmKcYvmWNN3tVcLCa3ZWDDGf1bZhFDJQ7r3WAAfuvfg==
+ bh=cMIJtOQLQ8q4wGetjmTWhCk8NirR7Lh2RkyUzZgnuNw=;
+ b=Rbipns9jqlppGfJtIi6F4BNvbjA1qsZ2kzfIbaMpky0pFtDHFzBCXGcxtyvDNcPmeQ3Lj5G6ndTTGcz2o3HQ4c5QUqdR4F0LpIV1n1JBBQqJZp+RR5Q6YLNw+jNOZP9tfnz7KOc93euSRASigs0Wq4TtfJXlOXazVXlHW45ZSNaDdmvIyDcerbKvcvpaDiAwbm63gaksUtBvizklA/TR0alsGAqPbJmLBgOmRi064LTLuC58eWKSYQDzgg+tmOD1McW1/o1dnb/8PQgKP+OGS54wnVpqPloJ46G/JhPpvExU0nVClW9zliJNquwep1hIce+0ASt1jG9+lvOUYggrLQ==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
  dkim=pass header.d=intel.com; arc=none
 Received: from IA0PR11MB7185.namprd11.prod.outlook.com (2603:10b6:208:432::20)
- by SJ0PR11MB6717.namprd11.prod.outlook.com (2603:10b6:a03:44f::9)
+ by PH7PR11MB7430.namprd11.prod.outlook.com (2603:10b6:510:274::20)
  with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8835.29; Thu, 19 Jun
- 2025 05:30:52 +0000
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8835.25; Thu, 19 Jun
+ 2025 05:34:24 +0000
 Received: from IA0PR11MB7185.namprd11.prod.outlook.com
  ([fe80::dd3b:ce77:841a:722b]) by IA0PR11MB7185.namprd11.prod.outlook.com
  ([fe80::dd3b:ce77:841a:722b%3]) with mapi id 15.20.8857.020; Thu, 19 Jun 2025
- 05:30:52 +0000
+ 05:34:23 +0000
 From: "Kasireddy, Vivek" <vivek.kasireddy@intel.com>
-To: Andrew Morton <akpm@linux-foundation.org>, Anshuman Khandual
- <anshuman.khandual@arm.com>
+To: Oscar Salvador <osalvador@suse.de>
 CC: "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
- "linux-mm@kvack.org" <linux-mm@kvack.org>,
- "syzbot+a504cb5bae4fe117ba94@syzkaller.appspotmail.com"
- <syzbot+a504cb5bae4fe117ba94@syzkaller.appspotmail.com>, Steve Sistare
+ "linux-mm@kvack.org" <linux-mm@kvack.org>, Steve Sistare
  <steven.sistare@oracle.com>, Muchun Song <muchun.song@linux.dev>, "David
- Hildenbrand" <david@redhat.com>, Oscar Salvador <osalvador@suse.de>
-Subject: RE: [PATCH] mm/hugetlb: Don't crash when allocating a folio if there
- are no resv
-Thread-Topic: [PATCH] mm/hugetlb: Don't crash when allocating a folio if there
- are no resv
-Thread-Index: AQHb4BJSsw569givP0yLQ5888kYOd7QIeNSAgAEiAgCAACD6UA==
-Date: Thu, 19 Jun 2025 05:30:52 +0000
-Message-ID: <IA0PR11MB71859403C79419049C075E44F87DA@IA0PR11MB7185.namprd11.prod.outlook.com>
-References: <20250618052840.1036164-1-vivek.kasireddy@intel.com>
- <99b9f7c8-62e0-4500-b4f1-0efdb73bf502@arm.com>
- <20250618170248.89ff5c3d3fe23233424fd4da@linux-foundation.org>
-In-Reply-To: <20250618170248.89ff5c3d3fe23233424fd4da@linux-foundation.org>
+ Hildenbrand" <david@redhat.com>, Andrew Morton <akpm@linux-foundation.org>
+Subject: RE: [PATCH v4 2/3] mm/memfd: Reserve hugetlb folios before allocation
+Thread-Topic: [PATCH v4 2/3] mm/memfd: Reserve hugetlb folios before allocation
+Thread-Index: AQHb4BL6pY3gQ0JXi0KeW+QFNzyjlLQIigMAgAFeS9A=
+Date: Thu, 19 Jun 2025 05:34:23 +0000
+Message-ID: <IA0PR11MB7185700685CEE03EB5A920E8F87DA@IA0PR11MB7185.namprd11.prod.outlook.com>
+References: <20250618053415.1036185-1-vivek.kasireddy@intel.com>
+ <20250618053415.1036185-3-vivek.kasireddy@intel.com>
+ <aFJuzKPG-7t_oflN@localhost.localdomain>
+In-Reply-To: <aFJuzKPG-7t_oflN@localhost.localdomain>
 Accept-Language: en-US
 Content-Language: en-US
 X-MS-Has-Attach: 
@@ -99,79 +94,80 @@ X-MS-TNEF-Correlator:
 authentication-results: dkim=none (message not signed)
  header.d=none;dmarc=none action=none header.from=intel.com;
 x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: IA0PR11MB7185:EE_|SJ0PR11MB6717:EE_
-x-ms-office365-filtering-correlation-id: 56c53578-73e9-4cbf-03dd-08ddaef274f8
+x-ms-traffictypediagnostic: IA0PR11MB7185:EE_|PH7PR11MB7430:EE_
+x-ms-office365-filtering-correlation-id: e15c9655-76f2-4247-93fd-08ddaef2f30c
 x-ms-exchange-senderadcheck: 1
 x-ms-exchange-antispam-relay: 0
 x-microsoft-antispam: BCL:0; ARA:13230040|376014|1800799024|366016|38070700018;
-x-microsoft-antispam-message-info: =?us-ascii?Q?j80Yjuqfaq4fQqEWUZCqgh3aMbB6z+/YYFl3spcWRed/tsAYpwT/xJy7HNum?=
- =?us-ascii?Q?J9AzJA356bruM3c7oRIlsCrBR3HCdN1MYI4uPpkxSBW3LTWBMrftQdRxIt5J?=
- =?us-ascii?Q?UWuHyrdwP8OwmE048YiDR8uJWB2JA1cwi6osJDeVWYnF8ovtVJWV67IbKxOj?=
- =?us-ascii?Q?R0uLskSXJ44hFQt5GyehQRrU378SFa0iwpnXS2j/dDs1/0FZIteV4GaMlNyw?=
- =?us-ascii?Q?ahcAjRNuhXskYY/Er9J6lOfYBgX+Y5MYeO6DSRwJP/fghUSRRedkT5XCDUqp?=
- =?us-ascii?Q?MhetI+LEGXXaN+Z602cH/Pb3zFnHcwD4R0mBtG9M1p6B4sbob/ztzT2JJy4E?=
- =?us-ascii?Q?4sA2uEBMqevolMQLDblJMN2GFIxP7los4UxdJMQrvufiODvVQsfhL/474VBf?=
- =?us-ascii?Q?ZA6OKC8QZYfeTq7xZpkVDq7ObP7MgxcSdzLFSNph2EzRNym7FYcyPMThpuDR?=
- =?us-ascii?Q?OmhAugEewAuIV8j7fT506s0OXfiAkZ8WSPsnYHU2UVyiih4e1lP8jlhnS4sk?=
- =?us-ascii?Q?LCvWBQYLXn/2exNlxAH1f0dzhCB17tFxqw7fFVT7zUxeOHgIjX7674orTRUg?=
- =?us-ascii?Q?jizcoy4h1CdeYMxKEAJLhUpfb8hcxKaAtKSKYBM2bXPXDxSm1eF74mIdrt3W?=
- =?us-ascii?Q?/w+/J74rA3EPOPC5Q63wmwWDCGoDoPMVBSR82aRxmAwOUBYbDE+QDLfphjjG?=
- =?us-ascii?Q?luPLQR0Eg0Db/GNkpZRejL0SRqneigv74wrpFTquCL+GJKaWCOUddZag/p6p?=
- =?us-ascii?Q?SOIwBG70ps9DCaXhFSWL3GAKy80cWtl7z4KoGL5Pnwa1zjGSik21TK4b1N88?=
- =?us-ascii?Q?xV1+QPqbBNpmjjSgmoEbR/iLSzEMUd4LDaytJQGMfKQRYKJL3r5DOPInqfQy?=
- =?us-ascii?Q?TvNQrQcUi0FsPb1ObZUZzWgOu4uxMw1zDY+9giP2kPNJ4ip/lGUgc8KD8wkN?=
- =?us-ascii?Q?ARq1zN+xNSaudGunfgBksdyiJpC63tlAeHKSGhEwuB7i+R+Sbh5ZOu3xVZPW?=
- =?us-ascii?Q?1gEUmITF+rKxyoZHiMier7/7JOKeYq7E7QjtLcg8iBIYP+lCbw5TbdHUua5V?=
- =?us-ascii?Q?DVyS83M9tApnMcUAJKotDtomLc0KE8DIIrnk7pwafL/3VNKmSVJWuRquQzbL?=
- =?us-ascii?Q?e5ne9C7sFOrMWpY+CloVCZijNbl92GYKUUiqracSX5B39jJeyBpgriy1a/fx?=
- =?us-ascii?Q?KXEKZjWsx74tHvCSbtIQb60F/LwKstOn6K3Mc4i87MINq2msBunmuKR6ENFt?=
- =?us-ascii?Q?OkRUGMncPpolBS8COty9wr7WizyVWVrNsb2ThDz8Yk+xCRwtvaFtsZQ8zQt5?=
- =?us-ascii?Q?18ZdEDdq9Bgbz0Bjsey5Bq3uwnYUfkvuAooFEzMOud4NJNRh5CHzDM9UP9Bp?=
- =?us-ascii?Q?2zGbbMzwuB3V0uqSNAF53zUYgfwIYPwtFG24LphOl3qMEi24QVG9vX4klrtT?=
- =?us-ascii?Q?4Td0g8wRyIRpOjf0ZcTqKfdRPbICdPLy?=
+x-microsoft-antispam-message-info: =?us-ascii?Q?i5qOIFGbXX01GzAIaDu2bEHVtzzcMLBB6ZLaJszFiyMnvflQ3Dbdgab1Vl+V?=
+ =?us-ascii?Q?1IwIlu2uVFux89zh3Ts+nhJXD0XTznVdwli2/3Xvydebne9wszPKjMWJgIFi?=
+ =?us-ascii?Q?fPf2NH8PcYGqE/Ljj6HY6O0lGiDbSUf+2PayL00/VPABoe9EyDfzYvylZRzD?=
+ =?us-ascii?Q?z/KsZmpG5kpxU6wdLjXPXGs8r9xumXPrxYu6Y+M8OgojGV6SJEvsFdfggqct?=
+ =?us-ascii?Q?qa+7KM+DbPvBqeTAcTa3p9D8ELJIiCbVu/C+SYWi5hfLgSGr4TAf7301SMUK?=
+ =?us-ascii?Q?DKV9YrxRBG2xMf2kFGSd/UvOtpF7WcJB5xyQsh2OG8JtIR7Um8An5s9M3vHC?=
+ =?us-ascii?Q?JyYCN0SG4JDWZRfGNIyyp1T1WCT6nc7ssDXJrvGOWmauLKKBQPHT2vI6z6cS?=
+ =?us-ascii?Q?8hXFKwHlZGN8OxFmuzm6d/82FI3wJRuLT1Z5JQQwm0gKH4MBf6Pt/MDXyW7m?=
+ =?us-ascii?Q?XkL3sYDtcyQf/sYDimPzUIiqvytZu/aEnDa1PHAbUrUxWi2ZT35U5Qag3VuB?=
+ =?us-ascii?Q?fWQhJJhMRhezM3gC5ASeAsHgnTwdSHdVSQhD/QckSmto8646/dC8V1ou0PCv?=
+ =?us-ascii?Q?jvS5iz9RdRyHKQQuBdL4cnRojj4+o+lbudaGRwjaSFMeN/sJ7lY4HMuYkzxl?=
+ =?us-ascii?Q?tbaEVMXjWn9b2Jck40eDRtdwTI1yMNc4hb4YxsC7m7sPHV5XFeSbZtbDMIDQ?=
+ =?us-ascii?Q?tJXDjtlF9ZI9KkCEA3FKBAlsJXivC3aL4+YGT4DZVpY82oDc+zlv+4Cn5Tqx?=
+ =?us-ascii?Q?4AV+urt4jH81lwtw5fshcu0XV9AENXyC+fb/8DnFllcjD2xmekxmuNdEFu9K?=
+ =?us-ascii?Q?N+tARHKm4lCGvsTmSvwXjj12AMrOYny+0fBuLMvXtslA7lDzsI66WJN6Yc7n?=
+ =?us-ascii?Q?+ci7pQmuApsWdxzvPPwZw+uA9AIB9SvH33CvouNaNp/Oqspq0rVvUc2zPioR?=
+ =?us-ascii?Q?2eYEVvTyKQs59hJpUEEVfFig6bY9RZW98zcITlio4NjTiGtOfsF8uUwVzuaa?=
+ =?us-ascii?Q?fLMytOGA97ksm+BrYPX4DIzWiow6sSsswQytE7T4gZPupbKOd84rTfCv+Xmf?=
+ =?us-ascii?Q?JZQb5Ow/+ca09MIFpvmG+bPAAAjLXvWcy9rxzFlAww0SCJtUMmvxNWPIrWPX?=
+ =?us-ascii?Q?dfICUOyCOyMvK/R7NiKSloQqK9rGZFpBgMhKLxtYQ49VhugJPXdE59YjECro?=
+ =?us-ascii?Q?TBEQZateHkcKMJIqDMt0FKxgMODhFdnsZS4qXgQEZ3cjV5UmidSA6GiwPvya?=
+ =?us-ascii?Q?IFz2BnZdiiPRaWnLkTHmH5aHLkYfnA6B4QTZ1Mh+qI1vromP55Uos1j0t6R6?=
+ =?us-ascii?Q?GmnkIJb1EeNqcM43PJOrRq3wEdHeEJY2iQiI5IZYJuCqrG2Cf7PPHbvMTVMp?=
+ =?us-ascii?Q?04w/mUKFNdXsW3+qh1/nySw22GelVUrcaQ1Uc2eHFXCHio5JQgJJLNiKb8gL?=
+ =?us-ascii?Q?k9U3Oncm2rRoDph/IkM0BEh2v5qq9fNHZQzXOva9M0/4WpbKW9SDMfDuZ9br?=
+ =?us-ascii?Q?ACo2NTT3g4tjPlQ=3D?=
 x-forefront-antispam-report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
  IPV:NLI; SFV:NSPM; H:IA0PR11MB7185.namprd11.prod.outlook.com; PTR:; CAT:NONE;
  SFS:(13230040)(376014)(1800799024)(366016)(38070700018); DIR:OUT; SFP:1101; 
 x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0: =?us-ascii?Q?8arAD9kQcI1nHRldJeW+TY8kfjdR6VNOc0P73zIto4wwi5zHi37xbMH1HtGG?=
- =?us-ascii?Q?/jsjg5mmIAun/eNpusmFajTfw5XzUsfiObsJDW4gkEwIBm3IUkX3duYusysq?=
- =?us-ascii?Q?/wuP93mZZjaZf5L0NPqL940lBK+96VsRfFpasYNd6S6SrRrXbJSWIOmw++uP?=
- =?us-ascii?Q?ZbGtWi3a8+yGhF3Zs0DGRzYY2IQOT8z199FBPx/gpueFqa8pd9BnjIC4UfGZ?=
- =?us-ascii?Q?rsb5DvQtfQe1oEIdq7w/ck3ZTrNh7GnD5qziZjXJgWOi6lKM+NhW6whXY9zk?=
- =?us-ascii?Q?1MInXo+srEvWSXUFq0jJIVsfvAlsjHSUQ3IIvLXLAHOn2jGghy/uBVohGi8n?=
- =?us-ascii?Q?QkaENwLH4zh85jJQ+ddEZCJ10XntIlW72WZsC/btF1s/NyLRPPYJQqivAnh1?=
- =?us-ascii?Q?NY2wb+P8bvwslaupWspeaiCQfLqcIIAWspclsjPf/fWeFK07xU+5RoSa9Cjq?=
- =?us-ascii?Q?dmH3jpx0QAiScV+Y5Ou3rC2zxlFiM8ZFFDNaRGtyEbSQ98fvEDXLeaEN8lXY?=
- =?us-ascii?Q?IjfIi1+4Gt3u8ltOySr1WK8QrmTJvp5zIRuoOlkQRn8EVTLisOQhYSW9MYx2?=
- =?us-ascii?Q?4zfV6QjGq0Nei4wz5bsupezU9XdCnwVMPA6MN3OwFf59YHJ6AJGB82rZ3ZvJ?=
- =?us-ascii?Q?+DWn4NRNG8j1yU5SVfDul/zirmrfk6XXIzWa+5A0FTJzLm6pxXQyJp2KNFeK?=
- =?us-ascii?Q?P8eit9stJ1sM2KHfgPuhNhb7P1HIyu45imV8SAmeZQuvuOdlM1E+JySsGDfQ?=
- =?us-ascii?Q?KJqlvEYURg663VsxhtASLc8HEWNCxyoH+jZqByBO6NkIgfzS1ipdFvDVGxvG?=
- =?us-ascii?Q?2/ABllRSpHg/hnO9bpMnuAuaFmZDR/0abXuRUY5fVvCVaOOUS9izxbhwQWXd?=
- =?us-ascii?Q?Tx8dpHya0OXU8fbfcpDdDssfxPGAzkX/oDl9ZjrrO2IpNXX13n22eIWTaqdA?=
- =?us-ascii?Q?tJZaUiqOFikgtmoU4GKnGK2SVJ+4GA+B4JH1VZc/2q3D0zroo5OAXrmQpY8/?=
- =?us-ascii?Q?AFDoaKPcNpqci7YJ8fWY3NnCXClCSDEKY4rFk/QOlHe7oP3ABOfU3c2V56QB?=
- =?us-ascii?Q?kqxKXSj1Gqi/fBGii5PbEz1ZbbNOqspbyekBSajaIfQJrI+jKWs1NAFdxuyv?=
- =?us-ascii?Q?7NT4XCT8BmHA6J8p5PQJAChDqGVFPnPwHukLxXpbAPBPo2zQ8h/FLrhqgA8z?=
- =?us-ascii?Q?DshGipJg9nEDaiLt2QTEuVbPN6ffIXnP5YlMSxoHGLFEUVork7jnQ+jFGVHW?=
- =?us-ascii?Q?FW+E463y+8mHompBZZPKFisgyjBvB9cJ+IgNDlkvHU4ENO7X9GHdrrH441Tu?=
- =?us-ascii?Q?sQC00/YxBYRgpqp+sbaleZDypgSPr9gOTVf/uTF5tgfjXSorLfxr88K8Dx8k?=
- =?us-ascii?Q?/Q64ZWUnjz2l6+eDQGjGrO2HARqVC/MBn2LfadE2GzEvVVHo7u20buDbm5AM?=
- =?us-ascii?Q?CTTEo0Xii39NUKWJ4e34oDqep4GfUHdZlY5Cspb/y0BWsaRGbFlYo3aZ4bF4?=
- =?us-ascii?Q?YAlz3qUYhQkgpLPziFPYd/s57wYcgCN0fcE6//io0/uUpMj8Zx2QQqokYUV2?=
- =?us-ascii?Q?ihfDH0do1DrWoXhJzSFnUbhDppQEBEaGRTVVpX3k?=
+x-ms-exchange-antispam-messagedata-0: =?us-ascii?Q?hvYVVI6gV8PVaxeCgo4HIrRdHv0qsCiH7q5SquIA+nrdiVVVOaMme4vkNKcv?=
+ =?us-ascii?Q?WmzM/tLl7PmgkPxCIqQKWoW3lyEqN+Zm5qZzlaSHbkRkD//+fH7NG/IM4HKv?=
+ =?us-ascii?Q?s8qTwV4TS09+oFde47P7FnZp9jEFWOYE9Ws8FSmyTuH/bKGHzObJOaZxuW46?=
+ =?us-ascii?Q?zkEpLJK3va7p1NmeVLv5Blm19Uzy3hSzH/YJnS8WDKy20gKVhCdkuZ7SL9aO?=
+ =?us-ascii?Q?1VBTQyaK8zOI+dQtOhxKXTArcIjk6trAzHPgul8NX9L2t7O8E7zJxIppsJy+?=
+ =?us-ascii?Q?wwsu44D9aJPAJn/RKBkua5Tn71ib0/xP5nHOtmpWWoR/8ETn9s/NM9HVXNDv?=
+ =?us-ascii?Q?kIbghBVDBPzPRIRVzeRla0guFb+rGwFMqyCAW7TAr3BHAHQES1sJCgveSsl7?=
+ =?us-ascii?Q?AG6rcWs6rF4fsd7nlWybNKUfdJPVHMvEqmZ3rgf/RVNoFbhV/nGeGgWV7fpA?=
+ =?us-ascii?Q?gGPxd7MFR867ZU/CJqRkX6HbA+6yR5U3IZEqXFpTqgJbJTKUpgWiUO/RlYBo?=
+ =?us-ascii?Q?gbyBXxEo5+AdvoorHYQK2YfCazYlNJTvVhldf17pNgiwtHhPm3T2ElSU7BKp?=
+ =?us-ascii?Q?Pv7w/0H3v0Q5A/Ru+o2bJMHbWCzk7i1Ve4DPebAJXo1yABqnWbQup1rJiccr?=
+ =?us-ascii?Q?OYx2Cj5w1P3XP0swMwzD1OJ0F9LHh6SuAnCjtH+a+hgac5Pp52/t7Wnaiyjg?=
+ =?us-ascii?Q?a0FeA7KaVqqFYj1bunR1csr8o0WLImvpbxCDY3WeTcETe1djgglkUTNprprH?=
+ =?us-ascii?Q?mYXNl5fvINRL4vVOSS/rOlPBpfXWtqohZ/hyq83YDOlJ19Ghl/7ZGRr7SMwl?=
+ =?us-ascii?Q?dF+rWqxCkOM5lNtMDFLcn3UhNu6KL7sp928HvvvFOsaCoQgdX0zsPjL8yDLN?=
+ =?us-ascii?Q?F22JqzPqvPsWx/19jxhfig+6kKJSlvb3r2g/rJdnkjNyAO9FK28wunYVfeiZ?=
+ =?us-ascii?Q?gs0TudXM8wVcoa0b/xHdV0IaCJAm4RN28nowPiCBLuTokO3ZNg6HMm2ds8NJ?=
+ =?us-ascii?Q?twHFRMraz0yryQkyyjVQo0jh4ok+qJUJZOKM+fyi1/YXwESUFkmtPY8EKSxa?=
+ =?us-ascii?Q?yyL5aA/tJimnuIWg+7dAfmcrnp5I2h4KjHrusdoGPi+rrwj8thQ1dt+VYX54?=
+ =?us-ascii?Q?cP0XB/VWy0dxaOX4+Us4IHOXDMFdskNsCwgfEJqDHEsKWtKyknVnGAVSLqGS?=
+ =?us-ascii?Q?eKheFOOPxlvIpFQI4vYQtd4tTROpFJa+6yY0hCJO+dlVOmnXlQ4DEb7rWj+Q?=
+ =?us-ascii?Q?HdCFfZVutXrFKzV8gPrWfVLh+7bJSRzoAC5a2n+59nBfdaomGDn8xibjMAXk?=
+ =?us-ascii?Q?LCjm7NSVYVW1qPmbeTf4UMC/dgKluOupNwspy7wUZTprUU2MojdFJ+DZxfWo?=
+ =?us-ascii?Q?uNB4YUlsV4iHfqmsC7/ElDmMOFN4/Y2P9Y4yaryyrIPlB68yTOg7JDlOWhW9?=
+ =?us-ascii?Q?TxWPF3WBxa+g6zfLl8qlAjfNd0nNONvHcZiUD9h+LhhOZL7jdexmuN5EvR6X?=
+ =?us-ascii?Q?rTC2LEmgnWz0SQBPHgHUu4VSFQiB7RYnZw4cP6diMDvvp/1NNm+KoYqHmWPS?=
+ =?us-ascii?Q?hWWbYrC44xzs89G4ZA50svvmwYyEdmkY/P5e/x3m?=
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: quoted-printable
 MIME-Version: 1.0
 X-MS-Exchange-CrossTenant-AuthAs: Internal
 X-MS-Exchange-CrossTenant-AuthSource: IA0PR11MB7185.namprd11.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 56c53578-73e9-4cbf-03dd-08ddaef274f8
-X-MS-Exchange-CrossTenant-originalarrivaltime: 19 Jun 2025 05:30:52.3725 (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: e15c9655-76f2-4247-93fd-08ddaef2f30c
+X-MS-Exchange-CrossTenant-originalarrivaltime: 19 Jun 2025 05:34:23.9234 (UTC)
 X-MS-Exchange-CrossTenant-fromentityheader: Hosted
 X-MS-Exchange-CrossTenant-id: 46c98d88-e344-4ed4-8496-4ed7712e255d
 X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: 8OJ+uve/07Gmv5WQzTNDcbb62rSfK47yo+ciZCeirAnsxbJl2P1ZJE4AGTsB51nTaugfXYhE9Yhj1zJp7HJYqQfW3qz+8VOosGN18bt+Da0=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SJ0PR11MB6717
+X-MS-Exchange-CrossTenant-userprincipalname: hWbyufyfcfBM6kNN1nLgFhlT+KB8rCtV3dIGBc70r7SftQZlUoou73HF7LZVPwUwHCnziu36uSJGAqONMu+AH2OoAkmnonRpxeipHy2GCO4=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH7PR11MB7430
 X-OriginatorOrg: intel.com
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -188,82 +184,41 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Andrew, Anshuman,
+Hi Oscar,
 
-> Subject: Re: [PATCH] mm/hugetlb: Don't crash when allocating a folio if t=
-here
-> are no resv
+> Subject: Re: [PATCH v4 2/3] mm/memfd: Reserve hugetlb folios before
+> allocation
 >=20
-> On Wed, 18 Jun 2025 12:14:49 +0530 Anshuman Khandual
-> <anshuman.khandual@arm.com> wrote:
->=20
-> > > Therefore, prevent the above crash by replacing the VM_BUG_ON()
-> > > with WARN_ON_ONCE() as there is no need to crash the system in
-> > > this situation and instead we could just warn and fail the
-> > > allocation.
+> On Tue, Jun 17, 2025 at 10:30:54PM -0700, Vivek Kasireddy wrote:
+> > When we try to allocate a folio via alloc_hugetlb_folio_reserve(),
+> > we need to ensure that there is an active reservation associated
+> > with the allocation. Otherwise, our allocation request would fail
+> > if there are no active reservations made at that moment against any
+> > other allocations. This is because alloc_hugetlb_folio_reserve()
+> > checks h->resv_huge_pages before proceeding with the allocation.
 > >
-> > Why there are no reserved huge pages in such situations and also how
-> > likely this might happen ? Is it recoverable ?
-As described in the commit message above, the specific situation where this
-happens is when we try to pin memfd folios before they are faulted-in.
-Although, this is a valid thing to do, it is not the regular or the common
-use-case. Let me explain this further with the following scenarios:
-1) hugetlbfs_file_mmap()
-    memfd_alloc_folio()
-    hugetlb_fault()
+> > Therefore, to address this issue, we just need to make a reservation
+> > (by calling hugetlb_reserve_pages()) before we try to allocate the
+> > folio. This will also ensure that proper region/subpool accounting is
+> > done associated with our allocation.
+>=20
+> I'm not really familiar with memfd code, but can't you make such
+> reservation when you create the file in alloc_file?
+> I see that you explicitly pass VM_NORESERVE. What's the reason for
+> that?
+AFAICT, there are at-least two reasons:
+- The initial size of memfd is 0 when it gets created. So, there is nothing
+  to reserve when hugetlb_file_setup() gets called from memfd_create().
 
-2) memfd_alloc_folio()
-    hugetlbfs_file_mmap()
-    hugetlb_fault()
-
-3) hugetlbfs_file_mmap()
-    hugetlb_fault()
-        alloc_hugetlb_folio()
-
-3) is the most common use-case where first a memfd is allocated followed
-by mmap(), user writes/updates and then the relevant folios are pinned
-(memfd_pin_folios()). The BUG this patch is fixing occurs in 2) because we
-try to pin the folios before hugetlbfs_file_mmap() is called. So, in this
-situation we try to allocate the folios before pinning them but since we di=
-d
-not make any reservations, resv_huge_pages would be 0, leading to this issu=
-e.
-
->=20
-> I'm suspecting we don't know.
->=20
-> > >
-> > > Fixes: 26a8ea80929c ("mm/hugetlb: fix memfd_pin_folios
-> resv_huge_pages leak")
->=20
-> How was this arrived at?  This is merely the patch which added the assert=
-ion.
-Right, 26a8ea80929c is indeed the commit that introduced code that led to t=
-his
-BUG/crash. Would this not qualify for Fixes?
-
->=20
-> > > Reported-by: syzbot+a504cb5bae4fe117ba94@syzkaller.appspotmail.com
-> > > Closes: https://syzkaller.appspot.com/bug?extid=3Da504cb5bae4fe117ba9=
-4
->=20
-> I can't find any mailing report/discussion of this.  The Closes: takes
-> us to the syskaller report which is a bit of a dead end.
-My understanding is that the Closes tag can be associated with a URL for
-a public bugtracker like Syzkaller. Would the following be a better Closes =
-link:
-https://lore.kernel.org/all/677928b5.050a0220.3b53b0.004d.GAE@google.com/T/
-
->=20
-> I agree with the patch - converting a BUG into a WARN+recover is a good
-> thing but as far as I can tell, we don't know what's causing this
-> situation.
->=20
-> syskaller has a C reproducer, if anyone is feeling brave.
-The udmabuf selftest added in patch #3 of the other series can also reprodu=
-ce=20
-this issue and is a lot simpler.
+- And, I think reservations are typically associated with allocations. In
+  other words, they are made on-demand, when a user is about to write
+  to a file (after calling mmap()).
 
 Thanks,
 Vivek
 
+>=20
+>=20
+> --
+> Oscar Salvador
+> SUSE Labs
