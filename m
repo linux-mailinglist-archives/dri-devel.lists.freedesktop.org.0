@@ -2,52 +2,53 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id BCD7FAE071E
-	for <lists+dri-devel@lfdr.de>; Thu, 19 Jun 2025 15:25:44 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id E70D7AE071B
+	for <lists+dri-devel@lfdr.de>; Thu, 19 Jun 2025 15:25:42 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7BBE910EA5D;
-	Thu, 19 Jun 2025 13:25:42 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4496810EA54;
+	Thu, 19 Jun 2025 13:25:41 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=Nvidia.com header.i=@Nvidia.com header.b="OTFbH+do";
+	dkim=pass (2048-bit key; unprotected) header.d=Nvidia.com header.i=@Nvidia.com header.b="WxPvcVI9";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from NAM10-DM6-obe.outbound.protection.outlook.com
- (mail-dm6nam10on2042.outbound.protection.outlook.com [40.107.93.42])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5DABD10EA54;
+ (mail-dm6nam10on2054.outbound.protection.outlook.com [40.107.93.54])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E630010EA56;
  Thu, 19 Jun 2025 13:25:40 +0000 (UTC)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=Tgnghu1gJz3hL9lXR+mBlmV833oh3VRdQKfq6La1zl7Ou8eHIKO/M+5ITq44pUF/AgNupakU/sGSbt6R57gKEH8oWqLt7vIPz8zvMCKTziDZwmHkkDfXOW6fbgHF+o0tu2D5uqnEsxF27C64ff/HkV4rdudyA1VL6kke5A7wgsxL3QME1T+5GDCudfFmslM19oHhlB0I5wub3cNuwZvr7Ibe5rjdpiBXRykWEtBLloJgXPFY2nu05bMnhmBdXV0CzshUw3Fe0rNh6jepylyAM1pXnKNj/f8QwH9uQ/AlLMQdcq5NCjft3I+uSUgoynL/EduOVznJSn3hQqFyeI1nfg==
+ b=G1uM4NxH6NH/GX7q+Wpl38QXXdk2UQgzCj0yICYknolftmfnMJec7t4FkI/7kFvsTQDPlCF6P3riFzB0C97k/aBfffhisNWO9hN6zIKXrKFnj/YJ7XFWmeffQCCdP/cACWL9IGnAnQSDiHGKA+ZB0uLqypCpNbWtwsGfFu4LAXTn0Ye636k/5USndtoAMRZkZlQot691atY5xfampk6GzB8Fg1WQttkydCfC8/MuFvC9Ztkf6mtp8PHjX2qEW/hZ0a8d0YZo7bfLdDK8KNH1iFQnOhqcms2gaN1qHrWHXW1Oa7L2Qj3HRvgkzuaFg694K/Mq8Duq5jzcVfMD1bmPUg==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=QWjjHk9m5eR4xURuAy5XVvaxuditHZL06vbD2JM0H4Q=;
- b=gmHP3t/1MuhNoZljK9g1gu8dYxLHDP2uB3OGb5AC1//BNcLeCkNvujKxXrsUWGNLlEJAXkADPDHXQv1pOeT+PvSWH0vzTWEUOi9zRf6t6fur2d0lAdm7IDp5y9qqxG2uSbRimHj7s5JZQfyBcsGjZvyZMKFukjxFiS+1Adq7DQUw17ceJsJeJ9nj94b97/pgS2jCV3PLwFJE0/HnWT+qEopwUn5fPE7V8PBGy42QeZSyamfCU3mOgi2H3Y56211mmCV0mlH9k2kO4cZDhJfKWYdFfjJaYcY6OzJS+/sgaWufBmSCkJnSiruoKoL0WiX0A0fM2HzPPLGSoZEpOT166w==
+ bh=cn71A6BMUxf7/gDSfzp168xz4mUjAEkJ+8fgfbnL82U=;
+ b=jwJIpJEf9MWZZ1RhG6OAq18+75tBqgJH+En22JvQ0PxDabixwKY3cc9Q/s//Crom2vSksoLZcpa7ZzIsFTAwmb/+5lrRQhJP27Ys64A0vnsOYY67lqwEP3uR1axQb7jnVoN8W7okcbOo7SyMwMKCHYrsv2FlFK/SpQZ2KonMUIBg5DdLItzL/c0OMuacif7dV01VhCK0XdAF94ejUpeUuX7yoCyhk3uXJ7AyRyHkf82h9kDjHClGnmRswl/5S2IPVVQypU69pKxW6TA3yD+5jx3ipsHTW6FNtu3FzwfRfvTQLaKtll8vuhkcD1yfAcORC9nVOsA1GjFVMalP8ovMuw==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
  dkim=pass header.d=nvidia.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
  s=selector2;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=QWjjHk9m5eR4xURuAy5XVvaxuditHZL06vbD2JM0H4Q=;
- b=OTFbH+dow7y2LfhLsZFwuHcZnRgqOUQfj6rxmnGB3HXHbboHFLjUb1Ffs3E2TbA1HL1lqvM5UR6xTgpm17A7na0qYUXxfY3nCtE4qYlGSzynvrmBb1Q0E9AlV3+6zudYoD1A80OWLUYf0TMPZBLe5EKIh3S8NlbxSJOr6iy/PWbjNN3mNwY6+8Wg78+2JeEwZr07NxIxY8+gMGDaD2iORoe+XN/UHPrY3Kqzr5q8x3EtbAucf1IbJaSozIYYswxRm/BFUlPk18Lur1T7o0kCbBYvIIPA3OwzthdCrvuzkDubeCr/LC+4gfeJ6HEY5g6XbmEN5eZXvbNcAmScTbhHIQ==
+ bh=cn71A6BMUxf7/gDSfzp168xz4mUjAEkJ+8fgfbnL82U=;
+ b=WxPvcVI9UF5QtQbhmp2KT8no/3yOKrfsisvyNUMhfBKaK+zxzuskWowPT3MV608qsJDmOrEe0C2fporq03FntHMUgiUM41pxTh4H6bYC9OzPRWNx2klrAeKyseSO5e1YYKVf68Z2qLCoAMwVET2bIG+e56chwJMS9iO+Ke7Qb+t3rAeYw2X3fsV6tL06QTCciXXSg8VNwO+9DPOnkp9tI6S2WnK5Xlnh3YaON9W5Qwuqe4OBoI3EY+m8By+QKd5v0S/j/Huw9CBF93IegQXtd43P6ZR/oLilaj0CKb6EgMqIiI71tUT/4/wUUERgq3hIbmyJ43+ikKSbRwY+XW9Gdw==
 Authentication-Results: dkim=none (message not signed)
  header.d=none;dmarc=none action=none header.from=nvidia.com;
 Received: from CH2PR12MB3990.namprd12.prod.outlook.com (2603:10b6:610:28::18)
  by DM6PR12MB4353.namprd12.prod.outlook.com (2603:10b6:5:2a6::12) with
  Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8857.21; Thu, 19 Jun
- 2025 13:25:34 +0000
+ 2025 13:25:37 +0000
 Received: from CH2PR12MB3990.namprd12.prod.outlook.com
  ([fe80::6e37:569f:82ee:3f99]) by CH2PR12MB3990.namprd12.prod.outlook.com
  ([fe80::6e37:569f:82ee:3f99%4]) with mapi id 15.20.8857.019; Thu, 19 Jun 2025
- 13:25:34 +0000
+ 13:25:37 +0000
 From: Alexandre Courbot <acourbot@nvidia.com>
-Date: Thu, 19 Jun 2025 22:24:04 +0900
-Subject: [PATCH v6 20/24] gpu: nova-core: compute layout of the FRTS region
+Date: Thu, 19 Jun 2025 22:24:05 +0900
+Subject: [PATCH v6 21/24] gpu: nova-core: add types for patching firmware
+ binaries
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20250619-nova-frts-v6-20-ecf41ef99252@nvidia.com>
+Message-Id: <20250619-nova-frts-v6-21-ecf41ef99252@nvidia.com>
 References: <20250619-nova-frts-v6-0-ecf41ef99252@nvidia.com>
 In-Reply-To: <20250619-nova-frts-v6-0-ecf41ef99252@nvidia.com>
 To: Miguel Ojeda <ojeda@kernel.org>, Alex Gaynor <alex.gaynor@gmail.com>, 
@@ -66,98 +67,102 @@ Cc: John Hubbard <jhubbard@nvidia.com>, Ben Skeggs <bskeggs@nvidia.com>,
  dri-devel@lists.freedesktop.org, Alexandre Courbot <acourbot@nvidia.com>, 
  Lyude Paul <lyude@redhat.com>
 X-Mailer: b4 0.14.2
-X-ClientProxiedBy: TYAPR01CA0219.jpnprd01.prod.outlook.com
- (2603:1096:404:11e::15) To CH2PR12MB3990.namprd12.prod.outlook.com
+X-ClientProxiedBy: TYAPR01CA0165.jpnprd01.prod.outlook.com
+ (2603:1096:404:7e::33) To CH2PR12MB3990.namprd12.prod.outlook.com
  (2603:10b6:610:28::18)
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
 X-MS-TrafficTypeDiagnostic: CH2PR12MB3990:EE_|DM6PR12MB4353:EE_
-X-MS-Office365-Filtering-Correlation-Id: 348c7382-a3ff-48ed-78fc-08ddaf34c582
+X-MS-Office365-Filtering-Correlation-Id: b060116e-7d86-49e1-5286-08ddaf34c780
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: BCL:0;
  ARA:13230040|7416014|10070799003|376014|366016|1800799024|921020; 
-X-Microsoft-Antispam-Message-Info: =?utf-8?B?d3VQZWtMMmlhMVREdE5iUVcvaWFOaEcrUVZraFNpbGlqQmxTVUZCRjdhOWNw?=
- =?utf-8?B?b3YxN0t6a2FRczNSazQ5MnIzb2lENnZ2d2pCMjdPbUplSkRMdE1qTG1ta2dE?=
- =?utf-8?B?TkNSeGVtUGc3QmxDdmViRHFMYzRNVEY0OVpLNUpIdEVJTFcvSlAyV013QkZh?=
- =?utf-8?B?NUhWMlJqbzFRbkJPTnN0cCtweUlyd0gyblZvN25IZ1g1NWRVTUxETTJYbWNT?=
- =?utf-8?B?V0h5M1djdVhoS094aU1BS0lMWnp0Z0tOcTdTSys0SkM1M1dnclg3aWY4VkNI?=
- =?utf-8?B?T0lIKzJLMWJ6SlNlMmgyYWFlZDY1d285d2FJRGd4dVlSa21tYnQ0MkNyU2ZN?=
- =?utf-8?B?UERMTkhzMTU1Ni9pR3R4Q1MvL2t4NjNiLzY4K0lINEdob3RiQXlHN3Fvekl6?=
- =?utf-8?B?V3BWUk5xTWVTSktaZG9USnUxRC9iLzVCNzNXaEtYRnhBc3k2ZFh6YXc0Ny8v?=
- =?utf-8?B?NEVjYVdEMWZnRnBRb3pPR1lnQ1FPazc2aEx3TkVYZWhIQ1Z5K0huQVpKaVJN?=
- =?utf-8?B?d3ZScjVzY3NXbGY4dS9KWlJ0enY2dGhFLzY5WjNKcld1Z2VoZGtmK29mVjNs?=
- =?utf-8?B?L01QbUcwUkpMSFpOczBMNng0cS9lZUhRSTNLQmtiek8rcndJa1JzZzRIa3lQ?=
- =?utf-8?B?NFcrZlh5N0l1c0xNTHloZkM5RjJGU25CNTlWNFNheU82cWJSNGVyd0tUbVFL?=
- =?utf-8?B?U0FkVTBtcWRDSGwyWkNVMk1nWEdyU0VSWmU1ZjNvajBNVWdFY1ZRWUY1MUgx?=
- =?utf-8?B?N0lTWjBmbExCWE9BeW1ISFNSVW4yazI3ZFdSOTlpK1J5cmlWL2YzUThrRDNv?=
- =?utf-8?B?K3Z5SW1DS25QWG5Hd1BydWRKM2RjTWpHVk1peksvVFlHdHNHaFU3QUVIMExj?=
- =?utf-8?B?QVFCcHNzUHBQallVNHBTRjVxZk5ueFVkMFhMUlJnckxFK21sbGZLdGt3R0pW?=
- =?utf-8?B?KzFWZVg3WVYwWlNCdWlWQmVJL1c5cmt3dkRibkJKUHJPcVdFeFNnRjdVVzJ1?=
- =?utf-8?B?cVlxTXRwZk1tWUo3Q1VSM3BSRFV6dWt2bGVhVjZmVGN1alJsSjV6YWxDSDZE?=
- =?utf-8?B?Uk5QQnBDdUxHTzZEb0xwMW1ENWYzRFlvdmJ2VE1SRHo1RVZ6dUVGa25ZcFRW?=
- =?utf-8?B?enZCNjdkTTNYUWRyeCtIV3JmYnY3Y0pydFpDTmNkaHBERE9yclU1RlFDRm5K?=
- =?utf-8?B?dGpTaUZnT05zVXJYdG1oc1hsMEdJbkEwY0RXL0l0WVRFWVV6S3VHZnQ3Q004?=
- =?utf-8?B?NEdQQ25CK0NXMjdRSDYzSWw4WVZJbU1YQVRXczg4aU1VUTlTU3JsT1kxcHh3?=
- =?utf-8?B?N3hOeFF3MUtWK1RnNUVRbVd5UHd6ZEc2cy9uMmlZQ2FYVlZmcnNDMW9uUmNF?=
- =?utf-8?B?VW1GL2FOcEZDeERmVGoySUROUnRrTTk1Ri9CdythTXp3WlFQSGk1RU9JZjNK?=
- =?utf-8?B?czRRWXVGU3NDWkUxcVpUV3RzZUVFK1VrajE4d3pleWJreXB3WnJHckxGRjJz?=
- =?utf-8?B?YTcvUDBhUTRmR0poMG1vU0t0cW9kSUhxTWY3MXBvbnV5QkpnQVhEaGpTVmNR?=
- =?utf-8?B?UG1aY2dFRXp3cmNYaW8wMmw0ZDJNanJaeTd2S3dReTVST2V6VDNveGJhaXdq?=
- =?utf-8?B?RGFxNndrR05tUmdpWW5aSHpqSWl4ODdzM3Y1bllOOVVlOUFFUndBNDRHMGs3?=
- =?utf-8?B?cGNVbVMrTVYzbUpCZnNJbnM4V1hNeFZRaVlRSUJRL2NUcDY5M0QreUJhMldo?=
- =?utf-8?Q?xlYjb+UW5H7ZwyL+dYEeWUZqecXpXWTvPVHsUF8?=
+X-Microsoft-Antispam-Message-Info: =?utf-8?B?czFCdWZhYStVZGsrSytIaWMyQkpGcjdVazl3YlhNSXFoNHlheXNRYlUyUFY2?=
+ =?utf-8?B?NE55UGZnWmZiSzZIVE0reGJrckhuejIzUVZ1QTBGNS9yVnJXSTg4NjV2SzFP?=
+ =?utf-8?B?OWtuaTFvdDRhRE5FWXY3SGo3aGsrWW1oK3pWTnk2TEkxYU9MOThlS2VrYWxa?=
+ =?utf-8?B?ZFFza1V3QVV3NndGZGxjTXNwSndQZVppTzJOb2s4dTJJaEI1QjdZbVF3dUdm?=
+ =?utf-8?B?Z1BEcVJ6RWh1RTNCQVh0ZTJKNjc2eFZsMS9mRkxwTEg1bTZKeDNyaG9TOUx6?=
+ =?utf-8?B?bU4vVFVZSzlJMGN6VXVjT3JSTk5BVHUvOThla1NnVCtaZU96RlJ6UWtVK1Uz?=
+ =?utf-8?B?THp1YXB4UGNqdmZ4VGVVbUNoSHNrbUNmbUFZZ082WkhqWEFNVmdTeEtxZUQ3?=
+ =?utf-8?B?Und1ZTdjRTYrNEpQS3FhNnNZQ25yeGxGTi9BVXFyeDZOTWNVUmxxTEFkckZD?=
+ =?utf-8?B?cjh4c0NLRnUyeHJuRkprVEwvcVlnZEFwaENLczU0TFpBNENhUWRyYVVIN0hu?=
+ =?utf-8?B?Tkd1Qm5aR1J0WkFNM1pUV0t1Mkp6UC9nZlVEWmFsQWJySGxPV3lVb0R0aS9C?=
+ =?utf-8?B?U0RNaVQxTm51cy94Ym56RU9nK2MxZ1pDUExkYUtYdW13SHZsVlQrY0RESGFX?=
+ =?utf-8?B?cjh4aHR2RFdod0czQk5NRmozTWNNSGIxTnZTMGIvRG5YaUhuTFRuWmxDcndl?=
+ =?utf-8?B?aDMyR0lMaVEyR2ozL2VadmpXV0lrd2F0end3c2dNMFVWWE5tUUFucGoxQkkx?=
+ =?utf-8?B?Zjg5SHRQTWl2WnR4VkFEUDhCR1JGU1ZVNksrRWY0Nmp1Z1VUQnUyMjJSdlZ6?=
+ =?utf-8?B?M2ZPbTN2SXNOdm1xbGcyMlVUL1hWeTZzaFNSdEZOUE1WMTh1RkgxT3hmVmJ4?=
+ =?utf-8?B?Q3M2bGNyV2lDRVRNUUNEc1drVzBwNHVJQ3ZVYTBHVStoTXZmR1R2ZExUN1U2?=
+ =?utf-8?B?aFQ3MWwzS2R5d01mWStON3RjMVkreDl6b0V0MmcxL0F3QlRKTXE5Ukg3bHp2?=
+ =?utf-8?B?a1lJWHJVUU1oR0F5TnRIdmtRM3dQNDRrMVpDbW5ML1NXVEFBbVg5R1J3VXBs?=
+ =?utf-8?B?YS90dTM2Q29MbW15a2VsUVpwK0V3ZkUrMkZESDdYRnpGbHhoNnUxWmRieDlE?=
+ =?utf-8?B?K01kV3VtaUVCMFZPYnpTb0E0ZHZ6STdXNFVKbSs3MENTVmdBaDFsbFcvYjNO?=
+ =?utf-8?B?di9xczNuMlhQb2oza3ZiekRRQVFlUXBKOFh6NnJzb2UxMkM4em8yRU1EU2F5?=
+ =?utf-8?B?azNpbHE2ZWtDMWIwZGtFQWtpKzlQRUhsSnk5Y1JNNFVETGhndllqKzBXWlRa?=
+ =?utf-8?B?WnRIVzRDK0NydDkxM284SDdyV3JMMXdQRzVocXlwdkpKQkRDWXl6OHUwVzZx?=
+ =?utf-8?B?M0h4ZFBYdTEreHNwNmc5QUplRndmbG9CL1lXYlNXbmJPME5Kem1MY0tqTFdO?=
+ =?utf-8?B?VkxmcUxhNTI3TVRwcGp6TGgyQnduYk5Dekkwd01paGlkVGlXZE5FRTNxNTUz?=
+ =?utf-8?B?TkxIZDdnYy9JeGl4eEtDZ3F3Vk55cW1pd0hQMnN6MGk1TjFsYjV6ZE5hbHRV?=
+ =?utf-8?B?ZmN3L0xaZlBvaW8vV1dvVFluMXlDTnhRR1VoY0lUd0svaWtiQ1B4TFJDQkRL?=
+ =?utf-8?B?R3ZtVWNOTXZzWGVFNlp0SExZOVFMNkhqN2ExejdlWXgvV25LRmtrNmo5cVlo?=
+ =?utf-8?B?M0JQZnRYR0MyMnptRFU4ZExBdFF5ZW1GTWxTUVRWb2NlS29KTDEya1lLeUxx?=
+ =?utf-8?B?Q0I5cExLeS96VnlyNXVFdEFla1VkcGtyZ1VYVnZwVFFVMFpSS1MzRjdGNDJv?=
+ =?utf-8?B?cFJwSm1OY3JBV3dMWjIzajRwNWdVWlBmdzRvSHFVWmdSWVVsZ3c0bmJnUGtV?=
+ =?utf-8?B?WDEvMjB0eDE3NDV1Q1praHM2eitaUjFZZWMwSmdUc0tOOXowdi9ucitnRnRh?=
+ =?utf-8?B?blV1NHY3aXpYa0NWRDhWVHNzNUxVVm1hM29HZW1MaDJDeVdqSWNyaWdPMzlS?=
+ =?utf-8?B?MEYreHprZ0lnPT0=?=
 X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
  IPV:NLI; SFV:NSPM; H:CH2PR12MB3990.namprd12.prod.outlook.com; PTR:; CAT:NONE;
  SFS:(13230040)(7416014)(10070799003)(376014)(366016)(1800799024)(921020);
  DIR:OUT; SFP:1101; 
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?dkptUld4STV1TnJPSDZiYzJ5ZUoxWExuQ0svWXFEVVF4NytwNXlXS3FqVERa?=
- =?utf-8?B?eU5zRXh3anhQcGhDK1o0UUNicXphbHlRTkZpWDFkSmZ1RC9semVHY2grUFZl?=
- =?utf-8?B?NVRrYytIdFBXMjkzbDJWL2Y5ZG9sMEdoWWwzYXN2NDZRaExkUURVd0t1ZStD?=
- =?utf-8?B?UzRVclpxL1ArTEsxWDBPelAzcHdQc2Frb3d2MTFTZWZ2Mk1WbFoxV1Y0VkRC?=
- =?utf-8?B?LzZZM3B4akl4eFVodHZYS0VVenY2cUlIWlpMM1BmU3BlN0FHYVhhSWlWQTBL?=
- =?utf-8?B?OVJVUjBaSjNQQS80Umd2VWpZTjVsN0pwbGZ5OHNmMkQxOGR2ckNNRW1sMEIx?=
- =?utf-8?B?NUlCdCtYWFlQa0xTa1J5VHFjSmdMdkNJTEQvb2pGUWtIcGk0bDk4ekJwdFhz?=
- =?utf-8?B?ZGludytYcXZza0dJek1JOHNpZ01vYVNkVHpUMkpHaWtqUENuVnZ5UnBGQ3RC?=
- =?utf-8?B?YTVKeUdqRVFLcGdjWTZHQ2NQWUJWdk5VV1hneVFOWjJlZis1K0NZVmVuN21s?=
- =?utf-8?B?RmxnWGVXekgxdkMyQzduWm1ramVtTFo4UGorRHRPM0EyWVlyaUUxZDRCVEQx?=
- =?utf-8?B?RTltOE1tSzdUeS9zNkhmN1FZSjVHQWw4T3pWWWVDZzNrUEdhaDRCN2FkRElE?=
- =?utf-8?B?aDJocWlNN1RSZzRmcDVDeGcraGZ0M2hEQjhPVkNadzNWQ0ZsbnoyRTRxR0NH?=
- =?utf-8?B?NkNjeWs5Vlo0d0lMdXJmbEIzbSs3RSsxT1dNaXRBelNVdlJmWElPcTFUbDJn?=
- =?utf-8?B?ajRxd0Rld2lwZVlkREtkQmorNVRlUXlGWjZFOVVFYjdjbmhsL25CSStXWldD?=
- =?utf-8?B?M3dSaW5paFROVGd2R2IzSndSaVdjUXpWTndYUnNQSFEwU1oyenVDM0RORjRx?=
- =?utf-8?B?TkJBTG80dzdpREdqQTZsUFQ4U1ROT3JzdnJ5V2VyOUJBeVhLc2hYbWtpN2tE?=
- =?utf-8?B?ZkJHYTcydExyWEMza2VKWnNZV1h4WTVoekp6VzNseFcwcVNxbTQ1NGErVUNT?=
- =?utf-8?B?bzFsc2MxR0tZRFpZeHphQ3laNEFTK0VCUVgxOXVuS1F3d0pKTWpyNjB6NWpC?=
- =?utf-8?B?U0pFaFZ2TjdaNTBVc2MxbktyRGxKSTV1SE1qcW9aUVErd1NDbGR2ODgxSmhM?=
- =?utf-8?B?SXY4U1UzbTRsT0ZaSDg0QWFvLzlMUFp2VXFObElrTGhPendYRG5vVHgzaC9E?=
- =?utf-8?B?dm9ocjNEdlhzSjdLZmwvQTVtMFU4SVA4RFJxRFZCaFBXK1g1eDF0dCtzN3Vr?=
- =?utf-8?B?Y0dVd1pzUW5aYzV2d3NCYkxndUVYaXFGS2JLOHZUT0x1MUMwakRNZFAwamRp?=
- =?utf-8?B?a3BZOWEzU1BuYjFKVnJseTlvRUVBUXJhR0UwOFphelIwa0ZVTFVIWVQ0RVFK?=
- =?utf-8?B?VFFsVjFDTHB3SkFwWXl0aWVWZjQrV1pydllYY0ZySk94b3o3c0t5SHJmOXBV?=
- =?utf-8?B?MWliWlFzRmpNbXJsNmlzbGRrMGNhM2hTeHJqd0k3a3NCYXFGb0lWQ1kvRWpu?=
- =?utf-8?B?VmgyYVZpU2NoQzFxQytVUCtZbCtaUHdkbnM1QWpta2ZuUk5MaWJBN3FQVTF1?=
- =?utf-8?B?eXRoOTJmbXd4ZW5JcWJScE9rSnNQYkwzcnR3cDAwZ0xnVUllakVlN3BmcWsz?=
- =?utf-8?B?KzFSVTRqTFBhdjBhS3dSWWhnZ3pGNG1jVlgxOWc0R0ljcnNEdDFDSlFyUlNa?=
- =?utf-8?B?L0ZQR2dRMEpPUGJWNkYrNzVUNlVHcU5xUXFidnhHTU1CTG1iNjN6Rzl0Q2Za?=
- =?utf-8?B?VWJEaUJ4REJUMU1HY1BnY096eDU5ZzB2OU5GUlZJQjVjVVNVTVd6TXhodnhE?=
- =?utf-8?B?M01YZTROOHhrVDZrTkVqZlYreFF0TENXNlB5Tm5pNG5LVFNTSjg0andwVnRT?=
- =?utf-8?B?YVE5dUlhSGFMTWxuVjR2T1hBQnhnWlpESnlUZ2hsS3UxVGhIR0RiNDNnVEJl?=
- =?utf-8?B?MndyMTVxMm5iRnVUZkJtaWk0b0RTU1RIdkkyZUpVa0J6Wi9BTGEwc0oxS0Rl?=
- =?utf-8?B?Tko3OTJPSVo5Rk5UcUtUYWdUK0NHQm5iVXJyNUx0K2l1WGF2Zm5wNHhlUGhR?=
- =?utf-8?B?SjlOelEyOTdtU0JGVE9va2hSWHh1MHhFVTFpWk1VOU8wbDBKMUtVSlZNNGlX?=
- =?utf-8?B?ZmM1RFRmUFozMFdGNTlLZnpVNVFIeDBKOXVsajdLQWNFd2h6anlFK3lNQ2Fp?=
- =?utf-8?Q?34i+x2CpwtUMImhw09nYPI6Cvr+SfKZoWBQqkz2mxVjq?=
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?RnpOV0hza0dsY0pDUUZMTXJ0cnBNbHAzNUwwTndmYlB1b0FnRnFoQmxHNVo3?=
+ =?utf-8?B?bjhRWDFpM2phOGs2ZnlFS3lVcHpzRVJYQXdWN1VyMXNwZy8wZ0ZhSEY3eFhF?=
+ =?utf-8?B?blY1a2FINVFYeS9TdnYwbjR5LytRemtncmhGcFp5VUxxaHZJRFZyMWF6Mk5S?=
+ =?utf-8?B?SGpOd29yRXZycHBlc09yTzc2SkpsUWlDWHJWMjRKeE5icUViZm9mL2dMRFhI?=
+ =?utf-8?B?eFRJc2VYWnhxUFRaZG52QzFHczZiUjE4LzhaRW1UaHBNcEpKTlhzdmpMVFlU?=
+ =?utf-8?B?dUdxVklrb1pQbEhTVUQxWUJ5UHdwQTNlU0JNcDhoRFBCZHFqQlZ4bFJYaTU4?=
+ =?utf-8?B?eUtRejl3cWhFQno1b1doODZ1RXF3SGhlN2tzZzIvVldIVmFiMmxEaWFtVWx4?=
+ =?utf-8?B?VnQyb21VM0YvTjZ6S21QREpSTlc0ZENYWWFpNHhUYXV0NVdMKzJQRTlCaFRx?=
+ =?utf-8?B?eldVeVdWYno0LzhTSG03YzZRMVpPR3RoMSsxZGx4M2VLRi8zVmhOZFNMVjho?=
+ =?utf-8?B?WElLdC9jT1p6eHEyMmc5ci9EMCtTL1pOT1pVYy9vOVV2NWlEbldLekNRc0xU?=
+ =?utf-8?B?aDAxUThwaFhHQzN3QTdPM3lOR3hlai8vRG1MRTVUemg5ZThxeHlEeWFWamxE?=
+ =?utf-8?B?eUZVSFdKUi9ubE5EbTM0b1NubzJLWHAzV25PblJIUE1QUVJMRnFhbEhNd1d1?=
+ =?utf-8?B?UUE4RGRiRHo4N0lWTTVKWEZsa0Zjb0g3b2o5c21Ebmw2OGpDUU1SUzU5OTJj?=
+ =?utf-8?B?OU5ENkpDWFhqbDcwOFV6SFVzbGxDNlJKNkpIWlczeEd0YzU2eGNRZU1qei83?=
+ =?utf-8?B?d29xUXN3dUYyUnVZMHFmTjR2VDJoREpESXcxMXJXTm1MUnkwYThSRnFpczdT?=
+ =?utf-8?B?c2IwQzNUMXl6UXErN1Q0N3dxdCtNamlCN3ZrRkdPV1JLSUJXSWdwRWZjLzhz?=
+ =?utf-8?B?QVdmQmNSQ25vRWtLb0hkVHlNTi9jUXl5RE1wcXAyMmtVdWNUczNLRkF3djRv?=
+ =?utf-8?B?NkxQbjRnV0Vwc0lGM2N2MmJKTWFxYjhlUTFua0dyTWhvWVBJRXVCZ2R5ZS9w?=
+ =?utf-8?B?c09NSWZ6NTJqOW4zS1A5NjEvQlJyRVJYQktWRWFUdC9ZY25qaW9Sc3JYNXV6?=
+ =?utf-8?B?OWtndk5VTnF5aVo1V3I3R3BMeUVscGR5QXYzWEVKM2o5dUVxVjAxMCtLOE16?=
+ =?utf-8?B?YnE4SzBjN1NDOUN3RU1SVXBFc0N0TWM1SjZqWkNQL1liQWs0N3gvZGxjOUFH?=
+ =?utf-8?B?UGJSYmNJMzF5SDkzYnQ3MVJOUmJrbGZMdGdvUEEvYXZQOFRIRGlnMHVoYUNh?=
+ =?utf-8?B?TmhtM1VWZGdabmxUQTBHYUdTK1JBNHp2UkJRVmF4Ymg4ek5wSEtBVzkwS04v?=
+ =?utf-8?B?cWpIQ1MvTHIraWNnYXZIRFhLNjl6ODQ3dUhvUDdqTGRMZG9ZajB1bE1ocjl2?=
+ =?utf-8?B?ZllhZmYzaHoyT2hnd2ZLaHhyTkdia0JjdUJqWDliWENSck5EMExRS2lHVmF1?=
+ =?utf-8?B?N0h5TUMvU1dwNFk4TjVIdnZVdjMrSXJJSzB5SU5YaWt6OVA5QW9NNzRjYzNo?=
+ =?utf-8?B?eGFiencyVTMxcElISVNKdE1FdmxoektmWUFkTWNxdDhqT0c4aEIvTWJwb3l4?=
+ =?utf-8?B?K0V6SUozNHdDWDlodmJEbk5kNHY4dUx2U2pIbnNGakk1YTh3UDMvZ1IrUzZE?=
+ =?utf-8?B?UzFXYkttY09iQTlvd2Z1NE1UaUNLUTZvQ2xjdXppTTl2Q3ErNVJIQnZnckFu?=
+ =?utf-8?B?RWd5cXk1MEN0TnRDTkVlaFk0NXBTT0dpTExrUjM0eHh2UEVQdUhrRityOVV5?=
+ =?utf-8?B?dWtYQ0pOZDZLL3ZXdzRubTVEbzFnY3d0M0V5NXhkQU92NVBLNmVRQS9lc3lW?=
+ =?utf-8?B?dXZEVmcwRGN5bFpoZWozTU1KM0JwK3MraE5Cd2FmNC9RTkN2bm8rSVMyREgw?=
+ =?utf-8?B?OWF6c2tvaHR5UlkrQ2hJUjlsREtPaVFkT2dpZlZPb3hlR2VYQkZ6RE9Lbmh3?=
+ =?utf-8?B?SkozQXhncTU2b28xTFpQVFNiaVF4MXg4c1R3dVlaZ1JlSlUrTVd1SjNTaTNZ?=
+ =?utf-8?B?ZWFnbmJVN0wxZnpzS2trd2pQRmEvL3QxMmJub3kwd2p6b0k0QVVFR1I2UVY5?=
+ =?utf-8?B?bTZ5UGxEMzFYUkxJVHg4eWNzL1U2NXpCNThwQ1lPU0xmU0o5ZnR1Q0UzbzlY?=
+ =?utf-8?Q?W/GjRci0m64KkWm9xv/fzPoxdlUdNwp0A6f3pFZnUJr8?=
 X-OriginatorOrg: Nvidia.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 348c7382-a3ff-48ed-78fc-08ddaf34c582
+X-MS-Exchange-CrossTenant-Network-Message-Id: b060116e-7d86-49e1-5286-08ddaf34c780
 X-MS-Exchange-CrossTenant-AuthSource: CH2PR12MB3990.namprd12.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 19 Jun 2025 13:25:34.5035 (UTC)
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 19 Jun 2025 13:25:37.7838 (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: +Irri7uLKo/199q9uUvGyT48kTYiXwpwYxdFSRAnhIa86n+oid3jndRTHgIi78V+rLyqonP/akmAjRce/+RydA==
+X-MS-Exchange-CrossTenant-UserPrincipalName: sO/hOcWjqFioT5GWCJbt4qVuQDjMYNK/ivDu4rqn8rqxRPUZKihWL7NsJGBvg96mkGZHm3j/so1ohy0J5xAnxw==
 X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM6PR12MB4353
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -174,379 +179,104 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-FWSEC-FRTS is run with the desired address of the FRTS region as
-parameter, which we need to compute depending on some hardware
-parameters.
-
-Do this in a `FbLayout` structure, that will be later extended to
-describe more memory regions used to boot the GSP.
+Some of the firmwares need to be patched at load-time with a signature.
+Add a couple of types and traits that sub-modules can use to implement
+this behavior, while ensuring that the correct kind of signature is
+applied to the firmware.
 
 Reviewed-by: Lyude Paul <lyude@redhat.com>
 Signed-off-by: Alexandre Courbot <acourbot@nvidia.com>
 ---
- drivers/gpu/nova-core/fb.rs           | 70 ++++++++++++++++++++++++++++++++
- drivers/gpu/nova-core/fb/hal.rs       | 12 +++++-
- drivers/gpu/nova-core/fb/hal/ga100.rs | 12 ++++++
- drivers/gpu/nova-core/fb/hal/ga102.rs | 36 +++++++++++++++++
- drivers/gpu/nova-core/fb/hal/tu102.rs | 16 ++++++++
- drivers/gpu/nova-core/gpu.rs          |  4 ++
- drivers/gpu/nova-core/regs.rs         | 76 +++++++++++++++++++++++++++++++++++
- 7 files changed, 224 insertions(+), 2 deletions(-)
+ drivers/gpu/nova-core/firmware.rs | 64 +++++++++++++++++++++++++++++++++++++++
+ 1 file changed, 64 insertions(+)
 
-diff --git a/drivers/gpu/nova-core/fb.rs b/drivers/gpu/nova-core/fb.rs
-index 308cd76edfee5a2e8a4cd979c20da2ce51cb16a5..dc009a3ed44c2de7ffeb8cc0be06a72cf2ca5309 100644
---- a/drivers/gpu/nova-core/fb.rs
-+++ b/drivers/gpu/nova-core/fb.rs
-@@ -1,12 +1,16 @@
- // SPDX-License-Identifier: GPL-2.0
+diff --git a/drivers/gpu/nova-core/firmware.rs b/drivers/gpu/nova-core/firmware.rs
+index e5583925cb3b4353b521c68175f8cf0c2d6ce830..32553b5142d6623bdaaa9d480fbff11069198606 100644
+--- a/drivers/gpu/nova-core/firmware.rs
++++ b/drivers/gpu/nova-core/firmware.rs
+@@ -3,11 +3,15 @@
+ //! Contains structures and functions dedicated to the parsing, building and patching of firmwares
+ //! to be loaded into a given execution unit.
  
-+use core::ops::Range;
++use core::marker::PhantomData;
 +
+ use kernel::device;
+ use kernel::firmware;
  use kernel::prelude::*;
-+use kernel::sizes::*;
- use kernel::types::ARef;
- use kernel::{dev_warn, device};
+ use kernel::str::CString;
  
- use crate::dma::DmaObject;
- use crate::driver::Bar0;
++use crate::dma::DmaObject;
++use crate::falcon::FalconFirmware;
+ use crate::gpu;
  use crate::gpu::Chipset;
-+use crate::regs;
  
- mod hal;
- 
-@@ -64,3 +68,69 @@ pub(crate) fn unregister(self, bar: &Bar0) {
-         }
+@@ -84,6 +88,66 @@ pub(crate) fn size(&self) -> usize {
      }
  }
+ 
++/// Trait implemented by types defining the signed state of a firmware.
++trait SignedState {}
 +
-+/// Layout of the GPU framebuffer memory.
++/// Type indicating that the firmware must be signed before it can be used.
++struct Unsigned;
++impl SignedState for Unsigned {}
++
++/// Type indicating that the firmware is signed and ready to be loaded.
++struct Signed;
++impl SignedState for Signed {}
++
++/// A [`DmaObject`] containing a specific microcode ready to be loaded into a falcon.
 +///
-+/// Contains ranges of GPU memory reserved for a given purpose during the GSP bootup process.
-+#[derive(Debug)]
-+#[expect(dead_code)]
-+pub(crate) struct FbLayout {
-+    pub(crate) fb: Range<u64>,
-+    pub(crate) vga_workspace: Range<u64>,
-+    pub(crate) frts: Range<u64>,
-+}
++/// This is module-local and meant for sub-modules to use internally.
++///
++/// After construction, a firmware is [`Unsigned`], and must generally be patched with a signature
++/// before it can be loaded (with an exception for development hardware). The
++/// [`Self::patch_signature`] and [`Self::no_patch_signature`] methods are used to transition the
++/// firmware to its [`Signed`] state.
++struct FirmwareDmaObject<F: FalconFirmware, S: SignedState>(DmaObject, PhantomData<(F, S)>);
 +
-+impl FbLayout {
-+    /// Computes the FB layout.
-+    pub(crate) fn new(chipset: Chipset, bar: &Bar0) -> Result<Self> {
-+        let hal = hal::fb_hal(chipset);
++/// Trait for signatures to be patched directly into a given firmware.
++///
++/// This is module-local and meant for sub-modules to use internally.
++trait FirmwareSignature<F: FalconFirmware>: AsRef<[u8]> {}
 +
-+        let fb = {
-+            let fb_size = hal.vidmem_size(bar);
-+
-+            0..fb_size
-+        };
-+
-+        let vga_workspace = {
-+            let vga_base = {
-+                const NV_PRAMIN_SIZE: u64 = SZ_1M as u64;
-+                let base = fb.end - NV_PRAMIN_SIZE;
-+
-+                if hal.supports_display(bar) {
-+                    match regs::NV_PDISP_VGA_WORKSPACE_BASE::read(bar).vga_workspace_addr() {
-+                        Some(addr) => {
-+                            if addr < base {
-+                                const VBIOS_WORKSPACE_SIZE: u64 = SZ_128K as u64;
-+
-+                                // Point workspace address to end of framebuffer.
-+                                fb.end - VBIOS_WORKSPACE_SIZE
-+                            } else {
-+                                addr
-+                            }
-+                        }
-+                        None => base,
-+                    }
-+                } else {
-+                    base
-+                }
-+            };
-+
-+            vga_base..fb.end
-+        };
-+
-+        let frts = {
-+            const FRTS_DOWN_ALIGN: u64 = SZ_128K as u64;
-+            const FRTS_SIZE: u64 = SZ_1M as u64;
-+            // TODO: replace with `align_down` once it lands.
-+            let frts_base = (vga_workspace.start & !(FRTS_DOWN_ALIGN - 1)) - FRTS_SIZE;
-+
-+            frts_base..frts_base + FRTS_SIZE
-+        };
-+
-+        Ok(Self {
-+            fb,
-+            vga_workspace,
-+            frts,
-+        })
-+    }
-+}
-diff --git a/drivers/gpu/nova-core/fb/hal.rs b/drivers/gpu/nova-core/fb/hal.rs
-index 23eab57eec9f524e066d3324eb7f5f2bf78481d2..2f914948bb9a9842fd00a4c6381420b74de81c3f 100644
---- a/drivers/gpu/nova-core/fb/hal.rs
-+++ b/drivers/gpu/nova-core/fb/hal.rs
-@@ -6,6 +6,7 @@
- use crate::gpu::Chipset;
- 
- mod ga100;
-+mod ga102;
- mod tu102;
- 
- pub(crate) trait FbHal {
-@@ -16,6 +17,12 @@ pub(crate) trait FbHal {
-     ///
-     /// This might fail if the address is too large for the receiving register.
-     fn write_sysmem_flush_page(&self, bar: &Bar0, addr: u64) -> Result;
-+
-+    /// Returns `true` is display is supported.
-+    fn supports_display(&self, bar: &Bar0) -> bool;
-+
-+    /// Returns the VRAM size, in bytes.
-+    fn vidmem_size(&self, bar: &Bar0) -> u64;
- }
- 
- /// Returns the HAL corresponding to `chipset`.
-@@ -24,8 +31,9 @@ pub(super) fn fb_hal(chipset: Chipset) -> &'static dyn FbHal {
- 
-     match chipset {
-         TU102 | TU104 | TU106 | TU117 | TU116 => tu102::TU102_HAL,
--        GA100 | GA102 | GA103 | GA104 | GA106 | GA107 | AD102 | AD103 | AD104 | AD106 | AD107 => {
--            ga100::GA100_HAL
-+        GA100 => ga100::GA100_HAL,
-+        GA102 | GA103 | GA104 | GA106 | GA107 | AD102 | AD103 | AD104 | AD106 | AD107 => {
-+            ga102::GA102_HAL
-         }
-     }
- }
-diff --git a/drivers/gpu/nova-core/fb/hal/ga100.rs b/drivers/gpu/nova-core/fb/hal/ga100.rs
-index 7c10436c1c590d9b767c399b69370697fdf8d239..4827721c9860649601b274c3986470096e1fe9bc 100644
---- a/drivers/gpu/nova-core/fb/hal/ga100.rs
-+++ b/drivers/gpu/nova-core/fb/hal/ga100.rs
-@@ -25,6 +25,10 @@ pub(super) fn write_sysmem_flush_page_ga100(bar: &Bar0, addr: u64) {
-         .write(bar);
- }
- 
-+pub(super) fn display_enabled_ga100(bar: &Bar0) -> bool {
-+    !regs::ga100::NV_FUSE_STATUS_OPT_DISPLAY::read(bar).display_disabled()
-+}
-+
- /// Shift applied to the sysmem address before it is written into
- /// `NV_PFB_NISO_FLUSH_SYSMEM_ADDR_HI`,
- const FLUSH_SYSMEM_ADDR_SHIFT_HI: u32 = 40;
-@@ -39,6 +43,14 @@ fn write_sysmem_flush_page(&self, bar: &Bar0, addr: u64) -> Result {
- 
-         Ok(())
-     }
-+
-+    fn supports_display(&self, bar: &Bar0) -> bool {
-+        display_enabled_ga100(bar)
-+    }
-+
-+    fn vidmem_size(&self, bar: &Bar0) -> u64 {
-+        super::tu102::vidmem_size_gp102(bar)
-+    }
- }
- 
- const GA100: Ga100 = Ga100;
-diff --git a/drivers/gpu/nova-core/fb/hal/ga102.rs b/drivers/gpu/nova-core/fb/hal/ga102.rs
-new file mode 100644
-index 0000000000000000000000000000000000000000..a73b77e3971513d088211a97ad8e50b00a9131f7
---- /dev/null
-+++ b/drivers/gpu/nova-core/fb/hal/ga102.rs
-@@ -0,0 +1,36 @@
-+// SPDX-License-Identifier: GPL-2.0
-+
-+use kernel::prelude::*;
-+
-+use crate::driver::Bar0;
-+use crate::fb::hal::FbHal;
-+use crate::regs;
-+
-+fn vidmem_size_ga102(bar: &Bar0) -> u64 {
-+    regs::NV_USABLE_FB_SIZE_IN_MB::read(bar).usable_fb_size()
-+}
-+
-+struct Ga102;
-+
-+impl FbHal for Ga102 {
-+    fn read_sysmem_flush_page(&self, bar: &Bar0) -> u64 {
-+        super::ga100::read_sysmem_flush_page_ga100(bar)
-+    }
-+
-+    fn write_sysmem_flush_page(&self, bar: &Bar0, addr: u64) -> Result {
-+        super::ga100::write_sysmem_flush_page_ga100(bar, addr);
-+
-+        Ok(())
-+    }
-+
-+    fn supports_display(&self, bar: &Bar0) -> bool {
-+        super::ga100::display_enabled_ga100(bar)
-+    }
-+
-+    fn vidmem_size(&self, bar: &Bar0) -> u64 {
-+        vidmem_size_ga102(bar)
-+    }
-+}
-+
-+const GA102: Ga102 = Ga102;
-+pub(super) const GA102_HAL: &dyn FbHal = &GA102;
-diff --git a/drivers/gpu/nova-core/fb/hal/tu102.rs b/drivers/gpu/nova-core/fb/hal/tu102.rs
-index 048859f9fd9d6cfb630da0a8c3513becf3ab62d6..6f8ae58e9481017f1a81fb8e75fb24782e50a781 100644
---- a/drivers/gpu/nova-core/fb/hal/tu102.rs
-+++ b/drivers/gpu/nova-core/fb/hal/tu102.rs
-@@ -26,6 +26,14 @@ pub(super) fn write_sysmem_flush_page_gm107(bar: &Bar0, addr: u64) -> Result {
-     }
- }
- 
-+pub(super) fn display_enabled_gm107(bar: &Bar0) -> bool {
-+    !regs::gm107::NV_FUSE_STATUS_OPT_DISPLAY::read(bar).display_disabled()
-+}
-+
-+pub(super) fn vidmem_size_gp102(bar: &Bar0) -> u64 {
-+    regs::NV_PFB_PRI_MMU_LOCAL_MEMORY_RANGE::read(bar).usable_fb_size()
-+}
-+
- struct Tu102;
- 
- impl FbHal for Tu102 {
-@@ -36,6 +44,14 @@ fn read_sysmem_flush_page(&self, bar: &Bar0) -> u64 {
-     fn write_sysmem_flush_page(&self, bar: &Bar0, addr: u64) -> Result {
-         write_sysmem_flush_page_gm107(bar, addr)
-     }
-+
-+    fn supports_display(&self, bar: &Bar0) -> bool {
-+        display_enabled_gm107(bar)
-+    }
-+
-+    fn vidmem_size(&self, bar: &Bar0) -> u64 {
-+        vidmem_size_gp102(bar)
-+    }
- }
- 
- const TU102: Tu102 = Tu102;
-diff --git a/drivers/gpu/nova-core/gpu.rs b/drivers/gpu/nova-core/gpu.rs
-index 1c577d3eff8b32bbc45d7d2302c3e2246bef3b44..413f1ab85b37926cdfd9a9c76167816b21d89adc 100644
---- a/drivers/gpu/nova-core/gpu.rs
-+++ b/drivers/gpu/nova-core/gpu.rs
-@@ -4,6 +4,7 @@
- 
- use crate::driver::Bar0;
- use crate::falcon::{gsp::Gsp, sec2::Sec2, Falcon};
-+use crate::fb::FbLayout;
- use crate::fb::SysmemFlush;
- use crate::firmware::{Firmware, FIRMWARE_VERSION};
- use crate::gfw;
-@@ -219,6 +220,9 @@ pub(crate) fn new(
- 
-         let _sec2_falcon = Falcon::<Sec2>::new(pdev.as_ref(), spec.chipset, bar, true)?;
- 
-+        let fb_layout = FbLayout::new(spec.chipset, bar)?;
-+        dev_dbg!(pdev.as_ref(), "{:#x?}\n", fb_layout);
-+
-         // Will be used in a later patch when fwsec firmware is needed.
-         let _bios = Vbios::new(pdev, bar)?;
- 
-diff --git a/drivers/gpu/nova-core/regs.rs b/drivers/gpu/nova-core/regs.rs
-index a2f449eb08b5691aaa6f2f0e7635791838996806..8ca7bcb5a93f4b60ee9ee488f26469af48e2f1d8 100644
---- a/drivers/gpu/nova-core/regs.rs
-+++ b/drivers/gpu/nova-core/regs.rs
-@@ -52,6 +52,27 @@ pub(crate) fn chipset(self) -> Result<Chipset> {
-     23:0    adr_63_40 as u32;
- });
- 
-+register!(NV_PFB_PRI_MMU_LOCAL_MEMORY_RANGE @ 0x00100ce0 {
-+    3:0     lower_scale as u8;
-+    9:4     lower_mag as u8;
-+    30:30   ecc_mode_enabled as bool;
-+});
-+
-+impl NV_PFB_PRI_MMU_LOCAL_MEMORY_RANGE {
-+    /// Returns the usable framebuffer size, in bytes.
-+    pub(crate) fn usable_fb_size(self) -> u64 {
-+        let size = ((self.lower_mag() as u64) << (self.lower_scale() as u64))
-+            * kernel::sizes::SZ_1M as u64;
-+
-+        if self.ecc_mode_enabled() {
-+            // Remove the amount of memory reserved for ECC (one per 16 units).
-+            size / 16 * 15
-+        } else {
-+            size
++#[expect(unused)]
++impl<F: FalconFirmware> FirmwareDmaObject<F, Unsigned> {
++    /// Patches the firmware at offset `sig_base_img` with `signature`.
++    fn patch_signature<S: FirmwareSignature<F>>(
++        mut self,
++        signature: &S,
++        sig_base_img: usize,
++    ) -> Result<FirmwareDmaObject<F, Signed>> {
++        let signature_bytes = signature.as_ref();
++        if sig_base_img + signature_bytes.len() > self.0.size() {
++            return Err(EINVAL);
 +        }
++
++        // SAFETY: we are the only user of this object, so there cannot be any race.
++        let dst = unsafe { self.0.start_ptr_mut().add(sig_base_img) };
++
++        // SAFETY: `signature` and `dst` are valid, properly aligned, and do not overlap.
++        unsafe {
++            core::ptr::copy_nonoverlapping(signature_bytes.as_ptr(), dst, signature_bytes.len())
++        };
++
++        Ok(FirmwareDmaObject(self.0, PhantomData))
++    }
++
++    /// Mark the firmware as signed without patching it.
++    ///
++    /// This method is used to explicitly confirm that we do not need to sign the firmware, while
++    /// allowing us to continue as if it was. This is typically only needed for development
++    /// hardware.
++    fn no_patch_signature(self) -> FirmwareDmaObject<F, Signed> {
++        FirmwareDmaObject(self.0, PhantomData)
 +    }
 +}
 +
- /* PGC6 */
+ pub(crate) struct ModInfoBuilder<const N: usize>(firmware::ModInfoBuilder<N>);
  
- register!(NV_PGC6_AON_SECURE_SCRATCH_GROUP_05_PRIV_LEVEL_MASK @ 0x00118128 {
-@@ -77,6 +98,42 @@ pub(crate) fn completed(self) -> bool {
-     }
- }
- 
-+register!(NV_PGC6_AON_SECURE_SCRATCH_GROUP_42 @ 0x001183a4 {
-+    31:0    value as u32;
-+});
-+
-+register!(
-+    NV_USABLE_FB_SIZE_IN_MB => NV_PGC6_AON_SECURE_SCRATCH_GROUP_42,
-+    "Scratch group 42 register used as framebuffer size" {
-+        31:0    value as u32, "Usable framebuffer size, in megabytes";
-+    }
-+);
-+
-+impl NV_USABLE_FB_SIZE_IN_MB {
-+    /// Returns the usable framebuffer size, in bytes.
-+    pub(crate) fn usable_fb_size(self) -> u64 {
-+        u64::from(self.value()) * kernel::sizes::SZ_1M as u64
-+    }
-+}
-+
-+/* PDISP */
-+
-+register!(NV_PDISP_VGA_WORKSPACE_BASE @ 0x00625f04 {
-+    3:3     status_valid as bool, "Set if the `addr` field is valid";
-+    31:8    addr as u32, "VGA workspace base address divided by 0x10000";
-+});
-+
-+impl NV_PDISP_VGA_WORKSPACE_BASE {
-+    /// Returns the base address of the VGA workspace, or `None` if none exists.
-+    pub(crate) fn vga_workspace_addr(self) -> Option<u64> {
-+        if self.status_valid() {
-+            Some((self.addr() as u64) << 16)
-+        } else {
-+            None
-+        }
-+    }
-+}
-+
- /* FUSE */
- 
- register!(NV_FUSE_OPT_FPF_NVDEC_UCODE1_VERSION @ 0x00824100 {
-@@ -218,3 +275,22 @@ pub(crate) fn mem_scrubbing_done(self) -> bool {
-     4:4     core_select as bool => PeregrineCoreSelect;
-     8:8     br_fetch as bool;
- });
-+
-+// The modules below provide registers that are not identical on all supported chips. They should
-+// only be used in HAL modules.
-+
-+pub(crate) mod gm107 {
-+    /* FUSE */
-+
-+    register!(NV_FUSE_STATUS_OPT_DISPLAY @ 0x00021c04 {
-+        0:0     display_disabled as bool;
-+    });
-+}
-+
-+pub(crate) mod ga100 {
-+    /* FUSE */
-+
-+    register!(NV_FUSE_STATUS_OPT_DISPLAY @ 0x00820c04 {
-+        0:0     display_disabled as bool;
-+    });
-+}
+ impl<const N: usize> ModInfoBuilder<N> {
 
 -- 
 2.49.0
