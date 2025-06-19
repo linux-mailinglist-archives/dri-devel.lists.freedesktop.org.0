@@ -2,66 +2,60 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 064C3AE047D
-	for <lists+dri-devel@lfdr.de>; Thu, 19 Jun 2025 13:57:21 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id BB8B2AE04F2
+	for <lists+dri-devel@lfdr.de>; Thu, 19 Jun 2025 14:05:23 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0B85410EA0C;
-	Thu, 19 Jun 2025 11:57:19 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7E09C10EA0B;
+	Thu, 19 Jun 2025 12:05:06 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=collabora.com header.i=@collabora.com header.b="FwF6rciV";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="rmf8XDWw";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from bali.collaboradmins.com (bali.collaboradmins.com
- [148.251.105.195])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1A84B10EA0B
- for <dri-devel@lists.freedesktop.org>; Thu, 19 Jun 2025 11:57:17 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
- s=mail; t=1750334234;
- bh=DR/rK5HTj+CWk3pzua5Z1Bq7gFUhrjz26jlD1PlmDUQ=;
- h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
- b=FwF6rciVdJ8E6CWw8PHfonXBYZhIx242n/qAuaGVrLLGKSaZXwUPkPGH5WyuxC36X
- TszAddwZ75xYE/OOKKdq0+zVOOsFrc9KP90kLV/Zq0mxEyyF2Rzcz4ACTpH5zlJCzO
- 34mzBRe/RkSOBdot2lihqN3siVwgDnyzLE+/T20ll386qT3uJR2Eg0Uz2gllUMGjkU
- WSW9k3YQZ2bzMByXM9/kWiEksP3U0yJbrN/TfB4RDLs+lBtRkRKuLprCkiii8aX+nK
- Wz1OffDaFvSD9lrMOXpoDbSRFrXKQsxu9NlWIoLoCMb1UZPnNCUoqSeAsNViOXPkd3
- 8+eqKYLpRirbQ==
-Received: from localhost (unknown [IPv6:2a01:e0a:2c:6930:5cf4:84a1:2763:fe0d])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
- (No client certificate requested) (Authenticated sender: bbrezillon)
- by bali.collaboradmins.com (Postfix) with ESMTPSA id 437B917E0863;
- Thu, 19 Jun 2025 13:57:13 +0200 (CEST)
-Date: Thu, 19 Jun 2025 13:57:09 +0200
-From: Boris Brezillon <boris.brezillon@collabora.com>
-To: Daniel Almeida <daniel.almeida@collabora.com>
-Cc: Danilo Krummrich <dakr@kernel.org>, Miguel Ojeda <ojeda@kernel.org>,
- Alex Gaynor <alex.gaynor@gmail.com>, Boqun Feng <boqun.feng@gmail.com>,
- Gary Guo <gary@garyguo.net>, =?UTF-8?B?QmrDtnJu?= Roy Baron
- <bjorn3_gh@protonmail.com>, Benno Lossin <benno.lossin@proton.me>, Andreas
- Hindborg <a.hindborg@kernel.org>, Alice Ryhl <aliceryhl@google.com>, Trevor
- Gross <tmgross@umich.edu>, Sumit Semwal <sumit.semwal@linaro.org>,
- Christian =?UTF-8?B?S8O2bmln?= <christian.koenig@amd.com>, Alyssa
- Rosenzweig <alyssa@rosenzweig.io>, Lyude Paul <lyude@redhat.com>, Maarten
- Lankhorst <maarten.lankhorst@linux.intel.com>, Maxime Ripard
- <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, David Airlie
- <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- linux-kernel@vger.kernel.org, rust-for-linux@vger.kernel.org,
- dri-devel@lists.freedesktop.org, Asahi Lina <lina@asahilina.net>
-Subject: Re: [PATCH v2 2/2] rust: drm: Add GPUVM abstraction
-Message-ID: <20250619135709.634625e0@collabora.com>
-In-Reply-To: <F731D6F7-312D-4633-B677-69B7CC7194A6@collabora.com>
-References: <20250422-gpuvm-v2-0-44d4fc25e411@collabora.com>
- <20250422-gpuvm-v2-2-44d4fc25e411@collabora.com>
- <aAgHGuzCZzh7YPz2@cassiopeiae>
- <DBB3E8CE-19AA-437D-AF54-BF23763B254F@collabora.com>
- <aAj7gAzFVRX3dN7L@pollux>
- <F731D6F7-312D-4633-B677-69B7CC7194A6@collabora.com>
-Organization: Collabora
-X-Mailer: Claws Mail 4.3.1 (GTK 3.24.49; x86_64-redhat-linux-gnu)
+Received: from sea.source.kernel.org (sea.source.kernel.org [172.234.252.31])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 553C510EA0B
+ for <dri-devel@lists.freedesktop.org>; Thu, 19 Jun 2025 12:05:05 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+ by sea.source.kernel.org (Postfix) with ESMTP id E1ADB4AB33;
+ Thu, 19 Jun 2025 12:05:00 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 47E41C4CEEA;
+ Thu, 19 Jun 2025 12:05:00 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1750334700;
+ bh=73e9iIp7RI/pkRnv30XMHzyOXufY4G6WQj1t8OYXpx4=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=rmf8XDWwGh9g3X3gHWFEtI6PbEgEt08MyvSvx4duHbYer8ygOkZ8z5QCrSTe+zEEv
+ QtGnK0S1mfq72dEAXy4/iCMECS7s5LXdtX74MP7VR+bRxVYJYFcREMXp6Dk8yOULdp
+ Pqcjixwv6qGTZwDbLtCrIoD+Yq2hdDSpZ5rFXFM2ZXIUko4KVY3A6nAl3c3d4oLvkp
+ c0Fw0Xk4xkLqH6WuCTG/fzPCto5FrWf03Yf9e2kzk4jHrNrDhK53Yp1if/IZ9EyMyS
+ 3d2sDPFvFRh4ePjpcD9/FWwon1wQgqcQFSH2S9XU9FCWReeREjDn0tnYXmBf5v+22G
+ 9T3JW/KG4fhbg==
+Date: Thu, 19 Jun 2025 14:04:57 +0200
+From: Maxime Ripard <mripard@kernel.org>
+To: Svyatoslav Ryhel <clamor95@gmail.com>
+Cc: Andrzej Hajda <andrzej.hajda@intel.com>, 
+ Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>, 
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
+ Jonas Karlman <jonas@kwiboo.se>, 
+ Jernej Skrabec <jernej.skrabec@gmail.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
+ Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>, 
+ Simona Vetter <simona@ffwll.ch>, Rob Herring <robh@kernel.org>, 
+ Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
+ dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org,
+ linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v6 2/2] drm: bridge: Add support for Solomon SSD2825
+ RGB/DSI bridge
+Message-ID: <20250619-slim-bright-warthog-77f8ed@houat>
+References: <20250526114353.12081-1-clamor95@gmail.com>
+ <20250526114353.12081-3-clamor95@gmail.com>
+ <20250619-nondescript-holistic-ostrich-6d1efc@houat>
+ <CAPVz0n2rG+VJ5dwHmSxtzD5JtRy7p=g-gygKGUoSaECQCEkFfQ@mail.gmail.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
+Content-Type: multipart/signed; micalg=pgp-sha384;
+ protocol="application/pgp-signature"; boundary="2firevhiw5liv6bp"
+Content-Disposition: inline
+In-Reply-To: <CAPVz0n2rG+VJ5dwHmSxtzD5JtRy7p=g-gygKGUoSaECQCEkFfQ@mail.gmail.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -77,192 +71,312 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi,
 
-On Fri, 13 Jun 2025 13:42:59 -0300
-Daniel Almeida <daniel.almeida@collabora.com> wrote:
+--2firevhiw5liv6bp
+Content-Type: text/plain; protected-headers=v1; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
+Subject: Re: [PATCH v6 2/2] drm: bridge: Add support for Solomon SSD2825
+ RGB/DSI bridge
+MIME-Version: 1.0
 
-> Danilo,
+On Thu, Jun 19, 2025 at 01:17:12PM +0300, Svyatoslav Ryhel wrote:
+> =D1=87=D1=82, 19 =D1=87=D0=B5=D1=80=D0=B2. 2025=E2=80=AF=D1=80. =D0=BE 12=
+:41 Maxime Ripard <mripard@kernel.org> =D0=BF=D0=B8=D1=88=D0=B5:
+> >
+> > On Mon, May 26, 2025 at 02:43:53PM +0300, Svyatoslav Ryhel wrote:
+> > > +static ssize_t ssd2825_dsi_host_transfer(struct mipi_dsi_host *host,
+> > > +                                      const struct mipi_dsi_msg *msg)
+> > > +{
+> > > +     struct ssd2825_priv *priv =3D dsi_host_to_ssd2825(host);
+> > > +     struct mipi_dsi_device *dsi_dev =3D priv->output.dev;
+> > > +     u8 buf =3D *(u8 *)msg->tx_buf;
+> > > +     u16 config;
+> > > +     int ret;
+> > > +
+> > > +     if (!priv->enabled) {
+> > > +             dev_err(priv->dev, "Bridge is not enabled\n");
+> > > +             return -ENODEV;
+> > > +     }
+> >
+> > Transfers can and should happen even when the bridge is disabled. The
+> > hardware might not permit that, but you'll need to elaborate in the
+> > comment about why.
+>
+> This ensures that hw was configured properly in pre_enable and since
+> pre_enable is void it will not return any errors if it fails.
+
+There's no relationship between the bridge pre_enable and enable hooks,
+and the MIPI-DSI host transfer one. It's perfectly valid to call
+transfer if the bridge is detached or disabled.
+
+> > > +     if (msg->rx_len) {
+> > > +             dev_warn(priv->dev, "MIPI rx is not supported\n");
+> > > +             return -EOPNOTSUPP;
+> > > +     }
+> > > +
+> > > +     guard(mutex)(&priv->mlock);
+> > > +
+> > > +     ret =3D ssd2825_read_reg(priv, SSD2825_CONFIGURATION_REG, &conf=
+ig);
+> > > +     if (ret)
+> > > +             return ret;
+> > > +
+> > > +     switch (msg->type) {
+> > > +     case MIPI_DSI_DCS_SHORT_WRITE:
+> > > +     case MIPI_DSI_DCS_SHORT_WRITE_PARAM:
+> > > +     case MIPI_DSI_DCS_LONG_WRITE:
+> > > +             config |=3D SSD2825_CONF_REG_DCS;
+> > > +             break;
+> > > +     case MIPI_DSI_GENERIC_SHORT_WRITE_0_PARAM:
+> > > +     case MIPI_DSI_GENERIC_SHORT_WRITE_1_PARAM:
+> > > +     case MIPI_DSI_GENERIC_SHORT_WRITE_2_PARAM:
+> > > +     case MIPI_DSI_GENERIC_LONG_WRITE:
+> > > +             config &=3D ~SSD2825_CONF_REG_DCS;
+> > > +             break;
+> > > +     case MIPI_DSI_DCS_READ:
+> > > +     case MIPI_DSI_GENERIC_READ_REQUEST_0_PARAM:
+> > > +     case MIPI_DSI_GENERIC_READ_REQUEST_1_PARAM:
+> > > +     case MIPI_DSI_GENERIC_READ_REQUEST_2_PARAM:
+> > > +     default:
+> > > +             return 0;
+> > > +     }
+> > > +
+> > > +     ret =3D ssd2825_write_reg(priv, SSD2825_CONFIGURATION_REG, conf=
+ig);
+> > > +     if (ret)
+> > > +             return ret;
+> > > +
+> > > +     ret =3D ssd2825_write_reg(priv, SSD2825_VC_CTRL_REG, 0x0000);
+> > > +     if (ret)
+> > > +             return ret;
+> > > +
+> > > +     ret =3D ssd2825_write_dsi(priv, msg->tx_buf, msg->tx_len);
+> > > +     if (ret)
+> > > +             return ret;
+> > > +
+> > > +     if (buf =3D=3D MIPI_DCS_SET_DISPLAY_ON) {
+> > > +             /*
+> > > +              * NOTE! This is here since it cannot be called in brid=
+ge enable because
+> > > +              * bridge pre enable and bridge enable have no gap in b=
+etween.
+> > > +              *
+> > > +              * Existing framework bridge-panel seq is:
+> > > +              *      panel_prepare > bridge_pre_enable > bridge_enab=
+le > panel_enable
+> > > +              *
+> > > +              * Using prepare_prev_first was tested, but it switches=
+ seq like this:
+> > > +              *      bridge_pre_enable > panel_prepare > bridge_enab=
+le > panel_enable
+> > > +              *
+> > > +              * This will not work since panel hw MUST be prepared b=
+efore bridge is
+> > > +              * configured. Correct seq should be:
+> > > +              *      panel_prepare > bridge_pre_enable > panel_enabl=
+e > bridge_enable
+> >
+> > Where is that requirement coming from?
+>
+> This is how my device's (LG P895) bridge-panel combo works. Panel hw
+> must be enabled before bridge, then bridge hw, then panel can send
+> init sequence and then bridge must complete configuration.
+
+Do you have a documentation for that DSI device?
+
+DSI devices typically come with requirement of the power states of the
+lanes, that's what you want to discuss here. How we can model that in
+software is a discussion we need to have once we've identified what the
+hardware needs exactly.
+
+> > panel prepare is documented as:
+> >
+> >   The .prepare() function is typically called before the display contro=
+ller
+> >   starts to transmit video data.
+> >
+> >
+> > And video data transmission for bridges only happen at bridge_enable
+> > time.
+> >
+> > So, from an API PoV, all the sequences above are correct.
+>
+> There is no way ATM for this bridge to complete configuration, there
+> either should be a way to swap panel_enable and bridge_enable or there
+> should be added an additional operation like bridge_post_enable or
+> smth like that for cases like here when bridge has to complete
+> configuration after panel init seq is sent.
 >=20
->=20
-> > <snip>
-> >  =20
-> >>>> +// SAFETY: DRM GpuVmBo objects are always reference counted and the=
- get/put functions
-> >>>> +// satisfy the requirements.
-> >>>> +unsafe impl<T: DriverGpuVm> AlwaysRefCounted for GpuVmBo<T> {
-> >>>> +    fn inc_ref(&self) {
-> >>>> +        // SAFETY: The drm_gpuvm_get function satisfies the require=
-ments for inc_ref().
-> >>>> +        unsafe { bindings::drm_gpuvm_bo_get(&self.bo as *const _ as=
- *mut _) };
-> >>>> +    }
-> >>>> +
-> >>>> +    unsafe fn dec_ref(mut obj: NonNull<Self>) {
-> >>>> +        // SAFETY: drm_gpuvm_bo_put() requires holding the gpuva lo=
-ck, which is
-> >>>> +        // the dma_resv lock by default.
-> >>>> +        // The drm_gpuvm_put function satisfies the requirements fo=
-r dec_ref().
-> >>>> +        // (We do not support custom locks yet.)
-> >>>> +        unsafe {
-> >>>> +            let resv =3D (*obj.as_mut().bo.obj).resv;
-> >>>> +            bindings::dma_resv_lock(resv, core::ptr::null_mut());
-> >>>> +            bindings::drm_gpuvm_bo_put(&mut obj.as_mut().bo);
-> >>>> +            bindings::dma_resv_unlock(resv); =20
-> >>>=20
-> >>> What if the resv_lock is held already? Please also make sure to put m=
-ultiple
-> >>> unsafe calls each in a separate unsafe block. =20
-> >>=20
-> >> By whom? =20
-> >=20
-> > The lock might be held already by the driver or by TTM when things are =
-called
-> > from TTM callbacks.
-> >=20
-> > This is why GPUVM never takes locks by itself, but asserts that the cor=
-rect lock
-> > is held.
-> >=20
-> > I think we really want to get proof by the driver by providing lock gua=
-rd
-> > references.
-> >  =20
->=20
-> There doesn=E2=80=99t seem to be a solution that fits all the boxes here.
->=20
-> As you said, at this point the current status of the resv is unknown. If =
-we
-> simply assume that it is not taken, we run into the problem you pointed o=
-ut:
-> i.e.: recursive locking where ttm or some other layer has the lock alread=
-y.
->=20
-> Alternatively, if we assume that the resv must be locked in dec_ref(), th=
-en we
-> may build a lock::Guard from it and assert that it is held, but in any ca=
-se
-> it's very confusing to expect the reservation to be locked on a dec_ref()=
- call.
->=20
-> The fact that dec_ref() is placed automatically on drop will massively
-> complicate the call sites:
+> > > +              * Last two functions should be swapped related to exis=
+ting framework.
+> > > +              * I am not aware about method which allows that.
+> > > +              *
+> > > +              * Once there will be such method/flag, code below shou=
+ld be moved into
+> > > +              * bridge_enable since it is basically a bridge configu=
+ration completing
+> > > +              * after initial panel DSI sequence is completed.
+> > > +              */
+> >
+> > If there's anything to fix, we should do it before introducing that
+> > driver.
+>
+> I just want to have a bridge my device uses to be supported by
+> mainline linux. I have no intention to touch any part of DRM framework
+> and cause instabilities, maintainers rage and hate.
 
-I'm digressing, but there's an aspect I found very annoying in the C
-version of the API: the fact that we have to take a BO ref, then lock,
-then release the vm_bo [1], because otherwise the vm_bo might be the
-last owner of a BO ref leading to a UAF on the lock itself. This to me,
-denotes a lifetime issue that I think would be good to address in the
-rust version of the API.
+And I just want all drivers to behave consistently.
 
-It's not exactly the same problem, but I think it comes from the same
-root issue: lax ownership definition. By that I mean it's not clear
-who's the owner and who's the owned. gem_object::gpuva::list has
-weak refs on the vm_bos contained in this list, which kinda makes sense
-because vm_bos themselves have a ref on the gem_object, and if we were
-to make this weak ref a strong ref we'd never free any of these two
-objects. The lock is also part of the BO (either the BO resv lock, or a
-custom lock), and since it's the very same lock we use to insert/remove
-vm_bos, that's problematic.
+> > > +static void ssd2825_bridge_atomic_pre_enable(struct drm_bridge *brid=
+ge,
+> > > +                                          struct drm_atomic_state *s=
+tate)
+> > > +{
+> > > +     struct ssd2825_priv *priv =3D bridge_to_ssd2825(bridge);
+> > > +     struct mipi_dsi_device *dsi_dev =3D priv->output.dev;
+> > > +     const struct drm_crtc_state *crtc_state;
+> > > +     const struct drm_display_mode *mode;
+> > > +     struct drm_connector *connector;
+> > > +     struct drm_crtc *crtc;
+> > > +     u32 input_bus_flags =3D bridge->timings->input_bus_flags;
+> > > +     u16 flags =3D 0, config;
+> > > +     u8 pixel_format;
+> > > +     int ret;
+> > > +
+> > > +     if (priv->enabled)
+> > > +             return;
+> >
+> > What is this guarding against?
+>
+> blocks repeating ssd2825_bridge_atomic_pre_enable calls
 
-If we were making the gpuvm_bo_list a separate object that's originally
-created by the BO, and then let the GPUVM layer manipulate only this
-list, it could work. Of course that means the resv lock/driver custom
-lock should come from this object too, and I'm not too sure that's an
-option when dma_buf imports are involved.
+Which happens in which situation?
 
->=20
-> We will have to ensure that the resv is locked at all times where we inte=
-rface
-> with a GpuVmBo, because each of these points could possibly be the last a=
-ctive
-> ref. If we don't, then we've introduced a race where the list is modified=
- but
-> no lock is taken, which will be a pretty easy mistake to make. This seems=
- to
-> also be the case in C, which we should try to improve upon.
+> > > +     /* Power Sequence */
+> > > +     ret =3D clk_prepare_enable(priv->tx_clk);
+> > > +     if (ret)
+> > > +             dev_err(priv->dev, "error enabling tx_clk (%d)\n", ret);
+> > > +
+> > > +     ret =3D regulator_bulk_enable(ARRAY_SIZE(ssd2825_supplies), pri=
+v->supplies);
+> > > +     if (ret)
+> > > +             dev_err(priv->dev, "error enabling regulators (%d)\n", =
+ret);
+> > > +
+> > > +     usleep_range(1000, 2000);
+> > > +
+> > > +     ssd2825_hw_reset(priv);
+> > > +
+> > > +     /* Perform SW reset */
+> > > +     ssd2825_write_reg(priv, SSD2825_OPERATION_CTRL_REG, 0x0100);
+> > > +
+> > > +     /* Set pixel format */
+> > > +     switch (dsi_dev->format) {
+> > > +     case MIPI_DSI_FMT_RGB565:
+> > > +             pixel_format =3D 0x00;
+> > > +             break;
+> > > +     case MIPI_DSI_FMT_RGB666_PACKED:
+> > > +             pixel_format =3D 0x01;
+> > > +             break;
+> > > +     case MIPI_DSI_FMT_RGB666:
+> > > +             pixel_format =3D 0x02;
+> > > +             break;
+> > > +     case MIPI_DSI_FMT_RGB888:
+> > > +     default:
+> > > +             pixel_format =3D 0x03;
+> > > +             break;
+> > > +     }
+> > > +
+> > > +     connector =3D drm_atomic_get_new_connector_for_encoder(state, b=
+ridge->encoder);
+> > > +     crtc =3D drm_atomic_get_new_connector_state(state, connector)->=
+crtc;
+> > > +     crtc_state =3D drm_atomic_get_new_crtc_state(state, crtc);
+> > > +     mode =3D &crtc_state->adjusted_mode;
+> > > +
+> > > +     /* Set panel timings */
+> > > +     ssd2825_write_reg(priv, SSD2825_RGB_INTERFACE_CTRL_REG_1,
+> > > +                       ((mode->vtotal - mode->vsync_end) << 8) |
+> > > +                       (mode->htotal - mode->hsync_end));
+> > > +     ssd2825_write_reg(priv, SSD2825_RGB_INTERFACE_CTRL_REG_2,
+> > > +                       ((mode->vtotal - mode->vsync_start) << 8) |
+> > > +                       (mode->htotal - mode->hsync_start));
+> > > +     ssd2825_write_reg(priv, SSD2825_RGB_INTERFACE_CTRL_REG_3,
+> > > +                       ((mode->vsync_start - mode->vdisplay) << 8) |
+> > > +                       (mode->hsync_start - mode->hdisplay));
+> > > +     ssd2825_write_reg(priv, SSD2825_RGB_INTERFACE_CTRL_REG_4, mode-=
+>hdisplay);
+> > > +     ssd2825_write_reg(priv, SSD2825_RGB_INTERFACE_CTRL_REG_5, mode-=
+>vdisplay);
+> > > +
+> > > +     if (mode->flags & DRM_MODE_FLAG_PHSYNC)
+> > > +             flags |=3D SSD2825_HSYNC_HIGH;
+> > > +
+> > > +     if (mode->flags & DRM_MODE_FLAG_PVSYNC)
+> > > +             flags |=3D SSD2825_VSYNC_HIGH;
+> > > +
+> > > +     if (dsi_dev->mode_flags & MIPI_DSI_MODE_VIDEO)
+> > > +             flags |=3D SSD2825_NON_BURST_EV;
+> > > +
+> > > +     if (input_bus_flags & DRM_BUS_FLAG_PIXDATA_SAMPLE_POSEDGE)
+> > > +             flags |=3D SSD2825_PCKL_HIGH;
+> > > +
+> > > +     ssd2825_write_reg(priv, SSD2825_RGB_INTERFACE_CTRL_REG_6, flags=
+ | pixel_format);
+> > > +     ssd2825_write_reg(priv, SSD2825_LANE_CONFIGURATION_REG, dsi_dev=
+->lanes - 1);
+> > > +     ssd2825_write_reg(priv, SSD2825_TEST_REG, 0x0004);
+> > > +
+> > > +     /* Call PLL configuration */
+> > > +     ssd2825_setup_pll(priv, mode);
+> > > +
+> > > +     usleep_range(10000, 11000);
+> > > +
+> > > +     config =3D SSD2825_CONF_REG_HS | SSD2825_CONF_REG_CKE | SSD2825=
+_CONF_REG_DCS |
+> > > +              SSD2825_CONF_REG_ECD | SSD2825_CONF_REG_EOT;
+> > > +
+> > > +     if (dsi_dev->mode_flags & MIPI_DSI_MODE_LPM)
+> > > +             config &=3D ~SSD2825_CONF_REG_HS;
+> > > +
+> > > +     if (dsi_dev->mode_flags & MIPI_DSI_MODE_NO_EOT_PACKET)
+> > > +             config &=3D ~SSD2825_CONF_REG_EOT;
+> > > +
+> > > +     /* Initial DSI configuration register set */
+> > > +     ssd2825_write_reg(priv, SSD2825_CONFIGURATION_REG, config);
+> > > +     ssd2825_write_reg(priv, SSD2825_VC_CTRL_REG, 0);
+> > > +
+> > > +     priv->enabled =3D true;
+> > > +}
+> > > +
+> > > +static void ssd2825_bridge_atomic_enable(struct drm_bridge *bridge,
+> > > +                                      struct drm_atomic_state *state)
+> > > +{
+> > > +     /* placeholder */
+> > > +}
+> >
+> > That doesn't work with any bridge or panel that doesn't require any DCS
+> > command to power up, unfortunately.
+>
+> Yes that is a flaw unfortunately, if you have suggestions of fixing
+> this just tell me.
 
-Yep, with auto-unref thrown into the mix you have to be very careful on
-which paths might release the last vm_bo ref, and make sure an extra
-ref is taken on the BO, and the resv/custom lock is held when that
-happens.
+Untangle pre_enable and enable from transfer, and in enable actually
+enable the bridge, and it will work just fine.
 
->=20
-> My suggestion is to introduce a separate GPU-VA lock here:
->=20
-> /// A base GEM object.
-> #[repr(C)]
-> #[pin_data]
-> pub struct Object<T: DriverObject> {
->     obj: bindings::drm_gem_object,
->     // The DRM core ensures the Device exists as long as its objects exis=
-t, so we don't need to
->     // manage the reference count here.
->     dev: *const bindings::drm_device,
->     #[pin]
->     inner: T,
->     #[pin]
->     _p: PhantomPinned,
->     // Add a GPU-VA lock here <--------
-> }
->=20
-> And only support custom locks in Rust, to the detriment of the optimizati=
-on
-> where the resv is used and to the detriment of any perf improvements that
-> reusing the reservation might bring to the table.
+Maxime
 
-Yes, if it was only about perf optimizations, then I'd like to see
-numbers that prove taking an extra lock that's always going to be free
-in a path where you already took the BO resv lock actually makes a
-difference, and honestly, I doubt it. But my fear is that it's not so
-much about avoiding an extra lock to be taken, and more about making
-sure this list insertion/deletion doesn't race with other paths that
-are assuming that taking the resv lock is enough to guarantee exclusive
-access to this vm_bo list (I mean places outside gpuvm, in the drivers
-directly). I guess the is fixable.
+--2firevhiw5liv6bp
+Content-Type: application/pgp-signature; name="signature.asc"
 
->=20
-> Notice that this would sidestep this entire discussion: nobody else would=
- be
-> aware of this new lock so we could safely lock it in dec_ref(). We would =
-also
-> be transparently managing the locking on behalf of drivers in all the oth=
-er
-> calls where the VA list is accessed, which is another plus as I said abov=
-e.
+-----BEGIN PGP SIGNATURE-----
 
-If the lock is part of the gem_object, it's not solving the problem I
-described above, because you might be taking a lock that disappears if
-you don't take a BO ref before taking the lock. In the end, that's
-still a risky business.
+iJUEABMJAB0WIQTkHFbLp4ejekA/qfgnX84Zoj2+dgUCaFP85QAKCRAnX84Zoj2+
+dsAtAXsHqXBRQgNYVy24zcMCJdFi2TBVVLNZXAQtEv3roSZDMVL5JG3KTaxnPVQy
+/Vhn83YBfApGQPozQQwGW/s8BJ24RIVWYKllfKkF6gXcLMr1gOV1zFHIyaFLjXoQ
+WxbT1L083A==
+=nxv8
+-----END PGP SIGNATURE-----
 
->=20
-> I understand that most C drivers do not need an extra lock, but it's gett=
-ing
-> hard to emulate this behavior in Rust.
->=20
-> Also, the fact that they don't need an extra lock does not invalidate the=
- fact
-> that it would be simply safer to have this extra lock anyways. In other w=
-ords,
-> it is still completely possible to use GPUVM without locking anything and=
- IMHO
-> we shouldn't bring this over if we can help it.
-
-Overall, I do agree with Daniel here. We'd rather think about how to
-make the C API more user-friendly by clearly defining
-ownership/lifetime before we try to add rust bindings on top.
-Deciding where the lock comes from is part of the discussion, but IMHO,
-that's not the only thing we need to sort out.
-
-I hope that me chiming in didn't make the situation worse :-/, and I'd
-be fine if someone convince me that what I complain about here is
-actually not a problem in rust :-).
-
-Regards,
-
-Boris
-
-[1]https://elixir.bootlin.com/linux/v6.15.2/source/drivers/gpu/drm/panthor/=
-panthor_mmu.c#L1090
+--2firevhiw5liv6bp--
