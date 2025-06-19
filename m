@@ -2,77 +2,64 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 61142AE00CD
-	for <lists+dri-devel@lfdr.de>; Thu, 19 Jun 2025 11:00:08 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id DC11DAE00E9
+	for <lists+dri-devel@lfdr.de>; Thu, 19 Jun 2025 11:02:12 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C856210E9EC;
-	Thu, 19 Jun 2025 09:00:06 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5632310E9EF;
+	Thu, 19 Jun 2025 09:02:10 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="uZqCItIr";
+	dkim=fail reason="signature verification failed" (2048-bit key; secure) header.d=sntech.de header.i=@sntech.de header.b="Lz+dxvYl";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from sea.source.kernel.org (sea.source.kernel.org [172.234.252.31])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A731310E9ED
- for <dri-devel@lists.freedesktop.org>; Thu, 19 Jun 2025 09:00:05 +0000 (UTC)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by sea.source.kernel.org (Postfix) with ESMTP id 623B24A0E0
- for <dri-devel@lists.freedesktop.org>; Thu, 19 Jun 2025 09:00:05 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id ED710C4CEF6
- for <dri-devel@lists.freedesktop.org>; Thu, 19 Jun 2025 09:00:04 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1750323605;
- bh=UzuK/CxyCGnL+YSPUVuW3jK4T0cRHWwLE+0svoU+I9s=;
- h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
- b=uZqCItIrk3k1OdHIzIrazTjBWejLTxKQPYzsMO57UI7rJrtaBqrf43cOBcK1wa72w
- JsIvZHpA+V7otozjmg8DWFRLn/hvgSNdiOpTmoRK16hVgaMIKCpTQWE0dbHArd/Pt5
- xqUtXO3MW6lvEkNsLH6d2cvFYwWGq8Y5DoFwqXdEYr8T4rqE++0PFw4JA+CdyjFaRT
- LwFPTdbgd0r2wrp/Zb4qUarXaFCQgRfNMt+WG6fExOEczrCcoEC8Ysd6dTVaRXqWSl
- LypPuEpu21fbDAY/2xl5pkj/I57BSSvXvZAt3RuekEF02gANJYNEK5UEFhGejydXq2
- P6bMo6rdAp2yw==
-Received: by mail-yb1-f182.google.com with SMTP id
- 3f1490d57ef6-e82596e88c4so521801276.1
- for <dri-devel@lists.freedesktop.org>; Thu, 19 Jun 2025 02:00:04 -0700 (PDT)
-X-Forwarded-Encrypted: i=1;
- AJvYcCWYvaNHAdw5rUErwuVgBaIcCxMV6JPvk55MRx+EEg/BMpjPIHnA0Pz7K/GkZD99kPy6Iyu6Pwtz/t4=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YwDlwIVRE/mMmbFnyl8t8UwwnITAevd4DctDrwPGE+xJhUaNW7w
- HZSckAT9TD0/XdyZClDgsyFGmX5YuF0AvXdip/WqvMjU/Dn5AKV/r6DS0nmSPAmcqJflYZ7jBEa
- JFmCMxF4j4TGA2nDPr38xmQfVN2S8XHFXkSb/hxvoFQ==
-X-Google-Smtp-Source: AGHT+IFTSpIXWJ8aJgks2cku0velW0M+JCR6Rbfmtd6WsoM033VVzHoiXCwOg94pnYfHO2hy+W/9swsQZRSpK6zIGwQ=
-X-Received: by 2002:a05:6902:2613:b0:e82:6c9b:8287 with SMTP id
- 3f1490d57ef6-e826c9b85e4mr11134815276.9.1750323604035; Thu, 19 Jun 2025
- 02:00:04 -0700 (PDT)
-MIME-Version: 1.0
-References: <20250606-6-10-rocket-v7-0-dc16cfe6fe4e@tomeuvizoso.net>
- <20250606-6-10-rocket-v7-2-dc16cfe6fe4e@tomeuvizoso.net>
-In-Reply-To: <20250606-6-10-rocket-v7-2-dc16cfe6fe4e@tomeuvizoso.net>
-From: Robert Foss <rfoss@kernel.org>
-Date: Thu, 19 Jun 2025 10:59:53 +0200
-X-Gmail-Original-Message-ID: <CAN6tsi4p2wuMVVvQOJ5c6ecT=x2pr2VoZhS4wH27qaR9DptQHA@mail.gmail.com>
-X-Gm-Features: AX0GCFskbG-ChYYQk7bGtKWaX4j6fsAKjpFPkM8iQ7QewPkQLLciRbSAzy_fqYo
-Message-ID: <CAN6tsi4p2wuMVVvQOJ5c6ecT=x2pr2VoZhS4wH27qaR9DptQHA@mail.gmail.com>
-Subject: Re: [PATCH v7 02/10] accel/rocket: Add a new driver for Rockchip's NPU
-To: Tomeu Vizoso <tomeu@tomeuvizoso.net>
-Cc: Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
- Conor Dooley <conor+dt@kernel.org>, Heiko Stuebner <heiko@sntech.de>,
- Oded Gabbay <ogabbay@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, 
+Received: from gloria.sntech.de (gloria.sntech.de [185.11.138.130])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 380C310E9EF
+ for <dri-devel@lists.freedesktop.org>; Thu, 19 Jun 2025 09:02:05 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=sntech.de; 
+ s=gloria202408;
+ h=Content-Type:Content-Transfer-Encoding:MIME-Version:
+ References:In-Reply-To:Message-ID:Date:Subject:Cc:To:From:Sender:Reply-To:
+ Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
+ Resent-To:Resent-Cc:Resent-Message-ID;
+ bh=YHxb3G7EW8RzN+dJgsKeTL9lqcEi84ddNrYeIybSCPk=; b=Lz+dxvYl7ugAV5gMsPRzO/Zn6T
+ Mxdaho/YZVeiUWxOl3h4OrtvnZ6048BbBDlX5dPKQ1XqhZujSpQjlCFGyTGDJm7if6VNINPaxvQ7o
+ /8kFNcpB0Rj4uYwQn53p69/iF6U2l0VZMcGB4ZK08SUUkSee1C2Bd+uoY3lEBnaDa99ka8xdolaYd
+ SkyMcwGzxVNOJqlu0QcVtDNjVOvnvaWwLcfmxjA1+76juFgGKqfFU9c6d/YlIZdO9oBjq1meeEYDr
+ PAGkuq1Dd0gbw/v6G9F9GSdHqYL3yb71Yy3TIRlUw3GNSjlg/GLMdhqeQKNJ7KWRkbwdsBY/RvAPs
+ pKCLP7BA==;
+Received: from 85-207-219-154.static.bluetone.cz ([85.207.219.154]
+ helo=phil.localnet) by gloria.sntech.de with esmtpsa (TLS1.3) tls
+ TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384 (Exim 4.94.2)
+ (envelope-from <heiko@sntech.de>)
+ id 1uSB9C-0007Ey-OE; Thu, 19 Jun 2025 11:01:26 +0200
+From: Heiko Stuebner <heiko@sntech.de>
+To: Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
+ Conor Dooley <conor+dt@kernel.org>, Oded Gabbay <ogabbay@kernel.org>,
+ Jonathan Corbet <corbet@lwn.net>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
  Sumit Semwal <sumit.semwal@linaro.org>,
- =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>, 
- Sebastian Reichel <sebastian.reichel@collabora.com>, 
+ Christian =?UTF-8?B?S8O2bmln?= <christian.koenig@amd.com>,
+ Sebastian Reichel <sebastian.reichel@collabora.com>,
  Nicolas Frattaroli <nicolas.frattaroli@collabora.com>,
- Kever Yang <kever.yang@rock-chips.com>, 
- Robin Murphy <robin.murphy@arm.com>, Daniel Stone <daniel@fooishbar.org>,
- Da Xue <da@libre.computer>, 
- Jeff Hugo <jeff.hugo@oss.qualcomm.com>, devicetree@vger.kernel.org, 
- linux-arm-kernel@lists.infradead.org, linux-rockchip@lists.infradead.org, 
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org, 
- linux-doc@vger.kernel.org, linux-media@vger.kernel.org, 
- linaro-mm-sig@lists.linaro.org
-Content-Type: text/plain; charset="UTF-8"
+ Kever Yang <kever.yang@rock-chips.com>, Robin Murphy <robin.murphy@arm.com>,
+ Daniel Stone <daniel@fooishbar.org>, Da Xue <da@libre.computer>,
+ Jeff Hugo <jeff.hugo@oss.qualcomm.com>, Tomeu Vizoso <tomeu@tomeuvizoso.net>
+Cc: devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+ linux-rockchip@lists.infradead.org, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, linux-doc@vger.kernel.org,
+ linux-media@vger.kernel.org, linaro-mm-sig@lists.linaro.org,
+ Tomeu Vizoso <tomeu@tomeuvizoso.net>, Jeff Hugo <jeff.hugo@oss.qualcomm.com>, 
+ Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+Subject: Re: [PATCH v7 00/10] New DRM accel driver for Rockchip's RKNN NPU
+Date: Thu, 19 Jun 2025 11:01:25 +0200
+Message-ID: <2217684.TLkxdtWsSY@phil>
+In-Reply-To: <20250606-6-10-rocket-v7-0-dc16cfe6fe4e@tomeuvizoso.net>
+References: <20250606-6-10-rocket-v7-0-dc16cfe6fe4e@tomeuvizoso.net>
+MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset="utf-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -88,50 +75,32 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, Jun 6, 2025 at 8:29=E2=80=AFAM Tomeu Vizoso <tomeu@tomeuvizoso.net>=
- wrote:
->
-> This initial version supports the NPU as shipped in the RK3588 SoC and
-> described in the first part of its TRM, in Chapter 36.
->
-> This NPU contains 3 independent cores that the driver can submit jobs
-> to.
->
-> This commit adds just hardware initialization and power management.
->
-> v2:
-> - Split cores and IOMMUs as independent devices (Sebastian Reichel)
-> - Add some documentation (Jeffrey Hugo)
-> - Be more explicit in the Kconfig documentation (Jeffrey Hugo)
-> - Remove resets, as these haven't been found useful so far (Zenghui Yu)
-> - Repack structs (Jeffrey Hugo)
-> - Use DEFINE_DRM_ACCEL_FOPS (Jeffrey Hugo)
-> - Use devm_drm_dev_alloc (Jeffrey Hugo)
-> - Use probe log helper (Jeffrey Hugo)
-> - Introduce UABI header in a later patch (Jeffrey Hugo)
->
-> v3:
-> - Adapt to a split of the register block in the DT bindings (Nicolas
->   Frattaroli)
-> - Move registers header to its own commit (Thomas Zimmermann)
-> - Misc. cleanups (Thomas Zimmermann and Jeff Hugo)
-> - Make use of GPL-2.0-only for the copyright notice (Jeff Hugo)
-> - PM improvements (Nicolas Frattaroli)
->
-> v4:
-> - Use bulk clk API (Krzysztof Kozlowski)
->
-> v6:
-> - Remove mention to NVDLA, as the hardware is only incidentally related
->   (Kever Yang)
-> - Use calloc instead of GFP_ZERO (Jeff Hugo)
-> - Explicitly include linux/container_of.h (Jeff Hugo)
-> - pclk and npu clocks are now needed by all cores (Rob Herring)
->
-> v7:
-> - Assign its own IOMMU domain to each client, for isolation (Daniel
->   Stone and Robin Murphy)
->
+Am Freitag, 6. Juni 2025, 08:28:20 Mitteleurop=C3=A4ische Sommerzeit schrie=
+b Tomeu Vizoso:
+> This series adds a new driver for the NPU that Rockchip includes in its
+> newer SoCs, developed by them on the NVDLA base.
+>=20
+> In its current form, it supports the specific NPU in the RK3588 SoC.
+>=20
+> The userspace driver is part of Mesa and an initial draft can be found at:
+>=20
+> https://gitlab.freedesktop.org/mesa/mesa/-/merge_requests/29698
+>=20
 > Signed-off-by: Tomeu Vizoso <tomeu@tomeuvizoso.net>
+> ---
+> Changes in v7:
+> - Actually enable process isolation by allocating its own IOMMU domain
+>   to each DRM client.
+> - Link to v6: https://lore.kernel.org/r/20250604-6-10-rocket-v6-0-237ac75=
+ddb5e@tomeuvizoso.net
 
-Reviewed-by: Robert Foss <rfoss@kernel.org>
+I was able to successfully run the SSDLite MobileDet model, detecting
+elements correctly on that "Sounds of New York" youtube video all the
+demos seem to be using ;-) - on a rk3588-tiger board.
+
+NPU needed like 30ms per frame or so and also detected the expected
+things, so
+
+Tested-by: Heiko Stuebner <heiko@sntech.de>
+
+
