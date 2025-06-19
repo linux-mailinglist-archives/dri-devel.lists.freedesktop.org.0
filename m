@@ -2,190 +2,58 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id D56DEAE01BC
-	for <lists+dri-devel@lfdr.de>; Thu, 19 Jun 2025 11:34:42 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 431CFAE01E1
+	for <lists+dri-devel@lfdr.de>; Thu, 19 Jun 2025 11:41:16 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8ED9710E034;
-	Thu, 19 Jun 2025 09:34:23 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3FD3F10E9D9;
+	Thu, 19 Jun 2025 09:41:13 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="gm5u2Egf";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="Z8Y5iCsA";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.19])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E645910E034;
- Thu, 19 Jun 2025 09:34:22 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1750325663; x=1781861663;
- h=message-id:date:subject:to:cc:references:from:
- in-reply-to:content-transfer-encoding:mime-version;
- bh=3MtO5bFz4n+Ac1crdNQXy/TJ1PUJgPvW7EJa12L57Nk=;
- b=gm5u2Egf+IfizvV2Q0zBQqprlG8fe2SOp0ntk7+gdsOj3sYRMT/k6uVd
- 7xkozppEy5FZUhXlHtua8wTSU7QP4KKwPLkXGIPkquwM7QdmLqJVUnMll
- EY0ugfwTyiX11lTT96+ARRVNhM3sQTVQoF26e4+c+Kbb2BT2dC2LXxSA7
- e1+xdhdIT23RDjPy1Kd+knaXoFocOFBFjKQPo2tvehz3BbbzmGQbUnvBg
- uAw3uhDgfCZMndiz7i4Jf9T1DtP1jZhPPuNuj00mE34myrZOm7iyCOcrj
- rf2vJNQt1TUtf9J4R3HIxTkwbZ+j12SU52Xxu1n+U8goJkRrsVgAOlMVl Q==;
-X-CSE-ConnectionGUID: issHI+8DT2m27sZ3iRAtvg==
-X-CSE-MsgGUID: fhIEdf+PT1ixvHB0bnk+fw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11468"; a="52453861"
-X-IronPort-AV: E=Sophos;i="6.16,248,1744095600"; d="scan'208";a="52453861"
-Received: from orviesa008.jf.intel.com ([10.64.159.148])
- by orvoesa111.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 19 Jun 2025 02:34:23 -0700
-X-CSE-ConnectionGUID: wDa/qgypTNetbhDUL2Ye6A==
-X-CSE-MsgGUID: fJswQknARWuJetzF2ozOjg==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.16,248,1744095600"; d="scan'208";a="151133559"
-Received: from orsmsx902.amr.corp.intel.com ([10.22.229.24])
- by orviesa008.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 19 Jun 2025 02:34:22 -0700
-Received: from ORSMSX903.amr.corp.intel.com (10.22.229.25) by
- ORSMSX902.amr.corp.intel.com (10.22.229.24) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.1544.25; Thu, 19 Jun 2025 02:34:02 -0700
-Received: from ORSEDG902.ED.cps.intel.com (10.7.248.12) by
- ORSMSX903.amr.corp.intel.com (10.22.229.25) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.1544.25 via Frontend Transport; Thu, 19 Jun 2025 02:34:02 -0700
-Received: from NAM04-DM6-obe.outbound.protection.outlook.com (40.107.102.66)
- by edgegateway.intel.com (134.134.137.112) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.1544.25; Thu, 19 Jun 2025 02:33:06 -0700
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=Gkp99soGUvwj9wcZ81U+JkvK/B50Pu9JlCPzxoSnI/AyuLq1BqFkkWDJMHpKN9TSLWDCfUWLsUh/7yO4G8Hezwx8bzaxeS5ouQLsXoFt9QpBhIIYXLu16tn2C7vmS4NuKR2cmZ1QeaGwOypBmYrReDavV2vaEfzqVz/1Yd7UHiA/zq0UFXupwr7eC1xAIjkPF+wb1oS5CvCfcDNPHcyw8lpW0uxk8GoMHsrdmPpnN803czi9MUxJLM5uTtcB3Ed+rfoGYDKDmvhU3c6GdlskOnVQLxbOvV9jThiYQqWWUkyXtBL90Mq9aVJrIzgZxX3Aj9xRYvUiASt7WB67VJFKlQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=jp49sEywnknba4p8c3Jc3AIlmVk232uluobCQtZxnLI=;
- b=dpdoLHDUWzT85vMThwZxaUMso7Qijv+opGzRHvPvd1++PPKEt+p1xWvXF26j9VuDKRpOueFgYIg4CSFwjDJZqxR6T69PqPITRdVY3Ct4HKg2FcH7IJSVof55TikhlajRzQEO2szmymWI2pLTX0jV8Iv+hkGj66zAO4Z1fSlj9UtFZfqMFnOsinea43SmFHJlxKcz68cVE2cUaC7dPe6o7caE3h8j9Mkd5pFGrKI5EkE+1ciGoD4GfvcL1P3E/BEiyDyCbraQOogHMZ+Jt+jaTkrVgYjSXL4pvZRk2uLn39kS8iyB9Hr+aXlSX7CDaIuIOarormDUe2d48Qvcw+NHfQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
- dkim=pass header.d=intel.com; arc=none
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=intel.com;
-Received: from BN9PR11MB5530.namprd11.prod.outlook.com (2603:10b6:408:103::8)
- by PH0PR11MB5111.namprd11.prod.outlook.com (2603:10b6:510:3c::10)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8857.20; Thu, 19 Jun
- 2025 09:33:04 +0000
-Received: from BN9PR11MB5530.namprd11.prod.outlook.com
- ([fe80::13bd:eb49:2046:32a9]) by BN9PR11MB5530.namprd11.prod.outlook.com
- ([fe80::13bd:eb49:2046:32a9%5]) with mapi id 15.20.8857.022; Thu, 19 Jun 2025
- 09:33:04 +0000
-Message-ID: <af6e1d5b-84e2-4ad7-b7a4-9c3ba3bf00f5@intel.com>
-Date: Thu, 19 Jun 2025 15:02:54 +0530
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v3 09/10] drm/xe/xe_late_bind_fw: Extract and print
- version info
-To: Daniele Ceraolo Spurio <daniele.ceraolospurio@intel.com>,
- <intel-xe@lists.freedesktop.org>, <dri-devel@lists.freedesktop.org>,
- <linux-kernel@vger.kernel.org>
-CC: <anshuman.gupta@intel.com>, <rodrigo.vivi@intel.com>,
- <alexander.usyskin@intel.com>, <gregkh@linuxfoundation.org>, <jgg@nvidia.com>
-References: <20250618190007.2932322-1-badal.nilawar@intel.com>
- <20250618190007.2932322-10-badal.nilawar@intel.com>
- <994ba1b4-281a-46bd-9431-7bdef5970ed3@intel.com>
-Content-Language: en-US
-From: "Nilawar, Badal" <badal.nilawar@intel.com>
-In-Reply-To: <994ba1b4-281a-46bd-9431-7bdef5970ed3@intel.com>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 8bit
-X-ClientProxiedBy: MA0PR01CA0020.INDPRD01.PROD.OUTLOOK.COM
- (2603:1096:a01:b8::8) To BN9PR11MB5530.namprd11.prod.outlook.com
- (2603:10b6:408:103::8)
+Received: from sea.source.kernel.org (sea.source.kernel.org [172.234.252.31])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id ACAF710E9D9
+ for <dri-devel@lists.freedesktop.org>; Thu, 19 Jun 2025 09:41:12 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+ by sea.source.kernel.org (Postfix) with ESMTP id 8837849ED0;
+ Thu, 19 Jun 2025 09:41:07 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id E180DC4CEEA;
+ Thu, 19 Jun 2025 09:41:06 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1750326067;
+ bh=Kea1oGq0yOrLu69nIByO29Ka/lkhBMFN6/dXmxK9I0s=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=Z8Y5iCsAl2phyZcuyWyv8duKIXc887sVB47l6bRCpzmc4Xbr0XWbLUvt1ziZfatUi
+ 3ekTefmuEILKNt1sH/ppGjAR/JNE2A/1f/eS/cAF8/FB+NpTEnfiTDLyr6UJZTlEFp
+ RCnLJV+gOCOc5pNY6Mxx4x6HO/9nnPAPUT/xHt5Q4P3zllQ7mZoBnbRCpAXtWFEHjI
+ 1bVbYbziUxxlyc8JgJFkXVxDcWw9Yg5ub1W6Bq1Z8qypHiM329AJRuSghjqetJh/Pk
+ NcbJed5IR/1gIwh5JmljBkPt9Fqspue8HM0ctlOPId/AbF9yuCyQrB0pNJk91dV+Su
+ uxHZIX0zC81GA==
+Date: Thu, 19 Jun 2025 11:41:04 +0200
+From: Maxime Ripard <mripard@kernel.org>
+To: Svyatoslav Ryhel <clamor95@gmail.com>
+Cc: Andrzej Hajda <andrzej.hajda@intel.com>, 
+ Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>, 
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
+ Jonas Karlman <jonas@kwiboo.se>, 
+ Jernej Skrabec <jernej.skrabec@gmail.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
+ Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>, 
+ Simona Vetter <simona@ffwll.ch>, Rob Herring <robh@kernel.org>, 
+ Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
+ dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org,
+ linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v6 2/2] drm: bridge: Add support for Solomon SSD2825
+ RGB/DSI bridge
+Message-ID: <20250619-nondescript-holistic-ostrich-6d1efc@houat>
+References: <20250526114353.12081-1-clamor95@gmail.com>
+ <20250526114353.12081-3-clamor95@gmail.com>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: BN9PR11MB5530:EE_|PH0PR11MB5111:EE_
-X-MS-Office365-Filtering-Correlation-Id: 1a3dce10-0ca1-453a-ee1b-08ddaf144ac5
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;ARA:13230040|376014|366016|1800799024;
-X-Microsoft-Antispam-Message-Info: =?utf-8?B?Y1E5aWtTcG5RblFYdnNycnRmVGVidkNTZnZnSnJaZXpNSlA0Z1RPRnJwUTBG?=
- =?utf-8?B?VFh6QnhzOXpKMXYwNy9kdVZRTjhBaHBBempuVnB6eEZZRFZkZ1hlVnBCM2Jj?=
- =?utf-8?B?dHloaVNpME1kRC9FRUV0cms1S2hIZ083SW9iZFVSSnEyVmRQZXdZbjRlYVBv?=
- =?utf-8?B?aWQvRCtXRGdhek9RUlNTNnBjMVlQMmI3aFg5VGJqWnNyYkEyUEJuVlNKZnVN?=
- =?utf-8?B?Wnl4TUh5WndIS1U1ZThjVHcvL1oveU9JVlFub2cxSmN2NTQ5N3pueitxMGRY?=
- =?utf-8?B?S0N6MEdlRWl0WVFLK3VVU2Q3RUh2YzEwS20xREp3YStaZlgvckxSdStMWGxX?=
- =?utf-8?B?V3l6M054bGhtcStvMG1Zb0lad1k4N1RBNEtjcEhQV0hFZFJQMFhoeDlyYkZr?=
- =?utf-8?B?MGpHLzNNa05kdERlelR2TXRQUmFFVVRLOG83MUNJb056SnJlSXVzVTEvQ0VT?=
- =?utf-8?B?T0taWXdNcWpTWlNna0p6dGp6ckU2NzBPRis1T0JHRC95Y1NIOHlhRFd6R0VF?=
- =?utf-8?B?Tml1YnFEbmU4UFdveStDRWoyT0wvNklSVHJ0MDhqS2x2K1dpMEczZDNiUW9w?=
- =?utf-8?B?eVArd3BZZVpVODBKeUJGcXhmeE9MT0tDazVod2N1SktxM1JZTEJRaWZBSHpN?=
- =?utf-8?B?dHVzZzIrZCtDR21tcWlOMnRDUEZmT3hWUXFCUmZBSTlZY0hmRzlqeldaSHV1?=
- =?utf-8?B?TExKYUdOdWNrUVRsemhYbW9ndGxDaSszaFh2U3VmQWZxR3BQSWlGNXRMRFR1?=
- =?utf-8?B?T0k5QUZFZ0ZMUjc1SFlmMlE1Zi9GZlYxLzB0UC9pNW4yTk1nUUJZK2tTc2F4?=
- =?utf-8?B?V3AzNjRpcXdzUHQvaEhRbWEyUkQxdE1SUlNOVVBBVjQ3TTJUdjNOSVRmcUtv?=
- =?utf-8?B?RVMxelBCN09MZE0zVFM4OFdHczJmZEJzMUhQbnk0R1hwTXd2VllWWUNDRy9W?=
- =?utf-8?B?YnNrb2FqWGFuNVB1Vm03R25VTDNHTGFSZ1hoRGwwVERSYjM1TmdKTUtvdEN5?=
- =?utf-8?B?T1Y0SjNUc04renVxMkc1d2Y3WjFuN3lNT3FtVkJyeEFBa3pXSVhvVkdHR0hK?=
- =?utf-8?B?TmRIQ1N5bS9NOHV3S2NtUjZtTnpTZFUvUHlZTlJYTndaUjlmSEg1aGluR2dl?=
- =?utf-8?B?N2xSbitZWHhtSEFIdmVLRUpWVnVmcnFsaVhWeUFNNmZPNzZoN0NnUStnMkhw?=
- =?utf-8?B?bVR3cm5JWnVrUjRHV1BYR25jM3hwVTExNHlZN2tXdVArUERiVU04cFFNa0V0?=
- =?utf-8?B?T0E2NnhZZWxROHREbzRnOXhSOFVxUXhrMTdHLzVFSE1Sa3lYS0U5UU9xQVNX?=
- =?utf-8?B?OEQ1cHcrSURQYXEvTEgxR3QvTzFkM01HWlNDdk96bmxNOE5ZMlpkQWVacUpE?=
- =?utf-8?B?WVB1OEhTMDk2WS9iUlVtVEpaVUpydzYyMUxvdGl0ZHM1ZENMSStIU2xoTUh5?=
- =?utf-8?B?UFc5UEw4d0ZQWEVQZ3JZRnVWWndqT0MyZ3h1VzFHYUlZbHRMbGQxMHhtNTBh?=
- =?utf-8?B?MGR0V2NuQ0d1QVF1ZzJEUHpvd2dKSy9NSmptZ3BITXg0dzdwcVdKOXV5YlNO?=
- =?utf-8?B?dWNqbFoxQnFXRkdFV0lDZytwM1pVTkV1L2pDbDVYNUcrVWErcnY3L3BXbFRG?=
- =?utf-8?B?VmZyMkFpa1RyNy9mVDZYM1RCUm8rRFZNd2FRZ0ZaWFFiYXZvVmZrQlVDQ2VR?=
- =?utf-8?B?dndnQXRzd2FaUWZWZEhRVGl2M1ZEeEZ1TUhEOWJSS1M0ZEVKOVNBM0s5Q3Uy?=
- =?utf-8?B?a2g3S0VJaFowalhueEgvTTVSNWlQRlBsbVJLYWh3dXN5T2JrcVNwSy9QcWFk?=
- =?utf-8?B?cnJpeUFnVWkwU1B0ZVU5ck9zdmR1N0VTUVlSSkllR3A1ajErVXJKZ3lNNzJs?=
- =?utf-8?B?eGJtZXRqK3pSM09FVXpaaGtKOXY4czdOZUdsVmZodnl6Q0krdWdNZ1YwU2Rl?=
- =?utf-8?Q?OnzsQq2iLUk=3D?=
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:BN9PR11MB5530.namprd11.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230040)(376014)(366016)(1800799024); DIR:OUT; SFP:1101; 
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?VjI4UVJndkdWRm1zMkJBUGtKYVFrVWpXbVJ2Zlc0ajMxaU50ekNHZ2xQc3dX?=
- =?utf-8?B?ZmY2b0lBT0J5MWw1dnA1Z2lSUlJTVCtTWldvV2lTcFhPM3haVDZLUzZnT2h5?=
- =?utf-8?B?SnkrL2h5VnRqVDBMNksySC9kbXpJdmJLU1ZtMGtMaUNtM0QrbTJHNENlMUQy?=
- =?utf-8?B?a0F5ZnVpTkpIbmVxS1FPbldhWm1wUHVMMTk1cUZRYVpFSy9iRVVtKy8wR1Q5?=
- =?utf-8?B?bEN6YXhmRHUvQVh6ZDhTTG5UWXlFUldQcjZOL2JYSGpoQW1FUWErUVVtTGxz?=
- =?utf-8?B?QW1qNm44ZjN4M2JYbFF5L3ljdE55QkROTGNaMHJZTmkwaFZEWExINnJKVVpB?=
- =?utf-8?B?RHVKWXpjUjlHVzNYdUZkMkpMRC82dHhESzlIWFcxNVBoelFjN1dURll3a3Vr?=
- =?utf-8?B?OEc3UzBraFBwZitOcHRCbnNVMDB4K3hkRGptR2Fxc05FaEEzK0J5RzhneVZK?=
- =?utf-8?B?aFhZcmZrYVppeFlBR0dHZStWMi9pc0VtR2FwbUxoWXhvZStab0I3OGh6ZUpD?=
- =?utf-8?B?RHBqTEMyTXpzTW9BNkVVcm14a0JXNzF2KzBobks4QUxwZXFYOWRQSFE2ckda?=
- =?utf-8?B?VEpCRTFGZzVDdTJYcCtoSmZXVThkTkxsN2lmanNNNGNjYWpEMTN4bWdMdUh4?=
- =?utf-8?B?Z0R5Y3ZNRkxGNjBscW9OVG5Fd3dqRFJhZGRqUEpnR3BnUURxb0FHR0w4aSth?=
- =?utf-8?B?STl4UktTOUZSTHRPd09KakQwSkVYL2ZIRVE2NytmWVhlanVaM3BZOWYzbFUz?=
- =?utf-8?B?VUJQd1prOVM2TEdacGdYc2V2MEZNbnlFa3d1TGlTNEIwYjZhS1NiS1JrenRr?=
- =?utf-8?B?Z1NCV1orWnphS1pDZytCU0hlZWNWajNzY0xqSkJmdVZzajBsQnZhUUNQSlph?=
- =?utf-8?B?REVoTXBZL0hGT2tDZHd1aC9OUjNZNjVHQ3VncUsvcDkzMEpCSFB0TDRoREpl?=
- =?utf-8?B?Ukh6VmVKaE1tc01LQXJxM0VOU1Z0SWw5QTNFdEJoL3hZSTRSUXdTQm5UUkd0?=
- =?utf-8?B?aWpvbWQ3eWFNWWhrait4bHQwRVFIbi9HMHRZUCszaHdCdGxsM283akdQbkZ6?=
- =?utf-8?B?T3VnV2s3YTZxQjVNb24vNlJxaFd5ZEp2azRoY3R0S1ZLbVpDWStXWnJrUjgr?=
- =?utf-8?B?YVpVai9scWhaS1NZVlZ2aTJwK3h6bXRjdmdmRm9LaGw3cmVYVEJpcUR2dWY4?=
- =?utf-8?B?R0xkVnBPT2lpYWxrTzU5WU9WNkdNV1p1QVlhc2xnMUdwcjRURTIrTkQ1NDZr?=
- =?utf-8?B?L0lsY3g3ZmNqVXRic0wxMzc0RzRIc1hQQldDTDhpbzJIZmJjbUl2Wk5ab2Rt?=
- =?utf-8?B?Z3dERlJCdmNiQ2xRSTRYNmI5K1g1MWFESUhhYmxCUnRmU3l2cVp4QTZSeERL?=
- =?utf-8?B?SjJHeEVPUmtEcHJqcmZNL1pycTU5OHd5Rm5qeU9QbnV2cEcvakN6bTJNdzl1?=
- =?utf-8?B?SStyMnhCY05DTU5pdlRwc0drMktrT3ZmdkRWU1NKZm1kSy9aUzZ5Y0hBRnVO?=
- =?utf-8?B?NS90L25IcjFwV1kxM1F1ZlA0ZXZGMkxGZ3BKM2ZoZ01uR0hqYW54RnVEcHMz?=
- =?utf-8?B?bmg2OS9DRTdMT3RYOWF5WEM4SGtOc2hNN1dlaDQ1UkY3RXpxeEdFMGFpM0Fu?=
- =?utf-8?B?Umlid1hhZnlLWlBtK3FtZVlOY2FUc3hEZ25jQ2hERld6VUxud25jVU5DVFZq?=
- =?utf-8?B?Tmt3eFZaclV4d0pFYUJiMHAxR3BhSGh4TFc1NlVybDdXd24waHdUL0N2cFJ4?=
- =?utf-8?B?QTNCcVYyeXUweTZXVjZzSUlObHJkVkJGMEpaUDBIVVR2a0FOWGsyMXRyMFhG?=
- =?utf-8?B?bEpFN2VXclFZR0FqUU8zVjFLNFlDZTljcTVDc1lLREw5S3EzTFdCaWc0SjEx?=
- =?utf-8?B?cE5Qc2hYU3pITG5oZ09kNmMzQ05MK0l0OTMwWVYxVlBJOGYwUk5TRVV5aXd5?=
- =?utf-8?B?aHRad09zeFh3WVlZeVZIWFVMQVFxU3A4UVBDOFdvTlJvRzNkQWo5Tnd0dUlO?=
- =?utf-8?B?dzlrY2hHYXpsRjBBMExmWTlWUkJVa2EySHNwVjYxYVRtS2EvcjFib0ZZZmRq?=
- =?utf-8?B?OGtQYmthTHdKK1E3TlJBMzNqVmZab2x2TlRUQkt5cVFNOWpkWmY0UEJnbkZy?=
- =?utf-8?B?bVhXUjIvK2tyZ3UzcmVNa0RTZ2lnME1yTTJaRDZrcUhzcUVpTDRyZUpveVN6?=
- =?utf-8?B?clE9PQ==?=
-X-MS-Exchange-CrossTenant-Network-Message-Id: 1a3dce10-0ca1-453a-ee1b-08ddaf144ac5
-X-MS-Exchange-CrossTenant-AuthSource: BN9PR11MB5530.namprd11.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 19 Jun 2025 09:33:04.7067 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: NwQg6tVJYIHn/MP3eMqMXDFuGPZ3L8K+sneLgd2inFGuxmdvDeD/wEh1pKj7klgo4twY4DtlIGs4LZIrJiE3jA==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH0PR11MB5111
-X-OriginatorOrg: intel.com
+Content-Type: multipart/signed; micalg=pgp-sha384;
+ protocol="application/pgp-signature"; boundary="gif2fpgroucfpfxk"
+Content-Disposition: inline
+In-Reply-To: <20250526114353.12081-3-clamor95@gmail.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -202,331 +70,360 @@ Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 
-On 19-06-2025 03:26, Daniele Ceraolo Spurio wrote:
->
->
-> On 6/18/2025 12:00 PM, Badal Nilawar wrote:
->> Extract and print version info of the late binding binary.
->>
->> Signed-off-by: Badal Nilawar <badal.nilawar@intel.com>
->> ---
->>   drivers/gpu/drm/xe/xe_late_bind_fw.c       | 132 ++++++++++++++++++++-
->>   drivers/gpu/drm/xe/xe_late_bind_fw_types.h |   3 +
->>   drivers/gpu/drm/xe/xe_uc_fw_abi.h          |  69 +++++++++++
->>   3 files changed, 203 insertions(+), 1 deletion(-)
->>
->> diff --git a/drivers/gpu/drm/xe/xe_late_bind_fw.c 
->> b/drivers/gpu/drm/xe/xe_late_bind_fw.c
->> index 001e526e569a..f71d5825ac5b 100644
->> --- a/drivers/gpu/drm/xe/xe_late_bind_fw.c
->> +++ b/drivers/gpu/drm/xe/xe_late_bind_fw.c
->> @@ -45,6 +45,129 @@ late_bind_to_xe(struct xe_late_bind *late_bind)
->>       return container_of(late_bind, struct xe_device, late_bind);
->>   }
->>   +/* Refer to the "Late Bind based Firmware Layout" documentation 
->> entry for details */
->> +static int parse_cpd_header(struct xe_late_bind *late_bind, u32 fw_id,
->> +                const void *data, size_t size, const char 
->> *manifest_entry)
->
-> We'll need to try and make this common between the uc_fw code and this 
-> code to reduce duplication, but we can do that as a follow up.
+--gif2fpgroucfpfxk
+Content-Type: text/plain; protected-headers=v1; charset=us-ascii
+Content-Disposition: inline
+Subject: Re: [PATCH v6 2/2] drm: bridge: Add support for Solomon SSD2825
+ RGB/DSI bridge
+MIME-Version: 1.0
 
-I agree, we should do this as follow up.
+On Mon, May 26, 2025 at 02:43:53PM +0300, Svyatoslav Ryhel wrote:
+> +static ssize_t ssd2825_dsi_host_transfer(struct mipi_dsi_host *host,
+> +					 const struct mipi_dsi_msg *msg)
+> +{
+> +	struct ssd2825_priv *priv = dsi_host_to_ssd2825(host);
+> +	struct mipi_dsi_device *dsi_dev = priv->output.dev;
+> +	u8 buf = *(u8 *)msg->tx_buf;
+> +	u16 config;
+> +	int ret;
+> +
+> +	if (!priv->enabled) {
+> +		dev_err(priv->dev, "Bridge is not enabled\n");
+> +		return -ENODEV;
+> +	}
 
->
->> +{
->> +    struct xe_device *xe = late_bind_to_xe(late_bind);
->> +    const struct gsc_cpd_header_v2 *header = data;
->> +    const struct gsc_manifest_header *manifest;
->> +    const struct gsc_cpd_entry *entry;
->> +    size_t min_size = sizeof(*header);
->> +    struct xe_late_bind_fw *lb_fw;
->> +    u32 offset;
->> +    int i;
->> +
->> +    if (fw_id >= MAX_FW_ID)
->> +        return -EINVAL;
->> +    lb_fw = &late_bind->late_bind_fw[fw_id];
->> +
->> +    /* manifest_entry is mandatory */
->> +    xe_assert(xe, manifest_entry);
->> +
->> +    if (size < min_size || header->header_marker != 
->> GSC_CPD_HEADER_MARKER)
->> +        return -ENOENT;
->> +
->> +    if (header->header_length < sizeof(struct gsc_cpd_header_v2)) {
->> +        drm_err(&xe->drm, "%s late binding fw: Invalid CPD header 
->> length %u!\n",
->> +            fw_id_to_name[lb_fw->id], header->header_length);
->> +        return -EINVAL;
->> +    }
->> +
->> +    min_size = header->header_length + sizeof(struct gsc_cpd_entry) 
->> * header->num_of_entries;
->> +    if (size < min_size) {
->> +        drm_err(&xe->drm, "%s late binding fw: too small! %zu < %zu\n",
->> +            fw_id_to_name[lb_fw->id], size, min_size);
->> +        return -ENODATA;
->> +    }
->> +
->> +    /* Look for the manifest first */
->> +    entry = (void *)header + header->header_length;
->> +    for (i = 0; i < header->num_of_entries; i++, entry++)
->> +        if (strcmp(entry->name, manifest_entry) == 0)
->> +            offset = entry->offset & GSC_CPD_ENTRY_OFFSET_MASK;
->> +
->> +    if (!offset) {
->> +        drm_err(&xe->drm, "%s late binding fw: Failed to find 
->> manifest_entry\n",
->> +            fw_id_to_name[lb_fw->id]);
->> +        return -ENODATA;
->> +    }
->> +
->> +    min_size = offset + sizeof(struct gsc_manifest_header);
->> +    if (size < min_size) {
->> +        drm_err(&xe->drm, "%s late binding fw: too small! %zu < %zu\n",
->> +            fw_id_to_name[lb_fw->id], size, min_size);
->> +        return -ENODATA;
->> +    }
->> +
->> +    manifest = data + offset;
->> +
->> +    lb_fw->version.major = manifest->fw_version.major;
->> +    lb_fw->version.minor = manifest->fw_version.minor;
->> +    lb_fw->version.hotfix = manifest->fw_version.hotfix;
->> +    lb_fw->version.build = manifest->fw_version.build;
->
-> not: here you can just do:
->
->     lb_fw->version = manifest->fw_version;
->
-> since both variables are of type struct gsc_version.
-Ok
->
->> +
->> +    return 0;
->> +}
->> +
->> +/* Refer to the "Late Bind based Firmware Layout" documentation 
->> entry for details */
->> +static int parse_lb_layout(struct xe_late_bind *late_bind, u32 fw_id,
->
-> IMO it'd be cleaner to just pass xe and xe_late_bind_fw, instead of 
-> xe_late_bind and fw_id.
-> You should also be able to do a lb_fw_to_xe() call if you want with 
-> something like:
->
-> container_of(lb_fw, struct xe_device, late_bind.late_bind_fw[lb_fw->id])
-Sure.
->
->> +               const void *data, size_t size, const char *fpt_entry)
->> +{
->> +    struct xe_device *xe = late_bind_to_xe(late_bind);
->> +    const struct csc_fpt_header *header = data;
->> +    const struct csc_fpt_entry *entry;
->> +    size_t min_size = sizeof(*header);
->> +    struct xe_late_bind_fw *lb_fw;
->> +    u32 offset;
->> +    int i;
->> +
->> +    if (fw_id >= MAX_FW_ID)
->> +        return -EINVAL;
->> +
->> +    lb_fw = &late_bind->late_bind_fw[fw_id];
->> +
->> +    /* fpt_entry is mandatory */
->> +    xe_assert(xe, fpt_entry);
->> +
->> +    if (size < min_size || header->header_marker != 
->> CSC_FPT_HEADER_MARKER)
->> +        return -ENOENT;
->> +
->> +    if (header->header_length < sizeof(struct csc_fpt_header)) {
->> +        drm_err(&xe->drm, "%s late binding fw: Invalid FPT header 
->> length %u!\n",
->> +            fw_id_to_name[lb_fw->id], header->header_length);
->> +        return -EINVAL;
->> +    }
->> +
->> +    min_size = header->header_length + sizeof(struct csc_fpt_entry) 
->> * header->num_of_entries;
->> +    if (size < min_size) {
->> +        drm_err(&xe->drm, "%s late binding fw: too small! %zu < %zu\n",
->> +            fw_id_to_name[lb_fw->id], size, min_size);
->> +        return -ENODATA;
->> +    }
->> +
->> +    /* Look for the manifest first */
->
-> Here you're looking for the cpd header, not the manifest.
-Ok.
->
->> +    entry = (void *)header + header->header_length;
->> +    for (i = 0; i < header->num_of_entries; i++, entry++)
->> +        if (strcmp(entry->name, fpt_entry) == 0)
->> +            offset = entry->offset;
->> +
->> +    if (!offset) {
->> +        drm_err(&xe->drm, "%s late binding fw: Failed to find 
->> fpt_entry\n",
->> +            fw_id_to_name[lb_fw->id]);
->> +        return -ENODATA;
->> +    }
->> +
->> +    min_size = offset + sizeof(struct gsc_cpd_header_v2);
->> +    if (size < min_size) {
->> +        drm_err(&xe->drm, "%s late binding fw: too small! %zu < %zu\n",
->> +            fw_id_to_name[lb_fw->id], size, min_size);
->> +        return -ENODATA;
->> +    }
->> +
->> +    return parse_cpd_header(late_bind, fw_id, data + offset, size - 
->> offset, "LTES.man");
->> +}
->> +
->>   static int xe_late_bind_fw_num_fans(struct xe_late_bind *late_bind)
->>   {
->>       struct xe_device *xe = late_bind_to_xe(late_bind);
->> @@ -185,8 +308,15 @@ static int __xe_late_bind_fw_init(struct 
->> xe_late_bind *late_bind, u32 fw_id)
->>           return -ENODATA;
->>       }
->>   -    lb_fw->payload_size = fw->size;
->> +    ret = parse_lb_layout(late_bind, fw_id, fw->data, fw->size, 
->> "LTES");
->> +    if (ret)
->> +        return ret;
->> +
->> +    drm_info(&xe->drm, "Using %s firmware from %s version %d.%d.%d\n",
->> +         fw_id_to_name[lb_fw->id], lb_fw->blob_path,
->> +         lb_fw->version.major, lb_fw->version.minor, 
->> lb_fw->version.hotfix);
->
-> You need to log the build number as well, as that needs to be relevant 
-> for this type of headers (we do log it for GSC for example).
-I will log build number too.
->
->>   +    lb_fw->payload_size = fw->size;
->>       memcpy(lb_fw->payload, fw->data, lb_fw->payload_size);
->>       release_firmware(fw);
->>       INIT_WORK(&lb_fw->work, late_bind_work);
->> diff --git a/drivers/gpu/drm/xe/xe_late_bind_fw_types.h 
->> b/drivers/gpu/drm/xe/xe_late_bind_fw_types.h
->> index f79f0c0b2c4a..3fc4f350c81f 100644
->> --- a/drivers/gpu/drm/xe/xe_late_bind_fw_types.h
->> +++ b/drivers/gpu/drm/xe/xe_late_bind_fw_types.h
->> @@ -10,6 +10,7 @@
->>   #include <linux/mutex.h>
->>   #include <linux/types.h>
->>   #include <linux/workqueue.h>
->> +#include "xe_uc_fw_abi.h"
->>     #define MAX_PAYLOAD_SIZE (1024 * 4)
->>   @@ -41,6 +42,8 @@ struct xe_late_bind_fw {
->>       size_t payload_size;
->>       /** @late_bind_fw.work: worker to upload latebind blob */
->>       struct work_struct work;
->> +    /** @late_bind_fw.version: late binding blob manifest version */
->> +    struct gsc_version version;
->>   };
->>     /**
->> diff --git a/drivers/gpu/drm/xe/xe_uc_fw_abi.h 
->> b/drivers/gpu/drm/xe/xe_uc_fw_abi.h
->> index 87ade41209d0..13da2ca96817 100644
->> --- a/drivers/gpu/drm/xe/xe_uc_fw_abi.h
->> +++ b/drivers/gpu/drm/xe/xe_uc_fw_abi.h
->> @@ -318,4 +318,73 @@ struct gsc_manifest_header {
->>       u32 exponent_size; /* in dwords */
->>   } __packed;
->>   +/**
->> + * DOC: Late binding Firmware Layout
->> + *
->> + * The Late binding binary starts with FPT header, which contains 
->> locations
->> + * of various partitions of the binary. Here we're interested in 
->> finding out
->> + * manifest version. To the manifest version, we need to locate CPD 
->> header
->> + * one of the entry in CPD header points to manifest header. 
->> Manifest header
->> + * contains the version.
->> + *
->> + *      +================================================+
->> + *      |  FPT Header                                    |
->> + *      +================================================+
->> + *      |  FPT entries[]                                 |
->> + *      |      entry1                                    |
->> + *      |      ...                                       |
->> + *      |      entryX                                    |
->> + *      |          "LTES"                                |
->> + *      |          ...                                   |
->> + *      |          offset >-----------------------------|------o
->> + *      +================================================+ |
->> + * |
->> + *      +================================================+ |
->> + *      |  CPD Header |<-----o
->> + *      +================================================+
->> + *      |  CPD entries[]                                 |
->> + *      |      entry1                                    |
->> + *      |      ...                                       |
->> + *      |      entryX                                    |
->> + *      |          "LTES.man"                            |
->> + *      |           ...                                  |
->> + *      |           offset >----------------------------|------o
->> + *      +================================================+ |
->> + * |
->> + *      +================================================+ |
->> + *      |  Manifest Header |<-----o
->> + *      |      ...                                       |
->> + *      |      FW version                                |
->> + *      |      ...                                       |
->> + *      +================================================+
->> + */
->> +
->> +/* FPT Headers */
->> +struct csc_fpt_header {
->> +    u32 header_marker;
->> +#define CSC_FPT_HEADER_MARKER 0x54504624
->> +    u32 num_of_entries;
->> +    u8 header_version;
->> +    u8 entry_version;
->> +    u8 header_length; /* in bytes */
->> +    u8 flags;
->> +    u16 ticks_to_add;
->> +    u16 tokens_to_add;
->> +    u32 uma_size;
->> +    u32 crc32;
->> +    u16 fitc_major;
->> +    u16 fitc_minor;
->> +    u16 fitc_hotfix;
->> +    u16 fitc_build;
->
-> For other headers we grouped the version values in a gsc_version 
-> struct. So here instead of the 4 separate versions you could have:
->
-> struct gsc_version fitc_version;
->
-> Which makes it easier to read as all headers have the same type for 
-> the version. We don't read this one though, so not a blocker.
+Transfers can and should happen even when the bridge is disabled. The
+hardware might not permit that, but you'll need to elaborate in the
+comment about why.
 
-Fine, I will take care of this.
+> +	if (msg->rx_len) {
+> +		dev_warn(priv->dev, "MIPI rx is not supported\n");
+> +		return -EOPNOTSUPP;
+> +	}
+> +
+> +	guard(mutex)(&priv->mlock);
+> +
+> +	ret = ssd2825_read_reg(priv, SSD2825_CONFIGURATION_REG, &config);
+> +	if (ret)
+> +		return ret;
+> +
+> +	switch (msg->type) {
+> +	case MIPI_DSI_DCS_SHORT_WRITE:
+> +	case MIPI_DSI_DCS_SHORT_WRITE_PARAM:
+> +	case MIPI_DSI_DCS_LONG_WRITE:
+> +		config |= SSD2825_CONF_REG_DCS;
+> +		break;
+> +	case MIPI_DSI_GENERIC_SHORT_WRITE_0_PARAM:
+> +	case MIPI_DSI_GENERIC_SHORT_WRITE_1_PARAM:
+> +	case MIPI_DSI_GENERIC_SHORT_WRITE_2_PARAM:
+> +	case MIPI_DSI_GENERIC_LONG_WRITE:
+> +		config &= ~SSD2825_CONF_REG_DCS;
+> +		break;
+> +	case MIPI_DSI_DCS_READ:
+> +	case MIPI_DSI_GENERIC_READ_REQUEST_0_PARAM:
+> +	case MIPI_DSI_GENERIC_READ_REQUEST_1_PARAM:
+> +	case MIPI_DSI_GENERIC_READ_REQUEST_2_PARAM:
+> +	default:
+> +		return 0;
+> +	}
+> +
+> +	ret = ssd2825_write_reg(priv, SSD2825_CONFIGURATION_REG, config);
+> +	if (ret)
+> +		return ret;
+> +
+> +	ret = ssd2825_write_reg(priv, SSD2825_VC_CTRL_REG, 0x0000);
+> +	if (ret)
+> +		return ret;
+> +
+> +	ret = ssd2825_write_dsi(priv, msg->tx_buf, msg->tx_len);
+> +	if (ret)
+> +		return ret;
+> +
+> +	if (buf == MIPI_DCS_SET_DISPLAY_ON) {
+> +		/*
+> +		 * NOTE! This is here since it cannot be called in bridge enable because
+> +		 * bridge pre enable and bridge enable have no gap in between.
+> +		 *
+> +		 * Existing framework bridge-panel seq is:
+> +		 *	panel_prepare > bridge_pre_enable > bridge_enable > panel_enable
+> +		 *
+> +		 * Using prepare_prev_first was tested, but it switches seq like this:
+> +		 *	bridge_pre_enable > panel_prepare > bridge_enable > panel_enable
+> +		 *
+> +		 * This will not work since panel hw MUST be prepared before bridge is
+> +		 * configured. Correct seq should be:
+> +		 *	panel_prepare > bridge_pre_enable > panel_enable > bridge_enable
 
-Badal
+Where is that requirement coming from?
 
->
-> Daniele
->
->> +} __packed;
->> +
->> +struct csc_fpt_entry {
->> +    u8 name[4]; /* partition name */
->> +    u32 reserved1;
->> +    u32 offset; /* offset from beginning of CSE region */
->> +    u32 length; /* partition length in bytes */
->> +    u32 reserved2[3];
->> +    u32 partition_flags;
->> +} __packed;
->> +
->>   #endif
->
+panel prepare is documented as:
+
+  The .prepare() function is typically called before the display controller
+  starts to transmit video data.
+
+
+And video data transmission for bridges only happen at bridge_enable
+time.
+
+So, from an API PoV, all the sequences above are correct.
+
+> +		 * Last two functions should be swapped related to existing framework.
+> +		 * I am not aware about method which allows that.
+> +		 *
+> +		 * Once there will be such method/flag, code below should be moved into
+> +		 * bridge_enable since it is basically a bridge configuration completing
+> +		 * after initial panel DSI sequence is completed.
+> +		 */
+
+If there's anything to fix, we should do it before introducing that
+driver.
+
+> +static void ssd2825_bridge_atomic_pre_enable(struct drm_bridge *bridge,
+> +					     struct drm_atomic_state *state)
+> +{
+> +	struct ssd2825_priv *priv = bridge_to_ssd2825(bridge);
+> +	struct mipi_dsi_device *dsi_dev = priv->output.dev;
+> +	const struct drm_crtc_state *crtc_state;
+> +	const struct drm_display_mode *mode;
+> +	struct drm_connector *connector;
+> +	struct drm_crtc *crtc;
+> +	u32 input_bus_flags = bridge->timings->input_bus_flags;
+> +	u16 flags = 0, config;
+> +	u8 pixel_format;
+> +	int ret;
+> +
+> +	if (priv->enabled)
+> +		return;
+
+What is this guarding against?
+
+> +	/* Power Sequence */
+> +	ret = clk_prepare_enable(priv->tx_clk);
+> +	if (ret)
+> +		dev_err(priv->dev, "error enabling tx_clk (%d)\n", ret);
+> +
+> +	ret = regulator_bulk_enable(ARRAY_SIZE(ssd2825_supplies), priv->supplies);
+> +	if (ret)
+> +		dev_err(priv->dev, "error enabling regulators (%d)\n", ret);
+> +
+> +	usleep_range(1000, 2000);
+> +
+> +	ssd2825_hw_reset(priv);
+> +
+> +	/* Perform SW reset */
+> +	ssd2825_write_reg(priv, SSD2825_OPERATION_CTRL_REG, 0x0100);
+> +
+> +	/* Set pixel format */
+> +	switch (dsi_dev->format) {
+> +	case MIPI_DSI_FMT_RGB565:
+> +		pixel_format = 0x00;
+> +		break;
+> +	case MIPI_DSI_FMT_RGB666_PACKED:
+> +		pixel_format = 0x01;
+> +		break;
+> +	case MIPI_DSI_FMT_RGB666:
+> +		pixel_format = 0x02;
+> +		break;
+> +	case MIPI_DSI_FMT_RGB888:
+> +	default:
+> +		pixel_format = 0x03;
+> +		break;
+> +	}
+> +
+> +	connector = drm_atomic_get_new_connector_for_encoder(state, bridge->encoder);
+> +	crtc = drm_atomic_get_new_connector_state(state, connector)->crtc;
+> +	crtc_state = drm_atomic_get_new_crtc_state(state, crtc);
+> +	mode = &crtc_state->adjusted_mode;
+> +
+> +	/* Set panel timings */
+> +	ssd2825_write_reg(priv, SSD2825_RGB_INTERFACE_CTRL_REG_1,
+> +			  ((mode->vtotal - mode->vsync_end) << 8) |
+> +			  (mode->htotal - mode->hsync_end));
+> +	ssd2825_write_reg(priv, SSD2825_RGB_INTERFACE_CTRL_REG_2,
+> +			  ((mode->vtotal - mode->vsync_start) << 8) |
+> +			  (mode->htotal - mode->hsync_start));
+> +	ssd2825_write_reg(priv, SSD2825_RGB_INTERFACE_CTRL_REG_3,
+> +			  ((mode->vsync_start - mode->vdisplay) << 8) |
+> +			  (mode->hsync_start - mode->hdisplay));
+> +	ssd2825_write_reg(priv, SSD2825_RGB_INTERFACE_CTRL_REG_4, mode->hdisplay);
+> +	ssd2825_write_reg(priv, SSD2825_RGB_INTERFACE_CTRL_REG_5, mode->vdisplay);
+> +
+> +	if (mode->flags & DRM_MODE_FLAG_PHSYNC)
+> +		flags |= SSD2825_HSYNC_HIGH;
+> +
+> +	if (mode->flags & DRM_MODE_FLAG_PVSYNC)
+> +		flags |= SSD2825_VSYNC_HIGH;
+> +
+> +	if (dsi_dev->mode_flags & MIPI_DSI_MODE_VIDEO)
+> +		flags |= SSD2825_NON_BURST_EV;
+> +
+> +	if (input_bus_flags & DRM_BUS_FLAG_PIXDATA_SAMPLE_POSEDGE)
+> +		flags |= SSD2825_PCKL_HIGH;
+> +
+> +	ssd2825_write_reg(priv, SSD2825_RGB_INTERFACE_CTRL_REG_6, flags | pixel_format);
+> +	ssd2825_write_reg(priv, SSD2825_LANE_CONFIGURATION_REG, dsi_dev->lanes - 1);
+> +	ssd2825_write_reg(priv, SSD2825_TEST_REG, 0x0004);
+> +
+> +	/* Call PLL configuration */
+> +	ssd2825_setup_pll(priv, mode);
+> +
+> +	usleep_range(10000, 11000);
+> +
+> +	config = SSD2825_CONF_REG_HS | SSD2825_CONF_REG_CKE | SSD2825_CONF_REG_DCS |
+> +		 SSD2825_CONF_REG_ECD | SSD2825_CONF_REG_EOT;
+> +
+> +	if (dsi_dev->mode_flags & MIPI_DSI_MODE_LPM)
+> +		config &= ~SSD2825_CONF_REG_HS;
+> +
+> +	if (dsi_dev->mode_flags & MIPI_DSI_MODE_NO_EOT_PACKET)
+> +		config &= ~SSD2825_CONF_REG_EOT;
+> +
+> +	/* Initial DSI configuration register set */
+> +	ssd2825_write_reg(priv, SSD2825_CONFIGURATION_REG, config);
+> +	ssd2825_write_reg(priv, SSD2825_VC_CTRL_REG, 0);
+> +
+> +	priv->enabled = true;
+> +}
+> +
+> +static void ssd2825_bridge_atomic_enable(struct drm_bridge *bridge,
+> +					 struct drm_atomic_state *state)
+> +{
+> +	/* placeholder */
+> +}
+
+That doesn't work with any bridge or panel that doesn't require any DCS
+command to power up, unfortunately.
+
+> +static void ssd2825_bridge_atomic_disable(struct drm_bridge *bridge,
+> +					  struct drm_atomic_state *state)
+> +{
+> +	struct ssd2825_priv *priv = bridge_to_ssd2825(bridge);
+> +	int ret;
+> +
+> +	if (!priv->enabled)
+> +		return;
+> +
+> +	msleep(100);
+> +
+> +	/* Exit DSI configuration register set */
+> +	ssd2825_write_reg(priv, SSD2825_CONFIGURATION_REG,
+> +			  SSD2825_CONF_REG_ECD | SSD2825_CONF_REG_EOT);
+> +	ssd2825_write_reg(priv, SSD2825_VC_CTRL_REG, 0);
+> +
+> +	/* HW disable */
+> +	gpiod_set_value_cansleep(priv->reset_gpio, 1);
+> +	usleep_range(5000, 6000);
+> +
+> +	ret = regulator_bulk_disable(ARRAY_SIZE(ssd2825_supplies),
+> +				     priv->supplies);
+> +	if (ret < 0)
+> +		dev_err(priv->dev, "error disabling regulators (%d)\n", ret);
+> +
+> +	clk_disable_unprepare(priv->tx_clk);
+> +
+> +	priv->enabled = false;
+> +}
+> +
+> +static int ssd2825_bridge_attach(struct drm_bridge *bridge, struct drm_encoder *encoder,
+> +				 enum drm_bridge_attach_flags flags)
+> +{
+> +	struct ssd2825_priv *priv = bridge_to_ssd2825(bridge);
+> +
+> +	return drm_bridge_attach(bridge->encoder, priv->output.bridge, bridge,
+> +				 flags);
+> +}
+> +
+> +static enum drm_mode_status
+> +ssd2825_bridge_mode_valid(struct drm_bridge *bridge,
+> +			  const struct drm_display_info *info,
+> +			  const struct drm_display_mode *mode)
+> +{
+> +	if (mode->hdisplay > 1366)
+> +		return MODE_H_ILLEGAL;
+> +
+> +	if (mode->vdisplay > 1366)
+> +		return MODE_V_ILLEGAL;
+> +
+> +	return MODE_OK;
+> +}
+> +
+> +static bool ssd2825_mode_fixup(struct drm_bridge *bridge,
+> +			       const struct drm_display_mode *mode,
+> +			       struct drm_display_mode *adjusted_mode)
+> +{
+> +	/* Default to positive sync */
+> +
+> +	if (!(adjusted_mode->flags &
+> +	      (DRM_MODE_FLAG_PHSYNC | DRM_MODE_FLAG_NHSYNC)))
+> +		adjusted_mode->flags |= DRM_MODE_FLAG_PHSYNC;
+> +
+> +	if (!(adjusted_mode->flags &
+> +	      (DRM_MODE_FLAG_PVSYNC | DRM_MODE_FLAG_NVSYNC)))
+> +		adjusted_mode->flags |= DRM_MODE_FLAG_PVSYNC;
+> +
+> +	return true;
+> +}
+> +
+> +static const struct drm_bridge_funcs ssd2825_bridge_funcs = {
+> +	.attach = ssd2825_bridge_attach,
+> +	.mode_valid = ssd2825_bridge_mode_valid,
+> +	.mode_fixup = ssd2825_mode_fixup,
+> +
+> +	.atomic_pre_enable = ssd2825_bridge_atomic_pre_enable,
+> +	.atomic_enable = ssd2825_bridge_atomic_enable,
+> +	.atomic_disable = ssd2825_bridge_atomic_disable,
+> +
+> +	.atomic_reset = drm_atomic_helper_bridge_reset,
+> +	.atomic_duplicate_state = drm_atomic_helper_bridge_duplicate_state,
+> +	.atomic_destroy_state = drm_atomic_helper_bridge_destroy_state,
+> +};
+> +
+> +static const struct drm_bridge_timings default_ssd2825_timings = {
+> +	.input_bus_flags = DRM_BUS_FLAG_PIXDATA_SAMPLE_POSEDGE
+> +		 | DRM_BUS_FLAG_SYNC_SAMPLE_NEGEDGE
+> +		 | DRM_BUS_FLAG_DE_HIGH,
+> +};
+> +
+> +static int ssd2825_probe(struct spi_device *spi)
+> +{
+> +	struct ssd2825_priv *priv;
+> +	struct device *dev = &spi->dev;
+> +	struct device_node *np = dev->of_node;
+> +	int ret;
+> +
+> +	/* Driver supports only 8 bit 3 Wire mode */
+> +	spi->bits_per_word = 9;
+> +
+> +	ret = spi_setup(spi);
+> +	if (ret)
+> +		return ret;
+> +
+> +	priv = devm_kzalloc(dev, sizeof(*priv), GFP_KERNEL);
+> +	if (!priv)
+> +		return -ENOMEM;
+
+devm_drm_bridge_alloc()
+
+> +	spi_set_drvdata(spi, priv);
+> +	priv->spi = spi;
+> +
+> +	dev_set_drvdata(dev, priv);
+> +	priv->dev = dev;
+
+spi_set_drvdata and dev_set_drvdata are doing the same thing here.
+
+Maxime
+
+--gif2fpgroucfpfxk
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iJUEABMJAB0WIQTkHFbLp4ejekA/qfgnX84Zoj2+dgUCaFPbKwAKCRAnX84Zoj2+
+diB2AYCG7blGb/jNwt79YqDiXbKiSCGuqM51+CeIZ2l3gU0JVeqR17TfIbhPYp/5
+dbcgsw4BgOwDnI9X2uxwBgQHy9iXgxgYw2DNPB9dQhRm0VKurWVoIjpYlmBFrStS
+AknexqWYBw==
+=PvzH
+-----END PGP SIGNATURE-----
+
+--gif2fpgroucfpfxk--
