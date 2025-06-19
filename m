@@ -2,73 +2,74 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id AC4BFADFAF9
-	for <lists+dri-devel@lfdr.de>; Thu, 19 Jun 2025 03:43:46 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8FD49ADFB09
+	for <lists+dri-devel@lfdr.de>; Thu, 19 Jun 2025 03:50:55 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1C45D10E831;
-	Thu, 19 Jun 2025 01:43:44 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5B67910E80F;
+	Thu, 19 Jun 2025 01:50:52 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=pdp7-com.20230601.gappssmtp.com header.i=@pdp7-com.20230601.gappssmtp.com header.b="nyGDlD6e";
+	dkim=pass (2048-bit key; unprotected) header.d=pdp7-com.20230601.gappssmtp.com header.i=@pdp7-com.20230601.gappssmtp.com header.b="u2iaKzGY";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pf1-f176.google.com (mail-pf1-f176.google.com
- [209.85.210.176])
- by gabe.freedesktop.org (Postfix) with ESMTPS id DB0A410E831
- for <dri-devel@lists.freedesktop.org>; Thu, 19 Jun 2025 01:43:37 +0000 (UTC)
-Received: by mail-pf1-f176.google.com with SMTP id
- d2e1a72fcca58-748f5a4a423so144597b3a.1
- for <dri-devel@lists.freedesktop.org>; Wed, 18 Jun 2025 18:43:37 -0700 (PDT)
+Received: from mail-pj1-f49.google.com (mail-pj1-f49.google.com
+ [209.85.216.49])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3CD4C10E80F
+ for <dri-devel@lists.freedesktop.org>; Thu, 19 Jun 2025 01:50:51 +0000 (UTC)
+Received: by mail-pj1-f49.google.com with SMTP id
+ 98e67ed59e1d1-31332cff2d5so136490a91.1
+ for <dri-devel@lists.freedesktop.org>; Wed, 18 Jun 2025 18:50:51 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=pdp7-com.20230601.gappssmtp.com; s=20230601; t=1750297417; x=1750902217;
+ d=pdp7-com.20230601.gappssmtp.com; s=20230601; t=1750297851; x=1750902651;
  darn=lists.freedesktop.org; 
  h=in-reply-to:content-disposition:mime-version:references:message-id
  :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
- bh=9RBzLiRa5kP007xKu/khAw6xLYgVFKSnX02dITEELMQ=;
- b=nyGDlD6eBM0klFL2rGMaJigxHhBAm8OOhVZ/IExOs5ce8at/BM2GFgvX8WxhcQuO02
- zgq8MvCptfVib/vtY0JtJ7trkk5z88gZTWK3Kbo4bawS2FWsyKoM/VnmFshBRd4lWRSs
- 5/wzCCmYwZplEMVS7oBmouQV6dK/280SbhtUVlU/XananmQew3qQKwMTY8c/94h5CND0
- kHoPJJtuNwLHtkY0y4cgY/RiuMeSac+egqqRL7Q0gNVfBKCG8AGSF//16GnSBZFXwT/P
- /5LLxkwZUwJLSIn2bXE76ylFkXCOI27TDSL5cvDh7+laIUzaJu/0ng5YnKaWrJy7VtyE
- pPPw==
+ bh=77PKh9SalLpybL3AAe7PoOLwMgQqtz9KiJ/uaTkWDSw=;
+ b=u2iaKzGYhcwFhVOOhNRc8iobPdA/QWPRzRcih3op8wwoiG+sF6TZ9Wp5cqIyf/FuIE
+ MrrpH/ZFV5ICIK0QVzPiqAfBV49vczV87wXUr71rO1m73utgcuhegiZWbRmAIzcz3wvQ
+ gr6wx6Le+R3Cv2ZiM14YJzb8KXpwIDFkZ9nvq96ViaqULFCmlsT7G3QDs5g946nQkAqT
+ g5Le9Z0X47he+Vjf9CpERjFVQZm7cZKsUJS1KQCKf/UkZ4qDl7VrwqfM9mweQUJL7FCq
+ y1O9tu6wjDOk3o+dEui4AWpPKGXD1+6hqmGsi/hQBKibJVPJpXRpPLFSeqRPYg/kPzLW
+ KZsA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1750297417; x=1750902217;
+ d=1e100.net; s=20230601; t=1750297851; x=1750902651;
  h=in-reply-to:content-disposition:mime-version:references:message-id
  :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
  :message-id:reply-to;
- bh=9RBzLiRa5kP007xKu/khAw6xLYgVFKSnX02dITEELMQ=;
- b=pkWKwEYjiLyIavjWqIujJNg7vYKz1Nv4n7t+FLhcV/PA909RpgEJ6AYvFdAjxdu4ID
- IhPZDfJL/qjD58KW67OJR+6UVcgukc0dSCr4bT0zIBj6hl7h/8KpSC4bFZXrrvmWHPxK
- GUfN/yv06X0z0pxx4iFiuzMU6zxt61Dd/aKib4liS3KOK5hnS/TRBH8PIUXW7/G54k4L
- WTLeXO1k7rH8TBUUuZf7Pbjv/NoQToBYqa543IuAcuZAW12SmrElkafZQOxYj+lAaWyi
- TFbZpe9UmOEP6t+3p6Sxcjc22eXb34ClH6TW8GQ+IbGEkDcIrGvIE3681lW0YgDkB86N
- 8bDA==
+ bh=77PKh9SalLpybL3AAe7PoOLwMgQqtz9KiJ/uaTkWDSw=;
+ b=XHv/b6Wf8DQ5wR4ugx8AhgZ2AziBcfwO9lbNDL4FkWUrkXftnd7NsAyeBg4FXs6M/Z
+ /rq0dVlh4I6n6WhpgypVTauah7ZrPCvVAXvzdmUU10NlCI3DN1a9gKHrAekp68UFzG6C
+ ntdMFgh2h67Gd3i2DBRvdB+1WNO6ZZ+n6PqIqKS5Sr9oTrpfS1FztVpHNSNCTJ2Wqb0p
+ HulNs5YU3Qg0XsDZZ/pKGqeqVwKTH8DGpfEd+5pZxRWpSlf28LetBYdvCiO8tUQerPfj
+ X3CN2VYv1FL36uX0XYEzttiv+XvbM1R9M1o3jNLNlvQS9TAZlwZKTiEA/WeMbDK+5ppC
+ 96yg==
 X-Forwarded-Encrypted: i=1;
- AJvYcCWzslOGTlphjjvtsVT8zPMEmlruINC0k8Pn3Y0ed3eOkfOtcz14aSNbBuGaS6ARhfLqsgpleduKq8c=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YxjaJgflzr3/2kQFH27cNvrVJQqEgZe2BoKWvjjGW72YKr7UexK
- gDXTaQyjtH6qfdAh5POTxYMVULitt1gFQJh1BRowaZG0+7gOl4TbjwQrjg+YenZD/vE=
-X-Gm-Gg: ASbGncuWLxNzNtOPOrhk8CyEOt2lzfsL6DHC5ON7gTqf6dE5drrwNWOgv3Qs/j3rs5c
- mUh1wC4XNaZIvqit6BbuCVprLBHEeCyC6QlSW2IbiIDv3JgwHy4WvE3n9sHxZ7QDN2ahhz7ueHs
- Lw9+hM9MS75NAPREXE9n11LuTW2Hzubze8fXF4LfFNVIBP8YAR2nuR+p+M7bVYpn4WLKYCnUL6Y
- bZSBsgl6EAojNtDqPmIdis0WVWpF64hcyNGsX4QfTPLlDNlesL/RAwUbMUnGRQNpixpbnuYKFTR
- 1SJAIkzH48X0s2Ciws3QHWtrWtOzb1lqjLAUhV5tdzn0bAOaCdusOPk9nuyODtfR8nlvyps=
-X-Google-Smtp-Source: AGHT+IER1GlKqenGCJq3qD2Xqlv8+ahed3DymdmXx7TwJgKJZxq18ZlqN5MmHKY9e5pztJs0I4bquQ==
-X-Received: by 2002:a05:6a00:178e:b0:742:ae7e:7da8 with SMTP id
- d2e1a72fcca58-7489ce45893mr32194637b3a.8.1750297417247; 
- Wed, 18 Jun 2025 18:43:37 -0700 (PDT)
+ AJvYcCXaKoAZvJXsMIYlTfY0vgyX+rvKVozKGs38NkktuRCPcjOL5zts60qZjfQ+7VZIpSOiJ9lMznQc36U=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YzZ6PatsiByWUEpwpjuTfM87nQtV9y41D2s4Q6YrdXGykd/DCbe
+ 7i9loBDCkpqXjWtibBRzqLdI2XiuNF48RWqSVEDpXGN5mBkWItgiegw+VNGPkoknUmw=
+X-Gm-Gg: ASbGncuUGcsfuCVCBWoTVA2KPXckdgvVP9mjiZSsw79pIEWEIvdelpFNwvPg0rIDhNG
+ QnKFwEgskN6Q2OXtkqr/vhvhoBK3CPWbjc2UeyTYXvk7y0PulfKz/1+p87QIGYQZla8NJ/xLWIS
+ kBvgyH5MQscDOop4ijTF0WeeEI5EPf7lXKjhMazufVxTrX221/tjcdamAjMj9cLz+OFOc4ub1LI
+ 3MypLt8DOuHLfYes9agtpFruaAunK2+Y9Vv4Ff86lqQIfBWAHXP03D38u/ycQfBmjTD/HHuRXci
+ iYitKsKjANMopISU8oyTBDU8YX7SyT8apdMwEXJOGYRrYMWJ8joaNwwbf/mDYPTIH5PV4mg=
+X-Google-Smtp-Source: AGHT+IEH8ENEIXXiapQFn7dY5pW85bznCSDAM8YeveXgruCVaip94nhm+ZCyfl9XM7JJOLVmNJsDyw==
+X-Received: by 2002:a17:90b:586b:b0:312:39c1:c9cf with SMTP id
+ 98e67ed59e1d1-313f1be1c89mr31855817a91.7.1750297850614; 
+ Wed, 18 Jun 2025 18:50:50 -0700 (PDT)
 Received: from x1 (97-120-250-80.ptld.qwest.net. [97.120.250.80])
  by smtp.gmail.com with ESMTPSA id
- d2e1a72fcca58-748fbce0f13sm291934b3a.37.2025.06.18.18.43.36
+ 98e67ed59e1d1-3158a226f7asm811267a91.10.2025.06.18.18.50.49
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 18 Jun 2025 18:43:36 -0700 (PDT)
-Date: Wed, 18 Jun 2025 18:43:34 -0700
+ Wed, 18 Jun 2025 18:50:50 -0700 (PDT)
+Date: Wed, 18 Jun 2025 18:50:48 -0700
 From: Drew Fustini <drew@pdp7.com>
-To: Michal Wilczynski <m.wilczynski@samsung.com>
-Cc: Guo Ren <guoren@kernel.org>, Fu Wei <wefu@redhat.com>,
+To: Michal Wilczynski <m.wilczynski@samsung.com>,
  Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
- Conor Dooley <conor+dt@kernel.org>, Bartosz Golaszewski <brgl@bgdev.pl>,
- Philipp Zabel <p.zabel@pengutronix.de>,
- Frank Binns <frank.binns@imgtec.com>, Matt Coster <matt.coster@imgtec.com>,
+ Conor Dooley <conor+dt@kernel.org>, Philipp Zabel <p.zabel@pengutronix.de>,
+ Ulf Hansson <ulf.hansson@linaro.org>
+Cc: Guo Ren <guoren@kernel.org>, Fu Wei <wefu@redhat.com>,
+ Bartosz Golaszewski <brgl@bgdev.pl>, Frank Binns <frank.binns@imgtec.com>,
+ Matt Coster <matt.coster@imgtec.com>,
  Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
  Maxime Ripard <mripard@kernel.org>,
  Thomas Zimmermann <tzimmermann@suse.de>,
@@ -76,20 +77,20 @@ Cc: Guo Ren <guoren@kernel.org>, Fu Wei <wefu@redhat.com>,
  Paul Walmsley <paul.walmsley@sifive.com>,
  Palmer Dabbelt <palmer@dabbelt.com>,
  Albert Ou <aou@eecs.berkeley.edu>, Alexandre Ghiti <alex@ghiti.fr>,
- Ulf Hansson <ulf.hansson@linaro.org>,
  Marek Szyprowski <m.szyprowski@samsung.com>,
  linux-riscv@lists.infradead.org, devicetree@vger.kernel.org,
  linux-kernel@vger.kernel.org, linux-pm@vger.kernel.org,
- dri-devel@lists.freedesktop.org,
- Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-Subject: Re: [PATCH v5 0/8] Add TH1520 GPU support with power sequencing
-Message-ID: <aFNrRtbWzeRa7GmQ@x1>
-References: <CGME20250618102225eucas1p129b1172bf54521c1eb0f718cb31af468@eucas1p1.samsung.com>
- <20250618-apr_14_for_sending-v5-0-27ed33ea5c6f@samsung.com>
+ dri-devel@lists.freedesktop.org
+Subject: Re: [PATCH v5 2/8] dt-bindings: firmware: thead,th1520: Add resets
+ for GPU clkgen
+Message-ID: <aFNs+PLgw1jqqiUm@x1>
+References: <20250618-apr_14_for_sending-v5-0-27ed33ea5c6f@samsung.com>
+ <CGME20250618102227eucas1p26e8968805092c3ce0ecbe84e9724a6e2@eucas1p2.samsung.com>
+ <20250618-apr_14_for_sending-v5-2-27ed33ea5c6f@samsung.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20250618-apr_14_for_sending-v5-0-27ed33ea5c6f@samsung.com>
+In-Reply-To: <20250618-apr_14_for_sending-v5-2-27ed33ea5c6f@samsung.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -105,59 +106,58 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, Jun 18, 2025 at 12:22:06PM +0200, Michal Wilczynski wrote:
-> This patch series introduces support for the Imagination IMG BXM-4-64
-> GPU found on the T-HEAD TH1520 SoC. A key aspect of this support is
-> managing the GPU's complex power-up and power-down sequence, which
-> involves multiple clocks and resets.
+On Wed, Jun 18, 2025 at 12:22:08PM +0200, Michal Wilczynski wrote:
+> Extend the TH1520 AON to describe the GPU clkgen reset line, required
+> for proper GPU clock and reset sequencing.
 > 
-> The TH1520 GPU requires a specific sequence to be followed for its
-> clocks and resets to ensure correct operation. Initial discussions and
-> an earlier version of this series explored managing this via the generic
-> power domain (genpd) framework. However, following further discussions
-> with kernel maintainers [1], the approach has been reworked to utilize
-> the dedicated power sequencing (pwrseq) framework.
+> The T-HEAD TH1520 GPU requires coordinated management of two clocks
+> (core and sys) and two resets (GPU core reset and GPU clkgen reset).
+> Only the clkgen reset is exposed at the AON level, to support SoC
+> specific initialization handled through a dedicated auxiliary power
+> sequencing driver. The GPU core reset remains described in the GPU
+> device node, as from the GPU driver's perspective, there is only a
+> single reset line [1].
 > 
-> This revised series now employs a new pwrseq provider driver
-> (pwrseq-thead-gpu.c) specifically for the TH1520 GPU. This driver
-> encapsulates the SoC specific power sequence details. The Imagination
-> GPU driver (pvr_device.c) is updated to act as a consumer of this power
-> sequencer, requesting the "gpu-power" target. The sequencer driver,
-> during its match phase with the GPU device, acquires the necessary clock
-> and reset handles from the GPU device node to perform the full sequence.
+> This follows upstream maintainers' recommendations [2] to abstract SoC
+> specific details into the PM domain layer rather than exposing them to
+> drivers directly.
 > 
-> This approach aligns with the goal of abstracting SoC specific power
-> management details away from generic device drivers and leverages the
-> pwrseq framework as recommended.
+> Link: https://lore.kernel.org/all/816db99d-7088-4c1a-af03-b9a825ac09dc@imgtec.com/ - [1]
+> Link: https://lore.kernel.org/all/38d9650fc11a674c8b689d6bab937acf@kernel.org/ - [2]
 > 
-> The series is structured as follows:
+> Reviewed-by: Ulf Hansson <ulf.hansson@linaro.org>
+> Signed-off-by: Michal Wilczynski <m.wilczynski@samsung.com>
+> ---
+>  Documentation/devicetree/bindings/firmware/thead,th1520-aon.yaml | 7 +++++++
+>  1 file changed, 7 insertions(+)
 > 
-> Patch 1: Introduces the pwrseq-thead-gpu auxiliary driver to manage the
->          GPU's power-on/off sequence.
-> Patch 2: Adds device tree bindings for the gpu-clkgen reset to the
->          existing thead,th1520-aon binding.
-> Patch 3: Extends the pm-domains driver to detect the gpu-clkgen reset
->          and spawn the pwrseq-thead-gpu auxiliary driver.
-> Patch 4: Updates the Imagination DRM driver to utilize the pwrseq
->          framework for TH1520 GPU power management.
-> Patch 5: Adds the thead,th1520-gpu compatible string to the PowerVR GPU
->          device tree bindings.
-> Patch 6: Adds the gpu-clkgen reset property to the aon node in the
->          TH1520 device tree source.
-> Patch 7: Adds the device tree node for the IMG BXM-4-64 GPU and its
->          required fixed-clock.
-> Patch 8: Enables compilation of the Imagination PowerVR driver on the
->          RISC-V architecture.
+> diff --git a/Documentation/devicetree/bindings/firmware/thead,th1520-aon.yaml b/Documentation/devicetree/bindings/firmware/thead,th1520-aon.yaml
+> index bbc183200400de7aadbb21fea21911f6f4227b09..3365124c7fd4736922717bd31caa13272f4a4ea6 100644
+> --- a/Documentation/devicetree/bindings/firmware/thead,th1520-aon.yaml
+> +++ b/Documentation/devicetree/bindings/firmware/thead,th1520-aon.yaml
+> @@ -32,6 +32,13 @@ properties:
+>      items:
+>        - const: aon
+>  
+> +  resets:
+> +    maxItems: 1
+> +
+> +  reset-names:
+> +    items:
+> +      - const: gpu-clkgen
+> +
+>    "#power-domain-cells":
+>      const: 1
+>  
 > 
-> This patchset finishes the work started in bigger series [2] by adding
-> all remaining GPU power sequencing piece. After this patchset the GPU
-> probes correctly.
+> -- 
+> 2.34.1
+> 
 
-The powevr probe complains:
+Reviewed-by: Drew Fustini <drew@pdp7.com>
 
-[    1.060383] powervr ffef400000.gpu: Direct firmware load for powervr/rogue_36.52.104.182_v1.fw failed with error -2
-
-Where is the correct place to get the firmware?
+I'm wondering what tree this should go through. Ulf took the original
+patch that created the binding.
 
 Thanks,
 Drew
