@@ -2,40 +2,40 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 585B8AE1937
+	by mail.lfdr.de (Postfix) with ESMTPS id 83FF8AE1938
 	for <lists+dri-devel@lfdr.de>; Fri, 20 Jun 2025 12:45:59 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6DE4B10EB44;
-	Fri, 20 Jun 2025 10:45:35 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7EE6D10EB45;
+	Fri, 20 Jun 2025 10:45:36 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=fail reason="signature verification failed" (1024-bit key; unprotected) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="qEkoLGjy";
+	dkim=fail reason="signature verification failed" (1024-bit key; unprotected) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="W5+/SqQn";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from nyc.source.kernel.org (nyc.source.kernel.org [147.75.193.91])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0158810EB43
- for <dri-devel@lists.freedesktop.org>; Fri, 20 Jun 2025 10:45:08 +0000 (UTC)
+Received: from sea.source.kernel.org (sea.source.kernel.org [172.234.252.31])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E9ED110EB45
+ for <dri-devel@lists.freedesktop.org>; Fri, 20 Jun 2025 10:45:20 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by nyc.source.kernel.org (Postfix) with ESMTP id 53E24A52368;
- Fri, 20 Jun 2025 10:45:04 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9F4D2C4CEED;
- Fri, 20 Jun 2025 10:45:03 +0000 (UTC)
+ by sea.source.kernel.org (Postfix) with ESMTP id 3456B43F6A;
+ Fri, 20 Jun 2025 10:45:20 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 93932C4CEE3;
+ Fri, 20 Jun 2025 10:45:19 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
- s=korg; t=1750416304;
- bh=N6DusCNLJlzWmnVZZvUrBl7lNLYoPSbTvJVdBzK7zlw=;
+ s=korg; t=1750416320;
+ bh=bQ2XGDm5TXziSaVxEO8K732ZuT6SF9FgMoiq5QzgZyY=;
  h=Subject:To:Cc:From:Date:From;
- b=qEkoLGjyaF08SM5KWGmv0Xz9jKpedMJLmlgS2mmjvtxGU+Wf+4rp2hAIDZ61ySUXJ
- 3WeUOWrVKNAD1QjzHSX53i0Qw5aWl6C0cZ8dS+yLtcPsKmInk48GddohylJa7GzAVb
- WvEzMRSs/IahKbuNkHmjJ2EFVduxo6dVXIw9Lo4E=
+ b=W5+/SqQnVD6NHW8grrx9eP2dPUd2C/OeS2BHyLgmxLfvF4uvUFDVZYD5kP39LuiJa
+ v/hjg6Hh5Sft9y4BdyMkIb7XLTiGkzUntIkcf5iamcuxXf/i6T3z7MWghkVXp9n4cP
+ V9ckI7eEc5voSkMxrEqUSEwYFwyuSUwjiuuiO3s0=
 Subject: Patch "dummycon: Trigger redraw when switching consoles with deferred
- takeover" has been added to the 6.12-stable tree
+ takeover" has been added to the 6.15-stable tree
 To: arvidjaar@gmail.com, dri-devel@lists.freedesktop.org,
  gregkh@linuxfoundation.org, hdegoede@redhat.com, javierm@redhat.com,
  tzimmermann@suse.de
 Cc: <stable-commits@vger.kernel.org>
 From: <gregkh@linuxfoundation.org>
-Date: Fri, 20 Jun 2025 12:44:43 +0200
-Message-ID: <2025062043-railing-hefty-4648@gregkh>
+Date: Fri, 20 Jun 2025 12:44:52 +0200
+Message-ID: <2025062052-anaconda-augmented-d838@gregkh>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=ANSI_X3.4-1968
 Content-Transfer-Encoding: 8bit
@@ -61,12 +61,12 @@ This is a note to let you know that I've just added the patch titled
 
     dummycon: Trigger redraw when switching consoles with deferred takeover
 
-to the 6.12-stable tree which can be found at:
+to the 6.15-stable tree which can be found at:
     http://www.kernel.org/git/?p=linux/kernel/git/stable/stable-queue.git;a=summary
 
 The filename of the patch is:
      dummycon-trigger-redraw-when-switching-consoles-with-deferred-takeover.patch
-and it can be found in the queue-6.12 subdirectory.
+and it can be found in the queue-6.15 subdirectory.
 
 If you, or anyone else, feels it should not be added to the stable tree,
 please let <stable@vger.kernel.org> know about it.
@@ -166,6 +166,6 @@ Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 
 Patches currently in stable-queue which might be from tzimmermann@suse.de are
 
-queue-6.12/dummycon-trigger-redraw-when-switching-consoles-with-deferred-takeover.patch
-queue-6.12/video-screen_info-relocate-framebuffers-behind-pci-bridges.patch
-queue-6.12/sysfb-fix-screen_info-type-check-for-vga.patch
+queue-6.15/dummycon-trigger-redraw-when-switching-consoles-with-deferred-takeover.patch
+queue-6.15/video-screen_info-relocate-framebuffers-behind-pci-bridges.patch
+queue-6.15/sysfb-fix-screen_info-type-check-for-vga.patch
