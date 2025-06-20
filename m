@@ -2,46 +2,188 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9AE5EAE1DFF
-	for <lists+dri-devel@lfdr.de>; Fri, 20 Jun 2025 16:59:00 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3A742AE1E49
+	for <lists+dri-devel@lfdr.de>; Fri, 20 Jun 2025 17:14:52 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2620510EB77;
-	Fri, 20 Jun 2025 14:58:58 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8747610EB78;
+	Fri, 20 Jun 2025 15:14:49 +0000 (UTC)
+Authentication-Results: gabe.freedesktop.org;
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="L1xEZOX2";
+	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
- by gabe.freedesktop.org (Postfix) with ESMTP id A001410EB77
- for <dri-devel@lists.freedesktop.org>; Fri, 20 Jun 2025 14:58:56 +0000 (UTC)
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
- by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 860EA16F2;
- Fri, 20 Jun 2025 07:58:36 -0700 (PDT)
-Received: from [10.1.30.22] (e122027.cambridge.arm.com [10.1.30.22])
- by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id A9B423F673;
- Fri, 20 Jun 2025 07:58:51 -0700 (PDT)
-Message-ID: <7f4d377c-c84a-43e0-9e4d-3d616ac4ef40@arm.com>
-Date: Fri, 20 Jun 2025 15:58:49 +0100
-MIME-Version: 1.0
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.11])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0069110E10B;
+ Fri, 20 Jun 2025 15:14:45 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1750432486; x=1781968486;
+ h=message-id:date:subject:to:cc:references:from:
+ in-reply-to:content-transfer-encoding:mime-version;
+ bh=bsx4uRFX9nWWm3GL8oCefLPjHyUoSl7F2EM9cGDoDwQ=;
+ b=L1xEZOX28S0ASjm8qCzbgGqbLc8jP1hjLGY1aguUJ/b394cSF6j0PQ31
+ 7nZ1Cc6+NKDsUbREdzf6i3/6u05wKn3GQhMi1KKfgmfRlKBfMBXWLYdhZ
+ VsPxniCgfrit+MI/aZbBVnLEoGtdnn0y61THO6OLO6/6KUVZLlJgLxR1J
+ /clA4KIjES8HaCY8PTBlTDnosdCEzMNpGoyg+r/pd8Dg1mewyLMnWdCJ4
+ I+zd6anI+/kX9gsrNsfZ+k4t+MdBMHAwzFLRllyhl8/aI/svzC1w5mZEX
+ x0L+XPVxKCA0WdST0guAVZdsgwqZWkUfz1iyHE9RnVtv3iXdAjRbkeiR8 g==;
+X-CSE-ConnectionGUID: 26lIiatIRpinJzgHToPiMw==
+X-CSE-MsgGUID: BiOiMWtNRMmnnNF2QessBA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11469"; a="63304658"
+X-IronPort-AV: E=Sophos;i="6.16,251,1744095600"; d="scan'208";a="63304658"
+Received: from orviesa001.jf.intel.com ([10.64.159.141])
+ by fmvoesa105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 20 Jun 2025 08:14:45 -0700
+X-CSE-ConnectionGUID: TZRvk2z1QISH+iPiW1iYAQ==
+X-CSE-MsgGUID: d/Wsoy50RGyk7fyj9HWdEg==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.16,251,1744095600"; d="scan'208";a="188149097"
+Received: from orsmsx903.amr.corp.intel.com ([10.22.229.25])
+ by orviesa001.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 20 Jun 2025 08:14:45 -0700
+Received: from ORSMSX901.amr.corp.intel.com (10.22.229.23) by
+ ORSMSX903.amr.corp.intel.com (10.22.229.25) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.1544.25; Fri, 20 Jun 2025 08:14:44 -0700
+Received: from ORSEDG903.ED.cps.intel.com (10.7.248.13) by
+ ORSMSX901.amr.corp.intel.com (10.22.229.23) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.1544.25 via Frontend Transport; Fri, 20 Jun 2025 08:14:44 -0700
+Received: from NAM10-MW2-obe.outbound.protection.outlook.com (40.107.94.53) by
+ edgegateway.intel.com (134.134.137.113) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.1544.25; Fri, 20 Jun 2025 08:14:43 -0700
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=VfvkV0yw8vdFCNF8F978vQI/JY1vXCmcm9fRi5uBFNtyO+Ieosq8ZUNp09GDSd5Sclg+eksRRPffgj9aQyj0P4Xy1Fc9n/sEtqmUspsxN8y9a3ZNdE9L9WTbBbkjDjAqPRKY3VHT1peud8iTYwVEbHGVRWqWcmouewyTmfzF8jnaU129aSP1qJ3cNzdzxSOlE7t2wLFdGko2L5A+ehif+3DRXywTg2OvSloIRjFw3aqiUj7VIwN0sdrCQVXSwJKG17d0jX3sJ5ESQ/8OvgwxpHSfFaJQjniP+wwUF9FeO5yRWKDc+SsnfLMTym9goa0qkO8eo7A30F48s+cHc0wxNA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=g+hnasPsXkm2WgOOuaGkQMRev0XbOymIRD5GU5E1y20=;
+ b=YqLatWhAwybydgB3gG8FJOXNaRAKFhIEzzsWznokoZYAl/5OrZKs6R5SezbT/jgM426x5u1MqTYi9b/GUqLM+WkgtgJhgJr/nzsuMEJd2pAlTUgf0Gp3yAxI6LmGX34FzHGgcGl67axCGgnkfHPbYIURg4rjBNAz3Z14Ndk2nw8DER2ZLF4H7F/2MVHc4f4+GtN1Ya72zDeO0dAgNETjMwHEiTCit5HStAqEtD3ox67bZ9D+jgKlHnAojG4fYgO88P9mKpZIpTX0uL0Zpz+0O02c3MeySwCUltaPg0DUNyoNjm0ZPDHJdVyIjlyxrSdlq7VhYaSFjYQqnVZ/JSdpCQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
+ dkim=pass header.d=intel.com; arc=none
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=intel.com;
+Received: from BN9PR11MB5530.namprd11.prod.outlook.com (2603:10b6:408:103::8)
+ by MW4PR11MB7077.namprd11.prod.outlook.com (2603:10b6:303:223::18)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8857.25; Fri, 20 Jun
+ 2025 15:14:42 +0000
+Received: from BN9PR11MB5530.namprd11.prod.outlook.com
+ ([fe80::13bd:eb49:2046:32a9]) by BN9PR11MB5530.namprd11.prod.outlook.com
+ ([fe80::13bd:eb49:2046:32a9%5]) with mapi id 15.20.8857.022; Fri, 20 Jun 2025
+ 15:14:41 +0000
+Message-ID: <1417f4a8-1911-44ff-9bfb-b5cff990b14a@intel.com>
+Date: Fri, 20 Jun 2025 20:44:29 +0530
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v6 0/5] Add Mali GPU support for Mediatek MT8370 SoC
-To: Louis-Alexis Eyraud <louisalexis.eyraud@collabora.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
- Conor Dooley <conor+dt@kernel.org>, Matthias Brugger
- <matthias.bgg@gmail.com>,
- AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
- Boris Brezillon <boris.brezillon@collabora.com>
-Cc: kernel@collabora.com, dri-devel@lists.freedesktop.org,
- devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-arm-kernel@lists.infradead.org, linux-mediatek@lists.infradead.org,
- Conor Dooley <conor.dooley@microchip.com>
-References: <20250509-mt8370-enable-gpu-v6-0-2833888cb1d3@collabora.com>
-From: Steven Price <steven.price@arm.com>
-Content-Language: en-GB
-In-Reply-To: <20250509-mt8370-enable-gpu-v6-0-2833888cb1d3@collabora.com>
-Content-Type: text/plain; charset=UTF-8
+Subject: Re: [PATCH v3 07/10] drm/xe/xe_late_bind_fw: Reload late binding fw
+ in S2Idle/S3 resume
+To: Rodrigo Vivi <rodrigo.vivi@intel.com>
+CC: <intel-xe@lists.freedesktop.org>, <dri-devel@lists.freedesktop.org>,
+ <linux-kernel@vger.kernel.org>, <anshuman.gupta@intel.com>,
+ <alexander.usyskin@intel.com>, <gregkh@linuxfoundation.org>,
+ <daniele.ceraolospurio@intel.com>, <jgg@nvidia.com>
+References: <20250618190007.2932322-1-badal.nilawar@intel.com>
+ <20250618190007.2932322-8-badal.nilawar@intel.com>
+ <aFVm-lidsDMMDSit@intel.com>
+Content-Language: en-US
+From: "Nilawar, Badal" <badal.nilawar@intel.com>
+In-Reply-To: <aFVm-lidsDMMDSit@intel.com>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
 Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: MA0PR01CA0061.INDPRD01.PROD.OUTLOOK.COM
+ (2603:1096:a01:ac::18) To BN9PR11MB5530.namprd11.prod.outlook.com
+ (2603:10b6:408:103::8)
+MIME-Version: 1.0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: BN9PR11MB5530:EE_|MW4PR11MB7077:EE_
+X-MS-Office365-Filtering-Correlation-Id: e23e1056-1653-4793-1d32-08ddb00d2c23
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;ARA:13230040|1800799024|376014|366016;
+X-Microsoft-Antispam-Message-Info: =?utf-8?B?ckNKZEVEMWZxMXUyVmRGSi9lSWw0YkRwbk9oN0ZXSzdsMnN5dFRNR2FRdEUv?=
+ =?utf-8?B?NlhmdGx6RmwralBwUUlIeEJsMVZRWVFtZEZUalJJdlNYOW5RdVdLYnJRdXNL?=
+ =?utf-8?B?SEg4RnByNlMwdmY3d2dUUXVQWFNNc3RDekgvVi9mWmRPUWNjem9jVU4vSW1z?=
+ =?utf-8?B?eWpQV1BqUjlhdjNaalNYVVZCNHJNaEhaZ05FYzh5MWRxcEM0c1VHRlkrYklM?=
+ =?utf-8?B?OG5XSVhQU0RONlF3dFVldjFiSkdFOTBMMEFJT1Z2TlkyL2ErenFORDUvZVVB?=
+ =?utf-8?B?TW5JZSt0Y00wTGRGTEJKWGhteVA0SGxQcXFMNFVQc2llL1ZVcysxZVNrMDI4?=
+ =?utf-8?B?VkpPL0RXRXNGWDFOZGRXUEkzYXkvN1h6WWJwZVEwdnNaZE83ZTkxdndjczVJ?=
+ =?utf-8?B?YWV4dk94LzVrRUcwVUkzZmpqMXY4RDBpV1ZJWnFRMkY5OHdQa1V6aUhzZVlF?=
+ =?utf-8?B?ZjNLRTFVMHVENzcrWFNpTm45dDdEeFE1M3hKcXhBL1VlSnRmN3BQOWNMQjJL?=
+ =?utf-8?B?NW9NTWw2b1B0WVd5bkFIbjkvNWxPekZBRThZWnJtVmgrWGo0S0NYSHJyUGx5?=
+ =?utf-8?B?UjRSLzJxYS8xdlY2OWZMMFBmV2Z2ZkJ4S2J1UGdRbUo4Nm9hdlFqcDhIckdl?=
+ =?utf-8?B?SkFVQnpLbzR3Qm5wN2d1dCtZMjVTY2dBOXlLQ2FsVG1NdmZoeklwNlNLQUpa?=
+ =?utf-8?B?YlBDenhyZWhTT2xhVVRKL0JYTWNnTzVHNXhxWWxyV2VmQ1AzeksvRFpxRmVk?=
+ =?utf-8?B?NEJQM2pCNjdJZGFDY2lFL2VDRmVaWWdiVjRDVzh0bFZ3VlgrZHRiZ0p5dXQ0?=
+ =?utf-8?B?cmw1QjgycW1JMFJ4RUtsbEl5RmZqK0ZVYTRHZFMrVm9iMGFkcktkdUVUTEQy?=
+ =?utf-8?B?N05WRW9Sd1RGdlcwUWMzbnUrUkE1SGRiclM1OWpnTGxHaytXV1BacGgvWnIw?=
+ =?utf-8?B?QXJ0OWtWdXZNcHF5RlVWanpRZFQ2c2JQMkZQTyt1YjQ0amhkUUh0cGxCSll6?=
+ =?utf-8?B?YU41VVNBQmUxUFU0dytGdW9TYVZtWFdreXFaZ3FTRXhMbXpIZXh3Y203aWZQ?=
+ =?utf-8?B?Zjd0SEU2RUoxNGNuVXRJWDY1Rm92aXJaMGE4Y0d3cjhnZ3d3bjIzMmxIM3pQ?=
+ =?utf-8?B?ZVlHRHlGREVocGlNNU12V1Z4UDA3L09ocC9oWkZWRFRjb3BnalQ0R0l3ZEU5?=
+ =?utf-8?B?QTQwZDNWU0tNeTVxcnUrdC8razdBdU0zUGVWbklkeVZvQkZNZHhhUkxxbjB4?=
+ =?utf-8?B?OHhVRDk4NW1aU0pxYk56QTNPOGxNYVBjQmNvSWZuM1ZnaitkNWRWWGxBTHYx?=
+ =?utf-8?B?dHR2MG54ZzNuSGRnN2RjTGZlenZhZTIvcmhvYStkOTM4eHdwcnUyWmJDbXVz?=
+ =?utf-8?B?R3RUbG9QQjlsdm9zMllCNUJJbHdaU3hFamhDVXFzT2NzRy9LM2FOcUttN1R0?=
+ =?utf-8?B?Rm9iajVTMDNVaGo3N2ZJYlYrd3FzM1BHaDdzaEl0c3BYVVZiZmsvUjg2VzhR?=
+ =?utf-8?B?R3grRmRobGc5NXJ2aUhKMHFaT1dNTVVvNjRwR3N3VStLZzlQdmtOWG1NWHlQ?=
+ =?utf-8?B?enJhUEd5alp4aC9iM2tCNVhUMjY0akZ1VllVSHczdFJzOE9SMEJlOGhudEZr?=
+ =?utf-8?B?aVl1OGtnK1JQYWIwMHVGZk94L3ZoZDFqNVFOYmQ5cC9RbnZmTHVnZUNYaStR?=
+ =?utf-8?B?dms0RlFnV2xzaDNqbTR5NEJST24vWGhKMGE3NkF2NUJaK01TODJpR2M1MVQ2?=
+ =?utf-8?B?SkJ0Qkw4U3Y1TzdoV3FqRUhnbDFRdTIxZlhkbWxMSFlRRVJYNEtFNFFRWG1s?=
+ =?utf-8?B?YXhZaWNkeER3cWJIaFRXMmJROW42OCtCYXVKSUwvMTYvOXhjSUhQNGhZR3NF?=
+ =?utf-8?B?cGthTllZNXI1WnBGU1l1OXhydnBKU3d1NnB5Sm1qS2NDZ0E9PQ==?=
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:BN9PR11MB5530.namprd11.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230040)(1800799024)(376014)(366016); DIR:OUT; SFP:1101; 
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?VXhHVUVxM2poeXdMWnY0ZExOb1BQR3FzTVl0LzJTaUNpYnV5TWNYUUlqOUla?=
+ =?utf-8?B?K3BPUU9uOVdIcXNzb3ZLVVJpN3JCNFZ0Qlo2YXZmZ1AwQzdXb0dZK3hxRHFC?=
+ =?utf-8?B?RndycGVKNm5tbW9rMGV5TTZOV2lXSEF0ck9jOFB6T01UaldIRHlUN2dUWjBT?=
+ =?utf-8?B?MVJvblBnNm4zbHNvTmh2Tk9uY3NvZit4UkRVbDhlalZ6SGFLdXZtRmd6Y0M0?=
+ =?utf-8?B?UnFMUmdtWUFlU3FEMTJya2FNYi9Sb1NGUGtiZlhWUVJWd3ZVWExFaVhmQVcr?=
+ =?utf-8?B?N2tYV255Z2VoZVIwUGI3cm4wUStvS1l3MFdVYU12ckNNZG5GNFFkMHJQdU5M?=
+ =?utf-8?B?YTUxSnl3cWpUc05ESzhkVi9kL1NvNmZKaHpYZkllakxzd1JsTVVPTDdsSHdt?=
+ =?utf-8?B?SlJzNisrVHFCb3MxWU56cmZiNHFkZ3pIZ282aE8wdFlNZHJONGk0Rm03TTlM?=
+ =?utf-8?B?Q1hVQ0lGWnZwYmV0N0hNeDY4bU5KeFNQSXZldURtZmNsZlhETnRtOGRVbFY3?=
+ =?utf-8?B?eXNCS3hscDBERkw1TDJaVUZtQ1F1R21VdjNBUldUTmVoM1RzUjdwTzNEOHJO?=
+ =?utf-8?B?L05VdWtrdkJRekhLQ0JRdFFBM2RhNDFmT241MnhjcmU2TFBlVENWTm0waWhh?=
+ =?utf-8?B?bENpbW9jUEh2ZDVEUkZ4STVnMnFNeXA4cnJxM2Z0MmRReUpWanRSWmFFVDFV?=
+ =?utf-8?B?WGJ3blZDWlZFZ3dQeldzbThIeGRPTG54YjlZTENzWkFqMktzV3JWbjlhZk5E?=
+ =?utf-8?B?cURuZE9HVFQvVDlMNnpXK3N0bzdqV3BpZHZrK2dwQTNPdGtEYytwOWZ0ME5L?=
+ =?utf-8?B?RmcxQzYzVHJrMzhRMW0vdklXVS9VdEdZNGJkczdvOURqb1ZWOVFjZmdhOWd6?=
+ =?utf-8?B?VXcyMk96aGsxRCszWlliRGsvVWRDVmt4Y2dUR014dVJYWENybllxYmREajh1?=
+ =?utf-8?B?Y2xUSm5IOUdHdVl0YmlUa0sxNHEzSWh0MUZLNlUzZDVIN2V3anc0bzA5S3Qx?=
+ =?utf-8?B?U2FiL0tvK011OUVNZHo3alVvVkJnWU5MNUZTWW5DaW9ONUlTWVgrbStYaGg5?=
+ =?utf-8?B?N21vSDJOYWQzTE9yRktSQmRKdG90d2hUVUxBS0ltMkVjTDNMT1d5bWhaQXRm?=
+ =?utf-8?B?TVhKajBnamYrMHBzMFlZUlQ4TytzcFhscU55ejF6ZlEyMFM1dEI0ZzJDRG5P?=
+ =?utf-8?B?R3k4VmpVMEo5VW90MHlTTWs2ZnFpLzFYTTBKcFcxT2JlVnVqNGRLOFBWRGRx?=
+ =?utf-8?B?elRuMzEyRGtpWnJ5ZVhMd28rK09rYjR3QU5GUUJWS0l5c0RnOEtscGJBZGNQ?=
+ =?utf-8?B?MVg2RkczdC8wRHdZKzFNYnhUeks0M3lNeUVHK1VBRVBtZnVzZUx3VGQ2Wm8y?=
+ =?utf-8?B?M1ZVeWxCRHBQMlFROGhDWGVNMENQRzZ3YzNWM3ZZS1c5ZjJCSGZ2emFLdVNJ?=
+ =?utf-8?B?S3VmZEozeDFVbTI5WjdDT050OXNGdWpDQU84QlJBUmtMQXhtNkFubzNwYjJM?=
+ =?utf-8?B?MmU0dGtxTHJXZ1NGWGVoeGZHd2RNazlYMjJrUnovTVU2TGt0U2JybE9xREZv?=
+ =?utf-8?B?V0xJbUNKZEV2K2dBNExEU1IxUmp6MnRUc0RlRElQRHI4aWxCZDdFVzh1Nm0v?=
+ =?utf-8?B?U05wc0RIeVdXdjFDVllrZW5JSlplOFhLUGlZY1VGZjFOeDNPOFdleStPd2ZF?=
+ =?utf-8?B?bU92M2NvMFFhTll6SUxheXJyZ2ZVdXdERUlUZm8wSWJ0cU1vYkFpTVNrb0VV?=
+ =?utf-8?B?U21XS0NUbjFYcGZMTGVRL1pzRzk3aUdhZHM0YTZjUHJCL1c2c1BEUXJpNmxM?=
+ =?utf-8?B?dVM4dlFrVCthLzE0L2tRaHBwR1dhYlI2cEQ3VnBZTGIwaUhydDY4NTdJV1lX?=
+ =?utf-8?B?dU50SE5yRUVXcU5yV002Z3o0OFpGL3daNGU3Vld0cGxRenlPbVBLbkhUeFNT?=
+ =?utf-8?B?MFljaXdVVXA2NUZROTNrS09FTFY0RmRCN0JFdkRJL05ZNG1mVlhDTUYzbTdF?=
+ =?utf-8?B?ZmlsN2hYa2F2a2FMV0gxTmxUSHVodzJwVUNINEl2aVdZcm9lUy8zaVlMTFEz?=
+ =?utf-8?B?bDRQRStURmZJcW4rM21TTFEzc3NzcjRmQW12dGM2QklIQXl0U0xxVlQ0WEpz?=
+ =?utf-8?Q?3ljxxgzYqzbk66VYauKJ3h6Ci?=
+X-MS-Exchange-CrossTenant-Network-Message-Id: e23e1056-1653-4793-1d32-08ddb00d2c23
+X-MS-Exchange-CrossTenant-AuthSource: BN9PR11MB5530.namprd11.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 20 Jun 2025 15:14:41.9376 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: +TUOb058ymBS0L2gGYRk1gABWYrVHctoOgR9GMKB/RP1p8aAhEYXcuOmPH7kZ0bPGlh99QyRNHncQlNGv/yFSg==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: MW4PR11MB7077
+X-OriginatorOrg: intel.com
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -57,172 +199,44 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-All 5 patches push to drm-misc-next.
 
-Thanks,
-Steve
+On 20-06-2025 19:19, Rodrigo Vivi wrote:
+> On Thu, Jun 19, 2025 at 12:30:04AM +0530, Badal Nilawar wrote:
+>> Reload late binding fw during S2Idle/S3 resume.
+>>
+>> Signed-off-by: Badal Nilawar <badal.nilawar@intel.com>
+>> ---
+>>   drivers/gpu/drm/xe/xe_pm.c | 3 +++
+>>   1 file changed, 3 insertions(+)
+>>
+>> diff --git a/drivers/gpu/drm/xe/xe_pm.c b/drivers/gpu/drm/xe/xe_pm.c
+>> index 91923fd4af80..6c44a075a6ab 100644
+>> --- a/drivers/gpu/drm/xe/xe_pm.c
+>> +++ b/drivers/gpu/drm/xe/xe_pm.c
+>> @@ -205,6 +205,9 @@ int xe_pm_resume(struct xe_device *xe)
+>>   
+>>   	xe_pxp_pm_resume(xe->pxp);
+>>   
+>> +	if (xe->d3cold.allowed)
+>> +		xe_late_bind_fw_load(&xe->late_bind);
+> something seems off here... d3cold allowed should only be used
+> for the runtime pm portion from the cases we can lose power like d3cold.
+> But we don't use that in the s3 path.
+>
+> We should probably have 2 different calls here. unconditionally call
+> in the regular/system suspend path and conditionally call in the runtime one.
 
-On 09/05/2025 11:12, Louis-Alexis Eyraud wrote:
-> This patchset adds the support of the ARM Mali G57 MC2 GPU (Valhall-JM,
-> dual core), integrated in the Mediatek MT8370 SoC, to the panfrost
-> driver and to the mt8370.dtsi include file.
-> 
-> Since v4 patchset was sent, the [1] patchset adds in panfrost driver
-> the AARCH64_4K page table format support and enablement for Mediatek
-> SoC with integrated Arm Mali-G57, already supported in panfrost driver
-> (like MT8188, MT8192, MT8195, MT8390, MT8395...).
-> As MT8370 SoC is a less powerful variant of MT8390 (same GPU but with
-> one less core for MT8370), I've reworked the second patch
-> ('drm/panfrost: Add support for Mali on the MT8370 SoC') to enable the
-> AARCH64_4K mode on this SoC as well by adding specific MT8370 platform
-> data to set the needed flag.
-> The previous patch revision uses MT8186 platform data because despite
-> having different GPU architecture (Mali G52 2EE MC2 for MT8186, making
-> them not compatible), using the same plaform data, for describing the
-> same power management features only, was okay.
-> But now, the platform data also contains the GPU configuration quirk
-> bitfield that needs to be modified to enable the AARCH64_4K page table
-> format, and in order not to change MT8186 behaviour, I add specific
-> MT8370 platform data.
-> 
-> I've tested this patchset on a Mediatek Genio 510 EVK board,
-> with a kernel based on linux-next (tag: next-20250502).
-> 
-> The panfrost driver probed with the following messages:
-> ```
-> panfrost 13000000.gpu: clock rate = 390000000
-> panfrost 13000000.gpu: mali-g57 id 0x9093 major 0x0 minor 0x0 status 0x0
-> panfrost 13000000.gpu: features: 00000000,000019f7, issues: 00000003,
->   80000400
-> panfrost 13000000.gpu: Features: L2:0x08130206 Shader:0x00000000
->   Tiler:0x00000809 Mem:0x1 MMU:0x00002830 AS:0xff JS:0x7
-> panfrost 13000000.gpu: shader_present=0x5 l2_present=0x1
-> [drm] Initialized panfrost 1.3.0 for 13000000.gpu on minor 0
-> ```
-> 
-> Running glmark2-es2-drm is also OK:
-> ```
-> =======================================================
->     glmark2 2023.01
-> =======================================================
->     OpenGL Information
->     GL_VENDOR:      Mesa
->     GL_RENDERER:    Mali-G57 (Panfrost)
->     GL_VERSION:     OpenGL ES 3.1 Mesa 25.0.3-1
->     Surface Config: buf=32 r=8 g=8 b=8 a=8 depth=24 stencil=0 samples=0
->     Surface Size:   1200x1920 fullscreen
-> =======================================================
-> [build] use-vbo=false: FPS: 952 FrameTime: 1.051 ms
-> [build] use-vbo=true: FPS: 983 FrameTime: 1.018 ms
-> [texture] texture-filter=nearest: FPS: 906 FrameTime: 1.105 ms
-> [texture] texture-filter=linear: FPS: 908 FrameTime: 1.102 ms
-> [texture] texture-filter=mipmap: FPS: 883 FrameTime: 1.134 ms
-> [shading] shading=gouraud: FPS: 838 FrameTime: 1.194 ms
-> [shading] shading=blinn-phong-inf: FPS: 778 FrameTime: 1.287 ms
-> [shading] shading=phong: FPS: 583 FrameTime: 1.717 ms
-> [shading] shading=cel: FPS: 553 FrameTime: 1.809 ms
-> [bump] bump-render=high-poly: FPS: 573 FrameTime: 1.747 ms
-> [bump] bump-render=normals: FPS: 868 FrameTime: 1.153 ms
-> [bump] bump-render=height: FPS: 707 FrameTime: 1.415 ms
-> [effect2d] kernel=0,1,0;1,-4,1;0,1,0;: FPS: 454 FrameTime: 2.204 ms
-> [effect2d] kernel=1,1,1,1,1;1,1,1,1,1;1,1,1,1,1;: FPS: 172 FrameTime:
->   5.843 ms
-> [pulsar] light=false:quads=5:texture=false: FPS: 770 FrameTime:
->   1.300 ms
-> [desktop] blur-radius=5:effect=blur:passes=1:separable=true:windows=4:
->   FPS: 161 FrameTime: 6.235 ms
-> [desktop] effect=shadow:windows=4: FPS: 484 FrameTime: 2.069 ms
-> [buffer] columns=200:interleave=false:update-dispersion=0.9:update-fraction
->   =0.5:update-method=map: FPS: 512 FrameTime: 1.955 ms
-> [buffer] columns=200:interleave=false:update-dispersion=0.9:update-fraction
->   =0.5:update-method=subdata: FPS: 513 FrameTime: 1.952 ms
-> [buffer] columns=200:interleave=true:update-dispersion=0.9:update-fraction
->   =0.5:update-method=map: FPS: 577 FrameTime: 1.735 ms
-> [ideas] speed=duration: FPS: 448 FrameTime: 2.235 ms
-> [jellyfish] <default>: FPS: 226 FrameTime: 4.440 ms
-> [terrain] <default>: FPS: 38 FrameTime: 26.861 ms
-> [shadow] <default>: FPS: 328 FrameTime: 3.051 ms
-> [refract] <default>: FPS: 72 FrameTime: 13.937 ms
-> [conditionals] fragment-steps=0:vertex-steps=0: FPS: 844 FrameTime:
->   1.186 ms
-> [conditionals] fragment-steps=5:vertex-steps=0: FPS: 685 FrameTime: 
->   1.462 ms
-> [conditionals] fragment-steps=0:vertex-steps=5: FPS: 833 FrameTime:
->   1.201 ms
-> [function] fragment-complexity=low:fragment-steps=5: FPS: 830 FrameTime:
->   1.205 ms
-> [function] fragment-complexity=medium:fragment-steps=5: FPS: 525 FrameTime:
->   1.905 ms
-> [loop] fragment-loop=false:fragment-steps=5:vertex-steps=5: FPS: 837
->   FrameTime: 1.195 ms
-> [loop] fragment-steps=5:fragment-uniform=false:vertex-steps=5: FPS: 835 
->   FrameTime: 1.199 ms
-> [loop] fragment-steps=5:fragment-uniform=true:vertex-steps=5: FPS: 550
->   FrameTime: 1.820 ms
-> =======================================================
->                                   glmark2 Score: 611 
-> =======================================================
-> ```
-> 
-> [1] https://lore.kernel.org/dri-devel/20250324185801.168664-1-ariel.dalessandro@collabora.com/
-> 
-> Signed-off-by: Louis-Alexis Eyraud <louisalexis.eyraud@collabora.com>
-> ---
-> Changes in v6:
-> - Add two new patches to commonize and drop duplicated data related to 
->   the power domain and supplies definitions for Mediatek SoC
-> - Remove useless comment and rework MT8370 platform data to use
->   mediatek_pm_domains and default_supplies arrays in 'drm/panfrost: Add
->   support for Mali on the MT8370 SoC'
-> - Update code-review trailer
-> - Link to v5: https://lore.kernel.org/r/20250502-mt8370-enable-gpu-v5-0-98e247b30151@collabora.com
-> 
-> Changes in v5:
-> - Rebase on linux-next (tqg: next-2020501)
-> - Rework 'drm/panfrost: Add support for Mali on the MT8370 SoC' patch
->   to have MT8370 support with its AARCH64_4K page table format support enabled 
-> - Drop code-review trailers from 'drm/panfrost: Add support for Mali on
->   the MT8370 SoC' patch due to major changes in content and commit message
-> - Add ack trailer for 'dt-bindings: gpu: mali-bifrost: Add compatible 
->   for MT8370 SoC' patch
-> - Add glmark2-es2-drm benchmark results in cover letter
-> - Link to v4: https://lore.kernel.org/r/20250211-mt8370-enable-gpu-v4-0-77deb7a75c23@collabora.com
-> 
-> Changes in v4:
-> - Add warning comment in mt8370.dtsi about GPU node override
-> - Reword "dt-bindings: gpu: mali-bifrost: Add compatible for MT8370
->   SoC" commit message
-> - Add code-review trailers
-> - Link to v3: https://lore.kernel.org/r/20250207-mt8370-enable-gpu-v3-0-75e9b902f9c1@collabora.com
-> 
-> Changes in v3:
-> - Rebased on linux-next (tag: next-20250207)
-> - Remove prerequisite change/patch ids
-> - Reword commit messages to better explicit compatible needs
-> - Link to v2: https://lore.kernel.org/r/20250130-mt8370-enable-gpu-v2-0-c154d0815db5@collabora.com
-> 
-> Changes in v2:
-> - Rework "drm/panfrost: Add support for Mali on the MT8370 SoC" to avoid
->   data structure duplication, as requested by Krzysztof Kozlowski
-> - Reword commit messages to use imperative mood and make new compatible
->   need more explicit
-> - Link to v1: https://lore.kernel.org/r/20250116-mt8370-enable-gpu-v1-0-0a6b78e925c8@collabora.com
-> 
-> ---
-> Louis-Alexis Eyraud (5):
->       dt-bindings: gpu: mali-bifrost: Add compatible for MT8370 SoC
->       drm/panfrost: Drop duplicated Mediatek supplies arrays
->       drm/panfrost: Commonize Mediatek power domain array definitions
->       drm/panfrost: Add support for Mali on the MT8370 SoC
->       arm64: dts: mediatek: mt8370: Enable gpu support
-> 
->  .../devicetree/bindings/gpu/arm,mali-bifrost.yaml  |  5 +-
->  arch/arm64/boot/dts/mediatek/mt8370.dtsi           | 16 ++++++
->  drivers/gpu/drm/panfrost/panfrost_drv.c            | 61 ++++++++++++----------
->  3 files changed, 53 insertions(+), 29 deletions(-)
-> ---
-> base-commit: 1c51b1ba38c07e4f999802eb708bf798dd5f5d1b
-> change-id: 20250115-mt8370-enable-gpu-3b6f595fa63d
-> 
-> Best regards,
+Agree, we should unconditionally reload lb binary in regular 
+suspend/resume path. I will remove D3Cold check.
 
+Regards,
+Badal
+
+>
+>> +
+>>   	drm_dbg(&xe->drm, "Device resumed\n");
+>>   	return 0;
+>>   err:
+>> -- 
+>> 2.34.1
+>>
