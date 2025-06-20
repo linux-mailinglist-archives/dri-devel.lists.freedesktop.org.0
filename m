@@ -2,34 +2,34 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id A595DAE113A
-	for <lists+dri-devel@lfdr.de>; Fri, 20 Jun 2025 04:50:07 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id E708EAE113B
+	for <lists+dri-devel@lfdr.de>; Fri, 20 Jun 2025 04:50:09 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id CC71510E20C;
-	Fri, 20 Jun 2025 02:50:03 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id CFF4210EA84;
+	Fri, 20 Jun 2025 02:50:06 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="BLmH3ddh";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="S5eMEaVx";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from nyc.source.kernel.org (nyc.source.kernel.org [147.75.193.91])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 166B010E20C
- for <dri-devel@lists.freedesktop.org>; Fri, 20 Jun 2025 02:50:02 +0000 (UTC)
+Received: from sea.source.kernel.org (sea.source.kernel.org [172.234.252.31])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D938A10EA84
+ for <dri-devel@lists.freedesktop.org>; Fri, 20 Jun 2025 02:50:04 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by nyc.source.kernel.org (Postfix) with ESMTP id 286A6A50E1D;
+ by sea.source.kernel.org (Postfix) with ESMTP id 827564AD78;
+ Fri, 20 Jun 2025 02:50:02 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 171DFC4CEF0;
  Fri, 20 Jun 2025 02:50:00 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 861FDC4CEEA;
- Fri, 20 Jun 2025 02:49:57 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1750387799;
- bh=tVUGmwudnPHtt0FAp/eQCsy7CQzmylV7GVpKzRyrQJg=;
- h=From:To:Cc:Subject:Date:From;
- b=BLmH3ddh0nPQLvGOwLBQLZwrJOUsaYpuI2kEgbnH6ZtRch276fXQS0xPY1H078mDm
- q75Z4C04WDgTyP1KGLfar17f6fBNXrT497v7S4FPlgdvAmNsogPoRUccHYChCLpSFc
- zsrOSeP7SpX+TkYqydvB1fbqsVg+LzB+zyq+5wZg2JukriPj2bZnHTzfd8/R/ebW3p
- g09B6O/OGGIK8RgoSGW2v1j5Gg5tygKyW2WgSAxafqPYKhj41htmBRl+/C+jugkKu2
- RTVD85tVhod62FJ8SV/hYDq5LcDRbRQDnPiMwOhdM4Mdb98e6J3hVd6aSgXoKPOdaA
- DN9o3rXnyvNrA==
+ s=k20201202; t=1750387802;
+ bh=dwUS0NNQBo6ioFvBv9MvL8ShjmESObZeByXZvWYMJKk=;
+ h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+ b=S5eMEaVxgF6txdm4vtGRsHjfa187clMuzbb7RyDkJvhG9ytlzIHxdMPQMDvaCRMyF
+ k3kbmtGJIx/Dw3x6wNYXGQtjOVfa0MJEfjJfKGYLMXpO9sevsDhCzLmWcN5VR09BO7
+ Hw5Bq/N+1TUPCaohwxvPbT+cB7D7YvWHCgOnQ1IawQt4WkoqfyLbOnKG2gtRMtr4O1
+ 1xSDfo4Zqyges6lQDtyHHvqhVJI3mDnZbOmZ+KNMWWjvHmagR3l2sggLK7VOD9RJVZ
+ wlA+Ed4ApaqraFxNxpt7ldfKtefWB02TbNb5lh1ldFHWlsoJpZzQm4WYzVXuALKKwp
+ VmaGadYzYXC1g==
 From: Mario Limonciello <superm1@kernel.org>
 To: Bjorn Helgaas <bhelgaas@google.com>
 Cc: Alex Deucher <alexander.deucher@amd.com>,
@@ -51,11 +51,15 @@ Cc: Alex Deucher <alexander.deucher@amd.com>,
  kvm@vger.kernel.org (open list:VFIO DRIVER),
  linux-sound@vger.kernel.org (open list:SOUND),
  Daniel Dadap <ddadap@nvidia.com>,
- Mario Limonciello <mario.limonciello@amd.com>
-Subject: [PATCH v3 0/7] Adjust fbcon console device detection
-Date: Thu, 19 Jun 2025 21:49:36 -0500
-Message-ID: <20250620024943.3415685-1-superm1@kernel.org>
+ Mario Limonciello <mario.limonciello@amd.com>,
+ Simona Vetter <simona.vetter@ffwll.ch>
+Subject: [PATCH v3 1/7] PCI: Add helper for checking if a PCI device is a
+ display controller
+Date: Thu, 19 Jun 2025 21:49:37 -0500
+Message-ID: <20250620024943.3415685-2-superm1@kernel.org>
 X-Mailer: git-send-email 2.43.0
+In-Reply-To: <20250620024943.3415685-1-superm1@kernel.org>
+References: <20250620024943.3415685-1-superm1@kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -75,45 +79,43 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 From: Mario Limonciello <mario.limonciello@amd.com>
 
-This series started out as changes to VGA arbiter to try to handle a case
-of a system with 2 GPUs that are not VGA devices [1].  This was discussed
-but decided not to overload the VGA arbiter for non VGA devices.
+Several places in the kernel do class shifting to match whether a
+PCI device is display class.  Introduce a helper for those places to
+use.
 
-Instead move the x86 specific detection of framebuffer resources into x86
-specific code that the fbcon can use to properly identify the primary
-device. This code is still called from the VGA arbiter, and the logic does
-not change there. To avoid regression to fbcon, fall back to VGA arbiter.
+Reviewed-by: Daniel Dadap <ddadap@nvidia.com>
+Reviewed-by: Simona Vetter <simona.vetter@ffwll.ch>
+Signed-off-by: Mario Limonciello <mario.limonciello@amd.com>
+---
+ include/linux/pci.h | 15 +++++++++++++++
+ 1 file changed, 15 insertions(+)
 
-In order for userspace to also be able to discover which device was the
-primary framebuffer create a link to that device from fbcon.
-
-v2->v3:
- * Pick up tags
- * Drop old patch 6
- * Add 2 new patches for fbcon
-
-Link: https://lore.kernel.org/linux-pci/20250617175910.1640546-1-superm1@kernel.org/ [1]
-
-Mario Limonciello (7):
-  PCI: Add helper for checking if a PCI device is a display controller
-  vfio/pci: Use pci_is_display()
-  vga_switcheroo: Use pci_is_display()
-  iommu/vt-d: Use pci_is_display()
-  ALSA: hda: Use pci_is_display()
-  PCI/VGA: Move check for firmware default out of VGA arbiter
-  fbcon: Make a symlink to the device selected as primary
-
- arch/x86/video/video-common.c    | 28 +++++++++++++++++++++++++
- drivers/gpu/vga/vga_switcheroo.c |  2 +-
- drivers/iommu/intel/iommu.c      |  2 +-
- drivers/pci/vgaarb.c             | 36 ++------------------------------
- drivers/vfio/pci/vfio_pci_igd.c  |  3 +--
- drivers/video/fbdev/core/fbcon.c | 10 ++++++++-
- include/linux/pci.h              | 15 +++++++++++++
- sound/hda/hdac_i915.c            |  2 +-
- sound/pci/hda/hda_intel.c        |  4 ++--
- 9 files changed, 60 insertions(+), 42 deletions(-)
-
+diff --git a/include/linux/pci.h b/include/linux/pci.h
+index 05e68f35f3923..e77754e43c629 100644
+--- a/include/linux/pci.h
++++ b/include/linux/pci.h
+@@ -744,6 +744,21 @@ static inline bool pci_is_vga(struct pci_dev *pdev)
+ 	return false;
+ }
+ 
++/**
++ * pci_is_display - Check if a PCI device is a display controller
++ * @pdev: Pointer to the PCI device structure
++ *
++ * This function determines whether the given PCI device corresponds
++ * to a display controller. Display controllers are typically used
++ * for graphical output and are identified based on their class code.
++ *
++ * Return: true if the PCI device is a display controller, false otherwise.
++ */
++static inline bool pci_is_display(struct pci_dev *pdev)
++{
++	return (pdev->class >> 16) == PCI_BASE_CLASS_DISPLAY;
++}
++
+ #define for_each_pci_bridge(dev, bus)				\
+ 	list_for_each_entry(dev, &bus->devices, bus_list)	\
+ 		if (!pci_is_bridge(dev)) {} else
 -- 
 2.43.0
 
