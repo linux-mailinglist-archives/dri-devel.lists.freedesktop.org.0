@@ -2,70 +2,62 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4032CAE10A6
-	for <lists+dri-devel@lfdr.de>; Fri, 20 Jun 2025 03:19:28 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id A595DAE113A
+	for <lists+dri-devel@lfdr.de>; Fri, 20 Jun 2025 04:50:07 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 09B5110E1CD;
-	Fri, 20 Jun 2025 01:19:25 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id CC71510E20C;
+	Fri, 20 Jun 2025 02:50:03 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=airkyi.com header.i=@airkyi.com header.b="QZf+648r";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="BLmH3ddh";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from bg1.exmail.qq.com (bg1.exmail.qq.com [114.132.74.132])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 95CD010E1CD
- for <dri-devel@lists.freedesktop.org>; Fri, 20 Jun 2025 01:19:18 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=airkyi.com;
- s=altu2504; t=1750382336;
- bh=Hk4LQge5dZN0PKJMnUNEwLr8KrYB0N4+j6gEFlg+Ep0=;
- h=From:To:Subject:Date:Message-Id;
- b=QZf+648r+B12kU7Qn0lk1cICFTyTn5JFY44WK/KDRIXwO5vQUKKUmtsYGGHTI8XPk
- sCtx1BzGPvEQwaYK9Vjve8YhyM7PznibOS6vXQmRYd/3DYfVuLKq/waI8fq5dwBayw
- 8Tovga4SAylB+zEOggYEfPC4+q+vENmWwthAxiJg=
-X-QQ-mid: esmtpgz12t1750382187t7a3389cc
-X-QQ-Originating-IP: sQXtZrTrRWkPHpCLRXEKYqYrB1xzMxgT06FWXQbhkTQ=
-Received: from DESKTOP-8BT1A2O.localdomain ( [58.22.7.114])
- by bizesmtp.qq.com (ESMTP) with 
- id ; Fri, 20 Jun 2025 09:16:25 +0800 (CST)
-X-QQ-SSF: 0000000000000000000000000000000
-X-QQ-GoodBg: 0
-X-BIZMAIL-ID: 7161152192131492949
-From: Chaoyi Chen <kernel@airkyi.com>
-To: Andrzej Hajda <andrzej.hajda@intel.com>,
- Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>,
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
- Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>,
+Received: from nyc.source.kernel.org (nyc.source.kernel.org [147.75.193.91])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 166B010E20C
+ for <dri-devel@lists.freedesktop.org>; Fri, 20 Jun 2025 02:50:02 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+ by nyc.source.kernel.org (Postfix) with ESMTP id 286A6A50E1D;
+ Fri, 20 Jun 2025 02:50:00 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 861FDC4CEEA;
+ Fri, 20 Jun 2025 02:49:57 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1750387799;
+ bh=tVUGmwudnPHtt0FAp/eQCsy7CQzmylV7GVpKzRyrQJg=;
+ h=From:To:Cc:Subject:Date:From;
+ b=BLmH3ddh0nPQLvGOwLBQLZwrJOUsaYpuI2kEgbnH6ZtRch276fXQS0xPY1H078mDm
+ q75Z4C04WDgTyP1KGLfar17f6fBNXrT497v7S4FPlgdvAmNsogPoRUccHYChCLpSFc
+ zsrOSeP7SpX+TkYqydvB1fbqsVg+LzB+zyq+5wZg2JukriPj2bZnHTzfd8/R/ebW3p
+ g09B6O/OGGIK8RgoSGW2v1j5Gg5tygKyW2WgSAxafqPYKhj41htmBRl+/C+jugkKu2
+ RTVD85tVhod62FJ8SV/hYDq5LcDRbRQDnPiMwOhdM4Mdb98e6J3hVd6aSgXoKPOdaA
+ DN9o3rXnyvNrA==
+From: Mario Limonciello <superm1@kernel.org>
+To: Bjorn Helgaas <bhelgaas@google.com>
+Cc: Alex Deucher <alexander.deucher@amd.com>,
+ =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>,
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+ Lukas Wunner <lukas@wunner.de>,
  Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
  Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
- Simona Vetter <simona@ffwll.ch>,
- Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
-Cc: dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- Chaoyi Chen <chaoyi.chen@rock-chips.com>
-Subject: [PATCH RESEND] drm/bridge-connector: Fix bridge in
- drm_connector_hdmi_audio_init()
-Date: Fri, 20 Jun 2025 09:16:16 +0800
-Message-Id: <20250620011616.118-1-kernel@airkyi.com>
-X-Mailer: git-send-email 2.17.1
-X-QQ-SENDSIZE: 520
-Feedback-ID: esmtpgz:airkyi.com:qybglogicsvrsz:qybglogicsvrsz4a-0
-X-QQ-XMAILINFO: MNbA5mkmBXEJ+oiabOQH/V5BQ0gN7VC4M5BfnywqB7rFvvU9EzFIFzjv
- ifBUC8nDdtz9VJIkLFy0IkuX8zwdlTPfL+LrD0BzVfP8zdsWsVqq3C83bIfHudPkB036UmT
- rAPVAh1oQKiAk7Y9HKDuCqrsoPdcntox6dykoofx2m1HH+TJdIFqvgXUFeNVo9BSJliVREP
- PErLT1zH3Fssw8KaKIEAmcAUXYz1AifHPjnScxzUf/xjrnd/lvFZZHERPM7S/LF3JC9hZZJ
- xfc/fIdGw/jt1/OJjb0VKKKmLtNKJwk3m1NkA2i+/k3vrX1BRL5ojApzzUhZJINIbcz35rn
- vJ6naiVjEmDadGWjyMbJKxwtB/Lr0selEzocEJ9JHOvBJ7bbn6SNHoW3Afcr3CvQyxyumpo
- Ey/X4D6U5H/lTXp1CwQahQyQAACWes4xdZZE8tsa67bOYVImPWFDwf7qn1RfzXY1v9HOwfy
- Iu1fXCDkhhdKGQ6P421cvVc6tpM06kVgo1/WMqX8Ok8Zs93Y7Fkjpy6ylZbawsx+l1+XJkA
- mzrpBkOxgIHTO/grXHvJCRqLQ+MyxuNT6fCbqAzRG7797ySzb7y3yFaJoqJxT/YeVHleS5p
- O3kP7V2zxlyppZa4xZOlN25iFuv8LQsXF63Xxjmwg0fEIpIo8iUKsSRMjlGkEbOTX+xbBrf
- A2oVdckvf7I3M4QmkMojQ8/q3gt6+pFf3T9E5gM7UtfrOHkIriLzQfhdpVZtHv+MiMWjqFY
- W+3JZ8bAXPCZ3uu0q7Vl8j40pY3crpXaWUdTwWKhGYPljLA0T+mzYNYNt1nb3z1VA62P18y
- p3G/I/m+eTm2tL2LOMZU8G0KkLZ4SkLAvNDNrtyqrI7RDwMv0pNn1xC4DVZmUeH65duLX8z
- u+30rERZRkSDNHNLCOeMobp/+/vjC2f5lQQz6rZbxjpn+GgfLxyDcF7SZN/baYLbdzKnvdM
- wmT1fCGImBTXdsQK5/om9k2ow
-X-QQ-XMRINFO: NS+P29fieYNw95Bth2bWPxk=
-X-QQ-RECHKSPAM: 0
+ Thomas Zimmermann <tzimmermann@suse.de>,
+ David Woodhouse <dwmw2@infradead.org>, Lu Baolu <baolu.lu@linux.intel.com>,
+ Joerg Roedel <joro@8bytes.org>, Will Deacon <will@kernel.org>,
+ Robin Murphy <robin.murphy@arm.com>,
+ Alex Williamson <alex.williamson@redhat.com>,
+ Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
+ dri-devel@lists.freedesktop.org (open list:DRM DRIVERS),
+ linux-kernel@vger.kernel.org (open list),
+ iommu@lists.linux.dev (open list:INTEL IOMMU (VT-d)),
+ linux-pci@vger.kernel.org (open list:PCI SUBSYSTEM),
+ kvm@vger.kernel.org (open list:VFIO DRIVER),
+ linux-sound@vger.kernel.org (open list:SOUND),
+ Daniel Dadap <ddadap@nvidia.com>,
+ Mario Limonciello <mario.limonciello@amd.com>
+Subject: [PATCH v3 0/7] Adjust fbcon console device detection
+Date: Thu, 19 Jun 2025 21:49:36 -0500
+Message-ID: <20250620024943.3415685-1-superm1@kernel.org>
+X-Mailer: git-send-email 2.43.0
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -81,40 +73,47 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Chaoyi Chen <chaoyi.chen@rock-chips.com>
+From: Mario Limonciello <mario.limonciello@amd.com>
 
-The bridge used in drm_connector_hdmi_audio_init() does not correctly
-point to the required audio bridge, which lead to incorrect audio
-configuration input.
+This series started out as changes to VGA arbiter to try to handle a case
+of a system with 2 GPUs that are not VGA devices [1].  This was discussed
+but decided not to overload the VGA arbiter for non VGA devices.
 
-Fixes: 231adeda9f67 ("drm/bridge-connector: hook DisplayPort audio support")
-Signed-off-by: Chaoyi Chen <chaoyi.chen@rock-chips.com>
----
- drivers/gpu/drm/display/drm_bridge_connector.c | 7 +++++--
- 1 file changed, 5 insertions(+), 2 deletions(-)
+Instead move the x86 specific detection of framebuffer resources into x86
+specific code that the fbcon can use to properly identify the primary
+device. This code is still called from the VGA arbiter, and the logic does
+not change there. To avoid regression to fbcon, fall back to VGA arbiter.
 
-diff --git a/drivers/gpu/drm/display/drm_bridge_connector.c b/drivers/gpu/drm/display/drm_bridge_connector.c
-index 7d2e499ea5de..262e93e07a28 100644
---- a/drivers/gpu/drm/display/drm_bridge_connector.c
-+++ b/drivers/gpu/drm/display/drm_bridge_connector.c
-@@ -708,11 +708,14 @@ struct drm_connector *drm_bridge_connector_init(struct drm_device *drm,
- 	if (bridge_connector->bridge_hdmi_audio ||
- 	    bridge_connector->bridge_dp_audio) {
- 		struct device *dev;
-+		struct drm_bridge *bridge;
- 
- 		if (bridge_connector->bridge_hdmi_audio)
--			dev = bridge_connector->bridge_hdmi_audio->hdmi_audio_dev;
-+			bridge = bridge_connector->bridge_hdmi_audio;
- 		else
--			dev = bridge_connector->bridge_dp_audio->hdmi_audio_dev;
-+			bridge = bridge_connector->bridge_dp_audio;
-+
-+		dev = bridge->hdmi_audio_dev;
- 
- 		ret = drm_connector_hdmi_audio_init(connector, dev,
- 						    &drm_bridge_connector_hdmi_audio_funcs,
+In order for userspace to also be able to discover which device was the
+primary framebuffer create a link to that device from fbcon.
+
+v2->v3:
+ * Pick up tags
+ * Drop old patch 6
+ * Add 2 new patches for fbcon
+
+Link: https://lore.kernel.org/linux-pci/20250617175910.1640546-1-superm1@kernel.org/ [1]
+
+Mario Limonciello (7):
+  PCI: Add helper for checking if a PCI device is a display controller
+  vfio/pci: Use pci_is_display()
+  vga_switcheroo: Use pci_is_display()
+  iommu/vt-d: Use pci_is_display()
+  ALSA: hda: Use pci_is_display()
+  PCI/VGA: Move check for firmware default out of VGA arbiter
+  fbcon: Make a symlink to the device selected as primary
+
+ arch/x86/video/video-common.c    | 28 +++++++++++++++++++++++++
+ drivers/gpu/vga/vga_switcheroo.c |  2 +-
+ drivers/iommu/intel/iommu.c      |  2 +-
+ drivers/pci/vgaarb.c             | 36 ++------------------------------
+ drivers/vfio/pci/vfio_pci_igd.c  |  3 +--
+ drivers/video/fbdev/core/fbcon.c | 10 ++++++++-
+ include/linux/pci.h              | 15 +++++++++++++
+ sound/hda/hdac_i915.c            |  2 +-
+ sound/pci/hda/hda_intel.c        |  4 ++--
+ 9 files changed, 60 insertions(+), 42 deletions(-)
+
 -- 
-2.49.0
-
+2.43.0
 
