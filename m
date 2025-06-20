@@ -2,136 +2,119 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B9E9EAE21B3
-	for <lists+dri-devel@lfdr.de>; Fri, 20 Jun 2025 19:58:13 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id C3CEEAE21D7
+	for <lists+dri-devel@lfdr.de>; Fri, 20 Jun 2025 20:14:06 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1FA7810EBA8;
-	Fri, 20 Jun 2025 17:58:11 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2C5BF10EBAB;
+	Fri, 20 Jun 2025 18:14:04 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=Nvidia.com header.i=@Nvidia.com header.b="n2dxWVhp";
+	dkim=pass (2048-bit key; unprotected) header.d=qualcomm.com header.i=@qualcomm.com header.b="UkdN/irB";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from NAM10-MW2-obe.outbound.protection.outlook.com
- (mail-mw2nam10on2072.outbound.protection.outlook.com [40.107.94.72])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3C18510EBA8
- for <dri-devel@lists.freedesktop.org>; Fri, 20 Jun 2025 17:58:05 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=Xs5UBNGjTbgL++YfQXiH2WvH6gKDhkmer86EuhNAmnAzf3sAMBqekVB/aq5SyMaz2TvPjomjYLPPeoVCYwdHVeBB4h+aK6WDAEXKhdcIsMCDgkK3t5Z7ubQMjMiymIY5p7MlyZm9BY1uTHEkg9SelpR4HeXmsKC3GAvJrVKvFjDjdr/H9xz41EplJTPb6q4mZWG1AD3f0bpxwf+lGIN7RIK6w4zylw78nzNl6Dbs9IgS72CaxQc2pAmRhTAJ2BZFmGjdzHFQzQS2hYruiJ0JIVr9cZXd0axVMF2h/l2NbFVg3jjWv1GayoLfZc9ZFxEoRbAuTCpUwTGcurBdbHD1Kw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=KE+X0KLfv72azUEc3pa7e8FBVJd6G/fxKTjzK40wnHc=;
- b=BWNe2h3NDK+14wePd/1e1vKV6x77MIVbrdn6Q1QeHTT520cJu9UsDKb/gHEv6uTe7sbwkoRaFGqMVaweAanFFkUkXnvgOdrpWlSpvxeY54TForUuncKBRcdxgo9EO4nRDWfFuRyEaeUFj57C0509aIvCklcts8kwkm2+uRUD9W/4PI9wy5z04HHVtyHNArPEEkzuuq9WX6jC4F+17HIVJe6Dk/bCpKztdVTgmiNnz7DP90zbbMh+8D4qNSncTj54cec0lamgdKyK2q9y5xjPGvQ41Q8eCHk3P/PVb6y0I2wguT3V1fSERDOqBHEaflXflUPDB1dtHem2e4yfjJgwHg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
- dkim=pass header.d=nvidia.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=KE+X0KLfv72azUEc3pa7e8FBVJd6G/fxKTjzK40wnHc=;
- b=n2dxWVhpx6XaQKza3uqaNQp7YI5rO85Onvpc29CFzSxsX3CMekB/emz4ffxQRauwRjB7O6rnTeOZoAcrkj2109/+dkKItOf6SdPOqBQV/IBYyJgzacrZL/7x8aUELYWfb7elf6fL24xm4IF9DwoISN1WkyMg4g34JLkrUlXPep3pkAWMBHhx5GTj77/4M538WQPUNQMdn3agc6kDp/NFqqDB0udftTEC+XpIq9DhTdixr0Qri7rIKbHGyrbx0FBInjlw4bjO4BIyg5sGPgB5G4BHEAzkdS9DlB1wZkaOXW2CJPTZnXbO1kB3jxaxAj1taJEdLtbnrvAhOnqCQKVmrg==
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=nvidia.com;
-Received: from DS7PR12MB9473.namprd12.prod.outlook.com (2603:10b6:8:252::5) by
- MN0PR12MB6125.namprd12.prod.outlook.com (2603:10b6:208:3c7::15) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8857.25; Fri, 20 Jun
- 2025 17:58:00 +0000
-Received: from DS7PR12MB9473.namprd12.prod.outlook.com
- ([fe80::5189:ecec:d84a:133a]) by DS7PR12MB9473.namprd12.prod.outlook.com
- ([fe80::5189:ecec:d84a:133a%5]) with mapi id 15.20.8835.037; Fri, 20 Jun 2025
- 17:58:00 +0000
-From: Zi Yan <ziy@nvidia.com>
-To: Dave Airlie <airlied@gmail.com>
-Cc: dri-devel@lists.freedesktop.org, Dave Airlie <airlied@redhat.com>,
- Christian Koenig <christian.koenig@amd.com>,
- Matthew Brost <matthew.brost@intel.com>,
- Johannes Weiner <hannes@cmpxchg.org>, linux-mm@kvack.org,
- Andrew Morton <akpm@linux-foundation.org>
-Subject: Re: [PATCH 1/2] mm: add gpu active/reclaim per-node stat counters (v2)
-Date: Fri, 20 Jun 2025 13:57:57 -0400
-X-Mailer: MailMate (2.0r6263)
-Message-ID: <E73EC5A7-920E-4A79-BEB3-D479D87BE06F@nvidia.com>
-In-Reply-To: <20250619072026.635133-1-airlied@gmail.com>
-References: <20250619072026.635133-1-airlied@gmail.com>
-Content-Type: text/plain
-X-ClientProxiedBy: MN2PR05CA0052.namprd05.prod.outlook.com
- (2603:10b6:208:236::21) To DS7PR12MB9473.namprd12.prod.outlook.com
- (2603:10b6:8:252::5)
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com
+ [205.220.180.131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D1EE310EBAB
+ for <dri-devel@lists.freedesktop.org>; Fri, 20 Jun 2025 18:14:01 +0000 (UTC)
+Received: from pps.filterd (m0279869.ppops.net [127.0.0.1])
+ by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 55KHdU0i029799
+ for <dri-devel@lists.freedesktop.org>; Fri, 20 Jun 2025 18:14:01 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
+ cc:content-transfer-encoding:content-type:date:from:in-reply-to
+ :message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
+ jG+tT6iYc7a6QUyEAhUjHjnsvAkz1ye2EdBIx/ExqFk=; b=UkdN/irB8eMnJ2NO
+ 0jKqzAQYkjVmkjPwzGLnd2yjmhC6ai+LAD0gYtUrCOK8BEwRvqqoZR/ugLxYiVuX
+ 9k9jLWr44aC3OHxETeTlhAm5+i8CiiOz8ZilzWSUj7Q4JnCemiVtWuStq45Huipk
+ A2+GSGi0whhqnkJ4UEP5TzN7Q/5w/1yuxrrFt/OdGIICQ5+CmHrvfC6J0/KF+aSS
+ 0YloyFiwf30ppri10MrRtHrzhqKNyO8yu9zt9UQBThQGIkh4AnV5NWIsl3e7YfQ9
+ MsdHh5fl5Yox+G5VF2uNNL4og0XshRfyaWglpdIwx/PjnaavMahQY9VnybmUaRgI
+ ERE2Ng==
+Received: from mail-qk1-f200.google.com (mail-qk1-f200.google.com
+ [209.85.222.200])
+ by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 47dc72r26y-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
+ for <dri-devel@lists.freedesktop.org>; Fri, 20 Jun 2025 18:14:00 +0000 (GMT)
+Received: by mail-qk1-f200.google.com with SMTP id
+ af79cd13be357-7d3d3f64739so468170885a.0
+ for <dri-devel@lists.freedesktop.org>; Fri, 20 Jun 2025 11:14:00 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1750443240; x=1751048040;
+ h=content-transfer-encoding:mime-version:references:in-reply-to
+ :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=jG+tT6iYc7a6QUyEAhUjHjnsvAkz1ye2EdBIx/ExqFk=;
+ b=hWyk285L/9oXWEDyjUTPbwkpJRH5DatV792lQMDk4wqnVGTpX/2szkuZAUWcWSYZwp
+ yY4RXYpWcLvhl+9mwDPnXqe3ZE0SO/lt0tsj6jchP8M4F9gpQcoC0CziqZ0fcgtLzf4Y
+ dibWUEAmF5tR+0bpCh1X14PqzNH0OagPoBs/rvkhHaP6wdIp4NMSxo/LowONjjbNoNyM
+ Ys8VaRO/+q4y/bWghuwznE70LYMxf+g4b6Lxf8YIOVxgT+BwQ2Bac+/8MaFz/oy2HN2K
+ +CwffVM5rqWm2Fu0yf9dcOc5a+T1oPziIjCJc/z+w8Atgtw/1/ylfAVk0ujKEGWseygi
+ EMRg==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCXPOhsa5FbfzXhNZ6TqpduXvBgiaI2B2Rxx7cr9FhRLHm7Rl0hh/nY0E3NwK6X3lPdKAtsm3mA+5zM=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0Yxf6lbiAKgqHj8MO7Iz8gBAz/z1oojT/RmtplynS8m/nTTzPBV3
+ pKc5aOJ4FgmMnkgA33p+AIhMDZ2ZJ1BgA9Hspm4qWmxZPEF8Ei26iMOG5BnHIYJQj2U7CF3Cj4e
+ adcb+FWRGnGyfD2Ed0kAf3a1ekuX9Bq8XjCXqbdj0woJTOmdu6fNqhF01prClHyNwoaU2iQ4=
+X-Gm-Gg: ASbGncsU2sFO2Y5bDiI8yNToKIiCvAhKzA+Js2QAv+SVpbxb3GVmv3p1k+AnYr/8Lpe
+ /nbmL/n+r2vcMdg4WD7iMWo7gDGdKCnzuG+vKKFRbBnO48Jg6gqE93hWXxAB/L+6YFkhQyGaPjM
+ xP02YkVVCgllt1T0KawD/x+ML+RRq/MH+AApUJLZmnj9T7VT3zS8KYeOwYSV3LB/X1pKWRVQ0GF
+ BWikF+7tHosgT6UuN0/nw9qHLlUAIaXUusYV0eAD3Ge4ZksPVvf1OPv6RoySIJ5IfkLi2sYJzO2
+ kR+8adsUB39qCH+4P0tqNSq4rBndn8jxllWfplaL8WEw1/HwAFO3PkvVxwaaYxFksOeskmgeY86
+ SN/XnDThz/J44qjq/wQLI+2eWvJEqs6qZKoA=
+X-Received: by 2002:a05:620a:f12:b0:7d0:a25b:d04c with SMTP id
+ af79cd13be357-7d3f98c5721mr607832485a.9.1750443239573; 
+ Fri, 20 Jun 2025 11:13:59 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IGrRvs8vYgSxtHBNL8Gik6EafDnQeb6cUhaJFFn4yZST6SpGSMyqxM73JI0IZzDqbtPeAIlXg==
+X-Received: by 2002:a05:620a:f12:b0:7d0:a25b:d04c with SMTP id
+ af79cd13be357-7d3f98c5721mr607826485a.9.1750443238988; 
+ Fri, 20 Jun 2025 11:13:58 -0700 (PDT)
+Received: from umbar.lan
+ (2001-14ba-a0c3-3a00-264b-feff-fe8b-be8a.rev.dnainternet.fi.
+ [2001:14ba:a0c3:3a00:264b:feff:fe8b:be8a])
+ by smtp.gmail.com with ESMTPSA id
+ 2adb3069b0e04-553e4144306sm363384e87.18.2025.06.20.11.13.55
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Fri, 20 Jun 2025 11:13:56 -0700 (PDT)
+From: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
+To: Abhinav Kumar <quic_abhinavk@quicinc.com>, Sean Paul <sean@poorly.run>,
+ Marijn Suijten <marijn.suijten@somainline.org>,
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+ Vinod Koul <vkoul@kernel.org>, Konrad Dybcio <konradybcio@kernel.org>,
+ Rob Clark <robin.clark@oss.qualcomm.com>,
+ Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
+Cc: Neil Armstrong <neil.armstrong@linaro.org>, linux-arm-msm@vger.kernel.org, 
+ dri-devel@lists.freedesktop.org, freedreno@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org, Dmitry Baryshkov <lumag@kernel.org>
+Subject: Re: [PATCH v5 00/30] drm/msm/dpu: rework HW block feature handling
+Date: Fri, 20 Jun 2025 21:13:51 +0300
+Message-Id: <175044313810.2014621.9717827153141285782.b4-ty@oss.qualcomm.com>
+X-Mailer: git-send-email 2.39.5
+In-Reply-To: <20250522-dpu-drop-features-v5-0-3b2085a07884@oss.qualcomm.com>
+References: <20250522-dpu-drop-features-v5-0-3b2085a07884@oss.qualcomm.com>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: DS7PR12MB9473:EE_|MN0PR12MB6125:EE_
-X-MS-Office365-Filtering-Correlation-Id: 5a6197f1-fac5-4178-0e3b-08ddb023fe92
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;ARA:13230040|1800799024|376014|366016;
-X-Microsoft-Antispam-Message-Info: =?us-ascii?Q?7MayKYM7bBgqNaNrpiyPKGbXokOhiRglBC7y1PUdLmZTr3OHe8+U306KG/EF?=
- =?us-ascii?Q?fUTZhn1lVk9yeBpMGsSl5F/ndLOYdfpNfuNNZpPb2S7IKCb3G5+6oxSF9yjJ?=
- =?us-ascii?Q?e4Cj1z0/Q6OO1f0/n1LklMtRRh/ZcbOr0RntRs6/DV/me8z7tyJVzBBzYMna?=
- =?us-ascii?Q?NtW9hmfxCkiqIXyBXmIMvw6fSvivytDPAmQIVC2wBL+eULHb090ap7bLy7Px?=
- =?us-ascii?Q?J2mdgGQbalaWeTRe4c8USNMg3W+Y7Z4bOavzujPPe5tSN+BM6tLrBR56+/JO?=
- =?us-ascii?Q?4rDTuaoaT7g94LUiDLaT1VVBOEJVQNQwqIEfap0qytqTjMMJNblXAVLb+ar4?=
- =?us-ascii?Q?+vgKXDTVsKx2V1o8/+zxLjI0Q29HnJdf2VznLSOHiutehE8yJlVDTvzGtLFL?=
- =?us-ascii?Q?MDeKjvRS/UvZKHCJ9WqJ2fl8FI/7cG+cSmX9iWiPVxpMT2Taouf0YUnKx7EV?=
- =?us-ascii?Q?IZdzyQIJDF48SqgToj800XN0TpgrlBF/lUSuw4j1witTUMENSTNbixro7PcM?=
- =?us-ascii?Q?TzlcZ0GNnHglIXjgmx20svAhmt6eGZIM6ZcpFBEAp4BhbP2O9lEQfIOcS2JG?=
- =?us-ascii?Q?zmfrjoeFgTqZJm68eZrZlQHttA6ux0TJz7tPGAkOW9GARWUAhxrw67jdUYcK?=
- =?us-ascii?Q?uUMDkCopZOEnQAEW/R7nJ45zu/h+hZiOCw13YY4UM5OZmGqTqzmFDjSo+FP3?=
- =?us-ascii?Q?ZZorkmHx+aoxdHNItsb/XpQ0So71rhMrs/zasm1ZQE9NNqkfiE78b2dqxOJP?=
- =?us-ascii?Q?o04skbX5MvwL0yNwbwT5BPrj12TeuIKFpL22q/JfRWiH69cOm6W55fRlv5LX?=
- =?us-ascii?Q?sVOFEKrrS13Z1Va5H9M/HqST6eWaDE4rxHQ2QauVtC2UHi9B+BdcXKD3rlqS?=
- =?us-ascii?Q?ixpLAYvf2ijj9lfBuMRZ01rrD1+7JA+3Ja9e/NREK0DtgtpKN2EHvi8gtiTI?=
- =?us-ascii?Q?7uHcy9fTRR6yqPA7rEPLPlG4fJzL+bgnhnswJgHCd3a9bThSFUYu5D4/uI4a?=
- =?us-ascii?Q?lXtnBHDIF0VeWZMdL4A9Y2aHLo98+o6deNN4AN1u89ws14baRg9VIkdI0pnV?=
- =?us-ascii?Q?3ZVb4itRFj2Z3rg8PnXS8LO8MCWjjiTjDGOwZJXka0Rhiapx+7qLVS/Bjrgx?=
- =?us-ascii?Q?2SNkQeJVB1FnlIPE36vKP+Dr72yHg6T9jvyp57QwxuZtiFX9U2JyX1uGhWCh?=
- =?us-ascii?Q?fgOyOuvbzmoBasdFVD+tB5SPll83otArbz+wlyDEek+vKSa+TaDOd8wiY5qZ?=
- =?us-ascii?Q?grkOzNG7FekH9JTh9gqaS+6TJW9K5fZoQkNL7YPvG69fN+M3mBP1fjUvrG/I?=
- =?us-ascii?Q?UUkmc7YqS5/p7u8AWOQx59PwU4ViRAndsCqfj+BnY85rl/aQvu4NTsfcRrxT?=
- =?us-ascii?Q?WlI2AN+erN5zQVxDbKFJCIHKk/SB67TkaEaa6RvOVMZCLPLZUn5sFNLJJRKG?=
- =?us-ascii?Q?uf+1XPknl+Y=3D?=
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:DS7PR12MB9473.namprd12.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230040)(1800799024)(376014)(366016); DIR:OUT; SFP:1101; 
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?lOCVRFYUizb0bpCPHpZR34YU03lT2qAxadYE99zq5QwYXy+OAdn+V1Ksj5cy?=
- =?us-ascii?Q?6rJuaOvSivqXTaGoO3BcNMJbiYozD1RE3vmiHAKZjly7nZEM2zP2zDUGy2P1?=
- =?us-ascii?Q?Lo6pjIzFINeiuJEGuBhUjpWAvFP5vY8ildLQJnBEqA5+vLn3QdeTas/43Bx1?=
- =?us-ascii?Q?yxeqrJ8NSvhTMRkG7q/bK6tswiGhSV/4QgdOKxYHKX1L3V/LF9aCLgvrn3sS?=
- =?us-ascii?Q?dq1VumKKfyjQAxMYLa+Mz9h1jn18EniqaaBKDwbsJ/e9i/Q98/+Tjw2UMjSu?=
- =?us-ascii?Q?1DAnyswOWzcfPHYLYbIB6+bVcGPsDLhjj5ZRF8Kyz/8D8kzKFTKJ5vwyXsxp?=
- =?us-ascii?Q?1ex/IDZxss2hXSwKvrUVxdD5QmFwjKBTJrzxCAnZQ/yXQu8wqbxEVg2NwjCU?=
- =?us-ascii?Q?/5XSsUQaOAWgpBrKkSPpoPUM03Z5JO+T+m4072SCcInlOMdK4XM6WHv/f47p?=
- =?us-ascii?Q?64dPfBOB55jaQ+tiL2QkLgmwz+dz2+atijFdoi9Xz1aZCEUlUvjyMc0MJcU4?=
- =?us-ascii?Q?dR4LKu0f5/M50alOj2hpIPa+8hmcsrDcrl+FKtIX2shAnWTk3QyyDLJKXNTj?=
- =?us-ascii?Q?5t27MRM2uZL4dkYtPKDrJaxAdBegG7Wc96w1bYFn7IdaWKSCjEKff7LLzjRS?=
- =?us-ascii?Q?XcCNzE2oaZ8pZKS8ynmgiPnq1Fh99Kg8E340yQYEB++6XIu+HlO/w3GED3TV?=
- =?us-ascii?Q?eedDZokUqHqakIFLXeXOdqIT/gXbXfwMAm1IdJgpzig7J9sZqXWb2zkyyFY8?=
- =?us-ascii?Q?1jya6gUc8KXntI8+ELdfwzn+vQdcNDLWUW42YlEUDEGg/Hw+LE8Qs9ALI8Ax?=
- =?us-ascii?Q?SD1LBDB1WsDGCByDrKxwRNHV/uXRmR+Ot9gpw93XkIkqi9O8WJaONCWNypHg?=
- =?us-ascii?Q?GEavZBcmcmBzt3R3UwJIn6oXmtBlZROioN9KA6hEkI/l5BdPmRZcheQDQnz0?=
- =?us-ascii?Q?LkB+wRWKNMWEhxwa6MXf0Qi9smt6wXkz9IsxRyGXTUNsioUoH67UPqTPQQ4H?=
- =?us-ascii?Q?Xzm70Xql18C1JMqZdx0AAesv/hr/bWAWgBhGiEmDHmlEnJtwcUntdtSmp6w6?=
- =?us-ascii?Q?B0U83Vfv8qSIRG9S4BNlvROAv+1P29kB+lZO6DdcBhSrB/JBTyPOd3wlgFgF?=
- =?us-ascii?Q?DkaYUt8GnwqigftsbZYqmNCwPVUAn7SJuFnWEFph297/lud1sUv+9SzUTJmK?=
- =?us-ascii?Q?GAYk2OGL67v/NYpthwJMcuT0UsQv6FzYpGORYfraGTYw9eW81T8mWKHC/Tv6?=
- =?us-ascii?Q?bu/QkCk/TMvgh3e2+DwiHBg/eePH3IBumouK1ygOIeVvVPryH2jdSmznmJeJ?=
- =?us-ascii?Q?XtaemmW1iRbel3bJ9wmAay2ZjvMI6GA5fccuyDk6Uu5lQz599LOfRZ6Q8xHN?=
- =?us-ascii?Q?Ar67Mi2hYb0fE4CWLuROAuUVGH+rWBMj/a6rnOh/eKcxUFWi2QTY+OHw03rU?=
- =?us-ascii?Q?uPBRI/4WjQOlrNHum53iuAMHOP6JSoXAbQJARS7YTLBqIAlb9bo4OXDDNO4F?=
- =?us-ascii?Q?TqWa5tpYnrAJxSYdAnK4c55E/Yl+evRrNbuAOj/DshndRYWr0E749xgtVTmR?=
- =?us-ascii?Q?H7C6J4kMeK17wXCz5mMzT7SJCgpPnx7vnph4t3jS?=
-X-OriginatorOrg: Nvidia.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 5a6197f1-fac5-4178-0e3b-08ddb023fe92
-X-MS-Exchange-CrossTenant-AuthSource: DS7PR12MB9473.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 20 Jun 2025 17:58:00.1348 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: 01UFakk+OT3ZAty6rejORYvd3HX29oq3dPzhSzlMD9zKS4l2fIU0XVyHUO98/Xcn
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: MN0PR12MB6125
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
+X-Authority-Analysis: v=2.4 cv=GNgIEvNK c=1 sm=1 tr=0 ts=6855a4e8 cx=c_pps
+ a=hnmNkyzTK/kJ09Xio7VxxA==:117 a=xqWC_Br6kY4A:10 a=IkcTkHD0fZMA:10
+ a=6IFa9wvqVegA:10 a=e5mUnYsNAAAA:8 a=KLh1uqfzAhr9BImysYoA:9 a=QEXdDO2ut3YA:10
+ a=PEH46H7Ffwr30OY-TuGO:22 a=Vxmtnl_E_bksehYqCbjh:22
+X-Proofpoint-ORIG-GUID: niPDXRUc53jKDe3lKtSP2evWksl26PN8
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwNjIwMDEyNyBTYWx0ZWRfX9En/db7xD7pQ
+ HlsD6oSijHkMGzflY8ik9zxYTmANc0kG6OgR6z+sk5tpLh+YiDaFS4ogcexb+V0NzjKAsN9aKff
+ wL7izTGZ2low0w4cnFMPMBJlmLz6WYi811UfnIYbHfNdvu5OBmwbR37w407mz8d/XgdrpNfYf/P
+ w8piiZnd4kBBWW6it2KxEfEculG7BzByW4hY6CEF++qaUgNP9c9tnzo7LdxJVqtA7JlIDXQ8U6b
+ RZ5DU6wzQJEaiUpHQc7TBWY0LCnwEJ5tjL6LVZ/NTeGMMSTUUgtyPJBdX+q+nTsNpB1k+ikcumo
+ mD2Qno3IAqpkfyVYQyp/GEgE8+8s927zVPSP/nnA0HLR630H+0fl9dp2U4k/mUNPXTDfYqCT4zH
+ YFTT9KGSCUIAaygA6L+NX+34HjzkZMw1r4oyPJdN+8eIGslSdDkL21l4SleBo6XePdubayXV
+X-Proofpoint-GUID: niPDXRUc53jKDe3lKtSP2evWksl26PN8
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1099,Hydra:6.0.736,FMLib:17.12.80.40
+ definitions=2025-06-20_07,2025-06-20_01,2025-03-28_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ phishscore=0 mlxscore=0 suspectscore=0 spamscore=0 impostorscore=0
+ lowpriorityscore=0 mlxlogscore=897 clxscore=1015 malwarescore=0 bulkscore=0
+ priorityscore=1501 adultscore=0 classifier=spam authscore=0 authtc=n/a
+ authcc= route=outbound adjust=0 reason=mlx scancount=1
+ engine=8.19.0-2505280000 definitions=main-2506200127
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -147,69 +130,84 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 19 Jun 2025, at 3:20, Dave Airlie wrote:
 
-> From: Dave Airlie <airlied@redhat.com>
->
-> While discussing memcg intergration with gpu memory allocations,
-> it was pointed out that there was no numa/system counters for
-> GPU memory allocations.
->
-> With more integrated memory GPU server systems turning up, and
-> more requirements for memory tracking it seems we should start
-> closing the gap.
->
-> Add two counters to track GPU per-node system memory allocations.
->
-> The first is currently allocated to GPU objects, and the second
-> is for memory that is stored in GPU page pools that can be reclaimed,
-> by the shrinker.
->
-> Cc: Christian Koenig <christian.koenig@amd.com>
-> Cc: Matthew Brost <matthew.brost@intel.com>
-> Cc: Johannes Weiner <hannes@cmpxchg.org>
-> Cc: linux-mm@kvack.org
-> Cc: Andrew Morton <akpm@linux-foundation.org>
-> Signed-off-by: Dave Airlie <airlied@redhat.com>
->
-> ---
->
-> v2: add more info to the documentation on this memory.
->
-> I'd like to get acks to merge this via the drm tree, if possible,
->
-> Dave.
-> ---
->  Documentation/filesystems/proc.rst | 8 ++++++++
->  drivers/base/node.c                | 5 +++++
->  fs/proc/meminfo.c                  | 6 ++++++
->  include/linux/mmzone.h             | 2 ++
->  mm/show_mem.c                      | 9 +++++++--
->  mm/vmstat.c                        | 2 ++
->  6 files changed, 30 insertions(+), 2 deletions(-)
->
+On Thu, 22 May 2025 22:03:19 +0300, Dmitry Baryshkov wrote:
+> Some time ago we started the process of converting HW blocks to use
+> revision-based checks instead of having feature bits (which are easy to
+> miss or to set incorrectly). Then the process of such a conversion was
+> postponed. (Mostly) finish the conversion. The only blocks which still
+> have feature bits are SSPP, WB and VBIF. In the rare cases where
+> behaviour actually differs from platform to platform (or from block to
+> block) use unsigned long bitfields, they have simpler syntax to be
+> checked and don't involve test_bit() invocation.
+> 
+> [...]
 
-<snip>
+Applied, thanks!
 
-> diff --git a/include/linux/mmzone.h b/include/linux/mmzone.h
-> index 283913d42d7b..458a3465dd8f 100644
-> --- a/include/linux/mmzone.h
-> +++ b/include/linux/mmzone.h
-> @@ -241,6 +241,8 @@ enum node_stat_item {
->  	NR_HUGETLB,
->  #endif
->  	NR_BALLOON_PAGES,
-> +	NR_GPU_ACTIVE,          /* GPU pages assigned to an object */
-> +	NR_GPU_RECLAIM,         /* GPU pages in shrinkable pools */
+[01/30] drm/msm/dpu: stop passing mdss_ver to setup_timing_gen()
+        https://gitlab.freedesktop.org/lumag/msm/-/commit/5d25efaaa327
+[02/30] drm/msm/dpu: drop INTF_SC7280_MASK
+        https://gitlab.freedesktop.org/lumag/msm/-/commit/768d87108f24
+[03/30] drm/msm/dpu: inline _setup_ctl_ops()
+        https://gitlab.freedesktop.org/lumag/msm/-/commit/cc34e7f8d8a3
+[04/30] drm/msm/dpu: inline _setup_dsc_ops()
+        https://gitlab.freedesktop.org/lumag/msm/-/commit/155e4d05136b
+[05/30] drm/msm/dpu: inline _setup_dspp_ops()
+        https://gitlab.freedesktop.org/lumag/msm/-/commit/cfc1dbe27f63
+[06/30] drm/msm/dpu: inline _setup_mixer_ops()
+        https://gitlab.freedesktop.org/lumag/msm/-/commit/d01d027a6ae1
+[07/30] drm/msm/dpu: remove DSPP_SC7180_MASK
+        https://gitlab.freedesktop.org/lumag/msm/-/commit/64558d6ec1dc
+[08/30] drm/msm/dpu: get rid of DPU_CTL_HAS_LAYER_EXT4
+        https://gitlab.freedesktop.org/lumag/msm/-/commit/40b7aa8fb641
+[09/30] drm/msm/dpu: get rid of DPU_CTL_ACTIVE_CFG
+        https://gitlab.freedesktop.org/lumag/msm/-/commit/a1c5eafeab9b
+[10/30] drm/msm/dpu: get rid of DPU_CTL_FETCH_ACTIVE
+        https://gitlab.freedesktop.org/lumag/msm/-/commit/a22c33cb4ccc
+[11/30] drm/msm/dpu: get rid of DPU_CTL_DSPP_SUB_BLOCK_FLUSH
+        https://gitlab.freedesktop.org/lumag/msm/-/commit/91003d9f8fb6
+[12/30] drm/msm/dpu: get rid of DPU_CTL_VM_CFG
+        https://gitlab.freedesktop.org/lumag/msm/-/commit/e479fb02dc72
+[13/30] drm/msm/dpu: get rid of DPU_DATA_HCTL_EN
+        https://gitlab.freedesktop.org/lumag/msm/-/commit/39890da06970
+[14/30] drm/msm/dpu: get rid of DPU_INTF_STATUS_SUPPORTED
+        https://gitlab.freedesktop.org/lumag/msm/-/commit/e7da245a3402
+[15/30] drm/msm/dpu: get rid of DPU_INTF_INPUT_CTRL
+        https://gitlab.freedesktop.org/lumag/msm/-/commit/9db68425f24c
+[16/30] drm/msm/dpu: get rid of DPU_PINGPONG_DSC
+        https://gitlab.freedesktop.org/lumag/msm/-/commit/d521c4200c94
+[17/30] drm/msm/dpu: get rid of DPU_PINGPONG_DITHER
+        https://gitlab.freedesktop.org/lumag/msm/-/commit/bbd131f1e095
+[18/30] drm/msm/dpu: get rid of DPU_MDP_VSYNC_SEL
+        https://gitlab.freedesktop.org/lumag/msm/-/commit/5094aa5474a2
+[19/30] drm/msm/dpu: get rid of DPU_MDP_PERIPH_0_REMOVED
+        https://gitlab.freedesktop.org/lumag/msm/-/commit/820405f6e2e6
+[20/30] drm/msm/dpu: get rid of DPU_MDP_AUDIO_SELECT
+        https://gitlab.freedesktop.org/lumag/msm/-/commit/b14f7c55b079
+[21/30] drm/msm/dpu: get rid of DPU_MIXER_COMBINED_ALPHA
+        https://gitlab.freedesktop.org/lumag/msm/-/commit/5b14c003781b
+[22/30] drm/msm/dpu: get rid of DPU_DIM_LAYER
+        https://gitlab.freedesktop.org/lumag/msm/-/commit/36beee41c4c3
+[23/30] drm/msm/dpu: get rid of DPU_DSC_HW_REV_1_2
+        https://gitlab.freedesktop.org/lumag/msm/-/commit/27b1a01fcdb8
+[24/30] drm/msm/dpu: get rid of DPU_DSC_OUTPUT_CTRL
+        https://gitlab.freedesktop.org/lumag/msm/-/commit/a88c80ecb442
+[25/30] drm/msm/dpu: get rid of DPU_WB_INPUT_CTRL
+        https://gitlab.freedesktop.org/lumag/msm/-/commit/fa811f768713
+[26/30] drm/msm/dpu: get rid of DPU_SSPP_QOS_8LVL
+        https://gitlab.freedesktop.org/lumag/msm/-/commit/0709ec21abcf
+[27/30] drm/msm/dpu: drop unused MDP TOP features
+        https://gitlab.freedesktop.org/lumag/msm/-/commit/0ea9f990c352
+[28/30] drm/msm/dpu: drop ununused PINGPONG features
+        https://gitlab.freedesktop.org/lumag/msm/-/commit/a1e42a921dee
+[29/30] drm/msm/dpu: drop ununused MIXER features
+        https://gitlab.freedesktop.org/lumag/msm/-/commit/1f783bf4f8f9
+[30/30] drm/msm/dpu: move features out of the DPU_HW_BLK_INFO
+        https://gitlab.freedesktop.org/lumag/msm/-/commit/c70c860fb00c
 
-"GPU pages" seems confusing. These are not pages from GPU memory, right?
-Would the comments below sound better?
+Best regards,
+-- 
+With best wishes
+Dmitry
 
-/* Pages assigned to a GPU object */
-/* Pages in shrinkable GPU pools */
-
-Otherwise, Acked-by: Zi Yan <ziy@nvidia.com>
-
---
-Best Regards,
-Yan, Zi
