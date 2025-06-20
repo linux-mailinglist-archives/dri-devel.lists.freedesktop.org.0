@@ -2,42 +2,42 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id DB56CAE1FA4
-	for <lists+dri-devel@lfdr.de>; Fri, 20 Jun 2025 18:00:10 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 50C0EAE1FA6
+	for <lists+dri-devel@lfdr.de>; Fri, 20 Jun 2025 18:00:15 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C097310EB88;
-	Fri, 20 Jun 2025 16:00:07 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id CB96610EB8B;
+	Fri, 20 Jun 2025 16:00:12 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=bootlin.com header.i=@bootlin.com header.b="fbsN1Yz0";
+	dkim=pass (2048-bit key; unprotected) header.d=bootlin.com header.i=@bootlin.com header.b="VhsG71ng";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from relay5-d.mail.gandi.net (relay5-d.mail.gandi.net
  [217.70.183.197])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A155210EB88
- for <dri-devel@lists.freedesktop.org>; Fri, 20 Jun 2025 16:00:05 +0000 (UTC)
-Received: by mail.gandi.net (Postfix) with ESMTPSA id 2A9A0432FC;
- Fri, 20 Jun 2025 16:00:03 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E226C10EB88
+ for <dri-devel@lists.freedesktop.org>; Fri, 20 Jun 2025 16:00:06 +0000 (UTC)
+Received: by mail.gandi.net (Postfix) with ESMTPSA id 7BB76432F4;
+ Fri, 20 Jun 2025 16:00:04 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
- t=1750435204;
+ t=1750435205;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=+8MtcpgSRqEBJiFr7cEobMUHzglh2pRSIimhGNGsWtk=;
- b=fbsN1Yz0thT+D2mN4A4tVovRyuNRGCm5/TbASFnv3W7Gxz623dSjaab8+Lx+t4tBm24iya
- YOBGxHNy4Y/cni2/WPbAs9bAzyraM0HdqcsobIRnxQy0/Y5aQAuLOF7fGYw1dDqR7mYZgq
- FV3Bi+SODaXzw0/W8Jl0OfXvpf6zKPmO6EPK7z165d/e0j3Qw/atfr1yxjL5gsKystTc6n
- jQjxuQbGl7Ad2sQ9jIuVO5kRWXVFDl+ZXXMM7+rzvXwqdYGiz7EkWT9j+k/AXE6EPC3YUa
- awzhy3IF8A1QvmJ5kYyE40dvSq3YAZ/l/lmTr8MoYazmL16x/kjnmpbs5Liirw==
+ bh=Vcq0bNKLXTxzoqOoWjjPyn3SmlF4gRI3gJ8lrJHFXgk=;
+ b=VhsG71ng2ZvaxZ82r+hClPmpmVm4p45TLz2WV8MPRebmpU1087B/+03FYlZ9eMVYVHOq49
+ X1UiZC6Nka0aDhzcP0jgayPz7/H94NzmmED17GzdncSWjtYF/I9M7Vf15iW1hqVPegRSt3
+ 8glYMLZJLMkkClmxsNe2p8+GJbJTCu9n5QX23ajfZQraMM6R/UqxLOKp0Ee4UsYYfLr/Kw
+ kCAk9Iq6DOihONiZLzzCLb0tD5W22J/Qs6odT+Ngwp/DsPvRn8RE53sGTirzGN3iKimvGL
+ i4rAfYVXSMs0GC+xPuApJJ68T1D7XgZ2sPu4cbAxhH/u89UV+S6WkyMtYtiLoA==
 From: Luca Ceresoli <luca.ceresoli@bootlin.com>
-Date: Fri, 20 Jun 2025 17:59:54 +0200
-Subject: [PATCH v9 2/3] drm/bridge: get/put the bridge reference in
- drm_bridge_attach/detach()
+Date: Fri, 20 Jun 2025 17:59:55 +0200
+Subject: [PATCH v9 3/3] drm/bridge: add warning for bridges not using
+ devm_drm_bridge_alloc()
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20250620-drm-bridge-alloc-getput-drm-bridge-c-v9-2-ca53372c9a84@bootlin.com>
+Message-Id: <20250620-drm-bridge-alloc-getput-drm-bridge-c-v9-3-ca53372c9a84@bootlin.com>
 References: <20250620-drm-bridge-alloc-getput-drm-bridge-c-v9-0-ca53372c9a84@bootlin.com>
 In-Reply-To: <20250620-drm-bridge-alloc-getput-drm-bridge-c-v9-0-ca53372c9a84@bootlin.com>
 To: Andrzej Hajda <andrzej.hajda@intel.com>, 
@@ -73,66 +73,78 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-drm_bridge_attach() adds the bridge to the encoder chain, so take a
-reference for that. Vice versa in drm_bridge_detach().
+To the best of my knowledge, all drivers in the mainline kernel adding a
+DRM bridge are now converted to using devm_drm_bridge_alloc() for
+allocation and initialization. Among others this ensures initialization of
+the bridge refcount, allowing dynamic allocation lifetime.
 
-Reviewed-by: Maxime Ripard <mripard@kernel.org>
+devm_drm_bridge_alloc() is now mandatory for all new bridges. Code using
+the old pattern ([devm_]kzalloc + filling the struct fields +
+drm_bridge_add) is not allowed anymore.
+
+Any drivers that might have been missed during the conversion, patches in
+flight towards mainline and out-of-tre drivers still using the old pattern
+will already be caught by a warning looking like:
+
+  ------------[ cut here ]------------
+  refcount_t: addition on 0; use-after-free.
+  WARNING: CPU: 2 PID: 83 at lib/refcount.c:25 refcount_warn_saturate+0x120/0x148
+  [...]
+  Call trace:
+   refcount_warn_saturate+0x120/0x148 (P)
+   drm_bridge_get.part.0+0x70/0x98 [drm]
+   drm_bridge_add+0x34/0x108 [drm]
+   sn65dsi83_probe+0x200/0x480 [ti_sn65dsi83]
+   [...]
+
+This warning comes from the refcount code and happens because
+drm_bridge_add() is increasing the refcount, which is uninitialized and
+thus initially zero.
+
+Having a warning and the corresponding stack trace is surely useful, but
+the warning text does not clarify the root problem nor how to fix it.
+
+Add a DRM_WARN() just before increasing the refcount, so the log will be
+much more readable:
+
+  [drm] DRM bridge corrupted or not allocated by devm_drm_bridge_alloc()
+  ------------[ cut here ]------------
+  refcount_t: addition on 0; use-after-free.
+  [...etc...]
+
+A DRM_WARN is used because drm_warn and drm_WARN require a struct
+drm_device pointer which is not yet available when adding a bridge.
+
+Do not print the dev_name() in the warning because struct drm_bridge has no
+pointer to the struct device. The affected driver should be easy to catch
+based on the following stack trace however.
+
 Signed-off-by: Luca Ceresoli <luca.ceresoli@bootlin.com>
+
 ---
 
-Changes in v9: none
-Changes in v8: none
+Changes in v9:
+- change warning trigger from "refcount != 1" to "container not NULL"
 
-Changes in v7:
-- in v6 this was part of "drm/bridge: add support for refcounted DRM
-  bridges", now split to a separate patch
+This patch was added in v8
 ---
- drivers/gpu/drm/drm_bridge.c | 17 +++++++++++++----
- 1 file changed, 13 insertions(+), 4 deletions(-)
+ drivers/gpu/drm/drm_bridge.c | 3 +++
+ 1 file changed, 3 insertions(+)
 
 diff --git a/drivers/gpu/drm/drm_bridge.c b/drivers/gpu/drm/drm_bridge.c
-index fa2b2457b16e145e3ace70c53984937096d310d0..f001bbe95559aabf0aac9f25f89250ad4e1ad9c8 100644
+index f001bbe95559aabf0aac9f25f89250ad4e1ad9c8..0b450b334afd82e0460f18fdd248f79d0a2b153d 100644
 --- a/drivers/gpu/drm/drm_bridge.c
 +++ b/drivers/gpu/drm/drm_bridge.c
-@@ -411,11 +411,17 @@ int drm_bridge_attach(struct drm_encoder *encoder, struct drm_bridge *bridge,
- 	if (!encoder || !bridge)
- 		return -EINVAL;
- 
--	if (previous && (!previous->dev || previous->encoder != encoder))
--		return -EINVAL;
-+	drm_bridge_get(bridge);
- 
--	if (bridge->dev)
--		return -EBUSY;
-+	if (previous && (!previous->dev || previous->encoder != encoder)) {
-+		ret = -EINVAL;
-+		goto err_put_bridge;
-+	}
+@@ -295,6 +295,9 @@ EXPORT_SYMBOL(__devm_drm_bridge_alloc);
+  */
+ void drm_bridge_add(struct drm_bridge *bridge)
+ {
++	if (!bridge->container)
++		DRM_WARN("DRM bridge corrupted or not allocated by devm_drm_bridge_alloc()\n");
 +
-+	if (bridge->dev) {
-+		ret = -EBUSY;
-+		goto err_put_bridge;
-+	}
+ 	drm_bridge_get(bridge);
  
- 	bridge->dev = encoder->dev;
- 	bridge->encoder = encoder;
-@@ -464,6 +470,8 @@ int drm_bridge_attach(struct drm_encoder *encoder, struct drm_bridge *bridge,
- 			      "failed to attach bridge %pOF to encoder %s\n",
- 			      bridge->of_node, encoder->name);
- 
-+err_put_bridge:
-+	drm_bridge_put(bridge);
- 	return ret;
- }
- EXPORT_SYMBOL(drm_bridge_attach);
-@@ -484,6 +492,7 @@ void drm_bridge_detach(struct drm_bridge *bridge)
- 
- 	list_del(&bridge->chain_node);
- 	bridge->dev = NULL;
-+	drm_bridge_put(bridge);
- }
- 
- /**
+ 	mutex_init(&bridge->hpd_mutex);
 
 -- 
 2.49.0
