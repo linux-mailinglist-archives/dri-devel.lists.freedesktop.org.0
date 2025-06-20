@@ -2,42 +2,42 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0F233AE20DA
-	for <lists+dri-devel@lfdr.de>; Fri, 20 Jun 2025 19:26:34 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id DE873AE20DB
+	for <lists+dri-devel@lfdr.de>; Fri, 20 Jun 2025 19:26:35 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4914710E23D;
-	Fri, 20 Jun 2025 17:26:31 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B6D9610EB95;
+	Fri, 20 Jun 2025 17:26:33 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=bootlin.com header.i=@bootlin.com header.b="XwEph24N";
+	dkim=pass (2048-bit key; unprotected) header.d=bootlin.com header.i=@bootlin.com header.b="fTagO/T0";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from relay3-d.mail.gandi.net (relay3-d.mail.gandi.net
  [217.70.183.195])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C3E3510E23D
- for <dri-devel@lists.freedesktop.org>; Fri, 20 Jun 2025 17:26:29 +0000 (UTC)
-Received: by mail.gandi.net (Postfix) with ESMTPSA id E711D1FD3C;
- Fri, 20 Jun 2025 17:26:26 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8148910EB98
+ for <dri-devel@lists.freedesktop.org>; Fri, 20 Jun 2025 17:26:31 +0000 (UTC)
+Received: by mail.gandi.net (Postfix) with ESMTPSA id B19161FD35;
+ Fri, 20 Jun 2025 17:26:28 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
- t=1750440388;
+ t=1750440390;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=WXjnwSQXDdtuytqxtM3L0hY5puciJ4Vzaf5CQJt2GEg=;
- b=XwEph24NxMunBm+1IjcSw4FMaGc6u5HQQsElJXg6SRdwrSinyvEcufBN/hRkCnK7Av4ct0
- wweKtkH+quKN+qa0Wddar3/LdGGpUKNVjuPr1++qK+5yKCrsgr7Odjmb2ZN6mok8+vo0dY
- K7iCuToEInTUAE69BwmhRNnNgqSU7BVyk/SLd4kVIl81cwvFSGMjL7YOLJBA8alXtqGv0H
- QHpxWHV5ANYspBuBXD6Tf4IO/NXDpdgP7Bw+nkzbqX/OPn/uQysdbQ0Outkow5oanyh68Z
- ABf0cy2xZPhSQhF+V9LdBzLYSBCf+iPW7O5nT22sW7yWOmn3EQug34/SNbMrFw==
+ bh=c6fqZjW1oWvLkqh+RlLTrzx123aebdEE6NvTpETPRbs=;
+ b=fTagO/T0OTOSnVnshXf2t7eoC1TNsFFRvmJASF050aBRmpJRPng/1jWaqHVE4EV6nLUYkG
+ LXT/aLNHx9qBUC9eL/DZhwOtFzoWXAdPj/1N13PgsZKCkO8XNVXR8fyg7QZGx0pMmNt/MI
+ QftrSf9TvdyWs4oGgeQI1pk5tg4L8bCUpmf6M3t4saZyqmBzng3op7NRmd+R9eQGviVPOF
+ p5uyZgnlMCKkkY5xXbqugJVQ0hrVmVjSU/d0Tuxe1mK1SzPSD1n/F23H2UTsKwDn8sbFyE
+ zNdkaNl5I4YVNp2B7IXTm9y4JXGtCF6BlghMtjHoQrxGFZn8+2eNJn5+uvY2Iw==
 From: Luca Ceresoli <luca.ceresoli@bootlin.com>
-Date: Fri, 20 Jun 2025 19:26:15 +0200
-Subject: [PATCH v8 3/5] drm/mxsfb: put the bridge returned by
+Date: Fri, 20 Jun 2025 19:26:16 +0200
+Subject: [PATCH v8 4/5] drm/atomic-helper: put the bridge returned by
  drm_bridge_chain_get_first_bridge()
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20250620-drm-bridge-alloc-getput-drm_bridge_chain_get_first_bridge-v8-3-0321845fcafb@bootlin.com>
+Message-Id: <20250620-drm-bridge-alloc-getput-drm_bridge_chain_get_first_bridge-v8-4-0321845fcafb@bootlin.com>
 References: <20250620-drm-bridge-alloc-getput-drm_bridge_chain_get_first_bridge-v8-0-0321845fcafb@bootlin.com>
 In-Reply-To: <20250620-drm-bridge-alloc-getput-drm_bridge_chain_get_first_bridge-v8-0-0321845fcafb@bootlin.com>
 To: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
@@ -78,38 +78,84 @@ Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 The bridge returned by drm_bridge_chain_get_first_bridge() is
-refcounted. Put it when done. Use a scope-based free action to catch all
-the code paths.
+refcounted. Put it when done.
 
-Reviewed-by: Maxime Ripard <mripard@kernel.org>
 Signed-off-by: Luca Ceresoli <luca.ceresoli@bootlin.com>
 ---
 
+Changes in v8:
+- reworked after the changes in pre_enable/post_disable order:
+  f6ee26f58870 ("drm/atomic-helper: Refactor crtc & encoder-bridge op loops into separate functions")
+  d5bef6430c85 ("drm/atomic-helper: Separate out bridge pre_enable/post_disable from enable/disable")
+  c9b1150a68d9 ("drm/atomic-helper: Re-order bridge chain pre-enable and post-disable")
+- Removed R-by Maxime as the diff is not identical, even though it is in
+  principle the same (there are 2 new drm_bridge_chain_get_first_bridge
+  calls, thus added the corresponding drm_bridge_put calls)
+
 This patch was added in v7.
 ---
- drivers/gpu/drm/mxsfb/lcdif_kms.c | 3 ++-
- 1 file changed, 2 insertions(+), 1 deletion(-)
+ drivers/gpu/drm/drm_atomic_helper.c | 7 +++++++
+ 1 file changed, 7 insertions(+)
 
-diff --git a/drivers/gpu/drm/mxsfb/lcdif_kms.c b/drivers/gpu/drm/mxsfb/lcdif_kms.c
-index dbd42cc1da87f82ef9cd4ccc70cdecbe56035174..21311cf5efee7d26c80316bffe80dd2bfed02238 100644
---- a/drivers/gpu/drm/mxsfb/lcdif_kms.c
-+++ b/drivers/gpu/drm/mxsfb/lcdif_kms.c
-@@ -433,7 +433,6 @@ static int lcdif_crtc_atomic_check(struct drm_crtc *crtc,
- 	struct drm_connector *connector;
- 	struct drm_encoder *encoder;
- 	struct drm_bridge_state *bridge_state;
--	struct drm_bridge *bridge;
- 	u32 bus_format, bus_flags;
- 	bool format_set = false, flags_set = false;
- 	int ret, i;
-@@ -448,6 +447,8 @@ static int lcdif_crtc_atomic_check(struct drm_crtc *crtc,
+diff --git a/drivers/gpu/drm/drm_atomic_helper.c b/drivers/gpu/drm/drm_atomic_helper.c
+index ef56b474acf599bb9cd341674dc83b04ae247eb7..d5ebe6ea0acbc5a08aef7fa41ecb9ed5d8fa8e80 100644
+--- a/drivers/gpu/drm/drm_atomic_helper.c
++++ b/drivers/gpu/drm/drm_atomic_helper.c
+@@ -456,6 +456,7 @@ mode_fixup(struct drm_atomic_state *state)
+ 		ret = drm_atomic_bridge_chain_check(bridge,
+ 						    new_crtc_state,
+ 						    new_conn_state);
++		drm_bridge_put(bridge);
+ 		if (ret) {
+ 			drm_dbg_atomic(encoder->dev, "Bridge atomic check failed\n");
+ 			return ret;
+@@ -527,6 +528,7 @@ static enum drm_mode_status mode_valid_path(struct drm_connector *connector,
+ 	bridge = drm_bridge_chain_get_first_bridge(encoder);
+ 	ret = drm_bridge_chain_mode_valid(bridge, &connector->display_info,
+ 					  mode);
++	drm_bridge_put(bridge);
+ 	if (ret != MODE_OK) {
+ 		drm_dbg_atomic(encoder->dev, "[BRIDGE] mode_valid() failed\n");
+ 		return ret;
+@@ -1212,6 +1214,7 @@ encoder_bridge_disable(struct drm_device *dev, struct drm_atomic_state *state)
+ 		 */
+ 		bridge = drm_bridge_chain_get_first_bridge(encoder);
+ 		drm_atomic_bridge_chain_disable(bridge, state);
++		drm_bridge_put(bridge);
  
- 	/* Try to find consistent bus format and flags across first bridges. */
- 	for_each_new_connector_in_state(state, connector, connector_state, i) {
-+		struct drm_bridge *bridge __free(drm_bridge_put) = NULL;
-+
- 		if (!connector_state->crtc)
- 			continue;
+ 		/* Right function depends upon target state. */
+ 		if (funcs) {
+@@ -1329,6 +1332,7 @@ encoder_bridge_post_disable(struct drm_device *dev, struct drm_atomic_state *sta
+ 		 */
+ 		bridge = drm_bridge_chain_get_first_bridge(encoder);
+ 		drm_atomic_bridge_chain_post_disable(bridge, state);
++		drm_bridge_put(bridge);
+ 	}
+ }
+ 
+@@ -1501,6 +1505,7 @@ crtc_set_mode(struct drm_device *dev, struct drm_atomic_state *state)
+ 
+ 		bridge = drm_bridge_chain_get_first_bridge(encoder);
+ 		drm_bridge_chain_mode_set(bridge, mode, adjusted_mode);
++		drm_bridge_put(bridge);
+ 	}
+ }
+ 
+@@ -1580,6 +1585,7 @@ encoder_bridge_pre_enable(struct drm_device *dev, struct drm_atomic_state *state
+ 		 */
+ 		bridge = drm_bridge_chain_get_first_bridge(encoder);
+ 		drm_atomic_bridge_chain_pre_enable(bridge, state);
++		drm_bridge_put(bridge);
+ 	}
+ }
+ 
+@@ -1655,6 +1661,7 @@ encoder_bridge_enable(struct drm_device *dev, struct drm_atomic_state *state)
+ 		}
+ 
+ 		drm_atomic_bridge_chain_enable(bridge, state);
++		drm_bridge_put(bridge);
+ 	}
+ }
  
 
 -- 
