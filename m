@@ -2,88 +2,94 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C69A7AE2118
-	for <lists+dri-devel@lfdr.de>; Fri, 20 Jun 2025 19:39:48 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0637EAE2115
+	for <lists+dri-devel@lfdr.de>; Fri, 20 Jun 2025 19:39:42 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6494A10EBA5;
-	Fri, 20 Jun 2025 17:39:42 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 623B210EB9B;
+	Fri, 20 Jun 2025 17:39:35 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="dycrVVoU";
+	dkim=pass (1024-bit key; unprotected) header.d=chromium.org header.i=@chromium.org header.b="H03gqolO";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pl1-f181.google.com (mail-pl1-f181.google.com
- [209.85.214.181])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 64DB110E231
- for <dri-devel@lists.freedesktop.org>; Fri, 20 Jun 2025 12:34:00 +0000 (UTC)
-Received: by mail-pl1-f181.google.com with SMTP id
- d9443c01a7336-2353a2bc210so15019355ad.2
- for <dri-devel@lists.freedesktop.org>; Fri, 20 Jun 2025 05:34:00 -0700 (PDT)
+Received: from mail-oi1-f182.google.com (mail-oi1-f182.google.com
+ [209.85.167.182])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 29F5010E057
+ for <dri-devel@lists.freedesktop.org>; Fri, 20 Jun 2025 14:41:49 +0000 (UTC)
+Received: by mail-oi1-f182.google.com with SMTP id
+ 5614622812f47-4067106dd56so1294267b6e.3
+ for <dri-devel@lists.freedesktop.org>; Fri, 20 Jun 2025 07:41:49 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1750422840; x=1751027640; darn=lists.freedesktop.org;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
- bh=xD71SdW5peKOXqfnFLf71PUUXbnUP93dgxGEinYj8ME=;
- b=dycrVVoUfbSDmhoWdM3FrNi8bEwl8gdfmwCw4lNeTRJ700QDPimTKOwVF8NZRRAdmL
- nUx6TkubWkNnMZzhoXb9hF8C8mR/GL/cxYfm7y7Aeovt2UY3qFtauiq5BKYBE2xzijb1
- IiMtX+ECZVJcFmCZ6a6tzP2NfONh4IpSqSBHcjZk2546F+sV8f7dGSblykUZKvBRPjKZ
- UCtK5OtQrvF8mY59W0mY3AM9DB5TdMDhxQF6nmw/DF7UOFSlojOMeLQRd0bAwUxoyb8X
- p0ul5FhS5HT5Elhs+/3HoO/1zlm+ziMnuorT1cKyeF7U/dLB6GY2r/H/x4SgxqQOjs5W
- qBsA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1750422840; x=1751027640;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+ d=chromium.org; s=google; t=1750430504; x=1751035304;
+ darn=lists.freedesktop.org; 
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc:subject:date
  :message-id:reply-to;
- bh=xD71SdW5peKOXqfnFLf71PUUXbnUP93dgxGEinYj8ME=;
- b=LB0A/4gZhSekHAoS0X3AvBSvBCcOfZQijD/nBzsh2G1NHy6ukjNV2s0TEKvkzF46aw
- mugf7Y1/k3R/FTXPBS7B0Fj6g7IAT1tSbPD6ByjzYDYfIwO2xdXWdYUGlfqAi2WyibKx
- rJVfJlPHEzcnaiq1vDxjVgEznRAD1SBXr2TBsGYAZxANiG1tXb1+iLH/ICSThitil2t6
- kNGhVkfdyes22g/Qi+Y1QmO07FT2JJVjBsi3uvyh0MFLufStTYN6RisUXUaCmKRAFeXT
- lT0Wj3gZoBbp4IJJD1stN+CrbyqBYrkPTE5bctoDYEiQbqvWAUVUardmQ0AidLgunV1u
- koSw==
+ bh=8KT4DQcewRXgTOMNaBYIe1ub0iebCscNnZe8/5h5B18=;
+ b=H03gqolO/xCfVU4mwWYlbRKtc96lgV+cp/5Dr8OevlgX1RZGGQ7DX62pQEzXxmkkNV
+ 8zQZNUpjPfLswkpWYnSXBHyxm4zLZZvEqAtP3lhGxOWy4lLsFbTV3erl0seFnxRRuc1X
+ Z+GWP7us5DJFapav+4D64rb4Nlbt7q9hfJ//A=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1750430504; x=1751035304;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=8KT4DQcewRXgTOMNaBYIe1ub0iebCscNnZe8/5h5B18=;
+ b=E6hi8GJCU+JRxG89ip9DWhQ3K9ea7TA/u4y/ajQtmkWnVz7Bi6nqMPz5e/b664mkdP
+ xp+3tl4QvexZkRn1obqY6TOIlMv06ClFG3o+kH+RRCS0qwcu5B7qcj8v+xsS7rhLmJ4m
+ n+NqIpmUqGVwZ6+h797usJabCxhLBmGetDIFVshig4w3SmhSn33Cug6VA3+lrrM9sb/3
+ wTUBTkWWPYcvG68emqErYBF8ETejSqs4BplB4ZddSAd1/0w8rEYb5iODrhsRTz94MoD3
+ JENsV8KgTKBnCYm4Oe5imS6bLMFiSYyc3GTumWHEJMenJtgCyKNMt6YpYEdj6U2U0Fs8
+ 6JJQ==
 X-Forwarded-Encrypted: i=1;
- AJvYcCXT0kWHLJbzOqumNMZORUdsHC6nIqaIesWONwNe2M/VOoUjhfGllOzLFiFnI0R6PJfinaLaZXYDSEU=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YwKjvVUBhv0kJ3WLrdLZlfGEexcQOmHXEWM0X8rBPEqhBDpkp/4
- ELtwJiped+vUXzoLcJ+zM8kRUcDxjTjyArjkK8gTPeG7cZS3yUYNSZ5R
-X-Gm-Gg: ASbGncuh7zp6w/zSxcXqyox0ZC1yyCFTIWxL1fCs5B4kvoZFeZzTdCdl2VFKFFc23ZN
- 6LC0PjeH0zxQOARKP7qmvhgijqduqMJpii+lFMMEd7D/YFSqLPsv9U8LX1/4p0GTPAH0HpUUl+c
- TxagDxpxHuqjv5ujDGiLNolLE8AMwbkW6880MTXjc+cR4nlh+yiSdQ0ruBFtmIwPPidpKKMLBCp
- vg2EA6wkW/IxATNJKoswvogbHh+saeLZGwac42CbWHmz9HusbdusDrBCudeoGoyiVMhmfixhW/0
- tSXM2lw22ir+FKMVPgRs3uCk3VWa4yLLFyDKsuzh7e4sm3Y+p2TdGGpG4mdzmQ==
-X-Google-Smtp-Source: AGHT+IHNKFm5yGIukI363S3mVHZokkhSd7/SyqBWeC5OnvO2eekuRR5ZQ+wr0su1YjcLk4a5Tvu/1Q==
-X-Received: by 2002:a17:902:f546:b0:234:8f5d:e3a4 with SMTP id
- d9443c01a7336-237d977939bmr43326905ad.2.1750422839714; 
- Fri, 20 Jun 2025 05:33:59 -0700 (PDT)
-Received: from hiago-nb ([2804:1b3:a7c3:450a:5588:4056:772b:c07f])
- by smtp.gmail.com with ESMTPSA id
- d9443c01a7336-237d860a854sm17056685ad.116.2025.06.20.05.33.52
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 20 Jun 2025 05:33:57 -0700 (PDT)
-Date: Fri, 20 Jun 2025 09:33:50 -0300
-From: Hiago De Franco <hiagofranco@gmail.com>
-To: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
-Cc: Inki Dae <inki.dae@samsung.com>, Jagan Teki <jagan@amarulasolutions.com>,
- Marek Szyprowski <m.szyprowski@samsung.com>,
- Andrzej Hajda <andrzej.hajda@intel.com>,
- Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>,
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
- Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- Aradhya Bhatia <a-bhatia1@ti.com>, Dmitry Baryshkov <lumag@kernel.org>,
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- Francesco Dolcini <francesco@dolcini.it>,
- Hiago De Franco <hiago.franco@toradex.com>
-Subject: Re: [PATCH] drm/bridge: samsung-dsim: Fix init order
-Message-ID: <20250620123350.btgncwhwuxjqok7c@hiago-nb>
-References: <20250619-samsung-dsim-fix-v1-1-6b5de68fb115@ideasonboard.com>
+ AJvYcCUnauveBhPqFDF13G9e1+t0+O6rfi3Dc4meSK+p/vV6tSb26BD6HASbybhcn1yIseQp+vvHSp9Inoo=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YyJLV3tGHdGZ5/yNHZZtMa0CNADtZT08nSMXfqpXglmYV9jUXtN
+ 1hFvuvcX6irC3lCDMgJxb4av7V35tk7Aaa5e1XYN6yH41j1Asczmjqebk2unnhBANZjm0iXkAhp
+ 5Mcxw1Psd
+X-Gm-Gg: ASbGncu96MLffIXq2oJEpJpA+s8V9WM4/rv2HnUmpsigJwklrDUOWHMn3eoktDIstDC
+ NOvTZzmH7SixhC87BjJsKIkEX4XNyHAPfjPO9SeBbvE+guqI8jkDsaavNn/ygr4BI/r7w/JmMGt
+ Rl9+Abfxhk5AxXEpX+bVZoBObVtjXr/THzVvhM88WuddoMNMPeMTdYmXWmd8c6cPEvoA3Cgl5Ai
+ zMl6KytUstrY+F7hlwjwHcuO+VToCnS0Y0/8pFTa+ebbRth9zIsf8BEkeAJ/mhlXHxLX4tqAdoj
+ gUVXaRM1zP7qR4D5wU/NdCDmQCzyzOEYevlCDgnFNBP9Rwynp12kPm33Q+bjqtOy32+JouyMWca
+ z1qWevpTGapU7nXUXuQudMFUTJHWxyQ==
+X-Google-Smtp-Source: AGHT+IE6+7s3GcCAb7U9uxJsfseqQtm/j6wps7tOXu/UCzgzuL9fOXRUt4phcOBv9s4iVZvhUKQQ3Q==
+X-Received: by 2002:a05:6808:2288:b0:405:6b13:ca55 with SMTP id
+ 5614622812f47-40ac7147f8fmr2247978b6e.37.1750430504219; 
+ Fri, 20 Jun 2025 07:41:44 -0700 (PDT)
+Received: from mail-oi1-f177.google.com (mail-oi1-f177.google.com.
+ [209.85.167.177]) by smtp.gmail.com with ESMTPSA id
+ 5614622812f47-40ac6c30ab2sm316683b6e.12.2025.06.20.07.41.41
+ for <dri-devel@lists.freedesktop.org>
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Fri, 20 Jun 2025 07:41:43 -0700 (PDT)
+Received: by mail-oi1-f177.google.com with SMTP id
+ 5614622812f47-408e0986303so1298842b6e.2
+ for <dri-devel@lists.freedesktop.org>; Fri, 20 Jun 2025 07:41:41 -0700 (PDT)
+X-Forwarded-Encrypted: i=1;
+ AJvYcCVFCZ4WV5BBHw7SmxbfVGDeGOYVuVw9EmxVBUK4nk2Y/rNZPBcXUv7tAUwyJk1WUTlsPVp+uJ3usZo=@lists.freedesktop.org
+X-Received: by 2002:a05:6871:4195:b0:2e9:9e9:d94b with SMTP id
+ 586e51a60fabf-2ef0094c0cbmr2001638fac.39.1750430501165; Fri, 20 Jun 2025
+ 07:41:41 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20250619-samsung-dsim-fix-v1-1-6b5de68fb115@ideasonboard.com>
+References: <20250402174156.1246171-1-jim.cromie@gmail.com>
+ <20250402174156.1246171-29-jim.cromie@gmail.com>
+In-Reply-To: <20250402174156.1246171-29-jim.cromie@gmail.com>
+From: Sean Paul <seanpaul@chromium.org>
+Date: Fri, 20 Jun 2025 10:41:03 -0400
+X-Gmail-Original-Message-ID: <CAOw6vbJwbvcVARNmx3O7mTbOr+A_Vo_DaUXFfN8HFFLqdG-VPQ@mail.gmail.com>
+X-Gm-Features: Ac12FXysVBlI9m3EGLlNcwPGQBWhWDrHdfE7f5KsOCiBBCH_bJGVrs_uGmTAM7k
+Message-ID: <CAOw6vbJwbvcVARNmx3O7mTbOr+A_Vo_DaUXFfN8HFFLqdG-VPQ@mail.gmail.com>
+Subject: Re: [PATCH v3 28/54] dyndbg: restore classmap protection when theres
+ a controlling_param
+To: Jim Cromie <jim.cromie@gmail.com>
+Cc: jbaron@akamai.com, gregkh@linuxfoundation.org, ukaszb@chromium.org, 
+ louis.chauvet@bootlin.com, linux-kernel@vger.kernel.org, 
+ dri-devel@lists.freedesktop.org, amd-gfx@lists.freedesktop.org, 
+ intel-gvt-dev@lists.freedesktop.org, intel-gfx@lists.freedesktop.org, 
+ daniel.vetter@ffwll.ch, tvrtko.ursulin@linux.intel.com, jani.nikula@intel.com, 
+ ville.syrjala@linux.intel.com
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-Mailman-Approved-At: Fri, 20 Jun 2025 17:39:34 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -100,124 +106,75 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, Jun 19, 2025 at 03:27:18PM +0300, Tomi Valkeinen wrote:
-> The commit c9b1150a68d9 ("drm/atomic-helper: Re-order bridge chain
-> pre-enable and post-disable") changed the order of enable/disable calls.
-> Previously the calls (on imx8mm) were:
-> 
-> mxsfb_crtc_atomic_enable()
-> samsung_dsim_atomic_pre_enable()
-> samsung_dsim_atomic_enable()
-> 
-> now the order is:
-> 
-> samsung_dsim_atomic_pre_enable()
-> mxsfb_crtc_atomic_enable()
-> samsung_dsim_atomic_enable()
-> 
-> On imx8mm (possibly on imx8mp, and other platforms too) this causes two
-> issues:
-> 
-> 1. The DSI PLL setup depends on a refclk, but the DSI driver does not
-> set the rate, just uses it with the rate it has. On imx8mm this refclk
-> seems to be related to the LCD controller's video clock. So, when the
-> mxsfb driver sets its video clock, DSI's refclk rate changes.
-> 
-> Earlier this mxsfb_crtc_atomic_enable() set the video clock, so the PLL
-> refclk rate was set (and didn't change) in the DSI enable calls. Now the
-> rate changes between DSI's pre_enable() and enable(), but the driver
-> configures the PLL in the pre_enable().
-> 
-> Thus you get a black screen on a modeset. Doing the modeset again works,
-> as the video clock rate stays the same.
-> 
-> 2. The image on the screen is shifted/wrapped horizontally. I have not
-> found the exact reason for this, but the documentation seems to hint
-> that the LCD controller's pixel stream should be enabled first, before
-> setting up the DSI. This would match the change, as now the pixel stream
-> starts only after DSI driver's pre_enable().
-> 
-> The main function related to this issue is samsung_dsim_init() which
-> will do the clock and link configuration. samsung_dsim_init() is
-> currently called from pre_enable(), but it is also called from
-> samsung_dsim_host_transfer() to set up the link if the peripheral driver
-> wants to send a DSI command.
-> 
-> This patch fixes both issues by moving the samsung_dsim_init() call from
-> pre_enable() to enable().
-> 
-> However, to deal with the case where the samsung_dsim_init() has already
-> been called from samsung_dsim_host_transfer() and the refclk rate has
-> changed, we need to make sure we re-initialize the DSI with the new rate
-> in enable(). This is achieved by clearing the DSIM_STATE_INITIALIZED
-> flag and uninitializing the clocks and irqs before calling
-> samsung_dsim_init().
-> 
-> Fixes: c9b1150a68d9 ("drm/atomic-helper: Re-order bridge chain pre-enable and post-disable")
-> Reported-by: Hiago De Franco <hiagofranco@gmail.com>
-> Signed-off-by: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
+On Thu, Apr 3, 2025 at 9:48=E2=80=AFAM Jim Cromie <jim.cromie@gmail.com> wr=
+ote:
+>
 
-Tested-by: Hiago De Franco <hiago.franco@toradex.com> # Verdin iMX8MP
+\snip
 
-Best regards,
-Hiago.
-
-> ---
->  drivers/gpu/drm/bridge/samsung-dsim.c | 29 +++++++++++++++++++----------
->  1 file changed, 19 insertions(+), 10 deletions(-)
-> 
-> diff --git a/drivers/gpu/drm/bridge/samsung-dsim.c b/drivers/gpu/drm/bridge/samsung-dsim.c
-> index f2f666b27d2d..cec383d8946d 100644
-> --- a/drivers/gpu/drm/bridge/samsung-dsim.c
-> +++ b/drivers/gpu/drm/bridge/samsung-dsim.c
-> @@ -1473,22 +1473,31 @@ static void samsung_dsim_atomic_pre_enable(struct drm_bridge *bridge,
->  	}
->  
->  	dsi->state |= DSIM_STATE_ENABLED;
-> -
-> -	/*
-> -	 * For Exynos-DSIM the downstream bridge, or panel are expecting
-> -	 * the host initialization during DSI transfer.
-> -	 */
-> -	if (!samsung_dsim_hw_is_exynos(dsi->plat_data->hw_type)) {
-> -		ret = samsung_dsim_init(dsi);
-> -		if (ret)
-> -			return;
-> -	}
->  }
->  
->  static void samsung_dsim_atomic_enable(struct drm_bridge *bridge,
->  				       struct drm_atomic_state *state)
+>
+> -static void ddebug_match_apply_kparam(const struct kernel_param *kp,
+> -                                     const struct _ddebug_class_map *map=
+,
+> -                                     const char *mod_name)
+> +static struct _ddebug_class_param *
+> +ddebug_get_classmap_kparam(const struct kernel_param *kp,
+> +                          const struct _ddebug_class_map *map)
 >  {
->  	struct samsung_dsim *dsi = bridge_to_dsi(bridge);
-> +	int ret;
+>         struct _ddebug_class_param *dcp;
+>
+>         if (kp->ops !=3D &param_ops_dyndbg_classes)
+> -               return;
+> +               return false;
+
+Return type is struct _ddebug_class_param *, should this be NULL?
+
+>
+>         dcp =3D (struct _ddebug_class_param *)kp->arg;
+>
+> -       if (map =3D=3D dcp->map) {
+> +       return (map =3D=3D dcp->map)
+> +               ? dcp : (struct _ddebug_class_param *)NULL;
+> +}
 > +
-> +	/*
-> +	 * The DSI bridge may have already been initialized in
-> +	 * samsung_dsim_host_transfer(). It is possible that the refclk rate has
-> +	 * changed after that due to the display controller configuration, and
-> +	 * thus we need to reinitialize the DSI bridge to ensure the correct
-> +	 * clock settings.
-> +	 */
+> +static void ddebug_match_apply_kparam(const struct kernel_param *kp,
+> +                                     struct _ddebug_class_map *map,
+> +                                     const char *mod_name)
+> +{
+> +       struct _ddebug_class_param *dcp =3D ddebug_get_classmap_kparam(kp=
+, map);
 > +
-> +	if (dsi->state & DSIM_STATE_INITIALIZED) {
-> +		dsi->state &= ~DSIM_STATE_INITIALIZED;
-> +		samsung_dsim_disable_clock(dsi);
-> +		samsung_dsim_disable_irq(dsi);
-> +	}
-> +
-> +	ret = samsung_dsim_init(dsi);
-> +	if (ret)
-> +		return;
->  
->  	samsung_dsim_set_display_mode(dsi);
->  	samsung_dsim_set_display_enable(dsi, true);
-> 
-> ---
-> base-commit: 7872997c048e989c7689c2995d230fdca7798000
-> change-id: 20250619-samsung-dsim-fix-58c8ec8193e9
-> 
-> Best regards,
-> -- 
-> Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
+> +       if (dcp) {
+> +               map->controlling_param =3D dcp;
+>                 v2pr_info(" kp:%s.%s =3D0x%lx", mod_name, kp->name, *dcp-=
+>bits);
+>                 vpr_cm_info(map, " %s mapped to: ", mod_name);
+>                 ddebug_sync_classbits(kp, mod_name);
+>         }
+>  }
+>
+> -static void ddebug_apply_params(const struct _ddebug_class_map *cm, cons=
+t char *mod_name)
+> +static void ddebug_apply_params(struct _ddebug_class_map *cm, const char=
+ *mod_name)
+>  {
+>         const struct kernel_param *kp;
+>  #if IS_ENABLED(CONFIG_MODULES)
+> @@ -1266,6 +1288,13 @@ static void ddebug_apply_params(const struct _ddeb=
+ug_class_map *cm, const char *
+>         }
+>  }
+>
+> +/*
+> + * called from add_module, ie early. it can find controlling kparams,
+> + * which can/does? enable protection of this classmap from class-less
+> + * queries, on the grounds that the user created the kparam, means to
+> + * use it, and expects it to reflect reality.  We should oblige him,
+> + * and protect those classmaps from classless "-p" changes.
+> + */
+>  static void ddebug_apply_class_maps(const struct _ddebug_info *di)
+>  {
+>         struct _ddebug_class_map *cm;
+> --
+> 2.49.0
 >
