@@ -2,42 +2,42 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 947F8AE1792
-	for <lists+dri-devel@lfdr.de>; Fri, 20 Jun 2025 11:32:42 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 02BACAE1791
+	for <lists+dri-devel@lfdr.de>; Fri, 20 Jun 2025 11:32:41 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 47F5310EB15;
-	Fri, 20 Jun 2025 09:32:40 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6571A10EB12;
+	Fri, 20 Jun 2025 09:32:39 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=bootlin.com header.i=@bootlin.com header.b="kshl+dTn";
+	dkim=pass (2048-bit key; unprotected) header.d=bootlin.com header.i=@bootlin.com header.b="jWmJXNyi";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from relay5-d.mail.gandi.net (relay5-d.mail.gandi.net
  [217.70.183.197])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7F00710EB15
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7F64010EB25
  for <dri-devel@lists.freedesktop.org>; Fri, 20 Jun 2025 09:32:38 +0000 (UTC)
-Received: by mail.gandi.net (Postfix) with ESMTPSA id 7905B41CFD;
- Fri, 20 Jun 2025 09:32:34 +0000 (UTC)
+Received: by mail.gandi.net (Postfix) with ESMTPSA id D677A4330F;
+ Fri, 20 Jun 2025 09:32:35 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
- t=1750411955;
+ t=1750411957;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=Og/abJgrUqfxjsS4tOXPNFKEAFZRYJ9MNhUKQuNvNHY=;
- b=kshl+dTnu+cru5BATollAiVfbvs0owrC1lKuPCgQc4xd+grzHFwM92WovACoGTGfWKrbh0
- d6iFxgGo50htxD+cLQnkSxKFopoOZBu50GfYCH5cErLDN8aW07DxWSXKMSTXpm8OzziGKh
- Z+Zo3m3yLAfYrddEtSFBxtFQ/A4EqVxGF++XCLKsM0pgSTH1k9SU69DUSjt6lGil/rrQrW
- vXdAjDJ06BgJH8Gtn5uxGvuwwLEz008HP2iXzSUE9K6UyI6GlmjfvavWViM/TazgtB7v7y
- RtMw5xMBgp/blBOxPvj2uod2HmLEcT0gbE31ipuMOD3/ulCNRFHi8Ffxyp8Myg==
+ bh=XrSpgORb7l30m7J0bgJ3mrlYbojDB6bJ1lPqGSeyWRU=;
+ b=jWmJXNyiGOXUGcO3HE28SF+lVXoX3ZmdhfmQrgIwGoZb90V+PZY6EjzD8QeiZSmhqBwDUm
+ HVW9Mi1rEq+9RuU+GlkK+kr8aKJxtr7S1QJFGFsnfQHxdeMRvLCuRqb/3jTlG6wCwXMnDE
+ EiyJSeaRoRNpHwNVYhDxucs+9kTBIy5Dp44xlpWWvPHuq/YZfgmYy+Is0durBg1ilrG3er
+ CExbCfTpOo5wJHDJjQ/m0KfBFz8ZpGQt/iYA5roqwg9xx/TaSOz2PjrjbZf8mr3v830T6P
+ MrqBp5a8vattncBjHvttUbnL3cE79olJ68wBB6UfDvAmY83xNSkFHfT496Wh8Q==
 From: Luca Ceresoli <luca.ceresoli@bootlin.com>
-Date: Fri, 20 Jun 2025 11:32:06 +0200
-Subject: [PATCH 1/3] drm/bridge: get/put the bridge reference in
- drm_bridge_add/remove()
+Date: Fri, 20 Jun 2025 11:32:07 +0200
+Subject: [PATCH 2/3] drm/bridge: get/put the bridge reference in
+ drm_bridge_attach/detach()
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20250620-drm-bridge-alloc-getput-drm-bridge-c-v1-1-bad7eba5d117@bootlin.com>
+Message-Id: <20250620-drm-bridge-alloc-getput-drm-bridge-c-v1-2-bad7eba5d117@bootlin.com>
 References: <20250620-drm-bridge-alloc-getput-drm-bridge-c-v1-0-bad7eba5d117@bootlin.com>
 In-Reply-To: <20250620-drm-bridge-alloc-getput-drm-bridge-c-v1-0-bad7eba5d117@bootlin.com>
 To: Andrzej Hajda <andrzej.hajda@intel.com>, 
@@ -73,8 +73,8 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-drm_bridge_add() adds the bridge to the global bridge_list, so take a
-reference for that. Vice versa in drm_bridge_remove().
+drm_bridge_attach() adds the bridge to the encoder chain, so take a
+reference for that. Vice versa in drm_bridge_detach().
 
 Reviewed-by: Maxime Ripard <mripard@kernel.org>
 Signed-off-by: Luca Ceresoli <luca.ceresoli@bootlin.com>
@@ -86,31 +86,52 @@ Changes in v7:
 - in v6 this was part of "drm/bridge: add support for refcounted DRM
   bridges", now split to a separate patch
 ---
- drivers/gpu/drm/drm_bridge.c | 4 ++++
- 1 file changed, 4 insertions(+)
+ drivers/gpu/drm/drm_bridge.c | 17 +++++++++++++----
+ 1 file changed, 13 insertions(+), 4 deletions(-)
 
 diff --git a/drivers/gpu/drm/drm_bridge.c b/drivers/gpu/drm/drm_bridge.c
-index d6ce7b4c019f415400bab8aa3d032638cba6cdc5..fa2b2457b16e145e3ace70c53984937096d310d0 100644
+index fa2b2457b16e145e3ace70c53984937096d310d0..f001bbe95559aabf0aac9f25f89250ad4e1ad9c8 100644
 --- a/drivers/gpu/drm/drm_bridge.c
 +++ b/drivers/gpu/drm/drm_bridge.c
-@@ -295,6 +295,8 @@ EXPORT_SYMBOL(__devm_drm_bridge_alloc);
-  */
- void drm_bridge_add(struct drm_bridge *bridge)
- {
+@@ -411,11 +411,17 @@ int drm_bridge_attach(struct drm_encoder *encoder, struct drm_bridge *bridge,
+ 	if (!encoder || !bridge)
+ 		return -EINVAL;
+ 
+-	if (previous && (!previous->dev || previous->encoder != encoder))
+-		return -EINVAL;
 +	drm_bridge_get(bridge);
-+
- 	mutex_init(&bridge->hpd_mutex);
  
- 	if (bridge->ops & DRM_BRIDGE_OP_HDMI)
-@@ -342,6 +344,8 @@ void drm_bridge_remove(struct drm_bridge *bridge)
- 	mutex_unlock(&bridge_lock);
- 
- 	mutex_destroy(&bridge->hpd_mutex);
+-	if (bridge->dev)
+-		return -EBUSY;
++	if (previous && (!previous->dev || previous->encoder != encoder)) {
++		ret = -EINVAL;
++		goto err_put_bridge;
++	}
 +
++	if (bridge->dev) {
++		ret = -EBUSY;
++		goto err_put_bridge;
++	}
+ 
+ 	bridge->dev = encoder->dev;
+ 	bridge->encoder = encoder;
+@@ -464,6 +470,8 @@ int drm_bridge_attach(struct drm_encoder *encoder, struct drm_bridge *bridge,
+ 			      "failed to attach bridge %pOF to encoder %s\n",
+ 			      bridge->of_node, encoder->name);
+ 
++err_put_bridge:
++	drm_bridge_put(bridge);
+ 	return ret;
+ }
+ EXPORT_SYMBOL(drm_bridge_attach);
+@@ -484,6 +492,7 @@ void drm_bridge_detach(struct drm_bridge *bridge)
+ 
+ 	list_del(&bridge->chain_node);
+ 	bridge->dev = NULL;
 +	drm_bridge_put(bridge);
  }
- EXPORT_SYMBOL(drm_bridge_remove);
  
+ /**
 
 -- 
 2.49.0
