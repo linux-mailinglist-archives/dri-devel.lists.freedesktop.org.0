@@ -2,65 +2,65 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8DFB5AE2691
-	for <lists+dri-devel@lfdr.de>; Sat, 21 Jun 2025 01:51:25 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 23873AE268F
+	for <lists+dri-devel@lfdr.de>; Sat, 21 Jun 2025 01:51:22 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E254C10EBC6;
-	Fri, 20 Jun 2025 23:51:23 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C7A6610E253;
+	Fri, 20 Jun 2025 23:51:14 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="MCp1cuvX";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="ijWN5qJD";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pg1-f173.google.com (mail-pg1-f173.google.com
- [209.85.215.173])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2410D10E254
- for <dri-devel@lists.freedesktop.org>; Fri, 20 Jun 2025 23:51:13 +0000 (UTC)
-Received: by mail-pg1-f173.google.com with SMTP id
- 41be03b00d2f7-b2c4331c50eso1991053a12.3
- for <dri-devel@lists.freedesktop.org>; Fri, 20 Jun 2025 16:51:13 -0700 (PDT)
+Received: from mail-pl1-f174.google.com (mail-pl1-f174.google.com
+ [209.85.214.174])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 219CB10E23F
+ for <dri-devel@lists.freedesktop.org>; Fri, 20 Jun 2025 23:51:14 +0000 (UTC)
+Received: by mail-pl1-f174.google.com with SMTP id
+ d9443c01a7336-23649faf69fso23344765ad.0
+ for <dri-devel@lists.freedesktop.org>; Fri, 20 Jun 2025 16:51:14 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1750463472; x=1751068272; darn=lists.freedesktop.org;
+ d=gmail.com; s=20230601; t=1750463473; x=1751068273; darn=lists.freedesktop.org;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
- :reply-to; bh=BJggbDFgahoVLzRwsUM10ANDxacsIIZurnN1KGmwE8c=;
- b=MCp1cuvXg6OlqGAZYPhmgdQFfpACmSSrdr0PytssBWW33GsuELlMlPXUTvuNBA2R62
- h5G7A8y47/qTh4/5KpcZvQa7PgpMvkmUfECWpHsoaNK3HZq0/zFVKSkYNQ9GSQ1abA8a
- 20qrl83BjYKYCzHim/Ev40bqF13n9qBwo5o3ncrUNgJeVZUUTEpSMVnakeLY+4c/DAwh
- 8Qt85mxBzi/aYM/5k2bmTc5vOmXawmIg6CdpqYKRkbM5k5H5wyGvPRGXuvhNKQhHUNLF
- nGfuKQRPTJwq3oC9BnRrYccT2rk6J6h7Dp3Xa6olcjTZ0DUQTPtOtbBL9EcHDabXBDkL
- CrSg==
+ :reply-to; bh=5vvox43cD9NYrsjyf5GKXqlmstOaekHhc5zLK9+dlWE=;
+ b=ijWN5qJDK+u71EEqsfgMNjx1DJcYBluKl6TPswVDMl2tS4dn3uKy9ny+WiK1dU+Skk
+ /Eyx6520e4usYX9Mv4+45LgzGq6afSG9Cyy3EklHaRDvhH7gUWelGRK2n26s/LNHQYNj
+ KTgaltvp9ancZole1LG9PTetizu3IfXEDNysaN73nIKxDLG4ZqK87BO7K6OXmKiFmDHE
+ 72zg590HurJ+ciJ6BZKNhPtvjzt/UxJlggQDbFuGLkhbBf7XK3sMotyi82sOSj5XbFWu
+ Le3cUn+Srgf726GjKa4RyTUNnatMEwgN68IcD6+uvgrvXSSOaTkx0y9cdk5+b1lznfBN
+ kqiA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1750463472; x=1751068272;
+ d=1e100.net; s=20230601; t=1750463473; x=1751068273;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=BJggbDFgahoVLzRwsUM10ANDxacsIIZurnN1KGmwE8c=;
- b=g7tKcnZsNLdslkjn1CGKc/2J1NysW/dNJSM7CYJKYaM2LXuUL9y52hheGO5QyH5GsC
- lQTrxBHp0qsWN6f3bVxVFOABmGcFOt8B0tbqIL/+GNDNz5DxgM6205i6lrn+pdNTWLUZ
- XkmrCCOFnC78YgkRrWZoushdyDSfN5/msa8tDrsmuCOTyTU+MSI0kqfRZ5aIPniRUc3H
- 5YC26hwre3TJrO/iDpzDHzqAtDiFR7nydW9280p5BkI6buqzVoXednNWbsoS7A/f3IyK
- E2mqItndXL+cd1BMf8RQsX9zsWS/YXEGjFgBD/9Z6Cs6ltNM9JV83xAgneLjdbxVW0T9
- PCSg==
+ bh=5vvox43cD9NYrsjyf5GKXqlmstOaekHhc5zLK9+dlWE=;
+ b=OG16nZDxRiw/eswAx4QcNl+t8aK7pGT2rAHwd60osSbAIQySWcvXsqasHcrii3kzi9
+ sPkoFucTEKIsegbOWFA1Xo7exllwcKOnzNbvE5EkVBzFW4vj02sqhs7uX9k+kj8M0OCk
+ ltaiJBBvsWdf1XRaw+adExNUEvW7SdFIQJG6nIRn1uxIVLy6MoJcARTuVv/ytqYXFBM0
+ uRSscT6to8YOtbhPeffkqAedd90tGKOfy6A878LjZmncSMvh+d1XCJSI0ieC5NXIPjPu
+ qJuljQt5R1fvHJuZJgdGpgj+u1nwPEuWt+8NuiGC+Dm4P1Q29wGUx9c2r8j7VybtE/Bs
+ 1bug==
 X-Forwarded-Encrypted: i=1;
- AJvYcCUKOmf//H3RsnTwNEOuctZcSJrzX9ok0K1H0Ipi2r7QzeqGx0ix6kiww5j8PN2/c3Q4wKSghR0NR6c=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0Yw7iY6mXGiw60jTgH43rvw3943/rvnESe6xHZB2pzFAJ77iUPFn
- OOCgt/4xGtKS5k4RWi0W7OBVh4t6M8+PM6pna0SdCSk13CMswvQP3hTZ
-X-Gm-Gg: ASbGncvT1vXnnTDHNZA60+imD5/IWoqeHkrb7LzZ/xDrL8wrXovYv6pJTS8P7wtZ0Ft
- ieJkx6C2A5pdPmPng9ltJSYMsmhc8OPbmELHI6K5qNLUys/7yA0fpwx3xP6zMMnvvor48sbAwWl
- tpdJqxIjuBgLz11RspeVhRazFlf5innbolq9r0LrT0r3q2tmJmPXaNh/Odu64b1WRmAu/nPjYSf
- GGEsTUAmUVCho6OgRuel2NQINdO5aerBJUKc9wHrY/GUOYheT+YVWPF5ny/IuSyKgJrUpVx0cdb
- ANuwzSNMBVrlIIQBms+A8CMV6D1K0YoVWzDMcAdQYGS+F/egzuA0aF6A0ioMM/A6UXOEVuTbOzV
- 3w4nmSr6RVB90LGm9vavJ
-X-Google-Smtp-Source: AGHT+IE7Gf80YdauKTLlHJx/1691HQ/ZMJ5S0nDnn5dolZyGBOPtHMDrQVVP52dMvXnCzNmlqpoDlQ==
-X-Received: by 2002:a17:90b:1f83:b0:310:8d4a:a246 with SMTP id
- 98e67ed59e1d1-3159d62bf7amr6819332a91.1.1750463472562; 
- Fri, 20 Jun 2025 16:51:12 -0700 (PDT)
+ AJvYcCWnIdXD9ENEbYkURwrJwDcH5ZR5DxuNIRdaloFWVeE03IrkHHL967syFWC2Yfwg3OyId4wTVRoUZiA=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YxkIsFXGa6nvqIxKvtHnB0bFmkoMctNBlHFAk5ZI+Q8VTONCi8E
+ DaiGZIQIbZ9KDQ3jW33TR7aRKBpcmk2+ZgR1nVIclhKJKzvn9Bb0d+vr
+X-Gm-Gg: ASbGncsTBOGMqSKFbblSg6TF2dPz0rDwqhts6eIIR+a3L/WFrKSKe+k1KE/lRfPS+fB
+ xqHjr4kOYHxgEIVA6yBX/mV3PmbfKexiD43GvJJHNqb/kGgFlinG8jRjRyZsI4PzyVVhmqQqdR9
+ zuZlhOcoJkP0hLdTTlFPc6SCfmkURWg2Z5CJ0naeUBT0Zv5wJEBij3QmfRqCVIvAVVWcMTHu848
+ Luj0DbkVEqH+jHI0+69IZWcL9DxkhNMND8yoShbdc6X7BDkgio01hv95+L+WxlaR34UI7m5LNRm
+ n4qokcJNe8ZUoJia6xp5pTxzf6kQ8wjrNXx/lN4mVZOj1uzrroi5J1SIYQb9oSmRqX3clLYL+QK
+ aYNPaXhmFQm7KeoGLZYwsA0pbx0MbfAU=
+X-Google-Smtp-Source: AGHT+IEG79oOLnu9PJ+AZ0fBSiD3lvfh6w0jAZd3L7P7KwYuJo5rGFZkWrNOQGbpSZwQOidQim91Kg==
+X-Received: by 2002:a17:902:ea0c:b0:235:e71e:a37b with SMTP id
+ d9443c01a7336-237d99bcf92mr70013385ad.34.1750463473536; 
+ Fri, 20 Jun 2025 16:51:13 -0700 (PDT)
 Received: from localhost (212.18.125.34.bc.googleusercontent.com.
  [34.125.18.212]) by smtp.gmail.com with UTF8SMTPSA id
- d9443c01a7336-237d8608e24sm27699585ad.127.2025.06.20.16.51.11
+ d9443c01a7336-237d86d5ea7sm26670035ad.206.2025.06.20.16.51.13
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 20 Jun 2025 16:51:12 -0700 (PDT)
+ Fri, 20 Jun 2025 16:51:13 -0700 (PDT)
 From: Chia-I Wu <olvaffe@gmail.com>
 To: Boris Brezillon <boris.brezillon@collabora.com>,
  Steven Price <steven.price@arm.com>, Liviu Dudau <liviu.dudau@arm.com>,
@@ -69,9 +69,9 @@ To: Boris Brezillon <boris.brezillon@collabora.com>,
  Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
  Simona Vetter <simona@ffwll.ch>, dri-devel@lists.freedesktop.org,
  linux-kernel@vger.kernel.org
-Subject: [PATCH 3/4] panthor: save task pid and comm in panthor_file
-Date: Fri, 20 Jun 2025 16:50:52 -0700
-Message-ID: <20250620235053.164614-4-olvaffe@gmail.com>
+Subject: [PATCH 4/4] panthor: dump task pid and comm on gpu errors
+Date: Fri, 20 Jun 2025 16:50:53 -0700
+Message-ID: <20250620235053.164614-5-olvaffe@gmail.com>
 X-Mailer: git-send-email 2.50.0.714.g196bf9f422-goog
 In-Reply-To: <20250620235053.164614-1-olvaffe@gmail.com>
 References: <20250620235053.164614-1-olvaffe@gmail.com>
@@ -92,65 +92,73 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-We would like to report them on gpu errors.
+It is useful to know which tasks cause gpu errors.
 
 Signed-off-by: Chia-I Wu <olvaffe@gmail.com>
 ---
- drivers/gpu/drm/panthor/panthor_device.h | 6 ++++++
- drivers/gpu/drm/panthor/panthor_drv.c    | 9 +++++++++
- 2 files changed, 15 insertions(+)
+ drivers/gpu/drm/panthor/panthor_sched.c | 25 ++++++++++++++++++++-----
+ 1 file changed, 20 insertions(+), 5 deletions(-)
 
-diff --git a/drivers/gpu/drm/panthor/panthor_device.h b/drivers/gpu/drm/panthor/panthor_device.h
-index 75ae6fd3a5128..8c31c1d4296b6 100644
---- a/drivers/gpu/drm/panthor/panthor_device.h
-+++ b/drivers/gpu/drm/panthor/panthor_device.h
-@@ -257,6 +257,12 @@ struct panthor_file {
- 	/** @stats: cycle and timestamp measures for job execution. */
- 	struct panthor_gpu_usage stats;
+diff --git a/drivers/gpu/drm/panthor/panthor_sched.c b/drivers/gpu/drm/panthor/panthor_sched.c
+index 485072904cd7d..f44cf95e8f1d1 100644
+--- a/drivers/gpu/drm/panthor/panthor_sched.c
++++ b/drivers/gpu/drm/panthor/panthor_sched.c
+@@ -1359,8 +1359,12 @@ cs_slot_process_fatal_event_locked(struct panthor_device *ptdev,
+ 	fatal = cs_iface->output->fatal;
+ 	info = cs_iface->output->fatal_info;
  
-+	/** @pid: pid of the task created this file */
-+	pid_t pid;
+-	if (group)
++	if (group) {
++		drm_warn(&ptdev->base, "CS_FATAL: pid=%d, comm=%s\n",
++			 group->pfile->pid, group->pfile->comm);
 +
-+	/** @comm: comm of the task created this file */
-+	char *comm;
-+
- 	/** @refcount: ref count of this file */
- 	struct kref refcount;
- };
-diff --git a/drivers/gpu/drm/panthor/panthor_drv.c b/drivers/gpu/drm/panthor/panthor_drv.c
-index aea9609684b77..b9d86b86591db 100644
---- a/drivers/gpu/drm/panthor/panthor_drv.c
-+++ b/drivers/gpu/drm/panthor/panthor_drv.c
-@@ -1400,6 +1400,7 @@ void panthor_file_release(struct kref *kref)
+ 		group->fatal_queues |= BIT(cs_id);
++	}
  
- 	WARN_ON(pfile->vms || pfile->groups);
+ 	if (CS_EXCEPTION_TYPE(fatal) == DRM_PANTHOR_EXCEPTION_CS_UNRECOVERABLE) {
+ 		/* If this exception is unrecoverable, queue a reset, and make
+@@ -1420,6 +1424,11 @@ cs_slot_process_fault_event_locked(struct panthor_device *ptdev,
+ 		spin_unlock(&queue->fence_ctx.lock);
+ 	}
  
-+	kfree(pfile->comm);
- 	kfree(pfile);
- }
- 
-@@ -1408,6 +1409,7 @@ panthor_open(struct drm_device *ddev, struct drm_file *file)
- {
- 	struct panthor_device *ptdev = container_of(ddev, struct panthor_device, base);
- 	struct panthor_file *pfile;
-+	struct task_struct *task;
- 	int ret;
- 
- 	pfile = kzalloc(sizeof(*pfile), GFP_KERNEL);
-@@ -1436,6 +1438,13 @@ panthor_open(struct drm_device *ddev, struct drm_file *file)
- 	if (ret)
- 		goto err_destroy_vm_pool;
- 
-+	task = get_pid_task(rcu_access_pointer(file->pid), PIDTYPE_PID);
-+	if (task) {
-+		pfile->pid = task->pid;
-+		pfile->comm = kstrdup(task->comm, GFP_KERNEL);
-+		put_task_struct(task);
++	if (group) {
++		drm_warn(&ptdev->base, "CS_FAULT: pid=%d, comm=%s\n",
++			 group->pfile->pid, group->pfile->comm);
 +	}
 +
- 	kref_init(&pfile->refcount);
+ 	drm_warn(&ptdev->base,
+ 		 "CSG slot %d CS slot: %d\n"
+ 		 "CS_FAULT.EXCEPTION_TYPE: 0x%x (%s)\n"
+@@ -1636,11 +1645,16 @@ csg_slot_process_progress_timer_event_locked(struct panthor_device *ptdev, u32 c
  
- 	file->driver_priv = pfile;
+ 	lockdep_assert_held(&sched->lock);
+ 
+-	drm_warn(&ptdev->base, "CSG slot %d progress timeout\n", csg_id);
+-
+ 	group = csg_slot->group;
+-	if (!drm_WARN_ON(&ptdev->base, !group))
++	if (!drm_WARN_ON(&ptdev->base, !group)) {
++		drm_warn(&ptdev->base,
++			 "CSG_PROGRESS_TIMER_EVENT: pid=%d, comm=%s\n",
++			 group->pfile->pid, group->pfile->comm);
++
+ 		group->timedout = true;
++	}
++
++	drm_warn(&ptdev->base, "CSG slot %d progress timeout\n", csg_id);
+ 
+ 	sched_queue_delayed_work(sched, tick, 0);
+ }
+@@ -3222,7 +3236,8 @@ queue_timedout_job(struct drm_sched_job *sched_job)
+ 	struct panthor_scheduler *sched = ptdev->scheduler;
+ 	struct panthor_queue *queue = group->queues[job->queue_idx];
+ 
+-	drm_warn(&ptdev->base, "job timeout\n");
++	drm_warn(&ptdev->base, "job timeout: pid=%d, comm=%s, seqno=%llu\n",
++		 group->pfile->pid, group->pfile->comm, job->done_fence->seqno);
+ 
+ 	drm_WARN_ON(&ptdev->base, atomic_read(&sched->reset.in_progress));
+ 
 -- 
 2.50.0.714.g196bf9f422-goog
 
