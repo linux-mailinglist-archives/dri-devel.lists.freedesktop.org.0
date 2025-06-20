@@ -2,39 +2,39 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1CFE0AE1756
-	for <lists+dri-devel@lfdr.de>; Fri, 20 Jun 2025 11:19:29 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9EC06AE1774
+	for <lists+dri-devel@lfdr.de>; Fri, 20 Jun 2025 11:26:52 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id F202310EAFA;
-	Fri, 20 Jun 2025 09:19:25 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 799D110EAFF;
+	Fri, 20 Jun 2025 09:26:50 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=fail reason="signature verification failed" (1024-bit key; unprotected) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="nlMkZ14l";
+	dkim=fail reason="signature verification failed" (1024-bit key; unprotected) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="qcDci/+2";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from tor.source.kernel.org (tor.source.kernel.org [172.105.4.254])
- by gabe.freedesktop.org (Postfix) with ESMTPS id EF0C910E0E2
- for <dri-devel@lists.freedesktop.org>; Fri, 20 Jun 2025 09:19:17 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6473489C05
+ for <dri-devel@lists.freedesktop.org>; Fri, 20 Jun 2025 09:26:48 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by tor.source.kernel.org (Postfix) with ESMTP id EA352617EC;
- Fri, 20 Jun 2025 09:19:16 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4EAADC4CEE3;
- Fri, 20 Jun 2025 09:19:16 +0000 (UTC)
+ by tor.source.kernel.org (Postfix) with ESMTP id A6E4C61786;
+ Fri, 20 Jun 2025 09:26:47 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0712FC4CEE3;
+ Fri, 20 Jun 2025 09:26:46 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
- s=korg; t=1750411156;
- bh=EE3bX6RhlQDmXu7Z4O1UDiw41s6xagWhl5oFz2OJCQo=;
+ s=korg; t=1750411607;
+ bh=CZOzReWf7w+9N8ceY3U4NiPJXvGpHYX9nre5Y1ZdC7o=;
  h=Subject:To:Cc:From:Date:From;
- b=nlMkZ14lBe0sbTrvfUxjNubaE2SiFplByzfR+IrI+idnlamFd26IeKDEof5ZDQezo
- Ggzkc5JVPkNhtsqjkFNqyjdcLBDiq7Hx8aaIZXDv/TQKoMhZpHDKj7UdeEZSQAzszR
- Y3OCXXIl9HwNJie73pMKgcH6QVmDemZV2e6cYv/g=
+ b=qcDci/+2xw6je978Wx3+nhjxRbyCpmUnHs3fw+lg5O9o3wKMiF7zOTrNPZHbvSb+t
+ AXqqEITh/JDAQXIwmfC5J/i8B5/ksXFIIsqcx1km4gVRTo3Jd+SK6Bd7G/fpwi+2p9
+ j3pND4Fj+gNjBSZIB0VYP4ubUyi9fIFCV+7gFX+U=
 Subject: Patch "video: screen_info: Relocate framebuffers behind PCI bridges"
- has been added to the 6.15-stable tree
+ has been added to the 6.6-stable tree
 To: dri-devel@lists.freedesktop.org, gregkh@linuxfoundation.org,
  iivanov@suse.de, javierm@redhat.com, tzimmermann@suse.de
 Cc: <stable-commits@vger.kernel.org>
 From: <gregkh@linuxfoundation.org>
-Date: Fri, 20 Jun 2025 11:17:21 +0200
-Message-ID: <2025062021-unrented-baffling-8494@gregkh>
+Date: Fri, 20 Jun 2025 11:25:31 +0200
+Message-ID: <2025062031-untimely-other-d0ec@gregkh>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=ANSI_X3.4-1968
 Content-Transfer-Encoding: 8bit
@@ -60,12 +60,12 @@ This is a note to let you know that I've just added the patch titled
 
     video: screen_info: Relocate framebuffers behind PCI bridges
 
-to the 6.15-stable tree which can be found at:
+to the 6.6-stable tree which can be found at:
     http://www.kernel.org/git/?p=linux/kernel/git/stable/stable-queue.git;a=summary
 
 The filename of the patch is:
      video-screen_info-relocate-framebuffers-behind-pci-bridges.patch
-and it can be found in the queue-6.15 subdirectory.
+and it can be found in the queue-6.6 subdirectory.
 
 If you, or anyone else, feels it should not be added to the stable tree,
 please let <stable@vger.kernel.org> know about it.
@@ -121,9 +121,11 @@ Cc: <stable@vger.kernel.org> # v6.9+
 Link: https://lore.kernel.org/r/20250528080234.7380-1-tzimmermann@suse.de
 Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 ---
- drivers/video/screen_info_pci.c |   79 +++++++++++++++++++++++++---------------
- 1 file changed, 50 insertions(+), 29 deletions(-)
+ drivers/video/screen_info_pci.c | 75 +++++++++++++++++++++------------
+ 1 file changed, 48 insertions(+), 27 deletions(-)
 
+diff --git a/drivers/video/screen_info_pci.c b/drivers/video/screen_info_pci.c
+index 6c5833517141..66bfc1d0a6dc 100644
 --- a/drivers/video/screen_info_pci.c
 +++ b/drivers/video/screen_info_pci.c
 @@ -7,8 +7,8 @@
@@ -200,13 +202,22 @@ Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 -	for (i = 0; i < numres; ++i) {
 -		struct resource *r = &res[i];
 -		const struct resource *pr;
--
++	/*
++	 * Translate the PCI bus address to resource. Account
++	 * for an offset if the framebuffer is behind a PCI host
++	 * bridge.
++	 */
++	pcibios_bus_to_resource(pdev->bus, &r, &bus_region);
+ 
 -		if (!(r->flags & IORESOURCE_MEM))
 -			continue;
 -		pr = pci_find_resource(pdev, r);
 -		if (!pr)
 -			continue;
--
++	pr = pci_find_resource(pdev, &r);
++	if (!pr)
++		return;
+ 
 -		/*
 -		 * We've found a PCI device with the framebuffer
 -		 * resource. Store away the parameters to track
@@ -217,17 +228,6 @@ Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 -		screen_info_lfb_offset = r->start - pr->start;
 -		memcpy(&screen_info_lfb_res, r, sizeof(screen_info_lfb_res));
 -	}
-+	/*
-+	 * Translate the PCI bus address to resource. Account
-+	 * for an offset if the framebuffer is behind a PCI host
-+	 * bridge.
-+	 */
-+	pcibios_bus_to_resource(pdev->bus, &r, &bus_region);
-+
-+	pr = pci_find_resource(pdev, &r);
-+	if (!pr)
-+		return;
-+
 +	/*
 +	 * We've found a PCI device with the framebuffer
 +	 * resource. Store away the parameters to track
@@ -240,9 +240,11 @@ Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
  }
  DECLARE_PCI_FIXUP_CLASS_HEADER(PCI_ANY_ID, PCI_ANY_ID, PCI_BASE_CLASS_DISPLAY, 16,
  			       screen_info_fixup_lfb);
+-- 
+2.50.0
+
 
 
 Patches currently in stable-queue which might be from tzimmermann@suse.de are
 
-queue-6.15/video-screen_info-relocate-framebuffers-behind-pci-bridges.patch
-queue-6.15/sysfb-fix-screen_info-type-check-for-vga.patch
+queue-6.6/video-screen_info-relocate-framebuffers-behind-pci-bridges.patch
