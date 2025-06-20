@@ -2,53 +2,52 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 05EAEAE13ED
-	for <lists+dri-devel@lfdr.de>; Fri, 20 Jun 2025 08:35:27 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 758F9AE13F1
+	for <lists+dri-devel@lfdr.de>; Fri, 20 Jun 2025 08:35:31 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B435510EAF4;
-	Fri, 20 Jun 2025 06:35:23 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4878D10EAF3;
+	Fri, 20 Jun 2025 06:35:28 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="lPUzbzFW";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="PUunJWYg";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.13])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C39DC10EAFA;
- Fri, 20 Jun 2025 06:35:22 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D087910EAF6;
+ Fri, 20 Jun 2025 06:35:26 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1750401322; x=1781937322;
+ t=1750401327; x=1781937327;
  h=from:to:cc:subject:date:message-id:in-reply-to:
  references:mime-version:content-transfer-encoding;
- bh=O0ZYIQTMlsBn4R2CFWsKzgTqN+tlmtJ0lK1HCME9Ves=;
- b=lPUzbzFWSsmwl9WHQA++8gbiMRpVpgIYj201ZuIR1IM9yrnDj9KxuPwl
- 5eMmd1zsD6vWmF202ZNqlK9l00gEolS9r/6JRj6/W3qj3erlP5Y2gPeU7
- l3su6nM8cvujHdQaXAvDy+CCijThi92H4EQB+vJZLuamyq5uYFqjLNKP1
- e2tMP7mCC9Wwvv94Jgy/cB55hK5ER88c59ljdISkRoUO/yQVRCnhiKT/l
- Dcy4/wTxmjsz8WQX2W4DVG6QEC1At/RX7TjSsV/0E/pW9a0FUJ1cmHFFw
- i1zJ9Cow1gKnMtnLu+BRu86D2kIxfW0njhFPKjU7tKOh3x5ikC25H6qes g==;
-X-CSE-ConnectionGUID: RyeUyOMAS2q1qiOnt+DFoQ==
-X-CSE-MsgGUID: TWT1bX/QSz2bjBeNJXEFeQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11469"; a="63701844"
-X-IronPort-AV: E=Sophos;i="6.16,250,1744095600"; d="scan'208";a="63701844"
+ bh=gfBFVBocXyByOTV9zVO/k1Or1RPsP2+ShbaG8jubAeQ=;
+ b=PUunJWYgLd0y15HthsHLzLj9vqhvyiRWKwWf5v0hSXFldau9qfOT4IUz
+ f1tl0ClEtEAUqrzgSJVGWX4PCpjYT1S/Ewi3fN65FWUqiDqCQBDLJDwNA
+ sFhpzTw7R/Mk4HmwLwZc3hF+pCOxrs9hwISdQuCZRq6KQSxDdkHt+nixi
+ BCPPbCQujsAtLBeTd8hyACSY0RAysqppofeO4BdKgnloVvdXRBYsdfg7n
+ VYSFKYLNrWN/SijNJ7oinaYFi6I297xrw4vxMsZcrWkzZ65RSgar2pnbO
+ fP5c1JCZIrRy7+cYrhYLwPA8KDw8zazKS7cgUwdcuiSMy1gcOsc/V9NiU g==;
+X-CSE-ConnectionGUID: Sxinuxw1QKeVJkSrvj9wGg==
+X-CSE-MsgGUID: sbIEuBQjQLez20C6Up83Vw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11469"; a="63701845"
+X-IronPort-AV: E=Sophos;i="6.16,250,1744095600"; d="scan'208";a="63701845"
 Received: from fmviesa002.fm.intel.com ([10.60.135.142])
  by orvoesa105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 19 Jun 2025 23:35:22 -0700
-X-CSE-ConnectionGUID: bgwe5nWMTqS27RoTrPOTHg==
-X-CSE-MsgGUID: y+POU4UOR3egMXHyA4m9MQ==
+ 19 Jun 2025 23:35:26 -0700
+X-CSE-ConnectionGUID: Trt2mZHOSyKPS8+wYDF55g==
+X-CSE-MsgGUID: UlMDl5eDSKOEhCn/3ewtuA==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.16,250,1744095600"; d="scan'208";a="174440306"
+X-IronPort-AV: E=Sophos;i="6.16,250,1744095600"; d="scan'208";a="174440316"
 Received: from kandpal-x299-ud4-pro.iind.intel.com ([10.190.239.10])
- by fmviesa002.fm.intel.com with ESMTP; 19 Jun 2025 23:35:19 -0700
+ by fmviesa002.fm.intel.com with ESMTP; 19 Jun 2025 23:35:23 -0700
 From: Suraj Kandpal <suraj.kandpal@intel.com>
 To: intel-xe@lists.freedesktop.org, intel-gfx@lists.freedesktop.org,
  dri-devel@lists.freedesktop.org, nouveau@lists.freedesktop.org
 Cc: arun.r.murthy@intel.com,
 	Suraj Kandpal <suraj.kandpal@intel.com>
-Subject: [PATCH v3 04/13] drm/dp: Move from u16 to u32 for max in
- drm_edp_backlight_info
-Date: Fri, 20 Jun 2025 12:04:36 +0530
-Message-Id: <20250620063445.3603086-5-suraj.kandpal@intel.com>
+Subject: [PATCH v3 05/13] drm/dp: Change current_level argument type to u32
+Date: Fri, 20 Jun 2025 12:04:37 +0530
+Message-Id: <20250620063445.3603086-6-suraj.kandpal@intel.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20250620063445.3603086-1-suraj.kandpal@intel.com>
 References: <20250620063445.3603086-1-suraj.kandpal@intel.com>
@@ -69,51 +68,80 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Use u32 instead of u16 for max variable in drm_edp_backlight_info
-since it can now hold max luminance range value which is u32.
-We will set this max with max_luminance value when luminance_set is
-true.
+Change the current_level argument type to u32 from u16
+since it can now carry the value which it gets from
+DP_EDP_PANEL_TARGET_LUMINANCE_VALUE.
 
 Signed-off-by: Suraj Kandpal <suraj.kandpal@intel.com>
+Reviewed-by: Arun R Murthy <arun.r.murthy@intel.com>
 ---
- drivers/gpu/drm/display/drm_dp_helper.c | 10 +++++++---
- include/drm/display/drm_dp_helper.h     |  2 +-
- 2 files changed, 8 insertions(+), 4 deletions(-)
+ drivers/gpu/drm/display/drm_dp_helper.c               | 4 ++--
+ drivers/gpu/drm/i915/display/intel_dp_aux_backlight.c | 2 +-
+ drivers/gpu/drm/nouveau/nouveau_backlight.c           | 2 +-
+ include/drm/display/drm_dp_helper.h                   | 2 +-
+ 4 files changed, 5 insertions(+), 5 deletions(-)
 
 diff --git a/drivers/gpu/drm/display/drm_dp_helper.c b/drivers/gpu/drm/display/drm_dp_helper.c
-index 9df95776d1cb..90b23f78a12d 100644
+index 90b23f78a12d..daeb3bdc87a3 100644
 --- a/drivers/gpu/drm/display/drm_dp_helper.c
 +++ b/drivers/gpu/drm/display/drm_dp_helper.c
-@@ -4293,9 +4293,13 @@ drm_edp_backlight_init(struct drm_dp_aux *aux, struct drm_edp_backlight_info *bl
- 		return -EINVAL;
- 	}
+@@ -4270,7 +4270,7 @@ int
+ drm_edp_backlight_init(struct drm_dp_aux *aux, struct drm_edp_backlight_info *bl,
+ 		       u32 max_luminance,
+ 		       u16 driver_pwm_freq_hz, const u8 edp_dpcd[EDP_DISPLAY_CTL_CAP_SIZE],
+-		       u16 *current_level, u8 *current_mode, bool need_luminance)
++		       u32 *current_level, u8 *current_mode, bool need_luminance)
+ {
+ 	int ret;
  
--	ret = drm_edp_backlight_probe_max(aux, bl, driver_pwm_freq_hz, edp_dpcd);
--	if (ret < 0)
--		return ret;
-+	if (bl->luminance_set) {
-+		bl->max = max_luminance;
-+	} else {
-+		ret = drm_edp_backlight_probe_max(aux, bl, driver_pwm_freq_hz, edp_dpcd);
-+		if (ret < 0)
-+			return ret;
-+	}
+@@ -4378,7 +4378,7 @@ int drm_panel_dp_aux_backlight(struct drm_panel *panel, struct drm_dp_aux *aux)
+ {
+ 	struct dp_aux_backlight *bl;
+ 	struct backlight_properties props = { 0 };
+-	u16 current_level;
++	u32 current_level;
+ 	u8 current_mode;
+ 	u8 edp_dpcd[EDP_DISPLAY_CTL_CAP_SIZE];
+ 	int ret;
+diff --git a/drivers/gpu/drm/i915/display/intel_dp_aux_backlight.c b/drivers/gpu/drm/i915/display/intel_dp_aux_backlight.c
+index ab594bf028da..800d07c7f041 100644
+--- a/drivers/gpu/drm/i915/display/intel_dp_aux_backlight.c
++++ b/drivers/gpu/drm/i915/display/intel_dp_aux_backlight.c
+@@ -580,7 +580,7 @@ static int intel_dp_aux_vesa_setup_backlight(struct intel_connector *connector,
+ 		&connector->base.display_info.luminance_range;
+ 	struct intel_dp *intel_dp = intel_attached_dp(connector);
+ 	struct intel_panel *panel = &connector->panel;
+-	u16 current_level;
++	u32 current_level;
+ 	u8 current_mode;
+ 	int ret;
  
- 	ret = drm_edp_backlight_probe_state(aux, bl, current_mode);
- 	if (ret < 0)
+diff --git a/drivers/gpu/drm/nouveau/nouveau_backlight.c b/drivers/gpu/drm/nouveau/nouveau_backlight.c
+index d45619db02a2..4a75d146a171 100644
+--- a/drivers/gpu/drm/nouveau/nouveau_backlight.c
++++ b/drivers/gpu/drm/nouveau/nouveau_backlight.c
+@@ -245,7 +245,7 @@ nv50_backlight_init(struct nouveau_backlight *bl,
+ 
+ 	if (nv_conn->type == DCB_CONNECTOR_eDP) {
+ 		int ret;
+-		u16 current_level;
++		u32 current_level;
+ 		u8 edp_dpcd[EDP_DISPLAY_CTL_CAP_SIZE];
+ 		u8 current_mode;
+ 
 diff --git a/include/drm/display/drm_dp_helper.h b/include/drm/display/drm_dp_helper.h
-index 91094a38594c..6176e0b5ea1a 100644
+index 6176e0b5ea1a..21984bac0743 100644
 --- a/include/drm/display/drm_dp_helper.h
 +++ b/include/drm/display/drm_dp_helper.h
-@@ -850,7 +850,7 @@ drm_dp_has_quirk(const struct drm_dp_desc *desc, enum drm_dp_quirk quirk)
- struct drm_edp_backlight_info {
- 	u8 pwmgen_bit_count;
- 	u8 pwm_freq_pre_divider;
--	u16 max;
-+	u32 max;
- 
- 	bool lsb_reg_used : 1;
- 	bool aux_enable : 1;
+@@ -862,7 +862,7 @@ int
+ drm_edp_backlight_init(struct drm_dp_aux *aux, struct drm_edp_backlight_info *bl,
+ 		       u32 max_luminance,
+ 		       u16 driver_pwm_freq_hz, const u8 edp_dpcd[EDP_DISPLAY_CTL_CAP_SIZE],
+-		       u16 *current_level, u8 *current_mode, bool need_luminance);
++		       u32 *current_level, u8 *current_mode, bool need_luminance);
+ int drm_edp_backlight_set_level(struct drm_dp_aux *aux, const struct drm_edp_backlight_info *bl,
+ 				u16 level);
+ int drm_edp_backlight_enable(struct drm_dp_aux *aux, const struct drm_edp_backlight_info *bl,
 -- 
 2.34.1
 
