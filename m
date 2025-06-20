@@ -2,34 +2,34 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 455B2AE1141
-	for <lists+dri-devel@lfdr.de>; Fri, 20 Jun 2025 04:50:16 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id C3BD5AE1140
+	for <lists+dri-devel@lfdr.de>; Fri, 20 Jun 2025 04:50:15 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6673810EA91;
+	by gabe.freedesktop.org (Postfix) with ESMTP id 249C210EA90;
 	Fri, 20 Jun 2025 02:50:14 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="E7DqYkxD";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="IbBeR8cF";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from sea.source.kernel.org (sea.source.kernel.org [172.234.252.31])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7533B10EA90
- for <dri-devel@lists.freedesktop.org>; Fri, 20 Jun 2025 02:50:10 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1D50210EA90
+ for <dri-devel@lists.freedesktop.org>; Fri, 20 Jun 2025 02:50:13 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by sea.source.kernel.org (Postfix) with ESMTP id 5B4024AD78;
+ by sea.source.kernel.org (Postfix) with ESMTP id 030D443A62;
+ Fri, 20 Jun 2025 02:50:13 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7F376C4CEF1;
  Fri, 20 Jun 2025 02:50:10 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id DD1C4C4CEF0;
- Fri, 20 Jun 2025 02:50:07 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1750387810;
- bh=Ih+h2iwqvMjgBNiHK36GhUh+ba0wYl7IY7LdJr3tFyA=;
+ s=k20201202; t=1750387812;
+ bh=jA4gnuDewWS3532FipQUrqJVwhvNJ+77h1lJRVOGOrk=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=E7DqYkxDp5yEsLNjurdGHq8o9w8fL2aUk0QqJVKB2CQTqimuHTJNZrZj/tw2n5Nem
- OQxMwMeb1KzMDZhMXy9EnSddk7iUr8mvJFP2RYWpbuGV5l1mAXE2I5ZsC8mmI745Fc
- qIJsw0Ouk0ylFiQtECSETcrX5jSzfxVCipEFI8hHlH5uBIA4O1++CWRb+xJQit63qY
- TiY2J/ozFNd2uQJUrByLhXJ3jwD/+TfW7KhQOhHG0Yx5Mw/DXI75cTGN7VZphprAjg
- rblzh1CiXjM2jq3ZmRxADm31/DXQIDNS4XlC68FMiGa5Y+jRdff7LlOJlFh7Tn5j3v
- XEKeeFCtNbznA==
+ b=IbBeR8cFe6L6Pbvn5/KtK5CD0n69p9F8D5s21I6kaHf+GBexLVXDE9IZdi9rVwJl9
+ gAzk4PG4eeDskwJ+xrQOoOW/a0LSaZp7W+9VPqTgV5PaR2dLiQIhWvt+Fon3UJDIc0
+ 6uhDpRTTnoSpwSwDb1JBlo9B1kpWh+u+eRzQfNPaKmDQCUfuJ41Xbw1gbTtzU/glRB
+ DNLTKxKdibrBOjRJPrG1inwhp8YrDwoAKf2EO35YDnCuXLl4gsfk1nK+xxjih3quSq
+ JbW2aoLII3Y4EW2b0AByXyRAYkxld5gV4R9LcksGFQbLXzA+inR9CeU2OU/3sFawHm
+ i2aPGY11Nh/AA==
 From: Mario Limonciello <superm1@kernel.org>
 To: Bjorn Helgaas <bhelgaas@google.com>
 Cc: Alex Deucher <alexander.deucher@amd.com>,
@@ -53,9 +53,9 @@ Cc: Alex Deucher <alexander.deucher@amd.com>,
  Daniel Dadap <ddadap@nvidia.com>,
  Mario Limonciello <mario.limonciello@amd.com>,
  Simona Vetter <simona.vetter@ffwll.ch>, Bjorn Helgaas <helgaas@kernel.org>
-Subject: [PATCH v3 4/7] iommu/vt-d: Use pci_is_display()
-Date: Thu, 19 Jun 2025 21:49:40 -0500
-Message-ID: <20250620024943.3415685-5-superm1@kernel.org>
+Subject: [PATCH v3 5/7] ALSA: hda: Use pci_is_display()
+Date: Thu, 19 Jun 2025 21:49:41 -0500
+Message-ID: <20250620024943.3415685-6-superm1@kernel.org>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <20250620024943.3415685-1-superm1@kernel.org>
 References: <20250620024943.3415685-1-superm1@kernel.org>
@@ -85,22 +85,45 @@ Reviewed-by: Simona Vetter <simona.vetter@ffwll.ch>
 Suggested-by: Bjorn Helgaas <helgaas@kernel.org>
 Signed-off-by: Mario Limonciello <mario.limonciello@amd.com>
 ---
- drivers/iommu/intel/iommu.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ sound/hda/hdac_i915.c     | 2 +-
+ sound/pci/hda/hda_intel.c | 4 ++--
+ 2 files changed, 3 insertions(+), 3 deletions(-)
 
-diff --git a/drivers/iommu/intel/iommu.c b/drivers/iommu/intel/iommu.c
-index 7aa3932251b2f..17267cd476ce7 100644
---- a/drivers/iommu/intel/iommu.c
-+++ b/drivers/iommu/intel/iommu.c
-@@ -34,7 +34,7 @@
- #define ROOT_SIZE		VTD_PAGE_SIZE
- #define CONTEXT_SIZE		VTD_PAGE_SIZE
+diff --git a/sound/hda/hdac_i915.c b/sound/hda/hdac_i915.c
+index e9425213320ea..44438c799f957 100644
+--- a/sound/hda/hdac_i915.c
++++ b/sound/hda/hdac_i915.c
+@@ -155,7 +155,7 @@ static int i915_gfx_present(struct pci_dev *hdac_pci)
  
--#define IS_GFX_DEVICE(pdev) ((pdev->class >> 16) == PCI_BASE_CLASS_DISPLAY)
-+#define IS_GFX_DEVICE(pdev) pci_is_display(pdev)
- #define IS_USB_DEVICE(pdev) ((pdev->class >> 8) == PCI_CLASS_SERIAL_USB)
- #define IS_ISA_DEVICE(pdev) ((pdev->class >> 8) == PCI_CLASS_BRIDGE_ISA)
- #define IS_AZALIA(pdev) ((pdev)->vendor == 0x8086 && (pdev)->device == 0x3a3e)
+ 	for_each_pci_dev(display_dev) {
+ 		if (display_dev->vendor != PCI_VENDOR_ID_INTEL ||
+-		    (display_dev->class >> 16) != PCI_BASE_CLASS_DISPLAY)
++		    !pci_is_display(display_dev))
+ 			continue;
+ 
+ 		if (pci_match_id(denylist, display_dev))
+diff --git a/sound/pci/hda/hda_intel.c b/sound/pci/hda/hda_intel.c
+index e5210ed48ddf1..a165c44b43940 100644
+--- a/sound/pci/hda/hda_intel.c
++++ b/sound/pci/hda/hda_intel.c
+@@ -1465,7 +1465,7 @@ static struct pci_dev *get_bound_vga(struct pci_dev *pci)
+ 				 * the dGPU is the one who is involved in
+ 				 * vgaswitcheroo.
+ 				 */
+-				if (((p->class >> 16) == PCI_BASE_CLASS_DISPLAY) &&
++				if (pci_is_display(p) &&
+ 				    (atpx_present() || apple_gmux_detect(NULL, NULL)))
+ 					return p;
+ 				pci_dev_put(p);
+@@ -1477,7 +1477,7 @@ static struct pci_dev *get_bound_vga(struct pci_dev *pci)
+ 			p = pci_get_domain_bus_and_slot(pci_domain_nr(pci->bus),
+ 							pci->bus->number, 0);
+ 			if (p) {
+-				if ((p->class >> 16) == PCI_BASE_CLASS_DISPLAY)
++				if (pci_is_display(p))
+ 					return p;
+ 				pci_dev_put(p);
+ 			}
 -- 
 2.43.0
 
