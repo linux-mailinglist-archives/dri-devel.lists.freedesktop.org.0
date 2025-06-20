@@ -2,112 +2,92 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9DEEFAE23CC
-	for <lists+dri-devel@lfdr.de>; Fri, 20 Jun 2025 22:55:36 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id D8BCCAE23E5
+	for <lists+dri-devel@lfdr.de>; Fri, 20 Jun 2025 23:16:34 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 454AC10EBC3;
-	Fri, 20 Jun 2025 20:55:34 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E90C310E07A;
+	Fri, 20 Jun 2025 21:16:31 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=redhat.com header.i=@redhat.com header.b="JNrRP+g0";
+	dkim=pass (2048-bit key; unprotected) header.d=oldschoolsolutions.biz header.i=jens.glathe@oldschoolsolutions.biz header.b="dF1kMzth";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [170.10.133.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5383A10EBC3
- for <dri-devel@lists.freedesktop.org>; Fri, 20 Jun 2025 20:55:33 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1750452932;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=jTyVQbHEOOt1KeHhbPigu0zVkxuLBoNfqUEzQdlCMVA=;
- b=JNrRP+g0IMX6ze8JsgfpSD9GNUHJBc7ya95wOJOdhpYcSScIQ99fMX6RW79xKIdp13fn/4
- nWC4vz93JbC4Txj9hVdiazU71tDA9AX6cKCaJ+gBSLa2dUR7v38CVYH/XSOR+uaRPdY7H1
- Ppt7fPCzSbnNK9Z4cDEq1rl6AYxVKCQ=
-Received: from mail-yw1-f198.google.com (mail-yw1-f198.google.com
- [209.85.128.198]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-332-mc0YfBU0OXOChfnWyQJnWQ-1; Fri, 20 Jun 2025 16:55:31 -0400
-X-MC-Unique: mc0YfBU0OXOChfnWyQJnWQ-1
-X-Mimecast-MFC-AGG-ID: mc0YfBU0OXOChfnWyQJnWQ_1750452930
-Received: by mail-yw1-f198.google.com with SMTP id
- 00721157ae682-707cf1b0ecbso30127707b3.2
- for <dri-devel@lists.freedesktop.org>; Fri, 20 Jun 2025 13:55:31 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1750452930; x=1751057730;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=jTyVQbHEOOt1KeHhbPigu0zVkxuLBoNfqUEzQdlCMVA=;
- b=tBHvMOjLmq7g3237ZU/cuKCjzd5E3AtquQ0QhE7hY4rjmCwrt91FsTpskDqP5/IQZn
- pUrMS23Foq1KMK50O4rOo714WBO4tYJWlCQjvWBvD+Y/u7NsyzpSrjTSAQJXTdVT0WMa
- 6J5d14a1NaNOaegVLcdXHVeJWv/08rM1d18YQinpxlz8i8NdGKzvjdoRWT4bY7CyQ9xs
- G8Egk/U7vhCjJRW48KSbh5M95VpHacEPCaBACs3EqPPQ09dLNIiyq8mtlA8LZPhr/K58
- Lftv13UME1ISLh6V5MM0qLCELxfQoW7u9qiA/X5tV34jJEIREuLBOfJYUsubS4cz/X3u
- yOug==
-X-Forwarded-Encrypted: i=1;
- AJvYcCUoT80tTZWnFePvWyiD/v1xbwYu/3Tmta/J/28LV4o9MCe3jt8qHHSOf8JsI0n7ajNyLtYPYmmGqqk=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YxZti1HD5335dFc6lFLsCrYEBADwoiXnYVuMQsKUYZ3hpMbIFJk
- t7S34ccGDif8cKK8/+U/0iAcSmiJ/4Qvdu5hT6pug6J6QBwzq7U85qRVvpXItv9TpFzP0qP+QK4
- fTd3Hg4ldgmjmWjoLoh0iNJRyN29h9lSNCsK6w9JUWGxoXONOYniagbHm1vqne67YAE09ycnZc+
- cY7AgMYB90d2KJFEJSgyia/pfaukOQwHylPq8nB+o8Q0Nw
-X-Gm-Gg: ASbGncsLJhu0jLNT8MZpyq5k3eOMS2aS4Nm498pwopdjjqZa0KtZ9ul+rHOlByt8xeh
- qVHRpfH8b3NYUGBZPfaXDPwRjLuiK/pP1c1sHwknTGrS5gq1pHxu7VZ/s0+PIM8DY9R1dMWJMZf
- A9uQ==
-X-Received: by 2002:a05:690c:f8b:b0:70e:73ae:766d with SMTP id
- 00721157ae682-712c639d4d1mr65698797b3.3.1750452930316; 
- Fri, 20 Jun 2025 13:55:30 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IEmhGqECKJtjspAZOdgaLkvNNKBPKyyBdCwT/J2kCaiZ9B5bNriFk8KkJhcXFo9Gkb9WIb5dyVgUs63byJQnLc=
-X-Received: by 2002:a05:690c:f8b:b0:70e:73ae:766d with SMTP id
- 00721157ae682-712c639d4d1mr65698227b3.3.1750452929867; Fri, 20 Jun 2025
- 13:55:29 -0700 (PDT)
+Received: from mout.kundenserver.de (mout.kundenserver.de [212.227.126.134])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 703F210E07A;
+ Fri, 20 Jun 2025 21:16:27 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=oldschoolsolutions.biz; s=s1-ionos; t=1750454164; x=1751058964;
+ i=jens.glathe@oldschoolsolutions.biz;
+ bh=/pKDq8IkD7Gp3uCohQ5thcPbl5SLnAvtiLxz8LuwTUU=;
+ h=X-UI-Sender-Class:Message-ID:Date:MIME-Version:Subject:To:Cc:
+ References:From:In-Reply-To:Content-Type:
+ Content-Transfer-Encoding:cc:content-transfer-encoding:
+ content-type:date:from:message-id:mime-version:reply-to:subject:
+ to;
+ b=dF1kMzth5ZzrBDMTwLFwF9s91xo663A4skSNoKVyqRDDqESW4ecgJa1g5vI5qYlc
+ cQZJQdLb2DExntKg4EP2CdE7XfCXBwXCDTKtwkZxfe7Wsnsb1eO/H9amqq6DFClYV
+ r3mITW3zoRH40uFPwpEYjJhSbEae5oEb0ZMKx8voJZrNOzQFpqiYAouUo/BYRbaIN
+ 8Yv59rC3fxEeDDBZO0vLt0OgUgp01/T40OEjYk5PEkIMAiPnidALYWrtHL9dl9cbb
+ b8XuIPNYzxT07WiQZXdzQUBzQg0+CqpV9LiA1J3oqbRNdEWqsiElOzK5K8e8kOAz1
+ QIoSDaxqvjaNqOvWJw==
+X-UI-Sender-Class: 55c96926-9e95-11ee-ae09-1f7a4046a0f6
+Received: from [192.168.0.174] ([91.64.235.193]) by mrelayeu.kundenserver.de
+ (mreue010 [212.227.15.167]) with ESMTPSA (Nemesis) id
+ 1MDyc8-1uaSKl32HM-0003Lx; Fri, 20 Jun 2025 23:16:03 +0200
+Message-ID: <33239018-ea33-49e4-87d2-4d5c399dda9b@oldschoolsolutions.biz>
+Date: Fri, 20 Jun 2025 23:15:59 +0200
 MIME-Version: 1.0
-References: <20250619-b4-of_drm_find_panel_part1-v2-0-0df94aecc43d@redhat.com>
- <20250619-b4-of_drm_find_panel_part1-v2-4-0df94aecc43d@redhat.com>
- <20250620-groovy-imposing-reindeer-e52ed0@houat>
-In-Reply-To: <20250620-groovy-imposing-reindeer-e52ed0@houat>
-From: Anusha Srivatsa <asrivats@redhat.com>
-Date: Fri, 20 Jun 2025 15:54:10 -0500
-X-Gm-Features: AX0GCFv6QgoPzJc1hqX7FbrOnH3FMrqAOfqiIL7Pv4QzwdsT54VWGWKD8lmDMRg
-Message-ID: <CAN9Xe3SsdbwXvDav_TUkryN3nXjujkwMTtcUcigavy5FZ29UcA@mail.gmail.com>
-Subject: Re: [PATCH v2 04/16] drm/panel/sun4i: Keep up with refcounting
-To: Maxime Ripard <mripard@kernel.org>
-Cc: Neil Armstrong <neil.armstrong@linaro.org>, 
- Jessica Zhang <jessica.zhang@oss.qualcomm.com>, 
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Thomas Zimmermann <tzimmermann@suse.de>, 
+User-Agent: Mozilla Thunderbird Beta
+Subject: Re: [PATCH v3 0/4] Support for Adreno X1-45 GPU
+To: Akhil P Oommen <akhilpo@oss.qualcomm.com>,
+ Catalin Marinas <catalin.marinas@arm.com>, Will Deacon <will@kernel.org>,
+ Rob Clark <robin.clark@oss.qualcomm.com>, Sean Paul <sean@poorly.run>,
+ Konrad Dybcio <konradybcio@kernel.org>, Dmitry Baryshkov <lumag@kernel.org>,
+ Abhinav Kumar <abhinav.kumar@linux.dev>,
+ Jessica Zhang <jessica.zhang@oss.qualcomm.com>,
+ Marijn Suijten <marijn.suijten@somainline.org>,
  David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- Inki Dae <inki.dae@samsung.com>, Jagan Teki <jagan@amarulasolutions.com>,
- Marek Szyprowski <m.szyprowski@samsung.com>, 
- Andrzej Hajda <andrzej.hajda@intel.com>, Robert Foss <rfoss@kernel.org>, 
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
- Jonas Karlman <jonas@kwiboo.se>, 
- Jernej Skrabec <jernej.skrabec@gmail.com>, Chen-Yu Tsai <wens@csie.org>, 
- Samuel Holland <samuel@sholland.org>, Seung-Woo Kim <sw0312.kim@samsung.com>, 
- Kyungmin Park <kyungmin.park@samsung.com>,
- Krzysztof Kozlowski <krzk@kernel.org>, 
- Alim Akhtar <alim.akhtar@samsung.com>, 
- Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>, 
- Tomi Valkeinen <tomi.valkeinen+renesas@ideasonboard.com>, 
- Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>, 
- Geert Uytterhoeven <geert+renesas@glider.be>,
- Magnus Damm <magnus.damm@gmail.com>, 
- Biju Das <biju.das.jz@bp.renesas.com>, 
- Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>,
- Alain Volmat <alain.volmat@foss.st.com>, 
- Raphael Gallais-Pou <rgallaispou@gmail.com>, Stefan Agner <stefan@agner.ch>, 
- Alison Wang <alison.wang@nxp.com>, Linus Walleij <linus.walleij@linaro.org>, 
- Thierry Reding <thierry.reding@gmail.com>,
- Mikko Perttunen <mperttunen@nvidia.com>, 
- Jonathan Hunter <jonathanh@nvidia.com>, dri-devel@lists.freedesktop.org, 
- linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
- linux-sunxi@lists.linux.dev, linux-samsung-soc@vger.kernel.org, 
- linux-renesas-soc@vger.kernel.org, linux-tegra@vger.kernel.org
-X-Mimecast-Spam-Score: 0
-X-Mimecast-MFC-PROC-ID: fOOPeOzKkpNpogkQX0Yf1-nH8wCr0Hbtoys6DxA-nwY_1750452930
-X-Mimecast-Originator: redhat.com
-Content-Type: multipart/alternative; boundary="00000000000014c8350638071568"
+ Bjorn Andersson <andersson@kernel.org>, Rob Herring <robh@kernel.org>,
+ Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
+ <conor+dt@kernel.org>, Viresh Kumar <vireshk@kernel.org>,
+ Nishanth Menon <nm@ti.com>, Stephen Boyd <sboyd@kernel.org>
+Cc: linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
+ linux-arm-msm@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ freedreno@lists.freedesktop.org, devicetree@vger.kernel.org,
+ linux-pm@vger.kernel.org, Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>,
+ Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
+References: <20250620-x1p-adreno-v3-0-56398c078c15@oss.qualcomm.com>
+Content-Language: en-US
+From: Jens Glathe <jens.glathe@oldschoolsolutions.biz>
+In-Reply-To: <20250620-x1p-adreno-v3-0-56398c078c15@oss.qualcomm.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: quoted-printable
+X-Provags-ID: V03:K1:+4YE6MTuUgvgsp65a+V8AX62NWNmLb2aNAbb/aU8gVx1rTyqQ7I
+ jIfDf8NURnQva8qIefL59RrZ8H3hcVKWVwMk0b2yVPyQU9pSAL896sUdq5gsFkQAfFK2t9I
+ roVKD73VNBILh4vVemSmF1OhkuYV9Wf0sVca45PoxpL8F7elWwNR9ftsbQSMgrstwWEF7Cg
+ RNPAfuMCsikU7jgwcPx+A==
+X-Spam-Flag: NO
+UI-OutboundReport: notjunk:1;M01:P0:L7p3mqP57R0=;Yf+zHyW9R9O3+3Lcv97T4M3IQ7R
+ WMTMefP4P3sEZwafIrNDEyOWOkSf54qAjYd+5JdqK+Kv0TQn4NeDSne4Hh/KcRt6LDWObnGRT
+ 2+Us7JtBAwdT4SvNQ+sYKaUBqKojcV5MoQDB2w1y7V3io5LrVT+2kD8RJLOglrImOofL0KYIh
+ nGm/2ZS+EYUdwITYhMbroaabQ+ULJqwTAjiQBz+XwfunVgILNLSJZG4zwfaceLR6tVIjb1qxv
+ bkMu3H5WbYix6outeyNL+1u5FwXNZZ2j/mtdqJibgf7xAyxvfrcrvqkaozxyNgVw5pqkWoCg9
+ b9DEw72rJTOKW99nRhZhB1pBJwkIhB1iC5V332T2kNBUv8/dPWYTq03YKRx3XjGhaJU33hu8P
+ YFT3G/oTVvUfZwdvDV5x3yv7hfpPOSAmGbdtGBWrnvsjBt2WdRvSqX2eCxvTbt9wodIWqa9wY
+ yiQ820AxMkMCmrYUeUVYrpfYtt/mCRd48cKo4fUfinnSF8MM41fs0oK44m+pvnbVSk2R4147q
+ igaYnf6mKF+AtD5o/ZvNonP4c5khkj11h6P4XrPfcQqB/iI7dITzbqcOx16pDJm9tR2LTusRq
+ gIImiPeM5SQELR8J9l5yZCswbd2oPlbbcAv30O8JL7cbAac6GtdvZyszdTL8uzapaOIeGScmS
+ Zb3kO5D2WeCuos+i/B8F3BNKmkK/JJ9NzPXpJQVhQWnnKFHT73EWHGbAg9vufUnkiWt75nR6k
+ 8w3DZcQmEK+zzryFP5tgrp5DNSZsyrMGWG9KaTmOC17/PtL9WOHhaA7jqB8qwLGRZVNTGnkIa
+ mbmZ66OfTOJYYlrrIfOw982UdI2V/UXqj2aM35aFAO1Avm1DnfXsNyD3O9/Nzj9ZI0a7OEP1j
+ LEeQ/xYjb3+gKPMYLrXC7WB9cqmxyMI1RFJoSoVMOD/EVof/19uqSzVcBda6cElkbfu0xFlRw
+ 3p1wiZ+gndSaP/tuRo1D+ukkyqGuKs0asT3fcUjPiDxyb9IMEznF8Gdz0X3pnCWh4WN7UTDFI
+ sxvOJwc2WZWiqEU0+iP0CLM3o3dlf/N0ed4PtesDJCsW4Afy2l+g5wVysOOleV7ygs6lgxRs5
+ AvJzzj+/ZQnLdf0t4cqkEBqv2jb+CfRS0EI+EKvTP+fP8rlo4U/GIjQrirQr4EG6wSB6LuNi0
+ wjAhQGuPqGlZ2a4Ub9u53vh5Vbpn7QKww+pnrNUOMOMDwXQ3NJCg6xCeSMqh8F2+Zf2NIK+Fy
+ D3wZFXXjHlF7A8Suw4Y6ub1DOr+5dd/XXXFc21xk3oUdiyH2nAKLe0yA3YJrO8BzbHnkUcPlf
+ WNSjKnz0Uk0xpP69q6o8+4LeCsnllrowf6prZR2RQF5TgYqb9YJdO5JQ0QA3MTjhyWkNLFKmv
+ SXASEXucMAXFfBOYmbjiLLsatULsRj1nXi2qbgrbHJ9Lt+vg7thT4DqtMa
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -123,75 +103,23 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
---00000000000014c8350638071568
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-On Fri, Jun 20, 2025 at 8:27=E2=80=AFAM Maxime Ripard <mripard@kernel.org> =
-wrote:
-
-> Hi,
+On 20.06.25 08:54, Akhil P Oommen wrote:
+> Add support for X1-45 GPU found in X1P41200 chipset (8 cpu core
+> version). X1-45 is a smaller version of X1-85 with lower core count and
+> smaller memories. From UMD perspective, this is similar to "FD735"
+> present in Mesa.
 >
-> On Thu, Jun 19, 2025 at 02:15:56PM -0500, Anusha Srivatsa wrote:
-> > Put the panel reference back when driver is no
-> > longer using it.
-> >
-> > Signed-off-by: Anusha Srivatsa <asrivats@redhat.com>
+> Tested Glmark & Vkmark on Debian Gnome desktop.
 >
-> When I asked you to provide a rationale for why you think the
-> drm_panel_put() call belonged where it does, it was pretty obvious it
-> needed to be done for all patches with the same issue, not just a few
-> random ones.
->
-> Well, not totally random. THe intention was to specifically explain the
-cases
-where the drm_panel_put() is part of a probe(), enable() or attach() like
-function
-since that caused confusion in the last version. There must have been
-misunderstanding
-on my end when I thought only those cases needed additional explanation. I
-will
-make the commit message more verbose.
+Hi Akhil,
 
-Thanks,
-Anusha
+thank you for the patch set. It works well on the Lenovo ThinkBook 16 G7=
+=20
+QOY, tested on X11 and Wayland on Ubuntu 25.04.
 
-Maxime
->
+Tested-by: Jens Glathe <jens.glathe@oldschoolsolutions.biz>
 
---00000000000014c8350638071568
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+with best regards
 
-<div dir=3D"ltr"><div dir=3D"ltr"><br></div><br><div class=3D"gmail_quote g=
-mail_quote_container"><div dir=3D"ltr" class=3D"gmail_attr">On Fri, Jun 20,=
- 2025 at 8:27=E2=80=AFAM Maxime Ripard &lt;<a href=3D"mailto:mripard@kernel=
-.org">mripard@kernel.org</a>&gt; wrote:<br></div><blockquote class=3D"gmail=
-_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204=
-,204);padding-left:1ex">Hi,<br>
-<br>
-On Thu, Jun 19, 2025 at 02:15:56PM -0500, Anusha Srivatsa wrote:<br>
-&gt; Put the panel reference back when driver is no<br>
-&gt; longer using it.<br>
-&gt; <br>
-&gt; Signed-off-by: Anusha Srivatsa &lt;<a href=3D"mailto:asrivats@redhat.c=
-om" target=3D"_blank">asrivats@redhat.com</a>&gt;<br>
-<br>
-When I asked you to provide a rationale for why you think the<br>
-drm_panel_put() call belonged where it does, it was pretty obvious it<br>
-needed to be done for all patches with the same issue, not just a few<br>
-random ones.<br>
-<br></blockquote><div>Well, not totally random. THe intention was to specif=
-ically explain the cases</div><div>where the drm_panel_put() is part of a p=
-robe(), enable() or attach() like function</div><div>since that caused conf=
-usion in the last version. There must have been misunderstanding</div><div>=
-on my end when I thought only those cases needed additional explanation. I =
-will</div><div>make the commit message more verbose.</div><div><br></div><d=
-iv>Thanks,</div><div>Anusha</div><div><br></div><blockquote class=3D"gmail_=
-quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,=
-204);padding-left:1ex">
-Maxime<br>
-</blockquote></div></div>
-
---00000000000014c8350638071568--
+Jens
 
