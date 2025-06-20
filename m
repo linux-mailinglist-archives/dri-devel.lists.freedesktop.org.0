@@ -2,34 +2,34 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id AD2A7AE1142
+	by mail.lfdr.de (Postfix) with ESMTPS id C8629AE1143
 	for <lists+dri-devel@lfdr.de>; Fri, 20 Jun 2025 04:50:20 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 044C310EA8B;
+	by gabe.freedesktop.org (Postfix) with ESMTP id 18DDA10EA9A;
 	Fri, 20 Jun 2025 02:50:19 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="aUQrUNUx";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="naIyrRPL";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from sea.source.kernel.org (sea.source.kernel.org [172.234.252.31])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B4C4110EA9F
- for <dri-devel@lists.freedesktop.org>; Fri, 20 Jun 2025 02:50:15 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2A62010EA95
+ for <dri-devel@lists.freedesktop.org>; Fri, 20 Jun 2025 02:50:18 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by sea.source.kernel.org (Postfix) with ESMTP id 925E34AA42;
+ by sea.source.kernel.org (Postfix) with ESMTP id 1072F44E79;
+ Fri, 20 Jun 2025 02:50:18 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id ADD48C4CEF1;
  Fri, 20 Jun 2025 02:50:15 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2655BC4CEF2;
- Fri, 20 Jun 2025 02:50:13 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1750387815;
- bh=3p28D7Y3qB/a1iedwXKmlAJI9k/uZvQfOe5/sAZS+Bc=;
+ s=k20201202; t=1750387817;
+ bh=klJlszl08GEvhj7kAFdQZmJniKnIexv1qYhrTfixYqU=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=aUQrUNUxvi8UFb1sY0dg90IN1qGuBcN8u3AViEPwz6aTI1p7Xdsv74Wja0UAGdmzt
- MtJ6eayVuxOZgXimT15Sgii4QnReuEy/UEX/jjM5ph1k/y4dERJbdCv+PKOisK71ba
- ujQvtnDs5wkQOROVnuUYhN0NWyYDgn5dkvHjz/O0wm0dvYVvHyLkz5mi1HK6xyroMY
- pC5hY7ooqfYj1czzp1TSm6kpxKu/8WszuTrmG8cVqJ1+F7OJmy0pGA+RisJrFkDjTT
- Ap9OKSFksFQECQRvRVJyfji3hX0gWJViLqGtYGVst2b7UABhqwADVKHSHiM4gOyvEM
- 0GsdauK6EkfKA==
+ b=naIyrRPLeY2lvdbu5xv1/dFUU8Zqa7AM0VH0zT/DdWK8tthyBzVRvimPKtfoyYjsf
+ SQl6Sr9yMGCeMz7yRvwr4BUHETBWncZVp/I7i40NUYUB+7SMi3irgX3KG/6f6FHCek
+ bpupS2Y9yn4SwsMVlOc1EBsU4yHxrMLEER3DMaGs2giiJt9gjbPZhgY/YNukW6xadH
+ ALg/fHc0XA9/HFgwygPKLOI6vJmbkR1YZVlRx77+d4asemrgs0nGcO1yGaI/z6TxEP
+ CSQFdVsyA0aLxTcy+dmiEiwLAxlnI4GdRWA8z5rSS3Ath1qWVEoHYebH87S4gjQ+SN
+ 9K4SCJePtMdSA==
 From: Mario Limonciello <superm1@kernel.org>
 To: Bjorn Helgaas <bhelgaas@google.com>
 Cc: Alex Deucher <alexander.deucher@amd.com>,
@@ -52,10 +52,9 @@ Cc: Alex Deucher <alexander.deucher@amd.com>,
  linux-sound@vger.kernel.org (open list:SOUND),
  Daniel Dadap <ddadap@nvidia.com>,
  Mario Limonciello <mario.limonciello@amd.com>
-Subject: [PATCH v3 6/7] PCI/VGA: Move check for firmware default out of VGA
- arbiter
-Date: Thu, 19 Jun 2025 21:49:42 -0500
-Message-ID: <20250620024943.3415685-7-superm1@kernel.org>
+Subject: [PATCH v3 7/7] fbcon: Make a symlink to the device selected as primary
+Date: Thu, 19 Jun 2025 21:49:43 -0500
+Message-ID: <20250620024943.3415685-8-superm1@kernel.org>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <20250620024943.3415685-1-superm1@kernel.org>
 References: <20250620024943.3415685-1-superm1@kernel.org>
@@ -78,141 +77,51 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 From: Mario Limonciello <mario.limonciello@amd.com>
 
-The x86 specific check for whether a framebuffer belongs to a device
-works for display devices as well as VGA devices.  Callers to
-video_is_primary_device() can benefit from checking non-VGA display
-devices.
+Knowing which device is the primary device can be useful for userspace
+to make decisions on which device to start a display server.
 
-Move the x86 specific check into x86 specific code, and adjust VGA
-arbiter to call that code as well. This allows fbcon to find the
-right PCI device on systems that don't have VGA devices.
+Create a link to that device called 'primary_device'.
 
-Suggested-by: Thomas Zimmermann <tzimmermann@suse.de>
 Signed-off-by: Mario Limonciello <mario.limonciello@amd.com>
 ---
- arch/x86/video/video-common.c | 28 +++++++++++++++++++++++++++
- drivers/pci/vgaarb.c          | 36 ++---------------------------------
- 2 files changed, 30 insertions(+), 34 deletions(-)
+ drivers/video/fbdev/core/fbcon.c | 10 +++++++++-
+ 1 file changed, 9 insertions(+), 1 deletion(-)
 
-diff --git a/arch/x86/video/video-common.c b/arch/x86/video/video-common.c
-index 81fc97a2a837a..718116e35e450 100644
---- a/arch/x86/video/video-common.c
-+++ b/arch/x86/video/video-common.c
-@@ -9,6 +9,7 @@
- 
- #include <linux/module.h>
- #include <linux/pci.h>
-+#include <linux/screen_info.h>
- #include <linux/vgaarb.h>
- 
- #include <asm/video.h>
-@@ -27,13 +28,40 @@ EXPORT_SYMBOL(pgprot_framebuffer);
- 
- bool video_is_primary_device(struct device *dev)
+diff --git a/drivers/video/fbdev/core/fbcon.c b/drivers/video/fbdev/core/fbcon.c
+index 2df48037688d1..46f21570723e5 100644
+--- a/drivers/video/fbdev/core/fbcon.c
++++ b/drivers/video/fbdev/core/fbcon.c
+@@ -2934,7 +2934,7 @@ static void fbcon_select_primary(struct fb_info *info)
  {
-+	u64 base = screen_info.lfb_base;
-+	u64 size = screen_info.lfb_size;
- 	struct pci_dev *pdev;
-+	struct resource *r;
-+	u64 limit;
+ 	if (!map_override && primary_device == -1 &&
+ 	    video_is_primary_device(info->device)) {
+-		int i;
++		int i, r;
  
- 	if (!dev_is_pci(dev))
- 		return false;
- 
- 	pdev = to_pci_dev(dev);
- 
-+	if (!pci_is_display(pdev))
-+		return false;
-+
-+	/* Select the device owning the boot framebuffer if there is one */
-+	if (screen_info.capabilities & VIDEO_CAPABILITY_64BIT_BASE)
-+		base |= (u64)screen_info.ext_lfb_base << 32;
-+
-+	limit = base + size;
-+
-+	/* Does firmware framebuffer belong to us? */
-+	pci_dev_for_each_resource(pdev, r) {
-+		if (resource_type(r) != IORESOURCE_MEM)
-+			continue;
-+
-+		if (!r->start || !r->end)
-+			continue;
-+
-+		if (base < r->start || limit >= r->end)
-+			continue;
-+
-+		return true;
-+	}
-+
- 	return (pdev == vga_default_device());
- }
- EXPORT_SYMBOL(video_is_primary_device);
-diff --git a/drivers/pci/vgaarb.c b/drivers/pci/vgaarb.c
-index 78748e8d2dbae..15ab58c70b016 100644
---- a/drivers/pci/vgaarb.c
-+++ b/drivers/pci/vgaarb.c
-@@ -26,12 +26,12 @@
- #include <linux/poll.h>
- #include <linux/miscdevice.h>
- #include <linux/slab.h>
--#include <linux/screen_info.h>
- #include <linux/vt.h>
- #include <linux/console.h>
- #include <linux/acpi.h>
- #include <linux/uaccess.h>
- #include <linux/vgaarb.h>
-+#include <asm/video.h>
- 
- static void vga_arbiter_notify_clients(void);
- 
-@@ -554,38 +554,6 @@ void vga_put(struct pci_dev *pdev, unsigned int rsrc)
- }
- EXPORT_SYMBOL(vga_put);
- 
--static bool vga_is_firmware_default(struct pci_dev *pdev)
--{
--#if defined(CONFIG_X86)
--	u64 base = screen_info.lfb_base;
--	u64 size = screen_info.lfb_size;
--	struct resource *r;
--	u64 limit;
--
--	/* Select the device owning the boot framebuffer if there is one */
--
--	if (screen_info.capabilities & VIDEO_CAPABILITY_64BIT_BASE)
--		base |= (u64)screen_info.ext_lfb_base << 32;
--
--	limit = base + size;
--
--	/* Does firmware framebuffer belong to us? */
--	pci_dev_for_each_resource(pdev, r) {
--		if (resource_type(r) != IORESOURCE_MEM)
--			continue;
--
--		if (!r->start || !r->end)
--			continue;
--
--		if (base < r->start || limit >= r->end)
--			continue;
--
--		return true;
--	}
--#endif
--	return false;
--}
--
- static bool vga_arb_integrated_gpu(struct device *dev)
- {
- #if defined(CONFIG_ACPI)
-@@ -623,7 +591,7 @@ static bool vga_is_boot_device(struct vga_device *vgadev)
- 	if (boot_vga && boot_vga->is_firmware_default)
- 		return false;
- 
--	if (vga_is_firmware_default(pdev)) {
-+	if (video_is_primary_device(&pdev->dev)) {
- 		vgadev->is_firmware_default = true;
- 		return true;
+ 		printk(KERN_INFO "fbcon: %s (fb%i) is primary device\n",
+ 		       info->fix.id, info->node);
+@@ -2949,6 +2949,10 @@ static void fbcon_select_primary(struct fb_info *info)
+ 			       first_fb_vc + 1, last_fb_vc + 1);
+ 			info_idx = primary_device;
+ 		}
++		r = sysfs_create_link(&fbcon_device->kobj, &info->device->kobj,
++				      "primary_device");
++		if (r)
++			pr_err("fbcon: Failed to link to primary device: %d\n", r);
  	}
+ 
+ }
+@@ -3376,6 +3380,10 @@ void __init fb_console_init(void)
+ 
+ void __exit fb_console_exit(void)
+ {
++#ifdef CONFIG_FRAMEBUFFER_CONSOLE_DETECT_PRIMARY
++	if (primary_device != -1)
++		sysfs_remove_link(&fbcon_device->kobj, "primary_device");
++#endif
+ #ifdef CONFIG_FRAMEBUFFER_CONSOLE_DEFERRED_TAKEOVER
+ 	console_lock();
+ 	if (deferred_takeover)
 -- 
 2.43.0
 
