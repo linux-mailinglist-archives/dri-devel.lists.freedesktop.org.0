@@ -2,75 +2,68 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id A136EAE11DB
-	for <lists+dri-devel@lfdr.de>; Fri, 20 Jun 2025 05:33:35 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 80182AE1257
+	for <lists+dri-devel@lfdr.de>; Fri, 20 Jun 2025 06:29:21 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B620E10EAA3;
-	Fri, 20 Jun 2025 03:33:33 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 828F310EAA4;
+	Fri, 20 Jun 2025 04:29:18 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="KbQcGq9I";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="B2yHGDVB";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.13])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 914E710EAA3
- for <dri-devel@lists.freedesktop.org>; Fri, 20 Jun 2025 03:33:27 +0000 (UTC)
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.16])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3EE7710EAA4
+ for <dri-devel@lists.freedesktop.org>; Fri, 20 Jun 2025 04:29:17 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1750390409; x=1781926409;
+ t=1750393757; x=1781929757;
  h=date:from:to:cc:subject:message-id:references:
  mime-version:in-reply-to;
- bh=7b4Zgn39nbR0MuT55dc6lDAmtx2/UCmMGXfe6j+aHDM=;
- b=KbQcGq9I+hB2MV6GZLshONhEiQtiVJQSmxT/oe4+j0LPi8gJq24SijFZ
- e+ot4PhVAkTGLwx9y7VZuvqf9JZ5QJQKZ8175Tb77Nlt3o//PpAyRK3Bd
- 3l4SjRRC9Jj/h4YH6+ovlmiIdFURPACA3nXwCYRkoL2fG8LGvsgcD6/m/
- GpujLtopwo8TkZbhPkneBxWBH76ZDvdd5LHYJWWrnAzBM6nhw3kHBvtth
- jewWwAENlUNXqIBHHo55lsf0uStPn1444fNbZS5drCtbLB1eeo2K1Jeub
- x5EaYBKqA5kFqTQ7EFYzojBRqTpMT7p9Ky7oI5TeJa4KPCZwUjWQQs9QS g==;
-X-CSE-ConnectionGUID: 3HmekwSxSw2eqF6TIKY6gg==
-X-CSE-MsgGUID: gV/9mzLxQ1uO/nf06K1waA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11469"; a="63692018"
-X-IronPort-AV: E=Sophos;i="6.16,250,1744095600"; d="scan'208";a="63692018"
-Received: from fmviesa009.fm.intel.com ([10.60.135.149])
- by orvoesa105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 19 Jun 2025 20:33:26 -0700
-X-CSE-ConnectionGUID: LwfHEg8eS0iD8pPsmJpIWA==
-X-CSE-MsgGUID: j7YO7yV7TuCOk+Ncl9X9mg==
+ bh=It+X+LhsWdDOwjdBav4EX8XJ1EMBhJqb7BxwKfvsvlY=;
+ b=B2yHGDVBw5E6+LXwYfrOyPMN6j+M9JfFgmVj3Uw4DnbWxQ52ppnAvpr4
+ vUWZ6I6W1oeKfkWWnegU9V2Yi3uQvea/9VcE4iM24fVaTqk9Q6KQPQksN
+ TTopsJoXlG8Ukn+Dgs645O3nmacM+lW6aIXAlfG+lWj0A7D3DfxyzLCbB
+ +5UZhEhvd/8nMrH6pBnh5yUWWSx3M9RzsBnn75dUvwhPdHftaYuNVo0CZ
+ XFRBarZjGhM3C5o4zkMGEP+uhO+8PLE/1DhI4TMTpYv6XEtxpTVLa/y0E
+ 1P7HYplwxLhsXAA57bHYZcznSy+ewc271G0D6xcjB/9NL+h5A1rSIT8Qr Q==;
+X-CSE-ConnectionGUID: K8cel3wJRXySq/onKQCXHA==
+X-CSE-MsgGUID: jJ8SEJOEQi6+x3e9ADlcSw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11469"; a="40257709"
+X-IronPort-AV: E=Sophos;i="6.16,250,1744095600"; d="scan'208";a="40257709"
+Received: from fmviesa003.fm.intel.com ([10.60.135.143])
+ by fmvoesa110.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 19 Jun 2025 21:29:17 -0700
+X-CSE-ConnectionGUID: rWOJemhGSAKbmpWp/SKpxg==
+X-CSE-MsgGUID: 6a20+jVmRau5+Pgdg0r32w==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.16,250,1744095600"; d="scan'208";a="151105039"
-Received: from lkp-server01.sh.intel.com (HELO e8142ee1dce2) ([10.239.97.150])
- by fmviesa009.fm.intel.com with ESMTP; 19 Jun 2025 20:33:20 -0700
-Received: from kbuild by e8142ee1dce2 with local (Exim 4.96)
- (envelope-from <lkp@intel.com>) id 1uSSVB-000LLC-31;
- Fri, 20 Jun 2025 03:33:17 +0000
-Date: Fri, 20 Jun 2025 11:32:51 +0800
-From: kernel test robot <lkp@intel.com>
-To: Michal Wilczynski <m.wilczynski@samsung.com>,
- Drew Fustini <drew@pdp7.com>, Guo Ren <guoren@kernel.org>,
- Fu Wei <wefu@redhat.com>, Rob Herring <robh@kernel.org>,
- Krzysztof Kozlowski <krzk@kernel.org>, Conor Dooley <conor+dt@kernel.org>,
- Bartosz Golaszewski <brgl@bgdev.pl>,
- Philipp Zabel <p.zabel@pengutronix.de>,
- Frank Binns <frank.binns@imgtec.com>, Matt Coster <matt.coster@imgtec.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- Paul Walmsley <paul.walmsley@sifive.com>,
- Palmer Dabbelt <palmer@dabbelt.com>,
- Albert Ou <aou@eecs.berkeley.edu>, Alexandre Ghiti <alex@ghiti.fr>,
- Ulf Hansson <ulf.hansson@linaro.org>,
- Marek Szyprowski <m.szyprowski@samsung.com>
-Cc: oe-kbuild-all@lists.linux.dev, linux-riscv@lists.infradead.org,
- devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-pm@vger.kernel.org, dri-devel@lists.freedesktop.org
-Subject: Re: [PATCH v5 8/8] drm/imagination: Enable PowerVR driver for RISC-V
-Message-ID: <202506201103.GX6DA9Gx-lkp@intel.com>
-References: <20250618-apr_14_for_sending-v5-8-27ed33ea5c6f@samsung.com>
+X-IronPort-AV: E=Sophos;i="6.16,250,1744095600"; d="scan'208";a="154817573"
+Received: from yilunxu-optiplex-7050.sh.intel.com (HELO localhost)
+ ([10.239.159.165])
+ by fmviesa003.fm.intel.com with ESMTP; 19 Jun 2025 21:29:11 -0700
+Date: Fri, 20 Jun 2025 12:21:49 +0800
+From: Xu Yilun <yilun.xu@linux.intel.com>
+To: Jason Gunthorpe <jgg@nvidia.com>
+Cc: kvm@vger.kernel.org, sumit.semwal@linaro.org, christian.koenig@amd.com,
+ pbonzini@redhat.com, seanjc@google.com, alex.williamson@redhat.com,
+ dan.j.williams@intel.com, aik@amd.com, linux-coco@lists.linux.dev,
+ dri-devel@lists.freedesktop.org, linux-media@vger.kernel.org,
+ linaro-mm-sig@lists.linaro.org, vivek.kasireddy@intel.com,
+ yilun.xu@intel.com, linux-kernel@vger.kernel.org, lukas@wunner.de,
+ yan.y.zhao@intel.com, daniel.vetter@ffwll.ch, leon@kernel.org,
+ baolu.lu@linux.intel.com, zhenzhong.duan@intel.com,
+ tao1.su@intel.com, linux-pci@vger.kernel.org, zhiw@nvidia.com,
+ simona.vetter@ffwll.ch, shameerali.kolothum.thodi@huawei.com,
+ aneesh.kumar@kernel.org, iommu@lists.linux.dev, kevin.tian@intel.com
+Subject: Re: [RFC PATCH 00/30] Host side (KVM/VFIO/IOMMUFD) support for TDISP
+ using TSM
+Message-ID: <aFTh3YASDNtyAc+k@yilunxu-OptiPlex-7050>
+References: <20250529053513.1592088-1-yilun.xu@linux.intel.com>
+ <20250602133727.GD233377@nvidia.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20250618-apr_14_for_sending-v5-8-27ed33ea5c6f@samsung.com>
+In-Reply-To: <20250602133727.GD233377@nvidia.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -86,106 +79,56 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Michal,
+On Mon, Jun 02, 2025 at 10:37:27AM -0300, Jason Gunthorpe wrote:
+> On Thu, May 29, 2025 at 01:34:43PM +0800, Xu Yilun wrote:
+> 
+> > This series has 3 sections:
+> 
+> I really think this is too big to try to progress, even in RFC
+> form.
 
-kernel test robot noticed the following build warnings:
+Sorry, I missed this message...
 
-[auto build test WARNING on 4774cfe3543abb8ee98089f535e28ebfd45b975a]
+Yeah, I just try to give a overview of what components we need, what the
+expect flow would be like for the first time. Also vendors need as much
+components as possible to enable their own HW and verify this flow works.
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Michal-Wilczynski/power-sequencing-Add-T-HEAD-TH1520-GPU-power-sequencer-driver/20250618-182429
-base:   4774cfe3543abb8ee98089f535e28ebfd45b975a
-patch link:    https://lore.kernel.org/r/20250618-apr_14_for_sending-v5-8-27ed33ea5c6f%40samsung.com
-patch subject: [PATCH v5 8/8] drm/imagination: Enable PowerVR driver for RISC-V
-config: sparc64-randconfig-r121-20250620 (https://download.01.org/0day-ci/archive/20250620/202506201103.GX6DA9Gx-lkp@intel.com/config)
-compiler: sparc64-linux-gcc (GCC) 8.5.0
-reproduce: (https://download.01.org/0day-ci/archive/20250620/202506201103.GX6DA9Gx-lkp@intel.com/reproduce)
+We could split into small topics then.
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202506201103.GX6DA9Gx-lkp@intel.com/
+>  
+> > Patch 1 - 11 deal with the private MMIO mapping in KVM MMU via DMABUF.
+> > Leverage Jason & Vivek's latest VFIO dmabuf series [3], see Patch 2 - 4.
+> > The concern for get_pfn() kAPI [4] is not addressed so are marked as
+> > HACK, will investigate later.
+> 
+> I would probably split this out entirely into its own topic. It
+> doesn't seem directly related to TSM as KVM can use DMABUF for good
+> reasons independently .
 
-All warnings (new ones prefixed by >>):
+Yes, since I'm not work on improving this for now, I'll not include this
+part next time. Will start independent thread if there is update.
 
-   drivers/gpu/drm/imagination/pvr_mmu.c:57:3: error: #error Unsupported device page size PVR_DEVICE_PAGE_SIZE
-    # error Unsupported device page size PVR_DEVICE_PAGE_SIZE
-      ^~~~~
-   In file included from ./arch/sparc/include/generated/asm/rwonce.h:1,
-                    from include/linux/compiler.h:390,
-                    from include/linux/dev_printk.h:14,
-                    from include/linux/device.h:15,
-                    from include/linux/node.h:18,
-                    from include/linux/memory.h:19,
-                    from drivers/gpu/drm/imagination/pvr_mmu.h:7,
-                    from drivers/gpu/drm/imagination/pvr_mmu.c:4:
-   drivers/gpu/drm/imagination/pvr_mmu.c: In function 'pvr_page_table_l1_entry_raw_set':
-   drivers/gpu/drm/imagination/pvr_mmu.c:577:50: error: 'ROGUE_MMUCTRL_PAGE_SIZE_X' undeclared (first use in this function); did you mean 'ROGUE_MMUCTRL_PAGE_SIZE_1MB'?
-         PVR_PAGE_TABLE_FIELD_PREP(1, PD, PAGE_SIZE, ROGUE_MMUCTRL_PAGE_SIZE_X) |
-                                                     ^~~~~~~~~~~~~~~~~~~~~~~~~
-   include/asm-generic/rwonce.h:55:33: note: in definition of macro '__WRITE_ONCE'
-     *(volatile typeof(x) *)&(x) = (val);    \
-                                    ^~~
-   drivers/gpu/drm/imagination/pvr_mmu.c:574:2: note: in expansion of macro 'WRITE_ONCE'
-     WRITE_ONCE(entry->val,
-     ^~~~~~~~~~
-   drivers/gpu/drm/imagination/pvr_mmu.c:577:6: note: in expansion of macro 'PVR_PAGE_TABLE_FIELD_PREP'
-         PVR_PAGE_TABLE_FIELD_PREP(1, PD, PAGE_SIZE, ROGUE_MMUCTRL_PAGE_SIZE_X) |
-         ^~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/gpu/drm/imagination/pvr_mmu.c:577:50: note: each undeclared identifier is reported only once for each function it appears in
-         PVR_PAGE_TABLE_FIELD_PREP(1, PD, PAGE_SIZE, ROGUE_MMUCTRL_PAGE_SIZE_X) |
-                                                     ^~~~~~~~~~~~~~~~~~~~~~~~~
-   include/asm-generic/rwonce.h:55:33: note: in definition of macro '__WRITE_ONCE'
-     *(volatile typeof(x) *)&(x) = (val);    \
-                                    ^~~
-   drivers/gpu/drm/imagination/pvr_mmu.c:574:2: note: in expansion of macro 'WRITE_ONCE'
-     WRITE_ONCE(entry->val,
-     ^~~~~~~~~~
-   drivers/gpu/drm/imagination/pvr_mmu.c:577:6: note: in expansion of macro 'PVR_PAGE_TABLE_FIELD_PREP'
-         PVR_PAGE_TABLE_FIELD_PREP(1, PD, PAGE_SIZE, ROGUE_MMUCTRL_PAGE_SIZE_X) |
-         ^~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/gpu/drm/imagination/pvr_mmu.c: In function 'pvr_page_table_l0_entry_raw_set':
-   drivers/gpu/drm/imagination/pvr_mmu.c:741:24: error: 'ROGUE_MMUCTRL_PAGE_X_RANGE_CLRMSK' undeclared (first use in this function); did you mean 'ROGUE_MMUCTRL_PAGE_1MB_RANGE_CLRMSK'?
-              (dma_addr & ~ROGUE_MMUCTRL_PAGE_X_RANGE_CLRMSK) |
-                           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/asm-generic/rwonce.h:55:33: note: in definition of macro '__WRITE_ONCE'
-     *(volatile typeof(x) *)&(x) = (val);    \
-                                    ^~~
-   drivers/gpu/drm/imagination/pvr_mmu.c:739:2: note: in expansion of macro 'WRITE_ONCE'
-     WRITE_ONCE(entry->val, PVR_PAGE_TABLE_FIELD_PREP(0, PT, VALID, true) |
-     ^~~~~~~~~~
-   drivers/gpu/drm/imagination/pvr_mmu.c: In function 'pvr_page_table_l0_idx':
-   drivers/gpu/drm/imagination/pvr_mmu.c:1713:9: error: 'ROGUE_MMUCTRL_PAGE_X_RANGE_SHIFT' undeclared (first use in this function); did you mean 'ROGUE_MMUCTRL_PAGE_4KB_RANGE_SHIFT'?
-            ROGUE_MMUCTRL_PAGE_X_RANGE_SHIFT;
-            ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-            ROGUE_MMUCTRL_PAGE_4KB_RANGE_SHIFT
->> drivers/gpu/drm/imagination/pvr_mmu.c:1714:1: warning: control reaches end of non-void function [-Wreturn-type]
-    }
-    ^
+> 
+> > Patch 12 - 22 is about TSM Bind/Unbind/Guest request management in VFIO
+> > & IOMMUFD. Picks some of Shameer's patch in [5], see Patch 12 & 14.
+> 
+> This is some reasonable topic on its own after Dan's series
 
+OK, I'll just focus on this for next version.
 
-vim +1714 drivers/gpu/drm/imagination/pvr_mmu.c
+>  
+> > Patch 23 - 30 is a solution to meet the TDX specific sequence
+> > enforcement on various device Unbind cases, including converting device
+> > back to shared, hot unplug, TD destroy. Start with a tdx_tsm driver
+> > prototype and finally implement the Unbind enforcement inside the
+> > driver. To be honest it is still awkward to me, but I need help.
+> 
+> Then you have a series or two to implement TDX using the infrastructure.
 
-ff5f643de0bf27 Donald Robson 2023-11-22  1696  
-ff5f643de0bf27 Donald Robson 2023-11-22  1697  /**
-ff5f643de0bf27 Donald Robson 2023-11-22  1698   * pvr_page_table_l0_idx() - Calculate the level 0 page table index for a
-ff5f643de0bf27 Donald Robson 2023-11-22  1699   *                           device-virtual address.
-ff5f643de0bf27 Donald Robson 2023-11-22  1700   * @device_addr: Target device-virtual address.
-ff5f643de0bf27 Donald Robson 2023-11-22  1701   *
-ff5f643de0bf27 Donald Robson 2023-11-22  1702   * This function does not perform any bounds checking - it is the caller's
-ff5f643de0bf27 Donald Robson 2023-11-22  1703   * responsibility to ensure that @device_addr is valid before interpreting
-ff5f643de0bf27 Donald Robson 2023-11-22  1704   * the result.
-ff5f643de0bf27 Donald Robson 2023-11-22  1705   *
-ff5f643de0bf27 Donald Robson 2023-11-22  1706   * Return:
-ff5f643de0bf27 Donald Robson 2023-11-22  1707   * The index into a level 0 page table corresponding to @device_addr.
-ff5f643de0bf27 Donald Robson 2023-11-22  1708   */
-ff5f643de0bf27 Donald Robson 2023-11-22  1709  static u16
-ff5f643de0bf27 Donald Robson 2023-11-22  1710  pvr_page_table_l0_idx(u64 device_addr)
-ff5f643de0bf27 Donald Robson 2023-11-22  1711  {
-ff5f643de0bf27 Donald Robson 2023-11-22  1712  	return (device_addr & ~ROGUE_MMUCTRL_VADDR_PT_INDEX_CLRMSK) >>
-ff5f643de0bf27 Donald Robson 2023-11-22  1713  	       ROGUE_MMUCTRL_PAGE_X_RANGE_SHIFT;
-ff5f643de0bf27 Donald Robson 2023-11-22 @1714  }
-ff5f643de0bf27 Donald Robson 2023-11-22  1715  
+Yeah, this should happen after "IOMMUFD for trusted".
 
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+Thanks,
+Yilun
+
+> 
+> Jason
