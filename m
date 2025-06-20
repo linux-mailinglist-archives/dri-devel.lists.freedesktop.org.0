@@ -2,42 +2,42 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 78907AE20DF
+	by mail.lfdr.de (Postfix) with ESMTPS id 0DE20AE20DE
 	for <lists+dri-devel@lfdr.de>; Fri, 20 Jun 2025 19:26:42 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6774510EBA0;
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5F51110EB9F;
 	Fri, 20 Jun 2025 17:26:40 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=bootlin.com header.i=@bootlin.com header.b="WGDBxuxb";
+	dkim=pass (2048-bit key; unprotected) header.d=bootlin.com header.i=@bootlin.com header.b="GB2m0dkH";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from relay3-d.mail.gandi.net (relay3-d.mail.gandi.net
  [217.70.183.195])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8671210E23D
- for <dri-devel@lists.freedesktop.org>; Fri, 20 Jun 2025 17:26:26 +0000 (UTC)
-Received: by mail.gandi.net (Postfix) with ESMTPSA id 5AFCD1FD32;
- Fri, 20 Jun 2025 17:26:23 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 58D2510E23D
+ for <dri-devel@lists.freedesktop.org>; Fri, 20 Jun 2025 17:26:28 +0000 (UTC)
+Received: by mail.gandi.net (Postfix) with ESMTPSA id 1A0BA1FD38;
+ Fri, 20 Jun 2025 17:26:25 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
- t=1750440385;
+ t=1750440386;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=RfEYnh3OyC6i/rFKZeaUbnAkKRZX/6Nl5XciPjQMjMQ=;
- b=WGDBxuxbMSuIh8W5cZrtzOPp+1UEQnyZg3fuDnfN9dKJQ/AI8JtoAg7T4/Z1Es5w0ZCYNW
- xg9GJlT6A4wQHyewyZwHk8mTG5gY7uprk/4LWrBFlGjKShPMlv49jkctyeoJWfHQahPMhT
- hfzewnZYCWQ372dmBy85A/toaMxM49c3MpCMHuJYGPoIUPSD1dEEJf37zc81XaPj4SdpN/
- P8av1dgVy4ii81TqI+1A6vzWHesknv0PTjymG03HS2OC0F6RkPgMKzpzSyxusguiLR/bi6
- m0I6ezljNWEgWb8IdtooA4AwX39jGamAUzmk8pnC2h3+LdlZdyXPOOym+YI6Hg==
+ bh=O8+8F/hrb+sI4eVHPhXhlX9e0Bs2g0jUsX1Jf66Mmu8=;
+ b=GB2m0dkHV4iqQqrmNlVxvJfVWb3MMX8io4a7nSw1DqGSLJsmp4hT06yBtIsoA/BhF/9Vw6
+ 3ZYIGMds644GaXSFTWsRc/LPPcw3Fd9MkcAZT9P+p0d7TxNoYMsH2wuzq1XzoSQN51U3A3
+ TBom0OIyBcMESdkiyYLL3gyV98ir+yyJxPUXRYIrEF1Kx7Ll9kLt6CmLo1qoXomUGJ9ezt
+ 4Kiwsb9qzzbYT498PJwtsf663LwGNKyhK2ARPlwcBv2zSvi+HiDvv4YYN/m0Xa9x1mOyk7
+ nSNVUmgekNdUwQQmcGl5TKkFrfcof+UMjx0cTiHSoNbwyeuP2vzC3u7ROdxANQ==
 From: Luca Ceresoli <luca.ceresoli@bootlin.com>
-Date: Fri, 20 Jun 2025 19:26:13 +0200
-Subject: [PATCH v8 1/5] drm/bridge: add a cleanup action for scope-based
- drm_bridge_put() invocation
+Date: Fri, 20 Jun 2025 19:26:14 +0200
+Subject: [PATCH v8 2/5] drm/bridge: get the bridge returned by
+ drm_bridge_chain_get_first_bridge()
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20250620-drm-bridge-alloc-getput-drm_bridge_chain_get_first_bridge-v8-1-0321845fcafb@bootlin.com>
+Message-Id: <20250620-drm-bridge-alloc-getput-drm_bridge_chain_get_first_bridge-v8-2-0321845fcafb@bootlin.com>
 References: <20250620-drm-bridge-alloc-getput-drm_bridge_chain_get_first_bridge-v8-0-0321845fcafb@bootlin.com>
 In-Reply-To: <20250620-drm-bridge-alloc-getput-drm_bridge_chain_get_first_bridge-v8-0-0321845fcafb@bootlin.com>
 To: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
@@ -77,26 +77,9 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Many functions get a drm_bridge pointer, only use it in the function body
-(or a smaller scope such as a loop body), and don't store it. In these
-cases they always need to drm_bridge_put() it before returning (or exiting
-the scope).
-
-Some of those functions have complex code paths with multiple return points
-or loop break/continue. This makes adding drm_bridge_put() in the right
-places tricky, ugly and error prone in case of future code changes.
-
-Others use the bridge pointer in the return statement and would need to
-split the return line to fit the drm_bridge_put, which is a bit annoying:
-
-  -return some_thing(bridge);
-  +ret = some_thing(bridge);
-  +drm_bridge_put(bridge);
-  +return ret;
-
-To make it easier for all of them to put the bridge reference correctly
-without complicating code, define a scope-based cleanup action to be used
-with __free().
+drm_bridge_chain_get_first_bridge() returns a bridge pointer that the
+caller could hold for a long time. Increment the refcount of the returned
+bridge and document it must be put by the caller.
 
 Reviewed-by: Maxime Ripard <mripard@kernel.org>
 Signed-off-by: Luca Ceresoli <luca.ceresoli@bootlin.com>
@@ -104,31 +87,34 @@ Signed-off-by: Luca Ceresoli <luca.ceresoli@bootlin.com>
 
 This patch was added in v7.
 ---
- include/drm/drm_bridge.h | 4 ++++
- 1 file changed, 4 insertions(+)
+ include/drm/drm_bridge.h | 7 +++++--
+ 1 file changed, 5 insertions(+), 2 deletions(-)
 
 diff --git a/include/drm/drm_bridge.h b/include/drm/drm_bridge.h
-index 7f66f9018c1090642876ff948bbf06ca66a46bfe..b110c5bba8c0612a71f749ad51345e7a8ccdc910 100644
+index b110c5bba8c0612a71f749ad51345e7a8ccdc910..f98044581d67c380c3bc3a1943bd6ab09b764ec3 100644
 --- a/include/drm/drm_bridge.h
 +++ b/include/drm/drm_bridge.h
-@@ -23,6 +23,7 @@
- #ifndef __DRM_BRIDGE_H__
- #define __DRM_BRIDGE_H__
+@@ -1336,6 +1336,9 @@ drm_bridge_get_prev_bridge(struct drm_bridge *bridge)
+  * drm_bridge_chain_get_first_bridge() - Get the first bridge in the chain
+  * @encoder: encoder object
+  *
++ * The refcount of the returned bridge is incremented. Use drm_bridge_put()
++ * when done with it.
++ *
+  * RETURNS:
+  * the first bridge in the chain, or NULL if @encoder has no bridge attached
+  * to it.
+@@ -1343,8 +1346,8 @@ drm_bridge_get_prev_bridge(struct drm_bridge *bridge)
+ static inline struct drm_bridge *
+ drm_bridge_chain_get_first_bridge(struct drm_encoder *encoder)
+ {
+-	return list_first_entry_or_null(&encoder->bridge_chain,
+-					struct drm_bridge, chain_node);
++	return drm_bridge_get(list_first_entry_or_null(&encoder->bridge_chain,
++						       struct drm_bridge, chain_node));
+ }
  
-+#include <linux/cleanup.h>
- #include <linux/ctype.h>
- #include <linux/list.h>
- #include <linux/mutex.h>
-@@ -1227,6 +1228,9 @@ drm_priv_to_bridge(struct drm_private_obj *priv)
- struct drm_bridge *drm_bridge_get(struct drm_bridge *bridge);
- void drm_bridge_put(struct drm_bridge *bridge);
- 
-+/* Cleanup action for use with __free() */
-+DEFINE_FREE(drm_bridge_put, struct drm_bridge *, if (_T) drm_bridge_put(_T))
-+
- void *__devm_drm_bridge_alloc(struct device *dev, size_t size, size_t offset,
- 			      const struct drm_bridge_funcs *funcs);
- 
+ /**
 
 -- 
 2.49.0
