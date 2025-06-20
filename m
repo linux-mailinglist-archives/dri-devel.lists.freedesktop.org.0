@@ -2,81 +2,80 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4C832AE1970
-	for <lists+dri-devel@lfdr.de>; Fri, 20 Jun 2025 13:01:32 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 90003AE1976
+	for <lists+dri-devel@lfdr.de>; Fri, 20 Jun 2025 13:02:19 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id DA42410EB43;
-	Fri, 20 Jun 2025 11:01:29 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id F3B6310EB48;
+	Fri, 20 Jun 2025 11:02:17 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=suse.de header.i=@suse.de header.b="DtFCICrf";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="TMJLbxT0";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="LgNWGdYK";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="0vt0H32l";
+	dkim=pass (1024-bit key; unprotected) header.d=suse.de header.i=@suse.de header.b="1puoBEJk";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="f6slLtQc";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="1puoBEJk";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="f6slLtQc";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4CA5910EB4A
- for <dri-devel@lists.freedesktop.org>; Fri, 20 Jun 2025 11:01:26 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9C0D210EB48
+ for <dri-devel@lists.freedesktop.org>; Fri, 20 Jun 2025 11:02:16 +0000 (UTC)
 Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
  (No client certificate requested)
- by smtp-out2.suse.de (Postfix) with ESMTPS id B371F1F38D;
- Fri, 20 Jun 2025 11:01:23 +0000 (UTC)
+ by smtp-out2.suse.de (Postfix) with ESMTPS id 654F51F390;
+ Fri, 20 Jun 2025 11:02:15 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1750417284; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ t=1750417335; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
  mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=rS40jZFiDpkw75Neq1Zu1fmqKj0S511i6aJ2qFu8IE0=;
- b=DtFCICrf6K7PVKzNvhmithFJw+CXmOENLM3f4gWD3MNEjrWIh5HzRaaoXopukgUYABVWW5
- 29/BFiZz+5bgwu+VgknshnaorZJ0xyBFwZDtesIFincKJtqdi5XHUD4yQNeM04/4clj5Y6
- lJDcnhi7Aqyuk92KoHZMNQ9tuTXeJAw=
+ bh=xYtH4KzYfQFnIOsPl+GHBvUXtKQ554CwNSubfr1Rwb0=;
+ b=1puoBEJkkSXgMCtJXlHMo/PjEeGCO12JMJ694GDv7hzLm1N7b+09p5aY9RJ1XULvNJZZNW
+ g1E5wxk6kR3fh16tBhwRLoREHRtjkO/knxNcLvhwf2zn6V+SozNnFNJfp8JhjPoL8CLp8K
+ A1HWSbgYzzGl3igTGgIVSVyefaa2hyg=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1750417284;
+ s=susede2_ed25519; t=1750417335;
  h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
  mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=rS40jZFiDpkw75Neq1Zu1fmqKj0S511i6aJ2qFu8IE0=;
- b=TMJLbxT0t3gpve1iekrnidQTDxmbuB0dASwn/a5+ffgFTdgvVBrTgI0dTvdGc0evnJ7f3n
- jJ3QV2gZDA731FBg==
+ bh=xYtH4KzYfQFnIOsPl+GHBvUXtKQ554CwNSubfr1Rwb0=;
+ b=f6slLtQcggdux0UWBINW2cNKPZztBNXHjtTugn4fSPzYsLTlV2K4nR6eB2tz+O05OF89Ky
+ /iG3UJ/fUqwFH3CA==
 Authentication-Results: smtp-out2.suse.de;
 	none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1750417283; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ t=1750417335; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
  mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=rS40jZFiDpkw75Neq1Zu1fmqKj0S511i6aJ2qFu8IE0=;
- b=LgNWGdYKfnjSYNlL984+zcn4gVvqBH3fYhdWhFzSmY7znim7dCdfzJiKSjhTlpKwF++wvl
- dwaQqtl5fYftQG4iLWpc+Eh8PidcquekWLR49gAuwhBnIams5NTewROkmVNg/vDtvUslMj
- 4WgngR1PQJjESw8sl9VBSSioAnqqLik=
+ bh=xYtH4KzYfQFnIOsPl+GHBvUXtKQ554CwNSubfr1Rwb0=;
+ b=1puoBEJkkSXgMCtJXlHMo/PjEeGCO12JMJ694GDv7hzLm1N7b+09p5aY9RJ1XULvNJZZNW
+ g1E5wxk6kR3fh16tBhwRLoREHRtjkO/knxNcLvhwf2zn6V+SozNnFNJfp8JhjPoL8CLp8K
+ A1HWSbgYzzGl3igTGgIVSVyefaa2hyg=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1750417283;
+ s=susede2_ed25519; t=1750417335;
  h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
  mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=rS40jZFiDpkw75Neq1Zu1fmqKj0S511i6aJ2qFu8IE0=;
- b=0vt0H32lfCVmL0tUExIxditv7B2Z7evOEFU/NVJ4Nykozqi9gibzj6rRJqnr3jM4m9B4Vr
- NEOq0kV3kWUGSuCQ==
+ bh=xYtH4KzYfQFnIOsPl+GHBvUXtKQ554CwNSubfr1Rwb0=;
+ b=f6slLtQcggdux0UWBINW2cNKPZztBNXHjtTugn4fSPzYsLTlV2K4nR6eB2tz+O05OF89Ky
+ /iG3UJ/fUqwFH3CA==
 Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
  (No client certificate requested)
- by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 57C24136BA;
- Fri, 20 Jun 2025 11:01:23 +0000 (UTC)
+ by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 01719136BA;
+ Fri, 20 Jun 2025 11:02:14 +0000 (UTC)
 Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
- by imap1.dmz-prg2.suse.org with ESMTPSA id +y3VE4M/VWgJDwAAD6G6ig
- (envelope-from <tzimmermann@suse.de>); Fri, 20 Jun 2025 11:01:23 +0000
-Message-ID: <95f59f54-0f7b-4268-8811-ccc4af565368@suse.de>
-Date: Fri, 20 Jun 2025 13:01:22 +0200
+ by imap1.dmz-prg2.suse.org with ESMTPSA id eByUOrY/VWhPDwAAD6G6ig
+ (envelope-from <tzimmermann@suse.de>); Fri, 20 Jun 2025 11:02:14 +0000
+Message-ID: <cf29862b-496b-4825-aa0f-493eb44838a5@suse.de>
+Date: Fri, 20 Jun 2025 13:02:14 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 2/3] drm/sysfb: simpledrm: Add support for interconnect
- paths
+Subject: Re: [PATCH 3/3] fbdev/simplefb: Add support for interconnect paths
 To: Luca Weiss <luca.weiss@fairphone.com>, Hans de Goede
  <hdegoede@redhat.com>, Maarten Lankhorst
  <maarten.lankhorst@linux.intel.com>, Maxime Ripard <mripard@kernel.org>,
@@ -87,7 +86,7 @@ To: Luca Weiss <luca.weiss@fairphone.com>, Hans de Goede
 Cc: linux-fbdev@vger.kernel.org, dri-devel@lists.freedesktop.org,
  devicetree@vger.kernel.org, linux-kernel@vger.kernel.org
 References: <20250620-simple-drm-fb-icc-v1-0-d92142e8f74f@fairphone.com>
- <20250620-simple-drm-fb-icc-v1-2-d92142e8f74f@fairphone.com>
+ <20250620-simple-drm-fb-icc-v1-3-d92142e8f74f@fairphone.com>
 Content-Language: en-US
 From: Thomas Zimmermann <tzimmermann@suse.de>
 Autocrypt: addr=tzimmermann@suse.de; keydata=
@@ -114,27 +113,27 @@ Autocrypt: addr=tzimmermann@suse.de; keydata=
  SAQO9xD1Zk9/61JWk8OysuIh7MXkl0fxbRKWE93XeQBhIJHQfnc+YBLprdnxR446Sh8Wn/2D
  Ya8cavuWf2zrB6cZurs048xe0UbSW5AOSo4V9M0jzYI4nZqTmPxYyXbm30Kvmz0rYVRaitYJ
  4kyYYMhuULvrJDMjZRvaNe52tkKAvMevcGdt38H4KSVXAylqyQOW5zvPc4/sq9c=
-In-Reply-To: <20250620-simple-drm-fb-icc-v1-2-d92142e8f74f@fairphone.com>
+In-Reply-To: <20250620-simple-drm-fb-icc-v1-3-d92142e8f74f@fairphone.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
+X-Spam-Flag: NO
+X-Spam-Score: -2.80
 X-Spamd-Result: default: False [-2.80 / 50.00]; BAYES_HAM(-3.00)[100.00%];
  SUSPICIOUS_RECIPS(1.50)[]; NEURAL_HAM_LONG(-1.00)[-1.000];
  NEURAL_HAM_SHORT(-0.20)[-1.000]; MIME_GOOD(-0.10)[text/plain];
- TO_MATCH_ENVRCPT_ALL(0.00)[]; FUZZY_BLOCKED(0.00)[rspamd.com];
- DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
  FREEMAIL_TO(0.00)[fairphone.com,redhat.com,linux.intel.com,kernel.org,gmail.com,ffwll.ch,gmx.de];
- MIME_TRACE(0.00)[0:+]; ARC_NA(0.00)[];
- RCPT_COUNT_TWELVE(0.00)[15];
- FREEMAIL_ENVRCPT(0.00)[gmail.com,gmx.de]; RCVD_TLS_ALL(0.00)[];
- RCVD_VIA_SMTP_AUTH(0.00)[]; FROM_EQ_ENVFROM(0.00)[];
- FROM_HAS_DN(0.00)[]; TO_DN_SOME(0.00)[];
- RCVD_COUNT_TWO(0.00)[2]; TAGGED_RCPT(0.00)[dt];
- MID_RHS_MATCH_FROM(0.00)[];
- DBL_BLOCKED_OPENRESOLVER(0.00)[fairphone.com:email,
- imap1.dmz-prg2.suse.org:helo, suse.de:mid]
+ TAGGED_RCPT(0.00)[dt]; MIME_TRACE(0.00)[0:+];
+ RCPT_COUNT_TWELVE(0.00)[15]; ARC_NA(0.00)[];
+ RCVD_VIA_SMTP_AUTH(0.00)[]; MID_RHS_MATCH_FROM(0.00)[];
+ FREEMAIL_ENVRCPT(0.00)[gmail.com,gmx.de];
+ DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+ FROM_EQ_ENVFROM(0.00)[]; FROM_HAS_DN(0.00)[];
+ TO_DN_SOME(0.00)[]; RCVD_TLS_ALL(0.00)[];
+ RCVD_COUNT_TWO(0.00)[2]; TO_MATCH_ENVRCPT_ALL(0.00)[];
+ FUZZY_BLOCKED(0.00)[rspamd.com];
+ DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:helo, suse.de:mid,
+ suse.de:email, fairphone.com:email]
 X-Spam-Level: 
-X-Spam-Flag: NO
-X-Spam-Score: -2.80
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -160,43 +159,42 @@ Am 20.06.25 um 12:31 schrieb Luca Weiss:
 >
 > Signed-off-by: Luca Weiss <luca.weiss@fairphone.com>
 > ---
->   drivers/gpu/drm/sysfb/simpledrm.c | 83 +++++++++++++++++++++++++++++++++++++++
+>   drivers/video/fbdev/simplefb.c | 83 ++++++++++++++++++++++++++++++++++++++++++
 >   1 file changed, 83 insertions(+)
 >
-> diff --git a/drivers/gpu/drm/sysfb/simpledrm.c b/drivers/gpu/drm/sysfb/simpledrm.c
-> index a1c3119330deffc9e122b83941f3697e5b87f277..9643f7c1734ab558d52779d7c45465dbe1d85762 100644
-> --- a/drivers/gpu/drm/sysfb/simpledrm.c
-> +++ b/drivers/gpu/drm/sysfb/simpledrm.c
-> @@ -9,6 +9,7 @@
->   #include <linux/platform_device.h>
+> diff --git a/drivers/video/fbdev/simplefb.c b/drivers/video/fbdev/simplefb.c
+> index be95fcddce4c8ca794826b805cd7dad2985bd637..ca73e079fd13550ddc779e84db80f7f9b743d074 100644
+> --- a/drivers/video/fbdev/simplefb.c
+> +++ b/drivers/video/fbdev/simplefb.c
+> @@ -27,6 +27,7 @@
+>   #include <linux/parser.h>
 >   #include <linux/pm_domain.h>
 >   #include <linux/regulator/consumer.h>
 > +#include <linux/interconnect.h>
 
-Alphabetical sorting please.
+With alphabetical sorting:
 
-Apart from this nitpick, the patch looks good. For the update:
-
-Reviewed-by: Thomas Zimmermann <tzimmermann>
+Reviewed-by: Thomas Zimmermann <tzimmermann@suse.de>
 
 Best regards
 Thomas
 
+
 >   
->   #include <drm/clients/drm_client_setup.h>
->   #include <drm/drm_atomic.h>
-> @@ -225,6 +226,10 @@ struct simpledrm_device {
->   	struct device **pwr_dom_devs;
->   	struct device_link **pwr_dom_links;
+>   static const struct fb_fix_screeninfo simplefb_fix = {
+>   	.id		= "simple",
+> @@ -89,6 +90,10 @@ struct simplefb_par {
+>   	u32 regulator_count;
+>   	struct regulator **regulators;
 >   #endif
 > +#if defined CONFIG_OF && defined CONFIG_INTERCONNECT
 > +	unsigned int icc_count;
 > +	struct icc_path **icc_paths;
 > +#endif
+>   };
 >   
->   	/* modesetting */
->   	u32 formats[DRM_SYSFB_PLANE_NFORMATS(1)];
-> @@ -547,6 +552,81 @@ static int simpledrm_device_attach_genpd(struct simpledrm_device *sdev)
+>   static void simplefb_clocks_destroy(struct simplefb_par *par);
+> @@ -525,6 +530,80 @@ static int simplefb_attach_genpds(struct simplefb_par *par,
 >   }
 >   #endif
 >   
@@ -204,20 +202,21 @@ Thomas
 > +/*
 > + * Generic interconnect path handling code.
 > + */
-> +static void simpledrm_device_detach_icc(void *res)
+> +static void simplefb_detach_icc(void *res)
 > +{
-> +	struct simpledrm_device *sdev = res;
+> +	struct simplefb_par *par = res;
 > +	int i;
 > +
-> +	for (i = sdev->icc_count - 1; i >= 0; i--) {
-> +		if (!IS_ERR_OR_NULL(sdev->icc_paths[i]))
-> +			icc_put(sdev->icc_paths[i]);
+> +	for (i = par->icc_count - 1; i >= 0; i--) {
+> +		if (!IS_ERR_OR_NULL(par->icc_paths[i]))
+> +			icc_put(par->icc_paths[i]);
 > +	}
 > +}
 > +
-> +static int simpledrm_device_attach_icc(struct simpledrm_device *sdev)
+> +static int simplefb_attach_icc(struct simplefb_par *par,
+> +			       struct platform_device *pdev)
 > +{
-> +	struct device *dev = sdev->sysfb.dev.dev;
+> +	struct device *dev = &pdev->dev;
 > +	int ret, count, i;
 > +
 > +	count = of_count_phandle_with_args(dev->of_node, "interconnects",
@@ -227,66 +226,65 @@ Thomas
 > +
 > +	/* An interconnect path consists of two elements */
 > +	if (count % 2) {
-> +		drm_err(&sdev->sysfb.dev,
-> +			"invalid interconnects value\n");
+> +		dev_err(dev, "invalid interconnects value\n");
 > +		return -EINVAL;
 > +	}
-> +	sdev->icc_count = count / 2;
+> +	par->icc_count = count / 2;
 > +
-> +	sdev->icc_paths = devm_kcalloc(dev, sdev->icc_count,
-> +					       sizeof(*sdev->icc_paths),
-> +					       GFP_KERNEL);
-> +	if (!sdev->icc_paths)
+> +	par->icc_paths = devm_kcalloc(dev, par->icc_count,
+> +				      sizeof(*par->icc_paths),
+> +				      GFP_KERNEL);
+> +	if (!par->icc_paths)
 > +		return -ENOMEM;
 > +
-> +	for (i = 0; i < sdev->icc_count; i++) {
-> +		sdev->icc_paths[i] = of_icc_get_by_index(dev, i);
-> +		if (IS_ERR_OR_NULL(sdev->icc_paths[i])) {
-> +			ret = PTR_ERR(sdev->icc_paths[i]);
+> +	for (i = 0; i < par->icc_count; i++) {
+> +		par->icc_paths[i] = of_icc_get_by_index(dev, i);
+> +		if (IS_ERR_OR_NULL(par->icc_paths[i])) {
+> +			ret = PTR_ERR(par->icc_paths[i]);
 > +			if (ret == -EPROBE_DEFER)
 > +				goto err;
-> +			drm_err(&sdev->sysfb.dev, "failed to get interconnect path %u: %d\n",
-> +				i, ret);
+> +			dev_err(dev, "failed to get interconnect path %u: %d\n", i, ret);
 > +			continue;
 > +		}
 > +
-> +		ret = icc_set_bw(sdev->icc_paths[i], 0, UINT_MAX);
+> +		ret = icc_set_bw(par->icc_paths[i], 0, UINT_MAX);
 > +		if (ret) {
-> +			drm_err(&sdev->sysfb.dev, "failed to set interconnect bandwidth %u: %d\n",
-> +				i, ret);
+> +			dev_err(dev, "failed to set interconnect bandwidth %u: %d\n", i, ret);
 > +			continue;
 > +		}
 > +	}
 > +
-> +	return devm_add_action_or_reset(dev, simpledrm_device_detach_icc, sdev);
+> +	return devm_add_action_or_reset(dev, simplefb_detach_icc, par);
 > +
 > +err:
 > +	while (i) {
 > +		--i;
-> +		if (!IS_ERR_OR_NULL(sdev->icc_paths[i]))
-> +			icc_put(sdev->icc_paths[i]);
+> +		if (!IS_ERR_OR_NULL(par->icc_paths[i]))
+> +			icc_put(par->icc_paths[i]);
 > +	}
 > +	return ret;
 > +}
 > +#else
-> +static int simpledrm_device_attach_icc(struct simpledrm_device *sdev)
+> +static int simplefb_attach_icc(struct simplefb_par *par,
+> +			       struct platform_device *pdev)
 > +{
 > +	return 0;
 > +}
 > +#endif
 > +
->   /*
->    * Modesetting
->    */
-> @@ -633,6 +713,9 @@ static struct simpledrm_device *simpledrm_device_create(struct drm_driver *drv,
->   	if (ret)
->   		return ERR_PTR(ret);
->   	ret = simpledrm_device_attach_genpd(sdev);
-> +	if (ret)
-> +		return ERR_PTR(ret);
-> +	ret = simpledrm_device_attach_icc(sdev);
->   	if (ret)
->   		return ERR_PTR(ret);
+>   static int simplefb_probe(struct platform_device *pdev)
+>   {
+>   	int ret;
+> @@ -615,6 +694,10 @@ static int simplefb_probe(struct platform_device *pdev)
+>   	if (ret < 0)
+>   		goto error_regulators;
+>   
+> +	ret = simplefb_attach_icc(par, pdev);
+> +	if (ret < 0)
+> +		goto error_regulators;
+> +
+>   	simplefb_clocks_enable(par, pdev);
+>   	simplefb_regulators_enable(par, pdev);
 >   
 >
 
