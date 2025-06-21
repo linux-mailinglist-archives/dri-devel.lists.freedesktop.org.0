@@ -2,41 +2,41 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 11F05AE2C9B
-	for <lists+dri-devel@lfdr.de>; Sat, 21 Jun 2025 23:17:23 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8AF5AAE2CA0
+	for <lists+dri-devel@lfdr.de>; Sat, 21 Jun 2025 23:19:00 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3029810E150;
-	Sat, 21 Jun 2025 21:17:19 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id CD2C210E2F6;
+	Sat, 21 Jun 2025 21:18:58 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="jXNthaeC";
+	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="Cj21Cs9v";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from tor.source.kernel.org (tor.source.kernel.org [172.105.4.254])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5202E10E150;
- Sat, 21 Jun 2025 21:17:18 +0000 (UTC)
+Received: from sea.source.kernel.org (sea.source.kernel.org [172.234.252.31])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 462BF10E2F5;
+ Sat, 21 Jun 2025 21:18:57 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by tor.source.kernel.org (Postfix) with ESMTP id 51AA261129;
- Sat, 21 Jun 2025 21:17:10 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8AF4DC4CEE7;
- Sat, 21 Jun 2025 21:17:09 +0000 (UTC)
+ by sea.source.kernel.org (Postfix) with ESMTP id CACC14A7DF;
+ Sat, 21 Jun 2025 21:18:53 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 84DE0C4CEE7;
+ Sat, 21 Jun 2025 21:18:53 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1750540629;
- bh=ZmTQYCTt6FpeXJobXvGHGrkckGX2zkqbJORyKVTdPZ8=;
+ s=k20201202; t=1750540733;
+ bh=Y442YX5hM85zpUXLCqKwJEt5Ke3jFuQq2IdIaKtfHnY=;
  h=In-Reply-To:References:Subject:From:Cc:To:Date:From;
- b=jXNthaeCkH8WUGPQKoQGzy2fRj9hCnJcYGtWtzRFpZuDba0pqwmDxhCwgGnIuzzA1
- c15Dv1Qi1qtqqC8qI/P0vIS1/OMORDzmteZ9xIajZbOb/b+5eQf4BwOVVSeyNdjKxS
- ZQbuAYfjkXAvA8vGsQv8FsSm836IvTGTPDcgPtpG9wWbVkydvEgPBbIfztmIfqq04a
- cuLZHgVHmgyr6xjFb2llW7fp0PUsgdNuLJyMGQ2d5sUFi/quLKPFi9sLlUxSpZ9HKX
- 37ejW0Od87/cdirzu4bxTNYVO8OYMRQPxn0lO8rADA8ffHYpkG9U26Vs8ZgebFBEdL
- y8fF7nT/yAwww==
+ b=Cj21Cs9vo16c9/agcI0xqrPisWhf971Q8Grpd5dNTcqDw+yAnjC9eGBk+ZgSSM6ml
+ WuLtpT48XOJTt1RgONS749wakxcv+P51epDks9uRM0XrRWkBF0mLImnsgqjZga29K9
+ tBN1elhcw/BPM6kH5WzBFbuY01NeDCwjuarrEoVU/RyPCLfPP3lIsnsWi/eQ1+7pC5
+ qdxytMND/2noNXE/IZOgLJnI3aN8UG3RFZcRSvVFgGx2kKH6nsnOhAzopPOHe2YYaN
+ yEm4OPMaxgQ05giQba8s4/NR1TRJwD0jwShSfHzc2uGL/zWGegpZDSgpbVSTId73I3
+ 5stBWhNTlIWfA==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
-In-Reply-To: <20250619-cstr-core-v12-4-80c9c7b45900@gmail.com>
+In-Reply-To: <20250619-cstr-core-v12-5-80c9c7b45900@gmail.com>
 References: <20250619-cstr-core-v12-0-80c9c7b45900@gmail.com>
- <20250619-cstr-core-v12-4-80c9c7b45900@gmail.com>
-Subject: Re: [PATCH v12 4/5] rust: replace `kernel::c_str!` with C-Strings
+ <20250619-cstr-core-v12-5-80c9c7b45900@gmail.com>
+Subject: Re: [PATCH v12 5/5] rust: remove core::ffi::CStr reexport
 From: Stephen Boyd <sboyd@kernel.org>
 Cc: rust-for-linux@vger.kernel.org, linux-kernel@vger.kernel.org,
  linux-kselftest@vger.kernel.org, kunit-dev@googlegroups.com,
@@ -76,8 +76,8 @@ To: Alex Gaynor <alex.gaynor@gmail.com>, Alice Ryhl <aliceryhl@google.com>,
  Thomas Zimmermann <tzimmermann@suse.de>, Trevor Gross <tmgross@umich.edu>,
  Viresh Kumar <viresh.kumar@linaro.org>, Waiman Long <longman@redhat.com>,
  Will Deacon <will@kernel.org>
-Date: Sat, 21 Jun 2025 14:17:08 -0700
-Message-ID: <175054062889.4372.13449788582456522444@lazor>
+Date: Sat, 21 Jun 2025 14:18:52 -0700
+Message-ID: <175054073280.4372.1963514562501935667@lazor>
 User-Agent: alot/0.11
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -94,17 +94,14 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Quoting Tamir Duberstein (2025-06-19 08:06:28)
-> C-String literals were added in Rust 1.77. Replace instances of
-> `kernel::c_str!` with C-String literals where possible and rename
-> `kernel::c_str!` to `str_to_cstr!` to clarify its intended use.
+Quoting Tamir Duberstein (2025-06-19 08:06:29)
+> Clean up references to `kernel::str::CStr`.
 >=20
-> Closes: https://github.com/Rust-for-Linux/linux/issues/1075
 > Signed-off-by: Tamir Duberstein <tamird@gmail.com>
 > ---
 
 For clk part
 
->  rust/kernel/clk.rs                    |  6 ++----
+>  rust/kernel/clk.rs                    |  3 +--
 
-Acked-by: Stephen Boyd <sboyd@kernel.org> # clk
+Acked-by: Stephen Boyd <sboyd@kernel.org>
