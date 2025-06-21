@@ -2,73 +2,46 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5BF3FAE2931
-	for <lists+dri-devel@lfdr.de>; Sat, 21 Jun 2025 15:44:57 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 94912AE28FB
+	for <lists+dri-devel@lfdr.de>; Sat, 21 Jun 2025 14:36:34 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 966F510E2A6;
-	Sat, 21 Jun 2025 13:44:38 +0000 (UTC)
-Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="dzj2y71j";
-	dkim-atps=neutral
+	by gabe.freedesktop.org (Postfix) with ESMTP id C09AB10E286;
+	Sat, 21 Jun 2025 12:36:31 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ed1-f44.google.com (mail-ed1-f44.google.com
- [209.85.208.44])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6E62110E259
- for <dri-devel@lists.freedesktop.org>; Sat, 21 Jun 2025 01:56:05 +0000 (UTC)
-Received: by mail-ed1-f44.google.com with SMTP id
- 4fb4d7f45d1cf-6097de2852aso3105162a12.0
- for <dri-devel@lists.freedesktop.org>; Fri, 20 Jun 2025 18:56:05 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1750470962; x=1751075762; darn=lists.freedesktop.org;
- h=content-disposition:mime-version:message-id:subject:cc:to:from:date
- :from:to:cc:subject:date:message-id:reply-to;
- bh=kKDXqmPoJsPGYezIapXfVxiBd+2xBchIauyV0qRr0zs=;
- b=dzj2y71jze16z5mLubX2VbapuQayvUODSkDzoKUiT3Xn5QoIMbZiN72mfcYX6fK1Xf
- 0qCdfKcBS3wXWjIOrDrqW0ZqgjLIRIqlwiPsIq5x6eo4J7U0GUaeORBxDGX0rh+q2n4/
- NXPYv7jKMNanTVekFeqnM0CSKDI4TwF0XkbCVJa0bo28Z5JEXUoPy+lvA5V8aWPwGs5t
- /vPbP3kD5wTP7LA3V4bPC1yYIGoUlh5ZJ3BRLeeoZszKPFp+KGvh4LZ3kebZF9d9OytZ
- JuJpcogLuEYPjvlMluapNeDAOckVetIlvxsTMaKQAfuSjs7RmmHAfokTmmq6yZuRVZZl
- /5zg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1750470962; x=1751075762;
- h=content-disposition:mime-version:message-id:subject:cc:to:from:date
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=kKDXqmPoJsPGYezIapXfVxiBd+2xBchIauyV0qRr0zs=;
- b=uRSEijMSqSPuxS0MFDt+wccpzmHKSSJD609om88vaYSpocvUAwbg2mAXQwwf1rk/gU
- IYWmxCKULzzw8GmSgYFvxFna86y7073qEG2fBm+IVhLmwCOflOvoEI0CbhcIN4OiD7pO
- 7ML5I873TKR8MndNW+Yk3XxjCM37jqwGXae91kJUusqUttnz2PuRYt1aoKSL0hYltLSy
- KOh7RaJ1lVfwhXdCM9sgfy9h2RcclIQQ/fr2UnftlVKXuGJv1lBQAKbtWH7DyluuhSt0
- INyNnbjhPhqbQiTvLVUTxT8IKrJU5hBCT55COb8ZlOItdEmVJ+bDsF5tTBvxbt7EH9wB
- yjPQ==
-X-Forwarded-Encrypted: i=1;
- AJvYcCWpRP3BALJ0guytuumn/4TJ2ZSPn2l6M1DX/4iJC09hKTpf+rTsmtW1kpYjHfScwFKbCR5rUHdlViM=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YwBmDNf3LH+Xu+7XhdWVVxaGkvFoM4hl5+tidjZvLabMQPkkltf
- wrCXSTO5eHxr7MgBFf4suLf+I0D0NbKKSfsbjylXjdz/RC/+xygV6i9K
-X-Gm-Gg: ASbGncswXrqlx3NubmsQ7YfDB2Vk2g5cDBTA5EAEmhCscoDybD4oUAXhce01sUx6SGo
- /QPs6nP6vIqT38WvuJ8NvygKuP9CbbYfB1Vd7d8ZXm1XhkJCr6j6JR5BKuMCVgdLHfS9lz+EmAj
- HGzQKUKpsoVusmTtWB4u2aEOWADhdKf3hDUrXy81ukV5WPS5Wf37jHSx6sCBfh0S9PSZaNL6V+P
- LrWcx9SS9UccPOcF0v5ryhhxu3FkA8aPjzaQmehdxfQ6I/Br4gOQyYRyoG4lHXfOLXq5ozGC4cw
- 98M6Hu7ytK3pClcnWILijiSrIMvpD2H/xpH1Rym97fz4Tfr58IIj
-X-Google-Smtp-Source: AGHT+IGQGwSpHA5R2GkgVuxhxeakJNAhknYlOERPI26+5SNqpQm9QsPJZiVyJDRW2GjfxvolypcWcA==
-X-Received: by 2002:a05:6402:270d:b0:606:9211:e293 with SMTP id
- 4fb4d7f45d1cf-60a1cd2fc42mr4103401a12.9.1750470961830; 
- Fri, 20 Jun 2025 18:56:01 -0700 (PDT)
-Received: from localhost ([95.85.21.12]) by smtp.gmail.com with UTF8SMTPSA id
- 4fb4d7f45d1cf-60a18c94acesm2252267a12.44.2025.06.20.18.56.00
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 20 Jun 2025 18:56:01 -0700 (PDT)
-Date: Sat, 21 Jun 2025 04:55:52 +0300
-From: Ahmed Salem <x0rw3ll@gmail.com>
-To: airlied@redhat.com
-Cc: lukas@wunner.de, dri-devel@lists.freedesktop.org, 
- linux-kernel@vger.kernel.org, linux-kernel-mentees@lists.linux.dev
-Subject: [RFC PATCH] amd64-agp: do not bind to pci driver if probing fails
-Message-ID: <c5kqcudzrcafm24nr5ixgalhxdkxl3uoueerjlp6tbksj3hzy7@klytjugpkvdm>
+X-Greylist: delayed 1698 seconds by postgrey-1.36 at gabe;
+ Sat, 21 Jun 2025 12:36:30 UTC
+Received: from maynard.decadent.org.uk (maynard.decadent.org.uk [65.21.191.19])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 63CBB10E286
+ for <dri-devel@lists.freedesktop.org>; Sat, 21 Jun 2025 12:36:30 +0000 (UTC)
+Received: from [2a02:578:851f:1501:2e0:4cff:fe68:186] (helo=deadeye)
+ by maynard with esmtps  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
+ (Exim 4.96) (envelope-from <ben@decadent.org.uk>)
+ id 1uSx0d-002Zp7-17; Sat, 21 Jun 2025 12:07:46 +0000
+Received: from ben by deadeye with local (Exim 4.98.2)
+ (envelope-from <ben@decadent.org.uk>) id 1uSx0b-00000002DA8-2BOP;
+ Sat, 21 Jun 2025 14:07:45 +0200
+Message-ID: <b73fbb3e3f03d842f36e6ba2e6a8ad0bb4b904fd.camel@decadent.org.uk>
+Subject: Re: [PATCH] agp/amd64: Bind to unsupported devices only if AGP is
+ present
+From: Ben Hutchings <ben@decadent.org.uk>
+To: Lukas Wunner <lukas@wunner.de>, David Airlie <airlied@redhat.com>, Bjorn
+ Helgaas <helgaas@kernel.org>
+Cc: Joerg Roedel <joro@8bytes.org>, Suravee Suthikulpanit	
+ <suravee.suthikulpanit@amd.com>, Andi Kleen <ak@linux.intel.com>, Ahmed
+ Salem	 <x0rw3ll@gmail.com>, Borislav Petkov <bp@alien8.de>, 
+ dri-devel@lists.freedesktop.org, iommu@lists.linux.dev, 
+ linux-pci@vger.kernel.org
+Date: Sat, 21 Jun 2025 14:07:40 +0200
+In-Reply-To: <f8ff40f35a9a5836d1371f60e85c09c5735e3c5e.1750497201.git.lukas@wunner.de>
+References: <f8ff40f35a9a5836d1371f60e85c09c5735e3c5e.1750497201.git.lukas@wunner.de>
+Content-Type: multipart/signed; micalg="pgp-sha512";
+ protocol="application/pgp-signature"; boundary="=-IShTDvXsHnknrgU9+DAa"
+User-Agent: Evolution 3.56.1-1 
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-X-Mailman-Approved-At: Sat, 21 Jun 2025 13:44:37 +0000
+X-SA-Exim-Connect-IP: 2a02:578:851f:1501:2e0:4cff:fe68:186
+X-SA-Exim-Mail-From: ben@decadent.org.uk
+X-SA-Exim-Scanned: No (on maynard); SAEximRunCond expanded to false
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -84,68 +57,57 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Commit 3be5fa236649 ("Revert "iommu/amd: Prevent binding other PCI
-drivers to IOMMU PCI devices"") had an unintended side effect in that
-when looking for any AGP bridge, driver_attach() will try to bind to
-IOMMU devices without preemptively checking for PCI_CAP_ID_AGP
-capability. This happens during agp_amd64_init().
 
-As a result, driver_attach() calls driver_probe_device(), which then
-calls really_probe(), raising this critical condition:
+--=-IShTDvXsHnknrgU9+DAa
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
- pci 0000:00:00.2: Resources present before probing
+On Sat, 2025-06-21 at 11:40 +0200, Lukas Wunner wrote:
+> Since commit 172efbb40333 ("AGP: Try unsupported AGP chipsets on x86-64 b=
+y
+> default"), the AGP driver for AMD Opteron/Athlon64 CPUs attempts to bind
+> to any PCI device.
+>=20
+> On modern CPUs exposing an AMD IOMMU, this results in a message with
+> KERN_CRIT severity:
+>=20
+>   pci 0000:00:00.2: Resources present before probing
+>=20
+> The driver used to bind only to devices exposing the AGP Capability, but
+> that restriction was removed by commit 6fd024893911 ("amd64-agp: Probe
+> unknown AGP devices the right way").
+[...]
 
-With the device being:
+That didn't remove any restriction as the probe function still started
+by checking for an AGP capability.  The change I made was that the
+driver would actually bind to devices with the AGP capability instead of
+starting to use them without binding.
 
- 00:00.2 IOMMU: Advanced Micro Devices, Inc. [AMD] Raven/Raven2 IOMMU
-	Subsystem: Advanced Micro Devices, Inc. [AMD] Raven/Raven2 IOMMU
-	Flags: bus master, fast devsel, latency 0, IRQ 25
-	Capabilities: [40] Secure device <?>
-	Capabilities: [64] MSI: Enable+ Count=1/4 Maskable- 64bit+
-	Capabilities: [74] HyperTransport: MSI Mapping Enable+ Fixed+
+Ben.
 
-As pci_register_driver() calls the device's probing function, the latter
-(agp_amd64_probe) tries to find the device's PCI_CAP_ID_AGP capability,
-and returns -ENODEV if said capability is not found.
+--=20
+Ben Hutchings
+All the simple programs have been written, and all the good names taken
 
-Do not attempt driver_attach() if agp_amd64_pci_driver.probe is non-zero
-to avoid probing already present resources.
+--=-IShTDvXsHnknrgU9+DAa
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: This is a digitally signed message part
 
-Link: https://lore.kernel.org/all/aFJOLZ88KIH5WBy2@wunner.de
+-----BEGIN PGP SIGNATURE-----
 
-Signed-off-by: Ahmed Salem <x0rw3ll@gmail.com>
----
-I'm not quite sure whether I should have maintained the linked
-conversation's Ccs, so please let me know if I should Cc anyone else.
+iQIzBAABCgAdFiEErCspvTSmr92z9o8157/I7JWGEQkFAmhWoIwACgkQ57/I7JWG
+EQlQtA/+JWg9KmRhoIceKsq3MOX5PVC5l817NZi+UTsWn7CY9PLm0O3cYDOA1xpk
+eNBOcGI856GwPXtS49QYSg24cri4ZmIITsQ7/MsQTcWLiKXafH5zJK8qAI41hDae
+68THfQ7P3wCE7C1l2EeKpRB00WY9qdDvIM9NchQhhdwDvxSIz5CiUI7SQ0oOPfDS
+rkdSYMKD3SmsdS1TmzxpvdhOinHLgQz7J1ytZyHKS3fVW0W/s3UUXaNrCBKHfpEF
+DjqcGCoi4iZGzAE8GFCxQbCzHLDcOWa5KwEeOk65qwmlXMTicx6WSNAI+X/hfwoa
+UwdYdq5ZyN+NmWeovD2hrB8ft2yuMi+vbtNub3a0Q2wnEHMt7J6LtTcsLkXrr7te
+6ugunBIOtBXNQQgmkXqy2fIsIhmLvWW9X0PE/yTqs8FqoPvNBsWQKI6PucYklizH
+ng5AKucwYbUGm59AKKzO2cAt+scr/iQnD2YPjCLqpXD5+Qgb2Z8KKQFqU4FwG85a
+/iVdVb6rYISMm/yQiPXQoepyS7JmR2OOCxer7NNLil0V9NZbOZdwpu03goaoL+in
+v3cG6YGJaVhRrFFJ2BMG9RIRAHsWeXdYNNCWvXO3k9dw4foeNuJrs4AT+QqFpVFb
+8nHbjQAXT4i2kziPGLivlNVit3pwVwxoNd84L5C2M7h3xADwNTQ=
+=2m0D
+-----END PGP SIGNATURE-----
 
-Lukas, kindly let me know whether you want me to add a Suggested-by
-trailer as well.
-
-
-diff --git a/drivers/char/agp/amd64-agp.c b/drivers/char/agp/amd64-agp.c
-index bf490967241a..e6a0d09e115a 100644
---- a/drivers/char/agp/amd64-agp.c
-+++ b/drivers/char/agp/amd64-agp.c
-@@ -768,10 +768,15 @@ int __init agp_amd64_init(void)
- 
- 		/* Look for any AGP bridge */
- 		agp_amd64_pci_driver.id_table = agp_amd64_pci_promisc_table;
--		err = driver_attach(&agp_amd64_pci_driver.driver);
--		if (err == 0 && agp_bridges_found == 0) {
-+		if ((int *)agp_amd64_pci_driver.probe != 0) {
- 			pci_unregister_driver(&agp_amd64_pci_driver);
- 			err = -ENODEV;
-+		} else {
-+			err = driver_attach(&agp_amd64_pci_driver.driver);
-+			if (err == 0 && agp_bridges_found == 0) {
-+				pci_unregister_driver(&agp_amd64_pci_driver);
-+				err = -ENODEV;
-+			}
- 		}
- 	}
- 	return err;
-
-base-commit: 11313e2f78128c948e9b4eb58b3dacfc30964700
--- 
-2.47.2
-
+--=-IShTDvXsHnknrgU9+DAa--
