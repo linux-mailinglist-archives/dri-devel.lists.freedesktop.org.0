@@ -2,34 +2,34 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 80B82AE29D8
-	for <lists+dri-devel@lfdr.de>; Sat, 21 Jun 2025 17:27:40 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 93758AE29D4
+	for <lists+dri-devel@lfdr.de>; Sat, 21 Jun 2025 17:27:39 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5618510E2D8;
-	Sat, 21 Jun 2025 15:27:19 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B2AF410E2D1;
+	Sat, 21 Jun 2025 15:27:18 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="GL8oPsWB";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="pWbXO7sV";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 638F410E2CA;
+Received: from tor.source.kernel.org (tor.source.kernel.org [172.105.4.254])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B396810E2CA;
  Sat, 21 Jun 2025 15:27:16 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by dfw.source.kernel.org (Postfix) with ESMTP id 2ADE65C4A20;
- Sat, 21 Jun 2025 15:24:50 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 73E91C4CEEE;
- Sat, 21 Jun 2025 15:27:05 +0000 (UTC)
+ by tor.source.kernel.org (Postfix) with ESMTP id 0350E60008;
+ Sat, 21 Jun 2025 15:27:08 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 80C8EC4CEEF;
+ Sat, 21 Jun 2025 15:27:06 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1750519626;
- bh=sG5TZxhngPW0nDmYklqGJvycNYW8aLEf5HnneosCj/0=;
+ s=k20201202; t=1750519627;
+ bh=9jSKtJv1nn+TNAOM5l1IRorTjPFy7K2tgnqW1ydup3A=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=GL8oPsWBNttIPx4wE28ZYfXgP26nXTW6AHAiJQT2J/e5T/UUWb3/CujVNxBxRUp+V
- m9xi3oiVXonuGU+c4gKBx9kNOGm2UlzmBSAIam+nYj2KxfGONZJbB7Mq5TFFl+r1TP
- dudtn1k85maHfo5T6Ni14DlKWGB10FMpReFJXgnNNeorpX72mVY4ASrdvfjbc+vDFY
- AgJFDpkMQ665SzNFK1oK3BpYcu6iC5GeX8qmSA+bk5D12qvh5rctSokBKxfGV0tqN7
- jNn9AW7WLiMAcpXFHk2e+LgXHiEgOVyCgZAgAwr9s/NO6KP1mWYqfH6jcZFFloxSDr
- VwYA4wlNt/PTQ==
+ b=pWbXO7sVA6kgOl4C6gUgYn9WvHQzT2zLwZpgSRnZxpnzm8gTxEoxZ66mbxEOjIUhF
+ v/zSfV4PNd62lVrX/CjzhFo2GvXMD4fvgX0D4zXm3TQa4voO9647e7e5inmhRIi5wN
+ leLWZz+5hCSZh/s/Z6bcF/Dd+1SsTs0CfYbRi/AQ8OOFC5unIAnYcIeV9jvuR6M6u0
+ a8bCir19rfN6MjquzB5H85407YsP9yAhTiUSW/+NkP8Y5e/xT1Oi50lcVYW5kZK+Yj
+ GtDQ9dVmHoX6ODOWYmmN6Xn8bFc14XAYAN8fKzYSylsHOgpJuLWgdVyXK7c7SudfGk
+ CcXm4ojchDYRQ==
 From: Mario Limonciello <superm1@kernel.org>
 To: amd-gfx@lists.freedesktop.org,
 	Simon Ser <contact@emersion.fr>
@@ -37,9 +37,10 @@ Cc: Harry Wentland <Harry.Wentland@amd.com>, Xaver Hugl <xaver.hugl@gmail.com>,
  dri-devel@lists.freedesktop.org, Leo Li <sunpeng.li@amd.com>,
  Sean Paul <seanpaul@google.com>,
  Mario Limonciello <mario.limonciello@amd.com>
-Subject: [PATCH v5 1/2] drm: Introduce 'power saving policy' drm property
-Date: Sat, 21 Jun 2025 10:26:56 -0500
-Message-ID: <20250621152657.1048807-2-superm1@kernel.org>
+Subject: [PATCH v5 2/2] drm/amd: Add power_saving_policy drm property to eDP
+ connectors
+Date: Sat, 21 Jun 2025 10:26:57 -0500
+Message-ID: <20250621152657.1048807-3-superm1@kernel.org>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <20250621152657.1048807-1-superm1@kernel.org>
 References: <20250621152657.1048807-1-superm1@kernel.org>
@@ -62,147 +63,162 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 From: Mario Limonciello <mario.limonciello@amd.com>
 
-The `power saving policy` DRM property is an optional property that
-can be added to a connector by a driver.
+When the `power_saving_policy` property is set to bit mask
+"Require color accuracy" ABM should be disabled immediately and
+any requests by sysfs to update will return an -EBUSY error.
 
-This property is for compositors to indicate intent of policy of
-whether a driver can use power saving features that may compromise
-the experience intended by the compositor.
+When the `power_saving_policy` property is set to bit mask
+"Require low latency" PSR should be disabled.
+
+When the property is restored to an empty bit mask ABM and PSR
+can be enabled again.
 
 Signed-off-by: Mario Limonciello <mario.limonciello@amd.com>
 ---
 v5:
- * Add None to the bitmask
+ * Adjust for new signature of amdgpu_dm_psr_disable()
+ * Default to none
 ---
- drivers/gpu/drm/drm_connector.c | 49 +++++++++++++++++++++++++++++++++
- include/drm/drm_connector.h     |  2 ++
- include/drm/drm_mode_config.h   |  5 ++++
- include/uapi/drm/drm_mode.h     |  9 ++++++
- 4 files changed, 65 insertions(+)
+ drivers/gpu/drm/amd/amdgpu/amdgpu_display.c   |  4 ++
+ .../gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c | 52 +++++++++++++++++--
+ .../gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.h |  2 +
+ 3 files changed, 53 insertions(+), 5 deletions(-)
 
-diff --git a/drivers/gpu/drm/drm_connector.c b/drivers/gpu/drm/drm_connector.c
-index 48b08c9611a7b..0ebe5cc14f074 100644
---- a/drivers/gpu/drm/drm_connector.c
-+++ b/drivers/gpu/drm/drm_connector.c
-@@ -1170,6 +1170,12 @@ static const struct drm_prop_enum_list drm_scaling_mode_enum_list[] = {
- 	{ DRM_MODE_SCALE_ASPECT, "Full aspect" },
- };
+diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_display.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_display.c
+index 35c778426a7c7..973ea4f618235 100644
+--- a/drivers/gpu/drm/amd/amdgpu/amdgpu_display.c
++++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_display.c
+@@ -1409,6 +1409,10 @@ int amdgpu_display_modeset_create_props(struct amdgpu_device *adev)
+ 					 "dither",
+ 					 amdgpu_dither_enum_list, sz);
  
-+static const struct drm_prop_enum_list drm_power_saving_policy_enum_list[] = {
-+	{ __builtin_ffs(DRM_MODE_REQUIRE_NONE) - 1, "None" },
-+	{ __builtin_ffs(DRM_MODE_REQUIRE_COLOR_ACCURACY) - 1, "Require color accuracy" },
-+	{ __builtin_ffs(DRM_MODE_REQUIRE_LOW_LATENCY) - 1, "Require low latency" },
-+};
++	if (adev->dc_enabled)
++		drm_mode_create_power_saving_policy_property(adev_to_drm(adev),
++							     DRM_MODE_POWER_SAVING_POLICY_ALL);
 +
- static const struct drm_prop_enum_list drm_aspect_ratio_enum_list[] = {
- 	{ DRM_MODE_PICTURE_ASPECT_NONE, "Automatic" },
- 	{ DRM_MODE_PICTURE_ASPECT_4_3, "4:3" },
-@@ -1760,6 +1766,16 @@ EXPORT_SYMBOL(drm_hdmi_connector_get_output_format_name);
-  *
-  *	Drivers can set up these properties by calling
-  *	drm_mode_create_tv_margin_properties().
-+ * power saving policy:
-+ *	This property is used to set the power saving policy for the connector.
-+ *	This property is populated with a bitmask of optional requirements set
-+ *	by the drm master for the drm driver to respect:
-+ *	- "Require color accuracy": Disable power saving features that will
-+ *	  affect color fidelity.
-+ *	  For example: Hardware assisted backlight modulation.
-+ *	- "Require low latency": Disable power saving features that will
-+ *	  affect latency.
-+ *	  For example: Panel self refresh (PSR)
-  */
- 
- int drm_connector_create_standard_properties(struct drm_device *dev)
-@@ -2262,6 +2278,39 @@ int drm_mode_create_scaling_mode_property(struct drm_device *dev)
+ 	return 0;
  }
- EXPORT_SYMBOL(drm_mode_create_scaling_mode_property);
  
-+/**
-+ * drm_mode_create_power_saving_policy_property - create power saving policy property
-+ * @dev: DRM device
-+ * @supported_policies: bitmask of supported power saving policies
-+ *
-+ * Called by a driver the first time it's needed, must be attached to desired
-+ * connectors.
-+ *
-+ * Returns: %0
-+ */
-+int drm_mode_create_power_saving_policy_property(struct drm_device *dev,
-+						 uint64_t supported_policies)
-+{
-+	struct drm_property *power_saving;
-+
-+	if (dev->mode_config.power_saving_policy)
-+		return 0;
-+	WARN_ON((supported_policies & DRM_MODE_POWER_SAVING_POLICY_ALL) == 0);
-+
-+	power_saving =
-+		drm_property_create_bitmask(dev, 0, "power saving policy",
-+					    drm_power_saving_policy_enum_list,
-+					    ARRAY_SIZE(drm_power_saving_policy_enum_list),
-+					    supported_policies);
-+	if (!power_saving)
-+		return -ENOMEM;
-+
-+	dev->mode_config.power_saving_policy = power_saving;
-+
-+	return 0;
-+}
-+EXPORT_SYMBOL(drm_mode_create_power_saving_policy_property);
-+
- /**
-  * DOC: Variable refresh properties
-  *
-diff --git a/include/drm/drm_connector.h b/include/drm/drm_connector.h
-index f13d597370a30..3a990e46237d9 100644
---- a/include/drm/drm_connector.h
-+++ b/include/drm/drm_connector.h
-@@ -2408,6 +2408,8 @@ int drm_mode_create_dp_colorspace_property(struct drm_connector *connector,
- 					   u32 supported_colorspaces);
- int drm_mode_create_content_type_property(struct drm_device *dev);
- int drm_mode_create_suggested_offset_properties(struct drm_device *dev);
-+int drm_mode_create_power_saving_policy_property(struct drm_device *dev,
-+						 uint64_t supported_policies);
+diff --git a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
+index 33d5f6f2669ff..b8be7887dfb40 100644
+--- a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
++++ b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
+@@ -7110,6 +7110,13 @@ int amdgpu_dm_connector_atomic_set_property(struct drm_connector *connector,
+ 	} else if (property == adev->mode_info.underscan_property) {
+ 		dm_new_state->underscan_enable = val;
+ 		ret = 0;
++	} else if (property == dev->mode_config.power_saving_policy) {
++		dm_new_state->abm_forbidden = val & DRM_MODE_REQUIRE_COLOR_ACCURACY;
++		dm_new_state->abm_level = (dm_new_state->abm_forbidden || !dm_old_state->abm_level) ?
++						ABM_LEVEL_IMMEDIATE_DISABLE :
++						dm_old_state->abm_level;
++		dm_new_state->psr_forbidden = val & DRM_MODE_REQUIRE_LOW_LATENCY;
++		ret = 0;
+ 	}
  
- int drm_connector_set_path_property(struct drm_connector *connector,
- 				    const char *path);
-diff --git a/include/drm/drm_mode_config.h b/include/drm/drm_mode_config.h
-index 9e524b51a0018..1a32cc999ffda 100644
---- a/include/drm/drm_mode_config.h
-+++ b/include/drm/drm_mode_config.h
-@@ -959,6 +959,11 @@ struct drm_mode_config {
- 	 */
- 	struct drm_atomic_state *suspend_state;
+ 	return ret;
+@@ -7152,6 +7159,15 @@ int amdgpu_dm_connector_atomic_get_property(struct drm_connector *connector,
+ 	} else if (property == adev->mode_info.underscan_property) {
+ 		*val = dm_state->underscan_enable;
+ 		ret = 0;
++	} else if (property == dev->mode_config.power_saving_policy) {
++		*val = 0;
++		if (!dm_state->abm_forbidden && !dm_state->psr_forbidden)
++			*val |= DRM_MODE_REQUIRE_NONE;
++		if (dm_state->psr_forbidden)
++			*val |= DRM_MODE_REQUIRE_LOW_LATENCY;
++		if (dm_state->abm_forbidden)
++			*val |= DRM_MODE_REQUIRE_COLOR_ACCURACY;
++		ret = 0;
+ 	}
  
-+	/**
-+	 * @power_saving_policy: bitmask for power saving policy requests.
-+	 */
-+	struct drm_property *power_saving_policy;
-+
- 	const struct drm_mode_config_helper_funcs *helper_private;
- };
+ 	return ret;
+@@ -7178,9 +7194,12 @@ static ssize_t panel_power_savings_show(struct device *device,
+ 	u8 val;
  
-diff --git a/include/uapi/drm/drm_mode.h b/include/uapi/drm/drm_mode.h
-index c082810c08a8b..d3d602491343e 100644
---- a/include/uapi/drm/drm_mode.h
-+++ b/include/uapi/drm/drm_mode.h
-@@ -152,6 +152,15 @@ extern "C" {
- #define DRM_MODE_SCALE_CENTER		2 /* Centered, no scaling */
- #define DRM_MODE_SCALE_ASPECT		3 /* Full screen, preserve aspect */
+ 	drm_modeset_lock(&dev->mode_config.connection_mutex, NULL);
+-	val = to_dm_connector_state(connector->state)->abm_level ==
+-		ABM_LEVEL_IMMEDIATE_DISABLE ? 0 :
+-		to_dm_connector_state(connector->state)->abm_level;
++	if (to_dm_connector_state(connector->state)->abm_forbidden)
++		val = 0;
++	else
++		val = to_dm_connector_state(connector->state)->abm_level ==
++			ABM_LEVEL_IMMEDIATE_DISABLE ? 0 :
++			to_dm_connector_state(connector->state)->abm_level;
+ 	drm_modeset_unlock(&dev->mode_config.connection_mutex);
  
-+/* power saving policy options */
-+#define DRM_MODE_REQUIRE_NONE		BIT(0)	/* Compositor doesn't require power saving */
-+#define DRM_MODE_REQUIRE_COLOR_ACCURACY	BIT(1)	/* Compositor requires color accuracy */
-+#define DRM_MODE_REQUIRE_LOW_LATENCY	BIT(2)	/* Compositor requires low latency */
+ 	return sysfs_emit(buf, "%u\n", val);
+@@ -7204,10 +7223,16 @@ static ssize_t panel_power_savings_store(struct device *device,
+ 		return -EINVAL;
+ 
+ 	drm_modeset_lock(&dev->mode_config.connection_mutex, NULL);
+-	to_dm_connector_state(connector->state)->abm_level = val ?:
+-		ABM_LEVEL_IMMEDIATE_DISABLE;
++	if (to_dm_connector_state(connector->state)->abm_forbidden)
++		ret = -EBUSY;
++	else
++		to_dm_connector_state(connector->state)->abm_level = val ?:
++			ABM_LEVEL_IMMEDIATE_DISABLE;
+ 	drm_modeset_unlock(&dev->mode_config.connection_mutex);
+ 
++	if (ret)
++		return ret;
 +
-+#define DRM_MODE_POWER_SAVING_POLICY_ALL	(DRM_MODE_REQUIRE_NONE |\
-+						 DRM_MODE_REQUIRE_COLOR_ACCURACY |\
-+						 DRM_MODE_REQUIRE_LOW_LATENCY)
+ 	drm_kms_helper_hotplug_event(dev);
+ 
+ 	return count;
+@@ -8444,6 +8469,13 @@ void amdgpu_dm_connector_init_helper(struct amdgpu_display_manager *dm,
+ 	aconnector->base.state->max_bpc = 16;
+ 	aconnector->base.state->max_requested_bpc = aconnector->base.state->max_bpc;
+ 
++	if (connector_type == DRM_MODE_CONNECTOR_eDP &&
++	    (dc_is_dmcu_initialized(adev->dm.dc) ||
++	     adev->dm.dc->ctx->dmub_srv)) {
++		drm_object_attach_property(&aconnector->base.base,
++				dm->ddev->mode_config.power_saving_policy, DRM_MODE_REQUIRE_NONE);
++	}
 +
- /* Dithering mode options */
- #define DRM_MODE_DITHERING_OFF	0
- #define DRM_MODE_DITHERING_ON	1
+ 	if (connector_type == DRM_MODE_CONNECTOR_HDMIA) {
+ 		/* Content Type is currently only implemented for HDMI. */
+ 		drm_connector_attach_content_type_property(&aconnector->base);
+@@ -10220,6 +10252,7 @@ static void amdgpu_dm_atomic_commit_tail(struct drm_atomic_state *state)
+ 	for_each_oldnew_connector_in_state(state, connector, old_con_state, new_con_state, i) {
+ 		struct dm_connector_state *dm_new_con_state = to_dm_connector_state(new_con_state);
+ 		struct dm_connector_state *dm_old_con_state = to_dm_connector_state(old_con_state);
++		struct amdgpu_dm_connector *aconnector = to_amdgpu_dm_connector(connector);
+ 		struct amdgpu_crtc *acrtc = to_amdgpu_crtc(dm_new_con_state->base.crtc);
+ 		struct dc_surface_update *dummy_updates;
+ 		struct dc_stream_update stream_update;
+@@ -10285,6 +10318,15 @@ static void amdgpu_dm_atomic_commit_tail(struct drm_atomic_state *state)
+ 			stream_update.hdr_static_metadata = &hdr_packet;
+ 		}
+ 
++		aconnector->disallow_edp_enter_psr = dm_new_con_state->psr_forbidden;
++
++		/* immediately disable PSR if disallowed */
++		if (aconnector->disallow_edp_enter_psr) {
++			mutex_lock(&dm->dc_lock);
++			amdgpu_dm_psr_disable(dm_new_crtc_state->stream, false);
++			mutex_unlock(&dm->dc_lock);
++		}
++
+ 		status = dc_stream_get_status(dm_new_crtc_state->stream);
+ 
+ 		if (WARN_ON(!status))
+diff --git a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.h b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.h
+index d7d92f9911e46..7712639bd6a5c 100644
+--- a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.h
++++ b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.h
+@@ -968,6 +968,8 @@ struct dm_connector_state {
+ 	bool underscan_enable;
+ 	bool freesync_capable;
+ 	bool update_hdcp;
++	bool abm_forbidden;
++	bool psr_forbidden;
+ 	uint8_t abm_level;
+ 	int vcpi_slots;
+ 	uint64_t pbn;
 -- 
 2.43.0
 
