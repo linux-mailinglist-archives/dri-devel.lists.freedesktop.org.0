@@ -2,164 +2,175 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2B717AE26CB
-	for <lists+dri-devel@lfdr.de>; Sat, 21 Jun 2025 03:07:43 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0A8DFAE26F0
+	for <lists+dri-devel@lfdr.de>; Sat, 21 Jun 2025 04:03:08 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3FE0010E25D;
-	Sat, 21 Jun 2025 01:07:39 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A7CE810E259;
+	Sat, 21 Jun 2025 02:03:04 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=amd.com header.i=@amd.com header.b="JgRVYB8K";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="GmphRhAe";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from NAM12-BN8-obe.outbound.protection.outlook.com
- (mail-bn8nam12on2084.outbound.protection.outlook.com [40.107.237.84])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0FA6810E25D
- for <dri-devel@lists.freedesktop.org>; Sat, 21 Jun 2025 01:07:38 +0000 (UTC)
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.11])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5489F10E259
+ for <dri-devel@lists.freedesktop.org>; Sat, 21 Jun 2025 02:02:59 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1750471382; x=1782007382;
+ h=from:to:cc:subject:date:message-id:references:
+ in-reply-to:content-transfer-encoding:mime-version;
+ bh=fnF0N5xgMkI5r3mG8hRSoKTd5H/wPXH0/JUYHtjxWo0=;
+ b=GmphRhAenI7cr2Vx1DegKvBp/nZ1GhVtaOj4nLzXholA1igL6ri8dW3k
+ oTenaaEfqBXXZPGzPFJHADhDBIRA8kGIQVwKjzv9c4SqiyICSnBXuk43a
+ 9DIhvTcrNVCR6b2vXRiynJs5n9rQ+/7JmTRaC36a8XF9P6v2TCuqredty
+ 0tHlxFLRdbelLxbbFLqCpMkYp3lUbChX7OJcbw8IcARLdTxjfaGmZsF78
+ UHCN7rySWZVIythqYQ3fDj2pkqZkUWEiQw2FJ8JQo9Pqo0zmBEF3NiuDw
+ Kk+QK1Klj2cHOOiZo0d1oGYH0F9ll704UJHjXbl0T6RXahDYRR6KjOUcd Q==;
+X-CSE-ConnectionGUID: xcGxjNJ4SsKjRD9H4VfWLA==
+X-CSE-MsgGUID: Ng/fFeK8QDac9+l/H/RjYQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11469"; a="63011869"
+X-IronPort-AV: E=Sophos;i="6.16,253,1744095600"; d="scan'208";a="63011869"
+Received: from fmviesa001.fm.intel.com ([10.60.135.141])
+ by orvoesa103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 20 Jun 2025 19:02:57 -0700
+X-CSE-ConnectionGUID: huGKI5sjTz66OVij+ztvvA==
+X-CSE-MsgGUID: 6ctEZh9WSZWaTSXjlfLZcw==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.16,253,1744095600"; d="scan'208";a="181939564"
+Received: from orsmsx901.amr.corp.intel.com ([10.22.229.23])
+ by fmviesa001.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 20 Jun 2025 19:02:56 -0700
+Received: from ORSMSX903.amr.corp.intel.com (10.22.229.25) by
+ ORSMSX901.amr.corp.intel.com (10.22.229.23) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.1544.25; Fri, 20 Jun 2025 19:02:55 -0700
+Received: from ORSEDG902.ED.cps.intel.com (10.7.248.12) by
+ ORSMSX903.amr.corp.intel.com (10.22.229.25) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.1544.25 via Frontend Transport; Fri, 20 Jun 2025 19:02:55 -0700
+Received: from NAM10-DM6-obe.outbound.protection.outlook.com (40.107.93.67) by
+ edgegateway.intel.com (134.134.137.112) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.1544.25; Fri, 20 Jun 2025 19:02:53 -0700
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=aLHJkVZgB4ci2Tkl6L7UhsG4e0oBhTU00wTdIn1XVb2Nm0sDm5NP5ne+cwAVNW/NU/iU4agGwwinXhz+yOAuJdgJExdKchR7NP5UIA5RpR1eiMozHU+PZ/0+r6XqKH6mw5Lod7+zjE0fattijWjvU3K7lHB2qJ63MBwpjQ7AQF3+K7DSNib8zs0OmMR+kwi1/a+YnS8LtP2yDPbA7/xTrj0+WFxDZgWtdhBpS1RY9jh8jLxtncP7cs21NrYB8TzhkDIi2HFkxtkFIa7jSVojl6Baznre4xVQTn5AzNJTfGsAZ7hSX/954GV++qhQSNSc1w1vRQakAgY7TPhoVAOKYw==
+ b=Nrw0b+bxPmGCzlaabwyXwz6/GMX+NssiqOVpQrikU8/fclHFL1FBdvDtUnSEAZEG7tyUxRn4+WJQA2RFJ8sucqiqOWEGpJbqgOgCWPXfubUe0pbZi/P9gbhrWCAyN9mBN6UrrNH/GpHTBqR3kfniMN85KnwvVLtnxQcdEPm9qtsBq6tx+zvmezoIPo2gvbpyaweb3Ny+jb+oaTcsNnazGySbzidrRu8MtKKp+ny+cVsjikhuahhgN2mgd4rJvahmhdYxWdEnqqOo16QmukCOPl5dZJaH3uHB5ZwXKJ18RHqCb/mD8w2xdXea9FY++4Ztjuo5yS+hYzNlnDSgp+rK6Q==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=HjTGrj8sZTiCMkqC1H0eEpPIgJLDeA67/gTAEzKHtPI=;
- b=wIhKIbYmpXiHhvtoLqpaLXhDOcpwseh9EXutWMMN6BS4uxYOP/ZNYaChlIkPdyl86gSPwHgVmJqMncuAUIXBq7FOLLwUhvcHttUFnYxs3sZfC0yGh5hW6/Iqgf6MMO3BKs8z5/N/Xad7SFLrzIUMLjP7ud+JmN5K5ccaM7Vxykua9MKtafsmCpSC5XCNW8/CP8MSFjCU4QL0HsAeLvHYcHpLvi6RTdQSgMirBZ/HNMn2zLiZhaiZ1OSNH0Fyt1aqwl7cXi+mHeJFG1NLj57HWik3XFLAiLitFgW1ynnnKB8AJBGG/3lPZhSXwVS+X505/ONFt1n3y79vXVg0Udr9Xg==
+ bh=hzsgwJdv3yIO+Y/x2rZcm0d0YlrWUtpMYRgFFaT03d8=;
+ b=ZFU4Fg2G5g7Ws0Mp9H90neNbAuC7mdatAevUzPUK++TDA6QyzV0BzO5h6k9f49Dl/p177bt0vd9o+26teMp24PdR/0ibKqtVBGbgEMjoSoFe8H87Qw8nuWiWDXnkOP2X/DDxQSgsUp4OTFbt/yyMZVjm4Jgm/gBlQ9RRVlRbG/wISzqIHCdEAFeXjm0ScFpYE5pdNWnQdbiu8tSQyGjHJfB0qkw3yl/SsgIh2wgWE9zOvvz1d8tZ8+6FS4HSQWGR/U8i0R6xAKIb0X0wl+qlJBZcICNtpMFrSrmVXbLkWoiLshmj5nCXvV6bleYIdouDUSi9HzpVnjaF3NXODjTIBw==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
- header.d=amd.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=HjTGrj8sZTiCMkqC1H0eEpPIgJLDeA67/gTAEzKHtPI=;
- b=JgRVYB8KTxaJzhWlUweMmdDjaBLSlg0G7eonXlLArEOd5sX5qf4XjofUM8L7wmxKfX3eym1YNDDvVg+TIxSznyCs6VPWOIA8V2PxeOTRwWHT37I7nkMnGhtye7lf7AnYgC1oz6ZY73yCgoEWS+KgG1myVbRAvHc/asCB4HeKUhU=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=amd.com;
-Received: from CH3PR12MB9194.namprd12.prod.outlook.com (2603:10b6:610:19f::7)
- by IA4PR12MB9811.namprd12.prod.outlook.com (2603:10b6:208:54e::18)
+ smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
+ dkim=pass header.d=intel.com; arc=none
+Received: from IA0PR11MB7185.namprd11.prod.outlook.com (2603:10b6:208:432::20)
+ by SJ2PR11MB8372.namprd11.prod.outlook.com (2603:10b6:a03:539::21)
  with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8835.27; Sat, 21 Jun
- 2025 01:07:34 +0000
-Received: from CH3PR12MB9194.namprd12.prod.outlook.com
- ([fe80::1e6b:ca8b:7715:6fee]) by CH3PR12MB9194.namprd12.prod.outlook.com
- ([fe80::1e6b:ca8b:7715:6fee%7]) with mapi id 15.20.8857.019; Sat, 21 Jun 2025
- 01:07:33 +0000
-Message-ID: <f5958bda-838a-4ed6-84c6-fef62cd0b28f@amd.com>
-Date: Sat, 21 Jun 2025 11:07:24 +1000
-User-Agent: Mozilla Thunderbird Beta
-Subject: Re: [RFC PATCH 00/30] Host side (KVM/VFIO/IOMMUFD) support for TDISP
- using TSM
-From: Alexey Kardashevskiy <aik@amd.com>
-To: Xu Yilun <yilun.xu@linux.intel.com>, kvm@vger.kernel.org,
- sumit.semwal@linaro.org, christian.koenig@amd.com, pbonzini@redhat.com,
- seanjc@google.com, alex.williamson@redhat.com, jgg@nvidia.com,
- dan.j.williams@intel.com, linux-coco@lists.linux.dev
-Cc: dri-devel@lists.freedesktop.org, linux-media@vger.kernel.org,
- linaro-mm-sig@lists.linaro.org, vivek.kasireddy@intel.com,
- yilun.xu@intel.com, linux-kernel@vger.kernel.org, lukas@wunner.de,
- yan.y.zhao@intel.com, daniel.vetter@ffwll.ch, leon@kernel.org,
- baolu.lu@linux.intel.com, zhenzhong.duan@intel.com, tao1.su@intel.com,
- linux-pci@vger.kernel.org, zhiw@nvidia.com, simona.vetter@ffwll.ch,
- shameerali.kolothum.thodi@huawei.com, aneesh.kumar@kernel.org,
- iommu@lists.linux.dev, kevin.tian@intel.com
-References: <20250529053513.1592088-1-yilun.xu@linux.intel.com>
- <e886855f-25cc-4274-9f11-fe0e5b025284@amd.com>
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8857.26; Sat, 21 Jun
+ 2025 02:02:51 +0000
+Received: from IA0PR11MB7185.namprd11.prod.outlook.com
+ ([fe80::dd3b:ce77:841a:722b]) by IA0PR11MB7185.namprd11.prod.outlook.com
+ ([fe80::dd3b:ce77:841a:722b%3]) with mapi id 15.20.8857.020; Sat, 21 Jun 2025
+ 02:02:51 +0000
+From: "Kasireddy, Vivek" <vivek.kasireddy@intel.com>
+To: Oscar Salvador <osalvador@suse.de>
+CC: "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
+ "linux-mm@kvack.org" <linux-mm@kvack.org>,
+ "syzbot+a504cb5bae4fe117ba94@syzkaller.appspotmail.com"
+ <syzbot+a504cb5bae4fe117ba94@syzkaller.appspotmail.com>, Steve Sistare
+ <steven.sistare@oracle.com>, Muchun Song <muchun.song@linux.dev>, "David
+ Hildenbrand" <david@redhat.com>, Andrew Morton <akpm@linux-foundation.org>
+Subject: RE: [PATCH] mm/hugetlb: Don't crash when allocating a folio if there
+ are no resv
+Thread-Topic: [PATCH] mm/hugetlb: Don't crash when allocating a folio if there
+ are no resv
+Thread-Index: AQHb4BJSsw569givP0yLQ5888kYOd7QKguwAgAHFwlA=
+Date: Sat, 21 Jun 2025 02:02:50 +0000
+Message-ID: <IA0PR11MB7185B8EF42CB910E4043194FF87FA@IA0PR11MB7185.namprd11.prod.outlook.com>
+References: <20250618052840.1036164-1-vivek.kasireddy@intel.com>
+ <aFQWWFGSKMpdk5k4@localhost.localdomain>
+In-Reply-To: <aFQWWFGSKMpdk5k4@localhost.localdomain>
+Accept-Language: en-US
 Content-Language: en-US
-In-Reply-To: <e886855f-25cc-4274-9f11-fe0e5b025284@amd.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-ClientProxiedBy: SY6PR01CA0044.ausprd01.prod.outlook.com
- (2603:10c6:10:e9::13) To CH3PR12MB9194.namprd12.prod.outlook.com
- (2603:10b6:610:19f::7)
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+authentication-results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=intel.com;
+x-ms-publictraffictype: Email
+x-ms-traffictypediagnostic: IA0PR11MB7185:EE_|SJ2PR11MB8372:EE_
+x-ms-office365-filtering-correlation-id: 5ebc0ec1-8db6-4ec0-8db0-08ddb067ba51
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam: BCL:0; ARA:13230040|366016|376014|1800799024|38070700018;
+x-microsoft-antispam-message-info: =?us-ascii?Q?pk5iybkQbpcPEDlLmdEtnyBxDhNOUAPxhxaWfHtcDUZXWKR+q+yCko3DWpEo?=
+ =?us-ascii?Q?EoSL53+GiLaAVJSXY0OSN4oaaXoVoV/aqcUCMqP5XL9Wzwi0pAUkkBdEutJ/?=
+ =?us-ascii?Q?4tCFGLKPqUiqydce2No5/SsWwNH8msqmoKt/6dTlOTfGts0J2nXRKxONBUI2?=
+ =?us-ascii?Q?zBEnwgPb7GXS0a8oZm0tI40080nI7mjyWUJR0SSBLGTXcaU4rmw4wfVfuwMb?=
+ =?us-ascii?Q?z1B9h4rPF9qUToiz/WBduCv+egi0SO1qD+LhDTqSyRCAGVs2oVWIqD1eOh7Z?=
+ =?us-ascii?Q?1U16bpTghFdUEr6X+jOZHb6MMmzgK5IoVR20MMARYcZqJtYl3DnppMkUQmPZ?=
+ =?us-ascii?Q?AOeXaka3NzwSXD9Ya7Ez6UI1726o36dP3dzYk8snVFKobM5npv6QNaLxYTJM?=
+ =?us-ascii?Q?f7uqaDzw5Zj8reee9bqr0tUn5by3sKa1fzOoGtaI+d80tGgfiXtWcOs5fJ4E?=
+ =?us-ascii?Q?WS1RWLP3662ncb4fZFnvxe9129cFMAVu9AaD2hOqYeSkpliKA4Tr7N/ukRZG?=
+ =?us-ascii?Q?jPLQoyzb+53g/IRXg8+IbK8bn6aSZ3Ps5BIzrjuU3FRefReIzeO7Y34w9qI6?=
+ =?us-ascii?Q?IXhNQlmel8/wunxaySM88ow5GI0P9aq3DSxLRixpCJKLJyyhwALFF6JXxnnA?=
+ =?us-ascii?Q?JaHY7UAZRFuVbioBr408ZMgWXK4f9cu/BN74Iory6tW2YOcG94glZa1M00GA?=
+ =?us-ascii?Q?dArUk0d8hk+eTQqmvs12B7rTzO5kL41P3eT3kh+rd43akAquSQ5JXOdZDHKS?=
+ =?us-ascii?Q?wjUdYENj57ZBLWf59TAiMgry0XgJiwwc+NMT1Y3Jb457mmgPnkmaECSfHU1q?=
+ =?us-ascii?Q?zfH7PjvupDOAX/ntjuFkeT78eKpIJTHphFefcwTQEObETLGp6GsdgH6+VI5K?=
+ =?us-ascii?Q?aEE7Tgcdb16lpTMYnUuDlwrHx86GvNf/F/3oGqEHs0p6BeX1+3FdBm5bhjzG?=
+ =?us-ascii?Q?YRKl1TZOCguxDy3SQBQQo0/df/0Lm7RBnGOlNCm56C6H1G6v/8kcBUiZagmo?=
+ =?us-ascii?Q?hqT+QQz8mbgM6173MaOngZnED0ZFvrQ7MEwhCWToXhM5Wl1KfNVtLvh8WEtp?=
+ =?us-ascii?Q?Yx1l+GLxv18vPZstuJ+9/U9oeAps0own31ObEFmgjYLZNDwWQtImkXnpzOt+?=
+ =?us-ascii?Q?7t2YXly1YbjctdIrFp/y8Ai+2wqyaXYRw0GTxRoe9fuRo4wKyuZ5y/LLexkZ?=
+ =?us-ascii?Q?MtXeCr5/ueyI/Mt80dyHlZxdPAsKyoLLMBR/kmCX9/WpLCpb8ijAA4Ss5uyo?=
+ =?us-ascii?Q?XkAtdSIZgEjK/FVOyXztNe+aUMfmpB74kU5plK/ILKHNcPj9zPh+NuQ5vF2L?=
+ =?us-ascii?Q?jun/aLV7MWOV3cBOLqdewJdya7JabhXsXORlDkiOaFaipr2u/uKmYNbSQAyZ?=
+ =?us-ascii?Q?/2NOHnCIIUftDdWwxv0Ru9ESon0kBZyZjgVEvteIOFJKnEJYI8SpS3mHPSi3?=
+ =?us-ascii?Q?aOFLoeP2eWo=3D?=
+x-forefront-antispam-report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:IA0PR11MB7185.namprd11.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230040)(366016)(376014)(1800799024)(38070700018); DIR:OUT; SFP:1101; 
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0: =?us-ascii?Q?Ac1LWkKZr6Ngig5V0FjjCrlO9k8vCwIVRA3AshbramgWSOdLZ8laGfyZ5B2I?=
+ =?us-ascii?Q?M0XGzbXWj0EkNhqeLiGCTbEdqR800qcWaWzhQlVQ1fBWQwBifICQj2lnKczy?=
+ =?us-ascii?Q?2PmwNBRVFWTxldc4P4DSA/dac+A/ZviMsNLKIJ7Iqcj/6BSOvqnx2MqUQLzz?=
+ =?us-ascii?Q?mknNxWZ2xNvjJededAPCU5+T/5rd7RywN724kO88hYaozXS0ElNq80OLvv4i?=
+ =?us-ascii?Q?gVztyicS2rbF/VdCG+lx1Ptyh/TmyIVBMyWWkmFYMEvmeju/Ktilw38JiaRg?=
+ =?us-ascii?Q?r97lU6Sng2wJ3Jy2gaiBVOUTvETp0Ju/EdtPtRkplhEucnYiTzulAHTmY990?=
+ =?us-ascii?Q?sohVyy/UqDrfD26cTnZph9DZs8B2PxtSPrIjJG7JB3fTgVtrWyf6vJEXX/YL?=
+ =?us-ascii?Q?AYzDk03OB82auWDU0jcbvMdJT5oyFLRhgOu3XIKhxn7+leeUUS43VTqPEF1K?=
+ =?us-ascii?Q?UvvlrLUm6FNXlFRY32FuS446SoIEwtraszg0Q8C/5y6N7quTFM0CWU1CnfSK?=
+ =?us-ascii?Q?vqrnM7diLFgZP1TOKnBwbAjUxawxy+IyiZeTm3fzIPjfsTKxqQqDWNLMYxHQ?=
+ =?us-ascii?Q?skVHpuhD3Bi9OHI0pSg9t5fqz6GAYiqHiHDFizk4V61dtOwTO79U2gtqFr7q?=
+ =?us-ascii?Q?41FhYDUF4NcP9ZFzHmqT1uduxuOpP8SsKNWkTBevr6GCfMcn46C2xmm9FzKT?=
+ =?us-ascii?Q?kNXJbdXcF/pliaAIGy3fBF9DlPFhh/sKf9azMXJjBNgRtXwP7tjLKf/5tCbV?=
+ =?us-ascii?Q?MIhpoE5of2gIiIT2FIvurNL7InPrfFJ668cTLtgplmNWBGpMAfrzpnAg6ZJP?=
+ =?us-ascii?Q?7POx53GEi2N/lqrf3Hw/xRJXKPMtlwmqPpB2OgnEe8vypicQSEEx/fUYG8pl?=
+ =?us-ascii?Q?e4gF/R8kJJ/qajTEXLQe5ncQV7PQl0JectTdEtR+N7JY4hRKSgI+fzKk1RAK?=
+ =?us-ascii?Q?IB9jCP6U1DZaOSDfxzcRRfY0rzYDE0bbbam9T/O7Y3K8+O5/a2Qr39alb6F6?=
+ =?us-ascii?Q?TesqCra2rG1Dq+MHU4nZZ1jryjPIdSUAiHyEkNsOLZslWRtVj5i+IS0rD/hF?=
+ =?us-ascii?Q?/GiziWdhnikFRijOq8NzLeT51Lgul1y0T2MbxPCxUaYsPLeh7EDJJ3dDgsPr?=
+ =?us-ascii?Q?y36YKZxUuf6hJ4h6fuBSO4t3dDlrJKezqd3r+RCgSS1BKl5IMWM3mR9LgqkZ?=
+ =?us-ascii?Q?x/oBAgdReAd50qh50L+6ANTj4IKG7q7qeR/bUlwYar+pq6VheMOvqdc80kE3?=
+ =?us-ascii?Q?N2TATHugx/RgoNr4i+gBxNCHiVftT8nFFa7cQ1ZoDKoZTjGE7rccb4qcSsfe?=
+ =?us-ascii?Q?aC0qd+FRFCvC8s2aYNVDqiGN3KlPxRqAF6JZhVEfbOH7VZvgHTUp78N4CxtN?=
+ =?us-ascii?Q?J9Knyif2P573KlVvY0CgEBgvyKEy4mWqKIuAueAAZPGP6/+Iv1iOiNiFnZui?=
+ =?us-ascii?Q?FzZGJgo5vXM5eHuP3FTmt0veh8hniEiyTPXb8ei3qgtsv2NFbrtKBlQuO5Vz?=
+ =?us-ascii?Q?PGA2Bw/QFjFpkROb1NBULEmC+TsQKLRsdwT99NGjp/+ZvJJadi9151uv9DQ8?=
+ =?us-ascii?Q?WL4VstY0pRivVZVdFwUlUBuXCVD0Z5CKe/QgjJyv?=
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: CH3PR12MB9194:EE_|IA4PR12MB9811:EE_
-X-MS-Office365-Filtering-Correlation-Id: a4146cf4-8f6f-4881-9310-08ddb06000e8
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
- ARA:13230040|366016|7416014|376014|1800799024|921020; 
-X-Microsoft-Antispam-Message-Info: =?utf-8?B?d29FblVqSmVKMktaSEthOUNvSW5neFZmeHF5aHdXdFZqWnBaM085UG4xUjE4?=
- =?utf-8?B?c21OWE1zT201MndCdDV3SGNnTENXS1pzQ2ZCU3FReGZRbGlVQURLZVhLeFZU?=
- =?utf-8?B?VjNhZW9uSTlRQVpTdmdKMVR4by9oQVVtTDNrb1g4dXhrQW8vQ2xVSTR4QTdy?=
- =?utf-8?B?ckQ1WHNnSlVDWjRSMXdoTHRFMmlRbyt2dytJRTVRa1A2anMxb3ZCVnhMRXdW?=
- =?utf-8?B?aFJIY2I3djhvMFNRL1JvRGRjZ0wxSW0xRXpNZFMxeitLWFdUUm1iWVRxZFky?=
- =?utf-8?B?QzR2TUhtMjhDaGJoVkJJMEt2c2kyV1VWU2xhR0lEcE9uTDVXcUJLOS9zUC9U?=
- =?utf-8?B?TXkwb1ZLRjJwYVR0d20rdzVCOHlJTUhUb3hiWVpIa3ZQMlBycTdLRng1amdn?=
- =?utf-8?B?dUJYTm5GVWlQUThVUHcvZUhSYnY4aEdhampCK1h3UEN4dXBsVlBWMytOYzhJ?=
- =?utf-8?B?TEtGamY0RXpTZ2dPeG5ZSS9Kcng3bEZ0dHF0NS9ma2FNemtrNUtvaGNFeTBq?=
- =?utf-8?B?bVBNSVRPZENFc3VqNGI4bkUvenN1R21MTkZaZGQzYVdTOEkxZXVkbmVsM25W?=
- =?utf-8?B?bnl6T205cXltWUdvYlkwTC9EbnpDZlpHdE9OWWtyVUxMTTJFVVNWcXQ3Rmd5?=
- =?utf-8?B?elpqZkp4aFNDSVdPZ2JzekN2bW93OXR4V3RVZlRncnJNbWFsUXJEUE5kNlJx?=
- =?utf-8?B?QmgyQmJFYzU5SmlsOERvbktnODdxWFdvQmJKUnIrYTMwK0Y4OTJ4enBKdHVB?=
- =?utf-8?B?Q2NwYmsrTzZYbjhYTElGWFdLU2VZTkNqWjNBOXRodVVhMGYyOUFBTXNYMVlt?=
- =?utf-8?B?TkFCSUZ1bDdUWktuZlBhQS9FQVpuNlg4UmdVN0NjSytlamVvK3NOclcxMy9Y?=
- =?utf-8?B?NmJvNFZJaWlQckt5TDdLVlNKa3dEaEI2dkozcnFIOEViUm5yV090LzZuUnh3?=
- =?utf-8?B?RTM4QXlwVzVlcy9CZWF0aFhURnAwU3A4dEZzWkxVRDcwNStLclBFa0pVTjJL?=
- =?utf-8?B?Wms4aTVrc3llRnhpUGJsWkprOE5LaHFXZElnZklCTlh3Vkg1SG45N0c1cEZS?=
- =?utf-8?B?eFZXcEhhallpeWhCUzdvSU00ZTU3ODcvWkFTSFlGWXoyNGQzVVRUdlRmL29M?=
- =?utf-8?B?VENFcGxXZTh4NldsWmdlRi9FQlcxNjVKSUhDdG5NQzhwNVdBOXloRGZlVjBl?=
- =?utf-8?B?b21ObGlzODFvVzgrd3k3WW5BRHdrcmViTmo1UkV2OEJ3bjlTS1lVWHFaMHpj?=
- =?utf-8?B?YnFDcWUzOWpQVmFSZmVpNWtQMnBmNEtsd29HcFNDdW5FazZITVdlNi9SWDJ6?=
- =?utf-8?B?NWdGZnpHZ2MrN0ZlQ21lbTRvOFFSU2ZKb1YvUFdyQ3E4YUdOUnlnQ3dRbC91?=
- =?utf-8?B?ckFXNjdNektDV0JqQWpHaW1WeHA3Rk9tNTdNOXdUKzZTb2gvRS9UVHA0ZU85?=
- =?utf-8?B?LzZSSDJ6Z0V6TzU2YlpQUml6N0N3MHB6emhGVXJQZGN2Y0JBMEdmMFZUM0s4?=
- =?utf-8?B?SVFhUk1PMVhiWHpOd0hJNkFHcStaYkg5WUN4QWV5RStDSjg5U2JZcHBxMHZz?=
- =?utf-8?B?Tk5TZGpiaHJvNGRCUVpCVmdjSVhLMWZIdFJ4SHdwRjlGUXBoVklSTUErRWRs?=
- =?utf-8?B?ZzBIQTRQbTB0S2pNaldnMUFDR00rMlF5ZUNGQzhjSXBsa1g3QXNHQk9Tc1JP?=
- =?utf-8?B?dXJFNmQzUXBkOG14WmFVOUlTaEdCcTZpNWpxcHQycDEyTFVZelJjRFp4a09Q?=
- =?utf-8?B?QlhFTThJc2UzdFpTREYxYkwvZTg4N1JaTFl3SG9ISnh5VkhzZ3hzb2NKUlpt?=
- =?utf-8?B?dDN1ZnpnRVI4V1FoblpEaUluMUt0ZzN5eDNBaDNuc01qTHVFRW9iNGE4Y3pp?=
- =?utf-8?B?RUFtcllOTml4U3UzUmo2Y09Xb25NMkhkRkozMktXSExWWC9KWFRXY2NJclNK?=
- =?utf-8?B?dnNQbFl0RDA3WURSbUx2d1RSY3hEOVY4L1BLZWNjcWFoQkp2TDAwQUhqSmN6?=
- =?utf-8?Q?p/CxmS7yxKCDegJtG0YyrsnNmtyeWs=3D?=
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:CH3PR12MB9194.namprd12.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230040)(366016)(7416014)(376014)(1800799024)(921020); DIR:OUT; SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?TU1xOUV4dWg3WjM1TVd6clgzR1ZldkMrUE1sWFVkKzBQYUc1M1FteWhlZjVV?=
- =?utf-8?B?TE5qQTRLWWxMWjVaN01USi9maW8xYXRoOCtMWGpab0sxQ0NmbWZJbjBrb1Az?=
- =?utf-8?B?NzFnTUorZXJrdG0xaXhTcFloVTBTRVU2cTJ1em1vQ1dwMmVzVWIrTFVQWllT?=
- =?utf-8?B?d29oSHZ0SzJxYk5mNWlCcTdtejc2UzB1UWdObGlNdVZPVkZmNkludHdRak94?=
- =?utf-8?B?N3h2bm9YTWFhTUF5QVJNZTNzUWFDclk5U0tmTStjQ2xzNytaSnpjWlZXU1RM?=
- =?utf-8?B?Ky8zTFVUei9IaHBhb3dqVUVqbU4wb3htcVNxSUk5TkE0N1BHdlFhL1llWjRO?=
- =?utf-8?B?NkhjM0tLMjJmVkxKYnNDS084M0EyTVRyb1d2Vm5oZG9YNDdhZ3RzaVF5ZCsv?=
- =?utf-8?B?RERJTGlMUENQUHZYak9FcEZsOG1uRkhlNGdhUjVEd0diZDhvWis2SkdKUGJZ?=
- =?utf-8?B?d295c1FUViswUXFRb25EcHBrVXFnR0ZDOUsyTDI3RndqZWMraHo4TGdQdUIy?=
- =?utf-8?B?dVNSVXhWc2E2OHlNNUxCQmlWcHVQZGJIMEQvSlZac1JiNDVxV2dHZzJ3Yi9x?=
- =?utf-8?B?SGFLM0RuU1BoRnhkR3dnVzd4SGZrczR0V2ZwZEJDK0VNaDgrc0kxbVcyUnRK?=
- =?utf-8?B?d1FSdnVhcTh2M3RNZWxiNjZjYVorcm1oVUVjd01FUUNHNzVkc09hN0ttVGZo?=
- =?utf-8?B?R2duVTRLKzNsVnVRcHNMYlhPRGtUZU4ycFYzcjUrNWJFUUQzQzlTZUJBT09Q?=
- =?utf-8?B?TVo5cU1jTGFiUDU0YkpZc1A0b054TEp2QVZrNGZJSnZVM1Qwem82R0hjNUJM?=
- =?utf-8?B?WnRsTlhUdTJyMmRWaDVUZGsraW1xUVNmM3Q2VmFaNVlib2xRaldUbHZxYVI1?=
- =?utf-8?B?Y1ovekpTMHFTdnpna0docFpTeGtWM0MrWmU1TTJqdWx5YThZTnZHYncvb3lV?=
- =?utf-8?B?QWZPSzVvYUJZVnpraEVURUZpOTFXd1M4R0RyYk12RXFxUmhyK1dDM0RENzlU?=
- =?utf-8?B?VlpYdUJKWGpRSEtYUXZvV0RCMzdDLzN5UWRnVzZvZGdqU2VEUS9LNTZYaXJD?=
- =?utf-8?B?MGJ1Q3RKWVhLZmRpS09TZC9pbkhQYnN3RnNqS0NTMTdsMjFneHNMS0d6TEMv?=
- =?utf-8?B?RG1mcEZtOGxta3BaNDJGWkUyaHk3VHlYakZFRXRDVGJKQjNIS0hRdkZSaUdX?=
- =?utf-8?B?bjZQdS96bXUwNEZFMkdqbmU4OTNyOC9xWWRXTlp1WCsyVjFSNUVMWkdQT2Fw?=
- =?utf-8?B?czZMOGlHWkJpcEZSVTVkREZsSnFEODhKM2hPRFc4YTNjVDh2cldKdGJYcGxo?=
- =?utf-8?B?OTlDaFJtQ1pUTktJOFdxbTcwNnFQd3FyNXlZNUhCbHhsNGNKYllXSWhrVnZv?=
- =?utf-8?B?dWNYS3hvcUlkSzZ3OXdMZFJuZm9kQlVFTGRpS2R1bVE1WnJkZE9SUTR3cVhJ?=
- =?utf-8?B?NDFSV01oODJKaGtGNjZIM2pMN1BJMmtvem1IZDVaYlVRbzhRekcrQjUxV25v?=
- =?utf-8?B?Zy9OeU1VUmUrUnEzMTZSRVNTWjd4VnA3MEIzU0YrVnl6Sm1VK2dLdTFBeUFv?=
- =?utf-8?B?ZVdHSmV2SDNKZFdkRHlCbTB3VUxYbXdkUFlab3hSZmJJTHFDVU1FWE5veXB1?=
- =?utf-8?B?MEdvd3dUbnlLSXByZ21wWmR4eEdWQTJyelFkVkVEcHpOb1Y5bmRIRS9DMWtm?=
- =?utf-8?B?UzIzZlhxU0FHOWozUi85dm5QYWFiQ2swZWRpMmxrQlFCSHcyM0dmU3ZCUjFp?=
- =?utf-8?B?NEtOQy9sZWxwR1ZFZUNETkpxNkZnd3UrMEpZTDd5TXpQazRGSXp5em9lQlph?=
- =?utf-8?B?TWxlNHRrVjZoTXovNDRyei9peW5Ualk0RGtlOGJybG50UUlEZlY3RjdTbk9C?=
- =?utf-8?B?em1Hb3Nla0cwaVY4bi9Xc29WSlZneklCSXgvbm9VaWNaT0QxSm05MjNaWHVa?=
- =?utf-8?B?akwySGJNT0xMa29uVHFiVlg1eE92Vis0eTUvWno3NEt5WnMxT1gzUE1XN2Ro?=
- =?utf-8?B?eEtkakF3M1YwZFQvU2JSWTZHRkQ5UVh5OXh6d1ZUZEhZVm94bHhJK0dGS2t3?=
- =?utf-8?B?NnJ0Qmcya3NUcVdXZFArUUE5a2R3bmFtNEFWdjBhZFRWdTZSVHRFdC9qU1pz?=
- =?utf-8?Q?YT4TkrniqZNOgoMWZYn+1vslE?=
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: a4146cf4-8f6f-4881-9310-08ddb06000e8
-X-MS-Exchange-CrossTenant-AuthSource: CH3PR12MB9194.namprd12.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 21 Jun 2025 01:07:33.7513 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: GlohPfUHUx4fL0mOV4b0eE9OiwyjuncljNruBm+v8LKWEsVqnt47TagNC5i3y9/4lpm9KiLu0abVpjHiWQMnqQ==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: IA4PR12MB9811
+X-MS-Exchange-CrossTenant-AuthSource: IA0PR11MB7185.namprd11.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 5ebc0ec1-8db6-4ec0-8db0-08ddb067ba51
+X-MS-Exchange-CrossTenant-originalarrivaltime: 21 Jun 2025 02:02:50.9934 (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 46c98d88-e344-4ed4-8496-4ed7712e255d
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: BldGjxqpTzs2PxUtG8NsbfkbNQPeyUpZo3P2wjufsDM6gtp8cTRmuq/HM5WxHlY2Wx8f410lLalWb/uxkVJ4sv+bfG1XYf7p4NsRpIDYSB4=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SJ2PR11MB8372
+X-OriginatorOrg: intel.com
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -175,158 +186,98 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+Hi Oscar,
 
+> Subject: Re: [PATCH] mm/hugetlb: Don't crash when allocating a folio if t=
+here
+> are no resv
+>=20
+> On Tue, Jun 17, 2025 at 10:28:40PM -0700, Vivek Kasireddy wrote:
+> > There are cases when we try to pin a folio but discover that it has
+> > not been faulted-in. So, we try to allocate it in memfd_alloc_folio()
+> > but there is a chance that we might encounter a fatal crash/failure
+> > (VM_BUG_ON(!h->resv_huge_pages) in alloc_hugetlb_folio_reserve()) if
+> > there are no active reservations at that instant. This issue was
+> > reported by syzbot:
+> >
+> > kernel BUG at mm/hugetlb.c:2403!
+> > Oops: invalid opcode: 0000 [#1] PREEMPT SMP KASAN NOPTI
+> > CPU: 0 UID: 0 PID: 5315 Comm: syz.0.0 Not tainted
+> > 6.13.0-rc5-syzkaller-00161-g63676eefb7a0 #0
+> > Hardware name: QEMU Standard PC (Q35 + ICH9, 2009), BIOS
+> > 1.16.3-debian-1.16.3-2~bpo12+1 04/01/2014
+> > RIP: 0010:alloc_hugetlb_folio_reserve+0xbc/0xc0 mm/hugetlb.c:2403
+> > Code: 1f eb 05 e8 56 18 a0 ff 48 c7 c7 40 56 61 8e e8 ba 21 cc 09 4c 89
+> > f0 5b 41 5c 41 5e 41 5f 5d c3 cc cc cc cc e8 35 18 a0 ff 90 <0f> 0b 66
+> > 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 f3 0f
+> > RSP: 0018:ffffc9000d3d77f8 EFLAGS: 00010087
+> > RAX: ffffffff81ff6beb RBX: 0000000000000000 RCX: 0000000000100000
+> > RDX: ffffc9000e51a000 RSI: 00000000000003ec RDI: 00000000000003ed
+> > RBP: 1ffffffff34810d9 R08: ffffffff81ff6ba3 R09: 1ffffd4000093005
+> > R10: dffffc0000000000 R11: fffff94000093006 R12: dffffc0000000000
+> > R13: dffffc0000000000 R14: ffffea0000498000 R15: ffffffff9a4086c8
+> > FS:  00007f77ac12e6c0(0000) GS:ffff88801fc00000(0000)
+> > knlGS:0000000000000000
+> > CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
+> > CR2: 00007f77ab54b170 CR3: 0000000040b70000 CR4: 0000000000352ef0
+> > DR0: 0000000000000000 DR1: 0000000000000000 DR2: 0000000000000000
+> > DR3: 0000000000000000 DR6: 00000000fffe0ff0 DR7: 0000000000000400
+> > Call Trace:
+> >  <TASK>
+> >  memfd_alloc_folio+0x1bd/0x370 mm/memfd.c:88
+> >  memfd_pin_folios+0xf10/0x1570 mm/gup.c:3750
+> >  udmabuf_pin_folios drivers/dma-buf/udmabuf.c:346 [inline]
+> >  udmabuf_create+0x70e/0x10c0 drivers/dma-buf/udmabuf.c:443
+> >  udmabuf_ioctl_create drivers/dma-buf/udmabuf.c:495 [inline]
+> >  udmabuf_ioctl+0x301/0x4e0 drivers/dma-buf/udmabuf.c:526
+> >  vfs_ioctl fs/ioctl.c:51 [inline]
+> >  __do_sys_ioctl fs/ioctl.c:906 [inline]
+> >  __se_sys_ioctl+0xf5/0x170 fs/ioctl.c:892
+> >  do_syscall_x64 arch/x86/entry/common.c:52 [inline]
+> >  do_syscall_64+0xf3/0x230 arch/x86/entry/common.c:83
+> >  entry_SYSCALL_64_after_hwframe+0x77/0x7f
+> >
+> > Therefore, prevent the above crash by replacing the VM_BUG_ON()
+> > with WARN_ON_ONCE() as there is no need to crash the system in
+> > this situation and instead we could just warn and fail the
+> > allocation.
+> >
+> > Fixes: 26a8ea80929c ("mm/hugetlb: fix memfd_pin_folios resv_huge_pages
+> leak")
+> > Reported-by: syzbot+a504cb5bae4fe117ba94@syzkaller.appspotmail.com
+> > Closes: https://syzkaller.appspot.com/bug?extid=3Da504cb5bae4fe117ba94
+> > Cc: Steve Sistare <steven.sistare@oracle.com>
+> > Cc: Muchun Song <muchun.song@linux.dev>
+> > Cc: David Hildenbrand <david@redhat.com>
+> > Cc: Andrew Morton <akpm@linux-foundation.org>
+> > Signed-off-by: Vivek Kasireddy <vivek.kasireddy@intel.com>
+>=20
+> Who is supossed to reserve these hugepages?
+> hugetlb_reserve_pages() is only called at mmap/file setup, and you mentio=
+n
+> that
+> you try to allocate the folios even before mmap, so who's in charge of
+> making those reservations for you?
+In this specific case, I would say the caller (memfd_alloc_folio()) should =
+be the
+one making the reservation before it tries to allocate the folio. And, the =
+other
+series you commented on is trying to do just that.
 
-On 11/6/25 11:55, Alexey Kardashevskiy wrote:
-> Hi,
-> 
-> Is there a QEMU tree using this somewhere?
+However, as mentioned in the other thread (replying to Andrew and Anshuman)=
+,
+this is a very uncommon use-case as hugetlbfs_file_mmap() is not called fir=
+st.
+So, this patch is only trying to prevent the crash but the actual underlyin=
+g problem
+(no reservation) is addressed in the other series.
 
-Ping? Thanks,
+Thanks,
+Vivek
 
-
-> Also it would be nice to have this tree pushed somewhere, saves time. Thanks,
-
-
-
-> 
-> 
-> 
-> On 29/5/25 15:34, Xu Yilun wrote:
->> This series is the generic host side (KVM/VFIO/IOMMUFD) support for the
->> whole life cycle of private device assignment. It follows the
->> previously discussed flow chart [1], aim to better illustrate the
->> overall flow of private device assignment, find out and narrow down the
->> gaps of different vendors, and reach some common directions.
->>
->> This series is based on Dan's Core TSM infrastructure series [2].  To
->> give a clear overview of what components are needed, it also includes
->> some existing WIP patchsets in community.
->>
->> This series has 3 sections:
->>
->> Patch 1 - 11 deal with the private MMIO mapping in KVM MMU via DMABUF.
->> Leverage Jason & Vivek's latest VFIO dmabuf series [3], see Patch 2 - 4.
->> The concern for get_pfn() kAPI [4] is not addressed so are marked as
->> HACK, will investigate later.
->>
->> Patch 12 - 22 is about TSM Bind/Unbind/Guest request management in VFIO
->> & IOMMUFD. Picks some of Shameer's patch in [5], see Patch 12 & 14.
->>
->> Patch 23 - 30 is a solution to meet the TDX specific sequence
->> enforcement on various device Unbind cases, including converting device
->> back to shared, hot unplug, TD destroy. Start with a tdx_tsm driver
->> prototype and finally implement the Unbind enforcement inside the
->> driver. To be honest it is still awkward to me, but I need help.
->>
->> This series don't include the VMEXIT handle for GHCI/GHCB calls for
->> Bind/Unbind/Guest request, cause it involves vendor specific code. The
->> general idea is KVM should just pass these calls to QEMU, QEMU parses
->> out the command and call the newly introduced VFIO/IOMMUFD IOCTLs.
->>
->> With additional TDX Connect specific patches (not published), passed
->> engineering test for trusted DMA in TD.
->>
->> [1]: https://lore.kernel.org/all/aCYsNSFQJZzHVOFI@yilunxu-OptiPlex-7050/
->> [2]: https://lore.kernel.org/all/20250516054732.2055093-1-dan.j.williams@intel.com/
->> [3]: https://lore.kernel.org/kvm/20250307052248.405803-1-vivek.kasireddy@intel.com/
->> [4]: https://lore.kernel.org/all/20250107142719.179636-1-yilun.xu@linux.intel.com/
->> [5]: https://lore.kernel.org/all/20250319173202.78988-3-shameerali.kolothum.thodi@huawei.com/
->> > Alexey Kardashevskiy (1):
->>    iommufd/vdevice: Add TSM Guest request uAPI
->>
->> Dan Williams (2):
->>    coco/tdx_tsm: Introduce a "tdx" subsystem and "tsm" device
->>    coco/tdx_tsm: TEE Security Manager driver for TDX
->>
->> Shameer Kolothum (2):
->>    iommufd/device: Associate a kvm pointer to iommufd_device
->>    iommu/arm-smmu-v3-iommufd: Pass in kvm pointer to viommu_alloc
->>
->> Vivek Kasireddy (3):
->>    vfio: Export vfio device get and put registration helpers
->>    vfio/pci: Share the core device pointer while invoking feature
->>      functions
->>    vfio/pci: Allow MMIO regions to be exported through dma-buf
->>
->> Wu Hao (1):
->>    coco/tdx_tsm: Add connect()/disconnect() handlers prototype
->>
->> Xu Yilun (21):
->>    HACK: dma-buf: Introduce dma_buf_get_pfn_unlocked() kAPI
->>    fixup! vfio/pci: fix dma-buf revoke typo on reset
->>    HACK: vfio/pci: Support get_pfn() callback for dma-buf
->>    KVM: Support vfio_dmabuf backed MMIO region
->>    KVM: x86/mmu: Handle page fault for vfio_dmabuf backed MMIO
->>    KVM: x86/mmu: Handle page fault for private MMIO
->>    vfio/pci: Export vfio dma-buf specific info for importers
->>    KVM: vfio_dmabuf: Fetch VFIO specific dma-buf data for sanity check
->>    fixup! iommufd/selftest: Sync iommufd_device_bind() change to selftest
->>    fixup: iommu/selftest: Sync .viommu_alloc() change to selftest
->>    iommufd/viommu: track the kvm pointer & its refcount in viommu core
->>    iommufd/device: Add TSM Bind/Unbind for TIO support
->>    iommufd/viommu: Add trusted IOMMU configuration handlers for vdev
->>    vfio/pci: Add TSM TDI bind/unbind IOCTLs for TEE-IO support
->>    vfio/pci: Do TSM Unbind before zapping bars
->>    fixup! PCI/TSM: Change the guest request type definition
->>    coco/tdx_tsm: Add bind()/unbind()/guest_req() handlers prototype
->>    PCI/TSM: Add PCI driver callbacks to handle TSM requirements
->>    vfio/pci: Implement TSM handlers for MMIO
->>    iommufd/vdevice: Implement TSM handlers for trusted DMA
->>    coco/tdx_tsm: Manage TDX Module enforced operation sequences for
->>      Unbind
->>
->>   Documentation/virt/kvm/api.rst                |   7 +
->>   arch/x86/Kconfig                              |   1 +
->>   arch/x86/kvm/mmu/mmu.c                        |  25 +-
->>   drivers/dma-buf/dma-buf.c                     |  87 +++-
->>   .../arm/arm-smmu-v3/arm-smmu-v3-iommufd.c     |   1 +
->>   drivers/iommu/arm/arm-smmu-v3/arm-smmu-v3.h   |   1 +
->>   drivers/iommu/iommufd/device.c                |  89 +++-
->>   drivers/iommu/iommufd/iommufd_private.h       |  10 +
->>   drivers/iommu/iommufd/main.c                  |   3 +
->>   drivers/iommu/iommufd/selftest.c              |   3 +-
->>   drivers/iommu/iommufd/viommu.c                | 202 ++++++++-
->>   drivers/vfio/iommufd.c                        |  24 +-
->>   drivers/vfio/pci/Makefile                     |   1 +
->>   drivers/vfio/pci/vfio_pci.c                   |   1 +
->>   drivers/vfio/pci/vfio_pci_config.c            |  26 +-
->>   drivers/vfio/pci/vfio_pci_core.c              | 161 ++++++-
->>   drivers/vfio/pci/vfio_pci_dmabuf.c            | 411 ++++++++++++++++++
->>   drivers/vfio/pci/vfio_pci_priv.h              |  26 ++
->>   drivers/vfio/vfio_main.c                      |   2 +
->>   drivers/virt/coco/host/Kconfig                |  10 +
->>   drivers/virt/coco/host/Makefile               |   3 +
->>   drivers/virt/coco/host/tdx_tsm.c              | 328 ++++++++++++++
->>   drivers/virt/coco/host/tdx_tsm_bus.c          |  70 +++
->>   include/linux/dma-buf.h                       |  13 +
->>   include/linux/iommu.h                         |   4 +-
->>   include/linux/iommufd.h                       |  12 +-
->>   include/linux/kvm_host.h                      |  25 +-
->>   include/linux/pci-tsm.h                       |  19 +-
->>   include/linux/pci.h                           |   3 +
->>   include/linux/tdx_tsm_bus.h                   |  17 +
->>   include/linux/vfio.h                          |  27 ++
->>   include/linux/vfio_pci_core.h                 |   3 +
->>   include/uapi/linux/iommufd.h                  |  36 ++
->>   include/uapi/linux/kvm.h                      |   1 +
->>   include/uapi/linux/vfio.h                     |  67 +++
->>   virt/kvm/Kconfig                              |   6 +
->>   virt/kvm/Makefile.kvm                         |   1 +
->>   virt/kvm/kvm_main.c                           |  32 +-
->>   virt/kvm/kvm_mm.h                             |  19 +
->>   virt/kvm/vfio_dmabuf.c                        | 151 +++++++
->>   40 files changed, 1868 insertions(+), 60 deletions(-)
->>   create mode 100644 drivers/vfio/pci/vfio_pci_dmabuf.c
->>   create mode 100644 drivers/virt/coco/host/tdx_tsm.c
->>   create mode 100644 drivers/virt/coco/host/tdx_tsm_bus.c
->>   create mode 100644 include/linux/tdx_tsm_bus.h
->>   create mode 100644 virt/kvm/vfio_dmabuf.c
->>
->>
->> base-commit: 88c473f04098a0f5ac6fbaceaad2daa842006b6a
-> 
-
--- 
-Alexey
-
+>=20
+>=20
+>=20
+> --
+> Oscar Salvador
+> SUSE Labs
