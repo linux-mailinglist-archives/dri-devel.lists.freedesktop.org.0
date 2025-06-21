@@ -2,41 +2,83 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 99F8CAE2B6D
-	for <lists+dri-devel@lfdr.de>; Sat, 21 Jun 2025 21:21:54 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 11F05AE2C9B
+	for <lists+dri-devel@lfdr.de>; Sat, 21 Jun 2025 23:17:23 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8890B10E2E6;
-	Sat, 21 Jun 2025 19:21:51 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3029810E150;
+	Sat, 21 Jun 2025 21:17:19 +0000 (UTC)
+Authentication-Results: gabe.freedesktop.org;
+	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="jXNthaeC";
+	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from bmailout2.hostsharing.net (bmailout2.hostsharing.net
- [83.223.78.240])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B434610E2E6
- for <dri-devel@lists.freedesktop.org>; Sat, 21 Jun 2025 19:21:47 +0000 (UTC)
-Received: from h08.hostsharing.net (h08.hostsharing.net
- [IPv6:2a01:37:1000::53df:5f1c:0])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256
- client-signature RSA-PSS (4096 bits) client-digest SHA256)
- (Client CN "*.hostsharing.net", Issuer "RapidSSL TLS RSA CA G1" (verified OK))
- by bmailout2.hostsharing.net (Postfix) with ESMTPS id D826B2020E5A;
- Sat, 21 Jun 2025 21:21:45 +0200 (CEST)
-Received: by h08.hostsharing.net (Postfix, from userid 100393)
- id C52381EFFA; Sat, 21 Jun 2025 21:21:45 +0200 (CEST)
-Date: Sat, 21 Jun 2025 21:21:45 +0200
-From: Lukas Wunner <lukas@wunner.de>
-To: Ahmed Salem <x0rw3ll@gmail.com>
-Cc: airlied@redhat.com, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org, linux-kernel-mentees@lists.linux.dev
-Subject: Re: [RFC PATCH] amd64-agp: do not bind to pci driver if probing fails
-Message-ID: <aFcGSaxeaDphIhUU@wunner.de>
-References: <c5kqcudzrcafm24nr5ixgalhxdkxl3uoueerjlp6tbksj3hzy7@klytjugpkvdm>
- <aFZ_YJH30f1WDneD@wunner.de>
- <7rv3j2it6wbv4gu7jgsews3niste5y52h67scwwjpblhy2royh@hqfmpbjzdj77>
+Received: from tor.source.kernel.org (tor.source.kernel.org [172.105.4.254])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5202E10E150;
+ Sat, 21 Jun 2025 21:17:18 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+ by tor.source.kernel.org (Postfix) with ESMTP id 51AA261129;
+ Sat, 21 Jun 2025 21:17:10 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8AF4DC4CEE7;
+ Sat, 21 Jun 2025 21:17:09 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1750540629;
+ bh=ZmTQYCTt6FpeXJobXvGHGrkckGX2zkqbJORyKVTdPZ8=;
+ h=In-Reply-To:References:Subject:From:Cc:To:Date:From;
+ b=jXNthaeCkH8WUGPQKoQGzy2fRj9hCnJcYGtWtzRFpZuDba0pqwmDxhCwgGnIuzzA1
+ c15Dv1Qi1qtqqC8qI/P0vIS1/OMORDzmteZ9xIajZbOb/b+5eQf4BwOVVSeyNdjKxS
+ ZQbuAYfjkXAvA8vGsQv8FsSm836IvTGTPDcgPtpG9wWbVkydvEgPBbIfztmIfqq04a
+ cuLZHgVHmgyr6xjFb2llW7fp0PUsgdNuLJyMGQ2d5sUFi/quLKPFi9sLlUxSpZ9HKX
+ 37ejW0Od87/cdirzu4bxTNYVO8OYMRQPxn0lO8rADA8ffHYpkG9U26Vs8ZgebFBEdL
+ y8fF7nT/yAwww==
+Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <7rv3j2it6wbv4gu7jgsews3niste5y52h67scwwjpblhy2royh@hqfmpbjzdj77>
+Content-Transfer-Encoding: quoted-printable
+In-Reply-To: <20250619-cstr-core-v12-4-80c9c7b45900@gmail.com>
+References: <20250619-cstr-core-v12-0-80c9c7b45900@gmail.com>
+ <20250619-cstr-core-v12-4-80c9c7b45900@gmail.com>
+Subject: Re: [PATCH v12 4/5] rust: replace `kernel::c_str!` with C-Strings
+From: Stephen Boyd <sboyd@kernel.org>
+Cc: rust-for-linux@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-kselftest@vger.kernel.org, kunit-dev@googlegroups.com,
+ dri-devel@lists.freedesktop.org, netdev@vger.kernel.org,
+ devicetree@vger.kernel.org, llvm@lists.linux.dev, linux-pci@vger.kernel.org,
+ nouveau@lists.freedesktop.org, linux-block@vger.kernel.org,
+ linux-pm@vger.kernel.org, linux-clk@vger.kernel.org,
+ Tamir Duberstein <tamird@gmail.com>
+To: Alex Gaynor <alex.gaynor@gmail.com>, Alice Ryhl <aliceryhl@google.com>,
+ Andreas Hindborg <a.hindborg@kernel.org>, Andrew Lunn <andrew@lunn.ch>,
+ Arnd Bergmann <arnd@arndb.de>, Benno Lossin <lossin@kernel.org>,
+ Bill Wendling <morbo@google.com>, Bjorn Helgaas <bhelgaas@google.com>,
+ =?utf-8?q?Bj=C3=B6rn?= Roy Baron <bjorn3_gh@protonmail.com>,
+ Boqun Feng <boqun.feng@gmail.com>, Brendan Higgins <brendan.higgins@linux.dev>,
+ Breno Leitao <leitao@debian.org>, Danilo Krummrich <dakr@kernel.org>,
+ Dave Ertman <david.m.ertman@intel.com>, David Airlie <airlied@gmail.com>,
+ David Gow <davidgow@google.com>, David S. Miller <davem@davemloft.net>,
+ Eric Dumazet <edumazet@google.com>,
+ FUJITA Tomonori <fujita.tomonori@gmail.com>, Gary Guo <gary@garyguo.net>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ Heiner Kallweit <hkallweit1@gmail.com>, Ingo Molnar <mingo@redhat.com>,
+ Ira Weiny <ira.weiny@intel.com>, Jakub Kicinski <kuba@kernel.org>,
+ Jens Axboe <axboe@kernel.dk>, Justin Stitt <justinstitt@goo
+ gle.com>, Krzysztof =?utf-8?q?Wilczy=C5=84ski?= <kwilczynski@kernel.org>,
+ Leon Romanovsky <leon@kernel.org>, Luis Chamberlain <mcgrof@kernel.org>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>,
+ Michael Turquette <mturquette@baylibre.com>,
+ Michal Rostecki <vadorovsky@protonmail.com>, Miguel Ojeda <ojeda@kernel.org>,
+ Nathan Chancellor <nathan@kernel.org>,
+ Nick Desaulniers <nick.desaulniers+lkml@gmail.com>,
+ Paolo Abeni <pabeni@redhat.com>, Peter Zijlstra <peterz@infradead.org>,
+ Rae Moar <rmoar@google.com>, Rafael J. Wysocki <rafael@kernel.org>,
+ Rob Herring <robh@kernel.org>, Russ Weight <russ.weight@linux.dev>,
+ Russell King <linux@armlinux.org.uk>, Saravana Kannan <saravanak@google.com>,
+ Simona Vetter <simona@ffwll.ch>, Tamir Duberstein <tamird@gmail.com>,
+ Thomas Zimmermann <tzimmermann@suse.de>, Trevor Gross <tmgross@umich.edu>,
+ Viresh Kumar <viresh.kumar@linaro.org>, Waiman Long <longman@redhat.com>,
+ Will Deacon <will@kernel.org>
+Date: Sat, 21 Jun 2025 14:17:08 -0700
+Message-ID: <175054062889.4372.13449788582456522444@lazor>
+User-Agent: alot/0.11
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -52,68 +94,17 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Sat, Jun 21, 2025 at 07:15:31PM +0300, Ahmed Salem wrote:
-> On 25/06/21 11:46AM, Lukas Wunner wrote:
-> > On Sat, Jun 21, 2025 at 04:55:52AM +0300, Ahmed Salem wrote:
-> > > --- a/drivers/char/agp/amd64-agp.c
-> > > +++ b/drivers/char/agp/amd64-agp.c
-> > > @@ -768,10 +768,15 @@ int __init agp_amd64_init(void)
-> > >  
-> > >  		/* Look for any AGP bridge */
-> > >  		agp_amd64_pci_driver.id_table = agp_amd64_pci_promisc_table;
-> > > -		err = driver_attach(&agp_amd64_pci_driver.driver);
-> > > -		if (err == 0 && agp_bridges_found == 0) {
-> > > +		if ((int *)agp_amd64_pci_driver.probe != 0) {
-> > >  			pci_unregister_driver(&agp_amd64_pci_driver);
-> > >  			err = -ENODEV;
-> > > +		} else {
-> > > +			err = driver_attach(&agp_amd64_pci_driver.driver);
-> > > +			if (err == 0 && agp_bridges_found == 0) {
-> > > +				pci_unregister_driver(&agp_amd64_pci_driver);
-> > > +				err = -ENODEV;
-> > > +			}
-> > 
-> > Is the "probe" member in agp_amd64_pci_driver overwritten with a
-> > zero pointer anywhere?  I don't see that it is, so it seems the
-> > else-branch is never entered.
-> 
-> That is a great question. I thought since pci_register_driver calls the
-> probe function, it would return with or without a zero, saving that
-> value in the .probe member.
+Quoting Tamir Duberstein (2025-06-19 08:06:28)
+> C-String literals were added in Rust 1.77. Replace instances of
+> `kernel::c_str!` with C-String literals where possible and rename
+> `kernel::c_str!` to `str_to_cstr!` to clarify its intended use.
+>=20
+> Closes: https://github.com/Rust-for-Linux/linux/issues/1075
+> Signed-off-by: Tamir Duberstein <tamird@gmail.com>
+> ---
 
-You'd have to add parentheses and parameters, i.e.
+For clk part
 
-  agp_amd64_pci_driver.probe(...)
+>  rust/kernel/clk.rs                    |  6 ++----
 
-to invoke the probe hook directly.  However, that wouldn't be an
-acceptable approach, one needs to go through the API of the
-driver core and not do things behind the driver core's back.
-
-
-> > I had already prepared a fix for this, but waited for 0-day to
-> > crunch through it.  I've just submitted it, so that's what I had
-> > in mind:
-> > 
-> > https://lore.kernel.org/r/f8ff40f35a9a5836d1371f60e85c09c5735e3c5e.1750497201.git.lukas@wunner.de/
-> 
-> That one I've seen even prior to catching this one, and this is
-> originally what I had in mind based on what commit 6fd024893911
-> ("amd64-agp: Probe unknown AGP devices the right way") removed (i.e.
-> !pci_find_capability) when you suggested checking for caps beforehand,
-> but I figured "why make other calls when .probe already does it right
-> off the bat?"
-
-Right, it is somewhat silly, but this driver is for 20+ year old hardware
-which is likely no longer in heavy use, the driver itself isn't actively
-maintained anymore and might be dropped in a few years, so this approach
-seemed like the least ugly and most acceptable option.
-
-The real crime was to probe *any* PCI device and even make that the
-default.  I think vfio_pci is probably the only other driver that
-probes *any* PCI device and it does that only if requested by user
-space I believe.  We'd risk regressing users if we changed the
-"probe everything by default" behavior, so that's not a good option.
-
-Thanks,
-
-Lukas
+Acked-by: Stephen Boyd <sboyd@kernel.org> # clk
