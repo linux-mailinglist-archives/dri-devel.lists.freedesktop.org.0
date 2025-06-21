@@ -2,56 +2,60 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id D6485AE2736
-	for <lists+dri-devel@lfdr.de>; Sat, 21 Jun 2025 05:26:17 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6BF71AE2738
+	for <lists+dri-devel@lfdr.de>; Sat, 21 Jun 2025 05:28:04 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 80D4F10E036;
-	Sat, 21 Jun 2025 03:26:14 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5B5B810E071;
+	Sat, 21 Jun 2025 03:28:02 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mxct.zte.com.cn (mxct.zte.com.cn [58.251.27.85])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1E66F10E036;
- Sat, 21 Jun 2025 03:26:13 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 79CEE10E071;
+ Sat, 21 Jun 2025 03:28:00 +0000 (UTC)
 Received: from mxde.zte.com.cn (unknown [10.35.20.165])
  (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
- by mxct.zte.com.cn (FangMail) with ESMTPS id 4bPKW31MYQz5Sfq;
- Sat, 21 Jun 2025 11:26:07 +0800 (CST)
+ by mxct.zte.com.cn (FangMail) with ESMTPS id 4bPKY83ygLz5Sft;
+ Sat, 21 Jun 2025 11:27:56 +0800 (CST)
 Received: from mxhk.zte.com.cn (unknown [192.168.250.137])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mxde.zte.com.cn (FangMail) with ESMTPS id 4bPKVv4g7vz4xBTt;
- Sat, 21 Jun 2025 11:25:59 +0800 (CST)
-Received: from mse-fl2.zte.com.cn (unknown [10.5.228.133])
+ by mxde.zte.com.cn (FangMail) with ESMTPS id 4bPKY43qvpz4xCtT;
+ Sat, 21 Jun 2025 11:27:52 +0800 (CST)
+Received: from mxct.zte.com.cn (unknown [192.168.251.13])
  (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
- by mxhk.zte.com.cn (FangMail) with ESMTPS id 4bPKVk55gbz8R039;
- Sat, 21 Jun 2025 11:25:50 +0800 (CST)
-Received: from njb2app06.zte.com.cn ([10.55.23.119])
- by mse-fl2.zte.com.cn with SMTP id 55L3PmqI092905;
- Sat, 21 Jun 2025 11:25:48 +0800 (+08)
+ by mxhk.zte.com.cn (FangMail) with ESMTPS id 4bPKXz3SVLz8R039;
+ Sat, 21 Jun 2025 11:27:47 +0800 (CST)
+Received: from mse-fl1.zte.com.cn (unknown [10.5.228.132])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (No client certificate requested)
+ by mxct.zte.com.cn (FangMail) with ESMTPS id 4bPKXv1QrNz51STR;
+ Sat, 21 Jun 2025 11:27:43 +0800 (CST)
+Received: from njy2app02.zte.com.cn ([10.40.13.116])
+ by mse-fl1.zte.com.cn with SMTP id 55L3Recj078408;
+ Sat, 21 Jun 2025 11:27:40 +0800 (+08)
  (envelope-from long.yunjian@zte.com.cn)
-Received: from mapi (njy2app03[null]) by mapi (Zmail) with MAPI id mid201;
- Sat, 21 Jun 2025 11:25:49 +0800 (CST)
-Date: Sat, 21 Jun 2025 11:25:49 +0800 (CST)
-X-Zmail-TransId: 2afb6856263d54d-d0810
+Received: from mapi (njy2app04[null]) by mapi (Zmail) with MAPI id mid201;
+ Sat, 21 Jun 2025 11:27:42 +0800 (CST)
+Date: Sat, 21 Jun 2025 11:27:42 +0800 (CST)
+X-Zmail-TransId: 2afc685626aeffffffffdc3-be099
 X-Mailer: Zmail v1.0
-Message-ID: <20250621112549751vVGpmB0y4iZLN_I_Dzik5@zte.com.cn>
+Message-ID: <20250621112742498q_NLTyjSUQoBWFl8SFHu1@zte.com.cn>
 Mime-Version: 1.0
 From: <long.yunjian@zte.com.cn>
-To: <alexander.deucher@amd.com>
-Cc: <christian.koenig@amd.com>, <airlied@gmail.com>, <simona@ffwll.ch>,
- <hawking.zhang@amd.com>, <kevinyang.wang@amd.com>, <xiang.liu@amd.com>,
- <tao.zhou1@amd.com>, <yanzhen@vivo.com>, <fang.yumeng@zte.com.cn>,
- <amd-gfx@lists.freedesktop.org>, <dri-devel@lists.freedesktop.org>,
- <linux-kernel@vger.kernel.org>, <xu.lifeng1@zte.com.cn>,
- <ouyang.maochun@zte.com.cn>, <mou.yi@zte.com.cn>
-Subject: =?UTF-8?B?W1BBVENIXSBkcm0vYW1kZ3B1OiBVc2Ugc3RyX29uX29mZigpIGhlbHBlcg==?=
+To: <harry.wentland@amd.com>
+Cc: <sunpeng.li@amd.com>, <siqueira@igalia.com>, <alexander.deucher@amd.com>, 
+ <christian.koenig@amd.com>, <airlied@gmail.com>, <simona@ffwll.ch>,
+ <fang.yumeng@zte.com.cn>, <amd-gfx@lists.freedesktop.org>,
+ <dri-devel@lists.freedesktop.org>, <linux-kernel@vger.kernel.org>,
+ <mou.yi@zte.com.cn>, <xu.lifeng1@zte.com.cn>, <ouyang.maochun@zte.com.cn>
+Subject: =?UTF-8?B?W1BBVENIXSBkcm0vYW1kL2Rpc3BsYXk6IFVzZSBzdHJfb25fb2ZmKCkgaGVscGVy?=
 Content-Type: text/plain;
 	charset="UTF-8"
-X-MAIL: mse-fl2.zte.com.cn 55L3PmqI092905
+X-MAIL: mse-fl1.zte.com.cn 55L3Recj078408
 X-Fangmail-Anti-Spam-Filtered: true
-X-Fangmail-MID-QID: 6856264D.001/4bPKW31MYQz5Sfq
+X-Fangmail-MID-QID: 685626BB.000/4bPKY83ygLz5Sft
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -73,51 +77,29 @@ Remove hard-coded strings by using the str_on_off() helper.
 
 Signed-off-by: Yumeng Fang <fang.yumeng@zte.com.cn>
 ---
- drivers/gpu/drm/amd/amdgpu/amdgpu_aca.c | 3 ++-
- drivers/gpu/drm/amd/amdgpu/amdgpu_mca.c | 3 ++-
- 2 files changed, 4 insertions(+), 2 deletions(-)
+ drivers/gpu/drm/amd/display/dc/pg/dcn35/dcn35_pg_cntl.c | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
 
-diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_aca.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_aca.c
-index cbc40cad581b..c3c88d8e1ce2 100644
---- a/drivers/gpu/drm/amd/amdgpu/amdgpu_aca.c
-+++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_aca.c
-@@ -22,6 +22,7 @@
-  */
-
- #include <linux/list.h>
-+#include <linux/string_choices.h>
- #include "amdgpu.h"
- #include "amdgpu_aca.h"
- #include "amdgpu_ras.h"
-@@ -873,7 +874,7 @@ static int amdgpu_aca_smu_debug_mode_set(void *data, u64 val)
- 	if (ret)
- 		return ret;
-
--	dev_info(adev->dev, "amdgpu set smu aca debug mode %s success\n", val ? "on" : "off");
-+	dev_info(adev->dev, "amdgpu set smu aca debug mode %s success\n", str_on_off(val));
-
- 	return 0;
- }
-diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_mca.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_mca.c
-index 3ca03b5e0f91..81dcc7ebac3b 100644
---- a/drivers/gpu/drm/amd/amdgpu/amdgpu_mca.c
-+++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_mca.c
-@@ -20,6 +20,7 @@
-  * OTHER DEALINGS IN THE SOFTWARE.
+diff --git a/drivers/gpu/drm/amd/display/dc/pg/dcn35/dcn35_pg_cntl.c b/drivers/gpu/drm/amd/display/dc/pg/dcn35/dcn35_pg_cntl.c
+index af21c0a27f86..509bdb1ca9bc 100644
+--- a/drivers/gpu/drm/amd/display/dc/pg/dcn35/dcn35_pg_cntl.c
++++ b/drivers/gpu/drm/amd/display/dc/pg/dcn35/dcn35_pg_cntl.c
+@@ -24,6 +24,7 @@
   *
   */
+
 +#include <linux/string_choices.h>
- #include "amdgpu_ras.h"
- #include "amdgpu.h"
- #include "amdgpu_mca.h"
-@@ -519,7 +520,7 @@ static int amdgpu_mca_smu_debug_mode_set(void *data, u64 val)
- 	if (ret)
- 		return ret;
+ #include "reg_helper.h"
+ #include "core_types.h"
+ #include "dcn35_pg_cntl.h"
+@@ -236,7 +237,7 @@ void pg_cntl35_hubp_dpp_pg_control(struct pg_cntl *pg_cntl, unsigned int hubp_dp
+ 	}
 
--	dev_info(adev->dev, "amdgpu set smu mca debug mode %s success\n", val ? "on" : "off");
-+	dev_info(adev->dev, "amdgpu set smu mca debug mode %s success\n", str_on_off(val));
+ 	DC_LOG_DEBUG("HUBP DPP instance %d, power %s", hubp_dpp_inst,
+-		power_on ? "ON" : "OFF");
++		str_on_off(power_on));
 
- 	return 0;
- }
+ 	if (hubp_dpp_inst < MAX_PIPES) {
+ 		pg_cntl->pg_pipe_res_enable[PG_HUBP][hubp_dpp_inst] = power_on;
 -- 
 2.25.1
