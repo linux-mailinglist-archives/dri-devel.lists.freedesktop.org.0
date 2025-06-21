@@ -2,50 +2,78 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 93758AE29D4
-	for <lists+dri-devel@lfdr.de>; Sat, 21 Jun 2025 17:27:39 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 09A3EAE2A18
+	for <lists+dri-devel@lfdr.de>; Sat, 21 Jun 2025 18:03:54 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B2AF410E2D1;
-	Sat, 21 Jun 2025 15:27:18 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2FF9010E2DA;
+	Sat, 21 Jun 2025 16:03:51 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="pWbXO7sV";
+	dkim=pass (2048-bit key; secure) header.d=mailbox.org header.i=@mailbox.org header.b="oskZNe05";
+	dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b="ArQN0kW0";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from tor.source.kernel.org (tor.source.kernel.org [172.105.4.254])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B396810E2CA;
- Sat, 21 Jun 2025 15:27:16 +0000 (UTC)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by tor.source.kernel.org (Postfix) with ESMTP id 0350E60008;
- Sat, 21 Jun 2025 15:27:08 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 80C8EC4CEEF;
- Sat, 21 Jun 2025 15:27:06 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1750519627;
- bh=9jSKtJv1nn+TNAOM5l1IRorTjPFy7K2tgnqW1ydup3A=;
- h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=pWbXO7sVA6kgOl4C6gUgYn9WvHQzT2zLwZpgSRnZxpnzm8gTxEoxZ66mbxEOjIUhF
- v/zSfV4PNd62lVrX/CjzhFo2GvXMD4fvgX0D4zXm3TQa4voO9647e7e5inmhRIi5wN
- leLWZz+5hCSZh/s/Z6bcF/Dd+1SsTs0CfYbRi/AQ8OOFC5unIAnYcIeV9jvuR6M6u0
- a8bCir19rfN6MjquzB5H85407YsP9yAhTiUSW/+NkP8Y5e/xT1Oi50lcVYW5kZK+Yj
- GtDQ9dVmHoX6ODOWYmmN6Xn8bFc14XAYAN8fKzYSylsHOgpJuLWgdVyXK7c7SudfGk
- CcXm4ojchDYRQ==
-From: Mario Limonciello <superm1@kernel.org>
-To: amd-gfx@lists.freedesktop.org,
-	Simon Ser <contact@emersion.fr>
-Cc: Harry Wentland <Harry.Wentland@amd.com>, Xaver Hugl <xaver.hugl@gmail.com>,
- dri-devel@lists.freedesktop.org, Leo Li <sunpeng.li@amd.com>,
- Sean Paul <seanpaul@google.com>,
- Mario Limonciello <mario.limonciello@amd.com>
-Subject: [PATCH v5 2/2] drm/amd: Add power_saving_policy drm property to eDP
- connectors
-Date: Sat, 21 Jun 2025 10:26:57 -0500
-Message-ID: <20250621152657.1048807-3-superm1@kernel.org>
-X-Mailer: git-send-email 2.43.0
-In-Reply-To: <20250621152657.1048807-1-superm1@kernel.org>
-References: <20250621152657.1048807-1-superm1@kernel.org>
+Received: from mout-p-202.mailbox.org (mout-p-202.mailbox.org [80.241.56.172])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A21AE10E2F7
+ for <dri-devel@lists.freedesktop.org>; Sat, 21 Jun 2025 16:03:34 +0000 (UTC)
+Received: from smtp202.mailbox.org (smtp202.mailbox.org
+ [IPv6:2001:67c:2050:b231:465::202])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ (No client certificate requested)
+ by mout-p-202.mailbox.org (Postfix) with ESMTPS id 4bPfJr5Rbkz9t7q;
+ Sat, 21 Jun 2025 18:03:24 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mailbox.org;
+ s=mail20150812; t=1750521804;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=pzyJH1ntb+VLEfnIUWzQcRIuZ1D4PCyEOfdCS6emkzQ=;
+ b=oskZNe05bcEy7P1+umE9dY2Tc+Lw4GX2Xi3/RSgjmnHB/xlt8uVF/CCSzZ3xauHok7mHfH
+ AXp3aBaeprkPOnRgcSl+KTEAqtnTk2Ohp5xqaD036DKeuDTXnkB9qEf/wzDHndDx2VHC1y
+ VbLBlW3efunTiFePewtPxoiA+J9TkWzElN4IOmC7Hru83kz+PgFyiH8T/l3J6ZB84KQ2nb
+ ukZ6xyRDxj3N2vHZdRy9sOpkcuyPyVNXahBEX/bTRedt351Kg+V1xl8uO54/3JPDWClDq+
+ Dob/aK6RtipoFEhIZHwB3Jvy8siZWzscifgzgG4EzwurFFJ03rTstLiPCwZfZA==
+Message-ID: <32d302d6-b404-4814-9f17-fda5fe0d3391@mailbox.org>
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mailbox.org;
+ s=mail20150812; t=1750521802;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=pzyJH1ntb+VLEfnIUWzQcRIuZ1D4PCyEOfdCS6emkzQ=;
+ b=ArQN0kW0Ty9E+mG10hkk5kpnC1ZFqxARa2+iyA3aLdaHp3B2i3FYBsACd6VMKlUkiGkVa5
+ Y/3cTHvTT16Lufp8xO6WDBrCeo84p9BhBMxYO/QfeSA6SBjiwm20LLh12SEIlWAEQfxEGK
+ V6Jul7y2pi3rtpkqoM9m0ByijR0GiVov6auvtsurrdBguy3F/E8FO5rh2ul4Tqb5ScCBgM
+ xpFSLMG3SvQMU+ARASG7o9nieQue8qcqjaWt36mCvD0BclES++N24Sw67BS2m2vX1Aumbe
+ qVJyvNLCE3nfE4MhuFWeehOGjT1s9DBaAjXWvPoQnZB6J5A6gEwcX3ZLyxhByA==
+Date: Sat, 21 Jun 2025 18:03:20 +0200
 MIME-Version: 1.0
+Subject: Re: [PATCH] drm/panel: ilitek-ili9881c: Use u8 for lane count
+To: Neil Armstrong <neil.armstrong@linaro.org>,
+ Marek Vasut <marek.vasut+renesas@mailbox.org>,
+ dri-devel@lists.freedesktop.org
+Cc: Geert Uytterhoeven <geert@linux-m68k.org>,
+ David Airlie <airlied@gmail.com>,
+ Jessica Zhang <jessica.zhang@oss.qualcomm.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, Simona Vetter <simona@ffwll.ch>,
+ Thomas Zimmermann <tzimmermann@suse.de>, linux-renesas-soc@vger.kernel.org
+References: <20250611234913.161861-1-marek.vasut+renesas@mailbox.org>
+ <109b5c25-f54c-4413-aa62-8e2ae621c8e6@linaro.org>
+ <a263d600-4f62-4d40-864c-e0b0c42f6863@mailbox.org>
+ <ef842208-069e-4471-8680-f945d5ccb1a7@linaro.org>
+ <e6c51a8d-978e-44f0-bff1-efcd05617aa7@mailbox.org>
+ <67da8003-ced9-4b52-a484-b37147068ae7@linaro.org>
+Content-Language: en-US
+From: Marek Vasut <marek.vasut@mailbox.org>
+In-Reply-To: <67da8003-ced9-4b52-a484-b37147068ae7@linaro.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
+X-MBO-RS-META: c6kef4io7w1tjt9rjehs4ujy6xiu4gg7
+X-MBO-RS-ID: 8aaea9198d2fbf8141d
+X-Rspamd-Queue-Id: 4bPfJr5Rbkz9t7q
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -61,164 +89,86 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Mario Limonciello <mario.limonciello@amd.com>
+On 6/16/25 6:26 PM, Neil Armstrong wrote:
+> On 16/06/2025 18:05, Marek Vasut wrote:
+>> On 6/16/25 1:45 PM, Neil Armstrong wrote:
+>>> On 13/06/2025 12:54, Marek Vasut wrote:
+>>>> On 6/13/25 11:29 AM, Neil Armstrong wrote:
+>>>>> On 12/06/2025 01:49, Marek Vasut wrote:
+>>>>>> Use u8 to hold lane count in struct ili9881c_desc {} to avoid
+>>>>>> alignment gap between default_address_mode and lanes members.
+>>>>>> The ili9881c controller can only operate up to 4 DSI lanes, so
+>>>>>> there is no chance this value can ever be larger than 4. No
+>>>>>> functional change.
+>>>>>
+>>>>> The u8 will still take at least 4 bytes and cpu will still
+>>>>> do at least a 32bit memory access, so there's no point to change
+>>>>> it to u8.
+>>>> Assuming this layout:
+>>>>
+>>>>    40 struct ili9881c_desc {
+>>>>    41         const struct ili9881c_instr *init;
+>>>>    42         const size_t init_length;
+>>>>    43         const struct drm_display_mode *mode;
+>>>>    44         const unsigned long mode_flags;
+>>>>    45         u8 default_address_mode;
+>>>>    46         u8 lanes;
+>>>>    47 };
+>>>>
+>>>> I wrote a quick test:
+>>>>
+>>>> $ cat test.c
+>>>> #include <stdio.h>
+>>>> #include <stdint.h>
+>>>>
+>>>> struct foo {
+>>>>      void *a;
+>>>>      size_t b;
+>>>>      void *c;
+>>>>      unsigned long d;
+>>>>
+>>>>      uint8_t x;
+>>>>      unsigned long y; // ~= lanes
+>>>> };
+>>>>
+>>>> struct bar {
+>>>>      void *a;
+>>>>      size_t b;
+>>>>      void *c;
+>>>>      unsigned long d;
+>>>>
+>>>>      uint8_t x;
+>>>>      uint8_t y; // ~= lanes
+>>>> };
+>>>>
+>>>> int main(void)
+>>>> {
+>>>>      printf("%d %d\n", sizeof(struct foo), sizeof(struct bar));
+>>>>      return 0;
+>>>> }
+>>>>
+>>>> With which I get these results on x86-64:
+>>>>
+>>>> $ gcc -o test test.c && ./test
+>>>> 48 40
+>>>>
+>>>> And on x86 32bit:
+>>>>
+>>>> $ i686-linux-gnu-gcc -o test test.c && ./test
+>>>> 24 20
+>>>>
+>>>> Maybe there is some improvement ?
+>>>
+>>> Try again with code size included, and other archs since 99% of the 
+>>> users would be an arm/riscv based boards.
+>> Doesn't that mean, that one some systems it wins us a bit of memory 
+>> utilization improvement, and on other systems it has no impact ?
+> 
+> 4 or 8 bytes less in a dynamically allocated struct which is by default 
+> aligned
+> on 64 bytes by default on x86, 128 on aarch64, 32/64/128 on arm32, 64 on 
+> riscv, sorry this is negligible.
+It is still not zero, so why tolerate the inefficiency when it can be 
+improved ?
 
-When the `power_saving_policy` property is set to bit mask
-"Require color accuracy" ABM should be disabled immediately and
-any requests by sysfs to update will return an -EBUSY error.
-
-When the `power_saving_policy` property is set to bit mask
-"Require low latency" PSR should be disabled.
-
-When the property is restored to an empty bit mask ABM and PSR
-can be enabled again.
-
-Signed-off-by: Mario Limonciello <mario.limonciello@amd.com>
----
-v5:
- * Adjust for new signature of amdgpu_dm_psr_disable()
- * Default to none
----
- drivers/gpu/drm/amd/amdgpu/amdgpu_display.c   |  4 ++
- .../gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c | 52 +++++++++++++++++--
- .../gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.h |  2 +
- 3 files changed, 53 insertions(+), 5 deletions(-)
-
-diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_display.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_display.c
-index 35c778426a7c7..973ea4f618235 100644
---- a/drivers/gpu/drm/amd/amdgpu/amdgpu_display.c
-+++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_display.c
-@@ -1409,6 +1409,10 @@ int amdgpu_display_modeset_create_props(struct amdgpu_device *adev)
- 					 "dither",
- 					 amdgpu_dither_enum_list, sz);
- 
-+	if (adev->dc_enabled)
-+		drm_mode_create_power_saving_policy_property(adev_to_drm(adev),
-+							     DRM_MODE_POWER_SAVING_POLICY_ALL);
-+
- 	return 0;
- }
- 
-diff --git a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
-index 33d5f6f2669ff..b8be7887dfb40 100644
---- a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
-+++ b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
-@@ -7110,6 +7110,13 @@ int amdgpu_dm_connector_atomic_set_property(struct drm_connector *connector,
- 	} else if (property == adev->mode_info.underscan_property) {
- 		dm_new_state->underscan_enable = val;
- 		ret = 0;
-+	} else if (property == dev->mode_config.power_saving_policy) {
-+		dm_new_state->abm_forbidden = val & DRM_MODE_REQUIRE_COLOR_ACCURACY;
-+		dm_new_state->abm_level = (dm_new_state->abm_forbidden || !dm_old_state->abm_level) ?
-+						ABM_LEVEL_IMMEDIATE_DISABLE :
-+						dm_old_state->abm_level;
-+		dm_new_state->psr_forbidden = val & DRM_MODE_REQUIRE_LOW_LATENCY;
-+		ret = 0;
- 	}
- 
- 	return ret;
-@@ -7152,6 +7159,15 @@ int amdgpu_dm_connector_atomic_get_property(struct drm_connector *connector,
- 	} else if (property == adev->mode_info.underscan_property) {
- 		*val = dm_state->underscan_enable;
- 		ret = 0;
-+	} else if (property == dev->mode_config.power_saving_policy) {
-+		*val = 0;
-+		if (!dm_state->abm_forbidden && !dm_state->psr_forbidden)
-+			*val |= DRM_MODE_REQUIRE_NONE;
-+		if (dm_state->psr_forbidden)
-+			*val |= DRM_MODE_REQUIRE_LOW_LATENCY;
-+		if (dm_state->abm_forbidden)
-+			*val |= DRM_MODE_REQUIRE_COLOR_ACCURACY;
-+		ret = 0;
- 	}
- 
- 	return ret;
-@@ -7178,9 +7194,12 @@ static ssize_t panel_power_savings_show(struct device *device,
- 	u8 val;
- 
- 	drm_modeset_lock(&dev->mode_config.connection_mutex, NULL);
--	val = to_dm_connector_state(connector->state)->abm_level ==
--		ABM_LEVEL_IMMEDIATE_DISABLE ? 0 :
--		to_dm_connector_state(connector->state)->abm_level;
-+	if (to_dm_connector_state(connector->state)->abm_forbidden)
-+		val = 0;
-+	else
-+		val = to_dm_connector_state(connector->state)->abm_level ==
-+			ABM_LEVEL_IMMEDIATE_DISABLE ? 0 :
-+			to_dm_connector_state(connector->state)->abm_level;
- 	drm_modeset_unlock(&dev->mode_config.connection_mutex);
- 
- 	return sysfs_emit(buf, "%u\n", val);
-@@ -7204,10 +7223,16 @@ static ssize_t panel_power_savings_store(struct device *device,
- 		return -EINVAL;
- 
- 	drm_modeset_lock(&dev->mode_config.connection_mutex, NULL);
--	to_dm_connector_state(connector->state)->abm_level = val ?:
--		ABM_LEVEL_IMMEDIATE_DISABLE;
-+	if (to_dm_connector_state(connector->state)->abm_forbidden)
-+		ret = -EBUSY;
-+	else
-+		to_dm_connector_state(connector->state)->abm_level = val ?:
-+			ABM_LEVEL_IMMEDIATE_DISABLE;
- 	drm_modeset_unlock(&dev->mode_config.connection_mutex);
- 
-+	if (ret)
-+		return ret;
-+
- 	drm_kms_helper_hotplug_event(dev);
- 
- 	return count;
-@@ -8444,6 +8469,13 @@ void amdgpu_dm_connector_init_helper(struct amdgpu_display_manager *dm,
- 	aconnector->base.state->max_bpc = 16;
- 	aconnector->base.state->max_requested_bpc = aconnector->base.state->max_bpc;
- 
-+	if (connector_type == DRM_MODE_CONNECTOR_eDP &&
-+	    (dc_is_dmcu_initialized(adev->dm.dc) ||
-+	     adev->dm.dc->ctx->dmub_srv)) {
-+		drm_object_attach_property(&aconnector->base.base,
-+				dm->ddev->mode_config.power_saving_policy, DRM_MODE_REQUIRE_NONE);
-+	}
-+
- 	if (connector_type == DRM_MODE_CONNECTOR_HDMIA) {
- 		/* Content Type is currently only implemented for HDMI. */
- 		drm_connector_attach_content_type_property(&aconnector->base);
-@@ -10220,6 +10252,7 @@ static void amdgpu_dm_atomic_commit_tail(struct drm_atomic_state *state)
- 	for_each_oldnew_connector_in_state(state, connector, old_con_state, new_con_state, i) {
- 		struct dm_connector_state *dm_new_con_state = to_dm_connector_state(new_con_state);
- 		struct dm_connector_state *dm_old_con_state = to_dm_connector_state(old_con_state);
-+		struct amdgpu_dm_connector *aconnector = to_amdgpu_dm_connector(connector);
- 		struct amdgpu_crtc *acrtc = to_amdgpu_crtc(dm_new_con_state->base.crtc);
- 		struct dc_surface_update *dummy_updates;
- 		struct dc_stream_update stream_update;
-@@ -10285,6 +10318,15 @@ static void amdgpu_dm_atomic_commit_tail(struct drm_atomic_state *state)
- 			stream_update.hdr_static_metadata = &hdr_packet;
- 		}
- 
-+		aconnector->disallow_edp_enter_psr = dm_new_con_state->psr_forbidden;
-+
-+		/* immediately disable PSR if disallowed */
-+		if (aconnector->disallow_edp_enter_psr) {
-+			mutex_lock(&dm->dc_lock);
-+			amdgpu_dm_psr_disable(dm_new_crtc_state->stream, false);
-+			mutex_unlock(&dm->dc_lock);
-+		}
-+
- 		status = dc_stream_get_status(dm_new_crtc_state->stream);
- 
- 		if (WARN_ON(!status))
-diff --git a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.h b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.h
-index d7d92f9911e46..7712639bd6a5c 100644
---- a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.h
-+++ b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.h
-@@ -968,6 +968,8 @@ struct dm_connector_state {
- 	bool underscan_enable;
- 	bool freesync_capable;
- 	bool update_hdcp;
-+	bool abm_forbidden;
-+	bool psr_forbidden;
- 	uint8_t abm_level;
- 	int vcpi_slots;
- 	uint64_t pbn;
--- 
-2.43.0
-
+Is this change rejected ?
