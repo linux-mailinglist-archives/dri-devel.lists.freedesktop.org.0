@@ -2,91 +2,39 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9450EAE27A9
-	for <lists+dri-devel@lfdr.de>; Sat, 21 Jun 2025 08:58:32 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 29152AE286F
+	for <lists+dri-devel@lfdr.de>; Sat, 21 Jun 2025 11:58:27 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 14C6510E276;
-	Sat, 21 Jun 2025 06:58:29 +0000 (UTC)
-Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=google.com header.i=@google.com header.b="m7mFIe0T";
-	dkim-atps=neutral
+	by gabe.freedesktop.org (Postfix) with ESMTP id BEAD410E031;
+	Sat, 21 Jun 2025 09:45:57 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-qk1-f179.google.com (mail-qk1-f179.google.com
- [209.85.222.179])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3F05310E276
- for <dri-devel@lists.freedesktop.org>; Sat, 21 Jun 2025 06:58:26 +0000 (UTC)
-Received: by mail-qk1-f179.google.com with SMTP id
- af79cd13be357-7c597760323so205134085a.3
- for <dri-devel@lists.freedesktop.org>; Fri, 20 Jun 2025 23:58:26 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=google.com; s=20230601; t=1750489105; x=1751093905;
- darn=lists.freedesktop.org; 
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc:subject:date
- :message-id:reply-to;
- bh=bUNdx/2ldmooF+wfGIUFoptMG2S7gkeOO/JL2A6zVvE=;
- b=m7mFIe0TnSCSUWN875T7MGG613sG+CzAgLiQa62ubrd+De3Nlf8q0KQVhOGHNQ/H1W
- ucctCo8DkmMHvTWMeUJ6rlUZHVqxB6EdJQIJvcqKWElUCRqfzVcrjYLmd2jBlEUx7eOH
- ZECmxuI7041+RMuQn+5UWWQNePPzUAFnYW3WcRT17ce19qcVHJfCfjYBbW73MCMTVF4T
- 9zG/GIq+W0+qZbQLlqLVibnRHAsnU4Xs2L0+n+PDxnYll3YftU4KhSWE7+eT71E7rSH/
- JvgeinLq9no5bhF5mjhqbyI2ak/TKIbXJOBqbP3FWX1j2tnbLVAytX4OY+lJyKUV7iFm
- 6kbg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1750489105; x=1751093905;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=bUNdx/2ldmooF+wfGIUFoptMG2S7gkeOO/JL2A6zVvE=;
- b=MysigI+6x+iWvG/07OEwPeiTfYz1TQBYInnpEY4Dx2hJuhmb207rXatKZmwIJC2WWd
- HrXRAvgt35+PO4nt10q2rpP6GsJgHBB0a9Tq12qcG4hz/pHVy6M9gT+mx8AimD34U3U8
- dL3/UOml7xPmmGpI+QVrM0WZ880y6t/5U89c9L0bnyEV2tjFWDzboL6zZDB60MOSVvQ3
- JGhJiQq+9HA7WAJkdQaImUnhkyJMqtnMjNcHV/Jgh3OH/x2SX46rJ1JjIEC/0wNBAbcq
- 7ajJ4L9YAaxh4WW1f5XHyb+JXCwYSG1XnrCVclIhfzxbRewieoi452QqhG5NxwyzUa5/
- ap9Q==
-X-Forwarded-Encrypted: i=1;
- AJvYcCWxcyePXPzsddMhrAJ9d29AxVzJ8KakDk9XmPmQ472Rrb1PNCYMtKSi4ljFQdxRKdZDmlM7d1aqfm4=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YxDsJYZEBkij5SWZdpZBGPZ4WNQJUdwZlCyHIkQdoe2JlhzECoK
- E6C7qS/iZReazaIodnPC1Q9aYOspt8qtXIQt4TfYUp0Cr0QQ45rUjV6DGr1sBQP6xsjiPAOzVg8
- dl1rI7yWWYVScjNleLOhfdheAYsxNHZhTysE2hSGW
-X-Gm-Gg: ASbGnctkkqUzmhMKhfwi2CwGTZ3gDHNCXGfEf04ylQ74TUhMMxuITo/qVNubBNllrim
- pmTiC1TbfMnbIJXOIdaDfH1U7JJFLgDxCrVmevRE5hTaJQzDNZFFSDTkAKiT7GSXpKhLsmWExXW
- xAFktKxK7khqdI0WAI/sv6GBmYwDWlXaG5bP0HFJ8sCQ==
-X-Google-Smtp-Source: AGHT+IEHz/JR7YYi2lViA2o0Sn5CmXAFfiTDbM+tNqv2elv69zznKvkvAvdBvr86Y6n0SdUPLLuoC5Osau5RVKtSEw4=
-X-Received: by 2002:a05:620a:3185:b0:7d0:97b1:bfa with SMTP id
- af79cd13be357-7d3f98c769amr837848985a.8.1750489104823; Fri, 20 Jun 2025
- 23:58:24 -0700 (PDT)
-MIME-Version: 1.0
-References: <20250618-reftrack-dbgfs-v15-0-24fc37ead144@kernel.org>
- <20250619171339.1bf28dc7@kernel.org>
-In-Reply-To: <20250619171339.1bf28dc7@kernel.org>
-From: Eric Dumazet <edumazet@google.com>
-Date: Fri, 20 Jun 2025 23:58:14 -0700
-X-Gm-Features: AX0GCFsu87MFC7EBTBMwXAysv70gmAeinWhBQnHzTvKtmqPLtPM0HB23PPllhK0
-Message-ID: <CANn89iLX9XTk96=mU7pSmNkyFfj0DpMe_mTfOc+TYArLkwYXLg@mail.gmail.com>
-Subject: Re: [PATCH v15 0/9] ref_tracker: add ability to register a debugfs
- file for a ref_tracker_dir
-To: Jakub Kicinski <kuba@kernel.org>
-Cc: Jeff Layton <jlayton@kernel.org>, Andrew Morton <akpm@linux-foundation.org>,
- "David S. Miller" <davem@davemloft.net>, Paolo Abeni <pabeni@redhat.com>,
- Simon Horman <horms@kernel.org>, 
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, 
- Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
- Simona Vetter <simona@ffwll.ch>, 
- Jani Nikula <jani.nikula@linux.intel.com>, 
- Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
- Rodrigo Vivi <rodrigo.vivi@intel.com>, 
- Tvrtko Ursulin <tursulin@ursulin.net>,
- Krzysztof Karas <krzysztof.karas@intel.com>, 
- Kuniyuki Iwashima <kuniyu@amazon.com>, Qasim Ijaz <qasdev00@gmail.com>, 
- Nathan Chancellor <nathan@kernel.org>, Andrew Lunn <andrew@lunn.ch>,
- linux-kernel@vger.kernel.org, 
- netdev@vger.kernel.org, dri-devel@lists.freedesktop.org, 
- intel-gfx@lists.freedesktop.org, 
- =?UTF-8?Q?Thomas_Wei=C3=9Fschuh?= <thomas.weissschuh@linutronix.de>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+X-Greylist: delayed 322 seconds by postgrey-1.36 at gabe;
+ Sat, 21 Jun 2025 09:45:56 UTC
+Received: from bmailout1.hostsharing.net (bmailout1.hostsharing.net
+ [83.223.95.100])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5BAF910E031
+ for <dri-devel@lists.freedesktop.org>; Sat, 21 Jun 2025 09:45:56 +0000 (UTC)
+Received: from h08.hostsharing.net (h08.hostsharing.net
+ [IPv6:2a01:37:1000::53df:5f1c:0])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256
+ client-signature RSA-PSS (4096 bits) client-digest SHA256)
+ (Client CN "*.hostsharing.net", Issuer "RapidSSL TLS RSA CA G1" (verified OK))
+ by bmailout1.hostsharing.net (Postfix) with ESMTPS id 3C6B02C06849;
+ Sat, 21 Jun 2025 11:40:24 +0200 (CEST)
+Received: by h08.hostsharing.net (Postfix, from userid 100393)
+ id 1DA393A19EA; Sat, 21 Jun 2025 11:40:24 +0200 (CEST)
+Message-Id: <f8ff40f35a9a5836d1371f60e85c09c5735e3c5e.1750497201.git.lukas@wunner.de>
+From: Lukas Wunner <lukas@wunner.de>
+Date: Sat, 21 Jun 2025 11:40:23 +0200
+Subject: [PATCH] agp/amd64: Bind to unsupported devices only if AGP is present
+To: David Airlie <airlied@redhat.com>, Bjorn Helgaas <helgaas@kernel.org>
+Cc: Ben Hutchings <ben@decadent.org.uk>, Joerg Roedel <joro@8bytes.org>,
+ Suravee Suthikulpanit <suravee.suthikulpanit@amd.com>,
+ Andi Kleen <ak@linux.intel.com>, Ahmed Salem <x0rw3ll@gmail.com>,
+ Borislav Petkov <bp@alien8.de>, dri-devel@lists.freedesktop.org,
+ iommu@lists.linux.dev, linux-pci@vger.kernel.org
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -102,23 +50,68 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, Jun 19, 2025 at 5:13=E2=80=AFPM Jakub Kicinski <kuba@kernel.org> wr=
-ote:
->
-> On Wed, 18 Jun 2025 10:24:13 -0400 Jeff Layton wrote:
-> > For those just joining in, this series adds a new top-level
-> > "ref_tracker" debugfs directory, and has each ref_tracker_dir register =
-a
-> > file in there as part of its initialization. It also adds the ability t=
-o
-> > register a symlink with a more human-usable name that points to the
-> > file, and does some general cleanup of how the ref_tracker object names
-> > are handled.
->
-> Thanks Jeff!
->
-> I'm going to apply this based on v6.16-rc2 and merge to net-next.
-> If anyone would like to also pull into their trees the hash will
-> be 707bd05be75f. Happy to create a branch if necessary, too.
+Since commit 172efbb40333 ("AGP: Try unsupported AGP chipsets on x86-64 by
+default"), the AGP driver for AMD Opteron/Athlon64 CPUs attempts to bind
+to any PCI device.
 
-Nice work Jeff, thanks a lot !
+On modern CPUs exposing an AMD IOMMU, this results in a message with
+KERN_CRIT severity:
+
+  pci 0000:00:00.2: Resources present before probing
+
+The driver used to bind only to devices exposing the AGP Capability, but
+that restriction was removed by commit 6fd024893911 ("amd64-agp: Probe
+unknown AGP devices the right way").
+
+Reinstate checking for AGP presence to avoid the message.
+
+Fixes: 3be5fa236649 (Revert "iommu/amd: Prevent binding other PCI drivers to IOMMU PCI devices")
+Reported-by: Fedor Pchelkin <pchelkin@ispras.ru>
+Closes: https://lore.kernel.org/r/wpoivftgshz5b5aovxbkxl6ivvquinukqfvb5z6yi4mv7d25ew@edtzr2p74ckg/
+Signed-off-by: Lukas Wunner <lukas@wunner.de>
+---
+Compile tested only, I do not have a machine with AMD IOMMU at my disposal.
+
+Reporter is not cc'ed because ispras.ru is an OFAC sanctioned entity,
+which prohibits me from two-way engagement with the reporter:
+https://sanctionssearch.ofac.treas.gov/Details.aspx?id=50890
+https://www.linuxfoundation.org/blog/navigating-global-regulations-and-open-source-us-ofac-sanctions
+
+ drivers/char/agp/amd64-agp.c | 14 +++++++++++++-
+ 1 file changed, 13 insertions(+), 1 deletion(-)
+
+diff --git a/drivers/char/agp/amd64-agp.c b/drivers/char/agp/amd64-agp.c
+index bf49096..4bf508b 100644
+--- a/drivers/char/agp/amd64-agp.c
++++ b/drivers/char/agp/amd64-agp.c
+@@ -735,6 +735,18 @@ static int agp_amd64_resume(struct device *dev)
+ 	.driver.pm  = &agp_amd64_pm_ops,
+ };
+ 
++static bool __init agp_dev_present(void)
++{
++	struct pci_dev *pdev = NULL;
++
++	for_each_pci_dev(pdev)
++		if (pci_find_capability(pdev, PCI_CAP_ID_AGP)) {
++			pci_dev_put(pdev);
++			return true;
++		}
++
++	return false;
++}
+ 
+ /* Not static due to IOMMU code calling it early. */
+ int __init agp_amd64_init(void)
+@@ -761,7 +773,7 @@ int __init agp_amd64_init(void)
+ 		}
+ 
+ 		/* First check that we have at least one AMD64 NB */
+-		if (!amd_nb_num()) {
++		if (!amd_nb_num() || !agp_dev_present()) {
+ 			pci_unregister_driver(&agp_amd64_pci_driver);
+ 			return -ENODEV;
+ 		}
+-- 
+2.47.2
+
