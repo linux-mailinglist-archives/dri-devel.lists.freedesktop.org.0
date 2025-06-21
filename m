@@ -2,82 +2,72 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 813E4AE2932
+	by mail.lfdr.de (Postfix) with ESMTPS id 5BF3FAE2931
 	for <lists+dri-devel@lfdr.de>; Sat, 21 Jun 2025 15:44:57 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8E3FA10E0A1;
-	Sat, 21 Jun 2025 13:44:37 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 966F510E2A6;
+	Sat, 21 Jun 2025 13:44:38 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=brighamcampbell.com header.i=@brighamcampbell.com header.b="WrtB6T4Q";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="dzj2y71j";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pf1-f173.google.com (mail-pf1-f173.google.com
- [209.85.210.173])
- by gabe.freedesktop.org (Postfix) with ESMTPS id CDEE710E0BF
- for <dri-devel@lists.freedesktop.org>; Fri, 20 Jun 2025 18:03:10 +0000 (UTC)
-Received: by mail-pf1-f173.google.com with SMTP id
- d2e1a72fcca58-748e378ba4fso2878787b3a.1
- for <dri-devel@lists.freedesktop.org>; Fri, 20 Jun 2025 11:03:10 -0700 (PDT)
+Received: from mail-ed1-f44.google.com (mail-ed1-f44.google.com
+ [209.85.208.44])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6E62110E259
+ for <dri-devel@lists.freedesktop.org>; Sat, 21 Jun 2025 01:56:05 +0000 (UTC)
+Received: by mail-ed1-f44.google.com with SMTP id
+ 4fb4d7f45d1cf-6097de2852aso3105162a12.0
+ for <dri-devel@lists.freedesktop.org>; Fri, 20 Jun 2025 18:56:05 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=brighamcampbell.com; s=google; t=1750442589; x=1751047389;
- darn=lists.freedesktop.org; 
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:from:to:cc:subject:date:message-id:reply-to;
- bh=LASqD0oWUo5WFt/+IQjzZizw1Tgw6LTsbm7AdZ6Fm7Q=;
- b=WrtB6T4QeW1qCbFvQpGSDlaCCzEWSGg3ZDyZllpGjtHY3JjXvIO9Yox+/neYfqKw79
- Wn1+x4Wjb+IiRDRUdKrvSBB8orUhWiEcONZwF0LuyUXoOroekfs1vPuYTmEorBuOaG77
- X/YDGvojjvmzX/38SZDMKyML6SBFBqeiuY2KvqEnloVR/989dIxKDE/6W0jwAr/bDpqo
- mJSI6DD0xILWEhjUT2fpwcxdI4K2oOtdq/XuhLllnfM6MvzscyNpsySWgbVpkpjsUZTa
- fdfkY+EGLfnchwZv8+GbOPNBZJeycuUp3bTXD6KtaWOaXM6TfHHB80kbL+QR+xE2YKTb
- SmKw==
+ d=gmail.com; s=20230601; t=1750470962; x=1751075762; darn=lists.freedesktop.org;
+ h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=kKDXqmPoJsPGYezIapXfVxiBd+2xBchIauyV0qRr0zs=;
+ b=dzj2y71jze16z5mLubX2VbapuQayvUODSkDzoKUiT3Xn5QoIMbZiN72mfcYX6fK1Xf
+ 0qCdfKcBS3wXWjIOrDrqW0ZqgjLIRIqlwiPsIq5x6eo4J7U0GUaeORBxDGX0rh+q2n4/
+ NXPYv7jKMNanTVekFeqnM0CSKDI4TwF0XkbCVJa0bo28Z5JEXUoPy+lvA5V8aWPwGs5t
+ /vPbP3kD5wTP7LA3V4bPC1yYIGoUlh5ZJ3BRLeeoZszKPFp+KGvh4LZ3kebZF9d9OytZ
+ JuJpcogLuEYPjvlMluapNeDAOckVetIlvxsTMaKQAfuSjs7RmmHAfokTmmq6yZuRVZZl
+ /5zg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1750442589; x=1751047389;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=LASqD0oWUo5WFt/+IQjzZizw1Tgw6LTsbm7AdZ6Fm7Q=;
- b=nVdpDJPuJrO1Ahabr/A6l9eXGmbkZGybjdaXi7gsZt9+jmtFeX2eQyaXzz2rB/wA9i
- lHDw3w7yWrSkqo6DAHXUcS2aCdelW00En8u+nVCF7Wm8nsIh07msjVO2A33GsGmilTx4
- AIKJVe1JqUiw7Qnl9u1TB5dKJoho8mdbUAN5vnPjjrV7b+pAtvra4ZGRy7Gn/JCx9v/u
- XSMhIEdE/+hdGUSDbGOATt2Ke+uPETXiNU3zKa3V67kwan26Y8Ty0nsrzI2zOINpEIYr
- aNgaOr1AJF4tzB5xR1NAvVH72B9ypuqDwL89QtdBvsiWrHM/t7jy9Pkj2jLB23Qoqgp2
- YBQw==
+ d=1e100.net; s=20230601; t=1750470962; x=1751075762;
+ h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=kKDXqmPoJsPGYezIapXfVxiBd+2xBchIauyV0qRr0zs=;
+ b=uRSEijMSqSPuxS0MFDt+wccpzmHKSSJD609om88vaYSpocvUAwbg2mAXQwwf1rk/gU
+ IYWmxCKULzzw8GmSgYFvxFna86y7073qEG2fBm+IVhLmwCOflOvoEI0CbhcIN4OiD7pO
+ 7ML5I873TKR8MndNW+Yk3XxjCM37jqwGXae91kJUusqUttnz2PuRYt1aoKSL0hYltLSy
+ KOh7RaJ1lVfwhXdCM9sgfy9h2RcclIQQ/fr2UnftlVKXuGJv1lBQAKbtWH7DyluuhSt0
+ INyNnbjhPhqbQiTvLVUTxT8IKrJU5hBCT55COb8ZlOItdEmVJ+bDsF5tTBvxbt7EH9wB
+ yjPQ==
 X-Forwarded-Encrypted: i=1;
- AJvYcCXtu3TGIBwZ7qu4OVrVbaczbiyJFs8Cb3XIsyV1k5vyaX/ccgvAV6s7MpRjuskbj6ROWgE4Z1h7LN0=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YwVEzZ8AQAM913w8K6U+sHUWJ7ApHFlnRJMvIfBzbBvBwkgO1PQ
- BLpQEvErfQsqzumYqLaGgF17U+qt2Ll7mpEOfdzRtZsPj6+7RxGN29ANO28bc4lAGME=
-X-Gm-Gg: ASbGncvvu+j4aSCl76KjifSPb1cp84DIX1ulkcVEUlybprHsj4+5gQv5uFwe0l57KU/
- VyR7CaNj1AGKIko0AHb97lhwc+DZeQhA0ELGLwoGXaVpJURwCYeInMd3YXayG4vYswiqaahMNyQ
- yloXQcN84dP+CvDWMp3RIbkFzIDNm92+SSC/eyUdxKTM2TrOLv6veDgHNL4wys2KhI8aCnKjeOk
- FsHgIu4RSfgx7fcSUhy79ryVig9CuxrrJrzIWN7mxFpF4M6FnA66thzZGspF+C8x7jSq3/nv2gO
- yq+MjFkF95jE/NJ/jN20TEi6Ue9u0V+J7a5pdcV+8gZ/mC0N4VIubeYu70ATQdz3xRLXCE7GXT9
- HNsT4Q+/YdrAEwrp2ZA==
-X-Google-Smtp-Source: AGHT+IFlM8cNRiBkGT187wOeWcfkfeb30/gPkHi7Ft0d5GjTVFgLhRQpzSohSUSYFxFeTwX7y0TLjg==
-X-Received: by 2002:a05:6a20:72a5:b0:203:bb65:995a with SMTP id
- adf61e73a8af0-22026f007fcmr6414483637.30.1750442589385; 
- Fri, 20 Jun 2025 11:03:09 -0700 (PDT)
-Received: from mystery-machine.brighamcampbell.com ([64.71.154.6])
- by smtp.gmail.com with ESMTPSA id
- 41be03b00d2f7-b31f1256f03sm2131724a12.51.2025.06.20.11.03.07
+ AJvYcCWpRP3BALJ0guytuumn/4TJ2ZSPn2l6M1DX/4iJC09hKTpf+rTsmtW1kpYjHfScwFKbCR5rUHdlViM=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YwBmDNf3LH+Xu+7XhdWVVxaGkvFoM4hl5+tidjZvLabMQPkkltf
+ wrCXSTO5eHxr7MgBFf4suLf+I0D0NbKKSfsbjylXjdz/RC/+xygV6i9K
+X-Gm-Gg: ASbGncswXrqlx3NubmsQ7YfDB2Vk2g5cDBTA5EAEmhCscoDybD4oUAXhce01sUx6SGo
+ /QPs6nP6vIqT38WvuJ8NvygKuP9CbbYfB1Vd7d8ZXm1XhkJCr6j6JR5BKuMCVgdLHfS9lz+EmAj
+ HGzQKUKpsoVusmTtWB4u2aEOWADhdKf3hDUrXy81ukV5WPS5Wf37jHSx6sCBfh0S9PSZaNL6V+P
+ LrWcx9SS9UccPOcF0v5ryhhxu3FkA8aPjzaQmehdxfQ6I/Br4gOQyYRyoG4lHXfOLXq5ozGC4cw
+ 98M6Hu7ytK3pClcnWILijiSrIMvpD2H/xpH1Rym97fz4Tfr58IIj
+X-Google-Smtp-Source: AGHT+IGQGwSpHA5R2GkgVuxhxeakJNAhknYlOERPI26+5SNqpQm9QsPJZiVyJDRW2GjfxvolypcWcA==
+X-Received: by 2002:a05:6402:270d:b0:606:9211:e293 with SMTP id
+ 4fb4d7f45d1cf-60a1cd2fc42mr4103401a12.9.1750470961830; 
+ Fri, 20 Jun 2025 18:56:01 -0700 (PDT)
+Received: from localhost ([95.85.21.12]) by smtp.gmail.com with UTF8SMTPSA id
+ 4fb4d7f45d1cf-60a18c94acesm2252267a12.44.2025.06.20.18.56.00
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 20 Jun 2025 11:03:08 -0700 (PDT)
-From: Brigham Campbell <me@brighamcampbell.com>
-To: skhan@linuxfoundation.org, linux-kernel-mentees@lists.linux.dev,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
- Simona Vetter <simona@ffwll.ch>, Jonathan Corbet <corbet@lwn.net>,
- dri-devel@lists.freedesktop.org (open list:DRM DRIVERS),
- linux-doc@vger.kernel.org (open list:DOCUMENTATION),
- linux-kernel@vger.kernel.org (open list)
-Cc: Brigham Campbell <me@brighamcampbell.com>
-Subject: [PATCH] Fix typo in drm docs
-Date: Fri, 20 Jun 2025 12:02:58 -0600
-Message-ID: <20250620180258.132160-1-me@brighamcampbell.com>
-X-Mailer: git-send-email 2.49.0
+ Fri, 20 Jun 2025 18:56:01 -0700 (PDT)
+Date: Sat, 21 Jun 2025 04:55:52 +0300
+From: Ahmed Salem <x0rw3ll@gmail.com>
+To: airlied@redhat.com
+Cc: lukas@wunner.de, dri-devel@lists.freedesktop.org, 
+ linux-kernel@vger.kernel.org, linux-kernel-mentees@lists.linux.dev
+Subject: [RFC PATCH] amd64-agp: do not bind to pci driver if probing fails
+Message-ID: <c5kqcudzrcafm24nr5ixgalhxdkxl3uoueerjlp6tbksj3hzy7@klytjugpkvdm>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 X-Mailman-Approved-At: Sat, 21 Jun 2025 13:44:37 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -94,26 +84,68 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Fix typo in Documentation/gpu/introduction.rst
+Commit 3be5fa236649 ("Revert "iommu/amd: Prevent binding other PCI
+drivers to IOMMU PCI devices"") had an unintended side effect in that
+when looking for any AGP bridge, driver_attach() will try to bind to
+IOMMU devices without preemptively checking for PCI_CAP_ID_AGP
+capability. This happens during agp_amd64_init().
 
-Signed-off-by: Brigham Campbell <me@brighamcampbell.com>
+As a result, driver_attach() calls driver_probe_device(), which then
+calls really_probe(), raising this critical condition:
+
+ pci 0000:00:00.2: Resources present before probing
+
+With the device being:
+
+ 00:00.2 IOMMU: Advanced Micro Devices, Inc. [AMD] Raven/Raven2 IOMMU
+	Subsystem: Advanced Micro Devices, Inc. [AMD] Raven/Raven2 IOMMU
+	Flags: bus master, fast devsel, latency 0, IRQ 25
+	Capabilities: [40] Secure device <?>
+	Capabilities: [64] MSI: Enable+ Count=1/4 Maskable- 64bit+
+	Capabilities: [74] HyperTransport: MSI Mapping Enable+ Fixed+
+
+As pci_register_driver() calls the device's probing function, the latter
+(agp_amd64_probe) tries to find the device's PCI_CAP_ID_AGP capability,
+and returns -ENODEV if said capability is not found.
+
+Do not attempt driver_attach() if agp_amd64_pci_driver.probe is non-zero
+to avoid probing already present resources.
+
+Link: https://lore.kernel.org/all/aFJOLZ88KIH5WBy2@wunner.de
+
+Signed-off-by: Ahmed Salem <x0rw3ll@gmail.com>
 ---
- Documentation/gpu/introduction.rst | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+I'm not quite sure whether I should have maintained the linked
+conversation's Ccs, so please let me know if I should Cc anyone else.
 
-diff --git a/Documentation/gpu/introduction.rst b/Documentation/gpu/introduction.rst
-index 3cd0c8860b94..39b4c943fa00 100644
---- a/Documentation/gpu/introduction.rst
-+++ b/Documentation/gpu/introduction.rst
-@@ -32,7 +32,7 @@ member, only the structure.
+Lukas, kindly let me know whether you want me to add a Suggested-by
+trailer as well.
+
+
+diff --git a/drivers/char/agp/amd64-agp.c b/drivers/char/agp/amd64-agp.c
+index bf490967241a..e6a0d09e115a 100644
+--- a/drivers/char/agp/amd64-agp.c
++++ b/drivers/char/agp/amd64-agp.c
+@@ -768,10 +768,15 @@ int __init agp_amd64_init(void)
  
- Except in special situations (to separate locked from unlocked variants)
- locking requirements for functions aren't documented in the kerneldoc.
--Instead locking should be check at runtime using e.g.
-+Instead locking should be checked at runtime using e.g.
- ``WARN_ON(!mutex_is_locked(...));``. Since it's much easier to ignore
- documentation than runtime noise this provides more value. And on top of
- that runtime checks do need to be updated when the locking rules change,
+ 		/* Look for any AGP bridge */
+ 		agp_amd64_pci_driver.id_table = agp_amd64_pci_promisc_table;
+-		err = driver_attach(&agp_amd64_pci_driver.driver);
+-		if (err == 0 && agp_bridges_found == 0) {
++		if ((int *)agp_amd64_pci_driver.probe != 0) {
+ 			pci_unregister_driver(&agp_amd64_pci_driver);
+ 			err = -ENODEV;
++		} else {
++			err = driver_attach(&agp_amd64_pci_driver.driver);
++			if (err == 0 && agp_bridges_found == 0) {
++				pci_unregister_driver(&agp_amd64_pci_driver);
++				err = -ENODEV;
++			}
+ 		}
+ 	}
+ 	return err;
+
+base-commit: 11313e2f78128c948e9b4eb58b3dacfc30964700
 -- 
-2.49.0
+2.47.2
 
