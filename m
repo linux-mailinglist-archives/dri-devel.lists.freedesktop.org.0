@@ -2,48 +2,48 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2BF2DAE49B3
-	for <lists+dri-devel@lfdr.de>; Mon, 23 Jun 2025 18:07:38 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id DCEE3AE49B8
+	for <lists+dri-devel@lfdr.de>; Mon, 23 Jun 2025 18:08:07 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8084310E3F2;
-	Mon, 23 Jun 2025 16:07:36 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D3C3410E3F6;
+	Mon, 23 Jun 2025 16:07:47 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=collabora.com header.i=nicolas.frattaroli@collabora.com header.b="D8/Ayvqf";
+	dkim=pass (1024-bit key; unprotected) header.d=collabora.com header.i=nicolas.frattaroli@collabora.com header.b="buhftoVz";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from sender4-op-o12.zoho.com (sender4-op-o12.zoho.com
  [136.143.188.12])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8709310E3F2
- for <dri-devel@lists.freedesktop.org>; Mon, 23 Jun 2025 16:07:35 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; t=1750694844; cv=none; 
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C98FB10E3F6
+ for <dri-devel@lists.freedesktop.org>; Mon, 23 Jun 2025 16:07:46 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; t=1750694857; cv=none; 
  d=zohomail.com; s=zohoarc; 
- b=EIT8duZaEru2MmNFkH17+ln1IIP4IavbRzXbIiy2QiUh/d2aciJyS1Izh14Rz//qTiHKcVH+oTgOC6dgJQ6K2R57tDbCRYsBl26OMECKmDY7t5PqwBOObNcO/44mkdzZxSc9avn/J17ic0CiQh1oZ32vwlZ8S5cYGuSnf/OqsuI=
+ b=RpNSjXPlwewb3UMnlfY5xAYZahUCkGM5qhUclqIAo7eOU/5v2JRWih9jNx5vGUm3rcG0tYLIiQcCAKI40eisTotlYV9jvdYR7+6ZOYLd+yYI50lyQl8R69JWsao27XlJDdnI1VG+W9xZv3PhvrwTKAtiJZYOT/XWXlWyrSj7ArE=
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com;
- s=zohoarc; t=1750694844;
+ s=zohoarc; t=1750694857;
  h=Content-Type:Content-Transfer-Encoding:Cc:Cc:Date:Date:From:From:In-Reply-To:MIME-Version:Message-ID:References:Subject:Subject:To:To:Message-Id:Reply-To;
- bh=3vxzpmqQhtBTxrTmTd5Bzl/GtkmPJzUHuKrqn6sWqUs=; 
- b=hwxyil+U7MtLL/WuKplFKlR6zFJMyRYpOTPLNOQvC4wQ6M/QCNNxCb0wcag0xDeHTQQjar5h1i1R27DczszCZyNX6lFrddzwg6B8Inq2uMIaqJMlOuD6mH0jd5c/oFcjSm9rap3qAlSm49tklyWDwvhz1wY4TP01gl2XEaQF8hY=
+ bh=IEvmIHvuwAPEfUkB5NeMsSGsbaGgFIA2vlsXsJ5g5E0=; 
+ b=e7mhTskL3L5qjaFAmZO7UF6zmo12CuGirRLmt6xanEoO5WJfqN1pp/uT3rX7Sr9qh3ltKbCgxxjNPhqIKCK4fw4Xyd1YDCNg8XJT9yPCJuE4pSatsmW2EdXYRLcGaCOhHjTJM+WdSZcV06gKZclZQx2rRuAMdQGrML7eriou6m0=
 ARC-Authentication-Results: i=1; mx.zohomail.com;
  dkim=pass  header.i=collabora.com;
  spf=pass  smtp.mailfrom=nicolas.frattaroli@collabora.com;
  dmarc=pass header.from=<nicolas.frattaroli@collabora.com>
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1750694844; 
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1750694857; 
  s=zohomail; d=collabora.com; i=nicolas.frattaroli@collabora.com;
  h=From:From:Date:Date:Subject:Subject:MIME-Version:Content-Type:Content-Transfer-Encoding:Message-Id:Message-Id:References:In-Reply-To:To:To:Cc:Cc:Reply-To;
- bh=3vxzpmqQhtBTxrTmTd5Bzl/GtkmPJzUHuKrqn6sWqUs=;
- b=D8/AyvqfleOxQ5u+HAmjai387RcB6u3Pe/Ngg0HiSeQZhBRYTWJmlKvFJiKYyLhg
- weGvQ2B+HxV6Gv5W6paN+Je7jognnkAHg5tn63e+gATBi+mMpPSy2rREt3ZgdWzSccR
- QzjdWw7RjN6RLCBO7LnbjjzqtoT3uQiLjx59TjUY=
-Received: by mx.zohomail.com with SMTPS id 175069484197195.58532796051668;
- Mon, 23 Jun 2025 09:07:21 -0700 (PDT)
+ bh=IEvmIHvuwAPEfUkB5NeMsSGsbaGgFIA2vlsXsJ5g5E0=;
+ b=buhftoVzlo8EFm7u25qulvmSqKKDNxlRswBQkNqj0VTcsDu3VVRBNoZpK3n1xSOj
+ I9mChqbiUCfyZhko/6lNke9jn+biKmunMz9u3+VFmwFazz1AZwndwjf5Iq1atJB/MW6
+ 2xdDm9SuAR02ZRticpv8mtVQ9ZYvFTvHZIiFOmLM=
+Received: by mx.zohomail.com with SMTPS id 175069485533518.451355756531825;
+ Mon, 23 Jun 2025 09:07:35 -0700 (PDT)
 From: Nicolas Frattaroli <nicolas.frattaroli@collabora.com>
-Date: Mon, 23 Jun 2025 18:05:35 +0200
-Subject: [PATCH v2 07/20] drm/rockchip: dsi: switch to FIELD_PREP_WM16* macros
+Date: Mon, 23 Jun 2025 18:05:36 +0200
+Subject: [PATCH v2 08/20] drm/rockchip: vop2: switch to FIELD_PREP_WM16 macro
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20250623-byeword-update-v2-7-cf1fc08a2e1f@collabora.com>
+Message-Id: <20250623-byeword-update-v2-8-cf1fc08a2e1f@collabora.com>
 References: <20250623-byeword-update-v2-0-cf1fc08a2e1f@collabora.com>
 In-Reply-To: <20250623-byeword-update-v2-0-cf1fc08a2e1f@collabora.com>
 To: Yury Norov <yury.norov@gmail.com>, 
@@ -83,7 +83,8 @@ Cc: kernel@collabora.com, linux-kernel@vger.kernel.org,
  linux-sound@vger.kernel.org, netdev@vger.kernel.org, 
  linux-stm32@st-md-mailman.stormreply.com, linux-pci@vger.kernel.org, 
  linux-pm@vger.kernel.org, linux-clk@vger.kernel.org, llvm@lists.linux.dev, 
- Nicolas Frattaroli <nicolas.frattaroli@collabora.com>
+ Nicolas Frattaroli <nicolas.frattaroli@collabora.com>, 
+ Cristian Ciocaltea <cristian.ciocaltea@collabora.com>
 X-Mailer: b4 0.14.2
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -103,334 +104,85 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 The era of hand-rolled HIWORD_UPDATE macros is over, at least for those
 drivers that use constant masks.
 
-Remove this driver's HIWORD_UPDATE macro, and replace instances of it
-with either FIELD_PREP_WM16 or FIELD_PREP_WM16_CONST, depending on
-whether they're in an initializer. This gives us better error checking,
-which already saved me some trouble during this refactor.
+Remove VOP2's HIWORD_UPDATE macro from the vop2 header file, and replace
+all instances in rockchip_vop2_reg.c (the only user of this particular
+HIWORD_UPDATE definition) with equivalent FIELD_PREP_WM16 instances. This
+gives us better error checking.
 
-The driver's HIWORD_UPDATE macro doesn't shift up the value, but expects
-a pre-shifted value. Meanwhile, FIELD_PREP_WM16 and
-FIELD_PREP_WM16_CONST will shift the value for us, based on the given
-mask. So a few things that used to be a HIWORD_UPDATE(VERY_LONG_FOO,
-VERY_LONG_FOO) are now a somewhat more pleasant
-FIELD_PREP_WM16(VERY_LONG_FOO, 1).
-
-There are some non-trivial refactors here. A few literals needed a UL
-suffix added to stop them from unintentionally overflowing as a signed
-long. To make sure all of these cases are caught, and not just the ones
-where the FIELD_PREP_WM16* macros use such a value as a mask, just mark
-every literal that's used as a mask as unsigned.
-
-Non-contiguous masks also have to be split into multiple
-FIELD_PREP_WM16* instances, as the macro's checks and shifting logic
-rely on contiguous masks.
-
-This is compile-tested only.
-
+Reviewed-by: Cristian Ciocaltea <cristian.ciocaltea@collabora.com>
+Tested-by: Cristian Ciocaltea <cristian.ciocaltea@collabora.com>
 Signed-off-by: Nicolas Frattaroli <nicolas.frattaroli@collabora.com>
 ---
- drivers/gpu/drm/rockchip/dw-mipi-dsi-rockchip.c | 142 ++++++++++++------------
- 1 file changed, 68 insertions(+), 74 deletions(-)
+ drivers/gpu/drm/rockchip/rockchip_drm_vop2.h |  1 -
+ drivers/gpu/drm/rockchip/rockchip_vop2_reg.c | 15 +++++++++------
+ 2 files changed, 9 insertions(+), 7 deletions(-)
 
-diff --git a/drivers/gpu/drm/rockchip/dw-mipi-dsi-rockchip.c b/drivers/gpu/drm/rockchip/dw-mipi-dsi-rockchip.c
-index 3398160ad75e4a9629082bc47491eab473caecc0..5523911b990d93aa5b8a28acb8ffa01298c4a3b7 100644
---- a/drivers/gpu/drm/rockchip/dw-mipi-dsi-rockchip.c
-+++ b/drivers/gpu/drm/rockchip/dw-mipi-dsi-rockchip.c
+diff --git a/drivers/gpu/drm/rockchip/rockchip_drm_vop2.h b/drivers/gpu/drm/rockchip/rockchip_drm_vop2.h
+index fc3ecb9fcd9576d20c0fdfa8df469dfbff6605da..757232de41f609917aca679c17623c80879f3593 100644
+--- a/drivers/gpu/drm/rockchip/rockchip_drm_vop2.h
++++ b/drivers/gpu/drm/rockchip/rockchip_drm_vop2.h
+@@ -33,7 +33,6 @@
+ #define WIN_FEATURE_AFBDC		BIT(0)
+ #define WIN_FEATURE_CLUSTER		BIT(1)
+ 
+-#define HIWORD_UPDATE(v, h, l)  ((GENMASK(h, l) << 16) | ((v) << (l)))
+ /*
+  *  the delay number of a window in different mode.
+  */
+diff --git a/drivers/gpu/drm/rockchip/rockchip_vop2_reg.c b/drivers/gpu/drm/rockchip/rockchip_vop2_reg.c
+index 32c4ed6857395a953bef8cd800b510fbdf7d9cec..31a7b0e49fc6b8d90c0ba9062ed20f8f615a5927 100644
+--- a/drivers/gpu/drm/rockchip/rockchip_vop2_reg.c
++++ b/drivers/gpu/drm/rockchip/rockchip_vop2_reg.c
 @@ -7,6 +7,7 @@
-  */
- 
- #include <linux/clk.h>
+ #include <linux/bitfield.h>
+ #include <linux/kernel.h>
+ #include <linux/component.h>
 +#include <linux/hw_bitfield.h>
- #include <linux/iopoll.h>
- #include <linux/math64.h>
- #include <linux/mfd/syscon.h>
-@@ -148,7 +149,7 @@
- #define DW_MIPI_NEEDS_GRF_CLK		BIT(1)
- 
- #define PX30_GRF_PD_VO_CON1		0x0438
--#define PX30_DSI_FORCETXSTOPMODE	(0xf << 7)
-+#define PX30_DSI_FORCETXSTOPMODE	(0xfUL << 7)
- #define PX30_DSI_FORCERXMODE		BIT(6)
- #define PX30_DSI_TURNDISABLE		BIT(5)
- #define PX30_DSI_LCDC_SEL		BIT(0)
-@@ -167,16 +168,16 @@
- #define RK3399_DSI1_LCDC_SEL		BIT(4)
- 
- #define RK3399_GRF_SOC_CON22		0x6258
--#define RK3399_DSI0_TURNREQUEST		(0xf << 12)
--#define RK3399_DSI0_TURNDISABLE		(0xf << 8)
--#define RK3399_DSI0_FORCETXSTOPMODE	(0xf << 4)
--#define RK3399_DSI0_FORCERXMODE		(0xf << 0)
-+#define RK3399_DSI0_TURNREQUEST		(0xfUL << 12)
-+#define RK3399_DSI0_TURNDISABLE		(0xfUL << 8)
-+#define RK3399_DSI0_FORCETXSTOPMODE	(0xfUL << 4)
-+#define RK3399_DSI0_FORCERXMODE		(0xfUL << 0)
- 
- #define RK3399_GRF_SOC_CON23		0x625c
--#define RK3399_DSI1_TURNDISABLE		(0xf << 12)
--#define RK3399_DSI1_FORCETXSTOPMODE	(0xf << 8)
--#define RK3399_DSI1_FORCERXMODE		(0xf << 4)
--#define RK3399_DSI1_ENABLE		(0xf << 0)
-+#define RK3399_DSI1_TURNDISABLE		(0xfUL << 12)
-+#define RK3399_DSI1_FORCETXSTOPMODE	(0xfUL << 8)
-+#define RK3399_DSI1_FORCERXMODE		(0xfUL << 4)
-+#define RK3399_DSI1_ENABLE		(0xfUL << 0)
- 
- #define RK3399_GRF_SOC_CON24		0x6260
- #define RK3399_TXRX_MASTERSLAVEZ	BIT(7)
-@@ -186,8 +187,8 @@
- #define RK3399_TXRX_TURNREQUEST		GENMASK(3, 0)
- 
- #define RK3568_GRF_VO_CON2		0x0368
--#define RK3568_DSI0_SKEWCALHS		(0x1f << 11)
--#define RK3568_DSI0_FORCETXSTOPMODE	(0xf << 4)
-+#define RK3568_DSI0_SKEWCALHS		(0x1fUL << 11)
-+#define RK3568_DSI0_FORCETXSTOPMODE	(0xfUL << 4)
- #define RK3568_DSI0_TURNDISABLE		BIT(2)
- #define RK3568_DSI0_FORCERXMODE		BIT(0)
- 
-@@ -197,18 +198,16 @@
-  * come from. Name GRF_VO_CON3 is assumed.
-  */
- #define RK3568_GRF_VO_CON3		0x36c
--#define RK3568_DSI1_SKEWCALHS		(0x1f << 11)
--#define RK3568_DSI1_FORCETXSTOPMODE	(0xf << 4)
-+#define RK3568_DSI1_SKEWCALHS		(0x1fUL << 11)
-+#define RK3568_DSI1_FORCETXSTOPMODE	(0xfUL << 4)
- #define RK3568_DSI1_TURNDISABLE		BIT(2)
- #define RK3568_DSI1_FORCERXMODE		BIT(0)
- 
- #define RV1126_GRF_DSIPHY_CON		0x10220
--#define RV1126_DSI_FORCETXSTOPMODE	(0xf << 4)
-+#define RV1126_DSI_FORCETXSTOPMODE	(0xfUL << 4)
- #define RV1126_DSI_TURNDISABLE		BIT(2)
- #define RV1126_DSI_FORCERXMODE		BIT(0)
- 
--#define HIWORD_UPDATE(val, mask)	(val | (mask) << 16)
--
- enum {
- 	DW_DSI_USAGE_IDLE,
- 	DW_DSI_USAGE_DSI,
-@@ -1484,14 +1483,13 @@ static const struct rockchip_dw_dsi_chip_data px30_chip_data[] = {
- 	{
- 		.reg = 0xff450000,
- 		.lcdsel_grf_reg = PX30_GRF_PD_VO_CON1,
--		.lcdsel_big = HIWORD_UPDATE(0, PX30_DSI_LCDC_SEL),
--		.lcdsel_lit = HIWORD_UPDATE(PX30_DSI_LCDC_SEL,
--					    PX30_DSI_LCDC_SEL),
-+		.lcdsel_big = FIELD_PREP_WM16_CONST(PX30_DSI_LCDC_SEL, 0),
-+		.lcdsel_lit = FIELD_PREP_WM16_CONST(PX30_DSI_LCDC_SEL, 1),
- 
- 		.lanecfg1_grf_reg = PX30_GRF_PD_VO_CON1,
--		.lanecfg1 = HIWORD_UPDATE(0, PX30_DSI_TURNDISABLE |
--					     PX30_DSI_FORCERXMODE |
--					     PX30_DSI_FORCETXSTOPMODE),
-+		.lanecfg1 = FIELD_PREP_WM16_CONST((PX30_DSI_TURNDISABLE |
-+						PX30_DSI_FORCERXMODE |
-+						PX30_DSI_FORCETXSTOPMODE), 0),
- 
- 		.max_data_lanes = 4,
- 	},
-@@ -1502,9 +1500,9 @@ static const struct rockchip_dw_dsi_chip_data rk3128_chip_data[] = {
- 	{
- 		.reg = 0x10110000,
- 		.lanecfg1_grf_reg = RK3128_GRF_LVDS_CON0,
--		.lanecfg1 = HIWORD_UPDATE(0, RK3128_DSI_TURNDISABLE |
--					     RK3128_DSI_FORCERXMODE |
--					     RK3128_DSI_FORCETXSTOPMODE),
-+		.lanecfg1 = FIELD_PREP_WM16_CONST((RK3128_DSI_TURNDISABLE |
-+						RK3128_DSI_FORCERXMODE |
-+						RK3128_DSI_FORCETXSTOPMODE), 0),
- 		.max_data_lanes = 4,
- 	},
- 	{ /* sentinel */ }
-@@ -1514,16 +1512,16 @@ static const struct rockchip_dw_dsi_chip_data rk3288_chip_data[] = {
- 	{
- 		.reg = 0xff960000,
- 		.lcdsel_grf_reg = RK3288_GRF_SOC_CON6,
--		.lcdsel_big = HIWORD_UPDATE(0, RK3288_DSI0_LCDC_SEL),
--		.lcdsel_lit = HIWORD_UPDATE(RK3288_DSI0_LCDC_SEL, RK3288_DSI0_LCDC_SEL),
-+		.lcdsel_big = FIELD_PREP_WM16_CONST(RK3288_DSI0_LCDC_SEL, 0),
-+		.lcdsel_lit = FIELD_PREP_WM16_CONST(RK3288_DSI0_LCDC_SEL, 1),
- 
- 		.max_data_lanes = 4,
- 	},
- 	{
- 		.reg = 0xff964000,
- 		.lcdsel_grf_reg = RK3288_GRF_SOC_CON6,
--		.lcdsel_big = HIWORD_UPDATE(0, RK3288_DSI1_LCDC_SEL),
--		.lcdsel_lit = HIWORD_UPDATE(RK3288_DSI1_LCDC_SEL, RK3288_DSI1_LCDC_SEL),
-+		.lcdsel_big = FIELD_PREP_WM16_CONST(RK3288_DSI1_LCDC_SEL, 0),
-+		.lcdsel_lit = FIELD_PREP_WM16_CONST(RK3288_DSI1_LCDC_SEL, 1),
- 
- 		.max_data_lanes = 4,
- 	},
-@@ -1539,13 +1537,13 @@ static int rk3399_dphy_tx1rx1_init(struct phy *phy)
- 	 * Assume ISP0 is supplied by the RX0 dphy.
- 	 */
- 	regmap_write(dsi->grf_regmap, RK3399_GRF_SOC_CON24,
--		     HIWORD_UPDATE(0, RK3399_TXRX_SRC_SEL_ISP0));
-+		     FIELD_PREP_WM16(RK3399_TXRX_SRC_SEL_ISP0, 0));
- 	regmap_write(dsi->grf_regmap, RK3399_GRF_SOC_CON24,
--		     HIWORD_UPDATE(0, RK3399_TXRX_MASTERSLAVEZ));
-+		     FIELD_PREP_WM16(RK3399_TXRX_MASTERSLAVEZ, 0));
- 	regmap_write(dsi->grf_regmap, RK3399_GRF_SOC_CON24,
--		     HIWORD_UPDATE(0, RK3399_TXRX_BASEDIR));
-+		     FIELD_PREP_WM16(RK3399_TXRX_BASEDIR, 0));
- 	regmap_write(dsi->grf_regmap, RK3399_GRF_SOC_CON23,
--		     HIWORD_UPDATE(0, RK3399_DSI1_ENABLE));
-+		     FIELD_PREP_WM16(RK3399_DSI1_ENABLE, 0));
- 
- 	return 0;
- }
-@@ -1559,21 +1557,20 @@ static int rk3399_dphy_tx1rx1_power_on(struct phy *phy)
- 	usleep_range(100, 150);
- 
- 	regmap_write(dsi->grf_regmap, RK3399_GRF_SOC_CON24,
--		     HIWORD_UPDATE(0, RK3399_TXRX_MASTERSLAVEZ));
-+		     FIELD_PREP_WM16(RK3399_TXRX_MASTERSLAVEZ, 0));
- 	regmap_write(dsi->grf_regmap, RK3399_GRF_SOC_CON24,
--		     HIWORD_UPDATE(RK3399_TXRX_BASEDIR, RK3399_TXRX_BASEDIR));
-+		     FIELD_PREP_WM16(RK3399_TXRX_BASEDIR, 1));
- 
- 	regmap_write(dsi->grf_regmap, RK3399_GRF_SOC_CON23,
--		     HIWORD_UPDATE(0, RK3399_DSI1_FORCERXMODE));
-+		     FIELD_PREP_WM16(RK3399_DSI1_FORCERXMODE, 0));
- 	regmap_write(dsi->grf_regmap, RK3399_GRF_SOC_CON23,
--		     HIWORD_UPDATE(0, RK3399_DSI1_FORCETXSTOPMODE));
-+		     FIELD_PREP_WM16(RK3399_DSI1_FORCETXSTOPMODE, 0));
- 
- 	/* Disable lane turn around, which is ignored in receive mode */
- 	regmap_write(dsi->grf_regmap, RK3399_GRF_SOC_CON24,
--		     HIWORD_UPDATE(0, RK3399_TXRX_TURNREQUEST));
-+		     FIELD_PREP_WM16(RK3399_TXRX_TURNREQUEST, 0));
- 	regmap_write(dsi->grf_regmap, RK3399_GRF_SOC_CON23,
--		     HIWORD_UPDATE(RK3399_DSI1_TURNDISABLE,
--				   RK3399_DSI1_TURNDISABLE));
-+		     FIELD_PREP_WM16(RK3399_DSI1_TURNDISABLE, 0xf));
- 	usleep_range(100, 150);
- 
- 	dsi_write(dsi, DSI_PHY_TST_CTRL0, PHY_TESTCLK | PHY_UNTESTCLR);
-@@ -1581,8 +1578,8 @@ static int rk3399_dphy_tx1rx1_power_on(struct phy *phy)
- 
- 	/* Enable dphy lanes */
- 	regmap_write(dsi->grf_regmap, RK3399_GRF_SOC_CON23,
--		     HIWORD_UPDATE(GENMASK(dsi->dphy_config.lanes - 1, 0),
--				   RK3399_DSI1_ENABLE));
-+		     FIELD_PREP_WM16(RK3399_DSI1_ENABLE,
-+				  GENMASK(dsi->dphy_config.lanes - 1, 0)));
- 
- 	usleep_range(100, 150);
- 
-@@ -1594,7 +1591,7 @@ static int rk3399_dphy_tx1rx1_power_off(struct phy *phy)
- 	struct dw_mipi_dsi_rockchip *dsi = phy_get_drvdata(phy);
- 
- 	regmap_write(dsi->grf_regmap, RK3399_GRF_SOC_CON23,
--		     HIWORD_UPDATE(0, RK3399_DSI1_ENABLE));
-+		     FIELD_PREP_WM16(RK3399_DSI1_ENABLE, 0));
- 
- 	return 0;
- }
-@@ -1603,15 +1600,14 @@ static const struct rockchip_dw_dsi_chip_data rk3399_chip_data[] = {
- 	{
- 		.reg = 0xff960000,
- 		.lcdsel_grf_reg = RK3399_GRF_SOC_CON20,
--		.lcdsel_big = HIWORD_UPDATE(0, RK3399_DSI0_LCDC_SEL),
--		.lcdsel_lit = HIWORD_UPDATE(RK3399_DSI0_LCDC_SEL,
--					    RK3399_DSI0_LCDC_SEL),
-+		.lcdsel_big = FIELD_PREP_WM16_CONST(RK3399_DSI0_LCDC_SEL, 0),
-+		.lcdsel_lit = FIELD_PREP_WM16_CONST(RK3399_DSI0_LCDC_SEL, 1),
- 
- 		.lanecfg1_grf_reg = RK3399_GRF_SOC_CON22,
--		.lanecfg1 = HIWORD_UPDATE(0, RK3399_DSI0_TURNREQUEST |
--					     RK3399_DSI0_TURNDISABLE |
--					     RK3399_DSI0_FORCETXSTOPMODE |
--					     RK3399_DSI0_FORCERXMODE),
-+		.lanecfg1 = FIELD_PREP_WM16_CONST((RK3399_DSI0_TURNREQUEST |
-+						RK3399_DSI0_TURNDISABLE |
-+						RK3399_DSI0_FORCETXSTOPMODE |
-+						RK3399_DSI0_FORCERXMODE), 0),
- 
- 		.flags = DW_MIPI_NEEDS_PHY_CFG_CLK | DW_MIPI_NEEDS_GRF_CLK,
- 		.max_data_lanes = 4,
-@@ -1619,25 +1615,23 @@ static const struct rockchip_dw_dsi_chip_data rk3399_chip_data[] = {
- 	{
- 		.reg = 0xff968000,
- 		.lcdsel_grf_reg = RK3399_GRF_SOC_CON20,
--		.lcdsel_big = HIWORD_UPDATE(0, RK3399_DSI1_LCDC_SEL),
--		.lcdsel_lit = HIWORD_UPDATE(RK3399_DSI1_LCDC_SEL,
--					    RK3399_DSI1_LCDC_SEL),
-+		.lcdsel_big = FIELD_PREP_WM16_CONST(RK3399_DSI1_LCDC_SEL, 0),
-+		.lcdsel_lit = FIELD_PREP_WM16_CONST(RK3399_DSI1_LCDC_SEL, 1),
-+
- 
- 		.lanecfg1_grf_reg = RK3399_GRF_SOC_CON23,
--		.lanecfg1 = HIWORD_UPDATE(0, RK3399_DSI1_TURNDISABLE |
--					     RK3399_DSI1_FORCETXSTOPMODE |
--					     RK3399_DSI1_FORCERXMODE |
--					     RK3399_DSI1_ENABLE),
-+		.lanecfg1 = FIELD_PREP_WM16_CONST((RK3399_DSI1_TURNDISABLE |
-+						RK3399_DSI1_FORCETXSTOPMODE |
-+						RK3399_DSI1_FORCERXMODE |
-+						RK3399_DSI1_ENABLE), 0),
- 
- 		.lanecfg2_grf_reg = RK3399_GRF_SOC_CON24,
--		.lanecfg2 = HIWORD_UPDATE(RK3399_TXRX_MASTERSLAVEZ |
--					  RK3399_TXRX_ENABLECLK,
--					  RK3399_TXRX_MASTERSLAVEZ |
--					  RK3399_TXRX_ENABLECLK |
--					  RK3399_TXRX_BASEDIR),
-+		.lanecfg2 = (FIELD_PREP_WM16_CONST(RK3399_TXRX_MASTERSLAVEZ, 1) |
-+			     FIELD_PREP_WM16_CONST(RK3399_TXRX_ENABLECLK, 1) |
-+			     FIELD_PREP_WM16_CONST(RK3399_TXRX_BASEDIR, 0)),
- 
- 		.enable_grf_reg = RK3399_GRF_SOC_CON23,
--		.enable = HIWORD_UPDATE(RK3399_DSI1_ENABLE, RK3399_DSI1_ENABLE),
-+		.enable = FIELD_PREP_WM16_CONST(RK3399_DSI1_ENABLE, RK3399_DSI1_ENABLE),
- 
- 		.flags = DW_MIPI_NEEDS_PHY_CFG_CLK | DW_MIPI_NEEDS_GRF_CLK,
- 		.max_data_lanes = 4,
-@@ -1653,19 +1647,19 @@ static const struct rockchip_dw_dsi_chip_data rk3568_chip_data[] = {
- 	{
- 		.reg = 0xfe060000,
- 		.lanecfg1_grf_reg = RK3568_GRF_VO_CON2,
--		.lanecfg1 = HIWORD_UPDATE(0, RK3568_DSI0_SKEWCALHS |
--					  RK3568_DSI0_FORCETXSTOPMODE |
--					  RK3568_DSI0_TURNDISABLE |
--					  RK3568_DSI0_FORCERXMODE),
-+		.lanecfg1 = (FIELD_PREP_WM16_CONST(RK3568_DSI0_SKEWCALHS, 0) |
-+			     FIELD_PREP_WM16_CONST(RK3568_DSI0_FORCETXSTOPMODE, 0) |
-+			     FIELD_PREP_WM16_CONST(RK3568_DSI0_TURNDISABLE, 0) |
-+			     FIELD_PREP_WM16_CONST(RK3568_DSI0_FORCERXMODE, 0)),
- 		.max_data_lanes = 4,
- 	},
- 	{
- 		.reg = 0xfe070000,
- 		.lanecfg1_grf_reg = RK3568_GRF_VO_CON3,
--		.lanecfg1 = HIWORD_UPDATE(0, RK3568_DSI1_SKEWCALHS |
--					  RK3568_DSI1_FORCETXSTOPMODE |
--					  RK3568_DSI1_TURNDISABLE |
--					  RK3568_DSI1_FORCERXMODE),
-+		.lanecfg1 = (FIELD_PREP_WM16_CONST(RK3568_DSI1_SKEWCALHS, 0) |
-+			     FIELD_PREP_WM16_CONST(RK3568_DSI1_FORCETXSTOPMODE, 0) |
-+			     FIELD_PREP_WM16_CONST(RK3568_DSI1_TURNDISABLE, 0) |
-+			     FIELD_PREP_WM16_CONST(RK3568_DSI1_FORCERXMODE, 0)),
- 		.max_data_lanes = 4,
- 	},
- 	{ /* sentinel */ }
-@@ -1675,9 +1669,9 @@ static const struct rockchip_dw_dsi_chip_data rv1126_chip_data[] = {
- 	{
- 		.reg = 0xffb30000,
- 		.lanecfg1_grf_reg = RV1126_GRF_DSIPHY_CON,
--		.lanecfg1 = HIWORD_UPDATE(0, RV1126_DSI_TURNDISABLE |
--					     RV1126_DSI_FORCERXMODE |
--					     RV1126_DSI_FORCETXSTOPMODE),
-+		.lanecfg1 = (FIELD_PREP_WM16_CONST(RV1126_DSI_TURNDISABLE, 0) |
-+			     FIELD_PREP_WM16_CONST(RV1126_DSI_FORCERXMODE, 0) |
-+			     FIELD_PREP_WM16_CONST(RV1126_DSI_FORCETXSTOPMODE, 0)),
- 		.max_data_lanes = 4,
- 	},
- 	{ /* sentinel */ }
+ #include <linux/mod_devicetable.h>
+ #include <linux/platform_device.h>
+ #include <linux/of.h>
+@@ -1695,8 +1696,9 @@ static unsigned long rk3588_set_intf_mux(struct vop2_video_port *vp, int id, u32
+ 		die |= RK3588_SYS_DSP_INFACE_EN_HDMI0 |
+ 			    FIELD_PREP(RK3588_SYS_DSP_INFACE_EN_EDP_HDMI0_MUX, vp->id);
+ 		val = rk3588_get_hdmi_pol(polflags);
+-		regmap_write(vop2->vop_grf, RK3588_GRF_VOP_CON2, HIWORD_UPDATE(1, 1, 1));
+-		regmap_write(vop2->vo1_grf, RK3588_GRF_VO1_CON0, HIWORD_UPDATE(val, 6, 5));
++		regmap_write(vop2->vop_grf, RK3588_GRF_VOP_CON2, FIELD_PREP_WM16(BIT(1), 1));
++		regmap_write(vop2->vo1_grf, RK3588_GRF_VO1_CON0,
++			     FIELD_PREP_WM16(GENMASK(6, 5), val));
+ 		break;
+ 	case ROCKCHIP_VOP2_EP_HDMI1:
+ 		div &= ~RK3588_DSP_IF_EDP_HDMI1_DCLK_DIV;
+@@ -1707,8 +1709,9 @@ static unsigned long rk3588_set_intf_mux(struct vop2_video_port *vp, int id, u32
+ 		die |= RK3588_SYS_DSP_INFACE_EN_HDMI1 |
+ 			    FIELD_PREP(RK3588_SYS_DSP_INFACE_EN_EDP_HDMI1_MUX, vp->id);
+ 		val = rk3588_get_hdmi_pol(polflags);
+-		regmap_write(vop2->vop_grf, RK3588_GRF_VOP_CON2, HIWORD_UPDATE(1, 4, 4));
+-		regmap_write(vop2->vo1_grf, RK3588_GRF_VO1_CON0, HIWORD_UPDATE(val, 8, 7));
++		regmap_write(vop2->vop_grf, RK3588_GRF_VOP_CON2, FIELD_PREP_WM16(BIT(4), 1));
++		regmap_write(vop2->vo1_grf, RK3588_GRF_VO1_CON0,
++			     FIELD_PREP_WM16(GENMASK(8, 7), val));
+ 		break;
+ 	case ROCKCHIP_VOP2_EP_EDP0:
+ 		div &= ~RK3588_DSP_IF_EDP_HDMI0_DCLK_DIV;
+@@ -1718,7 +1721,7 @@ static unsigned long rk3588_set_intf_mux(struct vop2_video_port *vp, int id, u32
+ 		die &= ~RK3588_SYS_DSP_INFACE_EN_EDP_HDMI0_MUX;
+ 		die |= RK3588_SYS_DSP_INFACE_EN_EDP0 |
+ 			   FIELD_PREP(RK3588_SYS_DSP_INFACE_EN_EDP_HDMI0_MUX, vp->id);
+-		regmap_write(vop2->vop_grf, RK3588_GRF_VOP_CON2, HIWORD_UPDATE(1, 0, 0));
++		regmap_write(vop2->vop_grf, RK3588_GRF_VOP_CON2, FIELD_PREP_WM16(BIT(0), 1));
+ 		break;
+ 	case ROCKCHIP_VOP2_EP_EDP1:
+ 		div &= ~RK3588_DSP_IF_EDP_HDMI1_DCLK_DIV;
+@@ -1728,7 +1731,7 @@ static unsigned long rk3588_set_intf_mux(struct vop2_video_port *vp, int id, u32
+ 		die &= ~RK3588_SYS_DSP_INFACE_EN_EDP_HDMI1_MUX;
+ 		die |= RK3588_SYS_DSP_INFACE_EN_EDP1 |
+ 			   FIELD_PREP(RK3588_SYS_DSP_INFACE_EN_EDP_HDMI1_MUX, vp->id);
+-		regmap_write(vop2->vop_grf, RK3588_GRF_VOP_CON2, HIWORD_UPDATE(1, 3, 3));
++		regmap_write(vop2->vop_grf, RK3588_GRF_VOP_CON2, FIELD_PREP_WM16(BIT(3), 1));
+ 		break;
+ 	case ROCKCHIP_VOP2_EP_MIPI0:
+ 		div &= ~RK3588_DSP_IF_MIPI0_PCLK_DIV;
 
 -- 
 2.50.0
