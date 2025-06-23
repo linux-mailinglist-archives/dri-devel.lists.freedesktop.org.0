@@ -2,71 +2,55 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6968DAE4D3A
-	for <lists+dri-devel@lfdr.de>; Mon, 23 Jun 2025 21:03:16 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2D4CFAE4D67
+	for <lists+dri-devel@lfdr.de>; Mon, 23 Jun 2025 21:14:02 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B4B8510E451;
-	Mon, 23 Jun 2025 19:02:55 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9CDD010E28E;
+	Mon, 23 Jun 2025 19:13:59 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=broadcom.com header.i=@broadcom.com header.b="h1lPk54n";
+	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=igalia.com header.i=@igalia.com header.b="QtfsgrXs";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-f42.google.com (mail-wr1-f42.google.com
- [209.85.221.42])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D7A5910E445
- for <dri-devel@lists.freedesktop.org>; Mon, 23 Jun 2025 19:02:53 +0000 (UTC)
-Received: by mail-wr1-f42.google.com with SMTP id
- ffacd0b85a97d-3a531fcaa05so1922728f8f.3
- for <dri-devel@lists.freedesktop.org>; Mon, 23 Jun 2025 12:02:53 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=broadcom.com; s=google; t=1750705372; x=1751310172;
- darn=lists.freedesktop.org; 
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:from:to:cc:subject:date:message-id:reply-to;
- bh=yC8eYyk8RCgyB1Lj4WGc38h7yLcXrWaRYGHyFizCza8=;
- b=h1lPk54nlUktF6zewtXkpuyrayIqscIfHT+o3eLNMTA+5Z+w9gTJn1zc5cjAyEvbXY
- ZuTjssWwNR5jU+N35B7Jg3LYFH/tJnjkmNJoKtnIKUq1osFIfV1ZKzbvKR9JDSoE0vC2
- 6N25na9OYU0tzZktqgAo+yofqWLYWPFh6qDZg=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1750705372; x=1751310172;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=yC8eYyk8RCgyB1Lj4WGc38h7yLcXrWaRYGHyFizCza8=;
- b=pHq6ulLvf6aHrVcNhCInKgbDStE5RhCs/Sc46gU+rgF5ccnkHTm4viccqKSD4iNQzm
- hZwteHmgLV/+uP1mqghn27YV4oyHfXwwzgd6OTiqJWTPPg8F7dTOzEKY93p2CL3yYwN3
- qRcjfDG4V55Qvk9kHtdjQmTo2CqbT6l2ttTH5WMIYsBr2zYK46YFAC/5BTeoiCkhHQVF
- a8VjwUBIwJ3YLm2Dpb+3gZ9x0thUpzCTXA+Hf6A4PIzs70CUib/gcQMVr0hTMB0/u+zM
- V4MalUwf7XC/GTwBAU8tVpl138cYiGb4L38S6iXtm/zVrfaEAA8LV0K952CZ9wO7JfWt
- d7VQ==
-X-Forwarded-Encrypted: i=1;
- AJvYcCWwxp2KGy6L8MYPJ+W/ZfE8fEulNZGxwsvaFAEAkomCxBCcvvpQgzEp3OxoFCT7trxPGbx5Q1aqV4g=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YyGMGNAeNsPQmBnWm9d1Q57ntQi2RYbCKXjicpM1B96IBNyoApL
- 8qh1SOse3X1om+CVFsmMeWZOjw4Q3pLVmL5kWoTUG5VwhBZhKXPljpJIbB7qiGTr6vnk/XcwD9R
- 2pVHHWww7kfuMyhEQmfr704VLsjkkyfG+jYeTzSJ1nya7d5j0ElA3CQ==
-X-Gm-Gg: ASbGncvKHt0ENhA5bATmT3SzM9Ir/wQHBlilGoqmoeoOjD7I8K1fjlP23cWA+Z3IR4t
- 8JrBD4m2hvBaCxVNWquMBbdlaQ6yEOkVxM06dKxD5zjs6TLHleJbvZO/y10apr4GGXSMeKI9rH7
- Cy2DvwC/fcEVYJFmSjL3ymlEDVldCON7an7iFarE96/4lm
-X-Google-Smtp-Source: AGHT+IHJ2AdRKw1KVAeXjekOAS/08TkBAZri/Aakoknq3apnRn3zXoxcJmGSK4hyyUslSk0utXt5S1YH/ft2fOwCDng=
-X-Received: by 2002:a05:6000:2507:b0:3a4:ef0d:e614 with SMTP id
- ffacd0b85a97d-3a6d12d5873mr10807555f8f.33.1750705372232; Mon, 23 Jun 2025
- 12:02:52 -0700 (PDT)
+Received: from fanzine2.igalia.com (fanzine2.igalia.com [213.97.179.56])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 109C889CAC;
+ Mon, 23 Jun 2025 19:13:56 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com; 
+ s=20170329;
+ h=In-Reply-To:Content-Type:MIME-Version:References:Message-ID:
+ Subject:Cc:To:From:Date:Sender:Reply-To:Content-Transfer-Encoding:Content-ID:
+ Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc
+ :Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:List-Subscribe:
+ List-Post:List-Owner:List-Archive;
+ bh=vz3K1qOXb6M+LnYbmQjBf5RoD9TovQK/ckkGbHQtzCk=; b=QtfsgrXsdFopAN4l7ccD0hDy2O
+ MITnq4NaOMb8bEns3a7LBLxFagrXPtQTWtgavLYkfQv3JnPdobwrUBg307YEKOw5LFTNjVlUMcuj0
+ hCs37mwsN66D8mQnUqO2NN7AFDAdphEjjxlcN2x86S2t+MWohacdOpdkfQmegDmOZJdHZ57d+O4e+
+ QTr1YhWaBsdcWr5FRYuhonBPn0EZO0YvaTQRKeM7Cxkd8UJQQcivxG5xCH5QekCPtE/pSNfztPlu4
+ z4Mf28c0QP39FFMsFP76N5JY2vVd0Hc/4I/mietIZehNJIhVeGi0awcjMfGLjnasKwNNhB0wnCx4s
+ S3Pfck5A==;
+Received: from [104.193.135.201] (helo=debian.lan)
+ by fanzine2.igalia.com with esmtpsa 
+ (Cipher TLS1.3:ECDHE_SECP256R1__RSA_PSS_RSAE_SHA256__AES_256_GCM:256) (Exim)
+ id 1uTmc1-007dPP-6j; Mon, 23 Jun 2025 21:13:49 +0200
+Date: Mon, 23 Jun 2025 13:13:43 -0600
+From: Rodrigo Siqueira <siqueira@igalia.com>
+To: Werner Sembach <wse@tuxedocomputers.com>
+Cc: harry.wentland@amd.com, sunpeng.li@amd.com, alexander.deucher@amd.com, 
+ christian.koenig@amd.com, airlied@gmail.com, simona@ffwll.ch, 
+ amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org, 
+ Alex Hung <alex.hung@amd.com>, Daniel Wheeler <daniel.wheeler@amd.com>, 
+ Mario Limonciello <mario.limonciello@amd.com>
+Subject: Re: [PATCH 1/1] drm/amd/display: Add quirk to force backlight type
+ on some TUXEDO devices
+Message-ID: <dnu7mbrw7fs4qvwi2alvgrqvonsrucrq7hgxgkqyyqn5djzkkj@c7grkpftjbw4>
+References: <20250409163029.130651-1-wse@tuxedocomputers.com>
+ <20250409163029.130651-2-wse@tuxedocomputers.com>
+ <08ceaa42-a12c-4bd4-bb75-b71126a60688@tuxedocomputers.com>
 MIME-Version: 1.0
-References: <20250616130726.22863-1-christian.koenig@amd.com>
-In-Reply-To: <20250616130726.22863-1-christian.koenig@amd.com>
-From: Ian Forbes <ian.forbes@broadcom.com>
-Date: Mon, 23 Jun 2025 14:02:41 -0500
-X-Gm-Features: Ac12FXwh9SKoB-6bgbRzxDhWXNwP8MNLBZTB4nXWVzX3eiDad9omfRHpkYbVTvE
-Message-ID: <CAO6MGtj=UW3FTwOFWJEwZoDO93-cRidrdE6s11EOwKP8298O9A@mail.gmail.com>
-Subject: Re: [PATCH 1/6] drm/vmwgfx: drop printing the TTM refcount for
- debugging
-To: =?UTF-8?Q?Christian_K=C3=B6nig?= <ckoenig.leichtzumerken@gmail.com>
-Cc: thomas.hellstrom@linux.intel.com, intel-xe@lists.freedesktop.org, 
- dri-devel@lists.freedesktop.org, matthew.brost@intel.com, 
- matthew.auld@intel.com
-Content-Type: multipart/signed; protocol="application/pkcs7-signature";
- micalg=sha-256; boundary="000000000000d86840063841db52"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <08ceaa42-a12c-4bd4-bb75-b71126a60688@tuxedocomputers.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -82,118 +66,103 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
---000000000000d86840063841db52
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+On 06/23, Werner Sembach wrote:
+> gentle bump
+> 
+> Am 09.04.25 um 18:27 schrieb Werner Sembach:
+> > The display backlight on TUXEDO Polaris AMD Gen2 and Gen3 with panels
+> > BOE 2420 and BOE 2423 must be forced to pwn controlled to be able to
+> > control the brightness.
+> > 
+> > This could already be archived via a module parameter, but this patch adds
+> > a quirk to apply this by default on the mentioned device + panel
+> > combinations.
+> > 
+> > Signed-off-by: Werner Sembach <wse@tuxedocomputers.com>
+> > Cc: stable@vger.kernel.org
+> > ---
+> >   .../gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c | 32 ++++++++++++++++++-
+> >   1 file changed, 31 insertions(+), 1 deletion(-)
+> > 
+> > diff --git a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
+> > index 39df45f652b32..2bad6274ad8ff 100644
+> > --- a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
+> > +++ b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
+> > @@ -1625,11 +1625,13 @@ static bool dm_should_disable_stutter(struct pci_dev *pdev)
+> >   struct amdgpu_dm_quirks {
+> >   	bool aux_hpd_discon;
+> >   	bool support_edp0_on_dp1;
+> > +	bool boe_2420_2423_bl_force_pwm;
+> >   };
+> >   static struct amdgpu_dm_quirks quirk_entries = {
+> >   	.aux_hpd_discon = false,
+> > -	.support_edp0_on_dp1 = false
+> > +	.support_edp0_on_dp1 = false,
+> > +	.boe_2420_2423_bl_force_pwm = false
+> >   };
+> >   static int edp0_on_dp1_callback(const struct dmi_system_id *id)
+> > @@ -1644,6 +1646,12 @@ static int aux_hpd_discon_callback(const struct dmi_system_id *id)
+> >   	return 0;
+> >   }
+> > +static int boe_2420_2423_bl_force_pwm_callback(const struct dmi_system_id *id)
+> > +{
+> > +	quirk_entries.boe_2420_2423_bl_force_pwm = true;
+> > +	return 0;
+> > +}
+> > +
+> >   static const struct dmi_system_id dmi_quirk_table[] = {
+> >   	{
+> >   		.callback = aux_hpd_discon_callback,
+> > @@ -1722,6 +1730,20 @@ static const struct dmi_system_id dmi_quirk_table[] = {
+> >   			DMI_MATCH(DMI_PRODUCT_NAME, "HP EliteBook 665 16 inch G11 Notebook PC"),
+> >   		},
+> >   	},
+> > +	{
+> > +		// TUXEDO Polaris AMD Gen2
+> > +		.callback = boe_2420_2423_bl_force_pwm_callback,
+> > +		.matches = {
+> > +			DMI_MATCH(DMI_BOARD_NAME, "GMxNGxx"),
+> > +		},
+> > +	},
+> > +	{
+> > +		// TUXEDO Polaris AMD Gen3
+> > +		.callback = boe_2420_2423_bl_force_pwm_callback,
+> > +		.matches = {
+> > +			DMI_MATCH(DMI_BOARD_NAME, "GMxZGxx"),
+> > +		},
+> > +	},
+> >   	{}
+> >   	/* TODO: refactor this from a fixed table to a dynamic option */
+> >   };
+> > @@ -3586,6 +3608,7 @@ static void update_connector_ext_caps(struct amdgpu_dm_connector *aconnector)
+> >   	struct amdgpu_device *adev;
+> >   	struct drm_luminance_range_info *luminance_range;
+> >   	int min_input_signal_override;
+> > +	u32 panel;
+> >   	if (aconnector->bl_idx == -1 ||
+> >   	    aconnector->dc_link->connector_signal != SIGNAL_TYPE_EDP)
+> > @@ -3610,6 +3633,13 @@ static void update_connector_ext_caps(struct amdgpu_dm_connector *aconnector)
+> >   		caps->aux_support = false;
+> >   	else if (amdgpu_backlight == 1)
+> >   		caps->aux_support = true;
+> > +	else if (amdgpu_backlight == -1 &&
+> > +		 quirk_entries.boe_2420_2423_bl_force_pwm) {
+> > +		panel = drm_edid_get_panel_id(aconnector->drm_edid);
+> > +		if (panel == drm_edid_encode_panel_id('B', 'O', 'E', 0x0974) ||
+> > +		    panel == drm_edid_encode_panel_id('B', 'O', 'E', 0x0977))
+> > +			caps->aux_support = false;
+> > +	}
 
-On Mon, Jun 16, 2025 at 8:07=E2=80=AFAM Christian K=C3=B6nig
-<ckoenig.leichtzumerken@gmail.com> wrote:
->
-> That is something TTM internal which is about to get dropped.
->
-> Signed-off-by: Christian K=C3=B6nig <christian.koenig@amd.com>
+It lgtm,
 
-Reviewed-by: Ian Forbes <ian.forbes@broadcom.com>
+Additionally, I believe this is safe to merge since it only affects a
+specific device. Perhaps display folks would like to include this as
+part of this week's promotion? Anyway, Cc other devs from the display.
 
---000000000000d86840063841db52
-Content-Type: application/pkcs7-signature; name="smime.p7s"
-Content-Transfer-Encoding: base64
-Content-Disposition: attachment; filename="smime.p7s"
-Content-Description: S/MIME Cryptographic Signature
+Reviewed-by: Rodrigo Siqueira <siqueira@igalia.com>
 
-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
-V0fYJUiKJMCwvDmndOil8EtMA8j2T6taUZoQINiKQ0oDWgY6eYVv7AdPVIeOOs3noCyUL8AyA7Bl
-yoOPBB2/gk8VGcolEKgAAj+3hPbBF/d19x1bZzU3wABizBomVwykx5ms1nVXDbQajz8jqYECKWh9
-3OMo7BuC3TAClu5mLr2zs0Ccpp6NRRkjTF8WtCJ+jSnjFJGLAgMBAAGjggHYMIIB1DAOBgNVHQ8B
-Af8EBAMCBaAwgZMGCCsGAQUFBwEBBIGGMIGDMEYGCCsGAQUFBzAChjpodHRwOi8vc2VjdXJlLmds
-b2JhbHNpZ24uY29tL2NhY2VydC9nc2djY3I2c21pbWVjYTIwMjMuY3J0MDkGCCsGAQUFBzABhi1o
-dHRwOi8vb2NzcC5nbG9iYWxzaWduLmNvbS9nc2djY3I2c21pbWVjYTIwMjMwZQYDVR0gBF4wXDAJ
-BgdngQwBBQMBMAsGCSsGAQQBoDIBKDBCBgorBgEEAaAyCgMCMDQwMgYIKwYBBQUHAgEWJmh0dHBz
-Oi8vd3d3Lmdsb2JhbHNpZ24uY29tL3JlcG9zaXRvcnkvMAkGA1UdEwQCMAAwQQYDVR0fBDowODA2
-oDSgMoYwaHR0cDovL2NybC5nbG9iYWxzaWduLmNvbS9nc2djY3I2c21pbWVjYTIwMjMuY3JsMCIG
-A1UdEQQbMBmBF2lhbi5mb3JiZXNAYnJvYWRjb20uY29tMBMGA1UdJQQMMAoGCCsGAQUFBwMEMB8G
-A1UdIwQYMBaAFAApNp5ceroPry1QLdugI4UYsKCSMB0GA1UdDgQWBBSvJWzgGK7aSByS+CQVBVfM
-Xgm5azANBgkqhkiG9w0BAQsFAAOCAgEAfrWiLF3zrYq7D+KPNRaAP70FbxHeaiUfn27Hbu37Eefz
-xeJTcFZH04IEtXqpM3NWYZm4A/dFn/VQPbLCRaeXzpT2TESVH6EFY7BEF0rnSSlUbFyi000MnSH3
-h5m+MoyE+PzLqfzLBZS+EU/haCpPy6Nqhs3fPKG3w5VTnUPsAxXK7rSmkIDVNsvwRttuMq9KHJzH
-Bx51dP/z3mel4OuMjgrwHk5uNY1Sn1MZAUQztVUsWguyfoKcmhxXbBccR5DdEfBgDEbq8bicPQ3J
-kqEy1QZXJfHlJuAJIiEw7odGctwqLeGCU6cBLhnsg54ngjO3uYC6tIySul55MRxFKE8HIwIrx+D5
-2SwhDeVLZ8sTK40uPzW5xg5laOWVCvmy2b+cHCGzarUeIlYdtw0ejdH9Hbkm0G7IrDvjkhPa64gR
-6Q+m5CGRDk+8iWhieH6WFE4HL++BpZhoi+YsOkGU3DK0dA+pxQnXNcNw1s0eNbSUVwQzmlC4LqiK
-Gj5JV81HTPLhoAya57a9i28Fp5qHZiFnCq4HMvwiwY7IWe+UwUuueU199aTK80xNiS553vHc6FpI
-/vxGy+LveJqEtodfKqQKwDOVu//c1Lz3uergJHqFYTMykk5U95J3FG5q/7Mqe4RF6E9OgtuAJidS
-6Ca5anjLQ/qzIfTjoXX7TJSjPztehRQxggJXMIICUwIBATBiMFIxCzAJBgNVBAYTAkJFMRkwFwYD
-VQQKExBHbG9iYWxTaWduIG52LXNhMSgwJgYDVQQDEx9HbG9iYWxTaWduIEdDQyBSNiBTTUlNRSBD
-QSAyMDIzAgx2/5+PPF/QoW30N7swDQYJYIZIAWUDBAIBBQCggccwLwYJKoZIhvcNAQkEMSIEICyg
-VsbsxmBy+llcJXH1Qvo1zA6pVivWIi8GzpeikVaKMBgGCSqGSIb3DQEJAzELBgkqhkiG9w0BBwEw
-HAYJKoZIhvcNAQkFMQ8XDTI1MDYyMzE5MDI1MlowXAYJKoZIhvcNAQkPMU8wTTALBglghkgBZQME
-ASowCwYJYIZIAWUDBAEWMAsGCWCGSAFlAwQBAjAKBggqhkiG9w0DBzALBgkqhkiG9w0BAQcwCwYJ
-YIZIAWUDBAIBMA0GCSqGSIb3DQEBAQUABIIBAIuPq7OaioxA0vCeELZTNIMqldRaYJ8BHA3PdION
-ZX19KSqYgN4Vxf/nWc7ReOr6TZEzIMleZ4ddWXhctGegOcTsQLpSgODn5QYv4fW4dNIpO7lJj63j
-1m+A9PRD9Ak/cDHE0SAnxRCro/+VNVSkupAH65pR93O+pRskiHnGYZv7KrfmPpQ6JacVow5eQEmI
-x5u9nSjeJJmOM0Kb+aX151KC7+jd++8dICNGgZyUGXRzRZIzNmxWJJF+QkxLQXtLJszid1LXRiPN
-CLaGETR0nDl+utOiU6p5wahgYexNSaHXEyEt/0PuG33oJwXW9epZdc0g2OvdQhCFPS+wzGjLJGE=
---000000000000d86840063841db52--
+> >   	if (caps->aux_support)
+> >   		aconnector->dc_link->backlight_control_type = BACKLIGHT_CONTROL_AMD_AUX;
+
+-- 
+Rodrigo Siqueira
