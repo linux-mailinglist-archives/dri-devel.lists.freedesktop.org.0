@@ -2,114 +2,64 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6A0B0AE404D
-	for <lists+dri-devel@lfdr.de>; Mon, 23 Jun 2025 14:31:55 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 29F5BAE408A
+	for <lists+dri-devel@lfdr.de>; Mon, 23 Jun 2025 14:37:45 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D2C0410E39D;
-	Mon, 23 Jun 2025 12:31:53 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 299AB10E3AA;
+	Mon, 23 Jun 2025 12:37:42 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="ea4C2eHx";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="FSRtIGfd";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-f50.google.com (mail-wm1-f50.google.com
- [209.85.128.50])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 53B7010E39D
- for <dri-devel@lists.freedesktop.org>; Mon, 23 Jun 2025 12:31:52 +0000 (UTC)
-Received: by mail-wm1-f50.google.com with SMTP id
- 5b1f17b1804b1-450ce3a2dd5so39739255e9.3
- for <dri-devel@lists.freedesktop.org>; Mon, 23 Jun 2025 05:31:52 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1750681911; x=1751286711; darn=lists.freedesktop.org;
- h=content-transfer-encoding:in-reply-to:organization:autocrypt
- :content-language:references:cc:to:subject:reply-to:from:user-agent
- :mime-version:date:message-id:from:to:cc:subject:date:message-id
- :reply-to; bh=5BsUESEJVffI4oZaO5RphZPRSePWRjkMtfmD/4yLa1A=;
- b=ea4C2eHxK6E/I+QNkCqLkreFzCWPfcNfEc/op+fVimQUCp2ghx2xAPscydzsqNp2OF
- 1g6MgPkG2WR8J7WhxjXYq2Ybz71pFYPvx5a3WjWIpJl0rWye3KxnkUxnaSrnUPy9BD4b
- emOS+2aFQFm4fsoevSoSMcGPGGWZfoOJEZp/W02HpVs2PLcUFp73l7cWK/lNsh9TBMqL
- XoVsQ6gscCYq7cZLdoxa2rcukuL+jAGGzyMbY4+d+sD5jjrkaO4DtrMsldYz/rKHPxJr
- vIVVLMnffqXYZRqWZOqug+3ctkOLBYbKybuPnyrxyKUoQLTLbqMeh9amkA9yccbv1zWm
- 1aeQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1750681911; x=1751286711;
- h=content-transfer-encoding:in-reply-to:organization:autocrypt
- :content-language:references:cc:to:subject:reply-to:from:user-agent
- :mime-version:date:message-id:x-gm-message-state:from:to:cc:subject
- :date:message-id:reply-to;
- bh=5BsUESEJVffI4oZaO5RphZPRSePWRjkMtfmD/4yLa1A=;
- b=bjZoV+rPgx1OioqA0H48Rs3lrRwFPS5XH9EsCbklTbAUFXoq5ZeOMpXra0P898uGzf
- d1bON859czO7FxwToCHyOx/RmobBMO59Gr4c9qUKU/8syyJ1SZw1q7Ci0rufOWUETBhw
- tm40DAXfPrpm5RWV4gVGA7kK2JGPzHPPBMryiIrFkKLhMrb9UaWH3TCLqLBGjd+iWriO
- dcsIkz8VlrCEvaKcUYAnb+h6PaB1SmV0pIS1sjLo1anF+tsxSEFFgavTMMq5AdIJL2SS
- eywKY8nB6P+9yOAjIWJkv1fgk4wDVfox8ZDHjACzgtI7Pw/FilMaMiaUryB5vk+iOdc/
- 3QSA==
-X-Gm-Message-State: AOJu0YxJtQUiALSkSDd1b5YgInbqgmqipsTkKJcnQBz/M7VrLm7Jj7yA
- c+YwNWpHT9NKcdWh9Hnf6A8NYDbMdopdLwBokcz/ebgtbeMnzJscmiPmjJrvcjRQx9U=
-X-Gm-Gg: ASbGncunSpRndWvrbMdQTj21TogFJUJ1RLBfMOsgLH3zSPvHS/7NTWc6l7saxAqe8fN
- T1TCzLRSBbe1kV0Hraj2TteH4Rl1EHo/ctQrW/DoSryzGoLEZkM8gRmtQJRihRwQiu/64v7xeX/
- lvmmRikdioswkRCIePMoL6XRB5UL5XchdiprfoJn5AXKGjhuPPMHnNpLLU+KC84QKljy1OGwxqq
- J8JWUlTuLSeZ15OL51Uyjp8b2K3MPI2Ur6wgsVq4k2GH58tr/5tgaNvTAXgT72Sr5ADepuhtKne
- qIP4YwyZfIAupl5n/Bt8v7656M1N9Pqi6U4D2zR9UkVzoAU3RIKJ1QaKAZWX8HCit4cffKMBTmI
- VP7ffov5RyLUrhPVwI7cwVyoCw9/SPJXC5yaQDWI=
-X-Google-Smtp-Source: AGHT+IHaPhLV7BB64wJ54i+PRTDFMAI1xBSKbX9CFXttTtVDg0OzsIpGIzpsgLpaaXop+qHd9i2Kdw==
-X-Received: by 2002:a05:6000:2902:b0:3a4:d367:c591 with SMTP id
- ffacd0b85a97d-3a6d128a58fmr9608741f8f.10.1750681910714; 
- Mon, 23 Jun 2025 05:31:50 -0700 (PDT)
-Received: from ?IPV6:2a01:e0a:3d9:2080:8c08:7c51:bbb1:5a2d?
- ([2a01:e0a:3d9:2080:8c08:7c51:bbb1:5a2d])
- by smtp.gmail.com with ESMTPSA id
- ffacd0b85a97d-3a6d0f19e7dsm9599607f8f.38.2025.06.23.05.31.49
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 23 Jun 2025 05:31:50 -0700 (PDT)
-Message-ID: <6070afbd-39f8-4f60-9230-794889e7012e@linaro.org>
-Date: Mon, 23 Jun 2025 14:31:49 +0200
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.14])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E940A10E3AD;
+ Mon, 23 Jun 2025 12:37:40 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1750682261; x=1782218261;
+ h=message-id:date:mime-version:subject:to:cc:references:
+ from:in-reply-to:content-transfer-encoding;
+ bh=jOOtIzg+qfOmHQceAyeLn4PiLd1Wxl/+vF70O4jTiQU=;
+ b=FSRtIGfd5Xmu+91rLV3/ppEQDc+3iAXuKKO4v9dObst1R4x03wFK9Aj6
+ 1CFi+iN2MQ2saRVeW1ti095KUoyFCNv2/jn1epTSNCkQ4DHfvmCX2jfWT
+ 1XyYo4xLYtOlJ0MDxfKBd0Oj2cMWPmZc2HIthXCrPxbXlO/AMnK9LUpEP
+ td7J6WM2JM7KjspkzC8au3fFJ01HqSOeAb3vCjmd4BxEPQQS6Yz8xnOm+
+ arnzhqv+ogLswPmfXFh6yoBhJ20//Tk971tOkcg9WwtgT7k0Kw6dnPbkv
+ PzQ5U4h8lcbeIeTTWk/D7fnxgEpf8W69CFViP+e+EPHrG5YnoJjFAIXAA A==;
+X-CSE-ConnectionGUID: AinJDl4uTCWBUobYYDoZGA==
+X-CSE-MsgGUID: OEeznP8zRSaRGPKsVyioPQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11473"; a="56666224"
+X-IronPort-AV: E=Sophos;i="6.16,258,1744095600"; d="scan'208";a="56666224"
+Received: from fmviesa002.fm.intel.com ([10.60.135.142])
+ by orvoesa106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 23 Jun 2025 05:37:40 -0700
+X-CSE-ConnectionGUID: b10mhB7hRcuT8k5vRF0Wlw==
+X-CSE-MsgGUID: cUrA/9NyTFOzEIuyKS2A5g==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.16,258,1744095600"; d="scan'208";a="175204491"
+Received: from dprybysh-mobl.ger.corp.intel.com (HELO [10.245.244.101])
+ ([10.245.244.101])
+ by fmviesa002-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 23 Jun 2025 05:37:38 -0700
+Message-ID: <2250a163-76ee-4da0-8804-9157d269c84b@intel.com>
+Date: Mon, 23 Jun 2025 13:37:35 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-From: Neil Armstrong <neil.armstrong@linaro.org>
-Subject: Re: [PATCH] drm/bridge: panel: move prepare_prev_first handling to
- drm_panel_bridge_add_typed
-To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
- Andrzej Hajda <andrzej.hajda@intel.com>, Robert Foss <rfoss@kernel.org>,
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
- Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- Dave Stevenson <dave.stevenson@raspberrypi.com>,
- Jagan Teki <jagan@amarulasolutions.com>
-Cc: dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- Svyatoslav Ryhel <clamor95@gmail.com>
-References: <20250220-panel_prev_first-v1-1-b9e787825a1a@linaro.org>
-Content-Language: en-US, fr
-Autocrypt: addr=neil.armstrong@linaro.org; keydata=
- xsBNBE1ZBs8BCAD78xVLsXPwV/2qQx2FaO/7mhWL0Qodw8UcQJnkrWmgTFRobtTWxuRx8WWP
- GTjuhvbleoQ5Cxjr+v+1ARGCH46MxFP5DwauzPekwJUD5QKZlaw/bURTLmS2id5wWi3lqVH4
- BVF2WzvGyyeV1o4RTCYDnZ9VLLylJ9bneEaIs/7cjCEbipGGFlfIML3sfqnIvMAxIMZrvcl9
- qPV2k+KQ7q+aXavU5W+yLNn7QtXUB530Zlk/d2ETgzQ5FLYYnUDAaRl+8JUTjc0CNOTpCeik
- 80TZcE6f8M76Xa6yU8VcNko94Ck7iB4vj70q76P/J7kt98hklrr85/3NU3oti3nrIHmHABEB
- AAHNKk5laWwgQXJtc3Ryb25nIDxuZWlsLmFybXN0cm9uZ0BsaW5hcm8ub3JnPsLAkQQTAQoA
- OwIbIwULCQgHAwUVCgkICwUWAgMBAAIeAQIXgBYhBInsPQWERiF0UPIoSBaat7Gkz/iuBQJk
- Q5wSAhkBAAoJEBaat7Gkz/iuyhMIANiD94qDtUTJRfEW6GwXmtKWwl/mvqQtaTtZID2dos04
- YqBbshiJbejgVJjy+HODcNUIKBB3PSLaln4ltdsV73SBcwUNdzebfKspAQunCM22Mn6FBIxQ
- GizsMLcP/0FX4en9NaKGfK6ZdKK6kN1GR9YffMJd2P08EO8mHowmSRe/ExAODhAs9W7XXExw
- UNCY4pVJyRPpEhv373vvff60bHxc1k/FF9WaPscMt7hlkbFLUs85kHtQAmr8pV5Hy9ezsSRa
- GzJmiVclkPc2BY592IGBXRDQ38urXeM4nfhhvqA50b/nAEXc6FzqgXqDkEIwR66/Gbp0t3+r
- yQzpKRyQif3OwE0ETVkGzwEIALyKDN/OGURaHBVzwjgYq+ZtifvekdrSNl8TIDH8g1xicBYp
- QTbPn6bbSZbdvfeQPNCcD4/EhXZuhQXMcoJsQQQnO4vwVULmPGgtGf8PVc7dxKOeta+qUh6+
- SRh3vIcAUFHDT3f/Zdspz+e2E0hPV2hiSvICLk11qO6cyJE13zeNFoeY3ggrKY+IzbFomIZY
- 4yG6xI99NIPEVE9lNBXBKIlewIyVlkOaYvJWSV+p5gdJXOvScNN1epm5YHmf9aE2ZjnqZGoM
- Mtsyw18YoX9BqMFInxqYQQ3j/HpVgTSvmo5ea5qQDDUaCsaTf8UeDcwYOtgI8iL4oHcsGtUX
- oUk33HEAEQEAAcLAXwQYAQIACQUCTVkGzwIbDAAKCRAWmrexpM/4rrXiB/sGbkQ6itMrAIfn
- M7IbRuiSZS1unlySUVYu3SD6YBYnNi3G5EpbwfBNuT3H8//rVvtOFK4OD8cRYkxXRQmTvqa3
- 3eDIHu/zr1HMKErm+2SD6PO9umRef8V82o2oaCLvf4WeIssFjwB0b6a12opuRP7yo3E3gTCS
- KmbUuLv1CtxKQF+fUV1cVaTPMyT25Od+RC1K+iOR0F54oUJvJeq7fUzbn/KdlhA8XPGzwGRy
- 4zcsPWvwnXgfe5tk680fEKZVwOZKIEuJC3v+/yZpQzDvGYJvbyix0lHnrCzq43WefRHI5XTT
- QbM0WUIBIcGmq38+OgUsMYu4NzLu7uZFAcmp6h8g
-Organization: Linaro
-In-Reply-To: <20250220-panel_prev_first-v1-1-b9e787825a1a@linaro.org>
+Subject: Re: [PATCH 2/2] drm/amdgpu: Reset the clear flag in buddy during
+ resume
+To: Arunpravin Paneer Selvam <Arunpravin.PaneerSelvam@amd.com>,
+ dri-devel@lists.freedesktop.org, amd-gfx@lists.freedesktop.org
+Cc: christian.koenig@amd.com, alexander.deucher@amd.com,
+ stable@vger.kernel.org, Matthew Brost <matthew.brost@intel.com>,
+ "intel-xe@lists.freedesktop.org" <intel-xe@lists.freedesktop.org>
+References: <20250623055253.56630-1-Arunpravin.PaneerSelvam@amd.com>
+ <20250623055253.56630-2-Arunpravin.PaneerSelvam@amd.com>
+Content-Language: en-GB
+From: Matthew Auld <matthew.auld@intel.com>
+In-Reply-To: <20250623055253.56630-2-Arunpravin.PaneerSelvam@amd.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -122,66 +72,117 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Reply-To: Neil Armstrong <neil.armstrong@linaro.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 20/02/2025 16:07, Dmitry Baryshkov wrote:
-> The commit 5ea6b1702781 ("drm/panel: Add prepare_prev_first flag to
-> drm_panel") and commit 0974687a19c3 ("drm/bridge: panel: Set
-> pre_enable_prev_first from drmm_panel_bridge_add") added handling of
-> panel's prepare_prev_first to devm_panel_bridge_add() and
-> drmm_panel_bridge_add(). However if the driver calls
-> drm_panel_bridge_add_typed() directly, then the flag won't be handled
-> and thus the drm_bridge.pre_enable_prev_first will not be set.
-> 
-> Move prepare_prev_first handling to the drm_panel_bridge_add_typed() so
-> that there is no way to miss the flag.
-> 
-> Fixes: 5ea6b1702781 ("drm/panel: Add prepare_prev_first flag to drm_panel")
-> Fixes: 0974687a19c3 ("drm/bridge: panel: Set pre_enable_prev_first from drmm_panel_bridge_add")
-> Reported-by: Svyatoslav Ryhel <clamor95@gmail.com>
-> Closes: https://lore.kernel.org/dri-devel/CAPVz0n3YZass3Bns1m0XrFxtAC0DKbEPiW6vXimQx97G243sXw@mail.gmail.com/
-> Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-> ---
->   drivers/gpu/drm/bridge/panel.c | 5 +----
->   1 file changed, 1 insertion(+), 4 deletions(-)
-> 
-> diff --git a/drivers/gpu/drm/bridge/panel.c b/drivers/gpu/drm/bridge/panel.c
-> index c57036b06493a6922e2cae38bcd1733930ff0073..ed23de0478312a26a5d3434e63bd2fe4a6099bfc 100644
-> --- a/drivers/gpu/drm/bridge/panel.c
-> +++ b/drivers/gpu/drm/bridge/panel.c
-> @@ -302,6 +302,7 @@ struct drm_bridge *drm_panel_bridge_add_typed(struct drm_panel *panel,
->   	panel_bridge->bridge.of_node = panel->dev->of_node;
->   	panel_bridge->bridge.ops = DRM_BRIDGE_OP_MODES;
->   	panel_bridge->bridge.type = connector_type;
-> +	panel_bridge->bridge.pre_enable_prev_first = panel->prepare_prev_first;
->   
->   	drm_bridge_add(&panel_bridge->bridge);
->   
-> @@ -416,8 +417,6 @@ struct drm_bridge *devm_drm_panel_bridge_add_typed(struct device *dev,
->   		return bridge;
->   	}
->   
-> -	bridge->pre_enable_prev_first = panel->prepare_prev_first;
-> -
->   	*ptr = bridge;
->   	devres_add(dev, ptr);
->   
-> @@ -459,8 +458,6 @@ struct drm_bridge *drmm_panel_bridge_add(struct drm_device *drm,
->   	if (ret)
->   		return ERR_PTR(ret);
->   
-> -	bridge->pre_enable_prev_first = panel->prepare_prev_first;
-> -
->   	return bridge;
->   }
->   EXPORT_SYMBOL(drmm_panel_bridge_add);
-> 
-> ---
-> base-commit: 8936cec5cb6e27649b86fabf383d7ce4113bba49
-> change-id: 20250220-panel_prev_first-fc90c6c8aefa
-> 
-> Best regards,
++Matt B who is adding clear-on-free support in xe. I'm not sure if we 
+might also see something like this.
 
-Reviewed-by: Neil Armstrong <neil.armstrong@linaro.org>
+On 23/06/2025 06:52, Arunpravin Paneer Selvam wrote:
+> - Added a handler in DRM buddy manager to reset the cleared
+>    flag for the blocks in the freelist.
+> 
+> - This is necessary because, upon resuming, the VRAM becomes
+>    cluttered with BIOS data, yet the VRAM backend manager
+>    believes that everything has been cleared.
+> 
+> Signed-off-by: Arunpravin Paneer Selvam <Arunpravin.PaneerSelvam@amd.com>
+> Suggested-by: Christian König <christian.koenig@amd.com>
+> Cc: stable@vger.kernel.org
+> Fixes: a68c7eaa7a8f ("drm/amdgpu: Enable clear page functionality")
+> Closes: https://gitlab.freedesktop.org/drm/amd/-/issues/3812
+> ---
+>   drivers/gpu/drm/amd/amdgpu/amdgpu_device.c   |  2 ++
+>   drivers/gpu/drm/amd/amdgpu/amdgpu_vram_mgr.h |  5 ++++
+>   drivers/gpu/drm/drm_buddy.c                  | 24 ++++++++++++++++++++
+>   include/drm/drm_buddy.h                      |  2 ++
+>   4 files changed, 33 insertions(+)
+> 
+> diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_device.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_device.c
+> index a59f194e3360..eb67d6c97392 100644
+> --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_device.c
+> +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_device.c
+> @@ -5193,6 +5193,8 @@ int amdgpu_device_resume(struct drm_device *dev, bool notify_clients)
+>   		dev->dev->power.disable_depth--;
+>   #endif
+>   	}
+> +
+> +	amdgpu_vram_mgr_clear_reset_blocks(&adev->mman.vram_mgr.mm);
+>   	adev->in_suspend = false;
+>   
+>   	if (amdgpu_acpi_smart_shift_update(dev, AMDGPU_SS_DEV_D0))
+> diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_vram_mgr.h b/drivers/gpu/drm/amd/amdgpu/amdgpu_vram_mgr.h
+> index 1019c5806ec7..e9e2928fa4d1 100644
+> --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_vram_mgr.h
+> +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_vram_mgr.h
+> @@ -58,6 +58,11 @@ static inline bool amdgpu_vram_mgr_is_cleared(struct drm_buddy_block *block)
+>   	return drm_buddy_block_is_clear(block);
+>   }
+>   
+> +static inline void amdgpu_vram_mgr_clear_reset_blocks(struct drm_buddy *mm)
+> +{
+> +	drm_buddy_clear_reset_blocks(mm);
+
+No lock needed?
+
+> +}
+> +
+>   static inline struct amdgpu_vram_mgr_resource *
+>   to_amdgpu_vram_mgr_resource(struct ttm_resource *res)
+>   {
+> diff --git a/drivers/gpu/drm/drm_buddy.c b/drivers/gpu/drm/drm_buddy.c
+> index a1e652b7631d..b5e44867adf2 100644
+> --- a/drivers/gpu/drm/drm_buddy.c
+> +++ b/drivers/gpu/drm/drm_buddy.c
+> @@ -405,6 +405,30 @@ drm_get_buddy(struct drm_buddy_block *block)
+>   }
+>   EXPORT_SYMBOL(drm_get_buddy);
+>   
+> +/**
+> + * drm_buddy_clear_reset_blocks - reset cleared blocks
+> + *
+> + * @mm: DRM buddy manager
+> + *
+> + * Reset all the cleared blocks in the freelist.
+> + */
+> +void drm_buddy_clear_reset_blocks(struct drm_buddy *mm)
+> +{
+> +	unsigned int i;
+> +
+
+This might be a good spot to also force merge freed blocks back 
+together, for the ones that have the clear vs dirty mismatch. Otherwise 
+with the below loop we can have two buddies that are now dirty but don't 
+get merged back together? Fairly sure fini() can chuck a warning 
+otherwise. Also a simple kunit test for this would be good.
+
+> +	for (i = 0; i <= mm->max_order; ++i) {
+> +		struct drm_buddy_block *block;
+> +
+> +		list_for_each_entry_reverse(block, &mm->free_list[i], link) {
+> +			if (drm_buddy_block_is_clear(block)) {
+> +				clear_reset(block);
+> +				mm->clear_avail -= drm_buddy_block_size(mm, block);
+> +			}
+> +		}
+> +	}
+> +}
+> +EXPORT_SYMBOL(drm_buddy_clear_reset_blocks);
+> +
+>   /**
+>    * drm_buddy_free_block - free a block
+>    *
+> diff --git a/include/drm/drm_buddy.h b/include/drm/drm_buddy.h
+> index 9689a7c5dd36..da569dea16b7 100644
+> --- a/include/drm/drm_buddy.h
+> +++ b/include/drm/drm_buddy.h
+> @@ -160,6 +160,8 @@ int drm_buddy_block_trim(struct drm_buddy *mm,
+>   			 u64 new_size,
+>   			 struct list_head *blocks);
+>   
+> +void drm_buddy_clear_reset_blocks(struct drm_buddy *mm);
+> +
+>   void drm_buddy_free_block(struct drm_buddy *mm, struct drm_buddy_block *block);
+>   
+>   void drm_buddy_free_list(struct drm_buddy *mm,
+
