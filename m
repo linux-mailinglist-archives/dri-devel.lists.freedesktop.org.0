@@ -2,75 +2,128 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 15FC7AE4493
-	for <lists+dri-devel@lfdr.de>; Mon, 23 Jun 2025 15:44:00 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0886FAE45AA
+	for <lists+dri-devel@lfdr.de>; Mon, 23 Jun 2025 15:58:43 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5FC4B10E3B8;
-	Mon, 23 Jun 2025 13:43:57 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2655310E1C6;
+	Mon, 23 Jun 2025 13:58:40 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="S0RTzfMZ";
+	dkim=pass (2048-bit key; unprotected) header.d=qualcomm.com header.i=@qualcomm.com header.b="DK7GbNpc";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pj1-f47.google.com (mail-pj1-f47.google.com
- [209.85.216.47])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1879C10E1FF;
- Mon, 23 Jun 2025 13:43:53 +0000 (UTC)
-Received: by mail-pj1-f47.google.com with SMTP id
- 98e67ed59e1d1-311ef4fb43dso3209334a91.3; 
- Mon, 23 Jun 2025 06:43:53 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1750686233; x=1751291033; darn=lists.freedesktop.org;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc:subject:date
- :message-id:reply-to;
- bh=sQ1iNfzmERtyZY1B9/MdNXTqqwS3BjEyE6ZYiTugAiU=;
- b=S0RTzfMZQECu5YdzFQZaKyd9Z8w1vq+Z3tEdZZHJTOolB01KwVDMBnFPzoNeXVoXGX
- wJ9QOpnc/xgWwaQ4VJ+3JsjXkWn9EzdugPyM7uiq5EhA+tYiHrOoJleS4N6pDHeI65sc
- dlzn81NEqQ6E4zuj6FNQG38k7MJ5jXwHstdxB+OtNIRTynkWTEWvIUVHD5Rbxmse/Vpn
- O1epSjRCaJRl7/vvi/zo7+wx0Sk6hCoJsK7RJiRxQz9dbA5msKGSi0OKOQ0mpY8ongb9
- qdi7QfQvTVnngYLCDwZ97san4jir9Yz890zyChXzYN9LtfQho9FTraCJoHpABlga1S9Z
- 5MJA==
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com
+ [205.220.168.131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1D54A10E1C6
+ for <dri-devel@lists.freedesktop.org>; Mon, 23 Jun 2025 13:58:36 +0000 (UTC)
+Received: from pps.filterd (m0279862.ppops.net [127.0.0.1])
+ by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 55N9TZ6I020990
+ for <dri-devel@lists.freedesktop.org>; Mon, 23 Jun 2025 13:58:34 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
+ cc:content-transfer-encoding:content-type:date:from:in-reply-to
+ :message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
+ gVPZjTtp1XI2FupP4oz954O3iw9aZ3hAniyWNapzx64=; b=DK7GbNpcZaFHiJ63
+ 1jj2VqudphMJnRJdIYUaxmX7dxhdHWTIY0OS2nDiN4a61RVr8cu89xcRyGdgmRTa
+ GhLwq++sMu7DgR70uzwptTFprZjMz/Ah5WaMes+sDFnu9AYuO3BOB8lbeI5dP24I
+ RX8mK20MwZDrbp6KsLUZXEiHnJE0PIWQWunUWX0z7klfvXVz7Llg8dnov2KLu//P
+ AQA3TRgjUd7dn/XdqX+VurjV5xErBCBM0sCuSEgHXpYH9YVSqtqjcXSwVSgFf6FP
+ PHUzxQ2ntcw78aS+p7BIhuDo91BrTmR/Y+yL0JOHZ8tNKYxDh+y8tIlTYIn7ILCu
+ Aa6I/w==
+Received: from mail-pg1-f197.google.com (mail-pg1-f197.google.com
+ [209.85.215.197])
+ by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 47f4b3rqnr-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
+ for <dri-devel@lists.freedesktop.org>; Mon, 23 Jun 2025 13:58:34 +0000 (GMT)
+Received: by mail-pg1-f197.google.com with SMTP id
+ 41be03b00d2f7-b3216490a11so1456635a12.3
+ for <dri-devel@lists.freedesktop.org>; Mon, 23 Jun 2025 06:58:34 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1750686233; x=1751291033;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=sQ1iNfzmERtyZY1B9/MdNXTqqwS3BjEyE6ZYiTugAiU=;
- b=AnPJ96ZFv8qo3MTG3xeO091P/Z8XCRl3JYr28Bzm45XbzR7XDeL6D5QilEr+fKou1y
- IHOLMxhlgv5IC8k01x0WUtzbAWtMjbSn+/50j5o9eYW8EYC1QifWe6dAQzN5bDprCQdf
- 6XlXeWWDFjvP2PmkpurG/3fFK3EYWda5gap3obD0PxBWyrKvKU18mNvIJzs6ugBAg8Ol
- IQfpARgOQXBeM9xAWrJ8Uaa2GxAH83oY6HJvOF1Gug+/1APCxgnOa5f4mj3K7aiUS1nc
- 3PaOmrKbnRSrIhS7ADsATAz4DXx7B2ilc2msPXbrKNISVp7s8leoMOhZallXHogKDjtE
- KHPQ==
+ d=1e100.net; s=20230601; t=1750687114; x=1751291914;
+ h=content-transfer-encoding:in-reply-to:content-language:from
+ :references:cc:to:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=gVPZjTtp1XI2FupP4oz954O3iw9aZ3hAniyWNapzx64=;
+ b=mwgBdvzDd10hRrcxksJqvghKHKprlr51yCddb1qVK1QRAhuJLfxB0iuOcJA4GoGnaa
+ AMQkoSbIUhonfPPtZYGnNU3SJVXDQDxFMo2oiS2X9VkDJgI4s75W8cHPXQggB5WTiUcp
+ JN3X7gc14+okhbDEqABePld4yiL5+i16oTb5DbEaPzr2Yga++iESw88K+tv32WBV/COj
+ tVHcql2/v4B9dbfHGLrU5rvYioLFB2GMo5HIIyWVzEuCCiysjIZvZfrGbo9I4VqbU69F
+ 82QDHmzD2kS8oNWctAfvBRnES7WzIW/wtS9O+2JFDjDd9JVtLSmPq8f7UNVqtBAjcde2
+ cc3g==
 X-Forwarded-Encrypted: i=1;
- AJvYcCXYhnayvFCJbOT4+416oFwzQe2g4B5wISffQJziB6TlyJppKhQNFpYY+CkGRMPzdGmOBkW9H1u3tHk=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0Yz5D++8LWIbbc3IQobyg0M0CDkxoA+86DISiKyTpcK8mMhfciRV
- wUGtha5OJRHi5DsCAmJ1HY66UXBo95MSub7mfKKIMfZ6evtmme/qH/4yv7eod613WrXgF9rYecW
- J2aH8/9zJTG5GkY9bFmrPptnef2nkNUo=
-X-Gm-Gg: ASbGncsuM9oT3BDduyrDpCgZFMK2WOuCvCPhmcoiS4Bqv8B5g/2vUETZTBcJ4+Zl3es
- A1FveNHGL/tUQf4CUAJ/qDr6QevkSyiFunfX95KOglf+8o+Q77SyCj05YlX0miGA9SRDljPZKAt
- tvDYfhLPbRWiLekLKzON43R452xuPULNTqgECJTm2dLiGuJg==
-X-Google-Smtp-Source: AGHT+IGUtMD2QPa31U8d4RtYxOh7uw/awxfXMfOh9XYZfXpdR7pUPQPPFwLaFMvVHr7JmquH7KwQj7IE04EGplHAL04=
-X-Received: by 2002:a17:90b:3505:b0:312:959:dc49 with SMTP id
- 98e67ed59e1d1-3159d642a58mr19868257a91.13.1750686232832; Mon, 23 Jun 2025
- 06:43:52 -0700 (PDT)
+ AJvYcCV2aL4MIk63bKfz+orvz2KDkVd5Wr1e3MdigqvV3rOk0/Q20uWGxwPF5a8Jr212vnYBiERBvje8PyE=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YyfccY6aRJ2Xj3l5yWep0zw+msY4RngfgOwQqyh6TrDKVmzLU2j
+ ZdUppIPnPlO0fpRXk3mEhoNxZB7I/eFg9wmwm90XhKMKGIhP7BFitoHdXp2TSnKFtvywNQqTPbo
+ Mq4JeypQGcPXwe8Zadzptjn8dwW2zex9QxmlMB4AiJ1sdzt2JKNNPYdCja4VY0SaH0zCD9rQ=
+X-Gm-Gg: ASbGncvS0FhUjANjFwsqWhD3xiztFrozK+uTPFsHM0xxn28v2vzN1XjrSBU/H4wTX7k
+ DypSxfTRfcFKPE4fCNIGccpqNcycfFcd4pYPgyaQMDqX/LIQwOMF7wwbXRCsvtjbpEhp4bIoFnd
+ 4o0MUnB9WtE6lTWCzfkC2YLZQtiLNSr45fqvK0l2S4xSbRXC0LjbD9UxoijQmDxQoVuRUBAIkJr
+ dDp4XEG2dvAJWXRklwhGa31Kk/9c9Ibs3vcGSGab4BY59QJ/KN/iQOPqV/D7JDXTTHi9HJYlyzD
+ yiCGy+hH9yxDQfm1+LXuN4WUJUHEjRLqCUFaa9RaTA==
+X-Received: by 2002:a05:6a20:258a:b0:220:19b7:9d6b with SMTP id
+ adf61e73a8af0-22026e3fc69mr18664031637.9.1750687113743; 
+ Mon, 23 Jun 2025 06:58:33 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IHVl1R1DUJMadEXAlc5CPHNyyosQFNPkLwlX/IE9EL9s6zL6fnh2dV9q0vTc02V0SmdWqoDwg==
+X-Received: by 2002:a05:6a20:258a:b0:220:19b7:9d6b with SMTP id
+ adf61e73a8af0-22026e3fc69mr18664002637.9.1750687113387; 
+ Mon, 23 Jun 2025 06:58:33 -0700 (PDT)
+Received: from [10.204.101.81] ([202.46.23.25])
+ by smtp.gmail.com with ESMTPSA id
+ d2e1a72fcca58-7490a66622asm8539213b3a.137.2025.06.23.06.58.26
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 23 Jun 2025 06:58:33 -0700 (PDT)
+Message-ID: <e8653c35-d6bf-4992-9edc-414309768bfe@oss.qualcomm.com>
+Date: Mon, 23 Jun 2025 19:28:25 +0530
 MIME-Version: 1.0
-References: <20250610070241.875636-1-dev@lankhorst.se>
- <20250610070241.875636-5-dev@lankhorst.se>
-In-Reply-To: <20250610070241.875636-5-dev@lankhorst.se>
-From: =?UTF-8?Q?Juha=2DPekka_Heikkil=C3=A4?= <juhapekka.heikkila@gmail.com>
-Date: Mon, 23 Jun 2025 16:43:41 +0300
-X-Gm-Features: AX0GCFtQzbwaupt7rA8IIr6hboWLlPYrWOy0pp4HDpbXrc-ZMiWrdqxuMrgc_3I
-Message-ID: <CAJ=qYWQmth_BkxO-1OC_CfTDSnDhhor7O3P4SQStaGvYzkDbGA@mail.gmail.com>
-Subject: Re: [PATCH v2 4/5] drm/xe: Convert xe_fb_pin to use a callback for
- insertion into GGTT
-To: Maarten Lankhorst <dev@lankhorst.se>
-Cc: intel-xe@lists.freedesktop.org, dri-devel@lists.freedesktop.org, 
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Matthew Brost <matthew.brost@intel.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v3 2/4] arm64: defconfig: Enable X1P42100 GPUCC driver
+To: Krzysztof Kozlowski <krzk@kernel.org>,
+ Catalin Marinas <catalin.marinas@arm.com>, Will Deacon <will@kernel.org>,
+ Rob Clark <robin.clark@oss.qualcomm.com>, Sean Paul <sean@poorly.run>,
+ Konrad Dybcio <konradybcio@kernel.org>,
+ Dmitry Baryshkov <lumag@kernel.org>,
+ Abhinav Kumar <abhinav.kumar@linux.dev>,
+ Jessica Zhang <jessica.zhang@oss.qualcomm.com>,
+ Marijn Suijten <marijn.suijten@somainline.org>,
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+ Bjorn Andersson <andersson@kernel.org>, Rob Herring <robh@kernel.org>,
+ Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
+ <conor+dt@kernel.org>, Viresh Kumar <vireshk@kernel.org>,
+ Nishanth Menon <nm@ti.com>, Stephen Boyd <sboyd@kernel.org>
+Cc: linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
+ linux-arm-msm@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ freedreno@lists.freedesktop.org, devicetree@vger.kernel.org,
+ linux-pm@vger.kernel.org, Jens Glathe <jens.glathe@oldschoolsolutions.biz>
+References: <20250620-x1p-adreno-v3-0-56398c078c15@oss.qualcomm.com>
+ <20250620-x1p-adreno-v3-2-56398c078c15@oss.qualcomm.com>
+ <66094c33-07bd-4621-b49c-b29a0270e002@kernel.org>
+From: Akhil P Oommen <akhilpo@oss.qualcomm.com>
+Content-Language: en-US
+In-Reply-To: <66094c33-07bd-4621-b49c-b29a0270e002@kernel.org>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwNjIzMDA4MyBTYWx0ZWRfX9ASDWGkiFkYC
+ MYrNYiOIQSAEd2ldVWoh4uOCxLFV5BF3USHpDp2dnI7av2bDw3kN6KNbT8Jaa3IDpDKRqYZpbQJ
+ ulTlhmfwwqmKUyhT5ozeP8gNoL57/cMgXcdW/I/eM8aI2eG9YsULd6xiuWiiEp37kjobeIaxw/R
+ HBxhr7nAmT4mufgiISQVtTlbtWWop4kZivrzmFmqdASmzcUefNfw0wC6oJXUS2qI0WdsY+GFpjM
+ 1NkosGAt8DmThFNFibZPDl7p+ZzIDhHgbwax+nGt56PCd9WCzK1g9yBHm9wToeVg3ov9MttSJBZ
+ i5/F3IB9za4UeQjhPMCefBnE405Td88kRIU9yUwLeXaevS0wmwDJkSeUp2qNqfZKoWgTXDYi9Ke
+ XHEc1XO7peMem3fNTt9J2ycQakgxWRBpWspFQWlJMOfcB+PzKIMX2AuV9MxeEqD35+hOxG8W
+X-Proofpoint-ORIG-GUID: _3Ayr0HHBa7N2NTKtbbQ7uj30DtPxnKD
+X-Proofpoint-GUID: _3Ayr0HHBa7N2NTKtbbQ7uj30DtPxnKD
+X-Authority-Analysis: v=2.4 cv=A8BsP7WG c=1 sm=1 tr=0 ts=68595d8a cx=c_pps
+ a=rz3CxIlbcmazkYymdCej/Q==:117 a=ZePRamnt/+rB5gQjfz0u9A==:17
+ a=IkcTkHD0fZMA:10 a=6IFa9wvqVegA:10 a=gxl3bz0cAAAA:8 a=EUspDBNiAAAA:8
+ a=Od58GZWkWy8WqyN3Zg8A:9 a=QEXdDO2ut3YA:10 a=bFCP_H2QrGi7Okbo017w:22
+ a=kiRiLd-pWN9FGgpmzFdl:22
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1099,Hydra:6.1.7,FMLib:17.12.80.40
+ definitions=2025-06-23_04,2025-06-23_05,2025-03-28_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ lowpriorityscore=0 mlxlogscore=754 malwarescore=0 spamscore=0 bulkscore=0
+ phishscore=0 adultscore=0 impostorscore=0 suspectscore=0 mlxscore=0
+ clxscore=1015 priorityscore=1501 classifier=spam authscore=0 authtc=n/a
+ authcc= route=outbound adjust=0 reason=mlx scancount=1
+ engine=8.19.0-2505280000 definitions=main-2506230083
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -86,447 +139,41 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Look ok to me. Imo that xe_fb_pin part bit unnecessarily maintain
-complexity but I'll eventually come back to try to take out
-unnecessary parts and try to get it fixed..
+On 6/20/2025 12:39 PM, Krzysztof Kozlowski wrote:
+> On 20/06/2025 08:54, Akhil P Oommen wrote:
+>> In order to enable GPU support in X1P42100-CRD and other similar
+>> laptops with Snapdragon X1P42100 SoC, enable X1P42100 GPUCC driver
+>> as a module.
+>>
+>> Tested-by: Jens Glathe <jens.glathe@oldschoolsolutions.biz>
+> 
+> Defconfigs cannot be tested really...
+> 
+>> Signed-off-by: Akhil P Oommen <akhilpo@oss.qualcomm.com>
+>> ---
+>>  arch/arm64/configs/defconfig | 1 +
+>>  1 file changed, 1 insertion(+)
+>>
+>> diff --git a/arch/arm64/configs/defconfig b/arch/arm64/configs/defconfig
+>> index 897fc686e6a91b79770639d3eb15beb3ee48ef77..ccd03ab5de495498281175a4550bc73d3e65f3f4 100644
+>> --- a/arch/arm64/configs/defconfig
+>> +++ b/arch/arm64/configs/defconfig
+>> @@ -1347,6 +1347,7 @@ CONFIG_CLK_X1E80100_CAMCC=m
+>>  CONFIG_CLK_X1E80100_DISPCC=m
+>>  CONFIG_CLK_X1E80100_GCC=y
+>>  CONFIG_CLK_X1E80100_GPUCC=m
+>> +CONFIG_CLK_X1P42100_GPUCC=m
+> 
+> Not placed in proper spot. Don't add things in random order, but follow
+> savedefconfig.
 
-Reviewed-by: Juha-Pekka Heikkila <juhapekka.heikkila@gmail.com>
+Ack. will reorder.
 
-On Tue, Jun 10, 2025 at 10:02=E2=80=AFAM Maarten Lankhorst <dev@lankhorst.s=
-e> wrote:
->
-> From: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
->
-> The rotation details belong in xe_fb_pin.c, while the operations involvin=
-g
-> GGTT belong to xe_ggtt.c. As directly locking xe_ggtt etc results in
-> exposing all of xe_ggtt details anyway, create a special function that
-> allocates a ggtt_node, and allow display to populate it using a callback
-> as a compromise.
->
-> Signed-off-by: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
-> Reviewed-by: Matthew Brost <matthew.brost@intel.com>
-> ---
->  drivers/gpu/drm/xe/display/xe_fb_pin.c | 111 ++++++++++++-------------
->  drivers/gpu/drm/xe/xe_ggtt.c           |  92 ++++++++++++++------
->  drivers/gpu/drm/xe/xe_ggtt.h           |   9 +-
->  drivers/gpu/drm/xe/xe_ggtt_types.h     |   8 +-
->  4 files changed, 132 insertions(+), 88 deletions(-)
->
-> diff --git a/drivers/gpu/drm/xe/display/xe_fb_pin.c b/drivers/gpu/drm/xe/=
-display/xe_fb_pin.c
-> index 6b362695d6b61..99f2863daebb5 100644
-> --- a/drivers/gpu/drm/xe/display/xe_fb_pin.c
-> +++ b/drivers/gpu/drm/xe/display/xe_fb_pin.c
-> @@ -167,12 +167,13 @@ static int __xe_pin_fb_vma_dpt(const struct intel_f=
-ramebuffer *fb,
->  }
->
->  static void
-> -write_ggtt_rotated(struct xe_bo *bo, struct xe_ggtt *ggtt, u32 *ggtt_ofs=
-, u32 bo_ofs,
-> +write_ggtt_rotated(struct xe_ggtt *ggtt, u32 *ggtt_ofs,
-> +                  u64 pte_flags,
-> +                  xe_ggtt_set_pte_fn write_pte,
-> +                  struct xe_bo *bo, u32 bo_ofs,
->                    u32 width, u32 height, u32 src_stride, u32 dst_stride)
->  {
-> -       struct xe_device *xe =3D xe_bo_device(bo);
->         u32 column, row;
-> -       u64 pte =3D ggtt->pt_ops->pte_encode_flags(bo, xe->pat.idx[XE_CAC=
-HE_NONE]);
->
->         for (column =3D 0; column < width; column++) {
->                 u32 src_idx =3D src_stride * (height - 1) + column + bo_o=
-fs;
-> @@ -180,7 +181,7 @@ write_ggtt_rotated(struct xe_bo *bo, struct xe_ggtt *=
-ggtt, u32 *ggtt_ofs, u32 bo
->                 for (row =3D 0; row < height; row++) {
->                         u64 addr =3D xe_bo_addr(bo, src_idx * XE_PAGE_SIZ=
-E, XE_PAGE_SIZE);
->
-> -                       ggtt->pt_ops->ggtt_set_pte(ggtt, *ggtt_ofs, pte |=
- addr);
-> +                       write_pte(ggtt, *ggtt_ofs, pte_flags | addr);
->                         *ggtt_ofs +=3D XE_PAGE_SIZE;
->                         src_idx -=3D src_stride;
->                 }
-> @@ -190,6 +191,28 @@ write_ggtt_rotated(struct xe_bo *bo, struct xe_ggtt =
-*ggtt, u32 *ggtt_ofs, u32 bo
->         }
->  }
->
-> +struct fb_rotate_args {
-> +       const struct i915_gtt_view *view;
-> +       struct xe_bo *bo;
-> +};
-> +
-> +static void write_ggtt_rotated_node(struct xe_ggtt *ggtt, struct xe_ggtt=
-_node *node,
-> +                                   u64 pte_flags, xe_ggtt_set_pte_fn wri=
-te_pte, void *data)
-> +{
-> +       struct fb_rotate_args *args =3D data;
-> +       struct xe_bo *bo =3D args->bo;
-> +       const struct intel_rotation_info *rot_info =3D &args->view->rotat=
-ed;
-> +       u32 ggtt_ofs =3D node->base.start;
-> +
-> +       for (u32 i =3D 0; i < ARRAY_SIZE(rot_info->plane); i++)
-> +               write_ggtt_rotated(ggtt, &ggtt_ofs, pte_flags, write_pte,
-> +                                  bo, rot_info->plane[i].offset,
-> +                                  rot_info->plane[i].width,
-> +                                  rot_info->plane[i].height,
-> +                                  rot_info->plane[i].src_stride,
-> +                                  rot_info->plane[i].dst_stride);
-> +}
-> +
->  static int __xe_pin_fb_vma_ggtt(const struct intel_framebuffer *fb,
->                                 const struct i915_gtt_view *view,
->                                 struct i915_vma *vma,
-> @@ -200,70 +223,40 @@ static int __xe_pin_fb_vma_ggtt(const struct intel_=
-framebuffer *fb,
->         struct xe_device *xe =3D to_xe_device(fb->base.dev);
->         struct xe_tile *tile0 =3D xe_device_get_root_tile(xe);
->         struct xe_ggtt *ggtt =3D tile0->mem.ggtt;
-> +       u64 pte, size;
->         u32 align;
-> -       int ret;
-> -
-> -       /* TODO: Consider sharing framebuffer mapping?
-> -        * embed i915_vma inside intel_framebuffer
-> -        */
-> -       xe_pm_runtime_get_noresume(xe);
-> -       ret =3D mutex_lock_interruptible(&ggtt->lock);
-> -       if (ret)
-> -               goto out;
-> +       int ret =3D 0;
->
->         align =3D XE_PAGE_SIZE;
-> -       if (xe_bo_is_vram(bo) && ggtt->flags & XE_GGTT_FLAGS_64K)
-> -               align =3D max_t(u32, align, SZ_64K);
-> +       if (xe_bo_is_vram(bo) && xe->info.vram_flags & XE_VRAM_FLAGS_NEED=
-64K)
-> +               align =3D max(align, SZ_64K);
->
-> +       /* Fast case, preallocated GGTT view? */
->         if (bo->ggtt_node[tile0->id] && view->type =3D=3D I915_GTT_VIEW_N=
-ORMAL) {
->                 vma->node =3D bo->ggtt_node[tile0->id];
-> -       } else if (view->type =3D=3D I915_GTT_VIEW_NORMAL) {
-> -               vma->node =3D xe_ggtt_node_init(ggtt);
-> -               if (IS_ERR(vma->node)) {
-> -                       ret =3D PTR_ERR(vma->node);
-> -                       goto out_unlock;
-> -               }
-> -
-> -               ret =3D xe_ggtt_node_insert_locked(vma->node, bo->size, a=
-lign, 0);
-> -               if (ret) {
-> -                       xe_ggtt_node_fini(vma->node);
-> -                       goto out_unlock;
-> -               }
-> -
-> -               xe_ggtt_map_bo(ggtt, vma->node, bo, xe->pat.idx[XE_CACHE_=
-NONE]);
-> -       } else {
-> -               u32 i, ggtt_ofs;
-> -               const struct intel_rotation_info *rot_info =3D &view->rot=
-ated;
-> -
-> -               /* display seems to use tiles instead of bytes here, so c=
-onvert it back.. */
-> -               u32 size =3D intel_rotation_info_size(rot_info) * XE_PAGE=
-_SIZE;
-> -
-> -               vma->node =3D xe_ggtt_node_init(ggtt);
-> -               if (IS_ERR(vma->node)) {
-> -                       ret =3D PTR_ERR(vma->node);
-> -                       goto out_unlock;
-> -               }
-> -
-> -               ret =3D xe_ggtt_node_insert_locked(vma->node, size, align=
-, 0);
-> -               if (ret) {
-> -                       xe_ggtt_node_fini(vma->node);
-> -                       goto out_unlock;
-> -               }
-> +               return 0;
-> +       }
->
-> -               ggtt_ofs =3D vma->node->base.start;
-> +       /* TODO: Consider sharing framebuffer mapping?
-> +        * embed i915_vma inside intel_framebuffer
-> +        */
-> +       xe_pm_runtime_get_noresume(xe);
->
-> -               for (i =3D 0; i < ARRAY_SIZE(rot_info->plane); i++)
-> -                       write_ggtt_rotated(bo, ggtt, &ggtt_ofs,
-> -                                          rot_info->plane[i].offset,
-> -                                          rot_info->plane[i].width,
-> -                                          rot_info->plane[i].height,
-> -                                          rot_info->plane[i].src_stride,
-> -                                          rot_info->plane[i].dst_stride)=
-;
-> -       }
-> +       if (view->type =3D=3D I915_GTT_VIEW_NORMAL)
-> +               size =3D bo->size;
-> +       else
-> +               /* display uses tiles instead of bytes here, so convert i=
-t back.. */
-> +               size =3D intel_rotation_info_size(&view->rotated) * XE_PA=
-GE_SIZE;
-> +
-> +       pte =3D xe_ggtt_encode_pte_flags(ggtt, bo, xe->pat.idx[XE_CACHE_N=
-ONE]);
-> +       vma->node =3D xe_ggtt_node_insert_transform(ggtt, bo, pte,
-> +                                                 ALIGN(size, align), ali=
-gn,
-> +                                                 view->type =3D=3D I915_=
-GTT_VIEW_NORMAL ?
-> +                                                 NULL : write_ggtt_rotat=
-ed_node,
-> +                                                 &(struct fb_rotate_args=
-){view, bo});
-> +       if (IS_ERR(vma->node))
-> +               ret =3D PTR_ERR(vma->node);
->
-> -out_unlock:
-> -       mutex_unlock(&ggtt->lock);
-> -out:
->         xe_pm_runtime_put(xe);
->         return ret;
->  }
-> diff --git a/drivers/gpu/drm/xe/xe_ggtt.c b/drivers/gpu/drm/xe/xe_ggtt.c
-> index 4c58626f002f9..c9ee2a4ff8ab9 100644
-> --- a/drivers/gpu/drm/xe/xe_ggtt.c
-> +++ b/drivers/gpu/drm/xe/xe_ggtt.c
-> @@ -479,19 +479,7 @@ void xe_ggtt_shift_nodes(struct xe_ggtt *ggtt, s64 s=
-hift)
->         mutex_unlock(&ggtt->lock);
->  }
->
-> -/**
-> - * xe_ggtt_node_insert_locked - Locked version to insert a &xe_ggtt_node=
- into the GGTT
-> - * @node: the &xe_ggtt_node to be inserted
-> - * @size: size of the node
-> - * @align: alignment constrain of the node
-> - * @mm_flags: flags to control the node behavior
-> - *
-> - * It cannot be called without first having called xe_ggtt_init() once.
-> - * To be used in cases where ggtt->lock is already taken.
-> - *
-> - * Return: 0 on success or a negative error code on failure.
-> - */
-> -int xe_ggtt_node_insert_locked(struct xe_ggtt_node *node,
-> +static int xe_ggtt_node_insert_locked(struct xe_ggtt_node *node,
->                                u32 size, u32 align, u32 mm_flags)
->  {
->         return drm_mm_insert_node_generic(&node->ggtt->mm, &node->base, s=
-ize, align, 0,
-> @@ -528,9 +516,13 @@ int xe_ggtt_node_insert(struct xe_ggtt_node *node, u=
-32 size, u32 align)
->   * @ggtt: the &xe_ggtt where the new node will later be inserted/reserve=
-d.
->   *
->   * This function will allocate the struct %xe_ggtt_node and return its p=
-ointer.
-> - * This struct will then be freed after the node removal upon xe_ggtt_no=
-de_remove().
-> - * Having %xe_ggtt_node struct allocated doesn't mean that the node is a=
-lready allocated
-> - * in GGTT. Only xe_ggtt_node_insert() will ensure the node is inserted =
-or reserved in GGTT.
-> + * This struct will then be freed after the node removal upon
-> + * xe_ggtt_node_remove().
-> + *
-> + * Having %xe_ggtt_node struct allocated doesn't mean that the node is a=
-lready
-> + * allocated in GGTT. Only xe_ggtt_node_insert() or allocation through
-> + * xe_ggtt_node_insert_transform() will ensure the node is inserted or r=
-eserved
-> + * in GGTT.
->   *
->   * Return: A pointer to %xe_ggtt_node struct on success. An ERR_PTR othe=
-rwise.
->   **/
-> @@ -579,13 +571,12 @@ bool xe_ggtt_node_allocated(const struct xe_ggtt_no=
-de *node)
->   * @ggtt: the &xe_ggtt where node will be mapped
->   * @node: the &xe_ggtt_node where this BO is mapped
->   * @bo: the &xe_bo to be mapped
-> - * @pat_index: Which pat_index to use.
-> + * @pte: The pte flags to append.
->   */
-> -void xe_ggtt_map_bo(struct xe_ggtt *ggtt, struct xe_ggtt_node *node,
-> -                   struct xe_bo *bo, u16 pat_index)
-> +static void xe_ggtt_map_bo(struct xe_ggtt *ggtt, struct xe_ggtt_node *no=
-de,
-> +                          struct xe_bo *bo, u64 pte)
->  {
-> -
-> -       u64 start, pte, end;
-> +       u64 start, end;
->         struct xe_res_cursor cur;
->
->         if (XE_WARN_ON(!node))
-> @@ -594,7 +585,6 @@ void xe_ggtt_map_bo(struct xe_ggtt *ggtt, struct xe_g=
-gtt_node *node,
->         start =3D node->base.start;
->         end =3D start + bo->size;
->
-> -       pte =3D ggtt->pt_ops->pte_encode_flags(bo, pat_index);
->         if (!xe_bo_is_vram(bo) && !xe_bo_is_stolen(bo)) {
->                 xe_assert(xe_bo_device(bo), bo->ttm.ttm);
->
-> @@ -624,12 +614,65 @@ void xe_ggtt_map_bo_unlocked(struct xe_ggtt *ggtt, =
-struct xe_bo *bo)
->  {
->         u16 cache_mode =3D bo->flags & XE_BO_FLAG_NEEDS_UC ? XE_CACHE_NON=
-E : XE_CACHE_WB;
->         u16 pat_index =3D tile_to_xe(ggtt->tile)->pat.idx[cache_mode];
-> +       u64 pte;
->
->         mutex_lock(&ggtt->lock);
-> -       xe_ggtt_map_bo(ggtt, bo->ggtt_node[ggtt->tile->id], bo, pat_index=
-);
-> +       pte =3D ggtt->pt_ops->pte_encode_flags(bo, pat_index);
-> +       xe_ggtt_map_bo(ggtt, bo->ggtt_node[ggtt->tile->id], bo, pte);
->         mutex_unlock(&ggtt->lock);
->  }
->
-> +/**
-> + * xe_ggtt_node_insert_transform - Insert a newly allocated &xe_ggtt_nod=
-e into the GGTT
-> + * @ggtt: the &xe_ggtt where the node will inserted/reserved.
-> + * @bo: The bo to be transformed
-> + * @pte_flags: The extra GGTT flags to add to mapping.
-> + * @size: size of the node
-> + * @align: required alignment for node
-> + * @transform: transformation function that will populate the GGTT node,=
- or NULL for linear mapping.
-> + * @arg: Extra argument to pass to the transformation function.
-> + *
-> + * This function allows inserting a GGTT node with a custom transformati=
-on function.
-> + * This is useful for display to allow inserting rotated framebuffers to=
- GGTT.
-> + *
-> + * Return: A pointer to %xe_ggtt_node struct on success. An ERR_PTR othe=
-rwise.
-> + */
-> +struct xe_ggtt_node *xe_ggtt_node_insert_transform(struct xe_ggtt *ggtt,
-> +                                                  struct xe_bo *bo, u64 =
-pte_flags,
-> +                                                  u64 size, u32 align,
-> +                                                  xe_ggtt_transform_cb t=
-ransform, void *arg)
-> +{
-> +       struct xe_ggtt_node *node;
-> +       int ret;
-> +
-> +       node =3D xe_ggtt_node_init(ggtt);
-> +       if (IS_ERR(node))
-> +               return ERR_CAST(node);
-> +
-> +       if (mutex_lock_interruptible(&ggtt->lock) < 0) {
-> +               ret =3D -ERESTARTSYS;
-> +               goto err;
-> +       }
-> +
-> +       ret =3D xe_ggtt_node_insert_locked(node, size, align, 0);
-> +       if (ret)
-> +               goto err_unlock;
-> +
-> +       if (transform)
-> +               transform(ggtt, node, pte_flags, ggtt->pt_ops->ggtt_set_p=
-te, arg);
-> +       else
-> +               xe_ggtt_map_bo(ggtt, node, bo, pte_flags);
-> +
-> +       mutex_unlock(&ggtt->lock);
-> +       return node;
-> +
-> +err_unlock:
-> +       mutex_unlock(&ggtt->lock);
-> +err:
-> +       xe_ggtt_node_fini(node);
-> +       return ERR_PTR(ret);
-> +}
-> +
->  static int __xe_ggtt_insert_bo_at(struct xe_ggtt *ggtt, struct xe_bo *bo=
-,
->                                   u64 start, u64 end)
->  {
-> @@ -668,8 +711,9 @@ static int __xe_ggtt_insert_bo_at(struct xe_ggtt *ggt=
-t, struct xe_bo *bo,
->         } else {
->                 u16 cache_mode =3D bo->flags & XE_BO_FLAG_NEEDS_UC ? XE_C=
-ACHE_NONE : XE_CACHE_WB;
->                 u16 pat_index =3D tile_to_xe(ggtt->tile)->pat.idx[cache_m=
-ode];
-> +               u64 pte =3D ggtt->pt_ops->pte_encode_flags(bo, pat_index)=
-;
->
-> -               xe_ggtt_map_bo(ggtt, bo->ggtt_node[tile_id], bo, pat_inde=
-x);
-> +               xe_ggtt_map_bo(ggtt, bo->ggtt_node[tile_id], bo, pte);
->         }
->         mutex_unlock(&ggtt->lock);
->
-> diff --git a/drivers/gpu/drm/xe/xe_ggtt.h b/drivers/gpu/drm/xe/xe_ggtt.h
-> index c00d6c8f687ac..e25b40845456d 100644
-> --- a/drivers/gpu/drm/xe/xe_ggtt.h
-> +++ b/drivers/gpu/drm/xe/xe_ggtt.h
-> @@ -21,12 +21,13 @@ void xe_ggtt_node_fini(struct xe_ggtt_node *node);
->  void xe_ggtt_shift_nodes(struct xe_ggtt *ggtt, s64 shift);
->
->  int xe_ggtt_node_insert(struct xe_ggtt_node *node, u32 size, u32 align);
-> -int xe_ggtt_node_insert_locked(struct xe_ggtt_node *node,
-> -                              u32 size, u32 align, u32 mm_flags);
-> +struct xe_ggtt_node *
-> +xe_ggtt_node_insert_transform(struct xe_ggtt *ggtt,
-> +                             struct xe_bo *bo, u64 pte,
-> +                             u64 size, u32 align,
-> +                             xe_ggtt_transform_cb transform, void *arg);
->  void xe_ggtt_node_remove(struct xe_ggtt_node *node, bool invalidate);
->  bool xe_ggtt_node_allocated(const struct xe_ggtt_node *node);
-> -void xe_ggtt_map_bo(struct xe_ggtt *ggtt, struct xe_ggtt_node *node,
-> -                   struct xe_bo *bo, u16 pat_index);
->  void xe_ggtt_map_bo_unlocked(struct xe_ggtt *ggtt, struct xe_bo *bo);
->  int xe_ggtt_insert_bo(struct xe_ggtt *ggtt, struct xe_bo *bo);
->  int xe_ggtt_insert_bo_at(struct xe_ggtt *ggtt, struct xe_bo *bo,
-> diff --git a/drivers/gpu/drm/xe/xe_ggtt_types.h b/drivers/gpu/drm/xe/xe_g=
-gtt_types.h
-> index a27919302d6b2..f4aa5671cb3e3 100644
-> --- a/drivers/gpu/drm/xe/xe_ggtt_types.h
-> +++ b/drivers/gpu/drm/xe/xe_ggtt_types.h
-> @@ -71,6 +71,11 @@ struct xe_ggtt_node {
->         bool invalidate_on_remove;
->  };
->
-> +typedef void (*xe_ggtt_set_pte_fn)(struct xe_ggtt *ggtt, u64 addr, u64 p=
-te);
-> +typedef void (*xe_ggtt_transform_cb)(struct xe_ggtt *ggtt,
-> +                                    struct xe_ggtt_node *node,
-> +                                    u64 pte_flags,
-> +                                    xe_ggtt_set_pte_fn set_pte, void *ar=
-g);
->  /**
->   * struct xe_ggtt_pt_ops - GGTT Page table operations
->   * Which can vary from platform to platform.
-> @@ -78,8 +83,9 @@ struct xe_ggtt_node {
->  struct xe_ggtt_pt_ops {
->         /** @pte_encode_flags: Encode PTE flags for a given BO */
->         u64 (*pte_encode_flags)(struct xe_bo *bo, u16 pat_index);
-> +
->         /** @ggtt_set_pte: Directly write into GGTT's PTE */
-> -       void (*ggtt_set_pte)(struct xe_ggtt *ggtt, u64 addr, u64 pte);
-> +       xe_ggtt_set_pte_fn ggtt_set_pte;
->  };
->
->  #endif
-> --
-> 2.45.2
->
+Btw, can this patch go via Rob Clark's (drm/msm) tree?
+
+-Akhil.
+
+> 
+> Best regards,
+> Krzysztof
+
