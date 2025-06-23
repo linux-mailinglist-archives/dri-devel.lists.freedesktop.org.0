@@ -2,53 +2,56 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 54DD5AE35BE
-	for <lists+dri-devel@lfdr.de>; Mon, 23 Jun 2025 08:32:59 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 37332AE35E6
+	for <lists+dri-devel@lfdr.de>; Mon, 23 Jun 2025 08:40:35 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2449F10E187;
-	Mon, 23 Jun 2025 06:32:56 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1821A10E191;
+	Mon, 23 Jun 2025 06:40:33 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=collabora.com header.i=@collabora.com header.b="PBv92Wd9";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="R2912Q90";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from bali.collaboradmins.com (bali.collaboradmins.com
- [148.251.105.195])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6B8AF10E187
- for <dri-devel@lists.freedesktop.org>; Mon, 23 Jun 2025 06:32:49 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
- s=mail; t=1750660366;
- bh=dC4Y1JROZqC0jmEFRK9e9nDI3k8YVRO7dtqsZIcg6S0=;
- h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
- b=PBv92Wd9cN1QMJ+XIZgBBMGZFgHQKBfICm4uVlD18MqeZAQusqe/tZIQOSk2o4Z2H
- qD+aIjK+h9wC9Y641ZUri+CR9FaMaOE/X4zupzQ7OKH2dB3JBT863wJqPrkipbYMkC
- gpDtjoHE0y3Bha3lkg3zyIlmmkj1lQ1voXbx0X1E2/59fr3njdBYGN9n5J5DAORikO
- o5HH9G5PvwtPbqep0uYYpZSUNvMvqAegEQxWFy8Z67oVjKOFeu3jGLlO2kxaOA9Y6l
- 5UuPFNjQGuAMQdyMyxH2oohG9EX1lf8ikDJ3OBi+RyIapMjHHTzYVTzbZ/7e9nrcXV
- s6QrpnG20xOHg==
-Received: from fedora (unknown [IPv6:2a01:e0a:2c:6930:16f1:973:959b:9b0c])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
- (No client certificate requested) (Authenticated sender: bbrezillon)
- by bali.collaboradmins.com (Postfix) with ESMTPSA id C6FFA17E0CF9;
- Mon, 23 Jun 2025 08:32:45 +0200 (CEST)
-Date: Mon, 23 Jun 2025 08:32:41 +0200
-From: Boris Brezillon <boris.brezillon@collabora.com>
-To: Chia-I Wu <olvaffe@gmail.com>
-Cc: Steven Price <steven.price@arm.com>, Liviu Dudau <liviu.dudau@arm.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, Maxime Ripard
- <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, David Airlie
- <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] drm/panthor: always set fence errors on CS_FAULT
-Message-ID: <20250623083241.02127feb@fedora>
-In-Reply-To: <20250618145550.1901618-1-olvaffe@gmail.com>
-References: <20250618145550.1901618-1-olvaffe@gmail.com>
-Organization: Collabora
-X-Mailer: Claws Mail 4.3.1 (GTK 3.24.49; x86_64-redhat-linux-gnu)
-MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Received: from tor.source.kernel.org (tor.source.kernel.org [172.105.4.254])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id BAED110E191
+ for <dri-devel@lists.freedesktop.org>; Mon, 23 Jun 2025 06:40:29 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+ by tor.source.kernel.org (Postfix) with ESMTP id AECD760EDF;
+ Mon, 23 Jun 2025 06:40:28 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id E23EBC4CEED;
+ Mon, 23 Jun 2025 06:40:27 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1750660828;
+ bh=zCQz8reKW3Gzs8l9axUjAYNyAFFEzKogKMzC6QHOp6U=;
+ h=Date:From:To:Subject:In-Reply-To:References:Cc:From;
+ b=R2912Q90VgRmdjxh2YCszp7rIYKaMkHCS8CKzIBkQjxDcG+IIpln3cdq/blnz6+1x
+ FqZGVwgeKaIYslbfkZAGs6PNAXIWUQP97e4lNuF6j13c5tZZ6ZoEjSdHz4w6KZA5is
+ WZTl7kWBug7pa5Ggzcq6Zur+UhtbUmI7IEMmcJLCyXP7gSFQcj/gi0xoiPnXyQ+JRz
+ GF3evS8XDy/jXjCw/avFjLk6UvC3hR0ce7C+JAjtL2eCN3pp8vf8qwGNmC1Q1Riel5
+ Ji88kedl/BpnjpLRWxx5/F+nz6XQHSkdfj05QR4rxRK8kQPgJjWdUJsyfd3V2hWym6
+ kVa0tRi+IR4Mg==
+Message-ID: <dd169e5617e160873896b46e94f3d0f2@kernel.org>
+Date: Mon, 23 Jun 2025 06:40:25 +0000
+From: "Maxime Ripard" <mripard@kernel.org>
+To: "Luca Ceresoli" <luca.ceresoli@bootlin.com>
+Subject: Re: [PATCH v9 3/3] drm/bridge: add warning for bridges not using
+ devm_drm_bridge_alloc()
+In-Reply-To: <20250620-drm-bridge-alloc-getput-drm-bridge-c-v9-3-ca53372c9a84@bootlin.com>
+References: <20250620-drm-bridge-alloc-getput-drm-bridge-c-v9-3-ca53372c9a84@bootlin.com>
+Cc: dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org, "Andrzej
+ Hajda" <andrzej.hajda@intel.com>, "Anusha Srivatsa" <asrivats@redhat.com>,
+ "David Airlie" <airlied@gmail.com>,
+ "Dmitry Baryshkov" <dmitry.baryshkov@oss.qualcomm.com>, "Hui
+ Pu" <Hui.Pu@gehealthcare.com>, "Jernej Skrabec" <jernej.skrabec@gmail.com>,
+ "Jonas Karlman" <jonas@kwiboo.se>,
+ "Laurent Pinchart" <Laurent.pinchart@ideasonboard.com>, "Maarten
+ Lankhorst" <maarten.lankhorst@linux.intel.com>,
+ "Maxime Ripard" <mripard@kernel.org>, "Neil
+ Armstrong" <neil.armstrong@linaro.org>, "Robert Foss" <rfoss@kernel.org>,
+ "Simona
+ Vetter" <simona@ffwll.ch>, "Thomas Petazzoni" <thomas.petazzoni@bootlin.com>,
+ "Thomas Zimmermann" <tzimmermann@suse.de>
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -64,39 +67,16 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, 18 Jun 2025 07:55:49 -0700
-Chia-I Wu <olvaffe@gmail.com> wrote:
+On Fri, 20 Jun 2025 17:59:55 +0200, Luca Ceresoli wrote:
+> To the best of my knowledge, all drivers in the mainline kernel adding a
+> DRM bridge are now converted to using devm_drm_bridge_alloc() for
+> allocation and initialization. Among others this ensures initialization of
+> the bridge refcount, allowing dynamic allocation lifetime.
+>=20
+>=20
+> [ ... ]
 
-> It is unclear why fence errors were set only for CS_INHERIT_FAULT.
-> Downstream driver also does not treat CS_INHERIT_FAULT specially.
-> Remove the check.
-> 
-> Signed-off-by: Chia-I Wu <olvaffe@gmail.com>
-> ---
->  drivers/gpu/drm/panthor/panthor_sched.c | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
-> 
-> diff --git a/drivers/gpu/drm/panthor/panthor_sched.c b/drivers/gpu/drm/panthor/panthor_sched.c
-> index a2248f692a030..1a3b1c49f7d7b 100644
-> --- a/drivers/gpu/drm/panthor/panthor_sched.c
-> +++ b/drivers/gpu/drm/panthor/panthor_sched.c
-> @@ -1399,7 +1399,7 @@ cs_slot_process_fault_event_locked(struct panthor_device *ptdev,
->  	fault = cs_iface->output->fault;
->  	info = cs_iface->output->fault_info;
->  
-> -	if (queue && CS_EXCEPTION_TYPE(fault) == DRM_PANTHOR_EXCEPTION_CS_INHERIT_FAULT) {
-> +	if (queue) {
->  		u64 cs_extract = queue->iface.output->extract;
->  		struct panthor_job *job;
->  
+Reviewed-by: Maxime Ripard <mripard@kernel.org>
 
-Now that I look at the code, I think we should record the error when
-the ERROR_BARRIER is executed instead of flagging all in-flight jobs as
-faulty. One option would be to re-use the profiling buffer by adding an
-error field to panthor_job_profiling_data, but we're going to lose 4
-bytes per slot because of the 64-bit alignment we want for timestamps,
-so maybe just create a separate buffers with N entries of:
-
-struct panthor_job_status {
-   u32 error;
-};
+Thanks!
+Maxime
