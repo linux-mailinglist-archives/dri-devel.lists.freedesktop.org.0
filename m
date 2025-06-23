@@ -2,102 +2,93 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 847F3AE3BD0
-	for <lists+dri-devel@lfdr.de>; Mon, 23 Jun 2025 12:10:37 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5D356AE3BDB
+	for <lists+dri-devel@lfdr.de>; Mon, 23 Jun 2025 12:12:14 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E7B2A10E34B;
-	Mon, 23 Jun 2025 10:10:32 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 934C210E05B;
+	Mon, 23 Jun 2025 10:12:12 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=redhat.com header.i=@redhat.com header.b="bVCk1fU6";
+	dkim=pass (1024-bit key; unprotected) header.d=redhat.com header.i=@redhat.com header.b="L+xW7cbi";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [170.10.129.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 82E5910E1C3
- for <dri-devel@lists.freedesktop.org>; Mon, 23 Jun 2025 10:10:30 +0000 (UTC)
+ (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4FE7D10E05B
+ for <dri-devel@lists.freedesktop.org>; Mon, 23 Jun 2025 10:12:11 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1750673429;
+ s=mimecast20190719; t=1750673530;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:mime-version:mime-version:content-type:content-type:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=k0QTXQBLxcMhOeb0i/VFxTw420XqKRgS33hIZfnQXmI=;
- b=bVCk1fU6OnS7Ck2ux1TRmWYZOUO0SvDQ5+/DpKnbzLEELHX7RdvjPzwUQVXJMOyX6KQvp8
- 1KS/nfnKQTWS9JhnjOGeyKlYTAR7BJebTzcHKiDM1+34IBEDwmy/cW8VtEElpeGtnm8liA
- sgaOEkqDzpzsGikhFezZejj6KBk5sOk=
-Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
- [209.85.128.70]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=ZYLo8wP+y+o3VIS7TqC+HJOW2Pflfi59Nw4T7VkfABc=;
+ b=L+xW7cbiEVwgHhnlqtRl7ZD0ifcEaWRFz3ELbvvswsP+BPSOr8AC+nakdSj/+2KRiZBmy6
+ f2KzySFER/T7xNxwceo7L9PuSyC0+jgVvfGEWzhXEjPZeaLE1T/CaLCoo/0BSwhPzEdeTy
+ TeccD01NzBqnxhOan07whQR1mSS246o=
+Received: from mail-wr1-f71.google.com (mail-wr1-f71.google.com
+ [209.85.221.71]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-511-sUy0jI3XOEuwHQpE4vNcTg-1; Mon, 23 Jun 2025 06:10:27 -0400
-X-MC-Unique: sUy0jI3XOEuwHQpE4vNcTg-1
-X-Mimecast-MFC-AGG-ID: sUy0jI3XOEuwHQpE4vNcTg_1750673426
-Received: by mail-wm1-f70.google.com with SMTP id
- 5b1f17b1804b1-4530ec2c87cso20910705e9.0
- for <dri-devel@lists.freedesktop.org>; Mon, 23 Jun 2025 03:10:27 -0700 (PDT)
+ us-mta-642-JIBlNbTJMPq8-YbCYjKzPw-1; Mon, 23 Jun 2025 06:12:09 -0400
+X-MC-Unique: JIBlNbTJMPq8-YbCYjKzPw-1
+X-Mimecast-MFC-AGG-ID: JIBlNbTJMPq8-YbCYjKzPw_1750673528
+Received: by mail-wr1-f71.google.com with SMTP id
+ ffacd0b85a97d-3a3696a0d3aso1723415f8f.2
+ for <dri-devel@lists.freedesktop.org>; Mon, 23 Jun 2025 03:12:08 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1750673426; x=1751278226;
+ d=1e100.net; s=20230601; t=1750673528; x=1751278328;
  h=content-transfer-encoding:in-reply-to:from:content-language
- :references:to:subject:user-agent:mime-version:date:message-id
+ :references:cc:to:subject:user-agent:mime-version:date:message-id
  :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=k0QTXQBLxcMhOeb0i/VFxTw420XqKRgS33hIZfnQXmI=;
- b=cfc6pCzsjeWqdjl18KfgUJQ7yH+qy/BelYm/vGJofNEH/awmA5ap6D7oVt9f+WX2Xx
- B45gjsSb3d5kQEt+ZEiSFptltvlxpcsUKCNq3kmfB0h5hAhw+N6vPXjLCOw48AYy+EaF
- NDxaLVIs2OLDJfPezGZGi1rO5sK8DUOIXb9q/fx9L51Nik8pL64BONTR521NB4LC2HIh
- 8mLusedjk6TvFX6fXJKB9IYhlV9LIX+rkjhE3d0fGusO4n2UNz6TU1Pc9YQE8fly2dUK
- 1FBWasAYeFLu8ExbWzDZviMYXh0S1oxZ+PcVC+6Bw7AoHyvLk6ENOxvJ/XvMNJBT5vHv
- wjqw==
+ bh=ZYLo8wP+y+o3VIS7TqC+HJOW2Pflfi59Nw4T7VkfABc=;
+ b=KbonHjuJeMRvP8uCkriXs0oSu5zeZ7rKznKouQqTuf0LjjY54e5Secpw838s0rnpC2
+ pVYquN6u8MCP2dXyfaX6CXe8WJJCGMmEvggHhSYnAA5fgegXgHOS70TC2PRANc+koz0m
+ /BgUXR1RWyY2tOqfFHuBeoemcADTnloJ29g2m0M+mIQEYVkW5N21QFosi0w9YeEGSvRa
+ 5xqGEq6MwCfADF7YijbLHrryjVbslFeh28z939txxMYfyX3gTx8ZoaIN9vsEQwVuCGke
+ h91Suwol53sU+z/5UXok+bgeXVVyIZTp6cw7bQdgtYRzxQHbQ36Y4XQfQOT4RFPWXr9I
+ /dJA==
 X-Forwarded-Encrypted: i=1;
- AJvYcCUz1f3zqlvX9XuNZqldR4rLdoZKRRb2yYKr3kSWFM6LRk6EEPYZY8SAJ14SakCs+CimTs2SPUYZIJM=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YxcPfOPOHOaLzXRtEdiMQZXpPwikD92fmgJz7xfDgXsKSvufKfr
- goU4ZaibQKx+J2aiFJAZZByRvIaQlYdQ87oCSsDeEjnk5nEJz/MQQz6YloxpgpT+uBpobbCsTpD
- cDsWJktV/efbD6i3wOw6F9JS60nKatJIV6RSzH43MUdEXw4fUUaAPdazsA5mB8Q8SS5hAyA==
-X-Gm-Gg: ASbGncvTn3M2BRRHVpUqrBY9xY9ixn3iCgVSp4DZKlxZljgvyMloVmH1LbyckIrrr93
- nLC/h9xTngt2Omu3YBAwtb/3i33JyqHcYkAzA55BWmGbVax4hDiHMq7eu3fX4fZb2RMFehAtc3/
- NMdmuodWy0cdClYxDgkKgnuwLCVawbOYsBW8ZV/722Nv37b9fYakImspNhS8HN99323cLWgkOnt
- 0fRVxbuj5SztbYh+gsLNZPK/Zm0L5V2T2jIVtccdXz6W1ufv9W4nACIiBOWLUptZCO/R+EAGd1i
- 4TxcIcLPL48MdVLbCy96q2kPZ3W6Zib8LVpa0S27AcczUlNY6HZj+0HGsDwRcg==
-X-Received: by 2002:a05:600c:8594:b0:453:9b3:5b67 with SMTP id
- 5b1f17b1804b1-453659f8324mr45133005e9.24.1750673425999; 
- Mon, 23 Jun 2025 03:10:25 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IHD/EDMvqV0TmgUGzrlFNaHgM4CsvQsUMw4O18DWIgIsMuiop7OwY4JI2S/azLj8QrlBp/XkA==
-X-Received: by 2002:a05:600c:8594:b0:453:9b3:5b67 with SMTP id
- 5b1f17b1804b1-453659f8324mr45132755e9.24.1750673425513; 
- Mon, 23 Jun 2025 03:10:25 -0700 (PDT)
+ AJvYcCVKxAhEIWF6iG17IruxCr84HhzLbsIEAg4PWJvfx+EnaZh+IDJv53Zfzpv4FC7ZdpyjvjbtiXYIK50=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YzTooheLvsIVXQBXfJN80po69XXcPXmcot2R6a4G78StpdYPJZE
+ QY4WzrselEdrPTkGdriQcuHzLPdoEDXJ2mrsZcsv5MojmISn+ZJPZDzID2nL+QX/QPjPiggbAaX
+ 7cQ4W2sccA23fMCsoAqmzvK6Hf9Dj+fY9DczSxMNfLdNY2W26VlmAStZNFhabXyYDYaeq9w==
+X-Gm-Gg: ASbGnctRrzJsixTBwz69c+YTG3lE93YNxCv2wCmKqVICdoyHQsKOi+rWnBuU1soCQso
+ iZh3UBoJ+JGVxVVMZp/I9+zbf/d6pWk1wGDtnCUbYDc+F6SvxzFs7WYqnhkmOCATiZRzyKzK4TC
+ Qa7UTqwmAzCcHZ+9UvLnhuOa9uM3ULNdNO93KKm6BtIDY64DWR0Yl0/C/otN4ZDnwAuC2QJGUvK
+ 74QXdsixvzdkimyVSxFb6wUDiHBKS/B9ybLec3F6SlhYUFolWoE0B8N728IE8xWQAMTLB/OF4Ye
+ czE9XDrXXF7K8ivKZ/flYS1mLHY+qzYD5Pv4HCVp5dM1dEd5Xg6+gqIFSzbbwg==
+X-Received: by 2002:a5d:64c4:0:b0:3a5:2b75:56cc with SMTP id
+ ffacd0b85a97d-3a6d12a595emr9714564f8f.23.1750673527770; 
+ Mon, 23 Jun 2025 03:12:07 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IHCL4na2uglOQFNEUAANK+zA52+SQuukZvQq//WUH0f114XAeIMlx0mcV3sqHLNJE6Ahlk+RQ==
+X-Received: by 2002:a5d:64c4:0:b0:3a5:2b75:56cc with SMTP id
+ ffacd0b85a97d-3a6d12a595emr9714535f8f.23.1750673527348; 
+ Mon, 23 Jun 2025 03:12:07 -0700 (PDT)
 Received: from ?IPV6:2a01:e0a:c:37e0:8998:e0cf:68cc:1b62?
  ([2a01:e0a:c:37e0:8998:e0cf:68cc:1b62])
  by smtp.gmail.com with ESMTPSA id
- 5b1f17b1804b1-4535eada7adsm140785055e9.35.2025.06.23.03.10.24
+ ffacd0b85a97d-3a6d2236452sm8895293f8f.59.2025.06.23.03.12.06
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 23 Jun 2025 03:10:24 -0700 (PDT)
-Message-ID: <4d81cf64-7bf1-4a7d-8682-fc817d74c373@redhat.com>
-Date: Mon, 23 Jun 2025 12:10:22 +0200
+ Mon, 23 Jun 2025 03:12:06 -0700 (PDT)
+Message-ID: <acbb1b02-593f-4a46-b4cb-99781d595e33@redhat.com>
+Date: Mon, 23 Jun 2025 12:12:05 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v10 00/10] drm/i915: Add drm_panic support
-To: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Jani Nikula <jani.nikula@linux.intel.com>,
- Rodrigo Vivi <rodrigo.vivi@intel.com>,
- Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
- Tvrtko Ursulin <tursulin@ursulin.net>,
- =?UTF-8?B?VmlsbGUgU3lyasOkbMOk?= <ville.syrjala@linux.intel.com>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- Christian Koenig <christian.koenig@amd.com>, Huang Rui <ray.huang@amd.com>,
- Matthew Auld <matthew.auld@intel.com>,
- Matthew Brost <matthew.brost@intel.com>, Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>, intel-gfx@lists.freedesktop.org,
- intel-xe@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org
-References: <20250618094011.238154-1-jfalempe@redhat.com>
- <c28aad52-7977-4763-9690-9aed1910c834@linux.intel.com>
+Subject: Re: [PATCH drm-next] drm/bochs: Add support for drm_panic
+To: Ryosuke Yasuoka <ryasuoka@redhat.com>, kraxel@redhat.com,
+ maarten.lankhorst@linux.intel.com, mripard@kernel.org, tzimmermann@suse.de,
+ airlied@gmail.com, simona@ffwll.ch
+Cc: virtualization@lists.linux.dev, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org
+References: <20250613132023.106946-1-ryasuoka@redhat.com>
 From: Jocelyn Falempe <jfalempe@redhat.com>
-In-Reply-To: <c28aad52-7977-4763-9690-9aed1910c834@linux.intel.com>
+In-Reply-To: <20250613132023.106946-1-ryasuoka@redhat.com>
 X-Mimecast-Spam-Score: 0
-X-Mimecast-MFC-PROC-ID: bpYkUBfuX6k0mLZIe0wTwQ0KtHVWOnGYRaN0gmx5MaU_1750673426
+X-Mimecast-MFC-PROC-ID: 4sSh9HZsBNmgqjrd_RT9ZBixfuHHh0AN61fcm_WmSic_1750673528
 X-Mimecast-Originator: redhat.com
 Content-Language: en-US, fr
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -113,144 +104,66 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 23/06/2025 09:40, Maarten Lankhorst wrote:
-> Hey,
-> 
-> Thanks for the series. I didn't see you on irc so I wanted to ask if you are planning to send a v11 with
-> the changes from void * to struct intel_panic_data and adding the VRAM support?
+On 13/06/2025 15:20, Ryosuke Yasuoka wrote:
+> Add drm_panic moudle for bochs drm so that panic screen can be displayed
+> on panic.
 
-Yes, I'm preparing a v11, and I'm considering to do something like this, 
-to allocate the panic data with the struct intel_framebuffer:
+I just pushed it to drm-misc-next, with the typo in the commit message 
+fixed.
 
-struct xe_framebuffer {
-	struct intel_framebuffer base;
-	struct xe_panic_data panic;
-};
-
-struct intel_framebuffer *intel_bo_alloc_framebuffer(void)
-{
-	struct xe_framebuffer *xe_fb;
-
-	xe_fb = kmalloc(sizeof(struct xe_framebuffer), GFP_KERNEL);
-	return &xe_fb->base;
-}
-
-(And the same for i915).
-That should allow you to add battlemage support.
-
-> 
-> 
-> Other than that, I think the series looks good and I'll be able to test it on my battlemage.
-> 
-
-Thanks
-
-Best regards,
+Thanks,
 
 -- 
 
 Jocelyn
 
-> Best regards,
-> ~Maarten
 > 
-> On 2025-06-18 11:31, Jocelyn Falempe wrote:
->> This adds drm_panic support for i915 and xe driver.
->>
->> I've tested it on the 4 intel laptops I have at my disposal.
->>   * Haswell with 128MB of eDRAM.
->>   * Comet Lake  i7-10850H
->>   * Raptor Lake i7-1370P (with DPT, and Y-tiling).
->>   * Lunar Lake Ultra 5 228V (with DPT, and 4-tiling, and using the Xe driver.
->>
->> I tested panic in both fbdev console and gnome desktop.
->> I think it won't work yet on discrete GPU, but that can be added later.
->>
->> Best regards,
->>
->> v2:
->>   * Add the proper abstractions to build also for Xe.
->>   * Fix dim checkpatch issues.
->>
->> v3:
->>   * Add support for Y-tiled framebuffer when DPT is enabled.
->>
->> v4:
->>   * Add support for Xe driver, which shares most of the code.
->>   * Add support for 4-tiled framebuffer found in newest GPU.
->>
->> v5:
->>   * Rebase on top of git@gitlab.freedesktop.org:drm/i915/kernel.git drm-intel-next
->>   * Use struct intel_display instead of drm_i915_private.
->>   * Use iosys_map for intel_bo_panic_map().
->>
->> v6:
->>   * Rebase on top of git@gitlab.freedesktop.org:drm/i915/kernel.git drm-intel-next
->>   * Use struct intel_display instead of drm_i915_private for intel_atomic_plane.c
->>
->> v7:
->>   * Fix mismatch {} in intel_panic_flush() (Jani Nikula)
->>   * Return int for i915_gem_object_panic_map() (Ville Syrjälä)
->>   * Reword commit message about alignment/size when disabling tiling (Ville Syrjälä)
->>
->> v8:
->>   * Use kmap_try_from_panic() instead of vmap, to access the framebuffer.
->>   * Add ttm_bo_kmap_try_from_panic() for the xe driver, that uses ttm.
->>   * Replace intel_bo_panic_map() with a setup() and finish() function,
->>     to allow mapping only one page of teh framebuffer at a time.
->>   * Configure psr to send the full framebuffer update.
->>
->> v9:
->>   * Fix comment in ttm_bo_kmap_try_from_panic(), this can *only* be called
->>     from the panic handler (Christian König)
->>   * Fix missing kfree() for i915_panic_pages in i915_gem_object_panic_finish()
->>     Also change i915_panic_pages allocation to kmalloc, as kvmalloc is not
->>     safe to call from the panic handler.
->>   * Fix dim checkpatch warnings.
->>
->> v10:
->>   * Add a private field to struct drm_scanout_buffer
->>   * Replace static variables with new fields in struct intel_framebuffer
->>     (Maarten Lankhorst)
->>   * Add error handling if i915_gem_object_panic_pages() returns NULL
->>   * Declare struct drm_scanout_buffer instead of including <drm/drm_panic.h>
->>     in intel_bo.h
->>
->> Jocelyn Falempe (10):
->>    drm/panic: Add a private field to struct drm_scanout_buffer
->>    drm/i915/fbdev: Add intel_fbdev_get_map()
->>    drm/i915/display/i9xx: Add a disable_tiling() for i9xx planes
->>    drm/i915/display: Add a disable_tiling() for skl planes
->>    drm/ttm: Add ttm_bo_kmap_try_from_panic()
->>    drm/i915: Add intel_bo_panic_setup and intel_bo_panic_finish
->>    drm/i915/display: Add drm_panic support
->>    drm/i915/display: Add drm_panic support for Y-tiling with DPT
->>    drm/i915/display: Add drm_panic support for 4-tiling with DPT
->>    drm/i915/psr: Add intel_psr2_panic_force_full_update
->>
->>   drivers/gpu/drm/i915/display/i9xx_plane.c     |  23 +++
->>   .../gpu/drm/i915/display/intel_atomic_plane.c | 170 +++++++++++++++++-
->>   drivers/gpu/drm/i915/display/intel_bo.c       |  12 ++
->>   drivers/gpu/drm/i915/display/intel_bo.h       |   4 +
->>   .../drm/i915/display/intel_display_types.h    |  11 ++
->>   drivers/gpu/drm/i915/display/intel_fb_pin.c   |   5 +
->>   drivers/gpu/drm/i915/display/intel_fb_pin.h   |   2 +
->>   drivers/gpu/drm/i915/display/intel_fbdev.c    |   5 +
->>   drivers/gpu/drm/i915/display/intel_fbdev.h    |   6 +-
->>   drivers/gpu/drm/i915/display/intel_psr.c      |  20 +++
->>   drivers/gpu/drm/i915/display/intel_psr.h      |   2 +
->>   .../drm/i915/display/skl_universal_plane.c    |  27 +++
->>   drivers/gpu/drm/i915/gem/i915_gem_object.h    |   5 +
->>   drivers/gpu/drm/i915/gem/i915_gem_pages.c     | 112 ++++++++++++
->>   drivers/gpu/drm/i915/i915_vma.h               |   5 +
->>   drivers/gpu/drm/ttm/ttm_bo_util.c             |  27 +++
->>   drivers/gpu/drm/xe/display/intel_bo.c         |  61 +++++++
->>   drivers/gpu/drm/xe/display/xe_fb_pin.c        |   5 +
->>   include/drm/drm_panic.h                       |   6 +
->>   include/drm/ttm/ttm_bo.h                      |   1 +
->>   20 files changed, 507 insertions(+), 2 deletions(-)
->>
->>
->> base-commit: b2f7e30d2e4a34fcee8111d713bef4f29dc23c77
+> Signed-off-by: Ryosuke Yasuoka <ryasuoka@redhat.com>
+> ---
+>   drivers/gpu/drm/tiny/bochs.c | 19 +++++++++++++++++++
+>   1 file changed, 19 insertions(+)
 > 
+> diff --git a/drivers/gpu/drm/tiny/bochs.c b/drivers/gpu/drm/tiny/bochs.c
+> index 8706763af8fb..ed42ad5c4927 100644
+> --- a/drivers/gpu/drm/tiny/bochs.c
+> +++ b/drivers/gpu/drm/tiny/bochs.c
+> @@ -19,6 +19,7 @@
+>   #include <drm/drm_gem_shmem_helper.h>
+>   #include <drm/drm_managed.h>
+>   #include <drm/drm_module.h>
+> +#include <drm/drm_panic.h>
+>   #include <drm/drm_plane_helper.h>
+>   #include <drm/drm_probe_helper.h>
+>   
+> @@ -469,10 +470,28 @@ static void bochs_primary_plane_helper_atomic_update(struct drm_plane *plane,
+>   	bochs_hw_setformat(bochs, fb->format);
+>   }
+>   
+> +static int bochs_primary_plane_helper_get_scanout_buffer(struct drm_plane *plane,
+> +							  struct drm_scanout_buffer *sb)
+> +{
+> +	struct bochs_device *bochs = to_bochs_device(plane->dev);
+> +	struct iosys_map map = IOSYS_MAP_INIT_VADDR_IOMEM(bochs->fb_map);
+> +
+> +	if (plane->state && plane->state->fb) {
+> +		sb->format = plane->state->fb->format;
+> +		sb->width = plane->state->fb->width;
+> +		sb->height = plane->state->fb->height;
+> +		sb->pitch[0] = plane->state->fb->pitches[0];
+> +		sb->map[0] = map;
+> +		return 0;
+> +	}
+> +	return -ENODEV;
+> +}
+> +
+>   static const struct drm_plane_helper_funcs bochs_primary_plane_helper_funcs = {
+>   	DRM_GEM_SHADOW_PLANE_HELPER_FUNCS,
+>   	.atomic_check = bochs_primary_plane_helper_atomic_check,
+>   	.atomic_update = bochs_primary_plane_helper_atomic_update,
+> +	.get_scanout_buffer = bochs_primary_plane_helper_get_scanout_buffer,
+>   };
+>   
+>   static const struct drm_plane_funcs bochs_primary_plane_funcs = {
+> 
+> base-commit: 19272b37aa4f83ca52bdf9c16d5d81bdd1354494
 
