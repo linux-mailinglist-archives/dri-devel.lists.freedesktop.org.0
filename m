@@ -2,64 +2,71 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C4C5EAE4D03
-	for <lists+dri-devel@lfdr.de>; Mon, 23 Jun 2025 20:48:30 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6968DAE4D3A
+	for <lists+dri-devel@lfdr.de>; Mon, 23 Jun 2025 21:03:16 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1F7A710E2A2;
-	Mon, 23 Jun 2025 18:48:29 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B4B8510E451;
+	Mon, 23 Jun 2025 19:02:55 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="FlkMMZKx";
+	dkim=pass (1024-bit key; unprotected) header.d=broadcom.com header.i=@broadcom.com header.b="h1lPk54n";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from sea.source.kernel.org (sea.source.kernel.org [172.234.252.31])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C7D5B10E296
- for <dri-devel@lists.freedesktop.org>; Mon, 23 Jun 2025 18:48:27 +0000 (UTC)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by sea.source.kernel.org (Postfix) with ESMTP id A192F442EE;
- Mon, 23 Jun 2025 18:48:27 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 67266C4CEF2;
- Mon, 23 Jun 2025 18:48:25 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1750704507;
- bh=g0M2DgNSBrZnHKAamPsJaiVPp+me19vm+3rXOtUbK/k=;
- h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=FlkMMZKxXH4xc4d/NdzCCYVUetE3wjUW1moJk+VXz2ScXAxwhw4X/eBTRPOEUiySb
- xpMzQsa5eZBih7XLT6A+uzq868tEhMg39SD3aOBE2tB91mCIeTvz47jq3DkqOonftl
- CnMa/QMh/IU4uJlRZhEKFUj4Q8XAOfQ83FBfEJadeNboHj/cZSbv6w0L89rcqiMT1D
- lBTSaQfCUP/Uq75Q1KyiENvNd166/Bx8SPFKoWsV4VOIvt6ARbV0keyauZrrPSYECw
- Dga5ESJrQILf4NHNBcXkHLYpJ6B8VrSDgL6l9ttNg5FJhtQ2/Pj5d/Jxk7tDR2UbWZ
- h3MyOb0LfkFJw==
-From: Mario Limonciello <superm1@kernel.org>
-To: Bjorn Helgaas <bhelgaas@google.com>
-Cc: Alex Deucher <alexander.deucher@amd.com>,
- =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- Lukas Wunner <lukas@wunner.de>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>,
- David Woodhouse <dwmw2@infradead.org>, Lu Baolu <baolu.lu@linux.intel.com>,
- Joerg Roedel <joro@8bytes.org>, Will Deacon <will@kernel.org>,
- Robin Murphy <robin.murphy@arm.com>,
- Alex Williamson <alex.williamson@redhat.com>,
- Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
- dri-devel@lists.freedesktop.org (open list:DRM DRIVERS),
- linux-kernel@vger.kernel.org (open list),
- iommu@lists.linux.dev (open list:INTEL IOMMU (VT-d)),
- linux-pci@vger.kernel.org (open list:PCI SUBSYSTEM),
- kvm@vger.kernel.org (open list:VFIO DRIVER),
- linux-sound@vger.kernel.org (open list:SOUND),
- Daniel Dadap <ddadap@nvidia.com>,
- Mario Limonciello <mario.limonciello@amd.com>
-Subject: [PATCH v4 8/8] PCI: Add a new 'boot_display' attribute
-Date: Mon, 23 Jun 2025 13:47:57 -0500
-Message-ID: <20250623184757.3774786-9-superm1@kernel.org>
-X-Mailer: git-send-email 2.43.0
-In-Reply-To: <20250623184757.3774786-1-superm1@kernel.org>
-References: <20250623184757.3774786-1-superm1@kernel.org>
+Received: from mail-wr1-f42.google.com (mail-wr1-f42.google.com
+ [209.85.221.42])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D7A5910E445
+ for <dri-devel@lists.freedesktop.org>; Mon, 23 Jun 2025 19:02:53 +0000 (UTC)
+Received: by mail-wr1-f42.google.com with SMTP id
+ ffacd0b85a97d-3a531fcaa05so1922728f8f.3
+ for <dri-devel@lists.freedesktop.org>; Mon, 23 Jun 2025 12:02:53 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=broadcom.com; s=google; t=1750705372; x=1751310172;
+ darn=lists.freedesktop.org; 
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:from:to:cc:subject:date:message-id:reply-to;
+ bh=yC8eYyk8RCgyB1Lj4WGc38h7yLcXrWaRYGHyFizCza8=;
+ b=h1lPk54nlUktF6zewtXkpuyrayIqscIfHT+o3eLNMTA+5Z+w9gTJn1zc5cjAyEvbXY
+ ZuTjssWwNR5jU+N35B7Jg3LYFH/tJnjkmNJoKtnIKUq1osFIfV1ZKzbvKR9JDSoE0vC2
+ 6N25na9OYU0tzZktqgAo+yofqWLYWPFh6qDZg=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1750705372; x=1751310172;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=yC8eYyk8RCgyB1Lj4WGc38h7yLcXrWaRYGHyFizCza8=;
+ b=pHq6ulLvf6aHrVcNhCInKgbDStE5RhCs/Sc46gU+rgF5ccnkHTm4viccqKSD4iNQzm
+ hZwteHmgLV/+uP1mqghn27YV4oyHfXwwzgd6OTiqJWTPPg8F7dTOzEKY93p2CL3yYwN3
+ qRcjfDG4V55Qvk9kHtdjQmTo2CqbT6l2ttTH5WMIYsBr2zYK46YFAC/5BTeoiCkhHQVF
+ a8VjwUBIwJ3YLm2Dpb+3gZ9x0thUpzCTXA+Hf6A4PIzs70CUib/gcQMVr0hTMB0/u+zM
+ V4MalUwf7XC/GTwBAU8tVpl138cYiGb4L38S6iXtm/zVrfaEAA8LV0K952CZ9wO7JfWt
+ d7VQ==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCWwxp2KGy6L8MYPJ+W/ZfE8fEulNZGxwsvaFAEAkomCxBCcvvpQgzEp3OxoFCT7trxPGbx5Q1aqV4g=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YyGMGNAeNsPQmBnWm9d1Q57ntQi2RYbCKXjicpM1B96IBNyoApL
+ 8qh1SOse3X1om+CVFsmMeWZOjw4Q3pLVmL5kWoTUG5VwhBZhKXPljpJIbB7qiGTr6vnk/XcwD9R
+ 2pVHHWww7kfuMyhEQmfr704VLsjkkyfG+jYeTzSJ1nya7d5j0ElA3CQ==
+X-Gm-Gg: ASbGncvKHt0ENhA5bATmT3SzM9Ir/wQHBlilGoqmoeoOjD7I8K1fjlP23cWA+Z3IR4t
+ 8JrBD4m2hvBaCxVNWquMBbdlaQ6yEOkVxM06dKxD5zjs6TLHleJbvZO/y10apr4GGXSMeKI9rH7
+ Cy2DvwC/fcEVYJFmSjL3ymlEDVldCON7an7iFarE96/4lm
+X-Google-Smtp-Source: AGHT+IHJ2AdRKw1KVAeXjekOAS/08TkBAZri/Aakoknq3apnRn3zXoxcJmGSK4hyyUslSk0utXt5S1YH/ft2fOwCDng=
+X-Received: by 2002:a05:6000:2507:b0:3a4:ef0d:e614 with SMTP id
+ ffacd0b85a97d-3a6d12d5873mr10807555f8f.33.1750705372232; Mon, 23 Jun 2025
+ 12:02:52 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20250616130726.22863-1-christian.koenig@amd.com>
+In-Reply-To: <20250616130726.22863-1-christian.koenig@amd.com>
+From: Ian Forbes <ian.forbes@broadcom.com>
+Date: Mon, 23 Jun 2025 14:02:41 -0500
+X-Gm-Features: Ac12FXwh9SKoB-6bgbRzxDhWXNwP8MNLBZTB4nXWVzX3eiDad9omfRHpkYbVTvE
+Message-ID: <CAO6MGtj=UW3FTwOFWJEwZoDO93-cRidrdE6s11EOwKP8298O9A@mail.gmail.com>
+Subject: Re: [PATCH 1/6] drm/vmwgfx: drop printing the TTM refcount for
+ debugging
+To: =?UTF-8?Q?Christian_K=C3=B6nig?= <ckoenig.leichtzumerken@gmail.com>
+Cc: thomas.hellstrom@linux.intel.com, intel-xe@lists.freedesktop.org, 
+ dri-devel@lists.freedesktop.org, matthew.brost@intel.com, 
+ matthew.auld@intel.com
+Content-Type: multipart/signed; protocol="application/pkcs7-signature";
+ micalg=sha-256; boundary="000000000000d86840063841db52"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -75,86 +82,118 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Mario Limonciello <mario.limonciello@amd.com>
+--000000000000d86840063841db52
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On systems with multiple GPUs there can be uncertainty which GPU is the
-primary one used to drive the display at bootup. In order to disambiguate
-this add a new sysfs attribute 'boot_display' that uses the output of
-video_is_primary_device() to populate whether a PCI device was used for
-driving the display.
+On Mon, Jun 16, 2025 at 8:07=E2=80=AFAM Christian K=C3=B6nig
+<ckoenig.leichtzumerken@gmail.com> wrote:
+>
+> That is something TTM internal which is about to get dropped.
+>
+> Signed-off-by: Christian K=C3=B6nig <christian.koenig@amd.com>
 
-Signed-off-by: Mario Limonciello <mario.limonciello@amd.com>
----
-v4:
- * new patch
----
- Documentation/ABI/testing/sysfs-bus-pci |  9 +++++++++
- drivers/pci/pci-sysfs.c                 | 14 ++++++++++++++
- 2 files changed, 23 insertions(+)
+Reviewed-by: Ian Forbes <ian.forbes@broadcom.com>
 
-diff --git a/Documentation/ABI/testing/sysfs-bus-pci b/Documentation/ABI/testing/sysfs-bus-pci
-index 69f952fffec72..2e6f85fbe2e2e 100644
---- a/Documentation/ABI/testing/sysfs-bus-pci
-+++ b/Documentation/ABI/testing/sysfs-bus-pci
-@@ -612,3 +612,12 @@ Description:
- 
- 		  # ls doe_features
- 		  0001:01        0001:02        doe_discovery
-+
-+What:		/sys/bus/pci/devices/.../boot_display
-+Date:		October 2025
-+Contact:	Linux PCI developers <linux-pci@vger.kernel.org>
-+Description:
-+		This file indicates whether the device was used as a boot
-+		display. If the device was used as the boot display, the file
-+		will contain "1". If the device is a display device but wasn't
-+		used as a boot display, the file will contain "0".
-diff --git a/drivers/pci/pci-sysfs.c b/drivers/pci/pci-sysfs.c
-index 268c69daa4d57..5bbf79b1b953d 100644
---- a/drivers/pci/pci-sysfs.c
-+++ b/drivers/pci/pci-sysfs.c
-@@ -30,6 +30,7 @@
- #include <linux/msi.h>
- #include <linux/of.h>
- #include <linux/aperture.h>
-+#include <asm/video.h>
- #include "pci.h"
- 
- #ifndef ARCH_PCI_DEV_GROUPS
-@@ -679,6 +680,13 @@ const struct attribute_group *pcibus_groups[] = {
- 	NULL,
- };
- 
-+static ssize_t boot_display_show(struct device *dev, struct device_attribute *attr,
-+				 char *buf)
-+{
-+	return sysfs_emit(buf, "%u\n", video_is_primary_device(dev));
-+}
-+static DEVICE_ATTR_RO(boot_display);
-+
- static ssize_t boot_vga_show(struct device *dev, struct device_attribute *attr,
- 			     char *buf)
- {
-@@ -1698,6 +1706,7 @@ late_initcall(pci_sysfs_init);
- 
- static struct attribute *pci_dev_dev_attrs[] = {
- 	&dev_attr_boot_vga.attr,
-+	&dev_attr_boot_display.attr,
- 	NULL,
- };
- 
-@@ -1710,6 +1719,11 @@ static umode_t pci_dev_attrs_are_visible(struct kobject *kobj,
- 	if (a == &dev_attr_boot_vga.attr && pci_is_vga(pdev))
- 		return a->mode;
- 
-+#ifdef CONFIG_VIDEO
-+	if (a == &dev_attr_boot_display.attr && pci_is_display(pdev))
-+		return a->mode;
-+#endif
-+
- 	return 0;
- }
- 
--- 
-2.43.0
+--000000000000d86840063841db52
+Content-Type: application/pkcs7-signature; name="smime.p7s"
+Content-Transfer-Encoding: base64
+Content-Disposition: attachment; filename="smime.p7s"
+Content-Description: S/MIME Cryptographic Signature
 
+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
+V0fYJUiKJMCwvDmndOil8EtMA8j2T6taUZoQINiKQ0oDWgY6eYVv7AdPVIeOOs3noCyUL8AyA7Bl
+yoOPBB2/gk8VGcolEKgAAj+3hPbBF/d19x1bZzU3wABizBomVwykx5ms1nVXDbQajz8jqYECKWh9
+3OMo7BuC3TAClu5mLr2zs0Ccpp6NRRkjTF8WtCJ+jSnjFJGLAgMBAAGjggHYMIIB1DAOBgNVHQ8B
+Af8EBAMCBaAwgZMGCCsGAQUFBwEBBIGGMIGDMEYGCCsGAQUFBzAChjpodHRwOi8vc2VjdXJlLmds
+b2JhbHNpZ24uY29tL2NhY2VydC9nc2djY3I2c21pbWVjYTIwMjMuY3J0MDkGCCsGAQUFBzABhi1o
+dHRwOi8vb2NzcC5nbG9iYWxzaWduLmNvbS9nc2djY3I2c21pbWVjYTIwMjMwZQYDVR0gBF4wXDAJ
+BgdngQwBBQMBMAsGCSsGAQQBoDIBKDBCBgorBgEEAaAyCgMCMDQwMgYIKwYBBQUHAgEWJmh0dHBz
+Oi8vd3d3Lmdsb2JhbHNpZ24uY29tL3JlcG9zaXRvcnkvMAkGA1UdEwQCMAAwQQYDVR0fBDowODA2
+oDSgMoYwaHR0cDovL2NybC5nbG9iYWxzaWduLmNvbS9nc2djY3I2c21pbWVjYTIwMjMuY3JsMCIG
+A1UdEQQbMBmBF2lhbi5mb3JiZXNAYnJvYWRjb20uY29tMBMGA1UdJQQMMAoGCCsGAQUFBwMEMB8G
+A1UdIwQYMBaAFAApNp5ceroPry1QLdugI4UYsKCSMB0GA1UdDgQWBBSvJWzgGK7aSByS+CQVBVfM
+Xgm5azANBgkqhkiG9w0BAQsFAAOCAgEAfrWiLF3zrYq7D+KPNRaAP70FbxHeaiUfn27Hbu37Eefz
+xeJTcFZH04IEtXqpM3NWYZm4A/dFn/VQPbLCRaeXzpT2TESVH6EFY7BEF0rnSSlUbFyi000MnSH3
+h5m+MoyE+PzLqfzLBZS+EU/haCpPy6Nqhs3fPKG3w5VTnUPsAxXK7rSmkIDVNsvwRttuMq9KHJzH
+Bx51dP/z3mel4OuMjgrwHk5uNY1Sn1MZAUQztVUsWguyfoKcmhxXbBccR5DdEfBgDEbq8bicPQ3J
+kqEy1QZXJfHlJuAJIiEw7odGctwqLeGCU6cBLhnsg54ngjO3uYC6tIySul55MRxFKE8HIwIrx+D5
+2SwhDeVLZ8sTK40uPzW5xg5laOWVCvmy2b+cHCGzarUeIlYdtw0ejdH9Hbkm0G7IrDvjkhPa64gR
+6Q+m5CGRDk+8iWhieH6WFE4HL++BpZhoi+YsOkGU3DK0dA+pxQnXNcNw1s0eNbSUVwQzmlC4LqiK
+Gj5JV81HTPLhoAya57a9i28Fp5qHZiFnCq4HMvwiwY7IWe+UwUuueU199aTK80xNiS553vHc6FpI
+/vxGy+LveJqEtodfKqQKwDOVu//c1Lz3uergJHqFYTMykk5U95J3FG5q/7Mqe4RF6E9OgtuAJidS
+6Ca5anjLQ/qzIfTjoXX7TJSjPztehRQxggJXMIICUwIBATBiMFIxCzAJBgNVBAYTAkJFMRkwFwYD
+VQQKExBHbG9iYWxTaWduIG52LXNhMSgwJgYDVQQDEx9HbG9iYWxTaWduIEdDQyBSNiBTTUlNRSBD
+QSAyMDIzAgx2/5+PPF/QoW30N7swDQYJYIZIAWUDBAIBBQCggccwLwYJKoZIhvcNAQkEMSIEICyg
+VsbsxmBy+llcJXH1Qvo1zA6pVivWIi8GzpeikVaKMBgGCSqGSIb3DQEJAzELBgkqhkiG9w0BBwEw
+HAYJKoZIhvcNAQkFMQ8XDTI1MDYyMzE5MDI1MlowXAYJKoZIhvcNAQkPMU8wTTALBglghkgBZQME
+ASowCwYJYIZIAWUDBAEWMAsGCWCGSAFlAwQBAjAKBggqhkiG9w0DBzALBgkqhkiG9w0BAQcwCwYJ
+YIZIAWUDBAIBMA0GCSqGSIb3DQEBAQUABIIBAIuPq7OaioxA0vCeELZTNIMqldRaYJ8BHA3PdION
+ZX19KSqYgN4Vxf/nWc7ReOr6TZEzIMleZ4ddWXhctGegOcTsQLpSgODn5QYv4fW4dNIpO7lJj63j
+1m+A9PRD9Ak/cDHE0SAnxRCro/+VNVSkupAH65pR93O+pRskiHnGYZv7KrfmPpQ6JacVow5eQEmI
+x5u9nSjeJJmOM0Kb+aX151KC7+jd++8dICNGgZyUGXRzRZIzNmxWJJF+QkxLQXtLJszid1LXRiPN
+CLaGETR0nDl+utOiU6p5wahgYexNSaHXEyEt/0PuG33oJwXW9epZdc0g2OvdQhCFPS+wzGjLJGE=
+--000000000000d86840063841db52--
