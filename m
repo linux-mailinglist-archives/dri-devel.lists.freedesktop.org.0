@@ -2,92 +2,40 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5D356AE3BDB
-	for <lists+dri-devel@lfdr.de>; Mon, 23 Jun 2025 12:12:14 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2573BAE3C27
+	for <lists+dri-devel@lfdr.de>; Mon, 23 Jun 2025 12:23:44 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 934C210E05B;
-	Mon, 23 Jun 2025 10:12:12 +0000 (UTC)
-Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=redhat.com header.i=@redhat.com header.b="L+xW7cbi";
-	dkim-atps=neutral
+	by gabe.freedesktop.org (Postfix) with ESMTP id 27D7410E1D4;
+	Mon, 23 Jun 2025 10:23:41 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [170.10.133.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4FE7D10E05B
- for <dri-devel@lists.freedesktop.org>; Mon, 23 Jun 2025 10:12:11 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1750673530;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=ZYLo8wP+y+o3VIS7TqC+HJOW2Pflfi59Nw4T7VkfABc=;
- b=L+xW7cbiEVwgHhnlqtRl7ZD0ifcEaWRFz3ELbvvswsP+BPSOr8AC+nakdSj/+2KRiZBmy6
- f2KzySFER/T7xNxwceo7L9PuSyC0+jgVvfGEWzhXEjPZeaLE1T/CaLCoo/0BSwhPzEdeTy
- TeccD01NzBqnxhOan07whQR1mSS246o=
-Received: from mail-wr1-f71.google.com (mail-wr1-f71.google.com
- [209.85.221.71]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-642-JIBlNbTJMPq8-YbCYjKzPw-1; Mon, 23 Jun 2025 06:12:09 -0400
-X-MC-Unique: JIBlNbTJMPq8-YbCYjKzPw-1
-X-Mimecast-MFC-AGG-ID: JIBlNbTJMPq8-YbCYjKzPw_1750673528
-Received: by mail-wr1-f71.google.com with SMTP id
- ffacd0b85a97d-3a3696a0d3aso1723415f8f.2
- for <dri-devel@lists.freedesktop.org>; Mon, 23 Jun 2025 03:12:08 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1750673528; x=1751278328;
- h=content-transfer-encoding:in-reply-to:from:content-language
- :references:cc:to:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=ZYLo8wP+y+o3VIS7TqC+HJOW2Pflfi59Nw4T7VkfABc=;
- b=KbonHjuJeMRvP8uCkriXs0oSu5zeZ7rKznKouQqTuf0LjjY54e5Secpw838s0rnpC2
- pVYquN6u8MCP2dXyfaX6CXe8WJJCGMmEvggHhSYnAA5fgegXgHOS70TC2PRANc+koz0m
- /BgUXR1RWyY2tOqfFHuBeoemcADTnloJ29g2m0M+mIQEYVkW5N21QFosi0w9YeEGSvRa
- 5xqGEq6MwCfADF7YijbLHrryjVbslFeh28z939txxMYfyX3gTx8ZoaIN9vsEQwVuCGke
- h91Suwol53sU+z/5UXok+bgeXVVyIZTp6cw7bQdgtYRzxQHbQ36Y4XQfQOT4RFPWXr9I
- /dJA==
-X-Forwarded-Encrypted: i=1;
- AJvYcCVKxAhEIWF6iG17IruxCr84HhzLbsIEAg4PWJvfx+EnaZh+IDJv53Zfzpv4FC7ZdpyjvjbtiXYIK50=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YzTooheLvsIVXQBXfJN80po69XXcPXmcot2R6a4G78StpdYPJZE
- QY4WzrselEdrPTkGdriQcuHzLPdoEDXJ2mrsZcsv5MojmISn+ZJPZDzID2nL+QX/QPjPiggbAaX
- 7cQ4W2sccA23fMCsoAqmzvK6Hf9Dj+fY9DczSxMNfLdNY2W26VlmAStZNFhabXyYDYaeq9w==
-X-Gm-Gg: ASbGnctRrzJsixTBwz69c+YTG3lE93YNxCv2wCmKqVICdoyHQsKOi+rWnBuU1soCQso
- iZh3UBoJ+JGVxVVMZp/I9+zbf/d6pWk1wGDtnCUbYDc+F6SvxzFs7WYqnhkmOCATiZRzyKzK4TC
- Qa7UTqwmAzCcHZ+9UvLnhuOa9uM3ULNdNO93KKm6BtIDY64DWR0Yl0/C/otN4ZDnwAuC2QJGUvK
- 74QXdsixvzdkimyVSxFb6wUDiHBKS/B9ybLec3F6SlhYUFolWoE0B8N728IE8xWQAMTLB/OF4Ye
- czE9XDrXXF7K8ivKZ/flYS1mLHY+qzYD5Pv4HCVp5dM1dEd5Xg6+gqIFSzbbwg==
-X-Received: by 2002:a5d:64c4:0:b0:3a5:2b75:56cc with SMTP id
- ffacd0b85a97d-3a6d12a595emr9714564f8f.23.1750673527770; 
- Mon, 23 Jun 2025 03:12:07 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IHCL4na2uglOQFNEUAANK+zA52+SQuukZvQq//WUH0f114XAeIMlx0mcV3sqHLNJE6Ahlk+RQ==
-X-Received: by 2002:a5d:64c4:0:b0:3a5:2b75:56cc with SMTP id
- ffacd0b85a97d-3a6d12a595emr9714535f8f.23.1750673527348; 
- Mon, 23 Jun 2025 03:12:07 -0700 (PDT)
-Received: from ?IPV6:2a01:e0a:c:37e0:8998:e0cf:68cc:1b62?
- ([2a01:e0a:c:37e0:8998:e0cf:68cc:1b62])
- by smtp.gmail.com with ESMTPSA id
- ffacd0b85a97d-3a6d2236452sm8895293f8f.59.2025.06.23.03.12.06
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 23 Jun 2025 03:12:06 -0700 (PDT)
-Message-ID: <acbb1b02-593f-4a46-b4cb-99781d595e33@redhat.com>
-Date: Mon, 23 Jun 2025 12:12:05 +0200
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+ by gabe.freedesktop.org (Postfix) with ESMTP id 1397210E1D4
+ for <dri-devel@lists.freedesktop.org>; Mon, 23 Jun 2025 10:23:40 +0000 (UTC)
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+ by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 6E312113E;
+ Mon, 23 Jun 2025 03:23:21 -0700 (PDT)
+Received: from [10.57.29.183] (unknown [10.57.29.183])
+ by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 310703F58B;
+ Mon, 23 Jun 2025 03:23:37 -0700 (PDT)
+Message-ID: <397a2f12-1601-4cc3-a013-5250dde2a8f5@arm.com>
+Date: Mon, 23 Jun 2025 11:23:35 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH drm-next] drm/bochs: Add support for drm_panic
-To: Ryosuke Yasuoka <ryasuoka@redhat.com>, kraxel@redhat.com,
- maarten.lankhorst@linux.intel.com, mripard@kernel.org, tzimmermann@suse.de,
- airlied@gmail.com, simona@ffwll.ch
-Cc: virtualization@lists.linux.dev, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org
-References: <20250613132023.106946-1-ryasuoka@redhat.com>
-From: Jocelyn Falempe <jfalempe@redhat.com>
-In-Reply-To: <20250613132023.106946-1-ryasuoka@redhat.com>
-X-Mimecast-Spam-Score: 0
-X-Mimecast-MFC-PROC-ID: 4sSh9HZsBNmgqjrd_RT9ZBixfuHHh0AN61fcm_WmSic_1750673528
-X-Mimecast-Originator: redhat.com
-Content-Language: en-US, fr
-Content-Type: text/plain; charset=UTF-8; format=flowed
+Subject: Re: [PATCH v4 0/7] Add GPU specific initialization framework to
+ support new Mali GPUs
+To: Karunika Choo <karunika.choo@arm.com>, dri-devel@lists.freedesktop.org
+Cc: nd@arm.com, Boris Brezillon <boris.brezillon@collabora.com>,
+ Liviu Dudau <liviu.dudau@arm.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+ linux-kernel@vger.kernel.org
+References: <20250602143216.2621881-1-karunika.choo@arm.com>
+From: Steven Price <steven.price@arm.com>
+Content-Language: en-GB
+In-Reply-To: <20250602143216.2621881-1-karunika.choo@arm.com>
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -104,66 +52,101 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 13/06/2025 15:20, Ryosuke Yasuoka wrote:
-> Add drm_panic moudle for bochs drm so that panic screen can be displayed
-> on panic.
+Hi Karunika,
 
-I just pushed it to drm-misc-next, with the typo in the commit message 
-fixed.
+On 02/06/2025 15:32, Karunika Choo wrote:
+> This patch series introduces a GPU HW abstraction to Panthor, to enable
+> support for new Mali GPUs.
+> 
+> Key changes:
+> - Addition of GPU-specific initialization framework to standardize and
+>   streamline support new GPUs.
+> - Support for cache maintenance via the FLUSH_CACHES GPU command.
+> - Support for Mali-Gx10, Mali-Gx15, Mali-Gx20, and Mali-Gx25 GPUs.
+
+The changes mostly look fine to me - just some comments on patch 6 which
+I'll send separately. Also as Chia-I Wu has already pointed out I think
+there's some excess baggage with unused fields. It's best to keep things
+minimal and we can add extra fields when they are actually needed rather
+than having dead code which might end up never being used.
 
 Thanks,
-
--- 
-
-Jocelyn
+Steve
 
 > 
-> Signed-off-by: Ryosuke Yasuoka <ryasuoka@redhat.com>
-> ---
->   drivers/gpu/drm/tiny/bochs.c | 19 +++++++++++++++++++
->   1 file changed, 19 insertions(+)
+> Firmware for these GPUs can be found here:
+> https://gitlab.com/dliviu/linux-firmware
 > 
-> diff --git a/drivers/gpu/drm/tiny/bochs.c b/drivers/gpu/drm/tiny/bochs.c
-> index 8706763af8fb..ed42ad5c4927 100644
-> --- a/drivers/gpu/drm/tiny/bochs.c
-> +++ b/drivers/gpu/drm/tiny/bochs.c
-> @@ -19,6 +19,7 @@
->   #include <drm/drm_gem_shmem_helper.h>
->   #include <drm/drm_managed.h>
->   #include <drm/drm_module.h>
-> +#include <drm/drm_panic.h>
->   #include <drm/drm_plane_helper.h>
->   #include <drm/drm_probe_helper.h>
->   
-> @@ -469,10 +470,28 @@ static void bochs_primary_plane_helper_atomic_update(struct drm_plane *plane,
->   	bochs_hw_setformat(bochs, fb->format);
->   }
->   
-> +static int bochs_primary_plane_helper_get_scanout_buffer(struct drm_plane *plane,
-> +							  struct drm_scanout_buffer *sb)
-> +{
-> +	struct bochs_device *bochs = to_bochs_device(plane->dev);
-> +	struct iosys_map map = IOSYS_MAP_INIT_VADDR_IOMEM(bochs->fb_map);
-> +
-> +	if (plane->state && plane->state->fb) {
-> +		sb->format = plane->state->fb->format;
-> +		sb->width = plane->state->fb->width;
-> +		sb->height = plane->state->fb->height;
-> +		sb->pitch[0] = plane->state->fb->pitches[0];
-> +		sb->map[0] = map;
-> +		return 0;
-> +	}
-> +	return -ENODEV;
-> +}
-> +
->   static const struct drm_plane_helper_funcs bochs_primary_plane_helper_funcs = {
->   	DRM_GEM_SHADOW_PLANE_HELPER_FUNCS,
->   	.atomic_check = bochs_primary_plane_helper_atomic_check,
->   	.atomic_update = bochs_primary_plane_helper_atomic_update,
-> +	.get_scanout_buffer = bochs_primary_plane_helper_get_scanout_buffer,
->   };
->   
->   static const struct drm_plane_funcs bochs_primary_plane_funcs = {
+> Patch Breakdown:
+> [PATCH 1]:   Implements the GPU-specific initialization framework to
+>              handle differences between GPU architectures by enabling
+>              definition of architecture-specific initialization routines
+> [PATCH 2-3]: Refactors gpu_info initialization in preparation for GPU
+>              register changes and at the same time simplifies and makes
+>              extensible the process of determining the GPU model name.
+> [PATCH 4]:   Adds support for Mali-G710, Mali-G510 and Mali-G310.
+> [PATCH 5]:   Adds support for Mali-Gx15 GPUs.
+> [PATCH 6]:   Adds cache maintenance via the FLUSH_CACHES GPU command due
+>              to deprecation of FLUSH_MEM and FLUSH_PT MMU_AS commands
+>              from Mali-Gx20 onwards.
+> [PATCH 7]:   Adds support for Mali-Gx20 and Mali-Gx25 GPUs.
 > 
-> base-commit: 19272b37aa4f83ca52bdf9c16d5d81bdd1354494
+> 
+> v4:
+> - Split 64-bit register accessor patches into another patch series.
+>   - link: https://lore.kernel.org/dri-devel/20250417123725.2733201-1-karunika.choo@arm.com/
+> - Switched to using arch_major for comparison instead of arch_id in
+>   panthor_hw.c.
+> - Removed the gpu_info_init function pointer in favour of a single
+>   function to handle minor register changes. The function names have
+>   also been adjusted accordingly.
+> - Moved the patch to support Mali-G710, Mali-G510 and Mali-G310 forwards
+>   to [PATCH 4/7].
+> - Extended support to perform cache maintenance via GPU_CONTROL to
+>   Mali-Gx10 and Mali-Gx15 GPUs.
+> - Link to v2: https://lore.kernel.org/all/20250320111741.1937892-1-karunika.choo@arm.com/
+> v3:
+> - Kindly ignore this patch series as there were duplicate patches being
+>   included.
+> v2:
+> - Removed handling for register base addresses as they are not yet
+>   needed.
+> - Merged gpu_info handling into panthor_hw.c as they depend on the same
+>   arch_id matching mechanism.
+> - Made gpu_info initialization a GPU-specific function.
+> - Removed unnecessary changes for cache maintenance via GPU_CONTROL.
+> - Removed unnecessary pre-parsing of register fields from v1. Retaining
+>   current implementation as much as possible.
+> - Added support for G710, G715, G720, and G725 series of Mali GPUs.
+> - Link to v1: https://lore.kernel.org/all/20241219170521.64879-1-karunika.choo@arm.com/
+> 
+> Thanks,
+> Karunika Choo
+> 
+> Karunika Choo (7):
+>   drm/panthor: Add GPU specific initialization framework
+>   drm/panthor: Move GPU info initialization into panthor_hw.c
+>   drm/panthor: Simplify getting the GPU model name
+>   drm/panthor: Add support for Mali-G710, Mali-G510 and Mali-G310
+>   drm/panthor: Add support for Mali-Gx15 family of GPUs
+>   drm/panthor: Support GPU_CONTROL cache flush based on feature bit
+>   drm/panthor: Add support for Mali-Gx20 and Mali-Gx25 GPUs
+> 
+>  drivers/gpu/drm/panthor/Makefile         |   1 +
+>  drivers/gpu/drm/panthor/panthor_device.c |   5 +
+>  drivers/gpu/drm/panthor/panthor_device.h |   4 +
+>  drivers/gpu/drm/panthor/panthor_fw.c     |   5 +
+>  drivers/gpu/drm/panthor/panthor_gpu.c    |  95 -----------
+>  drivers/gpu/drm/panthor/panthor_hw.c     | 197 +++++++++++++++++++++++
+>  drivers/gpu/drm/panthor/panthor_hw.h     |  66 ++++++++
+>  drivers/gpu/drm/panthor/panthor_mmu.c    |  35 ++++
+>  drivers/gpu/drm/panthor/panthor_regs.h   |  25 +++
+>  include/uapi/drm/panthor_drm.h           |   3 +
+>  10 files changed, 341 insertions(+), 95 deletions(-)
+>  create mode 100644 drivers/gpu/drm/panthor/panthor_hw.c
+>  create mode 100644 drivers/gpu/drm/panthor/panthor_hw.h
+> 
+> --
+> 2.49.0
+> 
 
