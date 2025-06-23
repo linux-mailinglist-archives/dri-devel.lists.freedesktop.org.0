@@ -2,77 +2,75 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 57E76AE35FD
-	for <lists+dri-devel@lfdr.de>; Mon, 23 Jun 2025 08:45:01 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id B9C79AE3605
+	for <lists+dri-devel@lfdr.de>; Mon, 23 Jun 2025 08:45:06 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 437B210E192;
-	Mon, 23 Jun 2025 06:44:59 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 52BC810E195;
+	Mon, 23 Jun 2025 06:45:01 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=fairphone.com header.i=@fairphone.com header.b="WNXV29VV";
+	dkim=pass (2048-bit key; unprotected) header.d=fairphone.com header.i=@fairphone.com header.b="4dDZxYP2";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ej1-f41.google.com (mail-ej1-f41.google.com
- [209.85.218.41])
- by gabe.freedesktop.org (Postfix) with ESMTPS id ABD3E10E182
- for <dri-devel@lists.freedesktop.org>; Mon, 23 Jun 2025 06:44:57 +0000 (UTC)
-Received: by mail-ej1-f41.google.com with SMTP id
- a640c23a62f3a-ad891bb0957so696370266b.3
- for <dri-devel@lists.freedesktop.org>; Sun, 22 Jun 2025 23:44:57 -0700 (PDT)
+Received: from mail-ej1-f52.google.com (mail-ej1-f52.google.com
+ [209.85.218.52])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 67CE710E182
+ for <dri-devel@lists.freedesktop.org>; Mon, 23 Jun 2025 06:44:58 +0000 (UTC)
+Received: by mail-ej1-f52.google.com with SMTP id
+ a640c23a62f3a-ade5ca8bc69so657723066b.0
+ for <dri-devel@lists.freedesktop.org>; Sun, 22 Jun 2025 23:44:58 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=fairphone.com; s=fair; t=1750661096; x=1751265896; darn=lists.freedesktop.org;
- h=cc:to:content-transfer-encoding:mime-version:message-id:date
- :subject:from:from:to:cc:subject:date:message-id:reply-to;
- bh=Rfv2PMTDIceIpvbq9xZVeanT080dZzydc/UXVnCEv1g=;
- b=WNXV29VV54xdG0JmQCtv9CKchSwhddC53xroeGqoVnXdNfc4MoMDUNdGltRbCg2Pz1
- Th3O+JMFpHtVtbj1eXbebRIcXpacnubbFffnfQvjI5wRQ5sIscVe2eGN759MN8mGLy+r
- KnHNoOG+uPI2PE2R7Mfgsf0z0Fg2hWUCea4xyxoUap9oTZiMR8L/1rBXUdHmzFVW/I75
- 8sjfHkE1/JOAMCNbFPxUga3hM0PGpmD3vHyRpVlsYoTnQPPQkbLKBLyNTAeImEqTaGWi
- gciOgZPBdvoSs1vFcErWnuKl6nTMFusdDAL3zuZtownluElhhY6MhUpex9gCrLj/doHb
- r4vg==
+ d=fairphone.com; s=fair; t=1750661097; x=1751265897; darn=lists.freedesktop.org;
+ h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
+ :mime-version:subject:date:from:from:to:cc:subject:date:message-id
+ :reply-to; bh=JCS5FhWMALYSCiWPAUtyrj6QhDfP/0lmNW3Nr7cvou0=;
+ b=4dDZxYP2/10EmkRIDMTBG6JxREy2qj0raKy3lN7StECl0eAp06YOtn8iIwx3VuExRB
+ h9YmGNixmu2jHd072GVDhZcTCxiA1qA5XBfc13wIiSoVU7S32m7Mmy+kM+foYxmKiHV5
+ urxrbdri1S0HgOsJo81Dvuw+taRMjXeBFuomQ8beAcLMoUhLoCPMVf/TmGxF7BYx0pw2
+ xYdjM/6g9kQMsbsV5FvzViRFIMmVMUVmjFrPvM/39xZKraVj4hZsoE3CW1I3DD1WMv1L
+ dt4f4apJR4GctcfQcIYp/5fSpM5NFIN/jCiRsUaNrIfIN4ruQcs9Kt/glC9/JHNDUXHl
+ Pt3Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1750661096; x=1751265896;
- h=cc:to:content-transfer-encoding:mime-version:message-id:date
- :subject:from:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=Rfv2PMTDIceIpvbq9xZVeanT080dZzydc/UXVnCEv1g=;
- b=Vjg4caCHV0RYcRTRhBpB5XzW/kjClp5VS016DwhA6FdPGUNFkmziQKRgvsZN+idcuu
- jHiigpBawOLzQ6fANsXrViFyPmiI2TmQre/0z1413zdTj68dNXaY8QuBnBFy/TF+gQ31
- M8ROOT+ovuYdJ0jM8F62KjcIAqMcdiWS2xzC4hy7q5ayU28UwVZOl2W3KQWjM2O7q1Ju
- KMAIYlUx7SMaOE+eWEWZls3dfcNDbYOqSDs1yJE+eScqapfqkv7ebqS9wY96DBmPbI0T
- +gQcWYh38cLmEHVAqU+yTt5vhaa7VM0lqEFQ3P2eNWg2eZ+474Zo1M+UZDQEKqGrBASf
- hQXw==
+ d=1e100.net; s=20230601; t=1750661097; x=1751265897;
+ h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
+ :mime-version:subject:date:from:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=JCS5FhWMALYSCiWPAUtyrj6QhDfP/0lmNW3Nr7cvou0=;
+ b=aczZonCCKaAAeJYZj3EBX/aUlwTZeFpJDGuQoJVunpfICFeZDc5sHq3/kz/LOxvSsq
+ 83qnw0OeoVe8VRTg30hUzLdIsZXWGN6V/F+YAzYJ6SMJ/jR03zEJ9jTiRWKdyYGEp6pP
+ ek3KdNdbjiCzSeYMQTFXSr76Hnl6NprelUpvVOiUHcV0rO8Y2c0shNfQ5D4KgV9b1edF
+ AYNO40wO6M8C4hUWgTyjtbZIONby9RlcPADUO8qrAdlILFrxq/4MIRbbTDWesC2aHHEm
+ DrHIHYJI2J8C/COk89H5YxGIebynF2QlvLZa42+snmqcBhs9AcQ1hkS2wQBKX57ew41Z
+ ILcg==
 X-Forwarded-Encrypted: i=1;
- AJvYcCW4YnT/1EvE6jjIR7QDHR6hoAlkrVdmbKr8DodAOKgteXbg1vLW0Uzx7oh3eM69fOGCrxaGNWRBbl0=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0Yx64haZkrZjGMWyvPWH7hX/y8nTWMcOXmZ5dRR8DSmmnrju/Mdc
- xp/vZTbzZ1fXYYh5r/2r6HweoZ90yPV6jgbJdZaE30svhCHyl5rHtr5Q6IQN8jdGJH8=
-X-Gm-Gg: ASbGncurEcQSZ7RlOZ2YRtaUSlLYODDX9jBCW1if2//MOPaXJaQ+p+c5s2IjPfKrPJO
- h8qrA2ds7Q0IgdM/emjD+V9tIe7FV9Q6Rsf1ySRv4OT9yyuRddjchalH4p9eUVhpliG4YvvuElN
- roN/+tFYRrd89gZrZgeULoQ9mb6mDYhBSPLYYtMMbkAHL2CtgMeVsEu6Dr6leECvmH+7i9Gz7B5
- B59eywugmfAQnbxk0mOzG9SFREJ964hRtk3k+iF3Qzc5ltbGkbUjQKOUQtLt6tMEWKr6n8fDzR7
- nA3KT3dS5PqTa2NJrmdr9OrKPdHhTWZb/5Lj+Ag6s115XwLXXwrqkq1+fNQSETbonpXvnlJ2clX
- 0dbl2VUgJTQXX0EPHnTyzdWD3iiiH7HSA
-X-Google-Smtp-Source: AGHT+IEIK4HYmI0KuUkjMGJQo8hgJeoSxD4CTOsQVO12rPi+l3/A1YCQcq/euCV+EvS2bfnw4by8Eg==
-X-Received: by 2002:a17:906:d260:b0:add:deb0:8b64 with SMTP id
- a640c23a62f3a-ae0579df1e2mr988741966b.24.1750661096075; 
+ AJvYcCXDELZMUlYnj6PVjSxxlICxKllOKvGoPyhU63mpGRLyjLNVdiwETe5Gd/HlEB00KFJ33jPXh3z+AMA=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YzFIe3dGaxPSrDqoXZtlBcXTt0/IjKAdGcL8C7+XqhW6CRTCS5W
+ b2pHz3GqenVvwFIofAPSVvDQH5sDQUi2lsbGKESobuogRsW+7uACcxexlQ9lDYTTrS4=
+X-Gm-Gg: ASbGncuXVZI4ECSgtRq2ng1rXuK4Q8wLiIJy1HOTaihnTFNJnKd0Seul+ietziQFOAP
+ AU6Y3myD3uyRwkhLAHuC5Fi5So+Vcf6OZf3HGBeSd+OBBIrJ+Nf3DK05Cube0n8Up6uzkEMjnN6
+ 0Y3lZjtOnRcgp6fWAs6tb9fLqPTaWvOCKVD3a7LM9olTSD/2SExdal8FMa1O0TXomFKCJEGABDj
+ hDJWRDEIqxzVVl2DCN5CchaPw5Zt9KD+vSNfBc5+08xyOOVlRdCxZLiK3vc6FPlTl20ccIYDNJZ
+ 0h3OMkHf9Cl64I6MKRdmmjbFk56owx+0N6oUiOjXVAy3SXapZqbXa7s61z8AJDJzXPznkxwaVFX
+ omezom+NLqLs7szb/KyH9umpaxRbf5nSy
+X-Google-Smtp-Source: AGHT+IGsh9xvJEArfar+Dr0uRl16EBYyKnUhy6OWWKR/qb5aCazP3FzJZEQo/dxm9nUzIFyPy5Bewg==
+X-Received: by 2002:a17:907:d8f:b0:ad8:8c09:a51a with SMTP id
+ a640c23a62f3a-ae0578f5642mr1122704566b.4.1750661096907; 
  Sun, 22 Jun 2025 23:44:56 -0700 (PDT)
 Received: from otso.local (144-178-202-138.static.ef-service.nl.
  [144.178.202.138]) by smtp.gmail.com with ESMTPSA id
- a640c23a62f3a-ae053ee4ce9sm659258266b.69.2025.06.22.23.44.55
+ a640c23a62f3a-ae053ee4ce9sm659258266b.69.2025.06.22.23.44.56
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sun, 22 Jun 2025 23:44:55 -0700 (PDT)
+ Sun, 22 Jun 2025 23:44:56 -0700 (PDT)
 From: Luca Weiss <luca.weiss@fairphone.com>
-Subject: [PATCH v2 0/5] Add interconnent support for simpledrm/simplefb
-Date: Mon, 23 Jun 2025 08:44:44 +0200
-Message-Id: <20250623-simple-drm-fb-icc-v2-0-f69b86cd3d7d@fairphone.com>
+Date: Mon, 23 Jun 2025 08:44:45 +0200
+Subject: [PATCH v2 1/5] dt-bindings: display: simple-framebuffer: Add
+ interconnects property
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-X-B4-Tracking: v=1; b=H4sIANz3WGgC/22NywrCMBBFf6XM2pEk9hVX/od0UZOJHbBNSSQoJ
- f9uLC5dngP33A0iBaYI52qDQIkj+6WAOlRgpnG5E7ItDEqoRrSyw8jz+iC0YUZ3QzYGe1230jS
- N1vIEZbcGcvzam9eh8MTx6cN7v0jya381Jf7UkkSBVitZK+pdV7uLGzmsk1/oaPwMQ875A5p80
- rS2AAAA
-X-Change-ID: 20250617-simple-drm-fb-icc-89461c559913
+Message-Id: <20250623-simple-drm-fb-icc-v2-1-f69b86cd3d7d@fairphone.com>
+References: <20250623-simple-drm-fb-icc-v2-0-f69b86cd3d7d@fairphone.com>
+In-Reply-To: <20250623-simple-drm-fb-icc-v2-0-f69b86cd3d7d@fairphone.com>
 To: Hans de Goede <hdegoede@redhat.com>, 
  Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
  Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
@@ -84,11 +82,11 @@ Cc: linux-fbdev@vger.kernel.org, dri-devel@lists.freedesktop.org,
  devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, 
  Luca Weiss <luca.weiss@fairphone.com>
 X-Mailer: b4 0.14.2
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1750661095; l=1324;
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1750661095; l=1141;
  i=luca.weiss@fairphone.com; s=20250611; h=from:subject:message-id;
- bh=mG0ZFKhM/nBtFju2w5kydTvhmmvJKrUqQYrMK9O0+gQ=;
- b=I+KJQKTokZRRzCjESYV5r3Vrrf+Epv1ziNUE8LuNep5eK0MjSPosyfeoDYv8RZeU6jY5CZxTZ
- xhHsZM5KA+7B8Jq8+WQNHdc3VT7AJpG+u0BOirf4OMNaxUxiruPXKC5
+ bh=P/y3z3w1bngNRTUAIAgXINyaHlzNiSUuhAN9U3zpOWw=;
+ b=6pjVbQkuIUa2qv2HWVS78fdybrtLmM+hDbK9+CQFefqu+4O7IH7z+Lx0F9v1sVHODRyMqXBxS
+ 7Wh2+Zt4EiKC+fvVHgIMp5BhnDBPnUj+x9vrujCz05xSnU29wMieOM9
 X-Developer-Key: i=luca.weiss@fairphone.com; a=ed25519;
  pk=O1aw+AAust5lEmgrNJ1Bs7PTY0fEsJm+mdkjExA69q8=
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -106,37 +104,31 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Some devices might require keeping an interconnect path alive so that
-the framebuffer continues working. Add support for that by setting the
-bandwidth requirements appropriately for all provided interconnect
-paths.
+Document the interconnects property which is a list of interconnect
+paths that is used by the framebuffer and therefore needs to be kept
+alive when the framebuffer is being used.
 
+Acked-by: Thomas Zimmermann <tzimmermann@suse.de>
 Signed-off-by: Luca Weiss <luca.weiss@fairphone.com>
 ---
-Changes in v2:
-- Sort the headers before adding the new interconnect header, in
-  separate commits.
-- Use the correct #if guards for new interconnect code
-- Pick up tags
-- Link to v1: https://lore.kernel.org/r/20250620-simple-drm-fb-icc-v1-0-d92142e8f74f@fairphone.com
+ Documentation/devicetree/bindings/display/simple-framebuffer.yaml | 3 +++
+ 1 file changed, 3 insertions(+)
 
----
-Luca Weiss (5):
-      dt-bindings: display: simple-framebuffer: Add interconnects property
-      drm/sysfb: simpledrm: Sort headers correctly
-      drm/sysfb: simpledrm: Add support for interconnect paths
-      fbdev/simplefb: Sort headers correctly
-      fbdev/simplefb: Add support for interconnect paths
+diff --git a/Documentation/devicetree/bindings/display/simple-framebuffer.yaml b/Documentation/devicetree/bindings/display/simple-framebuffer.yaml
+index 296500f9da05e296dbbeec50ba5186b6b30aaffc..f0fa0ef23d91043dfb2b220c654b80e2e80850cd 100644
+--- a/Documentation/devicetree/bindings/display/simple-framebuffer.yaml
++++ b/Documentation/devicetree/bindings/display/simple-framebuffer.yaml
+@@ -79,6 +79,9 @@ properties:
+   power-domains:
+     description: List of power domains used by the framebuffer.
+ 
++  interconnects:
++    description: List of interconnect paths used by the framebuffer.
++
+   width:
+     $ref: /schemas/types.yaml#/definitions/uint32
+     description: Width of the framebuffer in pixels
 
- .../bindings/display/simple-framebuffer.yaml       |  3 +
- drivers/gpu/drm/sysfb/simpledrm.c                  | 85 ++++++++++++++++++++-
- drivers/video/fbdev/simplefb.c                     | 89 +++++++++++++++++++++-
- 3 files changed, 173 insertions(+), 4 deletions(-)
----
-base-commit: 19272b37aa4f83ca52bdf9c16d5d81bdd1354494
-change-id: 20250617-simple-drm-fb-icc-89461c559913
-
-Best regards,
 -- 
-Luca Weiss <luca.weiss@fairphone.com>
+2.50.0
 
