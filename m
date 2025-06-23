@@ -2,78 +2,163 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B1CB2AE3D83
-	for <lists+dri-devel@lfdr.de>; Mon, 23 Jun 2025 12:57:46 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1A79CAE3D6B
+	for <lists+dri-devel@lfdr.de>; Mon, 23 Jun 2025 12:54:49 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5A4FE10E35E;
-	Mon, 23 Jun 2025 10:57:44 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4727410E1CF;
+	Mon, 23 Jun 2025 10:54:46 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=microchip.com header.i=@microchip.com header.b="iT8qY3wm";
+	dkim=pass (2048-bit key; unprotected) header.d=microchip.com header.i=@microchip.com header.b="PEifsYKM";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-X-Greylist: delayed 426 seconds by postgrey-1.36 at gabe;
- Mon, 23 Jun 2025 10:57:41 UTC
-Received: from esa.microchip.iphmx.com (esa.microchip.iphmx.com
- [68.232.153.233])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D7BF610E35E
- for <dri-devel@lists.freedesktop.org>; Mon, 23 Jun 2025 10:57:41 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=microchip.com; i=@microchip.com; q=dns/txt; s=mchp;
- t=1750676262; x=1782212262;
- h=from:date:subject:mime-version:content-transfer-encoding:
- message-id:to:cc;
- bh=rk3IUXQZtzpNgDHc4TWz8qsml0b4el8IWm2S5mzHUtg=;
- b=iT8qY3wmlxHl+1rUq54Vpk+BhfkadF3KskTQdF7FTYOqgewIjPnj4EpA
- lDrA3689O/PUXsavjEwhep27piyZoc2nHEqjP001fUMT4i+Cs61Ey7f3G
- 0ydSAdsd9546th0GoxB2SBi5WARz4efaW5LTWiGwdDXEH7yYbBFVQWp+j
- AnynnYKAUU8fhGrWhkE3ns66UUWrJLu1XXPTkiFjsPRb8eGB8oW7Hl+6I
- k8ZCz2Tfdg7fIqG+szhkqJ71lzDzq1wUDh5nQnlddo4tKNsshPb+HUB7w
- Tq/nW1P0v+OiYzvnQvxx0qfGckrOHa/0pbJvIt3BLvdIEUcCbh1fz4yNt w==;
-X-CSE-ConnectionGUID: 6bSZM/9OSRy4OCnNpkPakQ==
-X-CSE-MsgGUID: Tgjy0TvIRPGqMZ48FubJyg==
-X-IronPort-AV: E=Sophos;i="6.16,258,1744095600"; d="scan'208";a="43105617"
-X-Amp-Result: SKIPPED(no attachment in message)
-Received: from unknown (HELO email.microchip.com) ([170.129.1.10])
- by esa3.microchip.iphmx.com with ESMTP/TLS/ECDHE-RSA-AES128-GCM-SHA256;
- 23 Jun 2025 03:50:34 -0700
-Received: from chn-vm-ex02.mchp-main.com (10.10.87.72) by
- chn-vm-ex02.mchp-main.com (10.10.87.72) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.44; Mon, 23 Jun 2025 03:50:29 -0700
-Received: from [127.0.0.1] (10.10.85.11) by chn-vm-ex02.mchp-main.com
- (10.10.85.144) with Microsoft SMTP Server id 15.1.2507.44 via Frontend
- Transport; Mon, 23 Jun 2025 03:50:23 -0700
-From: Dharma Balasubiramani <dharma.b@microchip.com>
-Date: Mon, 23 Jun 2025 16:20:20 +0530
-Subject: [PATCH v2] drm/bridge: microchip-lvds: fix bus format mismatch
- with VESA displays
-MIME-Version: 1.0
+Received: from NAM10-DM6-obe.outbound.protection.outlook.com
+ (mail-dm6nam10on2078.outbound.protection.outlook.com [40.107.93.78])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4C71610E1CF
+ for <dri-devel@lists.freedesktop.org>; Mon, 23 Jun 2025 10:54:42 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=ldJbxPpIHX053iBQ9IHxd4qsuKIe6vjDaigA59QZl3OJPqhtIc/AAM4LwAo7dHaxRG0hfZ51TgWNncvXQZOL5f8/XOCejOeUTu1uEuGSlSVBTpGLBuigF65zhQ8/l+koytdk+i3GkdsOcdft3XTZN/DcVlhxM2Ca94N5t5ieUiAXxRujkpqsW+s1RKyYzA1JlR6rfdcavrxkwZAXlAyj30dYQFE59j8iJvvNfzWFpiKJ9D0VidKlAFih9BOPPGTNNUSbMyouvEoAzYCyvzXIJQSB2sCYTPJI1Pkz3686MgGWcIox7pQXtmQCsFlfke05a0LBY8cO6eeXzJS7DZlWVQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=4s0X9ikEef6jM+DjpS2N/xLznyJwgRZtvZ4sfu9zRQE=;
+ b=Z1xLffUmJ2MZBmb87B10wiyAxuMvZegOHlDNdMGiGzic6CtyfSZi28UPpWiblq0n63zjbPkaDAA++ka5JcZSxtp6675P8OVw9syHTDv3CY5lXwB6oCP6RV5r0DWBT74nYtFQAYgnTaQgEVU8+M78PiTM6JFuR7yXdKDMX53d4HdEUhjeILgl1ArEV/JmpNaTMghT+F8fA7NxjXc8fH9KhH+3Iy3H8kFFu6+WAg287az8BVsVqAMtSWKFTDANAaJBbqBy1LTiHxU/LDs9C7DEKION7M3b3ttal65zKnHaIOyHuRDfUJgVWyHNu60hxmG/VGAbiizLLuIy1BdBmMezAw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=microchip.com; dmarc=pass action=none
+ header.from=microchip.com; dkim=pass header.d=microchip.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=microchip.com;
+ s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=4s0X9ikEef6jM+DjpS2N/xLznyJwgRZtvZ4sfu9zRQE=;
+ b=PEifsYKMs+kUpsu8Uo5HVDsqzcO/+PYdeNL24PHR3vMvxu79PMYjCmXLb3et54j4BKMx9l3IbDTsnHW2ijToxm5xrOH3qVp0rLOouq2ojkSFRWDmDofH4gr5Z8YnVsTQw8XjMowUY9ZQem53XeqbFrAeRSfEw4Nj5HGp3ZrNMQ6CRMG7iFUIhciVK5VTF+WqwMGXnhj2xl+7UfbahuDm2Kv2XNy8ByH2FalB/BuFEzRe2tFAtbtO+SWute8E4IpEUs7jopYpjS/3RBMwOJSrp8n7mBGsyYOIyFLOO4AUn+pnRgMJu8uFy0fagcN+6/lvurkxGQVwjOb+gZ2iIx6mTA==
+Received: from PH7PR11MB6451.namprd11.prod.outlook.com (2603:10b6:510:1f4::16)
+ by SJ5PPFD56E32CC2.namprd11.prod.outlook.com
+ (2603:10b6:a0f:fc02::859) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8857.27; Mon, 23 Jun
+ 2025 10:54:36 +0000
+Received: from PH7PR11MB6451.namprd11.prod.outlook.com
+ ([fe80::80a8:f388:d92e:41f8]) by PH7PR11MB6451.namprd11.prod.outlook.com
+ ([fe80::80a8:f388:d92e:41f8%5]) with mapi id 15.20.8857.022; Mon, 23 Jun 2025
+ 10:54:36 +0000
+From: <Dharma.B@microchip.com>
+To: <laurent.pinchart@ideasonboard.com>
+CC: <asrivats@redhat.com>, <dri-devel@lists.freedesktop.org>,
+ <Manikandan.M@microchip.com>, <neil.armstrong@linaro.org>,
+ <rfoss@kernel.org>, <jonas@kwiboo.se>, <jernej.skrabec@gmail.com>,
+ <maarten.lankhorst@linux.intel.com>, <mripard@kernel.org>,
+ <tzimmermann@suse.de>, <airlied@gmail.com>, <simona@ffwll.ch>,
+ <linux-kernel@vger.kernel.org>
+Subject: Re: bridge/microchip_lvds panel usage
+Thread-Topic: bridge/microchip_lvds panel usage
+Thread-Index: AQHb353QCN/22YFqFESSzU7dvbf6gLQIAgmAgABG6gCAAFVfgIAH/NyA
+Date: Mon, 23 Jun 2025 10:54:36 +0000
+Message-ID: <4bebca7c-d206-42a9-a233-f68f2c4cb1f1@microchip.com>
+References: <CAN9Xe3RV9aZLJ3zV3zip5MQweGbBghdOFGohd6Qg-XjvFoGing@mail.gmail.com>
+ <20250617233623.GB22102@pendragon.ideasonboard.com>
+ <f10ee1ce-5362-4dc9-8e61-726db9c27d64@microchip.com>
+ <20250618085545.GC28826@pendragon.ideasonboard.com>
+In-Reply-To: <20250618085545.GC28826@pendragon.ideasonboard.com>
+Accept-Language: en-GB, en-US
+Content-Language: en-GB
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+authentication-results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=microchip.com;
+x-ms-publictraffictype: Email
+x-ms-traffictypediagnostic: PH7PR11MB6451:EE_|SJ5PPFD56E32CC2:EE_
+x-ms-office365-filtering-correlation-id: ab2927c9-99eb-44ee-cac8-08ddb2445831
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam: BCL:0;
+ ARA:13230040|1800799024|376014|7416014|366016|38070700018; 
+x-microsoft-antispam-message-info: =?utf-8?B?VWQ4WHpMOWkrYk1ubnY1enNjbmpuTVJvL1dxdGdSTkw1Z0dCMmpMYWFQOHQ4?=
+ =?utf-8?B?S1E3Mzh0bWZKQXNWZFByUWk0OGFPOTlNNFc4S2xHUUp5RlJUYUp5VmtxUWEw?=
+ =?utf-8?B?VnFONXQ3ZnZudkVwaU9Tem5oMWtIVmJid1dOZDVlY3lXQk55WUJrL2xwaHZX?=
+ =?utf-8?B?UEdOM0JUVWpNZjRBTVZWNnZsRGpCdDczYWhEMGJteTYxYW5tL2IvWU5QMHZN?=
+ =?utf-8?B?M3U5dFRJbzkrZ1oyT2FUa2VXNHdITHorMng0WDRBUUMxZ0lCTTc4clBBbHlz?=
+ =?utf-8?B?aEV6U2w3Z0hKNEQ3MFhZR2p1OFN5RkRlVHVVcThid1Jpdy9kUHE5aDNyQlR4?=
+ =?utf-8?B?UWFzcEVSTzRzM1dXYm5Sc2JSQ1NCZTY2VDA4UDlYNEx1Z254d0d2Tmh2azUr?=
+ =?utf-8?B?akpKUEg5ZjNXNVgvVkN4V213TmFyUitiSjd2a1p0V1UzeTRobkpLalZiUjFX?=
+ =?utf-8?B?aVZaakI2M3pYanJ3aW1KVlZKWmFYeDlBbTBsMWEzNDBoQ0NtYlFpMERtdEZa?=
+ =?utf-8?B?T3VSMmQycVNHQVFtamROajBTMndFRmlPbXV6M1h2R3l2TGwrUjE0Mmc2Wll3?=
+ =?utf-8?B?c3RRcGtaWHlvN21DSkN6U25ZSHdLYk92UDByR2JVRmhXVTQ4NGRRMlJ1a0ZG?=
+ =?utf-8?B?TFZ2VEZvN1ovemVTQWNyNG1wSnhjRmdNYXVMYlJjMFBQb1BnQXUySzJYRmxX?=
+ =?utf-8?B?YU5mc2UwYU5XWWh2bGRpU3ZzY1kxeW4xYkJIcVRWMEF4cVFseDA4Mi94QUxX?=
+ =?utf-8?B?VW9UbGk5c0NxL0I5RXczQ1g4d0hINVROOTNsekRJUHJaNGtCMlFuRTZYSzdq?=
+ =?utf-8?B?cUM2c3Mza3VsWm1OZUlJcHE4QWZldUc2MWdCd0VEWDNYN3pCWXZlbytGMi83?=
+ =?utf-8?B?ZnpNUnVWa1p4Y3RCQy9IRGJnSjAyNTBxRFh4K1E2L0UwWU16MlpzOCtFakZ5?=
+ =?utf-8?B?MDdQRHJueEEybzB0bkptUVo1Qys0QVRKQmp1ZVRIalFIMUQ1NERiNnVvelZZ?=
+ =?utf-8?B?ZHNQKzRXWVNib0NKcGdLWEdKSjJFbUxBclgxcVYwMXI3TFlTZmxlaE1YUlJ0?=
+ =?utf-8?B?bmZWWk44a2JTQXhxdVUyWkdoZWpSbVpjb3k5aGk3VG1OU29kNlM1UjlBZzF2?=
+ =?utf-8?B?dmxjS2JZT1NEWXRoN3ovaVVYYTNrRm1sRU8vNUVTRWNsdllTbml4Q2NaNTlz?=
+ =?utf-8?B?dll4UWY2emZUTTNqVnMvR1Ewd01MVU11RUliVUVOZDhkdUk0Vk5LelpMcUY1?=
+ =?utf-8?B?blhqdmRqaHJaVk04WnNwdlZWbmdsa3R0cjl3NXhwbkVuZ2JPZXpmbHFkREJ1?=
+ =?utf-8?B?RnBrTTdYZ1pvaVNtRW9wTEsyaVhpVlRLSjRYWTNWYnZKNjBYR3kxTXBSQnNa?=
+ =?utf-8?B?ZENiazdZMFdVMXVQMlpxYTZNVkh0SWpEVUYyM01Kb2JVZVZhV2Y5SXhqdnpn?=
+ =?utf-8?B?NTBRQlNKOVJYK1RUTmFnM0tDcDF1cUZDRXk4b2dVTS9WSFRDNGlIQmgzVzRP?=
+ =?utf-8?B?YUlTMjlSQzlkM0UzaTRMRkpZQWdJenFYeVJPeVc2d0dIYTNXMWhWQlliRVRV?=
+ =?utf-8?B?MnZIbXlyOUxST0RNTEZuMGxFSjEzZHFRZXB6dUQ3SDFYeXEwMTlBY0UxbXh1?=
+ =?utf-8?B?VUJkVUpMQWtTSHpvU2ZINzNObXNoeVZiSzVwcENFOFBnNmIzNUFpekY1cERr?=
+ =?utf-8?B?WFpKcGNuMmlhZkJWOEx0OVVUSmltT0lUYVhZWHVZYlBGU0RqR3FHdWhGcVhL?=
+ =?utf-8?B?SVo1ZnFtdkF3V0oreWRpaGFGbkZFemFaZ1c3VEsrTmZ6SDZsRG93Z0lZR3hG?=
+ =?utf-8?B?dXZnWHFHYWtQUDlqWCtDbEdnZkVwbE9kR3hNUDlKV20wOElVdFo3VU05eXZm?=
+ =?utf-8?B?YU1iU3BoWkR0ZFU2NllDZyt3b3lTQjArY0F1NFc3MXljbDd5NHZFelRweXBI?=
+ =?utf-8?Q?5WyJ6E15dR0nKXc+zHy+KzHSM2C/pX4R?=
+x-forefront-antispam-report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:PH7PR11MB6451.namprd11.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230040)(1800799024)(376014)(7416014)(366016)(38070700018); DIR:OUT;
+ SFP:1101; 
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0: =?utf-8?B?ZVFCS1k4NTBnZzJ0OEZmODErNnZabGU4R3EvWng5TTlSYlZ5aUJKNTFVa0FO?=
+ =?utf-8?B?ZVFHWHhuMXg1cklEQzR6MURCZ0QwVXBnTzNPQWdHS0Z4UHp6UGRkZ3BvbG9I?=
+ =?utf-8?B?U3ZhRUJtZDBnRU9jc2RlbXIrRDZVU3pHRWltVm9LOTlPTVNUWjYrdVBWRWtX?=
+ =?utf-8?B?eStrWElYcTd5aG1QU0szeG1HdXdMd3IyaXNucEF3emxSekdxV2JvNjEvR1lx?=
+ =?utf-8?B?NER3ZCs0bzNJSHNZQk1jUEVCOHQwc2lrTTZ6bzhGZVRReWZwelBMVWhrNmVr?=
+ =?utf-8?B?QlJ2YkV6RTlmYXZlVnMzd1RuNEFNL3pPa1NUc1IydmtZbVJWeTVEeHJzQVRu?=
+ =?utf-8?B?REZLVlJ5azFVaGxiYzQ5T1IyK1BRWlBjZHE1Si9vRHpCU0ZrVEJja2c2SU9U?=
+ =?utf-8?B?SDhNQ3VSMEszNVgyVEFuOU8zSlRYUitxNFgvWklCbXc4SnpDRVdGSi9vZEtM?=
+ =?utf-8?B?Ump0Z0pkZ0h0d1EzTnU1NkRLTkhwWHcxaFJMbCtZMFZJT3RtM3h3ZHp5TDZ1?=
+ =?utf-8?B?VXpBR1VFaHh0T3dHMThSOTFlVWhxaDFicEZhWUVjWXUrbk11ZFc1YkJhNzFo?=
+ =?utf-8?B?cm5hVk93Y0o1R0VyL3lsblpnTXlNOUp6TTZRQ25semxzTWdSOFpLRCtUSkFj?=
+ =?utf-8?B?NktSNWNJSXMwa2dIYUVsRGRTWWljZVRrZ3BRUm9UTzAwMW5HeXI3amdQTmp6?=
+ =?utf-8?B?c3ZvKzhPQlVvVVZHNnVMNjlya2hFWUFHL0ppN0hFanJCL3ZRWElwMEh3TDhM?=
+ =?utf-8?B?d1U4QThjaHBqaHZnRkdTWGVYd1MzamVXSm1rR21tUlBiZWJEaG5QZ05qbkl0?=
+ =?utf-8?B?SE9KYkpkYlI2OVdGL0FxSGNTbVFHc2lEbnczRHp6USs3UnNTNi9XdjZVZ00x?=
+ =?utf-8?B?Mlg5bnN1TktoWHBZaUJyY3J6ZWd3N2ZNRGFsalpTVUtOc2NuT3ZXZ2YwRk55?=
+ =?utf-8?B?WVVJaGx0TnZ0TWZVaFoyMzI0RWpRamhucHBYeVRBaitXMzU4bzVMSk9ITWhX?=
+ =?utf-8?B?am9OV3hkQTdhQ2RMSXc1dEV1TG5ycWtyeHRDYUVQTWZObGNJVXJWT0c4eEp3?=
+ =?utf-8?B?c200ZzdwcTBESzYvUDI0UWFZVEZtTWxGREgxWEFpQzlORFpHanRrKzNzSlRh?=
+ =?utf-8?B?ZUtqOVZBTU04RlliL0pOV2RVdG1odTl5aDBhNmRyYWpwWnRWVEdMdHRBSGhD?=
+ =?utf-8?B?UnR4Y0IzNGRLcUJBWDl2RUNpcjVmM1pzQ1B1V1BCWWFLam1wVnM5eElFcUwx?=
+ =?utf-8?B?MCtqTzNkbXdCczAzcmVGOEJQK2IyU1pVajBWeXVtWU12SEZmQmlEOVROUGc0?=
+ =?utf-8?B?WW5zZjdDVTVJOURvMHlCUVVuZW1OVmI1dURBa1JHMFlHK05ZbFhhTXk4STBa?=
+ =?utf-8?B?ZWt3VDdqNzVzR0hrbHV2cU5aaldReDhkRmxoVjJwd0NsdnUzN2VFNjVyOUNr?=
+ =?utf-8?B?Lzh5bmxBeDI1MVpNQ1UrYU5LMjdQQXNoaTFrUkc3V3o3YkEzbVI1SkU2OUE3?=
+ =?utf-8?B?TW1FVWxPOHlEUnRmNjBSK1Fub21rT3k2WmM2Nm9FT3lzTlVIU056V1pOVkZ5?=
+ =?utf-8?B?L21lZkxoN2pSalQyVUN0cmFlUml0ZThtazJ3aUpvMGtaL242dE5acmpBSDVj?=
+ =?utf-8?B?NjgzVU1tRUNmRm9IV0hlaXdXaUkzRHhSWEM2M1VvNFU4Wm1sSWdhYmVjb0dG?=
+ =?utf-8?B?aUdGeVYvL3BCNS9yWHNrSjQ3VVlhOXhNaGUvWExxVmF6Y1dVNkw2Y0puVk9O?=
+ =?utf-8?B?RWF0d1RNaUhsK1BMRUJwMVk0NmF0blZaZlJ5QW5uT0VkNXFvSkRPN0RTanFK?=
+ =?utf-8?B?MVA5WnppZVlBM3pCb3dqcmw2RjliVW8xb1VKK3pYOWpjZXlvOVpYWDdCaEx3?=
+ =?utf-8?B?VEdoaDdKVTNaSnE2SngzY0RoSzFnZlJUVlNzQmpmSURkZWMzMTM1N3ZjbEp0?=
+ =?utf-8?B?ZDJmZjFjVVd5bXdTQWZ2Qnk0NjZpUjY1WDZLWWw4R3Z6THlzaWZUTWY3TXdU?=
+ =?utf-8?B?N000cHZsMXNDclgwK3hRTWZURWRRdXF6dUdSU1gyMnVaQnR1eVJJNXNIaDYw?=
+ =?utf-8?B?d1hLVlUvTHNBcThrNmhWRWRubFYvN3YrcDA3djJQK0ttc1lSMi9mVDN3UlIx?=
+ =?utf-8?Q?QL/oQq6Qgz3mnjO7HUGFVIEIg?=
 Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-ID: <20250623-microchip-lvds-v2-1-8ecbabc6abc4@microchip.com>
-X-B4-Tracking: v=1; b=H4sIAGsxWWgC/3WMzQ7CIBCEX6XZsxiWSH889T1MDwirbGJLA4ZoG
- t5d7MGbmdM3mfk2SBSZEpybDSJlThyWCurQgPVmuZNgVxmUVFq22IuZbQzW8yoe2SVx7VCjG1o
- 5nAzU0xrpxq9deJkqe07PEN+7P+O3/avKKGrIkDbWdaZX429wtGGGqZTyARMRUnewAAAA
-To: Manikandan Muralidharan <manikandan.m@microchip.com>, Andrzej Hajda
- <andrzej.hajda@intel.com>, Neil Armstrong <neil.armstrong@linaro.org>,
- "Robert Foss" <rfoss@kernel.org>, Laurent Pinchart
- <Laurent.pinchart@ideasonboard.com>, Jonas Karlman <jonas@kwiboo.se>, "Jernej
- Skrabec" <jernej.skrabec@gmail.com>, Maarten Lankhorst
- <maarten.lankhorst@linux.intel.com>, Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
- Simona Vetter <simona@ffwll.ch>
-CC: <dri-devel@lists.freedesktop.org>, <linux-kernel@vger.kernel.org>,
- "Sandeep Sheriker M" <sandeep.sheriker@microchip.com>, Dharma Balasubiramani
- <dharma.b@microchip.com>
-X-Mailer: b4 0.13.0
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1750675822; l=5514;
- i=dharma.b@microchip.com; s=20240209; h=from:subject:message-id;
- bh=ERy9vkRv7sHUQQmIkZ0cGBnXyaHHcDyCGdJs2X5F8fM=;
- b=4vUlMxxV3nHZ8s98H7ds6voTow3QFAke4gVDuv5SfegGyEHrzY6jfkPNKdnGAJHNEehNMSiPG
- NvBJA9kJLOVBiX2Yl0L1gto5vHX75OEYAEvDM5tqYg/u7fxCvy1AxK5
-X-Developer-Key: i=dharma.b@microchip.com; a=ed25519;
- pk=kCq31LcpLAe9HDfIz9ZJ1U7T+osjOi7OZSbe0gqtyQ4=
+Content-ID: <6EEB71DD013A51428F62E4BA6397BE87@namprd11.prod.outlook.com>
+Content-Transfer-Encoding: base64
+MIME-Version: 1.0
+X-OriginatorOrg: microchip.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: PH7PR11MB6451.namprd11.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: ab2927c9-99eb-44ee-cac8-08ddb2445831
+X-MS-Exchange-CrossTenant-originalarrivaltime: 23 Jun 2025 10:54:36.3406 (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 3f4057f3-b418-4d4e-ba84-d55b4e897d88
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: 3Exttwj/0JMZ3+UuFFauIEDfylHz1K3Md7n7peQwqwsKfXXfoxC6GDgjsG3Pgnyh4AEQ9ZJPH2zsuEzYsdDhzQ==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SJ5PPFD56E32CC2
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -89,164 +174,32 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Sandeep Sheriker M <sandeep.sheriker@microchip.com>
-
-The LVDS controller was hardcoded to JEIDA mapping, which leads to
-distorted output on panels expecting VESA mapping.
-
-Update the driver to dynamically select the appropriate mapping and
-pixel size based on the panel's advertised media bus format. This
-ensures compatibility with both JEIDA and VESA displays.
-
-Modernize the bridge ops to use atomic_enable/disable, and retrieve
-the bus format from the connector via the atomic bridge state.
-
-Signed-off-by: Sandeep Sheriker M <sandeep.sheriker@microchip.com>
-Signed-off-by: Dharma Balasubiramani <dharma.b@microchip.com>
----
-Note: Tested the changes on newvision 10.1 VESA display.
-
-Changes in v2:
-- Switch to atomic bridge functions
-- Drop custom connector creation
-- Use drm_atomic_get_new_connector_for_encoder()
-- Link to v1: https://lore.kernel.org/r/20250618-microchip-lvds-v1-1-1eae5acd7a82@microchip.com
----
- drivers/gpu/drm/bridge/microchip-lvds.c | 64 +++++++++++++++++++++++++++------
- 1 file changed, 54 insertions(+), 10 deletions(-)
-
-diff --git a/drivers/gpu/drm/bridge/microchip-lvds.c b/drivers/gpu/drm/bridge/microchip-lvds.c
-index 9f4ff82bc6b4..b71478aa36e9 100644
---- a/drivers/gpu/drm/bridge/microchip-lvds.c
-+++ b/drivers/gpu/drm/bridge/microchip-lvds.c
-@@ -11,6 +11,7 @@
- #include <linux/component.h>
- #include <linux/delay.h>
- #include <linux/jiffies.h>
-+#include <linux/media-bus-format.h>
- #include <linux/mfd/syscon.h>
- #include <linux/of_graph.h>
- #include <linux/pinctrl/devinfo.h>
-@@ -41,9 +42,11 @@
- 
- /* Bitfields in LVDSC_CFGR (Configuration Register) */
- #define LVDSC_CFGR_PIXSIZE_24BITS	0
-+#define LVDSC_CFGR_PIXSIZE_18BITS	1
- #define LVDSC_CFGR_DEN_POL_HIGH		0
- #define LVDSC_CFGR_DC_UNBALANCED	0
- #define LVDSC_CFGR_MAPPING_JEIDA	BIT(6)
-+#define LVDSC_CFGR_MAPPING_VESA		0
- 
- /*Bitfields in LVDSC_SR */
- #define LVDSC_SR_CS	BIT(0)
-@@ -76,9 +79,10 @@ static inline void lvds_writel(struct mchp_lvds *lvds, u32 offset, u32 val)
- 	writel_relaxed(val, lvds->regs + offset);
- }
- 
--static void lvds_serialiser_on(struct mchp_lvds *lvds)
-+static void lvds_serialiser_on(struct mchp_lvds *lvds, u32 bus_format)
- {
- 	unsigned long timeout = jiffies + msecs_to_jiffies(LVDS_POLL_TIMEOUT_MS);
-+	u8 map, pix_size;
- 
- 	/* The LVDSC registers can only be written if WPEN is cleared */
- 	lvds_writel(lvds, LVDSC_WPMR, (LVDSC_WPMR_WPKEY_PSSWD &
-@@ -93,11 +97,24 @@ static void lvds_serialiser_on(struct mchp_lvds *lvds)
- 		usleep_range(1000, 2000);
- 	}
- 
-+	switch (bus_format) {
-+	case MEDIA_BUS_FMT_RGB666_1X7X3_SPWG:
-+		map = LVDSC_CFGR_MAPPING_JEIDA;
-+		pix_size = LVDSC_CFGR_PIXSIZE_18BITS;
-+		break;
-+	case MEDIA_BUS_FMT_RGB888_1X7X4_SPWG:
-+		map = LVDSC_CFGR_MAPPING_VESA;
-+		pix_size = LVDSC_CFGR_PIXSIZE_24BITS;
-+		break;
-+	default:
-+		map = LVDSC_CFGR_MAPPING_JEIDA;
-+		pix_size = LVDSC_CFGR_PIXSIZE_24BITS;
-+		break;
-+	}
-+
- 	/* Configure the LVDSC */
--	lvds_writel(lvds, LVDSC_CFGR, (LVDSC_CFGR_MAPPING_JEIDA |
--				LVDSC_CFGR_DC_UNBALANCED |
--				LVDSC_CFGR_DEN_POL_HIGH |
--				LVDSC_CFGR_PIXSIZE_24BITS));
-+	lvds_writel(lvds, LVDSC_CFGR, (map | LVDSC_CFGR_DC_UNBALANCED |
-+		    LVDSC_CFGR_DEN_POL_HIGH | pix_size));
- 
- 	/* Enable the LVDS serializer */
- 	lvds_writel(lvds, LVDSC_CR, LVDSC_CR_SER_EN);
-@@ -113,7 +130,8 @@ static int mchp_lvds_attach(struct drm_bridge *bridge,
- 				 bridge, flags);
- }
- 
--static void mchp_lvds_enable(struct drm_bridge *bridge)
-+static void mchp_lvds_atomic_pre_enable(struct drm_bridge *bridge,
-+					struct drm_atomic_state *state)
- {
- 	struct mchp_lvds *lvds = bridge_to_lvds(bridge);
- 	int ret;
-@@ -129,11 +147,35 @@ static void mchp_lvds_enable(struct drm_bridge *bridge)
- 		dev_err(lvds->dev, "failed to get pm runtime: %d\n", ret);
- 		return;
- 	}
-+}
-+
-+static void mchp_lvds_atomic_enable(struct drm_bridge *bridge,
-+				    struct drm_atomic_state *state)
-+{
-+	struct mchp_lvds *lvds = bridge_to_lvds(bridge);
-+	struct drm_connector *connector;
-+
-+	/* default to jeida-24 */
-+	u32 bus_format = MEDIA_BUS_FMT_RGB888_1X7X4_JEIDA;
-+
-+	connector = drm_atomic_get_new_connector_for_encoder(state, bridge->encoder);
-+	if (connector && connector->display_info.num_bus_formats)
-+		bus_format = connector->display_info.bus_formats[0];
-+
-+	lvds_serialiser_on(lvds, bus_format);
-+}
-+
-+static void mchp_lvds_atomic_disable(struct drm_bridge *bridge,
-+				     struct drm_atomic_state *state)
-+{
-+	struct mchp_lvds *lvds = bridge_to_lvds(bridge);
- 
--	lvds_serialiser_on(lvds);
-+	/* Turn off the serialiser */
-+	lvds_writel(lvds, LVDSC_CR, 0);
- }
- 
--static void mchp_lvds_disable(struct drm_bridge *bridge)
-+static void mchp_lvds_atomic_post_disable(struct drm_bridge *bridge,
-+					  struct drm_atomic_state *state)
- {
- 	struct mchp_lvds *lvds = bridge_to_lvds(bridge);
- 
-@@ -143,8 +185,10 @@ static void mchp_lvds_disable(struct drm_bridge *bridge)
- 
- static const struct drm_bridge_funcs mchp_lvds_bridge_funcs = {
- 	.attach = mchp_lvds_attach,
--	.enable = mchp_lvds_enable,
--	.disable = mchp_lvds_disable,
-+	.atomic_pre_enable = mchp_lvds_atomic_pre_enable,
-+	.atomic_enable = mchp_lvds_atomic_enable,
-+	.atomic_disable = mchp_lvds_atomic_disable,
-+	.atomic_post_disable = mchp_lvds_atomic_post_disable,
- };
- 
- static int mchp_lvds_probe(struct platform_device *pdev)
-
----
-base-commit: 4325743c7e209ae7845293679a4de94b969f2bef
-change-id: 20250618-microchip-lvds-b7151d96094a
-
-Best regards,
--- 
-Dharma Balasubiramani <dharma.b@microchip.com>
-
+SGkgTGF1cmVudCwNCg0KT24gMTgvMDYvMjUgMjoyNSBwbSwgTGF1cmVudCBQaW5jaGFydCB3cm90
+ZToNCj4gRVhURVJOQUwgRU1BSUw6IERvIG5vdCBjbGljayBsaW5rcyBvciBvcGVuIGF0dGFjaG1l
+bnRzIHVubGVzcyB5b3Uga25vdyB0aGUgY29udGVudCBpcyBzYWZlDQo+IA0KPiBPbiBXZWQsIEp1
+biAxOCwgMjAyNSBhdCAwMzo1MDoxMUFNICswMDAwLCBEaGFybWEuQkBtaWNyb2NoaXAuY29tIHdy
+b3RlOg0KPj4gT24gMTgvMDYvMjUgNTowNiBhbSwgTGF1cmVudCBQaW5jaGFydCB3cm90ZToNCj4+
+PiBPbiBUdWUsIEp1biAxNywgMjAyNSBhdCAxMDozNjozNEFNIC0wNTAwLCBBbnVzaGEgU3JpdmF0
+c2Egd3JvdGU6DQo+Pj4+IEhleSBmb2xrcywNCj4+Pj4NCj4+Pj4gQ2FuIHNvbWVvbmUgcGxlYXNl
+IGV4cGxhaW4gd2h5IHRoZSBkcml2ZXIgbG9va3MgZm9yIGEgcGFuZWwgaGVyZToNCj4+Pj4gaHR0
+cHM6Ly9lbGl4aXIuYm9vdGxpbi5jb20vbGludXgvdjYuMTQuMTEvc291cmNlL2RyaXZlcnMvZ3B1
+L2RybS9icmlkZ2UvDQo+Pj4+IG1pY3JvY2hpcC1sdmRzLmMjTDE4MiBhbmQgZG9lc250IHVzZSBp
+dCBvciBzZXQgaXQgdXAgYW55d2hlcmU/DQo+Pj4+DQo+Pj4+IEkgYnVtcGVkIGludG8gdGhpcyB3
+aGlsZSB3b3JraW5nIG9uIGNvbnZlcnRpbmcgb2ZfZHJtX2ZpbmRfcGFuZWwoKSBjYWxsZXJzIGFu
+ZA0KPj4+PiB0aGUgbHZkcy0+cGFuZWwgdXNhZ2UgaW4gdGhpcyBkcml2ZXIgZmVsdCBvZmYuIEFt
+IEkgbWlzc2luZyBzb21ldGhpbmc/DQo+Pj4NCj4+PiBUaGF0IGRvZXNuJ3Qgc2VlbSBuZWVkZWQu
+DQo+Pg0KPj4gQ3VycmVudGx5IHRoZSBMVkRTIGNvbnRyb2xsZXIgZHJpdmVyIGlzIGhhcmRjb2Rl
+ZCB0byBtYXAgTFZEUyBsYW5lcyB0bw0KPj4gdGhlIEpFSURBIGZvcm1hdC4NCj4+DQo+PiBJbiBv
+cmRlciB0byBzdXBwb3J0IHRoZSBvdGhlciBmb3JtYXQgIlZFU0EiLCB3ZSBuZWVkIHRoaXMgdG8g
+cXVlcnkgdGhlDQo+PiBwYW5lbCBkcml2ZXIgYW5kIHNldCB0aGUgYXBwcm9wcmlhdGUgZm9ybWF0
+IGFjY29yZGluZ2x5Lg0KPj4NCj4+ICJkcm1fcGFuZWxfZ2V0X21vZGVzKGx2ZHMtPnBhbmVsLCBj
+b25uZWN0b3IpIg0KPiANCj4gSXQgd291bGQgYmUgbmljZSBpZiB0aGlzIGNvdWxkIGJlIGRvbmUg
+dXNpbmcgdGhlIGJyaWRnZSBBUEkgaW5zdGVhZC4gQW4NCj4gTFZEUyBzaW5rIGRvZXMgbm90IG5l
+Y2Vzc2FyaWx5IG5lZWQgdG8gYmUgYSBwYW5lbC4NCg0KSGVyZSBpcyB0aGUgdXBkYXRlZCBwYXRj
+aA0KaHR0cHM6Ly9sb3JlLmtlcm5lbC5vcmcvbGttbC8yMDI1MDYyMy1taWNyb2NoaXAtbHZkcy12
+Mi0xLThlY2JhYmM2YWJjNEBtaWNyb2NoaXAuY29tLw0KDQpJIHdpbGwgc2VuZCBhbm90aGVyIHBh
+dGNoIHRvIHJlbW92ZSAibHZkcy0+cGFuZWwiIGFzIGl0IGlzIHVudXNlZC4NCg0KVGhhbmtzLg0K
+PiANCj4+IFdlJ2xsIGJlIHN1Ym1pdHRpbmcgdGhlIHBhdGNoIHVwc3RyZWFtIHNob3J0bHkuDQo+
+Pg0KPj4+IEJ5IHRoZSB3YXksIHBsZWFzZSB1c2UgcGxhaW4gdGV4dCB3aGVuIHBvc3RpbmcgdG8g
+a2VybmVsIG1haWxpbmcgbGlzdHMuDQo+IA0KPiAtLQ0KPiBSZWdhcmRzLA0KPiANCj4gTGF1cmVu
+dCBQaW5jaGFydA0KDQoNCi0tIA0KV2l0aCBCZXN0IFJlZ2FyZHMsDQpEaGFybWEgQi4NCg==
