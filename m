@@ -2,123 +2,78 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 33888AE3DA0
-	for <lists+dri-devel@lfdr.de>; Mon, 23 Jun 2025 13:06:48 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2C6FEAE3E3C
+	for <lists+dri-devel@lfdr.de>; Mon, 23 Jun 2025 13:44:44 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5F3E310E046;
-	Mon, 23 Jun 2025 11:06:45 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5497D10E370;
+	Mon, 23 Jun 2025 11:44:37 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=qualcomm.com header.i=@qualcomm.com header.b="iepwuq6C";
+	dkim=pass (1024-bit key; unprotected) header.d=samsung.com header.i=@samsung.com header.b="jB3SvszP";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com
- [205.220.180.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A748010E046
- for <dri-devel@lists.freedesktop.org>; Mon, 23 Jun 2025 11:06:44 +0000 (UTC)
-Received: from pps.filterd (m0279869.ppops.net [127.0.0.1])
- by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 55N8LcOl005791
- for <dri-devel@lists.freedesktop.org>; Mon, 23 Jun 2025 11:06:43 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
- cc:content-transfer-encoding:content-type:date:from:in-reply-to
- :message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
- /SblRjynm556F4JCCkpMzhFlMahL7TZAtWLt+OcV1Ds=; b=iepwuq6Cyh5zLaFQ
- s6S5DsMtY160Fz7DiSpFAGjmMrnmaMYM6N7eURNPMSlkqiTXKWxOjRt4LeUQ21b+
- ZmeSwD4jwT3qQ1I1gZfMZIVPS2F0MT15qenaoHI6XW2MV7OMOlhjXqLbVwjjXDca
- JdqKrem0JSj3uCle29QwExAbG7wmGRzsOvzanmdZEV2vUmuwzZ3cviXgFdlYFBdk
- TKLZ87DaML45pHqYeuelyQ3qLzz8lNjG4baM9EbjGUMfNYS7EngbXkbG5Hv/f5l8
- Ow9AJD7b2e6l4S4PKk8gyozCcqKnab40gIby8kBcHYwPdTqaMfne1q3L4gOC1HPo
- SQJa9g==
-Received: from mail-qv1-f72.google.com (mail-qv1-f72.google.com
- [209.85.219.72])
- by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 47f3bg8eu1-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
- for <dri-devel@lists.freedesktop.org>; Mon, 23 Jun 2025 11:06:43 +0000 (GMT)
-Received: by mail-qv1-f72.google.com with SMTP id
- 6a1803df08f44-6fac45de153so60246556d6.2
- for <dri-devel@lists.freedesktop.org>; Mon, 23 Jun 2025 04:06:43 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1750676803; x=1751281603;
- h=content-transfer-encoding:in-reply-to:from:content-language
- :references:cc:to:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=/SblRjynm556F4JCCkpMzhFlMahL7TZAtWLt+OcV1Ds=;
- b=WowOQRTIGH+q+3GjRTdbrF6H7CQmxUIWVz9fHOkPStiOyIAwBNJlnQaGgdDH4WR1JR
- BJeA1T6vnQghGF6G/OT3gBdcmQHNLWdVIudIV8i23VP2DIDgmo4dgy0NEEsv699wRhKl
- YOFacWgu3p6Sgu2biSbzxyRy+plA4mzxfHP2EV/SBvL4wlDeVklc2oWlU/DMCa1LEAT/
- Wx6mItdTfjcr9XzQHrqaXE4BHo8a/6GbD40eZ2c95Yvd83tSh0Qeh+jaN7kakJNGZCtP
- OimoCUiCPvmov/eAQnAqz42wKO+Y/aapK8GINxkKoNd2LzpOzJ4gSb4l+g17G47+Enkz
- B/RQ==
-X-Forwarded-Encrypted: i=1;
- AJvYcCWJLL/iucbiws4wXUq9SL1WeHA0DnJXkWsf6SGcDyqGbb/TROYJRqOgpsGl0oamwmftKW0hcA7Qdh8=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0Yx0cmVJpjJX8oXyeV4pSVaxiRh8BDpC10kGE3VLdcAHdKV1Gd5O
- Th6SZzcQOgaLpvnyDy9cIG+TVC9zBV2VyL68IfCIvKEUPKs7NeEGrpc+yahLRXTKsbXH+cfszzJ
- 8pWrSYDGRCpENVLLCBPETDKYqZEMjBWoxOUCB8ij/t5Ev5NzUEy0Ow5WU2qbAxk3EjYL6g00=
-X-Gm-Gg: ASbGncsi7cCnoZz1xh0Xf0Tch+aGXw7Vqp/TAmxdf7c1iuOsmyBBvor0fg07UTt5aeL
- X3v0lAMRxYTubG8OEW4FG4GKqPRL19OJs3caW1+Kp9e5RYoLCfWZI6TIwqU2RN7OQIXYjHQ4aY2
- 0TNMqcqaCUTtPXDDkyyWkru+qeGxhhOLCFe1lO2sIleUNzI0L5L7jABcHQ+IzQfT6ICAoLX7oYG
- BKo/Qq8PSmqHfgHsVQDSsWNasZ2lKZqQAdKdugCHLNAfvMIf3DF94VMEeuI54u6w9o/TflY+k4Q
- TQ0KBzbcoK8UTdoQvwD+BgddHlkJbUek89gThmWJZaGCop3kRuC0aXyco//1k/9nqf6/KTXWUiU
- =
-X-Received: by 2002:a05:620a:1a27:b0:7c5:962b:e87c with SMTP id
- af79cd13be357-7d3f993a806mr1811151085a.44.1750676802594; 
- Mon, 23 Jun 2025 04:06:42 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IHCAaI32difYeUGqzguwGOyLLcEd4F3LnFdlw9PHpbqM5K6DPV7l+MzhhUJ1GJr5ec23magXQ==
-X-Received: by 2002:a05:620a:1a27:b0:7c5:962b:e87c with SMTP id
- af79cd13be357-7d3f993a806mr1811145285a.44.1750676801961; 
- Mon, 23 Jun 2025 04:06:41 -0700 (PDT)
-Received: from [10.132.167.252] (37-33-208-94.bb.dnainternet.fi.
- [37.33.208.94]) by smtp.gmail.com with ESMTPSA id
- 2adb3069b0e04-553e41c2d71sm1341676e87.142.2025.06.23.04.06.40
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 23 Jun 2025 04:06:41 -0700 (PDT)
-Message-ID: <a506cff0-6a0f-44b2-93e5-0488aa041fa2@oss.qualcomm.com>
-Date: Mon, 23 Jun 2025 14:06:43 +0300
+Received: from mailout1.w1.samsung.com (mailout1.w1.samsung.com
+ [210.118.77.11])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id BE9E610E370
+ for <dri-devel@lists.freedesktop.org>; Mon, 23 Jun 2025 11:44:31 +0000 (UTC)
+Received: from eucas1p2.samsung.com (unknown [182.198.249.207])
+ by mailout1.w1.samsung.com (KnoxPortal) with ESMTP id
+ 20250623114430euoutp0178e3456e49ab269aeeb76c642b9a9797~LqVa2cI6I3256132561euoutp01r
+ for <dri-devel@lists.freedesktop.org>; Mon, 23 Jun 2025 11:44:30 +0000 (GMT)
+DKIM-Filter: OpenDKIM Filter v2.11.0 mailout1.w1.samsung.com
+ 20250623114430euoutp0178e3456e49ab269aeeb76c642b9a9797~LqVa2cI6I3256132561euoutp01r
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=samsung.com;
+ s=mail20170921; t=1750679070;
+ bh=7rc1fzF0QTmKxkyJFBOrevb3sgychXffT2onchk1Wxw=;
+ h=From:Subject:Date:To:Cc:References:From;
+ b=jB3SvszPClaE6yGDgxOb5xF+XHjVibiu+3rymf4nDAXUu44N8Sd2BdKaoFktZyvm6
+ vneFX83MvIPkbjZhRUj+gpYU6Tsqp2GXlsXNVPJ58Y6PV4Jx8QyHciiIsr2Oo5QmDD
+ bSupBZSv5eL66fPcQ7vNcX+04PadNf6r6KtQL9hY=
+Received: from eusmtip1.samsung.com (unknown [203.254.199.221]) by
+ eucas1p1.samsung.com (KnoxPortal) with ESMTPA id
+ 20250623114429eucas1p1e74e09e74c5873b2f7f01228073be72a~LqVaD0D3O0450604506eucas1p1l;
+ Mon, 23 Jun 2025 11:44:29 +0000 (GMT)
+Received: from AMDC4942.eu.corp.samsungelectronics.net (unknown
+ [106.210.136.40]) by eusmtip1.samsung.com (KnoxPortal) with ESMTPA id
+ 20250623114428eusmtip1e82762bc55e1f3da0e06fca082af295d~LqVY_i1qQ1799017990eusmtip1h;
+ Mon, 23 Jun 2025 11:44:28 +0000 (GMT)
+From: Michal Wilczynski <m.wilczynski@samsung.com>
+Subject: [PATCH v6 0/8] Add TH1520 GPU support with power sequencing
+Date: Mon, 23 Jun 2025 13:42:38 +0200
+Message-Id: <20250623-apr_14_for_sending-v6-0-6583ce0f6c25@samsung.com>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v9 3/3] drm/bridge: add warning for bridges not using
- devm_drm_bridge_alloc()
-To: Luca Ceresoli <luca.ceresoli@bootlin.com>,
- Andrzej Hajda <andrzej.hajda@intel.com>,
- Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>,
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
- Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>
-Cc: Anusha Srivatsa <asrivats@redhat.com>, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org, Hui Pu <Hui.Pu@gehealthcare.com>,
- Thomas Petazzoni <thomas.petazzoni@bootlin.com>
-References: <20250620-drm-bridge-alloc-getput-drm-bridge-c-v9-0-ca53372c9a84@bootlin.com>
- <20250620-drm-bridge-alloc-getput-drm-bridge-c-v9-3-ca53372c9a84@bootlin.com>
-Content-Language: en-US
-From: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
-In-Reply-To: <20250620-drm-bridge-alloc-getput-drm-bridge-c-v9-3-ca53372c9a84@bootlin.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
-X-Proofpoint-ORIG-GUID: 4ONYwYryTlFNNLl30CWYyrWtFpHFsz9n
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwNjIzMDA2NiBTYWx0ZWRfX7ExqWM/8H92k
- 6FIrEG35qvD2Ig1L0VuT20nEnBzv/TpLMRgvU9h47z92TtvsrFvHsT4BHiQn79kvxWjoFT5V809
- /KZb9o3a/W1sz5yXFIgGRegGIc5cjLj3JZfBaYWCulJz2juxwc/AeRYidT9mN6RvGx+fyJTGGhG
- h2jCWlscY4oy7fL7SYgLyIWsO/JyZ9TrSd++L/9BRHSZgBehBU0Ib6CiZX1TOw1gtdSfFjUbO5t
- Raf/IyFvyvJA0B1ztOTQ1Hic8fiTUb/RSBy3Q3Lw6KFYH1j2k+LPqhuWgT6HjiWLZfDtSNkJc+s
- 7iXcLKGdo+865FI/2UZXZlw5vt3h5oYoHt3MwpXqwdPLJITLMIZKcuy7/WuyIABGl06TVwVf9pv
- KKw51/CoqIedOpRKaPrEdAAJZ/sHiCNdxUIjkFBIV4cjJ4d783BXCxZBYappXUgyrujUtTet
-X-Authority-Analysis: v=2.4 cv=L4kdQ/T8 c=1 sm=1 tr=0 ts=68593543 cx=c_pps
- a=7E5Bxpl4vBhpaufnMqZlrw==:117 a=D+sM+DASzikqaCSeXxPSkA==:17
- a=IkcTkHD0fZMA:10 a=6IFa9wvqVegA:10 a=P-IC7800AAAA:8 a=6giXz7gn6WA7Rt2kLM8A:9
- a=QEXdDO2ut3YA:10 a=pJ04lnu7RYOZP9TFuWaZ:22 a=d3PnA9EDa4IxuAV0gXij:22
-X-Proofpoint-GUID: 4ONYwYryTlFNNLl30CWYyrWtFpHFsz9n
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1099,Hydra:6.0.736,FMLib:17.12.80.40
- definitions=2025-06-23_03,2025-06-23_02,2025-03-28_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- mlxscore=0 malwarescore=0 bulkscore=0 clxscore=1015 suspectscore=0
- adultscore=0 priorityscore=1501 impostorscore=0 lowpriorityscore=0
- spamscore=0 phishscore=0 mlxlogscore=999 classifier=spam authscore=0
- authtc=n/a authcc= route=outbound adjust=0 reason=mlx scancount=1
- engine=8.19.0-2505280000 definitions=main-2506230066
+X-B4-Tracking: v=1; b=H4sIAK49WWgC/33OzW7DIAzA8VepOI+JL4fQ095jqiJmTMqhpIIt6
+ lTl3Ud6aatlO/4t+WdfWaWSqLL97soKzammKbfoXnYMjz6PxFNozZRQIIw03J/LIM0QpzJUyiH
+ lkcOHdtL20npE1hbPhWK63ND3Q+tjqp9T+b7dmNU6/ZebFRfcCgQflY+uw7fqT/Urj684ndgKz
+ vqOgBabiG5IrwNYY4JzdgMxd6T74xOzIqSdAeylw/AbgUek30SgIcpS0Jo8YBefkWVZfgCXIGA
+ KhQEAAA==
+X-Change-ID: 20250414-apr_14_for_sending-5b3917817acc
+To: Drew Fustini <drew@pdp7.com>, Guo Ren <guoren@kernel.org>,  Fu Wei
+ <wefu@redhat.com>, Rob Herring <robh@kernel.org>,  Krzysztof Kozlowski
+ <krzk+dt@kernel.org>,  Conor Dooley <conor+dt@kernel.org>,  Michal
+ Wilczynski <m.wilczynski@samsung.com>,  Bartosz Golaszewski <brgl@bgdev.pl>,
+ Philipp Zabel <p.zabel@pengutronix.de>,  Frank Binns
+ <frank.binns@imgtec.com>, Matt Coster <matt.coster@imgtec.com>,  Maarten
+ Lankhorst <maarten.lankhorst@linux.intel.com>,  Maxime Ripard
+ <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,  David Airlie
+ <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,  Paul Walmsley
+ <paul.walmsley@sifive.com>,  Palmer Dabbelt <palmer@dabbelt.com>, Albert Ou
+ <aou@eecs.berkeley.edu>,  Alexandre Ghiti <alex@ghiti.fr>, Ulf Hansson
+ <ulf.hansson@linaro.org>,  Marek Szyprowski <m.szyprowski@samsung.com>
+Cc: linux-riscv@lists.infradead.org, devicetree@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-pm@vger.kernel.org, 
+ dri-devel@lists.freedesktop.org,  Bartosz Golaszewski
+ <bartosz.golaszewski@linaro.org>,  Krzysztof Kozlowski
+ <krzysztof.kozlowski@linaro.org>
+X-Mailer: b4 0.15-dev
+X-CMS-MailID: 20250623114429eucas1p1e74e09e74c5873b2f7f01228073be72a
+X-Msg-Generator: CA
+Content-Type: text/plain; charset="utf-8"
+X-RootMTR: 20250623114429eucas1p1e74e09e74c5873b2f7f01228073be72a
+X-EPHeader: CA
+X-CMS-RootMailID: 20250623114429eucas1p1e74e09e74c5873b2f7f01228073be72a
+References: <CGME20250623114429eucas1p1e74e09e74c5873b2f7f01228073be72a@eucas1p1.samsung.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -134,87 +89,159 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 20/06/2025 18:59, Luca Ceresoli wrote:
-> To the best of my knowledge, all drivers in the mainline kernel adding a
-> DRM bridge are now converted to using devm_drm_bridge_alloc() for
-> allocation and initialization. Among others this ensures initialization of
-> the bridge refcount, allowing dynamic allocation lifetime.
-> 
-> devm_drm_bridge_alloc() is now mandatory for all new bridges. Code using
-> the old pattern ([devm_]kzalloc + filling the struct fields +
-> drm_bridge_add) is not allowed anymore.
-> 
-> Any drivers that might have been missed during the conversion, patches in
-> flight towards mainline and out-of-tre drivers still using the old pattern
-> will already be caught by a warning looking like:
-> 
->    ------------[ cut here ]------------
->    refcount_t: addition on 0; use-after-free.
->    WARNING: CPU: 2 PID: 83 at lib/refcount.c:25 refcount_warn_saturate+0x120/0x148
->    [...]
->    Call trace:
->     refcount_warn_saturate+0x120/0x148 (P)
->     drm_bridge_get.part.0+0x70/0x98 [drm]
->     drm_bridge_add+0x34/0x108 [drm]
->     sn65dsi83_probe+0x200/0x480 [ti_sn65dsi83]
->     [...]
-> 
-> This warning comes from the refcount code and happens because
-> drm_bridge_add() is increasing the refcount, which is uninitialized and
-> thus initially zero.
-> 
-> Having a warning and the corresponding stack trace is surely useful, but
-> the warning text does not clarify the root problem nor how to fix it.
-> 
-> Add a DRM_WARN() just before increasing the refcount, so the log will be
-> much more readable:
-> 
->    [drm] DRM bridge corrupted or not allocated by devm_drm_bridge_alloc()
->    ------------[ cut here ]------------
->    refcount_t: addition on 0; use-after-free.
->    [...etc...]
-> 
-> A DRM_WARN is used because drm_warn and drm_WARN require a struct
-> drm_device pointer which is not yet available when adding a bridge.
-> 
-> Do not print the dev_name() in the warning because struct drm_bridge has no
-> pointer to the struct device. The affected driver should be easy to catch
-> based on the following stack trace however.
-> 
-> Signed-off-by: Luca Ceresoli <luca.ceresoli@bootlin.com>
-> 
-> ---
-> 
-> Changes in v9:
-> - change warning trigger from "refcount != 1" to "container not NULL"
-> 
-> This patch was added in v8
-> ---
->   drivers/gpu/drm/drm_bridge.c | 3 +++
->   1 file changed, 3 insertions(+)
-> 
-> diff --git a/drivers/gpu/drm/drm_bridge.c b/drivers/gpu/drm/drm_bridge.c
-> index f001bbe95559aabf0aac9f25f89250ad4e1ad9c8..0b450b334afd82e0460f18fdd248f79d0a2b153d 100644
-> --- a/drivers/gpu/drm/drm_bridge.c
-> +++ b/drivers/gpu/drm/drm_bridge.c
-> @@ -295,6 +295,9 @@ EXPORT_SYMBOL(__devm_drm_bridge_alloc);
->    */
->   void drm_bridge_add(struct drm_bridge *bridge)
+This patch series introduces support for the Imagination IMG BXM-4-64
+GPU found on the T-HEAD TH1520 SoC. A key aspect of this support is
+managing the GPU's complex power-up and power-down sequence, which
+involves multiple clocks and resets.
 
-Can we rename this function, making sure that noone can call it 
-directly? E.g. adding two underscores might point out that is is an 
-internal API.
+The TH1520 GPU requires a specific sequence to be followed for its
+clocks and resets to ensure correct operation. Initial discussions and
+an earlier version of this series explored managing this via the generic
+power domain (genpd) framework. However, following further discussions
+with kernel maintainers [1], the approach has been reworked to utilize
+the dedicated power sequencing (pwrseq) framework.
 
->   {
-> +	if (!bridge->container)
-> +		DRM_WARN("DRM bridge corrupted or not allocated by devm_drm_bridge_alloc()\n");
-> +
->   	drm_bridge_get(bridge);
->   
->   	mutex_init(&bridge->hpd_mutex);
-> 
+This revised series now employs a new pwrseq provider driver
+(pwrseq-thead-gpu.c) specifically for the TH1520 GPU. This driver
+encapsulates the SoC specific power sequence details. The Imagination
+GPU driver (pvr_device.c) is updated to act as a consumer of this power
+sequencer, requesting the "gpu-power" target. The sequencer driver,
+during its match phase with the GPU device, acquires the necessary clock
+and reset handles from the GPU device node to perform the full sequence.
 
+This approach aligns with the goal of abstracting SoC specific power
+management details away from generic device drivers and leverages the
+pwrseq framework as recommended.
 
+The series is structured as follows:
+
+Patch 1: Introduces the pwrseq-thead-gpu auxiliary driver to manage the
+         GPU's power-on/off sequence.
+Patch 2: Adds device tree bindings for the gpu-clkgen reset to the
+         existing thead,th1520-aon binding.
+Patch 3: Extends the pm-domains driver to detect the gpu-clkgen reset
+         and spawn the pwrseq-thead-gpu auxiliary driver.
+Patch 4: Updates the Imagination DRM driver to utilize the pwrseq
+         framework for TH1520 GPU power management.
+Patch 5: Adds the thead,th1520-gpu compatible string to the PowerVR GPU
+         device tree bindings.
+Patch 6: Adds the gpu-clkgen reset property to the aon node in the
+         TH1520 device tree source.
+Patch 7: Adds the device tree node for the IMG BXM-4-64 GPU and its
+         required fixed-clock.
+Patch 8: Enables compilation of the Imagination PowerVR driver on the
+         RISC-V architecture.
+
+This patchset finishes the work started in bigger series [2] by adding
+all remaining GPU power sequencing piece. After this patchset the GPU
+probes correctly.
+
+This series supersedes the previous genpd based approach. Testing on
+T-HEAD TH1520 SoC indicates the new pwrseq based solution works
+correctly.
+
+Link to v5 of this series - [3].
+
+v6:
+ - check return values from reset_control_assert() and propagate the
+   first error, ensuring all teardown steps are still attempted
+ - the driver now stores a reference to the consumer's device node to
+   ensure it binds to a single, specific device
+ - rename Kconfig option to POWER_SEQUENCING_TH1520_GPU
+ - remove COMPILE_TEST
+
+v5:
+
+- reworked the pwrseq-thead-gpu driver, now using manual resource
+  management in .match and a .remove callback
+- refactored the drm/imagination driver to use function pointers for
+  power management instead of a boolean flag
+- switched the pmdomain driver to use the generic
+  device_property_match_string() helper
+- added MMU and COMPILE_TEST dependencies to Kconfig to fix RISC-V
+  build warnings.
+
+v4:
+
+- the pwrseq driver is now an auxiliary driver with a robust match
+  function based on the power-domains property, spawned from the AON
+  node 
+- Imagination DRM driver now uses of_device_id match data to
+  conditionally probe for the pwrseq, solving the cross platform
+  probe deferral issue
+- add Reviewed-by from Ulf for the entire series
+
+v3:
+
+- re-worked cover letter completely
+- complete architectural rework from using extended genpd callbacks to a
+  dedicated pwrseq provider driver
+- introduced pwrseq-thead-gpu.c and associated DT bindings
+   (thead,th1520-gpu-pwrseq)
+- the Imagination driver now calls devm_pwrseq_get() and uses
+  pwrseq_power_on() / pwrseq_power_off() for the TH1520 GPU
+- removed the platform_resources_managed flag from dev_pm_info and
+  associated logic
+- the new pwrseq driver's match() function now acquires consumer-specific
+  resources (GPU clocks, GPU core reset) directly from the consumer device
+
+v2:
+
+Extended the series by adding two new commits:
+ - introduced a new platform_resources_managed flag in dev_pm_info along
+   with helper functions, allowing drivers to detect when clocks and resets
+   are managed by the platform
+ - updated the DRM Imagination driver to skip claiming clocks when
+   platform_resources_managed is set
+
+Split the original bindings update:
+ - the AON firmware bindings now only add the GPU clkgen reset (the GPU
+   core reset remains handled by the GPU node)
+
+Reworked the TH1520 PM domain driver to:
+ - acquire GPU clocks and reset dynamically using attach_dev/detach_dev
+   callbacks
+ - handle clkgen reset internally, while GPU core reset is obtained from
+   the consumer device node
+ - added a check to enforce that only a single device can be attached to
+   the GPU PM domain
+
+[1] - https://lore.kernel.org/all/CAPDyKFpi6_CD++a9sbGBvJCuBSQS6YcpNttkRQhQMTWy1yyrRg@mail.gmail.com/
+[2] - https://lore.kernel.org/all/20250219140239.1378758-1-m.wilczynski@samsung.com/
+[3] - https://lore.kernel.org/all/20250618-apr_14_for_sending-v5-0-27ed33ea5c6f@samsung.com/
+
+---
+Michal Wilczynski (8):
+      power: sequencing: Add T-HEAD TH1520 GPU power sequencer driver
+      dt-bindings: firmware: thead,th1520: Add resets for GPU clkgen
+      pmdomain: thead: Instantiate GPU power sequencer via auxiliary bus
+      drm/imagination: Use pwrseq for TH1520 GPU power management
+      dt-bindings: gpu: img,powervr-rogue: Add TH1520 GPU compatible
+      riscv: dts: thead: th1520: Add GPU clkgen reset to AON node
+      riscv: dts: thead: th1520: Add IMG BXM-4-64 GPU node
+      drm/imagination: Enable PowerVR driver for RISC-V
+
+ .../bindings/firmware/thead,th1520-aon.yaml        |   7 +
+ .../devicetree/bindings/gpu/img,powervr-rogue.yaml |   9 +-
+ MAINTAINERS                                        |   1 +
+ arch/riscv/boot/dts/thead/th1520.dtsi              |  25 +++
+ drivers/gpu/drm/imagination/Kconfig                |   4 +-
+ drivers/gpu/drm/imagination/pvr_device.c           |  31 ++-
+ drivers/gpu/drm/imagination/pvr_device.h           |  19 ++
+ drivers/gpu/drm/imagination/pvr_drv.c              |  30 ++-
+ drivers/gpu/drm/imagination/pvr_power.c            | 112 ++++++----
+ drivers/gpu/drm/imagination/pvr_power.h            |   6 +
+ drivers/pmdomain/thead/Kconfig                     |   1 +
+ drivers/pmdomain/thead/th1520-pm-domains.c         |  51 +++++
+ drivers/power/sequencing/Kconfig                   |   8 +
+ drivers/power/sequencing/Makefile                  |   1 +
+ drivers/power/sequencing/pwrseq-thead-gpu.c        | 247 +++++++++++++++++++++
+ 15 files changed, 503 insertions(+), 49 deletions(-)
+---
+base-commit: 4774cfe3543abb8ee98089f535e28ebfd45b975a
+change-id: 20250414-apr_14_for_sending-5b3917817acc
+
+Best regards,
 -- 
-With best wishes
-Dmitry
+Michal Wilczynski <m.wilczynski@samsung.com>
+
