@@ -2,49 +2,60 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 92415AE5029
-	for <lists+dri-devel@lfdr.de>; Mon, 23 Jun 2025 23:22:49 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 86511AE4E70
+	for <lists+dri-devel@lfdr.de>; Mon, 23 Jun 2025 23:01:55 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 49DA710E45E;
-	Mon, 23 Jun 2025 21:22:46 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8E30610E1DC;
+	Mon, 23 Jun 2025 21:01:51 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="R2ZiZPrm";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="Pim3mZX7";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D9EBE10E45E
- for <dri-devel@lists.freedesktop.org>; Mon, 23 Jun 2025 21:22:39 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 21DC610E1DC;
+ Mon, 23 Jun 2025 21:01:46 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by dfw.source.kernel.org (Postfix) with ESMTP id CEBEC5C5CAF;
- Mon, 23 Jun 2025 21:20:22 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id A7F96C4CEEA;
- Mon, 23 Jun 2025 21:22:38 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
- s=korg; t=1750713759;
- bh=Sp7R7WB3e1YMlgAC65pkrsKf1KJn28vNPLFQAlBNhdw=;
- h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=R2ZiZPrmkaCVsMtiIAQFR27R85gyajvgAbQb/CXaVbFYCPHzcDYo2kT4RZQZB+MMM
- IcuZL6X6HOvdfJK/nijUpj56JKB+oJiSKbrlmJGsmgzSaKr30aP/NXj+VJpBYccD4t
- LCtMJGpJ67VPKmorWNT0LvAQu4n8T4vtcKOi2Yrk=
-From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-To: stable@vger.kernel.org
-Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>, patches@lists.linux.dev,
- Thomas Zimmermann <tzimmermann@suse.de>,
- Javier Martinez Canillas <javierm@redhat.com>,
- "Ivan T. Ivanov" <iivanov@suse.de>, dri-devel@lists.freedesktop.org
-Subject: [PATCH 6.6 096/290] video: screen_info: Relocate framebuffers behind
- PCI bridges
-Date: Mon, 23 Jun 2025 15:05:57 +0200
-Message-ID: <20250623130629.857711915@linuxfoundation.org>
-X-Mailer: git-send-email 2.50.0
-In-Reply-To: <20250623130626.910356556@linuxfoundation.org>
-References: <20250623130626.910356556@linuxfoundation.org>
-User-Agent: quilt/0.68
-X-stable: review
-X-Patchwork-Hint: ignore
+ by dfw.source.kernel.org (Postfix) with ESMTP id 936D15C5B96;
+ Mon, 23 Jun 2025 20:59:25 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id B4AF7C4CEEA;
+ Mon, 23 Jun 2025 21:01:36 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1750712501;
+ bh=cXERQ1WmiGcavPsAUvd/Crx3myoOelB9VzsYgMSyqhY=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=Pim3mZX7P22cyRJaxzARvvsGUQba6pzW1S54DajAidtnK+pjc26kCIT6gp5FcHyoU
+ 4LKJ3PM8JXySQIIUGIRNPPO5muVBX09FIIu+xVm33HPD6xLgk/pqOWRuDlhl2Q6+F0
+ PeqqAjkxfWl/Sya2gwOOALAZ1bGBk9DEspMFZN6bCz72nSrS4gQScTKd8OGZdBxXCL
+ A883g7Bd4lsxrr7Wc/dnfj4Zetd/WKI2aJ7ZeIWVJdHANreVP9wC1MTjmqBKnvfchv
+ 0WWDAatZxoBBeyF37BzqDHE+SvypbijyUdQt8E14Howwvy46wN9FnEIl2+tvZHbLnL
+ oJmK6rHvudkuA==
+Date: Mon, 23 Jun 2025 23:01:33 +0200
+From: Danilo Krummrich <dakr@kernel.org>
+To: Alexandre Courbot <acourbot@nvidia.com>
+Cc: Miguel Ojeda <ojeda@kernel.org>, Alex Gaynor <alex.gaynor@gmail.com>,
+ Boqun Feng <boqun.feng@gmail.com>, Gary Guo <gary@garyguo.net>,
+ =?iso-8859-1?Q?Bj=F6rn?= Roy Baron <bjorn3_gh@protonmail.com>,
+ Andreas Hindborg <a.hindborg@kernel.org>,
+ Alice Ryhl <aliceryhl@google.com>, Trevor Gross <tmgross@umich.edu>,
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>, Benno Lossin <lossin@kernel.org>,
+ John Hubbard <jhubbard@nvidia.com>, Ben Skeggs <bskeggs@nvidia.com>,
+ Joel Fernandes <joelagnelf@nvidia.com>,
+ Timur Tabi <ttabi@nvidia.com>, Alistair Popple <apopple@nvidia.com>,
+ linux-kernel@vger.kernel.org, rust-for-linux@vger.kernel.org,
+ nouveau@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+ Lyude Paul <lyude@redhat.com>, Shirish Baskaran <sbaskaran@nvidia.com>
+Subject: Re: [PATCH v6 00/24] nova-core: run FWSEC-FRTS to perform first
+ stage of GSP initialization
+Message-ID: <aFnArVIFkHCUzNqe@pollux>
+References: <20250619-nova-frts-v6-0-ecf41ef99252@nvidia.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20250619-nova-frts-v6-0-ecf41ef99252@nvidia.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -60,176 +71,59 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-6.6-stable review patch.  If anyone has any objections, please let me know.
+On Thu, Jun 19, 2025 at 10:23:44PM +0900, Alexandre Courbot wrote:
 
-------------------
+Applied to nova-next, thanks!
 
-From: Thomas Zimmermann <tzimmermann@suse.de>
+> Alexandre Courbot (21):
+>       rust: make ETIMEDOUT error available
+>       rust: sizes: add constants up to SZ_2G
+>       gpu: nova-core: use absolute paths in register!() macro
+>       gpu: nova-core: add delimiter for helper rules in register!() macro
+>       gpu: nova-core: expose the offset of each register as a type constant
+>       gpu: nova-core: allow register aliases
+>       gpu: nova-core: increase BAR0 size to 16MB
+>       gpu: nova-core: add helper function to wait on condition
+>       gpu: nova-core: wait for GFW_BOOT completion
 
-commit 2f29b5c231011b94007d2c8a6d793992f2275db1 upstream.
+  [ Slightly adjust comments in wait_gfw_boot_completion(). - Danilo ]
 
-Apply PCI host-bridge window offsets to screen_info framebuffers. Fixes
-invalid access to I/O memory.
+>       gpu: nova-core: add DMA object struct
+>       gpu: nova-core: register sysmem flush page
 
-Resources behind a PCI host bridge can be relocated by a certain offset
-in the kernel's CPU address range used for I/O. The framebuffer memory
-range stored in screen_info refers to the CPU addresses as seen during
-boot (where the offset is 0). During boot up, firmware may assign a
-different memory offset to the PCI host bridge and thereby relocating
-the framebuffer address of the PCI graphics device as seen by the kernel.
-The information in screen_info must be updated as well.
+  [ * Use kernel::page::PAGE_SIZE instead of kernel::bindings::PAGE_SIZE.
+    * Get rid of the Option for SysmemFlush.
+    * Slightly reword SysmemFlush doc-comments.
 
-The helper pcibios_bus_to_resource() performs the relocation of the
-screen_info's framebuffer resource (given in PCI bus addresses). The
-result matches the I/O-memory resource of the PCI graphics device (given
-in CPU addresses). As before, we store away the information necessary to
-later update the information in screen_info itself.
+    - Danilo ]
 
-Commit 78aa89d1dfba ("firmware/sysfb: Update screen_info for relocated
-EFI framebuffers") added the code for updating screen_info. It is based
-on similar functionality that pre-existed in efifb. Efifb uses a pointer
-to the PCI resource, while the newer code does a memcpy of the region.
-Hence efifb sees any updates to the PCI resource and avoids the issue.
+>       gpu: nova-core: add falcon register definitions and base code
+>       gpu: nova-core: firmware: add ucode descriptor used by FWSEC-FRTS
+>       gpu: nova-core: compute layout of the FRTS region
 
-v3:
-- Only use struct pci_bus_region for PCI bus addresses (Bjorn)
-- Clarify address semantics in commit messages and comments (Bjorn)
-v2:
-- Fixed tags (Takashi, Ivan)
-- Updated information on efifb
+  [ In doc-comment of FbLayout s/bootup process/boot process/ - Danilo ]
 
-Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
-Reviewed-by: Javier Martinez Canillas <javierm@redhat.com>
-Reported-by: "Ivan T. Ivanov" <iivanov@suse.de>
-Closes: https://bugzilla.suse.com/show_bug.cgi?id=1240696
-Tested-by: "Ivan T. Ivanov" <iivanov@suse.de>
-Fixes: 78aa89d1dfba ("firmware/sysfb: Update screen_info for relocated EFI framebuffers")
-Cc: dri-devel@lists.freedesktop.org
-Cc: <stable@vger.kernel.org> # v6.9+
-Link: https://lore.kernel.org/r/20250528080234.7380-1-tzimmermann@suse.de
-Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
----
- drivers/video/screen_info_pci.c | 75 +++++++++++++++++++++------------
- 1 file changed, 48 insertions(+), 27 deletions(-)
+>       gpu: nova-core: add types for patching firmware binaries
+>       gpu: nova-core: extract FWSEC from BIOS and patch it to run FWSEC-FRTS
+>       gpu: nova-core: load and run FWSEC-FRTS
+>       gpu: nova-core: update and annotate TODO list
+> 
+> Joel Fernandes (3):
+>       gpu: nova-core: vbios: Add base support for VBIOS construction and iteration
 
-diff --git a/drivers/video/screen_info_pci.c b/drivers/video/screen_info_pci.c
-index 6c5833517141..66bfc1d0a6dc 100644
---- a/drivers/video/screen_info_pci.c
-+++ b/drivers/video/screen_info_pci.c
-@@ -7,8 +7,8 @@
- 
- static struct pci_dev *screen_info_lfb_pdev;
- static size_t screen_info_lfb_bar;
--static resource_size_t screen_info_lfb_offset;
--static struct resource screen_info_lfb_res = DEFINE_RES_MEM(0, 0);
-+static resource_size_t screen_info_lfb_res_start; // original start of resource
-+static resource_size_t screen_info_lfb_offset; // framebuffer offset within resource
- 
- static bool __screen_info_relocation_is_valid(const struct screen_info *si, struct resource *pr)
- {
-@@ -31,7 +31,7 @@ void screen_info_apply_fixups(void)
- 	if (screen_info_lfb_pdev) {
- 		struct resource *pr = &screen_info_lfb_pdev->resource[screen_info_lfb_bar];
- 
--		if (pr->start != screen_info_lfb_res.start) {
-+		if (pr->start != screen_info_lfb_res_start) {
- 			if (__screen_info_relocation_is_valid(si, pr)) {
- 				/*
- 				 * Only update base if we have an actual
-@@ -47,46 +47,67 @@ void screen_info_apply_fixups(void)
- 	}
- }
- 
-+static int __screen_info_lfb_pci_bus_region(const struct screen_info *si, unsigned int type,
-+					    struct pci_bus_region *r)
-+{
-+	u64 base, size;
-+
-+	base = __screen_info_lfb_base(si);
-+	if (!base)
-+		return -EINVAL;
-+
-+	size = __screen_info_lfb_size(si, type);
-+	if (!size)
-+		return -EINVAL;
-+
-+	r->start = base;
-+	r->end = base + size - 1;
-+
-+	return 0;
-+}
-+
- static void screen_info_fixup_lfb(struct pci_dev *pdev)
- {
- 	unsigned int type;
--	struct resource res[SCREEN_INFO_MAX_RESOURCES];
--	size_t i, numres;
-+	struct pci_bus_region bus_region;
- 	int ret;
-+	struct resource r = {
-+		.flags = IORESOURCE_MEM,
-+	};
-+	const struct resource *pr;
- 	const struct screen_info *si = &screen_info;
- 
- 	if (screen_info_lfb_pdev)
- 		return; // already found
- 
- 	type = screen_info_video_type(si);
--	if (type != VIDEO_TYPE_EFI)
--		return; // only applies to EFI
-+	if (!__screen_info_has_lfb(type))
-+		return; // only applies to EFI; maybe VESA
- 
--	ret = screen_info_resources(si, res, ARRAY_SIZE(res));
-+	ret = __screen_info_lfb_pci_bus_region(si, type, &bus_region);
- 	if (ret < 0)
- 		return;
--	numres = ret;
- 
--	for (i = 0; i < numres; ++i) {
--		struct resource *r = &res[i];
--		const struct resource *pr;
-+	/*
-+	 * Translate the PCI bus address to resource. Account
-+	 * for an offset if the framebuffer is behind a PCI host
-+	 * bridge.
-+	 */
-+	pcibios_bus_to_resource(pdev->bus, &r, &bus_region);
- 
--		if (!(r->flags & IORESOURCE_MEM))
--			continue;
--		pr = pci_find_resource(pdev, r);
--		if (!pr)
--			continue;
-+	pr = pci_find_resource(pdev, &r);
-+	if (!pr)
-+		return;
- 
--		/*
--		 * We've found a PCI device with the framebuffer
--		 * resource. Store away the parameters to track
--		 * relocation of the framebuffer aperture.
--		 */
--		screen_info_lfb_pdev = pdev;
--		screen_info_lfb_bar = pr - pdev->resource;
--		screen_info_lfb_offset = r->start - pr->start;
--		memcpy(&screen_info_lfb_res, r, sizeof(screen_info_lfb_res));
--	}
-+	/*
-+	 * We've found a PCI device with the framebuffer
-+	 * resource. Store away the parameters to track
-+	 * relocation of the framebuffer aperture.
-+	 */
-+	screen_info_lfb_pdev = pdev;
-+	screen_info_lfb_bar = pr - pdev->resource;
-+	screen_info_lfb_offset = r.start - pr->start;
-+	screen_info_lfb_res_start = bus_region.start;
- }
- DECLARE_PCI_FIXUP_CLASS_HEADER(PCI_ANY_ID, PCI_ANY_ID, PCI_BASE_CLASS_DISPLAY, 16,
- 			       screen_info_fixup_lfb);
--- 
-2.50.0
+  [ Replace extend_with() and copy_from_slice() with extend_from_slice();
+    re-format and use markdown in comments. - Danilo ]
 
+>       gpu: nova-core: vbios: Add support to look up PMU table in FWSEC
 
+  [ Re-format and use markdown in comments. - Danilo ]
 
+>       gpu: nova-core: vbios: Add support for FWSEC ucode extraction
+
+  [ Re-format and use markdown in comments. - Danilo ]
+
+There's one thing that would be nice to fix subsequently, which is properly
+resetting the GPU. Currently, it needs a power cycle to be able to probe
+successfully after unbinding the driver.
+
+- Danilo
