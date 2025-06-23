@@ -2,80 +2,83 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id DD072AE5777
-	for <lists+dri-devel@lfdr.de>; Tue, 24 Jun 2025 00:35:59 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id C815AAE57B2
+	for <lists+dri-devel@lfdr.de>; Tue, 24 Jun 2025 01:13:40 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E8FE510E473;
-	Mon, 23 Jun 2025 22:35:56 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id CD6DB10E47A;
+	Mon, 23 Jun 2025 23:13:37 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="LsJ+EI2F";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="XSfXnQSc";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-f47.google.com (mail-wm1-f47.google.com
- [209.85.128.47])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6B7B710E473
- for <dri-devel@lists.freedesktop.org>; Mon, 23 Jun 2025 22:35:49 +0000 (UTC)
-Received: by mail-wm1-f47.google.com with SMTP id
- 5b1f17b1804b1-451e2f0d9c2so31012215e9.1
- for <dri-devel@lists.freedesktop.org>; Mon, 23 Jun 2025 15:35:49 -0700 (PDT)
+Received: from mail-pj1-f54.google.com (mail-pj1-f54.google.com
+ [209.85.216.54])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 384F510E47A;
+ Mon, 23 Jun 2025 23:13:36 +0000 (UTC)
+Received: by mail-pj1-f54.google.com with SMTP id
+ 98e67ed59e1d1-313862d48e7so710175a91.1; 
+ Mon, 23 Jun 2025 16:13:36 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1750718148; x=1751322948; darn=lists.freedesktop.org;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:from:to:cc:subject:date:message-id:reply-to;
- bh=w8X8+lYPNXJfIiqIH3VT7v0hy5MQ4DjDzji7la3F3Sk=;
- b=LsJ+EI2F8+b9T+4mrXodAOYX8WYKHIjXlAvQwActJgCQVP/DbRt3BakfkRDJTo+aet
- UZ7LKg8b7yaAmvbHfKOxsvimUmF7nEd/4ayb8TxMHxOCLwWbgl8s2tdSXL4n9kIXpYaa
- AfzaUcdZR3NagrT6nvo420q+KewKDE1Tw1OfRJCPw8mSuyaPWIDjvFFq7r4e7gkONwdP
- 05GAmMm0Zjpvs1Wa0TLOjhUaeaeKpQ4QAqk6d2/vc0MjRT9BMmvSn2251h2Ab6pnACha
- Zcy2g/gqZSaloMnHyh2y4fDh2VSNTiNCx7lWYKHGoH3joiMcF/n4kpGc5Bk+L50dTuRD
- npkA==
+ d=gmail.com; s=20230601; t=1750720416; x=1751325216; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=2HXruGsRkrnO4T0LtQG3CCRxkdrPRNW2kXRz195ROg8=;
+ b=XSfXnQScpJ2N7lMWMbGjXQ/ZaqEB0B/TCGCiPJtgsJAl/0sWVDgivBu2VbEk6BAcL5
+ C2rWEKoiCbrA/B2/nGL+EDU0/eL3aEAu2qF4Wn9CmC/t/TIoQk5IbbjoZEAtLnCnLMN5
+ VYdlstDaLw/oXMb+ZoBxTWjsLV2BKl1JUsQgZyTTvSbkV4PY9UquFOI39bw4T1DTIypw
+ 8itHLRv46tTucuJwsDJlJERyZCL++W7TFyRcH92ZgQ1gtE8p/nRJoE76eYXpkuVQ66Gp
+ u3JRTwA97SVF0AddR4zQSA8QeZos4vKsw1+vd6r2xV6cJ6ec6zNR5INlrQ8Ko8yPWVrn
+ iYXQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1750718148; x=1751322948;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=w8X8+lYPNXJfIiqIH3VT7v0hy5MQ4DjDzji7la3F3Sk=;
- b=eFJe4esshR4GiQgii2Elxh5bcv1QDk6cVoS+OBk4fnHAR7wP7EEfb5ZYCYOZZ5OCWm
- xbVO9c8LB3wTnUthzK74YUp+h0g0R0S2jtM1bPpZx4wdbtTd9/JbXy/F18KYVTQmvCli
- 1kZtxv4VHN+YkYlq5J+/tUN/hqqjXSyraWCyw2pFT8Rn8jp4htwv1TKgdKf4KV+8yxMa
- AKl/7wUQMtiBera3PgXvyeVnN6qVom9TrBZhONDNZke6B+k94nm4Iq6JUR25SBeRRrOn
- 8+YXZNj6GB1g/XBl2bHawV3F9hia43mcCnAqdSHKpmxqt8zcHiCjsV8AcuOnf8DuOWri
- 4Wdg==
+ d=1e100.net; s=20230601; t=1750720416; x=1751325216;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=2HXruGsRkrnO4T0LtQG3CCRxkdrPRNW2kXRz195ROg8=;
+ b=veZOOmJsp6Nr4JoD1kcJy9mjZmMcc/OPpXK/+qNM5ZvioUNUY9u/pyaCTjZVFg4YSt
+ yBnrLhqwcaEMZ8NXx6skpcNFCTIuL4ZTsrGNe1PqWNhQdt1GBw2eWZBqqjPHZF2OFEwp
+ +N6uDVPwoXEiPlXFR9WeOU7Q++jPtVozCkeCN1EBRBkmK1qCig/01qEdjyYo8GjWgO1H
+ sH54V1IAs3TRq0vhsds/LnmKSVW9R+UC+Do7S3YhDggr3qyANMhhr8IWJjiE09TxWCBi
+ pQWrhjxBenP/bEQ9bZAxe9rQg/TPOaXzpzu4fv2i7ArbW2JaSg+t5Tq/qkeEQEiD+H0T
+ 5m5g==
 X-Forwarded-Encrypted: i=1;
- AJvYcCWOa7BumvehnocNrohAMJyCltJMi9VWJJ9ZW2AdMT+QahdA2jMyjAN+0YXLMYBWK9YNH0BB4aqePR4=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YzNlaDPlnELkgCYJH2bdDPowskBd/ZF9+ghgTIbBuu08RfyFRzM
- 22o0qKiqfPGFFT/Zo60+V1hbNNodzQDivclcA0a3HihvqGKeIuKHprv8
-X-Gm-Gg: ASbGncun2HBw+6uXnJmJWBHE7BRY2rUz7Zi6btORK7U7lLch+GFKzWvjaY0VsjvZnqW
- sA5SgCHtJfhzNsFOd+Jm5QTYUeTxjjZ7CRMAX5hfv/ddbly3UWGjOZPfYcrV4iJniwhGtjXzbJw
- BBmnrdjhnif0SjUhuJchJkf4jkewi5vV6UWmdcehouFqDUSVq0CSMI5SZe9E5i772kQoROFKcJi
- 97Qv/NBGayFUByjMvvg+0q+gx9CtmjzuYdeognRSnDXRyYM6KPLlKbiQprLJwZBZRE3wmwMzj32
- 6vDHJy8pZq1+PWt+hZeQgTIR5UmBdRyx/YCD7gIsLtNl5ep7ASde4WrjArwM
-X-Google-Smtp-Source: AGHT+IFZ8AJI3ew4IzWWU/Tkz1lnQ+LEc34WeS3W9X9qKZcysFcEpbE85v5c+G/NlHApltmH5vsaYw==
-X-Received: by 2002:a05:600c:458a:b0:453:92e:a459 with SMTP id
- 5b1f17b1804b1-4537ba90848mr6811445e9.16.1750718147995; 
- Mon, 23 Jun 2025 15:35:47 -0700 (PDT)
-Received: from localhost ([87.254.0.133]) by smtp.gmail.com with UTF8SMTPSA id
- 5b1f17b1804b1-4536470903asm125406135e9.40.2025.06.23.15.35.47
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 23 Jun 2025 15:35:47 -0700 (PDT)
-From: Colin Ian King <colin.i.king@gmail.com>
-To: Zack Rusin <zack.rusin@broadcom.com>,
- Broadcom internal kernel review list <bcm-kernel-feedback-list@broadcom.com>, 
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
- Simona Vetter <simona@ffwll.ch>, Ian Forbes <ian.forbes@broadcom.com>,
- dri-devel@lists.freedesktop.org
-Cc: kernel-janitors@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: [PATCH][next] drm/vmwgfx: fix missing assignment to ts
-Date: Mon, 23 Jun 2025 23:35:26 +0100
-Message-ID: <20250623223526.281398-1-colin.i.king@gmail.com>
-X-Mailer: git-send-email 2.50.0
+ AJvYcCW5Hoc1xokaZuicL34k9V+/jCc7rz/4NLka2B+1VfoLk+TwecHIIrsaWr/Y2OwMdzTOD7o8eTMLYw==@lists.freedesktop.org,
+ AJvYcCXG8tQwpaWHkPQlhKG/0j3nmRRqvuTHt5pIULnx1HQ+Gc6eacSYW0+C/bhrY/OpmTQgPwfofINHg3s=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0Yxpk68tK2nxbI+uZsxYK4A/eDaAbtGzARLEtkfVfRxR2l7wVFjC
+ NDbsziEVVLmkDtGfXPZDcJsyBFNfLqPTGICwNmzOIjTmvtrjmf+wBecxtpM0E2nflbZVFffwPII
+ yyxbPVE4srMOD0JHD6Jg8QuTOtQRT36Q=
+X-Gm-Gg: ASbGncuoNpCC6aqJEI02kTDjbfvL2iNgQm9TUcV/SGOYZiiKVYQN3h4Un99bBvyPP2Y
+ 7Svxl+1KKu2eJotbGlUoFiYx4qbeCXtoEVgw368An0GSVgxgfaODWvpZDTZLNL144mv7DLMaJG4
+ /wVokXb4zQ4Unys0kFKSTCUp8ZQ5C/IZfpcQoaMXtC1P0=
+X-Google-Smtp-Source: AGHT+IH7XVvohyW/cz0YuCPytHgywdDr9SzijVJMsGTdwBGX+kM/pF+FLLchYSGNnYqk9nn2La4vwv67m+JjzET5PAE=
+X-Received: by 2002:a17:90a:d64f:b0:312:1ae9:1537 with SMTP id
+ 98e67ed59e1d1-3159d577d0cmr6882432a91.0.1750720415660; Mon, 23 Jun 2025
+ 16:13:35 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
+References: <20250609122200.179307-1-trintaeoitogc@gmail.com>
+In-Reply-To: <20250609122200.179307-1-trintaeoitogc@gmail.com>
+From: Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>
+Date: Tue, 24 Jun 2025 01:13:22 +0200
+X-Gm-Features: Ac12FXzn7V6XJa8kRyU5bxAVt4CroqqcMGg3veONxVG0AI0fCukO93xidJUyyDo
+Message-ID: <CANiq72=5XhSd5qbWV5PTWQk18-roFKCs=kqF0iEbcn99tKhOoA@mail.gmail.com>
+Subject: Re: [PATCH] rust: module: remove deprecated author key
+To: Guilherme Giacomo Simoes <trintaeoitogc@gmail.com>
+Cc: rafael@kernel.org, viresh.kumar@linaro.org, dakr@kernel.org, 
+ maarten.lankhorst@linux.intel.com, mripard@kernel.org, tzimmermann@suse.de, 
+ airlied@gmail.com, simona@ffwll.ch, mcgrof@kernel.org, russ.weight@linux.dev, 
+ ojeda@kernel.org, alex.gaynor@gmail.com, boqun.feng@gmail.com, 
+ gary@garyguo.net, bjorn3_gh@protonmail.com, lossin@kernel.org, 
+ a.hindborg@kernel.org, aliceryhl@google.com, tmgross@umich.edu, 
+ leitao@debian.org, gregkh@linuxfoundation.org, david.m.ertman@intel.com, 
+ ira.weiny@intel.com, leon@kernel.org, fujita.tomonori@gmail.com, 
+ tamird@gmail.com, igor.korotin.linux@gmail.com, walmeida@microsoft.com, 
+ anisse@astier.eu, linux-pm@vger.kernel.org, linux-kernel@vger.kernel.org, 
+ nouveau@lists.freedesktop.org, dri-devel@lists.freedesktop.org, 
+ rust-for-linux@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -91,28 +94,25 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The assignment to ts is missing on the call to ktime_to_timespec64.
-Fix this by adding the missing assignment.
+On Mon, Jun 9, 2025 at 2:22=E2=80=AFPM Guilherme Giacomo Simoes
+<trintaeoitogc@gmail.com> wrote:
+>
+> Commit 38559da6afb2 ("rust: module: introduce `authors` key") introduced
+> a new `authors` key to support multiple module authors, while keeping
+> the old `author` key for backward compatibility.
+>
+> Now that all in-tree modules have migrated to `authors`, remove:
+> 1. The deprecated `author` key support from the module macro
+> 2. Legacy `author` entries from remaining modules
+>
+> Signed-off-by: Guilherme Giacomo Simoes <trintaeoitogc@gmail.com>
 
-Fixes: db6a94b26354 ("drm/vmwgfx: Implement dma_fence_ops properly")
-Signed-off-by: Colin Ian King <colin.i.king@gmail.com>
----
- drivers/gpu/drm/vmwgfx/vmwgfx_fence.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+Applied to `rust-next` -- thanks everyone!
 
-diff --git a/drivers/gpu/drm/vmwgfx/vmwgfx_fence.c b/drivers/gpu/drm/vmwgfx/vmwgfx_fence.c
-index c2294abbe753..00be92da5509 100644
---- a/drivers/gpu/drm/vmwgfx/vmwgfx_fence.c
-+++ b/drivers/gpu/drm/vmwgfx/vmwgfx_fence.c
-@@ -538,7 +538,7 @@ static void vmw_event_fence_action_seq_passed(struct dma_fence *f,
- 	if (likely(eaction->tv_sec != NULL)) {
- 		struct timespec64 ts;
- 
--		ktime_to_timespec64(f->timestamp);
-+		ts = ktime_to_timespec64(f->timestamp);
- 		/* monotonic time, so no y2038 overflow */
- 		*eaction->tv_sec = ts.tv_sec;
- 		*eaction->tv_usec = ts.tv_nsec / NSEC_PER_USEC;
--- 
-2.50.0
+    [ Reworded slightly. - Miguel ]
 
+I don't see any new/missing ones in -next, so this should be clean. Let's s=
+ee...
+
+Cheers,
+Miguel
