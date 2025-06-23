@@ -2,161 +2,78 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6D212AE3D01
-	for <lists+dri-devel@lfdr.de>; Mon, 23 Jun 2025 12:43:42 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id B1CB2AE3D83
+	for <lists+dri-devel@lfdr.de>; Mon, 23 Jun 2025 12:57:46 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C4FD110E342;
-	Mon, 23 Jun 2025 10:43:38 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5A4FE10E35E;
+	Mon, 23 Jun 2025 10:57:44 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=suse.de header.i=@suse.de header.b="MUS4PFbC";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="Q81jO2Ch";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="CU/YVp2B";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="RDKN760Z";
+	dkim=pass (2048-bit key; unprotected) header.d=microchip.com header.i=@microchip.com header.b="iT8qY3wm";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5D62310E342
- for <dri-devel@lists.freedesktop.org>; Mon, 23 Jun 2025 10:43:36 +0000 (UTC)
-Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org
- [IPv6:2a07:de40:b281:104:10:150:64:97])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
- (No client certificate requested)
- by smtp-out2.suse.de (Postfix) with ESMTPS id B42B11F391;
- Mon, 23 Jun 2025 10:43:33 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1750675415; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=hJMVqToV4tLMkLNlQMBXD9bmFg9OFmFifeF6nVqlMz8=;
- b=MUS4PFbCnKh2JnsMV39MeWdMf9ct43236K0lEaf/n5Z1N9Jxzb3IRHebIew+MN08I2VWdk
- QFAP4RW3l5jnZQTRk8WE8F4esEoq9XZdWHwR5GR3MXIHPd/H+V6ljmweAYU4iU3ptEudib
- nOMgqEACYQ2pE//itKRM6XdKbzIjyto=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1750675415;
- h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=hJMVqToV4tLMkLNlQMBXD9bmFg9OFmFifeF6nVqlMz8=;
- b=Q81jO2ChM5BTlp6YtSEtyCKHHggf+6f7stnAg/BAsuX3R38W0AWFrSCJXcdQiV+fC/eZMX
- ZslKPqDSXBrTsPBg==
-Authentication-Results: smtp-out2.suse.de;
- dkim=pass header.d=suse.de header.s=susede2_rsa header.b="CU/YVp2B";
- dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=RDKN760Z
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1750675413; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=hJMVqToV4tLMkLNlQMBXD9bmFg9OFmFifeF6nVqlMz8=;
- b=CU/YVp2B11qXT+UYvPVDAPg0hrQtpiek/kRlqfiac7bEH8xrZO+YzLSMKC5sHS60Vc9c0J
- 0lWDZyzXPcr54+KN2v62pJi8vJ4/xqCS/NtjMfENaOnZTvkzeZP8/DS+KYsM08vDPSm/ZU
- XLiXb8v8Wm2yJIcAR5Om0y6yhZvTGn8=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1750675413;
- h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=hJMVqToV4tLMkLNlQMBXD9bmFg9OFmFifeF6nVqlMz8=;
- b=RDKN760ZF68yEirnNZvlvyYkW+lHbZwUm9KQhSSyc2qgHq6C1s6Se59X0HnpWIGJsMgn/i
- 6VgAbOFxopUWy2AA==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
- (No client certificate requested)
- by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 1BE1A13485;
- Mon, 23 Jun 2025 10:43:33 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
- by imap1.dmz-prg2.suse.org with ESMTPSA id egqWBdUvWWgWIwAAD6G6ig
- (envelope-from <tzimmermann@suse.de>); Mon, 23 Jun 2025 10:43:33 +0000
-Message-ID: <511b7382-d4b7-4d87-9695-f621c0a60b4e@suse.de>
-Date: Mon, 23 Jun 2025 12:43:32 +0200
+X-Greylist: delayed 426 seconds by postgrey-1.36 at gabe;
+ Mon, 23 Jun 2025 10:57:41 UTC
+Received: from esa.microchip.iphmx.com (esa.microchip.iphmx.com
+ [68.232.153.233])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D7BF610E35E
+ for <dri-devel@lists.freedesktop.org>; Mon, 23 Jun 2025 10:57:41 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=microchip.com; i=@microchip.com; q=dns/txt; s=mchp;
+ t=1750676262; x=1782212262;
+ h=from:date:subject:mime-version:content-transfer-encoding:
+ message-id:to:cc;
+ bh=rk3IUXQZtzpNgDHc4TWz8qsml0b4el8IWm2S5mzHUtg=;
+ b=iT8qY3wmlxHl+1rUq54Vpk+BhfkadF3KskTQdF7FTYOqgewIjPnj4EpA
+ lDrA3689O/PUXsavjEwhep27piyZoc2nHEqjP001fUMT4i+Cs61Ey7f3G
+ 0ydSAdsd9546th0GoxB2SBi5WARz4efaW5LTWiGwdDXEH7yYbBFVQWp+j
+ AnynnYKAUU8fhGrWhkE3ns66UUWrJLu1XXPTkiFjsPRb8eGB8oW7Hl+6I
+ k8ZCz2Tfdg7fIqG+szhkqJ71lzDzq1wUDh5nQnlddo4tKNsshPb+HUB7w
+ Tq/nW1P0v+OiYzvnQvxx0qfGckrOHa/0pbJvIt3BLvdIEUcCbh1fz4yNt w==;
+X-CSE-ConnectionGUID: 6bSZM/9OSRy4OCnNpkPakQ==
+X-CSE-MsgGUID: Tgjy0TvIRPGqMZ48FubJyg==
+X-IronPort-AV: E=Sophos;i="6.16,258,1744095600"; d="scan'208";a="43105617"
+X-Amp-Result: SKIPPED(no attachment in message)
+Received: from unknown (HELO email.microchip.com) ([170.129.1.10])
+ by esa3.microchip.iphmx.com with ESMTP/TLS/ECDHE-RSA-AES128-GCM-SHA256;
+ 23 Jun 2025 03:50:34 -0700
+Received: from chn-vm-ex02.mchp-main.com (10.10.87.72) by
+ chn-vm-ex02.mchp-main.com (10.10.87.72) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.44; Mon, 23 Jun 2025 03:50:29 -0700
+Received: from [127.0.0.1] (10.10.85.11) by chn-vm-ex02.mchp-main.com
+ (10.10.85.144) with Microsoft SMTP Server id 15.1.2507.44 via Frontend
+ Transport; Mon, 23 Jun 2025 03:50:23 -0700
+From: Dharma Balasubiramani <dharma.b@microchip.com>
+Date: Mon, 23 Jun 2025 16:20:20 +0530
+Subject: [PATCH v2] drm/bridge: microchip-lvds: fix bus format mismatch
+ with VESA displays
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v3 6/7] PCI/VGA: Move check for firmware default out of
- VGA arbiter
-To: Mario Limonciello <superm1@kernel.org>, Bjorn Helgaas <bhelgaas@google.com>
-Cc: Alex Deucher <alexander.deucher@amd.com>,
- =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- Lukas Wunner <lukas@wunner.de>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, David Woodhouse <dwmw2@infradead.org>,
- Lu Baolu <baolu.lu@linux.intel.com>, Joerg Roedel <joro@8bytes.org>,
- Will Deacon <will@kernel.org>, Robin Murphy <robin.murphy@arm.com>,
- Alex Williamson <alex.williamson@redhat.com>,
- Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
- "open list:DRM DRIVERS" <dri-devel@lists.freedesktop.org>,
- open list <linux-kernel@vger.kernel.org>,
- "open list:INTEL IOMMU (VT-d)" <iommu@lists.linux.dev>,
- "open list:PCI SUBSYSTEM" <linux-pci@vger.kernel.org>,
- "open list:VFIO DRIVER" <kvm@vger.kernel.org>,
- "open list:SOUND" <linux-sound@vger.kernel.org>,
- Daniel Dadap <ddadap@nvidia.com>,
- Mario Limonciello <mario.limonciello@amd.com>
-References: <20250620024943.3415685-1-superm1@kernel.org>
- <20250620024943.3415685-7-superm1@kernel.org>
- <704d2a80-79bb-4247-a2aa-25bd3eb9a7e5@suse.de>
- <fa3bfed9-8a6f-4001-bd4a-d4d237b001d3@kernel.org>
-Content-Language: en-US
-From: Thomas Zimmermann <tzimmermann@suse.de>
-Autocrypt: addr=tzimmermann@suse.de; keydata=
- xsBNBFs50uABCADEHPidWt974CaxBVbrIBwqcq/WURinJ3+2WlIrKWspiP83vfZKaXhFYsdg
- XH47fDVbPPj+d6tQrw5lPQCyqjwrCPYnq3WlIBnGPJ4/jreTL6V+qfKRDlGLWFjZcsrPJGE0
- BeB5BbqP5erN1qylK9i3gPoQjXGhpBpQYwRrEyQyjuvk+Ev0K1Jc5tVDeJAuau3TGNgah4Yc
- hdHm3bkPjz9EErV85RwvImQ1dptvx6s7xzwXTgGAsaYZsL8WCwDaTuqFa1d1jjlaxg6+tZsB
- 9GluwvIhSezPgnEmimZDkGnZRRSFiGP8yjqTjjWuf0bSj5rUnTGiyLyRZRNGcXmu6hjlABEB
- AAHNJ1Rob21hcyBaaW1tZXJtYW5uIDx0emltbWVybWFubkBzdXNlLmRlPsLAjgQTAQgAOAIb
- AwULCQgHAgYVCgkICwIEFgIDAQIeAQIXgBYhBHIX+6yM6c9jRKFo5WgNwR1TC3ojBQJftODH
- AAoJEGgNwR1TC3ojx1wH/0hKGWugiqDgLNXLRD/4TfHBEKmxIrmfu9Z5t7vwUKfwhFL6hqvo
- lXPJJKQpQ2z8+X2vZm/slsLn7J1yjrOsoJhKABDi+3QWWSGkaGwRJAdPVVyJMfJRNNNIKwVb
- U6B1BkX2XDKDGffF4TxlOpSQzdtNI/9gleOoUA8+jy8knnDYzjBNOZqLG2FuTdicBXblz0Mf
- vg41gd9kCwYXDnD91rJU8tzylXv03E75NCaTxTM+FBXPmsAVYQ4GYhhgFt8S2UWMoaaABLDe
- 7l5FdnLdDEcbmd8uLU2CaG4W2cLrUaI4jz2XbkcPQkqTQ3EB67hYkjiEE6Zy3ggOitiQGcqp
- j//OwE0EWznS4AEIAMYmP4M/V+T5RY5at/g7rUdNsLhWv1APYrh9RQefODYHrNRHUE9eosYb
- T6XMryR9hT8XlGOYRwKWwiQBoWSDiTMo/Xi29jUnn4BXfI2px2DTXwc22LKtLAgTRjP+qbU6
- 3Y0xnQN29UGDbYgyyK51DW3H0If2a3JNsheAAK+Xc9baj0LGIc8T9uiEWHBnCH+RdhgATnWW
- GKdDegUR5BkDfDg5O/FISymJBHx2Dyoklv5g4BzkgqTqwmaYzsl8UxZKvbaxq0zbehDda8lv
- hFXodNFMAgTLJlLuDYOGLK2AwbrS3Sp0AEbkpdJBb44qVlGm5bApZouHeJ/+n+7r12+lqdsA
- EQEAAcLAdgQYAQgAIAIbDBYhBHIX+6yM6c9jRKFo5WgNwR1TC3ojBQJftOH6AAoJEGgNwR1T
- C3ojVSkIALpAPkIJPQoURPb1VWjh34l0HlglmYHvZszJWTXYwavHR8+k6Baa6H7ufXNQtThR
- yIxJrQLW6rV5lm7TjhffEhxVCn37+cg0zZ3j7zIsSS0rx/aMwi6VhFJA5hfn3T0TtrijKP4A
- SAQO9xD1Zk9/61JWk8OysuIh7MXkl0fxbRKWE93XeQBhIJHQfnc+YBLprdnxR446Sh8Wn/2D
- Ya8cavuWf2zrB6cZurs048xe0UbSW5AOSo4V9M0jzYI4nZqTmPxYyXbm30Kvmz0rYVRaitYJ
- 4kyYYMhuULvrJDMjZRvaNe52tkKAvMevcGdt38H4KSVXAylqyQOW5zvPc4/sq9c=
-In-Reply-To: <fa3bfed9-8a6f-4001-bd4a-d4d237b001d3@kernel.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-Spamd-Result: default: False [-4.51 / 50.00]; BAYES_HAM(-3.00)[100.00%];
- NEURAL_HAM_LONG(-1.00)[-1.000];
- NEURAL_HAM_SHORT(-0.20)[-1.000];
- R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
- MIME_GOOD(-0.10)[text/plain]; MX_GOOD(-0.01)[];
- DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
- TO_DN_ALL(0.00)[]; FREEMAIL_ENVRCPT(0.00)[gmail.com];
- FUZZY_BLOCKED(0.00)[rspamd.com]; ARC_NA(0.00)[];
- RBL_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:104:10:150:64:97:from]; 
- RCPT_COUNT_TWELVE(0.00)[25]; MIME_TRACE(0.00)[0:+];
- TO_MATCH_ENVRCPT_ALL(0.00)[];
- FREEMAIL_CC(0.00)[amd.com,gmail.com,ffwll.ch,wunner.de,linux.intel.com,kernel.org,infradead.org,8bytes.org,arm.com,redhat.com,perex.cz,suse.com,lists.freedesktop.org,vger.kernel.org,lists.linux.dev,nvidia.com];
- RCVD_TLS_ALL(0.00)[]; RCVD_COUNT_TWO(0.00)[2];
- FROM_EQ_ENVFROM(0.00)[]; FROM_HAS_DN(0.00)[];
- SPAMHAUS_XBL(0.00)[2a07:de40:b281:104:10:150:64:97:from];
- MID_RHS_MATCH_FROM(0.00)[]; RCVD_VIA_SMTP_AUTH(0.00)[];
- RECEIVED_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:106:10:150:64:167:received];
- DKIM_TRACE(0.00)[suse.de:+];
- DBL_BLOCKED_OPENRESOLVER(0.00)[bootlin.com:url, imap1.dmz-prg2.suse.org:helo,
- imap1.dmz-prg2.suse.org:rdns, suse.de:dkim, suse.de:mid, suse.de:email]
-X-Spam-Level: 
-X-Spam-Flag: NO
-X-Rspamd-Queue-Id: B42B11F391
-X-Rspamd-Action: no action
-X-Rspamd-Server: rspamd1.dmz-prg2.suse.org
-X-Spam-Score: -4.51
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+Message-ID: <20250623-microchip-lvds-v2-1-8ecbabc6abc4@microchip.com>
+X-B4-Tracking: v=1; b=H4sIAGsxWWgC/3WMzQ7CIBCEX6XZsxiWSH889T1MDwirbGJLA4ZoG
+ t5d7MGbmdM3mfk2SBSZEpybDSJlThyWCurQgPVmuZNgVxmUVFq22IuZbQzW8yoe2SVx7VCjG1o
+ 5nAzU0xrpxq9deJkqe07PEN+7P+O3/avKKGrIkDbWdaZX429wtGGGqZTyARMRUnewAAAA
+To: Manikandan Muralidharan <manikandan.m@microchip.com>, Andrzej Hajda
+ <andrzej.hajda@intel.com>, Neil Armstrong <neil.armstrong@linaro.org>,
+ "Robert Foss" <rfoss@kernel.org>, Laurent Pinchart
+ <Laurent.pinchart@ideasonboard.com>, Jonas Karlman <jonas@kwiboo.se>, "Jernej
+ Skrabec" <jernej.skrabec@gmail.com>, Maarten Lankhorst
+ <maarten.lankhorst@linux.intel.com>, Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
+ Simona Vetter <simona@ffwll.ch>
+CC: <dri-devel@lists.freedesktop.org>, <linux-kernel@vger.kernel.org>,
+ "Sandeep Sheriker M" <sandeep.sheriker@microchip.com>, Dharma Balasubiramani
+ <dharma.b@microchip.com>
+X-Mailer: b4 0.13.0
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1750675822; l=5514;
+ i=dharma.b@microchip.com; s=20240209; h=from:subject:message-id;
+ bh=ERy9vkRv7sHUQQmIkZ0cGBnXyaHHcDyCGdJs2X5F8fM=;
+ b=4vUlMxxV3nHZ8s98H7ds6voTow3QFAke4gVDuv5SfegGyEHrzY6jfkPNKdnGAJHNEehNMSiPG
+ NvBJA9kJLOVBiX2Yl0L1gto5vHX75OEYAEvDM5tqYg/u7fxCvy1AxK5
+X-Developer-Key: i=dharma.b@microchip.com; a=ed25519;
+ pk=kCq31LcpLAe9HDfIz9ZJ1U7T+osjOi7OZSbe0gqtyQ4=
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -172,324 +89,164 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi
+From: Sandeep Sheriker M <sandeep.sheriker@microchip.com>
 
-Am 21.06.25 um 00:17 schrieb Mario Limonciello:
-> On 6/20/2025 3:45 AM, Thomas Zimmermann wrote:
->> Hi
->>
->> Am 20.06.25 um 04:49 schrieb Mario Limonciello:
->>> From: Mario Limonciello <mario.limonciello@amd.com>
->>>
->>> The x86 specific check for whether a framebuffer belongs to a device
->>> works for display devices as well as VGA devices.  Callers to
->>> video_is_primary_device() can benefit from checking non-VGA display
->>> devices.
->>>
->>> Move the x86 specific check into x86 specific code, and adjust VGA
->>> arbiter to call that code as well. This allows fbcon to find the
->>> right PCI device on systems that don't have VGA devices.
->>>
->>> Suggested-by: Thomas Zimmermann <tzimmermann@suse.de>
->>> Signed-off-by: Mario Limonciello <mario.limonciello@amd.com>
->>> ---
->>>   arch/x86/video/video-common.c | 28 +++++++++++++++++++++++++++
->>>   drivers/pci/vgaarb.c          | 36 
->>> ++---------------------------------
->>>   2 files changed, 30 insertions(+), 34 deletions(-)
->>>
->>> diff --git a/arch/x86/video/video-common.c b/arch/x86/video/video- 
->>> common.c
->>> index 81fc97a2a837a..718116e35e450 100644
->>> --- a/arch/x86/video/video-common.c
->>> +++ b/arch/x86/video/video-common.c
->>> @@ -9,6 +9,7 @@
->>>   #include <linux/module.h>
->>>   #include <linux/pci.h>
->>> +#include <linux/screen_info.h>
->>>   #include <linux/vgaarb.h>
->>>   #include <asm/video.h>
->>> @@ -27,13 +28,40 @@ EXPORT_SYMBOL(pgprot_framebuffer);
->>>   bool video_is_primary_device(struct device *dev)
->>
->> I'm not sure I understand this patch. video_is_primary_device() 
->> already exists for 3 architectures, including x86. [1] Adding it here 
->> should produce an error. (?)
->
-> I wasn't adding a new implementation of it, I was augmenting the x86 
-> implementation.
+The LVDS controller was hardcoded to JEIDA mapping, which leads to
+distorted output on panels expecting VESA mapping.
 
-Indeed. Apologies, I must have somehow misread the patch. So this is 
-essentially doing what I proposed.
+Update the driver to dynamically select the appropriate mapping and
+pixel size based on the panel's advertised media bus format. This
+ensures compatibility with both JEIDA and VESA displays.
 
->
-> But I guess based on your below point it just needs to call 
-> screen_info_pci_dev().
+Modernize the bridge ops to use atomic_enable/disable, and retrieve
+the bus format from the connector via the atomic bridge state.
 
-Yeah, the helper already does everything necessary.
+Signed-off-by: Sandeep Sheriker M <sandeep.sheriker@microchip.com>
+Signed-off-by: Dharma Balasubiramani <dharma.b@microchip.com>
+---
+Note: Tested the changes on newvision 10.1 VESA display.
 
+Changes in v2:
+- Switch to atomic bridge functions
+- Drop custom connector creation
+- Use drm_atomic_get_new_connector_for_encoder()
+- Link to v1: https://lore.kernel.org/r/20250618-microchip-lvds-v1-1-1eae5acd7a82@microchip.com
+---
+ drivers/gpu/drm/bridge/microchip-lvds.c | 64 +++++++++++++++++++++++++++------
+ 1 file changed, 54 insertions(+), 10 deletions(-)
 
->>
->> [1] https://elixir.bootlin.com/linux/v6.15.2/A/ident/ 
->> video_is_primary_device
->>
->> The code on x86 is
->>
->> bool <https://elixir.bootlin.com/linux/v6.15.2/C/ident/ 
->> bool>video_is_primary_device 
->> <https://elixir.bootlin.com/linux/v6.15.2/ 
->> C/ident/video_is_primary_device>(structdevice <https:// 
->> elixir.bootlin.com/linux/v6.15.2/C/ident/device>*dev) { structpci_dev 
->> <https://elixir.bootlin.com/linux/v6.15.2/C/ident/pci_dev>*pdev; if(! 
->> dev_is_pci <https://elixir.bootlin.com/linux/v6.15.2/C/ident/ 
->> dev_is_pci>(dev)) returnfalse 
->> <https://elixir.bootlin.com/linux/v6.15.2/ C/ident/false>; 
->> pdev=to_pci_dev <https://elixir.bootlin.com/linux/ 
->> v6.15.2/C/ident/to_pci_dev>(dev); return(pdev==vga_default_device 
->> <https://elixir.bootlin.com/linux/v6.15.2/C/ident/vga_default_device>()); 
->> }
->>
->> I was thinking about extending it to test for additional properties, 
->> like this
->>
->> bool <https://elixir.bootlin.com/linux/v6.15.2/C/ident/ 
->> bool>video_is_primary_device 
->> <https://elixir.bootlin.com/linux/v6.15.2/ 
->> C/ident/video_is_primary_device>(structdevice <https:// 
->> elixir.bootlin.com/linux/v6.15.2/C/ident/device>*dev) { structpci_dev 
->> <https://elixir.bootlin.com/linux/v6.15.2/C/ident/pci_dev>*pdev; if(! 
->> dev_is_pci <https://elixir.bootlin.com/linux/v6.15.2/C/ident/ 
->> dev_is_pci>(dev)) returnfalse 
->> <https://elixir.bootlin.com/linux/v6.15.2/ C/ident/false>; 
->> pdev=to_pci_dev <https://elixir.bootlin.com/linux/ 
->> v6.15.2/C/ident/to_pci_dev>(dev); if(pdev==vga_default_device 
->> <https:// 
->> elixir.bootlin.com/linux/v6.15.2/C/ident/vga_default_device>()) 
->> return true for_each_pci_dev() { // test if display and could be 
->> primary. } return false; // nothing found }
->>
->
-> The above looks like some bad copy / paste.  Could you clarify?
+diff --git a/drivers/gpu/drm/bridge/microchip-lvds.c b/drivers/gpu/drm/bridge/microchip-lvds.c
+index 9f4ff82bc6b4..b71478aa36e9 100644
+--- a/drivers/gpu/drm/bridge/microchip-lvds.c
++++ b/drivers/gpu/drm/bridge/microchip-lvds.c
+@@ -11,6 +11,7 @@
+ #include <linux/component.h>
+ #include <linux/delay.h>
+ #include <linux/jiffies.h>
++#include <linux/media-bus-format.h>
+ #include <linux/mfd/syscon.h>
+ #include <linux/of_graph.h>
+ #include <linux/pinctrl/devinfo.h>
+@@ -41,9 +42,11 @@
+ 
+ /* Bitfields in LVDSC_CFGR (Configuration Register) */
+ #define LVDSC_CFGR_PIXSIZE_24BITS	0
++#define LVDSC_CFGR_PIXSIZE_18BITS	1
+ #define LVDSC_CFGR_DEN_POL_HIGH		0
+ #define LVDSC_CFGR_DC_UNBALANCED	0
+ #define LVDSC_CFGR_MAPPING_JEIDA	BIT(6)
++#define LVDSC_CFGR_MAPPING_VESA		0
+ 
+ /*Bitfields in LVDSC_SR */
+ #define LVDSC_SR_CS	BIT(0)
+@@ -76,9 +79,10 @@ static inline void lvds_writel(struct mchp_lvds *lvds, u32 offset, u32 val)
+ 	writel_relaxed(val, lvds->regs + offset);
+ }
+ 
+-static void lvds_serialiser_on(struct mchp_lvds *lvds)
++static void lvds_serialiser_on(struct mchp_lvds *lvds, u32 bus_format)
+ {
+ 	unsigned long timeout = jiffies + msecs_to_jiffies(LVDS_POLL_TIMEOUT_MS);
++	u8 map, pix_size;
+ 
+ 	/* The LVDSC registers can only be written if WPEN is cleared */
+ 	lvds_writel(lvds, LVDSC_WPMR, (LVDSC_WPMR_WPKEY_PSSWD &
+@@ -93,11 +97,24 @@ static void lvds_serialiser_on(struct mchp_lvds *lvds)
+ 		usleep_range(1000, 2000);
+ 	}
+ 
++	switch (bus_format) {
++	case MEDIA_BUS_FMT_RGB666_1X7X3_SPWG:
++		map = LVDSC_CFGR_MAPPING_JEIDA;
++		pix_size = LVDSC_CFGR_PIXSIZE_18BITS;
++		break;
++	case MEDIA_BUS_FMT_RGB888_1X7X4_SPWG:
++		map = LVDSC_CFGR_MAPPING_VESA;
++		pix_size = LVDSC_CFGR_PIXSIZE_24BITS;
++		break;
++	default:
++		map = LVDSC_CFGR_MAPPING_JEIDA;
++		pix_size = LVDSC_CFGR_PIXSIZE_24BITS;
++		break;
++	}
++
+ 	/* Configure the LVDSC */
+-	lvds_writel(lvds, LVDSC_CFGR, (LVDSC_CFGR_MAPPING_JEIDA |
+-				LVDSC_CFGR_DC_UNBALANCED |
+-				LVDSC_CFGR_DEN_POL_HIGH |
+-				LVDSC_CFGR_PIXSIZE_24BITS));
++	lvds_writel(lvds, LVDSC_CFGR, (map | LVDSC_CFGR_DC_UNBALANCED |
++		    LVDSC_CFGR_DEN_POL_HIGH | pix_size));
+ 
+ 	/* Enable the LVDS serializer */
+ 	lvds_writel(lvds, LVDSC_CR, LVDSC_CR_SER_EN);
+@@ -113,7 +130,8 @@ static int mchp_lvds_attach(struct drm_bridge *bridge,
+ 				 bridge, flags);
+ }
+ 
+-static void mchp_lvds_enable(struct drm_bridge *bridge)
++static void mchp_lvds_atomic_pre_enable(struct drm_bridge *bridge,
++					struct drm_atomic_state *state)
+ {
+ 	struct mchp_lvds *lvds = bridge_to_lvds(bridge);
+ 	int ret;
+@@ -129,11 +147,35 @@ static void mchp_lvds_enable(struct drm_bridge *bridge)
+ 		dev_err(lvds->dev, "failed to get pm runtime: %d\n", ret);
+ 		return;
+ 	}
++}
++
++static void mchp_lvds_atomic_enable(struct drm_bridge *bridge,
++				    struct drm_atomic_state *state)
++{
++	struct mchp_lvds *lvds = bridge_to_lvds(bridge);
++	struct drm_connector *connector;
++
++	/* default to jeida-24 */
++	u32 bus_format = MEDIA_BUS_FMT_RGB888_1X7X4_JEIDA;
++
++	connector = drm_atomic_get_new_connector_for_encoder(state, bridge->encoder);
++	if (connector && connector->display_info.num_bus_formats)
++		bus_format = connector->display_info.bus_formats[0];
++
++	lvds_serialiser_on(lvds, bus_format);
++}
++
++static void mchp_lvds_atomic_disable(struct drm_bridge *bridge,
++				     struct drm_atomic_state *state)
++{
++	struct mchp_lvds *lvds = bridge_to_lvds(bridge);
+ 
+-	lvds_serialiser_on(lvds);
++	/* Turn off the serialiser */
++	lvds_writel(lvds, LVDSC_CR, 0);
+ }
+ 
+-static void mchp_lvds_disable(struct drm_bridge *bridge)
++static void mchp_lvds_atomic_post_disable(struct drm_bridge *bridge,
++					  struct drm_atomic_state *state)
+ {
+ 	struct mchp_lvds *lvds = bridge_to_lvds(bridge);
+ 
+@@ -143,8 +185,10 @@ static void mchp_lvds_disable(struct drm_bridge *bridge)
+ 
+ static const struct drm_bridge_funcs mchp_lvds_bridge_funcs = {
+ 	.attach = mchp_lvds_attach,
+-	.enable = mchp_lvds_enable,
+-	.disable = mchp_lvds_disable,
++	.atomic_pre_enable = mchp_lvds_atomic_pre_enable,
++	.atomic_enable = mchp_lvds_atomic_enable,
++	.atomic_disable = mchp_lvds_atomic_disable,
++	.atomic_post_disable = mchp_lvds_atomic_post_disable,
+ };
+ 
+ static int mchp_lvds_probe(struct platform_device *pdev)
 
-Oh, well. I really messed up my reply. :D
+---
+base-commit: 4325743c7e209ae7845293679a4de94b969f2bef
+change-id: 20250618-microchip-lvds-b7151d96094a
 
-What I meant is what you already implemented, but with the existing helper:
-
-bool video_is_primary_device(dev)
-{
-     if (dev == vga_default_device())
-       return true
-
-     if (dev == screen_info_pci_device())
-       return true
-
-     return false
-}
-
-
-One thing to keep in minds is that video_is_primary_device() currently 
-returns false by default. IDK if that's a problem for user space, but 
-user space should at least pick a reasonable fallback in that case.
-
-Best regards
-Thomas
-
-
->
->>
->> This would then be called from per-device sysfs code that export a 
->> property similar to boot_vga (such as boot_display).
->
-> Here's the other idea I had in mind.
->
-> diff --git a/drivers/pci/pci-sysfs.c b/drivers/pci/pci-sysfs.c
-> index 268c69daa4d57..8535950b4c0f3 100644
-> --- a/drivers/pci/pci-sysfs.c
-> +++ b/drivers/pci/pci-sysfs.c
-> @@ -30,6 +30,7 @@
->  #include <linux/msi.h>
->  #include <linux/of.h>
->  #include <linux/aperture.h>
-> +#include <asm/video.h>
->  #include "pci.h"
->
->  #ifndef ARCH_PCI_DEV_GROUPS
-> @@ -679,6 +680,13 @@ const struct attribute_group *pcibus_groups[] = {
->         NULL,
->  };
->
-> +static ssize_t boot_console_show(struct device *dev, struct 
-> device_attribute *attr,
-> +                                char *buf)
-> +{
-> +       return sysfs_emit(buf, "%u\n", video_is_primary_device(dev));
-> +}
-> +static DEVICE_ATTR_RO(boot_console);
-> +
->  static ssize_t boot_vga_show(struct device *dev, struct 
-> device_attribute *attr,
->                              char *buf)
->  {
-> @@ -1698,6 +1706,7 @@ late_initcall(pci_sysfs_init);
->
->  static struct attribute *pci_dev_dev_attrs[] = {
->         &dev_attr_boot_vga.attr,
-> +       &dev_attr_boot_console.attr,
->         NULL,
->  };
->
-> @@ -1710,6 +1719,9 @@ static umode_t pci_dev_attrs_are_visible(struct 
-> kobject *kobj,
->         if (a == &dev_attr_boot_vga.attr && pci_is_vga(pdev))
->                 return a->mode;
->
-> +       if (a == &dev_attr_boot_console.attr && pci_is_display(pdev))
-> +               return a->mode;
-> +
->         return 0;
->  }
->
->
->>
->>
->> The issue is currently just an x86 problem, but I can imagine 
->> something similar happening on ARM. There we'd have to go through the 
->> DT tree to figure out the primary device. That's a problem for a 
->> later patch set, but we should keep this in mind.
->
-> I think that the sysfs file idea above would work for any arch.
->
->>
->>>   {
->>> +    u64 base = screen_info.lfb_base;
->>> +    u64 size = screen_info.lfb_size;
->>>       struct pci_dev *pdev;
->>> +    struct resource *r;
->>> +    u64 limit;
->>>       if (!dev_is_pci(dev))
->>>           return false;
->>>       pdev = to_pci_dev(dev);
->>> +    if (!pci_is_display(pdev))
->>> +        return false;
->>> +
->>> +    /* Select the device owning the boot framebuffer if there is 
->>> one */
->>> +    if (screen_info.capabilities & VIDEO_CAPABILITY_64BIT_BASE)
->>> +        base |= (u64)screen_info.ext_lfb_base << 32;
->>> +
->>> +    limit = base + size;
->>> +
->>> +    /* Does firmware framebuffer belong to us? */
->>> +    pci_dev_for_each_resource(pdev, r) {
->>> +        if (resource_type(r) != IORESOURCE_MEM)
->>> +            continue;
->>> +
->>> +        if (!r->start || !r->end)
->>> +            continue;
->>> +
->>> +        if (base < r->start || limit >= r->end)
->>> +            continue;
->>> +
->>> +        return true;
->>> +    }
->>> +
->>
->> You can drop all this code and call screen_info_pci_dev() instead. I 
->> simply never got to update vgaarb to use it.
->
-> 👍
->
->>
->> [2] https://elixir.bootlin.com/linux/v6.15.2/source/drivers/video/ 
->> screen_info_pci.c#L109
->>
->>>       return (pdev == vga_default_device());
->>>   }
->>>   EXPORT_SYMBOL(video_is_primary_device);
->>> diff --git a/drivers/pci/vgaarb.c b/drivers/pci/vgaarb.c
->>> index 78748e8d2dbae..15ab58c70b016 100644
->>> --- a/drivers/pci/vgaarb.c
->>> +++ b/drivers/pci/vgaarb.c
->>> @@ -26,12 +26,12 @@
->>>   #include <linux/poll.h>
->>>   #include <linux/miscdevice.h>
->>>   #include <linux/slab.h>
->>> -#include <linux/screen_info.h>
->>>   #include <linux/vt.h>
->>>   #include <linux/console.h>
->>>   #include <linux/acpi.h>
->>>   #include <linux/uaccess.h>
->>>   #include <linux/vgaarb.h>
->>> +#include <asm/video.h>
->>>   static void vga_arbiter_notify_clients(void);
->>> @@ -554,38 +554,6 @@ void vga_put(struct pci_dev *pdev, unsigned int 
->>> rsrc)
->>>   }
->>>   EXPORT_SYMBOL(vga_put);
->>> -static bool vga_is_firmware_default(struct pci_dev *pdev)
->>> -{
->>> -#if defined(CONFIG_X86)
->>> -    u64 base = screen_info.lfb_base;
->>> -    u64 size = screen_info.lfb_size;
->>> -    struct resource *r;
->>> -    u64 limit;
->>> -
->>> -    /* Select the device owning the boot framebuffer if there is 
->>> one */
->>> -
->>> -    if (screen_info.capabilities & VIDEO_CAPABILITY_64BIT_BASE)
->>> -        base |= (u64)screen_info.ext_lfb_base << 32;
->>> -
->>> -    limit = base + size;
->>> -
->>> -    /* Does firmware framebuffer belong to us? */
->>> -    pci_dev_for_each_resource(pdev, r) {
->>> -        if (resource_type(r) != IORESOURCE_MEM)
->>> -            continue;
->>> -
->>> -        if (!r->start || !r->end)
->>> -            continue;
->>> -
->>> -        if (base < r->start || limit >= r->end)
->>> -            continue;
->>> -
->>> -        return true;
->>> -    }
->>> -#endif
->>> -    return false;
->>> -}
->>> -
->>>   static bool vga_arb_integrated_gpu(struct device *dev)
->>>   {
->>>   #if defined(CONFIG_ACPI)
->>> @@ -623,7 +591,7 @@ static bool vga_is_boot_device(struct vga_device 
->>> *vgadev)
->>>       if (boot_vga && boot_vga->is_firmware_default)
->>>           return false;
->>> -    if (vga_is_firmware_default(pdev)) {
->>> +    if (video_is_primary_device(&pdev->dev)) {
->>
->> Maybe not change this because you don't want to end up with non-VGA 
->> devices here.
->
-> 👍
->
->>
->> Best regards
->> Thomas
->>
->>>           vgadev->is_firmware_default = true;
->>>           return true;
->>>       }
->>
->
-
+Best regards,
 -- 
---
-Thomas Zimmermann
-Graphics Driver Developer
-SUSE Software Solutions Germany GmbH
-Frankenstrasse 146, 90461 Nuernberg, Germany
-GF: Ivo Totev, Andrew Myers, Andrew McDonald, Boudien Moerman
-HRB 36809 (AG Nuernberg)
+Dharma Balasubiramani <dharma.b@microchip.com>
 
