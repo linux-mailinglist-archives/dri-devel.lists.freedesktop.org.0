@@ -2,79 +2,59 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id EC298AE4CF6
-	for <lists+dri-devel@lfdr.de>; Mon, 23 Jun 2025 20:47:44 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 341EAAE4CFD
+	for <lists+dri-devel@lfdr.de>; Mon, 23 Jun 2025 20:48:19 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0379210E1E8;
-	Mon, 23 Jun 2025 18:47:42 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1364D10E44B;
+	Mon, 23 Jun 2025 18:48:17 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="BzPlDsrU";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="MSvgL1q5";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pl1-f178.google.com (mail-pl1-f178.google.com
- [209.85.214.178])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 99AC810E1E8;
- Mon, 23 Jun 2025 18:47:40 +0000 (UTC)
-Received: by mail-pl1-f178.google.com with SMTP id
- d9443c01a7336-23694cec0feso42348885ad.2; 
- Mon, 23 Jun 2025 11:47:40 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1750704460; x=1751309260; darn=lists.freedesktop.org;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:from:to:cc:subject:date:message-id:reply-to;
- bh=lX1PV8eCj+w6gmSly9JqA8eydGEbPW07Za33Kr6VYKg=;
- b=BzPlDsrUKyGoUR5xZ1OTFBscIwXkXPK/H4opRuyL8uAbIpV+f6pFnR3TqLQTaMiYTA
- gIfeQ/hhe9WNaVewqqSBk9wmwADAqKvPkfypITTS/Sl7YwGUY2OQqY0qdi/ELrfP3JwV
- qST4YehY99PE89zQNLvgMGJOceo7g4C7EZZ6yvjaOYU5WnSbsAgqO8R5lUkwHGL2ST3U
- KtOEsE02YWymqusemjDJNfGexL/k2L6nh5aR9cf5DbCVZITuAPvRTt1mF+DxHEygQOnr
- TpWIyecJ70DJPeHJmsMVAAsBNemg911AIgZ5CZ0btX9nYVV69cLgvdiEuTyumPcMf6Wu
- /f9Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1750704460; x=1751309260;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=lX1PV8eCj+w6gmSly9JqA8eydGEbPW07Za33Kr6VYKg=;
- b=tYKGzOKpmF0BLV9dPFArNWlZnmKkVt2jn+qwVrtfEbxv5kN/4LMSH/6RoQY5PNdqxp
- X4VJONaBEV6NLWddK4jMbt42tQxxqZFwHcd6gmhhuoCRHOdagdqsduiL6bib8vhUMmWe
- vaSVaXRfMIONPN2kIBwznUHdgTHzICGLqz/BpiI7mp8Ck18iKKD11YfD2hi5+zfzX7xl
- UkpiMRc5Cod/kZnkuk31A2AWds2nJBCUbz0jd0voayH5VsiD8DCvIoDpH3tVm7FWtzJ0
- hGqf8fFqBZBo9L6FAeTmAUD94pNnmQVBdnGShYVQS7tTs3nS1ISJKc9Xh+4I8PI6YiUz
- Mbsw==
-X-Forwarded-Encrypted: i=1;
- AJvYcCUqdkasUHIn8GgAp9bvQVIFIu2CaCOSagjAOi01p4EYKEWGJb9L6TdKK7oX2c0fvqepF4Q2DdyDHd0=@lists.freedesktop.org,
- AJvYcCV9oR8g2EQe8WWJYsSGCFiPJlxnN8IbNwLtOUzZqam1riilnW1NvlflIiEj2yLyrsU7U03u74krMdid@lists.freedesktop.org
-X-Gm-Message-State: AOJu0Yx9G5Im5n6gS+kiCFBrITC3qMPrLZ0pUSS7HOWzlY4flO7RdWNn
- EoaV+ZzfxDrAz6BZ0qkXvELVv6aJ2atuwz3b/YyIy8HiKGOvKEb2arlX
-X-Gm-Gg: ASbGnctii2WHcGIF8KUWZmTxXYWPx+OMArc5VNNmXQReDWqJhWAr591Cuh1Def0Jqgk
- IR5fSM+ws7T56EF4jOMGCJk9wbXFik/ZvJq8OS5aKhkI2u/tz1OAfAXC4HGpCSmAGZLDiQLvBSl
- 3OiW5IJb/TSlngDZF1qlGpD7Uk38f952D8YJ1xlXBPCe00fX8qrMrudlvfzLc9tqqIM/TpFAA3i
- jW8wCZiWCH9vd5KqSvWhEsC+gn7gnG8VTjQfYsLKjZSZj6TaYAhYSGwXu9D5clyIbmOylWTONuQ
- W3HQPWxEi2UluYrNkkdr6DhrMH8fDuO9zWtvfGdjd5ifoJHJ/2Vu82YAnVNA7PVSpmWSp0nv+vu
- m4sbUm+VjtkszKrdMsCaibcI92wc=
-X-Google-Smtp-Source: AGHT+IG+q7JDDjJJiD6LIsW+SwYhlGS8aClQvrcI6niGs17mM8MdIZ/h4GRG4ZubHXABG5IObcnk4g==
-X-Received: by 2002:a17:902:f64a:b0:235:6e1:3edf with SMTP id
- d9443c01a7336-237d9878c08mr226699925ad.34.1750704459951; 
- Mon, 23 Jun 2025 11:47:39 -0700 (PDT)
-Received: from vaxr-ASUSPRO-D840MB-M840MB..
- ([2001:288:7001:2703:229b:2db5:edc5:d79f])
- by smtp.gmail.com with ESMTPSA id
- d9443c01a7336-237d86150d8sm88037745ad.123.2025.06.23.11.47.36
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 23 Jun 2025 11:47:39 -0700 (PDT)
-From: I Hsin Cheng <richard120310@gmail.com>
-To: robin.clark@oss.qualcomm.com
-Cc: lumag@kernel.org, abhinav.kumar@linux.dev, jessica.zhang@oss.qualcomm.com,
- sean@poorly.run, marijn.suijten@somainline.org, airlied@gmail.com,
- simona@ffwll.ch, linux-arm-msm@vger.kernel.org,
- dri-devel@lists.freedesktop.org, freedreno@lists.freedesktop.org,
- linux-kernel@vger.kernel.org, shuah@kernel.org,
- linux-kernel-mentees@lists.linux.dev,
- I Hsin Cheng <richard120310@gmail.com>
-Subject: [RFC PATCH] drm/msm: Remove dead code in msm_ioctl_gem_submit()
-Date: Tue, 24 Jun 2025 02:47:34 +0800
-Message-ID: <20250623184734.22947-1-richard120310@gmail.com>
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2655010E27B
+ for <dri-devel@lists.freedesktop.org>; Mon, 23 Jun 2025 18:48:12 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+ by dfw.source.kernel.org (Postfix) with ESMTP id 504825C56C5;
+ Mon, 23 Jun 2025 18:45:51 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4790CC4CEEA;
+ Mon, 23 Jun 2025 18:48:05 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1750704487;
+ bh=GY8tIufr4Hd6SlZygWeAkfnwAyZfajXtBmdtfEVITZg=;
+ h=From:To:Cc:Subject:Date:From;
+ b=MSvgL1q5wZGV5IyyqUmlkvkUm7K0i8jPT1haS86qUQi+Kq92/DOHXePlD9lPVaMss
+ oQYDZSms3mw8PVeDaBUngX0e49Q+iWyDeaVhFCQktYG5ShQLIIXNVyUuf3M1OkB7U+
+ Q2hXfc1EfR7RP1vMRaq+T97sMyMwsLxxFVM3HWADNlMK4KlXkOwJF6PsUAKkPd/RWw
+ Vx+YKnTT9vgkxhmRUykmTqyXw9/sGEqyXM2FGvCJN4DjBfeEBsqn3Vc8UFAvAQ72rw
+ GczZPRxH0XE/cp9RLMf0oOOZX/ZrTwU4w2UB4IONrlDYWh57Sc82zUzdX5vm6XUIhq
+ Yhc7XqWstP+RA==
+From: Mario Limonciello <superm1@kernel.org>
+To: Bjorn Helgaas <bhelgaas@google.com>
+Cc: Alex Deucher <alexander.deucher@amd.com>,
+ =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>,
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+ Lukas Wunner <lukas@wunner.de>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>,
+ David Woodhouse <dwmw2@infradead.org>, Lu Baolu <baolu.lu@linux.intel.com>,
+ Joerg Roedel <joro@8bytes.org>, Will Deacon <will@kernel.org>,
+ Robin Murphy <robin.murphy@arm.com>,
+ Alex Williamson <alex.williamson@redhat.com>,
+ Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
+ dri-devel@lists.freedesktop.org (open list:DRM DRIVERS),
+ linux-kernel@vger.kernel.org (open list),
+ iommu@lists.linux.dev (open list:INTEL IOMMU (VT-d)),
+ linux-pci@vger.kernel.org (open list:PCI SUBSYSTEM),
+ kvm@vger.kernel.org (open list:VFIO DRIVER),
+ linux-sound@vger.kernel.org (open list:SOUND),
+ Daniel Dadap <ddadap@nvidia.com>,
+ Mario Limonciello <mario.limonciello@amd.com>
+Subject: [PATCH v4 0/8] Adjust fbcon console device detection
+Date: Mon, 23 Jun 2025 13:47:49 -0500
+Message-ID: <20250623184757.3774786-1-superm1@kernel.org>
 X-Mailer: git-send-email 2.43.0
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
@@ -93,29 +73,49 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-According to the report of Coverity Scan [1], "sync_file" is going to be
-NULL when entering the "if" section after "out_post_unlock", so
-"fput(sync_file->file)" is never going to be exected in this block.
+From: Mario Limonciello <mario.limonciello@amd.com>
 
-[1]: https://scan5.scan.coverity.com/#/project-view/10074/10063?selectedIssue=1655089
-Signed-off-by: I Hsin Cheng <richard120310@gmail.com>
----
- drivers/gpu/drm/msm/msm_gem_submit.c | 2 --
- 1 file changed, 2 deletions(-)
+This series started out as changes to VGA arbiter to try to handle a case
+of a system with 2 GPUs that are not VGA devices [1].  This was discussed
+but decided not to overload the VGA arbiter for non VGA devices.
 
-diff --git a/drivers/gpu/drm/msm/msm_gem_submit.c b/drivers/gpu/drm/msm/msm_gem_submit.c
-index d4f71bb54e84..cba1dc6fe6c6 100644
---- a/drivers/gpu/drm/msm/msm_gem_submit.c
-+++ b/drivers/gpu/drm/msm/msm_gem_submit.c
-@@ -904,8 +904,6 @@ int msm_ioctl_gem_submit(struct drm_device *dev, void *data,
- out_post_unlock:
- 	if (ret && (out_fence_fd >= 0)) {
- 		put_unused_fd(out_fence_fd);
--		if (sync_file)
--			fput(sync_file->file);
- 	}
- 
- 	if (!IS_ERR_OR_NULL(submit)) {
+Instead move the x86 specific detection of framebuffer resources into x86
+specific code that the fbcon can use to properly identify the primary
+device. This code is still called from the VGA arbiter, and the logic does
+not change there. To avoid regression default to VGA arbiter and only fall
+back to looking up with x86 specific detection method.
+
+In order for userspace to also be able to discover which device was the
+primary video display device create a new sysfs file 'boot_display'.
+
+Mario Limonciello (8):
+  PCI: Add helper for checking if a PCI device is a display controller
+  vfio/pci: Use pci_is_display()
+  vga_switcheroo: Use pci_is_display()
+  iommu/vt-d: Use pci_is_display()
+  ALSA: hda: Use pci_is_display()
+  Fix access to video_is_primary_device() when compiled without
+    CONFIG_VIDEO
+  PCI/VGA: Move check for firmware default out of VGA arbiter
+  PCI: Add a new 'boot_display' attribute
+
+ Documentation/ABI/testing/sysfs-bus-pci |  9 +++++++
+ arch/parisc/include/asm/video.h         |  2 +-
+ arch/sparc/include/asm/video.h          |  2 ++
+ arch/x86/include/asm/video.h            |  2 ++
+ arch/x86/video/video-common.c           | 13 ++++++++-
+ drivers/gpu/vga/vga_switcheroo.c        |  2 +-
+ drivers/iommu/intel/iommu.c             |  2 +-
+ drivers/pci/pci-sysfs.c                 | 14 ++++++++++
+ drivers/pci/vgaarb.c                    | 36 ++-----------------------
+ drivers/vfio/pci/vfio_pci_igd.c         |  3 +--
+ include/linux/pci.h                     | 15 +++++++++++
+ sound/hda/hdac_i915.c                   |  2 +-
+ sound/pci/hda/hda_intel.c               |  4 +--
+ 13 files changed, 63 insertions(+), 43 deletions(-)
+
+
+base-commit: 86731a2a651e58953fc949573895f2fa6d456841
 -- 
 2.43.0
 
