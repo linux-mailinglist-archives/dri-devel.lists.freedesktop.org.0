@@ -2,59 +2,42 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id A75D7AE3930
-	for <lists+dri-devel@lfdr.de>; Mon, 23 Jun 2025 11:00:36 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3646DAE3978
+	for <lists+dri-devel@lfdr.de>; Mon, 23 Jun 2025 11:08:07 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E5CC610E1E2;
-	Mon, 23 Jun 2025 09:00:34 +0000 (UTC)
-Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; secure) header.d=mailbox.org header.i=@mailbox.org header.b="mLdfDnLL";
-	dkim-atps=neutral
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7D1E610E200;
+	Mon, 23 Jun 2025 09:08:04 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mout-p-202.mailbox.org (mout-p-202.mailbox.org [80.241.56.172])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 454CC10E1E2
- for <dri-devel@lists.freedesktop.org>; Mon, 23 Jun 2025 09:00:26 +0000 (UTC)
-Received: from smtp102.mailbox.org (smtp102.mailbox.org [10.196.197.102])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
- (No client certificate requested)
- by mout-p-202.mailbox.org (Postfix) with ESMTPS id 4bQhqj5n5kz9t7s;
- Mon, 23 Jun 2025 11:00:17 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mailbox.org;
- s=mail20150812; 
- t=1750669217; h=from:from:reply-to:reply-to:subject:subject:date:date:
- message-id:message-id:to:to:cc:cc:mime-version:mime-version:
- content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=2pdTGf4aOzFco3CbqX1+pZ1sCp9cJ0yHF3Wx+oJKZXQ=;
- b=mLdfDnLL73cvJaE6Um9HnlMA3YXVvAxj2M0tX3Pd1OjYnjwmKQtgyD7VURwFGS4nFXTlzI
- LYQatyOEjNxGvNGhohvO9cuSpMNKadpUQbBWBwdymY1CtMpkPdGCR8YGuGvzNdUZh41hdX
- yP6GbsruwBLgCMioRUKlJmEMPNhz7hmZdffOKDLUn+b5cd+R5puU0ReDb309cvmDfxcwCK
- wGyMe2kWc7lxmXuti3jFDdJF5EdxUHKK+lrC70d48j7JEkOcSMV70m0Pw4kIjGrRKOu+ID
- hwfdIG+I0ku52jB0QH/3kIfti5vF54QBDjIiIskg6p/LUMaUuX6Z880etOX8Sg==
-Message-ID: <79ba97ca2c04b7707b9641fbb89715873c11c979.camel@mailbox.org>
-Subject: Re: [PATCH] drm/sched/tests: Make timedout_job callback a better
- role model
-From: Philipp Stanner <phasta@mailbox.org>
-To: Philipp Stanner <phasta@kernel.org>, Matthew Brost
- <matthew.brost@intel.com>,  Danilo Krummrich <dakr@kernel.org>, Christian
- =?ISO-8859-1?Q?K=F6nig?= <ckoenig.leichtzumerken@gmail.com>, Maarten
- Lankhorst <maarten.lankhorst@linux.intel.com>, Maxime Ripard
- <mripard@kernel.org>,  Thomas Zimmermann <tzimmermann@suse.de>, David
- Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, Tvrtko Ursulin
- <tvrtko.ursulin@igalia.com>, Pierre-Eric Pelloux-Prayer
- <pierre-eric.pelloux-prayer@amd.com>
-Cc: dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
-Date: Mon, 23 Jun 2025 11:00:11 +0200
-In-Reply-To: <20250605134154.191764-2-phasta@kernel.org>
-References: <20250605134154.191764-2-phasta@kernel.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+ by gabe.freedesktop.org (Postfix) with ESMTP id 60C9F10E200
+ for <dri-devel@lists.freedesktop.org>; Mon, 23 Jun 2025 09:08:03 +0000 (UTC)
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+ by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id CD2E4113E
+ for <dri-devel@lists.freedesktop.org>; Mon, 23 Jun 2025 02:07:44 -0700 (PDT)
+Received: from e110455-lin.cambridge.arm.com (usa-sjc-imap-foss1.foss.arm.com
+ [10.121.207.14])
+ by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPA id C287C3F66E
+ for <dri-devel@lists.freedesktop.org>; Mon, 23 Jun 2025 02:08:02 -0700 (PDT)
+Date: Mon, 23 Jun 2025 10:07:54 +0100
+From: Liviu Dudau <liviu.dudau@arm.com>
+To: Boris Brezillon <boris.brezillon@collabora.com>
+Cc: Chia-I Wu <olvaffe@gmail.com>, Steven Price <steven.price@arm.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>,
+ David Airlie <airlied@gmail.com>, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org
+Subject: Re: [PATCH 2/4] panthor: save panthor_file in panthor_group
+Message-ID: <aFkZaoPXkZWaqWID@e110455-lin.cambridge.arm.com>
+References: <20250620235053.164614-1-olvaffe@gmail.com>
+ <20250620235053.164614-3-olvaffe@gmail.com>
+ <20250623082122.62f69579@fedora>
 MIME-Version: 1.0
-X-MBO-RS-META: kqcq4mi3woc19r9dpy6d75jr4cgnzcfh
-X-MBO-RS-ID: 5688e913798ba5321d3
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20250623082122.62f69579@fedora>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -67,88 +50,166 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Reply-To: phasta@kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, 2025-06-05 at 15:41 +0200, Philipp Stanner wrote:
-> Since the drm_mock_scheduler does not have real users in userspace,
-> nor
-> does it have real hardware or firmware rings, it's not necessary to
-> signal timedout fences nor free jobs - from a functional standpoint.
->=20
-> The unit tests, however, serve as a reference implementation and a
-> first
-> example for new scheduler users. Therefore, they should approximate
-> the
-> canonical usage as much as possible.
->=20
-> Make sure timed out hardware fences get signaled with the appropriate
-> error code.
->=20
-> Signed-off-by: Philipp Stanner <phasta@kernel.org>
+On Mon, Jun 23, 2025 at 08:21:22AM +0200, Boris Brezillon wrote:
+> On Fri, 20 Jun 2025 16:50:51 -0700
+> Chia-I Wu <olvaffe@gmail.com> wrote:
+> 
+> > We would like to access panthor_file from panthor_group on gpu errors.
+> > Because panthour_group can outlive drm_file, add refcount to
+> > panthor_file to ensure its lifetime.
+> 
+> I'm not a huge fan of refcounting panthor_file because people tend to
+> put resource they expect to be released when the last handle goes away,
+> and if we don't refcount these sub-resources they might live longer
+> than they are meant to. Also not a huge fan of the circular referencing
+> that exists between file and groups after this change.
+> 
+> How about we move the process info to a sub-object that's refcounted
+> and let both panthor_file and panthor_group take a ref on this object
+> instead?
 
-Any further objections with me merging this?
+I agree with Boris on this. One alternative is to put the pid and comm in
+the panthor_group struct as panthor_file makes no use of the fields.
 
-P.
+Best regards,
+Liviu
 
+> 
+> > 
+> > Signed-off-by: Chia-I Wu <olvaffe@gmail.com>
+> > ---
+> >  drivers/gpu/drm/panthor/panthor_device.h | 16 ++++++++++++++++
+> >  drivers/gpu/drm/panthor/panthor_drv.c    | 15 ++++++++++++++-
+> >  drivers/gpu/drm/panthor/panthor_mmu.c    |  1 +
+> >  drivers/gpu/drm/panthor/panthor_sched.c  |  6 ++++++
+> >  4 files changed, 37 insertions(+), 1 deletion(-)
+> > 
+> > diff --git a/drivers/gpu/drm/panthor/panthor_device.h b/drivers/gpu/drm/panthor/panthor_device.h
+> > index 4fc7cf2aeed57..75ae6fd3a5128 100644
+> > --- a/drivers/gpu/drm/panthor/panthor_device.h
+> > +++ b/drivers/gpu/drm/panthor/panthor_device.h
+> > @@ -256,8 +256,24 @@ struct panthor_file {
+> >  
+> >  	/** @stats: cycle and timestamp measures for job execution. */
+> >  	struct panthor_gpu_usage stats;
+> > +
+> > +	/** @refcount: ref count of this file */
+> > +	struct kref refcount;
+> >  };
+> >  
+> > +static inline struct panthor_file *panthor_file_get(struct panthor_file *pfile)
+> > +{
+> > +	kref_get(&pfile->refcount);
+> > +	return pfile;
+> > +}
+> > +
+> > +void panthor_file_release(struct kref *kref);
+> > +
+> > +static inline void panthor_file_put(struct panthor_file *pfile)
+> > +{
+> > +	kref_put(&pfile->refcount, panthor_file_release);
+> > +}
+> > +
+> >  int panthor_device_init(struct panthor_device *ptdev);
+> >  void panthor_device_unplug(struct panthor_device *ptdev);
+> >  
+> > diff --git a/drivers/gpu/drm/panthor/panthor_drv.c b/drivers/gpu/drm/panthor/panthor_drv.c
+> > index 775a66c394544..aea9609684b77 100644
+> > --- a/drivers/gpu/drm/panthor/panthor_drv.c
+> > +++ b/drivers/gpu/drm/panthor/panthor_drv.c
+> > @@ -1393,6 +1393,16 @@ static int panthor_ioctl_set_user_mmio_offset(struct drm_device *ddev,
+> >  	return 0;
+> >  }
+> >  
+> > +void panthor_file_release(struct kref *kref)
+> > +{
+> > +	struct panthor_file *pfile =
+> > +		container_of(kref, struct panthor_file, refcount);
+> > +
+> > +	WARN_ON(pfile->vms || pfile->groups);
+> > +
+> > +	kfree(pfile);
+> > +}
+> > +
+> >  static int
+> >  panthor_open(struct drm_device *ddev, struct drm_file *file)
+> >  {
+> > @@ -1426,6 +1436,8 @@ panthor_open(struct drm_device *ddev, struct drm_file *file)
+> >  	if (ret)
+> >  		goto err_destroy_vm_pool;
+> >  
+> > +	kref_init(&pfile->refcount);
+> > +
+> >  	file->driver_priv = pfile;
+> >  	return 0;
+> >  
+> > @@ -1442,10 +1454,11 @@ panthor_postclose(struct drm_device *ddev, struct drm_file *file)
+> >  {
+> >  	struct panthor_file *pfile = file->driver_priv;
+> >  
+> > +	/* destroy vm and group handles now to avoid circular references */
+> >  	panthor_group_pool_destroy(pfile);
+> >  	panthor_vm_pool_destroy(pfile);
+> >  
+> > -	kfree(pfile);
+> > +	panthor_file_put(pfile);
+> >  }
+> >  
+> >  static const struct drm_ioctl_desc panthor_drm_driver_ioctls[] = {
+> > diff --git a/drivers/gpu/drm/panthor/panthor_mmu.c b/drivers/gpu/drm/panthor/panthor_mmu.c
+> > index b39ea6acc6a96..ccbcfe11420ac 100644
+> > --- a/drivers/gpu/drm/panthor/panthor_mmu.c
+> > +++ b/drivers/gpu/drm/panthor/panthor_mmu.c
+> > @@ -1604,6 +1604,7 @@ void panthor_vm_pool_destroy(struct panthor_file *pfile)
+> >  
+> >  	xa_destroy(&pfile->vms->xa);
+> >  	kfree(pfile->vms);
+> > +	pfile->vms = NULL;
+> >  }
+> >  
+> >  /**
+> > diff --git a/drivers/gpu/drm/panthor/panthor_sched.c b/drivers/gpu/drm/panthor/panthor_sched.c
+> > index a2248f692a030..485072904cd7d 100644
+> > --- a/drivers/gpu/drm/panthor/panthor_sched.c
+> > +++ b/drivers/gpu/drm/panthor/panthor_sched.c
+> > @@ -535,6 +535,9 @@ struct panthor_group {
+> >  	/** @ptdev: Device. */
+> >  	struct panthor_device *ptdev;
+> >  
+> > +	/** @pfile: File this group is created from. */
+> > +	struct panthor_file *pfile;
+> > +
+> >  	/** @vm: VM bound to the group. */
+> >  	struct panthor_vm *vm;
+> >  
+> > @@ -919,6 +922,7 @@ static void group_release_work(struct work_struct *work)
+> >  	panthor_kernel_bo_destroy(group->syncobjs);
+> >  
+> >  	panthor_vm_put(group->vm);
+> > +	panthor_file_put(group->pfile);
+> >  	kfree(group);
+> >  }
+> >  
+> > @@ -3467,6 +3471,8 @@ int panthor_group_create(struct panthor_file *pfile,
+> >  	INIT_WORK(&group->tiler_oom_work, group_tiler_oom_work);
+> >  	INIT_WORK(&group->release_work, group_release_work);
+> >  
+> > +	group->pfile = panthor_file_get(pfile);
+> > +
+> >  	group->vm = panthor_vm_pool_get_vm(pfile->vms, group_args->vm_id);
+> >  	if (!group->vm) {
+> >  		ret = -EINVAL;
+> 
 
-> ---
-> =C2=A0.../gpu/drm/scheduler/tests/mock_scheduler.c=C2=A0 | 26
-> ++++++++++++++++++-
-> =C2=A01 file changed, 25 insertions(+), 1 deletion(-)
->=20
-> diff --git a/drivers/gpu/drm/scheduler/tests/mock_scheduler.c
-> b/drivers/gpu/drm/scheduler/tests/mock_scheduler.c
-> index 7f947ab9d322..49d067fecd67 100644
-> --- a/drivers/gpu/drm/scheduler/tests/mock_scheduler.c
-> +++ b/drivers/gpu/drm/scheduler/tests/mock_scheduler.c
-> @@ -200,12 +200,36 @@ static struct dma_fence
-> *mock_sched_run_job(struct drm_sched_job *sched_job)
-> =C2=A0	return &job->hw_fence;
-> =C2=A0}
-> =C2=A0
-> +/*
-> + * Normally, drivers would take appropriate measures in this
-> callback, such as
-> + * killing the entity the faulty job is associated with, resetting
-> the hardware
-> + * and / or resubmitting non-faulty jobs.
-> + *
-> + * For the mock scheduler, there are no hardware rings to be
-> resetted nor jobs
-> + * to be resubmitted. Thus, this function merely ensures that
-> + *=C2=A0=C2=A0 a) timedout fences get signaled properly and removed from=
- the
-> pending list
-> + *=C2=A0=C2=A0 b) the mock scheduler framework gets informed about the t=
-imeout
-> via a flag
-> + *=C2=A0=C2=A0 c) The drm_sched_job, not longer needed, gets freed
-> + */
-> =C2=A0static enum drm_gpu_sched_stat
-> =C2=A0mock_sched_timedout_job(struct drm_sched_job *sched_job)
-> =C2=A0{
-> +	struct drm_mock_scheduler *sched =3D
-> drm_sched_to_mock_sched(sched_job->sched);
-> =C2=A0	struct drm_mock_sched_job *job =3D
-> drm_sched_job_to_mock_job(sched_job);
-> +	unsigned long flags;
-> =C2=A0
-> -	job->flags |=3D DRM_MOCK_SCHED_JOB_TIMEDOUT;
-> +	spin_lock_irqsave(&sched->lock, flags);
-> +	if (!dma_fence_is_signaled_locked(&job->hw_fence)) {
-> +		list_del(&job->link);
-> +		job->flags |=3D DRM_MOCK_SCHED_JOB_TIMEDOUT;
-> +		dma_fence_set_error(&job->hw_fence, -ETIMEDOUT);
-> +		dma_fence_signal_locked(&job->hw_fence);
-> +	}
-> +	spin_unlock_irqrestore(&sched->lock, flags);
-> +
-> +	dma_fence_put(&job->hw_fence);
-> +	drm_sched_job_cleanup(sched_job);
-> +	/* Mock job itself is freed by the kunit framework. */
-> =C2=A0
-> =C2=A0	return DRM_GPU_SCHED_STAT_NOMINAL;
-> =C2=A0}
-
+-- 
+====================
+| I would like to |
+| fix the world,  |
+| but they're not |
+| giving me the   |
+ \ source code!  /
+  ---------------
+    ¯\_(ツ)_/¯
