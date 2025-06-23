@@ -2,92 +2,61 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9DB77AE3607
-	for <lists+dri-devel@lfdr.de>; Mon, 23 Jun 2025 08:45:09 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 261EEAE363B
+	for <lists+dri-devel@lfdr.de>; Mon, 23 Jun 2025 08:51:06 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E406910E1BB;
-	Mon, 23 Jun 2025 06:45:07 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0DA1410E182;
+	Mon, 23 Jun 2025 06:51:03 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=fairphone.com header.i=@fairphone.com header.b="e5+3NLSJ";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="ALGH3HmN";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ej1-f48.google.com (mail-ej1-f48.google.com
- [209.85.218.48])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 46BA610E197
- for <dri-devel@lists.freedesktop.org>; Mon, 23 Jun 2025 06:45:02 +0000 (UTC)
-Received: by mail-ej1-f48.google.com with SMTP id
- a640c23a62f3a-ad56cbc7b07so604566466b.0
- for <dri-devel@lists.freedesktop.org>; Sun, 22 Jun 2025 23:45:02 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=fairphone.com; s=fair; t=1750661101; x=1751265901; darn=lists.freedesktop.org;
- h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
- :mime-version:subject:date:from:from:to:cc:subject:date:message-id
- :reply-to; bh=pA+Rs4BuhZMiD1TZXkrsma5mRVhifaFNd7IRaZKnnaY=;
- b=e5+3NLSJR0aYmRGkOKKcfpfasxskUKBkv1pWWLGuNT3yXvBNMBBjqHx+QHcX9cOff7
- b4bTqTPNdWsiXQKjAbxpFPI2RHvshUb1ePJiN6Yq2ZMtJI9AaXatlxx/xCe02ozSh+kE
- FPuKaQU4hTZtK/5Rmf8kNWplKV1wmL2rW+NOShb9P+ydDJexvu+LJ8S487ZBmLgCco/7
- N2CaIN/4Sb4+XmNCVBFy4a4tAXIAfVnd0oNQuqk/adOJGPmeel7xTP54V54kNY2ifC1G
- 3qzBdjJorI2L+zJ0q6lm4zXhAoBzUT2kUNFWCCZMYvkngMvfmnwztU3Xj9K23N/BAcNV
- li/Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1750661101; x=1751265901;
- h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
- :mime-version:subject:date:from:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=pA+Rs4BuhZMiD1TZXkrsma5mRVhifaFNd7IRaZKnnaY=;
- b=Mf5TQBrxcs8YjQp8WqlEEsfpgv7pXegju0JxE8q069V6m8ADoAB1MmoLJNYnfUE7l0
- gYM698epDOYEhsj1Ff2IjfhRUTg+GNLDGPfjJXXIrwMJ211z9Ndrsdh3vr0qk4tqHOkR
- BQjngDjVp+1fvoBgs11T9+P94is5OQUd6AqbWPaqH9MXhWaC/28HiQ5kPv7oI4I2UjYW
- 5xtfiK7JBYH0QGVpsFtv5xMhWV1h3It7lgapz+0og10+ThtWr20cIzDe6Fy0mnc5stk2
- TdZY9ibWccPx05sBtWdjUHjlt1LFh0xREUCy/JE+qu0IVPLxR22pArus9kbCzaT+KeyM
- frEg==
-X-Forwarded-Encrypted: i=1;
- AJvYcCXZxHPRyuEcctfOU/pF2e2G3MO7LU/hIilAe77CQ2FAOoDAHoVNSqtkqSoy9uwjyY6LU87Hdle5D60=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YwUNOB616M2WOUolYKorYePrX5kiyzdFkOFUB93dGh2Os6KYa5Q
- VITfY0gn4eg0PRBppz5OQK/3/clXMkQL6a7rMGNTPsjq5ZJoYOsHWID0Ud8jc+6TeHU=
-X-Gm-Gg: ASbGncv1RxyAf/5h72lx6bT+l7saI5i+y4GwcwTjsvdjEKEVESyM8jUg/UuOFs8I62c
- NO69YdRT/1VGKfc04Kdg8ytcJpHGO3bc/EOMSXlgwI4DR2Hqt6tfeKjTm1SFHuk0zcxihMyDcyY
- QVggdcv9n4RRLv+UeSED5Ht2+BKjPKHpHktPQAuEBVuSztjEHhKzoKf/ExEck4Qy+x5PTZiKRih
- DRYWuALkFhF8E6Rp59rYQBNWPVV3nUJUJJegJywuFoZdBDPr0hPuCOTQPSphJm2j2OGCYiHfEfG
- ntEFTb1ZfltbTGb4xY1f7RhefpzU+ZeoqHnkIMVHXKE8ZXQ5ZQtvhVMaqH7uGzFcSNhsGGVniZ0
- tDemWNb1Dht/B49108qVEfkjt+a0DqLwp
-X-Google-Smtp-Source: AGHT+IEfG/ia8MXFZvWV63xW+2WDm+wmIGfKUT095APiD93iFktsSDhtmQlj2MFUGu0vl47bkbkh1w==
-X-Received: by 2002:a17:906:6a17:b0:adb:23e0:9297 with SMTP id
- a640c23a62f3a-ae057a51258mr1096084666b.17.1750661100690; 
- Sun, 22 Jun 2025 23:45:00 -0700 (PDT)
-Received: from otso.local (144-178-202-138.static.ef-service.nl.
- [144.178.202.138]) by smtp.gmail.com with ESMTPSA id
- a640c23a62f3a-ae053ee4ce9sm659258266b.69.2025.06.22.23.44.59
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sun, 22 Jun 2025 23:45:00 -0700 (PDT)
-From: Luca Weiss <luca.weiss@fairphone.com>
-Date: Mon, 23 Jun 2025 08:44:49 +0200
-Subject: [PATCH v2 5/5] fbdev/simplefb: Add support for interconnect paths
-MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20250623-simple-drm-fb-icc-v2-5-f69b86cd3d7d@fairphone.com>
-References: <20250623-simple-drm-fb-icc-v2-0-f69b86cd3d7d@fairphone.com>
-In-Reply-To: <20250623-simple-drm-fb-icc-v2-0-f69b86cd3d7d@fairphone.com>
-To: Hans de Goede <hdegoede@redhat.com>, 
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8351F10E182;
+ Mon, 23 Jun 2025 06:51:01 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+ by dfw.source.kernel.org (Postfix) with ESMTP id 5A5895C597C;
+ Mon, 23 Jun 2025 06:48:39 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id EA174C4CEED;
+ Mon, 23 Jun 2025 06:50:54 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1750661455;
+ bh=nQ1JuUUKyoScy4KhmyGScBxvfx/khrlGlUUW/Zu56QM=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=ALGH3HmNsHc5+68o0/oJQL0XZT2UvhxN2g/SzFDo9Go7pOC0YYUAksEFb3VwoV1Hw
+ hzAB2fl1Qd+Lwe+4eSpVX6sGVpHK6HcDUJNWKTE+HIjI8KfLQebA7r81HhfBG0eC1c
+ HVfr0sfKsTLV0bu7Dk66p0FHZxlfLNokQxr9CSjpDi1zGDF2ySYtKWuGvnRZXYi9ke
+ dCcMbd8AQpwvTRkFij+PbcdMOo8sjrgyT+mAnBDgPJSvtEyKLd5u+CbcL6FjEKmhKp
+ 1vrYHbnm6p9KqmXAw6vW3KF4+1NWV6fwJPCgXIYJHLgEKXGnirsjKB67DIWkXJZRIt
+ 3CqEtAhUqcbcA==
+Date: Mon, 23 Jun 2025 08:50:52 +0200
+From: Krzysztof Kozlowski <krzk@kernel.org>
+To: Akhil P Oommen <akhilpo@oss.qualcomm.com>
+Cc: Catalin Marinas <catalin.marinas@arm.com>, 
+ Will Deacon <will@kernel.org>, Rob Clark <robin.clark@oss.qualcomm.com>, 
+ Sean Paul <sean@poorly.run>, Konrad Dybcio <konradybcio@kernel.org>, 
+ Dmitry Baryshkov <lumag@kernel.org>, Abhinav Kumar <abhinav.kumar@linux.dev>, 
+ Jessica Zhang <jessica.zhang@oss.qualcomm.com>,
+ Marijn Suijten <marijn.suijten@somainline.org>, 
  David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, 
- Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
- Conor Dooley <conor+dt@kernel.org>, 
- Javier Martinez Canillas <javierm@redhat.com>, Helge Deller <deller@gmx.de>
-Cc: linux-fbdev@vger.kernel.org, dri-devel@lists.freedesktop.org, 
- devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, 
- Luca Weiss <luca.weiss@fairphone.com>
-X-Mailer: b4 0.14.2
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1750661095; l=3530;
- i=luca.weiss@fairphone.com; s=20250611; h=from:subject:message-id;
- bh=dQKTaoJFbvazyp9Q1oPhqhjuJEvK2SxhdOtUQkhZwj0=;
- b=wtrWkFVrQxjznBKN4+vCIM0v5OnZoKSUD8HoOPwct17rZ2GLmAHgCNrxQRvIjIg0dfn6SBO3p
- fX8nbdxIEsCBstf3uSct7cS/lYQd1s5Ww4P7FLDYTDBXJ1Mt6boZXXC
-X-Developer-Key: i=luca.weiss@fairphone.com; a=ed25519;
- pk=O1aw+AAust5lEmgrNJ1Bs7PTY0fEsJm+mdkjExA69q8=
+ Bjorn Andersson <andersson@kernel.org>, Rob Herring <robh@kernel.org>, 
+ Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
+ Viresh Kumar <vireshk@kernel.org>, Nishanth Menon <nm@ti.com>,
+ Stephen Boyd <sboyd@kernel.org>, 
+ linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
+ linux-arm-msm@vger.kernel.org, 
+ dri-devel@lists.freedesktop.org, freedreno@lists.freedesktop.org,
+ devicetree@vger.kernel.org, 
+ linux-pm@vger.kernel.org, Jens Glathe <jens.glathe@oldschoolsolutions.biz>
+Subject: Re: [PATCH v3 1/4] dt-bindings: opp: adreno: Update regex of OPP entry
+Message-ID: <xexpnsi6bzks4dqzlfwtcwfknmmzrd3cinolu5wbm3pw4b7ysx@pukutwlb53jm>
+References: <20250620-x1p-adreno-v3-0-56398c078c15@oss.qualcomm.com>
+ <20250620-x1p-adreno-v3-1-56398c078c15@oss.qualcomm.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <20250620-x1p-adreno-v3-1-56398c078c15@oss.qualcomm.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -103,133 +72,40 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Some devices might require keeping an interconnect path alive so that
-the framebuffer continues working. Add support for that by setting the
-bandwidth requirements appropriately for all provided interconnect
-paths.
+On Fri, Jun 20, 2025 at 12:24:28PM +0530, Akhil P Oommen wrote:
+> In some cases, an OPP may have multiple varients to describe the
+> differences in the resources between SKUs. As an example, we may
+> want to vote different peak bandwidths in different SKUs for the
+> same frequency and the OPP node names can have an additional
+> integer suffix to denote this difference like below:
+> 
+>  opp-666000000-0 {
+>          opp-hz = /bits/ 64 <666000000>;
+>          opp-level = <RPMH_REGULATOR_LEVEL_SVS_L1>;
+>          opp-peak-kBps = <8171875>;
+>          qcom,opp-acd-level = <0xa82d5ffd>;
+>          opp-supported-hw = <0xf>;
+>  };
+> 
+>  /* Only applicable for SKUs which has 666Mhz as Fmax */
+>  opp-666000000-1 {
+>          opp-hz = /bits/ 64 <666000000>;
+>          opp-level = <RPMH_REGULATOR_LEVEL_SVS_L1>;
+>          opp-peak-kBps = <16500000>;
+>          qcom,opp-acd-level = <0xa82d5ffd>;
+>          opp-supported-hw = <0x10>;
+>  };
+> 
+> Update the regex to allow this usecase.
+> 
+> Tested-by: Jens Glathe <jens.glathe@oldschoolsolutions.biz>
+> Signed-off-by: Akhil P Oommen <akhilpo@oss.qualcomm.com>
+> ---
+>  Documentation/devicetree/bindings/opp/opp-v2-qcom-adreno.yaml | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
 
-Reviewed-by: Thomas Zimmermann <tzimmermann@suse.de>
-Signed-off-by: Luca Weiss <luca.weiss@fairphone.com>
----
- drivers/video/fbdev/simplefb.c | 83 ++++++++++++++++++++++++++++++++++++++++++
- 1 file changed, 83 insertions(+)
+Reviewed-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
 
-diff --git a/drivers/video/fbdev/simplefb.c b/drivers/video/fbdev/simplefb.c
-index db27d51046af5cc3c46a0bc81ad9d9ed9a0783cc..b7e2f2374e3149866fd6f1803931e7f34dbbd75f 100644
---- a/drivers/video/fbdev/simplefb.c
-+++ b/drivers/video/fbdev/simplefb.c
-@@ -16,6 +16,7 @@
- #include <linux/clk.h>
- #include <linux/errno.h>
- #include <linux/fb.h>
-+#include <linux/interconnect.h>
- #include <linux/io.h>
- #include <linux/module.h>
- #include <linux/of.h>
-@@ -89,6 +90,10 @@ struct simplefb_par {
- 	u32 regulator_count;
- 	struct regulator **regulators;
- #endif
-+#if defined CONFIG_OF && defined CONFIG_INTERCONNECT
-+	unsigned int icc_count;
-+	struct icc_path **icc_paths;
-+#endif
- };
- 
- static void simplefb_clocks_destroy(struct simplefb_par *par);
-@@ -525,6 +530,80 @@ static int simplefb_attach_genpds(struct simplefb_par *par,
- }
- #endif
- 
-+#if defined CONFIG_OF && defined CONFIG_INTERCONNECT
-+/*
-+ * Generic interconnect path handling code.
-+ */
-+static void simplefb_detach_icc(void *res)
-+{
-+	struct simplefb_par *par = res;
-+	int i;
-+
-+	for (i = par->icc_count - 1; i >= 0; i--) {
-+		if (!IS_ERR_OR_NULL(par->icc_paths[i]))
-+			icc_put(par->icc_paths[i]);
-+	}
-+}
-+
-+static int simplefb_attach_icc(struct simplefb_par *par,
-+			       struct platform_device *pdev)
-+{
-+	struct device *dev = &pdev->dev;
-+	int ret, count, i;
-+
-+	count = of_count_phandle_with_args(dev->of_node, "interconnects",
-+							 "#interconnect-cells");
-+	if (count < 0)
-+		return 0;
-+
-+	/* An interconnect path consists of two elements */
-+	if (count % 2) {
-+		dev_err(dev, "invalid interconnects value\n");
-+		return -EINVAL;
-+	}
-+	par->icc_count = count / 2;
-+
-+	par->icc_paths = devm_kcalloc(dev, par->icc_count,
-+				      sizeof(*par->icc_paths),
-+				      GFP_KERNEL);
-+	if (!par->icc_paths)
-+		return -ENOMEM;
-+
-+	for (i = 0; i < par->icc_count; i++) {
-+		par->icc_paths[i] = of_icc_get_by_index(dev, i);
-+		if (IS_ERR_OR_NULL(par->icc_paths[i])) {
-+			ret = PTR_ERR(par->icc_paths[i]);
-+			if (ret == -EPROBE_DEFER)
-+				goto err;
-+			dev_err(dev, "failed to get interconnect path %u: %d\n", i, ret);
-+			continue;
-+		}
-+
-+		ret = icc_set_bw(par->icc_paths[i], 0, UINT_MAX);
-+		if (ret) {
-+			dev_err(dev, "failed to set interconnect bandwidth %u: %d\n", i, ret);
-+			continue;
-+		}
-+	}
-+
-+	return devm_add_action_or_reset(dev, simplefb_detach_icc, par);
-+
-+err:
-+	while (i) {
-+		--i;
-+		if (!IS_ERR_OR_NULL(par->icc_paths[i]))
-+			icc_put(par->icc_paths[i]);
-+	}
-+	return ret;
-+}
-+#else
-+static int simplefb_attach_icc(struct simplefb_par *par,
-+			       struct platform_device *pdev)
-+{
-+	return 0;
-+}
-+#endif
-+
- static int simplefb_probe(struct platform_device *pdev)
- {
- 	int ret;
-@@ -615,6 +694,10 @@ static int simplefb_probe(struct platform_device *pdev)
- 	if (ret < 0)
- 		goto error_regulators;
- 
-+	ret = simplefb_attach_icc(par, pdev);
-+	if (ret < 0)
-+		goto error_regulators;
-+
- 	simplefb_clocks_enable(par, pdev);
- 	simplefb_regulators_enable(par, pdev);
- 
-
--- 
-2.50.0
+Best regards,
+Krzysztof
 
