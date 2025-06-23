@@ -2,41 +2,52 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id CB89EAE38BA
-	for <lists+dri-devel@lfdr.de>; Mon, 23 Jun 2025 10:42:34 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 052ADAE38F4
+	for <lists+dri-devel@lfdr.de>; Mon, 23 Jun 2025 10:51:17 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2E6DE10E2B9;
-	Mon, 23 Jun 2025 08:42:33 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5AAEF10E1B3;
+	Mon, 23 Jun 2025 08:51:15 +0000 (UTC)
+Authentication-Results: gabe.freedesktop.org;
+	dkim=pass (2048-bit key; unprotected) header.d=collabora.com header.i=@collabora.com header.b="Nw4EAU7C";
+	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
- by gabe.freedesktop.org (Postfix) with ESMTP id 338AC10E1D5
- for <dri-devel@lists.freedesktop.org>; Mon, 23 Jun 2025 08:42:32 +0000 (UTC)
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
- by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 9F6F8113E;
- Mon, 23 Jun 2025 01:42:13 -0700 (PDT)
-Received: from [10.57.29.183] (unknown [10.57.29.183])
- by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 2305D3F63F;
- Mon, 23 Jun 2025 01:42:30 -0700 (PDT)
-Message-ID: <f76f56af-91dd-49ce-bf7d-f42dba07eeaa@arm.com>
-Date: Mon, 23 Jun 2025 09:42:28 +0100
+Received: from bali.collaboradmins.com (bali.collaboradmins.com
+ [148.251.105.195])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4B91710E1B3
+ for <dri-devel@lists.freedesktop.org>; Mon, 23 Jun 2025 08:51:11 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+ s=mail; t=1750668667;
+ bh=+dyykSKpkvAg1cHrSs79NNyyF4y8YNApu5EJxpATbO4=;
+ h=From:To:Cc:Subject:Date:From;
+ b=Nw4EAU7CFQonoVgTc0cjbGdIeOE5CEJA0kHu40whVXl4H9hnPxs9xjLT5GzltAZ8Z
+ MwYLkul8+HL6oJkRlrcphhDVQyA0NIdl4kZi+9x0LNVdIHCTttG6MznvsC7kZHqNk2
+ 6809ieKwKVP03rPQcgog2ERXPyUzDTjY3429AgMW2e1+2IF+Lqo0x6Jr35R4E4LMst
+ Ma6fagq1XfoG40RJDNh+ZbHmeTiNPcz3IHjst5zbnapg5jeGzH8zhV2N30lb3GpIKP
+ 6Saj8VMJEAATaQ07RgJa3MCNf7wFlw1HK1Iio8ylYesHaEAYQfm2bRtS4jV+uqOmNp
+ cjkR4pBlHETJA==
+Received: from debian.. (unknown [171.76.82.69])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ (No client certificate requested) (Authenticated sender: vignesh)
+ by bali.collaboradmins.com (Postfix) with ESMTPSA id 52F9D17E0CE6;
+ Mon, 23 Jun 2025 10:51:04 +0200 (CEST)
+From: Vignesh Raman <vignesh.raman@collabora.com>
+To: dri-devel@lists.freedesktop.org
+Cc: daniels@collabora.com, daniel@fooishbar.org, helen.fornazier@gmail.com,
+ airlied@gmail.com, simona.vetter@ffwll.ch, robdclark@gmail.com,
+ robin.clark@oss.qualcomm.com, guilherme.gallo@collabora.com,
+ sergi.blanch.torne@collabora.com, valentine.burley@collabora.com,
+ lumag@kernel.org, dmitry.baryshkov@oss.qualcomm.com,
+ quic_abhinavk@quicinc.com, mripard@kernel.org,
+ maarten.lankhorst@linux.intel.com, tzimmermann@suse.de,
+ linux-kernel@vger.kernel.org
+Subject: [PATCH v4 0/2] drm/ci: Add devicetree validation and KUnit tests
+Date: Mon, 23 Jun 2025 14:20:26 +0530
+Message-ID: <20250623085033.39680-1-vignesh.raman@collabora.com>
+X-Mailer: git-send-email 2.47.2
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 1/4] panthor: set owner field for driver fops
-To: Chia-I Wu <olvaffe@gmail.com>,
- Boris Brezillon <boris.brezillon@collabora.com>,
- Liviu Dudau <liviu.dudau@arm.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
-References: <20250620235053.164614-1-olvaffe@gmail.com>
- <20250620235053.164614-2-olvaffe@gmail.com>
-From: Steven Price <steven.price@arm.com>
-Content-Language: en-GB
-In-Reply-To: <20250620235053.164614-2-olvaffe@gmail.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -52,62 +63,46 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 21/06/2025 00:50, Chia-I Wu wrote:
-> It allows us to get rid of manual try_module_get / module_put.
-> 
-> Signed-off-by: Chia-I Wu <olvaffe@gmail.com>
+Add jobs to validate devicetrees and run KUnit tests.
 
-Reviewed-by: Steven Price <steven.price@arm.com>
+Pipeline link,
+https://gitlab.freedesktop.org/vigneshraman/msm/-/pipelines/1455734
 
-> ---
->  drivers/gpu/drm/panthor/panthor_drv.c | 14 +++-----------
->  1 file changed, 3 insertions(+), 11 deletions(-)
-> 
-> diff --git a/drivers/gpu/drm/panthor/panthor_drv.c b/drivers/gpu/drm/panthor/panthor_drv.c
-> index 1116f2d2826ee..775a66c394544 100644
-> --- a/drivers/gpu/drm/panthor/panthor_drv.c
-> +++ b/drivers/gpu/drm/panthor/panthor_drv.c
-> @@ -1400,14 +1400,9 @@ panthor_open(struct drm_device *ddev, struct drm_file *file)
->  	struct panthor_file *pfile;
->  	int ret;
->  
-> -	if (!try_module_get(THIS_MODULE))
-> -		return -EINVAL;
-> -
->  	pfile = kzalloc(sizeof(*pfile), GFP_KERNEL);
-> -	if (!pfile) {
-> -		ret = -ENOMEM;
-> -		goto err_put_mod;
-> -	}
-> +	if (!pfile)
-> +		return -ENOMEM;
->  
->  	pfile->ptdev = ptdev;
->  	pfile->user_mmio.offset = DRM_PANTHOR_USER_MMIO_OFFSET;
-> @@ -1439,9 +1434,6 @@ panthor_open(struct drm_device *ddev, struct drm_file *file)
->  
->  err_free_file:
->  	kfree(pfile);
-> -
-> -err_put_mod:
-> -	module_put(THIS_MODULE);
->  	return ret;
->  }
->  
-> @@ -1454,7 +1446,6 @@ panthor_postclose(struct drm_device *ddev, struct drm_file *file)
->  	panthor_vm_pool_destroy(pfile);
->  
->  	kfree(pfile);
-> -	module_put(THIS_MODULE);
->  }
->  
->  static const struct drm_ioctl_desc panthor_drm_driver_ioctls[] = {
-> @@ -1555,6 +1546,7 @@ static void panthor_show_fdinfo(struct drm_printer *p, struct drm_file *file)
->  }
->  
->  static const struct file_operations panthor_drm_driver_fops = {
-> +	.owner = THIS_MODULE,
->  	.open = drm_open,
->  	.release = drm_release,
->  	.unlocked_ioctl = drm_ioctl,
+Link to v1,
+https://lore.kernel.org/all/20250327160117.945165-1-vignesh.raman@collabora.com/
+
+Link to v2,
+https://lore.kernel.org/all/20250409061543.311184-1-vignesh.raman@collabora.com/
+
+Link to v3,
+https://lore.kernel.org/r/20250417030439.737924-1-vignesh.raman@collabora.com
+
+MR,
+https://gitlab.freedesktop.org/drm/msm/-/merge_requests/173
+
+This series depends on,
+https://lore.kernel.org/all/20250514050340.1418448-1-vignesh.raman@collabora.com/
+https://gitlab.freedesktop.org/drm/msm/-/merge_requests/169
+
+Vignesh Raman (2):
+  drm/ci: Add jobs to validate devicetrees
+  drm/ci: Add jobs to run KUnit tests
+
+ drivers/gpu/drm/ci/check-devicetrees.yml | 50 ++++++++++++++++++++++++
+ drivers/gpu/drm/ci/dt-binding-check.sh   | 19 +++++++++
+ drivers/gpu/drm/ci/dtbs-check.sh         | 22 +++++++++++
+ drivers/gpu/drm/ci/gitlab-ci.yml         |  4 ++
+ drivers/gpu/drm/ci/kunit.sh              | 16 ++++++++
+ drivers/gpu/drm/ci/kunit.yml             | 37 ++++++++++++++++++
+ drivers/gpu/drm/ci/setup-llvm-links.sh   | 13 ++++++
+ 7 files changed, 161 insertions(+)
+ create mode 100644 drivers/gpu/drm/ci/check-devicetrees.yml
+ create mode 100755 drivers/gpu/drm/ci/dt-binding-check.sh
+ create mode 100755 drivers/gpu/drm/ci/dtbs-check.sh
+ create mode 100755 drivers/gpu/drm/ci/kunit.sh
+ create mode 100644 drivers/gpu/drm/ci/kunit.yml
+ create mode 100755 drivers/gpu/drm/ci/setup-llvm-links.sh
+
+-- 
+2.47.2
 
