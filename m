@@ -2,94 +2,80 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 224A5AE48A8
-	for <lists+dri-devel@lfdr.de>; Mon, 23 Jun 2025 17:31:13 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 232BAAE48BA
+	for <lists+dri-devel@lfdr.de>; Mon, 23 Jun 2025 17:33:45 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8865110E04C;
-	Mon, 23 Jun 2025 15:31:11 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 27D4010E3DB;
+	Mon, 23 Jun 2025 15:33:42 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=chromium.org header.i=@chromium.org header.b="U4IZilFU";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="XL+N4bJs";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pl1-f182.google.com (mail-pl1-f182.google.com
- [209.85.214.182])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2363610E04C
- for <dri-devel@lists.freedesktop.org>; Mon, 23 Jun 2025 15:31:08 +0000 (UTC)
-Received: by mail-pl1-f182.google.com with SMTP id
- d9443c01a7336-234d3261631so29694835ad.1
- for <dri-devel@lists.freedesktop.org>; Mon, 23 Jun 2025 08:31:08 -0700 (PDT)
+Received: from mail-pg1-f177.google.com (mail-pg1-f177.google.com
+ [209.85.215.177])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0B7BF10E3DB;
+ Mon, 23 Jun 2025 15:33:40 +0000 (UTC)
+Received: by mail-pg1-f177.google.com with SMTP id
+ 41be03b00d2f7-b26fabda6d9so807257a12.1; 
+ Mon, 23 Jun 2025 08:33:40 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=chromium.org; s=google; t=1750692667; x=1751297467;
- darn=lists.freedesktop.org; 
+ d=gmail.com; s=20230601; t=1750692819; x=1751297619; darn=lists.freedesktop.org;
  h=content-transfer-encoding:cc:to:subject:message-id:date:from
  :in-reply-to:references:mime-version:from:to:cc:subject:date
  :message-id:reply-to;
- bh=WJGBSqCnUJA7irvO1PVoXNoRAeaWwjkEY7WkDOY6Li0=;
- b=U4IZilFUtIc2fRCq2JlqapvkGvAlXiyV7DPakOTCDNQo4mA0n/dDJ5V0/fKkhQ5P+W
- 9uUl1GiAoYO/DDrOXH43bjD7roobOh96Lq1/94JhycMdsLP+WXfeez064n/8bdYzdnrj
- Rl9yes0YaX2v9x8jgsp//seDf9MrDek9H6zO8=
+ bh=YHe+LGqfBJmGCRbTD2/3y+0WOmtHelhe1lvAXSQQkuY=;
+ b=XL+N4bJshU26JkLOm/DA9Xyh6k9ohfXjzHJUB7XxvKyZpVXs3+zQFZeAUgVH1rCRln
+ rmXtQ5HY8Rf8JqrcK/CGwZ+qXS8GUv94XavZypUH+EdDsIFU/A8scXXsMNcN85N7PfmK
+ W4F7v6LhFxunqSLtFd/4qeJQqpHHSbkAcETMMAX73MLaxbwMyNnCj1Frx9xQgH7LIs0R
+ DZlS+AwuVD3DHNxAwjEiZ133bV/kiAxGJ3jumBumFBRvZI1n+rLrwSaJgLWBJGe/rnLZ
+ W3BmKcW2nNR+Fudbq83HorhUXpFB+t0bAvypEkJ59XyfOUqL+dupmreWAJcG8lxPrzHp
+ O+xA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1750692667; x=1751297467;
+ d=1e100.net; s=20230601; t=1750692819; x=1751297619;
  h=content-transfer-encoding:cc:to:subject:message-id:date:from
  :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=WJGBSqCnUJA7irvO1PVoXNoRAeaWwjkEY7WkDOY6Li0=;
- b=Y2ktiLzBm8ICMvtBD0l3rf1v3LNLB84LOi9C5eG36tIJ0Blf+Sk+jNEYLg1+MSHbFg
- fSBtQ59UNcp/bHstUuYh2Q3Z157S2jWK+7JvhtxvRFi3rXgQenhuOWtB5sWybps07o9Z
- W+QgFDib42Z9/shzBMudqTbWG+ldS4kP0O4A5wUaxZr7UZHa23qFBX9TLflgMQ7vxZPy
- CBNZh4TiXZ7ZHmpn9QIPTCnNUKMB4i/7b0Ly1B9UbBmtXzm908ukWGdyWQtMSn0QL3JQ
- EQfcqBEqzRiQ0uoejXxhDK/9HAMEk79F9morH+zO7ja6dyCVknOBpqTCzHepdg/KFrKz
- 8bFw==
+ bh=YHe+LGqfBJmGCRbTD2/3y+0WOmtHelhe1lvAXSQQkuY=;
+ b=b1AarwpAKbi+AqtxCHdL5NG1Q5IBhD3cJlh/Ua6KAhzq+GS/STWJdS5CDkCnqYSvNM
+ 0pD5Rk6g66I10B1fCLJDQDxIxC0yaLuKkQ1jB1UTFS+a3DSMTPi0dnagjTbyJmZRkTjZ
+ EfyTezZeFb1U7yuxVDacvZMcttJdVsl9ux4GMd0AxSpfV40boT+aU8plQAjoYD433+Us
+ YEdHZiIHTXKFHHZDj85lkGmYNjTmX0e4TAN5mtM1sEwAS8p+IfPeuuWuSYsJeLKG6pUZ
+ WiWM/OwcDYKWnFjavBvbmPEzE4ZLv0th/nPxrmEd3d/flphFN17d8wgUsVWfNy5eGBYw
+ DduQ==
 X-Forwarded-Encrypted: i=1;
- AJvYcCXpW/YyYIKo8NLhSLVqzT0qqNGeMxbV8mi8H9WuJpghWF4+WOxLD8G0nwja7QLr6W1qDeZ+aPM8N3w=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YzQ+9t7Hjg8rm1cTDBJGiZyogMs49dPTPMLIZzE/Q2N8wotQ9kC
- XLh4XYa6JlGQf06aylJEcxyNayW86Ox44C+xcYGuldDBonT32OKxcWqZvNYXBTbGNA5Ko5W5fxf
- U9tM=
-X-Gm-Gg: ASbGncsqrDfyzOYKx6Kh7slrUI0E9VW8qEyHJ7pGnt5zsLAjTsohWccBmDLOMOEZX6+
- pDvuNAJHPUrIXiQ3lPrV9N3GNIdVePC9FZd8Qs7/y6JDnYffp5/eaUTnn6xLYnpY8Svtvf1uxLm
- GeFEyiS8wEP94vmSfh+7+/Dx3eMAo0ic8PZrpRzK8GX94ANWqvQrwxeyUvata+xxGJfHgOM9vFf
- ujHJzsb853+Yjj1aAYSfvmCiSOD62NVRDgk9jUcf7TwhWZ3hTV976ZVI6zY9EjNuAuG6BWFeM7p
- GMSoZ9NDrKT28CWA9aofLAGI3TUr5t7v1fAJHZbR520vRCefVfjBOjwFLPQluNElUJdjVbN2RYc
- qRmMazraKK58Pj7yFJzqMlxkAfw==
-X-Google-Smtp-Source: AGHT+IF7I9sw3Lls2wLk43EyorGCpL2xVzxwoAgtlp5qXJb8RK7eZ5FoQoya80N1+crDLk3ak+j/kA==
-X-Received: by 2002:a17:903:1386:b0:237:ec18:eab9 with SMTP id
- d9443c01a7336-237ec18f0d5mr73289745ad.32.1750692666719; 
- Mon, 23 Jun 2025 08:31:06 -0700 (PDT)
-Received: from mail-pj1-f44.google.com (mail-pj1-f44.google.com.
- [209.85.216.44]) by smtp.gmail.com with ESMTPSA id
- 41be03b00d2f7-b31f11122ddsm7109656a12.0.2025.06.23.08.31.04
- for <dri-devel@lists.freedesktop.org>
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 23 Jun 2025 08:31:05 -0700 (PDT)
-Received: by mail-pj1-f44.google.com with SMTP id
- 98e67ed59e1d1-3122368d7cfso2802411a91.1
- for <dri-devel@lists.freedesktop.org>; Mon, 23 Jun 2025 08:31:04 -0700 (PDT)
-X-Forwarded-Encrypted: i=1;
- AJvYcCUHtgzny1+5YFxhO/TWny1lqhvhGjvOc3AI+jFnrqlMiuM5R4Ykwcd8ZdoowyScc7E9A9Qvne8y2wk=@lists.freedesktop.org
-X-Received: by 2002:a17:90a:fc48:b0:312:26d9:d5a7 with SMTP id
- 98e67ed59e1d1-3159d8cf2ebmr18648459a91.20.1750692664352; Mon, 23 Jun 2025
- 08:31:04 -0700 (PDT)
+ AJvYcCU2KjqacQdU1pDE+fGQxatMblt7CYsvyBcxvkL339pFnGb1DOBbY4nC3EaNG9HMdg8/pgWCzTAM@lists.freedesktop.org,
+ AJvYcCWgYMfA5EO+XZjGFPs8hsxC9CSXXXUCvb8Cw4PXcJuYkVHTpJU3Lw7zRYcASwF8L8Gkbgs5uJDxy6qz@lists.freedesktop.org
+X-Gm-Message-State: AOJu0Yw5cnzbsknBeu7I+ys3xILtspcFyw73mPf27M6dhA5s7DAzfYVf
+ rZvuI3sbXyh85ojM2T+S1i9lpY89NyRo2iAkLkVRUjVeomVjFMxIZ8d6kR88uf987dAc1PcWWot
+ hlSd/W1s1b6MsHpytUmxus6Q54gNFoh0=
+X-Gm-Gg: ASbGncszbKhebbQ/7TXzK47nU71MbYuh2whEx+2PpcpmxYgVK2wOa9gcREp7C+lkngx
+ 27tK5U23yHayMEPsJPrJtql1pdL4FrZKDxIIrVYiq1uWfU32rFLgP8lNazPjKwU2Bt0P64JncYA
+ s5XJ+5Q6t1MNxiFuih2fHPHRXsxENzRH8ngu3RN/7oqIf6
+X-Google-Smtp-Source: AGHT+IFy0hIPZQpb0KxFYps+8s4d6wkHkBYpK00Mn64GDE10ibBhlQWhIkFHec5/EC3NK0BdahywMOMIcsBKZBpxlQ0=
+X-Received: by 2002:a17:902:e542:b0:234:ba37:87a3 with SMTP id
+ d9443c01a7336-237d97217edmr82924635ad.3.1750692819391; Mon, 23 Jun 2025
+ 08:33:39 -0700 (PDT)
 MIME-Version: 1.0
-References: <20250616093240.499094-1-j-choudhary@ti.com>
- <CAD=FV=Wb=bWXDfCyF8XhJ93dBRU2rUKM+B0X5uYh39FHRgT1Ww@mail.gmail.com>
-In-Reply-To: <CAD=FV=Wb=bWXDfCyF8XhJ93dBRU2rUKM+B0X5uYh39FHRgT1Ww@mail.gmail.com>
-From: Doug Anderson <dianders@chromium.org>
-Date: Mon, 23 Jun 2025 08:30:52 -0700
-X-Gmail-Original-Message-ID: <CAD=FV=V0BL0Mi2i2JR=bNVyBVQ8QA9+j+n6is0NTp8GF=X2yCA@mail.gmail.com>
-X-Gm-Features: AX0GCFutWwxgHkQImeDKqwnVfYzG0u_tdBUlCpF-1CHh8gsLqYzh3utRxemN67s
-Message-ID: <CAD=FV=V0BL0Mi2i2JR=bNVyBVQ8QA9+j+n6is0NTp8GF=X2yCA@mail.gmail.com>
-Subject: Re: [PATCH v5] drm/bridge: ti-sn65dsi86: Add HPD for DisplayPort
- connector type
-To: Jayesh Choudhary <j-choudhary@ti.com>
-Cc: andrzej.hajda@intel.com, neil.armstrong@linaro.org, rfoss@kernel.org, 
- Laurent.pinchart@ideasonboard.com, dri-devel@lists.freedesktop.org, 
- tomi.valkeinen@ideasonboard.com, max.krummenacher@toradex.com, 
- ernestvanhoecke@gmail.com, jonas@kwiboo.se, jernej.skrabec@gmail.com, 
- maarten.lankhorst@linux.intel.com, mripard@kernel.org, tzimmermann@suse.de, 
- airlied@gmail.com, simona@ffwll.ch, kieran.bingham+renesas@ideasonboard.com, 
- linux-kernel@vger.kernel.org, max.oss.09@gmail.com, devarsht@ti.com, 
- geert@linux-m68k.org
+References: <20250619125507.54384-1-kode54@gmail.com>
+ <DARA1U86AS72.QOIEVZWCFPYC@kode54.net>
+ <DATUOZZD8316.2INSL3KL5RA80@kode54.net> <DATV4CAOHVGV.1UJ803EX21II6@gmail.com>
+ <DATYCMWH1X28.NE3M8KJ3SPV9@kode54.net>
+In-Reply-To: <DATYCMWH1X28.NE3M8KJ3SPV9@kode54.net>
+From: Alex Deucher <alexdeucher@gmail.com>
+Date: Mon, 23 Jun 2025 11:33:27 -0400
+X-Gm-Features: AX0GCFvJMwuOZFcfYlSDPJgah_-90nqioNXt5ljbjpEChyXLvCYPb2q60UyxujM
+Message-ID: <CADnq5_OjUp+YpXSdvWrYN+6ofFfyES9Jvwkswf3JmTTMGL=MVQ@mail.gmail.com>
+Subject: Re: [RFC PATCH] drm/amdgpu: Enable async flip for cursor planes
+To: Christopher Snowhill <chris@kode54.net>, "Wentland,
+ Harry" <Harry.Wentland@amd.com>, "Leo (Sunpeng) Li" <Sunpeng.Li@amd.com>
+Cc: Christopher Snowhill <kode54@gmail.com>, amd-gfx@lists.freedesktop.org, 
+ Alex Deucher <alexander.deucher@amd.com>,
+ =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>, 
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, 
+ Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -107,54 +93,114 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi,
++ Harry, Leo
 
-On Mon, Jun 16, 2025 at 9:24=E2=80=AFAM Doug Anderson <dianders@chromium.or=
-g> wrote:
+On Mon, Jun 23, 2025 at 9:38=E2=80=AFAM Christopher Snowhill <chris@kode54.=
+net> wrote:
 >
-> Hi,
->
-> On Mon, Jun 16, 2025 at 2:32=E2=80=AFAM Jayesh Choudhary <j-choudhary@ti.=
-com> wrote:
+> On Mon Jun 23, 2025 at 4:06 AM PDT, Christopher Snowhill wrote:
+> > On Mon Jun 23, 2025 at 3:46 AM PDT, Christopher Snowhill wrote:
+> >> On Fri Jun 20, 2025 at 3:10 AM PDT, Christopher Snowhill wrote:
+> >>> Here's another alternative change, which may be more thorough. It doe=
+s
+> >>> seem to fix the issue, at least. The issue does indeed appear to be
+> >>> no-op plane changes sent to the cursor plane.
+> >>>
+> >>> If anyone wants to propose style changes, and suggest a proper commit
+> >>> message, if this is indeed a welcome fix for the problem, please let =
+me
+> >>> know.
+> >>>
+> >>> diff --git a/drivers/gpu/drm/drm_atomic_uapi.c b/drivers/gpu/drm/drm_=
+atomic_uapi.c
+> >>> index c2726af6698e..b741939698e8 100644
+> >>> --- a/drivers/gpu/drm/drm_atomic_uapi.c
+> >>> +++ b/drivers/gpu/drm/drm_atomic_uapi.c
+> >>> @@ -1087,17 +1087,22 @@ int drm_atomic_set_property(struct drm_atomic=
+_state *state,
+> >>>                     }
+> >>>
+> >>>                     /* ask the driver if this non-primary plane is su=
+pported */
+> >>> -                   if (plane->type !=3D DRM_PLANE_TYPE_PRIMARY) {
+> >>> -                           ret =3D -EINVAL;
+> >>> +                   else if (plane->type !=3D DRM_PLANE_TYPE_PRIMARY)=
+ {
+> >>> +                           ret =3D drm_atomic_plane_get_property(pla=
+ne, plane_state,
+> >>> +                                                               prop,=
+ &old_val);
+> >>> +
+> >>> +                           if (ret || old_val !=3D prop_value) {
+> >>> +                                   ret =3D -EINVAL;
+> >>>
+> >>> -                           if (plane_funcs && plane_funcs->atomic_as=
+ync_check)
+> >>> -                                   ret =3D plane_funcs->atomic_async=
+_check(plane, state, true);
+> >>> +                                   if (plane_funcs && plane_funcs->a=
+tomic_async_check)
+> >>> +                                           ret =3D plane_funcs->atom=
+ic_async_check(plane, state, true);
+> >>>
+> >>> -                           if (ret) {
+> >>> -                                   drm_dbg_atomic(prop->dev,
+> >>> -                                                  "[PLANE:%d:%s] doe=
+s not support async flips\n",
+> >>> -                                                  obj->id, plane->na=
+me);
+> >>> -                                   break;
+> >>> +                                   if (ret) {
+> >>> +                                           drm_dbg_atomic(prop->dev,
+> >>> +                                                          "[PLANE:%d=
+:%s] does not support async flips\n",
+> >>> +                                                          obj->id, p=
+lane->name);
+> >>> +                                           break;
+> >>> +                                   }
+> >>>                             }
+> >>>                     }
+> >>>             }
+> >>
+> >> Upon further testing and reflection, I have come to the conclusion tha=
+t
+> >> this is indeed best handled by a kernel fix, rather than breaking user
+> >> space.
+> >>
+> >> I attempted to work around this in wlroots, adjusting 0.18, 0.19, and
+> >> 0.20 git with similar patches. First I attempted to stash all the
+> >> written properties for the atomic code, storing an initial value of al=
+l
+> >> 0xFE so it was always likely to write the first time, and only setting=
+ a
+> >> property if it changed from the last commit.
+> >>
+> >> This resulted in whole commits breaking for one or both framebuffers
+> >> until I ctrl-alt-fx switched to a tty and back again, and this would
+> >> work again temporarily.
+> >>
+> >> So I went back to the drawing board and only withheld seemingly
+> >> duplicate plane properties. This "worked", until I attempted to play a
+> >> game, and then it started glitching spectacularly, and not updating at
+> >> all if the game was doing direct scanout and vrr.
+> >>
+> >> Clearly this is wrong.
+> >>
+> >> The wlroots library queues up properties for each commit. On every
+> >> commit where the cursor is disabled, it queues up both fb_id=3D0 and
+> >> crtc_id=3D0. Every commit. Is this wrong? Should it only be queueing u=
+p
+> >> the disablement properties once? It also queues up the full plane and
+> >> hotspot properties when enabled, even if the cursor doesn't change
+> >> position or appearance.
 > >
-> > @@ -1220,6 +1231,27 @@ static void ti_sn65dsi86_debugfs_init(struct drm=
-_bridge *bridge, struct dentry *
-> >         debugfs_create_file("status", 0600, debugfs, pdata, &status_fop=
-s);
-> >  }
-> >
-> > +static void ti_sn_bridge_hpd_enable(struct drm_bridge *bridge)
-> > +{
-> > +       struct ti_sn65dsi86 *pdata =3D bridge_to_ti_sn65dsi86(bridge);
-> > +
-> > +       /*
-> > +        * Device needs to be powered on before reading the HPD state
-> > +        * for reliable hpd detection in ti_sn_bridge_detect() due to
-> > +        * the high debounce time.
-> > +        */
-> > +
-> > +       pm_runtime_get_sync(pdata->dev);
-> > +}
-> > +
-> > +static void ti_sn_bridge_hpd_disable(struct drm_bridge *bridge)
-> > +{
-> > +       struct ti_sn65dsi86 *pdata =3D bridge_to_ti_sn65dsi86(bridge);
-> > +
-> > +       pm_runtime_mark_last_busy(pdata->dev);
-> > +       pm_runtime_put_autosuspend(pdata->dev);
+> > Probably should have CC'd the drm misc maintainers when I started pokin=
+g
+> > drm misc instead of amdgpu. Pity there isn't a list for that...
 >
-> nit: you don't need the pm_runtime_mark_last_busy() here, do you? Just
-> call pm_runtime_put_autosuspend().
+> I am a dumbass, I didn't notice get_maintainer.pl. Added more people,
+> and the correct list. Not sure if I should remove amd-gfx, since this
+> affects them, somewhat...
 >
-> Aside from the nit, this looks reasonable to me now.
->
-> Reviewed-by: Douglas Anderson <dianders@chromium.org>
-
-What's the plan here? I can just remove the
-`pm_runtime_mark_last_busy()` and land it if people are on board with
-that (and if it works fine for Jayesh). If Jayesh wants to post a v6
-to make it more legit, I can land that. I probably won't land anything
-myself past Wednesday (California time) since I'm about to go offline
-for 2 weeks and wouldn't want to land and bolt.
-
--Doug
+> However, the intention of this thread was to seek commentary on the
+> situation as it is.
