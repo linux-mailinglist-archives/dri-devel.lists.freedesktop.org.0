@@ -2,69 +2,69 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 923E7AE49A6
-	for <lists+dri-devel@lfdr.de>; Mon, 23 Jun 2025 18:07:04 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id BFE6AAE49AC
+	for <lists+dri-devel@lfdr.de>; Mon, 23 Jun 2025 18:07:19 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id CBA1E10E3E9;
-	Mon, 23 Jun 2025 16:07:00 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3250210E3F5;
+	Mon, 23 Jun 2025 16:07:18 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="RzBVhatz";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="kVAGxA2B";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pl1-f175.google.com (mail-pl1-f175.google.com
- [209.85.214.175])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B28F110E3F3;
- Mon, 23 Jun 2025 16:06:59 +0000 (UTC)
-Received: by mail-pl1-f175.google.com with SMTP id
- d9443c01a7336-23496600df1so9692935ad.2; 
- Mon, 23 Jun 2025 09:06:59 -0700 (PDT)
+Received: from mail-pj1-f42.google.com (mail-pj1-f42.google.com
+ [209.85.216.42])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B43A210E3F6;
+ Mon, 23 Jun 2025 16:07:16 +0000 (UTC)
+Received: by mail-pj1-f42.google.com with SMTP id
+ 98e67ed59e1d1-312a806f002so398016a91.3; 
+ Mon, 23 Jun 2025 09:07:16 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1750694818; x=1751299618; darn=lists.freedesktop.org;
+ d=gmail.com; s=20230601; t=1750694836; x=1751299636; darn=lists.freedesktop.org;
  h=content-transfer-encoding:cc:to:subject:message-id:date:from
  :in-reply-to:references:mime-version:from:to:cc:subject:date
  :message-id:reply-to;
- bh=0geRFgwyhl/h2PdBdo1H4e4Lzu++xXp44QjAHfPHcpE=;
- b=RzBVhatzY6U2KEdR5YbZTLSMiKgiPdCb5n8d1BLoXU53GrR/63PxRrb4B+XS+0E9XO
- qHh0XUyjMBuQtYLt+CG5NrutuxNA3sY9pKWp6+Ip1vm/gVahpGvjmdosLnXHVmv7w2+b
- hj+GvSFbcWQMwXysE6HyNuMdYbj6f52f7B0kLRAsWFdpNeUSVdMtEN+rI+ngmqQjVrjr
- wmKuqtwV2LwoovBmHyHWJYuWtw9+WwIjZ59tWfYljSvPst4nWKx2Au2PtVQklNXf/2VZ
- dhbUiJWbbjATXMUehlp/8OOvOttIwtsPwmbbuuC+YKNW+CM8N5GzTGe2oZCAEfO5wpdm
- HSBQ==
+ bh=0tcXdovPS+zbja9QJVEVBxGT38A9W3l9YFmoO5UqOAk=;
+ b=kVAGxA2B5i/jCQCILIpnm45lG56jJ14IeoQ78cqDURvevaLqIpFT8qRDpLbobPwFfG
+ 8EShzZ27mW2otDXtqrXcXQNRANGtyhkbYKrW7nDrG59PUi+m9Kku1nVZ1czheQXIxsec
+ BZb3nhathArCvKApeh4EHJ0M1z6MVybLMwRfqteyBV2izPNe/Yku0HKxNQujfUDxxv3L
+ WPk7tjEvwXYDClheG94BPMhL0Psz4ynQ6GhhFose/C4Z8zgm44MjcMas338CkQJ1ul6S
+ FZhnGXBR4+VSMR8unaif17gmqiOr32YG9Sn6/LoePJX1ytLSHCQ8lC0hgR3QOqjuZxTb
+ mLCw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1750694818; x=1751299618;
+ d=1e100.net; s=20230601; t=1750694836; x=1751299636;
  h=content-transfer-encoding:cc:to:subject:message-id:date:from
  :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=0geRFgwyhl/h2PdBdo1H4e4Lzu++xXp44QjAHfPHcpE=;
- b=t1WOaMdHoLvwxeMDDPnKJh8UclMQXR+ylxrXa5gJSL8sM271s3sjqttfkGsacvCQz6
- 6kP6uBGQtwqhEfZdw66MoNf4zh3L3Xm6TynD7ZticMGZd5fHSqb99tsGuSNqlTfG3Sys
- gE9Bo5ZJzes7qvekxRaqD92DAUHKOtv9UQrziZlmWZgEcNwV/eXvu3l84I7hQ88PCPDv
- s3XkeyTw2YF/7LtuRKn6sB2+6N84We9e50xrazWaE7OLo+ivxMG+TPD746NMenYXGLG0
- eLVG9Rrchr2KlbcosQbEGvOCxpBIZVBlBx+350ldsY5NK33zGm7eA1b3bKGx91msmy4o
- m69w==
+ bh=0tcXdovPS+zbja9QJVEVBxGT38A9W3l9YFmoO5UqOAk=;
+ b=dgT52ckzFWibKWK+evPa1KdwuEdeVH2yIQ9N+xgoucrarIATRhl9tHZEU68oE3MRm/
+ D+5wVpFxcF1S54OZv7MvdLTpKbywxWnXgisU3zIjaGUfAqG3EFfBaW5NbFBkgbW1rsAZ
+ uVW90A4uoYQQ+wFvxwy5v5SZnVgnGDmpb+i2TueX/v1+WGT9kVfX3tr8uk10aNv1mv5S
+ VyYiE1ikXS1OSWL4Re4wNPxZc7tHjtUwlMpCdDJ8LBM2ID9KOhRYqDJ/gaAWgL06jGHQ
+ nYnbOnx266QT0hHzQIpnjwvus0k81I7YsUw817/91Q5p7ujHlO1EpAxPH6cZso8Pqz/F
+ GezQ==
 X-Forwarded-Encrypted: i=1;
- AJvYcCVowm1U23jccEo7NUgcjAhHQrPiXU7X2lHMtFcBKBjtXwpntJJnewVO+q2LwyZiV5SsKGwMIU+PdMI=@lists.freedesktop.org,
- AJvYcCX3lIMvG9BECQ0NRc48uzwb2u9M8CjeKvz/ca4BB4lIQnSHcbBSMnHnkLGW93dildYviTSwohdMjg==@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YyZpUDOArZywGY36Kp3x3j1dr/+zMVr2ToICrRH+lKTY3yhUiTq
- SFqewQ3TbScZ+8DDhOq1ODqhxGr19rZRZtYXa3fgDcyur7T2m1jomqbXh/4qhnquLboOUIGwTiG
- /F8Pr846ea8wvjncHnS2i6CmA7Qt/7Jw=
-X-Gm-Gg: ASbGncvvR+6wnIvfa14UgGumvmuV9k2tbQ2NTFVF4ThjMYkheqBR9OZS4fHAP57NZWb
- GwKSmdF1K4y95O0/eyOrXYs5wPL73tDqEo/aFwns1/ivuMxBzHI/LDk9la3D/Ryy+KNIbyecIbs
- jiGReObVh+o3Uc6cByKcA4qRURIak4M6I45P85ma+ydOrvaupJ3TuvxQ==
-X-Google-Smtp-Source: AGHT+IFR44j/1R0shLJ61EnHnectkEfaJDYb54OjRunDNzkmTMtDm7NOHONuQN3UupNHtxtD9voN35iKKcokHj+Ly+Q=
-X-Received: by 2002:a17:903:186:b0:234:ef42:5d52 with SMTP id
- d9443c01a7336-237d995b838mr77988655ad.6.1750694817904; Mon, 23 Jun 2025
- 09:06:57 -0700 (PDT)
+ AJvYcCVGJacPRRpxzIDXkN9/n/wUY3y7Fh0BUX9tNTDOp/VP+yO3AfMOxUHtBTVyMhlKnKrnso3Sc3mvaQ==@lists.freedesktop.org,
+ AJvYcCWSjy3AFhHk/MJAqU6rwZ65oruxV6W+e3LgQEcscOLksW/ZkgvhlXu71SwEC30lGC0Mx7AKodWc9dQ=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0Yx3G54uqqHRykz356inn875d1WEcRoazl4eOj9I+V7wCAkOCPtW
+ csP0B8CWNkTJaGAK0tRyuNrMvq17glVNM6w9TCS4wm5Ktodw21ltjBphdvEDult6iSRq3I0Iafb
+ 40KhKS2s1c9PsRraqVrKYZcK1xnsyyBg=
+X-Gm-Gg: ASbGncs3KPci07spmqYhO/XcA33sjHMO0J8lPKadyZfGupbTupicdBMqXneHj9jl0da
+ nYLKtvTHzE0kw36RjphppD6jVOVkTP/mld7N+pgSjef6mFEbClMMx0Y048iE6s0Fp+RYZJhCRHd
+ o/IZaYHpP8zyWXgJypJxCjtHTEQRFvQVigIB+O5vZ/XkA=
+X-Google-Smtp-Source: AGHT+IH9NL2lR9Uv4yi5aC7j9ur7IZFnZE3iQLVNBw894nkCrk2aK30n5d+w8auc9bWtvBbdzHz7hXqgkVpLEIog/tI=
+X-Received: by 2002:a17:90b:5305:b0:312:e987:11b0 with SMTP id
+ 98e67ed59e1d1-3159d8d99d5mr7675733a91.6.1750694836185; Mon, 23 Jun 2025
+ 09:07:16 -0700 (PDT)
 MIME-Version: 1.0
 References: <20250619-nova-frts-v6-0-ecf41ef99252@nvidia.com>
- <20250619-nova-frts-v6-5-ecf41ef99252@nvidia.com>
-In-Reply-To: <20250619-nova-frts-v6-5-ecf41ef99252@nvidia.com>
+ <20250619-nova-frts-v6-4-ecf41ef99252@nvidia.com>
+In-Reply-To: <20250619-nova-frts-v6-4-ecf41ef99252@nvidia.com>
 From: Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>
-Date: Mon, 23 Jun 2025 18:06:46 +0200
-X-Gm-Features: Ac12FXzdlCfbzJ08ThqRc5NtvH3ui4qmOJA_sGg1WT42WuqZ4jQEejRTIJpoPoE
-Message-ID: <CANiq72ny5vSdLDLpr8D2rVb6dEboq55T6JQ1KJkmEORsj-3kfQ@mail.gmail.com>
-Subject: Re: [PATCH v6 05/24] rust: sizes: add constants up to SZ_2G
+Date: Mon, 23 Jun 2025 18:07:04 +0200
+X-Gm-Features: Ac12FXxeFboeOQbrXj_NuX7sHbNjZwJOguO3r6RADbc_AKUo0NVkevTFuXJ8N_8
+Message-ID: <CANiq72moyFrMi--y9ZdZK0EAoG26bTVsAo2O8ETxYHv4v_C6SQ@mail.gmail.com>
+Subject: Re: [PATCH v6 04/24] rust: make ETIMEDOUT error available
 To: Alexandre Courbot <acourbot@nvidia.com>
 Cc: Miguel Ojeda <ojeda@kernel.org>, Alex Gaynor <alex.gaynor@gmail.com>, 
  Boqun Feng <boqun.feng@gmail.com>, Gary Guo <gary@garyguo.net>, 
@@ -100,10 +100,9 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 On Thu, Jun 19, 2025 at 3:24=E2=80=AFPM Alexandre Courbot <acourbot@nvidia.=
 com> wrote:
 >
-> nova-core will need to use SZ_1M, so make the remaining constants
-> available.
+> We will use this error in the nova-core driver.
 >
-> Reviewed-by: Boqun Feng <boqun.feng@gmail.com>
+> Reviewed-by: Benno Lossin <lossin@kernel.org>
 > Signed-off-by: Alexandre Courbot <acourbot@nvidia.com>
 
 Acked-by: Miguel Ojeda <ojeda@kernel.org>
