@@ -2,86 +2,197 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 98A97AE419F
-	for <lists+dri-devel@lfdr.de>; Mon, 23 Jun 2025 15:07:50 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 41E3EAE4289
+	for <lists+dri-devel@lfdr.de>; Mon, 23 Jun 2025 15:21:52 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id DAD0510E1DD;
-	Mon, 23 Jun 2025 13:07:47 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8C7EE10E1DA;
+	Mon, 23 Jun 2025 13:21:49 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=ursulin-net.20230601.gappssmtp.com header.i=@ursulin-net.20230601.gappssmtp.com header.b="fvdGYxzY";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="CIdn9a4o";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-f46.google.com (mail-wm1-f46.google.com
- [209.85.128.46])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A3D8010E1DD
- for <dri-devel@lists.freedesktop.org>; Mon, 23 Jun 2025 13:07:43 +0000 (UTC)
-Received: by mail-wm1-f46.google.com with SMTP id
- 5b1f17b1804b1-4531e146a24so24797525e9.0
- for <dri-devel@lists.freedesktop.org>; Mon, 23 Jun 2025 06:07:43 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=ursulin-net.20230601.gappssmtp.com; s=20230601; t=1750684062; x=1751288862;
- darn=lists.freedesktop.org; 
- h=content-transfer-encoding:in-reply-to:from:content-language
- :references:cc:to:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date:message-id:reply-to;
- bh=zn4TgrW4kioehQfpdKSOPjOeEv5U2KEo+3+XZJOvU1I=;
- b=fvdGYxzY0q6UQJoEs4joATngVeU0g6ltUoYaRyRn3u74+CwUx23MDKsAJUY1dZ4uFY
- eeKjYZd6JCft0tzZ8+JjrqKeE1/j85xWkPfzmyCLzzBGbwgsFGvHlX2Xr/D4Kv7PfXRG
- qP4BsGY/+1ECMqharXxXsv0Tp9+AAdO8xT6rtkKFKMEM8WscqwbRESUbS8YXgDwSAZdv
- XFzEFZfl96kqAey9hcOT3tdDPY7l/+OE3Pk3OKAoVsCxyYz2zRx8zHnFzh8Hw4XyFzU6
- 0/Ak4YrRkvLaksomvAOsdk1BU5TPPTK/LPu/Uu+BlUhfR9sgDCyVoCm8OkIyQvuvTcHT
- NiVA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1750684062; x=1751288862;
- h=content-transfer-encoding:in-reply-to:from:content-language
- :references:cc:to:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=zn4TgrW4kioehQfpdKSOPjOeEv5U2KEo+3+XZJOvU1I=;
- b=YqYrYkQZWklc+E55KXGO5W+qCILjQq8rpTkrTsqeZ7U8VIrFwj3vwzKp5XxOx6Bfjr
- oYzLNKjUeJAoIp6xXTG6J0jOno849nqgOHFydNhEEYG3sRhZnvYCw81pv51gWv+0ImE3
- icypc2jTpR+WowcFpq+4uJSa0sMirCecNJz/xAuhCX+fPTbqKwdcxmmehsXn+7ILlgN8
- cP/nD2pS68Xzc3i60ZAyx77ndys/DjZUZx5B1B4MzIDMxJmQ5kLZu8xZXKtDloG8QwpG
- MfKmQZNa/QFn68OLOkBi9sVGJbDTE+fsTGfoRlhABVdTNrtFj4TK98hs82sGI8Mcbpuu
- QVlg==
-X-Forwarded-Encrypted: i=1;
- AJvYcCXVTv+2OzISzwiKCJDsLZM0/t04XqxQY0vuJXqUY2MSracStbKPcHO8IthECqAaJQE2y7hwgL9cmp4=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YxOHCEQja9FC6yYFZTfYXluTVoSjv9sot6MIQ8tilFPhr1ivL0z
- GC5NYvMoJPQHmGIupFcnCupwOPC+QZwIqydM71jTjMU8RDoP3bxQJdhd/Ug8GOuUtqk=
-X-Gm-Gg: ASbGncvAdciXJGCWVXbRNyJfPX/Uk3ox5o0GEEsw1C2YxpSpEZy8ayZHRySqW1UEeDX
- PM2llglcU+b0RDfw+rJZrozZrFDsqpUkAZRC+od+GRwy0c+KQ8/5VsmGzIpxnNEGWZGQIW0TZSC
- R/0V7sEX2HjyvVwG3QrvI91voWeGkRznD3SX22ohN6PUHsACStOIl+eOOYdV4hsMIpmVOr/LwR9
- RROqF686/yzV12wKBnxJ5cPqxGL2D+oyFMHbHP5SJ/hUO4sCSDeRKiTQlRyqDoGpN+aPUEHsF0Z
- ECaiaOljqQXGSIbWR8QXLJxFkqVm9hPNUI0EDz6LTGTzRzLBk+yX8U3a8OsV02hV6zfE+A39wbc
- u
-X-Google-Smtp-Source: AGHT+IHr6QUDQq6xdNeBSBfJD0JLohrLYdQWwMr8VsggbPvo9pNJdLyRl09ME/G0LmwIu9/SAJROiw==
-X-Received: by 2002:a05:600c:c48e:b0:442:c993:6f94 with SMTP id
- 5b1f17b1804b1-453659c58d6mr117574365e9.12.1750684061925; 
- Mon, 23 Jun 2025 06:07:41 -0700 (PDT)
-Received: from [192.168.0.101] ([81.79.92.254])
- by smtp.gmail.com with ESMTPSA id
- 5b1f17b1804b1-453646d1391sm110713935e9.9.2025.06.23.06.07.41
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 23 Jun 2025 06:07:41 -0700 (PDT)
-Message-ID: <067c1b95-9411-437c-9c57-0cc040547ffd@ursulin.net>
-Date: Mon, 23 Jun 2025 14:07:40 +0100
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 737B410E19B;
+ Mon, 23 Jun 2025 13:21:47 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1750684907; x=1782220907;
+ h=date:from:to:cc:subject:message-id:references:
+ in-reply-to:mime-version;
+ bh=h4sICj45DJbhDZuUbCSrIvI5CiaHr241yItruqIPa2I=;
+ b=CIdn9a4o08rKLeHzU4t0jZ8s7qudj3Z6cj9ZWocum/9LUAYIDUh9Q0lO
+ +As0UTSPvJVkAdLtI4xGQyKjY91QfJ2Bi5COOnpG3RLR4/e5Mq+5OaFFR
+ 2AjFCsG+3MUCvLm61x/5BjG+DOKMCs95O6KtmcgHF2EO/xiBGu/i/+AQS
+ g+rc8suUUmFeDTFAPRnk6LRyBIn9T/HpoxjNATOBVWNSq/KPXsKhIMaXf
+ AnFmo/WPEMPp7xff1dNjacJXV6BXHgfaADrQ3Xd6e5xF2Xh9n1QXqzTjv
+ ZqNkNMc/gk+ilZXWlk7uZNhRIkxXLo3pceGTsbWhCbfvu7hN+3leKez7C g==;
+X-CSE-ConnectionGUID: DIpUcyCAScGoMRSSzIvcdw==
+X-CSE-MsgGUID: s2QRgkc4SFKekXtHFHGxnw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11473"; a="70318437"
+X-IronPort-AV: E=Sophos;i="6.16,258,1744095600"; d="scan'208";a="70318437"
+Received: from orviesa001.jf.intel.com ([10.64.159.141])
+ by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 23 Jun 2025 06:21:47 -0700
+X-CSE-ConnectionGUID: 931S02GVR2OXe5QV86Siqg==
+X-CSE-MsgGUID: NgOdMjaiTEix7YiTJyXE9w==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.16,258,1744095600"; d="scan'208";a="188811143"
+Received: from orsmsx903.amr.corp.intel.com ([10.22.229.25])
+ by orviesa001.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 23 Jun 2025 06:21:47 -0700
+Received: from ORSMSX902.amr.corp.intel.com (10.22.229.24) by
+ ORSMSX903.amr.corp.intel.com (10.22.229.25) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.1544.25; Mon, 23 Jun 2025 06:21:46 -0700
+Received: from ORSEDG901.ED.cps.intel.com (10.7.248.11) by
+ ORSMSX902.amr.corp.intel.com (10.22.229.24) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.1544.25 via Frontend Transport; Mon, 23 Jun 2025 06:21:46 -0700
+Received: from NAM11-CO1-obe.outbound.protection.outlook.com (40.107.220.79)
+ by edgegateway.intel.com (134.134.137.111) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.1544.25; Mon, 23 Jun 2025 06:21:46 -0700
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=eIN2eAOkl2Ts5URrd1pZesZbKSkRKAGEoDf49qbOqr0B6VVC0aaivfKMyp3ilbk/NTTI1zlucreehg/TwjuvHkUhS2VS/MTmjWXBO/SV/gUm1GCyMPe6SK98V/aJMStnpzEXGPpKusNvmRL3BbGra9rF0mUkkTgCf80HXmfSx/8AYx2J5OOW/NdNvFPJTtmmelJWNhdOHHm4BcQlaZ2DvRBQbxxcZO4UFDdsz3fClkVIyiyAUHvgzrK107c6waK+st/xrW+jrS1E2Kond2fxe6hYkBDc7XlvDu+ISpxlddlFlOkzMcQytRTTnKWJNRdjtBeXv8rUgVI+7+CMov781Q==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=kbVJxicT5UVSDA+UFFS9Ehrbt65LtB2Hv1qhBHVQKek=;
+ b=mmycn4IFswYbiwy47LdCEPzuCWAQY8XFlrJpnVHMxMOwAX5yd+kZzPvBadaU1dqujH5FOST2N0gmpB8fOMXBH0P/kLBhLyKYO7NUaINqTfJgQU/lKsl2zqdv+kVZiCersTgpDm3XGhd+fk4HKmJq7xKqHdD7rUpukr4j4iKTYmyBGcD2voL4vALoHzjcX6nPpZE4REewUuKm1CFCa7Z2ekUHoqtt6h+PJkmgNzTjltP/bkAqDuN8pt8ofaOp/PE4r7cYE5ix66kJXohZElkCOKvx2mCz1dQpt4oNeFdl1Pp6PwSDKE9lbfnSqz62JZ8TkfmQgSaGBqYCKPSfPNEc/g==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
+ dkim=pass header.d=intel.com; arc=none
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=intel.com;
+Received: from CO1PR11MB5057.namprd11.prod.outlook.com (2603:10b6:303:6c::15)
+ by PH8PR11MB6904.namprd11.prod.outlook.com (2603:10b6:510:227::5)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8835.28; Mon, 23 Jun
+ 2025 13:21:30 +0000
+Received: from CO1PR11MB5057.namprd11.prod.outlook.com
+ ([fe80::3b75:a8d2:464e:30cc]) by CO1PR11MB5057.namprd11.prod.outlook.com
+ ([fe80::3b75:a8d2:464e:30cc%4]) with mapi id 15.20.8857.026; Mon, 23 Jun 2025
+ 13:21:30 +0000
+Date: Mon, 23 Jun 2025 13:21:18 +0000
+From: Krzysztof Karas <krzysztof.karas@intel.com>
+To: Jeff Layton <jlayton@kernel.org>
+CC: Andrew Morton <akpm@linux-foundation.org>, "David S. Miller"
+ <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>, Jakub Kicinski
+ <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>, Simon Horman
+ <horms@kernel.org>, Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, "Jani
+ Nikula" <jani.nikula@linux.intel.com>, Joonas Lahtinen
+ <joonas.lahtinen@linux.intel.com>, Rodrigo Vivi <rodrigo.vivi@intel.com>,
+ Tvrtko Ursulin <tursulin@ursulin.net>, Kuniyuki Iwashima <kuniyu@amazon.com>, 
+ Qasim Ijaz <qasdev00@gmail.com>, Nathan Chancellor <nathan@kernel.org>,
+ Andrew Lunn <andrew@lunn.ch>, <linux-kernel@vger.kernel.org>,
+ <netdev@vger.kernel.org>, <dri-devel@lists.freedesktop.org>,
+ <intel-gfx@lists.freedesktop.org>
+Subject: Re: [PATCH v15 4/9] ref_tracker: add a static classname string to
+ each ref_tracker_dir
+Message-ID: <rmruq6quhhpthllm77ewdx4lgo76trqinewlj3qzyowrqy45h2@bb4kvi4q3h4o>
+"Organization: Intel Technology Poland sp. z o.o. - ul. Slowackiego 173,
+ 80-298 Gdansk - KRS 101882 - NIP 957-07-52-316"
+References: <20250618-reftrack-dbgfs-v15-0-24fc37ead144@kernel.org>
+ <20250618-reftrack-dbgfs-v15-4-24fc37ead144@kernel.org>
+Content-Type: text/plain; charset="utf-8"
+Content-Disposition: inline
+In-Reply-To: <20250618-reftrack-dbgfs-v15-4-24fc37ead144@kernel.org>
+X-ClientProxiedBy: WA1P291CA0005.POLP291.PROD.OUTLOOK.COM
+ (2603:10a6:1d0:19::28) To CO1PR11MB5057.namprd11.prod.outlook.com
+ (2603:10b6:303:6c::15)
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v4 2/4] drm: add debugfs support on per client-id basis
-To: "Khatri, Sunil" <sukhatri@amd.com>, Sunil Khatri <sunil.khatri@amd.com>,
- =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
- dri-devel@lists.freedesktop.org
-Cc: amd-gfx@lists.freedesktop.org, simona@ffwll.ch, tzimmermann@suse.de,
- phasta@kernel.org, dakr@kernel.org
-References: <20250618134747.3893138-1-sunil.khatri@amd.com>
- <20250618134747.3893138-2-sunil.khatri@amd.com>
- <d1372124-616b-4bc7-8a5c-50c524bc3e5d@ursulin.net>
- <090b8491-329e-4dd7-9480-cf58fd4477da@amd.com>
-Content-Language: en-GB
-From: Tvrtko Ursulin <tursulin@ursulin.net>
-In-Reply-To: <090b8491-329e-4dd7-9480-cf58fd4477da@amd.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: CO1PR11MB5057:EE_|PH8PR11MB6904:EE_
+X-MS-Office365-Filtering-Correlation-Id: 8502cc9e-8afd-4567-7b02-08ddb258ddad
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;ARA:13230040|376014|1800799024|7416014|366016;
+X-Microsoft-Antispam-Message-Info: =?utf-8?B?bDhZMmlrQ3RHNzdVeDN5cnJKVXFLbnFqci9YT3l6WkJIKzdHSWdtMytReUFs?=
+ =?utf-8?B?c09JUzhtbHhMYzNaQlpTd3dpVStIazVoemM4Y3hNRkpiNEtVY2JsZERHcWJ1?=
+ =?utf-8?B?SFNzV3J4U0xuMGZjdmNHaUpCSDZyZ1dhTHpSZVZVanYrQ25yK0xpbU1HaE96?=
+ =?utf-8?B?VU5hUXF4a3M0R2YwbEUxVHZrWjhURmRPL0VJNjNueFIvTC82UlZyZUI5Rms4?=
+ =?utf-8?B?SDNwdEZ3dnQxY2VUSUtnSWZmTDVxSGErNDZpQkd0UUkrQ1RVNU9IKzdHdzlP?=
+ =?utf-8?B?c2RXcDUxSGtKK1I2OG5JVjFmdnN3dzR0NEYzYmxEOWxjQzRISjk3UTg2cG94?=
+ =?utf-8?B?QXBlNHNSblUvclJQbzU4ZmR0TzBlWUNBOHh2TmRmVjY5MXY5RGNTdVAzNERH?=
+ =?utf-8?B?dFhOaGl6VlhrV3NEdVNhRUs3MjY3S0NhWWhUcC8vU0k4Sk93WTA0ZUhIQmVE?=
+ =?utf-8?B?VG5NWUZmams5WEdHY2xnRmhFcXhMK05obE04WDBvRWJqU0w0QkdKQUNpRUFS?=
+ =?utf-8?B?WDZlYUlteWd1cjhnYXZGMUNDeFNrdTNudkxUQzNzSVQ2MkJsc0c5UHMwQTZV?=
+ =?utf-8?B?empvS3ROOEtHdVFxd0FkMlR1R3BwanhCdXRaNkFmMnU4T1ZsVFNqZFV0RGo4?=
+ =?utf-8?B?bHhPTlI2blZXUUxzSU9NWUJzbW9hZnIwbWNpY0hoL1pXSld2ZE9RaFFoUnpE?=
+ =?utf-8?B?TG5zUkRXeVVNUmxJUVN0OHhQKzNWbXNtZHlLZGVaSy9hbDNzMUJWOG0vVmZr?=
+ =?utf-8?B?bGgraVBPMjF4QUJQNFJrcHVNYmhFK1k2U3ViMDNWb0ZQcWh6VGxMUjBVdkJC?=
+ =?utf-8?B?UCtFWGxUL3NWWjB5YVprQjVyeGxmMzFmSTNLQ3JGb1ZaTmovT3QzY3hIbkFH?=
+ =?utf-8?B?OXNwZktBd1h3VjF4bDZ5WUF6TzIvMFhMc252UEZTUnUxREMxWTBJenJpTFJ2?=
+ =?utf-8?B?L1VHNTJHVzVyWjZRakZDMjdIcnkxWi9pNmJOS0NNY1FDeWhRSUxnbFlaMjFw?=
+ =?utf-8?B?KzlDcE9DWHRiVXZKWEdycTlHWEZabmJtU2tMdDZZOUkyK1pZdXRHclZadGsy?=
+ =?utf-8?B?SW5QUFp4bUZMWHJEVTduTmRPUGdHS3RhK0c2VlFSSmtkWEpSaWQ4N1poZmpp?=
+ =?utf-8?B?eXRsU3dLWFpyNkJjN3ZMczZDdEhVQy9COEQwWGYzRkFBdEVSRnpITXp2cVhR?=
+ =?utf-8?B?UWRNeDdVeVpzWFRBM1ZXMHdsMTZQd3BpbXZzWVdHZldWcEpzVjBWY0Rod3ZQ?=
+ =?utf-8?B?S09KbFh3aHZ6Nm9STEJKMnhOTkptUjVNN3U1eUZhdHl2ZUFxWFNYZlFQWXVE?=
+ =?utf-8?B?eHQzRG9BYUk2K2RoaTdpSEhWbFg1M3ErcGsrRnVaR0lJRlBaQ083NDk3U2Zx?=
+ =?utf-8?B?L1ZUeTBCSGpPQldpdCtmdGNvU1lGRmRoZ0xkOVpRYXVJSUlXcjQzaTRXV1ZB?=
+ =?utf-8?B?QWVLVk9MRXVSaEtWK3dkdlBsV0JRZEY2MzBlVENKOWd1K3ppUDhwaDIzYzVw?=
+ =?utf-8?B?V1RzZ2JYWnd4WVdIelcyZVpWMjBmeTlGNHNxc1gzTzRtUXJCZ250dzJwZmdv?=
+ =?utf-8?B?djRzSFBlVXNzeFZIUkZwTktrb0xLb3JEd1pYYlJlMWphdmYydFpnNFVWSnhT?=
+ =?utf-8?B?ZFVmcnFaRWR4Qk4yc0VqU2h1d2U2UGFJTk9ydmQyTUEzaHIxM0p6VW5VeFNK?=
+ =?utf-8?B?bWYxbVpnZ2FWUzIzSmRvcXBkRlV0UkFuNkIxNGpLQTJXN253Z1ErZ0tOOVow?=
+ =?utf-8?B?N3h2UEhOUXgxK1huUllWeVFVZ1R2V3hPS0gvSVpJM1kzS1l3cC9rYkVNS3JW?=
+ =?utf-8?B?Q3dZdGk4dE55K2dkSm43bXFyTEZxTlZPZE8vZXZmZDFpaStSVzJlTWJmTWFD?=
+ =?utf-8?B?dXVwSFVYdjA0WUM1UGY1RTJzUTd0M2VwWTdjVHFPbG9FaHc9PQ==?=
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:CO1PR11MB5057.namprd11.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230040)(376014)(1800799024)(7416014)(366016); DIR:OUT; SFP:1101; 
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?a3pDMzJYeWtndjk0K0xrTGFoampFSFhyanNiNjZvS0JNZWlRZzJDM0wzZkR1?=
+ =?utf-8?B?Y2NGb2EweStrQ2RGK2JuSVRsR242OGx3SEtTakJHMHRhNTFTRVpPZmlWYkRh?=
+ =?utf-8?B?bm1HbWt0ODY4dWdwdGEyZ2s5T1B1ZW5WNE5QRjZqNWxzdXBPQlkvWXZDVmRM?=
+ =?utf-8?B?RDhrM2NrWUc0dlpPZEQwdDJyMXBkRnR3K3cwVWc4TWw3emZveEVvdjFucXF5?=
+ =?utf-8?B?VTV6djNLVkg3aWluU2VHc3p2K1NpVGIvZkJsNzJNVjgxNk5QQ294THpZOXBk?=
+ =?utf-8?B?VEJXOTR2Zno5R2lsTTRpSDhrWXhMN2tOcjF1bFBxbG9RQWU3Tmg3akJGU0ZL?=
+ =?utf-8?B?MUc4RFBEdUlYdWNBN3ErZXNPeEQ3bFg0bTV6ZU02MjlpYWpQSUJnbHd5NEs5?=
+ =?utf-8?B?RXpIajBFV3l0SUN3bkVmTkFoRlliL3VPS1VneDFtZXVHZHlhenRFRkNOeG5z?=
+ =?utf-8?B?MTd1WVJYdERpRkQ4SDRuL3hJRVJzWCtaNTNVeHkxSW5WdmRoWXh5cjhZUmpu?=
+ =?utf-8?B?UW1rUnE3dXpoL3Vma2ZqcE1iZVQ4OElpQ04vbmFKQTlIOVkrcUR1emdlOWIy?=
+ =?utf-8?B?RFlrcUF4RkthWTBUay9odnBXR2ozVTVsak1tZ1l0b0VrK005QytNV2hSSThp?=
+ =?utf-8?B?YWJtQUM3cmlRMDRJSWJ6eFA3Q1VWQmFpSnlZWnZCNis1OEpzVmErdXRRbGtD?=
+ =?utf-8?B?aVBCRVI3alZ1VHFUT3UwaGxITGpvNTBoUUNadkJ4S3NFbkVraDV6UjZMS3Vy?=
+ =?utf-8?B?aWMzaUErdGJnaXVlK2FDZEE1VSs5SEJjZ1BBcHVjRjNtYjBxdURRVmc5TUkr?=
+ =?utf-8?B?MGZ4U0RERlFxRnJVcC94dWlaLy90YkxyWHM1Y0VLQi9TTGR2ckNUdmJTRmlC?=
+ =?utf-8?B?RlQxWSs0TFdQVTZJeE90V0VqSTZzT1EvUjRKQTl1TEtCbEN3MGhUeUtyKzNa?=
+ =?utf-8?B?cjZ6NXBBZ0NZMXFXYkFlV3p5NVV4ZitWVTNCSEpVNDRhcW02bnRZcEM5cWl0?=
+ =?utf-8?B?WEVVZy9GSmxTendnM2ZscXRjNGN2OXdXSUVUSDNCYzhvckVuSGpCV2FuVFQw?=
+ =?utf-8?B?eGIxYU54bTJrQzlydkpWcHZ3a2RzaHdDWXM3bHBsMWo0YnVjc2twOTVzWmow?=
+ =?utf-8?B?YU8yTWEyQ0xNd3pYTDZSZnk4eHgxR285Y1lYN2J2T1F4ZmU0OEJqa1NNbUxu?=
+ =?utf-8?B?UVBITkdnVWp5MmNDZXBQUEpwWlV5ZmcvK3hWWGZEU1FiSUtOWCsvZjlkWlcy?=
+ =?utf-8?B?MnhLU3hSZ2VjblpYSzVGL1VQK0RGVGNHWFJDQzBFVUlHcVNqSnA1bzMyTXNl?=
+ =?utf-8?B?NUhlaUZIRm9QNG9ma2dhTGZXNEEybUtzNE5tUnM4K0FlQWlUT0p0dTh0amsv?=
+ =?utf-8?B?Vm5CQ2hzSytLUEhacVlEd21peCs5eG5uSVFTZmF4M0R1Mk9vV2pXTWU3K05R?=
+ =?utf-8?B?VzJHSGZnUWFtNVV0Vm5xTUJtS0t0UmZiN0J1K0p3cHVsT3V6Q1FrbHNGdlcr?=
+ =?utf-8?B?d0dSWlc2eld1NWlzT1JBOHpoMk9LZzhrZklpaTFxcnlVOFliT3R5aUV1aWNQ?=
+ =?utf-8?B?SFhYK05xQjdkaW5KMWdsK2NyQVVNT3ZGS3hJeERxSHhxeEkvMDlyYTFqR1dO?=
+ =?utf-8?B?bWNhcWpuWHZPSkJCUkE0SWNPdkRGeU1OWWtlb2RZZEQvTmdlN3Z1cjlsZXhB?=
+ =?utf-8?B?THMvTkZUSDRPRklROHQ4RjNkTEl2NVliUThQV3luczAxek9PQXRMMEhqY1cy?=
+ =?utf-8?B?NE5nQUxSZ0F3NUFSK21aWG5LTW1FaHRiVzYwZHAweXFSWnpZTFlXbi9nWGZh?=
+ =?utf-8?B?eWt1TzZNOHdOaFh2bzE4ZkNhQ3RBLyt5aWkvYlpqZTlBckpqM29WWm0rTXIz?=
+ =?utf-8?B?ay9Zai9jcnRrUFpKbkJUSXpRV0F4VmRCSUE4eUNlTnIwUGFXSWs1WFA4Rlpr?=
+ =?utf-8?B?UmtadmIva0lyTkZDcEpXaFV0bkhlaFZGZ1ZuODlyMUsrRGVBMnhzY0NpUTRR?=
+ =?utf-8?B?TitEWFhrTE55VHNNaldTQXQ5MTJUVEJZZTk0MGF4TFU5cEI4UUF2TkcxMFo5?=
+ =?utf-8?B?WjFxNU5wano3cUNVYWpUT2d1ZThiN201T2lDbGQxSmptM1k4L21DU2ovSTV0?=
+ =?utf-8?B?R2Ixc2hVR0h2Y1NrV0xKdEpUNExLQXY1SmFRdktDMFVzaHJxdnBPVEVMdFF5?=
+ =?utf-8?B?R0E9PQ==?=
+X-MS-Exchange-CrossTenant-Network-Message-Id: 8502cc9e-8afd-4567-7b02-08ddb258ddad
+X-MS-Exchange-CrossTenant-AuthSource: CO1PR11MB5057.namprd11.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 23 Jun 2025 13:21:30.4654 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: ecI70OoJFWXnuXv6UDfGEjrDZL+hgFXN0CJiqbAfaI7a0y5v2yJrUdz7/jSH2BEYw8d+I+ubVcVfLaICxIu3Q9H2QfbPBpsA2GSQfOP+h1k=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH8PR11MB6904
+X-OriginatorOrg: intel.com
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -97,270 +208,40 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+Hi Jeff,
 
-On 23/06/2025 11:24, Khatri, Sunil wrote:
-> 
-> On 6/23/2025 2:58 PM, Tvrtko Ursulin wrote:
->>
->>
->> On 18/06/2025 14:47, Sunil Khatri wrote:
->>> add support to add a directory for each client-id
->>> with root at the dri level. Since the clients are
->>> unique and not just related to one single drm device,
->>> so it makes more sense to add all the client based
->>> nodes with root as dri.
->>>
->>> Also create a symlink back to the parent drm device
->>> from each client.
->>
->> TBH I can see an use case for both clients at DRI level and clients 
->> under DRM devices. I guess you have an use case for global and per 
->> device can be added later if it becomes needed.
->>
->>>
->>> Signed-off-by: Sunil Khatri <sunil.khatri@amd.com>
->>> ---
->>>   drivers/gpu/drm/drm_debugfs.c | 32 ++++++++++++++++++++++++++++++++
->>>   drivers/gpu/drm/drm_file.c    | 10 ++++++++++
->>>   include/drm/drm_debugfs.h     | 12 ++++++++++++
->>>   include/drm/drm_file.h        |  7 +++++++
->>>   4 files changed, 61 insertions(+)
->>>
->>> diff --git a/drivers/gpu/drm/drm_debugfs.c b/drivers/gpu/drm/ 
->>> drm_debugfs.c
->>> index 5a33ec299c04..875276d5fb9f 100644
->>> --- a/drivers/gpu/drm/drm_debugfs.c
->>> +++ b/drivers/gpu/drm/drm_debugfs.c
->>> @@ -298,6 +298,38 @@ void drm_debugfs_remove_dir(void)
->>>       debugfs_remove(drm_debugfs_root);
->>>   }
->>>   +int drm_debugfs_clients_add(struct drm_file *file)
->>> +{
->>> +    struct drm_device *dev;
->>> +    char *client_dir, *symlink;
->>> +
->>> +    dev = file->minor->dev;
->>
->> FWIW, as dev is only used once and string locals are not overlapping, 
->> you could reduce to a single local variable like char *name and re-use 
->> it. Up to you.
->>
-> Let me see what i could do with that. But yes can reduce locals.
+[...]
+> +++ b/drivers/gpu/drm/i915/intel_wakeref.c
+> @@ -114,7 +114,8 @@ void __intel_wakeref_init(struct intel_wakeref *wf,
+>  			 "wakeref.work", &key->work, 0);
+>  
+>  #if IS_ENABLED(CONFIG_DRM_I915_DEBUG_WAKEREF)
+> -	ref_tracker_dir_init(&wf->debug, INTEL_REFTRACK_DEAD_COUNT, name);
+> +	if (!wf->debug.class)
+> +		ref_tracker_dir_init(&wf->debug, INTEL_REFTRACK_DEAD_COUNT, "intel_wakeref", name);
+I think this line could be broken in two. It is almost 100
+characters long and the majority of this file does not
+exceed 90.
 
-Ok.
+>  #endif
+>  }
+>  
+> diff --git a/include/linux/ref_tracker.h b/include/linux/ref_tracker.h
+> index a0a1ee43724ffa00e60c116be18e481bfe1d1455..3968f993db81e95c0d58c81454311841c1b9cd35 100644
+> --- a/include/linux/ref_tracker.h
+> +++ b/include/linux/ref_tracker.h
+> @@ -19,6 +19,7 @@ struct ref_tracker_dir {
+>  	bool			dead;
+>  	struct list_head	list; /* List of active trackers */
+>  	struct list_head	quarantine; /* List of dead trackers */
+> +	const char		*class; /* object classname */
+Another nitpick here: the comments start with capital letters in
+this struct, so could you change object -> Object?
 
-> regards
-> 
-> Sunil
+Apart from these minor suggestions, I think this is a nice
+change:
+Reviewed-by: Krzysztof Karas <krzysztof.karas@intel.com>
 
-Usually when you sign people stop reading. In this case I accidentaly 
-spotted there is more below.
-
-> 
->>> +
->>> +    client_dir = kasprintf(GFP_KERNEL, "client-%llu", file->client_id);
->>> +    if (!client_dir)
->>> +        return -ENOMEM;
->>
->> It is a bit more work, but I think a clients/ directory with numerical 
->> client id subdirs would be nicer.
-> 
-> It was with the id only first but with feedback from Christian i moved 
-> it with client-$. Also since we want it in main root directory along 
-> with nodes like 0 and 128, it makes sense to differentiate and make a clear
-> 
-> representation of clients.
-
-I don't mean id only in the root dir, but add a clients subdir in the 
-root, where clients subdir contains more subdirs for individual clients. 
-Maybe it is personal but for me $dri_root/clients/1/something feels 
-nicer, less cluttered and potentially easier to handle in scripts and/or 
-code that $dri_root/client-1/something.
-
-> 
->>
->>> +
->>> +    /* Create a debugfs directory for the client in root on drm 
->>> debugfs */
->>> +    file->debugfs_client = debugfs_create_dir(client_dir, 
->>> drm_debugfs_root);
->>> +    kfree(client_dir);
->>> +
->>> +    symlink = kasprintf(GFP_KERNEL, "../%s", dev->unique);
->>> +    if (!symlink)
->>> +        return -ENOMEM;
->>
->> Worth removing the partial construction?
-> Ideally it should never fail and but yes makes sense to clean up.
->>
->>> +
->>> +    /* Create a link from client_id to the drm device this client id 
->>> belongs to */
->>> +    debugfs_create_symlink("device", file->debugfs_client, symlink);
->>
->> This can also fail.
-> sure. Noted
->>
->>> +    kfree(symlink);
->>> +
->>> +    return 0;
->>> +}
->>> +
->>> +void drm_debugfs_clients_remove(struct drm_file *file)
->>> +{
->>> +    debugfs_remove_recursive(file->debugfs_client);
->>> +    file->debugfs_client = NULL;
->>> +}
->>> +
->>>   /**
->>>    * drm_debugfs_dev_init - create debugfs directory for the device
->>>    * @dev: the device which we want to create the directory for
->>> diff --git a/drivers/gpu/drm/drm_file.c b/drivers/gpu/drm/drm_file.c
->>> index 06ba6dcbf5ae..8502c5a630b1 100644
->>> --- a/drivers/gpu/drm/drm_file.c
->>> +++ b/drivers/gpu/drm/drm_file.c
->>> @@ -39,12 +39,14 @@
->>>   #include <linux/poll.h>
->>>   #include <linux/slab.h>
->>>   #include <linux/vga_switcheroo.h>
->>> +#include <linux/debugfs.h>
->>>     #include <drm/drm_client_event.h>
->>>   #include <drm/drm_drv.h>
->>>   #include <drm/drm_file.h>
->>>   #include <drm/drm_gem.h>
->>>   #include <drm/drm_print.h>
->>> +#include <drm/drm_debugfs.h>
->>>     #include "drm_crtc_internal.h"
->>>   #include "drm_internal.h"
->>> @@ -143,6 +145,13 @@ struct drm_file *drm_file_alloc(struct drm_minor 
->>> *minor)
->>>       rcu_assign_pointer(file->pid, get_pid(task_tgid(current)));
->>>       file->minor = minor;
->>>   +    ret = drm_debugfs_clients_add(file);
->>
->> Slightly tricky part is that as soon as this runs userspace can enter 
->> debugfs. If in the future any debufs clients file is added which can 
->> dereference any of the drm_file fields not yet initialized it has the 
->> potential to explode and/or be exploited.
->>
->> Hence I think to be safe the usual pattern of exposing drm_file to 
->> userspace at the end, only _after_ drm_file has been *fully* initialized.
->>
->> Slightly annoying part with that might be undoing dev->driver->open() 
->> but maybe it is not that bad.
-> 
-> I need this before driver open as the entry is accessed in driver->open 
-> in amdgpu to add files to the directory.
-> 
-> So, i could see to move it just before the open but not after. Anyways 
-> if we reach till driver open surely file is fully initialized. Nothing 
-> else is done in that function after that.
-
-I guess it is fine as long as dev->driver->open() will be the only place 
-which will be adding files. If one day DRM core decides to add some 
-common file it will need to make things it can dereference are fully 
-initialized.
-
-Perhaps what makes sense today to make this more robust, and it is not 
-hard, is to simply move drm_debugfs_clients_add to just before 
-dev->driver->open()?
-
-> 
->>
->>> +    if (ret) {
->>> +        put_pid(rcu_access_pointer(file->pid));
->>> +        kfree(file);
->>> +        return ERR_PTR(ret);
->>
->> Onion unwind already exists in the function so could have used it. 
->> (Add a new label and here simply "goto out_put_pid".) But as above we 
->> discuss tweaking the order lets see how that goes first.
-> Sure.
->>
->>> +    }
->>> +
->>>       /* for compatibility root is always authenticated */
->>>       file->authenticated = capable(CAP_SYS_ADMIN);
->>>   @@ -236,6 +245,7 @@ void drm_file_free(struct drm_file *file)
->>>                atomic_read(&dev->open_count));
->>>         drm_events_release(file);
->>> +    drm_debugfs_clients_remove(file);
->>>         if (drm_core_check_feature(dev, DRIVER_MODESET)) {
->>>           drm_fb_release(file);
->>> diff --git a/include/drm/drm_debugfs.h b/include/drm/drm_debugfs.h
->>> index cf06cee4343f..4bd6cc1d0900 100644
->>> --- a/include/drm/drm_debugfs.h
->>> +++ b/include/drm/drm_debugfs.h
->>> @@ -153,6 +153,9 @@ void drm_debugfs_add_files(struct drm_device *dev,
->>>     int drm_debugfs_gpuva_info(struct seq_file *m,
->>>                  struct drm_gpuvm *gpuvm);
->>> +
->>> +int drm_debugfs_clients_add(struct drm_file *file);
->>> +void drm_debugfs_clients_remove(struct drm_file *file);
->>>   #else
->>>   static inline void drm_debugfs_create_files(const struct 
->>> drm_info_list *files,
->>>                           int count, struct dentry *root,
->>> @@ -181,6 +184,15 @@ static inline int drm_debugfs_gpuva_info(struct 
->>> seq_file *m,
->>>   {
->>>       return 0;
->>>   }
->>> +
->>> +int drm_debugfs_clients_add(struct drm_file *file)
->>> +{
->>> +    return 0;
->>> +}
->>> +
->>> +void drm_debugfs_clients_remove(struct drm_file *file)
->>> +{
->>> +}
->>
->> Static inline for the two above.
-> Noted
->>
->>>   #endif
->>>     #endif /* _DRM_DEBUGFS_H_ */
->>> diff --git a/include/drm/drm_file.h b/include/drm/drm_file.h
->>> index 5c3b2aa3e69d..eab7546aad79 100644
->>> --- a/include/drm/drm_file.h
->>> +++ b/include/drm/drm_file.h
->>> @@ -400,6 +400,13 @@ struct drm_file {
->>>        * @client_name_lock: Protects @client_name.
->>>        */
->>>       struct mutex client_name_lock;
->>> +
->>> +    /**
->>> +     * @debugfs_client:
->>> +     *
->>> +     * debugfs directory for each client under a drm node.
->>> +     */
->>> +    struct dentry *debugfs_client;
->>
->> Is it worth idefing this out if !CONFIG_DEBUG_FS?
-> 
-> Surprisingly i dont see CONFIG_DEBUG_FS used in drm much.  So keeping it 
-> same for this one variable too. Need a whole new change to keep debugfs 
-> related things under the if.
-
-Ah struct drm_device.. I see what you mean. I guess the waste if 
-progressively worse as the unused fields move from structs with fewer 
-instances to ones which can be a lot more.
-
-Regards,
-
-Tvrtko
-
-> 
-> Regards
-> Sunil Khatri
-> 
->>
->> Regards,
->>
->> Tvrtko
->>
->>>   };
->>>     /**
->>
-
+---
+Best Regards,
+Krzysztof
