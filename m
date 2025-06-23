@@ -2,53 +2,72 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id EA547AE3EE2
-	for <lists+dri-devel@lfdr.de>; Mon, 23 Jun 2025 14:02:21 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id A3B7FAE3EE4
+	for <lists+dri-devel@lfdr.de>; Mon, 23 Jun 2025 14:02:24 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 34EDE10E36E;
-	Mon, 23 Jun 2025 12:02:19 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A920310E37F;
+	Mon, 23 Jun 2025 12:02:22 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="l3+UqK+K";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="Sv0HvcbA";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
- [213.167.242.64])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 062EF10E36E
- for <dri-devel@lists.freedesktop.org>; Mon, 23 Jun 2025 12:02:13 +0000 (UTC)
-Received: from pendragon.ideasonboard.com (81-175-209-231.bb.dnainternet.fi
- [81.175.209.231])
- by perceval.ideasonboard.com (Postfix) with UTF8SMTPSA id 92EE9D77;
- Mon, 23 Jun 2025 14:01:52 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
- s=mail; t=1750680112;
- bh=eRambE0IBM8lNOiYCxa2v73RenBHpxNaK9LeTRHj+AE=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=l3+UqK+KWz4sGVgbakoiaVTmeJjO6bv7sXCPr3994UjbHOvGFinjekByWnIlIIumD
- +BmzInw6CZif2voQk9KtawqU16spy5+mpeD40aBE/SyXqRYhqI8UICjQ5GYPwjil1u
- ma5r9yxK0Rwf+4UrnD8DVxcX7FJsCvlwyvj05Q4Q=
-Date: Mon, 23 Jun 2025 15:01:49 +0300
-From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To: Dharma Balasubiramani <dharma.b@microchip.com>
-Cc: Manikandan Muralidharan <manikandan.m@microchip.com>,
- Andrzej Hajda <andrzej.hajda@intel.com>,
- Neil Armstrong <neil.armstrong@linaro.org>,
- Robert Foss <rfoss@kernel.org>, Jonas Karlman <jonas@kwiboo.se>,
- Jernej Skrabec <jernej.skrabec@gmail.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- Sandeep Sheriker M <sandeep.sheriker@microchip.com>
-Subject: Re: [PATCH v2] drm/bridge: microchip-lvds: fix bus format mismatch
- with VESA displays
-Message-ID: <20250623120149.GA19319@pendragon.ideasonboard.com>
-References: <20250623-microchip-lvds-v2-1-8ecbabc6abc4@microchip.com>
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id CA29F10E36F;
+ Mon, 23 Jun 2025 12:02:17 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1750680138; x=1782216138;
+ h=message-id:date:mime-version:subject:to:references:from:
+ in-reply-to:content-transfer-encoding;
+ bh=Y5hDoV8L/G+XG/Mk2UP5nwzN7exrsEd+MJZCvR+m6uA=;
+ b=Sv0HvcbAfS5jN+j7EWt8FX3n878gAmAyChOdGitu/7FVAEaXZIYALz5z
+ SIh2jLXC7w8GcjTj2qs9DSh2ITI36xNESLR+YtC+UjTrbvxw/6rmx0s8t
+ TJS/b52p3xrfptpFmRcMuPgVVFXojkniUe+0o5MmZUe1konX7hDrJTd2b
+ aDKdzzuHSeaBXdpJUY43n35Y2FBOO4OSJt3NzzoLfseioR7RlIg7UuwMq
+ HJx98wTSmoChpFdRUL0bnj5ICq0ClxfNV7OWAYYnKaCfI/VJQuy2SgSiJ
+ fKoOFBLi79CttNXDCWxPYex3xglkXow58AtPY4ViyZw4R05JKOWgJuYyW Q==;
+X-CSE-ConnectionGUID: b9eYNt0aQc+Rbzzkuhfs8A==
+X-CSE-MsgGUID: 4gz7poQWRSGzQ4gIy722hw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11473"; a="63575053"
+X-IronPort-AV: E=Sophos;i="6.16,258,1744095600"; d="scan'208";a="63575053"
+Received: from fmviesa006.fm.intel.com ([10.60.135.146])
+ by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 23 Jun 2025 05:02:18 -0700
+X-CSE-ConnectionGUID: x9EzZMHTRbWoIMVvnxW2wA==
+X-CSE-MsgGUID: I4ScjVvrRLGRQ8lgvOs7Gw==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.16,258,1744095600"; d="scan'208";a="151732162"
+Received: from mjarzebo-mobl1.ger.corp.intel.com (HELO [10.245.244.111])
+ ([10.245.244.111])
+ by fmviesa006-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 23 Jun 2025 05:02:13 -0700
+Message-ID: <cfbcb660-d102-4cca-afb4-4e88a4ef2d32@linux.intel.com>
+Date: Mon, 23 Jun 2025 14:02:11 +0200
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20250623-microchip-lvds-v2-1-8ecbabc6abc4@microchip.com>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v10 00/10] drm/i915: Add drm_panic support
+To: Jocelyn Falempe <jfalempe@redhat.com>,
+ Jani Nikula <jani.nikula@linux.intel.com>,
+ Rodrigo Vivi <rodrigo.vivi@intel.com>,
+ Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
+ Tvrtko Ursulin <tursulin@ursulin.net>,
+ =?UTF-8?B?VmlsbGUgU3lyasOkbMOk?= <ville.syrjala@linux.intel.com>,
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+ Christian Koenig <christian.koenig@amd.com>, Huang Rui <ray.huang@amd.com>,
+ Matthew Auld <matthew.auld@intel.com>,
+ Matthew Brost <matthew.brost@intel.com>, Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>, intel-gfx@lists.freedesktop.org,
+ intel-xe@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org
+References: <20250618094011.238154-1-jfalempe@redhat.com>
+ <c28aad52-7977-4763-9690-9aed1910c834@linux.intel.com>
+ <4d81cf64-7bf1-4a7d-8682-fc817d74c373@redhat.com>
+Content-Language: en-US
+From: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
+In-Reply-To: <4d81cf64-7bf1-4a7d-8682-fc817d74c373@redhat.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -64,179 +83,40 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Dharma,
+Hey,
 
-Thank you for the patch.
-
-On Mon, Jun 23, 2025 at 04:20:20PM +0530, Dharma Balasubiramani wrote:
-> From: Sandeep Sheriker M <sandeep.sheriker@microchip.com>
+On 2025-06-23 12:10, Jocelyn Falempe wrote:
+> On 23/06/2025 09:40, Maarten Lankhorst wrote:
+>> Hey,
+>>
+>> Thanks for the series. I didn't see you on irc so I wanted to ask if you are planning to send a v11 with
+>> the changes from void * to struct intel_panic_data and adding the VRAM support?
 > 
-> The LVDS controller was hardcoded to JEIDA mapping, which leads to
-> distorted output on panels expecting VESA mapping.
+> Yes, I'm preparing a v11, and I'm considering to do something like this, to allocate the panic data with the struct intel_framebuffer:
 > 
-> Update the driver to dynamically select the appropriate mapping and
-> pixel size based on the panel's advertised media bus format. This
-> ensures compatibility with both JEIDA and VESA displays.
+> struct xe_framebuffer {
+>     struct intel_framebuffer base;
+>     struct xe_panic_data panic;
+> };
 > 
-> Modernize the bridge ops to use atomic_enable/disable, and retrieve
-> the bus format from the connector via the atomic bridge state.
+> struct intel_framebuffer *intel_bo_alloc_framebuffer(void)
+> {
+>     struct xe_framebuffer *xe_fb;
 > 
-> Signed-off-by: Sandeep Sheriker M <sandeep.sheriker@microchip.com>
-> Signed-off-by: Dharma Balasubiramani <dharma.b@microchip.com>
-> ---
-> Note: Tested the changes on newvision 10.1 VESA display.
+>     xe_fb = kmalloc(sizeof(struct xe_framebuffer), GFP_KERNEL);
+>     return &xe_fb->base;
+> }
 > 
-> Changes in v2:
-> - Switch to atomic bridge functions
-> - Drop custom connector creation
-> - Use drm_atomic_get_new_connector_for_encoder()
-> - Link to v1: https://lore.kernel.org/r/20250618-microchip-lvds-v1-1-1eae5acd7a82@microchip.com
-> ---
->  drivers/gpu/drm/bridge/microchip-lvds.c | 64 +++++++++++++++++++++++++++------
->  1 file changed, 54 insertions(+), 10 deletions(-)
+> (And the same for i915).
+> That should allow you to add battlemage support.
 > 
-> diff --git a/drivers/gpu/drm/bridge/microchip-lvds.c b/drivers/gpu/drm/bridge/microchip-lvds.c
-> index 9f4ff82bc6b4..b71478aa36e9 100644
-> --- a/drivers/gpu/drm/bridge/microchip-lvds.c
-> +++ b/drivers/gpu/drm/bridge/microchip-lvds.c
-> @@ -11,6 +11,7 @@
->  #include <linux/component.h>
->  #include <linux/delay.h>
->  #include <linux/jiffies.h>
-> +#include <linux/media-bus-format.h>
->  #include <linux/mfd/syscon.h>
->  #include <linux/of_graph.h>
->  #include <linux/pinctrl/devinfo.h>
-> @@ -41,9 +42,11 @@
->  
->  /* Bitfields in LVDSC_CFGR (Configuration Register) */
->  #define LVDSC_CFGR_PIXSIZE_24BITS	0
-> +#define LVDSC_CFGR_PIXSIZE_18BITS	1
+>>
+>>
+>> Other than that, I think the series looks good and I'll be able to test it on my battlemage.
+>>
 
-#define LVDSC_CFGR_PIXSIZE_18BITS	BIT(0)
+A private member is fine, but if you can get signoff from the i915 people for the xe_fb slpit, I would really like that for other things too. :)
 
->  #define LVDSC_CFGR_DEN_POL_HIGH		0
->  #define LVDSC_CFGR_DC_UNBALANCED	0
->  #define LVDSC_CFGR_MAPPING_JEIDA	BIT(6)
-> +#define LVDSC_CFGR_MAPPING_VESA		0
->  
->  /*Bitfields in LVDSC_SR */
->  #define LVDSC_SR_CS	BIT(0)
+Kind regards,
+~Maarten
 
-I think you can drop the panel field of the mchp_lvds structure in the
-same patch.
-
-> @@ -76,9 +79,10 @@ static inline void lvds_writel(struct mchp_lvds *lvds, u32 offset, u32 val)
->  	writel_relaxed(val, lvds->regs + offset);
->  }
->  
-> -static void lvds_serialiser_on(struct mchp_lvds *lvds)
-> +static void lvds_serialiser_on(struct mchp_lvds *lvds, u32 bus_format)
->  {
->  	unsigned long timeout = jiffies + msecs_to_jiffies(LVDS_POLL_TIMEOUT_MS);
-> +	u8 map, pix_size;
->  
->  	/* The LVDSC registers can only be written if WPEN is cleared */
->  	lvds_writel(lvds, LVDSC_WPMR, (LVDSC_WPMR_WPKEY_PSSWD &
-> @@ -93,11 +97,24 @@ static void lvds_serialiser_on(struct mchp_lvds *lvds)
->  		usleep_range(1000, 2000);
->  	}
->  
-> +	switch (bus_format) {
-> +	case MEDIA_BUS_FMT_RGB666_1X7X3_SPWG:
-> +		map = LVDSC_CFGR_MAPPING_JEIDA;
-> +		pix_size = LVDSC_CFGR_PIXSIZE_18BITS;
-> +		break;
-> +	case MEDIA_BUS_FMT_RGB888_1X7X4_SPWG:
-> +		map = LVDSC_CFGR_MAPPING_VESA;
-> +		pix_size = LVDSC_CFGR_PIXSIZE_24BITS;
-> +		break;
-> +	default:
-> +		map = LVDSC_CFGR_MAPPING_JEIDA;
-> +		pix_size = LVDSC_CFGR_PIXSIZE_24BITS;
-> +		break;
-> +	}
-> +
->  	/* Configure the LVDSC */
-> -	lvds_writel(lvds, LVDSC_CFGR, (LVDSC_CFGR_MAPPING_JEIDA |
-> -				LVDSC_CFGR_DC_UNBALANCED |
-> -				LVDSC_CFGR_DEN_POL_HIGH |
-> -				LVDSC_CFGR_PIXSIZE_24BITS));
-> +	lvds_writel(lvds, LVDSC_CFGR, (map | LVDSC_CFGR_DC_UNBALANCED |
-> +		    LVDSC_CFGR_DEN_POL_HIGH | pix_size));
-
-You can drop the inner parentheses.
-
->  
->  	/* Enable the LVDS serializer */
->  	lvds_writel(lvds, LVDSC_CR, LVDSC_CR_SER_EN);
-> @@ -113,7 +130,8 @@ static int mchp_lvds_attach(struct drm_bridge *bridge,
->  				 bridge, flags);
->  }
->  
-> -static void mchp_lvds_enable(struct drm_bridge *bridge)
-> +static void mchp_lvds_atomic_pre_enable(struct drm_bridge *bridge,
-> +					struct drm_atomic_state *state)
->  {
->  	struct mchp_lvds *lvds = bridge_to_lvds(bridge);
->  	int ret;
-> @@ -129,11 +147,35 @@ static void mchp_lvds_enable(struct drm_bridge *bridge)
->  		dev_err(lvds->dev, "failed to get pm runtime: %d\n", ret);
->  		return;
->  	}
-> +}
-> +
-> +static void mchp_lvds_atomic_enable(struct drm_bridge *bridge,
-> +				    struct drm_atomic_state *state)
-> +{
-> +	struct mchp_lvds *lvds = bridge_to_lvds(bridge);
-> +	struct drm_connector *connector;
-> +
-> +	/* default to jeida-24 */
-> +	u32 bus_format = MEDIA_BUS_FMT_RGB888_1X7X4_JEIDA;
-> +
-> +	connector = drm_atomic_get_new_connector_for_encoder(state, bridge->encoder);
-> +	if (connector && connector->display_info.num_bus_formats)
-> +		bus_format = connector->display_info.bus_formats[0];
-> +
-> +	lvds_serialiser_on(lvds, bus_format);
-> +}
-> +
-> +static void mchp_lvds_atomic_disable(struct drm_bridge *bridge,
-> +				     struct drm_atomic_state *state)
-> +{
-> +	struct mchp_lvds *lvds = bridge_to_lvds(bridge);
->  
-> -	lvds_serialiser_on(lvds);
-> +	/* Turn off the serialiser */
-> +	lvds_writel(lvds, LVDSC_CR, 0);
->  }
->  
-> -static void mchp_lvds_disable(struct drm_bridge *bridge)
-> +static void mchp_lvds_atomic_post_disable(struct drm_bridge *bridge,
-> +					  struct drm_atomic_state *state)
->  {
->  	struct mchp_lvds *lvds = bridge_to_lvds(bridge);
->  
-> @@ -143,8 +185,10 @@ static void mchp_lvds_disable(struct drm_bridge *bridge)
->  
->  static const struct drm_bridge_funcs mchp_lvds_bridge_funcs = {
->  	.attach = mchp_lvds_attach,
-> -	.enable = mchp_lvds_enable,
-> -	.disable = mchp_lvds_disable,
-> +	.atomic_pre_enable = mchp_lvds_atomic_pre_enable,
-> +	.atomic_enable = mchp_lvds_atomic_enable,
-> +	.atomic_disable = mchp_lvds_atomic_disable,
-> +	.atomic_post_disable = mchp_lvds_atomic_post_disable,
->  };
->  
->  static int mchp_lvds_probe(struct platform_device *pdev)
-> 
-> ---
-> base-commit: 4325743c7e209ae7845293679a4de94b969f2bef
-> change-id: 20250618-microchip-lvds-b7151d96094a
-
--- 
-Regards,
-
-Laurent Pinchart
