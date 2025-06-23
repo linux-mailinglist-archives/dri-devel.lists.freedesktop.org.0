@@ -2,19 +2,19 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8FED1AE401B
-	for <lists+dri-devel@lfdr.de>; Mon, 23 Jun 2025 14:28:14 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 284FBAE4018
+	for <lists+dri-devel@lfdr.de>; Mon, 23 Jun 2025 14:28:12 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2E3CF10E388;
-	Mon, 23 Jun 2025 12:28:02 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 541F510E38D;
+	Mon, 23 Jun 2025 12:28:01 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=igalia.com header.i=@igalia.com header.b="q4AfK9Pj";
+	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=igalia.com header.i=@igalia.com header.b="B68yePL4";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from fanzine2.igalia.com (fanzine2.igalia.com [213.97.179.56])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8DD6A10E382;
- Mon, 23 Jun 2025 12:27:57 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4D02210E384;
+ Mon, 23 Jun 2025 12:27:58 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com; 
  s=20170329;
  h=Content-Transfer-Encoding:Content-Type:MIME-Version:References:
@@ -22,16 +22,16 @@ DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com;
  Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc
  :Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:List-Subscribe:
  List-Post:List-Owner:List-Archive;
- bh=szwRpZzrIDqFn2J4bd1qZiMK+mSvDFT4HsN2B/fS3lw=; b=q4AfK9PjC+U5UX8oDBZ4ElQsWT
- fS01cwhHLenjy5oREACnc/riFS80rJph+2X2ax8Q/jM291e+U5WxNppVGVPk5RYhe+hHZPjJHUvVG
- LahDyYwMUdLhGJsCO21WpbECv2LSx31OUMLzaEnJSQDnONwI5/AuDQ8uotr7WfxOjHaiWp24+mJJZ
- 4coB3LYa9cbAcSdU1x2L16hR8EIoEf3/jhZawEdEU2Nr5QBqW8X+1fTuidOtr2X+v1iXYKFnQ0JzF
- rzerX36jHAnNhbrXTpfssH5Bfjmpa3hyh1QyQrjKt9XES4ujEVUL+cwXv3C5bCv2eEQGuQ5kn2gg2
- NIkX2cwg==;
+ bh=OkDT7Ow413u9fotNfWkieGYXixm2TPBaw9NLIBGhRJQ=; b=B68yePL4qM6Gf4NTifT6u247al
+ iZvwgWel8kBXyWqU0WLI3M8C/K5MUQHhhTg2XYfJ40+QNiJByUfLEfCPsLpQnzcFf5jjt8puWFGKs
+ 0ocE5+kkzDYVSdJREL/xfz6aFPUsJfd+CdeFhMuVtXTGjhVu99WMa3cRJW6wL2Y6/8H3O8Ws9oMfQ
+ KDdz12r33cOMShk+Yfd3ndxdgiFzCl6mjgWz8xE7WiP1L4Gr8aRzlgw5R5YVPzRIjIEDbjKhRLrMn
+ zmJweCAl2xJYow2earEfmoZlEN6jRmAeE30t6NjjxIcCs6I023nXHqzIH9rm9R0+IzqDKZheIWNNG
+ wOr4/cfg==;
 Received: from [81.79.92.254] (helo=localhost)
  by fanzine2.igalia.com with esmtpsa 
  (Cipher TLS1.3:ECDHE_SECP256R1__RSA_PSS_RSAE_SHA256__AES_256_GCM:256) (Exim)
- id 1uTgHD-007U2k-SU; Mon, 23 Jun 2025 14:27:55 +0200
+ id 1uTgHE-007U2r-IC; Mon, 23 Jun 2025 14:27:56 +0200
 From: Tvrtko Ursulin <tvrtko.ursulin@igalia.com>
 To: amd-gfx@lists.freedesktop.org,
 	dri-devel@lists.freedesktop.org
@@ -40,9 +40,9 @@ Cc: kernel-dev@igalia.com, Tvrtko Ursulin <tvrtko.ursulin@igalia.com>,
  Danilo Krummrich <dakr@kernel.org>,
  Matthew Brost <matthew.brost@intel.com>,
  Philipp Stanner <phasta@kernel.org>
-Subject: [PATCH v5 04/16] drm/sched: Avoid double re-lock on the job free path
-Date: Mon, 23 Jun 2025 13:27:34 +0100
-Message-ID: <20250623122746.46478-5-tvrtko.ursulin@igalia.com>
+Subject: [PATCH v5 05/16] drm/sched: Consolidate drm_sched_job_timedout
+Date: Mon, 23 Jun 2025 13:27:35 +0100
+Message-ID: <20250623122746.46478-6-tvrtko.ursulin@igalia.com>
 X-Mailer: git-send-email 2.48.0
 In-Reply-To: <20250623122746.46478-1-tvrtko.ursulin@igalia.com>
 References: <20250623122746.46478-1-tvrtko.ursulin@igalia.com>
@@ -64,14 +64,15 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Currently the job free work item will lock sched->job_list_lock first time
-to see if there are any jobs, free a single job, and then lock again to
-decide whether to re-queue itself if there are more finished jobs.
+Reduce to one spin_unlock for hopefully a little bit clearer flow in the
+function. It may appear that there is a behavioural change with the
+drm_sched_start_timeout_unlocked() now not being called if there were
+initially no jobs on the pending list, and then some appeared after
+unlock, however if the code would rely on the TDR handler restarting
+itself then it would fail to do that if the job arrived on the pending
+list after the check.
 
-Since drm_sched_get_finished_job() already looks at the second job in the
-queue we can simply add the signaled check and have it return the presence
-of more jobs to free to the caller. That way the work item does not have
-to lock the list again and repeat the signaled check.
+Also fix one stale comment while touching the function.
 
 Signed-off-by: Tvrtko Ursulin <tvrtko.ursulin@igalia.com>
 Cc: Christian König <christian.koenig@amd.com>
@@ -79,101 +80,68 @@ Cc: Danilo Krummrich <dakr@kernel.org>
 Cc: Matthew Brost <matthew.brost@intel.com>
 Cc: Philipp Stanner <phasta@kernel.org>
 ---
- drivers/gpu/drm/scheduler/sched_main.c | 39 +++++++++++---------------
- 1 file changed, 16 insertions(+), 23 deletions(-)
+ drivers/gpu/drm/scheduler/sched_main.c | 33 +++++++++++++-------------
+ 1 file changed, 16 insertions(+), 17 deletions(-)
 
 diff --git a/drivers/gpu/drm/scheduler/sched_main.c b/drivers/gpu/drm/scheduler/sched_main.c
-index 1f077782ec12..c6c26aec07b6 100644
+index c6c26aec07b6..0627a82c02dc 100644
 --- a/drivers/gpu/drm/scheduler/sched_main.c
 +++ b/drivers/gpu/drm/scheduler/sched_main.c
-@@ -366,22 +366,6 @@ static void __drm_sched_run_free_queue(struct drm_gpu_scheduler *sched)
- 		queue_work(sched->submit_wq, &sched->work_free_job);
- }
+@@ -517,17 +517,15 @@ static void drm_sched_job_begin(struct drm_sched_job *s_job)
  
--/**
-- * drm_sched_run_free_queue - enqueue free-job work if ready
-- * @sched: scheduler instance
-- */
--static void drm_sched_run_free_queue(struct drm_gpu_scheduler *sched)
--{
--	struct drm_sched_job *job;
--
--	spin_lock(&sched->job_list_lock);
--	job = list_first_entry_or_null(&sched->pending_list,
--				       struct drm_sched_job, list);
--	if (job && dma_fence_is_signaled(&job->s_fence->finished))
--		__drm_sched_run_free_queue(sched);
--	spin_unlock(&sched->job_list_lock);
--}
--
- /**
-  * drm_sched_job_done - complete a job
-  * @s_job: pointer to the job which is done
-@@ -1102,12 +1086,13 @@ drm_sched_select_entity(struct drm_gpu_scheduler *sched)
-  * drm_sched_get_finished_job - fetch the next finished job to be destroyed
-  *
-  * @sched: scheduler instance
-+ * @have_more: are there more finished jobs on the list
-  *
-  * Returns the next finished job from the pending list (if there is one)
-  * ready for it to be destroyed.
-  */
- static struct drm_sched_job *
--drm_sched_get_finished_job(struct drm_gpu_scheduler *sched)
-+drm_sched_get_finished_job(struct drm_gpu_scheduler *sched, bool *have_more)
+ static void drm_sched_job_timedout(struct work_struct *work)
  {
- 	struct drm_sched_job *job, *next;
+-	struct drm_gpu_scheduler *sched;
++	struct drm_gpu_scheduler *sched =
++		container_of(work, struct drm_gpu_scheduler, work_tdr.work);
++	enum drm_gpu_sched_stat status;
+ 	struct drm_sched_job *job;
+-	enum drm_gpu_sched_stat status = DRM_GPU_SCHED_STAT_NOMINAL;
+-
+-	sched = container_of(work, struct drm_gpu_scheduler, work_tdr.work);
  
-@@ -1115,22 +1100,27 @@ drm_sched_get_finished_job(struct drm_gpu_scheduler *sched)
- 
+ 	/* Protects against concurrent deletion in drm_sched_get_finished_job */
+ 	spin_lock(&sched->job_list_lock);
  	job = list_first_entry_or_null(&sched->pending_list,
  				       struct drm_sched_job, list);
 -
- 	if (job && dma_fence_is_signaled(&job->s_fence->finished)) {
- 		/* remove job from pending_list */
+ 	if (job) {
+ 		/*
+ 		 * Remove the bad job so it cannot be freed by a concurrent
+@@ -536,20 +534,21 @@ static void drm_sched_job_timedout(struct work_struct *work)
+ 		 * cancelled, at which point it's safe.
+ 		 */
  		list_del_init(&job->list);
- 
- 		/* cancel this job's TO timer */
- 		cancel_delayed_work(&sched->work_tdr);
--		/* make the scheduled timestamp more accurate */
-+
-+		*have_more = false;
- 		next = list_first_entry_or_null(&sched->pending_list,
- 						typeof(*next), list);
--
- 		if (next) {
-+			/* make the scheduled timestamp more accurate */
- 			if (test_bit(DMA_FENCE_FLAG_TIMESTAMP_BIT,
- 				     &next->s_fence->scheduled.flags))
- 				next->s_fence->scheduled.timestamp =
- 					dma_fence_timestamp(&job->s_fence->finished);
-+
-+			if (test_bit(DMA_FENCE_FLAG_SIGNALED_BIT,
-+				     &next->s_fence->finished.flags))
-+				*have_more = true;
-+
- 			/* start TO timer for next job */
- 			drm_sched_start_timeout(sched);
- 		}
-@@ -1189,12 +1179,15 @@ static void drm_sched_free_job_work(struct work_struct *w)
- 	struct drm_gpu_scheduler *sched =
- 		container_of(w, struct drm_gpu_scheduler, work_free_job);
- 	struct drm_sched_job *job;
-+	bool have_more;
- 
--	job = drm_sched_get_finished_job(sched);
--	if (job)
-+	job = drm_sched_get_finished_job(sched, &have_more);
-+	if (job) {
- 		sched->ops->free_job(job);
-+		if (have_more)
-+			__drm_sched_run_free_queue(sched);
+-		spin_unlock(&sched->job_list_lock);
 +	}
++	spin_unlock(&sched->job_list_lock);
  
--	drm_sched_run_free_queue(sched);
- 	drm_sched_run_job_queue(sched);
- }
+-		status = job->sched->ops->timedout_job(job);
++	if (!job)
++		return;
  
+-		/*
+-		 * Guilty job did complete and hence needs to be manually removed
+-		 * See drm_sched_stop doc.
+-		 */
+-		if (sched->free_guilty) {
+-			job->sched->ops->free_job(job);
+-			sched->free_guilty = false;
+-		}
+-	} else {
+-		spin_unlock(&sched->job_list_lock);
++	status = job->sched->ops->timedout_job(job);
++
++	/*
++	 * Guilty job did complete and hence needs to be manually removed. See
++	 * documentation for drm_sched_stop.
++	 */
++	if (sched->free_guilty) {
++		job->sched->ops->free_job(job);
++		sched->free_guilty = false;
+ 	}
+ 
+ 	if (status != DRM_GPU_SCHED_STAT_ENODEV)
 -- 
 2.48.0
 
