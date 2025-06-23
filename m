@@ -2,58 +2,102 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 35FF5AE3B89
-	for <lists+dri-devel@lfdr.de>; Mon, 23 Jun 2025 12:03:08 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 847F3AE3BD0
+	for <lists+dri-devel@lfdr.de>; Mon, 23 Jun 2025 12:10:37 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 91FB910E0E9;
-	Mon, 23 Jun 2025 10:03:05 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E7B2A10E34B;
+	Mon, 23 Jun 2025 10:10:32 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=dolcini.it header.i=@dolcini.it header.b="YknfX437";
+	dkim=pass (1024-bit key; unprotected) header.d=redhat.com header.i=@redhat.com header.b="bVCk1fU6";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail11.truemail.it (mail11.truemail.it [217.194.8.81])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A263110E05B
- for <dri-devel@lists.freedesktop.org>; Mon, 23 Jun 2025 10:02:59 +0000 (UTC)
-Received: from francesco-nb
- (248.201.173.83.static.wline.lns.sme.cust.swisscom.ch [83.173.201.248])
- by mail11.truemail.it (Postfix) with ESMTPA id 7A76A1FA8F;
- Mon, 23 Jun 2025 12:02:53 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=dolcini.it;
- s=default; t=1750672974;
- bh=o9gK1oyJAjE6oa76DzirijbCMI6ITVFFKA9WRcVsiT0=; h=From:To:Subject;
- b=YknfX437HZgovMEl0FLqq8i55sHKy/dG4VIucIsOBk8u3uBSNsAItiKCi5jZr9Qkr
- Ne6V6S5/eXWz9kYtVokuXMtXW+KqJBZH+IM8Fr2mdd3tLwmNEWHwsrl1LL4WXiwHDz
- nQgvlbBZh8R69LAC5fYhsC09mmJzzrzrKZ6PIrkBxuNLuoBPZoKNNEMnZsPGo+YqdM
- UwzUPqZRGxyqafupcruy1tPc/vAGWk4eTUAk0sS7Y1HZ+cz/yF8oI4w00RJVaVhwri
- vH2bpx476LPXct4rPIoowpK+n8A3zkYUdjmxzMayQdm8ckWwgC4sXGdXazkOxm6OVj
- DHu331xwM3NvA==
-Date: Mon, 23 Jun 2025 12:02:49 +0200
-From: Francesco Dolcini <francesco@dolcini.it>
-To: Marek Szyprowski <m.szyprowski@samsung.com>
-Cc: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>,
- Inki Dae <inki.dae@samsung.com>, Jagan Teki <jagan@amarulasolutions.com>,
- Andrzej Hajda <andrzej.hajda@intel.com>,
- Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>,
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
- Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- Aradhya Bhatia <a-bhatia1@ti.com>, Dmitry Baryshkov <lumag@kernel.org>,
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- Hiago De Franco <hiagofranco@gmail.com>,
- Francesco Dolcini <francesco@dolcini.it>
-Subject: Re: [PATCH] drm/bridge: samsung-dsim: Fix init order
-Message-ID: <20250623100249.GA32388@francesco-nb>
-References: <CGME20250619122746eucas1p149ff73e78cb82dc06c19960a2bbd3d89@eucas1p1.samsung.com>
- <20250619-samsung-dsim-fix-v1-1-6b5de68fb115@ideasonboard.com>
- <e23e6192-6e13-41b4-acdd-2593f4f37895@samsung.com>
+Received: from us-smtp-delivery-124.mimecast.com
+ (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 82E5910E1C3
+ for <dri-devel@lists.freedesktop.org>; Mon, 23 Jun 2025 10:10:30 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1750673429;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=k0QTXQBLxcMhOeb0i/VFxTw420XqKRgS33hIZfnQXmI=;
+ b=bVCk1fU6OnS7Ck2ux1TRmWYZOUO0SvDQ5+/DpKnbzLEELHX7RdvjPzwUQVXJMOyX6KQvp8
+ 1KS/nfnKQTWS9JhnjOGeyKlYTAR7BJebTzcHKiDM1+34IBEDwmy/cW8VtEElpeGtnm8liA
+ sgaOEkqDzpzsGikhFezZejj6KBk5sOk=
+Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
+ [209.85.128.70]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-511-sUy0jI3XOEuwHQpE4vNcTg-1; Mon, 23 Jun 2025 06:10:27 -0400
+X-MC-Unique: sUy0jI3XOEuwHQpE4vNcTg-1
+X-Mimecast-MFC-AGG-ID: sUy0jI3XOEuwHQpE4vNcTg_1750673426
+Received: by mail-wm1-f70.google.com with SMTP id
+ 5b1f17b1804b1-4530ec2c87cso20910705e9.0
+ for <dri-devel@lists.freedesktop.org>; Mon, 23 Jun 2025 03:10:27 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1750673426; x=1751278226;
+ h=content-transfer-encoding:in-reply-to:from:content-language
+ :references:to:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=k0QTXQBLxcMhOeb0i/VFxTw420XqKRgS33hIZfnQXmI=;
+ b=cfc6pCzsjeWqdjl18KfgUJQ7yH+qy/BelYm/vGJofNEH/awmA5ap6D7oVt9f+WX2Xx
+ B45gjsSb3d5kQEt+ZEiSFptltvlxpcsUKCNq3kmfB0h5hAhw+N6vPXjLCOw48AYy+EaF
+ NDxaLVIs2OLDJfPezGZGi1rO5sK8DUOIXb9q/fx9L51Nik8pL64BONTR521NB4LC2HIh
+ 8mLusedjk6TvFX6fXJKB9IYhlV9LIX+rkjhE3d0fGusO4n2UNz6TU1Pc9YQE8fly2dUK
+ 1FBWasAYeFLu8ExbWzDZviMYXh0S1oxZ+PcVC+6Bw7AoHyvLk6ENOxvJ/XvMNJBT5vHv
+ wjqw==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCUz1f3zqlvX9XuNZqldR4rLdoZKRRb2yYKr3kSWFM6LRk6EEPYZY8SAJ14SakCs+CimTs2SPUYZIJM=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YxcPfOPOHOaLzXRtEdiMQZXpPwikD92fmgJz7xfDgXsKSvufKfr
+ goU4ZaibQKx+J2aiFJAZZByRvIaQlYdQ87oCSsDeEjnk5nEJz/MQQz6YloxpgpT+uBpobbCsTpD
+ cDsWJktV/efbD6i3wOw6F9JS60nKatJIV6RSzH43MUdEXw4fUUaAPdazsA5mB8Q8SS5hAyA==
+X-Gm-Gg: ASbGncvTn3M2BRRHVpUqrBY9xY9ixn3iCgVSp4DZKlxZljgvyMloVmH1LbyckIrrr93
+ nLC/h9xTngt2Omu3YBAwtb/3i33JyqHcYkAzA55BWmGbVax4hDiHMq7eu3fX4fZb2RMFehAtc3/
+ NMdmuodWy0cdClYxDgkKgnuwLCVawbOYsBW8ZV/722Nv37b9fYakImspNhS8HN99323cLWgkOnt
+ 0fRVxbuj5SztbYh+gsLNZPK/Zm0L5V2T2jIVtccdXz6W1ufv9W4nACIiBOWLUptZCO/R+EAGd1i
+ 4TxcIcLPL48MdVLbCy96q2kPZ3W6Zib8LVpa0S27AcczUlNY6HZj+0HGsDwRcg==
+X-Received: by 2002:a05:600c:8594:b0:453:9b3:5b67 with SMTP id
+ 5b1f17b1804b1-453659f8324mr45133005e9.24.1750673425999; 
+ Mon, 23 Jun 2025 03:10:25 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IHD/EDMvqV0TmgUGzrlFNaHgM4CsvQsUMw4O18DWIgIsMuiop7OwY4JI2S/azLj8QrlBp/XkA==
+X-Received: by 2002:a05:600c:8594:b0:453:9b3:5b67 with SMTP id
+ 5b1f17b1804b1-453659f8324mr45132755e9.24.1750673425513; 
+ Mon, 23 Jun 2025 03:10:25 -0700 (PDT)
+Received: from ?IPV6:2a01:e0a:c:37e0:8998:e0cf:68cc:1b62?
+ ([2a01:e0a:c:37e0:8998:e0cf:68cc:1b62])
+ by smtp.gmail.com with ESMTPSA id
+ 5b1f17b1804b1-4535eada7adsm140785055e9.35.2025.06.23.03.10.24
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 23 Jun 2025 03:10:24 -0700 (PDT)
+Message-ID: <4d81cf64-7bf1-4a7d-8682-fc817d74c373@redhat.com>
+Date: Mon, 23 Jun 2025 12:10:22 +0200
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <e23e6192-6e13-41b4-acdd-2593f4f37895@samsung.com>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v10 00/10] drm/i915: Add drm_panic support
+To: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Jani Nikula <jani.nikula@linux.intel.com>,
+ Rodrigo Vivi <rodrigo.vivi@intel.com>,
+ Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
+ Tvrtko Ursulin <tursulin@ursulin.net>,
+ =?UTF-8?B?VmlsbGUgU3lyasOkbMOk?= <ville.syrjala@linux.intel.com>,
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+ Christian Koenig <christian.koenig@amd.com>, Huang Rui <ray.huang@amd.com>,
+ Matthew Auld <matthew.auld@intel.com>,
+ Matthew Brost <matthew.brost@intel.com>, Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>, intel-gfx@lists.freedesktop.org,
+ intel-xe@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org
+References: <20250618094011.238154-1-jfalempe@redhat.com>
+ <c28aad52-7977-4763-9690-9aed1910c834@linux.intel.com>
+From: Jocelyn Falempe <jfalempe@redhat.com>
+In-Reply-To: <c28aad52-7977-4763-9690-9aed1910c834@linux.intel.com>
+X-Mimecast-Spam-Score: 0
+X-Mimecast-MFC-PROC-ID: bpYkUBfuX6k0mLZIe0wTwQ0KtHVWOnGYRaN0gmx5MaU_1750673426
+X-Mimecast-Originator: redhat.com
+Content-Language: en-US, fr
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -69,84 +113,144 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, Jun 23, 2025 at 11:34:34AM +0200, Marek Szyprowski wrote:
-> On 19.06.2025 14:27, Tomi Valkeinen wrote:
-> > The commit c9b1150a68d9 ("drm/atomic-helper: Re-order bridge chain
-> > pre-enable and post-disable") changed the order of enable/disable calls.
-> > Previously the calls (on imx8mm) were:
-> >
-> > mxsfb_crtc_atomic_enable()
-> > samsung_dsim_atomic_pre_enable()
-> > samsung_dsim_atomic_enable()
-> >
-> > now the order is:
-> >
-> > samsung_dsim_atomic_pre_enable()
-> > mxsfb_crtc_atomic_enable()
-> > samsung_dsim_atomic_enable()
-> >
-> > On imx8mm (possibly on imx8mp, and other platforms too) this causes two
-> > issues:
-> >
-> > 1. The DSI PLL setup depends on a refclk, but the DSI driver does not
-> > set the rate, just uses it with the rate it has. On imx8mm this refclk
-> > seems to be related to the LCD controller's video clock. So, when the
-> > mxsfb driver sets its video clock, DSI's refclk rate changes.
-> >
-> > Earlier this mxsfb_crtc_atomic_enable() set the video clock, so the PLL
-> > refclk rate was set (and didn't change) in the DSI enable calls. Now the
-> > rate changes between DSI's pre_enable() and enable(), but the driver
-> > configures the PLL in the pre_enable().
-> >
-> > Thus you get a black screen on a modeset. Doing the modeset again works,
-> > as the video clock rate stays the same.
-> >
-> > 2. The image on the screen is shifted/wrapped horizontally. I have not
-> > found the exact reason for this, but the documentation seems to hint
-> > that the LCD controller's pixel stream should be enabled first, before
-> > setting up the DSI. This would match the change, as now the pixel stream
-> > starts only after DSI driver's pre_enable().
-> >
-> > The main function related to this issue is samsung_dsim_init() which
-> > will do the clock and link configuration. samsung_dsim_init() is
-> > currently called from pre_enable(), but it is also called from
-> > samsung_dsim_host_transfer() to set up the link if the peripheral driver
-> > wants to send a DSI command.
-> >
-> > This patch fixes both issues by moving the samsung_dsim_init() call from
-> > pre_enable() to enable().
-> >
-> > However, to deal with the case where the samsung_dsim_init() has already
-> > been called from samsung_dsim_host_transfer() and the refclk rate has
-> > changed, we need to make sure we re-initialize the DSI with the new rate
-> > in enable(). This is achieved by clearing the DSIM_STATE_INITIALIZED
-> > flag and uninitializing the clocks and irqs before calling
-> > samsung_dsim_init().
-> >
-> > Fixes: c9b1150a68d9 ("drm/atomic-helper: Re-order bridge chain pre-enable and post-disable")
-> > Reported-by: Hiago De Franco <hiagofranco@gmail.com>
-> > Signed-off-by: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
+On 23/06/2025 09:40, Maarten Lankhorst wrote:
+> Hey,
 > 
-> Seems to be working fine on all my Exynos based boards:
-> 
-> Tested-by: Marek Szyprowski <m.szyprowski@samsung.com>
-> 
-> 
-> BTW, it was a long discussion how to handle the dsim initialization and 
-> we agreed to keep calling samsung_dsim_init() on first dsi transfer for 
-> Exynos case and from pre-enable for others:
-> 
-> https://lore.kernel.org/all/20221209152343.180139-11-jagan@amarulasolutions.com/
-> 
-> I'm not sure if changing this won't break again something, especially 
-> the boards with DSI bridge or panel controlled via I2C instead of the 
-> DSI commands. This has to be tested on the all supported variants of 
-> this hardware.
+> Thanks for the series. I didn't see you on irc so I wanted to ask if you are planning to send a v11 with
+> the changes from void * to struct intel_panic_data and adding the VRAM support?
 
-FWIW, DSI bridges (LT8912B and SN65DSI83) controlled over I2C were
-tested fine with this patch on both NXP i.MX8MP and 8MM (see Hiago
-tested-by).
+Yes, I'm preparing a v11, and I'm considering to do something like this, 
+to allocate the panic data with the struct intel_framebuffer:
 
+struct xe_framebuffer {
+	struct intel_framebuffer base;
+	struct xe_panic_data panic;
+};
 
-Francesco
+struct intel_framebuffer *intel_bo_alloc_framebuffer(void)
+{
+	struct xe_framebuffer *xe_fb;
+
+	xe_fb = kmalloc(sizeof(struct xe_framebuffer), GFP_KERNEL);
+	return &xe_fb->base;
+}
+
+(And the same for i915).
+That should allow you to add battlemage support.
+
+> 
+> 
+> Other than that, I think the series looks good and I'll be able to test it on my battlemage.
+> 
+
+Thanks
+
+Best regards,
+
+-- 
+
+Jocelyn
+
+> Best regards,
+> ~Maarten
+> 
+> On 2025-06-18 11:31, Jocelyn Falempe wrote:
+>> This adds drm_panic support for i915 and xe driver.
+>>
+>> I've tested it on the 4 intel laptops I have at my disposal.
+>>   * Haswell with 128MB of eDRAM.
+>>   * Comet Lake  i7-10850H
+>>   * Raptor Lake i7-1370P (with DPT, and Y-tiling).
+>>   * Lunar Lake Ultra 5 228V (with DPT, and 4-tiling, and using the Xe driver.
+>>
+>> I tested panic in both fbdev console and gnome desktop.
+>> I think it won't work yet on discrete GPU, but that can be added later.
+>>
+>> Best regards,
+>>
+>> v2:
+>>   * Add the proper abstractions to build also for Xe.
+>>   * Fix dim checkpatch issues.
+>>
+>> v3:
+>>   * Add support for Y-tiled framebuffer when DPT is enabled.
+>>
+>> v4:
+>>   * Add support for Xe driver, which shares most of the code.
+>>   * Add support for 4-tiled framebuffer found in newest GPU.
+>>
+>> v5:
+>>   * Rebase on top of git@gitlab.freedesktop.org:drm/i915/kernel.git drm-intel-next
+>>   * Use struct intel_display instead of drm_i915_private.
+>>   * Use iosys_map for intel_bo_panic_map().
+>>
+>> v6:
+>>   * Rebase on top of git@gitlab.freedesktop.org:drm/i915/kernel.git drm-intel-next
+>>   * Use struct intel_display instead of drm_i915_private for intel_atomic_plane.c
+>>
+>> v7:
+>>   * Fix mismatch {} in intel_panic_flush() (Jani Nikula)
+>>   * Return int for i915_gem_object_panic_map() (Ville Syrjälä)
+>>   * Reword commit message about alignment/size when disabling tiling (Ville Syrjälä)
+>>
+>> v8:
+>>   * Use kmap_try_from_panic() instead of vmap, to access the framebuffer.
+>>   * Add ttm_bo_kmap_try_from_panic() for the xe driver, that uses ttm.
+>>   * Replace intel_bo_panic_map() with a setup() and finish() function,
+>>     to allow mapping only one page of teh framebuffer at a time.
+>>   * Configure psr to send the full framebuffer update.
+>>
+>> v9:
+>>   * Fix comment in ttm_bo_kmap_try_from_panic(), this can *only* be called
+>>     from the panic handler (Christian König)
+>>   * Fix missing kfree() for i915_panic_pages in i915_gem_object_panic_finish()
+>>     Also change i915_panic_pages allocation to kmalloc, as kvmalloc is not
+>>     safe to call from the panic handler.
+>>   * Fix dim checkpatch warnings.
+>>
+>> v10:
+>>   * Add a private field to struct drm_scanout_buffer
+>>   * Replace static variables with new fields in struct intel_framebuffer
+>>     (Maarten Lankhorst)
+>>   * Add error handling if i915_gem_object_panic_pages() returns NULL
+>>   * Declare struct drm_scanout_buffer instead of including <drm/drm_panic.h>
+>>     in intel_bo.h
+>>
+>> Jocelyn Falempe (10):
+>>    drm/panic: Add a private field to struct drm_scanout_buffer
+>>    drm/i915/fbdev: Add intel_fbdev_get_map()
+>>    drm/i915/display/i9xx: Add a disable_tiling() for i9xx planes
+>>    drm/i915/display: Add a disable_tiling() for skl planes
+>>    drm/ttm: Add ttm_bo_kmap_try_from_panic()
+>>    drm/i915: Add intel_bo_panic_setup and intel_bo_panic_finish
+>>    drm/i915/display: Add drm_panic support
+>>    drm/i915/display: Add drm_panic support for Y-tiling with DPT
+>>    drm/i915/display: Add drm_panic support for 4-tiling with DPT
+>>    drm/i915/psr: Add intel_psr2_panic_force_full_update
+>>
+>>   drivers/gpu/drm/i915/display/i9xx_plane.c     |  23 +++
+>>   .../gpu/drm/i915/display/intel_atomic_plane.c | 170 +++++++++++++++++-
+>>   drivers/gpu/drm/i915/display/intel_bo.c       |  12 ++
+>>   drivers/gpu/drm/i915/display/intel_bo.h       |   4 +
+>>   .../drm/i915/display/intel_display_types.h    |  11 ++
+>>   drivers/gpu/drm/i915/display/intel_fb_pin.c   |   5 +
+>>   drivers/gpu/drm/i915/display/intel_fb_pin.h   |   2 +
+>>   drivers/gpu/drm/i915/display/intel_fbdev.c    |   5 +
+>>   drivers/gpu/drm/i915/display/intel_fbdev.h    |   6 +-
+>>   drivers/gpu/drm/i915/display/intel_psr.c      |  20 +++
+>>   drivers/gpu/drm/i915/display/intel_psr.h      |   2 +
+>>   .../drm/i915/display/skl_universal_plane.c    |  27 +++
+>>   drivers/gpu/drm/i915/gem/i915_gem_object.h    |   5 +
+>>   drivers/gpu/drm/i915/gem/i915_gem_pages.c     | 112 ++++++++++++
+>>   drivers/gpu/drm/i915/i915_vma.h               |   5 +
+>>   drivers/gpu/drm/ttm/ttm_bo_util.c             |  27 +++
+>>   drivers/gpu/drm/xe/display/intel_bo.c         |  61 +++++++
+>>   drivers/gpu/drm/xe/display/xe_fb_pin.c        |   5 +
+>>   include/drm/drm_panic.h                       |   6 +
+>>   include/drm/ttm/ttm_bo.h                      |   1 +
+>>   20 files changed, 507 insertions(+), 2 deletions(-)
+>>
+>>
+>> base-commit: b2f7e30d2e4a34fcee8111d713bef4f29dc23c77
+> 
 
