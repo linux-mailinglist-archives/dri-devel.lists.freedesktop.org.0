@@ -2,161 +2,65 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id BC480AE6036
-	for <lists+dri-devel@lfdr.de>; Tue, 24 Jun 2025 11:06:53 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6DE94AE6055
+	for <lists+dri-devel@lfdr.de>; Tue, 24 Jun 2025 11:10:11 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1B59510E52C;
-	Tue, 24 Jun 2025 09:06:51 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 73AA810E17A;
+	Tue, 24 Jun 2025 09:10:08 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=suse.de header.i=@suse.de header.b="xi/QlwlW";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="Y9LCmN9J";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="E5mo4GVk";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="oREfj0fF";
+	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=igalia.com header.i=@igalia.com header.b="B+mrV9UN";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1BE3D10E51C
- for <dri-devel@lists.freedesktop.org>; Tue, 24 Jun 2025 09:06:46 +0000 (UTC)
-Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org
- [IPv6:2a07:de40:b281:104:10:150:64:97])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
- (No client certificate requested)
- by smtp-out1.suse.de (Postfix) with ESMTPS id D7A7A21174;
- Tue, 24 Jun 2025 09:06:42 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1750756003; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=9lICjNkiewMZFMzrpHfU5ovumYbwTZRme9bMEyMsD/M=;
- b=xi/QlwlWq8NLVSwyspSzkPKvKMA6Uvj8/W9IFdzSFQMZ+ayNwxoQ7cp2wwdex97PvJgFlo
- x2f/4oVPrxX02VMjazKS8ra2I9oaBaKqNmT3rxbP2v97idRqli2arNKpl/rNn7z5z2COdO
- 7+ljTlARtsgKwvd1zlhYhRoTz1XsnuM=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1750756003;
- h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=9lICjNkiewMZFMzrpHfU5ovumYbwTZRme9bMEyMsD/M=;
- b=Y9LCmN9JTWkqSIjoqHkEfxTSRml/p11vY01knXb//RDebqmAaD1GQiHEbhGpors9cm5R2y
- CTBVZa09ODuiO0Bw==
-Authentication-Results: smtp-out1.suse.de;
- dkim=pass header.d=suse.de header.s=susede2_rsa header.b=E5mo4GVk;
- dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=oREfj0fF
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1750756002; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=9lICjNkiewMZFMzrpHfU5ovumYbwTZRme9bMEyMsD/M=;
- b=E5mo4GVk3aRBGPmQF64SGv7r/9Z7BrhMxT4Br3ozs8DXcDb//Oxu3nHGSXqq7o7Mb7CLZo
- IMLqC5HhH2wB7OabuAKDxSBbULfeVUwIiW40R1/IDWT12tchJxMWR5KfDDB9oIDWVupYrc
- wnYgtTWRX1PCzt/kDQ6JBbhPNcnau4c=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1750756002;
- h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=9lICjNkiewMZFMzrpHfU5ovumYbwTZRme9bMEyMsD/M=;
- b=oREfj0fFjtCcmySuYyx4a2eVlsi9oKqRPyLTW1pAnJyz47RDYq0CXOXEI70b1LsSzPwU5h
- OgkxMNrQ9mrgSXBQ==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
- (No client certificate requested)
- by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 35F1213A24;
- Tue, 24 Jun 2025 09:06:42 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
- by imap1.dmz-prg2.suse.org with ESMTPSA id gHhlC6JqWmhnFgAAD6G6ig
- (envelope-from <tzimmermann@suse.de>); Tue, 24 Jun 2025 09:06:42 +0000
-Message-ID: <6dedf895-1681-4fe3-8ca4-68fd05070ef2@suse.de>
-Date: Tue, 24 Jun 2025 11:06:41 +0200
+Received: from fanzine2.igalia.com (fanzine2.igalia.com [213.97.179.56])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B318B10E0BC;
+ Tue, 24 Jun 2025 09:10:05 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com; 
+ s=20170329;
+ h=Content-Transfer-Encoding:Content-Type:In-Reply-To:From:
+ References:Cc:To:Subject:MIME-Version:Date:Message-ID:Sender:Reply-To:
+ Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
+ Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
+ List-Subscribe:List-Post:List-Owner:List-Archive;
+ bh=Tm9kOEYwUrFAr95B8IVMeN439ZzQ9V26BFpvOYCOJcA=; b=B+mrV9UNYD0PLo5DE32dNf7WnJ
+ 0rDYcVKCVb2J8yzNFtiC5qLxnOLW4dWinwzmkZmxOAYW43MhMI0iDU4zVtcMEdcttRpLdNP1kNsVs
+ qbePxDeYORpfJfWz6YKp0nyqIgQpg+7A4y/yIhvss8urtdv0TOBfMiVLRWz9lpVGAGRDmJSNXTdVr
+ PTuIddTAV7tY2wdEiPXjS/kZhFsb3fkJ7ibKg3d2MOwzjErPSy+NpK9LOL1A/gDLI3bm5MOBV2hLi
+ FximOx71WuRwlIxGMm6tz7OyZkfmIWEOPdmcGiOuiUvPO366qMF/rkgSVh8V7PH4sS//n7yIe79Y9
+ 2hXC3LQw==;
+Received: from [81.79.92.254] (helo=[192.168.0.101])
+ by fanzine2.igalia.com with esmtpsa 
+ (Cipher TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_128_GCM:128) (Exim)
+ id 1uTzer-007vfv-4l; Tue, 24 Jun 2025 11:09:37 +0200
+Message-ID: <ea49f6de-5890-4f2a-8a55-8542d0bfeaa3@igalia.com>
+Date: Tue, 24 Jun 2025 10:09:35 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v4 6/8] Fix access to video_is_primary_device() when
- compiled without CONFIG_VIDEO
-To: Mario Limonciello <superm1@kernel.org>, Bjorn Helgaas <bhelgaas@google.com>
-Cc: Alex Deucher <alexander.deucher@amd.com>,
- =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- Lukas Wunner <lukas@wunner.de>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, David Woodhouse <dwmw2@infradead.org>,
- Lu Baolu <baolu.lu@linux.intel.com>, Joerg Roedel <joro@8bytes.org>,
- Will Deacon <will@kernel.org>, Robin Murphy <robin.murphy@arm.com>,
- Alex Williamson <alex.williamson@redhat.com>,
- Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
- "open list:DRM DRIVERS" <dri-devel@lists.freedesktop.org>,
- open list <linux-kernel@vger.kernel.org>,
- "open list:INTEL IOMMU (VT-d)" <iommu@lists.linux.dev>,
- "open list:PCI SUBSYSTEM" <linux-pci@vger.kernel.org>,
- "open list:VFIO DRIVER" <kvm@vger.kernel.org>,
- "open list:SOUND" <linux-sound@vger.kernel.org>,
- Daniel Dadap <ddadap@nvidia.com>,
- Mario Limonciello <mario.limonciello@amd.com>,
- kernel test robot <lkp@intel.com>
-References: <20250623184757.3774786-1-superm1@kernel.org>
- <20250623184757.3774786-7-superm1@kernel.org>
-Content-Language: en-US
-From: Thomas Zimmermann <tzimmermann@suse.de>
-Autocrypt: addr=tzimmermann@suse.de; keydata=
- xsBNBFs50uABCADEHPidWt974CaxBVbrIBwqcq/WURinJ3+2WlIrKWspiP83vfZKaXhFYsdg
- XH47fDVbPPj+d6tQrw5lPQCyqjwrCPYnq3WlIBnGPJ4/jreTL6V+qfKRDlGLWFjZcsrPJGE0
- BeB5BbqP5erN1qylK9i3gPoQjXGhpBpQYwRrEyQyjuvk+Ev0K1Jc5tVDeJAuau3TGNgah4Yc
- hdHm3bkPjz9EErV85RwvImQ1dptvx6s7xzwXTgGAsaYZsL8WCwDaTuqFa1d1jjlaxg6+tZsB
- 9GluwvIhSezPgnEmimZDkGnZRRSFiGP8yjqTjjWuf0bSj5rUnTGiyLyRZRNGcXmu6hjlABEB
- AAHNJ1Rob21hcyBaaW1tZXJtYW5uIDx0emltbWVybWFubkBzdXNlLmRlPsLAjgQTAQgAOAIb
- AwULCQgHAgYVCgkICwIEFgIDAQIeAQIXgBYhBHIX+6yM6c9jRKFo5WgNwR1TC3ojBQJftODH
- AAoJEGgNwR1TC3ojx1wH/0hKGWugiqDgLNXLRD/4TfHBEKmxIrmfu9Z5t7vwUKfwhFL6hqvo
- lXPJJKQpQ2z8+X2vZm/slsLn7J1yjrOsoJhKABDi+3QWWSGkaGwRJAdPVVyJMfJRNNNIKwVb
- U6B1BkX2XDKDGffF4TxlOpSQzdtNI/9gleOoUA8+jy8knnDYzjBNOZqLG2FuTdicBXblz0Mf
- vg41gd9kCwYXDnD91rJU8tzylXv03E75NCaTxTM+FBXPmsAVYQ4GYhhgFt8S2UWMoaaABLDe
- 7l5FdnLdDEcbmd8uLU2CaG4W2cLrUaI4jz2XbkcPQkqTQ3EB67hYkjiEE6Zy3ggOitiQGcqp
- j//OwE0EWznS4AEIAMYmP4M/V+T5RY5at/g7rUdNsLhWv1APYrh9RQefODYHrNRHUE9eosYb
- T6XMryR9hT8XlGOYRwKWwiQBoWSDiTMo/Xi29jUnn4BXfI2px2DTXwc22LKtLAgTRjP+qbU6
- 3Y0xnQN29UGDbYgyyK51DW3H0If2a3JNsheAAK+Xc9baj0LGIc8T9uiEWHBnCH+RdhgATnWW
- GKdDegUR5BkDfDg5O/FISymJBHx2Dyoklv5g4BzkgqTqwmaYzsl8UxZKvbaxq0zbehDda8lv
- hFXodNFMAgTLJlLuDYOGLK2AwbrS3Sp0AEbkpdJBb44qVlGm5bApZouHeJ/+n+7r12+lqdsA
- EQEAAcLAdgQYAQgAIAIbDBYhBHIX+6yM6c9jRKFo5WgNwR1TC3ojBQJftOH6AAoJEGgNwR1T
- C3ojVSkIALpAPkIJPQoURPb1VWjh34l0HlglmYHvZszJWTXYwavHR8+k6Baa6H7ufXNQtThR
- yIxJrQLW6rV5lm7TjhffEhxVCn37+cg0zZ3j7zIsSS0rx/aMwi6VhFJA5hfn3T0TtrijKP4A
- SAQO9xD1Zk9/61JWk8OysuIh7MXkl0fxbRKWE93XeQBhIJHQfnc+YBLprdnxR446Sh8Wn/2D
- Ya8cavuWf2zrB6cZurs048xe0UbSW5AOSo4V9M0jzYI4nZqTmPxYyXbm30Kvmz0rYVRaitYJ
- 4kyYYMhuULvrJDMjZRvaNe52tkKAvMevcGdt38H4KSVXAylqyQOW5zvPc4/sq9c=
-In-Reply-To: <20250623184757.3774786-7-superm1@kernel.org>
+Subject: Re: [PATCH v3 4/8] drm/sched: Add new test for
+ DRM_GPU_SCHED_STAT_NO_HANG
+To: =?UTF-8?Q?Ma=C3=ADra_Canal?= <mcanal@igalia.com>,
+ Matthew Brost <matthew.brost@intel.com>, Danilo Krummrich <dakr@kernel.org>,
+ Philipp Stanner <phasta@kernel.org>,
+ =?UTF-8?Q?Christian_K=C3=B6nig?= <ckoenig.leichtzumerken@gmail.com>,
+ Simona Vetter <simona@ffwll.ch>, David Airlie <airlied@gmail.com>,
+ Melissa Wen <mwen@igalia.com>, Lucas Stach <l.stach@pengutronix.de>,
+ Russell King <linux+etnaviv@armlinux.org.uk>,
+ Christian Gmeiner <christian.gmeiner@gmail.com>,
+ Lucas De Marchi <lucas.demarchi@intel.com>,
+ =?UTF-8?Q?Thomas_Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>,
+ Rodrigo Vivi <rodrigo.vivi@intel.com>,
+ Boris Brezillon <boris.brezillon@collabora.com>,
+ Rob Herring <robh@kernel.org>, Steven Price <steven.price@arm.com>,
+ Liviu Dudau <liviu.dudau@arm.com>
+Cc: kernel-dev@igalia.com, dri-devel@lists.freedesktop.org,
+ etnaviv@lists.freedesktop.org, intel-xe@lists.freedesktop.org
+References: <20250618-sched-skip-reset-v3-0-8be5cca2725d@igalia.com>
+ <20250618-sched-skip-reset-v3-4-8be5cca2725d@igalia.com>
+Content-Language: en-GB
+From: Tvrtko Ursulin <tvrtko.ursulin@igalia.com>
+In-Reply-To: <20250618-sched-skip-reset-v3-4-8be5cca2725d@igalia.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Spamd-Result: default: False [-4.51 / 50.00]; BAYES_HAM(-3.00)[100.00%];
- NEURAL_HAM_LONG(-1.00)[-1.000];
- R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
- NEURAL_HAM_SHORT(-0.20)[-1.000]; MIME_GOOD(-0.10)[text/plain];
- MX_GOOD(-0.01)[];
- DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
- TO_DN_ALL(0.00)[]; FREEMAIL_ENVRCPT(0.00)[gmail.com];
- FUZZY_BLOCKED(0.00)[rspamd.com]; ARC_NA(0.00)[];
- RBL_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:104:10:150:64:97:from]; 
- RCPT_COUNT_TWELVE(0.00)[26]; MIME_TRACE(0.00)[0:+];
- TO_MATCH_ENVRCPT_ALL(0.00)[];
- FREEMAIL_CC(0.00)[amd.com,gmail.com,ffwll.ch,wunner.de,linux.intel.com,kernel.org,infradead.org,8bytes.org,arm.com,redhat.com,perex.cz,suse.com,lists.freedesktop.org,vger.kernel.org,lists.linux.dev,nvidia.com,intel.com];
- RCVD_TLS_ALL(0.00)[]; RCVD_COUNT_TWO(0.00)[2];
- FROM_EQ_ENVFROM(0.00)[]; FROM_HAS_DN(0.00)[];
- SPAMHAUS_XBL(0.00)[2a07:de40:b281:104:10:150:64:97:from];
- MID_RHS_MATCH_FROM(0.00)[];
- R_RATELIMIT(0.00)[to_ip_from(RLqbkuqg11osc55coksncbnarj)];
- RCVD_VIA_SMTP_AUTH(0.00)[]; DKIM_TRACE(0.00)[suse.de:+];
- DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:helo,
- imap1.dmz-prg2.suse.org:rdns, suse.de:dkim, suse.de:mid, suse.de:email,
- intel.com:email]
-X-Spam-Level: 
-X-Spam-Flag: NO
-X-Rspamd-Queue-Id: D7A7A21174
-X-Rspamd-Action: no action
-X-Rspamd-Server: rspamd1.dmz-prg2.suse.org
-X-Spam-Score: -4.51
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -173,81 +77,111 @@ Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 
-
-Am 23.06.25 um 20:47 schrieb Mario Limonciello:
-> From: Mario Limonciello <mario.limonciello@amd.com>
->
-> When compiled without CONFIG_VIDEO the architecture specific
-> implementations of video_is_primary_device() include prototypes and
-> assume that video-common.c will be linked. Guard against this so that the
-> fallback inline implementation that returns false will be used when
-> compiled without CONFIG_VIDEO.
->
-> Reported-by: kernel test robot <lkp@intel.com>
-> Closes: https://lore.kernel.org/oe-kbuild-all/202506221312.49Fy1aNA-lkp@intel.com/
-> Signed-off-by: Mario Limonciello <mario.limonciello@amd.com>
-
-Acked-by: Thomas Zimmermann <tzimmermann@suse.de>
-
+On 18/06/2025 15:47, Maíra Canal wrote:
+> Add a test to submit a single job against a scheduler with the timeout
+> configured and verify that if the job is still running, the timeout
+> handler will skip the reset and allow the job to complete.
+> 
+> Signed-off-by: Maíra Canal <mcanal@igalia.com>
 > ---
-> v4:
->   * new patch
-> ---
->   arch/parisc/include/asm/video.h | 2 +-
->   arch/sparc/include/asm/video.h  | 2 ++
->   arch/x86/include/asm/video.h    | 2 ++
->   3 files changed, 5 insertions(+), 1 deletion(-)
->
-> diff --git a/arch/parisc/include/asm/video.h b/arch/parisc/include/asm/video.h
-> index c5dff3223194a..a9d50ebd6e769 100644
-> --- a/arch/parisc/include/asm/video.h
-> +++ b/arch/parisc/include/asm/video.h
-> @@ -6,7 +6,7 @@
+>   drivers/gpu/drm/scheduler/tests/mock_scheduler.c |  5 +++
+>   drivers/gpu/drm/scheduler/tests/sched_tests.h    |  1 +
+>   drivers/gpu/drm/scheduler/tests/tests_basic.c    | 47 ++++++++++++++++++++++++
+>   3 files changed, 53 insertions(+)
+> 
+> diff --git a/drivers/gpu/drm/scheduler/tests/mock_scheduler.c b/drivers/gpu/drm/scheduler/tests/mock_scheduler.c
+> index 27383a260a48d7b63d0c9d31067ecef9bbe1273f..20ebd78acf07fad302038d66886ebfe5a9b4f1a0 100644
+> --- a/drivers/gpu/drm/scheduler/tests/mock_scheduler.c
+> +++ b/drivers/gpu/drm/scheduler/tests/mock_scheduler.c
+> @@ -207,6 +207,11 @@ mock_sched_timedout_job(struct drm_sched_job *sched_job)
 >   
->   struct device;
+>   	job->flags |= DRM_MOCK_SCHED_JOB_TIMEDOUT;
 >   
-> -#if defined(CONFIG_STI_CORE)
-> +#if defined(CONFIG_STI_CORE) && defined(CONFIG_VIDEO)
->   bool video_is_primary_device(struct device *dev);
->   #define video_is_primary_device video_is_primary_device
->   #endif
-> diff --git a/arch/sparc/include/asm/video.h b/arch/sparc/include/asm/video.h
-> index a6f48f52db584..773717b6d4914 100644
-> --- a/arch/sparc/include/asm/video.h
-> +++ b/arch/sparc/include/asm/video.h
-> @@ -19,8 +19,10 @@ static inline pgprot_t pgprot_framebuffer(pgprot_t prot,
->   #define pgprot_framebuffer pgprot_framebuffer
->   #endif
+> +	if (job->flags & DRM_MOCK_SCHED_JOB_DONT_RESET) {
+> +		job->flags &= ~DRM_MOCK_SCHED_JOB_DONT_RESET;
+> +		return DRM_GPU_SCHED_STAT_NO_HANG;
+> +	}
+> +
+>   	return DRM_GPU_SCHED_STAT_RESET;
+>   }
 >   
-> +#ifdef CONFIG_VIDEO
->   bool video_is_primary_device(struct device *dev);
->   #define video_is_primary_device video_is_primary_device
-> +#endif
+> diff --git a/drivers/gpu/drm/scheduler/tests/sched_tests.h b/drivers/gpu/drm/scheduler/tests/sched_tests.h
+> index fbba38137f0c324cf2472fe5b3a8a78ec016e829..4adf961e1930203fe94241a8a0ae5f7817874a39 100644
+> --- a/drivers/gpu/drm/scheduler/tests/sched_tests.h
+> +++ b/drivers/gpu/drm/scheduler/tests/sched_tests.h
+> @@ -98,6 +98,7 @@ struct drm_mock_sched_job {
 >   
->   static inline void fb_memcpy_fromio(void *to, const volatile void __iomem *from, size_t n)
->   {
-> diff --git a/arch/x86/include/asm/video.h b/arch/x86/include/asm/video.h
-> index 0950c9535fae9..08ec328203ef8 100644
-> --- a/arch/x86/include/asm/video.h
-> +++ b/arch/x86/include/asm/video.h
-> @@ -13,8 +13,10 @@ pgprot_t pgprot_framebuffer(pgprot_t prot,
->   			    unsigned long offset);
->   #define pgprot_framebuffer pgprot_framebuffer
+>   #define DRM_MOCK_SCHED_JOB_DONE		0x1
+>   #define DRM_MOCK_SCHED_JOB_TIMEDOUT	0x2
+> +#define DRM_MOCK_SCHED_JOB_DONT_RESET	0x4
+>   	unsigned long		flags;
 >   
-> +#ifdef CONFIG_VIDEO
->   bool video_is_primary_device(struct device *dev);
->   #define video_is_primary_device video_is_primary_device
-> +#endif
+>   	struct list_head	link;
+> diff --git a/drivers/gpu/drm/scheduler/tests/tests_basic.c b/drivers/gpu/drm/scheduler/tests/tests_basic.c
+> index 41c648782f4548e202bd8711b45d28eead9bd0b2..91c0449590ed24c3da18ab7d930cca47d7c317c7 100644
+> --- a/drivers/gpu/drm/scheduler/tests/tests_basic.c
+> +++ b/drivers/gpu/drm/scheduler/tests/tests_basic.c
+> @@ -246,8 +246,55 @@ static void drm_sched_basic_timeout(struct kunit *test)
+>   	drm_mock_sched_entity_free(entity);
+>   }
 >   
->   #include <asm-generic/video.h>
+> +static void drm_sched_skip_reset(struct kunit *test)
+> +{
+> +	struct drm_mock_scheduler *sched = test->priv;
+> +	struct drm_mock_sched_entity *entity;
+> +	struct drm_mock_sched_job *job;
+> +	unsigned int i;
+> +	bool done;
+> +
+> +	/*
+> +	 * Submit a single job against a scheduler with the timeout configured
+> +	 * and verify that if the job is still running, the timeout handler
+> +	 * will skip the reset and allow the job to complete.
+> +	 */
+> +
+> +	entity = drm_mock_sched_entity_new(test,
+> +					   DRM_SCHED_PRIORITY_NORMAL,
+> +					   sched);
+> +	job = drm_mock_sched_job_new(test, entity);
+> +
+> +	job->flags = DRM_MOCK_SCHED_JOB_DONT_RESET;
+> +
+> +	drm_mock_sched_job_submit(job);
+> +
+> +	done = drm_mock_sched_job_wait_scheduled(job, HZ);
+> +	KUNIT_ASSERT_TRUE(test, done);
+> +
+> +	done = drm_mock_sched_job_wait_finished(job, 2 * MOCK_TIMEOUT);
+> +	KUNIT_ASSERT_FALSE(test, done);
+> +
+> +	KUNIT_ASSERT_EQ(test,
+> +			job->flags & DRM_MOCK_SCHED_JOB_TIMEDOUT,
+> +			DRM_MOCK_SCHED_JOB_TIMEDOUT);
+> +
+> +	KUNIT_ASSERT_EQ(test,
+> +			job->flags & DRM_MOCK_SCHED_JOB_DONT_RESET,
+> +			0);
+> +
+> +	i = drm_mock_sched_advance(sched, 1);
+> +	KUNIT_ASSERT_EQ(test, i, 1);
+> +
+> +	done = drm_mock_sched_job_wait_finished(job, HZ);
+> +	KUNIT_ASSERT_TRUE(test, done);
+> +
+> +	drm_mock_sched_entity_free(entity);
+> +}
+> +
+>   static struct kunit_case drm_sched_timeout_tests[] = {
+>   	KUNIT_CASE(drm_sched_basic_timeout),
+> +	KUNIT_CASE(drm_sched_skip_reset),
+>   	{}
+>   };
 >   
+> 
 
--- 
---
-Thomas Zimmermann
-Graphics Driver Developer
-SUSE Software Solutions Germany GmbH
-Frankenstrasse 146, 90461 Nuernberg, Germany
-GF: Ivo Totev, Andrew Myers, Andrew McDonald, Boudien Moerman
-HRB 36809 (AG Nuernberg)
+Reviewed-by: Tvrtko Ursulin <tvrtko.ursulin@igalia.com>
+
+Regards,
+
+Tvrtko
 
