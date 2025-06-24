@@ -2,166 +2,75 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2C68DAE6F50
-	for <lists+dri-devel@lfdr.de>; Tue, 24 Jun 2025 21:13:51 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id A3409AE7072
+	for <lists+dri-devel@lfdr.de>; Tue, 24 Jun 2025 22:15:04 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 906D610E120;
-	Tue, 24 Jun 2025 19:13:48 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B0C3E10E035;
+	Tue, 24 Jun 2025 20:14:59 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=Nvidia.com header.i=@Nvidia.com header.b="B04A1y9T";
+	dkim=pass (1024-bit key; unprotected) header.d=redhat.com header.i=@redhat.com header.b="PUMeLFoW";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from NAM10-DM6-obe.outbound.protection.outlook.com
- (mail-dm6nam10on2055.outbound.protection.outlook.com [40.107.93.55])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A9E6810E0FC;
- Tue, 24 Jun 2025 19:13:43 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=Y6bnQDrMNqg9NlrDtYPwZhMD6bbCE8Oi+X3HeNY7fD3FDElkk1Vmi0X5TOYzdt8KajDdgoEWjUMs/qgk1r7RSlNLHr1TFhi3LZrCrWr/pMYI+WSWO0p7YpmhBApMwiohr9izUGaKu9F66wEg2BHqulzIQcgEMQ+fc5arRcDFsulLigJ0FdFjK/KEX6BOJDQ0dAi4+Zp3m+f4Ie9d5v0FfXjwSKSo2zdF91prUTytj5CKjYjpyVYvUe5sX8IihB2x8mcWx8u7rXVOnHj3nnWrWIeqLOaGlAJc5LQcaoH1xHu6Cb0fcGRPIkrd/fk2j/FD/OuDCHzKAybL7f7Uee3vhg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=9F4xtwR1OVj6e7kZ2ZDYfSoUcSkYBT75IYacWkonRQ8=;
- b=eQi2teOp6PObaiOpdKRUvHl0lxEYtwuP7NRNYCdMT4ukZi9l2z6TJQfC4Zm/+ZiUGYRDFyaMvG/tfp3DO/Bcz9h6qbAxuukE1PRFGuRJZMtiBpmmlYLM0A2gilbJvGOeHYNY2T5KtJphUBl9C3mh0f16XZuk7F28otXhkxdwtf74UK33c04vS5i47UsdJrx1cM5HGtLvmLgT7l1n5DoWXM5S1dDvfpvfSDCS3MlSGPfd/3wfuQVcjO64dJsCmkkXZtgYKrQGnSWm5t/RGLEjp+lhJUFoVhL4lei514B7lcffkxH2cmvtPGKZgxLcMA9g+X1egb4UwZVqq1NAAmVMLA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
- dkim=pass header.d=nvidia.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=9F4xtwR1OVj6e7kZ2ZDYfSoUcSkYBT75IYacWkonRQ8=;
- b=B04A1y9TSYXHICVYTtL6pHTmtptE9pDnKv/V0ewa5njQlspplIGcXvdYBQtNAkXGFL3AVWvfa8St/Hl6AS0aVQablSytgl4qqMd63lATOx8hvH/hXh3dO9+sqmDeFBsrlAu9z0NsMtOhT1Qr4hkXeEiG6Xg5dl1ISA9Qsa9rm0IFkgqFRIDHm0oBUqIaFXhl+NBhkpZLk5m3pEg5uBL16fpFKfYs2qEuUNkoE+vr2H/03VOcYfBfGeeJ5GUeQLkChvmrA7gMjSotodZ1fk2Qh9JULVXSMuSqtH4lmZdAkqJeuhw12FY7ZF0O7/x43OUXGWfabir4WHMZlb4bx+YbYw==
-Received: from CY5PR12MB6526.namprd12.prod.outlook.com (2603:10b6:930:31::20)
- by IA4PR12MB9764.namprd12.prod.outlook.com (2603:10b6:208:5d0::9)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8835.36; Tue, 24 Jun
- 2025 19:13:37 +0000
-Received: from CY5PR12MB6526.namprd12.prod.outlook.com
- ([fe80::e420:4e37:166:9c56]) by CY5PR12MB6526.namprd12.prod.outlook.com
- ([fe80::e420:4e37:166:9c56%5]) with mapi id 15.20.8857.020; Tue, 24 Jun 2025
- 19:13:37 +0000
-From: Timur Tabi <ttabi@nvidia.com>
-To: "mhenning@darkrefraction.com" <mhenning@darkrefraction.com>
-CC: "kherbst@redhat.com" <kherbst@redhat.com>, "martin.peres@free.fr"
- <martin.peres@free.fr>, "faith.ekstrand@collabora.com"
- <faith.ekstrand@collabora.com>, "dri-devel@lists.freedesktop.org"
- <dri-devel@lists.freedesktop.org>, "nouveau@lists.freedesktop.org"
- <nouveau@lists.freedesktop.org>, "dakr@kernel.org" <dakr@kernel.org>,
- "lyude@redhat.com" <lyude@redhat.com>, Ben Skeggs <bskeggs@nvidia.com>
-Subject: Re: [PATCH 2/2] drm/nouveau: Remove nvkm_gsp_fwif.enable
-Thread-Topic: [PATCH 2/2] drm/nouveau: Remove nvkm_gsp_fwif.enable
-Thread-Index: AQHb5IuPm2cMLQy/UkmBXqiNS1jtOLQSkbkAgAAaEwCAAANHAA==
-Date: Tue, 24 Jun 2025 19:13:37 +0000
-Message-ID: <127e866b4bb4fd3a77e1cbfc5b709bcb2533c744.camel@nvidia.com>
-References: <20250623220909.7591-1-mhenning@darkrefraction.com>
- <20250623220909.7591-3-mhenning@darkrefraction.com>
- <c3902fcf8bc963cf315e9bfbb9ca4c66e28857cf.camel@nvidia.com>
- <CAAgWFh05pj_9rk7Wcx24tFWR2sgMZH4WtBsm3hYrqM3svwniOQ@mail.gmail.com>
-In-Reply-To: <CAAgWFh05pj_9rk7Wcx24tFWR2sgMZH4WtBsm3hYrqM3svwniOQ@mail.gmail.com>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-user-agent: Evolution 3.52.3-0ubuntu1 
-authentication-results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=nvidia.com;
-x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: CY5PR12MB6526:EE_|IA4PR12MB9764:EE_
-x-ms-office365-filtering-correlation-id: 62e46129-80b2-4be9-a01d-08ddb35338d6
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam: BCL:0;
- ARA:13230040|366016|376014|1800799024|38070700018|41080700001; 
-x-microsoft-antispam-message-info: =?utf-8?B?K3RyQU4vV1czejZrSFNKMEZYdnM1ZlRWaVRReHE1Q1A5OGFPZXd2dEMxaWxa?=
- =?utf-8?B?M1JtOHNodjUyV0xnbEhDMzZNUGczanhybmFqNTh3NENPaGRuR21mRXNVNFBY?=
- =?utf-8?B?eURmM2xCTVQ0YnhpT2cxbGFKMEhQRDh1a0cvcEdKUEhuOFhFMzZ0V3EzQzNo?=
- =?utf-8?B?blFVOVZUenFkRlhyMEQwQ25uZldJamIybC9JakpvTUw4RVcxYXhTK3hUNHU2?=
- =?utf-8?B?SXNUcFVNd09WZ0JCRFlsRnA0aGNxWWVmK1FjaTNDZEp5Ry9qaHVhcFlGMWRm?=
- =?utf-8?B?cmU1c2lGTHFRYno0ZWNmRVlvMTEraHNnbmppeWlxbEJscCt4NHYyTlpITXNm?=
- =?utf-8?B?cWhCOEVnbVZ2N0RYZEI1RTkyMER4QVZHUVcxM2RtZVJpby9ubE5vN25EaGdR?=
- =?utf-8?B?TWo2NzVzOUpLZGY0anZIb1ZzaTdKVDRCc2ZZcmpXeXAzckRENmNVVnZwR1pL?=
- =?utf-8?B?ZEdQa0t5WGs1Y29tYVNYQUtrc0RyQlJySkYxcEZDdm5hNFI5U0F4cXpHbmlJ?=
- =?utf-8?B?RnN4dGY4SXJoTFI4b1FINjgyMnhqUExDNWdSVGkrVU9TWFN2SkFNcndVeHJh?=
- =?utf-8?B?d015azQ2b2liUHNYUnN2NDZGTW1uOW02ckt2akFjMWdXdm8zRlhUNEVERFVX?=
- =?utf-8?B?RzF0NFVodVgrZllJR2FYWnJ0R3MyOElQQ2ZnNnZwWk5OWm0wVmg1a1o1ckRY?=
- =?utf-8?B?R3p6SGkwRXREMFE0QU01S1lpcEVMRnJsOFZZWWl3VGt6ckRySWhhV2pmam5l?=
- =?utf-8?B?TG1pRksybElpQlo0QnZQaExOdFI4dVhCWDRkQUZ1cHNVSk8xakk2bTUxZG50?=
- =?utf-8?B?U0I5MnRmdHpwVzJ1K0Q2VG85M3lQbnNDTURvOWVjSVo0Z1NSTzVxQjdWbmRx?=
- =?utf-8?B?ZVYwUjlsaG15aXZ6NmVRR3hMVlJnemxaRTNQVzhWYWR1d2oxSXM3bG5MTnNK?=
- =?utf-8?B?cUxSMDVJSGNUUVdKNjNpVEVwQmJCZzhyZW5qL0ZPTjMxclVMNkhLSXFveVB3?=
- =?utf-8?B?amp0YnlHbmREV2Q3alhWZnhPbnZPeVRpNk1nUVdveUxUcWdRNXhTa2kwT3N1?=
- =?utf-8?B?YjdKZnFDRm9BRkVwWC9Hb3pCejBqZm80amE4NWt3anVKMlNCMDEyU1ZuNVU2?=
- =?utf-8?B?MEdLcDZTS1RHbmlDMFZRalFkVzhCSmNDS3ErNkdIQVVYSEE3VzdicEd5Tm04?=
- =?utf-8?B?WmgrNk53cnkwNGJSWHdNRklueVJlZFFsQ0UxSVE0YW1OakluRDBlakpIaVI0?=
- =?utf-8?B?dkVDUFd6a3YwdEUxSWRFMk5OL280c0psZFl5NGtKSWw4OTZNTGRYOUJkekF0?=
- =?utf-8?B?THlxbTJvd05nN2c2M1pXVEpEZFVBVmN3UTh1cEx6Qk81dW01dG9JRnpYeGt5?=
- =?utf-8?B?Z0tGQlVZZ1NadzVINW5lbWZobkp5emtZQXc2VnYxME1zSW5xbWVnNDY3R3pJ?=
- =?utf-8?B?UzhlcHJOZ015M01DQ2REZDEydDJ4R3lXRnR1SC9kMGNxb1YvNmFPSWQrYVN4?=
- =?utf-8?B?QlVTZ2NkUjlPQjdGQzVzbjdzTHdRMzA3MG5PbSs5am9Wb2hGWGR3QXd5OGtO?=
- =?utf-8?B?TzZvREhaUzFmdlRJZ3VCOHJvQmE2a2VzMmxldlhUY2xvRFhlb1U5eitzK0J3?=
- =?utf-8?B?OUVpTXJsakszOWVFMGhGR3ZMVE5PMjNJbXFwN3lxUElRWTVRL1hnZnVpZlBY?=
- =?utf-8?B?K091RzY5YzhpdEN6QTZmc2RNZHk5OXAzVk9xaDlVOTFvY0RVVG16Mkl5MkFn?=
- =?utf-8?B?SVVISFh5QjFRYTVSOE9VOEdGaGhSL05PS3F6Um9wTVdaU0FWdVJza1FZOUxk?=
- =?utf-8?B?MmtrOXNqbDJtS1NOUjNnSCtFMkQyV3RESXdYditKMHlFSjNtcjhvSXVRZmZF?=
- =?utf-8?B?MVRLUWV6Y2t1d0ZUWnhsamE2a21vbTRpUHBNczI1RW4yc3N1cGFCVDRFZk5V?=
- =?utf-8?B?VWRXR2dhYVlQd0JNaURCMjhUK3FqdG5xblJ5b0pWQWRNa2ZJdmhwVkxyK3dZ?=
- =?utf-8?B?bHJQT1pzRW9tbUpTUEQzbk1Rb3h3Zi8vWENrQlJBRzdQZ2NrOXc1UzRia2ZP?=
- =?utf-8?Q?jo8M3W?=
-x-forefront-antispam-report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:CY5PR12MB6526.namprd12.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230040)(366016)(376014)(1800799024)(38070700018)(41080700001); DIR:OUT;
- SFP:1101; 
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0: =?utf-8?B?QjRudmhhUnJZWFYrRTkvdm1GTUgvdDlYRzNUNHNsQlNsbEZyRkJnSmd5RmpZ?=
- =?utf-8?B?dFR2K1oyYzdNQ2NIN3VYeHV0bmFObVZSZEtvR3ZDZFNETlUvNjlhQm1xNlE1?=
- =?utf-8?B?QmZqWjhLUVh1dm91d1R5SWtQV3p6Q01GZFNwVG1vVzZ1b01FbzZlc3dQMDlM?=
- =?utf-8?B?L2FNdkNGNUxHTTFjY1ZTcXRPSnhCQVJDUTBjajlYN0ZQK01OUjZGaHRaOGZl?=
- =?utf-8?B?S08zNjE0TDg3SUZUSXJBam5KVFlqdWVaK2kwZEdHZ3hod3Rxcmg4QXJGTm5U?=
- =?utf-8?B?Y0toWGFWKzV1dE1mU1FQVm1USDh3Z3N2SUJUWXZqSGF0dkFpcmIrMFRPa0Mv?=
- =?utf-8?B?cU9JdlI4SkZhTzMxeVlmRythTktsNnRHckxSYTBVbFhWOEUvWCt4TGQxYnpZ?=
- =?utf-8?B?UWxKSjlqV00zeUpScFJBSHdNUG95MUxPa21LV3ZqTVM4MjVpZjgxKzdNb0F0?=
- =?utf-8?B?dGkrMGhmaUtzRGZPVGVvdXpBNFJENUdLajlRd1RVR0pFdjNVYVI0Ky9DVDBj?=
- =?utf-8?B?L04reHVncUpia3ZTZ1lsVjNUZ3ZiZWg3NmpoS3o1V2hodE5vaFJhSGZxVUxT?=
- =?utf-8?B?aUpwWWlDY1pidnI3cGh0VmtOOXdpenM5ZnQ1eTgzSU9aWEptR2J4b3JYZmx2?=
- =?utf-8?B?Z082RzNSNmliYUVjVTZzU3lidGxRd295Z09TRmZqcEVrZCsrbEE2OW9YbUtt?=
- =?utf-8?B?eGoyNEszekhBTGNRUXJ0Q0Q4UENrbjhWYmNEVlF3dlU2eUpkeGFMR0tYNUVN?=
- =?utf-8?B?Rm1WQXU0eHd6MEIvVHlLZzk4cEtMNTM5eFVEaWpzaGtyWVUvTS9aYWdVYURs?=
- =?utf-8?B?YnBsejNrVzJmOHZUbm9mbkhRWThoKzRPRlltb3lYNHgzQ2VBU3ZaRHdpR3BI?=
- =?utf-8?B?RzRsMllGVXJyV1p5dU5UeU5PMmhldkJKamZmUXR2alhvY2NjSVRUUjUwNzRN?=
- =?utf-8?B?NmVWNVdjaHRrbHhpMG15MkZwRGdNaGp3eldpenkzQU5FTXhGVHBGeVprVFBz?=
- =?utf-8?B?SXFiMVFESTRuSzZVRHd2ZG1wVXlrRk8zRkxyVFo3bHpTRWZia282U0ZSeURX?=
- =?utf-8?B?Ynh2Um5hTUdTTGtmL0l1MXNFdmxsWmhOYkR3c0VDMFdHdjBqUjBVNFZjb01E?=
- =?utf-8?B?V1dkam1yOVdhWVJSK0xQTGRPczdUYWwwSFVPNDIrbzNZNzhBMkFmdUdJdXR2?=
- =?utf-8?B?VFc4QVJBS28xbk1ycGJPQ2pPUlp5NzBHMU82c3AxUXBMa0c0a0xhY0c4NCtW?=
- =?utf-8?B?VmN4Y3J1UHlRZTNuUjFvN054bFc3UmJBYi9zamdhbG95YkppNy9QQk5ldDdi?=
- =?utf-8?B?ZGVmR3FEZWZUMnIyUFdjWlo4SWJjcy9EemIvWEFCL0MwbTRnS2c2YzdVOUJ4?=
- =?utf-8?B?OTVKbmh5eEx4M0JPaXFvdWpPR0dGc0lMcmVTYXpyUml0VmMrWGtkMjlLMU0v?=
- =?utf-8?B?Z1Y3Y013YmYycGQyVjN0MmpMZGZvTkVpYmsrc2xyenY5bkdqY05HWUdTTTg5?=
- =?utf-8?B?ZGFuYngzK2lPQ1lQYmRvdm1HclBSc1BvU05ndjR3NXIyaDhHd1JOMHg2bDlr?=
- =?utf-8?B?RVhQdXpXMmt4V1drS2tLdFMrTzVKY2U2VCtnTzgwbkFhZ3ZiSGNUbFBtQnlt?=
- =?utf-8?B?N2VyVElCbEJpUWRJOCtTUHE4bURMNHljdzdsWVg2Yi8xM3UxT1JxUFhNSkNp?=
- =?utf-8?B?ZHhCZ1BkREp4OGtKeXZmZVkyWWh6MTd5dTBDK1FCZVk4ZzNBOVEyYVZHZVJC?=
- =?utf-8?B?dlV0ampBR0YyVTdvMjZTOXNEcjZlVVZhbnZvcHBvNVpiK3FraCtFMTRheU5v?=
- =?utf-8?B?QWxRVXdDVGJWcnF6VksrT2s5ZEtUMUVOdVBtZlJ5SURORzh3Q0VNcVEwMk1G?=
- =?utf-8?B?ZnFBNXhXSW0vaXdCRmFBRDhVUjdHeTBJWlRUb1JMWHVycmpIaHE5c3pheTYz?=
- =?utf-8?B?Z1dudmV0YUxtd0c4Q1dFeXBqWUxyOVBFcS94QnlMaTVoSHBsN3hpbVZOQjZx?=
- =?utf-8?B?YktGNHlMV2lRaVZ6WlVxb2d6VnRBSjY0NnhhclVzZE9OVzRQWTE3V2x5eEtS?=
- =?utf-8?B?bzFaQnhiTnRlNDdDdWZRbjN6QVZZbEhLM01uTkpzbExnY0NGN0hZRDJ0blNk?=
- =?utf-8?Q?6xsyRYWmfvgzQrbVSY0nSCaYM?=
-Content-Type: text/plain; charset="utf-8"
-Content-ID: <130D6362193D384F9F4D9FBF3F34F33C@namprd12.prod.outlook.com>
-Content-Transfer-Encoding: base64
+Received: from us-smtp-delivery-124.mimecast.com
+ (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9CE2E10E035
+ for <dri-devel@lists.freedesktop.org>; Tue, 24 Jun 2025 20:14:50 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1750796080;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=MpswX9CeYFwqxV2+s21tSoizpPJHKG6Ho7VniV3X4Tw=;
+ b=PUMeLFoW1A6QD8CfJfDJ2KXccMAglobns+Vh7wAJ3sgzFZt5m1dwGplfp1MbFhVJf4drmp
+ x1HCW4rzha9cS/9MZVEuqkC1/J870OPFiiv+BS/rluFuP5m6Tn6lLnjOmC9aFXQMt7Sx0w
+ g+lOSsy/4gsv/uvSl2vJaY8B8fjuWlI=
+Received: from mx-prod-mc-04.mail-002.prod.us-west-2.aws.redhat.com
+ (ec2-54-186-198-63.us-west-2.compute.amazonaws.com [54.186.198.63]) by
+ relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
+ cipher=TLS_AES_256_GCM_SHA384) id us-mta-18-5LbBZxgQPcSwyk4vLV8pZA-1; Tue,
+ 24 Jun 2025 16:14:35 -0400
+X-MC-Unique: 5LbBZxgQPcSwyk4vLV8pZA-1
+X-Mimecast-MFC-AGG-ID: 5LbBZxgQPcSwyk4vLV8pZA_1750796073
+Received: from mx-prod-int-08.mail-002.prod.us-west-2.aws.redhat.com
+ (mx-prod-int-08.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.111])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+ (No client certificate requested)
+ by mx-prod-mc-04.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS
+ id 0311A19560B2; Tue, 24 Jun 2025 20:14:33 +0000 (UTC)
+Received: from asrivats-na.rmtustx.csb (unknown [10.2.16.179])
+ by mx-prod-int-08.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTP
+ id 32307180045B; Tue, 24 Jun 2025 20:14:30 +0000 (UTC)
+From: Anusha Srivatsa <asrivats@redhat.com>
+Date: Tue, 24 Jun 2025 15:13:05 -0500
+Subject: [PATCH] panel/simple-simple: Identify simple DPI panels using
+ .compatible field
 MIME-Version: 1.0
-X-OriginatorOrg: Nvidia.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: CY5PR12MB6526.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 62e46129-80b2-4be9-a01d-08ddb35338d6
-X-MS-Exchange-CrossTenant-originalarrivaltime: 24 Jun 2025 19:13:37.3372 (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 43083d15-7273-40c1-b7db-39efd9ccc17a
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: BajY630vi2L7RL92ubcapyNmSS75tUbtEsI/vtw7RvHH6P+ZD5XGbiBD2oi2vt/ABiMEIUS8ZIGZS8i+QlYOQw==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: IA4PR12MB9764
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+Message-Id: <20250624-b4-simple-panel-regression-v1-1-a5adf92a7c17@redhat.com>
+X-B4-Tracking: v=1; b=H4sIANAGW2gC/x3MQQqDQAxG4atI1g1oqiJepXQx1l8N2OmQgAji3
+ Tu6/BbvHeQwhVNfHGTY1PUXM6pHQZ8lxBmsYzZJKU3ZSs1Dza7ftIJTiFjZMBv8yrgLeA5BOpk
+ glAfJMOl+z1/v8/wDlerxC2wAAAA=
+X-Change-ID: 20250624-b4-simple-panel-regression-8ae3ba282fe2
+To: Neil Armstrong <neil.armstrong@linaro.org>, 
+ Jessica Zhang <quic_jesszhan@quicinc.com>, 
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, 
+ Luca Ceresoli <luca.ceresoli@bootlin.com>
+Cc: dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org, 
+ Francesco Dolcini <francesco@dolcini.it>, 
+ Anusha Srivatsa <asrivats@redhat.com>
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1750796000; l=7046;
+ i=asrivats@redhat.com; s=20250122; h=from:subject:message-id;
+ bh=kcL0cNSlO6mnJ6CE0453W1DJuh3tCx3/N4e0pmAMZ24=;
+ b=Oync0rm63Wr+egSAoKVm0V/1mZPYmfkM+U8w49SDLCrXNtXYMqaO6Knl/tvZQimVOEqed1E4u
+ CH8Rg+saix/DJnQAnr8fP2t579abWBMlSyOMCS8WAfOsJgs5qRSdxyG
+X-Developer-Key: i=asrivats@redhat.com; a=ed25519;
+ pk=brnIHkBsUZEhyW6Zyn0U92AeIZ1psws/q8VFbIkf1AU=
+X-Scanned-By: MIMEDefang 3.4.1 on 10.30.177.111
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -177,20 +86,175 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-T24gVHVlLCAyMDI1LTA2LTI0IGF0IDE1OjAxIC0wNDAwLCBNIEhlbm5pbmcgd3JvdGU6DQo+IFdl
-IGRpZCBubyBzdWNoIGVycm9yIGNoZWNraW5nIGJlZm9yZSB0aGlzIHNlcmllcyAoaW4gZmFjdCwg
-bW9zdCBvZg0KPiB0aGVzZSBvcHRpb25zIGhhdmUgYWxtb3N0IG5vIGVycm9yIGNoZWNraW5nKS4g
-QXJlIHlvdSBzYXlpbmcgeW91IHdhbnQNCj4gdG8gc2VlIHRoaXMgYWRkZWQgaW4gdGhpcyBwYXRj
-aCBzZXJpZXM/DQoNCllvdSBoYXZlIGEgZ29vZCBwb2ludCwgYnV0IEkgdGhpbmsgeW91ciBjaGFu
-Z2UsIGluIGVmZmVjdCwgbmVjZXNzaXRhdGVzIG15IHJlcXVlc3QuICBQcmV2aW91c2x5LCB0aGUN
-CmRlZmF1bHQgd2FzIG5vIEdTUC1STSB1bmxlc3MgbmVlZGVkLiAgTm93IGl0J3MgeWVzIEdTUC1S
-TSwgYW5kIHRoZSBjb25jZXB0IG9mICJuZWVkIiBoYXMgYmVlbg0KcmVtb3ZlZC4gIFNvIHRoZXJl
-J3Mgbm8gaW5kaWNhdGlvbiBhbnkgbW9yZSB0aGF0IHNvbWUgR1BVcyBuZWVkIEdTUC1STSBhbmQg
-c29tZSBkbyBub3QuDQoNClNvIHRvIGFkZHJlc3MgdGhhdCwgSSB0aGluayBpdCBtYWtlcyBzZW5z
-ZSB0byBhZGQgYSB3YXJuaW5nIGlmIHNvbWVvbmUgdHJpZXMgZGlzYWJsZSBHU1AtUk0gb24gYSBH
-UFUNCnRoYXQgaXMgbm90IHN1cHBvcnRlZCBpbiB0aGF0IGNvbmZpZ3VyYXRpb24uDQoNCk5vdywg
-d2hldGhlciBvciBub3Qgd2Ugc2hvdWxkIGlnbm9yZSBOdkdzcFJtPTAgb24gQWRhKyBpcyB1cCBm
-b3IgZGViYXRlLiAgSWYgSSB1bmRlcnN0YW5kIHRoZSBjb2RlDQpjb3JyZWN0bHksIHRvZGF5IChh
-bmQgc3RpbGwgd2l0aCB5b3VyIHBhdGNoZXMpLCBBZGErIHdvdWxkIGZhaWwgdG8gYm9vdC4gIEkg
-Y2FuJ3Qgc2F5IHdoZXRoZXIgb3Igbm90DQp0aGF0J3MgYSBnb29kIGlkZWEuICBCdXQgSSB0aGlu
-ayBhIHdhcm5pbmcgc2hvdWxkIGJlIHByaW50ZWQgZWl0aGVyIHdheS4NCg==
+Currently driver is checking for desc == &panel_dpi to do the DPI
+specific panel desc allocations. This looks hacky.
+
+The panel allocation in panel_simple_probe() breaks due to not having
+the desc for DPI scenario. This patch does the following:
+
+- Rename panel_dpi_probe() to panel_dpi_get_desc() and call it before
+panel allocation. panel_dpi_get_desc() returns a panel desc unlike
+panel_dpi_probe() which returned an int. This way driver has a known
+connector type while allocating the panel.
+- panel_dpi_get_desc() returns a panel desc
+- Add a simple helper is_panel_dpi() to identify a simple DPI panel from
+a simple panel based on .compatible field
+
+Fixes: de04bb0089a9 ("drm/panel/panel-simple: Use the new allocation in place of devm_kzalloc()")
+Suggested-by: Luca Ceresoli <luca.ceresoli@bootlin.com>
+Suggested-by: Maxime Ripard <mripard@kernel.org>
+Cc: Francesco Dolcini <francesco@dolcini.it>
+Cc: Luca Ceresoli <luca.ceresoli@bootlin.com>
+Cc: Maxime Ripard <mripard@kernel.org>
+Signed-off-by: Anusha Srivatsa <asrivats@redhat.com>
+---
+Seeing the below trace due to the changes introduced by:
+Commit de04bb0089a9 ("drm/panel/panel-simple: Use the new allocation in place of devm_kzalloc()")
+
+[   12.089274] ------------[ cut here ]------------
+[   12.089303] WARNING: CPU: 0 PID: 96 at drivers/gpu/drm/bridge/panel.c:377 devm_drm_of_get_bridge+0xac/0xb8
+[   12.130808] Modules linked in: v4l2_jpeg pwm_imx27(+) imx_vdoa gpu_sched panel_simple imx6_media(C) imx_media_common
+(C) videobuf2_dma_contig pwm_bl gpio_keys v4l2_mem2mem fuse ipv6 autofs4
+[   12.147774] CPU: 0 UID: 0 PID: 96 Comm: kworker/u8:3 Tainted: G         C          6.16.0-rc1+ #1 PREEMPT
+[   12.157446] Tainted: [C]=CRAP
+[   12.160418] Hardware name: Freescale i.MX6 Quad/DualLite (Device Tree)
+[   12.166953] Workqueue: events_unbound deferred_probe_work_func
+[   12.172805] Call trace:
+[   12.172815]  unwind_backtrace from show_stack+0x10/0x14
+[   12.180598]  show_stack from dump_stack_lvl+0x68/0x74
+[   12.185674]  dump_stack_lvl from __warn+0x7c/0xe0
+[   12.190407]  __warn from warn_slowpath_fmt+0x1b8/0x1c0
+[   12.195567]  warn_slowpath_fmt from devm_drm_of_get_bridge+0xac/0xb8
+[   12.201949]  devm_drm_of_get_bridge from imx_pd_probe+0x58/0x164
+[   12.207976]  imx_pd_probe from platform_probe+0x5c/0xb0
+[   12.213220]  platform_probe from really_probe+0xd0/0x3a4
+[   12.218551]  really_probe from __driver_probe_device+0x8c/0x1d4
+[   12.224486]  __driver_probe_device from driver_probe_device+0x30/0xc0
+[   12.230942]  driver_probe_device from __device_attach_driver+0x98/0x10c
+[   12.237572]  __device_attach_driver from bus_for_each_drv+0x90/0xe4
+[   12.243854]  bus_for_each_drv from __device_attach+0xa8/0x1c8
+[   12.249614]  __device_attach from bus_probe_device+0x88/0x8c
+[   12.255285]  bus_probe_device from deferred_probe_work_func+0x8c/0xcc
+[   12.261739]  deferred_probe_work_func from process_one_work+0x154/0x2dc
+[   12.268371]  process_one_work from worker_thread+0x250/0x3f0
+[   12.274043]  worker_thread from kthread+0x12c/0x24c
+[   12.278940]  kthread from ret_from_fork+0x14/0x28
+[   12.283660] Exception stack(0xd0be9fb0 to 0xd0be9ff8)
+[   12.288720] 9fa0:                                     00000000 00000000 00000000 00000000
+[   12.296906] 9fc0: 00000000 00000000 00000000 00000000 00000000 00000000 00000000 00000000
+[   12.305089] 9fe0: 00000000 00000000 00000000 00000000 00000013 00000000
+[   12.312050] ---[ end trace 0000000000000000 ]---
+---
+ drivers/gpu/drm/panel/panel-simple.c | 38 +++++++++++++++++++++---------------
+ 1 file changed, 22 insertions(+), 16 deletions(-)
+
+diff --git a/drivers/gpu/drm/panel/panel-simple.c b/drivers/gpu/drm/panel/panel-simple.c
+index 0a3b26bb4d731c54614e24e38018c308acd5367a..2e6fd545100388a9d53183a5621e7b8fdb4148ae 100644
+--- a/drivers/gpu/drm/panel/panel-simple.c
++++ b/drivers/gpu/drm/panel/panel-simple.c
+@@ -26,6 +26,7 @@
+ #include <linux/i2c.h>
+ #include <linux/media-bus-format.h>
+ #include <linux/module.h>
++#include <linux/of_device.h>
+ #include <linux/of_platform.h>
+ #include <linux/platform_device.h>
+ #include <linux/pm_runtime.h>
+@@ -432,8 +433,7 @@ static const struct drm_panel_funcs panel_simple_funcs = {
+ 
+ static struct panel_desc panel_dpi;
+ 
+-static int panel_dpi_probe(struct device *dev,
+-			   struct panel_simple *panel)
++static struct panel_desc *panel_dpi_get_desc(struct device *dev)
+ {
+ 	struct display_timing *timing;
+ 	const struct device_node *np;
+@@ -445,17 +445,17 @@ static int panel_dpi_probe(struct device *dev,
+ 	np = dev->of_node;
+ 	desc = devm_kzalloc(dev, sizeof(*desc), GFP_KERNEL);
+ 	if (!desc)
+-		return -ENOMEM;
++		return NULL;
+ 
+ 	timing = devm_kzalloc(dev, sizeof(*timing), GFP_KERNEL);
+ 	if (!timing)
+-		return -ENOMEM;
++		return NULL;
+ 
+ 	ret = of_get_display_timing(np, "panel-timing", timing);
+ 	if (ret < 0) {
+ 		dev_err(dev, "%pOF: no panel-timing node found for \"panel-dpi\" binding\n",
+ 			np);
+-		return ret;
++		return NULL;
+ 	}
+ 
+ 	desc->timings = timing;
+@@ -473,9 +473,7 @@ static int panel_dpi_probe(struct device *dev,
+ 	/* We do not know the connector for the DT node, so guess it */
+ 	desc->connector_type = DRM_MODE_CONNECTOR_DPI;
+ 
+-	panel->desc = desc;
+-
+-	return 0;
++	return desc;
+ }
+ 
+ #define PANEL_SIMPLE_BOUNDS_CHECK(to_check, bounds, field) \
+@@ -570,6 +568,15 @@ static int panel_simple_override_nondefault_lvds_datamapping(struct device *dev,
+ 	return 0;
+ }
+ 
++static bool is_panel_dpi(struct device *dev)
++{
++	const struct of_device_id *match;
++
++	match = of_match_device(dev->driver->of_match_table, dev);
++
++	return strcmp(match->compatible, "panel_dpi");
++}
++
+ static int panel_simple_probe(struct device *dev, const struct panel_desc *desc)
+ {
+ 	struct panel_simple *panel;
+@@ -579,6 +586,10 @@ static int panel_simple_probe(struct device *dev, const struct panel_desc *desc)
+ 	u32 bus_flags;
+ 	int err;
+ 
++	/* Is this simple panel a DPI panel */
++	if (is_panel_dpi(dev))
++		desc = panel_dpi_get_desc(dev);
++
+ 	panel = devm_drm_panel_alloc(dev, struct panel_simple, base,
+ 				     &panel_simple_funcs, desc->connector_type);
+ 	if (IS_ERR(panel))
+@@ -611,16 +622,11 @@ static int panel_simple_probe(struct device *dev, const struct panel_desc *desc)
+ 			return -EPROBE_DEFER;
+ 	}
+ 
+-	if (desc == &panel_dpi) {
+-		/* Handle the generic panel-dpi binding */
+-		err = panel_dpi_probe(dev, panel);
+-		if (err)
+-			goto free_ddc;
+-		desc = panel->desc;
+-	} else {
++	if (is_panel_dpi(dev))
++		goto free_ddc;
++	else
+ 		if (!of_get_display_timing(dev->of_node, "panel-timing", &dt))
+ 			panel_simple_parse_panel_timing_node(dev, panel, &dt);
+-	}
+ 
+ 	if (desc->connector_type == DRM_MODE_CONNECTOR_LVDS) {
+ 		/* Optional data-mapping property for overriding bus format */
+
+---
+base-commit: 10357824151262636fda879845f8b64553541106
+change-id: 20250624-b4-simple-panel-regression-8ae3ba282fe2
+
+Best regards,
+-- 
+Anusha Srivatsa <asrivats@redhat.com>
+
