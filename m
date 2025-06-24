@@ -2,177 +2,91 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C1E64AE63CD
-	for <lists+dri-devel@lfdr.de>; Tue, 24 Jun 2025 13:46:54 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 531CBAE63CF
+	for <lists+dri-devel@lfdr.de>; Tue, 24 Jun 2025 13:47:13 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 170C910E580;
-	Tue, 24 Jun 2025 11:46:52 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A977310E05D;
+	Tue, 24 Jun 2025 11:47:11 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=topic.nl header.i=@topic.nl header.b="nODFPU3J";
+	dkim=pass (1024-bit key; unprotected) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="AEEMNYTN";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from DB3PR0202CU003.outbound.protection.outlook.com
- (mail-northeuropeazon11020081.outbound.protection.outlook.com [52.101.84.81])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4402710E05D
- for <dri-devel@lists.freedesktop.org>; Tue, 24 Jun 2025 11:46:43 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=fqmX1JVQMX08x6HsNCqzpyQLcLFBO4wj5Yfg7TiqYRxjUJ4/Qg5eEVgEHVrkjgmCjfggIabQ7Ua8oLC85KMr7bLjTsIIRUi/5aahorxml2nMgGTILOUdLIGp9FQFDshvP2774kUjtGc72yjXfBTcjMa1t9sdEfHXBjH1LKtIUH6cPQ3q/wkiLcgbQkisaweJR4mk9ywX/pXp6l2KtOCE7EE+dYZhNThwBNFmD3JFGtUZolNerVDMUqoAziVcNKZ1jIZMktMkAVYVtB78yjFHapxOmOYbh4KioxqyXiyyDix1d5le4kBuIZmdWpiRdzKkN2VBLkKmUygF0h7op3tPSg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=fYK8+2XmszCRh2F55WIp3kMHls8HFkHMNQOXqw9CzEY=;
- b=HBPnmEsYc889GLbz+urkUZR+BfOxnVTC3NeuFV5JJLfaCtFIyNEnWfdP5BEJQalRYvokkUjbXe8hXHrxnWz2KW31dLuYj5WBJB7ggTVBuD4EWXFQGZEYCCBvzDKtsESjHPxFcMihG7PhpSlDAIJlaTHPPMdNV7H/crZce0JXnJdrWh+UJvxERRaQacHtvD6lkxX5JbHMYiAcaZ58dq9KzB8tP0o8eJgE/9jaEzlEwokvPxSvRKy5i8qmZtPUpszeHNAP3S816KRoFEKrcyFCs3cQv5czFG6qa+X60iY8BpKOtaToSeFwr44HaiaORZYmF6y2YyXsjwpcUYpcDeouSw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
- 13.93.42.39) smtp.rcpttodomain=lists.freedesktop.org smtp.mailfrom=topic.nl;
- dmarc=pass (p=quarantine sp=quarantine pct=100) action=none
- header.from=topic.nl; dkim=none (message not signed); arc=none (0)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=topic.nl; s=selector2; 
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=fYK8+2XmszCRh2F55WIp3kMHls8HFkHMNQOXqw9CzEY=;
- b=nODFPU3JiwbTqJWMDgticqf15SgQKCA3oUX//MbqKhHHkA42FMzi8xdqJF83TnWVx7ncA1V6A4zANnJbJygGW50KoLqb0UhslSr8pZLrlfSAnR5Ki6VHROzrQnVjjTG+8icX6m/omIZbqcZerNPM+iqnOdGcyjHr9yRd47kfiParZot8qkF4j1xuwj0+kINrQCQd1yy2i4sA0owOgPd3EpY7e3VcYhcOGbBL1hGEwe8XOZq3DzfddKLllPvlYGjw1r4n+h+UpTSu04dS7FLYjnV8FgeyvEXGJUCZ927ipxGmWgJJCr9vr0oAkwoYTabRr3XPgxjVLr/8KquVb2zzKA==
-Received: from AS4P190CA0005.EURP190.PROD.OUTLOOK.COM (2603:10a6:20b:5de::17)
- by AM9PR04MB8381.eurprd04.prod.outlook.com (2603:10a6:20b:3b5::17)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8857.29; Tue, 24 Jun
- 2025 11:46:39 +0000
-Received: from AMS0EPF000001AB.eurprd05.prod.outlook.com
- (2603:10a6:20b:5de:cafe::1b) by AS4P190CA0005.outlook.office365.com
- (2603:10a6:20b:5de::17) with Microsoft SMTP Server (version=TLS1_3,
- cipher=TLS_AES_256_GCM_SHA384) id 15.20.8880.17 via Frontend Transport; Tue,
- 24 Jun 2025 11:46:39 +0000
-X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 13.93.42.39)
- smtp.mailfrom=topic.nl; dkim=none (message not signed)
- header.d=none;dmarc=pass action=none header.from=topic.nl;
-Received-SPF: Pass (protection.outlook.com: domain of topic.nl designates
- 13.93.42.39 as permitted sender) receiver=protection.outlook.com;
- client-ip=13.93.42.39; helo=westeu12-emailsignatures-cloud.codetwo.com; pr=C
-Received: from westeu12-emailsignatures-cloud.codetwo.com (13.93.42.39) by
- AMS0EPF000001AB.mail.protection.outlook.com (10.167.16.151) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.8880.14 via Frontend Transport; Tue, 24 Jun 2025 11:46:39 +0000
-Received: from DU2PR03CU002.outbound.protection.outlook.com (40.93.64.27) by
- westeu12-emailsignatures-cloud.codetwo.com with CodeTwo SMTP Server (TLS12)
- via SMTP; Tue, 24 Jun 2025 11:46:38 +0000
-Authentication-Results-Original: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=topic.nl;
-Received: from AM8PR04MB7779.eurprd04.prod.outlook.com (2603:10a6:20b:24b::14)
- by DU4PR04MB10984.eurprd04.prod.outlook.com (2603:10a6:10:586::9)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8857.28; Tue, 24 Jun
- 2025 11:46:36 +0000
-Received: from AM8PR04MB7779.eurprd04.prod.outlook.com
- ([fe80::7417:d17f:8d97:44d2]) by AM8PR04MB7779.eurprd04.prod.outlook.com
- ([fe80::7417:d17f:8d97:44d2%3]) with mapi id 15.20.8857.026; Tue, 24 Jun 2025
- 11:46:36 +0000
-From: Mike Looijmans <mike.looijmans@topic.nl>
-To: dri-devel@lists.freedesktop.org
-CC: Mike Looijmans <mike.looijmans@topic.nl>,
- Andrzej Hajda <andrzej.hajda@intel.com>, David Airlie <airlied@gmail.com>,
- Herve Codina <herve.codina@bootlin.com>,
- Jernej Skrabec <jernej.skrabec@gmail.com>, Jonas Karlman <jonas@kwiboo.se>,
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>,
- Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>,
- Simona Vetter <simona@ffwll.ch>, Thomas Zimmermann <tzimmermann@suse.de>,
- linux-kernel@vger.kernel.org
-Subject: [PATCH] drm/bridge: ti-sn65dsi83: Improve error reporting and handling
-Date: Tue, 24 Jun 2025 13:45:15 +0200
-Message-ID: <20250624114630.303058-1-mike.looijmans@topic.nl>
-X-Mailer: git-send-email 2.43.0
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain
-X-ClientProxiedBy: AM0PR06CA0092.eurprd06.prod.outlook.com
- (2603:10a6:208:fa::33) To AM8PR04MB7779.eurprd04.prod.outlook.com
- (2603:10a6:20b:24b::14)
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
+ [213.167.242.64])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0867F10E05D
+ for <dri-devel@lists.freedesktop.org>; Tue, 24 Jun 2025 11:47:10 +0000 (UTC)
+Received: from [192.168.88.20] (91-158-153-178.elisa-laajakaista.fi
+ [91.158.153.178])
+ by perceval.ideasonboard.com (Postfix) with ESMTPSA id 3C4BA50A;
+ Tue, 24 Jun 2025 13:46:49 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+ s=mail; t=1750765609;
+ bh=0duF5eetDeurAx5SbercLm+GRrF1AVp/Z1fAOG3PhJY=;
+ h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+ b=AEEMNYTNycg7VuMvxD6mHCdEnDb34jzSzyMJyazRv1kTSsamHIAlAmiypksoLdi28
+ IOSYmuOVO7+ZNNMvFpHOGe9C2Z+lyOylgn9GbNfEyl6t8ZEXp9ilISLOEDR0pMe0cW
+ gXaKzjJ4WCuVZRVC2K8P5sVXu66/jSrN2+ADeCqQ=
+Message-ID: <d6ac1fe1-eeac-430c-ada6-d19386781b53@ideasonboard.com>
+Date: Tue, 24 Jun 2025 14:47:02 +0300
 MIME-Version: 1.0
-X-MS-TrafficTypeDiagnostic: AM8PR04MB7779:EE_|DU4PR04MB10984:EE_|AMS0EPF000001AB:EE_|AM9PR04MB8381:EE_
-X-MS-Office365-Filtering-Correlation-Id: 90f82562-e2f2-430e-d45e-08ddb314c7e7
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam-Untrusted: BCL:0;
- ARA:13230040|52116014|1800799024|7416014|376014|366016|38350700014; 
-X-Microsoft-Antispam-Message-Info-Original: =?us-ascii?Q?6d6L0ll5RgowXk3rhyXxAzt8WymtNA/FuvC240PL9SOX7MSlyyLuhgejjCK6?=
- =?us-ascii?Q?WYgjGqdceoBoVRiP4b0+5QEDAOEvr21FAXX82KfGdntV2ycDvMKgTZEhXMNT?=
- =?us-ascii?Q?4xxdPhCTd8hDygdQ4uWmAG1T90bT0JgEfTJTDPRC/hYY7T93vqQmPwhC1EMi?=
- =?us-ascii?Q?iPwpb3LyQo84WSRtlxt/eHukVOCpe0UFz9oSIEPdgySFDMpVunv5PYguKCbd?=
- =?us-ascii?Q?iE9GhP5pNALXouytNvLkrx1Woz+lf3d4uPt/aRJqUaaJqpdPdi72QMCn3zp1?=
- =?us-ascii?Q?A5mK/R25uX7HVgTscE4tgBr4jVc3h59HTlJ4EKqRnPWmqmxu9+VYLF/cr2kO?=
- =?us-ascii?Q?1E3AjQy7CWwZiq6eKZKktj2y3Oys8w0ZPQKh0nKWKTzWNg9TvDvZ6iNFR6gJ?=
- =?us-ascii?Q?oygMdpFClkkYfTY9nLS3qsa15L3+P6xtC1njlFdxdbhDoCUgNmSYWJb/QjQs?=
- =?us-ascii?Q?/XWJ2o/Qb277PKP69owcIAlesTG8qhlnXMfNwkd0kVPvehqA0dz8w3RuRpVj?=
- =?us-ascii?Q?KuSwb8vzfpNwYJ41pqBrxfSv1gNgq17lmQ3A6NFwbR6GcFy5DcyleoclepvX?=
- =?us-ascii?Q?UT52eG9N+wP7zGmV3hvK0jYdUnvb9+Ltl2Pbpk0ou7RMA0FcZ4u8crFKIlo2?=
- =?us-ascii?Q?9Xy6GjN7FGfjw93h/y/V03dtWPsrWrWVQUW+clwwq6aKy1nbfs+7MbOYqhGg?=
- =?us-ascii?Q?JCHh6ByALHb6LMRqde+TznQI8Dn+PSt5dln4mo1LbcV+/oIyzuG0dPbbeVBw?=
- =?us-ascii?Q?FukzdTQb30Y1PpXW/nzVtx1LcYKJiWoOdbmqF6dT/o1izk2cwwg3b10b24qI?=
- =?us-ascii?Q?ORXMpBuJT6GQ8b+ZDaBTHEkpkTc+3CRbdK3d7C+UgIpRThhYYv0nNZ62bP5L?=
- =?us-ascii?Q?aEolT+z/ILK7aZOnJQfIQODyrOGrWN/z+dz+KsE2sxcqigGbv4tazcgkJFPp?=
- =?us-ascii?Q?B9wR5mYgSSc2Lg27yZdX8WmRESeqay+28PdIFBrkGtSVtxVukPv1UjMg2mXz?=
- =?us-ascii?Q?hatgmrCiz6rIey3CIuUex/PJauqYU0DPb6dOYfWxGB7vtxoyldMYR9cezhJD?=
- =?us-ascii?Q?pLySaMefBHjvn8Y5VYaFPmCy5gNMonQB/utn5phAC8S5XnSQzDdZyt5xgRR8?=
- =?us-ascii?Q?T9sRopsFKE1ljjvUG8cWia6s7SiFw747TfFLcIAuy6tLszBUNpBekgEsJorw?=
- =?us-ascii?Q?EibxdAlHqj+BZT3MUhcMlg7EAz0/1Jg6Y8dHmx81egJRPgnDCTwwUDY3T1OZ?=
- =?us-ascii?Q?HZHFAslGpucsQzwKY1B9q7KJBe2yh8LdXan7UMebEwBjDd5btjVg+bdQZti+?=
- =?us-ascii?Q?UMbX4T+HEzh/HDTKjztDT4hS4swBywc9CEb27Wu5cedZV7Elng6iqDCcy38/?=
- =?us-ascii?Q?uyWeB6mffEuozOlt4017+rh94BbDsDvABZO3qEQZnhsaOiV37xCCXhNRaH42?=
- =?us-ascii?Q?9q8NUryRxGK3xgtiTr1pChUCDt6PPqnFB6bHWR6RKRbHRqGORHNHyw=3D=3D?=
-X-Forefront-Antispam-Report-Untrusted: CIP:255.255.255.255; CTRY:; LANG:en;
- SCL:1; SRV:; IPV:NLI; SFV:NSPM; H:AM8PR04MB7779.eurprd04.prod.outlook.com;
- PTR:; CAT:NONE;
- SFS:(13230040)(52116014)(1800799024)(7416014)(376014)(366016)(38350700014);
- DIR:OUT; SFP:1102; 
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DU4PR04MB10984
-X-CodeTwo-MessageID: 4113afed-d9bd-415a-9a30-57deb34b44fe.20250624114638@westeu12-emailsignatures-cloud.codetwo.com
-References: <1b153bce-a66a-45ee-a5c6-963ea6fb1c82.949ef384-8293-46b8-903f-40a477c056ae.213ecd1f-6e92-42df-b45b-58dd7ea05682@emailsignatures365.codetwo.com>
-X-CodeTwoProcessed: true
-X-EOPAttributedMessage: 0
-X-MS-Exchange-Transport-CrossTenantHeadersStripped: AMS0EPF000001AB.eurprd05.prod.outlook.com
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id-Prvs: 284653f6-5fa9-429f-1857-08ddb314c614
-X-Microsoft-Antispam: BCL:0;
- ARA:13230040|7416014|36860700013|1800799024|376014|82310400026|14060799003|35042699022;
-X-Microsoft-Antispam-Message-Info: =?us-ascii?Q?8M+b8pZMw7dysil8+9Oel0MyvI+zoLzTh8UFIPqZwAjL6N6o7Xj426Mspyks?=
- =?us-ascii?Q?tA0KX0hRjA3B3vNJVsMJFbb5w3Taw3lHjOW1q2AM43bDOSORsrPvTsGQrWzE?=
- =?us-ascii?Q?wXtF/5sDmpJW1wY73PYjfwxuRcMtbl3YLkUIhlhoXAQD8Z1BWlEwbB3j25Wi?=
- =?us-ascii?Q?vaYYSxqJ/f7n7SWXNmwpRW8LrzRda3m5rzcxmE+NMmMwXgR7OaBDToMykdbe?=
- =?us-ascii?Q?pfU9KPPj/QbfNsS7vxblGHymFlMTtG1xsbtpphv1QE+wpVCUxfV3gJUs4+Vl?=
- =?us-ascii?Q?1756sDrTMl12FgBof68QZgpSx+c7JWfUOBkzwtP8sVX9XE+YumRzDExuAQcx?=
- =?us-ascii?Q?7xfBh/KINlpicSV57zlrC6n6pgcR76ZuPo844MeqONWxydH0LnGFqpw0Rcr5?=
- =?us-ascii?Q?IlVU77KPnSvqi3EyktDluDYU/4oCcnQKUGIDUmJV3X90wmgcf+p23mgtFB9q?=
- =?us-ascii?Q?ZPduJsOo4E5nSzgc0wLeGC3fCGADl4znO+XtvpWTmLiea7Gbu2188vY9z1vn?=
- =?us-ascii?Q?cG7ynBkRoK4Pb9pz5A2lZmBnhGvylvoF87F1ExAihd09sAr/eFmbxhy4cOeB?=
- =?us-ascii?Q?IQZwXnWl3LaQW72/0MDDq725Q/7e+7gbJWJdfk7e84MaedjfBhis/g2eXPT4?=
- =?us-ascii?Q?cT7oqu6clJyqm3iwMQD1tJ14ogYId8rUpDz+bCArUW6/ZnquCOuI8S3iKygK?=
- =?us-ascii?Q?TAe6OXTYDj4LFlq0AZSMUuk07KqtYwnORqxi9xoy3iPyAFQn31iGVA0HcOKk?=
- =?us-ascii?Q?Vkj/F7YHqxBGCqJ/L4jUdc6JewmvFAcMlIaZzZGL75I5pc9zmieLT3IOqRBI?=
- =?us-ascii?Q?hfK2FnDo5/qhJqh5kMKlNMnKocziw+zIuOjxE1pk0aMQF8WQLIfceb8jU4Dk?=
- =?us-ascii?Q?NTz9LnYndtLUHLD75Y7PJXBBWq/DOOPyovbYb+LTckTHnabNvqg4FauEifxX?=
- =?us-ascii?Q?uATcRIcGqK93L0j1FLgoTsSYw9YfRaso+KU/xlETn2lInEIsjbV0zYot0z7Y?=
- =?us-ascii?Q?039VfaZ0eQ9ozGPHfzWtTnuACmS6m0EatM01B7vuzU7HNcFBlY1Wxt37cU45?=
- =?us-ascii?Q?bHHtx7LSctzDw36UMe0HCT4iHEjZFNSm68nErOrjY2072qBKJEPdEKFjKRtA?=
- =?us-ascii?Q?q3olc3r5kQzaTI35pTqdSDS8acaqcKgp+VxXhDDKu73oLeIUH+ahus+nJleC?=
- =?us-ascii?Q?PXkFmz1HlXqbRTLBBfHSOOiTNVx56P5WyKdzCVXz601BOrvyFO0AY1m2bwtv?=
- =?us-ascii?Q?x4iYv4F3DHtUbHR8xPC69kRbGWz+BUVPfquzIDVE3xXzCKoU9QfclQg4xiLF?=
- =?us-ascii?Q?rH6t3Kh6qhJLR1hXBXL+97lPCYWPZRRo2BtuFnykJcd03ZdLJxD60bhxySbb?=
- =?us-ascii?Q?neCYpbQrtzS0MoPvHmwzwUiVzADNyW8x2T4WWtWdfbVZqjdgFF6EnH8pg3FJ?=
- =?us-ascii?Q?yckd6SOzHpZEjv7VzQt3eQ25ha8Ms/eoSE8bsbRxvUYdLm7SPFtfnQ=3D=3D?=
-X-Forefront-Antispam-Report: CIP:13.93.42.39; CTRY:NL; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:westeu12-emailsignatures-cloud.codetwo.com;
- PTR:westeu12-emailsignatures-cloud.codetwo.com; CAT:NONE;
- SFS:(13230040)(7416014)(36860700013)(1800799024)(376014)(82310400026)(14060799003)(35042699022);
- DIR:OUT; SFP:1102; 
-X-OriginatorOrg: topic.nl
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 24 Jun 2025 11:46:39.0636 (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: 90f82562-e2f2-430e-d45e-08ddb314c7e7
-X-MS-Exchange-CrossTenant-Id: 449607a5-3517-482d-8d16-41dd868cbda3
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=449607a5-3517-482d-8d16-41dd868cbda3; Ip=[13.93.42.39];
- Helo=[westeu12-emailsignatures-cloud.codetwo.com]
-X-MS-Exchange-CrossTenant-AuthSource: AMS0EPF000001AB.eurprd05.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Anonymous
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM9PR04MB8381
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] drm/tidss: Set crtc modesetting parameters with adjusted
+ mode
+To: Jayesh Choudhary <j-choudhary@ti.com>, jyri.sarha@iki.fi,
+ dri-devel@lists.freedesktop.org, devarsht@ti.com
+Cc: maarten.lankhorst@linux.intel.com, mripard@kernel.org,
+ tzimmermann@suse.de, airlied@gmail.com, simona@ffwll.ch,
+ linux-kernel@vger.kernel.org
+References: <20250624080402.302526-1-j-choudhary@ti.com>
+Content-Language: en-US
+From: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
+Autocrypt: addr=tomi.valkeinen@ideasonboard.com; keydata=
+ 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
+In-Reply-To: <20250624080402.302526-1-j-choudhary@ti.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -188,154 +102,74 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The datasheet advises to wait 5ms after starting the video stream before
-resetting the error registers. The driver only waits 1ms. Change the
-sequence to match the datasheet:
-- Turn on the DSI
-- Wait 5ms
-- Write 0xFF to CSR 0xE5 to clear the error registers
+Hi,
 
-Don't read the error register (which may fail), just write 0xff as the
-datasheet suggests.
+On 24/06/2025 11:04, Jayesh Choudhary wrote:
+> TIDSS uses crtc_* fields to propagate its registers and set the
+> clock rates. So set the CRTC modesetting timing parameters with
+> the adjusted mode when needed, to set correct values.
+> 
+> Cc: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
+> Signed-off-by: Jayesh Choudhary <j-choudhary@ti.com>
+> ---
+> 
+> Hello All,
+> 
+> After the DSI fixes[0], TIDSS is using crtc_* timings while programming
+> hardware[1]. But while testing on TI's J784S4-EVM platform, I noticed
+> that crtc_timings are not propagated properly.
+> 
+> The display pipeline there looks like:
+> TIDSS -> CDNS-DSI -> SN65DSI86 bridge -> DisplayPort
+> 
+> Consider the case of 1920x1080 resolution where the EDID mode has clock
+> of 148500kHz. After adjustment, the clock changes to 148800kHz. While
+> this change is reflected in mode->clock, its not propagated to
+> mode->crtc_clock.
 
-The driver creates a timer or IRQ handler that reads the error register,
-which implements the "wait some time and read the register" part.
+Hmm, so CDNS-DSI changes the adjusted_mode->clock, but in the end tidss
+doesn't actually use the adjusted clock at all? I'm pretty sure I tested
+that... I need to try it (and this) again.
 
-When using a timer to poll the status register, the timer did not stop
-when the error handler triggers a reset. This has been observed to cause
-a series of multiple resets. Let handle_errors return a bool indicating
-whether all is fine, and only extend the time when it returns true. That
-also allows the IRQ disable call to move to the interrupt routine.
+ Tomi
 
-When the error handler does trigger, log a message that explains the
-reset cause.
+> 
+> [0] provides the **essential** fixes to get DSI working and its
+> patches are Reviewed and Tested.
+> The series improves the condition of DSI. I have observed that
+> 800x600 and 1280x1024 modes are working now after [0].
+> 
+> This patch helps to enables other modes. So taking this up as a
+> delta patch so as to avoid respining v5 of [0].
+> I hope this approach is okay!
+> 
+> [0]: https://lore.kernel.org/all/20250618-cdns-dsi-impro-v4-0-862c841dbe02@ideasonboard.com/
+> [1]: https://patchwork.kernel.org/project/dri-devel/patch/20250618-cdns-dsi-impro-v4-3-862c841dbe02@ideasonboard.com/ 
+> 
+>  drivers/gpu/drm/tidss/tidss_crtc.c | 5 ++++-
+>  1 file changed, 4 insertions(+), 1 deletion(-)
+> 
+> diff --git a/drivers/gpu/drm/tidss/tidss_crtc.c b/drivers/gpu/drm/tidss/tidss_crtc.c
+> index 17efd77ce7f2..da89fd01c337 100644
+> --- a/drivers/gpu/drm/tidss/tidss_crtc.c
+> +++ b/drivers/gpu/drm/tidss/tidss_crtc.c
+> @@ -91,7 +91,7 @@ static int tidss_crtc_atomic_check(struct drm_crtc *crtc,
+>  	struct dispc_device *dispc = tidss->dispc;
+>  	struct tidss_crtc *tcrtc = to_tidss_crtc(crtc);
+>  	u32 hw_videoport = tcrtc->hw_videoport;
+> -	const struct drm_display_mode *mode;
+> +	struct drm_display_mode *mode;
+>  	enum drm_mode_status ok;
+>  
+>  	dev_dbg(ddev->dev, "%s\n", __func__);
+> @@ -108,6 +108,9 @@ static int tidss_crtc_atomic_check(struct drm_crtc *crtc,
+>  		return -EINVAL;
+>  	}
+>  
+> +	if (drm_atomic_crtc_needs_modeset(crtc_state))
+> +		drm_mode_set_crtcinfo(mode, 0);
+> +
+>  	return dispc_vp_bus_check(dispc, hw_videoport, crtc_state);
+>  }
+>  
 
-Fixes: ad5c6ecef27e ("drm: bridge: ti-sn65dsi83: Add error recovery mechani=
-sm")
-Signed-off-by: Mike Looijmans <mike.looijmans@topic.nl>
----
-
- drivers/gpu/drm/bridge/ti-sn65dsi83.c | 50 +++++++++++++++------------
- 1 file changed, 28 insertions(+), 22 deletions(-)
-
-diff --git a/drivers/gpu/drm/bridge/ti-sn65dsi83.c b/drivers/gpu/drm/bridge=
-/ti-sn65dsi83.c
-index 033c44326552..6240a9997cc2 100644
---- a/drivers/gpu/drm/bridge/ti-sn65dsi83.c
-+++ b/drivers/gpu/drm/bridge/ti-sn65dsi83.c
-@@ -417,7 +417,7 @@ static void sn65dsi83_reset_work(struct work_struct *ws=
-)
- 		enable_irq(ctx->irq);
- }
-=20
--static void sn65dsi83_handle_errors(struct sn65dsi83 *ctx)
-+static bool sn65dsi83_handle_errors(struct sn65dsi83 *ctx)
- {
- 	unsigned int irq_stat;
- 	int ret;
-@@ -430,17 +430,20 @@ static void sn65dsi83_handle_errors(struct sn65dsi83 =
-*ctx)
-=20
- 	ret =3D regmap_read(ctx->regmap, REG_IRQ_STAT, &irq_stat);
- 	if (ret || irq_stat) {
--		/*
--		 * IRQ acknowledged is not always possible (the bridge can be in
--		 * a state where it doesn't answer anymore). To prevent an
--		 * interrupt storm, disable interrupt. The interrupt will be
--		 * after the reset.
--		 */
--		if (ctx->irq)
--			disable_irq_nosync(ctx->irq);
-+		if (ret) {
-+			dev_err(ctx->dev, "Communication failure\n");
-+		} else {
-+			dev_err(ctx->dev, "Error status: 0x%02x\n", irq_stat);
-+			/* Clear errors if the chip was still responding */
-+			regmap_write(ctx->regmap, REG_IRQ_STAT, irq_stat);
-+		}
-=20
- 		schedule_work(&ctx->reset_work);
-+
-+		return false;
- 	}
-+
-+	return true;
- }
-=20
- static void sn65dsi83_monitor_work(struct work_struct *work)
-@@ -448,9 +451,8 @@ static void sn65dsi83_monitor_work(struct work_struct *=
-work)
- 	struct sn65dsi83 *ctx =3D container_of(to_delayed_work(work),
- 					     struct sn65dsi83, monitor_work);
-=20
--	sn65dsi83_handle_errors(ctx);
--
--	schedule_delayed_work(&ctx->monitor_work, msecs_to_jiffies(1000));
-+	if (sn65dsi83_handle_errors(ctx))
-+		schedule_delayed_work(&ctx->monitor_work, msecs_to_jiffies(1000));
- }
-=20
- static void sn65dsi83_monitor_start(struct sn65dsi83 *ctx)
-@@ -639,18 +641,13 @@ static void sn65dsi83_atomic_enable(struct drm_bridge=
- *bridge,
- 				    struct drm_atomic_state *state)
- {
- 	struct sn65dsi83 *ctx =3D bridge_to_sn65dsi83(bridge);
--	unsigned int pval;
-=20
-+	/* Wait 5 ms after starting DSI stream */
-+	usleep_range(5000, 5500);
- 	/* Clear all errors that got asserted during initialization. */
--	regmap_read(ctx->regmap, REG_IRQ_STAT, &pval);
--	regmap_write(ctx->regmap, REG_IRQ_STAT, pval);
--
--	/* Wait for 1ms and check for errors in status register */
--	usleep_range(1000, 1100);
--	regmap_read(ctx->regmap, REG_IRQ_STAT, &pval);
--	if (pval)
--		dev_err(ctx->dev, "Unexpected link status 0x%02x\n", pval);
-+	regmap_write(ctx->regmap, REG_IRQ_STAT, 0xff);
-=20
-+	/* Start checking for errors in status register */
- 	if (ctx->irq) {
- 		/* Enable irq to detect errors */
- 		regmap_write(ctx->regmap, REG_IRQ_GLOBAL, REG_IRQ_GLOBAL_IRQ_EN);
-@@ -929,7 +926,16 @@ static irqreturn_t sn65dsi83_irq(int irq, void *data)
- {
- 	struct sn65dsi83 *ctx =3D data;
-=20
--	sn65dsi83_handle_errors(ctx);
-+	if (!sn65dsi83_handle_errors(ctx)) {
-+		/*
-+		 * IRQ acknowledged is not always possible (the bridge can be in
-+		 * a state where it doesn't answer anymore). To prevent an
-+		 * interrupt storm, disable interrupt. The interrupt will be
-+		 * after the reset.
-+		 */
-+		disable_irq_nosync(ctx->irq);
-+	}
-+
- 	return IRQ_HANDLED;
- }
-=20
---=20
-2.43.0
-
-base-commit: 78f4e737a53e1163ded2687a922fce138aee73f5
-branch: linux-master-sn65dsi83-errorhandling
-
-Met vriendelijke groet / kind regards,=0A=
-=0A=
-Mike Looijmans=0A=
-System Expert=0A=
-=0A=
-=0A=
-TOPIC Embedded Products B.V.=0A=
-Materiaalweg 4, 5681 RJ Best=0A=
-The Netherlands=0A=
-=0A=
-T: +31 (0) 499 33 69 69=0A=
-E: mike.looijmans@topic.nl=0A=
-W: www.topic.nl=0A=
-=0A=
-Please consider the environment before printing this e-mail=0A=
