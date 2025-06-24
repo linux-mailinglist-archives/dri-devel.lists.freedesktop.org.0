@@ -2,75 +2,96 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2A0B8AE69FC
-	for <lists+dri-devel@lfdr.de>; Tue, 24 Jun 2025 17:03:04 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2DF16AE6AB4
+	for <lists+dri-devel@lfdr.de>; Tue, 24 Jun 2025 17:23:27 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C9D2310E5F2;
-	Tue, 24 Jun 2025 15:02:57 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0C84410E090;
+	Tue, 24 Jun 2025 15:16:35 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=broadcom.com header.i=@broadcom.com header.b="QWFIJKIK";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="jCjHpOXr";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-f47.google.com (mail-wm1-f47.google.com
- [209.85.128.47])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A7C8A10E5F2
- for <dri-devel@lists.freedesktop.org>; Tue, 24 Jun 2025 15:02:55 +0000 (UTC)
-Received: by mail-wm1-f47.google.com with SMTP id
- 5b1f17b1804b1-450cb2ddd46so3857725e9.2
- for <dri-devel@lists.freedesktop.org>; Tue, 24 Jun 2025 08:02:54 -0700 (PDT)
+Received: from mail-ed1-f46.google.com (mail-ed1-f46.google.com
+ [209.85.208.46])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A03B410E62A
+ for <dri-devel@lists.freedesktop.org>; Tue, 24 Jun 2025 15:16:32 +0000 (UTC)
+Received: by mail-ed1-f46.google.com with SMTP id
+ 4fb4d7f45d1cf-608acb0a27fso8497300a12.0
+ for <dri-devel@lists.freedesktop.org>; Tue, 24 Jun 2025 08:16:32 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=broadcom.com; s=google; t=1750777373; x=1751382173;
- darn=lists.freedesktop.org; 
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:from:to:cc:subject:date:message-id:reply-to;
- bh=xCamiHxIIZtlJbw3uytKP0uB+9OT2pT4dwLH2Q8CGsg=;
- b=QWFIJKIKWAj+nkWfJvCJHgcH7NcefVXnVGlKvemWgUwj1mV1KcYrbOAO9NwJg0cd04
- uhcNR8N5FLFrzxTH4UszSMcWsV+zD8b3aD7KQ+fdRU0MtPKeGK5p2JaBixsZ5/Hddw5G
- J0FfRB3nG828abb81mIS01hZmk2G9Owa2MG9g=
+ d=gmail.com; s=20230601; t=1750778191; x=1751382991; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=Xz6lF9XniltLisPEnyJriOyTCQCRxSp9Qc6C+GjVXIs=;
+ b=jCjHpOXrMay/OVSMyJHxmNp7V9XjrSqrqgUU9nkHolTo3SRjKzOI0Nx3TyiPlRDDty
+ 7aIIpLefpBi+yPyKqD7BXkvIfmRYPMTWUbGRUaG+5TCLUW69PJFIlbYFRAZnjO9clDIw
+ 4mcfJ5vIaIVxch3NonrbE7wzKb1ZreMz7ZfP1Twm4IHpJiY95LBL9scaWGKqr9M3krpz
+ 6hob7KRJjVfjSCaJ2yYfk02XvEdCl8CQ2o6JvvQhZXKsnUI6BkmBLyD21QvAwBp1kwnh
+ 6ra5Jm1n3dINjWeZstTS21lq7tK3cEde+AWY8BcQNdAuNUwUZpysV46U60JYdrieo+Rf
+ we4g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1750777373; x=1751382173;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=xCamiHxIIZtlJbw3uytKP0uB+9OT2pT4dwLH2Q8CGsg=;
- b=AKwrKQRP0Pvt3UhLAqQ+9DOs6BgCkSCTHjQLwPSVZlBq2nQ1vM/DCLylYEqevdefsg
- cLB8tItZT0RZriCbBuMql0PdyYxYL2/dcCh/S3XOMLqHY0djCWpHNDx09IfT6N3KDA/n
- LjkyhAY3edrvmv16zXxvonnYzTAL1aQ3K1cxbAlERD4zQhsvBi+du+Ll0Ah736MkUbi2
- redaLrUEdZF4ZF2QAKdLBp3fQ2Mm4Q5N5RI3MMqdmaaRXPHO29dbKxX7+4O3fNBBZCW4
- giHjB4iZlQBKaubf88TBm4nIgPzPAGT+m3WgqI8n97BaRc5yFdI6MqzznL6xerxH78KL
- aabA==
+ d=1e100.net; s=20230601; t=1750778191; x=1751382991;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=Xz6lF9XniltLisPEnyJriOyTCQCRxSp9Qc6C+GjVXIs=;
+ b=WpzTSXQLm0jAqx7dDWn6ezEesgquqhhGRwq1I1f+0LF5meZhHCzRMHHH8bnqEOdhFw
+ wkqRKg0IfqzEpFtIEkl2G8lsv4mAyFMNqDKqY9sYlAHRcoVe5bsUSzx37E3T9PscUnXk
+ kklHlfuKrp9aak8uRF8WLMiEQjvgBJ2NTI8XjZFngz9gkbtbHIFWMMHPz504JDo/X89l
+ vIdcJafHH/PDkZAbfdsorjU+zQTOHFsb8q1a/UYry1lIB+tMOBR5sAm23KBqlh4v48OE
+ U1C+AgTG5tPZ+oLvKwie+ROL7dH2URAaGnS286FXHcZwkwaISFqibYW2u/S0nlci9Wxu
+ AZKw==
 X-Forwarded-Encrypted: i=1;
- AJvYcCUh7fLsvHV+MVqdvoWTLqZdxJ/P/gV/FfPZNQ1kIUjxnBZkPKLPaVxz+ZHeaLqAWIcfdXdaILHOKK4=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YzU9CXYjY4gbYrJPG7xhAEort//lBnyHcEFsqlxI6NUqICNqFJr
- RyTDsk204uadv/p/SZqmKpJuv2EYsEHTIoG83VNk8D8Qqpj8w7kuTRXEABkaWdBx2VSfV5v9+3s
- 2CKBpVqYGGlxYFJCzlt2SVlAcjoMMWCI7R4acawpl
-X-Gm-Gg: ASbGncuGzbVc6tYGTMml/U17EO1kKt+flu6ZdXF46yPGVnk2EdDBr2v84Hv4xjd5U6z
- 1GQ25m3CHbQlizv138qVBjfW0H5PLqT58S0n8e/l4PEoNkL/I5aLlMET4vLucdPmPFsTQvveEQ1
- 2WHuk4wNF9lF7FZ54Ay1wYY9PzoCvScbcIRJo4xgagwkFC
-X-Google-Smtp-Source: AGHT+IGOf5VEwxUC3O+KRb69Plm1nY5tmWtUJ0T510GgmpA3+haqBSY4vCIvptP3K/lpKg9ALu0lnpSTZRdJXTOqnbM=
-X-Received: by 2002:a05:6000:65a:b0:3a1:f5c4:b81b with SMTP id
- ffacd0b85a97d-3a6d1304011mr13851674f8f.23.1750777373160; Tue, 24 Jun 2025
- 08:02:53 -0700 (PDT)
+ AJvYcCV2WCGKT8jOCWViASZ/tDe3BopRvMg1qz2lGtSqZEG19v2xMoqHpmYKyEdJ5jPoI4LDEfKHpxRFZtI=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0Ywvezz98B4i1hXey0vXzpIhUOdryqRqoEw2EHJZsYfS5wavSmka
+ cbHGqqv8sQoeuSDWfu6fDzgOpCJC7q/PVX+pj+bMcAqOkQ5oZyOtFehFpJHfVIaJBTxxuPX8cBk
+ ylXSlnTP710LlTLd354jObd6rlwsO5rM=
+X-Gm-Gg: ASbGncvbdNjyzUkG1Gxf8ykytE0LI5/hy9h/HtnmHuX1FkKBJV7JxRNFwqWQFzbgttb
+ 6FE12yjC4Pt1BtaspQDLAYRGB6WoCYur2/8h5s2FFnvuvhgLJ/mvUmPAfYtVAOCC1hmLEMwgYQN
+ kT/YIJwEmxf30Dn/Vrq/C47zD7ON0B8Gpup53neX3CWHz3BcGkL0WPCBP7
+X-Google-Smtp-Source: AGHT+IG+Z5NuC4RG8ReXh+ijI0QVvcrGpC6q73clRUZr6aJi8i6CQO+smzxdbdwirUDg+z0XbAcVWnQEOSlhWZ83ilc=
+X-Received: by 2002:a05:6402:1d53:b0:604:5bba:61a0 with SMTP id
+ 4fb4d7f45d1cf-60a1cf2d130mr14287673a12.23.1750778190705; Tue, 24 Jun 2025
+ 08:16:30 -0700 (PDT)
 MIME-Version: 1.0
-References: <20250623223526.281398-1-colin.i.king@gmail.com>
-In-Reply-To: <20250623223526.281398-1-colin.i.king@gmail.com>
-From: Ian Forbes <ian.forbes@broadcom.com>
-Date: Tue, 24 Jun 2025 10:02:41 -0500
-X-Gm-Features: Ac12FXzXrl1f4cW4p3BCfWWa9xsIOsgZmcd6kZmmw6vKCaMO_Sth5WmZ8CxfgqM
-Message-ID: <CAO6MGtiLtHKk3tuvxpz5wEC8PxshANhdP97MQ+jD9euu8UmYxQ@mail.gmail.com>
-Subject: Re: [PATCH][next] drm/vmwgfx: fix missing assignment to ts
-To: Colin Ian King <colin.i.king@gmail.com>
-Cc: Zack Rusin <zack.rusin@broadcom.com>, 
- Broadcom internal kernel review list <bcm-kernel-feedback-list@broadcom.com>, 
+References: <20250530171841.423274-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
+ <20250530171841.423274-5-prabhakar.mahadev-lad.rj@bp.renesas.com>
+ <TY3PR01MB11346A62FDF84C5F2C1240BBF8677A@TY3PR01MB11346.jpnprd01.prod.outlook.com>
+ <CA+V-a8sZfTgOENXfR2NnykgjGHd+2-vS9Jk-dNLWTVQyAGbQTw@mail.gmail.com>
+ <TYCPR01MB11332F40696148C7216866D3B8670A@TYCPR01MB11332.jpnprd01.prod.outlook.com>
+In-Reply-To: <TYCPR01MB11332F40696148C7216866D3B8670A@TYCPR01MB11332.jpnprd01.prod.outlook.com>
+From: "Lad, Prabhakar" <prabhakar.csengg@gmail.com>
+Date: Tue, 24 Jun 2025 16:16:03 +0100
+X-Gm-Features: AX0GCFtI-IF1eAXq4c-T_qlior0_QFH7KRpC7NQJfzxetksCcBYQKOzsOlDjoug
+Message-ID: <CA+V-a8txzBEwSSNEgoPkxBGAoQDrdGFtnYoLo49SqN-aZUUVXw@mail.gmail.com>
+Subject: Re: [PATCH v6 4/4] drm: renesas: rz-du: mipi_dsi: Add support for
+ RZ/V2H(P) SoC
+To: Biju Das <biju.das.jz@bp.renesas.com>
+Cc: Geert Uytterhoeven <geert+renesas@glider.be>,
+ Andrzej Hajda <andrzej.hajda@intel.com>, 
+ Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>, 
+ "laurent.pinchart" <laurent.pinchart@ideasonboard.com>,
+ Jonas Karlman <jonas@kwiboo.se>, 
+ Jernej Skrabec <jernej.skrabec@gmail.com>, 
  Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
  Maxime Ripard <mripard@kernel.org>, 
  Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
  Simona Vetter <simona@ffwll.ch>, 
- dri-devel@lists.freedesktop.org, kernel-janitors@vger.kernel.org, 
- linux-kernel@vger.kernel.org
-Content-Type: multipart/signed; protocol="application/pkcs7-signature";
- micalg=sha-256; boundary="000000000000730f080638529f8d"
+ Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
+ Conor Dooley <conor+dt@kernel.org>, 
+ Michael Turquette <mturquette@baylibre.com>, Stephen Boyd <sboyd@kernel.org>, 
+ Magnus Damm <magnus.damm@gmail.com>, 
+ "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>, 
+ "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>, 
+ "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>, 
+ "linux-renesas-soc@vger.kernel.org" <linux-renesas-soc@vger.kernel.org>, 
+ "linux-clk@vger.kernel.org" <linux-clk@vger.kernel.org>, 
+ Fabrizio Castro <fabrizio.castro.jz@renesas.com>, 
+ Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -86,123 +107,148 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
---000000000000730f080638529f8d
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-On Mon, Jun 23, 2025 at 5:35=E2=80=AFPM Colin Ian King <colin.i.king@gmail.=
-com> wrote:
+On Mon, Jun 16, 2025 at 11:54=E2=80=AFAM Biju Das <biju.das.jz@bp.renesas.c=
+om> wrote:
 >
-> The assignment to ts is missing on the call to ktime_to_timespec64.
-> Fix this by adding the missing assignment.
 >
-> Fixes: db6a94b26354 ("drm/vmwgfx: Implement dma_fence_ops properly")
-> Signed-off-by: Colin Ian King <colin.i.king@gmail.com>
+>
+> > -----Original Message-----
+> > From: Lad, Prabhakar <prabhakar.csengg@gmail.com>
+> > Sent: Monday, June 16, 2025 11:48 AM
+> > To: Biju Das <biju.das.jz@bp.renesas.com>
+> > Cc: Geert Uytterhoeven <geert+renesas@glider.be>; Andrzej Hajda
+> > <andrzej.hajda@intel.com>; Neil Armstrong <neil.armstrong@linaro.org>;
+> > Robert Foss <rfoss@kernel.org>; laurent.pinchart
+> > <laurent.pinchart@ideasonboard.com>; Jonas Karlman <jonas@kwiboo.se>;
+> > Jernej Skrabec <jernej.skrabec@gmail.com>; Maarten Lankhorst
+> > <maarten.lankhorst@linux.intel.com>; Maxime Ripard <mripard@kernel.org>=
+;
+> > Thomas Zimmermann <tzimmermann@suse.de>; David Airlie <airlied@gmail.co=
+m>;
+> > Simona Vetter <simona@ffwll.ch>; Rob Herring <robh@kernel.org>; Krzyszt=
+of
+> > Kozlowski <krzk+dt@kernel.org>; Conor Dooley <conor+dt@kernel.org>;
+> > Michael Turquette <mturquette@baylibre.com>; Stephen Boyd
+> > <sboyd@kernel.org>; Magnus Damm <magnus.damm@gmail.com>; dri-
+> > devel@lists.freedesktop.org; devicetree@vger.kernel.org; linux-
+> > kernel@vger.kernel.org; linux-renesas-soc@vger.kernel.org; linux-
+> > clk@vger.kernel.org; Fabrizio Castro <fabrizio.castro.jz@renesas.com>;
+> > Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>
+> > Subject: Re: [PATCH v6 4/4] drm: renesas: rz-du: mipi_dsi: Add support =
+for
+> > RZ/V2H(P) SoC
+> >
+> > Hi Biju,
+> >
+> > Thank you for the review.
+> >
+> > On Fri, Jun 13, 2025 at 7:17=E2=80=AFAM Biju Das <biju.das.jz@bp.renesa=
+s.com>
+> > wrote:
+> > >
+> > > Hi Prabhakar,
+> > >
+> > > > -----Original Message-----
+> > > > From: Prabhakar <prabhakar.csengg@gmail.com>
+> > > > Sent: 30 May 2025 18:19
+> > > > Subject: [PATCH v6 4/4] drm: renesas: rz-du: mipi_dsi: Add support
+> > > > for RZ/V2H(P) SoC
+> > > >
+> > > > From: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+> > > >
+> > > > Add DSI support for Renesas RZ/V2H(P) SoC.
+> > > >
+> > > > Co-developed-by: Fabrizio Castro <fabrizio.castro.jz@renesas.com>
+> > > > Signed-off-by: Fabrizio Castro <fabrizio.castro.jz@renesas.com>
+> > > > Signed-off-by: Lad Prabhakar
+> > > > <prabhakar.mahadev-lad.rj@bp.renesas.com>
+> > > > ---
+> > > > v5->v6:
+> > > > - Made use of GENMASK() macro for PLLCLKSET0R_PLL_*,
+> > > >   PHYTCLKSETR_* and PHYTHSSETR_* macros.
+> > > > - Replaced 10000000UL with 10 * MEGA
+> > > > - Renamed mode_freq_hz to mode_freq_khz in rzv2h_dsi_mode_calc
+> > > > - Replaced `i -=3D 1;` with `i--;`
+> > > > - Renamed RZV2H_MIPI_DPHY_FOUT_MIN_IN_MEGA to
+> > > >   RZV2H_MIPI_DPHY_FOUT_MIN_IN_MHZ and
+> > > >   RZV2H_MIPI_DPHY_FOUT_MAX_IN_MEGA to
+> > > >   RZV2H_MIPI_DPHY_FOUT_MAX_IN_MHZ.
+> > > >
+> > > > v4->v5:
+> > > > - No changes
+> > > >
+> > > > v3->v4
+> > > > - In rzv2h_dphy_find_ulpsexit() made the array static const.
+> > > >
+> > > > v2->v3:
+> > > > - Simplifed V2H DSI timings array to save space
+> > > > - Switched to use fsleep() instead of udelay()
+> > > >
+> > > > v1->v2:
+> > > > - Dropped unused macros
+> > > > - Added missing LPCLK flag to rzv2h info
+> > > > ---
+> > > >  .../gpu/drm/renesas/rz-du/rzg2l_mipi_dsi.c    | 345
+> > ++++++++++++++++++
+> > > >  .../drm/renesas/rz-du/rzg2l_mipi_dsi_regs.h   |  34 ++
+> > > >  2 files changed, 379 insertions(+)
+> > > >
+> > > > diff --git a/drivers/gpu/drm/renesas/rz-du/rzg2l_mipi_dsi.c
+> > > > b/drivers/gpu/drm/renesas/rz- du/rzg2l_mipi_dsi.c index
+> > > > a31f9b6aa920..ea554ced6713 100644
+> > > > --- a/drivers/gpu/drm/renesas/rz-du/rzg2l_mipi_dsi.c
+> > > > +++ b/drivers/gpu/drm/renesas/rz-du/rzg2l_mipi_dsi.c
+> > > > @@ -5,6 +5,7 @@
+> > > >   * Copyright (C) 2022 Renesas Electronics Corporation
+> > > >   */
+> > > >  #include <linux/clk.h>
+> > > > +#include <linux/clk/renesas-rzv2h-dsi.h>
+> > > >  #include <linux/delay.h>
+> > > >  #include <linux/io.h>
+> > > >  #include <linux/iopoll.h>
+> > <snip>
+> > > > +
+> > > > +static int rzv2h_dphy_conf_clks(struct rzg2l_mipi_dsi *dsi, unsign=
+ed
+> > long mode_freq,
+> > > > +                             u64 *hsfreq_millihz) {
+> > > > +     struct rzv2h_plldsi_parameters *dsi_parameters =3D &dsi-
+> > >dsi_parameters;
+> > > > +     unsigned long status;
+> > > > +
+> > > > +     if (dsi->mode_calc.mode_freq_khz !=3D mode_freq) {
+> > > > +             status =3D rzv2h_dphy_mode_clk_check(dsi, mode_freq);
+> > > > +             if (status !=3D MODE_OK) {
+> > > > +                     dev_err(dsi->dev, "No PLL parameters found fo=
+r
+> > mode clk %lu\n",
+> > > > +                             mode_freq);
+> > > > +                     return -EINVAL;
+> > > > +             }
+> > > > +     }
+> > > > +
+> > > > +     clk_set_rate(dsi->vclk, dsi->mode_calc.mode_freq_hz);
+> > >
+> > > Not sure, Can we use the DSI divider required based on the data rate
+> > > (vclk, bpp and numlanes) here
+> > >
+> > > and then the set parent clk of PLLDSI as well here (dsi->vclk * the
+> > divider value) ??
+> > >
+> > > 24MHZ->PLL DSI->DSI DIVIDER->VCLOCK
+> > >
+> > > Maybe then the clock framework has all the information for setting
+> > PLL_DSI and DSI_DIVIDER clks??
+> > >
+> > Can you please elaborate here with a detailed example.
+>
+> There will be determine_clk followed by set_clock for setting new rate fo=
+r PLL DSI(dsi->vclk * the divider value)
+> For eg:  vclk_max =3D 187.5 MHz, DSI Divider required =3D 16
+> Then set PLL_DSI =3D 187.5 * 16 MHz using clk_set.
+>
+This will trigger the algorithm twice, so I'll go with the current
+approach which is optimal.
 
-Was this caught by a compiler warning? I'm surprised I didn't get some
-sort of warning for this.
-
-Reviewed-by: Ian Forbes <ian.forbes@broadcom.com>
-
---000000000000730f080638529f8d
-Content-Type: application/pkcs7-signature; name="smime.p7s"
-Content-Transfer-Encoding: base64
-Content-Disposition: attachment; filename="smime.p7s"
-Content-Description: S/MIME Cryptographic Signature
-
-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
-V0fYJUiKJMCwvDmndOil8EtMA8j2T6taUZoQINiKQ0oDWgY6eYVv7AdPVIeOOs3noCyUL8AyA7Bl
-yoOPBB2/gk8VGcolEKgAAj+3hPbBF/d19x1bZzU3wABizBomVwykx5ms1nVXDbQajz8jqYECKWh9
-3OMo7BuC3TAClu5mLr2zs0Ccpp6NRRkjTF8WtCJ+jSnjFJGLAgMBAAGjggHYMIIB1DAOBgNVHQ8B
-Af8EBAMCBaAwgZMGCCsGAQUFBwEBBIGGMIGDMEYGCCsGAQUFBzAChjpodHRwOi8vc2VjdXJlLmds
-b2JhbHNpZ24uY29tL2NhY2VydC9nc2djY3I2c21pbWVjYTIwMjMuY3J0MDkGCCsGAQUFBzABhi1o
-dHRwOi8vb2NzcC5nbG9iYWxzaWduLmNvbS9nc2djY3I2c21pbWVjYTIwMjMwZQYDVR0gBF4wXDAJ
-BgdngQwBBQMBMAsGCSsGAQQBoDIBKDBCBgorBgEEAaAyCgMCMDQwMgYIKwYBBQUHAgEWJmh0dHBz
-Oi8vd3d3Lmdsb2JhbHNpZ24uY29tL3JlcG9zaXRvcnkvMAkGA1UdEwQCMAAwQQYDVR0fBDowODA2
-oDSgMoYwaHR0cDovL2NybC5nbG9iYWxzaWduLmNvbS9nc2djY3I2c21pbWVjYTIwMjMuY3JsMCIG
-A1UdEQQbMBmBF2lhbi5mb3JiZXNAYnJvYWRjb20uY29tMBMGA1UdJQQMMAoGCCsGAQUFBwMEMB8G
-A1UdIwQYMBaAFAApNp5ceroPry1QLdugI4UYsKCSMB0GA1UdDgQWBBSvJWzgGK7aSByS+CQVBVfM
-Xgm5azANBgkqhkiG9w0BAQsFAAOCAgEAfrWiLF3zrYq7D+KPNRaAP70FbxHeaiUfn27Hbu37Eefz
-xeJTcFZH04IEtXqpM3NWYZm4A/dFn/VQPbLCRaeXzpT2TESVH6EFY7BEF0rnSSlUbFyi000MnSH3
-h5m+MoyE+PzLqfzLBZS+EU/haCpPy6Nqhs3fPKG3w5VTnUPsAxXK7rSmkIDVNsvwRttuMq9KHJzH
-Bx51dP/z3mel4OuMjgrwHk5uNY1Sn1MZAUQztVUsWguyfoKcmhxXbBccR5DdEfBgDEbq8bicPQ3J
-kqEy1QZXJfHlJuAJIiEw7odGctwqLeGCU6cBLhnsg54ngjO3uYC6tIySul55MRxFKE8HIwIrx+D5
-2SwhDeVLZ8sTK40uPzW5xg5laOWVCvmy2b+cHCGzarUeIlYdtw0ejdH9Hbkm0G7IrDvjkhPa64gR
-6Q+m5CGRDk+8iWhieH6WFE4HL++BpZhoi+YsOkGU3DK0dA+pxQnXNcNw1s0eNbSUVwQzmlC4LqiK
-Gj5JV81HTPLhoAya57a9i28Fp5qHZiFnCq4HMvwiwY7IWe+UwUuueU199aTK80xNiS553vHc6FpI
-/vxGy+LveJqEtodfKqQKwDOVu//c1Lz3uergJHqFYTMykk5U95J3FG5q/7Mqe4RF6E9OgtuAJidS
-6Ca5anjLQ/qzIfTjoXX7TJSjPztehRQxggJXMIICUwIBATBiMFIxCzAJBgNVBAYTAkJFMRkwFwYD
-VQQKExBHbG9iYWxTaWduIG52LXNhMSgwJgYDVQQDEx9HbG9iYWxTaWduIEdDQyBSNiBTTUlNRSBD
-QSAyMDIzAgx2/5+PPF/QoW30N7swDQYJYIZIAWUDBAIBBQCggccwLwYJKoZIhvcNAQkEMSIEIFO1
-4LjCZ+R/1R06+cTtA7YFi7WDdUxkFoj8yLK/jOrjMBgGCSqGSIb3DQEJAzELBgkqhkiG9w0BBwEw
-HAYJKoZIhvcNAQkFMQ8XDTI1MDYyNDE1MDI1M1owXAYJKoZIhvcNAQkPMU8wTTALBglghkgBZQME
-ASowCwYJYIZIAWUDBAEWMAsGCWCGSAFlAwQBAjAKBggqhkiG9w0DBzALBgkqhkiG9w0BAQcwCwYJ
-YIZIAWUDBAIBMA0GCSqGSIb3DQEBAQUABIIBAEw8H9BvqfnzNVPL5IpK+2OCOBgnGjMiHYlQRIzI
-aOTfgXiJvRHYXQkJIB327MH3TncAc4x8g3Z454rkAZbYPqGQCqz/vX/DH62zPet8b/XmhVYDENg/
-djqH/ywGAjVyLQhyM+zhTNU1AEQAkhCKkA4ZR9M+DQXjVchK+cueS/EhyxMygmKtuKywDwHOPGXi
-+SbXQq774JVUk2P6ktkr+etN2uxlPVSRBt8zRv7vPDNJ1uyC8vzB3x8giyPoLSePG78CEpT0IVlk
-SITHa3srZNrH3pguEwmu5Aw0qVoQ3vMypSkbhynpdFxU/EeCQU+zfuZKQYopV3LLdRB5rbI0mVM=
---000000000000730f080638529f8d--
+Cheers,
+Prabhakar
