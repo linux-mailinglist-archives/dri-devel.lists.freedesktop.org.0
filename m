@@ -2,48 +2,48 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id BBE94AE732A
-	for <lists+dri-devel@lfdr.de>; Wed, 25 Jun 2025 01:30:00 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 41FC7AE732C
+	for <lists+dri-devel@lfdr.de>; Wed, 25 Jun 2025 01:30:14 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E64E210E63F;
-	Tue, 24 Jun 2025 23:29:56 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7BC0910E647;
+	Tue, 24 Jun 2025 23:30:12 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="RJcj2i3p";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="U+D62ww3";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from tor.source.kernel.org (tor.source.kernel.org [172.105.4.254])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2158A10E63F;
- Tue, 24 Jun 2025 23:29:55 +0000 (UTC)
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 19B1210E642;
+ Tue, 24 Jun 2025 23:30:11 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by tor.source.kernel.org (Postfix) with ESMTP id C35AC61142;
- Tue, 24 Jun 2025 23:29:45 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3EFAEC4CEE3;
- Tue, 24 Jun 2025 23:29:44 +0000 (UTC)
+ by dfw.source.kernel.org (Postfix) with ESMTP id 9C2955C5E0D;
+ Tue, 24 Jun 2025 23:27:45 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 87CB5C4CEE3;
+ Tue, 24 Jun 2025 23:30:00 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1750807785;
- bh=NfYA8jRdTajQS7satSsbxwtds13FUUPZsupu+wwSFf4=;
+ s=k20201202; t=1750807801;
+ bh=MuzVbQeTY/MUN0sWtEjlmOlmM96ThH+TLpj57VHfoOc=;
  h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=RJcj2i3pPy8XCRhJYYARpq1OOo34iXYJDfSh3UVF59+xdz5XfAI2Y88/Re9jkK/Kj
- LGfZehg0lI8Kf0M23lIpOQe/PUbbLaDJR85lJ524Ghr5wacR1D002QZcJaT95Q0n55
- 8FzUJDv/TLmcEuv0q1jsIfCz4P2viytNq7CqidhLZ/Rl8yaoK1dQJsw4Uyp0xkmA+n
- FyUXKC9gJ7cmAY2eCkwPHTaEzA4OO3RDKYGeLncD4ByWD/yY7I/dDZ0RuQwCqdRMxD
- dozwMRTPmPMIalWSWcRGfSY6hnUrIe4zz9JqqHsAzsifDI774VyuhKCI8EwT8wjmIE
- gICRu6HiqpohA==
-Date: Wed, 25 Jun 2025 01:29:41 +0200
+ b=U+D62ww3XWpPedTFfWKm2DY5A2b4tFVE9lgbghBxWP8V1Xjmryr/7ZKESIutXEO6G
+ W4RlAUYs08I5HDHC4dR0Jrq6aMfndbbSWx26zEObCvawQz/lzFV0hl0WGP9QHn/0FG
+ QOx0iVXrfTC8f3eG8IkH3Xu5qJdU7DIOLJnchdgIs2oJWlAaxhZXpxVq/oKBzlHn2B
+ X6s/tAB4kXV/aEFX/JxJ44OjkNti0XB7OwBkQoWkA0/6hfEcnX/lRm2Suh/w8kc/7G
+ S5tNP8suQ0DNSKZr9cuF5xpiqVG28u0oQA5t3Z7WCbUrfJ6fFvXUo0gsG3NpUhJzK2
+ cV+XD+ofiu48Q==
+Date: Wed, 25 Jun 2025 01:29:57 +0200
 From: Danilo Krummrich <dakr@kernel.org>
 To: nouveau@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
  rust-for-linux@vger.kernel.org
 Cc: Alexandre Courbot <acourbot@nvidia.com>,
 	Miguel Ojeda <ojeda@kernel.org>
-Subject: Re: [PATCH 1/2] gpu: nova-core: impl From for u32 for enums used
- from register!
-Message-ID: <aFs05TSWlDnhBUox@pollux>
+Subject: Re: [PATCH 2/2] gpu: nova-core: consider `clippy::cast_lossless`
+Message-ID: <aFs09WPfK1i-zwCC@pollux>
 References: <20250624132337.2242-1-dakr@kernel.org>
+ <20250624132337.2242-2-dakr@kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20250624132337.2242-1-dakr@kernel.org>
+In-Reply-To: <20250624132337.2242-2-dakr@kernel.org>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -59,16 +59,13 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, Jun 24, 2025 at 03:23:22PM +0200, Danilo Krummrich wrote:
-> Implement From for u32 for all enum types used within the register!()
-> macro.
-> 
-> This avoids a conflict with [1] as reported in [2].
+On Tue, Jun 24, 2025 at 03:23:23PM +0200, Danilo Krummrich wrote:
+> Fix all warnings caused by `clippy::cast_lossless`, which is going to be
+> enabled by [1].
 > 
 > Cc: Alexandre Courbot <acourbot@nvidia.com>
 > Cc: Miguel Ojeda <ojeda@kernel.org>
 > Link: https://lore.kernel.org/r/20250615-ptr-as-ptr-v12-5-f43b024581e8@gmail.com [1]
-> Link: https://lore.kernel.org/all/20250624173114.3be38990@canb.auug.org.au/ [2]
 > Signed-off-by: Danilo Krummrich <dakr@kernel.org>
 
 Applied to nova-next, thanks!
