@@ -2,78 +2,100 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 13EC0AE6F13
-	for <lists+dri-devel@lfdr.de>; Tue, 24 Jun 2025 21:02:32 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id BE4A4AE6F4E
+	for <lists+dri-devel@lfdr.de>; Tue, 24 Jun 2025 21:13:23 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9BA4F10E0EA;
-	Tue, 24 Jun 2025 19:02:27 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 528A510E0CA;
+	Tue, 24 Jun 2025 19:13:20 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=darkrefraction-com.20230601.gappssmtp.com header.i=@darkrefraction-com.20230601.gappssmtp.com header.b="RIhojTwg";
+	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="IE+AcjnW";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ed1-f42.google.com (mail-ed1-f42.google.com
- [209.85.208.42])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4E56710E0DF
- for <dri-devel@lists.freedesktop.org>; Tue, 24 Jun 2025 19:02:20 +0000 (UTC)
-Received: by mail-ed1-f42.google.com with SMTP id
- 4fb4d7f45d1cf-60bfcada295so2794449a12.1
- for <dri-devel@lists.freedesktop.org>; Tue, 24 Jun 2025 12:02:20 -0700 (PDT)
+Received: from mail-lf1-f42.google.com (mail-lf1-f42.google.com
+ [209.85.167.42])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E6D5D10E0CA
+ for <dri-devel@lists.freedesktop.org>; Tue, 24 Jun 2025 19:13:03 +0000 (UTC)
+Received: by mail-lf1-f42.google.com with SMTP id
+ 2adb3069b0e04-5535652f42cso866956e87.2
+ for <dri-devel@lists.freedesktop.org>; Tue, 24 Jun 2025 12:13:03 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=darkrefraction-com.20230601.gappssmtp.com; s=20230601; t=1750791739;
- x=1751396539; darn=lists.freedesktop.org; 
+ d=linaro.org; s=google; t=1750792382; x=1751397182; darn=lists.freedesktop.org;
  h=content-transfer-encoding:cc:to:subject:message-id:date:from
  :in-reply-to:references:mime-version:from:to:cc:subject:date
  :message-id:reply-to;
- bh=hOEBbrADQgzhdpcNHy/4llsfpBt94yq3hHv840kQQcw=;
- b=RIhojTwgbaVugN04ydj3t8SeacaFDyOog3dCS8He1vH07ahkCtxXphpWhJp1/zYGlI
- 0YJ0X0h374xJXJ2fq4kLZpxa3kUPr4y+ZzjTipDIlVRDnWquIslMspxr4XNNNAAIpM5t
- in1OGpXPLYQ+ysSGDhrzHAJvIhz010k7BMag2jU74XLppPNrmc7NmThp5nJ6NOuie2Z6
- YoRP2em9IS15PDrL8F7RmwKcn93rOBbMTXDcbEA75TRbiLTyJBjWFABXufekNDIlonAV
- j1BaplnpiqBX8bXVtO1pZ3TGREcXCSKUsjFNjMLB01FLxO998tPB0KIWY76CjBwoMBl+
- JkMg==
+ bh=42g0mLF/csycd0PbqCpM2WtITkGugXfu8fIaTZhFhBc=;
+ b=IE+AcjnWWVGTFvrbjkxtMDZCW0+gq/l5vWXk15PGd0wdpFaBpYOwal/3613AWa5en/
+ 4S5s3uCZnLL0u6nH2iSEfsSECXCISfSH6bZGDDXEht2Bpc+63D/b7HK4tNk5D2FrKvCV
+ UxMGI0MFDCB6nTdEjeqFnZoRCLhUYLtUMb65S2afMp7VDg8ZXsX8AtinX5Mc9DXtxfCf
+ YrOHiuxYFPVQ9CjWpKicIgLMzZnV0Q1gniu32Pfuo5snaYU95Qk9RGohN7b9cfmv3ff9
+ 1iUi+lbkTZfU0veWZ68hU9ukv6K+PU2mkhA0FeNgU2PZhbvefMFiP/fgJNHPHkUiM4Kz
+ Uv/w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1750791739; x=1751396539;
+ d=1e100.net; s=20230601; t=1750792382; x=1751397182;
  h=content-transfer-encoding:cc:to:subject:message-id:date:from
  :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=hOEBbrADQgzhdpcNHy/4llsfpBt94yq3hHv840kQQcw=;
- b=ZFIsbcCRHKCwoo03ZrWx4KTUkR0X7aGw2UhoFI/tU4bhrEayptmA8oLdgE4F6+IbHp
- Rou4ebF73P0AKThSlxZ9SA1pTj8KZVrbQKQJhtleKicRErEcPqD1f1cIrn1AWwzne8Z+
- XDKBnzbGa5/ETRkVeqQUDs7qLci4fnjqOn8hbWdyif/MoYLLNhL/tEDP1yZYUBJ0KRRw
- Q2uRH8EGO2/9ZNpgB0N2pgYZ8kXuT0EhxpciM9A5AE+hmA16Gun5uqOsCb9Vqrr3olCD
- P6jHbXyRnYOpGMlZCIVwICT4eKdVROcBYJsz6cbsclJxOJRBL/voje+K/aQPCe4lxCSe
- xuVA==
+ bh=42g0mLF/csycd0PbqCpM2WtITkGugXfu8fIaTZhFhBc=;
+ b=R2UrzNLPga/GNQ0nHDHt4LuFoD9aeeDIEtbUxHd/60Fi1RlA8vnrQQy0Vm9HNvredF
+ dGb5tltVHoMuC17R9b83Bjk9aOGcJnuKsCUW445pcoM5LhOhMZ6zdoDUICJU9xBVglN9
+ 1vZW94jQM0mgdNR6bMJERvkNH+OqKmz0PnC7eVuSRKsgtPi6vdNiZj7KQeS/XTVxNGuk
+ NkNTw83S1umx9DNU82WJDvngLM3rEdFnfFaMWIMayRRpXXUKLnp1QhGyzfWKNLaN3DB4
+ Nv54PuKwKX9j5UsAfNLgoHw0ee/QxIGmalbH2n+vrcA9BD8d4XxjCmliCcqVh+t3rMSo
+ kCgQ==
 X-Forwarded-Encrypted: i=1;
- AJvYcCWNMe8oGXivmio+4WkRtGoKuieShlMCxmjRtNHvQ27H1EDIK4BF9l+btLuyCfddkBofLrdmqr/7UTE=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0Yw3IOS3zjkTL4qRA67oH/G56UevjP+BpnrHKdkX6raO0vgme6dg
- Z7QbWw4vNN+0QQabCZBtM4/BUkNksN+u+O6xgFtEuPUkno5Dqgo37gXucwnZLluLVn6nusudfkm
- QlV46Q7IVh/9BqdnwQGdogGva2tWnYgf2w+SyufYbDg==
-X-Gm-Gg: ASbGncsNvLIrJbztEvrdd2oMwOR0SnptUNkjiDkJcKYns7SmlJAe9jJRbWzaIyQzpPJ
- HT2HAngpQ2vUdfT55dTch+yQMqcCSBeJBlunEFuRxuEqqVocpHeVE9+pAKwb8BYe1SSCr5A8yQo
- qUVEqox0doUDP2vbQ+T/s+uNtHIkJbSbEJHBHE3G23dg==
-X-Google-Smtp-Source: AGHT+IHnYVBDxfjNMkaRjkp2WDZAMTuXpl+FheJSZE/dsI2zOIp9CBkUlB5OGffUxVoy74ANKWUopMt/2c8mfchZ0D4=
-X-Received: by 2002:a05:6402:270e:b0:5fd:1c90:e5cd with SMTP id
- 4fb4d7f45d1cf-60a1d1675f3mr15598180a12.20.1750791738700; Tue, 24 Jun 2025
- 12:02:18 -0700 (PDT)
+ AJvYcCU+MH2Bslqm5osxJUGqWSudxWYhflj/3vF/ijC9sdlRfRaSIwopalVvAcweTKp/W5zKELQwC0yQ450=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0Yx58FaR4MtuoGtGbEgKif6kXJYDPYv2SI7rTiZdJw+SUxl1sNPP
+ nxYB5b2CkHLmvrO5zhRljNqvycxYe1WdubE1idzZK25RBvPTklqvc/huoEFgPzeboFoRaFeyDuT
+ 70h3SraQdCWI9bl9EHVlWxr/VZwCT9NyaeDrspTdqSA==
+X-Gm-Gg: ASbGncsjvaDFQ6SEFOnn2HI4AZWiTY6ytbadxWKz+YtDajbe/TQ9m6/jl2/bgXi7FTk
+ HNgFw7nfJlQjLnDKy4IeqSk1zc2uyBKyIa38LH+OSSPo3P+Nr6K5oA/93lb4kViTRNQ+Kr7iPq3
+ gvYZO+mwplOP55j33ioOVopQhQO6m7qtpMtmzYkhG+DXU=
+X-Google-Smtp-Source: AGHT+IFcvsv4Jx0wPVU5q9HdOKD/NjVsRLZ8GzOGiSq6bCzhKJUr6IeEsytMxz0Nq3UnxW9fjOmi1xt9+Qqg6x/9RLE=
+X-Received: by 2002:a05:6512:1247:b0:553:35ad:2f45 with SMTP id
+ 2adb3069b0e04-554fdf7c090mr5733e87.50.1750792382134; Tue, 24 Jun 2025
+ 12:13:02 -0700 (PDT)
 MIME-Version: 1.0
-References: <20250623220909.7591-1-mhenning@darkrefraction.com>
- <20250623220909.7591-3-mhenning@darkrefraction.com>
- <c3902fcf8bc963cf315e9bfbb9ca4c66e28857cf.camel@nvidia.com>
-In-Reply-To: <c3902fcf8bc963cf315e9bfbb9ca4c66e28857cf.camel@nvidia.com>
-From: M Henning <mhenning@darkrefraction.com>
-Date: Tue, 24 Jun 2025 15:01:52 -0400
-X-Gm-Features: Ac12FXxGdqiSvrynH_XGlD-JBUIhlFJwwCsvqvoZCeN_08f20dGpPGbh6hbgAi4
-Message-ID: <CAAgWFh05pj_9rk7Wcx24tFWR2sgMZH4WtBsm3hYrqM3svwniOQ@mail.gmail.com>
-Subject: Re: [PATCH 2/2] drm/nouveau: Remove nvkm_gsp_fwif.enable
-To: Timur Tabi <ttabi@nvidia.com>
-Cc: "martin.peres@free.fr" <martin.peres@free.fr>,
- "kherbst@redhat.com" <kherbst@redhat.com>, 
- "faith.ekstrand@collabora.com" <faith.ekstrand@collabora.com>,
- "lyude@redhat.com" <lyude@redhat.com>, 
- "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>, 
- "nouveau@lists.freedesktop.org" <nouveau@lists.freedesktop.org>,
- "dakr@kernel.org" <dakr@kernel.org>, Ben Skeggs <bskeggs@nvidia.com>
+References: <20250619-b4-of_drm_find_panel_part1-v2-0-0df94aecc43d@redhat.com>
+ <20250619-b4-of_drm_find_panel_part1-v2-14-0df94aecc43d@redhat.com>
+In-Reply-To: <20250619-b4-of_drm_find_panel_part1-v2-14-0df94aecc43d@redhat.com>
+From: Linus Walleij <linus.walleij@linaro.org>
+Date: Tue, 24 Jun 2025 21:12:50 +0200
+X-Gm-Features: AX0GCFsyGEH8PEzLkMow539_Cj69jbmDRSN9FsVHKoXlbloZW-99abb_OrCBGA0
+Message-ID: <CACRpkdZM75HEZ0DACqC3iY7S1gLurw29Z--C7TJxUVxPUTuNqA@mail.gmail.com>
+Subject: Re: [PATCH v2 14/16] drm/mcde: Keep up with refcounting
+To: Anusha Srivatsa <asrivats@redhat.com>
+Cc: Neil Armstrong <neil.armstrong@linaro.org>, 
+ Jessica Zhang <jessica.zhang@oss.qualcomm.com>, 
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, 
+ Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
+ Simona Vetter <simona@ffwll.ch>, 
+ Inki Dae <inki.dae@samsung.com>, Jagan Teki <jagan@amarulasolutions.com>, 
+ Marek Szyprowski <m.szyprowski@samsung.com>,
+ Andrzej Hajda <andrzej.hajda@intel.com>, Robert Foss <rfoss@kernel.org>,
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>, 
+ Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>,
+ Chen-Yu Tsai <wens@csie.org>, 
+ Samuel Holland <samuel@sholland.org>, Seung-Woo Kim <sw0312.kim@samsung.com>, 
+ Kyungmin Park <kyungmin.park@samsung.com>,
+ Krzysztof Kozlowski <krzk@kernel.org>, 
+ Alim Akhtar <alim.akhtar@samsung.com>, 
+ Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>, 
+ Tomi Valkeinen <tomi.valkeinen+renesas@ideasonboard.com>, 
+ Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>, 
+ Geert Uytterhoeven <geert+renesas@glider.be>,
+ Magnus Damm <magnus.damm@gmail.com>, 
+ Biju Das <biju.das.jz@bp.renesas.com>, 
+ Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>,
+ Alain Volmat <alain.volmat@foss.st.com>, 
+ Raphael Gallais-Pou <rgallaispou@gmail.com>, Stefan Agner <stefan@agner.ch>, 
+ Alison Wang <alison.wang@nxp.com>, Thierry Reding <thierry.reding@gmail.com>, 
+ Mikko Perttunen <mperttunen@nvidia.com>, Jonathan Hunter <jonathanh@nvidia.com>,
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org, 
+ linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev, 
+ linux-samsung-soc@vger.kernel.org, linux-renesas-soc@vger.kernel.org, 
+ linux-tegra@vger.kernel.org
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -91,14 +113,15 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, Jun 24, 2025 at 1:28=E2=80=AFPM Timur Tabi <ttabi@nvidia.com> wrote=
-:
-> Instead of removing it, I think we should rename it to indicate whether G=
-SP-RM is required.  You
-> cannot boot Ada or later without GSP-RM, so on those platforms, nouveau.c=
-onfig=3DNvGspRm=3D0 should be
-> ignored, and a pr_warn should be issued that it is being ignored.
+On Thu, Jun 19, 2025 at 9:19=E2=80=AFPM Anusha Srivatsa <asrivats@redhat.co=
+m> wrote:
 
-We did no such error checking before this series (in fact, most of
-these options have almost no error checking). Are you saying you want
-to see this added in this patch series?
+> Put the panel reference returned by of_drm_find_panel()
+> back when driver is no longer using it.
+>
+> Signed-off-by: Anusha Srivatsa <asrivats@redhat.com>
+
+Reviewed-by: Linus Walleij <linus.walleij@linaro.org>
+
+Yours,
+Linus Walleij
