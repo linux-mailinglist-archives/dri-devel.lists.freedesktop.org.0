@@ -2,75 +2,75 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id D915DAE6736
-	for <lists+dri-devel@lfdr.de>; Tue, 24 Jun 2025 15:52:23 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 12582AE673C
+	for <lists+dri-devel@lfdr.de>; Tue, 24 Jun 2025 15:52:33 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4994D10E5C2;
-	Tue, 24 Jun 2025 13:52:21 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4337610E5C3;
+	Tue, 24 Jun 2025 13:52:31 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=suse.de header.i=@suse.de header.b="ErSP8jQN";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="fuglArx0";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="ErSP8jQN";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="fuglArx0";
+	dkim=pass (1024-bit key; unprotected) header.d=suse.de header.i=@suse.de header.b="kJLLN1ad";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="ZYhpLV3p";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="kJLLN1ad";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="ZYhpLV3p";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5B9F810E5B9
- for <dri-devel@lists.freedesktop.org>; Tue, 24 Jun 2025 13:52:14 +0000 (UTC)
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 55CE810E5B9
+ for <dri-devel@lists.freedesktop.org>; Tue, 24 Jun 2025 13:52:30 +0000 (UTC)
 Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
  (No client certificate requested)
- by smtp-out1.suse.de (Postfix) with ESMTPS id 1B22C21196;
+ by smtp-out2.suse.de (Postfix) with ESMTPS id CDB291F749;
  Tue, 24 Jun 2025 13:52:00 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
  t=1750773120; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
  mime-version:mime-version:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=Rgl36olr1Za0HgRYWKB+9CaWoRyFOJAzgeTDNNyHfRo=;
- b=ErSP8jQNPDJOYvLVrAfbkryRPwmzegvsW2MEQkWbPseJk8nPFHcEofOZ0x0N5qZtN/5/aL
- WC8rHL+6wJhDKdnvBXzt1/aizQ+0Q8z3WCPEGOYuOVlDFsH5I9D7KAtew66ddW8VO8ZH1Y
- 8AsMUNoMk66WXxt2rXD1Zfq3o8OA89g=
+ bh=WfIwDLueUpdSLLQiafQ4ArRKWl+h2XDcNKHLfewAO8E=;
+ b=kJLLN1adK12hj7WuHzawoMfaxcojrmva0qK+djoRKQZjTH2hUH0KsygBh00TYHt0Y5St8X
+ udlt+GzTVnB2Zw8fxOM5yFcPsjBqokMJ1uP3bm5gpI4AmXPYPwNSsP8qqz9ijtPTGCZP1G
+ 0u3aaezb4swfzQFF3awFYZJA+zBEJng=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
  s=susede2_ed25519; t=1750773120;
  h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
  mime-version:mime-version:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=Rgl36olr1Za0HgRYWKB+9CaWoRyFOJAzgeTDNNyHfRo=;
- b=fuglArx0mZHPKw9UpB34uhdfNBu9AojSVQIVVCOLPYGMnHdmJT1i4j4jKV75Zw/m/Du/TV
- xoF5Ik4V1zoxdnDQ==
-Authentication-Results: smtp-out1.suse.de;
+ bh=WfIwDLueUpdSLLQiafQ4ArRKWl+h2XDcNKHLfewAO8E=;
+ b=ZYhpLV3pAH7L2OBFICKISeGybCHiuAxPx9lRrlbvMXeHEUN+nMvHn4qe+BvI9WxgSHQehZ
+ JGtUU22PwuJ0SJBA==
+Authentication-Results: smtp-out2.suse.de;
 	none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
  t=1750773120; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
  mime-version:mime-version:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=Rgl36olr1Za0HgRYWKB+9CaWoRyFOJAzgeTDNNyHfRo=;
- b=ErSP8jQNPDJOYvLVrAfbkryRPwmzegvsW2MEQkWbPseJk8nPFHcEofOZ0x0N5qZtN/5/aL
- WC8rHL+6wJhDKdnvBXzt1/aizQ+0Q8z3WCPEGOYuOVlDFsH5I9D7KAtew66ddW8VO8ZH1Y
- 8AsMUNoMk66WXxt2rXD1Zfq3o8OA89g=
+ bh=WfIwDLueUpdSLLQiafQ4ArRKWl+h2XDcNKHLfewAO8E=;
+ b=kJLLN1adK12hj7WuHzawoMfaxcojrmva0qK+djoRKQZjTH2hUH0KsygBh00TYHt0Y5St8X
+ udlt+GzTVnB2Zw8fxOM5yFcPsjBqokMJ1uP3bm5gpI4AmXPYPwNSsP8qqz9ijtPTGCZP1G
+ 0u3aaezb4swfzQFF3awFYZJA+zBEJng=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
  s=susede2_ed25519; t=1750773120;
  h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
  mime-version:mime-version:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=Rgl36olr1Za0HgRYWKB+9CaWoRyFOJAzgeTDNNyHfRo=;
- b=fuglArx0mZHPKw9UpB34uhdfNBu9AojSVQIVVCOLPYGMnHdmJT1i4j4jKV75Zw/m/Du/TV
- xoF5Ik4V1zoxdnDQ==
+ bh=WfIwDLueUpdSLLQiafQ4ArRKWl+h2XDcNKHLfewAO8E=;
+ b=ZYhpLV3pAH7L2OBFICKISeGybCHiuAxPx9lRrlbvMXeHEUN+nMvHn4qe+BvI9WxgSHQehZ
+ JGtUU22PwuJ0SJBA==
 Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
  (No client certificate requested)
- by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 656C713751;
- Tue, 24 Jun 2025 13:51:59 +0000 (UTC)
+ by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 22DB613A96;
+ Tue, 24 Jun 2025 13:52:00 +0000 (UTC)
 Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
- by imap1.dmz-prg2.suse.org with ESMTPSA id ONpYF3+tWmjFcQAAD6G6ig
- (envelope-from <tzimmermann@suse.de>); Tue, 24 Jun 2025 13:51:59 +0000
+ by imap1.dmz-prg2.suse.org with ESMTPSA id wL8ZB4CtWmjFcQAAD6G6ig
+ (envelope-from <tzimmermann@suse.de>); Tue, 24 Jun 2025 13:52:00 +0000
 From: Thomas Zimmermann <tzimmermann@suse.de>
 To: lee@kernel.org, danielt@kernel.org, jingoohan1@gmail.com,
  neil.armstrong@linaro.org, jessica.zhang@oss.qualcomm.com,
@@ -82,9 +82,9 @@ To: lee@kernel.org, danielt@kernel.org, jingoohan1@gmail.com,
 Cc: dri-devel@lists.freedesktop.org, asahi@lists.linux.dev,
  platform-driver-x86@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
  linux-fbdev@vger.kernel.org, Thomas Zimmermann <tzimmermann@suse.de>
-Subject: [PATCH v2 14/15] backlight: rt4831: Include <linux/mod_devicetable.h>
-Date: Tue, 24 Jun 2025 15:45:54 +0200
-Message-ID: <20250624134858.1736090-15-tzimmermann@suse.de>
+Subject: [PATCH v2 15/15] backlight: Do not include <linux/fb.h> in header file
+Date: Tue, 24 Jun 2025 15:45:55 +0200
+Message-ID: <20250624134858.1736090-16-tzimmermann@suse.de>
 X-Mailer: git-send-email 2.50.0
 In-Reply-To: <20250624134858.1736090-1-tzimmermann@suse.de>
 References: <20250624134858.1736090-1-tzimmermann@suse.de>
@@ -125,26 +125,26 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Include <linux/mod_devicetable.h> to declare struct of_device_id.
-Avoids dependency on backlight header to include it.
+The backlight interfaces don't require anything from <linux/fb.h>, so
+don't include it.
 
 Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
 ---
- drivers/video/backlight/rt4831-backlight.c | 1 +
- 1 file changed, 1 insertion(+)
+ include/linux/backlight.h | 1 -
+ 1 file changed, 1 deletion(-)
 
-diff --git a/drivers/video/backlight/rt4831-backlight.c b/drivers/video/backlight/rt4831-backlight.c
-index 7ead75929a43..26214519bfce 100644
---- a/drivers/video/backlight/rt4831-backlight.c
-+++ b/drivers/video/backlight/rt4831-backlight.c
-@@ -4,6 +4,7 @@
- #include <linux/backlight.h>
- #include <linux/bitops.h>
- #include <linux/kernel.h>
-+#include <linux/mod_devicetable.h>
- #include <linux/module.h>
- #include <linux/platform_device.h>
- #include <linux/property.h>
+diff --git a/include/linux/backlight.h b/include/linux/backlight.h
+index 10e626db7eee..f29a9ef1052e 100644
+--- a/include/linux/backlight.h
++++ b/include/linux/backlight.h
+@@ -10,7 +10,6 @@
+ #define _LINUX_BACKLIGHT_H
+ 
+ #include <linux/device.h>
+-#include <linux/fb.h>
+ #include <linux/mutex.h>
+ #include <linux/types.h>
+ 
 -- 
 2.50.0
 
