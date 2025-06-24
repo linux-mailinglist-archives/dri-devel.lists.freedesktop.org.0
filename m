@@ -2,155 +2,51 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 66DC5AE6706
-	for <lists+dri-devel@lfdr.de>; Tue, 24 Jun 2025 15:50:34 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 11C76AE6708
+	for <lists+dri-devel@lfdr.de>; Tue, 24 Jun 2025 15:50:43 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 38EFA10E02E;
-	Tue, 24 Jun 2025 13:50:30 +0000 (UTC)
-Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=Nvidia.com header.i=@Nvidia.com header.b="E1EeUSGM";
-	dkim-atps=neutral
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4DC4F10E5B5;
+	Tue, 24 Jun 2025 13:50:41 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from NAM10-BN7-obe.outbound.protection.outlook.com
- (mail-bn7nam10on2055.outbound.protection.outlook.com [40.107.92.55])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2D5EC10E02E;
- Tue, 24 Jun 2025 13:50:29 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=O2Q3O13WWppEWWkYgzSwB9A8Hus/EDyo/A0RoYd6cWtpwymFkebazC2ymGoBzHABdO7Fh9SXxa8RXQkS/JSoTfWAUCe9yG95grl/xjB8EWG3dCelTHouUOtaK9j1CuOIABkgNGtNSY8nTjHlmg9rBt6j4l1zQ1ERdouuz9m0+AHjdzbTF7YyVAIDStSZiOWGjcWgrsIqQLbwEIQbXl7nNv0KskbyfMrv83Xxp6SaK6FrIGDbL3FywaA/aZVfqKj7qSX4wFttlkgF0iTfxJpQLvHgFWCobuiZGihnwPyEP15xMktlJAH8niw47NMdlG8yaHwA+VTLGZU7N/n/DxgkfA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=9CbCR90ug+VtOuCEXRX1BrAnzhRdvKYCKTDpVZwAuqM=;
- b=Q/k1Jr3rvxTBYmdN2lGtJvZNhuiys/LwhAruGyf7KYqCYA5S9cyMTcES7usl8Dgu816y2Pv8Bx6vlK4+Fw/NadWTyqf1mZiL1rVoVd5EaqFn8MUL1MnaFE+weg2aU+lpCF9GeINd1wD4tlCpp/qJ+bS4NPL+Odm+8nDjzuuXLYQfb5WHvxcAwRETaTy5satzSqRCXhmbBnMxT+2GNUjBsbZ0W37i0AXUa6Jz1Lh0pUFLUFINLXVS3/Xb5+xbUdXTiUHm7dMC2/vPMfuWCyVkkqc4MXzntFQoJLf8X6CDM6E62Fn9QHe9Kh2h2RFJ2srmTbIBGS05Hx/9pGg6gCWozg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
- dkim=pass header.d=nvidia.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=9CbCR90ug+VtOuCEXRX1BrAnzhRdvKYCKTDpVZwAuqM=;
- b=E1EeUSGMrxIS+jHLi9mEC3LBcTwg4TdiPy/JhFRDp8HEjTcTXBR6gNZXAK4iKo7yWUF+QdzUjcscmu727W7T5pslXoi/C2TJmZaltmRirhycdYuwtL3oLDYS4T9SAVYc/hMofCf+5rpZZ3VQ6CKaON3kJKu8DUYUYjZInxNSqnww/8VtcMxRRUzXKOPWMvEbwIENqdsidfmOwq2ax59eaWnFzJ1sonbAIPharchKptgZo7xFO2823HWxdHI+tST60WrBPiXZmhoVv6o9fFJj1GrZrfy6XT8E0SFu12adg4ZriJUcrdyk7lw9Nx5zMcZ7xxOSmqwU9HhHg37G7O7WFQ==
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=nvidia.com;
-Received: from CH2PR12MB3990.namprd12.prod.outlook.com (2603:10b6:610:28::18)
- by MN0PR12MB6270.namprd12.prod.outlook.com (2603:10b6:208:3c2::20)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8857.23; Tue, 24 Jun
- 2025 13:50:24 +0000
-Received: from CH2PR12MB3990.namprd12.prod.outlook.com
- ([fe80::6e37:569f:82ee:3f99]) by CH2PR12MB3990.namprd12.prod.outlook.com
- ([fe80::6e37:569f:82ee:3f99%4]) with mapi id 15.20.8857.026; Tue, 24 Jun 2025
- 13:50:24 +0000
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset=UTF-8
-Date: Tue, 24 Jun 2025 22:50:20 +0900
-Message-Id: <DAUT8MBEGFYX.322FPPXEEDROK@nvidia.com>
-Cc: "Miguel Ojeda" <ojeda@kernel.org>
-Subject: Re: [PATCH 2/2] gpu: nova-core: consider `clippy::cast_lossless`
-From: "Alexandre Courbot" <acourbot@nvidia.com>
-To: "Danilo Krummrich" <dakr@kernel.org>, <nouveau@lists.freedesktop.org>,
- <dri-devel@lists.freedesktop.org>, <rust-for-linux@vger.kernel.org>
-X-Mailer: aerc 0.20.1-0-g2ecb8770224a-dirty
-References: <20250624132337.2242-1-dakr@kernel.org>
- <20250624132337.2242-2-dakr@kernel.org>
-In-Reply-To: <20250624132337.2242-2-dakr@kernel.org>
-X-ClientProxiedBy: OSBPR01CA0074.jpnprd01.prod.outlook.com
- (2603:1096:604:2d::14) To CH2PR12MB3990.namprd12.prod.outlook.com
- (2603:10b6:610:28::18)
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+ by gabe.freedesktop.org (Postfix) with ESMTP id CC5F610E5B4
+ for <dri-devel@lists.freedesktop.org>; Tue, 24 Jun 2025 13:50:39 +0000 (UTC)
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+ by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 8E123113E;
+ Tue, 24 Jun 2025 06:50:21 -0700 (PDT)
+Received: from [10.57.29.71] (unknown [10.57.29.71])
+ by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 99E523F58B;
+ Tue, 24 Jun 2025 06:50:32 -0700 (PDT)
+Message-ID: <fcb3ca23-7ebd-4f48-92d2-969b24936b9b@arm.com>
+Date: Tue, 24 Jun 2025 14:50:30 +0100
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: CH2PR12MB3990:EE_|MN0PR12MB6270:EE_
-X-MS-Office365-Filtering-Correlation-Id: 5fa06e14-50cc-40df-ba6b-08ddb3261193
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
- ARA:13230040|376014|10070799003|366016|1800799024|7053199007; 
-X-Microsoft-Antispam-Message-Info: =?utf-8?B?WDduWG5sNzZkRDRsQ2hVQVovdGlYZnd6MFM5djhIdE1ZcHMvQUxkTmtqQzl2?=
- =?utf-8?B?NjdiVmpNL3ZIWFgva0gvVlVYTjV5TWt1OEF2WlNKaGR4c3c4MnRiSGJWTXA3?=
- =?utf-8?B?RlFIaTdhUzZxTFY1dnA5eEl2bncxTzNTMlBtbHh5THJ1NlloU1BXOC9KQ04z?=
- =?utf-8?B?eGZHNEpyNG5McFEzUFNZaDdzbTZKR2UxeCtENll3eEFXb0Q0MUdBOWkyN2pz?=
- =?utf-8?B?Q0lqaXJtTVB4RUxCYnE0dVcwcTIzejlLMC9rRjMwNVlDeFRZeWhIOStwdTU1?=
- =?utf-8?B?M0ZDNml4d3Z6eVVwWjlEbnk5eE0xZ29TcUhieml6WDFUbWk5WFNZa3MvbXNy?=
- =?utf-8?B?UHUxK3BvaXZkS0pHRXVYTU42SURBcXY1SGl3blRWRnlhKzNSdDA4cDN5OTFh?=
- =?utf-8?B?Y2pJd1lFYklBbk1icVd6bmwzN1NYR0ZFRXdPamtQNHgwSnRnWjhhdzNMeTlq?=
- =?utf-8?B?TnpZWExPbjRnQTdkN25uRGdsa0h1R1psOXRFTEpBT2lXSlF2ckJHaXBRY2Fu?=
- =?utf-8?B?OWpFMElNai80cm1uVTJwdHV4dnNlYVNGZEdaeWJKandyYXQ4elpKaG5OSlA0?=
- =?utf-8?B?dW9ZTW5JMVNOTWJLZHJ1dUhZOFNtWGhuUFFqY0IrVzlyU3VkUUlzbUl2YkVn?=
- =?utf-8?B?Mjl4NjFEa25RUVBJVElsRkZsZlJrY0poUis4c0o4VnlocUNES0Nyb1FHOGlQ?=
- =?utf-8?B?bGhUQURtMDloeEJNUWVNZ3FhMC9xb0cxQ3hDQlh3dGpzU0VTSkloMThvWklX?=
- =?utf-8?B?cEJrZHhqR0FsUFh0dWFkTlFObWVtNllsYXVJcUxJczNVWXlWR2F1WWVuS3JX?=
- =?utf-8?B?VUpJQjAwSlRlcXdHZWs0azJvc2xmUVlHYyt4dXRCVk1Td2hvS1NlSXhKNGFr?=
- =?utf-8?B?cnYzc1NvY2Y0MDFPT1pSdWF2ZWlRSmw3Zlh5VGFidzZFeVc3azlMS0xWZUZ3?=
- =?utf-8?B?NkF5SDgvREtPa29nL2tTOFdYYktOVWhNYVhqVHNuanBLZHJ2YnFGcFJ6U2pm?=
- =?utf-8?B?WHRZS2pIMjVGN0ZYZXZKZk8vbXE0RlNSK1pmTHV2RXVEbzd3OVVvVFlqZHNP?=
- =?utf-8?B?V0FTaXB2YjIrbnNpR0Rmdm15dmg5Qit6WEg1NG0wV1NhWG4zYm5mNzcvYll3?=
- =?utf-8?B?Q1RINmlHY3h5OWQ4dDBuWmg1encraUVSNjRVMDJseVRkbDQ0Q2gxVHlUSWZw?=
- =?utf-8?B?Y2VabDVNUm9FMGQrZ21BUjJOd1lxcStRcS8xL0hPdFNMald6NXBvanVsUkp1?=
- =?utf-8?B?alRwSGlDTnFvT3RpT050NHNnRS9FWXRBSkFxcTRnV0picW4xT1Z0K0l0akUv?=
- =?utf-8?B?MUpiQ0oxeHk5YzdVbEhZcytFb0RXTDkrdWdUOXJ0Z0gvYVNTcTlXNXNnK1pl?=
- =?utf-8?B?c1JreFR4T0pSWTV1d3ZqQi9DU2JYTklYYmR3SFJySUphbUpEVnRzZTJhNUNK?=
- =?utf-8?B?M2V5WVJaenRhWGxTTFFCbDZINjFjd3hjYzZYQ2FJRzNJaDZmTmZ6NG1lMlZu?=
- =?utf-8?B?SVE0b1dOeUd6bEQraklOQlFFN09VQ0o2SXYxQ25nMVE0ZzJVSnFDNW5OSjZt?=
- =?utf-8?B?bTgySEt4QWNiZU1yNGRHcnVCR1kwL3JlYmEycEVxVW5ib3JIc2pYM1lYdnkz?=
- =?utf-8?B?VStBU3o0dnl3ejNqUnBuZjc1V3Z0WlpyY0xmeC9YbS9obHB0SUQzZWg0RFRt?=
- =?utf-8?B?Vnovc2gwa0dzVG1kL2FZcGM4b1JkWG9EZjMwRHpyZlI5K0RUeXBCUmxBUGhX?=
- =?utf-8?B?Z3doa3lVdmZkbzBqZTRacHJKSFN1Zzhza0p0bXFuTWx6bzJNSWg0U1FHZDB3?=
- =?utf-8?B?S2NXemJNbUVtSkJXUEoxQjlsUGNnQWcrekg4Qjk1VU5HQnprVmN3UTB6QmUw?=
- =?utf-8?B?NW1DSTkyU2JzUlV0YnlPK0hwZnp4VGRJL001cXJCVStrZmZLM2hiUmsyOVBN?=
- =?utf-8?Q?cHOmjX3w0OU=3D?=
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:CH2PR12MB3990.namprd12.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230040)(376014)(10070799003)(366016)(1800799024)(7053199007); DIR:OUT;
- SFP:1101; 
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?QWZBbTRaNmZ6U05GYW5PVWhjdjJsSjIzZ1dlMjVISXZ5bEx5RWpWMmY5ZVBv?=
- =?utf-8?B?QmpPZVZMbXV2NlRFWXZsdHdBcC9zVlF4MUtrTHUvQmtWbGcwMmNBTjVsVVZY?=
- =?utf-8?B?VWgxM3gzWHVEb3FndHE3QjNHc3dPVWVRaitCWkhTTW51UTh6NXIxcFJuaG53?=
- =?utf-8?B?emthZTQzYXQ2R2NWNFJ3aDYzUXRIRjlLUWxRdjRxTU5McjhSZm5SMWxlMGJ5?=
- =?utf-8?B?ZUNmbCtaQkRlRkQ3ZlB3c0UxQzUvRTByVzFDTXF5S0RPN1pSWEtHRC9uZlVj?=
- =?utf-8?B?MG93MUJGOE9lN2ZGdWMvRHBuaDl3K1A1MEFkRDdKNkExWW9YNTdVQUNNWVFt?=
- =?utf-8?B?bUF1MmFwZG9mRGlGN1hXVlR0RkxMN0k0dUZtQUJjek9mVzdCZlNldFYxNUhj?=
- =?utf-8?B?Y1hNaDFrWHV5VGFqalZBbnBhV3lXcXJrYnlWOWZRQkNhOEhrWGNQak9kdjJS?=
- =?utf-8?B?ZmhpOEZ2Qzd2UTFPNlNEWVo1OEszM3F5L2kycUk0MUZoeVR6MGpQa0k1UW5O?=
- =?utf-8?B?TFZCQktBcXBQdm55bGFPTjhBUVJnc3REb1RkMjc3SmZibDZHaGtZVTl4cTdR?=
- =?utf-8?B?MENvTEo0aU00K3JHdEp6NEg4L0t6Nm9rbGQzY0hLUWF1K3BJanJhVW0zTTdn?=
- =?utf-8?B?UFo2VFgrR3ljeVc3RGxxa0FLcW9zRWlhZmpMMUV6N0pPbHBqeE0weGw1cHBa?=
- =?utf-8?B?V1N1UHdvdk9sd09BMjFCbXpITTdzSUdTYnpUUndIN1VpdFcwNlh5aXpub0w1?=
- =?utf-8?B?WFRYNTV3ZzBYdmR4TUh5dTRZdHNCVkZQUWd2Nit5OE0zcFRiaHRGK0oxQ0Js?=
- =?utf-8?B?VEcwN1FjR3BBQ1pIR1FyV3ZKaXVqZXJ3VGVkSkFSc1BNUFRiTjVvT1pEd01s?=
- =?utf-8?B?ejU1TXZHYVVXc3UzTU5hMlVSQXFzTDJ3KzFleGl6NG95UFl4WGVLZzY2OGtE?=
- =?utf-8?B?UjgyOWhTY0hXV1F3NlJuM2RYMlQzNnZvU203enE2NFNFN2xsWU1ZWXNYT3hi?=
- =?utf-8?B?VjJaTElNMmFkM0k2N3d3MjBVQlFubEpNaVdUR0E2bjRCa2NMNmFOV2YvMXZz?=
- =?utf-8?B?dXphZWNtKytRNTBKNm5SVlFsYk15U0swaSt4dENUYTF0bUZXM0srcURwbmps?=
- =?utf-8?B?UXNmRTRiUnFOaHVMTVBuVWpYSVI4WUdnRUtSeVRLVnZvNWczYkI5THZCUnNv?=
- =?utf-8?B?ZkJvdlk5WC9yNEN3c1BqVy83WG0yRUFCVWdtRUM4dG9tNjdkaGdzWVZWR3pY?=
- =?utf-8?B?RlBzajRMdHpUMEhyYXZDL1ZJbS91YVUrY0tHaU9lVlJCZUxhNGFKTkdrb0dL?=
- =?utf-8?B?dkFMRk96SXFGQjJEVVFNVWp1QWU4NnVkSFFUMnVGcW5FTXhKOWhxOXN4YVJL?=
- =?utf-8?B?OWZzT1hra3NST1UwTVVUdk9QdThmNjg0SWFOcFhVWk1JWFdPcHdCVituYmxO?=
- =?utf-8?B?OC9ESzFwaWFyM2lESFd5YkZrUEtIbzg4RXhpcm5IcEc5aWVyc0szTkhqYk1l?=
- =?utf-8?B?K3dHTXZOYUd6L0F0N25ZUEJXYzhoaTVGQWtRd01ZWHBDMldWdGh6S0hrQi92?=
- =?utf-8?B?UmJ5aFVwc0V4SGJqZVNheDUzSGpyS2IvdkwwaW1GUFVWcDc0N1BPTDhWOXM1?=
- =?utf-8?B?SW9SL04xNThtMDdpSlBjM3RhU2RtdC9DNCtPZWNpTllxcjZLV28vaDhoYzI4?=
- =?utf-8?B?cVFEV2NnSVI4cDVRcm1uL1hrRFFONnJxZkdETngwbFZHM0VEZEcxWk1PeUdP?=
- =?utf-8?B?Y1phRjdqYjdtN2lOQkFPdnI1VmtNVHh2V1JQVUZLS2dPRlVrSnViTkxiVzhX?=
- =?utf-8?B?OVc2Q1Q1R000a1VPRTlJVFZQZ28vTDlaQStxdGhVSlZsZDdyYUd5dk1kU2NB?=
- =?utf-8?B?ZTRtOEptVk1OdGhZMFltdEJFVU9xaVZuc24zRFE1d0NSWXhaanpYeENZZzJl?=
- =?utf-8?B?cW0zQVhUUzFIVUlzK3RFZHd1NnBDTGdFdkRQeVp5TWxaMTNhQzJoRHZIMHlm?=
- =?utf-8?B?eW1IZEl2Y2tTbGR6T3dlVmJ3UHFVcGhPdkg2OTFZWlNMRFFBRHAwM0x4cVdK?=
- =?utf-8?B?eGI3SXJ5S2dBbERrTnd2MlptZ0FDSEkvaTkwMTV1dWV5bDJyY0xUWVV2QzBY?=
- =?utf-8?B?dzVPS0VDeCs2aVM0bjJ2NlFXSm5zMCttQ2RFTlpjckJ1SlZxNGNtZWNYblFR?=
- =?utf-8?Q?swfYRNh4ZiuvyBPcfC/Wtvf9FGpjazo+gXjskb4PQB/O?=
-X-OriginatorOrg: Nvidia.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 5fa06e14-50cc-40df-ba6b-08ddb3261193
-X-MS-Exchange-CrossTenant-AuthSource: CH2PR12MB3990.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 24 Jun 2025 13:50:24.7557 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: lllmdZdULWymvtJTBn8kJIUAHthJvCG7M/U9dhfSJF3v/+v0XAewvhNiYtEcR/FEwPDAhf/tdAgpFcJxya2Zbw==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: MN0PR12MB6270
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v7 04/10] accel/rocket: Add job submission IOCTL
+To: Tomeu Vizoso <tomeu@tomeuvizoso.net>, Rob Herring <robh@kernel.org>,
+ Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
+ <conor+dt@kernel.org>, Heiko Stuebner <heiko@sntech.de>,
+ Oded Gabbay <ogabbay@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+ Sumit Semwal <sumit.semwal@linaro.org>,
+ =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
+ Sebastian Reichel <sebastian.reichel@collabora.com>,
+ Nicolas Frattaroli <nicolas.frattaroli@collabora.com>,
+ Kever Yang <kever.yang@rock-chips.com>, Daniel Stone <daniel@fooishbar.org>,
+ Da Xue <da@libre.computer>, Jeff Hugo <jeff.hugo@oss.qualcomm.com>
+Cc: devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+ linux-rockchip@lists.infradead.org, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, linux-doc@vger.kernel.org,
+ linux-media@vger.kernel.org, linaro-mm-sig@lists.linaro.org
+References: <20250606-6-10-rocket-v7-0-dc16cfe6fe4e@tomeuvizoso.net>
+ <20250606-6-10-rocket-v7-4-dc16cfe6fe4e@tomeuvizoso.net>
+From: Robin Murphy <robin.murphy@arm.com>
+Content-Language: en-GB
+In-Reply-To: <20250606-6-10-rocket-v7-4-dc16cfe6fe4e@tomeuvizoso.net>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -166,20 +62,379 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue Jun 24, 2025 at 10:23 PM JST, Danilo Krummrich wrote:
-> Fix all warnings caused by `clippy::cast_lossless`, which is going to be
-> enabled by [1].
->
-> Cc: Alexandre Courbot <acourbot@nvidia.com>
-> Cc: Miguel Ojeda <ojeda@kernel.org>
-> Link: https://lore.kernel.org/r/20250615-ptr-as-ptr-v12-5-f43b024581e8@gm=
-ail.com [1]
-> Signed-off-by: Danilo Krummrich <dakr@kernel.org>
+On 2025-06-06 7:28 am, Tomeu Vizoso wrote:
+[...]
+> diff --git a/drivers/accel/rocket/rocket_device.h b/drivers/accel/rocket/rocket_device.h
+> index 10acfe8534f00a7985d40a93f4b2f7f69d43caee..50e46f0516bd1615b5f826c5002a6c0ecbf9aed4 100644
+> --- a/drivers/accel/rocket/rocket_device.h
+> +++ b/drivers/accel/rocket/rocket_device.h
+> @@ -13,6 +13,8 @@
+>   struct rocket_device {
+>   	struct drm_device ddev;
+>   
+> +	struct mutex sched_lock;
+> +
+>   	struct mutex iommu_lock;
 
-Reviewed-by: Alexandre Courbot <acourbot@nvidia.com>
+Just realised I missed this in the last patch, but iommu_lock appears to 
+be completely unnecessary now.
 
-Also confirmed that Ampere still successfully probed with this:
+>   	struct rocket_core *cores;
+[...]
+> +static void rocket_job_hw_submit(struct rocket_core *core, struct rocket_job *job)
+> +{
+> +	struct rocket_task *task;
+> +	bool task_pp_en = 1;
+> +	bool task_count = 1;
+> +
+> +	/* GO ! */
+> +
+> +	/* Don't queue the job if a reset is in progress */
+> +	if (atomic_read(&core->reset.pending))
+> +		return;
+> +
+> +	task = &job->tasks[job->next_task_idx];
+> +	job->next_task_idx++;
+> +
+> +	rocket_pc_writel(core, BASE_ADDRESS, 0x1);
+> +
+> +	rocket_cna_writel(core, S_POINTER, 0xe + 0x10000000 * core->index);
+> +	rocket_core_writel(core, S_POINTER, 0xe + 0x10000000 * core->index);
 
-Tested-by: Alexandre Courbot <acourbot@nvidia.com>
+Those really look like bitfield operations rather than actual arithmetic 
+to me.
 
-Thank you!
+> +
+> +	rocket_pc_writel(core, BASE_ADDRESS, task->regcmd);
+
+I don't see how regcmd is created (I guess that's in userspace?), but 
+given that it's explicitly u64 all the way through - and especially 
+since you claim to support 40-bit DMA addresses - it definitely seems 
+suspicious that the upper 32 bits never seem to be consumed anywhere :/
+
+> +	rocket_pc_writel(core, REGISTER_AMOUNTS, (task->regcmd_count + 1) / 2 - 1);
+> +
+> +	rocket_pc_writel(core, INTERRUPT_MASK, PC_INTERRUPT_MASK_DPU_0 | PC_INTERRUPT_MASK_DPU_1);
+> +	rocket_pc_writel(core, INTERRUPT_CLEAR, PC_INTERRUPT_CLEAR_DPU_0 | PC_INTERRUPT_CLEAR_DPU_1);
+> +
+> +	rocket_pc_writel(core, TASK_CON, ((0x6 | task_pp_en) << 12) | task_count);
+> +
+> +	rocket_pc_writel(core, TASK_DMA_BASE_ADDR, 0x0);
+> +
+> +	rocket_pc_writel(core, OPERATION_ENABLE, 0x1);
+> +
+> +	dev_dbg(core->dev, "Submitted regcmd at 0x%llx to core %d", task->regcmd, core->index);
+> +}
+[...]
+> +static struct dma_fence *rocket_job_run(struct drm_sched_job *sched_job)
+> +{
+> +	struct rocket_job *job = to_rocket_job(sched_job);
+> +	struct rocket_device *rdev = job->rdev;
+> +	struct rocket_core *core = sched_to_core(rdev, sched_job->sched);
+> +	struct dma_fence *fence = NULL;
+> +	int ret;
+> +
+> +	if (unlikely(job->base.s_fence->finished.error))
+> +		return NULL;
+> +
+> +	/*
+> +	 * Nothing to execute: can happen if the job has finished while
+> +	 * we were resetting the GPU.
+
+GPU? (Similarly in various other comments/prints)
+
+> +	 */
+> +	if (job->next_task_idx == job->task_count)
+> +		return NULL;
+> +
+> +	fence = rocket_fence_create(core);
+> +	if (IS_ERR(fence))
+> +		return fence;
+> +
+> +	if (job->done_fence)
+> +		dma_fence_put(job->done_fence);
+> +	job->done_fence = dma_fence_get(fence);
+> +
+> +	ret = pm_runtime_get_sync(core->dev);
+> +	if (ret < 0)
+> +		return fence;
+> +
+> +	ret = iommu_attach_group(job->domain, iommu_group_get(core->dev));
+
+I don't see iommu_group_put() anywhere, so you're leaking refcounts all 
+over.
+
+> +	if (ret < 0)
+> +		return fence;
+> +
+> +	scoped_guard(spinlock, &core->job_lock) {
+> +		core->in_flight_job = job;
+> +		rocket_job_hw_submit(core, job);
+> +	}
+> +
+> +	return fence;
+> +}
+[...]
+> +static void rocket_job_handle_irq(struct rocket_core *core)
+> +{
+> +	u32 status, raw_status;
+> +
+> +	pm_runtime_mark_last_busy(core->dev);
+> +
+> +	status = rocket_pc_readl(core, INTERRUPT_STATUS);
+> +	raw_status = rocket_pc_readl(core, INTERRUPT_RAW_STATUS);
+> +
+> +	rocket_pc_writel(core, OPERATION_ENABLE, 0x0);
+> +	rocket_pc_writel(core, INTERRUPT_CLEAR, 0x1ffff);
+
+What was the point of reading the status registers if we're just going 
+to blindly clear every possible condition anyway?
+
+> +	scoped_guard(spinlock, &core->job_lock)
+> +		if (core->in_flight_job)
+> +			rocket_job_handle_done(core, core->in_flight_job);
+
+But then is it really OK to just start the next task regardless of 
+whether the current task was reporting successful completion or an error?
+
+> +}
+> +
+> +static void
+> +rocket_reset(struct rocket_core *core, struct drm_sched_job *bad)
+> +{
+> +	bool cookie;
+> +
+> +	if (!atomic_read(&core->reset.pending))
+> +		return;
+> +
+> +	/*
+> +	 * Stop the scheduler.
+> +	 *
+> +	 * FIXME: We temporarily get out of the dma_fence_signalling section
+> +	 * because the cleanup path generate lockdep splats when taking locks
+> +	 * to release job resources. We should rework the code to follow this
+> +	 * pattern:
+> +	 *
+> +	 *	try_lock
+> +	 *	if (locked)
+> +	 *		release
+> +	 *	else
+> +	 *		schedule_work_to_release_later
+> +	 */
+> +	drm_sched_stop(&core->sched, bad);
+> +
+> +	cookie = dma_fence_begin_signalling();
+> +
+> +	if (bad)
+> +		drm_sched_increase_karma(bad);
+> +
+> +	/*
+> +	 * Mask job interrupts and synchronize to make sure we won't be
+> +	 * interrupted during our reset.
+> +	 */
+> +	rocket_pc_writel(core, INTERRUPT_MASK, 0x0);
+> +	synchronize_irq(core->irq);
+
+...except it's a shared IRQ, so it can still merrily fire at any time.
+
+> +
+> +	/* Handle the remaining interrupts before we reset. */
+> +	rocket_job_handle_irq(core);
+> +
+> +	/*
+> +	 * Remaining interrupts have been handled, but we might still have
+> +	 * stuck jobs. Let's make sure the PM counters stay balanced by
+> +	 * manually calling pm_runtime_put_noidle() and
+> +	 * rocket_devfreq_record_idle() for each stuck job.
+> +	 * Let's also make sure the cycle counting register's refcnt is
+> +	 * kept balanced to prevent it from running forever
+
+Comments that don't match the code are more confusing than helpful :/
+
+> +	 */
+> +	scoped_guard(spinlock, &core->job_lock) {
+> +		if (core->in_flight_job)
+> +			pm_runtime_put_noidle(core->dev);
+> +
+> +		core->in_flight_job = NULL;
+> +	}
+> +
+> +	/* Proceed with reset now. */
+> +	pm_runtime_force_suspend(core->dev);
+> +	pm_runtime_force_resume(core->dev);
+
+Can you guarantee that actually resets the hardware if something else is 
+holding the power domain open or RPM is disabled? I'm not familiar with 
+the details of drm_sched, but if there are other jobs queued behind the 
+stuck one would it even pass the rocket_job_is_idle() check for suspend 
+to succeed anyway?
+
+Not to mention that you have an actual reset control in the DT binding, 
+which isn't even optional... :/
+
+> +	/* GPU has been reset, we can clear the reset pending bit. */
+> +	atomic_set(&core->reset.pending, 0);
+> +
+> +	/*
+> +	 * Now resubmit jobs that were previously queued but didn't have a
+> +	 * chance to finish.
+> +	 * FIXME: We temporarily get out of the DMA fence signalling section
+> +	 * while resubmitting jobs because the job submission logic will
+> +	 * allocate memory with the GFP_KERNEL flag which can trigger memory
+> +	 * reclaim and exposes a lock ordering issue.
+> +	 */
+> +	dma_fence_end_signalling(cookie);
+> +	drm_sched_resubmit_jobs(&core->sched);
+
+Since I happened to look, this says it's deprecated?
+
+> +	cookie = dma_fence_begin_signalling();
+> +
+> +	/* Restart the scheduler */
+> +	drm_sched_start(&core->sched, 0);
+> +
+> +	dma_fence_end_signalling(cookie);
+> +}
+> +
+> +static enum drm_gpu_sched_stat rocket_job_timedout(struct drm_sched_job *sched_job)
+> +{
+> +	struct rocket_job *job = to_rocket_job(sched_job);
+> +	struct rocket_device *rdev = job->rdev;
+> +	struct rocket_core *core = sched_to_core(rdev, sched_job->sched);
+> +
+> +	/*
+> +	 * If the GPU managed to complete this jobs fence, the timeout is
+> +	 * spurious. Bail out.
+> +	 */
+> +	if (dma_fence_is_signaled(job->done_fence))
+> +		return DRM_GPU_SCHED_STAT_NOMINAL;
+
+Do we really need the same return condition twice? What if the IRQ fires 
+immediately after we've made this check, and is handled without delay 
+such that sychronize_irq() effectively still does nothing? Either way 
+we've taken longer than the timeout value to observe the job completing 
+successfully, and either that's significant and worth warning about or 
+it's not - I don't see any point in trying to (inaccurately) nitpick 
+*why* it might have happened.
+
+> +	/*
+> +	 * Rocket IRQ handler may take a long time to process an interrupt
+> +	 * if there is another IRQ handler hogging the processing.
+> +	 * For example, the HDMI encoder driver might be stuck in the IRQ
+> +	 * handler for a significant time in a case of bad cable connection.
+
+What have HDMI cables got to do with anything here? Yes, in general IRQ 
+latency can be high, since CPUs can have IRQs masked and/or be taking 
+higher-priority interrupts for any number of reasons. I don't see how an 
+oddly-specific example (of apparently poor driver design, to boot) is 
+useful.
+
+> +	 * In order to catch such cases and not report spurious rocket
+> +	 * job timeouts, synchronize the IRQ handler and re-check the fence
+> +	 * status.
+> +	 */
+> +	synchronize_irq(core->irq);
+> +
+> +	if (dma_fence_is_signaled(job->done_fence)) {
+> +		dev_warn(core->dev, "unexpectedly high interrupt latency\n");
+> +		return DRM_GPU_SCHED_STAT_NOMINAL;
+> +	}
+> +
+> +	dev_err(core->dev, "gpu sched timeout");
+> +
+> +	atomic_set(&core->reset.pending, 1);
+> +	rocket_reset(core, sched_job);
+> +	iommu_detach_group(NULL, iommu_group_get(core->dev));
+> +
+> +	return DRM_GPU_SCHED_STAT_NOMINAL;
+> +}
+> +
+> +static void rocket_reset_work(struct work_struct *work)
+> +{
+> +	struct rocket_core *core;
+> +
+> +	core = container_of(work, struct rocket_core, reset.work);
+> +	rocket_reset(core, NULL);
+> +}
+> +
+> +static const struct drm_sched_backend_ops rocket_sched_ops = {
+> +	.run_job = rocket_job_run,
+> +	.timedout_job = rocket_job_timedout,
+> +	.free_job = rocket_job_free
+> +};
+> +
+> +static irqreturn_t rocket_job_irq_handler_thread(int irq, void *data)
+> +{
+> +	struct rocket_core *core = data;
+> +
+> +	rocket_job_handle_irq(core);
+> +
+> +	return IRQ_HANDLED;
+> +}
+> +
+> +static irqreturn_t rocket_job_irq_handler(int irq, void *data)
+> +{
+> +	struct rocket_core *core = data;
+> +	u32 raw_status = rocket_pc_readl(core, INTERRUPT_RAW_STATUS);
+
+Given that this can be a shared IRQ as above, it would be a good idea to 
+take care to avoid register accesses while suspended. Especially if 
+you're trying to utilise suspend to reset a failing job that may well be 
+throwing IOMMU faults.
+
+> +
+> +	WARN_ON(raw_status & PC_INTERRUPT_RAW_STATUS_DMA_READ_ERROR);
+> +	WARN_ON(raw_status & PC_INTERRUPT_RAW_STATUS_DMA_READ_ERROR);
+> +
+> +	if (!(raw_status & PC_INTERRUPT_RAW_STATUS_DPU_0 ||
+> +	      raw_status & PC_INTERRUPT_RAW_STATUS_DPU_1))
+> +		return IRQ_NONE;
+> +
+> +	rocket_pc_writel(core, INTERRUPT_MASK, 0x0);
+> +
+> +	return IRQ_WAKE_THREAD;
+> +}
+> +
+> +int rocket_job_init(struct rocket_core *core)
+> +{
+> +	struct drm_sched_init_args args = {
+> +		.ops = &rocket_sched_ops,
+> +		.num_rqs = DRM_SCHED_PRIORITY_COUNT,
+> +		.credit_limit = 1,
+
+Ah, does this mean that all the stuff about queued jobs was in fact all 
+nonsense anyway?
+
+> +		.timeout = msecs_to_jiffies(JOB_TIMEOUT_MS),
+> +		.name = dev_name(core->dev),
+> +		.dev = core->dev,
+> +	};
+> +	int ret;
+> +
+> +	INIT_WORK(&core->reset.work, rocket_reset_work);
+> +	spin_lock_init(&core->job_lock);
+> +
+> +	core->irq = platform_get_irq(to_platform_device(core->dev), 0);
+> +	if (core->irq < 0)
+> +		return core->irq;
+> +
+> +	ret = devm_request_threaded_irq(core->dev, core->irq,
+> +					rocket_job_irq_handler,
+> +					rocket_job_irq_handler_thread,
+> +					IRQF_SHARED, KBUILD_MODNAME "-job",
+
+Is it really a "job" interrupt though? The binding and the register 
+definitions suggest it's just a general status interrupt for the core. 
+Furthermore since we expect to have multiple cores, being able to more 
+easily identify and attribute per-core IRQ activity seems more useful 
+for debugging than copy-pasting from something really rather different 
+which also expects to be the only one of its kind on the system.
+
+Thanks,
+Robin.
+
+> +					core);
+> +	if (ret) {
+> +		dev_err(core->dev, "failed to request job irq");
+> +		return ret;
+> +	}
