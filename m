@@ -2,35 +2,35 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id D4052AE6D1B
-	for <lists+dri-devel@lfdr.de>; Tue, 24 Jun 2025 18:58:13 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4304AAE6D1E
+	for <lists+dri-devel@lfdr.de>; Tue, 24 Jun 2025 18:58:17 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6D2F310E5F4;
-	Tue, 24 Jun 2025 16:58:06 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7658010E5F9;
+	Tue, 24 Jun 2025 16:58:07 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=didiglobal.com header.i=@didiglobal.com header.b="aA5b0ent";
+	dkim=pass (1024-bit key; unprotected) header.d=didiglobal.com header.i=@didiglobal.com header.b="cEW7/Ufu";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx9.didiglobal.com (mx9.didiglobal.com [111.202.70.124])
- by gabe.freedesktop.org (Postfix) with SMTP id 5AE9489580;
+Received: from mx10.didiglobal.com (mx10.didiglobal.com [111.202.70.125])
+ by gabe.freedesktop.org (Postfix) with SMTP id D55A289CE3;
  Tue, 24 Jun 2025 12:24:36 +0000 (UTC)
-Received: from mail.didiglobal.com (unknown [10.79.64.20])
- by mx9.didiglobal.com (MailData Gateway V2.8.8) with ESMTPS id 06118187957BCC; 
- Tue, 24 Jun 2025 20:11:31 +0800 (CST)
-Received: from BJ01-ACTMBX-07.didichuxing.com (10.79.64.14) by
- BJ01-ACTMBX-01.didichuxing.com (10.79.64.20) with Microsoft SMTP Server
+Received: from mail.didiglobal.com (unknown [10.79.65.20])
+ by mx10.didiglobal.com (MailData Gateway V2.8.8) with ESMTPS id 3B0B71808ACADD;
+ Tue, 24 Jun 2025 20:11:29 +0800 (CST)
+Received: from BJ02-ACTMBX-08.didichuxing.com (10.79.65.15) by
+ BJ02-ACTMBX-02.didichuxing.com (10.79.65.20) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.1748.10; Tue, 24 Jun 2025 20:12:10 +0800
+ 15.2.1748.10; Tue, 24 Jun 2025 20:12:11 +0800
 Received: from BJ03-ACTMBX-07.didichuxing.com (10.79.71.34) by
- BJ01-ACTMBX-07.didichuxing.com (10.79.64.14) with Microsoft SMTP Server
+ BJ02-ACTMBX-08.didichuxing.com (10.79.65.15) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.1748.10; Tue, 24 Jun 2025 20:12:09 +0800
+ 15.2.1748.10; Tue, 24 Jun 2025 20:12:11 +0800
 Received: from BJ03-ACTMBX-07.didichuxing.com ([fe80::b00b:de35:2067:9787]) by
  BJ03-ACTMBX-07.didichuxing.com ([fe80::b00b:de35:2067:9787%7]) with
- mapi id 15.02.1748.010; Tue, 24 Jun 2025 20:12:09 +0800
+ mapi id 15.02.1748.010; Tue, 24 Jun 2025 20:12:11 +0800
 X-MD-Sfrom: chentaotao@didiglobal.com
-X-MD-SrcIP: 10.79.64.20
+X-MD-SrcIP: 10.79.65.20
 From: =?gb2312?B?s8LMzszOIFRhb3RhbyBDaGVu?= <chentaotao@didiglobal.com>
 To: "tytso@mit.edu" <tytso@mit.edu>, "hch@infradead.org" <hch@infradead.org>, 
  "adilger.kernel@dilger.ca" <adilger.kernel@dilger.ca>,
@@ -48,11 +48,11 @@ CC: "linux-fsdevel@vger.kernel.org" <linux-fsdevel@vger.kernel.org>,
  <linux-doc@vger.kernel.org>, "linux-kernel@vger.kernel.org"
  <linux-kernel@vger.kernel.org>, "chentao325@qq.com" <chentao325@qq.com>,
  =?gb2312?B?s8LMzszOIFRhb3RhbyBDaGVu?= <chentaotao@didiglobal.com>
-Subject: [PATCH v2 4/5] ext4: handle IOCB_DONTCACHE in buffered write path
-Thread-Topic: [PATCH v2 4/5] ext4: handle IOCB_DONTCACHE in buffered write path
-Thread-Index: AQHb5QE1yGRcX3naAEuwD6HzjMhP6Q==
-Date: Tue, 24 Jun 2025 12:12:09 +0000
-Message-ID: <20250624121149.2927-5-chentaotao@didiglobal.com>
+Subject: [PATCH v2 5/5] ext4: declare support for FOP_DONTCACHE
+Thread-Topic: [PATCH v2 5/5] ext4: declare support for FOP_DONTCACHE
+Thread-Index: AQHb5QE2ZjIKcQrU5kGPOqcDpxUbGg==
+Date: Tue, 24 Jun 2025 12:12:10 +0000
+Message-ID: <20250624121149.2927-6-chentaotao@didiglobal.com>
 In-Reply-To: <20250624121149.2927-1-chentaotao@didiglobal.com>
 Accept-Language: zh-CN, en-US
 Content-Language: zh-CN
@@ -63,12 +63,12 @@ Content-Type: text/plain; charset="gb2312"
 Content-Transfer-Encoding: base64
 MIME-Version: 1.0
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=didiglobal.com;
- s=2025; t=1750767112;
- bh=UUOG9CnjyAD4jWpFLTC0doAjRjHNZAiWQCI/Hwlwayg=;
+ s=2025; t=1750767110;
+ bh=iuF1ZOur63OjUvd6ybvJnLgKwbJ3U/NzwPXRo3n32rY=;
  h=From:To:CC:Subject:Date:Message-ID:Content-Type;
- b=aA5b0entemeSUTUM68+duldd0xmEU+TuNweqA1Zwyg6zKSSslLqekm1ZTqq53Py+k
- QXFs+50AmoUq8r/dLYGr5rk5tV2ZPkhF2JdL23bTlKZgWiS64ttVhcPjfpB7waWey7
- oOfmLnJpgrV4Epk/UiDqQZqbbMuQqN7PuMSRXEZM=
+ b=cEW7/UfuFR9GJjBn+9WIFO3vuASVCalB3o2O0NUd/YMuW/x46pv/XlvCutN5cV/th
+ e09CPp1bHCPCZ1UrzhIG/eEpXoPybPkKWNeuUDpstKTGpHJwNrnOT34pOnDg96O9VP
+ HNlfdS+qpcqN31yAjdtca+Zm/u9GnVNlg5lWZNE4=
 X-Mailman-Approved-At: Tue, 24 Jun 2025 16:58:05 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -85,31 +85,21 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-RnJvbTogVGFvdGFvIENoZW4gPGNoZW50YW90YW9AZGlkaWdsb2JhbC5jb20+DQoNCkFkZCBzdXBw
-b3J0IGZvciB0aGUgSU9DQl9ET05UQ0FDSEUgZmxhZyBpbiBleHQ0X3dyaXRlX2JlZ2luKCkgYW5k
-DQpleHQ0X2RhX3dyaXRlX2JlZ2luKCkuIFdoZW4gc2V0IGluIHRoZSBraW9jYiwgdGhlIEZHUF9E
-T05UQ0FDSEUgYml0DQppcyBwYXNzZWQgdG8gdGhlIHBhZ2UgY2FjaGUgbG9va3VwLCBwcmV2ZW50
-aW5nIHdyaXR0ZW4gcGFnZXMgZnJvbQ0KYmVpbmcgcmV0YWluZWQgaW4gdGhlIGNhY2hlLg0KDQpP
-bmx5IHRoZSBoYW5kbGluZyBsb2dpYyBpcyBpbXBsZW1lbnRlZCBoZXJlOyB0aGUgYmVoYXZpb3Ig
-cmVtYWlucw0KaW5hY3RpdmUgdW50aWwgZXh0NCBhZHZlcnRpc2VzIHN1cHBvcnQgdmlhIEZPUF9E
-T05UQ0FDSEUuDQoNClRoaXMgY2hhbmdlIHJlbGllcyBvbiBwcmlvciBwYXRjaGVzIHRoYXQgcmVm
-YWN0b3IgdGhlIHdyaXRlX2JlZ2luDQppbnRlcmZhY2UgdG8gdXNlIHN0cnVjdCBraW9jYiBhbmQg
-aW50cm9kdWNlIERPTlRDQUNIRSBoYW5kbGluZyBpbiBleHQ0Lg0KDQpQYXJ0IG9mIGEgc2VyaWVz
-IHJlZmFjdG9yaW5nIGFkZHJlc3Nfc3BhY2Vfb3BlcmF0aW9ucyB3cml0ZV9iZWdpbiBhbmQNCndy
-aXRlX2VuZCBjYWxsYmFja3MgdG8gdXNlIHN0cnVjdCBraW9jYiBmb3IgcGFzc2luZyB3cml0ZSBj
-b250ZXh0IGFuZA0KZmxhZ3MuDQoNClNpZ25lZC1vZmYtYnk6IFRhb3RhbyBDaGVuIDxjaGVudGFv
-dGFvQGRpZGlnbG9iYWwuY29tPg0KLS0tDQogZnMvZXh0NC9pbm9kZS5jIHwgNiArKysrKysNCiAx
-IGZpbGUgY2hhbmdlZCwgNiBpbnNlcnRpb25zKCspDQoNCmRpZmYgLS1naXQgYS9mcy9leHQ0L2lu
-b2RlLmMgYi9mcy9leHQ0L2lub2RlLmMNCmluZGV4IDdmZjcwMDlmOTc5OS4uM2E4MmI1MjU2NWNj
-IDEwMDY0NA0KLS0tIGEvZnMvZXh0NC9pbm9kZS5jDQorKysgYi9mcy9leHQ0L2lub2RlLmMNCkBA
-IC0xMjY5LDYgKzEyNjksOSBAQCBzdGF0aWMgaW50IGV4dDRfd3JpdGVfYmVnaW4oc3RydWN0IGtp
-b2NiICppb2NiLCBzdHJ1Y3QgYWRkcmVzc19zcGFjZSAqbWFwcGluZywNCiAJaWYgKHVubGlrZWx5
-KHJldCkpDQogCQlyZXR1cm4gcmV0Ow0KIA0KKwlpZiAoaW9jYi0+a2lfZmxhZ3MgJiBJT0NCX0RP
-TlRDQUNIRSkNCisJCWZncCB8PSBGR1BfRE9OVENBQ0hFOw0KKw0KIAl0cmFjZV9leHQ0X3dyaXRl
-X2JlZ2luKGlub2RlLCBwb3MsIGxlbik7DQogCS8qDQogCSAqIFJlc2VydmUgb25lIGJsb2NrIG1v
-cmUgZm9yIGFkZGl0aW9uIHRvIG9ycGhhbiBsaXN0IGluIGNhc2UNCkBAIC0zMDY2LDYgKzMwNjks
-OSBAQCBzdGF0aWMgaW50IGV4dDRfZGFfd3JpdGVfYmVnaW4oc3RydWN0IGtpb2NiICppb2NiLCBz
-dHJ1Y3QgYWRkcmVzc19zcGFjZSAqbWFwcGluZw0KIAkJCXJldHVybiAwOw0KIAl9DQogDQorCWlm
-IChpb2NiLT5raV9mbGFncyAmIElPQ0JfRE9OVENBQ0hFKQ0KKwkJZmdwIHw9IEZHUF9ET05UQ0FD
-SEU7DQorDQogcmV0cnk6DQogCWZncCB8PSBmZ2Zfc2V0X29yZGVyKGxlbik7DQogCWZvbGlvID0g
-X19maWxlbWFwX2dldF9mb2xpbyhtYXBwaW5nLCBpbmRleCwgZmdwLA0KLS0gDQoyLjM0LjENCg==
+RnJvbTogVGFvdGFvIENoZW4gPGNoZW50YW90YW9AZGlkaWdsb2JhbC5jb20+DQoNClNldCB0aGUg
+Rk9QX0RPTlRDQUNIRSBmbGFnIGluIGV4dDRfZmlsZV9vcGVyYXRpb25zIHRvIGluZGljYXRlIHRo
+YXQNCmV4dDQgc3VwcG9ydHMgSU9DQl9ET05UQ0FDSEUgaGFuZGxpbmcgaW4gYnVmZmVyZWQgd3Jp
+dGUgcGF0aHMuDQoNClBhcnQgb2YgYSBzZXJpZXMgcmVmYWN0b3JpbmcgYWRkcmVzc19zcGFjZV9v
+cGVyYXRpb25zIHdyaXRlX2JlZ2luIGFuZA0Kd3JpdGVfZW5kIGNhbGxiYWNrcyB0byB1c2Ugc3Ry
+dWN0IGtpb2NiIGZvciBwYXNzaW5nIHdyaXRlIGNvbnRleHQgYW5kDQpmbGFncy4NCg0KU2lnbmVk
+LW9mZi1ieTogVGFvdGFvIENoZW4gPGNoZW50YW90YW9AZGlkaWdsb2JhbC5jb20+DQotLS0NCiBm
+cy9leHQ0L2ZpbGUuYyB8IDMgKystDQogMSBmaWxlIGNoYW5nZWQsIDIgaW5zZXJ0aW9ucygrKSwg
+MSBkZWxldGlvbigtKQ0KDQpkaWZmIC0tZ2l0IGEvZnMvZXh0NC9maWxlLmMgYi9mcy9leHQ0L2Zp
+bGUuYw0KaW5kZXggMjFkZjgxMzQ3MTQ3Li4yNzRiNDFhNDc2YzggMTAwNjQ0DQotLS0gYS9mcy9l
+eHQ0L2ZpbGUuYw0KKysrIGIvZnMvZXh0NC9maWxlLmMNCkBAIC05NzcsNyArOTc3LDggQEAgY29u
+c3Qgc3RydWN0IGZpbGVfb3BlcmF0aW9ucyBleHQ0X2ZpbGVfb3BlcmF0aW9ucyA9IHsNCiAJLnNw
+bGljZV93cml0ZQk9IGl0ZXJfZmlsZV9zcGxpY2Vfd3JpdGUsDQogCS5mYWxsb2NhdGUJPSBleHQ0
+X2ZhbGxvY2F0ZSwNCiAJLmZvcF9mbGFncwk9IEZPUF9NTUFQX1NZTkMgfCBGT1BfQlVGRkVSX1JB
+U1lOQyB8DQotCQkJICBGT1BfRElPX1BBUkFMTEVMX1dSSVRFLA0KKwkJCSAgRk9QX0RJT19QQVJB
+TExFTF9XUklURSB8DQorCQkJICBGT1BfRE9OVENBQ0hFLA0KIH07DQogDQogY29uc3Qgc3RydWN0
+IGlub2RlX29wZXJhdGlvbnMgZXh0NF9maWxlX2lub2RlX29wZXJhdGlvbnMgPSB7DQotLSANCjIu
+MzQuMQ0K
