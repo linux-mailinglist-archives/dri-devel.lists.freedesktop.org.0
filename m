@@ -2,78 +2,86 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id A4046AE6C17
-	for <lists+dri-devel@lfdr.de>; Tue, 24 Jun 2025 18:07:03 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id E859EAE6C81
+	for <lists+dri-devel@lfdr.de>; Tue, 24 Jun 2025 18:35:42 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C241410E5E9;
-	Tue, 24 Jun 2025 16:07:00 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id BE4FC10E111;
+	Tue, 24 Jun 2025 16:35:26 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="ZQWuKUng";
+	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="KHzmhfDh";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pl1-f176.google.com (mail-pl1-f176.google.com
- [209.85.214.176])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5BF6D10E5E9;
- Tue, 24 Jun 2025 16:07:00 +0000 (UTC)
-Received: by mail-pl1-f176.google.com with SMTP id
- d9443c01a7336-237d849253fso8908395ad.1; 
- Tue, 24 Jun 2025 09:07:00 -0700 (PDT)
+Received: from mail-ot1-f44.google.com (mail-ot1-f44.google.com
+ [209.85.210.44])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2933410E111
+ for <dri-devel@lists.freedesktop.org>; Tue, 24 Jun 2025 16:35:19 +0000 (UTC)
+Received: by mail-ot1-f44.google.com with SMTP id
+ 46e09a7af769-735b9d558f9so213303a34.2
+ for <dri-devel@lists.freedesktop.org>; Tue, 24 Jun 2025 09:35:19 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1750781220; x=1751386020; darn=lists.freedesktop.org;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc:subject:date
- :message-id:reply-to;
- bh=p469Z/13LqtJ+BNt8oKrD3ps0WvPg6z+cySWcusL5lU=;
- b=ZQWuKUngX9Q1j+6eJoukfK5UuipNzeR4w79G1X4seaP0Q8+Vq9wmo2OYaAwkEo+xLg
- 5EQreL4rUrF9phgqFV1i6SE1t8szrzJ0YDCfiQDlJCNdquAcJko367rXxZULB6rf/niy
- nkKDGJDb+7hXdS/05A+3Pk0NNc0HzwB8nvF5g2W+GVQBL0FCAhAZo+57tXdOdjPAYOru
- ocqDmXgEuz9FUA36pMY0mWBOkuZv/mehK0gkIA7tnEIS6keLo/M+fToSyC/046TcK3er
- g6FDNG5Cvvg1rzAKitYUBnQ9IB6icHDT4kRnLlh2R2AmcEwpaHTImTOI8JHmvYho/RqO
- MgcQ==
+ d=linaro.org; s=google; t=1750782919; x=1751387719; darn=lists.freedesktop.org;
+ h=in-reply-to:content-transfer-encoding:content-disposition
+ :mime-version:references:message-id:subject:cc:to:from:date:from:to
+ :cc:subject:date:message-id:reply-to;
+ bh=rSz1JFe75zgnTFQjk7azgszRdIK56k+5FDXoGc03hUA=;
+ b=KHzmhfDh18szYbacB9SkfibdU4ITYjDDlIPbtsEWFOE6bIIKi0SumaxgpbKDgTn7wR
+ QNhKmnDs4cOgFxn/Cjh0PB4tKTWJCL8M+oHTuBH6//lPvn8Wvh648jQjD5vCOmVIDjhJ
+ 4t1Da2L2YUGKYPMwp6LMlYieIUpk+Fr1RmQd0VfsDZExHK/ival/BpF3N161Nma353Dm
+ wPQWQpZN4GO6qjugxZ2MF/zuXVW3h6iqZ6g+yfWnG02YcSm/MyHlLLxBNtv+4UujQWhm
+ A+kGasoqWm8fwo8piLxyEkFw4L83hVy2iBx9FoLeEQPEUkNI5V2jz33CHp79PVh+4kcT
+ UJYA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1750781220; x=1751386020;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=p469Z/13LqtJ+BNt8oKrD3ps0WvPg6z+cySWcusL5lU=;
- b=s/jSua0Eyl7XwQthlSr051rW9Yy2vry76admzOZr2AR/AqWxP4YhAlntJeK/CZJnQO
- sDeSHZyX1pSNmVGTDG2ZrJ8LR04AzR7LfD+4syRkY+ptieqB+m5VzocAQhK/xSH6ft8G
- YvRLMIVTriOZozyYEx5BQ+DbFSKhL0EJexeGv89KeXvXa2jl1wqHfz6j2MjE4aBio2Zr
- alEUYg10KVBs7iFjiillYl8r/nnd2aoGoU3qvQA6eCND3fYvG1hLBNT83Y5+ToymN58n
- p1ax+bYZzyJoTaA9A0qeRfk4M2S31UAlGUcNXxqENTeyVvpXUHq1vaggEiJGaQtaWf0j
- fcog==
+ d=1e100.net; s=20230601; t=1750782919; x=1751387719;
+ h=in-reply-to:content-transfer-encoding:content-disposition
+ :mime-version:references:message-id:subject:cc:to:from:date
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=rSz1JFe75zgnTFQjk7azgszRdIK56k+5FDXoGc03hUA=;
+ b=tsgAS6ZBSjCZTXs1ex6kaeX0bi9u8sDE12RlZtJj2xWcRfX8dJ3NcrffvS3YTUbHK/
+ opwLRyd6N8fKAMv1QttbVUQLH5vCBVSJ5NMu1P2q9IcLR3vFQjxEa5HQS8lEYS4wIVHG
+ DSCGoQmg5nR8Igj3AYPlp37GjZ5g6U+Ct/TncxcRDn314HjU8XASkNC7pOvOrIkDfHZ4
+ rn8h6tBr1AlmEow+Cml0VUjTw8F7MadJqoNv9cz55kaQTO8JH/qdZZAClnZvQA4naOXn
+ ATTXZp9M9VlDyZg4cLyF4dIGr+aI2/wM68XlpyTNtaZfPsgU5kDqlsHSs5bPpUnHGBF/
+ hEgA==
 X-Forwarded-Encrypted: i=1;
- AJvYcCVOoHgX6sAfZNFPSfL8XZ1k0F02iQIzyRAIhmDmeubL0LA59758mB6mvR+3FLCRAK4opOJuP6r1c+FW@lists.freedesktop.org,
- AJvYcCWp/u9XYzGL/DFpRcrzEDXx+MYjY4gdLP4cIf6QfyzUBrpwR4AiTcwv+1LkomtqLWpDt8V4enNU@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YyiuarHc2ONgmlaBNQ4dbM/Tfm8IafO73Ekd4NL625c7FwHlQai
- u7lkVbrXebaFc4kcAkGaN2ZQtdSTkPTtBZzKTxkQKfnTqiFEqXwCa650aG04ca3LHOIaJoINHn1
- 3Ka0cNGEQ+KXPc+mWv3mCS8CEYIX0SQY=
-X-Gm-Gg: ASbGncu/4i8CkCmyHH4feFIAF2UNlkiVhWfCgrecWYAgVgGtblqUcaLI6+5IK5G1V+x
- y9JPOxIxScxjMK5o7vzucbQ8bfGVcphdfpAQ/JRV12DqkH2cltpOHwAUQuv7QuRVe/96ROhk9OZ
- p7fcLcd2y53gXk3S1DSn4NsSlOqSYPbQ+jrQ4sufpdIInK
-X-Google-Smtp-Source: AGHT+IFYc3aMqLcv9loqWoG6Cca5FOBY7JI9DHpHoCgORxjIKHkQVWbdRXgw9oELbsi29DR4r0stwfPFPJoo6+BSQJg=
-X-Received: by 2002:a17:90b:2dd0:b0:311:e9a6:332e with SMTP id
- 98e67ed59e1d1-3159d577a7bmr10119236a91.0.1750781219668; Tue, 24 Jun 2025
- 09:06:59 -0700 (PDT)
-MIME-Version: 1.0
-References: <20250613182651.1758760-1-andrealmeid@igalia.com>
- <4907bbe3-14e7-49cc-b5bd-78ba375bf46d@amd.com>
- <f1d61291-f8b8-4646-9195-3724fdee184b@igalia.com>
-In-Reply-To: <f1d61291-f8b8-4646-9195-3724fdee184b@igalia.com>
-From: Alex Deucher <alexdeucher@gmail.com>
-Date: Tue, 24 Jun 2025 12:06:46 -0400
-X-Gm-Features: AX0GCFuxrPW3hb_jLYUej8jia4MsLoarWXQZKlGY5dgY_YRWYdFs1Tn4-SjFsec
-Message-ID: <CADnq5_PRhMAoPj-deOkzo+3XSuZhnPZwvfjK9dUDrNEDZLPpUA@mail.gmail.com>
-Subject: Re: [PATCH 0/2] drm: amdgpu: Fix includes of <linux/export.h>
-To: =?UTF-8?Q?Andr=C3=A9_Almeida?= <andrealmeid@igalia.com>
-Cc: Alex Deucher <alexander.deucher@amd.com>, dri-devel@lists.freedesktop.org, 
+ AJvYcCWPBZwCSMtRmtVJqDDooWwpyyCYfRtJCR1H08MJPdmtgpqYig7wl3CMtomKL38ePcSJO//DSErAESo=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YwxNRQ84xTExqA6Y+BZkA8I/irblXrnhMlC72iKBZ5uD5F2B3/c
+ 5RbUFvKo/tY+tHSJJkCUrpRvCGC3ejrhin7E6YMJfFk0EE4ffJo7CcMIbY6FD2XjBt0=
+X-Gm-Gg: ASbGnctx8/iXsGQS+4mHJLspWNRWJ9TTRkdIWaUFi1UJFZqJHd86wS0nn52+WGpOIi6
+ E7XiM6X4OLDBjJ31RK+mrkd7jEIE0biL/kKTtXNuSYOQO3YDth2q4v2hHR9TSbZKRVSh0LHWTOM
+ 2PohM+XmBepC5jSYcY4ompIRWe+Sziri8TxvaOc8ob20UweCLVm8MnNTyH987B40c0KT+ezbLxd
+ pxoCvTPaFJmNiJOKrNsJK1n0OrmYyMK/nJbY4E4iAjK/J/sDZ8TYghg+GGS867o8CPCUPhK0NdZ
+ fNz3EHCRgpSLcENwTd7HfdCPxfkbQUIRweWC5JK008YoNtedJ6JKEQPCSMV5pDqG/z+D4w==
+X-Google-Smtp-Source: AGHT+IGLBmzoZDcj+02IHdZnbhdqNE7ZpcxtaWGwO/yBFtE/sR9o3STi9jOIWS56QlRwP/UQ/l/YfA==
+X-Received: by 2002:a05:6870:a44d:b0:2df:5323:520b with SMTP id
+ 586e51a60fabf-2eeee4e4535mr11595383fac.19.1750782918736; 
+ Tue, 24 Jun 2025 09:35:18 -0700 (PDT)
+Received: from localhost ([2603:8080:b800:f700:22c9:dcd3:f442:dd1d])
+ by smtp.gmail.com with ESMTPSA id
+ 006d021491bc7-6115b7a1d04sm1323856eaf.20.2025.06.24.09.35.17
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 24 Jun 2025 09:35:18 -0700 (PDT)
+Date: Tue, 24 Jun 2025 19:35:17 +0300
+From: Dan Carpenter <dan.carpenter@linaro.org>
+To: Ian Forbes <ian.forbes@broadcom.com>
+Cc: Colin Ian King <colin.i.king@gmail.com>,
+ Zack Rusin <zack.rusin@broadcom.com>,
+ Broadcom internal kernel review list <bcm-kernel-feedback-list@broadcom.com>, 
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>,
  Thomas Zimmermann <tzimmermann@suse.de>,
- =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>, 
- linux-kernel@vger.kernel.org, kernel-dev@igalia.com, 
- amd-gfx@lists.freedesktop.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+ dri-devel@lists.freedesktop.org, kernel-janitors@vger.kernel.org,
+ linux-kernel@vger.kernel.org
+Subject: Re: [PATCH][next] drm/vmwgfx: fix missing assignment to ts
+Message-ID: <0b83e41e-7bb3-4e20-b568-12feaf73a79c@suswa.mountain>
+References: <20250623223526.281398-1-colin.i.king@gmail.com>
+ <CAO6MGtiLtHKk3tuvxpz5wEC8PxshANhdP97MQ+jD9euu8UmYxQ@mail.gmail.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <CAO6MGtiLtHKk3tuvxpz5wEC8PxshANhdP97MQ+jD9euu8UmYxQ@mail.gmail.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -89,43 +97,24 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Applied.  Thanks!
+On Tue, Jun 24, 2025 at 10:02:41AM -0500, Ian Forbes wrote:
+> On Mon, Jun 23, 2025 at 5:35 PM Colin Ian King <colin.i.king@gmail.com> wrote:
+> >
+> > The assignment to ts is missing on the call to ktime_to_timespec64.
+> > Fix this by adding the missing assignment.
+> >
+> > Fixes: db6a94b26354 ("drm/vmwgfx: Implement dma_fence_ops properly")
+> > Signed-off-by: Colin Ian King <colin.i.king@gmail.com>
+> 
+> Was this caught by a compiler warning? I'm surprised I didn't get some
+> sort of warning for this.
+> 
 
-On Tue, Jun 24, 2025 at 11:27=E2=80=AFAM Andr=C3=A9 Almeida <andrealmeid@ig=
-alia.com> wrote:
->
-> Hi Alex,
->
-> Em 16/06/2025 03:59, Christian K=C3=B6nig escreveu:
-> > Acked-by: Christian K=C3=B6nig <christian.koenig@amd.com> for the serie=
-s.
-> >
->
-> Can you add this series to amd-staging-drm-next? Thanks!
->
-> > On 6/13/25 20:26, Andr=C3=A9 Almeida wrote:
-> >> Commit 7d95680d64ac ("scripts/misc-check: check unnecessary #include
-> >> <linux/export.h> when W=3D1") and commit a934a57a42f6 ("scripts/misc-c=
-heck:
-> >> check missing #include <linux/export.h> when W=3D1") added new checks =
-for when the
-> >> include <linux/export.h> is missued by drivers. This patchset make drm=
-/amd code
-> >> compliant to this new commits.
-> >>
-> >> See also: https://lore.kernel.org/dri-devel/20250612121633.229222-1-tz=
-immermann@suse.de/
-> >>
-> >> Andr=C3=A9 Almeida (2):
-> >>    drm/amd: Do not include <linux/export.h> when unused
-> >>    drm/amd: Include <linux/export.h> when needed
-> >>
-> >>   drivers/gpu/drm/amd/amdgpu/amdgpu_i2c.c      | 1 -
-> >>   drivers/gpu/drm/amd/amdgpu/amdgpu_object.c   | 1 +
-> >>   drivers/gpu/drm/amd/amdkfd/kfd_chardev.c     | 1 -
-> >>   drivers/gpu/drm/amd/amdkfd/kfd_flat_memory.c | 1 -
-> >>   drivers/gpu/drm/amd/amdxcp/amdgpu_xcp_drv.c  | 1 +
-> >>   5 files changed, 2 insertions(+), 3 deletions(-)
-> >>
-> >
->
+We've disabled uninitialized variable warnings in GCC.  Perhaps
+Clang would have caught this but I'm not sure because tracking
+uninitialized struct members is a bit more complicated than tracking
+uninitialized variables.
+
+regards,
+dan carpenter
+
