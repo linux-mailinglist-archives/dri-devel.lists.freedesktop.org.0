@@ -2,37 +2,53 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 50326AE60ED
-	for <lists+dri-devel@lfdr.de>; Tue, 24 Jun 2025 11:32:53 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 90D2BAE60FD
+	for <lists+dri-devel@lfdr.de>; Tue, 24 Jun 2025 11:38:27 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B4EFD10E55D;
-	Tue, 24 Jun 2025 09:32:51 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 96E9310E54A;
+	Tue, 24 Jun 2025 09:38:24 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
- by gabe.freedesktop.org (Postfix) with ESMTP id D0EB110E561
- for <dri-devel@lists.freedesktop.org>; Tue, 24 Jun 2025 09:32:50 +0000 (UTC)
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
- by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id AF641113E;
- Tue, 24 Jun 2025 02:32:32 -0700 (PDT)
-Received: from e129154.arm.com (unknown [10.57.66.60])
- by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPA id C5BEC3F66E;
- Tue, 24 Jun 2025 02:32:45 -0700 (PDT)
-From: Beata Michalska <beata.michalska@arm.com>
-To: ojeda@kernel.org, alex.gaynor@gmail.com, dakr@kernel.org,
- aliceryhl@google.com, daniel.almeida@collabora.com
-Cc: boqun.feng@gmail.com, gary@garyguo.net, bjorn3_gh@protonmail.com,
- lossin@kernel.org, a.hindborg@kernel.org, tmgross@umich.edu,
- alyssa@rosenzweig.io, lyude@redhat.com, rust-for-linux@vger.kernel.org,
- dri-devel@lists.freedesktop.org
-Subject: [PATCH v2 2/2] drm: nova-drm: Update ioctl handlers to drop Opaque
- usage
-Date: Tue, 24 Jun 2025 11:32:00 +0200
-Message-Id: <20250624093200.812812-3-beata.michalska@arm.com>
-In-Reply-To: <20250624093200.812812-1-beata.michalska@arm.com>
-References: <20250624093200.812812-1-beata.michalska@arm.com>
+Received: from metis.whiteo.stw.pengutronix.de
+ (metis.whiteo.stw.pengutronix.de [185.203.201.7])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7423410E54A
+ for <dri-devel@lists.freedesktop.org>; Tue, 24 Jun 2025 09:38:23 +0000 (UTC)
+Received: from ptz.office.stw.pengutronix.de ([2a0a:edc0:0:900:1d::77]
+ helo=[IPv6:::1]) by metis.whiteo.stw.pengutronix.de with esmtps
+ (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256) (Exim 4.92)
+ (envelope-from <l.stach@pengutronix.de>)
+ id 1uU061-0000ys-4O; Tue, 24 Jun 2025 11:37:41 +0200
+Message-ID: <fbc1de81cbb50ea1c74ea153b2d8f7ef619bb151.camel@pengutronix.de>
+Subject: Re: [PATCH v3 6/8] drm/etnaviv: Use DRM_GPU_SCHED_STAT_NO_HANG to
+ skip the reset
+From: Lucas Stach <l.stach@pengutronix.de>
+To: =?ISO-8859-1?Q?Ma=EDra?= Canal <mcanal@igalia.com>, Matthew Brost
+ <matthew.brost@intel.com>, Danilo Krummrich <dakr@kernel.org>, Philipp
+ Stanner <phasta@kernel.org>, Christian =?ISO-8859-1?Q?K=F6nig?=
+ <ckoenig.leichtzumerken@gmail.com>, Tvrtko Ursulin
+ <tvrtko.ursulin@igalia.com>,  Simona Vetter <simona@ffwll.ch>, David Airlie
+ <airlied@gmail.com>, Melissa Wen <mwen@igalia.com>, Russell King
+ <linux+etnaviv@armlinux.org.uk>, Christian Gmeiner
+ <christian.gmeiner@gmail.com>,  Lucas De Marchi <lucas.demarchi@intel.com>,
+ Thomas =?ISO-8859-1?Q?Hellstr=F6m?= <thomas.hellstrom@linux.intel.com>, 
+ Rodrigo Vivi <rodrigo.vivi@intel.com>, Boris Brezillon
+ <boris.brezillon@collabora.com>, Rob Herring <robh@kernel.org>, Steven
+ Price <steven.price@arm.com>, Liviu Dudau <liviu.dudau@arm.com>
+Cc: kernel-dev@igalia.com, dri-devel@lists.freedesktop.org, 
+ etnaviv@lists.freedesktop.org, intel-xe@lists.freedesktop.org
+Date: Tue, 24 Jun 2025 11:37:38 +0200
+In-Reply-To: <20250618-sched-skip-reset-v3-6-8be5cca2725d@igalia.com>
+References: <20250618-sched-skip-reset-v3-0-8be5cca2725d@igalia.com>
+ <20250618-sched-skip-reset-v3-6-8be5cca2725d@igalia.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.52.4 (3.52.4-2.fc40) 
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+X-SA-Exim-Connect-IP: 2a0a:edc0:0:900:1d::77
+X-SA-Exim-Mail-From: l.stach@pengutronix.de
+X-SA-Exim-Scanned: No (on metis.whiteo.stw.pengutronix.de);
+ SAEximRunCond expanded to false
+X-PTX-Original-Recipient: dri-devel@lists.freedesktop.org
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -48,176 +64,69 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Danilo Krummrich <dakr@kernel.org>
+Am Mittwoch, dem 18.06.2025 um 11:47 -0300 schrieb Ma=C3=ADra Canal:
+> Etnaviv can skip a hardware reset in two situations:
+>=20
+>   1. TDR has fired before the free-job worker and the timeout is spurious=
+.
+>   2. The GPU is still making progress on the front-end and we can give
+>      the job a chance to complete.
+>=20
+> Instead of manipulating scheduler's internals, inform the scheduler that
+> the job did not actually timeout and no reset was performed through
+> the new status code DRM_GPU_SCHED_STAT_NO_HANG.
+>=20
+> Signed-off-by: Ma=C3=ADra Canal <mcanal@igalia.com>
 
-Following the removal of `Opaque<T>` for ioctl arguments in the DRM
-framework, this patch updates the affected driver code to use typed
-references directly.
+Reviewed-by: Lucas Stach <l.stach@pengutronix.de>
 
-Signed-off-by: Danilo Krummrich <dakr@kernel.org>
-Signed-off-by: Beata Michalska <beata.michalska@arm.com>
----
- drivers/gpu/drm/nova/file.rs | 23 ++++++--------
- drivers/gpu/drm/nova/nova.rs |  1 -
- drivers/gpu/drm/nova/uapi.rs | 61 ------------------------------------
- 3 files changed, 9 insertions(+), 76 deletions(-)
- delete mode 100644 drivers/gpu/drm/nova/uapi.rs
-
-diff --git a/drivers/gpu/drm/nova/file.rs b/drivers/gpu/drm/nova/file.rs
-index 7e59a34b830d..7e7d4e2de2fb 100644
---- a/drivers/gpu/drm/nova/file.rs
-+++ b/drivers/gpu/drm/nova/file.rs
-@@ -2,13 +2,11 @@
- 
- use crate::driver::{NovaDevice, NovaDriver};
- use crate::gem::NovaObject;
--use crate::uapi::{GemCreate, GemInfo, Getparam};
- use kernel::{
-     alloc::flags::*,
-     drm::{self, gem::BaseObject},
-     pci,
-     prelude::*,
--    types::Opaque,
-     uapi,
- };
- 
-@@ -26,20 +24,19 @@ impl File {
-     /// IOCTL: get_param: Query GPU / driver metadata.
-     pub(crate) fn get_param(
-         dev: &NovaDevice,
--        getparam: &Opaque<uapi::drm_nova_getparam>,
-+        getparam: &mut uapi::drm_nova_getparam,
-         _file: &drm::File<File>,
-     ) -> Result<u32> {
-         let adev = &dev.adev;
-         let parent = adev.parent().ok_or(ENOENT)?;
-         let pdev: &pci::Device = parent.try_into()?;
--        let getparam: &Getparam = getparam.into();
- 
--        let value = match getparam.param() as u32 {
-+        let value = match getparam.param as u32 {
-             uapi::NOVA_GETPARAM_VRAM_BAR_SIZE => pdev.resource_len(1)?,
-             _ => return Err(EINVAL),
-         };
- 
--        getparam.set_value(value);
-+        getparam.value = value;
- 
-         Ok(0)
-     }
-@@ -47,13 +44,12 @@ pub(crate) fn get_param(
-     /// IOCTL: gem_create: Create a new DRM GEM object.
-     pub(crate) fn gem_create(
-         dev: &NovaDevice,
--        req: &Opaque<uapi::drm_nova_gem_create>,
-+        req: &mut uapi::drm_nova_gem_create,
-         file: &drm::File<File>,
-     ) -> Result<u32> {
--        let req: &GemCreate = req.into();
--        let obj = NovaObject::new(dev, req.size().try_into()?)?;
-+        let obj = NovaObject::new(dev, req.size.try_into()?)?;
- 
--        req.set_handle(obj.create_handle(file)?);
-+        req.handle = obj.create_handle(file)?;
- 
-         Ok(0)
-     }
-@@ -61,13 +57,12 @@ pub(crate) fn gem_create(
-     /// IOCTL: gem_info: Query GEM metadata.
-     pub(crate) fn gem_info(
-         _dev: &NovaDevice,
--        req: &Opaque<uapi::drm_nova_gem_info>,
-+        req: &mut uapi::drm_nova_gem_info,
-         file: &drm::File<File>,
-     ) -> Result<u32> {
--        let req: &GemInfo = req.into();
--        let bo = NovaObject::lookup_handle(file, req.handle())?;
-+        let bo = NovaObject::lookup_handle(file, req.handle)?;
- 
--        req.set_size(bo.size().try_into()?);
-+        req.size = bo.size().try_into()?;
- 
-         Ok(0)
-     }
-diff --git a/drivers/gpu/drm/nova/nova.rs b/drivers/gpu/drm/nova/nova.rs
-index 902876aa14d1..730598defe04 100644
---- a/drivers/gpu/drm/nova/nova.rs
-+++ b/drivers/gpu/drm/nova/nova.rs
-@@ -5,7 +5,6 @@
- mod driver;
- mod file;
- mod gem;
--mod uapi;
- 
- use crate::driver::NovaDriver;
- 
-diff --git a/drivers/gpu/drm/nova/uapi.rs b/drivers/gpu/drm/nova/uapi.rs
-deleted file mode 100644
-index eb228a58d423..000000000000
---- a/drivers/gpu/drm/nova/uapi.rs
-+++ /dev/null
-@@ -1,61 +0,0 @@
--// SPDX-License-Identifier: GPL-2.0
--
--use kernel::uapi;
--
--// TODO Work out some common infrastructure to avoid boilerplate code for uAPI abstractions.
--
--macro_rules! define_uapi_abstraction {
--    ($name:ident <= $inner:ty) => {
--        #[repr(transparent)]
--        pub struct $name(::kernel::types::Opaque<$inner>);
--
--        impl ::core::convert::From<&::kernel::types::Opaque<$inner>> for &$name {
--            fn from(value: &::kernel::types::Opaque<$inner>) -> Self {
--                // SAFETY: `Self` is a transparent wrapper of `$inner`.
--                unsafe { ::core::mem::transmute(value) }
--            }
--        }
--    };
--}
--
--define_uapi_abstraction!(Getparam <= uapi::drm_nova_getparam);
--
--impl Getparam {
--    pub fn param(&self) -> u64 {
--        // SAFETY: `self.get()` is a valid pointer to a `struct drm_nova_getparam`.
--        unsafe { (*self.0.get()).param }
--    }
--
--    pub fn set_value(&self, v: u64) {
--        // SAFETY: `self.get()` is a valid pointer to a `struct drm_nova_getparam`.
--        unsafe { (*self.0.get()).value = v };
--    }
--}
--
--define_uapi_abstraction!(GemCreate <= uapi::drm_nova_gem_create);
--
--impl GemCreate {
--    pub fn size(&self) -> u64 {
--        // SAFETY: `self.get()` is a valid pointer to a `struct drm_nova_gem_create`.
--        unsafe { (*self.0.get()).size }
--    }
--
--    pub fn set_handle(&self, handle: u32) {
--        // SAFETY: `self.get()` is a valid pointer to a `struct drm_nova_gem_create`.
--        unsafe { (*self.0.get()).handle = handle };
--    }
--}
--
--define_uapi_abstraction!(GemInfo <= uapi::drm_nova_gem_info);
--
--impl GemInfo {
--    pub fn handle(&self) -> u32 {
--        // SAFETY: `self.get()` is a valid pointer to a `struct drm_nova_gem_info`.
--        unsafe { (*self.0.get()).handle }
--    }
--
--    pub fn set_size(&self, size: u64) {
--        // SAFETY: `self.get()` is a valid pointer to a `struct drm_nova_gem_info`.
--        unsafe { (*self.0.get()).size = size };
--    }
--}
--- 
-2.25.1
+> ---
+>  drivers/gpu/drm/etnaviv/etnaviv_sched.c | 11 ++++-------
+>  1 file changed, 4 insertions(+), 7 deletions(-)
+>=20
+> diff --git a/drivers/gpu/drm/etnaviv/etnaviv_sched.c b/drivers/gpu/drm/et=
+naviv/etnaviv_sched.c
+> index 7146069a98492f5fab2a49d96e2054f649e1fe3d..46f5391e84a12232b247886cf=
+1311f8e09f42f04 100644
+> --- a/drivers/gpu/drm/etnaviv/etnaviv_sched.c
+> +++ b/drivers/gpu/drm/etnaviv/etnaviv_sched.c
+> @@ -40,11 +40,11 @@ static enum drm_gpu_sched_stat etnaviv_sched_timedout=
+_job(struct drm_sched_job
+>  	int change;
+> =20
+>  	/*
+> -	 * If the GPU managed to complete this jobs fence, the timout is
+> -	 * spurious. Bail out.
+> +	 * If the GPU managed to complete this jobs fence, the timeout has
+> +	 * fired before free-job worker. The timeout is spurious, so bail out.
+>  	 */
+>  	if (dma_fence_is_signaled(submit->out_fence))
+> -		goto out_no_timeout;
+> +		return DRM_GPU_SCHED_STAT_NO_HANG;
+> =20
+>  	/*
+>  	 * If the GPU is still making forward progress on the front-end (which
+> @@ -70,7 +70,7 @@ static enum drm_gpu_sched_stat etnaviv_sched_timedout_j=
+ob(struct drm_sched_job
+>  		gpu->hangcheck_dma_addr =3D dma_addr;
+>  		gpu->hangcheck_primid =3D primid;
+>  		gpu->hangcheck_fence =3D gpu->completed_fence;
+> -		goto out_no_timeout;
+> +		return DRM_GPU_SCHED_STAT_NO_HANG;
+>  	}
+> =20
+>  	/* block scheduler */
+> @@ -86,10 +86,7 @@ static enum drm_gpu_sched_stat etnaviv_sched_timedout_=
+job(struct drm_sched_job
+>  	drm_sched_resubmit_jobs(&gpu->sched);
+> =20
+>  	drm_sched_start(&gpu->sched, 0);
+> -	return DRM_GPU_SCHED_STAT_RESET;
+> =20
+> -out_no_timeout:
+> -	list_add(&sched_job->list, &sched_job->sched->pending_list);
+>  	return DRM_GPU_SCHED_STAT_RESET;
+>  }
+> =20
+>=20
 
