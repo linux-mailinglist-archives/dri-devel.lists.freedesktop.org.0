@@ -2,75 +2,62 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id A3409AE7072
-	for <lists+dri-devel@lfdr.de>; Tue, 24 Jun 2025 22:15:04 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id A445FAE70BF
+	for <lists+dri-devel@lfdr.de>; Tue, 24 Jun 2025 22:31:03 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B0C3E10E035;
-	Tue, 24 Jun 2025 20:14:59 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E97E310E11F;
+	Tue, 24 Jun 2025 20:30:58 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=redhat.com header.i=@redhat.com header.b="PUMeLFoW";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="kqIMUNjL";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [170.10.133.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9CE2E10E035
- for <dri-devel@lists.freedesktop.org>; Tue, 24 Jun 2025 20:14:50 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1750796080;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=MpswX9CeYFwqxV2+s21tSoizpPJHKG6Ho7VniV3X4Tw=;
- b=PUMeLFoW1A6QD8CfJfDJ2KXccMAglobns+Vh7wAJ3sgzFZt5m1dwGplfp1MbFhVJf4drmp
- x1HCW4rzha9cS/9MZVEuqkC1/J870OPFiiv+BS/rluFuP5m6Tn6lLnjOmC9aFXQMt7Sx0w
- g+lOSsy/4gsv/uvSl2vJaY8B8fjuWlI=
-Received: from mx-prod-mc-04.mail-002.prod.us-west-2.aws.redhat.com
- (ec2-54-186-198-63.us-west-2.compute.amazonaws.com [54.186.198.63]) by
- relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
- cipher=TLS_AES_256_GCM_SHA384) id us-mta-18-5LbBZxgQPcSwyk4vLV8pZA-1; Tue,
- 24 Jun 2025 16:14:35 -0400
-X-MC-Unique: 5LbBZxgQPcSwyk4vLV8pZA-1
-X-Mimecast-MFC-AGG-ID: 5LbBZxgQPcSwyk4vLV8pZA_1750796073
-Received: from mx-prod-int-08.mail-002.prod.us-west-2.aws.redhat.com
- (mx-prod-int-08.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.111])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
- (No client certificate requested)
- by mx-prod-mc-04.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS
- id 0311A19560B2; Tue, 24 Jun 2025 20:14:33 +0000 (UTC)
-Received: from asrivats-na.rmtustx.csb (unknown [10.2.16.179])
- by mx-prod-int-08.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTP
- id 32307180045B; Tue, 24 Jun 2025 20:14:30 +0000 (UTC)
-From: Anusha Srivatsa <asrivats@redhat.com>
-Date: Tue, 24 Jun 2025 15:13:05 -0500
-Subject: [PATCH] panel/simple-simple: Identify simple DPI panels using
- .compatible field
+Received: from sea.source.kernel.org (sea.source.kernel.org [172.234.252.31])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 49E2410E103
+ for <dri-devel@lists.freedesktop.org>; Tue, 24 Jun 2025 20:30:52 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+ by sea.source.kernel.org (Postfix) with ESMTP id AD2C349D13;
+ Tue, 24 Jun 2025 20:30:48 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 59CC2C4CEE3;
+ Tue, 24 Jun 2025 20:30:46 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1750797048;
+ bh=y+bjAAAX0Ofn2Lf/MUjBwYQIZMlmSNiS8DuXQGq1OB0=;
+ h=From:To:Cc:Subject:Date:From;
+ b=kqIMUNjL3iQkUXSnp9TFoTNRylBMLcEZtyjimsxiuRpZwQWkh+WcUcNc72yz5lfH/
+ mNeg6/NZVdE8j88oRlt+w6I9/PH7Ka7yyn1+wemXfx6iyx1OUfwTiNkzXB0PPfxSDl
+ jJuNUGgEtTP2pX3Sij1t51tpRSC1G451sJYrIiNH5VLIBLbxoUrXm08+VUJcBZKYQE
+ ox9HooJkf/zf9xswYOuCYIsqgfAHVsy5dJ/VLobZg2mAgS90g81+r+bugVEoF2GpgA
+ wop3ZGTUDts83zcsIZ3N33gBm6DHOkej6YGJ5KMNiO1ll61hvzhbQcpqhCfxNvhtEn
+ cIJha5V58VOug==
+From: Mario Limonciello <superm1@kernel.org>
+To: Bjorn Helgaas <bhelgaas@google.com>
+Cc: Alex Deucher <alexander.deucher@amd.com>,
+ =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>,
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+ Lukas Wunner <lukas@wunner.de>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>,
+ David Woodhouse <dwmw2@infradead.org>, Lu Baolu <baolu.lu@linux.intel.com>,
+ Joerg Roedel <joro@8bytes.org>, Will Deacon <will@kernel.org>,
+ Robin Murphy <robin.murphy@arm.com>,
+ Alex Williamson <alex.williamson@redhat.com>,
+ Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
+ dri-devel@lists.freedesktop.org (open list:DRM DRIVERS),
+ linux-kernel@vger.kernel.org (open list),
+ iommu@lists.linux.dev (open list:INTEL IOMMU (VT-d)),
+ linux-pci@vger.kernel.org (open list:PCI SUBSYSTEM),
+ kvm@vger.kernel.org (open list:VFIO DRIVER),
+ linux-sound@vger.kernel.org (open list:SOUND),
+ Daniel Dadap <ddadap@nvidia.com>,
+ Mario Limonciello <mario.limonciello@amd.com>
+Subject: [PATCH v5 0/9] Adjust fbcon console device detection
+Date: Tue, 24 Jun 2025 15:30:33 -0500
+Message-ID: <20250624203042.1102346-1-superm1@kernel.org>
+X-Mailer: git-send-email 2.43.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20250624-b4-simple-panel-regression-v1-1-a5adf92a7c17@redhat.com>
-X-B4-Tracking: v=1; b=H4sIANAGW2gC/x3MQQqDQAxG4atI1g1oqiJepXQx1l8N2OmQgAji3
- Tu6/BbvHeQwhVNfHGTY1PUXM6pHQZ8lxBmsYzZJKU3ZSs1Dza7ftIJTiFjZMBv8yrgLeA5BOpk
- glAfJMOl+z1/v8/wDlerxC2wAAAA=
-X-Change-ID: 20250624-b4-simple-panel-regression-8ae3ba282fe2
-To: Neil Armstrong <neil.armstrong@linaro.org>, 
- Jessica Zhang <quic_jesszhan@quicinc.com>, 
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, 
- Luca Ceresoli <luca.ceresoli@bootlin.com>
-Cc: dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org, 
- Francesco Dolcini <francesco@dolcini.it>, 
- Anusha Srivatsa <asrivats@redhat.com>
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1750796000; l=7046;
- i=asrivats@redhat.com; s=20250122; h=from:subject:message-id;
- bh=kcL0cNSlO6mnJ6CE0453W1DJuh3tCx3/N4e0pmAMZ24=;
- b=Oync0rm63Wr+egSAoKVm0V/1mZPYmfkM+U8w49SDLCrXNtXYMqaO6Knl/tvZQimVOEqed1E4u
- CH8Rg+saix/DJnQAnr8fP2t579abWBMlSyOMCS8WAfOsJgs5qRSdxyG
-X-Developer-Key: i=asrivats@redhat.com; a=ed25519;
- pk=brnIHkBsUZEhyW6Zyn0U92AeIZ1psws/q8VFbIkf1AU=
-X-Scanned-By: MIMEDefang 3.4.1 on 10.30.177.111
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -86,175 +73,52 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Currently driver is checking for desc == &panel_dpi to do the DPI
-specific panel desc allocations. This looks hacky.
+From: Mario Limonciello <mario.limonciello@amd.com>
 
-The panel allocation in panel_simple_probe() breaks due to not having
-the desc for DPI scenario. This patch does the following:
+This series started out as changes to VGA arbiter to try to handle a case
+of a system with 2 GPUs that are not VGA devices [1].  This was discussed
+but decided not to overload the VGA arbiter for non VGA devices.
 
-- Rename panel_dpi_probe() to panel_dpi_get_desc() and call it before
-panel allocation. panel_dpi_get_desc() returns a panel desc unlike
-panel_dpi_probe() which returned an int. This way driver has a known
-connector type while allocating the panel.
-- panel_dpi_get_desc() returns a panel desc
-- Add a simple helper is_panel_dpi() to identify a simple DPI panel from
-a simple panel based on .compatible field
+Instead move the x86 specific detection of framebuffer resources into x86
+specific code that the fbcon can use to properly identify the primary
+device. This code is still called from the VGA arbiter, and the logic does
+not change there. To avoid regression default to VGA arbiter and only fall
+back to looking up with x86 specific detection method.
 
-Fixes: de04bb0089a9 ("drm/panel/panel-simple: Use the new allocation in place of devm_kzalloc()")
-Suggested-by: Luca Ceresoli <luca.ceresoli@bootlin.com>
-Suggested-by: Maxime Ripard <mripard@kernel.org>
-Cc: Francesco Dolcini <francesco@dolcini.it>
-Cc: Luca Ceresoli <luca.ceresoli@bootlin.com>
-Cc: Maxime Ripard <mripard@kernel.org>
-Signed-off-by: Anusha Srivatsa <asrivats@redhat.com>
----
-Seeing the below trace due to the changes introduced by:
-Commit de04bb0089a9 ("drm/panel/panel-simple: Use the new allocation in place of devm_kzalloc()")
+In order for userspace to also be able to discover which device was the
+primary video display device create a new sysfs file 'boot_display'.
 
-[   12.089274] ------------[ cut here ]------------
-[   12.089303] WARNING: CPU: 0 PID: 96 at drivers/gpu/drm/bridge/panel.c:377 devm_drm_of_get_bridge+0xac/0xb8
-[   12.130808] Modules linked in: v4l2_jpeg pwm_imx27(+) imx_vdoa gpu_sched panel_simple imx6_media(C) imx_media_common
-(C) videobuf2_dma_contig pwm_bl gpio_keys v4l2_mem2mem fuse ipv6 autofs4
-[   12.147774] CPU: 0 UID: 0 PID: 96 Comm: kworker/u8:3 Tainted: G         C          6.16.0-rc1+ #1 PREEMPT
-[   12.157446] Tainted: [C]=CRAP
-[   12.160418] Hardware name: Freescale i.MX6 Quad/DualLite (Device Tree)
-[   12.166953] Workqueue: events_unbound deferred_probe_work_func
-[   12.172805] Call trace:
-[   12.172815]  unwind_backtrace from show_stack+0x10/0x14
-[   12.180598]  show_stack from dump_stack_lvl+0x68/0x74
-[   12.185674]  dump_stack_lvl from __warn+0x7c/0xe0
-[   12.190407]  __warn from warn_slowpath_fmt+0x1b8/0x1c0
-[   12.195567]  warn_slowpath_fmt from devm_drm_of_get_bridge+0xac/0xb8
-[   12.201949]  devm_drm_of_get_bridge from imx_pd_probe+0x58/0x164
-[   12.207976]  imx_pd_probe from platform_probe+0x5c/0xb0
-[   12.213220]  platform_probe from really_probe+0xd0/0x3a4
-[   12.218551]  really_probe from __driver_probe_device+0x8c/0x1d4
-[   12.224486]  __driver_probe_device from driver_probe_device+0x30/0xc0
-[   12.230942]  driver_probe_device from __device_attach_driver+0x98/0x10c
-[   12.237572]  __device_attach_driver from bus_for_each_drv+0x90/0xe4
-[   12.243854]  bus_for_each_drv from __device_attach+0xa8/0x1c8
-[   12.249614]  __device_attach from bus_probe_device+0x88/0x8c
-[   12.255285]  bus_probe_device from deferred_probe_work_func+0x8c/0xcc
-[   12.261739]  deferred_probe_work_func from process_one_work+0x154/0x2dc
-[   12.268371]  process_one_work from worker_thread+0x250/0x3f0
-[   12.274043]  worker_thread from kthread+0x12c/0x24c
-[   12.278940]  kthread from ret_from_fork+0x14/0x28
-[   12.283660] Exception stack(0xd0be9fb0 to 0xd0be9ff8)
-[   12.288720] 9fa0:                                     00000000 00000000 00000000 00000000
-[   12.296906] 9fc0: 00000000 00000000 00000000 00000000 00000000 00000000 00000000 00000000
-[   12.305089] 9fe0: 00000000 00000000 00000000 00000000 00000013 00000000
-[   12.312050] ---[ end trace 0000000000000000 ]---
----
- drivers/gpu/drm/panel/panel-simple.c | 38 +++++++++++++++++++++---------------
- 1 file changed, 22 insertions(+), 16 deletions(-)
+A matching userspace implementation for this file is available here:
+https://gitlab.freedesktop.org/xorg/lib/libpciaccess/-/merge_requests/39
+https://gitlab.freedesktop.org/xorg/xserver/-/merge_requests/2038
 
-diff --git a/drivers/gpu/drm/panel/panel-simple.c b/drivers/gpu/drm/panel/panel-simple.c
-index 0a3b26bb4d731c54614e24e38018c308acd5367a..2e6fd545100388a9d53183a5621e7b8fdb4148ae 100644
---- a/drivers/gpu/drm/panel/panel-simple.c
-+++ b/drivers/gpu/drm/panel/panel-simple.c
-@@ -26,6 +26,7 @@
- #include <linux/i2c.h>
- #include <linux/media-bus-format.h>
- #include <linux/module.h>
-+#include <linux/of_device.h>
- #include <linux/of_platform.h>
- #include <linux/platform_device.h>
- #include <linux/pm_runtime.h>
-@@ -432,8 +433,7 @@ static const struct drm_panel_funcs panel_simple_funcs = {
- 
- static struct panel_desc panel_dpi;
- 
--static int panel_dpi_probe(struct device *dev,
--			   struct panel_simple *panel)
-+static struct panel_desc *panel_dpi_get_desc(struct device *dev)
- {
- 	struct display_timing *timing;
- 	const struct device_node *np;
-@@ -445,17 +445,17 @@ static int panel_dpi_probe(struct device *dev,
- 	np = dev->of_node;
- 	desc = devm_kzalloc(dev, sizeof(*desc), GFP_KERNEL);
- 	if (!desc)
--		return -ENOMEM;
-+		return NULL;
- 
- 	timing = devm_kzalloc(dev, sizeof(*timing), GFP_KERNEL);
- 	if (!timing)
--		return -ENOMEM;
-+		return NULL;
- 
- 	ret = of_get_display_timing(np, "panel-timing", timing);
- 	if (ret < 0) {
- 		dev_err(dev, "%pOF: no panel-timing node found for \"panel-dpi\" binding\n",
- 			np);
--		return ret;
-+		return NULL;
- 	}
- 
- 	desc->timings = timing;
-@@ -473,9 +473,7 @@ static int panel_dpi_probe(struct device *dev,
- 	/* We do not know the connector for the DT node, so guess it */
- 	desc->connector_type = DRM_MODE_CONNECTOR_DPI;
- 
--	panel->desc = desc;
--
--	return 0;
-+	return desc;
- }
- 
- #define PANEL_SIMPLE_BOUNDS_CHECK(to_check, bounds, field) \
-@@ -570,6 +568,15 @@ static int panel_simple_override_nondefault_lvds_datamapping(struct device *dev,
- 	return 0;
- }
- 
-+static bool is_panel_dpi(struct device *dev)
-+{
-+	const struct of_device_id *match;
-+
-+	match = of_match_device(dev->driver->of_match_table, dev);
-+
-+	return strcmp(match->compatible, "panel_dpi");
-+}
-+
- static int panel_simple_probe(struct device *dev, const struct panel_desc *desc)
- {
- 	struct panel_simple *panel;
-@@ -579,6 +586,10 @@ static int panel_simple_probe(struct device *dev, const struct panel_desc *desc)
- 	u32 bus_flags;
- 	int err;
- 
-+	/* Is this simple panel a DPI panel */
-+	if (is_panel_dpi(dev))
-+		desc = panel_dpi_get_desc(dev);
-+
- 	panel = devm_drm_panel_alloc(dev, struct panel_simple, base,
- 				     &panel_simple_funcs, desc->connector_type);
- 	if (IS_ERR(panel))
-@@ -611,16 +622,11 @@ static int panel_simple_probe(struct device *dev, const struct panel_desc *desc)
- 			return -EPROBE_DEFER;
- 	}
- 
--	if (desc == &panel_dpi) {
--		/* Handle the generic panel-dpi binding */
--		err = panel_dpi_probe(dev, panel);
--		if (err)
--			goto free_ddc;
--		desc = panel->desc;
--	} else {
-+	if (is_panel_dpi(dev))
-+		goto free_ddc;
-+	else
- 		if (!of_get_display_timing(dev->of_node, "panel-timing", &dt))
- 			panel_simple_parse_panel_timing_node(dev, panel, &dt);
--	}
- 
- 	if (desc->connector_type == DRM_MODE_CONNECTOR_LVDS) {
- 		/* Optional data-mapping property for overriding bus format */
+Mario Limonciello (9):
+  PCI: Add helper for checking if a PCI device is a display controller
+  vfio/pci: Use pci_is_display()
+  vga_switcheroo: Use pci_is_display()
+  iommu/vt-d: Use pci_is_display()
+  ALSA: hda: Use pci_is_display()
+  Fix access to video_is_primary_device() when compiled without
+    CONFIG_VIDEO
+  PCI/VGA: Replace vga_is_firmware_default() with a screen info check
+  fbcon: Use screen info to find primary device
+  PCI: Add a new 'boot_display' attribute
 
----
-base-commit: 10357824151262636fda879845f8b64553541106
-change-id: 20250624-b4-simple-panel-regression-8ae3ba282fe2
+ Documentation/ABI/testing/sysfs-bus-pci |  9 ++++++++
+ arch/parisc/include/asm/video.h         |  2 +-
+ arch/sparc/include/asm/video.h          |  2 ++
+ arch/x86/include/asm/video.h            |  2 ++
+ arch/x86/video/video-common.c           | 13 ++++++++++-
+ drivers/gpu/vga/vga_switcheroo.c        |  2 +-
+ drivers/iommu/intel/iommu.c             |  2 +-
+ drivers/pci/pci-sysfs.c                 | 14 ++++++++++++
+ drivers/pci/vgaarb.c                    | 29 ++-----------------------
+ drivers/vfio/pci/vfio_pci_igd.c         |  3 +--
+ include/linux/pci.h                     | 15 +++++++++++++
+ sound/hda/hdac_i915.c                   |  2 +-
+ sound/pci/hda/hda_intel.c               |  4 ++--
+ 13 files changed, 63 insertions(+), 36 deletions(-)
 
-Best regards,
 -- 
-Anusha Srivatsa <asrivats@redhat.com>
+2.43.0
 
