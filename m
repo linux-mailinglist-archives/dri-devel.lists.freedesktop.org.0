@@ -2,45 +2,45 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id AFA50AE5BF1
-	for <lists+dri-devel@lfdr.de>; Tue, 24 Jun 2025 07:45:25 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 37432AE5BF3
+	for <lists+dri-devel@lfdr.de>; Tue, 24 Jun 2025 07:45:27 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1451C10E4D9;
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9CD7010E4DB;
 	Tue, 24 Jun 2025 05:45:24 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=ti.com header.i=@ti.com header.b="sCaBgi3Z";
+	dkim=pass (1024-bit key; unprotected) header.d=ti.com header.i=@ti.com header.b="mB8EvmzJ";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from lelvem-ot02.ext.ti.com (lelvem-ot02.ext.ti.com [198.47.23.235])
- by gabe.freedesktop.org (Postfix) with ESMTPS id DA3FC10E4D7
- for <dri-devel@lists.freedesktop.org>; Tue, 24 Jun 2025 05:45:20 +0000 (UTC)
-Received: from fllvem-sh03.itg.ti.com ([10.64.41.86])
- by lelvem-ot02.ext.ti.com (8.15.2/8.15.2) with ESMTP id 55O5ita91699734;
- Tue, 24 Jun 2025 00:44:55 -0500
+Received: from fllvem-ot03.ext.ti.com (fllvem-ot03.ext.ti.com [198.47.19.245])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3C0BB10E4D9
+ for <dri-devel@lists.freedesktop.org>; Tue, 24 Jun 2025 05:45:21 +0000 (UTC)
+Received: from lelvem-sh01.itg.ti.com ([10.180.77.71])
+ by fllvem-ot03.ext.ti.com (8.15.2/8.15.2) with ESMTP id 55O5isbo1461670;
+ Tue, 24 Jun 2025 00:44:54 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
- s=ti-com-17Q1; t=1750743895;
- bh=Y/ioxQgw5NxX3d/2qfq2d6PvoOYWGX0nsj+uln0FJTo=;
+ s=ti-com-17Q1; t=1750743894;
+ bh=QKmSv3wno1HYmCX/bER/i4oGKbcRPYWiMqv6gdaZ54Y=;
  h=From:To:CC:Subject:Date:In-Reply-To:References;
- b=sCaBgi3ZYAoM/lt/nJv0ghmLNbJJK0MmPbSMyPLZinIkBpnVgGdiefq91T+VsGCVt
- Y46f0a9GFP7iQ2MxV/TCp5rzq1sr5oL8Klm7QK4CGyJ8JXvamegJDAaVntggNYa9L7
- xMuwqFtwdznONieQjpASBRXJDrNFwMITJrvYeLAw=
-Received: from DFLE105.ent.ti.com (dfle105.ent.ti.com [10.64.6.26])
- by fllvem-sh03.itg.ti.com (8.18.1/8.18.1) with ESMTPS id 55O5it0t3929002
+ b=mB8EvmzJDgs9VSB68OqaTDQSd1XCMiXFBZHrsdo1erEUFWIuO+5Ge1TQnltRAs8c2
+ 3L2PJ9ls3mKW6K1XcMWtVkn5k0YgfN7BaW703fETKa1OyZdeeNC7q+kXzu42F6qjBA
+ fn+088aDaQM0VqYn5guNaCNCuKi4UQ+/Zvo3q8xE=
+Received: from DLEE112.ent.ti.com (dlee112.ent.ti.com [157.170.170.23])
+ by lelvem-sh01.itg.ti.com (8.18.1/8.18.1) with ESMTPS id 55O5irQj1240895
  (version=TLSv1.2 cipher=ECDHE-RSA-AES128-SHA256 bits=128 verify=FAIL);
- Tue, 24 Jun 2025 00:44:55 -0500
-Received: from DFLE113.ent.ti.com (10.64.6.34) by DFLE105.ent.ti.com
- (10.64.6.26) with Microsoft SMTP Server (version=TLS1_2,
+ Tue, 24 Jun 2025 00:44:53 -0500
+Received: from DLEE107.ent.ti.com (157.170.170.37) by DLEE112.ent.ti.com
+ (157.170.170.23) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2507.55; Tue, 24
- Jun 2025 00:44:51 -0500
-Received: from lelvem-mr06.itg.ti.com (10.180.75.8) by DFLE113.ent.ti.com
- (10.64.6.34) with Microsoft SMTP Server (version=TLS1_2,
+ Jun 2025 00:44:53 -0500
+Received: from lelvem-mr06.itg.ti.com (10.180.75.8) by DLEE107.ent.ti.com
+ (157.170.170.37) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2507.55 via
- Frontend Transport; Tue, 24 Jun 2025 00:44:51 -0500
+ Frontend Transport; Tue, 24 Jun 2025 00:44:53 -0500
 Received: from localhost (jayesh-hp-z2-tower-g5-workstation.dhcp.ti.com
  [172.24.227.214])
- by lelvem-mr06.itg.ti.com (8.18.1/8.18.1) with ESMTP id 55O5ioLT961963;
- Tue, 24 Jun 2025 00:44:51 -0500
+ by lelvem-mr06.itg.ti.com (8.18.1/8.18.1) with ESMTP id 55O5iqeE961978;
+ Tue, 24 Jun 2025 00:44:52 -0500
 From: Jayesh Choudhary <j-choudhary@ti.com>
 To: <andrzej.hajda@intel.com>, <neil.armstrong@linaro.org>, <rfoss@kernel.org>,
  <Laurent.pinchart@ideasonboard.com>, <mripard@kernel.org>,
@@ -52,10 +52,10 @@ CC: <jonas@kwiboo.se>, <jernej.skrabec@gmail.com>,
  <luca.ceresoli@bootlin.com>, <viro@zeniv.linux.org.uk>,
  <andy.yan@rock-chips.com>, <linux@treblig.org>, <javierm@redhat.com>,
  <linux-kernel@vger.kernel.org>, <devarsht@ti.com>, <j-choudhary@ti.com>
-Subject: [PATCH v4 1/5] drm/bridge: cadence: cdns-mhdp8546-core: Remove legacy
- support for connector initialisation in bridge
-Date: Tue, 24 Jun 2025 11:14:44 +0530
-Message-ID: <20250624054448.192801-2-j-choudhary@ti.com>
+Subject: [PATCH v4 2/5] drm/bridge: cadence: cdns-mhdp8546*: Change
+ drm_connector from structure to pointer
+Date: Tue, 24 Jun 2025 11:14:45 +0530
+Message-ID: <20250624054448.192801-3-j-choudhary@ti.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20250624054448.192801-1-j-choudhary@ti.com>
 References: <20250624054448.192801-1-j-choudhary@ti.com>
@@ -78,244 +78,117 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Now that we have DBANC framework, remove the connector initialisation code
-as that piece of code is not called if DRM_BRIDGE_ATTACH_NO_CONNECTOR flag
-is used. Only TI K3 platforms consume this driver and tidss (their display
-controller) has this flag set. So this legacy support can be dropped.
+After adding DBANC framework, mhdp->connector is not initialised during
+bridge_attach(). The connector is however required in few driver calls
+like cdns_mhdp_hdcp_enable() and cdns_mhdp_modeset_retry_fn().
+Use drm_connector pointer instead of structure, set it in bridge_enable()
+and clear it in bridge_disable(), and make appropriate changes.
 
 Fixes: c932ced6b585 ("drm/tidss: Update encoder/bridge chain connect model")
 Signed-off-by: Jayesh Choudhary <j-choudhary@ti.com>
 ---
- .../drm/bridge/cadence/cdns-mhdp8546-core.c   | 187 +-----------------
- 1 file changed, 10 insertions(+), 177 deletions(-)
+ drivers/gpu/drm/bridge/cadence/cdns-mhdp8546-core.c | 12 ++++++------
+ drivers/gpu/drm/bridge/cadence/cdns-mhdp8546-core.h |  2 +-
+ drivers/gpu/drm/bridge/cadence/cdns-mhdp8546-hdcp.c |  8 ++++----
+ 3 files changed, 11 insertions(+), 11 deletions(-)
 
 diff --git a/drivers/gpu/drm/bridge/cadence/cdns-mhdp8546-core.c b/drivers/gpu/drm/bridge/cadence/cdns-mhdp8546-core.c
-index cb5f5a8c539a..6e78c337fdfa 100644
+index 6e78c337fdfa..1136daaa6c90 100644
 --- a/drivers/gpu/drm/bridge/cadence/cdns-mhdp8546-core.c
 +++ b/drivers/gpu/drm/bridge/cadence/cdns-mhdp8546-core.c
-@@ -739,12 +739,8 @@ static void cdns_mhdp_fw_cb(const struct firmware *fw, void *context)
- 	spin_lock(&mhdp->start_lock);
- 	bridge_attached = mhdp->bridge_attached;
- 	spin_unlock(&mhdp->start_lock);
--	if (bridge_attached) {
--		if (mhdp->connector.dev)
--			drm_kms_helper_hotplug_event(mhdp->bridge.dev);
--		else
--			drm_bridge_hpd_notify(&mhdp->bridge, cdns_mhdp_detect(mhdp));
--	}
-+	if (bridge_attached)
-+		drm_bridge_hpd_notify(&mhdp->bridge, cdns_mhdp_detect(mhdp));
- }
+@@ -1755,7 +1755,6 @@ static void cdns_mhdp_atomic_enable(struct drm_bridge *bridge,
+ 	struct cdns_mhdp_device *mhdp = bridge_to_mhdp(bridge);
+ 	struct cdns_mhdp_bridge_state *mhdp_state;
+ 	struct drm_crtc_state *crtc_state;
+-	struct drm_connector *connector;
+ 	struct drm_connector_state *conn_state;
+ 	struct drm_bridge_state *new_state;
+ 	const struct drm_display_mode *mode;
+@@ -1785,12 +1784,12 @@ static void cdns_mhdp_atomic_enable(struct drm_bridge *bridge,
+ 	cdns_mhdp_reg_write(mhdp, CDNS_DPTX_CAR,
+ 			    resp | CDNS_VIF_CLK_EN | CDNS_VIF_CLK_RSTN);
  
- static int cdns_mhdp_load_firmware(struct cdns_mhdp_device *mhdp)
-@@ -1444,56 +1440,6 @@ static const struct drm_edid *cdns_mhdp_edid_read(struct cdns_mhdp_device *mhdp,
- 	return drm_edid_read_custom(connector, cdns_mhdp_get_edid_block, mhdp);
- }
+-	connector = drm_atomic_get_new_connector_for_encoder(state,
+-							     bridge->encoder);
+-	if (WARN_ON(!connector))
++	mhdp->connector = drm_atomic_get_new_connector_for_encoder(state,
++								   bridge->encoder);
++	if (WARN_ON(!mhdp->connector))
+ 		goto out;
  
--static int cdns_mhdp_get_modes(struct drm_connector *connector)
--{
--	struct cdns_mhdp_device *mhdp = connector_to_mhdp(connector);
--	const struct drm_edid *drm_edid;
--	int num_modes;
--
--	if (!mhdp->plugged)
--		return 0;
--
--	drm_edid = cdns_mhdp_edid_read(mhdp, connector);
--
--	drm_edid_connector_update(connector, drm_edid);
--
--	if (!drm_edid) {
--		dev_err(mhdp->dev, "Failed to read EDID\n");
--		return 0;
--	}
--
--	num_modes = drm_edid_connector_add_modes(connector);
--	drm_edid_free(drm_edid);
--
--	/*
--	 * HACK: Warn about unsupported display formats until we deal
--	 *       with them correctly.
--	 */
--	if (connector->display_info.color_formats &&
--	    !(connector->display_info.color_formats &
--	      mhdp->display_fmt.color_format))
--		dev_warn(mhdp->dev,
--			 "%s: No supported color_format found (0x%08x)\n",
--			__func__, connector->display_info.color_formats);
--
--	if (connector->display_info.bpc &&
--	    connector->display_info.bpc < mhdp->display_fmt.bpc)
--		dev_warn(mhdp->dev, "%s: Display bpc only %d < %d\n",
--			 __func__, connector->display_info.bpc,
--			 mhdp->display_fmt.bpc);
--
--	return num_modes;
--}
--
--static int cdns_mhdp_connector_detect(struct drm_connector *conn,
--				      struct drm_modeset_acquire_ctx *ctx,
--				      bool force)
--{
--	struct cdns_mhdp_device *mhdp = connector_to_mhdp(conn);
--
--	return cdns_mhdp_detect(mhdp);
--}
--
- static u32 cdns_mhdp_get_bpp(struct cdns_mhdp_display_fmt *fmt)
- {
- 	u32 bpp;
-@@ -1547,114 +1493,6 @@ bool cdns_mhdp_bandwidth_ok(struct cdns_mhdp_device *mhdp,
- 	return true;
- }
+-	conn_state = drm_atomic_get_new_connector_state(state, connector);
++	conn_state = drm_atomic_get_new_connector_state(state, mhdp->connector);
+ 	if (WARN_ON(!conn_state))
+ 		goto out;
  
--static
--enum drm_mode_status cdns_mhdp_mode_valid(struct drm_connector *conn,
--					  const struct drm_display_mode *mode)
--{
--	struct cdns_mhdp_device *mhdp = connector_to_mhdp(conn);
--
--	mutex_lock(&mhdp->link_mutex);
--
--	if (!cdns_mhdp_bandwidth_ok(mhdp, mode, mhdp->link.num_lanes,
--				    mhdp->link.rate)) {
--		mutex_unlock(&mhdp->link_mutex);
--		return MODE_CLOCK_HIGH;
--	}
--
--	mutex_unlock(&mhdp->link_mutex);
--	return MODE_OK;
--}
--
--static int cdns_mhdp_connector_atomic_check(struct drm_connector *conn,
--					    struct drm_atomic_state *state)
--{
--	struct cdns_mhdp_device *mhdp = connector_to_mhdp(conn);
--	struct drm_connector_state *old_state, *new_state;
--	struct drm_crtc_state *crtc_state;
--	u64 old_cp, new_cp;
--
--	if (!mhdp->hdcp_supported)
--		return 0;
--
--	old_state = drm_atomic_get_old_connector_state(state, conn);
--	new_state = drm_atomic_get_new_connector_state(state, conn);
--	old_cp = old_state->content_protection;
--	new_cp = new_state->content_protection;
--
--	if (old_state->hdcp_content_type != new_state->hdcp_content_type &&
--	    new_cp != DRM_MODE_CONTENT_PROTECTION_UNDESIRED) {
--		new_state->content_protection = DRM_MODE_CONTENT_PROTECTION_DESIRED;
--		goto mode_changed;
--	}
--
--	if (!new_state->crtc) {
--		if (old_cp == DRM_MODE_CONTENT_PROTECTION_ENABLED)
--			new_state->content_protection = DRM_MODE_CONTENT_PROTECTION_DESIRED;
--		return 0;
--	}
--
--	if (old_cp == new_cp ||
--	    (old_cp == DRM_MODE_CONTENT_PROTECTION_DESIRED &&
--	     new_cp == DRM_MODE_CONTENT_PROTECTION_ENABLED))
--		return 0;
--
--mode_changed:
--	crtc_state = drm_atomic_get_new_crtc_state(state, new_state->crtc);
--	crtc_state->mode_changed = true;
--
--	return 0;
--}
--
--static const struct drm_connector_helper_funcs cdns_mhdp_conn_helper_funcs = {
--	.detect_ctx = cdns_mhdp_connector_detect,
--	.get_modes = cdns_mhdp_get_modes,
--	.mode_valid = cdns_mhdp_mode_valid,
--	.atomic_check = cdns_mhdp_connector_atomic_check,
--};
--
--static const struct drm_connector_funcs cdns_mhdp_conn_funcs = {
--	.fill_modes = drm_helper_probe_single_connector_modes,
--	.atomic_duplicate_state = drm_atomic_helper_connector_duplicate_state,
--	.atomic_destroy_state = drm_atomic_helper_connector_destroy_state,
--	.reset = drm_atomic_helper_connector_reset,
--	.destroy = drm_connector_cleanup,
--};
--
--static int cdns_mhdp_connector_init(struct cdns_mhdp_device *mhdp)
--{
--	u32 bus_format = MEDIA_BUS_FMT_RGB121212_1X36;
--	struct drm_connector *conn = &mhdp->connector;
--	struct drm_bridge *bridge = &mhdp->bridge;
--	int ret;
--
--	conn->polled = DRM_CONNECTOR_POLL_HPD;
--
--	ret = drm_connector_init(bridge->dev, conn, &cdns_mhdp_conn_funcs,
--				 DRM_MODE_CONNECTOR_DisplayPort);
--	if (ret) {
--		dev_err(mhdp->dev, "Failed to initialize connector with drm\n");
--		return ret;
--	}
--
--	drm_connector_helper_add(conn, &cdns_mhdp_conn_helper_funcs);
--
--	ret = drm_display_info_set_bus_formats(&conn->display_info,
--					       &bus_format, 1);
--	if (ret)
--		return ret;
--
--	ret = drm_connector_attach_encoder(conn, bridge->encoder);
--	if (ret) {
--		dev_err(mhdp->dev, "Failed to attach connector to encoder\n");
--		return ret;
--	}
--
--	if (mhdp->hdcp_supported)
--		ret = drm_connector_attach_content_protection_property(conn, true);
--
--	return ret;
--}
--
- static int cdns_mhdp_attach(struct drm_bridge *bridge,
- 			    struct drm_encoder *encoder,
- 			    enum drm_bridge_attach_flags flags)
-@@ -1671,9 +1509,11 @@ static int cdns_mhdp_attach(struct drm_bridge *bridge,
- 		return ret;
+@@ -1853,6 +1852,7 @@ static void cdns_mhdp_atomic_disable(struct drm_bridge *bridge,
+ 		cdns_mhdp_hdcp_disable(mhdp);
  
- 	if (!(flags & DRM_BRIDGE_ATTACH_NO_CONNECTOR)) {
--		ret = cdns_mhdp_connector_init(mhdp);
--		if (ret)
--			goto aux_unregister;
-+		ret = -EINVAL;
-+		dev_err(mhdp->dev,
-+			"Connector initialisation not supported in bridge_attach %d\n",
-+			ret);
-+		goto aux_unregister;
- 	}
+ 	mhdp->bridge_enabled = false;
++	mhdp->connector = NULL;
+ 	cdns_mhdp_reg_read(mhdp, CDNS_DP_FRAMER_GLOBAL_CONFIG, &resp);
+ 	resp &= ~CDNS_DP_FRAMER_EN;
+ 	resp |= CDNS_DP_NO_VIDEO_MODE;
+@@ -2133,7 +2133,7 @@ static void cdns_mhdp_modeset_retry_fn(struct work_struct *work)
  
- 	spin_lock(&mhdp->start_lock);
-@@ -2367,17 +2207,10 @@ static void cdns_mhdp_hpd_work(struct work_struct *work)
- 	struct cdns_mhdp_device *mhdp = container_of(work,
+ 	mhdp = container_of(work, typeof(*mhdp), modeset_retry_work);
+ 
+-	conn = &mhdp->connector;
++	conn = mhdp->connector;
+ 
+ 	/* Grab the locks before changing connector property */
+ 	mutex_lock(&conn->dev->mode_config.mutex);
+diff --git a/drivers/gpu/drm/bridge/cadence/cdns-mhdp8546-core.h b/drivers/gpu/drm/bridge/cadence/cdns-mhdp8546-core.h
+index bad2fc0c7306..b297db53ba28 100644
+--- a/drivers/gpu/drm/bridge/cadence/cdns-mhdp8546-core.h
++++ b/drivers/gpu/drm/bridge/cadence/cdns-mhdp8546-core.h
+@@ -375,7 +375,7 @@ struct cdns_mhdp_device {
+ 	 */
+ 	struct mutex link_mutex;
+ 
+-	struct drm_connector connector;
++	struct drm_connector *connector;
+ 	struct drm_bridge bridge;
+ 
+ 	struct cdns_mhdp_link link;
+diff --git a/drivers/gpu/drm/bridge/cadence/cdns-mhdp8546-hdcp.c b/drivers/gpu/drm/bridge/cadence/cdns-mhdp8546-hdcp.c
+index 42248f179b69..59f18c3281ef 100644
+--- a/drivers/gpu/drm/bridge/cadence/cdns-mhdp8546-hdcp.c
++++ b/drivers/gpu/drm/bridge/cadence/cdns-mhdp8546-hdcp.c
+@@ -394,7 +394,7 @@ static int _cdns_mhdp_hdcp_disable(struct cdns_mhdp_device *mhdp)
+ 	int ret;
+ 
+ 	dev_dbg(mhdp->dev, "[%s:%d] HDCP is being disabled...\n",
+-		mhdp->connector.name, mhdp->connector.base.id);
++		mhdp->connector->name, mhdp->connector->base.id);
+ 
+ 	ret = cdns_mhdp_hdcp_set_config(mhdp, 0, false);
+ 
+@@ -445,7 +445,7 @@ static int cdns_mhdp_hdcp_check_link(struct cdns_mhdp_device *mhdp)
+ 
+ 	dev_err(mhdp->dev,
+ 		"[%s:%d] HDCP link failed, retrying authentication\n",
+-		mhdp->connector.name, mhdp->connector.base.id);
++		mhdp->connector->name, mhdp->connector->base.id);
+ 
+ 	ret = _cdns_mhdp_hdcp_disable(mhdp);
+ 	if (ret) {
+@@ -487,13 +487,13 @@ static void cdns_mhdp_hdcp_prop_work(struct work_struct *work)
+ 	struct cdns_mhdp_device *mhdp = container_of(hdcp,
  						     struct cdns_mhdp_device,
- 						     hpd_work);
--	int ret;
+ 						     hdcp);
+-	struct drm_device *dev = mhdp->connector.dev;
++	struct drm_device *dev = mhdp->connector->dev;
+ 	struct drm_connector_state *state;
  
--	ret = cdns_mhdp_update_link_status(mhdp);
--	if (mhdp->connector.dev) {
--		if (ret < 0)
--			schedule_work(&mhdp->modeset_retry_work);
--		else
--			drm_kms_helper_hotplug_event(mhdp->bridge.dev);
--	} else {
--		drm_bridge_hpd_notify(&mhdp->bridge, cdns_mhdp_detect(mhdp));
--	}
-+	cdns_mhdp_update_link_status(mhdp);
-+
-+	drm_bridge_hpd_notify(&mhdp->bridge, cdns_mhdp_detect(mhdp));
- }
- 
- static int cdns_mhdp_probe(struct platform_device *pdev)
+ 	drm_modeset_lock(&dev->mode_config.connection_mutex, NULL);
+ 	mutex_lock(&mhdp->hdcp.mutex);
+ 	if (mhdp->hdcp.value != DRM_MODE_CONTENT_PROTECTION_UNDESIRED) {
+-		state = mhdp->connector.state;
++		state = mhdp->connector->state;
+ 		state->content_protection = mhdp->hdcp.value;
+ 	}
+ 	mutex_unlock(&mhdp->hdcp.mutex);
 -- 
 2.34.1
 
