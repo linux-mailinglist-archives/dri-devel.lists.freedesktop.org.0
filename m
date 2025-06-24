@@ -2,34 +2,34 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8C51FAE70BD
-	for <lists+dri-devel@lfdr.de>; Tue, 24 Jun 2025 22:31:01 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2BF7DAE70C0
+	for <lists+dri-devel@lfdr.de>; Tue, 24 Jun 2025 22:31:05 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2CDAF10E103;
-	Tue, 24 Jun 2025 20:30:58 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2C3AA10E124;
+	Tue, 24 Jun 2025 20:30:59 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="B0qF+VrE";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="e3hpFGob";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from sea.source.kernel.org (sea.source.kernel.org [172.234.252.31])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4DF1810E11F
- for <dri-devel@lists.freedesktop.org>; Tue, 24 Jun 2025 20:30:52 +0000 (UTC)
+Received: from tor.source.kernel.org (tor.source.kernel.org [172.105.4.254])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D7F7710E124
+ for <dri-devel@lists.freedesktop.org>; Tue, 24 Jun 2025 20:30:54 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by sea.source.kernel.org (Postfix) with ESMTP id 20A574AF28;
+ by tor.source.kernel.org (Postfix) with ESMTP id DB9ED6116E;
+ Tue, 24 Jun 2025 20:30:53 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 40E65C4CEE3;
  Tue, 24 Jun 2025 20:30:51 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id C63C1C4CEF0;
- Tue, 24 Jun 2025 20:30:48 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1750797051;
- bh=dwUS0NNQBo6ioFvBv9MvL8ShjmESObZeByXZvWYMJKk=;
+ s=k20201202; t=1750797053;
+ bh=ZUEaBNdA8Lm5/HmaCro4bOIyTqXr2dVXogleY25ibLU=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=B0qF+VrEpm9PcHkfA+Nr09IQ9DvuNyNUtKOhoAQbDQqjjE1ofB+JzuQpU3BCW4xJ7
- hGfy9RqOJtCwXX8UlpxxResPC8Jsk/+JIwnoBCnL1KXc8gmR6ABti7ZJq6zWJM1R0V
- cIZGceXaypx3YkPJ/m3ZzN9q6c5obCYNV30Qe/Ut29p5sWv9rhZHUkLEl/8BfyOIf5
- Yi+iUngbNtWhN++rX8XXemp4WvmP/S45lbcDvnjCAqa5gyaixX5HUFjDmsYH0Lt5T4
- nq1FE5r0WVSMeYeqiejWZwpPwEnAbD0flIRL0S0KHKfc28zJw1l5VOf6kEd6DTE+3Y
- tUSwq6UQaDvuw==
+ b=e3hpFGobv4QkWBmpS31l8K6Jt47ji95lqwQUQdP2JySMGVQ/9pZ3Zn4AYCbl8K6Dt
+ uUXKVnnb7oyXZiiql1LJEp59TNfF0BE8tVs8HPJ0aNuR8fLixKZPCqC32N/Ru/Uoy8
+ qjy6Zrh20+kHAoEYD6fgSWkX5VGU+Fh1ocuhoPV89JiUxNebcZo+TWz6U3HmzLC2ZU
+ P/5A5DcXENcpPvitZyoSIyi0bygFqnbkYOSRT0MwlvrRM6IlVVnLQJTHchrT0CFLIf
+ PmTH0I+GsOp+POkvv/2tgxWyNtal76I4LiWp1TZ4mYXii6eHDjhOAzal3QlNIqTOI+
+ dVy70n3EYNpdw==
 From: Mario Limonciello <superm1@kernel.org>
 To: Bjorn Helgaas <bhelgaas@google.com>
 Cc: Alex Deucher <alexander.deucher@amd.com>,
@@ -52,11 +52,10 @@ Cc: Alex Deucher <alexander.deucher@amd.com>,
  linux-sound@vger.kernel.org (open list:SOUND),
  Daniel Dadap <ddadap@nvidia.com>,
  Mario Limonciello <mario.limonciello@amd.com>,
- Simona Vetter <simona.vetter@ffwll.ch>
-Subject: [PATCH v5 1/9] PCI: Add helper for checking if a PCI device is a
- display controller
-Date: Tue, 24 Jun 2025 15:30:34 -0500
-Message-ID: <20250624203042.1102346-2-superm1@kernel.org>
+ Simona Vetter <simona.vetter@ffwll.ch>, Bjorn Helgaas <helgaas@kernel.org>
+Subject: [PATCH v5 2/9] vfio/pci: Use pci_is_display()
+Date: Tue, 24 Jun 2025 15:30:35 -0500
+Message-ID: <20250624203042.1102346-3-superm1@kernel.org>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <20250624203042.1102346-1-superm1@kernel.org>
 References: <20250624203042.1102346-1-superm1@kernel.org>
@@ -79,43 +78,31 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 From: Mario Limonciello <mario.limonciello@amd.com>
 
-Several places in the kernel do class shifting to match whether a
-PCI device is display class.  Introduce a helper for those places to
-use.
+The inline pci_is_display() helper does the same thing.  Use it.
 
+Acked-by: Alex Williamson <alex.williamson@redhat.com>
 Reviewed-by: Daniel Dadap <ddadap@nvidia.com>
 Reviewed-by: Simona Vetter <simona.vetter@ffwll.ch>
+Suggested-by: Bjorn Helgaas <helgaas@kernel.org>
 Signed-off-by: Mario Limonciello <mario.limonciello@amd.com>
 ---
- include/linux/pci.h | 15 +++++++++++++++
- 1 file changed, 15 insertions(+)
+ drivers/vfio/pci/vfio_pci_igd.c | 3 +--
+ 1 file changed, 1 insertion(+), 2 deletions(-)
 
-diff --git a/include/linux/pci.h b/include/linux/pci.h
-index 05e68f35f3923..e77754e43c629 100644
---- a/include/linux/pci.h
-+++ b/include/linux/pci.h
-@@ -744,6 +744,21 @@ static inline bool pci_is_vga(struct pci_dev *pdev)
- 	return false;
+diff --git a/drivers/vfio/pci/vfio_pci_igd.c b/drivers/vfio/pci/vfio_pci_igd.c
+index ef490a4545f48..988b6919c2c31 100644
+--- a/drivers/vfio/pci/vfio_pci_igd.c
++++ b/drivers/vfio/pci/vfio_pci_igd.c
+@@ -437,8 +437,7 @@ static int vfio_pci_igd_cfg_init(struct vfio_pci_core_device *vdev)
+ 
+ bool vfio_pci_is_intel_display(struct pci_dev *pdev)
+ {
+-	return (pdev->vendor == PCI_VENDOR_ID_INTEL) &&
+-	       ((pdev->class >> 16) == PCI_BASE_CLASS_DISPLAY);
++	return (pdev->vendor == PCI_VENDOR_ID_INTEL) && pci_is_display(pdev);
  }
  
-+/**
-+ * pci_is_display - Check if a PCI device is a display controller
-+ * @pdev: Pointer to the PCI device structure
-+ *
-+ * This function determines whether the given PCI device corresponds
-+ * to a display controller. Display controllers are typically used
-+ * for graphical output and are identified based on their class code.
-+ *
-+ * Return: true if the PCI device is a display controller, false otherwise.
-+ */
-+static inline bool pci_is_display(struct pci_dev *pdev)
-+{
-+	return (pdev->class >> 16) == PCI_BASE_CLASS_DISPLAY;
-+}
-+
- #define for_each_pci_bridge(dev, bus)				\
- 	list_for_each_entry(dev, &bus->devices, bus_list)	\
- 		if (!pci_is_bridge(dev)) {} else
+ int vfio_pci_igd_init(struct vfio_pci_core_device *vdev)
 -- 
 2.43.0
 
