@@ -2,55 +2,68 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5B57AAE6CFE
-	for <lists+dri-devel@lfdr.de>; Tue, 24 Jun 2025 18:54:34 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8D18BAE6CCC
+	for <lists+dri-devel@lfdr.de>; Tue, 24 Jun 2025 18:48:56 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C802810E0E5;
-	Tue, 24 Jun 2025 16:54:31 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 22F1B10E19C;
+	Tue, 24 Jun 2025 16:48:54 +0000 (UTC)
+Authentication-Results: gabe.freedesktop.org;
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="TfvzZR/f";
+	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-X-Greylist: delayed 590 seconds by postgrey-1.36 at gabe;
- Tue, 24 Jun 2025 16:54:30 UTC
-Received: from mx.skole.hr (mx1.hosting.skole.hr [161.53.165.185])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0FCAD10E0E5
- for <dri-devel@lists.freedesktop.org>; Tue, 24 Jun 2025 16:54:30 +0000 (UTC)
-Received: from mx1.hosting.skole.hr (localhost.localdomain [127.0.0.1])
- by mx.skole.hr (mx.skole.hr) with ESMTP id DC118820AF;
- Tue, 24 Jun 2025 18:44:33 +0200 (CEST)
-From: Duje =?UTF-8?B?TWloYW5vdmnEhw==?= <duje.mihanovic@skole.hr>
-To: lee@kernel.org, danielt@kernel.org, jingoohan1@gmail.com,
- neil.armstrong@linaro.org, jessica.zhang@oss.qualcomm.com,
- maarten.lankhorst@linux.intel.com, mripard@kernel.org, airlied@gmail.com,
- simona@ffwll.ch, fnkl.kernel@gmail.com, j@jannau.net, hdegoede@redhat.com,
- ilpo.jarvinen@linux.intel.com, sven@kernel.org, alyssa@rosenzweig.io,
- neal@gompa.dev, deller@gmx.de, support.opensource@diasemi.com,
- Thomas Zimmermann <tzimmermann@suse.de>
-Cc: dri-devel@lists.freedesktop.org, asahi@lists.linux.dev,
- platform-driver-x86@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
- linux-fbdev@vger.kernel.org, Thomas Zimmermann <tzimmermann@suse.de>
-Subject: Re: [PATCH 10/12] backlight: ktd2801: Include
- <linux/mod_devicetable.h>
-Date: Tue, 24 Jun 2025 18:41:23 +0200
-Message-ID: <2784921.mvXUDI8C0e@radijator>
-In-Reply-To: <20250618122436.379013-11-tzimmermann@suse.de>
-References: <20250618122436.379013-1-tzimmermann@suse.de>
- <20250618122436.379013-11-tzimmermann@suse.de>
+Received: from nyc.source.kernel.org (nyc.source.kernel.org [147.75.193.91])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 007F110E19C
+ for <dri-devel@lists.freedesktop.org>; Tue, 24 Jun 2025 16:48:52 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+ by nyc.source.kernel.org (Postfix) with ESMTP id C2AF3A51FFB;
+ Tue, 24 Jun 2025 16:48:48 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id A303AC4CEE3;
+ Tue, 24 Jun 2025 16:48:46 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1750783728;
+ bh=oQ1jbpZY26uLhcovpi99AHhjhynbQIDhCOwniw/kLP0=;
+ h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+ b=TfvzZR/fYpui/a9fNXGb7tsI/EUZhlLeCnYb27CR99Srqf6zNPIOsJlmfeTuFanQd
+ +U8LSrvF2KJfjmg9Dj8afnFHGuJNPLwcACdFl9oekBU5rVtPUCXwyKp49bEiA6va0G
+ D822dRBTWbaEg42k/S41DXH5Fm+CLGFZTkyzOG7ykSr4sOkWqV+nX+CXeB3OUOogMJ
+ +hsktnQLM+lh57CpY8wjn/nzK9UO55m2DoY0PiaAF+ylQ4aV6DjBd16hW7pTGD+Piy
+ 9tWuJ4Lfcrmp1JfhNZoShtc5/hVK1DzqJLhRd0eqhUmr1upBlQhxNkTsFcvNdSBGMt
+ ys6f6Kg5zVTRA==
+Message-ID: <939129a9-0a93-4539-b651-b08fcddf57b5@kernel.org>
+Date: Tue, 24 Jun 2025 11:48:45 -0500
 MIME-Version: 1.0
-Autocrypt: addr=duje.mihanovic@skole.hr; keydata=
- mDMEZokhzhYJKwYBBAHaRw8BAQdAWJZ0hsI/ytTqHGFV8x6tzd5sB596cTeeDB4CQsTf+wC0KER
- 1amUgTWloYW5vdmnEhyA8ZHVqZUBkdWplbWloYW5vdmljLnh5ej6ImQQTFgoAQRYhBG3/QdYN8x
- S1t2umMK0xk1JFj60DBQJmiSHOAhsDBQkJZgGABQsJCAcCAiICBhUKCQgLAgQWAgMBAh4HAheAA
- AoJEK0xk1JFj60D1GABAJVSorZdMOlrp/oQtCSH/G53NE56x/JHA8VX+ZQBd/H3AP4/EcUf6eef
- DUxVMh2bdkmuQKsVZGgOGiXpMksrVntWBrQpRHVqZSBNaWhhbm92acSHIDxkdWplLm1paGFub3Z
- pY0Bza29sZS5ocj6ImQQTFgoAQRYhBG3/QdYN8xS1t2umMK0xk1JFj60DBQJmiSH/AhsDBQkJZg
- GABQsJCAcCAiICBhUKCQgLAgQWAgMBAh4HAheAAAoJEK0xk1JFj60Dlw8A/i4lPOL7NaYoYePDq
- l8MaJaR9qoUi+D+HtD3t0Koi7ztAQCdizXbuqP3AVNxy5Gpb1ozgp9Xqh2MRcNmJCHA1YhWAbg4
- BGaJIc4SCisGAQQBl1UBBQEBB0DEc9JeA55OlZfWKgvmRgw6a/EpBQ8mDl6nQTBmnd1XHAMBCAe
- IfgQYFgoAJhYhBG3/QdYN8xS1t2umMK0xk1JFj60DBQJmiSHOAhsMBQkJZgGAAAoJEK0xk1JFj6
- 0DG5MA/iuo4l2GDEZ1Zf+XaS//8FwdXDO9nHkfbV2MHjF4NZXwAQDroMzBdMcqVvc8GABFlTTgG
- j7KrRDz2HwWNyF8ZeprAQ==
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset="utf-8"
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v4 7/8] PCI/VGA: Move check for firmware default out of
+ VGA arbiter
+To: Thomas Zimmermann <tzimmermann@suse.de>,
+ Bjorn Helgaas <bhelgaas@google.com>
+Cc: Alex Deucher <alexander.deucher@amd.com>,
+ =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+ Lukas Wunner <lukas@wunner.de>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, David Woodhouse <dwmw2@infradead.org>,
+ Lu Baolu <baolu.lu@linux.intel.com>, Joerg Roedel <joro@8bytes.org>,
+ Will Deacon <will@kernel.org>, Robin Murphy <robin.murphy@arm.com>,
+ Alex Williamson <alex.williamson@redhat.com>,
+ Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
+ "open list:DRM DRIVERS" <dri-devel@lists.freedesktop.org>,
+ open list <linux-kernel@vger.kernel.org>,
+ "open list:INTEL IOMMU (VT-d)" <iommu@lists.linux.dev>,
+ "open list:PCI SUBSYSTEM" <linux-pci@vger.kernel.org>,
+ "open list:VFIO DRIVER" <kvm@vger.kernel.org>,
+ "open list:SOUND" <linux-sound@vger.kernel.org>,
+ Daniel Dadap <ddadap@nvidia.com>,
+ Mario Limonciello <mario.limonciello@amd.com>
+References: <20250623184757.3774786-1-superm1@kernel.org>
+ <20250623184757.3774786-8-superm1@kernel.org>
+ <f0e70269-b55e-4ac8-b052-da092a177eda@suse.de>
+Content-Language: en-US
+From: Mario Limonciello <superm1@kernel.org>
+In-Reply-To: <f0e70269-b55e-4ac8-b052-da092a177eda@suse.de>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -66,34 +79,138 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wednesday, 18 June 2025 14:16:42 Central European Summer Time Thomas=20
-Zimmermann wrote:
-> Include <linux/mod_devicetable.h> to declare struct of_device_id.
-> Avoids dependency on backlight header to include it.
->=20
-> Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
-> ---
->  drivers/video/backlight/ktd2801-backlight.c | 1 +
->  1 file changed, 1 insertion(+)
->=20
-> diff --git a/drivers/video/backlight/ktd2801-backlight.c
-> b/drivers/video/backlight/ktd2801-backlight.c index
-> 0489b0615ceb..17eac1b3bce4 100644
-> --- a/drivers/video/backlight/ktd2801-backlight.c
-> +++ b/drivers/video/backlight/ktd2801-backlight.c
-> @@ -6,6 +6,7 @@
->  #include <linux/backlight.h>
->  #include <linux/gpio/consumer.h>
->  #include <linux/leds-expresswire.h>
-> +#include <linux/mod_devicetable.h>
->  #include <linux/platform_device.h>
->  #include <linux/property.h>
+On 6/24/25 4:21 AM, Thomas Zimmermann wrote:
+> 
+> 
+> Am 23.06.25 um 20:47 schrieb Mario Limonciello:
+>> From: Mario Limonciello <mario.limonciello@amd.com>
+>>
+>> The x86 specific check for whether a framebuffer belongs to a device
+>> works for display devices as well as VGA devices.  Callers to
+>> video_is_primary_device() can benefit from checking non-VGA display
+>> devices.
+>>
+>> Move the x86 specific check into x86 specific code, and adjust VGA
+>> arbiter to call that code as well. This allows fbcon to find the
+>> right PCI device on systems that don't have VGA devices.
+>>
+>> Suggested-by: Thomas Zimmermann <tzimmermann@suse.de>
+>> Signed-off-by: Mario Limonciello <mario.limonciello@amd.com>
+>> ---
+>> v4:
+>>   * use helper
+>> ---
+>>   arch/x86/video/video-common.c | 13 ++++++++++++-
+>>   drivers/pci/vgaarb.c          | 36 ++---------------------------------
+>>   2 files changed, 14 insertions(+), 35 deletions(-)
+>>
+>> diff --git a/arch/x86/video/video-common.c b/arch/x86/video/video- 
+>> common.c
+>> index 81fc97a2a837a..917568e4d7fb1 100644
+>> --- a/arch/x86/video/video-common.c
+>> +++ b/arch/x86/video/video-common.c
+>> @@ -9,6 +9,7 @@
+>>   #include <linux/module.h>
+>>   #include <linux/pci.h>
+>> +#include <linux/screen_info.h>
+>>   #include <linux/vgaarb.h>
+>>   #include <asm/video.h>
+>> @@ -27,6 +28,7 @@ EXPORT_SYMBOL(pgprot_framebuffer);
+>>   bool video_is_primary_device(struct device *dev)
+>>   {
+>> +    struct screen_info *si = &screen_info;
+>>       struct pci_dev *pdev;
+>>       if (!dev_is_pci(dev))
+>> @@ -34,7 +36,16 @@ bool video_is_primary_device(struct device *dev)
+>>       pdev = to_pci_dev(dev);
+>> -    return (pdev == vga_default_device());
+>> +    if (!pci_is_display(pdev))
+>> +        return false;
+>> +
+>> +    if (pdev == vga_default_device())
+>> +        return true;
+>> +
+>> +    if (pdev == screen_info_pci_dev(si))
+>> +        return true;
+>> +
+>> +    return false;
+>>   }
+>>   EXPORT_SYMBOL(video_is_primary_device);
+>> diff --git a/drivers/pci/vgaarb.c b/drivers/pci/vgaarb.c
+>> index 78748e8d2dbae..15ab58c70b016 100644
+>> --- a/drivers/pci/vgaarb.c
+>> +++ b/drivers/pci/vgaarb.c
+>> @@ -26,12 +26,12 @@
+>>   #include <linux/poll.h>
+>>   #include <linux/miscdevice.h>
+>>   #include <linux/slab.h>
+>> -#include <linux/screen_info.h>
+>>   #include <linux/vt.h>
+>>   #include <linux/console.h>
+>>   #include <linux/acpi.h>
+>>   #include <linux/uaccess.h>
+>>   #include <linux/vgaarb.h>
+>> +#include <asm/video.h>
+>>   static void vga_arbiter_notify_clients(void);
+>> @@ -554,38 +554,6 @@ void vga_put(struct pci_dev *pdev, unsigned int 
+>> rsrc)
+>>   }
+>>   EXPORT_SYMBOL(vga_put);
+>> -static bool vga_is_firmware_default(struct pci_dev *pdev)
+>> -{
+>> -#if defined(CONFIG_X86)
+>> -    u64 base = screen_info.lfb_base;
+>> -    u64 size = screen_info.lfb_size;
+>> -    struct resource *r;
+>> -    u64 limit;
+>> -
+>> -    /* Select the device owning the boot framebuffer if there is one */
+>> -
+>> -    if (screen_info.capabilities & VIDEO_CAPABILITY_64BIT_BASE)
+>> -        base |= (u64)screen_info.ext_lfb_base << 32;
+>> -
+>> -    limit = base + size;
+>> -
+>> -    /* Does firmware framebuffer belong to us? */
+>> -    pci_dev_for_each_resource(pdev, r) {
+>> -        if (resource_type(r) != IORESOURCE_MEM)
+>> -            continue;
+>> -
+>> -        if (!r->start || !r->end)
+>> -            continue;
+>> -
+>> -        if (base < r->start || limit >= r->end)
+>> -            continue;
+>> -
+>> -        return true;
+>> -    }
+>> -#endif
+>> -    return false;
+>> -}
+>> -
+>>   static bool vga_arb_integrated_gpu(struct device *dev)
+>>   {
+>>   #if defined(CONFIG_ACPI)
+>> @@ -623,7 +591,7 @@ static bool vga_is_boot_device(struct vga_device 
+>> *vgadev)
+>>       if (boot_vga && boot_vga->is_firmware_default)
+>>           return false;
+>> -    if (vga_is_firmware_default(pdev)) {
+>> +    if (video_is_primary_device(&pdev->dev)) {
+> 
+> Doesn't this generate a cyclic dependency between vgaarb and video? I 
+> find this call cycle hard to reason about because 
+> vgaarb_default_device() depends on the results of these boot-device 
+> tests. Maybe keep vga_is_firmware_default() and just replace its content 
+> with a call to screen_info_pci_dev().
+> Best regards
+> Thomas
 
-Acked-by: Duje Mihanovi=C4=87 <duje.mihanovic@skole.hr>
+OK, I'll do that, thanks.
 
-Regards,
-=2D-=20
-Duje
-
-
+> 
+>>           vgadev->is_firmware_default = true;
+>>           return true;
+>>       }
+> 
 
