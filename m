@@ -2,73 +2,69 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 242F2AE601E
-	for <lists+dri-devel@lfdr.de>; Tue, 24 Jun 2025 11:01:35 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6068CAE606C
+	for <lists+dri-devel@lfdr.de>; Tue, 24 Jun 2025 11:15:26 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E2E1510E35D;
-	Tue, 24 Jun 2025 09:01:31 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B550E89FD4;
+	Tue, 24 Jun 2025 09:15:24 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=ti.com header.i=@ti.com header.b="SpH1YQA5";
+	dkim=pass (1024-bit key; unprotected) header.d=redhat.com header.i=@redhat.com header.b="fpQGURUc";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from lelvem-ot01.ext.ti.com (lelvem-ot01.ext.ti.com [198.47.23.234])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8BD7C10E35D
- for <dri-devel@lists.freedesktop.org>; Tue, 24 Jun 2025 09:01:30 +0000 (UTC)
-Received: from fllvem-sh04.itg.ti.com ([10.64.41.54])
- by lelvem-ot01.ext.ti.com (8.15.2/8.15.2) with ESMTP id 55O90ZDm1122333;
- Tue, 24 Jun 2025 04:00:35 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
- s=ti-com-17Q1; t=1750755635;
- bh=esswBLe6SIahZaBqrIk0DlQE/Zgu8U6weX3OQF3nSyM=;
- h=Date:Subject:To:CC:References:From:In-Reply-To;
- b=SpH1YQA5UvGl5uBkOa3frH6j1qInLDq3/EXLsaL20MY997EVXlUDalMGfBShloSTK
- 8Pgy9Z+ef2FXouM6XsJ2U1iRP3/IEmHmP0PNfVXci3tKpdbfSMumTOI3Vb3mZVpjSU
- 700ggn7Q25vKM++enEhHcSs/DNGgYAWF9O4zUqc0=
-Received: from DLEE114.ent.ti.com (dlee114.ent.ti.com [157.170.170.25])
- by fllvem-sh04.itg.ti.com (8.18.1/8.18.1) with ESMTPS id 55O90YIa127208
- (version=TLSv1.2 cipher=ECDHE-RSA-AES128-SHA256 bits=128 verify=FAIL);
- Tue, 24 Jun 2025 04:00:34 -0500
-Received: from DLEE105.ent.ti.com (157.170.170.35) by DLEE114.ent.ti.com
- (157.170.170.25) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2507.55; Tue, 24
- Jun 2025 04:00:34 -0500
-Received: from lelvem-mr06.itg.ti.com (10.180.75.8) by DLEE105.ent.ti.com
- (157.170.170.35) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2507.55 via
- Frontend Transport; Tue, 24 Jun 2025 04:00:34 -0500
-Received: from [172.24.227.214] (jayesh-hp-z2-tower-g5-workstation.dhcp.ti.com
- [172.24.227.214])
- by lelvem-mr06.itg.ti.com (8.18.1/8.18.1) with ESMTP id 55O90RJs1232253;
- Tue, 24 Jun 2025 04:00:28 -0500
-Message-ID: <c36bd142-7a13-43e2-a392-cdbd45b4a66b@ti.com>
-Date: Tue, 24 Jun 2025 14:30:26 +0530
-MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v4 00/17] drm/bridge: cdns-dsi: Make it work a bit better
-To: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>, Jyri Sarha
- <jyri.sarha@iki.fi>, Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>,
+Received: from us-smtp-delivery-124.mimecast.com
+ (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 65EFD10E53D
+ for <dri-devel@lists.freedesktop.org>; Tue, 24 Jun 2025 09:15:20 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1750756519;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=RSfMZ1nHfNC+ISCEN7sRBSU6EdL8uqjDNRxVT2qKqq0=;
+ b=fpQGURUchHctqtWxl0UFbNG9n0YKVZW8kciIZ7zl/EsDWzBeO546xECwx1fZdT9ef+/mmJ
+ svIAFNb/jxGZt4vjxghnHbmqPi0o/1cRSwhSUdQq9exxcxX+S5iGqvkWkweHY3tdmUrsdj
+ V87MxY0LT0ZmIXU7gsTKitmZzjEF44o=
+Received: from mx-prod-mc-08.mail-002.prod.us-west-2.aws.redhat.com
+ (ec2-35-165-154-97.us-west-2.compute.amazonaws.com [35.165.154.97]) by
+ relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
+ cipher=TLS_AES_256_GCM_SHA384) id us-mta-653-o-Wein_EO7ugO5715e2OjA-1; Tue,
+ 24 Jun 2025 05:15:14 -0400
+X-MC-Unique: o-Wein_EO7ugO5715e2OjA-1
+X-Mimecast-MFC-AGG-ID: o-Wein_EO7ugO5715e2OjA_1750756512
+Received: from mx-prod-int-08.mail-002.prod.us-west-2.aws.redhat.com
+ (mx-prod-int-08.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.111])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+ (No client certificate requested)
+ by mx-prod-mc-08.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS
+ id 7180A1809C82; Tue, 24 Jun 2025 09:15:11 +0000 (UTC)
+Received: from hydra.redhat.com (unknown [10.45.224.209])
+ by mx-prod-int-08.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTP
+ id 5D02F180045C; Tue, 24 Jun 2025 09:15:03 +0000 (UTC)
+From: Jocelyn Falempe <jfalempe@redhat.com>
+To: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Jani Nikula <jani.nikula@linux.intel.com>,
+ Rodrigo Vivi <rodrigo.vivi@intel.com>,
+ Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
+ Tvrtko Ursulin <tursulin@ursulin.net>,
+ =?UTF-8?q?Ville=20Syrj=C3=A4l=C3=A4?= <ville.syrjala@linux.intel.com>,
  David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- Vinod Koul <vkoul@kernel.org>, Kishon Vijay Abraham I <kishon@kernel.org>,
- Andrzej Hajda <andrzej.hajda@intel.com>,
- Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>,
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
- Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>,
- Dmitry Baryshkov <lumag@kernel.org>
-CC: <dri-devel@lists.freedesktop.org>, <linux-kernel@vger.kernel.org>,
- <linux-phy@lists.infradead.org>, Francesco Dolcini <francesco@dolcini.it>,
- Aradhya Bhatia <aradhya.bhatia@linux.dev>,
- Devarsh Thakkar <devarsht@ti.com>,
- Parth Pancholi <parth.pancholi@toradex.com>
-References: <20250618-cdns-dsi-impro-v4-0-862c841dbe02@ideasonboard.com>
-Content-Language: en-US
-From: Jayesh Choudhary <j-choudhary@ti.com>
-In-Reply-To: <20250618-cdns-dsi-impro-v4-0-862c841dbe02@ideasonboard.com>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 7bit
-X-C2ProcessedOrg: 333ef613-75bf-4e12-a4b1-8e3623f5dcea
+ Christian Koenig <christian.koenig@amd.com>, Huang Rui <ray.huang@amd.com>,
+ Matthew Auld <matthew.auld@intel.com>,
+ Matthew Brost <matthew.brost@intel.com>,
+ Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>, intel-gfx@lists.freedesktop.org,
+ intel-xe@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org
+Cc: Jocelyn Falempe <jfalempe@redhat.com>
+Subject: [PATCH v11 00/11] drm/i915: Add drm_panic support
+Date: Tue, 24 Jun 2025 11:01:09 +0200
+Message-ID: <20250624091501.257661-1-jfalempe@redhat.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-Scanned-By: MIMEDefang 3.4.1 on 10.30.177.111
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -84,127 +80,111 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hello Tomi,
+This adds drm_panic support for i915 and xe driver.
 
-On 18/06/25 15:29, Tomi Valkeinen wrote:
-> While trying to get the cdns-dsi to work on Toradex's AM69 Aquila
-> platform, I hit multiple issues in the driver. Basicaly nothing worked
-> for with the board.
-> 
-> This series fixes those issues. While I itch to make much larger changes
-> to the cdns-dsi driver, I opted to keep this series relatively simple to
-> make the fixes more clear and possibly help with backporting.
-> 
-> The series also touches tidss, but those changes are not strictly
-> needed, and can be merged separately. And the series also touches
-> cdns-dphy, and those changes are needed.
-> 
-> This has been tested on Toradex AM69 Aquila (upstream) and AM62P Verdin
-> (Toradex's BSP), with:
-> - HDMI output using lontium lt8912b
-> - LVDS panel (sn65dsi84 + panel-lvds)
-> 
->   Tomi
-> 
-> Signed-off-by: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
-> ---
-> Changes in v4:
-> - Rebased on top of drm-misc-next, which has most of the dependencies
->    merged
-> - Moved one dependency, "drm/bridge: cdns-dsi: Fix the _atomic_check()"
->    into this series
-> - Dropped "drm/tidss: Adjust the pclk based on the HW capabilities".
->    This causes a regression with OLDI outputs, and is not strictly
->    required. Fixing this needs restructuring tidss clock handling.
+I've tested it on the 4 intel laptops I have at my disposal.
+ * Haswell with 128MB of eDRAM.
+ * Comet Lake  i7-10850H
+ * Raptor Lake i7-1370P (with DPT, and Y-tiling).
+ * Lunar Lake Ultra 5 228V (with DPT, and 4-tiling, and using the Xe driver.
 
-Here upon further investigating the issue for OLDI, that caused this
-patch to be dropped, I saw that it was due to the VP clock owned by
-OLDI driver. It does not actually go into the determine_rate() call
-like we would expect it to.
+I tested panic in both fbdev console and gnome desktop.
+I think it won't work yet on discrete GPU, but that can be added later.
 
-Tested on J784S4-EVM platform (along with the DSI support as posted in
-https://lore.kernel.org/all/20250624082619.324851-1-j-choudhary@ti.com/)
-I can see that display comes up for 800x600 and 1280x1024 resolution.
+Best regards,
+
+v2:
+ * Add the proper abstractions to build also for Xe.
+ * Fix dim checkpatch issues.
+
+v3:
+ * Add support for Y-tiled framebuffer when DPT is enabled.
+
+v4:
+ * Add support for Xe driver, which shares most of the code.
+ * Add support for 4-tiled framebuffer found in newest GPU.
+
+v5:
+ * Rebase on top of git@gitlab.freedesktop.org:drm/i915/kernel.git drm-intel-next
+ * Use struct intel_display instead of drm_i915_private.
+ * Use iosys_map for intel_bo_panic_map().
+
+v6:
+ * Rebase on top of git@gitlab.freedesktop.org:drm/i915/kernel.git drm-intel-next
+ * Use struct intel_display instead of drm_i915_private for intel_atomic_plane.c
+
+v7:
+ * Fix mismatch {} in intel_panic_flush() (Jani Nikula)
+ * Return int for i915_gem_object_panic_map() (Ville Syrjälä)
+ * Reword commit message about alignment/size when disabling tiling (Ville Syrjälä)
+
+v8:
+ * Use kmap_try_from_panic() instead of vmap, to access the framebuffer.
+ * Add ttm_bo_kmap_try_from_panic() for the xe driver, that uses ttm.
+ * Replace intel_bo_panic_map() with a setup() and finish() function,
+   to allow mapping only one page of teh framebuffer at a time.
+ * Configure psr to send the full framebuffer update.
+
+v9:
+ * Fix comment in ttm_bo_kmap_try_from_panic(), this can *only* be called
+   from the panic handler (Christian König)
+ * Fix missing kfree() for i915_panic_pages in i915_gem_object_panic_finish()
+   Also change i915_panic_pages allocation to kmalloc, as kvmalloc is not
+   safe to call from the panic handler.
+ * Fix dim checkpatch warnings.
+
+v10:
+ * Add a private field to struct drm_scanout_buffer
+ * Replace static variables with new fields in struct intel_framebuffer
+   (Maarten Lankhorst)
+ * Add error handling if i915_gem_object_panic_pages() returns NULL
+ * Declare struct drm_scanout_buffer instead of including <drm/drm_panic.h>
+   in intel_bo.h
+
+v11:
+ * Encapsulate the struct intel_framebuffer into a xe_framebuffer or
+   i915_framebuffer, to make it easier to add a struct xe_res_cursor
+   to support discrete GPU later.
 
 
-Tested-by: Jayesh Choudhary <j-choudhary@ti.com>
+Jocelyn Falempe (11):
+  drm/panic: Add a private field to struct drm_scanout_buffer
+  drm/i915/fbdev: Add intel_fbdev_get_map()
+  drm/i915/display/i9xx: Add a disable_tiling() for i9xx planes
+  drm/i915/display: Add a disable_tiling() for skl planes
+  drm/ttm: Add ttm_bo_kmap_try_from_panic()
+  drm/i915: Add intel_bo_alloc_framebuffer()
+  drm/i915: Add intel_bo_panic_setup() and intel_bo_panic_finish()
+  drm/i915/display: Add drm_panic support
+  drm/i915/display: Add drm_panic support for Y-tiling with DPT
+  drm/i915/display: Add drm_panic support for 4-tiling with DPT
+  drm/i915/psr: Add intel_psr2_panic_force_full_update
+
+ drivers/gpu/drm/i915/display/i9xx_plane.c     |  26 ++-
+ drivers/gpu/drm/i915/display/intel_bo.c       |  17 ++
+ drivers/gpu/drm/i915/display/intel_bo.h       |   5 +
+ .../drm/i915/display/intel_display_types.h    |   4 +
+ drivers/gpu/drm/i915/display/intel_fb.c       |   2 +-
+ drivers/gpu/drm/i915/display/intel_fb_pin.c   |   5 +
+ drivers/gpu/drm/i915/display/intel_fb_pin.h   |   2 +
+ drivers/gpu/drm/i915/display/intel_fbdev.c    |   5 +
+ drivers/gpu/drm/i915/display/intel_fbdev.h    |   6 +-
+ drivers/gpu/drm/i915/display/intel_plane.c    | 170 +++++++++++++++++-
+ drivers/gpu/drm/i915/display/intel_psr.c      |  20 +++
+ drivers/gpu/drm/i915/display/intel_psr.h      |   2 +
+ .../drm/i915/display/skl_universal_plane.c    |  29 ++-
+ drivers/gpu/drm/i915/gem/i915_gem_object.h    |   6 +
+ drivers/gpu/drm/i915/gem/i915_gem_pages.c     | 142 +++++++++++++++
+ drivers/gpu/drm/i915/i915_vma.h               |   5 +
+ drivers/gpu/drm/ttm/ttm_bo_util.c             |  27 +++
+ drivers/gpu/drm/xe/display/intel_bo.c         |  91 ++++++++++
+ drivers/gpu/drm/xe/display/xe_fb_pin.c        |   5 +
+ include/drm/drm_panic.h                       |   6 +
+ include/drm/ttm/ttm_bo.h                      |   1 +
+ 21 files changed, 571 insertions(+), 5 deletions(-)
 
 
-I observed that we still need something like drm_mode_set_crtcinfo()
-to propagate correct crtc_* fields even when we do not call round_rate()
-Since mode_fixup() is not preferred now, we need it in atomic_check()
-like you had it in v3:[3/17]
+base-commit: 266907bb491f2bdd731139792b5a5056b6d0a482
+-- 
+2.49.0
 
-I have posted a delta patch on top of this series:
-https://lore.kernel.org/all/20250624080402.302526-1-j-choudhary@ti.com/
-that doe sit and helps in further enabling other modes.
-
-Warm Regards,
-Jayesh
-
-
-
-> - Link to v3: https://lore.kernel.org/r/20250414-cdns-dsi-impro-v3-0-4e52551d4f07@ideasonboard.com
-> 
-> Changes in v3:
-> - Add Aradhya's "drm/bridge: cdns-dsi: Fix the _atomic_check()" to the
->    dependencies
-> - The above patch from Aradhya allowed adding "drm/bridge: cdns-dsi:
->    Drop crtc_* code", which resulted in quite large changes in the
->    commits, even if the end result doesn't really differ.
-> - Reordered commits to decrease back-and-forth (e.g. fixing something in
->    a a code that will be removed in the next commits)
-> - The reordering caused quite big changes in the commits (even if the
->    final end result is more or less the same), so I chose not to add
->    tested-by tags.
-> - Rename 'cdns_get_dphy_pll_cfg' to 'cdns_dphy_get_pll_cfg'
-> - Use div_u64() instead of div64_u64()
-> - Drop "Fail if HS rate changed when validating PHY config". This was
->    too strict, as clock rounding (especially with DRM's 1kHz
->    resolution...) leads to clock rates that do not match exactly.
->    However, the rate mismatch should be fine as the commits adjust the
->    pixel clock, and the resulting differences should be so small that we
->    can't even improve the timings match by adjusting the DSI HFP, as the
->    adjustment rounds to 0.
-> - Link to v2: https://lore.kernel.org/r/20250402-cdns-dsi-impro-v2-0-4a093eaa5e27@ideasonboard.com
-> 
-> Changes in v2:
-> - Change the tidss clock adjustment from mode_fixup() to atomic_check()
-> - Link to v1: https://lore.kernel.org/r/20250320-cdns-dsi-impro-v1-0-725277c5f43b@ideasonboard.com
-> 
-> ---
-> Aradhya Bhatia (1):
->        drm/bridge: cdns-dsi: Fix the _atomic_check()
-> 
-> Tomi Valkeinen (16):
->        drm/tidss: Fix missing includes and struct decls
->        drm/tidss: Use the crtc_* timings when programming the HW
->        phy: cdns-dphy: Store hs_clk_rate and return it
->        phy: cdns-dphy: Remove leftover code
->        drm/bridge: cdns-dsi: Remove extra line at the end of the file
->        drm/bridge: cdns-dsi: Drop crtc_* code
->        drm/bridge: cdns-dsi: Remove broken fifo emptying check
->        drm/bridge: cdns-dsi: Drop checks that shouldn't be in .mode_valid()
->        drm/bridge: cdns-dsi: Update htotal in cdns_dsi_mode2cfg()
->        drm/bridge: cdns-dsi: Drop cdns_dsi_adjust_phy_config()
->        drm/bridge: cdns-dsi: Adjust mode to negative syncs
->        drm/bridge: cdns-dsi: Fix REG_WAKEUP_TIME value
->        drm/bridge: cdns-dsi: Use video mode and clean up cdns_dsi_mode2cfg()
->        drm/bridge: cdns-dsi: Fix event mode
->        drm/bridge: cdns-dsi: Tune adjusted_mode->clock according to dsi needs
->        drm/bridge: cdns-dsi: Don't fail on MIPI_DSI_MODE_VIDEO_BURST
-> 
->   drivers/gpu/drm/bridge/cadence/cdns-dsi-core.c | 211 +++++++++++--------------
->   drivers/gpu/drm/tidss/tidss_crtc.c             |   2 +-
->   drivers/gpu/drm/tidss/tidss_dispc.c            |  16 +-
->   drivers/gpu/drm/tidss/tidss_dispc.h            |   3 +
->   drivers/gpu/drm/tidss/tidss_drv.h              |   2 +
->   drivers/gpu/drm/tidss/tidss_plane.h            |   2 +
->   drivers/gpu/drm/tidss/tidss_scale_coefs.h      |   2 +
->   drivers/phy/cadence/cdns-dphy.c                |  24 ++-
->   8 files changed, 115 insertions(+), 147 deletions(-)
-> ---
-> base-commit: 261a603062a87bad0b54904c76dacb15fa126c74
-> change-id: 20250320-cdns-dsi-impro-3d8fbd7848d1
-> 
-> Best regards,
