@@ -2,33 +2,37 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id A58C2AE63A3
-	for <lists+dri-devel@lfdr.de>; Tue, 24 Jun 2025 13:35:34 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 13A58AE63A7
+	for <lists+dri-devel@lfdr.de>; Tue, 24 Jun 2025 13:35:37 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 39A4810E574;
-	Tue, 24 Jun 2025 11:35:27 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 02FF910E57A;
+	Tue, 24 Jun 2025 11:35:28 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from rtg-sunil-navi33.amd.com (unknown [165.204.156.251])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 79CF610E570;
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 833F210E571;
  Tue, 24 Jun 2025 11:35:25 +0000 (UTC)
 Received: from rtg-sunil-navi33.amd.com (localhost [127.0.0.1])
  by rtg-sunil-navi33.amd.com (8.15.2/8.15.2/Debian-22ubuntu3) with ESMTP id
- 55OBZ4LI2323014; Tue, 24 Jun 2025 17:05:04 +0530
+ 55OBZ5WT2323025; Tue, 24 Jun 2025 17:05:05 +0530
 Received: (from sunil@localhost)
- by rtg-sunil-navi33.amd.com (8.15.2/8.15.2/Submit) id 55OBZ3HM2323007;
- Tue, 24 Jun 2025 17:05:03 +0530
+ by rtg-sunil-navi33.amd.com (8.15.2/8.15.2/Submit) id 55OBZ5F02323024;
+ Tue, 24 Jun 2025 17:05:05 +0530
 From: Sunil Khatri <sunil.khatri@amd.com>
 To: =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>,
  dri-devel@lists.freedesktop.org
 Cc: amd-gfx@lists.freedesktop.org, simona@ffwll.ch, tzimmermann@suse.de,
  tursulin@ursulin.net, phasta@kernel.org, dakr@kernel.org,
  Sunil Khatri <sunil.khatri@amd.com>
-Subject: [PATCH v5 1/5] drm: move the debugfs accel driver code to drm layer
-Date: Tue, 24 Jun 2025 17:04:50 +0530
-Message-Id: <20250624113454.2322935-1-sunil.khatri@amd.com>
+Subject: [PATCH v5 2/5] drm: move debugfs functionality from drm_drv.c to
+ drm_debugfs.c
+Date: Tue, 24 Jun 2025 17:04:51 +0530
+Message-Id: <20250624113454.2322935-2-sunil.khatri@amd.com>
 X-Mailer: git-send-email 2.34.1
+In-Reply-To: <20250624113454.2322935-1-sunil.khatri@amd.com>
+References: <20250624113454.2322935-1-sunil.khatri@amd.com>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -45,126 +49,222 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-move the debugfs accel driver code to the drm layer.
-This is first inline change to move the debugfs
-related changes for drm to drm_debugfs.c
+move the debugfs functions from drm_drv.c to drm_debugfs.c
 
+move this root node to the debugfs for easily handling
+of future requirements to add more information in the
+root directory and one of which is planned to have
+directories for each client in the root directory
+which is dri.
+
+Suggested-by: Christian König <christian.koenig@amd.com>
 Signed-off-by: Sunil Khatri <sunil.khatri@amd.com>
 ---
- drivers/accel/drm_accel.c | 16 ----------------
- drivers/gpu/drm/drm_drv.c |  6 +++++-
- include/drm/drm_accel.h   |  5 -----
- 3 files changed, 5 insertions(+), 22 deletions(-)
+ drivers/gpu/drm/drm_debugfs.c  | 37 ++++++++++++++++++++++++++++------
+ drivers/gpu/drm/drm_drv.c      | 19 ++++++-----------
+ drivers/gpu/drm/drm_internal.h |  6 ++----
+ include/drm/drm_drv.h          | 24 ++++++++++++++++++++--
+ 4 files changed, 61 insertions(+), 25 deletions(-)
 
-diff --git a/drivers/accel/drm_accel.c b/drivers/accel/drm_accel.c
-index aa826033b0ce..ca3357acd127 100644
---- a/drivers/accel/drm_accel.c
-+++ b/drivers/accel/drm_accel.c
-@@ -20,8 +20,6 @@
+diff --git a/drivers/gpu/drm/drm_debugfs.c b/drivers/gpu/drm/drm_debugfs.c
+index 2d43bda82887..a227903c29c4 100644
+--- a/drivers/gpu/drm/drm_debugfs.c
++++ b/drivers/gpu/drm/drm_debugfs.c
+@@ -44,6 +44,9 @@
+ #include "drm_crtc_internal.h"
+ #include "drm_internal.h"
  
- DEFINE_XARRAY_ALLOC(accel_minors_xa);
- 
--static struct dentry *accel_debugfs_root;
--
- static const struct device_type accel_sysfs_device_minor = {
- 	.name = "accel_minor"
- };
-@@ -73,17 +71,6 @@ static const struct drm_info_list accel_debugfs_list[] = {
- };
- #define ACCEL_DEBUGFS_ENTRIES ARRAY_SIZE(accel_debugfs_list)
- 
--/**
-- * accel_debugfs_init() - Initialize debugfs for device
-- * @dev: Pointer to the device instance.
-- *
-- * This function creates a root directory for the device in debugfs.
-- */
--void accel_debugfs_init(struct drm_device *dev)
--{
--	drm_debugfs_dev_init(dev, accel_debugfs_root);
--}
--
- /**
-  * accel_debugfs_register() - Register debugfs for device
-  * @dev: Pointer to the device instance.
-@@ -194,7 +181,6 @@ static const struct file_operations accel_stub_fops = {
- void accel_core_exit(void)
- {
- 	unregister_chrdev(ACCEL_MAJOR, "accel");
--	debugfs_remove(accel_debugfs_root);
- 	accel_sysfs_destroy();
- 	WARN_ON(!xa_empty(&accel_minors_xa));
++static struct dentry *accel_debugfs_root;
++static struct dentry *drm_debugfs_root;
++
+ /***************************************************
+  * Initialization, etc.
+  **************************************************/
+@@ -286,16 +289,39 @@ int drm_debugfs_remove_files(const struct drm_info_list *files, int count,
  }
-@@ -209,8 +195,6 @@ int __init accel_core_init(void)
- 		goto error;
- 	}
+ EXPORT_SYMBOL(drm_debugfs_remove_files);
  
--	accel_debugfs_root = debugfs_create_dir("accel", NULL);
--
- 	ret = register_chrdev(ACCEL_MAJOR, "accel", &accel_stub_fops);
- 	if (ret < 0)
- 		DRM_ERROR("Cannot register ACCEL major: %d\n", ret);
++void drm_debugfs_init_root(void)
++{
++	drm_debugfs_root = debugfs_create_dir("dri", NULL);
++}
++
++void drm_debugfs_remove_root(void)
++{
++	debugfs_remove(drm_debugfs_root);
++}
++
++void drm_debugfs_init_accel_root(void)
++{
++	accel_debugfs_root = debugfs_create_dir("accel", NULL);
++}
++
++void drm_debugfs_remove_accel_root(void)
++{
++	debugfs_remove(accel_debugfs_root);
++}
++
++
+ /**
+  * drm_debugfs_dev_init - create debugfs directory for the device
+  * @dev: the device which we want to create the directory for
+- * @root: the parent directory depending on the device type
+  *
+  * Creates the debugfs directory for the device under the given root directory.
+  */
+-void drm_debugfs_dev_init(struct drm_device *dev, struct dentry *root)
++void drm_debugfs_dev_init(struct drm_device *dev)
+ {
+-	dev->debugfs_root = debugfs_create_dir(dev->unique, root);
++	if (drm_core_check_feature(dev, DRIVER_COMPUTE_ACCEL))
++		dev->debugfs_root = debugfs_create_dir(dev->unique, accel_debugfs_root);
++	else
++		dev->debugfs_root = debugfs_create_dir(dev->unique, drm_debugfs_root);
+ }
+ 
+ /**
+@@ -322,14 +348,13 @@ void drm_debugfs_dev_register(struct drm_device *dev)
+ 		drm_atomic_debugfs_init(dev);
+ }
+ 
+-int drm_debugfs_register(struct drm_minor *minor, int minor_id,
+-			 struct dentry *root)
++int drm_debugfs_register(struct drm_minor *minor, int minor_id)
+ {
+ 	struct drm_device *dev = minor->dev;
+ 	char name[64];
+ 
+ 	sprintf(name, "%d", minor_id);
+-	minor->debugfs_symlink = debugfs_create_symlink(name, root,
++	minor->debugfs_symlink = debugfs_create_symlink(name, drm_debugfs_root,
+ 							dev->unique);
+ 
+ 	/* TODO: Only for compatibility with drivers */
 diff --git a/drivers/gpu/drm/drm_drv.c b/drivers/gpu/drm/drm_drv.c
-index 17fc5dc708f4..5d57b622f9aa 100644
+index 5d57b622f9aa..db19aef9cfd2 100644
 --- a/drivers/gpu/drm/drm_drv.c
 +++ b/drivers/gpu/drm/drm_drv.c
-@@ -70,6 +70,7 @@ DEFINE_XARRAY_ALLOC(drm_minors_xa);
+@@ -69,9 +69,6 @@ DEFINE_XARRAY_ALLOC(drm_minors_xa);
+  */
  static bool drm_core_init_complete;
  
- static struct dentry *drm_debugfs_root;
-+static struct dentry *accel_debugfs_root;
- 
+-static struct dentry *drm_debugfs_root;
+-static struct dentry *accel_debugfs_root;
+-
  DEFINE_STATIC_SRCU(drm_unplug_srcu);
  
-@@ -752,7 +753,7 @@ static int drm_dev_init(struct drm_device *dev,
+ /*
+@@ -184,8 +181,7 @@ static int drm_minor_register(struct drm_device *dev, enum drm_minor_type type)
+ 		return 0;
+ 
+ 	if (minor->type != DRM_MINOR_ACCEL) {
+-		ret = drm_debugfs_register(minor, minor->index,
+-					   drm_debugfs_root);
++		ret = drm_debugfs_register(minor, minor->index);
+ 		if (ret) {
+ 			DRM_ERROR("DRM: Failed to initialize /sys/kernel/debug/dri.\n");
+ 			goto err_debugfs;
+@@ -752,10 +748,7 @@ static int drm_dev_init(struct drm_device *dev,
+ 		goto err;
  	}
  
- 	if (drm_core_check_feature(dev, DRIVER_COMPUTE_ACCEL))
--		accel_debugfs_init(dev);
-+		drm_debugfs_dev_init(dev, accel_debugfs_root);
- 	else
- 		drm_debugfs_dev_init(dev, drm_debugfs_root);
+-	if (drm_core_check_feature(dev, DRIVER_COMPUTE_ACCEL))
+-		drm_debugfs_dev_init(dev, accel_debugfs_root);
+-	else
+-		drm_debugfs_dev_init(dev, drm_debugfs_root);
++	drm_debugfs_dev_init(dev);
  
-@@ -1166,6 +1167,7 @@ static void drm_core_exit(void)
+ 	return 0;
+ 
+@@ -1167,10 +1160,10 @@ static void drm_core_exit(void)
  {
  	drm_privacy_screen_lookup_exit();
  	drm_panic_exit();
-+	debugfs_remove(accel_debugfs_root);
+-	debugfs_remove(accel_debugfs_root);
++	drm_debugfs_remove_accel_root();
  	accel_core_exit();
  	unregister_chrdev(DRM_MAJOR, "drm");
- 	debugfs_remove(drm_debugfs_root);
-@@ -1193,6 +1195,8 @@ static int __init drm_core_init(void)
+-	debugfs_remove(drm_debugfs_root);
++	drm_debugfs_remove_root();
+ 	drm_sysfs_destroy();
+ 	WARN_ON(!xa_empty(&drm_minors_xa));
+ 	drm_connector_ida_destroy();
+@@ -1189,13 +1182,13 @@ static int __init drm_core_init(void)
+ 		goto error;
+ 	}
+ 
+-	drm_debugfs_root = debugfs_create_dir("dri", NULL);
++	drm_debugfs_init_root();
+ 
+ 	ret = register_chrdev(DRM_MAJOR, "drm", &drm_stub_fops);
  	if (ret < 0)
  		goto error;
  
-+	accel_debugfs_root = debugfs_create_dir("accel", NULL);
-+
+-	accel_debugfs_root = debugfs_create_dir("accel", NULL);
++	drm_debugfs_init_accel_root();
+ 
  	ret = accel_core_init();
  	if (ret < 0)
- 		goto error;
-diff --git a/include/drm/drm_accel.h b/include/drm/drm_accel.h
-index 038ccb02f9a3..20a665ec6f16 100644
---- a/include/drm/drm_accel.h
-+++ b/include/drm/drm_accel.h
-@@ -58,7 +58,6 @@ void accel_core_exit(void);
- int accel_core_init(void);
- void accel_set_device_instance_params(struct device *kdev, int index);
- int accel_open(struct inode *inode, struct file *filp);
--void accel_debugfs_init(struct drm_device *dev);
- void accel_debugfs_register(struct drm_device *dev);
+diff --git a/drivers/gpu/drm/drm_internal.h b/drivers/gpu/drm/drm_internal.h
+index b2b6a8e49dda..d2d8e72f32d9 100644
+--- a/drivers/gpu/drm/drm_internal.h
++++ b/drivers/gpu/drm/drm_internal.h
+@@ -186,8 +186,7 @@ void drm_gem_vunmap(struct drm_gem_object *obj, struct iosys_map *map);
+ #if defined(CONFIG_DEBUG_FS)
+ void drm_debugfs_dev_fini(struct drm_device *dev);
+ void drm_debugfs_dev_register(struct drm_device *dev);
+-int drm_debugfs_register(struct drm_minor *minor, int minor_id,
+-			 struct dentry *root);
++int drm_debugfs_register(struct drm_minor *minor, int minor_id);
+ void drm_debugfs_unregister(struct drm_minor *minor);
+ void drm_debugfs_connector_add(struct drm_connector *connector);
+ void drm_debugfs_connector_remove(struct drm_connector *connector);
+@@ -205,8 +204,7 @@ static inline void drm_debugfs_dev_register(struct drm_device *dev)
+ {
+ }
  
+-static inline int drm_debugfs_register(struct drm_minor *minor, int minor_id,
+-				       struct dentry *root)
++static inline int drm_debugfs_register(struct drm_minor *minor, int minor_id)
+ {
+ 	return 0;
+ }
+diff --git a/include/drm/drm_drv.h b/include/drm/drm_drv.h
+index a43d707b5f36..7964dd878144 100644
+--- a/include/drm/drm_drv.h
++++ b/include/drm/drm_drv.h
+@@ -566,9 +566,29 @@ static inline bool drm_firmware_drivers_only(void)
+ }
+ 
+ #if defined(CONFIG_DEBUG_FS)
+-void drm_debugfs_dev_init(struct drm_device *dev, struct dentry *root);
++void drm_debugfs_dev_init(struct drm_device *dev);
++void drm_debugfs_init_root(void);
++void drm_debugfs_remove_root(void);
++void drm_debugfs_init_accel_root(void);
++void drm_debugfs_remove_accel_root(void);
  #else
-@@ -77,10 +76,6 @@ static inline void accel_set_device_instance_params(struct device *kdev, int ind
+-static inline void drm_debugfs_dev_init(struct drm_device *dev, struct dentry *root)
++static inline void drm_debugfs_dev_init(struct drm_device *dev)
++{
++}
++
++static inline void drm_debugfs_init_root(void)
++{
++}
++
++static inline void drm_debugfs_remove_root(void)
++{
++}
++
++static inline void drm_debugfs_init_accel_root(void)
++{
++}
++
++static inline void drm_debugfs_remove_accel_root(void)
  {
  }
- 
--static inline void accel_debugfs_init(struct drm_device *dev)
--{
--}
--
- static inline void accel_debugfs_register(struct drm_device *dev)
- {
- }
+ #endif
 -- 
 2.34.1
 
