@@ -2,61 +2,60 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 97F8DAE642D
-	for <lists+dri-devel@lfdr.de>; Tue, 24 Jun 2025 14:03:58 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id F2E40AE64B7
+	for <lists+dri-devel@lfdr.de>; Tue, 24 Jun 2025 14:23:42 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id DFFE210E093;
-	Tue, 24 Jun 2025 12:03:55 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 79F2E10E58E;
+	Tue, 24 Jun 2025 12:23:33 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=bootlin.com header.i=@bootlin.com header.b="oPO4EzlQ";
+	dkim=fail reason="signature verification failed" (2048-bit key; secure) header.d=infradead.org header.i=@infradead.org header.b="S2Um+0qp";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from relay4-d.mail.gandi.net (relay4-d.mail.gandi.net
- [217.70.183.196])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 352BF10E093
- for <dri-devel@lists.freedesktop.org>; Tue, 24 Jun 2025 12:03:49 +0000 (UTC)
-Received: by mail.gandi.net (Postfix) with ESMTPSA id 803C943E8E;
- Tue, 24 Jun 2025 12:03:46 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
- t=1750766627;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=CHAiwzXpqXLDPpuzv59uAE+lMbsVeaPtdYUt36LhKe4=;
- b=oPO4EzlQfgkv+lBMzEzWfmiYztuxZnDxePJIipcIYbh5eapFgQuZqJWEnYKghyN7xyVlQy
- WDPyNhxPBMDSrospGpMzgM6GdSzIp/lZSRQDqWiMRd7c8L6O3Bao3Eb4nxhRPzzZiXXx0o
- u5yOaKTTDFzV9sYotPkc/1U8A47oqb+pgXhc3oZTivTe6WGuOPMs1CfkBaLfm4NpGLZe0d
- eQuN3JOj+sV5ylcOsCjIacsxpv/BHQJ5swRzPdqKRdk4BnQku/eb/P1c0D0ghzhiD9OOUh
- rKm/iUcAKTgCug12jhCVZhqqTrHS2tvjtHzQdf3WONBAjM/EyC3tu1A+qHF1rQ==
-Date: Tue, 24 Jun 2025 14:03:45 +0200
-From: Herve Codina <herve.codina@bootlin.com>
-To: Mike Looijmans <mike.looijmans@topic.nl>
-Cc: dri-devel@lists.freedesktop.org, Andrzej Hajda
- <andrzej.hajda@intel.com>, David Airlie <airlied@gmail.com>, Jernej Skrabec
- <jernej.skrabec@gmail.com>, Jonas Karlman <jonas@kwiboo.se>, Laurent
- Pinchart <Laurent.pinchart@ideasonboard.com>, Maarten Lankhorst
- <maarten.lankhorst@linux.intel.com>, Maxime Ripard <mripard@kernel.org>,
- Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>,
- Simona Vetter <simona@ffwll.ch>, Thomas Zimmermann <tzimmermann@suse.de>,
- linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] drm/bridge: ti-sn65dsi83: Improve error reporting and
- handling
-Message-ID: <20250624140345.77e8780d@bootlin.com>
-In-Reply-To: <20250624114630.303058-1-mike.looijmans@topic.nl>
-References: <1b153bce-a66a-45ee-a5c6-963ea6fb1c82.949ef384-8293-46b8-903f-40a477c056ae.213ecd1f-6e92-42df-b45b-58dd7ea05682@emailsignatures365.codetwo.com>
- <20250624114630.303058-1-mike.looijmans@topic.nl>
-Organization: Bootlin
-X-Mailer: Claws Mail 4.3.1 (GTK 3.24.43; x86_64-redhat-linux-gnu)
+Received: from casper.infradead.org (casper.infradead.org [90.155.50.34])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8F5E410E589;
+ Tue, 24 Jun 2025 12:23:27 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+ d=infradead.org; s=casper.20170209; h=In-Reply-To:Content-Transfer-Encoding:
+ Content-Type:MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:
+ Sender:Reply-To:Content-ID:Content-Description;
+ bh=u2DmQaokTW2/gnjH2cgnlfjmMToaryjzjXcqnXsp80s=; b=S2Um+0qpagjVrhSQsPtu/Y9Ki/
+ qT4VCiz5D6Hf7xDHltAe+KRt7fHQLqHv0UCpc9w1zthcz8KjmNZ2CVeMcpCwT/TJqEXysR8c9CwDu
+ vqzHC65Fq240pfKWV3nGQhGhzdCTpTIGbZvyf/Z0ZGRBRPGNbX1WRxPt034gUSlPqPHkBj9DzWuNS
+ BaFAqEYcflqmFmayixuy5iaOWNh4p7Tih0ACK126a0Z16IkyVDVQOtz91tRsBCpCpTvEzylIiHonW
+ zakG4Ry8rOhUB7dD3NNe9m2JxYVEHbBSgzM+IbcRxItxFOPiXEyubfjCK2Ty3Fxr3Hi91Y7XGbXMY
+ Jyayik5A==;
+Received: from willy by casper.infradead.org with local (Exim 4.98.2 #2 (Red
+ Hat Linux)) id 1uU2g7-00000006YWM-2gs3;
+ Tue, 24 Jun 2025 12:23:07 +0000
+Date: Tue, 24 Jun 2025 13:23:07 +0100
+From: Matthew Wilcox <willy@infradead.org>
+To: =?utf-8?B?6ZmI5rab5rab?= Taotao Chen <chentaotao@didiglobal.com>
+Cc: "tytso@mit.edu" <tytso@mit.edu>, "hch@infradead.org" <hch@infradead.org>,
+ "adilger.kernel@dilger.ca" <adilger.kernel@dilger.ca>,
+ "brauner@kernel.org" <brauner@kernel.org>,
+ "jani.nikula@linux.intel.com" <jani.nikula@linux.intel.com>,
+ "rodrigo.vivi@intel.com" <rodrigo.vivi@intel.com>,
+ "tursulin@ursulin.net" <tursulin@ursulin.net>,
+ "airlied@gmail.com" <airlied@gmail.com>,
+ "linux-fsdevel@vger.kernel.org" <linux-fsdevel@vger.kernel.org>,
+ "linux-ext4@vger.kernel.org" <linux-ext4@vger.kernel.org>,
+ "linux-block@vger.kernel.org" <linux-block@vger.kernel.org>,
+ "intel-gfx@lists.freedesktop.org" <intel-gfx@lists.freedesktop.org>,
+ "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
+ "linux-mm@kvack.org" <linux-mm@kvack.org>,
+ "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
+ "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+ "chentao325@qq.com" <chentao325@qq.com>
+Subject: Re: [PATCH v2 1/5] drm/i915: Use kernel_write() in shmem object create
+Message-ID: <aFqYq-tLtjZjU0Ko@casper.infradead.org>
+References: <20250624121149.2927-1-chentaotao@didiglobal.com>
+ <20250624121149.2927-2-chentaotao@didiglobal.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-X-GND-State: clean
-X-GND-Score: -100
-X-GND-Cause: gggruggvucftvghtrhhoucdtuddrgeeffedrtddvgdduleekgecutefuodetggdotefrodftvfcurfhrohhfihhlvgemucfitefpfffkpdcuggftfghnshhusghstghrihgsvgenuceurghilhhouhhtmecufedtudenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujfgurhepfffhvfevuffkjghfohfogggtgfesthekredtredtjeenucfhrhhomhepjfgvrhhvvgcuvehoughinhgruceohhgvrhhvvgdrtghoughinhgrsegsohhothhlihhnrdgtohhmqeenucggtffrrghtthgvrhhnpeeviefffeegiedtleelieeghfejleeuueevkeevteegffehledtkeegudeigffgvdenucfkphepvdgrtddumegvtdgrmedvkeehmegsleektdemvgegtdgtmeeitgegfeemsgehsggsmegrgedvkeenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepihhnvghtpedvrgdtudemvgdtrgemvdekheemsgelkedtmegvgedttgemiegtgeefmegshegssgemrgegvdekpdhhvghloheplhhotggrlhhhohhsthdpmhgrihhlfhhrohhmpehhvghrvhgvrdgtohguihhnrgessghoohhtlhhinhdrtghomhdpnhgspghrtghpthhtohepudegpdhrtghpthhtohepmhhikhgvrdhlohhoihhjmhgrnhhssehtohhpihgtrdhnlhdprhgtphhtthhopegurhhiqdguvghvvghlsehlihhsthhsrdhfrhgvvgguvghskhhtohhprdhorhhgpdhrtghpthhtoheprghnughriigvjhdrhhgrjhgurgesihhnthgvlhdrtghomhdprhgtp
- hhtthhopegrihhrlhhivggusehgmhgrihhlrdgtohhmpdhrtghpthhtohepjhgvrhhnvghjrdhskhhrrggsvggtsehgmhgrihhlrdgtohhmpdhrtghpthhtohepjhhonhgrsheskhifihgsohhordhsvgdprhgtphhtthhopefnrghurhgvnhhtrdhpihhntghhrghrthesihguvggrshhonhgsohgrrhgurdgtohhmpdhrtghpthhtohepmhgrrghrthgvnhdrlhgrnhhkhhhorhhstheslhhinhhugidrihhnthgvlhdrtghomh
-X-GND-Sasl: herve.codina@bootlin.com
+In-Reply-To: <20250624121149.2927-2-chentaotao@didiglobal.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -72,64 +71,17 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Mike,
-
-On Tue, 24 Jun 2025 13:45:15 +0200
-Mike Looijmans <mike.looijmans@topic.nl> wrote:
-
-> The datasheet advises to wait 5ms after starting the video stream before
-> resetting the error registers. The driver only waits 1ms. Change the
-> sequence to match the datasheet:
-> - Turn on the DSI
-> - Wait 5ms
-> - Write 0xFF to CSR 0xE5 to clear the error registers
-> 
-> Don't read the error register (which may fail), just write 0xff as the
-> datasheet suggests.
-> 
-> The driver creates a timer or IRQ handler that reads the error register,
-> which implements the "wait some time and read the register" part.
-> 
-> When using a timer to poll the status register, the timer did not stop
-> when the error handler triggers a reset. This has been observed to cause
-> a series of multiple resets. Let handle_errors return a bool indicating
-> whether all is fine, and only extend the time when it returns true. That
-> also allows the IRQ disable call to move to the interrupt routine.
-> 
-> When the error handler does trigger, log a message that explains the
-> reset cause.
-> 
-> Fixes: ad5c6ecef27e ("drm: bridge: ti-sn65dsi83: Add error recovery mechanism")
-> Signed-off-by: Mike Looijmans <mike.looijmans@topic.nl>
-> ---
-> 
->  drivers/gpu/drm/bridge/ti-sn65dsi83.c | 50 +++++++++++++++------------
->  1 file changed, 28 insertions(+), 22 deletions(-)
-> 
-> diff --git a/drivers/gpu/drm/bridge/ti-sn65dsi83.c b/drivers/gpu/drm/bridge/ti-sn65dsi83.c
-...
-
-> @@ -929,7 +926,16 @@ static irqreturn_t sn65dsi83_irq(int irq, void *data)
+On Tue, Jun 24, 2025 at 12:12:04PM +0000, 陈涛涛 Taotao Chen wrote:
+> +++ b/drivers/gpu/drm/i915/gem/i915_gem_shmem.c
+> @@ -637,8 +637,7 @@ i915_gem_object_create_shmem_from_data(struct drm_i915_private *i915,
 >  {
->  	struct sn65dsi83 *ctx = data;
->  
-> -	sn65dsi83_handle_errors(ctx);
-> +	if (!sn65dsi83_handle_errors(ctx)) {
-> +		/*
-> +		 * IRQ acknowledged is not always possible (the bridge can be in
-> +		 * a state where it doesn't answer anymore). To prevent an
-> +		 * interrupt storm, disable interrupt. The interrupt will be
-> +		 * after the reset.
+>  	struct drm_i915_gem_object *obj;
+>  	struct file *file;
+> -	const struct address_space_operations *aops;
+> -	loff_t pos;
+> +	loff_t pos = 0;
+>  	int err;
 
-I think I have missed a verb in the last sentence when I previously wrote
-the comment.
-  "The interrupt will be re-enabled after the reset."
-                         ^^^^^^^^^^
-Can you fix it ?
+I think 'err' needs to become ssize_t to avoid writes larger than 2GB
+from being misinterpreted as errors.
 
-Other than that,
-
-Reviewed-by: Herve Codina <herve.codina@bootlin.com>
-
-Thanks,
-Hervé
