@@ -2,34 +2,34 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id D70FEAE70C7
-	for <lists+dri-devel@lfdr.de>; Tue, 24 Jun 2025 22:31:16 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5A3FDAE70C8
+	for <lists+dri-devel@lfdr.de>; Tue, 24 Jun 2025 22:31:17 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C285910E146;
-	Tue, 24 Jun 2025 20:31:13 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 125A110E147;
+	Tue, 24 Jun 2025 20:31:14 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="X4z7Bh7U";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="qQlK2FPj";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from tor.source.kernel.org (tor.source.kernel.org [172.105.4.254])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 55E4910E12E
- for <dri-devel@lists.freedesktop.org>; Tue, 24 Jun 2025 20:31:09 +0000 (UTC)
+Received: from sea.source.kernel.org (sea.source.kernel.org [172.234.252.31])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2EEEF10E12E
+ for <dri-devel@lists.freedesktop.org>; Tue, 24 Jun 2025 20:31:11 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by tor.source.kernel.org (Postfix) with ESMTP id C94BE61142;
+ by sea.source.kernel.org (Postfix) with ESMTP id 0858C434B4;
+ Tue, 24 Jun 2025 20:31:11 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id BB08EC4CEE3;
  Tue, 24 Jun 2025 20:31:08 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5E5D8C4CEF2;
- Tue, 24 Jun 2025 20:31:06 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1750797068;
- bh=29HKhswcd8px+N2nYcp6Yih2LctL4W2GlFxn1lIVTTA=;
+ s=k20201202; t=1750797070;
+ bh=wM2bSTdZ79jUE3zyr7FAmD4oLwJqwdJQwmMFYKhFlKU=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=X4z7Bh7UvZuyb79HPoHsaTmjP2tjyVF/oofZKnyi+WWMKgjEJftheG78LSVDzRhpK
- g3+CJNB4mcxzM4L73y9jBQDr+Nq3HSjYQOdJ9ZbsK1k7D1n+lthvZH7h7IHjB4H8fu
- K1u8zY2Mob/hLE8qS1CN2nXL+oqrzWNGyr94wVHR2MR36toGK5xQPqY5AcKi9toDrD
- tStNIA5gYSTpGgqO/ouL+mlv8Nz4Xbhbkg940WnFLSp7YBw+Txbdv6LNF07GTktPhJ
- eHFI6Iu2Xih50DzjD1d4l0g971ZVfsChmJIIcBg8RxtRB8eOWodd8YW+BwDTvKiknw
- QZtndpO/aLrPA==
+ b=qQlK2FPjVa6ekb+NmbvTShAdEs6MzKU4zYhV6yfdzNPUQLXXLV1OnJW1kBh5kJXP/
+ zbdgn+tkr3HNWm6RAcvKVAj9XF5rp6876WuiWyh490/VsfIW7O+iNgt6t1SyMPS35B
+ LyWqtvKiX6gskjCIZE2CC/zdBeef4dk38iPOrskonZcuaz/fg3MGEWveQ5nq7MQGR4
+ 9p19VkWDUohGMsYCXFgmS9HZGZ99FNVd3UYs1AChTwwRnFuvdStEBw+tDuLBoRxEJJ
+ 1g5g4zW51XZ3v4LMQS+ewcpSScNGWVlGl7XrlzCo6N4jEis8CfQvha8gpjruB0K78d
+ QaJ55g/sLrMrg==
 From: Mario Limonciello <superm1@kernel.org>
 To: Bjorn Helgaas <bhelgaas@google.com>
 Cc: Alex Deucher <alexander.deucher@amd.com>,
@@ -52,9 +52,9 @@ Cc: Alex Deucher <alexander.deucher@amd.com>,
  linux-sound@vger.kernel.org (open list:SOUND),
  Daniel Dadap <ddadap@nvidia.com>,
  Mario Limonciello <mario.limonciello@amd.com>
-Subject: [PATCH v5 8/9] fbcon: Use screen info to find primary device
-Date: Tue, 24 Jun 2025 15:30:41 -0500
-Message-ID: <20250624203042.1102346-9-superm1@kernel.org>
+Subject: [PATCH v5 9/9] PCI: Add a new 'boot_display' attribute
+Date: Tue, 24 Jun 2025 15:30:42 -0500
+Message-ID: <20250624203042.1102346-10-superm1@kernel.org>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <20250624203042.1102346-1-superm1@kernel.org>
 References: <20250624203042.1102346-1-superm1@kernel.org>
@@ -77,60 +77,83 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 From: Mario Limonciello <mario.limonciello@amd.com>
 
-On systems with non VGA GPUs fbcon can't find the primary GPU because
-video_is_primary_device() only checks the VGA arbiter.
+On systems with multiple GPUs there can be uncertainty which GPU is the
+primary one used to drive the display at bootup. In order to disambiguate
+this add a new sysfs attribute 'boot_display' that uses the output of
+video_is_primary_device() to populate whether a PCI device was used for
+driving the display.
 
-Add a screen info check to video_is_primary_device() so that callers
-can get accurate data on such systems.
-
-Suggested-by: Thomas Zimmermann <tzimmermann@suse.de>
 Signed-off-by: Mario Limonciello <mario.limonciello@amd.com>
 ---
-v5:
- * Only change video-common.c
 v4:
- * use helper
+ * new patch
 ---
- arch/x86/video/video-common.c | 13 ++++++++++++-
- 1 file changed, 12 insertions(+), 1 deletion(-)
+ Documentation/ABI/testing/sysfs-bus-pci |  9 +++++++++
+ drivers/pci/pci-sysfs.c                 | 14 ++++++++++++++
+ 2 files changed, 23 insertions(+)
 
-diff --git a/arch/x86/video/video-common.c b/arch/x86/video/video-common.c
-index 81fc97a2a837a..917568e4d7fb1 100644
---- a/arch/x86/video/video-common.c
-+++ b/arch/x86/video/video-common.c
-@@ -9,6 +9,7 @@
+diff --git a/Documentation/ABI/testing/sysfs-bus-pci b/Documentation/ABI/testing/sysfs-bus-pci
+index 69f952fffec72..897cfc1b0de0f 100644
+--- a/Documentation/ABI/testing/sysfs-bus-pci
++++ b/Documentation/ABI/testing/sysfs-bus-pci
+@@ -612,3 +612,12 @@ Description:
  
- #include <linux/module.h>
- #include <linux/pci.h>
-+#include <linux/screen_info.h>
- #include <linux/vgaarb.h>
+ 		  # ls doe_features
+ 		  0001:01        0001:02        doe_discovery
++
++What:		/sys/bus/pci/devices/.../boot_display
++Date:		October 2025
++Contact:	Linux PCI developers <linux-pci@vger.kernel.org>
++Description:
++		This file indicates whether the device was used as a boot
++		display. If the device was used as the boot display, the file
++		will contain "1". If the device is a display device but wasn't
++		used as a boot display, the file will contain "0".
+diff --git a/drivers/pci/pci-sysfs.c b/drivers/pci/pci-sysfs.c
+index 268c69daa4d57..5bbf79b1b953d 100644
+--- a/drivers/pci/pci-sysfs.c
++++ b/drivers/pci/pci-sysfs.c
+@@ -30,6 +30,7 @@
+ #include <linux/msi.h>
+ #include <linux/of.h>
+ #include <linux/aperture.h>
++#include <asm/video.h>
+ #include "pci.h"
  
- #include <asm/video.h>
-@@ -27,6 +28,7 @@ EXPORT_SYMBOL(pgprot_framebuffer);
+ #ifndef ARCH_PCI_DEV_GROUPS
+@@ -679,6 +680,13 @@ const struct attribute_group *pcibus_groups[] = {
+ 	NULL,
+ };
  
- bool video_is_primary_device(struct device *dev)
++static ssize_t boot_display_show(struct device *dev, struct device_attribute *attr,
++				 char *buf)
++{
++	return sysfs_emit(buf, "%u\n", video_is_primary_device(dev));
++}
++static DEVICE_ATTR_RO(boot_display);
++
+ static ssize_t boot_vga_show(struct device *dev, struct device_attribute *attr,
+ 			     char *buf)
  {
-+	struct screen_info *si = &screen_info;
- 	struct pci_dev *pdev;
+@@ -1698,6 +1706,7 @@ late_initcall(pci_sysfs_init);
  
- 	if (!dev_is_pci(dev))
-@@ -34,7 +36,16 @@ bool video_is_primary_device(struct device *dev)
+ static struct attribute *pci_dev_dev_attrs[] = {
+ 	&dev_attr_boot_vga.attr,
++	&dev_attr_boot_display.attr,
+ 	NULL,
+ };
  
- 	pdev = to_pci_dev(dev);
+@@ -1710,6 +1719,11 @@ static umode_t pci_dev_attrs_are_visible(struct kobject *kobj,
+ 	if (a == &dev_attr_boot_vga.attr && pci_is_vga(pdev))
+ 		return a->mode;
  
--	return (pdev == vga_default_device());
-+	if (!pci_is_display(pdev))
-+		return false;
++#ifdef CONFIG_VIDEO
++	if (a == &dev_attr_boot_display.attr && pci_is_display(pdev))
++		return a->mode;
++#endif
 +
-+	if (pdev == vga_default_device())
-+		return true;
-+
-+	if (pdev == screen_info_pci_dev(si))
-+		return true;
-+
-+	return false;
+ 	return 0;
  }
- EXPORT_SYMBOL(video_is_primary_device);
  
 -- 
 2.43.0
