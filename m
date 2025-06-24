@@ -2,43 +2,43 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 531CBAE63CF
-	for <lists+dri-devel@lfdr.de>; Tue, 24 Jun 2025 13:47:13 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 912BBAE641B
+	for <lists+dri-devel@lfdr.de>; Tue, 24 Jun 2025 13:59:57 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A977310E05D;
-	Tue, 24 Jun 2025 11:47:11 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B45F210E05C;
+	Tue, 24 Jun 2025 11:59:54 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="AEEMNYTN";
+	dkim=pass (1024-bit key; unprotected) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="wdFxdqJJ";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
  [213.167.242.64])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0867F10E05D
- for <dri-devel@lists.freedesktop.org>; Tue, 24 Jun 2025 11:47:10 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9C00710E05C
+ for <dri-devel@lists.freedesktop.org>; Tue, 24 Jun 2025 11:59:53 +0000 (UTC)
 Received: from [192.168.88.20] (91-158-153-178.elisa-laajakaista.fi
  [91.158.153.178])
- by perceval.ideasonboard.com (Postfix) with ESMTPSA id 3C4BA50A;
- Tue, 24 Jun 2025 13:46:49 +0200 (CEST)
+ by perceval.ideasonboard.com (Postfix) with ESMTPSA id C6B2450A;
+ Tue, 24 Jun 2025 13:59:34 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
- s=mail; t=1750765609;
- bh=0duF5eetDeurAx5SbercLm+GRrF1AVp/Z1fAOG3PhJY=;
+ s=mail; t=1750766375;
+ bh=GARcFyp71RX5AsU3VSTiqOEXVGJTrmu+06LIXsfBFnA=;
  h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
- b=AEEMNYTNycg7VuMvxD6mHCdEnDb34jzSzyMJyazRv1kTSsamHIAlAmiypksoLdi28
- IOSYmuOVO7+ZNNMvFpHOGe9C2Z+lyOylgn9GbNfEyl6t8ZEXp9ilISLOEDR0pMe0cW
- gXaKzjJ4WCuVZRVC2K8P5sVXu66/jSrN2+ADeCqQ=
-Message-ID: <d6ac1fe1-eeac-430c-ada6-d19386781b53@ideasonboard.com>
-Date: Tue, 24 Jun 2025 14:47:02 +0300
+ b=wdFxdqJJjZ8J6Kg5GSabcL1/rLa3xr5ztQUwGkb22sKktLFgIZ6dP9yVb59mtE9rd
+ bzQhWS1OV7XUSynpfRCUlHcyq7HOIpxF6iLEl9isoa8+F8DVld21Q6m8dJVuFx1eey
+ FV4UMcHVx5fYM+pAXVi0/fJM5s3BG33H/NYdwLUU=
+Message-ID: <5337fc13-f7e3-4252-84db-e1129cc31e32@ideasonboard.com>
+Date: Tue, 24 Jun 2025 14:59:49 +0300
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] drm/tidss: Set crtc modesetting parameters with adjusted
- mode
+Subject: Re: [PATCH v2] drm/tidss: Decouple max_pclk from tidss feats to
+ remove clock dependency
 To: Jayesh Choudhary <j-choudhary@ti.com>, jyri.sarha@iki.fi,
  dri-devel@lists.freedesktop.org, devarsht@ti.com
 Cc: maarten.lankhorst@linux.intel.com, mripard@kernel.org,
  tzimmermann@suse.de, airlied@gmail.com, simona@ffwll.ch,
  linux-kernel@vger.kernel.org
-References: <20250624080402.302526-1-j-choudhary@ti.com>
+References: <20250618100509.20386-1-j-choudhary@ti.com>
 Content-Language: en-US
 From: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
 Autocrypt: addr=tomi.valkeinen@ideasonboard.com; keydata=
@@ -84,7 +84,7 @@ Autocrypt: addr=tomi.valkeinen@ideasonboard.com; keydata=
  ueeIlwJl5CpT5l8RpoZXEOVtXYn8zzOJ7oGZYINRV9Pf8qKGLf3Dft7zKBP832I3PQjeok7F
  yjt+9S+KgSFSHP3Pa4E7lsSdWhSlHYNdG/czhoUkSCN09C0rEK93wxACx3vtxPLjXu6RptBw
  3dRq7n+mQChEB1am0BueV1JZaBboIL0AGlSJkm23kw==
-In-Reply-To: <20250624080402.302526-1-j-choudhary@ti.com>
+In-Reply-To: <20250618100509.20386-1-j-choudhary@ti.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -104,72 +104,254 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 Hi,
 
-On 24/06/2025 11:04, Jayesh Choudhary wrote:
-> TIDSS uses crtc_* fields to propagate its registers and set the
-> clock rates. So set the CRTC modesetting timing parameters with
-> the adjusted mode when needed, to set correct values.
+On 18/06/2025 13:05, Jayesh Choudhary wrote:
+> TIDSS hardware by itself does not have variable max_pclk for each VP.
+> Each VP supports a fixed maximum pixel clock. K2 devices and AM62*
+> devices uses "ultra-light" version where each VP supports a max of
+> 300MHz whereas J7* devices uses TIDSS where all VP can support a
+> max pclk of 600MHz.
+> The limitation that has been modeled till now comes from the clock
+> (PLL can only be programmed to a particular max value). Due to this
+> we end up using different compatible for each SoC when the clocking
+> architecture changes for VPs, even when the hardware is essentially
+> the same.
+> max_pclk cannot be entirely removed since the display controller
+> should tell if a particular mode clock can be supported or not in crtc's
+> "mode_valid()" call. So remove "max_pclk_khz" from the static display
+> feat and add it to "tidss_device" structure which would be modified in
+> runtime. In mode_valid() call, check if a best frequency match for mode
+> clock can be found or not using "clk_round_rate()". Based on that,
+> propagate "max_pclk" and check max_clk again only if the requested mode
+> clock is greater than saved value. (As the preferred display mode is
+> usually the max resolution, driver ends up checking the maximum clock
+> the first time itself which is used in subsequent checks)
+> Since TIDSS display controller provides clock tolerance of 5%, we use
+> this while checking the max_pclk. Also, move up "dispc_pclk_diff()"
+> before it is called.
+
+An empty line between paragraphs makes the desc easier to read.
+
+> This will make the existing compatibles reusable.
 > 
-> Cc: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
 > Signed-off-by: Jayesh Choudhary <j-choudhary@ti.com>
 > ---
 > 
-> Hello All,
+> Changelog v1->v2:
+> - Rebase it on linux-next after OLDI support series[0] as all of its
+>   patches are reviewed and tested and it touches one of the functions
+>   used.
+>   
+> v1 patch link:
+> <https://lore.kernel.org/all/20250618075804.139844-1-j-choudhary@ti.com/>
 > 
-> After the DSI fixes[0], TIDSS is using crtc_* timings while programming
-> hardware[1]. But while testing on TI's J784S4-EVM platform, I noticed
-> that crtc_timings are not propagated properly.
+> Test log on TI's J784S4 SoC with a couple of downstream patches
+> to integrate DSI support on one of the video ports:
+> <https://gist.github.com/Jayesh2000/ad4ab87028740efa60e5eb83fb892097>
 > 
-> The display pipeline there looks like:
-> TIDSS -> CDNS-DSI -> SN65DSI86 bridge -> DisplayPort
+> From the logs, we can see that for CLK ID 218 (DSS), we do not have to
+> call sci_clk_determine_rate() multiple times. So there is very little
+> overhead of this call even with multiple mode_valid() called during
+> display run.
+> From weston-simple-egl application, I have seen that there is no frame
+> drop or performance impact.
 > 
-> Consider the case of 1920x1080 resolution where the EDID mode has clock
-> of 148500kHz. After adjustment, the clock changes to 148800kHz. While
-> this change is reflected in mode->clock, its not propagated to
-> mode->crtc_clock.
-
-Hmm, so CDNS-DSI changes the adjusted_mode->clock, but in the end tidss
-doesn't actually use the adjusted clock at all? I'm pretty sure I tested
-that... I need to try it (and this) again.
-
- Tomi
-
+> Once this patch gets in, I will send patches for AM62P and J722S DSS
+> support.
 > 
-> [0] provides the **essential** fixes to get DSI working and its
-> patches are Reviewed and Tested.
-> The series improves the condition of DSI. I have observed that
-> 800x600 and 1280x1024 modes are working now after [0].
+> [0]: https://lore.kernel.org/all/20250528122544.817829-1-aradhya.bhatia@linux.dev/
 > 
-> This patch helps to enables other modes. So taking this up as a
-> delta patch so as to avoid respining v5 of [0].
-> I hope this approach is okay!
+>  drivers/gpu/drm/tidss/tidss_dispc.c | 74 ++++++++++++-----------------
+>  drivers/gpu/drm/tidss/tidss_dispc.h |  1 -
+>  drivers/gpu/drm/tidss/tidss_drv.h   |  2 +
+>  3 files changed, 33 insertions(+), 44 deletions(-)
 > 
-> [0]: https://lore.kernel.org/all/20250618-cdns-dsi-impro-v4-0-862c841dbe02@ideasonboard.com/
-> [1]: https://patchwork.kernel.org/project/dri-devel/patch/20250618-cdns-dsi-impro-v4-3-862c841dbe02@ideasonboard.com/ 
-> 
->  drivers/gpu/drm/tidss/tidss_crtc.c | 5 ++++-
->  1 file changed, 4 insertions(+), 1 deletion(-)
-> 
-> diff --git a/drivers/gpu/drm/tidss/tidss_crtc.c b/drivers/gpu/drm/tidss/tidss_crtc.c
-> index 17efd77ce7f2..da89fd01c337 100644
-> --- a/drivers/gpu/drm/tidss/tidss_crtc.c
-> +++ b/drivers/gpu/drm/tidss/tidss_crtc.c
-> @@ -91,7 +91,7 @@ static int tidss_crtc_atomic_check(struct drm_crtc *crtc,
->  	struct dispc_device *dispc = tidss->dispc;
->  	struct tidss_crtc *tcrtc = to_tidss_crtc(crtc);
->  	u32 hw_videoport = tcrtc->hw_videoport;
-> -	const struct drm_display_mode *mode;
-> +	struct drm_display_mode *mode;
->  	enum drm_mode_status ok;
+> diff --git a/drivers/gpu/drm/tidss/tidss_dispc.c b/drivers/gpu/drm/tidss/tidss_dispc.c
+> index c0277fa36425..ad9ffc3685b4 100644
+> --- a/drivers/gpu/drm/tidss/tidss_dispc.c
+> +++ b/drivers/gpu/drm/tidss/tidss_dispc.c
+> @@ -58,10 +58,6 @@ static const u16 tidss_k2g_common_regs[DISPC_COMMON_REG_TABLE_LEN] = {
+>  const struct dispc_features dispc_k2g_feats = {
+>  	.min_pclk_khz = 4375,
 >  
->  	dev_dbg(ddev->dev, "%s\n", __func__);
-> @@ -108,6 +108,9 @@ static int tidss_crtc_atomic_check(struct drm_crtc *crtc,
->  		return -EINVAL;
->  	}
+> -	.max_pclk_khz = {
+> -		[DISPC_VP_DPI] = 150000,
+> -	},
+> -
+>  	/*
+>  	 * XXX According TRM the RGB input buffer width up to 2560 should
+>  	 *     work on 3 taps, but in practice it only works up to 1280.
+> @@ -144,11 +140,6 @@ static const u16 tidss_am65x_common_regs[DISPC_COMMON_REG_TABLE_LEN] = {
+>  };
 >  
-> +	if (drm_atomic_crtc_needs_modeset(crtc_state))
-> +		drm_mode_set_crtcinfo(mode, 0);
-> +
->  	return dispc_vp_bus_check(dispc, hw_videoport, crtc_state);
+>  const struct dispc_features dispc_am65x_feats = {
+> -	.max_pclk_khz = {
+> -		[DISPC_VP_DPI] = 165000,
+> -		[DISPC_VP_OLDI_AM65X] = 165000,
+> -	},
+> -
+>  	.scaling = {
+>  		.in_width_max_5tap_rgb = 1280,
+>  		.in_width_max_3tap_rgb = 2560,
+> @@ -244,11 +235,6 @@ static const u16 tidss_j721e_common_regs[DISPC_COMMON_REG_TABLE_LEN] = {
+>  };
+>  
+>  const struct dispc_features dispc_j721e_feats = {
+> -	.max_pclk_khz = {
+> -		[DISPC_VP_DPI] = 170000,
+> -		[DISPC_VP_INTERNAL] = 600000,
+> -	},
+> -
+>  	.scaling = {
+>  		.in_width_max_5tap_rgb = 2048,
+>  		.in_width_max_3tap_rgb = 4096,
+> @@ -315,11 +301,6 @@ const struct dispc_features dispc_j721e_feats = {
+>  };
+>  
+>  const struct dispc_features dispc_am625_feats = {
+> -	.max_pclk_khz = {
+> -		[DISPC_VP_DPI] = 165000,
+> -		[DISPC_VP_INTERNAL] = 170000,
+> -	},
+> -
+>  	.scaling = {
+>  		.in_width_max_5tap_rgb = 1280,
+>  		.in_width_max_3tap_rgb = 2560,
+> @@ -380,10 +361,6 @@ const struct dispc_features dispc_am62a7_feats = {
+>  	 * if the code reaches dispc_mode_valid with VP1,
+>  	 * it should return MODE_BAD.
+>  	 */
+> -	.max_pclk_khz = {
+> -		[DISPC_VP_TIED_OFF] = 0,
+> -		[DISPC_VP_DPI] = 165000,
+> -	},
+>  
+>  	.scaling = {
+>  		.in_width_max_5tap_rgb = 1280,
+> @@ -441,10 +418,6 @@ const struct dispc_features dispc_am62a7_feats = {
+>  };
+>  
+>  const struct dispc_features dispc_am62l_feats = {
+> -	.max_pclk_khz = {
+> -		[DISPC_VP_DPI] = 165000,
+> -	},
+> -
+>  	.subrev = DISPC_AM62L,
+>  
+>  	.common = "common",
+> @@ -1347,25 +1320,48 @@ static void dispc_vp_set_default_color(struct dispc_device *dispc,
+>  			DISPC_OVR_DEFAULT_COLOR2, (v >> 32) & 0xffff);
 >  }
 >  
+> +/*
+> + * Calculate the percentage difference between the requested pixel clock rate
+> + * and the effective rate resulting from calculating the clock divider value.
+> + */
+> +unsigned int dispc_pclk_diff(unsigned long rate, unsigned long real_rate)
+> +{
+> +	int r = rate / 100, rr = real_rate / 100;
+> +
+> +	return (unsigned int)(abs(((rr - r) * 100) / r));
+> +}
+> +
+> +static int check_max_pixel_clock(struct dispc_device *dispc,
+> +				 u32 hw_videoport, unsigned long clock)
+> +{
+> +	if (clock > dispc->tidss->max_pclk[hw_videoport]) {
+> +		unsigned long round_clock = clk_round_rate(dispc->vp_clk[hw_videoport], clock);
+> +
+> +		if (dispc_pclk_diff(clock, round_clock) > 5)
+> +			return -EINVAL;
+> +
+> +		dispc->tidss->max_pclk[hw_videoport] = round_clock;
+> +	}
+> +
+> +	return 0;
+> +}
+> +
+>  enum drm_mode_status dispc_vp_mode_valid(struct dispc_device *dispc,
+>  					 u32 hw_videoport,
+>  					 const struct drm_display_mode *mode)
+>  {
+>  	u32 hsw, hfp, hbp, vsw, vfp, vbp;
+>  	enum dispc_vp_bus_type bus_type;
+> -	int max_pclk;
+>  
+>  	bus_type = dispc->feat->vp_bus_type[hw_videoport];
+>  
+> -	max_pclk = dispc->feat->max_pclk_khz[bus_type];
+> -
+> -	if (WARN_ON(max_pclk == 0))
+> +	if (bus_type == DISPC_VP_TIED_OFF)
+>  		return MODE_BAD;
+>  
+>  	if (mode->clock < dispc->feat->min_pclk_khz)
+>  		return MODE_CLOCK_LOW;
+>  
+> -	if (mode->clock > max_pclk)
+> +	if (check_max_pixel_clock(dispc, hw_videoport, mode->clock * 1000))
+>  		return MODE_CLOCK_HIGH;
+>  
+>  	if (mode->hdisplay > 4096)
+> @@ -1437,17 +1433,6 @@ void dispc_vp_disable_clk(struct dispc_device *dispc, u32 hw_videoport)
+>  	clk_disable_unprepare(dispc->vp_clk[hw_videoport]);
+>  }
+>  
+> -/*
+> - * Calculate the percentage difference between the requested pixel clock rate
+> - * and the effective rate resulting from calculating the clock divider value.
+> - */
+> -unsigned int dispc_pclk_diff(unsigned long rate, unsigned long real_rate)
+> -{
+> -	int r = rate / 100, rr = real_rate / 100;
+> -
+> -	return (unsigned int)(abs(((rr - r) * 100) / r));
+> -}
+> -
+>  int dispc_vp_set_clk_rate(struct dispc_device *dispc, u32 hw_videoport,
+>  			  unsigned long rate)
+>  {
+> @@ -3087,6 +3072,9 @@ int dispc_init(struct tidss_device *tidss)
+>  	}
+>  	dev_dbg(dev, "DSS fclk %lu Hz\n", clk_get_rate(dispc->fclk));
+>  
+> +	for (i = 0; i < dispc->feat->num_vps; i++)
+> +		dispc->tidss->max_pclk[i] = 0;
+
+I think this is not needed, the struct should be zero initialized at alloc.
+
+>  	of_property_read_u32(dispc->dev->of_node, "max-memory-bandwidth",
+>  			     &dispc->memory_bandwidth_limit);
+>  
+> diff --git a/drivers/gpu/drm/tidss/tidss_dispc.h b/drivers/gpu/drm/tidss/tidss_dispc.h
+> index b8614f62186c..45b1a8aa9089 100644
+> --- a/drivers/gpu/drm/tidss/tidss_dispc.h
+> +++ b/drivers/gpu/drm/tidss/tidss_dispc.h
+> @@ -75,7 +75,6 @@ enum dispc_dss_subrevision {
+>  
+>  struct dispc_features {
+>  	int min_pclk_khz;
+> -	int max_pclk_khz[DISPC_VP_MAX_BUS_TYPE];
+>  
+>  	struct dispc_features_scaling scaling;
+>  
+> diff --git a/drivers/gpu/drm/tidss/tidss_drv.h b/drivers/gpu/drm/tidss/tidss_drv.h
+> index d14d5d28f0a3..59c67ae8e721 100644
+> --- a/drivers/gpu/drm/tidss/tidss_drv.h
+> +++ b/drivers/gpu/drm/tidss/tidss_drv.h
+> @@ -22,6 +22,8 @@ struct tidss_device {
+>  
+>  	const struct dispc_features *feat;
+>  	struct dispc_device *dispc;
+> +	long max_pclk[TIDSS_MAX_PORTS];
+> +
+>  
+>  	unsigned int num_crtcs;
+>  	struct drm_crtc *crtcs[TIDSS_MAX_PORTS];
+
+One thing to keep in mind is that if we ever change the source clk, we
+need to also clear the max_pclk for that VP.
+
+Shouldn't we still have a check for the DSS internal max pclk somewhere?
+
+ Tomi
 
