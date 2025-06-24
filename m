@@ -2,77 +2,176 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B3EB3AE5B89
-	for <lists+dri-devel@lfdr.de>; Tue, 24 Jun 2025 06:40:58 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4477CAE5B93
+	for <lists+dri-devel@lfdr.de>; Tue, 24 Jun 2025 06:43:17 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B8E5B10E1EE;
-	Tue, 24 Jun 2025 04:40:55 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E39AE10E4B8;
+	Tue, 24 Jun 2025 04:43:13 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=microchip.com header.i=@microchip.com header.b="MsUD2kqE";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="bTIfLXSS";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from esa.microchip.iphmx.com (esa.microchip.iphmx.com
- [68.232.153.233])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3BE9410E009
- for <dri-devel@lists.freedesktop.org>; Tue, 24 Jun 2025 04:40:53 +0000 (UTC)
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5920710E009;
+ Tue, 24 Jun 2025 04:43:12 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=microchip.com; i=@microchip.com; q=dns/txt; s=mchp;
- t=1750740053; x=1782276053;
- h=from:date:subject:mime-version:content-transfer-encoding:
- message-id:to:cc;
- bh=pKNCgLJnf6kMka63qFgcEq8rakhenaJR7dI+6P8r2ww=;
- b=MsUD2kqE3/WJNy1pHwKTre9zDyeAIc9ISIoLyhAqlvoQdNO21hHI0KbW
- OhC8DTGOv5FP6LsJey7sh1OIj0e69ys+K6vOoCe7iq/C4m3nL5mhkXgOD
- 0tI1bxZf9qvBO1Crp2VmCVQfL3a/i+l8Vejjsb/Wd6xsjqfcwz5ZHxLKO
- cFwOMcw+yAGKIBfZKyEE1/hcBjsIq5pfp93RY+Rmt6HeldkUIMsMF2Khx
- Fuk0qKwTExtxfgEBaQ59WoAkOyFfhsAsbvpB7TrDAetDpi/s3jd4pbO3O
- HhW/KT+xjoZGpcTAI3Rjr4T90hY1J+OGLJP8c1uIrH4HM9kHCODP5h4s2 w==;
-X-CSE-ConnectionGUID: GtONl7zMSai6tNbRkKAjGw==
-X-CSE-MsgGUID: XKy5sicpT0OGvGLTHsMnCQ==
-X-IronPort-AV: E=Sophos;i="6.16,260,1744095600"; d="scan'208";a="43142583"
-X-Amp-Result: SKIPPED(no attachment in message)
-Received: from unknown (HELO email.microchip.com) ([170.129.1.10])
- by esa3.microchip.iphmx.com with ESMTP/TLS/ECDHE-RSA-AES128-GCM-SHA256;
- 23 Jun 2025 21:40:53 -0700
-Received: from chn-vm-ex04.mchp-main.com (10.10.85.152) by
- chn-vm-ex03.mchp-main.com (10.10.85.151) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.44; Mon, 23 Jun 2025 21:40:34 -0700
-Received: from [127.0.0.1] (10.10.85.11) by chn-vm-ex04.mchp-main.com
- (10.10.85.152) with Microsoft SMTP Server id 15.1.2507.44 via Frontend
- Transport; Mon, 23 Jun 2025 21:40:28 -0700
-From: Dharma Balasubiramani <dharma.b@microchip.com>
-Date: Tue, 24 Jun 2025 10:10:25 +0530
-Subject: [PATCH v3] drm/bridge: microchip-lvds: fix bus format mismatch
- with VESA displays
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1750740192; x=1782276192;
+ h=from:to:subject:date:message-id:references:in-reply-to:
+ content-transfer-encoding:mime-version;
+ bh=8U4QUxntS5nMBx9Ki5JrqhSiIRw3NZIQHsmnJcUbVyo=;
+ b=bTIfLXSSZhEvUGp+Gff47ecVS+LfjCTGWwD1rRxBknlJL6xLuzqdT/a3
+ S8AR1902shccF6Ii9q+pdpX1rRPjmovbWgrgjBYLXTYCb8MoVzlHeW1WZ
+ 9lEg34HvOqb40BtY9VUQ8iggJfJ/0UYcnDufBiNriTPrSwDDJwMmEHlLw
+ dtR3fCxlkb+TZu6yr3r0YthvfQzqpQGL9MAenYqrrP6pgazF1YKHdcBBc
+ m7BB8ysMrq7ySM42UQJ6bstNMs+V900u61KUT7EhRoFFsM79rOYhrH4KT
+ Owd22YIopXC2sP99SX5URalb+txJBPqDOuZmABkziShR6wFKcU4vsOcfC g==;
+X-CSE-ConnectionGUID: QrFBNodZTKOiaOvGq6Asaw==
+X-CSE-MsgGUID: paUBIKCFRGyVA/gvbunp1w==
+X-IronPort-AV: E=McAfee;i="6800,10657,11473"; a="78381409"
+X-IronPort-AV: E=Sophos;i="6.16,260,1744095600"; d="scan'208";a="78381409"
+Received: from fmviesa005.fm.intel.com ([10.60.135.145])
+ by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 23 Jun 2025 21:43:12 -0700
+X-CSE-ConnectionGUID: 9Zog+V00QVKRQlyGqsKR5g==
+X-CSE-MsgGUID: R75alfzVRpejV4JNREAMcw==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.16,260,1744095600"; d="scan'208";a="156091059"
+Received: from orsmsx903.amr.corp.intel.com ([10.22.229.25])
+ by fmviesa005.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 23 Jun 2025 21:43:12 -0700
+Received: from ORSMSX902.amr.corp.intel.com (10.22.229.24) by
+ ORSMSX903.amr.corp.intel.com (10.22.229.25) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.1544.25; Mon, 23 Jun 2025 21:43:11 -0700
+Received: from ORSEDG901.ED.cps.intel.com (10.7.248.11) by
+ ORSMSX902.amr.corp.intel.com (10.22.229.24) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.1544.25 via Frontend Transport; Mon, 23 Jun 2025 21:43:11 -0700
+Received: from NAM12-MW2-obe.outbound.protection.outlook.com (40.107.244.50)
+ by edgegateway.intel.com (134.134.137.111) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.1544.25; Mon, 23 Jun 2025 21:43:09 -0700
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=gKIrHhuo49NkkFkUblRoCim9HgyzHayWpgrEPOtwZXHOIoYR9UpFUb/T2qiXiK6XbJyhH5baFyR/vpiA4/QBWjA5cfgFv4HHKP6qCuVHhxeWg6fX7o9X9n/74Owb+Aj5mPfSdVUTteGMISi8MZohri1BEpkjeRT1GJMZvnUNmBA3uHfGprXDO00qrzVJTh4MyMkZg6FYzFGMgYNCEB97fxFL7PR7BOHKZYzic4SQstTV/X/xRQc2MvexG0EnYB8cD8pAqOathJVMC3FVnPeLJxaRVBd6kvN+6GMGO9f0tN+c1saeWOYaD0aYpV66CNUxTXCjhLlsRFyKZFrTmpN3TQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=6BkPQP6G7VFtbzNex2FT9YxNEpY3uawXtW1uSyraFIg=;
+ b=p/QlRVj/9rqqJEi+WEiBtT0RLFwT0VPVCyd1LutSZKfudz1oOo2BrvJboFHz3V+m9ydDXdBU+F3vofqN7ONERXth7OuY9KKxBgurOxyBuvjY0/hShJIe81s1nGXC5BGRoCR2b5Vzuf2giBvRxoZVlYx46Y+iH99BhHVFC3ek4QfOw0ow2NW7RiE1ZphfEBMrFwcwhrcWDCJJJIMBa6yJEeR+wH0bNEVZ5wILiVzt5MatNrEcdm9ADhCiVwlfL4UlHjBzk0KvZhdJtgYwrmHnX55/ZyLcNVROn9+H4ZYFFoS4eblfSwBDwakppXzaMMU14W8VVCtVSbYpn/P5BFgF1g==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
+ dkim=pass header.d=intel.com; arc=none
+Received: from IA0PR11MB7307.namprd11.prod.outlook.com (2603:10b6:208:437::10)
+ by PH7PR11MB7449.namprd11.prod.outlook.com (2603:10b6:510:27a::16)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8857.28; Tue, 24 Jun
+ 2025 04:42:40 +0000
+Received: from IA0PR11MB7307.namprd11.prod.outlook.com
+ ([fe80::dafa:d38d:8ac1:e843]) by IA0PR11MB7307.namprd11.prod.outlook.com
+ ([fe80::dafa:d38d:8ac1:e843%3]) with mapi id 15.20.8857.026; Tue, 24 Jun 2025
+ 04:42:39 +0000
+From: "Murthy, Arun R" <arun.r.murthy@intel.com>
+To: "Kandpal, Suraj" <suraj.kandpal@intel.com>,
+ "intel-xe@lists.freedesktop.org" <intel-xe@lists.freedesktop.org>,
+ "intel-gfx@lists.freedesktop.org" <intel-gfx@lists.freedesktop.org>,
+ "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
+ "nouveau@lists.freedesktop.org" <nouveau@lists.freedesktop.org>
+Subject: RE: [PATCH v3 03/13] drm/dp: Add argument for max luminance in
+ drm_edp_backlight_init
+Thread-Topic: [PATCH v3 03/13] drm/dp: Add argument for max luminance in
+ drm_edp_backlight_init
+Thread-Index: AQHb4a2GOx0JiKe6d0aBt13AvQ1T1bQRwS5g
+Date: Tue, 24 Jun 2025 04:42:39 +0000
+Message-ID: <IA0PR11MB7307974170540564F0A3B908BA78A@IA0PR11MB7307.namprd11.prod.outlook.com>
+References: <20250620063445.3603086-1-suraj.kandpal@intel.com>
+ <20250620063445.3603086-4-suraj.kandpal@intel.com>
+In-Reply-To: <20250620063445.3603086-4-suraj.kandpal@intel.com>
+Accept-Language: en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+authentication-results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=intel.com;
+x-ms-publictraffictype: Email
+x-ms-traffictypediagnostic: IA0PR11MB7307:EE_|PH7PR11MB7449:EE_
+x-ms-office365-filtering-correlation-id: f060cb35-0e88-4668-5bcb-08ddb2d98cf0
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam: BCL:0;
+ ARA:13230040|1800799024|366016|376014|7053199007|38070700018; 
+x-microsoft-antispam-message-info: =?us-ascii?Q?SQQysPh87FqTmM7kkYQlqmjufIW3vLU0n4u0mlMbvtIRXm92K9rqxxUKxNWJ?=
+ =?us-ascii?Q?BDWr6nbrcFs4cDQZlyDZDKfo0/mFxEmrpoht+vbJbgGCpyt90wV6WTHwjDw4?=
+ =?us-ascii?Q?Jh9aNjizjusVYjkvdAr98HARHkT8wt47MWqCNdsxyu92ot9ilWP45OHWtigs?=
+ =?us-ascii?Q?3N7GuhAW3l2xlMAsdLZnIpOiNUdqjQM0X+wbAovhdW+dALAxDkw1xQxLqRe8?=
+ =?us-ascii?Q?zFmnAgf36aagyZIKE5spQSlaFFxYBnvsIecDqBOcOvjuW89pLhi0h7ONT8Lg?=
+ =?us-ascii?Q?XINv91FQRwlMov47Wc3NigXCkA273DXVJZT5z4ZGpZIAf5cHve6Tsl5EvqzR?=
+ =?us-ascii?Q?iayvCMWe5R/gGWkd6cu4Cxi2R8PpJJF9ud0T0TP/O7TgDxoOlD5qWGZB2IQY?=
+ =?us-ascii?Q?EGnB9W4A/uYkMoD7KAMwOXJzLaI502tbAY5K/nQBvP2YMKXyNgp45peMsZsE?=
+ =?us-ascii?Q?x5CvfJfTANJQvtB/togVIHRONvkw1Pndcz2kMFXgE9pnoysnvOcjOvAGdv4S?=
+ =?us-ascii?Q?Omk4bx58bjKlRl3BizwebD8ZBLcdMFVPCWsxMA9Ty3TAOXyqb76HtB8EfwEh?=
+ =?us-ascii?Q?a2cxRC9FzwVkrJY5rZne5Ump+SjP8fyp88f52U9l6Iz0qCwc96593V9TO7jR?=
+ =?us-ascii?Q?8wPfmnxb/IuCyUyiNeGjJwnhCWkNu9F6VDtRmeGUH+9ytAN+86thj7BohOYD?=
+ =?us-ascii?Q?k1kmr+mLhz9ex9vq6cfb50XSIPhBj0/2IWeIoU4atLY0kn9g0kRvH+DKe6kp?=
+ =?us-ascii?Q?HqfIMQhzRnx08NTWITZsEjMqhR5iTvnM1cgFZS4whrLL1cjclQI5/oIXlApX?=
+ =?us-ascii?Q?NyexyOGQwG1mVE9E4lKQ4j+pIc6xJUZpe2l4OgC39NfnsKJ9bhhZFyW9MjV5?=
+ =?us-ascii?Q?xdRzx9QzGw4xPl7vW3o1XWNQdgZFdgoshMFGYlPWAPswtNjGH4R3TfSw3a3e?=
+ =?us-ascii?Q?YAdLOEy7q5T3+PqzY5KClS4iyDDIMPQmJ5YBrhaqPWfq90UCiu3YPRmVb2Ua?=
+ =?us-ascii?Q?G1CZkCvKPR47RJUGWMTvfcqms2Wqu9nni5OcvQ4k674eJ63tyVW/gD1O/IAi?=
+ =?us-ascii?Q?HbZXan2sUy21ksoByEjHVz/ExEeGGHtkSozxRoe0PbNmorrapgeuakeVpsW+?=
+ =?us-ascii?Q?jNcJ1QoI8MsTdyp/wjq1jR+Vvl7O+Uc09kZJACtyJVxS1z6M+riY5brBH6vu?=
+ =?us-ascii?Q?MM0CnwBs6MqfM7tIDVbIqtoFTXuhcuiyd6ctoFTZuxWm1hFEifGNm2z7O4r3?=
+ =?us-ascii?Q?Qxr+nY2gZSolJx2wu1r1M9jJmvwr0mQ1BtZB36KehjvgemANmFyAaDo3glZY?=
+ =?us-ascii?Q?c/pYNfonIN4QcMOKxMSecbHCtcN6sE4bwcwzvSHlJbUgREPTpHI3Aa2GyhCv?=
+ =?us-ascii?Q?j3weMzmd+g9XFQMUa3k6903E81RYx1jn+3Fg6SlrorLYZiIFrSYWeK1qEMaW?=
+ =?us-ascii?Q?KjGnAJKgvkU7TtE/g4Dzv8vxUfZqYgwvZhd/H166I7lWf+jcST17Q5XetYpc?=
+ =?us-ascii?Q?R9TVzDFAhWUYcbE=3D?=
+x-forefront-antispam-report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:IA0PR11MB7307.namprd11.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230040)(1800799024)(366016)(376014)(7053199007)(38070700018); DIR:OUT;
+ SFP:1101; 
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0: =?us-ascii?Q?wze6/J4OtItxNeIui/F2rMhOSVRrLhuJXAEYTyy0DwKVBK5pLH3mZOWrzlZc?=
+ =?us-ascii?Q?dITE7gQFKx7HMLFVjVF24G0fB0v9BGS2wqlSL5yuObxhj+o3bMetEvmLn5Tb?=
+ =?us-ascii?Q?cV8XvZxtsOdfsHcFadbw2+gqpUNTpZp024uesFwcz9qkiBD6G8q7n0cS5eVM?=
+ =?us-ascii?Q?sQ+C4imjF9fZja9YJddANfqIoZR5j5XtOm2nv2NKXE8aYpeBtVw+pj+GWcpC?=
+ =?us-ascii?Q?ZfTiOK2kP8YtCNfF6ntxw7GrWvC/Y7W/1bKjbQLWdfsVqEfd7AyE+CmvILq1?=
+ =?us-ascii?Q?ZZ6YlgvY+jz6MmIG6TGm8T9p/uG0zBeZK0vVEAu29m8uXBbc4NUq3jXXgQ6s?=
+ =?us-ascii?Q?hzJctkSS/wudw3tfk+6QE9FvX0m2c4yzHJA1m82A+7mcJZOgQpDfDI6wb540?=
+ =?us-ascii?Q?GQf38ZBKS98ydcT8LWog7FknAjG+/8CjyiCVAQPySYYep9lYilKhcl20ASaN?=
+ =?us-ascii?Q?JicPLVbgaWZnEGsNkB0BmKE8rIuNoisKHpzx0VcEkuUZqsh5LoTBUQ78UJnq?=
+ =?us-ascii?Q?XsoPN2Zaj9QGS5XdPp99swgMDXq2eAjQ6UwIlevh5wf8mgtNnrx25m2zKoCq?=
+ =?us-ascii?Q?7zV9EDZf1Y6N/axa5tpX4JInEMwIJWtjfjJQW6PqGj4YNH/PF0y1SL1MZhlQ?=
+ =?us-ascii?Q?pj4F6nvArOla1D2SKmVbDLLau9teqyLMPs6dzRINj/BBQmBbea9Wpz8slchx?=
+ =?us-ascii?Q?Z4E/zoyEDRkMJzIcqhsjuWUC/V6Uuvgp19ovXUYwEGGmtwuiKeKKi9c71wqM?=
+ =?us-ascii?Q?Pub0KxGub3iqkk+IMSoJFX0b5qWhzZeJe9ZLtwcGpDpFr6X3SZQWIvR998Ac?=
+ =?us-ascii?Q?O5+XTeaOOmVkY4MrGlxMy5kcEJlwzA23GM5eiQltM+zjetUHM1tyFIf6ZtHV?=
+ =?us-ascii?Q?L/cMzrIiP5OQ+tuv7E1azT2vGZ8jYMSmf/piNobE+7SQiJoGbet7b4nV4Q4j?=
+ =?us-ascii?Q?uoomsh7zJwtBWSpcidecbxyl8BeN9KTmmHni9JXIH75EIxq9SVCq8oZXNvxi?=
+ =?us-ascii?Q?kogA6gWX+RhUwiptslnCaq/hqaW/l4AmMh6cv1qI1qwvasusnkvFIOY9abMj?=
+ =?us-ascii?Q?mtQ5Gz3RZ3AUzAS0/i8y5DiBmeaIe/kBrwVd6xNrVeM7dWl2xfmJopTYDeHv?=
+ =?us-ascii?Q?s+c4MERq3st9hDok2j6UL3rvNOGf8QP8ELH4ZHHtPE4BeALZVIHhi3JiF5Ku?=
+ =?us-ascii?Q?wRis0nN5UzqEOuaCVQUnoLsJYEPRnkTDjS6er7c7DDYqbOG6RP8VWiMI3hh2?=
+ =?us-ascii?Q?BYY5EvhdNa1xPeaivT1RrbgblGpEXZkK6+8DZ1bG3TS6SEe29lctgWusRqDw?=
+ =?us-ascii?Q?2b8CpSPhje1CPElxVmxA+oLF5H7AN31qa+HPbdIzqB1Dd5vPk0ZlEVjsvUcZ?=
+ =?us-ascii?Q?KYD/GZMvyZDa25aA7vSGK2zvMJzESFBVdANa2utH+dSOuo9VDAQWHlqMJMiW?=
+ =?us-ascii?Q?3zmC7kOB+21xKDXA6Y5K+3kzsxaW70I3ID3G6+PPc8E0ySEB/uSKi4Hbe8oa?=
+ =?us-ascii?Q?xbdi4gw3OEsNdcKIHneYAEXbSKYMeKKNCfaFS+FTyPHGSdAdHqkEcjzjWmSs?=
+ =?us-ascii?Q?GdWI+23I9GEoFutEJaR+ba7gg+o0+zzNm1i5Fywe?=
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-ID: <20250624-microchip-lvds-v3-1-c3c6f1e40516@microchip.com>
-X-B4-Tracking: v=1; b=H4sIADgsWmgC/3XMzwrCMAwG8FcZOVtZu3V/PPke4qFLowu4dbRSl
- LF3t9tBRJGQw/eR/GYI5JkCHLIZPEUO7MYUil0G2JvxSoJtyqBypfNKNmJg9A57nsQt2iC6Wmp
- p2ypvSwPpafJ04ccGns4p9xzuzj83P8q1/UtFKdKQIW3Q1qZRx/fBHt0AKxfVB6GKH0IloiHsT
- IdV2vKbWJblBQfIgnPzAAAA
-To: Manikandan Muralidharan <manikandan.m@microchip.com>, Andrzej Hajda
- <andrzej.hajda@intel.com>, Neil Armstrong <neil.armstrong@linaro.org>,
- "Robert Foss" <rfoss@kernel.org>, Laurent Pinchart
- <Laurent.pinchart@ideasonboard.com>, Jonas Karlman <jonas@kwiboo.se>, "Jernej
- Skrabec" <jernej.skrabec@gmail.com>, Maarten Lankhorst
- <maarten.lankhorst@linux.intel.com>, Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
- Simona Vetter <simona@ffwll.ch>
-CC: <dri-devel@lists.freedesktop.org>, <linux-kernel@vger.kernel.org>,
- "Sandeep Sheriker M" <sandeep.sheriker@microchip.com>, Dharma Balasubiramani
- <dharma.b@microchip.com>
-X-Mailer: b4 0.13.0
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1750740026; l=6378;
- i=dharma.b@microchip.com; s=20240209; h=from:subject:message-id;
- bh=8SIX3YXqjCEtRZTW6QbWQPaH0ZBHGs4QIObijOpd9GQ=;
- b=vaVv2H8IrmgDDLaeIQ0pLj1YjRohi4JHZd6bantEQA+cwls6BW5qxyygT0zj/pOLAZx7FeDpi
- p/dpGe4X+/yDnN4cgJ+bag6hK9yjSniqQjj89HM2MTlfRRyLk6N5TT3
-X-Developer-Key: i=dharma.b@microchip.com; a=ed25519;
- pk=kCq31LcpLAe9HDfIz9ZJ1U7T+osjOi7OZSbe0gqtyQ4=
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: IA0PR11MB7307.namprd11.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: f060cb35-0e88-4668-5bcb-08ddb2d98cf0
+X-MS-Exchange-CrossTenant-originalarrivaltime: 24 Jun 2025 04:42:39.8073 (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 46c98d88-e344-4ed4-8496-4ed7712e255d
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: ji4beGqfZiVWbp9cWAtarbM6ryU3BpwZJOX6yp20RGo+s2KwXCn+oWqzABDgZBJ9Un3gZyzZ5dHJj/tYUWELdw==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH7PR11MB7449
+X-OriginatorOrg: intel.com
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -88,192 +187,132 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Sandeep Sheriker M <sandeep.sheriker@microchip.com>
+> -----Original Message-----
+> From: Kandpal, Suraj <suraj.kandpal@intel.com>
+> Sent: Friday, June 20, 2025 12:05 PM
+> To: intel-xe@lists.freedesktop.org; intel-gfx@lists.freedesktop.org; dri-
+> devel@lists.freedesktop.org; nouveau@lists.freedesktop.org
+> Cc: Murthy, Arun R <arun.r.murthy@intel.com>; Kandpal, Suraj
+> <suraj.kandpal@intel.com>
+> Subject: [PATCH v3 03/13] drm/dp: Add argument for max luminance in
+> drm_edp_backlight_init
+>=20
+> Add new argument to drm_edp_backlight_init which gives the max_luminance
+> which will be needed to set the max values for backlight.
+>=20
+> --v2
+> -Use pass only max luminance instead of luminance_range_info struct [Arun=
+]
+>=20
+> Signed-off-by: Suraj Kandpal <suraj.kandpal@intel.com>
+> ---
+Reviewed-by: Arun R Murthy <arun.r.murthy@intel.com>
 
-The LVDS controller was hardcoded to JEIDA mapping, which leads to
-distorted output on panels expecting VESA mapping.
-
-Update the driver to dynamically select the appropriate mapping and
-pixel size based on the panel's advertised media bus format. This
-ensures compatibility with both JEIDA and VESA displays.
-
-Modernize the bridge ops to use atomic_enable/disable, and retrieve
-the bus format from the connector via the atomic bridge state.
-
-Additionally, drop the drm_panel field as it is unused.
-
-Signed-off-by: Sandeep Sheriker M <sandeep.sheriker@microchip.com>
-Signed-off-by: Dharma Balasubiramani <dharma.b@microchip.com>
----
-Changes in v3:
-- Use BIT(0) instead of 1.
-- Drop the panel field of the mchp_lvds structure.
-- Drop the inner parentheses in write in serialiser_on().
-- Link to v2: https://lore.kernel.org/r/20250623-microchip-lvds-v2-1-8ecbabc6abc4@microchip.com
-
-Changes in v2:
-- Switch to atomic bridge functions
-- Drop custom connector creation
-- Use drm_atomic_get_new_connector_for_encoder()
-- Link to v1: https://lore.kernel.org/r/20250618-microchip-lvds-v1-1-1eae5acd7a82@microchip.com
----
- drivers/gpu/drm/bridge/microchip-lvds.c | 70 +++++++++++++++++++++++++--------
- 1 file changed, 54 insertions(+), 16 deletions(-)
-
-diff --git a/drivers/gpu/drm/bridge/microchip-lvds.c b/drivers/gpu/drm/bridge/microchip-lvds.c
-index 9f4ff82bc6b4..e7b68fb4bec0 100644
---- a/drivers/gpu/drm/bridge/microchip-lvds.c
-+++ b/drivers/gpu/drm/bridge/microchip-lvds.c
-@@ -11,6 +11,7 @@
- #include <linux/component.h>
- #include <linux/delay.h>
- #include <linux/jiffies.h>
-+#include <linux/media-bus-format.h>
- #include <linux/mfd/syscon.h>
- #include <linux/of_graph.h>
- #include <linux/pinctrl/devinfo.h>
-@@ -41,9 +42,11 @@
- 
- /* Bitfields in LVDSC_CFGR (Configuration Register) */
- #define LVDSC_CFGR_PIXSIZE_24BITS	0
-+#define LVDSC_CFGR_PIXSIZE_18BITS	BIT(0)
- #define LVDSC_CFGR_DEN_POL_HIGH		0
- #define LVDSC_CFGR_DC_UNBALANCED	0
- #define LVDSC_CFGR_MAPPING_JEIDA	BIT(6)
-+#define LVDSC_CFGR_MAPPING_VESA		0
- 
- /*Bitfields in LVDSC_SR */
- #define LVDSC_SR_CS	BIT(0)
-@@ -56,7 +59,6 @@ struct mchp_lvds {
- 	struct device *dev;
- 	void __iomem *regs;
- 	struct clk *pclk;
--	struct drm_panel *panel;
- 	struct drm_bridge bridge;
- 	struct drm_bridge *panel_bridge;
- };
-@@ -76,9 +78,10 @@ static inline void lvds_writel(struct mchp_lvds *lvds, u32 offset, u32 val)
- 	writel_relaxed(val, lvds->regs + offset);
- }
- 
--static void lvds_serialiser_on(struct mchp_lvds *lvds)
-+static void lvds_serialiser_on(struct mchp_lvds *lvds, u32 bus_format)
- {
- 	unsigned long timeout = jiffies + msecs_to_jiffies(LVDS_POLL_TIMEOUT_MS);
-+	u8 map, pix_size;
- 
- 	/* The LVDSC registers can only be written if WPEN is cleared */
- 	lvds_writel(lvds, LVDSC_WPMR, (LVDSC_WPMR_WPKEY_PSSWD &
-@@ -93,11 +96,24 @@ static void lvds_serialiser_on(struct mchp_lvds *lvds)
- 		usleep_range(1000, 2000);
- 	}
- 
-+	switch (bus_format) {
-+	case MEDIA_BUS_FMT_RGB666_1X7X3_SPWG:
-+		map = LVDSC_CFGR_MAPPING_JEIDA;
-+		pix_size = LVDSC_CFGR_PIXSIZE_18BITS;
-+		break;
-+	case MEDIA_BUS_FMT_RGB888_1X7X4_SPWG:
-+		map = LVDSC_CFGR_MAPPING_VESA;
-+		pix_size = LVDSC_CFGR_PIXSIZE_24BITS;
-+		break;
-+	default:
-+		map = LVDSC_CFGR_MAPPING_JEIDA;
-+		pix_size = LVDSC_CFGR_PIXSIZE_24BITS;
-+		break;
-+	}
-+
- 	/* Configure the LVDSC */
--	lvds_writel(lvds, LVDSC_CFGR, (LVDSC_CFGR_MAPPING_JEIDA |
--				LVDSC_CFGR_DC_UNBALANCED |
--				LVDSC_CFGR_DEN_POL_HIGH |
--				LVDSC_CFGR_PIXSIZE_24BITS));
-+	lvds_writel(lvds, LVDSC_CFGR, map | LVDSC_CFGR_DC_UNBALANCED |
-+		    LVDSC_CFGR_DEN_POL_HIGH | pix_size);
- 
- 	/* Enable the LVDS serializer */
- 	lvds_writel(lvds, LVDSC_CR, LVDSC_CR_SER_EN);
-@@ -113,7 +129,8 @@ static int mchp_lvds_attach(struct drm_bridge *bridge,
- 				 bridge, flags);
- }
- 
--static void mchp_lvds_enable(struct drm_bridge *bridge)
-+static void mchp_lvds_atomic_pre_enable(struct drm_bridge *bridge,
-+					struct drm_atomic_state *state)
- {
- 	struct mchp_lvds *lvds = bridge_to_lvds(bridge);
- 	int ret;
-@@ -129,11 +146,35 @@ static void mchp_lvds_enable(struct drm_bridge *bridge)
- 		dev_err(lvds->dev, "failed to get pm runtime: %d\n", ret);
- 		return;
- 	}
-+}
-+
-+static void mchp_lvds_atomic_enable(struct drm_bridge *bridge,
-+				    struct drm_atomic_state *state)
-+{
-+	struct mchp_lvds *lvds = bridge_to_lvds(bridge);
-+	struct drm_connector *connector;
-+
-+	/* default to jeida-24 */
-+	u32 bus_format = MEDIA_BUS_FMT_RGB888_1X7X4_JEIDA;
-+
-+	connector = drm_atomic_get_new_connector_for_encoder(state, bridge->encoder);
-+	if (connector && connector->display_info.num_bus_formats)
-+		bus_format = connector->display_info.bus_formats[0];
- 
--	lvds_serialiser_on(lvds);
-+	lvds_serialiser_on(lvds, bus_format);
- }
- 
--static void mchp_lvds_disable(struct drm_bridge *bridge)
-+static void mchp_lvds_atomic_disable(struct drm_bridge *bridge,
-+				     struct drm_atomic_state *state)
-+{
-+	struct mchp_lvds *lvds = bridge_to_lvds(bridge);
-+
-+	/* Turn off the serialiser */
-+	lvds_writel(lvds, LVDSC_CR, 0);
-+}
-+
-+static void mchp_lvds_atomic_post_disable(struct drm_bridge *bridge,
-+					  struct drm_atomic_state *state)
- {
- 	struct mchp_lvds *lvds = bridge_to_lvds(bridge);
- 
-@@ -143,8 +184,10 @@ static void mchp_lvds_disable(struct drm_bridge *bridge)
- 
- static const struct drm_bridge_funcs mchp_lvds_bridge_funcs = {
- 	.attach = mchp_lvds_attach,
--	.enable = mchp_lvds_enable,
--	.disable = mchp_lvds_disable,
-+	.atomic_pre_enable = mchp_lvds_atomic_pre_enable,
-+	.atomic_enable = mchp_lvds_atomic_enable,
-+	.atomic_disable = mchp_lvds_atomic_disable,
-+	.atomic_post_disable = mchp_lvds_atomic_post_disable,
- };
- 
- static int mchp_lvds_probe(struct platform_device *pdev)
-@@ -179,13 +222,8 @@ static int mchp_lvds_probe(struct platform_device *pdev)
- 			"can't find port point, please init lvds panel port!\n");
- 		return -ENODEV;
- 	}
--
--	lvds->panel = of_drm_find_panel(port);
- 	of_node_put(port);
- 
--	if (IS_ERR(lvds->panel))
--		return -EPROBE_DEFER;
--
- 	lvds->panel_bridge = devm_drm_of_get_bridge(dev, dev->of_node, 1, 0);
- 
- 	if (IS_ERR(lvds->panel_bridge))
-
----
-base-commit: 4325743c7e209ae7845293679a4de94b969f2bef
-change-id: 20250618-microchip-lvds-b7151d96094a
-
-Best regards,
--- 
-Dharma Balasubiramani <dharma.b@microchip.com>
+Thanks and Regards,
+Arun R Murthy
+-------------------
+>  drivers/gpu/drm/display/drm_dp_helper.c               | 4 +++-
+>  drivers/gpu/drm/i915/display/intel_dp_aux_backlight.c | 6 ++++--
+>  drivers/gpu/drm/nouveau/nouveau_backlight.c           | 3 ++-
+>  include/drm/display/drm_dp_helper.h                   | 1 +
+>  4 files changed, 10 insertions(+), 4 deletions(-)
+>=20
+> diff --git a/drivers/gpu/drm/display/drm_dp_helper.c
+> b/drivers/gpu/drm/display/drm_dp_helper.c
+> index 2a662951f7a8..9df95776d1cb 100644
+> --- a/drivers/gpu/drm/display/drm_dp_helper.c
+> +++ b/drivers/gpu/drm/display/drm_dp_helper.c
+> @@ -4251,6 +4251,7 @@ drm_edp_backlight_probe_state(struct drm_dp_aux
+> *aux, struct drm_edp_backlight_i
+>   * interface.
+>   * @aux: The DP aux device to use for probing
+>   * @bl: The &drm_edp_backlight_info struct to fill out with information =
+on the
+> backlight
+> + * @max_luminance: max luminance when need luminance is set as true
+>   * @driver_pwm_freq_hz: Optional PWM frequency from the driver in hz
+>   * @edp_dpcd: A cached copy of the eDP DPCD
+>   * @current_level: Where to store the probed brightness level, if any @@=
+ -
+> 4267,6 +4268,7 @@ drm_edp_backlight_probe_state(struct drm_dp_aux *aux,
+> struct drm_edp_backlight_i
+>   */
+>  int
+>  drm_edp_backlight_init(struct drm_dp_aux *aux, struct
+> drm_edp_backlight_info *bl,
+> +		       u32 max_luminance,
+>  		       u16 driver_pwm_freq_hz, const u8
+> edp_dpcd[EDP_DISPLAY_CTL_CAP_SIZE],
+>  		       u16 *current_level, u8 *current_mode, bool
+> need_luminance)  { @@ -4396,7 +4398,7 @@ int
+> drm_panel_dp_aux_backlight(struct drm_panel *panel, struct drm_dp_aux
+> *aux)
+>=20
+>  	bl->aux =3D aux;
+>=20
+> -	ret =3D drm_edp_backlight_init(aux, &bl->info, 0, edp_dpcd,
+> +	ret =3D drm_edp_backlight_init(aux, &bl->info, 0, 0, edp_dpcd,
+>  				     &current_level, &current_mode, false);
+>  	if (ret < 0)
+>  		return ret;
+> diff --git a/drivers/gpu/drm/i915/display/intel_dp_aux_backlight.c
+> b/drivers/gpu/drm/i915/display/intel_dp_aux_backlight.c
+> index dc6f6680774f..ab594bf028da 100644
+> --- a/drivers/gpu/drm/i915/display/intel_dp_aux_backlight.c
+> +++ b/drivers/gpu/drm/i915/display/intel_dp_aux_backlight.c
+> @@ -599,8 +599,10 @@ static int intel_dp_aux_vesa_setup_backlight(struct
+> intel_connector *connector,
+>  			    connector->base.base.id, connector->base.name);
+>  	} else {
+>  		ret =3D drm_edp_backlight_init(&intel_dp->aux, &panel-
+> >backlight.edp.vesa.info,
+> -					     panel->vbt.backlight.pwm_freq_hz,
+> intel_dp->edp_dpcd,
+> -					     &current_level, &current_mode,
+> false);
+> +					     luminance_range->max_luminance,
+> +					     panel->vbt.backlight.pwm_freq_hz,
+> +					     intel_dp->edp_dpcd,
+> &current_level, &current_mode,
+> +					     false);
+>  		if (ret < 0)
+>  			return ret;
+>=20
+> diff --git a/drivers/gpu/drm/nouveau/nouveau_backlight.c
+> b/drivers/gpu/drm/nouveau/nouveau_backlight.c
+> index 7d93266bf26a..d45619db02a2 100644
+> --- a/drivers/gpu/drm/nouveau/nouveau_backlight.c
+> +++ b/drivers/gpu/drm/nouveau/nouveau_backlight.c
+> @@ -261,7 +261,8 @@ nv50_backlight_init(struct nouveau_backlight *bl,
+>  			NV_DEBUG(drm, "DPCD backlight controls supported
+> on %s\n",
+>  				 nv_conn->base.name);
+>=20
+> -			ret =3D drm_edp_backlight_init(&nv_conn->aux, &bl-
+> >edp_info, 0, edp_dpcd,
+> +			ret =3D drm_edp_backlight_init(&nv_conn->aux, &bl-
+> >edp_info,
+> +						     0, 0, edp_dpcd,
+>  						     &current_level,
+> &current_mode, false);
+>  			if (ret < 0)
+>  				return ret;
+> diff --git a/include/drm/display/drm_dp_helper.h
+> b/include/drm/display/drm_dp_helper.h
+> index fcbf447206cf..91094a38594c 100644
+> --- a/include/drm/display/drm_dp_helper.h
+> +++ b/include/drm/display/drm_dp_helper.h
+> @@ -860,6 +860,7 @@ struct drm_edp_backlight_info {
+>=20
+>  int
+>  drm_edp_backlight_init(struct drm_dp_aux *aux, struct
+> drm_edp_backlight_info *bl,
+> +		       u32 max_luminance,
+>  		       u16 driver_pwm_freq_hz, const u8
+> edp_dpcd[EDP_DISPLAY_CTL_CAP_SIZE],
+>  		       u16 *current_level, u8 *current_mode, bool
+> need_luminance);  int drm_edp_backlight_set_level(struct drm_dp_aux *aux,
+> const struct drm_edp_backlight_info *bl,
+> --
+> 2.34.1
 
