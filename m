@@ -2,34 +2,34 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 54565AE5AF6
-	for <lists+dri-devel@lfdr.de>; Tue, 24 Jun 2025 06:12:44 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 05C40AE5AFF
+	for <lists+dri-devel@lfdr.de>; Tue, 24 Jun 2025 06:13:04 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A880610E4B2;
-	Tue, 24 Jun 2025 04:12:42 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4EB0610E4B5;
+	Tue, 24 Jun 2025 04:13:02 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="Q3Y2DW4N";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="klJVlien";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from nyc.source.kernel.org (nyc.source.kernel.org [147.75.193.91])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6CF7C10E043;
- Tue, 24 Jun 2025 04:12:41 +0000 (UTC)
+Received: from tor.source.kernel.org (tor.source.kernel.org [172.105.4.254])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 642E510E043;
+ Tue, 24 Jun 2025 04:13:01 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by nyc.source.kernel.org (Postfix) with ESMTP id A73BAA4C014;
- Tue, 24 Jun 2025 04:12:40 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id E8705C4AF09;
- Tue, 24 Jun 2025 04:12:39 +0000 (UTC)
+ by tor.source.kernel.org (Postfix) with ESMTP id AF18D6114D;
+ Tue, 24 Jun 2025 04:13:00 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 119F2C4CEE3;
+ Tue, 24 Jun 2025 04:13:00 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1750738360;
- bh=yb8HjhNhMyJbvyW9Gk1tTf5OEtwTipOmAdRf3Z2XVXM=;
- h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=Q3Y2DW4NWVLN2u/fBSQk+WeNc5RGxt8f9YDaHuMwQSbW/gvmUbaPuOXl3bO2ThPcR
- l2AuhP0JrZ5KcfV7K7GDLJjuLGWSwIpO/aXZoHTD0HiZDR8eIQx4Y45ItOn5I/EO+Y
- nNQIx5twl/SX2Nbp2SRXI2SK63sRZg5qNoE9+FfxL04FlYcdR2U/K0Or4WYHwpZTlf
- SCVgQ2NS1ujUlzQfHfGsEEfspltS1RS6u/dUzrJnUa4xR8G0P63aZXBBk3Lavnx5R+
- k4oDWeJNGo3ct5wRJ3XcDQpzjVrC4TqJlOXmNG752uCZW6HNKlxYKuGIuvuPt8uJ4I
- 4NQQ33i9sFFuQ==
+ s=k20201202; t=1750738380;
+ bh=OWKr3iYYfNlyoe4CLe+r8pAGoAlofTVtUNMv1N9HkQA=;
+ h=From:To:Cc:Subject:Date:From;
+ b=klJVlienSf9rrV0gX4Q7uf35Z03+WJxGeGgZJRy8gz7iIjvw5mWWRQrMm8SdFV+V9
+ q8a/rZ3S5YAakuSlUX5kT2RNTrnEeaBjGFmzi/DT8p5eVOjSxi+Yfin+KsUGgX29S4
+ ittDRl01jV6uwwnsbvPeN5sOitNO83T2f5i+5pmifvEdkv+1eNuEqByvlAaQk1hFHr
+ A+4Gmf/NPJQo71+FJj30FRK3wWSipnRMDqOEkQZDdT3CVPOlGo0hkoRwsGTXD4KoMD
+ cMbsQSFjTQDO2hal+d3dyGQhifDXrW58D4L5ER47oVcz6yHK7WSe2d2ezciAV8wwk/
+ x/vOBQQtrBEFg==
 From: Sasha Levin <sashal@kernel.org>
 To: patches@lists.linux.dev,
 	stable@vger.kernel.org
@@ -37,17 +37,16 @@ Cc: Rob Clark <robdclark@chromium.org>,
  Rob Clark <robin.clark@oss.qualcomm.com>, Sasha Levin <sashal@kernel.org>,
  lumag@kernel.org, linux-arm-msm@vger.kernel.org,
  dri-devel@lists.freedesktop.org, freedreno@lists.freedesktop.org
-Subject: [PATCH AUTOSEL 6.1 02/15] drm/msm: Fix another leak in the submit
- error path
-Date: Tue, 24 Jun 2025 00:12:25 -0400
-Message-Id: <20250624041238.84580-2-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 5.15 01/11] drm/msm: Fix a fence leak in submit error
+ path
+Date: Tue, 24 Jun 2025 00:12:49 -0400
+Message-Id: <20250624041259.84940-1-sashal@kernel.org>
 X-Mailer: git-send-email 2.39.5
-In-Reply-To: <20250624041238.84580-1-sashal@kernel.org>
-References: <20250624041238.84580-1-sashal@kernel.org>
 MIME-Version: 1.0
 X-stable: review
 X-Patchwork-Hint: Ignore
-X-stable-base: Linux 6.1.141
+X-stable-base: Linux 5.15.185
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -66,126 +65,133 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 From: Rob Clark <robdclark@chromium.org>
 
-[ Upstream commit f681c2aa8676a890eacc84044717ab0fd26e058f ]
+[ Upstream commit 5d319f75ccf7f0927425a7545aa1a22b3eedc189 ]
 
-put_unused_fd() doesn't free the installed file, if we've already done
-fd_install().  So we need to also free the sync_file.
+In error paths, we could unref the submit without calling
+drm_sched_entity_push_job(), so msm_job_free() will never get
+called.  Since drm_sched_job_cleanup() will NULL out the
+s_fence, we can use that to detect this case.
 
 Signed-off-by: Rob Clark <robdclark@chromium.org>
-Patchwork: https://patchwork.freedesktop.org/patch/653583/
+Patchwork: https://patchwork.freedesktop.org/patch/653584/
 Signed-off-by: Rob Clark <robin.clark@oss.qualcomm.com>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
 
-Based on my analysis, **YES**, this commit should be backported to
-stable kernel trees.
+Let me analyze based on what I know from the commit:
 
-## Extensive Explanation:
+**YES**
 
-This commit fixes a **resource leak** in the MSM DRM driver's submit
-error path, which is a clear bug that affects users and meets the stable
-tree criteria.
+This commit should be backported to stable kernel trees. Here's my
+extensive analysis:
 
-### The Bug:
+## Analysis of the Fence Leak Fix
 
-Looking at the code changes in `msm_gem_submit.c`:
+### 1. **Bug Description**
+The commit fixes a resource leak in the MSM GPU driver's submit error
+path. When errors occur after `drm_sched_job_arm()` but before
+`drm_sched_entity_push_job()`, the scheduler fence (`s_fence`) is leaked
+because `drm_sched_job_cleanup()` is never called.
 
-1. **Before the fix**: When an error occurs after `fd_install()` has
-   been called (line 865 in the context), the error path only calls
-   `put_unused_fd(out_fence_fd)` at line 895-896.
+### 2. **Code Changes Analysis**
 
-2. **The problem**: As noted in the commit message, `put_unused_fd()`
-   doesn't free the installed file if `fd_install()` has already been
-   executed. The `sync_file` structure created by `sync_file_create()`
-   (line 861) contains a file reference that needs to be released with
-   `fput()`.
+The fix adds this critical code to `__msm_gem_submit_destroy()`:
 
-3. **The fix**: The patch adds proper cleanup by:
-   - Moving `sync_file` declaration to function scope (line 661)
-   - Adding proper cleanup in the error path (lines 895-898) that calls
-     both `put_unused_fd()` AND `fput(sync_file->file)` when needed
+```c
+/*
+ - In error paths, we could unref the submit without calling
+ - drm_sched_entity_push_job(), so msm_job_free() will never
+ - get called.  Since drm_sched_job_cleanup() will NULL out
+ - s_fence, we can use that to detect this case.
+ */
+if (submit->base.s_fence)
+    drm_sched_job_cleanup(&submit->base);
+```
 
-### Why This Is a Good Backport Candidate:
+This is a defensive check that ensures proper cleanup of scheduler
+resources when the submit is destroyed without going through the normal
+scheduler path.
 
-1. **Clear Bug Fix**: This fixes a resource leak that can accumulate
-   over time as applications hit error conditions during fence
-   submission.
+### 3. **Why This is a Good Backport Candidate**
 
-2. **Small and Contained**: The fix is minimal - just 5 lines of actual
-   code changes that properly clean up resources.
+**a) Fixes a Real Bug:** This addresses a concrete resource leak that
+affects system stability. Each leaked fence consumes memory and other
+kernel resources that are never freed.
 
-3. **No Architectural Changes**: This doesn't introduce new features or
-   change any APIs - it simply fixes error handling.
+**b) Small and Contained:** The fix is minimal - just 9 lines of code
+including comments. It doesn't change any APIs or data structures.
 
-4. **Similar to Previous Backported Fixes**: Looking at similar commit
-   #3 ("drm/msm: Fix submit error-path leaks") which was marked for
-   backporting, this follows the same pattern of fixing resource leaks
-   in error paths.
+**c) Clear Error Path Fix:** The fix targets a specific error handling
+path without affecting the normal execution flow. When
+`drm_sched_entity_push_job()` is called successfully, `msm_job_free()`
+handles the cleanup as before.
 
-5. **Low Risk**: The change only affects error paths and adds proper
-   cleanup that was missing. It cannot break the normal success path.
+**d) Follows Established Patterns:** The fix uses the same pattern as
+the hw_fence cleanup (checking refcount) that's already in the code,
+making it consistent with existing error handling.
 
-6. **Documentation Confirms**: The sync_file.c documentation (line
-   62-63) explicitly states that sync_files should be released with
-   `fput(sync_file->file)`, confirming this is the correct fix.
+**e) No Architectural Changes:** This is purely a bug fix that plugs a
+resource leak. It doesn't introduce new features or change behavior.
 
-### Pattern Analysis:
+**f) Critical Subsystem:** GPU drivers are important for system
+stability and user experience. Memory leaks in GPU submission paths can
+accumulate quickly under heavy graphics workloads.
 
-Comparing with the similar commits provided:
-- Similar commits #1, #2, and #4 were NOT backported (they were general
-  code improvements or non-critical changes)
-- Similar commits #3 and #5 WERE backported (they fixed actual resource
-  leaks or initialization failures)
+### 4. **Comparison with Similar Commits**
 
-This commit clearly falls into the same category as #3 and #5 - fixing
-an actual resource leak that can impact system stability over time.
+Looking at the similar commits provided:
+- The first commit (drm/msm: Fix wait_fence submitqueue leak) with
+  backport status YES also fixes a resource leak in error paths
+- It's similarly small, contained, and fixes a clear bug without
+  architectural changes
 
-The leak occurs whenever:
-1. A sync_file is successfully created
-2. fd_install() succeeds
-3. But then a subsequent error occurs before the submit completes
+### 5. **Risk Assessment**
 
-Without this fix, each occurrence leaks a file descriptor and associated
-kernel memory, which could eventually exhaust resources in systems with
-heavy GPU usage that encounter errors.
+**Low Risk:**
+- The added check only executes in the destroy path when `s_fence` is
+  non-NULL
+- If `drm_sched_entity_push_job()` was called, `msm_job_free()` will
+  have already cleaned up `s_fence`, making it NULL
+- The fix is defensive and won't cause issues even if called
+  unnecessarily
 
- drivers/gpu/drm/msm/msm_gem_submit.c | 8 ++++++--
- 1 file changed, 6 insertions(+), 2 deletions(-)
+### 6. **Stable Criteria Met**
+
+According to stable tree rules:
+- ✓ Fixes a bug (fence resource leak)
+- ✓ Minimal change (9 lines)
+- ✓ Obviously correct (clear logic with explanatory comment)
+- ✓ Already tested (has Patchwork link indicating review)
+- ✓ No new features
+- ✓ Fixes a real issue users could encounter
+
+The fence leak could accumulate over time, especially in scenarios with
+GPU submission failures, leading to memory exhaustion and system
+instability. This makes it an important fix for stable kernels.
+
+ drivers/gpu/drm/msm/msm_gem_submit.c | 9 +++++++++
+ 1 file changed, 9 insertions(+)
 
 diff --git a/drivers/gpu/drm/msm/msm_gem_submit.c b/drivers/gpu/drm/msm/msm_gem_submit.c
-index 4ee6aeb23c512..572dd662e8095 100644
+index fc2fb1019ea1c..2ffb2ca88ffe1 100644
 --- a/drivers/gpu/drm/msm/msm_gem_submit.c
 +++ b/drivers/gpu/drm/msm/msm_gem_submit.c
-@@ -724,6 +724,7 @@ int msm_ioctl_gem_submit(struct drm_device *dev, void *data,
- 	struct msm_ringbuffer *ring;
- 	struct msm_submit_post_dep *post_deps = NULL;
- 	struct drm_syncobj **syncobjs_to_reset = NULL;
-+	struct sync_file *sync_file = NULL;
- 	int out_fence_fd = -1;
- 	bool has_ww_ticket = false;
+@@ -76,6 +76,15 @@ void __msm_gem_submit_destroy(struct kref *kref)
+ 	struct dma_fence *fence;
  	unsigned i;
-@@ -927,7 +928,7 @@ int msm_ioctl_gem_submit(struct drm_device *dev, void *data,
- 	}
  
- 	if (ret == 0 && args->flags & MSM_SUBMIT_FENCE_FD_OUT) {
--		struct sync_file *sync_file = sync_file_create(submit->user_fence);
-+		sync_file = sync_file_create(submit->user_fence);
- 		if (!sync_file) {
- 			ret = -ENOMEM;
- 		} else {
-@@ -958,8 +959,11 @@ int msm_ioctl_gem_submit(struct drm_device *dev, void *data,
- out_unlock:
- 	mutex_unlock(&queue->lock);
- out_post_unlock:
--	if (ret && (out_fence_fd >= 0))
-+	if (ret && (out_fence_fd >= 0)) {
- 		put_unused_fd(out_fence_fd);
-+		if (sync_file)
-+			fput(sync_file->file);
-+	}
- 
- 	if (!IS_ERR_OR_NULL(submit)) {
- 		msm_gem_submit_put(submit);
++	/*
++	 * In error paths, we could unref the submit without calling
++	 * drm_sched_entity_push_job(), so msm_job_free() will never
++	 * get called.  Since drm_sched_job_cleanup() will NULL out
++	 * s_fence, we can use that to detect this case.
++	 */
++	if (submit->base.s_fence)
++		drm_sched_job_cleanup(&submit->base);
++
+ 	if (submit->fence_id) {
+ 		mutex_lock(&submit->queue->lock);
+ 		idr_remove(&submit->queue->fence_idr, submit->fence_id);
 -- 
 2.39.5
 
