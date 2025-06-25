@@ -2,119 +2,118 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1220FAE8D60
-	for <lists+dri-devel@lfdr.de>; Wed, 25 Jun 2025 20:58:55 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 47041AE8D5D
+	for <lists+dri-devel@lfdr.de>; Wed, 25 Jun 2025 20:58:53 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4B6E810E7D0;
-	Wed, 25 Jun 2025 18:58:52 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5726910E7C9;
+	Wed, 25 Jun 2025 18:58:51 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=qualcomm.com header.i=@qualcomm.com header.b="VsVMc1XF";
+	dkim=pass (2048-bit key; unprotected) header.d=qualcomm.com header.i=@qualcomm.com header.b="AZLS+vaS";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com
- [205.220.168.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 11EEB10E7CE
- for <dri-devel@lists.freedesktop.org>; Wed, 25 Jun 2025 18:58:43 +0000 (UTC)
-Received: from pps.filterd (m0279864.ppops.net [127.0.0.1])
- by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 55PBkvRi015366
- for <dri-devel@lists.freedesktop.org>; Wed, 25 Jun 2025 18:58:42 GMT
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com
+ [205.220.180.131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 01AB810E7CE
+ for <dri-devel@lists.freedesktop.org>; Wed, 25 Jun 2025 18:58:49 +0000 (UTC)
+Received: from pps.filterd (m0279871.ppops.net [127.0.0.1])
+ by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 55PB1fMt027698
+ for <dri-devel@lists.freedesktop.org>; Wed, 25 Jun 2025 18:58:49 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
  cc:content-transfer-encoding:date:from:in-reply-to:message-id
- :mime-version:references:subject:to; s=qcppdkim1; bh=w1KSq0qBMbn
- 8vDCQkGrj8jPph96M9d4hpv60nbIOQ/E=; b=VsVMc1XFiOptmnmnGZSFEZgbPQV
- N2znD2PDZ4MUNu0jZt3exgZdQhyhOOgjUfjA4dlPykEqzWgSudrUBpnlqnBrwHpS
- 5naUgA3gcSeYr9UcbDGyOoxzRcu1oge3tVbvdk0M6y32cMoa7SymPjJ9iaYVzZqW
- YPpo7wdINvxkLE0PGtClGDMza1hdVzhZAN/BnUzFnEqAvKPF8agKDuGKyEjAajG/
- ztcWjqqQLVVH0ujq/oyzeIN+/VLcNt6+QT15fULsOvPFoslYRclMIm1pHPJLxL8O
- LXk8BMGuyy7x1eZnS5s9THrf1NZ5UWmU3zqHfLImfb4Dt83/Y6/SKKDJBWw==
-Received: from mail-pg1-f200.google.com (mail-pg1-f200.google.com
- [209.85.215.200])
- by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 47esa4t5dj-1
+ :mime-version:references:subject:to; s=qcppdkim1; bh=Y2zxveILbHW
+ PIr8ks/pyRPi0stqPjZq8Es+9coKpY4I=; b=AZLS+vaSOzh8rg8byeid3a6qoft
+ uKikeA61eYp8QbKr+wAvMxuqwN2yRxYnt+FqjyYdPzw6VGGfpuEFE8OWSQzfj4qr
+ tFS7aKbwGwdE2f49VKwVBsnyUG30+KLcTyh79M5XxZ/idBMkKnJ2bKHfaZOdJ5ls
+ jaNox6LI+vNbVNqzquRfWzmGohTYuxBbaDIK3lewozc38Ckqn+2G3Ag3ttard6RO
+ 1UScY2wGfZRnV5XO1uk+WJC8XMDnXbxteSkzQJ5yLGFx5cM4f3+sS96exKz0AFNC
+ C2ep3hQE/IflH8tq2nXlCiqr555YeV34jNNkpvgLWOLZswv9hDmR3Tq5OEg==
+Received: from mail-pl1-f198.google.com (mail-pl1-f198.google.com
+ [209.85.214.198])
+ by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 47fbhqqdfq-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
- for <dri-devel@lists.freedesktop.org>; Wed, 25 Jun 2025 18:58:42 +0000 (GMT)
-Received: by mail-pg1-f200.google.com with SMTP id
- 41be03b00d2f7-b2fa1a84568so141944a12.1
- for <dri-devel@lists.freedesktop.org>; Wed, 25 Jun 2025 11:58:42 -0700 (PDT)
+ for <dri-devel@lists.freedesktop.org>; Wed, 25 Jun 2025 18:58:48 +0000 (GMT)
+Received: by mail-pl1-f198.google.com with SMTP id
+ d9443c01a7336-235dd77d11fso1800155ad.0
+ for <dri-devel@lists.freedesktop.org>; Wed, 25 Jun 2025 11:58:48 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1750877921; x=1751482721;
+ d=1e100.net; s=20230601; t=1750877927; x=1751482727;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=w1KSq0qBMbn8vDCQkGrj8jPph96M9d4hpv60nbIOQ/E=;
- b=JXDpP5CeyJApdj/c0qAoGJZjpMLT70itbPO+sBi7HoVW+3PRLZZGK36R3XAvPaBt66
- 0IS57+aZAxLkKzDG1jUX0KC1JGt+uKZJtfcFHfsyHn/uJcoZEvVxO0EXgsVMzKQlDtRq
- AWkRXLVbcVp8Wx0iYctz6xTh7Xy4tDUnYz6tmteWf480KDZTLGnac5bqfuNwHmlWeX1t
- dWDwZknKA2ez2e/S4ol+S4vqQyKwXBECBe8teOgoHfHigsGanhscFC4DLDuuOeZ6HxIO
- ypO6o/GEOFF9meZTlcjFn7iRYvz6bFxv/CyvLWdhrTym7ECd/tSDapCPGDIdWQJqttAN
- JZsw==
-X-Gm-Message-State: AOJu0YzS3HYK5eft7yu7yKrTgsyHlGQQU5xygLbAWgYdw+UZSqUKmCJj
- XaxCdTPr1C+6IbuvgNx2axWsHAOmrYj5tuwAf40dMdxlgwo9vhBZ581gB43C7OXtKu+0802QDRG
- nHC6f7Ym1KoaarCFq2i5LDUZDSrVPoOssQvIVTFTiaIDdcHOretPRJHtdq2hchvwhIUp+geKbt+
- Zl9I4=
-X-Gm-Gg: ASbGncuZYV25zIHPiMDj2sEJuaZR+h8dSdLh3e9dpeHMmdXd+C7m1ypF3+0GX7e+xC5
- 1GVziSjowbO4F+qTR/vtSKXNygMC/YJdqNNofY/3jY/Nd51W8lhPN5z32rngSbQE+Rd0TEI7HGi
- z2UJP3XvDzOEY4P8czf5vm76eU1fFQ8G+kk/yoSTDRe0PmNUxF+P+l1Rqnb4txb5M6I67vyoZvQ
- 44ztFakn6ZtBi46ibg3quPXdR6QLMaGG0rPLRluXHqexcD3BFYD0pLhqoFoGLTGnu7dsMdeaEWX
- d8NCe0BGh2MRMEXcZybJKWq64xImurXS
-X-Received: by 2002:a17:90b:1848:b0:311:abba:53b6 with SMTP id
- 98e67ed59e1d1-316d6a0db93mr875920a91.14.1750877921186; 
- Wed, 25 Jun 2025 11:58:41 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IGsWmo0XcfY14cs14p24v7aKlCpVmoi+qFh+n3i1O5FwYt3u5BbeIQWYiWOVDn5GpGfp0RINQ==
-X-Received: by 2002:a17:90b:1848:b0:311:abba:53b6 with SMTP id
- 98e67ed59e1d1-316d6a0db93mr875868a91.14.1750877920555; 
- Wed, 25 Jun 2025 11:58:40 -0700 (PDT)
+ bh=Y2zxveILbHWPIr8ks/pyRPi0stqPjZq8Es+9coKpY4I=;
+ b=ZhArOtsMLlMsF+8HhoZ9EMbv/Tr2LQJmnjeaPfpAgh8atRnU4X2pWH3tElYsYstYu3
+ R5p5ewQDsWLn/D3giNzLoVJdHx+HpFVEhbanz1yF1WkSTKXZGxBGylJiO4ubLG5/Sxdx
+ 4SykYWqcBxeC4oAiRXh9tDHIWveNQ/RHpR+EWewfO9lo1wMApRa7C4GA+fiHAHeiQg/m
+ gyLc7XehlCI0zJ/Au6vEsTDMgAyRr79iWO/M9cPJeykvDOUqzlW3MwwYXbizGSW9JeQf
+ jB9mrXYdQRaGkxbabHxkytJSlYUFAcZF369RjTouw1kEpVxrpZoSY1fMz1DtMTWDsuCJ
+ YevQ==
+X-Gm-Message-State: AOJu0YyiobmRlQlZ2yzI9/ZPQYa5Kx0eN2NJtlZ967g209jI40MvJnmh
+ gCN4EhDnHAAr84AL0tDUUhnDQAryltKqGXzfE4jsvGM0KntAJg8sNNCsSiWQ0haSNE24YUP/kmD
+ mBIxstVsA0CW3GyENlYpq29tWAIM/0AvujU3n0zq2LWSwWHnVm+Z7yvjKMYwtGrbqnxrWhRabS+
+ opXUQ=
+X-Gm-Gg: ASbGnctmtBZXDcLu1keb37CAg6j306DHN4EgaBMcTuauON+fLj3yRcig30I/7imgk12
+ N25gT9nQ027yNdBI4L5J3vvBXxpx4TzwSJf29rupQ3oUeCNvoFt9jpPkMqM3GdcnyjimbN1bdOM
+ kRowE6IHbbu52h738St87lWPFolIMl9HSNvKDUrxAZKQQ12saBr0NpCNHKkQOuYCJ1KrJqnlpGs
+ nqCIL6qH2O40g0KIQJqoz3QpBaJY3s/RWIiG4eC5giHJ93sSZy325+VAk6JmaEdDKucGCkkJKcR
+ V8xqdtwdf+mlhfQ86bAP61lq6sZWvrBI
+X-Received: by 2002:a17:902:ea02:b0:22f:b6d6:2737 with SMTP id
+ d9443c01a7336-23823f6652emr90989725ad.10.1750877926620; 
+ Wed, 25 Jun 2025 11:58:46 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IGglkr3KfsvVlknlXsJ0RrrrhYBeGXucCqwrbMO6Mp7UtZWU6/sguboqXKdlhaboKOwCC8ksw==
+X-Received: by 2002:a17:902:ea02:b0:22f:b6d6:2737 with SMTP id
+ d9443c01a7336-23823f6652emr90988575ad.10.1750877925711; 
+ Wed, 25 Jun 2025 11:58:45 -0700 (PDT)
 Received: from localhost ([2601:1c0:5000:d5c:5b3e:de60:4fda:e7b1])
  by smtp.gmail.com with ESMTPSA id
- 98e67ed59e1d1-315f5441770sm2486922a91.48.2025.06.25.11.58.40
+ d9443c01a7336-237d8640b83sm145335175ad.142.2025.06.25.11.58.45
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 25 Jun 2025 11:58:40 -0700 (PDT)
+ Wed, 25 Jun 2025 11:58:45 -0700 (PDT)
 From: Rob Clark <robin.clark@oss.qualcomm.com>
 To: dri-devel@lists.freedesktop.org
 Cc: linux-arm-msm@vger.kernel.org, freedreno@lists.freedesktop.org,
  Connor Abbott <cwabbott0@gmail.com>,
  Antonino Maniscalco <antomani103@gmail.com>,
  Rob Clark <robdclark@chromium.org>,
- Rob Clark <robin.clark@oss.qualcomm.com>, Rob Clark <robdclark@gmail.com>,
+ Rob Clark <robin.clark@oss.qualcomm.com>,
+ Rob Clark <robdclark@gmail.com>, Sean Paul <sean@poorly.run>,
+ Konrad Dybcio <konradybcio@kernel.org>,
  Abhinav Kumar <quic_abhinavk@quicinc.com>,
- Dmitry Baryshkov <lumag@kernel.org>, Sean Paul <sean@poorly.run>,
+ Dmitry Baryshkov <lumag@kernel.org>,
  Marijn Suijten <marijn.suijten@somainline.org>,
  David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- Sumit Semwal <sumit.semwal@linaro.org>,
- =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>,
- linux-kernel@vger.kernel.org (open list),
- linux-media@vger.kernel.org (open list:DMA BUFFER SHARING
- FRAMEWORK:Keyword:\bdma_(?:buf|fence|resv)\b), 
- linaro-mm-sig@lists.linaro.org (moderated list:DMA BUFFER SHARING
- FRAMEWORK:Keyword:\bdma_(?:buf|fence|resv)\b)
-Subject: [PATCH v7 14/42] drm/msm: Convert vm locking
-Date: Wed, 25 Jun 2025 11:47:07 -0700
-Message-ID: <20250625184918.124608-15-robin.clark@oss.qualcomm.com>
+ Jessica Zhang <quic_jesszhan@quicinc.com>, Arnd Bergmann <arnd@arndb.de>,
+ Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
+ Eugene Lepshy <fekz115@gmail.com>, Haoxiang Li <haoxiang_li2024@163.com>,
+ linux-kernel@vger.kernel.org (open list)
+Subject: [PATCH v7 15/42] drm/msm: Use drm_gpuvm types more
+Date: Wed, 25 Jun 2025 11:47:08 -0700
+Message-ID: <20250625184918.124608-16-robin.clark@oss.qualcomm.com>
 X-Mailer: git-send-email 2.49.0
 In-Reply-To: <20250625184918.124608-1-robin.clark@oss.qualcomm.com>
 References: <20250625184918.124608-1-robin.clark@oss.qualcomm.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Authority-Analysis: v=2.4 cv=eLYTjGp1 c=1 sm=1 tr=0 ts=685c46e2 cx=c_pps
- a=oF/VQ+ItUULfLr/lQ2/icg==:117 a=xqWC_Br6kY4A:10 a=6IFa9wvqVegA:10
- a=cm27Pg_UAAAA:8 a=EUspDBNiAAAA:8 a=1nDRvngas_nmfiIOXgsA:9
- a=3WC7DwWrALyhR5TkjVHa:22
-X-Proofpoint-GUID: mm-4OILijJRqeXTxWG2VTR1r3M6W4ZIR
-X-Proofpoint-ORIG-GUID: mm-4OILijJRqeXTxWG2VTR1r3M6W4ZIR
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwNjI1MDE0MyBTYWx0ZWRfX9R/WqLJz0tCi
- wNv7Q113o4oVnReiSIiaObPggssc1EP5+oEENKZu2FgSWxMpCgkAWsd0CImNUQfow5k1ym2E5WN
- y5QUMoCib/B2WsVfP2YRVryO1OWy+uIN3Nd49FfG2dFXerVEfOOS8dFAlVPNEJc3/IHgUBKJRjf
- CmB6Nyf+K8Gg/XwXQDJ/pxMKCAKuYhbYJ97CRWFDGxdG4vQN2jQlyiVpK8LWY2qzdUGVkdOcZzI
- qB2bISDREWI7dGSM5US9EoT4T/B0vC7vL2JbXBSXr50sO33Bvgbix07T3j1YOXT1oQepRcZ9GWx
- gZf4N2kBsrygZdEOQ3kUo5bg+TBMTT+qG5aSRwGU77sxH/ykAeQPKOAgG3D7OvVzkrMOgLN/Q3U
- Fhb/CGq2a0QBDks8+ZwckumQp7CH0bjSy6LdEUKnOCXmAIF+eJ9aKa3fOnXQQcU4+zt9wEgX
+X-Proofpoint-ORIG-GUID: nR4IIkUPtwW1sjECYapVOUhY_4agKlkB
+X-Authority-Analysis: v=2.4 cv=Id+HWXqa c=1 sm=1 tr=0 ts=685c46e8 cx=c_pps
+ a=MTSHoo12Qbhz2p7MsH1ifg==:117 a=xqWC_Br6kY4A:10 a=6IFa9wvqVegA:10
+ a=cm27Pg_UAAAA:8 a=EUspDBNiAAAA:8 a=5ZgAWMNDsa3KKn93vecA:9
+ a=GvdueXVYPmCkWapjIL-Q:22
+X-Proofpoint-GUID: nR4IIkUPtwW1sjECYapVOUhY_4agKlkB
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwNjI1MDE0MyBTYWx0ZWRfX9tNa75Lgxfer
+ rkUepKdy1fvgv3jXcW52+WA2/KXOfkdcJTeeFeruAuYpMqluknRKmuD2YBc+qe+0Ywl47EVTaAj
+ BBI9H5YEmihpdo+OBYQhVz4+PFo6Yr0Hqp5c68Rcj6qU5R5u9k//PUkzs7FlRcXsiZDTFS6bEJ1
+ 5woB6qFAKsU+Vj5I5XXYOspWG/X0ESRiGbcRhCiQaFr2brqOTroqnPe7fiQz1fahql02g/5iuWP
+ iUKb9kqDk678L7eBXIYJaYG3k6mjyMf11VFY4Den9ZfxXvdYqFok8unucx550xyLZqgW/zRG8Fc
+ lA+bTpPibu7ssaOG/yP0jz5TAAdOBM6ulCZ+Yhgb5ndDaTpIuBN5ALWalPxXEyrYSZIKRaw4MFo
+ /mDIB48wNn6Nh6G0ZTiHsjMSNGQmCLzv8l0nLZwleQ+QUyeUSx0VnSseeuzHlxnEMWYQJjDH
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.293,Aquarius:18.0.1099,Hydra:6.1.7,FMLib:17.12.80.40
  definitions=2025-06-25_06,2025-06-25_01,2025-03-28_01
 X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- phishscore=0 priorityscore=1501 mlxscore=0 clxscore=1015 mlxlogscore=999
- suspectscore=0 bulkscore=0 impostorscore=0 lowpriorityscore=0 malwarescore=0
- adultscore=0 spamscore=0 classifier=spam authscore=0 authtc=n/a authcc=
+ spamscore=0 priorityscore=1501 mlxlogscore=999 phishscore=0 bulkscore=0
+ clxscore=1015 impostorscore=0 mlxscore=0 lowpriorityscore=0 malwarescore=0
+ suspectscore=0 adultscore=0 classifier=spam authscore=0 authtc=n/a authcc=
  route=outbound adjust=0 reason=mlx scancount=1 engine=8.19.0-2505280000
  definitions=main-2506250143
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -134,450 +133,1183 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 From: Rob Clark <robdclark@chromium.org>
 
-Convert to using the gpuvm's r_obj for serializing access to the VM.
-This way we can use the drm_exec helper for dealing with deadlock
-detection and backoff.
-
-This will let us deal with upcoming locking order conflicts with the
-VM_BIND implmentation (ie. in some scenarious we need to acquire the obj
-lock first, for ex. to iterate all the VMs an obj is bound in, and in
-other scenarious we need to acquire the VM lock first).
+Most of the driver code doesn't need to reach in to msm specific fields,
+so just use the drm_gpuvm/drm_gpuva types directly.  This should
+hopefully improve commonality with other drivers and make the code
+easier to understand.
 
 Signed-off-by: Rob Clark <robdclark@chromium.org>
 Signed-off-by: Rob Clark <robin.clark@oss.qualcomm.com>
 ---
- drivers/gpu/drm/msm/msm_gem.c          | 41 +++++++++----
- drivers/gpu/drm/msm/msm_gem.h          | 37 ++++++++++--
- drivers/gpu/drm/msm/msm_gem_shrinker.c | 80 +++++++++++++++++++++++---
- drivers/gpu/drm/msm/msm_gem_submit.c   |  9 ++-
- drivers/gpu/drm/msm/msm_gem_vma.c      | 24 +++-----
- 5 files changed, 152 insertions(+), 39 deletions(-)
+ drivers/gpu/drm/msm/adreno/a2xx_gpu.c     |  6 +-
+ drivers/gpu/drm/msm/adreno/a5xx_gpu.c     |  3 +-
+ drivers/gpu/drm/msm/adreno/a6xx_gmu.c     |  6 +-
+ drivers/gpu/drm/msm/adreno/a6xx_gmu.h     |  2 +-
+ drivers/gpu/drm/msm/adreno/a6xx_gpu.c     | 11 +--
+ drivers/gpu/drm/msm/adreno/a6xx_preempt.c |  2 +-
+ drivers/gpu/drm/msm/adreno/adreno_gpu.c   | 21 ++---
+ drivers/gpu/drm/msm/adreno/adreno_gpu.h   |  4 +-
+ drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c   |  6 +-
+ drivers/gpu/drm/msm/disp/mdp4/mdp4_kms.c  | 11 +--
+ drivers/gpu/drm/msm/disp/mdp5/mdp5_kms.c  | 11 +--
+ drivers/gpu/drm/msm/dsi/dsi_host.c        |  6 +-
+ drivers/gpu/drm/msm/msm_drv.h             |  4 +-
+ drivers/gpu/drm/msm/msm_fb.c              |  4 +-
+ drivers/gpu/drm/msm/msm_gem.c             | 94 +++++++++++------------
+ drivers/gpu/drm/msm/msm_gem.h             | 59 +++++++-------
+ drivers/gpu/drm/msm/msm_gem_submit.c      |  8 +-
+ drivers/gpu/drm/msm/msm_gem_vma.c         | 70 +++++++----------
+ drivers/gpu/drm/msm/msm_gpu.c             | 21 ++---
+ drivers/gpu/drm/msm/msm_gpu.h             | 10 +--
+ drivers/gpu/drm/msm/msm_kms.c             |  6 +-
+ drivers/gpu/drm/msm/msm_kms.h             |  2 +-
+ drivers/gpu/drm/msm/msm_submitqueue.c     |  2 +-
+ 23 files changed, 178 insertions(+), 191 deletions(-)
 
+diff --git a/drivers/gpu/drm/msm/adreno/a2xx_gpu.c b/drivers/gpu/drm/msm/adreno/a2xx_gpu.c
+index 889480aa13ba..ec38db45d8a3 100644
+--- a/drivers/gpu/drm/msm/adreno/a2xx_gpu.c
++++ b/drivers/gpu/drm/msm/adreno/a2xx_gpu.c
+@@ -113,7 +113,7 @@ static int a2xx_hw_init(struct msm_gpu *gpu)
+ 	uint32_t *ptr, len;
+ 	int i, ret;
+ 
+-	a2xx_gpummu_params(gpu->vm->mmu, &pt_base, &tran_error);
++	a2xx_gpummu_params(to_msm_vm(gpu->vm)->mmu, &pt_base, &tran_error);
+ 
+ 	DBG("%s", gpu->name);
+ 
+@@ -466,11 +466,11 @@ static struct msm_gpu_state *a2xx_gpu_state_get(struct msm_gpu *gpu)
+ 	return state;
+ }
+ 
+-static struct msm_gem_vm *
++static struct drm_gpuvm *
+ a2xx_create_vm(struct msm_gpu *gpu, struct platform_device *pdev)
+ {
+ 	struct msm_mmu *mmu = a2xx_gpummu_new(&pdev->dev, gpu);
+-	struct msm_gem_vm *vm;
++	struct drm_gpuvm *vm;
+ 
+ 	vm = msm_gem_vm_create(gpu->dev, mmu, "gpu", SZ_16M, 0xfff * SZ_64K, true);
+ 
+diff --git a/drivers/gpu/drm/msm/adreno/a5xx_gpu.c b/drivers/gpu/drm/msm/adreno/a5xx_gpu.c
+index 04138a06724b..ee927d8cc0dc 100644
+--- a/drivers/gpu/drm/msm/adreno/a5xx_gpu.c
++++ b/drivers/gpu/drm/msm/adreno/a5xx_gpu.c
+@@ -1786,7 +1786,8 @@ struct msm_gpu *a5xx_gpu_init(struct drm_device *dev)
+ 		return ERR_PTR(ret);
+ 	}
+ 
+-	msm_mmu_set_fault_handler(gpu->vm->mmu, gpu, a5xx_fault_handler);
++	msm_mmu_set_fault_handler(to_msm_vm(gpu->vm)->mmu, gpu,
++				  a5xx_fault_handler);
+ 
+ 	/* Set up the preemption specific bits and pieces for each ringbuffer */
+ 	a5xx_preempt_init(gpu);
+diff --git a/drivers/gpu/drm/msm/adreno/a6xx_gmu.c b/drivers/gpu/drm/msm/adreno/a6xx_gmu.c
+index 77d9ff9632d1..28e6705c6da6 100644
+--- a/drivers/gpu/drm/msm/adreno/a6xx_gmu.c
++++ b/drivers/gpu/drm/msm/adreno/a6xx_gmu.c
+@@ -1259,6 +1259,8 @@ int a6xx_gmu_stop(struct a6xx_gpu *a6xx_gpu)
+ 
+ static void a6xx_gmu_memory_free(struct a6xx_gmu *gmu)
+ {
++	struct msm_mmu *mmu = to_msm_vm(gmu->vm)->mmu;
++
+ 	msm_gem_kernel_put(gmu->hfi.obj, gmu->vm);
+ 	msm_gem_kernel_put(gmu->debug.obj, gmu->vm);
+ 	msm_gem_kernel_put(gmu->icache.obj, gmu->vm);
+@@ -1266,8 +1268,8 @@ static void a6xx_gmu_memory_free(struct a6xx_gmu *gmu)
+ 	msm_gem_kernel_put(gmu->dummy.obj, gmu->vm);
+ 	msm_gem_kernel_put(gmu->log.obj, gmu->vm);
+ 
+-	gmu->vm->mmu->funcs->detach(gmu->vm->mmu);
+-	msm_gem_vm_put(gmu->vm);
++	mmu->funcs->detach(mmu);
++	drm_gpuvm_put(gmu->vm);
+ }
+ 
+ static int a6xx_gmu_memory_alloc(struct a6xx_gmu *gmu, struct a6xx_gmu_bo *bo,
+diff --git a/drivers/gpu/drm/msm/adreno/a6xx_gmu.h b/drivers/gpu/drm/msm/adreno/a6xx_gmu.h
+index cceda7d9c33a..5da36226b93d 100644
+--- a/drivers/gpu/drm/msm/adreno/a6xx_gmu.h
++++ b/drivers/gpu/drm/msm/adreno/a6xx_gmu.h
+@@ -62,7 +62,7 @@ struct a6xx_gmu {
+ 	/* For serializing communication with the GMU: */
+ 	struct mutex lock;
+ 
+-	struct msm_gem_vm *vm;
++	struct drm_gpuvm *vm;
+ 
+ 	void __iomem *mmio;
+ 	void __iomem *rscc;
+diff --git a/drivers/gpu/drm/msm/adreno/a6xx_gpu.c b/drivers/gpu/drm/msm/adreno/a6xx_gpu.c
+index 26d0a863f38c..c43a443661e4 100644
+--- a/drivers/gpu/drm/msm/adreno/a6xx_gpu.c
++++ b/drivers/gpu/drm/msm/adreno/a6xx_gpu.c
+@@ -120,7 +120,7 @@ static void a6xx_set_pagetable(struct a6xx_gpu *a6xx_gpu,
+ 	if (ctx->seqno == ring->cur_ctx_seqno)
+ 		return;
+ 
+-	if (msm_iommu_pagetable_params(ctx->vm->mmu, &ttbr, &asid))
++	if (msm_iommu_pagetable_params(to_msm_vm(ctx->vm)->mmu, &ttbr, &asid))
+ 		return;
+ 
+ 	if (adreno_gpu->info->family >= ADRENO_7XX_GEN1) {
+@@ -2243,7 +2243,7 @@ static void a6xx_gpu_set_freq(struct msm_gpu *gpu, struct dev_pm_opp *opp,
+ 	mutex_unlock(&a6xx_gpu->gmu.lock);
+ }
+ 
+-static struct msm_gem_vm *
++static struct drm_gpuvm *
+ a6xx_create_vm(struct msm_gpu *gpu, struct platform_device *pdev)
+ {
+ 	struct adreno_gpu *adreno_gpu = to_adreno_gpu(gpu);
+@@ -2261,12 +2261,12 @@ a6xx_create_vm(struct msm_gpu *gpu, struct platform_device *pdev)
+ 	return adreno_iommu_create_vm(gpu, pdev, quirks);
+ }
+ 
+-static struct msm_gem_vm *
++static struct drm_gpuvm *
+ a6xx_create_private_vm(struct msm_gpu *gpu)
+ {
+ 	struct msm_mmu *mmu;
+ 
+-	mmu = msm_iommu_pagetable_create(gpu->vm->mmu);
++	mmu = msm_iommu_pagetable_create(to_msm_vm(gpu->vm)->mmu);
+ 
+ 	if (IS_ERR(mmu))
+ 		return ERR_CAST(mmu);
+@@ -2546,7 +2546,8 @@ struct msm_gpu *a6xx_gpu_init(struct drm_device *dev)
+ 
+ 	adreno_gpu->uche_trap_base = 0x1fffffffff000ull;
+ 
+-	msm_mmu_set_fault_handler(gpu->vm->mmu, gpu, a6xx_fault_handler);
++	msm_mmu_set_fault_handler(to_msm_vm(gpu->vm)->mmu, gpu,
++				  a6xx_fault_handler);
+ 
+ 	a6xx_calc_ubwc_config(adreno_gpu);
+ 	/* Set up the preemption specific bits and pieces for each ringbuffer */
+diff --git a/drivers/gpu/drm/msm/adreno/a6xx_preempt.c b/drivers/gpu/drm/msm/adreno/a6xx_preempt.c
+index b14a7c630bd0..7fd560a2c1ce 100644
+--- a/drivers/gpu/drm/msm/adreno/a6xx_preempt.c
++++ b/drivers/gpu/drm/msm/adreno/a6xx_preempt.c
+@@ -376,7 +376,7 @@ static int preempt_init_ring(struct a6xx_gpu *a6xx_gpu,
+ 
+ 	struct a7xx_cp_smmu_info *smmu_info_ptr = ptr;
+ 
+-	msm_iommu_pagetable_params(gpu->vm->mmu, &ttbr, &asid);
++	msm_iommu_pagetable_params(to_msm_vm(gpu->vm)->mmu, &ttbr, &asid);
+ 
+ 	smmu_info_ptr->magic = GEN7_CP_SMMU_INFO_MAGIC;
+ 	smmu_info_ptr->ttbr0 = ttbr;
+diff --git a/drivers/gpu/drm/msm/adreno/adreno_gpu.c b/drivers/gpu/drm/msm/adreno/adreno_gpu.c
+index 287b032fefe4..f6624a246694 100644
+--- a/drivers/gpu/drm/msm/adreno/adreno_gpu.c
++++ b/drivers/gpu/drm/msm/adreno/adreno_gpu.c
+@@ -191,21 +191,21 @@ int adreno_zap_shader_load(struct msm_gpu *gpu, u32 pasid)
+ 	return zap_shader_load_mdt(gpu, adreno_gpu->info->zapfw, pasid);
+ }
+ 
+-struct msm_gem_vm *
++struct drm_gpuvm *
+ adreno_create_vm(struct msm_gpu *gpu,
+ 		 struct platform_device *pdev)
+ {
+ 	return adreno_iommu_create_vm(gpu, pdev, 0);
+ }
+ 
+-struct msm_gem_vm *
++struct drm_gpuvm *
+ adreno_iommu_create_vm(struct msm_gpu *gpu,
+ 		       struct platform_device *pdev,
+ 		       unsigned long quirks)
+ {
+ 	struct iommu_domain_geometry *geometry;
+ 	struct msm_mmu *mmu;
+-	struct msm_gem_vm *vm;
++	struct drm_gpuvm *vm;
+ 	u64 start, size;
+ 
+ 	mmu = msm_iommu_gpu_new(&pdev->dev, gpu, quirks);
+@@ -274,9 +274,10 @@ void adreno_check_and_reenable_stall(struct adreno_gpu *adreno_gpu)
+ 	if (!adreno_gpu->stall_enabled &&
+ 			ktime_after(ktime_get(), adreno_gpu->stall_reenable_time) &&
+ 			!READ_ONCE(gpu->crashstate)) {
++		struct msm_mmu *mmu = to_msm_vm(gpu->vm)->mmu;
+ 		adreno_gpu->stall_enabled = true;
+ 
+-		gpu->vm->mmu->funcs->set_stall(gpu->vm->mmu, true);
++		mmu->funcs->set_stall(mmu, true);
+ 	}
+ 	spin_unlock_irqrestore(&adreno_gpu->fault_stall_lock, flags);
+ }
+@@ -290,6 +291,7 @@ int adreno_fault_handler(struct msm_gpu *gpu, unsigned long iova, int flags,
+ 			 struct adreno_smmu_fault_info *info, const char *block,
+ 			 u32 scratch[4])
+ {
++	struct msm_mmu *mmu = to_msm_vm(gpu->vm)->mmu;
+ 	struct adreno_gpu *adreno_gpu = to_adreno_gpu(gpu);
+ 	const char *type = "UNKNOWN";
+ 	bool do_devcoredump = info && (info->fsr & ARM_SMMU_FSR_SS) &&
+@@ -302,9 +304,10 @@ int adreno_fault_handler(struct msm_gpu *gpu, unsigned long iova, int flags,
+ 	 */
+ 	spin_lock_irqsave(&adreno_gpu->fault_stall_lock, irq_flags);
+ 	if (adreno_gpu->stall_enabled) {
++
+ 		adreno_gpu->stall_enabled = false;
+ 
+-		gpu->vm->mmu->funcs->set_stall(gpu->vm->mmu, false);
++		mmu->funcs->set_stall(mmu, false);
+ 	}
+ 	adreno_gpu->stall_reenable_time = ktime_add_ms(ktime_get(), 500);
+ 	spin_unlock_irqrestore(&adreno_gpu->fault_stall_lock, irq_flags);
+@@ -314,7 +317,7 @@ int adreno_fault_handler(struct msm_gpu *gpu, unsigned long iova, int flags,
+ 	 * it now.
+ 	 */
+ 	if (!do_devcoredump) {
+-		gpu->vm->mmu->funcs->resume_translation(gpu->vm->mmu);
++		mmu->funcs->resume_translation(mmu);
+ 	}
+ 
+ 	/*
+@@ -409,7 +412,7 @@ int adreno_get_param(struct msm_gpu *gpu, struct msm_context *ctx,
+ 		return 0;
+ 	case MSM_PARAM_FAULTS:
+ 		if (ctx->vm)
+-			*value = gpu->global_faults + ctx->vm->faults;
++			*value = gpu->global_faults + to_msm_vm(ctx->vm)->faults;
+ 		else
+ 			*value = gpu->global_faults;
+ 		return 0;
+@@ -419,12 +422,12 @@ int adreno_get_param(struct msm_gpu *gpu, struct msm_context *ctx,
+ 	case MSM_PARAM_VA_START:
+ 		if (ctx->vm == gpu->vm)
+ 			return UERR(EINVAL, drm, "requires per-process pgtables");
+-		*value = ctx->vm->base.mm_start;
++		*value = ctx->vm->mm_start;
+ 		return 0;
+ 	case MSM_PARAM_VA_SIZE:
+ 		if (ctx->vm == gpu->vm)
+ 			return UERR(EINVAL, drm, "requires per-process pgtables");
+-		*value = ctx->vm->base.mm_range;
++		*value = ctx->vm->mm_range;
+ 		return 0;
+ 	case MSM_PARAM_HIGHEST_BANK_BIT:
+ 		*value = adreno_gpu->ubwc_config.highest_bank_bit;
+diff --git a/drivers/gpu/drm/msm/adreno/adreno_gpu.h b/drivers/gpu/drm/msm/adreno/adreno_gpu.h
+index bbd7e664286e..e9a63fbd131b 100644
+--- a/drivers/gpu/drm/msm/adreno/adreno_gpu.h
++++ b/drivers/gpu/drm/msm/adreno/adreno_gpu.h
+@@ -644,11 +644,11 @@ void adreno_show_object(struct drm_printer *p, void **ptr, int len,
+  * Common helper function to initialize the default address space for arm-smmu
+  * attached targets
+  */
+-struct msm_gem_vm *
++struct drm_gpuvm *
+ adreno_create_vm(struct msm_gpu *gpu,
+ 		 struct platform_device *pdev);
+ 
+-struct msm_gem_vm *
++struct drm_gpuvm *
+ adreno_iommu_create_vm(struct msm_gpu *gpu,
+ 		       struct platform_device *pdev,
+ 		       unsigned long quirks);
+diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c
+index bb5db6da636a..a9cd215cfd33 100644
+--- a/drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c
++++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c
+@@ -1098,17 +1098,17 @@ static void _dpu_kms_mmu_destroy(struct dpu_kms *dpu_kms)
+ 	if (!dpu_kms->base.vm)
+ 		return;
+ 
+-	mmu = dpu_kms->base.vm->mmu;
++	mmu = to_msm_vm(dpu_kms->base.vm)->mmu;
+ 
+ 	mmu->funcs->detach(mmu);
+-	msm_gem_vm_put(dpu_kms->base.vm);
++	drm_gpuvm_put(dpu_kms->base.vm);
+ 
+ 	dpu_kms->base.vm = NULL;
+ }
+ 
+ static int _dpu_kms_mmu_init(struct dpu_kms *dpu_kms)
+ {
+-	struct msm_gem_vm *vm;
++	struct drm_gpuvm *vm;
+ 
+ 	vm = msm_kms_init_vm(dpu_kms->dev);
+ 	if (IS_ERR(vm))
+diff --git a/drivers/gpu/drm/msm/disp/mdp4/mdp4_kms.c b/drivers/gpu/drm/msm/disp/mdp4/mdp4_kms.c
+index d5b5628bee24..9326ed3aab04 100644
+--- a/drivers/gpu/drm/msm/disp/mdp4/mdp4_kms.c
++++ b/drivers/gpu/drm/msm/disp/mdp4/mdp4_kms.c
+@@ -120,15 +120,16 @@ static void mdp4_destroy(struct msm_kms *kms)
+ {
+ 	struct mdp4_kms *mdp4_kms = to_mdp4_kms(to_mdp_kms(kms));
+ 	struct device *dev = mdp4_kms->dev->dev;
+-	struct msm_gem_vm *vm = kms->vm;
+ 
+ 	if (mdp4_kms->blank_cursor_iova)
+ 		msm_gem_unpin_iova(mdp4_kms->blank_cursor_bo, kms->vm);
+ 	drm_gem_object_put(mdp4_kms->blank_cursor_bo);
+ 
+-	if (vm) {
+-		vm->mmu->funcs->detach(vm->mmu);
+-		msm_gem_vm_put(vm);
++	if (kms->vm) {
++		struct msm_mmu *mmu = to_msm_vm(kms->vm)->mmu;
++
++		mmu->funcs->detach(mmu);
++		drm_gpuvm_put(kms->vm);
+ 	}
+ 
+ 	if (mdp4_kms->rpm_enabled)
+@@ -380,7 +381,7 @@ static int mdp4_kms_init(struct drm_device *dev)
+ 	struct mdp4_kms *mdp4_kms = to_mdp4_kms(to_mdp_kms(priv->kms));
+ 	struct msm_kms *kms = NULL;
+ 	struct msm_mmu *mmu;
+-	struct msm_gem_vm *vm;
++	struct drm_gpuvm *vm;
+ 	int ret;
+ 	u32 major, minor;
+ 	unsigned long max_clk;
+diff --git a/drivers/gpu/drm/msm/disp/mdp5/mdp5_kms.c b/drivers/gpu/drm/msm/disp/mdp5/mdp5_kms.c
+index 9dca0385a42d..b6e6bd1f95ee 100644
+--- a/drivers/gpu/drm/msm/disp/mdp5/mdp5_kms.c
++++ b/drivers/gpu/drm/msm/disp/mdp5/mdp5_kms.c
+@@ -198,11 +198,12 @@ static void mdp5_destroy(struct mdp5_kms *mdp5_kms);
+ static void mdp5_kms_destroy(struct msm_kms *kms)
+ {
+ 	struct mdp5_kms *mdp5_kms = to_mdp5_kms(to_mdp_kms(kms));
+-	struct msm_gem_vm *vm = kms->vm;
+ 
+-	if (vm) {
+-		vm->mmu->funcs->detach(vm->mmu);
+-		msm_gem_vm_put(vm);
++	if (kms->vm) {
++		struct msm_mmu *mmu = to_msm_vm(kms->vm)->mmu;
++
++		mmu->funcs->detach(mmu);
++		drm_gpuvm_put(kms->vm);
+ 	}
+ 
+ 	mdp_kms_destroy(&mdp5_kms->base);
+@@ -500,7 +501,7 @@ static int mdp5_kms_init(struct drm_device *dev)
+ 	struct mdp5_kms *mdp5_kms;
+ 	struct mdp5_cfg *config;
+ 	struct msm_kms *kms = priv->kms;
+-	struct msm_gem_vm *vm;
++	struct drm_gpuvm *vm;
+ 	int i, ret;
+ 
+ 	ret = mdp5_init(to_platform_device(dev->dev), dev);
+diff --git a/drivers/gpu/drm/msm/dsi/dsi_host.c b/drivers/gpu/drm/msm/dsi/dsi_host.c
+index 16335ebd21e4..2d1699b7dc93 100644
+--- a/drivers/gpu/drm/msm/dsi/dsi_host.c
++++ b/drivers/gpu/drm/msm/dsi/dsi_host.c
+@@ -143,7 +143,7 @@ struct msm_dsi_host {
+ 
+ 	/* DSI 6G TX buffer*/
+ 	struct drm_gem_object *tx_gem_obj;
+-	struct msm_gem_vm *vm;
++	struct drm_gpuvm *vm;
+ 
+ 	/* DSI v2 TX buffer */
+ 	void *tx_buf;
+@@ -1146,7 +1146,7 @@ int dsi_tx_buf_alloc_6g(struct msm_dsi_host *msm_host, int size)
+ 	uint64_t iova;
+ 	u8 *data;
+ 
+-	msm_host->vm = msm_gem_vm_get(priv->kms->vm);
++	msm_host->vm = drm_gpuvm_get(priv->kms->vm);
+ 
+ 	data = msm_gem_kernel_new(dev, size, MSM_BO_WC,
+ 					msm_host->vm,
+@@ -1194,7 +1194,7 @@ void msm_dsi_tx_buf_free(struct mipi_dsi_host *host)
+ 
+ 	if (msm_host->tx_gem_obj) {
+ 		msm_gem_kernel_put(msm_host->tx_gem_obj, msm_host->vm);
+-		msm_gem_vm_put(msm_host->vm);
++		drm_gpuvm_put(msm_host->vm);
+ 		msm_host->tx_gem_obj = NULL;
+ 		msm_host->vm = NULL;
+ 	}
+diff --git a/drivers/gpu/drm/msm/msm_drv.h b/drivers/gpu/drm/msm/msm_drv.h
+index e4c57deaa1f9..136dd928135a 100644
+--- a/drivers/gpu/drm/msm/msm_drv.h
++++ b/drivers/gpu/drm/msm/msm_drv.h
+@@ -48,8 +48,6 @@ struct msm_rd_state;
+ struct msm_perf_state;
+ struct msm_gem_submit;
+ struct msm_fence_context;
+-struct msm_gem_vm;
+-struct msm_gem_vma;
+ struct msm_disp_state;
+ 
+ #define MAX_CRTCS      8
+@@ -230,7 +228,7 @@ void msm_crtc_disable_vblank(struct drm_crtc *crtc);
+ int msm_register_mmu(struct drm_device *dev, struct msm_mmu *mmu);
+ void msm_unregister_mmu(struct drm_device *dev, struct msm_mmu *mmu);
+ 
+-struct msm_gem_vm *msm_kms_init_vm(struct drm_device *dev);
++struct drm_gpuvm *msm_kms_init_vm(struct drm_device *dev);
+ bool msm_use_mmu(struct drm_device *dev);
+ 
+ int msm_ioctl_gem_submit(struct drm_device *dev, void *data,
+diff --git a/drivers/gpu/drm/msm/msm_fb.c b/drivers/gpu/drm/msm/msm_fb.c
+index 3b17d83f6673..8ae2f326ec54 100644
+--- a/drivers/gpu/drm/msm/msm_fb.c
++++ b/drivers/gpu/drm/msm/msm_fb.c
+@@ -78,7 +78,7 @@ void msm_framebuffer_describe(struct drm_framebuffer *fb, struct seq_file *m)
+ int msm_framebuffer_prepare(struct drm_framebuffer *fb, bool needs_dirtyfb)
+ {
+ 	struct msm_drm_private *priv = fb->dev->dev_private;
+-	struct msm_gem_vm *vm = priv->kms->vm;
++	struct drm_gpuvm *vm = priv->kms->vm;
+ 	struct msm_framebuffer *msm_fb = to_msm_framebuffer(fb);
+ 	int ret, i, n = fb->format->num_planes;
+ 
+@@ -102,7 +102,7 @@ int msm_framebuffer_prepare(struct drm_framebuffer *fb, bool needs_dirtyfb)
+ void msm_framebuffer_cleanup(struct drm_framebuffer *fb, bool needed_dirtyfb)
+ {
+ 	struct msm_drm_private *priv = fb->dev->dev_private;
+-	struct msm_gem_vm *vm = priv->kms->vm;
++	struct drm_gpuvm *vm = priv->kms->vm;
+ 	struct msm_framebuffer *msm_fb = to_msm_framebuffer(fb);
+ 	int i, n = fb->format->num_planes;
+ 
 diff --git a/drivers/gpu/drm/msm/msm_gem.c b/drivers/gpu/drm/msm/msm_gem.c
-index 6f99f9356c5c..45a542173cca 100644
+index 45a542173cca..87949d0e87bf 100644
 --- a/drivers/gpu/drm/msm/msm_gem.c
 +++ b/drivers/gpu/drm/msm/msm_gem.c
-@@ -52,6 +52,7 @@ static void put_iova_spaces(struct drm_gem_object *obj, struct drm_gpuvm *vm, bo
- static void detach_vm(struct drm_gem_object *obj, struct msm_gem_vm *vm)
+@@ -49,20 +49,20 @@ static int msm_gem_open(struct drm_gem_object *obj, struct drm_file *file)
+ 
+ static void put_iova_spaces(struct drm_gem_object *obj, struct drm_gpuvm *vm, bool close);
+ 
+-static void detach_vm(struct drm_gem_object *obj, struct msm_gem_vm *vm)
++static void detach_vm(struct drm_gem_object *obj, struct drm_gpuvm *vm)
  {
  	msm_gem_assert_locked(obj);
-+	drm_gpuvm_resv_assert_held(&vm->base);
+-	drm_gpuvm_resv_assert_held(&vm->base);
++	drm_gpuvm_resv_assert_held(vm);
  
- 	struct drm_gpuvm_bo *vm_bo = drm_gpuvm_bo_find(&vm->base, obj);
+-	struct drm_gpuvm_bo *vm_bo = drm_gpuvm_bo_find(&vm->base, obj);
++	struct drm_gpuvm_bo *vm_bo = drm_gpuvm_bo_find(vm, obj);
  	if (vm_bo) {
-@@ -72,6 +73,7 @@ static void detach_vm(struct drm_gem_object *obj, struct msm_gem_vm *vm)
- static void msm_gem_close(struct drm_gem_object *obj, struct drm_file *file)
- {
- 	struct msm_context *ctx = file->driver_priv;
-+	struct drm_exec exec;
+ 		struct drm_gpuva *vma;
  
- 	update_ctx_mem(file, -obj->size);
+ 		drm_gpuvm_bo_for_each_va (vma, vm_bo) {
+-			if (vma->vm != &vm->base)
++			if (vma->vm != vm)
+ 				continue;
+-			msm_gem_vma_purge(to_msm_vma(vma));
+-			msm_gem_vma_close(to_msm_vma(vma));
++			msm_gem_vma_purge(vma);
++			msm_gem_vma_close(vma);
+ 			break;
+ 		}
  
-@@ -90,10 +92,10 @@ static void msm_gem_close(struct drm_gem_object *obj, struct drm_file *file)
- 	dma_resv_wait_timeout(obj->resv, DMA_RESV_USAGE_READ, false,
+@@ -93,7 +93,7 @@ static void msm_gem_close(struct drm_gem_object *obj, struct drm_file *file)
  			      msecs_to_jiffies(1000));
  
--	msm_gem_lock(obj);
-+	msm_gem_lock_vm_and_obj(&exec, obj, ctx->vm);
- 	put_iova_spaces(obj, &ctx->vm->base, true);
+ 	msm_gem_lock_vm_and_obj(&exec, obj, ctx->vm);
+-	put_iova_spaces(obj, &ctx->vm->base, true);
++	put_iova_spaces(obj, ctx->vm, true);
  	detach_vm(obj, ctx->vm);
--	msm_gem_unlock(obj);
-+	drm_exec_fini(&exec);     /* drop locks */
+ 	drm_exec_fini(&exec);     /* drop locks */
+ }
+@@ -390,8 +390,8 @@ uint64_t msm_gem_mmap_offset(struct drm_gem_object *obj)
+ 	return offset;
  }
  
- /*
-@@ -559,11 +561,12 @@ int msm_gem_get_and_pin_iova_range(struct drm_gem_object *obj,
- 		struct msm_gem_vm *vm, uint64_t *iova,
- 		u64 range_start, u64 range_end)
+-static struct msm_gem_vma *lookup_vma(struct drm_gem_object *obj,
+-				      struct msm_gem_vm *vm)
++static struct drm_gpuva *lookup_vma(struct drm_gem_object *obj,
++				    struct drm_gpuvm *vm)
  {
-+	struct drm_exec exec;
+ 	struct drm_gpuvm_bo *vm_bo;
+ 
+@@ -401,13 +401,13 @@ static struct msm_gem_vma *lookup_vma(struct drm_gem_object *obj,
+ 		struct drm_gpuva *vma;
+ 
+ 		drm_gpuvm_bo_for_each_va (vma, vm_bo) {
+-			if (vma->vm == &vm->base) {
++			if (vma->vm == vm) {
+ 				/* lookup_vma() should only be used in paths
+ 				 * with at most one vma per vm
+ 				 */
+ 				GEM_WARN_ON(!list_is_singular(&vm_bo->list.gpuva));
+ 
+-				return to_msm_vma(vma);
++				return vma;
+ 			}
+ 		}
+ 	}
+@@ -437,22 +437,20 @@ put_iova_spaces(struct drm_gem_object *obj, struct drm_gpuvm *vm, bool close)
+ 		drm_gpuvm_bo_get(vm_bo);
+ 
+ 		drm_gpuvm_bo_for_each_va_safe (vma, vmatmp, vm_bo) {
+-			struct msm_gem_vma *msm_vma = to_msm_vma(vma);
+-
+-			msm_gem_vma_purge(msm_vma);
++			msm_gem_vma_purge(vma);
+ 			if (close)
+-				msm_gem_vma_close(msm_vma);
++				msm_gem_vma_close(vma);
+ 		}
+ 
+ 		drm_gpuvm_bo_put(vm_bo);
+ 	}
+ }
+ 
+-static struct msm_gem_vma *get_vma_locked(struct drm_gem_object *obj,
+-		struct msm_gem_vm *vm,
+-		u64 range_start, u64 range_end)
++static struct drm_gpuva *get_vma_locked(struct drm_gem_object *obj,
++					struct drm_gpuvm *vm, u64 range_start,
++					u64 range_end)
+ {
+-	struct msm_gem_vma *vma;
++	struct drm_gpuva *vma;
+ 
+ 	msm_gem_assert_locked(obj);
+ 
+@@ -461,14 +459,14 @@ static struct msm_gem_vma *get_vma_locked(struct drm_gem_object *obj,
+ 	if (!vma) {
+ 		vma = msm_gem_vma_new(vm, obj, range_start, range_end);
+ 	} else {
+-		GEM_WARN_ON(vma->base.va.addr < range_start);
+-		GEM_WARN_ON((vma->base.va.addr + obj->size) > range_end);
++		GEM_WARN_ON(vma->va.addr < range_start);
++		GEM_WARN_ON((vma->va.addr + obj->size) > range_end);
+ 	}
+ 
+ 	return vma;
+ }
+ 
+-int msm_gem_pin_vma_locked(struct drm_gem_object *obj, struct msm_gem_vma *vma)
++int msm_gem_pin_vma_locked(struct drm_gem_object *obj, struct drm_gpuva *vma)
+ {
+ 	struct msm_gem_object *msm_obj = to_msm_bo(obj);
+ 	struct page **pages;
+@@ -525,17 +523,17 @@ void msm_gem_unpin_active(struct drm_gem_object *obj)
+ 	update_lru_active(obj);
+ }
+ 
+-struct msm_gem_vma *msm_gem_get_vma_locked(struct drm_gem_object *obj,
+-					   struct msm_gem_vm *vm)
++struct drm_gpuva *msm_gem_get_vma_locked(struct drm_gem_object *obj,
++					 struct drm_gpuvm *vm)
+ {
+ 	return get_vma_locked(obj, vm, 0, U64_MAX);
+ }
+ 
+ static int get_and_pin_iova_range_locked(struct drm_gem_object *obj,
+-		struct msm_gem_vm *vm, uint64_t *iova,
+-		u64 range_start, u64 range_end)
++					 struct drm_gpuvm *vm, uint64_t *iova,
++					 u64 range_start, u64 range_end)
+ {
+-	struct msm_gem_vma *vma;
++	struct drm_gpuva *vma;
  	int ret;
  
--	msm_gem_lock(obj);
-+	msm_gem_lock_vm_and_obj(&exec, obj, vm);
- 	ret = get_and_pin_iova_range_locked(obj, vm, iova, range_start, range_end);
--	msm_gem_unlock(obj);
-+	drm_exec_fini(&exec);     /* drop locks */
+ 	msm_gem_assert_locked(obj);
+@@ -546,7 +544,7 @@ static int get_and_pin_iova_range_locked(struct drm_gem_object *obj,
  
- 	return ret;
- }
-@@ -583,16 +586,17 @@ int msm_gem_get_iova(struct drm_gem_object *obj,
- 		struct msm_gem_vm *vm, uint64_t *iova)
+ 	ret = msm_gem_pin_vma_locked(obj, vma);
+ 	if (!ret) {
+-		*iova = vma->base.va.addr;
++		*iova = vma->va.addr;
+ 		pin_obj_locked(obj);
+ 	}
+ 
+@@ -558,8 +556,8 @@ static int get_and_pin_iova_range_locked(struct drm_gem_object *obj,
+  * limits iova to specified range (in pages)
+  */
+ int msm_gem_get_and_pin_iova_range(struct drm_gem_object *obj,
+-		struct msm_gem_vm *vm, uint64_t *iova,
+-		u64 range_start, u64 range_end)
++				   struct drm_gpuvm *vm, uint64_t *iova,
++				   u64 range_start, u64 range_end)
  {
- 	struct msm_gem_vma *vma;
-+	struct drm_exec exec;
+ 	struct drm_exec exec;
+ 	int ret;
+@@ -572,8 +570,8 @@ int msm_gem_get_and_pin_iova_range(struct drm_gem_object *obj,
+ }
+ 
+ /* get iova and pin it. Should have a matching put */
+-int msm_gem_get_and_pin_iova(struct drm_gem_object *obj,
+-		struct msm_gem_vm *vm, uint64_t *iova)
++int msm_gem_get_and_pin_iova(struct drm_gem_object *obj, struct drm_gpuvm *vm,
++			     uint64_t *iova)
+ {
+ 	return msm_gem_get_and_pin_iova_range(obj, vm, iova, 0, U64_MAX);
+ }
+@@ -582,10 +580,10 @@ int msm_gem_get_and_pin_iova(struct drm_gem_object *obj,
+  * Get an iova but don't pin it. Doesn't need a put because iovas are currently
+  * valid for the life of the object
+  */
+-int msm_gem_get_iova(struct drm_gem_object *obj,
+-		struct msm_gem_vm *vm, uint64_t *iova)
++int msm_gem_get_iova(struct drm_gem_object *obj, struct drm_gpuvm *vm,
++		     uint64_t *iova)
+ {
+-	struct msm_gem_vma *vma;
++	struct drm_gpuva *vma;
+ 	struct drm_exec exec;
  	int ret = 0;
  
--	msm_gem_lock(obj);
-+	msm_gem_lock_vm_and_obj(&exec, obj, vm);
- 	vma = get_vma_locked(obj, vm, 0, U64_MAX);
+@@ -594,7 +592,7 @@ int msm_gem_get_iova(struct drm_gem_object *obj,
  	if (IS_ERR(vma)) {
  		ret = PTR_ERR(vma);
  	} else {
- 		*iova = vma->base.va.addr;
+-		*iova = vma->base.va.addr;
++		*iova = vma->va.addr;
  	}
--	msm_gem_unlock(obj);
-+	drm_exec_fini(&exec);     /* drop locks */
+ 	drm_exec_fini(&exec);     /* drop locks */
  
- 	return ret;
+@@ -602,9 +600,9 @@ int msm_gem_get_iova(struct drm_gem_object *obj,
  }
-@@ -621,9 +625,10 @@ static int clear_iova(struct drm_gem_object *obj,
- int msm_gem_set_iova(struct drm_gem_object *obj,
- 		     struct msm_gem_vm *vm, uint64_t iova)
- {
-+	struct drm_exec exec;
- 	int ret = 0;
  
--	msm_gem_lock(obj);
-+	msm_gem_lock_vm_and_obj(&exec, obj, vm);
+ static int clear_iova(struct drm_gem_object *obj,
+-		      struct msm_gem_vm *vm)
++		      struct drm_gpuvm *vm)
+ {
+-	struct msm_gem_vma *vma = lookup_vma(obj, vm);
++	struct drm_gpuva *vma = lookup_vma(obj, vm);
+ 
+ 	if (!vma)
+ 		return 0;
+@@ -623,7 +621,7 @@ static int clear_iova(struct drm_gem_object *obj,
+  * Setting an iova of zero will clear the vma.
+  */
+ int msm_gem_set_iova(struct drm_gem_object *obj,
+-		     struct msm_gem_vm *vm, uint64_t iova)
++		     struct drm_gpuvm *vm, uint64_t iova)
+ {
+ 	struct drm_exec exec;
+ 	int ret = 0;
+@@ -632,11 +630,11 @@ int msm_gem_set_iova(struct drm_gem_object *obj,
  	if (!iova) {
  		ret = clear_iova(obj, vm);
  	} else {
-@@ -636,7 +641,7 @@ int msm_gem_set_iova(struct drm_gem_object *obj,
+-		struct msm_gem_vma *vma;
++		struct drm_gpuva *vma;
+ 		vma = get_vma_locked(obj, vm, iova, iova + obj->size);
+ 		if (IS_ERR(vma)) {
+ 			ret = PTR_ERR(vma);
+-		} else if (GEM_WARN_ON(vma->base.va.addr != iova)) {
++		} else if (GEM_WARN_ON(vma->va.addr != iova)) {
+ 			clear_iova(obj, vm);
  			ret = -EBUSY;
  		}
+@@ -651,10 +649,9 @@ int msm_gem_set_iova(struct drm_gem_object *obj,
+  * purged until something else (shrinker, mm_notifier, destroy, etc) decides
+  * to get rid of it
+  */
+-void msm_gem_unpin_iova(struct drm_gem_object *obj,
+-		struct msm_gem_vm *vm)
++void msm_gem_unpin_iova(struct drm_gem_object *obj, struct drm_gpuvm *vm)
+ {
+-	struct msm_gem_vma *vma;
++	struct drm_gpuva *vma;
+ 	struct drm_exec exec;
+ 
+ 	msm_gem_lock_vm_and_obj(&exec, obj, vm);
+@@ -1284,9 +1281,9 @@ struct drm_gem_object *msm_gem_import(struct drm_device *dev,
+ 	return ERR_PTR(ret);
+ }
+ 
+-void *msm_gem_kernel_new(struct drm_device *dev, uint32_t size,
+-		uint32_t flags, struct msm_gem_vm *vm,
+-		struct drm_gem_object **bo, uint64_t *iova)
++void *msm_gem_kernel_new(struct drm_device *dev, uint32_t size, uint32_t flags,
++			 struct drm_gpuvm *vm, struct drm_gem_object **bo,
++			 uint64_t *iova)
+ {
+ 	void *vaddr;
+ 	struct drm_gem_object *obj = msm_gem_new(dev, size, flags);
+@@ -1319,8 +1316,7 @@ void *msm_gem_kernel_new(struct drm_device *dev, uint32_t size,
+ 
+ }
+ 
+-void msm_gem_kernel_put(struct drm_gem_object *bo,
+-		struct msm_gem_vm *vm)
++void msm_gem_kernel_put(struct drm_gem_object *bo, struct drm_gpuvm *vm)
+ {
+ 	if (IS_ERR_OR_NULL(bo))
+ 		return;
+diff --git a/drivers/gpu/drm/msm/msm_gem.h b/drivers/gpu/drm/msm/msm_gem.h
+index 31933ed8fb2c..557b6804181f 100644
+--- a/drivers/gpu/drm/msm/msm_gem.h
++++ b/drivers/gpu/drm/msm/msm_gem.h
+@@ -79,12 +79,7 @@ struct msm_gem_vm {
+ };
+ #define to_msm_vm(x) container_of(x, struct msm_gem_vm, base)
+ 
+-struct msm_gem_vm *
+-msm_gem_vm_get(struct msm_gem_vm *vm);
+-
+-void msm_gem_vm_put(struct msm_gem_vm *vm);
+-
+-struct msm_gem_vm *
++struct drm_gpuvm *
+ msm_gem_vm_create(struct drm_device *drm, struct msm_mmu *mmu, const char *name,
+ 		  u64 va_start, u64 va_size, bool managed);
+ 
+@@ -113,12 +108,12 @@ struct msm_gem_vma {
+ };
+ #define to_msm_vma(x) container_of(x, struct msm_gem_vma, base)
+ 
+-struct msm_gem_vma *
+-msm_gem_vma_new(struct msm_gem_vm *vm, struct drm_gem_object *obj,
++struct drm_gpuva *
++msm_gem_vma_new(struct drm_gpuvm *vm, struct drm_gem_object *obj,
+ 		u64 range_start, u64 range_end);
+-void msm_gem_vma_purge(struct msm_gem_vma *vma);
+-int msm_gem_vma_map(struct msm_gem_vma *vma, int prot, struct sg_table *sgt, int size);
+-void msm_gem_vma_close(struct msm_gem_vma *vma);
++void msm_gem_vma_purge(struct drm_gpuva *vma);
++int msm_gem_vma_map(struct drm_gpuva *vma, int prot, struct sg_table *sgt, int size);
++void msm_gem_vma_close(struct drm_gpuva *vma);
+ 
+ struct msm_gem_object {
+ 	struct drm_gem_object base;
+@@ -163,22 +158,21 @@ struct msm_gem_object {
+ #define to_msm_bo(x) container_of(x, struct msm_gem_object, base)
+ 
+ uint64_t msm_gem_mmap_offset(struct drm_gem_object *obj);
+-int msm_gem_pin_vma_locked(struct drm_gem_object *obj, struct msm_gem_vma *vma);
++int msm_gem_pin_vma_locked(struct drm_gem_object *obj, struct drm_gpuva *vma);
+ void msm_gem_unpin_locked(struct drm_gem_object *obj);
+ void msm_gem_unpin_active(struct drm_gem_object *obj);
+-struct msm_gem_vma *msm_gem_get_vma_locked(struct drm_gem_object *obj,
+-					   struct msm_gem_vm *vm);
+-int msm_gem_get_iova(struct drm_gem_object *obj,
+-		struct msm_gem_vm *vm, uint64_t *iova);
+-int msm_gem_set_iova(struct drm_gem_object *obj,
+-		struct msm_gem_vm *vm, uint64_t iova);
++struct drm_gpuva *msm_gem_get_vma_locked(struct drm_gem_object *obj,
++					 struct drm_gpuvm *vm);
++int msm_gem_get_iova(struct drm_gem_object *obj, struct drm_gpuvm *vm,
++		     uint64_t *iova);
++int msm_gem_set_iova(struct drm_gem_object *obj, struct drm_gpuvm *vm,
++		     uint64_t iova);
+ int msm_gem_get_and_pin_iova_range(struct drm_gem_object *obj,
+-		struct msm_gem_vm *vm, uint64_t *iova,
+-		u64 range_start, u64 range_end);
+-int msm_gem_get_and_pin_iova(struct drm_gem_object *obj,
+-		struct msm_gem_vm *vm, uint64_t *iova);
+-void msm_gem_unpin_iova(struct drm_gem_object *obj,
+-		struct msm_gem_vm *vm);
++				   struct drm_gpuvm *vm, uint64_t *iova,
++				   u64 range_start, u64 range_end);
++int msm_gem_get_and_pin_iova(struct drm_gem_object *obj, struct drm_gpuvm *vm,
++			     uint64_t *iova);
++void msm_gem_unpin_iova(struct drm_gem_object *obj, struct drm_gpuvm *vm);
+ void msm_gem_pin_obj_locked(struct drm_gem_object *obj);
+ struct page **msm_gem_pin_pages_locked(struct drm_gem_object *obj);
+ void msm_gem_unpin_pages_locked(struct drm_gem_object *obj);
+@@ -199,11 +193,10 @@ int msm_gem_new_handle(struct drm_device *dev, struct drm_file *file,
+ 		uint32_t size, uint32_t flags, uint32_t *handle, char *name);
+ struct drm_gem_object *msm_gem_new(struct drm_device *dev,
+ 		uint32_t size, uint32_t flags);
+-void *msm_gem_kernel_new(struct drm_device *dev, uint32_t size,
+-		uint32_t flags, struct msm_gem_vm *vm,
+-		struct drm_gem_object **bo, uint64_t *iova);
+-void msm_gem_kernel_put(struct drm_gem_object *bo,
+-		struct msm_gem_vm *vm);
++void *msm_gem_kernel_new(struct drm_device *dev, uint32_t size, uint32_t flags,
++			 struct drm_gpuvm *vm, struct drm_gem_object **bo,
++			 uint64_t *iova);
++void msm_gem_kernel_put(struct drm_gem_object *bo, struct drm_gpuvm *vm);
+ struct drm_gem_object *msm_gem_import(struct drm_device *dev,
+ 		struct dma_buf *dmabuf, struct sg_table *sgt);
+ __printf(2, 3)
+@@ -254,14 +247,14 @@ msm_gem_unlock(struct drm_gem_object *obj)
+ static inline int
+ msm_gem_lock_vm_and_obj(struct drm_exec *exec,
+ 			struct drm_gem_object *obj,
+-			struct msm_gem_vm *vm)
++			struct drm_gpuvm *vm)
+ {
+ 	int ret = 0;
+ 
+ 	drm_exec_init(exec, 0, 2);
+ 	drm_exec_until_all_locked (exec) {
+-		ret = drm_exec_lock_obj(exec, drm_gpuvm_resv_obj(&vm->base));
+-		if (!ret && (obj->resv != drm_gpuvm_resv(&vm->base)))
++		ret = drm_exec_lock_obj(exec, drm_gpuvm_resv_obj(vm));
++		if (!ret && (obj->resv != drm_gpuvm_resv(vm)))
+ 			ret = drm_exec_lock_obj(exec, obj);
+ 		drm_exec_retry_on_contention(exec);
+ 		if (GEM_WARN_ON(ret))
+@@ -328,7 +321,7 @@ struct msm_gem_submit {
+ 	struct kref ref;
+ 	struct drm_device *dev;
+ 	struct msm_gpu *gpu;
+-	struct msm_gem_vm *vm;
++	struct drm_gpuvm *vm;
+ 	struct list_head node;   /* node in ring submit list */
+ 	struct drm_exec exec;
+ 	uint32_t seqno;		/* Sequence number of the submit on the ring */
+diff --git a/drivers/gpu/drm/msm/msm_gem_submit.c b/drivers/gpu/drm/msm/msm_gem_submit.c
+index bd8e465e8049..d8ff6aeb04ab 100644
+--- a/drivers/gpu/drm/msm/msm_gem_submit.c
++++ b/drivers/gpu/drm/msm/msm_gem_submit.c
+@@ -264,7 +264,7 @@ static int submit_lock_objects(struct msm_gem_submit *submit)
+ 
+ 	drm_exec_until_all_locked (&submit->exec) {
+ 		ret = drm_exec_lock_obj(&submit->exec,
+-					drm_gpuvm_resv_obj(&submit->vm->base));
++					drm_gpuvm_resv_obj(submit->vm));
+ 		drm_exec_retry_on_contention(&submit->exec);
+ 		if (ret)
+ 			goto error;
+@@ -315,7 +315,7 @@ static int submit_pin_objects(struct msm_gem_submit *submit)
+ 
+ 	for (i = 0; i < submit->nr_bos; i++) {
+ 		struct drm_gem_object *obj = submit->bos[i].obj;
+-		struct msm_gem_vma *vma;
++		struct drm_gpuva *vma;
+ 
+ 		/* if locking succeeded, pin bo: */
+ 		vma = msm_gem_get_vma_locked(obj, submit->vm);
+@@ -328,8 +328,8 @@ static int submit_pin_objects(struct msm_gem_submit *submit)
+ 		if (ret)
+ 			break;
+ 
+-		submit->bos[i].vm_bo = drm_gpuvm_bo_get(vma->base.vm_bo);
+-		submit->bos[i].iova = vma->base.va.addr;
++		submit->bos[i].vm_bo = drm_gpuvm_bo_get(vma->vm_bo);
++		submit->bos[i].iova = vma->va.addr;
  	}
--	msm_gem_unlock(obj);
-+	drm_exec_fini(&exec);     /* drop locks */
+ 
+ 	/*
+diff --git a/drivers/gpu/drm/msm/msm_gem_vma.c b/drivers/gpu/drm/msm/msm_gem_vma.c
+index ccb20897a2b0..df8eb910ca31 100644
+--- a/drivers/gpu/drm/msm/msm_gem_vma.c
++++ b/drivers/gpu/drm/msm/msm_gem_vma.c
+@@ -20,52 +20,38 @@ msm_gem_vm_free(struct drm_gpuvm *gpuvm)
+ 	kfree(vm);
+ }
+ 
+-
+-void msm_gem_vm_put(struct msm_gem_vm *vm)
+-{
+-	if (vm)
+-		drm_gpuvm_put(&vm->base);
+-}
+-
+-struct msm_gem_vm *
+-msm_gem_vm_get(struct msm_gem_vm *vm)
+-{
+-	if (!IS_ERR_OR_NULL(vm))
+-		drm_gpuvm_get(&vm->base);
+-
+-	return vm;
+-}
+-
+ /* Actually unmap memory for the vma */
+-void msm_gem_vma_purge(struct msm_gem_vma *vma)
++void msm_gem_vma_purge(struct drm_gpuva *vma)
+ {
+-	struct msm_gem_vm *vm = to_msm_vm(vma->base.vm);
+-	unsigned size = vma->base.va.range;
++	struct msm_gem_vma *msm_vma = to_msm_vma(vma);
++	struct msm_gem_vm *vm = to_msm_vm(vma->vm);
++	unsigned size = vma->va.range;
+ 
+ 	/* Don't do anything if the memory isn't mapped */
+-	if (!vma->mapped)
++	if (!msm_vma->mapped)
+ 		return;
+ 
+-	vm->mmu->funcs->unmap(vm->mmu, vma->base.va.addr, size);
++	vm->mmu->funcs->unmap(vm->mmu, vma->va.addr, size);
+ 
+-	vma->mapped = false;
++	msm_vma->mapped = false;
+ }
+ 
+ /* Map and pin vma: */
+ int
+-msm_gem_vma_map(struct msm_gem_vma *vma, int prot,
++msm_gem_vma_map(struct drm_gpuva *vma, int prot,
+ 		struct sg_table *sgt, int size)
+ {
+-	struct msm_gem_vm *vm = to_msm_vm(vma->base.vm);
++	struct msm_gem_vma *msm_vma = to_msm_vma(vma);
++	struct msm_gem_vm *vm = to_msm_vm(vma->vm);
+ 	int ret;
+ 
+-	if (GEM_WARN_ON(!vma->base.va.addr))
++	if (GEM_WARN_ON(!vma->va.addr))
+ 		return -EINVAL;
+ 
+-	if (vma->mapped)
++	if (msm_vma->mapped)
+ 		return 0;
+ 
+-	vma->mapped = true;
++	msm_vma->mapped = true;
+ 
+ 	/*
+ 	 * NOTE: iommu/io-pgtable can allocate pages, so we cannot hold
+@@ -76,38 +62,40 @@ msm_gem_vma_map(struct msm_gem_vma *vma, int prot,
+ 	 * Revisit this if we can come up with a scheme to pre-alloc pages
+ 	 * for the pgtable in map/unmap ops.
+ 	 */
+-	ret = vm->mmu->funcs->map(vm->mmu, vma->base.va.addr, sgt, size, prot);
++	ret = vm->mmu->funcs->map(vm->mmu, vma->va.addr, sgt, size, prot);
+ 
+ 	if (ret) {
+-		vma->mapped = false;
++		msm_vma->mapped = false;
+ 	}
  
  	return ret;
  }
-@@ -650,14 +655,15 @@ void msm_gem_unpin_iova(struct drm_gem_object *obj,
- 		struct msm_gem_vm *vm)
+ 
+ /* Close an iova.  Warn if it is still in use */
+-void msm_gem_vma_close(struct msm_gem_vma *vma)
++void msm_gem_vma_close(struct drm_gpuva *vma)
  {
- 	struct msm_gem_vma *vma;
-+	struct drm_exec exec;
+-	struct msm_gem_vm *vm = to_msm_vm(vma->base.vm);
++	struct msm_gem_vm *vm = to_msm_vm(vma->vm);
++	struct msm_gem_vma *msm_vma = to_msm_vma(vma);
  
--	msm_gem_lock(obj);
-+	msm_gem_lock_vm_and_obj(&exec, obj, vm);
- 	vma = lookup_vma(obj, vm);
- 	if (vma) {
- 		msm_gem_unpin_locked(obj);
- 	}
- 	detach_vm(obj, vm);
--	msm_gem_unlock(obj);
-+	drm_exec_fini(&exec);     /* drop locks */
- }
+-	GEM_WARN_ON(vma->mapped);
++	GEM_WARN_ON(msm_vma->mapped);
  
- int msm_gem_dumb_create(struct drm_file *file, struct drm_device *dev,
-@@ -1029,12 +1035,27 @@ static void msm_gem_free_object(struct drm_gem_object *obj)
- 	struct msm_gem_object *msm_obj = to_msm_bo(obj);
- 	struct drm_device *dev = obj->dev;
- 	struct msm_drm_private *priv = dev->dev_private;
-+	struct drm_exec exec;
+ 	drm_gpuvm_resv_assert_held(&vm->base);
  
- 	mutex_lock(&priv->obj_lock);
- 	list_del(&msm_obj->node);
- 	mutex_unlock(&priv->obj_lock);
+-	if (vma->base.va.addr)
+-		drm_mm_remove_node(&vma->node);
++	if (vma->va.addr && vm->managed)
++		drm_mm_remove_node(&msm_vma->node);
  
-+	/*
-+	 * We need to lock any VMs the object is still attached to, but not
-+	 * the object itself (see explaination in msm_gem_assert_locked()),
-+	 * so just open-code this special case:
-+	 */
-+	drm_exec_init(&exec, 0, 0);
-+	drm_exec_until_all_locked (&exec) {
-+		struct drm_gpuvm_bo *vm_bo;
-+		drm_gem_for_each_gpuvm_bo (vm_bo, obj) {
-+			drm_exec_lock_obj(&exec, drm_gpuvm_resv_obj(vm_bo->vm));
-+			drm_exec_retry_on_contention(&exec);
-+		}
-+	}
- 	put_iova_spaces(obj, NULL, true);
-+	drm_exec_fini(&exec);     /* drop locks */
- 
- 	if (obj->import_attach) {
- 		GEM_WARN_ON(msm_obj->vaddr);
-diff --git a/drivers/gpu/drm/msm/msm_gem.h b/drivers/gpu/drm/msm/msm_gem.h
-index 60769c68d408..31933ed8fb2c 100644
---- a/drivers/gpu/drm/msm/msm_gem.h
-+++ b/drivers/gpu/drm/msm/msm_gem.h
-@@ -62,12 +62,6 @@ struct msm_gem_vm {
- 	 */
- 	struct drm_mm mm;
- 
--	/** @mm_lock: protects @mm node allocation/removal */
--	struct spinlock mm_lock;
--
--	/** @vm_lock: protects gpuvm insert/remove/traverse */
--	struct mutex vm_lock;
--
- 	/** @mmu: The mmu object which manages the pgtables */
- 	struct msm_mmu *mmu;
- 
-@@ -246,6 +240,37 @@ msm_gem_unlock(struct drm_gem_object *obj)
- 	dma_resv_unlock(obj->resv);
- }
- 
-+/**
-+ * msm_gem_lock_vm_and_obj() - Helper to lock an obj + VM
-+ * @exec: the exec context helper which will be initalized
-+ * @obj: the GEM object to lock
-+ * @vm: the VM to lock
-+ *
-+ * Operations which modify a VM frequently need to lock both the VM and
-+ * the object being mapped/unmapped/etc.  This helper uses drm_exec to
-+ * acquire both locks, dealing with potential deadlock/backoff scenarios
-+ * which arise when multiple locks are involved.
-+ */
-+static inline int
-+msm_gem_lock_vm_and_obj(struct drm_exec *exec,
-+			struct drm_gem_object *obj,
-+			struct msm_gem_vm *vm)
-+{
-+	int ret = 0;
-+
-+	drm_exec_init(exec, 0, 2);
-+	drm_exec_until_all_locked (exec) {
-+		ret = drm_exec_lock_obj(exec, drm_gpuvm_resv_obj(&vm->base));
-+		if (!ret && (obj->resv != drm_gpuvm_resv(&vm->base)))
-+			ret = drm_exec_lock_obj(exec, obj);
-+		drm_exec_retry_on_contention(exec);
-+		if (GEM_WARN_ON(ret))
-+			break;
-+	}
-+
-+	return ret;
-+}
-+
- static inline void
- msm_gem_assert_locked(struct drm_gem_object *obj)
- {
-diff --git a/drivers/gpu/drm/msm/msm_gem_shrinker.c b/drivers/gpu/drm/msm/msm_gem_shrinker.c
-index de185fc34084..5faf6227584a 100644
---- a/drivers/gpu/drm/msm/msm_gem_shrinker.c
-+++ b/drivers/gpu/drm/msm/msm_gem_shrinker.c
-@@ -43,6 +43,75 @@ msm_gem_shrinker_count(struct shrinker *shrinker, struct shrink_control *sc)
- 	return count;
- }
- 
-+static bool
-+with_vm_locks(struct ww_acquire_ctx *ticket,
-+	      void (*fn)(struct drm_gem_object *obj),
-+	      struct drm_gem_object *obj)
-+{
-+	/*
-+	 * Track last locked entry for for unwinding locks in error and
-+	 * success paths
-+	 */
-+	struct drm_gpuvm_bo *vm_bo, *last_locked = NULL;
-+	int ret = 0;
-+
-+	drm_gem_for_each_gpuvm_bo (vm_bo, obj) {
-+		struct dma_resv *resv = drm_gpuvm_resv(vm_bo->vm);
-+
-+		if (resv == obj->resv)
-+			continue;
-+
-+		ret = dma_resv_lock(resv, ticket);
-+
-+		/*
-+		 * Since we already skip the case when the VM and obj
-+		 * share a resv (ie. _NO_SHARE objs), we don't expect
-+		 * to hit a double-locking scenario... which the lock
-+		 * unwinding cannot really cope with.
-+		 */
-+		WARN_ON(ret == -EALREADY);
-+
-+		/*
-+		 * Don't bother with slow-lock / backoff / retry sequence,
-+		 * if we can't get the lock just give up and move on to
-+		 * the next object.
-+		 */
-+		if (ret)
-+			goto out_unlock;
-+
-+		/*
-+		 * Hold a ref to prevent the vm_bo from being freed
-+		 * and removed from the obj's gpuva list, as that would
-+		 * would result in missing the unlock below
-+		 */
-+		drm_gpuvm_bo_get(vm_bo);
-+
-+		last_locked = vm_bo;
-+	}
-+
-+	fn(obj);
-+
-+out_unlock:
-+	if (last_locked) {
-+		drm_gem_for_each_gpuvm_bo (vm_bo, obj) {
-+			struct dma_resv *resv = drm_gpuvm_resv(vm_bo->vm);
-+
-+			if (resv == obj->resv)
-+				continue;
-+
-+			dma_resv_unlock(resv);
-+
-+			/* Drop the ref taken while locking: */
-+			drm_gpuvm_bo_put(vm_bo);
-+
-+			if (last_locked == vm_bo)
-+				break;
-+		}
-+	}
-+
-+	return ret == 0;
-+}
-+
- static bool
- purge(struct drm_gem_object *obj, struct ww_acquire_ctx *ticket)
- {
-@@ -52,9 +121,7 @@ purge(struct drm_gem_object *obj, struct ww_acquire_ctx *ticket)
- 	if (msm_gem_active(obj))
- 		return false;
- 
--	msm_gem_purge(obj);
--
--	return true;
-+	return with_vm_locks(ticket, msm_gem_purge, obj);
- }
- 
- static bool
-@@ -66,9 +133,7 @@ evict(struct drm_gem_object *obj, struct ww_acquire_ctx *ticket)
- 	if (msm_gem_active(obj))
- 		return false;
- 
--	msm_gem_evict(obj);
--
--	return true;
-+	return with_vm_locks(ticket, msm_gem_evict, obj);
- }
- 
- static bool
-@@ -100,6 +165,7 @@ static unsigned long
- msm_gem_shrinker_scan(struct shrinker *shrinker, struct shrink_control *sc)
- {
- 	struct msm_drm_private *priv = shrinker->private_data;
-+	struct ww_acquire_ctx ticket;
- 	struct {
- 		struct drm_gem_lru *lru;
- 		bool (*shrink)(struct drm_gem_object *obj, struct ww_acquire_ctx *ticket);
-@@ -124,7 +190,7 @@ msm_gem_shrinker_scan(struct shrinker *shrinker, struct shrink_control *sc)
- 			drm_gem_lru_scan(stages[i].lru, nr,
- 					 &stages[i].remaining,
- 					 stages[i].shrink,
--					 NULL);
-+					 &ticket);
- 		nr -= stages[i].freed;
- 		freed += stages[i].freed;
- 		remaining += stages[i].remaining;
-diff --git a/drivers/gpu/drm/msm/msm_gem_submit.c b/drivers/gpu/drm/msm/msm_gem_submit.c
-index 2de5a07392eb..bd8e465e8049 100644
---- a/drivers/gpu/drm/msm/msm_gem_submit.c
-+++ b/drivers/gpu/drm/msm/msm_gem_submit.c
-@@ -256,11 +256,18 @@ static int submit_lookup_cmds(struct msm_gem_submit *submit,
- /* This is where we make sure all the bo's are reserved and pin'd: */
- static int submit_lock_objects(struct msm_gem_submit *submit)
- {
-+	unsigned flags = DRM_EXEC_IGNORE_DUPLICATES | DRM_EXEC_INTERRUPTIBLE_WAIT;
- 	int ret;
- 
--	drm_exec_init(&submit->exec, DRM_EXEC_INTERRUPTIBLE_WAIT, submit->nr_bos);
-+// TODO need to add vm_bind path which locks vm resv + external objs
-+	drm_exec_init(&submit->exec, flags, submit->nr_bos);
- 
- 	drm_exec_until_all_locked (&submit->exec) {
-+		ret = drm_exec_lock_obj(&submit->exec,
-+					drm_gpuvm_resv_obj(&submit->vm->base));
-+		drm_exec_retry_on_contention(&submit->exec);
-+		if (ret)
-+			goto error;
- 		for (unsigned i = 0; i < submit->nr_bos; i++) {
- 			struct drm_gem_object *obj = submit->bos[i].obj;
- 			ret = drm_exec_prepare_obj(&submit->exec, obj, 1);
-diff --git a/drivers/gpu/drm/msm/msm_gem_vma.c b/drivers/gpu/drm/msm/msm_gem_vma.c
-index 1f4c9b5c2e8f..ccb20897a2b0 100644
---- a/drivers/gpu/drm/msm/msm_gem_vma.c
-+++ b/drivers/gpu/drm/msm/msm_gem_vma.c
-@@ -92,15 +92,13 @@ void msm_gem_vma_close(struct msm_gem_vma *vma)
- 
- 	GEM_WARN_ON(vma->mapped);
- 
--	spin_lock(&vm->mm_lock);
-+	drm_gpuvm_resv_assert_held(&vm->base);
-+
- 	if (vma->base.va.addr)
- 		drm_mm_remove_node(&vma->node);
--	spin_unlock(&vm->mm_lock);
- 
--	mutex_lock(&vm->vm_lock);
- 	drm_gpuva_remove(&vma->base);
- 	drm_gpuva_unlink(&vma->base);
--	mutex_unlock(&vm->vm_lock);
+-	drm_gpuva_remove(&vma->base);
+-	drm_gpuva_unlink(&vma->base);
++	drm_gpuva_remove(vma);
++	drm_gpuva_unlink(vma);
  
  	kfree(vma);
  }
-@@ -114,16 +112,16 @@ msm_gem_vma_new(struct msm_gem_vm *vm, struct drm_gem_object *obj,
+ 
+ /* Create a new vma and allocate an iova for it */
+-struct msm_gem_vma *
+-msm_gem_vma_new(struct msm_gem_vm *vm, struct drm_gem_object *obj,
++struct drm_gpuva *
++msm_gem_vma_new(struct drm_gpuvm *gpuvm, struct drm_gem_object *obj,
+ 		u64 range_start, u64 range_end)
+ {
++	struct msm_gem_vm *vm = to_msm_vm(gpuvm);
+ 	struct drm_gpuvm_bo *vm_bo;
  	struct msm_gem_vma *vma;
  	int ret;
- 
-+	drm_gpuvm_resv_assert_held(&vm->base);
-+
- 	vma = kzalloc(sizeof(*vma), GFP_KERNEL);
- 	if (!vma)
- 		return ERR_PTR(-ENOMEM);
- 
- 	if (vm->managed) {
--		spin_lock(&vm->mm_lock);
- 		ret = drm_mm_insert_node_in_range(&vm->mm, &vma->node,
- 						obj->size, PAGE_SIZE, 0,
- 						range_start, range_end, 0);
--		spin_unlock(&vm->mm_lock);
- 
- 		if (ret)
- 			goto err_free_vma;
-@@ -137,9 +135,7 @@ msm_gem_vma_new(struct msm_gem_vm *vm, struct drm_gem_object *obj,
- 	drm_gpuva_init(&vma->base, range_start, range_end - range_start, obj, 0);
- 	vma->mapped = false;
- 
--	mutex_lock(&vm->vm_lock);
- 	ret = drm_gpuva_insert(&vm->base, &vma->base);
--	mutex_unlock(&vm->vm_lock);
- 	if (ret)
- 		goto err_free_range;
- 
-@@ -149,18 +145,14 @@ msm_gem_vma_new(struct msm_gem_vm *vm, struct drm_gem_object *obj,
- 		goto err_va_remove;
- 	}
- 
--	mutex_lock(&vm->vm_lock);
- 	drm_gpuvm_bo_extobj_add(vm_bo);
+@@ -149,7 +137,7 @@ msm_gem_vma_new(struct msm_gem_vm *vm, struct drm_gem_object *obj,
  	drm_gpuva_link(&vma->base, vm_bo);
--	mutex_unlock(&vm->vm_lock);
  	GEM_WARN_ON(drm_gpuvm_bo_put(vm_bo));
  
- 	return vma;
+-	return vma;
++	return &vma->base;
  
  err_va_remove:
--	mutex_lock(&vm->vm_lock);
  	drm_gpuva_remove(&vma->base);
--	mutex_unlock(&vm->vm_lock);
- err_free_range:
- 	if (vm->managed)
- 		drm_mm_remove_node(&vma->node);
-@@ -191,6 +183,11 @@ struct msm_gem_vm *
+@@ -179,7 +167,7 @@ static const struct drm_gpuvm_ops msm_gpuvm_ops = {
+  * handles virtual address allocation, and both async and sync operations
+  * are supported.
+  */
+-struct msm_gem_vm *
++struct drm_gpuvm *
  msm_gem_vm_create(struct drm_device *drm, struct msm_mmu *mmu, const char *name,
  		  u64 va_start, u64 va_size, bool managed)
  {
-+	/*
-+	 * We mostly want to use DRM_GPUVM_RESV_PROTECTED, except that
-+	 * makes drm_gpuvm_bo_evict() a no-op for extobjs (ie. we loose
-+	 * tracking that an extobj is evicted) :facepalm:
-+	 */
- 	enum drm_gpuvm_flags flags = 0;
- 	struct msm_gem_vm *vm;
- 	struct drm_gem_object *dummy_gem;
-@@ -213,9 +210,6 @@ msm_gem_vm_create(struct drm_device *drm, struct msm_mmu *mmu, const char *name,
- 		       va_start, va_size, 0, 0, &msm_gpuvm_ops);
- 	drm_gem_object_put(dummy_gem);
+@@ -215,7 +203,7 @@ msm_gem_vm_create(struct drm_device *drm, struct msm_mmu *mmu, const char *name,
  
--	spin_lock_init(&vm->mm_lock);
--	mutex_init(&vm->vm_lock);
--
- 	vm->mmu = mmu;
- 	vm->managed = managed;
+ 	drm_mm_init(&vm->mm, va_start, va_size);
  
+-	return vm;
++	return &vm->base;
+ 
+ err_free_vm:
+ 	kfree(vm);
+diff --git a/drivers/gpu/drm/msm/msm_gpu.c b/drivers/gpu/drm/msm/msm_gpu.c
+index b30800f80120..82e33aa1ccd0 100644
+--- a/drivers/gpu/drm/msm/msm_gpu.c
++++ b/drivers/gpu/drm/msm/msm_gpu.c
+@@ -283,7 +283,7 @@ static void msm_gpu_crashstate_capture(struct msm_gpu *gpu,
+ 
+ 		if (state->fault_info.ttbr0) {
+ 			struct msm_gpu_fault_info *info = &state->fault_info;
+-			struct msm_mmu *mmu = submit->vm->mmu;
++			struct msm_mmu *mmu = to_msm_vm(submit->vm)->mmu;
+ 
+ 			msm_iommu_pagetable_params(mmu, &info->pgtbl_ttbr0,
+ 						   &info->asid);
+@@ -387,7 +387,7 @@ static void recover_worker(struct kthread_work *work)
+ 	/* Increment the fault counts */
+ 	submit->queue->faults++;
+ 	if (submit->vm)
+-		submit->vm->faults++;
++		to_msm_vm(submit->vm)->faults++;
+ 
+ 	get_comm_cmdline(submit, &comm, &cmd);
+ 
+@@ -463,6 +463,7 @@ static void fault_worker(struct kthread_work *work)
+ {
+ 	struct msm_gpu *gpu = container_of(work, struct msm_gpu, fault_work);
+ 	struct msm_gem_submit *submit;
++	struct msm_mmu *mmu = to_msm_vm(gpu->vm)->mmu;
+ 	struct msm_ringbuffer *cur_ring = gpu->funcs->active_ring(gpu);
+ 	char *comm = NULL, *cmd = NULL;
+ 
+@@ -492,7 +493,7 @@ static void fault_worker(struct kthread_work *work)
+ 
+ resume_smmu:
+ 	memset(&gpu->fault_info, 0, sizeof(gpu->fault_info));
+-	gpu->vm->mmu->funcs->resume_translation(gpu->vm->mmu);
++	mmu->funcs->resume_translation(mmu);
+ 
+ 	mutex_unlock(&gpu->lock);
+ }
+@@ -829,10 +830,11 @@ static int get_clocks(struct platform_device *pdev, struct msm_gpu *gpu)
+ }
+ 
+ /* Return a new address space for a msm_drm_private instance */
+-struct msm_gem_vm *
++struct drm_gpuvm *
+ msm_gpu_create_private_vm(struct msm_gpu *gpu, struct task_struct *task)
+ {
+-	struct msm_gem_vm *vm = NULL;
++	struct drm_gpuvm *vm = NULL;
++
+ 	if (!gpu)
+ 		return NULL;
+ 
+@@ -843,11 +845,11 @@ msm_gpu_create_private_vm(struct msm_gpu *gpu, struct task_struct *task)
+ 	if (gpu->funcs->create_private_vm) {
+ 		vm = gpu->funcs->create_private_vm(gpu);
+ 		if (!IS_ERR(vm))
+-			vm->pid = get_pid(task_pid(task));
++			to_msm_vm(vm)->pid = get_pid(task_pid(task));
+ 	}
+ 
+ 	if (IS_ERR_OR_NULL(vm))
+-		vm = msm_gem_vm_get(gpu->vm);
++		vm = drm_gpuvm_get(gpu->vm);
+ 
+ 	return vm;
+ }
+@@ -1016,8 +1018,9 @@ void msm_gpu_cleanup(struct msm_gpu *gpu)
+ 	msm_gem_kernel_put(gpu->memptrs_bo, gpu->vm);
+ 
+ 	if (!IS_ERR_OR_NULL(gpu->vm)) {
+-		gpu->vm->mmu->funcs->detach(gpu->vm->mmu);
+-		msm_gem_vm_put(gpu->vm);
++		struct msm_mmu *mmu = to_msm_vm(gpu->vm)->mmu;
++		mmu->funcs->detach(mmu);
++		drm_gpuvm_put(gpu->vm);
+ 	}
+ 
+ 	if (gpu->worker) {
+diff --git a/drivers/gpu/drm/msm/msm_gpu.h b/drivers/gpu/drm/msm/msm_gpu.h
+index 1f26ba00f773..d8425e6d7f5a 100644
+--- a/drivers/gpu/drm/msm/msm_gpu.h
++++ b/drivers/gpu/drm/msm/msm_gpu.h
+@@ -78,8 +78,8 @@ struct msm_gpu_funcs {
+ 	/* note: gpu_set_freq() can assume that we have been pm_resumed */
+ 	void (*gpu_set_freq)(struct msm_gpu *gpu, struct dev_pm_opp *opp,
+ 			     bool suspended);
+-	struct msm_gem_vm *(*create_vm)(struct msm_gpu *gpu, struct platform_device *pdev);
+-	struct msm_gem_vm *(*create_private_vm)(struct msm_gpu *gpu);
++	struct drm_gpuvm *(*create_vm)(struct msm_gpu *gpu, struct platform_device *pdev);
++	struct drm_gpuvm *(*create_private_vm)(struct msm_gpu *gpu);
+ 	uint32_t (*get_rptr)(struct msm_gpu *gpu, struct msm_ringbuffer *ring);
+ 
+ 	/**
+@@ -234,7 +234,7 @@ struct msm_gpu {
+ 	void __iomem *mmio;
+ 	int irq;
+ 
+-	struct msm_gem_vm *vm;
++	struct drm_gpuvm *vm;
+ 
+ 	/* Power Control: */
+ 	struct regulator *gpu_reg, *gpu_cx;
+@@ -363,7 +363,7 @@ struct msm_context {
+ 	int queueid;
+ 
+ 	/** @vm: the per-process GPU address-space */
+-	struct msm_gem_vm *vm;
++	struct drm_gpuvm *vm;
+ 
+ 	/** @kref: the reference count */
+ 	struct kref ref;
+@@ -673,7 +673,7 @@ int msm_gpu_init(struct drm_device *drm, struct platform_device *pdev,
+ 		struct msm_gpu *gpu, const struct msm_gpu_funcs *funcs,
+ 		const char *name, struct msm_gpu_config *config);
+ 
+-struct msm_gem_vm *
++struct drm_gpuvm *
+ msm_gpu_create_private_vm(struct msm_gpu *gpu, struct task_struct *task);
+ 
+ void msm_gpu_cleanup(struct msm_gpu *gpu);
+diff --git a/drivers/gpu/drm/msm/msm_kms.c b/drivers/gpu/drm/msm/msm_kms.c
+index 6458bd82a0cd..e82b8569a468 100644
+--- a/drivers/gpu/drm/msm/msm_kms.c
++++ b/drivers/gpu/drm/msm/msm_kms.c
+@@ -176,9 +176,9 @@ static int msm_kms_fault_handler(void *arg, unsigned long iova, int flags, void
+ 	return -ENOSYS;
+ }
+ 
+-struct msm_gem_vm *msm_kms_init_vm(struct drm_device *dev)
++struct drm_gpuvm *msm_kms_init_vm(struct drm_device *dev)
+ {
+-	struct msm_gem_vm *vm;
++	struct drm_gpuvm *vm;
+ 	struct msm_mmu *mmu;
+ 	struct device *mdp_dev = dev->dev;
+ 	struct device *mdss_dev = mdp_dev->parent;
+@@ -212,7 +212,7 @@ struct msm_gem_vm *msm_kms_init_vm(struct drm_device *dev)
+ 		return vm;
+ 	}
+ 
+-	msm_mmu_set_fault_handler(vm->mmu, kms, msm_kms_fault_handler);
++	msm_mmu_set_fault_handler(to_msm_vm(vm)->mmu, kms, msm_kms_fault_handler);
+ 
+ 	return vm;
+ }
+diff --git a/drivers/gpu/drm/msm/msm_kms.h b/drivers/gpu/drm/msm/msm_kms.h
+index f45996a03e15..7cdb2eb67700 100644
+--- a/drivers/gpu/drm/msm/msm_kms.h
++++ b/drivers/gpu/drm/msm/msm_kms.h
+@@ -139,7 +139,7 @@ struct msm_kms {
+ 	atomic_t fault_snapshot_capture;
+ 
+ 	/* mapper-id used to request GEM buffer mapped for scanout: */
+-	struct msm_gem_vm *vm;
++	struct drm_gpuvm *vm;
+ 
+ 	/* disp snapshot support */
+ 	struct kthread_worker *dump_worker;
+diff --git a/drivers/gpu/drm/msm/msm_submitqueue.c b/drivers/gpu/drm/msm/msm_submitqueue.c
+index 6298233c3568..8ced49c7557b 100644
+--- a/drivers/gpu/drm/msm/msm_submitqueue.c
++++ b/drivers/gpu/drm/msm/msm_submitqueue.c
+@@ -59,7 +59,7 @@ void __msm_context_destroy(struct kref *kref)
+ 		kfree(ctx->entities[i]);
+ 	}
+ 
+-	msm_gem_vm_put(ctx->vm);
++	drm_gpuvm_put(ctx->vm);
+ 	kfree(ctx->comm);
+ 	kfree(ctx->cmdline);
+ 	kfree(ctx);
 -- 
 2.49.0
 
