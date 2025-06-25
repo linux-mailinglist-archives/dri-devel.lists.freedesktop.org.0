@@ -2,162 +2,63 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 77C80AE7FF8
-	for <lists+dri-devel@lfdr.de>; Wed, 25 Jun 2025 12:46:45 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id EDE9BAE80BE
+	for <lists+dri-devel@lfdr.de>; Wed, 25 Jun 2025 13:15:41 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9775510E6C4;
-	Wed, 25 Jun 2025 10:46:41 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B132010E6C0;
+	Wed, 25 Jun 2025 11:15:38 +0000 (UTC)
+Authentication-Results: gabe.freedesktop.org;
+	dkim=pass (1024-bit key; unprotected) header.d=ti.com header.i=@ti.com header.b="R+MvRpSD";
+	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from TYDPR03CU002.outbound.protection.outlook.com
- (mail-japaneastazon11023086.outbound.protection.outlook.com [52.101.127.86])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E6BC210E6C4
- for <dri-devel@lists.freedesktop.org>; Wed, 25 Jun 2025 10:46:40 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=Z/cVZD6gzyIwtypCOXQkkw9s5n+GFOtbrS3SevyInf3XFbgGHKEKiM9HZClvWYa3O10n9D7ETXpuD9ZjdJGHWCKGiiK3PISWKJ2cLlF+BJQptNgQJ6dUBy4S/fAs8btNM8KHuwKcSC3+MoTdGGx4W61clHcBAZOTZ7NOYUi991wpsrff8iSc7QOfUM9FEKfnZwCTXkYzqES5BMM4b1Dm+8gJNbeKzEAm2GM9/pmTDzaKEEFGlUlQy7jXNsMvTWynoX1m61W/dB+w3ltXlX0NqRnHEJht2p/CXFKYKLimHIMN82aGL4XWm5J8AFHzoEh/WZOxxuUOsji19Li9OhCsIA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=6GPayLFeyFy8AGSQx8pyFGX30ykYr+8hUzqZ3P9JXbE=;
- b=QVNKoCq0/YvYLmuALkdEfTcSqQuTfGSPmggsfTByf+/49agovAoLMkiYJlnI+nwFuMj2NAwfZrVpxSh+9uQs6djQfUFSLpDovOC95qzPhNcO0REgiMOsm80mJeM65gqmxbPmxIeCo3FErQw3BXvudpzV7M0Csm9aVxJUcBmtBPjjUDN2drlbTdQcnKlKLEu7EgI0BnBf6rFX/nhSC8B1eF7s6LYXSdAdPo/z7UohSCxVAubpAe8kqmIZuCoRWD2Vk5Gn/VA1PQA8hZ+fc57UKBFwRQowlNSmasVlTTda61uPNqP4GDsT9Zx0p4VnmhZXMrTg8OuGHiHfs+Kj0BfBGA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=linumiz.com; dmarc=pass action=none header.from=linumiz.com;
- dkim=pass header.d=linumiz.com; arc=none
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=linumiz.com;
-Received: from TYZPR06MB6935.apcprd06.prod.outlook.com (2603:1096:405:3c::9)
- by SEYPR06MB5062.apcprd06.prod.outlook.com (2603:1096:101:53::7) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8857.30; Wed, 25 Jun
- 2025 10:46:35 +0000
-Received: from TYZPR06MB6935.apcprd06.prod.outlook.com
- ([fe80::9e42:3253:9a2e:b565]) by TYZPR06MB6935.apcprd06.prod.outlook.com
- ([fe80::9e42:3253:9a2e:b565%7]) with mapi id 15.20.8857.026; Wed, 25 Jun 2025
- 10:46:35 +0000
-Message-ID: <802387ec-31a9-446c-8f90-c81a7345410f@linumiz.com>
-Date: Wed, 25 Jun 2025 16:16:29 +0530
-User-Agent: Mozilla Thunderbird
-Cc: parthiban@linumiz.com, Joerg Roedel <joro@8bytes.org>,
- Will Deacon <will@kernel.org>, Robin Murphy <robin.murphy@arm.com>,
- Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
- Conor Dooley <conor+dt@kernel.org>, Chen-Yu Tsai <wens@csie.org>,
- Jernej Skrabec <jernej.skrabec@gmail.com>,
- Samuel Holland <samuel@sholland.org>, Maxime Ripard <mripard@kernel.org>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
- Simona Vetter <simona@ffwll.ch>, Michael Turquette
- <mturquette@baylibre.com>, Stephen Boyd <sboyd@kernel.org>,
- Philipp Zabel <p.zabel@pengutronix.de>,
- Linus Walleij <linus.walleij@linaro.org>, Vinod Koul <vkoul@kernel.org>,
- Kishon Vijay Abraham I <kishon@kernel.org>, iommu@lists.linux.dev,
- devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
- linux-sunxi@lists.linux.dev, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, linux-clk@vger.kernel.org,
- linux-gpio@vger.kernel.org, linux-phy@lists.infradead.org
-Subject: Re: [PATCH 10/22] pinctrl: sunxi: add missed lvds pins for a100/a133
-To: Paul Kocialkowski <paulk@sys-base.io>
-References: <20241227-a133-display-support-v1-0-13b52f71fb14@linumiz.com>
- <20241227-a133-display-support-v1-10-13b52f71fb14@linumiz.com>
- <aFu3fAMa8KPwjPbX@shepard> <9c3ea5fb-a045-46bd-9753-26ffa67fe1bc@linumiz.com>
- <aFvLO6GUY6NezkcF@shepard>
-Content-Language: en-US
-From: Parthiban <parthiban@linumiz.com>
-Organization: Linumiz
-In-Reply-To: <aFvLO6GUY6NezkcF@shepard>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-ClientProxiedBy: MAXP287CA0019.INDP287.PROD.OUTLOOK.COM
- (2603:1096:a00:49::28) To TYZPR06MB6935.apcprd06.prod.outlook.com
- (2603:1096:405:3c::9)
+Received: from lelvem-ot02.ext.ti.com (lelvem-ot02.ext.ti.com [198.47.23.235])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C5A9E10E705
+ for <dri-devel@lists.freedesktop.org>; Wed, 25 Jun 2025 11:15:35 +0000 (UTC)
+Received: from fllvem-sh04.itg.ti.com ([10.64.41.54])
+ by lelvem-ot02.ext.ti.com (8.15.2/8.15.2) with ESMTP id 55PBF6P12090372;
+ Wed, 25 Jun 2025 06:15:06 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
+ s=ti-com-17Q1; t=1750850106;
+ bh=+Hi/Qny0zl7iczWiYuuBPVHn+gNsFoESCUm6lre4vmk=;
+ h=Date:Subject:To:CC:References:From:In-Reply-To;
+ b=R+MvRpSDqqh8KvOw+7jqoxUY5K/g0BidsFnZ6Hgy0GITDrNgMwwd9GjHDb73WJtvl
+ fz7jObQvalfJ9cc0OmSKGUMlwr+h+M5ag6H0Y2XN9vtt+DvIPXQylB5NRyfjkPPZFg
+ cUcx0Zq5Hx5YpXZBtO2A4FSmblz3V/vasKwOtGkY=
+Received: from DFLE115.ent.ti.com (dfle115.ent.ti.com [10.64.6.36])
+ by fllvem-sh04.itg.ti.com (8.18.1/8.18.1) with ESMTPS id 55PBF5CC1202174
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES128-SHA256 bits=128 verify=FAIL);
+ Wed, 25 Jun 2025 06:15:05 -0500
+Received: from DFLE115.ent.ti.com (10.64.6.36) by DFLE115.ent.ti.com
+ (10.64.6.36) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2507.55; Wed, 25
+ Jun 2025 06:15:05 -0500
+Received: from lelvem-mr05.itg.ti.com (10.180.75.9) by DFLE115.ent.ti.com
+ (10.64.6.36) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2507.55 via
+ Frontend Transport; Wed, 25 Jun 2025 06:15:05 -0500
+Received: from [172.24.227.214] (jayesh-hp-z2-tower-g5-workstation.dhcp.ti.com
+ [172.24.227.214])
+ by lelvem-mr05.itg.ti.com (8.18.1/8.18.1) with ESMTP id 55PBF1fS3546201;
+ Wed, 25 Jun 2025 06:15:02 -0500
+Message-ID: <a6c0b929-383f-4541-b4f1-c2e54f547de4@ti.com>
+Date: Wed, 25 Jun 2025 16:45:01 +0530
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: TYZPR06MB6935:EE_|SEYPR06MB5062:EE_
-X-MS-Office365-Filtering-Correlation-Id: 087bdfa2-66d1-4c7c-9a24-08ddb3d58e21
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;ARA:13230040|1800799024|366016|7416014|376014;
-X-Microsoft-Antispam-Message-Info: =?utf-8?B?STJlZXVuMFdLTURsVnpYRHhWMmNOMnMxNitLMkZZUnRONUhWYVVIWVV1elE5?=
- =?utf-8?B?eUdOMmdiZ0QzNmtjYmwwY2JjMjRlR0pRSTJGSUxUWW9jdG02bGViUHVPbVEr?=
- =?utf-8?B?d1pBeFVENGFTRWxLR1dJdVZGUjRIZ3pFWDZTelBGNHJJS1RYNkd0Mmg2Tys0?=
- =?utf-8?B?STk2SmxMWnlhSmxDenVJS2V0R2dPclZrcElnQlpFM0lBdnZuV1dXT0hKTHlM?=
- =?utf-8?B?NC9tazF1NGNsWjlvZ3RtcDRuQ0VqWGx4Z1R0Y2FRVXROMEx5Wi95dXE1L0RI?=
- =?utf-8?B?eFBDalBTWHFKWjg4ejdhaWVTNXJPQmlTWHl2NWdibktjbExEaTl1TW1KY3FP?=
- =?utf-8?B?MnBkV3cwcHRkbnJXeGx6QmRjOTZQSmJUVXMwbUhQYS9RZmppanZMVTMrSG9w?=
- =?utf-8?B?OTVtWjd4WUtsSkxTejRqSEkrL0NKWVJHQjhWVkJUUTA2TnV1ZUI2U0VCSmtt?=
- =?utf-8?B?VW95Nmg4d1B3TkgzbFdFM28xZXd4SEdtcmcvU2JralZ0UkVDNyt2czBDNWs1?=
- =?utf-8?B?NnliTmNPM3hvYTFzTmdseC9wekUya0pETnFqcnAvbkhxNWJFU3hRZTlGVC9B?=
- =?utf-8?B?cGJTaFdhaitWcVZLY3hsN2VsYkNzY013ZkY2WnUweDRibGtFODRrekpOSVlw?=
- =?utf-8?B?T0YxRTVWK3NoSTl5eGxXNGNrdjhtOHltV3pTRy9xdHdpeVlSMEVXQmpxelNu?=
- =?utf-8?B?aFk3cnhsU3FLQXRJaDNoOFdVakV0WWZERXJ0ZUYrS3JwK28wUnpHRll0aHgz?=
- =?utf-8?B?Y04wZDFaTHNlODdmQnRoZk5tSk1kbWN2Uk5hZVRzandpUnlHWVdFYWswWmVo?=
- =?utf-8?B?d25yZzNpV3JwdEdjQ1NaRDhwVzMrNTZzYys4VXdvRVdXdGZqbDVSczAzL0Va?=
- =?utf-8?B?ckIvTlF6N3hwNFBhWUZubEFDMGplaVJ3L2E5SVQzbDFiNmpvNGJya2pHcVBD?=
- =?utf-8?B?dE9CWkJGWUFpNWNyR3daZGtwWGwwOG5rUklLSU1NQ2VLejhXWERZK29Cc3RW?=
- =?utf-8?B?YmFqL0wrbHkwSytLMzhKSEVKRlVObTd5N0YvZUhOU0FDT3NPMXlwWTJlUUkr?=
- =?utf-8?B?dCtFeGwrMHZhTXlnNzJsZFVIWVM4YURvMzdUNzJXT1JYQm1wVHk5WnVROWM0?=
- =?utf-8?B?YkpFR01RQWNUbWV1Si9HelVEUDRHOW9VNXQyM2dYTVhCYzVzSWROcTRyY2o0?=
- =?utf-8?B?cGlHQ2d4WnhBODYxaFV2b3J5U1MzN3ZKbFlkdkNuRGZDdUFOVUlXWGFMNEhh?=
- =?utf-8?B?UXlWQzZKMFdCTVQvckhmeDlZaU1raHBySXh5N3NLeE9YbUFzZG1BdEQ5Ti9n?=
- =?utf-8?B?NE84YTRmUW82QmN1OStpY2wrdUlJbmpqNytiYTFyVjRNNW1pNGJyeng0WkxQ?=
- =?utf-8?B?bTcvalJwajZESDR3dWRLNkNIV1BPck8yS0E0WHVKTGxZL1NRemozb2I0Vnd6?=
- =?utf-8?B?RzJFLzRac3FjMkp2TWJvdDRiQUtUMVJvbHlyUkJtTURveXFQVkRnSGJsbnZt?=
- =?utf-8?B?YzZQYTBkSjJieHIwQXEvRERVTURFZ0RPWWxyay82MmxPNGs4MXR4eWMvbTJU?=
- =?utf-8?B?RkUwREZrbHl1SXdqVXFZUDN5bU92K0dXZEpkMWoyZHk2UTlMV3ZqVXZpTjAy?=
- =?utf-8?B?QUdFS1owQXN0ZGVsQmN5MlpZOUhuVUxraDBwWFF4RUo3eDFkaHlyeHVSbFJM?=
- =?utf-8?B?aTI3emltRmJHRFVhRzZzWUt5eDFTY2VQOE41MnpxS3hLTlFXcmU2ZzZHdzkr?=
- =?utf-8?B?R1Ixam16bXhJZFF1bXFtT2tkV29taVFvMVJDQ1d2YTlxdzl4bVpMVTQ1QUN2?=
- =?utf-8?Q?/ClRGQWA7rCvPOznI5ahRSFc8pwNI2etKYmFU=3D?=
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:TYZPR06MB6935.apcprd06.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230040)(1800799024)(366016)(7416014)(376014); DIR:OUT; SFP:1102; 
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?YUpNaWlYV1hIWXM4SU5jRGl6NVBsOGRWalNsTEpYTVFJaUlSMW9NWXQzcTNF?=
- =?utf-8?B?NTJRMm9FM0VNQzBsb1R5eUdhbitPMXNJdHBDNUpYM1oreEJ0bHdLU3hRZnFm?=
- =?utf-8?B?M1ZIN2lzQ3hLTnEybFlScDZuaE9HZnpiR1B2UnRJc3FZZ2g4VU9ubVlqVTRV?=
- =?utf-8?B?ZitYdHRLK01oOWY2ZGlJdjVxK1F3d3hrTjYyVldMZ2hLOUk0bkZkNzBUYjR4?=
- =?utf-8?B?WXkrTG0wSkRFSm84eFBkbFhqWXpzYnZVREhYY1dYalQrVG1sWkFCeHFvMXJI?=
- =?utf-8?B?QTFYTTlPODN6K3ZXL2FWU2k5bi96OW0xV2U0RjhQbVpjN0JiYUNHMzhHVDhs?=
- =?utf-8?B?L1U5a1JFdEd5Rk9BeURFY1g0c01SaUxRTUYyNFdoT1BER0VTcFZhT2lSeGlI?=
- =?utf-8?B?ODBnNk1jZ1UzU1lBRkpzd2lwMzB2Z0ovU1NpdGwyNUVqVUdVV1VKVldiQmdz?=
- =?utf-8?B?WXp0eHlNc3NzY002aGUrWTkxeHV1SWgyQUdaMWsvY210ZDE0cVg1V29UR1dh?=
- =?utf-8?B?MkJKd01XS2Y1SVZOdTQxYTZvZ2hDbHJoczRoSk1scThWT3lWUXVTR1d0RjRN?=
- =?utf-8?B?RFFtb09waDRBbkRPQzBtMGNJUzJJS1NJZTlSalY2M3lHUjNzb2c3TW5idnRX?=
- =?utf-8?B?SDg2M2J5bTFIRHpPYnJwdjRNS2hnVUVEYzhhbFM2Z3JEV29JUFNhNmdKOGk1?=
- =?utf-8?B?Y1lvK3VZdi9FclZYckg1dXdIQjZFbmdUTzNFSDZqT2RyT09Ycjd5ZXhsTG9u?=
- =?utf-8?B?QWpXN3orRGFGaFo5SUJrWWpaTnVuNXE5dGdNVGU2Zm5LYmdiVzh1TVh0bFkv?=
- =?utf-8?B?aTNMaTh3alJpNURuWWZoa1MxWFFmSm9qdnIyRWU0aTR3Wjc5Um9aTmRnUFZL?=
- =?utf-8?B?ZmU5a3FrU3BKUWlhNFR0aldkN1p0Vk5QTEJmK0N6YWtoa2R5VGMra1Y4Zi85?=
- =?utf-8?B?Yk1zL21BT2NDTFZBMWREcG54WkFnZm04TThZdG9RNkFuSGtHL2FWU3ExT3pE?=
- =?utf-8?B?YWI0NThYSy9Mb0hFWmlML0R1OGdnVEhkQnVTTHk4TWxQQXA5UVBSVktiOFZs?=
- =?utf-8?B?VStYNFJaWWZ5V2hLckZYMVFJbm81VEhHb2lBbCtKTlNtRVRUY24wcGMwWldI?=
- =?utf-8?B?QzhQcFBiQjNNank1SDVpZU0yeGhHZEpZZUcycHM4b2V3RS9mMHpkMEE3MWIz?=
- =?utf-8?B?aGFTVGpBUVVjU2J5ZnJreHpWSkpoMzJjdXR1ODlsTW5hRUFGdWI1N1hJYTdZ?=
- =?utf-8?B?Z25VNm53TE54VDM0Z1JGaEt5UTFsTnJIQzZZdDZxL1l4aDZtbjFVajkxZXZY?=
- =?utf-8?B?eUk3OTdWWEJOME8zWlA1eEZ4RVhaV1VLTHUwMlNrUTlCbm5ZL25ZdmJvd2Fu?=
- =?utf-8?B?NklKZEplaEJ2LzdKTmZ4TGFnbGR4ZElSOVk3TlJyelovUkk5ejFPa05VVnFv?=
- =?utf-8?B?NWUzRXFHdC92bnR0d2U0MXI2WnhDWXUwSzBYc0tHT2ovY1RXQXVwWWMvUnJt?=
- =?utf-8?B?OC9TWTZZNmhIVGlGTFB6bENyMDlxQVhsNG50VUVTallrS1VhV28wZGk0SG9E?=
- =?utf-8?B?MnZUZDNuUm1GaHo1cHAzQmlpWEVCajZ1MDF4cnhOUWpOMHJjbm1qQ0NJVnJW?=
- =?utf-8?B?RWxRd0ZlZ1NZdHNJMDFEcjRRREJGMThySkVUMHRNY1JoOVN1V3RyNVYzdXQx?=
- =?utf-8?B?bk05ZnkvV29PRWRiTXpSRE9xMEttWXNERmdSLzRTRFArUUZIKzNvdVpCNDda?=
- =?utf-8?B?clhEMSs0V0tVN1VodXFOd2pHckFVbDRBZ3NFMnZQMVgxbmVwNVdzcWdNRzNC?=
- =?utf-8?B?a2M0RkNveGdqK3JIS0NkN1NvOWp5ZTZYWXRQV2ljelhHdVN6Mko1cC9hTi9P?=
- =?utf-8?B?cmV3QXQ4TWpyNUl3VUpkWk1wUktDQjNMWk80MEpKUmg1cGtJSW12ZkJIQnBh?=
- =?utf-8?B?dFk5UmpHcmV6VnpHbVdwTHhGakZpK3pGdUxhazdHNkRPRXFacTJHcUxkVW1U?=
- =?utf-8?B?N25SSDZnNTd3RUJRZlNlQ3hteW1FTjFYV1Nva2VuVm84UUFMZFFsOEM2WU1S?=
- =?utf-8?B?c2ZrNElHVWV3c1BvdnFKU05lUUVBRXE2QURKTVBGVjNLd1RrRVNnTU5BbldK?=
- =?utf-8?B?MEZaQ2hMdDhCWE1RaGY2OEtVVWRwakUxTEVUSisrNnBhdGV1MktHNG1weS9T?=
- =?utf-8?B?QVE9PQ==?=
-X-OriginatorOrg: linumiz.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 087bdfa2-66d1-4c7c-9a24-08ddb3d58e21
-X-MS-Exchange-CrossTenant-AuthSource: TYZPR06MB6935.apcprd06.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 25 Jun 2025 10:46:35.1483 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 808466aa-232a-41f4-ac23-289e3a6840d4
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: EdyE+TkmcnlPXJyo7pqdIAvrDYVw+CpHAN2cbK1FkxO6rx0gb60N/wA8VCHQBWdWr3i5DusjEIjTe8Vinpkvog==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SEYPR06MB5062
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2] drm/tidss: Decouple max_pclk from tidss feats to
+ remove clock dependency
+To: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>, <jyri.sarha@iki.fi>,
+ <dri-devel@lists.freedesktop.org>, <devarsht@ti.com>, <mripard@kernel.org>
+CC: <maarten.lankhorst@linux.intel.com>, <tzimmermann@suse.de>,
+ <airlied@gmail.com>, <simona@ffwll.ch>, <linux-kernel@vger.kernel.org>
+References: <20250618100509.20386-1-j-choudhary@ti.com>
+ <5337fc13-f7e3-4252-84db-e1129cc31e32@ideasonboard.com>
+Content-Language: en-US
+From: Jayesh Choudhary <j-choudhary@ti.com>
+In-Reply-To: <5337fc13-f7e3-4252-84db-e1129cc31e32@ideasonboard.com>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 7bit
+X-C2ProcessedOrg: 333ef613-75bf-4e12-a4b1-8e3623f5dcea
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -173,103 +74,306 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+Hello Tomi,
 
-On 6/25/25 3:41 PM, Paul Kocialkowski wrote:
-> On Wed 25 Jun 25, 15:06, Parthiban wrote:
->>
->> On 6/25/25 2:16 PM, Paul Kocialkowski wrote:
->>> Hi and thanks for your work!
->>>
->>> On Fri 27 Dec 24, 16:37, Parthiban Nallathambi wrote:
->>>> lvds, lcd, dsi all shares the same GPIO D bank and lvds0
->>>> data 3 lines and lvds1 pins are missed, add them.
->>> Would it also make sense to submit device-tree pin definitions here?
->>
->> this patch is already merged. 
->> git show --stat cef4f1b5ba99a964cd6dd248bb373520573c972f
->> commit cef4f1b5ba99a964cd6dd248bb373520573c972f
->> Author: Parthiban Nallathambi <parthiban@linumiz.com>
->> Date:   Fri Dec 27 16:37:57 2024 +0530
->>
->>     pinctrl: sunxi: add missed lvds pins for a100/a133
->>     
->>     lvds, lcd, dsi all shares the same GPIO D bank and lvds0
->>     data 3 lines and lvds1 pins are missed, add them.
->>     
->>     Signed-off-by: Parthiban Nallathambi <parthiban@linumiz.com>
->>     Link: https://lore.kernel.org/20241227-a133-display-support-v1-10-13b52f71fb14@linumiz.com
->>     Signed-off-by: Linus Walleij <linus.walleij@linaro.org>
->>
->>  drivers/pinctrl/sunxi/pinctrl-sun50i-a100.c | 12 ++++++++++++
->>  1 file changed, 12 insertions(+)
->>
->> Do you mean the consumer/board devicetree changes?
+On 24/06/25 17:29, Tomi Valkeinen wrote:
+> Hi,
 > 
-> I mean the pin definitions for lvds in the sun50i-a100.dtsi device-tree.
+> On 18/06/2025 13:05, Jayesh Choudhary wrote:
+>> TIDSS hardware by itself does not have variable max_pclk for each VP.
+>> Each VP supports a fixed maximum pixel clock. K2 devices and AM62*
+>> devices uses "ultra-light" version where each VP supports a max of
+>> 300MHz whereas J7* devices uses TIDSS where all VP can support a
+>> max pclk of 600MHz.
+>> The limitation that has been modeled till now comes from the clock
+>> (PLL can only be programmed to a particular max value). Due to this
+>> we end up using different compatible for each SoC when the clocking
+>> architecture changes for VPs, even when the hardware is essentially
+>> the same.
+>> max_pclk cannot be entirely removed since the display controller
+>> should tell if a particular mode clock can be supported or not in crtc's
+>> "mode_valid()" call. So remove "max_pclk_khz" from the static display
+>> feat and add it to "tidss_device" structure which would be modified in
+>> runtime. In mode_valid() call, check if a best frequency match for mode
+>> clock can be found or not using "clk_round_rate()". Based on that,
+>> propagate "max_pclk" and check max_clk again only if the requested mode
+>> clock is greater than saved value. (As the preferred display mode is
+>> usually the max resolution, driver ends up checking the maximum clock
+>> the first time itself which is used in subsequent checks)
+>> Since TIDSS display controller provides clock tolerance of 5%, we use
+>> this while checking the max_pclk. Also, move up "dispc_pclk_diff()"
+>> before it is called.
 > 
-> But maybe you wanted to submit those after the bindings/driver changes are
-> merged?
+> An empty line between paragraphs makes the desc easier to read.
 
-                pio: pinctrl@300b000 {
-                        compatible = "allwinner,sun50i-a100-pinctrl";
-                        reg = <0x0300b000 0x400>;
-                        interrupts = <GIC_SPI 54 IRQ_TYPE_LEVEL_HIGH>,
-                                     <GIC_SPI 55 IRQ_TYPE_LEVEL_HIGH>,
-                                     <GIC_SPI 56 IRQ_TYPE_LEVEL_HIGH>,
-                                     <GIC_SPI 57 IRQ_TYPE_LEVEL_HIGH>,
-                                     <GIC_SPI 58 IRQ_TYPE_LEVEL_HIGH>,
-                                     <GIC_SPI 59 IRQ_TYPE_LEVEL_HIGH>,
-                                     <GIC_SPI 60 IRQ_TYPE_LEVEL_HIGH>;
-                        clocks = <&ccu CLK_APB1>, <&dcxo24M>, <&osc32k>;
-                        clock-names = "apb", "hosc", "losc";
-                        gpio-controller;
-                        #gpio-cells = <3>;
-                        interrupt-controller;
-                        #interrupt-cells = <3>;
-                        
-                        lcd_lvds0_pins: lcd-lvds0-pins {
-                                pins = "PD0", "PD1", "PD2", "PD3", "PD4",
-                                        "PD5", "PD6", "PD7", "PD8", "PD9";
-                                function = "lvds0";
-                        };
-                        
-                        lcd_lvds1_pins: lcd-lvds1-pins {
-                                pins = "PD10", "PD11", "PD12", "PD13", "PD14",
-                                        "PD15", "PD16", "PD17", "PD18", "PD19";
-                                function = "lvds1";
-                        };
-                        
-                        dsi0_pins: dsi0-pins {
-                                pins = "PD0", "PD1", "PD2", "PD3", "PD4",
-                                        "PD5", "PD6", "PD7", "PD8", "PD9";
-                                function = "dsi0";
-                        };
-
-                        mmc0_pins: mmc0-pins {
-                                pins = "PF0", "PF1", "PF2", "PF3",
-                                       "PF4", "PF5";
-                                function = "mmc0";
-                                drive-strength = <30>;
-                                bias-pull-up;
-                        };
-
-It got missed when my email server refused to send all the patches.
-I will send the revised full patch series after fixing the comments.
-Anyways above are the pin definitions.
-
-Thanks,
-Parthiban
-https://linumiz.com
-https://www.linkedin.com/company/linumiz
-
-Linumiz GmbH
-Am Hohen Rott 9, 37170, Uslar
-Registergericht: Amtsgericht Göttingen, HRB 207840
-Geschäftsführer: Madan Raj Mohanraj
+Okay. Will add empty lines here.
 
 > 
-> Cheers,
+>> This will make the existing compatibles reusable.
+>>
+>> Signed-off-by: Jayesh Choudhary <j-choudhary@ti.com>
+>> ---
+>>
+>> Changelog v1->v2:
+>> - Rebase it on linux-next after OLDI support series[0] as all of its
+>>    patches are reviewed and tested and it touches one of the functions
+>>    used.
+>>    
+>> v1 patch link:
+>> <https://lore.kernel.org/all/20250618075804.139844-1-j-choudhary@ti.com/>
+>>
+>> Test log on TI's J784S4 SoC with a couple of downstream patches
+>> to integrate DSI support on one of the video ports:
+>> <https://gist.github.com/Jayesh2000/ad4ab87028740efa60e5eb83fb892097>
+>>
+>>  From the logs, we can see that for CLK ID 218 (DSS), we do not have to
+>> call sci_clk_determine_rate() multiple times. So there is very little
+>> overhead of this call even with multiple mode_valid() called during
+>> display run.
+>>  From weston-simple-egl application, I have seen that there is no frame
+>> drop or performance impact.
+>>
+>> Once this patch gets in, I will send patches for AM62P and J722S DSS
+>> support.
+>>
+>> [0]: https://lore.kernel.org/all/20250528122544.817829-1-aradhya.bhatia@linux.dev/
+
+One more observation here. This patch works absolutely fine in the
+current tree (all SOCs that have TIDSS in upstream tree)
+***This change is fully backward compatible.***
+
+But after applying some downstream patches for OLDI support on
+J722S/AM62P, I saw that clk_round_rate() causes issue in display
+as the VP clock is not actually being handled by TIDSS, but actually it
+is owned by OLDI and the clock request is for (7 * VP) value to
+accound for the fixed clock divider present in case of OLDI panel.
+
+In the OLDI support[0], I see that the serial clock is handled properly
+and we also check the value after setting it in the driver. So we should
+avoid performing clock operations for OLDI in TIDSS driver.
+
+OLDI driver during tidss_oldi_init() stores the parent VP in 
+oldi->parent_vp which can be used to avoid performing clk_round_rate()
+in tidss driver, and in oldi, we can add atomic_check hook to propagate
+max_pclk[] value for OLDI VP.
+
+I will post next revision on top of [0] soon accounting this as well.
+(Some oldi driver changes)
+
+[0]: 
+https://lore.kernel.org/all/20250528122544.817829-1-aradhya.bhatia@linux.dev/
+
+
+>>
+>>   drivers/gpu/drm/tidss/tidss_dispc.c | 74 ++++++++++++-----------------
+>>   drivers/gpu/drm/tidss/tidss_dispc.h |  1 -
+>>   drivers/gpu/drm/tidss/tidss_drv.h   |  2 +
+>>   3 files changed, 33 insertions(+), 44 deletions(-)
+>>
+>> diff --git a/drivers/gpu/drm/tidss/tidss_dispc.c b/drivers/gpu/drm/tidss/tidss_dispc.c
+>> index c0277fa36425..ad9ffc3685b4 100644
+>> --- a/drivers/gpu/drm/tidss/tidss_dispc.c
+>> +++ b/drivers/gpu/drm/tidss/tidss_dispc.c
+>> @@ -58,10 +58,6 @@ static const u16 tidss_k2g_common_regs[DISPC_COMMON_REG_TABLE_LEN] = {
+>>   const struct dispc_features dispc_k2g_feats = {
+>>   	.min_pclk_khz = 4375,
+>>   
+>> -	.max_pclk_khz = {
+>> -		[DISPC_VP_DPI] = 150000,
+>> -	},
+>> -
+>>   	/*
+>>   	 * XXX According TRM the RGB input buffer width up to 2560 should
+>>   	 *     work on 3 taps, but in practice it only works up to 1280.
+>> @@ -144,11 +140,6 @@ static const u16 tidss_am65x_common_regs[DISPC_COMMON_REG_TABLE_LEN] = {
+>>   };
+>>   
+>>   const struct dispc_features dispc_am65x_feats = {
+>> -	.max_pclk_khz = {
+>> -		[DISPC_VP_DPI] = 165000,
+>> -		[DISPC_VP_OLDI_AM65X] = 165000,
+>> -	},
+>> -
+>>   	.scaling = {
+>>   		.in_width_max_5tap_rgb = 1280,
+>>   		.in_width_max_3tap_rgb = 2560,
+>> @@ -244,11 +235,6 @@ static const u16 tidss_j721e_common_regs[DISPC_COMMON_REG_TABLE_LEN] = {
+>>   };
+>>   
+>>   const struct dispc_features dispc_j721e_feats = {
+>> -	.max_pclk_khz = {
+>> -		[DISPC_VP_DPI] = 170000,
+>> -		[DISPC_VP_INTERNAL] = 600000,
+>> -	},
+>> -
+>>   	.scaling = {
+>>   		.in_width_max_5tap_rgb = 2048,
+>>   		.in_width_max_3tap_rgb = 4096,
+>> @@ -315,11 +301,6 @@ const struct dispc_features dispc_j721e_feats = {
+>>   };
+>>   
+>>   const struct dispc_features dispc_am625_feats = {
+>> -	.max_pclk_khz = {
+>> -		[DISPC_VP_DPI] = 165000,
+>> -		[DISPC_VP_INTERNAL] = 170000,
+>> -	},
+>> -
+>>   	.scaling = {
+>>   		.in_width_max_5tap_rgb = 1280,
+>>   		.in_width_max_3tap_rgb = 2560,
+>> @@ -380,10 +361,6 @@ const struct dispc_features dispc_am62a7_feats = {
+>>   	 * if the code reaches dispc_mode_valid with VP1,
+>>   	 * it should return MODE_BAD.
+>>   	 */
+>> -	.max_pclk_khz = {
+>> -		[DISPC_VP_TIED_OFF] = 0,
+>> -		[DISPC_VP_DPI] = 165000,
+>> -	},
+>>   
+>>   	.scaling = {
+>>   		.in_width_max_5tap_rgb = 1280,
+>> @@ -441,10 +418,6 @@ const struct dispc_features dispc_am62a7_feats = {
+>>   };
+>>   
+>>   const struct dispc_features dispc_am62l_feats = {
+>> -	.max_pclk_khz = {
+>> -		[DISPC_VP_DPI] = 165000,
+>> -	},
+>> -
+>>   	.subrev = DISPC_AM62L,
+>>   
+>>   	.common = "common",
+>> @@ -1347,25 +1320,48 @@ static void dispc_vp_set_default_color(struct dispc_device *dispc,
+>>   			DISPC_OVR_DEFAULT_COLOR2, (v >> 32) & 0xffff);
+>>   }
+>>   
+>> +/*
+>> + * Calculate the percentage difference between the requested pixel clock rate
+>> + * and the effective rate resulting from calculating the clock divider value.
+>> + */
+>> +unsigned int dispc_pclk_diff(unsigned long rate, unsigned long real_rate)
+>> +{
+>> +	int r = rate / 100, rr = real_rate / 100;
+>> +
+>> +	return (unsigned int)(abs(((rr - r) * 100) / r));
+>> +}
+>> +
+>> +static int check_max_pixel_clock(struct dispc_device *dispc,
+>> +				 u32 hw_videoport, unsigned long clock)
+>> +{
+>> +	if (clock > dispc->tidss->max_pclk[hw_videoport]) {
+>> +		unsigned long round_clock = clk_round_rate(dispc->vp_clk[hw_videoport], clock);
+>> +
+>> +		if (dispc_pclk_diff(clock, round_clock) > 5)
+>> +			return -EINVAL;
+>> +
+>> +		dispc->tidss->max_pclk[hw_videoport] = round_clock;
+>> +	}
+>> +
+>> +	return 0;
+>> +}
+>> +
+>>   enum drm_mode_status dispc_vp_mode_valid(struct dispc_device *dispc,
+>>   					 u32 hw_videoport,
+>>   					 const struct drm_display_mode *mode)
+>>   {
+>>   	u32 hsw, hfp, hbp, vsw, vfp, vbp;
+>>   	enum dispc_vp_bus_type bus_type;
+>> -	int max_pclk;
+>>   
+>>   	bus_type = dispc->feat->vp_bus_type[hw_videoport];
+>>   
+>> -	max_pclk = dispc->feat->max_pclk_khz[bus_type];
+>> -
+>> -	if (WARN_ON(max_pclk == 0))
+>> +	if (bus_type == DISPC_VP_TIED_OFF)
+>>   		return MODE_BAD;
+>>   
+>>   	if (mode->clock < dispc->feat->min_pclk_khz)
+>>   		return MODE_CLOCK_LOW;
+>>   
+>> -	if (mode->clock > max_pclk)
+>> +	if (check_max_pixel_clock(dispc, hw_videoport, mode->clock * 1000))
+>>   		return MODE_CLOCK_HIGH;
+>>   
+>>   	if (mode->hdisplay > 4096)
+>> @@ -1437,17 +1433,6 @@ void dispc_vp_disable_clk(struct dispc_device *dispc, u32 hw_videoport)
+>>   	clk_disable_unprepare(dispc->vp_clk[hw_videoport]);
+>>   }
+>>   
+>> -/*
+>> - * Calculate the percentage difference between the requested pixel clock rate
+>> - * and the effective rate resulting from calculating the clock divider value.
+>> - */
+>> -unsigned int dispc_pclk_diff(unsigned long rate, unsigned long real_rate)
+>> -{
+>> -	int r = rate / 100, rr = real_rate / 100;
+>> -
+>> -	return (unsigned int)(abs(((rr - r) * 100) / r));
+>> -}
+>> -
+>>   int dispc_vp_set_clk_rate(struct dispc_device *dispc, u32 hw_videoport,
+>>   			  unsigned long rate)
+>>   {
+>> @@ -3087,6 +3072,9 @@ int dispc_init(struct tidss_device *tidss)
+>>   	}
+>>   	dev_dbg(dev, "DSS fclk %lu Hz\n", clk_get_rate(dispc->fclk));
+>>   
+>> +	for (i = 0; i < dispc->feat->num_vps; i++)
+>> +		dispc->tidss->max_pclk[i] = 0;
 > 
-> Paul
+> I think this is not needed, the struct should be zero initialized at alloc.
+
+Okay will remove this.
+
+> 
+>>   	of_property_read_u32(dispc->dev->of_node, "max-memory-bandwidth",
+>>   			     &dispc->memory_bandwidth_limit);
+>>   
+>> diff --git a/drivers/gpu/drm/tidss/tidss_dispc.h b/drivers/gpu/drm/tidss/tidss_dispc.h
+>> index b8614f62186c..45b1a8aa9089 100644
+>> --- a/drivers/gpu/drm/tidss/tidss_dispc.h
+>> +++ b/drivers/gpu/drm/tidss/tidss_dispc.h
+>> @@ -75,7 +75,6 @@ enum dispc_dss_subrevision {
+>>   
+>>   struct dispc_features {
+>>   	int min_pclk_khz;
+>> -	int max_pclk_khz[DISPC_VP_MAX_BUS_TYPE];
+>>   
+>>   	struct dispc_features_scaling scaling;
+>>   
+>> diff --git a/drivers/gpu/drm/tidss/tidss_drv.h b/drivers/gpu/drm/tidss/tidss_drv.h
+>> index d14d5d28f0a3..59c67ae8e721 100644
+>> --- a/drivers/gpu/drm/tidss/tidss_drv.h
+>> +++ b/drivers/gpu/drm/tidss/tidss_drv.h
+>> @@ -22,6 +22,8 @@ struct tidss_device {
+>>   
+>>   	const struct dispc_features *feat;
+>>   	struct dispc_device *dispc;
+>> +	long max_pclk[TIDSS_MAX_PORTS];
+>> +
+>>   
+>>   	unsigned int num_crtcs;
+>>   	struct drm_crtc *crtcs[TIDSS_MAX_PORTS];
+> 
+> One thing to keep in mind is that if we ever change the source clk, we
+> need to also clear the max_pclk for that VP.
+
+So I will clear them (mark as 0) in tidss_remove?
+
+> 
+> Shouldn't we still have a check for the DSS internal max pclk somewhere?
+
+Makes sense. So instead of moving max_pclk_khz from dispc_features to
+tidss_device, I will have it in both. We can have int max_pclk_khz
+similar to min_pclk_khz which would be static for a tidss device.
+
+And then I will rename max_pclk[] in tidss_device structure to
+max_pclk_vp[].
+
+> 
+>   Tomi
 > 
 
+Warm Regards,
+Jayesh
