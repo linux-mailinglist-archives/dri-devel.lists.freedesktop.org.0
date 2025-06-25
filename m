@@ -2,105 +2,66 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 881F1AE7A8C
-	for <lists+dri-devel@lfdr.de>; Wed, 25 Jun 2025 10:43:28 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id D57F7AE7A7F
+	for <lists+dri-devel@lfdr.de>; Wed, 25 Jun 2025 10:42:30 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D8F9D10E6A0;
-	Wed, 25 Jun 2025 08:43:25 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1361510E6A3;
+	Wed, 25 Jun 2025 08:42:29 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=suse.de header.i=@suse.de header.b="KZK/MHK+";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="bB24huYu";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="KZK/MHK+";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="bB24huYu";
+	dkim=pass (1024-bit key; unprotected) header.d=samsung.com header.i=@samsung.com header.b="CzHCb2B0";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2BBD989BF4
- for <dri-devel@lists.freedesktop.org>; Wed, 25 Jun 2025 08:43:25 +0000 (UTC)
-Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
- (No client certificate requested)
- by smtp-out2.suse.de (Postfix) with ESMTPS id 6126A1F74B;
- Wed, 25 Jun 2025 08:43:20 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1750841000; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=wOAaDxy47PC4Ui0W7/PiDwzjTCAQ3/P4uI5NG8oMIXs=;
- b=KZK/MHK+cE/UEZXrOSXQNmPYzBL+BUfL8HUWafhDEXynkV6oubKoRdRaXfO8hYMf8cugzE
- kG4F43KThTa/3YWKIrENJT6bMs+wmU9u9nw+nUj8+Vg3FzoweNURiO9Mv5RssUyPkwjI28
- /HpxuYGKjGI5hDRya6xN00ZdGHiuw40=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1750841000;
- h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=wOAaDxy47PC4Ui0W7/PiDwzjTCAQ3/P4uI5NG8oMIXs=;
- b=bB24huYuVxQrwnkOtwjRLzLDMNggXkLdZxwGfxOWDvsZeUajN3af3M2OjCBXZMFpJY92Yf
- BfYlOl+fLwwR15CA==
-Authentication-Results: smtp-out2.suse.de;
-	none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1750841000; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=wOAaDxy47PC4Ui0W7/PiDwzjTCAQ3/P4uI5NG8oMIXs=;
- b=KZK/MHK+cE/UEZXrOSXQNmPYzBL+BUfL8HUWafhDEXynkV6oubKoRdRaXfO8hYMf8cugzE
- kG4F43KThTa/3YWKIrENJT6bMs+wmU9u9nw+nUj8+Vg3FzoweNURiO9Mv5RssUyPkwjI28
- /HpxuYGKjGI5hDRya6xN00ZdGHiuw40=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1750841000;
- h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=wOAaDxy47PC4Ui0W7/PiDwzjTCAQ3/P4uI5NG8oMIXs=;
- b=bB24huYuVxQrwnkOtwjRLzLDMNggXkLdZxwGfxOWDvsZeUajN3af3M2OjCBXZMFpJY92Yf
- BfYlOl+fLwwR15CA==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
- (No client certificate requested)
- by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 28C2213A27;
- Wed, 25 Jun 2025 08:43:20 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
- by imap1.dmz-prg2.suse.org with ESMTPSA id EJO4CKi2W2h5IwAAD6G6ig
- (envelope-from <tzimmermann@suse.de>); Wed, 25 Jun 2025 08:43:20 +0000
-From: Thomas Zimmermann <tzimmermann@suse.de>
-To: alexander.deucher@amd.com, christian.koenig@amd.com, airlied@gmail.com,
- simona@ffwll.ch, sumit.semwal@linaro.org
-Cc: amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
- Thomas Zimmermann <tzimmermann@suse.de>
-Subject: [PATCH v2 1/2] drm/amdgpu: Test for imported buffers with
- drm_gem_is_imported()
-Date: Wed, 25 Jun 2025 10:42:17 +0200
-Message-ID: <20250625084314.414044-2-tzimmermann@suse.de>
-X-Mailer: git-send-email 2.50.0
-In-Reply-To: <20250625084314.414044-1-tzimmermann@suse.de>
-References: <20250625084314.414044-1-tzimmermann@suse.de>
+Received: from mailout1.w1.samsung.com (mailout1.w1.samsung.com
+ [210.118.77.11])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2415310E6A3
+ for <dri-devel@lists.freedesktop.org>; Wed, 25 Jun 2025 08:42:25 +0000 (UTC)
+Received: from eucas1p1.samsung.com (unknown [182.198.249.206])
+ by mailout1.w1.samsung.com (KnoxPortal) with ESMTP id
+ 20250625084220euoutp0127f2bf97895ee570ae008936cf173fb7~MPI8ZiUPv1818518185euoutp018
+ for <dri-devel@lists.freedesktop.org>; Wed, 25 Jun 2025 08:42:20 +0000 (GMT)
+DKIM-Filter: OpenDKIM Filter v2.11.0 mailout1.w1.samsung.com
+ 20250625084220euoutp0127f2bf97895ee570ae008936cf173fb7~MPI8ZiUPv1818518185euoutp018
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=samsung.com;
+ s=mail20170921; t=1750840940;
+ bh=rajn+g2Oqrf0lxEltO7HAcymJJqYGt/Au+aZbXuqSoE=;
+ h=Date:Subject:To:Cc:From:In-Reply-To:References:From;
+ b=CzHCb2B0+V4PT4n8kOe3m+LHixhVNpJV1jQ87KxlC5v9M5b2Xk3eic6tyXn1VZQy5
+ 1bt2MCq2Zw8XUucTCpHA0mtuoJzkFTFntAFMUJgihAU7IjAq2YQOFGqpAL1/sVLx7n
+ qdMYpVhBu++APo/Neg45Pu0fw6SWBBUluNL0Js8s=
+Received: from eusmtip2.samsung.com (unknown [203.254.199.222]) by
+ eucas1p2.samsung.com (KnoxPortal) with ESMTPA id
+ 20250625084219eucas1p2ad80455b26312631d928ef16a7cb3a23~MPI7721jG0933809338eucas1p2a;
+ Wed, 25 Jun 2025 08:42:19 +0000 (GMT)
+Received: from [106.210.134.192] (unknown [106.210.134.192]) by
+ eusmtip2.samsung.com (KnoxPortal) with ESMTPA id
+ 20250625084219eusmtip247ccf68dde7932f00ec254134783fd13~MPI7fSRE80286402864eusmtip2x;
+ Wed, 25 Jun 2025 08:42:19 +0000 (GMT)
+Message-ID: <833aef10-9fcf-4abd-bea8-c34ea7ed6bb2@samsung.com>
+Date: Wed, 25 Jun 2025 10:42:18 +0200
 MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: Help: Samsung Exynos 7870 DECON SYSMMU panic
+To: Kaustabh Chakraborty <kauschluss@disroot.org>, Robin Murphy
+ <robin.murphy@arm.com>
+Cc: Joerg Roedel <joro@8bytes.org>, Will Deacon <will@kernel.org>, Inki Dae
+ <inki.dae@samsung.com>, Seung-Woo Kim <sw0312.kim@samsung.com>, Kyungmin
+ Park <kyungmin.park@samsung.com>, iommu@lists.linux.dev,
+ dri-devel@lists.freedesktop.org
+Content-Language: en-US
+From: Marek Szyprowski <m.szyprowski@samsung.com>
+In-Reply-To: <c338c9f7528fdcba56c088390c4ccffc@disroot.org>
 Content-Transfer-Encoding: 8bit
-X-Spam-Flag: NO
-X-Spam-Score: -6.80
-X-Spamd-Result: default: False [-6.80 / 50.00]; REPLY(-4.00)[];
- BAYES_HAM(-3.00)[100.00%]; MID_CONTAINS_FROM(1.00)[];
- NEURAL_HAM_LONG(-1.00)[-1.000]; R_MISSING_CHARSET(0.50)[];
- NEURAL_HAM_SHORT(-0.20)[-1.000]; MIME_GOOD(-0.10)[text/plain];
- RCVD_COUNT_TWO(0.00)[2]; RCVD_VIA_SMTP_AUTH(0.00)[];
- FROM_EQ_ENVFROM(0.00)[]; ARC_NA(0.00)[]; MIME_TRACE(0.00)[0:+];
- FROM_HAS_DN(0.00)[]; TO_MATCH_ENVRCPT_ALL(0.00)[];
- RCVD_TLS_ALL(0.00)[]; RCPT_COUNT_SEVEN(0.00)[8];
- FUZZY_BLOCKED(0.00)[rspamd.com];
- FREEMAIL_TO(0.00)[amd.com,gmail.com,ffwll.ch,linaro.org];
- DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
- DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:helo,suse.de:mid,suse.de:email];
- TO_DN_SOME(0.00)[]; FREEMAIL_ENVRCPT(0.00)[gmail.com]
-X-Spam-Level: 
+X-CMS-MailID: 20250625084219eucas1p2ad80455b26312631d928ef16a7cb3a23
+X-Msg-Generator: CA
+Content-Type: text/plain; charset="utf-8"
+X-RootMTR: 20250625073955eucas1p2913134af8cc26dcb2145188f8a43256b
+X-EPHeader: CA
+X-CMS-RootMailID: 20250625073955eucas1p2913134af8cc26dcb2145188f8a43256b
+References: <544ad69cba52a9b87447e3ac1c7fa8c3@disroot.org>
+ <0bc60699-eeaa-4121-8d93-0274862f5aed@arm.com>
+ <CGME20250625073955eucas1p2913134af8cc26dcb2145188f8a43256b@eucas1p2.samsung.com>
+ <c338c9f7528fdcba56c088390c4ccffc@disroot.org>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -116,154 +77,224 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Instead of testing import_attach for imported GEM buffers, invoke
-drm_gem_is_imported() to do the test.
+On 25.06.2025 09:39, Kaustabh Chakraborty wrote:
+> On 2025-06-24 17:12, Robin Murphy wrote:
+>> On 2025-06-18 3:02 pm, Kaustabh Chakraborty wrote:
+>>> Since bcb81ac6ae3c (iommu: Get DT/ACPI parsing into the proper probe 
+>>> path),
+>>> The Samsung Exynos 7870 DECON device (with patches [1], [2], and 
+>>> [3]) seems
+>>> to not work anymore. Upon closer inspection, I observe that there is an
+>>> IOMMU crash.
+>>>
+>>> [    2.918189] exynos-sysmmu 14860000.sysmmu: 14830000.decon: [READ] 
+>>> PAGE FAULT occurred at 0x6715b3e0
+>>> [    2.918199] exynos-sysmmu 14860000.sysmmu: Page table base: 
+>>> 0x0000000044a14000
+>>> [    2.918243] exynos-drm exynos-drm: bound 14830000.decon (ops 
+>>> decon_component_ops)
+>>> [    2.922868] exynos-sysmmu 14860000.sysmmu:   Lv1 entry: 0x4205001
+>>> [    2.922877] Kernel panic - not syncing: Unrecoverable System MMU 
+>>> Fault!
+>>> [    2.922885] CPU: 0 UID: 0 PID: 0 Comm: swapper/0 Not tainted 
+>>> 6.16.0-rc2-exynos7870 #722 PREEMPT
+>>> [    2.995312] Hardware name: Samsung Galaxy J7 Prime (DT)
+>>> [    3.000509] Call trace:
+>>> [    3.002938]  show_stack+0x18/0x24 (C)
+>>> [    3.006582]  dump_stack_lvl+0x60/0x80
+>>> [    3.010224]  dump_stack+0x18/0x24
+>>> [    3.013521]  panic+0x168/0x360
+>>> [    3.016558]  exynos_sysmmu_irq+0x224/0x2ac
+>>> [         ...]
+>>> [    3.108786] ---[ end Kernel panic - not syncing: Unrecoverable 
+>>> System MMU Fault! ]---
+>>
+>> For starters, what if you just remove this panic() from the IOMMU 
+>> driver? Frankly it seems a bit excessive anyway...
+>
+> I've tried that, sysmmu repeatedly keeps issuing interrupts (yes, even
+> after clearing the interrupt bit) indefinitely.
+>
+Right, this is because decon device is still accessing system memory in 
+a loop trying to display the splash screen. That panic is indeed a bit 
+excessive, but what else IOMMU driver can do if no page fault handle is 
+registered?
 
-v2:
-- keep amdgpu_bo_print_info() as-is (Christian)
 
-Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
----
- drivers/gpu/drm/amd/amdgpu/amdgpu_display.c |  2 +-
- drivers/gpu/drm/amd/amdgpu/amdgpu_dma_buf.c |  2 +-
- drivers/gpu/drm/amd/amdgpu/amdgpu_gem.c     |  4 ++--
- drivers/gpu/drm/amd/amdgpu/amdgpu_object.c  | 10 +++++-----
- drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.c     |  2 +-
- drivers/gpu/drm/amd/amdgpu/amdgpu_vm.c      |  4 ++--
- 6 files changed, 12 insertions(+), 12 deletions(-)
+>>
+>> From the logs below it seems there is apparently unexpected traffic 
+>> already going through the IOMMU when it wakes up. Is this the DRM 
+>> drivers doing something sketchy, or has the bootloader left the 
+>> display running for a splash screen? However in the latter case I 
+>> don't obviously see why delaying the IOMMU probe should make much 
+>> difference, given that the decon driver should still be waiting for 
+>> it either way.
+>
+> The display is initialized by the bootloader for splash yes, but I reckon
+> it doesn't use the IOMMU as it's accessible from a framebuffer region.
 
-diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_display.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_display.c
-index 35c778426a7c..9e463d3ee927 100644
---- a/drivers/gpu/drm/amd/amdgpu/amdgpu_display.c
-+++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_display.c
-@@ -1317,7 +1317,7 @@ amdgpu_display_user_framebuffer_create(struct drm_device *dev,
- 	/* Handle is imported dma-buf, so cannot be migrated to VRAM for scanout */
- 	bo = gem_to_amdgpu_bo(obj);
- 	domains = amdgpu_display_supported_domains(drm_to_adev(dev), bo->flags);
--	if (obj->import_attach && !(domains & AMDGPU_GEM_DOMAIN_GTT)) {
-+	if (drm_gem_is_imported(obj) && !(domains & AMDGPU_GEM_DOMAIN_GTT)) {
- 		drm_dbg_kms(dev, "Cannot create framebuffer from imported dma_buf\n");
- 		drm_gem_object_put(obj);
- 		return ERR_PTR(-EINVAL);
-diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_dma_buf.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_dma_buf.c
-index 44e120f9f764..5743ebb2f1b7 100644
---- a/drivers/gpu/drm/amd/amdgpu/amdgpu_dma_buf.c
-+++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_dma_buf.c
-@@ -513,7 +513,7 @@ bool amdgpu_dmabuf_is_xgmi_accessible(struct amdgpu_device *adev,
- 	if (!adev)
- 		return false;
- 
--	if (obj->import_attach) {
-+	if (drm_gem_is_imported(obj)) {
- 		struct dma_buf *dma_buf = obj->import_attach->dmabuf;
- 
- 		if (dma_buf->ops != &amdgpu_dmabuf_ops)
-diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_gem.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_gem.c
-index e5e33a68d935..d1ccbfcf21fa 100644
---- a/drivers/gpu/drm/amd/amdgpu/amdgpu_gem.c
-+++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_gem.c
-@@ -317,7 +317,7 @@ static int amdgpu_gem_object_open(struct drm_gem_object *obj,
- 	 */
- 	if (!vm->is_compute_context || !vm->process_info)
- 		return 0;
--	if (!obj->import_attach ||
-+	if (!drm_gem_is_imported(obj) ||
- 	    !dma_buf_is_dynamic(obj->import_attach->dmabuf))
- 		return 0;
- 	mutex_lock_nested(&vm->process_info->lock, 1);
-@@ -1024,7 +1024,7 @@ int amdgpu_gem_op_ioctl(struct drm_device *dev, void *data,
- 		break;
- 	}
- 	case AMDGPU_GEM_OP_SET_PLACEMENT:
--		if (robj->tbo.base.import_attach &&
-+		if (drm_gem_is_imported(&robj->tbo.base) &&
- 		    args->value & AMDGPU_GEM_DOMAIN_VRAM) {
- 			r = -EINVAL;
- 			amdgpu_bo_unreserve(robj);
-diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_object.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_object.c
-index 73403744331a..216631ee2230 100644
---- a/drivers/gpu/drm/amd/amdgpu/amdgpu_object.c
-+++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_object.c
-@@ -62,7 +62,7 @@ static void amdgpu_bo_destroy(struct ttm_buffer_object *tbo)
- 
- 	amdgpu_bo_kunmap(bo);
- 
--	if (bo->tbo.base.import_attach)
-+	if (drm_gem_is_imported(&bo->tbo.base))
- 		drm_prime_gem_destroy(&bo->tbo.base, bo->tbo.sg);
- 	drm_gem_object_release(&bo->tbo.base);
- 	amdgpu_bo_unref(&bo->parent);
-@@ -939,7 +939,7 @@ int amdgpu_bo_pin(struct amdgpu_bo *bo, u32 domain)
- 		domain = bo->preferred_domains & domain;
- 
- 	/* A shared bo cannot be migrated to VRAM */
--	if (bo->tbo.base.import_attach) {
-+	if (drm_gem_is_imported(&bo->tbo.base)) {
- 		if (domain & AMDGPU_GEM_DOMAIN_GTT)
- 			domain = AMDGPU_GEM_DOMAIN_GTT;
- 		else
-@@ -967,7 +967,7 @@ int amdgpu_bo_pin(struct amdgpu_bo *bo, u32 domain)
- 	 */
- 	domain = amdgpu_bo_get_preferred_domain(adev, domain);
- 
--	if (bo->tbo.base.import_attach)
-+	if (drm_gem_is_imported(&bo->tbo.base))
- 		dma_buf_pin(bo->tbo.base.import_attach);
- 
- 	/* force to pin into visible video ram */
-@@ -1018,7 +1018,7 @@ void amdgpu_bo_unpin(struct amdgpu_bo *bo)
- 	if (bo->tbo.pin_count)
- 		return;
- 
--	if (bo->tbo.base.import_attach)
-+	if (drm_gem_is_imported(&bo->tbo.base))
- 		dma_buf_unpin(bo->tbo.base.import_attach);
- 
- 	if (bo->tbo.resource->mem_type == TTM_PL_VRAM) {
-@@ -1263,7 +1263,7 @@ void amdgpu_bo_move_notify(struct ttm_buffer_object *bo,
- 
- 	amdgpu_bo_kunmap(abo);
- 
--	if (abo->tbo.base.dma_buf && !abo->tbo.base.import_attach &&
-+	if (abo->tbo.base.dma_buf && !drm_gem_is_imported(&abo->tbo.base) &&
- 	    old_mem && old_mem->mem_type != TTM_PL_SYSTEM)
- 		dma_buf_move_notify(abo->tbo.base.dma_buf);
- 
-diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.c
-index 9c5df35f05b7..6ce45278d69b 100644
---- a/drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.c
-+++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.c
-@@ -1060,7 +1060,7 @@ static void amdgpu_ttm_backend_unbind(struct ttm_device *bdev,
- 	/* if the pages have userptr pinning then clear that first */
- 	if (gtt->userptr) {
- 		amdgpu_ttm_tt_unpin_userptr(bdev, ttm);
--	} else if (ttm->sg && gtt->gobj->import_attach) {
-+	} else if (ttm->sg && drm_gem_is_imported(gtt->gobj)) {
- 		struct dma_buf_attachment *attach;
- 
- 		attach = gtt->gobj->import_attach;
-diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_vm.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_vm.c
-index 0ff95a56c2ce..04100d4dea03 100644
---- a/drivers/gpu/drm/amd/amdgpu/amdgpu_vm.c
-+++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_vm.c
-@@ -1271,7 +1271,7 @@ int amdgpu_vm_bo_update(struct amdgpu_device *adev, struct amdgpu_bo_va *bo_va,
- 	} else {
- 		struct drm_gem_object *obj = &bo->tbo.base;
- 
--		if (obj->import_attach && bo_va->is_xgmi) {
-+		if (drm_gem_is_imported(obj) && bo_va->is_xgmi) {
- 			struct dma_buf *dma_buf = obj->import_attach->dmabuf;
- 			struct drm_gem_object *gobj = dma_buf->priv;
- 			struct amdgpu_bo *abo = gem_to_amdgpu_bo(gobj);
-@@ -1631,7 +1631,7 @@ int amdgpu_vm_handle_moved(struct amdgpu_device *adev,
- 		 * validation
- 		 */
- 		if (vm->is_compute_context &&
--		    bo_va->base.bo->tbo.base.import_attach &&
-+		    drm_gem_is_imported(&bo_va->base.bo->tbo.base) &&
- 		    (!bo_va->base.bo->tbo.resource ||
- 		     bo_va->base.bo->tbo.resource->mem_type == TTM_PL_SYSTEM))
- 			amdgpu_vm_bo_evicted_user(&bo_va->base);
+Right, bootloader configured decon device to display splash screen, what 
+means that decon device is constantly reading splash screen pixel data 
+from system memory. There is no such thing as a 'framebuffer region', it 
+is just a system memory, which exynos sysmmu protects when enabled. So 
+far this issue of splash screen from bootloader has not yet been solved 
+in mainline. On other Exynos based supported boards this works only 
+because there are also power domain drivers enabled, which are 
+instantiated before the display related device and respective sysmmu 
+device. That power domain driver shuts down power effectively disabling 
+the display before the sysmmu gets probbed.
+
+Long time ago I've pointed this issue and proposed some simple solution 
+like a special initial identity mapping for the memory range used for 
+splash screen, but that proposal is no longer applicable for the current 
+code.
+
+As a workaround I would suggest to shutdown display in the decon device 
+before starting the kernel (i.e. from the 'kernel loading mid-stage 
+bootloader' if you have such).
+
+
+>
+>>
+>> Thanks,
+>> Robin.
+>>
+>>> The commit has been introduced in mainline v6.15-rc1. I've also 
+>>> tested in
+>>> v6.15, v6.15.2, and v6.16-rc2, and there have been no apparent changes.
+>>>
+>>> I've tried to revert the commit, and it does work that way. But on 
+>>> reading
+>>> the commit message I understand that I need to find a proper 
+>>> solution here.
+>>> I've tried to skim down the revert, and this is what I get - if i 
+>>> change
+>>> line [4] as follows:
+>>>
+>>> -        dev->bus->dma_configure(dev);
+>>> +        if (!strcmp(dev_name(dev), "14830000.decon"))
+>>> +            dev->bus->dma_configure(dev);
+>>>
+>>> It really doesn't like dma_configure for some reason. It works, but:
+>>>
+>>> [    2.779291] exynos-decon 14830000.decon: late IOMMU probe at 
+>>> driver bind, something fishy here!
+>>>
+>>> I believe the IOMMU hardware doesn't like the fact that it is being
+>>> initialized/resumed too early. I formed this conclusion by comparing 
+>>> the
+>>> logs:
+>>>
+>>> mainline:
+>>> [    1.274575] I_HAVE_ADDED_THESE: SYSMMU: exynos_sysmmu_resume enter
+>>> [    2.859656] I_HAVE_ADDED_THESE: SYSMMU: __sysmmu_enable enter
+>>> [    2.864192] I_HAVE_ADDED_THESE: SYSMMU: __sysmmu_enable_clocks enter
+>>> [    2.869299] I_HAVE_ADDED_THESE: SYSMMU: write: reg 0x00000000 val 
+>>> 0x00000007
+>>> [    2.875062] I_HAVE_ADDED_THESE: SYSMMU: __sysmmu_init_config enter
+>>> [    2.880006] I_HAVE_ADDED_THESE: SYSMMU: write: reg 0x00000004 val 
+>>> 0x01100784
+>>> [    2.885819] I_HAVE_ADDED_THESE: SYSMMU: __sysmmu_set_ptbase enter
+>>> [    2.890677] I_HAVE_ADDED_THESE: SYSMMU: write: reg 0x0000000c val 
+>>> 0x00044a14
+>>> [    2.896490] I_HAVE_ADDED_THESE: SYSMMU: __sysmmu_tlb_invalidate 
+>>> enter
+>>> [    2.901695] I_HAVE_ADDED_THESE: SYSMMU: write: reg 0x00000010 val 
+>>> 0x00000001
+>>> [    2.907507] I_HAVE_ADDED_THESE: SYSMMU: __sysmmu_enable_vid enter
+>>> [    2.912366] I_HAVE_ADDED_THESE: SYSMMU: write: reg 0x00000000 val 
+>>> 0x00000005
+>>> [    2.912371] I_HAVE_ADDED_THESE: SYSMMU: exynos_sysmmu_irq enter
+>>> [    2.912836] [drm] Exynos DRM: using 14830000.decon device for DMA 
+>>> mapping operations
+>>> [    2.918175] I_HAVE_ADDED_THESE: SYSMMU: 
+>>> exynos_sysmmu_v5_get_fault_info enter
+>>> [    2.918182] I_HAVE_ADDED_THESE: SYSMMU: show_fault_information enter
+>>> [    2.918189] exynos-sysmmu 14860000.sysmmu: 14830000.decon: [READ] 
+>>> PAGE FAULT occurred at 0x6715b3e0
+>>> [    2.918199] exynos-sysmmu 14860000.sysmmu: Page table base: 
+>>> 0x0000000044a14000
+>>> [    2.918243] exynos-drm exynos-drm: bound 14830000.decon (ops 
+>>> decon_component_ops)
+>>> [    2.922859] I_HAVE_ADDED_THESE: SYSMMU: section_entry enter
+>>> [    2.922864] I_HAVE_ADDED_THESE: SYSMMU: lv1ent_offset enter
+>>> [    2.922868] exynos-sysmmu 14860000.sysmmu:   Lv1 entry: 0x4205001
+>>> [    2.922877] Kernel panic - not syncing: Unrecoverable System MMU 
+>>> Fault!
+>>>
+>>> and with the patch above applied:
+>>> [    3.018478] [drm] Exynos DRM: using 14830000.decon device for DMA 
+>>> mapping operations
+>>> [    3.025794] exynos-drm exynos-drm: bound 14830000.decon (ops 
+>>> decon_component_ops)
+>>> [    3.058655] exynos-dsi 14800000.dsi: 
+>>> [drm:samsung_dsim_host_attach] Attached td4300-panel device (lanes:4 
+>>> bpp:24 mode-flags:0x23)
+>>> [    3.070189] exynos-drm exynos-drm: bound 14800000.dsi (ops 
+>>> exynos_dsi_component_ops)
+>>> [    3.078506] [drm] Initialized exynos 1.1.0 for exynos-drm on minor 1
+>>> [    3.090747] I_HAVE_ADDED_THESE: SYSMMU: exynos_iommu_map enter
+>>> [    3.090845] I_HAVE_ADDED_THESE: SYSMMU: to_exynos_domain enter
+>>> [    3.093325] I_HAVE_ADDED_THESE: SYSMMU: section_entry enter
+>>> [    3.097662] I_HAVE_ADDED_THESE: SYSMMU: lv1ent_offset enter
+>>> [    3.102000] I_HAVE_ADDED_THESE: SYSMMU: lv1ent_offset enter
+>>> [    3.106337] I_HAVE_ADDED_THESE: SYSMMU: lv1set_section enter
+>>> [    3.110762] I_HAVE_ADDED_THESE: SYSMMU: exynos_iommu_set_pte enter
+>>> [    3.115726] I_HAVE_ADDED_THESE: SYSMMU: exynos_iommu_map enter
+>>> [    3.120317] I_HAVE_ADDED_THESE: SYSMMU: to_exynos_domain enter
+>>> [    3.124914] I_HAVE_ADDED_THESE: SYSMMU: section_entry enter
+>>> [    3.129240] I_HAVE_ADDED_THESE: SYSMMU: lv1ent_offset enter
+>>> [    3.133578] I_HAVE_ADDED_THESE: SYSMMU: lv1ent_offset enter
+>>> [    3.137916] I_HAVE_ADDED_THESE: SYSMMU: lv1set_section enter
+>>> [    3.142340] I_HAVE_ADDED_THESE: SYSMMU: exynos_iommu_set_pte enter
+>>> [         ...] (a lot of repetitions later)
+>>> [    4.322904] I_HAVE_ADDED_THESE: SYSMMU: section_entry enter
+>>> [    4.327230] I_HAVE_ADDED_THESE: SYSMMU: lv1ent_offset enter
+>>> [    4.331567] I_HAVE_ADDED_THESE: SYSMMU: lv1ent_offset enter
+>>> [    4.335905] I_HAVE_ADDED_THESE: SYSMMU: alloc_lv2entry enter
+>>> [    4.340329] I_HAVE_ADDED_THESE: SYSMMU: page_entry enter
+>>> [    4.344407] I_HAVE_ADDED_THESE: SYSMMU: lv2ent_offset enter
+>>> [    4.348744] I_HAVE_ADDED_THESE: SYSMMU: lv1ent_offset enter
+>>> [    4.353082] I_HAVE_ADDED_THESE: SYSMMU: lv2set_page enter
+>>> [    4.357246] I_HAVE_ADDED_THESE: SYSMMU: exynos_iommu_set_pte enter
+>>> [    4.362751] I_HAVE_ADDED_THESE: SYSMMU: exynos_sysmmu_resume enter
+>>> [    4.362767] I_HAVE_ADDED_THESE: SYSMMU: __sysmmu_enable enter
+>>> [    4.362771] I_HAVE_ADDED_THESE: SYSMMU: __sysmmu_enable_clocks enter
+>>> [    4.362777] I_HAVE_ADDED_THESE: SYSMMU: write: reg 0x00000000 val 
+>>> 0x00000007
+>>> [    4.362782] I_HAVE_ADDED_THESE: SYSMMU: __sysmmu_init_config enter
+>>> [    4.362786] I_HAVE_ADDED_THESE: SYSMMU: write: reg 0x00000004 val 
+>>> 0x01100784
+>>> [    4.362791] I_HAVE_ADDED_THESE: SYSMMU: __sysmmu_set_ptbase enter
+>>> [    4.362795] I_HAVE_ADDED_THESE: SYSMMU: write: reg 0x0000000c val 
+>>> 0x00042a64
+>>> [    4.362799] I_HAVE_ADDED_THESE: SYSMMU: __sysmmu_tlb_invalidate 
+>>> enter
+>>> [    4.362803] I_HAVE_ADDED_THESE: SYSMMU: write: reg 0x00000010 val 
+>>> 0x00000001
+>>> [    4.362808] I_HAVE_ADDED_THESE: SYSMMU: __sysmmu_enable_vid enter
+>>> [    4.362811] I_HAVE_ADDED_THESE: SYSMMU: write: reg 0x00000000 val 
+>>> 0x00000005
+>>>
+>>> Then it continues booting as usual.
+>>>
+>>> My lack of understanding of the IOMMU and DRM subsystems are really
+>>> limiting my triaging capabilities here, therefore I ask for any form
+>>> guidance or assistance with this.
+>>>
+>>> Thank you.
+>>>
+>>> [1] 
+>>> https://lore.kernel.org/r/20250612-exynosdrm-decon-v2-0-d6c1d21c8057@disroot.org
+>>> [2] 
+>>> https://lore.kernel.org/all/20250612-exynos7870-drm-dts-v1-2-88c0779af6cb@disroot.org
+>>> [3] 
+>>> https://lore.kernel.org/all/20250612-exynos7870-drm-dts-v1-3-88c0779af6cb@disroot.org
+>>> [4] 
+>>> https://protect2.fireeye.com/v1/url?k=015e6282-60d577b4-015fe9cd-74fe485cbff1-5039f5dfc286ac1d&q=1&e=4899b4fe-bcb8-43f2-87ed-92e79b0abe08&u=https%3A%2F%2Felixir.bootlin.com%2Flinux%2Fv6.16-rc2%2Fsource%2Fdrivers%2Fiommu%2Fiommu.c%23L431
+>
+Best regards
 -- 
-2.50.0
+Marek Szyprowski, PhD
+Samsung R&D Institute Poland
 
