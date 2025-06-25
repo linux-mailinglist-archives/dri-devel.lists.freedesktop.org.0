@@ -2,42 +2,41 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 002ECAE7762
-	for <lists+dri-devel@lfdr.de>; Wed, 25 Jun 2025 08:49:05 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 11EFFAE7764
+	for <lists+dri-devel@lfdr.de>; Wed, 25 Jun 2025 08:49:08 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 06C7610E674;
+	by gabe.freedesktop.org (Postfix) with ESMTP id 19BC410E676;
 	Wed, 25 Jun 2025 06:49:03 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="IlPQzXsK";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="YWsw54oO";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from tor.source.kernel.org (tor.source.kernel.org [172.105.4.254])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 46F6310E672
- for <dri-devel@lists.freedesktop.org>; Wed, 25 Jun 2025 06:48:59 +0000 (UTC)
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 38BF010E672
+ for <dri-devel@lists.freedesktop.org>; Wed, 25 Jun 2025 06:49:02 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by tor.source.kernel.org (Postfix) with ESMTP id B838F629C2;
- Wed, 25 Jun 2025 06:48:58 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1EECDC4CEF3;
- Wed, 25 Jun 2025 06:48:57 +0000 (UTC)
+ by dfw.source.kernel.org (Postfix) with ESMTP id 448F05C4BE6;
+ Wed, 25 Jun 2025 06:46:45 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 15927C4CEF1;
+ Wed, 25 Jun 2025 06:49:00 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1750834138;
- bh=f+KfQM4TtP/sqrm1b9UkeC8/43JwSB+sdZZLVFY5aKE=;
+ s=k20201202; t=1750834141;
+ bh=996mJ21JrIRt/8zZvRVt3DWeLhU4aeBd9zfaG+L5ogU=;
  h=From:Date:Subject:References:In-Reply-To:To:Cc:From;
- b=IlPQzXsKKBLvTJtxFQ7wxexXmJBQLSNCEEc7BYZfEdksfovbUBE/Kb7HyIYdD7f8O
- CypRoFBtTDwIYzDfUkfgaeZnGhvHrhTkMmwvt8+GG48psVomlXpD2/X/Fq+Bx5y0pI
- LvoJF4bTwjUHEVA91eeZOQB68FCN7vE8Eephb/4h0/VNCpVONaKYg2SPAlq+6gZGM6
- 2kgT7j1qmBpVMqjBFSQpUYULaXB0OocRN/SJtPiPvGVNTPHbrYPKmfupAnRwX975+Z
- igY2UPja+z3WZu89mVbFzmPdqgN8qWbcdew5i0Y/YtdeSvQLybhwz4uyui/MQr+ZUF
- 1EHRmnrL0rRgA==
+ b=YWsw54oOtBeVkNGC96P9c4nS6RnKErmEtzoBb4O+5jMAeWJjcq28NP3LyWrcy/FuD
+ Z1/tUFqXYkF/6+QEGV0IdAJwuhdAb+FsZ3ypX9jYSkikVtvgq1OriSlpkC18VTGcai
+ e2cdflc5YM1Vde2kPtb7lPKJCD6mnuEWK6ggg4I2LccOjoO4UvsrTy55dpVdOLCx32
+ Ic4NEAL8uWjDImhcooBKUQ62xpbQhCC8pvtMCWE5/rvpXVnmSca+hAvuXuI9eqq+at
+ si0lkIor5Hd7bVjsX/lroM/nknebINJD1VGvsNBqxxiQ95MITpFG05hhFArgqP60gf
+ hn7n92faWSHKw==
 From: Maxime Ripard <mripard@kernel.org>
-Date: Wed, 25 Jun 2025 08:48:41 +0200
-Subject: [PATCH 4/5] drm/panel: panel-simple: Add function to look panel
- data up
+Date: Wed, 25 Jun 2025 08:48:42 +0200
+Subject: [PATCH 5/5] drm/panel: panel-simple: get rid of panel_dpi hack
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20250625-drm-panel-simple-fixes-v1-4-c428494a86b8@kernel.org>
+Message-Id: <20250625-drm-panel-simple-fixes-v1-5-c428494a86b8@kernel.org>
 References: <20250625-drm-panel-simple-fixes-v1-0-c428494a86b8@kernel.org>
 In-Reply-To: <20250625-drm-panel-simple-fixes-v1-0-c428494a86b8@kernel.org>
 To: Neil Armstrong <neil.armstrong@linaro.org>, 
@@ -50,12 +49,12 @@ To: Neil Armstrong <neil.armstrong@linaro.org>,
 Cc: dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org, 
  Maxime Ripard <mripard@kernel.org>
 X-Mailer: b4 0.14.2
-X-Developer-Signature: v=1; a=openpgp-sha256; l=6286; i=mripard@kernel.org;
- h=from:subject:message-id; bh=f+KfQM4TtP/sqrm1b9UkeC8/43JwSB+sdZZLVFY5aKE=;
- b=owGbwMvMwCmsHn9OcpHtvjLG02pJDBnRs0+7nTcvaTp7rtD6s3tjzVMLm4N9XFMWPUxlqG77G
- xKx9E9nx1QWBmFOBlkxRZYnMmGnl7cvrnKwX/kDZg4rE8gQBi5OAZhI1m7GGs6IMxy64UmR73wa
- ZZcLr93vfOW9fuDl3RLq8gseJt95f0z12MxuvsvaH0KUUw5tP6VVxFifF5hxh8+Hw3K/j0ddpcT
- h3QqMk45s0Dx3+Wv0/J+LRQrUDCYxyM3d6G4Wv8BkHrPViccA
+X-Developer-Signature: v=1; a=openpgp-sha256; l=2757; i=mripard@kernel.org;
+ h=from:subject:message-id; bh=996mJ21JrIRt/8zZvRVt3DWeLhU4aeBd9zfaG+L5ogU=;
+ b=owGbwMvMwCmsHn9OcpHtvjLG02pJDBnRs898i9Ng5XNwP/azqFpxy+/4A1VR6SKbBarCJx/JX
+ MPt/mB6x1QWBmFOBlkxRZYnMmGnl7cvrnKwX/kDZg4rE8gQBi5OAZhIxDbGhm+Ldl65t+Z4xtud
+ dbsW7rxSWsIssvfA7+9ezkeeMrerW0dzt9jJtF/d+07sSM32PwnFLxgbDsdvtjk2O6HnFrdLNH/
+ Rs2hBT3n1fut/P6b+m6B4PK1wRaroqrVLQq0i06QLtjmt5XwNAA==
 X-Developer-Key: i=mripard@kernel.org; a=openpgp;
  fpr=BE5675C37E818C8B5764241C254BCFC56BF6CE8D
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -73,211 +72,92 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Commit de04bb0089a9 ("drm/panel/panel-simple: Use the new allocation in
-place of devm_kzalloc()") moved the call to drm_panel_init into the
-devm_drm_panel_alloc(), which needs a connector type to initialize
-properly.
+The empty panel_dpi struct was only ever used as a discriminant, but
+it's kind of a hack, and with the reworks done in the previous patches,
+we shouldn't need it anymore.
 
-In the panel-dpi compatible case, the passed panel_desc structure is an
-empty one used as a discriminant, and the connector type it contains
-isn't actually initialized.
+Let's get rid of it.
 
-It is initialized through a call to panel_dpi_probe() later in the
-function, which used to be before the call to drm_panel_init() that got
-merged into devm_drm_panel_alloc().
-
-So, we do need a proper panel_desc pointer before the call to
-devm_drm_panel_alloc() now. All cases associate their panel_desc with
-the panel compatible and use of_device_get_match_data, except for the
-panel-dpi compatible.
-
-In that case, we're expected to call panel_dpi_probe, which will
-allocate and initialize the panel_desc for us.
-
-Let's create such a helper function that would be called first in the
-driver and will lookup the desc by compatible, or allocate one if
-relevant.
-
-Reported-by: Francesco Dolcini <francesco@dolcini.it>
-Closes: https://lore.kernel.org/all/20250612081834.GA248237@francesco-nb/
-Fixes: de04bb0089a9 ("drm/panel/panel-simple: Use the new allocation in place of devm_kzalloc()")
 Signed-off-by: Maxime Ripard <mripard@kernel.org>
 ---
- drivers/gpu/drm/panel/panel-simple.c | 81 +++++++++++++++++++++---------------
- 1 file changed, 48 insertions(+), 33 deletions(-)
+ drivers/gpu/drm/panel/panel-simple.c | 27 ++++++++++++++++++---------
+ 1 file changed, 18 insertions(+), 9 deletions(-)
 
 diff --git a/drivers/gpu/drm/panel/panel-simple.c b/drivers/gpu/drm/panel/panel-simple.c
-index e70ee2d4a538caaae673507b93e02b444a2e1640..d3390ba4ecec5a5aa531c12f51eebdf1ed9d5545 100644
+index d3390ba4ecec5a5aa531c12f51eebdf1ed9d5545..d19170a4531dff7b6e522b6d58e72d0dadc70680 100644
 --- a/drivers/gpu/drm/panel/panel-simple.c
 +++ b/drivers/gpu/drm/panel/panel-simple.c
-@@ -24,10 +24,11 @@
- #include <linux/delay.h>
- #include <linux/gpio/consumer.h>
- #include <linux/i2c.h>
- #include <linux/media-bus-format.h>
- #include <linux/module.h>
-+#include <linux/of_device.h>
- #include <linux/of_platform.h>
- #include <linux/platform_device.h>
- #include <linux/pm_runtime.h>
- #include <linux/regulator/consumer.h>
- 
-@@ -134,10 +135,18 @@ struct panel_desc {
- 
- 	/** @connector_type: LVDS, eDP, DSI, DPI, etc. */
- 	int connector_type;
+@@ -437,12 +437,10 @@ static const struct drm_panel_funcs panel_simple_funcs = {
+ 	.get_modes = panel_simple_get_modes,
+ 	.get_orientation = panel_simple_get_orientation,
+ 	.get_timings = panel_simple_get_timings,
  };
  
-+struct panel_desc_dsi {
-+	struct panel_desc desc;
-+
-+	unsigned long flags;
-+	enum mipi_dsi_pixel_format format;
-+	unsigned int lanes;
-+};
-+
- struct panel_simple {
- 	struct drm_panel base;
+-static struct panel_desc panel_dpi;
+-
+ static struct panel_desc *panel_dpi_probe(struct device *dev)
+ {
+ 	struct display_timing *timing;
+ 	const struct device_node *np;
+ 	struct panel_desc *desc;
+@@ -590,15 +588,21 @@ static const struct panel_desc *panel_simple_get_desc(struct device *dev)
  
- 	ktime_t unprepared_time;
+ 	if (dev_is_platform(dev)) {
+ 		const struct panel_desc *desc;
  
-@@ -565,19 +574,52 @@ static int panel_simple_override_nondefault_lvds_datamapping(struct device *dev,
+ 		desc = of_device_get_match_data(dev);
+-		if (!desc)
+-			return ERR_PTR(-ENODEV);
+-
+-		if (desc == &panel_dpi)
+-			return panel_dpi_probe(dev);
++		if (!desc) {
++			/*
++			 * panel-dpi probes without a descriptor and
++			 * panel_dpi_probe() will initialize one for us
++			 * based on the device tree.
++			 */
++			if (of_device_is_compatible(dev->of_node, "panel-dpi"))
++				return panel_dpi_probe(dev);
++			else
++				return ERR_PTR(-ENODEV);
++		}
+ 
+ 		return desc;
  	}
  
- 	return 0;
- }
- 
--static struct panel_simple *panel_simple_probe(struct device *dev, const struct panel_desc *desc)
-+static const struct panel_desc *panel_simple_get_desc(struct device *dev)
- {
-+	if (dev_is_mipi_dsi(dev)) {
-+		const struct panel_desc_dsi *dsi_desc;
-+
-+		dsi_desc = of_device_get_match_data(dev);
-+		if (!dsi_desc)
-+			return ERR_PTR(-ENODEV);
-+
-+		return &dsi_desc->desc;
-+	}
-+
-+	if (dev_is_platform(dev)) {
-+		const struct panel_desc *desc;
-+
-+		desc = of_device_get_match_data(dev);
-+		if (!desc)
-+			return ERR_PTR(-ENODEV);
-+
-+		if (desc == &panel_dpi)
-+			return panel_dpi_probe(dev);
-+
-+		return desc;
-+	}
-+
-+	return ERR_PTR(-ENODEV);
-+}
-+
-+static struct panel_simple *panel_simple_probe(struct device *dev)
-+{
-+	const struct panel_desc *desc;
- 	struct panel_simple *panel;
- 	struct display_timing dt;
- 	struct device_node *ddc;
- 	int connector_type;
- 	u32 bus_flags;
- 	int err;
- 
-+	desc = panel_simple_get_desc(dev);
-+	if (IS_ERR(desc))
-+		return ERR_CAST(desc);
-+
- 	panel = devm_drm_panel_alloc(dev, struct panel_simple, base,
- 				     &panel_simple_funcs, desc->connector_type);
- 	if (IS_ERR(panel))
- 		return ERR_CAST(panel);
- 
-@@ -606,23 +648,13 @@ static struct panel_simple *panel_simple_probe(struct device *dev, const struct
+ 	return ERR_PTR(-ENODEV);
+@@ -648,11 +652,11 @@ static struct panel_simple *panel_simple_probe(struct device *dev)
  
  		if (!panel->ddc)
  			return ERR_PTR(-EPROBE_DEFER);
  	}
  
--	if (desc == &panel_dpi) {
--		/* Handle the generic panel-dpi binding */
--		desc = panel_dpi_probe(dev);
--		if (IS_ERR(desc)) {
--			err = PTR_ERR(desc);
--			goto free_ddc;
--		}
--
--		panel->desc = desc;
--	} else {
--		if (!of_get_display_timing(dev->of_node, "panel-timing", &dt))
--			panel_simple_parse_panel_timing_node(dev, panel, &dt);
--	}
-+	if ((desc != &panel_dpi) &&
-+	    !of_get_display_timing(dev->of_node, "panel-timing", &dt))
-+		panel_simple_parse_panel_timing_node(dev, panel, &dt);
+-	if ((desc != &panel_dpi) &&
++	if (!of_device_is_compatible(dev->of_node, "panel-dpi") &&
+ 	    !of_get_display_timing(dev->of_node, "panel-timing", &dt))
+ 		panel_simple_parse_panel_timing_node(dev, panel, &dt);
  
  	if (desc->connector_type == DRM_MODE_CONNECTOR_LVDS) {
  		/* Optional data-mapping property for overriding bus format */
- 		err = panel_simple_override_nondefault_lvds_datamapping(dev, panel);
- 		if (err)
-@@ -5374,18 +5406,13 @@ static const struct of_device_id platform_of_match[] = {
+@@ -5397,11 +5401,16 @@ static const struct of_device_id platform_of_match[] = {
+ 		.compatible = "microchip,ac69t88a",
+ 		.data = &mchp_ac69t88a,
+ 	}, {
+ 		/* Must be the last entry */
+ 		.compatible = "panel-dpi",
+-		.data = &panel_dpi,
++
++		/*
++		 * Explicitly NULL, the panel_desc structure will be
++		 * allocated by panel_dpi_probe().
++		 */
++		.data = NULL,
+ 	}, {
+ 		/* sentinel */
+ 	}
  };
  MODULE_DEVICE_TABLE(of, platform_of_match);
- 
- static int panel_simple_platform_probe(struct platform_device *pdev)
- {
--	const struct panel_desc *desc;
- 	struct panel_simple *panel;
- 
--	desc = of_device_get_match_data(&pdev->dev);
--	if (!desc)
--		return -ENODEV;
--
--	panel = panel_simple_probe(&pdev->dev, desc);
-+	panel = panel_simple_probe(&pdev->dev);
- 	if (IS_ERR(panel))
- 		return PTR_ERR(panel);
- 
- 	return 0;
- }
-@@ -5415,18 +5442,10 @@ static struct platform_driver panel_simple_platform_driver = {
- 	.probe = panel_simple_platform_probe,
- 	.remove = panel_simple_platform_remove,
- 	.shutdown = panel_simple_platform_shutdown,
- };
- 
--struct panel_desc_dsi {
--	struct panel_desc desc;
--
--	unsigned long flags;
--	enum mipi_dsi_pixel_format format;
--	unsigned int lanes;
--};
--
- static const struct drm_display_mode auo_b080uan01_mode = {
- 	.clock = 154500,
- 	.hdisplay = 1200,
- 	.hsync_start = 1200 + 62,
- 	.hsync_end = 1200 + 62 + 4,
-@@ -5659,15 +5678,11 @@ static int panel_simple_dsi_probe(struct mipi_dsi_device *dsi)
- {
- 	const struct panel_desc_dsi *desc;
- 	struct panel_simple *panel;
- 	int err;
- 
--	desc = of_device_get_match_data(&dsi->dev);
--	if (!desc)
--		return -ENODEV;
--
--	panel = panel_simple_probe(&dsi->dev, &desc->desc);
-+	panel = panel_simple_probe(&dsi->dev);
- 	if (IS_ERR(panel))
- 		return PTR_ERR(panel);
- 
- 	desc = container_of(panel->desc, struct panel_desc_dsi, desc);
- 	dsi->mode_flags = desc->flags;
 
 -- 
 2.49.0
