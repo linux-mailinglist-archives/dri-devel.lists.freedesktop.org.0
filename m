@@ -2,41 +2,41 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 89AC9AE8A54
-	for <lists+dri-devel@lfdr.de>; Wed, 25 Jun 2025 18:46:10 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 12A18AE8A4F
+	for <lists+dri-devel@lfdr.de>; Wed, 25 Jun 2025 18:46:03 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6C0BA10E77E;
-	Wed, 25 Jun 2025 16:46:08 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id CA3F110E77C;
+	Wed, 25 Jun 2025 16:46:00 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=bootlin.com header.i=@bootlin.com header.b="jM+SF/Tc";
+	dkim=pass (2048-bit key; unprotected) header.d=bootlin.com header.i=@bootlin.com header.b="Bgu9urFJ";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from relay5-d.mail.gandi.net (relay5-d.mail.gandi.net
  [217.70.183.197])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4708710E778
- for <dri-devel@lists.freedesktop.org>; Wed, 25 Jun 2025 16:45:52 +0000 (UTC)
-Received: by mail.gandi.net (Postfix) with ESMTPSA id 846A944390;
- Wed, 25 Jun 2025 16:45:49 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E02C310E778
+ for <dri-devel@lists.freedesktop.org>; Wed, 25 Jun 2025 16:45:53 +0000 (UTC)
+Received: by mail.gandi.net (Postfix) with ESMTPSA id 33E5A44394;
+ Wed, 25 Jun 2025 16:45:51 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
- t=1750869951;
+ t=1750869952;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=FpAGFyy0CoYwC3ILaqHXglDkRDaZKdjlkfagsIr09OQ=;
- b=jM+SF/TcNpgpG08ytDav/3pxjqESZ19YK6ihhrOXlOacVBC0JXCyARvtYkHwIh0TI6Xeq5
- 9JkA9rI3VAUybUMCvlzPXvrs+HOEQSIggPzmpdr/8Zl9/WjDxOFL8CYyxMDbrgSOInXzXt
- P687Ic6avEwPiAM5dxVS4Nt6FFU49oOrpihgGRBC9FVnPuQH9tHkvXy8Ms4MiglHCdhvec
- VABWTSPksyY1VdSKttkt2+AplqZQHFFVIbCPcQ/tIRbM43XK7pCsLN34yAnnGxROWcAMC8
- MxtX3PjytFuptMJ2QJxYZEaw8owSP8lblgnR6NEiF0cTXasZa+ubSIOCmecUHw==
+ bh=OZC8kTFkNZUH26dMbIXrbVtlmYb027xrF/4ZDarIWrE=;
+ b=Bgu9urFJn7fQvdoXTxamXVA6Y+iMoDpD1Jv0U1vY7Ye+VQJ2KhNO/HbvWlKYRx1ThK7FNQ
+ cmCh7t+HnwpTR5JP44m+cqUSNpXKYJDYm9CDLYh6Pl6UPCdwBlWBEgT/E/TVdt8C2Y+HkZ
+ c08UuP6eZvUa29lML47DN4QJ99xPwwzGPdXdainOUymoCGEmRL+wcz08FRT2bbCx5VGp/f
+ ZYew8NlIi/buQWk5UFLVLB5Yh4vxZQ1YBfPxBRfYqRCBfs9F3q5VE+BHDnzTuqWn7BUsxP
+ LGlLrJGKVbgdEio4AO7ah+sV1DtdO+H0PmXEqSS6TpypvDX6j7mW+42R0rUp/g==
 From: Luca Ceresoli <luca.ceresoli@bootlin.com>
-Date: Wed, 25 Jun 2025 18:45:11 +0200
-Subject: [PATCH 07/32] drm/bridge: nwl-dsi: remove redundant logging
+Date: Wed, 25 Jun 2025 18:45:12 +0200
+Subject: [PATCH 08/32] drm/bridge: cdns-dsi: remove redundant logging
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20250625-drm-dsi-host-no-device-ptr-v1-7-e36bc258a7c5@bootlin.com>
+Message-Id: <20250625-drm-dsi-host-no-device-ptr-v1-8-e36bc258a7c5@bootlin.com>
 References: <20250625-drm-dsi-host-no-device-ptr-v1-0-e36bc258a7c5@bootlin.com>
 In-Reply-To: <20250625-drm-dsi-host-no-device-ptr-v1-0-e36bc258a7c5@bootlin.com>
 To: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
@@ -75,30 +75,43 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-This line logged as info is too much, drivers should be mostly silent when
-everything works. And now there is an equivalent dbg line logged in
-mipi_dsi_attach(), valid for all DSI hosts.
+Now there is an equivalent of this dev_err in mipi_dsi_attach(), valid for
+all DSI hosts.
+
+This avoids the need to access the @name field in struct mipi_dsi_device.
 
 Signed-off-by: Luca Ceresoli <luca.ceresoli@bootlin.com>
 ---
- drivers/gpu/drm/bridge/nwl-dsi.c | 4 ----
- 1 file changed, 4 deletions(-)
+ drivers/gpu/drm/bridge/cadence/cdns-dsi-core.c | 9 ++-------
+ 1 file changed, 2 insertions(+), 7 deletions(-)
 
-diff --git a/drivers/gpu/drm/bridge/nwl-dsi.c b/drivers/gpu/drm/bridge/nwl-dsi.c
-index ccce663192b35a795dad8cb479203d05b414173b..94356d02a7009a4d333f2df6c628d57c4bf66fdb 100644
---- a/drivers/gpu/drm/bridge/nwl-dsi.c
-+++ b/drivers/gpu/drm/bridge/nwl-dsi.c
-@@ -347,10 +347,6 @@ static int nwl_dsi_host_attach(struct mipi_dsi_host *dsi_host,
- 			       struct mipi_dsi_device *device)
- {
- 	struct nwl_dsi *dsi = container_of(dsi_host, struct nwl_dsi, dsi_host);
--	struct device *dev = dsi->dev;
--
--	DRM_DEV_INFO(dev, "lanes=%u, format=0x%x flags=0x%lx\n", device->lanes,
--		     device->format, device->mode_flags);
+diff --git a/drivers/gpu/drm/bridge/cadence/cdns-dsi-core.c b/drivers/gpu/drm/bridge/cadence/cdns-dsi-core.c
+index a57ca8c3bdaea9d4d15dd23af221c111b7319ac4..005aa6121227b2f7ac682f3b724e4518e8e5f721 100644
+--- a/drivers/gpu/drm/bridge/cadence/cdns-dsi-core.c
++++ b/drivers/gpu/drm/bridge/cadence/cdns-dsi-core.c
+@@ -1072,7 +1072,6 @@ static int cdns_dsi_attach(struct mipi_dsi_host *host,
+ 	struct cdns_dsi_output *output = &dsi->output;
+ 	struct cdns_dsi_input *input = &dsi->input;
+ 	struct drm_bridge *bridge;
+-	int ret;
  
- 	if (device->lanes > 4)
- 		return -EINVAL;
+ 	/*
+ 	 * We currently do not support connecting several DSI devices to the
+@@ -1093,12 +1092,8 @@ static int cdns_dsi_attach(struct mipi_dsi_host *host,
+ 	 */
+ 	bridge = devm_drm_of_get_bridge(dsi->base.dev, dsi->base.dev->of_node,
+ 					DSI_OUTPUT_PORT, dev->channel);
+-	if (IS_ERR(bridge)) {
+-		ret = PTR_ERR(bridge);
+-		dev_err(host->dev, "failed to add DSI device %s (err = %d)",
+-			dev->name, ret);
+-		return ret;
+-	}
++	if (IS_ERR(bridge))
++		return PTR_ERR(bridge);
+ 
+ 	output->dev = dev;
+ 	output->bridge = bridge;
 
 -- 
 2.49.0
