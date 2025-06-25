@@ -2,41 +2,42 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 141EDAE8A6E
-	for <lists+dri-devel@lfdr.de>; Wed, 25 Jun 2025 18:46:49 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id BD2BCAE8A75
+	for <lists+dri-devel@lfdr.de>; Wed, 25 Jun 2025 18:47:02 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 711A710E793;
-	Wed, 25 Jun 2025 16:46:45 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C448210E79B;
+	Wed, 25 Jun 2025 16:47:00 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=bootlin.com header.i=@bootlin.com header.b="TTc8qGLZ";
+	dkim=pass (2048-bit key; unprotected) header.d=bootlin.com header.i=@bootlin.com header.b="f3ZG4WsA";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from relay5-d.mail.gandi.net (relay5-d.mail.gandi.net
  [217.70.183.197])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D7BF810E790
- for <dri-devel@lists.freedesktop.org>; Wed, 25 Jun 2025 16:46:26 +0000 (UTC)
-Received: by mail.gandi.net (Postfix) with ESMTPSA id 2C9044437D;
- Wed, 25 Jun 2025 16:46:24 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 80A7910E78D
+ for <dri-devel@lists.freedesktop.org>; Wed, 25 Jun 2025 16:46:28 +0000 (UTC)
+Received: by mail.gandi.net (Postfix) with ESMTPSA id C41094437E;
+ Wed, 25 Jun 2025 16:46:25 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
- t=1750869985;
+ t=1750869987;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=yyKj3c5L5BuZvNV4ZLjrnBDkRs6hAEEv2OmhUgxrNYk=;
- b=TTc8qGLZbmH2lrJ7I4Ut4zddsfGTxXplvQf9BdenMFswH/fL8ptgwoRtI6J0OjI/6q9oLK
- KiSYsLh9BNAVDE9qf/qZ4fqNdu3va15R03Z7MmcMR/gUG0FNC05ON78ILiihN6doEHxEbu
- AC32Ql7/MFxOYm2v0MTd8TIgElntrtZSwj4rmi93A4jq7xI4mmFDI1B0QawXbQk9Jbnjhv
- ncad1319v6vtiPmveV+r4i8stissMCQU13Q2pcB39WinZIoxEVkVvuxhwKkIjCISbbjA5o
- 4aJPDNQ5gFGFZYBLlDNbFAGqaQy2adMMdQI7GaqdTRb1YEcn/Yqu2EW0RhyOpg==
+ bh=fWAgdYIhe6WRxC8lPfOBRIJNcNMxQ9jgzYlq7+Z1pYI=;
+ b=f3ZG4WsAd8pCNZFsWigf1jN4+wCzNAyxyqy7bG4EkmH1wpIQ7NM9UJzwsLLMj7n/YqZbKQ
+ fvTiBHGbpnHGz5FZBscC+Jrg4yOAViIKjVTl/I6haOGJJHCcJWoPL0k+Fu8ErB+zYpXl4U
+ gf33JNIosj8d0suoHVPuL78ZmiK//2oHQJ+7ymWOKu2qplqhcQLrOyIapLEft1JZaXhpXx
+ s+ihgISCTX9IEHZT3Regv4hRN2Q4VFn/dfH0wDjUMWbKF2DrnetgUGlFZu6V+MtBWxOs1W
+ w5bBaaL2ol/9BW+9Wl9ChPitf5Y3wBbne7+XC5wYJuFaiOiRaqGddjRf4NbWmw==
 From: Luca Ceresoli <luca.ceresoli@bootlin.com>
-Date: Wed, 25 Jun 2025 18:45:32 +0200
-Subject: [PATCH 28/32] drm/sprd: convert to the .attach_new op
+Date: Wed, 25 Jun 2025 18:45:33 +0200
+Subject: [PATCH 29/32] drm/bridge: synopsys: dw-mipi-dsi: convert to the
+ .attach_new op
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20250625-drm-dsi-host-no-device-ptr-v1-28-e36bc258a7c5@bootlin.com>
+Message-Id: <20250625-drm-dsi-host-no-device-ptr-v1-29-e36bc258a7c5@bootlin.com>
 References: <20250625-drm-dsi-host-no-device-ptr-v1-0-e36bc258a7c5@bootlin.com>
 In-Reply-To: <20250625-drm-dsi-host-no-device-ptr-v1-0-e36bc258a7c5@bootlin.com>
 To: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
@@ -57,7 +58,7 @@ Cc: Hui Pu <Hui.Pu@gehealthcare.com>,
 X-Mailer: b4 0.14.2
 X-GND-State: clean
 X-GND-Score: -100
-X-GND-Cause: gggruggvucftvghtrhhoucdtuddrgeeffedrtddvgddvfedvkecutefuodetggdotefrodftvfcurfhrohhfihhlvgemucfitefpfffkpdcuggftfghnshhusghstghrihgsvgenuceurghilhhouhhtmecufedtudenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujfgurhephfffufggtgfgkfhfjgfvvefosehtjeertdertdejnecuhfhrohhmpefnuhgtrgcuvegvrhgvshholhhiuceolhhutggrrdgtvghrvghsohhlihessghoohhtlhhinhdrtghomheqnecuggftrfgrthhtvghrnhepieeiuedvffetgfeuudelheeutefggfejieettdetteekueeuueeukeevvedvueevnecukfhppedvrgdtvdemieejtdemvddtvddtmegvrgdtudemsggvgedumeelhegvjeemfeegfeemledufegvnecuvehluhhsthgvrhfuihiivgepvdehnecurfgrrhgrmhepihhnvghtpedvrgdtvdemieejtdemvddtvddtmegvrgdtudemsggvgedumeelhegvjeemfeegfeemledufegvpdhhvghloheplgduledvrdduieekrddujeekrdejhegnpdhmrghilhhfrhhomheplhhutggrrdgtvghrvghsohhlihessghoohhtlhhinhdrtghomhdpnhgspghrtghpthhtohepvddvpdhrtghpthhtohepjhhonhgrsheskhifihgsohhordhsvgdprhgtphhtthhopehthhhomhgrshdrphgvthgriiiiohhnihessghoohhtlhhinhdrtghomhdprhgtphhtthhopehlihhnuhigqdhsuhhngihisehlihhsthhsrdhlihhnuhigrdguvghvp
+X-GND-Cause: gggruggvucftvghtrhhoucdtuddrgeeffedrtddvgddvfedvkecutefuodetggdotefrodftvfcurfhrohhfihhlvgemucfitefpfffkpdcuggftfghnshhusghstghrihgsvgenuceurghilhhouhhtmecufedtudenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujfgurhephfffufggtgfgkfhfjgfvvefosehtjeertdertdejnecuhfhrohhmpefnuhgtrgcuvegvrhgvshholhhiuceolhhutggrrdgtvghrvghsohhlihessghoohhtlhhinhdrtghomheqnecuggftrfgrthhtvghrnhepieeiuedvffetgfeuudelheeutefggfejieettdetteekueeuueeukeevvedvueevnecukfhppedvrgdtvdemieejtdemvddtvddtmegvrgdtudemsggvgedumeelhegvjeemfeegfeemledufegvnecuvehluhhsthgvrhfuihiivgepvdeknecurfgrrhgrmhepihhnvghtpedvrgdtvdemieejtdemvddtvddtmegvrgdtudemsggvgedumeelhegvjeemfeegfeemledufegvpdhhvghloheplgduledvrdduieekrddujeekrdejhegnpdhmrghilhhfrhhomheplhhutggrrdgtvghrvghsohhlihessghoohhtlhhinhdrtghomhdpnhgspghrtghpthhtohepvddvpdhrtghpthhtohepjhhonhgrsheskhifihgsohhordhsvgdprhgtphhtthhopehthhhomhgrshdrphgvthgriiiiohhnihessghoohhtlhhinhdrtghomhdprhgtphhtthhopehlihhnuhigqdhsuhhngihisehlihhsthhsrdhlihhnuhigrdguvghvp
  dhrtghpthhtohepmhdrshiihihprhhofihskhhisehsrghmshhunhhgrdgtohhmpdhrtghpthhtoheprhhfohhssheskhgvrhhnvghlrdhorhhgpdhrtghpthhtohepmhgrrghrthgvnhdrlhgrnhhkhhhorhhstheslhhinhhugidrihhnthgvlhdrtghomhdprhgtphhtthhopehnvghilhdrrghrmhhsthhrohhngheslhhinhgrrhhordhorhhgpdhrtghpthhtohepjhgrnhhirdhnihhkuhhlrgeslhhinhhugidrihhnthgvlhdrtghomh
 X-GND-Sasl: luca.ceresoli@bootlin.com
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -78,172 +79,191 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 This op does not pass any pointer to the DSI device, so the DSI host driver
 cannot store it.
 
-This driver uses the DSI device format parameters in various places outside
-the .attach op, and currently it does so by storing a pointer to the struct
-mipi_dsi_device. That's exactly what .attach_new aims at removing.
+This requires propagating the change to the dw-mipi-dsi-specific host op in
+struct dw_mipi_dsi_host_ops and thus to the drivers based on
+dw-mipi-dsi.c.
 
-Store a copy of the format parameters instead of the struct mipi_dsi_device
-pointer.
+Among those, the meson driver uses the DSI device format parameters in
+various places outside the .attach op, and currently it does so by storing
+a pointer to the struct mipi_dsi_device. That's exactly what .attach_new
+aims at removing, so store a copy of the format parameters instead of the
+struct mipi_dsi_device pointer.
 
 Signed-off-by: Luca Ceresoli <luca.ceresoli@bootlin.com>
 ---
- drivers/gpu/drm/sprd/megacores_pll.c |  2 +-
- drivers/gpu/drm/sprd/sprd_dpu.c      |  2 +-
- drivers/gpu/drm/sprd/sprd_dsi.c      | 28 ++++++++++++++--------------
- drivers/gpu/drm/sprd/sprd_dsi.h      |  2 +-
- 4 files changed, 17 insertions(+), 17 deletions(-)
+ drivers/gpu/drm/bridge/imx/imx93-mipi-dsi.c     |  4 ++--
+ drivers/gpu/drm/bridge/synopsys/dw-mipi-dsi.c   | 18 +++++++++---------
+ drivers/gpu/drm/meson/meson_dw_mipi_dsi.c       | 16 ++++++++--------
+ drivers/gpu/drm/rockchip/dw-mipi-dsi-rockchip.c |  2 +-
+ include/drm/bridge/dw_mipi_dsi.h                |  3 ++-
+ 5 files changed, 22 insertions(+), 21 deletions(-)
 
-diff --git a/drivers/gpu/drm/sprd/megacores_pll.c b/drivers/gpu/drm/sprd/megacores_pll.c
-index 3091dfdc11e3b547a05a9edaa4047a1e367c1596..e2558b77f4d4100052327c370fc4ba9eb5f722f1 100644
---- a/drivers/gpu/drm/sprd/megacores_pll.c
-+++ b/drivers/gpu/drm/sprd/megacores_pll.c
-@@ -111,7 +111,7 @@ int dphy_pll_config(struct dsi_context *ctx)
- 	struct dphy_pll *pll = &ctx->pll;
- 	int ret;
- 
--	pll->freq = dsi->slave->hs_rate;
-+	pll->freq = dsi->bus_fmt.hs_rate;
- 
- 	/* FREQ = 26M * (NINT + KINT / 2^20) / out_sel */
- 	ret = dphy_calc_pll_param(pll);
-diff --git a/drivers/gpu/drm/sprd/sprd_dpu.c b/drivers/gpu/drm/sprd/sprd_dpu.c
-index a3447622a33cd612e34be038e833222567bdcd2c..c1996fb72a52c7483dc68bfd5156ddfaa065aa57 100644
---- a/drivers/gpu/drm/sprd/sprd_dpu.c
-+++ b/drivers/gpu/drm/sprd/sprd_dpu.c
-@@ -626,7 +626,7 @@ static void sprd_crtc_mode_set_nofb(struct drm_crtc *crtc)
- 				  crtc->state->encoder_mask) {
- 		dsi = encoder_to_dsi(encoder);
- 
--		if (dsi->slave->mode_flags & MIPI_DSI_MODE_VIDEO)
-+		if (dsi->bus_fmt.mode_flags & MIPI_DSI_MODE_VIDEO)
- 			dpu->ctx.if_type = SPRD_DPU_IF_DPI;
- 		else
- 			dpu->ctx.if_type = SPRD_DPU_IF_EDPI;
-diff --git a/drivers/gpu/drm/sprd/sprd_dsi.c b/drivers/gpu/drm/sprd/sprd_dsi.c
-index 23b0e1dc547a5023ee6ad7d5e1c49e2cec986bf0..2962836e34c0c6f6b2ed615f66d149af2aac48bd 100644
---- a/drivers/gpu/drm/sprd/sprd_dsi.c
-+++ b/drivers/gpu/drm/sprd/sprd_dsi.c
-@@ -389,7 +389,7 @@ static u32 fmt_to_coding(u32 fmt)
- static void sprd_dsi_init(struct dsi_context *ctx)
- {
- 	struct sprd_dsi *dsi = container_of(ctx, struct sprd_dsi, ctx);
--	u32 byte_clk = dsi->slave->hs_rate / 8;
-+	u32 byte_clk = dsi->bus_fmt.hs_rate / 8;
- 	u16 data_hs2lp, data_lp2hs, clk_hs2lp, clk_lp2hs;
- 	u16 max_rd_time;
- 	int div;
-@@ -406,7 +406,7 @@ static void sprd_dsi_init(struct dsi_context *ctx)
- 	dsi_reg_up(ctx, VIRTUAL_CHANNEL_ID, VIDEO_PKT_VCID, 0);
- 	dsi_reg_up(ctx, VIRTUAL_CHANNEL_ID, GEN_RX_VCID, 0);
- 
--	div = DIV_ROUND_UP(byte_clk, dsi->slave->lp_rate);
-+	div = DIV_ROUND_UP(byte_clk, dsi->bus_fmt.lp_rate);
- 	writel(div, ctx->base + TX_ESC_CLK_CONFIG);
- 
- 	max_rd_time = ns_to_cycle(ctx->max_rd_time, byte_clk);
-@@ -448,7 +448,7 @@ static int sprd_dsi_dpi_video(struct dsi_context *ctx)
- {
- 	struct sprd_dsi *dsi = container_of(ctx, struct sprd_dsi, ctx);
- 	struct videomode *vm = &ctx->vm;
--	u32 byte_clk = dsi->slave->hs_rate / 8;
-+	u32 byte_clk = dsi->bus_fmt.hs_rate / 8;
- 	u16 bpp_x100;
- 	u16 video_size;
- 	u32 ratio_x1000;
-@@ -466,7 +466,7 @@ static int sprd_dsi_dpi_video(struct dsi_context *ctx)
- 	u16 hline;
- 	u16 byte_cycle;
- 
--	coding = fmt_to_coding(dsi->slave->format);
-+	coding = fmt_to_coding(dsi->bus_fmt.format);
- 	video_size = round_video_size(coding, vm->hactive);
- 	bpp_x100 = calc_bytes_per_pixel_x100(coding);
- 	video_size_step = calc_video_size_step(coding);
-@@ -517,7 +517,7 @@ static int sprd_dsi_dpi_video(struct dsi_context *ctx)
- 
- 		/* hline total bytes from the DPI interface */
- 		total_bytes = (vm->hactive + vm->hfront_porch) *
--				ratio_x1000 / dsi->slave->lanes / 1000;
-+				ratio_x1000 / dsi->bus_fmt.lanes / 1000;
- 
- 		/* check if the pixels actually fit on the DSI link */
- 		if (total_bytes < bytes_per_chunk) {
-@@ -588,7 +588,7 @@ static void sprd_dsi_edpi_video(struct dsi_context *ctx)
- 	u32 max_fifo_len;
- 	u8 coding;
- 
--	coding = fmt_to_coding(dsi->slave->format);
-+	coding = fmt_to_coding(dsi->bus_fmt.format);
- 	bpp_x100 = calc_bytes_per_pixel_x100(coding);
- 	max_fifo_len = word_length * fifo_depth * 100 / bpp_x100;
- 
-@@ -760,7 +760,7 @@ static int sprd_dphy_init(struct dsi_context *ctx)
- 	dsi_reg_up(ctx, PHY_INTERFACE_CTRL, RF_PHY_RESET_N, RF_PHY_RESET_N);
- 	writel(0x1C, ctx->base + PHY_MIN_STOP_TIME);
- 	dsi_reg_up(ctx, PHY_INTERFACE_CTRL, RF_PHY_CLK_EN, RF_PHY_CLK_EN);
--	writel(dsi->slave->lanes - 1, ctx->base + PHY_LANE_NUM_CONFIG);
-+	writel(dsi->bus_fmt.lanes - 1, ctx->base + PHY_LANE_NUM_CONFIG);
- 
- 	ret = dphy_wait_pll_locked(ctx);
- 	if (ret) {
-@@ -809,7 +809,7 @@ static void sprd_dsi_encoder_enable(struct drm_encoder *encoder)
- 	sprd_dsi_set_work_mode(ctx, ctx->work_mode);
- 	sprd_dsi_state_reset(ctx);
- 
--	if (dsi->slave->mode_flags & MIPI_DSI_CLOCK_NON_CONTINUOUS) {
-+	if (dsi->bus_fmt.mode_flags & MIPI_DSI_CLOCK_NON_CONTINUOUS) {
- 		dsi_reg_up(ctx, PHY_CLK_LANE_LP_CTRL, AUTO_CLKLANE_CTRL_EN,
- 			   AUTO_CLKLANE_CTRL_EN);
- 	} else {
-@@ -965,21 +965,21 @@ static const struct component_ops dsi_component_ops = {
+diff --git a/drivers/gpu/drm/bridge/imx/imx93-mipi-dsi.c b/drivers/gpu/drm/bridge/imx/imx93-mipi-dsi.c
+index bea8346515b8c8ce150040f58d288ac564eeb563..7bd48952cee571709a39fdf969f05ac61422862a 100644
+--- a/drivers/gpu/drm/bridge/imx/imx93-mipi-dsi.c
++++ b/drivers/gpu/drm/bridge/imx/imx93-mipi-dsi.c
+@@ -816,11 +816,11 @@ static const struct dw_mipi_dsi_phy_ops imx93_dsi_phy_ops = {
+ 	.get_timing = imx93_dsi_phy_get_timing,
  };
  
- static int sprd_dsi_host_attach(struct mipi_dsi_host *host,
--				struct mipi_dsi_device *slave)
-+				const struct mipi_dsi_bus_fmt *bus_fmt)
+-static int imx93_dsi_host_attach(void *priv_data, struct mipi_dsi_device *device)
++static int imx93_dsi_host_attach(void *priv_data, const struct mipi_dsi_bus_fmt *bus_fmt)
  {
- 	struct sprd_dsi *dsi = host_to_dsi(host);
- 	struct dsi_context *ctx = &dsi->ctx;
+ 	struct imx93_dsi *dsi = priv_data;
  
--	dsi->slave = slave;
-+	dsi->bus_fmt = *bus_fmt;
+-	dsi->format = device->format;
++	dsi->format = bus_fmt->format;
  
--	if (slave->mode_flags & MIPI_DSI_MODE_VIDEO)
-+	if (bus_fmt->mode_flags & MIPI_DSI_MODE_VIDEO)
- 		ctx->work_mode = DSI_MODE_VIDEO;
- 	else
- 		ctx->work_mode = DSI_MODE_CMD;
- 
--	if (slave->mode_flags & MIPI_DSI_MODE_VIDEO_BURST)
-+	if (bus_fmt->mode_flags & MIPI_DSI_MODE_VIDEO_BURST)
- 		ctx->burst_mode = VIDEO_BURST_WITH_SYNC_PULSES;
--	else if (slave->mode_flags & MIPI_DSI_MODE_VIDEO_SYNC_PULSE)
-+	else if (bus_fmt->mode_flags & MIPI_DSI_MODE_VIDEO_SYNC_PULSE)
- 		ctx->burst_mode = VIDEO_NON_BURST_WITH_SYNC_PULSES;
- 	else
- 		ctx->burst_mode = VIDEO_NON_BURST_WITH_SYNC_EVENTS;
-@@ -1017,7 +1017,7 @@ static ssize_t sprd_dsi_host_transfer(struct mipi_dsi_host *host,
+ 	return 0;
+ }
+diff --git a/drivers/gpu/drm/bridge/synopsys/dw-mipi-dsi.c b/drivers/gpu/drm/bridge/synopsys/dw-mipi-dsi.c
+index 8fc2e282ff114db363a6cf0fe085684449b26438..ee84e773215c106651dad30de36e76a5be480553 100644
+--- a/drivers/gpu/drm/bridge/synopsys/dw-mipi-dsi.c
++++ b/drivers/gpu/drm/bridge/synopsys/dw-mipi-dsi.c
+@@ -315,23 +315,23 @@ static inline u32 dsi_read(struct dw_mipi_dsi *dsi, u32 reg)
  }
  
- static const struct mipi_dsi_host_ops sprd_dsi_host_ops = {
--	.attach = sprd_dsi_host_attach,
-+	.attach_new = sprd_dsi_host_attach,
- 	.detach = sprd_dsi_host_detach,
- 	.transfer = sprd_dsi_host_transfer,
+ static int dw_mipi_dsi_host_attach(struct mipi_dsi_host *host,
+-				   struct mipi_dsi_device *device)
++				   const struct mipi_dsi_bus_fmt *bus_fmt)
+ {
+ 	struct dw_mipi_dsi *dsi = host_to_dsi(host);
+ 	const struct dw_mipi_dsi_plat_data *pdata = dsi->plat_data;
+ 	struct drm_bridge *bridge;
+ 	int ret;
+ 
+-	if (device->lanes > dsi->plat_data->max_data_lanes) {
++	if (bus_fmt->lanes > dsi->plat_data->max_data_lanes) {
+ 		dev_err(dsi->dev, "the number of data lanes(%u) is too many\n",
+-			device->lanes);
++			bus_fmt->lanes);
+ 		return -EINVAL;
+ 	}
+ 
+-	dsi->lanes = device->lanes;
+-	dsi->channel = device->channel;
+-	dsi->format = device->format;
+-	dsi->mode_flags = device->mode_flags;
++	dsi->lanes = bus_fmt->lanes;
++	dsi->channel = bus_fmt->channel;
++	dsi->format = bus_fmt->format;
++	dsi->mode_flags = bus_fmt->mode_flags;
+ 
+ 	bridge = devm_drm_of_get_bridge(dsi->dev, dsi->dev->of_node, 1, 0);
+ 	if (IS_ERR(bridge))
+@@ -343,7 +343,7 @@ static int dw_mipi_dsi_host_attach(struct mipi_dsi_host *host,
+ 	drm_bridge_add(&dsi->bridge);
+ 
+ 	if (pdata->host_ops && pdata->host_ops->attach) {
+-		ret = pdata->host_ops->attach(pdata->priv_data, device);
++		ret = pdata->host_ops->attach(pdata->priv_data, bus_fmt);
+ 		if (ret < 0)
+ 			return ret;
+ 	}
+@@ -537,7 +537,7 @@ static ssize_t dw_mipi_dsi_host_transfer(struct mipi_dsi_host *host,
+ }
+ 
+ static const struct mipi_dsi_host_ops dw_mipi_dsi_host_ops = {
+-	.attach = dw_mipi_dsi_host_attach,
++	.attach_new = dw_mipi_dsi_host_attach,
+ 	.detach = dw_mipi_dsi_host_detach,
+ 	.transfer = dw_mipi_dsi_host_transfer,
  };
-diff --git a/drivers/gpu/drm/sprd/sprd_dsi.h b/drivers/gpu/drm/sprd/sprd_dsi.h
-index d858ebb111150546e99403a87bc7cea42cad0158..2a0a5700d93c30bda5e33f2142cef8a7cce0271c 100644
---- a/drivers/gpu/drm/sprd/sprd_dsi.h
-+++ b/drivers/gpu/drm/sprd/sprd_dsi.h
-@@ -114,7 +114,7 @@ struct dsi_context {
- struct sprd_dsi {
- 	struct drm_device *drm;
- 	struct mipi_dsi_host host;
--	struct mipi_dsi_device *slave;
+diff --git a/drivers/gpu/drm/meson/meson_dw_mipi_dsi.c b/drivers/gpu/drm/meson/meson_dw_mipi_dsi.c
+index 4dc726cef5455075def7927a469ae23020ebfec7..b3354243a5b22d46f1cf3d8f75e602f4fc26081f 100644
+--- a/drivers/gpu/drm/meson/meson_dw_mipi_dsi.c
++++ b/drivers/gpu/drm/meson/meson_dw_mipi_dsi.c
+@@ -41,7 +41,7 @@ struct meson_dw_mipi_dsi {
+ 	union phy_configure_opts phy_opts;
+ 	struct dw_mipi_dsi *dmd;
+ 	struct dw_mipi_dsi_plat_data pdata;
+-	struct mipi_dsi_device *dsi_device;
 +	struct mipi_dsi_bus_fmt bus_fmt;
- 	struct drm_encoder encoder;
- 	struct drm_bridge *panel_bridge;
- 	struct dsi_context ctx;
+ 	const struct drm_display_mode *mode;
+ 	struct clk *bit_clk;
+ 	struct clk *px_clk;
+@@ -110,7 +110,7 @@ static int dw_mipi_dsi_phy_init(void *priv_data)
+ 		return ret;
+ 	}
+ 
+-	switch (mipi_dsi->dsi_device->format) {
++	switch (mipi_dsi->bus_fmt.format) {
+ 	case MIPI_DSI_FMT_RGB888:
+ 		dpi_data_format = DPI_COLOR_24BIT;
+ 		venc_data_width = VENC_IN_COLOR_24B;
+@@ -164,10 +164,10 @@ dw_mipi_dsi_get_lane_mbps(void *priv_data, const struct drm_display_mode *mode,
+ 
+ 	mipi_dsi->mode = mode;
+ 
+-	bpp = mipi_dsi_pixel_format_to_bpp(mipi_dsi->dsi_device->format);
++	bpp = mipi_dsi_pixel_format_to_bpp(mipi_dsi->bus_fmt.format);
+ 
+ 	phy_mipi_dphy_get_default_config(mode->clock * 1000,
+-					 bpp, mipi_dsi->dsi_device->lanes,
++					 bpp, mipi_dsi->bus_fmt.lanes,
+ 					 &mipi_dsi->phy_opts.mipi_dphy);
+ 
+ 	*lane_mbps = DIV_ROUND_UP(mipi_dsi->phy_opts.mipi_dphy.hs_clk_rate, USEC_PER_SEC);
+@@ -220,21 +220,21 @@ static const struct dw_mipi_dsi_phy_ops meson_dw_mipi_dsi_phy_ops = {
+ };
+ 
+ static int meson_dw_mipi_dsi_host_attach(void *priv_data,
+-					 struct mipi_dsi_device *device)
++					 const struct mipi_dsi_bus_fmt *bus_fmt)
+ {
+ 	struct meson_dw_mipi_dsi *mipi_dsi = priv_data;
+ 	int ret;
+ 
+-	mipi_dsi->dsi_device = device;
++	mipi_dsi->bus_fmt = *bus_fmt;
+ 
+-	switch (device->format) {
++	switch (bus_fmt->format) {
+ 	case MIPI_DSI_FMT_RGB888:
+ 		break;
+ 	case MIPI_DSI_FMT_RGB666:
+ 		break;
+ 	case MIPI_DSI_FMT_RGB666_PACKED:
+ 	case MIPI_DSI_FMT_RGB565:
+-		dev_err(mipi_dsi->dev, "invalid pixel format %d\n", device->format);
++		dev_err(mipi_dsi->dev, "invalid pixel format %d\n", bus_fmt->format);
+ 		return -EINVAL;
+ 	}
+ 
+diff --git a/drivers/gpu/drm/rockchip/dw-mipi-dsi-rockchip.c b/drivers/gpu/drm/rockchip/dw-mipi-dsi-rockchip.c
+index 3398160ad75e4a9629082bc47491eab473caecc0..5d360d7bea9b4a6663133b440dd70cc19abee2f0 100644
+--- a/drivers/gpu/drm/rockchip/dw-mipi-dsi-rockchip.c
++++ b/drivers/gpu/drm/rockchip/dw-mipi-dsi-rockchip.c
+@@ -1030,7 +1030,7 @@ static const struct component_ops dw_mipi_dsi_rockchip_ops = {
+ };
+ 
+ static int dw_mipi_dsi_rockchip_host_attach(void *priv_data,
+-					    struct mipi_dsi_device *device)
++					    const struct mipi_dsi_bus_fmt *bus_fmt)
+ {
+ 	struct dw_mipi_dsi_rockchip *dsi = priv_data;
+ 	struct device *second;
+diff --git a/include/drm/bridge/dw_mipi_dsi.h b/include/drm/bridge/dw_mipi_dsi.h
+index 65d5e68065e3d8bd38986b993653c467a18e3a58..452218cb03d91fa4cdc9cd67004395bd20a9a748 100644
+--- a/include/drm/bridge/dw_mipi_dsi.h
++++ b/include/drm/bridge/dw_mipi_dsi.h
+@@ -15,6 +15,7 @@
+ #include <drm/drm_bridge.h>
+ #include <drm/drm_connector.h>
+ #include <drm/drm_crtc.h>
++#include <drm/drm_mipi_dsi.h>
+ #include <drm/drm_modes.h>
+ 
+ struct drm_display_mode;
+@@ -45,7 +46,7 @@ struct dw_mipi_dsi_phy_ops {
+ 
+ struct dw_mipi_dsi_host_ops {
+ 	int (*attach)(void *priv_data,
+-		      struct mipi_dsi_device *dsi);
++		      const struct mipi_dsi_bus_fmt *bus_fmt);
+ 	int (*detach)(void *priv_data,
+ 		      struct mipi_dsi_device *dsi);
+ };
 
 -- 
 2.49.0
