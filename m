@@ -2,42 +2,42 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id BD2BCAE8A75
-	for <lists+dri-devel@lfdr.de>; Wed, 25 Jun 2025 18:47:02 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 13A51AE8A71
+	for <lists+dri-devel@lfdr.de>; Wed, 25 Jun 2025 18:46:51 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C448210E79B;
-	Wed, 25 Jun 2025 16:47:00 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C963210E795;
+	Wed, 25 Jun 2025 16:46:45 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=bootlin.com header.i=@bootlin.com header.b="f3ZG4WsA";
+	dkim=pass (2048-bit key; unprotected) header.d=bootlin.com header.i=@bootlin.com header.b="CNNRYbXq";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from relay5-d.mail.gandi.net (relay5-d.mail.gandi.net
  [217.70.183.197])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 80A7910E78D
- for <dri-devel@lists.freedesktop.org>; Wed, 25 Jun 2025 16:46:28 +0000 (UTC)
-Received: by mail.gandi.net (Postfix) with ESMTPSA id C41094437E;
- Wed, 25 Jun 2025 16:46:25 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 28F5B10E78E
+ for <dri-devel@lists.freedesktop.org>; Wed, 25 Jun 2025 16:46:30 +0000 (UTC)
+Received: by mail.gandi.net (Postfix) with ESMTPSA id 6E22544385;
+ Wed, 25 Jun 2025 16:46:27 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
- t=1750869987;
+ t=1750869988;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=fWAgdYIhe6WRxC8lPfOBRIJNcNMxQ9jgzYlq7+Z1pYI=;
- b=f3ZG4WsAd8pCNZFsWigf1jN4+wCzNAyxyqy7bG4EkmH1wpIQ7NM9UJzwsLLMj7n/YqZbKQ
- fvTiBHGbpnHGz5FZBscC+Jrg4yOAViIKjVTl/I6haOGJJHCcJWoPL0k+Fu8ErB+zYpXl4U
- gf33JNIosj8d0suoHVPuL78ZmiK//2oHQJ+7ymWOKu2qplqhcQLrOyIapLEft1JZaXhpXx
- s+ihgISCTX9IEHZT3Regv4hRN2Q4VFn/dfH0wDjUMWbKF2DrnetgUGlFZu6V+MtBWxOs1W
- w5bBaaL2ol/9BW+9Wl9ChPitf5Y3wBbne7+XC5wYJuFaiOiRaqGddjRf4NbWmw==
+ bh=bDJ3EtpkuDN9Ku0moJtIwyqVQ/u80fKaKJRdWczN4K4=;
+ b=CNNRYbXqLHwCsIX3UNkvqSM7Wh3C/KnZMZ+HZlIBgspOqvRUY1N3Pl75Yidp7GrKT4EOo4
+ WhLfhl3Z8yUFrbVqo9+sWh64y/xLG+77F4TO9kF2+5s6iUgc5M1QXLV7QW9VZmg0H7/PI5
+ WVaUBzpRDSYGODTKf+lM71oIUlP0ORDekyWKaxJNOGIw4LoWhfFNsXT8woP6wKnXhIjCM9
+ BhnpDqfUqzZzJ3x86pZWmEjn8PColHDZ3LP1VcbAaZyAiuMHaq6UBD1+10y8fFUKRLnEjK
+ GzN9uqu/Wutg8DX6b3Gh85xyCR4UF6Orm4XsEOz3IY+Dz0KbPeXgPHF0DCipPA==
 From: Luca Ceresoli <luca.ceresoli@bootlin.com>
-Date: Wed, 25 Jun 2025 18:45:33 +0200
-Subject: [PATCH 29/32] drm/bridge: synopsys: dw-mipi-dsi: convert to the
- .attach_new op
+Date: Wed, 25 Jun 2025 18:45:34 +0200
+Subject: [PATCH 30/32] drm/mcde: store a pointer to mipi_dsi_host to
+ perform TE requests
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20250625-drm-dsi-host-no-device-ptr-v1-29-e36bc258a7c5@bootlin.com>
+Message-Id: <20250625-drm-dsi-host-no-device-ptr-v1-30-e36bc258a7c5@bootlin.com>
 References: <20250625-drm-dsi-host-no-device-ptr-v1-0-e36bc258a7c5@bootlin.com>
 In-Reply-To: <20250625-drm-dsi-host-no-device-ptr-v1-0-e36bc258a7c5@bootlin.com>
 To: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
@@ -76,194 +76,96 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-This op does not pass any pointer to the DSI device, so the DSI host driver
-cannot store it.
+The MCDE driver stores a struct mipi_dsi_device pointer in struct mcde for
+two uses: sending commands via mcde_dsi_te_request() and accessing the DSI
+bus format parameters (lanes, channel etc).
 
-This requires propagating the change to the dw-mipi-dsi-specific host op in
-struct dw_mipi_dsi_host_ops and thus to the drivers based on
-dw-mipi-dsi.c.
+We want to get rid of mipi_dsi_device pointers in host drivers. This patch
+removes the first usage by additionally storing a pointer to the struct
+mipi_dsi_host, and using it in host_to_mcde_dsi().
 
-Among those, the meson driver uses the DSI device format parameters in
-various places outside the .attach op, and currently it does so by storing
-a pointer to the struct mipi_dsi_device. That's exactly what .attach_new
-aims at removing, so store a copy of the format parameters instead of the
-struct mipi_dsi_device pointer.
+The second usage is removed in a following patch.
 
 Signed-off-by: Luca Ceresoli <luca.ceresoli@bootlin.com>
 ---
- drivers/gpu/drm/bridge/imx/imx93-mipi-dsi.c     |  4 ++--
- drivers/gpu/drm/bridge/synopsys/dw-mipi-dsi.c   | 18 +++++++++---------
- drivers/gpu/drm/meson/meson_dw_mipi_dsi.c       | 16 ++++++++--------
- drivers/gpu/drm/rockchip/dw-mipi-dsi-rockchip.c |  2 +-
- include/drm/bridge/dw_mipi_dsi.h                |  3 ++-
- 5 files changed, 22 insertions(+), 21 deletions(-)
+ drivers/gpu/drm/mcde/mcde_display.c | 2 +-
+ drivers/gpu/drm/mcde/mcde_drm.h     | 3 ++-
+ drivers/gpu/drm/mcde/mcde_dsi.c     | 9 ++++++---
+ 3 files changed, 9 insertions(+), 5 deletions(-)
 
-diff --git a/drivers/gpu/drm/bridge/imx/imx93-mipi-dsi.c b/drivers/gpu/drm/bridge/imx/imx93-mipi-dsi.c
-index bea8346515b8c8ce150040f58d288ac564eeb563..7bd48952cee571709a39fdf969f05ac61422862a 100644
---- a/drivers/gpu/drm/bridge/imx/imx93-mipi-dsi.c
-+++ b/drivers/gpu/drm/bridge/imx/imx93-mipi-dsi.c
-@@ -816,11 +816,11 @@ static const struct dw_mipi_dsi_phy_ops imx93_dsi_phy_ops = {
- 	.get_timing = imx93_dsi_phy_get_timing,
- };
- 
--static int imx93_dsi_host_attach(void *priv_data, struct mipi_dsi_device *device)
-+static int imx93_dsi_host_attach(void *priv_data, const struct mipi_dsi_bus_fmt *bus_fmt)
+diff --git a/drivers/gpu/drm/mcde/mcde_display.c b/drivers/gpu/drm/mcde/mcde_display.c
+index 52043a12a2e8e5ae2f0d6d279b2314ba31c98b5b..18b8ed1456d436dc8e7b7778461d76a251509ecf 100644
+--- a/drivers/gpu/drm/mcde/mcde_display.c
++++ b/drivers/gpu/drm/mcde/mcde_display.c
+@@ -1339,7 +1339,7 @@ static void mcde_start_flow(struct mcde *mcde)
  {
- 	struct imx93_dsi *dsi = priv_data;
+ 	/* Request a TE ACK only in TE+BTA mode */
+ 	if (mcde->flow_mode == MCDE_COMMAND_BTA_TE_FLOW)
+-		mcde_dsi_te_request(mcde->mdsi);
++		mcde_dsi_te_request(mcde);
  
--	dsi->format = device->format;
-+	dsi->format = bus_fmt->format;
+ 	/* Enable FIFO A flow */
+ 	mcde_enable_fifo(mcde, MCDE_FIFO_A);
+diff --git a/drivers/gpu/drm/mcde/mcde_drm.h b/drivers/gpu/drm/mcde/mcde_drm.h
+index ecb70b4b737c0e74b93c6f3e81f1170774303f78..4ae32e92d7f36707dfd91adb2cc9c76ec32a677e 100644
+--- a/drivers/gpu/drm/mcde/mcde_drm.h
++++ b/drivers/gpu/drm/mcde/mcde_drm.h
+@@ -73,6 +73,7 @@ struct mcde {
+ 	struct drm_bridge *bridge;
+ 	struct drm_connector *connector;
+ 	struct drm_simple_display_pipe pipe;
++	struct mipi_dsi_host *dsi_host;
+ 	struct mipi_dsi_device *mdsi;
+ 	bool dpi_output;
+ 	s16 stride;
+@@ -104,7 +105,7 @@ static inline bool mcde_flow_is_video(struct mcde *mcde)
+ }
+ 
+ bool mcde_dsi_irq(struct mipi_dsi_device *mdsi);
+-void mcde_dsi_te_request(struct mipi_dsi_device *mdsi);
++void mcde_dsi_te_request(struct mcde *mcde);
+ void mcde_dsi_enable(struct drm_bridge *bridge);
+ void mcde_dsi_disable(struct drm_bridge *bridge);
+ extern struct platform_driver mcde_dsi_driver;
+diff --git a/drivers/gpu/drm/mcde/mcde_dsi.c b/drivers/gpu/drm/mcde/mcde_dsi.c
+index 04041ad9231bd53cf4bfa18ad41caa19df3b838a..2df2fdf45bd7d6259c631f1c402191db49336cd0 100644
+--- a/drivers/gpu/drm/mcde/mcde_dsi.c
++++ b/drivers/gpu/drm/mcde/mcde_dsi.c
+@@ -148,6 +148,7 @@ bool mcde_dsi_irq(struct mipi_dsi_device *mdsi)
+ static void mcde_dsi_attach_to_mcde(struct mcde_dsi *d)
+ {
+ 	d->mcde->mdsi = d->mdsi;
++	d->mcde->dsi_host = &d->dsi_host;
+ 
+ 	/*
+ 	 * Select the way the DSI data flow is pushing to the display:
+@@ -190,8 +191,10 @@ static int mcde_dsi_host_detach(struct mipi_dsi_host *host,
+ 	struct mcde_dsi *d = host_to_mcde_dsi(host);
+ 
+ 	d->mdsi = NULL;
+-	if (d->mcde)
++	if (d->mcde) {
+ 		d->mcde->mdsi = NULL;
++		d->mcde->dsi_host = NULL;
++	}
  
  	return 0;
  }
-diff --git a/drivers/gpu/drm/bridge/synopsys/dw-mipi-dsi.c b/drivers/gpu/drm/bridge/synopsys/dw-mipi-dsi.c
-index 8fc2e282ff114db363a6cf0fe085684449b26438..ee84e773215c106651dad30de36e76a5be480553 100644
---- a/drivers/gpu/drm/bridge/synopsys/dw-mipi-dsi.c
-+++ b/drivers/gpu/drm/bridge/synopsys/dw-mipi-dsi.c
-@@ -315,23 +315,23 @@ static inline u32 dsi_read(struct dw_mipi_dsi *dsi, u32 reg)
- }
+@@ -381,12 +384,12 @@ static const struct mipi_dsi_host_ops mcde_dsi_host_ops = {
+ };
  
- static int dw_mipi_dsi_host_attach(struct mipi_dsi_host *host,
--				   struct mipi_dsi_device *device)
-+				   const struct mipi_dsi_bus_fmt *bus_fmt)
+ /* This sends a direct (short) command to request TE */
+-void mcde_dsi_te_request(struct mipi_dsi_device *mdsi)
++void mcde_dsi_te_request(struct mcde *mcde)
  {
- 	struct dw_mipi_dsi *dsi = host_to_dsi(host);
- 	const struct dw_mipi_dsi_plat_data *pdata = dsi->plat_data;
- 	struct drm_bridge *bridge;
- 	int ret;
+ 	struct mcde_dsi *d;
+ 	u32 val;
  
--	if (device->lanes > dsi->plat_data->max_data_lanes) {
-+	if (bus_fmt->lanes > dsi->plat_data->max_data_lanes) {
- 		dev_err(dsi->dev, "the number of data lanes(%u) is too many\n",
--			device->lanes);
-+			bus_fmt->lanes);
- 		return -EINVAL;
- 	}
+-	d = host_to_mcde_dsi(mdsi->host);
++	d = host_to_mcde_dsi(mcde->dsi_host);
  
--	dsi->lanes = device->lanes;
--	dsi->channel = device->channel;
--	dsi->format = device->format;
--	dsi->mode_flags = device->mode_flags;
-+	dsi->lanes = bus_fmt->lanes;
-+	dsi->channel = bus_fmt->channel;
-+	dsi->format = bus_fmt->format;
-+	dsi->mode_flags = bus_fmt->mode_flags;
- 
- 	bridge = devm_drm_of_get_bridge(dsi->dev, dsi->dev->of_node, 1, 0);
- 	if (IS_ERR(bridge))
-@@ -343,7 +343,7 @@ static int dw_mipi_dsi_host_attach(struct mipi_dsi_host *host,
- 	drm_bridge_add(&dsi->bridge);
- 
- 	if (pdata->host_ops && pdata->host_ops->attach) {
--		ret = pdata->host_ops->attach(pdata->priv_data, device);
-+		ret = pdata->host_ops->attach(pdata->priv_data, bus_fmt);
- 		if (ret < 0)
- 			return ret;
- 	}
-@@ -537,7 +537,7 @@ static ssize_t dw_mipi_dsi_host_transfer(struct mipi_dsi_host *host,
- }
- 
- static const struct mipi_dsi_host_ops dw_mipi_dsi_host_ops = {
--	.attach = dw_mipi_dsi_host_attach,
-+	.attach_new = dw_mipi_dsi_host_attach,
- 	.detach = dw_mipi_dsi_host_detach,
- 	.transfer = dw_mipi_dsi_host_transfer,
- };
-diff --git a/drivers/gpu/drm/meson/meson_dw_mipi_dsi.c b/drivers/gpu/drm/meson/meson_dw_mipi_dsi.c
-index 4dc726cef5455075def7927a469ae23020ebfec7..b3354243a5b22d46f1cf3d8f75e602f4fc26081f 100644
---- a/drivers/gpu/drm/meson/meson_dw_mipi_dsi.c
-+++ b/drivers/gpu/drm/meson/meson_dw_mipi_dsi.c
-@@ -41,7 +41,7 @@ struct meson_dw_mipi_dsi {
- 	union phy_configure_opts phy_opts;
- 	struct dw_mipi_dsi *dmd;
- 	struct dw_mipi_dsi_plat_data pdata;
--	struct mipi_dsi_device *dsi_device;
-+	struct mipi_dsi_bus_fmt bus_fmt;
- 	const struct drm_display_mode *mode;
- 	struct clk *bit_clk;
- 	struct clk *px_clk;
-@@ -110,7 +110,7 @@ static int dw_mipi_dsi_phy_init(void *priv_data)
- 		return ret;
- 	}
- 
--	switch (mipi_dsi->dsi_device->format) {
-+	switch (mipi_dsi->bus_fmt.format) {
- 	case MIPI_DSI_FMT_RGB888:
- 		dpi_data_format = DPI_COLOR_24BIT;
- 		venc_data_width = VENC_IN_COLOR_24B;
-@@ -164,10 +164,10 @@ dw_mipi_dsi_get_lane_mbps(void *priv_data, const struct drm_display_mode *mode,
- 
- 	mipi_dsi->mode = mode;
- 
--	bpp = mipi_dsi_pixel_format_to_bpp(mipi_dsi->dsi_device->format);
-+	bpp = mipi_dsi_pixel_format_to_bpp(mipi_dsi->bus_fmt.format);
- 
- 	phy_mipi_dphy_get_default_config(mode->clock * 1000,
--					 bpp, mipi_dsi->dsi_device->lanes,
-+					 bpp, mipi_dsi->bus_fmt.lanes,
- 					 &mipi_dsi->phy_opts.mipi_dphy);
- 
- 	*lane_mbps = DIV_ROUND_UP(mipi_dsi->phy_opts.mipi_dphy.hs_clk_rate, USEC_PER_SEC);
-@@ -220,21 +220,21 @@ static const struct dw_mipi_dsi_phy_ops meson_dw_mipi_dsi_phy_ops = {
- };
- 
- static int meson_dw_mipi_dsi_host_attach(void *priv_data,
--					 struct mipi_dsi_device *device)
-+					 const struct mipi_dsi_bus_fmt *bus_fmt)
- {
- 	struct meson_dw_mipi_dsi *mipi_dsi = priv_data;
- 	int ret;
- 
--	mipi_dsi->dsi_device = device;
-+	mipi_dsi->bus_fmt = *bus_fmt;
- 
--	switch (device->format) {
-+	switch (bus_fmt->format) {
- 	case MIPI_DSI_FMT_RGB888:
- 		break;
- 	case MIPI_DSI_FMT_RGB666:
- 		break;
- 	case MIPI_DSI_FMT_RGB666_PACKED:
- 	case MIPI_DSI_FMT_RGB565:
--		dev_err(mipi_dsi->dev, "invalid pixel format %d\n", device->format);
-+		dev_err(mipi_dsi->dev, "invalid pixel format %d\n", bus_fmt->format);
- 		return -EINVAL;
- 	}
- 
-diff --git a/drivers/gpu/drm/rockchip/dw-mipi-dsi-rockchip.c b/drivers/gpu/drm/rockchip/dw-mipi-dsi-rockchip.c
-index 3398160ad75e4a9629082bc47491eab473caecc0..5d360d7bea9b4a6663133b440dd70cc19abee2f0 100644
---- a/drivers/gpu/drm/rockchip/dw-mipi-dsi-rockchip.c
-+++ b/drivers/gpu/drm/rockchip/dw-mipi-dsi-rockchip.c
-@@ -1030,7 +1030,7 @@ static const struct component_ops dw_mipi_dsi_rockchip_ops = {
- };
- 
- static int dw_mipi_dsi_rockchip_host_attach(void *priv_data,
--					    struct mipi_dsi_device *device)
-+					    const struct mipi_dsi_bus_fmt *bus_fmt)
- {
- 	struct dw_mipi_dsi_rockchip *dsi = priv_data;
- 	struct device *second;
-diff --git a/include/drm/bridge/dw_mipi_dsi.h b/include/drm/bridge/dw_mipi_dsi.h
-index 65d5e68065e3d8bd38986b993653c467a18e3a58..452218cb03d91fa4cdc9cd67004395bd20a9a748 100644
---- a/include/drm/bridge/dw_mipi_dsi.h
-+++ b/include/drm/bridge/dw_mipi_dsi.h
-@@ -15,6 +15,7 @@
- #include <drm/drm_bridge.h>
- #include <drm/drm_connector.h>
- #include <drm/drm_crtc.h>
-+#include <drm/drm_mipi_dsi.h>
- #include <drm/drm_modes.h>
- 
- struct drm_display_mode;
-@@ -45,7 +46,7 @@ struct dw_mipi_dsi_phy_ops {
- 
- struct dw_mipi_dsi_host_ops {
- 	int (*attach)(void *priv_data,
--		      struct mipi_dsi_device *dsi);
-+		      const struct mipi_dsi_bus_fmt *bus_fmt);
- 	int (*detach)(void *priv_data,
- 		      struct mipi_dsi_device *dsi);
- };
+ 	/* Command "nature" TE request */
+ 	val = DSI_DIRECT_CMD_MAIN_SETTINGS_CMD_NAT_TE_REQ;
 
 -- 
 2.49.0
