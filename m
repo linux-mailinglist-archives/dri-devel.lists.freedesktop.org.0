@@ -2,87 +2,65 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 41D78AE8E4B
-	for <lists+dri-devel@lfdr.de>; Wed, 25 Jun 2025 21:16:26 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5D2A3AE8E51
+	for <lists+dri-devel@lfdr.de>; Wed, 25 Jun 2025 21:17:15 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5524610E7D8;
-	Wed, 25 Jun 2025 19:16:24 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8BF6210E7DB;
+	Wed, 25 Jun 2025 19:17:13 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=redhat.com header.i=@redhat.com header.b="gtUn0D7D";
+	dkim=pass (1024-bit key; unprotected) header.d=collabora.com header.i=daniel.almeida@collabora.com header.b="ET9LuHMG";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [170.10.129.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 827B810E7D8
- for <dri-devel@lists.freedesktop.org>; Wed, 25 Jun 2025 19:16:23 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1750878982;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=gpqiDklJzgWULvZMFzOAfWV7cE1oihT1BC+dqlQ/AhA=;
- b=gtUn0D7Dh0ToD31Rt3sFrAPqCii+TZPfARP+0ib1CpOQjx6hKLTtaSH1f3RSoY7/2y4Ymn
- 2PSkLqP+miDJqelvMzdyr267Tam3NEBRdIKJ/JyFTDQL8D9PuHfICZzD+uQMNRWY+l8oOQ
- +7tJv7SfW9xJUG8tOiubWtbnfYbP71M=
-Received: from mail-pj1-f70.google.com (mail-pj1-f70.google.com
- [209.85.216.70]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-281-KgxQiOH1OjOrbqXV5PMyBg-1; Wed, 25 Jun 2025 15:16:19 -0400
-X-MC-Unique: KgxQiOH1OjOrbqXV5PMyBg-1
-X-Mimecast-MFC-AGG-ID: KgxQiOH1OjOrbqXV5PMyBg_1750878979
-Received: by mail-pj1-f70.google.com with SMTP id
- 98e67ed59e1d1-3132e7266d3so110283a91.2
- for <dri-devel@lists.freedesktop.org>; Wed, 25 Jun 2025 12:16:19 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1750878978; x=1751483778;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=gpqiDklJzgWULvZMFzOAfWV7cE1oihT1BC+dqlQ/AhA=;
- b=tJ0mdPloSiMxDcPSGtYxh68q27firdkAwE/ZkicTrcVALYt6lJ2Jhg7B+2ALpDm003
- pubwRbZ9TrDxumfQePxRBG+VXDiIi5FZUAXHuPJd8N4ZSF9ChOqTI3vgimXfuiBjOU/V
- +zxKPhsnOghaBilYorwMjlWc5zPQO9jUxNxAZ9SRFj2sCD/uRGxJzvE7oarxNthWgUeB
- iJC3YPOH6gIpNtXmZyxyStN2Unb6/ZugUHvcYmZELdT5awUsOs5ion3tP5pN9DxXR21V
- cazj/RekInFjkCB9MWFMsRKxv2HBPW7riwKsvkmhvqtm74ugr6BEqdHiToV8xRFeyLQY
- CmCQ==
-X-Forwarded-Encrypted: i=1;
- AJvYcCUc1m1dc5KU/5jcEiKn6EE3ToMk3G8sE4KqAROe7erzKzELtFJtRHrE+eWL8zwbJFiIg0XcJQdHrUM=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YyOC2ZHwielGh9R4Ud21zzULQ6lbl9EAhcdbmw6WNXzdmwgi3z6
- CpqNyqKa2tlbnDspMQO3WvW7CIKDouqf+6zsRu+FxfdSouL7Cg3c5TavFSgsiQ8Ine/lGyGFbTR
- nC2sYpPzGchuNWc7sL5m33+5vXxs5Vn2yv3QIKn9Y0lYIC45/kC/4MLI4YAo9mxJzyOb5I46Kud
- y78FmxEUGZ3UGIYdxfPPFU8DHAMdpN+wD4xufvJtdg9HwXuCSzjZia
-X-Gm-Gg: ASbGncuDX8CSfiR6RdJPn4SHd7JkCgycK5Ofy7fKwBY2ZA8pfL1UgpiyXtnZBF5UTZE
- eHaUW+AvrtBpsSYjlOY2yvM17+oFsrEkl2f3mUxlcbHmMdYnUVvGqdhAgGFv4knolshT2JP/c3M
- 43Hw==
-X-Received: by 2002:a17:90b:5484:b0:312:1d2d:18e1 with SMTP id
- 98e67ed59e1d1-315f2671e07mr5030265a91.22.1750878978134; 
- Wed, 25 Jun 2025 12:16:18 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IEHZD/XPD3yQ/dZWbIHGbhcw69O6AIEjELyv6bFlc3mSyV8vzDQ9y+y5V/0+aNpa/SpnAU2TPiQIFrrgnHox2k=
-X-Received: by 2002:a17:90b:5484:b0:312:1d2d:18e1 with SMTP id
- 98e67ed59e1d1-315f2671e07mr5030246a91.22.1750878977734; Wed, 25 Jun 2025
- 12:16:17 -0700 (PDT)
-MIME-Version: 1.0
-References: <20250619072026.635133-1-airlied@gmail.com>
- <724720cd-eb05-4fc0-85a1-f6b60649b1ad@amd.com>
- <CAMwc25ruHtW165VRuDv5_tjaZGcL5H9CWeTjcCstXK09bDPhdw@mail.gmail.com>
- <7dd0885a-7e7c-41a9-ae81-811fc344caf5@amd.com>
-In-Reply-To: <7dd0885a-7e7c-41a9-ae81-811fc344caf5@amd.com>
-From: David Airlie <airlied@redhat.com>
-Date: Thu, 26 Jun 2025 05:16:04 +1000
-X-Gm-Features: AX0GCFsvgmfea4XXwkA6mXxr3Pik4knfndsTsYx45LSMbhTEVn0xQupC3ObxyRs
-Message-ID: <CAMwc25ohBsMO=VUJzk+_DLdWLN448P63udwx0Zf0CktTgca4UA@mail.gmail.com>
-Subject: Re: [PATCH 1/2] mm: add gpu active/reclaim per-node stat counters (v2)
-To: =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
-Cc: Dave Airlie <airlied@gmail.com>, dri-devel@lists.freedesktop.org, 
- Matthew Brost <matthew.brost@intel.com>, Johannes Weiner <hannes@cmpxchg.org>,
- linux-mm@kvack.org, Andrew Morton <akpm@linux-foundation.org>
-X-Mimecast-Spam-Score: 0
-X-Mimecast-MFC-PROC-ID: Vx_c6J1Qzh6gtV6NzKMImOR729uDnHy_VK7hfXnCE8E_1750878979
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset="UTF-8"
+Received: from sender4-pp-f112.zoho.com (sender4-pp-f112.zoho.com
+ [136.143.188.112])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8F21810E7DB
+ for <dri-devel@lists.freedesktop.org>; Wed, 25 Jun 2025 19:17:11 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; t=1750879014; cv=none; 
+ d=zohomail.com; s=zohoarc; 
+ b=IupojBcgiuJFEfYbMOO2Yq4WbPyu4PoiSeS/cjsqsvipeh7SwGrXk5aSN9ohUIoazDWxAVpPLMUlIPaRamN1Ci8m2jL7B5Gzr6TEu5HZLOffo4n7nVdjPpDKYL09gBOSjy7UFuqlpKREmbZd6+PM0aDToqoSV6xjnigwQX1O0HE=
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com;
+ s=zohoarc; t=1750879014;
+ h=Content-Type:Content-Transfer-Encoding:Cc:Cc:Date:Date:From:From:In-Reply-To:MIME-Version:Message-ID:References:Subject:Subject:To:To:Message-Id:Reply-To;
+ bh=mXp/NJEKK2k9Y06sPTp+De6aiQuPK+J2/l3zBut2c/A=; 
+ b=VH4wGgKwym8pq4m/6lwlRAIRVxrYOK4BRK3O7mTPCOC5mbw28US9seDqF+lb4TezwiTGZyIWIsq+aKVnOVNzY7Nn6+cmQwMSwJIfAA3hfl3WveJ8Q3NH6v1oEu4jb72yMc3t61FHEcXP0RBi8H7jvPugvy8t0sbPsrv7KbY5/HU=
+ARC-Authentication-Results: i=1; mx.zohomail.com;
+ dkim=pass  header.i=collabora.com;
+ spf=pass  smtp.mailfrom=daniel.almeida@collabora.com;
+ dmarc=pass header.from=<daniel.almeida@collabora.com>
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1750879014; 
+ s=zohomail; d=collabora.com; i=daniel.almeida@collabora.com;
+ h=Content-Type:Mime-Version:Subject:Subject:From:From:In-Reply-To:Date:Date:Cc:Cc:Content-Transfer-Encoding:Message-Id:Message-Id:References:To:To:Reply-To;
+ bh=mXp/NJEKK2k9Y06sPTp+De6aiQuPK+J2/l3zBut2c/A=;
+ b=ET9LuHMGh6U8m3sABooFAIdJNWQ8UaCChyGIHCcoqhBj4QcaJqLRL/ohF+0yztuh
+ ybdkAK5XoESv6BtyPDQh6Etm1iJEs6FOEAOG/v+TckvV8SXRchvl9UyKRnFolVnIMCg
+ 7N/tdp/Jh5kZeOl9GN4ly72SJHGvoWQqvz9WUOXQ=
+Received: by mx.zohomail.com with SMTPS id 1750879012416705.8054775099233;
+ Wed, 25 Jun 2025 12:16:52 -0700 (PDT)
+Content-Type: text/plain;
+	charset=utf-8
+Mime-Version: 1.0 (Mac OS X Mail 16.0 \(3826.600.51.1.1\))
+Subject: Re: [PATCH] rust: drm: mm: Add DRM MM Range Allocator abstraction
+From: Daniel Almeida <daniel.almeida@collabora.com>
+In-Reply-To: <20250623-topics-tyr-drm_mm-v1-1-82fe8104a6f5@collabora.com>
+Date: Wed, 25 Jun 2025 16:16:36 -0300
+Cc: linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ rust-for-linux@vger.kernel.org, Asahi Lina <lina+kernel@asahilina.net>
 Content-Transfer-Encoding: quoted-printable
+Message-Id: <7D78A0E7-9CA7-4E04-AD55-11254DF66ED8@collabora.com>
+References: <20250623-topics-tyr-drm_mm-v1-1-82fe8104a6f5@collabora.com>
+To: David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>, Miguel Ojeda <ojeda@kernel.org>,
+ Alex Gaynor <alex.gaynor@gmail.com>, Boqun Feng <boqun.feng@gmail.com>,
+ Gary Guo <gary@garyguo.net>,
+ =?utf-8?Q?Bj=C3=B6rn_Roy_Baron?= <bjorn3_gh@protonmail.com>,
+ Benno Lossin <lossin@kernel.org>, Andreas Hindborg <a.hindborg@kernel.org>,
+ Alice Ryhl <aliceryhl@google.com>, Trevor Gross <tmgross@umich.edu>,
+ Danilo Krummrich <dakr@kernel.org>
+X-Mailer: Apple Mail (2.3826.600.51.1.1)
+X-ZohoMailClient: External
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -98,113 +76,46 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, Jun 25, 2025 at 9:55=E2=80=AFPM Christian K=C3=B6nig
-<christian.koenig@amd.com> wrote:
->
-> On 24.06.25 03:12, David Airlie wrote:
-> > On Mon, Jun 23, 2025 at 6:54=E2=80=AFPM Christian K=C3=B6nig
-> > <christian.koenig@amd.com> wrote:
-> >>
-> >> On 6/19/25 09:20, Dave Airlie wrote:
-> >>> From: Dave Airlie <airlied@redhat.com>
-> >>>
-> >>> While discussing memcg intergration with gpu memory allocations,
-> >>> it was pointed out that there was no numa/system counters for
-> >>> GPU memory allocations.
-> >>>
-> >>> With more integrated memory GPU server systems turning up, and
-> >>> more requirements for memory tracking it seems we should start
-> >>> closing the gap.
-> >>>
-> >>> Add two counters to track GPU per-node system memory allocations.
-> >>>
-> >>> The first is currently allocated to GPU objects, and the second
-> >>> is for memory that is stored in GPU page pools that can be reclaimed,
-> >>> by the shrinker.
-> >>>
-> >>> Cc: Christian Koenig <christian.koenig@amd.com>
-> >>> Cc: Matthew Brost <matthew.brost@intel.com>
-> >>> Cc: Johannes Weiner <hannes@cmpxchg.org>
-> >>> Cc: linux-mm@kvack.org
-> >>> Cc: Andrew Morton <akpm@linux-foundation.org>
-> >>> Signed-off-by: Dave Airlie <airlied@redhat.com>
-> >>>
-> >>> ---
-> >>>
-> >>> v2: add more info to the documentation on this memory.
-> >>>
-> >>> I'd like to get acks to merge this via the drm tree, if possible,
-> >>>
-> >>> Dave.
-> >>> ---
-> >>>  Documentation/filesystems/proc.rst | 8 ++++++++
-> >>>  drivers/base/node.c                | 5 +++++
-> >>>  fs/proc/meminfo.c                  | 6 ++++++
-> >>>  include/linux/mmzone.h             | 2 ++
-> >>>  mm/show_mem.c                      | 9 +++++++--
-> >>>  mm/vmstat.c                        | 2 ++
-> >>>  6 files changed, 30 insertions(+), 2 deletions(-)
-> >>>
-> >>> diff --git a/Documentation/filesystems/proc.rst b/Documentation/files=
-ystems/proc.rst
-> >>> index 5236cb52e357..7cc5a9185190 100644
-> >>> --- a/Documentation/filesystems/proc.rst
-> >>> +++ b/Documentation/filesystems/proc.rst
-> >>> @@ -1095,6 +1095,8 @@ Example output. You may not have all of these f=
-ields.
-> >>>      CmaFree:               0 kB
-> >>>      Unaccepted:            0 kB
-> >>>      Balloon:               0 kB
-> >>> +    GPUActive:             0 kB
-> >>> +    GPUReclaim:            0 kB
-> >>
-> >> Active certainly makes sense, but I think we should rather disable the=
- pool on newer CPUs than adding reclaimable memory here.
-> >
-> > I'm not just concerned about newer platforms though, even on Fedora 42
-> > on my test ryzen1+7900xt machine, with a desktop session running
-> >
-> > nr_gpu_active 7473
-> > nr_gpu_reclaim 6656
-> >
-> > It's not an insignificant amount of memory.
->
-> That was not what I meant, that you have quite a bunch of memory allocate=
-d to the GPU is correct.
->
-> But the problem is more that we used the pool for way to many thinks whic=
-h is actually not necessary.
->
-> But granted this is orthogonal to that patch here.
+Hmm, this has an issue
 
-At least here this is all WC allocations, probably from userspace, so
-it feels like we are using it correctly, since we stopped pooling
-cached pages.
+[..]
 
->
-> > I also think if we get to
-> > some sort of discardable GTT objects with a shrinker they should
-> > probably be accounted in reclaim.
->
-> The problem is that this is extremely driver specific.
->
-> On amdgpu we have some temporary buffers which can be reclaimed immediate=
-ly, but the really big chunk is for example what XE does with it's shrinker=
-.
->
-> See Thomas TTM patches from a few month ago. If memory is active or recla=
-imable does not depend on how it is allocated, but on how it is used.
->
-> So the accounting need to be at the driver level if you really want to di=
-stinct between the two states.
+>=20
+> +impl<A: AllocInner<T>, T> Drop for MmInner<A, T> {
+> +    fn drop(&mut self) {
+> +        // SAFETY: If the MmInner is dropped then all nodes are gone =
+(since they hold references),
+> +        // so it is safe to tear down the allocator.
+> +        unsafe {
+> +            bindings::drm_mm_takedown(self.0.get());
+> +        }
+> +    }
+> +}
+> +
+>=20
 
-How the counters are used is fine to be done at the driver level on
-top of this, though I think for discardable there is grounds for
-ttm_tt having a discardable flag once we see a couple of drivers using
-it, and then maybe the counters could be moved, but it's also fine to
-use these counters in drivers outside TTM if they are done
-appropriately, just so we can see the memory allocations as part of
-the big picture.
+Where the docs for drm_mm_takedown states:
 
-Dave.
+/**
+* drm_mm_takedown - clean up a drm_mm allocator
+* @mm: drm_mm allocator to clean up
+*
+* Note that it is a bug to call this function on an allocator which is =
+not
+* clean.
+*/
+void drm_mm_takedown(struct drm_mm *mm)
+{
+if (WARN(!drm_mm_clean(mm),
+"Memory manager not clean during takedown.\n"))
+show_leaks(mm);
+}
+EXPORT_SYMBOL(drm_mm_takedown);
 
+
+So perhaps we should remove all nodes before takedown?
+
+This covers the error path, i.e.: something failed somewhere else and =
+the allocator is dirty.
+
+=E2=80=94 Daniel=
