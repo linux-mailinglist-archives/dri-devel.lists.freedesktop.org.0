@@ -2,41 +2,41 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id D570BAE8A5F
-	for <lists+dri-devel@lfdr.de>; Wed, 25 Jun 2025 18:46:27 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5AE11AE8A55
+	for <lists+dri-devel@lfdr.de>; Wed, 25 Jun 2025 18:46:11 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id EF3BE10E78C;
-	Wed, 25 Jun 2025 16:46:25 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id DA3F510E787;
+	Wed, 25 Jun 2025 16:46:08 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=bootlin.com header.i=@bootlin.com header.b="G+BtG25X";
+	dkim=pass (2048-bit key; unprotected) header.d=bootlin.com header.i=@bootlin.com header.b="YZg8gfDi";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from relay5-d.mail.gandi.net (relay5-d.mail.gandi.net
  [217.70.183.197])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8D39910E77C
- for <dri-devel@lists.freedesktop.org>; Wed, 25 Jun 2025 16:45:55 +0000 (UTC)
-Received: by mail.gandi.net (Postfix) with ESMTPSA id CE4B144385;
- Wed, 25 Jun 2025 16:45:52 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 45B4410E77B
+ for <dri-devel@lists.freedesktop.org>; Wed, 25 Jun 2025 16:45:57 +0000 (UTC)
+Received: by mail.gandi.net (Postfix) with ESMTPSA id 7AA8B4437D;
+ Wed, 25 Jun 2025 16:45:54 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
- t=1750869954;
+ t=1750869956;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=kCPMTNaHFexCk3Zy2OvXPod3AzIDWTk1kup720N+cLs=;
- b=G+BtG25Xz2gdQeN4l5BhBpOxodw242X8t8B8IGUpURejwkJ7wHL/YieOEp1cAMuQ7GvW5v
- vp2C1ESFIShA/QLT/GUlbEt4EzLfC19KVJk4ojt3suHl9HFT2RJOwJ/k8KsYwXE5MafQ4Q
- KPY8kwxrQYdFDAuhZnILE8tAfzbDlSb1MjjMhVzkUnKzT4QvV897LhtDXTaZ7ILk8e0/S/
- 20kWfQ6l3mHO7IFVI1IJFmtLZIr0IVxMBRcr/VbrTyNQSwtDJ0day0/uW6vAdX4zwiZ22S
- g75dOTPOu3tvCAxv55gs+EEABGg99UN0qovrNzlc4VE1J1AZYySeEz2fx47eqQ==
+ bh=JEqmBcfMSepdpqCCVakwQjrb9skACgoH0BC+muTRwys=;
+ b=YZg8gfDidXPx2l9gp3h33OWcifcGQJK0SrK7q/OfXm29Ij5HszXtRZ1kOqGc1/GwLl/ubF
+ 2EwpEXUtBVujvjQ1DTLQ9iVbraMeE9Jh3vzvgnzKbxruN4gACvQjMHiaByFLZNS1o70fO3
+ M0fl6jbtBPxiVYp6DzSU02fQpbqvdDJpHbnIOTDQ5R7CFL0QnB4OCeqFdMYOgjcVwpH+h0
+ dwlorMezeDVlYXqEyT9zjT67VP2aRHSpOwEWJlgB91cHupLHzfOkAi5KP2zF+QDB70OKkj
+ /bvbOa779rNQyFJYyayLDZ/nYBTaMFYFMnp7K68kzBApTZ4jUdRipF3lMikgWg==
 From: Luca Ceresoli <luca.ceresoli@bootlin.com>
-Date: Wed, 25 Jun 2025 18:45:13 +0200
-Subject: [PATCH 09/32] drm/mcde: remove redundant logging
+Date: Wed, 25 Jun 2025 18:45:14 +0200
+Subject: [PATCH 10/32] drm/sun4i: dsi: remove redundant logging
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20250625-drm-dsi-host-no-device-ptr-v1-9-e36bc258a7c5@bootlin.com>
+Message-Id: <20250625-drm-dsi-host-no-device-ptr-v1-10-e36bc258a7c5@bootlin.com>
 References: <20250625-drm-dsi-host-no-device-ptr-v1-0-e36bc258a7c5@bootlin.com>
 In-Reply-To: <20250625-drm-dsi-host-no-device-ptr-v1-0-e36bc258a7c5@bootlin.com>
 To: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
@@ -75,32 +75,29 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-These lines logged as info are too much, drivers should be mostly silent
-when everything works. And now there is an equivalent dbg line logged in
-mipi_dsi_attach(), valid for all DSI hosts.
+Now there is an equivalent of this dev_err in mipi_dsi_attach(), valid for
+all DSI hosts.
+
+This avoids the need to access the @name field in struct mipi_dsi_device.
 
 Signed-off-by: Luca Ceresoli <luca.ceresoli@bootlin.com>
 ---
- drivers/gpu/drm/mcde/mcde_dsi.c | 6 ------
- 1 file changed, 6 deletions(-)
+ drivers/gpu/drm/sun4i/sun6i_mipi_dsi.c | 2 --
+ 1 file changed, 2 deletions(-)
 
-diff --git a/drivers/gpu/drm/mcde/mcde_dsi.c b/drivers/gpu/drm/mcde/mcde_dsi.c
-index 8e3b9c9c64e99239e54ba5a338cf3bbb6c84b40f..04041ad9231bd53cf4bfa18ad41caa19df3b838a 100644
---- a/drivers/gpu/drm/mcde/mcde_dsi.c
-+++ b/drivers/gpu/drm/mcde/mcde_dsi.c
-@@ -177,12 +177,6 @@ static int mcde_dsi_host_attach(struct mipi_dsi_host *host,
- 		return -EINVAL;
- 	}
+diff --git a/drivers/gpu/drm/sun4i/sun6i_mipi_dsi.c b/drivers/gpu/drm/sun4i/sun6i_mipi_dsi.c
+index c35b70d83e53b7397c6e38dde45824bd49fdf099..50e41bc147c92e2f9df415a96eb3e1c5efdc6958 100644
+--- a/drivers/gpu/drm/sun4i/sun6i_mipi_dsi.c
++++ b/drivers/gpu/drm/sun4i/sun6i_mipi_dsi.c
+@@ -975,8 +975,6 @@ static int sun6i_dsi_attach(struct mipi_dsi_host *host,
  
--	dev_info(d->dev, "attached DSI device with %d lanes\n", mdsi->lanes);
--	/* MIPI_DSI_FMT_RGB88 etc */
--	dev_info(d->dev, "format %08x, %dbpp\n", mdsi->format,
--		 mipi_dsi_pixel_format_to_bpp(mdsi->format));
--	dev_info(d->dev, "mode flags: %08lx\n", mdsi->mode_flags);
+ 	drm_kms_helper_hotplug_event(dsi->drm);
+ 
+-	dev_info(host->dev, "Attached device %s\n", device->name);
 -
- 	d->mdsi = mdsi;
- 	if (d->mcde)
- 		mcde_dsi_attach_to_mcde(d);
+ 	return 0;
+ }
+ 
 
 -- 
 2.49.0
