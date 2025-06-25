@@ -2,41 +2,41 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 132FEAE8A5A
-	for <lists+dri-devel@lfdr.de>; Wed, 25 Jun 2025 18:46:22 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5A0E5AE8A6D
+	for <lists+dri-devel@lfdr.de>; Wed, 25 Jun 2025 18:46:48 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2BA5B10E783;
-	Wed, 25 Jun 2025 16:46:20 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5ACC510E791;
+	Wed, 25 Jun 2025 16:46:45 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=bootlin.com header.i=@bootlin.com header.b="Yh8aHn7U";
+	dkim=pass (2048-bit key; unprotected) header.d=bootlin.com header.i=@bootlin.com header.b="dOvyr7jG";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from relay5-d.mail.gandi.net (relay5-d.mail.gandi.net
  [217.70.183.197])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2DC8310E783
- for <dri-devel@lists.freedesktop.org>; Wed, 25 Jun 2025 16:46:12 +0000 (UTC)
-Received: by mail.gandi.net (Postfix) with ESMTPSA id 6EF344437E;
- Wed, 25 Jun 2025 16:46:09 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C8E3710E78A
+ for <dri-devel@lists.freedesktop.org>; Wed, 25 Jun 2025 16:46:13 +0000 (UTC)
+Received: by mail.gandi.net (Postfix) with ESMTPSA id 1B31744384;
+ Wed, 25 Jun 2025 16:46:11 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
- t=1750869970;
+ t=1750869972;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=cSpNICiPIrVxNcE/EBx6YPkgN+Io+GAGKDXfjVdIzTw=;
- b=Yh8aHn7UTR0w2AKVeuenUucHMs9py0hE9Z+YejQqC+oZKOBheJsTjDeaTItXH6VUCBOQeh
- xzuE1du+9z4WJN5F3yJ3K6k4l+hZeEphnuhc5XRGtoF/lDh5fWCBtlGLRXAu7fdC+D8B33
- 5KUddUKE/3+IJ2aRmHbP/LjYKCF2AwpR6MEoEtin32ffZHx9hh/tu4w19hLjbDHq/LxmAe
- 2uRyT3Skj9ZA5a/1TjbTSs4WhA1GsqAUcdICT5ZckGKSagXrYkl0B7nlE/60Kg34YSnZvI
- Ll//9DxhVqvQi/Zo+Xox69sL27z9UArD5no/aQAjJeHW3dDLkIWBrXy4/8xPNw==
+ bh=7tzRXRqkINuJKPgE8lcyGCUuH8C2X0Lcpz0YAjSzs9I=;
+ b=dOvyr7jGVevjvCZhQ6ESQmbdwjNNom9UwORfNKf9s/HQRhZyjUEpfGy6P30qbv9dD5CiN/
+ +muiQnGVvnzt/35i1zGk5YrbpfE+h3NQIrz4+NzF43/OwiQSjHrMBl2vuRB8Jbhav7p2f/
+ RpyvTPX92Kw/2iATbgGqJioBU368ryiPsl1qfrpVNERgekkV/ItR4MOGMOpPP2ylPQKR9N
+ tx4rYidm6q1iYWZ4+sGPm8Jc7T5kFdi5+ZPNf2+idJAurv9IeMwaLyRXyJm3AYJZWwVqgM
+ u9QtXAjzpUTFquO9ju0h1W4SUenEBcxmDNn0+xmDSOa9+dDnMVn/+G2/89+aZg==
 From: Luca Ceresoli <luca.ceresoli@bootlin.com>
-Date: Wed, 25 Jun 2025 18:45:23 +0200
-Subject: [PATCH 19/32] drm/bridge: synopsys/dsi2: convert to the .attach_new op
+Date: Wed, 25 Jun 2025 18:45:24 +0200
+Subject: [PATCH 20/32] drm/msm/dsi: convert to the .attach_new op
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20250625-drm-dsi-host-no-device-ptr-v1-19-e36bc258a7c5@bootlin.com>
+Message-Id: <20250625-drm-dsi-host-no-device-ptr-v1-20-e36bc258a7c5@bootlin.com>
 References: <20250625-drm-dsi-host-no-device-ptr-v1-0-e36bc258a7c5@bootlin.com>
 In-Reply-To: <20250625-drm-dsi-host-no-device-ptr-v1-0-e36bc258a7c5@bootlin.com>
 To: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
@@ -80,52 +80,50 @@ cannot store it.
 
 Signed-off-by: Luca Ceresoli <luca.ceresoli@bootlin.com>
 ---
- drivers/gpu/drm/bridge/synopsys/dw-mipi-dsi2.c | 16 ++++++++--------
- 1 file changed, 8 insertions(+), 8 deletions(-)
+ drivers/gpu/drm/msm/dsi/dsi_host.c | 18 +++++++++---------
+ 1 file changed, 9 insertions(+), 9 deletions(-)
 
-diff --git a/drivers/gpu/drm/bridge/synopsys/dw-mipi-dsi2.c b/drivers/gpu/drm/bridge/synopsys/dw-mipi-dsi2.c
-index a994dfc1c0d2f6bbcab615c645d4dff7b90a756f..760b7920592506268f137dce5dafb14771440cdb 100644
---- a/drivers/gpu/drm/bridge/synopsys/dw-mipi-dsi2.c
-+++ b/drivers/gpu/drm/bridge/synopsys/dw-mipi-dsi2.c
-@@ -510,23 +510,23 @@ dw_mipi_dsi2_work_mode(struct dw_mipi_dsi2 *dsi2, u32 mode)
+diff --git a/drivers/gpu/drm/msm/dsi/dsi_host.c b/drivers/gpu/drm/msm/dsi/dsi_host.c
+index 4d75529c0e858160761f5eb55db65e5d7565c27b..79cdb34074de3662d535a8d9b386c5399c8d23ba 100644
+--- a/drivers/gpu/drm/msm/dsi/dsi_host.c
++++ b/drivers/gpu/drm/msm/dsi/dsi_host.c
+@@ -1610,20 +1610,20 @@ static irqreturn_t dsi_host_irq(int irq, void *ptr)
  }
  
- static int dw_mipi_dsi2_host_attach(struct mipi_dsi_host *host,
--				    struct mipi_dsi_device *device)
-+				    const struct mipi_dsi_bus_fmt *bus_fmt)
+ static int dsi_host_attach(struct mipi_dsi_host *host,
+-					struct mipi_dsi_device *dsi)
++			   const struct mipi_dsi_bus_fmt *bus_fmt)
  {
- 	struct dw_mipi_dsi2 *dsi2 = host_to_dsi2(host);
- 	const struct dw_mipi_dsi2_plat_data *pdata = dsi2->plat_data;
- 	struct drm_bridge *bridge;
+ 	struct msm_dsi_host *msm_host = to_msm_dsi_host(host);
  	int ret;
  
--	if (device->lanes > dsi2->plat_data->max_data_lanes) {
-+	if (bus_fmt->lanes > dsi2->plat_data->max_data_lanes) {
- 		dev_err(dsi2->dev, "the number of data lanes(%u) is too many\n",
--			device->lanes);
-+			bus_fmt->lanes);
+-	if (dsi->lanes > msm_host->num_data_lanes)
++	if (bus_fmt->lanes > msm_host->num_data_lanes)
  		return -EINVAL;
- 	}
  
--	dsi2->lanes = device->lanes;
--	dsi2->channel = device->channel;
--	dsi2->format = device->format;
--	dsi2->mode_flags = device->mode_flags;
-+	dsi2->lanes = bus_fmt->lanes;
-+	dsi2->channel = bus_fmt->channel;
-+	dsi2->format = bus_fmt->format;
-+	dsi2->mode_flags = bus_fmt->mode_flags;
+-	msm_host->channel = dsi->channel;
+-	msm_host->lanes = dsi->lanes;
+-	msm_host->format = dsi->format;
+-	msm_host->mode_flags = dsi->mode_flags;
+-	if (dsi->dsc)
+-		msm_host->dsc = dsi->dsc;
++	msm_host->channel = bus_fmt->channel;
++	msm_host->lanes = bus_fmt->lanes;
++	msm_host->format = bus_fmt->format;
++	msm_host->mode_flags = bus_fmt->mode_flags;
++	if (bus_fmt->dsc)
++		msm_host->dsc = bus_fmt->dsc;
  
- 	bridge = devm_drm_of_get_bridge(dsi2->dev, dsi2->dev->of_node, 1, 0);
- 	if (IS_ERR(bridge))
-@@ -687,7 +687,7 @@ static ssize_t dw_mipi_dsi2_host_transfer(struct mipi_dsi_host *host,
+ 	ret = dsi_dev_attach(msm_host->pdev);
+ 	if (ret)
+@@ -1663,7 +1663,7 @@ static ssize_t dsi_host_transfer(struct mipi_dsi_host *host,
  }
  
- static const struct mipi_dsi_host_ops dw_mipi_dsi2_host_ops = {
--	.attach = dw_mipi_dsi2_host_attach,
-+	.attach_new = dw_mipi_dsi2_host_attach,
- 	.detach = dw_mipi_dsi2_host_detach,
- 	.transfer = dw_mipi_dsi2_host_transfer,
+ static const struct mipi_dsi_host_ops dsi_host_ops = {
+-	.attach = dsi_host_attach,
++	.attach_new = dsi_host_attach,
+ 	.detach = dsi_host_detach,
+ 	.transfer = dsi_host_transfer,
  };
 
 -- 
