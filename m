@@ -2,64 +2,82 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8C979AE8851
-	for <lists+dri-devel@lfdr.de>; Wed, 25 Jun 2025 17:36:50 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5EEA8AE8809
+	for <lists+dri-devel@lfdr.de>; Wed, 25 Jun 2025 17:28:26 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5D87910E772;
-	Wed, 25 Jun 2025 15:36:48 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5C8B110E762;
+	Wed, 25 Jun 2025 15:22:04 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=ravnborg.org header.i=@ravnborg.org header.b="a1X3H2yL";
-	dkim=permerror (0-bit key) header.d=ravnborg.org header.i=@ravnborg.org header.b="an/A7ULk";
+	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="m0MvXJQs";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-X-Greylist: delayed 966 seconds by postgrey-1.36 at gabe;
- Wed, 25 Jun 2025 15:36:44 UTC
-Received: from mailrelay-egress4.pub.mailoutpod2-cph3.one.com
- (mailrelay-egress4.pub.mailoutpod2-cph3.one.com [46.30.211.179])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2420810E772
- for <dri-devel@lists.freedesktop.org>; Wed, 25 Jun 2025 15:36:41 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; t=1750864835;
- x=1751469635; d=ravnborg.org; s=rsa1;
- h=in-reply-to:content-type:mime-version:references:message-id:subject:cc:to:
- from:date:from;
- bh=O4nu8mefJbyYB9Pt62QRGWGhat2XpUcP+oPL1CGj9B4=;
- b=a1X3H2yL8v7P4SnvtjpcYSzYCDLMsRmv/8xxRbhh0VWKm1M+OM2Q2RBGLsZgXmCEzDEi7vEiLriV6
- sGSExYqKFH5YT+1nyGFYLTrXMVBODPYk6WBFPvjtYJ09djFErOtpncj+qw+7nEaIBeDUBmqE1jMzDd
- dx1v7v1JCv1MwqJibYHvCzGJyyvQkVfbgUzxwfVOa+uuuxczKKx/uuUxTr3dm1m7vjVTq9d7cCqxKm
- 72qfB6lKxOL4vW+ChH3J4WsitteUF52qUWyMOEY0VB9m7t8xQsq6mjG6mwVDLbv+F82wBUXqnEOMS8
- L1GAn6TJt9eqNJoEp6Nguj0TnDPmNTQ==
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; t=1750864835;
- x=1751469635; d=ravnborg.org; s=ed1;
- h=in-reply-to:content-type:mime-version:references:message-id:subject:cc:to:
- from:date:from;
- bh=O4nu8mefJbyYB9Pt62QRGWGhat2XpUcP+oPL1CGj9B4=;
- b=an/A7ULkJGe/vIKIMyryjrdRMnV19OwHwIWB1Fkwk2Rz76GeXX5uaPCxZUoLqCMtdTqgHtUnW2uIc
- 81Zh8GgDQ==
-X-HalOne-ID: ef3a532b-51d7-11f0-8665-f78b1f841584
-Received: from ravnborg.org (2-105-16-150-cable.dk.customer.tdc.net
- [2.105.16.150])
- by mailrelay1.pub.mailoutpod2-cph3.one.com (Halon) with ESMTPSA
- id ef3a532b-51d7-11f0-8665-f78b1f841584;
- Wed, 25 Jun 2025 15:20:34 +0000 (UTC)
-Date: Wed, 25 Jun 2025 17:20:33 +0200
-From: Sam Ravnborg <sam@ravnborg.org>
-To: Arnd Bergmann <arnd@kernel.org>
-Cc: Thomas Zimmermann <tzimmermann@suse.de>,
- Simona Vetter <simona@ffwll.ch>, Helge Deller <deller@gmx.de>,
- Arnd Bergmann <arnd@arndb.de>, Daniel Mack <daniel@zonque.org>,
- Haojian Zhuang <haojian.zhuang@gmail.com>,
- Robert Jarzmik <robert.jarzmik@free.fr>,
- Javier Martinez Canillas <javierm@redhat.com>,
- linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
- linux-fbdev@vger.kernel.org, dri-devel@lists.freedesktop.org
-Subject: Re: [PATCH 1/2] fbdev: remove fb_notify support
-Message-ID: <20250625152033.GA183878@ravnborg.org>
-References: <20250625131511.3366522-1-arnd@kernel.org>
+Received: from mail-oa1-f52.google.com (mail-oa1-f52.google.com
+ [209.85.160.52])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5F5BE10E761
+ for <dri-devel@lists.freedesktop.org>; Wed, 25 Jun 2025 15:22:00 +0000 (UTC)
+Received: by mail-oa1-f52.google.com with SMTP id
+ 586e51a60fabf-2eaad5eb1easo15579fac.3
+ for <dri-devel@lists.freedesktop.org>; Wed, 25 Jun 2025 08:22:00 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=linaro.org; s=google; t=1750864920; x=1751469720; darn=lists.freedesktop.org;
+ h=content-disposition:mime-version:subject:cc:to:from:date:message-id
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=Og1GMQOpzfwXI+0cF3jnX9BInwec7Spgn25VRzS7t+E=;
+ b=m0MvXJQsTyUbG6mWbtuMieg/jvkDP2ZwuANDwAYqvJmuneEgMC81BALyDAkL2TCiAo
+ u6Jdgj3kWeS4HB/6d/hsbtH3IIz96HAaxet0EcNwhQuOQ40skZWUUjxoYYLvsN+Tgy1y
+ e5QG72kEVvy0kxkNpRh9RYrc1RElizSZ8CAAVQk2bGlU7gsgy8wYdi26nE0tnWTkBe3B
+ uCW9uMLNNz9JkJwxgIHSGFFhV7Abd/kGfTzN3MJRYcacB5n535mPOZGEsyHVI4CPv6V+
+ jT0zTlYYXYDwv5qCp6a6oZad19xvKuY+fybpplZeskj8XdrhT8tjELgjOffUKtbLArK7
+ HMyA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1750864920; x=1751469720;
+ h=content-disposition:mime-version:subject:cc:to:from:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=Og1GMQOpzfwXI+0cF3jnX9BInwec7Spgn25VRzS7t+E=;
+ b=mwHgIOZTcAgs4DPEBy3FYHvhqJwSzHdNJG+jSXGJCfLOiO64C+5GQ7fvqLqxcq1Rq9
+ zZr7VJEBr/C1ezBl/Eove4Xp/hHyBzEmT7e9HDOoF/+bSxQRyXHPs71Ma8h6kulmvQmp
+ Pn1zOymMYiTrAhhQ21jsP+zv5msMK+oLmcaRGorC38f00TVcCQ5c0kr/1P4rcYPH4/9j
+ W8iPpIH2Hv/GRgJhsQ+8bj5n8+C9frMRVOOcEflRTwGQ2y9lqOyfpae4zRZxnxjN4YgV
+ C7m0vdiK4RnhUoJO9+twzW3LS7FRX14uTQT/ZpKB3ZLIIdGnVGpomNJ1aNvlsPZD28v+
+ Gnkw==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCX3k5NWgPsXAWa08AXlaTcT232fla0d6MFaooTo9EUl4RuJ04RLhuLzuy3+ZvFzFpltRqAsUQYTQxE=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YzydolnoZJukPmB8OXegfpZhnaKQKb2JdUkc/Pjnq8S7gC4/VtN
+ A9FQOa4PJdsRTRrIfa/qPPRotjZtNVhglagETxea3JBF8scUr/F+UvoxIvNvZ760hu4=
+X-Gm-Gg: ASbGnctUF+RHs4+umFxx2lUfV8hrxtbad+RUejnyZ1fcxKLsqoIYXpVGntltT08uxJn
+ 5dkaSghyyAB0twIUQWhw2zy/ria9OQFNUUhboTMSNvzDtHlfGKCz8fS8Kq6M1xNu1suszvoDYM+
+ q+u2F4/ypLtmrYODBfcvAy4wq0Etz/H1CKRsnBsnn3urRBGgpA8Gh4HhJ2lkvjCLEVGFKJwsYgN
+ SvD5ViitaFbyHUuo0QMv4wokjfp8frZZudQRRSfGVPLOiHDPDKzIo/5+CJwxc31XtUZzPDu2Shu
+ lTqMYaANAMx488CSo6epMPaqyBoD4xt3scCZBfwTWwNdC0a0iAYnnwft19ZZtlWU/wGdyQ==
+X-Google-Smtp-Source: AGHT+IHjveoem5cNH6WAD1vk3qjNmqKvozrExi59Gv6OL5AFVt4hopks6BzgykjOruT+XmUJ/QJh/Q==
+X-Received: by 2002:a05:6870:b6aa:b0:2b3:55b3:e38 with SMTP id
+ 586e51a60fabf-2efce2d2daamr69472fac.21.1750864919683; 
+ Wed, 25 Jun 2025 08:21:59 -0700 (PDT)
+Received: from localhost ([2603:8080:b800:f700:1fca:a60b:12ab:43a3])
+ by smtp.gmail.com with UTF8SMTPSA id
+ 586e51a60fabf-2ef93691e24sm951547fac.19.2025.06.25.08.21.59
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 25 Jun 2025 08:21:59 -0700 (PDT)
+Message-ID: <685c1417.050a0220.696f5.5c05@mx.google.com>
+X-Google-Original-Message-ID: <@sabinyo.mountain>
+Date: Wed, 25 Jun 2025 10:21:58 -0500
+From: Dan Carpenter <dan.carpenter@linaro.org>
+To: Jani Nikula <jani.nikula@linux.intel.com>
+Cc: Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
+ Rodrigo Vivi <rodrigo.vivi@intel.com>,
+ Tvrtko Ursulin <tursulin@ursulin.net>,
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+ Frederic Weisbecker <frederic@kernel.org>,
+ Chris Wilson <chris@chris-wilson.co.uk>,
+ intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org, kernel-janitors@vger.kernel.org
+Subject: [PATCH v2] drm/i915/selftests: Change mock_request() to return error
+ pointers
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20250625131511.3366522-1-arnd@kernel.org>
+X-Mailer: git-send-email haha only kidding
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -75,211 +93,100 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Arnd.
+There was an error pointer vs NULL bug in __igt_breadcrumbs_smoketest().
+The __mock_request_alloc() function implements the
+smoketest->request_alloc() function pointer.  It was supposed to return
+error pointers, but it propogates the NULL return from mock_request()
+so in the event of a failure, it would lead to a NULL pointer
+dereference.
 
-I remember I stared at this code before, good to see it gone.
-There is a bit more tidiying up you can do.
+To fix this, change the mock_request() function to return error pointers
+and update all the callers to expect that.
 
-Also, I suggest to split it in two patches, it itches me to see the
-driver specific part mixed up with the fb_notify removal.
+Fixes: 52c0fdb25c7c ("drm/i915: Replace global breadcrumbs with per-context interrupt tracking")
+Signed-off-by: Dan Carpenter <dan.carpenter@linaro.org>
+---
+V2: In v1 I just updated __mock_request_alloc() to return an error pointer
+    but in v2, I changed mock_request() to update an error pointer and
+    updated all the callers.  It's a more extensive change, but hopefully
+    cleaner.
 
-	Sam
+ drivers/gpu/drm/i915/selftests/i915_request.c | 20 +++++++++----------
+ drivers/gpu/drm/i915/selftests/mock_request.c |  2 +-
+ 2 files changed, 11 insertions(+), 11 deletions(-)
 
+diff --git a/drivers/gpu/drm/i915/selftests/i915_request.c b/drivers/gpu/drm/i915/selftests/i915_request.c
+index 88870844b5bd..2fb7a9e7efec 100644
+--- a/drivers/gpu/drm/i915/selftests/i915_request.c
++++ b/drivers/gpu/drm/i915/selftests/i915_request.c
+@@ -73,8 +73,8 @@ static int igt_add_request(void *arg)
+ 	/* Basic preliminary test to create a request and let it loose! */
+ 
+ 	request = mock_request(rcs0(i915)->kernel_context, HZ / 10);
+-	if (!request)
+-		return -ENOMEM;
++	if (IS_ERR(request))
++		return PTR_ERR(request);
+ 
+ 	i915_request_add(request);
+ 
+@@ -91,8 +91,8 @@ static int igt_wait_request(void *arg)
+ 	/* Submit a request, then wait upon it */
+ 
+ 	request = mock_request(rcs0(i915)->kernel_context, T);
+-	if (!request)
+-		return -ENOMEM;
++	if (IS_ERR(request))
++		return PTR_ERR(request);
+ 
+ 	i915_request_get(request);
+ 
+@@ -160,8 +160,8 @@ static int igt_fence_wait(void *arg)
+ 	/* Submit a request, treat it as a fence and wait upon it */
+ 
+ 	request = mock_request(rcs0(i915)->kernel_context, T);
+-	if (!request)
+-		return -ENOMEM;
++	if (IS_ERR(request))
++		return PTR_ERR(request);
+ 
+ 	if (dma_fence_wait_timeout(&request->fence, false, T) != -ETIME) {
+ 		pr_err("fence wait success before submit (expected timeout)!\n");
+@@ -219,8 +219,8 @@ static int igt_request_rewind(void *arg)
+ 	GEM_BUG_ON(IS_ERR(ce));
+ 	request = mock_request(ce, 2 * HZ);
+ 	intel_context_put(ce);
+-	if (!request) {
+-		err = -ENOMEM;
++	if (IS_ERR(request)) {
++		err = PTR_ERR(request);
+ 		goto err_context_0;
+ 	}
+ 
+@@ -237,8 +237,8 @@ static int igt_request_rewind(void *arg)
+ 	GEM_BUG_ON(IS_ERR(ce));
+ 	vip = mock_request(ce, 0);
+ 	intel_context_put(ce);
+-	if (!vip) {
+-		err = -ENOMEM;
++	if (IS_ERR(vip)) {
++		err = PTR_ERR(vip);
+ 		goto err_context_1;
+ 	}
+ 
+diff --git a/drivers/gpu/drm/i915/selftests/mock_request.c b/drivers/gpu/drm/i915/selftests/mock_request.c
+index 09f747228dff..1b0cf073e964 100644
+--- a/drivers/gpu/drm/i915/selftests/mock_request.c
++++ b/drivers/gpu/drm/i915/selftests/mock_request.c
+@@ -35,7 +35,7 @@ mock_request(struct intel_context *ce, unsigned long delay)
+ 	/* NB the i915->requests slab cache is enlarged to fit mock_request */
+ 	request = intel_context_create_request(ce);
+ 	if (IS_ERR(request))
+-		return NULL;
++		return request;
+ 
+ 	request->mock.delay = delay;
+ 	return request;
+-- 
+2.47.2
 
-On Wed, Jun 25, 2025 at 03:12:22PM +0200, Arnd Bergmann wrote:
-> From: Arnd Bergmann <arnd@arndb.de>
-> 
-> Commit dc2139c0aa32 ("leds: backlight trigger: Replace fb events with a
-> dedicated function call") removed the FB_EVENT_BLANK notifier, and now
-> the only remaining user of the FB notifier is the metronomefb driver on
-> the PXA/AM200EPD board.
-> 
-> This was introduced in commit 922613436ae5 ("[ARM] 5200/1: am200epd: use
-> fb notifiers and gpio api"), which converted it from an earlier version,
-> but as far as I can tell this can never have worked because the notifier
-> is called after the data it passes down is accessed.
-> 
-> Commit 867187821e5e ("fbdev/metronomefb: Use struct fb_info.screen_buffer")
-> broke this further, and there are likely other parts of the driver that
-> no longer work.
-> 
-> The am200epd board support itself should have also been removed long ago,
-> as there are no users and it was never converted to devicetree format.
-> 
-> Mark the board as broken to prevent build failures and remove the now
-> unused notifiers.
-> 
-> Signed-off-by: Arnd Bergmann <arnd@arndb.de>
-> ---
->  arch/arm/mach-pxa/Kconfig            |  1 +
-This is mixing things up a bit. I suggest
-splitting the "depends on BROKEN" out in a dedicated patch.
-
->  drivers/video/fbdev/core/Makefile    |  1 -
->  drivers/video/fbdev/core/fb_notify.c | 54 ----------------------------
->  drivers/video/fbdev/core/fbmem.c     | 15 --------
->  include/linux/fb.h                   | 21 -----------
->  5 files changed, 1 insertion(+), 91 deletions(-)
->  delete mode 100644 drivers/video/fbdev/core/fb_notify.c
-> 
-> diff --git a/arch/arm/mach-pxa/Kconfig b/arch/arm/mach-pxa/Kconfig
-> index 10e472f4fa43..edefc953e4f9 100644
-> --- a/arch/arm/mach-pxa/Kconfig
-> +++ b/arch/arm/mach-pxa/Kconfig
-> @@ -69,6 +69,7 @@ choice
->  
->  config GUMSTIX_AM200EPD
->  	bool "Enable AM200EPD board support"
-> +	depends on BROKEN
->  
->  config GUMSTIX_AM300EPD
->  	bool "Enable AM300EPD board support"
-> diff --git a/drivers/video/fbdev/core/Makefile b/drivers/video/fbdev/core/Makefile
-> index d15974759086..ac8036209501 100644
-> --- a/drivers/video/fbdev/core/Makefile
-> +++ b/drivers/video/fbdev/core/Makefile
-> @@ -1,5 +1,4 @@
->  # SPDX-License-Identifier: GPL-2.0
-> -obj-$(CONFIG_FB_NOTIFY)           += fb_notify.o
->  obj-$(CONFIG_FB_CORE)             += fb.o
->  fb-y                              := fb_info.o \
->                                       fbmem.o fbcmap.o \
-> diff --git a/drivers/video/fbdev/core/fb_notify.c b/drivers/video/fbdev/core/fb_notify.c
-> deleted file mode 100644
-> index 10e3b9a74adc..000000000000
-> --- a/drivers/video/fbdev/core/fb_notify.c
-> +++ /dev/null
-> @@ -1,54 +0,0 @@
-> -/*
-> - *  linux/drivers/video/fb_notify.c
-> - *
-> - *  Copyright (C) 2006 Antonino Daplas <adaplas@pol.net>
-> - *
-> - *	2001 - Documented with DocBook
-> - *	- Brad Douglas <brad@neruo.com>
-> - *
-> - * This file is subject to the terms and conditions of the GNU General Public
-> - * License.  See the file COPYING in the main directory of this archive
-> - * for more details.
-> - */
-> -#include <linux/fb.h>
-> -#include <linux/notifier.h>
-> -#include <linux/export.h>
-> -
-> -static BLOCKING_NOTIFIER_HEAD(fb_notifier_list);
-> -
-> -/**
-> - *	fb_register_client - register a client notifier
-> - *	@nb: notifier block to callback on events
-> - *
-> - *	Return: 0 on success, negative error code on failure.
-> - */
-> -int fb_register_client(struct notifier_block *nb)
-> -{
-> -	return blocking_notifier_chain_register(&fb_notifier_list, nb);
-> -}
-> -EXPORT_SYMBOL(fb_register_client);
-> -
-> -/**
-> - *	fb_unregister_client - unregister a client notifier
-> - *	@nb: notifier block to callback on events
-> - *
-> - *	Return: 0 on success, negative error code on failure.
-> - */
-> -int fb_unregister_client(struct notifier_block *nb)
-> -{
-> -	return blocking_notifier_chain_unregister(&fb_notifier_list, nb);
-> -}
-> -EXPORT_SYMBOL(fb_unregister_client);
-> -
-> -/**
-> - * fb_notifier_call_chain - notify clients of fb_events
-> - * @val: value passed to callback
-> - * @v: pointer passed to callback
-> - *
-> - * Return: The return value of the last notifier function
-> - */
-> -int fb_notifier_call_chain(unsigned long val, void *v)
-> -{
-> -	return blocking_notifier_call_chain(&fb_notifier_list, val, v);
-> -}
-> -EXPORT_SYMBOL_GPL(fb_notifier_call_chain);
-> diff --git a/drivers/video/fbdev/core/fbmem.c b/drivers/video/fbdev/core/fbmem.c
-> index dfcf5e4d1d4c..82ec7351e7da 100644
-> --- a/drivers/video/fbdev/core/fbmem.c
-> +++ b/drivers/video/fbdev/core/fbmem.c
-> @@ -498,14 +498,6 @@ static int do_register_framebuffer(struct fb_info *fb_info)
->  	num_registered_fb++;
->  	registered_fb[i] = fb_info;
->  
-> -#ifdef CONFIG_GUMSTIX_AM200EPD
-> -	{
-> -		struct fb_event event;
-Drop the fb_event definition, it is no longer used.
-
-> -		event.info = fb_info;
-> -		fb_notifier_call_chain(FB_EVENT_FB_REGISTERED, &event);
-Drop the define for FB_EVENT_FB_REGISTERED
-
-> -	}
-> -#endif
-> -
->  	return fbcon_fb_registered(fb_info);
->  }
->  
-> @@ -544,13 +536,6 @@ static void do_unregister_framebuffer(struct fb_info *fb_info)
->  	fb_destroy_modelist(&fb_info->modelist);
->  	registered_fb[fb_info->node] = NULL;
->  	num_registered_fb--;
-> -#ifdef CONFIG_GUMSTIX_AM200EPD
-> -	{
-> -		struct fb_event event;
-> -		event.info = fb_info;
-> -		fb_notifier_call_chain(FB_EVENT_FB_UNREGISTERED, &event);
-Drop the define for FB_EVENT_FB_UNREGISTERED
-
-> -	}
-> -#endif
->  	fbcon_fb_unregistered(fb_info);
->  
->  	/* this may free fb info */
-> diff --git a/include/linux/fb.h b/include/linux/fb.h
-> index 05cc251035da..520ad870b8b2 100644
-> --- a/include/linux/fb.h
-> +++ b/include/linux/fb.h
-> @@ -151,27 +151,6 @@ struct fb_blit_caps {
->  	u32 flags;
->  };
->  
-> -#ifdef CONFIG_FB_NOTIFY
-
-The Kconfig symbol FB_NOTIFY should be dropped as well.
-
-
-> -extern int fb_register_client(struct notifier_block *nb);
-Drop forward for notifier_block, last user in the file is gone.
-
-> -extern int fb_unregister_client(struct notifier_block *nb);
-> -extern int fb_notifier_call_chain(unsigned long val, void *v);
-> -#else
-> -static inline int fb_register_client(struct notifier_block *nb)
-> -{
-> -	return 0;
-> -};
-> -
-> -static inline int fb_unregister_client(struct notifier_block *nb)
-> -{
-> -	return 0;
-> -};
-> -
-> -static inline int fb_notifier_call_chain(unsigned long val, void *v)
-> -{
-> -	return 0;
-> -};
-> -#endif
-> -
->  /*
->   * Pixmap structure definition
->   *
-> -- 
-> 2.39.5
