@@ -2,75 +2,58 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 42260AE7A80
-	for <lists+dri-devel@lfdr.de>; Wed, 25 Jun 2025 10:42:38 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 73B1FAE7A7A
+	for <lists+dri-devel@lfdr.de>; Wed, 25 Jun 2025 10:42:14 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5AC6F10E6A5;
-	Wed, 25 Jun 2025 08:42:36 +0000 (UTC)
-Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=microchip.com header.i=@microchip.com header.b="AIF4aNgO";
-	dkim-atps=neutral
+	by gabe.freedesktop.org (Postfix) with ESMTP id D944710E6A2;
+	Wed, 25 Jun 2025 08:42:10 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from esa.microchip.iphmx.com (esa.microchip.iphmx.com
- [68.232.153.233])
- by gabe.freedesktop.org (Postfix) with ESMTPS id EB93010E6A4
- for <dri-devel@lists.freedesktop.org>; Wed, 25 Jun 2025 08:42:33 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=microchip.com; i=@microchip.com; q=dns/txt; s=mchp;
- t=1750840953; x=1782376953;
- h=from:date:subject:mime-version:content-transfer-encoding:
- message-id:references:in-reply-to:to:cc;
- bh=1fbUCBOIDTSPzi+fNAMOf1UR1cAi0YpASJ8OGaGZJsE=;
- b=AIF4aNgOniSShkXNU1d8Gl9jHQNI5i4t3iqcvQ4v6INSnv4UmNSbe2tc
- tL4XGDjxP1PrdruZhcXQFMhrB6TREnC70CyFq44yRgDnIVZZ3kIPtZEq3
- L/g3nNrhpI8WlmYIwNIDTu/IsAiJDU3wQ204f7EgpDKo5lCFWdfxdZr4R
- Er46++aPIfJubA/ej5D7ga7LoEWSziadFMonlnEMi5hKrpIZw0zyeTe5Q
- 0QP7NBaY/Q8oq435Jt3DM+0vK1L/ldWObdd93nul98wdECoNoNHJUN/L5
- 2nLC3n4g8UBobpNYdwucqnpdEnP1vFP1y8Rwxiq96fSn4AzWycOzWDEIw g==;
-X-CSE-ConnectionGUID: OxR7T9OfQ8+KAPtVT8YaMw==
-X-CSE-MsgGUID: s8HevMmiTY2IyOkQq3ADcQ==
-X-IronPort-AV: E=Sophos;i="6.16,264,1744095600"; d="scan'208";a="48274805"
-X-Amp-Result: SKIPPED(no attachment in message)
-Received: from unknown (HELO email.microchip.com) ([170.129.1.10])
- by esa1.microchip.iphmx.com with ESMTP/TLS/ECDHE-RSA-AES128-GCM-SHA256;
- 25 Jun 2025 01:42:32 -0700
-Received: from chn-vm-ex02.mchp-main.com (10.10.85.144) by
- chn-vm-ex01.mchp-main.com (10.10.85.143) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.44; Wed, 25 Jun 2025 01:42:21 -0700
-Received: from [127.0.0.1] (10.10.85.11) by chn-vm-ex02.mchp-main.com
- (10.10.85.144) with Microsoft SMTP Server id 15.1.2507.44 via Frontend
- Transport; Wed, 25 Jun 2025 01:42:15 -0700
-From: Dharma Balasubiramani <dharma.b@microchip.com>
-Date: Wed, 25 Jun 2025 14:11:55 +0530
-Subject: [PATCH v6 3/3] drm/bridge: microchip-lvds: fix bus format mismatch
- with VESA displays
+Received: from leonov.paulk.fr (leonov.paulk.fr [185.233.101.22])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 16F3A10E6A2
+ for <dri-devel@lists.freedesktop.org>; Wed, 25 Jun 2025 08:42:10 +0000 (UTC)
+Received: from laika.paulk.fr (12.234.24.109.rev.sfr.net [109.24.234.12])
+ by leonov.paulk.fr (Postfix) with ESMTPS id 164911F00055
+ for <dri-devel@lists.freedesktop.org>; Wed, 25 Jun 2025 08:42:04 +0000 (UTC)
+Received: by laika.paulk.fr (Postfix, from userid 65534)
+ id 57B34AC7A40; Wed, 25 Jun 2025 08:42:01 +0000 (UTC)
+X-Spam-Checker-Version: SpamAssassin 4.0.0 (2022-12-13) on spamassassin
+X-Spam-Level: 
+X-Spam-Status: No, score=-1.0 required=5.0 tests=ALL_TRUSTED,SHORTCIRCUIT
+ autolearn=disabled version=4.0.0
+Received: from shepard (unknown [192.168.1.1])
+ by laika.paulk.fr (Postfix) with ESMTPSA id B63DAAC79CD;
+ Wed, 25 Jun 2025 08:41:58 +0000 (UTC)
+Date: Wed, 25 Jun 2025 10:41:56 +0200
+From: Paul Kocialkowski <paulk@sys-base.io>
+To: Parthiban Nallathambi <parthiban@linumiz.com>
+Cc: Joerg Roedel <joro@8bytes.org>, Will Deacon <will@kernel.org>,
+ Robin Murphy <robin.murphy@arm.com>, Rob Herring <robh@kernel.org>,
+ Krzysztof Kozlowski <krzk+dt@kernel.org>,
+ Conor Dooley <conor+dt@kernel.org>, Chen-Yu Tsai <wens@csie.org>,
+ Jernej Skrabec <jernej.skrabec@gmail.com>,
+ Samuel Holland <samuel@sholland.org>, Maxime Ripard <mripard@kernel.org>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Thomas Zimmermann <tzimmermann@suse.de>,
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+ Michael Turquette <mturquette@baylibre.com>,
+ Stephen Boyd <sboyd@kernel.org>, Philipp Zabel <p.zabel@pengutronix.de>,
+ Linus Walleij <linus.walleij@linaro.org>, Vinod Koul <vkoul@kernel.org>,
+ Kishon Vijay Abraham I <kishon@kernel.org>, iommu@lists.linux.dev,
+ devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+ linux-sunxi@lists.linux.dev, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, linux-clk@vger.kernel.org,
+ linux-gpio@vger.kernel.org, linux-phy@lists.infradead.org
+Subject: Re: [PATCH 17/22] phy: allwinner: phy-sun6i-mipi-dphy: add LVDS
+ support
+Message-ID: <aFu2VBhCIEdLIPv3@shepard>
+References: <20241227-a133-display-support-v1-0-13b52f71fb14@linumiz.com>
+ <20241227-a133-display-support-v1-17-13b52f71fb14@linumiz.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-ID: <20250625-microchip-lvds-v6-3-7ce91f89d35a@microchip.com>
-References: <20250625-microchip-lvds-v6-0-7ce91f89d35a@microchip.com>
-In-Reply-To: <20250625-microchip-lvds-v6-0-7ce91f89d35a@microchip.com>
-To: Manikandan Muralidharan <manikandan.m@microchip.com>, Andrzej Hajda
- <andrzej.hajda@intel.com>, Neil Armstrong <neil.armstrong@linaro.org>,
- "Robert Foss" <rfoss@kernel.org>, Laurent Pinchart
- <Laurent.pinchart@ideasonboard.com>, Jonas Karlman <jonas@kwiboo.se>, "Jernej
- Skrabec" <jernej.skrabec@gmail.com>, Maarten Lankhorst
- <maarten.lankhorst@linux.intel.com>, Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
- Simona Vetter <simona@ffwll.ch>
-CC: <dri-devel@lists.freedesktop.org>, <linux-kernel@vger.kernel.org>, "Dharma
- Balasubiramani" <dharma.b@microchip.com>, Sandeep Sheriker M
- <sandeep.sheriker@microchip.com>
-X-Mailer: b4 0.13.0
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1750840915; l=3717;
- i=dharma.b@microchip.com; s=20240209; h=from:subject:message-id;
- bh=1fbUCBOIDTSPzi+fNAMOf1UR1cAi0YpASJ8OGaGZJsE=;
- b=w6PGvFCt8GZ3kJQ0vmoF+1I9k+4tEkk7nSVr25ES2GHj/t7T2KGB0gxORCC2tYp3JnI01Bey3
- izIKHhnt+grAesO2veBTs8PcaeV5BBaQ22xJUhPTI+89SWKeVNoFmWJ
-X-Developer-Key: i=dharma.b@microchip.com; a=ed25519;
- pk=kCq31LcpLAe9HDfIz9ZJ1U7T+osjOi7OZSbe0gqtyQ4=
+Content-Type: multipart/signed; micalg=pgp-sha512;
+ protocol="application/pgp-signature"; boundary="d3aehSfkx/JP9fmi"
+Content-Disposition: inline
+In-Reply-To: <20241227-a133-display-support-v1-17-13b52f71fb14@linumiz.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -86,110 +69,139 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The LVDS controller was hardcoded to JEIDA mapping, which leads to
-distorted output on panels expecting VESA mapping.
 
-Update the driver to dynamically select the appropriate mapping and
-pixel size based on the panel's advertised media bus format. This
-ensures compatibility with both JEIDA and VESA displays.
+--d3aehSfkx/JP9fmi
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-Signed-off-by: Sandeep Sheriker M <sandeep.sheriker@microchip.com>
-Signed-off-by: Dharma Balasubiramani <dharma.b@microchip.com>
-Reviewed-by: Maxime Ripard <mripard@kernel.org>
----
- drivers/gpu/drm/bridge/microchip-lvds.c | 37 +++++++++++++++++++++++++++------
- 1 file changed, 31 insertions(+), 6 deletions(-)
+Hi,
 
-diff --git a/drivers/gpu/drm/bridge/microchip-lvds.c b/drivers/gpu/drm/bridge/microchip-lvds.c
-index 042e83494d8c..12fc442f9867 100644
---- a/drivers/gpu/drm/bridge/microchip-lvds.c
-+++ b/drivers/gpu/drm/bridge/microchip-lvds.c
-@@ -11,6 +11,7 @@
- #include <linux/component.h>
- #include <linux/delay.h>
- #include <linux/jiffies.h>
-+#include <linux/media-bus-format.h>
- #include <linux/mfd/syscon.h>
- #include <linux/of_graph.h>
- #include <linux/pinctrl/devinfo.h>
-@@ -40,9 +41,11 @@
- 
- /* Bitfields in LVDSC_CFGR (Configuration Register) */
- #define LVDSC_CFGR_PIXSIZE_24BITS	0
-+#define LVDSC_CFGR_PIXSIZE_18BITS	BIT(0)
- #define LVDSC_CFGR_DEN_POL_HIGH		0
- #define LVDSC_CFGR_DC_UNBALANCED	0
- #define LVDSC_CFGR_MAPPING_JEIDA	BIT(6)
-+#define LVDSC_CFGR_MAPPING_VESA		0
- 
- /*Bitfields in LVDSC_SR */
- #define LVDSC_SR_CS	BIT(0)
-@@ -74,9 +77,10 @@ static inline void lvds_writel(struct mchp_lvds *lvds, u32 offset, u32 val)
- 	writel_relaxed(val, lvds->regs + offset);
- }
- 
--static void lvds_serialiser_on(struct mchp_lvds *lvds)
-+static void lvds_serialiser_on(struct mchp_lvds *lvds, u32 bus_format)
- {
- 	unsigned long timeout = jiffies + msecs_to_jiffies(LVDS_POLL_TIMEOUT_MS);
-+	u8 map, pix_size;
- 
- 	/* The LVDSC registers can only be written if WPEN is cleared */
- 	lvds_writel(lvds, LVDSC_WPMR, (LVDSC_WPMR_WPKEY_PSSWD &
-@@ -91,11 +95,24 @@ static void lvds_serialiser_on(struct mchp_lvds *lvds)
- 		usleep_range(1000, 2000);
- 	}
- 
-+	switch (bus_format) {
-+	case MEDIA_BUS_FMT_RGB666_1X7X3_SPWG:
-+		map = LVDSC_CFGR_MAPPING_JEIDA;
-+		pix_size = LVDSC_CFGR_PIXSIZE_18BITS;
-+		break;
-+	case MEDIA_BUS_FMT_RGB888_1X7X4_SPWG:
-+		map = LVDSC_CFGR_MAPPING_VESA;
-+		pix_size = LVDSC_CFGR_PIXSIZE_24BITS;
-+		break;
-+	default:
-+		map = LVDSC_CFGR_MAPPING_JEIDA;
-+		pix_size = LVDSC_CFGR_PIXSIZE_24BITS;
-+		break;
-+	}
-+
- 	/* Configure the LVDSC */
--	lvds_writel(lvds, LVDSC_CFGR, (LVDSC_CFGR_MAPPING_JEIDA |
--				LVDSC_CFGR_DC_UNBALANCED |
--				LVDSC_CFGR_DEN_POL_HIGH |
--				LVDSC_CFGR_PIXSIZE_24BITS));
-+	lvds_writel(lvds, LVDSC_CFGR, map | LVDSC_CFGR_DC_UNBALANCED |
-+		    LVDSC_CFGR_DEN_POL_HIGH | pix_size);
- 
- 	/* Enable the LVDS serializer */
- 	lvds_writel(lvds, LVDSC_CR, LVDSC_CR_SER_EN);
-@@ -115,6 +132,7 @@ static void mchp_lvds_atomic_enable(struct drm_bridge *bridge,
- 				    struct drm_atomic_state *state)
- {
- 	struct mchp_lvds *lvds = bridge_to_lvds(bridge);
-+	struct drm_connector *connector;
- 	int ret;
- 
- 	ret = clk_prepare_enable(lvds->pclk);
-@@ -129,7 +147,14 @@ static void mchp_lvds_atomic_enable(struct drm_bridge *bridge,
- 		return;
- 	}
- 
--	lvds_serialiser_on(lvds);
-+	/* default to jeida-24 */
-+	u32 bus_format = MEDIA_BUS_FMT_RGB888_1X7X4_JEIDA;
-+
-+	connector = drm_atomic_get_new_connector_for_encoder(state, bridge->encoder);
-+	if (connector && connector->display_info.num_bus_formats)
-+		bus_format = connector->display_info.bus_formats[0];
-+
-+	lvds_serialiser_on(lvds, bus_format);
- }
- 
- static void mchp_lvds_atomic_disable(struct drm_bridge *bridge,
+Thanks for your work on this!
 
--- 
-2.43.0
+On Fri 27 Dec 24, 16:38, Parthiban Nallathambi wrote:
+> DPHY in A100/A133 supports both LVDS and DSI. Combo phy register
+> have BIT(2) for enabling LVDS specifically, but enabling it alone
+> isn't functional.
+>=20
+> Both MIPI and LVDS needs to be enabled in the combo phy to get
+> the display working under LVDS mode. There is no specific enable
+> bit for LVDS apart from the one in combo phy. MIPI got enable
+> control in analog 4 register which must be disabled when using
+> in LVDS mode.
+>=20
+> Introduce set_mode in phy ops to control only for MIPI DSI.
 
+Similar work was already submitted for D1/T113-S3 LVDS support, which seems=
+ to
+be the exact same situation as the A133.
+
+See: https://patchwork.freedesktop.org/series/145276/
+
+I just made a review of that series and find it more elegant in various ways
+(especially since configuring the registers in set_mode is not the right pl=
+ace).
+So you probably want to follow-up on that series instead.
+
+Note that both D1/T113-S3 and A133 support a second LVDS output, LVDS1, whi=
+ch
+uses the traditional TCON0 LVDS PHY. It would be great to be able to support
+both outputs as well as dual-link modes!
+
+All the best,
+
+Paul
+
+> Signed-off-by: Parthiban Nallathambi <parthiban@linumiz.com>
+> ---
+>  drivers/phy/allwinner/phy-sun6i-mipi-dphy.c | 23 +++++++++++++++++++----
+>  1 file changed, 19 insertions(+), 4 deletions(-)
+>=20
+> diff --git a/drivers/phy/allwinner/phy-sun6i-mipi-dphy.c b/drivers/phy/al=
+lwinner/phy-sun6i-mipi-dphy.c
+> index 36eab95271b2..d164b2ea5dfd 100644
+> --- a/drivers/phy/allwinner/phy-sun6i-mipi-dphy.c
+> +++ b/drivers/phy/allwinner/phy-sun6i-mipi-dphy.c
+> @@ -314,13 +314,11 @@ static void sun50i_a100_mipi_dphy_tx_power_on(struc=
+t sun6i_dphy *dphy)
+>  	/* Disable sigma-delta modulation. */
+>  	regmap_write(dphy->regs, SUN50I_DPHY_PLL_REG2, 0);
+> =20
+> -	regmap_update_bits(dphy->regs, SUN6I_DPHY_ANA4_REG,
+> -			   SUN6I_DPHY_ANA4_REG_EN_MIPI,
+> -			   SUN6I_DPHY_ANA4_REG_EN_MIPI);
+> -
+>  	regmap_update_bits(dphy->regs, SUN50I_COMBO_PHY_REG0,
+> +			   SUN50I_COMBO_PHY_REG0_EN_LVDS |
+>  			   SUN50I_COMBO_PHY_REG0_EN_MIPI |
+>  			   SUN50I_COMBO_PHY_REG0_EN_COMBOLDO,
+> +			   SUN50I_COMBO_PHY_REG0_EN_LVDS |
+>  			   SUN50I_COMBO_PHY_REG0_EN_MIPI |
+>  			   SUN50I_COMBO_PHY_REG0_EN_COMBOLDO);
+> =20
+> @@ -528,6 +526,22 @@ static int sun6i_dphy_exit(struct phy *phy)
+>  	return 0;
+>  }
+> =20
+> +static int sun6i_set_mode(struct phy *phy, enum phy_mode mode, int submo=
+de)
+> +{
+> +	struct sun6i_dphy *dphy =3D phy_get_drvdata(phy);
+> +
+> +	switch (mode) {
+> +	case PHY_MODE_MIPI_DPHY:
+> +		regmap_update_bits(dphy->regs, SUN6I_DPHY_ANA4_REG,
+> +				   SUN6I_DPHY_ANA4_REG_EN_MIPI,
+> +				   SUN6I_DPHY_ANA4_REG_EN_MIPI);
+> +		break;
+> +	default:
+> +		return -EINVAL;
+> +	}
+> +
+> +	return 0;
+> +}
+> =20
+>  static const struct phy_ops sun6i_dphy_ops =3D {
+>  	.configure	=3D sun6i_dphy_configure,
+> @@ -535,6 +549,7 @@ static const struct phy_ops sun6i_dphy_ops =3D {
+>  	.power_off	=3D sun6i_dphy_power_off,
+>  	.init		=3D sun6i_dphy_init,
+>  	.exit		=3D sun6i_dphy_exit,
+> +	.set_mode	=3D sun6i_set_mode,
+>  };
+> =20
+>  static const struct regmap_config sun6i_dphy_regmap_config =3D {
+>=20
+> --=20
+> 2.39.5
+>=20
+
+--=20
+Paul Kocialkowski,
+
+Independent contractor - sys-base - https://www.sys-base.io/
+Free software developer - https://www.paulk.fr/
+
+Expert in multimedia, graphics and embedded hardware support with Linux.
+
+--d3aehSfkx/JP9fmi
+Content-Type: application/pgp-signature; name=signature.asc
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAEBCgAdFiEEAbcMXZQMtj1fphLChP3B6o/ulQwFAmhbtlQACgkQhP3B6o/u
+lQzqSg//SJcn6XUET8v2oKGY0j3YQ3uzt4mVEWREtoX7QNRmIZjIBDAGhrWgBmTN
+dFlh6GJ2K+rOsj+OV+97A7mAEY9i/VFv0Dg8EQvuOvdhDtkf0WVlMAJq83QfvEob
+OQHfNljD4Aok5skavuHpLBw653kp//9ZON/+cMP2f6bZmXIAeLTUdN6ocHb7hYa+
+kyyXzDUNmSuoPqGZaDJB1WWEqxAr4Y80zzjWC8XVJhKU7q9Rp/lyypTuNC26ftK+
+vcEL/5xc3WY5mcdQzORUx8lgd1ci0KIitnXtRXJNZEYlAuiOaMiNOtSU2TO28BTM
+WGx945ro/eq7fjjqkijVHgsyRksQgIdhbCjYg6fHnpVtOF2zoxv7vwu+8PKtUdPC
+DID0fceBLNf6ETivJq5mQj+VjQ81bljq+XtKRIwVJSpU1vD9NwapX/l8R0P24AM+
+He/bymV/n1GJ+Pcr449ALxq4wM9AVSa4W3GqpUtgYhXlR4dPVJQdZkifclHAewVO
+XaksRFT7LiybP6l3zB5/oqihosU6efMnhxJjd5U1SqGxT0DCmLT4V4dpaDY4C4IX
+xncL/YSihjHW8gQlK7OHldVSHBO+yxBUoffyBxOmV1UDLFimGT7G9eHrZ6TGmiid
+E9NyPrf2JsbW+O5iukFTY4G6uPMXr7ez+HzHW9c9FD0saunYv9o=
+=BpKz
+-----END PGP SIGNATURE-----
+
+--d3aehSfkx/JP9fmi--
