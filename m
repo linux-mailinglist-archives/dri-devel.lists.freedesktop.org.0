@@ -2,41 +2,41 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5A0E5AE8A6D
-	for <lists+dri-devel@lfdr.de>; Wed, 25 Jun 2025 18:46:48 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id A6722AE8A5B
+	for <lists+dri-devel@lfdr.de>; Wed, 25 Jun 2025 18:46:22 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5ACC510E791;
-	Wed, 25 Jun 2025 16:46:45 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9D89C10E788;
+	Wed, 25 Jun 2025 16:46:20 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=bootlin.com header.i=@bootlin.com header.b="dOvyr7jG";
+	dkim=pass (2048-bit key; unprotected) header.d=bootlin.com header.i=@bootlin.com header.b="O56iL9dA";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from relay5-d.mail.gandi.net (relay5-d.mail.gandi.net
  [217.70.183.197])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C8E3710E78A
- for <dri-devel@lists.freedesktop.org>; Wed, 25 Jun 2025 16:46:13 +0000 (UTC)
-Received: by mail.gandi.net (Postfix) with ESMTPSA id 1B31744384;
- Wed, 25 Jun 2025 16:46:11 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 693E110E783
+ for <dri-devel@lists.freedesktop.org>; Wed, 25 Jun 2025 16:46:15 +0000 (UTC)
+Received: by mail.gandi.net (Postfix) with ESMTPSA id B83E044386;
+ Wed, 25 Jun 2025 16:46:12 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
- t=1750869972;
+ t=1750869974;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=7tzRXRqkINuJKPgE8lcyGCUuH8C2X0Lcpz0YAjSzs9I=;
- b=dOvyr7jGVevjvCZhQ6ESQmbdwjNNom9UwORfNKf9s/HQRhZyjUEpfGy6P30qbv9dD5CiN/
- +muiQnGVvnzt/35i1zGk5YrbpfE+h3NQIrz4+NzF43/OwiQSjHrMBl2vuRB8Jbhav7p2f/
- RpyvTPX92Kw/2iATbgGqJioBU368ryiPsl1qfrpVNERgekkV/ItR4MOGMOpPP2ylPQKR9N
- tx4rYidm6q1iYWZ4+sGPm8Jc7T5kFdi5+ZPNf2+idJAurv9IeMwaLyRXyJm3AYJZWwVqgM
- u9QtXAjzpUTFquO9ju0h1W4SUenEBcxmDNn0+xmDSOa9+dDnMVn/+G2/89+aZg==
+ bh=i4IDqZBo2l355tzElODGXZ/VGni71FImSIpCMtPQkh8=;
+ b=O56iL9dAGRzlmWsbYSbLELfADRegEMmtIrXUAzy+XYoHRmgmmX0se94FHlPTXJ+uNNAnKL
+ 73vm2774ER0F51TG5bj05k+ZseqkXwtOo9v5xiUzbfrgvd48anVc7lxTwQiZdVQKQQnm+q
+ lz03Wpa/0/36dHSplSlHBo5V24CjSEWc2agKcaNXFYl1Fe6v+0uSKM2nju9sS2WUIpWgus
+ 2RASSpw5M3v2Qr/B9Pe63ciXnDCWrFi1GZdyumoTbGl/5oYRGBlZhS6svuDgq7L+H9WJxk
+ wFOFyjhFnCaq62qqyC1kvcl2hwpLIQFSgYzFfxsjU34MzeJ5ALtTBToAafO2sA==
 From: Luca Ceresoli <luca.ceresoli@bootlin.com>
-Date: Wed, 25 Jun 2025 18:45:24 +0200
-Subject: [PATCH 20/32] drm/msm/dsi: convert to the .attach_new op
+Date: Wed, 25 Jun 2025 18:45:25 +0200
+Subject: [PATCH 21/32] drm/rcar-du: dsi: convert to the .attach_new op
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20250625-drm-dsi-host-no-device-ptr-v1-20-e36bc258a7c5@bootlin.com>
+Message-Id: <20250625-drm-dsi-host-no-device-ptr-v1-21-e36bc258a7c5@bootlin.com>
 References: <20250625-drm-dsi-host-no-device-ptr-v1-0-e36bc258a7c5@bootlin.com>
 In-Reply-To: <20250625-drm-dsi-host-no-device-ptr-v1-0-e36bc258a7c5@bootlin.com>
 To: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
@@ -80,51 +80,43 @@ cannot store it.
 
 Signed-off-by: Luca Ceresoli <luca.ceresoli@bootlin.com>
 ---
- drivers/gpu/drm/msm/dsi/dsi_host.c | 18 +++++++++---------
- 1 file changed, 9 insertions(+), 9 deletions(-)
+ drivers/gpu/drm/renesas/rcar-du/rcar_mipi_dsi.c | 10 +++++-----
+ 1 file changed, 5 insertions(+), 5 deletions(-)
 
-diff --git a/drivers/gpu/drm/msm/dsi/dsi_host.c b/drivers/gpu/drm/msm/dsi/dsi_host.c
-index 4d75529c0e858160761f5eb55db65e5d7565c27b..79cdb34074de3662d535a8d9b386c5399c8d23ba 100644
---- a/drivers/gpu/drm/msm/dsi/dsi_host.c
-+++ b/drivers/gpu/drm/msm/dsi/dsi_host.c
-@@ -1610,20 +1610,20 @@ static irqreturn_t dsi_host_irq(int irq, void *ptr)
- }
+diff --git a/drivers/gpu/drm/renesas/rcar-du/rcar_mipi_dsi.c b/drivers/gpu/drm/renesas/rcar-du/rcar_mipi_dsi.c
+index 1af4c73f7a887712aef8c8176b0d0338d9ca9727..e46f194a15aaa9ba7dc22362e59561fe4f17721b 100644
+--- a/drivers/gpu/drm/renesas/rcar-du/rcar_mipi_dsi.c
++++ b/drivers/gpu/drm/renesas/rcar-du/rcar_mipi_dsi.c
+@@ -898,16 +898,16 @@ static const struct drm_bridge_funcs rcar_mipi_dsi_bridge_ops = {
+  */
  
- static int dsi_host_attach(struct mipi_dsi_host *host,
--					struct mipi_dsi_device *dsi)
-+			   const struct mipi_dsi_bus_fmt *bus_fmt)
+ static int rcar_mipi_dsi_host_attach(struct mipi_dsi_host *host,
+-				     struct mipi_dsi_device *device)
++				     const struct mipi_dsi_bus_fmt *bus_fmt)
  {
- 	struct msm_dsi_host *msm_host = to_msm_dsi_host(host);
+ 	struct rcar_mipi_dsi *dsi = host_to_rcar_mipi_dsi(host);
  	int ret;
  
--	if (dsi->lanes > msm_host->num_data_lanes)
-+	if (bus_fmt->lanes > msm_host->num_data_lanes)
+-	if (device->lanes > dsi->num_data_lanes)
++	if (bus_fmt->lanes > dsi->num_data_lanes)
  		return -EINVAL;
  
--	msm_host->channel = dsi->channel;
--	msm_host->lanes = dsi->lanes;
--	msm_host->format = dsi->format;
--	msm_host->mode_flags = dsi->mode_flags;
--	if (dsi->dsc)
--		msm_host->dsc = dsi->dsc;
-+	msm_host->channel = bus_fmt->channel;
-+	msm_host->lanes = bus_fmt->lanes;
-+	msm_host->format = bus_fmt->format;
-+	msm_host->mode_flags = bus_fmt->mode_flags;
-+	if (bus_fmt->dsc)
-+		msm_host->dsc = bus_fmt->dsc;
+-	dsi->lanes = device->lanes;
+-	dsi->format = device->format;
++	dsi->lanes = bus_fmt->lanes;
++	dsi->format = bus_fmt->format;
  
- 	ret = dsi_dev_attach(msm_host->pdev);
- 	if (ret)
-@@ -1663,7 +1663,7 @@ static ssize_t dsi_host_transfer(struct mipi_dsi_host *host,
+ 	dsi->next_bridge = devm_drm_of_get_bridge(dsi->dev, dsi->dev->of_node,
+ 						  1, 0);
+@@ -935,7 +935,7 @@ static int rcar_mipi_dsi_host_detach(struct mipi_dsi_host *host,
  }
  
- static const struct mipi_dsi_host_ops dsi_host_ops = {
--	.attach = dsi_host_attach,
-+	.attach_new = dsi_host_attach,
- 	.detach = dsi_host_detach,
- 	.transfer = dsi_host_transfer,
+ static const struct mipi_dsi_host_ops rcar_mipi_dsi_host_ops = {
+-	.attach = rcar_mipi_dsi_host_attach,
++	.attach_new = rcar_mipi_dsi_host_attach,
+ 	.detach = rcar_mipi_dsi_host_detach,
  };
+ 
 
 -- 
 2.49.0
