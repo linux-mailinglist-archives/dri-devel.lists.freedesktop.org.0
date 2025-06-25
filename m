@@ -2,59 +2,56 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id BEB26AE7A82
-	for <lists+dri-devel@lfdr.de>; Wed, 25 Jun 2025 10:42:45 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id BCB0CAE7A84
+	for <lists+dri-devel@lfdr.de>; Wed, 25 Jun 2025 10:42:51 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id DC5C310E6A4;
-	Wed, 25 Jun 2025 08:42:43 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C908310E6AA;
+	Wed, 25 Jun 2025 08:42:49 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=microchip.com header.i=@microchip.com header.b="DOlnJhau";
+	dkim=pass (2048-bit key; unprotected) header.d=microchip.com header.i=@microchip.com header.b="McZHcGpD";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from esa.microchip.iphmx.com (esa.microchip.iphmx.com
  [68.232.153.233])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B156510E6A7
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E469A10E6A7
  for <dri-devel@lists.freedesktop.org>; Wed, 25 Jun 2025 08:42:42 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=microchip.com; i=@microchip.com; q=dns/txt; s=mchp;
  t=1750840963; x=1782376963;
- h=from:subject:date:message-id:mime-version:
- content-transfer-encoding:to:cc;
- bh=AgfmR+lhxzq9qE/cCzTj3NsR+LtMrBgmhkOkNgkRvbE=;
- b=DOlnJhauu3jiBZwP9H3yrjlzTcdHnWOsz7xRO2toXVIR2I4aow+PMd6G
- eggJnuGE3feLoEyEwKScPqbOGtDu/S70l3SfvXON49sCbkE4xmrQukO1+
- XR13mx4yXncteKGFQByT7oOTfSgi1/xtheHicRUEP5ozhHP64lo/cmYlT
- 2O7FcyN9IvqiGAs7reApbitxEqXt3vqaVPs0lMctCsXf3AH9i0+ixYF/V
- Dvi7MRJI3uceR6nVHugyzUrQ5aFdgre2bflf5bBUXfRxCPJZBD6irWbOF
- 11XtHyKbxdJbtGJuLVbMdnD5QKLPSMlraljfG/EuRl1l/AwhmJ3tRVf5E Q==;
+ h=from:date:subject:mime-version:content-transfer-encoding:
+ message-id:references:in-reply-to:to:cc;
+ bh=we0d2ehlIOtxp7+Yqm9uSYJ7GkQr7pFecuAnOd/6pMA=;
+ b=McZHcGpDKnJVC4iSZqDK+LbIK45b3uIX7dZjUmivwZZV+DwqciPh2zN6
+ FkNbykMAl0oBr4QEH1j8TWTKrDJ8xvxn7ktl7Cw/+Fac4zzTb1cuwasRZ
+ 0E7PabC37jJoELQ+oxu535tNS2k+16IqfB26ZKKww4emxhwFpwKJKZ2SK
+ UeEYB92QnX+9+KRx6CrMOqqmHFPuVDZO6bu2zAEopfNfkx5zU1L9gCrsA
+ HQw7M052LTFnCOJcdqfwRtVab97QbqDi0B8nt6hlVtdbVUz7UO/NC8OQ7
+ qdU7ZpY0JYBuVyeh+v2JNvfUq4gNbh+jdLcYwO9wUEWl16sQAT/LN8cF9 g==;
 X-CSE-ConnectionGUID: cBHfqEUaQkGtLTAUKVdw1g==
-X-CSE-MsgGUID: hNePXEIxQ/yCocbJ+jqyTA==
-X-IronPort-AV: E=Sophos;i="6.16,264,1744095600"; d="scan'208";a="274587524"
+X-CSE-MsgGUID: DqASLBELRGqO9OruYrhDLg==
+X-IronPort-AV: E=Sophos;i="6.16,264,1744095600"; d="scan'208";a="274587525"
 X-Amp-Result: SKIPPED(no attachment in message)
 Received: from unknown (HELO email.microchip.com) ([170.129.1.10])
  by esa5.microchip.iphmx.com with ESMTP/TLS/ECDHE-RSA-AES128-GCM-SHA256;
- 25 Jun 2025 01:42:42 -0700
+ 25 Jun 2025 01:42:43 -0700
 Received: from chn-vm-ex02.mchp-main.com (10.10.85.144) by
  chn-vm-ex03.mchp-main.com (10.10.85.151) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.44; Wed, 25 Jun 2025 01:42:03 -0700
+ 15.1.2507.44; Wed, 25 Jun 2025 01:42:09 -0700
 Received: from [127.0.0.1] (10.10.85.11) by chn-vm-ex02.mchp-main.com
  (10.10.85.144) with Microsoft SMTP Server id 15.1.2507.44 via Frontend
- Transport; Wed, 25 Jun 2025 01:41:58 -0700
+ Transport; Wed, 25 Jun 2025 01:42:04 -0700
 From: Dharma Balasubiramani <dharma.b@microchip.com>
-Subject: [PATCH v6 0/3] drm/bridge: microchip-lvds: clean up and fix bus
- formats
-Date: Wed, 25 Jun 2025 14:11:52 +0530
-Message-ID: <20250625-microchip-lvds-v6-0-7ce91f89d35a@microchip.com>
+Date: Wed, 25 Jun 2025 14:11:53 +0530
+Subject: [PATCH v6 1/3] drm/bridge: microchip-lvds: Remove unused drm_panel
+ and redundant port node lookup
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-X-B4-Tracking: v=1; b=H4sIAFC2W2gC/33Mz2rDMAwG8FcpPs/Flv8k2WnvMXZwZGUxrE2xh
- 2kpefepPZTQpEPo8H1Iv6solBMV8b67ikw1lTQdOfi3ncAxHL9JpshZgAKnvG7lIWGecEwn+VN
- jkX2jnY6dV50Ngp9OmYZ0voOfX5zHVH6nfLn7Vd/al1TVkocCuYCxCS18PA72OB3EjauwIMCsC
- GCiJexDj57XbhFmSdgVYZhAg37QZJXTfouw/xNWKtmZJloIFhR1W4RbEm5FOCaYxqGBHrzTz8Q
- 8z38I6IkLvAEAAA==
+Message-ID: <20250625-microchip-lvds-v6-1-7ce91f89d35a@microchip.com>
+References: <20250625-microchip-lvds-v6-0-7ce91f89d35a@microchip.com>
+In-Reply-To: <20250625-microchip-lvds-v6-0-7ce91f89d35a@microchip.com>
 To: Manikandan Muralidharan <manikandan.m@microchip.com>, Andrzej Hajda
  <andrzej.hajda@intel.com>, Neil Armstrong <neil.armstrong@linaro.org>,
  "Robert Foss" <rfoss@kernel.org>, Laurent Pinchart
@@ -64,14 +61,13 @@ To: Manikandan Muralidharan <manikandan.m@microchip.com>, Andrzej Hajda
  Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
  Simona Vetter <simona@ffwll.ch>
 CC: <dri-devel@lists.freedesktop.org>, <linux-kernel@vger.kernel.org>, "Dharma
- Balasubiramani" <dharma.b@microchip.com>, Sandeep Sheriker M
- <sandeep.sheriker@microchip.com>
+ Balasubiramani" <dharma.b@microchip.com>
 X-Mailer: b4 0.13.0
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1750840915; l=1937;
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1750840915; l=1910;
  i=dharma.b@microchip.com; s=20240209; h=from:subject:message-id;
- bh=AgfmR+lhxzq9qE/cCzTj3NsR+LtMrBgmhkOkNgkRvbE=;
- b=Mf8wv5D25BHqDvCaMeHbWd1cSaimpkQ9U8fYdudOyAM/Zx2T0hOHPbRvqHiiH7s9H809/7lZP
- oR6jYa5dyhUCrmOsAUDG0zMiChN6EPCed0hqI6a1apUUPHLFhNiPNpt
+ bh=we0d2ehlIOtxp7+Yqm9uSYJ7GkQr7pFecuAnOd/6pMA=;
+ b=/NKJIWO8kD9Gt9nqsoC5LJCdw3/DA6wVT8AaU7pDDQHmjPvPK+xcZhFWoUtWT/GojIdUTkCk8
+ ja/883mXLP8AK2U8jK/7s7GUWXpEyfhkUdr+2QhygFeRrTd017lh1EL
 X-Developer-Key: i=dharma.b@microchip.com; a=ed25519;
  pk=kCq31LcpLAe9HDfIz9ZJ1U7T+osjOi7OZSbe0gqtyQ4=
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -89,53 +85,65 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-This patch series drops the unsed panel field, switches to atomic variants
-and adds support to select between the two supported formats (JEIDA and
-VESA) by the LVDSC.
+Drop the unused drm_panel field from the mchp_lvds structure, and remove
+the unnecessary port device node lookup, as devm_drm_of_get_bridge()
+already performs the required checks internally.
 
 Signed-off-by: Dharma Balasubiramani <dharma.b@microchip.com>
+Reviewed-by: Maxime Ripard <mripard@kernel.org>
 ---
-Changes in v6:
-- Drop pre and post hooks as they are not neccessary now.
-- Drop turning off the serialiser.
-- Link to v5: https://lore.kernel.org/r/20250625-microchip-lvds-v5-0-624cf72b2651@microchip.com
+ drivers/gpu/drm/bridge/microchip-lvds.c | 16 ----------------
+ 1 file changed, 16 deletions(-)
 
-Changes in v5:
-- Drop the redundant port node lookup.
-- Split the commits adding atomic bridge ops into 2.
-- Update commit messages accordingly.
-- Link to v4: https://lore.kernel.org/r/20250624-microchip-lvds-v4-0-937d42a420e9@microchip.com
+diff --git a/drivers/gpu/drm/bridge/microchip-lvds.c b/drivers/gpu/drm/bridge/microchip-lvds.c
+index 9f4ff82bc6b4..06d4169a2d8f 100644
+--- a/drivers/gpu/drm/bridge/microchip-lvds.c
++++ b/drivers/gpu/drm/bridge/microchip-lvds.c
+@@ -23,7 +23,6 @@
+ #include <drm/drm_atomic_helper.h>
+ #include <drm/drm_bridge.h>
+ #include <drm/drm_of.h>
+-#include <drm/drm_panel.h>
+ #include <drm/drm_print.h>
+ #include <drm/drm_probe_helper.h>
+ #include <drm/drm_simple_kms_helper.h>
+@@ -56,7 +55,6 @@ struct mchp_lvds {
+ 	struct device *dev;
+ 	void __iomem *regs;
+ 	struct clk *pclk;
+-	struct drm_panel *panel;
+ 	struct drm_bridge bridge;
+ 	struct drm_bridge *panel_bridge;
+ };
+@@ -151,7 +149,6 @@ static int mchp_lvds_probe(struct platform_device *pdev)
+ {
+ 	struct device *dev = &pdev->dev;
+ 	struct mchp_lvds *lvds;
+-	struct device_node *port;
+ 	int ret;
+ 
+ 	if (!dev->of_node)
+@@ -173,19 +170,6 @@ static int mchp_lvds_probe(struct platform_device *pdev)
+ 		return dev_err_probe(lvds->dev, PTR_ERR(lvds->pclk),
+ 				"could not get pclk_lvds\n");
+ 
+-	port = of_graph_get_remote_node(dev->of_node, 1, 0);
+-	if (!port) {
+-		dev_err(dev,
+-			"can't find port point, please init lvds panel port!\n");
+-		return -ENODEV;
+-	}
+-
+-	lvds->panel = of_drm_find_panel(port);
+-	of_node_put(port);
+-
+-	if (IS_ERR(lvds->panel))
+-		return -EPROBE_DEFER;
+-
+ 	lvds->panel_bridge = devm_drm_of_get_bridge(dev, dev->of_node, 1, 0);
+ 
+ 	if (IS_ERR(lvds->panel_bridge))
 
-Changes in v4:
-- Split the commits into 3.
-- Drop <drm/drm_panel.h>
-- Link to v3: https://lore.kernel.org/r/20250624-microchip-lvds-v3-1-c3c6f1e40516@microchip.com
-
-Changes in v3:
-- Use BIT(0) instead of 1.
-- Drop the panel field of the mchp_lvds structure.
-- Drop the inner parentheses in write in serialiser_on().
-- Link to v2: https://lore.kernel.org/r/20250623-microchip-lvds-v2-1-8ecbabc6abc4@microchip.com
-
-Changes in v2:
-- Switch to atomic bridge functions
-- Drop custom connector creation
-- Use drm_atomic_get_new_connector_for_encoder()
-- Link to v1: https://lore.kernel.org/r/20250618-microchip-lvds-v1-1-1eae5acd7a82@microchip.com
-
----
-Dharma Balasubiramani (3):
-      drm/bridge: microchip-lvds: Remove unused drm_panel and redundant port node lookup
-      drm/bridge: microchip-lvds: migrate to atomic bridge ops
-      drm/bridge: microchip-lvds: fix bus format mismatch with VESA displays
-
- drivers/gpu/drm/bridge/microchip-lvds.c | 63 +++++++++++++++++++--------------
- 1 file changed, 37 insertions(+), 26 deletions(-)
----
-base-commit: 4325743c7e209ae7845293679a4de94b969f2bef
-change-id: 20250618-microchip-lvds-b7151d96094a
-
-Best regards,
 -- 
-Dharma Balasubiramani <dharma.b@microchip.com>
+2.43.0
 
