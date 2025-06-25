@@ -2,41 +2,41 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 14B90AE8A62
+	by mail.lfdr.de (Postfix) with ESMTPS id D50E8AE8A63
 	for <lists+dri-devel@lfdr.de>; Wed, 25 Jun 2025 18:46:30 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A5B9910E786;
-	Wed, 25 Jun 2025 16:46:26 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 43A6A10E790;
+	Wed, 25 Jun 2025 16:46:27 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=bootlin.com header.i=@bootlin.com header.b="IyrRuf5S";
+	dkim=pass (2048-bit key; unprotected) header.d=bootlin.com header.i=@bootlin.com header.b="cCbq2e80";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from relay5-d.mail.gandi.net (relay5-d.mail.gandi.net
  [217.70.183.197])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9805710E786
- for <dri-devel@lists.freedesktop.org>; Wed, 25 Jun 2025 16:46:18 +0000 (UTC)
-Received: by mail.gandi.net (Postfix) with ESMTPSA id E772C4437E;
- Wed, 25 Jun 2025 16:46:15 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3EEC010E786
+ for <dri-devel@lists.freedesktop.org>; Wed, 25 Jun 2025 16:46:20 +0000 (UTC)
+Received: by mail.gandi.net (Postfix) with ESMTPSA id 8578E44385;
+ Wed, 25 Jun 2025 16:46:17 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
- t=1750869977;
+ t=1750869979;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=aQJl6IORmPHfgsGfIEeKz8bIR/qWXwS4qAAA9KXtaPA=;
- b=IyrRuf5SHwiGfsPal1VLpygfkJ1pVxYtkb7NRojrHcL0n3Hm2JFjL3XXt/nVbOCp/90p1O
- IQjTAAB6MO/kipXM4VH6YlBNxYP4R54U+wC+6n81m9+TfUSaGj6UYqjnSQ5namCeWkAGoY
- +jER2uOibgujKsHtoJ14EUZYugO0/UJhzSO5+VUNRrrJgM2duHs5D/PSZtC46J/zS9+FyL
- FCZKeS+/GFrJCCGmJkNBv2Ug8iUQqaxOI3YVz+ohBbqZoSCOZWLdTWN/FbKkQ6qaqPEIhv
- TqA1rpXy3rryhBg5X9S7fGl0rMHCrq7jdunfV6heewVAXd6GlW12P3mMaiHW+A==
+ bh=OMrBQHofuunDvUQikxi1pZO0MydXHJ5subj9NVDlS4c=;
+ b=cCbq2e80DMR9Z+uXH4CjM37FE/hy/mDf5oU/BbZDXYiBan2Uho5YheY844B00h2IGJL+4u
+ tDAkt9du1EaZJiUZbJMr3q30RnWkGuibNSelEboMsXClKmilZfgmRsgWroQCZcCer+cY5T
+ iT1w20j3pRReDBpbhw6wZJXrqOLbrFhnSr/jly1qaDD4OwQoPPdeEfM4izQrUSrIO/N0ch
+ ayKZm5iFx7yPTpe0Cwk2Cs3Or0cCR06DA4OKvSzm5eznhvUMZDTc/4F4YiNju5L4FjPshD
+ Tp2laWvscaRp4TUfBb/gYRmiA7Rt+dk/+erdF0YgZt2slKgme8x9UsLa3YGocA==
 From: Luca Ceresoli <luca.ceresoli@bootlin.com>
-Date: Wed, 25 Jun 2025 18:45:27 +0200
-Subject: [PATCH 23/32] drm/vc4: dsi: convert to the .attach_new op
+Date: Wed, 25 Jun 2025 18:45:28 +0200
+Subject: [PATCH 24/32] drm/mediatek: dsi: convert to the .attach_new op
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20250625-drm-dsi-host-no-device-ptr-v1-23-e36bc258a7c5@bootlin.com>
+Message-Id: <20250625-drm-dsi-host-no-device-ptr-v1-24-e36bc258a7c5@bootlin.com>
 References: <20250625-drm-dsi-host-no-device-ptr-v1-0-e36bc258a7c5@bootlin.com>
 In-Reply-To: <20250625-drm-dsi-host-no-device-ptr-v1-0-e36bc258a7c5@bootlin.com>
 To: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
@@ -80,43 +80,41 @@ cannot store it.
 
 Signed-off-by: Luca Ceresoli <luca.ceresoli@bootlin.com>
 ---
- drivers/gpu/drm/vc4/vc4_dsi.c | 12 ++++++------
- 1 file changed, 6 insertions(+), 6 deletions(-)
+ drivers/gpu/drm/mediatek/mtk_dsi.c | 10 +++++-----
+ 1 file changed, 5 insertions(+), 5 deletions(-)
 
-diff --git a/drivers/gpu/drm/vc4/vc4_dsi.c b/drivers/gpu/drm/vc4/vc4_dsi.c
-index 458e5d9879645f18bcbcaeeb71b5f1038f9581da..b623e013747522b524ee00aede897ecafbc88e2a 100644
---- a/drivers/gpu/drm/vc4/vc4_dsi.c
-+++ b/drivers/gpu/drm/vc4/vc4_dsi.c
-@@ -1342,16 +1342,16 @@ static ssize_t vc4_dsi_host_transfer(struct mipi_dsi_host *host,
+diff --git a/drivers/gpu/drm/mediatek/mtk_dsi.c b/drivers/gpu/drm/mediatek/mtk_dsi.c
+index d7726091819c4762698b41060b3d4d8d27940238..33475a5c18c1146cd4ea40c3c6ccaba1271a6cd9 100644
+--- a/drivers/gpu/drm/mediatek/mtk_dsi.c
++++ b/drivers/gpu/drm/mediatek/mtk_dsi.c
+@@ -981,15 +981,15 @@ static const struct component_ops mtk_dsi_component_ops = {
+ };
  
- static const struct component_ops vc4_dsi_ops;
- static int vc4_dsi_host_attach(struct mipi_dsi_host *host,
+ static int mtk_dsi_host_attach(struct mipi_dsi_host *host,
 -			       struct mipi_dsi_device *device)
 +			       const struct mipi_dsi_bus_fmt *bus_fmt)
  {
- 	struct vc4_dsi *dsi = host_to_dsi(host);
+ 	struct mtk_dsi *dsi = host_to_dsi(host);
+ 	struct device *dev = host->dev;
  	int ret;
  
 -	dsi->lanes = device->lanes;
--	dsi->channel = device->channel;
+-	dsi->format = device->format;
 -	dsi->mode_flags = device->mode_flags;
 +	dsi->lanes = bus_fmt->lanes;
-+	dsi->channel = bus_fmt->channel;
++	dsi->format = bus_fmt->format;
 +	dsi->mode_flags = bus_fmt->mode_flags;
- 
--	switch (device->format) {
-+	switch (bus_fmt->format) {
- 	case MIPI_DSI_FMT_RGB888:
- 		dsi->format = DSI_PFORMAT_RGB888;
- 		dsi->divider = 24 / dsi->lanes;
-@@ -1402,7 +1402,7 @@ static int vc4_dsi_host_detach(struct mipi_dsi_host *host,
+ 	dsi->next_bridge = devm_drm_of_get_bridge(dev, dev->of_node, 1, 0);
+ 	if (IS_ERR(dsi->next_bridge)) {
+ 		ret = PTR_ERR(dsi->next_bridge);
+@@ -1184,7 +1184,7 @@ static ssize_t mtk_dsi_host_transfer(struct mipi_dsi_host *host,
  }
  
- static const struct mipi_dsi_host_ops vc4_dsi_host_ops = {
--	.attach = vc4_dsi_host_attach,
-+	.attach_new = vc4_dsi_host_attach,
- 	.detach = vc4_dsi_host_detach,
- 	.transfer = vc4_dsi_host_transfer,
+ static const struct mipi_dsi_host_ops mtk_dsi_ops = {
+-	.attach = mtk_dsi_host_attach,
++	.attach_new = mtk_dsi_host_attach,
+ 	.detach = mtk_dsi_host_detach,
+ 	.transfer = mtk_dsi_host_transfer,
  };
 
 -- 
