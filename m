@@ -2,55 +2,50 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 446ACAE865C
-	for <lists+dri-devel@lfdr.de>; Wed, 25 Jun 2025 16:25:25 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5A112AE868F
+	for <lists+dri-devel@lfdr.de>; Wed, 25 Jun 2025 16:33:37 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4A14010E240;
-	Wed, 25 Jun 2025 14:25:22 +0000 (UTC)
-Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="rO3IxLe0";
-	dkim-atps=neutral
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1F2CC89336;
+	Wed, 25 Jun 2025 14:33:34 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from nyc.source.kernel.org (nyc.source.kernel.org [147.75.193.91])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A945710E740
- for <dri-devel@lists.freedesktop.org>; Wed, 25 Jun 2025 14:25:17 +0000 (UTC)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by nyc.source.kernel.org (Postfix) with ESMTP id A7E4CA526DD;
- Wed, 25 Jun 2025 14:25:16 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 37455C4CEEA;
- Wed, 25 Jun 2025 14:25:16 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1750861516;
- bh=gIZwiFDHx2s0parZhM/vFYkw+llVp5IIeVaP9k00Kz4=;
- h=Date:From:Cc:To:In-Reply-To:References:Subject:From;
- b=rO3IxLe0y98Aa+TBhnVRMW8EDC8jpipS4BCaCL5vCAh2n8+7aeZ7jhaOraQMgb35v
- iT1PqyGzUNtg7O9wzmOU5+vS+e27TBxlHG0ilpiwnLEV1GaqjFVomclH+G+KxrWMoU
- ob/Z6p0U7PwOkZo/PU2IQQ9eIMvJk63Hb08IdCNCaGLB07wk36yIyDSZ0qlySmilfj
- DIwqjPy0oYSULDE65PILOvU4lP9/POFpdgxJ4HYUBAmEeyBzyPYTbSXxBwZ2otCVvW
- di0loxqHsJOwvrQ5/H/LMqybkU7frVpgsljwSMoUja0Vq+toA69paGMORRPo9UWDmw
- y6MQtv/UH+OCQ==
-Date: Wed, 25 Jun 2025 09:25:15 -0500
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
+Received: from bmailout3.hostsharing.net (bmailout3.hostsharing.net
+ [176.9.242.62])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5963B10E73D
+ for <dri-devel@lists.freedesktop.org>; Wed, 25 Jun 2025 14:33:33 +0000 (UTC)
+Received: from h08.hostsharing.net (h08.hostsharing.net
+ [IPv6:2a01:37:1000::53df:5f1c:0])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256
+ client-signature RSA-PSS (4096 bits) client-digest SHA256)
+ (Client CN "*.hostsharing.net", Issuer "RapidSSL TLS RSA CA G1" (verified OK))
+ by bmailout3.hostsharing.net (Postfix) with ESMTPS id 18D2B2C000A8;
+ Wed, 25 Jun 2025 16:33:32 +0200 (CEST)
+Received: by h08.hostsharing.net (Postfix, from userid 100393)
+ id DD5D43B7098; Wed, 25 Jun 2025 16:33:31 +0200 (CEST)
+Date: Wed, 25 Jun 2025 16:33:31 +0200
+From: Lukas Wunner <lukas@wunner.de>
+To: Hans de Goede <hdegoede@redhat.com>
+Cc: Ben Hutchings <ben@decadent.org.uk>, David Airlie <airlied@redhat.com>,
+ Bjorn Helgaas <helgaas@kernel.org>, Joerg Roedel <joro@8bytes.org>,
+ Suravee Suthikulpanit <suravee.suthikulpanit@amd.com>,
+ Andi Kleen <ak@linux.intel.com>, Ahmed Salem <x0rw3ll@gmail.com>,
+ Borislav Petkov <bp@alien8.de>, dri-devel@lists.freedesktop.org,
+ iommu@lists.linux.dev, linux-pci@vger.kernel.org
+Subject: Re: [PATCH] agp/amd64: Bind to unsupported devices only if AGP is
+ present
+Message-ID: <aFwIu0QveVuJZNoU@wunner.de>
+References: <f8ff40f35a9a5836d1371f60e85c09c5735e3c5e.1750497201.git.lukas@wunner.de>
+ <b73fbb3e3f03d842f36e6ba2e6a8ad0bb4b904fd.camel@decadent.org.uk>
+ <aFalrV1500saBto5@wunner.de>
+ <279f63810875f2168c591aab0f30f8284d12fe02.camel@decadent.org.uk>
+ <aFa8JJaRP-FUyy6Y@wunner.de>
+ <9077aab5304e1839786df9adb33c334d10c69397.camel@decadent.org.uk>
+ <98012c55-1e0d-4c1b-b650-5bb189d78009@redhat.com>
 MIME-Version: 1.0
-From: "Rob Herring (Arm)" <robh@kernel.org>
-Cc: Conor Dooley <conor+dt@kernel.org>, 
- Neil Armstrong <neil.armstrong@linaro.org>, 
- Jessica Zhang <quic_jesszhan@quicinc.com>, dri-devel@lists.freedesktop.org, 
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
- David Airlie <airlied@gmail.com>, devicetree@vger.kernel.org, 
- linux-kernel@vger.kernel.org, 
- Jessica Zhang <jessica.zhang@oss.qualcomm.com>, 
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
- Krzysztof Kozlowski <krzk+dt@kernel.org>, Simona Vetter <simona@ffwll.ch>
-To: Kaustabh Chakraborty <kauschluss@disroot.org>
-In-Reply-To: <20250625-panel-synaptics-tddi-v2-1-7a62ab1d13c7@disroot.org>
-References: <20250625-panel-synaptics-tddi-v2-0-7a62ab1d13c7@disroot.org>
- <20250625-panel-synaptics-tddi-v2-1-7a62ab1d13c7@disroot.org>
-Message-Id: <175086151529.908340.14015506927066516002.robh@kernel.org>
-Subject: Re: [PATCH v2 1/2] dt-bindings: display: panel: document Synaptics
- TDDI panel driver
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <98012c55-1e0d-4c1b-b650-5bb189d78009@redhat.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -66,40 +61,25 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-
-On Wed, 25 Jun 2025 15:38:44 +0530, Kaustabh Chakraborty wrote:
-> Document the driver for Synaptics TDDI (Touch/Display Integration) panels.
-> Along with the MIPI-DSI panel, these devices also have an in-built LED
-> backlight device and a touchscreen, all packed together in a single chip.
-> Also, add compatibles for supported panels - TD4101 and TD4300.
+On Wed, Jun 25, 2025 at 04:08:38PM +0200, Hans de Goede wrote:
+> Lukas made me aware of this attempt to fix the KERN_CRIT msg, because
+> I wrote a slightly different patch to fix this:
 > 
-> Signed-off-by: Kaustabh Chakraborty <kauschluss@disroot.org>
-> ---
->  .../display/panel/synaptics,td4300-panel.yaml      | 89 ++++++++++++++++++++++
->  1 file changed, 89 insertions(+)
+> https://lore.kernel.org/dri-devel/20250625112411.4123-1-hansg@kernel.org/
 > 
+> This seems like a cleaner fix to me and something which would be good
+> to have regardless since currently the driver_attach() call is doing
+> too much work because the promisc table catches an unnecessary wide
+> net / match matching many PCI devices which cannot be AGP capable
+> at all.
 
-My bot found errors running 'make dt_binding_check' on your patch:
+So how do you know that all of these unsupported devices have
+PCI_CLASS_BRIDGE_HOST?  The only thing we know is that an AGP
+Capability must be present.
 
-yamllint warnings/errors:
+In particular, AGP 3.0 sec 2.5 explicitly allows PCI-to-PCI bridges
+in addition to Host-to-PCI bridges.
 
-dtschema/dtc warnings/errors:
-Documentation/devicetree/bindings/display/panel/synaptics,td4300-panel.example.dtb: /example-0/dsi/panel@0: failed to match any schema with compatible: ['synaptics,td4300-panel']
+Thanks,
 
-doc reference errors (make refcheckdocs):
-
-See https://patchwork.ozlabs.org/project/devicetree-bindings/patch/20250625-panel-synaptics-tddi-v2-1-7a62ab1d13c7@disroot.org
-
-The base for the series is generally the latest rc1. A different dependency
-should be noted in *this* patch.
-
-If you already ran 'make dt_binding_check' and didn't see the above
-error(s), then make sure 'yamllint' is installed and dt-schema is up to
-date:
-
-pip3 install dtschema --upgrade
-
-Please check and re-submit after running the above command yourself. Note
-that DT_SCHEMA_FILES can be set to your schema file to speed up checking
-your schema. However, it must be unset to test all examples with your schema.
-
+Lukas
