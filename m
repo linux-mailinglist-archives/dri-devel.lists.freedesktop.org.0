@@ -2,55 +2,57 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id BE416AE8ACC
-	for <lists+dri-devel@lfdr.de>; Wed, 25 Jun 2025 18:56:45 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5C33EAE8ACD
+	for <lists+dri-devel@lfdr.de>; Wed, 25 Jun 2025 18:56:48 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 71BB610E79D;
-	Wed, 25 Jun 2025 16:56:42 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A055A10E79F;
+	Wed, 25 Jun 2025 16:56:46 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="SBhZIZ6N";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="EdsUOa00";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.14])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 84C7110E10B;
- Wed, 25 Jun 2025 16:56:41 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 35E2C10E79E;
+ Wed, 25 Jun 2025 16:56:43 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1750870601; x=1782406601;
- h=from:to:cc:subject:date:message-id:mime-version:
- content-transfer-encoding;
- bh=8IGZz6GoHU56QhoX/NNABxZoluk/t+azjDJL3oPPI1c=;
- b=SBhZIZ6NYqNdKGZ5H49tFgmLXOc7vinJatQR7CqN45tJA8IRD4V/sNgg
- HgtSLNRjZu/VCqnFWtA/RoVV567JhnXx4uRUZS9r/raskn4uYUKwGO5GR
- PWpFXFwTPs/Gv++DF0R4AeCp6EvjLHwUEkwuzCC0mHrqoC0PxuiaE6g59
- MqwAlWX7yD2BTnVS7jRNcaLXH+I3327bIJS3QRJE5vKA/edra7a77V5Ay
- pia2Nc7b7HsCSNl0HuPLO1Pya92V3BI6oXrBuDLwZGdyoyNhhqjdICoxd
- mRA3fhVotAqCFn0oSvtRAqWiiPjJYRXMVQp3ZX9UA6grLO/Y+G9ZM+R7W Q==;
-X-CSE-ConnectionGUID: ts+qd6A2QxqoYjd1W9qmTg==
-X-CSE-MsgGUID: /W56rcnJSdqjH7bpinjHGw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11475"; a="53214418"
-X-IronPort-AV: E=Sophos;i="6.16,265,1744095600"; d="scan'208";a="53214418"
+ t=1750870603; x=1782406603;
+ h=from:to:cc:subject:date:message-id:in-reply-to:
+ references:mime-version:content-transfer-encoding;
+ bh=u16CpbdUihPkyI+FiM2IX3TbeuU1zDLWDn5AwsQR/6k=;
+ b=EdsUOa00BCP7pH6sJfoEj8cKxFjfo7fbCO8vM3f4HSOAJyTiCKybQ8oA
+ laDwHKeRrpQQfO548BbswChV/sjHHHcS0ZfQ9un/pBcovPgzRFDxnLxmf
+ DImaIU2HEyOVc4HmCCJo8T0bswnADD8pQLdCPFPqSL2bYFrkQq/ldxroV
+ fc+OxI/jjmpic5JPpv+2YIyXx+ugLzW0XP+YjPW4+3c68gLZhtWs9d5pa
+ UiK2MAYYrSw3mF1uJupYcH3B9OySZSxNIJ/0nPiC6n/8IvKGrR9yMR9LQ
+ PPAUAwXsnfRiMsIG1dD3Z9QkFqkKNJ+vZz1zFt7noTkLESqb2r6G7z+Xi Q==;
+X-CSE-ConnectionGUID: N6c4MQwSQZW1507Iu1DZGg==
+X-CSE-MsgGUID: t0C2olQ+TgKTSoSlGVNvMQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11475"; a="53214426"
+X-IronPort-AV: E=Sophos;i="6.16,265,1744095600"; d="scan'208";a="53214426"
 Received: from orviesa010.jf.intel.com ([10.64.159.150])
  by fmvoesa108.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 25 Jun 2025 09:56:41 -0700
-X-CSE-ConnectionGUID: jdKm/Wy/QxK3+eYaJ+RhAw==
-X-CSE-MsgGUID: 58hAyJMCSQOMCv748A3KMQ==
+ 25 Jun 2025 09:56:43 -0700
+X-CSE-ConnectionGUID: i0R0NCMXTtqsoC6VR/6eAw==
+X-CSE-MsgGUID: aSvDYzgdT/e8bl4rXIPAfQ==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.16,265,1744095600"; d="scan'208";a="151696593"
+X-IronPort-AV: E=Sophos;i="6.16,265,1744095600"; d="scan'208";a="151696609"
 Received: from unknown (HELO bnilawar-desk2.iind.intel.com) ([10.190.239.41])
  by orviesa010-auth.jf.intel.com with
- ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Jun 2025 09:56:36 -0700
+ ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Jun 2025 09:56:40 -0700
 From: Badal Nilawar <badal.nilawar@intel.com>
 To: intel-xe@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
  linux-kernel@vger.kernel.org
 Cc: anshuman.gupta@intel.com, rodrigo.vivi@intel.com,
  alexander.usyskin@intel.com, gregkh@linuxfoundation.org,
  daniele.ceraolospurio@intel.com
-Subject: [PATCH v4 00/10] Introducing firmware late binding
-Date: Wed, 25 Jun 2025 22:30:05 +0530
-Message-Id: <20250625170015.33912-1-badal.nilawar@intel.com>
+Subject: [PATCH v4 01/10] mei: bus: add mei_cldev_mtu interface
+Date: Wed, 25 Jun 2025 22:30:06 +0530
+Message-Id: <20250625170015.33912-2-badal.nilawar@intel.com>
 X-Mailer: git-send-email 2.34.1
+In-Reply-To: <20250625170015.33912-1-badal.nilawar@intel.com>
+References: <20250625170015.33912-1-badal.nilawar@intel.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -68,67 +70,54 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Introducing firmware late binding feature to enable firmware loading
-for the devices, such as the fan controller and voltage regulator,
-during the driver probe.
-Typically, firmware for these devices are part of IFWI flash image but
-can be replaced at probe after OEM tuning.
+From: Alexander Usyskin <alexander.usyskin@intel.com>
 
-v2:
- - Dropped voltage regulator specific code as binaries for it will not
-   be available for upstreaming as of now.
- - Address review comments
-v3:
- - Dropped fwctl patch for now
- - Added new patch to extract binary version
- - Address v2 review comments
-v4:
- - Address v3 review comments
+Allow to bus client to obtain client mtu.
 
-Alexander Usyskin (2):
-  mei: bus: add mei_cldev_mtu interface
-  mei: late_bind: add late binding component driver
+Signed-off-by: Alexander Usyskin <alexander.usyskin@intel.com>
+Signed-off-by: Badal Nilawar <badal.nilawar@intel.com>
+Reviewed-by: Umesh Nerlige Ramappa <umesh.nerlige.ramappa@intel.com>
+---
+ drivers/misc/mei/bus.c     | 13 +++++++++++++
+ include/linux/mei_cl_bus.h |  1 +
+ 2 files changed, 14 insertions(+)
 
-Badal Nilawar (8):
-  drm/xe/xe_late_bind_fw: Introducing xe_late_bind_fw
-  drm/xe/xe_late_bind_fw: Initialize late binding firmware
-  drm/xe/xe_late_bind_fw: Load late binding firmware
-  drm/xe/xe_late_bind_fw: Reload late binding fw in rpm resume
-  drm/xe/xe_late_bind_fw: Reload late binding fw during system resume
-  drm/xe/xe_late_bind_fw: Introduce debug fs node to disable late
-    binding
-  drm/xe/xe_late_bind_fw: Extract and print version info
-  drm/xe/xe_late_bind_fw: Select INTEL_MEI_LATE_BIND for CI
-
- drivers/gpu/drm/xe/Kconfig                  |   1 +
- drivers/gpu/drm/xe/Makefile                 |   1 +
- drivers/gpu/drm/xe/xe_debugfs.c             |  41 ++
- drivers/gpu/drm/xe/xe_device.c              |   5 +
- drivers/gpu/drm/xe/xe_device_types.h        |   6 +
- drivers/gpu/drm/xe/xe_late_bind_fw.c        | 465 ++++++++++++++++++++
- drivers/gpu/drm/xe/xe_late_bind_fw.h        |  17 +
- drivers/gpu/drm/xe/xe_late_bind_fw_types.h  |  81 ++++
- drivers/gpu/drm/xe/xe_pci.c                 |   3 +
- drivers/gpu/drm/xe/xe_pm.c                  |  10 +
- drivers/gpu/drm/xe/xe_uc_fw_abi.h           |  66 +++
- drivers/misc/mei/Kconfig                    |   1 +
- drivers/misc/mei/Makefile                   |   1 +
- drivers/misc/mei/bus.c                      |  13 +
- drivers/misc/mei/late_bind/Kconfig          |  13 +
- drivers/misc/mei/late_bind/Makefile         |   9 +
- drivers/misc/mei/late_bind/mei_late_bind.c  | 281 ++++++++++++
- include/drm/intel/i915_component.h          |   1 +
- include/drm/intel/late_bind_mei_interface.h |  64 +++
- include/linux/mei_cl_bus.h                  |   1 +
- 20 files changed, 1080 insertions(+)
- create mode 100644 drivers/gpu/drm/xe/xe_late_bind_fw.c
- create mode 100644 drivers/gpu/drm/xe/xe_late_bind_fw.h
- create mode 100644 drivers/gpu/drm/xe/xe_late_bind_fw_types.h
- create mode 100644 drivers/misc/mei/late_bind/Kconfig
- create mode 100644 drivers/misc/mei/late_bind/Makefile
- create mode 100644 drivers/misc/mei/late_bind/mei_late_bind.c
- create mode 100644 include/drm/intel/late_bind_mei_interface.h
-
+diff --git a/drivers/misc/mei/bus.c b/drivers/misc/mei/bus.c
+index 67176caf5416..f860b1b6eda0 100644
+--- a/drivers/misc/mei/bus.c
++++ b/drivers/misc/mei/bus.c
+@@ -614,6 +614,19 @@ u8 mei_cldev_ver(const struct mei_cl_device *cldev)
+ }
+ EXPORT_SYMBOL_GPL(mei_cldev_ver);
+ 
++/**
++ * mei_cldev_mtu - max message that client can send and receive
++ *
++ * @cldev: mei client device
++ *
++ * Return: mtu or 0 if client is not connected
++ */
++size_t mei_cldev_mtu(const struct mei_cl_device *cldev)
++{
++	return mei_cl_mtu(cldev->cl);
++}
++EXPORT_SYMBOL_GPL(mei_cldev_mtu);
++
+ /**
+  * mei_cldev_enabled - check whether the device is enabled
+  *
+diff --git a/include/linux/mei_cl_bus.h b/include/linux/mei_cl_bus.h
+index 725fd7727422..a82755e1fc40 100644
+--- a/include/linux/mei_cl_bus.h
++++ b/include/linux/mei_cl_bus.h
+@@ -113,6 +113,7 @@ int mei_cldev_register_notif_cb(struct mei_cl_device *cldev,
+ 				mei_cldev_cb_t notif_cb);
+ 
+ u8 mei_cldev_ver(const struct mei_cl_device *cldev);
++size_t mei_cldev_mtu(const struct mei_cl_device *cldev);
+ 
+ void *mei_cldev_get_drvdata(const struct mei_cl_device *cldev);
+ void mei_cldev_set_drvdata(struct mei_cl_device *cldev, void *data);
 -- 
 2.34.1
 
