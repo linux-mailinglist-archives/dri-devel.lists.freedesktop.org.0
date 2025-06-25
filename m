@@ -2,89 +2,64 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id BB7F4AE7E78
-	for <lists+dri-devel@lfdr.de>; Wed, 25 Jun 2025 12:05:27 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 00FECAE7E97
+	for <lists+dri-devel@lfdr.de>; Wed, 25 Jun 2025 12:09:24 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E61A610E20B;
-	Wed, 25 Jun 2025 10:05:24 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7CEA410E213;
+	Wed, 25 Jun 2025 10:09:10 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="U5StkcWy";
+	dkim=pass (2048-bit key; secure) header.d=disroot.org header.i=@disroot.org header.b="QynfdMMn";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-yb1-f172.google.com (mail-yb1-f172.google.com
- [209.85.219.172])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 881E210E20B
- for <dri-devel@lists.freedesktop.org>; Wed, 25 Jun 2025 10:05:20 +0000 (UTC)
-Received: by mail-yb1-f172.google.com with SMTP id
- 3f1490d57ef6-e84207a8aa3so3994206276.3
- for <dri-devel@lists.freedesktop.org>; Wed, 25 Jun 2025 03:05:20 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1750845920; x=1751450720; darn=lists.freedesktop.org;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc:subject:date
- :message-id:reply-to;
- bh=6xKfQLYxQrQT0vEeA6XiT41ZdovNWLUZMpAYKaRFfyA=;
- b=U5StkcWyoRb5rnc/kH0TacNUCHviefnQby0+4SiYFjGAfUGJjK0JdVUWP3jGP9Y1EG
- 4v1udXAtDcy4xkvf1TRD01puss7clp+XjyVO3W4ZNg/Pin/h1UP93fPfnpxdhKbco7ii
- LS0FUwtHqarVO74DA13aggEvJdcpjG3reO3gZ6CYk5YTcdNy8TQufhxCppP4MbJd52iu
- YiK0+6JmWlBCzXuCWvNKKUPmfAiYt8wUD9yNYVyAJWFaM5qJro4gZAhT2nyBK8uzI9AU
- EhvAVAYKY7fmWBUYy2p6QuLV2T4/cIvzoNiy85qiRzxrQ7ymEHqbDT1JnxkeJhFmlJsd
- kg5A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1750845920; x=1751450720;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=6xKfQLYxQrQT0vEeA6XiT41ZdovNWLUZMpAYKaRFfyA=;
- b=iuo37jPuvyYPM1iye6EtFevwletJ1tgD+pubfAvmeOTqkBrZNEb+V8I3hZm3akf1gg
- WMzckEonfC9Rz9AqM5JexGAW2e0Fdh+SPi/82Ct9I+qHmIvXpfE2BX//2vAIFUefn/L7
- lZ9z5PHmki+EnEwV6mjJnN3JbPzNbQO2VuWmbnZBVi3C0vszfJmMfS76AMpG4vZGC92K
- P8nYfyInDBOJ1uNA0kU8j1QbtrWDXzlT5afnBUzr9uUYV14nObkviaix5He7FgLSntUi
- 4SYqY43leas31PqnCcMF0bHSfBTksW7mDuXxEGXYajmziGR7NgZ6BLg4q4nEd/EFQxVn
- OT8A==
-X-Forwarded-Encrypted: i=1;
- AJvYcCURC9kdqUL5sVyNXhghpraxgSQTVf5y/007bKOsAyfsVlXW9dx6nxIzYrwqvKNpcJGl4jkV1FrWvRo=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YxcNzKtGjJJkvN0QtMj8ki7Kcipm/3RVk519ALdAywwDHFzeahI
- lwxTnRanditsyH25pFTuw0dNLuuzWWo7fYC9mINkOl1naTMivnjd4qFnPsU4X0tyrvotEJ+7iv2
- VhMVa+X6j2X59iCnw5sbsud90LhYVc3pQNoRNpLSvag==
-X-Gm-Gg: ASbGncvD4j3sk2kPojd9A/WKpONVa0m8NuNnZw+QbPhHnvOaLBAMubRKu1FkSrtZGG7
- kJ1lN7Lcu9sQv3Eyn9vWsmMuiub9kofnENJj35X8YKs/AnmU5giNNJeGlSaOx0q2N3tBs4FpMWd
- MsaGQklwa6p8oegE72P/BRcjOwWnGzhyhKyGFzCsreXYc=
-X-Google-Smtp-Source: AGHT+IEJrS2tphZ7UMREypIClsxlSmABIBla9pP6cK7b0bEY7VGBFV8Zh4V9DmKzTV5zBXNgMqCqlhwI6mHWvsv490U=
-X-Received: by 2002:a05:6902:1703:b0:e81:9aa9:88d0 with SMTP id
- 3f1490d57ef6-e86018ef2f7mr2643332276.40.1750845919338; Wed, 25 Jun 2025
- 03:05:19 -0700 (PDT)
+Received: from layka.disroot.org (layka.disroot.org [178.21.23.139])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 368CC10E213
+ for <dri-devel@lists.freedesktop.org>; Wed, 25 Jun 2025 10:09:07 +0000 (UTC)
+Received: from mail01.disroot.lan (localhost [127.0.0.1])
+ by disroot.org (Postfix) with ESMTP id 7B3822609A;
+ Wed, 25 Jun 2025 12:09:03 +0200 (CEST)
+X-Virus-Scanned: SPAM Filter at disroot.org
+Received: from layka.disroot.org ([127.0.0.1])
+ by localhost (disroot.org [127.0.0.1]) (amavis, port 10024) with ESMTP
+ id XcpVnPu1ntrc; Wed, 25 Jun 2025 12:09:02 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=disroot.org; s=mail;
+ t=1750846142; bh=hjJkA7oFAzYjbGdayYCi8BOgbIBdaazZmbsyFQXc0kY=;
+ h=From:Subject:Date:To:Cc;
+ b=QynfdMMnnEWy4LmP7h1NpFYQrOzNGFg1/fo6ZNn4qEf20zeqqvWJBv4iMzIVis1kb
+ GJnhaXYAKTJMXQPlSe2B4xhXsemJcq8BD3DngaWNnIvIm2N+6ZgrVEOS9uYf9T8p7v
+ YYCPW1DedeCSBrPJFxzsox822OldWStBce41QWxxzBbNh9c4qUjRks3LfWQUlWKoPA
+ 5pTUXXRQ0spIsbmdLNM8q92SnSk7TiEgzrhrgTT68k10rkxyW0XIBbvAwBxNE96Nlh
+ HgaORMf5We0K/BpkrPGLy/gM8K3dnj4BvyBkqS6VLdMkeL+R2FlRdPIokZfxLZaT4p
+ 1u5fI67164E2A==
+From: Kaustabh Chakraborty <kauschluss@disroot.org>
+Subject: [PATCH v2 0/2] Support for Synaptics TDDI series panels
+Date: Wed, 25 Jun 2025 15:38:43 +0530
+Message-Id: <20250625-panel-synaptics-tddi-v2-0-7a62ab1d13c7@disroot.org>
 MIME-Version: 1.0
-References: <20250624141013.81358-1-brgl@bgdev.pl>
- <CAMRc=MeKfWsf8T1tJLdj=+7aq0zGpQ07pHd2Mz-Y=Bwae0sAbw@mail.gmail.com>
-In-Reply-To: <CAMRc=MeKfWsf8T1tJLdj=+7aq0zGpQ07pHd2Mz-Y=Bwae0sAbw@mail.gmail.com>
-From: Ulf Hansson <ulf.hansson@linaro.org>
-Date: Wed, 25 Jun 2025 12:04:42 +0200
-X-Gm-Features: AX0GCFtiYC7fRWb7mfaCIbLmQje2hb4McQcP0uGJDzj7bHa1BymRJdIDLbPQ_rE
-Message-ID: <CAPDyKFq5G1CDL+VJxuzWZahZwUM0mVQJwU_WYYqNuDMDE3H5TA@mail.gmail.com>
-Subject: Re: [GIT PULL] Immutable tag between the pwrseq, drm and pmdomain
- trees for v6.17-rc1
-To: Bartosz Golaszewski <brgl@bgdev.pl>
-Cc: Michal Wilczynski <m.wilczynski@samsung.com>, Drew Fustini <drew@pdp7.com>,
- Guo Ren <guoren@kernel.org>, 
- Fu Wei <wefu@redhat.com>, Rob Herring <robh@kernel.org>, 
- Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
- Philipp Zabel <p.zabel@pengutronix.de>, Frank Binns <frank.binns@imgtec.com>, 
- Matt Coster <matt.coster@imgtec.com>, 
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, 
- Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-B4-Tracking: v=1; b=H4sIAKvKW2gC/22NywqDMBBFf0Vm3SlJfNKV/1FcRJPoQEkkE6Qi/
+ ntTu+3yHLjnHsA2kmV4FAdEuxFT8BnUrYBp0X62SCYzKKFqUasSV+3tC3n3ek00MSZjCMUoxtK
+ J1nWygjxdo3X0vrLPIfNCnELcr5dNfu0v2Ej1P7hJFGjc2OlK1a5tpt4QxxDSPcQZhvM8Px6Hq
+ eC6AAAA
+X-Change-ID: 20250523-panel-synaptics-tddi-0b0b3f07f814
+To: Neil Armstrong <neil.armstrong@linaro.org>, 
+ Jessica Zhang <quic_jesszhan@quicinc.com>, David Airlie <airlied@gmail.com>, 
  Simona Vetter <simona@ffwll.ch>, 
- Paul Walmsley <paul.walmsley@sifive.com>, Palmer Dabbelt <palmer@dabbelt.com>, 
- Albert Ou <aou@eecs.berkeley.edu>, Alexandre Ghiti <alex@ghiti.fr>, 
- Marek Szyprowski <m.szyprowski@samsung.com>, linux-riscv@lists.infradead.org, 
- devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, 
- linux-pm@vger.kernel.org, dri-devel@lists.freedesktop.org, 
- Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>, 
- Bartosz Golaszewski <bartosz.golaszewski@linaro.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
+ Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
+ Conor Dooley <conor+dt@kernel.org>, 
+ Jessica Zhang <jessica.zhang@oss.qualcomm.com>
+Cc: dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org, 
+ linux-kernel@vger.kernel.org, Kaustabh Chakraborty <kauschluss@disroot.org>
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1750846137; l=1665;
+ i=kauschluss@disroot.org; s=20250202; h=from:subject:message-id;
+ bh=hjJkA7oFAzYjbGdayYCi8BOgbIBdaazZmbsyFQXc0kY=;
+ b=i47/lAM2LOwTqd49rCoZONdX2gAZm0z02eIyQHO9e7Ku0i6I9GGwZ+aCUYFzqBAt8o0edpRAi
+ ngKaUTKfOnmBfID9AqR/VbE+Q/tRawWGDvgRJQWKbYgBAAhqGGoblk1
+X-Developer-Key: i=kauschluss@disroot.org; a=ed25519;
+ pk=h2xeR+V2I1+GrfDPAhZa3M+NWA0Cnbdkkq1bH3ct1hE=
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -100,27 +75,43 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, 24 Jun 2025 at 16:40, Bartosz Golaszewski <brgl@bgdev.pl> wrote:
->
-> On Tue, Jun 24, 2025 at 4:10=E2=80=AFPM Bartosz Golaszewski <brgl@bgdev.p=
-l> wrote:
-> >
-> > From: Bartosz Golaszewski <bartosz.golaszewski@linaro.org>
-> >
-> > Here's an immutable tag containing the thead 1520 power sequencing driv=
-er
-> > for the drm and pmdomain trees to pull from.
-> >
-> > Best Regards,
-> > Bartosz Golaszewski
->
-> Just an FYI - there don't seem to be any actual build-time
-> dependencies between this driver and the rest of the code that uses it
-> (thanks to the aux bus usage etc.) so Michal, Ulf et al: you can
-> probably skip the pull if you can rely on this being available in
-> linux-next for run-time testing.
+Synaptics' Touch and Display Driver Integration (TDDI) technology [1]
+employs a single chip for both touchscreen and display capabilities.
+Such designs reportedly help reducing costs and power consumption.
 
-Good point, I am not pulling the tag then!
+Although the touchscreens, which are powered by Synaptics'
+Register-Mapped Interface 4 (RMI4) touch protocol via I2C or SPI have
+driver support in the kernel, the MIPI DSI display panels don't.
 
-Kind regards
-Uffe
+This series introduces a rudimentary driver for controlling said display
+panels, which supports TD4101 and TD4300 panels.
+
+[1] https://www.synaptics.com/technology/display-integration
+
+Signed-off-by: Kaustabh Chakraborty <kauschluss@disroot.org>
+---
+Changes in v2:
+- fixed various dt_binding_check errors (conor)
+- did s/tddi_update_brightness/tddi_update_status
+- added check for panel enable in tddi_update_status()
+- used backlight_get_brightness() in appropriate places
+- Link to v1: https://lore.kernel.org/r/20250612-panel-synaptics-tddi-v1-0-dfb8a425f76c@disroot.org
+
+---
+Kaustabh Chakraborty (2):
+      dt-bindings: display: panel: document Synaptics TDDI panel driver
+      drm: panel: add support for Synaptics TDDI series DSI panels
+
+ .../display/panel/synaptics,td4300-panel.yaml      |  89 +++++++
+ drivers/gpu/drm/panel/Kconfig                      |  11 +
+ drivers/gpu/drm/panel/Makefile                     |   1 +
+ drivers/gpu/drm/panel/panel-synaptics-tddi.c       | 288 +++++++++++++++++++++
+ 4 files changed, 389 insertions(+)
+---
+base-commit: 1b152eeca84a02bdb648f16b82ef3394007a9dcf
+change-id: 20250523-panel-synaptics-tddi-0b0b3f07f814
+
+Best regards,
+-- 
+Kaustabh Chakraborty <kauschluss@disroot.org>
+
