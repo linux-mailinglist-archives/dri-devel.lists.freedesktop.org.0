@@ -2,153 +2,123 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 71970AE856A
-	for <lists+dri-devel@lfdr.de>; Wed, 25 Jun 2025 16:00:31 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id EC004AE8584
+	for <lists+dri-devel@lfdr.de>; Wed, 25 Jun 2025 16:03:39 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0F61F10E732;
-	Wed, 25 Jun 2025 14:00:28 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D070D10E72B;
+	Wed, 25 Jun 2025 14:03:37 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=amd.com header.i=@amd.com header.b="bQVXiu61";
+	dkim=pass (2048-bit key; unprotected) header.d=qualcomm.com header.i=@qualcomm.com header.b="MKaAVv4X";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from NAM12-DM6-obe.outbound.protection.outlook.com
- (mail-dm6nam12on2067.outbound.protection.outlook.com [40.107.243.67])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 27B4E10E6DD;
- Wed, 25 Jun 2025 14:00:27 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=YN19Ytua0n9sXbYZ4GaLbWqOZLDQFjTgk+HCevJalRTeD33Fpz/t+6o/pL0QGWI19WQxS6EtKpalETVE0x0XVp2m9eK8Di9rz3e4Cz6pdI3d1SPr4JexU8Ua8z+FM32OlJG1/CXSr25TrY8KHK1uM837utQgVGEisq6uS1QqKnZzHGuwvG2wl7IK2vFAKR17GaXhX8m3kV5y60d6r2ajg3kC1oZcXId07x/4RT6B7aL8lbBR/N2o0XMCHg75TrR6VPD4KSGioBa59fJTBAqzhTu/cxQ8WkNbcied46Ur8tZgqmD48i81Hw+Udf6PX68nJxFgZMpTxetj8Tk065J/1Q==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=8+s3Y6PNS/J46iISUY96T7GBJWf9AYH5+XreSaR63yA=;
- b=oN/wiPbpF5ZXqGOEPJL1/JusIK2ydfnHWB/tz0dc1Pz12jPlf/O/JuafHgbKJhi7YUsdu2V0P+p0SiaOWqo4Y9dJiONXJl5NdvT0wA16Mic5rCz95bd1ZlWiU0YGE72BlaqJKYqrDbIh2Su0WQvTQoFhw2LI+q9KAD31jJL+E+d17pGUl+Sz9uwSpNmA49Wy37hPknW4EVyRdAoBaSwO89s9cPY4mH3cFZQtOn3hUBGOQdl0AHReE8dZje0qTyJOr8gp8ndwhvo6GfB3VcqQ3pl6vkV1M1BLkV0W6dQpb+4D1FxCQGRDOXMtpDFM3rWylhbhax7iOx5GkGyWu4XhoA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
- header.d=amd.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=8+s3Y6PNS/J46iISUY96T7GBJWf9AYH5+XreSaR63yA=;
- b=bQVXiu618EXxpff7XdONE2arYrfXJS2DJ3J2KNETZAIttqPCh167jrVCriMmoPuqkqdfB9++Jx6fw1+99cPVlVCljB42+YhvPsQA2ylC3lE8kF/0qkrCANxlHxThX8CETxSt51Ofgzl2B1WfURiq5jluro/DMXVX+2ZZcinFlTQ=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=amd.com;
-Received: from CO6PR12MB5427.namprd12.prod.outlook.com (2603:10b6:5:358::13)
- by CY8PR12MB7220.namprd12.prod.outlook.com (2603:10b6:930:58::8) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8880.16; Wed, 25 Jun
- 2025 14:00:24 +0000
-Received: from CO6PR12MB5427.namprd12.prod.outlook.com
- ([fe80::1c2f:5c82:2d9c:6062]) by CO6PR12MB5427.namprd12.prod.outlook.com
- ([fe80::1c2f:5c82:2d9c:6062%7]) with mapi id 15.20.8880.015; Wed, 25 Jun 2025
- 14:00:23 +0000
-Message-ID: <c128d6d1-560d-4b97-b448-f7bdff464602@amd.com>
-Date: Wed, 25 Jun 2025 10:00:20 -0400
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] drm/amd/display: disable CRTC degamma LUT for DCN401
-To: Melissa Wen <mwen@igalia.com>, sunpeng.li@amd.com,
- alexander.deucher@amd.com, christian.koenig@amd.com, airlied@gmail.com,
- simona@ffwll.ch
-Cc: Aurabindo Pillai <aurabindo.pillai@amd.com>,
- Michel Daenzer <michel.daenzer@mailbox.org>,
- Xaver Hugl <xaver.hugl@gmail.com>, amd-gfx@lists.freedesktop.org,
- dri-devel@lists.freedesktop.org, kernel-dev@igalia.com
-References: <20250511213847.61930-1-mwen@igalia.com>
-Content-Language: en-US
-From: Harry Wentland <harry.wentland@amd.com>
-In-Reply-To: <20250511213847.61930-1-mwen@igalia.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: YT4PR01CA0187.CANPRD01.PROD.OUTLOOK.COM
- (2603:10b6:b01:110::27) To CO6PR12MB5427.namprd12.prod.outlook.com
- (2603:10b6:5:358::13)
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com
+ [205.220.180.131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7F96610E72B
+ for <dri-devel@lists.freedesktop.org>; Wed, 25 Jun 2025 14:03:36 +0000 (UTC)
+Received: from pps.filterd (m0279870.ppops.net [127.0.0.1])
+ by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 55P9nIqR032752
+ for <dri-devel@lists.freedesktop.org>; Wed, 25 Jun 2025 14:03:35 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
+ cc:content-type:date:from:in-reply-to:message-id:mime-version
+ :references:subject:to; s=qcppdkim1; bh=URKZePCRRSWNA6m1/d+xkCFp
+ jOvfyFXCKN/6BSWCDGU=; b=MKaAVv4XfQR4jf+secKsYKhgLwQdYBMU1onEiPrE
+ g3z2kfZXBpAVFDJcGI0foBthQ9pdP/eOY6HApYbBpDpfZ6ddDafCQy1d2KrFLXyM
+ x/hVvbCxbIH5xMa62McpKOSHPo6brldDt3CCiqQ/JvaDGa0HoVtko9bDhUxV10Zf
+ H1+5lvbTvWVatIj2k0twfZO9L6x6NCtLOY1IesZFNPrOfuboumEe/4AT3M+IgVia
+ ti/6hWJvozEZkXrvh7pCB/8veEc7oTD/NSe+w+LrUgAEFN0m1ocwhTlpuGyULJRR
+ lZhNUKHvBfeHMBZ4xASb372BviH2LM2CPsCmeSqHTnsBSw==
+Received: from mail-il1-f198.google.com (mail-il1-f198.google.com
+ [209.85.166.198])
+ by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 47fbm1xpb8-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
+ for <dri-devel@lists.freedesktop.org>; Wed, 25 Jun 2025 14:03:35 +0000 (GMT)
+Received: by mail-il1-f198.google.com with SMTP id
+ e9e14a558f8ab-3ddcb80387dso8812135ab.1
+ for <dri-devel@lists.freedesktop.org>; Wed, 25 Jun 2025 07:03:35 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1750860214; x=1751465014;
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=URKZePCRRSWNA6m1/d+xkCFpjOvfyFXCKN/6BSWCDGU=;
+ b=oR6JY3Nbi4ewfqEP9ZV+EsVmcv9ofox0XKGcq1cTpG+olSmfaWaVeCfIi4GLxW4JmR
+ /SHMRRDctbf33PKe5HPm9VARjfFyw1iCMTm2YuVjOZxVLKljKgU9jACiVlxJPrplg8BO
+ suhIlQJUetGU9xuhGK9E1GGCLvO9Qlh+pBzKDyNnDPzHGlqUaQrYawFcoSlSl060Cpfc
+ p9LHSl97RiU0GXuQ1tvvq7xm82z9q/vrzxnEHC4hPrr757MYUCgFhTGJxv6qq1ODl7z4
+ 0tSZbU7tt4Tz3mtXji2pdOEpYrxZvptTVzpvOA6yyxP6EEgoy/2ArKQZNzBJNM0Ip121
+ Ti1A==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCW0DZNF5B/du1Ky4RRcSL2jaJ7/iDiXUhnvpm4I/MVB0AEyWFfg8kvKdaQTIsZPeEu2MqSP70vNewQ=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0Yy9u3Ffgto0fpyb9nKk7wSj0Ws30mV5XRd4MJ2d66JNaGb+bS4l
+ ZGp3zx6TA5zE9ltlxfIZ7/hEPy+LH0toIarovi6PdA9r5BuKGNjJkBDoXDooeO7RBhMDNdwI0BB
+ W84TtQrbRfMutAbfvWL10IltwM082H6aTIBeUQ9j7etn1HrMEQqYKbrIbAHZ3KvzvqTJQyj4=
+X-Gm-Gg: ASbGncuTD2HbdRwg/lcXz7Ot/1w153igXB9fzvSAW+HYvQd8CVGO6UicyRT15tg0j71
+ lPphgbEyqPgR07VROy99/lYXUe7tFpl4onbhVGs6AHF/fXjGA6BulRBwXVKXCaLiISxTF/AkGDP
+ rTJIWQdnOOVQIfOjCPVICYjyBFcy3zlthPuYa1p60cnYdkXx+EVLfKYjH/WJHVQQBOEGmUVbMYj
+ f0o/eh5sA1BBvpMAmhfbGWfDsfBYN2xcVmm/kltHK1oQYd9kexRiC9zYFKa8l9KsbEDcLxh8qZL
+ eV3RFaoWHpe0aFVoeajlJsvZjzesg39wzJI4aLOs5xp0qUJP699CWVh7Jq0sLsL+SRhgToQVC2a
+ cqmVijlcl5IixjKe2G/9qj9Hl2nsCzmRhx1k=
+X-Received: by 2002:a05:6e02:1746:b0:3dd:a0fc:1990 with SMTP id
+ e9e14a558f8ab-3df288c489dmr102423595ab.3.1750860214053; 
+ Wed, 25 Jun 2025 07:03:34 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IGypCwMCHMt534i1XnTY01Nz4JEqoxT4c1vs6MRi3pmgy33qxWXH4LT7FJdUnQhkZO7vUdCPw==
+X-Received: by 2002:a05:6e02:1746:b0:3dd:a0fc:1990 with SMTP id
+ e9e14a558f8ab-3df288c489dmr102422645ab.3.1750860213349; 
+ Wed, 25 Jun 2025 07:03:33 -0700 (PDT)
+Received: from umbar.lan
+ (2001-14ba-a0c3-3a00-264b-feff-fe8b-be8a.rev.dnainternet.fi.
+ [2001:14ba:a0c3:3a00:264b:feff:fe8b:be8a])
+ by smtp.gmail.com with ESMTPSA id
+ 2adb3069b0e04-553e41bbbd9sm2187336e87.124.2025.06.25.07.03.32
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 25 Jun 2025 07:03:32 -0700 (PDT)
+Date: Wed, 25 Jun 2025 17:03:31 +0300
+From: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
+To: Yongxing Mou <quic_yongmou@quicinc.com>
+Cc: Rob Clark <robin.clark@oss.qualcomm.com>,
+ Abhinav Kumar <abhinav.kumar@linux.dev>,
+ Jessica Zhang <jessica.zhang@oss.qualcomm.com>,
+ Sean Paul <sean@poorly.run>,
+ Marijn Suijten <marijn.suijten@somainline.org>,
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+ linux-arm-msm@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ freedreno@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ Abhinav Kumar <quic_abhinavk@quicinc.com>
+Subject: Re: [PATCH v2 02/38] drm/msm/dp: remove dp_display's dp_mode and use
+ dp_panel's instead
+Message-ID: <4jrpa7iyygciuy2k4ydk7cpm5isdrddclljf6gbyvkiqc645tx@idyds4tkstkx>
+References: <20250609-msm-dp-mst-v2-0-a54d8902a23d@quicinc.com>
+ <20250609-msm-dp-mst-v2-2-a54d8902a23d@quicinc.com>
+ <kq6tb2wnte6v5z7uxgzc22kjwcevgvcdluzqbelvnbpbxlkotd@ltlv3u2guj4u>
+ <1be2238d-7bb2-4ef9-9c7c-81dab0dcb559@quicinc.com>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: CO6PR12MB5427:EE_|CY8PR12MB7220:EE_
-X-MS-Office365-Filtering-Correlation-Id: a56f1605-3690-47fc-1220-08ddb3f0a0e4
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;ARA:13230040|376014|366016|1800799024|7053199007;
-X-Microsoft-Antispam-Message-Info: =?utf-8?B?djh3TE9mSThuU1hMdG5DbGZmdmpaS1VDbktTd1dBOTdVTm9uMlFTSWZMcS9W?=
- =?utf-8?B?VHppUEdjdWo5UHZJVGk0Tzl5UkJMNjRsSTNQaUZkMjlUNGIwZVdnVm1WejBj?=
- =?utf-8?B?NlRWYWRhZ1IxZXV5bVhBcDkvM3Q0WnNyU3pSbjh3Y2RTOGhWTnk1UGVTei8z?=
- =?utf-8?B?WW5yZk11RXVON0xTQmJPWTcwRUNIdElOUlREMmZ4R09aYW1iVlp6QWdYdGZo?=
- =?utf-8?B?UkJkbkpUMEpybTJkVW1IRU5UL3ZEbjl6N0xVTStiemdmWWdhcVA4T2ZyS0ZL?=
- =?utf-8?B?a3hDUnQyNm9GMURDd2hxYzRtMUxTTyt2djVlWGJlZ0lqNmRYbVdsS2pvYndG?=
- =?utf-8?B?WUhXS0hGMzZrMWJVMHk1cFZBTU9CeS9acWZFblUxRlJVU3FmSE1GbkMwNWVL?=
- =?utf-8?B?YnRTRGhnamM5N1BVUEMxODZWdU1TaEFmTHhPSHRVOWIrQ0RwRkQ2T29Ca0tj?=
- =?utf-8?B?djVzSkwyNUJtMHVYTVowR3R2NjRRbW9maXYvSXN2M1pIVFBieXNjazk0dWRy?=
- =?utf-8?B?enZFNUFMQUQxRXczaUcyc0xwdnFPcGVmUWh1dVBjL3BOUWdLYWRPL09ETS9x?=
- =?utf-8?B?a1ZIZ0Q0RWxRN1liZjBTRy9Jazhia244TU1sbGYvTnN2dlBDaUNDVWxBbWFh?=
- =?utf-8?B?bVhrUG9HVG5OM083UXFZZ3BKNkhIMzJsZFlIZmF6emczSVlMY2V5ckNLaEhj?=
- =?utf-8?B?ZXo5b3ZVZ2pHMEFXUkFaem1aN1N1UjdEa2srSXljYXNpSjZrTFhMVXZubzNn?=
- =?utf-8?B?R2hJWFBBY1BFMk0rSVpMZ0ZuTFk5TmQxZStsS1Q3MS9ETEszRHdxdkJoKy9S?=
- =?utf-8?B?M0dDOG5tSGxuQ3QrMTV1MFYwL1ZIckVzZWYzSlRrQURmWWVnVHNjcm1hYjhm?=
- =?utf-8?B?eDFZczdqWjQ0WW1wU3RRaWZuVjVnZVJZK0VpV0ZkUVgrZ1Rvc3RwRVVZMm5Q?=
- =?utf-8?B?ZXlCOWpQd2dyd0hBay9FS3g3c1NTWHJOd3JyYzhZVUdXRkkzdE1JZHJZU01Z?=
- =?utf-8?B?bHVlKzRHdTJ4SjlRWjZTaGdQWk1HWGMxYUFmay9hbHJTL2FvbHltdXE4cUJK?=
- =?utf-8?B?VlFySkJmSWtoVS94clZEUm91MllUUzJCaHhnRTZrUEc2dW5NeW5nRmZ1VU1a?=
- =?utf-8?B?YU8xMGpoWEVhVUo3R3AyRXRBVDNiaGtnMHl6UFVJalNMOTNGeEF1dlg0U1B2?=
- =?utf-8?B?S1EwaGJ4RURLbm0zR0xlVVYxZjAvb1BtQlFvOEJ1SWlsNjRZSmt5NUxiYnRs?=
- =?utf-8?B?blJMUVZJQ1lUNm91UDlnczdXY01JTnJmSjJZMmRUUnZaUG9yaWdxcG1tY2p3?=
- =?utf-8?B?aDRSMEU0bmQ3d1ZmeVB6OGZIZjh5L1B0ZUk5Zm1iMDlXL2V5UE1Wb1cvdEYw?=
- =?utf-8?B?VU03dWRKTVRkM2ZCZ2V4KzVHUmhvRXVCTlUzMjIrczJKMm9IN1ZTemM4UUsv?=
- =?utf-8?B?OFdFQUgwS2U3Vis4dlZ5RnRmKzJIZU93L05FUUhTTkV6c2dUK0dwYjNOMHJt?=
- =?utf-8?B?LzV2RUJzLzhGczJkQnFKQzBXMXlQNWJzbHdUOCsweTFUekF6ejBTZVVXK0xl?=
- =?utf-8?B?ZFhiS1dJL2d4bzMvNURYRnIzeWwrSFExcXZQQ2NFWWl2alA1R0psNHQ4Nmdk?=
- =?utf-8?B?NWg2UTBtV2ZybmEzU3dTd3dSNmhyWUVFM1VlUEZUbzhoY0Rpc3ExMVhnNXBt?=
- =?utf-8?B?MVNyNHBCcmR5S2tyRjF3a290OEsyYkI1QmxObllocnlINTI4MzFkdUwzRWlu?=
- =?utf-8?B?WGxhNDREWGkrb0RxeXFVaVBMdGxoWFdjTmt6Nnlpd3NQOFNUOXE2VmFsOVV0?=
- =?utf-8?Q?iNkfTh0LafvVs8S5y1MaPDT4Dtdu0YH5FE7zI=3D?=
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:CO6PR12MB5427.namprd12.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230040)(376014)(366016)(1800799024)(7053199007); DIR:OUT; SFP:1101; 
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?SHUzQWUzZit4R0VKYnhnWXd2WmFjVThNdDhjK3JLYjFyamhyYWxjOEZyZkZi?=
- =?utf-8?B?VU9NYTJPSmhTNmo2Mi9oNXV3TUhpaE5zOVZ1MWZMRE5Zb051cUpWbGljQTZJ?=
- =?utf-8?B?U3I2ZUJCNzlxWG9iNzZySmRYUHlkdTRLc0dGWGZUZjBickI4UTJUZDA3ODFy?=
- =?utf-8?B?TVEzbCt3clFpbkdPeCtKUnZzNG4xUlJ1QS92RmlONUNMcUNTK0llMmt1RmJQ?=
- =?utf-8?B?ZnFObzYxOHJBbFVWUk94NGRmTVgzT1RHZTVjTWIvMjkxbWhiek1QRU5SWkh4?=
- =?utf-8?B?dWtCcmFjSnRGNEFnTXVRWHRuejVlSGo2WGlUVXZZZ3ZkbnlFTVZvaFpvOTJv?=
- =?utf-8?B?WkllRDZkTjUrQXBBSXAxTUpYdnZkMVpkMXFKRVI3VmVZeCs0QlVCYktNL3FR?=
- =?utf-8?B?aGE2ajNudjR2eG1DUWxrUlZ6YURhdHdSZHlDMjgxVUFDODl2Q2RjbW9lUkJX?=
- =?utf-8?B?RTRsUzhBRUVabVBBV3RnUlcxeTR6UGZHQ0ltdmovaTZVNEEwbGFYek8rWmkx?=
- =?utf-8?B?KzM0aWpoa28zTUtIZzJpVmZROXd2ZjJvOUhJZjJnSWE2cFQ0cFhqYUc5NzYw?=
- =?utf-8?B?WTNQNDUwdHR1OHVDUzR6U2QydjVxNG4zaWtYNUxPL3NseDBCUXgrRmxLLzJ4?=
- =?utf-8?B?UHRUVkl5a2FlNDVkUFhZTWVRYmo5UldUSUNmM2dEQytWK1g1d2pCZmhvNGtl?=
- =?utf-8?B?YjI2TnhuU2lRcTV1bCt4TzRxcFoxUjh0UFhrWWxGOFZWN2lHeDBGRDBZcktS?=
- =?utf-8?B?Vm11ZUdtLzRkU0t1WmY1bzYxVlQzSWMvM3M3TzkrdWxLK1NkY0N0Q3QvbThR?=
- =?utf-8?B?TENKZUt3cU9CNWlCUUpyYzVvQ1hBYy82bytwNWNGRCtHVU0zYk9qWmkwTjNp?=
- =?utf-8?B?U1NlT011TEx0ak5DZmcvdVc5Y2hUUTQ1emVJYnRyTy9FU1d0MkVzZThlNmp3?=
- =?utf-8?B?dkF1MnpwWHoyZ1lzc1pvRDJYeFppblZESTdDTDNpR1poeXpwSFlwRk5yYlhV?=
- =?utf-8?B?Wk55V2NSU3dqS25SWmxiVW05Mjk4YnpDdjBSNDl1ZlpyNDZKOEFNU2pqM3Ix?=
- =?utf-8?B?Sm5CV3dmVWVrQ3JHc1BuVFI4TUlPQktpNXh4T1lPcGxma3pqMjhZNy9lLzJS?=
- =?utf-8?B?M0dSaG44amhpN0ZGdk5OeUREcGZRS1V0c3Aydnl3bkl4NzZQUG9qd2Q1U1lo?=
- =?utf-8?B?Z01pYUxKVmNrK211RFF4Q2hsWUovTkRTbzR6YlgvK2ZBSnJpbDZ3aWNsZDhU?=
- =?utf-8?B?YXNuMk1KSTFscVE0akRNRnRHdmVNZTBmUkNYa1RGdjN6Y3d5KzhqZzdCRFRm?=
- =?utf-8?B?b2ZaM3JUc3ErcW5rWHdPK3BEUXlaakUyNDlIUUlkbHhveTdGelI2ZnNqVjhw?=
- =?utf-8?B?c04xT1RRTS83MENtOUlMTjFqendlTGg1L3hJazNUU29wSDNONUJPUnZqSGo1?=
- =?utf-8?B?QmV1azIxU3BoaUp0RFU4cWJwa3BHZCszS2dCeElIeHZLdmhmWFBaRDhOYkp1?=
- =?utf-8?B?SksvMGViWUJBaVU1aHpLUnAwNENvWHBka1Y3TytQaDVxM3krQmMzYTM1Tktn?=
- =?utf-8?B?RE1DUmNSZ2pvYzkxVEJRdktOakphbkF4YzBLbmlTTUZSYitraW94TUw0RUhu?=
- =?utf-8?B?T05LUlRDVFMzMjNURkFwa3R3eGdzTS9PZ2RZeEd1TFUyOXJocTZ1VEVUSjZl?=
- =?utf-8?B?WGpFbGRMMDBLNkFrZC93VU02aEF6Ky9XemZVOUhGWGZ0elBYbDNkdVBVVjQz?=
- =?utf-8?B?NmVpMUh5eE9JU0VpN21FN3JzcVdMSlVjZGJHb2x0U1pBcnR3dEkvSUxKTlhE?=
- =?utf-8?B?TnFoMHpxNEtuZGVFOWc2MzdCYno0WEF3MzhwRm5Ecnd5MHBqSWhEUmQwTHEv?=
- =?utf-8?B?S01lN0NuQXErWXF1TTZZT0hRemsxOXNCT1J4Tmt1ZUlHUVZYY2ptKzZyQzFo?=
- =?utf-8?B?aHduaXIrK1BBSEluc3VQSk9NSDVWcm9Vdm1JL3ZGeElremhjL0c2S0NmQjBV?=
- =?utf-8?B?ZXJhOStWNFA3bmtEa255QnV2Z0pvQlUvQTNmNXR4VkNwRGxQWDFMRUVaNmNh?=
- =?utf-8?B?enNHZFViU3RFTHBzcnNUOEQzUE5wNExxdjN0MTAxZW11ZS91OEJucW1yYzBU?=
- =?utf-8?Q?DRoyTS4zXj3EU1zyvsRv9cRwC?=
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: a56f1605-3690-47fc-1220-08ddb3f0a0e4
-X-MS-Exchange-CrossTenant-AuthSource: CO6PR12MB5427.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 25 Jun 2025 14:00:23.1161 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: BZr9WWxtUHboNuBEjdaKAPWGyoLl2tqziooyVUjF8l4qG05XgN1QgS3RKwcuKz7ysc6R1GzzlVvUh+3wwzhmAw==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: CY8PR12MB7220
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <1be2238d-7bb2-4ef9-9c7c-81dab0dcb559@quicinc.com>
+X-Authority-Analysis: v=2.4 cv=YYu95xRf c=1 sm=1 tr=0 ts=685c01b7 cx=c_pps
+ a=knIvlqb+BQeIC/0qDTJ88A==:117 a=xqWC_Br6kY4A:10 a=kj9zAlcOel0A:10
+ a=6IFa9wvqVegA:10 a=e5mUnYsNAAAA:8 a=COk6AnOGAAAA:8 a=s97EMkLwCKFNuu-rtO0A:9
+ a=CjuIK1q_8ugA:10 a=8vIIu0IPYQVSORyX1RVL:22 a=Vxmtnl_E_bksehYqCbjh:22
+ a=TjNXssC_j7lpFel5tvFf:22
+X-Proofpoint-GUID: ruUyFfpusFQOjKBiaDZNYFVSKJsVCuTH
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwNjI1MDEwMSBTYWx0ZWRfX/mFp+5PVujVE
+ PGqJQF8gyvxlMPXFkaZkMQEvuOTV0dn6lWA1P5tDawPQaDRiNoshLFxftBahPQvY3TnDjZxZcdc
+ LtVr5FyGC1UhiL7TngScmao98yfTDSviPIIbMyI9EuCipYTMT1BXlLEBt/zaCHia8g91ovexMJs
+ 90xfsgS/shL7sR4Haoy0jG6uoRfT79Vky2a+TTnFcb2zo/FpGueMatylE/Q6jqXCEe+4mY/7hbl
+ 5k+GV+NwrzR8Bb92LJ3ptf/3dQb4SfqMws8iVi6VgZtFK38dudkrWs7VFJf7mBuO6j+EVQ0uSAs
+ l7rLJ21716qgcw/wxWJrIKaJZ1xcWAZhueI891ed5T9w+UeCofyA+0S/9oX6+cwOcgo98auhNtZ
+ eFuQniKp2ulpRrPfecXZ4PlDIn0PdQR0YRxpAWPDAuPJn4u39Fe8V4LbhaCescdw0RhgGe7S
+X-Proofpoint-ORIG-GUID: ruUyFfpusFQOjKBiaDZNYFVSKJsVCuTH
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1099,Hydra:6.1.7,FMLib:17.12.80.40
+ definitions=2025-06-25_04,2025-06-25_01,2025-03-28_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ malwarescore=0 adultscore=0 spamscore=0 impostorscore=0 suspectscore=0
+ lowpriorityscore=0 priorityscore=1501 phishscore=0 mlxlogscore=999
+ clxscore=1015 mlxscore=0 bulkscore=0 classifier=spam authscore=0 authtc=n/a
+ authcc= route=outbound adjust=0 reason=mlx scancount=1
+ engine=8.19.0-2505280000 definitions=main-2506250101
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -164,69 +134,204 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-
-
-On 2025-05-11 17:22, Melissa Wen wrote:
-> In DCN401 pre-blending degamma LUT isn't affecting cursor as in previous
-> DCN version. As this is not the behavior close to what is expected for
-> CRTC degamma LUT, disable CRTC degamma LUT property in this HW.
+On Wed, Jun 25, 2025 at 08:34:18PM +0800, Yongxing Mou wrote:
 > 
-> Link: https://gitlab.freedesktop.org/drm/amd/-/issues/4176
-> Signed-off-by: Melissa Wen <mwen@igalia.com>
-
-Sorry, Melissa, for the late response. I though we dealt with
-this patch already but it looks like we didn't.
-
-Thanks for the fix and your detailed explanation.
-
-Reviewed-by: Harry Wentland <harry.wentland@amd.com>
-
-Harry
-
-> ---
 > 
-> Hi,
-> 
-> When enabling HDR on KDE, it takes the first CRTC 1D LUT available and
-> apply a color transformation (Gamma 2.2 -> PQ). AMD driver usually
-> advertises a CRTC degamma LUT as the first CRTC 1D LUT, but it's
-> actually applied pre-blending. In previous HW version, it seems to work
-> fine because the 1D LUT was applied to cursor too, but DCN401 presents a
-> different behavior and the 1D LUT isn't affecting the hardware cursor.
-> 
-> To address the wrong gamma on cursor with HDR (see the link), I came up
-> with this patch that disables CRTC degamma LUT in this hw, since it
-> presents a different behavior than others. With this KDE sees CRTC
-> regamma LUT as the first post-blending 1D LUT available. This is
-> actually more consistent with AMD color pipeline. It was tested by the
-> reporter, since I don't have the HW available for local testing and
-> debugging.
-> 
-> Melissa
-> 
->  .../gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_crtc.c    | 11 ++++++++++-
->  1 file changed, 10 insertions(+), 1 deletion(-)
-> 
-> diff --git a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_crtc.c b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_crtc.c
-> index e8bdd7f0c460..db157b38f862 100644
-> --- a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_crtc.c
-> +++ b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_crtc.c
-> @@ -737,7 +737,16 @@ int amdgpu_dm_crtc_init(struct amdgpu_display_manager *dm,
->  	 * support programmable degamma anywhere.
->  	 */
->  	is_dcn = dm->adev->dm.dc->caps.color.dpp.dcn_arch;
-> -	drm_crtc_enable_color_mgmt(&acrtc->base, is_dcn ? MAX_COLOR_LUT_ENTRIES : 0,
-> +	/* Dont't enable DRM CRTC degamma property for DCN401 since the
-> +	 * pre-blending degamma LUT doesn't apply to cursor, and therefore
-> +	 * can't work similar to a post-blending degamma LUT as in other hw
-> +	 * versions.
-> +	 * TODO: revisit it once KMS plane color API is merged.
-> +	 */
-> +	drm_crtc_enable_color_mgmt(&acrtc->base,
-> +				   (is_dcn &&
-> +				    dm->adev->dm.dc->ctx->dce_version != DCN_VERSION_4_01) ?
-> +				     MAX_COLOR_LUT_ENTRIES : 0,
->  				   true, MAX_COLOR_LUT_ENTRIES);
->  
->  	drm_mode_crtc_set_gamma_size(&acrtc->base, MAX_COLOR_LEGACY_LUT_ENTRIES);
+> On 2025/6/9 20:48, Dmitry Baryshkov wrote:
+> > On Mon, Jun 09, 2025 at 08:21:21PM +0800, Yongxing Mou wrote:
+> > > From: Abhinav Kumar <quic_abhinavk@quicinc.com>
+> > > 
+> > > dp_display caches the current display mode and then passes it onto
+> > > the panel to be used for programming the panel params. Remove this
+> > > two level passing and directly populated the panel's dp_display_mode
+> > > instead.
+> > 
+> > - Why do we need to cache / copy it anyway? Can't we just pass the
+> >    corresponding drm_atomic_state / drm_crtc_state / drm_display_mode ?
+> > 
+> This part works as follows: .mode_set() copies the adjusted_mode into
+> msm_dp_display_private->msm_dp_display_mode, and also parses and stores
+> variables such as v_active_low/h_active_low/out_fmt_is_yuv_420 and ... When
+> @drm_bridge_funcs.atomic_enable() is called, it copies
+> msm_dp_display->msm_dp_mode into dp_panel->msm_dp_mode and initializes
+> panel_info in msm_dp_display_set_mode(). Then when go to
+> msm_dp_ctrl_on_stream(), the parameters are updated into the corresponding
+> hardware registers.
 
+So, if we do everything during .atomic_enable(), there would be no need
+to store and/or copy anything. All the data is available and can be used
+as is.
+
+> 
+> This design has been in place since the first version of the DP driver and
+> has remained largely unchanged.
+
+Yes... The point is that you are touching this piece of code anyway,
+let's make it nicer.
+
+> Originally, the drm_mode would be passed in
+> two stages: from msm_dp_display->msm_dp_mode to dp_panel->msm_dp_mode. Since
+> in MST mode each stream requires its own drm_mode and stored in dp_panel, we
+> simplified the two-stage transfer into a single step (.mode_set() do all
+> things and store in msm_dp_panel). Meanwhile we modified the
+> msm_dp_display_set_mode function to accept a msm_dp_panel parameter,
+> allowing the MST bridge funcs' mode_set() to reuse this part code.
+> 
+> The following patches:
+> https://patchwork.freedesktop.org/patch/657573/?series=142207&rev=2 and
+> https://patchwork.freedesktop.org/patch/657593/?series=142207&rev=2,
+> introduce msm_dp_display_*_helper functions to help reuse common code across
+> MST/SST/eDP drm_bridge_funcs.
+> 
+> If we drop msm_dp_mode from dp_panel and use drm_display_mode, it might
+> introduce a large number of changes that are not directly related to MST.
+> Actually i think the presence of msm_dp_display_mode seems to simplify the
+> work in msm_dp_panel_timing_cfg(), this patch series we want to focus on MST
+> parts, so would we consider optimizing them later?
+
+Sure... But then you have to change two places. If you optimize it
+first, you have to touch only place. And it can be even submitted
+separately.
+
+> 
+> Thanks~
+> > > 
+> > > Signed-off-by: Abhinav Kumar <quic_abhinavk@quicinc.com>
+> > > Signed-off-by: Yongxing Mou <quic_yongmou@quicinc.com>
+> > > ---
+> > >   drivers/gpu/drm/msm/dp/dp_display.c | 76 ++++++++++++++-----------------------
+> > >   1 file changed, 29 insertions(+), 47 deletions(-)
+> > > 
+> > > diff --git a/drivers/gpu/drm/msm/dp/dp_display.c b/drivers/gpu/drm/msm/dp/dp_display.c
+> > > index 4a9b65647cdef1ed6c3bb851f93df0db8be977af..9d2db9cbd2552470a36a63f70f517c35436f7280 100644
+> > > --- a/drivers/gpu/drm/msm/dp/dp_display.c
+> > > +++ b/drivers/gpu/drm/msm/dp/dp_display.c
+> > > @@ -92,7 +92,6 @@ struct msm_dp_display_private {
+> > >   	struct msm_dp_panel   *panel;
+> > >   	struct msm_dp_ctrl    *ctrl;
+> > > -	struct msm_dp_display_mode msm_dp_mode;
+> > >   	struct msm_dp msm_dp_display;
+> > >   	/* wait for audio signaling */
+> > > @@ -806,16 +805,29 @@ static int msm_dp_init_sub_modules(struct msm_dp_display_private *dp)
+> > >   }
+> > >   static int msm_dp_display_set_mode(struct msm_dp *msm_dp_display,
+> > > -			       struct msm_dp_display_mode *mode)
+> > > +				   const struct drm_display_mode *adjusted_mode,
+> > > +				   struct msm_dp_panel *msm_dp_panel)
+> > >   {
+> > > -	struct msm_dp_display_private *dp;
+> > > +	u32 bpp;
+> > > -	dp = container_of(msm_dp_display, struct msm_dp_display_private, msm_dp_display);
+> > > +	drm_mode_copy(&msm_dp_panel->msm_dp_mode.drm_mode, adjusted_mode);
+> > > +
+> > > +	if (msm_dp_display_check_video_test(msm_dp_display))
+> > > +		bpp = msm_dp_display_get_test_bpp(msm_dp_display);
+> > > +	else
+> > > +		bpp = msm_dp_panel->connector->display_info.bpc * 3;
+> > > +
+> > > +	msm_dp_panel->msm_dp_mode.bpp = bpp;
+> > > +
+> > > +	msm_dp_panel->msm_dp_mode.v_active_low =
+> > > +		!!(adjusted_mode->flags & DRM_MODE_FLAG_NVSYNC);
+> > > +	msm_dp_panel->msm_dp_mode.h_active_low =
+> > > +		!!(adjusted_mode->flags & DRM_MODE_FLAG_NHSYNC);
+> > > +	msm_dp_panel->msm_dp_mode.out_fmt_is_yuv_420 =
+> > > +		drm_mode_is_420_only(&msm_dp_panel->connector->display_info, adjusted_mode) &&
+> > > +		msm_dp_panel->vsc_sdp_supported;
+> > > -	drm_mode_copy(&dp->panel->msm_dp_mode.drm_mode, &mode->drm_mode);
+> > > -	dp->panel->msm_dp_mode.bpp = mode->bpp;
+> > > -	dp->panel->msm_dp_mode.out_fmt_is_yuv_420 = mode->out_fmt_is_yuv_420;
+> > > -	msm_dp_panel_init_panel_info(dp->panel);
+> > > +	msm_dp_panel_init_panel_info(msm_dp_panel);
+> > >   	return 0;
+> > >   }
+> > > @@ -1431,10 +1443,13 @@ bool msm_dp_needs_periph_flush(const struct msm_dp *msm_dp_display,
+> > >   bool msm_dp_wide_bus_available(const struct msm_dp *msm_dp_display)
+> > >   {
+> > >   	struct msm_dp_display_private *dp;
+> > > +	struct msm_dp_panel *dp_panel;
+> > >   	dp = container_of(msm_dp_display, struct msm_dp_display_private, msm_dp_display);
+> > > -	if (dp->msm_dp_mode.out_fmt_is_yuv_420)
+> > > +	dp_panel = dp->panel;
+> > > +
+> > > +	if (dp_panel->msm_dp_mode.out_fmt_is_yuv_420)
+> > >   		return false;
+> > >   	return dp->wide_bus_supported;
+> > > @@ -1496,10 +1511,6 @@ void msm_dp_bridge_atomic_enable(struct drm_bridge *drm_bridge,
+> > >   	bool force_link_train = false;
+> > >   	msm_dp_display = container_of(dp, struct msm_dp_display_private, msm_dp_display);
+> > > -	if (!msm_dp_display->msm_dp_mode.drm_mode.clock) {
+> > > -		DRM_ERROR("invalid params\n");
+> > > -		return;
+> > > -	}
+> > >   	if (dp->is_edp)
+> > >   		msm_dp_hpd_plug_handle(msm_dp_display, 0);
+> > > @@ -1517,15 +1528,6 @@ void msm_dp_bridge_atomic_enable(struct drm_bridge *drm_bridge,
+> > >   		return;
+> > >   	}
+> > > -	rc = msm_dp_display_set_mode(dp, &msm_dp_display->msm_dp_mode);
+> > > -	if (rc) {
+> > > -		DRM_ERROR("Failed to perform a mode set, rc=%d\n", rc);
+> > > -		mutex_unlock(&msm_dp_display->event_mutex);
+> > > -		return;
+> > > -	}
+> > 
+> > It should be done other way around: keep this call and drop
+> > msm_dp_bridge_mode_set().
+> > 
+> Emm as reply in last comments..
+
+Yep. Drop .mode_set, the callback is even described as deprecated.
+
+> > > -
+> > > -	hpd_state =  msm_dp_display->hpd_state;
+> > > -
+> > >   	if (hpd_state == ST_CONNECTED && !dp->power_on) {
+> > >   		msm_dp_display_host_phy_init(msm_dp_display);
+> > >   		force_link_train = true;
+> > > @@ -1604,33 +1606,13 @@ void msm_dp_bridge_mode_set(struct drm_bridge *drm_bridge,
+> > >   	msm_dp_display = container_of(dp, struct msm_dp_display_private, msm_dp_display);
+> > >   	msm_dp_panel = msm_dp_display->panel;
+> > > -	memset(&msm_dp_display->msm_dp_mode, 0x0, sizeof(struct msm_dp_display_mode));
+> > > -
+> > > -	if (msm_dp_display_check_video_test(dp))
+> > > -		msm_dp_display->msm_dp_mode.bpp = msm_dp_display_get_test_bpp(dp);
+> > > -	else /* Default num_components per pixel = 3 */
+> > > -		msm_dp_display->msm_dp_mode.bpp = dp->connector->display_info.bpc * 3;
+> > > -
+> > > -	if (!msm_dp_display->msm_dp_mode.bpp)
+> > > -		msm_dp_display->msm_dp_mode.bpp = 24; /* Default bpp */
+> > > -
+> > > -	drm_mode_copy(&msm_dp_display->msm_dp_mode.drm_mode, adjusted_mode);
+> > > -
+> > > -	msm_dp_display->msm_dp_mode.v_active_low =
+> > > -		!!(msm_dp_display->msm_dp_mode.drm_mode.flags & DRM_MODE_FLAG_NVSYNC);
+> > > -
+> > > -	msm_dp_display->msm_dp_mode.h_active_low =
+> > > -		!!(msm_dp_display->msm_dp_mode.drm_mode.flags & DRM_MODE_FLAG_NHSYNC);
+> > > -
+> > > -	msm_dp_display->msm_dp_mode.out_fmt_is_yuv_420 =
+> > > -		drm_mode_is_420_only(&dp->connector->display_info, adjusted_mode) &&
+> > > -		msm_dp_panel->vsc_sdp_supported;
+> > > +	msm_dp_display_set_mode(dp, adjusted_mode, msm_dp_panel);
+> > >   	/* populate wide_bus_support to different layers */
+> > > -	msm_dp_display->ctrl->wide_bus_en =
+> > > -		msm_dp_display->msm_dp_mode.out_fmt_is_yuv_420 ? false : msm_dp_display->wide_bus_supported;
+> > > -	msm_dp_display->catalog->wide_bus_en =
+> > > -		msm_dp_display->msm_dp_mode.out_fmt_is_yuv_420 ? false : msm_dp_display->wide_bus_supported;
+> > > +	msm_dp_display->ctrl->wide_bus_en = msm_dp_panel->msm_dp_mode.out_fmt_is_yuv_420 ?
+> > > +		false : msm_dp_display->wide_bus_supported;
+> > > +	msm_dp_display->catalog->wide_bus_en = msm_dp_panel->msm_dp_mode.out_fmt_is_yuv_420 ?
+> > > +		false : msm_dp_display->wide_bus_supported;
+> > >   }
+> > >   void msm_dp_bridge_hpd_enable(struct drm_bridge *bridge)
+> > > 
+> > > -- 
+> > > 2.34.1
+> > > 
+> > 
+> 
+
+-- 
+With best wishes
+Dmitry
