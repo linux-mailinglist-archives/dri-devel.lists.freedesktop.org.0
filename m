@@ -2,180 +2,96 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id EE24FAE81BD
-	for <lists+dri-devel@lfdr.de>; Wed, 25 Jun 2025 13:42:56 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 762E0AE81FD
+	for <lists+dri-devel@lfdr.de>; Wed, 25 Jun 2025 13:52:23 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3E9AB10E6F8;
-	Wed, 25 Jun 2025 11:42:55 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 66F0610E21B;
+	Wed, 25 Jun 2025 11:52:20 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=bp.renesas.com header.i=@bp.renesas.com header.b="FObUdLnf";
+	dkim=pass (1024-bit key; unprotected) header.d=suse.de header.i=@suse.de header.b="RySJgz+u";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="TK9CH2SU";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="RySJgz+u";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="TK9CH2SU";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from OS0P286CU010.outbound.protection.outlook.com
- (mail-japanwestazon11011067.outbound.protection.outlook.com [40.107.74.67])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8606210E70D
- for <dri-devel@lists.freedesktop.org>; Wed, 25 Jun 2025 11:42:50 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=vfup0KdsXxyZn/AtitkhxZh/vF/jixbOiHTXg/yv6d/GE1U22NcJkBixq+DOja8uSGMu9B2upETTDpWTpRdX5mupuvs+w48oj0b3nKFJtjpm6uQTFtbsed8PM4kD3QwfBZl1OpuPz8dBQDrhiCd4uCBeMHziUW7zJ7aH7ei72FnIZ2l/OSyC8Ft/kbAohm8v1OOEl3o/2F2pOVm1eyuzfexEAV/16QMLyfiNQZvg0Gp+omRpK2Mb6l+NT5KUxSnetW2hmPwFOJ569QBC4+KjI/0XJdPQFg/zR+WLETR1dzvL4m7207vvlHBmNnvrfT9/J3zPLYR7Pl/+EnBaarwYhg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=IeEzo7a40YaYpwasjDDGFcM3reFUsLrsBhqCklRf3Hs=;
- b=SjA9Jp5CuTyAb6lU09ukIxqHu87FVZZoOcYNwph9aMzXCYXZ2ppnLvet1ppcRzJJ+JGLpdLU/2NSgA2H3pHemjPmvi7SfUhB3xh0/3ZCDIGRtrXyqfWEMJ6RxbyeBDrZSFA/tJ3PygD6W/TXqcUH+Vt/Xu3crIXdJga+93heKzd2cF5fcYe09ldq7+5qopIXYdW8i3AmOKSwArTrSxpSg1cfCHugfBNiYaXa2kyOePnPP7x3HJnHc0CafiwPz+sb2FvctL+0q8Mj22/8R4pmQgB40T4Z25Yh+wFTiuzrT6PTH0de0p2+bSA5ZXLaOmZjaLxR7rLnVtEqs0eMHGqdAQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=bp.renesas.com; dmarc=pass action=none
- header.from=bp.renesas.com; dkim=pass header.d=bp.renesas.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bp.renesas.com;
- s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=IeEzo7a40YaYpwasjDDGFcM3reFUsLrsBhqCklRf3Hs=;
- b=FObUdLnfhzmwp/oEPGKY4VWyyq90UDD18966medAZMUL051dqwfqakvaEzUZe9Yj1Cad71wMy6wRAIS6/V7wdL/Xwz2RiNFt4hSixIMMh7tLYpnX+WqQ3J4/2b88teK3YUCAEVmYBSbihjdKnVYBFBcCO1H8tuc0kemjaRZ1ysw=
-Received: from TY3PR01MB11346.jpnprd01.prod.outlook.com (2603:1096:400:3d0::7)
- by OS9PR01MB15920.jpnprd01.prod.outlook.com (2603:1096:604:3d7::10)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8857.27; Wed, 25 Jun
- 2025 11:42:45 +0000
-Received: from TY3PR01MB11346.jpnprd01.prod.outlook.com
- ([fe80::86ef:ca98:234d:60e1]) by TY3PR01MB11346.jpnprd01.prod.outlook.com
- ([fe80::86ef:ca98:234d:60e1%5]) with mapi id 15.20.8857.026; Wed, 25 Jun 2025
- 11:42:45 +0000
-From: Biju Das <biju.das.jz@bp.renesas.com>
-To: "Lad, Prabhakar" <prabhakar.csengg@gmail.com>
-CC: Geert Uytterhoeven <geert+renesas@glider.be>, Andrzej Hajda
- <andrzej.hajda@intel.com>, Neil Armstrong <neil.armstrong@linaro.org>, Robert
- Foss <rfoss@kernel.org>, laurent.pinchart
- <laurent.pinchart@ideasonboard.com>, Jonas Karlman <jonas@kwiboo.se>, Jernej
- Skrabec <jernej.skrabec@gmail.com>, Maarten Lankhorst
- <maarten.lankhorst@linux.intel.com>, Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
- Simona Vetter <simona@ffwll.ch>, Rob Herring <robh@kernel.org>, Krzysztof
- Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, Michael
- Turquette <mturquette@baylibre.com>, Stephen Boyd <sboyd@kernel.org>, Magnus
- Damm <magnus.damm@gmail.com>, "dri-devel@lists.freedesktop.org"
- <dri-devel@lists.freedesktop.org>, "devicetree@vger.kernel.org"
- <devicetree@vger.kernel.org>, "linux-kernel@vger.kernel.org"
- <linux-kernel@vger.kernel.org>, "linux-renesas-soc@vger.kernel.org"
- <linux-renesas-soc@vger.kernel.org>, "linux-clk@vger.kernel.org"
- <linux-clk@vger.kernel.org>, Fabrizio Castro
- <fabrizio.castro.jz@renesas.com>, Prabhakar Mahadev Lad
- <prabhakar.mahadev-lad.rj@bp.renesas.com>
-Subject: RE: [PATCH v6 4/4] drm: renesas: rz-du: mipi_dsi: Add support for
- RZ/V2H(P) SoC
-Thread-Topic: [PATCH v6 4/4] drm: renesas: rz-du: mipi_dsi: Add support for
- RZ/V2H(P) SoC
-Thread-Index: AQHb0YbxoLXThBVJyEq0KQgkc6A6OrQAr/1QgAUFOYCAAABy8IAM3RaAgAEw7pA=
-Date: Wed, 25 Jun 2025 11:42:45 +0000
-Message-ID: <TY3PR01MB113468C96544DBE6526D51177867BA@TY3PR01MB11346.jpnprd01.prod.outlook.com>
-References: <20250530171841.423274-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
- <20250530171841.423274-5-prabhakar.mahadev-lad.rj@bp.renesas.com>
- <TY3PR01MB11346A62FDF84C5F2C1240BBF8677A@TY3PR01MB11346.jpnprd01.prod.outlook.com>
- <CA+V-a8sZfTgOENXfR2NnykgjGHd+2-vS9Jk-dNLWTVQyAGbQTw@mail.gmail.com>
- <TYCPR01MB11332F40696148C7216866D3B8670A@TYCPR01MB11332.jpnprd01.prod.outlook.com>
- <CA+V-a8txzBEwSSNEgoPkxBGAoQDrdGFtnYoLo49SqN-aZUUVXw@mail.gmail.com>
-In-Reply-To: <CA+V-a8txzBEwSSNEgoPkxBGAoQDrdGFtnYoLo49SqN-aZUUVXw@mail.gmail.com>
-Accept-Language: en-GB, en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-authentication-results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=bp.renesas.com;
-x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: TY3PR01MB11346:EE_|OS9PR01MB15920:EE_
-x-ms-office365-filtering-correlation-id: 5d5e1c0a-0e58-42e0-d99f-08ddb3dd6714
-x-ld-processed: 53d82571-da19-47e4-9cb4-625a166a4a2a,ExtAddr
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam: BCL:0;
- ARA:13230040|1800799024|376014|366016|7416014|38070700018; 
-x-microsoft-antispam-message-info: =?utf-8?B?SDBmWGoxVDhjNjAwUnFlTVZtWHhDNVA1TFlRdVhtbTJhMjRRTkl6MFJjMGdy?=
- =?utf-8?B?bWlnUWtINTlGSW9SS3NvR1o0OFRaK3AyeCtsb0tEMVh5T2ZGaEVqNnVKcE5Y?=
- =?utf-8?B?RCs0NjVKbkU2bVRVUzdVV3ZseXFlWFNOTzM2SlNlQmg0RTR3cjZVczlLdGdt?=
- =?utf-8?B?ejRKektZVm1KMmNQaHFKV2YzUUxQZy9ZOHBpR1pEYWl4NkJlMkY0ZzZOWkhN?=
- =?utf-8?B?TVpWOVNHZk0yWkkycnkwNlArcStkanlzSEZiMjBRMnlibU8vMVBvd25ZRVVh?=
- =?utf-8?B?SEU3YnM3YTFlbUpiUEhMV01OVW9vNkZJcW8vRVplcnV3OTNUMVBCTjNGZERq?=
- =?utf-8?B?Vlp3NFc4cVJORDcwckUySm1panpkK0lLR0Z4bEtjM0QzYzh2Y0l5MDcxWDY1?=
- =?utf-8?B?dnZzQUlMTjJ1THNIYVpsdi9mQVM2M1ZaVlpscjd2a0FGRDBzTkxMams2dFR4?=
- =?utf-8?B?WmZsbEczVkkyWjdZYm9wTmJIdENuTkh5SmFtN1R2S1BINkQ4V0FtOGROYjQv?=
- =?utf-8?B?VzlvSndTQVlrcStwdDF1WFRIbkhMYWFlS1ptZDVqSUdIUzFvRVZzVW1TeVZV?=
- =?utf-8?B?QmpXUVdEc1dLaW1CVmU4VWphR1Npa0NPZHZvZzZTckdFSDlCVTcreFJhMUw3?=
- =?utf-8?B?SDg0S2wrMmJhYVBHN3l3OWk3UFNldEdEcmR6VndZQUs4bUFVaWtvdmZzNzNy?=
- =?utf-8?B?Mm5vL3QyeGVDanhWTlIzQzJHNmx0elV6QXpLMXM3S1JJN3g1REt5RUpyYkx4?=
- =?utf-8?B?KzdhY3ZvMjZWWDNMb3NOMW9pOFVFTklFOVNIdjNoNXp5cm1XTXE3VEl0MUNJ?=
- =?utf-8?B?eE1UK0xRc1JWRUJaUDF0YklzazNNY3RZbVlmZFdnSndxenU3eUZNcVlpMWRa?=
- =?utf-8?B?aGZFK0swYldpS01wamZ2Y1BKWjc5a0N4ck51VlR4SHNYVHdhbnkyTmRMNWlH?=
- =?utf-8?B?VXU3QnZVV2JpZi9UbWtuRDBxVWpZVTlMaXVES1BRN3R6MWlEU3dqTGE0MWlm?=
- =?utf-8?B?N2txU0d6TWxyQ0RLSzd3S2t4c09ZTXk3TWZoSFZPekJRV1QrbDZsdnRRZTEw?=
- =?utf-8?B?ZE9iVVdRUENieFhTaStxcEd5aTU2RkcyRWIyS2c3OThodDJQaEF0SVFiUDht?=
- =?utf-8?B?NkV6amNRR3ZKZGVpSENySFV5cCtkR1YxY0RzOTNFK3habXdOQU52R3g2bklQ?=
- =?utf-8?B?eDVobXgrQXBER1VlWWI2OFozRGo3WHNjK2NndUkwWFl0RzdPdU9wY3NUeVRs?=
- =?utf-8?B?Mjcyb2lucG9OU2dvZU5xUW9CeWtJQ1BNK0pHSEs5dTVmRllHRDFaNmZQeEgy?=
- =?utf-8?B?ZkxyMXQvSXJQS2JLSVpWUmhHako0cWE2S1RZbTNRZ0dmWXdKR0VoNDI0eEYz?=
- =?utf-8?B?aGNYS3FGa1JUNFl0SXpJNzR4L1B0Zk9TZ3hjVHg5UFU2MWI4QUlzTHcrQ1E2?=
- =?utf-8?B?bGVQcmdYQlh1SWNjckZnSkxuWVZldGxZMU14eDZQeUhkYXNOSUpyaFNRSGJR?=
- =?utf-8?B?SFNMMks1QmhNQVNzemttUGJFdityK0FnMTNZN3Z0Mm5LVmQ1TTdRVUVaSStn?=
- =?utf-8?B?SWdLM2ZqNngreGYvWUptNUo4T29HcS9GeitRdllrRkNVOVBXc1dWRkVRay95?=
- =?utf-8?B?RDdIZ0ZEckwzYmxGVGhJTFFrU2JoRHg1NlJRVDJXZ3V6bTZDd1dVUklYaFZi?=
- =?utf-8?B?bXRXVmZDTGlUa1daMitCcHNtNGRPcXNaMVBEb2FOWmkwbFRjdVdzK1hMcFR6?=
- =?utf-8?B?Z1RLd2daU3pLUkVDYXdOZjdsZ2YyVkRQSGpKU1ZJaXQ1dGkzN2dvNW90ZTR0?=
- =?utf-8?B?Uk1lMEVvR1RIRGFxMWpFOTFzQUZtNUZBYVNqZ2V3NGZkNjUzMVIzTDduWWVS?=
- =?utf-8?B?ZDNhK09YZzFkS2kvUGt5RFQ5S2ZqUDMxcTIxVDZFbE1MTSsyWG5aQ1RUNWF3?=
- =?utf-8?B?UG5YdUQvZDZLLytpU3NpL2ljUnkvNmREemhTNEp0VlBXNkxIbVJmaGcybmdW?=
- =?utf-8?Q?vQ+FKCEKrqLfIEJDycABvnpw2Za/U8=3D?=
-x-forefront-antispam-report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:TY3PR01MB11346.jpnprd01.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230040)(1800799024)(376014)(366016)(7416014)(38070700018); DIR:OUT;
- SFP:1101; 
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0: =?utf-8?B?NDNGdHkwVGh2VG5PWUlocU4zc3YxUjhQb2lxSnJWWmxGeTNCRXFrQ3MyRStE?=
- =?utf-8?B?c0lwT0V3K200Z3g1T3dTc1BBdmNNSlN5d3FadkF1Z01WRWRXY01WWm9iczNC?=
- =?utf-8?B?Q2lKL0tZdDVsVmkyV3Ric3lpaXRSZFNqa3Y4Z1o1ekkvZ0hrdmN5Zk5YUlR5?=
- =?utf-8?B?MnAvRU1VT29YYjBFMzR5UDhHR29Fc1JBN3k0VzVXYUZmOElsU2I4TDgxeGhU?=
- =?utf-8?B?dm1RMTBPWUovSU43T2NrR0J6bkdMeHl0djlLYzBndGhRbENidURvMUdseVcz?=
- =?utf-8?B?cVlGeTVGRW8xOUsrYXFUMW5FVHBhUjZmbC93amI4ZS9hdHRTclY0Z0NxeTlB?=
- =?utf-8?B?akFoU0VEQWk5YTdiN0lmMXVSbnFZTEIvZUwwYWc3a2c1UWhzajdvWExNNWxF?=
- =?utf-8?B?K3J4azdDY1FxbTRhbHBlQUtFTjB4Q3UxR3V6WVh6MVYyOVVtTm92VUZJY2FF?=
- =?utf-8?B?dWF4aHFZcjB2ZnlrVHN6cTdIOEV5M2F6TXpqdnZjMlVWUWtSeVNreVBVRFF3?=
- =?utf-8?B?Um0rdzk5SGg5OXFBUWdHR005M2FFWER4TGlIUml0SEFlMExFbmY1VnY1MXox?=
- =?utf-8?B?MWRzaGVOVVJVYmxQTGVLRnVKS2dGa1p0ZlRqNnF5WTdUVTNnM2tSeldzSHRV?=
- =?utf-8?B?R3RSb0JsN1hHdm95VkduQmlUWDVWMVRHNStWblhEVnJVZDl6d3RlcktobHVV?=
- =?utf-8?B?L0tpVjdqMTErSnZkeURaQWI1MUlkUjFRNVhZMmJBbEp2Rkt3OE1RMWdtcnlt?=
- =?utf-8?B?SWRycDRpaVdPaWJwckduSlRPUVBZOFpTYk1mNXQyMCtPNHNrZUd2T09mSnhT?=
- =?utf-8?B?TzBSYTJXVVBFNEY3R2hoQnUxVWVEcjNkbWxrcE1JQ0N3bVpHeXZMZVVJcjRO?=
- =?utf-8?B?S3JVNHNIOEdlRzFvQnJtc3dJLzNRVzZscDhMK2xkNGpoNnphTWFLRHRiNVZK?=
- =?utf-8?B?bDJ4em9acmN2TzdHVjlOc0hrbkFxU3FiaVZmVUZGaENLaGt3UDgxUFJ1enky?=
- =?utf-8?B?OVJWZmNTVkQxbXErN1BUek5GQW1pNk9SaHloQkI3SWtaUUN2dG81MVhlVk5x?=
- =?utf-8?B?Nkx5cnZSUlFWVmVtWE5TcUNFeHNmZE9QMHRLeXd6cGQ5d0xlejBNeHZ4NFVC?=
- =?utf-8?B?V1M4NUpkMERPNHpuZ2I2Rld1ZWRBR2tmVDRzNGtuK2NnS0NSeUcxYW5laHB5?=
- =?utf-8?B?S2o1TjAybGtKdGNIbHQ1MjRqM1B5L2M5T3J2RE9kSnVPb0N2bW0yeU91OHBo?=
- =?utf-8?B?OGFCUHFISG1PU2t3czN2MGk2U2xmU3B2N0FGa2ZTbW9GdUJLWGJ2VTVJRnlS?=
- =?utf-8?B?Tklhc3RHTkt2eU1sQVFyWlUvOWpxckdIQTBFNmtCYU16NUxRcmhyclViaW5E?=
- =?utf-8?B?c0tZN090UlJLNDdXaTMxcC9yd1BVbEZmUDNTR2pPSXp6NkZ5allMSEVBbjBs?=
- =?utf-8?B?YlMzN1FFZld0cklDbXF0cS9qOUVZdjF1TDAzek15MWV1Y1ZJcWNBSG9QMkMz?=
- =?utf-8?B?VHJyaGNrdjk0M1N0NjlQT2ZyazhCaXBSYjJ4OTZpUUovVHJ4bnloalZpUEY0?=
- =?utf-8?B?MExrdGVzSjlWVGZoNGtvK2F1YVlIVGhBVFBXOEk1S3dCV1hQSFNyNE5iaTRa?=
- =?utf-8?B?VkNDb0JiV1FzaTlXcThnZlU0dEZwZFdJL1IwcER5NStmNG9xNi95bmwra0Jv?=
- =?utf-8?B?T3JEMkxYKzFtMFY4VHhiNWhwcit1VEV2bWJ2UnJkTEJvWCtFWkozSE9Ga2gz?=
- =?utf-8?B?Z29GUTZ5TWtBQkRnMDhXUWk4MWRURVZyMTZHVlltaWRldnYvR002OFRaQ0ho?=
- =?utf-8?B?ZEREQWF6aFpUZlZKK2Yzck9MMjFhZkQ2dVdwSHpJZ1VuSFpONjdMZDBYM2pI?=
- =?utf-8?B?U1VsL2p1eEZzOXB5OU13OGcvT0J3NzVTbGt4bVBuZ2E4Rm9IUmtQaStGVkdt?=
- =?utf-8?B?SUVSckNpSkdZd09CSVdqMmxlNFY4ZGR6M0lPNkh0UnUxSGZ1eWNQUktCeGxz?=
- =?utf-8?B?WTJObTB1SUQxek1QdXRJOGpPc3dKMzZTbU92dVVSdVZ3TE9SUzJYZFJnbnFF?=
- =?utf-8?B?MXd3dk1VWnN0TzdjeU9zNVVuY3o1UEN5R0JKcXF5Wk9FUnlxMTkxY3psYmVv?=
- =?utf-8?Q?PWQjoA2+FSGOcWoOT8QPnBJ2D?=
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0E13210E21B
+ for <dri-devel@lists.freedesktop.org>; Wed, 25 Jun 2025 11:52:18 +0000 (UTC)
+Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ (No client certificate requested)
+ by smtp-out2.suse.de (Postfix) with ESMTPS id 2EC491F441;
+ Wed, 25 Jun 2025 11:52:13 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+ t=1750852333; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version: content-transfer-encoding:content-transfer-encoding;
+ bh=GnfgQPDtUCaCiC5U4ogm1lurvTCX9rTQH+ttp1Y5z7E=;
+ b=RySJgz+ueBcuSlAKa19NkBZz0a483gloVbzxshMwDZsl00XZGN4/WC9tPXG62jdvqgQgjB
+ +0//V1eFeksEz/aoh6YUjOpTtZ9jSULzEKH7COj+RyIN9WtHP8TIBrLV9Hj5BGH09GzbaS
+ OIwHjNJIYENi6MKihd98CG5IPecImfo=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+ s=susede2_ed25519; t=1750852333;
+ h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version: content-transfer-encoding:content-transfer-encoding;
+ bh=GnfgQPDtUCaCiC5U4ogm1lurvTCX9rTQH+ttp1Y5z7E=;
+ b=TK9CH2SUKxktVcnBjYINLeE+SuUjJVWK5tzBur2nJDfMtYr7Dhs2kiIq1q4g7bIcdQmle2
+ x0W0wBzJvkKZ8uDA==
+Authentication-Results: smtp-out2.suse.de;
+	none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+ t=1750852333; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version: content-transfer-encoding:content-transfer-encoding;
+ bh=GnfgQPDtUCaCiC5U4ogm1lurvTCX9rTQH+ttp1Y5z7E=;
+ b=RySJgz+ueBcuSlAKa19NkBZz0a483gloVbzxshMwDZsl00XZGN4/WC9tPXG62jdvqgQgjB
+ +0//V1eFeksEz/aoh6YUjOpTtZ9jSULzEKH7COj+RyIN9WtHP8TIBrLV9Hj5BGH09GzbaS
+ OIwHjNJIYENi6MKihd98CG5IPecImfo=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+ s=susede2_ed25519; t=1750852333;
+ h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version: content-transfer-encoding:content-transfer-encoding;
+ bh=GnfgQPDtUCaCiC5U4ogm1lurvTCX9rTQH+ttp1Y5z7E=;
+ b=TK9CH2SUKxktVcnBjYINLeE+SuUjJVWK5tzBur2nJDfMtYr7Dhs2kiIq1q4g7bIcdQmle2
+ x0W0wBzJvkKZ8uDA==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ (No client certificate requested)
+ by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id F007913301;
+ Wed, 25 Jun 2025 11:52:12 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+ by imap1.dmz-prg2.suse.org with ESMTPSA id zx0AOeziW2iiYQAAD6G6ig
+ (envelope-from <tzimmermann@suse.de>); Wed, 25 Jun 2025 11:52:12 +0000
+From: Thomas Zimmermann <tzimmermann@suse.de>
+To: jfalempe@redhat.com, jose.exposito89@gmail.com,
+ maarten.lankhorst@linux.intel.com, mripard@kernel.org
+Cc: dri-devel@lists.freedesktop.org,
+	Thomas Zimmermann <tzimmermann@suse.de>
+Subject: [PATCH] drm/format-helper: Split off byte swapping from
+ drm_fb_xrgb8888_to_rgb565()
+Date: Wed, 25 Jun 2025 13:48:22 +0200
+Message-ID: <20250625114911.1121301-1-tzimmermann@suse.de>
+X-Mailer: git-send-email 2.50.0
 MIME-Version: 1.0
-X-OriginatorOrg: bp.renesas.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: TY3PR01MB11346.jpnprd01.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 5d5e1c0a-0e58-42e0-d99f-08ddb3dd6714
-X-MS-Exchange-CrossTenant-originalarrivaltime: 25 Jun 2025 11:42:45.4482 (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 53d82571-da19-47e4-9cb4-625a166a4a2a
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: LrWIQyfqSuFxZfng7kNz943HodK0KAdwtR1wZ0GcEbaX+J1Ju3SBh09GKlgMZTi9gOXoVy7AyxGYYXXMWdLrtkIGURFBj9DmPjkKc/zhny4=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: OS9PR01MB15920
+Content-Transfer-Encoding: 8bit
+X-Spamd-Result: default: False [-1.30 / 50.00]; BAYES_HAM(-3.00)[100.00%];
+ SUSPICIOUS_RECIPS(1.50)[]; MID_CONTAINS_FROM(1.00)[];
+ NEURAL_HAM_LONG(-1.00)[-1.000]; R_MISSING_CHARSET(0.50)[];
+ NEURAL_HAM_SHORT(-0.20)[-1.000]; MIME_GOOD(-0.10)[text/plain];
+ DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:email,suse.de:mid];
+ RCVD_VIA_SMTP_AUTH(0.00)[]; TAGGED_RCPT(0.00)[];
+ ARC_NA(0.00)[]; TO_DN_SOME(0.00)[]; MIME_TRACE(0.00)[0:+];
+ FROM_HAS_DN(0.00)[];
+ FREEMAIL_TO(0.00)[redhat.com,gmail.com,linux.intel.com,kernel.org];
+ FROM_EQ_ENVFROM(0.00)[]; RCVD_COUNT_TWO(0.00)[2];
+ TO_MATCH_ENVRCPT_ALL(0.00)[]; RCVD_TLS_ALL(0.00)[];
+ FUZZY_BLOCKED(0.00)[rspamd.com]; RCPT_COUNT_FIVE(0.00)[6];
+ DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+ FREEMAIL_ENVRCPT(0.00)[gmail.com]
+X-Spam-Level: 
+X-Spam-Flag: NO
+X-Spam-Score: -1.30
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -191,12 +107,241 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-SGkgUHJhYmhha2FyLA0KDQo+IC0tLS0tT3JpZ2luYWwgTWVzc2FnZS0tLS0tDQo+IEZyb206IExh
-ZCwgUHJhYmhha2FyIDxwcmFiaGFrYXIuY3NlbmdnQGdtYWlsLmNvbT4NCj4gU2VudDogMjQgSnVu
-ZSAyMDI1IDE2OjE2DQo+ID4NCj4gPiBUaGVyZSB3aWxsIGJlIGRldGVybWluZV9jbGsgZm9sbG93
-ZWQgYnkgc2V0X2Nsb2NrIGZvciBzZXR0aW5nIG5ldyByYXRlDQo+ID4gZm9yIFBMTCBEU0koZHNp
-LT52Y2xrICogdGhlIGRpdmlkZXIgdmFsdWUpIEZvciBlZzogIHZjbGtfbWF4ID0gMTg3LjUNCj4g
-PiBNSHosIERTSSBEaXZpZGVyIHJlcXVpcmVkID0gMTYgVGhlbiBzZXQgUExMX0RTSSA9IDE4Ny41
-ICogMTYgTUh6IHVzaW5nIGNsa19zZXQuDQo+ID4NCj4gVGhpcyB3aWxsIHRyaWdnZXIgdGhlIGFs
-Z29yaXRobSB0d2ljZSwgc28gSSdsbCBnbyB3aXRoIHRoZSBjdXJyZW50IGFwcHJvYWNoIHdoaWNo
-IGlzIG9wdGltYWwuDQoNCk9LLg0KDQpDaGVlcnMsDQpCaWp1DQo=
+Move big-endian support from drm_fb_xrgb8888_to_rgb565() into the new
+helper drm_xrgb8888_to_rgb565be(). The functionality is required for
+displays with big-endian byte order. Update all callers.
+
+With the change applied, drm_fb_xrgb8888_to_rgb565() has the same
+signature as the other conversion functions, which is required for
+further updates to drm_fb_blit(). Also makes the format-conversion
+helper available to panic handlers, if necessary.
+
+Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
+---
+ drivers/gpu/drm/drm_format_helper.c           | 66 ++++++++++++-------
+ drivers/gpu/drm/drm_format_internal.h         |  6 ++
+ drivers/gpu/drm/drm_mipi_dbi.c                |  8 ++-
+ drivers/gpu/drm/gud/gud_pipe.c                |  9 ++-
+ .../gpu/drm/tests/drm_format_helper_test.c    |  8 +--
+ include/drm/drm_format_helper.h               |  6 +-
+ 6 files changed, 71 insertions(+), 32 deletions(-)
+
+diff --git a/drivers/gpu/drm/drm_format_helper.c b/drivers/gpu/drm/drm_format_helper.c
+index 99d9f7bbc261..8f3daf38ca63 100644
+--- a/drivers/gpu/drm/drm_format_helper.c
++++ b/drivers/gpu/drm/drm_format_helper.c
+@@ -559,18 +559,6 @@ static void drm_fb_xrgb8888_to_rgb565_line(void *dbuf, const void *sbuf, unsigne
+ 	drm_fb_xfrm_line_32to16(dbuf, sbuf, pixels, drm_pixel_xrgb8888_to_rgb565);
+ }
+ 
+-static __always_inline u32 drm_xrgb8888_to_rgb565_swab(u32 pix)
+-{
+-	return swab16(drm_pixel_xrgb8888_to_rgb565(pix));
+-}
+-
+-/* TODO: implement this helper as conversion to RGB565|BIG_ENDIAN */
+-static void drm_fb_xrgb8888_to_rgb565_swab_line(void *dbuf, const void *sbuf,
+-						unsigned int pixels)
+-{
+-	drm_fb_xfrm_line_32to16(dbuf, sbuf, pixels, drm_xrgb8888_to_rgb565_swab);
+-}
+-
+ /**
+  * drm_fb_xrgb8888_to_rgb565 - Convert XRGB8888 to RGB565 clip buffer
+  * @dst: Array of RGB565 destination buffers
+@@ -580,7 +568,6 @@ static void drm_fb_xrgb8888_to_rgb565_swab_line(void *dbuf, const void *sbuf,
+  * @fb: DRM framebuffer
+  * @clip: Clip rectangle area to copy
+  * @state: Transform and conversion state
+- * @swab: Swap bytes
+  *
+  * This function copies parts of a framebuffer to display memory and converts the
+  * color format during the process. Destination and framebuffer formats must match. The
+@@ -595,23 +582,56 @@ static void drm_fb_xrgb8888_to_rgb565_swab_line(void *dbuf, const void *sbuf,
+  */
+ void drm_fb_xrgb8888_to_rgb565(struct iosys_map *dst, const unsigned int *dst_pitch,
+ 			       const struct iosys_map *src, const struct drm_framebuffer *fb,
+-			       const struct drm_rect *clip, struct drm_format_conv_state *state,
+-			       bool swab)
++			       const struct drm_rect *clip, struct drm_format_conv_state *state)
+ {
+ 	static const u8 dst_pixsize[DRM_FORMAT_MAX_PLANES] = {
+ 		2,
+ 	};
+ 
+-	void (*xfrm_line)(void *dbuf, const void *sbuf, unsigned int npixels);
++	drm_fb_xfrm(dst, dst_pitch, dst_pixsize, src, fb, clip, false, state,
++		    drm_fb_xrgb8888_to_rgb565_line);
++}
++EXPORT_SYMBOL(drm_fb_xrgb8888_to_rgb565);
++
++static void drm_fb_xrgb8888_to_rgb565be_line(void *dbuf, const void *sbuf,
++					     unsigned int pixels)
++{
++	drm_fb_xfrm_line_32to16(dbuf, sbuf, pixels, drm_pixel_xrgb8888_to_rgb565be);
++}
+ 
+-	if (swab)
+-		xfrm_line = drm_fb_xrgb8888_to_rgb565_swab_line;
+-	else
+-		xfrm_line = drm_fb_xrgb8888_to_rgb565_line;
++/**
++ * drm_fb_xrgb8888_to_rgb565be - Convert XRGB8888 to RGB565|DRM_FORMAT_BIG_ENDIAN clip buffer
++ * @dst: Array of RGB565BE destination buffers
++ * @dst_pitch: Array of numbers of bytes between the start of two consecutive scanlines
++ *             within @dst; can be NULL if scanlines are stored next to each other.
++ * @src: Array of XRGB8888 source buffer
++ * @fb: DRM framebuffer
++ * @clip: Clip rectangle area to copy
++ * @state: Transform and conversion state
++ *
++ * This function copies parts of a framebuffer to display memory and converts the
++ * color format during the process. Destination and framebuffer formats must match. The
++ * parameters @dst, @dst_pitch and @src refer to arrays. Each array must have at
++ * least as many entries as there are planes in @fb's format. Each entry stores the
++ * value for the format's respective color plane at the same index.
++ *
++ * This function does not apply clipping on @dst (i.e. the destination is at the
++ * top-left corner).
++ *
++ * Drivers can use this function for RGB565BE devices that don't support XRGB8888 natively.
++ */
++void drm_fb_xrgb8888_to_rgb565be(struct iosys_map *dst, const unsigned int *dst_pitch,
++				 const struct iosys_map *src, const struct drm_framebuffer *fb,
++				 const struct drm_rect *clip, struct drm_format_conv_state *state)
++{
++	static const u8 dst_pixsize[DRM_FORMAT_MAX_PLANES] = {
++		2,
++	};
+ 
+-	drm_fb_xfrm(dst, dst_pitch, dst_pixsize, src, fb, clip, false, state, xfrm_line);
++	drm_fb_xfrm(dst, dst_pitch, dst_pixsize, src, fb, clip, false, state,
++		    drm_fb_xrgb8888_to_rgb565be_line);
+ }
+-EXPORT_SYMBOL(drm_fb_xrgb8888_to_rgb565);
++EXPORT_SYMBOL(drm_fb_xrgb8888_to_rgb565be);
+ 
+ static void drm_fb_xrgb8888_to_xrgb1555_line(void *dbuf, const void *sbuf, unsigned int pixels)
+ {
+@@ -1188,7 +1208,7 @@ int drm_fb_blit(struct iosys_map *dst, const unsigned int *dst_pitch, uint32_t d
+ 		return 0;
+ 	} else if (fb_format == DRM_FORMAT_XRGB8888) {
+ 		if (dst_format == DRM_FORMAT_RGB565) {
+-			drm_fb_xrgb8888_to_rgb565(dst, dst_pitch, src, fb, clip, state, false);
++			drm_fb_xrgb8888_to_rgb565(dst, dst_pitch, src, fb, clip, state);
+ 			return 0;
+ 		} else if (dst_format == DRM_FORMAT_XRGB1555) {
+ 			drm_fb_xrgb8888_to_xrgb1555(dst, dst_pitch, src, fb, clip, state);
+diff --git a/drivers/gpu/drm/drm_format_internal.h b/drivers/gpu/drm/drm_format_internal.h
+index 9428d5cfebc5..ce29dd05bcc5 100644
+--- a/drivers/gpu/drm/drm_format_internal.h
++++ b/drivers/gpu/drm/drm_format_internal.h
+@@ -5,6 +5,7 @@
+ 
+ #include <linux/bits.h>
+ #include <linux/types.h>
++#include <linux/swab.h>
+ 
+ /*
+  * Each pixel-format conversion helper takes a raw pixel in a
+@@ -59,6 +60,11 @@ static inline u32 drm_pixel_xrgb8888_to_rgb565(u32 pix)
+ 	       ((pix & 0x000000f8) >> 3);
+ }
+ 
++static inline u32 drm_pixel_xrgb8888_to_rgb565be(u32 pix)
++{
++	return swab16(drm_pixel_xrgb8888_to_rgb565(pix));
++}
++
+ static inline u32 drm_pixel_xrgb8888_to_rgbx5551(u32 pix)
+ {
+ 	return ((pix & 0x00f80000) >> 8) |
+diff --git a/drivers/gpu/drm/drm_mipi_dbi.c b/drivers/gpu/drm/drm_mipi_dbi.c
+index ba4be6be5d28..e33c78fc8fbd 100644
+--- a/drivers/gpu/drm/drm_mipi_dbi.c
++++ b/drivers/gpu/drm/drm_mipi_dbi.c
+@@ -230,7 +230,13 @@ int mipi_dbi_buf_copy(void *dst, struct iosys_map *src, struct drm_framebuffer *
+ 	case DRM_FORMAT_XRGB8888:
+ 		switch (dbidev->pixel_format) {
+ 		case DRM_FORMAT_RGB565:
+-			drm_fb_xrgb8888_to_rgb565(&dst_map, NULL, src, fb, clip, fmtcnv_state, swap);
++			if (swap) {
++				drm_fb_xrgb8888_to_rgb565be(&dst_map, NULL, src, fb, clip,
++							    fmtcnv_state);
++			} else {
++				drm_fb_xrgb8888_to_rgb565(&dst_map, NULL, src, fb, clip,
++							  fmtcnv_state);
++			}
+ 			break;
+ 		case DRM_FORMAT_RGB888:
+ 			drm_fb_xrgb8888_to_rgb888(&dst_map, NULL, src, fb, clip, fmtcnv_state);
+diff --git a/drivers/gpu/drm/gud/gud_pipe.c b/drivers/gpu/drm/gud/gud_pipe.c
+index adadd526641d..8d548d08f127 100644
+--- a/drivers/gpu/drm/gud/gud_pipe.c
++++ b/drivers/gpu/drm/gud/gud_pipe.c
+@@ -188,8 +188,13 @@ static int gud_prep_flush(struct gud_device *gdrm, struct drm_framebuffer *fb,
+ 		} else if (format->format == DRM_FORMAT_RGB332) {
+ 			drm_fb_xrgb8888_to_rgb332(&dst, NULL, src, fb, rect, fmtcnv_state);
+ 		} else if (format->format == DRM_FORMAT_RGB565) {
+-			drm_fb_xrgb8888_to_rgb565(&dst, NULL, src, fb, rect, fmtcnv_state,
+-						  gud_is_big_endian());
++			if (gud_is_big_endian()) {
++				drm_fb_xrgb8888_to_rgb565be(&dst, NULL, src, fb, rect,
++							    fmtcnv_state);
++			} else {
++				drm_fb_xrgb8888_to_rgb565(&dst, NULL, src, fb, rect,
++							  fmtcnv_state);
++			}
+ 		} else if (format->format == DRM_FORMAT_RGB888) {
+ 			drm_fb_xrgb8888_to_rgb888(&dst, NULL, src, fb, rect, fmtcnv_state);
+ 		} else {
+diff --git a/drivers/gpu/drm/tests/drm_format_helper_test.c b/drivers/gpu/drm/tests/drm_format_helper_test.c
+index ad06762db671..7299fa8971ce 100644
+--- a/drivers/gpu/drm/tests/drm_format_helper_test.c
++++ b/drivers/gpu/drm/tests/drm_format_helper_test.c
+@@ -735,13 +735,13 @@ static void drm_test_fb_xrgb8888_to_rgb565(struct kunit *test)
+ 		NULL : &result->dst_pitch;
+ 
+ 	drm_fb_xrgb8888_to_rgb565(&dst, dst_pitch, &src, &fb, &params->clip,
+-				  &fmtcnv_state, false);
++				  &fmtcnv_state);
+ 	buf = le16buf_to_cpu(test, (__force const __le16 *)buf, dst_size / sizeof(__le16));
+ 	KUNIT_EXPECT_MEMEQ(test, buf, result->expected, dst_size);
+ 
+ 	buf = dst.vaddr; /* restore original value of buf */
+-	drm_fb_xrgb8888_to_rgb565(&dst, &result->dst_pitch, &src, &fb, &params->clip,
+-				  &fmtcnv_state, true);
++	drm_fb_xrgb8888_to_rgb565be(&dst, &result->dst_pitch, &src, &fb, &params->clip,
++				    &fmtcnv_state);
+ 	buf = le16buf_to_cpu(test, (__force const __le16 *)buf, dst_size / sizeof(__le16));
+ 	KUNIT_EXPECT_MEMEQ(test, buf, result->expected_swab, dst_size);
+ 
+@@ -749,7 +749,7 @@ static void drm_test_fb_xrgb8888_to_rgb565(struct kunit *test)
+ 	memset(buf, 0, dst_size);
+ 
+ 	drm_fb_xrgb8888_to_rgb565(&dst, dst_pitch, &src, &fb, &params->clip,
+-				  &fmtcnv_state, false);
++				  &fmtcnv_state);
+ 	buf = le16buf_to_cpu(test, (__force const __le16 *)buf, dst_size / sizeof(__le16));
+ 	KUNIT_EXPECT_MEMEQ(test, buf, result->expected, dst_size);
+ }
+diff --git a/include/drm/drm_format_helper.h b/include/drm/drm_format_helper.h
+index 0d3ee2a1313f..562bc383ece4 100644
+--- a/include/drm/drm_format_helper.h
++++ b/include/drm/drm_format_helper.h
+@@ -82,8 +82,10 @@ void drm_fb_xrgb8888_to_rgb332(struct iosys_map *dst, const unsigned int *dst_pi
+ 			       const struct drm_rect *clip, struct drm_format_conv_state *state);
+ void drm_fb_xrgb8888_to_rgb565(struct iosys_map *dst, const unsigned int *dst_pitch,
+ 			       const struct iosys_map *src, const struct drm_framebuffer *fb,
+-			       const struct drm_rect *clip, struct drm_format_conv_state *state,
+-			       bool swab);
++			       const struct drm_rect *clip, struct drm_format_conv_state *state);
++void drm_fb_xrgb8888_to_rgb565be(struct iosys_map *dst, const unsigned int *dst_pitch,
++				 const struct iosys_map *src, const struct drm_framebuffer *fb,
++				 const struct drm_rect *clip, struct drm_format_conv_state *state);
+ void drm_fb_xrgb8888_to_xrgb1555(struct iosys_map *dst, const unsigned int *dst_pitch,
+ 				 const struct iosys_map *src, const struct drm_framebuffer *fb,
+ 				 const struct drm_rect *clip, struct drm_format_conv_state *state);
+-- 
+2.50.0
+
