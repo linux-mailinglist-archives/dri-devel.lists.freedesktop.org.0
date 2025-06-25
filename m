@@ -2,47 +2,45 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 120F8AE82EC
-	for <lists+dri-devel@lfdr.de>; Wed, 25 Jun 2025 14:41:58 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id A2B17AE82EB
+	for <lists+dri-devel@lfdr.de>; Wed, 25 Jun 2025 14:41:54 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2E8E010E6F4;
-	Wed, 25 Jun 2025 12:41:56 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 37C1E10E225;
+	Wed, 25 Jun 2025 12:41:52 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; secure) header.d=disroot.org header.i=@disroot.org header.b="CqpfjIX0";
+	dkim=pass (2048-bit key; secure) header.d=disroot.org header.i=@disroot.org header.b="Lmus5BIf";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from layka.disroot.org (layka.disroot.org [178.21.23.139])
- by gabe.freedesktop.org (Postfix) with ESMTPS id AD52610E225
- for <dri-devel@lists.freedesktop.org>; Wed, 25 Jun 2025 12:41:44 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id AD5A010E6F4
+ for <dri-devel@lists.freedesktop.org>; Wed, 25 Jun 2025 12:41:48 +0000 (UTC)
 Received: from mail01.disroot.lan (localhost [127.0.0.1])
- by disroot.org (Postfix) with ESMTP id B4F8A2089E;
- Wed, 25 Jun 2025 14:41:40 +0200 (CEST)
+ by disroot.org (Postfix) with ESMTP id 4288A22E77;
+ Wed, 25 Jun 2025 14:41:47 +0200 (CEST)
 X-Virus-Scanned: SPAM Filter at disroot.org
 Received: from layka.disroot.org ([127.0.0.1])
  by localhost (disroot.org [127.0.0.1]) (amavis, port 10024) with ESMTP
- id pqmGC6kMmVPd; Wed, 25 Jun 2025 14:41:39 +0200 (CEST)
+ id 2WDmWBds7S-4; Wed, 25 Jun 2025 14:41:46 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=disroot.org; s=mail;
- t=1750855299; bh=k73QcSebOPGkqpr02iIqO4RpQPNEizVB/wnyJVCI8+c=;
- h=From:Subject:Date:To:Cc;
- b=CqpfjIX0vrZfmuIw1JegjdIoz5/uQ7w2ruLjtrZX39ZtjjvgY8dbnV4PEiqlDPIki
- +wOX+Owdkhr7Ppi6qrhgOtYhm4SWb2WCnHhkBfcX10Ua386UJIEF5w9tGSq608hNlq
- 9DpFt9/XiqavU1fcykszaPRxPdFDJh1L1x0X1nuf1AbhXLj7k0dwo361lZJHI8HvyO
- fRS0pQsT8aSDa4nUZl8UAC5hu19K1ySU4AqqeBn6DJAg20GlBLx+P5cFRxZn0lLoeY
- CA7DeprVcEBFEIxJRxfBmLK66b1E2pFS/yo9ILIe/V5VA01jdc2XHrqMrI4nmTYfZJ
- H2nJ47Ilo5dog==
+ t=1750855306; bh=f0JRQMEsVKlGa0ZIRNYll0HpfPGIEpcJG3yvaDfP6WI=;
+ h=From:Date:Subject:References:In-Reply-To:To:Cc;
+ b=Lmus5BIfu4fCaYB498+Tsaiv8pmWviBNbjtU0Uv3Bbuaq6c6KFcXbalhpMFAHowL1
+ QsPy3HAqg79mDcFOKtnOjT6/QYyyKnreVpjJibmMn6QPyEmcwnSn0bzUBZWRTEueqR
+ LHJWZlOQzK0eU0qDZach4VQ1WbG1L3vNlyQ5DfUwmuzw5T4NhlT4edxIjWPULVxsDY
+ sqykfO9N/N9DITn2CEjj8Sr1SOQR9jauBjZmOnB1YE/6KpEGOu5NlPaP62Y1t+FSbr
+ tmvntRqKs8ZJFUZya9LG2WY0LEaaL8PCOHZKHB7KW2jtk9lnoAoVz4s9J4qmDcXKI7
+ RlfY3XEvs6WeQ==
 From: Kaustabh Chakraborty <kauschluss@disroot.org>
-Subject: [PATCH v3 0/2] Add driver for Samsung S6E8AA5X01 panel controller
-Date: Wed, 25 Jun 2025 18:11:24 +0530
-Message-Id: <20250625-panel-samsung-s6e8aa5x01-v3-0-9a1494fe6c50@disroot.org>
+Date: Wed, 25 Jun 2025 18:11:25 +0530
+Subject: [PATCH v3 1/2] dt-bindings: display: panel: document Samsung
+ S6E8AA5X01 panel driver
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-X-B4-Tracking: v=1; b=H4sIAHTuW2gC/33NQQ6CMBCF4auYrq1pB1rQlfcwLgY6QBOlpMUGQ
- 7i7BTe60OX/kvlmZoG8pcBOu5l5ijZY16fI9jtWd9i3xK1JzUCAEgoyPmBPNx7wHh59y4OmElF
- NQnJCyI+asCGDLJ0Pnho7bfTlmrqzYXT+uX2Kcl3fqJbwG42SCy60qSsUhSTUZ2ODd248ON+yl
- Y3wQYH6Q0GiclMVUJUFKsy/qWVZXqlx6fENAQAA
-X-Change-ID: 20250523-panel-samsung-s6e8aa5x01-ea2496eafeda
+Message-Id: <20250625-panel-samsung-s6e8aa5x01-v3-1-9a1494fe6c50@disroot.org>
+References: <20250625-panel-samsung-s6e8aa5x01-v3-0-9a1494fe6c50@disroot.org>
+In-Reply-To: <20250625-panel-samsung-s6e8aa5x01-v3-0-9a1494fe6c50@disroot.org>
 To: Neil Armstrong <neil.armstrong@linaro.org>, 
  Jessica Zhang <quic_jesszhan@quicinc.com>, David Airlie <airlied@gmail.com>, 
  Simona Vetter <simona@ffwll.ch>, 
@@ -54,11 +52,11 @@ To: Neil Armstrong <neil.armstrong@linaro.org>,
 Cc: dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org, 
  linux-kernel@vger.kernel.org, Kaustabh Chakraborty <kauschluss@disroot.org>, 
  Conor Dooley <conor.dooley@microchip.com>
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1750855293; l=1632;
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1750855293; l=2570;
  i=kauschluss@disroot.org; s=20250202; h=from:subject:message-id;
- bh=k73QcSebOPGkqpr02iIqO4RpQPNEizVB/wnyJVCI8+c=;
- b=1nh652G8FvfSm8XUQZ/LSfWGtOT4OSDseTLvDBIZSZguu58pl3Noi+AmpdGnPj0+8Kpk+ZRSR
- eqgbJawYG6hA90oblpI0vuYMZz2lLvIcN4JWAlHroS+jou6rFxQdmpV
+ bh=f0JRQMEsVKlGa0ZIRNYll0HpfPGIEpcJG3yvaDfP6WI=;
+ b=4gHZ6p02DoCgctAauhiZwhxESjSXoNuWs9dHjGDbREvcKPo06rNCwzzAEZKoh89R7Z+uiSsfS
+ LHQ6zn1SZg0AuWYde1ucVbWe5Hpgrme6LLsnr68rt0T3CyQLG/d8x0n
 X-Developer-Key: i=kauschluss@disroot.org; a=ed25519;
  pk=h2xeR+V2I1+GrfDPAhZa3M+NWA0Cnbdkkq1bH3ct1hE=
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -76,41 +74,102 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-This patch series introduces a driver for Samsung S6E8AA5X01, which is
-an AMOLED MIPI DSI panel controller. This panel is found in several
-(mostly Samsung) phones, in at least two different sizes - 720x1280 and
-720x1480.
+Samsung S6E8AA5X01 is an AMOLED MIPI DSI panel controller. Document the
+compatible and devicetree properties of this panel driver. Timings are
+provided through the devicetree node as panels are available in
+different sizes.
 
+Acked-by: Conor Dooley <conor.dooley@microchip.com>
 Signed-off-by: Kaustabh Chakraborty <kauschluss@disroot.org>
 ---
-Changes in v3:
-- added brightness values for upto 500 nits.
-- removed unused mutex object from panel code.
-- Link to v2: https://lore.kernel.org/r/20250625-panel-samsung-s6e8aa5x01-v2-0-4db72b87a5a4@disroot.org
+ .../bindings/display/panel/samsung,s6e8aa5x01.yaml | 78 ++++++++++++++++++++++
+ 1 file changed, 78 insertions(+)
 
-Changes in v2:
-- fixed various dt_binding_check errors (conor)
-- simplified panel enable sequencing (tzimmermann)
-- did s/s6e8aa5x01_update_brightness/s6e8aa5x01_update_status (tzimmermann)
-- added check for panel enable in s6e8aa5x01_update_status() (tzimmermann)
-- used backlight_get_brightness() in appropriate places (tzimmermann)
-- Link to v1: https://lore.kernel.org/r/20250612-panel-samsung-s6e8aa5x01-v1-0-06dcba071ea6@disroot.org
+diff --git a/Documentation/devicetree/bindings/display/panel/samsung,s6e8aa5x01.yaml b/Documentation/devicetree/bindings/display/panel/samsung,s6e8aa5x01.yaml
+new file mode 100644
+index 0000000000000000000000000000000000000000..23dae6e961ae01c99de93bf4b4a067f2953f8edf
+--- /dev/null
++++ b/Documentation/devicetree/bindings/display/panel/samsung,s6e8aa5x01.yaml
+@@ -0,0 +1,78 @@
++# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
++%YAML 1.2
++---
++$id: http://devicetree.org/schemas/display/panel/samsung,s6e8aa5x01.yaml#
++$schema: http://devicetree.org/meta-schemas/core.yaml#
++
++title: Samsung S6E8AA5X01 display panel controller
++
++maintainers:
++  - Kaustabh Chakraborty <kauschluss@disroot.org>
++
++allOf:
++  - $ref: panel-common.yaml#
++
++properties:
++  compatible:
++    const: samsung,s6e8aa5x01
++
++  reg:
++    maxItems: 1
++
++  vdd-supply:
++    description: core voltage supply
++
++  vci-supply:
++    description: voltage supply for analog circuits
++
++  reset-gpios: true
++  width-mm: true
++  height-mm: true
++  panel-timing: true
++
++required:
++  - compatible
++  - reg
++  - width-mm
++  - height-mm
++  - panel-timing
++
++additionalProperties: false
++
++examples:
++  - |
++    #include <dt-bindings/gpio/gpio.h>
++
++    dsi {
++        #address-cells = <1>;
++        #size-cells = <0>;
++
++        panel@0 {
++            compatible = "samsung,s6e8aa5x01";
++            reg = <0>;
++
++            vdd-supply = <&panel_vdd_reg>;
++            vci-supply = <&panel_vci_reg>;
++
++            reset-gpios = <&gpd3 4 GPIO_ACTIVE_HIGH>;
++
++            width-mm = <62>;
++            height-mm = <128>;
++
++            panel-timing {
++                clock-frequency = <73094400>;
++
++                hactive = <720>;
++                hsync-len = <2>;
++                hfront-porch = <62>;
++                hback-porch = <26>;
++
++                vactive = <1480>;
++                vsync-len = <2>;
++                vfront-porch = <12>;
++                vback-porch = <10>;
++            };
++        };
++    };
++
++...
 
----
-Kaustabh Chakraborty (2):
-      dt-bindings: display: panel: document Samsung S6E8AA5X01 panel driver
-      drm: panel: add support for Samsung S6E8AA5X01 panel controller
-
- .../bindings/display/panel/samsung,s6e8aa5x01.yaml |  78 ++
- drivers/gpu/drm/panel/Kconfig                      |  11 +
- drivers/gpu/drm/panel/Makefile                     |   1 +
- drivers/gpu/drm/panel/panel-samsung-s6e8aa5x01.c   | 980 +++++++++++++++++++++
- 4 files changed, 1070 insertions(+)
----
-base-commit: 1b152eeca84a02bdb648f16b82ef3394007a9dcf
-change-id: 20250523-panel-samsung-s6e8aa5x01-ea2496eafeda
-
-Best regards,
 -- 
-Kaustabh Chakraborty <kauschluss@disroot.org>
+2.49.0
 
