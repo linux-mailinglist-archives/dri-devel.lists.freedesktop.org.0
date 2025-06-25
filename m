@@ -2,42 +2,41 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id D5350AE8A4E
-	for <lists+dri-devel@lfdr.de>; Wed, 25 Jun 2025 18:46:02 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2B661AE8A4A
+	for <lists+dri-devel@lfdr.de>; Wed, 25 Jun 2025 18:45:54 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C560C10E778;
-	Wed, 25 Jun 2025 16:46:00 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C942C10E054;
+	Wed, 25 Jun 2025 16:45:49 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=bootlin.com header.i=@bootlin.com header.b="fQE3MK2K";
+	dkim=pass (2048-bit key; unprotected) header.d=bootlin.com header.i=@bootlin.com header.b="LYy6gzOu";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from relay5-d.mail.gandi.net (relay5-d.mail.gandi.net
  [217.70.183.197])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 681D110E23A
- for <dri-devel@lists.freedesktop.org>; Wed, 25 Jun 2025 16:45:42 +0000 (UTC)
-Received: by mail.gandi.net (Postfix) with ESMTPSA id 7D6C144385;
- Wed, 25 Jun 2025 16:45:39 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2085010E773
+ for <dri-devel@lists.freedesktop.org>; Wed, 25 Jun 2025 16:45:43 +0000 (UTC)
+Received: by mail.gandi.net (Postfix) with ESMTPSA id 2A8CF4437D;
+ Wed, 25 Jun 2025 16:45:41 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
- t=1750869941;
+ t=1750869942;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=AXCxhWG7+TwYnqcCH1bbu1V1drghoo3o25zXzfcMhR0=;
- b=fQE3MK2KKKWZHSHpw/EOuCoGF8aaQpjXtXTKgLDEfZFrVd71HsENBSa9zfQ935i/ZiAr6U
- Zue6+swKxKCX2qDuZq9nwmBMGmyS5hy0wrXRiEy7j9+DuCI8EayCfTLrQEKXCzayL8PyAm
- DIvVkcv6iGYmlD5D/SVxrhN8rYSBRiLHYKJ7Of8/y2mpjhdivQ6a/I5fagLrezCITdcn8U
- H1287RI3xWyRT7jN7LoiLS9M/k5XnJerLk8jLnTH5cZ/1SFEvOx00pz5RD+UGtiNuMPIfe
- pmWjg588UvmhPsWq/PrpI1EvEoMGJkFKXfCkgti73xrJJ7SwktiqsI1k/jCcZA==
+ bh=KmAGn/VrnjYqlycoq46COahRcnHDMs9lXWBMwv0U3Z4=;
+ b=LYy6gzOuPnf5GOVONzhJHxWS2TOAmEL54FRQp8iM2QtWaf1PK4EgHq/kXwqyU39C8/4cyR
+ JimImRh50Fd5ybCqRzGV27Tf1fZEUyUEJXVXP2UOayNSWHqa3cfTJNcwCNlEJptugu+ovI
+ zwg7wlw95vKsOIr7/5tOIQvg2+yA2alaztH7bKsi38hYb0O8BAT4ferEm/wq4cKj3br3HW
+ dZ9lMx4V/ON6PDvGxOFq3F7FXf/peRZcNwphsKXMPy1uUMXMHpvF5earQhYb97j1LKhbFa
+ Q8XpUX5RNbw08K1L3pPEqmyh6iexgSRIr2BmGWuing+gBTdc7J7MEchxZszhcg==
 From: Luca Ceresoli <luca.ceresoli@bootlin.com>
-Date: Wed, 25 Jun 2025 18:45:05 +0200
-Subject: [PATCH 01/32] drm/mipi-dsi: add sanity check of lane number in
- mipi_dsi_attach()
+Date: Wed, 25 Jun 2025 18:45:06 +0200
+Subject: [PATCH 02/32] drm/hisilicon/kirin: remove redundant lanes number check
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20250625-drm-dsi-host-no-device-ptr-v1-1-e36bc258a7c5@bootlin.com>
+Message-Id: <20250625-drm-dsi-host-no-device-ptr-v1-2-e36bc258a7c5@bootlin.com>
 References: <20250625-drm-dsi-host-no-device-ptr-v1-0-e36bc258a7c5@bootlin.com>
 In-Reply-To: <20250625-drm-dsi-host-no-device-ptr-v1-0-e36bc258a7c5@bootlin.com>
 To: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
@@ -76,35 +75,27 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Several drivers do some sanity checks on the lane number. Checking it is
-non-zero will allow to remove such checks.
-
-Additionally, we are about to move to an .attach_new host op which won't
-pass a pointer that the host driver can store. This will prevent host
-drivers to check for the presence of a device by storing such pointer and
-checking whether it is NULL. As a replacement, host drivers will be able to
-check the lane number to be non-zero, so ensuring a zero value is never
-passed along will make such checks robust.
+Checking that the number of lanes is > 0 is now done by the DRM MIPI DSI
+core in mipi_dsi_attach().
 
 Signed-off-by: Luca Ceresoli <luca.ceresoli@bootlin.com>
 ---
- drivers/gpu/drm/drm_mipi_dsi.c | 3 +++
- 1 file changed, 3 insertions(+)
+ drivers/gpu/drm/hisilicon/kirin/dw_drm_dsi.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/drivers/gpu/drm/drm_mipi_dsi.c b/drivers/gpu/drm/drm_mipi_dsi.c
-index a00d76443128e4972f939a8c9e26d949d2b30bb9..82d4f9c1de5fbc60f32d0b0baf41e1bd2991ebe4 100644
---- a/drivers/gpu/drm/drm_mipi_dsi.c
-+++ b/drivers/gpu/drm/drm_mipi_dsi.c
-@@ -379,6 +379,9 @@ int mipi_dsi_attach(struct mipi_dsi_device *dsi)
- 	if (!ops || !ops->attach)
- 		return -ENOSYS;
+diff --git a/drivers/gpu/drm/hisilicon/kirin/dw_drm_dsi.c b/drivers/gpu/drm/hisilicon/kirin/dw_drm_dsi.c
+index e80debdc41763357cb2cf321205c0dfac80a911e..1a5b97abae86a187c751b4b579d7c22f206e4c90 100644
+--- a/drivers/gpu/drm/hisilicon/kirin/dw_drm_dsi.c
++++ b/drivers/gpu/drm/hisilicon/kirin/dw_drm_dsi.c
+@@ -728,7 +728,7 @@ static int dsi_host_attach(struct mipi_dsi_host *host,
+ 	struct device *dev = host->dev;
+ 	int ret;
  
-+	if (dsi->lanes < 1)
-+		return dev_err_probe(&dsi->dev, -EINVAL, "Incorrect lanes number\n");
-+
- 	ret = ops->attach(dsi->host, dsi);
- 	if (ret)
- 		return ret;
+-	if (mdsi->lanes < 1 || mdsi->lanes > 4) {
++	if (mdsi->lanes > 4) {
+ 		DRM_ERROR("dsi device params invalid\n");
+ 		return -EINVAL;
+ 	}
 
 -- 
 2.49.0
