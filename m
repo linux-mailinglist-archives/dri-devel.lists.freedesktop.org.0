@@ -2,60 +2,108 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 134B0AE8AD8
-	for <lists+dri-devel@lfdr.de>; Wed, 25 Jun 2025 18:57:17 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2B52CAE8B94
+	for <lists+dri-devel@lfdr.de>; Wed, 25 Jun 2025 19:37:34 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id EDD1110E10B;
-	Wed, 25 Jun 2025 16:57:14 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E1A6610E7B0;
+	Wed, 25 Jun 2025 17:37:31 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="mNgLB8Ds";
+	dkim=pass (2048-bit key; unprotected) header.d=qualcomm.com header.i=@qualcomm.com header.b="MgH7mbUO";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.14])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8EABD10E7A2;
- Wed, 25 Jun 2025 16:57:07 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1750870627; x=1782406627;
- h=from:to:cc:subject:date:message-id:in-reply-to:
- references:mime-version:content-transfer-encoding;
- bh=wBhqdHFT6q92MdaZKb3oeHHxeJu1lqs/E+7CU/KnemU=;
- b=mNgLB8Ds2bQQs4PRPvP/CvxKXLcsQqxIgP92RizEQYzIRMyYkTifpe5y
- gnUgf9FiZql14xEsgCaTePt4Xx1XYaJvzpZ9ULDA1fZdryp/QpnK7DacX
- o5o3vJzbY1Vy568WIoI63oQwhRyad/k3F818UJusDWtIV64fBuH0ovZz1
- UbjT8Yv+Ftv5EgKIGxjvBOWmHn27aZCPeVlRZ+XDlxCD9USZQvVN0G08a
- /jFUZHSsHNfyzkXfg1lJoqCWKaeQpJiH13OPsq9M7/LtBWoEwIWD9FNUJ
- Mh4w9ebF9CMKjHyI+LLG8vYcOlNjjbNth6h9vrLlQZLT1GB81CrqWJcfn g==;
-X-CSE-ConnectionGUID: SE0njLpvRBKj+zZT/8tBzQ==
-X-CSE-MsgGUID: nxRgjd4FTvCYUDLgI2g+Dw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11475"; a="53214469"
-X-IronPort-AV: E=Sophos;i="6.16,265,1744095600"; d="scan'208";a="53214469"
-Received: from orviesa010.jf.intel.com ([10.64.159.150])
- by fmvoesa108.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 25 Jun 2025 09:57:07 -0700
-X-CSE-ConnectionGUID: 3X4X4U68Ttq5Zj9Z5nIKSw==
-X-CSE-MsgGUID: TapVp8apSniM0HuyJr/5Cg==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.16,265,1744095600"; d="scan'208";a="151696740"
-Received: from unknown (HELO bnilawar-desk2.iind.intel.com) ([10.190.239.41])
- by orviesa010-auth.jf.intel.com with
- ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Jun 2025 09:57:04 -0700
-From: Badal Nilawar <badal.nilawar@intel.com>
-To: intel-xe@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org
-Cc: anshuman.gupta@intel.com, rodrigo.vivi@intel.com,
- alexander.usyskin@intel.com, gregkh@linuxfoundation.org,
- daniele.ceraolospurio@intel.com
-Subject: [PATCH v4 10/10] drm/xe/xe_late_bind_fw: Select INTEL_MEI_LATE_BIND
- for CI
-Date: Wed, 25 Jun 2025 22:30:15 +0530
-Message-Id: <20250625170015.33912-11-badal.nilawar@intel.com>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20250625170015.33912-1-badal.nilawar@intel.com>
-References: <20250625170015.33912-1-badal.nilawar@intel.com>
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com
+ [205.220.180.131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2192E10E7A2
+ for <dri-devel@lists.freedesktop.org>; Wed, 25 Jun 2025 17:37:21 +0000 (UTC)
+Received: from pps.filterd (m0279869.ppops.net [127.0.0.1])
+ by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 55PEZQWk011686
+ for <dri-devel@lists.freedesktop.org>; Wed, 25 Jun 2025 17:37:21 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
+ cc:content-transfer-encoding:date:from:message-id:mime-version
+ :subject:to; s=qcppdkim1; bh=YAhoTHSslWHI/eVI5RR5ldeEIDPqTzprLbe
+ uErvpeQ4=; b=MgH7mbUOHHW/lCffajxpilJA4qxUyYlkCLaUuiZVb8aCA7+T6Fk
+ ApFjTacpyfNDUEkCVTD/RUY17c+GfU+k71KWianbgGvyPooE5tUO88cXmtk6iUwP
+ EhMnT9aFRyMss5zu8jaJaIlhKEgnCs/MLtK3Rgxy7R9lCa5HhtSpdfOf1kHkrJXY
+ rrhTb879sZiDhCLQ5bOpdHRFBytz0o7HdwNa3/oPQAY4pEcscwtg6oI579IWj+up
+ lHLYXhcHezStN9vNbPXXe5rwgCXHgYhNbrfaEaKCRQh2TqW+xpnDGZTC45CUK02x
+ rOSInZa4dzgzWZfqmAtAS3p3W5WQ3G6DZVg==
+Received: from mail-pj1-f69.google.com (mail-pj1-f69.google.com
+ [209.85.216.69])
+ by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 47f3bggs29-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
+ for <dri-devel@lists.freedesktop.org>; Wed, 25 Jun 2025 17:37:20 +0000 (GMT)
+Received: by mail-pj1-f69.google.com with SMTP id
+ 98e67ed59e1d1-3122368d82bso102730a91.0
+ for <dri-devel@lists.freedesktop.org>; Wed, 25 Jun 2025 10:37:20 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1750873039; x=1751477839;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=YAhoTHSslWHI/eVI5RR5ldeEIDPqTzprLbeuErvpeQ4=;
+ b=Q973ae5emuAvujJfH/ep8tHHtRw8LKom7wLk1mkLYOWVostVAAVIO9sVTnIADE7Wh6
+ IKKofdggLG8N2fiUP14nJ2kmh32/OMBCT5RZL0RTEdYeWIAm6aQtteZhWjdbCfxzJRJW
+ hyF10lTImeSxtT4T2oF5UmB2DUVoiTeC3C8a4lx629mfLF1ZkUpSW1/JbF8sBPCfbwvD
+ d7wULDX2mvKfpinNZKyPbh4gtSgFQ/rMHR5IGwU5q8YPe9CQbw9gFu0I+blmvJRLvJNe
+ qJNY3Z6gQUEwOeaE41A80DwsVt/ThiyWeYRZFtN0FtS+BAuWKzvWeoXbTrto8q+mtHsg
+ LEGg==
+X-Gm-Message-State: AOJu0YxFYZfB2wu6a5ynDXMRvAXOy0EjZOEEDQOEJa6Kef7VmcVY/pa0
+ z5aQb0NSKfi7+ZzjWSuM7pZvJBYiNMgC9RbEic41jD0X8XWW8tIKElkV2pY13C7o7wl/joslTaj
+ L/myhcqf939ugyvU0pFK9NHlP2uAZmJpgA2oJVzwhZRF5atbDr69O5OiGXbRE4mnAjaq7FlWyNb
+ /zAlw=
+X-Gm-Gg: ASbGncsVMvFcLz+7ZKBv/SyiSsqRhXJbw3d6o3xHsC8DcBa9e6uwPq0Di2Tl9RFbzcT
+ SjKaobjo7J2C6rbXx3M/Bb8DRgfvAFlh3KJAAjJPw2NTQJVzjA+u+HGmPXLuXoqPOP/JhL9/1zj
+ THvOsR4Iu8h1BK2e8bXBH7fg+Q808ZMgbkhWunuV+vPhOjfvZ0Azn8eYZpBY6wqWIBtrEvh3PPa
+ l4sL1rc8VJr3jmVB+WQNu87LDAg7Zb1gxQa0wT+QMwOu2TzWsjR6HJkkqNTzePuv5A/kc2m0+RJ
+ wwtYyohUWE3uGcCmCT7/IYeNMZyW6/s1
+X-Received: by 2002:a17:90b:17c3:b0:311:da03:3437 with SMTP id
+ 98e67ed59e1d1-315f268d07fmr5817779a91.27.1750873039528; 
+ Wed, 25 Jun 2025 10:37:19 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IEMKQs3mspG8y9JNMpqoIf2y+cWR9YznGJpkP1ouykLoRzvg0upnUv8nTz+gS2rxDvr0WltPg==
+X-Received: by 2002:a17:90b:17c3:b0:311:da03:3437 with SMTP id
+ 98e67ed59e1d1-315f268d07fmr5817746a91.27.1750873039081; 
+ Wed, 25 Jun 2025 10:37:19 -0700 (PDT)
+Received: from localhost ([2601:1c0:5000:d5c:5b3e:de60:4fda:e7b1])
+ by smtp.gmail.com with ESMTPSA id
+ 98e67ed59e1d1-315f53d9098sm2219224a91.31.2025.06.25.10.37.18
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 25 Jun 2025 10:37:18 -0700 (PDT)
+From: Rob Clark <robin.clark@oss.qualcomm.com>
+To: dri-devel@lists.freedesktop.org
+Cc: freedreno@lists.freedesktop.org, linux-arm-msm@vger.kernel.org,
+ Simona Vetter <simona@ffwll.ch>, Daniel Stone <daniels@collabora.com>,
+ Rob Clark <robin.clark@oss.qualcomm.com>, David Airlie <airlied@gmail.com>,
+ linux-kernel@vger.kernel.org (open list),
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>
+Subject: [PATCH v2 0/2] drm/fourcc: Add additional float formats
+Date: Wed, 25 Jun 2025 10:37:09 -0700
+Message-ID: <20250625173712.116446-1-robin.clark@oss.qualcomm.com>
+X-Mailer: git-send-email 2.49.0
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
+X-Proofpoint-ORIG-GUID: QEdCS9KsZoL4fOQhQe92O7QkXlbHgCY2
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwNjI1MDEzMSBTYWx0ZWRfX8TyfqgdIIVTf
+ BsfZfdfCzeaa99ySGPcbtrIT91A42orX6QZuIpUdkNx9+Oa6GJ9C6e3F8HT1SfrwK0VfqN6+o4i
+ tt1JfwE/gV8+l/TkpOXnE96vehSs/NLDSfidB77g9P4dzpoao2Kci0pzQRzDWhyQSigb+o+V8Nb
+ 98SNfgz/dBSj5TVJH35Ahw/+mOYPCFcbG34yqXvcfj+hurKPV2yzWLQzyfQhCaaPL3fA9zomgsf
+ EW8mzZr+ZV3Mj2B5IqDObs59+B62gmPmjmorubTh04B4DFv18toRG1CeEXiHpYgVQvJSkjf2pwG
+ ZEc7Y21Fj/gRnOpI6FltRb4am3cV8n8ax9Qz39twa8QM/0PSqZZAGXE9fjV9kaCIOMz3xNgF1/N
+ 4RC5UZ+/VYPNvqaAzIV3FEP23GPvoUfOsZWdR3fYF/2dGlPFPcHrtJlyOLRzLZfnKLFXuWkO
+X-Authority-Analysis: v=2.4 cv=L4kdQ/T8 c=1 sm=1 tr=0 ts=685c33d1 cx=c_pps
+ a=vVfyC5vLCtgYJKYeQD43oA==:117 a=xqWC_Br6kY4A:10 a=6IFa9wvqVegA:10
+ a=wxOPRAE1bK0FDlpJDKYA:9 a=rl5im9kqc5Lf4LNbBjHf:22
+X-Proofpoint-GUID: QEdCS9KsZoL4fOQhQe92O7QkXlbHgCY2
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1099,Hydra:6.1.7,FMLib:17.12.80.40
+ definitions=2025-06-25_05,2025-06-25_01,2025-03-28_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ mlxscore=0 malwarescore=0 bulkscore=0 clxscore=1015 suspectscore=0
+ adultscore=0 priorityscore=1501 impostorscore=0 lowpriorityscore=0
+ spamscore=0 phishscore=0 mlxlogscore=963 classifier=spam authscore=0
+ authtc=n/a authcc= route=outbound adjust=0 reason=mlx scancount=1
+ engine=8.19.0-2505280000 definitions=main-2506250131
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -71,25 +119,16 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Do not review
+GPUs support 1/2/3/4 component f16 and f32 formats.  Define the missing
+fourcc's needed to import/export these formats, and/or create with gbm.
 
-Signed-off-by: Badal Nilawar <badal.nilawar@intel.com>
----
- drivers/gpu/drm/xe/Kconfig | 1 +
- 1 file changed, 1 insertion(+)
+Rob Clark (2):
+  drm/fourcc: Add missing half-float formats
+  drm/fourcc: Add 32b float formats
 
-diff --git a/drivers/gpu/drm/xe/Kconfig b/drivers/gpu/drm/xe/Kconfig
-index 30ed74ad29ab..b161e1156c73 100644
---- a/drivers/gpu/drm/xe/Kconfig
-+++ b/drivers/gpu/drm/xe/Kconfig
-@@ -44,6 +44,7 @@ config DRM_XE
- 	select WANT_DEV_COREDUMP
- 	select AUXILIARY_BUS
- 	select HMM_MIRROR
-+	select INTEL_MEI_LATE_BIND
- 	help
- 	  Driver for Intel Xe2 series GPUs and later. Experimental support
- 	  for Xe series is also available.
+ include/uapi/drm/drm_fourcc.h | 16 +++++++++++++++-
+ 1 file changed, 15 insertions(+), 1 deletion(-)
+
 -- 
-2.34.1
+2.49.0
 
