@@ -2,95 +2,57 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id D506DAE871D
-	for <lists+dri-devel@lfdr.de>; Wed, 25 Jun 2025 16:52:48 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id BE641AE8777
+	for <lists+dri-devel@lfdr.de>; Wed, 25 Jun 2025 17:08:14 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D0E6710E74D;
-	Wed, 25 Jun 2025 14:52:45 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8D39110E232;
+	Wed, 25 Jun 2025 15:08:11 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=chromium.org header.i=@chromium.org header.b="Qx1GtG2F";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="SkTnQF1k";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pj1-f66.google.com (mail-pj1-f66.google.com
- [209.85.216.66])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 307F710E74D
- for <dri-devel@lists.freedesktop.org>; Wed, 25 Jun 2025 14:52:39 +0000 (UTC)
-Received: by mail-pj1-f66.google.com with SMTP id
- 98e67ed59e1d1-311da0bef4aso7246439a91.3
- for <dri-devel@lists.freedesktop.org>; Wed, 25 Jun 2025 07:52:39 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=chromium.org; s=google; t=1750863159; x=1751467959;
- darn=lists.freedesktop.org; 
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc:subject:date
- :message-id:reply-to;
- bh=U4Xs6XJwBk5ATm+AWbM8XBAqiRwBbqTDrt/zohXQm4Y=;
- b=Qx1GtG2FT8/kwg4JXQaf9Yj48yxkKTZTEeNzZSzWgas9eWzGxrzgjGsCiv+nZJ/XrI
- Airg/Uj+95oOU48jhdgl91EQBCzmP30sFslukFrUWg5UUcQo5LkrF2jkTr5Y1trfQMlb
- bqjpzcCtpY01evyvOQTwFN2GZubu7u7dUBNLg=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1750863159; x=1751467959;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=U4Xs6XJwBk5ATm+AWbM8XBAqiRwBbqTDrt/zohXQm4Y=;
- b=Jsas7ff244vzwxTRiCviXAsU+4jaTpuljBtTQN2sq/l+Tk6BpA1fMp/qejxn+ISVEP
- L9/vLYuqWqwSZJdy2TVBBQ1fVLWWLjY/CSPsLA523RbRp7E4g3CZKtj3Zn74RDPwXcJd
- bqGtBkkgp9n0Iup36DG/om+eFV8fI1hfq2/e8wk8Mr+UVYkOCF9jWghNZIQ5YoOi00Mt
- Di54zdU/MYBDwkeL+JOomqwTVNS57t8bISF4oKhndQP87DNNoFrqOIl7NSF8XFN9huLi
- gpd35kLo/nCA2JfVq2rCFxUXMyqwpVjXCYe79WJt7PpY3UpbdOdcUEyluZt/cV69d7JI
- XOuQ==
-X-Forwarded-Encrypted: i=1;
- AJvYcCVHny4aIrv/goe07uhyTWwSmzc2+HVJ+etGr5aPoZebEUhPnlzziwqSJ+bf4pw4ZBnkDlEERpzltJ0=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0Yy9LGLaxPg2ZdXrs89Xw7vTTDskC6g3X+afBJaNvyu3sZjPuiaM
- a6QTWD8oaZCU76tT2oz9EMx1Jq42CwUhQ7SnceMIxsXY8JFbspeQ/3mgMx4a76VDujbYJnuh9OJ
- N1UtXBQ==
-X-Gm-Gg: ASbGnctLWM8/vllya7RmyOuLDd9lSkUZagV0Wsjl+vlDZS8Moq9mJNK1SrQIFl4TTWj
- JL/op/+tgDS5f4/G95hJ/042lKf2bCeUVQEj9wpG9Dhh85sZWeXJmMEmwtjV2kS0FR7UbPnX+iJ
- /cABH0GkzsoCADTBeFEN1MbxGt8tDfYvmPEjuApWGm41Fxl1LOaBhT+jG1QAEdSryY0Xl3oV7hc
- cUlVWsJXPrne4Lc0ML9TvBQrNuk7A4EXmtv51fnXoZ12sqyE2QmvJAIOxGXeb5x9CKiha3MKEFX
- 9bGizaP5SdVuOBgsyIGWitfFXJDTVBkVUYjlu6t0wa/0y76j+tfCOPJgdw0KC57E64PdTXrTi1T
- /OTdKjxHxS0Vk5B4lyBbnjGu4wA==
-X-Google-Smtp-Source: AGHT+IElzqaTzJ3MYIEvLPyluIOrpYw+Ao+08XY0DDWoBoxQw3Qp7wDRvI7vKtEf43eRYwwSYYKyZA==
-X-Received: by 2002:a17:90b:4c0c:b0:313:f9f6:309f with SMTP id
- 98e67ed59e1d1-315f26d2c26mr4104794a91.34.1750863159256; 
- Wed, 25 Jun 2025 07:52:39 -0700 (PDT)
-Received: from mail-pj1-f51.google.com (mail-pj1-f51.google.com.
- [209.85.216.51]) by smtp.gmail.com with ESMTPSA id
- 98e67ed59e1d1-315f5382eecsm2012767a91.6.2025.06.25.07.52.38
- for <dri-devel@lists.freedesktop.org>
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 25 Jun 2025 07:52:39 -0700 (PDT)
-Received: by mail-pj1-f51.google.com with SMTP id
- 98e67ed59e1d1-315f6b20cf9so1029955a91.2
- for <dri-devel@lists.freedesktop.org>; Wed, 25 Jun 2025 07:52:38 -0700 (PDT)
-X-Forwarded-Encrypted: i=1;
- AJvYcCVf+Qzn1tJlMrmJaKjBIXEEHHXDMR7RbjoApupEmMRP/Xfj0Ui6b6hQvroqEVGyhhknNQG8UG1CqCE=@lists.freedesktop.org
-X-Received: by 2002:a17:90b:2642:b0:311:ffe8:20e2 with SMTP id
- 98e67ed59e1d1-315f25edc7fmr4807961a91.4.1750863158142; Wed, 25 Jun 2025
- 07:52:38 -0700 (PDT)
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5990510E232
+ for <dri-devel@lists.freedesktop.org>; Wed, 25 Jun 2025 15:08:10 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+ by dfw.source.kernel.org (Postfix) with ESMTP id C3C505C551C;
+ Wed, 25 Jun 2025 15:05:49 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id C1312C4CEEA;
+ Wed, 25 Jun 2025 15:08:05 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1750864085;
+ bh=JmhAkoif1otrp384soDK37/o6hqYnuIKtKUb9uvXqk8=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=SkTnQF1kyikqilYsD7Cczd6oJ8b1ODVaVkobfCt2Vx/C1mGrS3OEP/0IPQEIY024y
+ klkF+vtj6vKHtgnKajEtGt8/uTXf0OLUA5RwfIvl24T1XdGW9bxiLGfgcrK6yaehC5
+ rSu6aPzzOLMUc+hVINWtEmCPCo8Uo8QcpPQWRIz675T2H4/2GSSfTlO8+8WHiczNlP
+ mXGyBWv+D2H8Vnj5PSx+4p0q6brFUrCqyY9MoDTaAfLRJx8drbwr3g24Gum3FgOJbN
+ b3Xpjv/JucxgDLzwqJH7eoG5upgbyI3UfXrGH75udDUmJo9IwBQ3pYmGKyjQ9IjfWK
+ 3Ocx9DbtPgFwQ==
+Date: Wed, 25 Jun 2025 10:08:04 -0500
+From: Rob Herring <robh@kernel.org>
+To: Kaustabh Chakraborty <kauschluss@disroot.org>
+Cc: Neil Armstrong <neil.armstrong@linaro.org>,
+ Jessica Zhang <quic_jesszhan@quicinc.com>,
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>,
+ Krzysztof Kozlowski <krzk+dt@kernel.org>,
+ Conor Dooley <conor+dt@kernel.org>,
+ Jessica Zhang <jessica.zhang@oss.qualcomm.com>,
+ dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org,
+ linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v2 1/2] dt-bindings: display: panel: document Synaptics
+ TDDI panel driver
+Message-ID: <20250625150804.GA1201460-robh@kernel.org>
+References: <20250625-panel-synaptics-tddi-v2-0-7a62ab1d13c7@disroot.org>
+ <20250625-panel-synaptics-tddi-v2-1-7a62ab1d13c7@disroot.org>
 MIME-Version: 1.0
-References: <20250624044835.165708-1-j-choudhary@ti.com>
- <CAD=FV=WgLCwZ5De1B0Cs6MS7310xRa45po_LW7065W2bPNT3Xg@mail.gmail.com>
-In-Reply-To: <CAD=FV=WgLCwZ5De1B0Cs6MS7310xRa45po_LW7065W2bPNT3Xg@mail.gmail.com>
-From: Doug Anderson <dianders@chromium.org>
-Date: Wed, 25 Jun 2025 07:52:26 -0700
-X-Gmail-Original-Message-ID: <CAD=FV=UiTh+HUoxWEmn8r-9wJtJqN0cnnZ_fKYZCt20NHGrZAQ@mail.gmail.com>
-X-Gm-Features: AX0GCFvcMR3By960fl02ujgav6xL6OJUNQ0SybHdAVpYoRiy5TvUdEPb4K8kB9s
-Message-ID: <CAD=FV=UiTh+HUoxWEmn8r-9wJtJqN0cnnZ_fKYZCt20NHGrZAQ@mail.gmail.com>
-Subject: Re: [PATCH v6] drm/bridge: ti-sn65dsi86: Add HPD for DisplayPort
- connector type
-To: Jayesh Choudhary <j-choudhary@ti.com>
-Cc: andrzej.hajda@intel.com, neil.armstrong@linaro.org, rfoss@kernel.org, 
- Laurent.pinchart@ideasonboard.com, dri-devel@lists.freedesktop.org, 
- devarsht@ti.com, tomi.valkeinen@ideasonboard.com, 
- kieran.bingham+renesas@ideasonboard.com, ernest.vanhoecke@toradex.com, 
- jonas@kwiboo.se, jernej.skrabec@gmail.com, maarten.lankhorst@linux.intel.com, 
- mripard@kernel.org, tzimmermann@suse.de, airlied@gmail.com, simona@ffwll.ch, 
- linux-kernel@vger.kernel.org, max.oss.09@gmail.com, geert@linux-m68k.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20250625-panel-synaptics-tddi-v2-1-7a62ab1d13c7@disroot.org>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -106,106 +68,120 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi,
+On Wed, Jun 25, 2025 at 03:38:44PM +0530, Kaustabh Chakraborty wrote:
+> Document the driver for Synaptics TDDI (Touch/Display Integration) panels.
 
-On Tue, Jun 24, 2025 at 1:59=E2=80=AFPM Doug Anderson <dianders@chromium.or=
-g> wrote:
->
-> Hi,
->
-> On Mon, Jun 23, 2025 at 9:48=E2=80=AFPM Jayesh Choudhary <j-choudhary@ti.=
-com> wrote:
-> >
-> > By default, HPD was disabled on SN65DSI86 bridge. When the driver was
-> > added (commit "a095f15c00e27"), the HPD_DISABLE bit was set in pre-enab=
-le
-> > call which was moved to other function calls subsequently.
-> > Later on, commit "c312b0df3b13" added detect utility for DP mode. But w=
-ith
-> > HPD_DISABLE bit set, all the HPD events are disabled[0] and the debounc=
-ed
-> > state always return 1 (always connected state).
-> >
-> > Set HPD_DISABLE bit conditionally based on display sink's connector typ=
-e.
-> > Since the HPD_STATE is reflected correctly only after waiting for debou=
-nce
-> > time (~100-400ms) and adding this delay in detect() is not feasible
-> > owing to the performace impact (glitches and frame drop), remove runtim=
-e
-> > calls in detect() and add hpd_enable()/disable() bridge hooks with runt=
-ime
-> > calls, to detect hpd properly without any delay.
-> >
-> > [0]: <https://www.ti.com/lit/gpn/SN65DSI86> (Pg. 32)
-> >
-> > Fixes: c312b0df3b13 ("drm/bridge: ti-sn65dsi86: Implement bridge connec=
-tor operations for DP")
-> > Cc: Max Krummenacher <max.krummenacher@toradex.com>
-> > Reviewed-by: Douglas Anderson <dianders@chromium.org>
-> > Tested-by: Ernest Van Hoecke <ernest.vanhoecke@toradex.com>
-> > Signed-off-by: Jayesh Choudhary <j-choudhary@ti.com>
-> > ---
-> >
-> > Changelog v5->v6:
-> > - Drop pm_runtime_mark_last_busy()
-> > - Pick up tags
-> >
-> > v5 patch link:
-> > <https://lore.kernel.org/all/20250616093240.499094-1-j-choudhary@ti.com=
-/>
-> >
-> > Changelog v4->v5:
-> > - Make suspend asynchronous in hpd_disable()
-> > - Update HPD_DISABLE in probe function to address the case for when
-> >   comms are already enabled. Comments taken verbatim from [2]
-> > - Update comments
-> >
-> > v4 patch link:
-> > <https://lore.kernel.org/all/20250611052947.5776-1-j-choudhary@ti.com/>
-> >
-> > Changelog v3->v4:
-> > - Remove "no-hpd" support due to backward compatibility issues
-> > - Change the conditional from "no-hpd" back to connector type
-> >   but still address [1]
-> >
-> > v3 patch link:
-> > <https://lore.kernel.org/all/20250529110418.481756-1-j-choudhary@ti.com=
-/>
-> >
-> > Changelog v2->v3:
-> > - Change conditional based on no-hpd property to address [1]
-> > - Remove runtime calls in detect() with appropriate comments
-> > - Add hpd_enable() and hpd_disable() in drm_bridge_funcs
-> >
-> > v2 patch link:
-> > <https://lore.kernel.org/all/20250508115433.449102-1-j-choudhary@ti.com=
-/>
-> >
-> > Changelog v1->v2:
-> > - Drop additional property in bindings and use conditional.
-> > - Instead of register read for HPD state, use dpcd read which returns 0
-> >   for success and error codes for no connection
-> > - Add relevant history for the required change in commit message
-> > - Drop RFC subject-prefix in v2
-> > - Add "Cc:" tag
-> >
-> > v1 patch link:
-> > <https://lore.kernel.org/all/20250424105432.255309-1-j-choudhary@ti.com=
-/>
-> >
-> > [1]: <https://lore.kernel.org/all/mwh35anw57d6nvre3sguetzq3miu4kd43roke=
-gvul7fk266lys@5h2euthpk7vq/>
-> > [2]: <https://lore.kernel.org/all/CAD=3DFV=3DWvH73d78De3PrbiG7b6OaS_Bys=
-GtxQ=3DmJTj4z-h0LYWA@mail.gmail.com/>
-> >
-> >  drivers/gpu/drm/bridge/ti-sn65dsi86.c | 69 +++++++++++++++++++++++----
-> >  1 file changed, 60 insertions(+), 9 deletions(-)
->
-> I'll plan to push this to drm-misc-fixes tomorrow morning unless there
-> are any objections or requests for me to wait.
+We document the h/w, not 'the driver'.
 
-Pushed to drm-misc-fixes:
+> Along with the MIPI-DSI panel, these devices also have an in-built LED
+> backlight device and a touchscreen, all packed together in a single chip.
+> Also, add compatibles for supported panels - TD4101 and TD4300.
+> 
+> Signed-off-by: Kaustabh Chakraborty <kauschluss@disroot.org>
+> ---
+>  .../display/panel/synaptics,td4300-panel.yaml      | 89 ++++++++++++++++++++++
+>  1 file changed, 89 insertions(+)
+> 
+> diff --git a/Documentation/devicetree/bindings/display/panel/synaptics,td4300-panel.yaml b/Documentation/devicetree/bindings/display/panel/synaptics,td4300-panel.yaml
+> new file mode 100644
+> index 0000000000000000000000000000000000000000..10ac24afdfbc43ca6913bf8a343413eed81f12ff
+> --- /dev/null
+> +++ b/Documentation/devicetree/bindings/display/panel/synaptics,td4300-panel.yaml
+> @@ -0,0 +1,89 @@
+> +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
+> +%YAML 1.2
+> +---
+> +$id: http://devicetree.org/schemas/display/panel/synaptics,td4300-panel.yaml#
+> +$schema: http://devicetree.org/meta-schemas/core.yaml#
+> +
+> +title: Synaptics TDDI Display Panel Controller
+> +
+> +maintainers:
+> +  - Kaustabh Chakraborty <kauschluss@disroot.org>
+> +
+> +allOf:
+> +  - $ref: panel-common.yaml#
+> +
+> +properties:
+> +  compatible:
+> +    enum:
+> +      - syna,td4101-panel
+> +      - syna,td4300-panel
 
-[1/1] drm/bridge: ti-sn65dsi86: Add HPD for DisplayPort connector type
-      commit: 55e8ff842051b1150461d7595d8f1d033c69d66b
+Can a TD4101 be anything other than a panel (controller)? If not, then 
+'-panel' is redundant.
+
+> +
+> +  reg:
+> +    maxItems: 1
+> +
+> +  vio-supply:
+> +    description: core I/O voltage supply
+> +
+> +  vsn-supply:
+> +    description: negative voltage supply for analog circuits
+> +
+> +  vsp-supply:
+> +    description: positive voltage supply for analog circuits
+> +
+> +  backlight-gpios:
+> +    maxItems: 1
+> +    description: backlight enable GPIO
+> +
+> +  reset-gpios: true
+> +  width-mm: true
+> +  height-mm: true
+> +  panel-timing: true
+> +
+> +required:
+> +  - compatible
+> +  - reg
+> +  - width-mm
+> +  - height-mm
+> +  - panel-timing
+> +
+> +additionalProperties: false
+> +
+> +examples:
+> +  - |
+> +    #include <dt-bindings/gpio/gpio.h>
+> +
+> +    dsi {
+> +        #address-cells = <1>;
+> +        #size-cells = <0>;
+> +
+> +        panel@0 {
+> +            compatible = "synaptics,td4300-panel";
+> +            reg = <0>;
+> +
+> +            vio-supply = <&panel_vio_reg>;
+> +            vsn-supply = <&panel_vsn_reg>;
+> +            vsp-supply = <&panel_vsp_reg>;
+> +
+> +            backlight-gpios = <&gpd3 5 GPIO_ACTIVE_LOW>;
+> +            reset-gpios = <&gpd3 4 GPIO_ACTIVE_LOW>;
+> +
+> +            width-mm = <68>;
+> +            height-mm = <121>;
+> +
+> +            panel-timing {
+> +                clock-frequency = <144389520>;
+> +
+> +                hactive = <1080>;
+> +                hsync-len = <4>;
+> +                hfront-porch = <120>;
+> +                hback-porch = <32>;
+> +
+> +                vactive = <1920>;
+> +                vsync-len = <2>;
+> +                vfront-porch = <21>;
+> +                vback-porch = <4>;
+> +            };
+> +        };
+> +    };
+> +
+> +...
+> 
+> -- 
+> 2.49.0
+> 
