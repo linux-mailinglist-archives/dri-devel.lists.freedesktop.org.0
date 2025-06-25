@@ -2,78 +2,71 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id EBC52AE8347
-	for <lists+dri-devel@lfdr.de>; Wed, 25 Jun 2025 14:54:12 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 115CAAE83D4
+	for <lists+dri-devel@lfdr.de>; Wed, 25 Jun 2025 15:10:30 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 852C710E219;
-	Wed, 25 Jun 2025 12:53:53 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id BAD6C8825E;
+	Wed, 25 Jun 2025 13:10:26 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=samsung.com header.i=@samsung.com header.b="MqvdsWfu";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="uTYIzGpM";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mailout1.w1.samsung.com (mailout1.w1.samsung.com
- [210.118.77.11])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 47BE810E219
- for <dri-devel@lists.freedesktop.org>; Wed, 25 Jun 2025 12:53:52 +0000 (UTC)
-Received: from eucas1p1.samsung.com (unknown [182.198.249.206])
- by mailout1.w1.samsung.com (KnoxPortal) with ESMTP id
- 20250625125350euoutp0129bac0d776acf9d1e2a6f709a8b3c392~MSkiPlCY62064720647euoutp01S
- for <dri-devel@lists.freedesktop.org>; Wed, 25 Jun 2025 12:53:50 +0000 (GMT)
-DKIM-Filter: OpenDKIM Filter v2.11.0 mailout1.w1.samsung.com
- 20250625125350euoutp0129bac0d776acf9d1e2a6f709a8b3c392~MSkiPlCY62064720647euoutp01S
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=samsung.com;
- s=mail20170921; t=1750856030;
- bh=aHXPUrYiaWgQA8BN5Zf+BoDPK1tGYC0F+73wV5XjTXY=;
- h=Date:Subject:To:Cc:From:In-Reply-To:References:From;
- b=MqvdsWfuDOMUFFdpZ++uCNDRxIxCYkqgAv84879K/bIrv/0/5F8bSGtujVlCGo0Mi
- 2TWRc/cy9lNQA6MawjAhJV+EChId0q2Qo+ybYx2viknaXnZ5ZFh++pV8cpExALdK+e
- AnqE2vKquHMcYIQjfNAMwsCUKOQJY7GIO+5WumIA=
-Received: from eusmtip1.samsung.com (unknown [203.254.199.221]) by
- eucas1p1.samsung.com (KnoxPortal) with ESMTPA id
- 20250625125350eucas1p1dad14e84a8cc44516174ecc9053727b1~MSkhvbtf41252112521eucas1p14;
- Wed, 25 Jun 2025 12:53:50 +0000 (GMT)
-Received: from [192.168.1.44] (unknown [106.210.136.40]) by
- eusmtip1.samsung.com (KnoxPortal) with ESMTPA id
- 20250625125349eusmtip10a4e23d9061b04dad7c3aa6ff3064088~MSkgtbupw0720807208eusmtip1C;
- Wed, 25 Jun 2025 12:53:48 +0000 (GMT)
-Message-ID: <0b3d2deb-7f27-4390-b43e-353d4ba17bd7@samsung.com>
-Date: Wed, 25 Jun 2025 14:53:48 +0200
+Received: from tor.source.kernel.org (tor.source.kernel.org [172.105.4.254])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 532EF88735;
+ Wed, 25 Jun 2025 13:10:25 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+ by tor.source.kernel.org (Postfix) with ESMTP id A924561785;
+ Wed, 25 Jun 2025 13:10:19 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0D2CDC4CEEA;
+ Wed, 25 Jun 2025 13:10:14 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1750857019;
+ bh=B3Jr4MdA4tDfAIG3Jnrg1O1yont+DgK8qgQw4KUNncQ=;
+ h=From:Subject:Date:To:Cc:From;
+ b=uTYIzGpM8dxD81AJZtxOEhpN3awLLjwXUzBQjpZ/p0+1aD4D/6sqObYc+m6Z+Stzc
+ 3AFPl/ivSLGULXVt2cTGul4XAmHIxQJ84sz5uqXqXBpGxh8UBrlARSgtb6XsjBNVcp
+ KWVIMXSadOsnCGXEIiOgJX3jqqQImbPcV80hITs6VfnBq71nH3N2bCVlH0p8DUPn3u
+ leJ/1CQwY+7l2bXRXDvq6oq4fn58oPjksDxhCm3tlxwseWZOZDogzdRSE86I8dGbQ5
+ VMDKG3OazKWgrbI13TbxlpMA1p4oCQQuR+/7yN0hdcmZSJ6IfnCAWWTlRm2gbeNKe9
+ iPnj9BUXcmjDg==
+From: Konrad Dybcio <konradybcio@kernel.org>
+Subject: [PATCH v5 00/14] Add a single source of truth for UBWC
+ configuration data
+Date: Wed, 25 Jun 2025 15:10:08 +0200
+Message-Id: <20250625-topic-ubwc_central-v5-0-e256d18219e2@oss.qualcomm.com>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v6 8/8] drm/imagination: Enable PowerVR driver for RISC-V
-To: Matt Coster <Matt.Coster@imgtec.com>
-Cc: Drew Fustini <drew@pdp7.com>, Guo Ren <guoren@kernel.org>, Fu Wei
- <wefu@redhat.com>, Rob Herring <robh@kernel.org>, Krzysztof Kozlowski
- <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, Bartosz
- Golaszewski <brgl@bgdev.pl>, Philipp Zabel <p.zabel@pengutronix.de>, Frank
- Binns <Frank.Binns@imgtec.com>, Maarten Lankhorst
- <maarten.lankhorst@linux.intel.com>, Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
- Simona Vetter <simona@ffwll.ch>, Paul Walmsley <paul.walmsley@sifive.com>,
- Palmer Dabbelt <palmer@dabbelt.com>, Albert Ou <aou@eecs.berkeley.edu>,
- Alexandre Ghiti <alex@ghiti.fr>, Ulf Hansson <ulf.hansson@linaro.org>, Marek
- Szyprowski <m.szyprowski@samsung.com>, Bartosz Golaszewski
- <bartosz.golaszewski@linaro.org>, "linux-riscv@lists.infradead.org"
- <linux-riscv@lists.infradead.org>, "devicetree@vger.kernel.org"
- <devicetree@vger.kernel.org>, "linux-kernel@vger.kernel.org"
- <linux-kernel@vger.kernel.org>, "linux-pm@vger.kernel.org"
- <linux-pm@vger.kernel.org>, "dri-devel@lists.freedesktop.org"
- <dri-devel@lists.freedesktop.org>
-Content-Language: en-US
-From: Michal Wilczynski <m.wilczynski@samsung.com>
-In-Reply-To: <ff96ee1f-23ad-4e7f-9ac1-11f410e459e3@imgtec.com>
-Content-Transfer-Encoding: 7bit
-X-CMS-MailID: 20250625125350eucas1p1dad14e84a8cc44516174ecc9053727b1
-X-Msg-Generator: CA
 Content-Type: text/plain; charset="utf-8"
-X-RootMTR: 20250623114439eucas1p17e4405b95a5693a972bf40a3b3ecdc11
-X-EPHeader: CA
-X-CMS-RootMailID: 20250623114439eucas1p17e4405b95a5693a972bf40a3b3ecdc11
-References: <20250623-apr_14_for_sending-v6-0-6583ce0f6c25@samsung.com>
- <CGME20250623114439eucas1p17e4405b95a5693a972bf40a3b3ecdc11@eucas1p1.samsung.com>
- <20250623-apr_14_for_sending-v6-8-6583ce0f6c25@samsung.com>
- <ff96ee1f-23ad-4e7f-9ac1-11f410e459e3@imgtec.com>
+Content-Transfer-Encoding: 7bit
+X-B4-Tracking: v=1; b=H4sIADD1W2gC/3XQz2rDMAwG8FcpPs9F/qMs7WnvMcZwVGU1tHFrJ
+ 95GybvPaQ/Lwb0IPoF+H+gmEkfPSew3NxE5++TDUAK+bAQd3fDF0h9KFho0gjUgx3DxJKfumz6
+ JhzG6k0RDaKEHtWMU5fASufc/d/T945EjX6dij//Lo09jiL/34qyW7aMDoa11ZCVBgkGyhNQxw
+ ltIaXud3InC+bwtQyxq1itJ2aqkF2nH1BE4QOInkllLr1XJFMlQaxvEBvu2eSLZlaSrH8y2SNr
+ ZRh2M1sa6ijTP8x+Q6eRorgEAAA==
+X-Change-ID: 20250430-topic-ubwc_central-53c540f019e5
+To: Bjorn Andersson <andersson@kernel.org>, 
+ Konrad Dybcio <konradybcio@kernel.org>, 
+ Abhinav Kumar <quic_abhinavk@quicinc.com>, 
+ Dmitry Baryshkov <lumag@kernel.org>, Sean Paul <sean@poorly.run>, 
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, 
+ Rob Clark <robin.clark@oss.qualcomm.com>, 
+ Abhinav Kumar <abhinav.kumar@linux.dev>, 
+ Jessica Zhang <jessica.zhang@oss.qualcomm.com>, 
+ Rob Clark <robin.clark@oss.qualcomm.com>, 
+ Akhil P Oommen <akhilpo@oss.qualcomm.com>
+Cc: Marijn Suijten <marijn.suijten@somainline.org>, 
+ linux-kernel@vger.kernel.org, linux-arm-msm@vger.kernel.org, 
+ dri-devel@lists.freedesktop.org, freedreno@lists.freedesktop.org, 
+ Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>, 
+ Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
+X-Mailer: b4 0.14.2
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1750857014; l=4769;
+ i=konrad.dybcio@oss.qualcomm.com; s=20230215; h=from:subject:message-id;
+ bh=B3Jr4MdA4tDfAIG3Jnrg1O1yont+DgK8qgQw4KUNncQ=;
+ b=SMXmVx2mN0GqCCPH4lAtanDdyaCXL7z8ZAmZY+URvEGO3maWYNpfA0KAdlv+3UkMcF89ryQCv
+ wE+uX3Zw9kADM8w0QzuqwkBS1Svbb3Ns+yhvqI89U7DAc4mk0QQ6vcZ
+X-Developer-Key: i=konrad.dybcio@oss.qualcomm.com; a=ed25519;
+ pk=iclgkYvtl2w05SSXO5EjjSYlhFKsJ+5OSZBjOkQuEms=
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -89,98 +82,105 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+As discussed a lot in the past, the UBWC config must be coherent across
+a number of IP blocks (currently display and GPU, but it also may/will
+concern camera/video as the drivers evolve).
 
+So far, we've been trying to keep the values reasonable in each of the
+two drivers separately, but it really make sense to do so, especially
+given certain fields (see [1]) may need to be gathered dynamically.
 
-On 6/24/25 15:54, Matt Coster wrote:
-> On 23/06/2025 12:42, Michal Wilczynski wrote:
->> Several RISC-V boards feature Imagination GPUs that are compatible with
->> the PowerVR driver. An example is the IMG BXM-4-64 GPU on the Lichee Pi
->> 4A board. This commit adjusts the driver's Kconfig dependencies to allow
->> the PowerVR driver to be compiled on the RISC-V architecture.
->>
->> By enabling compilation on RISC-V, we expand support for these GPUs,
->> providing graphics acceleration capabilities and enhancing hardware
->> compatibility on RISC-V platforms.
->>
->> Add a dependency on MMU to fix a build warning on RISC-V configurations
->> without an MMU.
->>
->> Reviewed-by: Ulf Hansson <ulf.hansson@linaro.org>
->> Reviewed-by: Bartosz Golaszewski <bartosz.golaszewski@linaro.org>
->> Signed-off-by: Michal Wilczynski <m.wilczynski@samsung.com>
->> ---
->>  drivers/gpu/drm/imagination/Kconfig | 3 ++-
->>  1 file changed, 2 insertions(+), 1 deletion(-)
->>
->> diff --git a/drivers/gpu/drm/imagination/Kconfig b/drivers/gpu/drm/imagination/Kconfig
->> index 5f9fff43d6baadc42ebf48d91729bfbf27e06caa..a7da858a5b301e8f088e3e22f5641feb2e078681 100644
->> --- a/drivers/gpu/drm/imagination/Kconfig
->> +++ b/drivers/gpu/drm/imagination/Kconfig
->> @@ -3,9 +3,10 @@
->>  
->>  config DRM_POWERVR
->>  	tristate "Imagination Technologies PowerVR (Series 6 and later) & IMG Graphics"
->> -	depends on ARM64
->> +	depends on (ARM64 || RISCV)
-> 
-> There were two issues you encountered when enabling COMPILE_TEST in v5,
-> both of which are somewhat simple to workaround but expose underlying
-> assumptions we made during early development.
-> 
-> The first [1] is due to us assuming a 64-bit platform, which was never a
-> problem with the ARM64 dependency, but may actually be a problem with
-> RISCV given this allows for 32-bit as well. You should probably make
-> this (RISCV && 64BIT) until the implicit 64-bit dependency can be worked
-> out.
+This series introduces a Single Source of Truth (SSOT) database to be
+consumed by multimedia drivers as needed.
 
-Yeah will incude that in next revision.
+[1] https://lore.kernel.org/linux-arm-msm/20250410-topic-smem_dramc-v2-0-dead15264714@oss.qualcomm.com/
 
-> 
-> Somewhat related, we also assume a little-endian host. Technically ARM64
-> can also be big-endian, you just don't encounter that in the wild too
-> often so it's never been a "real" issue. I do wonder if swapping out
-> (ARM64 || RISCV) for (64BIT && CPU_LITTLE_ENDIAN) entirely would be a
-> reasonable change, perhaps for another day though...
-> 
-> The other [2] is slightly more subtle. To keep things straightforward,
-> we currently map CPU pages to GPU pages 1:1, meaning we use the CPU page
-> size to define the GPU page size. That GPU page size is configurable,
-> but does not support every possible size the CPU could support on any
-> architecture. The failing test there was sparc64 with an 8K page size
-> causing no GPU page size to be defined. See the #if/#elif ladder at the
-> top of pvr_mmu.c for the supported sizes and the doc comment above
-> PVR_DEVICE_PAGE_SIZE in pvr_mmu.h for the acknowledgement of the page
-> size restrictions.
-> 
-> The "proper" fix here would be for us to make these two sizes
-> independent, but that's not a trivial change. The "quick" fix I suppose
-> would be to depend on one of the supported page sizes, so maybe
-> (PAGE_SIZE_4KB || PAGE_SIZE_16KB || PAGE_SIZE_64KB || PAGE_SIZE_256KB)
-> since the larger page sizes appear unsupported (probably for good
-> reason).
+Signed-off-by: Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>
+---
+Changes in v5:
+- Drop 'RFT'
+- Rebase on 8750 addition
+- Pick up additional rb on patch 4
+- Link to v4: https://lore.kernel.org/r/20250520-topic-ubwc_central-v4-0-2a461d32234a@oss.qualcomm.com
 
-Thanks for a great explanation !
+Changes in v4:
+- Stub out qcom_ubwc_config_get_data()
+- Move the select for QCOM_UBWC_CONFIG to DRM_MSM
+- Use a define for UBWC_SWIZZLE_ENABLE_LVL2 in a6xx_gpu.c
+- Pick up tags
+- Link to v3: https://lore.kernel.org/r/20250517-topic-ubwc_central-v3-0-3c8465565f86@oss.qualcomm.com
 
-> 
->>  	depends on DRM
->>  	depends on PM
->> +	depends on MMU
-> 
-> Nit: can you keep this alphabetical?
-> 
-> Cheers,
-> Matt
-> 
-> [1]: https://lore.kernel.org/r/202506191323.zD1fszQb-lkp@intel.com/
-> [2]: https://lore.kernel.org/r/202506201103.GX6DA9Gx-lkp@intel.com/
-> 
->>  	select DRM_EXEC
->>  	select DRM_GEM_SHMEM_HELPER
->>  	select DRM_SCHED
->>
-> 
-> 
+Changes in v3:
+- Rearrange some patches some more (Dmitry and I talked off-list,
+  hopefully this version is reasonably sane)
+- Throw the error returned by qcom_ubwc_config_get_data(), don't always
+  assume it's -EINVAL (so that we can EPROBE_DEFER in the future if the
+  SMEM driver that provides DDR info decides not to come up..)
+- Scream if ubwc_swizzle doesn't match
+- Drop dropping the ubwc_swizzle override (needs some testing in the wild)
+- Move long statements out of declaration space
+- explicitly define UBWC swizzling levels
+- Fix the SAR2130P omission
+- Pardon the funny ordering, but since it's intended to all go through
+  drm, I attempted to strike a balance between clear, separate
+  changes/fixes and logical succession
+- Link to v2: https://lore.kernel.org/r/20250514-topic-ubwc_central-v2-0-09ecbc0a05ce@oss.qualcomm.com
+
+Changes in v2:
+- Rearrange some patches
+- Don't zeroalloc a copy of ubwc_config, store a full struct inside
+  adreno_gpu instead (temporary solution until we trust the central db
+  on the HBB value)
+- Improve some commit messages
+- Fix up SM6125's config
+- Don't break userspace abi (hbb value)
+- Don't keep mdss_reg_bus_bw in ubwc_config
+- Add the last patch warning if there are inconsistencies (I don't
+  insist on it getting merged, but I think it's a good idea for the
+  time being)
+- Link to v1: https://lore.kernel.org/r/20250508-topic-ubwc_central-v1-0-035c4c5cbe50@oss.qualcomm.com
+
+---
+Konrad Dybcio (14):
+      soc: qcom: Add UBWC config provider
+      drm/msm: Offset MDSS HBB value by 13
+      drm/msm: Use the central UBWC config database
+      drm/msm/a6xx: Get a handle to the common UBWC config
+      drm/msm/a6xx: Resolve the meaning of AMSBC
+      drm/msm/a6xx: Simplify uavflagprd_inv detection
+      drm/msm/a6xx: Resolve the meaning of UBWC_MODE
+      drm/msm/a6xx: Replace '2' with BIT(1) in level2_swizzling_dis calc
+      drm/msm/a6xx: Resolve the meaning of rgb565_predicator
+      drm/msm/a6xx: Simplify min_acc_len calculation
+      soc: qcom: ubwc: Fix SM6125's ubwc_swizzle value
+      soc: qcom: ubwc: Add #defines for UBWC swizzle bits
+      soc: qcom: ubwc: Fill in UBWC swizzle cfg for platforms that lack one
+      drm/msm/adreno: Switch to the common UBWC config struct
+
+ drivers/gpu/drm/msm/Kconfig                 |   1 +
+ drivers/gpu/drm/msm/adreno/a5xx_gpu.c       |  20 +-
+ drivers/gpu/drm/msm/adreno/a6xx_gpu.c       | 138 +++++------
+ drivers/gpu/drm/msm/adreno/adreno_gpu.c     |   6 +-
+ drivers/gpu/drm/msm/adreno/adreno_gpu.h     |  46 +---
+ drivers/gpu/drm/msm/disp/dpu1/dpu_hw_sspp.c |   6 +-
+ drivers/gpu/drm/msm/disp/dpu1/dpu_hw_sspp.h |   4 +-
+ drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c     |   7 +-
+ drivers/gpu/drm/msm/disp/dpu1/dpu_kms.h     |   2 +-
+ drivers/gpu/drm/msm/disp/dpu1/dpu_plane.c   |   3 +-
+ drivers/gpu/drm/msm/disp/dpu1/dpu_rm.c      |   2 +-
+ drivers/gpu/drm/msm/disp/dpu1/dpu_rm.h      |   2 +-
+ drivers/gpu/drm/msm/msm_mdss.c              | 344 +++++-----------------------
+ drivers/gpu/drm/msm/msm_mdss.h              |  29 ---
+ drivers/soc/qcom/Kconfig                    |   8 +
+ drivers/soc/qcom/Makefile                   |   1 +
+ drivers/soc/qcom/ubwc_config.c              | 278 ++++++++++++++++++++++
+ include/linux/soc/qcom/ubwc.h               |  75 ++++++
+ 18 files changed, 531 insertions(+), 441 deletions(-)
+---
+base-commit: 2ae2aaafb21454f4781c30734959cf223ab486ef
+change-id: 20250430-topic-ubwc_central-53c540f019e5
 
 Best regards,
 -- 
-Michal Wilczynski <m.wilczynski@samsung.com>
+Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>
+
