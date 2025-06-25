@@ -2,57 +2,55 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id BBE1AAE90EE
-	for <lists+dri-devel@lfdr.de>; Thu, 26 Jun 2025 00:18:07 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2D465AE90F0
+	for <lists+dri-devel@lfdr.de>; Thu, 26 Jun 2025 00:18:39 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B32CC10E803;
-	Wed, 25 Jun 2025 22:18:04 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7F1F210E22F;
+	Wed, 25 Jun 2025 22:18:37 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="TOuy1yeF";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="HGW8CSSg";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from sea.source.kernel.org (sea.source.kernel.org [172.234.252.31])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 531CD10E803
- for <dri-devel@lists.freedesktop.org>; Wed, 25 Jun 2025 22:17:55 +0000 (UTC)
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B650410E22F
+ for <dri-devel@lists.freedesktop.org>; Wed, 25 Jun 2025 22:18:35 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by sea.source.kernel.org (Postfix) with ESMTP id C3F4E40C2F;
- Wed, 25 Jun 2025 22:17:50 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id F1C12C4CEEA;
- Wed, 25 Jun 2025 22:17:49 +0000 (UTC)
+ by dfw.source.kernel.org (Postfix) with ESMTP id 281155C5942;
+ Wed, 25 Jun 2025 22:16:15 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 54C36C4CEF1;
+ Wed, 25 Jun 2025 22:18:28 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1750889870;
- bh=SOlW945FsEuU+z2VqRVH+3m+gzeJachd1rv/kOLBoD8=;
+ s=k20201202; t=1750889911;
+ bh=jHlQiRg4UtnzJJnBTe3Rk3Red9/nsoYqw9mrUsapWhU=;
  h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=TOuy1yeF9Ackritm8p/aX1omm/wZpCvVFwrZ3wESNTTLB9VHdquUbC99Mdt2qBsdZ
- N8/t9i6dnBeOa+dPtJFo6OOH31RuyxUJBKxpWR+xPF9hZnykWDiO+nUWow2SRBa5RN
- E7ctyqtCrksbpBdo3tCyfbMmLP12EdJY/OHMXSzpQghhpUQpIOlD5SXN5PQd2kh8OS
- bszr0EgASrf3/dqjEk4MSjbEjcvE/YRh9IIcB5J7N8QrejF5uIVXurarv63NJA3+/R
- gt3UcLcTEferpmtCxfAu7CjHV4xgXoZCoIn55s0VOhfb9RpXfwsykwUjC/NpK1XCYW
- MkLbLM82qkpiw==
-Date: Thu, 26 Jun 2025 00:17:46 +0200
-From: Andi Shyti <andi.shyti@kernel.org>
-To: =?utf-8?Q?Cl=C3=A9ment?= Le Goffic <clement.legoffic@foss.st.com>
-Cc: Pierre-Yves MORDRET <pierre-yves.mordret@foss.st.com>, 
- Alain Volmat <alain.volmat@foss.st.com>,
- Maxime Coquelin <mcoquelin.stm32@gmail.com>, 
- Alexandre Torgue <alexandre.torgue@foss.st.com>,
- Sumit Semwal <sumit.semwal@linaro.org>, 
- Christian =?utf-8?B?S8O2bmln?= <christian.koenig@amd.com>,
- M'boumba Cedric Madianga <cedric.madianga@gmail.com>, 
- Wolfram Sang <wsa@kernel.org>, Pierre-Yves MORDRET <pierre-yves.mordret@st.com>,
- linux-i2c@vger.kernel.org, linux-stm32@st-md-mailman.stormreply.com, 
- linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
- linux-media@vger.kernel.org, 
- dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org
-Subject: Re: [PATCH 0/3] Fix STM32 I2C dma operations
-Message-ID: <cmxzc2slync7toacgqpng6u5nbxhp73foaacwqdkm3z7k7hesu@zc3mpbdrpiaz>
-References: <20250616-i2c-upstream-v1-0-42d3d5374e65@foss.st.com>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-15
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20250616-i2c-upstream-v1-0-42d3d5374e65@foss.st.com>
+ b=HGW8CSSg6Lo4OF/QY+m0VJ5Ky4qfOPysOi9MfyoUMwPBCwj3b0EbZyepJ/NRIvtOx
+ z0TDfdCJfq2YAkm4iGGPFlXF6ZctZTUPYrPCJa00VwrsDKeyCqFYYC/4FaYYqKbiOO
+ CTAJsDAUYoapUyEA+/tEnFejmUV5/KPyp/3VlFghG/+0lSKQa+aygDU1Y/DnPQXoyD
+ oxcBELTlIj+2Vmjbq/1gqv2IbAEqW9PVlL7kBWK1+drYBkKAmw/zB0me5AXW9xjdsb
+ W+CfKbqaoTIiremq+z/y8duCiuxfwmlLBHKwkOcBU8I+10BOgj9x1D6xLSK9qqZWsa
+ WFfGhhj8/BqoQ==
+Mime-Version: 1.0
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=UTF-8
+Date: Thu, 26 Jun 2025 00:18:26 +0200
+Message-Id: <DAVYO6S5VMDF.1615DT3F5J6H3@kernel.org>
+From: "Benno Lossin" <lossin@kernel.org>
+To: "Alice Ryhl" <aliceryhl@google.com>, "Maarten Lankhorst"
+ <maarten.lankhorst@linux.intel.com>, "Maxime Ripard" <mripard@kernel.org>,
+ "Thomas Zimmermann" <tzimmermann@suse.de>, "David Airlie"
+ <airlied@gmail.com>, "Simona Vetter" <simona@ffwll.ch>, "Miguel Ojeda"
+ <ojeda@kernel.org>, "Danilo Krummrich" <dakr@kernel.org>
+Cc: "Boqun Feng" <boqun.feng@gmail.com>, "Gary Guo" <gary@garyguo.net>,
+ =?utf-8?q?Bj=C3=B6rn_Roy_Baron?= <bjorn3_gh@protonmail.com>, "Andreas
+ Hindborg" <a.hindborg@kernel.org>, "Trevor Gross" <tmgross@umich.edu>,
+ <dri-devel@lists.freedesktop.org>, <rust-for-linux@vger.kernel.org>,
+ <linux-kernel@vger.kernel.org>
+Subject: Re: [PATCH v2 2/2] rust: types: rename Opaque::raw_get to cast_into
+X-Mailer: aerc 0.20.1
+References: <20250624-opaque-from-raw-v2-0-e4da40bdc59c@google.com>
+ <20250624-opaque-from-raw-v2-2-e4da40bdc59c@google.com>
+In-Reply-To: <20250624-opaque-from-raw-v2-2-e4da40bdc59c@google.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -68,34 +66,34 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Pierre-Yves, Alain,
-
-On Mon, Jun 16, 2025 at 10:53:53AM +0200, Clément Le Goffic wrote:
-> This patch series aims to fix some issues inside the driver's DMA
-> handling.
-> It also uses newer I2C DMA API.
-> 
-> Signed-off-by: Clément Le Goffic <clement.legoffic@foss.st.com>
+On Tue Jun 24, 2025 at 5:27 PM CEST, Alice Ryhl wrote:
+> In the previous patch we added Opaque::cast_from() that performs the
+> opposite operation to Opaque::raw_get(). For consistency with this
+> naming, rename raw_get() to cast_from().
+>
+> There are a few other options such as calling cast_from() something
+> closer to raw_get() rather than renaming this method. However, I could
+> not find a great naming scheme that works with raw_get(). The previous
+> version of this patch used from_raw(), but functions of that name
+> typically have a different signature, so that's not a great option.
+>
+> Suggested-by: Danilo Krummrich <dakr@kernel.org>
+> Signed-off-by: Alice Ryhl <aliceryhl@google.com>
 > ---
-> Clément Le Goffic (3):
->       i2c: stm32: fix the device used for the DMA map
->       i2c: stm32f7: unmap DMA mapped buffer
->       i2c: stm32f7: support i2c_*_dma_safe_msg_buf APIs
+>  rust/kernel/configfs.rs                | 2 +-
+>  rust/kernel/init.rs                    | 6 +++---
+>  rust/kernel/lib.rs                     | 4 ++--
+>  rust/kernel/list.rs                    | 2 +-
+>  rust/kernel/list/impl_list_item_mod.rs | 4 ++--
+>  rust/kernel/time/hrtimer.rs            | 4 ++--
+>  rust/kernel/types.rs                   | 8 ++++----
+>  rust/kernel/workqueue.rs               | 2 +-
+>  8 files changed, 16 insertions(+), 16 deletions(-)
 
-any chance you can take a look at this series?
+For init.rs:
 
-Thanks,
-Andi
+Acked-by: Benno Lossin <lossin@kernel.org>
 
-> 
->  drivers/i2c/busses/i2c-stm32.c   |  2 +-
->  drivers/i2c/busses/i2c-stm32f7.c | 40 +++++++++++++++++++++++++++++-----------
->  2 files changed, 30 insertions(+), 12 deletions(-)
-> ---
-> base-commit: e04c78d86a9699d136910cfc0bdcf01087e3267e
-> change-id: 20250527-i2c-upstream-e5b69501359a
-> 
-> Best regards,
-> -- 
-> Clément Le Goffic <clement.legoffic@foss.st.com>
-> 
+---
+Cheers,
+Benno
