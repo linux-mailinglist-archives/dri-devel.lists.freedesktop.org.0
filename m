@@ -2,73 +2,73 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id BBFE7AE8D92
-	for <lists+dri-devel@lfdr.de>; Wed, 25 Jun 2025 20:59:52 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5C05EAE8D95
+	for <lists+dri-devel@lfdr.de>; Wed, 25 Jun 2025 20:59:53 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E4A5A10E7FC;
-	Wed, 25 Jun 2025 18:59:28 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id ADC3410E7FD;
+	Wed, 25 Jun 2025 18:59:29 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=qualcomm.com header.i=@qualcomm.com header.b="F2yRjw6+";
+	dkim=pass (2048-bit key; unprotected) header.d=qualcomm.com header.i=@qualcomm.com header.b="aXY8dKKs";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com
  [205.220.180.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4ABBD10E7F2
- for <dri-devel@lists.freedesktop.org>; Wed, 25 Jun 2025 18:59:23 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 86C1310E7F7
+ for <dri-devel@lists.freedesktop.org>; Wed, 25 Jun 2025 18:59:24 +0000 (UTC)
 Received: from pps.filterd (m0279873.ppops.net [127.0.0.1])
- by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 55PDhCgf014586
- for <dri-devel@lists.freedesktop.org>; Wed, 25 Jun 2025 18:59:22 GMT
+ by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 55PHghYl021624
+ for <dri-devel@lists.freedesktop.org>; Wed, 25 Jun 2025 18:59:23 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
  cc:content-transfer-encoding:date:from:in-reply-to:message-id
- :mime-version:references:subject:to; s=qcppdkim1; bh=eqq9rbaAioE
- 9x/Vr1cLJypF4bAqJQvBM2Xsa5cd3ZNI=; b=F2yRjw6+OVLjPctkQ7sN/SPa2Dw
- 9I0eoXTefhTcUVJuB44zerx7wk9plj3WgmZuB+U1NDuOkBpjgYQcanCPgttNDshZ
- LHjG+vrltCf1AEry4+JKwdu9sSWZ02G5naJKvSMsQg5Z8JKeiy9R3/Yd6nzG4BYn
- s8X+WgmXDKd7rTxqiFSUOnKHK5a2BpPVFoW1NEKlhTjBeO3npBS/cIOjhn+9e6j5
- UTxIXgzyXpKuyL6PNx2SNAZk0QDls7E69jcx4ej049FUCgLJt9PS27MxaP60f9dp
- cKxpjB0Ix3eQIf/kl8UIy66kqb7yahG/p7KEzezj23KejTA6AUHVwsM1tWg==
-Received: from mail-pl1-f199.google.com (mail-pl1-f199.google.com
- [209.85.214.199])
- by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 47f2rq15cq-1
+ :mime-version:references:subject:to; s=qcppdkim1; bh=VHBzJXi95z6
+ O97WECG8ege8Ip+1ENafn5APqxEppLk8=; b=aXY8dKKsLj/cT/1qK7TVhpav/7L
+ UPP86Cr1vsRkmb0BWeGizTgB/q5Qx91qYGLq8/lts3a5LNr2x4p4SZJMxRi6bGKN
+ PwdFBELzWvU5FTiWkhGYv1H87BJINRiiCtbtgu1VM5LAka/a98HsKnzn99H3Z/BP
+ wv9VzFGfQIkEI3RH+C85UirTfCdKiWozEJjC7NbYofLAq/TjiR/ciwrYsTSGHfV+
+ XMvkAZbexekRF4xD85S7FROndkdWfJQdRUw8E0XlKBV5vcCCRmVP8BJrNWSB6y72
+ AK1KBhhS7aZiISGhY9EFFKEMbsLPy38kgK/uJOZIxLkkiZiNSfIo1hYUYwA==
+Received: from mail-pf1-f199.google.com (mail-pf1-f199.google.com
+ [209.85.210.199])
+ by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 47f2rq15cv-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
- for <dri-devel@lists.freedesktop.org>; Wed, 25 Jun 2025 18:59:22 +0000 (GMT)
-Received: by mail-pl1-f199.google.com with SMTP id
- d9443c01a7336-237e6963f70so2257465ad.2
- for <dri-devel@lists.freedesktop.org>; Wed, 25 Jun 2025 11:59:22 -0700 (PDT)
+ for <dri-devel@lists.freedesktop.org>; Wed, 25 Jun 2025 18:59:23 +0000 (GMT)
+Received: by mail-pf1-f199.google.com with SMTP id
+ d2e1a72fcca58-7494999de28so303398b3a.1
+ for <dri-devel@lists.freedesktop.org>; Wed, 25 Jun 2025 11:59:23 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1750877961; x=1751482761;
+ d=1e100.net; s=20230601; t=1750877962; x=1751482762;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=eqq9rbaAioE9x/Vr1cLJypF4bAqJQvBM2Xsa5cd3ZNI=;
- b=EZJigKF+MvWKECHigeEnzFDWcCDB1NWoyr1vXXDOMd3Y4WtXb+yP7kSwCkYQJhg9wn
- WaEbG4zygMJN+jXz+xHiQ8pqYf+fAI9VUp7Q2y5BO1A8bc3rpF0c8vl8kFtzoBOFGgcr
- z/E7Zf302zqiEoI1B8PjhMJrHevJfUFdSixPgVrnwCGRb9QGjOgmjVW79AMdpaa19d9B
- IS1WmxdbVs77QIV9L7Du0HR6feQ3sp63AOqgX1RUoZeR4YZ5YuvWk0SAmxYDqt8Zdpdf
- 9VJAdI7WSIoP+ikR2dSbqwA0XfEHMuMXGd4DV6mN/FVmsSrd3+dQHOtBQk4rsD/pGuMu
- VBRA==
-X-Gm-Message-State: AOJu0YxHZTbPA1g5gzlpnekwasTlMI9+BOdd0LJq1i3mVLf8tZgHtGfZ
- bXKkqhqsmdru3veBjoBuQCM8My+EdKoZ+j7wgOQdWTL9kVpwmNxwGnGXPrpZJhvT9YM+u8xRHRK
- bJOJ+scz/LMVxsHl6Z2L8uSt22pL6XB6qW+7Vn4WsN8WDzN13DxPisiPQeWLn99DuHyuKHgkzi+
- zUcEA=
-X-Gm-Gg: ASbGncsWGWYh53UUfLxE/VFF65E6WN3Bxwz1fuAMSufaabhP8Jpf/L8c4zlKeYL/G3i
- ENBPO3pXI7M0WxQqxWL85Jt9Ejvzv/+dWfweqQU8vxKR9DpUsNrlPJn1hkqrJbcrXq26gVSSiUh
- 44XCCR81hd/2PmhlSejLiVLiD/95QwziL43CaQcRBTpr6qO8Iqo7PY94vRqUtTEUVMakC6IlidG
- 0s5UF2Psxt1M88XsHvWymFhSi3i4qbmD+yQdqpaVi1kAqIB6q72iuAJf8PG+atzuh4TIBbAaFp8
- HVk+Ii8ltClF1QjLNdqGdTqPclAnqA0t
-X-Received: by 2002:a17:903:1aab:b0:234:eea2:9483 with SMTP id
- d9443c01a7336-23824087b81mr74601515ad.51.1750877961052; 
+ bh=VHBzJXi95z6O97WECG8ege8Ip+1ENafn5APqxEppLk8=;
+ b=hhTdfmmVXD4bMqLcYfdEI9mCBBXsOnEnU9UGnI3nm6ZNSLNwwkQHpK8UzqozAQ1tmq
+ XD4ARmKuA1w/g+wkFfsKRduSaz8PjNaEgqQq3apTOknCAwyOAU8j0LwD7LNNBg2QNJqT
+ 97He7siAML1IZd0gfyXaFIHZEP0Nme80qUwaDLYpozfCYs8kvGx7KHydiuBda/Z9lVF9
+ dnFHzRLc2nWHlbBtFAC6zX5ZEeJjPnfePYIZl95G1LPyGH1BKHzhzu5Z5LC3BYEqGxpD
+ 2XoaEiYOYEDvqMbIEZxbPlnceWGd7MLpo64c0oDIkJLjVUQTpKjyJQ1CgxGZBqMDp8fL
+ opvw==
+X-Gm-Message-State: AOJu0Yyy4BeeNiPYMyNNTuT8icTS7LZsTEtmxZV10VD3Jw1H/d33fp1u
+ XvPM7FZH52sbWK2n0M0ppWt4m77Y2pTPsGkY/dzCfLhE83DFC8jmPW9EIBgqmWD4KTJZgQ6UvHV
+ nt3PRFmu0xFS9o6S6enSzuSQg/AL3mQn/VMi8osLy4LNyDUSAQcBIZNli2d12iNKIyE4qHaSDyV
+ 1dS1g=
+X-Gm-Gg: ASbGncvXjHPlXydQ6pHl8t4AisrdAA6FmvUG7qgonUVzRfFuZef5F22C9ZGUUMJ8EB8
+ WqmzLUM9mMjMK/SnRYFJpYjXsImauHmpOjpUCL0xBpRmq+4AwBRaQkSGgyhK9Z+jisp0Of7f2E7
+ KPgop5n7+EXbMyVTvfImlXIaGBHl7By/FNn1JMoqNWcPXParO3gnqYAbhnvJ+AeQQ1v4UosTJg4
+ /LUIHGdGYSl3e9xPhgpfbHaXGbc76XpEqZs6X/nKW1ksvWLexyMjRHP3J65iTpQi2GwzqyepfIv
+ cUTfmkx447HIzGcYFS9Wg5BTDbiSs8Ns
+X-Received: by 2002:a05:6a21:596:b0:21f:5598:4c2c with SMTP id
+ adf61e73a8af0-2207f192b9fmr6464802637.13.1750877962253; 
+ Wed, 25 Jun 2025 11:59:22 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IFdvmmyyyzB3Yjf1DpzF4jlr0xSFd/MY9FsPMtHRz/B0Yw+Ld6nyFDHhrmVvlIxCATF6VP5Sg==
+X-Received: by 2002:a05:6a21:596:b0:21f:5598:4c2c with SMTP id
+ adf61e73a8af0-2207f192b9fmr6464773637.13.1750877961841; 
  Wed, 25 Jun 2025 11:59:21 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IFH/9u8r/LxodxXtXwo7w52l7fdtoIYCsGzY2nyZs0qLi0VBSXghq7mfLQgk/HczC7JkARW8w==
-X-Received: by 2002:a17:903:1aab:b0:234:eea2:9483 with SMTP id
- d9443c01a7336-23824087b81mr74601115ad.51.1750877960671; 
- Wed, 25 Jun 2025 11:59:20 -0700 (PDT)
 Received: from localhost ([2601:1c0:5000:d5c:5b3e:de60:4fda:e7b1])
  by smtp.gmail.com with ESMTPSA id
- d9443c01a7336-237d860a8a8sm136322695ad.132.2025.06.25.11.59.20
+ d2e1a72fcca58-749c889d219sm4961586b3a.180.2025.06.25.11.59.21
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 25 Jun 2025 11:59:20 -0700 (PDT)
+ Wed, 25 Jun 2025 11:59:21 -0700 (PDT)
 From: Rob Clark <robin.clark@oss.qualcomm.com>
 To: dri-devel@lists.freedesktop.org
 Cc: linux-arm-msm@vger.kernel.org, freedreno@lists.freedesktop.org,
@@ -81,27 +81,27 @@ Cc: linux-arm-msm@vger.kernel.org, freedreno@lists.freedesktop.org,
  Marijn Suijten <marijn.suijten@somainline.org>,
  David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
  linux-kernel@vger.kernel.org (open list)
-Subject: [PATCH v7 39/42] drm/msm: use trylock for debugfs
-Date: Wed, 25 Jun 2025 11:47:32 -0700
-Message-ID: <20250625184918.124608-40-robin.clark@oss.qualcomm.com>
+Subject: [PATCH v7 40/42] drm/msm: Bump UAPI version
+Date: Wed, 25 Jun 2025 11:47:33 -0700
+Message-ID: <20250625184918.124608-41-robin.clark@oss.qualcomm.com>
 X-Mailer: git-send-email 2.49.0
 In-Reply-To: <20250625184918.124608-1-robin.clark@oss.qualcomm.com>
 References: <20250625184918.124608-1-robin.clark@oss.qualcomm.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Authority-Analysis: v=2.4 cv=NdDm13D4 c=1 sm=1 tr=0 ts=685c470a cx=c_pps
- a=JL+w9abYAAE89/QcEU+0QA==:117 a=xqWC_Br6kY4A:10 a=6IFa9wvqVegA:10
- a=cm27Pg_UAAAA:8 a=EUspDBNiAAAA:8 a=UIWvmcERRd2or3XT2GcA:9
- a=324X-CrmTo6CU4MGRt3R:22
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwNjI1MDE0MyBTYWx0ZWRfX5DRZZmItSXUF
- 6EFv5TzD+A1+XdBdPffsf7zaiW6KpGWR2GJ8W0gt0xBDlVJ5SAh+mqHBFxG0ZtbqrIc5uacuFJa
- dDoOTKYTFdURfDIQWSRDmVmq1M+jcgxJZVTOvtxIlQlCowEVYR+/fLShEguyWbmnkY8qol0VzQP
- x8Zu+JLNADnE0qjw/fdRt4TfrhDWyrdqV16TwRnwoxsKg2gNSatZdsD2l4nOCKxFKFAwok1Oy6W
- NOH4VbdeLwR87znXqGqrb628B3C11z9QrIi/vDdnS7X3TmwAUx/wD+iVI3CSI3a3DfI3jQ+Yu2F
- R7TjxR8MD2/fgVIe0UjtC1DOSo4NQA5nprs5PMyuqmh+Dt7HYUsJnt7dUWhyniXc9t3JHts8E08
- mI4jkx0LUBufE+tr31FfckjfY4v40taRTkBp69x4sJ+wXFDJfIotQNG6HNnusTBJcZmZrxnF
-X-Proofpoint-ORIG-GUID: 2TI6MgIV7WL_UcormS3a6wjJYnKg5Kwz
-X-Proofpoint-GUID: 2TI6MgIV7WL_UcormS3a6wjJYnKg5Kwz
+X-Authority-Analysis: v=2.4 cv=NdDm13D4 c=1 sm=1 tr=0 ts=685c470b cx=c_pps
+ a=WW5sKcV1LcKqjgzy2JUPuA==:117 a=xqWC_Br6kY4A:10 a=6IFa9wvqVegA:10
+ a=cm27Pg_UAAAA:8 a=EUspDBNiAAAA:8 a=KgEaFMypzpKrXJt10QQA:9
+ a=OpyuDcXvxspvyRM73sMx:22
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwNjI1MDE0MyBTYWx0ZWRfXxh7tMz3qJrei
+ sMwNGCG0Uj1hqpzzgaPAwmiQZ4H4qREz6UqHM89EltgvjCuAz29ZMVvKAf5ZWOi8ZXAH2aodhZr
+ ylMwFTZPAsO5DzwrDagX6cnGDLml+d1ZqtQUDU/uZj54nvwsNwRV+YcLmT4Jg8BKmBhdf6ase1n
+ DJ3FwKlWNFdKAbhvxhqaZh22V6RhgnUHImWpk6jvTZM34bZKtCqcqR74Ljw0sYZPgMwtByVtCrw
+ DROJfmJYkS34exCOBmpotTkTs8ZepVgdPW4Q9l7Jj4bPSahBIJvAUzggg9EMjkzgbq/R4mIRv6d
+ GZDtUr82Jp8SKZaBZiYylNOtxYQgHUKhFbfyyWbV/cGXocLhYINTeZw1ybybPM24/Bn1TCJPZEt
+ GveePrUrhIt1ZNd6496e/x7LGCDRCsH/gsrRqJmBDwxN3qW3yY//vH0NnTsR3I1A3sbuslpC
+X-Proofpoint-ORIG-GUID: jbu8fwXqIQsWPdtNK9aHfo1_DVzq7-WZ
+X-Proofpoint-GUID: jbu8fwXqIQsWPdtNK9aHfo1_DVzq7-WZ
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.293,Aquarius:18.0.1099,Hydra:6.1.7,FMLib:17.12.80.40
  definitions=2025-06-25_06,2025-06-25_01,2025-03-28_01
@@ -128,55 +128,30 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 From: Rob Clark <robdclark@chromium.org>
 
-This resolves a potential deadlock vs msm_gem_vm_close().  Otherwise for
-_NO_SHARE buffers msm_gem_describe() could be trying to acquire the
-shared vm resv, while already holding priv->obj_lock.  But _vm_close()
-might drop the last reference to a GEM obj while already holding the vm
-resv, and msm_gem_free_object() needs to grab priv->obj_lock, a locking
-inversion.
-
-OTOH this is only for debugfs and it isn't critical if we undercount by
-skipping a locked obj.  So just use trylock() and move along if we can't
-get the lock.
+Bump version to signal to userspace that VM_BIND is supported.
 
 Signed-off-by: Rob Clark <robdclark@chromium.org>
 Signed-off-by: Rob Clark <robin.clark@oss.qualcomm.com>
 ---
- drivers/gpu/drm/msm/msm_gem.c | 3 ++-
- drivers/gpu/drm/msm/msm_gem.h | 6 ++++++
- 2 files changed, 8 insertions(+), 1 deletion(-)
+ drivers/gpu/drm/msm/msm_drv.c | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
 
-diff --git a/drivers/gpu/drm/msm/msm_gem.c b/drivers/gpu/drm/msm/msm_gem.c
-index e415e6e32a59..b882647144bb 100644
---- a/drivers/gpu/drm/msm/msm_gem.c
-+++ b/drivers/gpu/drm/msm/msm_gem.c
-@@ -946,7 +946,8 @@ void msm_gem_describe(struct drm_gem_object *obj, struct seq_file *m,
- 	uint64_t off = drm_vma_node_start(&obj->vma_node);
- 	const char *madv;
+diff --git a/drivers/gpu/drm/msm/msm_drv.c b/drivers/gpu/drm/msm/msm_drv.c
+index bdf775897de8..710046906229 100644
+--- a/drivers/gpu/drm/msm/msm_drv.c
++++ b/drivers/gpu/drm/msm/msm_drv.c
+@@ -41,9 +41,10 @@
+  * - 1.10.0 - Add MSM_SUBMIT_BO_NO_IMPLICIT
+  * - 1.11.0 - Add wait boost (MSM_WAIT_FENCE_BOOST, MSM_PREP_BOOST)
+  * - 1.12.0 - Add MSM_INFO_SET_METADATA and MSM_INFO_GET_METADATA
++ * - 1.13.0 - Add VM_BIND
+  */
+ #define MSM_VERSION_MAJOR	1
+-#define MSM_VERSION_MINOR	12
++#define MSM_VERSION_MINOR	13
+ #define MSM_VERSION_PATCHLEVEL	0
  
--	msm_gem_lock(obj);
-+	if (!msm_gem_trylock(obj))
-+		return;
- 
- 	stats->all.count++;
- 	stats->all.size += obj->size;
-diff --git a/drivers/gpu/drm/msm/msm_gem.h b/drivers/gpu/drm/msm/msm_gem.h
-index 57252b5e08d0..9671c4299cf8 100644
---- a/drivers/gpu/drm/msm/msm_gem.h
-+++ b/drivers/gpu/drm/msm/msm_gem.h
-@@ -280,6 +280,12 @@ msm_gem_lock(struct drm_gem_object *obj)
- 	dma_resv_lock(obj->resv, NULL);
- }
- 
-+static inline bool __must_check
-+msm_gem_trylock(struct drm_gem_object *obj)
-+{
-+	return dma_resv_trylock(obj->resv);
-+}
-+
- static inline int
- msm_gem_lock_interruptible(struct drm_gem_object *obj)
- {
+ bool dumpstate;
 -- 
 2.49.0
 
