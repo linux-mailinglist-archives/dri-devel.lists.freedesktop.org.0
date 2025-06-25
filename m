@@ -2,93 +2,58 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id A4BEDAE7840
-	for <lists+dri-devel@lfdr.de>; Wed, 25 Jun 2025 09:15:17 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 44A6BAE7738
+	for <lists+dri-devel@lfdr.de>; Wed, 25 Jun 2025 08:37:13 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id EDE0B10E686;
-	Wed, 25 Jun 2025 07:15:13 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C2F4D10E1F4;
+	Wed, 25 Jun 2025 06:37:08 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="id7iS4Dz";
+	dkim=pass (2048-bit key; unprotected) header.d=bootlin.com header.i=@bootlin.com header.b="huAyjIfZ";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-f43.google.com (mail-wm1-f43.google.com
- [209.85.128.43])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0EED410E61F
- for <dri-devel@lists.freedesktop.org>; Tue, 24 Jun 2025 18:55:20 +0000 (UTC)
-Received: by mail-wm1-f43.google.com with SMTP id
- 5b1f17b1804b1-451e2f0d9c2so1170195e9.1
- for <dri-devel@lists.freedesktop.org>; Tue, 24 Jun 2025 11:55:19 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1750791318; x=1751396118; darn=lists.freedesktop.org;
- h=content-transfer-encoding:in-reply-to:from:cc:content-language
- :references:to:subject:user-agent:mime-version:date:message-id:from
- :to:cc:subject:date:message-id:reply-to;
- bh=5HOnEqbfaG+usT0a1s6iYTXFudLyxm3y/7fXes5KIcs=;
- b=id7iS4DzlZ0hQbyYhlyw3HPrsidXIj+jXaT0sv67kAhPKFI1TVg0bxgqU4eF7TOGta
- qEYj4z3ofgYwWSCpngXEIL2fWzxb6sP6AndQ46iYSH14JSVjV/WQIb0C7kzwFmqU2TEc
- kr3xi1+vO0AI/qlmNnPtxCzRUa+WYXnuChC+EtRvhce9dGvh9vyExhKTdgF80O/UWt7L
- CLHdPP0fk432+uEVIOIS6qi2FvKrym0MaoddCkkfnplXQRCFCLbhVQMJe0b+99N+pDx9
- qgnTkoSaPpti5Trhq8OVqhATj822lFuf8ZVoUT1UFIsc2Xy7hdpQPTNCEpgisU1XtysV
- 8zPg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1750791318; x=1751396118;
- h=content-transfer-encoding:in-reply-to:from:cc:content-language
- :references:to:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=5HOnEqbfaG+usT0a1s6iYTXFudLyxm3y/7fXes5KIcs=;
- b=bDMAjl53u6fOvsQuYHCOJeNknWHdqN4NI9C6jZ2MrEejXHSl4Cj1QwMgATakQe7lPi
- 5HeFKcKKDJQJlVBZWCdA1KkIEI+bose8a7lVP4bAvy7suRsXUTvic7+yoJjOfZhAiZWH
- jiQoV6nF3IiwK7l2i0PUmPwmRWopYYnmrbU8mVunWBzUyvz1VFebiskPBkOmtHc97uKf
- X//IbpLYISILUJbHbYaj51jVGV6X37rodLElskXUM6NUCo+zIDsGy0ZrESCHzQY6sXI7
- 5GldLdHS1h0KjUYtRIbMxZT+ohwuW2NVjVretq7K8OUcLlYvofyjxQEgutaGB/bJ0BE3
- UOVg==
-X-Forwarded-Encrypted: i=1;
- AJvYcCXOmEYx2hRAuM+LwfB4jy7SriDqFOfrsrLK8kCI39W3IoOub9yCxOkleXspPNqjFu/r6JjxjAFcDRE=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YwNeBJQEtM93Mh1uRwKzF3A4/Odf51uMrraaUcV/IOqR2ozl+gp
- 7rC405cy4dPYOkermCEyCtxlJIijW4M7hjjB9XS/73siaHGAd5TvCMfb
-X-Gm-Gg: ASbGncvaA67XDp5+aaViHTpORF+QnmTvvOmImQX8gQ3h1TmMkSiYE6uoFoQOdN0cwt8
- Xu9HTfE/UhUrk9uVUD88dq1G9DGAA0bQaoJEZcvxYtb4vD6EEoun6X6nSAcpr8evbSsVtx6TGEj
- gian6qlHW4jv5DW6xTVNlVFOmTVbVc+cVdmQNDFcHjYSHXXb6I4/1TNRKbQUqq5elEjhudh2S8b
- SfjHMFaK0Qy9uEWwr6xLvTl2KF8bTkw16qUKuWrzhQ/BHWlFGJGjZgWnnTB/HPYExx7OOlez9nV
- FxcUHZaZ+FgzemhNjY37G55Gn4uAGqhaIA3tnO0+5RaR0lnZ8w4GTx01ys9yYMmbujyfU3bScr/
- GtcZti/fLKKyKcZxrQlXzpYDzGuaPtchLqAHsiig83aW1FfMKIVTQxdIOW4420TY/U2pxypvRzI
- n7w/MmeToJOnfTYIX1zUpz5XOAVGlheRAWxKCJgCZzlMii3A==
-X-Google-Smtp-Source: AGHT+IHuRDhw6LNCJ4OejonKx4egSddQ5nzG9XYg2236H0JRfL7fwXed/J43zaU7m7WIujs3FcbfQA==
-X-Received: by 2002:a05:600c:8214:b0:453:69dc:2621 with SMTP id
- 5b1f17b1804b1-45381bbcd22mr387435e9.12.1750791318115; 
- Tue, 24 Jun 2025 11:55:18 -0700 (PDT)
-Received: from ?IPV6:2a02:8388:e103:2700:ebc0:27a3:cde8:9846?
- (2a02-8388-e103-2700-ebc0-27a3-cde8-9846.cable.dynamic.v6.surfer.at.
- [2a02:8388:e103:2700:ebc0:27a3:cde8:9846])
- by smtp.gmail.com with ESMTPSA id
- 5b1f17b1804b1-4535ead2a5fsm184027565e9.34.2025.06.24.11.55.17
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 24 Jun 2025 11:55:17 -0700 (PDT)
-Message-ID: <c0a2771c-f3f5-4d4c-aa82-d673b3c5cb46@gmail.com>
-Date: Tue, 24 Jun 2025 20:55:16 +0200
+Received: from relay7-d.mail.gandi.net (relay7-d.mail.gandi.net
+ [217.70.183.200])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 19D2B10E1FD
+ for <dri-devel@lists.freedesktop.org>; Wed, 25 Jun 2025 06:37:01 +0000 (UTC)
+Received: by mail.gandi.net (Postfix) with ESMTPSA id A1CF74435F;
+ Wed, 25 Jun 2025 06:36:53 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
+ t=1750833414;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=I+esnPC92QAULfZGIgAZ3QzOd6HXfhWYg6eoN6cTABk=;
+ b=huAyjIfZk3toBH4Nmw26kG3LYYAkJ+UiZItgRiWTzElG9qXBkNxtP9fmURR892YgK7E77t
+ c7fKObbiQ4WaK5Kiys8xpBgItEfO6pH7JDPOD5e/7JKubDOa6PlVsmpr0j/dmrxvvT5rXk
+ Qw/jpxwDdK9gidgx3WXFfnRZGPiizr97wEdG9X7XyX6alwsBROzurYvAC9+GjvrxWz5gSo
+ U8Inp9SbrPAyXTfoXJyAxqvOCPSPogk1VkVqR5viDZSV+gXsTHrLt3CTRsjRMrePhxFlN6
+ 43zoUgM1eQ2ucv+Kmk3ti5EUvTiIQTujCpcav+2blo4fSaPTOdHFWeF2yWuRtQ==
+Date: Wed, 25 Jun 2025 08:36:51 +0200
+From: Luca Ceresoli <luca.ceresoli@bootlin.com>
+To: Anusha Srivatsa <asrivats@redhat.com>
+Cc: Neil Armstrong <neil.armstrong@linaro.org>, Jessica Zhang
+ <quic_jesszhan@quicinc.com>, Maarten Lankhorst
+ <maarten.lankhorst@linux.intel.com>, Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
+ Simona Vetter <simona@ffwll.ch>, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org, Francesco Dolcini <francesco@dolcini.it>
+Subject: Re: [PATCH] panel/simple-simple: Identify simple DPI panels using
+ .compatible field
+Message-ID: <20250625083651.0f545d44@booty>
+In-Reply-To: <20250624-b4-simple-panel-regression-v1-1-a5adf92a7c17@redhat.com>
+References: <20250624-b4-simple-panel-regression-v1-1-a5adf92a7c17@redhat.com>
+Organization: Bootlin
+X-Mailer: Claws Mail 4.3.1 (GTK 3.24.49; x86_64-redhat-linux-gnu)
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] drm/panic: Use a decimal fifo to avoid u64 by u64 divide
-To: Jocelyn Falempe <jfalempe@redhat.com>
-References: <20250418165059.560503-1-jfalempe@redhat.com>
-Content-Language: en-US
-Cc: Miguel Ojeda <ojeda@kernel.org>,
- Christian Schrefl <chrisi.schrefl@gmail.com>, Arnd Bergmann <arnd@arndb.de>,
- Russell King <linux@armlinux.org.uk>, Simona Vetter <simona@ffwll.ch>,
- Paolo Bonzini <pbonzini@redhat.com>, David Airlie <airlied@gmail.com>,
- Maxime Ripard <mripard@kernel.org>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Javier Martinez Canillas <javierm@redhat.com>,
- Thomas Zimmermann <tzimmermann@suse.de>,
- Linux ARM <linux-arm-kernel@lists.infradead.org>,
- dri-devel@lists.freedesktop.org,
- rust-for-linux <rust-for-linux@vger.kernel.org>
-From: Andrei Lalaev <andrey.lalaev@gmail.com>
-In-Reply-To: <20250418165059.560503-1-jfalempe@redhat.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-Mailman-Approved-At: Wed, 25 Jun 2025 07:15:12 +0000
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
+X-GND-State: clean
+X-GND-Score: -100
+X-GND-Cause: gggruggvucftvghtrhhoucdtuddrgeeffedrtddvgddvvddtiecutefuodetggdotefrodftvfcurfhrohhfihhlvgemucfitefpfffkpdcuggftfghnshhusghstghrihgsvgenuceurghilhhouhhtmecufedtudenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujfgurhepfffhvfevuffkjghfohfogggtgfesthejredtredtvdenucfhrhhomhepnfhutggrucevvghrvghsohhlihcuoehluhgtrgdrtggvrhgvshholhhisegsohhothhlihhnrdgtohhmqeenucggtffrrghtthgvrhhnpedtleejjeduvddutefftdduleefudfgudeltdeuffeuudefgfdugeekgedtieehudenucffohhmrghinhepkhgvrhhnvghlrdhorhhgpdgsohhothhlihhnrdgtohhmnecukfhppedvrgdtvdemieejtdemvddtvddtmegvrgdtudemsggvgedumeelhegvjeemfeegfeemledufegvnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehinhgvthepvdgrtddvmeeijedtmedvtddvtdemvggrtddumegsvgegudemleehvgejmeefgeefmeeludefvgdphhgvlhhopegsohhothihpdhmrghilhhfrhhomheplhhutggrrdgtvghrvghsohhlihessghoohhtlhhinhdrtghomhdpnhgspghrtghpthhtohepuddupdhrtghpthhtoheprghsrhhivhgrthhssehrvgguhhgrthdrtghomhdprhgtphhtthhopehnvghilhdrrghrmhhsthhrohhngheslhhinhgrrhhordhorhhgpdhrtghpthhtohepqhhuihgtpghjv
+ ghsshiihhgrnhesqhhuihgtihhntgdrtghomhdprhgtphhtthhopehmrggrrhhtvghnrdhlrghnkhhhohhrshhtsehlihhnuhigrdhinhhtvghlrdgtohhmpdhrtghpthhtohepmhhrihhprghrugeskhgvrhhnvghlrdhorhhgpdhrtghpthhtohepthiiihhmmhgvrhhmrghnnhesshhushgvrdguvgdprhgtphhtthhopegrihhrlhhivggusehgmhgrihhlrdgtohhmpdhrtghpthhtohepshhimhhonhgrsehffhiflhhlrdgthh
+X-GND-Sasl: luca.ceresoli@bootlin.com
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -104,146 +69,202 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 18.04.25 18:48, Jocelyn Falempe wrote:
-> On 32bits ARM, u64/u64 is not supported [1], so change the algorithm
-> to use a simple fifo with decimal digits as u8 instead.
-> This is slower but should compile on all architecture.
+Hello Anusha,
+
+thanks for quickly addressing this issue!
+
+On Tue, 24 Jun 2025 15:13:05 -0500
+Anusha Srivatsa <asrivats@redhat.com> wrote:
+
+> Currently driver is checking for desc == &panel_dpi to do the DPI
+> specific panel desc allocations. This looks hacky.
 > 
-> Link: https://lore.kernel.org/dri-devel/CANiq72ke45eOwckMhWHvmwxc03dxr4rnxxKvx+HvWdBLopZfrQ@mail.gmail.com/ [1]
-> Signed-off-by: Jocelyn Falempe <jfalempe@redhat.com>
+> The panel allocation in panel_simple_probe() breaks due to not having
+> the desc for DPI scenario. This patch does the following:
+> 
+> - Rename panel_dpi_probe() to panel_dpi_get_desc() and call it before
+> panel allocation. panel_dpi_get_desc() returns a panel desc unlike
+> panel_dpi_probe() which returned an int. This way driver has a known
+> connector type while allocating the panel.
+> - panel_dpi_get_desc() returns a panel desc
+> - Add a simple helper is_panel_dpi() to identify a simple DPI panel from
+> a simple panel based on .compatible field
+> 
+> Fixes: de04bb0089a9 ("drm/panel/panel-simple: Use the new allocation in place of devm_kzalloc()")
+
+Please add a mention to the discussion:
+Closes: https://lore.kernel.org/all/20250612081834.GA248237@francesco-nb/
+
+and also:
+Reported-by: Francesco Dolcini <francesco@dolcini.it>
+
+> Suggested-by: Luca Ceresoli <luca.ceresoli@bootlin.com>
+> Suggested-by: Maxime Ripard <mripard@kernel.org>
+> Cc: Francesco Dolcini <francesco@dolcini.it>
+> Cc: Luca Ceresoli <luca.ceresoli@bootlin.com>
+> Cc: Maxime Ripard <mripard@kernel.org>
+> Signed-off-by: Anusha Srivatsa <asrivats@redhat.com>
 > ---
->  drivers/gpu/drm/drm_panic_qr.rs | 71 ++++++++++++++++++++++-----------
->  1 file changed, 48 insertions(+), 23 deletions(-)
+> Seeing the below trace due to the changes introduced by:
+> Commit de04bb0089a9 ("drm/panel/panel-simple: Use the new allocation in place of devm_kzalloc()")
 > 
-> diff --git a/drivers/gpu/drm/drm_panic_qr.rs b/drivers/gpu/drm/drm_panic_qr.rs
-> index 6025a705530e..dd55b1cb764d 100644
-> --- a/drivers/gpu/drm/drm_panic_qr.rs
-> +++ b/drivers/gpu/drm/drm_panic_qr.rs
-> @@ -366,8 +366,48 @@ fn iter(&self) -> SegmentIterator<'_> {
->          SegmentIterator {
->              segment: self,
->              offset: 0,
-> -            carry: 0,
-> -            carry_len: 0,
-> +            decfifo: Default::default(),
-> +        }
-> +    }
-> +}
-> +
-> +/// Max fifo size is 17 (max push) + 2 (max remaining)
-> +const MAX_FIFO_SIZE: usize = 19;
-> +
-> +/// A simple Decimal digit FIFO
-> +#[derive(Default)]
-> +struct DecFifo {
-> +    decimals: [u8; MAX_FIFO_SIZE],
-> +    len: usize,
-> +}
-> +
-> +impl DecFifo {
-> +    fn push(&mut self, data: u64, len: usize) {
-> +        let mut chunk = data;
-> +        for i in (0..self.len).rev() {
-> +            self.decimals[i + len] = self.decimals[i];
-> +        }
-> +        for i in 0..len {
-> +            self.decimals[i] = (chunk % 10) as u8;
-> +            chunk /= 10;
-> +        }
-> +        self.len += len;
-> +    }
-> +
-> +    /// Pop 3 decimal digits from the FIFO
-> +    fn pop3(&mut self) -> Option<(u16, usize)> {
-> +        if self.len == 0 {
-> +            None
-> +        } else {
-> +            let poplen = 3.min(self.len);
-> +            self.len -= poplen;
-> +            let mut out = 0;
-> +            let mut exp = 1;
-> +            for i in 0..poplen {
-> +                out += self.decimals[self.len + i] as u16 * exp;
-> +                exp *= 10;
-> +            }
-> +            Some((out, NUM_CHARS_BITS[poplen]))
->          }
->      }
->  }
-> @@ -375,8 +415,7 @@ fn iter(&self) -> SegmentIterator<'_> {
->  struct SegmentIterator<'a> {
->      segment: &'a Segment<'a>,
->      offset: usize,
-> -    carry: u64,
-> -    carry_len: usize,
-> +    decfifo: DecFifo,
+> [   12.089274] ------------[ cut here ]------------
+> [   12.089303] WARNING: CPU: 0 PID: 96 at drivers/gpu/drm/bridge/panel.c:377 devm_drm_of_get_bridge+0xac/0xb8
+> [   12.130808] Modules linked in: v4l2_jpeg pwm_imx27(+) imx_vdoa gpu_sched panel_simple imx6_media(C) imx_media_common
+> (C) videobuf2_dma_contig pwm_bl gpio_keys v4l2_mem2mem fuse ipv6 autofs4
+> [   12.147774] CPU: 0 UID: 0 PID: 96 Comm: kworker/u8:3 Tainted: G         C          6.16.0-rc1+ #1 PREEMPT
+> [   12.157446] Tainted: [C]=CRAP
+> [   12.160418] Hardware name: Freescale i.MX6 Quad/DualLite (Device Tree)
+> [   12.166953] Workqueue: events_unbound deferred_probe_work_func
+> [   12.172805] Call trace:
+> [   12.172815]  unwind_backtrace from show_stack+0x10/0x14
+> [   12.180598]  show_stack from dump_stack_lvl+0x68/0x74
+> [   12.185674]  dump_stack_lvl from __warn+0x7c/0xe0
+> [   12.190407]  __warn from warn_slowpath_fmt+0x1b8/0x1c0
+> [   12.195567]  warn_slowpath_fmt from devm_drm_of_get_bridge+0xac/0xb8
+> [   12.201949]  devm_drm_of_get_bridge from imx_pd_probe+0x58/0x164
+> [   12.207976]  imx_pd_probe from platform_probe+0x5c/0xb0
+> [   12.213220]  platform_probe from really_probe+0xd0/0x3a4
+> [   12.218551]  really_probe from __driver_probe_device+0x8c/0x1d4
+> [   12.224486]  __driver_probe_device from driver_probe_device+0x30/0xc0
+> [   12.230942]  driver_probe_device from __device_attach_driver+0x98/0x10c
+> [   12.237572]  __device_attach_driver from bus_for_each_drv+0x90/0xe4
+> [   12.243854]  bus_for_each_drv from __device_attach+0xa8/0x1c8
+> [   12.249614]  __device_attach from bus_probe_device+0x88/0x8c
+> [   12.255285]  bus_probe_device from deferred_probe_work_func+0x8c/0xcc
+> [   12.261739]  deferred_probe_work_func from process_one_work+0x154/0x2dc
+> [   12.268371]  process_one_work from worker_thread+0x250/0x3f0
+> [   12.274043]  worker_thread from kthread+0x12c/0x24c
+> [   12.278940]  kthread from ret_from_fork+0x14/0x28
+> [   12.283660] Exception stack(0xd0be9fb0 to 0xd0be9ff8)
+> [   12.288720] 9fa0:                                     00000000 00000000 00000000 00000000
+> [   12.296906] 9fc0: 00000000 00000000 00000000 00000000 00000000 00000000 00000000 00000000
+> [   12.305089] 9fe0: 00000000 00000000 00000000 00000000 00000013 00000000
+> [   12.312050] ---[ end trace 0000000000000000 ]---
+> ---
+>  drivers/gpu/drm/panel/panel-simple.c | 38 +++++++++++++++++++++---------------
+>  1 file changed, 22 insertions(+), 16 deletions(-)
+> 
+> diff --git a/drivers/gpu/drm/panel/panel-simple.c b/drivers/gpu/drm/panel/panel-simple.c
+> index 0a3b26bb4d731c54614e24e38018c308acd5367a..2e6fd545100388a9d53183a5621e7b8fdb4148ae 100644
+> --- a/drivers/gpu/drm/panel/panel-simple.c
+> +++ b/drivers/gpu/drm/panel/panel-simple.c
+> @@ -26,6 +26,7 @@
+>  #include <linux/i2c.h>
+>  #include <linux/media-bus-format.h>
+>  #include <linux/module.h>
+> +#include <linux/of_device.h>
+>  #include <linux/of_platform.h>
+>  #include <linux/platform_device.h>
+>  #include <linux/pm_runtime.h>
+> @@ -432,8 +433,7 @@ static const struct drm_panel_funcs panel_simple_funcs = {
+>  
+>  static struct panel_desc panel_dpi;
+>  
+> -static int panel_dpi_probe(struct device *dev,
+> -			   struct panel_simple *panel)
+> +static struct panel_desc *panel_dpi_get_desc(struct device *dev)
+>  {
+>  	struct display_timing *timing;
+>  	const struct device_node *np;
+> @@ -445,17 +445,17 @@ static int panel_dpi_probe(struct device *dev,
+>  	np = dev->of_node;
+>  	desc = devm_kzalloc(dev, sizeof(*desc), GFP_KERNEL);
+>  	if (!desc)
+> -		return -ENOMEM;
+> +		return NULL;
+>  
+>  	timing = devm_kzalloc(dev, sizeof(*timing), GFP_KERNEL);
+>  	if (!timing)
+> -		return -ENOMEM;
+> +		return NULL;
+>  
+>  	ret = of_get_display_timing(np, "panel-timing", timing);
+>  	if (ret < 0) {
+>  		dev_err(dev, "%pOF: no panel-timing node found for \"panel-dpi\" binding\n",
+>  			np);
+> -		return ret;
+> +		return NULL;
+>  	}
+>  
+>  	desc->timings = timing;
+> @@ -473,9 +473,7 @@ static int panel_dpi_probe(struct device *dev,
+>  	/* We do not know the connector for the DT node, so guess it */
+>  	desc->connector_type = DRM_MODE_CONNECTOR_DPI;
+>  
+> -	panel->desc = desc;
+> -
+> -	return 0;
+> +	return desc;
 >  }
 >  
->  impl Iterator for SegmentIterator<'_> {
-> @@ -394,31 +433,17 @@ fn next(&mut self) -> Option<Self::Item> {
->                  }
->              }
->              Segment::Numeric(data) => {
-> -                if self.carry_len < 3 && self.offset < data.len() {
-> -                    // If there are less than 3 decimal digits in the carry,
-> -                    // take the next 7 bytes of input, and add them to the carry.
-> +                if self.decfifo.len < 3 && self.offset < data.len() {
-> +                    // If there are less than 3 decimal digits in the fifo,
-> +                    // take the next 7 bytes of input, and push them to the fifo.
->                      let mut buf = [0u8; 8];
->                      let len = 7.min(data.len() - self.offset);
->                      buf[..len].copy_from_slice(&data[self.offset..self.offset + len]);
->                      let chunk = u64::from_le_bytes(buf);
-> -                    let pow = u64::pow(10, BYTES_TO_DIGITS[len] as u32);
-> -                    self.carry = chunk + self.carry * pow;
-> +                    self.decfifo.push(chunk, BYTES_TO_DIGITS[len]);
->                      self.offset += len;
-> -                    self.carry_len += BYTES_TO_DIGITS[len];
-> -                }
-> -                match self.carry_len {
-> -                    0 => None,
-> -                    len => {
-> -                        // take the next 3 decimal digits of the carry
-> -                        // and return 10bits of numeric data.
-> -                        let out_len = 3.min(len);
-> -                        self.carry_len -= out_len;
-> -                        let pow = u64::pow(10, self.carry_len as u32);
-> -                        let out = (self.carry / pow) as u16;
-> -                        self.carry %= pow;
-> -                        Some((out, NUM_CHARS_BITS[out_len]))
-> -                    }
->                  }
-> +                self.decfifo.pop3()
->              }
->          }
->      }
-> 
-> base-commit: 74757ad1c105c8fc00b4cac0b7918fe3262cdb18
+>  #define PANEL_SIMPLE_BOUNDS_CHECK(to_check, bounds, field) \
+> @@ -570,6 +568,15 @@ static int panel_simple_override_nondefault_lvds_datamapping(struct device *dev,
+>  	return 0;
+>  }
+>  
+> +static bool is_panel_dpi(struct device *dev)
+> +{
+> +	const struct of_device_id *match;
+> +
+> +	match = of_match_device(dev->driver->of_match_table, dev);
+> +
+> +	return strcmp(match->compatible, "panel_dpi");
 
-Hi Jocelyn,
+The compatible is panel-dpi, not panel_dpi.
 
-Apologies for reviving this old thread, but I'm still encountering
-the same issue with the latest master (78f4e737a53e).
+> +}
+> +
+>  static int panel_simple_probe(struct device *dev, const struct panel_desc *desc)
+>  {
+>  	struct panel_simple *panel;
+> @@ -579,6 +586,10 @@ static int panel_simple_probe(struct device *dev, const struct panel_desc *desc)
+>  	u32 bus_flags;
+>  	int err;
+>  
+> +	/* Is this simple panel a DPI panel */
+> +	if (is_panel_dpi(dev))
+> +		desc = panel_dpi_get_desc(dev);
+> +
+>  	panel = devm_drm_panel_alloc(dev, struct panel_simple, base,
+>  				     &panel_simple_funcs, desc->connector_type);
+>  	if (IS_ERR(panel))
+> @@ -611,16 +622,11 @@ static int panel_simple_probe(struct device *dev, const struct panel_desc *desc)
+>  			return -EPROBE_DEFER;
+>  	}
+>  
+> -	if (desc == &panel_dpi) {
+> -		/* Handle the generic panel-dpi binding */
+> -		err = panel_dpi_probe(dev, panel);
+> -		if (err)
+> -			goto free_ddc;
+> -		desc = panel->desc;
+> -	} else {
+> +	if (is_panel_dpi(dev))
+> +		goto free_ddc;
+> +	else
+>  		if (!of_get_display_timing(dev->of_node, "panel-timing", &dt))
+>  			panel_simple_parse_panel_timing_node(dev, panel, &dt);
+> -	}
 
-When compiling this module for ARM32 (multi_v7_defconfig),
-I get the following error:
+The 'else' becomes unnecessary after a 'if () goto xyz;'
 
-    ld.lld: error: undefined symbol: __aeabi_uldivmod
-    >>> referenced by drm_panic_qr.rs:392 (drivers/gpu/drm/drm_panic_qr.rs:392)
-    >>>               drivers/gpu/drm/drm_panic_qr.o:(<drm_panic_qr::SegmentIterator as core::iter::traits::iterator::Iterator>::next) in archive vmlinux.a
-    >>> referenced by drm_panic_qr.rs:392 (drivers/gpu/drm/drm_panic_qr.rs:392)
-    >>>               drivers/gpu/drm/drm_panic_qr.o:(<drm_panic_qr::SegmentIterator as core::iter::traits::iterator::Iterator>::next) in archive vmlinux.a
-    >>> referenced by drm_panic_qr.rs:392 (drivers/gpu/drm/drm_panic_qr.rs:392)
-    >>>               drivers/gpu/drm/drm_panic_qr.o:(<drm_panic_qr::SegmentIterator as core::iter::traits::iterator::Iterator>::next) in archive vmlinux.a
-    >>> referenced 14 more times
-    >>> did you mean: __aeabi_uidivmod
-    >>> defined in: vmlinux.a(arch/arm/lib/lib1funcs.o)
+With your changes you should now be able to remove both this entry in
+platform_of_match:
 
-Since no one else has reported this in two months, I’m wondering
-if this might be a configuration issue on my end.
+	/* Must be the last entry */
+	.compatible = "panel-dpi",
+	.data = &panel_dpi,
 
-Thanks a lot!
+and finally this line:
+
+	static struct panel_desc panel_dpi;
+
+Otherwise LGTM.
+
+Luca
 
 -- 
-Best regards,
-Andrei Lalaev
+Luca Ceresoli, Bootlin
+Embedded Linux and Kernel engineering
+https://bootlin.com
