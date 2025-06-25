@@ -2,57 +2,66 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id BD47BAE87A0
-	for <lists+dri-devel@lfdr.de>; Wed, 25 Jun 2025 17:14:52 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 13AB1AE87B2
+	for <lists+dri-devel@lfdr.de>; Wed, 25 Jun 2025 17:16:13 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id BD64E10E75E;
-	Wed, 25 Jun 2025 15:14:50 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0B8DE10E75C;
+	Wed, 25 Jun 2025 15:16:11 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="Tno2wOHr";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="TkY2tMZ3";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8F6BF10E75E
- for <dri-devel@lists.freedesktop.org>; Wed, 25 Jun 2025 15:14:49 +0000 (UTC)
+Received: from sea.source.kernel.org (sea.source.kernel.org [172.234.252.31])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8FBD610E75C
+ for <dri-devel@lists.freedesktop.org>; Wed, 25 Jun 2025 15:16:09 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by dfw.source.kernel.org (Postfix) with ESMTP id 9C0BB5C54E8;
- Wed, 25 Jun 2025 15:12:32 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8B9CAC4CEEB;
- Wed, 25 Jun 2025 15:14:48 +0000 (UTC)
+ by sea.source.kernel.org (Postfix) with ESMTP id 9E70149B21
+ for <dri-devel@lists.freedesktop.org>; Wed, 25 Jun 2025 15:16:08 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7E665C4CEF0
+ for <dri-devel@lists.freedesktop.org>; Wed, 25 Jun 2025 15:16:08 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1750864488;
- bh=Vthh/L3MebKKagJT+09Dvf4YTj8xAm67xpaVjQwLZmw=;
- h=From:Date:Subject:References:In-Reply-To:To:Cc:From;
- b=Tno2wOHrZj5HFIf1O/ds59YErXaXRfduVqsLnRW4SmES9tU2vzztj4Bo5dUDxDeAi
- R8ZQUENimLHK2fZ9S01H5I0yguAKTfFgQmlWjxhN2ctR1HXVyIwWwtu9IHjcQMM83f
- zELLA1uaYSb1NtZASKvj52+X5Xc0niH7DwgjkEnR7GlbLJJ6BlLLcWH1X5jTAwM8Rb
- uEKpj9OKabtN/v3EYEY11g48NJJoqE/TEiaCExLijvc818YRnlrMVBQ8tVN/iQQyIm
- Nb3RxM1BPztXQbUefKGPe57NOwedEIoi5i0JoGpkaU0uxBhLm57DNBskHw+f/oPa80
- 3YaaBZATgXppA==
-From: Maxime Ripard <mripard@kernel.org>
-Date: Wed, 25 Jun 2025 17:14:37 +0200
-Subject: [PATCH 3/3] drm/tests: edid: Add edid-decode --check output
+ s=k20201202; t=1750864568;
+ bh=9uiCx//aBaD0yGFQdVerDfD2PgBCP5+9oifVTXlFXYI=;
+ h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+ b=TkY2tMZ3PpuUyBYnhjn4aUhRen6PKOzLvqdf9sEQ2MwIeSuY+OeWjpUz2PKtzLDcz
+ B84x5fB6r7hubY0bv9YGtCoqxtdkIEWLmfxvtkr4mJFWPNCgpBEawz4PePI9B2rsew
+ Y/TVEsbzNYX88CF76bS+1UQtqUL7rhtZ95IrAMBDlOamfYc1LxzY1/K46E3gkcDhTM
+ agcKiFkTGBV/YYJVbNCFH9UiYh0Mem0GuCe0I+QL/I7wp0sPdyM7B1gT1p9MMKQu+h
+ 5ct8o2FcCLTqx3nT4+VhEK6gcP/VA1NuCOu3nzYDSEc5w2pAi6w4YnSsaTBqcj3b3H
+ LGmbVz2tI4yIQ==
+Received: by mail-pj1-f45.google.com with SMTP id
+ 98e67ed59e1d1-3134c67a173so7440296a91.1
+ for <dri-devel@lists.freedesktop.org>; Wed, 25 Jun 2025 08:16:08 -0700 (PDT)
+X-Forwarded-Encrypted: i=1;
+ AJvYcCUCDwLeZW0n2F7R7Lh/PCSR+mBHuR5zyZjIgmCl/O3uQf16AjaiLc0/jiNo4+3skcyMvobVlCm3p8Y=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YyzWfAPg86WypjgjlCR2Wn5ih51nPOQsuG7tj2Fk10ybG1mSYY+
+ dhVk6WjCYCX7tJGUKjizbO05Be5bi4LmaVAApy6BApOqu4E4sXVRp9DIa3qWHW7Bz3XfQEa9T+P
+ O+iEwhErHsmhvzphLEXUHyfLESIehXw==
+X-Google-Smtp-Source: AGHT+IHtRKCKayH+Lzht6QxsgoVvjQ6oWe0lLgYe2Cl+JRUJ/z1lS3uwRu/T5Q4f9oAnyB42TUycr2B2CpGFTJDpP5w=
+X-Received: by 2002:a17:90b:2b47:b0:313:f83a:e473 with SMTP id
+ 98e67ed59e1d1-315f25ed7e8mr5611684a91.15.1750864568023; Wed, 25 Jun 2025
+ 08:16:08 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20250625-drm-update-edid-v1-3-2d963743ab9e@kernel.org>
-References: <20250625-drm-update-edid-v1-0-2d963743ab9e@kernel.org>
-In-Reply-To: <20250625-drm-update-edid-v1-0-2d963743ab9e@kernel.org>
-To: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
- Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>, 
- Simona Vetter <simona@ffwll.ch>
-Cc: Dmitry Baryshkov <lumag@kernel.org>, dri-devel@lists.freedesktop.org, 
- linux-kernel@vger.kernel.org, Maxime Ripard <mripard@kernel.org>
-X-Mailer: b4 0.14.2
-X-Developer-Signature: v=1; a=openpgp-sha256; l=5845; i=mripard@kernel.org;
- h=from:subject:message-id; bh=Vthh/L3MebKKagJT+09Dvf4YTj8xAm67xpaVjQwLZmw=;
- b=owGbwMvMwCmsHn9OcpHtvjLG02pJDBkxQrHGpXxnizZkRxvH6Agd03i7TPCBRbbi7bJ07lKT/
- 2futMzqmMrCIMzJICumyPJEJuz08vbFVQ72K3/AzGFlAhnCwMUpABN5WMtYX7D22tXNx3YuS79k
- dNK/gT+E1f7PGuW7q+a+uLJdmOsXc8DHyyvdrc59sC4JEpZteCeoxVjD9S3LfbOKyH/O9gOWDjN
- 51qfxKfYKtnVU66hL8Gw3eJvNt+R8NKe8wzauNc1ns9UOxAMA
-X-Developer-Key: i=mripard@kernel.org; a=openpgp;
- fpr=BE5675C37E818C8B5764241C254BCFC56BF6CE8D
+References: <20250606-mtk_dpi-mt8195-fix-wrong-color-v1-1-47988101b798@collabora.com>
+In-Reply-To: <20250606-mtk_dpi-mt8195-fix-wrong-color-v1-1-47988101b798@collabora.com>
+From: Chun-Kuang Hu <chunkuang.hu@kernel.org>
+Date: Wed, 25 Jun 2025 23:17:13 +0800
+X-Gmail-Original-Message-ID: <CAAOTY__=3Pb2Tsr87b5FWG_DrQNdfeDC5yAE2XFo+TiP7hO6BA@mail.gmail.com>
+X-Gm-Features: AX0GCFsC1n-RCC-W67WMTwPw4kHzfcK5gDHEnXA5e3PZAISJh-AfZvkzSrkcFBc
+Message-ID: <CAAOTY__=3Pb2Tsr87b5FWG_DrQNdfeDC5yAE2XFo+TiP7hO6BA@mail.gmail.com>
+Subject: Re: [PATCH] drm/mediatek: mtk_dpi: Reorder output formats on MT8195/88
+To: Louis-Alexis Eyraud <louisalexis.eyraud@collabora.com>
+Cc: Chun-Kuang Hu <chunkuang.hu@kernel.org>,
+ Philipp Zabel <p.zabel@pengutronix.de>, 
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, 
+ Matthias Brugger <matthias.bgg@gmail.com>, 
+ AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
+ kernel@collabora.com, 
+ dri-devel@lists.freedesktop.org, linux-mediatek@lists.infradead.org, 
+ linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -68,151 +77,75 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Some of our EDIDs are (rightfully) invalid, but most of them should be
-valid.
+Hi, Louis:
 
-Let's add the edid-decode --check of these EDIDs when they were
-generated, so we know what to expect going forward, and a comment to
-explicitly mention when we expect them to be broken.
+Louis-Alexis Eyraud <louisalexis.eyraud@collabora.com> =E6=96=BC 2025=E5=B9=
+=B46=E6=9C=886=E6=97=A5 =E9=80=B1=E4=BA=94 =E4=B8=8B=E5=8D=888:52=E5=AF=AB=
+=E9=81=93=EF=BC=9A
+>
+> Reorder output format arrays in both MT8195 DPI and DP_INTF block
+> configuration by decreasing preference order instead of alphanumeric
+> one, as expected by the atomic_get_output_bus_fmts callback function
+> of drm_bridge controls, so the RGB ones are used first during the
+> bus format negotiation process.
 
-Signed-off-by: Maxime Ripard <mripard@kernel.org>
----
- drivers/gpu/drm/tests/drm_kunit_edid.h | 51 ++++++++++++++++++++++++++++++++++
- 1 file changed, 51 insertions(+)
+Applied to mediatek-drm-fixes [1], thanks.
 
-diff --git a/drivers/gpu/drm/tests/drm_kunit_edid.h b/drivers/gpu/drm/tests/drm_kunit_edid.h
-index 14782a3840f00c50c7daee38bba98585003c13a2..34395bbb912f0919e17a7093624170dd278a87f4 100644
---- a/drivers/gpu/drm/tests/drm_kunit_edid.h
-+++ b/drivers/gpu/drm/tests/drm_kunit_edid.h
-@@ -44,10 +44,17 @@
-  *     Display Product Name: 'Test EDID'
-  *     Display Range Limits:
-  *       Monitor ranges (GTF): 50-70 Hz V, 30-70 kHz H, max dotclock 150 MHz
-  *     Dummy Descriptor:
-  * Checksum: 0xab
-+ *
-+ * ----------------
-+ *
-+ * edid-decode 1.30.0-5367
-+ * edid-decode SHA: 41ebf7135691 2025-05-01 10:19:22
-+ *
-+ * EDID conformity: PASS
-  */
- static const unsigned char test_edid_dvi_1080p[] = {
- 	0x00, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0x00, 0x31, 0xd8, 0x2a, 0x00,
- 	0x00, 0x00, 0x00, 0x00, 0x00, 0x21, 0x01, 0x03, 0x81, 0xa0, 0x5a, 0x78,
- 	0x0a, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
-@@ -60,10 +67,14 @@ static const unsigned char test_edid_dvi_1080p[] = {
- 	0x00, 0x00, 0x00, 0x10, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
- 	0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0xab
- };
- 
- /*
-+ *
-+ * This edid is intentionally broken with the 100MHz limit. It's meant
-+ * to be used only with tests in unusual situations.
-+ *
-  * edid-decode (hex):
-  *
-  * 00 ff ff ff ff ff ff 00 31 d8 2a 00 00 00 00 00
-  * 00 21 01 03 81 a0 5a 78 02 00 00 00 00 00 00 00
-  * 00 00 00 20 00 00 01 01 01 01 01 01 01 01 01 01
-@@ -134,10 +145,22 @@ static const unsigned char test_edid_dvi_1080p[] = {
-  *     CE scan behavior: Always Underscanned
-  *   Vendor-Specific Data Block (HDMI), OUI 00-0C-03:
-  *     Source physical address: 1.2.3.4
-  *     Maximum TMDS clock: 100 MHz
-  * Checksum: 0x10  Unused space in Extension Block: 106 bytes
-+ *
-+ * ----------------
-+ *
-+ * edid-decode 1.30.0-5367
-+ * edid-decode SHA: 41ebf7135691 2025-05-01 10:19:22
-+ *
-+ * Failures:
-+ *
-+ * EDID:
-+ *   CTA-861: The maximum HDMI TMDS clock is 100000 kHz, but one or more video timings go up to 148500 kHz.
-+ *
-+ * EDID conformity: FAIL
-  */
- static const unsigned char test_edid_hdmi_1080p_rgb_max_100mhz[] = {
- 	0x00, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0x00, 0x31, 0xd8, 0x2a, 0x00,
- 	0x00, 0x00, 0x00, 0x00, 0x00, 0x21, 0x01, 0x03, 0x81, 0xa0, 0x5a, 0x78,
- 	0x02, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x20,
-@@ -235,10 +258,17 @@ static const unsigned char test_edid_hdmi_1080p_rgb_max_100mhz[] = {
-  *     CE scan behavior: Always Underscanned
-  *   Vendor-Specific Data Block (HDMI), OUI 00-0C-03:
-  *     Source physical address: 1.2.3.4
-  *     Maximum TMDS clock: 200 MHz
-  * Checksum: 0xfc  Unused space in Extension Block: 106 bytes
-+ *
-+ * ----------------
-+ *
-+ * edid-decode 1.30.0-5367
-+ * edid-decode SHA: 41ebf7135691 2025-05-01 10:19:22
-+ *
-+ * EDID conformity: PASS
-  */
- static const unsigned char test_edid_hdmi_1080p_rgb_max_200mhz[] = {
- 	0x00, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0x00, 0x31, 0xd8, 0x2a, 0x00,
- 	0x00, 0x00, 0x00, 0x00, 0x00, 0x21, 0x01, 0x03, 0x81, 0xa0, 0x5a, 0x78,
- 	0x02, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x20,
-@@ -336,10 +366,17 @@ static const unsigned char test_edid_hdmi_1080p_rgb_max_200mhz[] = {
-  *     CE scan behavior: Always Underscanned
-  *   Vendor-Specific Data Block (HDMI), OUI 00-0C-03:
-  *     Source physical address: 1.2.3.4
-  *     Maximum TMDS clock: 340 MHz
-  * Checksum: 0xe0  Unused space in Extension Block: 106 bytes
-+ *
-+ * ----------------
-+ *
-+ * edid-decode 1.30.0-5367
-+ * edid-decode SHA: 41ebf7135691 2025-05-01 10:19:22
-+ *
-+ * EDID conformity: PASS
-  */
- static const unsigned char test_edid_hdmi_1080p_rgb_max_340mhz[] = {
- 	0x00, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0x00, 0x31, 0xd8, 0x2a, 0x00,
- 	0x00, 0x00, 0x00, 0x00, 0x00, 0x21, 0x01, 0x03, 0x81, 0xa0, 0x5a, 0x78,
- 	0x02, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x20,
-@@ -443,10 +480,17 @@ static const unsigned char test_edid_hdmi_1080p_rgb_max_340mhz[] = {
-  *     DC_36bit
-  *     DC_30bit
-  *     DC_Y444
-  *     Maximum TMDS clock: 200 MHz
-  * Checksum: 0xd4  Unused space in Extension Block: 106 bytes
-+ *
-+ * ----------------
-+ *
-+ * edid-decode 1.30.0-5367
-+ * edid-decode SHA: 41ebf7135691 2025-05-01 10:19:22
-+ *
-+ * EDID conformity: PASS
-  */
- static const unsigned char test_edid_hdmi_1080p_rgb_yuv_dc_max_200mhz[] = {
- 	0x00, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0x00, 0x31, 0xd8, 0x2a, 0x00,
- 	0x00, 0x00, 0x00, 0x00, 0x00, 0x21, 0x01, 0x03, 0x81, 0xa0, 0x5a, 0x78,
- 	0x1a, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x20,
-@@ -550,10 +594,17 @@ static const unsigned char test_edid_hdmi_1080p_rgb_yuv_dc_max_200mhz[] = {
-  *     DC_36bit
-  *     DC_30bit
-  *     DC_Y444
-  *     Maximum TMDS clock: 340 MHz
-  * Checksum: 0xb8  Unused space in Extension Block: 106 bytes
-+ *
-+ * ----------------
-+ *
-+ * edid-decode 1.30.0-5367
-+ * edid-decode SHA: 41ebf7135691 2025-05-01 10:19:22
-+ *
-+ * EDID conformity: PASS
-  */
- static const unsigned char test_edid_hdmi_1080p_rgb_yuv_dc_max_340mhz[] = {
- 	0x00, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0x00, 0x31, 0xd8, 0x2a, 0x00,
- 	0x00, 0x00, 0x00, 0x00, 0x00, 0x21, 0x01, 0x03, 0x81, 0xa0, 0x5a, 0x78,
- 	0x0a, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x20,
+[1] https://git.kernel.org/pub/scm/linux/kernel/git/chunkuang.hu/linux.git/=
+log/?h=3Dmediatek-drm-fixes
 
--- 
-2.49.0
+Regards,
+Chun-Kuang.
 
+>
+> Fixes: 20fa6a8fc588 ("drm/mediatek: mtk_dpi: Allow additional output form=
+ats on MT8195/88")
+> Signed-off-by: Louis-Alexis Eyraud <louisalexis.eyraud@collabora.com>
+> ---
+>  drivers/gpu/drm/mediatek/mtk_dpi.c | 4 ++--
+>  1 file changed, 2 insertions(+), 2 deletions(-)
+>
+> diff --git a/drivers/gpu/drm/mediatek/mtk_dpi.c b/drivers/gpu/drm/mediate=
+k/mtk_dpi.c
+> index 6fb85bc6487a019cdcdb3770dc06a1deab8d5bda..a2fdceadf209f6d2166e7523b=
+82ca18c82c7d435 100644
+> --- a/drivers/gpu/drm/mediatek/mtk_dpi.c
+> +++ b/drivers/gpu/drm/mediatek/mtk_dpi.c
+> @@ -1095,7 +1095,6 @@ static const u32 mt8183_output_fmts[] =3D {
+>  };
+>
+>  static const u32 mt8195_dpi_output_fmts[] =3D {
+> -       MEDIA_BUS_FMT_BGR888_1X24,
+>         MEDIA_BUS_FMT_RGB888_1X24,
+>         MEDIA_BUS_FMT_RGB888_2X12_LE,
+>         MEDIA_BUS_FMT_RGB888_2X12_BE,
+> @@ -1103,18 +1102,19 @@ static const u32 mt8195_dpi_output_fmts[] =3D {
+>         MEDIA_BUS_FMT_YUYV8_1X16,
+>         MEDIA_BUS_FMT_YUYV10_1X20,
+>         MEDIA_BUS_FMT_YUYV12_1X24,
+> +       MEDIA_BUS_FMT_BGR888_1X24,
+>         MEDIA_BUS_FMT_YUV8_1X24,
+>         MEDIA_BUS_FMT_YUV10_1X30,
+>  };
+>
+>  static const u32 mt8195_dp_intf_output_fmts[] =3D {
+> -       MEDIA_BUS_FMT_BGR888_1X24,
+>         MEDIA_BUS_FMT_RGB888_1X24,
+>         MEDIA_BUS_FMT_RGB888_2X12_LE,
+>         MEDIA_BUS_FMT_RGB888_2X12_BE,
+>         MEDIA_BUS_FMT_RGB101010_1X30,
+>         MEDIA_BUS_FMT_YUYV8_1X16,
+>         MEDIA_BUS_FMT_YUYV10_1X20,
+> +       MEDIA_BUS_FMT_BGR888_1X24,
+>         MEDIA_BUS_FMT_YUV8_1X24,
+>         MEDIA_BUS_FMT_YUV10_1X30,
+>  };
+>
+> ---
+> base-commit: b3bded85d838336326ce78e394e7818445e11f20
+> change-id: 20250606-mtk_dpi-mt8195-fix-wrong-color-5aab0f6d2d27
+>
+> Best regards,
+> --
+> Louis-Alexis Eyraud <louisalexis.eyraud@collabora.com>
+>
