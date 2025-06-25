@@ -2,112 +2,172 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id D3486AE8B96
-	for <lists+dri-devel@lfdr.de>; Wed, 25 Jun 2025 19:37:37 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id CF38AAE8BA1
+	for <lists+dri-devel@lfdr.de>; Wed, 25 Jun 2025 19:39:50 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 13A1E10E7B4;
-	Wed, 25 Jun 2025 17:37:36 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 50ADE10E7A6;
+	Wed, 25 Jun 2025 17:39:47 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=qualcomm.com header.i=@qualcomm.com header.b="IAt/yoOI";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="LZub2fFC";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com
- [205.220.168.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 35CB810E7B2
- for <dri-devel@lists.freedesktop.org>; Wed, 25 Jun 2025 17:37:23 +0000 (UTC)
-Received: from pps.filterd (m0279862.ppops.net [127.0.0.1])
- by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 55PCbgH0021986
- for <dri-devel@lists.freedesktop.org>; Wed, 25 Jun 2025 17:37:23 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
- cc:content-transfer-encoding:date:from:in-reply-to:message-id
- :mime-version:references:subject:to; s=qcppdkim1; bh=ckmpcZmveJc
- msZUFuiT/RpgJEDPikgftzrJym6w4+0k=; b=IAt/yoOISlrjfvms2SYcBU3NWDJ
- ziIUjVKYkVfYJskuW83tRi/WBwd4BOTUvv9B3iO6QASPxxVA/h4fLzucz8umMLzr
- phZHnwum6YBph0oIbdwS0hNByekX4s3/J34qblAulrwFVjVpRRz/zCIoGN93n5vK
- v3vjnCvvFNxpMfnxapFG6z6F0cFZa2DmSscDvylOY2S4P1h1fSuuZheEdyLjk5Y+
- sIjFT5UUyEkiwKE30QwndOg8gAWIRJexl+eoMd3JMMoyGjDP8PHMuf5cZmd4Y3yM
- rFO8B1LE1mDjSGg1I/O3gNVfamlXubaUOL9jVkLBOAB+XarvrW1iZ6H0yRA==
-Received: from mail-pg1-f197.google.com (mail-pg1-f197.google.com
- [209.85.215.197])
- by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 47f4b40k57-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
- for <dri-devel@lists.freedesktop.org>; Wed, 25 Jun 2025 17:37:23 +0000 (GMT)
-Received: by mail-pg1-f197.google.com with SMTP id
- 41be03b00d2f7-b31f4a9f67cso94426a12.1
- for <dri-devel@lists.freedesktop.org>; Wed, 25 Jun 2025 10:37:23 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1750873042; x=1751477842;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=ckmpcZmveJcmsZUFuiT/RpgJEDPikgftzrJym6w4+0k=;
- b=s9a+0+crAXBJh98jXwPFZgXdKaLW+JpvItUdqTqRky4WzjVWBtk0NRThCsbyrS1Idt
- 47g8C5loSsQbVqR9fhRWHVssAkikoOAxnvXi58byBzQa5izXLC9j0nymNs1iovnuBodp
- xhB10vmBq7G0pwhOmmKaWX82YNJ0gAZBgwQPGhyu+l4PGq/OmQbwJQPei1CIVtkBJEBB
- ShMvl6Z7BqONOxajLDgUaxaUguISmG4S73pJ2L4Kl303hg3HfOHARQPivlZBElqeQcfJ
- S0PW4NsIa6Tzc0+6wtmOblungesy3dk92nHJ5GzXmGTVks29lIiCwPHNjZARFZzAo1sE
- GU7Q==
-X-Gm-Message-State: AOJu0YzH82d5/XcLcgJzJu1cUQBTChNXzckWDOCiIy9BbdXUsxU042yS
- A2k6rF5y+g/NOUToAyaxxo6fJfp7Tt8ZBIY5mkOLaKxhh3QSV/HFBGSX3bd5gM3a8hxLV1GrUtB
- xJl2hPw3Dp2g6zhK0m7HX/x5Vav91ywBDsnHKgSP3Jkge2DDwH3aBho3ZZsT/iiFZ/DVyukPSzL
- kIk6c=
-X-Gm-Gg: ASbGncv8wgOZMOQ4T93H+MVQdnzveNgEbweKfscjIcnjpxT7oJ3JHFAEVs27PD4f7Kz
- Gv82qOmE3Ew6W6fBTjvyFjQHfHd1HQcFZ1HHAqBr3oyU75eDUxbLdWbWWDH3Hm/YMmgAhrOIAvR
- DYX1rv3kMltsmS/vXf89r5UXYgleFEq1WGDIuKa7fnonl60nExsjiOFUC91EYvcSbI3xKGxgW8s
- 0km+rpUHuwCsdIM1pVvVNjyDZ8DKEhiDJu2cS9MLSszl0WeGLr4630BcbbTqpxDSCFN+tG6ZqTB
- X0PfIm9yWV5C08t1omKrG82J67wxf0th
-X-Received: by 2002:a17:90b:3a05:b0:311:f684:d3cd with SMTP id
- 98e67ed59e1d1-315f2623c5amr6932418a91.12.1750873042098; 
- Wed, 25 Jun 2025 10:37:22 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IHisPZ8e1PdIMAqtxONK/SJTKlziax5CcCuFowOdaVXodfUQiW5C7P6F/abrBzQuGI6mBDiIw==
-X-Received: by 2002:a17:90b:3a05:b0:311:f684:d3cd with SMTP id
- 98e67ed59e1d1-315f2623c5amr6932377a91.12.1750873041680; 
- Wed, 25 Jun 2025 10:37:21 -0700 (PDT)
-Received: from localhost ([2601:1c0:5000:d5c:5b3e:de60:4fda:e7b1])
- by smtp.gmail.com with ESMTPSA id
- 98e67ed59e1d1-315f539e862sm2199928a91.16.2025.06.25.10.37.21
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 25 Jun 2025 10:37:21 -0700 (PDT)
-From: Rob Clark <robin.clark@oss.qualcomm.com>
-To: dri-devel@lists.freedesktop.org
-Cc: freedreno@lists.freedesktop.org, linux-arm-msm@vger.kernel.org,
- Simona Vetter <simona@ffwll.ch>, Daniel Stone <daniels@collabora.com>,
- Rob Clark <robin.clark@oss.qualcomm.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
- linux-kernel@vger.kernel.org (open list)
-Subject: [PATCH v2 2/2] drm/fourcc: Add 32b float formats
-Date: Wed, 25 Jun 2025 10:37:11 -0700
-Message-ID: <20250625173712.116446-3-robin.clark@oss.qualcomm.com>
-X-Mailer: git-send-email 2.49.0
-In-Reply-To: <20250625173712.116446-1-robin.clark@oss.qualcomm.com>
-References: <20250625173712.116446-1-robin.clark@oss.qualcomm.com>
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.15])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 26EB910E7A6;
+ Wed, 25 Jun 2025 17:39:46 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1750873186; x=1782409186;
+ h=date:from:to:cc:subject:message-id:references:
+ in-reply-to:mime-version;
+ bh=mgXojBcMb1lnxBabrw5GWxKiP7vhSxwb7/g/KIHTrJo=;
+ b=LZub2fFCzIcVSxc6RBUVjgWaH6CponcEKi9K9EcQHF05plA288xcBd/I
+ IeTl0pvDYMceLA+/1AxDlNUp0tfstdhfuEo2gIs8KK2WI+4ZR3bRTN7ru
+ tLhaSLG10UHa6dFs5pbCE9jIV9qk9QwVgfKDzi8X04kfCSpOvR7VXPkJt
+ ahGbHXk7w4hzoslR/Oz2s+608OiCuGOuYWBA8ru/tf/wXJxO01nDBvEWk
+ RvxZN25FQR6TeELOqT25rgB2IVWHwm0jsI04kZrnqTtlb9q52jVrjcTY/
+ 7uC//R0c5t0tDo9zhwrf+7gWXfnS+oAlNYaEtKz1WS4zPCZANXMBi76p6 w==;
+X-CSE-ConnectionGUID: dvrJdbTjTL6zQfHSR7fTZQ==
+X-CSE-MsgGUID: 4qieirrLRGW2yQ8QWDReZA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11475"; a="53294315"
+X-IronPort-AV: E=Sophos;i="6.16,265,1744095600"; d="scan'208";a="53294315"
+Received: from orviesa001.jf.intel.com ([10.64.159.141])
+ by fmvoesa109.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 25 Jun 2025 10:39:45 -0700
+X-CSE-ConnectionGUID: 3FGTlKzYRlSOrayzq7Hxfg==
+X-CSE-MsgGUID: bwVAum0pRH+RDt+0t0cUNg==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.16,265,1744095600"; d="scan'208";a="189466629"
+Received: from orsmsx903.amr.corp.intel.com ([10.22.229.25])
+ by orviesa001.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 25 Jun 2025 10:39:45 -0700
+Received: from ORSMSX902.amr.corp.intel.com (10.22.229.24) by
+ ORSMSX903.amr.corp.intel.com (10.22.229.25) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.1544.25; Wed, 25 Jun 2025 10:39:45 -0700
+Received: from ORSEDG902.ED.cps.intel.com (10.7.248.12) by
+ ORSMSX902.amr.corp.intel.com (10.22.229.24) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.1544.25 via Frontend Transport; Wed, 25 Jun 2025 10:39:45 -0700
+Received: from NAM10-MW2-obe.outbound.protection.outlook.com (40.107.94.72) by
+ edgegateway.intel.com (134.134.137.112) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.1544.25; Wed, 25 Jun 2025 10:39:44 -0700
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=TzuFngai1h2OoH2WpcC5KgXdHfRElp534eEGAXa0eq0CFfPFJnB22sD3hLrPkqjNeEFMx4bPRD0t84uuLwc75Gwh7DKr9HgsTyqnU9g7B4G5c0fZQ07iclxjYw9URfE0aFaQnlNKepTvM3aIpvIKGa7Bal/5bz73imJfStavVUX8kqQJtSIFdnsWMiRkKLH0Ho0e3U660++myLsP+Ef2jXIcQ92yK4HqBf22UpSyi9OSJPGS0TBt+umaT4UpOuQl9UlzpxIncPZ74UWxROwyCDNEGGkSHC5vv6W28UrOcJkgG8xRdUuX91kF8+6q3l7jdiBD6EodrkvCHQFM28xvAw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=J6cXwB+wZnX7c8Tr7lm6x+RD/RN2UeRQ6rBndrLJb3k=;
+ b=ejcz/0/jZDubm2LM7xxMS/nqrqw93T/eBVTwgaEhICOz+ckYH7Ywm6wQz/oABCY6uUqTXdRB+jZbZ5naVtbjhiupOmsxB3E7iSpPm45buw1K+c9BjFMXn41igncr9yU/fM7bu28NrC6f8ReystTnPNokbQ8fJtOjUOhnGmidLpZ1je+9CSEozwzAow457iZIPNRAZ/ZoRLYD5bBIJAbDXBr0REwDsaaFdtcm6l9GyCrSFn5beY9Fx27iQw/dirP0c48kd+wR6pjJ5eX8eFGjV7Tdi/XwDF8k2pgt3lkejdx/ONv2al9Yytl547IkJbJVN1hUbgSRyCr0iDDAqIdPbA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
+ dkim=pass header.d=intel.com; arc=none
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=intel.com;
+Received: from CYYPR11MB8430.namprd11.prod.outlook.com (2603:10b6:930:c6::19)
+ by PH8PR11MB8258.namprd11.prod.outlook.com (2603:10b6:510:1c1::5)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8857.27; Wed, 25 Jun
+ 2025 17:39:41 +0000
+Received: from CYYPR11MB8430.namprd11.prod.outlook.com
+ ([fe80::76d2:8036:2c6b:7563]) by CYYPR11MB8430.namprd11.prod.outlook.com
+ ([fe80::76d2:8036:2c6b:7563%5]) with mapi id 15.20.8880.015; Wed, 25 Jun 2025
+ 17:39:41 +0000
+Date: Wed, 25 Jun 2025 13:39:35 -0400
+From: Rodrigo Vivi <rodrigo.vivi@intel.com>
+To: Dan Carpenter <dan.carpenter@linaro.org>
+CC: Jani Nikula <jani.nikula@linux.intel.com>, Joonas Lahtinen
+ <joonas.lahtinen@linux.intel.com>, Tvrtko Ursulin <tursulin@ursulin.net>,
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, "Frederic
+ Weisbecker" <frederic@kernel.org>, Chris Wilson <chris@chris-wilson.co.uk>,
+ <intel-gfx@lists.freedesktop.org>, <dri-devel@lists.freedesktop.org>,
+ <linux-kernel@vger.kernel.org>, <kernel-janitors@vger.kernel.org>
+Subject: Re: [PATCH v2] drm/i915/selftests: Change mock_request() to return
+ error pointers
+Message-ID: <aFw0VyNuV5twrHIQ@intel.com>
+References: <685c1417.050a0220.696f5.5c05@mx.google.com>
+Content-Type: text/plain; charset="us-ascii"
+Content-Disposition: inline
+In-Reply-To: <685c1417.050a0220.696f5.5c05@mx.google.com>
+X-ClientProxiedBy: BYAPR01CA0036.prod.exchangelabs.com (2603:10b6:a02:80::49)
+ To CYYPR11MB8430.namprd11.prod.outlook.com
+ (2603:10b6:930:c6::19)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwNjI1MDEzMSBTYWx0ZWRfX4h8sFrWdCjqH
- rVvc7qEhK1Q+gCBLzwiNprDS9x5NYyRdDM7Ar88vmKDT7P0HL3qen7ntBMrbtIi9rJcIMRTa2rI
- XzuXrieswixJ5pyQIVSj9PZ6sojytCeYLhKDN1EVl0RoeOJ+UMmDRN1nIA6OQRG7sGbX1WhOht1
- QgakeNQoFMXqbX2f54BdNb+gjbG6SnO8aWxjX6GvvIOt5r0lkxoyh8qx/fcfmvII4PbalVrDLoe
- 4ylm27ojoWLgRHk2tUa+WRDjQyW9JUf23SzEPPDhInQEIHuqClBBphF2oOaSpVVIy9Kivd8oZtW
- aOzawrN+MvDhKRMGKZ142ZOhVJNLYIok1mUyBgciNQ2JY1fA8mUyNkovtKUH1xPq30CUZhHODDK
- NsUnBCQMduGetVJ8Bm7CJ3SwRn0XUDDK5+Iv0Ab0CvyTtjnkZgbC/hgw0b4ZqhlIneaBp2DD
-X-Proofpoint-ORIG-GUID: qiW-U_dHM__Nmj-C1uOBPX6Qh8T8Bs2W
-X-Proofpoint-GUID: qiW-U_dHM__Nmj-C1uOBPX6Qh8T8Bs2W
-X-Authority-Analysis: v=2.4 cv=A8BsP7WG c=1 sm=1 tr=0 ts=685c33d3 cx=c_pps
- a=rz3CxIlbcmazkYymdCej/Q==:117 a=xqWC_Br6kY4A:10 a=6IFa9wvqVegA:10
- a=EUspDBNiAAAA:8 a=QX4gbG5DAAAA:8 a=n6CFGpYek-_V9AMlogEA:9
- a=bFCP_H2QrGi7Okbo017w:22 a=AbAUZ8qAyYyZVLSsDulk:22
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1099,Hydra:6.1.7,FMLib:17.12.80.40
- definitions=2025-06-25_05,2025-06-25_01,2025-03-28_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- lowpriorityscore=0 mlxlogscore=999 malwarescore=0 spamscore=0 bulkscore=0
- phishscore=0 adultscore=0 impostorscore=0 suspectscore=0 mlxscore=0
- clxscore=1015 priorityscore=1501 classifier=spam authscore=0 authtc=n/a
- authcc= route=outbound adjust=0 reason=mlx scancount=1
- engine=8.19.0-2505280000 definitions=main-2506250131
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: CYYPR11MB8430:EE_|PH8PR11MB8258:EE_
+X-MS-Office365-Filtering-Correlation-Id: 071fc1b3-81e4-4415-98bd-08ddb40f43b3
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+ ARA:13230040|7416014|1800799024|376014|366016|7053199007; 
+X-Microsoft-Antispam-Message-Info: =?us-ascii?Q?aphzOVfc1PXvZZ2wP8SGk3rXbce1Wdi5OWcV2DUsktsakxWBlHfxg/cb1WB0?=
+ =?us-ascii?Q?EG7CJ8OsdqteaN55/0+xLnmfTm813vgYKupfV3n7RFGjUuIIIjqfltMGhIn7?=
+ =?us-ascii?Q?G8f3BUMy2jKV3vIg1ENtA1bA3ZpoDLnhZ6dGlIqLXfx6o55MhvpiaAD6G5KQ?=
+ =?us-ascii?Q?GeCxFvS+ULcyvye2MyFa2ECNWWCHcygUnNV44xQkJKxChsL1+iq4psovAfFE?=
+ =?us-ascii?Q?jZP2C2s6Ve0Iv73yecBmvMr0mYm4RNLW38vDL16YZZFNJWClQLYLnTZvV/2k?=
+ =?us-ascii?Q?j9pFyGwjr1S7Qy90WZG86nwxwWguHT0KlzmlOO14Cd1LIiHgYgUVI5tNafdK?=
+ =?us-ascii?Q?4elz5Og8EvOoJWUwlOvxchysg9wGin/KCUU8CbyRjJSIMv8huYfKYbd4tkRy?=
+ =?us-ascii?Q?TcFlsdm9m12FuwDm8jsQ5gZmOwct6NJtAyC/zQxEBYAz1ZyhNyT+Ktu7nI3s?=
+ =?us-ascii?Q?f1EPlohpZJeHA8UB8WB+U30kanZGrMjxrLJoKePhDx6RUCAS7MalEaG3N+2i?=
+ =?us-ascii?Q?gND5R+iNuTcB9bUbQrtNjwJBoJgLMI9kPXCRoWI/fRZs9JkACj0ttV7tKqqZ?=
+ =?us-ascii?Q?e3ixvQZN1LFoWqFkXnjVqvSi3Z9Grl4kqS5mtjQhDWd7pODefzYeXELP14HE?=
+ =?us-ascii?Q?NEUBKcWp9ruMsMTTgv8Us7vktrMZNcDmbX7iUw1nsV62F/S0aOeDOlCoarXs?=
+ =?us-ascii?Q?heqhEbgiFaP2fxY3y9G+20pxpndNjLEVHVQhP7MoaH6j1Q0D8uG7pW6K+fTI?=
+ =?us-ascii?Q?Cw634/c3131o7XQLc40IEste7x1wYZ1Syo3kEOViPJUn9HCca4BVgrs5EiQq?=
+ =?us-ascii?Q?pRAOvfSS8rfCz043y2fz0xH7IPWMR2OjeWUI8HK3Z2cfu1xpTkTAkJT5fqfY?=
+ =?us-ascii?Q?HxLFip2NkNIkaZ+jq4PKzTaVDs6mFML9W9go+WoG/KJ2bQ9ioBXIHfCVnYOT?=
+ =?us-ascii?Q?ecYg5gZNgcZBYZySWD7Vbf++DiwN1vU1wx6W11poUPJz9eDa270lvJezxpTr?=
+ =?us-ascii?Q?2bz/u/pwV/wP0Yb1JdVeIRKvNT4DO/ykZqcCIM4g1pd0Fp1B8ZhAmG8SaWzm?=
+ =?us-ascii?Q?JmaoB1VSUBu2gon1xtNDFwesdOMxEuyn3TlO+nPFtiDBv+vR5qpsQPMTAJvL?=
+ =?us-ascii?Q?pGS2VktGmiFdREylJgYCRWfxiT5tW953/fu++v3fdOrKSxJxLsli1IirLzUi?=
+ =?us-ascii?Q?uyZAqB5/QcRuS8PR95dM3GluGSmEr2GX1fTtnjsGOrSdX6x0Yz5klPp+NGKs?=
+ =?us-ascii?Q?OE8tNyVXuUygKyo1YLxS1SfRP5AfeP1TBToafUi2A8w8StzxOKW7FFkfVwOR?=
+ =?us-ascii?Q?z84rp5ylkNxrTdoxJqTDQQdHVnRI+6zhoD7LKI/V3d19NsgztGwIwIbZ9r7F?=
+ =?us-ascii?Q?xB7ip6UkHJwOX0HsL6n54PqFXyHtLGN+wQKBnWjbaL9PVvwbKauTUDFW6/MD?=
+ =?us-ascii?Q?V9g5phm6FvI=3D?=
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:CYYPR11MB8430.namprd11.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230040)(7416014)(1800799024)(376014)(366016)(7053199007); DIR:OUT;
+ SFP:1101; 
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?x8elEzMtAxOa7WLP63hU2gGuXCNzf8z2xw2rbiuSf+LfWVnydu7X5yrd7pbA?=
+ =?us-ascii?Q?mUGiZQhle967aoM6zGmq5szOhzr/WmpWTvM++q7Bxg2GjGgS5IOJcFdqGeH4?=
+ =?us-ascii?Q?fWaqRzz2Qw7859ce5+tK+mC5+lNstmOhTio1ptRCmKVrzkr6/oOB6byzSaJx?=
+ =?us-ascii?Q?+Zylcydu7cNEnGuhbh4WriRSd+busv1XC4lAplsqhZiTDHGDt1Z0ZCgUdsRb?=
+ =?us-ascii?Q?mTGdb89v2gC637hu5Bh8y9EhImOf+mKuHsuysxLJdc/TAN2JaCCvetua9Om8?=
+ =?us-ascii?Q?oEDfqOwE6Zmwtzp7sUA/UXudyGx9VBrMoGXEwAlxQsZ58CV2a3lJb1v2lUsK?=
+ =?us-ascii?Q?+wtycAZrHSZ76ERQZs/FFSj1DHyMKlIDUnZNoxxN1gNII76VOs++Gv1ka90I?=
+ =?us-ascii?Q?UouoGvVfgX27uUjzXiyzytUVKjxApxQjAPzr7hYCHIjn9w9p/JmXcJsutg3v?=
+ =?us-ascii?Q?nmFAy6nKB+53MzdI4JpH3kt+nXbJwUt58yXUrewKuatN97QEum22eRoDTpex?=
+ =?us-ascii?Q?uX0EvXmIxMDZ8p5hShK25brK8fRqY+pFonD42R+bJQWIJfjm2Di6JykQp/pV?=
+ =?us-ascii?Q?r/T4olGwWPoDDwsqUl6mPx1wEAdS/uuP9CJgHLA3cHfBojd0yHR1Mwp+Prs0?=
+ =?us-ascii?Q?9eO9SBSq+xhVaTK/FNk+C6cy67dZ70YAXzq6BUFC1vLProTrdXvsOgPxMWxZ?=
+ =?us-ascii?Q?JRul4KWWIY2Gjj94z2H4P1jfoEN0iYMGvpEZ/j3XGmQvWlkRapmeJVQkW8FF?=
+ =?us-ascii?Q?F8nFGiRAqxN+SYYkxGOTc6sFygQf15p4r2Y689nE/dk049cDUx14flquK9vz?=
+ =?us-ascii?Q?hmr3f1JFc/YQv1OynhaomOG0na+gUVtLIX49bPr6vvBBG3mtpKfPG4CrSWWE?=
+ =?us-ascii?Q?AdBmjh47cv9bU+oDi9D+YzBtoca7hHgLFTGQg8xhW1nMfYhvA2XwuILpqGbb?=
+ =?us-ascii?Q?anGzDF/h4jtLO5Q07mQWa1vKAbU7ccN1B3Ptq0E3aLgYqXpKBrcaPKi5ApM2?=
+ =?us-ascii?Q?eqIQPEOKNg5cthOSykf1eZkw4Qnrp+hrNfNlJSGoOhNyyhuhMQ5WdCYz4b1X?=
+ =?us-ascii?Q?tglCEUkLMmlKLpqm4T1nOTB4Vr2UnTJeHkkIW/yyWeqASdpIfoWF31GkgRVQ?=
+ =?us-ascii?Q?aw/3YxejL/BwaEm8etkWkTNK501ID2Y4W+OnWMDF8OP6AaDEn46hV8BsvfEh?=
+ =?us-ascii?Q?YIn4BZ94Efdud3k99mwS4bAZohx7DVV7qVDMHGevC10i8nsG6PRPE8et7tCM?=
+ =?us-ascii?Q?Uo93Lf9IV7w0gTe9ZGVkcm5D6jTApUNazsHtN0XFM2XR7zPjp9XNJliCq6Rq?=
+ =?us-ascii?Q?A/bAeIegnaRioSKhessD4pq46ZlyaXVbLq3sZIsD5Pl1FMJu6dnlYDoRvE0b?=
+ =?us-ascii?Q?8XaxHU+WXstAnS49hr+9yCvKn8a/sBe7hpf8cuLn05kAWpUko/feuRruqqXO?=
+ =?us-ascii?Q?cn6dKxNRE/mmFzLzydL/3tAWyYLuqXRJVf4h1u0sII0qWGDP+udKmZDJT8g6?=
+ =?us-ascii?Q?MfXkw7ocl+D09KW6AOKTyYVk7PWXK1wwgtaTMwV8aAsoyanXOqs6dbw/jP7D?=
+ =?us-ascii?Q?o9I6IJNIsTSkJdAAktP3Fk5LopXurvqc5eFt0VQz?=
+X-MS-Exchange-CrossTenant-Network-Message-Id: 071fc1b3-81e4-4415-98bd-08ddb40f43b3
+X-MS-Exchange-CrossTenant-AuthSource: CYYPR11MB8430.namprd11.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 25 Jun 2025 17:39:41.1742 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: zCZijaV6G+rY2tfOTOQ6xeVX6Sz4HgOt6Vu3Qp+PvxdvNkyJsDv1PYGLeeviJ0D1fMC5U9slk7qeJWexE1o9ew==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH8PR11MB8258
+X-OriginatorOrg: intel.com
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -123,43 +183,107 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Add 1, 2, 3, and 4 component 32b float formats, so that buffers with
-these formats can be imported/exported with fourcc+modifier, and/or
-created by gbm.
+On Wed, Jun 25, 2025 at 10:21:58AM -0500, Dan Carpenter wrote:
+> There was an error pointer vs NULL bug in __igt_breadcrumbs_smoketest().
+> The __mock_request_alloc() function implements the
+> smoketest->request_alloc() function pointer.  It was supposed to return
+> error pointers, but it propogates the NULL return from mock_request()
+> so in the event of a failure, it would lead to a NULL pointer
+> dereference.
+> 
+> To fix this, change the mock_request() function to return error pointers
+> and update all the callers to expect that.
+> 
+> Fixes: 52c0fdb25c7c ("drm/i915: Replace global breadcrumbs with per-context interrupt tracking")
+> Signed-off-by: Dan Carpenter <dan.carpenter@linaro.org>
+> ---
+> V2: In v1 I just updated __mock_request_alloc() to return an error pointer
+>     but in v2, I changed mock_request() to update an error pointer and
+>     updated all the callers.  It's a more extensive change, but hopefully
+>     cleaner.
 
-These correspond to PIPE_FORMAT_{R32,R32G32,R32G32B32,R32G32B32A32}_FLOAT
-in mesa.
+Thank you
 
-v2: Fix comment describing float32 layout [Sima]
+Reviewed-by: Rodrigo Vivi <rodrigo.vivi@intel.com>
 
-Signed-off-by: Rob Clark <robin.clark@oss.qualcomm.com>
-Acked-by: Simona Vetter <simona@ffwll.ch>
-Acked-by: Daniel Stone <daniels@collabora.com>
----
- include/uapi/drm/drm_fourcc.h | 10 ++++++++++
- 1 file changed, 10 insertions(+)
 
-diff --git a/include/uapi/drm/drm_fourcc.h b/include/uapi/drm/drm_fourcc.h
-index 3560ca1ffb8b..6a3f1b32cb30 100644
---- a/include/uapi/drm/drm_fourcc.h
-+++ b/include/uapi/drm/drm_fourcc.h
-@@ -232,6 +232,16 @@ extern "C" {
- #define DRM_FORMAT_GR1616F       fourcc_code('G', 'R', ' ', 'H') /* [31:0] G:R 16:16 little endian */
- #define DRM_FORMAT_BGR161616F    fourcc_code('B', 'G', 'R', 'H') /* [47:0] B:G:R 16:16:16 little endian */
- 
-+/*
-+ * Floating point - 32b/component
-+ * IEEE 754-2008 binary32 float
-+ * [31:0] sign:exponent:mantissa 1:8:23
-+ */
-+#define DRM_FORMAT_R32F          fourcc_code('R', ' ', ' ', 'F') /* [31:0] R 32 little endian */
-+#define DRM_FORMAT_GR3232F       fourcc_code('G', 'R', ' ', 'F') /* [63:0] R:G 32:32 little endian */
-+#define DRM_FORMAT_BGR323232F    fourcc_code('B', 'G', 'R', 'F') /* [95:0] R:G:B 32:32:32 little endian */
-+#define DRM_FORMAT_ABGR32323232F fourcc_code('A', 'B', '8', 'F') /* [127:0] R:G:B:A 32:32:32:32 little endian */
-+
- /*
-  * RGBA format with 10-bit components packed in 64-bit per pixel, with 6 bits
-  * of unused padding per component:
--- 
-2.49.0
-
+> 
+>  drivers/gpu/drm/i915/selftests/i915_request.c | 20 +++++++++----------
+>  drivers/gpu/drm/i915/selftests/mock_request.c |  2 +-
+>  2 files changed, 11 insertions(+), 11 deletions(-)
+> 
+> diff --git a/drivers/gpu/drm/i915/selftests/i915_request.c b/drivers/gpu/drm/i915/selftests/i915_request.c
+> index 88870844b5bd..2fb7a9e7efec 100644
+> --- a/drivers/gpu/drm/i915/selftests/i915_request.c
+> +++ b/drivers/gpu/drm/i915/selftests/i915_request.c
+> @@ -73,8 +73,8 @@ static int igt_add_request(void *arg)
+>  	/* Basic preliminary test to create a request and let it loose! */
+>  
+>  	request = mock_request(rcs0(i915)->kernel_context, HZ / 10);
+> -	if (!request)
+> -		return -ENOMEM;
+> +	if (IS_ERR(request))
+> +		return PTR_ERR(request);
+>  
+>  	i915_request_add(request);
+>  
+> @@ -91,8 +91,8 @@ static int igt_wait_request(void *arg)
+>  	/* Submit a request, then wait upon it */
+>  
+>  	request = mock_request(rcs0(i915)->kernel_context, T);
+> -	if (!request)
+> -		return -ENOMEM;
+> +	if (IS_ERR(request))
+> +		return PTR_ERR(request);
+>  
+>  	i915_request_get(request);
+>  
+> @@ -160,8 +160,8 @@ static int igt_fence_wait(void *arg)
+>  	/* Submit a request, treat it as a fence and wait upon it */
+>  
+>  	request = mock_request(rcs0(i915)->kernel_context, T);
+> -	if (!request)
+> -		return -ENOMEM;
+> +	if (IS_ERR(request))
+> +		return PTR_ERR(request);
+>  
+>  	if (dma_fence_wait_timeout(&request->fence, false, T) != -ETIME) {
+>  		pr_err("fence wait success before submit (expected timeout)!\n");
+> @@ -219,8 +219,8 @@ static int igt_request_rewind(void *arg)
+>  	GEM_BUG_ON(IS_ERR(ce));
+>  	request = mock_request(ce, 2 * HZ);
+>  	intel_context_put(ce);
+> -	if (!request) {
+> -		err = -ENOMEM;
+> +	if (IS_ERR(request)) {
+> +		err = PTR_ERR(request);
+>  		goto err_context_0;
+>  	}
+>  
+> @@ -237,8 +237,8 @@ static int igt_request_rewind(void *arg)
+>  	GEM_BUG_ON(IS_ERR(ce));
+>  	vip = mock_request(ce, 0);
+>  	intel_context_put(ce);
+> -	if (!vip) {
+> -		err = -ENOMEM;
+> +	if (IS_ERR(vip)) {
+> +		err = PTR_ERR(vip);
+>  		goto err_context_1;
+>  	}
+>  
+> diff --git a/drivers/gpu/drm/i915/selftests/mock_request.c b/drivers/gpu/drm/i915/selftests/mock_request.c
+> index 09f747228dff..1b0cf073e964 100644
+> --- a/drivers/gpu/drm/i915/selftests/mock_request.c
+> +++ b/drivers/gpu/drm/i915/selftests/mock_request.c
+> @@ -35,7 +35,7 @@ mock_request(struct intel_context *ce, unsigned long delay)
+>  	/* NB the i915->requests slab cache is enlarged to fit mock_request */
+>  	request = intel_context_create_request(ce);
+>  	if (IS_ERR(request))
+> -		return NULL;
+> +		return request;
+>  
+>  	request->mock.delay = delay;
+>  	return request;
+> -- 
+> 2.47.2
+> 
