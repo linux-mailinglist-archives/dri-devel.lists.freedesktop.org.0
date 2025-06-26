@@ -2,62 +2,171 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 43A2CAEA627
-	for <lists+dri-devel@lfdr.de>; Thu, 26 Jun 2025 21:13:05 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8ACC7AEA635
+	for <lists+dri-devel@lfdr.de>; Thu, 26 Jun 2025 21:16:06 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3DEC810E8F5;
-	Thu, 26 Jun 2025 19:13:02 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B133010E8F8;
+	Thu, 26 Jun 2025 19:16:02 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="H3/mZdPV";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="XJBgJ/KB";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E288C10E900
- for <dri-devel@lists.freedesktop.org>; Thu, 26 Jun 2025 19:12:59 +0000 (UTC)
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.17])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B7D1E10E0ED;
+ Thu, 26 Jun 2025 19:16:01 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1750965180; x=1782501180;
- h=from:to:cc:subject:date:message-id:mime-version:
- content-transfer-encoding;
- bh=FndfxWS1YeFWxReAAV8nrkQod2f/3VNZrcZSbE2kFYk=;
- b=H3/mZdPVwDvMWDYY5OrQfV6/623ArtCqUWHwof7oCWGhXkKJsR37T0FT
- WO95mJhAxPPaJtvYHhlHdvmo0ex3Ok/hDylEO4qWwBdlQ+xt8CrXNIs1W
- E2lIOmew1apQ1GXBkrfRczYv2dXWx2RVQ+0j6oVup2KR67+Pu98HzLQf5
- 9N+13P+Lvsy4WQdVcPKXkSIIraeM8RkAMk63dm6wC16nEP8SkdIEOdu+w
- eNMmXoUqrmIqV39rinB+FxZbd32LjVnOkRstEJdeTkYNHhGad+jUwfLb9
- UdhD1U4RwJ67WRAaXbFSeQ5eCZFQijPeBTjrvAY9b76Vq1sIoD4l8loPA w==;
-X-CSE-ConnectionGUID: VFWBvDdjRpWTkRVjqcincA==
-X-CSE-MsgGUID: NZCXgoPXSxa8JCY8FvpEeQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11476"; a="70706655"
-X-IronPort-AV: E=Sophos;i="6.16,268,1744095600"; d="scan'208";a="70706655"
+ t=1750965362; x=1782501362;
+ h=date:from:to:cc:subject:message-id:references:
+ in-reply-to:mime-version;
+ bh=6vfQ6DImhvsRbErmGbKkdmgE40ezSb+6WwuGZvzuo28=;
+ b=XJBgJ/KB+gC4xo385XkKWdG18tRxcr91z/7MVOGn0Bw9isx99sB65nCl
+ 8AyNtK710CtizHyCoaQloEnW0437O4LfzyEFhLwHsJ7CRmWePW7BrXG5I
+ aarUG63R8CvmeygY3aD0NMEodphZceC+YjIe4dUMCIrVSUU5CSFGHjKDK
+ HJNERm2teKNAZ+nsT0Zo+JuS5rehRjhUVeOMe01/YQ3VzvTzeee1Rw5VK
+ stj0QibCiDqW8SqCloKjXmU/NSwJCRYqkXPDHjVLaK9iYxfFe3/qX/OOu
+ nz0+2zt9A1XzbErGCviS9mx0LYNWmXlFQPPxEOYjSE8JAG/8fvpDP5Ejc Q==;
+X-CSE-ConnectionGUID: B10XstqVRGS+cGzUgVPqlw==
+X-CSE-MsgGUID: k+2EuysfQBe8KypoXix4Pw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11476"; a="53239551"
+X-IronPort-AV: E=Sophos;i="6.16,268,1744095600"; d="scan'208";a="53239551"
 Received: from fmviesa003.fm.intel.com ([10.60.135.143])
- by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 26 Jun 2025 12:12:59 -0700
-X-CSE-ConnectionGUID: Bi2FFmnQSvO1JnUYCtDxaA==
-X-CSE-MsgGUID: SPY3scn5QcKvwcyVrjAnmw==
+ by orvoesa109.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 26 Jun 2025 12:16:01 -0700
+X-CSE-ConnectionGUID: gP1MridIQY6AkVMSSkkn2g==
+X-CSE-MsgGUID: ugtNj+dtQ+OgFVy0gfplJA==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.16,268,1744095600"; d="scan'208";a="156628635"
-Received: from vkasired-desk2.fm.intel.com ([10.105.128.132])
- by fmviesa003-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 26 Jun 2025 12:12:59 -0700
-From: Vivek Kasireddy <vivek.kasireddy@intel.com>
-To: dri-devel@lists.freedesktop.org,
-	linux-mm@kvack.org
-Cc: Vivek Kasireddy <vivek.kasireddy@intel.com>,
- syzbot+a504cb5bae4fe117ba94@syzkaller.appspotmail.com,
- Steve Sistare <steven.sistare@oracle.com>,
- Muchun Song <muchun.song@linux.dev>, David Hildenbrand <david@redhat.com>,
- Andrew Morton <akpm@linux-foundation.org>,
- Anshuman Khandual <anshuman.khandual@arm.com>,
- Oscar Salvador <osalvador@suse.de>
-Subject: [PATCH v2] mm/hugetlb: Don't crash when allocating a folio if there
- are no resv
-Date: Thu, 26 Jun 2025 12:11:16 -0700
-Message-ID: <20250626191116.1377761-1-vivek.kasireddy@intel.com>
-X-Mailer: git-send-email 2.49.0
+X-IronPort-AV: E=Sophos;i="6.16,268,1744095600"; d="scan'208";a="156630001"
+Received: from orsmsx901.amr.corp.intel.com ([10.22.229.23])
+ by fmviesa003.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 26 Jun 2025 12:16:01 -0700
+Received: from ORSMSX903.amr.corp.intel.com (10.22.229.25) by
+ ORSMSX901.amr.corp.intel.com (10.22.229.23) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.1544.25; Thu, 26 Jun 2025 12:16:00 -0700
+Received: from ORSEDG901.ED.cps.intel.com (10.7.248.11) by
+ ORSMSX903.amr.corp.intel.com (10.22.229.25) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.1544.25 via Frontend Transport; Thu, 26 Jun 2025 12:16:00 -0700
+Received: from NAM02-BN1-obe.outbound.protection.outlook.com (40.107.212.55)
+ by edgegateway.intel.com (134.134.137.111) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.1544.25; Thu, 26 Jun 2025 12:16:00 -0700
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=sqvZdd23EihYtC7XAl1UHftrAoOm4J4ZQUk1/Rn6OzpQsXgy4VLyWaQ7Z0nh4mxRXdGsX11cilTa3hH7xcCQ7jSNMDoXH0Wtn1/gKjzMzBm4Rr9nzpcgwOOX5e7daC12SCkSQUJDQD6SQ1HcVNysvX2/+oYWtOkT0O6WJGE4+jgD+I2BP5XkiOLDsfGyqXBbrFvxlyAlRI97j724QpFhkEHS0RRGUC54uWDNfZgLEzE+SdiKYKVmmlvnYZzoTCBSmSonr+zKf2EhoMXz2FqpZVeHyCyU7RfSMoJVU4du7cHhMoytFYVT3fhEMJH2ovxkvjq63S44eQFlJT/OEEK4GA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=BFs7XtJ5pAN0qxq03utxvAQrd7o/KBjH2IJEvJUNOEY=;
+ b=NlQXGr6nLUrcHLF0C6u1wDhUSw2PBQb8rSD6ItJoIlwh8Qw5wMLiUJencbMpi6KsWDEjyNt8rv/P42KDWvqw39WwcR/XTMQSpYDcN+HbHMZOH+OrSLqtJ7Lb4jLeI5esTj9KTB7XZnew5BtBwzPoyRP5dwZZ+yqQQk990q+tYukFJvDAW/pNKF2NjHH1COsW5PIdXOAe8SZtGApohuveS0UkPVTbfn/hs6vVKYYce6FJ2w60lNLqx9wvqf3brAlBq7CnkbUBCX5VZhtWzhQFXMFMHD4lOJua9V/bXxT6uYFfdZSExnMpI9mmvMB0AsXtTb6klRwYTu43hoxCHNa+6Q==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
+ dkim=pass header.d=intel.com; arc=none
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=intel.com;
+Received: from CY5PR11MB6139.namprd11.prod.outlook.com (2603:10b6:930:29::17)
+ by DM4PR11MB6503.namprd11.prod.outlook.com (2603:10b6:8:8c::7) with
+ Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.8857.29; Thu, 26 Jun 2025 19:15:29 +0000
+Received: from CY5PR11MB6139.namprd11.prod.outlook.com
+ ([fe80::7141:316f:77a0:9c44]) by CY5PR11MB6139.namprd11.prod.outlook.com
+ ([fe80::7141:316f:77a0:9c44%5]) with mapi id 15.20.8857.022; Thu, 26 Jun 2025
+ 19:15:29 +0000
+Date: Thu, 26 Jun 2025 14:15:26 -0500
+From: Lucas De Marchi <lucas.demarchi@intel.com>
+To: Randy Dunlap <rdunlap@infradead.org>
+CC: Stephen Rothwell <sfr@canb.auug.org.au>, Linux Next Mailing List
+ <linux-next@vger.kernel.org>, Linux Kernel Mailing List
+ <linux-kernel@vger.kernel.org>, Linux DRI Development
+ <dri-devel@lists.freedesktop.org>, <intel-gfx@lists.freedesktop.org>,
+ <intel-xe@lists.freedesktop.org>
+Subject: Re: linux-next: Tree for Jun 25
+ (drivers/gpu/drm/{i915,xe}/intel_pcode.o)
+Message-ID: <v7cozjpsggel5uzg5krdork42k4tqnefn5tqs6lxdjqvbnyzp2@65nioys2ix64>
+References: <20250625172220.2b6aeff8@canb.auug.org.au>
+ <3667a992-a24b-4e49-aab2-5ca73f2c0a56@infradead.org>
+Content-Type: text/plain; charset="us-ascii"; format=flowed
+Content-Disposition: inline
+In-Reply-To: <3667a992-a24b-4e49-aab2-5ca73f2c0a56@infradead.org>
+X-ClientProxiedBy: SJ0PR05CA0001.namprd05.prod.outlook.com
+ (2603:10b6:a03:33b::6) To CY5PR11MB6139.namprd11.prod.outlook.com
+ (2603:10b6:930:29::17)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: CY5PR11MB6139:EE_|DM4PR11MB6503:EE_
+X-MS-Office365-Filtering-Correlation-Id: 1db2e2b0-0856-4287-baaf-08ddb4e5d038
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;ARA:13230040|376014|366016|1800799024;
+X-Microsoft-Antispam-Message-Info: =?us-ascii?Q?P3Kj8s18aUqxGgeDba8Z4IQLKoGhzNrxNZVMAZWaI4kusM/6jERGxhooRmnf?=
+ =?us-ascii?Q?Y9gE8OjT0kUGsrE0LSnA9tHBEbibeSYuQthGQKtlc+EnHPnzhZYos71RToow?=
+ =?us-ascii?Q?q4GxvZ41XWdSx6QKQmh+pA7hhSfjlLp4yYxBXTdlqZLZF2+BgwVXLrcw00FB?=
+ =?us-ascii?Q?WhMZ1OsJgSHB0+3tYHR+EN9xQfCYBDuiNcW+fJ7LKEdnln6nQHlK906WUin8?=
+ =?us-ascii?Q?dxdzmYrt442M2P44FOayhaNDQvKhcSIYQASirtERaI/6msvgOExBqmz/pRQv?=
+ =?us-ascii?Q?+kXUd1wVtOL1n2CRgqfn1jIwN3Jus+a/UhNBfWZuYEkPQy5f4tNPFDpVNNuk?=
+ =?us-ascii?Q?X+fGkxY+lcuOoahZy5o4ufV9wxzNI5U5e5pOUaSqNRGLJ//mMTNu+YQnm/Mg?=
+ =?us-ascii?Q?2aAFMXMCsHk26WOqIpqa2fTrxe3Cqtgkl+lh/GXU1DLXi3QkPxwLJtQYo7Fv?=
+ =?us-ascii?Q?xQWCWI55PhWGvItVgDhuI0KVQZpWxmTa+2+Y7izF8S69ClBhp3mLuq7EDn/q?=
+ =?us-ascii?Q?YtVOXVujAtvd4LkITFZxK93lri+QcT+bYMzfffpyJSnVaZA+ypI2k3sm8hZv?=
+ =?us-ascii?Q?gkvgR87VFYLmB4I/lJAu5A2mG8efIdj4LZQDyqIdk0rSTvLdSyZidmh7oXU4?=
+ =?us-ascii?Q?GQNkn3CEr57IwaCzs36H0JYGaAenFbsxNub+WT1yn7KvKtTpRdNpu+zgYMuI?=
+ =?us-ascii?Q?frfZrGSEMjPmSek30sGCvHxpx6wKdmv4KAZPg33cA2x9+XSo7U2sbCk6JnjN?=
+ =?us-ascii?Q?iyLeDJIf+ajb4nT55Vb9LHs7//79qvZ0zK5GCvnvXTc+9zGLZ8FMrtlFe7x8?=
+ =?us-ascii?Q?e+185hKvxViZ/BWrd1nccpX9mNJpXCDVnKDRQGONJvZ71TBuSrM1OfSSULLb?=
+ =?us-ascii?Q?M5TEviGl3TIYrP6HozasozA5DWcon2iq4RKhG2AJILWWyBTOqtE/N7ozS96F?=
+ =?us-ascii?Q?qQraBl9bJRMaJTKULdxd+WnnpcZbr7KdxuR9UN8RadrttrZRZu4QlY5GiMHv?=
+ =?us-ascii?Q?vm2suMdlPcCIxRnEm70LnDZrSn79auIBODk329rLzO5mSJOkCieDrLauG+UD?=
+ =?us-ascii?Q?jIe4KVJGjIgG4fzufY+VnYnJPBH5XsxoW4L1OomGHnn1R74QNYRwHPR4Y3cX?=
+ =?us-ascii?Q?bbymBVsAr/SCWnXxYsf41/XJHTLC20GDRUUIG2s3izShltyyzEzT3Lu9Hm/e?=
+ =?us-ascii?Q?BOOrZs7vAQb3rVSifiKjX9AdjKa1xO39f0/0grty74OgdiQnkA4HsuQFMJMN?=
+ =?us-ascii?Q?VuAw3hyhf1mfuHHnsfxSFur01bpXucBYMIHCNKW2qLDRp68S5qqBGBtMRb+S?=
+ =?us-ascii?Q?8SabJOTSfjq3SJfU7cggQ0zL96FCsFfHEZqfLrWv0FnkMEcSCM2JZdqAK0lt?=
+ =?us-ascii?Q?ktb5vo01v/kRqAqYj7SXiRxCK2O/ksBsn9JpmDqwRff3Q5n7sIA7BzHbzjkR?=
+ =?us-ascii?Q?Q/lJpGriHm4=3D?=
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:CY5PR11MB6139.namprd11.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230040)(376014)(366016)(1800799024); DIR:OUT; SFP:1101; 
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?roSqW9Kxn1Zh4c6cqMAsW+gPLccZkOPrWQB+ADUmsgnfs2TjOtH/7NlTiCHI?=
+ =?us-ascii?Q?GQhEScuQ3qjp0zFLWvoXWyNvdeFfYywYuItubnijxNce6g2wdFsuvjWDDbJ3?=
+ =?us-ascii?Q?a2Svb3l4RWas37RVxHh1aLC8fIj9ra0/xk0ZoKOlODnWljvST2eMWlIsrclO?=
+ =?us-ascii?Q?2SkkcuL/LFryy/c/WxEc6A6Ag0mnjLsJ2UdZt+qiD5sSHH++ZCSUTwan7F1i?=
+ =?us-ascii?Q?KIQE5xSFwr5cioKG47YrEGKhtDTGOGzBpTxh2TMqjHjWxmPYcKbxlgO+114/?=
+ =?us-ascii?Q?3+B3QDDTRL9fPr0Pr1SrTOzq+Ra165Wl2oXXOEOYcUB/1rIrMy6W8xovNWfU?=
+ =?us-ascii?Q?dYpEKFNN55peARl2xlg42scuCA33pMDVMDVEfRmnoInhng5/g6B52qSUbUER?=
+ =?us-ascii?Q?Q4chDJCmAiurVeku3z33IhkKJUs0njFaYyGaMEXYwfuyGLNsny1bJ4gIB5NJ?=
+ =?us-ascii?Q?Uw8fSabFrrODiL2X3+RtxpO3FcI4PeczDIhppO+d1A5E+ve0AdQ6QcTKffYY?=
+ =?us-ascii?Q?ocs0k1oAC+z6BNT549iGNyw7DQUsfw5R2x4atlfbpiEOFLUbADFnbSHpRmhg?=
+ =?us-ascii?Q?n/UWJ4vd+8ZLJzeAnmB5mmEI1F7G//5IMbgFH8d48nqpDrrX5Eg7O3nsZU7y?=
+ =?us-ascii?Q?E3OVv6qc+CL39EY9z4EcsR/fKKHzjctqfN7aB8JpRKuOLkop0DQmJjygYGdF?=
+ =?us-ascii?Q?B/LmIbuqjjgfSChkF3+UUjDuCHgwgGTGtGK1R0FFWS6m0LrA0vsvpyjq7tn8?=
+ =?us-ascii?Q?Zsrc7mzw9AhCWvB0KjIU9PajmTcWUuSK6a5puu8bcINn4uBFTrFVwycod1ti?=
+ =?us-ascii?Q?hexcMzjfhRMpFXNnwxczgmuRqL4/KBEYsETnn6vHsHiKiGQ0NkAuBtr/1At1?=
+ =?us-ascii?Q?cSySGzbNQ/iJ/t4VZhju88ahyV7GXvoRFC35QMgsPQcGU3N/VhBhm5hV/lw1?=
+ =?us-ascii?Q?lynwhTTSoHeo1Nx46yozS8GbRZIS5fDEt1VeuYWRyI3thKY3iQoBRs+Lv97A?=
+ =?us-ascii?Q?cwj0hdaIeVPQr0ozCs9Vr9/wfnnuZaWtEnhzYiOKgjsOeBK7Gqmp3q+Kr1pq?=
+ =?us-ascii?Q?/hVW8EsEwBqbyN2+RCM0HM2cdKVxzt4vZvO5N4ZkdJpqDQDNZKB2IzJ10Gxy?=
+ =?us-ascii?Q?c+qOFVOkylMqaK7gbJk4KtIYBRfkLyhEk3Bzh7o7N0cMceHNi8JHHQXu7lsn?=
+ =?us-ascii?Q?6mDfI8IkZaIOBC3QxRdCjIhB/EgAk4oTDdZDPt78626BF7cJEDC+pAvsdnDy?=
+ =?us-ascii?Q?wIOhNhJrakDLe7wwgqYKzjzFo+7iXf4Hy7/Jk7eq4+MHTHSNzdwpkouCwqeK?=
+ =?us-ascii?Q?wsCZuFX4cOzUE1NpdcNUaRH/stvmHAWymqTRWJ+2iFeUy7I5s18YbBqpO8zp?=
+ =?us-ascii?Q?chfJhvGRMwMZiJ8hJMAzKdBba7wQpYM4mD6S2KnUeY2y/rtmcYz9hf42Ehxc?=
+ =?us-ascii?Q?+OsPTsLBcDivsV2VPguFAlOMbGYd3+fT/0M8eOof9cFl8MhLXke7VBpgFnQm?=
+ =?us-ascii?Q?ajDZGR63KLdw1PqElydL8oaN1oSdjpgFoFseNYO67nn1xCRhJWnrEGeBAE/Q?=
+ =?us-ascii?Q?CBbKACivr/6wVQegrDHUT83LLgdgjwXFMpyRjYFJ6pZ0oRcVgw/okpFRuq35?=
+ =?us-ascii?Q?4g=3D=3D?=
+X-MS-Exchange-CrossTenant-Network-Message-Id: 1db2e2b0-0856-4287-baaf-08ddb4e5d038
+X-MS-Exchange-CrossTenant-AuthSource: CY5PR11MB6139.namprd11.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 26 Jun 2025 19:15:29.3902 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: ANR5jBXdwzEsRDb1//RwvtVZ4r7PAStmNdGmxQKm4OrMfFL7fEIr++WUNfPcQ0Rjnfk1HELV923mAzEVvwSt8L/vA5z2APG8zoBh+pSZIDA=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM4PR11MB6503
+X-OriginatorOrg: intel.com
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -73,127 +182,34 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-There are cases when we try to pin a folio but discover that it has
-not been faulted-in. So, we try to allocate it in memfd_alloc_folio()
-but there is a chance that we might encounter a fatal crash/failure
-(VM_BUG_ON(!h->resv_huge_pages) in alloc_hugetlb_folio_reserve()) if
-there are no active reservations at that instant. This issue was
-reported by syzbot:
+On Wed, Jun 25, 2025 at 08:57:40PM -0700, Randy Dunlap wrote:
+>
+>
+>On 6/25/25 12:22 AM, Stephen Rothwell wrote:
+>> Hi all,
+>>
+>> Changes since 20250624:
+>>
+>
+>on i386, when both CONFIG_DRM_XE=y
+>and CONFIG_DRM_I915=y:
+>
+>ld: drivers/gpu/drm/xe/xe_pcode.o: in function `intel_pcode_read':
+>xe_pcode.c:(.text+0x7d0): multiple definition of `intel_pcode_read'; drivers/gpu/drm/i915/intel_pcode.o:intel_pcode.c:(.text+0x990): first defined here
+>ld: drivers/gpu/drm/xe/xe_pcode.o: in function `intel_pcode_write_timeout':
+>xe_pcode.c:(.text+0x850): multiple definition of `intel_pcode_write_timeout'; drivers/gpu/drm/i915/intel_pcode.o:intel_pcode.c:(.text+0x9b0): first defined here
+>ld: drivers/gpu/drm/xe/xe_pcode.o: in function `intel_pcode_request':
+>xe_pcode.c:(.text+0x8f0): multiple definition of `intel_pcode_request'; drivers/gpu/drm/i915/intel_pcode.o:intel_pcode.c:(.text+0x9d0): first defined here
 
-kernel BUG at mm/hugetlb.c:2403!
-Oops: invalid opcode: 0000 [#1] PREEMPT SMP KASAN NOPTI
-CPU: 0 UID: 0 PID: 5315 Comm: syz.0.0 Not tainted
-6.13.0-rc5-syzkaller-00161-g63676eefb7a0 #0
-Hardware name: QEMU Standard PC (Q35 + ICH9, 2009), BIOS
-1.16.3-debian-1.16.3-2~bpo12+1 04/01/2014
-RIP: 0010:alloc_hugetlb_folio_reserve+0xbc/0xc0 mm/hugetlb.c:2403
-Code: 1f eb 05 e8 56 18 a0 ff 48 c7 c7 40 56 61 8e e8 ba 21 cc 09 4c 89
-f0 5b 41 5c 41 5e 41 5f 5d c3 cc cc cc cc e8 35 18 a0 ff 90 <0f> 0b 66
-90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 f3 0f
-RSP: 0018:ffffc9000d3d77f8 EFLAGS: 00010087
-RAX: ffffffff81ff6beb RBX: 0000000000000000 RCX: 0000000000100000
-RDX: ffffc9000e51a000 RSI: 00000000000003ec RDI: 00000000000003ed
-RBP: 1ffffffff34810d9 R08: ffffffff81ff6ba3 R09: 1ffffd4000093005
-R10: dffffc0000000000 R11: fffff94000093006 R12: dffffc0000000000
-R13: dffffc0000000000 R14: ffffea0000498000 R15: ffffffff9a4086c8
-FS:  00007f77ac12e6c0(0000) GS:ffff88801fc00000(0000)
-knlGS:0000000000000000
-CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
-CR2: 00007f77ab54b170 CR3: 0000000040b70000 CR4: 0000000000352ef0
-DR0: 0000000000000000 DR1: 0000000000000000 DR2: 0000000000000000
-DR3: 0000000000000000 DR6: 00000000fffe0ff0 DR7: 0000000000000400
-Call Trace:
- <TASK>
- memfd_alloc_folio+0x1bd/0x370 mm/memfd.c:88
- memfd_pin_folios+0xf10/0x1570 mm/gup.c:3750
- udmabuf_pin_folios drivers/dma-buf/udmabuf.c:346 [inline]
- udmabuf_create+0x70e/0x10c0 drivers/dma-buf/udmabuf.c:443
- udmabuf_ioctl_create drivers/dma-buf/udmabuf.c:495 [inline]
- udmabuf_ioctl+0x301/0x4e0 drivers/dma-buf/udmabuf.c:526
- vfs_ioctl fs/ioctl.c:51 [inline]
- __do_sys_ioctl fs/ioctl.c:906 [inline]
- __se_sys_ioctl+0xf5/0x170 fs/ioctl.c:892
- do_syscall_x64 arch/x86/entry/common.c:52 [inline]
- do_syscall_64+0xf3/0x230 arch/x86/entry/common.c:83
- entry_SYSCALL_64_after_hwframe+0x77/0x7f
+not exclusive to i386... the pcode part used to be guarded by
+CONFIG_DRM_XE_DISPLAY, but that is broken now. Possible fix discussed
+in https://lore.kernel.org/intel-xe/gbisrh7ep2gn2fxv7xz4g4sy75qjpmcr5yqdx5atlab2oxevlx@j3zwx3k4o4x4/
 
-Therefore, prevent the above crash by removing the VM_BUG_ON()
-as there is no need to crash the system in this situation and
-instead we could just fail the allocation request.
+Lucas De Marchi
 
-Furthermore, as described above, the specific situation where this
-happens is when we try to pin memfd folios before they are faulted-in.
-Although, this is a valid thing to do, it is not the regular or the
-common use-case. Let us consider the following scenarios:
 
-1) hugetlbfs_file_mmap()
-    memfd_alloc_folio()
-    hugetlb_fault()
-
-2) memfd_alloc_folio()
-    hugetlbfs_file_mmap()
-    hugetlb_fault()
-
-3) hugetlbfs_file_mmap()
-    hugetlb_fault()
-        alloc_hugetlb_folio()
-
-3) is the most common use-case where first a memfd is allocated
-followed by mmap(), user writes/updates and then the relevant folios
-are pinned (memfd_pin_folios()). The BUG this patch is fixing occurs
-in 2) because we try to pin the folios before hugetlbfs_file_mmap()
-is called. So, in this situation we try to allocate the folios
-before pinning them but since we did not make any reservations,
-resv_huge_pages would be 0, leading to this issue.
-
----
-v1 -> v2:
-- Remove the WARN_ON_ONCE in alloc_hugetlb_folio_reserve() if
-  resv_huge_pages is 0 and instead just return NULL to indicate that
-  that the allocation failed. Otherwise, tools such as Syzbot would
-  continue to report this as a bug. Additionally, since this issue
-  occurs during a situation that is not very common as described in
-  the commit message, it probably does not make sense to emit the
-  warning.
-
-Fixes: 26a8ea80929c ("mm/hugetlb: fix memfd_pin_folios resv_huge_pages leak")
-Reported-by: syzbot+a504cb5bae4fe117ba94@syzkaller.appspotmail.com
-Closes: https://syzkaller.appspot.com/bug?extid=a504cb5bae4fe117ba94
-Closes: https://lore.kernel.org/all/677928b5.050a0220.3b53b0.004d.GAE@google.com/T/
-Cc: Steve Sistare <steven.sistare@oracle.com>
-Cc: Muchun Song <muchun.song@linux.dev>
-Cc: David Hildenbrand <david@redhat.com>
-Cc: Andrew Morton <akpm@linux-foundation.org>
-Cc: Anshuman Khandual <anshuman.khandual@arm.com>
-Cc: Oscar Salvador <osalvador@suse.de>
-Signed-off-by: Vivek Kasireddy <vivek.kasireddy@intel.com>
----
- mm/hugetlb.c | 9 ++++++---
- 1 file changed, 6 insertions(+), 3 deletions(-)
-
-diff --git a/mm/hugetlb.c b/mm/hugetlb.c
-index 8746ed2fec13..a181c55f268b 100644
---- a/mm/hugetlb.c
-+++ b/mm/hugetlb.c
-@@ -2340,12 +2340,15 @@ struct folio *alloc_hugetlb_folio_reserve(struct hstate *h, int preferred_nid,
- 	struct folio *folio;
- 
- 	spin_lock_irq(&hugetlb_lock);
-+	if (!h->resv_huge_pages) {
-+		spin_unlock_irq(&hugetlb_lock);
-+		return NULL;
-+	}
-+
- 	folio = dequeue_hugetlb_folio_nodemask(h, gfp_mask, preferred_nid,
- 					       nmask);
--	if (folio) {
--		VM_BUG_ON(!h->resv_huge_pages);
-+	if (folio)
- 		h->resv_huge_pages--;
--	}
- 
- 	spin_unlock_irq(&hugetlb_lock);
- 	return folio;
--- 
-2.49.0
-
+>
+>
+>-- 
+>~Randy
+>
