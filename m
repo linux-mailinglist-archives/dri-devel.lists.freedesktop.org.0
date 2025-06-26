@@ -2,178 +2,90 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7269BAEA0A8
-	for <lists+dri-devel@lfdr.de>; Thu, 26 Jun 2025 16:33:50 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id BDBC8AEA0E4
+	for <lists+dri-devel@lfdr.de>; Thu, 26 Jun 2025 16:40:21 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 51BAD10E2CB;
-	Thu, 26 Jun 2025 14:33:47 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E0DF110E87E;
+	Thu, 26 Jun 2025 14:40:12 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=topic.nl header.i=@topic.nl header.b="HIPPUfbF";
+	dkim=pass (1024-bit key; unprotected) header.d=chromium.org header.i=@chromium.org header.b="Wa74ePHS";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from DUZPR83CU001.outbound.protection.outlook.com
- (mail-northeuropeazon11022074.outbound.protection.outlook.com [52.101.66.74])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7DC2910E2CB
- for <dri-devel@lists.freedesktop.org>; Thu, 26 Jun 2025 14:33:37 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=hFWlORP1laUH43bMoH4rT6fs/C36iFGTZNzxPxQwImOhlhqnpBFViqXXt4vkL76T5lFMkpfFXfiMqE17JfXrUT0MjjHF4FbbewLLbR9ZBLn2GKZxK+tINzOlFHBrpdK51pEqd8f+xScsjPOBwHF++QCMCUEu1t8w//E8KA1XtvCuq94D4GWtLHjuvAJjvlEcD/0AMNNeNeMPBdz6c8nD+4vgfNcAzo0dI6jno2+R9Thw+qrsWcOiAicACoZINftpE3njUpN7o3VhB1IwvheSRRVBtJsOHSpHSgGvX95yMI9iPw6KvieLygZU7BFzIKzVbMRkAuuV4n8ZDm+JWJWMSg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=wxb83iDBxh9KCeQ98gWFFBezAdpVYApVN0ZW3squQMU=;
- b=Ixcy0j+YCOPhp501/J5BnbseY90YKqpcdHrKbfoXJiKJQrwGan7Xtb3CuNzEJpATeBg8mBAYbeG9j1ucc4haS4X8kvvr/2k9ZXcJuXBJjkJ9aKJX0edsb49bsd65XPLrTTJa0giwsqC7ByaCF1scRTsSSVGBe9g/vzNau42CSsJFf/7OLvjy16+MrMXcXI5jefvxERWFWs1ru1NVTSoJQKptofjZgbMc6lQnZPiambW1MYLqvRpivVYEkY39vZJeZDGwO13quFoXybO8hcuKL8edD5P5+g2EBi0Z7fOybhqg9bPSzvRhAw2S93io1KKIw8f0x50kt/w1+UwTMtNP1Q==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
- 13.93.42.39) smtp.rcpttodomain=lists.freedesktop.org smtp.mailfrom=topic.nl;
- dmarc=pass (p=quarantine sp=quarantine pct=100) action=none
- header.from=topic.nl; dkim=none (message not signed); arc=none (0)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=topic.nl; s=selector2; 
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=wxb83iDBxh9KCeQ98gWFFBezAdpVYApVN0ZW3squQMU=;
- b=HIPPUfbFT8LxTH1a+um3+BlNzZjWVmcLM1ilFh1yp2Ano4B8jhK8uWx7JDToAVIWHbu0w/e5wKFLKKHyxtPYNQO/TeuEfZcmqQOBmU4Pg6ARwlF96AUGb8A99b00kmYLjnw4gzOglluwQNpl3WOBXqBvZCQwI8Sb+/EeHvZvx5WjjuAs5asgdPTMHZkDGKy7vi1qqn3aI4jW95qfu6pRgogXfjUbfev6wjsCiySrxL7aY62b9lijcjcPkqZRTVNMZ7GqW4g88hD50Nu1DWKzMqhaIMkUvYbsO7BoGL1cudTHApI1YVfA4Us2AtbQSQegtR3ia0jvFOlcDUqmjb0oJQ==
-Received: from MR1P264CA0151.FRAP264.PROD.OUTLOOK.COM (2603:10a6:501:54::8) by
- VI0PR04MB10758.eurprd04.prod.outlook.com (2603:10a6:800:25c::10) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8857.30; Thu, 26 Jun
- 2025 14:33:29 +0000
-Received: from DB1PEPF000509ED.eurprd03.prod.outlook.com
- (2603:10a6:501:54:cafe::f6) by MR1P264CA0151.outlook.office365.com
- (2603:10a6:501:54::8) with Microsoft SMTP Server (version=TLS1_3,
- cipher=TLS_AES_256_GCM_SHA384) id 15.20.8880.20 via Frontend Transport; Thu,
- 26 Jun 2025 14:33:28 +0000
-X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 13.93.42.39)
- smtp.mailfrom=topic.nl; dkim=none (message not signed)
- header.d=none;dmarc=pass action=none header.from=topic.nl;
-Received-SPF: Pass (protection.outlook.com: domain of topic.nl designates
- 13.93.42.39 as permitted sender) receiver=protection.outlook.com;
- client-ip=13.93.42.39; helo=westeu12-emailsignatures-cloud.codetwo.com; pr=C
-Received: from westeu12-emailsignatures-cloud.codetwo.com (13.93.42.39) by
- DB1PEPF000509ED.mail.protection.outlook.com (10.167.242.71) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.8880.14 via Frontend Transport; Thu, 26 Jun 2025 14:33:28 +0000
-Received: from AS8PR03CU001.outbound.protection.outlook.com (40.93.65.71) by
- westeu12-emailsignatures-cloud.codetwo.com with CodeTwo SMTP Server (TLS12)
- via SMTP; Thu, 26 Jun 2025 14:33:26 +0000
-Authentication-Results-Original: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=topic.nl;
-Received: from AM8PR04MB7779.eurprd04.prod.outlook.com (2603:10a6:20b:24b::14)
- by AS8PR04MB7911.eurprd04.prod.outlook.com (2603:10a6:20b:28b::8)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8857.29; Thu, 26 Jun
- 2025 14:33:24 +0000
-Received: from AM8PR04MB7779.eurprd04.prod.outlook.com
- ([fe80::7417:d17f:8d97:44d2]) by AM8PR04MB7779.eurprd04.prod.outlook.com
- ([fe80::7417:d17f:8d97:44d2%3]) with mapi id 15.20.8857.026; Thu, 26 Jun 2025
- 14:33:24 +0000
-From: Mike Looijmans <mike.looijmans@topic.nl>
-To: dri-devel@lists.freedesktop.org
-CC: Mike Looijmans <mike.looijmans@topic.nl>,
- Herve Codina <herve.codina@bootlin.com>,
- Andrzej Hajda <andrzej.hajda@intel.com>, David Airlie <airlied@gmail.com>,
- Jernej Skrabec <jernej.skrabec@gmail.com>, Jonas Karlman <jonas@kwiboo.se>,
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>,
- Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>,
- Simona Vetter <simona@ffwll.ch>, Thomas Zimmermann <tzimmermann@suse.de>,
- linux-kernel@vger.kernel.org
-Subject: [PATCH v2] drm/bridge: ti-sn65dsi83: Improve error reporting and
- handling
-Date: Thu, 26 Jun 2025 16:32:09 +0200
-Message-ID: <20250626143317.6887-1-mike.looijmans@topic.nl>
-X-Mailer: git-send-email 2.43.0
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain
-X-ClientProxiedBy: AS4P192CA0052.EURP192.PROD.OUTLOOK.COM
- (2603:10a6:20b:658::6) To AM8PR04MB7779.eurprd04.prod.outlook.com
- (2603:10a6:20b:24b::14)
+Received: from mail-pf1-f181.google.com (mail-pf1-f181.google.com
+ [209.85.210.181])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 464CF10E87E
+ for <dri-devel@lists.freedesktop.org>; Thu, 26 Jun 2025 14:40:03 +0000 (UTC)
+Received: by mail-pf1-f181.google.com with SMTP id
+ d2e1a72fcca58-748e378ba4fso1485897b3a.1
+ for <dri-devel@lists.freedesktop.org>; Thu, 26 Jun 2025 07:40:03 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=chromium.org; s=google; t=1750948798; x=1751553598;
+ darn=lists.freedesktop.org; 
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=0NbDqFXySj+gbUU6xSTy3Imp3ynt9ccm9VYTmcwbQNg=;
+ b=Wa74ePHSoBSoEdea6cDID8Qu7rn78wPIMis7PXThKJKRhQgUcd/JXDcrD37my6NKt1
+ 19AtcSj9kdDta1zs2+v8kHwhJXVLmF5c/Pmg+3k8/vZ5Lr5ISN611T+Kxfq3xm76Wdyi
+ xidcOPUOIOJXn9Thx2RxA2eSWZtzQe+HefCCE=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1750948798; x=1751553598;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=0NbDqFXySj+gbUU6xSTy3Imp3ynt9ccm9VYTmcwbQNg=;
+ b=rl/hA7MkXG6KJyPGCO0hrU1Yk1ME6q/wea03aEhXwbMIoe/hpb3dubEjYKScFwJ6ah
+ Y4z+I0z7I3dKTmGrBWIkaotzKxON8EbjOEmDKyP6kQhKjbiImuAVZvzFd76Neu+dAHo5
+ OoVOPrgDLkSwd4JqaP8hTILGmQiXcarzcX9m35yjoTtnh2QjbZGOrNo63dgL16FIVxyW
+ 5O23OsA7UKvjwK8uJeA1FanNxQ6Fy3JIwXneMpw5XSs5ov91q3zSp7m8pnw6NpnGvlPe
+ JOJTBmQ3U6scEZU4kyz6AkN3f1pGiAAKeY2t7BkhsOXeiIChOe/HZEJuyaZsi2rJVd+j
+ HhSA==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCXMUd1qYKuUfBeoTSQXGz/53xZLzzJz/MHBZ38x6MTil0t4QV1MbqZ4E8n+JkQr2XZenLKs4HQhcBM=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YxOf37Sd+B/yw7n1wbSJF+M7PXb5xNaIIyTwUx5hTX0ggnEnOKy
+ N5MMt0eTkCixTKJWBDnI3LiKnvalnlTzwxepl45E576vlxzhIGgDRJSJr9EOqMLoeCVTdHjbeJL
+ FEbpQL6p7
+X-Gm-Gg: ASbGncuvZG9nvEVM88gdP5hChr80uZaYq3XFNKGEo34hIl8mpdL9TbRE2ilOkQDOiU4
+ pn7IByPDCPpioMdwpZfNYy9oZ6sCd3g7o9HI1NBld/+2qPHydGqWBM4Zc03ArKX5cIc4YFJnLSO
+ goRT75HkZ64IQgUTpLY5T0yceryi1VG1GILkqqZxvgr9qWo4x8/9Iuse1L9aNc8u1mC4GYOZcf3
+ ZdBcEWVBitJT4Ec8zPYpWof2xZzPXC+QW9CrLO7tbtqN9VXIP+c2jUW6BAXeu/b0nXtHCG5w0tx
+ UAtX7ydoisqQMcJHLNhU/OJfI9dTCk+39q6/FX3+lf7w9MQpw15/mr4CawsGrcPVrzKc3JL319U
+ ILKyQA1ir8+6G4Nz18uA5H8kJTGuUSWLWLBudWTA4
+X-Google-Smtp-Source: AGHT+IHHQ06FjQuqagn/u46L1vi5qIN8CqaLvSpErzcT1nblsCs2N+ebabrnW8W6pSupHQ08AmWNEA==
+X-Received: by 2002:a05:6a00:240e:b0:740:67aa:94ab with SMTP id
+ d2e1a72fcca58-74af43dffa5mr189573b3a.0.1750948797890; 
+ Thu, 26 Jun 2025 07:39:57 -0700 (PDT)
+Received: from mail-pg1-f170.google.com (mail-pg1-f170.google.com.
+ [209.85.215.170]) by smtp.gmail.com with ESMTPSA id
+ d2e1a72fcca58-749c883889esm7597633b3a.101.2025.06.26.07.39.55
+ for <dri-devel@lists.freedesktop.org>
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Thu, 26 Jun 2025 07:39:56 -0700 (PDT)
+Received: by mail-pg1-f170.google.com with SMTP id
+ 41be03b00d2f7-b3182c6d03bso1240791a12.0
+ for <dri-devel@lists.freedesktop.org>; Thu, 26 Jun 2025 07:39:55 -0700 (PDT)
+X-Forwarded-Encrypted: i=1;
+ AJvYcCUiVVVvWFcfi4eTT5SxVK/H5ECM50qdvxpegI3zABpR6EHyUniUxCgScMxCSEyzADOBe8YxI/FGD2I=@lists.freedesktop.org
+X-Received: by 2002:a17:90b:5212:b0:312:db8f:9a09 with SMTP id
+ 98e67ed59e1d1-315f25e698bmr11249585a91.14.1750948795378; Thu, 26 Jun 2025
+ 07:39:55 -0700 (PDT)
 MIME-Version: 1.0
-X-MS-TrafficTypeDiagnostic: AM8PR04MB7779:EE_|AS8PR04MB7911:EE_|DB1PEPF000509ED:EE_|VI0PR04MB10758:EE_
-X-MS-Office365-Filtering-Correlation-Id: 101e2b82-828c-46ed-f03c-08ddb4be6aa6
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam-Untrusted: BCL:0;
- ARA:13230040|7416014|52116014|1800799024|366016|376014|38350700014; 
-X-Microsoft-Antispam-Message-Info-Original: =?us-ascii?Q?FqzbBcxirBK9O+aNPuovTGxkYsmJ2f7oD9Qicx9nOyn4Fwtl7VSzef6IsKRk?=
- =?us-ascii?Q?4AwaB6bHTYpm6Njhy8mVhRWhByym6j3aTTww8KqAMcQHhZTRL6Nea3DM1IUj?=
- =?us-ascii?Q?nkFC9ysGAZwO+fOBDpxgn9S27bLR8gfFG3ss73u8Oy4YfOPhCzR4W+hOGNQc?=
- =?us-ascii?Q?3GIwARUyYVbnAPl5dsydLHDAieIMbSbs3hFXLhwDUVoDUJ3mKN4ui6XH5Ngl?=
- =?us-ascii?Q?WPbbNH8YH/RBBzc7IOAcAUaiDw4DxDPZhb4oDHkXsbzS8GodmDcTnd63kV/G?=
- =?us-ascii?Q?ailcxbL89G604VzgIdBHB4uBPCZGfFrj8xsuUYN+MM5Y7Uyp7KfmEzbhBdvt?=
- =?us-ascii?Q?ErDyti1F+qIvXUKE8w2GDmA2oyPbMQlWkIUCCUuR5UO3SSfOEaRi4lujwapc?=
- =?us-ascii?Q?RXhMhvIWpF1KZ2pWLiECZS8wIntBz7cBZLwUQV1GPqoMix4RgmiD+ZhQxCwk?=
- =?us-ascii?Q?NDNAovRhPrd0u7wn+EBhw5S65q3qWv9A6rNNUjw40pakQuGTz6tZDVwDvWyp?=
- =?us-ascii?Q?RieEYP9afWcUoWm0jWtrBgpt/XGiEujLebe6uRD/YhPSLyxGZ4xhhmc6gGTu?=
- =?us-ascii?Q?srSbUxJGssVXj2i4LwZsx09wyPmtNkAs6/UvsYFXkAvQvSKSVg0L4g7Ru+cM?=
- =?us-ascii?Q?7D281DbS+RgcJlqxtc1bTIrzWMsl3b40kv767JA0c/7jSx4c5F8Foz60qgvX?=
- =?us-ascii?Q?eV1kOeKDD9zfk2eHNe6g9KX+G2FQPR+jY7OmKbvlIie+Y9KioKIdHr26Mj2H?=
- =?us-ascii?Q?2gVY1JZd/09ef6wKViogkOU9vvgrSkIqin+5RVGwxlrs6GFFSlKWSw4Yn2we?=
- =?us-ascii?Q?YtZS/z78zXw1BqUsqUHyTNvfrP169oHv8PN999w2qi9aNYDQ4n+ehVTTPQrb?=
- =?us-ascii?Q?JJHpLGunfIX/HL8DfZim02snFHfFyJGC8UewiwLUEatqaHuM3k5SWPoLSouT?=
- =?us-ascii?Q?wz2UudBtXURPKkQoiMvXPVloE6PwPTKEG5Utc1d62BMJINygkLq1DxxYJz5h?=
- =?us-ascii?Q?TYZjVsxhYGVhKdjz1YGznpocrLugn+rqH+3kzM85/r+wp7ykOCVQybeIhe8b?=
- =?us-ascii?Q?RpqlSwn3Az8uqMBgtzPfK+6y9C856TrnbbQaYWedrzkm6SFdzZiJb+Bzn7MZ?=
- =?us-ascii?Q?vrUp2G1XgNRNZquUBCpry3rn9B+JyYPYQ24YJDuvEvijGVgp8WW0dmteLkZn?=
- =?us-ascii?Q?ggGFpu1R4ZGHGf2jaYBTXVLB+KeZ+FJ4j9q4AVD8gCUiFi98uu777ABLHnkL?=
- =?us-ascii?Q?T37/Tl/Bjzzc1aIEECC0O5H9Wbn+zJwQbgEF2dDD3AkBJ/L6JIJKaNvduIG4?=
- =?us-ascii?Q?nncgDJUSmvDpKZz8ZmvXpflin5Dfdw0sdXeiZinKWQTrqgSZ9tsOWBmvk+zg?=
- =?us-ascii?Q?5fOAFKfkV1wyDBshBzDSaRPtj4HnhOmc80h54j9x8OJ3olXPWVQVECseNyD3?=
- =?us-ascii?Q?dIqKNPJavVc85KNJslF6GMw47UgOY/DPQeuPF84gbLjBRVyyVVPF7g=3D=3D?=
-X-Forefront-Antispam-Report-Untrusted: CIP:255.255.255.255; CTRY:; LANG:en;
- SCL:1; SRV:; IPV:NLI; SFV:NSPM; H:AM8PR04MB7779.eurprd04.prod.outlook.com;
- PTR:; CAT:NONE;
- SFS:(13230040)(7416014)(52116014)(1800799024)(366016)(376014)(38350700014);
- DIR:OUT; SFP:1102; 
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: AS8PR04MB7911
-X-CodeTwo-MessageID: e7ed014c-3cb4-4049-82ea-b9ac4353a51a.20250626143326@westeu12-emailsignatures-cloud.codetwo.com
-References: <1b153bce-a66a-45ee-a5c6-963ea6fb1c82.949ef384-8293-46b8-903f-40a477c056ae.8e64d001-44d0-4ed0-bd88-0e403104fd4c@emailsignatures365.codetwo.com>
-X-CodeTwoProcessed: true
-X-EOPAttributedMessage: 0
-X-MS-Exchange-Transport-CrossTenantHeadersStripped: DB1PEPF000509ED.eurprd03.prod.outlook.com
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id-Prvs: b084e303-8930-4e7c-9069-08ddb4be6846
-X-Microsoft-Antispam: BCL:0;
- ARA:13230040|1800799024|36860700013|14060799003|35042699022|82310400026|376014|7416014;
-X-Microsoft-Antispam-Message-Info: =?us-ascii?Q?Q/Cqlw0Z8UV2YfC77FR1pTsimSDVj3KZRPSXzSY+4Bc3hvi07Aklmw/f5w4B?=
- =?us-ascii?Q?xN2w+iZHzHD7ZQ6itH/7xthCchKe/KeGe8aBYQABRKorKZ4qKnwUa1Oe64ko?=
- =?us-ascii?Q?CvhK+btRryh2V0Sy6Ei1ipVRCA6a2XoEy/fH1a+oQWzAOP5ZvGkYBUsKWjto?=
- =?us-ascii?Q?sT+4YYA55o3uA14sREZoNOk5xbmJxVIhcyTYD+x5iEEMCn472SV4uBbrLuVO?=
- =?us-ascii?Q?8ZezHFzvho2STFCkE6SrMUYKD0KqS6aXUXSnmbQ3ri4CGL6iO/BOIAnk90zJ?=
- =?us-ascii?Q?b3vxuAk/nlZEENAaWW7hthK3V9sJhr3x1i8UUgg9qK/htktR7xY4/1ud4pct?=
- =?us-ascii?Q?6cNQmlwvp3ZunSVfboTLDAaSkhSxesuYJddefdjjoTbI1AJp3OwaeancpGeU?=
- =?us-ascii?Q?yi4cqt1JAf86JgahOFW5sG73wGvwy0NyV2z3vcqvFDollweoAp23YbhToMHp?=
- =?us-ascii?Q?rc9oJehue/+EEM2D0P2EMwN7uXy9llWp38yHap5HeWs57evs7tTorNoXvvpY?=
- =?us-ascii?Q?qaiWLJpuyKcjruzMqzdldPYQE8eTm4FyBZ5mlY3N1S13nn/XVtOtdaI7dddW?=
- =?us-ascii?Q?dHQEK+22WX+BfgY/1+yAG1I30CJ/tpimKigSoghrSnR0BcXpyQguAwHZEnWk?=
- =?us-ascii?Q?Sz1QMZYizST2s3XDqO5u/JqyvQYYjjLbTT3XJJO22WoUj1W+LxK0CM1DF3gV?=
- =?us-ascii?Q?Tt0reAMGbr8HJBdKP9PrAuoF9Ammek4qBe8+89O6qqcRn2uXXZIT9kXsq8hF?=
- =?us-ascii?Q?OIlcdTseoxw2j2DposicoT4u1YPZY5I/UJz/gcZOYKM3Nx649cxYbk+LlYQE?=
- =?us-ascii?Q?HImtQbQdWjK7m59N7GF9XF5PDuVByMAiSE/t/nedAg0onVWphjzrBiO5yndK?=
- =?us-ascii?Q?sPdYiv4i+rJ9tRqvyS5FnWY4ywlnmhB105WOmUMI4ye3SCFPxxjBOah7hSS/?=
- =?us-ascii?Q?NFubb6riDf0oblHou8gP/qIRT+HASrtUe7HENQ6WpuT3dA6A96DOxKxpPKuy?=
- =?us-ascii?Q?VyYCTzLhpDQ2hqikCL4Ya8i88TXZskmuAQnCv4zJfpliKh276oyhObJX7aav?=
- =?us-ascii?Q?EXNrzE/svB6EyJIe1vpMZ+/wMoB5Vm2l20PnY3jwBxW5gFLQqLb38eX4SimG?=
- =?us-ascii?Q?zlBzT10Ec4ImJmkclRiYnoisrq+JJqbUwKVXNWPb8cGbfwKMuhrsB3H/bhyN?=
- =?us-ascii?Q?kUvmU8ytiZu4HejU/bheJIbTa7p8UbgYtjwWvKSenHsViFaqrpxUp+HPev0I?=
- =?us-ascii?Q?+5098998V2CJ2qaUxPkY+r2hc9CrFj/NzkoXCx7pu8Dtn57Y9m56oFe14JNz?=
- =?us-ascii?Q?eOO/Rw3aJfNPK69rr8Qt1jglsDbslbL8OEqqLIf3JNaYmVJr+AmMarb4GsNL?=
- =?us-ascii?Q?Fn9+3wbIf5zgFJBDjaoH1P7hDSSv7FmcQulpZ2dRJPVEqGBE2v98WHoZaq2H?=
- =?us-ascii?Q?EH1ZsuMYNNN/hYHBttreGPeko1a+r0ciM9Cx+QKLis7M+5XO3APmzQ=3D=3D?=
-X-Forefront-Antispam-Report: CIP:13.93.42.39; CTRY:NL; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:westeu12-emailsignatures-cloud.codetwo.com;
- PTR:westeu12-emailsignatures-cloud.codetwo.com; CAT:NONE;
- SFS:(13230040)(1800799024)(36860700013)(14060799003)(35042699022)(82310400026)(376014)(7416014);
- DIR:OUT; SFP:1102; 
-X-OriginatorOrg: topic.nl
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 26 Jun 2025 14:33:28.0280 (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: 101e2b82-828c-46ed-f03c-08ddb4be6aa6
-X-MS-Exchange-CrossTenant-Id: 449607a5-3517-482d-8d16-41dd868cbda3
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=449607a5-3517-482d-8d16-41dd868cbda3; Ip=[13.93.42.39];
- Helo=[westeu12-emailsignatures-cloud.codetwo.com]
-X-MS-Exchange-CrossTenant-AuthSource: DB1PEPF000509ED.eurprd03.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Anonymous
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: VI0PR04MB10758
+References: <20250626122854.193239-1-yelangyan@huaqin.corp-partner.google.com>
+In-Reply-To: <20250626122854.193239-1-yelangyan@huaqin.corp-partner.google.com>
+From: Doug Anderson <dianders@chromium.org>
+Date: Thu, 26 Jun 2025 07:39:43 -0700
+X-Gmail-Original-Message-ID: <CAD=FV=XHVKvsJwHzuL+7bv70LvcC2Y-y1C3_aZ7rsAki3cJOGg@mail.gmail.com>
+X-Gm-Features: Ac12FXxkqZPpQXyw5nU2lsKO8nED1gWJWX73WnTNQEt8Js0cUhmqSOeE9SC36iU
+Message-ID: <CAD=FV=XHVKvsJwHzuL+7bv70LvcC2Y-y1C3_aZ7rsAki3cJOGg@mail.gmail.com>
+Subject: Re: [PATCH] drm/panel-edp: Add CMN N116BCJ-EAK
+To: Langyan Ye <yelangyan@huaqin.corp-partner.google.com>
+Cc: neil.armstrong@linaro.org, jessica.zhang@oss.qualcomm.com, 
+ maarten.lankhorst@linux.intel.com, mripard@kernel.org, tzimmermann@suse.de, 
+ airlied@gmail.com, simona@ffwll.ch, dri-devel@lists.freedesktop.org, 
+ linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -189,159 +101,47 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The datasheet advises to wait 5ms after starting the video stream before
-resetting the error registers. The driver only waits 1ms. Change the
-sequence to match the datasheet:
-- Turn on the DSI
-- Wait 5ms
-- Write 0xFF to CSR 0xE5 to clear the error registers
+Hi,
 
-Don't read the error register (which may fail), just write 0xff as the
-datasheet suggests.
+On Thu, Jun 26, 2025 at 5:29=E2=80=AFAM Langyan Ye
+<yelangyan@huaqin.corp-partner.google.com> wrote:
+>
+> Add support for the CMN N116BCJ-EAK, pleace the EDID here for
+> subsequent reference.
+>
+> 00 ff ff ff ff ff ff 00 0d ae 63 11 00 00 00 00
+> 19 22 01 04 95 1a 0e 78 02 67 75 98 59 53 90 27
+> 1c 50 54 00 00 00 01 01 01 01 01 01 01 01 01 01
+> 01 01 01 01 01 01 da 1d 56 e2 50 00 20 30 30 20
+> a6 00 00 90 10 00 00 18 00 00 00 fe 00 4e 31 31
+> 36 42 43 4a 2d 45 41 4b 0a 20 00 00 00 fe 00 43
+> 4d 4e 0a 20 20 20 20 20 20 20 20 20 00 00 00 fe
+> 00 4e 31 31 36 42 43 4a 2d 45 41 4b 0a 20 00 80
+>
+> Signed-off-by: Langyan Ye <yelangyan@huaqin.corp-partner.google.com>
+> ---
+>  drivers/gpu/drm/panel/panel-edp.c | 1 +
+>  1 file changed, 1 insertion(+)
+>
+> diff --git a/drivers/gpu/drm/panel/panel-edp.c b/drivers/gpu/drm/panel/pa=
+nel-edp.c
+> index 6c45c9e879ec..3796c41629cc 100644
+> --- a/drivers/gpu/drm/panel/panel-edp.c
+> +++ b/drivers/gpu/drm/panel/panel-edp.c
+> @@ -1967,6 +1967,7 @@ static const struct edp_panel_entry edp_panels[] =
+=3D {
+>         EDP_PANEL_ENTRY('C', 'M', 'N', 0x115e, &delay_200_500_e80_d50, "N=
+116BCA-EA1"),
+>         EDP_PANEL_ENTRY('C', 'M', 'N', 0x1160, &delay_200_500_e80_d50, "N=
+116BCJ-EAK"),
+>         EDP_PANEL_ENTRY('C', 'M', 'N', 0x1161, &delay_200_500_e80, "N116B=
+CP-EA2"),
+> +       EDP_PANEL_ENTRY('C', 'M', 'N', 0x1163, &delay_200_500_e80_d50, "N=
+116BCJ-EAK"),
 
-The driver creates a timer or IRQ handler that reads the error register,
-which implements the "wait some time and read the register" part.
+Reviewed-by: Douglas Anderson <dianders@chromium.org>
 
-When using a timer to poll the status register, the timer did not stop
-when the error handler triggers a reset. This has been observed to cause
-a series of multiple resets. Let handle_errors return a bool indicating
-whether all is fine, and only extend the time when it returns true. That
-also allows the IRQ disable call to move to the interrupt routine.
+...and pushed to drm-misc-next:
 
-When the error handler does trigger, log a message that explains the
-reset cause.
-
-Fixes: ad5c6ecef27e ("drm: bridge: ti-sn65dsi83: Add error recovery mechani=
-sm")
-Signed-off-by: Mike Looijmans <mike.looijmans@topic.nl>
-Reviewed-by: Herve Codina <herve.codina@bootlin.com>
-
----
-
-Changes in v2:
-Added missing verb "re-enabled" in IRQ comment (as suggested by HC)
-
- drivers/gpu/drm/bridge/ti-sn65dsi83.c | 50 +++++++++++++++------------
- 1 file changed, 28 insertions(+), 22 deletions(-)
-
-diff --git a/drivers/gpu/drm/bridge/ti-sn65dsi83.c b/drivers/gpu/drm/bridge=
-/ti-sn65dsi83.c
-index 033c44326552..8b21d8d689e4 100644
---- a/drivers/gpu/drm/bridge/ti-sn65dsi83.c
-+++ b/drivers/gpu/drm/bridge/ti-sn65dsi83.c
-@@ -417,7 +417,7 @@ static void sn65dsi83_reset_work(struct work_struct *ws=
-)
- 		enable_irq(ctx->irq);
- }
-=20
--static void sn65dsi83_handle_errors(struct sn65dsi83 *ctx)
-+static bool sn65dsi83_handle_errors(struct sn65dsi83 *ctx)
- {
- 	unsigned int irq_stat;
- 	int ret;
-@@ -430,17 +430,20 @@ static void sn65dsi83_handle_errors(struct sn65dsi83 =
-*ctx)
-=20
- 	ret =3D regmap_read(ctx->regmap, REG_IRQ_STAT, &irq_stat);
- 	if (ret || irq_stat) {
--		/*
--		 * IRQ acknowledged is not always possible (the bridge can be in
--		 * a state where it doesn't answer anymore). To prevent an
--		 * interrupt storm, disable interrupt. The interrupt will be
--		 * after the reset.
--		 */
--		if (ctx->irq)
--			disable_irq_nosync(ctx->irq);
-+		if (ret) {
-+			dev_err(ctx->dev, "Communication failure\n");
-+		} else {
-+			dev_err(ctx->dev, "Error status: 0x%02x\n", irq_stat);
-+			/* Clear errors if the chip was still responding */
-+			regmap_write(ctx->regmap, REG_IRQ_STAT, irq_stat);
-+		}
-=20
- 		schedule_work(&ctx->reset_work);
-+
-+		return false;
- 	}
-+
-+	return true;
- }
-=20
- static void sn65dsi83_monitor_work(struct work_struct *work)
-@@ -448,9 +451,8 @@ static void sn65dsi83_monitor_work(struct work_struct *=
-work)
- 	struct sn65dsi83 *ctx =3D container_of(to_delayed_work(work),
- 					     struct sn65dsi83, monitor_work);
-=20
--	sn65dsi83_handle_errors(ctx);
--
--	schedule_delayed_work(&ctx->monitor_work, msecs_to_jiffies(1000));
-+	if (sn65dsi83_handle_errors(ctx))
-+		schedule_delayed_work(&ctx->monitor_work, msecs_to_jiffies(1000));
- }
-=20
- static void sn65dsi83_monitor_start(struct sn65dsi83 *ctx)
-@@ -639,18 +641,13 @@ static void sn65dsi83_atomic_enable(struct drm_bridge=
- *bridge,
- 				    struct drm_atomic_state *state)
- {
- 	struct sn65dsi83 *ctx =3D bridge_to_sn65dsi83(bridge);
--	unsigned int pval;
-=20
-+	/* Wait 5 ms after starting DSI stream */
-+	usleep_range(5000, 5500);
- 	/* Clear all errors that got asserted during initialization. */
--	regmap_read(ctx->regmap, REG_IRQ_STAT, &pval);
--	regmap_write(ctx->regmap, REG_IRQ_STAT, pval);
--
--	/* Wait for 1ms and check for errors in status register */
--	usleep_range(1000, 1100);
--	regmap_read(ctx->regmap, REG_IRQ_STAT, &pval);
--	if (pval)
--		dev_err(ctx->dev, "Unexpected link status 0x%02x\n", pval);
-+	regmap_write(ctx->regmap, REG_IRQ_STAT, 0xff);
-=20
-+	/* Start checking for errors in status register */
- 	if (ctx->irq) {
- 		/* Enable irq to detect errors */
- 		regmap_write(ctx->regmap, REG_IRQ_GLOBAL, REG_IRQ_GLOBAL_IRQ_EN);
-@@ -929,7 +926,16 @@ static irqreturn_t sn65dsi83_irq(int irq, void *data)
- {
- 	struct sn65dsi83 *ctx =3D data;
-=20
--	sn65dsi83_handle_errors(ctx);
-+	if (!sn65dsi83_handle_errors(ctx)) {
-+		/*
-+		 * IRQ acknowledged is not always possible (the bridge can be in
-+		 * a state where it doesn't answer anymore). To prevent an
-+		 * interrupt storm, disable interrupt. The interrupt will be
-+		 * re-enabled after the reset.
-+		 */
-+		disable_irq_nosync(ctx->irq);
-+	}
-+
- 	return IRQ_HANDLED;
- }
-=20
---=20
-2.43.0
-
-base-commit: 78f4e737a53e1163ded2687a922fce138aee73f5
-branch: linux-master-sn65dsi83-errorhandling
-
-Met vriendelijke groet / kind regards,=0A=
-=0A=
-Mike Looijmans=0A=
-System Expert=0A=
-=0A=
-=0A=
-TOPIC Embedded Products B.V.=0A=
-Materiaalweg 4, 5681 RJ Best=0A=
-The Netherlands=0A=
-=0A=
-T: +31 (0) 499 33 69 69=0A=
-E: mike.looijmans@topic.nl=0A=
-W: www.topic.nl=0A=
-=0A=
-Please consider the environment before printing this e-mail=0A=
+[1/1] drm/panel-edp: Add CMN N116BCJ-EAK
+      commit: 34a3554a1c7059b861db2aafb052a256f38813d6
