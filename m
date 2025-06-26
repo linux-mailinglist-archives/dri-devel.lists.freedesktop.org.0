@@ -2,46 +2,43 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 74175AE9AB3
-	for <lists+dri-devel@lfdr.de>; Thu, 26 Jun 2025 12:05:14 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id C0EA4AE9AB4
+	for <lists+dri-devel@lfdr.de>; Thu, 26 Jun 2025 12:05:19 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5975810E851;
-	Thu, 26 Jun 2025 10:05:12 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D829F10E895;
+	Thu, 26 Jun 2025 10:05:17 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="R4581Oin";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="l2GmHgjn";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from sea.source.kernel.org (sea.source.kernel.org [172.234.252.31])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C382F10E8AE
- for <dri-devel@lists.freedesktop.org>; Thu, 26 Jun 2025 10:05:10 +0000 (UTC)
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1C50E10E8AB
+ for <dri-devel@lists.freedesktop.org>; Thu, 26 Jun 2025 10:05:16 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by sea.source.kernel.org (Postfix) with ESMTP id 63A4E4342A;
- Thu, 26 Jun 2025 10:05:09 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id BDE2AC4CEEB;
- Thu, 26 Jun 2025 10:05:08 +0000 (UTC)
+ by dfw.source.kernel.org (Postfix) with ESMTP id E46685C667D;
+ Thu, 26 Jun 2025 10:02:55 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 93A81C4CEEF;
+ Thu, 26 Jun 2025 10:05:11 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1750932309;
- bh=bztUm11bzIIz+ufx6vgwEyDXl6PPou2zghLXJd6roOM=;
- h=From:Subject:Date:To:Cc:From;
- b=R4581Oinml9tzbAYr2fAVMbuPItNawPCT8+CLi3CPjakS2Zlb9VRw5KhOSsPOYIRE
- HqwCciJkgnhV0GSwPfNkAVQrLnTTGVBzUya4EC1iM0EzXW6pq84fpIR9q6AWDGTojT
- Y+9dfy+yRX+qxQLzU0Bfux/kSUQaiHpaCymkqb9ikYFpSezBJh+jvAB2+BiyvnDnvA
- CUr7YtOmEJ5fBkSsEdKx7zSv9DO1YyPkCPKED2M+VjUs0RWF5aXyd7TezHB0TNN25I
- +BqNedi9V7zZ5Vs1s3nbPuSuOteJrd19ocsg+NGc7Zo2N5r6scRRkUY4YYXq173aIX
- mcjXPgRnxbxVQ==
+ s=k20201202; t=1750932311;
+ bh=3k4h3hHEk7NoxoOrxbmYWfStsX8RNDzQCxVAQ8vhmp4=;
+ h=From:Date:Subject:References:In-Reply-To:To:Cc:From;
+ b=l2GmHgjnAsJeXxSAfGAU6kLeVg9VNE7t4zaaxjBpQh7L4YbnwXYPSCXXCtuhCPba6
+ i7ys+XBB/zN4hpe+Q/4O47xHVsC0viNL2iPaVMOM4H76x5vFaKQnWUWKgxEaVWTEye
+ dP0CdnIzCs4GJBROUdYqJAJkQPWJFZRfkdfTEcP2Lzc5KyJbKPigYqzys+wrhOcGog
+ qAFDN0bSR+ryZ51U11qMrSoPdcqgNyLGhHswT8LO+vHq0E4DpyaCudc6nx9oTtJJnA
+ xa68nMlIaJPZN0GUFPNdM3OLb4hP7KTQRpMBwW4gMs08SvPKG5jgdKjzJUyIOw7eS0
+ xxHn3pX+U5AzQ==
 From: Maxime Ripard <mripard@kernel.org>
-Subject: [PATCH v2 0/5] drm/panel: panel-simple: Fix panel-dpi probe error
-Date: Thu, 26 Jun 2025 12:04:58 +0200
-Message-Id: <20250626-drm-panel-simple-fixes-v2-0-5afcaa608bdc@kernel.org>
+Date: Thu, 26 Jun 2025 12:04:59 +0200
+Subject: [PATCH v2 1/5] drm/mipi-dsi: Add dev_is_mipi_dsi function
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-X-B4-Tracking: v=1; b=H4sIAEobXWgC/3WNSw6CMBCGr0Jm7ZhSCxZW3sOwKDDARF6ZmkZDu
- LuVxKXL739u4EmYPJTJBkKBPS9zBH1KoBnc3BNyGxm00pnKtcFWJlzdTCN6ntaRsOMXeXTttbO
- 2LtxFW4jlVegwYvdeRR7YPxd5Hz8h/aq/yezfZEhRYWO0NYVxNq/t7UESU+dFeqj2ff8As7pd0
- L0AAAA=
-X-Change-ID: 20250624-drm-panel-simple-fixes-ad7f88b9a328
+Message-Id: <20250626-drm-panel-simple-fixes-v2-1-5afcaa608bdc@kernel.org>
+References: <20250626-drm-panel-simple-fixes-v2-0-5afcaa608bdc@kernel.org>
+In-Reply-To: <20250626-drm-panel-simple-fixes-v2-0-5afcaa608bdc@kernel.org>
 To: Neil Armstrong <neil.armstrong@linaro.org>, 
  Jessica Zhang <quic_jesszhan@quicinc.com>, 
  Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
@@ -52,12 +49,12 @@ To: Neil Armstrong <neil.armstrong@linaro.org>,
 Cc: dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org, 
  Maxime Ripard <mripard@kernel.org>
 X-Mailer: b4 0.14.2
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1306; i=mripard@kernel.org;
- h=from:subject:message-id; bh=bztUm11bzIIz+ufx6vgwEyDXl6PPou2zghLXJd6roOM=;
- b=owGbwMvMwCmsHn9OcpHtvjLG02pJDBmx0v4KDws2sa97Zri0Z20tS1Sfj0z1yctiyV4Ms21n7
- fWv+5vbMZWFQZiTQVZMkeWJTNjp5e2LqxzsV/6AmcPKBDKEgYtTACZiw87Y8OXYvTyx9hBW662F
- 7zYXcr8t7j98J3gT53TOr08mO9jtXeB08nnvXua+R9OizypsUNEoYayVXqWmqyPvtipDdRd7y/8
- 0i7DXx5R4bBbkMX32XCD/S1wpI5TXL3Li9vM/Au78Oq/e4wkA
+X-Developer-Signature: v=1; a=openpgp-sha256; l=2020; i=mripard@kernel.org;
+ h=from:subject:message-id; bh=3k4h3hHEk7NoxoOrxbmYWfStsX8RNDzQCxVAQ8vhmp4=;
+ b=owGbwMvMwCmsHn9OcpHtvjLG02pJDBmx0gHZ6o8/Je6+fHa2yrtogwvnrhzKfL07aUf7iY9/z
+ s5e+/vhj46pLAzCnAyyYoosT2TCTi9vX1zlYL/yB8wcViaQIQxcnAIwkfIQxvqMTReXn9SQ8LAW
+ 3MhdWLXFVvT+WgbP5Adqlz/v/9tZ+vFSeIsLT+T3lCaHSmXLx0VruBgbOnb4f/KvznzL//gVz97
+ 2yRkvfh0LuiwqL8K57UKNg1azSVK4klSNurbwlycNUtz334QDAA==
 X-Developer-Key: i=mripard@kernel.org; a=openpgp;
  fpr=BE5675C37E818C8B5764241C254BCFC56BF6CE8D
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -75,41 +72,58 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi,
+This will be especially useful for generic panels (like panel-simple)
+which can take different code path depending on if they are MIPI-DSI
+devices or platform devices.
 
-Here's a series fixing (hopefully) the panel-simple regression for
-panels with a panel-dpi compatible.
-
-It's only build tested, so if you could give that series a try
-Francesco, I'd really appreciate it.
-
-Thanks!
-Maxime 
-
-Link: https://lore.kernel.org/dri-devel/20250612081834.GA248237@francesco-nb/
 Signed-off-by: Maxime Ripard <mripard@kernel.org>
 ---
-Changes in v2:
-- Fix build failure if !DRM_MIPI_DSI and DRM_PANEL_SIMPLE=m
-- Link to v1: https://lore.kernel.org/r/20250625-drm-panel-simple-fixes-v1-0-c428494a86b8@kernel.org
+ drivers/gpu/drm/drm_mipi_dsi.c | 3 ++-
+ include/drm/drm_mipi_dsi.h     | 3 +++
+ 2 files changed, 5 insertions(+), 1 deletion(-)
 
----
-Maxime Ripard (5):
-      drm/mipi-dsi: Add dev_is_mipi_dsi function
-      drm/panel: panel-simple: make panel_dpi_probe return a panel_desc
-      drm/panel: panel-simple: Make panel_simple_probe return its panel
-      drm/panel: panel-simple: Add function to look panel data up
-      drm/panel: panel-simple: get rid of panel_dpi hack
+diff --git a/drivers/gpu/drm/drm_mipi_dsi.c b/drivers/gpu/drm/drm_mipi_dsi.c
+index e5184a0c24651756ee0b1eb27d94083d63eb35a7..21fd647f8ce1a6a862e2f8fb5320e701f26f614f 100644
+--- a/drivers/gpu/drm/drm_mipi_dsi.c
++++ b/drivers/gpu/drm/drm_mipi_dsi.c
+@@ -89,16 +89,17 @@ static const struct dev_pm_ops mipi_dsi_device_pm_ops = {
+ 	.thaw = pm_generic_thaw,
+ 	.poweroff = pm_generic_poweroff,
+ 	.restore = pm_generic_restore,
+ };
+ 
+-static const struct bus_type mipi_dsi_bus_type = {
++const struct bus_type mipi_dsi_bus_type = {
+ 	.name = "mipi-dsi",
+ 	.match = mipi_dsi_device_match,
+ 	.uevent = mipi_dsi_uevent,
+ 	.pm = &mipi_dsi_device_pm_ops,
+ };
++EXPORT_SYMBOL_GPL(mipi_dsi_bus_type);
+ 
+ /**
+  * of_find_mipi_dsi_device_by_node() - find the MIPI DSI device matching a
+  *    device tree node
+  * @np: device tree node
+diff --git a/include/drm/drm_mipi_dsi.h b/include/drm/drm_mipi_dsi.h
+index b37860f4a895c25ef8ba1c5b3f44827ef53aa100..6d2c08e8110151a97620389197f1ef79c058329d 100644
+--- a/include/drm/drm_mipi_dsi.h
++++ b/include/drm/drm_mipi_dsi.h
+@@ -221,10 +221,13 @@ struct mipi_dsi_multi_context {
+ 
+ #define MIPI_DSI_MODULE_PREFIX "mipi-dsi:"
+ 
+ #define to_mipi_dsi_device(__dev)	container_of_const(__dev, struct mipi_dsi_device, dev)
+ 
++extern const struct bus_type mipi_dsi_bus_type;
++#define dev_is_mipi_dsi(dev)	((dev)->bus == &mipi_dsi_bus_type)
++
+ /**
+  * mipi_dsi_pixel_format_to_bpp - obtain the number of bits per pixel for any
+  *                                given pixel format defined by the MIPI DSI
+  *                                specification
+  * @fmt: MIPI DSI pixel format
 
- drivers/gpu/drm/drm_mipi_dsi.c       |   3 +-
- drivers/gpu/drm/panel/panel-simple.c | 132 ++++++++++++++++++++++-------------
- include/drm/drm_mipi_dsi.h           |   3 +
- 3 files changed, 87 insertions(+), 51 deletions(-)
----
-base-commit: 86731a2a651e58953fc949573895f2fa6d456841
-change-id: 20250624-drm-panel-simple-fixes-ad7f88b9a328
-
-Best regards,
 -- 
-Maxime Ripard <mripard@kernel.org>
+2.49.0
 
