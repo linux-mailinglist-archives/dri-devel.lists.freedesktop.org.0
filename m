@@ -2,66 +2,74 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4644EAEAAA5
-	for <lists+dri-devel@lfdr.de>; Fri, 27 Jun 2025 01:33:25 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 12FFAAEAACA
+	for <lists+dri-devel@lfdr.de>; Fri, 27 Jun 2025 01:43:11 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 915DA10E925;
-	Thu, 26 Jun 2025 23:33:23 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3F54289C5E;
+	Thu, 26 Jun 2025 23:43:08 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="DW9xo6/l";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="eR4eaI9J";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from sea.source.kernel.org (sea.source.kernel.org [172.234.252.31])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6AD6F10E925
- for <dri-devel@lists.freedesktop.org>; Thu, 26 Jun 2025 23:33:22 +0000 (UTC)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by sea.source.kernel.org (Postfix) with ESMTP id 76F1B457A3;
- Thu, 26 Jun 2025 23:33:20 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 59CECC4CEEB;
- Thu, 26 Jun 2025 23:33:18 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1750980800;
- bh=vbC2GLOPug5kOMvejYkJyMkJ9xu1B3O8gjNYLt5ErVk=;
- h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
- b=DW9xo6/lYAVQiwgc1gQ50Tgcs4VY4qQJqnlo3+KOkhY4Ig4ItPZ/hQ8pP8sl2717W
- LrXTt2n9Tuohuix3Qg8C0pWunv8kympVYEFcI7hS/fGqIaLGL8da1MH/Ar6JXnH6FT
- bsDihuEDI4RD0UegoB2QyZiRSa/f1Z02MM1O0jPa3Lzb8tyVCrmjqUTl9oAkewG/CN
- dmnglJAANFHsnviXQc7QcSktYcwsm1e3esJTNxIN2QLkbt/mJGFFeOxzccZGLI2gyB
- 6beMyO8BIt4Elomey3lOqu0ZYg0kygV3LmEtminDytwzgzLC3jZPpeQVbFh8q1ztQG
- CjxHW59JgL7RQ==
-Message-ID: <5cc01163-1feb-4a18-8060-27f4da39b2e4@kernel.org>
-Date: Thu, 26 Jun 2025 18:33:15 -0500
-MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v5 9/9] PCI: Add a new 'boot_display' attribute
-To: Bjorn Helgaas <helgaas@kernel.org>
-Cc: Bjorn Helgaas <bhelgaas@google.com>,
- Alex Deucher <alexander.deucher@amd.com>,
- =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- Lukas Wunner <lukas@wunner.de>,
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.14])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7BD7589C5E
+ for <dri-devel@lists.freedesktop.org>; Thu, 26 Jun 2025 23:43:06 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1750981386; x=1782517386;
+ h=date:from:to:cc:subject:message-id:references:
+ mime-version:in-reply-to;
+ bh=urZl6JTvJf0apVJYt9mU6sqER8QXulKfZ2pqNl0VDWg=;
+ b=eR4eaI9Ji7nw9bj+7EcYfecw1PjHou3cQC17/Q4SGz7hCjUPrFo+w87s
+ wpCmyHESiiryx2dW8br3Ezo8vFqbbu04vW9gzaVIJ5Qe8/YXh+cxeKwzV
+ hpNAUsj5YGPO5CuHZJi8tMQpkhO4Kk6h1iISu3DKQlirfDTMBNn8Lo3wp
+ lHszSqOUlkL7Jp+YiA5EeJaEQJqw56LuKZ5fpuPFZgn4QCsRaSFR/b55E
+ tpuiTbgP7ECM6nlswPPj0dm6MAa8u5x74fDI2aAvQYm23bWPsY5E/RKgH
+ hHspHGePDnb62Ljm50w4UbfVYRIh2VzxIi9qKXjP5zL28FClSxU3rqqD4 A==;
+X-CSE-ConnectionGUID: zRcNeOe+QS6SP0jYL/+FzA==
+X-CSE-MsgGUID: DS989tjOQ4uWMwQXlCbmVw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11476"; a="53373333"
+X-IronPort-AV: E=Sophos;i="6.16,268,1744095600"; d="scan'208";a="53373333"
+Received: from fmviesa005.fm.intel.com ([10.60.135.145])
+ by fmvoesa108.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 26 Jun 2025 16:43:04 -0700
+X-CSE-ConnectionGUID: m2O60cNASlipTnztUvc2bg==
+X-CSE-MsgGUID: 4k/IXgdbQv6+NtWf8J3f4A==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.16,268,1744095600"; d="scan'208";a="156946019"
+Received: from lkp-server01.sh.intel.com (HELO e8142ee1dce2) ([10.239.97.150])
+ by fmviesa005.fm.intel.com with ESMTP; 26 Jun 2025 16:42:59 -0700
+Received: from kbuild by e8142ee1dce2 with local (Exim 4.96)
+ (envelope-from <lkp@intel.com>) id 1uUwF7-000Vde-0V;
+ Thu, 26 Jun 2025 23:42:57 +0000
+Date: Fri, 27 Jun 2025 07:42:34 +0800
+From: kernel test robot <lkp@intel.com>
+To: Luca Ceresoli <luca.ceresoli@bootlin.com>,
  Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
- David Woodhouse <dwmw2@infradead.org>, Lu Baolu <baolu.lu@linux.intel.com>,
- Joerg Roedel <joro@8bytes.org>, Will Deacon <will@kernel.org>,
- Robin Murphy <robin.murphy@arm.com>,
- Alex Williamson <alex.williamson@redhat.com>,
- Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
- "open list:DRM DRIVERS" <dri-devel@lists.freedesktop.org>,
- open list <linux-kernel@vger.kernel.org>,
- "open list:INTEL IOMMU (VT-d)" <iommu@lists.linux.dev>,
- "open list:PCI SUBSYSTEM" <linux-pci@vger.kernel.org>,
- "open list:VFIO DRIVER" <kvm@vger.kernel.org>,
- "open list:SOUND" <linux-sound@vger.kernel.org>,
- Daniel Dadap <ddadap@nvidia.com>,
- Mario Limonciello <mario.limonciello@amd.com>
-References: <20250626214721.GA1642412@bhelgaas>
-Content-Language: en-US
-From: Mario Limonciello <superm1@kernel.org>
-In-Reply-To: <20250626214721.GA1642412@bhelgaas>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+ Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>,
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+ Andrzej Hajda <andrzej.hajda@intel.com>,
+ Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>,
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
+ Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>,
+ Inki Dae <inki.dae@samsung.com>, Jagan Teki <jagan@amarulasolutions.com>,
+ Marek Szyprowski <m.szyprowski@samsung.com>,
+ Jani Nikula <jani.nikula@linux.intel.com>,
+ Dmitry Baryshkov <lumag@kernel.org>
+Cc: oe-kbuild-all@lists.linux.dev, Hui Pu <Hui.Pu@gehealthcare.com>,
+ Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ linux-sunxi@lists.linux.dev, Luca Ceresoli <luca.ceresoli@bootlin.com>
+Subject: Re: [PATCH 22/32] drm: renesas: rz-du: rzg2l_mipi_dsi: convert to
+ the .attach_new op
+Message-ID: <202506270718.iCW6cHYD-lkp@intel.com>
+References: <20250625-drm-dsi-host-no-device-ptr-v1-22-e36bc258a7c5@bootlin.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20250625-drm-dsi-host-no-device-ptr-v1-22-e36bc258a7c5@bootlin.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -77,120 +85,106 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+Hi Luca,
+
+kernel test robot noticed the following build errors:
+
+[auto build test ERROR on 1174bf15bd601f17556f721798cd9183e169549a]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Luca-Ceresoli/drm-mipi-dsi-add-sanity-check-of-lane-number-in-mipi_dsi_attach/20250626-005002
+base:   1174bf15bd601f17556f721798cd9183e169549a
+patch link:    https://lore.kernel.org/r/20250625-drm-dsi-host-no-device-ptr-v1-22-e36bc258a7c5%40bootlin.com
+patch subject: [PATCH 22/32] drm: renesas: rz-du: rzg2l_mipi_dsi: convert to the .attach_new op
+config: m68k-allmodconfig (https://download.01.org/0day-ci/archive/20250627/202506270718.iCW6cHYD-lkp@intel.com/config)
+compiler: m68k-linux-gcc (GCC) 15.1.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250627/202506270718.iCW6cHYD-lkp@intel.com/reproduce)
+
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202506270718.iCW6cHYD-lkp@intel.com/
+
+All errors (new ones prefixed by >>):
+
+   In file included from include/linux/device.h:15,
+                    from include/linux/dma-mapping.h:5,
+                    from drivers/gpu/drm/renesas/rz-du/rzg2l_mipi_dsi.c:11:
+   drivers/gpu/drm/renesas/rz-du/rzg2l_mipi_dsi.c: In function 'rzg2l_mipi_dsi_host_attach':
+>> drivers/gpu/drm/renesas/rz-du/rzg2l_mipi_dsi.c:712:33: error: 'device' undeclared (first use in this function)
+     712 |                                 device->format);
+         |                                 ^~~~~~
+   include/linux/dev_printk.h:110:37: note: in definition of macro 'dev_printk_index_wrap'
+     110 |                 _p_func(dev, fmt, ##__VA_ARGS__);                       \
+         |                                     ^~~~~~~~~~~
+   drivers/gpu/drm/renesas/rz-du/rzg2l_mipi_dsi.c:711:25: note: in expansion of macro 'dev_err'
+     711 |                         dev_err(dsi->dev, "Unsupported format 0x%04x\n",
+         |                         ^~~~~~~
+   drivers/gpu/drm/renesas/rz-du/rzg2l_mipi_dsi.c:712:33: note: each undeclared identifier is reported only once for each function it appears in
+     712 |                                 device->format);
+         |                                 ^~~~~~
+   include/linux/dev_printk.h:110:37: note: in definition of macro 'dev_printk_index_wrap'
+     110 |                 _p_func(dev, fmt, ##__VA_ARGS__);                       \
+         |                                     ^~~~~~~~~~~
+   drivers/gpu/drm/renesas/rz-du/rzg2l_mipi_dsi.c:711:25: note: in expansion of macro 'dev_err'
+     711 |                         dev_err(dsi->dev, "Unsupported format 0x%04x\n",
+         |                         ^~~~~~~
 
 
-On 6/26/25 4:47 PM, Bjorn Helgaas wrote:
-> On Thu, Jun 26, 2025 at 04:12:21PM -0500, Mario Limonciello wrote:
->> On 6/26/2025 3:45 PM, Bjorn Helgaas wrote:
->>> On Tue, Jun 24, 2025 at 03:30:42PM -0500, Mario Limonciello wrote:
->>>> From: Mario Limonciello <mario.limonciello@amd.com>
->>>>
->>>> On systems with multiple GPUs there can be uncertainty which GPU is the
->>>> primary one used to drive the display at bootup. In order to disambiguate
->>>> this add a new sysfs attribute 'boot_display' that uses the output of
->>>> video_is_primary_device() to populate whether a PCI device was used for
->>>> driving the display.
->>>>
->>>> Signed-off-by: Mario Limonciello <mario.limonciello@amd.com>
->>>
->>> Acked-by: Bjorn Helgaas <bhelgaas@google.com>
->>>
->>> Question below.
->>>
->>>> ---
->>>> v4:
->>>>    * new patch
->>>> ---
->>>>    Documentation/ABI/testing/sysfs-bus-pci |  9 +++++++++
->>>>    drivers/pci/pci-sysfs.c                 | 14 ++++++++++++++
->>>>    2 files changed, 23 insertions(+)
->>>>
->>>> diff --git a/Documentation/ABI/testing/sysfs-bus-pci b/Documentation/ABI/testing/sysfs-bus-pci
->>>> index 69f952fffec72..897cfc1b0de0f 100644
->>>> --- a/Documentation/ABI/testing/sysfs-bus-pci
->>>> +++ b/Documentation/ABI/testing/sysfs-bus-pci
->>>> @@ -612,3 +612,12 @@ Description:
->>>>    		  # ls doe_features
->>>>    		  0001:01        0001:02        doe_discovery
->>>> +
->>>> +What:		/sys/bus/pci/devices/.../boot_display
->>>> +Date:		October 2025
->>>> +Contact:	Linux PCI developers <linux-pci@vger.kernel.org>
->>>> +Description:
->>>> +		This file indicates whether the device was used as a boot
->>>> +		display. If the device was used as the boot display, the file
->>>> +		will contain "1". If the device is a display device but wasn't
->>>> +		used as a boot display, the file will contain "0".
->>>
->>> Is there a reason to expose this file if it wasn't a boot display
->>> device?  Maybe it doesn't need to exist at all unless it contains "1"?
->>
->> I was mostly thinking that it's a handy way for userspace to know whether
->> the kernel even supports this feature.  If userspace sees that file on any
->> GPU as it walks a list then it knows it can use that for a hint.
->>
->> But if you would rather it only shows up for the boot display yes it's
->> possible to do I think.  It's just more complexity to the visibility lookup
->> to also call video_is_primary_device().
-> 
-> I think for a singleton situation like this it makes more sense to
-> only expose the file for one device, not several files where only one
-> of them contains "1".
+vim +/device +712 drivers/gpu/drm/renesas/rz-du/rzg2l_mipi_dsi.c
 
-I did an experiment with this but the PCI resources aren't ready at the 
-time visibility is determined.
+7a043f978ed143 drivers/gpu/drm/rcar-du/rzg2l_mipi_dsi.c       Biju Das      2022-09-20  686  
+7a043f978ed143 drivers/gpu/drm/rcar-du/rzg2l_mipi_dsi.c       Biju Das      2022-09-20  687  /* -----------------------------------------------------------------------------
+7a043f978ed143 drivers/gpu/drm/rcar-du/rzg2l_mipi_dsi.c       Biju Das      2022-09-20  688   * Host setting
+7a043f978ed143 drivers/gpu/drm/rcar-du/rzg2l_mipi_dsi.c       Biju Das      2022-09-20  689   */
+7a043f978ed143 drivers/gpu/drm/rcar-du/rzg2l_mipi_dsi.c       Biju Das      2022-09-20  690  
+7a043f978ed143 drivers/gpu/drm/rcar-du/rzg2l_mipi_dsi.c       Biju Das      2022-09-20  691  static int rzg2l_mipi_dsi_host_attach(struct mipi_dsi_host *host,
+e8120e232c40c1 drivers/gpu/drm/renesas/rz-du/rzg2l_mipi_dsi.c Luca Ceresoli 2025-06-25  692  				      const struct mipi_dsi_bus_fmt *bus_fmt)
+7a043f978ed143 drivers/gpu/drm/rcar-du/rzg2l_mipi_dsi.c       Biju Das      2022-09-20  693  {
+7a043f978ed143 drivers/gpu/drm/rcar-du/rzg2l_mipi_dsi.c       Biju Das      2022-09-20  694  	struct rzg2l_mipi_dsi *dsi = host_to_rzg2l_mipi_dsi(host);
+7a043f978ed143 drivers/gpu/drm/rcar-du/rzg2l_mipi_dsi.c       Biju Das      2022-09-20  695  	int ret;
+7a043f978ed143 drivers/gpu/drm/rcar-du/rzg2l_mipi_dsi.c       Biju Das      2022-09-20  696  
+e8120e232c40c1 drivers/gpu/drm/renesas/rz-du/rzg2l_mipi_dsi.c Luca Ceresoli 2025-06-25  697  	if (bus_fmt->lanes > dsi->num_data_lanes) {
+7a043f978ed143 drivers/gpu/drm/rcar-du/rzg2l_mipi_dsi.c       Biju Das      2022-09-20  698  		dev_err(dsi->dev,
+7a043f978ed143 drivers/gpu/drm/rcar-du/rzg2l_mipi_dsi.c       Biju Das      2022-09-20  699  			"Number of lines of device (%u) exceeds host (%u)\n",
+e8120e232c40c1 drivers/gpu/drm/renesas/rz-du/rzg2l_mipi_dsi.c Luca Ceresoli 2025-06-25  700  			bus_fmt->lanes, dsi->num_data_lanes);
+7a043f978ed143 drivers/gpu/drm/rcar-du/rzg2l_mipi_dsi.c       Biju Das      2022-09-20  701  		return -EINVAL;
+7a043f978ed143 drivers/gpu/drm/rcar-du/rzg2l_mipi_dsi.c       Biju Das      2022-09-20  702  	}
+7a043f978ed143 drivers/gpu/drm/rcar-du/rzg2l_mipi_dsi.c       Biju Das      2022-09-20  703  
+e8120e232c40c1 drivers/gpu/drm/renesas/rz-du/rzg2l_mipi_dsi.c Luca Ceresoli 2025-06-25  704  	switch (mipi_dsi_pixel_format_to_bpp(bus_fmt->format)) {
+7a043f978ed143 drivers/gpu/drm/rcar-du/rzg2l_mipi_dsi.c       Biju Das      2022-09-20  705  	case 24:
+a56a6b81d80fdf drivers/gpu/drm/renesas/rz-du/rzg2l_mipi_dsi.c Lad Prabhakar 2025-06-09  706  		break;
+7a043f978ed143 drivers/gpu/drm/rcar-du/rzg2l_mipi_dsi.c       Biju Das      2022-09-20  707  	case 18:
+7a043f978ed143 drivers/gpu/drm/rcar-du/rzg2l_mipi_dsi.c       Biju Das      2022-09-20  708  		break;
+a56a6b81d80fdf drivers/gpu/drm/renesas/rz-du/rzg2l_mipi_dsi.c Lad Prabhakar 2025-06-09  709  	case 16:
+a56a6b81d80fdf drivers/gpu/drm/renesas/rz-du/rzg2l_mipi_dsi.c Lad Prabhakar 2025-06-09  710  		if (!(dsi->info->features & RZ_MIPI_DSI_FEATURE_16BPP)) {
+a56a6b81d80fdf drivers/gpu/drm/renesas/rz-du/rzg2l_mipi_dsi.c Lad Prabhakar 2025-06-09  711  			dev_err(dsi->dev, "Unsupported format 0x%04x\n",
+a56a6b81d80fdf drivers/gpu/drm/renesas/rz-du/rzg2l_mipi_dsi.c Lad Prabhakar 2025-06-09 @712  				device->format);
+a56a6b81d80fdf drivers/gpu/drm/renesas/rz-du/rzg2l_mipi_dsi.c Lad Prabhakar 2025-06-09  713  			return -EINVAL;
+a56a6b81d80fdf drivers/gpu/drm/renesas/rz-du/rzg2l_mipi_dsi.c Lad Prabhakar 2025-06-09  714  		}
+a56a6b81d80fdf drivers/gpu/drm/renesas/rz-du/rzg2l_mipi_dsi.c Lad Prabhakar 2025-06-09  715  		break;
+7a043f978ed143 drivers/gpu/drm/rcar-du/rzg2l_mipi_dsi.c       Biju Das      2022-09-20  716  	default:
+e8120e232c40c1 drivers/gpu/drm/renesas/rz-du/rzg2l_mipi_dsi.c Luca Ceresoli 2025-06-25  717  		dev_err(dsi->dev, "Unsupported format 0x%04x\n", bus_fmt->format);
+7a043f978ed143 drivers/gpu/drm/rcar-du/rzg2l_mipi_dsi.c       Biju Das      2022-09-20  718  		return -EINVAL;
+7a043f978ed143 drivers/gpu/drm/rcar-du/rzg2l_mipi_dsi.c       Biju Das      2022-09-20  719  	}
+7a043f978ed143 drivers/gpu/drm/rcar-du/rzg2l_mipi_dsi.c       Biju Das      2022-09-20  720  
+e8120e232c40c1 drivers/gpu/drm/renesas/rz-du/rzg2l_mipi_dsi.c Luca Ceresoli 2025-06-25  721  	dsi->lanes = bus_fmt->lanes;
+e8120e232c40c1 drivers/gpu/drm/renesas/rz-du/rzg2l_mipi_dsi.c Luca Ceresoli 2025-06-25  722  	dsi->format = bus_fmt->format;
+e8120e232c40c1 drivers/gpu/drm/renesas/rz-du/rzg2l_mipi_dsi.c Luca Ceresoli 2025-06-25  723  	dsi->mode_flags = bus_fmt->mode_flags;
+7a043f978ed143 drivers/gpu/drm/rcar-du/rzg2l_mipi_dsi.c       Biju Das      2022-09-20  724  
+7a043f978ed143 drivers/gpu/drm/rcar-du/rzg2l_mipi_dsi.c       Biju Das      2022-09-20  725  	dsi->next_bridge = devm_drm_of_get_bridge(dsi->dev, dsi->dev->of_node,
+7a043f978ed143 drivers/gpu/drm/rcar-du/rzg2l_mipi_dsi.c       Biju Das      2022-09-20  726  						  1, 0);
+7a043f978ed143 drivers/gpu/drm/rcar-du/rzg2l_mipi_dsi.c       Biju Das      2022-09-20  727  	if (IS_ERR(dsi->next_bridge)) {
+7a043f978ed143 drivers/gpu/drm/rcar-du/rzg2l_mipi_dsi.c       Biju Das      2022-09-20  728  		ret = PTR_ERR(dsi->next_bridge);
+7a043f978ed143 drivers/gpu/drm/rcar-du/rzg2l_mipi_dsi.c       Biju Das      2022-09-20  729  		dev_err(dsi->dev, "failed to get next bridge: %d\n", ret);
+7a043f978ed143 drivers/gpu/drm/rcar-du/rzg2l_mipi_dsi.c       Biju Das      2022-09-20  730  		return ret;
+7a043f978ed143 drivers/gpu/drm/rcar-du/rzg2l_mipi_dsi.c       Biju Das      2022-09-20  731  	}
+7a043f978ed143 drivers/gpu/drm/rcar-du/rzg2l_mipi_dsi.c       Biju Das      2022-09-20  732  
+7a043f978ed143 drivers/gpu/drm/rcar-du/rzg2l_mipi_dsi.c       Biju Das      2022-09-20  733  	drm_bridge_add(&dsi->bridge);
+7a043f978ed143 drivers/gpu/drm/rcar-du/rzg2l_mipi_dsi.c       Biju Das      2022-09-20  734  
+7a043f978ed143 drivers/gpu/drm/rcar-du/rzg2l_mipi_dsi.c       Biju Das      2022-09-20  735  	return 0;
+7a043f978ed143 drivers/gpu/drm/rcar-du/rzg2l_mipi_dsi.c       Biju Das      2022-09-20  736  }
+7a043f978ed143 drivers/gpu/drm/rcar-du/rzg2l_mipi_dsi.c       Biju Das      2022-09-20  737  
 
-So either:
-* the sysfs file creation needs to be deferred similar to 
-pci_create_resource_files() does
-
-or
-
-* call to sysfs_update_group() is needed to recalculate visibility.
-
-> 
->>>> diff --git a/drivers/pci/pci-sysfs.c b/drivers/pci/pci-sysfs.c
->>>> index 268c69daa4d57..5bbf79b1b953d 100644
->>>> --- a/drivers/pci/pci-sysfs.c
->>>> +++ b/drivers/pci/pci-sysfs.c
->>>> @@ -30,6 +30,7 @@
->>>>    #include <linux/msi.h>
->>>>    #include <linux/of.h>
->>>>    #include <linux/aperture.h>
->>>> +#include <asm/video.h>
->>>>    #include "pci.h"
->>>>    #ifndef ARCH_PCI_DEV_GROUPS
->>>> @@ -679,6 +680,13 @@ const struct attribute_group *pcibus_groups[] = {
->>>>    	NULL,
->>>>    };
->>>> +static ssize_t boot_display_show(struct device *dev, struct device_attribute *attr,
->>>> +				 char *buf)
->>>> +{
->>>> +	return sysfs_emit(buf, "%u\n", video_is_primary_device(dev));
->>>> +}
->>>> +static DEVICE_ATTR_RO(boot_display);
->>>> +
->>>>    static ssize_t boot_vga_show(struct device *dev, struct device_attribute *attr,
->>>>    			     char *buf)
->>>>    {
->>>> @@ -1698,6 +1706,7 @@ late_initcall(pci_sysfs_init);
->>>>    static struct attribute *pci_dev_dev_attrs[] = {
->>>>    	&dev_attr_boot_vga.attr,
->>>> +	&dev_attr_boot_display.attr,
->>>>    	NULL,
->>>>    };
->>>> @@ -1710,6 +1719,11 @@ static umode_t pci_dev_attrs_are_visible(struct kobject *kobj,
->>>>    	if (a == &dev_attr_boot_vga.attr && pci_is_vga(pdev))
->>>>    		return a->mode;
->>>> +#ifdef CONFIG_VIDEO
->>>> +	if (a == &dev_attr_boot_display.attr && pci_is_display(pdev))
->>>> +		return a->mode;
->>>> +#endif
->>>> +
->>>>    	return 0;
->>>>    }
->>>> -- 
->>>> 2.43.0
->>>>
->>
-
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
