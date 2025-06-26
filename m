@@ -2,90 +2,77 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id A5D65AE977E
-	for <lists+dri-devel@lfdr.de>; Thu, 26 Jun 2025 10:06:23 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id D39BAAE9907
+	for <lists+dri-devel@lfdr.de>; Thu, 26 Jun 2025 10:53:26 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id BF85110E83A;
-	Thu, 26 Jun 2025 08:06:21 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C4E1410E890;
+	Thu, 26 Jun 2025 08:53:23 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=redhat.com header.i=@redhat.com header.b="gsaIhEYf";
+	dkim=pass (2048-bit key; unprotected) header.d=foss.st.com header.i=@foss.st.com header.b="yAcNns/e";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [170.10.129.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 273D510E839
- for <dri-devel@lists.freedesktop.org>; Thu, 26 Jun 2025 08:06:20 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1750925179;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type;
- bh=Un7u/oigN2lAcR1eqnwk5UCeHFwE7wCa9VlsCrBoRy4=;
- b=gsaIhEYfVAm2EQVNZ4LW5jqfx2P1pOh88vYTHqw+12BRseb5LQd2BytseoWGl9Y2CZJEPe
- gqGZQTqyBd5nYqIYoLGwJr2hpNmpmJXRqrgFWP9MzeOT8CW1cZSjiWvQYCuxxfusnk/b/G
- cN12HiRby+po/hvdwFSJlr5B7pjYUqw=
-Received: from mail-wr1-f72.google.com (mail-wr1-f72.google.com
- [209.85.221.72]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-19-_OLYvJuLO5aTMbdIf1A24w-1; Thu, 26 Jun 2025 04:06:16 -0400
-X-MC-Unique: _OLYvJuLO5aTMbdIf1A24w-1
-X-Mimecast-MFC-AGG-ID: _OLYvJuLO5aTMbdIf1A24w_1750925176
-Received: by mail-wr1-f72.google.com with SMTP id
- ffacd0b85a97d-3a4f6ff23ccso395090f8f.2
- for <dri-devel@lists.freedesktop.org>; Thu, 26 Jun 2025 01:06:16 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1750925176; x=1751529976;
- h=content-disposition:mime-version:message-id:subject:cc:to:from:date
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=Un7u/oigN2lAcR1eqnwk5UCeHFwE7wCa9VlsCrBoRy4=;
- b=RqTTNYtCQozESB9g3WAwXJGf0spMpgaG074Fv6kU/4WtaA3Ay47JDSXFKUhNEVPp+G
- FyHcuiueDeG419z/QKBYzpancRLQrvvH9LUoEybQQUKYC76mfUq7jLAv5v8SxJgjp5FW
- Mx7zmiB+K8bKi4/WeHAJISRVbM18pVLTpT5wPBz9VG/X5zXoVqAfs1x4SPbTZ2XjgMb8
- cDc4VAuaiHLKnmhhIAKJscsWG/3KVNWoQlj+31sTZulv5GLWdcUVpH2wxSZ3maWVOPBI
- AKZabnPh6zTQqpxviPUx+zok5f/IE5Q9gSFuNLNxUkXJlOqqNF227Z9ns3YLikzFik31
- TQBA==
-X-Forwarded-Encrypted: i=1;
- AJvYcCVoWUHszKnu+hnd8y9xz8ptZEGNO+CbaTPrWbs0844LVJULkiJgL1qE9BTIPqivI5/506vfUtXh5No=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YzRi2Ir9384boJ7dTAEn5q/YH164cuRJlR/HQETKFValQjSFhau
- Vn9NW9/V2LCoUpHljUNXYGazQLkoB6m6QarHLmKPBM1E6GfyKopONgPEAEtz2tU7QxG+AfBwE3c
- x6NxwcLVj78pWIueWtBLZDhA/SOp0EjJjOdA84KJUoA3lNn/R/LkZfl+clO90IhFQqMmfkQ==
-X-Gm-Gg: ASbGncuvd1jgbqVQCOfgqYiSI7xMVyWsNR+NZeqrj1/A8iOiS7jPDbzVoHIcrUR8K/x
- JMjeBY6d411XO6zjG/LAqGpZ24KXx1CO41H3sHTG5eq+GnYkE+RbcZ+JD4An5kqBeklMkUvoyD1
- fETmZjqFX+BhK9b0iSCID/2Adb2VTMUmyy/LBYTTTbPYPPtc0/YvKUKhyeD1UiEjsq0OMSpu22t
- Ue/9SrcRrAof4OuO0SgNe6hCruRlyOXuB5FHGlOfKlEQB4fojd9JzdQCPfjhxAneY5m3g6vrg==
-X-Received: by 2002:a05:6000:98e:b0:3a4:d953:74a1 with SMTP id
- ffacd0b85a97d-3a6ed5f2660mr4904886f8f.23.1750925175656; 
- Thu, 26 Jun 2025 01:06:15 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IHl+Et2fQCJMFtk7w65nFxPJgBsxzoM5kJmWZLpdhngsi7SOfXyOTEHOy5GgaRKAMwMVgqNNg==
-X-Received: by 2002:a05:6000:98e:b0:3a4:d953:74a1 with SMTP id
- ffacd0b85a97d-3a6ed5f2660mr4904857f8f.23.1750925175169; 
- Thu, 26 Jun 2025 01:06:15 -0700 (PDT)
-Received: from localhost ([2a01:e0a:b25:f902::ff])
- by smtp.gmail.com with ESMTPSA id
- ffacd0b85a97d-3a6e80f26ebsm6691042f8f.51.2025.06.26.01.06.14
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 26 Jun 2025 01:06:14 -0700 (PDT)
-Date: Thu, 26 Jun 2025 10:06:14 +0200
-From: Maxime Ripard <mripard@redhat.com>
-To: Dave Airlie <airlied@gmail.com>, 
-	Simona Vetter <simona.vetter@ffwll.ch>
-Cc: Jani Nikula <jani.nikula@linux.intel.com>, 
- Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
- Tvrtko Ursulin <tursulin@ursulin.net>, 
- Rodrigo Vivi <rodrigo.vivi@intel.com>, Thomas Zimmermann <tzimmermann@suse.de>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, 
- Thomas =?utf-8?Q?Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>,
- Oded Gabbay <ogabbay@kernel.org>, 
- Lucas De Marchi <lucas.demarchi@intel.com>, dri-devel@lists.freedesktop.org,
- intel-gfx@lists.freedesktop.org, 
- intel-xe@lists.freedesktop.org, dim-tools@lists.freedesktop.org
-Subject: [PULL] drm-misc-next
-Message-ID: <20250626-sincere-loon-of-effort-6dbdf9@houat>
+Received: from mx07-00178001.pphosted.com (mx08-00178001.pphosted.com
+ [91.207.212.93])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 068B010E890
+ for <dri-devel@lists.freedesktop.org>; Thu, 26 Jun 2025 08:53:22 +0000 (UTC)
+Received: from pps.filterd (m0046660.ppops.net [127.0.0.1])
+ by mx07-00178001.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 55Q8PD5s026846;
+ Thu, 26 Jun 2025 10:40:40 +0200
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=foss.st.com; h=
+ cc:content-transfer-encoding:content-type:date:from:in-reply-to
+ :message-id:mime-version:references:subject:to; s=selector1; bh=
+ 5xLXEiPmIkFsOWq2iScRt7BhDQ5CLO6wEMeeYC9tPQw=; b=yAcNns/eKTBEPfvF
+ brtge3KBWhvYe/uSk9spqaox79wdlAKfckfm1jprWhwvaHBI4BvhcuI2HlePQNDJ
+ MeoSMRdIO4uGXT1H04TjELdVKe6z6lpj9irdpw6upp7KzjGEC7pE6O9J8KhUty+R
+ VDPvYz/mRhaSOpyH4RJFCS3qLhPYvWusBwhhp03g92LtBsFkdLahsO25v9bnduVm
+ CDPbcT9Rvmrqj4R4DDu0ic4LkIRYqimc2G+M6gEGCstRZMM3+e0Uc1CQSA32di49
+ oADO1A0KfMQa2MMwO+jL1+SEHSY8ZSgI8ExKTt9rOqwj3CklBCDmGVq/xpNp5Y6x
+ 5ERS9g==
+Received: from beta.dmz-ap.st.com (beta.dmz-ap.st.com [138.198.100.35])
+ by mx07-00178001.pphosted.com (PPS) with ESMTPS id 47dhvbwe8f-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Thu, 26 Jun 2025 10:40:40 +0200 (MEST)
+Received: from euls16034.sgp.st.com (euls16034.sgp.st.com [10.75.44.20])
+ by beta.dmz-ap.st.com (STMicroelectronics) with ESMTP id 24FE640047;
+ Thu, 26 Jun 2025 10:39:11 +0200 (CEST)
+Received: from Webmail-eu.st.com (shfdag1node1.st.com [10.75.129.69])
+ by euls16034.sgp.st.com (STMicroelectronics) with ESMTP id 9EADBB22D16;
+ Thu, 26 Jun 2025 10:37:51 +0200 (CEST)
+Received: from gnbcxd0016.gnb.st.com (10.130.77.119) by SHFDAG1NODE1.st.com
+ (10.75.129.69) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.39; Thu, 26 Jun
+ 2025 10:37:50 +0200
+Date: Thu, 26 Jun 2025 10:37:44 +0200
+From: Alain Volmat <alain.volmat@foss.st.com>
+To: =?iso-8859-1?Q?Cl=E9ment?= Le Goffic <clement.legoffic@foss.st.com>
+CC: Pierre-Yves MORDRET <pierre-yves.mordret@foss.st.com>, Andi Shyti
+ <andi.shyti@kernel.org>, Maxime Coquelin <mcoquelin.stm32@gmail.com>,
+ Alexandre Torgue <alexandre.torgue@foss.st.com>, Sumit Semwal
+ <sumit.semwal@linaro.org>, Christian =?iso-8859-1?Q?K=F6nig?=
+ <christian.koenig@amd.com>, M'boumba Cedric Madianga
+ <cedric.madianga@gmail.com>, Wolfram Sang <wsa@kernel.org>, "Pierre-Yves
+ MORDRET" <pierre-yves.mordret@st.com>, <linux-i2c@vger.kernel.org>,
+ <linux-stm32@st-md-mailman.stormreply.com>,
+ <linux-arm-kernel@lists.infradead.org>, <linux-kernel@vger.kernel.org>,
+ <linux-media@vger.kernel.org>, <dri-devel@lists.freedesktop.org>,
+ <linaro-mm-sig@lists.linaro.org>
+Subject: Re: [PATCH 1/3] i2c: stm32: fix the device used for the DMA map
+Message-ID: <20250626083744.GA348766@gnbcxd0016.gnb.st.com>
+References: <20250616-i2c-upstream-v1-0-42d3d5374e65@foss.st.com>
+ <20250616-i2c-upstream-v1-1-42d3d5374e65@foss.st.com>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha384;
- protocol="application/pgp-signature"; boundary="o64ig7trmkikf3gy"
+Content-Type: text/plain; charset="iso-8859-1"
 Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20250616-i2c-upstream-v1-1-42d3d5374e65@foss.st.com>
+X-Disclaimer: ce message est personnel / this message is private
+X-Originating-IP: [10.130.77.119]
+X-ClientProxiedBy: EQNCAS1NODE3.st.com (10.75.129.80) To SHFDAG1NODE1.st.com
+ (10.75.129.69)
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1099,Hydra:6.1.7,FMLib:17.12.80.40
+ definitions=2025-06-26_04,2025-06-25_01,2025-03-28_01
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -101,127 +88,42 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+Hi Clément,
 
---o64ig7trmkikf3gy
-Content-Type: text/plain; protected-headers=v1; charset=us-ascii
-Content-Disposition: inline
-Subject: [PULL] drm-misc-next
-MIME-Version: 1.0
+On Mon, Jun 16, 2025 at 10:53:54AM +0200, Clément Le Goffic wrote:
+> If the DMA mapping failed, it produced an error log with the wrong
+> device name:
+> "stm32-dma3 40400000.dma-controller: rejecting DMA map of vmalloc memory"
+> Fix this issue by replacing the dev with the I2C dev.
 
-Hi,
+Indeed, nice catch ! Thanks a lot !
 
-It looks like it's been a slow week, but here's this week drm-misc-next PR
+> 
+> Fixes: bb8822cbbc53 ("i2c: i2c-stm32: Add generic DMA API")
+> Signed-off-by: Clément Le Goffic <clement.legoffic@foss.st.com>
+> ---
+>  drivers/i2c/busses/i2c-stm32.c | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+> 
+> diff --git a/drivers/i2c/busses/i2c-stm32.c b/drivers/i2c/busses/i2c-stm32.c
+> index 157c64e27d0b..5e0b31aed774 100644
+> --- a/drivers/i2c/busses/i2c-stm32.c
+> +++ b/drivers/i2c/busses/i2c-stm32.c
+> @@ -118,7 +118,7 @@ int stm32_i2c_prep_dma_xfer(struct device *dev, struct stm32_i2c_dma *dma,
+>  	dma->dma_len = len;
+>  	chan_dev = dma->chan_using->device->dev;
+>  
+> -	dma->dma_buf = dma_map_single(chan_dev, buf, dma->dma_len,
+> +	dma->dma_buf = dma_map_single(dev, buf, dma->dma_len,
+>  				      dma->dma_data_dir);
+>  	if (dma_mapping_error(chan_dev, dma->dma_buf)) {
+>  		dev_err(dev, "DMA mapping failed\n");
+> 
+> -- 
+> 2.43.0
+>
 
-Maxime
+Acked-by: Alain Volmat <alain.volmat@foss.st.com>
 
-drm-misc-next-2025-06-26:
-drm-misc-next for 6.17:
-
-UAPI Changes:
-
-Cross-subsystem Changes:
-
-Core Changes:
-- ci: Add Device tree validation and kunit
-- connector: Move HDR sink metadat to drm_display_info
-
-Driver Changes:
-- bochs: drm_panic Support
-- panfrost: MT8370 Support
-
-- bridge:
-  - tc358767: Convert to devm_drm_bridge_alloc()
-The following changes since commit 1a45ef022f0364186d4fb2f4e5255dcae1ff638a:
-
-  drm/format-helper: Move drm_fb_build_fourcc_list() to sysfb helpers (2025-06-18 10:46:03 +0200)
-
-are available in the Git repository at:
-
-  https://gitlab.freedesktop.org/drm/misc/kernel.git tags/drm-misc-next-2025-06-26
-
-for you to fetch changes up to d6b93bfa5d1eba452e494d3a05d6bef65bc569b7:
-
-  drm/nouveau/disp: Use dev->dev to get the device (2025-06-25 20:07:03 +0200)
-
-----------------------------------------------------------------
-drm-misc-next for 6.17:
-
-UAPI Changes:
-
-Cross-subsystem Changes:
-
-Core Changes:
-- ci: Add Device tree validation and kunit
-- connector: Move HDR sink metadat to drm_display_info
-
-Driver Changes:
-- bochs: drm_panic Support
-- panfrost: MT8370 Support
-
-- bridge:
-  - tc358767: Convert to devm_drm_bridge_alloc()
-
-----------------------------------------------------------------
-Jani Nikula (1):
-      drm/connector: move HDR sink metadata to display info
-
-Louis-Alexis Eyraud (5):
-      dt-bindings: gpu: mali-bifrost: Add compatible for MT8370 SoC
-      drm/panfrost: Drop duplicated Mediatek supplies arrays
-      drm/panfrost: Commonize Mediatek power domain array definitions
-      drm/panfrost: Add support for Mali on the MT8370 SoC
-      arm64: dts: mediatek: mt8370: Enable gpu support
-
-Luca Ceresoli (1):
-      drm/bridge: tc358767: convert to devm_drm_bridge_alloc() API
-
-Ryosuke Yasuoka (1):
-      drm/bochs: Add support for drm_panic
-
-Sakari Ailus (1):
-      drm/nouveau/disp: Use dev->dev to get the device
-
-Vignesh Raman (2):
-      drm/ci: Add jobs to validate devicetrees
-      drm/ci: Add jobs to run KUnit tests
-
- .../devicetree/bindings/gpu/arm,mali-bifrost.yaml  |  5 +-
- arch/arm64/boot/dts/mediatek/mt8370.dtsi           | 16 ++++++
- drivers/gpu/drm/bridge/tc358767.c                  | 56 ++++++++++++++------
- drivers/gpu/drm/ci/check-devicetrees.yml           | 50 ++++++++++++++++++
- drivers/gpu/drm/ci/dt-binding-check.sh             | 19 +++++++
- drivers/gpu/drm/ci/dtbs-check.sh                   | 22 ++++++++
- drivers/gpu/drm/ci/gitlab-ci.yml                   |  4 ++
- drivers/gpu/drm/ci/kunit.sh                        | 16 ++++++
- drivers/gpu/drm/ci/kunit.yml                       | 37 +++++++++++++
- drivers/gpu/drm/ci/setup-llvm-links.sh             | 13 +++++
- drivers/gpu/drm/display/drm_hdmi_helper.c          |  2 +-
- drivers/gpu/drm/drm_connector.c                    |  2 +-
- drivers/gpu/drm/drm_edid.c                         | 19 +++----
- .../gpu/drm/i915/display/intel_dp_aux_backlight.c  |  2 +-
- drivers/gpu/drm/nouveau/nouveau_display.c          |  2 +-
- drivers/gpu/drm/panfrost/panfrost_drv.c            | 61 ++++++++++++----------
- drivers/gpu/drm/tiny/bochs.c                       | 19 +++++++
- include/drm/drm_connector.h                        |  8 +--
- 18 files changed, 292 insertions(+), 61 deletions(-)
- create mode 100644 drivers/gpu/drm/ci/check-devicetrees.yml
- create mode 100755 drivers/gpu/drm/ci/dt-binding-check.sh
- create mode 100755 drivers/gpu/drm/ci/dtbs-check.sh
- create mode 100755 drivers/gpu/drm/ci/kunit.sh
- create mode 100644 drivers/gpu/drm/ci/kunit.yml
- create mode 100755 drivers/gpu/drm/ci/setup-llvm-links.sh
-
---o64ig7trmkikf3gy
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iJUEABMJAB0WIQTkHFbLp4ejekA/qfgnX84Zoj2+dgUCaFz/dQAKCRAnX84Zoj2+
-dpQrAYD5yJ8ZYbrX4N8fGExKTQewOb+1Opt6nglHHG2SmlPBjDlOTabB0dPy2Ynu
-NcMVDKQBgL3Hq1/V/W7f3n6PltrFi+k7FH+tUqsY9zZZPT3pq12Io/j56B3x4h+3
-3sErNO+vRw==
-=Tv+w
------END PGP SIGNATURE-----
-
---o64ig7trmkikf3gy--
-
+Regards,
+Alain
