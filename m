@@ -2,49 +2,55 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 14973AEA187
-	for <lists+dri-devel@lfdr.de>; Thu, 26 Jun 2025 16:57:38 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id D3A97AEA1C6
+	for <lists+dri-devel@lfdr.de>; Thu, 26 Jun 2025 17:02:41 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3B59910E8CF;
-	Thu, 26 Jun 2025 14:57:35 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 641E610E8D1;
+	Thu, 26 Jun 2025 15:02:39 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="h/yjG2dW";
+	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=igalia.com header.i=@igalia.com header.b="ltGfW6AV";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from tor.source.kernel.org (tor.source.kernel.org [172.105.4.254])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C74F410E8CF
- for <dri-devel@lists.freedesktop.org>; Thu, 26 Jun 2025 14:57:28 +0000 (UTC)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by tor.source.kernel.org (Postfix) with ESMTP id 10470613A9;
- Thu, 26 Jun 2025 14:57:26 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 43249C4CEEB;
- Thu, 26 Jun 2025 14:57:25 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
- s=korg; t=1750949845;
- bh=DpQu293QtnkVCjW/dcgcoz5uwg7vQNBKK1Jw3JgSQ40=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=h/yjG2dWFn9WJLfhtEMNsY4uEfjYEayQAJL4nbfuLyf0IEfVA+bsMr2naPrff9YRz
- Qz0s6K8uKmFpUpVU0AmSQoOFAeH27b6xFGkUTBMAvZK21AdAQSCnNa2CWGoYWKyz+L
- LamXjn3K8rm15iHh60tz+sPTgTVcYHzezZVx0GFA=
-Date: Thu, 26 Jun 2025 15:57:21 +0100
-From: Greg KH <gregkh@linuxfoundation.org>
-To: Pranav Tyagi <pranav.tyagi03@gmail.com>
-Cc: linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- rodrigosiqueiramelo@gmail.com, melissa.srw@gmail.com,
- hamohammed.sa@gmail.com, daniel@ffwll.ch, airlied@linux.ie,
- mcanal@igalia.com, arthurgrillo@riseup.net, mairacanal@riseup.net,
- skhan@linuxfoundation.org, linux-kernel-mentees@lists.linux.dev,
- stable@vger.kernel.org, sashal@kernel.org
+Received: from fanzine2.igalia.com (fanzine2.igalia.com [213.97.179.56])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0AB5C10E8D1
+ for <dri-devel@lists.freedesktop.org>; Thu, 26 Jun 2025 15:02:37 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com; 
+ s=20170329;
+ h=Content-Transfer-Encoding:Content-Type:In-Reply-To:From:
+ References:Cc:To:Subject:MIME-Version:Date:Message-ID:Sender:Reply-To:
+ Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
+ Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
+ List-Subscribe:List-Post:List-Owner:List-Archive;
+ bh=f5DlpX2huMTLf4bsOPml/8rj3dKo7+jspuRt9BtAGXg=; b=ltGfW6AV9dczegMNqj5U4DixS/
+ s/6eN/vh/A38dEvSYJ4tcZS+aXcbzTWdsxkz9jL5N9G5akCrOVn7aqIJVF5QgSruAnI32KrnD8wZk
+ 580DShYV0S/dbwNIild2rS7Q6HFp8YvthqfKeybOAQR+BMF4M8WeUv4ofL10jVk6c2+gmI1AYV8RC
+ Kn92AiR2qxwEEvti3DJ6ZQUYlZYvJ21W9IReIXIl9e4G+hNT8Hz048xZDtaDQ330CpzzQeGQNMCvD
+ eakZr/mNWtOAfjJjpI/lX9t6R72uIMh0ISRfj4egQEfFpyPiu/STYKRA14aAHIICUDRBXm47rfUfQ
+ tTazxPcQ==;
+Received: from [189.7.87.79] (helo=[192.168.0.7])
+ by fanzine2.igalia.com with esmtpsa 
+ (Cipher TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_128_GCM:128) (Exim)
+ id 1uUo7R-0091W2-U4; Thu, 26 Jun 2025 17:02:30 +0200
+Message-ID: <5baab2ed-c48d-41ae-819a-71ca195c4407@igalia.com>
+Date: Thu, 26 Jun 2025 12:02:23 -0300
+MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
 Subject: Re: [PATCH] drm/vkms: Fix race-condition between the hrtimer and the
  atomic commit
-Message-ID: <2025062607-hardener-splotchy-1e70@gregkh>
+To: Pranav Tyagi <pranav.tyagi03@gmail.com>, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org
+Cc: rodrigosiqueiramelo@gmail.com, melissa.srw@gmail.com,
+ hamohammed.sa@gmail.com, daniel@ffwll.ch, airlied@linux.ie,
+ arthurgrillo@riseup.net, mairacanal@riseup.net, skhan@linuxfoundation.org,
+ linux-kernel-mentees@lists.linux.dev, stable@vger.kernel.org,
+ gregkh@linuxfoundation.org, sashal@kernel.org
 References: <20250626142243.19071-1-pranav.tyagi03@gmail.com>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
+Content-Language: en-US
+From: =?UTF-8?Q?Ma=C3=ADra_Canal?= <mcanal@igalia.com>
 In-Reply-To: <20250626142243.19071-1-pranav.tyagi03@gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -60,8 +66,10 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, Jun 26, 2025 at 07:52:43PM +0530, Pranav Tyagi wrote:
-> From: Ma�ra Canal <mcanal@igalia.com>
+Hi Pranav,
+
+On 26/06/25 11:22, Pranav Tyagi wrote:
+> From: Maíra Canal <mcanal@igalia.com>
 > 
 > [ Upstream commit a0e6a017ab56936c0405fe914a793b241ed25ee0 ]
 > 
@@ -82,14 +90,21 @@ On Thu, Jun 26, 2025 at 07:52:43PM +0530, Pranav Tyagi wrote:
 > problems.
 > 
 > [v2]:
->     * Create a new mutex and keep the spinlock across the atomic commit in
->       order to avoid interrupts that could result in deadlocks.
+>      * Create a new mutex and keep the spinlock across the atomic commit in
+>        order to avoid interrupts that could result in deadlocks.
 > 
 > [ Backport to 5.15: context cleanly applied with no semantic changes.
 > Build-tested. ]
+> 
+> Signed-off-by: Maíra Canal <mcanal@igalia.com>
+> Reviewed-by: Arthur Grillo <arthurgrillo@riseup.net>
+> Signed-off-by: Maíra Canal <mairacanal@riseup.net>
+> Link: https://patchwork.freedesktop.org/patch/msgid/20230523123207.173976-1-mcanal@igalia.com
+> Signed-off-by: Pranav Tyagi <pranav.tyagi03@gmail.com>
 
-Did you forget about 6.1.y?
+This patch violates locking rules and it was reversed a while ago.
+Please, check commit 7908632f2927 ("Revert "drm/vkms: Fix race-condition
+between the hrtimer and the atomic commit"").
 
-confused,
-
-greg k-h
+Best Regards,
+- Maíra
