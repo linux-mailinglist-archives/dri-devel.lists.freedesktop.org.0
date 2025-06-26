@@ -2,35 +2,35 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2B56CAEAA9F
-	for <lists+dri-devel@lfdr.de>; Fri, 27 Jun 2025 01:32:11 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 484EFAEAAA0
+	for <lists+dri-devel@lfdr.de>; Fri, 27 Jun 2025 01:32:20 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id DB67E10E272;
-	Thu, 26 Jun 2025 23:32:07 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8B98C10E2FC;
+	Thu, 26 Jun 2025 23:32:18 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="rHIlbWpC";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="PPmlCSmo";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2F2B310E272
- for <dri-devel@lists.freedesktop.org>; Thu, 26 Jun 2025 23:32:07 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A066410E926
+ for <dri-devel@lists.freedesktop.org>; Thu, 26 Jun 2025 23:32:17 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by dfw.source.kernel.org (Postfix) with ESMTP id C32FA5C63E5;
- Thu, 26 Jun 2025 23:32:02 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 55037C4CEEB;
- Thu, 26 Jun 2025 23:32:02 +0000 (UTC)
+ by dfw.source.kernel.org (Postfix) with ESMTP id 258CD5C63E5;
+ Thu, 26 Jun 2025 23:32:17 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id AA556C4CEEB;
+ Thu, 26 Jun 2025 23:32:16 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1750980722;
- bh=ckM1z62+dzERRsA8njW/QMC1vRSg8enjDPrdmoz/Lmo=;
+ s=k20201202; t=1750980736;
+ bh=p9T5tKbPyQn9WU/Ctj4Au9KigTyc9WURcP91i9yJwPg=;
  h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=rHIlbWpCPNwmNcL0HYK9yTLEIH5uOmpr090lt3qNIXx6tVE8EA61pGmhTQCt/H0eY
- UwFVgz/MDPsX2y3lVhHsJSWuA7LYJ4SqKB+EQluFhxP8YxaTk23J0vYc6aacoF1Wfp
- 5j+ZCxFhZ38o0LZDsw21Ck6GNtVVcdnZTID6ArKUaB7SiyHkNi/uM5iJZkxc1plqG0
- jrn0dUpbD7fLllsOdKjNSojE1a5kmwLZdPaTfj3w5Cm1x1ydHGrSThA4+voXH/ZGgv
- tDSv8NasuyOyH6bFxSKDkjUCKc3L16JFMCH054gUlY1IksSRu/TqlHPTmGbQ7rUGxt
- 6bd4N0d6PzSrA==
-Date: Thu, 26 Jun 2025 16:32:01 -0700
+ b=PPmlCSmoLgBO0j/SIml3aZayN9reJ2oZPPNkIycp8F5PROgpVZ2ClK6knBSuobp3C
+ /CJ6DR6IbJqEhMD+I6HFWvSeCPTB4apGNMaqdd9VzKncvWmymd6bjm8AxinS4EqWzm
+ 0VHsUFCyvkaxy3JjRVkXfHGt9TdC+HMJP2ovmI5EVccNvkjBcCItOvFHXD9DYZYpp9
+ 7nPf60OAqsa6KsDpnj45VAhMEj/KRQoL+iem2n02bsC2MUiPOuZO5kny23ecJyAcOb
+ la/I1Txteu/H1XFFbJUyoHixZsLZbtfWEG7o3a0oxr689bbVYUWUX7HVj1L5Qfn2iy
+ 01ZEtuwJP3v2Q==
+Date: Thu, 26 Jun 2025 16:32:16 -0700
 From: Vinod Koul <vkoul@kernel.org>
 To: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
 Cc: Jyri Sarha <jyri.sarha@iki.fi>,
@@ -49,14 +49,14 @@ Cc: Jyri Sarha <jyri.sarha@iki.fi>,
  Aradhya Bhatia <aradhya.bhatia@linux.dev>,
  Devarsh Thakkar <devarsht@ti.com>,
  Parth Pancholi <parth.pancholi@toradex.com>
-Subject: Re: [PATCH v4 04/17] phy: cdns-dphy: Store hs_clk_rate and return it
-Message-ID: <aF3YcUfnagD9rHvR@vaman>
+Subject: Re: [PATCH v4 05/17] phy: cdns-dphy: Remove leftover code
+Message-ID: <aF3YgKoaLniqs1XC@vaman>
 References: <20250618-cdns-dsi-impro-v4-0-862c841dbe02@ideasonboard.com>
- <20250618-cdns-dsi-impro-v4-4-862c841dbe02@ideasonboard.com>
+ <20250618-cdns-dsi-impro-v4-5-862c841dbe02@ideasonboard.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20250618-cdns-dsi-impro-v4-4-862c841dbe02@ideasonboard.com>
+In-Reply-To: <20250618-cdns-dsi-impro-v4-5-862c841dbe02@ideasonboard.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -73,12 +73,12 @@ Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 On 18-06-25, 12:59, Tomi Valkeinen wrote:
-> The DPHY driver does not return the actual hs_clk_rate, so the DSI
-> driver has no idea what clock was actually achieved. Set the realized
-> hs_clk_rate to the opts struct, so that the DSI driver gets it back.
+> The code in cdns-dphy has probably been part of a DSI driver in the
+> past. Remove DSI defines and variables which are not used or do not
+> actually do anything. Also rename cdns_dsi_get_dphy_pll_cfg() to
+> cdns_dphy_get_pll_cfg(), i.e. drop the "dsi", as it's not relevant here.
 
 Acked-by: Vinod Koul <vkoul@kernel.org>
-
 
 -- 
 ~Vinod
