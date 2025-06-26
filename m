@@ -2,39 +2,82 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5E479AEA373
-	for <lists+dri-devel@lfdr.de>; Thu, 26 Jun 2025 18:25:53 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 89696AEA441
+	for <lists+dri-devel@lfdr.de>; Thu, 26 Jun 2025 19:15:56 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9161610E2D2;
-	Thu, 26 Jun 2025 16:25:48 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6406310E2E8;
+	Thu, 26 Jun 2025 17:15:52 +0000 (UTC)
+Authentication-Results: gabe.freedesktop.org;
+	dkim=pass (2048-bit key; unprotected) header.d=darkrefraction-com.20230601.gappssmtp.com header.i=@darkrefraction-com.20230601.gappssmtp.com header.b="g3+VYalZ";
+	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
- by gabe.freedesktop.org (Postfix) with ESMTP id 8FE8D10E2D0
- for <dri-devel@lists.freedesktop.org>; Thu, 26 Jun 2025 16:25:47 +0000 (UTC)
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
- by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 8844826B9;
- Thu, 26 Jun 2025 09:25:29 -0700 (PDT)
-Received: from arm.com (usa-sjc-imap-foss1.foss.arm.com [10.121.207.14])
- by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id C3B0B3F66E;
- Thu, 26 Jun 2025 09:25:42 -0700 (PDT)
-Date: Thu, 26 Jun 2025 18:25:34 +0200
-From: Beata Michalska <beata.michalska@arm.com>
-To: Boqun Feng <boqun.feng@gmail.com>
-Cc: ojeda@kernel.org, alex.gaynor@gmail.com, dakr@kernel.org,
- aliceryhl@google.com, daniel.almeida@collabora.com,
- gary@garyguo.net, bjorn3_gh@protonmail.com, lossin@kernel.org,
- a.hindborg@kernel.org, tmgross@umich.edu, alyssa@rosenzweig.io,
- lyude@redhat.com, rust-for-linux@vger.kernel.org,
- dri-devel@lists.freedesktop.org
-Subject: Re: [PATCH v4] rust: drm: Drop the use of Opaque for ioctl arguments
-Message-ID: <aF10fplGxmtL5asV@arm.com>
-References: <20250625081333.2217887-1-beata.michalska@arm.com>
- <aFzBq4wDVbLFry6z@Mac.home>
+Received: from mail-ed1-f52.google.com (mail-ed1-f52.google.com
+ [209.85.208.52])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 21F3F10E2E8
+ for <dri-devel@lists.freedesktop.org>; Thu, 26 Jun 2025 17:15:48 +0000 (UTC)
+Received: by mail-ed1-f52.google.com with SMTP id
+ 4fb4d7f45d1cf-6088d856c6eso2436815a12.0
+ for <dri-devel@lists.freedesktop.org>; Thu, 26 Jun 2025 10:15:48 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=darkrefraction-com.20230601.gappssmtp.com; s=20230601; t=1750958146;
+ x=1751562946; darn=lists.freedesktop.org; 
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=CLfECuoQMvCucla3U1r6BxHigyx1+JYThDNzS9jd4eQ=;
+ b=g3+VYalZqk5vzGIDiLjy5OnaWTOrsAJlc8fXTyg+gQyqlZdu4J3ysCqchCgm8nW479
+ 8Hfmu/tcTH3RV5WxM/1S0ek0G1Oth1gqAoVUEGd3eZX2UOWubZgkVOgxPu5sTueYVXsa
+ QH3DSupeI8KkJEs6ZA2OZEyt3Nzsr7Qxt8QvuRoWmk26Ed/Z07+Vu3b6n1+F7UcEwQU0
+ I1jRMI4B+p35DdzxIuXN2Y2Gky0Z/kQ1VlYRm583rXkxnUVtjMUE5o21g/tklyBxmVcN
+ 5/rte5G8fTecS/pCzrDybnXze5yyRb5b2DBGwOD5LYGkxst8PzXgC/K0xzKUHTP/bQuM
+ GZaA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1750958146; x=1751562946;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=CLfECuoQMvCucla3U1r6BxHigyx1+JYThDNzS9jd4eQ=;
+ b=JGdB/qND2g1goIlIj5sS5FHeMR8yMYfxyn7R6hMQByXQEF4vaahQihBmddR6zjmQNk
+ j/O2zT7a8T4+JZHdylnWBnkvHBron9p2l12LjOXcNEATiWX18FzSoWVbL0q+olKP27FL
+ TTdxNGghM1H2d7+E5jhD7/TfCQHOx0yc04u1QTlkYkGfbKv7GZnd0JCO4beV3aTF3lvu
+ uLHaALFni//JDncZuuHjqUR0A6nT4NZDPMeeWkTDF8V6LVrjZYxqGIYZWM6DHv/RAiA/
+ igyIghtoQEjSNSUFcGzrVsSZM74uapKNiRKUscd952CirROhchLWw3O2QKlBbgb9XtJG
+ P1mw==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCV04185joWfgbQsR8klFQPazQGkM8L8bsHG8mlJ13uZ2ad/lJ7SRnaTou+G8Bej6pv1yNDsxZnS/G4=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YwJ8hiwWbaOkxS0V5SmBgpBHwj5aUUO71kpNaIV2u/naQHM9ar9
+ PAHgRtgIDhucxVFP4UNBLOxNFejhsbkJ1yUKnBz/u9tWZR2AWHNG7pQPhi8HCg92zQjcnYu/O+g
+ ixtl86Z1PSJz6KJQ5gSTg+SqQgdHNzETokqVT9ufzRg==
+X-Gm-Gg: ASbGnctP+nKNt6jvCDgQ4RBLRumt/KjLxXTsZN1oBtEa0J0i0vzbOKeo9SYktGLDR+T
+ OC13rXMhOqu2IfmRRDNCIs2PMRnA3A2A7onuPrcH9tAQ/7EcyDxngaFANPo4j2wCm5GOdQZ3jDO
+ FbBtWVDj0z2unAE157Zz20R0Mdep4fRJZsRgeA4SYbww==
+X-Google-Smtp-Source: AGHT+IGVNUkUCO0nah2E3WODdUj5zdLVLo1Sh/MdDqZ7TtgD3xcSUxlLdntTQWNRNqZlDdb3DykRhw851y+PW6YdKUM=
+X-Received: by 2002:a05:6402:13ca:b0:608:176f:9b5c with SMTP id
+ 4fb4d7f45d1cf-60c66992674mr4246427a12.20.1750958145370; Thu, 26 Jun 2025
+ 10:15:45 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <aFzBq4wDVbLFry6z@Mac.home>
+References: <20250623220909.7591-1-mhenning@darkrefraction.com>
+ <20250623220909.7591-3-mhenning@darkrefraction.com>
+ <c3902fcf8bc963cf315e9bfbb9ca4c66e28857cf.camel@nvidia.com>
+ <CAAgWFh05pj_9rk7Wcx24tFWR2sgMZH4WtBsm3hYrqM3svwniOQ@mail.gmail.com>
+ <127e866b4bb4fd3a77e1cbfc5b709bcb2533c744.camel@nvidia.com>
+In-Reply-To: <127e866b4bb4fd3a77e1cbfc5b709bcb2533c744.camel@nvidia.com>
+From: M Henning <mhenning@darkrefraction.com>
+Date: Thu, 26 Jun 2025 13:15:17 -0400
+X-Gm-Features: Ac12FXw88kvHArfNZhyMBY-_xqtKscFpUyd2DhdR2y-j-0Cyv-ChhaFAQ7MagNs
+Message-ID: <CAAgWFh2vZt7Oay0NGs4ttSTdJ5oP7qv+wWeRz0MRr=L5LeF8JA@mail.gmail.com>
+Subject: Re: [PATCH 2/2] drm/nouveau: Remove nvkm_gsp_fwif.enable
+To: Timur Tabi <ttabi@nvidia.com>
+Cc: "kherbst@redhat.com" <kherbst@redhat.com>,
+ "martin.peres@free.fr" <martin.peres@free.fr>, 
+ "faith.ekstrand@collabora.com" <faith.ekstrand@collabora.com>, 
+ "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>, 
+ "nouveau@lists.freedesktop.org" <nouveau@lists.freedesktop.org>,
+ "dakr@kernel.org" <dakr@kernel.org>, 
+ "lyude@redhat.com" <lyude@redhat.com>, Ben Skeggs <bskeggs@nvidia.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -50,244 +93,27 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, Jun 25, 2025 at 08:42:35PM -0700, Boqun Feng wrote:
-Hi,
-
-> Hi Beata,
-> 
-> On Wed, Jun 25, 2025 at 10:13:33AM +0200, Beata Michalska wrote:
-> > With the Opaque<T>, the expectations are that Rust should not
-> > make any assumptions on the layout or invariants of the wrapped
-> > C types. That runs rather counter to ioctl arguments, which must
-> > adhere to certain data-layout constraits. By using Opaque<T>,
-> > ioctl handlers are forced to use unsafe code where none is acually
-> > needed. This adds needless complexity and maintenance overhead,
-> > brining no safety benefits.
-> > Drop the use of Opaque for ioctl arguments as that is not the best
-> > fit here.
-> > 
-> > Signed-off-by: Beata Michalska <beata.michalska@arm.com>
-> > Acked-by: Danilo Krummrich <dakr@kernel.org>
-> > ---
-> 
-> Appreciate it if you could put a change log here mentioning changes
-> between each version.
-Done
-> 
-> >  drivers/gpu/drm/nova/file.rs | 23 ++++++--------
-> >  drivers/gpu/drm/nova/nova.rs |  1 -
-> >  drivers/gpu/drm/nova/uapi.rs | 61 ------------------------------------
-> >  rust/kernel/drm/ioctl.rs     | 11 ++++---
-> >  4 files changed, 16 insertions(+), 80 deletions(-)
-> >  delete mode 100644 drivers/gpu/drm/nova/uapi.rs
-> > 
-> > diff --git a/drivers/gpu/drm/nova/file.rs b/drivers/gpu/drm/nova/file.rs
-> > index 7e59a34b830d..7e7d4e2de2fb 100644
-> > --- a/drivers/gpu/drm/nova/file.rs
-> > +++ b/drivers/gpu/drm/nova/file.rs
-> > @@ -2,13 +2,11 @@
-> >  
-> >  use crate::driver::{NovaDevice, NovaDriver};
-> >  use crate::gem::NovaObject;
-> > -use crate::uapi::{GemCreate, GemInfo, Getparam};
-> >  use kernel::{
-> >      alloc::flags::*,
-> >      drm::{self, gem::BaseObject},
-> >      pci,
-> >      prelude::*,
-> > -    types::Opaque,
-> >      uapi,
-> >  };
-> >  
-> > @@ -26,20 +24,19 @@ impl File {
-> >      /// IOCTL: get_param: Query GPU / driver metadata.
-> >      pub(crate) fn get_param(
-> >          dev: &NovaDevice,
-> > -        getparam: &Opaque<uapi::drm_nova_getparam>,
-> > +        getparam: &mut uapi::drm_nova_getparam,
-> >          _file: &drm::File<File>,
-> >      ) -> Result<u32> {
-> >          let adev = &dev.adev;
-> >          let parent = adev.parent().ok_or(ENOENT)?;
-> >          let pdev: &pci::Device = parent.try_into()?;
-> > -        let getparam: &Getparam = getparam.into();
-> >  
-> > -        let value = match getparam.param() as u32 {
-> > +        let value = match getparam.param as u32 {
-> >              uapi::NOVA_GETPARAM_VRAM_BAR_SIZE => pdev.resource_len(1)?,
-> >              _ => return Err(EINVAL),
-> >          };
-> >  
-> > -        getparam.set_value(value);
-> > +        getparam.value = value;
-> >  
-> >          Ok(0)
-> >      }
-> > @@ -47,13 +44,12 @@ pub(crate) fn get_param(
-> >      /// IOCTL: gem_create: Create a new DRM GEM object.
-> >      pub(crate) fn gem_create(
-> >          dev: &NovaDevice,
-> > -        req: &Opaque<uapi::drm_nova_gem_create>,
-> > +        req: &mut uapi::drm_nova_gem_create,
-> >          file: &drm::File<File>,
-> >      ) -> Result<u32> {
-> > -        let req: &GemCreate = req.into();
-> > -        let obj = NovaObject::new(dev, req.size().try_into()?)?;
-> > +        let obj = NovaObject::new(dev, req.size.try_into()?)?;
-> >  
-> > -        req.set_handle(obj.create_handle(file)?);
-> > +        req.handle = obj.create_handle(file)?;
-> >  
-> >          Ok(0)
-> >      }
-> > @@ -61,13 +57,12 @@ pub(crate) fn gem_create(
-> >      /// IOCTL: gem_info: Query GEM metadata.
-> >      pub(crate) fn gem_info(
-> >          _dev: &NovaDevice,
-> > -        req: &Opaque<uapi::drm_nova_gem_info>,
-> > +        req: &mut uapi::drm_nova_gem_info,
-> >          file: &drm::File<File>,
-> >      ) -> Result<u32> {
-> > -        let req: &GemInfo = req.into();
-> > -        let bo = NovaObject::lookup_handle(file, req.handle())?;
-> > +        let bo = NovaObject::lookup_handle(file, req.handle)?;
-> >  
-> > -        req.set_size(bo.size().try_into()?);
-> > +        req.size = bo.size().try_into()?;
-> >  
-> >          Ok(0)
-> >      }
-> > diff --git a/drivers/gpu/drm/nova/nova.rs b/drivers/gpu/drm/nova/nova.rs
-> > index 902876aa14d1..730598defe04 100644
-> > --- a/drivers/gpu/drm/nova/nova.rs
-> > +++ b/drivers/gpu/drm/nova/nova.rs
-> > @@ -5,7 +5,6 @@
-> >  mod driver;
-> >  mod file;
-> >  mod gem;
-> > -mod uapi;
-> >  
-> >  use crate::driver::NovaDriver;
-> >  
-> > diff --git a/drivers/gpu/drm/nova/uapi.rs b/drivers/gpu/drm/nova/uapi.rs
-> > deleted file mode 100644
-> > index eb228a58d423..000000000000
-> > --- a/drivers/gpu/drm/nova/uapi.rs
-> > +++ /dev/null
-> > @@ -1,61 +0,0 @@
-> > -// SPDX-License-Identifier: GPL-2.0
-> > -
-> > -use kernel::uapi;
-> > -
-> > -// TODO Work out some common infrastructure to avoid boilerplate code for uAPI abstractions.
-> > -
-> > -macro_rules! define_uapi_abstraction {
-> > -    ($name:ident <= $inner:ty) => {
-> > -        #[repr(transparent)]
-> > -        pub struct $name(::kernel::types::Opaque<$inner>);
-> > -
-> > -        impl ::core::convert::From<&::kernel::types::Opaque<$inner>> for &$name {
-> > -            fn from(value: &::kernel::types::Opaque<$inner>) -> Self {
-> > -                // SAFETY: `Self` is a transparent wrapper of `$inner`.
-> > -                unsafe { ::core::mem::transmute(value) }
-> > -            }
-> > -        }
-> > -    };
-> > -}
-> > -
-> > -define_uapi_abstraction!(Getparam <= uapi::drm_nova_getparam);
-> > -
-> > -impl Getparam {
-> > -    pub fn param(&self) -> u64 {
-> > -        // SAFETY: `self.get()` is a valid pointer to a `struct drm_nova_getparam`.
-> > -        unsafe { (*self.0.get()).param }
-> > -    }
-> > -
-> > -    pub fn set_value(&self, v: u64) {
-> > -        // SAFETY: `self.get()` is a valid pointer to a `struct drm_nova_getparam`.
-> > -        unsafe { (*self.0.get()).value = v };
-> > -    }
-> > -}
-> > -
-> > -define_uapi_abstraction!(GemCreate <= uapi::drm_nova_gem_create);
-> > -
-> > -impl GemCreate {
-> > -    pub fn size(&self) -> u64 {
-> > -        // SAFETY: `self.get()` is a valid pointer to a `struct drm_nova_gem_create`.
-> > -        unsafe { (*self.0.get()).size }
-> > -    }
-> > -
-> > -    pub fn set_handle(&self, handle: u32) {
-> > -        // SAFETY: `self.get()` is a valid pointer to a `struct drm_nova_gem_create`.
-> > -        unsafe { (*self.0.get()).handle = handle };
-> > -    }
-> > -}
-> > -
-> > -define_uapi_abstraction!(GemInfo <= uapi::drm_nova_gem_info);
-> > -
-> > -impl GemInfo {
-> > -    pub fn handle(&self) -> u32 {
-> > -        // SAFETY: `self.get()` is a valid pointer to a `struct drm_nova_gem_info`.
-> > -        unsafe { (*self.0.get()).handle }
-> > -    }
-> > -
-> > -    pub fn set_size(&self, size: u64) {
-> > -        // SAFETY: `self.get()` is a valid pointer to a `struct drm_nova_gem_info`.
-> > -        unsafe { (*self.0.get()).size = size };
-> > -    }
-> > -}
-> > diff --git a/rust/kernel/drm/ioctl.rs b/rust/kernel/drm/ioctl.rs
-> > index 445639404fb7..3425a835f9cd 100644
-> > --- a/rust/kernel/drm/ioctl.rs
-> > +++ b/rust/kernel/drm/ioctl.rs
-> > @@ -83,7 +83,7 @@ pub mod internal {
-> >  ///
-> >  /// ```ignore
-> >  /// fn foo(device: &kernel::drm::Device<Self>,
-> > -///        data: &Opaque<uapi::argument_type>,
-> > +///        data: &mut uapi::argument_type,
-> >  ///        file: &kernel::drm::File<Self::File>,
-> >  /// ) -> Result<u32>
-> >  /// ```
-> > @@ -138,9 +138,12 @@ pub mod internal {
-> >                              // SAFETY: The ioctl argument has size `_IOC_SIZE(cmd)`, which we
-> >                              // asserted above matches the size of this type, and all bit patterns of
-> >                              // UAPI structs must be valid.
-> > -                            let data = unsafe {
-> > -                                &*(raw_data as *const $crate::types::Opaque<$crate::uapi::$struct>)
-> > -                            };
-> > +                            // The `ioctl` argument is exclusively owned by the handler
-> > +                            // and guaranteed by the C implementation (`drm_ioctl()`) to remain
-> > +                            // valid for the entire lifetime of the reference taken here.
-> > +                            // There is no concurrent access or aliasing; no other references
-> > +                            // to this object exist during this call.
-> > +                            let data = unsafe { &mut *(raw_data as *mut $crate::uapi::$struct) };
-> 
-> "ptr as ptr" should be avoided, see:
-> 
-> 	https://lore.kernel.org/rust-for-linux/20250615-ptr-as-ptr-v12-1-f43b024581e8@gmail.com/
-> 
-> so probably
-> 
->     let data = unsafe { &mut *(raw_data.cast()) };
-> 
-> ?
+On Tue, Jun 24, 2025 at 3:13=E2=80=AFPM Timur Tabi <ttabi@nvidia.com> wrote=
+:
+> You have a good point, but I think your change, in effect, necessitates m=
+y request.  Previously, the
+> default was no GSP-RM unless needed.  Now it's yes GSP-RM, and the concep=
+t of "need" has been
+> removed.  So there's no indication any more that some GPUs need GSP-RM an=
+d some do not.
 >
-Thank you for pointing that one out.
-
----
-BR
-Beata
-> With that fixed, feel free to add:
-> 
-> Reviewed-by: Boqun Feng <boqun.feng@gmail.com>
+> So to address that, I think it makes sense to add a warning if someone tr=
+ies disable GSP-RM on a GPU
+> that is not supported in that configuration.
 >
-> Regards,
-> Boqun
-> 
-> >                              // SAFETY: This is just the DRM file structure
-> >                              let file = unsafe { $crate::drm::File::as_ref(raw_file) };
-> >  
-> > -- 
-> > 2.25.1
-> > 
+> Now, whether or not we should ignore NvGspRm=3D0 on Ada+ is up for debate=
+.  If I understand the code
+> correctly, today (and still with your patches), Ada+ would fail to boot. =
+ I can't say whether or not
+> that's a good idea.  But I think a warning should be printed either way.
+
+This patch behaves exactly the same as DRM_NOUVEAU_GSP_DEFAULT=3Dy
+kernels already behave.
+
+That being said, I'm not against the additional error checking here
+and can add it to the next version of this series.
