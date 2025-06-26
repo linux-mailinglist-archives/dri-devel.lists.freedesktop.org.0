@@ -2,36 +2,36 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id A2520AE9A2D
-	for <lists+dri-devel@lfdr.de>; Thu, 26 Jun 2025 11:35:23 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id D4D2AAE9A44
+	for <lists+dri-devel@lfdr.de>; Thu, 26 Jun 2025 11:38:45 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C44B510E88B;
-	Thu, 26 Jun 2025 09:35:16 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 00F6710E86B;
+	Thu, 26 Jun 2025 09:38:43 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=dolcini.it header.i=@dolcini.it header.b="eSrwSLdl";
+	dkim=pass (2048-bit key; unprotected) header.d=dolcini.it header.i=@dolcini.it header.b="ZZNGYrgJ";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mail11.truemail.it (mail11.truemail.it [217.194.8.81])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C380310E88B
- for <dri-devel@lists.freedesktop.org>; Thu, 26 Jun 2025 09:35:14 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E208D10E86B
+ for <dri-devel@lists.freedesktop.org>; Thu, 26 Jun 2025 09:38:41 +0000 (UTC)
 Received: from gaggiata.pivistrello.it (93-49-2-63.ip317.fastwebnet.it
  [93.49.2.63])
- by mail11.truemail.it (Postfix) with ESMTPA id 4CA2A1F967;
- Thu, 26 Jun 2025 11:35:13 +0200 (CEST)
+ by mail11.truemail.it (Postfix) with ESMTPA id 6A58E1F967;
+ Thu, 26 Jun 2025 11:38:40 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=dolcini.it;
- s=default; t=1750930513;
- bh=jtFY4cO1iLUpT7mdVmwDvk5FlsqBRnFPfF6wlzvKuX0=;
+ s=default; t=1750930720;
+ bh=wL5rIYbk+FKuqfNm4dI1sNYrQVxIwIxEyY/Nl9/LMWo=;
  h=Received:From:To:Subject;
- b=eSrwSLdl8wEfJkYq5UjD3wVo+W7cQeS3EPUsCAgcfW+LIOAv/tkhS5L40hEgBdiYM
- 01xy0KGYWxTYVml4mFitNh2eTR2ztVPX5HkXkrKU0nY90Gu/2tmJBoGYi3LCgILQuU
- JQhf159cjGS183FStzVK+NwgegmNuF5gDKGyocCGz0fZKJ2r9FiJEZ2d8Oq13mktIE
- JOp3ozf+Ke13c4dngeKb44oSDl6lV2j83hxq9H9xWGXqaPKhJWZLqEQzAnma4AKIAM
- RZ9Ya/rfVd0s8RIKNo9VMoR12fLBMz6ii/ZHFhNwG3zbYYHxF2AWakp8wJFqt3TJUp
- I0GvlrevRp7vQ==
+ b=ZZNGYrgJHCJZHnEVacbdbG7X3f71gFZQ+kW0y5VyBa1BlTy+ompsCzlq320PVUOYM
+ ZMnssFH+XbuZpxZaWo/LqlfouqNqTJk8XMAZqREECvteKPsvF2fkl5gzwc48tHpQv9
+ P0nG1Q+HXW9dLPFUb1MOWeGrkb4t/F/RMC6Nxysgzd3UQ19v3ua94Fc1MvzewkLHg+
+ e5zszFNT9dBZoaP4PMf04NyyQcpTWq+yHsSsvpwZt+XeZLVOAZohO5NcaA1puAnLtn
+ AdLeXZWQbeJet6IighkzpnVc9mM+6N3CTGZR1mcCQaSoos3nNq+Bc1a+QAmZXZgxBl
+ XOC+3f7/nXk/A==
 Received: by gaggiata.pivistrello.it (Postfix, from userid 1000)
- id 05FAA7F9CF; Thu, 26 Jun 2025 11:35:12 +0200 (CEST)
-Date: Thu, 26 Jun 2025 11:35:12 +0200
+ id 198357F9CF; Thu, 26 Jun 2025 11:38:40 +0200 (CEST)
+Date: Thu, 26 Jun 2025 11:38:40 +0200
 From: Francesco Dolcini <francesco@dolcini.it>
 To: Maxime Ripard <mripard@kernel.org>
 Cc: Neil Armstrong <neil.armstrong@linaro.org>,
@@ -42,15 +42,16 @@ Cc: Neil Armstrong <neil.armstrong@linaro.org>,
  Luca Ceresoli <luca.ceresoli@bootlin.com>,
  Anusha Srivatsa <asrivats@redhat.com>,
  dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- francesco@dolcini.it
+ Francesco Dolcini <francesco@dolcini.it>
 Subject: Re: [PATCH 0/5] drm/panel: panel-simple: Fix panel-dpi probe error
-Message-ID: <aF0UUBQFAu9GUde0@gaggiata.pivistrello.it>
+Message-ID: <aF0VIBqcLQSBZeNE@gaggiata.pivistrello.it>
 References: <20250625-drm-panel-simple-fixes-v1-0-c428494a86b8@kernel.org>
  <aF0SBNGmTpgtBTC3@gaggiata.pivistrello.it>
+ <aF0UUBQFAu9GUde0@gaggiata.pivistrello.it>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: multipart/mixed; boundary="GO8ZmcqGmxEQ4yIE"
 Content-Disposition: inline
-In-Reply-To: <aF0SBNGmTpgtBTC3@gaggiata.pivistrello.it>
+In-Reply-To: <aF0UUBQFAu9GUde0@gaggiata.pivistrello.it>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -66,41 +67,490 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, Jun 26, 2025 at 11:25:24AM +0200, Francesco Dolcini wrote:
-> On Wed, Jun 25, 2025 at 08:48:37AM +0200, Maxime Ripard wrote:
-> > Here's a series fixing (hopefully) the panel-simple regression for
-> > panels with a panel-dpi compatible.
-> > 
-> > It's only build tested, so if you could give that series a try
-> > Francesco, I'd really appreciate it.
-> 
-> It does not build for me, applied on top of commit ee88bddf7f2f ("Merge tag
-> 'bpf-fixes' of git://git.kernel.org/pub/scm/linux/kernel/git/bpf/bpf")
-> 
->   SYNC    include/config/auto.conf.cmd
->   CALL    scripts/checksyscalls.sh
->   CC      drivers/gpu/drm/drm_of.o
->   CC [M]  drivers/gpu/drm/panel/panel-simple.o
->   AR      drivers/gpu/drm/built-in.a
->   AR      drivers/gpu/built-in.a
->   AR      drivers/built-in.a
->   AR      built-in.a
->   AR      vmlinux.a
->   LD      vmlinux.o
->   OBJCOPY modules.builtin.modinfo
->   GEN     modules.builtin
->   GEN     .vmlinux.objs
->   MODPOST Module.symvers
-> ERROR: modpost: "mipi_dsi_bus_type" [drivers/gpu/drm/panel/panel-simple.ko] undefined!
-> make[2]: *** [scripts/Makefile.modpost:147: Module.symvers] Error 1
-> make[1]: *** [/home/francesco/Toradex/sources/linux/Makefile:1953: modpost] Error 2
-> make: *** [Makefile:248: __sub-make] Error 2
-> [Exit 2]
-> 
 
-The issue is that I do not have CONFIG_DRM_MIPI_DSI. Adding it the build
-finishes, and it also fixes the issue.
+--GO8ZmcqGmxEQ4yIE
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+
+On Thu, Jun 26, 2025 at 11:35:12AM +0200, Francesco Dolcini wrote:
+> On Thu, Jun 26, 2025 at 11:25:24AM +0200, Francesco Dolcini wrote:
+> > On Wed, Jun 25, 2025 at 08:48:37AM +0200, Maxime Ripard wrote:
+> > > Here's a series fixing (hopefully) the panel-simple regression for
+> > > panels with a panel-dpi compatible.
+> > > 
+> > > It's only build tested, so if you could give that series a try
+> > > Francesco, I'd really appreciate it.
+> > 
+> > It does not build for me, applied on top of commit ee88bddf7f2f ("Merge tag
+> > 'bpf-fixes' of git://git.kernel.org/pub/scm/linux/kernel/git/bpf/bpf")
+> > 
+> >   SYNC    include/config/auto.conf.cmd
+> >   CALL    scripts/checksyscalls.sh
+> >   CC      drivers/gpu/drm/drm_of.o
+> >   CC [M]  drivers/gpu/drm/panel/panel-simple.o
+> >   AR      drivers/gpu/drm/built-in.a
+> >   AR      drivers/gpu/built-in.a
+> >   AR      drivers/built-in.a
+> >   AR      built-in.a
+> >   AR      vmlinux.a
+> >   LD      vmlinux.o
+> >   OBJCOPY modules.builtin.modinfo
+> >   GEN     modules.builtin
+> >   GEN     .vmlinux.objs
+> >   MODPOST Module.symvers
+> > ERROR: modpost: "mipi_dsi_bus_type" [drivers/gpu/drm/panel/panel-simple.ko] undefined!
+> > make[2]: *** [scripts/Makefile.modpost:147: Module.symvers] Error 1
+> > make[1]: *** [/home/francesco/Toradex/sources/linux/Makefile:1953: modpost] Error 2
+> > make: *** [Makefile:248: __sub-make] Error 2
+> > [Exit 2]
+> > 
+> 
+> The issue is that I do not have CONFIG_DRM_MIPI_DSI. Adding it the build
+> finishes, and it also fixes the issue.
+
+Please find attached the defconfig that trigger this build issue. ARCH=arm, the
+actual target I am testing on is an NXP i.MX6.
 
 Francesco
 
-> 
+
+--GO8ZmcqGmxEQ4yIE
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: attachment; filename=defconfig
+
+# CONFIG_LOCALVERSION_AUTO is not set
+CONFIG_KERNEL_LZ4=y
+CONFIG_SYSVIPC=y
+CONFIG_POSIX_MQUEUE=y
+CONFIG_GENERIC_IRQ_DEBUGFS=y
+CONFIG_NO_HZ_IDLE=y
+CONFIG_HIGH_RES_TIMERS=y
+CONFIG_BPF_SYSCALL=y
+CONFIG_BPF_JIT=y
+CONFIG_PREEMPT=y
+CONFIG_IKCONFIG=y
+CONFIG_IKCONFIG_PROC=y
+CONFIG_CGROUPS=y
+CONFIG_MEMCG=y
+CONFIG_BLK_CGROUP=y
+CONFIG_CGROUP_SCHED=y
+CONFIG_CFS_BANDWIDTH=y
+CONFIG_CGROUP_PIDS=y
+CONFIG_CPUSETS=y
+CONFIG_CGROUP_DEVICE=y
+CONFIG_CGROUP_CPUACCT=y
+CONFIG_CGROUP_BPF=y
+CONFIG_CGROUP_MISC=y
+CONFIG_NAMESPACES=y
+CONFIG_USER_NS=y
+CONFIG_BLK_DEV_INITRD=y
+CONFIG_SYSFS_SYSCALL=y
+CONFIG_EXPERT=y
+CONFIG_PROFILING=y
+CONFIG_ARCH_MXC=y
+CONFIG_SOC_IMX6Q=y
+CONFIG_SOC_IMX6UL=y
+CONFIG_SOC_IMX7D=y
+CONFIG_SMP=y
+CONFIG_ARM_PSCI=y
+CONFIG_HIGHMEM=y
+CONFIG_ARCH_FORCE_MAX_ORDER=13
+CONFIG_CPU_FREQ=y
+CONFIG_CPU_FREQ_STAT=y
+CONFIG_CPU_FREQ_GOV_POWERSAVE=y
+CONFIG_CPU_FREQ_GOV_USERSPACE=y
+CONFIG_CPU_FREQ_GOV_ONDEMAND=y
+CONFIG_CPU_FREQ_GOV_CONSERVATIVE=y
+CONFIG_CPUFREQ_DT=y
+CONFIG_ARM_IMX6Q_CPUFREQ=y
+CONFIG_ARM_IMX_CPUFREQ_DT=y
+CONFIG_CPU_IDLE=y
+CONFIG_ARM_CPUIDLE=y
+CONFIG_ARM_PSCI_CPUIDLE=y
+CONFIG_VFP=y
+CONFIG_NEON=y
+CONFIG_PM_DEBUG=y
+CONFIG_PM_ADVANCED_DEBUG=y
+CONFIG_ENERGY_MODEL=y
+CONFIG_KPROBES=y
+CONFIG_JUMP_LABEL=y
+CONFIG_MODULES=y
+CONFIG_MODULE_UNLOAD=y
+CONFIG_MODVERSIONS=y
+CONFIG_BINFMT_MISC=m
+# CONFIG_COMPAT_BRK is not set
+CONFIG_CMA_DEBUGFS=y
+CONFIG_CMA_SYSFS=y
+CONFIG_CMA_AREAS=7
+CONFIG_LRU_GEN=y
+CONFIG_LRU_GEN_ENABLED=y
+CONFIG_NET=y
+CONFIG_PACKET=y
+CONFIG_UNIX=y
+CONFIG_INET=y
+CONFIG_IP_MULTICAST=y
+CONFIG_IP_PNP=y
+CONFIG_IP_PNP_DHCP=y
+CONFIG_IP_PNP_BOOTP=y
+CONFIG_IPV6=m
+CONFIG_NETFILTER=y
+CONFIG_BRIDGE_NETFILTER=m
+CONFIG_NF_CONNTRACK=m
+CONFIG_IP_NF_IPTABLES=m
+CONFIG_IP_NF_FILTER=m
+CONFIG_IP_NF_TARGET_REJECT=m
+CONFIG_IP_NF_NAT=m
+CONFIG_IP_NF_TARGET_MASQUERADE=m
+CONFIG_IP6_NF_IPTABLES=m
+CONFIG_IP6_NF_FILTER=m
+CONFIG_IP6_NF_TARGET_REJECT=m
+CONFIG_IP6_NF_NAT=m
+CONFIG_IP6_NF_TARGET_MASQUERADE=m
+CONFIG_BRIDGE=m
+CONFIG_BRIDGE_VLAN_FILTERING=y
+CONFIG_VLAN_8021Q=m
+CONFIG_VLAN_8021Q_GVRP=y
+CONFIG_VLAN_8021Q_MVRP=y
+CONFIG_CAN=m
+CONFIG_BT=m
+CONFIG_BT_RFCOMM=m
+CONFIG_BT_BNEP=m
+CONFIG_BT_HIDP=m
+CONFIG_BT_HCIBTUSB=m
+CONFIG_BT_HCIBTSDIO=m
+CONFIG_BT_HCIUART=m
+CONFIG_BT_HCIUART_MRVL=y
+CONFIG_BT_MRVL=m
+CONFIG_BT_MRVL_SDIO=m
+CONFIG_BT_NXPUART=m
+CONFIG_CFG80211=m
+CONFIG_CFG80211_WEXT=y
+CONFIG_MAC80211=m
+CONFIG_RFKILL=m
+CONFIG_RFKILL_GPIO=m
+CONFIG_PCI=y
+CONFIG_PCIEPORTBUS=y
+CONFIG_PCIEAER=y
+CONFIG_PCI_MSI=y
+# CONFIG_VGA_ARB is not set
+CONFIG_PCI_IMX6_HOST=y
+CONFIG_DEVTMPFS=y
+CONFIG_DEVTMPFS_MOUNT=y
+CONFIG_IMX_WEIM=y
+CONFIG_ARM_SCMI_PROTOCOL=y
+CONFIG_MTD=y
+CONFIG_MTD_CMDLINE_PARTS=y
+CONFIG_MTD_BLOCK=y
+CONFIG_MTD_CFI=y
+CONFIG_MTD_JEDECPROBE=y
+CONFIG_MTD_CFI_INTELEXT=y
+CONFIG_MTD_CFI_AMDSTD=y
+CONFIG_MTD_CFI_STAA=y
+CONFIG_MTD_PHYSMAP=y
+CONFIG_MTD_PHYSMAP_OF=y
+CONFIG_MTD_RAW_NAND=y
+CONFIG_MTD_NAND_GPMI_NAND=y
+CONFIG_MTD_SPI_NOR=m
+CONFIG_MTD_UBI=y
+CONFIG_MTD_UBI_FASTMAP=y
+CONFIG_MTD_UBI_BLOCK=y
+CONFIG_BLK_DEV_LOOP=m
+CONFIG_BLK_DEV_NVME=m
+CONFIG_EEPROM_AT24=y
+CONFIG_EEPROM_AT25=y
+CONFIG_SCSI=y
+CONFIG_BLK_DEV_SD=m
+CONFIG_SCSI_CONSTANTS=y
+CONFIG_ATA=m
+# CONFIG_SATA_PMP is not set
+CONFIG_SATA_AHCI=m
+CONFIG_SATA_MOBILE_LPM_POLICY=0
+CONFIG_AHCI_IMX=m
+# CONFIG_ATA_SFF is not set
+CONFIG_NETDEVICES=y
+CONFIG_R8169=m
+CONFIG_MICREL_PHY=y
+CONFIG_CAN_FLEXCAN=m
+CONFIG_CAN_MCP251X=m
+CONFIG_CAN_MCP251XFD=m
+CONFIG_USB_PEGASUS=m
+CONFIG_USB_RTL8150=m
+CONFIG_USB_RTL8152=m
+CONFIG_USB_USBNET=m
+CONFIG_USB_NET_DM9601=m
+CONFIG_USB_NET_SR9800=m
+CONFIG_USB_NET_SMSC75XX=m
+CONFIG_USB_NET_SMSC95XX=m
+CONFIG_USB_NET_PLUSB=m
+CONFIG_USB_NET_MCS7830=m
+CONFIG_ATH10K=m
+CONFIG_ATH10K_PCI=m
+CONFIG_ATH10K_SDIO=m
+CONFIG_ATH11K=m
+CONFIG_ATH11K_PCI=m
+CONFIG_ATH12K=m
+CONFIG_IWLWIFI=m
+CONFIG_MWIFIEX=m
+CONFIG_MWIFIEX_SDIO=m
+CONFIG_MWIFIEX_PCIE=m
+CONFIG_RTL8192CU=m
+CONFIG_RTL8XXXU=m
+CONFIG_INPUT_EVDEV=m
+# CONFIG_KEYBOARD_ATKBD is not set
+CONFIG_KEYBOARD_GPIO=m
+CONFIG_KEYBOARD_GPIO_POLLED=m
+CONFIG_KEYBOARD_SNVS_PWRKEY=m
+CONFIG_KEYBOARD_IMX=m
+# CONFIG_INPUT_MOUSE is not set
+CONFIG_INPUT_TOUCHSCREEN=y
+CONFIG_TOUCHSCREEN_AD7879=m
+CONFIG_TOUCHSCREEN_AD7879_I2C=m
+CONFIG_TOUCHSCREEN_ATMEL_MXT=m
+CONFIG_TOUCHSCREEN_STMPE=m
+CONFIG_TOUCHSCREEN_COLIBRI_VF50=m
+CONFIG_SERIAL_8250=y
+CONFIG_SERIAL_8250_CONSOLE=y
+CONFIG_SERIAL_8250_NR_UARTS=6
+CONFIG_SERIAL_8250_RUNTIME_UARTS=6
+CONFIG_SERIAL_OF_PLATFORM=y
+CONFIG_SERIAL_IMX=y
+CONFIG_SERIAL_IMX_CONSOLE=y
+CONFIG_SERIAL_FSL_LPUART=y
+CONFIG_SERIAL_FSL_LPUART_CONSOLE=y
+CONFIG_RPMSG_TTY=m
+CONFIG_SERIAL_DEV_BUS=y
+CONFIG_I2C_CHARDEV=y
+CONFIG_I2C_GPIO=m
+CONFIG_I2C_IMX=y
+CONFIG_SPI=y
+CONFIG_SPI_FSL_LPSPI=m
+CONFIG_SPI_FSL_QUADSPI=m
+CONFIG_SPI_IMX=m
+CONFIG_SPI_SPIDEV=m
+# CONFIG_PINCTRL_IMX8ULP is not set
+CONFIG_GPIO_SYSFS=y
+CONFIG_GPIO_MXC=y
+CONFIG_POWER_RESET=y
+CONFIG_POWER_RESET_GPIO=y
+CONFIG_POWER_RESET_GPIO_RESTART=y
+CONFIG_POWER_RESET_REGULATOR=y
+CONFIG_POWER_RESET_SYSCON_POWEROFF=y
+CONFIG_SENSORS_ARM_SCMI=y
+CONFIG_SENSORS_GPIO_FAN=m
+CONFIG_SENSORS_IIO_HWMON=m
+CONFIG_SENSORS_LM75=m
+CONFIG_SENSORS_PWM_FAN=m
+CONFIG_SENSORS_AMC6821=m
+CONFIG_SENSORS_INA2XX=m
+CONFIG_THERMAL_STATISTICS=y
+CONFIG_THERMAL_EMERGENCY_POWEROFF_DELAY_MS=10000
+CONFIG_THERMAL_GOV_USER_SPACE=y
+CONFIG_THERMAL_GOV_POWER_ALLOCATOR=y
+CONFIG_CPU_THERMAL=y
+CONFIG_IMX_THERMAL=y
+CONFIG_WATCHDOG=y
+CONFIG_WATCHDOG_SYSFS=y
+CONFIG_RN5T618_WATCHDOG=y
+CONFIG_IMX2_WDT=y
+CONFIG_MFD_RN5T618=y
+CONFIG_MFD_STMPE=y
+CONFIG_REGULATOR=y
+CONFIG_REGULATOR_FIXED_VOLTAGE=y
+CONFIG_REGULATOR_ANATOP=y
+CONFIG_REGULATOR_GPIO=y
+CONFIG_REGULATOR_PFUZE100=y
+CONFIG_REGULATOR_RN5T618=y
+CONFIG_MEDIA_SUPPORT=y
+CONFIG_MEDIA_SUPPORT_FILTER=y
+CONFIG_MEDIA_CAMERA_SUPPORT=y
+CONFIG_MEDIA_PLATFORM_SUPPORT=y
+CONFIG_MEDIA_USB_SUPPORT=y
+CONFIG_USB_VIDEO_CLASS=m
+CONFIG_V4L_PLATFORM_DRIVERS=y
+CONFIG_V4L_MEM2MEM_DRIVERS=y
+CONFIG_VIDEO_MUX=m
+CONFIG_VIDEO_CODA=m
+CONFIG_VIDEO_IMX7_CSI=m
+CONFIG_VIDEO_IMX_MIPI_CSIS=m
+CONFIG_VIDEO_IMX_PXP=m
+CONFIG_VIDEO_OV5640=m
+CONFIG_VIDEO_ADV7180=m
+CONFIG_IMX_IPUV3_CORE=y
+CONFIG_DRM=y
+CONFIG_DRM_LOAD_EDID_FIRMWARE=y
+CONFIG_DRM_PANEL_LVDS=m
+CONFIG_DRM_PANEL_EDP=m
+CONFIG_DRM_PANEL_SIMPLE=m
+CONFIG_DRM_CDNS_MHDP8546=m
+CONFIG_DRM_DW_HDMI_AHB_AUDIO=m
+CONFIG_DRM_DW_HDMI_GP_AUDIO=m
+CONFIG_DRM_DW_HDMI_CEC=m
+CONFIG_DRM_IMX=y
+CONFIG_DRM_IMX_PARALLEL_DISPLAY=y
+CONFIG_DRM_IMX_TVE=y
+CONFIG_DRM_IMX_LDB=y
+CONFIG_DRM_IMX_HDMI=y
+CONFIG_DRM_ETNAVIV=m
+CONFIG_DRM_MXSFB=m
+CONFIG_DRM_IMX_LCDIF=y
+CONFIG_FB=y
+CONFIG_BACKLIGHT_CLASS_DEVICE=y
+CONFIG_BACKLIGHT_PWM=m
+CONFIG_BACKLIGHT_GPIO=m
+CONFIG_LOGO=y
+CONFIG_SOUND=y
+CONFIG_SND=y
+CONFIG_SND_SOC=y
+CONFIG_SND_SOC_FSL_ASRC=m
+CONFIG_SND_IMX_SOC=m
+CONFIG_SND_SOC_IMX_SGTL5000=m
+CONFIG_SND_SOC_FSL_ASOC_CARD=m
+CONFIG_SND_SOC_IMX_AUDMIX=m
+CONFIG_SND_SOC_IMX_HDMI=m
+CONFIG_SND_SOC_SOF_TOPLEVEL=y
+CONFIG_SND_SOC_SOF_OF=m
+CONFIG_SND_SOC_SPDIF=m
+CONFIG_SND_SOC_NAU8822=m
+CONFIG_SND_SIMPLE_CARD=m
+CONFIG_SND_AUDIO_GRAPH_CARD=m
+CONFIG_SND_AUDIO_GRAPH_CARD2=m
+CONFIG_UHID=m
+CONFIG_HID_MULTITOUCH=m
+CONFIG_USB_HIDDEV=y
+CONFIG_USB_CONN_GPIO=m
+CONFIG_USB=y
+CONFIG_USB_ANNOUNCE_NEW_DEVICES=y
+CONFIG_USB_OTG=y
+CONFIG_USB_MON=m
+CONFIG_USB_XHCI_HCD=y
+CONFIG_USB_XHCI_PLATFORM=y
+CONFIG_USB_EHCI_HCD=m
+CONFIG_USB_ACM=m
+CONFIG_USB_STORAGE=y
+CONFIG_USB_UAS=m
+CONFIG_USB_CHIPIDEA=m
+CONFIG_USB_CHIPIDEA_UDC=y
+CONFIG_USB_CHIPIDEA_HOST=y
+CONFIG_USB_SERIAL=m
+CONFIG_USB_SERIAL_OPTION=m
+CONFIG_USB_TEST=m
+CONFIG_USB_EHSET_TEST_FIXTURE=m
+CONFIG_USB_HUB_USB251XB=m
+CONFIG_USB_HSIC_USB3503=m
+CONFIG_NOP_USB_XCEIV=m
+CONFIG_USB_MXS_PHY=m
+CONFIG_USB_GADGET=y
+CONFIG_USB_CONFIGFS=y
+CONFIG_USB_CONFIGFS_SERIAL=y
+CONFIG_USB_CONFIGFS_ACM=y
+CONFIG_USB_CONFIGFS_NCM=y
+CONFIG_USB_CONFIGFS_ECM=y
+CONFIG_USB_CONFIGFS_ECM_SUBSET=y
+CONFIG_USB_CONFIGFS_EEM=y
+CONFIG_USB_CONFIGFS_MASS_STORAGE=y
+CONFIG_USB_CONFIGFS_F_LB_SS=y
+CONFIG_USB_CONFIGFS_F_FS=y
+CONFIG_USB_CONFIGFS_F_UAC1=y
+CONFIG_USB_CONFIGFS_F_UAC2=y
+CONFIG_USB_CONFIGFS_F_HID=y
+CONFIG_USB_CONFIGFS_F_UVC=y
+CONFIG_MMC=y
+CONFIG_MMC_SDHCI=y
+CONFIG_MMC_SDHCI_PLTFM=y
+CONFIG_MMC_SDHCI_ESDHC_IMX=y
+CONFIG_NEW_LEDS=y
+CONFIG_LEDS_CLASS=m
+CONFIG_LEDS_CLASS_MULTICOLOR=m
+CONFIG_LEDS_GPIO=m
+CONFIG_LEDS_PWM=m
+CONFIG_LEDS_TRIGGERS=y
+CONFIG_LEDS_TRIGGER_TIMER=m
+CONFIG_LEDS_TRIGGER_DISK=y
+CONFIG_LEDS_TRIGGER_HEARTBEAT=m
+CONFIG_LEDS_TRIGGER_BACKLIGHT=m
+CONFIG_LEDS_TRIGGER_DEFAULT_ON=m
+CONFIG_LEDS_TRIGGER_PANIC=y
+CONFIG_RTC_CLASS=y
+CONFIG_RTC_DRV_DS1307=y
+CONFIG_RTC_DRV_MXC=m
+CONFIG_RTC_DRV_SNVS=y
+CONFIG_DMADEVICES=y
+CONFIG_IMX_SDMA=m
+CONFIG_MXS_DMA=y
+CONFIG_STAGING=y
+CONFIG_STAGING_MEDIA=y
+CONFIG_VIDEO_IMX_MEDIA=m
+CONFIG_HWSPINLOCK=y
+CONFIG_IMX_MBOX=y
+CONFIG_REMOTEPROC=y
+CONFIG_REMOTEPROC_CDEV=y
+CONFIG_IMX_REMOTEPROC=y
+CONFIG_RPMSG_CHAR=m
+CONFIG_RPMSG_CTRL=m
+CONFIG_RPMSG_VIRTIO=m
+CONFIG_EXTCON_USB_GPIO=y
+CONFIG_IIO=y
+CONFIG_IIO_SW_TRIGGER=m
+CONFIG_IMX7D_ADC=m
+CONFIG_STMPE_ADC=m
+CONFIG_TI_ADS1015=m
+CONFIG_VF610_ADC=m
+CONFIG_IIO_RESCALE=m
+CONFIG_IIO_MUX=m
+CONFIG_IIO_HRTIMER_TRIGGER=m
+CONFIG_IIO_INTERRUPT_TRIGGER=m
+CONFIG_IIO_SYSFS_TRIGGER=m
+CONFIG_PWM=y
+CONFIG_PWM_FSL_FTM=m
+CONFIG_PWM_IMX27=m
+CONFIG_PHY_CAN_TRANSCEIVER=m
+CONFIG_NVMEM_IMX_OCOTP=y
+CONFIG_NVMEM_IMX_OCOTP_ELE=m
+CONFIG_NVMEM_SNVS_LPGPR=m
+CONFIG_TEE=m
+CONFIG_OPTEE=m
+CONFIG_MUX_GPIO=m
+CONFIG_MUX_MMIO=m
+CONFIG_EXT3_FS=m
+CONFIG_EXT3_FS_POSIX_ACL=y
+CONFIG_EXT3_FS_SECURITY=y
+CONFIG_EXT4_FS=y
+CONFIG_FANOTIFY=y
+CONFIG_AUTOFS_FS=m
+CONFIG_FUSE_FS=m
+CONFIG_VFAT_FS=y
+CONFIG_EXFAT_FS=y
+CONFIG_NTFS3_FS=m
+CONFIG_TMPFS_POSIX_ACL=y
+CONFIG_JFFS2_FS=m
+CONFIG_UBIFS_FS=y
+CONFIG_NFS_FS=y
+CONFIG_NFS_V2=y
+CONFIG_NFS_V4=y
+CONFIG_NFS_V4_1=y
+CONFIG_NFS_V4_2=y
+CONFIG_ROOT_NFS=y
+CONFIG_NLS_DEFAULT="cp437"
+CONFIG_NLS_CODEPAGE_437=m
+CONFIG_NLS_ASCII=m
+CONFIG_NLS_ISO8859_1=m
+CONFIG_NLS_ISO8859_15=m
+CONFIG_NLS_UTF8=m
+CONFIG_LSM="landlock,lockdown,yama,loadpin,safesetid,bpf"
+CONFIG_CRYPTO_NULL=m
+CONFIG_CRYPTO_SHA256=y
+CONFIG_CRYPTO_CRC32C=y
+CONFIG_CRYPTO_DEV_FSL_CAAM=m
+CONFIG_CRYPTO_DEV_MXS_DCP=m
+CONFIG_CMA_SIZE_MBYTES=256
+CONFIG_CMA_SIZE_PERCENTAGE=35
+CONFIG_CMA_SIZE_SEL_MIN=y
+CONFIG_PRINTK_TIME=y
+CONFIG_DYNAMIC_DEBUG=y
+CONFIG_MAGIC_SYSRQ=y
+CONFIG_DEBUG_FS=y
+CONFIG_DEBUG_MEMORY_INIT=y
+CONFIG_HARDLOCKUP_DETECTOR=y
+# CONFIG_FTRACE is not set
+
+--GO8ZmcqGmxEQ4yIE--
