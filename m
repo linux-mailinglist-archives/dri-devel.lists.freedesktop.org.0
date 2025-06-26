@@ -2,79 +2,34 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id EF794AEA207
-	for <lists+dri-devel@lfdr.de>; Thu, 26 Jun 2025 17:10:39 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id BE80FAEA36C
+	for <lists+dri-devel@lfdr.de>; Thu, 26 Jun 2025 18:23:36 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id F023E10E2BE;
-	Thu, 26 Jun 2025 15:10:36 +0000 (UTC)
-Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="Zk/vrWey";
-	dkim-atps=neutral
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8B18410E8D7;
+	Thu, 26 Jun 2025 16:23:33 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-f45.google.com (mail-lf1-f45.google.com
- [209.85.167.45])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C29BE10E2BE
- for <dri-devel@lists.freedesktop.org>; Thu, 26 Jun 2025 15:10:35 +0000 (UTC)
-Received: by mail-lf1-f45.google.com with SMTP id
- 2adb3069b0e04-553b9eb2299so1998593e87.0
- for <dri-devel@lists.freedesktop.org>; Thu, 26 Jun 2025 08:10:35 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1750950634; x=1751555434; darn=lists.freedesktop.org;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc:subject:date
- :message-id:reply-to;
- bh=axf5NbpAUzrmzPpqLLrUEqqBeYpEBv2j8XoiaPjeVEQ=;
- b=Zk/vrWeymS7TZJbKemw1FLqNKWF44jd+Isyt5llDpnQDf4u4u9IJQ8CfNXNkU5bjV4
- QIQRP49SRmjE6jenLjGRzedAocd6LdKDe1nuWsb2swr5EQvKK4S8qa6p1e1237xHazNq
- TJI3otKybjGPG9Uf6GzL4r+5W7Q16E1mqJ+cytPPE0I3BxGckZxDNNHk9ZWPTSzYzb2J
- kfcIFqjcgk+1c/lX5a8dXb4cWisdreYlLIilUAVjckcvG2uvKBHO8n1pUlWLWU79ACB7
- R4veI8t+1zP0yo27AKbfxydfisD3x8Zsb3CtfHZQdaUteUaXwAEWnwBmgbcAPtXC8Ne2
- 1WTA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1750950634; x=1751555434;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=axf5NbpAUzrmzPpqLLrUEqqBeYpEBv2j8XoiaPjeVEQ=;
- b=eoWYMiALJAHoegn/Izs5ly+Xpc6sA3PMeNosUZ61KYkdOR49XsQSzr9M/9sittaGhF
- 3W4WQHba2BW6EF580D7ZFSss+l6T34Ze6Ywm1RkwsU68jsyeGgki2UALTaJan5ySTfUt
- vVCyIAnGY0NPJq1N7ddNqEc1+GOyZ7eg9tK5t9d9lstIZeCZwWZjVGShncdVouMJ/3Zr
- MlGQGcLO7juV2q0byGD9x3oZnVUVz7dU2WdHdrBA0pbcUkFW/o4Wub+yHK0Vgl8YPzn+
- R4ERzyMMXNk1B1Y1CskOTvB2MidoltIeiPrcYZVtOpCjQt58Al1KABzM7bgBm+s8gHiY
- u6Wg==
-X-Forwarded-Encrypted: i=1;
- AJvYcCUu4kgMDYOJg0cwY65+nkqw9hlMQ7Byz2f3L0GAigg928k7jete7x1K9kYWC+Jz/r3Aej/NGyWLxNw=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0Yx3PKTB99monlGZcTZZaSL6iQSIy5zDQjI4yXSKgAjIz/ESrHpo
- DPGBOtRkJg/wBz4GYOArQ2P1K52iRSWfHH7ClfCzJF8BVIy7rMirgyuFOg7iDAoccRYuGzHa903
- +Vgt9HVjLaIVdyBc29mq/bKZ7qrKfQXk=
-X-Gm-Gg: ASbGnctxPOloKUyOfTe+HhSxoZMG9GC06C4w1KTTDteaOgho9GxSIG790QGBz+PtbPH
- HitbTX8i2m7U8BBT6Vx2xuOYefO1n46aytiXvJJiXfuHJ5HEphk+u0OGmjoZZi98hkRgraFKd18
- kMBhnMcpnh9SxjfhlAlmQZnoaSWCIP9hhpA124IKEVMI1E/is+ydXvp6XQmyu2ZtI0AwsUemkPY
- bHCNA==
-X-Google-Smtp-Source: AGHT+IG3aKdtoEX8k5XdMgWvxuQl/T0lmpkWTNORwe1brAkFFcnT7EjGtyotrt42fszQPUKuv/8ziotoOqBGlnuUj28=
-X-Received: by 2002:a05:6512:239e:b0:553:2159:8716 with SMTP id
- 2adb3069b0e04-55502caf1a4mr1616123e87.26.1750950633544; Thu, 26 Jun 2025
- 08:10:33 -0700 (PDT)
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+ by gabe.freedesktop.org (Postfix) with ESMTP id 3857B10E2D0
+ for <dri-devel@lists.freedesktop.org>; Thu, 26 Jun 2025 16:23:32 +0000 (UTC)
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+ by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id C75611758;
+ Thu, 26 Jun 2025 09:23:13 -0700 (PDT)
+Received: from e129154.arm.com (unknown [10.57.66.136])
+ by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPA id 362BA3F66E;
+ Thu, 26 Jun 2025 09:23:27 -0700 (PDT)
+From: Beata Michalska <beata.michalska@arm.com>
+To: ojeda@kernel.org, alex.gaynor@gmail.com, dakr@kernel.org,
+ aliceryhl@google.com, daniel.almeida@collabora.com, boqun.feng@gmail.com
+Cc: gary@garyguo.net, bjorn3_gh@protonmail.com, lossin@kernel.org,
+ a.hindborg@kernel.org, tmgross@umich.edu, alyssa@rosenzweig.io,
+ lyude@redhat.com, rust-for-linux@vger.kernel.org,
+ dri-devel@lists.freedesktop.org
+Subject: [PATCH v5] rust: drm: Drop the use of Opaque for ioctl arguments
+Date: Thu, 26 Jun 2025 18:23:13 +0200
+Message-Id: <20250626162313.2755584-1-beata.michalska@arm.com>
 MIME-Version: 1.0
-References: <20250626142243.19071-1-pranav.tyagi03@gmail.com>
- <5baab2ed-c48d-41ae-819a-71ca195c4407@igalia.com>
-In-Reply-To: <5baab2ed-c48d-41ae-819a-71ca195c4407@igalia.com>
-From: Pranav Tyagi <pranav.tyagi03@gmail.com>
-Date: Thu, 26 Jun 2025 20:40:22 +0530
-X-Gm-Features: Ac12FXzNyUo0k5FLeYm1nQk0x2e9IyduCv2spuHDSlghF9NcaV2B_Em4IpBcyCY
-Message-ID: <CAH4c4jLqQORVWNLmNGAqevbSCnALtkfod6gTuXe-oae0izR9Bw@mail.gmail.com>
-Subject: Re: [PATCH] drm/vkms: Fix race-condition between the hrtimer and the
- atomic commit
-To: =?UTF-8?B?TWHDrXJhIENhbmFs?= <mcanal@igalia.com>
-Cc: linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org, 
- rodrigosiqueiramelo@gmail.com, melissa.srw@gmail.com, hamohammed.sa@gmail.com, 
- daniel@ffwll.ch, airlied@linux.ie, arthurgrillo@riseup.net, 
- mairacanal@riseup.net, skhan@linuxfoundation.org, 
- linux-kernel-mentees@lists.linux.dev, stable@vger.kernel.org, 
- gregkh@linuxfoundation.org, sashal@kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -90,61 +45,226 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, Jun 26, 2025 at 8:32=E2=80=AFPM Ma=C3=ADra Canal <mcanal@igalia.com=
-> wrote:
->
-> Hi Pranav,
->
-> On 26/06/25 11:22, Pranav Tyagi wrote:
-> > From: Ma=C3=ADra Canal <mcanal@igalia.com>
-> >
-> > [ Upstream commit a0e6a017ab56936c0405fe914a793b241ed25ee0 ]
-> >
-> > Currently, it is possible for the composer to be set as enabled and the=
-n
-> > as disabled without a proper call for the vkms_vblank_simulate(). This
-> > is problematic, because the driver would skip one CRC output, causing C=
-RC
-> > tests to fail. Therefore, we need to make sure that, for each time the
-> > composer is set as enabled, a composer job is added to the queue.
-> >
-> > In order to provide this guarantee, add a mutex that will lock before
-> > the composer is set as enabled and will unlock only after the composer
-> > job is added to the queue. This way, we can have a guarantee that the
-> > driver won't skip a CRC entry.
-> >
-> > This race-condition is affecting the IGT test "writeback-check-output",
-> > making the test fail and also, leaking writeback framebuffers, as the
-> > writeback job is queued, but it is not signaled. This patch avoids both
-> > problems.
-> >
-> > [v2]:
-> >      * Create a new mutex and keep the spinlock across the atomic commi=
-t in
-> >        order to avoid interrupts that could result in deadlocks.
-> >
-> > [ Backport to 5.15: context cleanly applied with no semantic changes.
-> > Build-tested. ]
-> >
-> > Signed-off-by: Ma=C3=ADra Canal <mcanal@igalia.com>
-> > Reviewed-by: Arthur Grillo <arthurgrillo@riseup.net>
-> > Signed-off-by: Ma=C3=ADra Canal <mairacanal@riseup.net>
-> > Link: https://patchwork.freedesktop.org/patch/msgid/20230523123207.1739=
-76-1-mcanal@igalia.com
-> > Signed-off-by: Pranav Tyagi <pranav.tyagi03@gmail.com>
->
-> This patch violates locking rules and it was reversed a while ago.
-> Please, check commit 7908632f2927 ("Revert "drm/vkms: Fix race-condition
-> between the hrtimer and the atomic commit"").
->
-> Best Regards,
-> - Ma=C3=ADra
+With the Opaque<T>, the expectations are that Rust should not
+make any assumptions on the layout or invariants of the wrapped
+C types. That runs rather counter to ioctl arguments, which must
+adhere to certain data-layout constraints. By using Opaque<T>,
+ioctl handlers are forced to use unsafe code where none is actually
+needed. This adds needless complexity and maintenance overhead,
+brining no safety benefits.
+Drop the use of Opaque for ioctl arguments as that is not the best
+fit here.
 
-Thanks for pointing that out.
+Signed-off-by: Beata Michalska <beata.michalska@arm.com>
+Acked-by: Danilo Krummrich <dakr@kernel.org>
+Reviewed-by: Boqun Feng <boqun.feng@gmail.com>
+---
 
-I missed the revert. I now see that commit 7908632f2927 reversed
-this due to locking issues. I=E2=80=99ll drop this backport from 5.15
-accordingly.
+Changes in v5:
+- Use `.cast::<T>()` for ptr casting
 
-Regards
-Pranav Tyagi
+Changes in v4:
+- Fixed typo in commit message
+
+Changes in v3:
+- Squashed the changes into single commit
+
+Changes in v2:
+- Missing Nova changes now included
+- Fixed formatting and added comment on safety guarantees
+
+
+ drivers/gpu/drm/nova/file.rs | 23 ++++++--------
+ drivers/gpu/drm/nova/nova.rs |  1 -
+ drivers/gpu/drm/nova/uapi.rs | 61 ------------------------------------
+ rust/kernel/drm/ioctl.rs     | 11 ++++---
+ 4 files changed, 16 insertions(+), 80 deletions(-)
+ delete mode 100644 drivers/gpu/drm/nova/uapi.rs
+
+diff --git a/drivers/gpu/drm/nova/file.rs b/drivers/gpu/drm/nova/file.rs
+index 7e59a34b830d..7e7d4e2de2fb 100644
+--- a/drivers/gpu/drm/nova/file.rs
++++ b/drivers/gpu/drm/nova/file.rs
+@@ -2,13 +2,11 @@
+ 
+ use crate::driver::{NovaDevice, NovaDriver};
+ use crate::gem::NovaObject;
+-use crate::uapi::{GemCreate, GemInfo, Getparam};
+ use kernel::{
+     alloc::flags::*,
+     drm::{self, gem::BaseObject},
+     pci,
+     prelude::*,
+-    types::Opaque,
+     uapi,
+ };
+ 
+@@ -26,20 +24,19 @@ impl File {
+     /// IOCTL: get_param: Query GPU / driver metadata.
+     pub(crate) fn get_param(
+         dev: &NovaDevice,
+-        getparam: &Opaque<uapi::drm_nova_getparam>,
++        getparam: &mut uapi::drm_nova_getparam,
+         _file: &drm::File<File>,
+     ) -> Result<u32> {
+         let adev = &dev.adev;
+         let parent = adev.parent().ok_or(ENOENT)?;
+         let pdev: &pci::Device = parent.try_into()?;
+-        let getparam: &Getparam = getparam.into();
+ 
+-        let value = match getparam.param() as u32 {
++        let value = match getparam.param as u32 {
+             uapi::NOVA_GETPARAM_VRAM_BAR_SIZE => pdev.resource_len(1)?,
+             _ => return Err(EINVAL),
+         };
+ 
+-        getparam.set_value(value);
++        getparam.value = value;
+ 
+         Ok(0)
+     }
+@@ -47,13 +44,12 @@ pub(crate) fn get_param(
+     /// IOCTL: gem_create: Create a new DRM GEM object.
+     pub(crate) fn gem_create(
+         dev: &NovaDevice,
+-        req: &Opaque<uapi::drm_nova_gem_create>,
++        req: &mut uapi::drm_nova_gem_create,
+         file: &drm::File<File>,
+     ) -> Result<u32> {
+-        let req: &GemCreate = req.into();
+-        let obj = NovaObject::new(dev, req.size().try_into()?)?;
++        let obj = NovaObject::new(dev, req.size.try_into()?)?;
+ 
+-        req.set_handle(obj.create_handle(file)?);
++        req.handle = obj.create_handle(file)?;
+ 
+         Ok(0)
+     }
+@@ -61,13 +57,12 @@ pub(crate) fn gem_create(
+     /// IOCTL: gem_info: Query GEM metadata.
+     pub(crate) fn gem_info(
+         _dev: &NovaDevice,
+-        req: &Opaque<uapi::drm_nova_gem_info>,
++        req: &mut uapi::drm_nova_gem_info,
+         file: &drm::File<File>,
+     ) -> Result<u32> {
+-        let req: &GemInfo = req.into();
+-        let bo = NovaObject::lookup_handle(file, req.handle())?;
++        let bo = NovaObject::lookup_handle(file, req.handle)?;
+ 
+-        req.set_size(bo.size().try_into()?);
++        req.size = bo.size().try_into()?;
+ 
+         Ok(0)
+     }
+diff --git a/drivers/gpu/drm/nova/nova.rs b/drivers/gpu/drm/nova/nova.rs
+index 902876aa14d1..730598defe04 100644
+--- a/drivers/gpu/drm/nova/nova.rs
++++ b/drivers/gpu/drm/nova/nova.rs
+@@ -5,7 +5,6 @@
+ mod driver;
+ mod file;
+ mod gem;
+-mod uapi;
+ 
+ use crate::driver::NovaDriver;
+ 
+diff --git a/drivers/gpu/drm/nova/uapi.rs b/drivers/gpu/drm/nova/uapi.rs
+deleted file mode 100644
+index eb228a58d423..000000000000
+--- a/drivers/gpu/drm/nova/uapi.rs
++++ /dev/null
+@@ -1,61 +0,0 @@
+-// SPDX-License-Identifier: GPL-2.0
+-
+-use kernel::uapi;
+-
+-// TODO Work out some common infrastructure to avoid boilerplate code for uAPI abstractions.
+-
+-macro_rules! define_uapi_abstraction {
+-    ($name:ident <= $inner:ty) => {
+-        #[repr(transparent)]
+-        pub struct $name(::kernel::types::Opaque<$inner>);
+-
+-        impl ::core::convert::From<&::kernel::types::Opaque<$inner>> for &$name {
+-            fn from(value: &::kernel::types::Opaque<$inner>) -> Self {
+-                // SAFETY: `Self` is a transparent wrapper of `$inner`.
+-                unsafe { ::core::mem::transmute(value) }
+-            }
+-        }
+-    };
+-}
+-
+-define_uapi_abstraction!(Getparam <= uapi::drm_nova_getparam);
+-
+-impl Getparam {
+-    pub fn param(&self) -> u64 {
+-        // SAFETY: `self.get()` is a valid pointer to a `struct drm_nova_getparam`.
+-        unsafe { (*self.0.get()).param }
+-    }
+-
+-    pub fn set_value(&self, v: u64) {
+-        // SAFETY: `self.get()` is a valid pointer to a `struct drm_nova_getparam`.
+-        unsafe { (*self.0.get()).value = v };
+-    }
+-}
+-
+-define_uapi_abstraction!(GemCreate <= uapi::drm_nova_gem_create);
+-
+-impl GemCreate {
+-    pub fn size(&self) -> u64 {
+-        // SAFETY: `self.get()` is a valid pointer to a `struct drm_nova_gem_create`.
+-        unsafe { (*self.0.get()).size }
+-    }
+-
+-    pub fn set_handle(&self, handle: u32) {
+-        // SAFETY: `self.get()` is a valid pointer to a `struct drm_nova_gem_create`.
+-        unsafe { (*self.0.get()).handle = handle };
+-    }
+-}
+-
+-define_uapi_abstraction!(GemInfo <= uapi::drm_nova_gem_info);
+-
+-impl GemInfo {
+-    pub fn handle(&self) -> u32 {
+-        // SAFETY: `self.get()` is a valid pointer to a `struct drm_nova_gem_info`.
+-        unsafe { (*self.0.get()).handle }
+-    }
+-
+-    pub fn set_size(&self, size: u64) {
+-        // SAFETY: `self.get()` is a valid pointer to a `struct drm_nova_gem_info`.
+-        unsafe { (*self.0.get()).size = size };
+-    }
+-}
+diff --git a/rust/kernel/drm/ioctl.rs b/rust/kernel/drm/ioctl.rs
+index 445639404fb7..cb30b9ad1808 100644
+--- a/rust/kernel/drm/ioctl.rs
++++ b/rust/kernel/drm/ioctl.rs
+@@ -83,7 +83,7 @@ pub mod internal {
+ ///
+ /// ```ignore
+ /// fn foo(device: &kernel::drm::Device<Self>,
+-///        data: &Opaque<uapi::argument_type>,
++///        data: &mut uapi::argument_type,
+ ///        file: &kernel::drm::File<Self::File>,
+ /// ) -> Result<u32>
+ /// ```
+@@ -138,9 +138,12 @@ pub mod internal {
+                             // SAFETY: The ioctl argument has size `_IOC_SIZE(cmd)`, which we
+                             // asserted above matches the size of this type, and all bit patterns of
+                             // UAPI structs must be valid.
+-                            let data = unsafe {
+-                                &*(raw_data as *const $crate::types::Opaque<$crate::uapi::$struct>)
+-                            };
++                            // The `ioctl` argument is exclusively owned by the handler
++                            // and guaranteed by the C implementation (`drm_ioctl()`) to remain
++                            // valid for the entire lifetime of the reference taken here.
++                            // There is no concurrent access or aliasing; no other references
++                            // to this object exist during this call.
++                            let data = unsafe { &mut *(raw_data.cast::<$crate::uapi::$struct>()) };
+                             // SAFETY: This is just the DRM file structure
+                             let file = unsafe { $crate::drm::File::as_ref(raw_file) };
+ 
+-- 
+2.25.1
+
