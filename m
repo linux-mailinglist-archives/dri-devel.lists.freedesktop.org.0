@@ -2,77 +2,56 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id D39BAAE9907
-	for <lists+dri-devel@lfdr.de>; Thu, 26 Jun 2025 10:53:26 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5C48FAE98A8
+	for <lists+dri-devel@lfdr.de>; Thu, 26 Jun 2025 10:41:40 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C4E1410E890;
-	Thu, 26 Jun 2025 08:53:23 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A0FA810E881;
+	Thu, 26 Jun 2025 08:41:37 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=foss.st.com header.i=@foss.st.com header.b="yAcNns/e";
+	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=igalia.com header.i=@igalia.com header.b="rOD8XCSu";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx07-00178001.pphosted.com (mx08-00178001.pphosted.com
- [91.207.212.93])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 068B010E890
- for <dri-devel@lists.freedesktop.org>; Thu, 26 Jun 2025 08:53:22 +0000 (UTC)
-Received: from pps.filterd (m0046660.ppops.net [127.0.0.1])
- by mx07-00178001.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 55Q8PD5s026846;
- Thu, 26 Jun 2025 10:40:40 +0200
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=foss.st.com; h=
- cc:content-transfer-encoding:content-type:date:from:in-reply-to
- :message-id:mime-version:references:subject:to; s=selector1; bh=
- 5xLXEiPmIkFsOWq2iScRt7BhDQ5CLO6wEMeeYC9tPQw=; b=yAcNns/eKTBEPfvF
- brtge3KBWhvYe/uSk9spqaox79wdlAKfckfm1jprWhwvaHBI4BvhcuI2HlePQNDJ
- MeoSMRdIO4uGXT1H04TjELdVKe6z6lpj9irdpw6upp7KzjGEC7pE6O9J8KhUty+R
- VDPvYz/mRhaSOpyH4RJFCS3qLhPYvWusBwhhp03g92LtBsFkdLahsO25v9bnduVm
- CDPbcT9Rvmrqj4R4DDu0ic4LkIRYqimc2G+M6gEGCstRZMM3+e0Uc1CQSA32di49
- oADO1A0KfMQa2MMwO+jL1+SEHSY8ZSgI8ExKTt9rOqwj3CklBCDmGVq/xpNp5Y6x
- 5ERS9g==
-Received: from beta.dmz-ap.st.com (beta.dmz-ap.st.com [138.198.100.35])
- by mx07-00178001.pphosted.com (PPS) with ESMTPS id 47dhvbwe8f-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Thu, 26 Jun 2025 10:40:40 +0200 (MEST)
-Received: from euls16034.sgp.st.com (euls16034.sgp.st.com [10.75.44.20])
- by beta.dmz-ap.st.com (STMicroelectronics) with ESMTP id 24FE640047;
- Thu, 26 Jun 2025 10:39:11 +0200 (CEST)
-Received: from Webmail-eu.st.com (shfdag1node1.st.com [10.75.129.69])
- by euls16034.sgp.st.com (STMicroelectronics) with ESMTP id 9EADBB22D16;
- Thu, 26 Jun 2025 10:37:51 +0200 (CEST)
-Received: from gnbcxd0016.gnb.st.com (10.130.77.119) by SHFDAG1NODE1.st.com
- (10.75.129.69) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.39; Thu, 26 Jun
- 2025 10:37:50 +0200
-Date: Thu, 26 Jun 2025 10:37:44 +0200
-From: Alain Volmat <alain.volmat@foss.st.com>
-To: =?iso-8859-1?Q?Cl=E9ment?= Le Goffic <clement.legoffic@foss.st.com>
-CC: Pierre-Yves MORDRET <pierre-yves.mordret@foss.st.com>, Andi Shyti
- <andi.shyti@kernel.org>, Maxime Coquelin <mcoquelin.stm32@gmail.com>,
- Alexandre Torgue <alexandre.torgue@foss.st.com>, Sumit Semwal
- <sumit.semwal@linaro.org>, Christian =?iso-8859-1?Q?K=F6nig?=
- <christian.koenig@amd.com>, M'boumba Cedric Madianga
- <cedric.madianga@gmail.com>, Wolfram Sang <wsa@kernel.org>, "Pierre-Yves
- MORDRET" <pierre-yves.mordret@st.com>, <linux-i2c@vger.kernel.org>,
- <linux-stm32@st-md-mailman.stormreply.com>,
- <linux-arm-kernel@lists.infradead.org>, <linux-kernel@vger.kernel.org>,
- <linux-media@vger.kernel.org>, <dri-devel@lists.freedesktop.org>,
- <linaro-mm-sig@lists.linaro.org>
-Subject: Re: [PATCH 1/3] i2c: stm32: fix the device used for the DMA map
-Message-ID: <20250626083744.GA348766@gnbcxd0016.gnb.st.com>
-References: <20250616-i2c-upstream-v1-0-42d3d5374e65@foss.st.com>
- <20250616-i2c-upstream-v1-1-42d3d5374e65@foss.st.com>
+Received: from fanzine2.igalia.com (fanzine2.igalia.com [213.97.179.56])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 59C0710E881
+ for <dri-devel@lists.freedesktop.org>; Thu, 26 Jun 2025 08:41:33 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com; 
+ s=20170329;
+ h=Content-Transfer-Encoding:Content-Type:In-Reply-To:From:
+ References:Cc:To:Subject:MIME-Version:Date:Message-ID:Sender:Reply-To:
+ Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
+ Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
+ List-Subscribe:List-Post:List-Owner:List-Archive;
+ bh=8+ud6iV5NPl2F2/DlWdYFkWuaF+1YrHnhHUZSGglUwY=; b=rOD8XCSu/JCd6FeCWyBar0P2o8
+ 2u2pHqJ1j5MXThFkjNgMmm/2Syy+WeAEJUKCW4E45YjXa9ESnZ3xml1HzIXBZLwVBKpNaY6qPo4be
+ adXSNIFGBoF81HqLTaDC/mBMq1rNaFtU22H2Rcw5mWeZaXEccMzHtxIngao7o8jte0BKACaVkDX8F
+ gQekO0qM7jsZqvrzjogp9VDrekbWT9iNAofYMX0+eqvIbfVM/u8KWF2E2Ga1box0x8e5qDjoRKNuY
+ Rfx75zGXzlGY+v7KISkV2G9DpuwYRH2XMNToKQSS7EO3wGGCaerjvaULjKAS1nWkUfsICSdbHzsA/
+ EEidJd7w==;
+Received: from [81.79.92.254] (helo=[192.168.0.101])
+ by fanzine2.igalia.com with esmtpsa 
+ (Cipher TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_128_GCM:128) (Exim)
+ id 1uUiAT-008u9r-FT; Thu, 26 Jun 2025 10:41:13 +0200
+Message-ID: <1d24d974-cf92-47cc-ab53-5d205ce9945a@igalia.com>
+Date: Thu, 26 Jun 2025 09:41:12 +0100
 MIME-Version: 1.0
-Content-Type: text/plain; charset="iso-8859-1"
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20250616-i2c-upstream-v1-1-42d3d5374e65@foss.st.com>
-X-Disclaimer: ce message est personnel / this message is private
-X-Originating-IP: [10.130.77.119]
-X-ClientProxiedBy: EQNCAS1NODE3.st.com (10.75.129.80) To SHFDAG1NODE1.st.com
- (10.75.129.69)
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1099,Hydra:6.1.7,FMLib:17.12.80.40
- definitions=2025-06-26_04,2025-06-25_01,2025-03-28_01
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v1] drm/sched: Fix racy access to
+ drm_sched_entity.dependency
+To: Pierre-Eric Pelloux-Prayer <pierre-eric.pelloux-prayer@amd.com>,
+ Matthew Brost <matthew.brost@intel.com>, Danilo Krummrich <dakr@kernel.org>,
+ Philipp Stanner <phasta@kernel.org>,
+ =?UTF-8?Q?Christian_K=C3=B6nig?= <ckoenig.leichtzumerken@gmail.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>
+Cc: dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
+References: <20250625143722.55272-1-pierre-eric.pelloux-prayer@amd.com>
+Content-Language: en-GB
+From: Tvrtko Ursulin <tvrtko.ursulin@igalia.com>
+In-Reply-To: <20250625143722.55272-1-pierre-eric.pelloux-prayer@amd.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -88,42 +67,112 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Clément,
 
-On Mon, Jun 16, 2025 at 10:53:54AM +0200, Clément Le Goffic wrote:
-> If the DMA mapping failed, it produced an error log with the wrong
-> device name:
-> "stm32-dma3 40400000.dma-controller: rejecting DMA map of vmalloc memory"
-> Fix this issue by replacing the dev with the I2C dev.
-
-Indeed, nice catch ! Thanks a lot !
-
+On 25/06/2025 15:37, Pierre-Eric Pelloux-Prayer wrote:
+> The drm_sched_job_unschedulable trace point can access
+> entity->dependency after it was cleared by the callback
+> installed in drm_sched_entity_add_dependency_cb, causing:
 > 
-> Fixes: bb8822cbbc53 ("i2c: i2c-stm32: Add generic DMA API")
-> Signed-off-by: Clément Le Goffic <clement.legoffic@foss.st.com>
+> BUG: kernel NULL pointer dereference, address: 0000000000000020
+> Workqueue: comp_1.1.0 drm_sched_run_job_work [gpu_sched]
+> RIP: 0010:trace_event_raw_event_drm_sched_job_unschedulable+0x70/0xd0 [gpu_sched]
+> 
+> To fix this we either need to take a reference of the fence before
+> setting up the callbacks, or move the trace_drm_sched_job_unschedulable
+> calls into drm_sched_entity_add_dependency_cb where they can be
+> done earlier. The former option is the more correct one because with
+> the latter we might emit the event and still be able to schedule the
+> job if the fence is signaled in-between. Despite that, I've
+> implemented the latter, since it's a bit simpler and the extra event
+> is not a deal breaker for tools anyway.
+> 
+> Fixes: 76d97c870f29 (drm/sched: Trace dependencies for GPU jobs)
+> 
+> Signed-off-by: Pierre-Eric Pelloux-Prayer <pierre-eric.pelloux-prayer@amd.com>
 > ---
->  drivers/i2c/busses/i2c-stm32.c | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
+>   drivers/gpu/drm/scheduler/sched_entity.c | 16 ++++++++++++----
+>   1 file changed, 12 insertions(+), 4 deletions(-)
 > 
-> diff --git a/drivers/i2c/busses/i2c-stm32.c b/drivers/i2c/busses/i2c-stm32.c
-> index 157c64e27d0b..5e0b31aed774 100644
-> --- a/drivers/i2c/busses/i2c-stm32.c
-> +++ b/drivers/i2c/busses/i2c-stm32.c
-> @@ -118,7 +118,7 @@ int stm32_i2c_prep_dma_xfer(struct device *dev, struct stm32_i2c_dma *dma,
->  	dma->dma_len = len;
->  	chan_dev = dma->chan_using->device->dev;
->  
-> -	dma->dma_buf = dma_map_single(chan_dev, buf, dma->dma_len,
-> +	dma->dma_buf = dma_map_single(dev, buf, dma->dma_len,
->  				      dma->dma_data_dir);
->  	if (dma_mapping_error(chan_dev, dma->dma_buf)) {
->  		dev_err(dev, "DMA mapping failed\n");
-> 
-> -- 
-> 2.43.0
->
+> diff --git a/drivers/gpu/drm/scheduler/sched_entity.c b/drivers/gpu/drm/scheduler/sched_entity.c
+> index 5635b3a826d8..a23b204cac5c 100644
+> --- a/drivers/gpu/drm/scheduler/sched_entity.c
+> +++ b/drivers/gpu/drm/scheduler/sched_entity.c
+> @@ -401,7 +401,8 @@ EXPORT_SYMBOL(drm_sched_entity_set_priority);
+>    * Add a callback to the current dependency of the entity to wake up the
+>    * scheduler when the entity becomes available.
+>    */
+> -static bool drm_sched_entity_add_dependency_cb(struct drm_sched_entity *entity)
+> +static bool drm_sched_entity_add_dependency_cb(struct drm_sched_entity *entity,
+> +					       struct drm_sched_job *sched_job)
+>   {
+>   	struct drm_gpu_scheduler *sched = entity->rq->sched;
+>   	struct dma_fence *fence = entity->dependency;
+> @@ -429,6 +430,11 @@ static bool drm_sched_entity_add_dependency_cb(struct drm_sched_entity *entity)
+>   		fence = dma_fence_get(&s_fence->scheduled);
+>   		dma_fence_put(entity->dependency);
+>   		entity->dependency = fence;
+> +
+> +		if (trace_drm_sched_job_unschedulable_enabled() &&
+> +		    !dma_fence_is_signaled(fence))
+> +			trace_drm_sched_job_unschedulable(sched_job, fence);
+> +
+>   		if (!dma_fence_add_callback(fence, &entity->cb,
+>   					    drm_sched_entity_clear_dep))
 
-Acked-by: Alain Volmat <alain.volmat@foss.st.com>
+Would placing it here be simpler, like this:
+
+--- a/drivers/gpu/drm/scheduler/sched_entity.c
++++ b/drivers/gpu/drm/scheduler/sched_entity.c
+@@ -430,8 +430,10 @@ static bool 
+drm_sched_entity_add_dependency_cb(struct drm_sched_entity *entity)
+                 dma_fence_put(entity->dependency);
+                 entity->dependency = fence;
+                 if (!dma_fence_add_callback(fence, &entity->cb,
+-                                           drm_sched_entity_clear_dep))
++                                           drm_sched_entity_clear_dep)) {
++                       trace_drm_sched_job_unschedulable(sched_job, fence);
+                         return true;
++               }
+
+                 /* Ignore it when it is already scheduled */
+                 dma_fence_put(fence);
+
+Both sched_job and fence references are held on this path (effectively 
+for sched_job), so it is safe from that point of view. Makes the "is 
+signaled" check not needed because dma_fence_add_callback() told us so. 
+And trace_drm_sched_job_unschedulable_enabled() is then not needed too.
+
+>   			return true;
+> @@ -438,6 +444,10 @@ static bool drm_sched_entity_add_dependency_cb(struct drm_sched_entity *entity)
+>   		return false;
+>   	}
+>   
+> +	if (trace_drm_sched_job_unschedulable_enabled() &&
+> +	    !dma_fence_is_signaled(entity->dependency))
+> +		trace_drm_sched_job_unschedulable(sched_job, entity->dependency);
+> +
+>   	if (!dma_fence_add_callback(entity->dependency, &entity->cb,
+>   				    drm_sched_entity_wakeup))
+
+For this path the same thing, since entity->dependency reference is also 
+held (taken in drm_sched_job_dependency() and released two lines below 
+this hunk).
 
 Regards,
-Alain
+
+Tvrtko
+
+>   		return true;
+> @@ -478,10 +488,8 @@ struct drm_sched_job *drm_sched_entity_pop_job(struct drm_sched_entity *entity)
+>   
+>   	while ((entity->dependency =
+>   			drm_sched_job_dependency(sched_job, entity))) {
+> -		if (drm_sched_entity_add_dependency_cb(entity)) {
+> -			trace_drm_sched_job_unschedulable(sched_job, entity->dependency);
+> +		if (drm_sched_entity_add_dependency_cb(entity, sched_job))
+>   			return NULL;
+> -		}
+>   	}
+>   
+>   	/* skip jobs from entity that marked guilty */
+
