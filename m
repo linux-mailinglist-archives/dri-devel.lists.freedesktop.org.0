@@ -2,77 +2,77 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id D8579AEA1F4
-	for <lists+dri-devel@lfdr.de>; Thu, 26 Jun 2025 17:08:27 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id EF794AEA207
+	for <lists+dri-devel@lfdr.de>; Thu, 26 Jun 2025 17:10:39 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 62B4710E8D2;
-	Thu, 26 Jun 2025 15:08:24 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id F023E10E2BE;
+	Thu, 26 Jun 2025 15:10:36 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="QuM7Gnie";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="Zk/vrWey";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lj1-f182.google.com (mail-lj1-f182.google.com
- [209.85.208.182])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1233910E8D2
- for <dri-devel@lists.freedesktop.org>; Thu, 26 Jun 2025 15:08:24 +0000 (UTC)
-Received: by mail-lj1-f182.google.com with SMTP id
- 38308e7fff4ca-32b31afa781so8638701fa.3
- for <dri-devel@lists.freedesktop.org>; Thu, 26 Jun 2025 08:08:23 -0700 (PDT)
+Received: from mail-lf1-f45.google.com (mail-lf1-f45.google.com
+ [209.85.167.45])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C29BE10E2BE
+ for <dri-devel@lists.freedesktop.org>; Thu, 26 Jun 2025 15:10:35 +0000 (UTC)
+Received: by mail-lf1-f45.google.com with SMTP id
+ 2adb3069b0e04-553b9eb2299so1998593e87.0
+ for <dri-devel@lists.freedesktop.org>; Thu, 26 Jun 2025 08:10:35 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1750950502; x=1751555302; darn=lists.freedesktop.org;
+ d=gmail.com; s=20230601; t=1750950634; x=1751555434; darn=lists.freedesktop.org;
  h=content-transfer-encoding:cc:to:subject:message-id:date:from
  :in-reply-to:references:mime-version:from:to:cc:subject:date
  :message-id:reply-to;
- bh=rFuEEDOzNJYie2aS6VWkJQnYh/biJhh/VjmDxkcdYnA=;
- b=QuM7GniebVMosZQqNnV9gorCZcER9gjqT32TBn8p+HzuMKgJu963FOKYqZMXgc4E7s
- QkHiC1+XDM1fDedrFs6z+DFa48V00OGiAjDHiNe1yjoS2epoWdYV+y59oOD0CBho0TK+
- QePDFJ9UTnGAlOJnTqR1z/b8McUH5DFSl+GrG2FoI8f7yyJ/1Oc7Pr/aVVjebxv/UguX
- cQFiLqUhkh25Sq2fWlw8HKA5ILGUNhm20uiwuR/B3VIzNawHkLSNc803IF6j1wgVrnfH
- rhXqPKsyTdSP7DZUpmWTeyVaqkLDM7EfOId/hWTjcENRT0H0oxU9GC/KaE6FaU5SYkq0
- Gjjg==
+ bh=axf5NbpAUzrmzPpqLLrUEqqBeYpEBv2j8XoiaPjeVEQ=;
+ b=Zk/vrWeymS7TZJbKemw1FLqNKWF44jd+Isyt5llDpnQDf4u4u9IJQ8CfNXNkU5bjV4
+ QIQRP49SRmjE6jenLjGRzedAocd6LdKDe1nuWsb2swr5EQvKK4S8qa6p1e1237xHazNq
+ TJI3otKybjGPG9Uf6GzL4r+5W7Q16E1mqJ+cytPPE0I3BxGckZxDNNHk9ZWPTSzYzb2J
+ kfcIFqjcgk+1c/lX5a8dXb4cWisdreYlLIilUAVjckcvG2uvKBHO8n1pUlWLWU79ACB7
+ R4veI8t+1zP0yo27AKbfxydfisD3x8Zsb3CtfHZQdaUteUaXwAEWnwBmgbcAPtXC8Ne2
+ 1WTA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1750950502; x=1751555302;
+ d=1e100.net; s=20230601; t=1750950634; x=1751555434;
  h=content-transfer-encoding:cc:to:subject:message-id:date:from
  :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=rFuEEDOzNJYie2aS6VWkJQnYh/biJhh/VjmDxkcdYnA=;
- b=ksPT9lDwsxMIo3EjDdQkvg4i4Kt0Y7DoFiMzU7g30VxJZmtImrz+6Cuxwc4gIzeUaP
- L3KKs9Fw/PpeI3f8pd231V/eGRFbwAcyIK1c2xAJeoATULiBq3xmGOBUGthqfZajnlfm
- jrXZPxTH8ZQp0Wo3dCB11BHAI5GmOue7Q2nQ9ZI1qFhSjxrBfMDz6iM79N1mn9CEXSFz
- 6mf8pVpY0Wc/eDVtPSVUbrDIgFhLgw9N8wlHw56qlQ2XnWYhtUvfH/MOsGkJnygViK1e
- mbJmUWczMKkBL7g46u7EsZ8n1uo7OMLr3wbkPwOvvvwVnJmINdFqkQ+OPgF1MDiWu/ky
- mRlg==
+ bh=axf5NbpAUzrmzPpqLLrUEqqBeYpEBv2j8XoiaPjeVEQ=;
+ b=eoWYMiALJAHoegn/Izs5ly+Xpc6sA3PMeNosUZ61KYkdOR49XsQSzr9M/9sittaGhF
+ 3W4WQHba2BW6EF580D7ZFSss+l6T34Ze6Ywm1RkwsU68jsyeGgki2UALTaJan5ySTfUt
+ vVCyIAnGY0NPJq1N7ddNqEc1+GOyZ7eg9tK5t9d9lstIZeCZwWZjVGShncdVouMJ/3Zr
+ MlGQGcLO7juV2q0byGD9x3oZnVUVz7dU2WdHdrBA0pbcUkFW/o4Wub+yHK0Vgl8YPzn+
+ R4ERzyMMXNk1B1Y1CskOTvB2MidoltIeiPrcYZVtOpCjQt58Al1KABzM7bgBm+s8gHiY
+ u6Wg==
 X-Forwarded-Encrypted: i=1;
- AJvYcCW3tCQr7xKWaLxs9XJJrrywaNfqbX6ZnimEf/wQjezPUDx8xJmuB5ghmJc9DJtClkTHVFoY69XhQOA=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0Yw47C/r3vOBatb4kSI6MRZzZRxrvd+fwzMSXTqeWg4lRADlyD6l
- rItoLIip+0+HxGwaD9uboiMLxabzqXtgozCl9FoCqWh+9aDkSmJtqaxBI3W8xCuWz8A11OQm/EE
- R20u6pP/YQxKVEN5ABLN4tW7RfbeZHYI=
-X-Gm-Gg: ASbGnctB92HCMAqjIEMEwCyP9YwJyWxSfIeeNGDqnQ+2+hS/89OQ9HN++b+wJT5i/k2
- TTX9PTC3rOogTp2+Qe4rEVv6Dx/kpVoSnPDmBANYDBb43Lbc+BqLmMdoP736G6WhBd8pheA6hwp
- odO/0f2cm/Fx/0Ndk96CQ0n5ATrnbTait93TGGbJfem0MHhKPyqQB5vGelDIy6VEWAiYBd+oU+g
- nYXZQ==
-X-Google-Smtp-Source: AGHT+IGrpoccZpE7gCl7xfdKVG914W+wx7VH7Dsg1ZCo+rhw6h3VHHsoRSKoF6qysZJ9WGyQege+2T82Jbrty12yIA0=
-X-Received: by 2002:a2e:a011:0:b0:32b:59d1:7ef3 with SMTP id
- 38308e7fff4ca-32cc65b7b0cmr18432591fa.35.1750950500472; Thu, 26 Jun 2025
- 08:08:20 -0700 (PDT)
+ AJvYcCUu4kgMDYOJg0cwY65+nkqw9hlMQ7Byz2f3L0GAigg928k7jete7x1K9kYWC+Jz/r3Aej/NGyWLxNw=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0Yx3PKTB99monlGZcTZZaSL6iQSIy5zDQjI4yXSKgAjIz/ESrHpo
+ DPGBOtRkJg/wBz4GYOArQ2P1K52iRSWfHH7ClfCzJF8BVIy7rMirgyuFOg7iDAoccRYuGzHa903
+ +Vgt9HVjLaIVdyBc29mq/bKZ7qrKfQXk=
+X-Gm-Gg: ASbGnctxPOloKUyOfTe+HhSxoZMG9GC06C4w1KTTDteaOgho9GxSIG790QGBz+PtbPH
+ HitbTX8i2m7U8BBT6Vx2xuOYefO1n46aytiXvJJiXfuHJ5HEphk+u0OGmjoZZi98hkRgraFKd18
+ kMBhnMcpnh9SxjfhlAlmQZnoaSWCIP9hhpA124IKEVMI1E/is+ydXvp6XQmyu2ZtI0AwsUemkPY
+ bHCNA==
+X-Google-Smtp-Source: AGHT+IG3aKdtoEX8k5XdMgWvxuQl/T0lmpkWTNORwe1brAkFFcnT7EjGtyotrt42fszQPUKuv/8ziotoOqBGlnuUj28=
+X-Received: by 2002:a05:6512:239e:b0:553:2159:8716 with SMTP id
+ 2adb3069b0e04-55502caf1a4mr1616123e87.26.1750950633544; Thu, 26 Jun 2025
+ 08:10:33 -0700 (PDT)
 MIME-Version: 1.0
 References: <20250626142243.19071-1-pranav.tyagi03@gmail.com>
- <2025062607-hardener-splotchy-1e70@gregkh>
-In-Reply-To: <2025062607-hardener-splotchy-1e70@gregkh>
+ <5baab2ed-c48d-41ae-819a-71ca195c4407@igalia.com>
+In-Reply-To: <5baab2ed-c48d-41ae-819a-71ca195c4407@igalia.com>
 From: Pranav Tyagi <pranav.tyagi03@gmail.com>
-Date: Thu, 26 Jun 2025 20:38:09 +0530
-X-Gm-Features: Ac12FXz90vVDsL3CpnJRMV-o2H8K_6Vief1VnLAmxr4fTIuJkeSDNsKRMhYHXKg
-Message-ID: <CAH4c4jJqX6C4+xvHKqC2fmN7HRhKPgD2XcjnwO2MR0xtMyEhRQ@mail.gmail.com>
+Date: Thu, 26 Jun 2025 20:40:22 +0530
+X-Gm-Features: Ac12FXzNyUo0k5FLeYm1nQk0x2e9IyduCv2spuHDSlghF9NcaV2B_Em4IpBcyCY
+Message-ID: <CAH4c4jLqQORVWNLmNGAqevbSCnALtkfod6gTuXe-oae0izR9Bw@mail.gmail.com>
 Subject: Re: [PATCH] drm/vkms: Fix race-condition between the hrtimer and the
  atomic commit
-To: Greg KH <gregkh@linuxfoundation.org>
+To: =?UTF-8?B?TWHDrXJhIENhbmFs?= <mcanal@igalia.com>
 Cc: linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org, 
  rodrigosiqueiramelo@gmail.com, melissa.srw@gmail.com, hamohammed.sa@gmail.com, 
- daniel@ffwll.ch, airlied@linux.ie, mcanal@igalia.com, arthurgrillo@riseup.net, 
+ daniel@ffwll.ch, airlied@linux.ie, arthurgrillo@riseup.net, 
  mairacanal@riseup.net, skhan@linuxfoundation.org, 
  linux-kernel-mentees@lists.linux.dev, stable@vger.kernel.org, 
- sashal@kernel.org
+ gregkh@linuxfoundation.org, sashal@kernel.org
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -90,10 +90,12 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, Jun 26, 2025 at 8:27=E2=80=AFPM Greg KH <gregkh@linuxfoundation.org=
+On Thu, Jun 26, 2025 at 8:32=E2=80=AFPM Ma=C3=ADra Canal <mcanal@igalia.com=
 > wrote:
 >
-> On Thu, Jun 26, 2025 at 07:52:43PM +0530, Pranav Tyagi wrote:
+> Hi Pranav,
+>
+> On 26/06/25 11:22, Pranav Tyagi wrote:
 > > From: Ma=C3=ADra Canal <mcanal@igalia.com>
 > >
 > > [ Upstream commit a0e6a017ab56936c0405fe914a793b241ed25ee0 ]
@@ -117,20 +119,32 @@ RC
 > > problems.
 > >
 > > [v2]:
-> >     * Create a new mutex and keep the spinlock across the atomic commit=
- in
-> >       order to avoid interrupts that could result in deadlocks.
+> >      * Create a new mutex and keep the spinlock across the atomic commi=
+t in
+> >        order to avoid interrupts that could result in deadlocks.
 > >
 > > [ Backport to 5.15: context cleanly applied with no semantic changes.
 > > Build-tested. ]
+> >
+> > Signed-off-by: Ma=C3=ADra Canal <mcanal@igalia.com>
+> > Reviewed-by: Arthur Grillo <arthurgrillo@riseup.net>
+> > Signed-off-by: Ma=C3=ADra Canal <mairacanal@riseup.net>
+> > Link: https://patchwork.freedesktop.org/patch/msgid/20230523123207.1739=
+76-1-mcanal@igalia.com
+> > Signed-off-by: Pranav Tyagi <pranav.tyagi03@gmail.com>
 >
-> Did you forget about 6.1.y?
+> This patch violates locking rules and it was reversed a while ago.
+> Please, check commit 7908632f2927 ("Revert "drm/vkms: Fix race-condition
+> between the hrtimer and the atomic commit"").
 >
-> confused,
->
-> greg k-h
+> Best Regards,
+> - Ma=C3=ADra
 
-Apologies for the oversight.
+Thanks for pointing that out.
+
+I missed the revert. I now see that commit 7908632f2927 reversed
+this due to locking issues. I=E2=80=99ll drop this backport from 5.15
+accordingly.
 
 Regards
 Pranav Tyagi
