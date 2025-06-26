@@ -2,131 +2,77 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 41F36AE9B5C
-	for <lists+dri-devel@lfdr.de>; Thu, 26 Jun 2025 12:31:41 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 754ECAE9B86
+	for <lists+dri-devel@lfdr.de>; Thu, 26 Jun 2025 12:35:51 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1477B10E893;
-	Thu, 26 Jun 2025 10:31:38 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5F11B10E891;
+	Thu, 26 Jun 2025 10:35:48 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=suse.de header.i=@suse.de header.b="0HHVlB7+";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="wgkHfQoC";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="bvUdgTqa";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="XR/pTJdS";
+	dkim=pass (2048-bit key; unprotected) header.d=foss.st.com header.i=@foss.st.com header.b="CXa2JDHB";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 26F0A10E893
- for <dri-devel@lists.freedesktop.org>; Thu, 26 Jun 2025 10:31:35 +0000 (UTC)
-Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
- (No client certificate requested)
- by smtp-out1.suse.de (Postfix) with ESMTPS id BD95721174;
- Thu, 26 Jun 2025 10:31:32 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1750933893; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=ClzSD6HNMq3DsFUbkYh+DB0h/oRjb6Sh//7r0btRfN4=;
- b=0HHVlB7+XDVZRkk6vS7m3hFdl5LYFdEG3DxApiert3GpgFaRztWSl6wg8VCVRG/8RmwwKo
- uueGPdH8NoKx7vBpUoIBgVUyNmWRQYnTWf+pTqlJturh+5ky70fqGCWyeqo54rr4ahpP+N
- 4FjCOMSvL0xN4KxYmHL/ro9Bf8c5AdQ=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1750933893;
- h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=ClzSD6HNMq3DsFUbkYh+DB0h/oRjb6Sh//7r0btRfN4=;
- b=wgkHfQoCSP856X2zbTiAYDy/jQ5uGV121lMtHYyJfwaxM1eIjT2UBbQR+5rmP34Hl3UNZB
- 1wZWgOvPozYhYSAg==
-Authentication-Results: smtp-out1.suse.de;
-	none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1750933892; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=ClzSD6HNMq3DsFUbkYh+DB0h/oRjb6Sh//7r0btRfN4=;
- b=bvUdgTqaoAeNiW9idPjDl1aPn77IYbrTyQ+BoPLsl3v7BUSBzqwB6skPZRmDNn4GR/6EGr
- krEcMhMZtbd+8EWUfP1vGcJekC9IOU6o7bMO6Z4Zk5C4lp9sOAH35RzXxi3vYN9wUF09aS
- XTZzRPCJ4GrmRx/GUONei//DokG/8wQ=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1750933892;
- h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=ClzSD6HNMq3DsFUbkYh+DB0h/oRjb6Sh//7r0btRfN4=;
- b=XR/pTJdSRmZMODChFK6j4nIyRBdBDJQEMKBAor7ml/7rZfp2Y0+scylP+7pBL1s4nNX/s1
- sTS7ggXZwrn/5VBA==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
- (No client certificate requested)
- by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 88089138A7;
- Thu, 26 Jun 2025 10:31:32 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
- by imap1.dmz-prg2.suse.org with ESMTPSA id etjEH4QhXWjfYQAAD6G6ig
- (envelope-from <tzimmermann@suse.de>); Thu, 26 Jun 2025 10:31:32 +0000
-Message-ID: <ecf7f260-4c5f-45fc-be8d-0361b00af6a3@suse.de>
-Date: Thu, 26 Jun 2025 12:31:32 +0200
+Received: from mx07-00178001.pphosted.com (mx08-00178001.pphosted.com
+ [91.207.212.93])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7F71810E891
+ for <dri-devel@lists.freedesktop.org>; Thu, 26 Jun 2025 10:35:42 +0000 (UTC)
+Received: from pps.filterd (m0046660.ppops.net [127.0.0.1])
+ by mx07-00178001.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 55QA9QY8025602;
+ Thu, 26 Jun 2025 12:35:33 +0200
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=foss.st.com; h=
+ cc:content-transfer-encoding:content-type:date:from:in-reply-to
+ :message-id:mime-version:references:subject:to; s=selector1; bh=
+ NV4+KoQwrrIsbeLEb3se8T07/pyaJ/I/7ykprHiqctM=; b=CXa2JDHB4uTNEMai
+ 2f9NWHp3xztyJ3Y6ituNRm8BfaNOHQDmcwn1mnLUaoppY3rpexlzw5toG7Yzc9Ci
+ JKp9PsrWevNASEoRdbIBLdiOMsFJDxfmn0VOZOelEX57qfqL/YTOVrrSQo7TqpOp
+ XFQULhMnRqcIJxyRqxAagjgJLDICpsnsdxnqBKpzhekKrxCHVoqgelkfI7OSfqh4
+ U9rIhzGVL75BA+IScVOGJS3qirFCX0VVC2gBnnmLwS0h0j54WJv8vIX3I1OKfBmj
+ CHPz1w0S+YKt+JKt67MkWXnKCu3uI7YwBnWLZ/dDXhh5JKuFkXjjgNYRjh+mHfVN
+ u8Prkw==
+Received: from beta.dmz-ap.st.com (beta.dmz-ap.st.com [138.198.100.35])
+ by mx07-00178001.pphosted.com (PPS) with ESMTPS id 47dhvbx1rh-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Thu, 26 Jun 2025 12:35:33 +0200 (MEST)
+Received: from euls16034.sgp.st.com (euls16034.sgp.st.com [10.75.44.20])
+ by beta.dmz-ap.st.com (STMicroelectronics) with ESMTP id 1B0064002D;
+ Thu, 26 Jun 2025 12:33:57 +0200 (CEST)
+Received: from Webmail-eu.st.com (shfdag1node1.st.com [10.75.129.69])
+ by euls16034.sgp.st.com (STMicroelectronics) with ESMTP id 8967DB63201;
+ Thu, 26 Jun 2025 12:33:03 +0200 (CEST)
+Received: from gnbcxd0016.gnb.st.com (10.130.77.119) by SHFDAG1NODE1.st.com
+ (10.75.129.69) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.39; Thu, 26 Jun
+ 2025 12:33:02 +0200
+Date: Thu, 26 Jun 2025 12:32:57 +0200
+From: Alain Volmat <alain.volmat@foss.st.com>
+To: =?iso-8859-1?Q?Cl=E9ment?= Le Goffic <clement.legoffic@foss.st.com>
+CC: Pierre-Yves MORDRET <pierre-yves.mordret@foss.st.com>, Andi Shyti
+ <andi.shyti@kernel.org>, Maxime Coquelin <mcoquelin.stm32@gmail.com>,
+ Alexandre Torgue <alexandre.torgue@foss.st.com>, Sumit Semwal
+ <sumit.semwal@linaro.org>, Christian =?iso-8859-1?Q?K=F6nig?=
+ <christian.koenig@amd.com>, M'boumba Cedric Madianga
+ <cedric.madianga@gmail.com>, Wolfram Sang <wsa@kernel.org>, "Pierre-Yves
+ MORDRET" <pierre-yves.mordret@st.com>, <linux-i2c@vger.kernel.org>,
+ <linux-stm32@st-md-mailman.stormreply.com>,
+ <linux-arm-kernel@lists.infradead.org>, <linux-kernel@vger.kernel.org>,
+ <linux-media@vger.kernel.org>, <dri-devel@lists.freedesktop.org>,
+ <linaro-mm-sig@lists.linaro.org>
+Subject: Re: [PATCH 3/3] i2c: stm32f7: support i2c_*_dma_safe_msg_buf APIs
+Message-ID: <20250626103257.GA349896@gnbcxd0016.gnb.st.com>
+References: <20250616-i2c-upstream-v1-0-42d3d5374e65@foss.st.com>
+ <20250616-i2c-upstream-v1-3-42d3d5374e65@foss.st.com>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] fbdev: efifb: do not load efifb if PCI BAR has changed
- but not fixuped
-To: oushixiong1025@163.com, Helge Deller <deller@gmx.de>
-Cc: Peter Jones <pjones@redhat.com>, linux-fbdev@vger.kernel.org,
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- Shixiong Ou <oushixiong@kylinos.cn>
-References: <20250626094937.515552-1-oushixiong1025@163.com>
-Content-Language: en-US
-From: Thomas Zimmermann <tzimmermann@suse.de>
-Autocrypt: addr=tzimmermann@suse.de; keydata=
- xsBNBFs50uABCADEHPidWt974CaxBVbrIBwqcq/WURinJ3+2WlIrKWspiP83vfZKaXhFYsdg
- XH47fDVbPPj+d6tQrw5lPQCyqjwrCPYnq3WlIBnGPJ4/jreTL6V+qfKRDlGLWFjZcsrPJGE0
- BeB5BbqP5erN1qylK9i3gPoQjXGhpBpQYwRrEyQyjuvk+Ev0K1Jc5tVDeJAuau3TGNgah4Yc
- hdHm3bkPjz9EErV85RwvImQ1dptvx6s7xzwXTgGAsaYZsL8WCwDaTuqFa1d1jjlaxg6+tZsB
- 9GluwvIhSezPgnEmimZDkGnZRRSFiGP8yjqTjjWuf0bSj5rUnTGiyLyRZRNGcXmu6hjlABEB
- AAHNJ1Rob21hcyBaaW1tZXJtYW5uIDx0emltbWVybWFubkBzdXNlLmRlPsLAjgQTAQgAOAIb
- AwULCQgHAgYVCgkICwIEFgIDAQIeAQIXgBYhBHIX+6yM6c9jRKFo5WgNwR1TC3ojBQJftODH
- AAoJEGgNwR1TC3ojx1wH/0hKGWugiqDgLNXLRD/4TfHBEKmxIrmfu9Z5t7vwUKfwhFL6hqvo
- lXPJJKQpQ2z8+X2vZm/slsLn7J1yjrOsoJhKABDi+3QWWSGkaGwRJAdPVVyJMfJRNNNIKwVb
- U6B1BkX2XDKDGffF4TxlOpSQzdtNI/9gleOoUA8+jy8knnDYzjBNOZqLG2FuTdicBXblz0Mf
- vg41gd9kCwYXDnD91rJU8tzylXv03E75NCaTxTM+FBXPmsAVYQ4GYhhgFt8S2UWMoaaABLDe
- 7l5FdnLdDEcbmd8uLU2CaG4W2cLrUaI4jz2XbkcPQkqTQ3EB67hYkjiEE6Zy3ggOitiQGcqp
- j//OwE0EWznS4AEIAMYmP4M/V+T5RY5at/g7rUdNsLhWv1APYrh9RQefODYHrNRHUE9eosYb
- T6XMryR9hT8XlGOYRwKWwiQBoWSDiTMo/Xi29jUnn4BXfI2px2DTXwc22LKtLAgTRjP+qbU6
- 3Y0xnQN29UGDbYgyyK51DW3H0If2a3JNsheAAK+Xc9baj0LGIc8T9uiEWHBnCH+RdhgATnWW
- GKdDegUR5BkDfDg5O/FISymJBHx2Dyoklv5g4BzkgqTqwmaYzsl8UxZKvbaxq0zbehDda8lv
- hFXodNFMAgTLJlLuDYOGLK2AwbrS3Sp0AEbkpdJBb44qVlGm5bApZouHeJ/+n+7r12+lqdsA
- EQEAAcLAdgQYAQgAIAIbDBYhBHIX+6yM6c9jRKFo5WgNwR1TC3ojBQJftOH6AAoJEGgNwR1T
- C3ojVSkIALpAPkIJPQoURPb1VWjh34l0HlglmYHvZszJWTXYwavHR8+k6Baa6H7ufXNQtThR
- yIxJrQLW6rV5lm7TjhffEhxVCn37+cg0zZ3j7zIsSS0rx/aMwi6VhFJA5hfn3T0TtrijKP4A
- SAQO9xD1Zk9/61JWk8OysuIh7MXkl0fxbRKWE93XeQBhIJHQfnc+YBLprdnxR446Sh8Wn/2D
- Ya8cavuWf2zrB6cZurs048xe0UbSW5AOSo4V9M0jzYI4nZqTmPxYyXbm30Kvmz0rYVRaitYJ
- 4kyYYMhuULvrJDMjZRvaNe52tkKAvMevcGdt38H4KSVXAylqyQOW5zvPc4/sq9c=
-In-Reply-To: <20250626094937.515552-1-oushixiong1025@163.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Type: text/plain; charset="iso-8859-1"
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-X-Spam-Flag: NO
-X-Spam-Score: -4.30
-X-Spamd-Result: default: False [-4.30 / 50.00]; BAYES_HAM(-3.00)[100.00%];
- NEURAL_HAM_LONG(-1.00)[-1.000];
- NEURAL_HAM_SHORT(-0.20)[-1.000]; MIME_GOOD(-0.10)[text/plain];
- FREEMAIL_TO(0.00)[163.com,gmx.de]; RCVD_VIA_SMTP_AUTH(0.00)[];
- ARC_NA(0.00)[]; RCPT_COUNT_SEVEN(0.00)[7];
- MIME_TRACE(0.00)[0:+]; MID_RHS_MATCH_FROM(0.00)[];
- FREEMAIL_ENVRCPT(0.00)[163.com,gmx.de];
- DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
- FROM_EQ_ENVFROM(0.00)[]; FROM_HAS_DN(0.00)[];
- TO_DN_SOME(0.00)[]; RCVD_TLS_ALL(0.00)[];
- TO_MATCH_ENVRCPT_ALL(0.00)[]; RCVD_COUNT_TWO(0.00)[2];
- FUZZY_BLOCKED(0.00)[rspamd.com];
- DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:mid]
-X-Spam-Level: 
+In-Reply-To: <20250616-i2c-upstream-v1-3-42d3d5374e65@foss.st.com>
+X-Disclaimer: ce message est personnel / this message is private
+X-Originating-IP: [10.130.77.119]
+X-ClientProxiedBy: EQNCAS1NODE3.st.com (10.75.129.80) To SHFDAG1NODE1.st.com
+ (10.75.129.69)
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1099,Hydra:6.1.7,FMLib:17.12.80.40
+ definitions=2025-06-26_05,2025-06-25_01,2025-03-28_01
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -142,150 +88,105 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi
+Hi Clément,
 
-Am 26.06.25 um 11:49 schrieb oushixiong1025@163.com:
-> From: Shixiong Ou <oushixiong@kylinos.cn>
->
-> [WHY]
-> On an ARM machine, the following log is present:
-> [    0.900884] efifb: framebuffer at 0x1020000000, using 3072k, total 3072k
-> [    2.297884] amdgpu 0000:04:00.0: remove_conflicting_pci_framebuffers: bar 0: 0x1000000000 -> 0x100fffffff
-> [    2.297886] amdgpu 0000:04:00.0: remove_conflicting_pci_framebuffers: bar 2: 0x1010000000 -> 0x10101fffff
-> [    2.297888] amdgpu 0000:04:00.0: remove_conflicting_pci_framebuffers: bar 5: 0x58200000 -> 0x5823ffff
->
-> It show that the efifb framebuffer base is out of PCI BAR, and this
+thanks for the patch.
 
-The patch at
-
- Â  https://patchwork.freedesktop.org/series/148057/
-
-is supposed to fix the problem. It has been merged with v6.16-rc1 as 
-commit 2f29b5c23101 ("video: screen_info: Relocate framebuffers behind 
-PCI bridges"). It is in your tree?
-
-Best regards
-Thomas
-
-> results in both efi-framebuffer and amdgpudrmfb co-existing.
->
-> The fbcon will be bound to efi-framebuffer by default and cannot be used.
->
-> [HOW]
-> Do not load efifb driver if PCI BAR has changed but not fixuped.
-> In the following cases:
-> 	1. screen_info_lfb_pdev is NULL.
-> 	2. __screen_info_relocation_is_valid return false.
->
-> Signed-off-by: Shixiong Ou <oushixiong@kylinos.cn>
+On Mon, Jun 16, 2025 at 10:53:56AM +0200, Clément Le Goffic wrote:
+> Use the i2c-core-base APIs to allocate a DMA safe buffer when needed.
+> 
+> Signed-off-by: Clément Le Goffic <clement.legoffic@foss.st.com>
 > ---
->   drivers/video/fbdev/efifb.c     |  4 ++++
->   drivers/video/screen_info_pci.c | 24 ++++++++++++++++++++++++
->   include/linux/screen_info.h     |  5 +++++
->   3 files changed, 33 insertions(+)
->
-> diff --git a/drivers/video/fbdev/efifb.c b/drivers/video/fbdev/efifb.c
-> index 0e1bd3dba255..de8d016c9a66 100644
-> --- a/drivers/video/fbdev/efifb.c
-> +++ b/drivers/video/fbdev/efifb.c
-> @@ -303,6 +303,10 @@ static void efifb_setup(struct screen_info *si, char *options)
->   
->   static inline bool fb_base_is_valid(struct screen_info *si)
->   {
-> +	/* check whether fb_base has changed but not fixuped */
-> +	if (!screen_info_is_useful())
-> +		return false;
-> +
->   	if (si->lfb_base)
->   		return true;
->   
-> diff --git a/drivers/video/screen_info_pci.c b/drivers/video/screen_info_pci.c
-> index 66bfc1d0a6dc..ac57dcaf0cac 100644
-> --- a/drivers/video/screen_info_pci.c
-> +++ b/drivers/video/screen_info_pci.c
-> @@ -9,6 +9,8 @@ static struct pci_dev *screen_info_lfb_pdev;
->   static size_t screen_info_lfb_bar;
->   static resource_size_t screen_info_lfb_res_start; // original start of resource
->   static resource_size_t screen_info_lfb_offset; // framebuffer offset within resource
-> +static bool screen_info_changed;
-> +static bool screen_info_fixuped;
->   
->   static bool __screen_info_relocation_is_valid(const struct screen_info *si, struct resource *pr)
->   {
-> @@ -24,6 +26,24 @@ static bool __screen_info_relocation_is_valid(const struct screen_info *si, stru
->   	return true;
->   }
->   
-> +bool screen_info_is_useful(void)
-> +{
-> +	unsigned int type;
-> +	const struct screen_info *si = &screen_info;
-> +
-> +	type = screen_info_video_type(si);
-> +	if (type != VIDEO_TYPE_EFI)
-> +		return true;
-> +
-> +	if (screen_info_changed && !screen_info_fixuped) {
-> +		pr_warn("The screen_info has changed but not fixuped");
-> +		return false;
-> +	}
-> +
-> +	pr_info("The screen_info is useful");
-> +	return true;
-> +}
-> +
->   void screen_info_apply_fixups(void)
->   {
->   	struct screen_info *si = &screen_info;
-> @@ -32,18 +52,22 @@ void screen_info_apply_fixups(void)
->   		struct resource *pr = &screen_info_lfb_pdev->resource[screen_info_lfb_bar];
->   
->   		if (pr->start != screen_info_lfb_res_start) {
-> +			screen_info_changed = true;
->   			if (__screen_info_relocation_is_valid(si, pr)) {
->   				/*
->   				 * Only update base if we have an actual
->   				 * relocation to a valid I/O range.
->   				 */
->   				__screen_info_set_lfb_base(si, pr->start + screen_info_lfb_offset);
-> +				screen_info_fixuped = true;
->   				pr_info("Relocating firmware framebuffer to offset %pa[d] within %pr\n",
->   					&screen_info_lfb_offset, pr);
->   			} else {
->   				pr_warn("Invalid relocating, disabling firmware framebuffer\n");
->   			}
->   		}
-> +	} else {
-> +		screen_info_changed = true;
->   	}
->   }
->   
-> diff --git a/include/linux/screen_info.h b/include/linux/screen_info.h
-> index 923d68e07679..632cdbb1adbe 100644
-> --- a/include/linux/screen_info.h
-> +++ b/include/linux/screen_info.h
-> @@ -138,9 +138,14 @@ ssize_t screen_info_resources(const struct screen_info *si, struct resource *r,
->   u32 __screen_info_lfb_bits_per_pixel(const struct screen_info *si);
->   
->   #if defined(CONFIG_PCI)
-> +bool screen_info_is_useful(void);
->   void screen_info_apply_fixups(void);
->   struct pci_dev *screen_info_pci_dev(const struct screen_info *si);
->   #else
-> +bool screen_info_is_useful(void)
-> +{
-> +	return true;
-> +}
->   static inline void screen_info_apply_fixups(void)
->   { }
->   static inline struct pci_dev *screen_info_pci_dev(const struct screen_info *si)
+>  drivers/i2c/busses/i2c-stm32f7.c | 36 +++++++++++++++++++++++++-----------
+>  1 file changed, 25 insertions(+), 11 deletions(-)
+> 
+> diff --git a/drivers/i2c/busses/i2c-stm32f7.c b/drivers/i2c/busses/i2c-stm32f7.c
+> index a05cac5ee9db..5be14c8a2af4 100644
+> --- a/drivers/i2c/busses/i2c-stm32f7.c
+> +++ b/drivers/i2c/busses/i2c-stm32f7.c
+> @@ -742,9 +742,12 @@ static void stm32f7_i2c_dma_callback(void *arg)
+>  	struct stm32f7_i2c_dev *i2c_dev = (struct stm32f7_i2c_dev *)arg;
+>  	struct stm32_i2c_dma *dma = i2c_dev->dma;
+>  	struct device *dev = dma->chan_using->device->dev;
+> +	struct stm32f7_i2c_msg *f7_msg = &i2c_dev->f7_msg;
+>  
+>  	stm32f7_i2c_disable_dma_req(i2c_dev);
+>  	dma_unmap_single(dev, dma->dma_buf, dma->dma_len, dma->dma_data_dir);
+> +	if (!f7_msg->smbus)
+> +		i2c_put_dma_safe_msg_buf(f7_msg->buf, i2c_dev->msg, true);
+>  	complete(&dma->dma_complete);
+>  }
+>  
+> @@ -880,6 +883,7 @@ static void stm32f7_i2c_xfer_msg(struct stm32f7_i2c_dev *i2c_dev,
+>  {
+>  	struct stm32f7_i2c_msg *f7_msg = &i2c_dev->f7_msg;
+>  	void __iomem *base = i2c_dev->base;
+> +	u8 *dma_buf;
+>  	u32 cr1, cr2;
+>  	int ret;
+>  
+> @@ -929,17 +933,23 @@ static void stm32f7_i2c_xfer_msg(struct stm32f7_i2c_dev *i2c_dev,
+>  
+>  	/* Configure DMA or enable RX/TX interrupt */
+>  	i2c_dev->use_dma = false;
+> -	if (i2c_dev->dma && f7_msg->count >= STM32F7_I2C_DMA_LEN_MIN
+> -	    && !i2c_dev->atomic) {
+> -		ret = stm32_i2c_prep_dma_xfer(i2c_dev->dev, i2c_dev->dma,
+> -					      msg->flags & I2C_M_RD,
+> -					      f7_msg->count, f7_msg->buf,
+> -					      stm32f7_i2c_dma_callback,
+> -					      i2c_dev);
+> -		if (!ret)
+> -			i2c_dev->use_dma = true;
+> -		else
+> -			dev_warn(i2c_dev->dev, "can't use DMA\n");
+> +	if (i2c_dev->dma && !i2c_dev->atomic) {
+> +		dma_buf = i2c_get_dma_safe_msg_buf(msg, STM32F7_I2C_DMA_LEN_MIN);
+> +		if (dma_buf) {
+> +			f7_msg->buf = dma_buf;
+> +			ret = stm32_i2c_prep_dma_xfer(i2c_dev->dev, i2c_dev->dma,
+> +						      msg->flags & I2C_M_RD,
+> +						      f7_msg->count, f7_msg->buf,
+> +						      stm32f7_i2c_dma_callback,
+> +						      i2c_dev);
+> +			if (ret) {
+> +				dev_warn(i2c_dev->dev, "can't use DMA\n");
+> +				i2c_put_dma_safe_msg_buf(f7_msg->buf, msg, false);
+> +				f7_msg->buf = msg->buf;
+> +			} else {
+> +				i2c_dev->use_dma = true;
+> +			}
+> +		}
+>  	}
+>  
+>  	if (!i2c_dev->use_dma) {
+> @@ -1624,6 +1634,8 @@ static irqreturn_t stm32f7_i2c_isr_event_thread(int irq, void *data)
+>  			dmaengine_terminate_async(dma->chan_using);
+>  			dma_unmap_single(i2c_dev->dev, dma->dma_buf, dma->dma_len,
+>  					 dma->dma_data_dir);
+> +			if (!f7_msg->smbus)
+> +				i2c_put_dma_safe_msg_buf(f7_msg->buf, i2c_dev->msg, false);
+>  		}
+>  		f7_msg->result = -ENXIO;
+>  	}
+> @@ -1646,6 +1658,8 @@ static irqreturn_t stm32f7_i2c_isr_event_thread(int irq, void *data)
+>  				dmaengine_terminate_async(dma->chan_using);
+>  				dma_unmap_single(i2c_dev->dev, dma->dma_buf, dma->dma_len,
+>  						 dma->dma_data_dir);
+> +				if (!f7_msg->smbus)
+> +					i2c_put_dma_safe_msg_buf(f7_msg->buf, i2c_dev->msg, false);
+>  				f7_msg->result = -ETIMEDOUT;
+>  			}
+>  		}
+> 
 
--- 
---
-Thomas Zimmermann
-Graphics Driver Developer
-SUSE Software Solutions Germany GmbH
-Frankenstrasse 146, 90461 Nuernberg, Germany
-GF: Ivo Totev, Andrew Myers, Andrew McDonald, Boudien Moerman
-HRB 36809 (AG Nuernberg)
+Looks good to me.
 
+Acked-by: Alain Volmat <alain.volmat@foss.st.com>
+
+Regards,
+Alain
+
+> -- 
+> 2.43.0
+> 
