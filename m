@@ -2,48 +2,54 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id D7E79AE9A65
-	for <lists+dri-devel@lfdr.de>; Thu, 26 Jun 2025 11:49:55 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id F0D64AE9AAC
+	for <lists+dri-devel@lfdr.de>; Thu, 26 Jun 2025 12:04:29 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 587AA10E042;
-	Thu, 26 Jun 2025 09:49:53 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3F9F910E27C;
+	Thu, 26 Jun 2025 10:04:27 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=163.com header.i=@163.com header.b="ADiTCeqc";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="Vo6l5QvC";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from m16.mail.163.com (m16.mail.163.com [117.135.210.3])
- by gabe.freedesktop.org (Postfix) with ESMTP id 8A9AF10E042
- for <dri-devel@lists.freedesktop.org>; Thu, 26 Jun 2025 09:49:50 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=163.com;
- s=s110527; h=From:To:Subject:Date:Message-Id:MIME-Version; bh=/c
- ma2AZin+wigRX09ym9Wqnf3KjaHR7/DQn0xw0S5oo=; b=ADiTCeqcicQQ3C8GDb
- JO1sgLE1xIMQchA/n9pQE9/LBPht7e6yZbgI9IiGoz7BKbXnwaWtZewzq+KGnbPJ
- kWVKE8ZZPMGtTE8HWCHxchFrbisedB7ZYO6nG4AQ2P4xAw4ZwmxbUNN2JGBl4d5a
- 9MrXMKLdC+IOYWDunKMVKPkY4=
-Received: from localhost.localdomain (unknown [])
- by gzga-smtp-mtada-g1-4 (Coremail) with SMTP id
- _____wDnj8KzF11odA7IAg--.18394S2; 
- Thu, 26 Jun 2025 17:49:40 +0800 (CST)
-From: oushixiong1025@163.com
-To: Helge Deller <deller@gmx.de>
-Cc: Peter Jones <pjones@redhat.com>, Thomas Zimmermann <tzimmermann@suse.de>,
- linux-fbdev@vger.kernel.org, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org, Shixiong Ou <oushixiong@kylinos.cn>
-Subject: [PATCH] fbdev: efifb: do not load efifb if PCI BAR has changed but
- not fixuped
-Date: Thu, 26 Jun 2025 17:49:37 +0800
-Message-Id: <20250626094937.515552-1-oushixiong1025@163.com>
-X-Mailer: git-send-email 2.25.1
+Received: from tor.source.kernel.org (tor.source.kernel.org [172.105.4.254])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1F48B10E27C
+ for <dri-devel@lists.freedesktop.org>; Thu, 26 Jun 2025 10:04:26 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+ by tor.source.kernel.org (Postfix) with ESMTP id 2D59761AE0;
+ Thu, 26 Jun 2025 10:04:22 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 825B1C4CEEE;
+ Thu, 26 Jun 2025 10:04:21 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1750932261;
+ bh=zCP8+haUsgajLpG9GHi1Yt0aYIxCMRg7RaznIp2uslE=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=Vo6l5QvCYeKcxOrxHm6UJ9KbXPj6pGnXW9J14/CRHr6D9ZCLK7RQDyv3QvVL/eiW1
+ rzfs1SzEXCA+0UGTr1XByoc+lqB6l65XcEwu4xpIBXWpX/q8RLBtUZUKSIbJGEAbBf
+ 0bOYp2yk22KrVdZV0sO/2GNyg7c0dEa6iuZgUnHyYgJy9v0hxEvrQYFiLv7kJv4Lb/
+ kEVCTP/GLTWt+iG0GSeS57snL9ZlciCVA3fUDiFMbRAhFJIGgsQNGHs/t+Vj8iQtt9
+ nGHPEst6K8JsLTumIfJJkadybyN+DCt3bAdeVuVpwDTwd1f3rTteqUM6JC37n7vzQv
+ hctZ8T2fl6RNg==
+Date: Thu, 26 Jun 2025 12:04:19 +0200
+From: Maxime Ripard <mripard@kernel.org>
+To: Francesco Dolcini <francesco@dolcini.it>
+Cc: Neil Armstrong <neil.armstrong@linaro.org>, 
+ Jessica Zhang <quic_jesszhan@quicinc.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
+ Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>, 
+ Simona Vetter <simona@ffwll.ch>, Luca Ceresoli <luca.ceresoli@bootlin.com>, 
+ Anusha Srivatsa <asrivats@redhat.com>, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org
+Subject: Re: [PATCH 0/5] drm/panel: panel-simple: Fix panel-dpi probe error
+Message-ID: <20250626-radiant-corgi-of-prowess-9a3aab@houat>
+References: <20250625-drm-panel-simple-fixes-v1-0-c428494a86b8@kernel.org>
+ <aF0SBNGmTpgtBTC3@gaggiata.pivistrello.it>
+ <aF0UUBQFAu9GUde0@gaggiata.pivistrello.it>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-CM-TRANSID: _____wDnj8KzF11odA7IAg--.18394S2
-X-Coremail-Antispam: 1Uf129KBjvJXoWxWw1rur1xWF4DXry5tr1fJFb_yoWrZFyDpF
- 4fGFyfCF48Xrn3Gws8G3WDJr1fWr4kuFyqkFZIkw1rAry3JryYvrnruryDury5ZrWkJr1x
- tr4Utw12kF15uaUanT9S1TB71UUUUU7qnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
- 9KBjDUYxBIdaVFxhVjvjDU0xZFpf9x07jzBT5UUUUU=
-X-Originating-IP: [116.128.244.169]
-X-CM-SenderInfo: xrxvxxx0lr0wirqskqqrwthudrp/1tbiXQt4D2hdEMSbzAAAsX
+Content-Type: multipart/signed; micalg=pgp-sha384;
+ protocol="application/pgp-signature"; boundary="vi6tlw5lpgixe2df"
+Content-Disposition: inline
+In-Reply-To: <aF0UUBQFAu9GUde0@gaggiata.pivistrello.it>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -59,128 +65,68 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Shixiong Ou <oushixiong@kylinos.cn>
 
-[WHY]
-On an ARM machine, the following log is present:
-[    0.900884] efifb: framebuffer at 0x1020000000, using 3072k, total 3072k
-[    2.297884] amdgpu 0000:04:00.0: remove_conflicting_pci_framebuffers: bar 0: 0x1000000000 -> 0x100fffffff
-[    2.297886] amdgpu 0000:04:00.0: remove_conflicting_pci_framebuffers: bar 2: 0x1010000000 -> 0x10101fffff
-[    2.297888] amdgpu 0000:04:00.0: remove_conflicting_pci_framebuffers: bar 5: 0x58200000 -> 0x5823ffff
+--vi6tlw5lpgixe2df
+Content-Type: text/plain; protected-headers=v1; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
+Subject: Re: [PATCH 0/5] drm/panel: panel-simple: Fix panel-dpi probe error
+MIME-Version: 1.0
 
-It show that the efifb framebuffer base is out of PCI BAR, and this
-results in both efi-framebuffer and amdgpudrmfb co-existing.
+On Thu, Jun 26, 2025 at 11:35:12AM +0200, Francesco Dolcini wrote:
+> On Thu, Jun 26, 2025 at 11:25:24AM +0200, Francesco Dolcini wrote:
+> > On Wed, Jun 25, 2025 at 08:48:37AM +0200, Maxime Ripard wrote:
+> > > Here's a series fixing (hopefully) the panel-simple regression for
+> > > panels with a panel-dpi compatible.
+> > >=20
+> > > It's only build tested, so if you could give that series a try
+> > > Francesco, I'd really appreciate it.
+> >=20
+> > It does not build for me, applied on top of commit ee88bddf7f2f ("Merge=
+ tag
+> > 'bpf-fixes' of git://git.kernel.org/pub/scm/linux/kernel/git/bpf/bpf")
+> >=20
+> >   SYNC    include/config/auto.conf.cmd
+> >   CALL    scripts/checksyscalls.sh
+> >   CC      drivers/gpu/drm/drm_of.o
+> >   CC [M]  drivers/gpu/drm/panel/panel-simple.o
+> >   AR      drivers/gpu/drm/built-in.a
+> >   AR      drivers/gpu/built-in.a
+> >   AR      drivers/built-in.a
+> >   AR      built-in.a
+> >   AR      vmlinux.a
+> >   LD      vmlinux.o
+> >   OBJCOPY modules.builtin.modinfo
+> >   GEN     modules.builtin
+> >   GEN     .vmlinux.objs
+> >   MODPOST Module.symvers
+> > ERROR: modpost: "mipi_dsi_bus_type" [drivers/gpu/drm/panel/panel-simple=
+=2Eko] undefined!
+> > make[2]: *** [scripts/Makefile.modpost:147: Module.symvers] Error 1
+> > make[1]: *** [/home/francesco/Toradex/sources/linux/Makefile:1953: modp=
+ost] Error 2
+> > make: *** [Makefile:248: __sub-make] Error 2
+> > [Exit 2]
+> >=20
+>=20
+> The issue is that I do not have CONFIG_DRM_MIPI_DSI. Adding it the build
+> finishes, and it also fixes the issue.
 
-The fbcon will be bound to efi-framebuffer by default and cannot be used.
+Thanks! I've been able to reproduce, and I'll send a new version in a
+couple of minutes.
 
-[HOW]
-Do not load efifb driver if PCI BAR has changed but not fixuped.
-In the following cases:
-	1. screen_info_lfb_pdev is NULL.
-	2. __screen_info_relocation_is_valid return false.
+Maxime
 
-Signed-off-by: Shixiong Ou <oushixiong@kylinos.cn>
----
- drivers/video/fbdev/efifb.c     |  4 ++++
- drivers/video/screen_info_pci.c | 24 ++++++++++++++++++++++++
- include/linux/screen_info.h     |  5 +++++
- 3 files changed, 33 insertions(+)
+--vi6tlw5lpgixe2df
+Content-Type: application/pgp-signature; name="signature.asc"
 
-diff --git a/drivers/video/fbdev/efifb.c b/drivers/video/fbdev/efifb.c
-index 0e1bd3dba255..de8d016c9a66 100644
---- a/drivers/video/fbdev/efifb.c
-+++ b/drivers/video/fbdev/efifb.c
-@@ -303,6 +303,10 @@ static void efifb_setup(struct screen_info *si, char *options)
- 
- static inline bool fb_base_is_valid(struct screen_info *si)
- {
-+	/* check whether fb_base has changed but not fixuped */
-+	if (!screen_info_is_useful())
-+		return false;
-+
- 	if (si->lfb_base)
- 		return true;
- 
-diff --git a/drivers/video/screen_info_pci.c b/drivers/video/screen_info_pci.c
-index 66bfc1d0a6dc..ac57dcaf0cac 100644
---- a/drivers/video/screen_info_pci.c
-+++ b/drivers/video/screen_info_pci.c
-@@ -9,6 +9,8 @@ static struct pci_dev *screen_info_lfb_pdev;
- static size_t screen_info_lfb_bar;
- static resource_size_t screen_info_lfb_res_start; // original start of resource
- static resource_size_t screen_info_lfb_offset; // framebuffer offset within resource
-+static bool screen_info_changed;
-+static bool screen_info_fixuped;
- 
- static bool __screen_info_relocation_is_valid(const struct screen_info *si, struct resource *pr)
- {
-@@ -24,6 +26,24 @@ static bool __screen_info_relocation_is_valid(const struct screen_info *si, stru
- 	return true;
- }
- 
-+bool screen_info_is_useful(void)
-+{
-+	unsigned int type;
-+	const struct screen_info *si = &screen_info;
-+
-+	type = screen_info_video_type(si);
-+	if (type != VIDEO_TYPE_EFI)
-+		return true;
-+
-+	if (screen_info_changed && !screen_info_fixuped) {
-+		pr_warn("The screen_info has changed but not fixuped");
-+		return false;
-+	}
-+
-+	pr_info("The screen_info is useful");
-+	return true;
-+}
-+
- void screen_info_apply_fixups(void)
- {
- 	struct screen_info *si = &screen_info;
-@@ -32,18 +52,22 @@ void screen_info_apply_fixups(void)
- 		struct resource *pr = &screen_info_lfb_pdev->resource[screen_info_lfb_bar];
- 
- 		if (pr->start != screen_info_lfb_res_start) {
-+			screen_info_changed = true;
- 			if (__screen_info_relocation_is_valid(si, pr)) {
- 				/*
- 				 * Only update base if we have an actual
- 				 * relocation to a valid I/O range.
- 				 */
- 				__screen_info_set_lfb_base(si, pr->start + screen_info_lfb_offset);
-+				screen_info_fixuped = true;
- 				pr_info("Relocating firmware framebuffer to offset %pa[d] within %pr\n",
- 					&screen_info_lfb_offset, pr);
- 			} else {
- 				pr_warn("Invalid relocating, disabling firmware framebuffer\n");
- 			}
- 		}
-+	} else {
-+		screen_info_changed = true;
- 	}
- }
- 
-diff --git a/include/linux/screen_info.h b/include/linux/screen_info.h
-index 923d68e07679..632cdbb1adbe 100644
---- a/include/linux/screen_info.h
-+++ b/include/linux/screen_info.h
-@@ -138,9 +138,14 @@ ssize_t screen_info_resources(const struct screen_info *si, struct resource *r,
- u32 __screen_info_lfb_bits_per_pixel(const struct screen_info *si);
- 
- #if defined(CONFIG_PCI)
-+bool screen_info_is_useful(void);
- void screen_info_apply_fixups(void);
- struct pci_dev *screen_info_pci_dev(const struct screen_info *si);
- #else
-+bool screen_info_is_useful(void)
-+{
-+	return true;
-+}
- static inline void screen_info_apply_fixups(void)
- { }
- static inline struct pci_dev *screen_info_pci_dev(const struct screen_info *si)
--- 
-2.25.1
+-----BEGIN PGP SIGNATURE-----
 
+iJUEABMJAB0WIQTkHFbLp4ejekA/qfgnX84Zoj2+dgUCaF0bIgAKCRAnX84Zoj2+
+dpw3AX4xiV4PYsblJakhkPwTl6lZXGBYC4lK87wDW/K/GFjL6o8I+r1OMlgCCmcv
+/jrkVMsBf1Y/BsQi5a1l2X2Yvyyw5xDT/OKiEN5nrxr+ZbQePQY4dhevisKhEGJr
+hwY1inXvvQ==
+=HzPm
+-----END PGP SIGNATURE-----
+
+--vi6tlw5lpgixe2df--
