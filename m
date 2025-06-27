@@ -2,125 +2,61 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 73BD3AEB919
-	for <lists+dri-devel@lfdr.de>; Fri, 27 Jun 2025 15:38:15 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 41281AEB91A
+	for <lists+dri-devel@lfdr.de>; Fri, 27 Jun 2025 15:38:54 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 15AB410EA41;
-	Fri, 27 Jun 2025 13:38:07 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6B0B810EA42;
+	Fri, 27 Jun 2025 13:38:52 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=qualcomm.com header.i=@qualcomm.com header.b="cQj35XqU";
+	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=igalia.com header.i=@igalia.com header.b="fRGRLh9r";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com
- [205.220.180.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id DE9B710EA42
- for <dri-devel@lists.freedesktop.org>; Fri, 27 Jun 2025 13:38:02 +0000 (UTC)
-Received: from pps.filterd (m0279872.ppops.net [127.0.0.1])
- by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 55RCWYhE018787
- for <dri-devel@lists.freedesktop.org>; Fri, 27 Jun 2025 13:38:01 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
- cc:content-transfer-encoding:content-type:date:from:in-reply-to
- :message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
- 2QtnvQnfluWMwHt5pv65ScEV4CUxIy5BoKzB2wk7FAQ=; b=cQj35XqUQK8xtpDy
- I8pHTQeVJQY2Vx2y2VgUuIR+nA1JnYfaqf++o1KIYpBKe2DvPMXETHXKC4s0LwOj
- q8ak1N7/MYobBNDuH2WZRB859JJ1+GXlxbPbRUSrmPGwWlkwlzPZNuqMfd4X3lNR
- NTw807OvA43MQoyXGbB2+KuubA3Hn23g/swq3BQwWXaaeh3BY9twYoDEwFBID0Ry
- kAU09bA3kPjGadbweSVR4WDvGRKtbNqc6MaWigcVbtsCvbk5CNJ4nDejZPDOPIva
- kIK7jNukqxP0OqoBFnR1IchI1Qq6SXCMDVuNJSoR2POzCc7lhB6aDON3bxR2Kf+M
- VQ89FQ==
-Received: from mail-qk1-f199.google.com (mail-qk1-f199.google.com
- [209.85.222.199])
- by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 47fdfx5ahp-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
- for <dri-devel@lists.freedesktop.org>; Fri, 27 Jun 2025 13:38:01 +0000 (GMT)
-Received: by mail-qk1-f199.google.com with SMTP id
- af79cd13be357-7d446ce0548so90601385a.3
- for <dri-devel@lists.freedesktop.org>; Fri, 27 Jun 2025 06:38:00 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1751031480; x=1751636280;
- h=content-transfer-encoding:in-reply-to:from:content-language
- :references:cc:to:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=2QtnvQnfluWMwHt5pv65ScEV4CUxIy5BoKzB2wk7FAQ=;
- b=F8Gy4ecLkW3qHJpZji3Mb9KQ1X4yqp8FgwmoilVaF2Av+epGnrxzP8yxpS34r6reHO
- VNFIw8XTMMUZ/YU9DkWe40D1uSuoccTu5HUQ46I0VOXYxyYFax77SApKO2+DsrM3YL/h
- FUCzKfk6WjHjyuu7WfxALEAxvwGcIJetSvrmWK5fKbJV+u8MORwF4W6McXTdUEUeqbVm
- VBPZKf52BGQDYBBVS3Z/B378YE63OF5gL2Ms7JuUD8aarjbxJ4PX8S1HhnowVVdkLcGk
- 2aZz1FvmfAx4v1RG3tO3dkDeE9oBO1iPQLNRL8jSMDvjaCtukvzN2xxtobDCnGGJgwUp
- NpPQ==
-X-Forwarded-Encrypted: i=1;
- AJvYcCVDHesgNRteQvNs3oeuUAaNISznJHr3k7JQH0l6jGTKry8isba+CMio/zDACCKAKQFaPVPArSvs/xA=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YyseBi5la9KrBjYcuRq7vfGs+o91DGCSaJCo5DBK7abLCiHH54n
- I63Ili7T6FAtfUYUIT7qHLZrRipVQSUpfRD68SleE/uxnt/3EIpVHTPOEWpzPY5zZ9y26i5WbfL
- W8OZzwcEPmaZ7NCJmazeTgJqr49cJlWMsoJTIehBuw5DC6Vis5LKrLE9E8b7jj9+p/K7nUk0=
-X-Gm-Gg: ASbGnctTcU3+y5x06yBHTuMFpz1qJ9HE94HChU4p4oGxD9RCtaMQ8ncfgM7OOleplWL
- B0J4lPzJugNXiHCoQfkawiHaxfERuc8TgDflbsNeBzwTlcOujqKw43C0dhn07p+iJBgUjRK+Tfa
- moZLaMnRpwgkLErt/iD19yRP7lxLXdQF5H7hqamVWYswLp/rYE1QlD7T5JW9aspxEcfHk+Gy1jc
- aRkmghf8zCqKaSpSluxych4lV7ddUK6P2uJ7Z0L7p3C21AfgL8WtdrzCaW23Teh2nYgLdaYyP6I
- 2lBTyJ2y8U56GBBWDubAQkJxL/DmRKT/OCZ893j3zg==
-X-Received: by 2002:a05:620a:1904:b0:7d3:907f:7544 with SMTP id
- af79cd13be357-7d4439a6584mr493459785a.35.1751031480167; 
- Fri, 27 Jun 2025 06:38:00 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IGvL73yf4sU/gW3mguJ2q0llUda4VgDpvmnaVGMd6K090C/8Loa8JscxVRP4J8tuzbwVKrCvw==
-X-Received: by 2002:a05:620a:1904:b0:7d3:907f:7544 with SMTP id
- af79cd13be357-7d4439a6584mr493455085a.35.1751031479671; 
- Fri, 27 Jun 2025 06:37:59 -0700 (PDT)
-Received: from [10.92.240.160] ([212.136.9.4])
- by smtp.gmail.com with ESMTPSA id
- a640c23a62f3a-ae353c0100fsm125509766b.88.2025.06.27.06.37.57
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 27 Jun 2025 06:37:58 -0700 (PDT)
-Message-ID: <6dcf88bc-0bdf-4965-b8af-b881a564d762@oss.qualcomm.com>
-Date: Fri, 27 Jun 2025 16:37:56 +0300
+Received: from fanzine2.igalia.com (fanzine2.igalia.com [213.97.179.56])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6AA3510EA42
+ for <dri-devel@lists.freedesktop.org>; Fri, 27 Jun 2025 13:38:51 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com; 
+ s=20170329;
+ h=Content-Transfer-Encoding:Content-Type:In-Reply-To:From:
+ References:Cc:To:Subject:MIME-Version:Date:Message-ID:Sender:Reply-To:
+ Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
+ Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
+ List-Subscribe:List-Post:List-Owner:List-Archive;
+ bh=AZxTDbjevz/s8ed6JYDK5Hej6tuv/X5UfNcOppd24Ps=; b=fRGRLh9rhgiJ7CkPDYnIVzUZPv
+ TqV3igLzmJGxwSzwOz0Ysrfu3Cjq27M4Lzc8vF6Q4auWy7GSYOSR5A75eObtFg3sB+WljG3DfyecN
+ IZGzE3PFgBCCHOtp/XDePeNwfEJGuEHBYCp594PcAq3kxzTc2cJ555ceStOCv3NmZHgImRSHsgLl0
+ TNWcwDCrI1tKFUBM7hNB2Von0tjkX+Ztr2Ka21pLhygJSxqtEucCbYY5tHVAMpjfspjdY1e8wz0CO
+ U0ImxPRUbDIN+2lhdemX/W7xbEp4SKtevQf+f/1v/lpGTMtOuuUXSG/+nGzZ8spMxgfItnkP7ivvP
+ Q51CuJiA==;
+Received: from [189.7.87.79] (helo=[192.168.0.7])
+ by fanzine2.igalia.com with esmtpsa 
+ (Cipher TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_128_GCM:128) (Exim)
+ id 1uV9Ht-009Pxr-FX; Fri, 27 Jun 2025 15:38:41 +0200
+Message-ID: <0f6d0cd2-8b1f-4401-87ef-9bc6f9eff720@igalia.com>
+Date: Fri, 27 Jun 2025 10:38:34 -0300
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 02/38] drm/msm/dp: remove dp_display's dp_mode and use
- dp_panel's instead
-To: Yongxing Mou <quic_yongmou@quicinc.com>
-Cc: Rob Clark <robin.clark@oss.qualcomm.com>,
- Abhinav Kumar <abhinav.kumar@linux.dev>,
- Jessica Zhang <jessica.zhang@oss.qualcomm.com>,
- Sean Paul <sean@poorly.run>,
- Marijn Suijten <marijn.suijten@somainline.org>,
+Subject: Re: [PATCH v5 6/8] drm/vkms: Change YUV helpers to support u16 inputs
+ for conversion
+To: Louis Chauvet <louis.chauvet@bootlin.com>,
+ Melissa Wen <melissa.srw@gmail.com>,
+ Haneen Mohammed <hamohammed.sa@gmail.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
  David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- linux-arm-msm@vger.kernel.org, dri-devel@lists.freedesktop.org,
- freedreno@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- Abhinav Kumar <quic_abhinavk@quicinc.com>
-References: <20250609-msm-dp-mst-v2-0-a54d8902a23d@quicinc.com>
- <20250609-msm-dp-mst-v2-2-a54d8902a23d@quicinc.com>
- <kq6tb2wnte6v5z7uxgzc22kjwcevgvcdluzqbelvnbpbxlkotd@ltlv3u2guj4u>
- <1be2238d-7bb2-4ef9-9c7c-81dab0dcb559@quicinc.com>
- <4jrpa7iyygciuy2k4ydk7cpm5isdrddclljf6gbyvkiqc645tx@idyds4tkstkx>
- <9358a017-81ed-4db7-8e35-955922287c76@quicinc.com>
+ Rodrigo Siqueira <siqueira@igalia.com>,
+ Simona Vetter <simona.vetter@ffwll.ch>
+Cc: dri-devel@lists.freedesktop.org, arthurgrillo@riseup.net,
+ linux-kernel@vger.kernel.org, jeremie.dautheribes@bootlin.com,
+ miquel.raynal@bootlin.com, thomas.petazzoni@bootlin.com,
+ seanpaul@google.com, nicolejadeyee@google.com
+References: <20250627-b4-new-color-formats-v5-0-94452f119c72@bootlin.com>
+ <20250627-b4-new-color-formats-v5-6-94452f119c72@bootlin.com>
 Content-Language: en-US
-From: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
-In-Reply-To: <9358a017-81ed-4db7-8e35-955922287c76@quicinc.com>
+From: =?UTF-8?Q?Ma=C3=ADra_Canal?= <mcanal@igalia.com>
+In-Reply-To: <20250627-b4-new-color-formats-v5-6-94452f119c72@bootlin.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-X-Proofpoint-GUID: Q035QLNWlHNjaiJYu_BlL-0SeaLUcVMb
-X-Proofpoint-ORIG-GUID: Q035QLNWlHNjaiJYu_BlL-0SeaLUcVMb
-X-Authority-Analysis: v=2.4 cv=MtZS63ae c=1 sm=1 tr=0 ts=685e9eb9 cx=c_pps
- a=HLyN3IcIa5EE8TELMZ618Q==:117 a=dNlqnMcrdpbb+gQrTujlOQ==:17
- a=IkcTkHD0fZMA:10 a=6IFa9wvqVegA:10 a=e5mUnYsNAAAA:8 a=COk6AnOGAAAA:8
- a=QLF5U8kL1nvtC7vkCdQA:9 a=3ZKOabzyN94A:10 a=QEXdDO2ut3YA:10
- a=bTQJ7kPSJx9SKPbeHEYW:22 a=Vxmtnl_E_bksehYqCbjh:22 a=TjNXssC_j7lpFel5tvFf:22
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwNjI3MDExMyBTYWx0ZWRfX0AUXZUp0SgeI
- 84mdFZ1FgBzukHBV4J0iT5y4rGZNOZhTNueg0AC+aLdS2O2CKEu28jP5Ukd3QLN4q75Bk0nXohh
- zmOs1sK3H4uTE4EsLnIpKyvu36ENxKUJ4JPCSVQ3ZM+0w0Vu3z+50ZgJXX6SFsupjzEW8TzNJiG
- WxBHGxhhAKGbjec99eQcJ8KKpqOJaDZug54tNZo4rC1Wp6qXS/r2zmaIjULk5eklrjy2chiKmSf
- u4aPJsHgJVhGEdsSaMg7CMaW9SWUS6yESYuI963pGRcftfxa2t7cJ/7hMEeGJkNcY0tI03f/AZK
- /Caocy32JjGec6exoujBzHqy3Nr8Vmtns8rbK6ctKNFYNSWEK9QBZQvAeuXWOJQqJTgSNdTaYqF
- ++XKvIGzCVXx1ZE3tjWdH9nneZPZ2rTHIbYtEGvj3/ihzMAjKeo1DDWxgD+WYdoc/0EafPNl
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1099,Hydra:6.1.7,FMLib:17.12.80.40
- definitions=2025-06-27_04,2025-06-26_05,2025-03-28_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- bulkscore=0 impostorscore=0 suspectscore=0 adultscore=0 phishscore=0
- mlxlogscore=999 spamscore=0 malwarescore=0 priorityscore=1501
- lowpriorityscore=0 clxscore=1015 mlxscore=0 classifier=spam authscore=0
- authtc=n/a authcc= route=outbound adjust=0 reason=mlx scancount=1
- engine=8.19.0-2505280000 definitions=main-2506270113
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -136,57 +72,167 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 27/06/2025 11:40, Yongxing Mou wrote:
+Hi Louis,
+
+On 27/06/25 06:12, Louis Chauvet wrote:
+> Some YUV format uses 16 bit values, so change the helper function for
+> conversion to support those new formats.
 > 
+> Signed-off-by: Louis Chauvet <louis.chauvet@bootlin.com>> ---
+>   drivers/gpu/drm/vkms/tests/vkms_format_test.c | 139 +++++++++++++-------------
+>   drivers/gpu/drm/vkms/vkms_formats.c           |  22 ++--
+>   drivers/gpu/drm/vkms/vkms_formats.h           |   4 +-
+>   3 files changed, 84 insertions(+), 81 deletions(-)
 > 
-> On 2025/6/25 22:03, Dmitry Baryshkov wrote:
->> On Wed, Jun 25, 2025 at 08:34:18PM +0800, Yongxing Mou wrote:
->>>
->>>
->>> On 2025/6/9 20:48, Dmitry Baryshkov wrote:
->>>> On Mon, Jun 09, 2025 at 08:21:21PM +0800, Yongxing Mou wrote:
->>>>> From: Abhinav Kumar <quic_abhinavk@quicinc.com>
->>>>>
 
->>> Originally, the drm_mode would be passed in
->>> two stages: from msm_dp_display->msm_dp_mode to dp_panel- 
->>> >msm_dp_mode. Since
->>> in MST mode each stream requires its own drm_mode and stored in 
->>> dp_panel, we
->>> simplified the two-stage transfer into a single step (.mode_set() do all
->>> things and store in msm_dp_panel). Meanwhile we modified the
->>> msm_dp_display_set_mode function to accept a msm_dp_panel parameter,
->>> allowing the MST bridge funcs' mode_set() to reuse this part code.
->>>
->>> The following patches:
->>> https://patchwork.freedesktop.org/patch/657573/?series=142207&rev=2 and
->>> https://patchwork.freedesktop.org/patch/657593/?series=142207&rev=2,
->>> introduce msm_dp_display_*_helper functions to help reuse common code 
->>> across
->>> MST/SST/eDP drm_bridge_funcs.
->>>
->>> If we drop msm_dp_mode from dp_panel and use drm_display_mode, it might
->>> introduce a large number of changes that are not directly related to 
->>> MST.
->>> Actually i think the presence of msm_dp_display_mode seems to 
->>> simplify the
->>> work in msm_dp_panel_timing_cfg(), this patch series we want to focus 
->>> on MST
->>> parts, so would we consider optimizing them later?
->>
->> Sure... But then you have to change two places. If you optimize it
->> first, you have to touch only place. And it can be even submitted
->> separately.
->>
-> Understood, that’s indeed the case. I just want to prioritize the MST 
-> patch and have it merged first, since it involves changes to lots of 
-> files. Thanks~~
+[...]
 
-I'm sorry, I hit enter too quickly. The MST will not be merged until we 
-get DP HPD rework in, that's a prerequisite from my side. So, while that 
-is getting sorted out, we can fix minor issues and perform minor 
-cleanups, like the checksums or drm_mode refactoring.
+>   
+>   /*
+> - * vkms_format_test_yuv_u8_to_argb_u16 - Testing the conversion between YUV
+> + * vkms_format_test_yuv_u16_to_argb_u16 - Testing the conversion between YUV
+>    * colors to ARGB colors in VKMS
+>    *
+>    * This test will use the functions get_conversion_matrix_to_argb_u16 and
+>    * argb_u16_from_yuv888 to convert YUV colors (stored in
 
--- 
-With best wishes
-Dmitry
+s/argb_u16_from_yuv888/argb_u16_from_yuv161616
+
+> - * yuv_u8_to_argb_u16_cases) into ARGB colors.
+> + * yuv_u16_to_argb_u16_cases) into ARGB colors.
+>    *
+>    * The conversion between YUV and RGB is not totally reversible, so there may be
+>    * some difference between the expected value and the result.
+>    * In addition, there may be some rounding error as the input color is 8 bits
+
+ From what I understand the input color now is 16 bits as well. Please,
+update the comment.
+
+Sorry, I missed those nits in the first review. Apart from that,
+
+Reviewed-by: Maíra Canal <mcanal@igalia.com>
+
+Best Regards,
+- Maíra
+
+>    * and output color is 16 bits.
+>    */
+> -static void vkms_format_test_yuv_u8_to_argb_u16(struct kunit *test)
+> +static void vkms_format_test_yuv_u16_to_argb_u16(struct kunit *test)
+>   {
+> -	const struct yuv_u8_to_argb_u16_case *param = test->param_value;
+> +	const struct yuv_u16_to_argb_u16_case *param = test->param_value;
+>   	struct pixel_argb_u16 argb;
+>   
+>   	for (size_t i = 0; i < param->n_colors; i++) {
+> @@ -236,7 +236,8 @@ static void vkms_format_test_yuv_u8_to_argb_u16(struct kunit *test)
+>   		get_conversion_matrix_to_argb_u16
+>   			(DRM_FORMAT_NV12, param->encoding, param->range, &matrix);
+>   
+> -		argb = argb_u16_from_yuv888(color->yuv.y, color->yuv.u, color->yuv.v, &matrix);
+> +		argb = argb_u16_from_yuv161616(&matrix, color->yuv.y, color->yuv.u,
+> +					       color->yuv.v);
+>   
+>   		KUNIT_EXPECT_LE_MSG(test, abs_diff(argb.a, color->argb.a), 0x1ff,
+>   				    "On the A channel of the color %s expected 0x%04x, got 0x%04x",
+> @@ -253,19 +254,19 @@ static void vkms_format_test_yuv_u8_to_argb_u16(struct kunit *test)
+>   	}
+>   }
+>   
+> -static void vkms_format_test_yuv_u8_to_argb_u16_case_desc(struct yuv_u8_to_argb_u16_case *t,
+> -							  char *desc)
+> +static void vkms_format_test_yuv_u16_to_argb_u16_case_desc(struct yuv_u16_to_argb_u16_case *t,
+> +							   char *desc)
+>   {
+>   	snprintf(desc, KUNIT_PARAM_DESC_SIZE, "%s - %s",
+>   		 drm_get_color_encoding_name(t->encoding), drm_get_color_range_name(t->range));
+>   }
+>   
+> -KUNIT_ARRAY_PARAM(yuv_u8_to_argb_u16, yuv_u8_to_argb_u16_cases,
+> -		  vkms_format_test_yuv_u8_to_argb_u16_case_desc
+> +KUNIT_ARRAY_PARAM(yuv_u16_to_argb_u16, yuv_u16_to_argb_u16_cases,
+> +		  vkms_format_test_yuv_u16_to_argb_u16_case_desc
+>   );
+>   
+>   static struct kunit_case vkms_format_test_cases[] = {
+> -	KUNIT_CASE_PARAM(vkms_format_test_yuv_u8_to_argb_u16, yuv_u8_to_argb_u16_gen_params),
+> +	KUNIT_CASE_PARAM(vkms_format_test_yuv_u16_to_argb_u16, yuv_u16_to_argb_u16_gen_params),
+>   	{}
+>   };
+>   
+> diff --git a/drivers/gpu/drm/vkms/vkms_formats.c b/drivers/gpu/drm/vkms/vkms_formats.c
+> index 5b50e8622521..03eb73f4caef 100644
+> --- a/drivers/gpu/drm/vkms/vkms_formats.c
+> +++ b/drivers/gpu/drm/vkms/vkms_formats.c
+> @@ -269,16 +269,17 @@ static struct pixel_argb_u16 argb_u16_from_BGR565(const __le16 *pixel)
+>   	return out_pixel;
+>   }
+>   
+> -VISIBLE_IF_KUNIT struct pixel_argb_u16 argb_u16_from_yuv888(u8 y, u8 channel_1, u8 channel_2,
+> -							    const struct conversion_matrix *matrix)
+> +VISIBLE_IF_KUNIT
+> +struct pixel_argb_u16 argb_u16_from_yuv161616(const struct conversion_matrix *matrix,
+> +					      u16 y, u16 channel_1, u16 channel_2)
+>   {
+>   	u16 r, g, b;
+>   	s64 fp_y, fp_channel_1, fp_channel_2;
+>   	s64 fp_r, fp_g, fp_b;
+>   
+> -	fp_y = drm_int2fixp(((int)y - matrix->y_offset) * 257);
+> -	fp_channel_1 = drm_int2fixp(((int)channel_1 - 128) * 257);
+> -	fp_channel_2 = drm_int2fixp(((int)channel_2 - 128) * 257);
+> +	fp_y = drm_int2fixp((int)y - matrix->y_offset * 257);
+> +	fp_channel_1 = drm_int2fixp((int)channel_1 - 128 * 257);
+> +	fp_channel_2 = drm_int2fixp((int)channel_2 - 128 * 257);
+>   
+>   	fp_r = drm_fixp_mul(matrix->matrix[0][0], fp_y) +
+>   	       drm_fixp_mul(matrix->matrix[0][1], fp_channel_1) +
+> @@ -300,7 +301,7 @@ VISIBLE_IF_KUNIT struct pixel_argb_u16 argb_u16_from_yuv888(u8 y, u8 channel_1,
+>   
+>   	return argb_u16_from_u16161616(0xffff, r, g, b);
+>   }
+> -EXPORT_SYMBOL_IF_KUNIT(argb_u16_from_yuv888);
+> +EXPORT_SYMBOL_IF_KUNIT(argb_u16_from_yuv161616);
+>   
+>   /**
+>    * READ_LINE() - Generic generator for a read_line function which can be used for format with one
+> @@ -492,8 +493,8 @@ static void semi_planar_yuv_read_line(const struct vkms_plane_state *plane, int
+>   	const struct conversion_matrix *conversion_matrix = &plane->conversion_matrix;
+>   
+>   	for (int i = 0; i < count; i++) {
+> -		*out_pixel = argb_u16_from_yuv888(y_plane[0], uv_plane[0], uv_plane[1],
+> -						  conversion_matrix);
+> +		*out_pixel = argb_u16_from_yuv161616(conversion_matrix, y_plane[0] * 257,
+> +						     uv_plane[0] * 257, uv_plane[1] * 257);
+>   		out_pixel += 1;
+>   		y_plane += step_y;
+>   		if ((i + subsampling_offset + 1) % subsampling == 0)
+> @@ -537,8 +538,9 @@ static void planar_yuv_read_line(const struct vkms_plane_state *plane, int x_sta
+>   	const struct conversion_matrix *conversion_matrix = &plane->conversion_matrix;
+>   
+>   	for (int i = 0; i < count; i++) {
+> -		*out_pixel = argb_u16_from_yuv888(*y_plane, *channel_1_plane, *channel_2_plane,
+> -						  conversion_matrix);
+> +		*out_pixel = argb_u16_from_yuv161616(conversion_matrix,
+> +						     *y_plane * 257, *channel_1_plane * 257,
+> +						     *channel_2_plane * 257);
+>   		out_pixel += 1;
+>   		y_plane += step_y;
+>   		if ((i + subsampling_offset + 1) % subsampling == 0) {
+> diff --git a/drivers/gpu/drm/vkms/vkms_formats.h b/drivers/gpu/drm/vkms/vkms_formats.h
+> index b4fe62ab9c65..eeb208cdd6b1 100644
+> --- a/drivers/gpu/drm/vkms/vkms_formats.h
+> +++ b/drivers/gpu/drm/vkms/vkms_formats.h
+> @@ -14,8 +14,8 @@ void get_conversion_matrix_to_argb_u16(u32 format, enum drm_color_encoding encod
+>   				       struct conversion_matrix *matrix);
+>   
+>   #if IS_ENABLED(CONFIG_KUNIT)
+> -struct pixel_argb_u16 argb_u16_from_yuv888(u8 y, u8 channel_1, u8 channel_2,
+> -					   const struct conversion_matrix *matrix);
+> +struct pixel_argb_u16 argb_u16_from_yuv161616(const struct conversion_matrix *matrix,
+> +					      u16 y, u16 channel_1, u16 channel_2);
+>   #endif
+>   
+>   #endif /* _VKMS_FORMATS_H_ */
+> 
+
