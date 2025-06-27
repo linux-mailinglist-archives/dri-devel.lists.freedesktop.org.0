@@ -2,41 +2,41 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id BB615AEC2C5
-	for <lists+dri-devel@lfdr.de>; Sat, 28 Jun 2025 00:45:52 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id EC61DAEC2C2
+	for <lists+dri-devel@lfdr.de>; Sat, 28 Jun 2025 00:45:45 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id DE80510EA85;
-	Fri, 27 Jun 2025 22:45:50 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E6E8310EA89;
+	Fri, 27 Jun 2025 22:45:43 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=bootlin.com header.i=@bootlin.com header.b="g/TXlo54";
+	dkim=pass (2048-bit key; unprotected) header.d=bootlin.com header.i=@bootlin.com header.b="g8ZQroC0";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from relay4-d.mail.gandi.net (relay4-d.mail.gandi.net
  [217.70.183.196])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D3CE610EA85
- for <dri-devel@lists.freedesktop.org>; Fri, 27 Jun 2025 22:45:31 +0000 (UTC)
-Received: by mail.gandi.net (Postfix) with ESMTPSA id AA11243AD5;
- Fri, 27 Jun 2025 22:45:29 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E2E1310EA85
+ for <dri-devel@lists.freedesktop.org>; Fri, 27 Jun 2025 22:45:32 +0000 (UTC)
+Received: by mail.gandi.net (Postfix) with ESMTPSA id B7A6043AD7;
+ Fri, 27 Jun 2025 22:45:30 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
- t=1751064330;
+ t=1751064331;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=cQGedsYFUprS2h2wsTHDGgsQPvYO+g5TGBKhmE6wtXc=;
- b=g/TXlo54jV6OrvpbJDhh+I9L7O0S1ukpavi9b9p3iwb+geK5mvNJup2+MQG1YsQGwpCivX
- /h2Se4OIXw9rGLZKqqO+s72dd8bX3eXZ2TlzrzxiB+9s6dBPvFDh2WsuoyB5eXolXm8aoj
- eDa7ew0JT8Cv0aYnpkzWJhp3UQpDv/HJAKedcSu1L/GJLpD6Ez7+nrJYBbYEVai4U75MDB
- G+LsFqyIu9MZomElLYv4zXZCVsPcLuNmZ3Z0IuXfnToDfwBF9mqgpYR2MrvNiN7h89t3Rp
- 84X7FXB0dQ3sD6psdFdjvsRKCdFJHsBg47nwZwGzqaPR3jfnXBbGbAh7BRHyew==
+ bh=JC2W+b237xoo6DgglhCGfd6HW4qgBDoN3fLXVYlTXUk=;
+ b=g8ZQroC0sJskZFfokmdn13xyxEcnlXLngBCWcCSU7hPERAjFAYcKSuQTidIKkO0STy8UxP
+ hz6sA9giTbPwBysKU4t1cT7c2070yjPBeH2i3IHk07p40eok2ZHLCFVZnx0aEZ+QCbVrUB
+ ztBYlPNbpEcyVtMivOOk2XkPOWwA2ftAldVDDcerkhxz1kLWOGFN91FLTwYZq9oVPMjuA7
+ ovMV3ANzg2lGskOV0u16LWb0ZjNA6uz+hJ0nazZ8l3QNFGgUkLX4P26vPcqVpIvSkhrttM
+ agFN8jSxjYEHGrysT6dXpdWW6aW2yCjCR/QG0Jmaml0nDLqHbdnivUoaqTMJ7w==
 From: Louis Chauvet <louis.chauvet@bootlin.com>
-Date: Sat, 28 Jun 2025 00:45:21 +0200
-Subject: [PATCH v6 7/8] drm/vkms: Create helper macro for YUV formats
+Date: Sat, 28 Jun 2025 00:45:22 +0200
+Subject: [PATCH v6 8/8] drm/vkms: Add P01* formats
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
-Message-Id: <20250628-b4-new-color-formats-v6-7-2125b193f91a@bootlin.com>
+Message-Id: <20250628-b4-new-color-formats-v6-8-2125b193f91a@bootlin.com>
 References: <20250628-b4-new-color-formats-v6-0-2125b193f91a@bootlin.com>
 In-Reply-To: <20250628-b4-new-color-formats-v6-0-2125b193f91a@bootlin.com>
 To: Melissa Wen <melissa.srw@gmail.com>, 
@@ -54,21 +54,21 @@ Cc: dri-devel@lists.freedesktop.org, arthurgrillo@riseup.net,
  Louis Chauvet <louis.chauvet@bootlin.com>, 
  =?utf-8?q?Ma=C3=ADra_Canal?= <mcanal@igalia.com>
 X-Mailer: b4 0.15-dev
-X-Developer-Signature: v=1; a=openpgp-sha256; l=5260;
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1932;
  i=louis.chauvet@bootlin.com; h=from:subject:message-id;
- bh=6rCEsWIq5fbxDFsCRxdoRDtJo224kyW+P6LIRsIuwz4=;
- b=owEBbQKS/ZANAwAIASCtLsZbECziAcsmYgBoXx7/jhvlF6vejDgffhNwlvnrkroUZSKCzeKqj
- 9NcW20kK5GJAjMEAAEIAB0WIQRPj7g/vng8MQxQWQQgrS7GWxAs4gUCaF8e/wAKCRAgrS7GWxAs
- 4mn+EACc6EhDZpe9x7ZEAipuUCE6MNsbXRR6j8KKo6Ry5CzM45V/Bsj0sgwx+Nvi22ED8wNH8EY
- ZDCl1C2MxaI+6FwkhZsqVgadsM/5Jxnz8Q9A9KXyYQGZojz5TjXKofK22VLFwjTLK2cyHGLqxqV
- mZrOa87zeBzmmcn+V77POUCFKumEU4wb1ln8GlMpceVC2OZpqZb+VIE3xI9ulg2C2ODfYV7cKiM
- cB1M5Z1n7Ejk++tOQeGo8ECzVL04E7kWQzQFI+10uwtwwjGjgD9gpv0501ZCy8fbMxirGAu58la
- PJBOuHP/zgHc4z80cVgRU1ETtiRRxN3QV4n+9XQ2J2zfAPRYMbl+dLzFCvrWftg7CCLtc2Yk3qh
- ihSxbRmyoWIf7Sk13Wbxxz9eoZuJXoEqBCieorEcsHOSS1I32fZ2V0XUK3QcfV0BMf3us7FGEMf
- 8Lb40QtlxXBdJvuIgHip0xq1WgPLO4oiWeZUr5sHnv2jcvjgWm+QdnCWvEBmtgMc90VMaS76X+E
- yx7wePSmqUgCSuc+TjwOo0e8hnFgscpIKakI3pXSe0j78QByK1Zfv/zvxUBbV+ei8FNChX4yw7M
- WLX5HE8A+31dDGTm1wcJPGZ0xYvT82Vyy/nG8mvybFjdmVrRFu4WxTID5OGUAl0Xxk41I9cXd7s
- vcGHq6tRD3D92JQ==
+ bh=9W7/iaW86HFburFCXdjcAjYgjpQfkNR4cnVMBwhKBR4=;
+ b=owEBbQKS/ZANAwAIASCtLsZbECziAcsmYgBoXx8ASneTv5auJPNUXb+WyQXhsb/KuoWjx+SNa
+ ak5RZIs4DyJAjMEAAEIAB0WIQRPj7g/vng8MQxQWQQgrS7GWxAs4gUCaF8fAAAKCRAgrS7GWxAs
+ 4rCcEACLT2A0W+anJzi4C/jV6CflL1x80qiL7AeBH7lbyY6XyR9fO8kOKmzGK9Q41/UVYZK/WUK
+ dr1IQewyC5I11iLzrx/Ee136EPNTim3ASf9GbNY6f/eGfi6q5Rj5fl/dua6Q+xbAnOU1QqX5Rkn
+ EyLWZSqArYzKSpWHDZU259ck5h8D2QU6GeRwNoSxC6cPyH/Ad58XTXcGTRprx0zk0eVO6uxfI3X
+ OWMIa9Ij01OEsqMJ784tm9e1K/9p4NAEg6fNOCgcr0oRJ2/RdWW+ZJoEcKGGvXeiI4v8c8Cruqj
+ Umk70JFQ4FCyzM7UGrQ9KzxL1eP4JKXnbs2qvi6vpbmc8kJUwzCydwwMp0Nww2xEzS1pMOJ4Ei3
+ HB0nYiC5j9PahjkpsbaDxT/j+OsQlPz44Shbg7SXplDspKOdprzqU4Ym3t61rcQPgxNBASaiszw
+ 4PpzkMb79S+aorhKHuiZbOTWk+QHL8KGS5V3F9eZCZRjS2ogFCFbH/koXkk4M4GZyKyqzUND39D
+ 8xLjtQWrze/dInBVxlgQODZAOS0512dTs6nIX0G2y/BsQ98c9e6f5K/csQ468zrwENvyMVqTlrp
+ k5b8q/m0fr6NPRvukFxhUhkb6PosvTYfiMU1SLcLoWWO/hK9P+wNfx3HFMHmDEstmTf1ghjDIo3
+ kX9fLfy3PDDZ15Q==
 X-Developer-Key: i=louis.chauvet@bootlin.com; a=openpgp;
  fpr=8B7104AE9A272D6693F527F2EC1883F55E0B40A5
 X-GND-State: clean
@@ -91,113 +91,58 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The callback functions for line conversion are almost identical for
-semi-planar formats. The generic READ_LINE_YUV_SEMIPLANAR macro
-generate all the required boilerplate to process a line from a
-semi-planar format.
+The formats NV 12/16/24/21/61/42 were already supported.
+Add support for:
+- P010
+- P012
+- P016
 
 Reviewed-by: Maíra Canal <mcanal@igalia.com>
 Signed-off-by: Louis Chauvet <louis.chauvet@bootlin.com>
 ---
- drivers/gpu/drm/vkms/vkms_formats.c | 75 ++++++++++++++++++++++++-------------
- 1 file changed, 48 insertions(+), 27 deletions(-)
+ drivers/gpu/drm/vkms/vkms_formats.c | 7 ++++++-
+ drivers/gpu/drm/vkms/vkms_plane.c   | 3 +++
+ 2 files changed, 9 insertions(+), 1 deletion(-)
 
 diff --git a/drivers/gpu/drm/vkms/vkms_formats.c b/drivers/gpu/drm/vkms/vkms_formats.c
-index 03eb73f4caef..b18d67436e1d 100644
+index b18d67436e1d..e540218fdcad 100644
 --- a/drivers/gpu/drm/vkms/vkms_formats.c
 +++ b/drivers/gpu/drm/vkms/vkms_formats.c
-@@ -473,35 +473,56 @@ READ_LINE(R8_read_line, px, u8, argb_u16_from_gray8, *px)
-  * - Convert YUV and YVU with the same function (a column swap is needed when setting up
-  * plane->conversion_matrix)
-  */
--static void semi_planar_yuv_read_line(const struct vkms_plane_state *plane, int x_start,
--				      int y_start, enum pixel_read_direction direction, int count,
--				      struct pixel_argb_u16 out_pixel[])
--{
--	u8 *y_plane;
--	u8 *uv_plane;
+@@ -522,7 +522,8 @@ static void function_name(const struct vkms_plane_state *plane, int x_start,			\
+ 
+ READ_LINE_YUV_SEMIPLANAR(YUV888_semiplanar_read_line, y, uv, u8, u8, argb_u16_from_yuv161616,
+ 			 y[0] * 257, uv[0] * 257, uv[1] * 257)
 -
--	packed_pixels_addr_1x1(plane->frame_info, x_start, y_start, 0,
--			       &y_plane);
--	packed_pixels_addr_1x1(plane->frame_info,
--			       x_start / plane->frame_info->fb->format->hsub,
--			       y_start / plane->frame_info->fb->format->vsub, 1,
--			       &uv_plane);
--	int step_y = get_block_step_bytes(plane->frame_info->fb, direction, 0);
--	int step_uv = get_block_step_bytes(plane->frame_info->fb, direction, 1);
--	int subsampling = get_subsampling(plane->frame_info->fb->format, direction);
--	int subsampling_offset = get_subsampling_offset(direction, x_start, y_start);
--	const struct conversion_matrix *conversion_matrix = &plane->conversion_matrix;
- 
--	for (int i = 0; i < count; i++) {
--		*out_pixel = argb_u16_from_yuv161616(conversion_matrix, y_plane[0] * 257,
--						     uv_plane[0] * 257, uv_plane[1] * 257);
--		out_pixel += 1;
--		y_plane += step_y;
--		if ((i + subsampling_offset + 1) % subsampling == 0)
--			uv_plane += step_uv;
--	}
-+/**
-+ * READ_LINE_YUV_SEMIPLANAR() - Generic generator for a read_line function which can be used for yuv
-+ * formats with two planes and block_w == block_h == 1.
-+ *
-+ * @function_name: Function name to generate
-+ * @pixel_1_name: temporary pixel name for the first plane used in the @__VA_ARGS__ parameters
-+ * @pixel_2_name: temporary pixel name for the second plane used in the @__VA_ARGS__ parameters
-+ * @pixel_1_type: Used to specify the type you want to cast the pixel pointer on the plane 1
-+ * @pixel_2_type: Used to specify the type you want to cast the pixel pointer on the plane 2
-+ * @callback: Callback to call for each pixels. This function should take
-+ *            (struct conversion_matrix*, @__VA_ARGS__) as parameter and return a pixel_argb_u16
-+ * @__VA_ARGS__: Argument to pass inside the callback. You can use @pixel_1_name and @pixel_2_name
-+ *               to access current pixel values
-+ */
-+#define READ_LINE_YUV_SEMIPLANAR(function_name, pixel_1_name, pixel_2_name, pixel_1_type,	\
-+				 pixel_2_type, callback, ...)					\
-+static void function_name(const struct vkms_plane_state *plane, int x_start,			\
-+		 int y_start, enum pixel_read_direction direction, int count,			\
-+		 struct pixel_argb_u16 out_pixel[])						\
-+{												\
-+	u8 *plane_1;										\
-+	u8 *plane_2;										\
-+												\
-+	packed_pixels_addr_1x1(plane->frame_info, x_start, y_start, 0,				\
-+			       &plane_1);							\
-+	packed_pixels_addr_1x1(plane->frame_info,						\
-+			       x_start / plane->frame_info->fb->format->hsub,			\
-+			       y_start / plane->frame_info->fb->format->vsub, 1,		\
-+			       &plane_2);							\
-+	int step_1 = get_block_step_bytes(plane->frame_info->fb, direction, 0);			\
-+	int step_2 = get_block_step_bytes(plane->frame_info->fb, direction, 1);			\
-+	int subsampling = get_subsampling(plane->frame_info->fb->format, direction);		\
-+	int subsampling_offset = get_subsampling_offset(direction, x_start, y_start);		\
-+	const struct conversion_matrix *conversion_matrix = &plane->conversion_matrix;		\
-+												\
-+	for (int i = 0; i < count; i++) {							\
-+		pixel_1_type *(pixel_1_name) = (pixel_1_type *)plane_1;				\
-+		pixel_2_type *(pixel_2_name) = (pixel_2_type *)plane_2;				\
-+		*out_pixel = (callback)(conversion_matrix, __VA_ARGS__);			\
-+		out_pixel += 1;									\
-+		plane_1 += step_1;								\
-+		if ((i + subsampling_offset + 1) % subsampling == 0)				\
-+			plane_2 += step_2;							\
-+	}											\
- }
- 
-+READ_LINE_YUV_SEMIPLANAR(YUV888_semiplanar_read_line, y, uv, u8, u8, argb_u16_from_yuv161616,
-+			 y[0] * 257, uv[0] * 257, uv[1] * 257)
-+
++READ_LINE_YUV_SEMIPLANAR(YUV161616_semiplanar_read_line, y, uv, u16, u16, argb_u16_from_yuv161616,
++			 y[0], uv[0], uv[1])
  /*
   * This callback can be used for YUV format where each color component is
   * stored in a different plane (often called planar formats). It will
-@@ -697,7 +718,7 @@ pixel_read_line_t get_pixel_read_line_function(u32 format)
- 	case DRM_FORMAT_NV21:
+@@ -719,6 +720,10 @@ pixel_read_line_t get_pixel_read_line_function(u32 format)
  	case DRM_FORMAT_NV61:
  	case DRM_FORMAT_NV42:
--		return &semi_planar_yuv_read_line;
-+		return &YUV888_semiplanar_read_line;
+ 		return &YUV888_semiplanar_read_line;
++	case DRM_FORMAT_P010:
++	case DRM_FORMAT_P012:
++	case DRM_FORMAT_P016:
++		return &YUV161616_semiplanar_read_line;
  	case DRM_FORMAT_YUV420:
  	case DRM_FORMAT_YUV422:
  	case DRM_FORMAT_YUV444:
+diff --git a/drivers/gpu/drm/vkms/vkms_plane.c b/drivers/gpu/drm/vkms/vkms_plane.c
+index 9f34f3a18d8c..e592e47a5736 100644
+--- a/drivers/gpu/drm/vkms/vkms_plane.c
++++ b/drivers/gpu/drm/vkms/vkms_plane.c
+@@ -39,6 +39,9 @@ static const u32 vkms_formats[] = {
+ 	DRM_FORMAT_YVU420,
+ 	DRM_FORMAT_YVU422,
+ 	DRM_FORMAT_YVU444,
++	DRM_FORMAT_P010,
++	DRM_FORMAT_P012,
++	DRM_FORMAT_P016,
+ 	DRM_FORMAT_R1,
+ 	DRM_FORMAT_R2,
+ 	DRM_FORMAT_R4,
 
 -- 
 2.49.0
