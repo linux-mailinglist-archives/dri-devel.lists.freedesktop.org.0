@@ -2,81 +2,91 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2D3A8AEB348
-	for <lists+dri-devel@lfdr.de>; Fri, 27 Jun 2025 11:48:23 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id A66C2AEB24A
+	for <lists+dri-devel@lfdr.de>; Fri, 27 Jun 2025 11:12:52 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5B70C10E9AD;
-	Fri, 27 Jun 2025 09:48:21 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 55C1810E991;
+	Fri, 27 Jun 2025 09:12:50 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=bootlin.com header.i=@bootlin.com header.b="jgOZsmYN";
+	dkim=pass (1024-bit key; unprotected) header.d=redhat.com header.i=@redhat.com header.b="QyzHvsT6";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mslow3.mail.gandi.net (mslow3.mail.gandi.net [217.70.178.249])
- by gabe.freedesktop.org (Postfix) with ESMTPS id AE5ED10E9A0
- for <dri-devel@lists.freedesktop.org>; Fri, 27 Jun 2025 09:48:04 +0000 (UTC)
-Received: from relay16.mail.gandi.net (relay16.mail.gandi.net
- [IPv6:2001:4b98:dc4:8::236])
- by mslow3.mail.gandi.net (Postfix) with ESMTP id 60B3D5867FB
- for <dri-devel@lists.freedesktop.org>; Fri, 27 Jun 2025 09:12:59 +0000 (UTC)
-Received: by mail.gandi.net (Postfix) with ESMTPSA id F1FD8438CA;
- Fri, 27 Jun 2025 09:12:56 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
- t=1751015577;
+Received: from us-smtp-delivery-124.mimecast.com
+ (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 171D710E991
+ for <dri-devel@lists.freedesktop.org>; Fri, 27 Jun 2025 09:12:49 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1751015568;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=QLPLv18xzapWnsWKvbOSYbL5/1PSNGa2oiksuVxBiWQ=;
- b=jgOZsmYN9wE0bv05ZB95RFLGnVvDK4Th3jT8To9s296CffHs/YBqfqos4BeLp6V6JkiGJW
- OOYefHzfvZ/LhYHPS5UvgBqb2NsNG4eE867Ad1919CrdABrlrGzXnVGHz9BwSWpADokwUq
- lkgmZ0zcmqC0Kn9g//lChZxf9GpUEwPKC2BTj/4aTQo3HS2CgeapNQCvKDtb65y8t0WD4C
- 5QZIA6m3R0Y0i6NM2OpTpQe6U82Skm09eKSe71lDnj/z/AY5LazuOI9jSPP3O7qKW64Q5e
- v0Ys+hpiMqs3uwS3e+bktgNg3f8Xuv7XDCYkda6E6Ww+OSB23nPi5Tm0tZ/EMw==
-From: Louis Chauvet <louis.chauvet@bootlin.com>
-Date: Fri, 27 Jun 2025 11:12:39 +0200
-Subject: [PATCH v5 8/8] drm/vkms: Add P01* formats
+ bh=wYCV/mmnu9quiFORIT64HDfZgAbi4d31P/K4WpqK4Ew=;
+ b=QyzHvsT6ZONHJVWxVrRFSfJQ8aHFaQw/UZhxboZ9nOkA23osrcDHs/XKQEIlzp3Sautrqm
+ iNbNby+6o9S0wmycLDqmzZ3laq0RKEv3lheYT4wm/q+RCfjTVkQHD35PrikyHmgRAbQDF8
+ 7hZ/tyXCuJYbHVgYXZCFdZXhnI9RF5U=
+Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
+ [209.85.128.71]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-518-fSKGvoSSNoy0ojs9EQUX8g-1; Fri, 27 Jun 2025 05:12:46 -0400
+X-MC-Unique: fSKGvoSSNoy0ojs9EQUX8g-1
+X-Mimecast-MFC-AGG-ID: fSKGvoSSNoy0ojs9EQUX8g_1751015565
+Received: by mail-wm1-f71.google.com with SMTP id
+ 5b1f17b1804b1-453804ee4dfso9643615e9.1
+ for <dri-devel@lists.freedesktop.org>; Fri, 27 Jun 2025 02:12:46 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1751015565; x=1751620365;
+ h=mime-version:message-id:date:references:in-reply-to:subject:cc:to
+ :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=wYCV/mmnu9quiFORIT64HDfZgAbi4d31P/K4WpqK4Ew=;
+ b=RXsPW5FKoo9LEtz/1wsKvStDCUzpBOKfSBGuXzdE/xsa9hy3+95W05BAvVoHQggjGb
+ zVuh0bB6DFAlm4NICP7vmgxV15keC/98MVlfVNcBGCzwTOzKv8w9wR0w05yygaBK4uRB
+ n1zCkM9pL8LgeySA/+9w2sjYTwYQaMNVizZmIIO9nqGu+Or4N/zo65BuvoaRvyv3Fl4O
+ ZWZhQ35ayJhqWX7Aw4/3mGP7Bst/4Jt1Is/IVG+qU6P0vj/Mr2Su1AKkwQ3FnlzTdlOe
+ fXWgxcGKISrDN4wdbgF7HHmHx4+3edM7PxxtDHZsYeC5+oTS3pKRoWturT8Ink7rso+y
+ z59Q==
+X-Gm-Message-State: AOJu0Yxg265npdRq9B2pIwQliXshUStqBpe5XsqJpuroRJaOj10Ugcz0
+ mR6HbghqjKHDv0FW2VYJG2rLFWWZWB16ITMKMeEytyoAYEfCmZ95j6BDomTpLssQXVEyuGCsSjU
+ ye06eVEqQCzUG236ca7awEKN7CPQ9YvvLN4FuX4yXD8CY0ocKvz/d2eoBZXba5N0QRrzQaA==
+X-Gm-Gg: ASbGncuuOMc65Nje6xqOUEVB4YzF5kmrkUsd6Srmj/xJ/BX9sFn9UEv3J4pn3WqQIul
+ bFhcrtKC1HfCl6MkWuFsChE1OtIb1zOFN7kXO9IxchEzrIYRxZd88O3kHaAyyTWHKlw/OfiqngM
+ 6/QO7LndaLpMkn7MWNZeefbDj8BMHPyQJ+BAciiUKHeEAIp+q4ED8SE24/Y5XrdiukohCuX2yuW
+ fNOq1XcCu4QCHBmuhXqiWyLgfX6WUNrBuDNxNxZMdr44uCNaU+MJalbF5A2KqwwOGfeKcZLObR6
+ W39vQ7L+vX+n0kw31sdZiV53V7W28dnI4PrghZUzosYyT/xEXBbQ51LYBUvmH2NunF9mnqve2Ee
+ UJJnw
+X-Received: by 2002:a05:600c:8b8b:b0:453:b1c:442a with SMTP id
+ 5b1f17b1804b1-4538ee70f31mr24187985e9.27.1751015565255; 
+ Fri, 27 Jun 2025 02:12:45 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IGrPuxSZs8zruo6edxrSyEN0yDly0bJfK6/O6yP8vrNS1ZzI1Ta9cGuoIvNVmYoF464I92XwQ==
+X-Received: by 2002:a05:600c:8b8b:b0:453:b1c:442a with SMTP id
+ 5b1f17b1804b1-4538ee70f31mr24187655e9.27.1751015564743; 
+ Fri, 27 Jun 2025 02:12:44 -0700 (PDT)
+Received: from localhost (62-151-111-63.jazzfree.ya.com. [62.151.111.63])
+ by smtp.gmail.com with ESMTPSA id
+ ffacd0b85a97d-3a88c7e78e8sm2203570f8f.19.2025.06.27.02.12.43
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Fri, 27 Jun 2025 02:12:44 -0700 (PDT)
+From: Javier Martinez Canillas <javierm@redhat.com>
+To: Maxime Ripard <mripard@kernel.org>, Neil Armstrong
+ <neil.armstrong@linaro.org>, Jessica Zhang <quic_jesszhan@quicinc.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, Thomas Zimmermann
+ <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>, Simona Vetter
+ <simona@ffwll.ch>, Luca Ceresoli <luca.ceresoli@bootlin.com>, Anusha
+ Srivatsa <asrivats@redhat.com>, Francesco Dolcini <francesco@dolcini.it>
+Cc: dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org, Maxime
+ Ripard <mripard@kernel.org>
+Subject: Re: [PATCH v2 4/5] drm/panel: panel-simple: Add function to look
+ panel data up
+In-Reply-To: <20250626-drm-panel-simple-fixes-v2-4-5afcaa608bdc@kernel.org>
+References: <20250626-drm-panel-simple-fixes-v2-0-5afcaa608bdc@kernel.org>
+ <20250626-drm-panel-simple-fixes-v2-4-5afcaa608bdc@kernel.org>
+Date: Fri, 27 Jun 2025 11:12:43 +0200
+Message-ID: <8734blczuc.fsf@minerva.mail-host-address-is-not-set>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20250627-b4-new-color-formats-v5-8-94452f119c72@bootlin.com>
-References: <20250627-b4-new-color-formats-v5-0-94452f119c72@bootlin.com>
-In-Reply-To: <20250627-b4-new-color-formats-v5-0-94452f119c72@bootlin.com>
-To: Melissa Wen <melissa.srw@gmail.com>, 
- =?utf-8?q?Ma=C3=ADra_Canal?= <mairacanal@riseup.net>, 
- Haneen Mohammed <hamohammed.sa@gmail.com>, 
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, 
- Rodrigo Siqueira <siqueira@igalia.com>, 
- Simona Vetter <simona.vetter@ffwll.ch>
-Cc: dri-devel@lists.freedesktop.org, arthurgrillo@riseup.net, 
- linux-kernel@vger.kernel.org, jeremie.dautheribes@bootlin.com, 
- miquel.raynal@bootlin.com, thomas.petazzoni@bootlin.com, 
- seanpaul@google.com, nicolejadeyee@google.com, 
- Louis Chauvet <louis.chauvet@bootlin.com>
-X-Mailer: b4 0.15-dev
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1885;
- i=louis.chauvet@bootlin.com; h=from:subject:message-id;
- bh=QiFonQJxOo/bY8I4l1uZqGA1dfJimNI0BRwu51L77sY=;
- b=owEBbQKS/ZANAwAIASCtLsZbECziAcsmYgBoXmCO4AsbQgnO0+C5ntekkA+T0tNHKys9CbiCi
- 3sHI+W4O0mJAjMEAAEIAB0WIQRPj7g/vng8MQxQWQQgrS7GWxAs4gUCaF5gjgAKCRAgrS7GWxAs
- 4j4/EACJ1Lg6duJHRyc7JjcwUU2CB9xxf73FJ54bMV7SpE4NyG4NFDPQJr2vVKCHMxzGqunhdnw
- 7ckd8g3Pl2jVMK/gvgG0von7zHdj39O5/TZ7ZXw41YTnmNKCUQ+FoxjLH2oZYgf5iLf+ntngpdF
- GrTmpoi11Be2FC7SV49S22HuY31rnzavpisdzeZ18IQuIsVmD194mf9zqGdC7xEXDEpIDVcpSiB
- VYZ3DJ84/0/363ZETV1UzVj2LRdaWwpfs7BV4tQ66+Gnn1Heb3fK4FpGkW3yFtimZ42gU5ijdA7
- FeGWpey3KckrGts7l5gpUkYxne5hTTC3d/VnS5WV9+anjoymI5zanvR86b78GJQquhAa3vlk468
- 02BZcQrgyBHJTcxnsU+Tnfh2IOTcIYpQqzzCIth/0GNvkz0LygM6oX9bGsQS0izub23oef26ZCV
- 9NACSlp2rrP8MDh8KQY7APxIAYSaMeSy3sW1oO7nmNi3S9JIOz0MeUWSmdzBirjcmy+NTUqVID4
- 5hZ4C3xM+jzt7JV3skHyVxDXMDtDfZrFDfFwd46wT7kd4msiZukzhNz0XrPNILrWuPCMQ9D5ws8
- 8+66Pn+j6RillADKM5CoQtoSYAhG7yPIjh4wALKizdnpjwYWhSfi+mimlAlQ6W/QqQqslXDXVWZ
- O+DG4uCv2/qfwUw==
-X-Developer-Key: i=louis.chauvet@bootlin.com; a=openpgp;
- fpr=8B7104AE9A272D6693F527F2EC1883F55E0B40A5
-X-GND-State: clean
-X-GND-Score: -100
-X-GND-Cause: gggruggvucftvghtrhhoucdtuddrgeeffedrtdefgddvieeiucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuifetpfffkfdpucggtfgfnhhsuhgsshgtrhhisggvnecuuegrihhlohhuthemuceftddunecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenucfjughrpefhfffugggtgffkfhgjvfevofesthejredtredtjeenucfhrhhomhepnfhouhhishcuvehhrghuvhgvthcuoehlohhuihhsrdgthhgruhhvvghtsegsohhothhlihhnrdgtohhmqeenucggtffrrghtthgvrhhnpeehtdejtddtteeiiefgleejkeetteevhfdukeegleffjeehgeeivefhgeduffdvvdenucfkphepledtrdekledrudeifedruddvjeenucevlhhushhtvghrufhiiigvpedunecurfgrrhgrmhepihhnvghtpeeltddrkeelrdduieefrdduvdejpdhhvghloheplgduledvrdduieekrdegvddrieejngdpmhgrihhlfhhrohhmpehlohhuihhsrdgthhgruhhvvghtsegsohhothhlihhnrdgtohhmpdhnsggprhgtphhtthhopeduledprhgtphhtthhopehmrghirhgrtggrnhgrlhesrhhishgvuhhprdhnvghtpdhrtghpthhtohepshhiqhhuvghirhgrsehighgrlhhirgdrtghomhdprhgtphhtthhopegrrhhthhhurhhgrhhilhhlohesrhhishgvuhhprdhnvghtpdhrtghpthhtohepmhhrihhprghrugeskhgvrhhnvghlrdhorhhgpdhrtghpthhtohepthiiihhmmhgvrhhmrghnnhesshhushgvrdguvgdprhgtphhtt
- hhopehsihhmohhnrgesfhhffihllhdrtghhpdhrtghpthhtoheplhhouhhishdrtghhrghuvhgvthessghoohhtlhhinhdrtghomhdprhgtphhtthhopehjvghrvghmihgvrdgurghuthhhvghrihgsvghssegsohhothhlihhnrdgtohhm
+X-Mimecast-Spam-Score: 0
+X-Mimecast-MFC-PROC-ID: L0lqOcxs4s4uHXZE9wurY0ZXhIAyrGIbMN8h_rp2NyU_1751015565
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -92,58 +102,45 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The formats NV 12/16/24/21/61/42 were already supported.
-Add support for:
-- P010
-- P012
-- P016
+Maxime Ripard <mripard@kernel.org> writes:
 
-Signed-off-by: Louis Chauvet <louis.chauvet@bootlin.com>
----
- drivers/gpu/drm/vkms/vkms_formats.c | 7 ++++++-
- drivers/gpu/drm/vkms/vkms_plane.c   | 3 +++
- 2 files changed, 9 insertions(+), 1 deletion(-)
+> Commit de04bb0089a9 ("drm/panel/panel-simple: Use the new allocation in
+> place of devm_kzalloc()") moved the call to drm_panel_init into the
+> devm_drm_panel_alloc(), which needs a connector type to initialize
+> properly.
+>
+> In the panel-dpi compatible case, the passed panel_desc structure is an
+> empty one used as a discriminant, and the connector type it contains
+> isn't actually initialized.
+>
+> It is initialized through a call to panel_dpi_probe() later in the
+> function, which used to be before the call to drm_panel_init() that got
+> merged into devm_drm_panel_alloc().
+>
+> So, we do need a proper panel_desc pointer before the call to
+> devm_drm_panel_alloc() now. All cases associate their panel_desc with
+> the panel compatible and use of_device_get_match_data, except for the
+> panel-dpi compatible.
+>
+> In that case, we're expected to call panel_dpi_probe, which will
+> allocate and initialize the panel_desc for us.
+>
+> Let's create such a helper function that would be called first in the
+> driver and will lookup the desc by compatible, or allocate one if
+> relevant.
+>
+> Reported-by: Francesco Dolcini <francesco@dolcini.it>
+> Closes: https://lore.kernel.org/all/20250612081834.GA248237@francesco-nb/
+> Fixes: de04bb0089a9 ("drm/panel/panel-simple: Use the new allocation in place of devm_kzalloc()")
+> Signed-off-by: Maxime Ripard <mripard@kernel.org>
+> ---
 
-diff --git a/drivers/gpu/drm/vkms/vkms_formats.c b/drivers/gpu/drm/vkms/vkms_formats.c
-index b18d67436e1d..e540218fdcad 100644
---- a/drivers/gpu/drm/vkms/vkms_formats.c
-+++ b/drivers/gpu/drm/vkms/vkms_formats.c
-@@ -522,7 +522,8 @@ static void function_name(const struct vkms_plane_state *plane, int x_start,			\
- 
- READ_LINE_YUV_SEMIPLANAR(YUV888_semiplanar_read_line, y, uv, u8, u8, argb_u16_from_yuv161616,
- 			 y[0] * 257, uv[0] * 257, uv[1] * 257)
--
-+READ_LINE_YUV_SEMIPLANAR(YUV161616_semiplanar_read_line, y, uv, u16, u16, argb_u16_from_yuv161616,
-+			 y[0], uv[0], uv[1])
- /*
-  * This callback can be used for YUV format where each color component is
-  * stored in a different plane (often called planar formats). It will
-@@ -719,6 +720,10 @@ pixel_read_line_t get_pixel_read_line_function(u32 format)
- 	case DRM_FORMAT_NV61:
- 	case DRM_FORMAT_NV42:
- 		return &YUV888_semiplanar_read_line;
-+	case DRM_FORMAT_P010:
-+	case DRM_FORMAT_P012:
-+	case DRM_FORMAT_P016:
-+		return &YUV161616_semiplanar_read_line;
- 	case DRM_FORMAT_YUV420:
- 	case DRM_FORMAT_YUV422:
- 	case DRM_FORMAT_YUV444:
-diff --git a/drivers/gpu/drm/vkms/vkms_plane.c b/drivers/gpu/drm/vkms/vkms_plane.c
-index 9f34f3a18d8c..e592e47a5736 100644
---- a/drivers/gpu/drm/vkms/vkms_plane.c
-+++ b/drivers/gpu/drm/vkms/vkms_plane.c
-@@ -39,6 +39,9 @@ static const u32 vkms_formats[] = {
- 	DRM_FORMAT_YVU420,
- 	DRM_FORMAT_YVU422,
- 	DRM_FORMAT_YVU444,
-+	DRM_FORMAT_P010,
-+	DRM_FORMAT_P012,
-+	DRM_FORMAT_P016,
- 	DRM_FORMAT_R1,
- 	DRM_FORMAT_R2,
- 	DRM_FORMAT_R4,
+Reviewed-by: Javier Martinez Canillas <javierm@redhat.com>
 
 -- 
-2.49.0
+Best regards,
+
+Javier Martinez Canillas
+Core Platforms
+Red Hat
 
