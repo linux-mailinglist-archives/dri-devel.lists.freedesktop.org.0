@@ -2,117 +2,64 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0773BAEB79E
-	for <lists+dri-devel@lfdr.de>; Fri, 27 Jun 2025 14:24:54 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5B18CAEB7B2
+	for <lists+dri-devel@lfdr.de>; Fri, 27 Jun 2025 14:29:20 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8C8C410E325;
-	Fri, 27 Jun 2025 12:24:38 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id AA91F10E9F8;
+	Fri, 27 Jun 2025 12:29:16 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=qualcomm.com header.i=@qualcomm.com header.b="JJ+fTgri";
+	dkim=pass (2048-bit key; secure) header.d=disroot.org header.i=@disroot.org header.b="Iz5OfdKj";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com
- [205.220.168.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 72A4C10E325
- for <dri-devel@lists.freedesktop.org>; Fri, 27 Jun 2025 12:24:37 +0000 (UTC)
-Received: from pps.filterd (m0279867.ppops.net [127.0.0.1])
- by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 55RBxm4T001166
- for <dri-devel@lists.freedesktop.org>; Fri, 27 Jun 2025 12:24:37 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
- cc:content-transfer-encoding:content-type:date:from:in-reply-to
- :message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
- s359VO2c+0FspQeUv43Wc4q+xg59EC18GooK4d2/yKI=; b=JJ+fTgriwz0VWkD4
- TGhjLeT5Fj0T/hdUlqKJxpqS93Kdt55rHzNGtr1voxPIiE+NS/2Jk+ucHeKGkAP0
- jJtSB/OHtE5OoGPDcmPMaE0s+htPTehJNfUutP4vX36IXg4j+fN5Sp1j55bm5ZTy
- hiRkGkaRVkst5tCRpHlTtAr2jQ9P0GlL/XePwNrMohPpxYiJ47bFUD/p19Vf472l
- kv9u5u/ZRnLl0wfeH5W7BxsWO3O/3S38jmVUWbQn0k2p36dq/50+/BXHyBj5OSOo
- Rw8+vMrIqEbYO1skNEx0pso9FKTsKWrTLvnN5EjFzllpKzBjgw4L9kJgUON//uQb
- xOTWCw==
-Received: from mail-qv1-f71.google.com (mail-qv1-f71.google.com
- [209.85.219.71])
- by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 47g7tdgta5-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
- for <dri-devel@lists.freedesktop.org>; Fri, 27 Jun 2025 12:24:36 +0000 (GMT)
-Received: by mail-qv1-f71.google.com with SMTP id
- 6a1803df08f44-6fabbaa1937so5129526d6.0
- for <dri-devel@lists.freedesktop.org>; Fri, 27 Jun 2025 05:24:36 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1751027075; x=1751631875;
- h=content-transfer-encoding:in-reply-to:from:content-language
- :references:cc:to:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=s359VO2c+0FspQeUv43Wc4q+xg59EC18GooK4d2/yKI=;
- b=nwOlOndbFj7H/hx7zBSyQdDOSDLLfaDmiDQ1mTe3VTovPg+xQ4m4EyQMIonbhdSdb5
- 2ysRVjObnHdRje0JF3OqMmw8p+Gg2e3rWklS+dgtbU/g+/FN8Fr+cS45PAIlNRLnvY7J
- UxUjBt4XyzJt0KooevCrENIxZ03Dn0BgnX6q4bOD7X7jUbcbQ4w8veXZfT4cqvhGJB4a
- jezydKax6swM/l9fQ27Dk2lfHwVCbrQtylprk9l4tSf8bNKsxj+2qvPLlfPDbcBwE5rk
- x2Jot2+G843CiGRsIn1z5g6AcRwuWyREmXZU8gb9aOFkDvfQs6CRCzuB8u8+cgeacVBL
- aeRQ==
-X-Forwarded-Encrypted: i=1;
- AJvYcCXBucvZ6VqcoAH/50WGE7NeBqZfvGLhN2h8T1Ka6qoeBj22yVSvjwSb/XKt+rkRXa5Apf3TMBSajBI=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YxvZlN4I9AUMEkmhOvDDkNyVhB7Y9amKqi5JgKWPPoK+UbXR5ap
- eZB44MKAiGYBxrJW5M7PYHy06bvf1Eg7brcIqn1SbAlGY/6UQAXsiGZhNNq1o10HP8deyOL9ALj
- 20Zd0wrSgZB6Xjn0GFP1NN1JkbjPx2C2FsiT8bB65W/5cgKtTn9beSHG+2Xa9txqTeCEgpt8=
-X-Gm-Gg: ASbGnctsLVsYqsxZ2wuICfkL7/QnasGKK3dK/a9tdAyey+vCYrQnENslME6vNOFmUEN
- Cb9f3TYzgULnDORBCVf7Dmodvf84a9En6tRdD0hs9fjHQj3zhcvbvmmsSO0EbEIhFkX5Ho/ufM0
- 7YuyoB5+opPQkgRRR5WluihN9w63eUUBTvIKVFrqaHrf8QNg1CMOJ7+Z/lnGov2rFIfklVhZaeI
- xRWQyDB5dysTvLdtMxizwXdQ9qokLkVtKJEM6wGMQcEq1iIkVG82WRb8UxMQr4eX2fXLj3cfAKg
- 1Mh8Jdt8t69Ir6BEt9nV6JkQ9P5MYkB6V3hwqPX/BsdYGOdX1brU/HVNUkOUdeMla05l67tkIeC
- Hrto=
-X-Received: by 2002:a05:620a:4246:b0:7c7:5384:fa53 with SMTP id
- af79cd13be357-7d44390b20emr177134685a.6.1751027075597; 
- Fri, 27 Jun 2025 05:24:35 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IEsSUCqkTzzrlWtIzSdcUw7WLmyPY4ovmdYHMj3uG1ti1i0AkcXeiJFafPFnHDPYcpyfxkN5g==
-X-Received: by 2002:a05:620a:4246:b0:7c7:5384:fa53 with SMTP id
- af79cd13be357-7d44390b20emr177132285a.6.1751027074979; 
- Fri, 27 Jun 2025 05:24:34 -0700 (PDT)
-Received: from [192.168.143.225] (078088045245.garwolin.vectranet.pl.
- [78.88.45.245]) by smtp.gmail.com with ESMTPSA id
- a640c23a62f3a-ae353c6bfa4sm114300466b.139.2025.06.27.05.24.32
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 27 Jun 2025 05:24:34 -0700 (PDT)
-Message-ID: <b67baa5a-dab5-4fd4-b789-b1294abcf4bf@oss.qualcomm.com>
-Date: Fri, 27 Jun 2025 14:24:31 +0200
+Received: from layka.disroot.org (layka.disroot.org [178.21.23.139])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4593D10E9EF
+ for <dri-devel@lists.freedesktop.org>; Fri, 27 Jun 2025 12:29:10 +0000 (UTC)
+Received: from mail01.disroot.lan (localhost [127.0.0.1])
+ by disroot.org (Postfix) with ESMTP id BE00824CE2;
+ Fri, 27 Jun 2025 14:29:03 +0200 (CEST)
+X-Virus-Scanned: SPAM Filter at disroot.org
+Received: from layka.disroot.org ([127.0.0.1])
+ by localhost (disroot.org [127.0.0.1]) (amavis, port 10024) with ESMTP
+ id a-Vi0xHrL_L8; Fri, 27 Jun 2025 14:29:02 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=disroot.org; s=mail;
+ t=1751027342; bh=EtshUSUcNz/EcdgguxC9OOdXGB2IBgMhJVAOJyuE9yY=;
+ h=Date:From:To:Cc:Subject:In-Reply-To:References;
+ b=Iz5OfdKj6tJy1F91PBHFqCdCfHs+sxsFQcWGG3bBiYzpqR1aPcf7Lzxm6Ff+GuGXk
+ 1OXZThqT8gFO7exnrQIQVG84R/sQd5c+Hj/B+ceIWiFssn79jGI7jweBHA0FTFLs+7
+ /pewIt+aa0AmzeDs6lnlC6PRlMp8auU3FBSOmbB3bpIQrEkMrJHRqPhHi1n49wNBTL
+ J9RUeRH+h2LEbUd7ZMiRaa0AQyx9D6t/VT7w4GxW/8yBaC+eyGOyQ1SRlA7NF0a2N+
+ G1rhJBnMJxswRIYj9mNn47hmhyNPC6+x2sk+3jRfy2EB+MRYfIAXU0QEO9ra53ZmPy
+ 8mPJdvLa2xdPA==
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v4 4/4] misc: fastrpc: add support for gdsp remoteproc
-To: Ling Xu <quic_lxu5@quicinc.com>, srini@kernel.org,
- amahesh@qti.qualcomm.com, robh@kernel.org, krzk+dt@kernel.org,
- conor+dt@kernel.org, andersson@kernel.org, konradybcio@kernel.org,
- arnd@arndb.de, gregkh@linuxfoundation.org
-Cc: quic_kuiw@quicinc.com, ekansh.gupta@oss.qualcomm.com,
- devicetree@vger.kernel.org, linux-arm-msm@vger.kernel.org,
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
-References: <20250627103319.2883613-1-quic_lxu5@quicinc.com>
- <20250627103319.2883613-5-quic_lxu5@quicinc.com>
-Content-Language: en-US
-From: Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>
-In-Reply-To: <20250627103319.2883613-5-quic_lxu5@quicinc.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-Authority-Analysis: v=2.4 cv=CPYqXQrD c=1 sm=1 tr=0 ts=685e8d84 cx=c_pps
- a=UgVkIMxJMSkC9lv97toC5g==:117 a=FpWmc02/iXfjRdCD7H54yg==:17
- a=IkcTkHD0fZMA:10 a=6IFa9wvqVegA:10 a=COk6AnOGAAAA:8 a=z5t9ctGjsfNMbOfKQ0kA:9
- a=QEXdDO2ut3YA:10 a=1HOtulTD9v-eNWfpl4qZ:22 a=TjNXssC_j7lpFel5tvFf:22
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwNjI3MDEwMiBTYWx0ZWRfX0m9S4u6tp1TC
- LXUIDDrJwwce3NqRsUUGsslEXyuLM+H3H1pMzRlRPRZkzSTTcIsXQg/rkP0rPPTrKiiTKP0Y6v3
- 4szI1Nb3H+B/cxez/ftTbCsz8L4lBHGjN121/VgfYBUKJFLQ17MJju3+IV9r/15EpIzMW+N5JdG
- smdFNTaDQEjTrDMHZWB3lWhXxqQUIJIjcJQZiZCKLYhSe6TIa63mbNoe9NSnab77LW7fS1QhwnJ
- ehPiJxLbcPNf2lQRXCum1Z/azbumCGlQsUW09lpex+J76+7/3pb5b+6uFkrE04L7dl8W1lAcIO3
- qnsIImFr+jho+58Toc4TS0bADGrazLsvhC4cAOr5tv/C9oiVPc4xN69gl0wUrbaCjfCasJx+8MD
- lP/E5CQydw0DE/g6b99ziZ/X/YBBXi3jfj3tL2yNJobpCig1tlv+JPS2a9GzV0SnHWsVWj/Y
-X-Proofpoint-GUID: 7Nug16uq3_8aGb9PAa5p-177cNsPMb6o
-X-Proofpoint-ORIG-GUID: 7Nug16uq3_8aGb9PAa5p-177cNsPMb6o
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1099,Hydra:6.1.7,FMLib:17.12.80.40
- definitions=2025-06-27_04,2025-06-26_05,2025-03-28_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- bulkscore=0 phishscore=0 mlxlogscore=999 lowpriorityscore=0 malwarescore=0
- impostorscore=0 suspectscore=0 clxscore=1015 spamscore=0 priorityscore=1501
- adultscore=0 mlxscore=0 classifier=spam authscore=0 authtc=n/a authcc=
- route=outbound adjust=0 reason=mlx scancount=1 engine=8.19.0-2505280000
- definitions=main-2506270102
+Date: Fri, 27 Jun 2025 12:29:01 +0000
+From: Kaustabh Chakraborty <kauschluss@disroot.org>
+To: Inki Dae <daeinki@gmail.com>
+Cc: Jagan Teki <jagan@amarulasolutions.com>, Marek Szyprowski
+ <m.szyprowski@samsung.com>, Andrzej Hajda <andrzej.hajda@intel.com>, Neil
+ Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>,
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>, Jonas Karlman
+ <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>, Maarten
+ Lankhorst <maarten.lankhorst@linux.intel.com>, Maxime Ripard
+ <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, David Airlie
+ <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, Rob Herring
+ <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
+ <conor+dt@kernel.org>, Seung-Woo Kim <sw0312.kim@samsung.com>, Kyungmin Park
+ <kyungmin.park@samsung.com>, Krzysztof Kozlowski <krzk@kernel.org>, Alim
+ Akhtar <alim.akhtar@samsung.com>, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org, devicetree@vger.kernel.org,
+ linux-arm-kernel@lists.infradead.org, linux-samsung-soc@vger.kernel.org
+Subject: Re: [PATCH v2 01/13] drm/bridge: samsung-dsim: separate LINK and DPHY
+ status registers
+In-Reply-To: <CAAQKjZOHUGg8WEZxfhVxrUPS3O68BQJ6=cDnUSk6BomYjuY62Q@mail.gmail.com>
+References: <20250627-exynos7870-dsim-v2-0-1433b67378d3@disroot.org>
+ <20250627-exynos7870-dsim-v2-1-1433b67378d3@disroot.org>
+ <CAAQKjZOHUGg8WEZxfhVxrUPS3O68BQJ6=cDnUSk6BomYjuY62Q@mail.gmail.com>
+Message-ID: <922117777d718b77c86be3a43e86dd7f@disroot.org>
+X-Sender: kauschluss@disroot.org
+Content-Type: text/plain; charset=UTF-8;
+ format=flowed
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -128,38 +75,94 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 6/27/25 12:33 PM, Ling Xu wrote:
-> The fastrpc driver has support for 5 types of remoteprocs. There are
-> some products which support GDSP remoteprocs. GDSP is General Purpose
-> DSP where tasks can be offloaded. This patch extends the driver to
-> support GDSP remoteprocs.
+On 2025-06-27 10:07, Inki Dae wrote:
+> 2025년 6월 27일 (금) 오전 4:42, Kaustabh Chakraborty 
+> <kauschluss@disroot.org>님이 작성:
+>> 
+>> Exynos7870's DSIM has separate registers for LINK and DPHY status. 
+>> This
+>> is in contrast to other devices in the driver which use a single
+>> register for both.
+>> 
+>> Add their respective entries in the register list. Devices having a
+>> single status register have been assigned the same offset for both
+>> entries.
+>> 
+>> Signed-off-by: Kaustabh Chakraborty <kauschluss@disroot.org>
+>> ---
+>>  drivers/gpu/drm/bridge/samsung-dsim.c | 15 +++++++++------
+>>  1 file changed, 9 insertions(+), 6 deletions(-)
+>> 
+>> diff --git a/drivers/gpu/drm/bridge/samsung-dsim.c 
+>> b/drivers/gpu/drm/bridge/samsung-dsim.c
+>> index 
+>> f2f666b27d2d5ec016d7a7f47c87fcdf1377d41a..7fd4c34cdc3170d363942f98feec048097da3c06 
+>> 100644
+>> --- a/drivers/gpu/drm/bridge/samsung-dsim.c
+>> +++ b/drivers/gpu/drm/bridge/samsung-dsim.c
+>> @@ -30,7 +30,7 @@
+>>  /* returns true iff both arguments logically differs */
+>>  #define NEQV(a, b) (!(a) ^ !(b))
+>> 
+>> -/* DSIM_STATUS */
+>> +/* DSIM_DPHY_STATUS */
+>>  #define DSIM_STOP_STATE_DAT(x)         (((x) & 0xf) << 0)
+>>  #define DSIM_STOP_STATE_CLK            BIT(8)
+>>  #define DSIM_TX_READY_HS_CLK           BIT(10)
+>> @@ -239,7 +239,8 @@ enum samsung_dsim_transfer_type {
+>>  };
+>> 
+>>  enum reg_idx {
+>> -       DSIM_STATUS_REG,        /* Status register */
 > 
-> Signed-off-by: Ling Xu <quic_lxu5@quicinc.com>
-> ---
->  drivers/misc/fastrpc.c      | 5 ++++-
->  include/uapi/misc/fastrpc.h | 3 ++-
->  2 files changed, 6 insertions(+), 2 deletions(-)
+> According to the datasheets I have, both Exynos5422 and Exynos7420 use
+> DSIM_STATUS, while Exynos8890 splits this into DSIM_LINK_STATUS and
+> DSIM_PHY_STATUS. It appears that Exynos7870 follows the same approach
+> as Exynos8890.
 > 
-> diff --git a/drivers/misc/fastrpc.c b/drivers/misc/fastrpc.c
-> index cb9f4be286af..d3d9b9fdbf4c 100644
-> --- a/drivers/misc/fastrpc.c
-> +++ b/drivers/misc/fastrpc.c
-> @@ -2245,6 +2245,8 @@ static int fastrpc_get_domain_id(const char *domain)
->  		return MDSP_DOMAIN_ID;
->  	else if (!strncmp(domain, "sdsp", 4))
->  		return SDSP_DOMAIN_ID;
-> +	else if (!strncmp(domain, "gdsp", 4))
-> +		return GDSP_DOMAIN_ID;
->  
->  	return -EINVAL;
->  }
-> @@ -2319,13 +2321,14 @@ static int fastrpc_rpmsg_probe(struct rpmsg_device *rpdev)
->  	case ADSP_DOMAIN_ID:
->  	case MDSP_DOMAIN_ID:
->  	case SDSP_DOMAIN_ID:
-> -		/* Unsigned PD offloading is only supported on CDSP*/
-> +		/* Unsigned PD offloading is only supported on CDSP and GDSP*/
+> The current modification removes the legacy DSIM_STATUS_REG and adds
+> new DSIM_LINK_STATUS_REG and DSIM_DPHY_STATUS_REG. However, this
+> change causes the register names used for older SoC versions to differ
+> from those in the datasheets, so I think it is better to keep the
+> legacy name for backward compatibility.
+> 
+> How about modifying it as follows?
+> enum reg_idx {
+>     DSIM_STATUS_REG,          /* Status register (legacy) */
+>     DSIM_LINK_STATUS_REG,     /* Link status register (Exynos7870, ...) 
+> */
+>     DSIM_PHY_STATUS_REG,      /* PHY status register (Exynos7870, ...) 
+> */
+>     ...
+> };
+> 
+> static const unsigned int exynos7870_reg_ofs[] = {
+>     [DSIM_STATUS_REG] = 0x00,        /* Legacy compatibility - use
+> LINK_STATUS */
+>     [DSIM_LINK_STATUS_REG] = 0x04,   /* Link status register */
+>     [DSIM_PHY_STATUS_REG] = 0x08,    /* PHY status register */
+>     ...
+> };
+> 
+> Additionally, by configuring the hw_type field in the
+> samsung_dsim_plat_data structure like you did with the patch[1], you
+> can use the appropriate register name for each SoC as shown below:
+> if (dsi->plat_data->hw_type == DSIM_TYPE_EXYNOS7870)
 
-missing space ^
+I've instead added a flag to the driver data indicating the
+availability of legacy status register. In my opinion, this
+approach quickly turns cumbersome as the number of variants
+increase.
 
-Konrad
+Thanks for the suggestion.
+
+>     reg = samsung_dsim_read(dsi, DSIM_LINK_STATUS_REG);
+> else
+>     reg = samsung_dsim_read(dsi, DSIM_STATUS_REG);
+> 
+> 
+> [1] [PATCH v2 12/13] drm/bridge: samsung-dsim: add driver support for
+> exynos7870 DSIM bridge
+> 
+> Thanks,
+> Inki Dae
