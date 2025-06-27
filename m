@@ -2,71 +2,74 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 514C7AEC2B7
-	for <lists+dri-devel@lfdr.de>; Sat, 28 Jun 2025 00:43:25 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id A4C32AEC2B6
+	for <lists+dri-devel@lfdr.de>; Sat, 28 Jun 2025 00:43:21 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9AB8910EA2D;
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4E6B710E0D1;
 	Fri, 27 Jun 2025 22:43:18 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="LbDkRELh";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="BIc5jGuK";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pf1-f172.google.com (mail-pf1-f172.google.com
- [209.85.210.172])
- by gabe.freedesktop.org (Postfix) with ESMTPS id EAAC910E31B
- for <dri-devel@lists.freedesktop.org>; Fri, 27 Jun 2025 07:17:45 +0000 (UTC)
-Received: by mail-pf1-f172.google.com with SMTP id
- d2e1a72fcca58-749068b9b63so1319083b3a.0
- for <dri-devel@lists.freedesktop.org>; Fri, 27 Jun 2025 00:17:45 -0700 (PDT)
+Received: from mail-pl1-f174.google.com (mail-pl1-f174.google.com
+ [209.85.214.174])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C40D910E9E4
+ for <dri-devel@lists.freedesktop.org>; Fri, 27 Jun 2025 12:01:13 +0000 (UTC)
+Received: by mail-pl1-f174.google.com with SMTP id
+ d9443c01a7336-235ea292956so22036365ad.1
+ for <dri-devel@lists.freedesktop.org>; Fri, 27 Jun 2025 05:01:13 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1751008665; x=1751613465; darn=lists.freedesktop.org;
+ d=gmail.com; s=20230601; t=1751025673; x=1751630473; darn=lists.freedesktop.org;
  h=content-transfer-encoding:mime-version:message-id:date:subject:cc
  :to:from:from:to:cc:subject:date:message-id:reply-to;
- bh=5XgMUClXF3KatALn7b4tRRqk6odMfDui0ubzVB6tzUM=;
- b=LbDkRELhxZABHb5ofkOYRhpu918x51uCUOAYVVo63TeBSus9+BKVVVJH6XUdrSQVT5
- IfBpUdjXXNMhCELwkU4wCgr1poz8hf6mW3ap3htZ6rwcRMeC4vFpNoZY8DA0FTWrWDQ5
- PfaSMkZIW4aDKEQRpfEFfY7uGeplWMCwYNKCkb+wbZEsy/StHLqyqeuWce9nNB3x1RTQ
- JSLl0loS8BwllwFqjmgzRh2n5UFicmrD/u18AAISCjJOmvA7F9IjDHoNbAcE2XbLq1Xm
- w87TcnMVP5VW2vwev/eIISwqyIVxTCrzf8ty7y+siUxtRQF2lCNYAG4DJu7q7Ge+7unL
- IlVw==
+ bh=lMm0f1YmbF8p/DacuZnlM8/zlr0CWYSCJDnnq1mmyww=;
+ b=BIc5jGuKAz7vme4NKPPuWRDS/tliid/Ekvx9EPlkDeo9Nhhmaa4Vbadbm1KlyaIpnc
+ 7i7KyRg4Q5hIxm3IWHLRrPBP7Fl4CvfLnsg4j0QbSvxxn1trcgwfmbhbi+9qznPYJtdV
+ fpXd7zvvdvrTO3mEbDGDynAylIfoLoj6RRF7UvOUgu+PXhyTBJTKXRZjk7AuxWygJznk
+ JxlnBDp4CftyToxeVoXZ83NK6ZGa2csUQG9IGI3q1hvF+oYLk2C0s0KGoc6tpoPYrPXd
+ 4UM5sASQEMQx8sDRf3wEjbjg/3Y9ktQbfGYhQQ5ACO5+p6bQPrQ+YgHdIyhIH7z+hlKF
+ cAhA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1751008665; x=1751613465;
+ d=1e100.net; s=20230601; t=1751025673; x=1751630473;
  h=content-transfer-encoding:mime-version:message-id:date:subject:cc
  :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
  :reply-to;
- bh=5XgMUClXF3KatALn7b4tRRqk6odMfDui0ubzVB6tzUM=;
- b=oUvY8xHnxz+Xb6L4ENpfVRu5gXHz41uvmWpY4Ih42bsb7TpITDomLRqRykDl98DtPT
- m059tk7ZchlTij0WHiAlyw1WKCUC7+Z0hKjd/KmQB0aL0z+7vIuC6l0LfGNPbN1Ibr5r
- HDt5J86tyb8FNLsKYZrzhYN89LWyvdaUebjGfRVx0X5j/Mbalh+8P47f/UXKdOfTyFlR
- Br+P5Olm73VTdICGAbV7EPi/pcm2NHvrinyPKYsEMGijpLTVoI2HnzLf27/CfCvVZ1N+
- t5g7cXgQQwHO2/7lqDmTgLp8KJsS6X6epNNgND9O1t5P2OTHNJINZOOzXXyebsOHadrm
- rbpg==
-X-Gm-Message-State: AOJu0Yxn64zVqoR8c48pV+iwAvnN3Gqj9ZL95UNEVjNVHsu8nK7GPAgL
- J1API1M3SlVA1fZXqD50T6hxoU/zGz0NHEkBz6ldbAGd547urke8qFcd
-X-Gm-Gg: ASbGncvqszStm3MEy64td7Vqc3mZT7oRDP3yhAbvzTnLwTvJnxiCBeeaWsugsJ0cKRm
- ypMGAK2hSGRKpeXQ+d7Irldp07McpllCxuxRFMu55hYSJpZSBYh4jb1/5WYxQ08Mlkj3ahhRFaN
- eNT+kv8CER6he9ydSmxNOig97hKcfW2jH4VLGxsdMQEcPo1yDH3QjGwIna13B+0dg92Wm0MixI5
- JLYjO7WpKYrQwVCLb4YsepJeAiypZX6K6gG/sggdXzgntuSHGYkVBMT79W2uSaxhL3UkrPBF/DV
- n70kMn5d+706Hrz+gfw3J4bawk9ME+79m7kzkbeIWnGHwmY/ddvkDW0xBcmhZdIgqVc2seAHO5C
- OIGVCrNA=
-X-Google-Smtp-Source: AGHT+IEnlgGJKz4hRMQnHG4OUHuPzELReZvtgZ7r6T+KaQ6GH7+zzfmWiDvo5odncMVXtilKmndjbw==
-X-Received: by 2002:a05:6a00:c8f:b0:748:fd94:e62a with SMTP id
- d2e1a72fcca58-74af6e51ea9mr2804852b3a.1.1751008665275; 
- Fri, 27 Jun 2025 00:17:45 -0700 (PDT)
+ bh=lMm0f1YmbF8p/DacuZnlM8/zlr0CWYSCJDnnq1mmyww=;
+ b=o5uKf8INWGOdCto92CdiSUxFyiX+XLNCIfPEqe7xk/qT5YBSsppcoarH65v+c+MUJ9
+ fZdUBoedwIoxLhhSNc92TGyMJKhddfYebBHVAe1a3BzF5FragbVUdCq0YY5xHefA9vP9
+ TIpiZY29Bo2LZ9ZBIHXZD6IOKjuhG7kW92W7HGKr2mydU8kUy71I3dnEIIujukmKQJt7
+ n4TaHxCINozKxtQqdb1ohU6iTO3Bx8JAJ0w1zRrrvrvO4z4fwrTakSNJ3SwfD6BnztLi
+ BPpo7iQIEDW1pmdW/OWRJp5SIXAAr+5adk5xxJvRZhQlTkgre3p5KSmAJOS9DAPoqWc3
+ wVGA==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCWwoZ0xZ3se3Q7qgJ4MJFNOqJEaNJdm7ojlfRdLDf92L735bHIhfW5schlXsRTRiBc1uMevPPlY/bo=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YyvmlyzvTT8mUFNJnVTFbcbWL2fhSxZb4Po9N6moYJF2yjCaCMB
+ aDTZTEJpQeM2pEGVSyoS6TVc9lBpKw85uJpty3CdbIuDd5EmRKRvJ1Nj
+X-Gm-Gg: ASbGncsG8N3t6BC56Ti/XG4XvV0KhcP//rbh4RrIOatZfhNeoXhRAMC7kwJa/k7wUAz
+ z6aarNY/L691aiocskRRhUEN0eJ6XOKbQjdMqXSKoCTt4yEm7QcvkbVcG73w7d1uzmSzqttnHay
+ tkyGjLZdi7zoP8ovbBW4DDe8f82JDJrDwn9SdHeAWQQ8Qf1NIlSqna+464RZLY2KOXpSyZD3d+B
+ IX3DsSb0dpIJsAAaCLNROaffffXIedaTFSTDFztkS2/JCrNpcGsLefaLxILdNE6czHgUb44NVsv
+ /z+XMYx386L/qIdZiqDXlIdcHc34oqZn7ChtkQyOxVwcUntC3BjhfMtkMa7i6xoFGugbb6no24d
+ KXC70p1w=
+X-Google-Smtp-Source: AGHT+IEFON4jPah/zgdrDesiC9nxTOgYF3/CFQOwYad3x3aR0NDjxOCJA2cEtxdL58xlsqxaUtKPFw==
+X-Received: by 2002:a17:902:d603:b0:234:8c64:7885 with SMTP id
+ d9443c01a7336-23ac48b6862mr44612935ad.53.1751025673095; 
+ Fri, 27 Jun 2025 05:01:13 -0700 (PDT)
 Received: from localhost.localdomain ([2405:201:c408:a02c:2fc6:2cad:e985:b61d])
  by smtp.gmail.com with ESMTPSA id
- d2e1a72fcca58-74af54099besm1558667b3a.9.2025.06.27.00.17.41
+ d9443c01a7336-23acb39b8easm14451815ad.96.2025.06.27.05.01.08
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 27 Jun 2025 00:17:44 -0700 (PDT)
+ Fri, 27 Jun 2025 05:01:12 -0700 (PDT)
 From: Kevin Paul Reddy Janagari <kevinpaul468@gmail.com>
-To: airlied@gmail.com, simona@ffwll.ch, maarten.lankhorst@linux.intel.com,
- mripard@kernel.org, tzimmermann@suse.de, corbet@lwn.net
-Cc: dri-devel@lists.freedesktop.org, linux-doc@vger.kernel.org,
+To: airlied@gmail.com,
+	simona@ffwll.ch
+Cc: maarten.lankhorst@linux.intel.com, mripard@kernel.org, tzimmermann@suse.de,
+ corbet@lwn.net, dri-devel@lists.freedesktop.org, linux-doc@vger.kernel.org,
  linux-kernel@vger.kernel.org, kevinpaul468@gmail.com
-Subject: [PATCH] workaround for Sphinx false positive preventing index
-Date: Fri, 27 Jun 2025 12:46:28 +0530
-Message-Id: <20250627071628.30258-1-kevinpaul468@gmail.com>
+Subject: [PATCH v2] workaround for Sphinx false positive preventing indexing
+Date: Fri, 27 Jun 2025 17:27:18 +0530
+Message-Id: <20250627115718.17673-1-kevinpaul468@gmail.com>
 X-Mailer: git-send-email 2.39.5
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
@@ -91,46 +94,56 @@ indexed in the documentation because there are structs with the same name
 and sphinx is only indexing one of them, Added them to namespaces as a
 workaround for suppressing the warnings and indexing the functions
 
-
+This is a bug of Sphinx >=3.1, first reported by Mauro in September 2020
+Link: https://github.com/sphinx-doc/sphinx/issues/8241
 
 Signed-off-by: Kevin Paul Reddy Janagari <kevinpaul468@gmail.com>
 ---
- Documentation/gpu/drm-kms.rst  | 2 ++
- Documentation/gpu/drm-uapi.rst | 1 +
- 2 files changed, 3 insertions(+)
+ Documentation/gpu/drm-kms.rst  | 4 ++++
+ Documentation/gpu/drm-uapi.rst | 2 ++
+ 2 files changed, 6 insertions(+)
 
 diff --git a/Documentation/gpu/drm-kms.rst b/Documentation/gpu/drm-kms.rst
-index abfe220764e1..da865ba1c014 100644
+index abfe220764e1..b18a99869b6d 100644
 --- a/Documentation/gpu/drm-kms.rst
 +++ b/Documentation/gpu/drm-kms.rst
-@@ -357,6 +357,7 @@ Format Functions Reference
+@@ -357,8 +357,10 @@ Format Functions Reference
  .. kernel-doc:: include/drm/drm_fourcc.h
     :internal:
  
-+.. c:namespace:: gpu_drm_fourcc
++.. c:namespace-push:: gpu_drm
  .. kernel-doc:: drivers/gpu/drm/drm_fourcc.c
     :export:
++.. c:namespace-pop::
  
-@@ -473,6 +474,7 @@ KMS Locking
+ .. _kms_dumb_buffer_objects:
+ 
+@@ -473,8 +475,10 @@ KMS Locking
  .. kernel-doc:: include/drm/drm_modeset_lock.h
     :internal:
  
-+.. c:namespace:: gpu_drm_modeset_lock
++.. c:namespace:: gpu_drm
  .. kernel-doc:: drivers/gpu/drm/drm_modeset_lock.c
     :export:
++.. c:namespace-pop::
  
+ KMS Properties
+ ==============
 diff --git a/Documentation/gpu/drm-uapi.rst b/Documentation/gpu/drm-uapi.rst
-index 69f72e71a96e..37a2bc461326 100644
+index 69f72e71a96e..e9d7b7282a19 100644
 --- a/Documentation/gpu/drm-uapi.rst
 +++ b/Documentation/gpu/drm-uapi.rst
-@@ -554,6 +554,7 @@ DRM specific patterns. Note that ENOTTY has the slightly unintuitive meaning of
+@@ -554,8 +554,10 @@ DRM specific patterns. Note that ENOTTY has the slightly unintuitive meaning of
  .. kernel-doc:: include/drm/drm_ioctl.h
     :internal:
  
-+.. c:namespace:: gpu_drm
++.. c:namespace-push:: gpu_drm
  .. kernel-doc:: drivers/gpu/drm/drm_ioctl.c
     :export:
++.. c:namespace-pop::
  
+ .. kernel-doc:: drivers/gpu/drm/drm_ioc32.c
+    :export:
 -- 
 2.39.5
 
