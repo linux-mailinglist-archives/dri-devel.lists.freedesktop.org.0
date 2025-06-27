@@ -2,57 +2,64 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8D94CAEB85D
-	for <lists+dri-devel@lfdr.de>; Fri, 27 Jun 2025 15:02:15 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 75D32AEB863
+	for <lists+dri-devel@lfdr.de>; Fri, 27 Jun 2025 15:03:42 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D24FE10EA06;
-	Fri, 27 Jun 2025 13:02:12 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7E85E10EA15;
+	Fri, 27 Jun 2025 13:03:40 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="Mf92O7bq";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="dMg6AESJ";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from nyc.source.kernel.org (nyc.source.kernel.org [147.75.193.91])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6040710EA06
- for <dri-devel@lists.freedesktop.org>; Fri, 27 Jun 2025 13:02:08 +0000 (UTC)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by nyc.source.kernel.org (Postfix) with ESMTP id 26BD2A52EEB;
- Fri, 27 Jun 2025 13:02:04 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id A6C1AC4CEED;
- Fri, 27 Jun 2025 13:02:00 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1751029323;
- bh=gp0epzP3egqUiKQR6pxigJkagwhLBDTL6iCWSDgXGW8=;
- h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
- b=Mf92O7bqAm0yXgSgJJHXrBRLCx2b7byyy6lPi78UfDbAB7PkOHyPZd3YNeI0ILwOI
- GY6x6hbdFTyOQ2LBLZUKbH7UdrQ+CFwPS5/4aKnQJPutnbN1iewB4PxkdeZ1iPTp45
- /dp6KNaKFRCeSmQEoFd09vt+XFIRGA6ZFlCjponUXeSAMVyzqcfJyBjOvdE128/90a
- ipbTOmHrfwLKAm9qHHYvLzyFK3rDxxBx5UO8by6HUipMXcLQREbBLnAQdoj4LqeiPH
- eB9W1kUck0QmVAAivR4sXVZdySBhqee5Kqe/JquE9QCgBcJkveO26vPhrw2TUZhJoc
- Oi1/ft61NHVGA==
-Message-ID: <26bc75ab-5bae-49e5-baaa-155599ab8903@kernel.org>
-Date: Fri, 27 Jun 2025 14:01:59 +0100
-MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v4 3/4] misc: fastrpc: Refactor domain ID to enforce
- strict mapping
-To: Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>,
- Ling Xu <quic_lxu5@quicinc.com>, srini@kernel.org, amahesh@qti.qualcomm.com,
- robh@kernel.org, krzk+dt@kernel.org, conor+dt@kernel.org,
- andersson@kernel.org, konradybcio@kernel.org, arnd@arndb.de,
- gregkh@linuxfoundation.org
-Cc: quic_kuiw@quicinc.com, ekansh.gupta@oss.qualcomm.com,
- devicetree@vger.kernel.org, linux-arm-msm@vger.kernel.org,
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.14])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id ACB1410EA15
+ for <dri-devel@lists.freedesktop.org>; Fri, 27 Jun 2025 13:03:38 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1751029419; x=1782565419;
+ h=date:from:to:cc:subject:message-id:references:
+ mime-version:content-transfer-encoding:in-reply-to;
+ bh=yLjtgMRMU2cpI0DE9ZxiLsKQBe07OjkZ3ktOz8r7re4=;
+ b=dMg6AESJQii8wbv8r27o6HglyryjJDJRFkGWFpdxyieGtEvcwTDARIil
+ tfoodzdLa7pKRiLv6x8hgzdG+reYU9+W7HXgyZtT7xMS+jmIa3FcLKuWC
+ tuacqDK0b4t6GRZLYZs5qqEqNIchpwZoCpqbmT3fCBVZVa/oCYRi0H3vR
+ GDiShV56XLitvpGVZy8tz0lsc4JoR8yMd4XuGAFZ+2ZRIPiV4X9mtr1ql
+ KktDojTWq2FpiiHF2k6o2SimZ+YAD3Q8jKMZFd30UaYSVtr3cql6r8rdW
+ KsfnaJVvCRon3boxLCmoLdDRwiBLnn5wBgCIuuaVtnsaVjobCnwtJOfgZ w==;
+X-CSE-ConnectionGUID: +vzRTIH9SgSC2hSl2+LRAw==
+X-CSE-MsgGUID: Oi8GhueITdOUvej3U543nA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11476"; a="57123505"
+X-IronPort-AV: E=Sophos;i="6.16,270,1744095600"; d="scan'208";a="57123505"
+Received: from fmviesa010.fm.intel.com ([10.60.135.150])
+ by orvoesa106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 27 Jun 2025 06:03:38 -0700
+X-CSE-ConnectionGUID: 7qcoc1HiRV29Zltj/dwo+g==
+X-CSE-MsgGUID: wVDW1LARQJOSzRebyi347w==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.16,270,1744095600"; d="scan'208";a="153516197"
+Received: from black.fi.intel.com ([10.237.72.28])
+ by fmviesa010.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 27 Jun 2025 06:03:36 -0700
+Date: Fri, 27 Jun 2025 16:03:32 +0300
+From: Raag Jadav <raag.jadav@intel.com>
+To: =?iso-8859-1?Q?Andr=E9?= Almeida <andrealmeid@igalia.com>
+Cc: Stephen Rothwell <sfr@canb.auug.org.au>,
+ Linux Next Mailing List <linux-next@vger.kernel.org>,
+ airlied@gmail.com, simona@ffwll.ch,
+ Krzysztof Karas <krzysztof.karas@intel.com>,
  dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- Srinivas Kandagatla <srinivas.kandagatla@linaro.org>
-References: <20250627103319.2883613-1-quic_lxu5@quicinc.com>
- <20250627103319.2883613-4-quic_lxu5@quicinc.com>
- <084ec69f-7b52-468b-8561-de4c1f517a21@oss.qualcomm.com>
-Content-Language: en-US
-From: Srinivas Kandagatla <srini@kernel.org>
-In-Reply-To: <084ec69f-7b52-468b-8561-de4c1f517a21@oss.qualcomm.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+ kernel-dev@igalia.com
+Subject: Re: [PATCH v2 2/2] drm: Add missing struct drm_wedge_task_info
+ kernel doc
+Message-ID: <aF6WpMe9Ar8jmXOX@black.fi.intel.com>
+References: <20250619140655.2468014-1-andrealmeid@igalia.com>
+ <20250619140655.2468014-2-andrealmeid@igalia.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20250619140655.2468014-2-andrealmeid@igalia.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -68,68 +75,39 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+On Thu, Jun 19, 2025 at 11:06:55AM -0300, André Almeida wrote:
+> Fix the following kernel doc warning:
+> 
+> include/drm/drm_device.h:40: warning: Function parameter or struct member 'pid' not described in 'drm_wedge_task_info'
+> include/drm/drm_device.h:40: warning: Function parameter or struct member 'comm' not described in 'drm_wedge_task_info'
+> 
+> Fixes: 183bccafa176 ("drm: Create a task info option for wedge events")
+> Reported-by: Stephen Rothwell <sfr@canb.auug.org.au>
+> Signed-off-by: André Almeida <andrealmeid@igalia.com>
+> ---
+> v2: Add Reported-by tag
+> ---
+>  include/drm/drm_device.h | 2 ++
+>  1 file changed, 2 insertions(+)
+> 
+> diff --git a/include/drm/drm_device.h b/include/drm/drm_device.h
+> index 08b3b2467c4c..aae0800ccef1 100644
+> --- a/include/drm/drm_device.h
+> +++ b/include/drm/drm_device.h
+> @@ -33,6 +33,8 @@ struct pci_controller;
+>  
+>  /**
+>   * struct drm_wedge_task_info - information about the guilty task of a wedge dev
+> + * @pid:	the pid of the task
+> + * @comm:	the command name of the task
 
+Redundant tabs. A whitespace is ususally good enough for docs.
 
-On 6/27/25 1:23 PM, Konrad Dybcio wrote:
-> On 6/27/25 12:33 PM, Ling Xu wrote:
->> Currently, domain ids are added for each instance, which is not a scalable.
-> 
-> 's/ a//g'
-> 
-> [...]
-> 
->> -		/* Unsigned PD offloading is only supported on CDSP and CDSP1 */
->> +		/* Unsigned PD offloading is only supported on CDSP*/
-> 
-> missing space before comment end
-> 
-> [...]
-> 
->> index f33d914d8f46..b890f8042e86 100644
->> --- a/include/uapi/misc/fastrpc.h
->> +++ b/include/uapi/misc/fastrpc.h
->> @@ -18,6 +18,13 @@
->>  #define FASTRPC_IOCTL_MEM_UNMAP		_IOWR('R', 11, struct fastrpc_mem_unmap)
->>  #define FASTRPC_IOCTL_GET_DSP_INFO	_IOWR('R', 13, struct fastrpc_ioctl_capability)
->>  
->> +#define ADSP_DOMAIN_ID (0)
->> +#define MDSP_DOMAIN_ID (1)
->> +#define SDSP_DOMAIN_ID (2)
->> +#define CDSP_DOMAIN_ID (3)
-> 
-Pl move the defines back to driver, see below comments.
+Raag
 
-> No need to include parentheses, as you're not interacting with any
-> variables
+>   */
+>  struct drm_wedge_task_info {
+>  	pid_t pid;
+> -- 
+> 2.49.0
 > 
->> +#define FASTRPC_DOMAIN_MAX    3
-> 
-> #define FASTRPC_DOMAIN_MAX CDSP_DOMAIN_ID?
-> 
-> What I meant in the previous revision is that you can not move
-> data inside the fastrpc_ioctl_capability struct, but you can
-> definitely add a comment like:
-> 
-> struct fastrpc_ioctl_capability {
->         __u32 domain; /* Retired in v6.whatever, now ignored by the kernel */
-
-hmm, If the plan is to make this field deprecated then why are we adding
-the defines to UAPI, it does not make sense.
-Also like Konrad suggested
->         __u32 domain; /* deprecated, ignored by the kernel */
-
-
-Also please move this change as a new patch incase you plan to add the
-deprecation along with checks in the kernel to make sure no one is
-actually passing data in this member.
-
---srini
-
-
->         __u32 attribute_id;
->         __u32 capability;   /* dsp capability */
->         __u32 reserved[4];
-> };
-> 
-> Konrad
-
