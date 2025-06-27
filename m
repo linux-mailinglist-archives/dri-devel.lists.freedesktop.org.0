@@ -2,95 +2,81 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 75824AEB6BD
-	for <lists+dri-devel@lfdr.de>; Fri, 27 Jun 2025 13:43:38 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5B8EBAEB6C1
+	for <lists+dri-devel@lfdr.de>; Fri, 27 Jun 2025 13:44:23 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 94A8C10E9FB;
-	Fri, 27 Jun 2025 11:43:35 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 061CD10E9DC;
+	Fri, 27 Jun 2025 11:44:21 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=redhat.com header.i=@redhat.com header.b="K1e6F4Mc";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="eHQsza1F";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [170.10.133.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5AE8610E9DD
- for <dri-devel@lists.freedesktop.org>; Fri, 27 Jun 2025 11:43:34 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1751024613;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=jUmKLkX17iXsI2jcTtKOQRw0H+vEuZMVGDpj7iIwmzA=;
- b=K1e6F4McSJ3QCQJkkZqsDByzJdFwefpEp1qoyVgvNCD8X9Qyv47RwGSrUceYrEdlgS23w8
- dhnDHwHcnmUAJ6MYuqEjSmDH1BFOd3yRUyTkMCm42n0p6QgQ5xFC49xI+JxgOhelXAwoOo
- aXCa5gtTDV4ztZaTVe9+NQpmlFZZ9cA=
-Received: from mail-wr1-f69.google.com (mail-wr1-f69.google.com
- [209.85.221.69]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-580-U9lvvOH_OpqU4HLYrbmJjQ-1; Fri, 27 Jun 2025 07:43:32 -0400
-X-MC-Unique: U9lvvOH_OpqU4HLYrbmJjQ-1
-X-Mimecast-MFC-AGG-ID: U9lvvOH_OpqU4HLYrbmJjQ_1751024611
-Received: by mail-wr1-f69.google.com with SMTP id
- ffacd0b85a97d-3a6df0c67a6so1323342f8f.3
- for <dri-devel@lists.freedesktop.org>; Fri, 27 Jun 2025 04:43:31 -0700 (PDT)
+Received: from mail-pj1-f54.google.com (mail-pj1-f54.google.com
+ [209.85.216.54])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 08D4110E9DC
+ for <dri-devel@lists.freedesktop.org>; Fri, 27 Jun 2025 11:44:20 +0000 (UTC)
+Received: by mail-pj1-f54.google.com with SMTP id
+ 98e67ed59e1d1-313dc7be67aso290512a91.0
+ for <dri-devel@lists.freedesktop.org>; Fri, 27 Jun 2025 04:44:20 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20230601; t=1751024659; x=1751629459; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=pS+ZPyznlJ3iS5vNN9mSK0o3DY38FMnpY0fJETaSO/s=;
+ b=eHQsza1FTTT8KHhfprJQeHvpVUfMwIH+1DlzTQylMLLfEi987w5CXEuC+pQUvBHHvt
+ 8AIc87A9+28O36YotufeTuhJhdBEnd/nC5fb6YVmAqePrHWJA59rfSh/X/TZ8cflliX9
+ BD5eplXr2Mu58BxpP7D0FMjAr/0RrGMc5SZTm3Zq6R5XW05L9jX4xNSOpEmGaBd2yb7o
+ pkwQsLIQ2dZUmatzVkofaiILDvmlFsHp4gIcarRd5u+geKlCxRgZomBKqHYq+E7pbA1i
+ R+nMNNrR47NOMgUKu18Kg80BFrer7/M9bPDeso55mG5hyIk2wyIYwehSuqf/YOe4JSZm
+ TWhQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1751024611; x=1751629411;
- h=mime-version:message-id:date:references:in-reply-to:subject:cc:to
- :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=jUmKLkX17iXsI2jcTtKOQRw0H+vEuZMVGDpj7iIwmzA=;
- b=Ld6RgS2Us4GfpBrLjU29ZpTr3JKwGg+9T0nFrmjEOgO+i08x/AtW1hw0BEZBVSEr5G
- gqOPhFrcWlZrcWGkWGu5nRq/dZZL2mGqShv8meNhputU3vNyF1NS/BIprOFaMzprvBz3
- pNE2HPFIHKwnpzgkEZ4rH3PdmXWZRqDSio3pY5vOe4x1SD8gjyCB4YLza9y61hcZ84Y4
- Vzf1ihgjVheaCdJiil2VyK0gGjKBvGpWquW09vW1CSTDqJXLPujGQKziDkg7N/hmaq6U
- PO/CGTezSSN2TQVnTH7QuvkNVUqbm5jcJymRhSGAT+DTkFPJ1qKNf+EkPcske/cbE4lJ
- Hm+Q==
+ d=1e100.net; s=20230601; t=1751024659; x=1751629459;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=pS+ZPyznlJ3iS5vNN9mSK0o3DY38FMnpY0fJETaSO/s=;
+ b=DUPCNpnc8yJhxdhMmHVJ9pUxpzQILKjVSbyDi6UvCmgQKsHNPfMUog/Nt7ppzlQ+y4
+ K+uHGKw1ad0C/3XFH0e9BPQE081To826xZH3yyR2Zxgg3449pizbz+XJJDfPEKUHTgLi
+ vwN4YqMcLVxVGcL4wJGEEcAhM8uya2kGNsxDPvbRXtsSyLOavG25XAkzXr79a+TwD4Zu
+ e2nkhrYXieIbXVn3YdPYy9DNaCZoyzQskIfHkZpiYDvFaNBRmbOXRUtJV/+bUbalV9KN
+ tQTvhv5M1oEZU4wbUeYS6ue92hZF7nsxdI/o1VaESY14RarUc/HyfnpTFKp7g9ezkV1L
+ NPdw==
 X-Forwarded-Encrypted: i=1;
- AJvYcCWSYYnVgVgO5Z+25FDvAjLjKuUv0ZIVG/uW3Tqqe91TeIHkLJ1oT2pYutw7qi5ZZzyErl2GbNDeHP8=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YwvzhUJqj5HIHlA9VANkVMT3nF/97mQslDR4JJ21Ij/aOm0uGgb
- h6XiRH6vHqKsbom0sRLrlq5DxGLJakkpNGTm4qkux8XNL2u76Rr4oJ+LymJIqiQF3X5pBvFeneX
- 5bifOLZ0XyGtgXEDqBIvMUHbASBsqLUPN6iNqRFHSBsMj6fcPggGaOwzaHeeiKxrejMLv6Q==
-X-Gm-Gg: ASbGnctzfZo3vr3g0emH67VYpX8goToxY6nLx9s4t3ykUVDP0/LP+d0FU3MfSj2ITuk
- WPgQ438lIxauCQWoPCxvhLLCnFZHa5V895XFvxKkKoZEgXHmaiPfWPJ53OQCfiPsbVbYxNCfWZa
- tdcEp0y67Ghkcga7xNxI4MHoYl/RLLTB4JDCT87deKK+V56yMsjNi1ViMqmmGrc/QAgR7Q7E6u8
- 4V9LEox6D7sDAIy4BaA2kSp8IJqD+whQzUJIf2As6htmXfHPG4PaNFOBfUb6W1bLzzZ78Sq64RI
- 4aiHlwvfF6KYs+BoCXsR7MfN2jRS2mM+Del+6kwEWUe/V4a2l818n4lMQUKy3Y/VCbBVOujERhJ
- clD0A
-X-Received: by 2002:a05:6000:2082:b0:3a6:f2d7:e22b with SMTP id
- ffacd0b85a97d-3a8f482ce2dmr3118529f8f.18.1751024610712; 
- Fri, 27 Jun 2025 04:43:30 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IHqa9ksaS7DGTCCj2sUyTBC9ZYvO5eiqt8mHI65N4aQiSc8WyhN8W3ePYCE3h36zJaWTbQjjw==
-X-Received: by 2002:a05:6000:2082:b0:3a6:f2d7:e22b with SMTP id
- ffacd0b85a97d-3a8f482ce2dmr3118496f8f.18.1751024610179; 
- Fri, 27 Jun 2025 04:43:30 -0700 (PDT)
-Received: from localhost (62-151-111-63.jazzfree.ya.com. [62.151.111.63])
- by smtp.gmail.com with ESMTPSA id
- ffacd0b85a97d-3a892e52ad2sm2454072f8f.48.2025.06.27.04.43.29
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 27 Jun 2025 04:43:29 -0700 (PDT)
-From: Javier Martinez Canillas <javierm@redhat.com>
-To: Thomas Zimmermann <tzimmermann@suse.de>, Luca Weiss
- <luca.weiss@fairphone.com>, Hans de Goede <hdegoede@redhat.com>, Maarten
- Lankhorst <maarten.lankhorst@linux.intel.com>, Maxime Ripard
- <mripard@kernel.org>, David Airlie <airlied@gmail.com>, Simona Vetter
- <simona@ffwll.ch>, Rob Herring <robh@kernel.org>, Krzysztof Kozlowski
- <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, Helge Deller
- <deller@gmx.de>
-Cc: linux-fbdev@vger.kernel.org, dri-devel@lists.freedesktop.org,
- devicetree@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v2 5/5] fbdev/simplefb: Add support for interconnect paths
-In-Reply-To: <f7c816a7-e93e-4146-80dc-8fec6113fcea@suse.de>
-References: <20250623-simple-drm-fb-icc-v2-0-f69b86cd3d7d@fairphone.com>
- <20250623-simple-drm-fb-icc-v2-5-f69b86cd3d7d@fairphone.com>
- <87ldpdd3dn.fsf@minerva.mail-host-address-is-not-set>
- <f7c816a7-e93e-4146-80dc-8fec6113fcea@suse.de>
-Date: Fri, 27 Jun 2025 13:43:28 +0200
-Message-ID: <87cyapbean.fsf@minerva.mail-host-address-is-not-set>
+ AJvYcCWw6z+eMot028xxvRewUuco8PXhbIEBm6ZERl4CYA4REYqeC5TBx03YD6ez5FGnhBKIo1NLB73SWQA=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YwCf6xAeOYpLMufvXEm76C3pEQILn8deCRxtUYrjhfGNzjyhh1D
+ 2nfTcy+y9xPhlF+fMvhdZAOVp82sQPZKZoAq34nP7Nw80qe7h+ndqQh+x9DuT85nFooZhWw/jQ7
+ 0JSfu71DfAljyIIIfxAJn8K4K9RzSEa4=
+X-Gm-Gg: ASbGnctSakujHNclCdZK13ld+QLR0DLcc/RNj3qAWcAUR2j3Z+TwwKVyYcFH3Rl82Uk
+ CJptPgT/UmPHGGJsSUGw2SsnQ2+Kbo3T4v9QO0CKJxvYWwDe5V8ezJQn4qNRzMHA0BSaCs0Y+ja
+ nLurLNAlC45sTuQIK9HD1zKb46lggzTLnZHcv6OIvokXI=
+X-Google-Smtp-Source: AGHT+IE366TUu7KMH/hZ3aJAQfk1MJ2VG8O3hymjtiBQTP+jBFFLF0J1kyJhKcyp/4h7ZGpYnNpQeVzFO4P2hKv7u9M=
+X-Received: by 2002:a17:90b:3d85:b0:313:14b5:2521 with SMTP id
+ 98e67ed59e1d1-318c92af3a7mr1613655a91.5.1751024659411; Fri, 27 Jun 2025
+ 04:44:19 -0700 (PDT)
 MIME-Version: 1.0
-X-Mimecast-Spam-Score: 0
-X-Mimecast-MFC-PROC-ID: gfM42yoDbk4iBntPU4Nyc6jKg096Z5feuSkBCr6pW2c_1751024611
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain
+References: <20250627094102.770689-1-jfalempe@redhat.com>
+In-Reply-To: <20250627094102.770689-1-jfalempe@redhat.com>
+From: Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>
+Date: Fri, 27 Jun 2025 13:44:06 +0200
+X-Gm-Features: Ac12FXx-5LTvv9I-ZDb9-nivG3KWk1kM0W75cZm76TLxZSE56N1ptu8fSUOgiIc
+Message-ID: <CANiq72=aiAnn3n7ADgmKUNNSp7HfBjRc1ftG2qSD4EFUkS3jqw@mail.gmail.com>
+Subject: Re: [PATCH] drm/panic: Add a u64 divide by 10 for arm32
+To: Jocelyn Falempe <jfalempe@redhat.com>
+Cc: Andrei Lalaev <andrey.lalaev@gmail.com>, Miguel Ojeda <ojeda@kernel.org>, 
+ Christian Schrefl <chrisi.schrefl@gmail.com>, Arnd Bergmann <arnd@arndb.de>,
+ Russell King <linux@armlinux.org.uk>, Paolo Bonzini <pbonzini@redhat.com>, 
+ rust-for-linux <rust-for-linux@vger.kernel.org>, 
+ Linux ARM <linux-arm-kernel@lists.infradead.org>, 
+ Thomas Zimmermann <tzimmermann@suse.de>,
+ Javier Martinez Canillas <javierm@redhat.com>, 
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, 
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+ dri-devel@lists.freedesktop.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -106,31 +92,22 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Thomas Zimmermann <tzimmermann@suse.de> writes:
-
-> Hi
-
-[...]
-
->> These two functions contain the same logic that you are using in the
->> simpledrm driver. I wonder if could be made helpers so that the code
->> isn't duplicated in both drivers.
+On Fri, Jun 27, 2025 at 11:41=E2=80=AFAM Jocelyn Falempe <jfalempe@redhat.c=
+om> wrote:
 >
-> No please not!. Any work should rather be directed towards deleting 
-> simplefb entirely.
->
+> +/// On arm32 architecture, dividing an u64 by a constant will generate a=
+ call
+> +/// to __aeabi_uldivmod which is not present in the kernel.
+> +/// So use the multiply by inverse method for this architecture.
 
-That is a good point. You are correct that having some duplication to
-make easier to get rid of the fbdev driver is a much better approach.
+This sounds more like a normal comment instead of function docs, no?
 
-> Best regards
-> Thomas
->
+By the way, formatting:
 
--- 
-Best regards,
+    `u64`
+    `__aeabi_uldivmod`
 
-Javier Martinez Canillas
-Core Platforms
-Red Hat
+Thanks for fixing this! It is nice seeing 32-bit arm taking shape.
 
+Cheers,
+Miguel
