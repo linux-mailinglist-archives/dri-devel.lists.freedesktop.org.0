@@ -2,79 +2,84 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4A202AEB022
-	for <lists+dri-devel@lfdr.de>; Fri, 27 Jun 2025 09:33:35 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8FB1AAEB030
+	for <lists+dri-devel@lfdr.de>; Fri, 27 Jun 2025 09:36:58 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 307A310E10E;
-	Fri, 27 Jun 2025 07:33:32 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E1A3510E972;
+	Fri, 27 Jun 2025 07:36:56 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=foss.st.com header.i=@foss.st.com header.b="JciHfeKa";
+	dkim=pass (1024-bit key; unprotected) header.d=redhat.com header.i=@redhat.com header.b="BkcEg0GZ";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx07-00178001.pphosted.com (mx07-00178001.pphosted.com
- [185.132.182.106])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 00D6210E10E
- for <dri-devel@lists.freedesktop.org>; Fri, 27 Jun 2025 07:33:28 +0000 (UTC)
-Received: from pps.filterd (m0241204.ppops.net [127.0.0.1])
- by mx07-00178001.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 55R2c6Rv030383;
- Fri, 27 Jun 2025 09:33:14 +0200
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=foss.st.com; h=
- cc:content-transfer-encoding:content-type:date:from:in-reply-to
- :message-id:mime-version:references:subject:to; s=selector1; bh=
- 1Q285Yr3y+87stzQw+zewu692BZK8q52Hv1ctiichRc=; b=JciHfeKa47Iu6sv9
- VamsVMjg7X+3xY77tw1LBPC1uO0q239nBfbj9K2yYucT7DBEvknjB4ki34TlgIQM
- kT9l3BL9rSYIVPSOYQuuwFHPM8NLr0Sul81CP9YJTAxGEogTs5EQpBj/SeNjaoxn
- 0uikTuHhBtYBklAU2vdyVdbr+IO3IxqUdINDgEtk1pxPdad87hoI9LFPtfSjBfwE
- uF4Yt94SE6OrzVJCx4Cn7OhQ/rcndL1sD1V79C0aCep5vlzfCb6dLLYyAsxutFaP
- W6aiOrLrzFTkaXNSUxw0RaatwVKHUpU21YKkwrxYPXwC/bd5b73z7Eag1onrHItW
- +GOw8A==
-Received: from beta.dmz-ap.st.com (beta.dmz-ap.st.com [138.198.100.35])
- by mx07-00178001.pphosted.com (PPS) with ESMTPS id 47dm33tthg-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Fri, 27 Jun 2025 09:33:14 +0200 (MEST)
-Received: from euls16034.sgp.st.com (euls16034.sgp.st.com [10.75.44.20])
- by beta.dmz-ap.st.com (STMicroelectronics) with ESMTP id 282D540044;
- Fri, 27 Jun 2025 09:31:50 +0200 (CEST)
-Received: from Webmail-eu.st.com (shfdag1node2.st.com [10.75.129.70])
- by euls16034.sgp.st.com (STMicroelectronics) with ESMTP id 9DDC1BCF079;
- Fri, 27 Jun 2025 09:30:47 +0200 (CEST)
-Received: from [10.48.86.185] (10.48.86.185) by SHFDAG1NODE2.st.com
- (10.75.129.70) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.39; Fri, 27 Jun
- 2025 09:30:46 +0200
-Message-ID: <9bb4ab7d-afe2-4508-a18e-12cb1485a5a0@foss.st.com>
-Date: Fri, 27 Jun 2025 09:30:46 +0200
+Received: from us-smtp-delivery-124.mimecast.com
+ (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 30B5A10E978
+ for <dri-devel@lists.freedesktop.org>; Fri, 27 Jun 2025 07:36:55 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1751009814;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=FVuEhhjyA7keAVf5W7zxzhKnnDycVhUTSUeMLb8Dbz4=;
+ b=BkcEg0GZgm0kJ+Syls0Pgis5rvaJPBxmw58p0Igxqg7lmpFibNPUEtclx286LMKHXdpy/D
+ eTqstDv4p9TJFgDCQ26R4NYMwMtJuFs0wP7HgpIeqHTJORixh/kIoF1gYV2N9ChnysU83y
+ 5CpsuRRSGpkyGKc2l5pTmnDjyh6hGpg=
+Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
+ [209.85.128.72]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-619-vgQyjKieP5uc-HfG8QN04w-1; Fri, 27 Jun 2025 03:36:52 -0400
+X-MC-Unique: vgQyjKieP5uc-HfG8QN04w-1
+X-Mimecast-MFC-AGG-ID: vgQyjKieP5uc-HfG8QN04w_1751009811
+Received: by mail-wm1-f72.google.com with SMTP id
+ 5b1f17b1804b1-451d5600a54so14544095e9.2
+ for <dri-devel@lists.freedesktop.org>; Fri, 27 Jun 2025 00:36:52 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1751009811; x=1751614611;
+ h=mime-version:message-id:date:references:in-reply-to:subject:cc:to
+ :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=FVuEhhjyA7keAVf5W7zxzhKnnDycVhUTSUeMLb8Dbz4=;
+ b=Gz6g2q1M9CNK+3UqCO/4Y6NYWIYh7Vh12IR3fSZZQoV+SXstVqZ5SpZN4QWZoF8HxC
+ 1NCG2Nw3KMWC+amHUA4BmXmdJUOgAYLzsuxacSCyKolBuI67M3rVDxnOaLqll9rQpTae
+ EQ41rJX3UeTE8UpulJzt4dEI9URzFgHkO14o22r/WIV0fvSJs7Cw2EFWE95PEIgy7BXF
+ hdug3qBIXVA5liWYe28nYbZ1/OSphLO5unEW+sVVtR2P79xXdfPjTQP4DYJHWgL1JQoS
+ SSR11lP4tIMREM0SKMGm71gXYcyDO+gmC+0Up7NFmHSAHiXrEXstYTqnOjyT23EYPv+u
+ h97A==
+X-Gm-Message-State: AOJu0Ywol6WkL+f/sjeMXUCETF9gSpXqQxXq5ZTr/SD1LxfM18WvbwaI
+ C4DUgS8MCDWwKkVeVbSllH1sXNV+AfID0Pdp6yGFxMK5KRrddicFoQhbqxyGJ30MRLFM7EKwVCg
+ iZtk2+Cza/VtQHeCQEIebYFZjdydWVq0L4jnPSeGQFb2JKqbH7e7YMBKCS9Y7SnqQUj8YaA==
+X-Gm-Gg: ASbGncuB4GVSxqkDToHifEIoeG6DMFe0t7bSAt8F/HDBm7Rz7RChm3scV+PTxPQ6jjl
+ 9wPbtcq21dmgQC27ZcY6Tii9s63sHFoAKHI5v43ihksnP8ptA/F4t0Fd2n5KupD3SofUs577tTH
+ 1Np4UOdCtr0hnNUlcvrTR49MR0oGckrF1i6AQKUFdtZlNsRXZCPdnpT48evmES4SGBxnnFq1Qji
+ zb7V8TP2syeuDgzWjqeMP2SfjRtuf0QTZVogYZ6eM8g40l79tD+xSjDusFDvi94/rf7UWydDcVg
+ t0SRSgHJ6BAh4Bh2CXgm+d2SHyueTMy7EAB5mI4isyUimHcowNCR0RdcHVuQlOgnMKgI5/YRBWC
+ 5nJ2N
+X-Received: by 2002:a05:600c:64cd:b0:453:6150:de2f with SMTP id
+ 5b1f17b1804b1-453900dcfffmr11817545e9.1.1751009810946; 
+ Fri, 27 Jun 2025 00:36:50 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IFaUmzslRsu8K78D6y+Af3JvgdJ8LUd6Da7VDYJDzshsxpOowMk1KrGJnlafeMJ+K2hr7RvaQ==
+X-Received: by 2002:a05:600c:64cd:b0:453:6150:de2f with SMTP id
+ 5b1f17b1804b1-453900dcfffmr11817295e9.1.1751009810503; 
+ Fri, 27 Jun 2025 00:36:50 -0700 (PDT)
+Received: from localhost (62-151-111-63.jazzfree.ya.com. [62.151.111.63])
+ by smtp.gmail.com with ESMTPSA id
+ 5b1f17b1804b1-4538a3fe0d6sm41751695e9.25.2025.06.27.00.36.49
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Fri, 27 Jun 2025 00:36:49 -0700 (PDT)
+From: Javier Martinez Canillas <javierm@redhat.com>
+To: Thomas Zimmermann <tzimmermann@suse.de>
+Cc: dri-devel@lists.freedesktop.org, Thomas Zimmermann <tzimmermann@suse.de>
+Subject: Re: [PATCH] drm/vesadrm: Avoid NULL-ptr deref in
+ vesadrm_pmi_cmap_write()
+In-Reply-To: <20250617140944.142392-1-tzimmermann@suse.de>
+References: <20250617140944.142392-1-tzimmermann@suse.de>
+Date: Fri, 27 Jun 2025 09:36:48 +0200
+Message-ID: <87zfdtd4a7.fsf@minerva.mail-host-address-is-not-set>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 1/3] i2c: stm32: fix the device used for the DMA map
-To: Alain Volmat <alain.volmat@foss.st.com>
-CC: Pierre-Yves MORDRET <pierre-yves.mordret@foss.st.com>, Andi Shyti
- <andi.shyti@kernel.org>, Maxime Coquelin <mcoquelin.stm32@gmail.com>,
- Alexandre Torgue <alexandre.torgue@foss.st.com>, Sumit Semwal
- <sumit.semwal@linaro.org>, =?UTF-8?Q?Christian_K=C3=B6nig?=
- <christian.koenig@amd.com>, M'boumba Cedric Madianga
- <cedric.madianga@gmail.com>, Wolfram Sang <wsa@kernel.org>, "Pierre-Yves
- MORDRET" <pierre-yves.mordret@st.com>, <linux-i2c@vger.kernel.org>,
- <linux-stm32@st-md-mailman.stormreply.com>,
- <linux-arm-kernel@lists.infradead.org>, <linux-kernel@vger.kernel.org>,
- <linux-media@vger.kernel.org>, <dri-devel@lists.freedesktop.org>,
- <linaro-mm-sig@lists.linaro.org>
-References: <20250616-i2c-upstream-v1-0-42d3d5374e65@foss.st.com>
- <20250616-i2c-upstream-v1-1-42d3d5374e65@foss.st.com>
- <20250626083744.GA348766@gnbcxd0016.gnb.st.com>
- <20250626084356.GB348766@gnbcxd0016.gnb.st.com>
-Content-Language: en-US
-From: Clement LE GOFFIC <clement.legoffic@foss.st.com>
-In-Reply-To: <20250626084356.GB348766@gnbcxd0016.gnb.st.com>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 8bit
-X-Originating-IP: [10.48.86.185]
-X-ClientProxiedBy: SHFCAS1NODE1.st.com (10.75.129.72) To SHFDAG1NODE2.st.com
- (10.75.129.70)
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1099,Hydra:6.1.7,FMLib:17.12.80.40
- definitions=2025-06-27_02,2025-06-26_05,2025-03-28_01
+X-Mimecast-Spam-Score: 0
+X-Mimecast-MFC-PROC-ID: pE6IueqXFS7smPqEz6Q9QvduMuoYrJcQQxWKopJXKfQ_1751009811
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -90,68 +95,34 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 6/26/25 10:43, Alain Volmat wrote:
-> Hi Clément,
-> 
-> Oups, I was too fast.
-> 
-> there might be another place to correct in the driver, dma_unmap_single
-> within the error handling of the function stm32_i2c_prep_dma_xfer.
-> 
->     err:
->              dma_unmap_single(chan_dev, dma->dma_buf, dma->dma_len,
->                               dma->dma_data_dir);
-> 
-> Could you also correct this one as well ?
-> 
-> Alain
+Thomas Zimmermann <tzimmermann@suse.de> writes:
 
-Hi Alain,
+Hello Thomas,
 
-Oh yes you're right, I'll send a v2
+> Only set PMI fields if the screen_info's Vesa PM segment has been
+> set. Vesa PMI is the power-management interface. It also provides
+> means to set the color palette. The interface is optional, so not
+> all VESA graphics cards support it. Print vesafb's warning [1] if
+> the hardware palette cannot be set at all.
+>
+> If unsupported the field PrimaryPalette in struct vesadrm.pmi is
+> NULL, which results in a segmentation fault. Happens with qemu's
+> Cirrus emulation.
+>
+> Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
+> Fixes: 814d270b31d2 ("drm/sysfb: vesadrm: Add gamma correction")
+> Link: https://elixir.bootlin.com/linux/v6.15/source/drivers/video/fbdev/vesafb.c#L375 # 1
+> Cc: Thomas Zimmermann <tzimmermann@suse.de>
+> Cc: Javier Martinez Canillas <javierm@redhat.com>
+> Cc: dri-devel@lists.freedesktop.org
+> ---
 
-Best regard,
-Clément
-> 
-> 
-> On Thu, Jun 26, 2025 at 10:37:51AM +0200, Alain Volmat wrote:
->> Hi Clément,
->>
->> On Mon, Jun 16, 2025 at 10:53:54AM +0200, Clément Le Goffic wrote:
->>> If the DMA mapping failed, it produced an error log with the wrong
->>> device name:
->>> "stm32-dma3 40400000.dma-controller: rejecting DMA map of vmalloc memory"
->>> Fix this issue by replacing the dev with the I2C dev.
->>
->> Indeed, nice catch ! Thanks a lot !
->>
->>>
->>> Fixes: bb8822cbbc53 ("i2c: i2c-stm32: Add generic DMA API")
->>> Signed-off-by: Clément Le Goffic <clement.legoffic@foss.st.com>
->>> ---
->>>   drivers/i2c/busses/i2c-stm32.c | 2 +-
->>>   1 file changed, 1 insertion(+), 1 deletion(-)
->>>
->>> diff --git a/drivers/i2c/busses/i2c-stm32.c b/drivers/i2c/busses/i2c-stm32.c
->>> index 157c64e27d0b..5e0b31aed774 100644
->>> --- a/drivers/i2c/busses/i2c-stm32.c
->>> +++ b/drivers/i2c/busses/i2c-stm32.c
->>> @@ -118,7 +118,7 @@ int stm32_i2c_prep_dma_xfer(struct device *dev, struct stm32_i2c_dma *dma,
->>>   	dma->dma_len = len;
->>>   	chan_dev = dma->chan_using->device->dev;
->>>   
->>> -	dma->dma_buf = dma_map_single(chan_dev, buf, dma->dma_len,
->>> +	dma->dma_buf = dma_map_single(dev, buf, dma->dma_len,
->>>   				      dma->dma_data_dir);
->>>   	if (dma_mapping_error(chan_dev, dma->dma_buf)) {
->>>   		dev_err(dev, "DMA mapping failed\n");
->>>
->>> -- 
->>> 2.43.0
->>>
->>
->> Acked-by: Alain Volmat <alain.volmat@foss.st.com>
->>
->> Regards,
->> Alain
+Acked-by: Javier Martinez Canillas <javierm@redhat.com>
+
+-- 
+Best regards,
+
+Javier Martinez Canillas
+Core Platforms
+Red Hat
 
