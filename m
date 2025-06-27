@@ -2,91 +2,78 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id BDA0FAEB3CE
-	for <lists+dri-devel@lfdr.de>; Fri, 27 Jun 2025 12:08:30 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 90B63AEB400
+	for <lists+dri-devel@lfdr.de>; Fri, 27 Jun 2025 12:15:30 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id F096410E329;
-	Fri, 27 Jun 2025 10:08:28 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C27CD10E320;
+	Fri, 27 Jun 2025 10:15:28 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="O6Pe2yuk";
+	dkim=pass (2048-bit key; unprotected) header.d=foss.st.com header.i=@foss.st.com header.b="TUnaDvBd";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-vk1-f172.google.com (mail-vk1-f172.google.com
- [209.85.221.172])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9EFEC10E329
- for <dri-devel@lists.freedesktop.org>; Fri, 27 Jun 2025 10:08:27 +0000 (UTC)
-Received: by mail-vk1-f172.google.com with SMTP id
- 71dfb90a1353d-5308b451df0so620970e0c.2
- for <dri-devel@lists.freedesktop.org>; Fri, 27 Jun 2025 03:08:27 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1751018906; x=1751623706; darn=lists.freedesktop.org;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc:subject:date
- :message-id:reply-to;
- bh=LKqKeEQIi5rBs6NnW9qgvGwfpsv4wtOKoQMRdiWhtWU=;
- b=O6Pe2yukN+NHepHlotsrrQTLjhY4OwVLd/cmp5E5rd4JkYPkx/T519XEgG83ZUkwDf
- ESLyN7XM8Zf3BwAELR0IJlWmOtq/7N1VMhdOGCOn7QGMJ1LfwwLegKQgSbeW2qMb1Jb9
- +Wd4p3r5Q8ZRmRelivZHuuPRjlBOLQ99iFOxGDxJjVXx/1D2GUlddul5bZDw3JTWX9Lq
- sCOGYgprhRidpO0g6b4d2JwAgf3h+QwHYzlBLWflibq6b3GO1lVRxlYMckEUT497m4Hr
- Iok5TblgZWT07BzwuJHqMSVVQX89j50a0HYMM4cwbbSdnlnEgpcS8NweWxD5jwbo9JMV
- +e3Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1751018906; x=1751623706;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=LKqKeEQIi5rBs6NnW9qgvGwfpsv4wtOKoQMRdiWhtWU=;
- b=iDH/p9ybF2UTlzgIgbKcsVzuGB6XOZ80SPYNp91OFdnXBzxIxY9RAfB+4IP6HHrou5
- B26ZJvhdk8ZufB2SnvFupMjpf0GYrVjwP29GvSJgyZNMaGzJYUuQJBZLDnho6yoDz/rL
- iwNpnUwT8AmQRSeJSGm2lzBFxQkgkUu0pINaA6yHhAP8WkJwrm489BWJ1bbLwho8j1qh
- WiiX0QyuxR/cwmThYXsYYBRgNcV31iwbTe2dWb+pA+NQzSUBvyVtfOUfiiseaCgq00XI
- rw9l495gm90/W/E6FCitR5oFHSQAw4hFP3+Q9n61tAt05lKquZ+HA4e7gY7yb9ZzZw7h
- b0pA==
-X-Forwarded-Encrypted: i=1;
- AJvYcCVeJ84R+RyzSUcYRpYc7KzGcRru3W08Uvp2/NtH+VkJoOstw1c9roiJHFojbT5Tv31PlpbLXZkQtyU=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YyG83RF7Zm6bBtFEqRsAXdJpsNMTFBGNkmlT7QK8EssJrsNQpbM
- NnP0Oro4ZcCtkAUZvNCh3O71HCXubdDeFMAjQDPb5pmdQlUufxsfGxMye2AQh+2Vet6MIHcjyk6
- dh0dOzDpZfIGf/8kEYLeih5+BI39Y+ak=
-X-Gm-Gg: ASbGncsNjh7qSjDEKnU34sOGhC5uOcYBKThoCMB/dGtQ9ApdDyqZijpcPTp2dmjohJh
- jv5MuVyTVBaGtZFW4xJwpX9IGOB1KmfLBSFuL7alpyr2ukWebOaTtove6XHlBlDfPBLocGMtTTx
- 07EvgYrmS4wrlyws8hJucO/XYPZfGSD9z3BgRDdoLG+w==
-X-Google-Smtp-Source: AGHT+IFJR1ekkTakx7iLzFg2MmwPx3iR2frkf7yCwLG0DMtrwqa0Ef2TsBzcDBBDhQMnhbqRc/4wjrzOgmYP5u2BEfo=
-X-Received: by 2002:a05:6122:201d:b0:529:2644:8c with SMTP id
- 71dfb90a1353d-5330c05f7e3mr1650742e0c.8.1751018906374; Fri, 27 Jun 2025
- 03:08:26 -0700 (PDT)
+Received: from mx07-00178001.pphosted.com (mx07-00178001.pphosted.com
+ [185.132.182.106])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id BF39E10E9BD
+ for <dri-devel@lists.freedesktop.org>; Fri, 27 Jun 2025 10:15:23 +0000 (UTC)
+Received: from pps.filterd (m0288072.ppops.net [127.0.0.1])
+ by mx07-00178001.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 55R8PVHO022240;
+ Fri, 27 Jun 2025 12:15:12 +0200
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=foss.st.com; h=
+ cc:content-transfer-encoding:content-type:date:from:message-id
+ :mime-version:subject:to; s=selector1; bh=mVBgEXGskFGd1kZHXy9461
+ TXv3u/WKz4hFmABhGynE8=; b=TUnaDvBduVytL1jo7TCMT9l4v5t7cPtAhaslCI
+ eeZG5KnvL8984S665vwrxF/h4FgS4nXZxGIK9p6whXltR+1tDJ7Jmcl1Ti59j4NK
+ vGqwCJK64JivfCHSFmbBgzPdxilY07HaDRQrJjzs89Q4xJRp/LkSzeDZJrQYWRFJ
+ IxP5ewno/C/wLfzG0JkMXJalE2neRoa6xAvnfm2rsa/aC3dGU+pMbEn7VhFsA3lj
+ Uq+VN7TNk7brpGOrICzNwHFseHDg5eZmV8A+R7fFP1CWYExducr04tVQpbuLGIUx
+ Fm6p7wNA9o0qdtgKICgU64mQYM6/fjktlUGIn0lB8Wcs8jHg==
+Received: from beta.dmz-ap.st.com (beta.dmz-ap.st.com [138.198.100.35])
+ by mx07-00178001.pphosted.com (PPS) with ESMTPS id 47dj5p3xqf-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Fri, 27 Jun 2025 12:15:12 +0200 (MEST)
+Received: from euls16034.sgp.st.com (euls16034.sgp.st.com [10.75.44.20])
+ by beta.dmz-ap.st.com (STMicroelectronics) with ESMTP id 00FB840045;
+ Fri, 27 Jun 2025 12:13:48 +0200 (CEST)
+Received: from Webmail-eu.st.com (shfdag1node2.st.com [10.75.129.70])
+ by euls16034.sgp.st.com (STMicroelectronics) with ESMTP id 75734B65697;
+ Fri, 27 Jun 2025 12:12:57 +0200 (CEST)
+Received: from localhost (10.48.86.185) by SHFDAG1NODE2.st.com (10.75.129.70)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.39; Fri, 27 Jun
+ 2025 12:12:57 +0200
+From: =?utf-8?q?Cl=C3=A9ment_Le_Goffic?= <clement.legoffic@foss.st.com>
+Subject: [PATCH v2 0/3] Fix STM32 I2C dma operations
+Date: Fri, 27 Jun 2025 12:12:55 +0200
+Message-ID: <20250627-i2c-upstream-v2-0-8c14523481dc@foss.st.com>
 MIME-Version: 1.0
-References: <20250627-exynos7870-dsim-v2-0-1433b67378d3@disroot.org>
- <20250627-exynos7870-dsim-v2-1-1433b67378d3@disroot.org>
-In-Reply-To: <20250627-exynos7870-dsim-v2-1-1433b67378d3@disroot.org>
-From: Inki Dae <daeinki@gmail.com>
-Date: Fri, 27 Jun 2025 19:07:47 +0900
-X-Gm-Features: Ac12FXwuq4aPAVgwoZvhR-bhfqA6nFAJEthK_CWI5Sw-XpWQOZJfdg9HyifhjZA
-Message-ID: <CAAQKjZOHUGg8WEZxfhVxrUPS3O68BQJ6=cDnUSk6BomYjuY62Q@mail.gmail.com>
-Subject: Re: [PATCH v2 01/13] drm/bridge: samsung-dsim: separate LINK and DPHY
- status registers
-To: Kaustabh Chakraborty <kauschluss@disroot.org>
-Cc: Jagan Teki <jagan@amarulasolutions.com>,
- Marek Szyprowski <m.szyprowski@samsung.com>, 
- Andrzej Hajda <andrzej.hajda@intel.com>,
- Neil Armstrong <neil.armstrong@linaro.org>, 
- Robert Foss <rfoss@kernel.org>,
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>, 
- Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>, 
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, 
- Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
- Simona Vetter <simona@ffwll.ch>, 
- Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
- Conor Dooley <conor+dt@kernel.org>, 
- Seung-Woo Kim <sw0312.kim@samsung.com>,
- Kyungmin Park <kyungmin.park@samsung.com>, 
- Krzysztof Kozlowski <krzk@kernel.org>, Alim Akhtar <alim.akhtar@samsung.com>, 
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org, 
- devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
- linux-samsung-soc@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
+X-B4-Tracking: v=1; b=H4sIAKduXmgC/1XMQQ6CMBCF4auQWVvSFqYEV9zDsEAYZBZQ0qlEQ
+ 7i7FVcu/5e8bwehwCRwzXYItLGwX1LYSwb91C0PUjykBqstarSVYtur5yoxUDcrwrurUZsC6w7
+ SZQ008uvkbm3qiSX68D71zXzXH+SM+4c2o7Qq7VAMWFQlOWxGL5JLzHs/Q3scxwcajC4EqgAAA
+ A==
+X-Change-ID: 20250527-i2c-upstream-e5b69501359a
+To: Pierre-Yves MORDRET <pierre-yves.mordret@foss.st.com>, Alain Volmat
+ <alain.volmat@foss.st.com>, Andi Shyti <andi.shyti@kernel.org>, "Maxime
+ Coquelin" <mcoquelin.stm32@gmail.com>, Alexandre Torgue
+ <alexandre.torgue@foss.st.com>, Sumit Semwal <sumit.semwal@linaro.org>,
+ =?utf-8?q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
+ "M'boumba Cedric Madianga" <cedric.madianga@gmail.com>,
+ Wolfram Sang <wsa@kernel.org>
+CC: Pierre-Yves MORDRET <pierre-yves.mordret@st.com>,
+ <linux-i2c@vger.kernel.org>, <linux-stm32@st-md-mailman.stormreply.com>,
+ <linux-arm-kernel@lists.infradead.org>, <linux-kernel@vger.kernel.org>,
+ <linux-media@vger.kernel.org>, <dri-devel@lists.freedesktop.org>,
+ <linaro-mm-sig@lists.linaro.org>, =?utf-8?q?Cl=C3=A9ment_Le_Goffic?=
+ <clement.legoffic@foss.st.com>
+X-Mailer: b4 0.15-dev-07fe9
+X-Originating-IP: [10.48.86.185]
+X-ClientProxiedBy: SHFCAS1NODE1.st.com (10.75.129.72) To SHFDAG1NODE2.st.com
+ (10.75.129.70)
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1099,Hydra:6.1.7,FMLib:17.12.80.40
+ definitions=2025-06-27_03,2025-06-26_05,2025-03-28_01
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -102,134 +89,33 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-2025=EB=85=84 6=EC=9B=94 27=EC=9D=BC (=EA=B8=88) =EC=98=A4=EC=A0=84 4:42, K=
-austabh Chakraborty <kauschluss@disroot.org>=EB=8B=98=EC=9D=B4 =EC=9E=91=EC=
-=84=B1:
->
-> Exynos7870's DSIM has separate registers for LINK and DPHY status. This
-> is in contrast to other devices in the driver which use a single
-> register for both.
->
-> Add their respective entries in the register list. Devices having a
-> single status register have been assigned the same offset for both
-> entries.
->
-> Signed-off-by: Kaustabh Chakraborty <kauschluss@disroot.org>
-> ---
->  drivers/gpu/drm/bridge/samsung-dsim.c | 15 +++++++++------
->  1 file changed, 9 insertions(+), 6 deletions(-)
->
-> diff --git a/drivers/gpu/drm/bridge/samsung-dsim.c b/drivers/gpu/drm/brid=
-ge/samsung-dsim.c
-> index f2f666b27d2d5ec016d7a7f47c87fcdf1377d41a..7fd4c34cdc3170d363942f98f=
-eec048097da3c06 100644
-> --- a/drivers/gpu/drm/bridge/samsung-dsim.c
-> +++ b/drivers/gpu/drm/bridge/samsung-dsim.c
-> @@ -30,7 +30,7 @@
->  /* returns true iff both arguments logically differs */
->  #define NEQV(a, b) (!(a) ^ !(b))
->
-> -/* DSIM_STATUS */
-> +/* DSIM_DPHY_STATUS */
->  #define DSIM_STOP_STATE_DAT(x)         (((x) & 0xf) << 0)
->  #define DSIM_STOP_STATE_CLK            BIT(8)
->  #define DSIM_TX_READY_HS_CLK           BIT(10)
-> @@ -239,7 +239,8 @@ enum samsung_dsim_transfer_type {
->  };
->
->  enum reg_idx {
-> -       DSIM_STATUS_REG,        /* Status register */
+This patch series aims to fix some issues inside the driver's DMA
+handling.
+It also uses newer I2C DMA API.
 
-According to the datasheets I have, both Exynos5422 and Exynos7420 use
-DSIM_STATUS, while Exynos8890 splits this into DSIM_LINK_STATUS and
-DSIM_PHY_STATUS. It appears that Exynos7870 follows the same approach
-as Exynos8890.
+Signed-off-by: Clément Le Goffic <clement.legoffic@foss.st.com>
+---
+Changes in v2:
+- Fix the dev used in dma_unmap also in the error path of
+  `stm32_i2c_prep_dma_xfer`
+- Add a dma_unmap_single also in the ITs error handler
+- Add Alain Volmat's "Acked-by" on patch 3
+- Link to v1: https://lore.kernel.org/r/20250616-i2c-upstream-v1-0-42d3d5374e65@foss.st.com
 
-The current modification removes the legacy DSIM_STATUS_REG and adds
-new DSIM_LINK_STATUS_REG and DSIM_DPHY_STATUS_REG. However, this
-change causes the register names used for older SoC versions to differ
-from those in the datasheets, so I think it is better to keep the
-legacy name for backward compatibility.
+---
+Clément Le Goffic (3):
+      i2c: stm32: fix the device used for the DMA map
+      i2c: stm32f7: unmap DMA mapped buffer
+      i2c: stm32f7: support i2c_*_dma_safe_msg_buf APIs
 
-How about modifying it as follows?
-enum reg_idx {
-    DSIM_STATUS_REG,          /* Status register (legacy) */
-    DSIM_LINK_STATUS_REG,     /* Link status register (Exynos7870, ...) */
-    DSIM_PHY_STATUS_REG,      /* PHY status register (Exynos7870, ...) */
-    ...
-};
+ drivers/i2c/busses/i2c-stm32.c   |  4 ++--
+ drivers/i2c/busses/i2c-stm32f7.c | 42 +++++++++++++++++++++++++++++-----------
+ 2 files changed, 33 insertions(+), 13 deletions(-)
+---
+base-commit: 86731a2a651e58953fc949573895f2fa6d456841
+change-id: 20250527-i2c-upstream-e5b69501359a
 
-static const unsigned int exynos7870_reg_ofs[] =3D {
-    [DSIM_STATUS_REG] =3D 0x00,        /* Legacy compatibility - use
-LINK_STATUS */
-    [DSIM_LINK_STATUS_REG] =3D 0x04,   /* Link status register */
-    [DSIM_PHY_STATUS_REG] =3D 0x08,    /* PHY status register */
-    ...
-};
+Best regards,
+--  
+Clément Le Goffic <clement.legoffic@foss.st.com>
 
-Additionally, by configuring the hw_type field in the
-samsung_dsim_plat_data structure like you did with the patch[1], you
-can use the appropriate register name for each SoC as shown below:
-if (dsi->plat_data->hw_type =3D=3D DSIM_TYPE_EXYNOS7870)
-    reg =3D samsung_dsim_read(dsi, DSIM_LINK_STATUS_REG);
-else
-    reg =3D samsung_dsim_read(dsi, DSIM_STATUS_REG);
-
-
-[1] [PATCH v2 12/13] drm/bridge: samsung-dsim: add driver support for
-exynos7870 DSIM bridge
-
-Thanks,
-Inki Dae
-
-
-> +       DSIM_LINK_STATUS_REG,   /* Link status register */
-> +       DSIM_DPHY_STATUS_REG,   /* D-PHY status register */
->         DSIM_SWRST_REG,         /* Software reset register */
->         DSIM_CLKCTRL_REG,       /* Clock control register */
->         DSIM_TIMEOUT_REG,       /* Time out register */
-> @@ -264,7 +265,8 @@ enum reg_idx {
->  };
->
->  static const unsigned int exynos_reg_ofs[] =3D {
-> -       [DSIM_STATUS_REG] =3D  0x00,
-> +       [DSIM_LINK_STATUS_REG] =3D  0x00,
-> +       [DSIM_DPHY_STATUS_REG] =3D  0x00,
->         [DSIM_SWRST_REG] =3D  0x04,
->         [DSIM_CLKCTRL_REG] =3D  0x08,
->         [DSIM_TIMEOUT_REG] =3D  0x0c,
-> @@ -288,7 +290,8 @@ static const unsigned int exynos_reg_ofs[] =3D {
->  };
->
->  static const unsigned int exynos5433_reg_ofs[] =3D {
-> -       [DSIM_STATUS_REG] =3D 0x04,
-> +       [DSIM_LINK_STATUS_REG] =3D 0x04,
-> +       [DSIM_DPHY_STATUS_REG] =3D 0x04,
->         [DSIM_SWRST_REG] =3D 0x0C,
->         [DSIM_CLKCTRL_REG] =3D 0x10,
->         [DSIM_TIMEOUT_REG] =3D 0x14,
-> @@ -690,7 +693,7 @@ static unsigned long samsung_dsim_set_pll(struct sams=
-ung_dsim *dsi,
->                         dev_err(dsi->dev, "PLL failed to stabilize\n");
->                         return 0;
->                 }
-> -               reg =3D samsung_dsim_read(dsi, DSIM_STATUS_REG);
-> +               reg =3D samsung_dsim_read(dsi, DSIM_LINK_STATUS_REG);
->         } while ((reg & DSIM_PLL_STABLE) =3D=3D 0);
->
->         dsi->hs_clock =3D fout;
-> @@ -966,7 +969,7 @@ static int samsung_dsim_init_link(struct samsung_dsim=
- *dsi)
->                         return -EFAULT;
->                 }
->
-> -               reg =3D samsung_dsim_read(dsi, DSIM_STATUS_REG);
-> +               reg =3D samsung_dsim_read(dsi, DSIM_DPHY_STATUS_REG);
->                 if ((reg & DSIM_STOP_STATE_DAT(lanes_mask))
->                     !=3D DSIM_STOP_STATE_DAT(lanes_mask))
->                         continue;
->
-> --
-> 2.49.0
->
->
