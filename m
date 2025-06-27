@@ -2,144 +2,91 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id BD006AEB235
-	for <lists+dri-devel@lfdr.de>; Fri, 27 Jun 2025 11:10:44 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 120C9AEB239
+	for <lists+dri-devel@lfdr.de>; Fri, 27 Jun 2025 11:11:03 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id CA4C210E98F;
-	Fri, 27 Jun 2025 09:10:37 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3FDB010E070;
+	Fri, 27 Jun 2025 09:11:01 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=suse.de header.i=@suse.de header.b="JatfKSJ9";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="TgnXE0GH";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="BDctnss4";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="rgyeLbjm";
+	dkim=pass (1024-bit key; unprotected) header.d=redhat.com header.i=@redhat.com header.b="HL+SYS+R";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 48AD310E9A0
- for <dri-devel@lists.freedesktop.org>; Fri, 27 Jun 2025 09:10:34 +0000 (UTC)
-Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org
- [IPv6:2a07:de40:b281:104:10:150:64:97])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
- (No client certificate requested)
- by smtp-out1.suse.de (Postfix) with ESMTPS id E671321168;
- Fri, 27 Jun 2025 09:10:32 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1751015433; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=mGlGrNh4lir6LEuKbM4EgxVUZ8fvllz0B4/UZNxy5J8=;
- b=JatfKSJ9IxS63xx7kUl9z/D1twBSQ5oysqnpU5mxMMCAXLF1gOR1OUJ81Bz1Ws7cjr4NBK
- qqWKVUV2Cy6gSNsxo1WkRHANBqM/ddcMfHs18UrLgp3DtOEYvS6ioO9H+OjQfRwbM3eaDP
- lLONCWshUQ2cplhM6iSAL4QG4qAOtwk=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1751015433;
- h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=mGlGrNh4lir6LEuKbM4EgxVUZ8fvllz0B4/UZNxy5J8=;
- b=TgnXE0GHO5nt4D9FCIHCUleL0RwRjwnxq6R/kZyBQ3K6H7tZdTZkjgNjT91kFyxbLAiwIC
- Xi32xl4hJWi66XAQ==
-Authentication-Results: smtp-out1.suse.de;
- dkim=pass header.d=suse.de header.s=susede2_rsa header.b=BDctnss4;
- dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=rgyeLbjm
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1751015432; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=mGlGrNh4lir6LEuKbM4EgxVUZ8fvllz0B4/UZNxy5J8=;
- b=BDctnss4RTCO7fNwLwSatGxe44ugNoeuT9G9vr17hvfD9ZW+2cqeaVYy1WW1JP0oAi9fQn
- xiwdYUku7yCK0Fa89DeN955KvIyf2GrKg7G+bzwU59VCHwXWrrkldVfTwxHiz3X4NDZKRe
- KKTc6fA9bZhGYMkwkg83uHJh1wVsaXA=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1751015432;
- h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=mGlGrNh4lir6LEuKbM4EgxVUZ8fvllz0B4/UZNxy5J8=;
- b=rgyeLbjmQY27j1622pswrdmvdboz7hNYCCYcW9l4qlCtXYhmSyVlh1HUVmaeAt1GRe5UK7
- lgV8BcyXgEOcz0AQ==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
- (No client certificate requested)
- by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id B2734138A7;
- Fri, 27 Jun 2025 09:10:32 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
- by imap1.dmz-prg2.suse.org with ESMTPSA id PsZbKghgXmizZwAAD6G6ig
- (envelope-from <tzimmermann@suse.de>); Fri, 27 Jun 2025 09:10:32 +0000
-Message-ID: <c53abfcc-47b5-4b39-be7a-48a354abf639@suse.de>
-Date: Fri, 27 Jun 2025 11:10:32 +0200
+Received: from us-smtp-delivery-124.mimecast.com
+ (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6D03B10E070
+ for <dri-devel@lists.freedesktop.org>; Fri, 27 Jun 2025 09:11:00 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1751015459;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=mUC4ot/biTlOA3flAzZtM+HH2WgND0ss9Osu67FHk8w=;
+ b=HL+SYS+RTTjzW65oCPrK1xsWSLgXQMIYo4Yp61bNyyBdfyzhczLVp5qmH90LpnJBJRm91W
+ +KXraU7ukMTnC1Op0IIswVHcJ7mwCfSBaLNFD5pUZLXmGKBJIgdE4rAoPxDXxiW4LMg7pD
+ M6H3AJ/s7L/n9Lw7xMI204Fu6wmP11E=
+Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
+ [209.85.128.72]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-650-wCw4urYiMraeTATEm1YfDA-1; Fri, 27 Jun 2025 05:10:56 -0400
+X-MC-Unique: wCw4urYiMraeTATEm1YfDA-1
+X-Mimecast-MFC-AGG-ID: wCw4urYiMraeTATEm1YfDA_1751015455
+Received: by mail-wm1-f72.google.com with SMTP id
+ 5b1f17b1804b1-4538f375e86so4146755e9.3
+ for <dri-devel@lists.freedesktop.org>; Fri, 27 Jun 2025 02:10:56 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1751015455; x=1751620255;
+ h=mime-version:message-id:date:references:in-reply-to:subject:cc:to
+ :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=mUC4ot/biTlOA3flAzZtM+HH2WgND0ss9Osu67FHk8w=;
+ b=M9AZdwAkkwHm6KrU1JEUHZWv+ufMx6G571d2bv+QQs7lPci3erfMoEFSro6VhZMpF5
+ CaDXOvukqdaHfi4gkSklxKqFEMg2PiQuVo+19TFPs1A+pOocQ6y1q+fVn0wKdRbsRIO3
+ oCUDXOhraqmgu9qsrxFRbWAAD3bWIU6AwzOmqGKozh1m/a5MZoTm10xqvz7a5iFMxqst
+ piJTRV0wCkzxYIPHnAOi4lZDltfjj97dr1I/nXZoZb/cXKLGGLoGoTSS7NURdp0Q7H2d
+ wuaTQPNlVfIZENjl6WfAmkxf6+53B/8xbo/P492GbCQuCJqWLHAmRQW4fQmToH5jVIdt
+ sn8Q==
+X-Gm-Message-State: AOJu0YyHT2K3eni98V9BO7daySuJYVeL8vxJqlua/Lj/dm1kabNw9fut
+ d6YZvkb57WWa/KK9gv3RY+fLFDKpuZvYaIrjXmqt0+2hMSckNaxh9sEzcSCinkWZOyaMfhD8L8V
+ 3aDKpwVKJu27GffSsXIg61X/kuX58YQVu59yaozJvbl9UboQGzEBKeGBNz5h4CTFINImftw==
+X-Gm-Gg: ASbGncuoiple/KfRYx3y1I4JuXt/2waVqs0Z55Erl5xgnrOOpOtIdPbed+IpmbbtSD2
+ KkV1MLun4MuDvVc6i5E+zZxBZyTU8Lp7IXRQJZ8jEMcxVT6v8J8LtO3c6YFZyuVdGIfxXqpDiWx
+ goJ6IwR1/V2p0wUE00BFjqBPxRJHJTtTpbVipRr9u2o6F0lbaWF6dtJqMa6INu01sL+rM3fgUWT
+ jKexahXEnTsgk1iddBiyKgJRaAO/g4LLFv/tjaeAr4ZN1YIUfY4Bl0QJ/QH3k+y5Bouvgp7+96Q
+ 8AnK8oHighWm3DJz/U2bsG1ai87G9y27LSfqdUEwPPR6ezZk4Wf+/pMxRF6DxPr0tmJ5PUOlTO0
+ XlxRY
+X-Received: by 2002:a05:600c:c11b:b0:450:cfa7:5ea1 with SMTP id
+ 5b1f17b1804b1-4538ee55a30mr23815225e9.16.1751015455335; 
+ Fri, 27 Jun 2025 02:10:55 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IEQ7MaK0HmuWyyuY3zMxmw4kpnQSfAZcXQCqQyG9nCH8ffS6eu1mWyaOP2gY64R2TPU1aKhZA==
+X-Received: by 2002:a05:600c:c11b:b0:450:cfa7:5ea1 with SMTP id
+ 5b1f17b1804b1-4538ee55a30mr23814955e9.16.1751015454908; 
+ Fri, 27 Jun 2025 02:10:54 -0700 (PDT)
+Received: from localhost (62-151-111-63.jazzfree.ya.com. [62.151.111.63])
+ by smtp.gmail.com with ESMTPSA id
+ 5b1f17b1804b1-4538f2fec5fsm18153555e9.40.2025.06.27.02.10.54
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Fri, 27 Jun 2025 02:10:54 -0700 (PDT)
+From: Javier Martinez Canillas <javierm@redhat.com>
+To: Maxime Ripard <mripard@kernel.org>, Neil Armstrong
+ <neil.armstrong@linaro.org>, Jessica Zhang <quic_jesszhan@quicinc.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, Thomas Zimmermann
+ <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>, Simona Vetter
+ <simona@ffwll.ch>, Luca Ceresoli <luca.ceresoli@bootlin.com>, Anusha
+ Srivatsa <asrivats@redhat.com>, Francesco Dolcini <francesco@dolcini.it>
+Cc: dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org, Maxime
+ Ripard <mripard@kernel.org>
+Subject: Re: [PATCH v2 3/5] drm/panel: panel-simple: Make panel_simple_probe
+ return its panel
+In-Reply-To: <20250626-drm-panel-simple-fixes-v2-3-5afcaa608bdc@kernel.org>
+References: <20250626-drm-panel-simple-fixes-v2-0-5afcaa608bdc@kernel.org>
+ <20250626-drm-panel-simple-fixes-v2-3-5afcaa608bdc@kernel.org>
+Date: Fri, 27 Jun 2025 11:10:53 +0200
+Message-ID: <875xghczxe.fsf@minerva.mail-host-address-is-not-set>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] fbdev: efifb: do not load efifb if PCI BAR has changed
- but not fixuped
-To: oushixiong1025@163.com, Helge Deller <deller@gmx.de>
-Cc: Peter Jones <pjones@redhat.com>, linux-fbdev@vger.kernel.org,
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- Shixiong Ou <oushixiong@kylinos.cn>
-References: <20250626094937.515552-1-oushixiong1025@163.com>
-Content-Language: en-US
-From: Thomas Zimmermann <tzimmermann@suse.de>
-Autocrypt: addr=tzimmermann@suse.de; keydata=
- xsBNBFs50uABCADEHPidWt974CaxBVbrIBwqcq/WURinJ3+2WlIrKWspiP83vfZKaXhFYsdg
- XH47fDVbPPj+d6tQrw5lPQCyqjwrCPYnq3WlIBnGPJ4/jreTL6V+qfKRDlGLWFjZcsrPJGE0
- BeB5BbqP5erN1qylK9i3gPoQjXGhpBpQYwRrEyQyjuvk+Ev0K1Jc5tVDeJAuau3TGNgah4Yc
- hdHm3bkPjz9EErV85RwvImQ1dptvx6s7xzwXTgGAsaYZsL8WCwDaTuqFa1d1jjlaxg6+tZsB
- 9GluwvIhSezPgnEmimZDkGnZRRSFiGP8yjqTjjWuf0bSj5rUnTGiyLyRZRNGcXmu6hjlABEB
- AAHNJ1Rob21hcyBaaW1tZXJtYW5uIDx0emltbWVybWFubkBzdXNlLmRlPsLAjgQTAQgAOAIb
- AwULCQgHAgYVCgkICwIEFgIDAQIeAQIXgBYhBHIX+6yM6c9jRKFo5WgNwR1TC3ojBQJftODH
- AAoJEGgNwR1TC3ojx1wH/0hKGWugiqDgLNXLRD/4TfHBEKmxIrmfu9Z5t7vwUKfwhFL6hqvo
- lXPJJKQpQ2z8+X2vZm/slsLn7J1yjrOsoJhKABDi+3QWWSGkaGwRJAdPVVyJMfJRNNNIKwVb
- U6B1BkX2XDKDGffF4TxlOpSQzdtNI/9gleOoUA8+jy8knnDYzjBNOZqLG2FuTdicBXblz0Mf
- vg41gd9kCwYXDnD91rJU8tzylXv03E75NCaTxTM+FBXPmsAVYQ4GYhhgFt8S2UWMoaaABLDe
- 7l5FdnLdDEcbmd8uLU2CaG4W2cLrUaI4jz2XbkcPQkqTQ3EB67hYkjiEE6Zy3ggOitiQGcqp
- j//OwE0EWznS4AEIAMYmP4M/V+T5RY5at/g7rUdNsLhWv1APYrh9RQefODYHrNRHUE9eosYb
- T6XMryR9hT8XlGOYRwKWwiQBoWSDiTMo/Xi29jUnn4BXfI2px2DTXwc22LKtLAgTRjP+qbU6
- 3Y0xnQN29UGDbYgyyK51DW3H0If2a3JNsheAAK+Xc9baj0LGIc8T9uiEWHBnCH+RdhgATnWW
- GKdDegUR5BkDfDg5O/FISymJBHx2Dyoklv5g4BzkgqTqwmaYzsl8UxZKvbaxq0zbehDda8lv
- hFXodNFMAgTLJlLuDYOGLK2AwbrS3Sp0AEbkpdJBb44qVlGm5bApZouHeJ/+n+7r12+lqdsA
- EQEAAcLAdgQYAQgAIAIbDBYhBHIX+6yM6c9jRKFo5WgNwR1TC3ojBQJftOH6AAoJEGgNwR1T
- C3ojVSkIALpAPkIJPQoURPb1VWjh34l0HlglmYHvZszJWTXYwavHR8+k6Baa6H7ufXNQtThR
- yIxJrQLW6rV5lm7TjhffEhxVCn37+cg0zZ3j7zIsSS0rx/aMwi6VhFJA5hfn3T0TtrijKP4A
- SAQO9xD1Zk9/61JWk8OysuIh7MXkl0fxbRKWE93XeQBhIJHQfnc+YBLprdnxR446Sh8Wn/2D
- Ya8cavuWf2zrB6cZurs048xe0UbSW5AOSo4V9M0jzYI4nZqTmPxYyXbm30Kvmz0rYVRaitYJ
- 4kyYYMhuULvrJDMjZRvaNe52tkKAvMevcGdt38H4KSVXAylqyQOW5zvPc4/sq9c=
-In-Reply-To: <20250626094937.515552-1-oushixiong1025@163.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-Spamd-Result: default: False [-4.51 / 50.00]; BAYES_HAM(-3.00)[100.00%];
- NEURAL_HAM_LONG(-1.00)[-1.000];
- R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
- NEURAL_HAM_SHORT(-0.20)[-1.000]; MIME_GOOD(-0.10)[text/plain];
- MX_GOOD(-0.01)[];
- DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
- FUZZY_BLOCKED(0.00)[rspamd.com];
- FREEMAIL_TO(0.00)[163.com,gmx.de];
- RBL_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:104:10:150:64:97:from]; 
- TO_DN_SOME(0.00)[]; TO_MATCH_ENVRCPT_ALL(0.00)[];
- MIME_TRACE(0.00)[0:+]; ARC_NA(0.00)[];
- FREEMAIL_ENVRCPT(0.00)[163.com,gmx.de]; RCVD_TLS_ALL(0.00)[];
- DKIM_TRACE(0.00)[suse.de:+]; RCVD_COUNT_TWO(0.00)[2];
- FROM_EQ_ENVFROM(0.00)[]; FROM_HAS_DN(0.00)[];
- SPAMHAUS_XBL(0.00)[2a07:de40:b281:104:10:150:64:97:from];
- DNSWL_BLOCKED(0.00)[2a07:de40:b281:106:10:150:64:167:received,2a07:de40:b281:104:10:150:64:97:from];
- RCPT_COUNT_SEVEN(0.00)[7]; MID_RHS_MATCH_FROM(0.00)[];
- RCVD_VIA_SMTP_AUTH(0.00)[];
- RECEIVED_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:106:10:150:64:167:received];
- DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:helo,
- imap1.dmz-prg2.suse.org:rdns]
-X-Spam-Level: 
-X-Spam-Flag: NO
-X-Rspamd-Queue-Id: E671321168
-X-Rspamd-Action: no action
-X-Rspamd-Server: rspamd1.dmz-prg2.suse.org
-X-Spam-Score: -4.51
+X-Mimecast-Spam-Score: 0
+X-Mimecast-MFC-PROC-ID: 86JSqunah-7LI5UJnTzHF3AsuzLUlUp37fCXgkJAnPg_1751015455
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -155,150 +102,59 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi
+Maxime Ripard <mripard@kernel.org> writes:
 
-Am 26.06.25 um 11:49 schrieb oushixiong1025@163.com:
-> From: Shixiong Ou <oushixiong@kylinos.cn>
+> In order to fix the regession introduced by commit de04bb0089a9
+> ("drm/panel/panel-simple: Use the new allocation in place of
+> devm_kzalloc()"), we need to move the panel_desc lookup into the common
+> panel_simple_probe() function.
 >
-> [WHY]
-> On an ARM machine, the following log is present:
-> [    0.900884] efifb: framebuffer at 0x1020000000, using 3072k, total 3072k
-> [    2.297884] amdgpu 0000:04:00.0: remove_conflicting_pci_framebuffers: bar 0: 0x1000000000 -> 0x100fffffff
-> [    2.297886] amdgpu 0000:04:00.0: remove_conflicting_pci_framebuffers: bar 2: 0x1010000000 -> 0x10101fffff
-> [    2.297888] amdgpu 0000:04:00.0: remove_conflicting_pci_framebuffers: bar 5: 0x58200000 -> 0x5823ffff
+> There's two callers for that function, the probe implementations of the
+> platform and MIPI-DSI drivers panel-simple implements.
 >
-> It show that the efifb framebuffer base is out of PCI BAR, and this
-> results in both efi-framebuffer and amdgpudrmfb co-existing.
+> The MIPI-DSI driver's probe will need to access the current panel_desc
+> to initialize properly, which won't be possible anymore if we make that
+> lookup in panel_simple_probe().
 >
-> The fbcon will be bound to efi-framebuffer by default and cannot be used.
+> However, we can make panel_simple_probe() return the initialized
+> panel_simple structure it allocated, which will contain a pointer to the
+> associated panel_desc in its desc field.
 >
-> [HOW]
-> Do not load efifb driver if PCI BAR has changed but not fixuped.
-> In the following cases:
-> 	1. screen_info_lfb_pdev is NULL.
-> 	2. __screen_info_relocation_is_valid return false.
+> This doesn't fix de04bb0089a9 ("drm/panel/panel-simple: Use the new
+> allocation in place of devm_kzalloc()") still, but makes progress
+> towards that goal.
 >
-> Signed-off-by: Shixiong Ou <oushixiong@kylinos.cn>
+> Fixes: de04bb0089a9 ("drm/panel/panel-simple: Use the new allocation in place of devm_kzalloc()")
+> Signed-off-by: Maxime Ripard <mripard@kernel.org>
 > ---
->   drivers/video/fbdev/efifb.c     |  4 ++++
->   drivers/video/screen_info_pci.c | 24 ++++++++++++++++++++++++
->   include/linux/screen_info.h     |  5 +++++
->   3 files changed, 33 insertions(+)
->
-> diff --git a/drivers/video/fbdev/efifb.c b/drivers/video/fbdev/efifb.c
-> index 0e1bd3dba255..de8d016c9a66 100644
-> --- a/drivers/video/fbdev/efifb.c
-> +++ b/drivers/video/fbdev/efifb.c
-> @@ -303,6 +303,10 @@ static void efifb_setup(struct screen_info *si, char *options)
->   
->   static inline bool fb_base_is_valid(struct screen_info *si)
->   {
-> +	/* check whether fb_base has changed but not fixuped */
-> +	if (!screen_info_is_useful())
-> +		return false;
-> +
->   	if (si->lfb_base)
->   		return true;
->   
-> diff --git a/drivers/video/screen_info_pci.c b/drivers/video/screen_info_pci.c
-> index 66bfc1d0a6dc..ac57dcaf0cac 100644
-> --- a/drivers/video/screen_info_pci.c
-> +++ b/drivers/video/screen_info_pci.c
-> @@ -9,6 +9,8 @@ static struct pci_dev *screen_info_lfb_pdev;
->   static size_t screen_info_lfb_bar;
->   static resource_size_t screen_info_lfb_res_start; // original start of resource
->   static resource_size_t screen_info_lfb_offset; // framebuffer offset within resource
-> +static bool screen_info_changed;
-> +static bool screen_info_fixuped;
->   
->   static bool __screen_info_relocation_is_valid(const struct screen_info *si, struct resource *pr)
->   {
-> @@ -24,6 +26,24 @@ static bool __screen_info_relocation_is_valid(const struct screen_info *si, stru
->   	return true;
->   }
->   
-> +bool screen_info_is_useful(void)
-> +{
-> +	unsigned int type;
-> +	const struct screen_info *si = &screen_info;
-> +
-> +	type = screen_info_video_type(si);
-> +	if (type != VIDEO_TYPE_EFI)
-> +		return true;
-> +
-> +	if (screen_info_changed && !screen_info_fixuped) {
-> +		pr_warn("The screen_info has changed but not fixuped");
-> +		return false;
-> +	}
-> +
-> +	pr_info("The screen_info is useful");
-> +	return true;
-> +}
-> +
->   void screen_info_apply_fixups(void)
->   {
->   	struct screen_info *si = &screen_info;
-> @@ -32,18 +52,22 @@ void screen_info_apply_fixups(void)
->   		struct resource *pr = &screen_info_lfb_pdev->resource[screen_info_lfb_bar];
->   
->   		if (pr->start != screen_info_lfb_res_start) {
-> +			screen_info_changed = true;
->   			if (__screen_info_relocation_is_valid(si, pr)) {
->   				/*
->   				 * Only update base if we have an actual
->   				 * relocation to a valid I/O range.
->   				 */
->   				__screen_info_set_lfb_base(si, pr->start + screen_info_lfb_offset);
-> +				screen_info_fixuped = true;
->   				pr_info("Relocating firmware framebuffer to offset %pa[d] within %pr\n",
->   					&screen_info_lfb_offset, pr);
->   			} else {
->   				pr_warn("Invalid relocating, disabling firmware framebuffer\n");
 
-Here it says to disable the framebuffer, but does not actually disable 
-anything. Instead of adding new interfaces, simply do
+[...]
 
-   screen_info.orig_video_isVGA = 0;
+> -static int panel_simple_probe(struct device *dev, const struct panel_desc *desc)
+> +static struct panel_simple *panel_simple_probe(struct device *dev, const struct panel_desc *desc)
+>  {
 
-in this branch. Further kernel code will then ignore the framebuffer. 
-Also works with VIDEO_TYPE_VLFB.
+[...]
 
-Best regards
-Thomas
+>  
+>  	ddc = of_parse_phandle(dev->of_node, "ddc-i2c-bus", 0);
+>  	if (ddc) {
+>  		panel->ddc = of_find_i2c_adapter_by_node(ddc);
+>  		of_node_put(ddc);
+>  
+>  		if (!panel->ddc)
+> -			return -EPROBE_DEFER;
+> +			return ERR_PTR(-EPROBE_DEFER);
 
->   			}
->   		}
-> +	} else {
-> +		screen_info_changed = true;
->   	}
->   }
->   
-> diff --git a/include/linux/screen_info.h b/include/linux/screen_info.h
-> index 923d68e07679..632cdbb1adbe 100644
-> --- a/include/linux/screen_info.h
-> +++ b/include/linux/screen_info.h
-> @@ -138,9 +138,14 @@ ssize_t screen_info_resources(const struct screen_info *si, struct resource *r,
->   u32 __screen_info_lfb_bits_per_pixel(const struct screen_info *si);
->   
->   #if defined(CONFIG_PCI)
-> +bool screen_info_is_useful(void);
->   void screen_info_apply_fixups(void);
->   struct pci_dev *screen_info_pci_dev(const struct screen_info *si);
->   #else
-> +bool screen_info_is_useful(void)
-> +{
-> +	return true;
-> +}
->   static inline void screen_info_apply_fixups(void)
->   { }
->   static inline struct pci_dev *screen_info_pci_dev(const struct screen_info *si)
+Not related with your patch, but it would be great to also add a
+dev_err_probe() here to record the reason of this probe deferral.
+
+Reviewed-by: Javier Martinez Canillas <javierm@redhat.com>
 
 -- 
---
-Thomas Zimmermann
-Graphics Driver Developer
-SUSE Software Solutions Germany GmbH
-Frankenstrasse 146, 90461 Nuernberg, Germany
-GF: Ivo Totev, Andrew Myers, Andrew McDonald, Boudien Moerman
-HRB 36809 (AG Nuernberg)
+Best regards,
+
+Javier Martinez Canillas
+Core Platforms
+Red Hat
 
