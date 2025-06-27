@@ -2,95 +2,72 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4540BAEB3AA
-	for <lists+dri-devel@lfdr.de>; Fri, 27 Jun 2025 12:02:50 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 73C56AEB3BB
+	for <lists+dri-devel@lfdr.de>; Fri, 27 Jun 2025 12:05:44 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B1DB710E9A2;
-	Fri, 27 Jun 2025 10:02:47 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 90C7010E9BC;
+	Fri, 27 Jun 2025 10:05:42 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=redhat.com header.i=@redhat.com header.b="H2ULDXco";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="WwmNx5g7";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [170.10.129.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E939D10E9A2
- for <dri-devel@lists.freedesktop.org>; Fri, 27 Jun 2025 10:02:45 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1751018564;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=JruzEJIRQhce3mYeDqfrw5tsAk7gf7uEqexFvMHB+aQ=;
- b=H2ULDXcoYSxzfJDMT8q1mbApcDdV0OWNeLXRc8szkZvDqTyBaT6/NInzcMtySWjDRJ/5/H
- yoUzmkzoRD63b40sutekOFEGrk47See9ObBrms7WUqhjNroymBH+P49okx954IXzp9G7eZ
- sFdhXD3+QwyFIcapiPRnD0sGQuqSrrY=
-Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
- [209.85.128.69]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-187-x_wvfY-nNo2KuU0eT3Y0xw-1; Fri, 27 Jun 2025 06:02:43 -0400
-X-MC-Unique: x_wvfY-nNo2KuU0eT3Y0xw-1
-X-Mimecast-MFC-AGG-ID: x_wvfY-nNo2KuU0eT3Y0xw_1751018562
-Received: by mail-wm1-f69.google.com with SMTP id
- 5b1f17b1804b1-4530ec2c87cso9214745e9.0
- for <dri-devel@lists.freedesktop.org>; Fri, 27 Jun 2025 03:02:43 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1751018562; x=1751623362;
- h=mime-version:message-id:date:references:in-reply-to:subject:cc:to
- :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=JruzEJIRQhce3mYeDqfrw5tsAk7gf7uEqexFvMHB+aQ=;
- b=XHiMwcnCt1GwAlB6q546YgTuG1UbbqaKQ2WoLB4oa63PRi+zElWBNQpcsSDnEsHkT4
- 57BEVoynSVIhiFyRo9x4ykNciOnHg04bliiRblkU+DCmDg+CIsEecnbkvM+UFjUqxupL
- eZVW/MQU9VZbDQ4RVsGIXafE4Y2e8UsFksXm8cMjim29K+eSkdQ2k4c1wwAVDSpPOD8c
- yoVF5+yY28zGc5ypkMlkm/RWu2r6B2K0GI0shzPNeTC5I0ZCillVFlGbkFSHlLnaO/ii
- HYxUfcBUb4hKfzpCcbkb88hyqyGqWtNVHifDjMTbyAacEld8W43ghzuQkSZD/Bh026qb
- 1DnQ==
-X-Forwarded-Encrypted: i=1;
- AJvYcCU7C90iqT3xr0Q/k0wO0qtsuxcEmBHFMsd6maZyqtX5If5iR6lEQCFw5tA9HX1NoFHvl0AXgad0XeA=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0Yy+Lzk2wfEv+GoN9vT56j+k82osZq7nT7UF2FYxb9uYAuvbcrOd
- 860gGvoZz0dJy7tJOAUnuDzO6dbw6kdtjXPdiOxCH5c40wR7QutbiEYVEf4zUhFaV+KIO+Stpha
- 38c1hak5YOARsn2tB/MXge5pl1NFsqwiapwRyXTbTSS4C2OrMUqRoN7hG9ewDG8plEusUMg==
-X-Gm-Gg: ASbGncutqr8Y24b1PfSiLpDe87pm5lpZt6EOgFO4xpokoaVbHkfmlBGngBH49iNtvap
- mngzFvXyk0SCdhMFGzLDPW1BmFctgIvjFJqAmzyYjh/UNpD+snoarNB8SzvXxBzmjIda6GAwR3r
- NB+15fs5nfkHB+thWjVoyGvTpPPD5QQzDbakuCYxG/7UQSO0ICogY5brkeuXx+TZeOIXp5hKBW0
- nVF9LzlzuZKTUkZIwcWhMBjLf8+ARoyQPoX0+tofw1juHL+IdNZBKuSj/xF70W4YfYlgvzr0abZ
- 51kd5+A3cpefKnReSDM18GmqwxbtbBJpceCKsjBMm5UElLw8HGHyNLQNGrenqJtVj1Fz+550aEi
- hhA+G
-X-Received: by 2002:a05:600c:1388:b0:453:6146:1182 with SMTP id
- 5b1f17b1804b1-4538ee81e72mr24527125e9.32.1751018561964; 
- Fri, 27 Jun 2025 03:02:41 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IEwb9GAheZs7CdFHttEfxVdyFchwFX9maJhmXPPUtAcTAKpVIiwYykxGlnMkLxlaLZoZwT/uQ==
-X-Received: by 2002:a05:600c:1388:b0:453:6146:1182 with SMTP id
- 5b1f17b1804b1-4538ee81e72mr24526645e9.32.1751018561487; 
- Fri, 27 Jun 2025 03:02:41 -0700 (PDT)
-Received: from localhost (62-151-111-63.jazzfree.ya.com. [62.151.111.63])
- by smtp.gmail.com with ESMTPSA id
- 5b1f17b1804b1-4538a3fe0efsm45121195e9.24.2025.06.27.03.02.40
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 27 Jun 2025 03:02:40 -0700 (PDT)
-From: Javier Martinez Canillas <javierm@redhat.com>
-To: Luca Weiss <luca.weiss@fairphone.com>, Hans de Goede
- <hdegoede@redhat.com>, Maarten Lankhorst
- <maarten.lankhorst@linux.intel.com>, Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
- Simona Vetter <simona@ffwll.ch>, Rob Herring <robh@kernel.org>, Krzysztof
- Kozlowski <krzk+dt@kernel.org>, Conor
- Dooley <conor+dt@kernel.org>, Helge Deller <deller@gmx.de>
-Cc: linux-fbdev@vger.kernel.org, dri-devel@lists.freedesktop.org,
- devicetree@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v2 5/5] fbdev/simplefb: Add support for interconnect paths
-In-Reply-To: <DAX814DZF6AT.31N8TZWL5LMDT@fairphone.com>
-References: <20250623-simple-drm-fb-icc-v2-0-f69b86cd3d7d@fairphone.com>
- <20250623-simple-drm-fb-icc-v2-5-f69b86cd3d7d@fairphone.com>
- <87ldpdd3dn.fsf@minerva.mail-host-address-is-not-set>
- <DAX814DZF6AT.31N8TZWL5LMDT@fairphone.com>
-Date: Fri, 27 Jun 2025 12:02:38 +0200
-Message-ID: <87qzz5biyp.fsf@minerva.mail-host-address-is-not-set>
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1408D10E9B7;
+ Fri, 27 Jun 2025 10:05:41 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1751018741; x=1782554741;
+ h=message-id:date:mime-version:subject:to:references:from:
+ in-reply-to:content-transfer-encoding;
+ bh=U/iUPHZms8/d1NTXseNwYjOJRWmmDMGgAZNq0coOhs0=;
+ b=WwmNx5g7e3j8LfKzYgj5TyPJCsE34I4FDkxXvC1x1oYtH3W/zmf/iICi
+ u8AUb6Uf3x20FpwZiR9ktW2TaNn+EfgRfrEHXFAWrNvjNFnjPVN72ranZ
+ zIicyMdx54z90T8gufPRLwC8IYxfvj94BDRUcMxY2I4GRDjYead111PmX
+ bt2tEiuUOC4n4hT8V+d059u93gMQMWXe1FdlqxJfvN3NXMqxoL65u/rWy
+ iOYQAstUShY0l/OCIxSfNrpk6QTonMwg4AuJJRBuqhs5pVkbmAoLdeNlb
+ WvVSksbpeKnZaVEXYkMN6dfWK5yAfX+z0C9NAaE2UC29F0pBwyzDlw1rO g==;
+X-CSE-ConnectionGUID: 6ZxL7cU9RlO4e4nPjpznkQ==
+X-CSE-MsgGUID: UiVYMvhCR+qyGY+W1NBYCg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11476"; a="64019349"
+X-IronPort-AV: E=Sophos;i="6.16,270,1744095600"; d="scan'208";a="64019349"
+Received: from orviesa004.jf.intel.com ([10.64.159.144])
+ by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 27 Jun 2025 03:05:41 -0700
+X-CSE-ConnectionGUID: Sg5LPVnvQsax1LVExsuxxg==
+X-CSE-MsgGUID: 55Ja624hRB+Qm9dlYTWKyg==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.16,270,1744095600"; d="scan'208";a="157315117"
+Received: from dalessan-mobl3.ger.corp.intel.com (HELO [10.245.245.17])
+ ([10.245.245.17])
+ by orviesa004-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 27 Jun 2025 03:05:36 -0700
+Message-ID: <3c948554-cc0a-4ccd-a010-41260dc7a3b2@linux.intel.com>
+Date: Fri, 27 Jun 2025 12:05:33 +0200
 MIME-Version: 1.0
-X-Mimecast-Spam-Score: 0
-X-Mimecast-MFC-PROC-ID: vnOipJx_kJeremLEsBDZu59JwedR3VjnhWCejIFrTxA_1751018562
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v10 05/10] drm/ttm: Add ttm_bo_kmap_try_from_panic()
+To: =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
+ Jocelyn Falempe <jfalempe@redhat.com>,
+ Jani Nikula <jani.nikula@linux.intel.com>,
+ Rodrigo Vivi <rodrigo.vivi@intel.com>,
+ Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
+ Tvrtko Ursulin <tursulin@ursulin.net>,
+ =?UTF-8?B?VmlsbGUgU3lyasOkbMOk?= <ville.syrjala@linux.intel.com>,
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+ Huang Rui <ray.huang@amd.com>, Matthew Auld <matthew.auld@intel.com>,
+ Matthew Brost <matthew.brost@intel.com>, Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>, intel-gfx@lists.freedesktop.org,
+ intel-xe@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org
+References: <20250618094011.238154-1-jfalempe@redhat.com>
+ <20250618094011.238154-6-jfalempe@redhat.com>
+ <c44f4194-69e5-41bf-bbc6-2e399be2b627@amd.com>
+Content-Language: en-US
+From: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
+In-Reply-To: <c44f4194-69e5-41bf-bbc6-2e399be2b627@amd.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -106,36 +83,93 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-"Luca Weiss" <luca.weiss@fairphone.com> writes:
+Hey,
 
-> On Fri Jun 27, 2025 at 9:56 AM CEST, Javier Martinez Canillas wrote:
-
-[...]
-
->> These two functions contain the same logic that you are using in the
->> simpledrm driver. I wonder if could be made helpers so that the code
->> isn't duplicated in both drivers.
->
-> I believe most resource handling code (clocks, regulators,
-> power-domains, plus now interconnect) should be pretty generic between
-> the two.
->
-
-Yeah.
-
+On 2025-06-18 15:55, Christian König wrote:
+> 
+> 
+> On 6/18/25 11:31, Jocelyn Falempe wrote:
+>> If the ttm bo is backed by pages, then it's possible to safely kmap
+>> one page at a time, using kmap_try_from_panic().
+>> Unfortunately there is no way to do the same with ioremap, so it
+>> only supports the kmap case.
+>> This is needed for proper drm_panic support with xe driver.
 >>
->> But in any case it could be a follow-up of your series I think.
->
-> To be fair, I don't think I'll work on this, I've got plenty of Qualcomm
-> SoC-specific bits to work on :)
->
+>> Signed-off-by: Jocelyn Falempe <jfalempe@redhat.com>
+> 
+> Reviewed-by: Christian König <christian.koenig@amd.com>
+> 
+> Preferred through drm-misc-next, but feel free to merge it through every branch you want if it makes thinks easier for you.
+> 
+Thanks for the ack there. I had to merge this patch through drm-intel-next-queued because of a rework affecting the series.
 
-That's OK :) It was just a drive by comment, but as said I don't think
-that this code duplication should be a blocker for this patch series.
--- 
-Best regards,
-
-Javier Martinez Canillas
-Core Platforms
-Red Hat
+Kind regards,
+~Maarten
+> Regards,
+> Christian.
+> 
+>> ---
+>>
+>> v8:
+>>  * Added in v8
+>>
+>> v9:
+>>  * Fix comment in ttm_bo_kmap_try_from_panic(), this can *only* be called
+>>    from the panic handler (Christian König)
+>>
+>>  drivers/gpu/drm/ttm/ttm_bo_util.c | 27 +++++++++++++++++++++++++++
+>>  include/drm/ttm/ttm_bo.h          |  1 +
+>>  2 files changed, 28 insertions(+)
+>>
+>> diff --git a/drivers/gpu/drm/ttm/ttm_bo_util.c b/drivers/gpu/drm/ttm/ttm_bo_util.c
+>> index 15cab9bda17f..6912e6dfda25 100644
+>> --- a/drivers/gpu/drm/ttm/ttm_bo_util.c
+>> +++ b/drivers/gpu/drm/ttm/ttm_bo_util.c
+>> @@ -377,6 +377,33 @@ static int ttm_bo_kmap_ttm(struct ttm_buffer_object *bo,
+>>  	return (!map->virtual) ? -ENOMEM : 0;
+>>  }
+>>  
+>> +/**
+>> + *
+>> + * ttm_bo_kmap_try_from_panic
+>> + *
+>> + * @bo: The buffer object
+>> + * @page: The page to map
+>> + *
+>> + * Sets up a kernel virtual mapping using kmap_local_page_try_from_panic().
+>> + * This should only be called from the panic handler, if you make sure the bo
+>> + * is the one being displayed, so is properly allocated, and protected.
+>> + *
+>> + * Returns the vaddr, that you can use to write to the bo, and that you should
+>> + * pass to kunmap_local() when you're done with this page, or NULL if the bo
+>> + * is in iomem.
+>> + */
+>> +void *ttm_bo_kmap_try_from_panic(struct ttm_buffer_object *bo, unsigned long page)
+>> +{
+>> +	if (page + 1 > PFN_UP(bo->resource->size))
+>> +		return NULL;
+>> +
+>> +	if (!bo->resource->bus.is_iomem && bo->ttm->pages && bo->ttm->pages[page])
+>> +		return kmap_local_page_try_from_panic(bo->ttm->pages[page]);
+>> +
+>> +	return NULL;
+>> +}
+>> +EXPORT_SYMBOL(ttm_bo_kmap_try_from_panic);
+>> +
+>>  /**
+>>   * ttm_bo_kmap
+>>   *
+>> diff --git a/include/drm/ttm/ttm_bo.h b/include/drm/ttm/ttm_bo.h
+>> index cf027558b6db..8c0ce3fa077f 100644
+>> --- a/include/drm/ttm/ttm_bo.h
+>> +++ b/include/drm/ttm/ttm_bo.h
+>> @@ -429,6 +429,7 @@ int ttm_bo_init_validate(struct ttm_device *bdev, struct ttm_buffer_object *bo,
+>>  int ttm_bo_kmap(struct ttm_buffer_object *bo, unsigned long start_page,
+>>  		unsigned long num_pages, struct ttm_bo_kmap_obj *map);
+>>  void ttm_bo_kunmap(struct ttm_bo_kmap_obj *map);
+>> +void *ttm_bo_kmap_try_from_panic(struct ttm_buffer_object *bo, unsigned long page);
+>>  int ttm_bo_vmap(struct ttm_buffer_object *bo, struct iosys_map *map);
+>>  void ttm_bo_vunmap(struct ttm_buffer_object *bo, struct iosys_map *map);
+>>  int ttm_bo_mmap_obj(struct vm_area_struct *vma, struct ttm_buffer_object *bo);
+> 
 
