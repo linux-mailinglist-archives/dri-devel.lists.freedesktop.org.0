@@ -2,43 +2,44 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id BE0B4AEB342
-	for <lists+dri-devel@lfdr.de>; Fri, 27 Jun 2025 11:48:11 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 43E4CAEB344
+	for <lists+dri-devel@lfdr.de>; Fri, 27 Jun 2025 11:48:14 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 08F0B10E9A9;
-	Fri, 27 Jun 2025 09:48:05 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 719B110E99A;
+	Fri, 27 Jun 2025 09:48:12 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=bootlin.com header.i=@bootlin.com header.b="grQjveN9";
+	dkim=pass (2048-bit key; unprotected) header.d=bootlin.com header.i=@bootlin.com header.b="k2JYZRMS";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mslow3.mail.gandi.net (mslow3.mail.gandi.net [217.70.178.249])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 08E7C10E9A0
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 09DED10E9A6
  for <dri-devel@lists.freedesktop.org>; Fri, 27 Jun 2025 09:48:02 +0000 (UTC)
-Received: from relay16.mail.gandi.net (relay16.mail.gandi.net [217.70.178.236])
- by mslow3.mail.gandi.net (Postfix) with ESMTP id 247855867F4
- for <dri-devel@lists.freedesktop.org>; Fri, 27 Jun 2025 09:12:54 +0000 (UTC)
-Received: by mail.gandi.net (Postfix) with ESMTPSA id 9396D438D0;
- Fri, 27 Jun 2025 09:12:51 +0000 (UTC)
+Received: from relay16.mail.gandi.net (relay16.mail.gandi.net
+ [IPv6:2001:4b98:dc4:8::236])
+ by mslow3.mail.gandi.net (Postfix) with ESMTP id 123705867F6
+ for <dri-devel@lists.freedesktop.org>; Fri, 27 Jun 2025 09:12:55 +0000 (UTC)
+Received: by mail.gandi.net (Postfix) with ESMTPSA id 9DA13438D5;
+ Fri, 27 Jun 2025 09:12:52 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
- t=1751015572;
+ t=1751015573;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=vr0T2pNUq0SPCwrqPVAq1LbhS4QqKuEpfagCHD6VWH8=;
- b=grQjveN9U/pV6SvlPOus1aXe29fD0EvQusl7JukqKZAozXABQipdzApIuRxiBIkFErBBt5
- Z9cld0/2rR71E9hLNTFQbs8QGglYi4vu6z2MCbVYdZiKyDF02qVQ5oSTi3QDWkoI+4Kqs+
- b/dLGNtltU2d67CrXWYfN2+FDL70tA6j4SHhLV1Miyu71Uzqd1y4fEN/Gm/4PYH+sWfflI
- /vV+5CM9ETthm3M7BW11s/iAU83ozwU+nGcxylU8j1g4PcBNYomrhH1JOPLX/A+LQyAPaX
- cgRF+VwnpZCmXwdGe7JSupugls1Ct4jt6JTm39Bemb7YDpZSRqFL50ljr4G13Q==
+ bh=r6olnAzZt8q6c0vxZagmakWT4mAYlJndaPLBUR1ASfw=;
+ b=k2JYZRMS3N3ZmeEMtgDCNkdwgV4jmgZ45jfN/cvpukMIEayjvT9e2iswamBIdZXtUW9Fs7
+ N8Bo9tHaZPnBQEHfZuEZmU547BgcmXBBGeETIltByWMFEtrwJFOhpQBPMChrmKTbV/xJzE
+ FKJ9SBDkmT0z9nBsB7xWUxzxTfRoXL5NohbSudoR/MgDbxsIHy5J+h98TMEQ/5twTtSB5T
+ TTMO5IAguH06a7V7TM4WJ3AgMIqW9qpzaW0wsR9rdmzSxjIxDUaL14N3sdUNmYivn47PJp
+ 5bbmTS732w10WJzpbAjFNzuy3POsFMxA5ROYxueLrduOPnt7CrZ0P85bgYwS3g==
 From: Louis Chauvet <louis.chauvet@bootlin.com>
-Date: Fri, 27 Jun 2025 11:12:34 +0200
-Subject: [PATCH v5 3/8] drm/vkms: Add support for ARGB16161616 formats
+Date: Fri, 27 Jun 2025 11:12:35 +0200
+Subject: [PATCH v5 4/8] drm/vkms: Add support for RGB565 formats
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
-Message-Id: <20250627-b4-new-color-formats-v5-3-94452f119c72@bootlin.com>
+Message-Id: <20250627-b4-new-color-formats-v5-4-94452f119c72@bootlin.com>
 References: <20250627-b4-new-color-formats-v5-0-94452f119c72@bootlin.com>
 In-Reply-To: <20250627-b4-new-color-formats-v5-0-94452f119c72@bootlin.com>
 To: Melissa Wen <melissa.srw@gmail.com>, 
@@ -56,21 +57,21 @@ Cc: dri-devel@lists.freedesktop.org, arthurgrillo@riseup.net,
  Louis Chauvet <louis.chauvet@bootlin.com>, 
  =?utf-8?q?Ma=C3=ADra_Canal?= <mcanal@igalia.com>
 X-Mailer: b4 0.15-dev
-X-Developer-Signature: v=1; a=openpgp-sha256; l=2135;
+X-Developer-Signature: v=1; a=openpgp-sha256; l=2212;
  i=louis.chauvet@bootlin.com; h=from:subject:message-id;
- bh=eek1CthCd1RvO7Qs2r4Pe4gz/Q4+jCBePgrtnVHKvNE=;
- b=owEBbQKS/ZANAwAIASCtLsZbECziAcsmYgBoXmCMK7NeRjkHLIRkq5oYVaSuk7scg4NAjFbKL
- avuXqVC4zuJAjMEAAEIAB0WIQRPj7g/vng8MQxQWQQgrS7GWxAs4gUCaF5gjAAKCRAgrS7GWxAs
- 4j5HD/0UeXy/3qzl9Do7DHk/dJ1EQ94gLCSPLXnTZCXhq1rzj+LzuyY9pTE5enl/SaIJMe4H0Jy
- D2TCWzntAprpF0E1SxDQVgsw2BTJAhi5/AJ9Dh2LxveF86Xa6uzPBBct/qENMK99ZZo+3P/LlNc
- 8U9fUu+x8uulkgltw6bNYMcTk8ViIvigO1Iu/XlzRpEkGiYbCQgcC/4vqWXgEGix0e0luwDgDYn
- Xh0f1NqfkT4/um0bYThieZrnIz3vx5JJeLW7aolQ0TAR8Ef+Q3I2WuUZWmVBxVtPVoHLT4UqN6Z
- YLjv7Cj52cMQzfVKCyQn8rXZ2IlhSog0i6mLFn6Cz1WeBZNwXYkTcVIETdoHV2dykhek0STXxTp
- P0+vt5tFUsiEI2pGKpqHDo/p0v8ngLkLwXJDj3zMvgcMOD2nStdc00qVz1fjUSM3AO/JJBs8a46
- /mH5vhtRGGAfBZmRagyJv97Py2D4L3nALxAGHuLAuk4elVElSq3uBDn6dJRxd7D3YAZAet8qNnV
- hV/J4s5UxHdWESWIRxM2cOA0RK6SDDJCiDODPgfDkNtEDsK4WIfjwg/OGhhIZTUfWbSWXLE8vjQ
- wJ3VRJhY70hAe+C0NrSBHxefd6EhPR1Dpp8swHC84KBWICL+Ki5Niuwqq5aB6CWEmzHkPn8kYLs
- ccMwK5kMYxxPUkw==
+ bh=8fXFkUR+Lc1tk8kOkE5sv9OnxPn8iF8vc0Fe038bZOo=;
+ b=owEBbQKS/ZANAwAIASCtLsZbECziAcsmYgBoXmCMG+QNArV9IHi1DefOQTUyn/g1vwzRZ31GT
+ gJ3mTNFRUOJAjMEAAEIAB0WIQRPj7g/vng8MQxQWQQgrS7GWxAs4gUCaF5gjAAKCRAgrS7GWxAs
+ 4vyPEACrGi6cX3z40PnG6w5c3u74+dUq8cOBVPYC5HDUeduGlK5wT3BI9Wb4u1nQUHVAyE9MjPa
+ FbBTX1D7JcriRWgyoE7Ta049Tczw8ZmDVQZ/IxnojndlPNsDAa36GEZR/W0FnmIQH7ROoPrPxWt
+ e+xR9tY7xB71R5sL9bTiEP1QVBgWiusGUuCcE0ofleDIi6i1gpjLaW27rom5g86ROOifRzadlKh
+ 0Vqkpc8tgBiN0ydIpRi+7lP+dxIo3tWXc19VLyI6yUNbb6+THA6ZY7rOwqrCPvuEEbUFUvwrgj8
+ nCi8iaYQJE87n+e2Sx52f7GMZku7e9NBXGSmgeMdDRAosU5u6UXELFrHpo0llp57pQWtTXBBb0/
+ a9IrUG0XMJ70RhcRUSQ2Mo7lrtaOJIy6W6bgU9RRqsmlFxG1VHaKU8M86IAxHXv2tvo6FAqx/VJ
+ iHIR8Uj3wqEmjUb4+O9xUD/LaDu9zYwUCUBqpT9M5lReViLoMiaa++imVwIw2BGPRooEmPJgYHy
+ YmTX2fMoBQJf/l/du3h4fl68SjPZyFFZFTqCohxZshKffiHlh5cuFEwalpFuwXPOAaYoZ0bvERL
+ Ixe4Pif/SaFzUZGyeepQr8angKF0aDm8SdANsDLT9tu4G/ZF0HidTQQwT6u9NI/nmhZq1BeQVHE
+ 9A5ZCzke6Mg1rug==
 X-Developer-Key: i=louis.chauvet@bootlin.com; a=openpgp;
  fpr=8B7104AE9A272D6693F527F2EC1883F55E0B40A5
 X-GND-State: clean
@@ -92,59 +93,66 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The formats XRGB16161616 and ARGB16161616 were already supported.
-Add the support for:
-- ABGR16161616
-- XBGR16161616
+The format RGB565 was already supported. Add the support for:
+- BGR565
 
 Reviewed-by: Maíra Canal <mcanal@igalia.com>
 Signed-off-by: Louis Chauvet <louis.chauvet@bootlin.com>
 ---
- drivers/gpu/drm/vkms/vkms_formats.c | 6 ++++++
- drivers/gpu/drm/vkms/vkms_plane.c   | 2 ++
- 2 files changed, 8 insertions(+)
+ drivers/gpu/drm/vkms/vkms_formats.c | 13 +++++++++++++
+ drivers/gpu/drm/vkms/vkms_plane.c   |  1 +
+ 2 files changed, 14 insertions(+)
 
 diff --git a/drivers/gpu/drm/vkms/vkms_formats.c b/drivers/gpu/drm/vkms/vkms_formats.c
-index 231b327e86b3..44547f56e4b2 100644
+index 44547f56e4b2..c4c623472e04 100644
 --- a/drivers/gpu/drm/vkms/vkms_formats.c
 +++ b/drivers/gpu/drm/vkms/vkms_formats.c
-@@ -440,7 +440,9 @@ READ_LINE_ARGB8888(RGBA8888_read_line, px, px[0], px[3], px[2], px[1])
- READ_LINE_ARGB8888(BGRA8888_read_line, px, px[0], px[1], px[2], px[3])
+@@ -259,6 +259,16 @@ static struct pixel_argb_u16 argb_u16_from_grayu16(u16 gray)
+ 	return argb_u16_from_u16161616(0xFFFF, gray, gray, gray);
+ }
  
- READ_LINE_le16161616(ARGB16161616_read_line, px, px[3], px[2], px[1], px[0])
-+READ_LINE_le16161616(ABGR16161616_read_line, px, px[3], px[0], px[1], px[2])
- READ_LINE_le16161616(XRGB16161616_read_line, px, cpu_to_le16(0xFFFF), px[2], px[1], px[0])
-+READ_LINE_le16161616(XBGR16161616_read_line, px, cpu_to_le16(0xFFFF), px[0], px[1], px[2])
++static struct pixel_argb_u16 argb_u16_from_BGR565(const __le16 *pixel)
++{
++	struct pixel_argb_u16 out_pixel;
++
++	out_pixel = argb_u16_from_RGB565(pixel);
++	swap(out_pixel.r, out_pixel.b);
++
++	return out_pixel;
++}
++
+ VISIBLE_IF_KUNIT struct pixel_argb_u16 argb_u16_from_yuv888(u8 y, u8 channel_1, u8 channel_2,
+ 							    const struct conversion_matrix *matrix)
+ {
+@@ -445,6 +455,7 @@ READ_LINE_le16161616(XRGB16161616_read_line, px, cpu_to_le16(0xFFFF), px[2], px[
+ READ_LINE_le16161616(XBGR16161616_read_line, px, cpu_to_le16(0xFFFF), px[0], px[1], px[2])
  
  READ_LINE(RGB565_read_line, px, __le16, argb_u16_from_RGB565, px)
++READ_LINE(BGR565_read_line, px, __le16, argb_u16_from_BGR565, px)
  
-@@ -659,8 +661,12 @@ pixel_read_line_t get_pixel_read_line_function(u32 format)
- 		return &XBGR8888_read_line;
- 	case DRM_FORMAT_ARGB16161616:
- 		return &ARGB16161616_read_line;
-+	case DRM_FORMAT_ABGR16161616:
-+		return &ABGR16161616_read_line;
- 	case DRM_FORMAT_XRGB16161616:
- 		return &XRGB16161616_read_line;
-+	case DRM_FORMAT_XBGR16161616:
-+		return &XBGR16161616_read_line;
+ READ_LINE(R8_read_line, px, u8, argb_u16_from_gray8, *px)
+ 
+@@ -669,6 +680,8 @@ pixel_read_line_t get_pixel_read_line_function(u32 format)
+ 		return &XBGR16161616_read_line;
  	case DRM_FORMAT_RGB565:
  		return &RGB565_read_line;
++	case DRM_FORMAT_BGR565:
++		return &BGR565_read_line;
  	case DRM_FORMAT_NV12:
+ 	case DRM_FORMAT_NV16:
+ 	case DRM_FORMAT_NV24:
 diff --git a/drivers/gpu/drm/vkms/vkms_plane.c b/drivers/gpu/drm/vkms/vkms_plane.c
-index 01fed722808b..d4c51b4486f7 100644
+index d4c51b4486f7..6e7597ab935d 100644
 --- a/drivers/gpu/drm/vkms/vkms_plane.c
 +++ b/drivers/gpu/drm/vkms/vkms_plane.c
-@@ -20,7 +20,9 @@ static const u32 vkms_formats[] = {
- 	DRM_FORMAT_XRGB8888,
- 	DRM_FORMAT_XBGR8888,
- 	DRM_FORMAT_XRGB16161616,
-+	DRM_FORMAT_XBGR16161616,
+@@ -24,6 +24,7 @@ static const u32 vkms_formats[] = {
  	DRM_FORMAT_ARGB16161616,
-+	DRM_FORMAT_ABGR16161616,
+ 	DRM_FORMAT_ABGR16161616,
  	DRM_FORMAT_RGB565,
++	DRM_FORMAT_BGR565,
  	DRM_FORMAT_NV12,
  	DRM_FORMAT_NV16,
+ 	DRM_FORMAT_NV24,
 
 -- 
 2.49.0
