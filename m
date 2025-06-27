@@ -2,81 +2,54 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5B8EBAEB6C1
-	for <lists+dri-devel@lfdr.de>; Fri, 27 Jun 2025 13:44:23 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 748A8AEB6CB
+	for <lists+dri-devel@lfdr.de>; Fri, 27 Jun 2025 13:46:09 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 061CD10E9DC;
-	Fri, 27 Jun 2025 11:44:21 +0000 (UTC)
-Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="eHQsza1F";
-	dkim-atps=neutral
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8DE1510E9FE;
+	Fri, 27 Jun 2025 11:46:07 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pj1-f54.google.com (mail-pj1-f54.google.com
- [209.85.216.54])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 08D4110E9DC
- for <dri-devel@lists.freedesktop.org>; Fri, 27 Jun 2025 11:44:20 +0000 (UTC)
-Received: by mail-pj1-f54.google.com with SMTP id
- 98e67ed59e1d1-313dc7be67aso290512a91.0
- for <dri-devel@lists.freedesktop.org>; Fri, 27 Jun 2025 04:44:20 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1751024659; x=1751629459; darn=lists.freedesktop.org;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc:subject:date
- :message-id:reply-to;
- bh=pS+ZPyznlJ3iS5vNN9mSK0o3DY38FMnpY0fJETaSO/s=;
- b=eHQsza1FTTT8KHhfprJQeHvpVUfMwIH+1DlzTQylMLLfEi987w5CXEuC+pQUvBHHvt
- 8AIc87A9+28O36YotufeTuhJhdBEnd/nC5fb6YVmAqePrHWJA59rfSh/X/TZ8cflliX9
- BD5eplXr2Mu58BxpP7D0FMjAr/0RrGMc5SZTm3Zq6R5XW05L9jX4xNSOpEmGaBd2yb7o
- pkwQsLIQ2dZUmatzVkofaiILDvmlFsHp4gIcarRd5u+geKlCxRgZomBKqHYq+E7pbA1i
- R+nMNNrR47NOMgUKu18Kg80BFrer7/M9bPDeso55mG5hyIk2wyIYwehSuqf/YOe4JSZm
- TWhQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1751024659; x=1751629459;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=pS+ZPyznlJ3iS5vNN9mSK0o3DY38FMnpY0fJETaSO/s=;
- b=DUPCNpnc8yJhxdhMmHVJ9pUxpzQILKjVSbyDi6UvCmgQKsHNPfMUog/Nt7ppzlQ+y4
- K+uHGKw1ad0C/3XFH0e9BPQE081To826xZH3yyR2Zxgg3449pizbz+XJJDfPEKUHTgLi
- vwN4YqMcLVxVGcL4wJGEEcAhM8uya2kGNsxDPvbRXtsSyLOavG25XAkzXr79a+TwD4Zu
- e2nkhrYXieIbXVn3YdPYy9DNaCZoyzQskIfHkZpiYDvFaNBRmbOXRUtJV/+bUbalV9KN
- tQTvhv5M1oEZU4wbUeYS6ue92hZF7nsxdI/o1VaESY14RarUc/HyfnpTFKp7g9ezkV1L
- NPdw==
-X-Forwarded-Encrypted: i=1;
- AJvYcCWw6z+eMot028xxvRewUuco8PXhbIEBm6ZERl4CYA4REYqeC5TBx03YD6ez5FGnhBKIo1NLB73SWQA=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YwCf6xAeOYpLMufvXEm76C3pEQILn8deCRxtUYrjhfGNzjyhh1D
- 2nfTcy+y9xPhlF+fMvhdZAOVp82sQPZKZoAq34nP7Nw80qe7h+ndqQh+x9DuT85nFooZhWw/jQ7
- 0JSfu71DfAljyIIIfxAJn8K4K9RzSEa4=
-X-Gm-Gg: ASbGnctSakujHNclCdZK13ld+QLR0DLcc/RNj3qAWcAUR2j3Z+TwwKVyYcFH3Rl82Uk
- CJptPgT/UmPHGGJsSUGw2SsnQ2+Kbo3T4v9QO0CKJxvYWwDe5V8ezJQn4qNRzMHA0BSaCs0Y+ja
- nLurLNAlC45sTuQIK9HD1zKb46lggzTLnZHcv6OIvokXI=
-X-Google-Smtp-Source: AGHT+IE366TUu7KMH/hZ3aJAQfk1MJ2VG8O3hymjtiBQTP+jBFFLF0J1kyJhKcyp/4h7ZGpYnNpQeVzFO4P2hKv7u9M=
-X-Received: by 2002:a17:90b:3d85:b0:313:14b5:2521 with SMTP id
- 98e67ed59e1d1-318c92af3a7mr1613655a91.5.1751024659411; Fri, 27 Jun 2025
- 04:44:19 -0700 (PDT)
+Received: from metis.whiteo.stw.pengutronix.de
+ (metis.whiteo.stw.pengutronix.de [185.203.201.7])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0AF7510E9FE
+ for <dri-devel@lists.freedesktop.org>; Fri, 27 Jun 2025 11:46:02 +0000 (UTC)
+Received: from dude05.red.stw.pengutronix.de ([2a0a:edc0:0:1101:1d::54])
+ by metis.whiteo.stw.pengutronix.de with esmtp (Exim 4.92)
+ (envelope-from <p.zabel@pengutronix.de>)
+ id 1uV7Wi-0004N2-Gc; Fri, 27 Jun 2025 13:45:52 +0200
+From: Philipp Zabel <p.zabel@pengutronix.de>
+Subject: [PATCH v2 0/4] drm/bridge: samsung-dsim: Stop controlling vsync
+ display FIFO flush in panels
+Date: Fri, 27 Jun 2025 13:45:37 +0200
+Message-Id: <20250627-dsi-vsync-flush-v2-0-4066899a5608@pengutronix.de>
 MIME-Version: 1.0
-References: <20250627094102.770689-1-jfalempe@redhat.com>
-In-Reply-To: <20250627094102.770689-1-jfalempe@redhat.com>
-From: Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>
-Date: Fri, 27 Jun 2025 13:44:06 +0200
-X-Gm-Features: Ac12FXx-5LTvv9I-ZDb9-nivG3KWk1kM0W75cZm76TLxZSE56N1ptu8fSUOgiIc
-Message-ID: <CANiq72=aiAnn3n7ADgmKUNNSp7HfBjRc1ftG2qSD4EFUkS3jqw@mail.gmail.com>
-Subject: Re: [PATCH] drm/panic: Add a u64 divide by 10 for arm32
-To: Jocelyn Falempe <jfalempe@redhat.com>
-Cc: Andrei Lalaev <andrey.lalaev@gmail.com>, Miguel Ojeda <ojeda@kernel.org>, 
- Christian Schrefl <chrisi.schrefl@gmail.com>, Arnd Bergmann <arnd@arndb.de>,
- Russell King <linux@armlinux.org.uk>, Paolo Bonzini <pbonzini@redhat.com>, 
- rust-for-linux <rust-for-linux@vger.kernel.org>, 
- Linux ARM <linux-arm-kernel@lists.infradead.org>, 
- Thomas Zimmermann <tzimmermann@suse.de>,
- Javier Martinez Canillas <javierm@redhat.com>, 
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, 
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- dri-devel@lists.freedesktop.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-B4-Tracking: v=1; b=H4sIAGGEXmgC/3WNQQqDMBBFryKz7pQYYtWuvEdxYeNEB0qUjAZFv
+ HtT912+B//9A4QCk8AzOyBQZOHJJ9C3DOzY+YGQ+8SglS5UoUvshTHK7i26zyojVq6yts67h1M
+ G0moO5Hi7iq828ciyTGG/DmL+s/9bMUeF9dtQZ4qyKnXdzOSHdQmT5+3eE7TneX4BgS3PbbMAA
+ AA=
+X-Change-ID: 20250527-dsi-vsync-flush-8f8cc91a6f04
+To: Inki Dae <inki.dae@samsung.com>, Jagan Teki <jagan@amarulasolutions.com>, 
+ Marek Szyprowski <m.szyprowski@samsung.com>, 
+ Andrzej Hajda <andrzej.hajda@intel.com>, 
+ Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>, 
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>, 
+ Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>, 
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, 
+ Artur Weber <aweber.kernel@gmail.com>, 
+ Jessica Zhang <quic_jesszhan@quicinc.com>, 
+ Jessica Zhang <jessica.zhang@oss.qualcomm.com>
+Cc: dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org, 
+ kernel@pengutronix.de, Philipp Zabel <p.zabel@pengutronix.de>
+X-Mailer: b4 0.14.2
+X-SA-Exim-Connect-IP: 2a0a:edc0:0:1101:1d::54
+X-SA-Exim-Mail-From: p.zabel@pengutronix.de
+X-SA-Exim-Scanned: No (on metis.whiteo.stw.pengutronix.de);
+ SAEximRunCond expanded to false
+X-PTX-Original-Recipient: dri-devel@lists.freedesktop.org
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -92,22 +65,75 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, Jun 27, 2025 at 11:41=E2=80=AFAM Jocelyn Falempe <jfalempe@redhat.c=
-om> wrote:
->
-> +/// On arm32 architecture, dividing an u64 by a constant will generate a=
- call
-> +/// to __aeabi_uldivmod which is not present in the kernel.
-> +/// So use the multiply by inverse method for this architecture.
+This series enables the vsync flush feature in the samsung-dsim driver
+unconditionally and removes the MIPI_DSI_MODE_VSYNC_FLUSH flag.
 
-This sounds more like a normal comment instead of function docs, no?
+Background: I've recently seen shifted display issues on two different
+i.MX8MM boards (mxsfb + samsung-dsim) with different DSI panels.
+The symptoms were horizonally shifted display contents, with a stable
+offset, in about 0.1 to 0.6 percent of modesets.
+Enabling the MIPI_DSI_MODE_VSYNC_FLUSH flag in the panels' mode_flags
+fixed the issue in both cases.
 
-By the way, formatting:
+The samsung-dsim driver is the only DSI bridge driver that uses this
+flag: If the flag is absent, the driver sets the DSIM_MFLUSH_VS bit in
+the DSIM_CONFIG_REG register, which disables the vsync flush feature.
+The reset value of this bit is cleared (vsync flush is default-enabled).
+According to the i.MX8MM reference manual,
 
-    `u64`
-    `__aeabi_uldivmod`
+    "It needs that Main display FIFO should be flushed for deleting
+     garbage data."
 
-Thanks for fixing this! It is nice seeing 32-bit arm taking shape.
+This appears to match the comment in mxsfb_reset_block() in mxsfb_kms.c:
 
-Cheers,
-Miguel
+    /*
+     * It seems, you can't re-program the controller if it is still
+     * running. This may lead to shifted pictures (FIFO issue?), so
+     * first stop the controller and drain its FIFOs.
+     */
+
+Now I wonder why the bit is controlled by a flag in the panel drivers.
+Whether the display controller pushes up to a FIFO worth of garbage data
+into the DSI bridge during initialization seems to be a property of the
+display controller / DSI bridge integration (whether this is due to
+hardware or driver bugs), not a specific requirement of the panel.
+Surely no panel needs to receive a partial line of garbage data in front
+of the first frame?
+
+Instead of adding the flag to every panel connected to affected SoCs,
+the vsync flush feature could just be enabled unconditionally.
+Clearing an already-empty display FIFO should have no effect, unless
+I'm missing something? With that, the MIPI_DSI_MODE_VSYNC_FLUSH flag
+would not be used anymore and could be removed.
+
+regards
+Philipp
+
+Signed-off-by: Philipp Zabel <p.zabel@pengutronix.de>
+---
+Changes in v2:
+- Collect Marek's Acked-by.
+- Drop RFC tag.
+- No further changes.
+- Link to v1: https://lore.kernel.org/r/20250527-dsi-vsync-flush-v1-0-9b4ea4578729@pengutronix.de
+
+---
+Philipp Zabel (4):
+      drm/bridge: samsung-dsim: Always flush display FIFO on vsync pulse
+      drm/panel: samsung-s6d7aa0: Drop MIPI_DSI_MODE_VSYNC_FLUSH flag
+      drm/panel: samsung-s6e8aa0: Drop MIPI_DSI_MODE_VSYNC_FLUSH flag
+      drm/mipi-dsi: Drop MIPI_DSI_MODE_VSYNC_FLUSH flag
+
+ drivers/gpu/drm/bridge/samsung-dsim.c         | 2 --
+ drivers/gpu/drm/panel/panel-samsung-s6d7aa0.c | 2 +-
+ drivers/gpu/drm/panel/panel-samsung-s6e8aa0.c | 2 +-
+ include/drm/drm_mipi_dsi.h                    | 2 --
+ 4 files changed, 2 insertions(+), 6 deletions(-)
+---
+base-commit: b462b0ef4d788d56f0e575406e58450358dcbd96
+change-id: 20250527-dsi-vsync-flush-8f8cc91a6f04
+
+Best regards,
+-- 
+Philipp Zabel <p.zabel@pengutronix.de>
+
