@@ -2,61 +2,135 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3A728AEB1DB
-	for <lists+dri-devel@lfdr.de>; Fri, 27 Jun 2025 11:00:21 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id F15AFAEB1EE
+	for <lists+dri-devel@lfdr.de>; Fri, 27 Jun 2025 11:04:13 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id DC01110E98D;
-	Fri, 27 Jun 2025 09:00:16 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B30FE10E989;
+	Fri, 27 Jun 2025 09:04:11 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="DpY0DDfq";
+	dkim=pass (1024-bit key; unprotected) header.d=suse.de header.i=@suse.de header.b="z7qxvyJB";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="xSWWrbmi";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="z7qxvyJB";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="xSWWrbmi";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.16])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E8C7C10E98A
- for <dri-devel@lists.freedesktop.org>; Fri, 27 Jun 2025 09:00:14 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1751014816; x=1782550816;
- h=from:to:cc:subject:in-reply-to:references:date:
- message-id:mime-version;
- bh=OFGGtjh9lLAJpazPZciAUtiSAFEWyX3zAFFdP5TVjw0=;
- b=DpY0DDfqkFubl14OEB0aA1+OjkRMJAzIIT3I6XYuCtdmyqZIbyC++AIV
- FR+Gsg+vgKMePVl6H5aL0KarRa2z6zxeT0EBLPe9HT/fSzJJj/5v16G5w
- 456DnZDhV0KG3eNGlV5lkPRyU13/jRlE2GW0dgdHgAjLSPJ9I+aMTWtF5
- a/cTXvyESNDwydUhZgUS0gTb2TKkJ+vJVUdLJ5bu72M+e4GnsFwBHOZmW
- Jl2gm8pukQymb3a+kpjm99U63q6HrN0mYrcntS+oezosDkdEQnjPx/M1F
- 7YbyL+wIxC6IYBEeYb2lqazEE7q5D25bQtB+SiqjNKBGwsKZSjNCvN12R w==;
-X-CSE-ConnectionGUID: g3zW7T5USpecAfDqvgmIqg==
-X-CSE-MsgGUID: Qj98ZSMWSYqQF4UeGkqLEA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11476"; a="40944764"
-X-IronPort-AV: E=Sophos;i="6.16,270,1744095600"; d="scan'208";a="40944764"
-Received: from orviesa002.jf.intel.com ([10.64.159.142])
- by fmvoesa110.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 27 Jun 2025 02:00:15 -0700
-X-CSE-ConnectionGUID: JqUZiAKiR46VDN/gPt4Vyg==
-X-CSE-MsgGUID: emlWJGyaSl2vPUpGyYcGrw==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.16,270,1744095600"; d="scan'208";a="183790537"
-Received: from klitkey1-mobl1.ger.corp.intel.com (HELO localhost)
- ([10.245.246.146])
- by orviesa002-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 27 Jun 2025 02:00:10 -0700
-From: Jani Nikula <jani.nikula@linux.intel.com>
-To: Kevin Paul Reddy Janagari <kevinpaul468@gmail.com>, airlied@gmail.com,
- simona@ffwll.ch, maarten.lankhorst@linux.intel.com, mripard@kernel.org,
- tzimmermann@suse.de, corbet@lwn.net
-Cc: dri-devel@lists.freedesktop.org, linux-doc@vger.kernel.org,
- linux-kernel@vger.kernel.org, kevinpaul468@gmail.com, Mauro Carvalho
- Chehab <mchehab+huawei@kernel.org>
-Subject: Re: [PATCH] workaround for Sphinx false positive preventing index
-In-Reply-To: <20250627071628.30258-1-kevinpaul468@gmail.com>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
-References: <20250627071628.30258-1-kevinpaul468@gmail.com>
-Date: Fri, 27 Jun 2025 12:00:07 +0300
-Message-ID: <462a34d3027f22a65c129e2305c7aa4d4fda0e43@intel.com>
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C8B6510E989
+ for <dri-devel@lists.freedesktop.org>; Fri, 27 Jun 2025 09:04:08 +0000 (UTC)
+Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ (No client certificate requested)
+ by smtp-out1.suse.de (Postfix) with ESMTPS id A785621168;
+ Fri, 27 Jun 2025 09:04:06 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+ t=1751015046; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+ bh=tpUwWc1MsGjg8fTsVIs2OYUCwvzIOqC3kz4VF4R8vw8=;
+ b=z7qxvyJBa4UCMOwSb5bMK9eG9wEHaZgAnSRWq511ab4tNbGhVOnWwXK0P2wQhCooS73O26
+ UvnnxzVVtmIo2BdIzOoGu5wPL+OayMfqfHWk+nnVmekMHodYFXHxn67GiY8Ubqr6sT8fMK
+ sn8yXjMTg1it8/1Cj86lQJIuC+VNJz0=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+ s=susede2_ed25519; t=1751015046;
+ h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+ bh=tpUwWc1MsGjg8fTsVIs2OYUCwvzIOqC3kz4VF4R8vw8=;
+ b=xSWWrbmiHfmIIcxUhXXH9wOpf223ov8etfZDLoysUR58ClxVSl2Kl4+hkvEunZsH0HupY1
+ fEiYZgDb9j/oyoDg==
+Authentication-Results: smtp-out1.suse.de;
+	none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+ t=1751015046; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+ bh=tpUwWc1MsGjg8fTsVIs2OYUCwvzIOqC3kz4VF4R8vw8=;
+ b=z7qxvyJBa4UCMOwSb5bMK9eG9wEHaZgAnSRWq511ab4tNbGhVOnWwXK0P2wQhCooS73O26
+ UvnnxzVVtmIo2BdIzOoGu5wPL+OayMfqfHWk+nnVmekMHodYFXHxn67GiY8Ubqr6sT8fMK
+ sn8yXjMTg1it8/1Cj86lQJIuC+VNJz0=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+ s=susede2_ed25519; t=1751015046;
+ h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+ bh=tpUwWc1MsGjg8fTsVIs2OYUCwvzIOqC3kz4VF4R8vw8=;
+ b=xSWWrbmiHfmIIcxUhXXH9wOpf223ov8etfZDLoysUR58ClxVSl2Kl4+hkvEunZsH0HupY1
+ fEiYZgDb9j/oyoDg==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ (No client certificate requested)
+ by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 5CFDF138A7;
+ Fri, 27 Jun 2025 09:04:06 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+ by imap1.dmz-prg2.suse.org with ESMTPSA id Jln7FIZeXmjuZQAAD6G6ig
+ (envelope-from <tzimmermann@suse.de>); Fri, 27 Jun 2025 09:04:06 +0000
+Message-ID: <54d8db0d-0e40-454e-bdfa-6ce9ce622118@suse.de>
+Date: Fri, 27 Jun 2025 11:04:05 +0200
 MIME-Version: 1.0
-Content-Type: text/plain
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] fbdev: efifb: do not load efifb if PCI BAR has changed
+ but not fixuped
+To: Shixiong Ou <oushixiong1025@163.com>, Helge Deller <deller@gmx.de>
+Cc: Peter Jones <pjones@redhat.com>, linux-fbdev@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ Shixiong Ou <oushixiong@kylinos.cn>
+References: <20250626094937.515552-1-oushixiong1025@163.com>
+ <ecf7f260-4c5f-45fc-be8d-0361b00af6a3@suse.de>
+ <24f53098-710a-43f9-8d1c-d809fb5354eb@163.com>
+ <855d6faa-9f72-466e-9294-d6059bb9d920@suse.de>
+ <bbfebeac-a5b4-4350-a4e8-3da8a5f0efad@163.com>
+Content-Language: en-US
+From: Thomas Zimmermann <tzimmermann@suse.de>
+Autocrypt: addr=tzimmermann@suse.de; keydata=
+ xsBNBFs50uABCADEHPidWt974CaxBVbrIBwqcq/WURinJ3+2WlIrKWspiP83vfZKaXhFYsdg
+ XH47fDVbPPj+d6tQrw5lPQCyqjwrCPYnq3WlIBnGPJ4/jreTL6V+qfKRDlGLWFjZcsrPJGE0
+ BeB5BbqP5erN1qylK9i3gPoQjXGhpBpQYwRrEyQyjuvk+Ev0K1Jc5tVDeJAuau3TGNgah4Yc
+ hdHm3bkPjz9EErV85RwvImQ1dptvx6s7xzwXTgGAsaYZsL8WCwDaTuqFa1d1jjlaxg6+tZsB
+ 9GluwvIhSezPgnEmimZDkGnZRRSFiGP8yjqTjjWuf0bSj5rUnTGiyLyRZRNGcXmu6hjlABEB
+ AAHNJ1Rob21hcyBaaW1tZXJtYW5uIDx0emltbWVybWFubkBzdXNlLmRlPsLAjgQTAQgAOAIb
+ AwULCQgHAgYVCgkICwIEFgIDAQIeAQIXgBYhBHIX+6yM6c9jRKFo5WgNwR1TC3ojBQJftODH
+ AAoJEGgNwR1TC3ojx1wH/0hKGWugiqDgLNXLRD/4TfHBEKmxIrmfu9Z5t7vwUKfwhFL6hqvo
+ lXPJJKQpQ2z8+X2vZm/slsLn7J1yjrOsoJhKABDi+3QWWSGkaGwRJAdPVVyJMfJRNNNIKwVb
+ U6B1BkX2XDKDGffF4TxlOpSQzdtNI/9gleOoUA8+jy8knnDYzjBNOZqLG2FuTdicBXblz0Mf
+ vg41gd9kCwYXDnD91rJU8tzylXv03E75NCaTxTM+FBXPmsAVYQ4GYhhgFt8S2UWMoaaABLDe
+ 7l5FdnLdDEcbmd8uLU2CaG4W2cLrUaI4jz2XbkcPQkqTQ3EB67hYkjiEE6Zy3ggOitiQGcqp
+ j//OwE0EWznS4AEIAMYmP4M/V+T5RY5at/g7rUdNsLhWv1APYrh9RQefODYHrNRHUE9eosYb
+ T6XMryR9hT8XlGOYRwKWwiQBoWSDiTMo/Xi29jUnn4BXfI2px2DTXwc22LKtLAgTRjP+qbU6
+ 3Y0xnQN29UGDbYgyyK51DW3H0If2a3JNsheAAK+Xc9baj0LGIc8T9uiEWHBnCH+RdhgATnWW
+ GKdDegUR5BkDfDg5O/FISymJBHx2Dyoklv5g4BzkgqTqwmaYzsl8UxZKvbaxq0zbehDda8lv
+ hFXodNFMAgTLJlLuDYOGLK2AwbrS3Sp0AEbkpdJBb44qVlGm5bApZouHeJ/+n+7r12+lqdsA
+ EQEAAcLAdgQYAQgAIAIbDBYhBHIX+6yM6c9jRKFo5WgNwR1TC3ojBQJftOH6AAoJEGgNwR1T
+ C3ojVSkIALpAPkIJPQoURPb1VWjh34l0HlglmYHvZszJWTXYwavHR8+k6Baa6H7ufXNQtThR
+ yIxJrQLW6rV5lm7TjhffEhxVCn37+cg0zZ3j7zIsSS0rx/aMwi6VhFJA5hfn3T0TtrijKP4A
+ SAQO9xD1Zk9/61JWk8OysuIh7MXkl0fxbRKWE93XeQBhIJHQfnc+YBLprdnxR446Sh8Wn/2D
+ Ya8cavuWf2zrB6cZurs048xe0UbSW5AOSo4V9M0jzYI4nZqTmPxYyXbm30Kvmz0rYVRaitYJ
+ 4kyYYMhuULvrJDMjZRvaNe52tkKAvMevcGdt38H4KSVXAylqyQOW5zvPc4/sq9c=
+In-Reply-To: <bbfebeac-a5b4-4350-a4e8-3da8a5f0efad@163.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-Spam-Flag: NO
+X-Spam-Score: -4.30
+X-Spamd-Result: default: False [-4.30 / 50.00]; BAYES_HAM(-3.00)[100.00%];
+ NEURAL_HAM_LONG(-1.00)[-1.000];
+ NEURAL_HAM_SHORT(-0.20)[-1.000]; MIME_GOOD(-0.10)[text/plain];
+ FREEMAIL_TO(0.00)[163.com,gmx.de]; RCVD_VIA_SMTP_AUTH(0.00)[];
+ ARC_NA(0.00)[]; RCPT_COUNT_SEVEN(0.00)[7];
+ MIME_TRACE(0.00)[0:+]; MID_RHS_MATCH_FROM(0.00)[];
+ FREEMAIL_ENVRCPT(0.00)[163.com,gmx.de];
+ DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+ FROM_EQ_ENVFROM(0.00)[]; FROM_HAS_DN(0.00)[];
+ TO_DN_SOME(0.00)[]; RCVD_TLS_ALL(0.00)[];
+ TO_MATCH_ENVRCPT_ALL(0.00)[]; RCVD_COUNT_TWO(0.00)[2];
+ FUZZY_BLOCKED(0.00)[rspamd.com];
+ DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:helo,suse.de:mid]
+X-Spam-Level: 
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -72,77 +146,278 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, 27 Jun 2025, Kevin Paul Reddy Janagari <kevinpaul468@gmail.com> wrote:
-> Functions drm_format_info, drm_modeset_lock, drm_ioctl_flags are not being
-> indexed in the documentation because there are structs with the same name 
-> and sphinx is only indexing one of them, Added them to namespaces as a
-> workaround for suppressing the warnings and indexing the functions
+Hi
 
-I think there's a Sphinx bug about this that should be referenced.
-
-Cc: Mauro
-
-> Signed-off-by: Kevin Paul Reddy Janagari <kevinpaul468@gmail.com>
-> ---
->  Documentation/gpu/drm-kms.rst  | 2 ++
->  Documentation/gpu/drm-uapi.rst | 1 +
->  2 files changed, 3 insertions(+)
+Am 27.06.25 um 10:48 schrieb Shixiong Ou:
 >
-> diff --git a/Documentation/gpu/drm-kms.rst b/Documentation/gpu/drm-kms.rst
-> index abfe220764e1..da865ba1c014 100644
-> --- a/Documentation/gpu/drm-kms.rst
-> +++ b/Documentation/gpu/drm-kms.rst
-> @@ -357,6 +357,7 @@ Format Functions Reference
->  .. kernel-doc:: include/drm/drm_fourcc.h
->     :internal:
->  
-> +.. c:namespace:: gpu_drm_fourcc
+>
+> 在 2025/6/27 16:12, Thomas Zimmermann 写道:
+>> Hi
+>>
+>> Am 27.06.25 um 10:07 schrieb Shixiong Ou:
+>>>
+>>> 在 2025/6/26 18:31, Thomas Zimmermann 写道:
+>>>> Hi
+>>>>
+>>>> Am 26.06.25 um 11:49 schrieb oushixiong1025@163.com:
+>>>>> From: Shixiong Ou <oushixiong@kylinos.cn>
+>>>>>
+>>>>> [WHY]
+>>>>> On an ARM machine, the following log is present:
+>>>>> [    0.900884] efifb: framebuffer at 0x1020000000, using 3072k, 
+>>>>> total 3072k
+>>>>> [    2.297884] amdgpu 0000:04:00.0: 
+>>>>> remove_conflicting_pci_framebuffers: bar 0: 0x1000000000 -> 
+>>>>> 0x100fffffff
+>>>>> [    2.297886] amdgpu 0000:04:00.0: 
+>>>>> remove_conflicting_pci_framebuffers: bar 2: 0x1010000000 -> 
+>>>>> 0x10101fffff
+>>>>> [    2.297888] amdgpu 0000:04:00.0: 
+>>>>> remove_conflicting_pci_framebuffers: bar 5: 0x58200000 -> 0x5823ffff
+>>>>>
+>>>>> It show that the efifb framebuffer base is out of PCI BAR, and this
+>>>>
+>>>> The patch at
+>>>>
+>>>> https://patchwork.freedesktop.org/series/148057/
+>>>>
+>>>> is supposed to fix the problem. It has been merged with v6.16-rc1 
+>>>> as commit 2f29b5c23101 ("video: screen_info: Relocate framebuffers 
+>>>> behind PCI bridges"). It is in your tree?
+>>>>
+>>>> Best regards
+>>>> Thomas
+>>>>
+>>> yeah, this patch is in my tree. but do not fix the problem.
+>>
+>> The patch's final revision had a rough development. Just for testing 
+>> purposes, could you revert the commit and instead apply the patch's 
+>> earlier revision from
+>>
+>> https://patchwork.freedesktop.org/patch/649527/?series=148057&rev=1
+>>
+>> ?
+>>
+>> Thanks a lot.
+>>
+>> Best regards
+>> Thomas
+>>
+> I have revert the commit and applied this patch, and added some prints as:
+>
+> +               printk("pcibios_bus_to_resource orginal: start = %llx, 
+> end = %llx",
+> +                               r->start, r->end);
+> +               pcibios_bus_to_resource(pdev->bus, r, &bus_region);
+> +               printk("pcibios_bus_to_resource finished: start = 
+> %llx, end = %llx",
+> +                               r->start, r->end);
+> +
+>
+> and the kernel message as follow:
+>
+> kylin@kylin-pc:~$ dmesg | grep pcibios_bus_to_resource
+> [    0.684698] pcibios_bus_to_resource orginal: start = 1020000000, 
+> end = 10202fffff
+> [    0.684702] pcibios_bus_to_resource finished: start = 1020000000, 
+> end = 10202fffff
+>
+> The address doesn't seem to have been modified.
 
-I think using c:namespace-push and c:namespace-pop is the better
-option. Otherwise c:namespace will be in effect until the end of the rst
-file or next c:namespace.
+Thanks for confirming.
 
-I'm not quite sure what the namespace names should be, but for
-referencing anything the names here are pretty bad
-e.g. gpu_drm_fourcc.drm_format_info.
-
-As a workaround this does hide the worst fallout, but it's not even
-generic enough to handle structs and functions with the same name in the
-same file. I'm not sure if there are such cases, but I wouldn't be
-surprised if there were.
-
-A more generic (but also invasive) alternative would be to have
-kernel-doc always put structs/unions in a namespace, say "type", so
-they'd never conflict with functions. The automagic referencing in
-kernel-doc could produce those references. The downside is that manual
-references should include type.foo, and the produced html also contains
-type.foo.
-
-BR,
-Jani.
-
-
->  .. kernel-doc:: drivers/gpu/drm/drm_fourcc.c :export:
->  
-> @@ -473,6 +474,7 @@ KMS Locking
->  .. kernel-doc:: include/drm/drm_modeset_lock.h
->     :internal:
->  
-> +.. c:namespace:: gpu_drm_modeset_lock
->  .. kernel-doc:: drivers/gpu/drm/drm_modeset_lock.c
->     :export:
->  
-> diff --git a/Documentation/gpu/drm-uapi.rst b/Documentation/gpu/drm-uapi.rst
-> index 69f72e71a96e..37a2bc461326 100644
-> --- a/Documentation/gpu/drm-uapi.rst
-> +++ b/Documentation/gpu/drm-uapi.rst
-> @@ -554,6 +554,7 @@ DRM specific patterns. Note that ENOTTY has the slightly unintuitive meaning of
->  .. kernel-doc:: include/drm/drm_ioctl.h
->     :internal:
->  
-> +.. c:namespace:: gpu_drm
->  .. kernel-doc:: drivers/gpu/drm/drm_ioctl.c
->     :export:
+> Best regards
+> Shixiong.
+>
+>>>
+>>> this is some message:
+>>>
+>>> kylin@kylin-pc:~$ dmesg | grep BAR
+>>> [    0.688192] pci 0000:00:03.0: BAR 15: assigned [mem 
+>>> 0x1000000000-0x101fffffff 64bit pref]
+>>> [    0.688200] pci 0000:00:00.0: BAR 0: assigned [mem 
+>>> 0x1020000000-0x10200fffff 64bit pref]
+>>> [    0.688205] pci 0000:00:00.0: BAR 14: assigned [mem 
+>>> 0x58000000-0x580fffff]
+>>> [    0.688210] pci 0000:00:01.0: BAR 0: assigned [mem 
+>>> 0x1020100000-0x10201fffff 64bit pref]
+>>> [    0.688215] pci 0000:00:02.0: BAR 0: assigned [mem 
+>>> 0x1020200000-0x10202fffff 64bit pref]
+>>> [    0.688221] pci 0000:00:02.0: BAR 14: assigned [mem 
+>>> 0x58100000-0x581fffff]
+>>> [    0.688225] pci 0000:00:03.0: BAR 0: assigned [mem 
+>>> 0x1020300000-0x10203fffff 64bit pref]
+>>> [    0.688231] pci 0000:00:03.0: BAR 14: assigned [mem 
+>>> 0x58200000-0x585fffff]
+>>> [    0.688237] pci 0000:00:04.0: BAR 0: assigned [mem 
+>>> 0x1020400000-0x10204fffff 64bit pref]
+>>> [    0.688243] pci 0000:00:05.0: BAR 0: assigned [mem 
+>>> 0x1020500000-0x10205fffff 64bit pref]
+>>> [    0.688249] pci 0000:00:05.0: BAR 14: assigned [mem 
+>>> 0x58600000-0x586fffff]
+>>> [    0.688253] pci 0000:01:00.0: BAR 0: assigned [mem 
+>>> 0x58000000-0x58003fff 64bit]
+>>> [    0.688290] pci 0000:03:00.0: BAR 6: assigned [mem 
+>>> 0x58100000-0x5817ffff pref]
+>>> [    0.688296] pci 0000:03:00.0: BAR 0: assigned [mem 
+>>> 0x58180000-0x58181fff]
+>>> [    0.688303] pci 0000:03:00.0: BAR 5: assigned [mem 
+>>> 0x58182000-0x58183fff]
+>>> [    0.688317] pci 0000:04:00.0: BAR 1: assigned [mem 
+>>> 0x1000000000-0x101fffffff 64bit pref]
+>>> [    0.688326] pci 0000:04:00.0: BAR 0: assigned [mem 
+>>> 0x58200000-0x583fffff]
+>>> [    0.688332] pci 0000:04:00.0: BAR 6: assigned [mem 
+>>> 0x58400000-0x584fffff pref]
+>>> [    0.688336] pci 0000:04:00.1: BAR 0: assigned [mem 
+>>> 0x58500000-0x58503fff]
+>>> [    0.688360] pci 0000:06:00.0: BAR 0: assigned [mem 
+>>> 0x58600000-0x58601fff 64bit]
+>>> kylin@kylin-pc:~$ dmesg | grep framebuffer
+>>> [    1.137536] efifb: framebuffer at 0x1020000000, using 3072k, 
+>>> total 3072k
+>>>
+>>> the efifb base address is still at 0x1020000000 after calling 
+>>> pcibios_bus_to_resource().
+>>>
+>>>
+>>>>> results in both efi-framebuffer and amdgpudrmfb co-existing.
+>>>>>
+>>>>> The fbcon will be bound to efi-framebuffer by default and cannot 
+>>>>> be used.
+>>>>>
+>>>>> [HOW]
+>>>>> Do not load efifb driver if PCI BAR has changed but not fixuped.
+>>>>> In the following cases:
+>>>>>     1. screen_info_lfb_pdev is NULL.
+>>>>>     2. __screen_info_relocation_is_valid return false.
+>>>>>
+>>>>> Signed-off-by: Shixiong Ou <oushixiong@kylinos.cn>
+>>>>> ---
+>>>>>   drivers/video/fbdev/efifb.c     |  4 ++++
+>>>>>   drivers/video/screen_info_pci.c | 24 ++++++++++++++++++++++++
+>>>>>   include/linux/screen_info.h     |  5 +++++
+>>>>>   3 files changed, 33 insertions(+)
+>>>>>
+>>>>> diff --git a/drivers/video/fbdev/efifb.c 
+>>>>> b/drivers/video/fbdev/efifb.c
+>>>>> index 0e1bd3dba255..de8d016c9a66 100644
+>>>>> --- a/drivers/video/fbdev/efifb.c
+>>>>> +++ b/drivers/video/fbdev/efifb.c
+>>>>> @@ -303,6 +303,10 @@ static void efifb_setup(struct screen_info 
+>>>>> *si, char *options)
+>>>>>     static inline bool fb_base_is_valid(struct screen_info *si)
+>>>>>   {
+>>>>> +    /* check whether fb_base has changed but not fixuped */
+>>>>> +    if (!screen_info_is_useful())
+>>>>> +        return false;
+>>>>> +
+>>>>>       if (si->lfb_base)
+>>>>>           return true;
+>>>>>   diff --git a/drivers/video/screen_info_pci.c 
+>>>>> b/drivers/video/screen_info_pci.c
+>>>>> index 66bfc1d0a6dc..ac57dcaf0cac 100644
+>>>>> --- a/drivers/video/screen_info_pci.c
+>>>>> +++ b/drivers/video/screen_info_pci.c
+>>>>> @@ -9,6 +9,8 @@ static struct pci_dev *screen_info_lfb_pdev;
+>>>>>   static size_t screen_info_lfb_bar;
+>>>>>   static resource_size_t screen_info_lfb_res_start; // original 
+>>>>> start of resource
+>>>>>   static resource_size_t screen_info_lfb_offset; // framebuffer 
+>>>>> offset within resource
+>>>>> +static bool screen_info_changed;
+>>>>> +static bool screen_info_fixuped;
+>>>>>     static bool __screen_info_relocation_is_valid(const struct 
+>>>>> screen_info *si, struct resource *pr)
+>>>>>   {
+>>>>> @@ -24,6 +26,24 @@ static bool 
+>>>>> __screen_info_relocation_is_valid(const struct screen_info *si, stru
+>>>>>       return true;
+>>>>>   }
+>>>>>   +bool screen_info_is_useful(void)
+>>>>> +{
+>>>>> +    unsigned int type;
+>>>>> +    const struct screen_info *si = &screen_info;
+>>>>> +
+>>>>> +    type = screen_info_video_type(si);
+>>>>> +    if (type != VIDEO_TYPE_EFI)
+>>>>> +        return true;
+>>>>> +
+>>>>> +    if (screen_info_changed && !screen_info_fixuped) {
+>>>>> +        pr_warn("The screen_info has changed but not fixuped");
+>>>>> +        return false;
+>>>>> +    }
+>>>>> +
+>>>>> +    pr_info("The screen_info is useful");
+>>>>> +    return true;
+>>>>> +}
+>>>>> +
+>>>>>   void screen_info_apply_fixups(void)
+>>>>>   {
+>>>>>       struct screen_info *si = &screen_info;
+>>>>> @@ -32,18 +52,22 @@ void screen_info_apply_fixups(void)
+>>>>>           struct resource *pr = 
+>>>>> &screen_info_lfb_pdev->resource[screen_info_lfb_bar];
+>>>>>             if (pr->start != screen_info_lfb_res_start) {
+>>>>> +            screen_info_changed = true;
+>>>>>               if (__screen_info_relocation_is_valid(si, pr)) {
+>>>>>                   /*
+>>>>>                    * Only update base if we have an actual
+>>>>>                    * relocation to a valid I/O range.
+>>>>>                    */
+>>>>>                   __screen_info_set_lfb_base(si, pr->start + 
+>>>>> screen_info_lfb_offset);
+>>>>> +                screen_info_fixuped = true;
+>>>>>                   pr_info("Relocating firmware framebuffer to 
+>>>>> offset %pa[d] within %pr\n",
+>>>>>                       &screen_info_lfb_offset, pr);
+>>>>>               } else {
+>>>>>                   pr_warn("Invalid relocating, disabling firmware 
+>>>>> framebuffer\n");
+>>>
+>>> And should something be done 
+>>> after __screen_info_relocation_is_valid() return false?
+>>>
+>>> Best regards
+>>> Shixiong.
+>>>
+>>>>>               }
+>>>>>           }
+>>>>> +    } else {
+>>>>> +        screen_info_changed = true;
+>>>>>       }
+>>>>>   }
+>>>>>   diff --git a/include/linux/screen_info.h 
+>>>>> b/include/linux/screen_info.h
+>>>>> index 923d68e07679..632cdbb1adbe 100644
+>>>>> --- a/include/linux/screen_info.h
+>>>>> +++ b/include/linux/screen_info.h
+>>>>> @@ -138,9 +138,14 @@ ssize_t screen_info_resources(const struct 
+>>>>> screen_info *si, struct resource *r,
+>>>>>   u32 __screen_info_lfb_bits_per_pixel(const struct screen_info *si);
+>>>>>     #if defined(CONFIG_PCI)
+>>>>> +bool screen_info_is_useful(void);
+>>>>>   void screen_info_apply_fixups(void);
+>>>>>   struct pci_dev *screen_info_pci_dev(const struct screen_info *si);
+>>>>>   #else
+>>>>> +bool screen_info_is_useful(void)
+>>>>> +{
+>>>>> +    return true;
+>>>>> +}
+>>>>>   static inline void screen_info_apply_fixups(void)
+>>>>>   { }
+>>>>>   static inline struct pci_dev *screen_info_pci_dev(const struct 
+>>>>> screen_info *si)
+>>>>
+>>>
+>>
 
 -- 
-Jani Nikula, Intel
+--
+Thomas Zimmermann
+Graphics Driver Developer
+SUSE Software Solutions Germany GmbH
+Frankenstrasse 146, 90461 Nuernberg, Germany
+GF: Ivo Totev, Andrew Myers, Andrew McDonald, Boudien Moerman
+HRB 36809 (AG Nuernberg)
+
