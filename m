@@ -2,19 +2,19 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id D5833AEB5B2
-	for <lists+dri-devel@lfdr.de>; Fri, 27 Jun 2025 13:03:33 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 43BE8AEB5B3
+	for <lists+dri-devel@lfdr.de>; Fri, 27 Jun 2025 13:03:35 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 052C910E9C9;
-	Fri, 27 Jun 2025 11:03:31 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5DD9B10E9CD;
+	Fri, 27 Jun 2025 11:03:32 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=didiglobal.com header.i=@didiglobal.com header.b="c6+gNVTA";
+	dkim=pass (1024-bit key; unprotected) header.d=didiglobal.com header.i=@didiglobal.com header.b="BopHCA5A";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mx10.didiglobal.com (mx10.didiglobal.com [111.202.70.125])
- by gabe.freedesktop.org (Postfix) with SMTP id 5A70E10E044;
- Fri, 27 Jun 2025 11:03:28 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with SMTP id 3858010E9CC;
+ Fri, 27 Jun 2025 11:03:30 +0000 (UTC)
 Received: from mail.didiglobal.com (unknown [10.79.64.21])
  by mx10.didiglobal.com (MailData Gateway V2.8.8) with ESMTPS id C3781180FFD58F;
  Fri, 27 Jun 2025 19:02:22 +0800 (CST)
@@ -64,13 +64,20 @@ x-originating-ip: [10.79.64.102]
 Content-Type: text/plain; charset="gb2312"
 Content-Transfer-Encoding: base64
 MIME-Version: 1.0
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=didiglobal.com;
+XMD-OLD-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=didiglobal.com;
  s=2025; t=1751022164;
  bh=G4rwVJYLKQqnce8QoPmaSGWeYFRMyGi7Hu7kmAMCExA=;
  h=From:To:CC:Subject:Date:Message-ID:Content-Type;
  b=c6+gNVTAWDrfYpqhQyjfUYvWxTABGXwUTTSLsIuJjobJ4kOXXXJCso9MfmxB7+fBt
  ApBPtnQzVi5VmtR1CxwIEtUuCOZlGo1L7ui9qLsvdCuG4GJU8/5NYz8bveM0HD37fb
  6OGGtoZWY3qfsBSuP4IFoyEW1jVfGh1VGwKvwETU=
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=didiglobal.com;
+ s=2025; t=1751022166;
+ bh=G4rwVJYLKQqnce8QoPmaSGWeYFRMyGi7Hu7kmAMCExA=;
+ h=From:To:CC:Subject:Date:Message-ID:Content-Type;
+ b=BopHCA5A2xZcwCN2w5tCArdehJns019gqJ8odzOFgLP7kYYVgIcwJK/iCDq6BglfW
+ LYetPPO2qWiAWiDF9h69JiiIZCIU4NM6zDYnb0vPLi6UllqxxEQoXJsFkwINqEY3um
+ Fmh+QV+AvD0PzxQ3R/ASF/QoxZ+skuZynigQIz34=
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
