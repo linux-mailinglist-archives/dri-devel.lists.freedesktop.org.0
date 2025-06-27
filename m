@@ -2,34 +2,34 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8BF63AEADE2
-	for <lists+dri-devel@lfdr.de>; Fri, 27 Jun 2025 06:31:56 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5D723AEADDE
+	for <lists+dri-devel@lfdr.de>; Fri, 27 Jun 2025 06:31:45 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C88C010E963;
-	Fri, 27 Jun 2025 04:31:54 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id ADCE610E962;
+	Fri, 27 Jun 2025 04:31:43 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="QtHC7psT";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="BxbK4y2b";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from sea.source.kernel.org (sea.source.kernel.org [172.234.252.31])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1756910E95D
- for <dri-devel@lists.freedesktop.org>; Fri, 27 Jun 2025 04:31:31 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9526A10E95E
+ for <dri-devel@lists.freedesktop.org>; Fri, 27 Jun 2025 04:31:33 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by sea.source.kernel.org (Postfix) with ESMTP id F35A14361B;
- Fri, 27 Jun 2025 04:31:30 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id A4F82C4CEEB;
- Fri, 27 Jun 2025 04:31:28 +0000 (UTC)
+ by sea.source.kernel.org (Postfix) with ESMTP id 7D62F462D6;
+ Fri, 27 Jun 2025 04:31:33 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 24874C4CEF0;
+ Fri, 27 Jun 2025 04:31:31 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1750998690;
- bh=glRBi2ARDp3d+Stsv79iYRajcXAB16Ljdcta010d3iw=;
+ s=k20201202; t=1750998693;
+ bh=hely8rCeQBZS770H5X6E0gNUH0kghs8qNa/SePVXMhs=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=QtHC7psTvXuAm8GUu62g1Z6MfEChLwahfYsYeZ6dSSJYOtwK3DlpPOB7kJObVbICA
- 4A0P9crea3Ggp2CYwQPZb1hCBaJcvMiSvbMF8KPo21C0nY4yMNG4sf5rDm5F2PtFff
- Mg5mDNRrWQ2o+vtsUUldBtYX/mYYXRA+I2COlEW7qL7COUTDAnbBeKETUk09ObCRIm
- OVYNuf86cf4FFQc4PjFE8CMeHjuLhY3oJJ5es5T3n0+jSLagsdqaEptykCKtaaa4zT
- s5vXiY2oolEJH23+9RlT/Xg5Agsyt4aRgw+SNNDznxv3IoENJhbCzk/C2ddhUvW8ax
- aat4kIp9hIuNg==
+ b=BxbK4y2bmsy2YViXCUY6o2vDGuBYCU2r0quU8NQl7pOc6/QE9G0rbOBBxPwkPQ3Y6
+ hSnESV7GxY9Nw1Q6yxevuFLHaJXtUKB4YZsOU/CSokNBq5RPdtEF5Lt6BqJHmrAmJx
+ kV4wkeM/L3oxu9UlVoHD/LqDDlyz4ZR+JWbRucZx6xiWSt+OQVxGtZkvGNzXyL92b1
+ yemjBB/3PBz3vkukdfprjKe3BY2p5CaTjqcRcH4F/dSRbp2wg1IKPSZcr+NZEs2ufa
+ bU5KZOajkpScJhalRLeI2iURnzEO7bHXp5QPDzGTXrEFG62glkh+VJahspl0b4VFtU
+ 0b4Ca9M0ZhCjg==
 From: Mario Limonciello <superm1@kernel.org>
 To: Bjorn Helgaas <bhelgaas@google.com>
 Cc: Alex Deucher <alexander.deucher@amd.com>,
@@ -51,12 +51,11 @@ Cc: Alex Deucher <alexander.deucher@amd.com>,
  kvm@vger.kernel.org (open list:VFIO DRIVER),
  linux-sound@vger.kernel.org (open list:SOUND),
  Daniel Dadap <ddadap@nvidia.com>,
- Mario Limonciello <mario.limonciello@amd.com>,
- kernel test robot <lkp@intel.com>
-Subject: [PATCH v6 6/9] Fix access to video_is_primary_device() when compiled
- without CONFIG_VIDEO
-Date: Thu, 26 Jun 2025 23:31:05 -0500
-Message-ID: <20250627043108.3141206-7-superm1@kernel.org>
+ Mario Limonciello <mario.limonciello@amd.com>
+Subject: [PATCH v6 7/9] PCI/VGA: Replace vga_is_firmware_default() with a
+ screen info check
+Date: Thu, 26 Jun 2025 23:31:06 -0500
+Message-ID: <20250627043108.3141206-8-superm1@kernel.org>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <20250627043108.3141206-1-superm1@kernel.org>
 References: <20250627043108.3141206-1-superm1@kernel.org>
@@ -79,70 +78,67 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 From: Mario Limonciello <mario.limonciello@amd.com>
 
-When compiled without CONFIG_VIDEO the architecture specific
-implementations of video_is_primary_device() include prototypes and
-assume that video-common.c will be linked. Guard against this so that the
-fallback inline implementation that returns false will be used when
-compiled without CONFIG_VIDEO.
+vga_is_firmware_default() checks firmware resources to find the owner
+framebuffer resources to find the firmware PCI device.  This is an
+open coded implementation of screen_info_pci_dev().  Switch to using
+screen_info_pci_dev() instead.
 
-Acked-by: Thomas Zimmermann <tzimmermann@suse.de>
-Reported-by: kernel test robot <lkp@intel.com>
-Closes: https://lore.kernel.org/oe-kbuild-all/202506221312.49Fy1aNA-lkp@intel.com/
+Acked-by: Bjorn Helgaas <bhelgaas@google.com>
+Suggested-by: Thomas Zimmermann <tzimmermann@suse.de>
 Signed-off-by: Mario Limonciello <mario.limonciello@amd.com>
 ---
+v6:
+ * fix lkp robot error
 v5:
- * add tag
-v4:
- * new patch
+ * split from next patch
 ---
- arch/parisc/include/asm/video.h | 2 +-
- arch/sparc/include/asm/video.h  | 2 ++
- arch/x86/include/asm/video.h    | 2 ++
- 3 files changed, 5 insertions(+), 1 deletion(-)
+ drivers/pci/vgaarb.c | 31 +++++--------------------------
+ 1 file changed, 5 insertions(+), 26 deletions(-)
 
-diff --git a/arch/parisc/include/asm/video.h b/arch/parisc/include/asm/video.h
-index c5dff3223194a..a9d50ebd6e769 100644
---- a/arch/parisc/include/asm/video.h
-+++ b/arch/parisc/include/asm/video.h
-@@ -6,7 +6,7 @@
+diff --git a/drivers/pci/vgaarb.c b/drivers/pci/vgaarb.c
+index 78748e8d2dbae..b58f94ee48916 100644
+--- a/drivers/pci/vgaarb.c
++++ b/drivers/pci/vgaarb.c
+@@ -556,34 +556,13 @@ EXPORT_SYMBOL(vga_put);
  
- struct device;
- 
--#if defined(CONFIG_STI_CORE)
-+#if defined(CONFIG_STI_CORE) && defined(CONFIG_VIDEO)
- bool video_is_primary_device(struct device *dev);
- #define video_is_primary_device video_is_primary_device
- #endif
-diff --git a/arch/sparc/include/asm/video.h b/arch/sparc/include/asm/video.h
-index a6f48f52db584..773717b6d4914 100644
---- a/arch/sparc/include/asm/video.h
-+++ b/arch/sparc/include/asm/video.h
-@@ -19,8 +19,10 @@ static inline pgprot_t pgprot_framebuffer(pgprot_t prot,
- #define pgprot_framebuffer pgprot_framebuffer
- #endif
- 
-+#ifdef CONFIG_VIDEO
- bool video_is_primary_device(struct device *dev);
- #define video_is_primary_device video_is_primary_device
-+#endif
- 
- static inline void fb_memcpy_fromio(void *to, const volatile void __iomem *from, size_t n)
+ static bool vga_is_firmware_default(struct pci_dev *pdev)
  {
-diff --git a/arch/x86/include/asm/video.h b/arch/x86/include/asm/video.h
-index 0950c9535fae9..08ec328203ef8 100644
---- a/arch/x86/include/asm/video.h
-+++ b/arch/x86/include/asm/video.h
-@@ -13,8 +13,10 @@ pgprot_t pgprot_framebuffer(pgprot_t prot,
- 			    unsigned long offset);
- #define pgprot_framebuffer pgprot_framebuffer
+-#if defined(CONFIG_X86)
+-	u64 base = screen_info.lfb_base;
+-	u64 size = screen_info.lfb_size;
+-	struct resource *r;
+-	u64 limit;
++#ifdef CONFIG_SCREEN_INFO
++	struct screen_info *si = &screen_info;
  
-+#ifdef CONFIG_VIDEO
- bool video_is_primary_device(struct device *dev);
- #define video_is_primary_device video_is_primary_device
+-	/* Select the device owning the boot framebuffer if there is one */
+-
+-	if (screen_info.capabilities & VIDEO_CAPABILITY_64BIT_BASE)
+-		base |= (u64)screen_info.ext_lfb_base << 32;
+-
+-	limit = base + size;
+-
+-	/* Does firmware framebuffer belong to us? */
+-	pci_dev_for_each_resource(pdev, r) {
+-		if (resource_type(r) != IORESOURCE_MEM)
+-			continue;
+-
+-		if (!r->start || !r->end)
+-			continue;
+-
+-		if (base < r->start || limit >= r->end)
+-			continue;
+-
+-		return true;
+-	}
+-#endif
++	return pdev == screen_info_pci_dev(si);
++#else
+ 	return false;
 +#endif
+ }
  
- #include <asm-generic/video.h>
- 
+ static bool vga_arb_integrated_gpu(struct device *dev)
 -- 
 2.43.0
 
