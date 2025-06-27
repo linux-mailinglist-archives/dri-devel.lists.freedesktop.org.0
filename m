@@ -2,89 +2,34 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id BBF2EAEB34C
-	for <lists+dri-devel@lfdr.de>; Fri, 27 Jun 2025 11:48:55 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8F393AEB35C
+	for <lists+dri-devel@lfdr.de>; Fri, 27 Jun 2025 11:49:52 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7FDD110E9A1;
-	Fri, 27 Jun 2025 09:48:53 +0000 (UTC)
-Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=fairphone.com header.i=@fairphone.com header.b="lkGQC6Op";
-	dkim-atps=neutral
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2DF7410E9B9;
+	Fri, 27 Jun 2025 09:49:50 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ed1-f48.google.com (mail-ed1-f48.google.com
- [209.85.208.48])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4F48010E9A1
- for <dri-devel@lists.freedesktop.org>; Fri, 27 Jun 2025 09:48:50 +0000 (UTC)
-Received: by mail-ed1-f48.google.com with SMTP id
- 4fb4d7f45d1cf-607cf70b00aso3716296a12.2
- for <dri-devel@lists.freedesktop.org>; Fri, 27 Jun 2025 02:48:50 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=fairphone.com; s=fair; t=1751017728; x=1751622528; darn=lists.freedesktop.org;
- h=in-reply-to:references:from:subject:cc:to:message-id:date
- :content-transfer-encoding:mime-version:from:to:cc:subject:date
- :message-id:reply-to;
- bh=DCDsaW+29dJd0Q/+M489tK44pMH2jQe/+cBTe7kaALo=;
- b=lkGQC6OpAVMuDAfx/dwzEd45mlSilk+zFRjoSdtfM0sd5lQ+B86LupdwT53nsJc4jX
- buK5P7r89H1G+zuPPbvf7aUM7r5orCaaAD0jPUW5A5q7vONf+K0Gx7FY0bTEnKME26Cd
- OvXRK0tFDeqMecJJdkar2vCgc/Op2gPH6nV5MQrSVW8SBhDFvyiYXTdCveZH/SsO4MbL
- yIhbRiFz8OJgIOKXZXCVvPai8vGZig61J+d2DfZh1nwC8N70XHH2MEzlDAVVr3GVAnUV
- Dht2DIrdr33PgQ3JwogwaGVuq/dOwyh84c5Mo+oGKzIE0ExwzfsWXr3V3hmF3sWazzeR
- 0cCA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1751017728; x=1751622528;
- h=in-reply-to:references:from:subject:cc:to:message-id:date
- :content-transfer-encoding:mime-version:x-gm-message-state:from:to
- :cc:subject:date:message-id:reply-to;
- bh=DCDsaW+29dJd0Q/+M489tK44pMH2jQe/+cBTe7kaALo=;
- b=UIujXXfk1d2vyBoWr6bNsjr9VoEGHMJNZVkB8mKcnv9nPULskpFZ0y3k0NQZk5cgZV
- SXf5qxNhPes2w6WkIKRHrdl9K5kB71I+9ZmG1SJbici6+1nqjlXKM37EU8CGkOu4Gnaa
- jt4hdEOfcrfi8oJf93bs3/0JRqff7GPhBs3azkfiH/yF+Rdm9p09KrlMwioziE7R6RIj
- fEZWkQ+UNasdZMEV0i2wnS0fMscBkgYnMa8jO6RWMiUnTB8xnT2xyHdZLqRug33PlF/Y
- U8EhZjzId72ROIl6yfdecFKyxlV0SKbepj1/GJK+QuQSEezhVH/MFEc1hbGj8nILTURH
- F1WQ==
-X-Forwarded-Encrypted: i=1;
- AJvYcCWBK887/c+cPsVlETd3iaVpRGht2fqKNCYxpyn3FeXsL7yNAkZ3AVEVj6GIdwCkQGIm3VLGL+lEAIY=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YyAEokzK4oXLE752U0DCOVdp8CvN0ruizi3F+Wf7xVjsbMCZtUo
- Ufhk1gSI0rIPYZBfHbGWKDj4/i8Bs2hbydWIEAjT+4MewFh6PUx6rgZMx7Eyn7TgTXI=
-X-Gm-Gg: ASbGncu/tQ08r2qzTqLcIpDhTOciBGk4R1WhTbqfV4VbRzd3gbwAh3XdSoFD/rLse+3
- oYDil8StTK2QAmUnRl/ZWFi4CC7k0IATrD9xrXO5sbzMcp89wIDLNnFDpMBRay6RyUN0VTTOMFH
- JWviCTUyPQOZ6OGNT6XzXay+rqbHkbz4WrcoTr4iDXA2pE3hLhPN2Z6SK6Wx+CYiabwc/A9JFrW
- BRTos1cL/1phLaKL2MaYjsoWf86nPdcjTJdKw2jE56pT23FnAq84PZ+nQ7CuCeGO+7r46hlgQUE
- ahlzH1QzNTq8jYIJKurqzboLcL3GCCq7gJebQknupy78n+ppsfvhvuETN6K6vJ9snd4ND55Un45
- GkIq7tTD5TypzC0R1eHmFCXqW0lUVUEE=
-X-Google-Smtp-Source: AGHT+IFvxLKtOUHTAM6IaJNk+LxRIz+Sbrpu2XNC5tbYBRY8piKKH2knwTobMqopOBPkPqKUqvHZeA==
-X-Received: by 2002:a17:907:1c0b:b0:ae0:6dab:1a83 with SMTP id
- a640c23a62f3a-ae34fd0783bmr221032566b.7.1751017728509; 
- Fri, 27 Jun 2025 02:48:48 -0700 (PDT)
-Received: from localhost (144-178-202-138.static.ef-service.nl.
- [144.178.202.138]) by smtp.gmail.com with ESMTPSA id
- a640c23a62f3a-ae353c0427bsm92425166b.84.2025.06.27.02.48.47
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 27 Jun 2025 02:48:48 -0700 (PDT)
-Mime-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset=UTF-8
-Date: Fri, 27 Jun 2025 11:48:47 +0200
-Message-Id: <DAX7ZB27SBPV.2Y0I09TVSF3TT@fairphone.com>
-To: "Krzysztof Kozlowski" <krzk@kernel.org>
-Cc: "Hans de Goede" <hdegoede@redhat.com>, "Maarten Lankhorst"
- <maarten.lankhorst@linux.intel.com>, "Maxime Ripard" <mripard@kernel.org>,
- "Thomas Zimmermann" <tzimmermann@suse.de>, "David Airlie"
- <airlied@gmail.com>, "Simona Vetter" <simona@ffwll.ch>, "Rob Herring"
- <robh@kernel.org>, "Krzysztof Kozlowski" <krzk+dt@kernel.org>, "Conor
- Dooley" <conor+dt@kernel.org>, "Javier Martinez Canillas"
- <javierm@redhat.com>, "Helge Deller" <deller@gmx.de>,
- <linux-fbdev@vger.kernel.org>, <dri-devel@lists.freedesktop.org>,
- <devicetree@vger.kernel.org>, <linux-kernel@vger.kernel.org>
-Subject: Re: [PATCH v2 1/5] dt-bindings: display: simple-framebuffer: Add
- interconnects property
-From: "Luca Weiss" <luca.weiss@fairphone.com>
-X-Mailer: aerc 0.20.1-0-g2ecb8770224a-dirty
-References: <20250623-simple-drm-fb-icc-v2-0-f69b86cd3d7d@fairphone.com>
- <20250623-simple-drm-fb-icc-v2-1-f69b86cd3d7d@fairphone.com>
- <20250627-mysterious-optimistic-bird-acaafb@krzk-bin>
-In-Reply-To: <20250627-mysterious-optimistic-bird-acaafb@krzk-bin>
+Received: from rtg-sunil-navi33.amd.com (unknown [165.204.156.251])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3D1E210E9BC;
+ Fri, 27 Jun 2025 09:49:43 +0000 (UTC)
+Received: from rtg-sunil-navi33.amd.com (localhost [127.0.0.1])
+ by rtg-sunil-navi33.amd.com (8.15.2/8.15.2/Debian-22ubuntu3) with ESMTP id
+ 55R9nOLD913008; Fri, 27 Jun 2025 15:19:24 +0530
+Received: (from sunil@localhost)
+ by rtg-sunil-navi33.amd.com (8.15.2/8.15.2/Submit) id 55R9nNXU911533;
+ Fri, 27 Jun 2025 15:19:23 +0530
+From: Sunil Khatri <sunil.khatri@amd.com>
+To: =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>,
+ dri-devel@lists.freedesktop.org
+Cc: amd-gfx@lists.freedesktop.org, simona@ffwll.ch, tzimmermann@suse.de,
+ tursulin@ursulin.net, phasta@kernel.org, dakr@kernel.org,
+ Sunil Khatri <sunil.khatri@amd.com>
+Subject: [PATCH v6 1/5] drm: move the debugfs accel driver code to drm layer
+Date: Fri, 27 Jun 2025 15:19:17 +0530
+Message-Id: <20250627094921.911009-1-sunil.khatri@amd.com>
+X-Mailer: git-send-email 2.34.1
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -100,49 +45,126 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Krzysztof,
+Move the debugfs accel driver code to the drm layer
+and it is an intermediate step to move all debugfs
+related handling into drm_debugfs.c
 
-On Fri Jun 27, 2025 at 10:08 AM CEST, Krzysztof Kozlowski wrote:
-> On Mon, Jun 23, 2025 at 08:44:45AM +0200, Luca Weiss wrote:
->> Document the interconnects property which is a list of interconnect
->> paths that is used by the framebuffer and therefore needs to be kept
->> alive when the framebuffer is being used.
->>=20
->> Acked-by: Thomas Zimmermann <tzimmermann@suse.de>
->> Signed-off-by: Luca Weiss <luca.weiss@fairphone.com>
->> ---
->>  Documentation/devicetree/bindings/display/simple-framebuffer.yaml | 3 +=
-++
->>  1 file changed, 3 insertions(+)
->>=20
->> diff --git a/Documentation/devicetree/bindings/display/simple-framebuffe=
-r.yaml b/Documentation/devicetree/bindings/display/simple-framebuffer.yaml
->> index 296500f9da05e296dbbeec50ba5186b6b30aaffc..f0fa0ef23d91043dfb2b220c=
-654b80e2e80850cd 100644
->> --- a/Documentation/devicetree/bindings/display/simple-framebuffer.yaml
->> +++ b/Documentation/devicetree/bindings/display/simple-framebuffer.yaml
->> @@ -79,6 +79,9 @@ properties:
->>    power-domains:
->>      description: List of power domains used by the framebuffer.
->> =20
->> +  interconnects:
->> +    description: List of interconnect paths used by the framebuffer.
->> +
->
-> maxItems: 1, or this is not a simple FB anymore. Anything which needs
-> some sort of resources in unknown way is not simple anymore. You need
-> device specific bindings.
+Signed-off-by: Sunil Khatri <sunil.khatri@amd.com>
+---
+ drivers/accel/drm_accel.c | 16 ----------------
+ drivers/gpu/drm/drm_drv.c |  6 +++++-
+ include/drm/drm_accel.h   |  5 -----
+ 3 files changed, 5 insertions(+), 22 deletions(-)
 
-The bindings support an arbitrary number of clocks, regulators,
-power-domains. Why should I artificially limit the interconnects to only
-one?
-
-The driver code also has that support added in this series.
-
-Regards
-Luca
-
->
-> Best regards,
-> Krzysztof
+diff --git a/drivers/accel/drm_accel.c b/drivers/accel/drm_accel.c
+index aa826033b0ce..ca3357acd127 100644
+--- a/drivers/accel/drm_accel.c
++++ b/drivers/accel/drm_accel.c
+@@ -20,8 +20,6 @@
+ 
+ DEFINE_XARRAY_ALLOC(accel_minors_xa);
+ 
+-static struct dentry *accel_debugfs_root;
+-
+ static const struct device_type accel_sysfs_device_minor = {
+ 	.name = "accel_minor"
+ };
+@@ -73,17 +71,6 @@ static const struct drm_info_list accel_debugfs_list[] = {
+ };
+ #define ACCEL_DEBUGFS_ENTRIES ARRAY_SIZE(accel_debugfs_list)
+ 
+-/**
+- * accel_debugfs_init() - Initialize debugfs for device
+- * @dev: Pointer to the device instance.
+- *
+- * This function creates a root directory for the device in debugfs.
+- */
+-void accel_debugfs_init(struct drm_device *dev)
+-{
+-	drm_debugfs_dev_init(dev, accel_debugfs_root);
+-}
+-
+ /**
+  * accel_debugfs_register() - Register debugfs for device
+  * @dev: Pointer to the device instance.
+@@ -194,7 +181,6 @@ static const struct file_operations accel_stub_fops = {
+ void accel_core_exit(void)
+ {
+ 	unregister_chrdev(ACCEL_MAJOR, "accel");
+-	debugfs_remove(accel_debugfs_root);
+ 	accel_sysfs_destroy();
+ 	WARN_ON(!xa_empty(&accel_minors_xa));
+ }
+@@ -209,8 +195,6 @@ int __init accel_core_init(void)
+ 		goto error;
+ 	}
+ 
+-	accel_debugfs_root = debugfs_create_dir("accel", NULL);
+-
+ 	ret = register_chrdev(ACCEL_MAJOR, "accel", &accel_stub_fops);
+ 	if (ret < 0)
+ 		DRM_ERROR("Cannot register ACCEL major: %d\n", ret);
+diff --git a/drivers/gpu/drm/drm_drv.c b/drivers/gpu/drm/drm_drv.c
+index 17fc5dc708f4..5d57b622f9aa 100644
+--- a/drivers/gpu/drm/drm_drv.c
++++ b/drivers/gpu/drm/drm_drv.c
+@@ -70,6 +70,7 @@ DEFINE_XARRAY_ALLOC(drm_minors_xa);
+ static bool drm_core_init_complete;
+ 
+ static struct dentry *drm_debugfs_root;
++static struct dentry *accel_debugfs_root;
+ 
+ DEFINE_STATIC_SRCU(drm_unplug_srcu);
+ 
+@@ -752,7 +753,7 @@ static int drm_dev_init(struct drm_device *dev,
+ 	}
+ 
+ 	if (drm_core_check_feature(dev, DRIVER_COMPUTE_ACCEL))
+-		accel_debugfs_init(dev);
++		drm_debugfs_dev_init(dev, accel_debugfs_root);
+ 	else
+ 		drm_debugfs_dev_init(dev, drm_debugfs_root);
+ 
+@@ -1166,6 +1167,7 @@ static void drm_core_exit(void)
+ {
+ 	drm_privacy_screen_lookup_exit();
+ 	drm_panic_exit();
++	debugfs_remove(accel_debugfs_root);
+ 	accel_core_exit();
+ 	unregister_chrdev(DRM_MAJOR, "drm");
+ 	debugfs_remove(drm_debugfs_root);
+@@ -1193,6 +1195,8 @@ static int __init drm_core_init(void)
+ 	if (ret < 0)
+ 		goto error;
+ 
++	accel_debugfs_root = debugfs_create_dir("accel", NULL);
++
+ 	ret = accel_core_init();
+ 	if (ret < 0)
+ 		goto error;
+diff --git a/include/drm/drm_accel.h b/include/drm/drm_accel.h
+index 038ccb02f9a3..20a665ec6f16 100644
+--- a/include/drm/drm_accel.h
++++ b/include/drm/drm_accel.h
+@@ -58,7 +58,6 @@ void accel_core_exit(void);
+ int accel_core_init(void);
+ void accel_set_device_instance_params(struct device *kdev, int index);
+ int accel_open(struct inode *inode, struct file *filp);
+-void accel_debugfs_init(struct drm_device *dev);
+ void accel_debugfs_register(struct drm_device *dev);
+ 
+ #else
+@@ -77,10 +76,6 @@ static inline void accel_set_device_instance_params(struct device *kdev, int ind
+ {
+ }
+ 
+-static inline void accel_debugfs_init(struct drm_device *dev)
+-{
+-}
+-
+ static inline void accel_debugfs_register(struct drm_device *dev)
+ {
+ }
+-- 
+2.34.1
 
