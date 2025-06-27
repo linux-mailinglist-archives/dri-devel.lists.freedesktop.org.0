@@ -2,62 +2,60 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8BFAFAEB88B
-	for <lists+dri-devel@lfdr.de>; Fri, 27 Jun 2025 15:11:15 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id D8A70AEB8A9
+	for <lists+dri-devel@lfdr.de>; Fri, 27 Jun 2025 15:17:40 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C5F9D10EA16;
-	Fri, 27 Jun 2025 13:11:11 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B674E10EA17;
+	Fri, 27 Jun 2025 13:17:37 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="ENgiycsn";
+	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=igalia.com header.i=@igalia.com header.b="T51NL9X3";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.19])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 523F710EA16
- for <dri-devel@lists.freedesktop.org>; Fri, 27 Jun 2025 13:11:08 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1751029870; x=1782565870;
- h=date:from:to:cc:subject:message-id:references:
- mime-version:content-transfer-encoding:in-reply-to;
- bh=lcJWZqeVwjpFnSWJSZOtJO5vAGFfa9DHinhZvGR946A=;
- b=ENgiycsnsjC2/aqPRQO4rve0ChP9AIrEIitn9kKBKVBLYTXTe+ItpH5i
- +X5XcPhFSx/tUeSDpXPLvIQt8p1A8EDrL7sjeiVynrN4yG2EjBryTz/N5
- XvLX1K8IXWZ8Gs4UEbnUbukdtPejlagyEPh60zsWb5AxEzW4g/8naCarh
- gQiA4MxQgleJI3RjgTGqKuFVoODRs+A7uYN1OyQt9V8YCUyy9/foUQb2E
- 3edFjZOZFvjpmysCJOcW1Hl6DTDMJKCGesJrNIG4uAivNmvALBUUVdfXG
- mzv6NNO6NAYxmYiLMy3eIoaoxEGHo/5hfX7aIXzT/63alH4W/tu2F+wHT A==;
-X-CSE-ConnectionGUID: kJC10K5GTgiqug9+BMX4pQ==
-X-CSE-MsgGUID: xsAdVXiDRkCPdUo8p3QuYA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11477"; a="53216378"
-X-IronPort-AV: E=Sophos;i="6.16,270,1744095600"; d="scan'208";a="53216378"
-Received: from orviesa004.jf.intel.com ([10.64.159.144])
- by orvoesa111.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 27 Jun 2025 06:11:08 -0700
-X-CSE-ConnectionGUID: X9qCysVXTMOOGGnxCeuv7w==
-X-CSE-MsgGUID: f2/YQqXwSAKxqaMjoJ71Tw==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.16,270,1744095600"; d="scan'208";a="157348817"
-Received: from black.fi.intel.com ([10.237.72.28])
- by orviesa004.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 27 Jun 2025 06:11:05 -0700
-Date: Fri, 27 Jun 2025 16:11:02 +0300
-From: Raag Jadav <raag.jadav@intel.com>
-To: =?iso-8859-1?Q?Andr=E9?= Almeida <andrealmeid@igalia.com>
-Cc: Stephen Rothwell <sfr@canb.auug.org.au>,
- Linux Next Mailing List <linux-next@vger.kernel.org>,
- airlied@gmail.com, simona@ffwll.ch,
- Krzysztof Karas <krzysztof.karas@intel.com>,
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- kernel-dev@igalia.com
-Subject: Re: [PATCH v2 1/2] drm/doc: Fix title underline for "Task information"
-Message-ID: <aF6YZmRiPcIGt6F5@black.fi.intel.com>
-References: <20250619140655.2468014-1-andrealmeid@igalia.com>
+Received: from fanzine2.igalia.com (fanzine2.igalia.com [213.97.179.56])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7031910EA17
+ for <dri-devel@lists.freedesktop.org>; Fri, 27 Jun 2025 13:17:36 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com; 
+ s=20170329;
+ h=Content-Transfer-Encoding:Content-Type:In-Reply-To:From:
+ References:Cc:To:Subject:MIME-Version:Date:Message-ID:Sender:Reply-To:
+ Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
+ Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
+ List-Subscribe:List-Post:List-Owner:List-Archive;
+ bh=DVo6iRITrHOG5MmQsBw+GAXuoHIgqVw49q4vBY/hs64=; b=T51NL9X39G9S3/iBl6ImV1LlFK
+ gnYam49uTpCt9cMySIVvMVrKYF4N2Mad7XfBHhqe+un5QBeiyd8vlb1vFx1g0LFr/hdq9MyzisZnl
+ +sdxEl29Vx5ysTP5id4TRb/+SEms0Cd7UmPADmzsIqvel1rXjS1rTs9vkBwvkWvqoYx35mCpVoWUW
+ cQE64WXwoiMu9Kr6AUT5J0DXtCGRhNYNZfYrBPBpT9CJc+2TIib3THazxgvP0BSIFOwwJe2vTleG5
+ GBV2q73cPK20H28+dRMbsJDDilaOH2dA1TwEy3vIlTJgm4LwGgKL85I4y5//u+JxSyhLiGzRGdLzv
+ 5k1EjzHg==;
+Received: from [189.7.87.79] (helo=[192.168.0.7])
+ by fanzine2.igalia.com with esmtpsa 
+ (Cipher TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_128_GCM:128) (Exim)
+ id 1uV8xG-009PQ5-Dn; Fri, 27 Jun 2025 15:17:22 +0200
+Message-ID: <0fc35309-f487-4aa2-b0df-c9b0e2b51fb7@igalia.com>
+Date: Fri, 27 Jun 2025 10:17:14 -0300
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v5 2/8] drm/vkms: Add support for ARGB8888 formats
+To: Louis Chauvet <louis.chauvet@bootlin.com>,
+ Melissa Wen <melissa.srw@gmail.com>,
+ Haneen Mohammed <hamohammed.sa@gmail.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+ Rodrigo Siqueira <siqueira@igalia.com>,
+ Simona Vetter <simona.vetter@ffwll.ch>
+Cc: dri-devel@lists.freedesktop.org, arthurgrillo@riseup.net,
+ linux-kernel@vger.kernel.org, jeremie.dautheribes@bootlin.com,
+ miquel.raynal@bootlin.com, thomas.petazzoni@bootlin.com,
+ seanpaul@google.com, nicolejadeyee@google.com
+References: <20250627-b4-new-color-formats-v5-0-94452f119c72@bootlin.com>
+ <20250627-b4-new-color-formats-v5-2-94452f119c72@bootlin.com>
+Content-Language: en-US
+From: =?UTF-8?Q?Ma=C3=ADra_Canal?= <mcanal@igalia.com>
+In-Reply-To: <20250627-b4-new-color-formats-v5-2-94452f119c72@bootlin.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <20250619140655.2468014-1-andrealmeid@igalia.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -73,49 +71,83 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, Jun 19, 2025 at 11:06:54AM -0300, André Almeida wrote:
-> Fix the following warning:
+Hi Louis,
+
+On 27/06/25 06:12, Louis Chauvet wrote:
+> The formats XRGB8888 and ARGB8888 were already supported. Add the
+> support for: - XBGR8888 - RGBX8888 - BGRX8888 - ABGR8888 - RGBA8888 -
+> BGRA8888
+
+Please, remove RGBX8888 and BGRX8888 from this list. Also, for
+readability, it would be great if you add each format in one separate
+line.
+
+Apart from that,
+
+Reviewed-by: MaÃ­ra Canal <mcanal@igalia.com>
+
+Best Regards,
+- MaÃ­ra
+
 > 
-> Documentation/gpu/drm-uapi.rst:450: WARNING: Title underline too short.
-> 
-> Task information
-> --------------- [docutils]
-> 
-> Fixes: cd37124b4093 ("drm/doc: Add a section about "Task information" for the wedge API")
-> Reported-by: Stephen Rothwell <sfr@canb.auug.org.au>
-> Signed-off-by: André Almeida <andrealmeid@igalia.com>
+> Signed-off-by: Louis Chauvet <louis.chauvet@bootlin.com>
 > ---
-> v2: Add Reported-by tag
-> ---
->  Documentation/gpu/drm-uapi.rst | 4 ++--
->  1 file changed, 2 insertions(+), 2 deletions(-)
+>   drivers/gpu/drm/vkms/vkms_formats.c | 13 +++++++++++--
+>   drivers/gpu/drm/vkms/vkms_plane.c   |  5 ++++-
+>   2 files changed, 15 insertions(+), 3 deletions(-)
 > 
-> diff --git a/Documentation/gpu/drm-uapi.rst b/Documentation/gpu/drm-uapi.rst
-> index 263e5a97c080..10dea6a1f097 100644
-> --- a/Documentation/gpu/drm-uapi.rst
-> +++ b/Documentation/gpu/drm-uapi.rst
-> @@ -447,7 +447,7 @@ hang is usually the most critical one which can result in consequential hangs or
->  complete wedging.
->  
->  Task information
-> ----------------
-> +----------------
-
-Since we're here, can you please also fix the grammar in last sentence
-of this section? I presume you meant to use either "provides" or "should
-have" and not both? ;)
-
-Raag
-
->  The information about which application (if any) was involved in the device
->  wedging is useful for userspace if they want to notify the user about what
-> @@ -728,4 +728,4 @@ Stable uAPI events
->  From ``drivers/gpu/drm/scheduler/gpu_scheduler_trace.h``
->  
->  .. kernel-doc::  drivers/gpu/drm/scheduler/gpu_scheduler_trace.h
-> -   :doc: uAPI trace events
-> \ No newline at end of file
-> +   :doc: uAPI trace events
-> -- 
-> 2.49.0
+> diff --git a/drivers/gpu/drm/vkms/vkms_formats.c b/drivers/gpu/drm/vkms/vkms_formats.c
+> index a9c624081dac..231b327e86b3 100644
+> --- a/drivers/gpu/drm/vkms/vkms_formats.c
+> +++ b/drivers/gpu/drm/vkms/vkms_formats.c
+> @@ -432,9 +432,12 @@ static void R4_read_line(const struct vkms_plane_state *plane, int x_start,
+>   
+>   
+>   READ_LINE_ARGB8888(XRGB8888_read_line, px, 0xFF, px[2], px[1], px[0])
+> +READ_LINE_ARGB8888(XBGR8888_read_line, px, 0xFF, px[0], px[1], px[2])
+>   
+>   READ_LINE_ARGB8888(ARGB8888_read_line, px, px[3], px[2], px[1], px[0])
+>   READ_LINE_ARGB8888(ABGR8888_read_line, px, px[3], px[0], px[1], px[2])
+> +READ_LINE_ARGB8888(RGBA8888_read_line, px, px[0], px[3], px[2], px[1])
+> +READ_LINE_ARGB8888(BGRA8888_read_line, px, px[0], px[1], px[2], px[3])
+>   
+>   READ_LINE_le16161616(ARGB16161616_read_line, px, px[3], px[2], px[1], px[0])
+>   READ_LINE_le16161616(XRGB16161616_read_line, px, cpu_to_le16(0xFFFF), px[2], px[1], px[0])
+> @@ -644,10 +647,16 @@ pixel_read_line_t get_pixel_read_line_function(u32 format)
+>   	switch (format) {RGBA8888
+>   	case DRM_FORMAT_ARGB8888:
+>   		return &ARGB8888_read_line;
+> -	case DRM_FORMAT_XRGB8888:
+> -		return &XRGB8888_read_line;
+>   	case DRM_FORMAT_ABGR8888:
+>   		return &ABGR8888_read_line;
+> +	case DRM_FORMAT_BGRA8888:
+> +		return &BGRA8888_read_line;
+> +	case DRM_FORMAT_RGBA8888:
+> +		return &RGBA8888_read_line;
+> +	case DRM_FORMAT_XRGB8888:
+> +		return &XRGB8888_read_line;
+> +	case DRM_FORMAT_XBGR8888:
+> +		return &XBGR8888_read_line;
+>   	case DRM_FORMAT_ARGB16161616:
+>   		return &ARGB16161616_read_line;
+>   	case DRM_FORMAT_XRGB16161616:
+> diff --git a/drivers/gpu/drm/vkms/vkms_plane.c b/drivers/gpu/drm/vkms/vkms_plane.c
+> index e3fdd161d0f0..01fed722808b 100644
+> --- a/drivers/gpu/drm/vkms/vkms_plane.c
+> +++ b/drivers/gpu/drm/vkms/vkms_plane.c
+> @@ -14,8 +14,11 @@
+>   
+>   static const u32 vkms_formats[] = {
+>   	DRM_FORMAT_ARGB8888,
+> -	DRM_FORMAT_XRGB8888,
+>   	DRM_FORMAT_ABGR8888,
+> +	DRM_FORMAT_BGRA8888,
+> +	DRM_FORMAT_RGBA8888,
+> +	DRM_FORMAT_XRGB8888,
+> +	DRM_FORMAT_XBGR8888,
+>   	DRM_FORMAT_XRGB16161616,
+>   	DRM_FORMAT_ARGB16161616,
+>   	DRM_FORMAT_RGB565,
 > 
+
