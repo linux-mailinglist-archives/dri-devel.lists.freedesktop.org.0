@@ -2,145 +2,90 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id ECBE7AEAFC4
-	for <lists+dri-devel@lfdr.de>; Fri, 27 Jun 2025 09:07:33 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id C5068AEB003
+	for <lists+dri-devel@lfdr.de>; Fri, 27 Jun 2025 09:21:20 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B82E310E96B;
-	Fri, 27 Jun 2025 07:07:30 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 076C710E31E;
+	Fri, 27 Jun 2025 07:21:19 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=suse.de header.i=@suse.de header.b="N4clLfve";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="9e0Qp7+3";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="N4clLfve";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="9e0Qp7+3";
+	dkim=pass (1024-bit key; unprotected) header.d=redhat.com header.i=@redhat.com header.b="f8D9HXTN";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0598D10E31B
- for <dri-devel@lists.freedesktop.org>; Fri, 27 Jun 2025 07:07:26 +0000 (UTC)
-Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
- (No client certificate requested)
- by smtp-out1.suse.de (Postfix) with ESMTPS id A6DB72115E;
- Fri, 27 Jun 2025 07:07:24 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1751008044; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
+Received: from us-smtp-delivery-124.mimecast.com
+ (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0A6CC10E31E
+ for <dri-devel@lists.freedesktop.org>; Fri, 27 Jun 2025 07:21:14 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1751008874;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=AdkxMVDSJWtTtdI/CdPCfFHzTDWWuafm4IIC63NXAiE=;
- b=N4clLfveVEntVpYQmS7c0Hjt0mfpoCR0618wRQYDmzU3rgWHhmJzS0kFlg8HXR/1xeKZiG
- yMm3CU6C9eHzFVMmCYbnpQ1KZU5G58Ki4HCiczx0xJLN93mGexxBikbSWjJXoZl5gyOPNQ
- JxjsLZNXtN1xf4iA2bcwN8xzc9qdjiE=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1751008044;
- h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=AdkxMVDSJWtTtdI/CdPCfFHzTDWWuafm4IIC63NXAiE=;
- b=9e0Qp7+3qCk9LerBZH9omPu8JAOkFWwCpo9iEX/PBWEzaD3dbr385UXCzQTp9SxacTlcRm
- X1DQ4p+2S2CeqbCg==
-Authentication-Results: smtp-out1.suse.de;
-	none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1751008044; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=AdkxMVDSJWtTtdI/CdPCfFHzTDWWuafm4IIC63NXAiE=;
- b=N4clLfveVEntVpYQmS7c0Hjt0mfpoCR0618wRQYDmzU3rgWHhmJzS0kFlg8HXR/1xeKZiG
- yMm3CU6C9eHzFVMmCYbnpQ1KZU5G58Ki4HCiczx0xJLN93mGexxBikbSWjJXoZl5gyOPNQ
- JxjsLZNXtN1xf4iA2bcwN8xzc9qdjiE=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1751008044;
- h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=AdkxMVDSJWtTtdI/CdPCfFHzTDWWuafm4IIC63NXAiE=;
- b=9e0Qp7+3qCk9LerBZH9omPu8JAOkFWwCpo9iEX/PBWEzaD3dbr385UXCzQTp9SxacTlcRm
- X1DQ4p+2S2CeqbCg==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
- (No client certificate requested)
- by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 0EE24138A7;
- Fri, 27 Jun 2025 07:07:24 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
- by imap1.dmz-prg2.suse.org with ESMTPSA id saxrAixDXmjQQwAAD6G6ig
- (envelope-from <tzimmermann@suse.de>); Fri, 27 Jun 2025 07:07:24 +0000
-Message-ID: <41587824-4a05-4ead-b24c-4729007cd663@suse.de>
-Date: Fri, 27 Jun 2025 09:07:23 +0200
+ in-reply-to:in-reply-to:references:references;
+ bh=7T8pVkHRKwCktH0i+Lgt2LdnpL3Clnbv6O9t8mIHq44=;
+ b=f8D9HXTNWU7W/oxjhbFzfot0KOF8n+uyYcQhtDG55Ay7GLk9FpzZsziDxExI0SAD3lCPbS
+ OlvtEWbcF38D5RXis6MBMplU1x2VaBEPLOTo2YzObxXdETV4dgkw6IRkD+y6HnCxpVWgNv
+ VeoOlqLkcZC61CqHbz2KkMnH/a1+poI=
+Received: from mail-wr1-f72.google.com (mail-wr1-f72.google.com
+ [209.85.221.72]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-15-nVM6ESxHOl21qMQKCfz1NQ-1; Fri, 27 Jun 2025 03:21:12 -0400
+X-MC-Unique: nVM6ESxHOl21qMQKCfz1NQ-1
+X-Mimecast-MFC-AGG-ID: nVM6ESxHOl21qMQKCfz1NQ_1751008871
+Received: by mail-wr1-f72.google.com with SMTP id
+ ffacd0b85a97d-3a4eeed54c2so1170435f8f.3
+ for <dri-devel@lists.freedesktop.org>; Fri, 27 Jun 2025 00:21:12 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1751008871; x=1751613671;
+ h=content-transfer-encoding:in-reply-to:from:content-language
+ :references:cc:to:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=7T8pVkHRKwCktH0i+Lgt2LdnpL3Clnbv6O9t8mIHq44=;
+ b=ti5XoAsdy5G+0kD6zFi6/PAaRgBcJWImEwdWN85XB0paZIHJJgSBSETxQhLh1gonzg
+ xZZ5PrPdJq+ok3i+q5DYmwOrSO4jHXlIiGYSnDYFwuFdEtjYDw586oxq09ZamVphTNJl
+ kxftq86iZ0hPZArqZIZJfqFj5BZ/t3MpNdezL4ruqp4vwSBJrdpE1fhXYwRT6ZmSO67n
+ F87PQWjVpZbLKWLqwD89+Y1WPN/CYqc9s8o13Vq+7qteBTI48UgZzyA3rSn70XzH3q52
+ xBorNVPquwdqoEnVIqHz+74ek950ozByOkyFV/8Ai7qq0lToEqnxA9fbjpJ/C09pjEDb
+ l9qQ==
+X-Gm-Message-State: AOJu0YwOUxV/rex/P1Meeb5vYg/I2don3yR+6ba947V2RGlpALN3E22r
+ s9NrjU9YssxYsjcdqx3AYAkIS9v5RDYsR8Qelt26i/3+ExvnuVk4Ac3YWRtDFGBFnI7VLT4WXWJ
+ YPXUoIyiCfdupBu899QhWG3YS/cZBqBBeWGXJUQKKXUaB4rY/LRlxkYx1psH2q3VIhBAtng==
+X-Gm-Gg: ASbGncu/1Ua2SLxsfXEiBk2bmS+Y4IJeieRzhsD/IqGc9pH2VUh+lHj9I6qpO4aCDLt
+ 0NXxgXHTp0/ePtR92czW66MhCv2eROPajPHg98cMsbmmEQf1C5cxWOZj1vfcW70o96gcTktM94z
+ JEsswT4CgPwGSNMh5A0t2aFyypvbfvxFWaOW4lYtyUYkbqm01W/M/M/o031oQBYcmw9vuppomhp
+ xdQx4bmc9fmd3/CluXaVdTzBzttdtpvaCSVpMsSzgDdYVADWGHdc6ri6nFSwpJ2BCT3R5X2Wajp
+ /4HUSC7e5li9skluhD1gUGJzw2aRqfYr0E2hIiHhSKM4uCs2dBOH3nGQbi0LEg==
+X-Received: by 2002:adf:9d87:0:b0:3a5:2ec5:35a9 with SMTP id
+ ffacd0b85a97d-3a8f4549249mr1534712f8f.3.1751008871013; 
+ Fri, 27 Jun 2025 00:21:11 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IFYTAwPMBLLuY5B1e/xgrRGMxZyO1QqSsYOB9Z0ojZ5gBsL3NMYJpjKncjtolscOMeITeHqtg==
+X-Received: by 2002:adf:9d87:0:b0:3a5:2ec5:35a9 with SMTP id
+ ffacd0b85a97d-3a8f4549249mr1534679f8f.3.1751008870491; 
+ Fri, 27 Jun 2025 00:21:10 -0700 (PDT)
+Received: from ?IPV6:2a01:e0a:c:37e0:8998:e0cf:68cc:1b62?
+ ([2a01:e0a:c:37e0:8998:e0cf:68cc:1b62])
+ by smtp.gmail.com with ESMTPSA id
+ ffacd0b85a97d-3a892e62144sm1907930f8f.92.2025.06.27.00.21.09
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Fri, 27 Jun 2025 00:21:10 -0700 (PDT)
+Message-ID: <86712b85-44ad-4b2e-a10f-ffad5677d82f@redhat.com>
+Date: Fri, 27 Jun 2025 09:21:09 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v6 9/9] PCI: Add a new 'boot_display' attribute
-To: Mario Limonciello <superm1@kernel.org>, Bjorn Helgaas <bhelgaas@google.com>
-Cc: Alex Deucher <alexander.deucher@amd.com>,
- =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- Lukas Wunner <lukas@wunner.de>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, David Woodhouse <dwmw2@infradead.org>,
- Lu Baolu <baolu.lu@linux.intel.com>, Joerg Roedel <joro@8bytes.org>,
- Will Deacon <will@kernel.org>, Robin Murphy <robin.murphy@arm.com>,
- Alex Williamson <alex.williamson@redhat.com>,
- Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
- "open list:DRM DRIVERS" <dri-devel@lists.freedesktop.org>,
- open list <linux-kernel@vger.kernel.org>,
- "open list:INTEL IOMMU (VT-d)" <iommu@lists.linux.dev>,
- "open list:PCI SUBSYSTEM" <linux-pci@vger.kernel.org>,
- "open list:VFIO DRIVER" <kvm@vger.kernel.org>,
- "open list:SOUND" <linux-sound@vger.kernel.org>,
- Daniel Dadap <ddadap@nvidia.com>,
- Mario Limonciello <mario.limonciello@amd.com>
-References: <20250627043108.3141206-1-superm1@kernel.org>
- <20250627043108.3141206-10-superm1@kernel.org>
-Content-Language: en-US
-From: Thomas Zimmermann <tzimmermann@suse.de>
-Autocrypt: addr=tzimmermann@suse.de; keydata=
- xsBNBFs50uABCADEHPidWt974CaxBVbrIBwqcq/WURinJ3+2WlIrKWspiP83vfZKaXhFYsdg
- XH47fDVbPPj+d6tQrw5lPQCyqjwrCPYnq3WlIBnGPJ4/jreTL6V+qfKRDlGLWFjZcsrPJGE0
- BeB5BbqP5erN1qylK9i3gPoQjXGhpBpQYwRrEyQyjuvk+Ev0K1Jc5tVDeJAuau3TGNgah4Yc
- hdHm3bkPjz9EErV85RwvImQ1dptvx6s7xzwXTgGAsaYZsL8WCwDaTuqFa1d1jjlaxg6+tZsB
- 9GluwvIhSezPgnEmimZDkGnZRRSFiGP8yjqTjjWuf0bSj5rUnTGiyLyRZRNGcXmu6hjlABEB
- AAHNJ1Rob21hcyBaaW1tZXJtYW5uIDx0emltbWVybWFubkBzdXNlLmRlPsLAjgQTAQgAOAIb
- AwULCQgHAgYVCgkICwIEFgIDAQIeAQIXgBYhBHIX+6yM6c9jRKFo5WgNwR1TC3ojBQJftODH
- AAoJEGgNwR1TC3ojx1wH/0hKGWugiqDgLNXLRD/4TfHBEKmxIrmfu9Z5t7vwUKfwhFL6hqvo
- lXPJJKQpQ2z8+X2vZm/slsLn7J1yjrOsoJhKABDi+3QWWSGkaGwRJAdPVVyJMfJRNNNIKwVb
- U6B1BkX2XDKDGffF4TxlOpSQzdtNI/9gleOoUA8+jy8knnDYzjBNOZqLG2FuTdicBXblz0Mf
- vg41gd9kCwYXDnD91rJU8tzylXv03E75NCaTxTM+FBXPmsAVYQ4GYhhgFt8S2UWMoaaABLDe
- 7l5FdnLdDEcbmd8uLU2CaG4W2cLrUaI4jz2XbkcPQkqTQ3EB67hYkjiEE6Zy3ggOitiQGcqp
- j//OwE0EWznS4AEIAMYmP4M/V+T5RY5at/g7rUdNsLhWv1APYrh9RQefODYHrNRHUE9eosYb
- T6XMryR9hT8XlGOYRwKWwiQBoWSDiTMo/Xi29jUnn4BXfI2px2DTXwc22LKtLAgTRjP+qbU6
- 3Y0xnQN29UGDbYgyyK51DW3H0If2a3JNsheAAK+Xc9baj0LGIc8T9uiEWHBnCH+RdhgATnWW
- GKdDegUR5BkDfDg5O/FISymJBHx2Dyoklv5g4BzkgqTqwmaYzsl8UxZKvbaxq0zbehDda8lv
- hFXodNFMAgTLJlLuDYOGLK2AwbrS3Sp0AEbkpdJBb44qVlGm5bApZouHeJ/+n+7r12+lqdsA
- EQEAAcLAdgQYAQgAIAIbDBYhBHIX+6yM6c9jRKFo5WgNwR1TC3ojBQJftOH6AAoJEGgNwR1T
- C3ojVSkIALpAPkIJPQoURPb1VWjh34l0HlglmYHvZszJWTXYwavHR8+k6Baa6H7ufXNQtThR
- yIxJrQLW6rV5lm7TjhffEhxVCn37+cg0zZ3j7zIsSS0rx/aMwi6VhFJA5hfn3T0TtrijKP4A
- SAQO9xD1Zk9/61JWk8OysuIh7MXkl0fxbRKWE93XeQBhIJHQfnc+YBLprdnxR446Sh8Wn/2D
- Ya8cavuWf2zrB6cZurs048xe0UbSW5AOSo4V9M0jzYI4nZqTmPxYyXbm30Kvmz0rYVRaitYJ
- 4kyYYMhuULvrJDMjZRvaNe52tkKAvMevcGdt38H4KSVXAylqyQOW5zvPc4/sq9c=
-In-Reply-To: <20250627043108.3141206-10-superm1@kernel.org>
+Subject: Re: [PATCH] drm/format-helper: Split off byte swapping from
+ drm_fb_xrgb8888_to_rgb565()
+To: Thomas Zimmermann <tzimmermann@suse.de>, jose.exposito89@gmail.com,
+ maarten.lankhorst@linux.intel.com, mripard@kernel.org
+Cc: dri-devel@lists.freedesktop.org
+References: <20250625114911.1121301-1-tzimmermann@suse.de>
+From: Jocelyn Falempe <jfalempe@redhat.com>
+In-Reply-To: <20250625114911.1121301-1-tzimmermann@suse.de>
+X-Mimecast-Spam-Score: 0
+X-Mimecast-MFC-PROC-ID: j4Z5JFxKjv_S04L8Ebo3eT_w_YYYaTlTI_1g0R_Hw7A_1751008871
+X-Mimecast-Originator: redhat.com
+Content-Language: en-US, fr
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
-X-Spamd-Result: default: False [-4.30 / 50.00]; BAYES_HAM(-3.00)[100.00%];
- NEURAL_HAM_LONG(-1.00)[-1.000];
- NEURAL_HAM_SHORT(-0.20)[-1.000]; MIME_GOOD(-0.10)[text/plain];
- RCVD_TLS_ALL(0.00)[]; RCVD_VIA_SMTP_AUTH(0.00)[];
- ARC_NA(0.00)[]; MID_RHS_MATCH_FROM(0.00)[];
- MIME_TRACE(0.00)[0:+]; FREEMAIL_ENVRCPT(0.00)[gmail.com];
- DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
- FUZZY_BLOCKED(0.00)[rspamd.com]; FROM_HAS_DN(0.00)[];
- FREEMAIL_CC(0.00)[amd.com,gmail.com,ffwll.ch,wunner.de,linux.intel.com,kernel.org,infradead.org,8bytes.org,arm.com,redhat.com,perex.cz,suse.com,lists.freedesktop.org,vger.kernel.org,lists.linux.dev,nvidia.com];
- RCPT_COUNT_TWELVE(0.00)[25]; FROM_EQ_ENVFROM(0.00)[];
- TO_MATCH_ENVRCPT_ALL(0.00)[]; RCVD_COUNT_TWO(0.00)[2];
- TO_DN_ALL(0.00)[]; DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:mid]
-X-Spam-Level: 
-X-Spam-Flag: NO
-X-Spam-Score: -4.30
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -156,150 +101,245 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi
+On 25/06/2025 13:48, Thomas Zimmermann wrote:
+> Move big-endian support from drm_fb_xrgb8888_to_rgb565() into the new
+> helper drm_xrgb8888_to_rgb565be(). The functionality is required for
+> displays with big-endian byte order. Update all callers.
+> 
+> With the change applied, drm_fb_xrgb8888_to_rgb565() has the same
+> signature as the other conversion functions, which is required for
+> further updates to drm_fb_blit(). Also makes the format-conversion
+> helper available to panic handlers, if necessary.
 
-Am 27.06.25 um 06:31 schrieb Mario Limonciello:
-> From: Mario Limonciello <mario.limonciello@amd.com>
->
-> On systems with multiple GPUs there can be uncertainty which GPU is the
-> primary one used to drive the display at bootup. In order to disambiguate
-> this add a new sysfs attribute 'boot_display' that uses the output of
-> video_is_primary_device() to populate whether a PCI device was used for
-> driving the display.
->
-> Signed-off-by: Mario Limonciello <mario.limonciello@amd.com>
+Thanks, it looks good to me.
+
+Reviewed-by: Jocelyn Falempe <jfalempe@redhat.com>
+
+> 
+> Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
 > ---
-> v6:
->   * Only show for the device that is boot display
->   * Only create after PCI device sysfs files are initialized to ensure
->     that resources are ready.
-> v4:
->   * new patch
-> ---
->   Documentation/ABI/testing/sysfs-bus-pci |  8 +++++
->   drivers/pci/pci-sysfs.c                 | 46 +++++++++++++++++++++++++
-
-The code looks good. Just one more question: could this be added 
-independently from the PCI bus (at a reasonable cost)? There are other 
-busses that can host the boot display. Alternatively, we'd add this 
-attribute per bus as needed.
-
-Best regards
-Thomas
-
->   2 files changed, 54 insertions(+)
->
-> diff --git a/Documentation/ABI/testing/sysfs-bus-pci b/Documentation/ABI/testing/sysfs-bus-pci
-> index 69f952fffec72..8b455b1a58852 100644
-> --- a/Documentation/ABI/testing/sysfs-bus-pci
-> +++ b/Documentation/ABI/testing/sysfs-bus-pci
-> @@ -612,3 +612,11 @@ Description:
->   
->   		  # ls doe_features
->   		  0001:01        0001:02        doe_discovery
-> +
-> +What:		/sys/bus/pci/devices/.../boot_display
-> +Date:		October 2025
-> +Contact:	Linux PCI developers <linux-pci@vger.kernel.org>
-> +Description:
-> +		This file indicates the device was used as a boot
-> +		display. If the device was used as the boot display, the file
-> +		will be present and contain "1".
-> diff --git a/drivers/pci/pci-sysfs.c b/drivers/pci/pci-sysfs.c
-> index 268c69daa4d57..cc766461de1da 100644
-> --- a/drivers/pci/pci-sysfs.c
-> +++ b/drivers/pci/pci-sysfs.c
-> @@ -30,6 +30,7 @@
->   #include <linux/msi.h>
->   #include <linux/of.h>
->   #include <linux/aperture.h>
-> +#include <asm/video.h>
->   #include "pci.h"
->   
->   #ifndef ARCH_PCI_DEV_GROUPS
-> @@ -679,6 +680,13 @@ const struct attribute_group *pcibus_groups[] = {
->   	NULL,
->   };
->   
-> +static ssize_t boot_display_show(struct device *dev, struct device_attribute *attr,
-> +				 char *buf)
-> +{
-> +	return sysfs_emit(buf, "1\n");
-> +}
-> +static DEVICE_ATTR_RO(boot_display);
-> +
->   static ssize_t boot_vga_show(struct device *dev, struct device_attribute *attr,
->   			     char *buf)
->   {
-> @@ -1246,6 +1254,37 @@ static int pci_create_attr(struct pci_dev *pdev, int num, int write_combine)
->   	return 0;
+>   drivers/gpu/drm/drm_format_helper.c           | 66 ++++++++++++-------
+>   drivers/gpu/drm/drm_format_internal.h         |  6 ++
+>   drivers/gpu/drm/drm_mipi_dbi.c                |  8 ++-
+>   drivers/gpu/drm/gud/gud_pipe.c                |  9 ++-
+>   .../gpu/drm/tests/drm_format_helper_test.c    |  8 +--
+>   include/drm/drm_format_helper.h               |  6 +-
+>   6 files changed, 71 insertions(+), 32 deletions(-)
+> 
+> diff --git a/drivers/gpu/drm/drm_format_helper.c b/drivers/gpu/drm/drm_format_helper.c
+> index 99d9f7bbc261..8f3daf38ca63 100644
+> --- a/drivers/gpu/drm/drm_format_helper.c
+> +++ b/drivers/gpu/drm/drm_format_helper.c
+> @@ -559,18 +559,6 @@ static void drm_fb_xrgb8888_to_rgb565_line(void *dbuf, const void *sbuf, unsigne
+>   	drm_fb_xfrm_line_32to16(dbuf, sbuf, pixels, drm_pixel_xrgb8888_to_rgb565);
 >   }
 >   
-> +/**
-> + * pci_create_boot_display_file - create a file in sysfs for @dev
-> + * @pdev: dev in question
-> + *
-> + * Creates a file `boot_display` in sysfs for the PCI device @pdev
-> + * if it is the boot display device.
-> + */
-> +static int pci_create_boot_display_file(struct pci_dev *pdev)
-> +{
-> +#ifdef CONFIG_VIDEO
-> +	if (video_is_primary_device(&pdev->dev))
-> +		return sysfs_create_file(&pdev->dev.kobj, &dev_attr_boot_display.attr);
-> +#endif
-> +	return 0;
-> +}
-> +
-> +/**
-> + * pci_remove_boot_display_file - remove the boot display file for @dev
-> + * @pdev: dev in question
-> + *
-> + * Removes the file `boot_display` in sysfs for the PCI device @pdev
-> + * if it is the boot display device.
-> + */
-> +static void pci_remove_boot_display_file(struct pci_dev *pdev)
-> +{
-> +#ifdef CONFIG_VIDEO
-> +	if (video_is_primary_device(&pdev->dev))
-> +		sysfs_remove_file(&pdev->dev.kobj, &dev_attr_boot_display.attr);
-> +#endif
-> +}
-> +
+> -static __always_inline u32 drm_xrgb8888_to_rgb565_swab(u32 pix)
+> -{
+> -	return swab16(drm_pixel_xrgb8888_to_rgb565(pix));
+> -}
+> -
+> -/* TODO: implement this helper as conversion to RGB565|BIG_ENDIAN */
+> -static void drm_fb_xrgb8888_to_rgb565_swab_line(void *dbuf, const void *sbuf,
+> -						unsigned int pixels)
+> -{
+> -	drm_fb_xfrm_line_32to16(dbuf, sbuf, pixels, drm_xrgb8888_to_rgb565_swab);
+> -}
+> -
 >   /**
->    * pci_create_resource_files - create resource files in sysfs for @dev
->    * @pdev: dev in question
-> @@ -1654,9 +1693,15 @@ static const struct attribute_group pci_dev_resource_resize_group = {
->   
->   int __must_check pci_create_sysfs_dev_files(struct pci_dev *pdev)
+>    * drm_fb_xrgb8888_to_rgb565 - Convert XRGB8888 to RGB565 clip buffer
+>    * @dst: Array of RGB565 destination buffers
+> @@ -580,7 +568,6 @@ static void drm_fb_xrgb8888_to_rgb565_swab_line(void *dbuf, const void *sbuf,
+>    * @fb: DRM framebuffer
+>    * @clip: Clip rectangle area to copy
+>    * @state: Transform and conversion state
+> - * @swab: Swap bytes
+>    *
+>    * This function copies parts of a framebuffer to display memory and converts the
+>    * color format during the process. Destination and framebuffer formats must match. The
+> @@ -595,23 +582,56 @@ static void drm_fb_xrgb8888_to_rgb565_swab_line(void *dbuf, const void *sbuf,
+>    */
+>   void drm_fb_xrgb8888_to_rgb565(struct iosys_map *dst, const unsigned int *dst_pitch,
+>   			       const struct iosys_map *src, const struct drm_framebuffer *fb,
+> -			       const struct drm_rect *clip, struct drm_format_conv_state *state,
+> -			       bool swab)
+> +			       const struct drm_rect *clip, struct drm_format_conv_state *state)
 >   {
-> +	int retval;
-> +
->   	if (!sysfs_initialized)
->   		return -EACCES;
+>   	static const u8 dst_pixsize[DRM_FORMAT_MAX_PLANES] = {
+>   		2,
+>   	};
 >   
-> +	retval = pci_create_boot_display_file(pdev);
-> +	if (retval)
-> +		return retval;
+> -	void (*xfrm_line)(void *dbuf, const void *sbuf, unsigned int npixels);
+> +	drm_fb_xfrm(dst, dst_pitch, dst_pixsize, src, fb, clip, false, state,
+> +		    drm_fb_xrgb8888_to_rgb565_line);
+> +}
+> +EXPORT_SYMBOL(drm_fb_xrgb8888_to_rgb565);
 > +
->   	return pci_create_resource_files(pdev);
+> +static void drm_fb_xrgb8888_to_rgb565be_line(void *dbuf, const void *sbuf,
+> +					     unsigned int pixels)
+> +{
+> +	drm_fb_xfrm_line_32to16(dbuf, sbuf, pixels, drm_pixel_xrgb8888_to_rgb565be);
+> +}
+>   
+> -	if (swab)
+> -		xfrm_line = drm_fb_xrgb8888_to_rgb565_swab_line;
+> -	else
+> -		xfrm_line = drm_fb_xrgb8888_to_rgb565_line;
+> +/**
+> + * drm_fb_xrgb8888_to_rgb565be - Convert XRGB8888 to RGB565|DRM_FORMAT_BIG_ENDIAN clip buffer
+> + * @dst: Array of RGB565BE destination buffers
+> + * @dst_pitch: Array of numbers of bytes between the start of two consecutive scanlines
+> + *             within @dst; can be NULL if scanlines are stored next to each other.
+> + * @src: Array of XRGB8888 source buffer
+> + * @fb: DRM framebuffer
+> + * @clip: Clip rectangle area to copy
+> + * @state: Transform and conversion state
+> + *
+> + * This function copies parts of a framebuffer to display memory and converts the
+> + * color format during the process. Destination and framebuffer formats must match. The
+> + * parameters @dst, @dst_pitch and @src refer to arrays. Each array must have at
+> + * least as many entries as there are planes in @fb's format. Each entry stores the
+> + * value for the format's respective color plane at the same index.
+> + *
+> + * This function does not apply clipping on @dst (i.e. the destination is at the
+> + * top-left corner).
+> + *
+> + * Drivers can use this function for RGB565BE devices that don't support XRGB8888 natively.
+> + */
+> +void drm_fb_xrgb8888_to_rgb565be(struct iosys_map *dst, const unsigned int *dst_pitch,
+> +				 const struct iosys_map *src, const struct drm_framebuffer *fb,
+> +				 const struct drm_rect *clip, struct drm_format_conv_state *state)
+> +{
+> +	static const u8 dst_pixsize[DRM_FORMAT_MAX_PLANES] = {
+> +		2,
+> +	};
+>   
+> -	drm_fb_xfrm(dst, dst_pitch, dst_pixsize, src, fb, clip, false, state, xfrm_line);
+> +	drm_fb_xfrm(dst, dst_pitch, dst_pixsize, src, fb, clip, false, state,
+> +		    drm_fb_xrgb8888_to_rgb565be_line);
+>   }
+> -EXPORT_SYMBOL(drm_fb_xrgb8888_to_rgb565);
+> +EXPORT_SYMBOL(drm_fb_xrgb8888_to_rgb565be);
+>   
+>   static void drm_fb_xrgb8888_to_xrgb1555_line(void *dbuf, const void *sbuf, unsigned int pixels)
+>   {
+> @@ -1188,7 +1208,7 @@ int drm_fb_blit(struct iosys_map *dst, const unsigned int *dst_pitch, uint32_t d
+>   		return 0;
+>   	} else if (fb_format == DRM_FORMAT_XRGB8888) {
+>   		if (dst_format == DRM_FORMAT_RGB565) {
+> -			drm_fb_xrgb8888_to_rgb565(dst, dst_pitch, src, fb, clip, state, false);
+> +			drm_fb_xrgb8888_to_rgb565(dst, dst_pitch, src, fb, clip, state);
+>   			return 0;
+>   		} else if (dst_format == DRM_FORMAT_XRGB1555) {
+>   			drm_fb_xrgb8888_to_xrgb1555(dst, dst_pitch, src, fb, clip, state);
+> diff --git a/drivers/gpu/drm/drm_format_internal.h b/drivers/gpu/drm/drm_format_internal.h
+> index 9428d5cfebc5..ce29dd05bcc5 100644
+> --- a/drivers/gpu/drm/drm_format_internal.h
+> +++ b/drivers/gpu/drm/drm_format_internal.h
+> @@ -5,6 +5,7 @@
+>   
+>   #include <linux/bits.h>
+>   #include <linux/types.h>
+> +#include <linux/swab.h>
+>   
+>   /*
+>    * Each pixel-format conversion helper takes a raw pixel in a
+> @@ -59,6 +60,11 @@ static inline u32 drm_pixel_xrgb8888_to_rgb565(u32 pix)
+>   	       ((pix & 0x000000f8) >> 3);
 >   }
 >   
-> @@ -1671,6 +1716,7 @@ void pci_remove_sysfs_dev_files(struct pci_dev *pdev)
->   	if (!sysfs_initialized)
->   		return;
+> +static inline u32 drm_pixel_xrgb8888_to_rgb565be(u32 pix)
+> +{
+> +	return swab16(drm_pixel_xrgb8888_to_rgb565(pix));
+> +}
+> +
+>   static inline u32 drm_pixel_xrgb8888_to_rgbx5551(u32 pix)
+>   {
+>   	return ((pix & 0x00f80000) >> 8) |
+> diff --git a/drivers/gpu/drm/drm_mipi_dbi.c b/drivers/gpu/drm/drm_mipi_dbi.c
+> index ba4be6be5d28..e33c78fc8fbd 100644
+> --- a/drivers/gpu/drm/drm_mipi_dbi.c
+> +++ b/drivers/gpu/drm/drm_mipi_dbi.c
+> @@ -230,7 +230,13 @@ int mipi_dbi_buf_copy(void *dst, struct iosys_map *src, struct drm_framebuffer *
+>   	case DRM_FORMAT_XRGB8888:
+>   		switch (dbidev->pixel_format) {
+>   		case DRM_FORMAT_RGB565:
+> -			drm_fb_xrgb8888_to_rgb565(&dst_map, NULL, src, fb, clip, fmtcnv_state, swap);
+> +			if (swap) {
+> +				drm_fb_xrgb8888_to_rgb565be(&dst_map, NULL, src, fb, clip,
+> +							    fmtcnv_state);
+> +			} else {
+> +				drm_fb_xrgb8888_to_rgb565(&dst_map, NULL, src, fb, clip,
+> +							  fmtcnv_state);
+> +			}
+>   			break;
+>   		case DRM_FORMAT_RGB888:
+>   			drm_fb_xrgb8888_to_rgb888(&dst_map, NULL, src, fb, clip, fmtcnv_state);
+> diff --git a/drivers/gpu/drm/gud/gud_pipe.c b/drivers/gpu/drm/gud/gud_pipe.c
+> index adadd526641d..8d548d08f127 100644
+> --- a/drivers/gpu/drm/gud/gud_pipe.c
+> +++ b/drivers/gpu/drm/gud/gud_pipe.c
+> @@ -188,8 +188,13 @@ static int gud_prep_flush(struct gud_device *gdrm, struct drm_framebuffer *fb,
+>   		} else if (format->format == DRM_FORMAT_RGB332) {
+>   			drm_fb_xrgb8888_to_rgb332(&dst, NULL, src, fb, rect, fmtcnv_state);
+>   		} else if (format->format == DRM_FORMAT_RGB565) {
+> -			drm_fb_xrgb8888_to_rgb565(&dst, NULL, src, fb, rect, fmtcnv_state,
+> -						  gud_is_big_endian());
+> +			if (gud_is_big_endian()) {
+> +				drm_fb_xrgb8888_to_rgb565be(&dst, NULL, src, fb, rect,
+> +							    fmtcnv_state);
+> +			} else {
+> +				drm_fb_xrgb8888_to_rgb565(&dst, NULL, src, fb, rect,
+> +							  fmtcnv_state);
+> +			}
+>   		} else if (format->format == DRM_FORMAT_RGB888) {
+>   			drm_fb_xrgb8888_to_rgb888(&dst, NULL, src, fb, rect, fmtcnv_state);
+>   		} else {
+> diff --git a/drivers/gpu/drm/tests/drm_format_helper_test.c b/drivers/gpu/drm/tests/drm_format_helper_test.c
+> index ad06762db671..7299fa8971ce 100644
+> --- a/drivers/gpu/drm/tests/drm_format_helper_test.c
+> +++ b/drivers/gpu/drm/tests/drm_format_helper_test.c
+> @@ -735,13 +735,13 @@ static void drm_test_fb_xrgb8888_to_rgb565(struct kunit *test)
+>   		NULL : &result->dst_pitch;
 >   
-> +	pci_remove_boot_display_file(pdev);
->   	pci_remove_resource_files(pdev);
+>   	drm_fb_xrgb8888_to_rgb565(&dst, dst_pitch, &src, &fb, &params->clip,
+> -				  &fmtcnv_state, false);
+> +				  &fmtcnv_state);
+>   	buf = le16buf_to_cpu(test, (__force const __le16 *)buf, dst_size / sizeof(__le16));
+>   	KUNIT_EXPECT_MEMEQ(test, buf, result->expected, dst_size);
+>   
+>   	buf = dst.vaddr; /* restore original value of buf */
+> -	drm_fb_xrgb8888_to_rgb565(&dst, &result->dst_pitch, &src, &fb, &params->clip,
+> -				  &fmtcnv_state, true);
+> +	drm_fb_xrgb8888_to_rgb565be(&dst, &result->dst_pitch, &src, &fb, &params->clip,
+> +				    &fmtcnv_state);
+>   	buf = le16buf_to_cpu(test, (__force const __le16 *)buf, dst_size / sizeof(__le16));
+>   	KUNIT_EXPECT_MEMEQ(test, buf, result->expected_swab, dst_size);
+>   
+> @@ -749,7 +749,7 @@ static void drm_test_fb_xrgb8888_to_rgb565(struct kunit *test)
+>   	memset(buf, 0, dst_size);
+>   
+>   	drm_fb_xrgb8888_to_rgb565(&dst, dst_pitch, &src, &fb, &params->clip,
+> -				  &fmtcnv_state, false);
+> +				  &fmtcnv_state);
+>   	buf = le16buf_to_cpu(test, (__force const __le16 *)buf, dst_size / sizeof(__le16));
+>   	KUNIT_EXPECT_MEMEQ(test, buf, result->expected, dst_size);
 >   }
->   
-
--- 
---
-Thomas Zimmermann
-Graphics Driver Developer
-SUSE Software Solutions Germany GmbH
-Frankenstrasse 146, 90461 Nuernberg, Germany
-GF: Ivo Totev, Andrew Myers, Andrew McDonald, Boudien Moerman
-HRB 36809 (AG Nuernberg)
+> diff --git a/include/drm/drm_format_helper.h b/include/drm/drm_format_helper.h
+> index 0d3ee2a1313f..562bc383ece4 100644
+> --- a/include/drm/drm_format_helper.h
+> +++ b/include/drm/drm_format_helper.h
+> @@ -82,8 +82,10 @@ void drm_fb_xrgb8888_to_rgb332(struct iosys_map *dst, const unsigned int *dst_pi
+>   			       const struct drm_rect *clip, struct drm_format_conv_state *state);
+>   void drm_fb_xrgb8888_to_rgb565(struct iosys_map *dst, const unsigned int *dst_pitch,
+>   			       const struct iosys_map *src, const struct drm_framebuffer *fb,
+> -			       const struct drm_rect *clip, struct drm_format_conv_state *state,
+> -			       bool swab);
+> +			       const struct drm_rect *clip, struct drm_format_conv_state *state);
+> +void drm_fb_xrgb8888_to_rgb565be(struct iosys_map *dst, const unsigned int *dst_pitch,
+> +				 const struct iosys_map *src, const struct drm_framebuffer *fb,
+> +				 const struct drm_rect *clip, struct drm_format_conv_state *state);
+>   void drm_fb_xrgb8888_to_xrgb1555(struct iosys_map *dst, const unsigned int *dst_pitch,
+>   				 const struct iosys_map *src, const struct drm_framebuffer *fb,
+>   				 const struct drm_rect *clip, struct drm_format_conv_state *state);
 
