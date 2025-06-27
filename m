@@ -2,29 +2,28 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id A44F2AEB6C5
-	for <lists+dri-devel@lfdr.de>; Fri, 27 Jun 2025 13:46:00 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 41C5FAEB6C8
+	for <lists+dri-devel@lfdr.de>; Fri, 27 Jun 2025 13:46:01 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 24DAD10E9FC;
+	by gabe.freedesktop.org (Postfix) with ESMTP id 99A5210E9D7;
 	Fri, 27 Jun 2025 11:45:57 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from metis.whiteo.stw.pengutronix.de
  (metis.whiteo.stw.pengutronix.de [185.203.201.7])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9E26210E9FE
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9DF1F10E9FC
  for <dri-devel@lists.freedesktop.org>; Fri, 27 Jun 2025 11:45:56 +0000 (UTC)
 Received: from dude05.red.stw.pengutronix.de ([2a0a:edc0:0:1101:1d::54])
  by metis.whiteo.stw.pengutronix.de with esmtp (Exim 4.92)
  (envelope-from <p.zabel@pengutronix.de>)
- id 1uV7Wi-0004N2-Nz; Fri, 27 Jun 2025 13:45:52 +0200
+ id 1uV7Wi-0004N2-QJ; Fri, 27 Jun 2025 13:45:52 +0200
 From: Philipp Zabel <p.zabel@pengutronix.de>
-Date: Fri, 27 Jun 2025 13:45:40 +0200
-Subject: [PATCH v2 3/4] drm/panel: samsung-s6e8aa0: Drop
- MIPI_DSI_MODE_VSYNC_FLUSH flag
+Date: Fri, 27 Jun 2025 13:45:41 +0200
+Subject: [PATCH v2 4/4] drm/mipi-dsi: Drop MIPI_DSI_MODE_VSYNC_FLUSH flag
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20250627-dsi-vsync-flush-v2-3-4066899a5608@pengutronix.de>
+Message-Id: <20250627-dsi-vsync-flush-v2-4-4066899a5608@pengutronix.de>
 References: <20250627-dsi-vsync-flush-v2-0-4066899a5608@pengutronix.de>
 In-Reply-To: <20250627-dsi-vsync-flush-v2-0-4066899a5608@pengutronix.de>
 To: Inki Dae <inki.dae@samsung.com>, Jagan Teki <jagan@amarulasolutions.com>, 
@@ -62,28 +61,30 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Drop the MIPI_DSI_MODE_VSYNC_FLUSH flag from DSI mode_flags.
-It has no effect anymore.
+Drop the unused MIPI_DSI_MODE_VSYNC_FLUSH flag. Whether or not a display
+FIFO flush on vsync is required to avoid sending garbage to the panel is
+not a property of the DSI link, but of the integration between display
+controller and DSI host bridge.
 
 Acked-by: Marek Szyprowski <m.szyprowski@samsung.com>
 Signed-off-by: Philipp Zabel <p.zabel@pengutronix.de>
 ---
- drivers/gpu/drm/panel/panel-samsung-s6e8aa0.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ include/drm/drm_mipi_dsi.h | 2 --
+ 1 file changed, 2 deletions(-)
 
-diff --git a/drivers/gpu/drm/panel/panel-samsung-s6e8aa0.c b/drivers/gpu/drm/panel/panel-samsung-s6e8aa0.c
-index 897df195f2f3437224d1fe9f42d0bfc761541ab2..1b5c500d4f4eb7d43dff4b452a0f1b1bc06f5a2c 100644
---- a/drivers/gpu/drm/panel/panel-samsung-s6e8aa0.c
-+++ b/drivers/gpu/drm/panel/panel-samsung-s6e8aa0.c
-@@ -992,7 +992,7 @@ static int s6e8aa0_probe(struct mipi_dsi_device *dsi)
- 	dsi->lanes = 4;
- 	dsi->format = MIPI_DSI_FMT_RGB888;
- 	dsi->mode_flags = MIPI_DSI_MODE_VIDEO | MIPI_DSI_MODE_VIDEO_BURST
--		| MIPI_DSI_MODE_VSYNC_FLUSH | MIPI_DSI_MODE_VIDEO_AUTO_VERT;
-+		| MIPI_DSI_MODE_VIDEO_AUTO_VERT;
- 
- 	ret = s6e8aa0_parse_dt(ctx);
- 	if (ret < 0)
+diff --git a/include/drm/drm_mipi_dsi.h b/include/drm/drm_mipi_dsi.h
+index b37860f4a895c25ef8ba1c5b3f44827ef53aa100..369b0d8830c3d14a4fc1e8e38d5fa55f04ca143e 100644
+--- a/include/drm/drm_mipi_dsi.h
++++ b/include/drm/drm_mipi_dsi.h
+@@ -130,8 +130,6 @@ struct mipi_dsi_host *of_find_mipi_dsi_host_by_node(struct device_node *node);
+ #define MIPI_DSI_MODE_VIDEO_NO_HBP	BIT(6)
+ /* disable hsync-active area */
+ #define MIPI_DSI_MODE_VIDEO_NO_HSA	BIT(7)
+-/* flush display FIFO on vsync pulse */
+-#define MIPI_DSI_MODE_VSYNC_FLUSH	BIT(8)
+ /* disable EoT packets in HS mode */
+ #define MIPI_DSI_MODE_NO_EOT_PACKET	BIT(9)
+ /* device supports non-continuous clock behavior (DSI spec 5.6.1) */
 
 -- 
 2.39.5
