@@ -2,72 +2,61 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 10FBDAEB1DE
-	for <lists+dri-devel@lfdr.de>; Fri, 27 Jun 2025 11:00:23 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3A728AEB1DB
+	for <lists+dri-devel@lfdr.de>; Fri, 27 Jun 2025 11:00:21 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id EEAA510E983;
-	Fri, 27 Jun 2025 09:00:20 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id DC01110E98D;
+	Fri, 27 Jun 2025 09:00:16 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="mDkM+Ukz";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="DpY0DDfq";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pg1-f181.google.com (mail-pg1-f181.google.com
- [209.85.215.181])
- by gabe.freedesktop.org (Postfix) with ESMTPS id BE80110E9A0;
- Fri, 27 Jun 2025 09:00:16 +0000 (UTC)
-Received: by mail-pg1-f181.google.com with SMTP id
- 41be03b00d2f7-b0b2d0b2843so1549065a12.2; 
- Fri, 27 Jun 2025 02:00:16 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1751014816; x=1751619616; darn=lists.freedesktop.org;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:from:to:cc:subject:date:message-id:reply-to;
- bh=b7ABMCzj1MQL7lIC/PP3TTKTlISD28zGpqEaDICVqfo=;
- b=mDkM+UkzPiKiSxkepMefsnINW408wSwmmLLxtr3O7gQgp/bTPeLGfKVZYT43ynD+J1
- kq367MP8fkAWVovVGWbkSMso+0xJCPY/Mf+eqW/GDE0wrQMWXIIGa8z/PgsHjPlYX4R+
- pw17tdQYcQvt5IN5BLHDw1qSd5Tx0hVaF+1yrum7J84wzIi34BF5AefYaeAS1NGqeaso
- YT6H+LlzVfJiBRXPvk7It851SjpFEoLpWNZ9ZHJWbeStWmXklUyZKWcV2GT80Byu30RM
- h/fjTzgEp2bE/JDKXMcVNnWYIvbLIyIKMGAxT7yRcHMR/F27sckPjDNHmS8FHdWPvTfd
- mDgA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1751014816; x=1751619616;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=b7ABMCzj1MQL7lIC/PP3TTKTlISD28zGpqEaDICVqfo=;
- b=XjhHaSi0mlri98YdLmJ7mruPXA11eT9AKMVGb9frNbmOch23yxsvpGZmZO0IiCOUF2
- PW4X4EmkL7iXhZpmjTXFOvNQUue1KHEP1BmJI18A7wqikpfO9op6lPURX0fwu/H1oCZL
- W1q11DUo80I8wWOgCfbGsZAExC9MgMryd0fRUS7AFHy6iL+rb4fzgwRNkRDQJssUJE+b
- jSzGRmRUFatBK7M9augYpJAA4VAL97v+nBnIRfB/ARja3JuNw8rx22t//860E8H6GL7+
- G3iP7UHliH4xdnTYemgjjuIALLVp84jaB1wT8oJ3rHicMbBrNj+JAO44XZVchNW0so+L
- e6jg==
-X-Forwarded-Encrypted: i=1;
- AJvYcCXrwXlvPj7mJC6C0YzcL8GVuyCUD9KLlh5nOLgS6EazzXZfpuqT8Nn9DOcpAmIne7W9dtrsliNHBPE=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0Ywm3y7iXuhJLWgNDap1+Cq9KVC76Qs5DYL8yhCNC76cTNJUBfkx
- 2/d5SCueL/f1oqsrYyeqtejOOa1PWD++EEUXyqDAhM9oy8dN52oPd0oe2tiCd2c8QIOAXvDG+9w
- DLe+SgBy92c/TWfRCqhPptT9BO8R5YKA=
-X-Gm-Gg: ASbGncuHedj6DdbkMdyducjmCs5SDwQ2LqhvjGMD9gPNXUwG/61JHl6NLbLWifuQGwR
- /grnQFrkwHI4VE8iAI1AoIZ8o19IhmZvqdG5vSs/zWbfA2XJOzzwOKMmNiONFbHcL7b1dcyxdPu
- 5n/BTWPDkHfbpQ7/zoh44ksDVuElsiA2AyR5hzc2oMgw==
-X-Google-Smtp-Source: AGHT+IGWBpKEvutW5awd4diBl2RsntZ5az8DcXW2+5cjBEqEFgCNlfoH4DPNqO8MWiYh20tWLDjuBmjUwZMDrJOsK78=
-X-Received: by 2002:a17:90b:224c:b0:311:baa0:89ca with SMTP id
- 98e67ed59e1d1-318c926d37dmr2560054a91.34.1751014816160; Fri, 27 Jun 2025
- 02:00:16 -0700 (PDT)
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.16])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E8C7C10E98A
+ for <dri-devel@lists.freedesktop.org>; Fri, 27 Jun 2025 09:00:14 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1751014816; x=1782550816;
+ h=from:to:cc:subject:in-reply-to:references:date:
+ message-id:mime-version;
+ bh=OFGGtjh9lLAJpazPZciAUtiSAFEWyX3zAFFdP5TVjw0=;
+ b=DpY0DDfqkFubl14OEB0aA1+OjkRMJAzIIT3I6XYuCtdmyqZIbyC++AIV
+ FR+Gsg+vgKMePVl6H5aL0KarRa2z6zxeT0EBLPe9HT/fSzJJj/5v16G5w
+ 456DnZDhV0KG3eNGlV5lkPRyU13/jRlE2GW0dgdHgAjLSPJ9I+aMTWtF5
+ a/cTXvyESNDwydUhZgUS0gTb2TKkJ+vJVUdLJ5bu72M+e4GnsFwBHOZmW
+ Jl2gm8pukQymb3a+kpjm99U63q6HrN0mYrcntS+oezosDkdEQnjPx/M1F
+ 7YbyL+wIxC6IYBEeYb2lqazEE7q5D25bQtB+SiqjNKBGwsKZSjNCvN12R w==;
+X-CSE-ConnectionGUID: g3zW7T5USpecAfDqvgmIqg==
+X-CSE-MsgGUID: Qj98ZSMWSYqQF4UeGkqLEA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11476"; a="40944764"
+X-IronPort-AV: E=Sophos;i="6.16,270,1744095600"; d="scan'208";a="40944764"
+Received: from orviesa002.jf.intel.com ([10.64.159.142])
+ by fmvoesa110.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 27 Jun 2025 02:00:15 -0700
+X-CSE-ConnectionGUID: JqUZiAKiR46VDN/gPt4Vyg==
+X-CSE-MsgGUID: emlWJGyaSl2vPUpGyYcGrw==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.16,270,1744095600"; d="scan'208";a="183790537"
+Received: from klitkey1-mobl1.ger.corp.intel.com (HELO localhost)
+ ([10.245.246.146])
+ by orviesa002-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 27 Jun 2025 02:00:10 -0700
+From: Jani Nikula <jani.nikula@linux.intel.com>
+To: Kevin Paul Reddy Janagari <kevinpaul468@gmail.com>, airlied@gmail.com,
+ simona@ffwll.ch, maarten.lankhorst@linux.intel.com, mripard@kernel.org,
+ tzimmermann@suse.de, corbet@lwn.net
+Cc: dri-devel@lists.freedesktop.org, linux-doc@vger.kernel.org,
+ linux-kernel@vger.kernel.org, kevinpaul468@gmail.com, Mauro Carvalho
+ Chehab <mchehab+huawei@kernel.org>
+Subject: Re: [PATCH] workaround for Sphinx false positive preventing index
+In-Reply-To: <20250627071628.30258-1-kevinpaul468@gmail.com>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+References: <20250627071628.30258-1-kevinpaul468@gmail.com>
+Date: Fri, 27 Jun 2025 12:00:07 +0300
+Message-ID: <462a34d3027f22a65c129e2305c7aa4d4fda0e43@intel.com>
 MIME-Version: 1.0
-References: <20250620195839.2772261-1-l.stach@pengutronix.de>
-In-Reply-To: <20250620195839.2772261-1-l.stach@pengutronix.de>
-From: Christian Gmeiner <christian.gmeiner@gmail.com>
-Date: Fri, 27 Jun 2025 11:00:04 +0200
-X-Gm-Features: Ac12FXwOmbyVRDUwEY3x4961ivImjE7jscRzZlYSAZij9uScxhvsALOPn-Sjxbo
-Message-ID: <CAH9NwWdzFKLvG6hzWeSiKocQBjtqdsArdTO8KjvngEj3UihNhA@mail.gmail.com>
-Subject: Re: [PATCH] drm/etnaviv: remove unnecessary cache flushes on pipe
- switch
-To: Lucas Stach <l.stach@pengutronix.de>
-Cc: etnaviv@lists.freedesktop.org, 
- Russell King <linux+etnaviv@armlinux.org.uk>, dri-devel@lists.freedesktop.org, 
- kernel@pengutronix.de, patchwork-slt@pengutronix.de
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -83,72 +72,77 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
->
-> The current pipe switch sequence is ported from the Vivante driver,
-> which does flush some caches before switching to another pipe. This
-> however, is not necessary with etnaviv, as we always flush all write
-> caches before completion of a cmdstream. Thus the caches are already
-> clean before execution of the next cmdstream, which may
-> trigger a pipe switch, is started.
->
-> Drop the unnecessary cache flushes. This also avoids sending a stall
-> command into a GPU where the active pipe has not been selected, yet.
->
-> Signed-off-by: Lucas Stach <l.stach@pengutronix.de>
+On Fri, 27 Jun 2025, Kevin Paul Reddy Janagari <kevinpaul468@gmail.com> wrote:
+> Functions drm_format_info, drm_modeset_lock, drm_ioctl_flags are not being
+> indexed in the documentation because there are structs with the same name 
+> and sphinx is only indexing one of them, Added them to namespaces as a
+> workaround for suppressing the warnings and indexing the functions
 
-Reviewed-by: Christian Gmeiner <cgmeiner@igalia.com>
+I think there's a Sphinx bug about this that should be referenced.
 
+Cc: Mauro
+
+> Signed-off-by: Kevin Paul Reddy Janagari <kevinpaul468@gmail.com>
 > ---
->  drivers/gpu/drm/etnaviv/etnaviv_buffer.c | 21 +--------------------
->  1 file changed, 1 insertion(+), 20 deletions(-)
+>  Documentation/gpu/drm-kms.rst  | 2 ++
+>  Documentation/gpu/drm-uapi.rst | 1 +
+>  2 files changed, 3 insertions(+)
 >
-> diff --git a/drivers/gpu/drm/etnaviv/etnaviv_buffer.c b/drivers/gpu/drm/etnaviv/etnaviv_buffer.c
-> index b13a17276d07..09c5d1d0271c 100644
-> --- a/drivers/gpu/drm/etnaviv/etnaviv_buffer.c
-> +++ b/drivers/gpu/drm/etnaviv/etnaviv_buffer.c
-> @@ -90,25 +90,6 @@ static inline void CMD_SEM(struct etnaviv_cmdbuf *buffer, u32 from, u32 to)
->  static void etnaviv_cmd_select_pipe(struct etnaviv_gpu *gpu,
->         struct etnaviv_cmdbuf *buffer, u8 pipe)
->  {
-> -       u32 flush = 0;
-> -
-> -       lockdep_assert_held(&gpu->lock);
-> -
-> -       /*
-> -        * This assumes that if we're switching to 2D, we're switching
-> -        * away from 3D, and vice versa.  Hence, if we're switching to
-> -        * the 2D core, we need to flush the 3D depth and color caches,
-> -        * otherwise we need to flush the 2D pixel engine cache.
-> -        */
-> -       if (gpu->exec_state == ETNA_PIPE_2D)
-> -               flush = VIVS_GL_FLUSH_CACHE_PE2D;
-> -       else if (gpu->exec_state == ETNA_PIPE_3D)
-> -               flush = VIVS_GL_FLUSH_CACHE_DEPTH | VIVS_GL_FLUSH_CACHE_COLOR;
-> -
-> -       CMD_LOAD_STATE(buffer, VIVS_GL_FLUSH_CACHE, flush);
-> -       CMD_SEM(buffer, SYNC_RECIPIENT_FE, SYNC_RECIPIENT_PE);
-> -       CMD_STALL(buffer, SYNC_RECIPIENT_FE, SYNC_RECIPIENT_PE);
-> -
->         CMD_LOAD_STATE(buffer, VIVS_GL_PIPE_SELECT,
->                        VIVS_GL_PIPE_SELECT_PIPE(pipe));
->  }
-> @@ -382,7 +363,7 @@ void etnaviv_buffer_queue(struct etnaviv_gpu *gpu, u32 exec_state,
->
->                 /* pipe switch commands */
->                 if (switch_context)
-> -                       extra_dwords += 4;
-> +                       extra_dwords += 1;
->
->                 /* PTA load command */
->                 if (switch_mmu_context && gpu->sec_mode == ETNA_SEC_KERNEL)
-> --
-> 2.39.5
->
+> diff --git a/Documentation/gpu/drm-kms.rst b/Documentation/gpu/drm-kms.rst
+> index abfe220764e1..da865ba1c014 100644
+> --- a/Documentation/gpu/drm-kms.rst
+> +++ b/Documentation/gpu/drm-kms.rst
+> @@ -357,6 +357,7 @@ Format Functions Reference
+>  .. kernel-doc:: include/drm/drm_fourcc.h
+>     :internal:
+>  
+> +.. c:namespace:: gpu_drm_fourcc
 
+I think using c:namespace-push and c:namespace-pop is the better
+option. Otherwise c:namespace will be in effect until the end of the rst
+file or next c:namespace.
+
+I'm not quite sure what the namespace names should be, but for
+referencing anything the names here are pretty bad
+e.g. gpu_drm_fourcc.drm_format_info.
+
+As a workaround this does hide the worst fallout, but it's not even
+generic enough to handle structs and functions with the same name in the
+same file. I'm not sure if there are such cases, but I wouldn't be
+surprised if there were.
+
+A more generic (but also invasive) alternative would be to have
+kernel-doc always put structs/unions in a namespace, say "type", so
+they'd never conflict with functions. The automagic referencing in
+kernel-doc could produce those references. The downside is that manual
+references should include type.foo, and the produced html also contains
+type.foo.
+
+BR,
+Jani.
+
+
+>  .. kernel-doc:: drivers/gpu/drm/drm_fourcc.c :export:
+>  
+> @@ -473,6 +474,7 @@ KMS Locking
+>  .. kernel-doc:: include/drm/drm_modeset_lock.h
+>     :internal:
+>  
+> +.. c:namespace:: gpu_drm_modeset_lock
+>  .. kernel-doc:: drivers/gpu/drm/drm_modeset_lock.c
+>     :export:
+>  
+> diff --git a/Documentation/gpu/drm-uapi.rst b/Documentation/gpu/drm-uapi.rst
+> index 69f72e71a96e..37a2bc461326 100644
+> --- a/Documentation/gpu/drm-uapi.rst
+> +++ b/Documentation/gpu/drm-uapi.rst
+> @@ -554,6 +554,7 @@ DRM specific patterns. Note that ENOTTY has the slightly unintuitive meaning of
+>  .. kernel-doc:: include/drm/drm_ioctl.h
+>     :internal:
+>  
+> +.. c:namespace:: gpu_drm
+>  .. kernel-doc:: drivers/gpu/drm/drm_ioctl.c
+>     :export:
 
 -- 
-greets
---
-Christian Gmeiner, MSc
-
-https://christian-gmeiner.info/privacypolicy
+Jani Nikula, Intel
