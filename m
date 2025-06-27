@@ -2,54 +2,81 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 71AB5AEB198
-	for <lists+dri-devel@lfdr.de>; Fri, 27 Jun 2025 10:48:48 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5AEF3AEB1D9
+	for <lists+dri-devel@lfdr.de>; Fri, 27 Jun 2025 11:00:07 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6CC5710E978;
-	Fri, 27 Jun 2025 08:48:45 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id BBDF510E988;
+	Fri, 27 Jun 2025 09:00:04 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=163.com header.i=@163.com header.b="eKMZAsc0";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="KEuny7OA";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from m16.mail.163.com (m16.mail.163.com [117.135.210.4])
- by gabe.freedesktop.org (Postfix) with ESMTP id B24E210E978
- for <dri-devel@lists.freedesktop.org>; Fri, 27 Jun 2025 08:48:42 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=163.com;
- s=s110527; h=Content-Type:Message-ID:Date:MIME-Version:Subject:
- To:From; bh=Pq+1XKtNSvpaQmA6ZxfbYt5XeL1e53dHySyiZSw45GQ=; b=eKMZ
- Asc0xn7pyRyrTQ2pTtm8H+HxteG3gUVmUdZFnApVIueWV7oKp2IBtG4E3hxikTPE
- WpEyhVLyWOiap/L7H+p8+8XHdL0irVGUq/FMKHC4PPAWigYNQt5eatgzoTlyEPFJ
- RwA5d0v1EuakhvMCo2+rqepkAUnSTnTMaxWLkJI=
-Received: from [10.42.20.80] (unknown [])
- by gzga-smtp-mtada-g1-1 (Coremail) with SMTP id
- _____wDHzZfiWl5oO5GgAw--.34240S2; 
- Fri, 27 Jun 2025 16:48:35 +0800 (CST)
-Content-Type: multipart/alternative;
- boundary="------------FwqcQS2wBt8xOw36xNT2oO40"
-Message-ID: <bbfebeac-a5b4-4350-a4e8-3da8a5f0efad@163.com>
-Date: Fri, 27 Jun 2025 16:48:34 +0800
+Received: from mail-vs1-f43.google.com (mail-vs1-f43.google.com
+ [209.85.217.43])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 50DCF10E982
+ for <dri-devel@lists.freedesktop.org>; Fri, 27 Jun 2025 09:00:03 +0000 (UTC)
+Received: by mail-vs1-f43.google.com with SMTP id
+ ada2fe7eead31-4e9a109035bso1239344137.1
+ for <dri-devel@lists.freedesktop.org>; Fri, 27 Jun 2025 02:00:03 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20230601; t=1751014802; x=1751619602; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=SnsCM6vh1hbia2n0ngkw0JzLXSE1g1GRVQpvRtLRTdA=;
+ b=KEuny7OA/uyLABpArW8aaJsYiMt6eLaW4snfknA3za6/c203sr6zV9JOAW0GWTriHx
+ z63VP80AloUB1aKQnmYfFTpbCz5cia85I3gK6iEZy8TJENVWkRK5LmUy0bhvX+B6EWo8
+ ONK378nenbTkyR1oBULrZ3AAXC0XgG2dWc/C8AmwOw7RvCkhy29UGcVOx2o48ZO2QIXc
+ jcpWFZucHns2a+x8GQD2CKjGLWHh+Sck5CXPK5HTi/WqnUcFXsCcYKO83TIj1iDHxP3f
+ fK2JtzPojPSIKi4EPjffQWfHHnt8tLn+wThJZA49+0byITfYfOrBmhYYxiw8E90Txz3M
+ +8OA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1751014802; x=1751619602;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=SnsCM6vh1hbia2n0ngkw0JzLXSE1g1GRVQpvRtLRTdA=;
+ b=lW54XoMizCz1FezCK1vZ7TnSZMDSn0bhA0BLB5OcxIi2FBeCYqFJdtc2XnKHLi0L7z
+ L9hG6JbKS1ygpEJ+yCxCOX1TOZc15aBMjLklX/dj7C7IkYksS+PT6LWsfECmwKmzvPHN
+ NUmiLb1OwqhDGaXcFLFkbjNtjrYAWATb4aIoIRuInZttqVR7tTu//KnUxtCKdL7ueHHr
+ D4Unchw5eC+w3hCpyY2saRtNru9O3dhTgh0IjCtiPiZTRiDs1qkt1N5WVkfYGwEdH4yS
+ hpuFpdy7czDzaYrGMGiXJdPUUTu83SBqG2Jep3MagZQUdQDvQU41wUw/gJoQs+lBfUZi
+ c33A==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCV1nEJYNhWoSARtfPux+dIU9ndQ76i1LbKlV9OANJom/q0gFris1tFxMIZECm/4R6Op1rhm1PDLLBM=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YzglOPWDN+9kOuJjQsooOL0ZSOR9kStOA1Y6t5S5Sh3chhls64r
+ TgD8Lx+20wk2u3ZqMzlItVs/S+AOoIhkeWOD5har/Cyy8Nf58LVjhrued1J0TNwDCRgSI05dgXp
+ Wnhjp99qVfk1uQqP+1MHeglY6Gg4pbGk=
+X-Gm-Gg: ASbGnctMU8JV7iIAoP03sUK9Fwqjaxur5wf4uVGZtpuiI6arfQ1xIjjYw1BXAt8mGWk
+ C7eHy0anID1j7H2JvdS/gjkifldDiqm9TzVRJm/KbSGe3+lyFUpv5wJPXPfgPTpylUdpwx4n/zk
+ bjA0lHc97Hjwcu26Z3KVF+w9kIiPqcFFp4dUTeHFx+TN289N15XNPB
+X-Google-Smtp-Source: AGHT+IG0giQJgiPaZuODgMaMoAB9XTNdwCdCo2KNw4Z1XIix6KlPI3eNjv42gi2fFl0eXZTrN9Xo04XnwaYsNYTjCsI=
+X-Received: by 2002:a05:6102:c06:b0:4e7:bc41:a9ab with SMTP id
+ ada2fe7eead31-4ee4fa0bfcfmr1949507137.23.1751014802254; Fri, 27 Jun 2025
+ 02:00:02 -0700 (PDT)
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] fbdev: efifb: do not load efifb if PCI BAR has changed
- but not fixuped
-To: Thomas Zimmermann <tzimmermann@suse.de>, Helge Deller <deller@gmx.de>
-Cc: Peter Jones <pjones@redhat.com>, linux-fbdev@vger.kernel.org,
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- Shixiong Ou <oushixiong@kylinos.cn>
-References: <20250626094937.515552-1-oushixiong1025@163.com>
- <ecf7f260-4c5f-45fc-be8d-0361b00af6a3@suse.de>
- <24f53098-710a-43f9-8d1c-d809fb5354eb@163.com>
- <855d6faa-9f72-466e-9294-d6059bb9d920@suse.de>
-From: Shixiong Ou <oushixiong1025@163.com>
-In-Reply-To: <855d6faa-9f72-466e-9294-d6059bb9d920@suse.de>
-X-CM-TRANSID: _____wDHzZfiWl5oO5GgAw--.34240S2
-X-Coremail-Antispam: 1Uf129KBjvJXoWxKrWxGr4UuF4xCrWDXF45trb_yoW3Zry3pF
- 4fKw47uF48XF1fGws8Ca1DGr1S9r1v9FyqkFsxKw1UA3y7GF1jvr97C3yq9ry5Zr48Jr17
- trsrtw12kF1UuaUanT9S1TB71UUUUU7qnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
- 9KBjDUYxBIdaVFxhVjvjDU0xZFpf9x0zRtDGOUUUUU=
-X-Originating-IP: [116.128.244.169]
-X-CM-SenderInfo: xrxvxxx0lr0wirqskqqrwthudrp/1tbiXRR5D2heWDdAdwAAsR
+References: <CGME20250618120644eucas1p2b084977540772f3623f3f9e834604668@eucas1p2.samsung.com>
+ <20250618120626.217023-1-m.szyprowski@samsung.com>
+ <96b92a56-028f-452d-b2dd-8362491f5a84@ideasonboard.com>
+ <a89ebc1f-82a0-4bb8-87a8-71a6b373ab24@samsung.com>
+In-Reply-To: <a89ebc1f-82a0-4bb8-87a8-71a6b373ab24@samsung.com>
+From: Inki Dae <daeinki@gmail.com>
+Date: Fri, 27 Jun 2025 17:59:23 +0900
+X-Gm-Features: Ac12FXy11lwfrAQqrGiTkAgvbq022_Vm3UIn23uII1Nxc8apm6Ln8LIsYR0HYKQ
+Message-ID: <CAAQKjZNQa=g=a_sWnhVrR5_9EJx9hVqbi-=HDXWtRwqb18-NKA@mail.gmail.com>
+Subject: Re: [PATCH] drm/exynos: fimd: Guard display clock control with
+ runtime PM calls
+To: Marek Szyprowski <m.szyprowski@samsung.com>
+Cc: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>,
+ dri-devel@lists.freedesktop.org, 
+ linux-samsung-soc@vger.kernel.org, Thomas Zimmermann <tzimmermann@suse.de>, 
+ Aradhya Bhatia <a-bhatia1@ti.com>, Aradhya Bhatia <aradhya.bhatia@linux.dev>, 
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, 
+ Krzysztof Kozlowski <krzk@kernel.org>, Alim Akhtar <alim.akhtar@samsung.com>, 
+ Andrzej Hajda <andrzej.hajda@intel.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -65,734 +92,127 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-This is a multi-part message in MIME format.
---------------FwqcQS2wBt8xOw36xNT2oO40
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+Hi Marek,
+
+2025=EB=85=84 6=EC=9B=94 19=EC=9D=BC (=EB=AA=A9) =EC=98=A4=EC=A0=84 7:39, M=
+arek Szyprowski <m.szyprowski@samsung.com>=EB=8B=98=EC=9D=B4 =EC=9E=91=EC=
+=84=B1:
+>
+> On 18.06.2025 14:25, Tomi Valkeinen wrote:
+> > On 18/06/2025 15:06, Marek Szyprowski wrote:
+> >> Commit c9b1150a68d9 ("drm/atomic-helper: Re-order bridge chain pre-ena=
+ble
+> >> and post-disable") changed the call sequence to the CRTC enable/disabl=
+e
+> >> and bridge pre_enable/post_disable methods, so those bridge methods ar=
+e
+> >> now called when CRTC is not yet enabled.
+> >>
+> >> This causes a lockup observed on Samsung Peach-Pit/Pi Chromebooks. The
+> >> source of this lockup is a call to fimd_dp_clock_enable() function, wh=
+en
+> >> FIMD device is not yet runtime resumed. It worked before the mentioned
+> >> commit only because the CRTC implemented by the FIMD driver was always
+> >> enabled what guaranteed the FIMD device to be runtime resumed.
+> >>
+> >> This patch adds runtime PM guards to the fimd_dp_clock_enable() functi=
+on
+> >> to enable its proper operation also when the CRTC implemented by FIMD =
+is
+> >> not yet enabled.
+> >>
+> >> Fixes: 196e059a8a6a ("drm/exynos: convert clock_enable crtc callback t=
+o pipeline clock")
+> >> Signed-off-by: Marek Szyprowski <m.szyprowski@samsung.com>
+> >> ---
+> >>   drivers/gpu/drm/exynos/exynos_drm_fimd.c | 12 ++++++++++++
+> >>   1 file changed, 12 insertions(+)
+> >>
+> >> diff --git a/drivers/gpu/drm/exynos/exynos_drm_fimd.c b/drivers/gpu/dr=
+m/exynos/exynos_drm_fimd.c
+> >> index c394cc702d7d..205c238cc73a 100644
+> >> --- a/drivers/gpu/drm/exynos/exynos_drm_fimd.c
+> >> +++ b/drivers/gpu/drm/exynos/exynos_drm_fimd.c
+> >> @@ -187,6 +187,7 @@ struct fimd_context {
+> >>      u32                             i80ifcon;
+> >>      bool                            i80_if;
+> >>      bool                            suspended;
+> >> +    bool                            dp_clk_enabled;
+> >>      wait_queue_head_t               wait_vsync_queue;
+> >>      atomic_t                        wait_vsync_event;
+> >>      atomic_t                        win_updated;
+> >> @@ -1047,7 +1048,18 @@ static void fimd_dp_clock_enable(struct exynos_=
+drm_clk *clk, bool enable)
+> >>      struct fimd_context *ctx =3D container_of(clk, struct fimd_contex=
+t,
+> >>                                              dp_clk);
+> >>      u32 val =3D enable ? DP_MIE_CLK_DP_ENABLE : DP_MIE_CLK_DISABLE;
+> >> +
+> >> +    if (enable =3D=3D ctx->dp_clk_enabled)
+> >> +            return;
+> > Does this happen, i.e. is this function called multiple times with
+> > enable set? If so, do you rather need ref counting here? Otherwise the
+> > first fimd_dp_clock_enable(enable=3Dfalse) call with disable the clock,
+> > instead of the last (assuming the enable/disable calls are matched on
+> > the caller side).
+>
+> No reference counting is needed here, as the clock enable/disable is
+> called from runtime resume/suspend of the exynos_dp (analogix_dp_core)
+> and there are only single calls to enable or disable. The only problem
+> is that the first call is fimd_dp_clock_enable(enable=3Dfalse), which
+> should be skipped from the fimd runtime PM perspective, that is why I
+> added the (enable =3D=3D ctx->dp_clk_enabled) check.
+
+The fimd_dp_clock_enable function is called from
+exynos_drm_pipe_clk_enable(), which, as far as I can see, is invoked
+by three modules: the analogix DP driver, the exynos5433 DECON driver,
+and the exynos mixer driver.
+
+First, both the decon_atomic_enable() function in
+exynos5433_drm_fimd.c and the mixer_atomic_enable() function in
+exynos_mixer.c explicitly request runtime PM resume before calling
+exynos_drm_pipe_clk_enable(). This ensures the device is properly
+powered before any register access.
+
+In my opinion, the root cause of this issue is that the analogix DP
+driver does not follow the DRM atomic pipeline and attempts to access
+the register file without requesting runtime PM resume.
+
+As you pointed out, the main problem is that the analogix_dp driver
+calls exynos_drm_pipe_clk_enable() through exynos_dp_poweron() without
+requesting runtime PM.
+
+Given that the exynos_dp.c driver, which uses the analogix DP module,
+does register the runtime PM interface, we should look for a more
+generic solution that ensures exynos DP is included in the DRM atomic
+pipeline chain and requests runtime PM at the appropriate point.
+
+Since this is a critical issue, I will merge the current patch without
+further modifications. :)
+
+Thanks,
+Inki Dae
 
 
-在 2025/6/27 16:12, Thomas Zimmermann 写道:
-> Hi
 >
-> Am 27.06.25 um 10:07 schrieb Shixiong Ou:
->>
->> 在 2025/6/26 18:31, Thomas Zimmermann 写道:
->>> Hi
->>>
->>> Am 26.06.25 um 11:49 schrieb oushixiong1025@163.com:
->>>> From: Shixiong Ou <oushixiong@kylinos.cn>
->>>>
->>>> [WHY]
->>>> On an ARM machine, the following log is present:
->>>> [    0.900884] efifb: framebuffer at 0x1020000000, using 3072k, 
->>>> total 3072k
->>>> [    2.297884] amdgpu 0000:04:00.0: 
->>>> remove_conflicting_pci_framebuffers: bar 0: 0x1000000000 -> 
->>>> 0x100fffffff
->>>> [    2.297886] amdgpu 0000:04:00.0: 
->>>> remove_conflicting_pci_framebuffers: bar 2: 0x1010000000 -> 
->>>> 0x10101fffff
->>>> [    2.297888] amdgpu 0000:04:00.0: 
->>>> remove_conflicting_pci_framebuffers: bar 5: 0x58200000 -> 0x5823ffff
->>>>
->>>> It show that the efifb framebuffer base is out of PCI BAR, and this
->>>
->>> The patch at
->>>
->>> https://patchwork.freedesktop.org/series/148057/
->>>
->>> is supposed to fix the problem. It has been merged with v6.16-rc1 as 
->>> commit 2f29b5c23101 ("video: screen_info: Relocate framebuffers 
->>> behind PCI bridges"). It is in your tree?
->>>
->>> Best regards
->>> Thomas
->>>
->> yeah, this patch is in my tree. but do not fix the problem.
->
-> The patch's final revision had a rough development. Just for testing 
-> purposes, could you revert the commit and instead apply the patch's 
-> earlier revision from
->
-> https://patchwork.freedesktop.org/patch/649527/?series=148057&rev=1
->
-> ?
->
-> Thanks a lot.
->
+> >> +
+> >> +    if (enable)
+> >> +            pm_runtime_resume_and_get(ctx->dev);
+> >> +
+> >> +    ctx->dp_clk_enabled =3D enable;
+> >>      writel(val, ctx->regs + DP_MIE_CLKCON);
+> >> +
+> >> +    if (!enable)
+> >> +            pm_runtime_put(ctx->dev);
+> >>   }
+> >>
+> >>   static const struct exynos_drm_crtc_ops fimd_crtc_ops =3D {
+> >   Tomi
+> >
+> >
 > Best regards
-> Thomas
+> --
+> Marek Szyprowski, PhD
+> Samsung R&D Institute Poland
 >
-I have revert the commit and applied this patch, and added some prints as:
-
-+               printk("pcibios_bus_to_resource orginal: start = %llx, 
-end = %llx",
-+                               r->start, r->end);
-+               pcibios_bus_to_resource(pdev->bus, r, &bus_region);
-+               printk("pcibios_bus_to_resource finished: start = %llx, 
-end = %llx",
-+                               r->start, r->end);
-+
-
-and the kernel message as follow:
-
-kylin@kylin-pc:~$ dmesg | grep pcibios_bus_to_resource
-[    0.684698] pcibios_bus_to_resource orginal: start = 1020000000, end 
-= 10202fffff
-[    0.684702] pcibios_bus_to_resource finished: start = 1020000000, end 
-= 10202fffff
-
-The address doesn't seem to have been modified.
-Best regards
-Shixiong.
-
->>
->> this is some message:
->>
->> kylin@kylin-pc:~$ dmesg | grep BAR
->> [    0.688192] pci 0000:00:03.0: BAR 15: assigned [mem 
->> 0x1000000000-0x101fffffff 64bit pref]
->> [    0.688200] pci 0000:00:00.0: BAR 0: assigned [mem 
->> 0x1020000000-0x10200fffff 64bit pref]
->> [    0.688205] pci 0000:00:00.0: BAR 14: assigned [mem 
->> 0x58000000-0x580fffff]
->> [    0.688210] pci 0000:00:01.0: BAR 0: assigned [mem 
->> 0x1020100000-0x10201fffff 64bit pref]
->> [    0.688215] pci 0000:00:02.0: BAR 0: assigned [mem 
->> 0x1020200000-0x10202fffff 64bit pref]
->> [    0.688221] pci 0000:00:02.0: BAR 14: assigned [mem 
->> 0x58100000-0x581fffff]
->> [    0.688225] pci 0000:00:03.0: BAR 0: assigned [mem 
->> 0x1020300000-0x10203fffff 64bit pref]
->> [    0.688231] pci 0000:00:03.0: BAR 14: assigned [mem 
->> 0x58200000-0x585fffff]
->> [    0.688237] pci 0000:00:04.0: BAR 0: assigned [mem 
->> 0x1020400000-0x10204fffff 64bit pref]
->> [    0.688243] pci 0000:00:05.0: BAR 0: assigned [mem 
->> 0x1020500000-0x10205fffff 64bit pref]
->> [    0.688249] pci 0000:00:05.0: BAR 14: assigned [mem 
->> 0x58600000-0x586fffff]
->> [    0.688253] pci 0000:01:00.0: BAR 0: assigned [mem 
->> 0x58000000-0x58003fff 64bit]
->> [    0.688290] pci 0000:03:00.0: BAR 6: assigned [mem 
->> 0x58100000-0x5817ffff pref]
->> [    0.688296] pci 0000:03:00.0: BAR 0: assigned [mem 
->> 0x58180000-0x58181fff]
->> [    0.688303] pci 0000:03:00.0: BAR 5: assigned [mem 
->> 0x58182000-0x58183fff]
->> [    0.688317] pci 0000:04:00.0: BAR 1: assigned [mem 
->> 0x1000000000-0x101fffffff 64bit pref]
->> [    0.688326] pci 0000:04:00.0: BAR 0: assigned [mem 
->> 0x58200000-0x583fffff]
->> [    0.688332] pci 0000:04:00.0: BAR 6: assigned [mem 
->> 0x58400000-0x584fffff pref]
->> [    0.688336] pci 0000:04:00.1: BAR 0: assigned [mem 
->> 0x58500000-0x58503fff]
->> [    0.688360] pci 0000:06:00.0: BAR 0: assigned [mem 
->> 0x58600000-0x58601fff 64bit]
->> kylin@kylin-pc:~$ dmesg | grep framebuffer
->> [    1.137536] efifb: framebuffer at 0x1020000000, using 3072k, total 
->> 3072k
->>
->> the efifb base address is still at 0x1020000000 after calling 
->> pcibios_bus_to_resource().
->>
->>
->>>> results in both efi-framebuffer and amdgpudrmfb co-existing.
->>>>
->>>> The fbcon will be bound to efi-framebuffer by default and cannot be 
->>>> used.
->>>>
->>>> [HOW]
->>>> Do not load efifb driver if PCI BAR has changed but not fixuped.
->>>> In the following cases:
->>>>     1. screen_info_lfb_pdev is NULL.
->>>>     2. __screen_info_relocation_is_valid return false.
->>>>
->>>> Signed-off-by: Shixiong Ou <oushixiong@kylinos.cn>
->>>> ---
->>>>   drivers/video/fbdev/efifb.c     |  4 ++++
->>>>   drivers/video/screen_info_pci.c | 24 ++++++++++++++++++++++++
->>>>   include/linux/screen_info.h     |  5 +++++
->>>>   3 files changed, 33 insertions(+)
->>>>
->>>> diff --git a/drivers/video/fbdev/efifb.c b/drivers/video/fbdev/efifb.c
->>>> index 0e1bd3dba255..de8d016c9a66 100644
->>>> --- a/drivers/video/fbdev/efifb.c
->>>> +++ b/drivers/video/fbdev/efifb.c
->>>> @@ -303,6 +303,10 @@ static void efifb_setup(struct screen_info 
->>>> *si, char *options)
->>>>     static inline bool fb_base_is_valid(struct screen_info *si)
->>>>   {
->>>> +    /* check whether fb_base has changed but not fixuped */
->>>> +    if (!screen_info_is_useful())
->>>> +        return false;
->>>> +
->>>>       if (si->lfb_base)
->>>>           return true;
->>>>   diff --git a/drivers/video/screen_info_pci.c 
->>>> b/drivers/video/screen_info_pci.c
->>>> index 66bfc1d0a6dc..ac57dcaf0cac 100644
->>>> --- a/drivers/video/screen_info_pci.c
->>>> +++ b/drivers/video/screen_info_pci.c
->>>> @@ -9,6 +9,8 @@ static struct pci_dev *screen_info_lfb_pdev;
->>>>   static size_t screen_info_lfb_bar;
->>>>   static resource_size_t screen_info_lfb_res_start; // original 
->>>> start of resource
->>>>   static resource_size_t screen_info_lfb_offset; // framebuffer 
->>>> offset within resource
->>>> +static bool screen_info_changed;
->>>> +static bool screen_info_fixuped;
->>>>     static bool __screen_info_relocation_is_valid(const struct 
->>>> screen_info *si, struct resource *pr)
->>>>   {
->>>> @@ -24,6 +26,24 @@ static bool 
->>>> __screen_info_relocation_is_valid(const struct screen_info *si, stru
->>>>       return true;
->>>>   }
->>>>   +bool screen_info_is_useful(void)
->>>> +{
->>>> +    unsigned int type;
->>>> +    const struct screen_info *si = &screen_info;
->>>> +
->>>> +    type = screen_info_video_type(si);
->>>> +    if (type != VIDEO_TYPE_EFI)
->>>> +        return true;
->>>> +
->>>> +    if (screen_info_changed && !screen_info_fixuped) {
->>>> +        pr_warn("The screen_info has changed but not fixuped");
->>>> +        return false;
->>>> +    }
->>>> +
->>>> +    pr_info("The screen_info is useful");
->>>> +    return true;
->>>> +}
->>>> +
->>>>   void screen_info_apply_fixups(void)
->>>>   {
->>>>       struct screen_info *si = &screen_info;
->>>> @@ -32,18 +52,22 @@ void screen_info_apply_fixups(void)
->>>>           struct resource *pr = 
->>>> &screen_info_lfb_pdev->resource[screen_info_lfb_bar];
->>>>             if (pr->start != screen_info_lfb_res_start) {
->>>> +            screen_info_changed = true;
->>>>               if (__screen_info_relocation_is_valid(si, pr)) {
->>>>                   /*
->>>>                    * Only update base if we have an actual
->>>>                    * relocation to a valid I/O range.
->>>>                    */
->>>>                   __screen_info_set_lfb_base(si, pr->start + 
->>>> screen_info_lfb_offset);
->>>> +                screen_info_fixuped = true;
->>>>                   pr_info("Relocating firmware framebuffer to 
->>>> offset %pa[d] within %pr\n",
->>>>                       &screen_info_lfb_offset, pr);
->>>>               } else {
->>>>                   pr_warn("Invalid relocating, disabling firmware 
->>>> framebuffer\n");
->>
->> And should something be done 
->> after __screen_info_relocation_is_valid() return false?
->>
->> Best regards
->> Shixiong.
->>
->>>>               }
->>>>           }
->>>> +    } else {
->>>> +        screen_info_changed = true;
->>>>       }
->>>>   }
->>>>   diff --git a/include/linux/screen_info.h 
->>>> b/include/linux/screen_info.h
->>>> index 923d68e07679..632cdbb1adbe 100644
->>>> --- a/include/linux/screen_info.h
->>>> +++ b/include/linux/screen_info.h
->>>> @@ -138,9 +138,14 @@ ssize_t screen_info_resources(const struct 
->>>> screen_info *si, struct resource *r,
->>>>   u32 __screen_info_lfb_bits_per_pixel(const struct screen_info *si);
->>>>     #if defined(CONFIG_PCI)
->>>> +bool screen_info_is_useful(void);
->>>>   void screen_info_apply_fixups(void);
->>>>   struct pci_dev *screen_info_pci_dev(const struct screen_info *si);
->>>>   #else
->>>> +bool screen_info_is_useful(void)
->>>> +{
->>>> +    return true;
->>>> +}
->>>>   static inline void screen_info_apply_fixups(void)
->>>>   { }
->>>>   static inline struct pci_dev *screen_info_pci_dev(const struct 
->>>> screen_info *si)
->>>
->>
 >
---------------FwqcQS2wBt8xOw36xNT2oO40
-Content-Type: text/html; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-
-<!DOCTYPE html>
-<html>
-  <head>
-    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-  </head>
-  <body>
-    <p><br>
-    </p>
-    <div class="moz-cite-prefix">在 2025/6/27 16:12, Thomas Zimmermann
-      写道:<br>
-    </div>
-    <blockquote type="cite"
-      cite="mid:855d6faa-9f72-466e-9294-d6059bb9d920@suse.de">Hi
-      <br>
-      <br>
-      Am 27.06.25 um 10:07 schrieb Shixiong Ou:
-      <br>
-      <blockquote type="cite">
-        <br>
-        在 2025/6/26 18:31, Thomas Zimmermann 写道:
-        <br>
-        <blockquote type="cite">Hi
-          <br>
-          <br>
-          Am 26.06.25 um 11:49 schrieb <a class="moz-txt-link-abbreviated" href="mailto:oushixiong1025@163.com">oushixiong1025@163.com</a>:
-          <br>
-          <blockquote type="cite">From: Shixiong Ou
-            <a class="moz-txt-link-rfc2396E" href="mailto:oushixiong@kylinos.cn">&lt;oushixiong@kylinos.cn&gt;</a>
-            <br>
-            <br>
-            [WHY]
-            <br>
-            On an ARM machine, the following log is present:
-            <br>
-            [    0.900884] efifb: framebuffer at 0x1020000000, using
-            3072k, total 3072k
-            <br>
-            [    2.297884] amdgpu 0000:04:00.0:
-            remove_conflicting_pci_framebuffers: bar 0: 0x1000000000
-            -&gt; 0x100fffffff
-            <br>
-            [    2.297886] amdgpu 0000:04:00.0:
-            remove_conflicting_pci_framebuffers: bar 2: 0x1010000000
-            -&gt; 0x10101fffff
-            <br>
-            [    2.297888] amdgpu 0000:04:00.0:
-            remove_conflicting_pci_framebuffers: bar 5: 0x58200000 -&gt;
-            0x5823ffff
-            <br>
-            <br>
-            It show that the efifb framebuffer base is out of PCI BAR,
-            and this
-            <br>
-          </blockquote>
-          <br>
-          The patch at
-          <br>
-          <br>
-            <a class="moz-txt-link-freetext" href="https://patchwork.freedesktop.org/series/148057/">https://patchwork.freedesktop.org/series/148057/</a>
-          <br>
-          <br>
-          is supposed to fix the problem. It has been merged with
-          v6.16-rc1 as commit 2f29b5c23101 ("video: screen_info:
-          Relocate framebuffers behind PCI bridges"). It is in your
-          tree?
-          <br>
-          <br>
-          Best regards
-          <br>
-          Thomas
-          <br>
-          <br>
-        </blockquote>
-        yeah, this patch is in my tree. but do not fix the problem.
-        <br>
-      </blockquote>
-      <br>
-      The patch's final revision had a rough development. Just for
-      testing purposes, could you revert the commit and instead apply
-      the patch's earlier revision from
-      <br>
-      <br>
-<a class="moz-txt-link-freetext" href="https://patchwork.freedesktop.org/patch/649527/?series=148057&amp;rev=1">https://patchwork.freedesktop.org/patch/649527/?series=148057&amp;rev=1</a>
-      <br>
-      <br>
-      ?
-      <br>
-      <br>
-      Thanks a lot.
-      <br>
-      <br>
-      Best regards
-      <br>
-      Thomas <br>
-      <br>
-    </blockquote>
-    <p>I have revert the commit and applied this patch, and added some
-      prints as:</p>
-    <p>+               printk("pcibios_bus_to_resource orginal: start =
-      %llx, end = %llx",<br>
-      +                               r-&gt;start, r-&gt;end);<br>
-      +               pcibios_bus_to_resource(pdev-&gt;bus, r,
-      &amp;bus_region);<br>
-      +               printk("pcibios_bus_to_resource finished: start =
-      %llx, end = %llx",<br>
-      +                               r-&gt;start, r-&gt;end);<br>
-      +</p>
-    <p>and the kernel message as follow:</p>
-    <p>kylin@kylin-pc:~$ dmesg | grep pcibios_bus_to_resource<br>
-      [    0.684698] pcibios_bus_to_resource orginal: start =
-      1020000000, end = 10202fffff<br>
-      [    0.684702] pcibios_bus_to_resource finished: start =
-      1020000000, end = 10202fffff<br>
-    </p>
-    <div id="tta_output_ta"
-class="tta_no_click_outline                                                                                                                                             tta_output_hastxt                                      tta_focusTextExtraExtraSmall"
-      dir="ltr" data-placeholder="翻译" style="height: 48px;"
-      lang="zh-Hans" tabindex="0">The address doesn't seem to have been
-      modified.</div>
-    <div
-class="tta_no_click_outline                                                                                                                                             tta_output_hastxt                                      tta_focusTextExtraExtraSmall"
-      dir="ltr" data-placeholder="翻译" style="height: 48px;"
-      lang="zh-Hans" tabindex="0">Best regards
-      <br>
-      Shixiong.
-      <br>
-      <br>
-    </div>
-    <blockquote type="cite"
-      cite="mid:855d6faa-9f72-466e-9294-d6059bb9d920@suse.de">
-      <blockquote type="cite">
-        <br>
-        this is some message:
-        <br>
-        <br>
-        kylin@kylin-pc:~$ dmesg | grep BAR
-        <br>
-        [    0.688192] pci 0000:00:03.0: BAR 15: assigned [mem
-        0x1000000000-0x101fffffff 64bit pref]
-        <br>
-        [    0.688200] pci 0000:00:00.0: BAR 0: assigned [mem
-        0x1020000000-0x10200fffff 64bit pref]
-        <br>
-        [    0.688205] pci 0000:00:00.0: BAR 14: assigned [mem
-        0x58000000-0x580fffff]
-        <br>
-        [    0.688210] pci 0000:00:01.0: BAR 0: assigned [mem
-        0x1020100000-0x10201fffff 64bit pref]
-        <br>
-        [    0.688215] pci 0000:00:02.0: BAR 0: assigned [mem
-        0x1020200000-0x10202fffff 64bit pref]
-        <br>
-        [    0.688221] pci 0000:00:02.0: BAR 14: assigned [mem
-        0x58100000-0x581fffff]
-        <br>
-        [    0.688225] pci 0000:00:03.0: BAR 0: assigned [mem
-        0x1020300000-0x10203fffff 64bit pref]
-        <br>
-        [    0.688231] pci 0000:00:03.0: BAR 14: assigned [mem
-        0x58200000-0x585fffff]
-        <br>
-        [    0.688237] pci 0000:00:04.0: BAR 0: assigned [mem
-        0x1020400000-0x10204fffff 64bit pref]
-        <br>
-        [    0.688243] pci 0000:00:05.0: BAR 0: assigned [mem
-        0x1020500000-0x10205fffff 64bit pref]
-        <br>
-        [    0.688249] pci 0000:00:05.0: BAR 14: assigned [mem
-        0x58600000-0x586fffff]
-        <br>
-        [    0.688253] pci 0000:01:00.0: BAR 0: assigned [mem
-        0x58000000-0x58003fff 64bit]
-        <br>
-        [    0.688290] pci 0000:03:00.0: BAR 6: assigned [mem
-        0x58100000-0x5817ffff pref]
-        <br>
-        [    0.688296] pci 0000:03:00.0: BAR 0: assigned [mem
-        0x58180000-0x58181fff]
-        <br>
-        [    0.688303] pci 0000:03:00.0: BAR 5: assigned [mem
-        0x58182000-0x58183fff]
-        <br>
-        [    0.688317] pci 0000:04:00.0: BAR 1: assigned [mem
-        0x1000000000-0x101fffffff 64bit pref]
-        <br>
-        [    0.688326] pci 0000:04:00.0: BAR 0: assigned [mem
-        0x58200000-0x583fffff]
-        <br>
-        [    0.688332] pci 0000:04:00.0: BAR 6: assigned [mem
-        0x58400000-0x584fffff pref]
-        <br>
-        [    0.688336] pci 0000:04:00.1: BAR 0: assigned [mem
-        0x58500000-0x58503fff]
-        <br>
-        [    0.688360] pci 0000:06:00.0: BAR 0: assigned [mem
-        0x58600000-0x58601fff 64bit]
-        <br>
-        kylin@kylin-pc:~$ dmesg | grep framebuffer
-        <br>
-        [    1.137536] efifb: framebuffer at 0x1020000000, using 3072k,
-        total 3072k
-        <br>
-        <br>
-        the efifb base address is still at 0x1020000000 after calling
-        pcibios_bus_to_resource().
-        <br>
-        <br>
-        <br>
-        <blockquote type="cite">
-          <blockquote type="cite">results in both efi-framebuffer and
-            amdgpudrmfb co-existing.
-            <br>
-            <br>
-            The fbcon will be bound to efi-framebuffer by default and
-            cannot be used.
-            <br>
-            <br>
-            [HOW]
-            <br>
-            Do not load efifb driver if PCI BAR has changed but not
-            fixuped.
-            <br>
-            In the following cases:
-            <br>
-                1. screen_info_lfb_pdev is NULL.
-            <br>
-                2. __screen_info_relocation_is_valid return false.
-            <br>
-            <br>
-            Signed-off-by: Shixiong Ou <a class="moz-txt-link-rfc2396E" href="mailto:oushixiong@kylinos.cn">&lt;oushixiong@kylinos.cn&gt;</a>
-            <br>
-            ---
-            <br>
-              drivers/video/fbdev/efifb.c     |  4 ++++
-            <br>
-              drivers/video/screen_info_pci.c | 24
-            ++++++++++++++++++++++++
-            <br>
-              include/linux/screen_info.h     |  5 +++++
-            <br>
-              3 files changed, 33 insertions(+)
-            <br>
-            <br>
-            diff --git a/drivers/video/fbdev/efifb.c
-            b/drivers/video/fbdev/efifb.c
-            <br>
-            index 0e1bd3dba255..de8d016c9a66 100644
-            <br>
-            --- a/drivers/video/fbdev/efifb.c
-            <br>
-            +++ b/drivers/video/fbdev/efifb.c
-            <br>
-            @@ -303,6 +303,10 @@ static void efifb_setup(struct
-            screen_info *si, char *options)
-            <br>
-                static inline bool fb_base_is_valid(struct screen_info
-            *si)
-            <br>
-              {
-            <br>
-            +    /* check whether fb_base has changed but not fixuped */
-            <br>
-            +    if (!screen_info_is_useful())
-            <br>
-            +        return false;
-            <br>
-            +
-            <br>
-                  if (si-&gt;lfb_base)
-            <br>
-                      return true;
-            <br>
-              diff --git a/drivers/video/screen_info_pci.c
-            b/drivers/video/screen_info_pci.c
-            <br>
-            index 66bfc1d0a6dc..ac57dcaf0cac 100644
-            <br>
-            --- a/drivers/video/screen_info_pci.c
-            <br>
-            +++ b/drivers/video/screen_info_pci.c
-            <br>
-            @@ -9,6 +9,8 @@ static struct pci_dev *screen_info_lfb_pdev;
-            <br>
-              static size_t screen_info_lfb_bar;
-            <br>
-              static resource_size_t screen_info_lfb_res_start; //
-            original start of resource
-            <br>
-              static resource_size_t screen_info_lfb_offset; //
-            framebuffer offset within resource
-            <br>
-            +static bool screen_info_changed;
-            <br>
-            +static bool screen_info_fixuped;
-            <br>
-                static bool __screen_info_relocation_is_valid(const
-            struct screen_info *si, struct resource *pr)
-            <br>
-              {
-            <br>
-            @@ -24,6 +26,24 @@ static bool
-            __screen_info_relocation_is_valid(const struct screen_info
-            *si, stru
-            <br>
-                  return true;
-            <br>
-              }
-            <br>
-              +bool screen_info_is_useful(void)
-            <br>
-            +{
-            <br>
-            +    unsigned int type;
-            <br>
-            +    const struct screen_info *si = &amp;screen_info;
-            <br>
-            +
-            <br>
-            +    type = screen_info_video_type(si);
-            <br>
-            +    if (type != VIDEO_TYPE_EFI)
-            <br>
-            +        return true;
-            <br>
-            +
-            <br>
-            +    if (screen_info_changed &amp;&amp;
-            !screen_info_fixuped) {
-            <br>
-            +        pr_warn("The screen_info has changed but not
-            fixuped");
-            <br>
-            +        return false;
-            <br>
-            +    }
-            <br>
-            +
-            <br>
-            +    pr_info("The screen_info is useful");
-            <br>
-            +    return true;
-            <br>
-            +}
-            <br>
-            +
-            <br>
-              void screen_info_apply_fixups(void)
-            <br>
-              {
-            <br>
-                  struct screen_info *si = &amp;screen_info;
-            <br>
-            @@ -32,18 +52,22 @@ void screen_info_apply_fixups(void)
-            <br>
-                      struct resource *pr =
-            &amp;screen_info_lfb_pdev-&gt;resource[screen_info_lfb_bar];
-            <br>
-                        if (pr-&gt;start != screen_info_lfb_res_start) {
-            <br>
-            +            screen_info_changed = true;
-            <br>
-                          if (__screen_info_relocation_is_valid(si, pr))
-            {
-            <br>
-                              /*
-            <br>
-                               * Only update base if we have an actual
-            <br>
-                               * relocation to a valid I/O range.
-            <br>
-                               */
-            <br>
-                              __screen_info_set_lfb_base(si,
-            pr-&gt;start + screen_info_lfb_offset);
-            <br>
-            +                screen_info_fixuped = true;
-            <br>
-                              pr_info("Relocating firmware framebuffer
-            to offset %pa[d] within %pr\n",
-            <br>
-                                  &amp;screen_info_lfb_offset, pr);
-            <br>
-                          } else {
-            <br>
-                              pr_warn("Invalid relocating, disabling
-            firmware framebuffer\n");
-            <br>
-          </blockquote>
-        </blockquote>
-        <br>
-        And should something be done
-        after __screen_info_relocation_is_valid() return false?
-        <br>
-        <br>
-        Best regards
-        <br>
-        Shixiong.
-        <br>
-        <br>
-        <blockquote type="cite">
-          <blockquote type="cite">              }
-            <br>
-                      }
-            <br>
-            +    } else {
-            <br>
-            +        screen_info_changed = true;
-            <br>
-                  }
-            <br>
-              }
-            <br>
-              diff --git a/include/linux/screen_info.h
-            b/include/linux/screen_info.h
-            <br>
-            index 923d68e07679..632cdbb1adbe 100644
-            <br>
-            --- a/include/linux/screen_info.h
-            <br>
-            +++ b/include/linux/screen_info.h
-            <br>
-            @@ -138,9 +138,14 @@ ssize_t screen_info_resources(const
-            struct screen_info *si, struct resource *r,
-            <br>
-              u32 __screen_info_lfb_bits_per_pixel(const struct
-            screen_info *si);
-            <br>
-                #if defined(CONFIG_PCI)
-            <br>
-            +bool screen_info_is_useful(void);
-            <br>
-              void screen_info_apply_fixups(void);
-            <br>
-              struct pci_dev *screen_info_pci_dev(const struct
-            screen_info *si);
-            <br>
-              #else
-            <br>
-            +bool screen_info_is_useful(void)
-            <br>
-            +{
-            <br>
-            +    return true;
-            <br>
-            +}
-            <br>
-              static inline void screen_info_apply_fixups(void)
-            <br>
-              { }
-            <br>
-              static inline struct pci_dev *screen_info_pci_dev(const
-            struct screen_info *si)
-            <br>
-          </blockquote>
-          <br>
-        </blockquote>
-        <br>
-      </blockquote>
-      <br>
-    </blockquote>
-  </body>
-</html>
-
---------------FwqcQS2wBt8xOw36xNT2oO40--
-
