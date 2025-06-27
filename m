@@ -2,29 +2,29 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 43B9DAEB6C4
-	for <lists+dri-devel@lfdr.de>; Fri, 27 Jun 2025 13:45:59 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id A44F2AEB6C5
+	for <lists+dri-devel@lfdr.de>; Fri, 27 Jun 2025 13:46:00 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 153E010E9F7;
+	by gabe.freedesktop.org (Postfix) with ESMTP id 24DAD10E9FC;
 	Fri, 27 Jun 2025 11:45:57 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from metis.whiteo.stw.pengutronix.de
  (metis.whiteo.stw.pengutronix.de [185.203.201.7])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9DF7810E9FD
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9E26210E9FE
  for <dri-devel@lists.freedesktop.org>; Fri, 27 Jun 2025 11:45:56 +0000 (UTC)
 Received: from dude05.red.stw.pengutronix.de ([2a0a:edc0:0:1101:1d::54])
  by metis.whiteo.stw.pengutronix.de with esmtp (Exim 4.92)
  (envelope-from <p.zabel@pengutronix.de>)
- id 1uV7Wi-0004N2-Ld; Fri, 27 Jun 2025 13:45:52 +0200
+ id 1uV7Wi-0004N2-Nz; Fri, 27 Jun 2025 13:45:52 +0200
 From: Philipp Zabel <p.zabel@pengutronix.de>
-Date: Fri, 27 Jun 2025 13:45:39 +0200
-Subject: [PATCH v2 2/4] drm/panel: samsung-s6d7aa0: Drop
+Date: Fri, 27 Jun 2025 13:45:40 +0200
+Subject: [PATCH v2 3/4] drm/panel: samsung-s6e8aa0: Drop
  MIPI_DSI_MODE_VSYNC_FLUSH flag
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20250627-dsi-vsync-flush-v2-2-4066899a5608@pengutronix.de>
+Message-Id: <20250627-dsi-vsync-flush-v2-3-4066899a5608@pengutronix.de>
 References: <20250627-dsi-vsync-flush-v2-0-4066899a5608@pengutronix.de>
 In-Reply-To: <20250627-dsi-vsync-flush-v2-0-4066899a5608@pengutronix.de>
 To: Inki Dae <inki.dae@samsung.com>, Jagan Teki <jagan@amarulasolutions.com>, 
@@ -68,22 +68,22 @@ It has no effect anymore.
 Acked-by: Marek Szyprowski <m.szyprowski@samsung.com>
 Signed-off-by: Philipp Zabel <p.zabel@pengutronix.de>
 ---
- drivers/gpu/drm/panel/panel-samsung-s6d7aa0.c | 2 +-
+ drivers/gpu/drm/panel/panel-samsung-s6e8aa0.c | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/drivers/gpu/drm/panel/panel-samsung-s6d7aa0.c b/drivers/gpu/drm/panel/panel-samsung-s6d7aa0.c
-index b5b9e80690f66cc62acbd341865d8d47419e498b..692020081524ad9d1bc815464fa447b5a2d9241d 100644
---- a/drivers/gpu/drm/panel/panel-samsung-s6d7aa0.c
-+++ b/drivers/gpu/drm/panel/panel-samsung-s6d7aa0.c
-@@ -244,7 +244,7 @@ static const struct s6d7aa0_panel_desc s6d7aa0_lsl080al02_desc = {
- 	.init_func = s6d7aa0_lsl080al02_init,
- 	.off_func = s6d7aa0_lsl080al02_off,
- 	.drm_mode = &s6d7aa0_lsl080al02_mode,
--	.mode_flags = MIPI_DSI_MODE_VSYNC_FLUSH | MIPI_DSI_MODE_VIDEO_NO_HFP,
-+	.mode_flags = MIPI_DSI_MODE_VIDEO_NO_HFP,
- 	.bus_flags = 0,
+diff --git a/drivers/gpu/drm/panel/panel-samsung-s6e8aa0.c b/drivers/gpu/drm/panel/panel-samsung-s6e8aa0.c
+index 897df195f2f3437224d1fe9f42d0bfc761541ab2..1b5c500d4f4eb7d43dff4b452a0f1b1bc06f5a2c 100644
+--- a/drivers/gpu/drm/panel/panel-samsung-s6e8aa0.c
++++ b/drivers/gpu/drm/panel/panel-samsung-s6e8aa0.c
+@@ -992,7 +992,7 @@ static int s6e8aa0_probe(struct mipi_dsi_device *dsi)
+ 	dsi->lanes = 4;
+ 	dsi->format = MIPI_DSI_FMT_RGB888;
+ 	dsi->mode_flags = MIPI_DSI_MODE_VIDEO | MIPI_DSI_MODE_VIDEO_BURST
+-		| MIPI_DSI_MODE_VSYNC_FLUSH | MIPI_DSI_MODE_VIDEO_AUTO_VERT;
++		| MIPI_DSI_MODE_VIDEO_AUTO_VERT;
  
- 	.has_backlight = false,
+ 	ret = s6e8aa0_parse_dt(ctx);
+ 	if (ret < 0)
 
 -- 
 2.39.5
