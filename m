@@ -2,69 +2,89 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id D5F53AEB323
-	for <lists+dri-devel@lfdr.de>; Fri, 27 Jun 2025 11:41:25 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id BBF2EAEB34C
+	for <lists+dri-devel@lfdr.de>; Fri, 27 Jun 2025 11:48:55 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1F10910E998;
-	Fri, 27 Jun 2025 09:41:23 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7FDD110E9A1;
+	Fri, 27 Jun 2025 09:48:53 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=redhat.com header.i=@redhat.com header.b="SVv3jZR7";
+	dkim=pass (2048-bit key; unprotected) header.d=fairphone.com header.i=@fairphone.com header.b="lkGQC6Op";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [170.10.133.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5B49810E998
- for <dri-devel@lists.freedesktop.org>; Fri, 27 Jun 2025 09:41:21 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1751017280;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=L6jxLqbH5aL7S/cyb6QujO2iII/2MSR1tRtC68sK9Tc=;
- b=SVv3jZR72MlQFvkb6X4pflgt7OokdZqMhxwC41i5MYHxIOT/kZJA0DdYZXXa/4pKz51fmq
- IOdbZjEKjc53ntlH3+ayS43LuO6ZMnOUcPLgrQLnb5i5hRtkwrzf3bAkeNMhVA/qB5cOuu
- 8E+fgDHz8sTonPHSX77w87AAap+CfQw=
-Received: from mx-prod-mc-02.mail-002.prod.us-west-2.aws.redhat.com
- (ec2-54-186-198-63.us-west-2.compute.amazonaws.com [54.186.198.63]) by
- relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
- cipher=TLS_AES_256_GCM_SHA384) id us-mta-208-CFZx656jPpyzHa0zMhDWhw-1; Fri,
- 27 Jun 2025 05:41:16 -0400
-X-MC-Unique: CFZx656jPpyzHa0zMhDWhw-1
-X-Mimecast-MFC-AGG-ID: CFZx656jPpyzHa0zMhDWhw_1751017274
-Received: from mx-prod-int-03.mail-002.prod.us-west-2.aws.redhat.com
- (mx-prod-int-03.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.12])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
- (No client certificate requested)
- by mx-prod-mc-02.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS
- id D022E1955ECC; Fri, 27 Jun 2025 09:41:13 +0000 (UTC)
-Received: from hydra.redhat.com (unknown [10.45.224.209])
- by mx-prod-int-03.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTP
- id CD40C19560A7; Fri, 27 Jun 2025 09:41:07 +0000 (UTC)
-From: Jocelyn Falempe <jfalempe@redhat.com>
-To: Andrei Lalaev <andrey.lalaev@gmail.com>, Miguel Ojeda <ojeda@kernel.org>,
- Christian Schrefl <chrisi.schrefl@gmail.com>,
- Arnd Bergmann <arnd@arndb.de>, Russell King <linux@armlinux.org.uk>,
- Paolo Bonzini <pbonzini@redhat.com>,
- rust-for-linux <rust-for-linux@vger.kernel.org>,
- Linux ARM <linux-arm-kernel@lists.infradead.org>,
- Thomas Zimmermann <tzimmermann@suse.de>,
- Javier Martinez Canillas <javierm@redhat.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, David Airlie <airlied@gmail.com>,
- Simona Vetter <simona@ffwll.ch>, dri-devel@lists.freedesktop.org
-Cc: Jocelyn Falempe <jfalempe@redhat.com>
-Subject: [PATCH] drm/panic: Add a u64 divide by 10 for arm32
-Date: Fri, 27 Jun 2025 11:40:01 +0200
-Message-ID: <20250627094102.770689-1-jfalempe@redhat.com>
-MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 3.0 on 10.30.177.12
-X-Mimecast-Spam-Score: 0
-X-Mimecast-MFC-PROC-ID: 2uGym2hvJExWyPaTr-z2ASgR2_MlmI6psV7VNk7tIBM_1751017274
-X-Mimecast-Originator: redhat.com
-Content-Transfer-Encoding: 8bit
-content-type: text/plain; charset="US-ASCII"; x-default=true
+Received: from mail-ed1-f48.google.com (mail-ed1-f48.google.com
+ [209.85.208.48])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4F48010E9A1
+ for <dri-devel@lists.freedesktop.org>; Fri, 27 Jun 2025 09:48:50 +0000 (UTC)
+Received: by mail-ed1-f48.google.com with SMTP id
+ 4fb4d7f45d1cf-607cf70b00aso3716296a12.2
+ for <dri-devel@lists.freedesktop.org>; Fri, 27 Jun 2025 02:48:50 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=fairphone.com; s=fair; t=1751017728; x=1751622528; darn=lists.freedesktop.org;
+ h=in-reply-to:references:from:subject:cc:to:message-id:date
+ :content-transfer-encoding:mime-version:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=DCDsaW+29dJd0Q/+M489tK44pMH2jQe/+cBTe7kaALo=;
+ b=lkGQC6OpAVMuDAfx/dwzEd45mlSilk+zFRjoSdtfM0sd5lQ+B86LupdwT53nsJc4jX
+ buK5P7r89H1G+zuPPbvf7aUM7r5orCaaAD0jPUW5A5q7vONf+K0Gx7FY0bTEnKME26Cd
+ OvXRK0tFDeqMecJJdkar2vCgc/Op2gPH6nV5MQrSVW8SBhDFvyiYXTdCveZH/SsO4MbL
+ yIhbRiFz8OJgIOKXZXCVvPai8vGZig61J+d2DfZh1nwC8N70XHH2MEzlDAVVr3GVAnUV
+ Dht2DIrdr33PgQ3JwogwaGVuq/dOwyh84c5Mo+oGKzIE0ExwzfsWXr3V3hmF3sWazzeR
+ 0cCA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1751017728; x=1751622528;
+ h=in-reply-to:references:from:subject:cc:to:message-id:date
+ :content-transfer-encoding:mime-version:x-gm-message-state:from:to
+ :cc:subject:date:message-id:reply-to;
+ bh=DCDsaW+29dJd0Q/+M489tK44pMH2jQe/+cBTe7kaALo=;
+ b=UIujXXfk1d2vyBoWr6bNsjr9VoEGHMJNZVkB8mKcnv9nPULskpFZ0y3k0NQZk5cgZV
+ SXf5qxNhPes2w6WkIKRHrdl9K5kB71I+9ZmG1SJbici6+1nqjlXKM37EU8CGkOu4Gnaa
+ jt4hdEOfcrfi8oJf93bs3/0JRqff7GPhBs3azkfiH/yF+Rdm9p09KrlMwioziE7R6RIj
+ fEZWkQ+UNasdZMEV0i2wnS0fMscBkgYnMa8jO6RWMiUnTB8xnT2xyHdZLqRug33PlF/Y
+ U8EhZjzId72ROIl6yfdecFKyxlV0SKbepj1/GJK+QuQSEezhVH/MFEc1hbGj8nILTURH
+ F1WQ==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCWBK887/c+cPsVlETd3iaVpRGht2fqKNCYxpyn3FeXsL7yNAkZ3AVEVj6GIdwCkQGIm3VLGL+lEAIY=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YyAEokzK4oXLE752U0DCOVdp8CvN0ruizi3F+Wf7xVjsbMCZtUo
+ Ufhk1gSI0rIPYZBfHbGWKDj4/i8Bs2hbydWIEAjT+4MewFh6PUx6rgZMx7Eyn7TgTXI=
+X-Gm-Gg: ASbGncu/tQ08r2qzTqLcIpDhTOciBGk4R1WhTbqfV4VbRzd3gbwAh3XdSoFD/rLse+3
+ oYDil8StTK2QAmUnRl/ZWFi4CC7k0IATrD9xrXO5sbzMcp89wIDLNnFDpMBRay6RyUN0VTTOMFH
+ JWviCTUyPQOZ6OGNT6XzXay+rqbHkbz4WrcoTr4iDXA2pE3hLhPN2Z6SK6Wx+CYiabwc/A9JFrW
+ BRTos1cL/1phLaKL2MaYjsoWf86nPdcjTJdKw2jE56pT23FnAq84PZ+nQ7CuCeGO+7r46hlgQUE
+ ahlzH1QzNTq8jYIJKurqzboLcL3GCCq7gJebQknupy78n+ppsfvhvuETN6K6vJ9snd4ND55Un45
+ GkIq7tTD5TypzC0R1eHmFCXqW0lUVUEE=
+X-Google-Smtp-Source: AGHT+IFvxLKtOUHTAM6IaJNk+LxRIz+Sbrpu2XNC5tbYBRY8piKKH2knwTobMqopOBPkPqKUqvHZeA==
+X-Received: by 2002:a17:907:1c0b:b0:ae0:6dab:1a83 with SMTP id
+ a640c23a62f3a-ae34fd0783bmr221032566b.7.1751017728509; 
+ Fri, 27 Jun 2025 02:48:48 -0700 (PDT)
+Received: from localhost (144-178-202-138.static.ef-service.nl.
+ [144.178.202.138]) by smtp.gmail.com with ESMTPSA id
+ a640c23a62f3a-ae353c0427bsm92425166b.84.2025.06.27.02.48.47
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Fri, 27 Jun 2025 02:48:48 -0700 (PDT)
+Mime-Version: 1.0
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=UTF-8
+Date: Fri, 27 Jun 2025 11:48:47 +0200
+Message-Id: <DAX7ZB27SBPV.2Y0I09TVSF3TT@fairphone.com>
+To: "Krzysztof Kozlowski" <krzk@kernel.org>
+Cc: "Hans de Goede" <hdegoede@redhat.com>, "Maarten Lankhorst"
+ <maarten.lankhorst@linux.intel.com>, "Maxime Ripard" <mripard@kernel.org>,
+ "Thomas Zimmermann" <tzimmermann@suse.de>, "David Airlie"
+ <airlied@gmail.com>, "Simona Vetter" <simona@ffwll.ch>, "Rob Herring"
+ <robh@kernel.org>, "Krzysztof Kozlowski" <krzk+dt@kernel.org>, "Conor
+ Dooley" <conor+dt@kernel.org>, "Javier Martinez Canillas"
+ <javierm@redhat.com>, "Helge Deller" <deller@gmx.de>,
+ <linux-fbdev@vger.kernel.org>, <dri-devel@lists.freedesktop.org>,
+ <devicetree@vger.kernel.org>, <linux-kernel@vger.kernel.org>
+Subject: Re: [PATCH v2 1/5] dt-bindings: display: simple-framebuffer: Add
+ interconnects property
+From: "Luca Weiss" <luca.weiss@fairphone.com>
+X-Mailer: aerc 0.20.1-0-g2ecb8770224a-dirty
+References: <20250623-simple-drm-fb-icc-v2-0-f69b86cd3d7d@fairphone.com>
+ <20250623-simple-drm-fb-icc-v2-1-f69b86cd3d7d@fairphone.com>
+ <20250627-mysterious-optimistic-bird-acaafb@krzk-bin>
+In-Reply-To: <20250627-mysterious-optimistic-bird-acaafb@krzk-bin>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -80,63 +100,49 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 32bits ARM, u64 divided by a constant is not optimized to a
-multiply by inverse by the compiler [1].
-So do the multiply by inverse explicitly for this architecture.
+Hi Krzysztof,
 
-Link: https://github.com/llvm/llvm-project/issues/37280 [1]
-Reported-by: Andrei Lalaev <andrey.lalaev@gmail.com>
-Closes: https://lore.kernel.org/dri-devel/c0a2771c-f3f5-4d4c-aa82-d673b3c5cb46@gmail.com/
-Fixes: 675008f196ca ("drm/panic: Use a decimal fifo to avoid u64 by u64 divide")
-Signed-off-by: Jocelyn Falempe <jfalempe@redhat.com>
----
- drivers/gpu/drm/drm_panic_qr.rs | 24 +++++++++++++++++++++++-
- 1 file changed, 23 insertions(+), 1 deletion(-)
+On Fri Jun 27, 2025 at 10:08 AM CEST, Krzysztof Kozlowski wrote:
+> On Mon, Jun 23, 2025 at 08:44:45AM +0200, Luca Weiss wrote:
+>> Document the interconnects property which is a list of interconnect
+>> paths that is used by the framebuffer and therefore needs to be kept
+>> alive when the framebuffer is being used.
+>>=20
+>> Acked-by: Thomas Zimmermann <tzimmermann@suse.de>
+>> Signed-off-by: Luca Weiss <luca.weiss@fairphone.com>
+>> ---
+>>  Documentation/devicetree/bindings/display/simple-framebuffer.yaml | 3 +=
+++
+>>  1 file changed, 3 insertions(+)
+>>=20
+>> diff --git a/Documentation/devicetree/bindings/display/simple-framebuffe=
+r.yaml b/Documentation/devicetree/bindings/display/simple-framebuffer.yaml
+>> index 296500f9da05e296dbbeec50ba5186b6b30aaffc..f0fa0ef23d91043dfb2b220c=
+654b80e2e80850cd 100644
+>> --- a/Documentation/devicetree/bindings/display/simple-framebuffer.yaml
+>> +++ b/Documentation/devicetree/bindings/display/simple-framebuffer.yaml
+>> @@ -79,6 +79,9 @@ properties:
+>>    power-domains:
+>>      description: List of power domains used by the framebuffer.
+>> =20
+>> +  interconnects:
+>> +    description: List of interconnect paths used by the framebuffer.
+>> +
+>
+> maxItems: 1, or this is not a simple FB anymore. Anything which needs
+> some sort of resources in unknown way is not simple anymore. You need
+> device specific bindings.
 
-diff --git a/drivers/gpu/drm/drm_panic_qr.rs b/drivers/gpu/drm/drm_panic_qr.rs
-index dd55b1cb764d..82acecd505d3 100644
---- a/drivers/gpu/drm/drm_panic_qr.rs
-+++ b/drivers/gpu/drm/drm_panic_qr.rs
-@@ -381,6 +381,24 @@ struct DecFifo {
-     len: usize,
- }
- 
-+/// On arm32 architecture, dividing an u64 by a constant will generate a call
-+/// to __aeabi_uldivmod which is not present in the kernel.
-+/// So use the multiply by inverse method for this architecture.
-+#[cfg(target_arch = "arm")]
-+fn div10(val: u64) -> u64
-+{
-+    let val_h = val >> 32;
-+    let val_l = val & 0xFFFFFFFF;
-+    let b_h: u64 = 0x66666666;
-+    let b_l: u64 = 0x66666667;
-+
-+    let tmp1 = val_h * b_l + ((val_l * b_l) >> 32);
-+    let tmp2 = val_l * b_h + (tmp1 & 0xffffffff);
-+    let tmp3 = val_h * b_h + (tmp1 >> 32) + (tmp2 >> 32);
-+
-+    tmp3 >> 2
-+}
-+
- impl DecFifo {
-     fn push(&mut self, data: u64, len: usize) {
-         let mut chunk = data;
-@@ -389,7 +407,11 @@ fn push(&mut self, data: u64, len: usize) {
-         }
-         for i in 0..len {
-             self.decimals[i] = (chunk % 10) as u8;
--            chunk /= 10;
-+            if cfg!(target_arch = "arm") {
-+                chunk = div10(chunk);
-+            } else {
-+                chunk /= 10;
-+            }
-         }
-         self.len += len;
-     }
+The bindings support an arbitrary number of clocks, regulators,
+power-domains. Why should I artificially limit the interconnects to only
+one?
 
-base-commit: 3529cb5ab16b4f1f8bbc31dc39a1076a94bd1e38
--- 
-2.49.0
+The driver code also has that support added in this series.
+
+Regards
+Luca
+
+>
+> Best regards,
+> Krzysztof
 
