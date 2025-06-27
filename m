@@ -2,18 +2,18 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 27ED3AEBE4D
-	for <lists+dri-devel@lfdr.de>; Fri, 27 Jun 2025 19:17:45 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id BBFA3AEBE4C
+	for <lists+dri-devel@lfdr.de>; Fri, 27 Jun 2025 19:17:42 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5523D10E1A3;
-	Fri, 27 Jun 2025 17:17:40 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7159B10E09C;
+	Fri, 27 Jun 2025 17:17:39 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=igalia.com header.i=@igalia.com header.b="jLVm7BIb";
+	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=igalia.com header.i=@igalia.com header.b="VUd4nD2A";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from fanzine2.igalia.com (fanzine2.igalia.com [213.97.179.56])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E1D4910E09C
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E1DCA10E1A3
  for <dri-devel@lists.freedesktop.org>; Fri, 27 Jun 2025 17:17:37 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com; 
  s=20170329;
@@ -22,16 +22,16 @@ DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com;
  Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc
  :Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:List-Subscribe:
  List-Post:List-Owner:List-Archive;
- bh=jS4+JcM9xMlmOe8OfoNb9sR7u7eSGRLjH/mwR8XRVGw=; b=jLVm7BIbyHn86V7UU9kS7BmVIo
- gKIpcTGaNm6kMCRW/aJrA/EDVraoR6TMBCBHJLb/r7J5UWWh5CJIKWd4Db4F3LZo47W6Z0LJz4GmX
- SKLLfU+fSPiXtsf7OarfedAhVM4yXq6TI2S1jhTW2w4QxSpGZUuGjVQqDk4LbAjSlhWNT59R4R578
- eNQxnXXrDEJrKxawApf6ZzMEsgtInldVnUU3Ak/G/Y6yD+qYMwrHwOUb08D6bImCrHYIMM7e/FxMD
- qGI8Sy1PKOOZRRvpouCMUd/jTqt+UjU7m5jz94jor6wYnjVtYcsFy0cySk1voFwO38pN1JMsvTcjT
- 2VDm5IbA==;
+ bh=bMGM9gpupaCaCFFxNBfpZJ7GSg8ozCX0BawGB70O+6Q=; b=VUd4nD2Ac+pM7GqdDPUyFAuTMS
+ jy7O0XYiGRwFFnAxV6FQFSbdHIGMcc9MrW6cjCthy8oVGxhT/RDM4OxvCmu84FST92QxZpT0nNzZy
+ vUM80Awva/b6305TXrPAoQIaM0QMSZs+iYz//FNHTuP3Sgn6vVWVJChICN7zh8Z+fX3MN3bUQL255
+ 5kbpey3iOALNA8ivQtrZFv+WimZIX3LDIJTcKaBdRq1NhVWdCmN5MZm9XSqT0MfOpVQYxSH5Y0i+I
+ iCnpJQkQrUIb3GpaIwa+BECtvNU6pdVq3+JCZS42Yj10Bbglx/+tAxCIVi9CNz2BKppvlD02zR9LQ
+ G7QadNmw==;
 Received: from [191.204.192.64] (helo=localhost.localdomain)
  by fanzine2.igalia.com with esmtpsa 
  (Cipher TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_256_GCM:256) (Exim)
- id 1uVCha-009UVF-8H; Fri, 27 Jun 2025 19:17:26 +0200
+ id 1uVChc-009UVF-5S; Fri, 27 Jun 2025 19:17:28 +0200
 From: =?UTF-8?q?Andr=C3=A9=20Almeida?= <andrealmeid@igalia.com>
 To: Stephen Rothwell <sfr@canb.auug.org.au>,
  Linux Next Mailing List <linux-next@vger.kernel.org>, airlied@gmail.com,
@@ -39,11 +39,10 @@ To: Stephen Rothwell <sfr@canb.auug.org.au>,
  Krzysztof Karas <krzysztof.karas@intel.com>
 Cc: dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
  kernel-dev@igalia.com,
- =?UTF-8?q?Andr=C3=A9=20Almeida?= <andrealmeid@igalia.com>,
- Stephen Rothwell <sfr@canb.auug.org.au>
-Subject: [PATCH v3 2/3] drm: Add missing struct drm_wedge_task_info kernel doc
-Date: Fri, 27 Jun 2025 14:17:14 -0300
-Message-ID: <20250627171715.438304-2-andrealmeid@igalia.com>
+ =?UTF-8?q?Andr=C3=A9=20Almeida?= <andrealmeid@igalia.com>
+Subject: [PATCH v3 3/3] drm/doc: Fix grammar for "Task information"
+Date: Fri, 27 Jun 2025 14:17:15 -0300
+Message-ID: <20250627171715.438304-3-andrealmeid@igalia.com>
 X-Mailer: git-send-email 2.49.0
 In-Reply-To: <20250627171715.438304-1-andrealmeid@igalia.com>
 References: <20250627171715.438304-1-andrealmeid@igalia.com>
@@ -65,35 +64,30 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Fix the following kernel doc warning:
+Remove the repetitive wording at the end of "Task information" section.
 
-include/drm/drm_device.h:40: warning: Function parameter or struct member 'pid' not described in 'drm_wedge_task_info'
-include/drm/drm_device.h:40: warning: Function parameter or struct member 'comm' not described in 'drm_wedge_task_info'
-
-Fixes: 183bccafa176 ("drm: Create a task info option for wedge events")
-Reported-by: Stephen Rothwell <sfr@canb.auug.org.au>
 Signed-off-by: André Almeida <andrealmeid@igalia.com>
 ---
-v3: Make it consistent with drm_device member description
-v2: Add Reported-by tag
+v3: new patch
 ---
- include/drm/drm_device.h | 2 ++
- 1 file changed, 2 insertions(+)
+ Documentation/gpu/drm-uapi.rst | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/include/drm/drm_device.h b/include/drm/drm_device.h
-index 08b3b2467c4c..73dd3c5470a4 100644
---- a/include/drm/drm_device.h
-+++ b/include/drm/drm_device.h
-@@ -35,7 +35,9 @@ struct pci_controller;
-  * struct drm_wedge_task_info - information about the guilty task of a wedge dev
-  */
- struct drm_wedge_task_info {
-+ 	/** @pid: the pid of the task */
- 	pid_t pid;
-+ 	/** @comm: the command name of the task */
- 	char comm[TASK_COMM_LEN];
- };
+diff --git a/Documentation/gpu/drm-uapi.rst b/Documentation/gpu/drm-uapi.rst
+index 10dea6a1f097..3ed027bac028 100644
+--- a/Documentation/gpu/drm-uapi.rst
++++ b/Documentation/gpu/drm-uapi.rst
+@@ -460,8 +460,8 @@ event string.
  
+ The reliability of this information is driver and hardware specific, and should
+ be taken with a caution regarding it's precision. To have a big picture of what
+-really happened, the devcoredump file provides should have much more detailed
+-information about the device state and about the event.
++really happened, the devcoredump file provides much more detailed information
++about the device state and about the event.
+ 
+ Consumer prerequisites
+ ----------------------
 -- 
 2.49.0
 
