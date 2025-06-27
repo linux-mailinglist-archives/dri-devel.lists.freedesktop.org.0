@@ -2,34 +2,34 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5CD26AEADDC
-	for <lists+dri-devel@lfdr.de>; Fri, 27 Jun 2025 06:31:36 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5EB4DAEADDB
+	for <lists+dri-devel@lfdr.de>; Fri, 27 Jun 2025 06:31:35 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0F20410E95C;
-	Fri, 27 Jun 2025 04:31:31 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A44E010E95B;
+	Fri, 27 Jun 2025 04:31:30 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="dQBn0wcG";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="Pz52yDph";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from nyc.source.kernel.org (nyc.source.kernel.org [147.75.193.91])
- by gabe.freedesktop.org (Postfix) with ESMTPS id EEC6D10E312
- for <dri-devel@lists.freedesktop.org>; Fri, 27 Jun 2025 04:31:26 +0000 (UTC)
+Received: from sea.source.kernel.org (sea.source.kernel.org [172.234.252.31])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9D31410E312
+ for <dri-devel@lists.freedesktop.org>; Fri, 27 Jun 2025 04:31:28 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by nyc.source.kernel.org (Postfix) with ESMTP id C8053A5215A;
+ by sea.source.kernel.org (Postfix) with ESMTP id 819D045CDE;
+ Fri, 27 Jun 2025 04:31:28 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id B2661C4CEF1;
  Fri, 27 Jun 2025 04:31:25 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 21777C4CEF0;
- Fri, 27 Jun 2025 04:31:23 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1750998685;
- bh=0JY3xV5HErzsQVOruBIRg0clSTUDvYlikV8MoSsd/64=;
+ s=k20201202; t=1750998688;
+ bh=IOGKTg8m2lLVk2BGnUQp473zWXZ7OF1rNECuXqPIWig=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=dQBn0wcGkgVxz5Qdsw2JxFseySU5esBfNrutJfHvNmBtLb801AWtYpSAwHfT3DvGB
- KX9ZfcIUaV9oB3tk8s+RYlsD64wTT5kAAq537VOaPRlvtztqMW+UMO2aVqdlJYlM2b
- 78oWq+VNQInQoqrAjKbe+o8yf6e4BeWfNvWxyIOwoCRS/0NKvKuC9fjF3RIDTsLLCH
- DKQ9K6XufUxVgiBcYoS9tmzo5SgyFIRDFDe2GUxL0MRn011Z4ozySNuzKoQQEXigPU
- BsUZHEFSNwdJoMDFdx6ztk3y5Q/k2hbFeBZQZMQWZfPZVd0AJiPSEXKmGotixdya4e
- W3fJKenT1/bQQ==
+ b=Pz52yDph4lvxRO78/df2VuOpp1fNDNoWqYOUxhyJnuo9OirhP0CkrWu10l3S5rVyu
+ XuFAqxFzKqMboIlA4BR+Pbv0vs/oJMEcDBqGA405UxJWnAtQW4SRY+wTRUicKNWlFK
+ dyHMX5cDSal5TcPwzheVlN8FkGBWcBiJcFba5wlR+KmSLfi8ij/MH7wQo3RYbTFDWe
+ xhIz3YnCPfcGTq9RBHOnX9KzVEbJxPsktL5NDRqLAE7c/UW301XfcSVTwAUKHjx4Sd
+ bQ61w7HQyq3fVIG3TPV7S3qQOl086ZQ8dnRnjiDgHQMHsEfugU0pyVjbZBUSN+jlFu
+ /OEA7R1YbmVaQ==
 From: Mario Limonciello <superm1@kernel.org>
 To: Bjorn Helgaas <bhelgaas@google.com>
 Cc: Alex Deucher <alexander.deucher@amd.com>,
@@ -52,10 +52,11 @@ Cc: Alex Deucher <alexander.deucher@amd.com>,
  linux-sound@vger.kernel.org (open list:SOUND),
  Daniel Dadap <ddadap@nvidia.com>,
  Mario Limonciello <mario.limonciello@amd.com>,
- Simona Vetter <simona.vetter@ffwll.ch>, Bjorn Helgaas <helgaas@kernel.org>
-Subject: [PATCH v6 4/9] iommu/vt-d: Use pci_is_display()
-Date: Thu, 26 Jun 2025 23:31:03 -0500
-Message-ID: <20250627043108.3141206-5-superm1@kernel.org>
+ Takashi Iwai <tiwai@suse.de>, Simona Vetter <simona.vetter@ffwll.ch>,
+ Bjorn Helgaas <helgaas@kernel.org>
+Subject: [PATCH v6 5/9] ALSA: hda: Use pci_is_display()
+Date: Thu, 26 Jun 2025 23:31:04 -0500
+Message-ID: <20250627043108.3141206-6-superm1@kernel.org>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <20250627043108.3141206-1-superm1@kernel.org>
 References: <20250627043108.3141206-1-superm1@kernel.org>
@@ -80,28 +81,51 @@ From: Mario Limonciello <mario.limonciello@amd.com>
 
 The inline pci_is_display() helper does the same thing.  Use it.
 
-Reviewed-by: Lu Baolu <baolu.lu@linux.intel.com>
+Reviewed-by: Takashi Iwai <tiwai@suse.de>
 Reviewed-by: Daniel Dadap <ddadap@nvidia.com>
 Reviewed-by: Simona Vetter <simona.vetter@ffwll.ch>
 Suggested-by: Bjorn Helgaas <helgaas@kernel.org>
 Signed-off-by: Mario Limonciello <mario.limonciello@amd.com>
 ---
- drivers/iommu/intel/iommu.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ sound/hda/hdac_i915.c     | 2 +-
+ sound/pci/hda/hda_intel.c | 4 ++--
+ 2 files changed, 3 insertions(+), 3 deletions(-)
 
-diff --git a/drivers/iommu/intel/iommu.c b/drivers/iommu/intel/iommu.c
-index 7aa3932251b2f..17267cd476ce7 100644
---- a/drivers/iommu/intel/iommu.c
-+++ b/drivers/iommu/intel/iommu.c
-@@ -34,7 +34,7 @@
- #define ROOT_SIZE		VTD_PAGE_SIZE
- #define CONTEXT_SIZE		VTD_PAGE_SIZE
+diff --git a/sound/hda/hdac_i915.c b/sound/hda/hdac_i915.c
+index e9425213320ea..44438c799f957 100644
+--- a/sound/hda/hdac_i915.c
++++ b/sound/hda/hdac_i915.c
+@@ -155,7 +155,7 @@ static int i915_gfx_present(struct pci_dev *hdac_pci)
  
--#define IS_GFX_DEVICE(pdev) ((pdev->class >> 16) == PCI_BASE_CLASS_DISPLAY)
-+#define IS_GFX_DEVICE(pdev) pci_is_display(pdev)
- #define IS_USB_DEVICE(pdev) ((pdev->class >> 8) == PCI_CLASS_SERIAL_USB)
- #define IS_ISA_DEVICE(pdev) ((pdev->class >> 8) == PCI_CLASS_BRIDGE_ISA)
- #define IS_AZALIA(pdev) ((pdev)->vendor == 0x8086 && (pdev)->device == 0x3a3e)
+ 	for_each_pci_dev(display_dev) {
+ 		if (display_dev->vendor != PCI_VENDOR_ID_INTEL ||
+-		    (display_dev->class >> 16) != PCI_BASE_CLASS_DISPLAY)
++		    !pci_is_display(display_dev))
+ 			continue;
+ 
+ 		if (pci_match_id(denylist, display_dev))
+diff --git a/sound/pci/hda/hda_intel.c b/sound/pci/hda/hda_intel.c
+index 439cf1bda6e66..75badb5c69b8e 100644
+--- a/sound/pci/hda/hda_intel.c
++++ b/sound/pci/hda/hda_intel.c
+@@ -1465,7 +1465,7 @@ static struct pci_dev *get_bound_vga(struct pci_dev *pci)
+ 				 * the dGPU is the one who is involved in
+ 				 * vgaswitcheroo.
+ 				 */
+-				if (((p->class >> 16) == PCI_BASE_CLASS_DISPLAY) &&
++				if (pci_is_display(p) &&
+ 				    (atpx_present() || apple_gmux_detect(NULL, NULL)))
+ 					return p;
+ 				pci_dev_put(p);
+@@ -1477,7 +1477,7 @@ static struct pci_dev *get_bound_vga(struct pci_dev *pci)
+ 			p = pci_get_domain_bus_and_slot(pci_domain_nr(pci->bus),
+ 							pci->bus->number, 0);
+ 			if (p) {
+-				if ((p->class >> 16) == PCI_BASE_CLASS_DISPLAY)
++				if (pci_is_display(p))
+ 					return p;
+ 				pci_dev_put(p);
+ 			}
 -- 
 2.43.0
 
