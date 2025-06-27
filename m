@@ -2,78 +2,89 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 75DB1AEB42F
-	for <lists+dri-devel@lfdr.de>; Fri, 27 Jun 2025 12:18:46 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2D49AAEB4EA
+	for <lists+dri-devel@lfdr.de>; Fri, 27 Jun 2025 12:33:54 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7D99C10E335;
-	Fri, 27 Jun 2025 10:18:43 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3C42910E9C2;
+	Fri, 27 Jun 2025 10:33:51 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=foss.st.com header.i=@foss.st.com header.b="jSnTASSp";
+	dkim=pass (2048-bit key; unprotected) header.d=quicinc.com header.i=@quicinc.com header.b="fq+LxtBA";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx08-00178001.pphosted.com (mx08-00178001.pphosted.com
- [91.207.212.93])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6220710E335
- for <dri-devel@lists.freedesktop.org>; Fri, 27 Jun 2025 10:18:41 +0000 (UTC)
-Received: from pps.filterd (m0369457.ppops.net [127.0.0.1])
- by mx07-00178001.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 55R9hWB5006538;
- Fri, 27 Jun 2025 12:18:32 +0200
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=foss.st.com; h=
- cc:content-transfer-encoding:content-type:date:from:in-reply-to
- :message-id:mime-version:references:subject:to; s=selector1; bh=
- JT/oZIZ3g44uQwFbSBm3mpKN5NBsBXZqXoDPZXCZ6qI=; b=jSnTASSp2oBQkLw2
- Qztvz8e1Qcq6x2XtbPu46cXqFGcZVewFDLTPfYdWrK+EmKBpLAXq5vHLcY0shDlV
- 06M7TVBh5kBSOU1ffW6b54hqFfLjxiiUDfGAk7n5PBP2OQnu3+p0Krlqq27dYfJ2
- ufGczDWmxh3DaJ7oV7la4zPl6Z6OE9x3mRghUpzj9hXlJazoIYx4BZa/15hapccW
- 37D2a84ioyvi3WwzycdcbG59eONlrCH9c6A1r1VLgD3UucFgNZXUn/q/E5eCaZ4G
- BRk1Z/dmdw8HTvOuDXkSdKvq6xckNLe7l0Wl9/BiTJZFMEHwUkxVyffuO1im/veP
- nW8oGw==
-Received: from beta.dmz-ap.st.com (beta.dmz-ap.st.com [138.198.100.35])
- by mx07-00178001.pphosted.com (PPS) with ESMTPS id 47e7ppr59e-1
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com
+ [205.220.180.131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8EA5B10E9C2
+ for <dri-devel@lists.freedesktop.org>; Fri, 27 Jun 2025 10:33:50 +0000 (UTC)
+Received: from pps.filterd (m0279870.ppops.net [127.0.0.1])
+ by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 55R4DtBB015139;
+ Fri, 27 Jun 2025 10:33:46 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
+ cc:content-transfer-encoding:content-type:date:from:message-id
+ :mime-version:subject:to; s=qcppdkim1; bh=olCj1v8P/I3CvFhsgigwhz
+ rq5RbTz3yGHfA546iFpUw=; b=fq+LxtBANxcTrB8JACHibzXElVGoC7WC2KU6Ck
+ UoD7Afvo5UWu0FZeQHuP+5I//Wk3CO/00CqdG1rYfukUr0h+nMAGYdXAnAP2AWY7
+ fvcEe+tcbBSy9mK3/oD12GM8OLYKi0awmRx9NMCcT5iRdcY/y1wm1Q8V4vmT7CGq
+ /29Qxe+0g7/5XhXQS585VhV93PYeEZcBmClvMWF8gy1RQQ3OMNnch2+UPus/0kB7
+ 1XQh2dguLugn/Oi0X1PxoJbvwge3k+nqkB/wb67sdNNrZn1w0xzB95SN7gq2tKHl
+ nN7oSmjMq88KGh1sDb5DXL1gZfO7GrW+BXoI2n/pT0wJkJZQ==
+Received: from nasanppmta01.qualcomm.com (i-global254.qualcomm.com
+ [199.106.103.254])
+ by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 47fbm253pc-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Fri, 27 Jun 2025 12:18:32 +0200 (MEST)
-Received: from euls16034.sgp.st.com (euls16034.sgp.st.com [10.75.44.20])
- by beta.dmz-ap.st.com (STMicroelectronics) with ESMTP id 1D30A4005B;
- Fri, 27 Jun 2025 12:17:09 +0200 (CEST)
-Received: from Webmail-eu.st.com (shfdag1node2.st.com [10.75.129.70])
- by euls16034.sgp.st.com (STMicroelectronics) with ESMTP id AC6FABE10A9;
- Fri, 27 Jun 2025 12:16:13 +0200 (CEST)
-Received: from [10.48.86.185] (10.48.86.185) by SHFDAG1NODE2.st.com
- (10.75.129.70) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.39; Fri, 27 Jun
- 2025 12:16:12 +0200
-Message-ID: <813dda8d-7871-46ca-bf22-4e231be4cbf1@foss.st.com>
-Date: Fri, 27 Jun 2025 12:16:12 +0200
+ Fri, 27 Jun 2025 10:33:45 +0000 (GMT)
+Received: from nasanex01c.na.qualcomm.com (nasanex01c.na.qualcomm.com
+ [10.45.79.139])
+ by NASANPPMTA01.qualcomm.com (8.18.1.2/8.18.1.2) with ESMTPS id 55RAXi9k012595
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Fri, 27 Jun 2025 10:33:44 GMT
+Received: from hu-lxu5-sha.qualcomm.com (10.80.80.8) by
+ nasanex01c.na.qualcomm.com (10.45.79.139) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.1748.10; Fri, 27 Jun 2025 03:33:41 -0700
+From: Ling Xu <quic_lxu5@quicinc.com>
+To: <srini@kernel.org>, <amahesh@qti.qualcomm.com>, <robh@kernel.org>,
+ <krzk+dt@kernel.org>, <conor+dt@kernel.org>, <andersson@kernel.org>,
+ <konradybcio@kernel.org>, <arnd@arndb.de>, <gregkh@linuxfoundation.org>
+CC: <quic_kuiw@quicinc.com>, <ekansh.gupta@oss.qualcomm.com>,
+ <devicetree@vger.kernel.org>, <linux-arm-msm@vger.kernel.org>,
+ <dri-devel@lists.freedesktop.org>, <linux-kernel@vger.kernel.org>, Ling Xu
+ <quic_lxu5@quicinc.com>
+Subject: [PATCH v4 0/4] Add support for gdsp remoteproc on sa8775p
+Date: Fri, 27 Jun 2025 16:03:15 +0530
+Message-ID: <20250627103319.2883613-1-quic_lxu5@quicinc.com>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 2/3] i2c: stm32f7: unmap DMA mapped buffer
-To: Alain Volmat <alain.volmat@foss.st.com>
-CC: Pierre-Yves MORDRET <pierre-yves.mordret@foss.st.com>, Andi Shyti
- <andi.shyti@kernel.org>, Maxime Coquelin <mcoquelin.stm32@gmail.com>,
- Alexandre Torgue <alexandre.torgue@foss.st.com>, Sumit Semwal
- <sumit.semwal@linaro.org>, =?UTF-8?Q?Christian_K=C3=B6nig?=
- <christian.koenig@amd.com>, M'boumba Cedric Madianga
- <cedric.madianga@gmail.com>, Wolfram Sang <wsa@kernel.org>, "Pierre-Yves
- MORDRET" <pierre-yves.mordret@st.com>, <linux-i2c@vger.kernel.org>,
- <linux-stm32@st-md-mailman.stormreply.com>,
- <linux-arm-kernel@lists.infradead.org>, <linux-kernel@vger.kernel.org>,
- <linux-media@vger.kernel.org>, <dri-devel@lists.freedesktop.org>,
- <linaro-mm-sig@lists.linaro.org>
-References: <20250616-i2c-upstream-v1-0-42d3d5374e65@foss.st.com>
- <20250616-i2c-upstream-v1-2-42d3d5374e65@foss.st.com>
- <20250626090301.GC348766@gnbcxd0016.gnb.st.com>
-Content-Language: en-US
-From: Clement LE GOFFIC <clement.legoffic@foss.st.com>
-In-Reply-To: <20250626090301.GC348766@gnbcxd0016.gnb.st.com>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
 Content-Transfer-Encoding: 8bit
-X-Originating-IP: [10.48.86.185]
-X-ClientProxiedBy: SHFCAS1NODE1.st.com (10.75.129.72) To SHFDAG1NODE2.st.com
- (10.75.129.70)
+Content-Type: text/plain
+X-Originating-IP: [10.80.80.8]
+X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
+ nasanex01c.na.qualcomm.com (10.45.79.139)
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
+ signatures=585085
+X-Authority-Analysis: v=2.4 cv=YYu95xRf c=1 sm=1 tr=0 ts=685e7389 cx=c_pps
+ a=JYp8KDb2vCoCEuGobkYCKw==:117 a=JYp8KDb2vCoCEuGobkYCKw==:17
+ a=GEpy-HfZoHoA:10 a=6IFa9wvqVegA:10 a=VwQbUJbxAAAA:8 a=COk6AnOGAAAA:8
+ a=qgJfyGv91k1fQCYRv54A:9 a=TjNXssC_j7lpFel5tvFf:22
+X-Proofpoint-GUID: --txrtWjGz-DVbVLqDDqyvF1EEcAq7s9
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwNjI3MDA4NiBTYWx0ZWRfX5CvdDJrGB8V5
+ YPrCP71K7TsRgsZkipN5HwUb0pNbYUmd/xqIXsba5l7l4Isvm5UnHI/g9st4sxtapsU7iefRsxE
+ WUKuu2wLQzSSc0ZhAqN1th4xO92+sUwS8TZe4GwS+7D7BBhTZ9N+8rT9KMKzeCPug91SKYXzhRC
+ qG5n6cjF/viL8jCbS2UQnubdvFhoBMEe8nhmt+qOWEqgX4hrqWuCJ/pwaNGYtJ9YNXpQVirufcQ
+ fCpuSlwbbgA++J5A6xoEnUjrBXQpkVbcAt+0M+Zhec+mhaIV1j0zkZ09UpvqGyIftvPR+E7rd7p
+ Qk4hDFsfb0YnVp4c+rLW0Q7zuNncvCG1aL3mDiBFgYfxFop0pIkR46gH3Cpfh2QQL+jGz7lItSB
+ FXRcUqlBsrx06TpSnzrS9cWD2KZ0fQ16ixwv9GIrIHW9vRCwwWB5bSF6q3V0IrISk2CTqRs+
+X-Proofpoint-ORIG-GUID: --txrtWjGz-DVbVLqDDqyvF1EEcAq7s9
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.293,Aquarius:18.0.1099,Hydra:6.1.7,FMLib:17.12.80.40
- definitions=2025-06-27_03,2025-06-26_05,2025-03-28_01
+ definitions=2025-06-27_04,2025-06-26_05,2025-03-28_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ malwarescore=0 adultscore=0 spamscore=0 impostorscore=0 suspectscore=0
+ lowpriorityscore=0 priorityscore=1501 phishscore=0 mlxlogscore=697
+ clxscore=1015 mlxscore=0 bulkscore=0 classifier=spam authscore=0 authtc=n/a
+ authcc= route=outbound adjust=0 reason=mlx scancount=1
+ engine=8.19.0-2505280000 definitions=main-2506270086
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -89,54 +100,31 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 6/26/25 11:03, Alain Volmat wrote:
-> Hi Clément,
-> 
-> thanks for the patch.
-> 
-> On Mon, Jun 16, 2025 at 10:53:55AM +0200, Clément Le Goffic wrote:
->> Fix an issue where the mapped DMA buffer was not unmapped.
->>
->> Fixes: 7ecc8cfde553 ("i2c: i2c-stm32f7: Add DMA support")
->> Signed-off-by: Clément Le Goffic <clement.legoffic@foss.st.com>
->> ---
->>   drivers/i2c/busses/i2c-stm32f7.c | 4 ++++
->>   1 file changed, 4 insertions(+)
->>
->> diff --git a/drivers/i2c/busses/i2c-stm32f7.c b/drivers/i2c/busses/i2c-stm32f7.c
->> index 973a3a8c6d4a..a05cac5ee9db 100644
->> --- a/drivers/i2c/busses/i2c-stm32f7.c
->> +++ b/drivers/i2c/busses/i2c-stm32f7.c
->> @@ -1622,6 +1622,8 @@ static irqreturn_t stm32f7_i2c_isr_event_thread(int irq, void *data)
->>   		if (i2c_dev->use_dma) {
->>   			stm32f7_i2c_disable_dma_req(i2c_dev);
->>   			dmaengine_terminate_async(dma->chan_using);
->> +			dma_unmap_single(i2c_dev->dev, dma->dma_buf, dma->dma_len,
->> +					 dma->dma_data_dir);
->>   		}
->>   		f7_msg->result = -ENXIO;
->>   	}
->> @@ -1642,6 +1644,8 @@ static irqreturn_t stm32f7_i2c_isr_event_thread(int irq, void *data)
->>   				dev_dbg(i2c_dev->dev, "<%s>: Timed out\n", __func__);
->>   				stm32f7_i2c_disable_dma_req(i2c_dev);
->>   				dmaengine_terminate_async(dma->chan_using);
->> +				dma_unmap_single(i2c_dev->dev, dma->dma_buf, dma->dma_len,
->> +						 dma->dma_data_dir);
->>   				f7_msg->result = -ETIMEDOUT;
->>   			}
->>   		}
->>
-> 
-> Sounds good to me, however there might be an additional place to fix
-> within the function stm32f7_i2c_handle_isr_errs:
-> Could you also take care of the unmap in the error ITs handling ?
+The fastrpc driver has support for 5 types of remoteprocs. There are
+some products which support GDSP remoteprocs. GDSP is General Purpose
+DSP where tasks can be offloaded. Add fastrpc nodes and task offload
+support for GDSP. Also strict domain IDs for domain.
+Patch [v3]: https://lore.kernel.org/linux-arm-msm/20250622133820.18369-1-quic_lxu5@quicinc.com/
 
-Ack
-> 
-> Regards,
-> Alain
-> 
->> -- 
->> 2.43.0
->>
+Changes in v4:
+  - Split patch and change to common syntax.
+Changes in v3:
+  - Restrict domain IDs to represent a domain.
+Changes in v2:
+  - Add GPDSP labels in dt-bindings.
+
+Ling Xu (4):
+  dt-bindings: misc: qcom,fastrpc: Add GDSP label
+  arm64: dts: qcom: sa8775p: add GDSP fastrpc-compute-cb nodes
+  misc: fastrpc: Refactor domain ID to enforce strict mapping
+  misc: fastrpc: add support for gdsp remoteproc
+
+ .../bindings/misc/qcom,fastrpc.yaml           |  2 +
+ arch/arm64/boot/dts/qcom/sa8775p.dtsi         | 57 +++++++++++++++++++
+ drivers/misc/fastrpc.c                        | 57 ++++++++-----------
+ include/uapi/misc/fastrpc.h                   |  8 +++
+ 4 files changed, 91 insertions(+), 33 deletions(-)
+
+-- 
+2.34.1
 
