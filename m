@@ -2,76 +2,87 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 125AEAEB403
-	for <lists+dri-devel@lfdr.de>; Fri, 27 Jun 2025 12:15:35 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 909BFAEB40D
+	for <lists+dri-devel@lfdr.de>; Fri, 27 Jun 2025 12:15:56 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2350310E9BB;
-	Fri, 27 Jun 2025 10:15:32 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 537FB10E9BE;
+	Fri, 27 Jun 2025 10:15:52 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=foss.st.com header.i=@foss.st.com header.b="1QV1Q7/M";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="ZjfvoHAf";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx07-00178001.pphosted.com (mx07-00178001.pphosted.com
- [185.132.182.106])
- by gabe.freedesktop.org (Postfix) with ESMTPS id CF77510E9BE
- for <dri-devel@lists.freedesktop.org>; Fri, 27 Jun 2025 10:15:25 +0000 (UTC)
-Received: from pps.filterd (m0288072.ppops.net [127.0.0.1])
- by mx07-00178001.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 55RA2wL1007309;
- Fri, 27 Jun 2025 12:15:13 +0200
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=foss.st.com; h=
- cc:content-transfer-encoding:content-type:date:from:in-reply-to
- :message-id:mime-version:references:subject:to; s=selector1; bh=
- Q4s8pGA08nJ2ppMKYeSSJfjaUJqoOpavuQKbFXfOgfM=; b=1QV1Q7/Mfqca/ART
- QlwWh04EZZssmN5BsGA/NgUwiR2qnJl1ToxW5EUfQjqbyuOYHXPgZ0zjoFlBjSps
- izXY2MjSMJL8vd63v3HMNHHsIhD4qekaVRJn6cSI2SsIa8Udn/s9A2gJnQuIBSZi
- ggpRgV1rS1ouDm3EUoavv8Ui8DZrntJ9TKc2slgIKgYtUuNbkI+u5hmiD8DwpIpH
- zvUST++a/1Qu7qkbuUDCuFDrGHxWvUn41Fyeb9v6Va2pBeIqX/nuLcuPKDhCXEKP
- 4DgC/Qa25oxcE75lyjZSz6eK3/IlthJcIqd5BQPEiNeiZzQfgZtZdLdabnCfBBZt
- sIPtMw==
-Received: from beta.dmz-ap.st.com (beta.dmz-ap.st.com [138.198.100.35])
- by mx07-00178001.pphosted.com (PPS) with ESMTPS id 47dj5p3xqd-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Fri, 27 Jun 2025 12:15:12 +0200 (MEST)
-Received: from euls16034.sgp.st.com (euls16034.sgp.st.com [10.75.44.20])
- by beta.dmz-ap.st.com (STMicroelectronics) with ESMTP id B398E40053;
- Fri, 27 Jun 2025 12:13:52 +0200 (CEST)
-Received: from Webmail-eu.st.com (shfdag1node2.st.com [10.75.129.70])
- by euls16034.sgp.st.com (STMicroelectronics) with ESMTP id 99C60B656AD;
- Fri, 27 Jun 2025 12:12:59 +0200 (CEST)
-Received: from localhost (10.48.86.185) by SHFDAG1NODE2.st.com (10.75.129.70)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.39; Fri, 27 Jun
- 2025 12:12:59 +0200
-From: =?utf-8?q?Cl=C3=A9ment_Le_Goffic?= <clement.legoffic@foss.st.com>
-Date: Fri, 27 Jun 2025 12:12:58 +0200
-Subject: [PATCH v2 3/3] i2c: stm32f7: support i2c_*_dma_safe_msg_buf APIs
+Received: from mail-ua1-f50.google.com (mail-ua1-f50.google.com
+ [209.85.222.50])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E694C10E9BE
+ for <dri-devel@lists.freedesktop.org>; Fri, 27 Jun 2025 10:15:51 +0000 (UTC)
+Received: by mail-ua1-f50.google.com with SMTP id
+ a1e0cc1a2514c-87f04817bf6so1323179241.0
+ for <dri-devel@lists.freedesktop.org>; Fri, 27 Jun 2025 03:15:51 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20230601; t=1751019351; x=1751624151; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=W3qFR7cfAS/X16LAzwLj/wNbMxrS9YVqLflPC6mFUYo=;
+ b=ZjfvoHAf8nozrHrOFrOayVWAXFpY7sObtfZar2ivO2c0+TlsSS3mQdSNZkWA2w8zCP
+ cgnTbFWpw9FkntrCaF9Z4TvBEeq+9UfuMd+Ri7RnsMnaWY89ttVDZqHd2PRYVnHetrbb
+ D5PIfgA3ilWwmhUGR7r4MuujkkQ1METPUMkTmyWGKm8UQKyphIAXzZdGs73nlYwWN+Is
+ cHSmr4jR0i1Ph1oSmzbT+l7LDWaH7qrA+9INod2rFSwO+a/eKjVH/Zyzr1Od/o086sd/
+ 2zx94jbKQ1nu9iUc8jOEk9BDMAttqg53hgdfbzVNvXZ/y/KqxX+6MfxRun6zLqTFYwWO
+ Xy6Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1751019351; x=1751624151;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=W3qFR7cfAS/X16LAzwLj/wNbMxrS9YVqLflPC6mFUYo=;
+ b=qEE4HD7qzjun9zotRnjt8s9Iy1gkHfnWc+ZtyO/gNPdqNRzCwDbYlrtOEsnNs6Dvtn
+ giVo+YMOzZDJN9d+nomZBbOdbxjWCFXWsbMjy+9pIFhEFRVd/KYy7i5V5DCcwTqzhbOI
+ kGJ3Ka2scfaNaBAFLqdnOv0jdM/2ne01DHl6JGHInIQymyDgmM6y+nXsJyfZXXSM3HT6
+ kPkEcqNw0iJcMNZCa1rgN64JBcGGVE03z5hJIQhOxFyodeYrd7ZMgz+4awZkASUgGuVY
+ bk6Y90EysXgV9zKUlA0LBTDVdp8Vs828yzqhKW9/7O9yn/Y5KKg9U6uYKcZMu3fk021P
+ V+3w==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCUrPetLaHmRJZJt12k4pxZjXLEtMmWwDtu2bUNdDpVittkPw3FKQy9OVQRlhDeVU0RcqYlWNArWmek=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YyWOEgP+BqrlYz9g3IcmEVXnLko7cEHIWHuZbl0IwwnQXJ/277H
+ A3aH1kh5MQUiFM/HO9fX7iFJVidVFajOpRdxnWdjmtZzarKgvQzu67AdmDJhdh88FjYKL3iEbcz
+ EGgerjbcDX5salnXI3kpTUJrSQxbR96Q=
+X-Gm-Gg: ASbGncscUaEdOC0wIElBwpUoi5Mb4a5w0pbmifKNYR6qZLNOOxiirCxlcl9/pfvTOr4
+ P3rq3yeV9WQrjCe5KZrpajdndV9sp6aWYXzZgtNqVAmhUVNTewXgIJbUbSLulU/ijPSrUYG7nyn
+ AU9qfXMDxgTvLTRsa+j9KG/VHXuNPQ+cFFt2TEYqxT/g==
+X-Google-Smtp-Source: AGHT+IF+zTXlE8TphxlFmfZTtMV7oCo6MYa180Y0AG9PxdjoTKxOQADyJ71mo4br1mdkRgwuFP5aO2OpnO/3e6XLJPA=
+X-Received: by 2002:a05:6102:440e:b0:4c5:4591:ffda with SMTP id
+ ada2fe7eead31-4ee4f78a70fmr1764599137.21.1751019350729; Fri, 27 Jun 2025
+ 03:15:50 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
-Message-ID: <20250627-i2c-upstream-v2-3-8c14523481dc@foss.st.com>
-References: <20250627-i2c-upstream-v2-0-8c14523481dc@foss.st.com>
-In-Reply-To: <20250627-i2c-upstream-v2-0-8c14523481dc@foss.st.com>
-To: Pierre-Yves MORDRET <pierre-yves.mordret@foss.st.com>, Alain Volmat
- <alain.volmat@foss.st.com>, Andi Shyti <andi.shyti@kernel.org>, "Maxime
- Coquelin" <mcoquelin.stm32@gmail.com>, Alexandre Torgue
- <alexandre.torgue@foss.st.com>, Sumit Semwal <sumit.semwal@linaro.org>,
- =?utf-8?q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
- "M'boumba Cedric Madianga" <cedric.madianga@gmail.com>,
- Wolfram Sang <wsa@kernel.org>
-CC: Pierre-Yves MORDRET <pierre-yves.mordret@st.com>,
- <linux-i2c@vger.kernel.org>, <linux-stm32@st-md-mailman.stormreply.com>,
- <linux-arm-kernel@lists.infradead.org>, <linux-kernel@vger.kernel.org>,
- <linux-media@vger.kernel.org>, <dri-devel@lists.freedesktop.org>,
- <linaro-mm-sig@lists.linaro.org>, =?utf-8?q?Cl=C3=A9ment_Le_Goffic?=
- <clement.legoffic@foss.st.com>
-X-Mailer: b4 0.15-dev-07fe9
-X-Originating-IP: [10.48.86.185]
-X-ClientProxiedBy: SHFCAS1NODE1.st.com (10.75.129.72) To SHFDAG1NODE2.st.com
- (10.75.129.70)
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1099,Hydra:6.1.7,FMLib:17.12.80.40
- definitions=2025-06-27_03,2025-06-26_05,2025-03-28_01
+References: <20250627-exynosdrm-decon-v3-0-5b456f88cfea@disroot.org>
+ <20250627-exynosdrm-decon-v3-1-5b456f88cfea@disroot.org>
+ <CAAQKjZPAsE8LGE00fWE1aPj03b6tu1rk9ScTDSN+HeKzVXMZvw@mail.gmail.com>
+ <20250627-garrulous-cuddly-flamingo-b4ebcf@krzk-bin>
+In-Reply-To: <20250627-garrulous-cuddly-flamingo-b4ebcf@krzk-bin>
+From: Inki Dae <daeinki@gmail.com>
+Date: Fri, 27 Jun 2025 19:15:12 +0900
+X-Gm-Features: Ac12FXzHboYrFxSlMZbUjKMAban_KcR6H0q7HqOUTH-xXDeKHhkBse3ecLJumpQ
+Message-ID: <CAAQKjZO4grfoT=NYATNV5JojYgOyD=WwH4DgFTVcXEagXoFf8g@mail.gmail.com>
+Subject: Re: [PATCH v3 1/3] dt-bindings: display: samsung,exynos7-decon: add
+ properties for iommus and ports
+To: Krzysztof Kozlowski <krzk@kernel.org>
+Cc: Kaustabh Chakraborty <kauschluss@disroot.org>,
+ Seung-Woo Kim <sw0312.kim@samsung.com>, 
+ Kyungmin Park <kyungmin.park@samsung.com>, David Airlie <airlied@gmail.com>, 
+ Simona Vetter <simona@ffwll.ch>, Alim Akhtar <alim.akhtar@samsung.com>, 
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, 
+ Thomas Zimmermann <tzimmermann@suse.de>, Rob Herring <robh@kernel.org>,
+ Conor Dooley <conor@kernel.org>, 
+ Ajay Kumar <ajaykumar.rs@samsung.com>, Akshu Agrawal <akshua@gmail.com>, 
+ Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
+ dri-devel@lists.freedesktop.org, linux-arm-kernel@lists.infradead.org, 
+ linux-samsung-soc@vger.kernel.org, linux-kernel@vger.kernel.org, 
+ devicetree@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -87,93 +98,32 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Use the i2c-core-base APIs to allocate a DMA safe buffer when needed.
+2025=EB=85=84 6=EC=9B=94 27=EC=9D=BC (=EA=B8=88) =EC=98=A4=ED=9B=84 4:51, K=
+rzysztof Kozlowski <krzk@kernel.org>=EB=8B=98=EC=9D=B4 =EC=9E=91=EC=84=B1:
+>
+> On Fri, Jun 27, 2025 at 02:02:37PM +0900, Inki Dae wrote:
+> > 2025=EB=85=84 6=EC=9B=94 27=EC=9D=BC (=EA=B8=88) =EC=98=A4=EC=A0=84 4:2=
+1, Kaustabh Chakraborty <kauschluss@disroot.org>=EB=8B=98=EC=9D=B4 =EC=9E=
+=91=EC=84=B1:
+> > >
+> > > Similar to FIMD and Exynos5433's DECON, the Exynos7 DECON hardware:
+> > > - May optionally require an IOMMU to initialize a display region.
+> > > - May require a port connection to another block, say an MIC or a DSI
+> > >   master.
+> > >
+> > > Document these bindings in the devicetree schema.
+> >
+> > Applied.
+>
+> Please wait for DT review, giving us few hours is not enough. Please
+> drop the patchset, needs fixes.
 
-Signed-off-by: Clément Le Goffic <clement.legoffic@foss.st.com>
-Acked-by: Alain Volmat <alain.volmat@foss.st.com>
----
- drivers/i2c/busses/i2c-stm32f7.c | 36 +++++++++++++++++++++++++-----------
- 1 file changed, 25 insertions(+), 11 deletions(-)
+Got it. Reverted.
 
-diff --git a/drivers/i2c/busses/i2c-stm32f7.c b/drivers/i2c/busses/i2c-stm32f7.c
-index 042386b4cabe..d06f0efdece3 100644
---- a/drivers/i2c/busses/i2c-stm32f7.c
-+++ b/drivers/i2c/busses/i2c-stm32f7.c
-@@ -742,9 +742,12 @@ static void stm32f7_i2c_dma_callback(void *arg)
- 	struct stm32f7_i2c_dev *i2c_dev = (struct stm32f7_i2c_dev *)arg;
- 	struct stm32_i2c_dma *dma = i2c_dev->dma;
- 	struct device *dev = dma->chan_using->device->dev;
-+	struct stm32f7_i2c_msg *f7_msg = &i2c_dev->f7_msg;
- 
- 	stm32f7_i2c_disable_dma_req(i2c_dev);
- 	dma_unmap_single(dev, dma->dma_buf, dma->dma_len, dma->dma_data_dir);
-+	if (!f7_msg->smbus)
-+		i2c_put_dma_safe_msg_buf(f7_msg->buf, i2c_dev->msg, true);
- 	complete(&dma->dma_complete);
- }
- 
-@@ -880,6 +883,7 @@ static void stm32f7_i2c_xfer_msg(struct stm32f7_i2c_dev *i2c_dev,
- {
- 	struct stm32f7_i2c_msg *f7_msg = &i2c_dev->f7_msg;
- 	void __iomem *base = i2c_dev->base;
-+	u8 *dma_buf;
- 	u32 cr1, cr2;
- 	int ret;
- 
-@@ -929,17 +933,23 @@ static void stm32f7_i2c_xfer_msg(struct stm32f7_i2c_dev *i2c_dev,
- 
- 	/* Configure DMA or enable RX/TX interrupt */
- 	i2c_dev->use_dma = false;
--	if (i2c_dev->dma && f7_msg->count >= STM32F7_I2C_DMA_LEN_MIN
--	    && !i2c_dev->atomic) {
--		ret = stm32_i2c_prep_dma_xfer(i2c_dev->dev, i2c_dev->dma,
--					      msg->flags & I2C_M_RD,
--					      f7_msg->count, f7_msg->buf,
--					      stm32f7_i2c_dma_callback,
--					      i2c_dev);
--		if (!ret)
--			i2c_dev->use_dma = true;
--		else
--			dev_warn(i2c_dev->dev, "can't use DMA\n");
-+	if (i2c_dev->dma && !i2c_dev->atomic) {
-+		dma_buf = i2c_get_dma_safe_msg_buf(msg, STM32F7_I2C_DMA_LEN_MIN);
-+		if (dma_buf) {
-+			f7_msg->buf = dma_buf;
-+			ret = stm32_i2c_prep_dma_xfer(i2c_dev->dev, i2c_dev->dma,
-+						      msg->flags & I2C_M_RD,
-+						      f7_msg->count, f7_msg->buf,
-+						      stm32f7_i2c_dma_callback,
-+						      i2c_dev);
-+			if (ret) {
-+				dev_warn(i2c_dev->dev, "can't use DMA\n");
-+				i2c_put_dma_safe_msg_buf(f7_msg->buf, msg, false);
-+				f7_msg->buf = msg->buf;
-+			} else {
-+				i2c_dev->use_dma = true;
-+			}
-+		}
- 	}
- 
- 	if (!i2c_dev->use_dma) {
-@@ -1626,6 +1636,8 @@ static irqreturn_t stm32f7_i2c_isr_event_thread(int irq, void *data)
- 			dmaengine_terminate_async(dma->chan_using);
- 			dma_unmap_single(i2c_dev->dev, dma->dma_buf, dma->dma_len,
- 					 dma->dma_data_dir);
-+			if (!f7_msg->smbus)
-+				i2c_put_dma_safe_msg_buf(f7_msg->buf, i2c_dev->msg, false);
- 		}
- 		f7_msg->result = -ENXIO;
- 	}
-@@ -1648,6 +1660,8 @@ static irqreturn_t stm32f7_i2c_isr_event_thread(int irq, void *data)
- 				dmaengine_terminate_async(dma->chan_using);
- 				dma_unmap_single(i2c_dev->dev, dma->dma_buf, dma->dma_len,
- 						 dma->dma_data_dir);
-+				if (!f7_msg->smbus)
-+					i2c_put_dma_safe_msg_buf(f7_msg->buf, i2c_dev->msg, false);
- 				f7_msg->result = -ETIMEDOUT;
- 			}
- 		}
+Thanks,
+Inki Dae
 
--- 
-2.43.0
-
+>
+> Best regards,
+> Krzysztof
+>
