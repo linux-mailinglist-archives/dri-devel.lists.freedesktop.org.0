@@ -2,63 +2,96 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2BC2CAEBAF6
-	for <lists+dri-devel@lfdr.de>; Fri, 27 Jun 2025 17:03:25 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id D4DA6AEBB95
+	for <lists+dri-devel@lfdr.de>; Fri, 27 Jun 2025 17:23:38 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id DDFF110EA6C;
-	Fri, 27 Jun 2025 15:03:22 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C4E1210E9DE;
+	Fri, 27 Jun 2025 15:23:35 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; secure) header.d=disroot.org header.i=@disroot.org header.b="UoRytafx";
+	dkim=pass (1024-bit key; unprotected) header.d=suse.de header.i=@suse.de header.b="lycZtdtj";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="jnbznMtl";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="lycZtdtj";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="jnbznMtl";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from layka.disroot.org (layka.disroot.org [178.21.23.139])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E200010EA52
- for <dri-devel@lists.freedesktop.org>; Fri, 27 Jun 2025 15:03:16 +0000 (UTC)
-Received: from mail01.disroot.lan (localhost [127.0.0.1])
- by disroot.org (Postfix) with ESMTP id 8D5D425B9B;
- Fri, 27 Jun 2025 17:03:15 +0200 (CEST)
-X-Virus-Scanned: SPAM Filter at disroot.org
-Received: from layka.disroot.org ([127.0.0.1])
- by localhost (disroot.org [127.0.0.1]) (amavis, port 10024) with ESMTP
- id SKBRcaReXqhH; Fri, 27 Jun 2025 17:03:14 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=disroot.org; s=mail;
- t=1751036594; bh=vHgbqqxav7PLXVzwShebkckuGfsjD85hkjxnlgD60cs=;
- h=Date:From:To:Cc:Subject:In-Reply-To:References;
- b=UoRytafxH9QzkSuEhGQ2HepLO3UAu131e4BI//9c+8132UHkDbOtLQKy22yrR3Eu+
- wm6rc9/QwYtwaGKRMf+5wUb0VpG8Bd73pNEuw6KB53JRdiTiNT3nrdu/ocqSBQ/tdG
- z3XTI9zd5bfUhbHVlIA5qZi/k8I5pYTVMNTcEvyipk1EaMxDglwSEhw+Z8RMdXSsd9
- qnCfb7/xxNzFYjH6QYZZEqli6Ue6/NLlWgMPN6NPbM63P/9eE0rgh9ucZMJZYLBqnR
- UrmYwITZxYabuYlJfhV9Twg+Ya3D8l5T8Rk1xedsz4xyRS7Rw2j61VvjNruw+On4XG
- fuUX2QVvFmKzA==
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 46EDD10E9DE
+ for <dri-devel@lists.freedesktop.org>; Fri, 27 Jun 2025 15:23:31 +0000 (UTC)
+Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ (No client certificate requested)
+ by smtp-out2.suse.de (Postfix) with ESMTPS id 7143C1F38C;
+ Fri, 27 Jun 2025 15:23:30 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+ t=1751037810; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version: content-transfer-encoding:content-transfer-encoding;
+ bh=yEdeWZ/YCeoEj65dUGvOfLC+hui9FMse5eQTaYcj4vI=;
+ b=lycZtdtjyjiJpFzWkgLQxCC6sdcsPQtymsDznrXt25BBQb1RQuCwvLRSOgsTFAlAjZ8w2t
+ 0qU0oq72nlRtOXENBdno1IPzy032GF5YadySURG44mfdWXFKdptfXx4WqZ7l5vuGc8BcoT
+ kU31B0UwmQZfVbDSNUn//gjXx2DpgIc=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+ s=susede2_ed25519; t=1751037810;
+ h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version: content-transfer-encoding:content-transfer-encoding;
+ bh=yEdeWZ/YCeoEj65dUGvOfLC+hui9FMse5eQTaYcj4vI=;
+ b=jnbznMtlnYnqyPg2CjQzqqAZ5FaOMVoA1cG0Cy3SvMyBARoVz0PU1+tN4faHhYcQAtM7w2
+ yuioR3DLH7iyAoBw==
+Authentication-Results: smtp-out2.suse.de;
+	none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+ t=1751037810; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version: content-transfer-encoding:content-transfer-encoding;
+ bh=yEdeWZ/YCeoEj65dUGvOfLC+hui9FMse5eQTaYcj4vI=;
+ b=lycZtdtjyjiJpFzWkgLQxCC6sdcsPQtymsDznrXt25BBQb1RQuCwvLRSOgsTFAlAjZ8w2t
+ 0qU0oq72nlRtOXENBdno1IPzy032GF5YadySURG44mfdWXFKdptfXx4WqZ7l5vuGc8BcoT
+ kU31B0UwmQZfVbDSNUn//gjXx2DpgIc=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+ s=susede2_ed25519; t=1751037810;
+ h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version: content-transfer-encoding:content-transfer-encoding;
+ bh=yEdeWZ/YCeoEj65dUGvOfLC+hui9FMse5eQTaYcj4vI=;
+ b=jnbznMtlnYnqyPg2CjQzqqAZ5FaOMVoA1cG0Cy3SvMyBARoVz0PU1+tN4faHhYcQAtM7w2
+ yuioR3DLH7iyAoBw==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ (No client certificate requested)
+ by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 38255138A7;
+ Fri, 27 Jun 2025 15:23:30 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+ by imap1.dmz-prg2.suse.org with ESMTPSA id B3VJDHK3XmiSYAAAD6G6ig
+ (envelope-from <tzimmermann@suse.de>); Fri, 27 Jun 2025 15:23:30 +0000
+From: Thomas Zimmermann <tzimmermann@suse.de>
+To: lanzano.alex@gmail.com, maarten.lankhorst@linux.intel.com,
+ mripard@kernel.org, airlied@gmail.com, simona@ffwll.ch
+Cc: dri-devel@lists.freedesktop.org,
+	Thomas Zimmermann <tzimmermann@suse.de>
+Subject: [PATCH] drm/sharp-memory: Do not access GEM-DMA vaddr directly
+Date: Fri, 27 Jun 2025 17:23:09 +0200
+Message-ID: <20250627152327.8244-1-tzimmermann@suse.de>
+X-Mailer: git-send-email 2.50.0
 MIME-Version: 1.0
-Date: Fri, 27 Jun 2025 15:03:14 +0000
-From: Kaustabh Chakraborty <kauschluss@disroot.org>
-To: Krzysztof Kozlowski <krzk@kernel.org>
-Cc: Inki Dae <inki.dae@samsung.com>, Seung-Woo Kim <sw0312.kim@samsung.com>,
- Kyungmin Park <kyungmin.park@samsung.com>, David Airlie <airlied@gmail.com>,
- Simona Vetter <simona@ffwll.ch>, Alim Akhtar <alim.akhtar@samsung.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, Maxime Ripard
- <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, Rob Herring
- <robh@kernel.org>, Conor Dooley <conor@kernel.org>, Ajay Kumar
- <ajaykumar.rs@samsung.com>, Akshu Agrawal <akshua@gmail.com>, Krzysztof
- Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>,
- dri-devel@lists.freedesktop.org, linux-arm-kernel@lists.infradead.org,
- linux-samsung-soc@vger.kernel.org, linux-kernel@vger.kernel.org,
- devicetree@vger.kernel.org
-Subject: Re: [PATCH v3 1/3] dt-bindings: display: samsung,exynos7-decon: add
- properties for iommus and ports
-In-Reply-To: <efa167d1-a5f3-47cd-855d-250f41a5e883@kernel.org>
-References: <20250627-exynosdrm-decon-v3-0-5b456f88cfea@disroot.org>
- <20250627-exynosdrm-decon-v3-1-5b456f88cfea@disroot.org>
- <20250627-literate-talented-panda-cbac89@krzk-bin>
- <85c3658fdfa90636caac3b3fce295915@disroot.org>
- <efa167d1-a5f3-47cd-855d-250f41a5e883@kernel.org>
-Message-ID: <ab1a39df178b68e2f1d61a537e0d567c@disroot.org>
-X-Sender: kauschluss@disroot.org
-Content-Type: text/plain; charset=US-ASCII;
- format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
+X-Spam-Flag: NO
+X-Spam-Score: -1.30
+X-Spamd-Result: default: False [-1.30 / 50.00]; BAYES_HAM(-3.00)[100.00%];
+ SUSPICIOUS_RECIPS(1.50)[]; MID_CONTAINS_FROM(1.00)[];
+ NEURAL_HAM_LONG(-1.00)[-1.000]; R_MISSING_CHARSET(0.50)[];
+ NEURAL_HAM_SHORT(-0.20)[-1.000]; MIME_GOOD(-0.10)[text/plain];
+ MIME_TRACE(0.00)[0:+];
+ FREEMAIL_TO(0.00)[gmail.com,linux.intel.com,kernel.org,ffwll.ch];
+ TO_MATCH_ENVRCPT_ALL(0.00)[]; ARC_NA(0.00)[];
+ FUZZY_BLOCKED(0.00)[rspamd.com];
+ DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+ RCVD_TLS_ALL(0.00)[]; RCVD_VIA_SMTP_AUTH(0.00)[];
+ FROM_EQ_ENVFROM(0.00)[]; FROM_HAS_DN(0.00)[];
+ TO_DN_SOME(0.00)[]; RCVD_COUNT_TWO(0.00)[2];
+ RCPT_COUNT_SEVEN(0.00)[7];
+ DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:helo,suse.de:mid,suse.de:email];
+ TAGGED_RCPT(0.00)[]; FREEMAIL_ENVRCPT(0.00)[gmail.com]
+X-Spam-Level: 
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -74,77 +107,127 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 2025-06-27 14:44, Krzysztof Kozlowski wrote:
-> On 27/06/2025 15:44, Kaustabh Chakraborty wrote:
->>>> a/Documentation/devicetree/bindings/display/samsung/samsung,exynos7-decon.yaml
->>>> +++
->>>> b/Documentation/devicetree/bindings/display/samsung/samsung,exynos7-decon.yaml
->>>> @@ -80,6 +80,14 @@ properties:
->>>>        - const: vsync
->>>>        - const: lcd_sys
->>>> 
->>>> +  iommus:
->>>> +    maxItems: 1
->>>> +
->>>> +  ports:
->>>> +    $ref: /schemas/graph.yaml#/properties/ports
->>>> +    description:
->>>> +      Contains a port which is connected to mic or dsim node.
->>> 
->>> You need to list and describe the ports.
->> 
->> -    description:
->> -      Contains a port which is connected to mic or dsim node.
->> +    properties:
->> +      port@0:
->> +        $ref: /schemas/graph.yaml#/properties/port
->> +        description:
->> +          Input port which is connected to either a Mobile Image
->> +          Compressor (MIC) or a DSI Master device.
-> 
-> 
-> If this is only one port, then just 'port' property, but I have doubts
-> it should be one, because even you mentioned two - MIC could be the
-> input and MIPI DSIM would be the output.
+Use DRM's shadow-plane helper to map and access the GEM object's buffer
+within kernel address space. Encasulates the vmap logic in the GEM-DMA
+helpers.
 
-DECON is the first device in the pipeline. So it should only have
-output.
+The sharp-memory driver currently reads the vaddr field from the GME
+buffer object directly. This only works because GEM code 'automagically'
+sets vaddr.
 
-It's either:
-DECON -> DSIM -> panel
-or
-DECON -> MIC -> DSIM -> panel
+Shadow-plane helpers perform the same steps, but with correct abstraction
+behind drm_gem_vmap(). The shadow-plane state provides the buffer address
+in kernel address space and the format-conversion state.
 
-Exynos7870 doesn't have MIC, but other SoCs may have one.
+Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
+---
+ drivers/gpu/drm/tiny/sharp-memory.c | 27 +++++++++++++--------------
+ 1 file changed, 13 insertions(+), 14 deletions(-)
 
-> 
-> Maybe if the MIC is integral part, it would not have been an input, but
-> then only 'port'.
-> 
->> 
->> I assume you want something like this?
->> Is the formatting correct? Should there be a space between
->> ports:$ref and ports:properties?
-> 
-> Look at toshiba,tc358768.yaml or the simple-bridge (except you should
-> name the input and output ports).
+diff --git a/drivers/gpu/drm/tiny/sharp-memory.c b/drivers/gpu/drm/tiny/sharp-memory.c
+index 03d2850310c4..64272cd0f6e2 100644
+--- a/drivers/gpu/drm/tiny/sharp-memory.c
++++ b/drivers/gpu/drm/tiny/sharp-memory.c
+@@ -126,28 +126,28 @@ static inline void sharp_memory_set_tx_buffer_addresses(u8 *buffer,
+ 
+ static void sharp_memory_set_tx_buffer_data(u8 *buffer,
+ 					    struct drm_framebuffer *fb,
++					    const struct iosys_map *vmap,
+ 					    struct drm_rect clip,
+ 					    u32 pitch,
+ 					    struct drm_format_conv_state *fmtcnv_state)
+ {
+ 	int ret;
+-	struct iosys_map dst, vmap;
+-	struct drm_gem_dma_object *dma_obj = drm_fb_dma_get_gem_obj(fb, 0);
++	struct iosys_map dst;
+ 
+ 	ret = drm_gem_fb_begin_cpu_access(fb, DMA_FROM_DEVICE);
+ 	if (ret)
+ 		return;
+ 
+ 	iosys_map_set_vaddr(&dst, buffer);
+-	iosys_map_set_vaddr(&vmap, dma_obj->vaddr);
+ 
+-	drm_fb_xrgb8888_to_mono(&dst, &pitch, &vmap, fb, &clip, fmtcnv_state);
++	drm_fb_xrgb8888_to_mono(&dst, &pitch, vmap, fb, &clip, fmtcnv_state);
+ 
+ 	drm_gem_fb_end_cpu_access(fb, DMA_FROM_DEVICE);
+ }
+ 
+ static int sharp_memory_update_display(struct sharp_memory_device *smd,
+ 				       struct drm_framebuffer *fb,
++				       const struct iosys_map *vmap,
+ 				       struct drm_rect clip,
+ 				       struct drm_format_conv_state *fmtcnv_state)
+ {
+@@ -163,7 +163,7 @@ static int sharp_memory_update_display(struct sharp_memory_device *smd,
+ 	sharp_memory_set_tx_buffer_mode(&tx_buffer[0],
+ 					SHARP_MEMORY_DISPLAY_UPDATE_MODE, vcom);
+ 	sharp_memory_set_tx_buffer_addresses(&tx_buffer[1], clip, pitch);
+-	sharp_memory_set_tx_buffer_data(&tx_buffer[2], fb, clip, pitch, fmtcnv_state);
++	sharp_memory_set_tx_buffer_data(&tx_buffer[2], fb, vmap, clip, pitch, fmtcnv_state);
+ 
+ 	ret = sharp_memory_spi_write(smd->spi, tx_buffer, tx_buffer_size);
+ 
+@@ -206,7 +206,8 @@ static int sharp_memory_clear_display(struct sharp_memory_device *smd)
+ 	return ret;
+ }
+ 
+-static void sharp_memory_fb_dirty(struct drm_framebuffer *fb, struct drm_rect *rect,
++static void sharp_memory_fb_dirty(struct drm_framebuffer *fb, const struct iosys_map *vmap,
++				  struct drm_rect *rect,
+ 				  struct drm_format_conv_state *fmtconv_state)
+ {
+ 	struct drm_rect clip;
+@@ -218,7 +219,7 @@ static void sharp_memory_fb_dirty(struct drm_framebuffer *fb, struct drm_rect *r
+ 	clip.y1 = rect->y1;
+ 	clip.y2 = rect->y2;
+ 
+-	sharp_memory_update_display(smd, fb, clip, fmtconv_state);
++	sharp_memory_update_display(smd, fb, vmap, clip, fmtconv_state);
+ }
+ 
+ static int sharp_memory_plane_atomic_check(struct drm_plane *plane,
+@@ -242,7 +243,7 @@ static void sharp_memory_plane_atomic_update(struct drm_plane *plane,
+ {
+ 	struct drm_plane_state *old_state = drm_atomic_get_old_plane_state(state, plane);
+ 	struct drm_plane_state *plane_state = plane->state;
+-	struct drm_format_conv_state fmtcnv_state = DRM_FORMAT_CONV_STATE_INIT;
++	struct drm_shadow_plane_state *shadow_plane_state = to_drm_shadow_plane_state(plane_state);
+ 	struct sharp_memory_device *smd;
+ 	struct drm_rect rect;
+ 
+@@ -251,15 +252,15 @@ static void sharp_memory_plane_atomic_update(struct drm_plane *plane,
+ 		return;
+ 
+ 	if (drm_atomic_helper_damage_merged(old_state, plane_state, &rect))
+-		sharp_memory_fb_dirty(plane_state->fb, &rect, &fmtcnv_state);
+-
+-	drm_format_conv_state_release(&fmtcnv_state);
++		sharp_memory_fb_dirty(plane_state->fb, shadow_plane_state->data,
++				      &rect, &shadow_plane_state->fmtcnv_state);
+ }
+ 
+ static const struct drm_plane_helper_funcs sharp_memory_plane_helper_funcs = {
+ 	.prepare_fb = drm_gem_plane_helper_prepare_fb,
+ 	.atomic_check = sharp_memory_plane_atomic_check,
+ 	.atomic_update = sharp_memory_plane_atomic_update,
++	DRM_GEM_SHADOW_PLANE_HELPER_FUNCS,
+ };
+ 
+ static bool sharp_memory_format_mod_supported(struct drm_plane *plane,
+@@ -273,9 +274,7 @@ static const struct drm_plane_funcs sharp_memory_plane_funcs = {
+ 	.update_plane = drm_atomic_helper_update_plane,
+ 	.disable_plane = drm_atomic_helper_disable_plane,
+ 	.destroy = drm_plane_cleanup,
+-	.reset = drm_atomic_helper_plane_reset,
+-	.atomic_duplicate_state	= drm_atomic_helper_plane_duplicate_state,
+-	.atomic_destroy_state = drm_atomic_helper_plane_destroy_state,
++	DRM_GEM_SHADOW_PLANE_FUNCS,
+ 	.format_mod_supported = sharp_memory_format_mod_supported,
+ };
+ 
+-- 
+2.50.0
 
-Okay, thanks!
-
-Therefore this:
-
--    description:
--      Contains a port which is connected to mic or dsim node.
-+
-+    properties:
-+      port:
-+        $ref: /schemas/graph.yaml#/properties/port
-+        description:
-+          Output port which is connected to either a Mobile Image
-+          Compressor (MIC) or a DSI Master device.
-
-> 
-> 
-> 
-> Best regards,
-> Krzysztof
