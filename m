@@ -2,54 +2,55 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id A882BAEC6C5
-	for <lists+dri-devel@lfdr.de>; Sat, 28 Jun 2025 13:49:43 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 48602AEC6C9
+	for <lists+dri-devel@lfdr.de>; Sat, 28 Jun 2025 13:50:52 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9FFC610E046;
-	Sat, 28 Jun 2025 11:49:39 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 35D1110E190;
+	Sat, 28 Jun 2025 11:50:50 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="XltbDsSm";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="bwFrBJ0u";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from sea.source.kernel.org (sea.source.kernel.org [172.234.252.31])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 437A410E046
- for <dri-devel@lists.freedesktop.org>; Sat, 28 Jun 2025 11:49:33 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0F0D310E0D4
+ for <dri-devel@lists.freedesktop.org>; Sat, 28 Jun 2025 11:50:49 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by sea.source.kernel.org (Postfix) with ESMTP id 002D945FD9;
- Sat, 28 Jun 2025 11:49:23 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 329EAC4CEEA;
- Sat, 28 Jun 2025 11:49:18 +0000 (UTC)
+ by sea.source.kernel.org (Postfix) with ESMTP id DBF0B44BDD;
+ Sat, 28 Jun 2025 11:50:48 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 40600C4CEEA;
+ Sat, 28 Jun 2025 11:50:42 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1751111363;
- bh=7wm0KwICN7Mak9Wk8U1M1bgcudhZF8Rka+KJoP0pgh0=;
+ s=k20201202; t=1751111448;
+ bh=pSV6l3T7JmbSCdl9fP3e9xqmfil0Of6rRvqXh+ApX/s=;
  h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
- b=XltbDsSm6pnbWAwyWwTvy5uSIVkeIoRQ2pHHeNb1hfNBzABMG/JI7g8GRy6T5dhg2
- ploeFFmCNI2dTA2ORgOHCg3kIxHFJzVcsfqN/rUvv/D7/5GSqAgedpAOtMkbQQouFk
- bUibwOOz89VV/2++PIr3G0K4pUdZy/sDLBJqj1HwfwRDPa8OBSiWDhmBxiocEVU/hO
- qeTJ0Q7ehnOp5QV3ZEDqO/MBtMAUl1jXN1VBabkIEZ8Zs4/0aw2BliK83oLPN7yYj0
- 5Au/0XaRySwcZ71bYgsBDVtXmx0mU7TqB2EbZGYsXQzDwl2LnBjYZtZrw0B3o2Maaz
- gu/FyfjKRpSuA==
-Message-ID: <1129bc60-f9cb-40be-9869-8ffa3b3c9748@kernel.org>
-Date: Sat, 28 Jun 2025 13:49:16 +0200
+ b=bwFrBJ0uiRaZwBWweZ1XvO+QkqB2Q3cQ9ZIwpIuYH04iOvL5y+Mh9OMJYqEGqt/e4
+ 0XZ6VZxtasWfRRFt+q72dzoD9ihhGqkneLsdSQJm/7Ijc21wLEojyfNzbaOVOvu6QV
+ 3XezHpc0a8tK7zYvtohyfbWUisKqSPlco2TZdo5ttUUFUPnF+wOkWcfNA3/+0JcQgF
+ jTmjwYyD0lJcAxftp3mgKYl+8rgdgAlpKnkG8czV1OY3PNy3Z3CqqVFJzB97JaMZRz
+ EbJFQetmLkU9zsGhSEpxYtQTlPvAUe05AX8cE7mP1V0dcRv+mD2wK9uPo30V8enNZH
+ BUKz8wWbtv04Q==
+Message-ID: <b94b752c-d7f7-41d6-ac79-d21427f20964@kernel.org>
+Date: Sat, 28 Jun 2025 13:50:40 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
 Subject: Re: [PATCH v2 1/5] dt-bindings: display: simple-framebuffer: Add
  interconnects property
-To: Luca Weiss <luca.weiss@fairphone.com>
+To: Thomas Zimmermann <tzimmermann@suse.de>,
+ Luca Weiss <luca.weiss@fairphone.com>
 Cc: Hans de Goede <hdegoede@redhat.com>,
  Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
- Conor Dooley <conor+dt@kernel.org>,
- Javier Martinez Canillas <javierm@redhat.com>, Helge Deller <deller@gmx.de>,
- linux-fbdev@vger.kernel.org, dri-devel@lists.freedesktop.org,
- devicetree@vger.kernel.org, linux-kernel@vger.kernel.org
+ Maxime Ripard <mripard@kernel.org>, David Airlie <airlied@gmail.com>,
+ Simona Vetter <simona@ffwll.ch>, Rob Herring <robh@kernel.org>,
+ Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
+ <conor+dt@kernel.org>, Javier Martinez Canillas <javierm@redhat.com>,
+ Helge Deller <deller@gmx.de>, linux-fbdev@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org,
+ linux-kernel@vger.kernel.org
 References: <20250623-simple-drm-fb-icc-v2-0-f69b86cd3d7d@fairphone.com>
  <20250623-simple-drm-fb-icc-v2-1-f69b86cd3d7d@fairphone.com>
  <20250627-mysterious-optimistic-bird-acaafb@krzk-bin>
- <DAX7ZB27SBPV.2Y0I09TVSF3TT@fairphone.com>
+ <d8d85415-efc4-4a11-842e-23272cae29f7@suse.de>
 From: Krzysztof Kozlowski <krzk@kernel.org>
 Content-Language: en-US
 Autocrypt: addr=krzk@kernel.org; keydata=
@@ -95,7 +96,7 @@ Autocrypt: addr=krzk@kernel.org; keydata=
  jWt87ecuHlpL3uuQ0ZZNWqHgZoQLXoqC2ZV5KrtKWb/jyiFX/sxSrodALf0zf+tfHv0FZWT2
  zHjUqd0t4njD/UOsuIMOQn4Ig0SdivYPfZukb5cdasKJukG1NOpbW7yRNivaCnfZz6dTawXw
  XRIV/KDsHQiyVxKvN73bThKhONkcX2LWuD928tAR6XMM2G5ovxLe09vuOzzfTWQDsm++9UKF a/A=
-In-Reply-To: <DAX7ZB27SBPV.2Y0I09TVSF3TT@fairphone.com>
+In-Reply-To: <d8d85415-efc4-4a11-842e-23272cae29f7@suse.de>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -113,10 +114,10 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 27/06/2025 11:48, Luca Weiss wrote:
-> Hi Krzysztof,
+On 27/06/2025 13:34, Thomas Zimmermann wrote:
+> Hi
 > 
-> On Fri Jun 27, 2025 at 10:08 AM CEST, Krzysztof Kozlowski wrote:
+> Am 27.06.25 um 10:08 schrieb Krzysztof Kozlowski:
 >> On Mon, Jun 23, 2025 at 08:44:45AM +0200, Luca Weiss wrote:
 >>> Document the interconnects property which is a list of interconnect
 >>> paths that is used by the framebuffer and therefore needs to be kept
@@ -125,36 +126,40 @@ On 27/06/2025 11:48, Luca Weiss wrote:
 >>> Acked-by: Thomas Zimmermann <tzimmermann@suse.de>
 >>> Signed-off-by: Luca Weiss <luca.weiss@fairphone.com>
 >>> ---
->>>  Documentation/devicetree/bindings/display/simple-framebuffer.yaml | 3 +++
->>>  1 file changed, 3 insertions(+)
+>>>   Documentation/devicetree/bindings/display/simple-framebuffer.yaml | 3 +++
+>>>   1 file changed, 3 insertions(+)
 >>>
 >>> diff --git a/Documentation/devicetree/bindings/display/simple-framebuffer.yaml b/Documentation/devicetree/bindings/display/simple-framebuffer.yaml
 >>> index 296500f9da05e296dbbeec50ba5186b6b30aaffc..f0fa0ef23d91043dfb2b220c654b80e2e80850cd 100644
 >>> --- a/Documentation/devicetree/bindings/display/simple-framebuffer.yaml
 >>> +++ b/Documentation/devicetree/bindings/display/simple-framebuffer.yaml
 >>> @@ -79,6 +79,9 @@ properties:
->>>    power-domains:
->>>      description: List of power domains used by the framebuffer.
->>>  
+>>>     power-domains:
+>>>       description: List of power domains used by the framebuffer.
+>>>   
 >>> +  interconnects:
 >>> +    description: List of interconnect paths used by the framebuffer.
 >>> +
->>
 >> maxItems: 1, or this is not a simple FB anymore. Anything which needs
 >> some sort of resources in unknown way is not simple anymore. You need
 >> device specific bindings.
 > 
-> The bindings support an arbitrary number of clocks, regulators,
-> power-domains. Why should I artificially limit the interconnects to only
-> one?
+> In this context, 'simple' means that this device cannot change display 
+> modes or do graphics acceleration. The hardware itself is not 
+> necessarily simple. As Javier pointed out, it's initialized by firmware 
 
-And IMO they should not. Bindings are not supposed to be generic.
+If hardware is not simple, then it needs specific bindings.
 
-> 
-> The driver code also has that support added in this series.
+> on the actual hardware. Think of 'VGA-for-ARM'. We need these resources 
+> to keep the display working.
 
-That's not the problem here.
+I don't claim you do not need these resources. I claim device is not
+simple thus does not suit rules for generic bindings. Generic bindings
+are in general not allowed and we have them only for very, very simple
+devices.
 
+You say this is not simple device, so there you go - specific binding
+for this complex (not-simple) device.
 
 Best regards,
 Krzysztof
