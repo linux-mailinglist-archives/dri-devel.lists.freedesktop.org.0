@@ -2,98 +2,90 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5F7D1AEC5A1
-	for <lists+dri-devel@lfdr.de>; Sat, 28 Jun 2025 09:43:23 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8DFD4AEC5A9
+	for <lists+dri-devel@lfdr.de>; Sat, 28 Jun 2025 09:44:22 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8E18510E170;
-	Sat, 28 Jun 2025 07:43:19 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3C83A10E169;
+	Sat, 28 Jun 2025 07:44:20 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=redhat.com header.i=@redhat.com header.b="XoaNXn6Z";
+	dkim=pass (1024-bit key; unprotected) header.d=redhat.com header.i=@redhat.com header.b="Dt1IH20A";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [170.10.133.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6B58F10E170
- for <dri-devel@lists.freedesktop.org>; Sat, 28 Jun 2025 07:43:12 +0000 (UTC)
+ (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id F0DD010E169
+ for <dri-devel@lists.freedesktop.org>; Sat, 28 Jun 2025 07:44:18 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1751096591;
+ s=mimecast20190719; t=1751096658;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=U/zR+tRhdJvIMo++94eInuug2KHQSKfRczI4CreLh0Q=;
- b=XoaNXn6ZVwMMp7Vtn9mEUJV7eNp2ZBqLsPz+yjgoOy4dNDvx5ZSso/4GMSty39xCTwMKED
- hLIq2ipgCGFFCGmWa4z8dNo6AvSxH/g+gONvcpJqU+BVawrltAfAkZC7P2KohiQkqlET7Y
- /WYxu6EjpZnTA7zSqovkhstJwxBjC64=
-Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
- [209.85.128.72]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=ydIOn4cObg5jMynOcPUQSKhCiIT10hi8OVkhpABvLHw=;
+ b=Dt1IH20AAfsxMrFVqgBm34ppWsqgG5FvlhThQKwE7img+Xo/4etB2E5NE8Qloq+vJdZtAt
+ mOua6nk5en6rNM8A6XtcvCEx06WcrzU0T/UUnQQoaMqknlTHY7hMjr+bstajyiYR6DlAsH
+ iG8VLYY8BqObnLWGydtOSs2hqMcoDys=
+Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
+ [209.85.128.70]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-638-xmMmNHq_PPOgAiLvR9QWxg-1; Sat, 28 Jun 2025 03:43:09 -0400
-X-MC-Unique: xmMmNHq_PPOgAiLvR9QWxg-1
-X-Mimecast-MFC-AGG-ID: xmMmNHq_PPOgAiLvR9QWxg_1751096588
-Received: by mail-wm1-f72.google.com with SMTP id
- 5b1f17b1804b1-45311704cdbso2974165e9.1
- for <dri-devel@lists.freedesktop.org>; Sat, 28 Jun 2025 00:43:09 -0700 (PDT)
+ us-mta-515-NFBkAACmMyujvtnWjpo2ww-1; Sat, 28 Jun 2025 03:44:16 -0400
+X-MC-Unique: NFBkAACmMyujvtnWjpo2ww-1
+X-Mimecast-MFC-AGG-ID: NFBkAACmMyujvtnWjpo2ww_1751096655
+Received: by mail-wm1-f70.google.com with SMTP id
+ 5b1f17b1804b1-451d2037f1eso2965155e9.0
+ for <dri-devel@lists.freedesktop.org>; Sat, 28 Jun 2025 00:44:16 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1751096588; x=1751701388;
- h=content-transfer-encoding:mime-version:message-id:date:references
- :in-reply-to:subject:cc:to:from:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=qmbjM2vUohQXnsREL9VLb8Q7wKmlAUxLknQWn0cbM3Y=;
- b=fluJn2qsGM1/ygn+7s0uFOA019dDEjWoqfVrdKQUvmy9CvP2fmzK8CIVuN8y7i3zke
- YNDjFbR6hcgzNYsdMAUHQr1N2/Syb9+GRME/CJtrLOo7hO6BzylohJzgFKKmMZ5O0xWA
- 4lMAPA/+N08Lbr5UYb+WJJypf7Xn09jmKoWrGSbiZvSjwqDs8Fx0/fBjip7bl7AiVyHi
- AdD7EQk7qX3KzDW7p4o2PkahIAgkkcO3mIPeozZ7QtUfSuNgarJV8nWkuGIY647KpMSw
- 0VIp9aPTIc9PzuFptFuFcyzgpNw4rosTo983fgTf4vCYOIMMq4n+piqust2BZ3gNumzs
- cZLQ==
+ d=1e100.net; s=20230601; t=1751096655; x=1751701455;
+ h=mime-version:message-id:date:references:in-reply-to:subject:cc:to
+ :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=ydIOn4cObg5jMynOcPUQSKhCiIT10hi8OVkhpABvLHw=;
+ b=cvBr9Ow6xv0G9lxqRhooAfXu8mV/IofDVaRKAW6e7Y3H6mA6L6VHOi/wQf9jA7aPSo
+ LXFreORrqNkVgBaY9v45RA4I+pfOhkrISfyrOqYEDHZpTPBO/8JBItOk5ScbM61Oskje
+ C0ofXkMIJPD24oXpmb4i4pPAePpse2oKFjFXg44xIXRfQaySxLchCr7rVzdgOHoFsXAA
+ A/D4fv40U3QqDj7hVfzq2H480AR7WM/HLA43EsnrPfRssOE71iQSzL9C3o8IflyYOF02
+ aG0rNxip6jf9ulNv1T1DMYPYBP7L8gyGfXoCXOp4QqhG+phiUgNSVh7ME84wxLwBU95i
+ V43Q==
 X-Forwarded-Encrypted: i=1;
- AJvYcCWriXvVjk5WYBiPxDSN3QoL883YQ2wT8QqrLpmcWc1HLv/jlNx4wq+eWQJcWXWsRIOOfhy0ZvDz0yk=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YyZ1cgxaizc/JtzRfdGkop+rxf0XY4Xm8OCZBpFFCe6e9c0ms/f
- pJy7nL8+R4kBydWMjI/JwiSLU1+eIMYebDHpa2NoYzZOfW9txNsB4TrPt74FvzyggTWbqP+6T40
- Zcr72AB6IvnguN/98ZvRKoCykOC2MBEDsXYg5WzW1IQuuh04YwLLLsM/vcibr9Qe/GrXlIQ==
-X-Gm-Gg: ASbGncuOdviF4wKjpw7kFIQFE+ksJJbTcJI5TKz4zQ9NFNibJ1a2KuQFzVNUvVr+/GK
- njQqCaL8wCUJqz7Yh42GrmyEOYHTEXp+BhJerrU/j7SGthrylFQ114YmbU/LU/BaECyXnYMFTJv
- +MvqgoTRuFcO1JfLPytCSw8iXAJcRuNC/q3EMxIpVzblXy0+sFRXygUGR/niRzWUbZslDqonKjw
- z6sPpbZQXe3VevtW9ouRnw3jyttnMMzjG0w7xXIaPBgPiqrnz1K85p+I++VIs5FiafA+ciIEcYd
- IRvMvu/gqkfBcGZHNJsEuDkKUL2YqlwFdXWlviu3sKql7hFTNYmVcBfaAKta/LrIDMinVkVHisd
- 6gH+2
-X-Received: by 2002:a05:600c:4594:b0:43d:47b7:b32d with SMTP id
- 5b1f17b1804b1-4538ee8c45emr59014385e9.25.1751096588246; 
- Sat, 28 Jun 2025 00:43:08 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IF9JsCzvfINyyhreU8rIGVzGLKJ/ZNnXhwma/38lPFC8lLrr8tx0To5Ucb+zO+RmWL+1x1o9A==
-X-Received: by 2002:a05:600c:4594:b0:43d:47b7:b32d with SMTP id
- 5b1f17b1804b1-4538ee8c45emr59014205e9.25.1751096587847; 
- Sat, 28 Jun 2025 00:43:07 -0700 (PDT)
+ AJvYcCVrw4mic9AueOgRRUSbel8A1crB1uHgSQCdnB0k5YPzekFX3PklxOlfBcbcTF4iDmOkkUW08/E4Ym8=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YxqLDkzq97HV5P/kggYsjfrmoPBbvg29oD47m1viLxHyGua9iPw
+ h+71VKWinlpm/UNQKKH2domy1naK+E+uy1H2EMYi2ve0jKg1qXbynIvYcsd4+aB+PhvNsJ9uFkI
+ DRv+vOqNT8q1rL7RyMgkrCcHaG8TbsMPFTq4nAFvq930jU9/NhXGFWhwZTjV7RqC/F9jqB5SWJe
+ kUTg==
+X-Gm-Gg: ASbGncskLy8Y3OEJ7bf1EvjRywImz9jzUNDyb6TPEsulL97qSypZSo14IMbKMuO+LZC
+ qdItCtzafXVTYwrszlhHET/am2/agnh748KFHKOpkQsbMuDsWU2f/S3GhzKhABkSZwkWoaFSqVI
+ 3FvfDWDThYgWPAC3arwj8mX6skv1nxWcer2xkQDOT9StzGi9PKBQG7lbgs72P+IqgCC6SqeWOSR
+ qkIiJEimV4KgRIezdwMO0ld+Xfen1qxZDmycyGsHdEYwj40aGp/bsCxBgDyY7utNDISEnH15Ogl
+ xn1LXqZ6s55ZfiL8Tya/4n2HQkZRCBxriJnP/hHQlNNf2CglhJ1v/dlAx4Qsz0/6pqgO0PJ/Tr3
+ EctFi
+X-Received: by 2002:a05:600c:5493:b0:44b:1f5b:8c85 with SMTP id
+ 5b1f17b1804b1-4538ee3b945mr61735925e9.13.1751096654913; 
+ Sat, 28 Jun 2025 00:44:14 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IGA3QiP5gV2eDPP2/C7TDuUzC2dzUVwImKjDjLFfIECYmunirpIeECcO6UhqJs+LjySXky4Nw==
+X-Received: by 2002:a05:600c:5493:b0:44b:1f5b:8c85 with SMTP id
+ 5b1f17b1804b1-4538ee3b945mr61735675e9.13.1751096654451; 
+ Sat, 28 Jun 2025 00:44:14 -0700 (PDT)
 Received: from localhost (62-151-111-63.jazzfree.ya.com. [62.151.111.63])
  by smtp.gmail.com with ESMTPSA id
- 5b1f17b1804b1-453823ad20bsm102446295e9.20.2025.06.28.00.43.06
+ ffacd0b85a97d-3a892e6214fsm4673306f8f.98.2025.06.28.00.44.13
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sat, 28 Jun 2025 00:43:07 -0700 (PDT)
+ Sat, 28 Jun 2025 00:44:13 -0700 (PDT)
 From: Javier Martinez Canillas <javierm@redhat.com>
-To: rob.clark@oss.qualcomm.com
-Cc: Laurent Pinchart <laurent.pinchart@ideasonboard.com>, Rob Clark
- <robdclark@gmail.com>, Jacopo Mondi <jacopo.mondi@ideasonboard.com>, David
- Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>, Maarten
- Lankhorst <maarten.lankhorst@linux.intel.com>, Maxime Ripard
- <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, Naushir
- Patuck <naush@raspberrypi.com>, dri-devel@lists.freedesktop.org,
- libcamera-devel@lists.libcamera.org
-Subject: Re: [PATCH] drm/fourcc: Add RGB161616 and BGR161616 formats
-In-Reply-To: <CACSVV03Vk9MVrKc7y-w2xRDdonUaEi9Ywaupakqb57-9v=uetA@mail.gmail.com>
-References: <20240226132544.82817-1-jacopo.mondi@ideasonboard.com>
- <CAF6AEGvhjktN52k4_hJjz3mXTGJgH+QtK68yhFbsX45ukKnG+g@mail.gmail.com>
- <20250627180454.GD24912@pendragon.ideasonboard.com>
- <877c0xatmb.fsf@minerva.mail-host-address-is-not-set>
- <CACSVV03Vk9MVrKc7y-w2xRDdonUaEi9Ywaupakqb57-9v=uetA@mail.gmail.com>
-Date: Sat, 28 Jun 2025 09:43:05 +0200
-Message-ID: <874iw0b9bq.fsf@minerva.mail-host-address-is-not-set>
+To: linux-kernel@vger.kernel.org
+Cc: Andy Shevchenko <andriy.shevchenko@linux.intel.com>, Maxime Ripard
+ <mripard@kernel.org>, dri-devel@lists.freedesktop.org, Borislav Petkov
+ <bp@suse.de>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Simona
+ Vetter <simona.vetter@ffwll.ch>, Thomas Zimmermann <tzimmermann@suse.de>
+Subject: Re: [PATCH] MAINTAINERS: Add missing sysfb files to firmware
+ framebuffers entry
+In-Reply-To: <20250627113328.2703491-1-javierm@redhat.com>
+References: <20250627113328.2703491-1-javierm@redhat.com>
+Date: Sat, 28 Jun 2025 09:44:12 +0200
+Message-ID: <871pr4b99v.fsf@minerva.mail-host-address-is-not-set>
 MIME-Version: 1.0
 X-Mimecast-Spam-Score: 0
-X-Mimecast-MFC-PROC-ID: qQvq9K5mB5tkKyUMQ9LD04MUo9zd11_iphEhtL0Wme8_1751096588
+X-Mimecast-MFC-PROC-ID: PQbRdEHEamUqTL6aQ8Jj-YQgjInYugEYDvI68TVs45s_1751096655
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -109,48 +101,30 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Rob Clark <rob.clark@oss.qualcomm.com> writes:
+Javier Martinez Canillas <javierm@redhat.com> writes:
 
-> On Fri, Jun 27, 2025 at 12:10=E2=80=AFPM Javier Martinez Canillas
-> <javierm@redhat.com> wrote:
->>
->> Laurent Pinchart <laurent.pinchart@ideasonboard.com> writes:
->>
->> > On Fri, Jun 27, 2025 at 09:39:37AM -0700, Rob Clark wrote:
->> >> On Mon, Feb 26, 2024 at 5:43=E2=80=AFAM Jacopo Mondi wrote:
->> >> >
->> >> > Add FourCC definitions for the 48-bit RGB/BGR formats to the
->> >> > DRM/KMS uapi.
->> >> >
->> >> > The format will be used by the Raspberry Pi PiSP Back End,
->> >> > supported by a V4L2 driver in kernel space and by libcamera in
->> >> > userspace, which uses the DRM FourCC identifiers.
->> >> >
->> >> > Signed-off-by: Jacopo Mondi <jacopo.mondi@ideasonboard.com>
->> >>
->> >> Resurrecting this, as it appears to have not ever landed upstream
->> >
->> > What are the rule is for patches that touch core code like this one, c=
-an
->> > they be pushed to drm-misc by anyone with commit access, or do they ne=
-ed
->> > to be collected by a drm-misc maintainer ?
->> >
->>
->> According to [0] I would say that you could just push it through drm-mis=
-c
->> since there are already a few review-by tags collected.
->>
->> [0]: https://drm.pages.freedesktop.org/maintainer-tools/committer/commit=
-ter-drm-misc.html#merge-criteria
+> The commit d391c5827107 ("drivers/firmware: move x86 Generic System
+> Framebuffers support") moved the sysfb*.c source files from arch/x86
+> to drivers/firmware, because the logic wasn't x86 specific and could
+> be used by other architectures.
 >
-> yeah, should be fine to push to drm-misc since it has r-b's (not to
-> mention no negative comments for a _long_ time)
+> But the drivers/firmware path is not listed in MAINTAINERS, which led
+> to the files being orphaned and scripts/get_maintainer.pl not listing
+> a mailing list to Cc anymore.
+>
+> Now that we have an entry for all the firmware-provided framebuffer code,
+> add the missing sysfb files to make sure correct folks and list is Cc'ed.
+>
+> Fixes: d391c5827107 ("drivers/firmware: move x86 Generic System Framebuffers support")
+> Reported-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+> Closes: https://lore.kernel.org/lkml/aF53djlieUNF_-aV@smile.fi.intel.com/
+> Signed-off-by: Javier Martinez Canillas <javierm@redhat.com>
+> ---
 >
 
 Pushed to drm-misc (drm-misc-next). Thanks!
 
---=20
+-- 
 Best regards,
 
 Javier Martinez Canillas
