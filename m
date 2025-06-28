@@ -2,46 +2,52 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5A60EAEC70E
-	for <lists+dri-devel@lfdr.de>; Sat, 28 Jun 2025 14:19:54 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id F0E64AEC729
+	for <lists+dri-devel@lfdr.de>; Sat, 28 Jun 2025 14:36:19 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6B6E110E193;
-	Sat, 28 Jun 2025 12:19:52 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9E59310E037;
+	Sat, 28 Jun 2025 12:36:16 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="cta7eDaC";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="a9VPwyMH";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from sea.source.kernel.org (sea.source.kernel.org [172.234.252.31])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B83E110E037;
- Sat, 28 Jun 2025 12:19:50 +0000 (UTC)
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B3ABE10E037
+ for <dri-devel@lists.freedesktop.org>; Sat, 28 Jun 2025 12:36:14 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by sea.source.kernel.org (Postfix) with ESMTP id 7D5454358D;
- Sat, 28 Jun 2025 12:19:46 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 13674C4CEEA;
- Sat, 28 Jun 2025 12:19:45 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
- s=korg; t=1751113186;
- bh=QhnZ7KS4dcO10Zf6dRimAYrqaLaH9hV/1OodxZ6Dess=;
+ by dfw.source.kernel.org (Postfix) with ESMTP id D3EC85C4BC8;
+ Sat, 28 Jun 2025 12:36:13 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id A3FF5C4CEEA;
+ Sat, 28 Jun 2025 12:36:12 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1751114173;
+ bh=z/CLDF/X6BDnpeJ5a9vcl4SEOcC44JDymgYIq0TsDc8=;
  h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=cta7eDaCVajo/VmSdGNFM/pCfNX/Dk1Y42mL+oXVgdXNLJtzfRA1lLbDbaMrmUY9B
- g1xuCPTWvARXXN2lPpD+SzQHGvHuoehp4iRySbidQhJPbg+oD8X6xJcLNxWywl2n26
- 8q0ahpA27J+GlksGUam3PbikcXxgJ0hww1kpjRdE=
-Date: Sat, 28 Jun 2025 14:19:43 +0200
-From: Greg KH <gregkh@linuxfoundation.org>
-To: Badal Nilawar <badal.nilawar@intel.com>
-Cc: intel-xe@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org, anshuman.gupta@intel.com,
- rodrigo.vivi@intel.com, alexander.usyskin@intel.com,
- daniele.ceraolospurio@intel.com
-Subject: Re: [PATCH v4 02/10] mei: late_bind: add late binding component driver
-Message-ID: <2025062808-grant-award-ee22@gregkh>
-References: <20250625170015.33912-1-badal.nilawar@intel.com>
- <20250625170015.33912-3-badal.nilawar@intel.com>
+ b=a9VPwyMHg2x9jzkjEN4FgCUZl0H2P6jeYqNAzvqXodQ5x3xMopAZBRsaIUZ79WNjP
+ 7W1k7B0SQNBrMZCAEGS6ur6Ztu9Ji8AAwx+iiDwqryHl0sRRKt/3bubT/Njpzt1FYe
+ c/tVacvhAwKVh4ZeljZkK2mIckiStrbXfIoOb+ncaSZbxpxLluJ9dou23qWyRqbvbT
+ iZDWAoqBZJwjbVsXM5vJvNZ6iWKhMvvn8MaUHx3v+UPSD+dpF91s0M7zRXog+7Ge4U
+ QpUwGkxP8LI3nyR2gblSFZzNwoJZjMixlzXJ3Q2CjmOMLCqWpq8BLjgJKtharV/5bo
+ ljMEH+x+eAjpQ==
+Date: Sat, 28 Jun 2025 14:36:09 +0200
+From: Krzysztof Kozlowski <krzk@kernel.org>
+To: Ling Xu <quic_lxu5@quicinc.com>
+Cc: srini@kernel.org, amahesh@qti.qualcomm.com, robh@kernel.org, 
+ krzk+dt@kernel.org, conor+dt@kernel.org, andersson@kernel.org, 
+ konradybcio@kernel.org, arnd@arndb.de, gregkh@linuxfoundation.org,
+ quic_kuiw@quicinc.com, 
+ ekansh.gupta@oss.qualcomm.com, devicetree@vger.kernel.org,
+ linux-arm-msm@vger.kernel.org, 
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v4 1/4] dt-bindings: misc: qcom,fastrpc: Add GDSP label
+Message-ID: <20250628-perfect-super-bull-84b312@krzk-bin>
+References: <20250627103319.2883613-1-quic_lxu5@quicinc.com>
+ <20250627103319.2883613-2-quic_lxu5@quicinc.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20250625170015.33912-3-badal.nilawar@intel.com>
+In-Reply-To: <20250627103319.2883613-2-quic_lxu5@quicinc.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -57,19 +63,17 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, Jun 25, 2025 at 10:30:07PM +0530, Badal Nilawar wrote:
-> +/**
-> + * struct late_bind_component_ops - ops for Late Binding services.
-> + * @owner: Module providing the ops
-> + * @push_config: Sends a config to FW.
-> + */
-> +struct late_bind_component_ops {
-> +	struct module *owner;
+On Fri, Jun 27, 2025 at 04:03:16PM +0530, Ling Xu wrote:
+> Add "gdsp" as the new supported label for GDSP fastrpc domain.
+> 
+> Signed-off-by: Ling Xu <quic_lxu5@quicinc.com>
+> ---
+>  Documentation/devicetree/bindings/misc/qcom,fastrpc.yaml | 2 ++
+>  1 file changed, 2 insertions(+)
+> 
 
-I don't think you ever set this field, so why is it here?
+NAK, nothing improved. You got comment and you just sent the same.
 
-Or did I miss it somewhere?
+Best regards,
+Krzysztof
 
-thanks,
-
-greg k-h
