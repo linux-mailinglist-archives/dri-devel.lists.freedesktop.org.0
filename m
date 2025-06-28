@@ -2,103 +2,46 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 48602AEC6C9
-	for <lists+dri-devel@lfdr.de>; Sat, 28 Jun 2025 13:50:52 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5BB51AEC709
+	for <lists+dri-devel@lfdr.de>; Sat, 28 Jun 2025 14:18:39 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 35D1110E190;
-	Sat, 28 Jun 2025 11:50:50 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E4D2C10E0FA;
+	Sat, 28 Jun 2025 12:18:32 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="bwFrBJ0u";
+	dkim=pass (1024-bit key; unprotected) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="TBlOfUQR";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from sea.source.kernel.org (sea.source.kernel.org [172.234.252.31])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0F0D310E0D4
- for <dri-devel@lists.freedesktop.org>; Sat, 28 Jun 2025 11:50:49 +0000 (UTC)
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 58C3510E037;
+ Sat, 28 Jun 2025 12:18:14 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by sea.source.kernel.org (Postfix) with ESMTP id DBF0B44BDD;
- Sat, 28 Jun 2025 11:50:48 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 40600C4CEEA;
- Sat, 28 Jun 2025 11:50:42 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1751111448;
- bh=pSV6l3T7JmbSCdl9fP3e9xqmfil0Of6rRvqXh+ApX/s=;
- h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
- b=bwFrBJ0uiRaZwBWweZ1XvO+QkqB2Q3cQ9ZIwpIuYH04iOvL5y+Mh9OMJYqEGqt/e4
- 0XZ6VZxtasWfRRFt+q72dzoD9ihhGqkneLsdSQJm/7Ijc21wLEojyfNzbaOVOvu6QV
- 3XezHpc0a8tK7zYvtohyfbWUisKqSPlco2TZdo5ttUUFUPnF+wOkWcfNA3/+0JcQgF
- jTmjwYyD0lJcAxftp3mgKYl+8rgdgAlpKnkG8czV1OY3PNy3Z3CqqVFJzB97JaMZRz
- EbJFQetmLkU9zsGhSEpxYtQTlPvAUe05AX8cE7mP1V0dcRv+mD2wK9uPo30V8enNZH
- BUKz8wWbtv04Q==
-Message-ID: <b94b752c-d7f7-41d6-ac79-d21427f20964@kernel.org>
-Date: Sat, 28 Jun 2025 13:50:40 +0200
+ by dfw.source.kernel.org (Postfix) with ESMTP id 0D3305C4572;
+ Sat, 28 Jun 2025 12:18:05 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 52816C4CEEA;
+ Sat, 28 Jun 2025 12:18:04 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
+ s=korg; t=1751113084;
+ bh=5gNTyyIrr9xdgGlz/I/Vt0rXDxRjosNLvKaatqfFq7M=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=TBlOfUQRtZsSL8uPBfO6n6f+WrxX13RpMqIU8NTXfKkiKN3Kqbb9GcawVqs9MgMyQ
+ lBGKDBEHEiTA+wo6hEifMGdkGDjgBvCDTNn4NUDMOEOj6mtVBD6H6RlsJIONJ+yMKQ
+ G6vW87B7am9lQlUQxRtaBfPJUv4aSEKVTBqjp0Xk=
+Date: Sat, 28 Jun 2025 14:18:02 +0200
+From: Greg KH <gregkh@linuxfoundation.org>
+To: Badal Nilawar <badal.nilawar@intel.com>
+Cc: intel-xe@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org, anshuman.gupta@intel.com,
+ rodrigo.vivi@intel.com, alexander.usyskin@intel.com,
+ daniele.ceraolospurio@intel.com
+Subject: Re: [PATCH v4 02/10] mei: late_bind: add late binding component driver
+Message-ID: <2025062834-scraggly-barracuda-7ea6@gregkh>
+References: <20250625170015.33912-1-badal.nilawar@intel.com>
+ <20250625170015.33912-3-badal.nilawar@intel.com>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 1/5] dt-bindings: display: simple-framebuffer: Add
- interconnects property
-To: Thomas Zimmermann <tzimmermann@suse.de>,
- Luca Weiss <luca.weiss@fairphone.com>
-Cc: Hans de Goede <hdegoede@redhat.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, David Airlie <airlied@gmail.com>,
- Simona Vetter <simona@ffwll.ch>, Rob Herring <robh@kernel.org>,
- Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
- <conor+dt@kernel.org>, Javier Martinez Canillas <javierm@redhat.com>,
- Helge Deller <deller@gmx.de>, linux-fbdev@vger.kernel.org,
- dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org,
- linux-kernel@vger.kernel.org
-References: <20250623-simple-drm-fb-icc-v2-0-f69b86cd3d7d@fairphone.com>
- <20250623-simple-drm-fb-icc-v2-1-f69b86cd3d7d@fairphone.com>
- <20250627-mysterious-optimistic-bird-acaafb@krzk-bin>
- <d8d85415-efc4-4a11-842e-23272cae29f7@suse.de>
-From: Krzysztof Kozlowski <krzk@kernel.org>
-Content-Language: en-US
-Autocrypt: addr=krzk@kernel.org; keydata=
- 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 a/A=
-In-Reply-To: <d8d85415-efc4-4a11-842e-23272cae29f7@suse.de>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20250625170015.33912-3-badal.nilawar@intel.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -114,52 +57,121 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 27/06/2025 13:34, Thomas Zimmermann wrote:
-> Hi
-> 
-> Am 27.06.25 um 10:08 schrieb Krzysztof Kozlowski:
->> On Mon, Jun 23, 2025 at 08:44:45AM +0200, Luca Weiss wrote:
->>> Document the interconnects property which is a list of interconnect
->>> paths that is used by the framebuffer and therefore needs to be kept
->>> alive when the framebuffer is being used.
->>>
->>> Acked-by: Thomas Zimmermann <tzimmermann@suse.de>
->>> Signed-off-by: Luca Weiss <luca.weiss@fairphone.com>
->>> ---
->>>   Documentation/devicetree/bindings/display/simple-framebuffer.yaml | 3 +++
->>>   1 file changed, 3 insertions(+)
->>>
->>> diff --git a/Documentation/devicetree/bindings/display/simple-framebuffer.yaml b/Documentation/devicetree/bindings/display/simple-framebuffer.yaml
->>> index 296500f9da05e296dbbeec50ba5186b6b30aaffc..f0fa0ef23d91043dfb2b220c654b80e2e80850cd 100644
->>> --- a/Documentation/devicetree/bindings/display/simple-framebuffer.yaml
->>> +++ b/Documentation/devicetree/bindings/display/simple-framebuffer.yaml
->>> @@ -79,6 +79,9 @@ properties:
->>>     power-domains:
->>>       description: List of power domains used by the framebuffer.
->>>   
->>> +  interconnects:
->>> +    description: List of interconnect paths used by the framebuffer.
->>> +
->> maxItems: 1, or this is not a simple FB anymore. Anything which needs
->> some sort of resources in unknown way is not simple anymore. You need
->> device specific bindings.
-> 
-> In this context, 'simple' means that this device cannot change display 
-> modes or do graphics acceleration. The hardware itself is not 
-> necessarily simple. As Javier pointed out, it's initialized by firmware 
+On Wed, Jun 25, 2025 at 10:30:07PM +0530, Badal Nilawar wrote:
+> --- /dev/null
+> +++ b/drivers/misc/mei/late_bind/mei_late_bind.c
+> @@ -0,0 +1,281 @@
+> +// SPDX-License-Identifier: GPL-2.0
+> +/*
+> + * Copyright (C) 2025 Intel Corporation
+> + */
+> +#include <drm/intel/i915_component.h>
+> +#include <drm/intel/late_bind_mei_interface.h>
+> +#include <linux/component.h>
+> +#include <linux/pci.h>
+> +#include <linux/mei_cl_bus.h>
+> +#include <linux/module.h>
+> +#include <linux/overflow.h>
+> +#include <linux/slab.h>
+> +#include <linux/uuid.h>
+> +
+> +#include "mkhi.h"
+> +
+> +#define GFX_SRV_MKHI_LATE_BINDING_CMD 0x12
+> +#define GFX_SRV_MKHI_LATE_BINDING_RSP (GFX_SRV_MKHI_LATE_BINDING_CMD | 0x80)
+> +
+> +#define LATE_BIND_SEND_TIMEOUT_MSEC 3000
+> +#define LATE_BIND_RECV_TIMEOUT_MSEC 3000
+> +
+> +/**
+> + * struct csc_heci_late_bind_req - late binding request
+> + * @header: @ref mkhi_msg_hdr
+> + * @type: type of the late binding payload
+> + * @flags: flags to be passed to the firmware
+> + * @reserved: reserved field
 
-If hardware is not simple, then it needs specific bindings.
+Reserved for what?  All reserved fields need to be set to a default
+value, please document that here.
 
-> on the actual hardware. Think of 'VGA-for-ARM'. We need these resources 
-> to keep the display working.
+> + * @payload_size: size of the payload data in bytes
+> + * @payload: data to be sent to the firmware
+> + */
+> +struct csc_heci_late_bind_req {
+> +	struct mkhi_msg_hdr header;
+> +	u32 type;
+> +	u32 flags;
 
-I don't claim you do not need these resources. I claim device is not
-simple thus does not suit rules for generic bindings. Generic bindings
-are in general not allowed and we have them only for very, very simple
-devices.
+What is the endian of these fields?  And as this crosses the
+kernel/hardware boundry, shouldn't these be __u32?
 
-You say this is not simple device, so there you go - specific binding
-for this complex (not-simple) device.
+> +/**
+> + * struct csc_heci_late_bind_rsp - late binding response
+> + * @header: @ref mkhi_msg_hdr
+> + * @type: type of the late binding payload
+> + * @reserved: reserved field
+> + * @status: status of the late binding command execution by firmware
+> + */
+> +struct csc_heci_late_bind_rsp {
+> +	struct mkhi_msg_hdr header;
+> +	u32 type;
+> +	u32 reserved[2];
+> +	u32 status;
 
-Best regards,
-Krzysztof
+Same questions as above.
+
+> +} __packed;
+> +/**
+> + * mei_late_bind_push_config - Sends a config to the firmware.
+> + * @dev: device struct corresponding to the mei device
+> + * @type: payload type
+
+Shouldn't type be an enum?
+
+> + * @flags: payload flags
+> + * @payload: payload buffer
+> + * @payload_size: payload buffer size
+> + *
+> + * Return: 0 success, negative errno value on transport failure,
+> + *         positive status returned by FW
+> + */
+> +static int mei_late_bind_push_config(struct device *dev, u32 type, u32 flags,
+> +				     const void *payload, size_t payload_size)
+
+Why do static functions need kerneldoc formatting?
+
+> +{
+> +	struct mei_cl_device *cldev;
+> +	struct csc_heci_late_bind_req *req = NULL;
+> +	struct csc_heci_late_bind_rsp rsp;
+> +	size_t req_size;
+> +	ssize_t ret;
+> +
+> +	if (!dev || !payload || !payload_size)
+> +		return -EINVAL;
+
+How can any of these ever happen as you control the callers of this
+function?
+
+
+> +
+> +	cldev = to_mei_cl_device(dev);
+> +
+> +	ret = mei_cldev_enable(cldev);
+> +	if (ret < 0) {
+
+You mean:
+	if (ret)
+right?
+
+
+> +		dev_dbg(dev, "mei_cldev_enable failed. %zd\n", ret);
+
+Why display the error again if this failed?  The caller already did
+that.
+
+And the function returns an int, not a ssize_t, didn't the compiler
+complain?
+
+thanks,
+
+greg k-h
