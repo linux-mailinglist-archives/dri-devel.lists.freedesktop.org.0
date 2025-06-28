@@ -2,72 +2,83 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id D6D67AEC376
-	for <lists+dri-devel@lfdr.de>; Sat, 28 Jun 2025 02:13:18 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2B99FAEC3CF
+	for <lists+dri-devel@lfdr.de>; Sat, 28 Jun 2025 03:30:37 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id EF99810E00C;
-	Sat, 28 Jun 2025 00:13:14 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B000910E08B;
+	Sat, 28 Jun 2025 01:30:32 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=collabora.com header.i=daniel.almeida@collabora.com header.b="dTvkq1SD";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="e2rtf5JE";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from sender4-pp-f112.zoho.com (sender4-pp-f112.zoho.com
- [136.143.188.112])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 41C5910E00C
- for <dri-devel@lists.freedesktop.org>; Sat, 28 Jun 2025 00:13:08 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; t=1751069570; cv=none; 
- d=zohomail.com; s=zohoarc; 
- b=F2doFgpRNe+kctg93ooMSm+aHwQZtQseEHZOkialN4dewhKyPezKXvpu1vJeuSAl6qNmyLWsWh+a93DNumhKPwIEkHGgsC5P3FQctsIK6q36AhpKPTgIjaUh86ue4xwy6SXILugzu7rSAgPYaKywkUIiCgKWGTbRMqYFXwp08n8=
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com;
- s=zohoarc; t=1751069570;
- h=Content-Type:Content-Transfer-Encoding:Cc:Cc:Date:Date:From:From:In-Reply-To:MIME-Version:Message-ID:References:Subject:Subject:To:To:Message-Id:Reply-To;
- bh=0H5Q14gT58j9sWQ7Mkf1VLBkEerIw45k/88Qa7/Ee54=; 
- b=C7t9Oni+dH1ywmeQ8PwSkOjWo3URfX1t3zHGdgYSJGC/b32VGSLRKwxYMLqFfJus4CS0n/zlm8KOB+cdbmMUHaqNohr690vtmgvxy7H8MS/xw7R6SsduDvTHoP9uoTqgFXzHlKGkHLwkYmkZhlQ6TUmBn1Y+sGzLGgWrmge+MGQ=
-ARC-Authentication-Results: i=1; mx.zohomail.com;
- dkim=pass  header.i=collabora.com;
- spf=pass  smtp.mailfrom=daniel.almeida@collabora.com;
- dmarc=pass header.from=<daniel.almeida@collabora.com>
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1751069570; 
- s=zohomail; d=collabora.com; i=daniel.almeida@collabora.com;
- h=Content-Type:Mime-Version:Subject:Subject:From:From:In-Reply-To:Date:Date:Cc:Cc:Content-Transfer-Encoding:Message-Id:Message-Id:References:To:To:Reply-To;
- bh=0H5Q14gT58j9sWQ7Mkf1VLBkEerIw45k/88Qa7/Ee54=;
- b=dTvkq1SDplJdHuRfEA3aufvDDPQQr57yXv2ZZ00yiWZoeO7fG93KDCx0J0qY0VHk
- sODw7Ipu5Zq0fa/6G28QInGEA+pFZvYr9SImHLYlUW1gjGPyra6GqABr2tUHZFff33d
- ln5y9o6EGdeOynvH/L/kVN3Aw/T5FNaKI+c8OWi8=
-Received: by mx.zohomail.com with SMTPS id 1751069566742886.3233886676038;
- Fri, 27 Jun 2025 17:12:46 -0700 (PDT)
-Content-Type: text/plain;
-	charset=utf-8
-Mime-Version: 1.0 (Mac OS X Mail 16.0 \(3826.600.51.1.1\))
-Subject: Re: [PATCH] Introduce Tyr
-From: Daniel Almeida <daniel.almeida@collabora.com>
-In-Reply-To: <aF8lYpK_l2I-ts1k@pollux>
-Date: Fri, 27 Jun 2025 21:12:29 -0300
-Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
- Simona Vetter <simona@ffwll.ch>, Miguel Ojeda <ojeda@kernel.org>,
- Alex Gaynor <alex.gaynor@gmail.com>, Boqun Feng <boqun.feng@gmail.com>,
- Gary Guo <gary@garyguo.net>,
- =?utf-8?Q?Bj=C3=B6rn_Roy_Baron?= <bjorn3_gh@protonmail.com>,
- Benno Lossin <lossin@kernel.org>, Andreas Hindborg <a.hindborg@kernel.org>,
- Alice Ryhl <aliceryhl@google.com>, Trevor Gross <tmgross@umich.edu>,
- Daniel Stone <daniels@collabora.com>, Rob Herring <robh@kernel.org>,
- Alice Ryhl <alice.ryhl@google.com>,
- Beata Michalska <beata.michalska@arm.com>,
- Carsten Haitzler <carsten.haitzler@foss.arm.com>,
- Boris Brezillon <boris.brezillon@collabora.com>,
- Ashley Smith <ashley.smith@collabora.com>, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, rust-for-linux@vger.kernel.org,
- kernel@collabora.com
-Content-Transfer-Encoding: quoted-printable
-Message-Id: <9D9AFE08-2CBB-4A89-866D-512D9080754C@collabora.com>
-References: <20250627-tyr-v1-1-cb5f4c6ced46@collabora.com>
- <aF8lYpK_l2I-ts1k@pollux>
-To: Danilo Krummrich <dakr@kernel.org>
-X-Mailer: Apple Mail (2.3826.600.51.1.1)
-X-ZohoMailClient: External
+Received: from mail-pl1-f169.google.com (mail-pl1-f169.google.com
+ [209.85.214.169])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1751410E08B
+ for <dri-devel@lists.freedesktop.org>; Sat, 28 Jun 2025 01:30:26 +0000 (UTC)
+Received: by mail-pl1-f169.google.com with SMTP id
+ d9443c01a7336-236377f00a1so26216335ad.3
+ for <dri-devel@lists.freedesktop.org>; Fri, 27 Jun 2025 18:30:26 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20230601; t=1751074226; x=1751679026; darn=lists.freedesktop.org;
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+ bh=y8AXPmpG2VMuBb/O9YnQP2cAp0A39EaY7EJfwm1hV+c=;
+ b=e2rtf5JE7NuZEsQWo+7rnMCJF2hSlvJd5bbyP5i60hsJgTtvQlCBD4RtCpK3iqFe4W
+ 6pay4vhDlFTAR6D/eVgZ8eHEwFU+a7Ub+lDYDg/Fp1NBUYEpk0Qwmo39+18vxeAAnm0N
+ Z5exr+EOceykVFxpi+Pv97QdUa5w6Cv1XorAkq4zQ0SRHRS4lnze/+Vatq1WbeMsxA/c
+ MBRMic1icnVgUZGRFbGk450FELoh1MvPKm4RS38XQHcL3A2HadYgqJsGbHCFvEWcAU+T
+ cCEdeAnlhh7xxOG0Q+4vrBVLvwQ6qQQiu31Ld/Aaoam38D50H+1CDf5w6mOsjkvmrs1O
+ BnYg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1751074226; x=1751679026;
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=y8AXPmpG2VMuBb/O9YnQP2cAp0A39EaY7EJfwm1hV+c=;
+ b=I4whybkMsIzC+4IT9X4WIU4y49MC3wGkWfVsVEO7xB62BMpSzrKPZjlO6ktmrYhcYP
+ fxoIbGesjc5gLpRSYl6Ho6I3dJ7vtuzmZZ3DeW8hyd+D9/tfJ6DehHg/ZbeJUR7apJrm
+ oryK/At00F3KV38Ku7T8cnxILRNkKEfxyNGNArur0bvlDxVQTuiif4ay6cj8KHEUSdzL
+ dWq6ac8S2KW9KhtbVMVUSqB8WYM035o1lXpYKo1r5/hAlqLccu3ie5aQYZ5vgsU4vwiW
+ bSissR20B12OPu6+SFJcI2mprcPgzfD3rbYZUca/W6JyNZuS1fi/XoHlwBidgXnyV9gD
+ NbfA==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCV/41WqOF6b1IM2yGFOva5Vj8MEX48w1l0CIqBwrRLIN/ch7ecnfmVX41tYfgYFLBi010uWmiEQxec=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0Yz1MxZL2N4xZFW9Xm/vwA+JZeRwOYmFdlhJDvYaxnJs4F9UkKuv
+ W8mM4wb1+hbo6qjFc/4uWYm5zzHs7qmKXCdNlwIvJAQVeUE22RQfgGj1
+X-Gm-Gg: ASbGncsx44WbmMTi8s1n7Y+unBRuoeqY4O+AJ2VSvDNa8cog2w6vwQmOTk69Y0bkPdX
+ zAaD10mPaAvUORCg8GjFHULuHMFcy/BS8fAjXafBoqHKdG7+WY7/WAaMH0TM0J6Snm9zJ9iy0cg
+ y75Z93cy7zON1qUS+lB9Gqu4yrL4MjyEmgSwIfS2l7Nv0fHKokkeP+9W6ri3066g7tjCBpMcdUU
+ ochpe2DHGmlwr5+b+E174TuETgg5e1t9EnOgqICz22/PN7Oao8cFvlRkbrI5pxp2r0/XKnHMP7u
+ zSMLFTYsXkUDrcMpYovhs1cv3PgnWp83qlnc7e3yfAKS83ZVrdVcaKgdJQxh0Q==
+X-Google-Smtp-Source: AGHT+IEhpBuJ3GjJ2GV96K93NPQPaz+CSELR+iF2uzhaORXUXQQfB5dul2kwwnAmFKMrTiXr3jo19Q==
+X-Received: by 2002:a17:902:c401:b0:235:f4f7:a62b with SMTP id
+ d9443c01a7336-23ac4665179mr88553105ad.41.1751074225506; 
+ Fri, 27 Jun 2025 18:30:25 -0700 (PDT)
+Received: from archie.me ([103.124.138.155]) by smtp.gmail.com with ESMTPSA id
+ d9443c01a7336-23acb3c90d5sm26854075ad.247.2025.06.27.18.30.23
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Fri, 27 Jun 2025 18:30:24 -0700 (PDT)
+Received: by archie.me (Postfix, from userid 1000)
+ id 7A3DF423BF27; Sat, 28 Jun 2025 08:30:21 +0700 (WIB)
+Date: Sat, 28 Jun 2025 08:30:21 +0700
+From: Bagas Sanjaya <bagasdotme@gmail.com>
+To: Kevin Paul Reddy Janagari <kevinpaul468@gmail.com>, airlied@gmail.com,
+ simona@ffwll.ch
+Cc: maarten.lankhorst@linux.intel.com, mripard@kernel.org,
+ tzimmermann@suse.de, corbet@lwn.net,
+ dri-devel@lists.freedesktop.org, linux-doc@vger.kernel.org,
+ linux-kernel@vger.kernel.org,
+ Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+Subject: Re: [PATCH v2] workaround for Sphinx false positive preventing
+ indexing
+Message-ID: <aF9FrVzkZHrIRKEa@archie.me>
+References: <20250627115718.17673-1-kevinpaul468@gmail.com>
+MIME-Version: 1.0
+Content-Type: multipart/signed; micalg=pgp-sha512;
+ protocol="application/pgp-signature"; boundary="jygN2+v8Ef8hw9M2"
+Content-Disposition: inline
+In-Reply-To: <20250627115718.17673-1-kevinpaul468@gmail.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -83,305 +94,90 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Danilo, thank you an Boqun for having a look at this,
 
+--jygN2+v8Ef8hw9M2
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-> On 27 Jun 2025, at 20:12, Danilo Krummrich <dakr@kernel.org> wrote:
+[also Cc'ing Mauro]
+
+On Fri, Jun 27, 2025 at 05:27:18PM +0530, Kevin Paul Reddy Janagari wrote:
+> Functions drm_format_info, drm_modeset_lock, drm_ioctl_flags are not being
+> indexed in the documentation because there are structs with the same name=
+=20
+> and sphinx is only indexing one of them, Added them to namespaces as a
+> workaround for suppressing the warnings and indexing the functions
 >=20
-> On Fri, Jun 27, 2025 at 07:34:04PM -0300, Daniel Almeida wrote:
->> +#[pin_data]
->> +pub(crate) struct TyrData {
->> +    pub(crate) pdev: ARef<platform::Device>,
->> +
->> +    #[pin]
->> +    clks: Mutex<Clocks>,
->> +
->> +    #[pin]
->> +    regulators: Mutex<Regulators>,
->> +
->> +    // Some inforation on the GPU. This is mainly queried by =
-userspace (mesa).
->> +    pub(crate) gpu_info: GpuInfo,
->> +}
->> +
->> +unsafe impl Send for TyrData {}
->> +unsafe impl Sync for TyrData {}
+> This is a bug of Sphinx >=3D3.1, first reported by Mauro in September 2020
+> Link: https://github.com/sphinx-doc/sphinx/issues/8241
 >=20
-> What's the safety justification for those? Why do you need them? The =
-fact that
-> you seem to need to implement those traits within a driver indicates =
-an issue.
-
-This was forgotten when scooped from the downstream code.
-
-Although I think the problematic members are only Clk and Regulator
-as Boqun pointed out.
-
-In any case, my bad.
-
-Also, for some reason the Clippy lint did not save me this time.
-
+> Signed-off-by: Kevin Paul Reddy Janagari <kevinpaul468@gmail.com>
+> ---
+>  Documentation/gpu/drm-kms.rst  | 4 ++++
+>  Documentation/gpu/drm-uapi.rst | 2 ++
+>  2 files changed, 6 insertions(+)
 >=20
->> +fn issue_soft_reset(iomem: &Devres<IoMem<0>>) -> Result<()> {
->> +    let irq_enable_cmd =3D 1 | bit_u32(8);
->> +    regs::GPU_CMD.write(iomem, irq_enable_cmd)?;
->> +
->> +    let op =3D || regs::GPU_INT_RAWSTAT.read(iomem);
->> +    let cond =3D |raw_stat: &u32| -> bool { (*raw_stat >> 8) & 1 =3D=3D=
- 1 };
->> +    let res =3D io::poll::read_poll_timeout(
->> +        op,
->> +        cond,
->> +        time::Delta::from_millis(100),
->> +        Some(time::Delta::from_micros(20000)),
->> +    );
->> +
->> +    if let Err(e) =3D res {
->> +        pr_err!("GPU reset failed with errno {}\n", e.to_errno());
->> +        pr_err!(
->> +            "GPU_INT_RAWSTAT is {}\n",
->> +            regs::GPU_INT_RAWSTAT.read(iomem)?
->> +        );
->=20
-> This is a driver, please use dev_err!().
->=20
->> +    }
->> +
->> +    Ok(())
->> +}
->> +
->> +kernel::of_device_table!(
->> +    OF_TABLE,
->> +    MODULE_OF_TABLE,
->> +    <TyrDriver as platform::Driver>::IdInfo,
->> +    [
->> +        (of::DeviceId::new(c_str!("rockchip,rk3588-mali")), ()),
->> +        (of::DeviceId::new(c_str!("arm,mali-valhall-csf")), ())
->> +    ]
->> +);
->> +
->> +impl platform::Driver for TyrDriver {
->> +    type IdInfo =3D ();
->> +    const OF_ID_TABLE: Option<of::IdTable<Self::IdInfo>> =3D =
-Some(&OF_TABLE);
->> +
->> +    fn probe(
->> +        pdev: &platform::Device<Core>,
->> +        _info: Option<&Self::IdInfo>,
->> +    ) -> Result<Pin<KBox<Self>>> {
->> +        dev_dbg!(pdev.as_ref(), "Probed Tyr\n");
->> +
->> +        let core_clk =3D Clk::get(pdev.as_ref(), =
-Some(c_str!("core")))?;
->> +        let stacks_clk =3D Clk::get(pdev.as_ref(), =
-Some(c_str!("stacks")))?;
->> +        let coregroup_clk =3D Clk::get(pdev.as_ref(), =
-Some(c_str!("coregroup")))?;
->> +
->> +        core_clk.prepare_enable()?;
->> +        stacks_clk.prepare_enable()?;
->> +        coregroup_clk.prepare_enable()?;
->> +
->> +        let mali_regulator =3D =
-Regulator::<regulator::Enabled>::get(pdev.as_ref(), c_str!("mali"))?;
->> +        let sram_regulator =3D =
-Regulator::<regulator::Enabled>::get(pdev.as_ref(), c_str!("sram"))?;
->> +
->> +        let resource =3D pdev.resource_by_index(0).ok_or(EINVAL)?;
->> +
->> +        let iomem =3D Arc::new(pdev.iomap_resource(resource)?, =
-GFP_KERNEL)?;
->=20
-> You can do
->=20
-> let io =3D iomem.access(pdev.as_ref())?;
->=20
-> which gives you an &IoMem for the whole scope of probe() without any
-> limitations.
->=20
-> Also, why not use iomap_resource_sized()? Lots of offsets are known at =
-compile
-> time. This allows you to use infallible accesses, e.g. write() instead =
-of
-> try_write().
+> diff --git a/Documentation/gpu/drm-kms.rst b/Documentation/gpu/drm-kms.rst
+> index abfe220764e1..b18a99869b6d 100644
+> --- a/Documentation/gpu/drm-kms.rst
+> +++ b/Documentation/gpu/drm-kms.rst
+> @@ -357,8 +357,10 @@ Format Functions Reference
+>  .. kernel-doc:: include/drm/drm_fourcc.h
+>     :internal:
+> =20
+> +.. c:namespace-push:: gpu_drm
+>  .. kernel-doc:: drivers/gpu/drm/drm_fourcc.c
+>     :export:
+> +.. c:namespace-pop::
+> =20
+>  .. _kms_dumb_buffer_objects:
+> =20
+> @@ -473,8 +475,10 @@ KMS Locking
+>  .. kernel-doc:: include/drm/drm_modeset_lock.h
+>     :internal:
+> =20
+> +.. c:namespace:: gpu_drm
+>  .. kernel-doc:: drivers/gpu/drm/drm_modeset_lock.c
+>     :export:
+> +.. c:namespace-pop::
+> =20
+>  KMS Properties
+>  =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+> diff --git a/Documentation/gpu/drm-uapi.rst b/Documentation/gpu/drm-uapi.=
+rst
+> index 69f72e71a96e..e9d7b7282a19 100644
+> --- a/Documentation/gpu/drm-uapi.rst
+> +++ b/Documentation/gpu/drm-uapi.rst
+> @@ -554,8 +554,10 @@ DRM specific patterns. Note that ENOTTY has the slig=
+htly unintuitive meaning of
+>  .. kernel-doc:: include/drm/drm_ioctl.h
+>     :internal:
+> =20
+> +.. c:namespace-push:: gpu_drm
+>  .. kernel-doc:: drivers/gpu/drm/drm_ioctl.c
+>     :export:
+> +.. c:namespace-pop::
+> =20
+>  .. kernel-doc:: drivers/gpu/drm/drm_ioc32.c
+>     :export:
 
-Right, I did not even consider this. Should be possible indeed.
+Works as expected, thanks!
 
->=20
->> +
->> +        issue_soft_reset(&iomem)?;
->> +        gpu::l2_power_on(&iomem)?;
->> +
->> +        let gpu_info =3D GpuInfo::new(&iomem)?;
->> +        gpu_info.log(pdev);
->> +
->> +        let platform: ARef<platform::Device> =3D pdev.into();
->> +
->> +        let data =3D try_pin_init!(TyrData {
->> +                pdev: platform.clone(),
->> +                clks <- new_mutex!(Clocks {
->> +                    core: core_clk,
->> +                    stacks: stacks_clk,
->> +                    coregroup: coregroup_clk,
->> +                }),
->> +                regulators <- new_mutex!(Regulators {
->> +                    mali: mali_regulator,
->> +                    sram: sram_regulator,
->> +                }),
->> +                gpu_info,
->> +        });
->> +
->> +        let data =3D Arc::pin_init(data, GFP_KERNEL)?;
->> +
->> +        let tdev: ARef<TyrDevice> =3D =
-drm::device::Device::new(pdev.as_ref(), data.clone())?;
->> +        drm::driver::Registration::new_foreign_owned(&tdev, =
-pdev.as_ref(), 0)?;
->> +
->> +        let driver =3D KBox::pin_init(try_pin_init!(TyrDriver { =
-device: tdev }), GFP_KERNEL)?;
->> +
->> +        regs::MCU_CONTROL.write(&iomem, regs::MCU_CONTROL_AUTO)?;
->> +
->> +        dev_info!(pdev.as_ref(), "Tyr initialized correctly.\n");
->=20
-> Consider dev_dbg!() instead.
+Tested-by: Bagas Sanjaya <bagasdotme@gmail.com>
 
-The problem with dev_dbg() is that it doesn't work, as Alex has also =
-found out
-recently. There was a thread on fixing it and I guess Tamir(?) or =
-Andrew(?)
-came up with a patch, but it hasn't seen any traction. I simply don't =
-think
-there is a way to get these to print for now (at least in upstream code)
+--=20
+An old man doll... just what I always wanted! - Clara
 
->=20
->> +    pub(crate) fn log(&self, pdev: &platform::Device) {
->> +        let major =3D (self.gpu_id >> 16) & 0xff;
->> +        let minor =3D (self.gpu_id >> 8) & 0xff;
->> +        let status =3D self.gpu_id & 0xff;
->> +
->> +        let model_name =3D if let Some(model) =3D GPU_MODELS
->> +            .iter()
->> +            .find(|&f| f.major =3D=3D major && f.minor =3D=3D minor)
->> +        {
->> +            model.name
->> +        } else {
->> +            "unknown"
->> +        };
->> +
->> +        dev_info!(
->> +            pdev.as_ref(),
->> +            "mali-{} id 0x{:x} major 0x{:x} minor 0x{:x} status =
-0x{:x}",
->> +            model_name,
->> +            self.gpu_id >> 16,
->> +            major,
->> +            minor,
->> +            status
->> +        );
->> +
->> +        dev_info!(
->> +            pdev.as_ref(),
->> +            "Features: L2:{:#x} Tiler:{:#x} Mem:{:#x} MMU:{:#x} =
-AS:{:#x}",
->> +            self.l2_features,
->> +            self.tiler_features,
->> +            self.mem_features,
->> +            self.mmu_features,
->> +            self.as_present
->> +        );
->> +
->> +        dev_info!(
->> +            pdev.as_ref(),
->> +            "shader_present=3D0x{:016x} l2_present=3D0x{:016x} =
-tiler_present=3D0x{:016x}",
->> +            self.shader_present,
->> +            self.l2_present,
->> +            self.tiler_present
->> +        );
->> +
->> +        dev_info!(
->> +            pdev.as_ref(),
->> +            "PA bits: {}, VA bits: {}",
->> +            self.pa_bits(),
->> +            self.va_bits()
->> +        );
->> +    }
->=20
-> This is called from probe() and seems way too verbose for dev_info!(), =
-please
-> use dev_dbg!() instead.
+--jygN2+v8Ef8hw9M2
+Content-Type: application/pgp-signature; name=signature.asc
 
-Same comment as above. Although I don=E2=80=99t care about these =
-printing.
+-----BEGIN PGP SIGNATURE-----
 
-I think that at this point we just need one dev_info!() at the end of =
-probe,
-just to make sure it worked. The rest can be converted to dev_dbg!().
+iHUEABYKAB0WIQSSYQ6Cy7oyFNCHrUH2uYlJVVFOowUCaF9FpQAKCRD2uYlJVVFO
+o30+AQD0JcVjSsCcFjAd4jMRB1T4R+PpgE/ka0f8n3tq9MD4NwEA+FwOlvSfVA/C
+MuG6SuSMSTogXWQx14VDQqzEGzhx6wQ=
+=PST+
+-----END PGP SIGNATURE-----
 
-OTOH, IIRC these are indeed printed for Panthor, so maybe Boris can
-explain why this would be relevant.
-
->=20
->> +/// Represents a register in the Register Set
->> +pub(crate) struct Register<const OFFSET: usize>;
->> +
->> +impl<const OFFSET: usize> Register<OFFSET> {
->> +    #[inline]
->> +    pub(crate) fn read(&self, iomem: &Devres<IoMem>) -> Result<u32> =
-{
->> +        (*iomem).try_access().ok_or(ENODEV)?.try_read32(OFFSET)
->> +    }
->> +
->> +    #[inline]
->> +    pub(crate) fn write(&self, iomem: &Devres<IoMem>, value: u32) -> =
-Result<()> {
->> +        (*iomem)
->> +            .try_access()
->> +            .ok_or(ENODEV)?
->> +            .try_write32(value, OFFSET)
->> +    }
->> +}
->=20
-> This seems like a bad idea. You really want to use Devres::access() =
-from each
-> entry point where you have a &Device<Bound> (such as probe()) and use =
-the
-> returned &IoMem instead. Otherwise every read() and write() does an =
-atomic read
-> and RCU read-side critical section, due to try_access().
->=20
-> If you really run in a case where you don't have a &Device<Bound>, you =
-can use
-> Devres::try_access_with(), which takes a closure that will have an =
-&IoMem as
-> argument, such that you can do things like:
->=20
-> io.try_access_with(|io| my_register.write(io, ...))
-
-Right, thanks for pointing that out.
-
->=20
-> Also, you want accessors for read32() and write32() rather than always =
-use
-> try_read32() and try_write32(). The latter you only want to use when =
-the offset
-> isn't known at compile time.
->=20
-> I also recommend looking at what nova-core does for register accesses. =
-Regarding
-> the register!() macro in nova-core, we're working on providing this as =
-generic
-> infrastructure.
-
-Oh we=E2=80=99ll definitely switch to the nova macro. We just didn=E2=80=99=
-t get to
-work on it yet, and IIUC it's not available atm?
-
-In any case, if you guys post a patch to make the macro available to =
-other
-drivers I'll switch to that instead.
-
-=E2=80=94 Daniel
-
+--jygN2+v8Ef8hw9M2--
