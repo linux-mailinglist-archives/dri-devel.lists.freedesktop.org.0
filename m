@@ -2,115 +2,79 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7E57DAEC4BD
-	for <lists+dri-devel@lfdr.de>; Sat, 28 Jun 2025 06:00:05 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id AC503AEC50A
+	for <lists+dri-devel@lfdr.de>; Sat, 28 Jun 2025 06:59:32 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C11F710E039;
-	Sat, 28 Jun 2025 04:00:01 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D5F5710E058;
+	Sat, 28 Jun 2025 04:59:29 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=qualcomm.com header.i=@qualcomm.com header.b="Vyfz+J3P";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="ilHWEwp2";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com
- [205.220.168.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 30FAA10E039
- for <dri-devel@lists.freedesktop.org>; Sat, 28 Jun 2025 04:00:00 +0000 (UTC)
-Received: from pps.filterd (m0279867.ppops.net [127.0.0.1])
- by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 55S2teMt026607
- for <dri-devel@lists.freedesktop.org>; Sat, 28 Jun 2025 03:59:59 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
- cc:content-transfer-encoding:content-type:date:from:in-reply-to
- :message-id:mime-version:references:reply-to:subject:to; s=
- qcppdkim1; bh=zvf9ppUj6F8YNp/HoveJCKlmtqHiQeMD/hZ+bilUb2E=; b=Vy
- fz+J3P8miqQ7t/+aL5MN8MroBYEmU4ql+20BC3waXYIifKmXtBAxDbE7j2CqbyXV
- LwiZyL+o81TDvc0WZlDOh/0CvW/Nzg7OyiGLHhWY7aXOFRUEwHu+NT0I5wCpOaig
- 9SystzkgLX+T1tTOS/Q95un/o6GM37Pfj15ziE+koOQsC2Vv/qfV5nZ4ep3rgQZj
- feWd95qfXVQGfoGzVjyyPV73qYC75BCVJ2Dov2GXqVCsdpxaxvBYFbHkHxOpht0r
- R8qfW3We5sM4YsOBa1kOLPFydxxRF16bb5xYzomIcjaIqI9kQ9sbibq5INaTdxpc
- /IK/L0emk4aYKyfLSSGQ==
-Received: from mail-oa1-f70.google.com (mail-oa1-f70.google.com
- [209.85.160.70])
- by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 47j63k0795-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
- for <dri-devel@lists.freedesktop.org>; Sat, 28 Jun 2025 03:59:59 +0000 (GMT)
-Received: by mail-oa1-f70.google.com with SMTP id
- 586e51a60fabf-2da802bd11eso961214fac.0
- for <dri-devel@lists.freedesktop.org>; Fri, 27 Jun 2025 20:59:59 -0700 (PDT)
+Received: from mail-pg1-f182.google.com (mail-pg1-f182.google.com
+ [209.85.215.182])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id EFA5810E058
+ for <dri-devel@lists.freedesktop.org>; Sat, 28 Jun 2025 04:59:25 +0000 (UTC)
+Received: by mail-pg1-f182.google.com with SMTP id
+ 41be03b00d2f7-b1fd59851baso539160a12.0
+ for <dri-devel@lists.freedesktop.org>; Fri, 27 Jun 2025 21:59:25 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20230601; t=1751086765; x=1751691565; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:from:to:cc:subject:date:message-id:reply-to;
+ bh=v+Y62Y/ec8sThQYgTDvBjm17W/jeVagSDonchzednA4=;
+ b=ilHWEwp2Q6zaYLMChRbZrva/2y7BLWYmf5F206Ae4u/lZm0K+4eun/rqcnfa6tAN+E
+ JyGYkMXkvPJsfVHuQzwjQLIY1Aot0z6RjXhT8MVPv7JQshaAhC0O5rr7eobIWUPSGFtl
+ ds78H9zp1YzzeNQO55pNDdZ1nfXEn146Utv5oCNOBardR+NtSj6Vtws+vcsDJcvt+9tR
+ P3E9OZBS0F7t4q6phkvQg2rfosOtAosF/C5AEJnSjltZqHt/t48qNs57faAooc5S+O9c
+ jLQGFWm8RG4J/DH/5Ew8xkIQ2LldquobmmbVaeCzdzT3pppaD1zkLuNsAOZCKJJIiGEM
+ +C7Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1751083198; x=1751687998;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :reply-to:in-reply-to:references:mime-version:x-gm-message-state
- :from:to:cc:subject:date:message-id:reply-to;
- bh=zvf9ppUj6F8YNp/HoveJCKlmtqHiQeMD/hZ+bilUb2E=;
- b=teLPn1heDAvl2YlkqUwupIAlonjwvvPcxBnTlBGgp/R+B3kGJO572snlTkBUxgi0dX
- qprvaJSUCztW487kNhb+EBCDM9N6Z1RW/UhIJ+LXNK6IEOEEZzYE25E0e+qScsRKW+/9
- BvWf99zgPTPfmBqbGMeJHJkUyE9K3k475hA3k42vWIPesbTaKTcMUBZSoNBRKcef2Zsj
- xwzIB7vfeRNoP8sCMi+xUUu4mxB3XFq8jFFZoOnEyavTIUU9NpnxKYrwu08dqoMTkM1l
- UfDMdTliZWRavxgf6JE7C5tOe/3QJaIcZGwnJycurdrxuZIFsvz6+zhwrohM12PWKul5
- jMWw==
+ d=1e100.net; s=20230601; t=1751086765; x=1751691565;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=v+Y62Y/ec8sThQYgTDvBjm17W/jeVagSDonchzednA4=;
+ b=jRzL/mvlUsOQmju5WoTk6K8B2aUd4v6oeTi3GhbhPg62z3HHRxe60kpeIudDK3/o9I
+ /yfITw7FXESdYq8UsqpgoqYcPDXvQA0PcH2wLBHHo10TH88MIuGWeUkC4rVpe+wu+d5D
+ C8rMbJk1f9Kz3BBnxEFZBp1sSaCU146HExSkhvgDG5Rc/06mr40KsM2D8S/VTShkFTeQ
+ 4c54m+qAhEkQAPSEP/Pue8r4+BE/a+fEXVQk+oF4kZb6hWuDlFs2B6owUJ7poA7vdFaa
+ CSt4OJL2X7pmbVtqumnjfx9rR8Z1xTQhwraJxD66ebUMA7YxrhlgfEsqjv89sDDLI5AF
+ Vosg==
 X-Forwarded-Encrypted: i=1;
- AJvYcCUqjj9gA7p7PckkH1N6dvVYHP8/fkDTTxueeExHtxs0SCtqY2gkuqDttWe8l2CZVcoQYE6yB47G7XA=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YySsktlmrOmxoxu8YCKibyheRK14mcvknojDaL7IlAIQcGEIfY9
- xqHM1WzgOJEtBqSny3ejTEVUKzYZ901cIrLVci5pO7nxElXT4z5kOdJm0QXAE7Ma3QuLxLZ0hZW
- jTV1wGh/ZFYLGxZ1nCX5DrE4iTYYO9PRXpZC+gzdZDwcsXFi9YSQj5eQKrsxSaaydVXgit5jVjc
- AyEzITplXzbDUAfIxSunJ3vsrYN8phsmIoL3mtwKFLYsmCGQ==
-X-Gm-Gg: ASbGncv2yIrgM9VI56+8HiZQe+BEy19+GkT08kkPSwWILnhYjYKsllu5sqBOwRB4KyX
- XeR2CBTEaOZ2iVi206L9c0X/DqcBDGs/TG8Ju51e9wE2Uu0OYBev+c5EEsZDzPUUxQnrW1BRaEC
- 8qGUv+xmEGdecDH7e9Klas33PejXYfJeGYQqw=
-X-Received: by 2002:a05:6870:85d0:b0:2cc:3530:d313 with SMTP id
- 586e51a60fabf-2efed684547mr3381067fac.25.1751083198449; 
- Fri, 27 Jun 2025 20:59:58 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IG07UzpZ+D6JCb2jHfZNGeMQ/Kfuq7IKnRyeJs8gLL1wBON/XUk5ny9SXbXsV4Qty1jv6PI/sxO0/uvr1j/2fk=
-X-Received: by 2002:a05:6870:85d0:b0:2cc:3530:d313 with SMTP id
- 586e51a60fabf-2efed684547mr3381051fac.25.1751083197946; Fri, 27 Jun 2025
- 20:59:57 -0700 (PDT)
+ AJvYcCVkg38abECpYXOANeG8pNsIbba5aXd0wZkmoLsQS3VIQqg7wUZqEdhADheUzmbRzDn9x1xn5buXjHk=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YxYRGsRK1eKLD4xtpo9SAA/zzCBvFTLXQYERCWHeI7NCziXSNBm
+ eoAjkEUC0MTs7G0mYpjxKr0wR7dNiPFWVj0lago52wybFCy1gwTRdjzG
+X-Gm-Gg: ASbGncsHzHgEctaENPmv1wnxHKgqa2P09s5L+q9lv7r7so1iVIYtbmKDWAMhnTkUj7I
+ CXKwyHWei3CB/CEZiNMa8NiqXKjLKbQvzOw2mh9dxmZz4VkVCoT2QyiHS9Cb9vT6DudKS9kRAHe
+ JLGG5TqJHfN8crID8/ohzmgGns8AcXVTucTKihBg09LQPR8NGyWVp1XgX3d3vk3OG3Kj4RUG/xJ
+ tWyySOHUBz7j7ti0llA7b5Tm4oClOWwF4gIYVcpUXCTafrNr/hLZ2BrD4q4hvieD2Ky8cyjyq+i
+ NVu6SBH2rvFp/ir0irwCofJ/aOGK+gtxOnhu7I4ANKED8voCQgL8b599AdJhYmz+HahJAeNzvVs
+ 7Lw==
+X-Google-Smtp-Source: AGHT+IFjBRpEOyLZz+ltarHHoSDBE2VSSqu3F2myfOAXRHpw3MWf9uX5uh2VPQyAfd0HyDKo/Y1myQ==
+X-Received: by 2002:a17:90b:2885:b0:311:ff02:3fcb with SMTP id
+ 98e67ed59e1d1-318c92fa81dmr7733389a91.28.1751086765146; 
+ Fri, 27 Jun 2025 21:59:25 -0700 (PDT)
+Received: from localhost.localdomain ([49.37.221.186])
+ by smtp.googlemail.com with ESMTPSA id
+ 98e67ed59e1d1-318c13a271asm3659713a91.17.2025.06.27.21.59.19
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Fri, 27 Jun 2025 21:59:24 -0700 (PDT)
+From: Abdun Nihaal <abdun.nihaal@gmail.com>
+To: andy@kernel.org
+Cc: Abdun Nihaal <abdun.nihaal@gmail.com>, dan.carpenter@linaro.org,
+ gregkh@linuxfoundation.org, lorenzo.stoakes@oracle.com,
+ tzimmermann@suse.de, riyandhiman14@gmail.com, willy@infradead.org,
+ notro@tronnes.org, thomas.petazzoni@free-electrons.com,
+ dri-devel@lists.freedesktop.org, linux-fbdev@vger.kernel.org,
+ linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
+Subject: [PATCH v2 0/2] staging: fbtft: cleanup fbtft_framebuffer_alloc()
+Date: Sat, 28 Jun 2025 10:29:05 +0530
+Message-ID: <cover.1751086324.git.abdun.nihaal@gmail.com>
+X-Mailer: git-send-email 2.43.0
 MIME-Version: 1.0
-References: <20240226132544.82817-1-jacopo.mondi@ideasonboard.com>
- <CAF6AEGvhjktN52k4_hJjz3mXTGJgH+QtK68yhFbsX45ukKnG+g@mail.gmail.com>
- <20250627180454.GD24912@pendragon.ideasonboard.com>
- <877c0xatmb.fsf@minerva.mail-host-address-is-not-set>
-In-Reply-To: <877c0xatmb.fsf@minerva.mail-host-address-is-not-set>
-From: Rob Clark <rob.clark@oss.qualcomm.com>
-Date: Fri, 27 Jun 2025 20:59:47 -0700
-X-Gm-Features: Ac12FXwmYamHcHQ72u1toAJIIz0k_SZ2IgX302BTqT0M5-TC5fb8Di5vkqP3R_Y
-Message-ID: <CACSVV03Vk9MVrKc7y-w2xRDdonUaEi9Ywaupakqb57-9v=uetA@mail.gmail.com>
-Subject: Re: [PATCH] drm/fourcc: Add RGB161616 and BGR161616 formats
-To: Javier Martinez Canillas <javierm@redhat.com>
-Cc: Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
- Rob Clark <robdclark@gmail.com>,
- Jacopo Mondi <jacopo.mondi@ideasonboard.com>,
- David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>,
- Naushir Patuck <naush@raspberrypi.com>,
- dri-devel@lists.freedesktop.org, libcamera-devel@lists.libcamera.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Authority-Analysis: v=2.4 cv=ZKfXmW7b c=1 sm=1 tr=0 ts=685f68bf cx=c_pps
- a=nSjmGuzVYOmhOUYzIAhsAg==:117 a=IkcTkHD0fZMA:10 a=6IFa9wvqVegA:10
- a=e5mUnYsNAAAA:8 a=20KFwNOVAAAA:8 a=P1BnusSwAAAA:8 a=ZjRaYm2IgVGhPE4A6A0A:9
- a=QEXdDO2ut3YA:10 a=P2XgnWxznO8A:10 a=1zu1i0D7hVQfj8NKfPKu:22
- a=Vxmtnl_E_bksehYqCbjh:22 a=D0XLA9XvdZm18NrgonBM:22
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwNjI4MDAyOSBTYWx0ZWRfX3IX6We/8FYNs
- wfG35jfeafKZXtNuLLbvePlDHy4nzCctPl7MuqrCUClbRKdoVxFwi7W/WcctgTOCMFK57mb0XDy
- 2tjmNfpqhNJO+IVNj1MN3Zbp6J7QgjZ55fMzcB22lma3bzwqozIznzeAyjAnNeG66qQzU5Q28Fw
- ZbY7cDIHH/LzPCteU1s63o5qjZnxmg6Tvb8h0/+yWMJ6wGd8plaIHe0j5L/GB5n8XyWRfereAgi
- 3uyKc/Lrz5RNxto61Ob2WNCLphPa3MP+mJCz5CtRjPf9/baenSvF5OzDZXhon6sz/3lBfAJ5gp9
- op1DzhUwel5onilwK35QjMxTTytJ4N7sxsY/Sl3/CvX0txhXPIeneQNEMYKut+STVigdgveXUyw
- +WY1puYslsks1OpXj7sgG8ZLTlPOrWyml9ApAZ/G91N/SwKl4LGRPs09qP9SKqHG8rNfcsgq
-X-Proofpoint-ORIG-GUID: 2gnhO-AIhQ1prP0XDXYi72fGdG45QXhb
-X-Proofpoint-GUID: 2gnhO-AIhQ1prP0XDXYi72fGdG45QXhb
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1099,Hydra:6.1.7,FMLib:17.12.80.40
- definitions=2025-06-27_05,2025-06-27_01,2025-03-28_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- adultscore=0 mlxscore=0 mlxlogscore=999 spamscore=0 suspectscore=0
- bulkscore=0 priorityscore=1501 lowpriorityscore=0 phishscore=0
- impostorscore=0 malwarescore=0 clxscore=1015 classifier=spam authscore=0
- authtc=n/a authcc= route=outbound adjust=0 reason=mlx scancount=1
- engine=8.19.0-2505280000 definitions=main-2506280029
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -123,44 +87,26 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Reply-To: rob.clark@oss.qualcomm.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, Jun 27, 2025 at 12:10=E2=80=AFPM Javier Martinez Canillas
-<javierm@redhat.com> wrote:
->
-> Laurent Pinchart <laurent.pinchart@ideasonboard.com> writes:
->
-> > On Fri, Jun 27, 2025 at 09:39:37AM -0700, Rob Clark wrote:
-> >> On Mon, Feb 26, 2024 at 5:43=E2=80=AFAM Jacopo Mondi wrote:
-> >> >
-> >> > Add FourCC definitions for the 48-bit RGB/BGR formats to the
-> >> > DRM/KMS uapi.
-> >> >
-> >> > The format will be used by the Raspberry Pi PiSP Back End,
-> >> > supported by a V4L2 driver in kernel space and by libcamera in
-> >> > userspace, which uses the DRM FourCC identifiers.
-> >> >
-> >> > Signed-off-by: Jacopo Mondi <jacopo.mondi@ideasonboard.com>
-> >>
-> >> Resurrecting this, as it appears to have not ever landed upstream
-> >
-> > What are the rule is for patches that touch core code like this one, ca=
-n
-> > they be pushed to drm-misc by anyone with commit access, or do they nee=
-d
-> > to be collected by a drm-misc maintainer ?
-> >
->
-> According to [0] I would say that you could just push it through drm-misc
-> since there are already a few review-by tags collected.
->
-> [0]: https://drm.pages.freedesktop.org/maintainer-tools/committer/committ=
-er-drm-misc.html#merge-criteria
+v2:
+- Change the earlier patch to also handle the error code returned by
+  fb_deferred_io_init() and update Fixes tag to point to the commit that
+  introduced the memory allocation (which leads to leak).
+- Add second patch to make the error handling order symmetric to
+  fbtft_framebuffer_release() and also remove managed allocation for
+  txbuf as suggested by Andy and Dan.
 
-yeah, should be fine to push to drm-misc since it has r-b's (not to
-mention no negative comments for a _long_ time)
+Link to v1: https://lore.kernel.org/all/20250626172412.18355-1-abdun.nihaal@gmail.com/
 
-BR,
--R
+Abdun Nihaal (2):
+  staging: fbtft: fix potential memory leak in fbtft_framebuffer_alloc()
+  staging: fbtft: cleanup error handling in fbtft_framebuffer_alloc()
+
+ drivers/staging/fbtft/fbtft-core.c | 39 +++++++++++++++++-------------
+ 1 file changed, 22 insertions(+), 17 deletions(-)
+
+-- 
+2.43.0
+
