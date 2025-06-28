@@ -2,64 +2,78 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C5791AECA21
-	for <lists+dri-devel@lfdr.de>; Sat, 28 Jun 2025 21:56:39 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 72C16AECA24
+	for <lists+dri-devel@lfdr.de>; Sat, 28 Jun 2025 21:59:05 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 463B210E05F;
-	Sat, 28 Jun 2025 19:56:36 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2CDFB10E1D9;
+	Sat, 28 Jun 2025 19:59:02 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=igalia.com header.i=@igalia.com header.b="Xmh1+0NA";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="ggJx8scz";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from fanzine2.igalia.com (fanzine2.igalia.com [213.97.179.56])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E2DDA10E05F
- for <dri-devel@lists.freedesktop.org>; Sat, 28 Jun 2025 19:56:31 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com; 
- s=20170329;
- h=Content-Transfer-Encoding:Content-Type:In-Reply-To:From:
- References:Cc:To:Subject:MIME-Version:Date:Message-ID:Sender:Reply-To:
- Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
- Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
- List-Subscribe:List-Post:List-Owner:List-Archive;
- bh=CfoIUO+Ef1k+kJgQ4jHgv30hIZLDnCERC1vBwIInGrE=; b=Xmh1+0NAWBIu8Ir8rvjJXALRus
- epDhg+o1Weqt8Ih+4e5zJSZmQvOevt6/XYDWhGh2mgbYNFNSEfMlup6QnsfpXp466Rpsis76xYAjJ
- gg86EpOWYVT1TYTbsRPszwB9jRCAOAZ7B3VkIvJh7KinGjCLAts3vgEiqKLslWNavpb079GVorf7f
- ftt3JERE6+tTcN6z9voxwJQSbPbsjHWadSbUS2uJMK+oJQPvWZ4Hhr2TA4DkvfPG0YX2a4qfiJrLv
- X1cm1/w5ToFu2DjTjd0JdrTTrwm7HiicGcIELkzt6BG1vhofPaXVS6aTn9MK/F89ITMj1LephYGUF
- uOxoAjrQ==;
-Received: from [189.7.87.79] (helo=[192.168.0.7])
- by fanzine2.igalia.com with esmtpsa 
- (Cipher TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_128_GCM:128) (Exim)
- id 1uVbeW-009qOr-NM; Sat, 28 Jun 2025 21:55:57 +0200
-Message-ID: <f0ad78da-d4ba-44ec-beda-4f8c616053f8@igalia.com>
-Date: Sat, 28 Jun 2025 16:55:44 -0300
+Received: from mail-ej1-f44.google.com (mail-ej1-f44.google.com
+ [209.85.218.44])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C8E2910E14F
+ for <dri-devel@lists.freedesktop.org>; Sat, 28 Jun 2025 19:58:58 +0000 (UTC)
+Received: by mail-ej1-f44.google.com with SMTP id
+ a640c23a62f3a-adb2bb25105so141013866b.0
+ for <dri-devel@lists.freedesktop.org>; Sat, 28 Jun 2025 12:58:58 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20230601; t=1751140737; x=1751745537; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=aCn/x9JPsOm33ynQom2R0U43CTIFPTCUTDASBrS4OXI=;
+ b=ggJx8sczFqptPkB/MdK6PCXb+uWmAj5CK61ZnYDsaWJslT4KSO9MtwldMSrRb7QDE3
+ PQO4emtbJdgQ8FMnQvRMo0MKkLEWvLthyJFwRTOhAvA5rQeKhjcjnaVFXhns17YQS4wd
+ UzxW+sm3ejZMNV28wCvcn5xmnnGQcW7XNTiXWaobtIO+VW+DDKDYX7zVx3RcQtXU1CvJ
+ NZtiA4q2iqI4uPkoW/QdY1XGH42Klkx5dHcrZyIAqx7m29ck8d6wKuosob74KvTVOVZW
+ X8dPPZs8xbs0e/cZsZKAY2CO/DhGIW1/N9kXrSV3aIx+WZbhZtGAatTK2byOQz+b3PCt
+ 58YQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1751140737; x=1751745537;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=aCn/x9JPsOm33ynQom2R0U43CTIFPTCUTDASBrS4OXI=;
+ b=W4EAafu6YpNM4+uyXbtXZkj/R0l5RMjKb4fvWfrZMySBOmJC7lguXte+fe6WUsOAob
+ /bWBwJDY8ZsExUbuXsZcXPohWy0zyTN/6FWwD73+1Dcw/NPDQTkLJBV+vd6B9S/55h2i
+ J9QydWGfT8mpDZ94hSdbp/iTX0kCEM90m8qLivc3c6j0cQ20mgta584InNqrwNVQpY/z
+ uwE4LUrcAm0du7YneOfopF/HgqIh0p5TwxZVHkg0DJbB/Sb1De6e37jruFR3XCmRkyri
+ y/B/dRgqOVOd4o1ij3Hk8w47mY67aIWVSulT8DbRT8dZVFv3zMukg8ziLpS+xwcElvWf
+ WvgA==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCWJ2yihOI+pAmvjNjfavqi6/r6u9WmhisnMsrTWX7KjiwRsrcoCzcgXOidnM/eWNhty6BQbhUFkyxY=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YyT1OzewkHXzXhCVq0at/2qWCe/mJ70su8dIwnlyUgqsQ5RWd21
+ yrFVwfUb0UHe3l/BsAqYHMszpUbk5DHBwrRPoe+Yt2MVO8mGT1yTfp6q6cSKM7GxYYFUS9EUuKG
+ xqkKia5JoV0sgTONBiQTW2zbnCKHgvt0=
+X-Gm-Gg: ASbGncvqG83kbOr236ANuWrxR1mCDVWt0ge+R5sdlbE7zhVn09LiuCw0ZN88zcDqyF2
+ HHSRUakw322lOWDh+gYkwrnI89tRjM6OpqpIiuvFDWmQ7wAsZkdQnhepxK9WQAfNW3p9EJ1rmlk
+ mOE6Uwmr4TyAy0xVd8B1Z1SOZ4Z+NydkSViXsYAYfMCJM=
+X-Google-Smtp-Source: AGHT+IFZBR8kfJGqRmjGfZ/IXkon+9o2g1PGlOtiW+bEm/EExm5FRtNH3McMm2rCL6PA4ZVg+vgD7F1bxOQqfxd3U4I=
+X-Received: by 2002:a17:907:fdca:b0:ae3:6744:3675 with SMTP id
+ a640c23a62f3a-ae367443a67mr510956766b.48.1751140736917; Sat, 28 Jun 2025
+ 12:58:56 -0700 (PDT)
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] Introduce Tyr
-To: Daniel Almeida <daniel.almeida@collabora.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- Miguel Ojeda <ojeda@kernel.org>, Alex Gaynor <alex.gaynor@gmail.com>,
- Boqun Feng <boqun.feng@gmail.com>, Gary Guo <gary@garyguo.net>,
- =?UTF-8?Q?Bj=C3=B6rn_Roy_Baron?= <bjorn3_gh@protonmail.com>,
- Benno Lossin <lossin@kernel.org>, Andreas Hindborg <a.hindborg@kernel.org>,
- Alice Ryhl <aliceryhl@google.com>, Trevor Gross <tmgross@umich.edu>,
- Danilo Krummrich <dakr@kernel.org>, Daniel Stone <daniels@collabora.com>,
- Rob Herring <robh@kernel.org>, Alice Ryhl <alice.ryhl@google.com>,
- Beata Michalska <beata.michalska@arm.com>,
- Carsten Haitzler <carsten.haitzler@foss.arm.com>,
- Boris Brezillon <boris.brezillon@collabora.com>,
- Ashley Smith <ashley.smith@collabora.com>
-Cc: linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- rust-for-linux@vger.kernel.org, kernel@collabora.com
-References: <20250627-tyr-v1-1-cb5f4c6ced46@collabora.com>
-Content-Language: en-US
-From: =?UTF-8?Q?Ma=C3=ADra_Canal?= <mcanal@igalia.com>
-In-Reply-To: <20250627-tyr-v1-1-cb5f4c6ced46@collabora.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+References: <cover.1751086324.git.abdun.nihaal@gmail.com>
+ <62320323049c72b6e3fda6fa7a55e080b29491e8.1751086324.git.abdun.nihaal@gmail.com>
+In-Reply-To: <62320323049c72b6e3fda6fa7a55e080b29491e8.1751086324.git.abdun.nihaal@gmail.com>
+From: Andy Shevchenko <andy.shevchenko@gmail.com>
+Date: Sat, 28 Jun 2025 22:58:20 +0300
+X-Gm-Features: Ac12FXz962GwXR5F2ZukYapM3EMaS4H-TNlh4C4kBY22Qq3L7dSM227zM9FUxAg
+Message-ID: <CAHp75VeSYesZuJ-NEfEAvaRepEUtdLmxGrYmthD1YkSg-bsK_g@mail.gmail.com>
+Subject: Re: [PATCH v2 2/2] staging: fbtft: cleanup error handling in
+ fbtft_framebuffer_alloc()
+To: Abdun Nihaal <abdun.nihaal@gmail.com>
+Cc: andy@kernel.org, dan.carpenter@linaro.org, gregkh@linuxfoundation.org, 
+ lorenzo.stoakes@oracle.com, tzimmermann@suse.de, riyandhiman14@gmail.com, 
+ willy@infradead.org, notro@tronnes.org, thomas.petazzoni@free-electrons.com, 
+ dri-devel@lists.freedesktop.org, linux-fbdev@vger.kernel.org, 
+ linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org, 
+ Andy Shevchenko <andriy.shevchenko@intel.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -75,135 +89,31 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Daniel,
+On Sat, Jun 28, 2025 at 7:59=E2=80=AFAM Abdun Nihaal <abdun.nihaal@gmail.co=
+m> wrote:
+>
+> The error handling in fbtft_framebuffer_alloc() mixes managed allocation
+> and plain allocation, and performs error handling in an order different
+> from the order in fbtft_framebuffer_release().
+>
+> Fix them by moving vmem allocation closer to where it is used, and using
+> plain kzalloc() for txbuf allocation.
 
-On 27/06/25 19:34, Daniel Almeida wrote:
+...
 
-[...]
+> +       struct fbtft_par *par =3D info->par;
+> +
+> +       if (par->txbuf.len > 0)
 
-> diff --git a/drivers/gpu/drm/tyr/driver.rs b/drivers/gpu/drm/tyr/driver.rs
-> new file mode 100644
-> index 0000000000000000000000000000000000000000..2443620e10620585eae3d57978e64d2169a1b2d1
-> --- /dev/null
-> +++ b/drivers/gpu/drm/tyr/driver.rs
-> @@ -0,0 +1,188 @@
-> +// SPDX-License-Identifier: GPL-2.0 or MIT
-> +
-> +use core::pin::Pin;
-> +
-> +use kernel::bits::bit_u32;
-> +use kernel::c_str;
-> +use kernel::clk::Clk;
-> +use kernel::device::Core;
-> +use kernel::devres::Devres;
-> +use kernel::drm;
-> +use kernel::drm::ioctl;
-> +use kernel::io;
-> +use kernel::io::mem::IoMem;
-> +use kernel::new_mutex;
-> +use kernel::of;
-> +use kernel::platform;
-> +use kernel::prelude::*;
-> +use kernel::regulator;
-> +use kernel::regulator::Regulator;
-> +use kernel::sync::Arc;
-> +use kernel::sync::Mutex;
-> +use kernel::time;
-> +use kernel::types::ARef;
-> +
-> +use crate::file::File;
-> +use crate::gem::TyrObject;
-> +use crate::gpu;
-> +use crate::gpu::GpuInfo;
-> +use crate::regs;
-> +
-> +/// Convienence type alias for the DRM device type for this driver
-> +pub(crate) type TyrDevice = drm::device::Device<TyrDriver>;
-> +
-> +#[pin_data(PinnedDrop)]
-> +pub(crate) struct TyrDriver {
-> +    device: ARef<TyrDevice>,
-> +}
-> +
-> +#[pin_data]
-> +pub(crate) struct TyrData {
-> +    pub(crate) pdev: ARef<platform::Device>,
-> +
-> +    #[pin]
-> +    clks: Mutex<Clocks>,
-> +
-> +    #[pin]
-> +    regulators: Mutex<Regulators>,
-> +
-> +    // Some inforation on the GPU. This is mainly queried by userspace (mesa).
+Do we really need this check? If txbuf.buf is kept NULL (please, check
+this), the kfree() is NULL-aware.
 
-s/inforation/information
+> +               kfree(par->txbuf.buf);
+>         fb_deferred_io_cleanup(info);
+>         vfree(info->screen_buffer);
+>         framebuffer_release(info);
 
-> +    pub(crate) gpu_info: GpuInfo,
-> +}
-> +
-> +unsafe impl Send for TyrData {}
-> +unsafe impl Sync for TyrData {}
-> +
-> +fn issue_soft_reset(iomem: &Devres<IoMem<0>>) -> Result<()> {
-> +    let irq_enable_cmd = 1 | bit_u32(8);
 
-To enhance readability, consider using a regmap similar to
-panthor_regs.h. This would help avoid 'magic numbers' and make the
-code's intent much clearer.
-
-> +    regs::GPU_CMD.write(iomem, irq_enable_cmd)?;
-> +
-> +    let op = || regs::GPU_INT_RAWSTAT.read(iomem);
-> +    let cond = |raw_stat: &u32| -> bool { (*raw_stat >> 8) & 1 == 1 };
-> +    let res = io::poll::read_poll_timeout(
-> +        op,
-> +        cond,
-> +        time::Delta::from_millis(100),
-> +        Some(time::Delta::from_micros(20000)),
-> +    );
-> +
-> +    if let Err(e) = res {
-> +        pr_err!("GPU reset failed with errno {}\n", e.to_errno());
-> +        pr_err!(
-> +            "GPU_INT_RAWSTAT is {}\n",
-> +            regs::GPU_INT_RAWSTAT.read(iomem)?
-> +        );
-> +    }
-> +
-> +    Ok(())
-> +}
-> +
-> +kernel::of_device_table!(
-> +    OF_TABLE,
-> +    MODULE_OF_TABLE,
-> +    <TyrDriver as platform::Driver>::IdInfo,
-> +    [
-> +        (of::DeviceId::new(c_str!("rockchip,rk3588-mali")), ()),
-> +        (of::DeviceId::new(c_str!("arm,mali-valhall-csf")), ())
-> +    ]
-> +);
-> +
-> +impl platform::Driver for TyrDriver {
-> +    type IdInfo = ();
-> +    const OF_ID_TABLE: Option<of::IdTable<Self::IdInfo>> = Some(&OF_TABLE);
-> +
-> +    fn probe(
-> +        pdev: &platform::Device<Core>,
-> +        _info: Option<&Self::IdInfo>,
-> +    ) -> Result<Pin<KBox<Self>>> {
-> +        dev_dbg!(pdev.as_ref(), "Probed Tyr\n");
-> +
-> +        let core_clk = Clk::get(pdev.as_ref(), Some(c_str!("core")))?;
-> +        let stacks_clk = Clk::get(pdev.as_ref(), Some(c_str!("stacks")))?;
-
-Shouldn't it be OptionalClk::get? From the DT schema for "arm,mali-
-valhall-csf", I see that "stacks" and "coregroups" are optional.
-
-> +        let coregroup_clk = Clk::get(pdev.as_ref(), Some(c_str!("coregroup")))?;
-
-Same.
-
-Best Regards,
-- Maíra
-
+--=20
+With Best Regards,
+Andy Shevchenko
