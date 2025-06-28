@@ -2,127 +2,45 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 002ABAEC785
-	for <lists+dri-devel@lfdr.de>; Sat, 28 Jun 2025 16:02:35 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id BE7E9AEC79A
+	for <lists+dri-devel@lfdr.de>; Sat, 28 Jun 2025 16:23:20 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8979A10E115;
-	Sat, 28 Jun 2025 14:02:32 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 39B1A10E08C;
+	Sat, 28 Jun 2025 14:23:17 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=qualcomm.com header.i=@qualcomm.com header.b="f1+cmURx";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="j/FEMnV8";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com
- [205.220.180.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7021E10E115
- for <dri-devel@lists.freedesktop.org>; Sat, 28 Jun 2025 14:02:29 +0000 (UTC)
-Received: from pps.filterd (m0279869.ppops.net [127.0.0.1])
- by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 55SBVG8K016475
- for <dri-devel@lists.freedesktop.org>; Sat, 28 Jun 2025 14:02:28 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
- cc:content-transfer-encoding:content-type:date:from:in-reply-to
- :message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
- YUVDKJVoWS0hkADGlcPQRi4yplUlvInid/KHKpX5DjA=; b=f1+cmURxwE7I3hZo
- XnCzpKbvRVGZOaw/EjpkGt11sm1MaA0EmbfPcbg704HmTDv3wIXLOEvsrdZYk8Ei
- ixrkP2Gp0Fdbj75GTOjYTWuViSDGtDncv9iphEwBkgmBJHuK4GynMBHuG/6FAgYQ
- LCDVuxuOKKewe73j6xCDEV5SvatZgecZHf6h63IEHKzqvaf0qHtvWX8tQuPgzXGw
- eMkaEkFO1QfS+PGGlINbngjnNkvtOKg9jPc0CmOOYq0/0Sjg8uXu8737S0kfbe5a
- Jji04dJGjc3mPqxLt/BPAUMLdAe0AdaQRWIasTWQoyIeBKpoGuNqa5gxsPhfZDpl
- gAPDiA==
-Received: from mail-qk1-f200.google.com (mail-qk1-f200.google.com
- [209.85.222.200])
- by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 47j7d9rspm-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
- for <dri-devel@lists.freedesktop.org>; Sat, 28 Jun 2025 14:02:28 +0000 (GMT)
-Received: by mail-qk1-f200.google.com with SMTP id
- af79cd13be357-7d09a3b806aso61615085a.0
- for <dri-devel@lists.freedesktop.org>; Sat, 28 Jun 2025 07:02:28 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1751119347; x=1751724147;
- h=content-transfer-encoding:in-reply-to:from:content-language
- :references:cc:to:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=YUVDKJVoWS0hkADGlcPQRi4yplUlvInid/KHKpX5DjA=;
- b=Z3RuUzBt5lZ+DTxYRbayUmoAIG4V9r+aN3elys1htqmQpAS8YAPEMk7ro9OAFeduyy
- E3uZBz8S1MHW08CMD8q5Ivgfkk1pBnGzAZWESc+VdLMHKLbesJ+R84gN+ZYRF28rEoso
- PZw335e2lEFXIZmOxesQ4ezTelpvPucJYEc5z46vSqpdhhrz67uAtkkjWvUaOxcl6DaH
- SLsiNyJgk1OJCd6wMowTkrkqGY4AyftiTpl4kKoUkpxtMo075GCidTF0vMIQbyOCpsdP
- Ltui1p07ZCwsTWQ+Q1BI6QTxwGwbml8kJRdfdC7u2tpER1t9FsbjNbP7BuHgpx/Ij9JJ
- l1uA==
-X-Forwarded-Encrypted: i=1;
- AJvYcCVBPC/6LJ4HeGnT1yZ4Ym677jzQ0lFLNkfbijt+5FKY84nVIumPzVS0/eap3OiqhdtunsuQdln97yc=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YzFIkiTQg9zzoSxYp6t8sskUe1q5Do1ns9A9BRefnjecr5oI9G2
- UmEOf635Q5BTIeEqorxzjyzci+KinoQaa7MP183Re1tFGdaLERuH4sk35j6+g0FjKsOIj6U2kf3
- q46GZjFZKqD1FcpemkisjrJU2Y4c8/GwrKnGylPsCvsdaXYSm6vWI+u9cMjCuWpCcpjoXJJM=
-X-Gm-Gg: ASbGnctbLXNBQfK5IalKeayTOxIS711b021kNToQEqQg0xg/MxEl/qN86zRLc9YIrMS
- G8J4v1PvNDvfszRQOfIl/Qywq7hv0LfUvSZjzjr7gcg8KAV47Ay5e5j0M1NshLrBXg4k319ZzRA
- QgcPe+6aGZJElByt53x8YsHa4IOQ24jrlnQ85zbX8ilHYuCh9gz+YA7j09muG8lEMINeEw4U8a1
- wTEENi+/62a456WpkW6o5dSthP31KYe9fkqsrHficPD3HsbTe9MkLMgP0m1kf9iYYmOU6lGC1zJ
- u5Ck6WFXKK+L0a/EZlhr6EabOb7Q1FqoZnsMGQbPR8F1+0a53g45Sw7+yc+J0wesEFid1IaQnFW
- 6I30=
-X-Received: by 2002:a05:620a:2911:b0:7c7:a574:c6d2 with SMTP id
- af79cd13be357-7d44c26c479mr159330685a.9.1751119347127; 
- Sat, 28 Jun 2025 07:02:27 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IE7wuqAnLzb6/uFSg6oL9C//BE7uB/PxoedUfxOubcNg8iAM3IahQGLP9T9ZqdE0mT6FVoRNA==
-X-Received: by 2002:a05:620a:2911:b0:7c7:a574:c6d2 with SMTP id
- af79cd13be357-7d44c26c479mr159328085a.9.1751119346578; 
- Sat, 28 Jun 2025 07:02:26 -0700 (PDT)
-Received: from [192.168.143.225] (078088045245.garwolin.vectranet.pl.
- [78.88.45.245]) by smtp.gmail.com with ESMTPSA id
- a640c23a62f3a-ae353ca0fdasm319419366b.147.2025.06.28.07.02.23
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Sat, 28 Jun 2025 07:02:26 -0700 (PDT)
-Message-ID: <7b7c970f-f94c-4b38-9693-65f969b992b5@oss.qualcomm.com>
-Date: Sat, 28 Jun 2025 16:02:22 +0200
+Received: from nyc.source.kernel.org (nyc.source.kernel.org [147.75.193.91])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4FF8F10E08C
+ for <dri-devel@lists.freedesktop.org>; Sat, 28 Jun 2025 14:23:16 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+ by nyc.source.kernel.org (Postfix) with ESMTP id 08B75A520CA;
+ Sat, 28 Jun 2025 14:23:12 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id B8313C4CEEA;
+ Sat, 28 Jun 2025 14:23:10 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1751120591;
+ bh=pd0DP6kng5GcWSShQyiaIvgUBhaEPLWmfJ4sGXeKgy4=;
+ h=From:To:Cc:Subject:Date:From;
+ b=j/FEMnV8Mm5qqD3TwTTmuK9Hd2diNS8HWnAtBPW4sj54dV6lf9EnsxZvWt6I2hR6r
+ I875Lc9jDR+DnJJqgYm1GwJEXWRe9wfLrJT9ynH1iRTmVcOLvGqEao2byS5H5fZ4bW
+ xevpV3F3xT36n1tT3Uti4uXV38eDQ9dUODGDGjZx5u7uuvn7JOk1Ox5fg5sjGriXvR
+ /L6uGDCeYQ1+rUIvOk0pxLFqAspbbjQP2Cz+jHj2NDUyHXDvh6YYTeF484gH8kiSA8
+ f0blT+I/wz0mPB9M1l8d7BIeG5M5iiUhbhBEJi9qP3MZqFAGT3EkZzyoqKRHnwf89y
+ 2WqqrPvQjxBow==
+From: Sasha Levin <sashal@kernel.org>
+To: maarten.lankhorst@linux.intel.com, mripard@kernel.org, tzimmermann@suse.de
+Cc: airlied@gmail.com, simona@ffwll.ch, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org, Sasha Levin <sashal@kernel.org>
+Subject: [PATCH] drm/tests: Initialize framebuffer's filp_head in
+ drm_test_framebuffer_free()
+Date: Sat, 28 Jun 2025 10:23:08 -0400
+Message-Id: <20250628142308.903037-1-sashal@kernel.org>
+X-Mailer: git-send-email 2.39.5
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 1/3] dt-bindings: display/msm/gpu: account for 7xx GPUs in
- clocks conditions
-To: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>,
- Rob Clark <robin.clark@oss.qualcomm.com>, Sean Paul <sean@poorly.run>,
- Konrad Dybcio <konradybcio@kernel.org>,
- Dmitry Baryshkov <lumag@kernel.org>,
- Abhinav Kumar <abhinav.kumar@linux.dev>,
- Jessica Zhang <jessica.zhang@oss.qualcomm.com>,
- Marijn Suijten <marijn.suijten@somainline.org>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
- Conor Dooley <conor+dt@kernel.org>
-Cc: linux-arm-msm@vger.kernel.org, dri-devel@lists.freedesktop.org,
- freedreno@lists.freedesktop.org, devicetree@vger.kernel.org,
- linux-kernel@vger.kernel.org
-References: <20250628-rework-msm-gpu-schema-v1-0-89f818c51b6a@oss.qualcomm.com>
- <20250628-rework-msm-gpu-schema-v1-1-89f818c51b6a@oss.qualcomm.com>
-Content-Language: en-US
-From: Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>
-In-Reply-To: <20250628-rework-msm-gpu-schema-v1-1-89f818c51b6a@oss.qualcomm.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwNjI4MDExNyBTYWx0ZWRfX/MfdZhysg/H7
- Grzu/H0pCP+d74a5+zqGdb4/B4S/XgIctamKwj0capkhgVIPBlP46hA/Mmr6fdGTX650XB6VYsp
- RpxTtW69usqaS9ZX9nnJ8XgkYoGEg+3qw0jNdkc+8nwZgJFY7miMIMkdbDfjIvQnDEqBKp2y0pb
- HhMYc3BkGIxeS6NerZeRjhYBmhu6lDQ1A3MLxajms42xJWTHMV3JRLuVzTgzTo7SWTGNB3kgM8Y
- FZR9fQhRA0zsptkG6YQk16fyxVTEFHx+virbR3fT1YfDOqiQX2WHU6RB64uvE8ls3qhi8Gjndh1
- i09Yjy//0xmTG6lFRqnLIWL5oCJ7lhP4XcXX4CWKgOEooEtfw326jyUheUxacsGxF7yH8dCqH5K
- mev9XcFExy0Oo2491zv9nSx2i5+cIP7cj6tINjK6NPSwJtZ5t/ndzbbbcfXVuKn6FxQ9X0VS
-X-Proofpoint-GUID: lg2HuAHi3fyEdItJwOE17gg6hq3I6sNK
-X-Authority-Analysis: v=2.4 cv=RrbFLDmK c=1 sm=1 tr=0 ts=685ff5f4 cx=c_pps
- a=hnmNkyzTK/kJ09Xio7VxxA==:117 a=FpWmc02/iXfjRdCD7H54yg==:17
- a=IkcTkHD0fZMA:10 a=6IFa9wvqVegA:10 a=EUspDBNiAAAA:8 a=fA9TbEmd_Wx33vs1QK8A:9
- a=QEXdDO2ut3YA:10 a=PEH46H7Ffwr30OY-TuGO:22
-X-Proofpoint-ORIG-GUID: lg2HuAHi3fyEdItJwOE17gg6hq3I6sNK
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1099,Hydra:6.1.7,FMLib:17.12.80.40
- definitions=2025-06-27_05,2025-06-27_01,2025-03-28_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- impostorscore=0 mlxlogscore=820 adultscore=0 clxscore=1015 suspectscore=0
- phishscore=0 bulkscore=0 malwarescore=0 spamscore=0 mlxscore=0
- priorityscore=1501 lowpriorityscore=0 classifier=spam authscore=0 authtc=n/a
- authcc= route=outbound adjust=0 reason=mlx scancount=1
- engine=8.19.0-2505280000 definitions=main-2506280117
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -138,16 +56,39 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 6/28/25 5:02 AM, Dmitry Baryshkov wrote:
-> Handle two cases for Adreno 7xx:
-> - Adreno 702 follows A610 and A619 example and has clocks in the GPU
->   node.
-> - Newer 7xx GPUs use a different pattern for the compatibles and did not
->   match currently.
-> 
-> Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
-> ---
+The drm_test_framebuffer_free() test creates a framebuffer on the stack
+without properly initializing the filp_head list, causing the following
+warning when drm_framebuffer_free() checks it:
 
-Acked-by: Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>
+[  144.996969] drm-kunit-mock-device drm_test_framebuffer_free.drm-kunit-mock-device: [drm] drm_WARN_ON(\!list_empty(&fb->filp_head))
+[  144.997097] WARNING: CPU: 0 PID: 2546 at drivers/gpu/drm/drm_framebuffer.c:832 drm_framebuffer_free+0x13f/0x1c0
 
-Konrad
+The test intentionally creates a partially initialized framebuffer
+to test an edge case in drm_framebuffer_free(), but it needs to
+initialize the filp_head list to avoid triggering the warning on
+uninitialized list data.
+
+Initialize the filp_head list in the test to match the behavior of
+drm_framebuffer_init().
+
+Fixes: d21942560499 ("drm/tests: Add test for drm_framebuffer_free()")
+Signed-off-by: Sasha Levin <sashal@kernel.org>
+---
+ drivers/gpu/drm/tests/drm_framebuffer_test.c | 1 +
+ 1 file changed, 1 insertion(+)
+
+diff --git a/drivers/gpu/drm/tests/drm_framebuffer_test.c b/drivers/gpu/drm/tests/drm_framebuffer_test.c
+index 6ea04cc8f3241..81a7f2cfb8ed6 100644
+--- a/drivers/gpu/drm/tests/drm_framebuffer_test.c
++++ b/drivers/gpu/drm/tests/drm_framebuffer_test.c
+@@ -677,6 +677,7 @@ static void drm_test_framebuffer_free(struct kunit *test)
+ 	};
+ 	int id, ret;
+ 
++	INIT_LIST_HEAD(&fb.filp_head);
+ 	priv->buffer_freed = false;
+ 
+ 	/*
+-- 
+2.39.5
+
