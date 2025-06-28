@@ -2,84 +2,74 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 75A50AEC50E
-	for <lists+dri-devel@lfdr.de>; Sat, 28 Jun 2025 06:59:47 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2BCE5AEC52E
+	for <lists+dri-devel@lfdr.de>; Sat, 28 Jun 2025 07:28:36 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C722210E149;
-	Sat, 28 Jun 2025 04:59:45 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 018EA10E12C;
+	Sat, 28 Jun 2025 05:28:33 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="ILei3jy1";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="WA5PDo7w";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pj1-f53.google.com (mail-pj1-f53.google.com
- [209.85.216.53])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2304210E133
- for <dri-devel@lists.freedesktop.org>; Sat, 28 Jun 2025 04:59:45 +0000 (UTC)
-Received: by mail-pj1-f53.google.com with SMTP id
- 98e67ed59e1d1-311ef4fb43dso173012a91.3
- for <dri-devel@lists.freedesktop.org>; Fri, 27 Jun 2025 21:59:45 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1751086784; x=1751691584; darn=lists.freedesktop.org;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:from:to:cc:subject:date
- :message-id:reply-to;
- bh=W6KFydMvKM3jMgYcZFX5+YrAej6q1x9tbL+4kgM9zm0=;
- b=ILei3jy1i3cysdtLz4Zsh/SGoVvujPW29OuyyvKwifHaCq9D254sNHE39wEylIFJaJ
- CbEz8eNWFMfuD/ymn1sHj0JEHj73W5Ohqk5bSpS73EWsa4uFmITv4j/cYbkGZWu+uzc6
- dqXaSEZ2bvnukNG8WQsqtD7nAL2MsntbxmZ+kPsS9Csj3qSXq1WbJZJYtLURBhcZirRO
- NjmdTKXbXIFpW57F6t6RMIYFx0vY/uj2LRlf076g41xSoXBxvE/FWucgMJy1i3Be1Bsd
- Hk2frAC8cGc/EuXRGj2FYS91lOLMXsaFSGWZQVyFfvoj/QS9JOuKIRGaIQZu/TwsGuQ4
- 974g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1751086784; x=1751691584;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=W6KFydMvKM3jMgYcZFX5+YrAej6q1x9tbL+4kgM9zm0=;
- b=d3yZY8IT9ki4PVdUNmPdOLB0zJ/iB4Jz9e4nxd8r9zPI0CSN/p4bYrZceKMjqK7wpv
- QxDgrrIqdqOAsqT9oVmjcmNHLEX7l2PFtRxJ3OIj5nAnNsl7gPV7mRu+a8ZsHSPZNHv7
- 3fZqj1USNymP2bEbL6cQEXsk3J2pp2fiEcicJEvUzv3WN+dmW524KZ+aB67+OpubKTnm
- HJ+wyzSmzH8JyYKYp/2cOjjFuKXrEuvlcjiM9KQF8nAG+/hrA3xGhWuPcW4S8wLmp8f7
- RPN8IFnMaHxpUJaknChTYunwzD9TqhZn8Ibf4KO2M1OEssmuBVshJIgBpE0G5v4aWXGc
- 7rzQ==
-X-Forwarded-Encrypted: i=1;
- AJvYcCW8vfseNahYfi6XQxBqWwJcMh5oTX+uHraUUkIQbHsJsmZmbQlhO/CdOv5mszYG24OzvfLOmFjh1ZQ=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0Yw7ScAhcEf7Lm6SUCh6T98lj6+GZt08KxbmF4MAvojq5sWFavZ7
- 8d7teFasPH/GzAzVxV+fV21YWhw9qqQ/dZQQ4FRr2w50pMFKDv5Maf+O
-X-Gm-Gg: ASbGncuPTGARhtr0Y8zZYyMOHg66vPtFEt9Eour64pzKef+QPX87z/6NOSH6ODQis39
- 1gp5W23EllVrlfJADoI7H8bjztl7jRvwzEu9Iv173TKWPXiWSUcuy8XxfPpzIgm9atu5hNRIStt
- yLhkyNgE5qIGf7PLD0MPffAQP8vxaxharSReAa5SPnacjPY+FZTfp1wYNP2bddv+E0rmTNrmTnY
- GkKvGM+L2du2SMTiqXUEBRZqIttYPhOFz0HexrgMdCcKOiHvM+6vYQ5na6fYLWZqkBoOQjTnUlg
- OnOLa6P5OU7izjHyVbuvFsPLBJK6GEK+7Nud3OZHNueWb6mjTJd6e6Txf9SD1U5FbQT+8drfFJC
- gI72Nrz6IGMFc
-X-Google-Smtp-Source: AGHT+IHa+w+z2zouG9On8VvcTYwX0uju2SQmEjN08Q4IjPHgE02aAZdf8HosYP7aHwVRvq+HXQ+62g==
-X-Received: by 2002:a17:90b:582d:b0:312:f650:c795 with SMTP id
- 98e67ed59e1d1-318c923b91bmr6942314a91.21.1751086784526; 
- Fri, 27 Jun 2025 21:59:44 -0700 (PDT)
-Received: from localhost.localdomain ([49.37.221.186])
- by smtp.googlemail.com with ESMTPSA id
- 98e67ed59e1d1-318c13a271asm3659713a91.17.2025.06.27.21.59.38
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 27 Jun 2025 21:59:44 -0700 (PDT)
-From: Abdun Nihaal <abdun.nihaal@gmail.com>
-To: andy@kernel.org
-Cc: Abdun Nihaal <abdun.nihaal@gmail.com>, dan.carpenter@linaro.org,
- gregkh@linuxfoundation.org, lorenzo.stoakes@oracle.com,
- tzimmermann@suse.de, riyandhiman14@gmail.com, willy@infradead.org,
- notro@tronnes.org, thomas.petazzoni@free-electrons.com,
- dri-devel@lists.freedesktop.org, linux-fbdev@vger.kernel.org,
- linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org,
- Andy Shevchenko <andriy.shevchenko@intel.com>
-Subject: [PATCH v2 2/2] staging: fbtft: cleanup error handling in
- fbtft_framebuffer_alloc()
-Date: Sat, 28 Jun 2025 10:29:07 +0530
-Message-ID: <62320323049c72b6e3fda6fa7a55e080b29491e8.1751086324.git.abdun.nihaal@gmail.com>
-X-Mailer: git-send-email 2.43.0
-In-Reply-To: <cover.1751086324.git.abdun.nihaal@gmail.com>
-References: <cover.1751086324.git.abdun.nihaal@gmail.com>
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.20])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B959310E12C
+ for <dri-devel@lists.freedesktop.org>; Sat, 28 Jun 2025 05:28:31 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1751088512; x=1782624512;
+ h=date:from:to:cc:subject:message-id:references:
+ mime-version:in-reply-to;
+ bh=/PouR7nev/ceIZ/BO1Yk6lP2sUsqB6YlSfWvYBhCwKg=;
+ b=WA5PDo7wUCqXytIgvUEsvaE+K68/5WPxwBqK3R6xaWdSpk9M7oU6S5wC
+ J0jKtuznVGkkyFT8hpxksA/wtz4CFyvVuRHxFqRul6Zgk03+MPZNNWeu2
+ tE5Xf7F+vjqH+IKZkw0IYRKi4zb9fDWJp2UDg74r0eHvgucHI//YmG4xa
+ psvCy49b70sTVI7f2mPz4+LZDBRBYKwLW5Bhm5U2fp49agjOZs+a60axo
+ xe+ZCGEcKFmFUjcs/f/lLsvHb4IvTQH1wKeL9AF3szJPQKZ1TbcxwyLwu
+ x8fJXos5ZTHoGGacoIFHxzOnj6w+CFE/eZUJWhnR6BHGGiyUKHhy8ja4Y A==;
+X-CSE-ConnectionGUID: 5pa8bQBRTeSc6sfcms2YTQ==
+X-CSE-MsgGUID: YbKrKEHOSr+la5Tz9aiyJA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11477"; a="53119939"
+X-IronPort-AV: E=Sophos;i="6.16,272,1744095600"; d="scan'208";a="53119939"
+Received: from orviesa002.jf.intel.com ([10.64.159.142])
+ by orvoesa112.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 27 Jun 2025 22:28:31 -0700
+X-CSE-ConnectionGUID: rDEavM7eScyJIozOfi5Adg==
+X-CSE-MsgGUID: aGbsD7QwQ4C31I2aKNUKmA==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.16,272,1744095600"; d="scan'208";a="184012419"
+Received: from lkp-server01.sh.intel.com (HELO e8142ee1dce2) ([10.239.97.150])
+ by orviesa002.jf.intel.com with ESMTP; 27 Jun 2025 22:28:25 -0700
+Received: from kbuild by e8142ee1dce2 with local (Exim 4.96)
+ (envelope-from <lkp@intel.com>) id 1uVO6w-000WpC-1w;
+ Sat, 28 Jun 2025 05:28:22 +0000
+Date: Sat, 28 Jun 2025 13:28:00 +0800
+From: kernel test robot <lkp@intel.com>
+To: Mario Limonciello <superm1@kernel.org>, Bjorn Helgaas <helgaas@kernel.org>
+Cc: oe-kbuild-all@lists.linux.dev, Alex Deucher <alexander.deucher@amd.com>,
+ Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+ Lukas Wunner <lukas@wunner.de>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>,
+ David Woodhouse <dwmw2@infradead.org>,
+ Lu Baolu <baolu.lu@linux.intel.com>, Joerg Roedel <joro@8bytes.org>,
+ Will Deacon <will@kernel.org>, Robin Murphy <robin.murphy@arm.com>,
+ Alex Williamson <alex.williamson@redhat.com>,
+ Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ "(open list:INTEL IOMMU (VT-d))" <iommu@lists.linux.dev>,
+ linux-pci@vger.kernel.org, kvm@vger.kernel.org,
+ linux-sound@vger.kernel.org, Daniel Dadap <ddadap@nvidia.com>,
+ Mario Limonciello <mario.limonciello@amd.com>
+Subject: Re: [PATCH v6 9/9] PCI: Add a new 'boot_display' attribute
+Message-ID: <202506281332.JQb144bv-lkp@intel.com>
+References: <20250627043108.3141206-10-superm1@kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20250627043108.3141206-10-superm1@kernel.org>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -95,111 +85,86 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The error handling in fbtft_framebuffer_alloc() mixes managed allocation
-and plain allocation, and performs error handling in an order different
-from the order in fbtft_framebuffer_release().
+Hi Mario,
 
-Fix them by moving vmem allocation closer to where it is used, and using
-plain kzalloc() for txbuf allocation.
+kernel test robot noticed the following build errors:
 
-Suggested-by: Andy Shevchenko <andriy.shevchenko@intel.com>
-Suggested-by: Dan Carpenter <dan.carpenter@linaro.org>
-Signed-off-by: Abdun Nihaal <abdun.nihaal@gmail.com>
----
-Newly added in v2
+[auto build test ERROR on pci/next]
+[also build test ERROR on pci/for-linus tiwai-sound/for-next tiwai-sound/for-linus tip/x86/core linus/master v6.16-rc3 next-20250627]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
- drivers/staging/fbtft/fbtft-core.c | 32 ++++++++++++++++--------------
- 1 file changed, 17 insertions(+), 15 deletions(-)
+url:    https://github.com/intel-lab-lkp/linux/commits/Mario-Limonciello/PCI-Add-helper-for-checking-if-a-PCI-device-is-a-display-controller/20250627-123349
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/pci/pci.git next
+patch link:    https://lore.kernel.org/r/20250627043108.3141206-10-superm1%40kernel.org
+patch subject: [PATCH v6 9/9] PCI: Add a new 'boot_display' attribute
+config: arc-randconfig-001-20250628 (https://download.01.org/0day-ci/archive/20250628/202506281332.JQb144bv-lkp@intel.com/config)
+compiler: arc-linux-gcc (GCC) 8.5.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250628/202506281332.JQb144bv-lkp@intel.com/reproduce)
 
-diff --git a/drivers/staging/fbtft/fbtft-core.c b/drivers/staging/fbtft/fbtft-core.c
-index 8538b6bab6a5..f6a147cf0717 100644
---- a/drivers/staging/fbtft/fbtft-core.c
-+++ b/drivers/staging/fbtft/fbtft-core.c
-@@ -568,18 +568,13 @@ struct fb_info *fbtft_framebuffer_alloc(struct fbtft_display *display,
- 		height = display->height;
- 	}
- 
--	vmem_size = display->width * display->height * bpp / 8;
--	vmem = vzalloc(vmem_size);
--	if (!vmem)
--		goto alloc_fail;
--
- 	fbdefio = devm_kzalloc(dev, sizeof(struct fb_deferred_io), GFP_KERNEL);
- 	if (!fbdefio)
--		goto alloc_fail;
-+		return NULL;
- 
- 	buf = devm_kzalloc(dev, 128, GFP_KERNEL);
- 	if (!buf)
--		goto alloc_fail;
-+		return NULL;
- 
- 	if (display->gamma_num && display->gamma_len) {
- 		gamma_curves = devm_kcalloc(dev,
-@@ -588,12 +583,17 @@ struct fb_info *fbtft_framebuffer_alloc(struct fbtft_display *display,
- 					    sizeof(gamma_curves[0]),
- 					    GFP_KERNEL);
- 		if (!gamma_curves)
--			goto alloc_fail;
-+			return NULL;
- 	}
- 
- 	info = framebuffer_alloc(sizeof(struct fbtft_par), dev);
- 	if (!info)
--		goto alloc_fail;
-+		return NULL;
-+
-+	vmem_size = display->width * display->height * bpp / 8;
-+	vmem = vzalloc(vmem_size);
-+	if (!vmem)
-+		goto release_framebuf;
- 
- 	info->screen_buffer = vmem;
- 	info->fbops = &fbtft_ops;
-@@ -613,7 +613,7 @@ struct fb_info *fbtft_framebuffer_alloc(struct fbtft_display *display,
- 	info->fix.accel =          FB_ACCEL_NONE;
- 	info->fix.smem_len =       vmem_size;
- 	if (fb_deferred_io_init(info))
--		goto release_framebuf;
-+		goto release_screen_buffer;
- 
- 	info->var.rotate =         pdata->rotate;
- 	info->var.xres =           width;
-@@ -668,7 +668,7 @@ struct fb_info *fbtft_framebuffer_alloc(struct fbtft_display *display,
- #endif
- 
- 	if (txbuflen > 0) {
--		txbuf = devm_kzalloc(par->info->device, txbuflen, GFP_KERNEL);
-+		txbuf = kzalloc(txbuflen, GFP_KERNEL);
- 		if (!txbuf)
- 			goto cleanup_deferred;
- 		par->txbuf.buf = txbuf;
-@@ -694,12 +694,10 @@ struct fb_info *fbtft_framebuffer_alloc(struct fbtft_display *display,
- 
- cleanup_deferred:
- 	fb_deferred_io_cleanup(info);
-+release_screen_buffer:
-+	vfree(info->screen_buffer);
- release_framebuf:
- 	framebuffer_release(info);
--
--alloc_fail:
--	vfree(vmem);
--
- 	return NULL;
- }
- EXPORT_SYMBOL(fbtft_framebuffer_alloc);
-@@ -712,6 +710,10 @@ EXPORT_SYMBOL(fbtft_framebuffer_alloc);
-  */
- void fbtft_framebuffer_release(struct fb_info *info)
- {
-+	struct fbtft_par *par = info->par;
-+
-+	if (par->txbuf.len > 0)
-+		kfree(par->txbuf.buf);
- 	fb_deferred_io_cleanup(info);
- 	vfree(info->screen_buffer);
- 	framebuffer_release(info);
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202506281332.JQb144bv-lkp@intel.com/
+
+All error/warnings (new ones prefixed by >>):
+
+   drivers/pci/pci-sysfs.c: In function 'pci_create_sysfs_dev_files':
+>> drivers/pci/pci-sysfs.c:1701:11: error: implicit declaration of function 'pci_create_boot_display_file'; did you mean 'pci_create_sysfs_dev_files'? [-Werror=implicit-function-declaration]
+     retval = pci_create_boot_display_file(pdev);
+              ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
+              pci_create_sysfs_dev_files
+   drivers/pci/pci-sysfs.c: In function 'pci_remove_sysfs_dev_files':
+>> drivers/pci/pci-sysfs.c:1719:2: error: implicit declaration of function 'pci_remove_boot_display_file'; did you mean 'pci_remove_sysfs_dev_files'? [-Werror=implicit-function-declaration]
+     pci_remove_boot_display_file(pdev);
+     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
+     pci_remove_sysfs_dev_files
+   In file included from include/linux/pci.h:37,
+                    from drivers/pci/pci-sysfs.c:19:
+   At top level:
+>> include/linux/device.h:199:26: warning: 'dev_attr_boot_display' defined but not used [-Wunused-variable]
+     struct device_attribute dev_attr_##_name = __ATTR_RO(_name)
+                             ^~~~~~~~~
+   drivers/pci/pci-sysfs.c:688:8: note: in expansion of macro 'DEVICE_ATTR_RO'
+    static DEVICE_ATTR_RO(boot_display);
+           ^~~~~~~~~~~~~~
+   cc1: some warnings being treated as errors
+
+
+vim +1701 drivers/pci/pci-sysfs.c
+
+  1693	
+  1694	int __must_check pci_create_sysfs_dev_files(struct pci_dev *pdev)
+  1695	{
+  1696		int retval;
+  1697	
+  1698		if (!sysfs_initialized)
+  1699			return -EACCES;
+  1700	
+> 1701		retval = pci_create_boot_display_file(pdev);
+  1702		if (retval)
+  1703			return retval;
+  1704	
+  1705		return pci_create_resource_files(pdev);
+  1706	}
+  1707	
+  1708	/**
+  1709	 * pci_remove_sysfs_dev_files - cleanup PCI specific sysfs files
+  1710	 * @pdev: device whose entries we should free
+  1711	 *
+  1712	 * Cleanup when @pdev is removed from sysfs.
+  1713	 */
+  1714	void pci_remove_sysfs_dev_files(struct pci_dev *pdev)
+  1715	{
+  1716		if (!sysfs_initialized)
+  1717			return;
+  1718	
+> 1719		pci_remove_boot_display_file(pdev);
+  1720		pci_remove_resource_files(pdev);
+  1721	}
+  1722	
+
 -- 
-2.43.0
-
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
