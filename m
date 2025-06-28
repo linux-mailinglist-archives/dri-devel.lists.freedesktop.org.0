@@ -2,78 +2,78 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1186EAEC8CA
-	for <lists+dri-devel@lfdr.de>; Sat, 28 Jun 2025 18:33:00 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id D3B70AEC92F
+	for <lists+dri-devel@lfdr.de>; Sat, 28 Jun 2025 19:03:03 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D0E5010E023;
-	Sat, 28 Jun 2025 16:32:56 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A8C1610E002;
+	Sat, 28 Jun 2025 17:02:59 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=qualcomm.com header.i=@qualcomm.com header.b="Yh+mvyRT";
+	dkim=pass (2048-bit key; unprotected) header.d=qualcomm.com header.i=@qualcomm.com header.b="aWCES6a9";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com
  [205.220.180.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0E55A10E1CF
- for <dri-devel@lists.freedesktop.org>; Sat, 28 Jun 2025 16:32:54 +0000 (UTC)
-Received: from pps.filterd (m0279873.ppops.net [127.0.0.1])
- by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 55SAwoTF015381
- for <dri-devel@lists.freedesktop.org>; Sat, 28 Jun 2025 16:32:53 GMT
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 90C8510E002
+ for <dri-devel@lists.freedesktop.org>; Sat, 28 Jun 2025 17:02:58 +0000 (UTC)
+Received: from pps.filterd (m0279872.ppops.net [127.0.0.1])
+ by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 55SCKqT7009671
+ for <dri-devel@lists.freedesktop.org>; Sat, 28 Jun 2025 17:02:56 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
  cc:content-type:date:from:in-reply-to:message-id:mime-version
- :references:subject:to; s=qcppdkim1; bh=O/9uvmDt4XBxG6SCGU/xOqs3
- nLga6puqazvT9x/dQ5I=; b=Yh+mvyRTYYXuaDNQmJsMeGmgE/B7YHONnIeJC7W+
- YhuntoGxEid5cIxOOKSY+RoJml9lH7nrbX0XRmzI70i5z3He8I8wNASQY4fpADRr
- a4dQ4rEXXilYeGLhhJL2uvq4G77PG3VeQ/ubGMUF88afvi3gKISprYyJU/AfjZ30
- Jw5lrJHslJbhnkdm8stCCMGrTo/TR9FhVuED3dxAFuLpF0s/AuLlEsL8FZ5Mg4pb
- m/tXtkJi1fgOIccxnAVAwD79SUTx4AOiaUFp82hAdEywU4HXQGQeIenjSUr7Wm5j
- wzJ9FjWtWQ23pTqHdBG/nXPyKyHqucxgh1wGsaFF8It0TQ==
-Received: from mail-qt1-f200.google.com (mail-qt1-f200.google.com
- [209.85.160.200])
- by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 47j5rq13ku-1
+ :references:subject:to; s=qcppdkim1; bh=Xj48wCGbKF6Pk72+CEinz5Ni
+ 1UPAQdUCNNhFshACoN8=; b=aWCES6a9PNuvJBf8I1GOUboxLb+dsJ3NMbLdhhZw
+ EojeEV0V0W0CyJA8cS+gClV2ZJyTGiM77oAsGGaJxaefrs4coLq2F5sPlQVQWSkx
+ 2lpeVsJItlLfePj9RYkU/DOdEL/4M7O591yU2I4hTz+O4JpUcBozkwQx2Rq6OZgZ
+ VrA2sghSVGUI6tTJmwXysHSIT6zaWDiJE0KR266LlD59nAbENwlrSneJG+p3zhyf
+ oldGDtI5e2uXZwibIqQhIE/8Zt7WtNYvInH42A8XHJH3rLjUhDhT7CTJUNlGPsIC
+ d6Of7lW6Y9fJMR3AVrt/SLVUMhPzj3ZnfngOfMLwkDpU/Q==
+Received: from mail-qk1-f197.google.com (mail-qk1-f197.google.com
+ [209.85.222.197])
+ by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 47j8s98vr5-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
- for <dri-devel@lists.freedesktop.org>; Sat, 28 Jun 2025 16:32:53 +0000 (GMT)
-Received: by mail-qt1-f200.google.com with SMTP id
- d75a77b69052e-4a58cd9b142so67188051cf.0
- for <dri-devel@lists.freedesktop.org>; Sat, 28 Jun 2025 09:32:53 -0700 (PDT)
+ for <dri-devel@lists.freedesktop.org>; Sat, 28 Jun 2025 17:02:56 +0000 (GMT)
+Received: by mail-qk1-f197.google.com with SMTP id
+ af79cd13be357-7d3d3f64739so222246485a.0
+ for <dri-devel@lists.freedesktop.org>; Sat, 28 Jun 2025 10:02:55 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1751128372; x=1751733172;
+ d=1e100.net; s=20230601; t=1751130175; x=1751734975;
  h=in-reply-to:content-disposition:mime-version:references:message-id
  :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
  :message-id:reply-to;
- bh=O/9uvmDt4XBxG6SCGU/xOqs3nLga6puqazvT9x/dQ5I=;
- b=FRuwDGmTqfT+ghuO4wIdnNCwEspyW/+c+yHbjSAaH7ld43BCzsYrsGCcIFXo+8SHPi
- SUDS1e+j3H7hjUMpVqh+Td96pQnFIECjuW31Kwa9XAtMdHMaA3OZZd6qpTQ/UUcFChwK
- 6RONTb3TGDHRr0BUhaH4TqTzvNGKwpLQ9ej43DzzJ54NOixHG+UU6+ecgfR0VhQxYSsP
- pxRjcN/lKcl7ynpn9Qwxl5IYf17AZmbuacCSrzNqfXfiExa8QUDYRqW0zni2gzE5/ebo
- FsCzCDF9uMXMOa0Sa7ZXKIn7GUk8unmx0zeK3m3KSKTFoJmJIaM6iIvA3IfGFNfHnITT
- kqfw==
+ bh=Xj48wCGbKF6Pk72+CEinz5Ni1UPAQdUCNNhFshACoN8=;
+ b=VhNNkzZHzqkCIYRgnaBb+HtsMK51h1jKA6JCDGWWXaGS3pqUweS+50ObeqRZizOWDh
+ 8sBut2Ar5q6CoHIoBvL0InQtho0lGtvMHuRCMDDkHaKV0Cd9jhFyJwZ3X9OcI3cX3r49
+ 2qCz/DzAHtFtMystZKzReB7JAuODzUEmDNmidLj1HrKh9dZ0NitdILeEuBFlcbFHRT16
+ RUgZI8afE2NTTPZYRYI96u0553rPhg/KIFsZCFComR2sfCrPJIe+ngfowSHL7Pv7PZT+
+ Qhi3hvo2TJ6uK+4x8gkKxzU7I5Vx/DVuO4ijwbNBBXQ8TbQTKxdmf8mVX8i1iRpfdRJr
+ yzMA==
 X-Forwarded-Encrypted: i=1;
- AJvYcCUWdZpxWWi4UjM9zIS4uaa49sGf2XHNE9cLaxmrpccRe+hiz4IzSMqUxST4FtveM7yQn1XnbxO/NUU=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YyuLfTOw3ta2aTsQ6NZIODH04dl9dkf/FJQgZ8t5LnRoI2H7/Cc
- 81S/DTz4Cd/Aoi8dpDWeV0ENPHUdF/4LZftFohBt6F6M/UuQuE69PwJoqp5X3X7CEJQ+853ncZ9
- wxMFSJvetpCGA6ZQ+7VR1GtTLOPydJMoyIl01o00NK3rutF38qzv5hW5SeiQhu/Zalx8gHUk=
-X-Gm-Gg: ASbGncvkVY2vcbeHkuzBOhPesBng29IwrbJOuF7uv2lJ6o4cz2fxgrejZ9qvtn0KUvf
- LbnO5VAsxBe6kqy9GYnK4KJgKh0tzg6d9vUvdA6jblatMm3bmpa49kJ7CNcfQSRnSPXhfwHlxio
- xsQjkv91lCTu8stgodywt6zz2k2knaEZ+iasCNMIagoSrwQJOK8jvdFjsUJLrSQPXLVc0mXZ73u
- l8RiupR7HTRkPjJLHuHVouMsVveBt3q5A/QMS4aE0RpXC5+f8uYYezLjwtfInrgwxKATT2owX71
- DUYUc199xQL/9a/cwffz2w1/mnUWQCFsmJDXCtykA03O13/fyXAK6Uoav7L9x/Z6KZfXBr5PuRm
- XbGQX8FgQVXQ2aH7uyTAbMmr/KcnEMI+ANAg=
-X-Received: by 2002:a05:620a:458a:b0:7d3:8a6b:d24d with SMTP id
- af79cd13be357-7d443935cecmr1009372585a.24.1751128372079; 
- Sat, 28 Jun 2025 09:32:52 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IHo0GfKgsNJw8nXHLBuEqgF0U39COSY3GWheDpTaSOZOsxKFVAGcrAeJOdBrxouiq1H04y34A==
-X-Received: by 2002:a05:620a:458a:b0:7d3:8a6b:d24d with SMTP id
- af79cd13be357-7d443935cecmr1009368785a.24.1751128371652; 
- Sat, 28 Jun 2025 09:32:51 -0700 (PDT)
+ AJvYcCUN77yr5p3Ycu7Q6u6vNjiK5yVXolHKWYWIiofE0IVlvVBZLfqVf68gGwILX2mdiA1M5RJs5Q6TcEE=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YzwelhRJMfcJJ221BWaQlAWqH5/nAQW46EeVODAr3/3R+yMuHiw
+ 9h5bqM0tYfBFH3aW9aWT/I71HL4/24h51GUKmsXu2fHDfhmUc9LXb7jDF/38BJ6Wp7ooFs9/gMX
+ 6g5tsZ8M5gyP+bCdBmzePMfgszfwo3+3m/i/1W91RNYbarz4elWi0odfMNRgAdqSLOxV7n+s=
+X-Gm-Gg: ASbGncvaTGHI63Q2wkXkRkIMfkbC0+4P4r/QKv3y8N3FkJTl79AeeOD0orN1jngHfL/
+ NyGm+h2YtPD00/78SbsnvO1BcQzslVZMdLY3PLl28UVHdR1TNrNOgNk0YIwtHNKDhUHjyyUNEum
+ gVtbbEp3udA9xBz5xOr5idXuh9VssWERV3zGRF7qrzEHli9U+MRkXKgJd+h3YyHshO+NBorajQe
+ J/MxzjroQPSYRCFBcELOFh55CpgMU4TgZ41eDqCDBRY0NrEMCNqGp89wURcEZ5FcRJALTxriWM+
+ YMa9y6fhLe3G3uPcHQmtU9eOC0CEDNQxGzHDk+mtJoMwJna0I7/ohp7BV1utSS0C6++LNPXPHkN
+ 3erk5j6zxNDoZeFf87ZvL9gqcJQoagd4cg6w=
+X-Received: by 2002:a05:620a:46a1:b0:7d3:b094:d212 with SMTP id
+ af79cd13be357-7d443990ae5mr1065893685a.51.1751130175070; 
+ Sat, 28 Jun 2025 10:02:55 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IGY9eY2qjJG5GC1z2t+E/qTvaYQxv7sH6/mlQPjsokwBuEJDcnaEoFuKASuBnrgaF+wIVxjjw==
+X-Received: by 2002:a05:620a:46a1:b0:7d3:b094:d212 with SMTP id
+ af79cd13be357-7d443990ae5mr1065888985a.51.1751130174550; 
+ Sat, 28 Jun 2025 10:02:54 -0700 (PDT)
 Received: from umbar.lan
  (2001-14ba-a0c3-3a00-264b-feff-fe8b-be8a.rev.dnainternet.fi.
  [2001:14ba:a0c3:3a00:264b:feff:fe8b:be8a])
  by smtp.gmail.com with ESMTPSA id
- 2adb3069b0e04-5550b1ee164sm860240e87.0.2025.06.28.09.32.50
+ 38308e7fff4ca-32cd2f01ac0sm8375661fa.101.2025.06.28.10.02.53
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sat, 28 Jun 2025 09:32:50 -0700 (PDT)
-Date: Sat, 28 Jun 2025 19:32:49 +0300
+ Sat, 28 Jun 2025 10:02:53 -0700 (PDT)
+Date: Sat, 28 Jun 2025 20:02:51 +0300
 From: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
 To: Yongbang Shi <shiyongbang@huawei.com>
 Cc: xinliang.liu@linaro.org, tiantao6@hisilicon.com,
@@ -84,37 +84,37 @@ Cc: xinliang.liu@linaro.org, tiantao6@hisilicon.com,
  shenjian15@huawei.com, shaojijie@huawei.com,
  jani.nikula@linux.intel.com, dri-devel@lists.freedesktop.org,
  linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v2 drm-dp 03/10] drm/hisilicon/hibmc: fix irq_request()'s
- irq name variable is local
-Message-ID: <wdxfjpszopfpvjeu2ma7moun2raxgaamnw3tp4d4st5cz6onnt@hbjxnienyaaq>
+Subject: Re: [PATCH v2 drm-dp 04/10] drm/hisilicon/hibmc: fix the hibmc
+ loaded failed bug
+Message-ID: <hpqbr2xngohjb2kyauwz5gctb7dglvu5tsmapbazy5hbjtho2v@lmkptdfeej7z>
 References: <20250620093104.2016196-1-shiyongbang@huawei.com>
- <20250620093104.2016196-4-shiyongbang@huawei.com>
+ <20250620093104.2016196-5-shiyongbang@huawei.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20250620093104.2016196-4-shiyongbang@huawei.com>
-X-Proofpoint-ORIG-GUID: APw7C3j8-5Ap8YiWM7_ij5rqgbyl-qd0
-X-Authority-Analysis: v=2.4 cv=eIYTjGp1 c=1 sm=1 tr=0 ts=68601935 cx=c_pps
- a=JbAStetqSzwMeJznSMzCyw==:117 a=xqWC_Br6kY4A:10 a=kj9zAlcOel0A:10
- a=6IFa9wvqVegA:10 a=i0EeH86SAAAA:8 a=EUspDBNiAAAA:8 a=akGq69jt72y9FtjuzwkA:9
- a=CjuIK1q_8ugA:10 a=uxP6HrT_eTzRwkO_Te1X:22
-X-Proofpoint-GUID: APw7C3j8-5Ap8YiWM7_ij5rqgbyl-qd0
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwNjI4MDEzOCBTYWx0ZWRfX0C9VKCHEFVFD
- JjAloAI2OGnNTolY4UsO34FxLWoNOX8adyskzL1CIz48robW7UEFP3DaA45t+OAK2Dd5iFo6p3Y
- uQiwROeRQm3+xa9xJXgQEPCLqUiFhWA/e6UpiQcqdoSk/U20C5XSNN53lfirGjH7YzJRhNwxFix
- iV4hqJHTe9jFjjO5pWIDKrVUW4qarA3CqzWp3PlqcXdII4lLgIXAAW2tIMpSCbxBT6hX6rH+XjO
- KR3UBIdnVpE3k8VY/R3p90FlaRRO6PQBpV2cS16kBxn6hv7GcL374jKpfglYKzlQB6YkSzQ3yLB
- MhHDYnpw5Z5K3ngLzzdgnTtlf7bBL7u3A87mYBcFj+tq9DyZR/sJg22iV051/cp7+FlAP8UsYuW
- y9b9sYFskfyej4x+B0UaEk3WGa4U0sqP5biT/7hTq9HslDOC9tGRKWgItlsfg2NhSjDGPw5h
+In-Reply-To: <20250620093104.2016196-5-shiyongbang@huawei.com>
+X-Authority-Analysis: v=2.4 cv=H/Pbw/Yi c=1 sm=1 tr=0 ts=68602040 cx=c_pps
+ a=50t2pK5VMbmlHzFWWp8p/g==:117 a=xqWC_Br6kY4A:10 a=kj9zAlcOel0A:10
+ a=6IFa9wvqVegA:10 a=i0EeH86SAAAA:8 a=EUspDBNiAAAA:8 a=Yqf8pivnL-G9Aq_Wef0A:9
+ a=CjuIK1q_8ugA:10 a=zZCYzV9kfG8A:10 a=IoWCM6iH3mJn3m4BftBB:22
+X-Proofpoint-ORIG-GUID: V4dOwd8Ze4a096UMzjK7bPkvlHH5xkSg
+X-Proofpoint-GUID: V4dOwd8Ze4a096UMzjK7bPkvlHH5xkSg
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwNjI4MDE0MiBTYWx0ZWRfX45De/phAhk/+
+ Tbl19tWbayUuXzJUbKBWc/LQfg0lNf0fvToNnp7lAwW5FUrIUzmdvYiEM/8ELAa58frSqSFITK0
+ 2gEgt0uXi/MjmtZyiQz9H2LL6BvDXKMa7YdgQFCD55Ees0gpnGAZOum3WWDIekOOh3Z2E4HieTg
+ jeclpvM8l9/ZYe0r/xge8B0gH3ElEEd/BK7tIn6eLcKQHlVzfswhNXdpAxhnTboOZKy9UzVI+Ht
+ iPccRsgDI1/JA2pxqSVzleoh36IF0d0we0LyVE6VDJ7+ww0aMFVLvPDt6gVfvpUu5Ah/0lSSbIS
+ yz8lPmX8ENRXFt5tuGO7T2UwJ6DnjCyGtOjLa3MZt/sBfnIywzV/7SUNo+yHKXTerKkuW06V9rl
+ s2eJuFA4rAg6VIQ1ZX0U7wrU9KP/fn6OR9SoH1oeV79vRafikLH+40fzxwWMhIkC2Wmfwunx
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.293,Aquarius:18.0.1099,Hydra:6.1.7,FMLib:17.12.80.40
  definitions=2025-06-27_05,2025-06-27_01,2025-03-28_01
 X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- impostorscore=0 clxscore=1015 mlxlogscore=917 priorityscore=1501 adultscore=0
- mlxscore=0 phishscore=0 bulkscore=0 spamscore=0 suspectscore=0
- lowpriorityscore=0 malwarescore=0 classifier=spam authscore=0 authtc=n/a
+ impostorscore=0 malwarescore=0 suspectscore=0 mlxlogscore=740
+ priorityscore=1501 clxscore=1015 mlxscore=0 lowpriorityscore=0 spamscore=0
+ adultscore=0 bulkscore=0 phishscore=0 classifier=spam authscore=0 authtc=n/a
  authcc= route=outbound adjust=0 reason=mlx scancount=1
- engine=8.19.0-2505280000 definitions=main-2506280138
+ engine=8.19.0-2505280000 definitions=main-2506280142
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -130,23 +130,20 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, Jun 20, 2025 at 05:30:57PM +0800, Yongbang Shi wrote:
+On Fri, Jun 20, 2025 at 05:30:58PM +0800, Yongbang Shi wrote:
 > From: Baihan Li <libaihan@huawei.com>
 > 
-> The local variable is passed in request_irq (), and there will be use
-> after free problem, which will make request_irq failed. Using the global
-> irq name instead of it to fix.
+> When hibmc loaded failed, the driver use hibmc_unload to free the
+> resource, but the mutexes in mode.config are not init, which will
+> access an NULL pointer. Just change goto statement to return, because
+> hibnc_hw_init() doesn't need to free anything.
 > 
-> Fixes: b11bc1ae4658 ("drm/hisilicon/hibmc: Add MSI irq getting and requesting for HPD")
+> Fixes: b3df5e65cc03 ("drm/hibmc: Drop drm_vblank_cleanup")
 > Signed-off-by: Baihan Li <libaihan@huawei.com>
 > Signed-off-by: Yongbang Shi <shiyongbang@huawei.com>
 > ---
-> ChangeLog:
-> v1 -> v2:
->   - add explanations in commit, suggested by Dmitry Baryshkov.
-> ---
->  drivers/gpu/drm/hisilicon/hibmc/hibmc_drm_drv.c | 10 +++-------
->  1 file changed, 3 insertions(+), 7 deletions(-)
+>  drivers/gpu/drm/hisilicon/hibmc/hibmc_drm_drv.c | 4 ++--
+>  1 file changed, 2 insertions(+), 2 deletions(-)
 > 
 
 Reviewed-by: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
