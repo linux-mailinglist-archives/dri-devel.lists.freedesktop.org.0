@@ -2,87 +2,127 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 28CEBAEC779
-	for <lists+dri-devel@lfdr.de>; Sat, 28 Jun 2025 15:49:48 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 002ABAEC785
+	for <lists+dri-devel@lfdr.de>; Sat, 28 Jun 2025 16:02:35 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C59D610E0B0;
-	Sat, 28 Jun 2025 13:49:45 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8979A10E115;
+	Sat, 28 Jun 2025 14:02:32 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="PWKu+c64";
+	dkim=pass (2048-bit key; unprotected) header.d=qualcomm.com header.i=@qualcomm.com header.b="f1+cmURx";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pg1-f182.google.com (mail-pg1-f182.google.com
- [209.85.215.182])
- by gabe.freedesktop.org (Postfix) with ESMTPS id CDE0710E0B0
- for <dri-devel@lists.freedesktop.org>; Sat, 28 Jun 2025 13:49:44 +0000 (UTC)
-Received: by mail-pg1-f182.google.com with SMTP id
- 41be03b00d2f7-b1fd59851baso701908a12.0
- for <dri-devel@lists.freedesktop.org>; Sat, 28 Jun 2025 06:49:44 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1751118584; x=1751723384; darn=lists.freedesktop.org;
- h=content-transfer-encoding:mime-version:references:in-reply-to:from
- :subject:cc:to:message-id:date:from:to:cc:subject:date:message-id
- :reply-to; bh=Cd+ciLByq3LRGO8G0Mo9rb0LZaomCwo/towAFMRozlU=;
- b=PWKu+c64l1MLvJYI4rbvEabxSELyGQQL0kRWBDsIVT7WKOk9wLLQ8WpYEhii8dHoNa
- xbD3imMerKf8oxd8H5dvc1bY6Q0mXsGcwj+JwJqZFeJyrb2LybWwisFPsdx82PymgBte
- oOlcp5wKkE1EJEcQoymBfZLouMv1ILi6x9YNQdY2e4RYd/vJX1EibxbwYb/Q418c5Aa3
- BmKACh9dPwSfnrMSDuJ+5QF3OaWXOojzjsIm7lNHEHcIi2S3uHNU1ZecjkFt3KDzvaua
- a0KpdeF2EycTZyOziikj4XIs9W/T/RlXnwco2uh01NnWgfORiiEwxJLB8jt8AIbLwdYd
- CTCQ==
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com
+ [205.220.180.131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7021E10E115
+ for <dri-devel@lists.freedesktop.org>; Sat, 28 Jun 2025 14:02:29 +0000 (UTC)
+Received: from pps.filterd (m0279869.ppops.net [127.0.0.1])
+ by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 55SBVG8K016475
+ for <dri-devel@lists.freedesktop.org>; Sat, 28 Jun 2025 14:02:28 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
+ cc:content-transfer-encoding:content-type:date:from:in-reply-to
+ :message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
+ YUVDKJVoWS0hkADGlcPQRi4yplUlvInid/KHKpX5DjA=; b=f1+cmURxwE7I3hZo
+ XnCzpKbvRVGZOaw/EjpkGt11sm1MaA0EmbfPcbg704HmTDv3wIXLOEvsrdZYk8Ei
+ ixrkP2Gp0Fdbj75GTOjYTWuViSDGtDncv9iphEwBkgmBJHuK4GynMBHuG/6FAgYQ
+ LCDVuxuOKKewe73j6xCDEV5SvatZgecZHf6h63IEHKzqvaf0qHtvWX8tQuPgzXGw
+ eMkaEkFO1QfS+PGGlINbngjnNkvtOKg9jPc0CmOOYq0/0Sjg8uXu8737S0kfbe5a
+ Jji04dJGjc3mPqxLt/BPAUMLdAe0AdaQRWIasTWQoyIeBKpoGuNqa5gxsPhfZDpl
+ gAPDiA==
+Received: from mail-qk1-f200.google.com (mail-qk1-f200.google.com
+ [209.85.222.200])
+ by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 47j7d9rspm-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
+ for <dri-devel@lists.freedesktop.org>; Sat, 28 Jun 2025 14:02:28 +0000 (GMT)
+Received: by mail-qk1-f200.google.com with SMTP id
+ af79cd13be357-7d09a3b806aso61615085a.0
+ for <dri-devel@lists.freedesktop.org>; Sat, 28 Jun 2025 07:02:28 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1751118584; x=1751723384;
- h=content-transfer-encoding:mime-version:references:in-reply-to:from
- :subject:cc:to:message-id:date:x-gm-message-state:from:to:cc:subject
- :date:message-id:reply-to;
- bh=Cd+ciLByq3LRGO8G0Mo9rb0LZaomCwo/towAFMRozlU=;
- b=CPbxRAiYeERAOgd72JTF4CWLdiMDuP7YhJ58L8hiWjRootcCiIZIABbbKDT+zc1pM6
- y2Pxwkl055a5Xwv0j0ESc71Sh6QrIebC98gVoK6Xh1vmSL+uNxaCWYh5kW9A6czYBF89
- GS8GwP2jjXF2W0R18e2SvPNlVPEDHSkdTSo8Nmc/1pzXNmeJGmtiBAZUiiXrbjbv8jBH
- drvMDfshCXilgLY0u0WlQV3CgmKfcPMDekW18QMCL79spRgDpi4NH1D9vANem9L2U9KH
- FKHczwIiECn2FftfMh+Gke7+AuYbW4KKkknMNexZs0rsSgnSQICwlMBO0PDpGAt0hkvb
- Vujg==
+ d=1e100.net; s=20230601; t=1751119347; x=1751724147;
+ h=content-transfer-encoding:in-reply-to:from:content-language
+ :references:cc:to:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=YUVDKJVoWS0hkADGlcPQRi4yplUlvInid/KHKpX5DjA=;
+ b=Z3RuUzBt5lZ+DTxYRbayUmoAIG4V9r+aN3elys1htqmQpAS8YAPEMk7ro9OAFeduyy
+ E3uZBz8S1MHW08CMD8q5Ivgfkk1pBnGzAZWESc+VdLMHKLbesJ+R84gN+ZYRF28rEoso
+ PZw335e2lEFXIZmOxesQ4ezTelpvPucJYEc5z46vSqpdhhrz67uAtkkjWvUaOxcl6DaH
+ SLsiNyJgk1OJCd6wMowTkrkqGY4AyftiTpl4kKoUkpxtMo075GCidTF0vMIQbyOCpsdP
+ Ltui1p07ZCwsTWQ+Q1BI6QTxwGwbml8kJRdfdC7u2tpER1t9FsbjNbP7BuHgpx/Ij9JJ
+ l1uA==
 X-Forwarded-Encrypted: i=1;
- AJvYcCWLfMkwwLVYEaHYnrPveVYSfsKRzJZ550PHeuzKFFrWxRgKjrTBPGvZDG8D0JMBRDaZS/WjiRp7qvc=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0Yw8VXphWw/BO5g83tJiFrxo6DTZlzCCD3YNwalFEBboVpWOvdZS
- kchHJJGuKhtXOBlTrBip9p9s6V2MIhyNlfdzkR+WjqJCshvd4hLJhO5Q
-X-Gm-Gg: ASbGncv1qLQG2ZwwA9lnrv/xjdlx+jq3KAmXoPgRCtLHZB1zz1Q3cicoHcoPaU11AQl
- XW8lyjfYpjgYb/Uf+8Ai4E0/A/OxWEWFotsuHY34DOoWcx5zzWGnHQPiWEFx57XBnegaST4/g7p
- +8dqCn+oAM3tWNiev3PJH9Ctvn2ZOveRB3AQsOuOu6rWNcR0iIdQ6O+L8DYbde7/UmUAaYkx/Ra
- SgeBwiU9qGEHRu8ic/JKrFvxQqLndPLuVVjJM7xlRh7kJP6xPpXAGuLPVL/Y5yl+LAxMykqRHz7
- cVuaYWHhPRiUVeyp0bkECgPyVVsYYKC9yFSnrHUmZJjobJilkUiQ5QeeYQIzQMuq72GR5U6m5u2
- ZzjRlRsNSN5XItUzFhDBBXB1TUnjrh5D1dW0o+DJMS6bNpm56+6o=
-X-Google-Smtp-Source: AGHT+IHNKm5dkn6mnQptZdFdnu/mQN3UbWeEKv4Iseoi1OWcufhFeymz4Tk1ScLSjs3IkBpvLgJw7w==
-X-Received: by 2002:a17:90b:5347:b0:313:2e69:8002 with SMTP id
- 98e67ed59e1d1-318c92c8f19mr9661447a91.20.1751118584206; 
- Sat, 28 Jun 2025 06:49:44 -0700 (PDT)
-Received: from localhost (p5332007-ipxg23901hodogaya.kanagawa.ocn.ne.jp.
- [180.34.120.7]) by smtp.gmail.com with ESMTPSA id
- 98e67ed59e1d1-315f539ed37sm8833234a91.18.2025.06.28.06.49.38
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sat, 28 Jun 2025 06:49:43 -0700 (PDT)
-Date: Sat, 28 Jun 2025 22:49:28 +0900 (JST)
-Message-Id: <20250628.224928.690831629261546521.fujita.tomonori@gmail.com>
-To: daniel.almeida@collabora.com, boqun.feng@gmail.com, a.hindborg@kernel.org
-Cc: miguel.ojeda.sandonis@gmail.com, maarten.lankhorst@linux.intel.com,
- mripard@kernel.org, tzimmermann@suse.de, airlied@gmail.com,
- simona@ffwll.ch, ojeda@kernel.org, alex.gaynor@gmail.com,
- gary@garyguo.net, bjorn3_gh@protonmail.com, lossin@kernel.org,
- aliceryhl@google.com, tmgross@umich.edu, dakr@kernel.org,
- daniels@collabora.com, robh@kernel.org, alice.ryhl@google.com,
- beata.michalska@arm.com, carsten.haitzler@foss.arm.com,
- boris.brezillon@collabora.com, ashley.smith@collabora.com,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- rust-for-linux@vger.kernel.org, kernel@collabora.com
-Subject: Re: [PATCH] Introduce Tyr
-From: FUJITA Tomonori <fujita.tomonori@gmail.com>
-In-Reply-To: <48605183-78B6-461E-9476-C96C8E55A55D@collabora.com>
-References: <20250627-tyr-v1-1-cb5f4c6ced46@collabora.com>
- <CANiq72nJcEM09HbQB3_NpKGxr9x8Ah0VE+=XS=xvA26P2qg=_g@mail.gmail.com>
- <48605183-78B6-461E-9476-C96C8E55A55D@collabora.com>
-Mime-Version: 1.0
-Content-Type: Text/Plain; charset=iso-8859-7
-Content-Transfer-Encoding: base64
+ AJvYcCVBPC/6LJ4HeGnT1yZ4Ym677jzQ0lFLNkfbijt+5FKY84nVIumPzVS0/eap3OiqhdtunsuQdln97yc=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YzFIkiTQg9zzoSxYp6t8sskUe1q5Do1ns9A9BRefnjecr5oI9G2
+ UmEOf635Q5BTIeEqorxzjyzci+KinoQaa7MP183Re1tFGdaLERuH4sk35j6+g0FjKsOIj6U2kf3
+ q46GZjFZKqD1FcpemkisjrJU2Y4c8/GwrKnGylPsCvsdaXYSm6vWI+u9cMjCuWpCcpjoXJJM=
+X-Gm-Gg: ASbGnctbLXNBQfK5IalKeayTOxIS711b021kNToQEqQg0xg/MxEl/qN86zRLc9YIrMS
+ G8J4v1PvNDvfszRQOfIl/Qywq7hv0LfUvSZjzjr7gcg8KAV47Ay5e5j0M1NshLrBXg4k319ZzRA
+ QgcPe+6aGZJElByt53x8YsHa4IOQ24jrlnQ85zbX8ilHYuCh9gz+YA7j09muG8lEMINeEw4U8a1
+ wTEENi+/62a456WpkW6o5dSthP31KYe9fkqsrHficPD3HsbTe9MkLMgP0m1kf9iYYmOU6lGC1zJ
+ u5Ck6WFXKK+L0a/EZlhr6EabOb7Q1FqoZnsMGQbPR8F1+0a53g45Sw7+yc+J0wesEFid1IaQnFW
+ 6I30=
+X-Received: by 2002:a05:620a:2911:b0:7c7:a574:c6d2 with SMTP id
+ af79cd13be357-7d44c26c479mr159330685a.9.1751119347127; 
+ Sat, 28 Jun 2025 07:02:27 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IE7wuqAnLzb6/uFSg6oL9C//BE7uB/PxoedUfxOubcNg8iAM3IahQGLP9T9ZqdE0mT6FVoRNA==
+X-Received: by 2002:a05:620a:2911:b0:7c7:a574:c6d2 with SMTP id
+ af79cd13be357-7d44c26c479mr159328085a.9.1751119346578; 
+ Sat, 28 Jun 2025 07:02:26 -0700 (PDT)
+Received: from [192.168.143.225] (078088045245.garwolin.vectranet.pl.
+ [78.88.45.245]) by smtp.gmail.com with ESMTPSA id
+ a640c23a62f3a-ae353ca0fdasm319419366b.147.2025.06.28.07.02.23
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Sat, 28 Jun 2025 07:02:26 -0700 (PDT)
+Message-ID: <7b7c970f-f94c-4b38-9693-65f969b992b5@oss.qualcomm.com>
+Date: Sat, 28 Jun 2025 16:02:22 +0200
+MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 1/3] dt-bindings: display/msm/gpu: account for 7xx GPUs in
+ clocks conditions
+To: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>,
+ Rob Clark <robin.clark@oss.qualcomm.com>, Sean Paul <sean@poorly.run>,
+ Konrad Dybcio <konradybcio@kernel.org>,
+ Dmitry Baryshkov <lumag@kernel.org>,
+ Abhinav Kumar <abhinav.kumar@linux.dev>,
+ Jessica Zhang <jessica.zhang@oss.qualcomm.com>,
+ Marijn Suijten <marijn.suijten@somainline.org>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>,
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+ Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
+ Conor Dooley <conor+dt@kernel.org>
+Cc: linux-arm-msm@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ freedreno@lists.freedesktop.org, devicetree@vger.kernel.org,
+ linux-kernel@vger.kernel.org
+References: <20250628-rework-msm-gpu-schema-v1-0-89f818c51b6a@oss.qualcomm.com>
+ <20250628-rework-msm-gpu-schema-v1-1-89f818c51b6a@oss.qualcomm.com>
+Content-Language: en-US
+From: Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>
+In-Reply-To: <20250628-rework-msm-gpu-schema-v1-1-89f818c51b6a@oss.qualcomm.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwNjI4MDExNyBTYWx0ZWRfX/MfdZhysg/H7
+ Grzu/H0pCP+d74a5+zqGdb4/B4S/XgIctamKwj0capkhgVIPBlP46hA/Mmr6fdGTX650XB6VYsp
+ RpxTtW69usqaS9ZX9nnJ8XgkYoGEg+3qw0jNdkc+8nwZgJFY7miMIMkdbDfjIvQnDEqBKp2y0pb
+ HhMYc3BkGIxeS6NerZeRjhYBmhu6lDQ1A3MLxajms42xJWTHMV3JRLuVzTgzTo7SWTGNB3kgM8Y
+ FZR9fQhRA0zsptkG6YQk16fyxVTEFHx+virbR3fT1YfDOqiQX2WHU6RB64uvE8ls3qhi8Gjndh1
+ i09Yjy//0xmTG6lFRqnLIWL5oCJ7lhP4XcXX4CWKgOEooEtfw326jyUheUxacsGxF7yH8dCqH5K
+ mev9XcFExy0Oo2491zv9nSx2i5+cIP7cj6tINjK6NPSwJtZ5t/ndzbbbcfXVuKn6FxQ9X0VS
+X-Proofpoint-GUID: lg2HuAHi3fyEdItJwOE17gg6hq3I6sNK
+X-Authority-Analysis: v=2.4 cv=RrbFLDmK c=1 sm=1 tr=0 ts=685ff5f4 cx=c_pps
+ a=hnmNkyzTK/kJ09Xio7VxxA==:117 a=FpWmc02/iXfjRdCD7H54yg==:17
+ a=IkcTkHD0fZMA:10 a=6IFa9wvqVegA:10 a=EUspDBNiAAAA:8 a=fA9TbEmd_Wx33vs1QK8A:9
+ a=QEXdDO2ut3YA:10 a=PEH46H7Ffwr30OY-TuGO:22
+X-Proofpoint-ORIG-GUID: lg2HuAHi3fyEdItJwOE17gg6hq3I6sNK
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1099,Hydra:6.1.7,FMLib:17.12.80.40
+ definitions=2025-06-27_05,2025-06-27_01,2025-03-28_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ impostorscore=0 mlxlogscore=820 adultscore=0 clxscore=1015 suspectscore=0
+ phishscore=0 bulkscore=0 malwarescore=0 spamscore=0 mlxscore=0
+ priorityscore=1501 lowpriorityscore=0 classifier=spam authscore=0 authtc=n/a
+ authcc= route=outbound adjust=0 reason=mlx scancount=1
+ engine=8.19.0-2505280000 definitions=main-2506280117
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -98,32 +138,16 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-SGksDQoNCk9uIFNhdCwgMjggSnVuIDIwMjUgMTA6MDU6MTEgLTAzMDANCkRhbmllbCBBbG1laWRh
-IDxkYW5pZWwuYWxtZWlkYUBjb2xsYWJvcmEuY29tPiB3cm90ZToNCg0KPiBBbnl3YXksIEkgdGhv
-dWdodCB0aGF0IGhhdmluZyBhIGJyYW5jaCB3b3VsZCBiZSBtb3JlIHRpZHkgdGhhbiBsaXN0aW5n
-IHRoZW0sIGFzDQo+IHRoZSBicmFuY2ggc2hvd3MgaW4gd2hhdCBvcmRlciB0aGV5J3JlIGFwcGxp
-ZWQgYW5kIGV0Yy4gRm9yIGV4YW1wbGUsIHRoZSBwYXRjaA0KPiBmb3IgcmVhZF9wb2xsX3RpbWVv
-dXQgd2FzIGNoZXJyeS1waWNrZWQgZnJvbSBGdWppdGEncyB2MTIgc2VyaWVzLCBhbmQgdGhhdCB3
-YXMNCj4gc3Vic2VxdWVudGx5IGRyb3BwZWQgaW4gdjEzIHVudGlsIHRoZSByZXN0IG9mIHRoZSBz
-ZXJpZXMgd2FzIG1lcmdlZCBvbiB2MTUuIEkNCj4gdGhvdWdodCB0aGF0IHJlZmVycmluZyB0byB2
-MTIgb2YgdGhhdCBzZXJpZXMgd291bGQgYmUgc2xpZ2h0bHkgY29uZnVzaW5nLg0KPiANCj4gSU9X
-OiB0aGlzIHNob3VsZCBiZSBhcHBsaWFibGUgYXMgc29vbiBhcyB0aGUgZGVwZW5kZW5jaWVzIHRo
-ZW1zZWx2ZXMgYXJlDQo+IG1lcmdlZC4gSSBhbSBob3BpbmcgdGhhdCB0aGlzIGNhbiBoYXBwZW4g
-b24gdGhlIDYuMTcgbWVyZ2Ugd2luZG93IGFzIHRoZQ0KPiBjb21tZW50cyBvbiBtb3N0IG9mIHRo
-ZW0gYXBwZWFyIHRvIGJlIGR5aW5nIGRvd24gc28gbWF5YmUgdGhlIHItYidzIHdpbGwgc3RhcnQN
-Cj4gY29taW5nIHNvb24uIEl0IGFsc28gZ2l2ZXMgYSB1c2VyIHRvIHJlYWRfcG9sbF90aW1lb3V0
-KCksIHdoaWNoIG1heSBwcm9tcHQgRnVqaXRhDQo+IHRvIGtlZXAgd29ya2luZyBvbiBpdC4NCg0K
-SSBleHBlY3QgcmVhZF9wb2xsX3RpbWVvdXQoKSB0byBiZSBtZXJnZWQgZHVyaW5nIHRoZSA2LjE4
-IHdpbmRvdy4NCg0KVG8gZXhwbGFpbiB0aGUgc2l0dWF0aW9uLCByZWFkX3BvbGxfdGltZW91dCgp
-IGRlcGVuZHMgb24gZnNsZWVwKCkgYW5kDQptaWdodF9zbGVlcCgpIGFic3RyYWN0aW9ucy4NCg0K
-SSBleHBlY3QgdGhlIGZvcm1lciB0byBiZSBwYXJ0IG9mIHdoYXQgQW5kcmVhcyBpcyBwcmVwYXJp
-bmcgdG8gbWVyZ2UNCmZvciB0aGUgNi4xNyB3aW5kb3csIGFsb25nIHdpdGggdGhlIHBhdGNoc2V0
-IGNvbnZlcnRpbmcgaHJ0aW1lciB0byB1c2UNCkluc3RhbnQgYW5kIERlbHRhLg0KDQpCb3F1biBo
-YXMgc3VibWl0dGVkIHRoZSBsYXR0ZXIgYXMgYSBwdWxsIHJlcXVlc3QgdG8gdGhlIHRpcCB0cmVl
-IGZvcg0KaW5jbHVzaW9uIGluIHRoZSA2LjE3IHdpbmRvdy4NCg0KU2luY2UgdGhlIHR3byBmZWF0
-dXJlcyBhcmUgYmVpbmcgbWVyZ2VkIHRocm91Z2ggZGlmZmVyZW50IHRyZWVzIGFuZCBJDQpkb26i
-dCB3YW50IHRvIGNvbXBsaWNhdGUgdGhlIHByb2Nlc3MsIEmibSBwbGFubmluZyB0byB0YXJnZXQN
-CnJlYWRfcG9sbF90aW1lb3V0KCkgZm9yIHRoZSA2LjE4IG1lcmdlIHdpbmRvdy4NCg0KSWYgeW91
-J3JlIHRhcmdldGluZyB0aGlzIGRyaXZlciBmb3IgNi4xNywgaXQgbWlnaHQgYmUgc2FmZXIgdG8N
-CmltcGxlbWVudCBhIHNpbWlsYXIgZnVuY3Rpb25hbGl0eSBsaWtlIHRoZSBub3ZhIGRyaXZlciBk
-aWQgYW5kIHJlcGxhY2UNCml0IGxhdGVyLg0KDQoNClRoYW5rcywNCg==
+On 6/28/25 5:02 AM, Dmitry Baryshkov wrote:
+> Handle two cases for Adreno 7xx:
+> - Adreno 702 follows A610 and A619 example and has clocks in the GPU
+>   node.
+> - Newer 7xx GPUs use a different pattern for the compatibles and did not
+>   match currently.
+> 
+> Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
+> ---
+
+Acked-by: Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>
+
+Konrad
