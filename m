@@ -2,48 +2,107 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 00A4EAECAB4
-	for <lists+dri-devel@lfdr.de>; Sun, 29 Jun 2025 00:43:05 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 21E25AECB18
+	for <lists+dri-devel@lfdr.de>; Sun, 29 Jun 2025 04:38:55 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 31E8D10E1E6;
-	Sat, 28 Jun 2025 22:43:01 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0797310E1EF;
+	Sun, 29 Jun 2025 02:38:52 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=igalia.com header.i=@igalia.com header.b="jMpNZ7rs";
+	dkim=pass (2048-bit key; unprotected) header.d=qualcomm.com header.i=@qualcomm.com header.b="TSM9sqN1";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from fanzine2.igalia.com (fanzine2.igalia.com [213.97.179.56])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2EA0310E1E6
- for <dri-devel@lists.freedesktop.org>; Sat, 28 Jun 2025 22:42:59 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com; 
- s=20170329;
- h=Content-Transfer-Encoding:Content-Type:MIME-Version:Message-ID:
- Date:Subject:Cc:To:From:Sender:Reply-To:Content-ID:Content-Description:
- Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
- In-Reply-To:References:List-Id:List-Help:List-Unsubscribe:List-Subscribe:
- List-Post:List-Owner:List-Archive;
- bh=alGgMwLoVbUC34K9GqJFUqwVHKfMG/1edlxFo+knNzw=; b=jMpNZ7rsHRZBKMwzzIBZxsOhQR
- vXgdO7TOi9IqdZxGKgScMP1u4ezv7DwGhQ8Yb2tC9uJJZ2simiQTPWJsRtmw25ZKBXfEpMDLn16bU
- s+P8WudPcCHoBN5FwCcN/J/+rjjj6UFL6Kj2NsWQtihfsWAcB7+N+SwXTcpL9ULGFKndv+YbOqOD5
- ZdgN53XV0yLBuU89rvZPRUZPyVET7Tktq4pgrikeKIBj60RpdLihE5M+jwDsLvSMZDQAsvt12Zp4G
- mcuUc5iie+F9RZv0fpq4qF7boBb/QrDgHnmA+6CZSuL47WTZaxcE6pTjEl/5c8ULBWEnrpFuzWt0b
- 5XDa+bKg==;
-Received: from [189.7.87.79] (helo=localhost.localdomain)
- by fanzine2.igalia.com with esmtpsa 
- (Cipher TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA512__CHACHA20_POLY1305:256)
- (Exim) id 1uVeG7-009sif-7Y; Sun, 29 Jun 2025 00:42:55 +0200
-From: =?UTF-8?q?Ma=C3=ADra=20Canal?= <mcanal@igalia.com>
-To: Melissa Wen <mwen@igalia.com>, Iago Toral <itoral@igalia.com>,
- =?UTF-8?q?Juan=20A=20=2E=20Su=C3=A1rez?= <jasuarez@igalia.com>
-Cc: dri-devel@lists.freedesktop.org, kernel-dev@igalia.com,
- =?UTF-8?q?Ma=C3=ADra=20Canal?= <mcanal@igalia.com>, stable@vger.kernel.org
-Subject: [PATCH] drm/v3d: Disable interrupts before resetting the GPU
-Date: Sat, 28 Jun 2025 19:42:42 -0300
-Message-ID: <20250628224243.47599-1-mcanal@igalia.com>
-X-Mailer: git-send-email 2.50.0
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com
+ [205.220.180.131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0207F10E1EF
+ for <dri-devel@lists.freedesktop.org>; Sun, 29 Jun 2025 02:38:47 +0000 (UTC)
+Received: from pps.filterd (m0279870.ppops.net [127.0.0.1])
+ by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 55T2V72L021801
+ for <dri-devel@lists.freedesktop.org>; Sun, 29 Jun 2025 02:38:46 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
+ cc:content-transfer-encoding:date:from:message-id:mime-version
+ :subject:to; s=qcppdkim1; bh=p/SPmqbpeLZua83wqEn3xcZI+3JQoReJBd9
+ BLRDAAV4=; b=TSM9sqN1r1Vh0gZBKcM5CJVet29bKuZ0pC9G+ePvQNvEImYRjPi
+ 21hyd8+FfH+nWl4y8E3Ax7vC9DWKXnB9zRfJ1HoL9t4h0XL98zs+AoDdfrQJC26J
+ Z+wJ4fk9upDqWw0HU0VgmDJ9at6PqbQ+FIhzzlPHRgor3aAET3fUmVrHzzpJ6iod
+ GKlQFRYZe84cW/z7uKGnT9bJq6xJaL2YDHYOu16hmxcUZA5zc63vRGIQeEZz7TqU
+ S+uUqyM8GLEWJlqD/U6KgyZWIL0pz+i84QtgX0RSyP0J34g6KbpGGuqpS1WMeHDt
+ GGPhtCQ2DuIsWxEg4u/14l7SG5AhRzds7pQ==
+Received: from mail-pl1-f198.google.com (mail-pl1-f198.google.com
+ [209.85.214.198])
+ by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 47j8fx9k37-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
+ for <dri-devel@lists.freedesktop.org>; Sun, 29 Jun 2025 02:38:45 +0000 (GMT)
+Received: by mail-pl1-f198.google.com with SMTP id
+ d9443c01a7336-23638e1605dso4802865ad.0
+ for <dri-devel@lists.freedesktop.org>; Sat, 28 Jun 2025 19:38:45 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1751164724; x=1751769524;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=p/SPmqbpeLZua83wqEn3xcZI+3JQoReJBd9BLRDAAV4=;
+ b=ecFahFPAwoKxg1IC0Qhktgxwl22FtRr+H/p2bmwCixGM2JBr/j6mpkC2/k5Uc1PuEW
+ d7/Mb5yJYZG3S4mbzDCgXyNU8FAtdh8iSalmOgnAFJJ0+yopkelc9QmJPjiBYy/L+fQq
+ yt4itb070SfkzzzMuXvqcKA12HoXGJ7vaqjyNfoMhGV8S75idtRXE1aYT9S3reMRvsqX
+ h0jqGsZQyTlt52jGpKi2wh1A65b2R90Ba0hf7kLGdCXjahr+j06iwW8Mk7zWSOsTOj9y
+ 4CPEvCs1Sh8KbzMcIoj/KGBhzVTiJ0Zal8DducYn8hQg1BuY65Z3j1AEF164Rt1/XtnF
+ LmDw==
+X-Gm-Message-State: AOJu0Yxa1yNXxAac18QZkMxL+oJY0bK3syZuB2XUQT0k+TYHXV3k3wYQ
+ x31tNfmBSdZvc+L+y3jkPvLict0ROA3WvplHzC9gxU/F9YzEaYlfwLhwiOd5pjgp+YJdrhYr4tx
+ 0f3hvjNrIE8LQ+pZFhub+7RqM302UbPCBKegG10dHncV0bLHHRcbCJbwN+ymenhW1jY6TtJU=
+X-Gm-Gg: ASbGnctKAh+aJq5e3HFqHijTyEJ27JdkQGNJ7GWYLXLr7N2HqElq14OEpjSkAUcGqHc
+ aPeQ4zOVtriZy7aSXdp6HbjG3fyHSYZ8pntyTt+6bDmivL1KnMQFnhBaBJET6vQ+6Uep75tzKJF
+ 3jFrCvb04FeSyQca3m4WBWxzBX8wtM5jKcr4NDkIEtGsS6lfXsl162y62yJorKovoCNhx1eKBEV
+ pKyAabHrQcL27WsillxAZvcqwuBT8iI30Szea03vwlQ1AEuRyYh8NVqOHNulRDO96DOz0hqoMb8
+ 83hFg6FYLL4Ojnws7xXSM5FFe/E+dkV5sVEtwEDYKqHSrumROitckkbuhij+Z327b93Jk086fti
+ 5h97rGBdtG65t
+X-Received: by 2002:a17:902:ef46:b0:236:94ac:cc11 with SMTP id
+ d9443c01a7336-23ac2d86a0cmr123509255ad.7.1751164724466; 
+ Sat, 28 Jun 2025 19:38:44 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IEr+6DJbaFlvCaIT69ugu9xCCAS7gPPWZYRHlIygX5JF152qzB84qx/0HTHAZLZ+rWeCd5JDQ==
+X-Received: by 2002:a17:902:ef46:b0:236:94ac:cc11 with SMTP id
+ d9443c01a7336-23ac2d86a0cmr123509085ad.7.1751164724048; 
+ Sat, 28 Jun 2025 19:38:44 -0700 (PDT)
+Received: from QCOM-eG0v1AUPpu.qualcomm.com (61-218-1-235.hinet-ip.hinet.net.
+ [61.218.1.235]) by smtp.gmail.com with ESMTPSA id
+ d9443c01a7336-23acb39bfdcsm50051815ad.105.2025.06.28.19.38.40
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Sat, 28 Jun 2025 19:38:43 -0700 (PDT)
+From: Loic Poulain <loic.poulain@oss.qualcomm.com>
+To: andrzej.hajda@intel.com, neil.armstrong@linaro.org, rfoss@kernel.org
+Cc: dri-devel@lists.freedesktop.org, lumag@kernel.org,
+ Laurent.pinchart@ideasonboard.com, jernej.skrabec@gmail.com,
+ maarten.lankhorst@linux.intel.com, mripard@kernel.org,
+ Loic Poulain <loic.poulain@oss.qualcomm.com>
+Subject: [PATCH] drm/bridge: anx7625: Fix invalid EDID size
+Date: Sun, 29 Jun 2025 04:38:36 +0200
+Message-Id: <20250629023836.744441-1-loic.poulain@oss.qualcomm.com>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwNjI5MDAyMCBTYWx0ZWRfX2BKQu6EFcaEA
+ Qj4g4buHoMF02MWj0bpa0QZyRdCZpRi0RqiucIliXxRZfQWE79ADl0rLD3z/8iFRJShHv/twa+5
+ 3J/xQ4ThPaFUlMxRtwK1I/uQiQZl+Go0cTZbkELSfWcniCCI/l3+Fx+sA7aYlGk5KYIkxVPAB6N
+ 6Ei3QVJqFiUpGvMv1R/Y60I0bcy6xWBm9KzqGPBIlwQhkeMDKxu3c6r9mk2L1tBM1T0sFJnjeZW
+ FusFAg2g/r0w9nKLmviANQbLqbZeazbNYcJ1VLACp7v0U/HP4GcsY8lHyqITk6IKbqDiyUFOc11
+ vefLDPvhaUfCnT/Nflof65kvZsv9HI6Pdau/E3b1RFECSf8mhWUUrTGfFY6PPz00Djl+oLUDXXJ
+ uQMjXLVyCxAhHfK70pJUYuaOJsuUANgnjCYc1lOquc36aLtmNtZu3ZmlOyQvxDISyCEAAkeK
+X-Proofpoint-GUID: Hn5sP_4HkPkMynaYW3XOxoy7EsBsmYRy
+X-Proofpoint-ORIG-GUID: Hn5sP_4HkPkMynaYW3XOxoy7EsBsmYRy
+X-Authority-Analysis: v=2.4 cv=TqPmhCXh c=1 sm=1 tr=0 ts=6860a735 cx=c_pps
+ a=MTSHoo12Qbhz2p7MsH1ifg==:117 a=T9uPOO+yMrmy5RPiWZCDag==:17
+ a=6IFa9wvqVegA:10 a=EUspDBNiAAAA:8 a=F3gowxcN_wSbYo8ZTGIA:9
+ a=GvdueXVYPmCkWapjIL-Q:22
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1099,Hydra:6.1.7,FMLib:17.12.80.40
+ definitions=2025-06-27_05,2025-06-27_01,2025-03-28_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ priorityscore=1501 bulkscore=0 mlxlogscore=894 suspectscore=0 adultscore=0
+ phishscore=0 malwarescore=0 clxscore=1011 lowpriorityscore=0 mlxscore=0
+ impostorscore=0 spamscore=0 classifier=spam authscore=0 authtc=n/a authcc=
+ route=outbound adjust=0 reason=mlx scancount=1 engine=8.19.0-2505280000
+ definitions=main-2506290020
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -59,196 +118,29 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Currently, an interrupt can be triggered during a GPU reset, which can
-lead to GPU hangs and NULL pointer dereference in an interrupt context
-as shown in the following trace:
+DRM checks EDID block count against allocated size in drm_edid_valid
+function. We have to allocate the right EDID size instead of the max
+size to prevent the EDID to be reported as invalid.
 
- [  314.035040] Unable to handle kernel NULL pointer dereference at virtual address 00000000000000c0
- [  314.043822] Mem abort info:
- [  314.046606]   ESR = 0x0000000096000005
- [  314.050347]   EC = 0x25: DABT (current EL), IL = 32 bits
- [  314.055651]   SET = 0, FnV = 0
- [  314.058695]   EA = 0, S1PTW = 0
- [  314.061826]   FSC = 0x05: level 1 translation fault
- [  314.066694] Data abort info:
- [  314.069564]   ISV = 0, ISS = 0x00000005, ISS2 = 0x00000000
- [  314.075039]   CM = 0, WnR = 0, TnD = 0, TagAccess = 0
- [  314.080080]   GCS = 0, Overlay = 0, DirtyBit = 0, Xs = 0
- [  314.085382] user pgtable: 4k pages, 39-bit VAs, pgdp=0000000102728000
- [  314.091814] [00000000000000c0] pgd=0000000000000000, p4d=0000000000000000, pud=0000000000000000
- [  314.100511] Internal error: Oops: 0000000096000005 [#1] PREEMPT SMP
- [  314.106770] Modules linked in: v3d i2c_brcmstb vc4 snd_soc_hdmi_codec gpu_sched drm_shmem_helper drm_display_helper cec drm_dma_helper drm_kms_helper drm drm_panel_orientation_quirks snd_soc_core snd_compress snd_pcm_dmaengine snd_pcm snd_timer snd backlight
- [  314.129654] CPU: 0 UID: 0 PID: 0 Comm: swapper/0 Not tainted 6.12.25+rpt-rpi-v8 #1  Debian 1:6.12.25-1+rpt1
- [  314.139388] Hardware name: Raspberry Pi 4 Model B Rev 1.4 (DT)
- [  314.145211] pstate: 600000c5 (nZCv daIF -PAN -UAO -TCO -DIT -SSBS BTYPE=--)
- [  314.152165] pc : v3d_irq+0xec/0x2e0 [v3d]
- [  314.156187] lr : v3d_irq+0xe0/0x2e0 [v3d]
- [  314.160198] sp : ffffffc080003ea0
- [  314.163502] x29: ffffffc080003ea0 x28: ffffffec1f184980 x27: 021202b000000000
- [  314.170633] x26: ffffffec1f17f630 x25: ffffff8101372000 x24: ffffffec1f17d9f0
- [  314.177764] x23: 000000000000002a x22: 000000000000002a x21: ffffff8103252000
- [  314.184895] x20: 0000000000000001 x19: 00000000deadbeef x18: 0000000000000000
- [  314.192026] x17: ffffff94e51d2000 x16: ffffffec1dac3cb0 x15: c306000000000000
- [  314.199156] x14: 0000000000000000 x13: b2fc982e03cc5168 x12: 0000000000000001
- [  314.206286] x11: ffffff8103f8bcc0 x10: ffffffec1f196868 x9 : ffffffec1dac3874
- [  314.213416] x8 : 0000000000000000 x7 : 0000000000042a3a x6 : ffffff810017a180
- [  314.220547] x5 : ffffffec1ebad400 x4 : ffffffec1ebad320 x3 : 00000000000bebeb
- [  314.227677] x2 : 0000000000000000 x1 : 0000000000000000 x0 : 0000000000000000
- [  314.234807] Call trace:
- [  314.237243]  v3d_irq+0xec/0x2e0 [v3d]
- [  314.240906]  __handle_irq_event_percpu+0x58/0x218
- [  314.245609]  handle_irq_event+0x54/0xb8
- [  314.249439]  handle_fasteoi_irq+0xac/0x240
- [  314.253527]  handle_irq_desc+0x48/0x68
- [  314.257269]  generic_handle_domain_irq+0x24/0x38
- [  314.261879]  gic_handle_irq+0x48/0xd8
- [  314.265533]  call_on_irq_stack+0x24/0x58
- [  314.269448]  do_interrupt_handler+0x88/0x98
- [  314.273624]  el1_interrupt+0x34/0x68
- [  314.277193]  el1h_64_irq_handler+0x18/0x28
- [  314.281281]  el1h_64_irq+0x64/0x68
- [  314.284673]  default_idle_call+0x3c/0x168
- [  314.288675]  do_idle+0x1fc/0x230
- [  314.291895]  cpu_startup_entry+0x3c/0x50
- [  314.295810]  rest_init+0xe4/0xf0
- [  314.299030]  start_kernel+0x5e8/0x790
- [  314.302684]  __primary_switched+0x80/0x90
- [  314.306691] Code: 940029eb 360ffc13 f9442ea0 52800001 (f9406017)
- [  314.312775] ---[ end trace 0000000000000000 ]---
- [  314.317384] Kernel panic - not syncing: Oops: Fatal exception in interrupt
- [  314.324249] SMP: stopping secondary CPUs
- [  314.328167] Kernel Offset: 0x2b9da00000 from 0xffffffc080000000
- [  314.334076] PHYS_OFFSET: 0x0
- [  314.336946] CPU features: 0x08,00002013,c0200000,0200421b
- [  314.342337] Memory Limit: none
- [  314.345382] ---[ end Kernel panic - not syncing: Oops: Fatal exception in interrupt ]---
-
-Before resetting the GPU, it's necessary to disable all interrupts and
-deal with any interrupt handler still in-flight. Otherwise, the GPU might
-reset with jobs still running, or yet, an interrupt could be handled
-during the reset.
-
-Cc: stable@vger.kernel.org
-Fixes: 57692c94dcbe ("drm/v3d: Introduce a new DRM driver for Broadcom V3D V3.x+")
-Signed-off-by: Maíra Canal <mcanal@igalia.com>
+Fixes: 7c585f9a71aa ("drm/bridge: anx7625: use struct drm_edid more")
+Signed-off-by: Loic Poulain <loic.poulain@oss.qualcomm.com>
 ---
- drivers/gpu/drm/v3d/v3d_drv.h |  8 ++++++++
- drivers/gpu/drm/v3d/v3d_gem.c |  2 ++
- drivers/gpu/drm/v3d/v3d_irq.c | 37 +++++++++++++++++++++++++----------
- 3 files changed, 37 insertions(+), 10 deletions(-)
+ drivers/gpu/drm/bridge/analogix/anx7625.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/drivers/gpu/drm/v3d/v3d_drv.h b/drivers/gpu/drm/v3d/v3d_drv.h
-index b51f0b648a08..411e47702f8a 100644
---- a/drivers/gpu/drm/v3d/v3d_drv.h
-+++ b/drivers/gpu/drm/v3d/v3d_drv.h
-@@ -101,6 +101,12 @@ enum v3d_gen {
- 	V3D_GEN_71 = 71,
- };
+diff --git a/drivers/gpu/drm/bridge/analogix/anx7625.c b/drivers/gpu/drm/bridge/analogix/anx7625.c
+index 8a9079c2ed5c..5a81d1bfc815 100644
+--- a/drivers/gpu/drm/bridge/analogix/anx7625.c
++++ b/drivers/gpu/drm/bridge/analogix/anx7625.c
+@@ -1801,7 +1801,7 @@ static const struct drm_edid *anx7625_edid_read(struct anx7625_data *ctx)
+ 		return NULL;
+ 	}
  
-+enum v3d_irq {
-+	V3D_CORE_IRQ,
-+	V3D_HUB_IRQ,
-+	V3D_MAX_IRQS,
-+};
-+
- struct v3d_dev {
- 	struct drm_device drm;
+-	ctx->cached_drm_edid = drm_edid_alloc(edid_buf, FOUR_BLOCK_SIZE);
++	ctx->cached_drm_edid = drm_edid_alloc(edid_buf, edid_num * ONE_BLOCK_SIZE);
+ 	kfree(edid_buf);
  
-@@ -112,6 +118,8 @@ struct v3d_dev {
- 
- 	bool single_irq_line;
- 
-+	int irq[V3D_MAX_IRQS];
-+
- 	struct v3d_perfmon_info perfmon_info;
- 
- 	void __iomem *hub_regs;
-diff --git a/drivers/gpu/drm/v3d/v3d_gem.c b/drivers/gpu/drm/v3d/v3d_gem.c
-index d7d16da78db3..37bf5eecdd2c 100644
---- a/drivers/gpu/drm/v3d/v3d_gem.c
-+++ b/drivers/gpu/drm/v3d/v3d_gem.c
-@@ -134,6 +134,8 @@ v3d_reset(struct v3d_dev *v3d)
- 	if (false)
- 		v3d_idle_axi(v3d, 0);
- 
-+	v3d_irq_disable(v3d);
-+
- 	v3d_idle_gca(v3d);
- 	v3d_reset_sms(v3d);
- 	v3d_reset_v3d(v3d);
-diff --git a/drivers/gpu/drm/v3d/v3d_irq.c b/drivers/gpu/drm/v3d/v3d_irq.c
-index 2cca5d3a26a2..a515a301e480 100644
---- a/drivers/gpu/drm/v3d/v3d_irq.c
-+++ b/drivers/gpu/drm/v3d/v3d_irq.c
-@@ -260,7 +260,7 @@ v3d_hub_irq(int irq, void *arg)
- int
- v3d_irq_init(struct v3d_dev *v3d)
- {
--	int irq1, ret, core;
-+	int irq, ret, core;
- 
- 	INIT_WORK(&v3d->overflow_mem_work, v3d_overflow_mem_work);
- 
-@@ -271,17 +271,24 @@ v3d_irq_init(struct v3d_dev *v3d)
- 		V3D_CORE_WRITE(core, V3D_CTL_INT_CLR, V3D_CORE_IRQS(v3d->ver));
- 	V3D_WRITE(V3D_HUB_INT_CLR, V3D_HUB_IRQS(v3d->ver));
- 
--	irq1 = platform_get_irq_optional(v3d_to_pdev(v3d), 1);
--	if (irq1 == -EPROBE_DEFER)
--		return irq1;
--	if (irq1 > 0) {
--		ret = devm_request_irq(v3d->drm.dev, irq1,
-+	irq = platform_get_irq_optional(v3d_to_pdev(v3d), 1);
-+	if (irq == -EPROBE_DEFER)
-+		return irq;
-+	if (irq > 0) {
-+		v3d->irq[V3D_CORE_IRQ] = irq;
-+
-+		ret = devm_request_irq(v3d->drm.dev, v3d->irq[V3D_CORE_IRQ],
- 				       v3d_irq, IRQF_SHARED,
- 				       "v3d_core0", v3d);
- 		if (ret)
- 			goto fail;
--		ret = devm_request_irq(v3d->drm.dev,
--				       platform_get_irq(v3d_to_pdev(v3d), 0),
-+
-+		irq = platform_get_irq(v3d_to_pdev(v3d), 0);
-+		if (irq < 0)
-+			return irq;
-+		v3d->irq[V3D_HUB_IRQ] = irq;
-+
-+		ret = devm_request_irq(v3d->drm.dev, v3d->irq[V3D_HUB_IRQ],
- 				       v3d_hub_irq, IRQF_SHARED,
- 				       "v3d_hub", v3d);
- 		if (ret)
-@@ -289,8 +296,12 @@ v3d_irq_init(struct v3d_dev *v3d)
- 	} else {
- 		v3d->single_irq_line = true;
- 
--		ret = devm_request_irq(v3d->drm.dev,
--				       platform_get_irq(v3d_to_pdev(v3d), 0),
-+		irq = platform_get_irq(v3d_to_pdev(v3d), 0);
-+		if (irq < 0)
-+			return irq;
-+		v3d->irq[V3D_CORE_IRQ] = irq;
-+
-+		ret = devm_request_irq(v3d->drm.dev, v3d->irq[V3D_CORE_IRQ],
- 				       v3d_irq, IRQF_SHARED,
- 				       "v3d", v3d);
- 		if (ret)
-@@ -331,6 +342,12 @@ v3d_irq_disable(struct v3d_dev *v3d)
- 		V3D_CORE_WRITE(core, V3D_CTL_INT_MSK_SET, ~0);
- 	V3D_WRITE(V3D_HUB_INT_MSK_SET, ~0);
- 
-+	/* Finish any interrupt handler still in flight. */
-+	for (int i = 0; i < V3D_MAX_IRQS; i++) {
-+		if (v3d->irq[i])
-+			synchronize_irq(v3d->irq[i]);
-+	}
-+
- 	/* Clear any pending interrupts we might have left. */
- 	for (core = 0; core < v3d->cores; core++)
- 		V3D_CORE_WRITE(core, V3D_CTL_INT_CLR, V3D_CORE_IRQS(v3d->ver));
+ out:
 -- 
-2.50.0
+2.34.1
 
