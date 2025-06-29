@@ -2,84 +2,120 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id A2B98AECE01
-	for <lists+dri-devel@lfdr.de>; Sun, 29 Jun 2025 16:41:28 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id BF987AECE06
+	for <lists+dri-devel@lfdr.de>; Sun, 29 Jun 2025 16:45:24 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E7E7910E359;
-	Sun, 29 Jun 2025 14:41:26 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D295C10E34D;
+	Sun, 29 Jun 2025 14:45:21 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="FRcCx5bu";
+	dkim=pass (2048-bit key; unprotected) header.d=qualcomm.com header.i=@qualcomm.com header.b="oECh7iqW";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pf1-f174.google.com (mail-pf1-f174.google.com
- [209.85.210.174])
- by gabe.freedesktop.org (Postfix) with ESMTPS id DC1F110E359
- for <dri-devel@lists.freedesktop.org>; Sun, 29 Jun 2025 14:41:25 +0000 (UTC)
-Received: by mail-pf1-f174.google.com with SMTP id
- d2e1a72fcca58-747c2cc3419so3604713b3a.2
- for <dri-devel@lists.freedesktop.org>; Sun, 29 Jun 2025 07:41:25 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1751208085; x=1751812885; darn=lists.freedesktop.org;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:from:to:cc:subject:date
- :message-id:reply-to;
- bh=AkH6WZ47tB33hOq1ktfgw4nXcDuqU5IvVV0uN0/lGcY=;
- b=FRcCx5bu/Uq4G84hCvf+dv5DK5ejZwLwmFeC9xr+hG3p3jh6YrUPm7/9sG6a3Ef8z/
- nK2U6Ksqa2j8rwqKlNo/UDqiDyfE0j87zXJVxbIIDETXOhDcRhXg9Nh0JEkY2f8ttRQo
- csDW8lfEposRqmTiSZMCFO29sb/EMKouiIE74k3TUUL5QbDoS9rmTdx2M8Zp/NdLgsK3
- bjPommAnE+Js9RhY8QUayFXyuMLFXccG1uBFlsBnZDom0T/oUXONeG/vjDxHptpogeJP
- oKX6N3LjBKllLs2q6KpPJjuSbG3Rnq+TT87i34ytDq0MDgzU8Z3ttWFuqaC4TthVbUB1
- s+VA==
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com
+ [205.220.180.131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7A0C510E356
+ for <dri-devel@lists.freedesktop.org>; Sun, 29 Jun 2025 14:45:20 +0000 (UTC)
+Received: from pps.filterd (m0279868.ppops.net [127.0.0.1])
+ by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 55TCISX5032657
+ for <dri-devel@lists.freedesktop.org>; Sun, 29 Jun 2025 14:45:19 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
+ cc:content-type:date:from:in-reply-to:message-id:mime-version
+ :references:subject:to; s=qcppdkim1; bh=U75yw7BMC/S6igk0SQ7PlAp8
+ c+8TFboIWS9Vq7PTNB4=; b=oECh7iqWHwXVcfgXCPhAZwgrgIRSNp1O4g18tRPQ
+ G+cquXTpg7+KbIZ4Bcle76waU/2UcVfVOpAYetxIiGcxg05xJoJptjI1n8+qfQkO
+ crMlx/koLGQ6Nzsym5ASCe4ikNAhAp6YQkjnBAR6rvHGoSGnHqRWrn8jh202q/vK
+ VVF+5OFC1mgxwRNBjQKH0uEeGPRnaQRZRrkhPDkQypXmPSNIFl7A1j6deZbC5Bek
+ ydDRgJ2sYEmcY4gx8V1u57Ea0OKUOJMsM0kiLN2KmtwwXejR81YXUr6f1ayfHRG4
+ Wz/h/Y91x3I/O1pDMB+1+VDZpjeDnanG/84dJY3teCxCog==
+Received: from mail-qk1-f198.google.com (mail-qk1-f198.google.com
+ [209.85.222.198])
+ by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 47j7qm29uh-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
+ for <dri-devel@lists.freedesktop.org>; Sun, 29 Jun 2025 14:45:19 +0000 (GMT)
+Received: by mail-qk1-f198.google.com with SMTP id
+ af79cd13be357-7d22790afd2so188936585a.2
+ for <dri-devel@lists.freedesktop.org>; Sun, 29 Jun 2025 07:45:19 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1751208085; x=1751812885;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=AkH6WZ47tB33hOq1ktfgw4nXcDuqU5IvVV0uN0/lGcY=;
- b=radr+my2E3+nQjieQoRmWSi52Us5KcPgspaqCjSaGStBvZkd5u2qX3840x7d4DZO04
- qdl1mLvIHfXsze1F14NcPNjReiCUGDvy2SPy4DaM55fQtDTHxo/W1xHd//kc/h7tGsdu
- nR9KrjO+5jW4iPdzgFdOkpABBQLrXGJZ5itWIF+P+oJCr3lQs6bh8bPvMbE0Ez5ZFAFQ
- dvLDziXVof5Sk6nTWNLJ7wvfrHD8KSL8KJaopZjTEPim/u+5bEzD9/6JAsMriD1QIwi3
- h5IIBgSJnKWbkW5pUNQ72PksIi1Y4psoTvr7MfApl71OzRp59r7pzGf/sVncFMVcj+C6
- XAZQ==
-X-Forwarded-Encrypted: i=1;
- AJvYcCU3whWmazx39JwJ19K2orsRe3+gJiru3mOh8eVfShgaBQrexJIYeaSXM77xnZPM0SH8z2c+Zuch5IY=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YyVT2Ys3Gzq1e7T8LrV8+AAHgJG7xBaxZn2qiiFuJfGktHdvcJQ
- RJRhXBGqNxkls0SM9ewVZpljXkYWd60B7qPDKT6JRtplpgZ3vHRnWaoT
-X-Gm-Gg: ASbGncv/fLR6qIHBwmJcHcevfbKra6U76KtH7UMC0bMJ0847U8mYD+s5uf9OuANl3MH
- keFWrvy1EnPqTUyS12mV70d/+xN54D0simdITdgpsbi7DZaofoAu8g2wMEkf0GE2DbzxFSvJJrR
- 9wKOSt1Xcy0T/fTSpob8KMrNL3nShDd+qnQanDIh5N7trU57fnDYirJRPVrs59pcnmJAddjZCYI
- RbasjznzfDrLVV4NZ6ztbbejKJtoxA/f5OFhZ4sMDYYmsLH3DrwJ5XXG/r9GHgLkNTlK7YADvZQ
- mWZ6yv9FUHmy3SfnvqZh7paKQ4/j0RmkBqDvYCZN+spWAid9qsjqEF2eG0pNxjh2F8n5SGLl0pp
- mmQ==
-X-Google-Smtp-Source: AGHT+IFBiKmBx9yH5kYGSYjeMY9rQSEBpTMve8iNeUO9mG9D8vqHt/VBUqvbXcqaLSd2ovKMv+M48A==
-X-Received: by 2002:a05:6a00:2d07:b0:736:8c0f:7758 with SMTP id
- d2e1a72fcca58-74af6e6659bmr12804699b3a.10.1751208085209; 
- Sun, 29 Jun 2025 07:41:25 -0700 (PDT)
-Received: from localhost.localdomain ([49.37.221.186])
- by smtp.googlemail.com with ESMTPSA id
- d2e1a72fcca58-74af55c7e89sm7039127b3a.109.2025.06.29.07.41.19
+ d=1e100.net; s=20230601; t=1751208319; x=1751813119;
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=U75yw7BMC/S6igk0SQ7PlAp8c+8TFboIWS9Vq7PTNB4=;
+ b=XVTSOLu1JmJHgDVVRbeTZ2fJy55PGGHJNqrbfI3K26wGId67qg5pSwusfsJ3Ylh7Q1
+ 8pca6rntAlyFRll+y8LYpMnvSm5rc6N0ZrHVr0+O0t4gqAq+gBiqK2k1pTAoJQOS43uo
+ dnhFzm0uaEW35HsXUCbFamolrqCB/MY5kp4CrKz/3ywOlQz+j5Hy4mxA/nrDLblX3+Gv
+ bXOWdLSoISqf50Te8VDlIaF2HJXS5pK0LqniiE40QKgq8LwIlTblFX1dZCxpqVWxFpOo
+ z2UT7+uUwQeg1fXt54zx+GLJsRgB1I6REhwSxkoRfvqwQ8mA69oTMNG4Oiyv0Y1p9j7r
+ +x8Q==
+X-Gm-Message-State: AOJu0Yyt1tsaYEu93XxfL4YeN0Ahj8rqlTEfksdmOx/hfD8TM5vco4jH
+ jsWtIncT1dTZpik+WPxYsnrbZp8cGZnMecTxQgS0UIul+479HIJZf9eRjGS+SpNSJ9QY3dtbCuo
+ fCVmE/6keoGhIyUhDnAFvPLbl2EJ1GiXagJSidAqBDRloV7AQS2oEmIZOMlb5lD5cqfa3Rm0=
+X-Gm-Gg: ASbGncvRTH+vTdzDwB9IN/uTKBykSc01JnLRUhD2xVvd4gYZneDOUOIe+j2Uz+LG3Tc
+ ScsjEHF5BQCfUf/NaK8ZP3az2/1YgZcqAlbI5ktCmQsj2ai0L2bk0ORrtIgr/T5Sh99iIvYnCZA
+ Is0gw849tzyZIPExksAYjSfGvGs71junwazu2sj/XH70WztHCK2thY53dYdn7whvwMJn0VDQWmH
+ f0MU1n9Fr1giKteuN8DVodx5mZIbmR8IqyqpkLAXA/ePom1n+eVZpMKvluV6sTzkFY+jfA7OcRg
+ v9dVAEetCQnMnd34ODi2XBaPwR2WhZbBUIuv3gWJpcCv+nSadzXxaHEGz7K5np6kdqqPZ9vePO+
+ HMt1zlLcuBMU2nt9DJJDyNqfToTMjrN7/wW0=
+X-Received: by 2002:a05:620a:400c:b0:7c5:5670:bd6f with SMTP id
+ af79cd13be357-7d4439b9679mr1537818885a.53.1751208318663; 
+ Sun, 29 Jun 2025 07:45:18 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IHCYpAnwJ1rYQ1S233FYjwYu4oJCVh/e3dqa7Xz6LlKsV9YCedkRP+JE+l1W66OWbNHR1zgWw==
+X-Received: by 2002:a05:620a:400c:b0:7c5:5670:bd6f with SMTP id
+ af79cd13be357-7d4439b9679mr1537812885a.53.1751208318157; 
+ Sun, 29 Jun 2025 07:45:18 -0700 (PDT)
+Received: from umbar.lan
+ (2001-14ba-a0c3-3a00-264b-feff-fe8b-be8a.rev.dnainternet.fi.
+ [2001:14ba:a0c3:3a00:264b:feff:fe8b:be8a])
+ by smtp.gmail.com with ESMTPSA id
+ 2adb3069b0e04-5550b2cd99esm1137184e87.158.2025.06.29.07.45.16
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sun, 29 Jun 2025 07:41:24 -0700 (PDT)
-From: Abdun Nihaal <abdun.nihaal@gmail.com>
-To: andy@kernel.org
-Cc: Abdun Nihaal <abdun.nihaal@gmail.com>, dan.carpenter@linaro.org,
- gregkh@linuxfoundation.org, lorenzo.stoakes@oracle.com,
- tzimmermann@suse.de, riyandhiman14@gmail.com, willy@infradead.org,
- notro@tronnes.org, thomas.petazzoni@free-electrons.com,
- dri-devel@lists.freedesktop.org, linux-fbdev@vger.kernel.org,
- linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org,
- Andy Shevchenko <andriy.shevchenko@intel.com>
-Subject: [PATCH v3 2/2] staging: fbtft: cleanup error handling in
- fbtft_framebuffer_alloc()
-Date: Sun, 29 Jun 2025 20:10:11 +0530
-Message-ID: <4e062d040806dc29d6124ac0309e741c63f13ac0.1751207100.git.abdun.nihaal@gmail.com>
-X-Mailer: git-send-email 2.43.0
-In-Reply-To: <cover.1751207100.git.abdun.nihaal@gmail.com>
-References: <cover.1751207100.git.abdun.nihaal@gmail.com>
+ Sun, 29 Jun 2025 07:45:17 -0700 (PDT)
+Date: Sun, 29 Jun 2025 17:45:15 +0300
+From: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
+To: Rob Clark <robin.clark@oss.qualcomm.com>
+Cc: dri-devel@lists.freedesktop.org, freedreno@lists.freedesktop.org,
+ linux-arm-msm@vger.kernel.org, Helen Koike <helen.fornazier@gmail.com>,
+ Vignesh Raman <vignesh.raman@collabora.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>,
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+ Dmitry Baryshkov <lumag@kernel.org>,
+ Abhinav Kumar <abhinav.kumar@linux.dev>,
+ Jessica Zhang <jessica.zhang@oss.qualcomm.com>,
+ Sean Paul <sean@poorly.run>,
+ Marijn Suijten <marijn.suijten@somainline.org>,
+ open list <linux-kernel@vger.kernel.org>
+Subject: Re: [PATCH] drm/ci: Remove sdm845/cheza jobs
+Message-ID: <nij26lzoinzr3cbfmvwzigtxpsjibaudect3i772swbnmyuz5w@2jny5ie3oqw3>
+References: <20250629135843.30097-1-robin.clark@oss.qualcomm.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20250629135843.30097-1-robin.clark@oss.qualcomm.com>
+X-Authority-Analysis: v=2.4 cv=C4TpyRP+ c=1 sm=1 tr=0 ts=6861517f cx=c_pps
+ a=qKBjSQ1v91RyAK45QCPf5w==:117 a=xqWC_Br6kY4A:10 a=kj9zAlcOel0A:10
+ a=6IFa9wvqVegA:10 a=EUspDBNiAAAA:8 a=zVdBlVQdkfp4bBuhmU0A:9 a=CjuIK1q_8ugA:10
+ a=NFOGd7dJGGMPyQGDc5-O:22
+X-Proofpoint-ORIG-GUID: N7i-wEd-NLJ3o2G2joxnQco6ZAkRD_5f
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwNjI5MDEyNCBTYWx0ZWRfX26O68ahof+d7
+ KK4VuQNEtOpRwuIps6QrxxWtGPPtQG6RYPOIo0fnH/9UHZNjZX4cj3ejZjfkRzvaSZmDqRe//o8
+ Ra4nDKnCUfObTL8FZsCiSiGJjCfGNViOa5U/PJ3+ara+2y2Ab2FqU2hgCAeCXYUxiJQRT68v12F
+ kDcyFCiVN66dU+JzWl2t2MtdD77dGO1yDh8RPe1c0ugqB7s2VHLH0+rHBbaKAlKrCi0VGo2JEO0
+ d9JAxb+3nSZp3g7O04ny2QIDtXky2UoUAzmFfnvaFQeYZoFLfae/tWFuas4FUZsWjBIADjiLiNx
+ /GA88GDlC0gUOlDB5LTEnGhni/st3ePhujYT14usiRRqXyhOaWapUEaA3jaRdlPBAGMHI/W7Xf0
+ /EBvGpW+G+6109lD/FW+8lkCJBv8e66nf+MmyPj+Ux49Ml7UoL4TKerZ4HIR/AyLgSKZZTBx
+X-Proofpoint-GUID: N7i-wEd-NLJ3o2G2joxnQco6ZAkRD_5f
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1099,Hydra:6.1.7,FMLib:17.12.80.40
+ definitions=2025-06-27_05,2025-06-27_01,2025-03-28_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ impostorscore=0 phishscore=0 suspectscore=0 bulkscore=0 lowpriorityscore=0
+ clxscore=1015 priorityscore=1501 spamscore=0 mlxscore=0 mlxlogscore=898
+ adultscore=0 malwarescore=0 classifier=spam authscore=0 authtc=n/a authcc=
+ route=outbound adjust=0 reason=mlx scancount=1 engine=8.19.0-2505280000
+ definitions=main-2506290124
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -95,114 +131,25 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The error handling in fbtft_framebuffer_alloc() mixes managed allocation
-and plain allocation, and performs error handling in an order different
-from the order in fbtft_framebuffer_release().
+On Sun, Jun 29, 2025 at 06:58:41AM -0700, Rob Clark wrote:
+> These runners are no more.  So remove the jobs.
+> 
+> Signed-off-by: Rob Clark <robin.clark@oss.qualcomm.com>
+> ---
+>  drivers/gpu/drm/ci/build.sh                   |  17 -
+>  drivers/gpu/drm/ci/test.yml                   |  14 -
+>  .../gpu/drm/ci/xfails/msm-sdm845-fails.txt    |  29 --
+>  .../gpu/drm/ci/xfails/msm-sdm845-flakes.txt   | 139 -------
+>  .../gpu/drm/ci/xfails/msm-sdm845-skips.txt    | 350 ------------------
+>  5 files changed, 549 deletions(-)
+>  delete mode 100644 drivers/gpu/drm/ci/xfails/msm-sdm845-fails.txt
+>  delete mode 100644 drivers/gpu/drm/ci/xfails/msm-sdm845-flakes.txt
+>  delete mode 100644 drivers/gpu/drm/ci/xfails/msm-sdm845-skips.txt
+> 
 
-Fix them by moving vmem allocation closer to where it is used, and using
-plain kzalloc() for txbuf allocation.
+Reviewed-by: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
 
-Suggested-by: Andy Shevchenko <andriy.shevchenko@intel.com>
-Suggested-by: Dan Carpenter <dan.carpenter@linaro.org>
-Signed-off-by: Abdun Nihaal <abdun.nihaal@gmail.com>
----
-v2->v3: 
-- Remove the if check before kfree of txbuf.buf, because it is zero
-  initialized on allocation, and kfree is NULL aware.
 
-Newly added in v2
-
- drivers/staging/fbtft/fbtft-core.c | 31 +++++++++++++++---------------
- 1 file changed, 16 insertions(+), 15 deletions(-)
-
-diff --git a/drivers/staging/fbtft/fbtft-core.c b/drivers/staging/fbtft/fbtft-core.c
-index 8538b6bab6a5..9e7b84071174 100644
---- a/drivers/staging/fbtft/fbtft-core.c
-+++ b/drivers/staging/fbtft/fbtft-core.c
-@@ -568,18 +568,13 @@ struct fb_info *fbtft_framebuffer_alloc(struct fbtft_display *display,
- 		height = display->height;
- 	}
- 
--	vmem_size = display->width * display->height * bpp / 8;
--	vmem = vzalloc(vmem_size);
--	if (!vmem)
--		goto alloc_fail;
--
- 	fbdefio = devm_kzalloc(dev, sizeof(struct fb_deferred_io), GFP_KERNEL);
- 	if (!fbdefio)
--		goto alloc_fail;
-+		return NULL;
- 
- 	buf = devm_kzalloc(dev, 128, GFP_KERNEL);
- 	if (!buf)
--		goto alloc_fail;
-+		return NULL;
- 
- 	if (display->gamma_num && display->gamma_len) {
- 		gamma_curves = devm_kcalloc(dev,
-@@ -588,12 +583,17 @@ struct fb_info *fbtft_framebuffer_alloc(struct fbtft_display *display,
- 					    sizeof(gamma_curves[0]),
- 					    GFP_KERNEL);
- 		if (!gamma_curves)
--			goto alloc_fail;
-+			return NULL;
- 	}
- 
- 	info = framebuffer_alloc(sizeof(struct fbtft_par), dev);
- 	if (!info)
--		goto alloc_fail;
-+		return NULL;
-+
-+	vmem_size = display->width * display->height * bpp / 8;
-+	vmem = vzalloc(vmem_size);
-+	if (!vmem)
-+		goto release_framebuf;
- 
- 	info->screen_buffer = vmem;
- 	info->fbops = &fbtft_ops;
-@@ -613,7 +613,7 @@ struct fb_info *fbtft_framebuffer_alloc(struct fbtft_display *display,
- 	info->fix.accel =          FB_ACCEL_NONE;
- 	info->fix.smem_len =       vmem_size;
- 	if (fb_deferred_io_init(info))
--		goto release_framebuf;
-+		goto release_screen_buffer;
- 
- 	info->var.rotate =         pdata->rotate;
- 	info->var.xres =           width;
-@@ -668,7 +668,7 @@ struct fb_info *fbtft_framebuffer_alloc(struct fbtft_display *display,
- #endif
- 
- 	if (txbuflen > 0) {
--		txbuf = devm_kzalloc(par->info->device, txbuflen, GFP_KERNEL);
-+		txbuf = kzalloc(txbuflen, GFP_KERNEL);
- 		if (!txbuf)
- 			goto cleanup_deferred;
- 		par->txbuf.buf = txbuf;
-@@ -694,12 +694,10 @@ struct fb_info *fbtft_framebuffer_alloc(struct fbtft_display *display,
- 
- cleanup_deferred:
- 	fb_deferred_io_cleanup(info);
-+release_screen_buffer:
-+	vfree(info->screen_buffer);
- release_framebuf:
- 	framebuffer_release(info);
--
--alloc_fail:
--	vfree(vmem);
--
- 	return NULL;
- }
- EXPORT_SYMBOL(fbtft_framebuffer_alloc);
-@@ -712,6 +710,9 @@ EXPORT_SYMBOL(fbtft_framebuffer_alloc);
-  */
- void fbtft_framebuffer_release(struct fb_info *info)
- {
-+	struct fbtft_par *par = info->par;
-+
-+	kfree(par->txbuf.buf);
- 	fb_deferred_io_cleanup(info);
- 	vfree(info->screen_buffer);
- 	framebuffer_release(info);
 -- 
-2.43.0
-
+With best wishes
+Dmitry
