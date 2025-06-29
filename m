@@ -2,50 +2,72 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 90E98AECE57
-	for <lists+dri-devel@lfdr.de>; Sun, 29 Jun 2025 17:38:32 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9CB72AED02E
+	for <lists+dri-devel@lfdr.de>; Sun, 29 Jun 2025 21:52:59 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4272310E04F;
-	Sun, 29 Jun 2025 15:38:29 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0E21110E02C;
+	Sun, 29 Jun 2025 19:52:31 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="dcokncIV";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="YRoGbtys";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D3FC510E04F
- for <dri-devel@lists.freedesktop.org>; Sun, 29 Jun 2025 15:38:23 +0000 (UTC)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by dfw.source.kernel.org (Postfix) with ESMTP id F1F8B5C5740;
- Sun, 29 Jun 2025 15:38:12 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 91771C4CEEB;
- Sun, 29 Jun 2025 15:38:08 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1751211492;
- bh=irUPTlS0/NWtgLLK+FiDb0DkltPA9zyPBDyAIy/e0yQ=;
- h=From:To:Cc:Subject:Date:From;
- b=dcokncIV/YPkA0m+7Bwp2Vi5gCxmxRwI/iyVW+7H0p3gw/ZpyGt75bZUgj6KXsoyi
- dCF1KWbvh8ktk80BeKQmTk+0ioNU6QPHCTgc6qEwoqITBSdJEp88p/PcYYI4ZQ1LjQ
- vvFZ4gDk2LlDtSsPRSdPAP2CRefem4M3fNhmUdzg9nKlPWXc0rWorkKWbNvr79gkCK
- hVpooeP1rLsfqrpRSvnmlYli38MtNbf1VDRlulc4j27YVVCHti7VdM7hukl1HgxOZP
- xebAX0B6NP2cu0lZdkokZLnLM4ougWAvmLoGQel9hPiz4QYOJPOC92++jASMIXLnhb
- +kA9j2qV7IvxA==
-From: Danilo Krummrich <dakr@kernel.org>
-To: airlied@gmail.com, simona@ffwll.ch, maarten.lankhorst@linux.intel.com,
- mripard@kernel.org, tzimmermann@suse.de, ojeda@kernel.org,
- alex.gaynor@gmail.com, boqun.feng@gmail.com, gary@garyguo.net,
- bjorn3_gh@protonmail.com, lossin@kernel.org, aliceryhl@google.com,
- tmgross@umich.edu, acourbot@nvidia.com, alyssa@rosenzweig.io,
- lyude@redhat.com
-Cc: rust-for-linux@vger.kernel.org, dri-devel@lists.freedesktop.org,
- Danilo Krummrich <dakr@kernel.org>
-Subject: [PATCH] rust: drm: device: drop_in_place() the drm::Device in
- release()
-Date: Sun, 29 Jun 2025 17:37:42 +0200
-Message-ID: <20250629153747.72536-1-dakr@kernel.org>
-X-Mailer: git-send-email 2.50.0
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.11])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 745CA10E02C
+ for <dri-devel@lists.freedesktop.org>; Sun, 29 Jun 2025 19:52:29 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1751226750; x=1782762750;
+ h=date:from:to:cc:subject:message-id:references:
+ mime-version:in-reply-to;
+ bh=WVUAn15qn8pZfFMR72mBNe+d59ohwbj/sreGBPUsMDA=;
+ b=YRoGbtysidAaYWONd2z4J41r+w/cdwt4t2dJcHt0NikGMTwYnOzBzwv6
+ qW+2PDxZ7qyEmuAbQYm/H4oCRzNWO1ZrN2qDJlgD5aNC+pz1mCN78H8+j
+ Q39l8X2W9838vzPQQrLHNy0fMdNLJg6owh88SjGdCMXda0fnIr4mIrtxs
+ J00Cwp5EkHbxU0lq67AxseRpkgZQ+i4HPxZravKbG+ankcI/I+jgrqglz
+ EUL0amsTL6ksZi7S8vSV1ipPz2gmjPmpb1bewQdfOIldpfOJeJIh31rF7
+ Vyt/e9deoHikJTEDskecY7oCGLva030oIwp60j3AlKIgYEdGdaO14e5DV w==;
+X-CSE-ConnectionGUID: dqRbMfriS8e3crXSG9HsAg==
+X-CSE-MsgGUID: QmSghHQ4R3y7IBV4f+xX5Q==
+X-IronPort-AV: E=McAfee;i="6800,10657,11479"; a="63707431"
+X-IronPort-AV: E=Sophos;i="6.16,276,1744095600"; d="scan'208";a="63707431"
+Received: from fmviesa006.fm.intel.com ([10.60.135.146])
+ by orvoesa103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 29 Jun 2025 12:52:29 -0700
+X-CSE-ConnectionGUID: IWkpNjgoTeW6ympUjaLX1A==
+X-CSE-MsgGUID: fGdJyy9dQdmPsFuboUhk1Q==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.16,276,1744095600"; d="scan'208";a="153367254"
+Received: from lkp-server01.sh.intel.com (HELO e8142ee1dce2) ([10.239.97.150])
+ by fmviesa006.fm.intel.com with ESMTP; 29 Jun 2025 12:52:24 -0700
+Received: from kbuild by e8142ee1dce2 with local (Exim 4.96)
+ (envelope-from <lkp@intel.com>) id 1uVy4c-000YBW-0t;
+ Sun, 29 Jun 2025 19:52:22 +0000
+Date: Mon, 30 Jun 2025 03:52:13 +0800
+From: kernel test robot <lkp@intel.com>
+To: Louis Chauvet <louis.chauvet@bootlin.com>,
+ Melissa Wen <melissa.srw@gmail.com>,
+ =?iso-8859-1?Q?Ma=EDra?= Canal <mairacanal@riseup.net>,
+ Haneen Mohammed <hamohammed.sa@gmail.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>,
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+ Rodrigo Siqueira <siqueira@igalia.com>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+ dri-devel@lists.freedesktop.org, arthurgrillo@riseup.net,
+ linux-kernel@vger.kernel.org, jeremie.dautheribes@bootlin.com,
+ miquel.raynal@bootlin.com, thomas.petazzoni@bootlin.com,
+ seanpaul@google.com, nicolejadeyee@google.com,
+ Louis Chauvet <louis.chauvet@bootlin.com>
+Subject: Re: [PATCH v6 1/8] drm/vkms: Create helpers macro to avoid code
+ duplication in format callbacks
+Message-ID: <202506300323.LXmrpHFL-lkp@intel.com>
+References: <20250628-b4-new-color-formats-v6-1-2125b193f91a@bootlin.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20250628-b4-new-color-formats-v6-1-2125b193f91a@bootlin.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -61,56 +83,37 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-In drm::Device::new() we allocate with __drm_dev_alloc() and return an
-ARef<drm::Device>.
+Hi Louis,
 
-When the reference count of the drm::Device falls to zero, the C code
-automatically calls drm_dev_release(), which eventually frees the memory
-allocated in drm::Device::new().
+kernel test robot noticed the following build warnings:
 
-However, due to that, drm::Device::drop() is never called. As a result
-the destructor of the user's private data, i.e. drm::Device::data is
-never called. Hence, fix this by calling drop_in_place() from the DRM
-device's release callback.
+[auto build test WARNING on bb8aa27eff6f3376242da37c2d02b9dcc66934b1]
 
-Fixes: 1e4b8896c0f3 ("rust: drm: add device abstraction")
-Signed-off-by: Danilo Krummrich <dakr@kernel.org>
----
- rust/kernel/drm/device.rs | 12 +++++++++++-
- 1 file changed, 11 insertions(+), 1 deletion(-)
+url:    https://github.com/intel-lab-lkp/linux/commits/Louis-Chauvet/drm-vkms-Create-helpers-macro-to-avoid-code-duplication-in-format-callbacks/20250628-065148
+base:   bb8aa27eff6f3376242da37c2d02b9dcc66934b1
+patch link:    https://lore.kernel.org/r/20250628-b4-new-color-formats-v6-1-2125b193f91a%40bootlin.com
+patch subject: [PATCH v6 1/8] drm/vkms: Create helpers macro to avoid code duplication in format callbacks
+config: x86_64-randconfig-073-20250630 (https://download.01.org/0day-ci/archive/20250630/202506300323.LXmrpHFL-lkp@intel.com/config)
+compiler: clang version 20.1.7 (https://github.com/llvm/llvm-project 6146a88f60492b520a36f8f8f3231e15f3cc6082)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250630/202506300323.LXmrpHFL-lkp@intel.com/reproduce)
 
-diff --git a/rust/kernel/drm/device.rs b/rust/kernel/drm/device.rs
-index 624d7a4c83ea..14c1aa402951 100644
---- a/rust/kernel/drm/device.rs
-+++ b/rust/kernel/drm/device.rs
-@@ -66,7 +66,7 @@ impl<T: drm::Driver> Device<T> {
-         open: Some(drm::File::<T::File>::open_callback),
-         postclose: Some(drm::File::<T::File>::postclose_callback),
-         unload: None,
--        release: None,
-+        release: Some(Self::release),
-         master_set: None,
-         master_drop: None,
-         debugfs_init: None,
-@@ -162,6 +162,16 @@ pub unsafe fn as_ref<'a>(ptr: *const bindings::drm_device) -> &'a Self {
-         // SAFETY: `ptr` is valid by the safety requirements of this function.
-         unsafe { &*ptr.cast() }
-     }
-+
-+    extern "C" fn release(ptr: *mut bindings::drm_device) {
-+        // SAFETY: `ptr` is a valid pointer to a `struct drm_device` and embedded in `Self`.
-+        let this = unsafe { Self::from_drm_device(ptr) };
-+
-+        // SAFETY:
-+        // - When `release` runs it is guaranteed that there is no further access to `this`.
-+        // - `this` is valid for dropping.
-+        unsafe { core::ptr::drop_in_place(this) };
-+    }
- }
- 
- impl<T: drm::Driver> Deref for Device<T> {
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202506300323.LXmrpHFL-lkp@intel.com/
 
-base-commit: 615cc4223fcbe1e0e6f68b8494b26bb6c08d917a
+All warnings (new ones prefixed by >>):
+
+>> Warning: drivers/gpu/drm/vkms/vkms_formats.c:306 Excess function parameter '__VA_ARGS__' description in 'READ_LINE'
+>> Warning: drivers/gpu/drm/vkms/vkms_formats.c:333 function parameter 'a' not described in 'READ_LINE_ARGB8888'
+>> Warning: drivers/gpu/drm/vkms/vkms_formats.c:333 function parameter 'r' not described in 'READ_LINE_ARGB8888'
+>> Warning: drivers/gpu/drm/vkms/vkms_formats.c:333 function parameter 'g' not described in 'READ_LINE_ARGB8888'
+>> Warning: drivers/gpu/drm/vkms/vkms_formats.c:333 function parameter 'b' not described in 'READ_LINE_ARGB8888'
+>> Warning: drivers/gpu/drm/vkms/vkms_formats.c:343 function parameter 'a' not described in 'READ_LINE_le16161616'
+>> Warning: drivers/gpu/drm/vkms/vkms_formats.c:343 function parameter 'r' not described in 'READ_LINE_le16161616'
+>> Warning: drivers/gpu/drm/vkms/vkms_formats.c:343 function parameter 'g' not described in 'READ_LINE_le16161616'
+>> Warning: drivers/gpu/drm/vkms/vkms_formats.c:343 function parameter 'b' not described in 'READ_LINE_le16161616'
+
 -- 
-2.50.0
-
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
