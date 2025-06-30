@@ -2,86 +2,62 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 306A2AEE38D
-	for <lists+dri-devel@lfdr.de>; Mon, 30 Jun 2025 18:09:15 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id A747AAEE3B7
+	for <lists+dri-devel@lfdr.de>; Mon, 30 Jun 2025 18:12:15 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 863D310E234;
-	Mon, 30 Jun 2025 16:09:08 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5208010E238;
+	Mon, 30 Jun 2025 16:12:12 +0000 (UTC)
+Authentication-Results: gabe.freedesktop.org;
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="JbkKMYdK";
+	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-qv1-f44.google.com (mail-qv1-f44.google.com
- [209.85.219.44])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 10C5B10E234
- for <dri-devel@lists.freedesktop.org>; Mon, 30 Jun 2025 16:09:06 +0000 (UTC)
-Received: by mail-qv1-f44.google.com with SMTP id
- 6a1803df08f44-6fad8b4c927so23495896d6.0
- for <dri-devel@lists.freedesktop.org>; Mon, 30 Jun 2025 09:09:06 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1751299745; x=1751904545;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=/ESUYQIUUEOXWfvuUjT7YbrJEqAbPIXkMFZKy7WGl1Y=;
- b=aB0q5gi94oHHPE4JsQbAD04sksiVNe4VAHGRIcNEbVIGoOn48OGGq1i4j1bFMNoh1x
- v05vZapICi56YXvCOkoS9kd5gOlHsWJeHlUtOA8ju7XRmm3Kmy2W/jiQJp2lW0uCOns+
- ngRz8szbile2upBPynbTEOBqUoJsiMc/G3SiDLZ5QbkV5tr/btCq2ZoRF+SWJTV2aLAx
- 2LC+Syq6kKbiKU+DtANN5eIWxd9FXWHOq2r3M2caMRM9r3DaZHK/HSlW4ZDGEgqntZdt
- 4AK8Gt+XVDm7FqvVcvZTpCInJg0ux8ywACyjKk9/tFPz//6Fmk+Voj5EgnZfxPXHnS9W
- I3uw==
-X-Forwarded-Encrypted: i=1;
- AJvYcCWNiTit1Rs633XmdkAmY0Xh4uPaFPwsP4V+3yZ03wf43ybrDIepcLTZRDi8uHr/tuIVFSEjiB9eKv0=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YwpP8PycnZJIhtCUjsCCff824WedM2+wlelwaUWYi5NsAqumTuv
- W6zO2PG3htOnCoIjKF0WFDdFIDffZNAaO+4qqdQcIbdGVjGt8XmUADs6DfYY0Vpp
-X-Gm-Gg: ASbGncsOl9NTkiALnF39/J/c1YH5DrB8OheNrtbfydfHhFlqXa3PGPyb4GXA8EFDgX6
- 0YrlOWDk2jS/sfJVHpq0p24InWaAnWY3XLwkPHkSILn1U2qrqpi7woSxSob7jcWfZMIAx0f44WK
- YJaZbgM6uLVfNh4KuFY/InrUwGUgjcMIoZ9OatZnkMVXm7IByusD2+VBssv+If9W6TC9cYRq8fm
- 0CMzf5pXTUQO2SZhEVvxYJ5e0t/X1NPFTx4es798oNrP0XSJF7IH8BjmoaGDuhbLVy47ESGCQsG
- 0ANX9gtxTAKzxWeyxMMitMqSdcr+quqHgSbxbuQJNld87xf/qtX5KKZHVusJElvHHFMgSZTGFaJ
- KxGC2cBB2ztAxEN4XssJW3KczbzBP
-X-Google-Smtp-Source: AGHT+IFS+W2FduWak24mMWE3prwP4WwwrITqcjzFdgXBV8kC9jdpAPOf4n3WGviMh4s3ehXAfmu7pQ==
-X-Received: by 2002:a05:6214:2c0c:b0:6fb:5634:d8b4 with SMTP id
- 6a1803df08f44-70003c924e0mr220216986d6.30.1751299744702; 
- Mon, 30 Jun 2025 09:09:04 -0700 (PDT)
-Received: from mail-qk1-f176.google.com (mail-qk1-f176.google.com.
- [209.85.222.176]) by smtp.gmail.com with ESMTPSA id
- 6a1803df08f44-6fd771aaccbsm70235436d6.27.2025.06.30.09.09.04
- for <dri-devel@lists.freedesktop.org>
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 30 Jun 2025 09:09:04 -0700 (PDT)
-Received: by mail-qk1-f176.google.com with SMTP id
- af79cd13be357-7d40874b399so201425385a.2
- for <dri-devel@lists.freedesktop.org>; Mon, 30 Jun 2025 09:09:04 -0700 (PDT)
-X-Forwarded-Encrypted: i=1;
- AJvYcCWXqUV45cefm1VTLrOTHtBU5XlvqCwl/f68wgxjb6omdsGY/QupQxd7BsvD2k/2PqhqNDQoN3iiTqI=@lists.freedesktop.org
-X-Received: by 2002:a05:620a:a816:b0:7d3:ad4f:ce0d with SMTP id
- af79cd13be357-7d4439a8318mr2015298385a.47.1751299744039; Mon, 30 Jun 2025
- 09:09:04 -0700 (PDT)
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9984310E238
+ for <dri-devel@lists.freedesktop.org>; Mon, 30 Jun 2025 16:12:10 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+ by dfw.source.kernel.org (Postfix) with ESMTP id 606715C61DD;
+ Mon, 30 Jun 2025 16:12:09 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 48084C4CEE3;
+ Mon, 30 Jun 2025 16:12:04 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1751299929;
+ bh=pMdI6QJaU0k9Tifk5m6sg1z61/DI88a7J1nzMO0v4cE=;
+ h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+ b=JbkKMYdKLwJlbbYUyG93oRN55gMsdPUa16eCyB9QXrfNcfm/oKrmIDeQ148OE1sJ1
+ l9FstzDwuLqEGpHVE6PeHYwZ8EBJ4+dmwJ1ODI35QnsM94xYT7s4Zw/zZqlfyHhk+m
+ qT1Y6VL5IFf7rfk9uQ4S4eDvWpA4LezxIfmC/v5xi06vbbzBkMzv/ZQXAvJUNHsSOJ
+ O5osbfYFt64BQYZjuwKgumkRBIDmlMDOWiQZQyY+zSc/iB0Qpmt8JUVvX/tdUX4yCA
+ cD3pJ98XWWUKK/BZKs6bRQPxxSgPUS7kM+kcSiFBIbYolXh1Ave8u7J7ABaqNUz1f1
+ EAwuVgzrGJ8Pg==
+Message-ID: <e64c20ae-5aaf-44cf-a463-c7eb1134daee@kernel.org>
+Date: Mon, 30 Jun 2025 18:12:02 +0200
 MIME-Version: 1.0
-References: <20250611234913.161861-1-marek.vasut+renesas@mailbox.org>
- <109b5c25-f54c-4413-aa62-8e2ae621c8e6@linaro.org>
- <a263d600-4f62-4d40-864c-e0b0c42f6863@mailbox.org>
- <ef842208-069e-4471-8680-f945d5ccb1a7@linaro.org>
- <e6c51a8d-978e-44f0-bff1-efcd05617aa7@mailbox.org>
- <67da8003-ced9-4b52-a484-b37147068ae7@linaro.org>
- <32d302d6-b404-4814-9f17-fda5fe0d3391@mailbox.org>
- <5ff999e9-f0b1-4550-98c8-2d1eb7e97389@linaro.org>
-In-Reply-To: <5ff999e9-f0b1-4550-98c8-2d1eb7e97389@linaro.org>
-From: Geert Uytterhoeven <geert@linux-m68k.org>
-Date: Mon, 30 Jun 2025 18:08:51 +0200
-X-Gmail-Original-Message-ID: <CAMuHMdVKad84Yfsg=ZFMhzc2SxNmBT=NqWaHTGF9sh_12iNKYQ@mail.gmail.com>
-X-Gm-Features: Ac12FXywMjoREQPTWoeAnfKEMIRlm_XHuzAH_qpPoDC1H1n0WbeRjxoMHk2x9xI
-Message-ID: <CAMuHMdVKad84Yfsg=ZFMhzc2SxNmBT=NqWaHTGF9sh_12iNKYQ@mail.gmail.com>
-Subject: Re: [PATCH] drm/panel: ilitek-ili9881c: Use u8 for lane count
-To: Neil Armstrong <neil.armstrong@linaro.org>
-Cc: Marek Vasut <marek.vasut@mailbox.org>,
- Marek Vasut <marek.vasut+renesas@mailbox.org>, 
- dri-devel@lists.freedesktop.org, David Airlie <airlied@gmail.com>, 
- Jessica Zhang <jessica.zhang@oss.qualcomm.com>, 
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] Introduce Tyr
+To: Boris Brezillon <boris.brezillon@collabora.com>
+Cc: Daniel Almeida <daniel.almeida@collabora.com>,
  Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, 
- Simona Vetter <simona@ffwll.ch>, Thomas Zimmermann <tzimmermann@suse.de>,
- linux-renesas-soc@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+ Miguel Ojeda <ojeda@kernel.org>, Alex Gaynor <alex.gaynor@gmail.com>,
+ Boqun Feng <boqun.feng@gmail.com>, Gary Guo <gary@garyguo.net>,
+ =?UTF-8?Q?Bj=C3=B6rn_Roy_Baron?= <bjorn3_gh@protonmail.com>,
+ Benno Lossin <lossin@kernel.org>, Andreas Hindborg <a.hindborg@kernel.org>,
+ Alice Ryhl <aliceryhl@google.com>, Trevor Gross <tmgross@umich.edu>,
+ Daniel Stone <daniels@collabora.com>, Rob Herring <robh@kernel.org>,
+ Alice Ryhl <alice.ryhl@google.com>, Beata Michalska
+ <beata.michalska@arm.com>, Carsten Haitzler <carsten.haitzler@foss.arm.com>,
+ Ashley Smith <ashley.smith@collabora.com>, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, rust-for-linux@vger.kernel.org,
+ kernel@collabora.com
+References: <20250627-tyr-v1-1-cb5f4c6ced46@collabora.com>
+ <aF8lYpK_l2I-ts1k@pollux> <20250630180631.5e8066cd@fedora>
+From: Danilo Krummrich <dakr@kernel.org>
+Content-Language: en-US
+In-Reply-To: <20250630180631.5e8066cd@fedora>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -97,111 +73,70 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Neil,
+On 6/30/25 6:06 PM, Boris Brezillon wrote:
+> On Sat, 28 Jun 2025 01:12:34 +0200
+> Danilo Krummrich <dakr@kernel.org> wrote:
+> 
+>>> +    pub(crate) fn log(&self, pdev: &platform::Device) {
+>>> +        let major = (self.gpu_id >> 16) & 0xff;
+>>> +        let minor = (self.gpu_id >> 8) & 0xff;
+>>> +        let status = self.gpu_id & 0xff;
+>>> +
+>>> +        let model_name = if let Some(model) = GPU_MODELS
+>>> +            .iter()
+>>> +            .find(|&f| f.major == major && f.minor == minor)
+>>> +        {
+>>> +            model.name
+>>> +        } else {
+>>> +            "unknown"
+>>> +        };
+>>> +
+>>> +        dev_info!(
+>>> +            pdev.as_ref(),
+>>> +            "mali-{} id 0x{:x} major 0x{:x} minor 0x{:x} status 0x{:x}",
+>>> +            model_name,
+>>> +            self.gpu_id >> 16,
+>>> +            major,
+>>> +            minor,
+>>> +            status
+>>> +        );
+>>> +
+>>> +        dev_info!(
+>>> +            pdev.as_ref(),
+>>> +            "Features: L2:{:#x} Tiler:{:#x} Mem:{:#x} MMU:{:#x} AS:{:#x}",
+>>> +            self.l2_features,
+>>> +            self.tiler_features,
+>>> +            self.mem_features,
+>>> +            self.mmu_features,
+>>> +            self.as_present
+>>> +        );
+>>> +
+>>> +        dev_info!(
+>>> +            pdev.as_ref(),
+>>> +            "shader_present=0x{:016x} l2_present=0x{:016x} tiler_present=0x{:016x}",
+>>> +            self.shader_present,
+>>> +            self.l2_present,
+>>> +            self.tiler_present
+>>> +        );
+>>> +
+>>> +        dev_info!(
+>>> +            pdev.as_ref(),
+>>> +            "PA bits: {}, VA bits: {}",
+>>> +            self.pa_bits(),
+>>> +            self.va_bits()
+>>> +        );
+>>> +    }
+>>
+>> This is called from probe() and seems way too verbose for dev_info!(), please
+>> use dev_dbg!() instead.
+> 
+> We do have the same level of verbosity in Panthor, and it's proven
+> useful when people are filling bug reports. Asking them to reload
+> the module with debug prints enabled is kinda annoying, and I don't
+> think I've heard anyone complaining that this was too verbose or slowing
+> down the boot, so I'd be tempted to keep it like that, and least for
+> the information printed in this function.
 
-On Mon, 30 Jun 2025 at 17:34, Neil Armstrong <neil.armstrong@linaro.org> wrote:
-> On 21/06/2025 18:03, Marek Vasut wrote:
-> > On 6/16/25 6:26 PM, Neil Armstrong wrote:
-> >> On 16/06/2025 18:05, Marek Vasut wrote:
-> >>> On 6/16/25 1:45 PM, Neil Armstrong wrote:
-> >>>> On 13/06/2025 12:54, Marek Vasut wrote:
-> >>>>> On 6/13/25 11:29 AM, Neil Armstrong wrote:
-> >>>>>> On 12/06/2025 01:49, Marek Vasut wrote:
-> >>>>>>> Use u8 to hold lane count in struct ili9881c_desc {} to avoid
-> >>>>>>> alignment gap between default_address_mode and lanes members.
-> >>>>>>> The ili9881c controller can only operate up to 4 DSI lanes, so
-> >>>>>>> there is no chance this value can ever be larger than 4. No
-> >>>>>>> functional change.
-> >>>>>>
-> >>>>>> The u8 will still take at least 4 bytes and cpu will still
-> >>>>>> do at least a 32bit memory access, so there's no point to change
-> >>>>>> it to u8.
-> >>>>> Assuming this layout:
-> >>>>>
-> >>>>>    40 struct ili9881c_desc {
-> >>>>>    41         const struct ili9881c_instr *init;
-> >>>>>    42         const size_t init_length;
-> >>>>>    43         const struct drm_display_mode *mode;
-> >>>>>    44         const unsigned long mode_flags;
-> >>>>>    45         u8 default_address_mode;
-> >>>>>    46         u8 lanes;
-> >>>>>    47 };
-> >>>>>
-> >>>>> I wrote a quick test:
-> >>>>>
-> >>>>> $ cat test.c
-> >>>>> #include <stdio.h>
-> >>>>> #include <stdint.h>
-> >>>>>
-> >>>>> struct foo {
-> >>>>>      void *a;
-> >>>>>      size_t b;
-> >>>>>      void *c;
-> >>>>>      unsigned long d;
-> >>>>>
-> >>>>>      uint8_t x;
-> >>>>>      unsigned long y; // ~= lanes
-> >>>>> };
-> >>>>>
-> >>>>> struct bar {
-> >>>>>      void *a;
-> >>>>>      size_t b;
-> >>>>>      void *c;
-> >>>>>      unsigned long d;
-> >>>>>
-> >>>>>      uint8_t x;
-> >>>>>      uint8_t y; // ~= lanes
-> >>>>> };
-> >>>>>
-> >>>>> int main(void)
-> >>>>> {
-> >>>>>      printf("%d %d\n", sizeof(struct foo), sizeof(struct bar));
-> >>>>>      return 0;
-> >>>>> }
-> >>>>>
-> >>>>> With which I get these results on x86-64:
-> >>>>>
-> >>>>> $ gcc -o test test.c && ./test
-> >>>>> 48 40
-> >>>>>
-> >>>>> And on x86 32bit:
-> >>>>>
-> >>>>> $ i686-linux-gnu-gcc -o test test.c && ./test
-> >>>>> 24 20
-> >>>>>
-> >>>>> Maybe there is some improvement ?
-> >>>>
-> >>>> Try again with code size included, and other archs since 99% of the users would be an arm/riscv based boards.
-> >>> Doesn't that mean, that one some systems it wins us a bit of memory utilization improvement, and on other systems it has no impact ?
-> >>
-> >> 4 or 8 bytes less in a dynamically allocated struct which is by default aligned
-
-These structures are static, and not allocated dynamically.
-
-> >> on 64 bytes by default on x86, 128 on aarch64, 32/64/128 on arm32, 64 on riscv, sorry this is negligible.
-> > It is still not zero, so why tolerate the inefficiency when it can be improved ?
-> >
-> > Is this change rejected ?
->
-> I won't nack it since it's technically correct, but won't ack it since it's an useless change.
-
-On arm32:
-
-    $ bloat-o-meter drivers/gpu/drm/panel/panel-ilitek-ili9881c.o{.orig,}
-    add/remove: 0/0 grow/shrink: 0/8 up/down: 0/-32 (-32)
-
-Surprisingly, even on arm64:
-
-    $ bloat-o-meter drivers/gpu/drm/panel/panel-ilitek-ili9881c.o{.orig,}
-    add/remove: 0/0 grow/shrink: 0/8 up/down: 0/-64 (-64)
-
-Gr{oetje,eeting}s,
-
-                        Geert
-
--- 
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
-
-In personal conversations with technical people, I call myself a hacker. But
-when I'm talking to journalists I just say "programmer" or something like that.
-                                -- Linus Torvalds
+Yeah, I think for the GPU revision bits that's reasonable, but do you really
+also need the other prints to be dev_info()? Don't you know this information
+from the combination of the GPU revision bits and the kernel version?
