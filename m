@@ -2,39 +2,39 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id ED23EAED975
-	for <lists+dri-devel@lfdr.de>; Mon, 30 Jun 2025 12:11:12 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5D039AED97C
+	for <lists+dri-devel@lfdr.de>; Mon, 30 Jun 2025 12:12:08 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 169FF10E3EB;
-	Mon, 30 Jun 2025 10:11:11 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6F75110E3F0;
+	Mon, 30 Jun 2025 10:12:06 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=fail reason="signature verification failed" (1024-bit key; unprotected) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="BxCd/RiP";
+	dkim=fail reason="signature verification failed" (1024-bit key; unprotected) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="NllBLgy3";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from sea.source.kernel.org (sea.source.kernel.org [172.234.252.31])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3E86D10E3EB
- for <dri-devel@lists.freedesktop.org>; Mon, 30 Jun 2025 10:11:10 +0000 (UTC)
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3E95410E3F3
+ for <dri-devel@lists.freedesktop.org>; Mon, 30 Jun 2025 10:12:03 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by sea.source.kernel.org (Postfix) with ESMTP id 182B8448BF;
- Mon, 30 Jun 2025 10:11:10 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 82ABBC4CEEB;
- Mon, 30 Jun 2025 10:11:09 +0000 (UTC)
+ by dfw.source.kernel.org (Postfix) with ESMTP id B7DC65C5A57;
+ Mon, 30 Jun 2025 10:12:02 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id B8A34C4CEEB;
+ Mon, 30 Jun 2025 10:12:01 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
- s=korg; t=1751278270;
- bh=dSo8CtIuAR5imlFfKdTzsJDUPo/KajLpc3fL93316GE=;
+ s=korg; t=1751278322;
+ bh=Km+ZFYQ+usjsFUI+W+AXfF3+xfFxu675bv5XF5OoDDs=;
  h=Subject:To:Cc:From:Date:From;
- b=BxCd/RiPFYToEgNSz/UObO8GBdA9JTG1VWJLkOngMqHCRsX/V8pXLxCq5dPQpgUrP
- nigJEefQhj/kQG9fwLGeWJChReMz7MU6F+uTKtoeWdYMcnGvh51IUPpjdOnAssOCIc
- St8eEX5s/viYmIRk2nPbc7dDS4zi2Ax16AZApGvU=
-Subject: Patch "drm/udl: Unregister device before cleaning up on disconnect"
- has been added to the 6.6-stable tree
-To: dri-devel@lists.freedesktop.org, gregkh@linuxfoundation.org,
- patrik.r.jakobsson@gmail.com, tzimmermann@suse.de
+ b=NllBLgy32kbiAgURc/10ClWXxO6cEA5O+pChddC7zArrU3UacQr/mfZANAxAayB7X
+ MvKJpmTCpK0C+dip3fy1d23jFRn0qxFylQGCOUZKTNY8F8liw+P0Xit8wfXcitrMt4
+ bQ7sNvb0OKw2qV1RI7UrXsviXoLpiD61N0TmFGFg=
+Subject: Patch "drm/ast: Fix comment on modeset lock" has been added to the
+ 6.12-stable tree
+To: airlied@redhat.com, dri-devel@lists.freedesktop.org,
+ gregkh@linuxfoundation.org, jfalempe@redhat.com, tzimmermann@suse.de
 Cc: <stable-commits@vger.kernel.org>
 From: <gregkh@linuxfoundation.org>
-Date: Mon, 30 Jun 2025 12:07:36 +0200
-Message-ID: <2025063036-prison-unsaid-7e1a@gregkh>
+Date: Mon, 30 Jun 2025 12:09:07 +0200
+Message-ID: <2025063007-gusty-stunned-6a3a@gregkh>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=ANSI_X3.4-1968
 Content-Transfer-Encoding: 8bit
@@ -58,72 +58,66 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 This is a note to let you know that I've just added the patch titled
 
-    drm/udl: Unregister device before cleaning up on disconnect
+    drm/ast: Fix comment on modeset lock
 
-to the 6.6-stable tree which can be found at:
+to the 6.12-stable tree which can be found at:
     http://www.kernel.org/git/?p=linux/kernel/git/stable/stable-queue.git;a=summary
 
 The filename of the patch is:
-     drm-udl-unregister-device-before-cleaning-up-on-disconnect.patch
-and it can be found in the queue-6.6 subdirectory.
+     drm-ast-fix-comment-on-modeset-lock.patch
+and it can be found in the queue-6.12 subdirectory.
 
 If you, or anyone else, feels it should not be added to the stable tree,
 please let <stable@vger.kernel.org> know about it.
 
 
-From ff9cb6d2035c586ea7c8f1754d4409eec7a2d26d Mon Sep 17 00:00:00 2001
+From 7cce65f3789e04c0f7668a66563e680d81d54493 Mon Sep 17 00:00:00 2001
 From: Thomas Zimmermann <tzimmermann@suse.de>
-Date: Mon, 3 Mar 2025 15:52:56 +0100
-Subject: drm/udl: Unregister device before cleaning up on disconnect
+Date: Mon, 24 Mar 2025 10:44:09 +0100
+Subject: drm/ast: Fix comment on modeset lock
 
 From: Thomas Zimmermann <tzimmermann@suse.de>
 
-commit ff9cb6d2035c586ea7c8f1754d4409eec7a2d26d upstream.
+commit 7cce65f3789e04c0f7668a66563e680d81d54493 upstream.
 
-Disconnecting a DisplayLink device results in the following kernel
-error messages
-
-[   93.041748] [drm:udl_urb_completion [udl]] *ERROR* udl_urb_completion - nonzero write bulk status received: -115
-[   93.055299] [drm:udl_submit_urb [udl]] *ERROR* usb_submit_urb error fffffffe
-[   93.065363] [drm:udl_urb_completion [udl]] *ERROR* udl_urb_completion - nonzero write bulk status received: -115
-[   93.078207] [drm:udl_submit_urb [udl]] *ERROR* usb_submit_urb error fffffffe
-
-coming from KMS poll helpers. Shutting down poll helpers runs them
-one final time when the USB device is already gone.
-
-Run drm_dev_unplug() first in udl's USB disconnect handler. Udl's
-polling code already handles disconnects gracefully if the device has
-been marked as unplugged.
+The ast driver protects the commit tail against concurrent reads
+of the display modes by acquiring a lock. The comment is misleading
+as the lock is not released in atomic_flush, but at the end of the
+commit-tail helper. Rewrite the comment.
 
 Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
-Fixes: b1a981bd5576 ("drm/udl: drop drm_driver.release hook")
+Fixes: 1fe182154984 ("drm/ast: Acquire I/O-register lock in atomic_commit_tail function")
+Cc: Thomas Zimmermann <tzimmermann@suse.de>
+Cc: Jocelyn Falempe <jfalempe@redhat.com>
+Cc: Dave Airlie <airlied@redhat.com>
 Cc: dri-devel@lists.freedesktop.org
-Cc: <stable@vger.kernel.org> # v5.8+
-Reviewed-by: Patrik Jakobsson <patrik.r.jakobsson@gmail.com>
-Link: https://patchwork.freedesktop.org/patch/msgid/20250303145604.62962-2-tzimmermann@suse.de
+Cc: <stable@vger.kernel.org> # v6.2+
+Reviewed-by: Jocelyn Falempe <jfalempe@redhat.com>
+Link: https://lore.kernel.org/r/20250324094520.192974-2-tzimmermann@suse.de
 Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 ---
- drivers/gpu/drm/udl/udl_drv.c |    2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ drivers/gpu/drm/ast/ast_mode.c |    6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
 
---- a/drivers/gpu/drm/udl/udl_drv.c
-+++ b/drivers/gpu/drm/udl/udl_drv.c
-@@ -126,9 +126,9 @@ static void udl_usb_disconnect(struct us
- {
- 	struct drm_device *dev = usb_get_intfdata(interface);
+--- a/drivers/gpu/drm/ast/ast_mode.c
++++ b/drivers/gpu/drm/ast/ast_mode.c
+@@ -1319,9 +1319,9 @@ static void ast_mode_config_helper_atomi
  
-+	drm_dev_unplug(dev);
- 	drm_kms_helper_poll_fini(dev);
- 	udl_drop_usb(dev);
--	drm_dev_unplug(dev);
- }
- 
- /*
+ 	/*
+ 	 * Concurrent operations could possibly trigger a call to
+-	 * drm_connector_helper_funcs.get_modes by trying to read the
+-	 * display modes. Protect access to I/O registers by acquiring
+-	 * the I/O-register lock. Released in atomic_flush().
++	 * drm_connector_helper_funcs.get_modes by reading the display
++	 * modes. Protect access to registers by acquiring the modeset
++	 * lock.
+ 	 */
+ 	mutex_lock(&ast->modeset_lock);
+ 	drm_atomic_helper_commit_tail(state);
 
 
 Patches currently in stable-queue which might be from tzimmermann@suse.de are
 
-queue-6.6/drm-cirrus-qemu-fix-pitch-programming.patch
-queue-6.6/dummycon-trigger-redraw-when-switching-consoles-with.patch
-queue-6.6/drm-ast-fix-comment-on-modeset-lock.patch
-queue-6.6/drm-udl-unregister-device-before-cleaning-up-on-disconnect.patch
+queue-6.12/drm-cirrus-qemu-fix-pitch-programming.patch
+queue-6.12/drm-ast-fix-comment-on-modeset-lock.patch
+queue-6.12/drm-udl-unregister-device-before-cleaning-up-on-disconnect.patch
