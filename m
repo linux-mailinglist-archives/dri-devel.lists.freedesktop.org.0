@@ -2,117 +2,88 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id EC624AEE2CC
-	for <lists+dri-devel@lfdr.de>; Mon, 30 Jun 2025 17:39:11 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 132D1AEE2DE
+	for <lists+dri-devel@lfdr.de>; Mon, 30 Jun 2025 17:41:30 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2AAC410E494;
-	Mon, 30 Jun 2025 15:39:10 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 340D710E496;
+	Mon, 30 Jun 2025 15:41:23 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="q4npsiXI";
+	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="BqJyRBkd";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-f53.google.com (mail-wm1-f53.google.com
- [209.85.128.53])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0BE3710E494
- for <dri-devel@lists.freedesktop.org>; Mon, 30 Jun 2025 15:39:09 +0000 (UTC)
-Received: by mail-wm1-f53.google.com with SMTP id
- 5b1f17b1804b1-451ebd3d149so10741005e9.2
- for <dri-devel@lists.freedesktop.org>; Mon, 30 Jun 2025 08:39:08 -0700 (PDT)
+Received: from mail-wm1-f54.google.com (mail-wm1-f54.google.com
+ [209.85.128.54])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8920710E496
+ for <dri-devel@lists.freedesktop.org>; Mon, 30 Jun 2025 15:41:21 +0000 (UTC)
+Received: by mail-wm1-f54.google.com with SMTP id
+ 5b1f17b1804b1-453066fad06so30752705e9.2
+ for <dri-devel@lists.freedesktop.org>; Mon, 30 Jun 2025 08:41:21 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1751297947; x=1751902747; darn=lists.freedesktop.org;
- h=content-transfer-encoding:in-reply-to:organization:autocrypt
- :content-language:references:cc:to:subject:reply-to:from:user-agent
- :mime-version:date:message-id:from:to:cc:subject:date:message-id
- :reply-to; bh=5ZziG/0VfzA1IKuwjL2tWIJBNA1ugi01gvbDxIGbv/M=;
- b=q4npsiXIhZdBwScRzyvGBtSEaHLYkTIn9e2AMx51m2+IHQmJAitWC0mBGex2NsQtmL
- SFLSXpBSIf7WwvE7jPAuu5RIeHG4RvdEWfqN6aBNpX6mv4ASQGCwgMf5OGhnrRw6a466
- g2redZNwWl8aeQWvQbAdeVevU8mauaqUKefpo5n1ogXmb6fSAQZ4VCy5GGCDR4yRwFcV
- OAAnpwkkNV4xUh/Qo/UsvliUQmICeBsolhKzSzTuir3CQxZEYJLtt1u5LWHEAd/U3g1y
- peT6Gd1PSH2BsK5R903a1JLFjGhbH+LzfOk8A7J+aPkOZGflQWT84nS+HH1+ncKG1b7N
- Kvzg==
+ d=linaro.org; s=google; t=1751298080; x=1751902880; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:mime-version:date:message-id:subject
+ :references:in-reply-to:cc:to:from:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=wIBoKnvqHm7jPzDveA9hy26/rZ1VMnuhsibGyxt03cs=;
+ b=BqJyRBkdjhbJbKcSX4DOELcwMf/PHUX2WZEts0IBUWYqOO65JKK234roDAsi6MPxZ2
+ 2G9hHuv/JKHjnuE7Db/tdROyNPxbF8tbBzjc5hoKlhdiM/+/X2l3hfDEeqYIoVWOgJe+
+ n1fkARneB7M25kieRdxVfJyj4hTYH6SCCvdFuxyyUSe/C6vC/kigI4rLb74qL0x/LbuV
+ SeEtrACWQ8s6JcTWh1SEdQ89H08gWL0jun6BqmSDLEGUI7ufSo/bQow9ZV/ZC2+mzhp3
+ 1DHoseWEvf/uyBkUw2Fh6U/4snyAe2rRFYGr/5QjRUi+pc4//PxJaQL8qWTxzx6oRXF1
+ ffHQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1751297947; x=1751902747;
- h=content-transfer-encoding:in-reply-to:organization:autocrypt
- :content-language:references:cc:to:subject:reply-to:from:user-agent
- :mime-version:date:message-id:x-gm-message-state:from:to:cc:subject
- :date:message-id:reply-to;
- bh=5ZziG/0VfzA1IKuwjL2tWIJBNA1ugi01gvbDxIGbv/M=;
- b=e0LiAzR1VeIGsE2cvsTCBcxJL0v4o83K0S0o4xT8TbnR+l6ze5c+2Gj2xvnlLDWxpr
- KLUhqXdb63HfydpgIPJoD48JGT9pQinBLpfeYKSkDsbYrKTpKFHjrMFYSL2oF+UTqXzs
- 3POfj+Hs1YxjOYXVdF07EvpRkHoc3JBkaeD+9/1E1kMTK0DcGzkwjbZON5phQTGU5oq6
- mork3/dR8epF36+JjoxSK/kwaxDOY74q4fmGWcagej+uKd+rpn7GQvQVJEPFq/XgzPCZ
- MyuYhElt+G5JiZ1GKWascKfY6CZTCCPkL7QoIvkv2wXDVnt03fMqqwAloJZ1VMew8Ddn
- p+7Q==
-X-Gm-Message-State: AOJu0YyT1gQCtftOayB9plvTzQyfselhMTvGtm82za4H+KTDlIeP4WV0
- poPWrNTv3D7SIGGNOnwbABgnunYm+bGiy37TGt47DxVFybX7FDFHYg9CBzVgmriGBCc=
-X-Gm-Gg: ASbGncs7mytoUs0lEcq+AHHNff1hpGOihKddJZ/Aw4FD0FD6kmFt+2obe528DVy0cyW
- iYY5HdnGlYDDReRhLbt3tkHmPKGUAIeaesa6md0+5rZvtc+eQbfiHJFwq9rqBQyKQ8X7mMnC2XQ
- obtOQz36IBMqo9D8SdhxIWMNhdHUi9wq1Z43tUv7GpimJjwPUb+2l8ecbA64hPbXEj1BUx49kdh
- E+3AnMQotgPHZWIKayyQsewN3/BiqbMHuS0fRpy1Syhpz5G3z7q4lq0vRXZ6/hSsxAxrrJ/Vgpu
- XpKxYgUMVv2MEK6nj1d1uy4425LJYhJlj0QoF+zd2pt4Sd5V1OjwzNGkpeaKi+XvxHV9Ew3rqtL
- HPHH77hFbsYxuBe9xJjJBKGn6YQ93w4Bwqwroj/Lv/AmqPb7pBw==
-X-Google-Smtp-Source: AGHT+IE/EGZJuAhfhPDcepQz5wUmqLOrRpHMIC8QD5spKCHPPzfBv4cSrm45NH3NPOTs4Wj0I/lClw==
-X-Received: by 2002:a05:600c:5250:b0:448:e8c0:c778 with SMTP id
- 5b1f17b1804b1-4538ee61eedmr121126635e9.22.1751297947477; 
- Mon, 30 Jun 2025 08:39:07 -0700 (PDT)
-Received: from ?IPV6:2a01:e0a:3d9:2080:abe8:a49c:efe7:4dfb?
- ([2a01:e0a:3d9:2080:abe8:a49c:efe7:4dfb])
+ d=1e100.net; s=20230601; t=1751298080; x=1751902880;
+ h=content-transfer-encoding:mime-version:date:message-id:subject
+ :references:in-reply-to:cc:to:from:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=wIBoKnvqHm7jPzDveA9hy26/rZ1VMnuhsibGyxt03cs=;
+ b=Fp7s/RRtHWaK+62Cl2QQslPzKmFMmI65D/AHnl9e+6V9dTNedBC9cmNIBFov3u1evI
+ vhTh/8lKvMQ+9L0b41tvQvJuOAJFBgxuEmgqoV2roSMaQkQ9hrClrpam2UMt2Ya8F7MW
+ DPZgTS1T+b3075aEY4eZdMS1vXkU+Z7XBLrRw0dG5V4ZfOtIgSMgyDxyz/yYpjI1hFgB
+ uy7/083tEIlNOrxldJp5Nos5RSfYB9sP0QQ2Jy9ldj6LUE2xdIAgxxjokvr2g2+QTjn/
+ Puz/ALRH6eU/OIbD5Qe/YRsJoT3qnelqI/QSx+EJbhvim3a6yNF/Dz96C3o5YWz+semJ
+ PuRw==
+X-Gm-Message-State: AOJu0Yx+G8kj+6pzeQHdKV3AEaHc20wpZUcFcE0Cwz5IfwmhKvzN2TlO
+ ZnZtg1U3yEMt/gjPOyAbUlW+jeQEnsBIDN7VMqKPz/42l+xhADKiXq149bGWilwHnG4=
+X-Gm-Gg: ASbGncutAFEc4WhOaTld79gZsEtHAmRwnxdCFXZ4AHbK3ADNZ2Y+A3t5YafC2QujC2X
+ T9FosBh6uhQBtv8r+p7pHw9JN+tX9FMKPs20EWXfaXKXCZ473OI8FifbrVQdcGmu/gCpWioDzCL
+ io/mS+D2o3MmV6970qDJm98QkWJKPstP05AuL0vu31zTplPk7ZwznI7IlG5wcnXjV78ZUHWpjPG
+ yvuJk3ri8uJkqeh1iKctPHAbYNM/j/rAEMCJMUnusTPg4cDSFKz+7/PriowOp6laHLtJlEu3doP
+ DlP1opbbUv+rIm9wkZFfir/gsM69Q+zMIIsUsbgIQRQv+jI5O/Ceu9A+AzIu5GWW7r3xeS0Nhb7
+ ozgzgmm8=
+X-Google-Smtp-Source: AGHT+IE4551ep9ypNSyk+kUT7ORHBKsH3ZNJO70PmyyYi6i5YwLUZhV22aROUA+T9WDlUEHG+Ihrqw==
+X-Received: by 2002:a05:600c:5392:b0:445:1984:2479 with SMTP id
+ 5b1f17b1804b1-45390bad330mr126646345e9.5.1751298079968; 
+ Mon, 30 Jun 2025 08:41:19 -0700 (PDT)
+Received: from arrakeen.starnux.net ([2a01:e0a:3d9:2080:52eb:f6ff:feb3:451a])
  by smtp.gmail.com with ESMTPSA id
- 5b1f17b1804b1-453941c67c2sm94163985e9.5.2025.06.30.08.39.06
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 30 Jun 2025 08:39:07 -0700 (PDT)
-Message-ID: <7b564815-c9e0-435c-bd77-63da42aabacb@linaro.org>
-Date: Mon, 30 Jun 2025 17:39:06 +0200
-MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
+ 5b1f17b1804b1-453823ad01csm170270975e9.22.2025.06.30.08.41.19
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 30 Jun 2025 08:41:19 -0700 (PDT)
 From: Neil Armstrong <neil.armstrong@linaro.org>
-Subject: Re: [PATCH v2 4/4] drm/mipi-dsi: Drop MIPI_DSI_MODE_VSYNC_FLUSH flag
-To: Philipp Zabel <p.zabel@pengutronix.de>, Inki Dae <inki.dae@samsung.com>,
- Jagan Teki <jagan@amarulasolutions.com>,
- Marek Szyprowski <m.szyprowski@samsung.com>,
- Andrzej Hajda <andrzej.hajda@intel.com>, Robert Foss <rfoss@kernel.org>,
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
- Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- Artur Weber <aweber.kernel@gmail.com>,
- Jessica Zhang <quic_jesszhan@quicinc.com>,
- Jessica Zhang <jessica.zhang@oss.qualcomm.com>
-Cc: dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- kernel@pengutronix.de
-References: <20250627-dsi-vsync-flush-v2-0-4066899a5608@pengutronix.de>
- <20250627-dsi-vsync-flush-v2-4-4066899a5608@pengutronix.de>
-Content-Language: en-US, fr
-Autocrypt: addr=neil.armstrong@linaro.org; keydata=
- xsBNBE1ZBs8BCAD78xVLsXPwV/2qQx2FaO/7mhWL0Qodw8UcQJnkrWmgTFRobtTWxuRx8WWP
- GTjuhvbleoQ5Cxjr+v+1ARGCH46MxFP5DwauzPekwJUD5QKZlaw/bURTLmS2id5wWi3lqVH4
- BVF2WzvGyyeV1o4RTCYDnZ9VLLylJ9bneEaIs/7cjCEbipGGFlfIML3sfqnIvMAxIMZrvcl9
- qPV2k+KQ7q+aXavU5W+yLNn7QtXUB530Zlk/d2ETgzQ5FLYYnUDAaRl+8JUTjc0CNOTpCeik
- 80TZcE6f8M76Xa6yU8VcNko94Ck7iB4vj70q76P/J7kt98hklrr85/3NU3oti3nrIHmHABEB
- AAHNKk5laWwgQXJtc3Ryb25nIDxuZWlsLmFybXN0cm9uZ0BsaW5hcm8ub3JnPsLAkQQTAQoA
- OwIbIwULCQgHAwUVCgkICwUWAgMBAAIeAQIXgBYhBInsPQWERiF0UPIoSBaat7Gkz/iuBQJk
- Q5wSAhkBAAoJEBaat7Gkz/iuyhMIANiD94qDtUTJRfEW6GwXmtKWwl/mvqQtaTtZID2dos04
- YqBbshiJbejgVJjy+HODcNUIKBB3PSLaln4ltdsV73SBcwUNdzebfKspAQunCM22Mn6FBIxQ
- GizsMLcP/0FX4en9NaKGfK6ZdKK6kN1GR9YffMJd2P08EO8mHowmSRe/ExAODhAs9W7XXExw
- UNCY4pVJyRPpEhv373vvff60bHxc1k/FF9WaPscMt7hlkbFLUs85kHtQAmr8pV5Hy9ezsSRa
- GzJmiVclkPc2BY592IGBXRDQ38urXeM4nfhhvqA50b/nAEXc6FzqgXqDkEIwR66/Gbp0t3+r
- yQzpKRyQif3OwE0ETVkGzwEIALyKDN/OGURaHBVzwjgYq+ZtifvekdrSNl8TIDH8g1xicBYp
- QTbPn6bbSZbdvfeQPNCcD4/EhXZuhQXMcoJsQQQnO4vwVULmPGgtGf8PVc7dxKOeta+qUh6+
- SRh3vIcAUFHDT3f/Zdspz+e2E0hPV2hiSvICLk11qO6cyJE13zeNFoeY3ggrKY+IzbFomIZY
- 4yG6xI99NIPEVE9lNBXBKIlewIyVlkOaYvJWSV+p5gdJXOvScNN1epm5YHmf9aE2ZjnqZGoM
- Mtsyw18YoX9BqMFInxqYQQ3j/HpVgTSvmo5ea5qQDDUaCsaTf8UeDcwYOtgI8iL4oHcsGtUX
- oUk33HEAEQEAAcLAXwQYAQIACQUCTVkGzwIbDAAKCRAWmrexpM/4rrXiB/sGbkQ6itMrAIfn
- M7IbRuiSZS1unlySUVYu3SD6YBYnNi3G5EpbwfBNuT3H8//rVvtOFK4OD8cRYkxXRQmTvqa3
- 3eDIHu/zr1HMKErm+2SD6PO9umRef8V82o2oaCLvf4WeIssFjwB0b6a12opuRP7yo3E3gTCS
- KmbUuLv1CtxKQF+fUV1cVaTPMyT25Od+RC1K+iOR0F54oUJvJeq7fUzbn/KdlhA8XPGzwGRy
- 4zcsPWvwnXgfe5tk680fEKZVwOZKIEuJC3v+/yZpQzDvGYJvbyix0lHnrCzq43WefRHI5XTT
- QbM0WUIBIcGmq38+OgUsMYu4NzLu7uZFAcmp6h8g
-Organization: Linaro
-In-Reply-To: <20250627-dsi-vsync-flush-v2-4-4066899a5608@pengutronix.de>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+To: ~postmarketos/upstreaming@lists.sr.ht, phone-devel@vger.kernel.org, 
+ Jessica Zhang <quic_jesszhan@quicinc.com>, 
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, 
+ Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
+ Conor Dooley <conor+dt@kernel.org>, Bjorn Andersson <andersson@kernel.org>, 
+ Konrad Dybcio <konradybcio@kernel.org>, Luca Weiss <luca@lucaweiss.eu>
+Cc: dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org, 
+ linux-kernel@vger.kernel.org, linux-arm-msm@vger.kernel.org, 
+ Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>, 
+ Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>, 
+ Dmitry Baryshkov <lumag@kernel.org>
+In-Reply-To: <20250611-fp3-display-v4-0-ef67701e7687@lucaweiss.eu>
+References: <20250611-fp3-display-v4-0-ef67701e7687@lucaweiss.eu>
+Subject: Re: (subset) [PATCH v4 0/4] Add display support for Fairphone 3
+ smartphone
+Message-Id: <175129807911.2286551.14063311790282968036.b4-ty@linaro.org>
+Date: Mon, 30 Jun 2025 17:41:19 +0200
+MIME-Version: 1.0
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
+X-Mailer: b4 0.14.2
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -125,35 +96,26 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Reply-To: Neil Armstrong <neil.armstrong@linaro.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 27/06/2025 13:45, Philipp Zabel wrote:
-> Drop the unused MIPI_DSI_MODE_VSYNC_FLUSH flag. Whether or not a display
-> FIFO flush on vsync is required to avoid sending garbage to the panel is
-> not a property of the DSI link, but of the integration between display
-> controller and DSI host bridge.
+Hi,
+
+On Wed, 11 Jun 2025 18:33:14 +0200, Luca Weiss wrote:
+> Add a driver for the HX83112B-based panel, and enable it on Fairphone 3
+> to enable display output, and enable GPU as well.
 > 
-> Acked-by: Marek Szyprowski <m.szyprowski@samsung.com>
-> Signed-off-by: Philipp Zabel <p.zabel@pengutronix.de>
-> ---
->   include/drm/drm_mipi_dsi.h | 2 --
->   1 file changed, 2 deletions(-)
-> 
-> diff --git a/include/drm/drm_mipi_dsi.h b/include/drm/drm_mipi_dsi.h
-> index b37860f4a895c25ef8ba1c5b3f44827ef53aa100..369b0d8830c3d14a4fc1e8e38d5fa55f04ca143e 100644
-> --- a/include/drm/drm_mipi_dsi.h
-> +++ b/include/drm/drm_mipi_dsi.h
-> @@ -130,8 +130,6 @@ struct mipi_dsi_host *of_find_mipi_dsi_host_by_node(struct device_node *node);
->   #define MIPI_DSI_MODE_VIDEO_NO_HBP	BIT(6)
->   /* disable hsync-active area */
->   #define MIPI_DSI_MODE_VIDEO_NO_HSA	BIT(7)
-> -/* flush display FIFO on vsync pulse */
-> -#define MIPI_DSI_MODE_VSYNC_FLUSH	BIT(8)
->   /* disable EoT packets in HS mode */
->   #define MIPI_DSI_MODE_NO_EOT_PACKET	BIT(9)
->   /* device supports non-continuous clock behavior (DSI spec 5.6.1) */
 > 
 
-Acked-by: Neil Armstrong <neil.armstrong@linaro.org>
+Thanks, Applied to https://gitlab.freedesktop.org/drm/misc/kernel.git (drm-misc-next)
+
+[1/4] dt-bindings: vendor-prefixes: document Shenzhen DJN Optronics Technology
+      https://gitlab.freedesktop.org/drm/misc/kernel/-/commit/978a84297371ac33a15c56a7d31fd1b125427dac
+[2/4] dt-bindings: display: panel: Add Himax HX83112B
+      https://gitlab.freedesktop.org/drm/misc/kernel/-/commit/54bd1390e98450a2c1cad99da3e2594e92c41a4c
+[3/4] drm/panel: Add driver for DJN HX83112B LCD panel
+      https://gitlab.freedesktop.org/drm/misc/kernel/-/commit/df401fa1b80775109e2a52360fcb0b2b2300525a
+
+-- 
+Neil
+
