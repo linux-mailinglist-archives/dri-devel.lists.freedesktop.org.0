@@ -2,35 +2,62 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5A045AEE330
-	for <lists+dri-devel@lfdr.de>; Mon, 30 Jun 2025 18:02:50 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id F00D1AEE364
+	for <lists+dri-devel@lfdr.de>; Mon, 30 Jun 2025 18:06:52 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0882810E4AC;
-	Mon, 30 Jun 2025 16:02:47 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id DF2A510E232;
+	Mon, 30 Jun 2025 16:06:39 +0000 (UTC)
+Authentication-Results: gabe.freedesktop.org;
+	dkim=pass (2048-bit key; unprotected) header.d=collabora.com header.i=@collabora.com header.b="bwOAFjzz";
+	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
- by gabe.freedesktop.org (Postfix) with ESMTP id C3C7B10E234
- for <dri-devel@lists.freedesktop.org>; Mon, 30 Jun 2025 16:02:45 +0000 (UTC)
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
- by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 8F4F01AC1;
- Mon, 30 Jun 2025 09:02:29 -0700 (PDT)
-Received: from [10.57.28.116] (unknown [10.57.28.116])
- by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 208093F66E;
- Mon, 30 Jun 2025 09:02:43 -0700 (PDT)
-Message-ID: <4fc84b43-77c4-45dc-8a74-9bba363054e3@arm.com>
-Date: Mon, 30 Jun 2025 17:02:41 +0100
+Received: from bali.collaboradmins.com (bali.collaboradmins.com
+ [148.251.105.195])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1E67410E232
+ for <dri-devel@lists.freedesktop.org>; Mon, 30 Jun 2025 16:06:38 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+ s=mail; t=1751299596;
+ bh=K04c3OVn55WWIJlwhBX8hHaUfgghWX+cT61EBJ8XJqE=;
+ h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+ b=bwOAFjzzr2QVs2HFWx9HxAfk2c9HX14sFJU3T8ka5rk4z1+4SpnJzM7VtHPpkD5Wn
+ jRWeMVD078cSgP2z1A8zZaIjyKdQdi8zrR0HVvBXdTqL8R3Dbfj8KP8pzDC0j5bPPb
+ Bzf83c4xnJ35dBanw1DOCdYX94Zie4Pjj5R4qPM04+zmo9wZd/KtaLcbcL3f/3YY5C
+ 5CccLKCUQ7ibuLD1zv0QDrcWvnQJ0VlCc0k1/QhAsuO4BJEosr/mUB42xsDnSc5e9W
+ ZvQqQJ7sQuW/T4eyAXG0KcLlF1Thy6kbovogGTkaxIrepvuA4NFd4fAaUA3wiQbRBB
+ cBfAnxD7dpmTg==
+Received: from fedora (unknown [IPv6:2a01:e0a:2c:6930:16f1:973:959b:9b0c])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ (No client certificate requested) (Authenticated sender: bbrezillon)
+ by bali.collaboradmins.com (Postfix) with ESMTPSA id C052017E09C6;
+ Mon, 30 Jun 2025 18:06:35 +0200 (CEST)
+Date: Mon, 30 Jun 2025 18:06:31 +0200
+From: Boris Brezillon <boris.brezillon@collabora.com>
+To: Danilo Krummrich <dakr@kernel.org>
+Cc: Daniel Almeida <daniel.almeida@collabora.com>, Maarten Lankhorst
+ <maarten.lankhorst@linux.intel.com>, Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
+ Simona Vetter <simona@ffwll.ch>, Miguel Ojeda <ojeda@kernel.org>, Alex
+ Gaynor <alex.gaynor@gmail.com>, Boqun Feng <boqun.feng@gmail.com>, Gary Guo
+ <gary@garyguo.net>, =?UTF-8?B?QmrDtnJu?= Roy Baron
+ <bjorn3_gh@protonmail.com>, Benno Lossin <lossin@kernel.org>, Andreas
+ Hindborg <a.hindborg@kernel.org>, Alice Ryhl <aliceryhl@google.com>, Trevor
+ Gross <tmgross@umich.edu>, Daniel Stone <daniels@collabora.com>, Rob
+ Herring <robh@kernel.org>, Alice Ryhl <alice.ryhl@google.com>, Beata
+ Michalska <beata.michalska@arm.com>, Carsten Haitzler
+ <carsten.haitzler@foss.arm.com>, Ashley Smith <ashley.smith@collabora.com>,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ rust-for-linux@vger.kernel.org, kernel@collabora.com
+Subject: Re: [PATCH] Introduce Tyr
+Message-ID: <20250630180631.5e8066cd@fedora>
+In-Reply-To: <aF8lYpK_l2I-ts1k@pollux>
+References: <20250627-tyr-v1-1-cb5f4c6ced46@collabora.com>
+ <aF8lYpK_l2I-ts1k@pollux>
+Organization: Collabora
+X-Mailer: Claws Mail 4.3.1 (GTK 3.24.49; x86_64-redhat-linux-gnu)
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] drm/panthor: Wait for _READY register when powering on
-To: Boris Brezillon <boris.brezillon@collabora.com>,
- Liviu Dudau <liviu.dudau@arm.com>, Karunika Choo <karunika.choo@arm.com>
-Cc: dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
-References: <20250630140704.432409-1-steven.price@arm.com>
-From: Steven Price <steven.price@arm.com>
-Content-Language: en-GB
-In-Reply-To: <20250630140704.432409-1-steven.price@arm.com>
-Content-Type: text/plain; charset=UTF-8
+Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -47,39 +74,65 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 30/06/2025 15:07, Steven Price wrote:
-> panthor_gpu_block_power_on() takes a register offset (rdy_reg) for the
-> purpose of waiting for the power transition to complete. However, a
-> copy/paste error converting to use the new 64 register functions
-> switched it to using the pwrtrans_reg register instead. Fix the function
-> to use the correct register.
+On Sat, 28 Jun 2025 01:12:34 +0200
+Danilo Krummrich <dakr@kernel.org> wrote:
+
+> > +    pub(crate) fn log(&self, pdev: &platform::Device) {
+> > +        let major = (self.gpu_id >> 16) & 0xff;
+> > +        let minor = (self.gpu_id >> 8) & 0xff;
+> > +        let status = self.gpu_id & 0xff;
+> > +
+> > +        let model_name = if let Some(model) = GPU_MODELS
+> > +            .iter()
+> > +            .find(|&f| f.major == major && f.minor == minor)
+> > +        {
+> > +            model.name
+> > +        } else {
+> > +            "unknown"
+> > +        };
+> > +
+> > +        dev_info!(
+> > +            pdev.as_ref(),
+> > +            "mali-{} id 0x{:x} major 0x{:x} minor 0x{:x} status 0x{:x}",
+> > +            model_name,
+> > +            self.gpu_id >> 16,
+> > +            major,
+> > +            minor,
+> > +            status
+> > +        );
+> > +
+> > +        dev_info!(
+> > +            pdev.as_ref(),
+> > +            "Features: L2:{:#x} Tiler:{:#x} Mem:{:#x} MMU:{:#x} AS:{:#x}",
+> > +            self.l2_features,
+> > +            self.tiler_features,
+> > +            self.mem_features,
+> > +            self.mmu_features,
+> > +            self.as_present
+> > +        );
+> > +
+> > +        dev_info!(
+> > +            pdev.as_ref(),
+> > +            "shader_present=0x{:016x} l2_present=0x{:016x} tiler_present=0x{:016x}",
+> > +            self.shader_present,
+> > +            self.l2_present,
+> > +            self.tiler_present
+> > +        );
+> > +
+> > +        dev_info!(
+> > +            pdev.as_ref(),
+> > +            "PA bits: {}, VA bits: {}",
+> > +            self.pa_bits(),
+> > +            self.va_bits()
+> > +        );
+> > +    }  
 > 
-> Fixes: 4d230aa209ed ("drm/panthor: Add 64-bit and poll register accessors")
-> Signed-off-by: Steven Price <steven.price@arm.com>
+> This is called from probe() and seems way too verbose for dev_info!(), please
+> use dev_dbg!() instead.
 
-Pushed to drm-misc-next.
-
-Thanks,
-Steve
-
-> ---
->  drivers/gpu/drm/panthor/panthor_gpu.c | 5 +++--
->  1 file changed, 3 insertions(+), 2 deletions(-)
-> 
-> diff --git a/drivers/gpu/drm/panthor/panthor_gpu.c b/drivers/gpu/drm/panthor/panthor_gpu.c
-> index 534735518824..cb7a335e07d7 100644
-> --- a/drivers/gpu/drm/panthor/panthor_gpu.c
-> +++ b/drivers/gpu/drm/panthor/panthor_gpu.c
-> @@ -297,8 +297,9 @@ int panthor_gpu_block_power_on(struct panthor_device *ptdev,
->  
->  	gpu_write64(ptdev, pwron_reg, mask);
->  
-> -	ret = gpu_read64_relaxed_poll_timeout(ptdev, pwrtrans_reg, val,
-> -					      !(mask & val), 100, timeout_us);
-> +	ret = gpu_read64_relaxed_poll_timeout(ptdev, rdy_reg, val,
-> +					      (mask & val) == val,
-> +					      100, timeout_us);
->  	if (ret) {
->  		drm_err(&ptdev->base, "timeout waiting on %s:%llx readiness",
->  			blk_name, mask);
-
+We do have the same level of verbosity in Panthor, and it's proven
+useful when people are filling bug reports. Asking them to reload
+the module with debug prints enabled is kinda annoying, and I don't
+think I've heard anyone complaining that this was too verbose or slowing
+down the boot, so I'd be tempted to keep it like that, and least for
+the information printed in this function.
