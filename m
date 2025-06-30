@@ -2,129 +2,51 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5BF8DAEDA1D
-	for <lists+dri-devel@lfdr.de>; Mon, 30 Jun 2025 12:41:52 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5B3ACAEDA2B
+	for <lists+dri-devel@lfdr.de>; Mon, 30 Jun 2025 12:44:41 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9B79410E405;
-	Mon, 30 Jun 2025 10:41:50 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6F66110E40B;
+	Mon, 30 Jun 2025 10:44:39 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=amd.com header.i=@amd.com header.b="1AMjU8Is";
+	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=igalia.com header.i=@igalia.com header.b="C1p/Dblg";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from NAM04-MW2-obe.outbound.protection.outlook.com
- (mail-mw2nam04on2066.outbound.protection.outlook.com [40.107.101.66])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1524E10E406;
- Mon, 30 Jun 2025 10:41:49 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=BobdrmNHzpqrFHeuditosSFG3q3sumCCdBmGPvQX6Jbe5nHGb3rDzGTBjSDSn04LeY2O7j+BIbW0dIXLEXpWQLN4uhoLXH/apdZtSDy1NCeT7KPPXnBpMvrq6bMHY4VLUJ1j9en+oMO7w13VzU6HxuYtPiJf4bonhPOp9gvI5tE++/zvHUHJNh3MUcr77zEUSW8lI/1UwE7XQ+/LgKLBWkE8bbOp97qrKeVgzhlkfxF5Mf2Y32bHW0XTmxK4jC+CGJSxfxOyOvrdFvsj+JZeMBc3kKg1s+n94uOP9Rvw6KZdn30l8zsag+wyv5URWsL0C+TGtc/7K3piG6eV6B/Q4A==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=Z4L7Ww+hhD42gc5GQN0DToyDYofS1ZmQRzIw0dKVfFs=;
- b=gxeXYmQgA5TRkcW337vl5d5benkhZVn4d/d3Tz1+hg6vVqz8wpJYQf8j8+ARpFcrqQLSRL4kv+Dzz9YZKzDTcgAqIZr6YKw+TQwf/ztU7ZyHzPMHHIDrpe4GZpMVClyhsN7Dn5WqusrSe3RjWkbB3vEC5q81t8Pt3gSZEey3Z45/YlwudzK1CC7qdlJzB9KIFwxYxxEhlinwOHw2ekbD9S/2uk9eh+JmA8Bih3XZfWOhWCntxneterkAbTna835eN81zwlMsrSFcO7PCL+1RbLCsCtNVWwOlD4YwNp7utuvrIfD/hq3BsJfLkNsfXAfWcwc8iJkIM+wYeb1am9XkAQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
- 165.204.84.17) smtp.rcpttodomain=kernel.org smtp.mailfrom=amd.com; dmarc=pass
- (p=quarantine sp=quarantine pct=100) action=none header.from=amd.com;
- dkim=none (message not signed); arc=none (0)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=Z4L7Ww+hhD42gc5GQN0DToyDYofS1ZmQRzIw0dKVfFs=;
- b=1AMjU8Isl/gg5wj3SZVvVuOZhrAr7sGH0koOCkro0j9loMc+JtTtHDD0M6z/6rt0TwQ+KZUSBGGRkaZYD+GLFwkN5BA/T6AvyiKE1nmR9GirO2YJEo6IPP7N8vDBYJ1tJPCmlCKwadyFGjnRb57B3EecG78+qWeobH4wi5xK3xs=
-Received: from SJ0PR03CA0270.namprd03.prod.outlook.com (2603:10b6:a03:3a0::35)
- by SJ5PPF000ACABD1.namprd12.prod.outlook.com
- (2603:10b6:a0f:fc02::984) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8835.29; Mon, 30 Jun
- 2025 10:41:44 +0000
-Received: from CO1PEPF000042AD.namprd03.prod.outlook.com
- (2603:10b6:a03:3a0:cafe::e0) by SJ0PR03CA0270.outlook.office365.com
- (2603:10b6:a03:3a0::35) with Microsoft SMTP Server (version=TLS1_3,
- cipher=TLS_AES_256_GCM_SHA384) id 15.20.8880.29 via Frontend Transport; Mon,
- 30 Jun 2025 10:41:44 +0000
-X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 165.204.84.17)
- smtp.mailfrom=amd.com; dkim=none (message not signed)
- header.d=none;dmarc=pass action=none header.from=amd.com;
-Received-SPF: Pass (protection.outlook.com: domain of amd.com designates
- 165.204.84.17 as permitted sender) receiver=protection.outlook.com;
- client-ip=165.204.84.17; helo=SATLEXMB03.amd.com; pr=C
-Received: from SATLEXMB03.amd.com (165.204.84.17) by
- CO1PEPF000042AD.mail.protection.outlook.com (10.167.243.42) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.20.8901.15 via Frontend Transport; Mon, 30 Jun 2025 10:41:44 +0000
-Received: from SATLEXMB03.amd.com (10.181.40.144) by SATLEXMB03.amd.com
- (10.181.40.144) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.39; Mon, 30 Jun
- 2025 05:41:37 -0500
-Received: from hjbog-srdc-41.amd.com (10.180.168.240) by SATLEXMB03.amd.com
- (10.181.40.144) with Microsoft SMTP Server id 15.1.2507.39 via Frontend
- Transport; Mon, 30 Jun 2025 05:41:34 -0500
-From: Samuel Zhang <guoqing.zhang@amd.com>
-To: <rafael@kernel.org>, <len.brown@intel.com>, <pavel@kernel.org>,
- <alexander.deucher@amd.com>, <christian.koenig@amd.com>,
- <mario.limonciello@amd.com>, <lijo.lazar@amd.com>
-CC: <victor.zhao@amd.com>, <haijun.chang@amd.com>, <Qing.Ma@amd.com>,
- <amd-gfx@lists.freedesktop.org>, <dri-devel@lists.freedesktop.org>,
- <linux-pm@vger.kernel.org>, <linux-kernel@vger.kernel.org>, Samuel Zhang
- <guoqing.zhang@amd.com>
-Subject: [PATCH 3/3] drm/amdgpu: skip kfd resume_process for dev_pm_ops.thaw()
-Date: Mon, 30 Jun 2025 18:41:16 +0800
-Message-ID: <20250630104116.3050306-4-guoqing.zhang@amd.com>
-X-Mailer: git-send-email 2.43.5
-In-Reply-To: <20250630104116.3050306-1-guoqing.zhang@amd.com>
-References: <20250630104116.3050306-1-guoqing.zhang@amd.com>
+Received: from fanzine2.igalia.com (fanzine2.igalia.com [213.97.179.56])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4C3FB10E3F5
+ for <dri-devel@lists.freedesktop.org>; Mon, 30 Jun 2025 10:44:37 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com; 
+ s=20170329;
+ h=MIME-Version:Content-Transfer-Encoding:Content-Type:References:
+ In-Reply-To:Date:Cc:To:From:Subject:Message-ID:Sender:Reply-To:Content-ID:
+ Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc
+ :Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:List-Subscribe:
+ List-Post:List-Owner:List-Archive;
+ bh=BVaBcQr9EzIh6LRB1ICsLnNLx7oOkAXVTeIQ2p5ofoo=; b=C1p/Dblg19t0+M87Zlm9tEMye8
+ z8LJnnWu8ZAe26eQ3TONvkyp+enFob0wPXgeFl1+k6nxfzAtzGWnTzQx+ASjuiZ+xOvNpmyEdCn1x
+ nDLglRgq+KqaT7CaSzUN1a+sjS0y+wc/yu2zdO7fxA5VBzefLU0GecLktht+wCeNELsiv+i+kD6j2
+ 6WMjlKNNdLuWTc01MGt9c3Xr6rchvZxkUA3/u0tZryHWN1berhXUj88/1T1uJgiv7Z7eT024BmYGY
+ wPDsm9e6DAGWq6sE8e5FB81oQZPMJQIyodoixMsKzEQw4DK+SSJ4z07yloWJ87d54Sl8TIMCOzBS6
+ Elqk7WZQ==;
+Received: from 80.174.120.123.dyn.user.ono.com ([80.174.120.123]
+ helo=[192.168.0.17]) by fanzine2.igalia.com with esmtpsa 
+ (Cipher TLS1.3:ECDHE_SECP256R1__RSA_PSS_RSAE_SHA256__AES_256_GCM:256) (Exim)
+ id 1uWC03-00ARAx-Di; Mon, 30 Jun 2025 12:44:35 +0200
+Message-ID: <dbd7db39a4995485ebe5c90f128a66058ff44c20.camel@igalia.com>
+Subject: Re: [PATCH] drm/v3d: Disable interrupts before resetting the GPU
+From: Iago Toral <itoral@igalia.com>
+To: =?ISO-8859-1?Q?Ma=EDra?= Canal <mcanal@igalia.com>, Melissa Wen
+ <mwen@igalia.com>, "Juan A ." =?ISO-8859-1?Q?Su=E1rez?=
+ <jasuarez@igalia.com>
+Cc: dri-devel@lists.freedesktop.org, kernel-dev@igalia.com, 
+ stable@vger.kernel.org
+Date: Mon, 30 Jun 2025 12:44:24 +0200
+In-Reply-To: <20250628224243.47599-1-mcanal@igalia.com>
+References: <20250628224243.47599-1-mcanal@igalia.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.52.3-0ubuntu1 
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-Received-SPF: None (SATLEXMB03.amd.com: guoqing.zhang@amd.com does not
- designate permitted sender hosts)
-X-EOPAttributedMessage: 0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: CO1PEPF000042AD:EE_|SJ5PPF000ACABD1:EE_
-X-MS-Office365-Filtering-Correlation-Id: e379d11f-4fb9-49aa-d7f3-08ddb7c2b4d9
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
- ARA:13230040|82310400026|376014|36860700013|1800799024; 
-X-Microsoft-Antispam-Message-Info: =?us-ascii?Q?HY6ZSg9aOegnZWnSOd/13F/BBalC7+jgn+CZeIVwmWXYHgMOaxYd4E6Lug6S?=
- =?us-ascii?Q?SVQhi0IRrWKI01PSMUz1Wp874LvMITNjjp+X/BgOl4BZLjSUkCd7384aj22w?=
- =?us-ascii?Q?yN7o1168iy5bomZdF4Rh4ASAGeiUcmuMvk1h+jGXkBddjTtRfBN0qNSA15T0?=
- =?us-ascii?Q?0eBWEo+WbmUr4JW/bx2oOCGH2ZsvQ8wr6/7FGZrnwIjFdWGnj9Je3Sdcofy3?=
- =?us-ascii?Q?I8CJ58Ct0khRMbq6e2HMBNBOS2teKOB1CfyjlSZoJN7dzTpb4d8HeovV/9gi?=
- =?us-ascii?Q?3e9o5Ev3eF/TRyMCfW2F1fZrv00c+xL8MXSfYl0jF2+AxnYl6TqLFeB+oLTV?=
- =?us-ascii?Q?8TW3waArgP9SC4wtWncBLLzgJb9BNzkOYV22x2onHnltZT09RqGV2Tx4i3Nm?=
- =?us-ascii?Q?Ri43TxM/G/jUKQKMIHlk6ywKx1+dfsuJdELj1VYg+y8JnFATCL/qnO2bXXHa?=
- =?us-ascii?Q?lNcXZhI9JyycuawzicDb6g2iZgOhsAqEeFqrh2Q0n5JT5K0S++/Rpoz6rLRy?=
- =?us-ascii?Q?eFxfayXbbUt5IPCN4bzAXh0FEd7MiRPnVYIjUpLCG7orJZZCiLElmC5zGih8?=
- =?us-ascii?Q?VvB7cKon2kVHflf9nKSkZXm1qNmW/3rsC/4hcUpb0JvM3ix5ncySlP0IhsqJ?=
- =?us-ascii?Q?pzy0bRtqheee0wmBWWuGhiKKETG2raUrNvJuXZ3uI2eCmSLXPHyJD3swK9bP?=
- =?us-ascii?Q?QDR++BBLkuH/g57sEOcdcTdH+IxgtqM7Rcvd3lWgH0hQ+JOkWvJyCT/ajfiW?=
- =?us-ascii?Q?y5yCzN/goY7iKJeYdYGc6AvctRrbjexEEUjHAb3OTFYTrECCtPelejVYevGz?=
- =?us-ascii?Q?H8uIkQ9Qbu38yaw8iKbk68KHsWgYKu6OGWfstjEHdradzxS9sjH8J59XwLUJ?=
- =?us-ascii?Q?kaW/P2oKhIcGRM+iASYFDuMJKFoNOk4E/PJlsao/3isxLRpWKa+97i0amjPW?=
- =?us-ascii?Q?jjqbYTVoxolAZHOemaLS1ab3MmQyjeCt1/o+SJpFVVj2vz0avxwz1jqqXdHF?=
- =?us-ascii?Q?uusdRUPP5+wggLCMDlRhzmd0JvbmH8vYG/UjiM8bCjhV3xkJvpEJYCDqHwzg?=
- =?us-ascii?Q?2EJoFLsqR1ebtT9ugVVDeSMJH02n+fn+MGDDG4+PulqcQECPf0SWX3wDtbwi?=
- =?us-ascii?Q?mdYnPV1/qGo8/LJtnFdCc4IsRGlR5oBM4dCD9gzaWkl0lqPAHsL+AE47Viyb?=
- =?us-ascii?Q?wj0qeGj6kXzj0GWIRgag3rcvXcpOJk/Qf5GEiMx8HyRaFys/dUakC7qUHSfY?=
- =?us-ascii?Q?Y9XyJc8oQn2Q6h8y0jhTndM1M8+TRHUqkPL+l7H2H9vTU+9lhAbXoxx+Bhf0?=
- =?us-ascii?Q?IKsfiHBXDWGHXVLB69EjvioTFsViMRr1LRbGlT4x/uDwXZr36WUmHaDNr6Vt?=
- =?us-ascii?Q?6UBvaclpKW/mgk8jJGF/SeHoJrtJ7XNbUejaywXtUHVf50FCOTuBIP+lLPP4?=
- =?us-ascii?Q?SYLseOZeyOCIwdKy6C0itii7nly48vSHG8qFaWBoaW+zva+XYn+RBWGI/ytA?=
- =?us-ascii?Q?231NgTEvCBxchDgAsk4QAtq9gJXfAou3PG1G?=
-X-Forefront-Antispam-Report: CIP:165.204.84.17; CTRY:US; LANG:en; SCL:1; SRV:;
- IPV:CAL; SFV:NSPM; H:SATLEXMB03.amd.com; PTR:InfoDomainNonexistent; CAT:NONE;
- SFS:(13230040)(82310400026)(376014)(36860700013)(1800799024); DIR:OUT;
- SFP:1101; 
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 30 Jun 2025 10:41:44.0826 (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: e379d11f-4fb9-49aa-d7f3-08ddb7c2b4d9
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=3dd8961f-e488-4e60-8e11-a82d994e183d; Ip=[165.204.84.17];
- Helo=[SATLEXMB03.amd.com]
-X-MS-Exchange-CrossTenant-AuthSource: CO1PEPF000042AD.namprd03.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Anonymous
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SJ5PPF000ACABD1
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -140,59 +62,262 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The hibernation successful workflow:
-- prepare: evict VRAM and swapout GTT BOs
-- freeze
-- create the hibernation image in system memory
-- thaw: swapin and restore BOs
-- complete
-- write hibernation image to disk
-- amdgpu_pci_shutdown
-- goto S5, turn off the system.
+Good catch!
 
-During prepare stage of hibernation, VRAM and GTT BOs will be swapout to
-shmem. Then in thaw stage, all BOs will be swapin and restored.
+Reviewed-by: Iago Toral Quiroga <itoral@igalia.com>
 
-On server with 192GB VRAM * 8 dGPUs and 1.7TB system memory,
-the swapin and restore BOs takes too long (50 minutes) and it is not
-necessary since the follow-up stages does not use GPU.
-
-This patch is to skip BOs restore during thaw to reduce the hibernation
-time.
-
-Signed-off-by: Samuel Zhang <guoqing.zhang@amd.com>
----
- drivers/gpu/drm/amd/amdgpu/amdgpu_device.c | 2 +-
- drivers/gpu/drm/amd/amdgpu/amdgpu_drv.c    | 2 ++
- 2 files changed, 3 insertions(+), 1 deletion(-)
-
-diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_device.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_device.c
-index a8f4697deb1b..b550d07190a2 100644
---- a/drivers/gpu/drm/amd/amdgpu/amdgpu_device.c
-+++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_device.c
-@@ -5328,7 +5328,7 @@ int amdgpu_device_resume(struct drm_device *dev, bool notify_clients)
- 		amdgpu_virt_init_data_exchange(adev);
- 		amdgpu_virt_release_full_gpu(adev, true);
- 
--		if (!adev->in_s0ix && !r && !adev->in_runpm)
-+		if (!adev->in_s0ix && !r && !adev->in_runpm && !adev->in_s4)
- 			r = amdgpu_amdkfd_resume_process(adev);
- 	}
- 
-diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_drv.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_drv.c
-index 571b70da4562..23b76e8ac2fd 100644
---- a/drivers/gpu/drm/amd/amdgpu/amdgpu_drv.c
-+++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_drv.c
-@@ -2734,7 +2734,9 @@ static int amdgpu_pmops_poweroff(struct device *dev)
- static int amdgpu_pmops_restore(struct device *dev)
- {
- 	struct drm_device *drm_dev = dev_get_drvdata(dev);
-+	struct amdgpu_device *adev = drm_to_adev(drm_dev);
- 
-+	adev->in_s4 = false;
- 	return amdgpu_device_resume(drm_dev, true);
- }
- 
--- 
-2.43.5
+El s=C3=A1b, 28-06-2025 a las 19:42 -0300, Ma=C3=ADra Canal escribi=C3=B3:
+> Currently, an interrupt can be triggered during a GPU reset, which
+> can
+> lead to GPU hangs and NULL pointer dereference in an interrupt
+> context
+> as shown in the following trace:
+>=20
+> =C2=A0[=C2=A0 314.035040] Unable to handle kernel NULL pointer dereferenc=
+e at
+> virtual address 00000000000000c0
+> =C2=A0[=C2=A0 314.043822] Mem abort info:
+> =C2=A0[=C2=A0 314.046606]=C2=A0=C2=A0 ESR =3D 0x0000000096000005
+> =C2=A0[=C2=A0 314.050347]=C2=A0=C2=A0 EC =3D 0x25: DABT (current EL), IL =
+=3D 32 bits
+> =C2=A0[=C2=A0 314.055651]=C2=A0=C2=A0 SET =3D 0, FnV =3D 0
+> =C2=A0[=C2=A0 314.058695]=C2=A0=C2=A0 EA =3D 0, S1PTW =3D 0
+> =C2=A0[=C2=A0 314.061826]=C2=A0=C2=A0 FSC =3D 0x05: level 1 translation f=
+ault
+> =C2=A0[=C2=A0 314.066694] Data abort info:
+> =C2=A0[=C2=A0 314.069564]=C2=A0=C2=A0 ISV =3D 0, ISS =3D 0x00000005, ISS2=
+ =3D 0x00000000
+> =C2=A0[=C2=A0 314.075039]=C2=A0=C2=A0 CM =3D 0, WnR =3D 0, TnD =3D 0, Tag=
+Access =3D 0
+> =C2=A0[=C2=A0 314.080080]=C2=A0=C2=A0 GCS =3D 0, Overlay =3D 0, DirtyBit =
+=3D 0, Xs =3D 0
+> =C2=A0[=C2=A0 314.085382] user pgtable: 4k pages, 39-bit VAs,
+> pgdp=3D0000000102728000
+> =C2=A0[=C2=A0 314.091814] [00000000000000c0] pgd=3D0000000000000000,
+> p4d=3D0000000000000000, pud=3D0000000000000000
+> =C2=A0[=C2=A0 314.100511] Internal error: Oops: 0000000096000005 [#1] PRE=
+EMPT
+> SMP
+> =C2=A0[=C2=A0 314.106770] Modules linked in: v3d i2c_brcmstb vc4
+> snd_soc_hdmi_codec gpu_sched drm_shmem_helper drm_display_helper cec
+> drm_dma_helper drm_kms_helper drm drm_panel_orientation_quirks
+> snd_soc_core snd_compress snd_pcm_dmaengine snd_pcm snd_timer snd
+> backlight
+> =C2=A0[=C2=A0 314.129654] CPU: 0 UID: 0 PID: 0 Comm: swapper/0 Not tainte=
+d
+> 6.12.25+rpt-rpi-v8 #1=C2=A0 Debian 1:6.12.25-1+rpt1
+> =C2=A0[=C2=A0 314.139388] Hardware name: Raspberry Pi 4 Model B Rev 1.4 (=
+DT)
+> =C2=A0[=C2=A0 314.145211] pstate: 600000c5 (nZCv daIF -PAN -UAO -TCO -DIT=
+ -SSBS
+> BTYPE=3D--)
+> =C2=A0[=C2=A0 314.152165] pc : v3d_irq+0xec/0x2e0 [v3d]
+> =C2=A0[=C2=A0 314.156187] lr : v3d_irq+0xe0/0x2e0 [v3d]
+> =C2=A0[=C2=A0 314.160198] sp : ffffffc080003ea0
+> =C2=A0[=C2=A0 314.163502] x29: ffffffc080003ea0 x28: ffffffec1f184980 x27=
+:
+> 021202b000000000
+> =C2=A0[=C2=A0 314.170633] x26: ffffffec1f17f630 x25: ffffff8101372000 x24=
+:
+> ffffffec1f17d9f0
+> =C2=A0[=C2=A0 314.177764] x23: 000000000000002a x22: 000000000000002a x21=
+:
+> ffffff8103252000
+> =C2=A0[=C2=A0 314.184895] x20: 0000000000000001 x19: 00000000deadbeef x18=
+:
+> 0000000000000000
+> =C2=A0[=C2=A0 314.192026] x17: ffffff94e51d2000 x16: ffffffec1dac3cb0 x15=
+:
+> c306000000000000
+> =C2=A0[=C2=A0 314.199156] x14: 0000000000000000 x13: b2fc982e03cc5168 x12=
+:
+> 0000000000000001
+> =C2=A0[=C2=A0 314.206286] x11: ffffff8103f8bcc0 x10: ffffffec1f196868 x9 =
+:
+> ffffffec1dac3874
+> =C2=A0[=C2=A0 314.213416] x8 : 0000000000000000 x7 : 0000000000042a3a x6 =
+:
+> ffffff810017a180
+> =C2=A0[=C2=A0 314.220547] x5 : ffffffec1ebad400 x4 : ffffffec1ebad320 x3 =
+:
+> 00000000000bebeb
+> =C2=A0[=C2=A0 314.227677] x2 : 0000000000000000 x1 : 0000000000000000 x0 =
+:
+> 0000000000000000
+> =C2=A0[=C2=A0 314.234807] Call trace:
+> =C2=A0[=C2=A0 314.237243]=C2=A0 v3d_irq+0xec/0x2e0 [v3d]
+> =C2=A0[=C2=A0 314.240906]=C2=A0 __handle_irq_event_percpu+0x58/0x218
+> =C2=A0[=C2=A0 314.245609]=C2=A0 handle_irq_event+0x54/0xb8
+> =C2=A0[=C2=A0 314.249439]=C2=A0 handle_fasteoi_irq+0xac/0x240
+> =C2=A0[=C2=A0 314.253527]=C2=A0 handle_irq_desc+0x48/0x68
+> =C2=A0[=C2=A0 314.257269]=C2=A0 generic_handle_domain_irq+0x24/0x38
+> =C2=A0[=C2=A0 314.261879]=C2=A0 gic_handle_irq+0x48/0xd8
+> =C2=A0[=C2=A0 314.265533]=C2=A0 call_on_irq_stack+0x24/0x58
+> =C2=A0[=C2=A0 314.269448]=C2=A0 do_interrupt_handler+0x88/0x98
+> =C2=A0[=C2=A0 314.273624]=C2=A0 el1_interrupt+0x34/0x68
+> =C2=A0[=C2=A0 314.277193]=C2=A0 el1h_64_irq_handler+0x18/0x28
+> =C2=A0[=C2=A0 314.281281]=C2=A0 el1h_64_irq+0x64/0x68
+> =C2=A0[=C2=A0 314.284673]=C2=A0 default_idle_call+0x3c/0x168
+> =C2=A0[=C2=A0 314.288675]=C2=A0 do_idle+0x1fc/0x230
+> =C2=A0[=C2=A0 314.291895]=C2=A0 cpu_startup_entry+0x3c/0x50
+> =C2=A0[=C2=A0 314.295810]=C2=A0 rest_init+0xe4/0xf0
+> =C2=A0[=C2=A0 314.299030]=C2=A0 start_kernel+0x5e8/0x790
+> =C2=A0[=C2=A0 314.302684]=C2=A0 __primary_switched+0x80/0x90
+> =C2=A0[=C2=A0 314.306691] Code: 940029eb 360ffc13 f9442ea0 52800001 (f940=
+6017)
+> =C2=A0[=C2=A0 314.312775] ---[ end trace 0000000000000000 ]---
+> =C2=A0[=C2=A0 314.317384] Kernel panic - not syncing: Oops: Fatal excepti=
+on in
+> interrupt
+> =C2=A0[=C2=A0 314.324249] SMP: stopping secondary CPUs
+> =C2=A0[=C2=A0 314.328167] Kernel Offset: 0x2b9da00000 from 0xffffffc08000=
+0000
+> =C2=A0[=C2=A0 314.334076] PHYS_OFFSET: 0x0
+> =C2=A0[=C2=A0 314.336946] CPU features: 0x08,00002013,c0200000,0200421b
+> =C2=A0[=C2=A0 314.342337] Memory Limit: none
+> =C2=A0[=C2=A0 314.345382] ---[ end Kernel panic - not syncing: Oops: Fata=
+l
+> exception in interrupt ]---
+>=20
+> Before resetting the GPU, it's necessary to disable all interrupts
+> and
+> deal with any interrupt handler still in-flight. Otherwise, the GPU
+> might
+> reset with jobs still running, or yet, an interrupt could be handled
+> during the reset.
+>=20
+> Cc: stable@vger.kernel.org
+> Fixes: 57692c94dcbe ("drm/v3d: Introduce a new DRM driver for
+> Broadcom V3D V3.x+")
+> Signed-off-by: Ma=C3=ADra Canal <mcanal@igalia.com>
+> ---
+> =C2=A0drivers/gpu/drm/v3d/v3d_drv.h |=C2=A0 8 ++++++++
+> =C2=A0drivers/gpu/drm/v3d/v3d_gem.c |=C2=A0 2 ++
+> =C2=A0drivers/gpu/drm/v3d/v3d_irq.c | 37 +++++++++++++++++++++++++-------=
+-
+> --
+> =C2=A03 files changed, 37 insertions(+), 10 deletions(-)
+>=20
+> diff --git a/drivers/gpu/drm/v3d/v3d_drv.h
+> b/drivers/gpu/drm/v3d/v3d_drv.h
+> index b51f0b648a08..411e47702f8a 100644
+> --- a/drivers/gpu/drm/v3d/v3d_drv.h
+> +++ b/drivers/gpu/drm/v3d/v3d_drv.h
+> @@ -101,6 +101,12 @@ enum v3d_gen {
+> =C2=A0	V3D_GEN_71 =3D 71,
+> =C2=A0};
+> =C2=A0
+> +enum v3d_irq {
+> +	V3D_CORE_IRQ,
+> +	V3D_HUB_IRQ,
+> +	V3D_MAX_IRQS,
+> +};
+> +
+> =C2=A0struct v3d_dev {
+> =C2=A0	struct drm_device drm;
+> =C2=A0
+> @@ -112,6 +118,8 @@ struct v3d_dev {
+> =C2=A0
+> =C2=A0	bool single_irq_line;
+> =C2=A0
+> +	int irq[V3D_MAX_IRQS];
+> +
+> =C2=A0	struct v3d_perfmon_info perfmon_info;
+> =C2=A0
+> =C2=A0	void __iomem *hub_regs;
+> diff --git a/drivers/gpu/drm/v3d/v3d_gem.c
+> b/drivers/gpu/drm/v3d/v3d_gem.c
+> index d7d16da78db3..37bf5eecdd2c 100644
+> --- a/drivers/gpu/drm/v3d/v3d_gem.c
+> +++ b/drivers/gpu/drm/v3d/v3d_gem.c
+> @@ -134,6 +134,8 @@ v3d_reset(struct v3d_dev *v3d)
+> =C2=A0	if (false)
+> =C2=A0		v3d_idle_axi(v3d, 0);
+> =C2=A0
+> +	v3d_irq_disable(v3d);
+> +
+> =C2=A0	v3d_idle_gca(v3d);
+> =C2=A0	v3d_reset_sms(v3d);
+> =C2=A0	v3d_reset_v3d(v3d);
+> diff --git a/drivers/gpu/drm/v3d/v3d_irq.c
+> b/drivers/gpu/drm/v3d/v3d_irq.c
+> index 2cca5d3a26a2..a515a301e480 100644
+> --- a/drivers/gpu/drm/v3d/v3d_irq.c
+> +++ b/drivers/gpu/drm/v3d/v3d_irq.c
+> @@ -260,7 +260,7 @@ v3d_hub_irq(int irq, void *arg)
+> =C2=A0int
+> =C2=A0v3d_irq_init(struct v3d_dev *v3d)
+> =C2=A0{
+> -	int irq1, ret, core;
+> +	int irq, ret, core;
+> =C2=A0
+> =C2=A0	INIT_WORK(&v3d->overflow_mem_work, v3d_overflow_mem_work);
+> =C2=A0
+> @@ -271,17 +271,24 @@ v3d_irq_init(struct v3d_dev *v3d)
+> =C2=A0		V3D_CORE_WRITE(core, V3D_CTL_INT_CLR,
+> V3D_CORE_IRQS(v3d->ver));
+> =C2=A0	V3D_WRITE(V3D_HUB_INT_CLR, V3D_HUB_IRQS(v3d->ver));
+> =C2=A0
+> -	irq1 =3D platform_get_irq_optional(v3d_to_pdev(v3d), 1);
+> -	if (irq1 =3D=3D -EPROBE_DEFER)
+> -		return irq1;
+> -	if (irq1 > 0) {
+> -		ret =3D devm_request_irq(v3d->drm.dev, irq1,
+> +	irq =3D platform_get_irq_optional(v3d_to_pdev(v3d), 1);
+> +	if (irq =3D=3D -EPROBE_DEFER)
+> +		return irq;
+> +	if (irq > 0) {
+> +		v3d->irq[V3D_CORE_IRQ] =3D irq;
+> +
+> +		ret =3D devm_request_irq(v3d->drm.dev, v3d-
+> >irq[V3D_CORE_IRQ],
+> =C2=A0				=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 v3d_irq, IRQF_SHARED,
+> =C2=A0				=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 "v3d_core0", v3d);
+> =C2=A0		if (ret)
+> =C2=A0			goto fail;
+> -		ret =3D devm_request_irq(v3d->drm.dev,
+> -				=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0
+> platform_get_irq(v3d_to_pdev(v3d), 0),
+> +
+> +		irq =3D platform_get_irq(v3d_to_pdev(v3d), 0);
+> +		if (irq < 0)
+> +			return irq;
+> +		v3d->irq[V3D_HUB_IRQ] =3D irq;
+> +
+> +		ret =3D devm_request_irq(v3d->drm.dev, v3d-
+> >irq[V3D_HUB_IRQ],
+> =C2=A0				=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 v3d_hub_irq, IRQF_SHARED,
+> =C2=A0				=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 "v3d_hub", v3d);
+> =C2=A0		if (ret)
+> @@ -289,8 +296,12 @@ v3d_irq_init(struct v3d_dev *v3d)
+> =C2=A0	} else {
+> =C2=A0		v3d->single_irq_line =3D true;
+> =C2=A0
+> -		ret =3D devm_request_irq(v3d->drm.dev,
+> -				=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0
+> platform_get_irq(v3d_to_pdev(v3d), 0),
+> +		irq =3D platform_get_irq(v3d_to_pdev(v3d), 0);
+> +		if (irq < 0)
+> +			return irq;
+> +		v3d->irq[V3D_CORE_IRQ] =3D irq;
+> +
+> +		ret =3D devm_request_irq(v3d->drm.dev, v3d-
+> >irq[V3D_CORE_IRQ],
+> =C2=A0				=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 v3d_irq, IRQF_SHARED,
+> =C2=A0				=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 "v3d", v3d);
+> =C2=A0		if (ret)
+> @@ -331,6 +342,12 @@ v3d_irq_disable(struct v3d_dev *v3d)
+> =C2=A0		V3D_CORE_WRITE(core, V3D_CTL_INT_MSK_SET, ~0);
+> =C2=A0	V3D_WRITE(V3D_HUB_INT_MSK_SET, ~0);
+> =C2=A0
+> +	/* Finish any interrupt handler still in flight. */
+> +	for (int i =3D 0; i < V3D_MAX_IRQS; i++) {
+> +		if (v3d->irq[i])
+> +			synchronize_irq(v3d->irq[i]);
+> +	}
+> +
+> =C2=A0	/* Clear any pending interrupts we might have left. */
+> =C2=A0	for (core =3D 0; core < v3d->cores; core++)
+> =C2=A0		V3D_CORE_WRITE(core, V3D_CTL_INT_CLR,
+> V3D_CORE_IRQS(v3d->ver));
 
