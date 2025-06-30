@@ -2,60 +2,62 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 73F3EAED8F8
-	for <lists+dri-devel@lfdr.de>; Mon, 30 Jun 2025 11:46:22 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5DDC3AED923
+	for <lists+dri-devel@lfdr.de>; Mon, 30 Jun 2025 11:56:41 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B842F10E3DC;
-	Mon, 30 Jun 2025 09:46:19 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1B5A410E229;
+	Mon, 30 Jun 2025 09:56:39 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; secure) header.d=sntech.de header.i=@sntech.de header.b="Pu/fibC1";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="CzRWn/r2";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from gloria.sntech.de (gloria.sntech.de [185.11.138.130])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B97C610E3DC
- for <dri-devel@lists.freedesktop.org>; Mon, 30 Jun 2025 09:46:17 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=sntech.de; 
- s=gloria202408;
- h=Content-Transfer-Encoding:Content-Type:MIME-Version:
- References:In-Reply-To:Message-ID:Date:Subject:Cc:To:From:Reply-To;
- bh=Y9NDST3Jz+7qAkVnnzdeFtTSjYFFZgsmdrwgsOErAQY=; b=Pu/fibC1BioK2jFS+/Suan3gfe
- zBYwD4ZBY7ZB1zEtAPgJm2z3UNMA+PnhtTqRzjvNcvb2KuMnEWkHaxxUCCHHEQXpWGq20qDhRLWU+
- G+wtiuiql6xdkh6SD9oiHa53LDdVNnmwh1AoRN/Y1RAiWEqA2sx+mW2pCf99z5xSyw0NYAXItuI5V
- Ce/KUF5+ZK7a9RrW3DQsMM8EAhCh1Elb69rFXWZA38eEQCx8AsIed1xwO1+Au+ILf4RaTNOxuHZEy
- XA7OR98Su158f5OEA3BxePxjf1vptmkojr1my+NDYGstJnVBCVo4c/wBt7IGPXyWj9cJXDWDc3jzE
- VAWVHt1Q==;
-Received: from i53875bfd.versanet.de ([83.135.91.253]
- helo=localhost.localdomain)
- by gloria.sntech.de with esmtpsa (TLS1.3) tls
- TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384 (Exim 4.94.2)
- (envelope-from <heiko@sntech.de>)
- id 1uWB5J-0006Zc-NW; Mon, 30 Jun 2025 11:45:57 +0200
-From: Heiko Stuebner <heiko@sntech.de>
-To: Sandy Huang <hjc@rock-chips.com>, Andy Yan <andy.yan@rock-chips.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
- Simona Vetter <simona@ffwll.ch>, Rob Herring <robh@kernel.org>,
- Krzysztof Kozlowski <krzk+dt@kernel.org>,
- Conor Dooley <conor+dt@kernel.org>,
- Cristian Ciocaltea <cristian.ciocaltea@collabora.com>
-Cc: Heiko Stuebner <heiko@sntech.de>, kernel@collabora.com,
- Andy Yan <andyshrk@163.com>,
- Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
- dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org,
- linux-arm-kernel@lists.infradead.org, linux-rockchip@lists.infradead.org,
- linux-kernel@vger.kernel.org, stable@vger.kernel.org
-Subject: Re: (subset) [PATCH 0/3] arm64: dts: rockchip: Fix HDMI output on
- RK3576
-Date: Mon, 30 Jun 2025 11:45:43 +0200
-Message-ID: <175127673170.138768.2750019660187884094.b4-ty@sntech.de>
-X-Mailer: git-send-email 2.47.2
-In-Reply-To: <20250612-rk3576-hdmitx-fix-v1-0-4b11007d8675@collabora.com>
-References: <20250612-rk3576-hdmitx-fix-v1-0-4b11007d8675@collabora.com>
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9510F10E229
+ for <dri-devel@lists.freedesktop.org>; Mon, 30 Jun 2025 09:56:37 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1751277398; x=1782813398;
+ h=date:from:to:cc:subject:message-id:references:
+ mime-version:in-reply-to;
+ bh=lRurOeZ7EKZfBhd+PazQpT0UPsCtzFmVV3p9ECRTaxo=;
+ b=CzRWn/r2TjTMKm3l5tUKR3fGibva3aUl92K0crjh4Uo94Hs0tMrR1EMy
+ 2kb2kXiHpWgUCLz0xjHid1dEAe+Tm0ZAqN+86+zjJy/bJmxNotfSmGPJm
+ aBCcNfCaL+iA1NCVKoCyjplU7gix2Gnvx30vXKzfbWquykqqgjKRwOSEI
+ Fe3weER7mSTbDB+oO7fopUCJDdU+B8VAfFf8rD3r73QFzZHFGo1leGEW6
+ nkygTG1D1Y6hT6hOGIKgtJsbunF50aEj94bww/XDUf1N1mUyEenHtDB+H
+ hsTW3M6SIbLVDSmVpN9I8zYRORa9m28+8E2AgMXxtj/cLLiIDedChnYZq A==;
+X-CSE-ConnectionGUID: J85WiWipRseghVuYQ3953Q==
+X-CSE-MsgGUID: m7aTLBOgRj6H0FCFYqcYFg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11479"; a="70932091"
+X-IronPort-AV: E=Sophos;i="6.16,277,1744095600"; d="scan'208";a="70932091"
+Received: from fmviesa007.fm.intel.com ([10.60.135.147])
+ by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 30 Jun 2025 02:56:38 -0700
+X-CSE-ConnectionGUID: dNZuO+IMSw25ZROr0r/Png==
+X-CSE-MsgGUID: Slrx0BFzS4G/O/KiCbWXHQ==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.16,277,1744095600"; d="scan'208";a="153044245"
+Received: from lkp-server01.sh.intel.com (HELO e8142ee1dce2) ([10.239.97.150])
+ by fmviesa007.fm.intel.com with ESMTP; 30 Jun 2025 02:56:35 -0700
+Received: from kbuild by e8142ee1dce2 with local (Exim 4.96)
+ (envelope-from <lkp@intel.com>) id 1uWBFY-000Yks-2G;
+ Mon, 30 Jun 2025 09:56:32 +0000
+Date: Mon, 30 Jun 2025 17:56:00 +0800
+From: kernel test robot <lkp@intel.com>
+To: Dave Airlie <airlied@gmail.com>, dri-devel@lists.freedesktop.org,
+ linux-mm@kvack.org, Johannes Weiner <hannes@cmpxchg.org>,
+ Christian Koenig <christian.koenig@amd.com>
+Cc: oe-kbuild-all@lists.linux.dev, Dave Chinner <david@fromorbit.com>,
+ Kairui Song <kasong@tencent.com>, Dave Airlie <airlied@redhat.com>
+Subject: Re: [PATCH 10/17] ttm: add a memcg accounting flag to the
+ alloc/populate APIs
+Message-ID: <202506301731.dRh8GUQZ-lkp@intel.com>
+References: <20250630045005.1337339-11-airlied@gmail.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20250630045005.1337339-11-airlied@gmail.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -71,27 +73,33 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+Hi Dave,
 
-On Thu, 12 Jun 2025 00:47:46 +0300, Cristian Ciocaltea wrote:
-> Since commit c871a311edf0 ("phy: rockchip: samsung-hdptx: Setup TMDS
-> char rate via phy_configure_opts_hdmi"), the workaround of passing the
-> PHY rate from DW HDMI QP bridge driver via phy_set_bus_width() became
-> partially broken, unless the rate adjustment is done as with RK3588,
-> i.e. by CCF from VOP2.
-> 
-> Attempting to fix this up at PHY level would not only introduce
-> additional hacks, but it would also fail to adequately resolve the
-> display issues that are a consequence of the system CRU limitations.
-> 
-> [...]
+kernel test robot noticed the following build warnings:
 
-Applied, thanks!
+[auto build test WARNING on drm/drm-next]
+[cannot apply to akpm-mm/mm-everything linus/master v6.16-rc4 next-20250630]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-[2/3] arm64: dts: rockchip: Enable HDMI PHY clk provider on rk3576
-      commit: aba7987a536cee67fb0cb724099096fd8f8f5350
-[3/3] arm64: dts: rockchip: Add HDMI PHY PLL clock source to VOP2 on rk3576
-      commit: 4ab8b8ac952fb08d03655e1da0cfee07589e428f
+url:    https://github.com/intel-lab-lkp/linux/commits/Dave-Airlie/drm-ttm-use-gpu-mm-stats-to-track-gpu-memory-allocations-v2/20250630-134938
+base:   git://anongit.freedesktop.org/drm/drm drm-next
+patch link:    https://lore.kernel.org/r/20250630045005.1337339-11-airlied%40gmail.com
+patch subject: [PATCH 10/17] ttm: add a memcg accounting flag to the alloc/populate APIs
+config: riscv-randconfig-001-20250630 (https://download.01.org/0day-ci/archive/20250630/202506301731.dRh8GUQZ-lkp@intel.com/config)
+compiler: riscv64-linux-gcc (GCC) 8.5.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250630/202506301731.dRh8GUQZ-lkp@intel.com/reproduce)
 
-Best regards,
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202506301731.dRh8GUQZ-lkp@intel.com/
+
+All warnings (new ones prefixed by >>):
+
+>> Warning: drivers/gpu/drm/ttm/ttm_bo.c:1256 function parameter 'memcg_account' not described in 'ttm_bo_populate'
+
 -- 
-Heiko Stuebner <heiko@sntech.de>
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
