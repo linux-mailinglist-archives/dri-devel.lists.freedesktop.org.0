@@ -2,55 +2,60 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id A64EAAED904
-	for <lists+dri-devel@lfdr.de>; Mon, 30 Jun 2025 11:49:31 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 73F3EAED8F8
+	for <lists+dri-devel@lfdr.de>; Mon, 30 Jun 2025 11:46:22 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1B6F010E3DF;
-	Mon, 30 Jun 2025 09:49:29 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B842F10E3DC;
+	Mon, 30 Jun 2025 09:46:19 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; secure) header.d=walle.cc header.i=@walle.cc header.b="H7CMqKrj";
+	dkim=pass (2048-bit key; secure) header.d=sntech.de header.i=@sntech.de header.b="Pu/fibC1";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-X-Greylist: delayed 556 seconds by postgrey-1.36 at gabe;
- Mon, 30 Jun 2025 09:49:27 UTC
-Received: from mail.3ffe.de (0001.3ffe.de [159.69.201.130])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5F4FF10E3DF
- for <dri-devel@lists.freedesktop.org>; Mon, 30 Jun 2025 09:49:27 +0000 (UTC)
-Received: from localhost (unknown [213.135.10.150])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange ECDHE (prime256v1) server-signature RSA-PSS (2048 bits)
- server-digest SHA256) (No client certificate requested)
- by mail.3ffe.de (Postfix) with ESMTPSA id B669610C;
- Mon, 30 Jun 2025 11:40:09 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=walle.cc;
- s=mail2022082101; t=1751276409;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:content-type:content-type:in-reply-to:in-reply-to:
- references:references; bh=9/Pvq0WY1sYNzPktOn10uj39CmA1imLYf9C5hVYfwFU=;
- b=H7CMqKrjjwduzohcLlYNC2KPKKiE54GtbG0UXi8RMQjlMvkNy/KUS7tCKEaVW3nXO25Fsk
- yJTxpGaaQ//JwA85vUXnjV9qJeG5azMY//2vak9E7Uc77ZfoiDYkFO2bX2kKEy5XKJctHw
- /RkilStMgMS2WbdX+7940u7sZAXBRVh/2dLFovlIPfnRbevPqGgVk/hGltwAE6Dt8HDXkj
- KC14NB+abcmH3ekLowwOOLOWYjye0dNWlY6SVvBhCDozaJSOab9qoF+7bcoD+uUcIXEK4s
- EAyv4RP9OZ1Yq+o1Y31RP/dOG9GbscHWOUR1CHwpo65LedYwiRdOrTbS5g7L9w==
-Content-Type: multipart/signed;
- boundary=966e033f37f2d4f4fc473532ff78d6a575d67b30c1d1668f1feb4b49830d;
- micalg=pgp-sha384; protocol="application/pgp-signature"
-Date: Mon, 30 Jun 2025 11:40:07 +0200
-Message-Id: <DAZROB4RXK9C.WMSDJSU3N9CL@walle.cc>
-Subject: Re: [PATCH] drm/tidss: Set crtc modesetting parameters with
- adjusted mode
-Cc: <maarten.lankhorst@linux.intel.com>, <mripard@kernel.org>,
- <tzimmermann@suse.de>, <airlied@gmail.com>, <simona@ffwll.ch>,
- <linux-kernel@vger.kernel.org>
-From: "Michael Walle" <michael@walle.cc>
-To: "Tomi Valkeinen" <tomi.valkeinen@ideasonboard.com>, "Jayesh Choudhary"
- <j-choudhary@ti.com>, <jyri.sarha@iki.fi>,
- <dri-devel@lists.freedesktop.org>, <devarsht@ti.com>
-X-Mailer: aerc 0.16.0
-References: <20250624080402.302526-1-j-choudhary@ti.com>
- <d6ac1fe1-eeac-430c-ada6-d19386781b53@ideasonboard.com>
-In-Reply-To: <d6ac1fe1-eeac-430c-ada6-d19386781b53@ideasonboard.com>
+Received: from gloria.sntech.de (gloria.sntech.de [185.11.138.130])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B97C610E3DC
+ for <dri-devel@lists.freedesktop.org>; Mon, 30 Jun 2025 09:46:17 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=sntech.de; 
+ s=gloria202408;
+ h=Content-Transfer-Encoding:Content-Type:MIME-Version:
+ References:In-Reply-To:Message-ID:Date:Subject:Cc:To:From:Reply-To;
+ bh=Y9NDST3Jz+7qAkVnnzdeFtTSjYFFZgsmdrwgsOErAQY=; b=Pu/fibC1BioK2jFS+/Suan3gfe
+ zBYwD4ZBY7ZB1zEtAPgJm2z3UNMA+PnhtTqRzjvNcvb2KuMnEWkHaxxUCCHHEQXpWGq20qDhRLWU+
+ G+wtiuiql6xdkh6SD9oiHa53LDdVNnmwh1AoRN/Y1RAiWEqA2sx+mW2pCf99z5xSyw0NYAXItuI5V
+ Ce/KUF5+ZK7a9RrW3DQsMM8EAhCh1Elb69rFXWZA38eEQCx8AsIed1xwO1+Au+ILf4RaTNOxuHZEy
+ XA7OR98Su158f5OEA3BxePxjf1vptmkojr1my+NDYGstJnVBCVo4c/wBt7IGPXyWj9cJXDWDc3jzE
+ VAWVHt1Q==;
+Received: from i53875bfd.versanet.de ([83.135.91.253]
+ helo=localhost.localdomain)
+ by gloria.sntech.de with esmtpsa (TLS1.3) tls
+ TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384 (Exim 4.94.2)
+ (envelope-from <heiko@sntech.de>)
+ id 1uWB5J-0006Zc-NW; Mon, 30 Jun 2025 11:45:57 +0200
+From: Heiko Stuebner <heiko@sntech.de>
+To: Sandy Huang <hjc@rock-chips.com>, Andy Yan <andy.yan@rock-chips.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
+ Simona Vetter <simona@ffwll.ch>, Rob Herring <robh@kernel.org>,
+ Krzysztof Kozlowski <krzk+dt@kernel.org>,
+ Conor Dooley <conor+dt@kernel.org>,
+ Cristian Ciocaltea <cristian.ciocaltea@collabora.com>
+Cc: Heiko Stuebner <heiko@sntech.de>, kernel@collabora.com,
+ Andy Yan <andyshrk@163.com>,
+ Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
+ dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org,
+ linux-arm-kernel@lists.infradead.org, linux-rockchip@lists.infradead.org,
+ linux-kernel@vger.kernel.org, stable@vger.kernel.org
+Subject: Re: (subset) [PATCH 0/3] arm64: dts: rockchip: Fix HDMI output on
+ RK3576
+Date: Mon, 30 Jun 2025 11:45:43 +0200
+Message-ID: <175127673170.138768.2750019660187884094.b4-ty@sntech.de>
+X-Mailer: git-send-email 2.47.2
+In-Reply-To: <20250612-rk3576-hdmitx-fix-v1-0-4b11007d8675@collabora.com>
+References: <20250612-rk3576-hdmitx-fix-v1-0-4b11007d8675@collabora.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -66,64 +71,27 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
---966e033f37f2d4f4fc473532ff78d6a575d67b30c1d1668f1feb4b49830d
-Mime-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset=UTF-8
 
-Hi Tomi,
+On Thu, 12 Jun 2025 00:47:46 +0300, Cristian Ciocaltea wrote:
+> Since commit c871a311edf0 ("phy: rockchip: samsung-hdptx: Setup TMDS
+> char rate via phy_configure_opts_hdmi"), the workaround of passing the
+> PHY rate from DW HDMI QP bridge driver via phy_set_bus_width() became
+> partially broken, unless the rate adjustment is done as with RK3588,
+> i.e. by CCF from VOP2.
+> 
+> Attempting to fix this up at PHY level would not only introduce
+> additional hacks, but it would also fail to adequately resolve the
+> display issues that are a consequence of the system CRU limitations.
+> 
+> [...]
 
-On Tue Jun 24, 2025 at 1:47 PM CEST, Tomi Valkeinen wrote:
-> On 24/06/2025 11:04, Jayesh Choudhary wrote:
-> > TIDSS uses crtc_* fields to propagate its registers and set the
-> > clock rates. So set the CRTC modesetting timing parameters with
-> > the adjusted mode when needed, to set correct values.
-> >=20
-> > Cc: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
-> > Signed-off-by: Jayesh Choudhary <j-choudhary@ti.com>
-> > ---
-> >=20
-> > Hello All,
-> >=20
-> > After the DSI fixes[0], TIDSS is using crtc_* timings while programming
-> > hardware[1]. But while testing on TI's J784S4-EVM platform, I noticed
-> > that crtc_timings are not propagated properly.
-> >=20
-> > The display pipeline there looks like:
-> > TIDSS -> CDNS-DSI -> SN65DSI86 bridge -> DisplayPort
-> >=20
-> > Consider the case of 1920x1080 resolution where the EDID mode has clock
-> > of 148500kHz. After adjustment, the clock changes to 148800kHz. While
-> > this change is reflected in mode->clock, its not propagated to
-> > mode->crtc_clock.
->
-> Hmm, so CDNS-DSI changes the adjusted_mode->clock, but in the end tidss
-> doesn't actually use the adjusted clock at all? I'm pretty sure I tested
-> that... I need to try it (and this) again.
+Applied, thanks!
 
-FWIW, without this patch, DSI isn't working on my board (DSI -> DSI85
--> eDP). At least without the (now dropped) patch "drm/tidss: Adjust
-the pclk based on the HW capabilities" [1].
+[2/3] arm64: dts: rockchip: Enable HDMI PHY clk provider on rk3576
+      commit: aba7987a536cee67fb0cb724099096fd8f8f5350
+[3/3] arm64: dts: rockchip: Add HDMI PHY PLL clock source to VOP2 on rk3576
+      commit: 4ab8b8ac952fb08d03655e1da0cfee07589e428f
 
-That is, it was working with v3 of your DSI patch series, but not
-with v4. I'll need this patch together with v4 to get DSI working.
-
-Maybe that helps,
--michael
-
-[1] https://lore.kernel.org/all/20250402-cdns-dsi-impro-v2-3-4a093eaa5e27@i=
-deasonboard.com/
-
---966e033f37f2d4f4fc473532ff78d6a575d67b30c1d1668f1feb4b49830d
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iKcEABMJAC8WIQTIVZIcOo5wfU/AngkSJzzuPgIf+AUCaGJbeBEcbWljaGFlbEB3
-YWxsZS5jYwAKCRASJzzuPgIf+BHiAX9DJFRcAbwH02oCGkRueG+13LtNgmiCzp+H
-eqWrhagx5aZAEsSrHAF8Q2D4tJLv9HMBf38xCW0EuhlUq8su5Trfs3JE1RDjmZ7n
-R/PtTjmFS/4x0jcQpL+Oh7Mf+Qq5rmyXsg==
-=yXux
------END PGP SIGNATURE-----
-
---966e033f37f2d4f4fc473532ff78d6a575d67b30c1d1668f1feb4b49830d--
+Best regards,
+-- 
+Heiko Stuebner <heiko@sntech.de>
