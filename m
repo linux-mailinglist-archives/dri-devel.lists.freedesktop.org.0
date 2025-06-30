@@ -2,62 +2,51 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id BD804AED778
-	for <lists+dri-devel@lfdr.de>; Mon, 30 Jun 2025 10:38:29 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7543AAED78D
+	for <lists+dri-devel@lfdr.de>; Mon, 30 Jun 2025 10:40:43 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0112810E3BA;
-	Mon, 30 Jun 2025 08:38:27 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6F6B510E3C0;
+	Mon, 30 Jun 2025 08:40:41 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="AsPbnEVe";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="PDL60iqd";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 883CC10E3BA
- for <dri-devel@lists.freedesktop.org>; Mon, 30 Jun 2025 08:38:25 +0000 (UTC)
+Received: from nyc.source.kernel.org (nyc.source.kernel.org [147.75.193.91])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 23FE310E3C0
+ for <dri-devel@lists.freedesktop.org>; Mon, 30 Jun 2025 08:40:40 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by dfw.source.kernel.org (Postfix) with ESMTP id 061265C5AFE;
- Mon, 30 Jun 2025 08:38:25 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 378BAC4CEF2;
- Mon, 30 Jun 2025 08:38:24 +0000 (UTC)
+ by nyc.source.kernel.org (Postfix) with ESMTP id 000EDA53130;
+ Mon, 30 Jun 2025 08:40:38 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 53CB6C4CEE3;
+ Mon, 30 Jun 2025 08:40:38 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1751272704;
- bh=PLIXEwxWC7QQ+4j+LLRtCwneBwdS5keVrROQQcKq2wg=;
+ s=k20201202; t=1751272838;
+ bh=lB8TRq8TTHPzjdVo79WO4ecRkc8FNlHlywZe0sSoqvs=;
  h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=AsPbnEVeeT6DMTbgBs5s9l+FTADNSJXYPbtIqiPsS/hU/aVY9Fy9OH3DwzduKxOUM
- fH2aIm8nT/GLFGZEsjjqzUeb352NzzCk0HbW7W4wFuN6Vom3QjrVjRUfTAq6jqIrkp
- NU6VZOrUnmat+iYPFSCC/VtJctGTXtBq8qveyVuyedbHsX7mCA95Ct0zAafMKEWrL5
- ZZyrTXPeFtyKU9Gm1Ccq0urSRwCPu6MSLl+1JbpmqNrjulRxwRWdjMpXVQAyajs0cs
- 3uA1vTK0rMUERie5ddq8JL6W74ggIkLnTkRFFASbjlOqZD46FVe4GZkeVOHwjHrOy8
- mYHlD/8S21AFg==
-Date: Mon, 30 Jun 2025 10:38:21 +0200
+ b=PDL60iqd2lpzF4Bbktn/oHvxi+sCSFXAyFfthFUQv7xwUfhgP4ek2x+VbxUAxQ9Ef
+ k1IKj7rZyZWjkl4Me8493b/LtR6Fa80gMJuuxRowXhhsiVOGpWq3XSE5qKwSsEzIDC
+ cl6D3+Nm8xJn7Ey4URmnU9fbFhhvMeX4T20XVEl75MEp7Abe+M6fBLWjC2on2JWctw
+ 0yW+irIGqguPyitGZ74WVyEg2MbdcpnOGBxC87JeEG4Urmh3wrOoQKW84T52TWZoRB
+ dt4ppSSmdKAeRSgZ/s9GLXi2/RrxH82JB61C0waeE5rWW6ZWV06PIksPq9vRSRttfw
+ fRM9D5ENHcqJA==
+Date: Mon, 30 Jun 2025 10:40:35 +0200
 From: Maxime Ripard <mripard@kernel.org>
-To: Krzysztof Kozlowski <krzk@kernel.org>
-Cc: Hans de Goede <hdegoede@redhat.com>, 
- Luca Weiss <luca.weiss@fairphone.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
- Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>, 
- Simona Vetter <simona@ffwll.ch>, Rob Herring <robh@kernel.org>, 
- Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
- Javier Martinez Canillas <javierm@redhat.com>, Helge Deller <deller@gmx.de>,
- linux-fbdev@vger.kernel.org, 
- dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org,
- linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v2 1/5] dt-bindings: display: simple-framebuffer: Add
- interconnects property
-Message-ID: <20250630-stirring-kiwi-of-adventure-8f22ba@houat>
-References: <20250623-simple-drm-fb-icc-v2-0-f69b86cd3d7d@fairphone.com>
- <20250623-simple-drm-fb-icc-v2-1-f69b86cd3d7d@fairphone.com>
- <20250627-mysterious-optimistic-bird-acaafb@krzk-bin>
- <DAX7ZB27SBPV.2Y0I09TVSF3TT@fairphone.com>
- <1129bc60-f9cb-40be-9869-8ffa3b3c9748@kernel.org>
- <8a3ad930-bfb1-4531-9d34-fdf7d437f352@redhat.com>
- <85521ded-734d-48e8-8f76-c57739102ded@kernel.org>
+To: Loic Poulain <loic.poulain@oss.qualcomm.com>
+Cc: andrzej.hajda@intel.com, neil.armstrong@linaro.org, rfoss@kernel.org, 
+ dri-devel@lists.freedesktop.org, lumag@kernel.org,
+ Laurent.pinchart@ideasonboard.com, 
+ jernej.skrabec@gmail.com, maarten.lankhorst@linux.intel.com
+Subject: Re: [PATCH] drm/bridge: anx7625: Fix invalid EDID size
+Message-ID: <20250630-angelic-macaque-of-spirit-fadc59@houat>
+References: <20250629023836.744441-1-loic.poulain@oss.qualcomm.com>
+ <20250630-venomous-sheep-of-control-dece32@houat>
+ <CAFEp6-3UVNfHo3s1MOXw88bAMVh=3QzF7H2N2UoVXyV6R3BBpw@mail.gmail.com>
 MIME-Version: 1.0
 Content-Type: multipart/signed; micalg=pgp-sha384;
- protocol="application/pgp-signature"; boundary="hbtofy4xtgn6gof3"
+ protocol="application/pgp-signature"; boundary="izemynhnx7j6b5ge"
 Content-Disposition: inline
-In-Reply-To: <85521ded-734d-48e8-8f76-c57739102ded@kernel.org>
+In-Reply-To: <CAFEp6-3UVNfHo3s1MOXw88bAMVh=3QzF7H2N2UoVXyV6R3BBpw@mail.gmail.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -74,111 +63,69 @@ Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 
---hbtofy4xtgn6gof3
-Content-Type: text/plain; protected-headers=v1; charset=us-ascii
+--izemynhnx7j6b5ge
+Content-Type: text/plain; protected-headers=v1; charset=utf-8
 Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
-Subject: Re: [PATCH v2 1/5] dt-bindings: display: simple-framebuffer: Add
- interconnects property
+Subject: Re: [PATCH] drm/bridge: anx7625: Fix invalid EDID size
 MIME-Version: 1.0
 
-On Mon, Jun 30, 2025 at 10:24:06AM +0200, Krzysztof Kozlowski wrote:
-> On 29/06/2025 14:07, Hans de Goede wrote:
-> > Hi Krzysztof,
-> >=20
-> > On 28-Jun-25 1:49 PM, Krzysztof Kozlowski wrote:
-> >> On 27/06/2025 11:48, Luca Weiss wrote:
-> >>> Hi Krzysztof,
-> >>>
-> >>> On Fri Jun 27, 2025 at 10:08 AM CEST, Krzysztof Kozlowski wrote:
-> >>>> On Mon, Jun 23, 2025 at 08:44:45AM +0200, Luca Weiss wrote:
-> >>>>> Document the interconnects property which is a list of interconnect
-> >>>>> paths that is used by the framebuffer and therefore needs to be kept
-> >>>>> alive when the framebuffer is being used.
-> >>>>>
-> >>>>> Acked-by: Thomas Zimmermann <tzimmermann@suse.de>
-> >>>>> Signed-off-by: Luca Weiss <luca.weiss@fairphone.com>
-> >>>>> ---
-> >>>>>  Documentation/devicetree/bindings/display/simple-framebuffer.yaml =
-| 3 +++
-> >>>>>  1 file changed, 3 insertions(+)
-> >>>>>
-> >>>>> diff --git a/Documentation/devicetree/bindings/display/simple-frame=
-buffer.yaml b/Documentation/devicetree/bindings/display/simple-framebuffer.=
-yaml
-> >>>>> index 296500f9da05e296dbbeec50ba5186b6b30aaffc..f0fa0ef23d91043dfb2=
-b220c654b80e2e80850cd 100644
-> >>>>> --- a/Documentation/devicetree/bindings/display/simple-framebuffer.=
-yaml
-> >>>>> +++ b/Documentation/devicetree/bindings/display/simple-framebuffer.=
-yaml
-> >>>>> @@ -79,6 +79,9 @@ properties:
-> >>>>>    power-domains:
-> >>>>>      description: List of power domains used by the framebuffer.
-> >>>>> =20
-> >>>>> +  interconnects:
-> >>>>> +    description: List of interconnect paths used by the framebuffe=
-r.
-> >>>>> +
-> >>>>
-> >>>> maxItems: 1, or this is not a simple FB anymore. Anything which needs
-> >>>> some sort of resources in unknown way is not simple anymore. You need
-> >>>> device specific bindings.
-> >>>
-> >>> The bindings support an arbitrary number of clocks, regulators,
-> >>> power-domains. Why should I artificially limit the interconnects to o=
-nly
-> >>> one?
-> >>
-> >> And IMO they should not. Bindings are not supposed to be generic.
-> >=20
-> > The simplefb binding is a binding to allow keeping the firmware, e.g.
-> > uboot setup framebuffer alive to e.g. show a boot splash until
-> > the native display-engine drive loads. Needing display-engine
-> > specific bindings totally contradicts the whole goal of=20
+On Mon, Jun 30, 2025 at 09:46:40AM +0200, Loic Poulain wrote:
+> Hi Maxime,
 >=20
-> No, it does not. DT is well designed for that through expressing
-> compatibility. I did not say you cannot have generic fallback for simple
-> use case.
+> On Mon, Jun 30, 2025 at 9:07=E2=80=AFAM Maxime Ripard <mripard@kernel.org=
+> wrote:
+> > On Sun, Jun 29, 2025 at 04:38:36AM +0200, Loic Poulain wrote:
+> > > DRM checks EDID block count against allocated size in drm_edid_valid
+> > > function. We have to allocate the right EDID size instead of the max
+> > > size to prevent the EDID to be reported as invalid.
+> > >
+> > > Fixes: 7c585f9a71aa ("drm/bridge: anx7625: use struct drm_edid more")
+> > > Signed-off-by: Loic Poulain <loic.poulain@oss.qualcomm.com>
+> > > ---
+> > >  drivers/gpu/drm/bridge/analogix/anx7625.c | 2 +-
+> > >  1 file changed, 1 insertion(+), 1 deletion(-)
+> > >
+> > > diff --git a/drivers/gpu/drm/bridge/analogix/anx7625.c b/drivers/gpu/=
+drm/bridge/analogix/anx7625.c
+> > > index 8a9079c2ed5c..5a81d1bfc815 100644
+> > > --- a/drivers/gpu/drm/bridge/analogix/anx7625.c
+> > > +++ b/drivers/gpu/drm/bridge/analogix/anx7625.c
+> > > @@ -1801,7 +1801,7 @@ static const struct drm_edid *anx7625_edid_read=
+(struct anx7625_data *ctx)
+> > >               return NULL;
+> > >       }
+> > >
+> > > -     ctx->cached_drm_edid =3D drm_edid_alloc(edid_buf, FOUR_BLOCK_SI=
+ZE);
+> > > +     ctx->cached_drm_edid =3D drm_edid_alloc(edid_buf, edid_num * ON=
+E_BLOCK_SIZE);
+> > >       kfree(edid_buf);
+> >
+> > Do we need to cache the whole EDIDs? AFAIU, it's only ever used to get
+> > the manufacturer name, which fits into a u32 / 4 u8. We should probably
+> > just cache that.
 >=20
-> But this (and previous patchset) grows this into generic binding ONLY
-> and that is not correct.
+> While the cached EDID is indeed used internally to retrieve the
+> product ID, its content is also returned via the DRM read_edid
+> callback. This value is then used by the DRM core to enumerate
+> available display modes, and likely also when reading EDID from sysfs.
 
-Can we have a proper definition of what a correct device tree binding is
-then?
-
-It's a bit surprising to have *that* discussion over a binding that is
-now well older than a decade now, and while there is definitely some
-generic bindings in ePAPR/DT spec, like the CPU ones.
-
-If you don't consider that spec to be correct DT bindings, please
-provide a definition of what that is, and / or reasonable alternatives.
-
-Also, no, a device specific binding isn't reasonable here, because we
-*don't* have a device. From a technical standpoint, the firmware creates
-the framebuffer, Linux just uses it. Just like you don't have a
-device/platform specific compatible for PSCI, SCPI, et al.
-
-And from a process standpoint, that driver is typically used years
-before we even get to writing a driver for the actual display driver.
-And since bindings are far from standard and actually pretty
-opionionated, even if we submitted a binding to use a proper binding
-without having a clear idea of what the hardware is, or what a driver
-would want, we would end up with either a broken binding, or a broken
-driver.
+You still don't need to allocate and store a copy of the EDIDs in your
+driver to implement what you listed so far.
 
 Maxime
 
---hbtofy4xtgn6gof3
+--izemynhnx7j6b5ge
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iJUEABMJAB0WIQTkHFbLp4ejekA/qfgnX84Zoj2+dgUCaGJM/QAKCRAnX84Zoj2+
-dp8lAX0XjiHwXCRnaTDs4vlk7Mk0E+SF7vXGwL4XES2VVQuafyI5PHmNPASOj50l
-8IbNN4EBfjVbhdmCzLalbOYCKk+4j8bq9hixo+ZfPzxdRT2Esn8tvlUHMJa/Um+T
-DOcMcoHSYA==
-=uZYT
+iJUEABMJAB0WIQTkHFbLp4ejekA/qfgnX84Zoj2+dgUCaGJNgwAKCRAnX84Zoj2+
+dlP8AX0fEWpohjkoghStxi3ngl3MO15qWgVfLAf0ckyTaNcPdkep3tEINsTtlLEQ
+D8cPHdcBgPIs0ZPp0X+yhUqmq0Ut8TwXA64SnmgxxHlZxTjbqHWpG7Wwad071nQD
+u8yXmW3fuw==
+=WZ6Q
 -----END PGP SIGNATURE-----
 
---hbtofy4xtgn6gof3--
+--izemynhnx7j6b5ge--
