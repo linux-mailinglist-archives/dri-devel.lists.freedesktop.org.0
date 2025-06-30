@@ -2,161 +2,109 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id ECBB5AED748
-	for <lists+dri-devel@lfdr.de>; Mon, 30 Jun 2025 10:29:22 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id EE15CAED7A2
+	for <lists+dri-devel@lfdr.de>; Mon, 30 Jun 2025 10:43:23 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3EAC610E3B8;
-	Mon, 30 Jun 2025 08:29:21 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 05BCB10E3C5;
+	Mon, 30 Jun 2025 08:43:21 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=amd.com header.i=@amd.com header.b="NnKcEymL";
+	dkim=pass (1024-bit key; unprotected) header.d=suse.de header.i=@suse.de header.b="d7/juvx4";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="z+QxDf0u";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="d7/juvx4";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="z+QxDf0u";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from NAM11-BN8-obe.outbound.protection.outlook.com
- (mail-bn8nam11on2082.outbound.protection.outlook.com [40.107.236.82])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 266BE10E3B6;
- Mon, 30 Jun 2025 08:29:20 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=X0MLDkej8hoYXlW0p5E37TUGqPmo+1gcOUFnpd7a+6hhuuArukdJzUf2uqh9rk5wcG+HNWouHIBsRTsSEqVoFEf+v+Jn9W8SN/YBo6KjNE5rakiguesIYdu3xNRM5B7fbBMN2V3PLoRw5bbOvF5SxwbyPHoB5d8B3i0rlAjlZRsXSGiIAPK7p5xBxOONzMZg+XgOy1dEvzFTNfMFiQUL3Q9XK7Mk6ovIsZZmpLKWPz9rpyCVYseD7USVOwRW/NJtAfXEGfH45HLmi1YeX8Z6cmrjpFbwAtzV9HpD6XcQOfDTdFR88RVdrKfEB5sgVwFfcqYbed1k4th6i1KbT1+dKg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=oIlaNZlL/kuycpIa4S+uioXid2LfxBArG5OR/8cNxfQ=;
- b=ckrsxoYZMfBGUBRc7NXOpP+pjXOBAs4DYZTYKJFd1JMJJx0O1L85jqtL/DvyqZqa4NxkXOQ8E24+88JD3hnyuBAwfeUHvI+sDllcnuN+YGpEiQoTNibZoHOoHIk2RafqqocE3kiX2bFAYRlxdOyRPdO3p4JWFvl3XSbLRbgQGmpJFjppnsWvG9Kh07y3T5m0YeCXqllCA912BmUgUPiO4lQPeHLVh+4sjAUj3e4qzC+bIQEfGMpcBSd6z3OkfmplQ7kmlQeRyo+SLBIZjCAu/tc8EkC5mCsOWa5sy3foZaSlIF3hrjQ/RXWXN5Jh/jyxp3yGKvZ0nTpaMeqHbE8Lgg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
- header.d=amd.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=oIlaNZlL/kuycpIa4S+uioXid2LfxBArG5OR/8cNxfQ=;
- b=NnKcEymL6iPji4zCbNfCpazPeNgjl1u0fCdimG1HU457D+dAMu4RNGbms08FjvNZFekV94hfO5SjB+8RGR7W85cMFzsk1pVges2dPtktLjxW2qYXL2kaO5ob5UGjLiuIEwSp/l5N6sNbxSAJgYGH2evjcXytIWn3y46EqyaDIP8=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=amd.com;
-Received: from PH7PR12MB5685.namprd12.prod.outlook.com (2603:10b6:510:13c::22)
- by MW4PR12MB7192.namprd12.prod.outlook.com (2603:10b6:303:22a::15)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8880.21; Mon, 30 Jun
- 2025 08:29:17 +0000
-Received: from PH7PR12MB5685.namprd12.prod.outlook.com
- ([fe80::46fb:96f2:7667:7ca5]) by PH7PR12MB5685.namprd12.prod.outlook.com
- ([fe80::46fb:96f2:7667:7ca5%5]) with mapi id 15.20.8880.027; Mon, 30 Jun 2025
- 08:29:17 +0000
-Message-ID: <4a2bead2-3db6-4526-b980-712362b6e770@amd.com>
-Date: Mon, 30 Jun 2025 10:29:10 +0200
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 1/5] drm: Add a firmware flash method to device wedged
- uevent
-To: Rodrigo Vivi <rodrigo.vivi@intel.com>
-Cc: Riana Tauro <riana.tauro@intel.com>, intel-xe@lists.freedesktop.org,
- dri-devel@lists.freedesktop.org, anshuman.gupta@intel.com,
- lucas.demarchi@intel.com, aravind.iddamsetty@linux.intel.com,
- raag.jadav@intel.com, umesh.nerlige.ramappa@intel.com,
- frank.scarbrough@intel.com, =?UTF-8?Q?Andr=C3=A9_Almeida?=
- <andrealmeid@igalia.com>, David Airlie <airlied@gmail.com>
-References: <20250623100109.1086459-1-riana.tauro@intel.com>
- <20250623100109.1086459-2-riana.tauro@intel.com>
- <a2bfb8be-35bc-4db9-9352-02eab1ae0881@amd.com>
- <d057d1e8-8b90-445c-8ccb-8a13e5d41a4c@intel.com>
- <44eac6fd-df68-4ae1-8970-57a686f5782f@amd.com> <aFsaXXKZSBPrcYJb@intel.com>
- <aF8PZMuMgmWKYJgo@intel.com>
-Content-Language: en-US
-From: =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
-In-Reply-To: <aF8PZMuMgmWKYJgo@intel.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: FR4P281CA0388.DEUP281.PROD.OUTLOOK.COM
- (2603:10a6:d10:f7::17) To PH7PR12MB5685.namprd12.prod.outlook.com
- (2603:10b6:510:13c::22)
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A54D610E3C4
+ for <dri-devel@lists.freedesktop.org>; Mon, 30 Jun 2025 08:43:19 +0000 (UTC)
+Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org
+ [IPv6:2a07:de40:b281:104:10:150:64:97])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ (No client certificate requested)
+ by smtp-out2.suse.de (Postfix) with ESMTPS id 3EC511F445;
+ Mon, 30 Jun 2025 08:43:18 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+ t=1751272998; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=bgJuoDeKkYrjTuznYwVQBAIRKkITcshLZ4Mm6eQkgVs=;
+ b=d7/juvx479uHngSufonZGZiAku6yGTuxHewCHkLHRCV0fQl85s8Jjm+g2jiHziahMwf+6Q
+ mTkXJK7Pp7WGUsHbSFAo1agWyqS9LjJTm8T4rlQiJd5FZwCaxdQEwNmqIREaItcrcqj0Oc
+ /AXZOMAU+2T2N7f0cAOhMz4+Y51IpmQ=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+ s=susede2_ed25519; t=1751272998;
+ h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=bgJuoDeKkYrjTuznYwVQBAIRKkITcshLZ4Mm6eQkgVs=;
+ b=z+QxDf0uKn/tj2/6xbHHDaQZBjRCXXO0rpNt/CoLSx/TXctMaZ9QstF4J8YgsyfTxUKxln
+ 84f9jFFiq7IkeJCw==
+Authentication-Results: smtp-out2.suse.de;
+ dkim=pass header.d=suse.de header.s=susede2_rsa header.b="d7/juvx4";
+ dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=z+QxDf0u
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+ t=1751272998; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=bgJuoDeKkYrjTuznYwVQBAIRKkITcshLZ4Mm6eQkgVs=;
+ b=d7/juvx479uHngSufonZGZiAku6yGTuxHewCHkLHRCV0fQl85s8Jjm+g2jiHziahMwf+6Q
+ mTkXJK7Pp7WGUsHbSFAo1agWyqS9LjJTm8T4rlQiJd5FZwCaxdQEwNmqIREaItcrcqj0Oc
+ /AXZOMAU+2T2N7f0cAOhMz4+Y51IpmQ=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+ s=susede2_ed25519; t=1751272998;
+ h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=bgJuoDeKkYrjTuznYwVQBAIRKkITcshLZ4Mm6eQkgVs=;
+ b=z+QxDf0uKn/tj2/6xbHHDaQZBjRCXXO0rpNt/CoLSx/TXctMaZ9QstF4J8YgsyfTxUKxln
+ 84f9jFFiq7IkeJCw==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ (No client certificate requested)
+ by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id DA66A1399F;
+ Mon, 30 Jun 2025 08:43:17 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+ by imap1.dmz-prg2.suse.org with ESMTPSA id eQzaMyVOYmgLAgAAD6G6ig
+ (envelope-from <tzimmermann@suse.de>); Mon, 30 Jun 2025 08:43:17 +0000
+From: Thomas Zimmermann <tzimmermann@suse.de>
+To: christian.koenig@amd.com, asrivats@redhat.com,
+ maarten.lankhorst@linux.intel.com, mripard@kernel.org, airlied@gmail.com,
+ simona@ffwll.ch
+Cc: dri-devel@lists.freedesktop.org, Thomas Zimmermann <tzimmermann@suse.de>,
+ Sumit Semwal <sumit.semwal@linaro.org>, linux-media@vger.kernel.org,
+ linaro-mm-sig@lists.linaro.org, stable@vger.kernel.org
+Subject: [PATCH v2] drm/gem: Acquire references on GEM handles for framebuffers
+Date: Mon, 30 Jun 2025 10:36:47 +0200
+Message-ID: <20250630084001.293053-1-tzimmermann@suse.de>
+X-Mailer: git-send-email 2.50.0
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: PH7PR12MB5685:EE_|MW4PR12MB7192:EE_
-X-MS-Office365-Filtering-Correlation-Id: 80887f24-ea56-4125-bb16-08ddb7b033b7
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;ARA:13230040|7416014|1800799024|376014|366016;
-X-Microsoft-Antispam-Message-Info: =?utf-8?B?NlNKRjZiUXBTcDBaRWZsZHB2VDVSUGp3cjFtL2pqSTZRNGFQWHZxaTQrZnVw?=
- =?utf-8?B?OC84U0FFZjhBMnk3Z29qeHhtNEVPekFNR1dDekJnRndFR0E4dW81MzFCTkd6?=
- =?utf-8?B?c2hzNDVmdVgraitaN1RqZDNxV3lHSktLOW9sTXE3QTRTeVc5b3lGQml2R09t?=
- =?utf-8?B?bmowNk1wQS9USm1QRWx4YVRLUGNhdVZFbHJST1RjRjViY3B6d3ZTbHN0My92?=
- =?utf-8?B?WkR5RklDUFVKNU15bnE0S243ZDVmVW5kWGY2QzljaTZNSXNXN0E4Ri9tR3Jj?=
- =?utf-8?B?amxlb090Zml1aXBLTlUvYSt2b0ZDNzlndTZLQjhZbHVFWFNFbkdCd2cyWnVq?=
- =?utf-8?B?bHFON0RZbXQvVDZ3d21GS3RWZzl1ZTdMR29QcGVUckNaYjVObkVCNjBUclNa?=
- =?utf-8?B?dVRRd21hT1I0WFhCQ2U5MmNETE9KcGVQcEhIR0ZRb2NQTWsrSUlJR0xmajFZ?=
- =?utf-8?B?Q0xnUGVKd1p5RnB4ckFYOXJnaU5ET28ySW9vS2dGTFBWYTlQL29YNzdnTEh6?=
- =?utf-8?B?UDZsNi9Tb0t2aEVDZWVOeUtOZ2JZQVNQeXdsNWV4OU9QU1cweTFxTEZ3SFQy?=
- =?utf-8?B?T29ZRVFhN1hkM0ltYzdqZ1VHNjJpVjlrZ3czWUJOOURqSWtXY2ZYSGhyS0RE?=
- =?utf-8?B?SDZoQk90cnhmbkxtTXdSczZ4OWVKeVhsUDA5a3ZWR05pMGgrN0h1OStDU09x?=
- =?utf-8?B?ZzFTTEhIcU5nVG92QjlYS0ZYSmlwMnZ3UEtqLzJ1V3VCZEQ4cm5HSEtFakoy?=
- =?utf-8?B?dEJEVjRkV0tsYTMxd1J3VEt3eTFVbENrMGxsbzFscERoR1VmRldtNlB6SVF6?=
- =?utf-8?B?alQ1SSthTVI5QXlDeHhneC9rV01pUkdtd3FicWRiR0lnWlZ4Vm5TSTd0ZkRI?=
- =?utf-8?B?Ym5BbTdWaTNVYlQrbGpDeHZoMmRwdmRYU0pqbUcwWGgvWXFNMmZLbytWR3E3?=
- =?utf-8?B?UElOTjNreWxpVVBHNTBoTHpaTElyYnFJRi9MNGNHVTBzQ1B4Ynh2YkF1ZjVy?=
- =?utf-8?B?MURnNXdGajFURTVDOGlUSm4zSzNtQTFEZFk1ZnJxS25neVp5cTU0ZEN2Q3lD?=
- =?utf-8?B?SDdqcmJMWnVBR0wrNDJSSzQxd2lhU09TSVoyYTBkUTlGNEErSHFDWXRXaStw?=
- =?utf-8?B?enRYRk5XdWZRODk0Zk54c2FmUTUxdkdCZGJrN2pIV0RGOFpmTUtiZzFQYktH?=
- =?utf-8?B?M3BhcEg4ZnBHZnFFczBKUUtqcUZTemV0UzgrYjdrNUpWSDhKbWUrNlN5eFhR?=
- =?utf-8?B?QmppaldEeWFLN214SjBpaTZOcTBKQWZsaGhOcTZZNUcrQjRhbWNETXU3MVlk?=
- =?utf-8?B?OHpERXhoMjdGckN4Smc4UlIvbzc2VkJ3ckRiakxoc3dDTVhEN21NcW94QU15?=
- =?utf-8?B?SEhiQzJUNmc3WGRseDlHcWMwWkhKZC8rUTcvYU9EaElCcmk5SDVNbXNzUTR5?=
- =?utf-8?B?ZjJuY2dKN3lvcDZQaU14K2UvZDdnZEk0dWVrRlV4ZzVoYldOb1FPTmNsK0RN?=
- =?utf-8?B?L2FLK3FBampPcUxLSS9JSzF1S095Vm9uNjhrK2NYOFdpMnQwMnJWcDdFWU9K?=
- =?utf-8?B?U2RQVmlLb1RvT0F6Q0M0WTRKcXVWS2NudFYxekZKZGI4aWxoQXh6Q0F2MnFw?=
- =?utf-8?B?Y2hnZitBQXBvQXJudTRwY3MyUzlndk5qbmQwNDYza3FTQnp4QWF3cDhYYS9u?=
- =?utf-8?B?cUswRFcxRFZLc3ZzWG95cVZnOXFvR0NsQUNBSlRaU1JUU3VMWDY3Rk0wQnBk?=
- =?utf-8?B?UEpPaXpaejAyRTVWSk1aeFJ1WFhSdU1Cc0oyZ3dmRmMzaXFEaGowRmhtQTVp?=
- =?utf-8?B?K1hHdWY5UklaYU9qS2xReHdyUytiR3RTQ3VYTVBZblRBRVI5MS9BSEFxSWhO?=
- =?utf-8?B?emlBOHhMbzQ3UUp5S0xyclZZS0hqalpvVEdGTE5RMnQ3cFlYWGFVUjIwNUpt?=
- =?utf-8?Q?ivyMaBYvUWg=3D?=
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:PH7PR12MB5685.namprd12.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230040)(7416014)(1800799024)(376014)(366016); DIR:OUT; SFP:1101; 
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?WThPUHRzSzBmT2dNSDdGbUc4WEUvZVFTc2VrQk5TR0dkZ0ZneFMycmltWDdv?=
- =?utf-8?B?Mk9UR0RNeEI2NEJHMDV0aitxczV5QXgzOWVJVFFNbVA5bjk4cVRQa1N6ZFY2?=
- =?utf-8?B?bWVzR0tuZVRESDkxT0sySTNtNms3RFVma3ZTc0hZVnB0dEJzbWJRNWt2Smx1?=
- =?utf-8?B?d2dVOXYwYVU0SWIwdWtOWEFTUXNnTVF6N2NEWlVzN3hhTU5JYUcyMGtNMTht?=
- =?utf-8?B?c0Z0bWpwdFhZd25OVVR4bkROdHV5S01CUCtwdHA0Lzh5RDRUdXozN2crckdV?=
- =?utf-8?B?WlRrWVF5dE5EODJhOTQwclpVY1FBSkNkS2hvUTFOeDE5WDlxekt2U1ZWb29t?=
- =?utf-8?B?ODRReTJrVzBxTDljemFrWTJHTzRKOG4reEFaaWNMa0hVckxITVJ0cVRzT1Fk?=
- =?utf-8?B?ZDVwMWlnQmlaS3QrTW1Eb3NOaUdzWDQ3YTMxcHE4UW91V3RIcGZ6bWd4ZlZ4?=
- =?utf-8?B?ZHl1RHJUZWxVRGpFN1htQVY3NE1zRXRXRzZNRVgvZ2hjVDI5OW1tbzk5d3VE?=
- =?utf-8?B?bFo4alVLWlRHQWFJMWgrWS84RkQvRVNjdG81dUhxSnRUZWNyRFd6VXlVeE80?=
- =?utf-8?B?aUFLMXo5YWs1eTZneGNVcys4WDVVUGhEZml3MlNwaVFyV0NLYlRyWEtYT0w0?=
- =?utf-8?B?dE1QaXVheGJOOGVUUm10VVhRbHJDSElhWkNMQU8xa3R2UW1HNHB3RTZhZTUr?=
- =?utf-8?B?N2hLMkN1b1ZnQ1VhcjJKNm90U3JSZXhsenkzRmhnMlkwYjBpVFBobHY5clZI?=
- =?utf-8?B?bjgzNjR3Z3pQUVpHRFh5TytvcEZ4NjM1eERkOHY2aEtobnBnbGF1cUIwOGRV?=
- =?utf-8?B?djY4cVEyU0dqeCtPLzMvYjVHVFVNY1ZHQUVpWWlHQTliZ2JpYURxdlJIT2Jj?=
- =?utf-8?B?Y0UxYWhqaUNMd0lhOHp4QWV3SG1BKzd5ZXcyV0VieDRBREtGZk4vUHVmSFVE?=
- =?utf-8?B?aW40blZIcHkvSWdZOGM5MzN1ZVo3WGd3d1F2YkZFbUVZcmMzemgzY1F1VXFx?=
- =?utf-8?B?eE1EOHMwUmJiUWN2S3FRMkV5UGdZQnpZZ2tTOGZsMmdKV0w5UlcrZ0RYYy84?=
- =?utf-8?B?L2h5UUNGaEMrY2tKY2luYzY5aUpuN0NCYXoreDh6MitaNVJTZWZqWFhmbzFh?=
- =?utf-8?B?a1FoUXYxRE5WYlRRZHNnemhkWWdUZlNMTDdYUjFyd2lSbzdtVEZDaGhaOTcy?=
- =?utf-8?B?b1VvRXk1ZkhNb3VyUWxsVE52YTMvOUs3U2xybXE1UzQwWWNVMnU0UHBKNjU4?=
- =?utf-8?B?VEIrbGRyY0tNeFdwK3lKYjR0MHhHZnJXQnRxQTVNNTJnMDlsVm1uZWJYVUFn?=
- =?utf-8?B?aXJtZDNYeFpTVmpycVhGL2JXemZ6cjl1VWVCSWlTZjh2L3pJSUtNR05EeGFC?=
- =?utf-8?B?ZEpwRVJvRElNZ2RreXd1d3BCSXY3eWxpT3BQZmVEZzc2T1g2UHVKU0VNQm05?=
- =?utf-8?B?VWtIQmxQTmlFOGFINXdTN2JWMW43WGJxNDIxSVhSc0tQdWw1ZTR5ZWNRQkNi?=
- =?utf-8?B?d1pBM2hNaUxqM2xLOE9sdjRkZk9XUkhzUDl0VDBLSXF4MUNKOWQzRS9LellR?=
- =?utf-8?B?dVJIM0JEd0hPQUVyZzEvbzg4NmMvd0l5a2NoSUpDZVlBSXV6R2pocFRVMERw?=
- =?utf-8?B?YU1CMWZ6dVVYdDUzcFIwMmhXU0t4eW9LVUFJVVdvL3dIQkdMOUt6amt2WE1T?=
- =?utf-8?B?NEJZdE5TQjYva2xweHU4bFhINU9WM2plSVVPMFMzdzNtMFhCUHNSRmFFSHNy?=
- =?utf-8?B?NXd5UUh5UzdpYnNPWTF3Z1F6MmxRUVdsNkZaRlpPQ2FjUlRVVnNwY0VrMEdz?=
- =?utf-8?B?c1B4bjZKRTcyZy83KzdBY2RwN3ZHRndlakJVUnVMTmQ4TmgzaDBJenBLMFBP?=
- =?utf-8?B?cytMTHRzbWZVRzZza293WGE5c3ZmaWpxV2owbHM3UnVVT1lJZTF2SDZROCtZ?=
- =?utf-8?B?TGhvSFlXK2NUMXFVTEJFbnFWZTVNQzZuMXdkbHgvK3J0S1VoV29pZmxwZmp0?=
- =?utf-8?B?U3NjaXh6K1ptOXNTemVnbHFrQzlVNHpzbTZzZDJhNkpFeDk1Qm9FNTJMbHVE?=
- =?utf-8?B?TjZQOXpQS1dqaGpkMWFXZXZkdmZZTjI3bjF3ZjVlZ0xpaHc4V1kyNExyVVp3?=
- =?utf-8?Q?RFX+mD0aCtbcmBY3FZafE34Z3?=
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 80887f24-ea56-4125-bb16-08ddb7b033b7
-X-MS-Exchange-CrossTenant-AuthSource: PH7PR12MB5685.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 30 Jun 2025 08:29:16.9032 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: X9doz1Kgao4a6cdCk08xs3NhrdWFuFrjISlZkvc5XfWc7/EQyeTHkBnMWlwet2yz
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: MW4PR12MB7192
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-Rspamd-Server: rspamd2.dmz-prg2.suse.org
+X-Rspamd-Queue-Id: 3EC511F445
+X-Rspamd-Action: no action
+X-Spam-Flag: NO
+X-Spamd-Result: default: False [-3.51 / 50.00]; BAYES_HAM(-3.00)[100.00%];
+ NEURAL_HAM_LONG(-1.00)[-1.000]; MID_CONTAINS_FROM(1.00)[];
+ NEURAL_HAM_SHORT(-0.20)[-1.000];
+ R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+ MIME_GOOD(-0.10)[text/plain]; MX_GOOD(-0.01)[];
+ FREEMAIL_TO(0.00)[amd.com,redhat.com,linux.intel.com,kernel.org,gmail.com,ffwll.ch];
+ FUZZY_BLOCKED(0.00)[rspamd.com]; ARC_NA(0.00)[];
+ RCVD_VIA_SMTP_AUTH(0.00)[]; RCPT_COUNT_TWELVE(0.00)[12];
+ MIME_TRACE(0.00)[0:+]; FREEMAIL_ENVRCPT(0.00)[gmail.com];
+ DNSWL_BLOCKED(0.00)[2a07:de40:b281:106:10:150:64:167:received,2a07:de40:b281:104:10:150:64:97:from];
+ DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+ FROM_EQ_ENVFROM(0.00)[]; FROM_HAS_DN(0.00)[];
+ TO_DN_SOME(0.00)[]; RCVD_TLS_ALL(0.00)[];
+ DBL_BLOCKED_OPENRESOLVER(0.00)[intel.com:email,linaro.org:email,suse.de:mid,suse.de:dkim,suse.de:email,imap1.dmz-prg2.suse.org:rdns,imap1.dmz-prg2.suse.org:helo];
+ RCVD_COUNT_TWO(0.00)[2]; TO_MATCH_ENVRCPT_ALL(0.00)[];
+ DKIM_TRACE(0.00)[suse.de:+]
+X-Spam-Score: -3.51
+X-Spam-Level: 
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -172,33 +120,224 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 27.06.25 23:38, Rodrigo Vivi wrote:
->>> Or at least print a big warning into the system log?
->>>
->>> I mean a firmware update is usually something which the system administrator triggers very explicitly because when it fails for some reason (e.g. unexpected reset, power outage or whatever) it can sometimes brick the HW.
->>>
->>> I think it's rather brave to do this automatically. Are you sure we don't talk past each other on the meaning of the wedge event?
->>
->> The goal is not to do that automatically, but raise the uevent to the admin
->> with enough information that they can decide for the right correctable
->> action.
-> 
-> Christian, Andre, any concerns with this still?
+A GEM handle can be released while the GEM buffer object is attached
+to a DRM framebuffer. This leads to the release of the dma-buf backing
+the buffer object, if any. [1] Trying to use the framebuffer in further
+mode-setting operations leads to a segmentation fault. Most easily
+happens with driver that use shadow planes for vmap-ing the dma-buf
+during a page flip. An example is shown below.
 
-Well, that sounds not quite the correct use case for wedge events.
+[  156.791968] ------------[ cut here ]------------
+[  156.796830] WARNING: CPU: 2 PID: 2255 at drivers/dma-buf/dma-buf.c:1527 dma_buf_vmap+0x224/0x430
+[...]
+[  156.942028] RIP: 0010:dma_buf_vmap+0x224/0x430
+[  157.043420] Call Trace:
+[  157.045898]  <TASK>
+[  157.048030]  ? show_trace_log_lvl+0x1af/0x2c0
+[  157.052436]  ? show_trace_log_lvl+0x1af/0x2c0
+[  157.056836]  ? show_trace_log_lvl+0x1af/0x2c0
+[  157.061253]  ? drm_gem_shmem_vmap+0x74/0x710
+[  157.065567]  ? dma_buf_vmap+0x224/0x430
+[  157.069446]  ? __warn.cold+0x58/0xe4
+[  157.073061]  ? dma_buf_vmap+0x224/0x430
+[  157.077111]  ? report_bug+0x1dd/0x390
+[  157.080842]  ? handle_bug+0x5e/0xa0
+[  157.084389]  ? exc_invalid_op+0x14/0x50
+[  157.088291]  ? asm_exc_invalid_op+0x16/0x20
+[  157.092548]  ? dma_buf_vmap+0x224/0x430
+[  157.096663]  ? dma_resv_get_singleton+0x6d/0x230
+[  157.101341]  ? __pfx_dma_buf_vmap+0x10/0x10
+[  157.105588]  ? __pfx_dma_resv_get_singleton+0x10/0x10
+[  157.110697]  drm_gem_shmem_vmap+0x74/0x710
+[  157.114866]  drm_gem_vmap+0xa9/0x1b0
+[  157.118763]  drm_gem_vmap_unlocked+0x46/0xa0
+[  157.123086]  drm_gem_fb_vmap+0xab/0x300
+[  157.126979]  drm_atomic_helper_prepare_planes.part.0+0x487/0xb10
+[  157.133032]  ? lockdep_init_map_type+0x19d/0x880
+[  157.137701]  drm_atomic_helper_commit+0x13d/0x2e0
+[  157.142671]  ? drm_atomic_nonblocking_commit+0xa0/0x180
+[  157.147988]  drm_mode_atomic_ioctl+0x766/0xe40
+[...]
+[  157.346424] ---[ end trace 0000000000000000 ]---
 
-See the wedge event is made for automation. For example to allow a process supervising containers get the device working again and re-start the container which used it or gather crash log etc .....
+Acquiring GEM handles for the framebuffer's GEM buffer objects prevents
+this from happening. The framebuffer's cleanup later puts the handle
+references.
 
-When you want to notify the system administrator which manual intervention is necessary then I would just write that into the system log and raise a device event with WEDGED=unknown.
+Commit 1a148af06000 ("drm/gem-shmem: Use dma_buf from GEM object
+instance") triggers the segmentation fault easily by using the dma-buf
+field more widely. The underlying issue with reference counting has
+been present before.
 
-What we could potentially do is to separate between WEDGED=unknown and WEDGED=manual, e.g. between driver has no idea what to do and driver printed useful info into the system log.
+v2:
+- acquire the handle instead of the BO (Christian)
+- fix comment style (Christian)
+- drop the Fixes tag (Christian)
+- rename err_ gotos
+- add missing Link tag
 
-But creating an event with WEDGED=firmware-flash just sounds to specific, when we go down that route we might soon have WEDGE=change-bios-setting, WEDGE=....
+Suggested-by: Christian König <christian.koenig@amd.com>
+Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
+Link: https://elixir.bootlin.com/linux/v6.15/source/drivers/gpu/drm/drm_gem.c#L241 # [1]
+Cc: Thomas Zimmermann <tzimmermann@suse.de>
+Cc: Anusha Srivatsa <asrivats@redhat.com>
+Cc: Christian König <christian.koenig@amd.com>
+Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
+Cc: Maxime Ripard <mripard@kernel.org>
+Cc: Sumit Semwal <sumit.semwal@linaro.org>
+Cc: "Christian König" <christian.koenig@amd.com>
+Cc: linux-media@vger.kernel.org
+Cc: dri-devel@lists.freedesktop.org
+Cc: linaro-mm-sig@lists.linaro.org
+Cc: <stable@vger.kernel.org>
+---
+ drivers/gpu/drm/drm_gem.c                    | 44 ++++++++++++++++++--
+ drivers/gpu/drm/drm_gem_framebuffer_helper.c | 16 +++----
+ drivers/gpu/drm/drm_internal.h               |  2 +
+ 3 files changed, 51 insertions(+), 11 deletions(-)
 
-Regards,
-Christian.
+diff --git a/drivers/gpu/drm/drm_gem.c b/drivers/gpu/drm/drm_gem.c
+index 19d50d254fe6..bc505d938b3e 100644
+--- a/drivers/gpu/drm/drm_gem.c
++++ b/drivers/gpu/drm/drm_gem.c
+@@ -213,6 +213,35 @@ void drm_gem_private_object_fini(struct drm_gem_object *obj)
+ }
+ EXPORT_SYMBOL(drm_gem_private_object_fini);
+ 
++static void drm_gem_object_handle_get(struct drm_gem_object *obj)
++{
++	struct drm_device *dev = obj->dev;
++
++	drm_WARN_ON(dev, !mutex_is_locked(&dev->object_name_lock));
++
++	if (obj->handle_count++ == 0)
++		drm_gem_object_get(obj);
++}
++
++/**
++ * drm_gem_object_handle_get_unlocked - acquire reference on user-space handles
++ * @obj: GEM object
++ *
++ * Acquires a reference on the GEM buffer object's handle. Required
++ * to keep the GEM object alive. Call drm_gem_object_handle_put_unlocked()
++ * to release the reference.
++ */
++void drm_gem_object_handle_get_unlocked(struct drm_gem_object *obj)
++{
++	struct drm_device *dev = obj->dev;
++
++	guard(mutex)(&dev->object_name_lock);
++
++	drm_WARN_ON(dev, !obj->handle_count); /* first ref taken in create-tail helper */
++	drm_gem_object_handle_get(obj);
++}
++EXPORT_SYMBOL(drm_gem_object_handle_get_unlocked);
++
+ /**
+  * drm_gem_object_handle_free - release resources bound to userspace handles
+  * @obj: GEM object to clean up.
+@@ -243,8 +272,14 @@ static void drm_gem_object_exported_dma_buf_free(struct drm_gem_object *obj)
+ 	}
+ }
+ 
+-static void
+-drm_gem_object_handle_put_unlocked(struct drm_gem_object *obj)
++/**
++ * drm_gem_object_handle_put_unlocked - releases reference on user-space handles
++ * @obj: GEM object
++ *
++ * Releases a reference on the GEM buffer object's handle. Possibly releases
++ * the GEM buffer object and associated dma-buf objects.
++ */
++void drm_gem_object_handle_put_unlocked(struct drm_gem_object *obj)
+ {
+ 	struct drm_device *dev = obj->dev;
+ 	bool final = false;
+@@ -269,6 +304,7 @@ drm_gem_object_handle_put_unlocked(struct drm_gem_object *obj)
+ 	if (final)
+ 		drm_gem_object_put(obj);
+ }
++EXPORT_SYMBOL(drm_gem_object_handle_put_unlocked);
+ 
+ /*
+  * Called at device or object close to release the file's
+@@ -390,8 +426,8 @@ drm_gem_handle_create_tail(struct drm_file *file_priv,
+ 	int ret;
+ 
+ 	WARN_ON(!mutex_is_locked(&dev->object_name_lock));
+-	if (obj->handle_count++ == 0)
+-		drm_gem_object_get(obj);
++
++	drm_gem_object_handle_get(obj);
+ 
+ 	/*
+ 	 * Get the user-visible handle using idr.  Preload and perform
+diff --git a/drivers/gpu/drm/drm_gem_framebuffer_helper.c b/drivers/gpu/drm/drm_gem_framebuffer_helper.c
+index 618ce725cd75..c60d0044d036 100644
+--- a/drivers/gpu/drm/drm_gem_framebuffer_helper.c
++++ b/drivers/gpu/drm/drm_gem_framebuffer_helper.c
+@@ -100,7 +100,7 @@ void drm_gem_fb_destroy(struct drm_framebuffer *fb)
+ 	unsigned int i;
+ 
+ 	for (i = 0; i < fb->format->num_planes; i++)
+-		drm_gem_object_put(fb->obj[i]);
++		drm_gem_object_handle_put_unlocked(fb->obj[i]);
+ 
+ 	drm_framebuffer_cleanup(fb);
+ 	kfree(fb);
+@@ -183,8 +183,10 @@ int drm_gem_fb_init_with_funcs(struct drm_device *dev,
+ 		if (!objs[i]) {
+ 			drm_dbg_kms(dev, "Failed to lookup GEM object\n");
+ 			ret = -ENOENT;
+-			goto err_gem_object_put;
++			goto err_gem_object_handle_put_unlocked;
+ 		}
++		drm_gem_object_handle_get_unlocked(objs[i]);
++		drm_gem_object_put(objs[i]);
+ 
+ 		min_size = (height - 1) * mode_cmd->pitches[i]
+ 			 + drm_format_info_min_pitch(info, i, width)
+@@ -194,22 +196,22 @@ int drm_gem_fb_init_with_funcs(struct drm_device *dev,
+ 			drm_dbg_kms(dev,
+ 				    "GEM object size (%zu) smaller than minimum size (%u) for plane %d\n",
+ 				    objs[i]->size, min_size, i);
+-			drm_gem_object_put(objs[i]);
++			drm_gem_object_handle_put_unlocked(objs[i]);
+ 			ret = -EINVAL;
+-			goto err_gem_object_put;
++			goto err_gem_object_handle_put_unlocked;
+ 		}
+ 	}
+ 
+ 	ret = drm_gem_fb_init(dev, fb, mode_cmd, objs, i, funcs);
+ 	if (ret)
+-		goto err_gem_object_put;
++		goto err_gem_object_handle_put_unlocked;
+ 
+ 	return 0;
+ 
+-err_gem_object_put:
++err_gem_object_handle_put_unlocked:
+ 	while (i > 0) {
+ 		--i;
+-		drm_gem_object_put(objs[i]);
++		drm_gem_object_handle_put_unlocked(objs[i]);
+ 	}
+ 	return ret;
+ }
+diff --git a/drivers/gpu/drm/drm_internal.h b/drivers/gpu/drm/drm_internal.h
+index 442eb31351dd..f7b414a813ae 100644
+--- a/drivers/gpu/drm/drm_internal.h
++++ b/drivers/gpu/drm/drm_internal.h
+@@ -161,6 +161,8 @@ void drm_sysfs_lease_event(struct drm_device *dev);
+ 
+ /* drm_gem.c */
+ int drm_gem_init(struct drm_device *dev);
++void drm_gem_object_handle_get_unlocked(struct drm_gem_object *obj);
++void drm_gem_object_handle_put_unlocked(struct drm_gem_object *obj);
+ int drm_gem_handle_create_tail(struct drm_file *file_priv,
+ 			       struct drm_gem_object *obj,
+ 			       u32 *handlep);
+-- 
+2.50.0
 
-> 
->>
->> Thanks,
->> Rodrigo.
