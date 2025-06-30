@@ -2,63 +2,43 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id A0D25AEDC39
-	for <lists+dri-devel@lfdr.de>; Mon, 30 Jun 2025 14:06:06 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5E465AEDC59
+	for <lists+dri-devel@lfdr.de>; Mon, 30 Jun 2025 14:09:58 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4011310E42C;
-	Mon, 30 Jun 2025 12:06:02 +0000 (UTC)
-Authentication-Results: gabe.freedesktop.org;
-	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=igalia.com header.i=@igalia.com header.b="TO6TC3pL";
-	dkim-atps=neutral
+	by gabe.freedesktop.org (Postfix) with ESMTP id 617A110E21B;
+	Mon, 30 Jun 2025 12:09:56 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from fanzine2.igalia.com (fanzine2.igalia.com [213.97.179.56])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E6CF610E434;
- Mon, 30 Jun 2025 12:06:00 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com; 
- s=20170329;
- h=Content-Transfer-Encoding:Content-Type:In-Reply-To:From:
- References:Cc:To:Subject:MIME-Version:Date:Message-ID:Sender:Reply-To:
- Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
- Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
- List-Subscribe:List-Post:List-Owner:List-Archive;
- bh=CK6H37qy+MtP48/QHQbXPjvWYoze/2sbuXupit5KHZ0=; b=TO6TC3pLdVCABrphOZcEr4ToYO
- pzRtnEJpjoPY20NYh3Rxaj3jxDom9eNZs+OXWUy5dpi3CoDMtoDpdeB4H/Fl3tQ+Qx7lzIC9cNopF
- LskK2PSoF1igaQYK36ou7z3bZy1qVd07zADy0rEmS8r1p9e6U3uGjDOfp3opRsN49RX6bgibeiLRG
- bk+AxtJqkLOhmvTTw156Fkb1GTfgGBZlrx3exJ51vth0gPyONxlilgLxL0bWAEnAwol0G6pxahfp2
- bNSKCH32doLI0IcmFOPtb9meoLFnMMDWewvnDp8RgsOMHnlfUv/PgzgvGkPOe9pguoxAE9khNEeTf
- kMaB8FKw==;
-Received: from [189.7.87.79] (helo=[192.168.0.7])
- by fanzine2.igalia.com with esmtpsa 
- (Cipher TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_128_GCM:128) (Exim)
- id 1uWDGX-00ASms-37; Mon, 30 Jun 2025 14:05:41 +0200
-Message-ID: <27c7fef3-ce37-48b9-bf63-3b3417618835@igalia.com>
-Date: Mon, 30 Jun 2025 09:05:31 -0300
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+ by gabe.freedesktop.org (Postfix) with ESMTP id ACB6910E21B
+ for <dri-devel@lists.freedesktop.org>; Mon, 30 Jun 2025 12:09:54 +0000 (UTC)
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+ by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 7644D1D34;
+ Mon, 30 Jun 2025 05:09:38 -0700 (PDT)
+Received: from [10.1.196.50] (e121345-lin.cambridge.arm.com [10.1.196.50])
+ by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id D3D7A3F58B;
+ Mon, 30 Jun 2025 05:09:52 -0700 (PDT)
+Message-ID: <fc6591c0-285e-4482-9ce3-6e2b671dd581@arm.com>
+Date: Mon, 30 Jun 2025 13:09:49 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v3 3/8] drm/sched: Make timeout KUnit tests faster
-To: phasta@kernel.org, Matthew Brost <matthew.brost@intel.com>,
- Danilo Krummrich <dakr@kernel.org>,
- =?UTF-8?Q?Christian_K=C3=B6nig?= <ckoenig.leichtzumerken@gmail.com>,
- Tvrtko Ursulin <tvrtko.ursulin@igalia.com>, Simona Vetter <simona@ffwll.ch>,
- David Airlie <airlied@gmail.com>, Melissa Wen <mwen@igalia.com>,
- Lucas Stach <l.stach@pengutronix.de>,
- Russell King <linux+etnaviv@armlinux.org.uk>,
- Christian Gmeiner <christian.gmeiner@gmail.com>,
- Lucas De Marchi <lucas.demarchi@intel.com>,
- =?UTF-8?Q?Thomas_Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>,
- Rodrigo Vivi <rodrigo.vivi@intel.com>,
- Boris Brezillon <boris.brezillon@collabora.com>,
- Rob Herring <robh@kernel.org>, Steven Price <steven.price@arm.com>,
- Liviu Dudau <liviu.dudau@arm.com>
-Cc: kernel-dev@igalia.com, dri-devel@lists.freedesktop.org,
- etnaviv@lists.freedesktop.org, intel-xe@lists.freedesktop.org
-References: <20250618-sched-skip-reset-v3-0-8be5cca2725d@igalia.com>
- <20250618-sched-skip-reset-v3-3-8be5cca2725d@igalia.com>
- <2670247a8982f794a508f4cf3ae43ad7ac66862a.camel@mailbox.org>
-Content-Language: en-US
-From: =?UTF-8?Q?Ma=C3=ADra_Canal?= <mcanal@igalia.com>
-In-Reply-To: <2670247a8982f794a508f4cf3ae43ad7ac66862a.camel@mailbox.org>
+Subject: Re: Help: Samsung Exynos 7870 DECON SYSMMU panic
+To: Kaustabh Chakraborty <kauschluss@disroot.org>
+Cc: Marek Szyprowski <m.szyprowski@samsung.com>,
+ Joerg Roedel <joro@8bytes.org>, Will Deacon <will@kernel.org>,
+ Inki Dae <inki.dae@samsung.com>, Seung-Woo Kim <sw0312.kim@samsung.com>,
+ Kyungmin Park <kyungmin.park@samsung.com>, iommu@lists.linux.dev,
+ dri-devel@lists.freedesktop.org
+References: <544ad69cba52a9b87447e3ac1c7fa8c3@disroot.org>
+ <0bc60699-eeaa-4121-8d93-0274862f5aed@arm.com>
+ <CGME20250625073955eucas1p2913134af8cc26dcb2145188f8a43256b@eucas1p2.samsung.com>
+ <c338c9f7528fdcba56c088390c4ccffc@disroot.org>
+ <833aef10-9fcf-4abd-bea8-c34ea7ed6bb2@samsung.com>
+ <647ca0c3-9ea5-42e4-8f76-038987d5ae1e@arm.com>
+ <d17f98b09deab279edf063465e9f654d@disroot.org>
+From: Robin Murphy <robin.murphy@arm.com>
+Content-Language: en-GB
+In-Reply-To: <d17f98b09deab279edf063465e9f654d@disroot.org>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -76,119 +56,177 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Philipp,
-
-On 30/06/25 08:53, Philipp Stanner wrote:
-> On Wed, 2025-06-18 at 11:47 -0300, Maíra Canal wrote:
->> As more KUnit tests are introduced to evaluate the basic capabilities
->> of
->> the `timedout_job()` hook, the test suite will continue to increase
->> in
->> duration. To reduce the overall running time of the test suite,
->> decrease
->> the scheduler's timeout for the timeout tests.
+On 28/06/2025 4:39 pm, Kaustabh Chakraborty wrote:
+> On 2025-06-25 11:34, Robin Murphy wrote:
+>> On 2025-06-25 9:42 am, Marek Szyprowski wrote:
+>>> On 25.06.2025 09:39, Kaustabh Chakraborty wrote:
+>>>> On 2025-06-24 17:12, Robin Murphy wrote:
+>>>>> On 2025-06-18 3:02 pm, Kaustabh Chakraborty wrote:
+>>>>>> Since bcb81ac6ae3c (iommu: Get DT/ACPI parsing into the proper probe
+>>>>>> path),
+>>>>>> The Samsung Exynos 7870 DECON device (with patches [1], [2], and
+>>>>>> [3]) seems
+>>>>>> to not work anymore. Upon closer inspection, I observe that there 
+>>>>>> is an
+>>>>>> IOMMU crash.
+>>>>>>
+>>>>>> [    2.918189] exynos-sysmmu 14860000.sysmmu: 14830000.decon: [READ]
+>>>>>> PAGE FAULT occurred at 0x6715b3e0
+>>>>>> [    2.918199] exynos-sysmmu 14860000.sysmmu: Page table base:
+>>>>>> 0x0000000044a14000
+>>>>>> [    2.918243] exynos-drm exynos-drm: bound 14830000.decon (ops
+>>>>>> decon_component_ops)
+>>>>>> [    2.922868] exynos-sysmmu 14860000.sysmmu:   Lv1 entry: 0x4205001
+>>>>>> [    2.922877] Kernel panic - not syncing: Unrecoverable System MMU
+>>>>>> Fault!
+>>>>>> [    2.922885] CPU: 0 UID: 0 PID: 0 Comm: swapper/0 Not tainted
+>>>>>> 6.16.0-rc2-exynos7870 #722 PREEMPT
+>>>>>> [    2.995312] Hardware name: Samsung Galaxy J7 Prime (DT)
+>>>>>> [    3.000509] Call trace:
+>>>>>> [    3.002938]  show_stack+0x18/0x24 (C)
+>>>>>> [    3.006582]  dump_stack_lvl+0x60/0x80
+>>>>>> [    3.010224]  dump_stack+0x18/0x24
+>>>>>> [    3.013521]  panic+0x168/0x360
+>>>>>> [    3.016558]  exynos_sysmmu_irq+0x224/0x2ac
+>>>>>> [         ...]
+>>>>>> [    3.108786] ---[ end Kernel panic - not syncing: Unrecoverable
+>>>>>> System MMU Fault! ]---
+>>>>>
+>>>>> For starters, what if you just remove this panic() from the IOMMU
+>>>>> driver? Frankly it seems a bit excessive anyway...
+>>>>
+>>>> I've tried that, sysmmu repeatedly keeps issuing interrupts (yes, even
+>>>> after clearing the interrupt bit) indefinitely.
+>>>>
+>>> Right, this is because decon device is still accessing system memory in
+>>> a loop trying to display the splash screen. That panic is indeed a bit
+>>> excessive, but what else IOMMU driver can do if no page fault handle is
+>>> registered?
 >>
->> Before this commit:
+>> Report the unhandled fault and continue, like most drivers already do. 
+>> If there's another fault, then that can get reported as well. It's 
+>> kind of the point that if a misbehaving device has been prevented from 
+>> accessing memory then it has *not* adversely affected the rest of the 
+>> system.
 >>
->> [15:42:26] Elapsed time: 15.637s total, 0.002s configuring, 10.387s
->> building, 5.229s running
+>> I suppose if one wanted to be really clever then a driver could 
+>> implement its own backoff mechanism where if it detects a sustained 
+>> high rate of unhandled faults then it disables its interrupt for a 
+>> bit, to mitigate the physical interrupt storm as well as avoid 
+>> flooding the kernel log more than is useful.
 >>
->> After this commit:
+>>>>>  From the logs below it seems there is apparently unexpected traffic
+>>>>> already going through the IOMMU when it wakes up. Is this the DRM
+>>>>> drivers doing something sketchy, or has the bootloader left the
+>>>>> display running for a splash screen? However in the latter case I
+>>>>> don't obviously see why delaying the IOMMU probe should make much
+>>>>> difference, given that the decon driver should still be waiting for
+>>>>> it either way.
+>>>>
+>>>> The display is initialized by the bootloader for splash yes, but I 
+>>>> reckon
+>>>> it doesn't use the IOMMU as it's accessible from a framebuffer region.
+>>>
+>>> Right, bootloader configured decon device to display splash screen, what
+>>> means that decon device is constantly reading splash screen pixel data
+>>> from system memory. There is no such thing as a 'framebuffer region', it
+>>> is just a system memory, which exynos sysmmu protects when enabled. So
+>>> far this issue of splash screen from bootloader has not yet been solved
+>>> in mainline. On other Exynos based supported boards this works only
+>>> because there are also power domain drivers enabled, which are
+>>> instantiated before the display related device and respective sysmmu
+>>> device. That power domain driver shuts down power effectively disabling
+>>> the display before the sysmmu gets probbed.
 >>
->> [15:45:26] Elapsed time: 9.263s total, 0.002s configuring, 5.168s
->> building, 4.037s running
+>> And presumably the sysmmu device itself doesn't need to depend on that 
+>> power domain? OK, that at least makes sense.
+>>
+>>> Long time ago I've pointed this issue and proposed some simple solution
+>>> like a special initial identity mapping for the memory range used for
+>>> splash screen, but that proposal is no longer applicable for the current
+>>> code.
+>>>
+>>> As a workaround I would suggest to shutdown display in the decon device
+>>> before starting the kernel (i.e. from the 'kernel loading mid-stage
+>>> bootloader' if you have such).
+>>
+>> We do now have the tools to handle this properly - if the bootloader 
+>> can be updated to add the appropriate "iommu-addresses" property[1] to 
+>> the framebuffer reservation, then it's a case of hooking up support in 
+>> exynos-iommu via of_iommu_get_resv_regions().
 > 
-> I guess those times were measured with the entire series?
+> Hey, thanks a lot! I got it to work. [1] [2]
 
-No, they were measured without the new test that I introduced in the
-next patch.
+Hurrah!
 
+> The Exynos IOMMU driver doesn't have support for get_resv_regions in
+> iommu_ops. So I tried to find existing drivers which have it implemented,
+> for examples. [3] [4] [5]
 > 
-> It's not clear to me whether this patch is independent from the series.
-> I suppose it is. We should aim towards having series's narrowly focused
-> topic-wise, but I get why you included it here.
-
- From my perspective, this patch is a preparation to the next one. As
-I'll introduce another timeout-related test in the next patch, I was
-trying to ensure that we will keep the time-budget reasonable.
-
+> All of them have some reserved region allocation before calling
+> iommu_dma_get_resv_regions(). I don't know what they are, and I don't know
+> what base and length should be used for sysmmu. Either way I gave it a shot
+> with [6]:
 > 
-> That said, is there a specific reason for you aiming at ~10s (9.263)?
-> That's only a bit faster than the 15.637.
+> #define EXYNOS_DEV_ADDR_START    0x20000000
+> #define EXYNOS_DEV_ADDR_SIZE    0x40000000
 > 
-
-Actually, the only thing that this patch affects is the runtime. So, it
-went from 5.229s to 4.037s (-22.8%). However, as we add more and more
-timeout tests, the absolute difference would get more significant.
-
-> Couldn't it make sense, as you're at it already, to speed this up to
-> just a few seconds, like 3-5? Then it should really be quiet IRW that
-> topic for a while.
-
-I believe that further decreasing the timeout could lead to racy
-scenarios and flaky tests.
-
-Best Regards,
-- Maíra
-
+> static void exynos_iommu_get_resv_regions(struct device *dev,
+>                        struct list_head *head)
+> {
+>      struct iommu_resv_region *region;
+>      int prot = IOMMU_WRITE | IOMMU_NOEXEC | IOMMU_MMIO;
 > 
+>      region = iommu_alloc_resv_region(EXYNOS_DEV_ADDR_START, 
+> EXYNOS_DEV_ADDR_SIZE,
+>                       prot, IOMMU_RESV_SW_MSI, GFP_KERNEL);
+>      if (!region)
+>          return;
 > 
-> P.
+>      list_add_tail(&region->list, head);
+> 
+>      iommu_dma_get_resv_regions(dev, head);
+> }
+> 
+> ...and it worked. It works even without that first allocation, so not
+> sure why and if its needed.
+
+No, unless you have client devices that use MSIs *and* you want to 
+support VFIO for them, you don't need to make up a SW_MSI region - feel 
+free to hook up ".get_resv_regions = iommu_dma_get_resv_regions" directly.
+
+The only other thing to be wary of in general here is the window between 
+initialising the IOMMU device itself and attaching the client(s) (e.g. 
+SMMUv3 has to take special care there). However in this particular case 
+I guess you're OK, since exynos_sysmmu_probe() doesn't really touch the 
+hardware anyway, and you don't have that intermediate "globally enabled 
+without client-specific config" state which can disrupt traffic on the 
+bigger more complicated IOMMUs.
+
+Thanks,
+Robin.
+
+> I need some input for making it upstreamable (mainly if the base and
+> length are correct or no), I'll send a patch.
+> 
+> [1] 
+> https://elixir.bootlin.com/linux/v6.15.3/source/drivers/iommu/of_iommu.c#L206
+> [2] 
+> https://github.com/devicetree-org/dt-schema/blob/main/dtschema/schemas/reserved-memory/reserved-memory.yaml
+> [3] 
+> https://elixir.bootlin.com/linux/v6.15.3/source/drivers/iommu/apple-dart.c#L966
+> [4] 
+> https://elixir.bootlin.com/linux/v6.15.3/source/drivers/iommu/arm/arm-smmu-v3/arm-smmu-v3.c#L3573
+> [5] 
+> https://elixir.bootlin.com/linux/v6.15.3/source/drivers/iommu/arm/arm-smmu/arm-smmu.c#L1594
+> [6] 
+> https://elixir.bootlin.com/linux/v6.15.3/source/drivers/gpu/drm/exynos/exynos_drm_dma.c#L30
 > 
 >>
->> Signed-off-by: Maíra Canal <mcanal@igalia.com>
->> Reviewed-by: Tvrtko Ursulin <tvrtko.ursulin@igalia.com>
->> ---
->>   drivers/gpu/drm/scheduler/tests/tests_basic.c | 8 +++++---
->>   1 file changed, 5 insertions(+), 3 deletions(-)
+>> For a short-term kernel-side hack you could probably implement 
+>> .def_domain_type to force IDENTITY for decon devices, as long as you 
+>> can then convince the DRM driver to pick another device to grab a DMA 
+>> ops domain from.
 >>
->> diff --git a/drivers/gpu/drm/scheduler/tests/tests_basic.c
->> b/drivers/gpu/drm/scheduler/tests/tests_basic.c
->> index
->> 7230057e0594c6246f02608f07fcb1f8d738ac75..41c648782f4548e202bd8711b45
->> d28eead9bd0b2 100644
->> --- a/drivers/gpu/drm/scheduler/tests/tests_basic.c
->> +++ b/drivers/gpu/drm/scheduler/tests/tests_basic.c
->> @@ -5,6 +5,8 @@
->>   
->>   #include "sched_tests.h"
->>   
->> +#define MOCK_TIMEOUT (HZ / 5)
->> +
->>   /*
->>    * DRM scheduler basic tests should check the basic functional
->> correctness of
->>    * the scheduler, including some very light smoke testing. More
->> targeted tests,
->> @@ -28,7 +30,7 @@ static void drm_sched_basic_exit(struct kunit
->> *test)
->>   
->>   static int drm_sched_timeout_init(struct kunit *test)
->>   {
->> -	test->priv = drm_mock_sched_new(test, HZ);
->> +	test->priv = drm_mock_sched_new(test, MOCK_TIMEOUT);
->>   
->>   	return 0;
->>   }
->> @@ -227,14 +229,14 @@ static void drm_sched_basic_timeout(struct
->> kunit *test)
->>   	done = drm_mock_sched_job_wait_scheduled(job, HZ);
->>   	KUNIT_ASSERT_TRUE(test, done);
->>   
->> -	done = drm_mock_sched_job_wait_finished(job, HZ / 2);
->> +	done = drm_mock_sched_job_wait_finished(job, MOCK_TIMEOUT /
->> 2);
->>   	KUNIT_ASSERT_FALSE(test, done);
->>   
->>   	KUNIT_ASSERT_EQ(test,
->>   			job->flags & DRM_MOCK_SCHED_JOB_TIMEDOUT,
->>   			0);
->>   
->> -	done = drm_mock_sched_job_wait_finished(job, HZ);
->> +	done = drm_mock_sched_job_wait_finished(job, MOCK_TIMEOUT);
->>   	KUNIT_ASSERT_FALSE(test, done);
->>   
->>   	KUNIT_ASSERT_EQ(test,
->>
-> 
-
+>> Thanks,
+>> Robin.
