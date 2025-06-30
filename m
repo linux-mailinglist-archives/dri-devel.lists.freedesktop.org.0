@@ -2,114 +2,69 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id EDFBBAEDF7C
-	for <lists+dri-devel@lfdr.de>; Mon, 30 Jun 2025 15:46:25 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5BFC3AEDF80
+	for <lists+dri-devel@lfdr.de>; Mon, 30 Jun 2025 15:47:01 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3398310E226;
-	Mon, 30 Jun 2025 13:46:23 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6FF1310E0C0;
+	Mon, 30 Jun 2025 13:46:59 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=qualcomm.com header.i=@qualcomm.com header.b="d/x7GnYP";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="ekHvqZO0";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com
- [205.220.168.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 16CE510E226
- for <dri-devel@lists.freedesktop.org>; Mon, 30 Jun 2025 13:46:21 +0000 (UTC)
-Received: from pps.filterd (m0279863.ppops.net [127.0.0.1])
- by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 55U8DFRB007227
- for <dri-devel@lists.freedesktop.org>; Mon, 30 Jun 2025 13:46:20 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
- cc:content-transfer-encoding:content-type:date:from:in-reply-to
- :message-id:mime-version:references:reply-to:subject:to; s=
- qcppdkim1; bh=+sYnLgd8EuSPJsu+25KS1pMeFZ2cMLM0v+K0r09oi+A=; b=d/
- x7GnYPjDfc5+P3s5A4GfdW6ZT7EzDKVz4SYgw21z9BPf71LWmPsRJC1BX1vXebAH
- 7fJoLOs2hTPImwXK8p0PwzUvPShJTt6yDQasSoTPdNJeMfdk7o+xhsC5uMwcs4mz
- wUhSYYcWfDXf5QN3iN7OwyvkrIvdEV4AmJsQpjdZ79pCqCJNMOqfixPZ4pybcn0k
- JFkpUWjZm4L6AcNOaMmmjPVsMvzYMgMwelxCKqSOGCDghqNDkQS+dw+LAy46u1lX
- PhWqFei0v7GigR4J5/9BWhXi1lfQGAmyQ5gIb9a+5TP2DwD+60bhavkmiS9GAXt3
- HgYSX25pl1EHBQsQbGUQ==
-Received: from mail-oi1-f200.google.com (mail-oi1-f200.google.com
- [209.85.167.200])
- by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 47kn5j9c7e-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
- for <dri-devel@lists.freedesktop.org>; Mon, 30 Jun 2025 13:46:20 +0000 (GMT)
-Received: by mail-oi1-f200.google.com with SMTP id
- 5614622812f47-40b5955b907so1140777b6e.3
- for <dri-devel@lists.freedesktop.org>; Mon, 30 Jun 2025 06:46:20 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1751291179; x=1751895979;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :reply-to:in-reply-to:references:mime-version:x-gm-message-state
- :from:to:cc:subject:date:message-id:reply-to;
- bh=+sYnLgd8EuSPJsu+25KS1pMeFZ2cMLM0v+K0r09oi+A=;
- b=WvyVoNvr+Ljks9t6QCSa06LRAhsMcqZzPFCPZTZr2Hl7u+1Tsrl/BflWBXvFqm2/hT
- HCPJp7RlcpJCOS9CpoT3AkFUhgw41ab53EiFPNnAwptaC2QzeHz08ZqR3yMAs8tLnPyQ
- gc9vXTt6KDjCyCGcM/A7xfAUM3SHueWD9Itk0UKqDp1TrPBHT2KXu8BXEC1DbtNd/+RT
- 2d0wudCj215kqBA93PRDxIfj7eIaWxknlu1t3FYMGPGMP/NmqQ/k0QnuE5RvfxmDbQ5H
- GP6Ugmi6qddk2IEsvGrXhoaIkKwdHhQBcpWPoqlMxdsCgR31r66xupM1+2MezKpU/DMf
- 7urg==
-X-Gm-Message-State: AOJu0YxdvRmhhYWaGkZXbuAmthOh0CJdQ6/FEkYCMGR/twy8BaeH1NUf
- 0AYskkPwnnIQyrAgOfnuOSmZaI2Gt8UvYHRRf30iXiVB1camBnFfW3fzF+EfcfjvS6G40IElejE
- ufpPtGleysyMWWaAnx23sXz5DtUe3+scFqAnfOPDoixgGfGQVoKVucO7/1RtBDjMLVxjj9IHgV5
- jRTjd0TNLHD+93wa4Xq0Y5FJ4FR8stbKazs/DSNORfr/WRLQ==
-X-Gm-Gg: ASbGncvGW6stR/Isw9uUSGKYyG/KDTLIEDqLDveFSdpREGHtkfz/bPhq74xZHXCWtXS
- JjS8z4LlYtseBzPfZ6LEqvUEXWp7vlkiR7L+gtxaFtVwXPRW0yoYzJOco1ySfOu7nSruw/H72CA
- CNwm2QMNfyE8B3DgffR/CijFkND9h2Q+MTiYs=
-X-Received: by 2002:a05:6808:1887:b0:404:e0b3:12f with SMTP id
- 5614622812f47-40b33d8ff56mr10677501b6e.11.1751291179439; 
- Mon, 30 Jun 2025 06:46:19 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IGC/ZONBovjaxT4as2yCPYzH6bLcayS9bEQ9eiCn71Z5acFjEn88qadQUxBV/FIurbHxcQ5liO5UIZuHKwhFlA=
-X-Received: by 2002:a05:6808:1887:b0:404:e0b3:12f with SMTP id
- 5614622812f47-40b33d8ff56mr10677478b6e.11.1751291179085; Mon, 30 Jun 2025
- 06:46:19 -0700 (PDT)
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 442D010E0C0;
+ Mon, 30 Jun 2025 13:46:58 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1751291219; x=1782827219;
+ h=date:from:to:cc:subject:message-id:references:
+ mime-version:in-reply-to;
+ bh=peqrfAgy9AoDbD1DSGmdFsDEcp3cLmSNrKrwHMFYfV4=;
+ b=ekHvqZO0yVH55yALvP3XlUS2xcejnp8HvPmafqvMWi4rsOr01sRLzr0Z
+ M/abnbA1TSRcvh3l7l3MbJ9SsJaUeTEWDYZrXIwjwy1aso6sXUI/uRlHd
+ HfC6GDszsH03ZFR+Lr6fryQUM2uitXuIW/jT4s8HS+UBdvj+3VrkXGu0w
+ cSQrAWbJCNwRyJc/xlR6B1OhY7O7eUUQ9IXU5sWYhu0vO+P0XGCMtPWKB
+ GdxQCzkDBnGFvSBfDR8dWcghVjbgwmOi1lA5fMLxXRMnNzuUrO3hhefjY
+ XhKtIkvaO+OwhqH3WDYZr9dlG7gNdY1qkB5NQ0KFrbM5ysSGTCaOcoLhM g==;
+X-CSE-ConnectionGUID: maT4L3RHQKiQpLBxV4icAQ==
+X-CSE-MsgGUID: kSAhMo4zQuGvpuu+9vvlUg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11480"; a="76066313"
+X-IronPort-AV: E=Sophos;i="6.16,277,1744095600"; d="scan'208";a="76066313"
+Received: from fmviesa002.fm.intel.com ([10.60.135.142])
+ by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 30 Jun 2025 06:46:58 -0700
+X-CSE-ConnectionGUID: q/oC+NhZQX2j1RT+4P2WKQ==
+X-CSE-MsgGUID: jkXIUIK1S8ScvxVlLcjbyg==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.16,277,1744095600"; d="scan'208";a="177131881"
+Received: from oandoniu-mobl3.ger.corp.intel.com (HELO localhost)
+ ([10.247.119.190])
+ by fmviesa002-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 30 Jun 2025 06:46:52 -0700
+Date: Mon, 30 Jun 2025 15:46:49 +0200
+From: Andi Shyti <andi.shyti@linux.intel.com>
+To: Janusz Krzysztofik <janusz.krzysztofik@linux.intel.com>
+Cc: intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+ Jani Nikula <jani.nikula@linux.intel.com>,
+ Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
+ Rodrigo Vivi <rodrigo.vivi@intel.com>,
+ Tvrtko Ursulin <tursulin@ursulin.net>,
+ Chris Wilson <chris.p.wilson@linux.intel.com>,
+ Matthew Auld <matthew.auld@intel.com>,
+ Andi Shyti <andi.shyti@linux.intel.com>,
+ Nitin Gote <nitin.r.gote@intel.com>,
+ Sebastian Brzezinka <sebastian.brzezinka@intel.com>,
+ Krzysztof Niemiec <krzysztof.niemiec@intel.com>,
+ Krzysztof Karas <krzysztof.karas@intel.com>
+Subject: Re: [PATCH] drm/i915/ring_submission: Fix timeline left held on VMA
+ alloc error
+Message-ID: <aGKVSWg-kb2e6PGa@ashyti-mobl2.lan>
+References: <20250611104352.1014011-2-janusz.krzysztofik@linux.intel.com>
 MIME-Version: 1.0
-References: <20250629135843.30097-1-robin.clark@oss.qualcomm.com>
- <92314f06-e6a8-4882-a31c-914438d7761d@oss.qualcomm.com>
-In-Reply-To: <92314f06-e6a8-4882-a31c-914438d7761d@oss.qualcomm.com>
-From: Rob Clark <rob.clark@oss.qualcomm.com>
-Date: Mon, 30 Jun 2025 06:46:08 -0700
-X-Gm-Features: Ac12FXz1ANfzhNdQG9PbXKs-9CTqnjt4T4STXGnoeX_oH1xYF5iTCEgVXLupVM0
-Message-ID: <CACSVV01AUOp7vZ7kLt+gwxvfv4CYLtAQg6MhUccygbi1NpVJMg@mail.gmail.com>
-Subject: Re: [PATCH] drm/ci: Remove sdm845/cheza jobs
-To: Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>
-Cc: dri-devel@lists.freedesktop.org, freedreno@lists.freedesktop.org,
- linux-arm-msm@vger.kernel.org, Helen Koike <helen.fornazier@gmail.com>,
- Vignesh Raman <vignesh.raman@collabora.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- Dmitry Baryshkov <lumag@kernel.org>,
- Abhinav Kumar <abhinav.kumar@linux.dev>,
- Jessica Zhang <jessica.zhang@oss.qualcomm.com>,
- Sean Paul <sean@poorly.run>,
- Marijn Suijten <marijn.suijten@somainline.org>,
- open list <linux-kernel@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Authority-Analysis: v=2.4 cv=KtJN2XWN c=1 sm=1 tr=0 ts=6862952c cx=c_pps
- a=AKZTfHrQPB8q3CcvmcIuDA==:117 a=IkcTkHD0fZMA:10 a=6IFa9wvqVegA:10
- a=EUspDBNiAAAA:8 a=0RMLDebWjREeJsuOEsEA:9 a=QEXdDO2ut3YA:10
- a=pF_qn-MSjDawc0seGVz6:22
-X-Proofpoint-ORIG-GUID: 8BPotE1krWpKJmGi_MfrARfpVi2hwKoO
-X-Proofpoint-GUID: 8BPotE1krWpKJmGi_MfrARfpVi2hwKoO
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwNjMwMDExMyBTYWx0ZWRfXz2Cykv5GrplJ
- P6TeTq4sJWzcbx3daZvtUmuULSWuf0LexSEDS7mYycPj6K3td18OEcPb9RlOh/iDhtelDK/YEzv
- g0heMmMDo4hyERbguC5AwI/S9M25yiYw/RtUzUeg3BCIY6trd6jZ2ZtgBtHllhNSerBpone7cYf
- XolY0YEuXg7HLgEf/a0HnuGgAKYno/OHjcpwRgRmMMN7jog6+VeLV3Ze/on5Inw479TfUOwRTLY
- UK01iwPpL13KolFELsKFLmLpQbIINncTZMzha7/LoqEdpxPWLgvoiPRFAOwufQED0Pl7qH2SlMt
- vRsA9kvKbINuzRFWayF/cNz0J4bvHKwHlyYDYZ8ykY3KbJtOzFbJtwN45HijOEgbMcC+aDb9ngt
- uXiC6ZHJUxK6t7/xWTywX63mjZlRRJHQugLw95QQkkwCaQEkt6i8DIl3SZcU1ASz49K3yBdR
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1099,Hydra:6.1.7,FMLib:17.12.80.40
- definitions=2025-06-30_03,2025-06-27_01,2025-03-28_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- impostorscore=0 bulkscore=0 priorityscore=1501 malwarescore=0 suspectscore=0
- mlxscore=0 spamscore=0 adultscore=0 lowpriorityscore=0 phishscore=0
- clxscore=1015 mlxlogscore=801 classifier=spam authscore=0 authtc=n/a authcc=
- route=outbound adjust=0 reason=mlx scancount=1 engine=8.19.0-2505280000
- definitions=main-2506300113
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20250611104352.1014011-2-janusz.krzysztofik@linux.intel.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -122,24 +77,125 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Reply-To: rob.clark@oss.qualcomm.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, Jun 30, 2025 at 3:34=E2=80=AFAM Konrad Dybcio
-<konrad.dybcio@oss.qualcomm.com> wrote:
->
->
->
-> On 29-Jun-25 15:58, Rob Clark wrote:
-> > These runners are no more.  So remove the jobs.
-> >
-> > Signed-off-by: Rob Clark <robin.clark@oss.qualcomm.com>
-> > ---
->
-> Do we have anyone using cheza at all anymore then?
+Hi Janusz,
 
-Probably not
+merged to drm-intel-gt-next.
 
-BR,
--R
+Thanks,
+Andi
+
+On Wed, Jun 11, 2025 at 12:42:13PM +0200, Janusz Krzysztofik wrote:
+> The following error has been reported sporadically by CI when a test
+> unbinds the i915 driver on a ring submission platform:
+> 
+> <4> [239.330153] ------------[ cut here ]------------
+> <4> [239.330166] i915 0000:00:02.0: [drm] drm_WARN_ON(dev_priv->mm.shrink_count)
+> <4> [239.330196] WARNING: CPU: 1 PID: 18570 at drivers/gpu/drm/i915/i915_gem.c:1309 i915_gem_cleanup_early+0x13e/0x150 [i915]
+> ...
+> <4> [239.330640] RIP: 0010:i915_gem_cleanup_early+0x13e/0x150 [i915]
+> ...
+> <4> [239.330942] Call Trace:
+> <4> [239.330944]  <TASK>
+> <4> [239.330949]  i915_driver_late_release+0x2b/0xa0 [i915]
+> <4> [239.331202]  i915_driver_release+0x86/0xa0 [i915]
+> <4> [239.331482]  devm_drm_dev_init_release+0x61/0x90
+> <4> [239.331494]  devm_action_release+0x15/0x30
+> <4> [239.331504]  release_nodes+0x3d/0x120
+> <4> [239.331517]  devres_release_all+0x96/0xd0
+> <4> [239.331533]  device_unbind_cleanup+0x12/0x80
+> <4> [239.331543]  device_release_driver_internal+0x23a/0x280
+> <4> [239.331550]  ? bus_find_device+0xa5/0xe0
+> <4> [239.331563]  device_driver_detach+0x14/0x20
+> ...
+> <4> [357.719679] ---[ end trace 0000000000000000 ]---
+> 
+> If the test also unloads the i915 module then that's followed with:
+> 
+> <3> [357.787478] =============================================================================
+> <3> [357.788006] BUG i915_vma (Tainted: G     U  W        N ): Objects remaining on __kmem_cache_shutdown()
+> <3> [357.788031] -----------------------------------------------------------------------------
+> <3> [357.788204] Object 0xffff888109e7f480 @offset=29824
+> <3> [357.788670] Allocated in i915_vma_instance+0xee/0xc10 [i915] age=292729 cpu=4 pid=2244
+> <4> [357.788994]  i915_vma_instance+0xee/0xc10 [i915]
+> <4> [357.789290]  init_status_page+0x7b/0x420 [i915]
+> <4> [357.789532]  intel_engines_init+0x1d8/0x980 [i915]
+> <4> [357.789772]  intel_gt_init+0x175/0x450 [i915]
+> <4> [357.790014]  i915_gem_init+0x113/0x340 [i915]
+> <4> [357.790281]  i915_driver_probe+0x847/0xed0 [i915]
+> <4> [357.790504]  i915_pci_probe+0xe6/0x220 [i915]
+> ...
+> 
+> Closer analysis of CI results history has revealed a dependency of the
+> error on a few IGT tests, namely:
+> - igt@api_intel_allocator@fork-simple-stress-signal,
+> - igt@api_intel_allocator@two-level-inception-interruptible,
+> - igt@gem_linear_blits@interruptible,
+> - igt@prime_mmap_coherency@ioctl-errors,
+> which invisibly trigger the issue, then exhibited with first driver unbind
+> attempt.
+> 
+> All of the above tests perform actions which are actively interrupted with
+> signals.  Further debugging has allowed to narrow that scope down to
+> DRM_IOCTL_I915_GEM_EXECBUFFER2, and ring_context_alloc(), specific to ring
+> submission, in particular.
+> 
+> If successful then that function, or its execlists or GuC submission
+> equivalent, is supposed to be called only once per GEM context engine,
+> followed by raise of a flag that prevents the function from being called
+> again.  The function is expected to unwind its internal errors itself, so
+> it may be safely called once more after it returns an error.
+> 
+> In case of ring submission, the function first gets a reference to the
+> engine's legacy timeline and then allocates a VMA.  If the VMA allocation
+> fails, e.g. when i915_vma_instance() called from inside is interrupted
+> with a signal, then ring_context_alloc() fails, leaving the timeline held
+> referenced.  On next I915_GEM_EXECBUFFER2 IOCTL, another reference to the
+> timeline is got, and only that last one is put on successful completion.
+> As a consequence, the legacy timeline, with its underlying engine status
+> page's VMA object, is still held and not released on driver unbind.
+> 
+> Get the legacy timeline only after successful allocation of the context
+> engine's VMA.
+> 
+> v2: Add a note on other submission methods (Krzysztof Karas):
+>     Both execlists and GuC submission use lrc_alloc() which seems free
+>     from a similar issue.
+> 
+> Fixes: 75d0a7f31eec ("drm/i915: Lift timeline into intel_context")
+> Closes: https://gitlab.freedesktop.org/drm/i915/kernel/-/issues/12061
+> Cc: Chris Wilson <chris.p.wilson@linux.intel.com>
+> Cc: Matthew Auld <matthew.auld@intel.com>
+> Cc: Krzysztof Karas <krzysztof.karas@intel.com>
+> Reviewed-by: Sebastian Brzezinka <sebastian.brzezinka@intel.com>
+> Reviewed-by: Krzysztof Niemiec <krzysztof.niemiec@intel.com>
+> Signed-off-by: Janusz Krzysztofik <janusz.krzysztofik@linux.intel.com>
+> ---
+>  drivers/gpu/drm/i915/gt/intel_ring_submission.c | 3 ++-
+>  1 file changed, 2 insertions(+), 1 deletion(-)
+> 
+> diff --git a/drivers/gpu/drm/i915/gt/intel_ring_submission.c b/drivers/gpu/drm/i915/gt/intel_ring_submission.c
+> index a876a34455f11..2a6d79abf25b5 100644
+> --- a/drivers/gpu/drm/i915/gt/intel_ring_submission.c
+> +++ b/drivers/gpu/drm/i915/gt/intel_ring_submission.c
+> @@ -610,7 +610,6 @@ static int ring_context_alloc(struct intel_context *ce)
+>  	/* One ringbuffer to rule them all */
+>  	GEM_BUG_ON(!engine->legacy.ring);
+>  	ce->ring = engine->legacy.ring;
+> -	ce->timeline = intel_timeline_get(engine->legacy.timeline);
+>  
+>  	GEM_BUG_ON(ce->state);
+>  	if (engine->context_size) {
+> @@ -623,6 +622,8 @@ static int ring_context_alloc(struct intel_context *ce)
+>  		ce->state = vma;
+>  	}
+>  
+> +	ce->timeline = intel_timeline_get(engine->legacy.timeline);
+> +
+>  	return 0;
+>  }
+>  
+> -- 
+> 2.49.0
