@@ -2,106 +2,104 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id A310DAED790
-	for <lists+dri-devel@lfdr.de>; Mon, 30 Jun 2025 10:40:56 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5D196AED797
+	for <lists+dri-devel@lfdr.de>; Mon, 30 Jun 2025 10:41:23 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id CA17410E3C1;
-	Mon, 30 Jun 2025 08:40:54 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5964210E3C2;
+	Mon, 30 Jun 2025 08:41:21 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=redhat.com header.i=@redhat.com header.b="bEdOZ2Qb";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="jlu1Vz/H";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [170.10.133.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id BA3B710E3C1
- for <dri-devel@lists.freedesktop.org>; Mon, 30 Jun 2025 08:40:52 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1751272851;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=GbzS3/7wOLVYMQM7fq09DAq/NtYuBLxSJ0uQz6yllZw=;
- b=bEdOZ2QbURuCrL0henTaYx9k0jVwKM/+YJB/lPFgGN0LpbG3GDA6r3JJaD52cHOuneYS1j
- zqXHf7CmZlxRnpBqy5JAZPqwtfE0rX6hwmRV/KYa7X8tIlOJL8zvqtIcZ+pMANQnEEcMDN
- 8pPic97UcCtiMwnJRa83XF5E9Z3dxKg=
-Received: from mail-ej1-f69.google.com (mail-ej1-f69.google.com
- [209.85.218.69]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-306-L4RkQYrCNReR1XTEzNkQ6g-1; Mon, 30 Jun 2025 04:40:50 -0400
-X-MC-Unique: L4RkQYrCNReR1XTEzNkQ6g-1
-X-Mimecast-MFC-AGG-ID: L4RkQYrCNReR1XTEzNkQ6g_1751272849
-Received: by mail-ej1-f69.google.com with SMTP id
- a640c23a62f3a-ae0dffaa8aeso323333366b.0
- for <dri-devel@lists.freedesktop.org>; Mon, 30 Jun 2025 01:40:50 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1751272849; x=1751877649;
- h=content-transfer-encoding:in-reply-to:from:content-language
- :references:cc:to:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=GbzS3/7wOLVYMQM7fq09DAq/NtYuBLxSJ0uQz6yllZw=;
- b=iDdV/RMIr4LhYoUviLzd8WLP5rkwMad/7hrNsqJphP1FfVTyRasIeQ8rXqsetO+yRk
- IXvOFthKI7+S18BpNto7ok39vNDz/SUwp6am224QWHNxhAUh4h06ahjT6K1tajD8lZ5D
- byaLa+6Zczgp6yOR/bYhn61s2oht+8ofDLjXKmzPbGFiZFHPPwPiL3P++HdKX4ngsvJP
- ZrgwOzQFSW6U8o3cftiYvovMu9Sf9bH0aWAo24LkXVJClGghpZchhYV4xJrHznI1L5Ju
- EVSB0z2lF8AEl/sUXaq47qJJt8RajfNzj6PeFkUxtHoMbl3xHcWS4CiiGbIW4qpcjP3t
- Z7Dg==
-X-Forwarded-Encrypted: i=1;
- AJvYcCWU0bnSZBASiYfanYVK2uo3mpguIYsJVKtUBpRDwdKE/RdvqrouGqfVzUjDpzUPdNptxVti/TC1U9k=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0Ywi+k7uVKiFqbnHpDlr1d9rKAnlYlqhwvz4rXjyQEfWmH/9REeh
- 9mtjzRYDmG/DOJeVfByRAjuD1mS++ShvXtCxPsdiMy6uFtf5rrGrxvArK7bCkcjKYdGBMlqmamX
- fxf9p6ZHVhB/Nbu8o2d6DubSipzWZwCZnCT3RcHGUsGcdxYmMDvIbMyoxhE4Dad6MYhVX/w==
-X-Gm-Gg: ASbGnct07tH3ZMoRGllpFYxcNF9xLVW3rFd6u522o5PSOGph97Ojgv7QOJxk+WhF/z+
- 2r54orzvAkJ7d3omGg7xLyFn7MqIxQwbDzR3kOwqWgSWjsr4a+cNaKUEMOVEn7+261GKAP02li1
- XsrR+ofkTqIKiXYISV32+Ha0GFqISTvLJjbx/4bBMZd1Bl/VjdGppxsp4QuN9PJO2OUDW7LeMdH
- eHSEPRNx6HlB7LQvj7GvZc2sWhNBYtx39jxymCRu27XjIdTmfHYj4kKuuKDIvjeXdZgy4Jm3PW9
- nD53UG7amaXHVgAfutVba/oz6/WkZSafUyjK6WKdTU3eC+Q4TL87oKrvFPu4iXs+bh5cIitp55f
- 1da86PrCoYz4T2DWJtdG8CaZIA7zsULRGICoH5YAu1xuSwYeTnCSGaoV3P9xo5oDTS1S8VAyD+Q
- ==
-X-Received: by 2002:a17:907:3c91:b0:ae3:61ea:31b1 with SMTP id
- a640c23a62f3a-ae361ea3303mr1065072366b.12.1751272848979; 
- Mon, 30 Jun 2025 01:40:48 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IF/y7vOHMHZ5AF4xuBNceBfPbSy8M7ATw5UKXH09WWku0rRQgHald4Jy38PCYx58QuWLBfH7g==
-X-Received: by 2002:a17:907:3c91:b0:ae3:61ea:31b1 with SMTP id
- a640c23a62f3a-ae361ea3303mr1065069566b.12.1751272848439; 
- Mon, 30 Jun 2025 01:40:48 -0700 (PDT)
-Received: from ?IPV6:2001:1c00:c32:7800:5bfa:a036:83f0:f9ec?
- (2001-1c00-0c32-7800-5bfa-a036-83f0-f9ec.cable.dynamic.v6.ziggo.nl.
- [2001:1c00:c32:7800:5bfa:a036:83f0:f9ec])
- by smtp.gmail.com with ESMTPSA id
- a640c23a62f3a-ae362cbf19asm547457166b.128.2025.06.30.01.40.47
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 30 Jun 2025 01:40:47 -0700 (PDT)
-Message-ID: <e534d496-6ce0-46c8-835d-94b3346446a7@redhat.com>
-Date: Mon, 30 Jun 2025 10:40:46 +0200
+Received: from sea.source.kernel.org (sea.source.kernel.org [172.234.252.31])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 06CA410E3C2
+ for <dri-devel@lists.freedesktop.org>; Mon, 30 Jun 2025 08:41:20 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+ by sea.source.kernel.org (Postfix) with ESMTP id BC1D4456EA;
+ Mon, 30 Jun 2025 08:41:19 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0FF9AC4CEEF;
+ Mon, 30 Jun 2025 08:41:12 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1751272879;
+ bh=vuDhO1E+0JgQZ3joYKllj+kVu+rr8nXDgvSoVbKxaBE=;
+ h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+ b=jlu1Vz/HrWG80dDRxlPa37djs6aNVlmQvzSr6FDrQ30XOuQD/27RRG9jS3qMdUGzV
+ 4hVjP46gWF94QkGSYfPKJh6W7th4GRRLocflylERDHkF5drmccFTANWPDGOKL6H04D
+ B2H+p4PZOwemAPrHpYSygL/SbIK1we38NCxChutLyrPSy7J0Ggl93/OucpdQwIWuhe
+ EtdJkjrIExhwEk008DXVO7oJZYQcWo4CLMtkCY1jOjXzaGqgeq/dxKmzeOWs/Cl1vX
+ iAuR73CA6CnTa1uzkorqbKm0SkCPcWhw0XvMSYZDhEdfVzcT9M7HQhN5V8F/oWVJxe
+ Ua+Y02VcPJ2aA==
+Message-ID: <c2ca0751-e600-4278-85bd-4e6e6b4aa6d2@kernel.org>
+Date: Mon, 30 Jun 2025 10:41:10 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 1/5] dt-bindings: display: simple-framebuffer: Add
- interconnects property
-To: Krzysztof Kozlowski <krzk@kernel.org>,
- Luca Weiss <luca.weiss@fairphone.com>
-Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+Subject: Re: [PATCH v3 1/3] dt-bindings: display: samsung,exynos7-decon: add
+ properties for iommus and ports
+To: Kaustabh Chakraborty <kauschluss@disroot.org>
+Cc: Inki Dae <inki.dae@samsung.com>, Seung-Woo Kim <sw0312.kim@samsung.com>,
+ Kyungmin Park <kyungmin.park@samsung.com>, David Airlie <airlied@gmail.com>,
+ Simona Vetter <simona@ffwll.ch>, Alim Akhtar <alim.akhtar@samsung.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
  Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
- Conor Dooley <conor+dt@kernel.org>,
- Javier Martinez Canillas <javierm@redhat.com>, Helge Deller <deller@gmx.de>,
- linux-fbdev@vger.kernel.org, dri-devel@lists.freedesktop.org,
- devicetree@vger.kernel.org, linux-kernel@vger.kernel.org
-References: <20250623-simple-drm-fb-icc-v2-0-f69b86cd3d7d@fairphone.com>
- <20250623-simple-drm-fb-icc-v2-1-f69b86cd3d7d@fairphone.com>
- <20250627-mysterious-optimistic-bird-acaafb@krzk-bin>
- <DAX7ZB27SBPV.2Y0I09TVSF3TT@fairphone.com>
- <1129bc60-f9cb-40be-9869-8ffa3b3c9748@kernel.org>
- <8a3ad930-bfb1-4531-9d34-fdf7d437f352@redhat.com>
- <85521ded-734d-48e8-8f76-c57739102ded@kernel.org>
-From: Hans de Goede <hdegoede@redhat.com>
-In-Reply-To: <85521ded-734d-48e8-8f76-c57739102ded@kernel.org>
-X-Mimecast-Spam-Score: 0
-X-Mimecast-MFC-PROC-ID: i5I0nBoBWPWBa08bDE-4NYxhlYBJ53chQtsP-n7tfM0_1751272849
-X-Mimecast-Originator: redhat.com
-Content-Language: en-US, nl
+ Rob Herring <robh@kernel.org>, Conor Dooley <conor@kernel.org>,
+ Ajay Kumar <ajaykumar.rs@samsung.com>, Akshu Agrawal <akshua@gmail.com>,
+ Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
+ <conor+dt@kernel.org>, dri-devel@lists.freedesktop.org,
+ linux-arm-kernel@lists.infradead.org, linux-samsung-soc@vger.kernel.org,
+ linux-kernel@vger.kernel.org, devicetree@vger.kernel.org
+References: <20250627-exynosdrm-decon-v3-0-5b456f88cfea@disroot.org>
+ <20250627-exynosdrm-decon-v3-1-5b456f88cfea@disroot.org>
+ <20250627-literate-talented-panda-cbac89@krzk-bin>
+ <85c3658fdfa90636caac3b3fce295915@disroot.org>
+ <efa167d1-a5f3-47cd-855d-250f41a5e883@kernel.org>
+ <ab1a39df178b68e2f1d61a537e0d567c@disroot.org>
+From: Krzysztof Kozlowski <krzk@kernel.org>
+Content-Language: en-US
+Autocrypt: addr=krzk@kernel.org; keydata=
+ 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 a/A=
+In-Reply-To: <ab1a39df178b68e2f1d61a537e0d567c@disroot.org>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -119,119 +117,81 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi,
-
-On 30-Jun-25 10:24 AM, Krzysztof Kozlowski wrote:
-> On 29/06/2025 14:07, Hans de Goede wrote:
->> Hi Krzysztof,
->>
->> On 28-Jun-25 1:49 PM, Krzysztof Kozlowski wrote:
->>> On 27/06/2025 11:48, Luca Weiss wrote:
->>>> Hi Krzysztof,
->>>>
->>>> On Fri Jun 27, 2025 at 10:08 AM CEST, Krzysztof Kozlowski wrote:
->>>>> On Mon, Jun 23, 2025 at 08:44:45AM +0200, Luca Weiss wrote:
->>>>>> Document the interconnects property which is a list of interconnect
->>>>>> paths that is used by the framebuffer and therefore needs to be kept
->>>>>> alive when the framebuffer is being used.
->>>>>>
->>>>>> Acked-by: Thomas Zimmermann <tzimmermann@suse.de>
->>>>>> Signed-off-by: Luca Weiss <luca.weiss@fairphone.com>
->>>>>> ---
->>>>>>  Documentation/devicetree/bindings/display/simple-framebuffer.yaml | 3 +++
->>>>>>  1 file changed, 3 insertions(+)
->>>>>>
->>>>>> diff --git a/Documentation/devicetree/bindings/display/simple-framebuffer.yaml b/Documentation/devicetree/bindings/display/simple-framebuffer.yaml
->>>>>> index 296500f9da05e296dbbeec50ba5186b6b30aaffc..f0fa0ef23d91043dfb2b220c654b80e2e80850cd 100644
->>>>>> --- a/Documentation/devicetree/bindings/display/simple-framebuffer.yaml
->>>>>> +++ b/Documentation/devicetree/bindings/display/simple-framebuffer.yaml
->>>>>> @@ -79,6 +79,9 @@ properties:
->>>>>>    power-domains:
->>>>>>      description: List of power domains used by the framebuffer.
->>>>>>  
->>>>>> +  interconnects:
->>>>>> +    description: List of interconnect paths used by the framebuffer.
->>>>>> +
+On 27/06/2025 17:03, Kaustabh Chakraborty wrote:
+> On 2025-06-27 14:44, Krzysztof Kozlowski wrote:
+>> On 27/06/2025 15:44, Kaustabh Chakraborty wrote:
+>>>>> a/Documentation/devicetree/bindings/display/samsung/samsung,exynos7-decon.yaml
+>>>>> +++
+>>>>> b/Documentation/devicetree/bindings/display/samsung/samsung,exynos7-decon.yaml
+>>>>> @@ -80,6 +80,14 @@ properties:
+>>>>>        - const: vsync
+>>>>>        - const: lcd_sys
 >>>>>
->>>>> maxItems: 1, or this is not a simple FB anymore. Anything which needs
->>>>> some sort of resources in unknown way is not simple anymore. You need
->>>>> device specific bindings.
+>>>>> +  iommus:
+>>>>> +    maxItems: 1
+>>>>> +
+>>>>> +  ports:
+>>>>> +    $ref: /schemas/graph.yaml#/properties/ports
+>>>>> +    description:
+>>>>> +      Contains a port which is connected to mic or dsim node.
 >>>>
->>>> The bindings support an arbitrary number of clocks, regulators,
->>>> power-domains. Why should I artificially limit the interconnects to only
->>>> one?
+>>>> You need to list and describe the ports.
 >>>
->>> And IMO they should not. Bindings are not supposed to be generic.
+>>> -    description:
+>>> -      Contains a port which is connected to mic or dsim node.
+>>> +    properties:
+>>> +      port@0:
+>>> +        $ref: /schemas/graph.yaml#/properties/port
+>>> +        description:
+>>> +          Input port which is connected to either a Mobile Image
+>>> +          Compressor (MIC) or a DSI Master device.
 >>
->> The simplefb binding is a binding to allow keeping the firmware, e.g.
->> uboot setup framebuffer alive to e.g. show a boot splash until
->> the native display-engine drive loads. Needing display-engine
->> specific bindings totally contradicts the whole goal of 
+>>
+>> If this is only one port, then just 'port' property, but I have doubts
+>> it should be one, because even you mentioned two - MIC could be the
+>> input and MIPI DSIM would be the output.
 > 
-> No, it does not. DT is well designed for that through expressing
-> compatibility. I did not say you cannot have generic fallback for simple
-> use case.
+> DECON is the first device in the pipeline. So it should only have
+> output.
 > 
-> But this (and previous patchset) grows this into generic binding ONLY
-> and that is not correct.
-
-I think that it is important here to notice that this is not
-a generic fallback binding, this is not and will never be
-intended to replace have a proper binding for
-the display-engine.
-
-This is just a way to give the kernel access to the firmware
-setup framebuffer to e.g. show a bootsplash but also fatal
-kernel errors until the real display-engine driver loads.
-
-Note sometimes the whole framebuffer memory is not touched
-at all and the sole reason for having a driver attach to
-the simplefb node early on is just to keep the resources
-needed to keep the panel lit up around (on) until the real
-display-engine driver comes along to claim those resources.
-
-This avoids the display going black if the display-engine
-driver only binds after the kernel starts turning off
-unused resources, this typically happens when the display-engine
-driver is a module.
-
->> It is generic by nature and I really do not see how clocks and
->> regulators are any different then interconnects here.
+> It's either:
+> DECON -> DSIM -> panel
+> or
+> DECON -> MIC -> DSIM -> panel
 > 
-> Yeah, they are also wrong. I already commented on this.
+> Exynos7870 doesn't have MIC, but other SoCs may have one.
+
+Could be without ports entirely, but it is also fine to list port under.
+
 > 
 >>
->> Note that we had a huge discussion about adding clock
->> and regulators to simplefb many years ago with pretty
->> much the same arguments against doing so. In the end it was
->> decided to add regulator and clocks support to the simplefb
->> bindings and non of the feared problems with e.g. ordening
->> of turning things on happened.
+>> Maybe if the MIC is integral part, it would not have been an input, but
+>> then only 'port'.
 >>
->> A big part of this is that the claiming of clks / regulators /
->> interconnects by the simplefb driver is there to keep things on,
->> so it happens before the kernel starts tuning off unused resources
->> IOW everything is already up and running and this really is about
->> avoiding turning things off.
+>>>
+>>> I assume you want something like this?
+>>> Is the formatting correct? Should there be a space between
+>>> ports:$ref and ports:properties?
+>>
+>> Look at toshiba,tc358768.yaml or the simple-bridge (except you should
+>> name the input and output ports).
 > 
-> No one asks to drop them from the driver. I only want specific front
-> compatible which will list and constrain the properties. It is not
-> contradictory to your statements, U-boot support, driver support. I
-> really do not see ANY argument why this cannot follow standard DT rules.
+> Okay, thanks!
+> 
+> Therefore this:
+> 
+> -    description:
+> -      Contains a port which is connected to mic or dsim node.
+> +
+> +    properties:
+> +      port:
+> +        $ref: /schemas/graph.yaml#/properties/port
+> +        description:
+> +          Output port which is connected to either a Mobile Image
+> +          Compressor (MIC) or a DSI Master device.
 
-So what you are saying is that you want something like:
-
-framebuffer0: framebuffer@1d385000 {
-	compatible = "qcom.simple-framebuffer-sm8650-mdss", "simple-framebuffer";
-}
-
-and that the binding for qcom.simple-framebuffer-sm8650-mdss
-can then list interconnects ?
-
-Regards,
-
-Hans
+and additionalProperties: false in ports level.
 
 
-
-
+Best regards,
+Krzysztof
