@@ -2,62 +2,127 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 10A81AED9FD
-	for <lists+dri-devel@lfdr.de>; Mon, 30 Jun 2025 12:38:45 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5DD4CAEDA16
+	for <lists+dri-devel@lfdr.de>; Mon, 30 Jun 2025 12:41:37 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 346B210E3FF;
-	Mon, 30 Jun 2025 10:38:43 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 82F1910E401;
+	Mon, 30 Jun 2025 10:41:33 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="eukjme4E";
+	dkim=pass (1024-bit key; unprotected) header.d=amd.com header.i=@amd.com header.b="mM6bjPaG";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.18])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B6B5A10E3FF
- for <dri-devel@lists.freedesktop.org>; Mon, 30 Jun 2025 10:38:41 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1751279922; x=1782815922;
- h=date:from:to:cc:subject:message-id:references:
- mime-version:in-reply-to;
- bh=90pyHrF0RViM4pGrdWWqWuM9lBGiL7Pw4669LBz+phU=;
- b=eukjme4EFbe98uQ96NZR54ywv4aWw9KyWAvvxrDqqnU4xpx20SfX2ooZ
- dXHf8uQATausBHlIb3IDNoSWqOdge/wpNqt3QAduE3TRd/Lm3FsfTE9af
- htN9QlGHveduS2ZcTesRufuq/vWErdv/XIpZjxZt5f1il4eVjP8PJ48zQ
- 3JG1ou/9A64bLXzPL0t1MRJD1w+4DUx5h3/Y9OcMce7+N8L8ftArMwIxK
- HsJ+bqtYZtQ0sbRBRP7f3q3vTNH8juIt6VZmzNHEeZp6/yYfDfzIzqAW+
- mdmElmhE+C9ftOZSKRGIHPUmzFhaE4TS/qb7OW9wYTlt6Q8kHpUjLZXXH A==;
-X-CSE-ConnectionGUID: 5uWoOjT+QoiDh4GrL4jL7A==
-X-CSE-MsgGUID: dNQ8I9lSQ3+3UBOtLT43cQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11479"; a="52730954"
-X-IronPort-AV: E=Sophos;i="6.16,277,1744095600"; d="scan'208";a="52730954"
-Received: from orviesa004.jf.intel.com ([10.64.159.144])
- by fmvoesa112.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 30 Jun 2025 03:38:41 -0700
-X-CSE-ConnectionGUID: 3qJxtHz3R1Gvncn6V5PRqQ==
-X-CSE-MsgGUID: fzRuq/8OS+Krc8EYqHxOSA==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.16,277,1744095600"; d="scan'208";a="157967326"
-Received: from lkp-server01.sh.intel.com (HELO e8142ee1dce2) ([10.239.97.150])
- by orviesa004.jf.intel.com with ESMTP; 30 Jun 2025 03:38:39 -0700
-Received: from kbuild by e8142ee1dce2 with local (Exim 4.96)
- (envelope-from <lkp@intel.com>) id 1uWBuG-000Yni-1V;
- Mon, 30 Jun 2025 10:38:36 +0000
-Date: Mon, 30 Jun 2025 18:37:50 +0800
-From: kernel test robot <lkp@intel.com>
-To: Dave Airlie <airlied@gmail.com>, dri-devel@lists.freedesktop.org,
- linux-mm@kvack.org, Johannes Weiner <hannes@cmpxchg.org>,
- Christian Koenig <christian.koenig@amd.com>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
- Dave Chinner <david@fromorbit.com>,
- Kairui Song <kasong@tencent.com>, Dave Airlie <airlied@redhat.com>
-Subject: Re: [PATCH 04/17] ttm/pool: port to list_lru. (v2)
-Message-ID: <202506301808.C73SwQJr-lkp@intel.com>
-References: <20250630045005.1337339-5-airlied@gmail.com>
+Received: from NAM10-DM6-obe.outbound.protection.outlook.com
+ (mail-dm6nam10on2061.outbound.protection.outlook.com [40.107.93.61])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 478E110E3FD;
+ Mon, 30 Jun 2025 10:41:32 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=Q5A5nbn5v8bTRbnxjl1xUP6qeHZqrGJbq0VUBgnO4BmyvOM4QV8LIoVaXvQbt9l88eYFE9F4JMcxNYz9tE1CQcrK3KXuhIGe7HtQ+8YXZ1k+EMeWIN1NGqQf0dZNd8VR4xl28Cl11xvRsTxdpocvEvVHWL0NjdojocWxDs/tQPbAWsN7mNDYj06ZIRMouhM0lR71KDAkOKdgrecRPYs5bSf2+dE9Ge/wcBHUDfm+Anjn1RFVGuOtAHikgbFG+QhAJw7rfRQTs+VPv5PpD82JuXWi4G1H98OrT45o1+3bq8del1iijzAOXuxt1APvbC6UVx2qPGTnSdyHHowFU4meGA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=xGSEIg0BOU50F6F9OELM40PS9YexQ2QnL0zoqHcG50A=;
+ b=XnZTo3LtgWHX4MJePf8jiNQXNFdyYGN68+dz+6p5M+l0GvrfH24Yqt9eAXj+MdUajGLsK7Qs7tT1ogcZ7RKUnEXU5mpboDcGoNI073UG336ZzBvhBpbiz87X+KMc8RVw3dhe8iz+irv7SjOfJtazFF/Gq1XXBoZzBoYu8bgyZmLqmi7ezybzWeP0qg+v6CPBBVuxpN2yts7aM58rDjIbOgQJVHj91YOuax14XrhWq80uoVqiuUFuf1BOH5DRNFRTeg4NYIJK0iGne7/SEtAKNzVsRw9HDP7Jk+OcMz1/vHjX+sLxXoClYsK/bP9WZKq74fjzuXjzWoPzDi1sU9YUog==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
+ 165.204.84.17) smtp.rcpttodomain=kernel.org smtp.mailfrom=amd.com; dmarc=pass
+ (p=quarantine sp=quarantine pct=100) action=none header.from=amd.com;
+ dkim=none (message not signed); arc=none (0)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=xGSEIg0BOU50F6F9OELM40PS9YexQ2QnL0zoqHcG50A=;
+ b=mM6bjPaGvzFp7NzcuLrwW0dMTot68aDYscyC0nu+Ky9feZ0egYgpkzQdv38/NGYRFDqRy2fj/PglAJPr8VLrZVhN5u52ZYCu11P0nR+B+6DZCXgrDvDQU7VXZSZaiyCfSKm/ZVXrynt+Vkpk0dM4QMNUlX5eWYbTRyvMtEpE73k=
+Received: from MW4PR03CA0013.namprd03.prod.outlook.com (2603:10b6:303:8f::18)
+ by DM6PR12MB4401.namprd12.prod.outlook.com (2603:10b6:5:2a9::15) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8880.21; Mon, 30 Jun
+ 2025 10:41:28 +0000
+Received: from CO1PEPF000042AA.namprd03.prod.outlook.com
+ (2603:10b6:303:8f:cafe::a6) by MW4PR03CA0013.outlook.office365.com
+ (2603:10b6:303:8f::18) with Microsoft SMTP Server (version=TLS1_3,
+ cipher=TLS_AES_256_GCM_SHA384) id 15.20.8880.32 via Frontend Transport; Mon,
+ 30 Jun 2025 10:41:28 +0000
+X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 165.204.84.17)
+ smtp.mailfrom=amd.com; dkim=none (message not signed)
+ header.d=none;dmarc=pass action=none header.from=amd.com;
+Received-SPF: Pass (protection.outlook.com: domain of amd.com designates
+ 165.204.84.17 as permitted sender) receiver=protection.outlook.com;
+ client-ip=165.204.84.17; helo=SATLEXMB03.amd.com; pr=C
+Received: from SATLEXMB03.amd.com (165.204.84.17) by
+ CO1PEPF000042AA.mail.protection.outlook.com (10.167.243.39) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.20.8901.15 via Frontend Transport; Mon, 30 Jun 2025 10:41:27 +0000
+Received: from SATLEXMB03.amd.com (10.181.40.144) by SATLEXMB03.amd.com
+ (10.181.40.144) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.39; Mon, 30 Jun
+ 2025 05:41:26 -0500
+Received: from hjbog-srdc-41.amd.com (10.180.168.240) by SATLEXMB03.amd.com
+ (10.181.40.144) with Microsoft SMTP Server id 15.1.2507.39 via Frontend
+ Transport; Mon, 30 Jun 2025 05:41:23 -0500
+From: Samuel Zhang <guoqing.zhang@amd.com>
+To: <rafael@kernel.org>, <len.brown@intel.com>, <pavel@kernel.org>,
+ <alexander.deucher@amd.com>, <christian.koenig@amd.com>,
+ <mario.limonciello@amd.com>, <lijo.lazar@amd.com>
+CC: <victor.zhao@amd.com>, <haijun.chang@amd.com>, <Qing.Ma@amd.com>,
+ <amd-gfx@lists.freedesktop.org>, <dri-devel@lists.freedesktop.org>,
+ <linux-pm@vger.kernel.org>, <linux-kernel@vger.kernel.org>, Samuel Zhang
+ <guoqing.zhang@amd.com>
+Subject: [PATCH 0/3] reduce system memory requirement for hibernation
+Date: Mon, 30 Jun 2025 18:41:13 +0800
+Message-ID: <20250630104116.3050306-1-guoqing.zhang@amd.com>
+X-Mailer: git-send-email 2.43.5
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20250630045005.1337339-5-airlied@gmail.com>
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+Received-SPF: None (SATLEXMB03.amd.com: guoqing.zhang@amd.com does not
+ designate permitted sender hosts)
+X-EOPAttributedMessage: 0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: CO1PEPF000042AA:EE_|DM6PR12MB4401:EE_
+X-MS-Office365-Filtering-Correlation-Id: cbcb2210-4963-4d8d-e3f1-08ddb7c2ab16
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+ ARA:13230040|36860700013|1800799024|376014|82310400026; 
+X-Microsoft-Antispam-Message-Info: =?us-ascii?Q?wbIw1qgS/0Z0w6713Kb3gzPb+t/KpoZccQCYLruA3QmTECJZvAAPVmbxs1Q4?=
+ =?us-ascii?Q?4OhQPWCyqCdKGil8JNfejjLPz47b3mhxQL93GEVQb2kkZ4SzF3JIEM9FJEN0?=
+ =?us-ascii?Q?FvacEH5R/T44HuS24MbYG6DXB+ensVZSvByO8xjVdLZf+jf5uzblQckuf0gZ?=
+ =?us-ascii?Q?q5YLEbW0gNI10Cc4TK+SjLixJuH8ZeLIhHbrGnWLUxEI+SNvgucQOG9rgYL8?=
+ =?us-ascii?Q?HlCif8+TcxLuSJp5flKx2MclNBWa5fGLtPKGWHagHA0k48iJD2X31Tjvi7Zv?=
+ =?us-ascii?Q?i/wcs/M9Lg0GBsSH0ul6yE5XJWvkyFc9/+L0O6dMZZnf0aF0WNkUiqofi7Tg?=
+ =?us-ascii?Q?KCq8vCrlCzuG8wrl4E1TJ1qkJ3OZ7yl9DIl9QHS/CmTv6G/Ih5/KOsVWavIq?=
+ =?us-ascii?Q?aEmcBh16TAB9UzLImv3atmjEN+c0tWjboRvxY3pcPx3gJSqTDVutCFIBIko6?=
+ =?us-ascii?Q?LMwRJSrl2v4LEspKeiU0UhUaF87o8Q7HPF0r3Av14Nxhxcx413ORDb52Va+G?=
+ =?us-ascii?Q?EaFDKp4PkB/0BYBMi3RtyHt4L1Td0cIcrHBudVRtHgnP6hykI0rLQzGl5ifD?=
+ =?us-ascii?Q?M/Wz+BrNtXtHGhgHMxisKHglGRuHZGg9EZ/rauD552r9VFtv0SPdAA0tAGt4?=
+ =?us-ascii?Q?U4+VkcLsg3+0t57eLA6yE9VK9qfQIjKoZsReLJDJne8PM3L6PXw9LO0VgMEy?=
+ =?us-ascii?Q?b8dI3M97V3dkSan85xE5fOBSp6SK7XMHMpoQys98VK8uJJ2D0X44xmewHnYI?=
+ =?us-ascii?Q?rEJeMpaceDM23VMkHEyjBZENRwHBDlmSbTMNe5GWLyRY7CMltUjRFWyxNi8M?=
+ =?us-ascii?Q?ZWpiqQmrvvRILivlkwQSnX4tg1adjaAiOtPj8JoFEtay1vsTy/7Xr9dl7+Z/?=
+ =?us-ascii?Q?Il1l3gB//I49gMCiiHgRhKN4LqnhsNlneVGyBn3r+nzVoIlHHSLqJhSHX4oW?=
+ =?us-ascii?Q?9ugJgPsduuYlNjbPeQNsVYTjOGKmD8B3yW3qZYsALAEbGhmrSjQ4VDhvSp5O?=
+ =?us-ascii?Q?r2/CUXkB6hXQTfvEX+F43QddSOj0eEh3SWpxcO8F63+bfDYz7IJrdV1VNIn+?=
+ =?us-ascii?Q?/M0M1woGbBPoDCN025XW380Us8U55Hf15BqQMo0NXIxuapFY11fewla0UtxT?=
+ =?us-ascii?Q?2ClxVPntebwk9CnpJF9BnEIOhvHI4H3l/XydfBzkH8XbG2xaP6IfE9Pp0S/u?=
+ =?us-ascii?Q?xiJojuxWfwVTESQozyhJD8qOIFuBJQRdD5WUcprefHplgjtGe8umWn9yZNhO?=
+ =?us-ascii?Q?juVlAvAXjQfW+R0FWg11iVcRVMrbkcgcrkrwVxS8RSU9nP+YES7p/DLC5jCy?=
+ =?us-ascii?Q?PFgLtf3Imj7AcuyCZEHtOY+xMTsDT/o4oA67DeKd72k+pW49F4geYi+IyhZf?=
+ =?us-ascii?Q?baziVgLpMyA9FebCaOAInzLXw1B6kCZVNpO6cCwqNy4Sm0n5CT+wL0awGSGi?=
+ =?us-ascii?Q?/4PHCI0RZAQnlh247jFiIaiI+okwLR8EdWZCFGDhFSeKKFn4rcWRuRvjLXLI?=
+ =?us-ascii?Q?yLQIhEmHhDOAV+f0e7a9/Z+E6aGBsmF2pLlL?=
+X-Forefront-Antispam-Report: CIP:165.204.84.17; CTRY:US; LANG:en; SCL:1; SRV:;
+ IPV:CAL; SFV:NSPM; H:SATLEXMB03.amd.com; PTR:InfoDomainNonexistent; CAT:NONE;
+ SFS:(13230040)(36860700013)(1800799024)(376014)(82310400026); DIR:OUT;
+ SFP:1101; 
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 30 Jun 2025 10:41:27.7075 (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: cbcb2210-4963-4d8d-e3f1-08ddb7c2ab16
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=3dd8961f-e488-4e60-8e11-a82d994e183d; Ip=[165.204.84.17];
+ Helo=[SATLEXMB03.amd.com]
+X-MS-Exchange-CrossTenant-AuthSource: CO1PEPF000042AA.namprd03.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM6PR12MB4401
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -73,160 +138,40 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Dave,
+Modern data center dGPUs are usually equipped with very large VRAM. On
+server with such dGPUs(192GB VRAM * 8) and 2TB system memory, hibernate
+will fail due to no enough free memory.
 
-kernel test robot noticed the following build errors:
+The root cause is that during hibernation all VRAM memory get evicted to
+GTT or shmem. In both case, it is in system memory and kernel will try to 
+copy the pages to hibernation image. In the worst case, this causes 2 
+copies of VRAM memory in system memory, 2TB is not enough for the 
+hibernation image. 192GB * 8 * 2 = 3TB > 2TB.
 
-[auto build test ERROR on drm/drm-next]
-[also build test ERROR on v6.16-rc4]
-[cannot apply to akpm-mm/mm-everything linus/master next-20250630]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
+The fix includes following 2 changes. With 2 changes, there's much less 
+pages needed to be copied to hibernate image and hibernation can succeed.
+1. move GTT to shmem after evicting VRAM. then the GTT pages can be freed.
+2. force write shmem pages to swap disk and free shmem pages.
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Dave-Airlie/drm-ttm-use-gpu-mm-stats-to-track-gpu-memory-allocations-v2/20250630-134938
-base:   git://anongit.freedesktop.org/drm/drm drm-next
-patch link:    https://lore.kernel.org/r/20250630045005.1337339-5-airlied%40gmail.com
-patch subject: [PATCH 04/17] ttm/pool: port to list_lru. (v2)
-config: i386-buildonly-randconfig-003-20250630 (https://download.01.org/0day-ci/archive/20250630/202506301808.C73SwQJr-lkp@intel.com/config)
-compiler: clang version 20.1.7 (https://github.com/llvm/llvm-project 6146a88f60492b520a36f8f8f3231e15f3cc6082)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250630/202506301808.C73SwQJr-lkp@intel.com/reproduce)
+After swapout GTT to shmem in hibernation prepare stage, swapin and 
+restore BOs in thaw stage takes lots of time(50 mintues observed for 
+8 dGPUs). And it's not necessary since the follow-up hibernate stages do 
+not use GPU for hibernation successful case. The third patch is just skip 
+the BOs restore in thaw stage to reduce the hibernation time.
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202506301808.C73SwQJr-lkp@intel.com/
+Samuel Zhang (3):
+  drm/amdgpu: move GTT to SHM after eviction for hibernation
+  PM: hibernate: shrink shmem pages after dev_pm_ops.prepare()
+  drm/amdgpu: skip kfd resume_process for dev_pm_ops.thaw()
 
-All errors (new ones prefixed by >>):
-
-   In file included from drivers/gpu/drm/i915/intel_region_ttm.c:5:
-   In file included from include/drm/ttm/ttm_device.h:31:
->> include/drm/ttm/ttm_pool.h:57:18: error: field has incomplete type 'struct list_lru'
-      57 |         struct list_lru pages;
-         |                         ^
-   include/linux/xarray.h:25:8: note: forward declaration of 'struct list_lru'
-      25 | struct list_lru;
-         |        ^
-   In file included from drivers/gpu/drm/i915/intel_region_ttm.c:8:
-   In file included from drivers/gpu/drm/i915/i915_drv.h:35:
-   In file included from include/linux/pci.h:1656:
-   In file included from include/linux/dmapool.h:15:
-   In file included from include/linux/scatterlist.h:8:
-   In file included from include/linux/mm.h:36:
-   In file included from include/linux/rcuwait.h:6:
-   In file included from include/linux/sched/signal.h:6:
-   include/linux/signal.h:98:11: warning: array index 3 is past the end of the array (that has type 'unsigned long[2]') [-Warray-bounds]
-      98 |                 return (set->sig[3] | set->sig[2] |
-         |                         ^        ~
-   arch/x86/include/asm/signal.h:24:2: note: array 'sig' declared here
-      24 |         unsigned long sig[_NSIG_WORDS];
-         |         ^
-   In file included from drivers/gpu/drm/i915/intel_region_ttm.c:8:
-   In file included from drivers/gpu/drm/i915/i915_drv.h:35:
-   In file included from include/linux/pci.h:1656:
-   In file included from include/linux/dmapool.h:15:
-   In file included from include/linux/scatterlist.h:8:
-   In file included from include/linux/mm.h:36:
-   In file included from include/linux/rcuwait.h:6:
-   In file included from include/linux/sched/signal.h:6:
-   include/linux/signal.h:98:25: warning: array index 2 is past the end of the array (that has type 'unsigned long[2]') [-Warray-bounds]
-      98 |                 return (set->sig[3] | set->sig[2] |
-         |                                       ^        ~
-   arch/x86/include/asm/signal.h:24:2: note: array 'sig' declared here
-      24 |         unsigned long sig[_NSIG_WORDS];
-         |         ^
-   In file included from drivers/gpu/drm/i915/intel_region_ttm.c:8:
-   In file included from drivers/gpu/drm/i915/i915_drv.h:35:
-   In file included from include/linux/pci.h:1656:
-   In file included from include/linux/dmapool.h:15:
-   In file included from include/linux/scatterlist.h:8:
-   In file included from include/linux/mm.h:36:
-   In file included from include/linux/rcuwait.h:6:
-   In file included from include/linux/sched/signal.h:6:
-   include/linux/signal.h:114:11: warning: array index 3 is past the end of the array (that has type 'const unsigned long[2]') [-Warray-bounds]
-     114 |                 return  (set1->sig[3] == set2->sig[3]) &&
-         |                          ^         ~
-   arch/x86/include/asm/signal.h:24:2: note: array 'sig' declared here
-      24 |         unsigned long sig[_NSIG_WORDS];
-         |         ^
-   In file included from drivers/gpu/drm/i915/intel_region_ttm.c:8:
-   In file included from drivers/gpu/drm/i915/i915_drv.h:35:
-   In file included from include/linux/pci.h:1656:
-   In file included from include/linux/dmapool.h:15:
-   In file included from include/linux/scatterlist.h:8:
-   In file included from include/linux/mm.h:36:
-   In file included from include/linux/rcuwait.h:6:
-   In file included from include/linux/sched/signal.h:6:
-   include/linux/signal.h:114:27: warning: array index 3 is past the end of the array (that has type 'const unsigned long[2]') [-Warray-bounds]
-     114 |                 return  (set1->sig[3] == set2->sig[3]) &&
-         |                                          ^         ~
-   arch/x86/include/asm/signal.h:24:2: note: array 'sig' declared here
-      24 |         unsigned long sig[_NSIG_WORDS];
-         |         ^
-   In file included from drivers/gpu/drm/i915/intel_region_ttm.c:8:
-   In file included from drivers/gpu/drm/i915/i915_drv.h:35:
-   In file included from include/linux/pci.h:1656:
-   In file included from include/linux/dmapool.h:15:
-   In file included from include/linux/scatterlist.h:8:
-   In file included from include/linux/mm.h:36:
-   In file included from include/linux/rcuwait.h:6:
-   In file included from include/linux/sched/signal.h:6:
-   include/linux/signal.h:115:5: warning: array index 2 is past the end of the array (that has type 'const unsigned long[2]') [-Warray-bounds]
-     115 |                         (set1->sig[2] == set2->sig[2]) &&
-         |                          ^         ~
-   arch/x86/include/asm/signal.h:24:2: note: array 'sig' declared here
-      24 |         unsigned long sig[_NSIG_WORDS];
-         |         ^
-   In file included from drivers/gpu/drm/i915/intel_region_ttm.c:8:
-   In file included from drivers/gpu/drm/i915/i915_drv.h:35:
-   In file included from include/linux/pci.h:1656:
-   In file included from include/linux/dmapool.h:15:
-   In file included from include/linux/scatterlist.h:8:
-   In file included from include/linux/mm.h:36:
-   In file included from include/linux/rcuwait.h:6:
-   In file included from include/linux/sched/signal.h:6:
-   include/linux/signal.h:115:21: warning: array index 2 is past the end of the array (that has type 'const unsigned long[2]') [-Warray-bounds]
-     115 |                         (set1->sig[2] == set2->sig[2]) &&
-         |                                          ^         ~
-   arch/x86/include/asm/signal.h:24:2: note: array 'sig' declared here
-      24 |         unsigned long sig[_NSIG_WORDS];
-         |         ^
-   In file included from drivers/gpu/drm/i915/intel_region_ttm.c:8:
-   In file included from drivers/gpu/drm/i915/i915_drv.h:35:
-   In file included from include/linux/pci.h:1656:
-   In file included from include/linux/dmapool.h:15:
-   In file included from include/linux/scatterlist.h:8:
-   In file included from include/linux/mm.h:36:
-   In file included from include/linux/rcuwait.h:6:
-   In file included from include/linux/sched/signal.h:6:
-   include/linux/signal.h:157:1: warning: array index 3 is past the end of the array (that has type 'const unsigned long[2]') [-Warray-bounds]
-     157 | _SIG_SET_BINOP(sigorsets, _sig_or)
-         | ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
-
-vim +57 include/drm/ttm/ttm_pool.h
-
-    40	
-    41	/**
-    42	 * struct ttm_pool_type - Pool for a certain memory type
-    43	 *
-    44	 * @pool: the pool we belong to, might be NULL for the global ones
-    45	 * @order: the allocation order our pages have
-    46	 * @caching: the caching type our pages have
-    47	 * @shrinker_list: our place on the global shrinker list
-    48	 * @pages: the lru_list of pages in the pool
-    49	 */
-    50	struct ttm_pool_type {
-    51		struct ttm_pool *pool;
-    52		unsigned int order;
-    53		enum ttm_caching caching;
-    54	
-    55		struct list_head shrinker_list;
-    56	
-  > 57		struct list_lru pages;
-    58	};
-    59	
+ drivers/gpu/drm/amd/amdgpu/amdgpu_device.c |  2 +-
+ drivers/gpu/drm/amd/amdgpu/amdgpu_drv.c    |  2 ++
+ drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.c    | 13 ++++++++++++-
+ drivers/gpu/drm/ttm/ttm_resource.c         | 18 ++++++++++++++++++
+ include/drm/ttm/ttm_resource.h             |  1 +
+ kernel/power/hibernate.c                   | 13 +++++++++++++
+ 6 files changed, 47 insertions(+), 2 deletions(-)
 
 -- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+2.43.5
+
