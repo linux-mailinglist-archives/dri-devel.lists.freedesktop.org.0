@@ -2,81 +2,80 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id EECA6AEE28C
-	for <lists+dri-devel@lfdr.de>; Mon, 30 Jun 2025 17:32:43 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 434A1AEE28E
+	for <lists+dri-devel@lfdr.de>; Mon, 30 Jun 2025 17:32:52 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2CF7210E492;
-	Mon, 30 Jun 2025 15:32:42 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4C03310E48F;
+	Mon, 30 Jun 2025 15:32:50 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="hfT/sb8S";
+	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="D23HwksN";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-f52.google.com (mail-wr1-f52.google.com
- [209.85.221.52])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 67A8710E492
- for <dri-devel@lists.freedesktop.org>; Mon, 30 Jun 2025 15:32:41 +0000 (UTC)
-Received: by mail-wr1-f52.google.com with SMTP id
- ffacd0b85a97d-3a57ae5cb17so1448691f8f.0
- for <dri-devel@lists.freedesktop.org>; Mon, 30 Jun 2025 08:32:41 -0700 (PDT)
+Received: from mail-wr1-f41.google.com (mail-wr1-f41.google.com
+ [209.85.221.41])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A83B610E490
+ for <dri-devel@lists.freedesktop.org>; Mon, 30 Jun 2025 15:32:47 +0000 (UTC)
+Received: by mail-wr1-f41.google.com with SMTP id
+ ffacd0b85a97d-3a536ecbf6fso2660778f8f.2
+ for <dri-devel@lists.freedesktop.org>; Mon, 30 Jun 2025 08:32:47 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1751297560; x=1751902360; darn=lists.freedesktop.org;
+ d=linaro.org; s=google; t=1751297566; x=1751902366; darn=lists.freedesktop.org;
  h=content-transfer-encoding:in-reply-to:organization:autocrypt
  :content-language:references:cc:to:subject:reply-to:from:user-agent
  :mime-version:date:message-id:from:to:cc:subject:date:message-id
- :reply-to; bh=TM6bGARcZMrEFIPxun/H10tMl5YJTValxXf2mbuJKbE=;
- b=hfT/sb8S7CgWtUCImLZ75wqlawkQZQ6w+9qeuF/okEfynVSIyDkjyvkXYE0Uts0xk8
- PsszK8yptmjIsoTewAUGGJ3DOZ+0cPZpxF1fpWgpqeH0s/EXjDmhjv2rXJsopwxMQtj1
- 1VcgHTUwfG6HceXl3os+H/ByfMkPCF2db+p/I24YER/HD32PpVrXD8mnhWKquYfCMnvD
- Ev6riFVOsolmV5uz9YawYdhzfFR7w++Js1WJjle9gxW02WdQ5jGU1KQ9tRDE5DiKmdV5
- llHCgOmCj/BMN6zduQHGXSDH6++qo6njoyvIU4ayHaTuzeUkK0bh7bA7MbyXfpHZNVX0
- TkBQ==
+ :reply-to; bh=atA/KC1m61iI/EQIA0gGrqTkbU+o+kg8hTMAb8HLbKE=;
+ b=D23HwksNSA9xdQniWc6ZFKNGd6FJ4vb7ZrFZaXZQe5aJWNyOzXXLU3wq8Ub6PKIb8S
+ q1LF0cgpsuPyCwIiDDPvjZLZOKBVfSW4Rb5X3aD0z9bQQqHQHqvB/IadN4xa54zL1UeN
+ bzScdque68Uh0PpikqESoD28Byh91U0LrNIkX/TIOPQCyAdZlJ7u/QpInO3jM+1ZrUMi
+ TVeJRmoW+77IFqc8ExVtm2WMx1Rbpwa1PcLV4PBYCNMPZHexY2MlQAYvgsvy7qCc+N3J
+ Urek283aNB/3kkx7+PxHw77VtjtdPowXyL57QjtVsa76sqUr3oS3QE8NenMHBsJy4cOX
+ QkmA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1751297560; x=1751902360;
+ d=1e100.net; s=20230601; t=1751297566; x=1751902366;
  h=content-transfer-encoding:in-reply-to:organization:autocrypt
  :content-language:references:cc:to:subject:reply-to:from:user-agent
  :mime-version:date:message-id:x-gm-message-state:from:to:cc:subject
  :date:message-id:reply-to;
- bh=TM6bGARcZMrEFIPxun/H10tMl5YJTValxXf2mbuJKbE=;
- b=r1bK5sYliAec7NuqCEFEBmJuaXDVk21ib0ZnWT2qbghGrafhH/vj+c1jitVRfwLGWM
- 7WblFcsmPOlPdDBwiQkiA+rbHCo/Jef5LBYzF7xQzgLYsIyjcaaDMtmY69Gc6W/I88P/
- q3u6zewwmR/ept9URp+BZ2yJt7+7/JeZKtyBYpy+PbwI1kylq18GMzgndAsUb0PiS3Lr
- yP+HTW5jevU8k2yzINJE+ucBopTaTtbeu7htc616Ojii0oB7EVruPQC4nXoBgI96xLTD
- DpfKYSvKl+BNB84FPuCLfCEF8ru3WnCRqv3ddP5KPR2VQ0YHBNJyZ25tLFkfJnpvAaIk
- 7kfQ==
+ bh=atA/KC1m61iI/EQIA0gGrqTkbU+o+kg8hTMAb8HLbKE=;
+ b=cEFd+VCcbxNtlZELc2fI1LIKNwP5yvL9vxNMnuU/TNazImDZ3cNXMbRJbwqC17N6eq
+ /D/IrvDpM+9nTxppU31935LReTZbXdk98ycyg4qcSapVs+pJI51ZDElm5I8Z8LIWrjYO
+ i0eefYS1EBUdkASKo0TxlxcG2fadckjjI0dtY6BO6mCkgAjiHpiJxBb+LXhQFoRI7ExD
+ 4PNMK+e1KsaefRFXPWtcVCtJ8usTtKtZft7SqulxKIvQgB6HCtx0644Nx8T/qcEsdJ1O
+ vkGB2QCbg5VQ8W/RQh63u2sgIVAiOF83/tc5SrYMtUk11/wrjOTB89RYJMhjGE/KQIrC
+ +bXA==
 X-Forwarded-Encrypted: i=1;
- AJvYcCWquF0/6yHugXX+LZfZI2mjDU7MkjDvLWLXcwZEMGkzLrRfKfJJ5neatri37J/cYZLw3G+XjkIahhw=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0Yx1qVUxPmNjuxhi5uUAEsoKK9ZE2pOohC96Gnu+GzMLpbGsqM91
- je+EEyv5rbpeqIXKFs0TavshAHrhSKWl8d/F/UJVT5Bib/5H4vYgkBX+a/yKz/bWypo=
-X-Gm-Gg: ASbGncuVx+dSCChv6q1dlG8k9/AwjTBtgfPlnKLcc/SI7tdKc3sGEaYWczHlX40O0ZC
- bL+d1Risz/AizcfFILWlxokVHIL0Qy0V+/Ng7xidhKPPPxL/Y6fiQpY/H79xnII32NTFhu7iOhI
- hXXvVD3PDGT3zzLi2ZcDII5WukP4Y/vwIY9pQY62WON85zauGk2COVpN+rU+bNt2+cVj0IvVjz0
- uTTRotTzhrcvgBuJFcyk6qR8hLltkjfjdogw+ssKtPLSLBcCCTuof8bg2oAUnnjB6M6gIdc2Yl9
- 9LoY2xiQNape1BkzSrbdrF9705ULw9Iydm04Vd4aYZhjlyG3zWmFKtYKV74Ey8YrODOG5pETNCE
- +Dg5/N1xHteUtCwH2yHlTeVXkAQ5I5YsBoNObyxw=
-X-Google-Smtp-Source: AGHT+IHOKCfX8o6K3iSWVeSWTleKXFk/Ck/rHxEVE+zexb4rWH1ySnJbEv+nOY5vdoWp42ccJUnAgQ==
-X-Received: by 2002:a05:6000:4b02:b0:3a5:39ee:2619 with SMTP id
- ffacd0b85a97d-3a8ff149453mr10644984f8f.47.1751297559841; 
- Mon, 30 Jun 2025 08:32:39 -0700 (PDT)
+ AJvYcCWKC54IKHa95gFEZ16JvWfFQ6CDvtOJfg7cYAuxzPWEVIHBKI0qOLYTM46Xuge6Da/WUP/Rrif+KuE=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0Yyq8TjXXLFGPHyrOEPH1aHzt8cEPXtijQVFKgVk0+qfR4CEcAio
+ Sy1T9AZtbKcgLMkqZ22SeFkDanCJr9qkCDmUeatMpl2ajKomm+4mxdz3kSP1z4n6KCY=
+X-Gm-Gg: ASbGncuvnTkeBD+navCPX9gR5FEq7eQLPR+wMA0vWf1LWyiEYXfvNdOpdZirl6qQIx7
+ QrzIzljCxfBYwIGoipzdV7k57AqhyDvqweKs2Vuvd4llt6pcwtHoLETXYsApUnut0pc6329wGDk
+ gXo8wYvFLddCgmNsPPNLMF1K0J3nYRg+j9f30phFOHvAtHZCoWF1m8OYv3mGLbnFr5btXM85KFG
+ Knjw+jS1sx8iE8mp+ZodAfcDu4Cx8ZjJssLyHjChrnaYUWVbflc0VKNdJvysiPAuaPZVYeyynyc
+ s0g3qo1X4+I6l1SmFXF53ENp1dcgH8nnNMxtzaPYm8MtIjNRaVytflQDAcKvRoKZwfhHBP8gm74
+ Eb8NuiF3/GlAPtth4fl9tBFdTmqRu/UJGyQU8zuo=
+X-Google-Smtp-Source: AGHT+IF1MxZOvenNiix21YlE5Sm5JmNj/5PZM5XXAtE+bWTuEZDv9V6ZtvTAasrMlYozwOUVfjtjdw==
+X-Received: by 2002:a5d:55c9:0:b0:3a4:dd02:f724 with SMTP id
+ ffacd0b85a97d-3a900575c7amr9522396f8f.43.1751297566132; 
+ Mon, 30 Jun 2025 08:32:46 -0700 (PDT)
 Received: from ?IPV6:2a01:e0a:3d9:2080:abe8:a49c:efe7:4dfb?
  ([2a01:e0a:3d9:2080:abe8:a49c:efe7:4dfb])
  by smtp.gmail.com with ESMTPSA id
- ffacd0b85a97d-3a892e5f8e1sm10573229f8f.88.2025.06.30.08.32.39
+ ffacd0b85a97d-3a892e5f8e1sm10573229f8f.88.2025.06.30.08.32.45
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 30 Jun 2025 08:32:39 -0700 (PDT)
-Message-ID: <f29335b2-47c3-46c1-b183-f623a940f54d@linaro.org>
-Date: Mon, 30 Jun 2025 17:32:38 +0200
+ Mon, 30 Jun 2025 08:32:45 -0700 (PDT)
+Message-ID: <2f317041-bdab-4cc1-a45e-952c97398687@linaro.org>
+Date: Mon, 30 Jun 2025 17:32:45 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
 From: neil.armstrong@linaro.org
-Subject: Re: [PATCH] drm/panel: raydium-rm67200: Move initialization from
- enable() to prepare stage
+Subject: Re: [PATCH] drm/panel: raydium-rm67200: Add missing drm_display_mode
+ flags
 To: Andy Yan <andyshrk@163.com>
 Cc: quic_jesszhan@quicinc.com, mripard@kernel.org, simona@ffwll.ch,
  tzimmermann@suse.de, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org, sebastian.reichel@collabora.com,
- Andy Yan <andy.yan@rock-chips.com>
-References: <20250618091520.691590-1-andyshrk@163.com>
+ linux-kernel@vger.kernel.org, Andy Yan <andy.yan@rock-chips.com>
+References: <20250618080955.691048-1-andyshrk@163.com>
 Content-Language: en-US, fr
 Autocrypt: addr=neil.armstrong@linaro.org; keydata=
  xsBNBE1ZBs8BCAD78xVLsXPwV/2qQx2FaO/7mhWL0Qodw8UcQJnkrWmgTFRobtTWxuRx8WWP
@@ -103,7 +102,7 @@ Autocrypt: addr=neil.armstrong@linaro.org; keydata=
  4zcsPWvwnXgfe5tk680fEKZVwOZKIEuJC3v+/yZpQzDvGYJvbyix0lHnrCzq43WefRHI5XTT
  QbM0WUIBIcGmq38+OgUsMYu4NzLu7uZFAcmp6h8g
 Organization: Linaro
-In-Reply-To: <20250618091520.691590-1-andyshrk@163.com>
+In-Reply-To: <20250618080955.691048-1-andyshrk@163.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -122,79 +121,32 @@ Reply-To: Neil Armstrong <neil.armstrong@linaro.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 18/06/2025 11:15, Andy Yan wrote:
+On 18/06/2025 10:09, Andy Yan wrote:
 > From: Andy Yan <andy.yan@rock-chips.com>
 > 
-> The DSI host has different modes in prepare() and enable() functions,
-> prepare() is in LP command mode and enable() is in HS video mode.
-> 
->  From our experience, generally the initialization sequence needs to be
-> sent in the LP command mode.
-> 
-> Move the setup init function from enable() to prepare() to fix a display
-> shift on rk3568 evb.
+> Add missing drm_display_mode DRM_MODE_FLAG_NVSYNC | DRM_MODE_FLAG_NHSYNC
+> flags. Those are used by various bridges(e.g. dw-mipi-dsi) in the
+> pipeline to correctly configure its sync signals polarity.
 > 
 > Tested on rk3568/rk3576/rk3588 EVB.
 > 
 > Signed-off-by: Andy Yan <andy.yan@rock-chips.com>
 > ---
 > 
->   drivers/gpu/drm/panel/panel-raydium-rm67200.c | 22 ++++++-------------
->   1 file changed, 7 insertions(+), 15 deletions(-)
+>   drivers/gpu/drm/panel/panel-raydium-rm67200.c | 1 +
+>   1 file changed, 1 insertion(+)
 > 
 > diff --git a/drivers/gpu/drm/panel/panel-raydium-rm67200.c b/drivers/gpu/drm/panel/panel-raydium-rm67200.c
-> index df6c1727237b5..459381d53847f 100644
+> index add6099ae8a64..92c3e20b903f0 100644
 > --- a/drivers/gpu/drm/panel/panel-raydium-rm67200.c
 > +++ b/drivers/gpu/drm/panel/panel-raydium-rm67200.c
-> @@ -320,6 +320,7 @@ static void w552793baa_setup(struct mipi_dsi_multi_context *ctx)
->   static int raydium_rm67200_prepare(struct drm_panel *panel)
->   {
->   	struct raydium_rm67200 *ctx = to_raydium_rm67200(panel);
-> +	struct mipi_dsi_multi_context mctx = { .dsi = ctx->dsi };
->   	int ret;
->   
->   	ret = regulator_bulk_enable(ctx->num_supplies, ctx->supplies);
-> @@ -330,6 +331,12 @@ static int raydium_rm67200_prepare(struct drm_panel *panel)
->   
->   	msleep(60);
->   
-> +	ctx->panel_info->panel_setup(&mctx);
-> +	mipi_dsi_dcs_exit_sleep_mode_multi(&mctx);
-> +	mipi_dsi_msleep(&mctx, 120);
-> +	mipi_dsi_dcs_set_display_on_multi(&mctx);
-> +	mipi_dsi_msleep(&mctx, 30);
-> +
->   	return 0;
->   }
->   
-> @@ -345,20 +352,6 @@ static int raydium_rm67200_unprepare(struct drm_panel *panel)
->   	return 0;
->   }
->   
-> -static int raydium_rm67200_enable(struct drm_panel *panel)
-> -{
-> -	struct raydium_rm67200 *rm67200 = to_raydium_rm67200(panel);
-> -	struct mipi_dsi_multi_context ctx = { .dsi = rm67200->dsi };
-> -
-> -	rm67200->panel_info->panel_setup(&ctx);
-> -	mipi_dsi_dcs_exit_sleep_mode_multi(&ctx);
-> -	mipi_dsi_msleep(&ctx, 120);
-> -	mipi_dsi_dcs_set_display_on_multi(&ctx);
-> -	mipi_dsi_msleep(&ctx, 30);
-> -
-> -	return ctx.accum_err;
-> -}
-> -
->   static int raydium_rm67200_disable(struct drm_panel *panel)
->   {
->   	struct raydium_rm67200 *rm67200 = to_raydium_rm67200(panel);
-> @@ -383,7 +376,6 @@ static const struct drm_panel_funcs raydium_rm67200_funcs = {
->   	.prepare = raydium_rm67200_prepare,
->   	.unprepare = raydium_rm67200_unprepare,
->   	.get_modes = raydium_rm67200_get_modes,
-> -	.enable = raydium_rm67200_enable,
->   	.disable = raydium_rm67200_disable,
->   };
->   
+> @@ -478,6 +478,7 @@ static const struct raydium_rm67200_panel_info w552793baa_info = {
+>   		.vtotal = 1952,
+>   		.width_mm = 68, /* 68.04mm */
+>   		.height_mm = 121, /* 120.96mm */
+> +		.flags = DRM_MODE_FLAG_NVSYNC | DRM_MODE_FLAG_NHSYNC,
+>   		.type = DRM_MODE_TYPE_DRIVER,
+>   	},
+>   	.regulators = w552793baa_regulators,
 
 Reviewed-by: Neil Armstrong <neil.armstrong@linaro.org>
