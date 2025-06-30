@@ -2,61 +2,65 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 19501AEDB93
-	for <lists+dri-devel@lfdr.de>; Mon, 30 Jun 2025 13:49:12 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8C273AEDBD7
+	for <lists+dri-devel@lfdr.de>; Mon, 30 Jun 2025 13:53:25 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B719C10E422;
-	Mon, 30 Jun 2025 11:48:43 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3150710E424;
+	Mon, 30 Jun 2025 11:53:22 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="QERaeucq";
+	dkim=pass (2048-bit key; secure) header.d=mailbox.org header.i=@mailbox.org header.b="Skz5zas5";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from tor.source.kernel.org (tor.source.kernel.org [172.105.4.254])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 835D210E422
- for <dri-devel@lists.freedesktop.org>; Mon, 30 Jun 2025 11:48:42 +0000 (UTC)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by tor.source.kernel.org (Postfix) with ESMTP id 6D1DE61126;
- Mon, 30 Jun 2025 11:48:41 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id C71F3C4CEE3;
- Mon, 30 Jun 2025 11:48:40 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1751284121;
- bh=H184gVZ771yrtruI4xoO2jE86Qijx3ArlxTZ+pxORMY=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=QERaeucq4JWA9Qvl9kditWF4DbVCIQnmMeEDY7Wtr5mEgARFkJUr7J3T8tKscDDzq
- K+dvgRrID1nLArVWRaMFC+jOchrOKdohKMTolg6Q3nRkG+Z25pvuidzk+rd7Z0S6Dr
- exZUEtd1Mo2Abwpub3yH0ZaUOr8ncabv/FQDLDu1qHYX9bW1+wNxDkGMByKDc6FoaJ
- mN6tteUfm54fwlb40Z5fcLx29pMIAXMW2JqMN9RMnHgdZA1MaNYB02U4CTvsm92Qt3
- aB9ZynBO4wuOuYspGz7vVZGTeXyW/mxMJ97awTVnGoUZ+/CsLskhomQ90kGWJid80n
- O21/WxgINJDTg==
-Date: Mon, 30 Jun 2025 13:48:38 +0200
-From: Maxime Ripard <mripard@kernel.org>
-To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Cc: Mike Looijmans <mike.looijmans@topic.nl>, 
- dri-devel@lists.freedesktop.org, David Airlie <airlied@gmail.com>, 
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Michal Simek <michal.simek@amd.com>, 
- Simona Vetter <simona@ffwll.ch>, Thomas Zimmermann <tzimmermann@suse.de>, 
- Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>,
- linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] drm: xlnx: zynqmp_dp: Support DRM_FORMAT_XRGB8888
-Message-ID: <20250630-enormous-evasive-scorpion-58bcbd@houat>
-References: <1b153bce-a66a-45ee-a5c6-963ea6fb1c82.949ef384-8293-46b8-903f-40a477c056ae.fb98a918-329e-4536-a0a5-a99b22ba0120@emailsignatures365.codetwo.com>
- <20250627145058.6880-1-mike.looijmans@topic.nl>
- <20250627181911.GF24912@pendragon.ideasonboard.com>
- <42af6260-c8af-42e1-a9bb-adfaaabf0190@topic.nl>
- <20250630-psychedelic-tested-smilodon-adcbb3@houat>
- <20250630091156.GE24861@pendragon.ideasonboard.com>
- <20250630-phenomenal-taipan-of-imagination-59b300@houat>
- <20250630093335.GC20333@pendragon.ideasonboard.com>
- <20250630-delicate-stirring-sawfly-dd81be@houat>
- <20250630113008.GD20333@pendragon.ideasonboard.com>
+Received: from mout-p-102.mailbox.org (mout-p-102.mailbox.org [80.241.56.152])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7061510E0E2;
+ Mon, 30 Jun 2025 11:53:19 +0000 (UTC)
+Received: from smtp102.mailbox.org (smtp102.mailbox.org [10.196.197.102])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ (No client certificate requested)
+ by mout-p-102.mailbox.org (Postfix) with ESMTPS id 4bW4L42cdhz9tSK;
+ Mon, 30 Jun 2025 13:53:16 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mailbox.org;
+ s=mail20150812; 
+ t=1751284396; h=from:from:reply-to:reply-to:subject:subject:date:date:
+ message-id:message-id:to:to:cc:cc:mime-version:mime-version:
+ content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=XRnpnsPX4W8wk3xgYzOL4NiZH+WSaegDxNqtv+5bV0Q=;
+ b=Skz5zas5xRsL7z1k9vtmslkMw5DnNbrahAJa+buxkA7iQSW8UkppqvHtPbSw3q3jrK40/F
+ 8bV4CAg9NdEWNfO3e6Ix8kMYK69RIs8Rz2lIjJnKV+bObQX8o2luHKILkHF4dSwVmJRX7b
+ o6CP//rq+nvsYwNU83yv4aMP5IHxApT+HOytnvymP8iPqwAa9qcIbjYOck9cCBMAas0nSM
+ K4UYwL/EZL0y1B9esAyfisMoxKQtQx9SPb+7uFfNcjeoJWAG8O99mJNo3REt/m1h0T+z3+
+ /0FFlY76iSuhObo5Vds+6scg/cDF6NO1PpEnemGCO5VjM80wzHl9+/3lxPve4A==
+Message-ID: <2670247a8982f794a508f4cf3ae43ad7ac66862a.camel@mailbox.org>
+Subject: Re: [PATCH v3 3/8] drm/sched: Make timeout KUnit tests faster
+From: Philipp Stanner <phasta@mailbox.org>
+To: =?ISO-8859-1?Q?Ma=EDra?= Canal <mcanal@igalia.com>, Matthew Brost
+ <matthew.brost@intel.com>, Danilo Krummrich <dakr@kernel.org>, Philipp
+ Stanner <phasta@kernel.org>, Christian =?ISO-8859-1?Q?K=F6nig?=
+ <ckoenig.leichtzumerken@gmail.com>, Tvrtko Ursulin
+ <tvrtko.ursulin@igalia.com>,  Simona Vetter <simona@ffwll.ch>, David Airlie
+ <airlied@gmail.com>, Melissa Wen <mwen@igalia.com>, Lucas Stach
+ <l.stach@pengutronix.de>, Russell King <linux+etnaviv@armlinux.org.uk>, 
+ Christian Gmeiner <christian.gmeiner@gmail.com>, Lucas De Marchi
+ <lucas.demarchi@intel.com>, Thomas =?ISO-8859-1?Q?Hellstr=F6m?=
+ <thomas.hellstrom@linux.intel.com>, Rodrigo Vivi <rodrigo.vivi@intel.com>,
+ Boris Brezillon <boris.brezillon@collabora.com>, Rob Herring
+ <robh@kernel.org>, Steven Price <steven.price@arm.com>, Liviu Dudau
+ <liviu.dudau@arm.com>
+Cc: kernel-dev@igalia.com, dri-devel@lists.freedesktop.org, 
+ etnaviv@lists.freedesktop.org, intel-xe@lists.freedesktop.org
+Date: Mon, 30 Jun 2025 13:53:09 +0200
+In-Reply-To: <20250618-sched-skip-reset-v3-3-8be5cca2725d@igalia.com>
+References: <20250618-sched-skip-reset-v3-0-8be5cca2725d@igalia.com>
+ <20250618-sched-skip-reset-v3-3-8be5cca2725d@igalia.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha384;
- protocol="application/pgp-signature"; boundary="6cnjeiuqjwcs7vod"
-Content-Disposition: inline
-In-Reply-To: <20250630113008.GD20333@pendragon.ideasonboard.com>
+X-MBO-RS-META: st1n1zgqmi69q5xfirhmscj1bcyfowfc
+X-MBO-RS-ID: 0f2ad816c4561e1bfe6
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -69,128 +73,98 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
+Reply-To: phasta@kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-
---6cnjeiuqjwcs7vod
-Content-Type: text/plain; protected-headers=v1; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-Subject: Re: [PATCH] drm: xlnx: zynqmp_dp: Support DRM_FORMAT_XRGB8888
-MIME-Version: 1.0
-
-On Mon, Jun 30, 2025 at 02:30:08PM +0300, Laurent Pinchart wrote:
-> On Mon, Jun 30, 2025 at 12:52:48PM +0200, Maxime Ripard wrote:
-> > On Mon, Jun 30, 2025 at 12:33:35PM +0300, Laurent Pinchart wrote:
-> > > On Mon, Jun 30, 2025 at 11:29:08AM +0200, Maxime Ripard wrote:
-> > > > On Mon, Jun 30, 2025 at 12:11:56PM +0300, Laurent Pinchart wrote:
-> > > > > On Mon, Jun 30, 2025 at 10:27:55AM +0200, Maxime Ripard wrote:
-> > > > > > On Mon, Jun 30, 2025 at 10:03:16AM +0200, Mike Looijmans wrote:
-> > > > > > > On 27-06-2025 20:19, Laurent Pinchart wrote:
-> > > > > > > > On Fri, Jun 27, 2025 at 04:50:46PM +0200, Mike Looijmans wr=
-ote:
-> > > > > > > > > XRGB8888 is the default mode that Xorg will want to use. =
-Add support
-> > > > > > > > > for this to the Zynqmp DisplayPort driver, so that applic=
-ations can use
-> > > > > > > > > 32-bit framebuffers. This solves that the X server would =
-fail to start
-> > > > > > > > > unless one provided an xorg.conf that sets DefaultDepth t=
-o 16.
-> > > > > > > > >=20
-> > > > > > > > > Signed-off-by: Mike Looijmans <mike.looijmans@topic.nl>
-> > > > > > > > > ---
-> > > > > > > > >=20
-> > > > > > > > >   drivers/gpu/drm/xlnx/zynqmp_disp.c | 5 +++++
-> > > > > > > > >   1 file changed, 5 insertions(+)
-> > > > > > > > >=20
-> > > > > > > > > diff --git a/drivers/gpu/drm/xlnx/zynqmp_disp.c b/drivers=
-/gpu/drm/xlnx/zynqmp_disp.c
-> > > > > > > > > index 80d1e499a18d..501428437000 100644
-> > > > > > > > > --- a/drivers/gpu/drm/xlnx/zynqmp_disp.c
-> > > > > > > > > +++ b/drivers/gpu/drm/xlnx/zynqmp_disp.c
-> > > > > > > > > @@ -312,6 +312,11 @@ static const struct zynqmp_disp_form=
-at avbuf_gfx_fmts[] =3D {
-> > > > > > > > >   		.buf_fmt	=3D ZYNQMP_DISP_AV_BUF_FMT_NL_GFX_RGBA8888,
-> > > > > > > > >   		.swap		=3D true,
-> > > > > > > > >   		.sf		=3D scaling_factors_888,
-> > > > > > > > > +	}, {
-> > > > > > > > > +		.drm_fmt	=3D DRM_FORMAT_XRGB8888,
-> > > > > > > > > +		.buf_fmt	=3D ZYNQMP_DISP_AV_BUF_FMT_NL_GFX_RGBA8888,
-> > > > > > > > > +		.swap		=3D true,
-> > > > > > > > > +		.sf		=3D scaling_factors_888,
-> > > > > > > >=20
-> > > > > > > > I'm afraid that's not enough. There's a crucial difference =
-between
-> > > > > > > > DRM_FORMAT_ARGB8888 (already supported by this driver) and
-> > > > > > > > DRM_FORMAT_XRGB8888: for the latter, the 'X' component must=
- be ignored.
-> > > > > > > > The graphics layer is blended on top of the video layer, an=
-d the blender
-> > > > > > > > uses both a global alpha parameter and the alpha channel of=
- the graphics
-> > > > > > > > layer for 32-bit RGB formats. This will lead to incorrect o=
-peration when
-> > > > > > > > the 'X' component is not set to full opacity.
-> > > > > > >=20
-> > > > > > > I spent a few hours digging in the source code and what I cou=
-ld find in the
-> > > > > > > TRM and register maps, but there's not enough information in =
-there to
-> > > > > > > explain how the blender works. The obvious "XRGB" implementat=
-ion would be to
-> > > > > > > just disable the blender.
-> > > > > > >=20
-> > > > > > > What I got from experimenting so far is that the alpha compon=
-ent is ignored
-> > > > > > > anyway while the video path isn't active. So as long as one i=
-sn't using the
-> > > > > > > video blending path, the ARGB and XRGB modes are identical.
-> > > > > > >=20
-> > > > > > > Guess I'll need assistance from AMD/Xilinx to completely impl=
-ement the XRGB
-> > > > > > > modes.
-> > > > > > >=20
-> > > > > > > (For our application, this patch is sufficient as it solves t=
-he issues like
-> > > > > > > X11 not starting up, OpenGL not working and horrendously slow=
- scaling
-> > > > > > > performance)
-> > > > > >=20
-> > > > > > Given that we consider XRGB8888 mandatory,
-> > > > >=20
-> > > > > How about platforms that can't support it at all ?
-> > > >=20
-> > > > We emulate it.
-> > >=20
-> > > Does that imply a full memcpy of the frame buffer in the kernel drive=
-r,
-> > > or is it emulated in userspace ?
-> >=20
-> > Neither :)
-> >=20
-> > The kernel deals with it through drm_fb_xrgb8888_to_* helpers, but only
-> > on the parts of the framebuffer that were modified through the damage
-> > API.
+On Wed, 2025-06-18 at 11:47 -0300, Ma=C3=ADra Canal wrote:
+> As more KUnit tests are introduced to evaluate the basic capabilities
+> of
+> the `timedout_job()` hook, the test suite will continue to increase
+> in
+> duration. To reduce the overall running time of the test suite,
+> decrease
+> the scheduler's timeout for the timeout tests.
 >=20
-> Aahhh OK, it's for the fbdev emulation. So that means that drivers are
-> not required to support XRGB8888 ?
+> Before this commit:
+>=20
+> [15:42:26] Elapsed time: 15.637s total, 0.002s configuring, 10.387s
+> building, 5.229s running
+>=20
+> After this commit:
+>=20
+> [15:45:26] Elapsed time: 9.263s total, 0.002s configuring, 5.168s
+> building, 4.037s running
 
-No, it's for KMS.
+I guess those times were measured with the entire series?
 
-Maxime
+It's not clear to me whether this patch is independent from the series.
+I suppose it is. We should aim towards having series's narrowly focused
+topic-wise, but I get why you included it here.
 
---6cnjeiuqjwcs7vod
-Content-Type: application/pgp-signature; name="signature.asc"
+That said, is there a specific reason for you aiming at ~10s (9.263)?
+That's only a bit faster than the 15.637.
 
------BEGIN PGP SIGNATURE-----
+Couldn't it make sense, as you're at it already, to speed this up to
+just a few seconds, like 3-5? Then it should really be quiet IRW that
+topic for a while.
 
-iJUEABMJAB0WIQTkHFbLp4ejekA/qfgnX84Zoj2+dgUCaGJ5kgAKCRAnX84Zoj2+
-dtHkAXwNtyyEjsQUv8JQdIBXT6tm3KJUjlzGhpdjE5afhE4oZw2ADEyDXOnl54o2
-NwOIvLUBf3Mz48PkLBlxwmZ/gjbSF8CEQWhXESLyMBhNlyn/SG1J5QxjCXKVIxfO
-/sSVScdEYA==
-=AOip
------END PGP SIGNATURE-----
 
---6cnjeiuqjwcs7vod--
+P.
+
+>=20
+> Signed-off-by: Ma=C3=ADra Canal <mcanal@igalia.com>
+> Reviewed-by: Tvrtko Ursulin <tvrtko.ursulin@igalia.com>
+> ---
+> =C2=A0drivers/gpu/drm/scheduler/tests/tests_basic.c | 8 +++++---
+> =C2=A01 file changed, 5 insertions(+), 3 deletions(-)
+>=20
+> diff --git a/drivers/gpu/drm/scheduler/tests/tests_basic.c
+> b/drivers/gpu/drm/scheduler/tests/tests_basic.c
+> index
+> 7230057e0594c6246f02608f07fcb1f8d738ac75..41c648782f4548e202bd8711b45
+> d28eead9bd0b2 100644
+> --- a/drivers/gpu/drm/scheduler/tests/tests_basic.c
+> +++ b/drivers/gpu/drm/scheduler/tests/tests_basic.c
+> @@ -5,6 +5,8 @@
+> =C2=A0
+> =C2=A0#include "sched_tests.h"
+> =C2=A0
+> +#define MOCK_TIMEOUT (HZ / 5)
+> +
+> =C2=A0/*
+> =C2=A0 * DRM scheduler basic tests should check the basic functional
+> correctness of
+> =C2=A0 * the scheduler, including some very light smoke testing. More
+> targeted tests,
+> @@ -28,7 +30,7 @@ static void drm_sched_basic_exit(struct kunit
+> *test)
+> =C2=A0
+> =C2=A0static int drm_sched_timeout_init(struct kunit *test)
+> =C2=A0{
+> -	test->priv =3D drm_mock_sched_new(test, HZ);
+> +	test->priv =3D drm_mock_sched_new(test, MOCK_TIMEOUT);
+> =C2=A0
+> =C2=A0	return 0;
+> =C2=A0}
+> @@ -227,14 +229,14 @@ static void drm_sched_basic_timeout(struct
+> kunit *test)
+> =C2=A0	done =3D drm_mock_sched_job_wait_scheduled(job, HZ);
+> =C2=A0	KUNIT_ASSERT_TRUE(test, done);
+> =C2=A0
+> -	done =3D drm_mock_sched_job_wait_finished(job, HZ / 2);
+> +	done =3D drm_mock_sched_job_wait_finished(job, MOCK_TIMEOUT /
+> 2);
+> =C2=A0	KUNIT_ASSERT_FALSE(test, done);
+> =C2=A0
+> =C2=A0	KUNIT_ASSERT_EQ(test,
+> =C2=A0			job->flags & DRM_MOCK_SCHED_JOB_TIMEDOUT,
+> =C2=A0			0);
+> =C2=A0
+> -	done =3D drm_mock_sched_job_wait_finished(job, HZ);
+> +	done =3D drm_mock_sched_job_wait_finished(job, MOCK_TIMEOUT);
+> =C2=A0	KUNIT_ASSERT_FALSE(test, done);
+> =C2=A0
+> =C2=A0	KUNIT_ASSERT_EQ(test,
+>=20
+
