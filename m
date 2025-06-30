@@ -2,44 +2,54 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 110A8AED8B6
-	for <lists+dri-devel@lfdr.de>; Mon, 30 Jun 2025 11:30:19 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8ECAAAED8C6
+	for <lists+dri-devel@lfdr.de>; Mon, 30 Jun 2025 11:34:05 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 174B310E3DD;
-	Mon, 30 Jun 2025 09:30:17 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1D87F10E21A;
+	Mon, 30 Jun 2025 09:34:03 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=fail reason="signature verification failed" (1024-bit key; unprotected) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="il8b4bJH";
+	dkim=pass (1024-bit key; unprotected) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="O4fKiMhe";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from nyc.source.kernel.org (nyc.source.kernel.org [147.75.193.91])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B556810E3E2
- for <dri-devel@lists.freedesktop.org>; Mon, 30 Jun 2025 09:30:14 +0000 (UTC)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by nyc.source.kernel.org (Postfix) with ESMTP id C1023A5317E;
- Mon, 30 Jun 2025 09:30:13 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id C893AC4CEE3;
- Mon, 30 Jun 2025 09:30:12 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
- s=korg; t=1751275813;
- bh=VgfdhZibdN4JHRI9rYavDZtKzawvF5NhWo/UxDWhC3E=;
- h=Subject:To:Cc:From:Date:From;
- b=il8b4bJHO+COXmhhITHmVggWGo8C0Rs9L0AX5cl2tWJ3Iek+zb1egxDCxDalUP4Yt
- 11Q/03pemWvdi1R1RKMUfXXEJJ5MMzi7Cg+QDxXyNLem5H5pXULkV7c0knVX6wQlAg
- 6uGP19UhyxZs8CK7nbcD+CCMYk7UZC2wsa6HyRH4=
-Subject: Patch "drm/udl: Unregister device before cleaning up on disconnect"
- has been added to the 5.10-stable tree
-To: dri-devel@lists.freedesktop.org, gregkh@linuxfoundation.org,
- patrik.r.jakobsson@gmail.com, tzimmermann@suse.de
-Cc: <stable-commits@vger.kernel.org>
-From: <gregkh@linuxfoundation.org>
-Date: Mon, 30 Jun 2025 11:29:40 +0200
-Message-ID: <2025063039-engaging-dodge-e31c@gregkh>
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
+ [213.167.242.64])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id CAEC510E21A
+ for <dri-devel@lists.freedesktop.org>; Mon, 30 Jun 2025 09:34:01 +0000 (UTC)
+Received: from pendragon.ideasonboard.com (81-175-209-231.bb.dnainternet.fi
+ [81.175.209.231])
+ by perceval.ideasonboard.com (Postfix) with UTF8SMTPSA id B7672EFF;
+ Mon, 30 Jun 2025 11:33:38 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+ s=mail; t=1751276018;
+ bh=i2H7wxuvjKrprsdjJQ79FfENDYU2gTxNL+H4wIq0OH0=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=O4fKiMherV54uzy8RutgjMV0OtIp04hwC+DMxJkG42JHGNI8cF/uHsRS9l6o3niDD
+ s5Ea8f07ZdnnnkZ4NyavKg289o/DF+vnJqdkPJnS1W+zdp8gkXjcbcDN8F9KxVVQJP
+ QJcp2IzhJYO+z6uvzjg1H8pja1S8OAU383ewUuP8=
+Date: Mon, 30 Jun 2025 12:33:35 +0300
+From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To: Maxime Ripard <mripard@kernel.org>
+Cc: Mike Looijmans <mike.looijmans@topic.nl>,
+ dri-devel@lists.freedesktop.org, David Airlie <airlied@gmail.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Michal Simek <michal.simek@amd.com>, Simona Vetter <simona@ffwll.ch>,
+ Thomas Zimmermann <tzimmermann@suse.de>,
+ Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>,
+ linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] drm: xlnx: zynqmp_dp: Support DRM_FORMAT_XRGB8888
+Message-ID: <20250630093335.GC20333@pendragon.ideasonboard.com>
+References: <1b153bce-a66a-45ee-a5c6-963ea6fb1c82.949ef384-8293-46b8-903f-40a477c056ae.fb98a918-329e-4536-a0a5-a99b22ba0120@emailsignatures365.codetwo.com>
+ <20250627145058.6880-1-mike.looijmans@topic.nl>
+ <20250627181911.GF24912@pendragon.ideasonboard.com>
+ <42af6260-c8af-42e1-a9bb-adfaaabf0190@topic.nl>
+ <20250630-psychedelic-tested-smilodon-adcbb3@houat>
+ <20250630091156.GE24861@pendragon.ideasonboard.com>
+ <20250630-phenomenal-taipan-of-imagination-59b300@houat>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=ANSI_X3.4-1968
-Content-Transfer-Encoding: 8bit
-X-stable: commit
-X-Patchwork-Hint: ignore 
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <20250630-phenomenal-taipan-of-imagination-59b300@houat>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -55,72 +65,81 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+On Mon, Jun 30, 2025 at 11:29:08AM +0200, Maxime Ripard wrote:
+> On Mon, Jun 30, 2025 at 12:11:56PM +0300, Laurent Pinchart wrote:
+> > On Mon, Jun 30, 2025 at 10:27:55AM +0200, Maxime Ripard wrote:
+> > > On Mon, Jun 30, 2025 at 10:03:16AM +0200, Mike Looijmans wrote:
+> > > > On 27-06-2025 20:19, Laurent Pinchart wrote:
+> > > > > On Fri, Jun 27, 2025 at 04:50:46PM +0200, Mike Looijmans wrote:
+> > > > > > XRGB8888 is the default mode that Xorg will want to use. Add support
+> > > > > > for this to the Zynqmp DisplayPort driver, so that applications can use
+> > > > > > 32-bit framebuffers. This solves that the X server would fail to start
+> > > > > > unless one provided an xorg.conf that sets DefaultDepth to 16.
+> > > > > > 
+> > > > > > Signed-off-by: Mike Looijmans <mike.looijmans@topic.nl>
+> > > > > > ---
+> > > > > > 
+> > > > > >   drivers/gpu/drm/xlnx/zynqmp_disp.c | 5 +++++
+> > > > > >   1 file changed, 5 insertions(+)
+> > > > > > 
+> > > > > > diff --git a/drivers/gpu/drm/xlnx/zynqmp_disp.c b/drivers/gpu/drm/xlnx/zynqmp_disp.c
+> > > > > > index 80d1e499a18d..501428437000 100644
+> > > > > > --- a/drivers/gpu/drm/xlnx/zynqmp_disp.c
+> > > > > > +++ b/drivers/gpu/drm/xlnx/zynqmp_disp.c
+> > > > > > @@ -312,6 +312,11 @@ static const struct zynqmp_disp_format avbuf_gfx_fmts[] = {
+> > > > > >   		.buf_fmt	= ZYNQMP_DISP_AV_BUF_FMT_NL_GFX_RGBA8888,
+> > > > > >   		.swap		= true,
+> > > > > >   		.sf		= scaling_factors_888,
+> > > > > > +	}, {
+> > > > > > +		.drm_fmt	= DRM_FORMAT_XRGB8888,
+> > > > > > +		.buf_fmt	= ZYNQMP_DISP_AV_BUF_FMT_NL_GFX_RGBA8888,
+> > > > > > +		.swap		= true,
+> > > > > > +		.sf		= scaling_factors_888,
+> > > > > 
+> > > > > I'm afraid that's not enough. There's a crucial difference between
+> > > > > DRM_FORMAT_ARGB8888 (already supported by this driver) and
+> > > > > DRM_FORMAT_XRGB8888: for the latter, the 'X' component must be ignored.
+> > > > > The graphics layer is blended on top of the video layer, and the blender
+> > > > > uses both a global alpha parameter and the alpha channel of the graphics
+> > > > > layer for 32-bit RGB formats. This will lead to incorrect operation when
+> > > > > the 'X' component is not set to full opacity.
+> > > > 
+> > > > I spent a few hours digging in the source code and what I could find in the
+> > > > TRM and register maps, but there's not enough information in there to
+> > > > explain how the blender works. The obvious "XRGB" implementation would be to
+> > > > just disable the blender.
+> > > > 
+> > > > What I got from experimenting so far is that the alpha component is ignored
+> > > > anyway while the video path isn't active. So as long as one isn't using the
+> > > > video blending path, the ARGB and XRGB modes are identical.
+> > > > 
+> > > > Guess I'll need assistance from AMD/Xilinx to completely implement the XRGB
+> > > > modes.
+> > > > 
+> > > > (For our application, this patch is sufficient as it solves the issues like
+> > > > X11 not starting up, OpenGL not working and horrendously slow scaling
+> > > > performance)
+> > > 
+> > > Given that we consider XRGB8888 mandatory,
+> > 
+> > How about platforms that can't support it at all ?
+> 
+> We emulate it.
 
-This is a note to let you know that I've just added the patch titled
+Does that imply a full memcpy of the frame buffer in the kernel driver,
+or is it emulated in userspace ?
 
-    drm/udl: Unregister device before cleaning up on disconnect
+> > > this patch is a good thing to
+> > > have anyway, even if suboptimal, or broken in some scenario we can
+> > > always fix later.
+> > 
+> > It needs to at least be updated to disallow XRGB8888 usage when the
+> > video plan is enabled, or when global alpha is set to a non-opaque
+> > value.
+> 
+> Yeah, that's reasonable
 
-to the 5.10-stable tree which can be found at:
-    http://www.kernel.org/git/?p=linux/kernel/git/stable/stable-queue.git;a=summary
+-- 
+Regards,
 
-The filename of the patch is:
-     drm-udl-unregister-device-before-cleaning-up-on-disconnect.patch
-and it can be found in the queue-5.10 subdirectory.
-
-If you, or anyone else, feels it should not be added to the stable tree,
-please let <stable@vger.kernel.org> know about it.
-
-
-From ff9cb6d2035c586ea7c8f1754d4409eec7a2d26d Mon Sep 17 00:00:00 2001
-From: Thomas Zimmermann <tzimmermann@suse.de>
-Date: Mon, 3 Mar 2025 15:52:56 +0100
-Subject: drm/udl: Unregister device before cleaning up on disconnect
-
-From: Thomas Zimmermann <tzimmermann@suse.de>
-
-commit ff9cb6d2035c586ea7c8f1754d4409eec7a2d26d upstream.
-
-Disconnecting a DisplayLink device results in the following kernel
-error messages
-
-[   93.041748] [drm:udl_urb_completion [udl]] *ERROR* udl_urb_completion - nonzero write bulk status received: -115
-[   93.055299] [drm:udl_submit_urb [udl]] *ERROR* usb_submit_urb error fffffffe
-[   93.065363] [drm:udl_urb_completion [udl]] *ERROR* udl_urb_completion - nonzero write bulk status received: -115
-[   93.078207] [drm:udl_submit_urb [udl]] *ERROR* usb_submit_urb error fffffffe
-
-coming from KMS poll helpers. Shutting down poll helpers runs them
-one final time when the USB device is already gone.
-
-Run drm_dev_unplug() first in udl's USB disconnect handler. Udl's
-polling code already handles disconnects gracefully if the device has
-been marked as unplugged.
-
-Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
-Fixes: b1a981bd5576 ("drm/udl: drop drm_driver.release hook")
-Cc: dri-devel@lists.freedesktop.org
-Cc: <stable@vger.kernel.org> # v5.8+
-Reviewed-by: Patrik Jakobsson <patrik.r.jakobsson@gmail.com>
-Link: https://patchwork.freedesktop.org/patch/msgid/20250303145604.62962-2-tzimmermann@suse.de
-Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
----
- drivers/gpu/drm/udl/udl_drv.c |    2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
-
---- a/drivers/gpu/drm/udl/udl_drv.c
-+++ b/drivers/gpu/drm/udl/udl_drv.c
-@@ -115,9 +115,9 @@ static void udl_usb_disconnect(struct us
- {
- 	struct drm_device *dev = usb_get_intfdata(interface);
- 
-+	drm_dev_unplug(dev);
- 	drm_kms_helper_poll_fini(dev);
- 	udl_drop_usb(dev);
--	drm_dev_unplug(dev);
- }
- 
- /*
-
-
-Patches currently in stable-queue which might be from tzimmermann@suse.de are
-
-queue-5.10/drm-udl-unregister-device-before-cleaning-up-on-disconnect.patch
+Laurent Pinchart
