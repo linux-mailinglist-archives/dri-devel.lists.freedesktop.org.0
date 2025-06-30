@@ -2,64 +2,64 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8DA07AEE2F8
-	for <lists+dri-devel@lfdr.de>; Mon, 30 Jun 2025 17:44:57 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id F03F1AEE2F9
+	for <lists+dri-devel@lfdr.de>; Mon, 30 Jun 2025 17:45:03 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9820E10E49B;
-	Mon, 30 Jun 2025 15:44:55 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A9C3010E49E;
+	Mon, 30 Jun 2025 15:45:01 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="Ge1rLjx4";
+	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="JViLIe9z";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-f43.google.com (mail-wm1-f43.google.com
- [209.85.128.43])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8520C10E49B
- for <dri-devel@lists.freedesktop.org>; Mon, 30 Jun 2025 15:44:54 +0000 (UTC)
-Received: by mail-wm1-f43.google.com with SMTP id
- 5b1f17b1804b1-451d6ade159so15491235e9.1
- for <dri-devel@lists.freedesktop.org>; Mon, 30 Jun 2025 08:44:54 -0700 (PDT)
+Received: from mail-wr1-f44.google.com (mail-wr1-f44.google.com
+ [209.85.221.44])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6000410E49B
+ for <dri-devel@lists.freedesktop.org>; Mon, 30 Jun 2025 15:44:55 +0000 (UTC)
+Received: by mail-wr1-f44.google.com with SMTP id
+ ffacd0b85a97d-3a4f379662cso1910568f8f.0
+ for <dri-devel@lists.freedesktop.org>; Mon, 30 Jun 2025 08:44:55 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1751298293; x=1751903093; darn=lists.freedesktop.org;
+ d=linaro.org; s=google; t=1751298294; x=1751903094; darn=lists.freedesktop.org;
  h=content-transfer-encoding:mime-version:date:message-id:subject
  :references:in-reply-to:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=KVCH2kt0v6xCHof8XjdoacFaxm9PvIMlt/I0pFMFj34=;
- b=Ge1rLjx4L+zMVhXDx36hnIkCQxV5e3G2WKBTgBR7APY+orUHEhBSsk/J79PHtCKrFB
- o26EVan1Xk0EDw8ZtZN7+ayUAie7NoQDdKo5fS6ofW4RBUdTTotbVgKUIDYsoe3kDWBo
- 5KzBzAGXUsuh7m7Mw/nIgdJ4Pzdwb9AfpfS+7XtBCGl0FREpeKdpxaPXqnyLA4Imbo1W
- SUWNbVOzRMKhcaCqWjJgQaVjMkLmq9/f59ALpIqiLmTwaDXpD4oVIGnSLHSAxUUSYVHr
- g8mfYFeB8X0hO0rOcMLX6p3IDA5qBaNdhqkUeIjabTBdgqxZCTQqTX9VhI/hJUsnHagB
- TNAw==
+ bh=aeVzWwNkoBBqZJtVN+edAm9nLWzeultF12pDHLy0tUQ=;
+ b=JViLIe9z2MDWtydXL/L70MM2sQ8A+lVC3kblaVtBenxGEyfVnNEgjM/xNpdPgyIjjD
+ WwxdeARb3UHNb4PoLadZfrtAoTV/KSC8QxBWlZXe1WuvAK+NVWPbdrPdZfox42nnlXxK
+ BXZ9/aSqVwDNHsZ4PhyA4DMeRnt4wq4xaQ0eVPF1p59AMdY9LFlkxMdntqRIs+VWm4WP
+ 0OUYlYqjmFrpgl8yZUsngWOVp+3gzrW0jLdLtqCxE0IaxvlLHD8cQhsoaRDVKBSGwPvm
+ i8kq9xyLzGMUnSIQu2wG7Wu1TcQKDo2ARLR+7nDHrgv1Q5+2ScXaCorYJLxBIEBbW4bz
+ tm9Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1751298293; x=1751903093;
+ d=1e100.net; s=20230601; t=1751298294; x=1751903094;
  h=content-transfer-encoding:mime-version:date:message-id:subject
  :references:in-reply-to:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=KVCH2kt0v6xCHof8XjdoacFaxm9PvIMlt/I0pFMFj34=;
- b=H356SN83saT0cCHEHU/QMG/iWVEVptSiUm60rKvGnFO93s4mxpQdC+p8y9T+RGM3Pg
- ryuCybxOk8DtfSnoqIK3Qt+TLo127j8KRDlcKPpfP2cc5kC3LzbecakZiCtC8cUsTJSn
- En7+0yOWIGW1lFhFyTO5cgZH3vNocttxFWSvlBw6rxx2geHcLtMwRXqGEbi/SrLCkyDP
- M1xd9fHgGDMaChx7l+o24f2NmR8KFjY7p9zn6dSBNPOOSXt8e482bYAs+4+LhKhHQpRb
- rgcUeIjuhl9r/2DzDh3tnQEeFjET1GBQfdAS4kmdcWHKQ2zf9OIdo6fvOPnF8EhLmMYf
- MjHQ==
-X-Gm-Message-State: AOJu0YzIm567BwtUXBE+/td/QkwxKGrUesi106VJZ+ZgGkN1BJuCjmEZ
- x+6VWIs8HJbwqA0toDiC7tVfjhz2toV/Ec5FWljknPjJMg2rGvQcY8ebcvD3tw1QEd0=
-X-Gm-Gg: ASbGncv4IjK1RDgL7CyHti0qcB2RUSRLHXQKg+vKK3Y1aEM7uMswrZonzu5TH5ESIJp
- TX6jF/xNHeq/aQ4OPFpph+CIY0EpSJjpI1bHrEL3ChB4s4abKc0r/uFp8FE5AVR75pqK6phmi/J
- gMXyPJK+9MRDHsbuNKOk4jpxAmoXgVT2VpU5kMO4Ei4Y/ijfdx0P1ogbkTk6z5CbeSCgM70KemG
- x2H0dVYuJ2rLlIPsmVo8WbTo3vFLWmVAKZMgYcKnMq0EX16oI/gxn76Td4seHN/+Fp/O4WGOsBX
- 0z1N8X7H/SGshKSRJwrnFYnQi+McRy1JL2DeOf9qNnOkBWz9hFvkGiXVP3xEmdr80muIGs4rAET
- D3coSFec=
-X-Google-Smtp-Source: AGHT+IEA+TkFS/ZHvVhFMPYel2yYQlHnVZL0fDsZXO6GvDRs+ebjwQjd6yPvqRN0VHQci/TgccoeYA==
-X-Received: by 2002:a05:6000:2103:b0:3a4:f70d:8673 with SMTP id
- ffacd0b85a97d-3a8fdff4360mr8919019f8f.25.1751298293085; 
+ bh=aeVzWwNkoBBqZJtVN+edAm9nLWzeultF12pDHLy0tUQ=;
+ b=VHUZicvSOzuPKRiJVAxKc9DCnzcCMENfUB7xmoXXnQJdgqhjMScGuMVGFL2oQWC4Fh
+ TY5F69Ny8YA4SVrdQUmPhmZ4D0muw+mXkwXY/j9sIa2pPG1cv35PU+0Ho7z0om3aBsWV
+ TZplkwz0BTYTn9bSwXgdH6HGeloamR8YyCuE9W/aqFcVqTrQoSebQBYeZ1Q8PAvr698q
+ fdnw6ASC7or5scY0Jg8bUTdR0GC5dZFR99/mpNqv0gx9galB61OvnPB8JPGw+MWoS8EJ
+ Zwhhr/Xb4h8/8TXrtrhNj8zG2FEj22lwl4OhlRt2/2O2xnoeeMEAcmw+2uDhyvg/KqwQ
+ +AVQ==
+X-Gm-Message-State: AOJu0Ywuix8UJnrQBEPkfNWqZUwteluTF9n+hYyUlZ1Um+HRsnzjKr4J
+ j6/tZmopnF+rbfS5O5fan/ollOdFMmK1yTamJUMmtPrWQS3dCvFhfEnXl9oStiec5gQ=
+X-Gm-Gg: ASbGncue8bm4aVGUnZeqSsOkeYsARK+6vJSLVvk/Wu/B5KUA9iIkyS9iHvEnsb3Xc4m
+ Utja/ZAA8v+uoxwxCUqMWCZ/+8SwSj+0fekd2SCJq4kWmLBQHtCk0XWCRISiBST2JymqYPWmWqo
+ VGyAQp/YKT87WxQdtX5vRJkcZpaA/gnB3X8X8gTBGPzd5WQHlo1MawYDVXGWOxq8vsfbdATPkQj
+ 0eLO0aD6kNQqqKHBjtOxIkx1AQR6K412HjuL0qz51jy2Hn2k2zHl24rlAadNypSsIWO90jUbemL
+ KGvGABA+ddMKNXdnZh963rMPT54np5dVW0JE0cM1tMmLI+um1Nhw5X17L26US8/tijctQje3ohi
+ Rz4HPQSk=
+X-Google-Smtp-Source: AGHT+IE54hqVNFYfuy0JLh3yRJ09i1zRjrGwAGDzhoNtqX53CK3xe+yMOcVBS5HMp08OOGC0/6C+rw==
+X-Received: by 2002:a05:6000:1804:b0:3a4:f379:65b6 with SMTP id
+ ffacd0b85a97d-3a8fe79bb4bmr9095245f8f.46.1751298293833; 
  Mon, 30 Jun 2025 08:44:53 -0700 (PDT)
 Received: from arrakeen.starnux.net ([2a01:e0a:3d9:2080:8261:5fff:fe11:bdda])
  by smtp.gmail.com with ESMTPSA id
- ffacd0b85a97d-3a88c7e7524sm10834062f8f.12.2025.06.30.08.44.52
+ ffacd0b85a97d-3a88c7e7524sm10834062f8f.12.2025.06.30.08.44.53
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 30 Jun 2025 08:44:52 -0700 (PDT)
+ Mon, 30 Jun 2025 08:44:53 -0700 (PDT)
 From: Neil Armstrong <neil.armstrong@linaro.org>
 To: Andrzej Hajda <andrzej.hajda@intel.com>, Robert Foss <rfoss@kernel.org>, 
  Laurent Pinchart <Laurent.pinchart@ideasonboard.com>, 
@@ -67,17 +67,14 @@ To: Andrzej Hajda <andrzej.hajda@intel.com>, Robert Foss <rfoss@kernel.org>,
  Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
  Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
  David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, 
- Dave Stevenson <dave.stevenson@raspberrypi.com>, 
- Jagan Teki <jagan@amarulasolutions.com>, 
- Dmitry Baryshkov <lumag@kernel.org>
-Cc: dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org, 
- Svyatoslav Ryhel <clamor95@gmail.com>
-In-Reply-To: <20250220-panel_prev_first-v1-1-b9e787825a1a@linaro.org>
-References: <20250220-panel_prev_first-v1-1-b9e787825a1a@linaro.org>
-Subject: Re: [PATCH] drm/bridge: panel: move prepare_prev_first handling to
- drm_panel_bridge_add_typed
-Message-Id: <175129829220.2307732.2489809206567748662.b4-ty@linaro.org>
-Date: Mon, 30 Jun 2025 17:44:52 +0200
+ Dmitry Baryshkov <lumag@kernel.org>, 
+ Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
+Cc: dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
+In-Reply-To: <20250608-fix-aud-hpd-bridge-v1-1-4641a6f8e381@oss.qualcomm.com>
+References: <20250608-fix-aud-hpd-bridge-v1-1-4641a6f8e381@oss.qualcomm.com>
+Subject: Re: [PATCH] drm/bridge: aux-hpd-bridge: fix assignment of the of_node
+Message-Id: <175129829317.2307732.14905194956807398865.b4-ty@linaro.org>
+Date: Mon, 30 Jun 2025 17:44:53 +0200
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
@@ -99,21 +96,23 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 Hi,
 
-On Thu, 20 Feb 2025 17:07:26 +0200, Dmitry Baryshkov wrote:
-> The commit 5ea6b1702781 ("drm/panel: Add prepare_prev_first flag to
-> drm_panel") and commit 0974687a19c3 ("drm/bridge: panel: Set
-> pre_enable_prev_first from drmm_panel_bridge_add") added handling of
-> panel's prepare_prev_first to devm_panel_bridge_add() and
-> drmm_panel_bridge_add(). However if the driver calls
-> drm_panel_bridge_add_typed() directly, then the flag won't be handled
-> and thus the drm_bridge.pre_enable_prev_first will not be set.
+On Sun, 08 Jun 2025 18:52:04 +0300, Dmitry Baryshkov wrote:
+> Perform fix similar to the one in the commit 85e444a68126 ("drm/bridge:
+> Fix assignment of the of_node of the parent to aux bridge").
+> 
+> The assignment of the of_node to the aux HPD bridge needs to mark the
+> of_node as reused, otherwise driver core will attempt to bind resources
+> like pinctrl, which is going to fail as corresponding pins are already
+> marked as used by the parent device.
+> Fix that by using the device_set_of_node_from_dev() helper instead of
+> assigning it directly.
 > 
 > [...]
 
 Thanks, Applied to https://gitlab.freedesktop.org/drm/misc/kernel.git (drm-misc-fixes)
 
-[1/1] drm/bridge: panel: move prepare_prev_first handling to drm_panel_bridge_add_typed
-      https://gitlab.freedesktop.org/drm/misc/kernel/-/commit/eb028cd884e1b0976ff8c5944ee6650fe3ed0a6c
+[1/1] drm/bridge: aux-hpd-bridge: fix assignment of the of_node
+      https://gitlab.freedesktop.org/drm/misc/kernel/-/commit/e8537cad824065b0425fb0429e762e14a08067c2
 
 -- 
 Neil
