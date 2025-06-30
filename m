@@ -2,51 +2,64 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5B3ACAEDA2B
-	for <lists+dri-devel@lfdr.de>; Mon, 30 Jun 2025 12:44:41 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5DD7CAEDA33
+	for <lists+dri-devel@lfdr.de>; Mon, 30 Jun 2025 12:45:15 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6F66110E40B;
-	Mon, 30 Jun 2025 10:44:39 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7993E10E3F5;
+	Mon, 30 Jun 2025 10:45:13 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=igalia.com header.i=@igalia.com header.b="C1p/Dblg";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="Wv8UFVB1";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from fanzine2.igalia.com (fanzine2.igalia.com [213.97.179.56])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4C3FB10E3F5
- for <dri-devel@lists.freedesktop.org>; Mon, 30 Jun 2025 10:44:37 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com; 
- s=20170329;
- h=MIME-Version:Content-Transfer-Encoding:Content-Type:References:
- In-Reply-To:Date:Cc:To:From:Subject:Message-ID:Sender:Reply-To:Content-ID:
- Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc
- :Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:List-Subscribe:
- List-Post:List-Owner:List-Archive;
- bh=BVaBcQr9EzIh6LRB1ICsLnNLx7oOkAXVTeIQ2p5ofoo=; b=C1p/Dblg19t0+M87Zlm9tEMye8
- z8LJnnWu8ZAe26eQ3TONvkyp+enFob0wPXgeFl1+k6nxfzAtzGWnTzQx+ASjuiZ+xOvNpmyEdCn1x
- nDLglRgq+KqaT7CaSzUN1a+sjS0y+wc/yu2zdO7fxA5VBzefLU0GecLktht+wCeNELsiv+i+kD6j2
- 6WMjlKNNdLuWTc01MGt9c3Xr6rchvZxkUA3/u0tZryHWN1berhXUj88/1T1uJgiv7Z7eT024BmYGY
- wPDsm9e6DAGWq6sE8e5FB81oQZPMJQIyodoixMsKzEQw4DK+SSJ4z07yloWJ87d54Sl8TIMCOzBS6
- Elqk7WZQ==;
-Received: from 80.174.120.123.dyn.user.ono.com ([80.174.120.123]
- helo=[192.168.0.17]) by fanzine2.igalia.com with esmtpsa 
- (Cipher TLS1.3:ECDHE_SECP256R1__RSA_PSS_RSAE_SHA256__AES_256_GCM:256) (Exim)
- id 1uWC03-00ARAx-Di; Mon, 30 Jun 2025 12:44:35 +0200
-Message-ID: <dbd7db39a4995485ebe5c90f128a66058ff44c20.camel@igalia.com>
-Subject: Re: [PATCH] drm/v3d: Disable interrupts before resetting the GPU
-From: Iago Toral <itoral@igalia.com>
-To: =?ISO-8859-1?Q?Ma=EDra?= Canal <mcanal@igalia.com>, Melissa Wen
- <mwen@igalia.com>, "Juan A ." =?ISO-8859-1?Q?Su=E1rez?=
- <jasuarez@igalia.com>
-Cc: dri-devel@lists.freedesktop.org, kernel-dev@igalia.com, 
- stable@vger.kernel.org
-Date: Mon, 30 Jun 2025 12:44:24 +0200
-In-Reply-To: <20250628224243.47599-1-mcanal@igalia.com>
-References: <20250628224243.47599-1-mcanal@igalia.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.52.3-0ubuntu1 
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id ED45A10E3F5
+ for <dri-devel@lists.freedesktop.org>; Mon, 30 Jun 2025 10:45:11 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+ by dfw.source.kernel.org (Postfix) with ESMTP id A47685C5C3F;
+ Mon, 30 Jun 2025 10:45:10 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id D78F1C4CEE3;
+ Mon, 30 Jun 2025 10:45:09 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1751280310;
+ bh=wXMWujE7XchWdZ1zs2TcjwFnfNGsISRibnIGmp2rHBg=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=Wv8UFVB1aU4AvzIw1ixfToJE1xEcqMoMHqYghwS78xjMENr06K8/DX6FHA3Mf3wDe
+ Eo1Rr3ee6ZGEWGAmOKgF1i6f3GVlN3nDpwd+riFvj5z/BPnxA4R0AWJn0S6DItq05o
+ 8WK0Bl96+tRkn2HLbNoy1AJcIEkXViT3bIG340LONbwIuedqpekwlBzGYT9X4XwUWX
+ W5ORZ8Ej2+zfwfiortCTzgSvQfJZ+6FspsFztS+1QHk2wTxbd7yzXeKoo4fZvrHJLW
+ umdUfe8Bu2okJ3c99tNMqapZJfNw1yTPvNhE12oaOwYI3iQDTghzvzB50ZWBwK6TSh
+ hvPlygaXqrocg==
+Date: Mon, 30 Jun 2025 12:45:07 +0200
+From: Maxime Ripard <mripard@kernel.org>
+To: Krzysztof Kozlowski <krzk@kernel.org>
+Cc: Hans de Goede <hdegoede@redhat.com>, 
+ Luca Weiss <luca.weiss@fairphone.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
+ Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>, 
+ Simona Vetter <simona@ffwll.ch>, Rob Herring <robh@kernel.org>, 
+ Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
+ Javier Martinez Canillas <javierm@redhat.com>, Helge Deller <deller@gmx.de>,
+ linux-fbdev@vger.kernel.org, 
+ dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org,
+ linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v2 1/5] dt-bindings: display: simple-framebuffer: Add
+ interconnects property
+Message-ID: <20250630-tapir-of-astonishing-artistry-ad0bd8@houat>
+References: <20250623-simple-drm-fb-icc-v2-0-f69b86cd3d7d@fairphone.com>
+ <20250623-simple-drm-fb-icc-v2-1-f69b86cd3d7d@fairphone.com>
+ <20250627-mysterious-optimistic-bird-acaafb@krzk-bin>
+ <DAX7ZB27SBPV.2Y0I09TVSF3TT@fairphone.com>
+ <1129bc60-f9cb-40be-9869-8ffa3b3c9748@kernel.org>
+ <8a3ad930-bfb1-4531-9d34-fdf7d437f352@redhat.com>
+ <85521ded-734d-48e8-8f76-c57739102ded@kernel.org>
+ <20250630-stirring-kiwi-of-adventure-8f22ba@houat>
+ <b9f010ca-1564-4a3a-b004-ef179d5c90a6@kernel.org>
 MIME-Version: 1.0
+Content-Type: multipart/signed; micalg=pgp-sha384;
+ protocol="application/pgp-signature"; boundary="2z4ar3mqh5a4nutv"
+Content-Disposition: inline
+In-Reply-To: <b9f010ca-1564-4a3a-b004-ef179d5c90a6@kernel.org>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -62,262 +75,133 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Good catch!
 
-Reviewed-by: Iago Toral Quiroga <itoral@igalia.com>
+--2z4ar3mqh5a4nutv
+Content-Type: text/plain; protected-headers=v1; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
+Subject: Re: [PATCH v2 1/5] dt-bindings: display: simple-framebuffer: Add
+ interconnects property
+MIME-Version: 1.0
 
-El s=C3=A1b, 28-06-2025 a las 19:42 -0300, Ma=C3=ADra Canal escribi=C3=B3:
-> Currently, an interrupt can be triggered during a GPU reset, which
-> can
-> lead to GPU hangs and NULL pointer dereference in an interrupt
-> context
-> as shown in the following trace:
+On Mon, Jun 30, 2025 at 11:36:51AM +0200, Krzysztof Kozlowski wrote:
+> On 30/06/2025 10:38, Maxime Ripard wrote:
+> > On Mon, Jun 30, 2025 at 10:24:06AM +0200, Krzysztof Kozlowski wrote:
+> >> On 29/06/2025 14:07, Hans de Goede wrote:
+> >>> Hi Krzysztof,
+> >>>
+> >>> On 28-Jun-25 1:49 PM, Krzysztof Kozlowski wrote:
+> >>>> On 27/06/2025 11:48, Luca Weiss wrote:
+> >>>>> Hi Krzysztof,
+> >>>>>
+> >>>>> On Fri Jun 27, 2025 at 10:08 AM CEST, Krzysztof Kozlowski wrote:
+> >>>>>> On Mon, Jun 23, 2025 at 08:44:45AM +0200, Luca Weiss wrote:
+> >>>>>>> Document the interconnects property which is a list of interconne=
+ct
+> >>>>>>> paths that is used by the framebuffer and therefore needs to be k=
+ept
+> >>>>>>> alive when the framebuffer is being used.
+> >>>>>>>
+> >>>>>>> Acked-by: Thomas Zimmermann <tzimmermann@suse.de>
+> >>>>>>> Signed-off-by: Luca Weiss <luca.weiss@fairphone.com>
+> >>>>>>> ---
+> >>>>>>>  Documentation/devicetree/bindings/display/simple-framebuffer.yam=
+l | 3 +++
+> >>>>>>>  1 file changed, 3 insertions(+)
+> >>>>>>>
+> >>>>>>> diff --git a/Documentation/devicetree/bindings/display/simple-fra=
+mebuffer.yaml b/Documentation/devicetree/bindings/display/simple-framebuffe=
+r.yaml
+> >>>>>>> index 296500f9da05e296dbbeec50ba5186b6b30aaffc..f0fa0ef23d91043df=
+b2b220c654b80e2e80850cd 100644
+> >>>>>>> --- a/Documentation/devicetree/bindings/display/simple-framebuffe=
+r.yaml
+> >>>>>>> +++ b/Documentation/devicetree/bindings/display/simple-framebuffe=
+r.yaml
+> >>>>>>> @@ -79,6 +79,9 @@ properties:
+> >>>>>>>    power-domains:
+> >>>>>>>      description: List of power domains used by the framebuffer.
+> >>>>>>> =20
+> >>>>>>> +  interconnects:
+> >>>>>>> +    description: List of interconnect paths used by the framebuf=
+fer.
+> >>>>>>> +
+> >>>>>>
+> >>>>>> maxItems: 1, or this is not a simple FB anymore. Anything which ne=
+eds
+> >>>>>> some sort of resources in unknown way is not simple anymore. You n=
+eed
+> >>>>>> device specific bindings.
+> >>>>>
+> >>>>> The bindings support an arbitrary number of clocks, regulators,
+> >>>>> power-domains. Why should I artificially limit the interconnects to=
+ only
+> >>>>> one?
+> >>>>
+> >>>> And IMO they should not. Bindings are not supposed to be generic.
+> >>>
+> >>> The simplefb binding is a binding to allow keeping the firmware, e.g.
+> >>> uboot setup framebuffer alive to e.g. show a boot splash until
+> >>> the native display-engine drive loads. Needing display-engine
+> >>> specific bindings totally contradicts the whole goal of=20
+> >>
+> >> No, it does not. DT is well designed for that through expressing
+> >> compatibility. I did not say you cannot have generic fallback for simp=
+le
+> >> use case.
+> >>
+> >> But this (and previous patchset) grows this into generic binding ONLY
+> >> and that is not correct.
+> >=20
+> > Can we have a proper definition of what a correct device tree binding is
+> > then?
+> >=20
+> > It's a bit surprising to have *that* discussion over a binding that is
+> > now well older than a decade now, and while there is definitely some
+> > generic bindings in ePAPR/DT spec, like the CPU ones.
 >=20
-> =C2=A0[=C2=A0 314.035040] Unable to handle kernel NULL pointer dereferenc=
-e at
-> virtual address 00000000000000c0
-> =C2=A0[=C2=A0 314.043822] Mem abort info:
-> =C2=A0[=C2=A0 314.046606]=C2=A0=C2=A0 ESR =3D 0x0000000096000005
-> =C2=A0[=C2=A0 314.050347]=C2=A0=C2=A0 EC =3D 0x25: DABT (current EL), IL =
-=3D 32 bits
-> =C2=A0[=C2=A0 314.055651]=C2=A0=C2=A0 SET =3D 0, FnV =3D 0
-> =C2=A0[=C2=A0 314.058695]=C2=A0=C2=A0 EA =3D 0, S1PTW =3D 0
-> =C2=A0[=C2=A0 314.061826]=C2=A0=C2=A0 FSC =3D 0x05: level 1 translation f=
-ault
-> =C2=A0[=C2=A0 314.066694] Data abort info:
-> =C2=A0[=C2=A0 314.069564]=C2=A0=C2=A0 ISV =3D 0, ISS =3D 0x00000005, ISS2=
- =3D 0x00000000
-> =C2=A0[=C2=A0 314.075039]=C2=A0=C2=A0 CM =3D 0, WnR =3D 0, TnD =3D 0, Tag=
-Access =3D 0
-> =C2=A0[=C2=A0 314.080080]=C2=A0=C2=A0 GCS =3D 0, Overlay =3D 0, DirtyBit =
-=3D 0, Xs =3D 0
-> =C2=A0[=C2=A0 314.085382] user pgtable: 4k pages, 39-bit VAs,
-> pgdp=3D0000000102728000
-> =C2=A0[=C2=A0 314.091814] [00000000000000c0] pgd=3D0000000000000000,
-> p4d=3D0000000000000000, pud=3D0000000000000000
-> =C2=A0[=C2=A0 314.100511] Internal error: Oops: 0000000096000005 [#1] PRE=
-EMPT
-> SMP
-> =C2=A0[=C2=A0 314.106770] Modules linked in: v3d i2c_brcmstb vc4
-> snd_soc_hdmi_codec gpu_sched drm_shmem_helper drm_display_helper cec
-> drm_dma_helper drm_kms_helper drm drm_panel_orientation_quirks
-> snd_soc_core snd_compress snd_pcm_dmaengine snd_pcm snd_timer snd
-> backlight
-> =C2=A0[=C2=A0 314.129654] CPU: 0 UID: 0 PID: 0 Comm: swapper/0 Not tainte=
-d
-> 6.12.25+rpt-rpi-v8 #1=C2=A0 Debian 1:6.12.25-1+rpt1
-> =C2=A0[=C2=A0 314.139388] Hardware name: Raspberry Pi 4 Model B Rev 1.4 (=
-DT)
-> =C2=A0[=C2=A0 314.145211] pstate: 600000c5 (nZCv daIF -PAN -UAO -TCO -DIT=
- -SSBS
-> BTYPE=3D--)
-> =C2=A0[=C2=A0 314.152165] pc : v3d_irq+0xec/0x2e0 [v3d]
-> =C2=A0[=C2=A0 314.156187] lr : v3d_irq+0xe0/0x2e0 [v3d]
-> =C2=A0[=C2=A0 314.160198] sp : ffffffc080003ea0
-> =C2=A0[=C2=A0 314.163502] x29: ffffffc080003ea0 x28: ffffffec1f184980 x27=
-:
-> 021202b000000000
-> =C2=A0[=C2=A0 314.170633] x26: ffffffec1f17f630 x25: ffffff8101372000 x24=
-:
-> ffffffec1f17d9f0
-> =C2=A0[=C2=A0 314.177764] x23: 000000000000002a x22: 000000000000002a x21=
-:
-> ffffff8103252000
-> =C2=A0[=C2=A0 314.184895] x20: 0000000000000001 x19: 00000000deadbeef x18=
-:
-> 0000000000000000
-> =C2=A0[=C2=A0 314.192026] x17: ffffff94e51d2000 x16: ffffffec1dac3cb0 x15=
-:
-> c306000000000000
-> =C2=A0[=C2=A0 314.199156] x14: 0000000000000000 x13: b2fc982e03cc5168 x12=
-:
-> 0000000000000001
-> =C2=A0[=C2=A0 314.206286] x11: ffffff8103f8bcc0 x10: ffffffec1f196868 x9 =
-:
-> ffffffec1dac3874
-> =C2=A0[=C2=A0 314.213416] x8 : 0000000000000000 x7 : 0000000000042a3a x6 =
-:
-> ffffff810017a180
-> =C2=A0[=C2=A0 314.220547] x5 : ffffffec1ebad400 x4 : ffffffec1ebad320 x3 =
-:
-> 00000000000bebeb
-> =C2=A0[=C2=A0 314.227677] x2 : 0000000000000000 x1 : 0000000000000000 x0 =
-:
-> 0000000000000000
-> =C2=A0[=C2=A0 314.234807] Call trace:
-> =C2=A0[=C2=A0 314.237243]=C2=A0 v3d_irq+0xec/0x2e0 [v3d]
-> =C2=A0[=C2=A0 314.240906]=C2=A0 __handle_irq_event_percpu+0x58/0x218
-> =C2=A0[=C2=A0 314.245609]=C2=A0 handle_irq_event+0x54/0xb8
-> =C2=A0[=C2=A0 314.249439]=C2=A0 handle_fasteoi_irq+0xac/0x240
-> =C2=A0[=C2=A0 314.253527]=C2=A0 handle_irq_desc+0x48/0x68
-> =C2=A0[=C2=A0 314.257269]=C2=A0 generic_handle_domain_irq+0x24/0x38
-> =C2=A0[=C2=A0 314.261879]=C2=A0 gic_handle_irq+0x48/0xd8
-> =C2=A0[=C2=A0 314.265533]=C2=A0 call_on_irq_stack+0x24/0x58
-> =C2=A0[=C2=A0 314.269448]=C2=A0 do_interrupt_handler+0x88/0x98
-> =C2=A0[=C2=A0 314.273624]=C2=A0 el1_interrupt+0x34/0x68
-> =C2=A0[=C2=A0 314.277193]=C2=A0 el1h_64_irq_handler+0x18/0x28
-> =C2=A0[=C2=A0 314.281281]=C2=A0 el1h_64_irq+0x64/0x68
-> =C2=A0[=C2=A0 314.284673]=C2=A0 default_idle_call+0x3c/0x168
-> =C2=A0[=C2=A0 314.288675]=C2=A0 do_idle+0x1fc/0x230
-> =C2=A0[=C2=A0 314.291895]=C2=A0 cpu_startup_entry+0x3c/0x50
-> =C2=A0[=C2=A0 314.295810]=C2=A0 rest_init+0xe4/0xf0
-> =C2=A0[=C2=A0 314.299030]=C2=A0 start_kernel+0x5e8/0x790
-> =C2=A0[=C2=A0 314.302684]=C2=A0 __primary_switched+0x80/0x90
-> =C2=A0[=C2=A0 314.306691] Code: 940029eb 360ffc13 f9442ea0 52800001 (f940=
-6017)
-> =C2=A0[=C2=A0 314.312775] ---[ end trace 0000000000000000 ]---
-> =C2=A0[=C2=A0 314.317384] Kernel panic - not syncing: Oops: Fatal excepti=
-on in
-> interrupt
-> =C2=A0[=C2=A0 314.324249] SMP: stopping secondary CPUs
-> =C2=A0[=C2=A0 314.328167] Kernel Offset: 0x2b9da00000 from 0xffffffc08000=
-0000
-> =C2=A0[=C2=A0 314.334076] PHYS_OFFSET: 0x0
-> =C2=A0[=C2=A0 314.336946] CPU features: 0x08,00002013,c0200000,0200421b
-> =C2=A0[=C2=A0 314.342337] Memory Limit: none
-> =C2=A0[=C2=A0 314.345382] ---[ end Kernel panic - not syncing: Oops: Fata=
-l
-> exception in interrupt ]---
+> Hm? In ARM world at least they are specific, e.g. they have specific
+> compatibles.
 >=20
-> Before resetting the GPU, it's necessary to disable all interrupts
-> and
-> deal with any interrupt handler still in-flight. Otherwise, the GPU
-> might
-> reset with jobs still running, or yet, an interrupt could be handled
-> during the reset.
+> >=20
+> > If you don't consider that spec to be correct DT bindings, please
+> > provide a definition of what that is, and / or reasonable alternatives.
+> >=20
+> > Also, no, a device specific binding isn't reasonable here, because we
+> > *don't* have a device. From a technical standpoint, the firmware creates
 >=20
-> Cc: stable@vger.kernel.org
-> Fixes: 57692c94dcbe ("drm/v3d: Introduce a new DRM driver for
-> Broadcom V3D V3.x+")
-> Signed-off-by: Ma=C3=ADra Canal <mcanal@igalia.com>
-> ---
-> =C2=A0drivers/gpu/drm/v3d/v3d_drv.h |=C2=A0 8 ++++++++
-> =C2=A0drivers/gpu/drm/v3d/v3d_gem.c |=C2=A0 2 ++
-> =C2=A0drivers/gpu/drm/v3d/v3d_irq.c | 37 +++++++++++++++++++++++++-------=
--
-> --
-> =C2=A03 files changed, 37 insertions(+), 10 deletions(-)
+> You touch internal parts of the SoC and you list very specific SoC
+> parts. Interconnect is internal part of the SoC and only specific
+> devices are using it.
 >=20
-> diff --git a/drivers/gpu/drm/v3d/v3d_drv.h
-> b/drivers/gpu/drm/v3d/v3d_drv.h
-> index b51f0b648a08..411e47702f8a 100644
-> --- a/drivers/gpu/drm/v3d/v3d_drv.h
-> +++ b/drivers/gpu/drm/v3d/v3d_drv.h
-> @@ -101,6 +101,12 @@ enum v3d_gen {
-> =C2=A0	V3D_GEN_71 =3D 71,
-> =C2=A0};
-> =C2=A0
-> +enum v3d_irq {
-> +	V3D_CORE_IRQ,
-> +	V3D_HUB_IRQ,
-> +	V3D_MAX_IRQS,
-> +};
-> +
-> =C2=A0struct v3d_dev {
-> =C2=A0	struct drm_device drm;
-> =C2=A0
-> @@ -112,6 +118,8 @@ struct v3d_dev {
-> =C2=A0
-> =C2=A0	bool single_irq_line;
-> =C2=A0
-> +	int irq[V3D_MAX_IRQS];
-> +
-> =C2=A0	struct v3d_perfmon_info perfmon_info;
-> =C2=A0
-> =C2=A0	void __iomem *hub_regs;
-> diff --git a/drivers/gpu/drm/v3d/v3d_gem.c
-> b/drivers/gpu/drm/v3d/v3d_gem.c
-> index d7d16da78db3..37bf5eecdd2c 100644
-> --- a/drivers/gpu/drm/v3d/v3d_gem.c
-> +++ b/drivers/gpu/drm/v3d/v3d_gem.c
-> @@ -134,6 +134,8 @@ v3d_reset(struct v3d_dev *v3d)
-> =C2=A0	if (false)
-> =C2=A0		v3d_idle_axi(v3d, 0);
-> =C2=A0
-> +	v3d_irq_disable(v3d);
-> +
-> =C2=A0	v3d_idle_gca(v3d);
-> =C2=A0	v3d_reset_sms(v3d);
-> =C2=A0	v3d_reset_v3d(v3d);
-> diff --git a/drivers/gpu/drm/v3d/v3d_irq.c
-> b/drivers/gpu/drm/v3d/v3d_irq.c
-> index 2cca5d3a26a2..a515a301e480 100644
-> --- a/drivers/gpu/drm/v3d/v3d_irq.c
-> +++ b/drivers/gpu/drm/v3d/v3d_irq.c
-> @@ -260,7 +260,7 @@ v3d_hub_irq(int irq, void *arg)
-> =C2=A0int
-> =C2=A0v3d_irq_init(struct v3d_dev *v3d)
-> =C2=A0{
-> -	int irq1, ret, core;
-> +	int irq, ret, core;
-> =C2=A0
-> =C2=A0	INIT_WORK(&v3d->overflow_mem_work, v3d_overflow_mem_work);
-> =C2=A0
-> @@ -271,17 +271,24 @@ v3d_irq_init(struct v3d_dev *v3d)
-> =C2=A0		V3D_CORE_WRITE(core, V3D_CTL_INT_CLR,
-> V3D_CORE_IRQS(v3d->ver));
-> =C2=A0	V3D_WRITE(V3D_HUB_INT_CLR, V3D_HUB_IRQS(v3d->ver));
-> =C2=A0
-> -	irq1 =3D platform_get_irq_optional(v3d_to_pdev(v3d), 1);
-> -	if (irq1 =3D=3D -EPROBE_DEFER)
-> -		return irq1;
-> -	if (irq1 > 0) {
-> -		ret =3D devm_request_irq(v3d->drm.dev, irq1,
-> +	irq =3D platform_get_irq_optional(v3d_to_pdev(v3d), 1);
-> +	if (irq =3D=3D -EPROBE_DEFER)
-> +		return irq;
-> +	if (irq > 0) {
-> +		v3d->irq[V3D_CORE_IRQ] =3D irq;
-> +
-> +		ret =3D devm_request_irq(v3d->drm.dev, v3d-
-> >irq[V3D_CORE_IRQ],
-> =C2=A0				=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 v3d_irq, IRQF_SHARED,
-> =C2=A0				=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 "v3d_core0", v3d);
-> =C2=A0		if (ret)
-> =C2=A0			goto fail;
-> -		ret =3D devm_request_irq(v3d->drm.dev,
-> -				=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0
-> platform_get_irq(v3d_to_pdev(v3d), 0),
-> +
-> +		irq =3D platform_get_irq(v3d_to_pdev(v3d), 0);
-> +		if (irq < 0)
-> +			return irq;
-> +		v3d->irq[V3D_HUB_IRQ] =3D irq;
-> +
-> +		ret =3D devm_request_irq(v3d->drm.dev, v3d-
-> >irq[V3D_HUB_IRQ],
-> =C2=A0				=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 v3d_hub_irq, IRQF_SHARED,
-> =C2=A0				=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 "v3d_hub", v3d);
-> =C2=A0		if (ret)
-> @@ -289,8 +296,12 @@ v3d_irq_init(struct v3d_dev *v3d)
-> =C2=A0	} else {
-> =C2=A0		v3d->single_irq_line =3D true;
-> =C2=A0
-> -		ret =3D devm_request_irq(v3d->drm.dev,
-> -				=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0
-> platform_get_irq(v3d_to_pdev(v3d), 0),
-> +		irq =3D platform_get_irq(v3d_to_pdev(v3d), 0);
-> +		if (irq < 0)
-> +			return irq;
-> +		v3d->irq[V3D_CORE_IRQ] =3D irq;
-> +
-> +		ret =3D devm_request_irq(v3d->drm.dev, v3d-
-> >irq[V3D_CORE_IRQ],
-> =C2=A0				=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 v3d_irq, IRQF_SHARED,
-> =C2=A0				=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 "v3d", v3d);
-> =C2=A0		if (ret)
-> @@ -331,6 +342,12 @@ v3d_irq_disable(struct v3d_dev *v3d)
-> =C2=A0		V3D_CORE_WRITE(core, V3D_CTL_INT_MSK_SET, ~0);
-> =C2=A0	V3D_WRITE(V3D_HUB_INT_MSK_SET, ~0);
-> =C2=A0
-> +	/* Finish any interrupt handler still in flight. */
-> +	for (int i =3D 0; i < V3D_MAX_IRQS; i++) {
-> +		if (v3d->irq[i])
-> +			synchronize_irq(v3d->irq[i]);
-> +	}
-> +
-> =C2=A0	/* Clear any pending interrupts we might have left. */
-> =C2=A0	for (core =3D 0; core < v3d->cores; core++)
-> =C2=A0		V3D_CORE_WRITE(core, V3D_CTL_INT_CLR,
-> V3D_CORE_IRQS(v3d->ver));
+> You define here generic SW construct for something which is opposite of
+> generic: the interconnect connecting two specific, unique components of
+> one, given SoC.
+>=20
+> > the framebuffer, Linux just uses it. Just like you don't have a
+> > device/platform specific compatible for PSCI, SCPI, et al.
+>=20
+> They follow some sort of spec and still they do not reference chosen
+> SoC-design-specific properties.
 
+ish.
+
+I mean, on theory, you're absolutely correct. In practice,
+assigned-clock-parents, assigned-clock-rates, or protected-clocks for
+example exist and are *only* about SoC-design specific behaviours.
+
+Maxime
+
+--2z4ar3mqh5a4nutv
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iJUEABMJAB0WIQTkHFbLp4ejekA/qfgnX84Zoj2+dgUCaGJqrwAKCRAnX84Zoj2+
+dh39AX9zdlE7lH+G78LqemzNaC1qyQx2EBeMEMVM3nimVQN4kHOYHHm+tp+q2szm
+O8OMuqkBgMxiYf+EbLKsRFdu5yB6Q8lQ1WgOmR8mtOKsPjecd8iby7KGmzt/2n/d
+5IpPDuJG2w==
+=h3OD
+-----END PGP SIGNATURE-----
+
+--2z4ar3mqh5a4nutv--
