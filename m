@@ -2,67 +2,148 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id EFC8FAED452
-	for <lists+dri-devel@lfdr.de>; Mon, 30 Jun 2025 08:16:08 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2B66EAED472
+	for <lists+dri-devel@lfdr.de>; Mon, 30 Jun 2025 08:24:28 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 53ACC10E38F;
-	Mon, 30 Jun 2025 06:16:05 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 390C210E393;
+	Mon, 30 Jun 2025 06:24:26 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=fail reason="signature verification failed" (2048-bit key; secure) header.d=kapsi.fi header.i=@kapsi.fi header.b="ok6dWuoo";
+	dkim=pass (1024-bit key; unprotected) header.d=suse.de header.i=@suse.de header.b="JekC85cB";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="GGwRzyBi";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="JekC85cB";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="GGwRzyBi";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail.kapsi.fi (mail-auth.kapsi.fi [91.232.154.24])
- by gabe.freedesktop.org (Postfix) with ESMTPS id DF01410E38F
- for <dri-devel@lists.freedesktop.org>; Mon, 30 Jun 2025 06:16:03 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=kapsi.fi;
- s=20161220; h=Content-Transfer-Encoding:Content-Type:In-Reply-To:From:
- References:Cc:To:Subject:MIME-Version:Date:Message-ID:Sender:Reply-To:
- Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
- Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
- List-Subscribe:List-Post:List-Owner:List-Archive;
- bh=uOyvLlB5DZhNU2OQSOEwMLDnnkD/pggoJfzTlSH/488=; b=ok6dWuooOPMyqUSYCHslbgyHCO
- AwqP/CW3T+Ud4dilU/c6haYEBMssUY/2jlThiPFt+GMbVLYNNBTTa7DjXc1q23E9KyiKX8jDHHP2V
- VrowW8BR0uJPHrNNt/EzctnnBXru5zoXxV4sFLhqcyFKSw8gURpyQSe8aNP0zV16kDS/YAeo8OMfs
- kqmQBIX/ax747fJkSg//JjsYgbbphSnOewndRwFMWbHYNPoRPrGPhBTlcua1tlzc9IvW3lpeXmikX
- VaH0LQqKjs6TZme4sLY+omEdXts4qtbYfGVK8BMm8eGshMgm75lhqkjUWX8fKOcXTQyDb9s+pI0PD
- PArZ4aWg==;
-Received: from [2404:7a80:b960:1a00:5eaa:b33c:a197:a90f]
- by mail.kapsi.fi with esmtpsa (TLS1.3) tls
- TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256 (Exim 4.96)
- (envelope-from <cyndis@kapsi.fi>) id 1uW7nx-00A5g5-1W;
- Mon, 30 Jun 2025 09:15:49 +0300
-Message-ID: <338ae324-1f1a-429f-9ea2-ecab56331895@kapsi.fi>
-Date: Mon, 30 Jun 2025 15:14:25 +0900
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B763310E396
+ for <dri-devel@lists.freedesktop.org>; Mon, 30 Jun 2025 06:24:24 +0000 (UTC)
+Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ (No client certificate requested)
+ by smtp-out2.suse.de (Postfix) with ESMTPS id 43F2B1F38C;
+ Mon, 30 Jun 2025 06:24:23 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+ t=1751264663; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+ bh=PJyKYbqfUL2wuHqkoQTXa/2DpfteGgypmUTFXMIUHEE=;
+ b=JekC85cBCcHb3DEaAnCwMMACuYvXv0XARsQOlldGFLIsFkXSclY3qWwtQqnB6XYQEAYbfD
+ j7V4NqbWPRF6E+FErOimaVZt27sMaF5Uy8dQuyokPkO/qxm0t2CzY3ezdk/3sKwywVzj7F
+ gMOYpGve7HcD7sr8H2hkOtgyb6psutQ=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+ s=susede2_ed25519; t=1751264663;
+ h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+ bh=PJyKYbqfUL2wuHqkoQTXa/2DpfteGgypmUTFXMIUHEE=;
+ b=GGwRzyBir+mjkzaB6HZuN97WHsuDsbZHQboPp33uC56cilryUX3S8vfROKa8qTRlmD9cJI
+ wbPyOQqIB6DDOtCw==
+Authentication-Results: smtp-out2.suse.de;
+	none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+ t=1751264663; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+ bh=PJyKYbqfUL2wuHqkoQTXa/2DpfteGgypmUTFXMIUHEE=;
+ b=JekC85cBCcHb3DEaAnCwMMACuYvXv0XARsQOlldGFLIsFkXSclY3qWwtQqnB6XYQEAYbfD
+ j7V4NqbWPRF6E+FErOimaVZt27sMaF5Uy8dQuyokPkO/qxm0t2CzY3ezdk/3sKwywVzj7F
+ gMOYpGve7HcD7sr8H2hkOtgyb6psutQ=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+ s=susede2_ed25519; t=1751264663;
+ h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+ bh=PJyKYbqfUL2wuHqkoQTXa/2DpfteGgypmUTFXMIUHEE=;
+ b=GGwRzyBir+mjkzaB6HZuN97WHsuDsbZHQboPp33uC56cilryUX3S8vfROKa8qTRlmD9cJI
+ wbPyOQqIB6DDOtCw==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ (No client certificate requested)
+ by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id A55F813983;
+ Mon, 30 Jun 2025 06:24:22 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+ by imap1.dmz-prg2.suse.org with ESMTPSA id lSErJ5YtYmiLVgAAD6G6ig
+ (envelope-from <tzimmermann@suse.de>); Mon, 30 Jun 2025 06:24:22 +0000
+Message-ID: <732aeb75-71e7-49e7-a5f2-2080ee94a273@suse.de>
+Date: Mon, 30 Jun 2025 08:24:22 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 0/3] NVIDIA Tegra210 NVJPG support
-To: Diogo Ivo <diogo.ivo@tecnico.ulisboa.pt>,
- Thierry Reding <thierry.reding@gmail.com>
-Cc: Mikko Perttunen <mperttunen@nvidia.com>, David Airlie
- <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- Jonathan Hunter <jonathanh@nvidia.com>,
- Philipp Zabel <p.zabel@pengutronix.de>, Rob Herring <robh@kernel.org>,
- Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
- <conor+dt@kernel.org>, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, linux-tegra@vger.kernel.org,
- devicetree@vger.kernel.org
-References: <20250606-diogo-nvjpg-v1-0-5f2c36feeb39@tecnico.ulisboa.pt>
- <mz5sytol6aw7ouwiimmrd7lqhtvq6nj7pqpxq4ie6em6nwvvkh@2cux3no33gre>
- <621a9459-f2dd-4b19-a083-0e62f1a42f50@kapsi.fi>
- <96b721cd-7223-4b28-a3fd-a4d92c9d5142@tecnico.ulisboa.pt>
- <4cibh66elviiatataa45lsfcyeovkqyxe4fjvfh7uqddhsbe6z@svt2dgeafrdh>
- <78cc8814-c89f-4a5f-9a70-08ed69580c3f@tecnico.ulisboa.pt>
- <36898d74-d9f7-4c5a-b6f2-d9652c674b84@kapsi.fi>
- <82bfabf0-8c55-4bbd-8c81-44dc86209b15@tecnico.ulisboa.pt>
+Subject: Re: [PATCH v6 9/9] PCI: Add a new 'boot_display' attribute
+To: Mario Limonciello <superm1@kernel.org>, Bjorn Helgaas <bhelgaas@google.com>
+Cc: Alex Deucher <alexander.deucher@amd.com>,
+ =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+ Lukas Wunner <lukas@wunner.de>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, David Woodhouse <dwmw2@infradead.org>,
+ Lu Baolu <baolu.lu@linux.intel.com>, Joerg Roedel <joro@8bytes.org>,
+ Will Deacon <will@kernel.org>, Robin Murphy <robin.murphy@arm.com>,
+ Alex Williamson <alex.williamson@redhat.com>,
+ Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
+ "open list:DRM DRIVERS" <dri-devel@lists.freedesktop.org>,
+ open list <linux-kernel@vger.kernel.org>,
+ "open list:INTEL IOMMU (VT-d)" <iommu@lists.linux.dev>,
+ "open list:PCI SUBSYSTEM" <linux-pci@vger.kernel.org>,
+ "open list:VFIO DRIVER" <kvm@vger.kernel.org>,
+ "open list:SOUND" <linux-sound@vger.kernel.org>,
+ Daniel Dadap <ddadap@nvidia.com>,
+ Mario Limonciello <mario.limonciello@amd.com>
+References: <20250627043108.3141206-1-superm1@kernel.org>
+ <20250627043108.3141206-10-superm1@kernel.org>
+ <41587824-4a05-4ead-b24c-4729007cd663@suse.de>
+ <8878af70-3eb8-495b-b8df-43a10285c4f5@kernel.org>
 Content-Language: en-US
-From: Mikko Perttunen <cyndis@kapsi.fi>
-In-Reply-To: <82bfabf0-8c55-4bbd-8c81-44dc86209b15@tecnico.ulisboa.pt>
+From: Thomas Zimmermann <tzimmermann@suse.de>
+Autocrypt: addr=tzimmermann@suse.de; keydata=
+ xsBNBFs50uABCADEHPidWt974CaxBVbrIBwqcq/WURinJ3+2WlIrKWspiP83vfZKaXhFYsdg
+ XH47fDVbPPj+d6tQrw5lPQCyqjwrCPYnq3WlIBnGPJ4/jreTL6V+qfKRDlGLWFjZcsrPJGE0
+ BeB5BbqP5erN1qylK9i3gPoQjXGhpBpQYwRrEyQyjuvk+Ev0K1Jc5tVDeJAuau3TGNgah4Yc
+ hdHm3bkPjz9EErV85RwvImQ1dptvx6s7xzwXTgGAsaYZsL8WCwDaTuqFa1d1jjlaxg6+tZsB
+ 9GluwvIhSezPgnEmimZDkGnZRRSFiGP8yjqTjjWuf0bSj5rUnTGiyLyRZRNGcXmu6hjlABEB
+ AAHNJ1Rob21hcyBaaW1tZXJtYW5uIDx0emltbWVybWFubkBzdXNlLmRlPsLAjgQTAQgAOAIb
+ AwULCQgHAgYVCgkICwIEFgIDAQIeAQIXgBYhBHIX+6yM6c9jRKFo5WgNwR1TC3ojBQJftODH
+ AAoJEGgNwR1TC3ojx1wH/0hKGWugiqDgLNXLRD/4TfHBEKmxIrmfu9Z5t7vwUKfwhFL6hqvo
+ lXPJJKQpQ2z8+X2vZm/slsLn7J1yjrOsoJhKABDi+3QWWSGkaGwRJAdPVVyJMfJRNNNIKwVb
+ U6B1BkX2XDKDGffF4TxlOpSQzdtNI/9gleOoUA8+jy8knnDYzjBNOZqLG2FuTdicBXblz0Mf
+ vg41gd9kCwYXDnD91rJU8tzylXv03E75NCaTxTM+FBXPmsAVYQ4GYhhgFt8S2UWMoaaABLDe
+ 7l5FdnLdDEcbmd8uLU2CaG4W2cLrUaI4jz2XbkcPQkqTQ3EB67hYkjiEE6Zy3ggOitiQGcqp
+ j//OwE0EWznS4AEIAMYmP4M/V+T5RY5at/g7rUdNsLhWv1APYrh9RQefODYHrNRHUE9eosYb
+ T6XMryR9hT8XlGOYRwKWwiQBoWSDiTMo/Xi29jUnn4BXfI2px2DTXwc22LKtLAgTRjP+qbU6
+ 3Y0xnQN29UGDbYgyyK51DW3H0If2a3JNsheAAK+Xc9baj0LGIc8T9uiEWHBnCH+RdhgATnWW
+ GKdDegUR5BkDfDg5O/FISymJBHx2Dyoklv5g4BzkgqTqwmaYzsl8UxZKvbaxq0zbehDda8lv
+ hFXodNFMAgTLJlLuDYOGLK2AwbrS3Sp0AEbkpdJBb44qVlGm5bApZouHeJ/+n+7r12+lqdsA
+ EQEAAcLAdgQYAQgAIAIbDBYhBHIX+6yM6c9jRKFo5WgNwR1TC3ojBQJftOH6AAoJEGgNwR1T
+ C3ojVSkIALpAPkIJPQoURPb1VWjh34l0HlglmYHvZszJWTXYwavHR8+k6Baa6H7ufXNQtThR
+ yIxJrQLW6rV5lm7TjhffEhxVCn37+cg0zZ3j7zIsSS0rx/aMwi6VhFJA5hfn3T0TtrijKP4A
+ SAQO9xD1Zk9/61JWk8OysuIh7MXkl0fxbRKWE93XeQBhIJHQfnc+YBLprdnxR446Sh8Wn/2D
+ Ya8cavuWf2zrB6cZurs048xe0UbSW5AOSo4V9M0jzYI4nZqTmPxYyXbm30Kvmz0rYVRaitYJ
+ 4kyYYMhuULvrJDMjZRvaNe52tkKAvMevcGdt38H4KSVXAylqyQOW5zvPc4/sq9c=
+In-Reply-To: <8878af70-3eb8-495b-b8df-43a10285c4f5@kernel.org>
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-SA-Exim-Connect-IP: 2404:7a80:b960:1a00:5eaa:b33c:a197:a90f
-X-SA-Exim-Mail-From: cyndis@kapsi.fi
-X-SA-Exim-Scanned: No (on mail.kapsi.fi); SAEximRunCond expanded to false
+Content-Transfer-Encoding: 8bit
+X-Spamd-Result: default: False [-4.30 / 50.00]; BAYES_HAM(-3.00)[100.00%];
+ NEURAL_HAM_LONG(-1.00)[-1.000];
+ NEURAL_HAM_SHORT(-0.20)[-1.000]; MIME_GOOD(-0.10)[text/plain];
+ RCVD_TLS_ALL(0.00)[]; RCVD_VIA_SMTP_AUTH(0.00)[];
+ ARC_NA(0.00)[]; MID_RHS_MATCH_FROM(0.00)[];
+ MIME_TRACE(0.00)[0:+]; FREEMAIL_ENVRCPT(0.00)[gmail.com];
+ DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+ FUZZY_BLOCKED(0.00)[rspamd.com]; FROM_HAS_DN(0.00)[];
+ FREEMAIL_CC(0.00)[amd.com,gmail.com,ffwll.ch,wunner.de,linux.intel.com,kernel.org,infradead.org,8bytes.org,arm.com,redhat.com,perex.cz,suse.com,lists.freedesktop.org,vger.kernel.org,lists.linux.dev,nvidia.com];
+ RCPT_COUNT_TWELVE(0.00)[25]; FROM_EQ_ENVFROM(0.00)[];
+ TO_MATCH_ENVRCPT_ALL(0.00)[]; RCVD_COUNT_TWO(0.00)[2];
+ TO_DN_ALL(0.00)[];
+ DBL_BLOCKED_OPENRESOLVER(0.00)[amd.com:email,imap1.dmz-prg2.suse.org:helo]
+X-Spam-Level: 
+X-Spam-Flag: NO
+X-Spam-Score: -4.30
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -78,107 +159,184 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 6/17/25 6:26 PM, Diogo Ivo wrote:
-> 
-> 
-> On 6/17/25 5:40 AM, Mikko Perttunen wrote:
->>
->>
->> On 6/16/25 7:21 PM, Diogo Ivo wrote:
->>>
->>>
->>> On 6/11/25 4:06 PM, Thierry Reding wrote:
->>>> On Wed, Jun 11, 2025 at 01:05:40PM +0100, Diogo Ivo wrote:
->>>>>
->>>>>
->>>>> On 6/10/25 10:52 AM, Mikko Perttunen wrote:
->>>>>> On 6/10/25 6:05 PM, Thierry Reding wrote:
->>>>>>> On Fri, Jun 06, 2025 at 11:45:33AM +0100, Diogo Ivo wrote:
->>>>>>>> Hello,
->>>>>>>>
->>>>>>>> This series adds support for the NVJPG hardware accelerator 
->>>>>>>> found in the
->>>>>>>> Tegra210 SoC.
->>>>>>>>
->>>>>>>> The kernel driver is essentially a copy of the NVDEC driver as both
->>>>>>>> engines are Falcon-based.
->>>>>>>>
->>>>>>>> For the userspace part I have written a Mesa Gallium backend [1] 
->>>>>>>> that,
->>>>>>>> while still very much experimental, works in decoding images
->>>>>>>> with VA- API.
->>>>>>>>
->>>>>>>> I have been using ffmpeg to call VA-API with the following command:
->>>>>>>>
->>>>>>>> ffmpeg -v verbose -hwaccel vaapi -hwaccel_device
->>>>>>>> /dev/dri/renderD129 -i <input.jpg> -pix_fmt bgra -f fbdev
->>>>>>>> /dev/fb0
->>>>>>>>
->>>>>>>> which decodes <input.jpg> and shows the result in the framebuffer.
->>>>>>>>
->>>>>>>> The firmware for the engine can be obtained from a Linux for Tegra
->>>>>>>> distribution.
->>>>>>>
->>>>>>> By the way, have you tried running this on anything newer than 
->>>>>>> Tegra210?
->>>>>>> Given your progress on this, we can probably start thinking about
->>>>>>> submitting the binaries to linux-firmware.
->>>>>>
->>>>>> FWIW, the impression I have is that NVJPG is basically unchanged 
->>>>>> all the
->>>>>> way to Tegra234. So if we add stream ID support and the firmwares, 
->>>>>> it'll
->>>>>> probably just work. Tegra234 has the quirk that it has two 
->>>>>> instances of
->>>>>> NVJPG -- these have to be distinguished by their different class IDs.
->>>>>> But we should go ahead with the T210 support first.
->>>>>
->>>>> I have a question here, what exactly are the stream IDs? While working
->>>>> on the driver this came up and I didn't manage to figure it out.
->>>>
->>>> Stream IDs are a way to identify memory transactions as belonging to a
->>>> certain device. This comes into play when working with the IOMMU (which
->>>> is a Tegra SMMU on Tegra210 and earlier, and an ARM SMMU on Tegra) and
->>>> is used to isolate DMA capable devices. Basically for every stream ID
->>>> you get a separate I/O address space. NVJPG will have its own address
->>>> space, and so will VIC. Each device can only access whatever has been
->>>> mapped to it's I/O address space. That means NVJPG can't interfere with
->>>> VIC and vice-versa. And neither can any of these engines read from or
->>>> write to random system memory if badly programmed.
->>>
->>> So if I understand this correctly a Stream ID corresponds to an IOMMU
->>> domain right?
->>
->> Technically not necessarily, but in practice that's the case, as the 
->> IOMMU driver creates IOMMU domains for each stream ID in the device 
->> tree. They are similar to the SWGROUPs on Tegra210.
-> 
-> Ok that makes sense, thank you for the clarification :)
-> 
->>> Ok, then in that case I'll keep the driver in its current state without
->>> these implementations if that's ok. Connected with this I wanted to know
->>> your thoughts on the best way to upstream this, is it better to wait for
->>> testing on different platforms first and then if things work merge a
->>> driver that works for all of them or go with Tegra210 first and then add
->>> more platforms later on?
->>
->> Personally, I'd say to go for Tegra210 first.
-> 
-> In that case I believe that in the v2 I sent out of the driver I addressed
-> both yours and Thierry's reviews and the driver should be in good condition
-> for Tegra210. What are the next steps in order to merge it?
+Hi
 
-I left one more comment on the v2 patch. With that fixed, if Thierry has 
-no further objections, hopefully he can merge.
+Am 27.06.25 um 17:37 schrieb Mario Limonciello:
+> On 6/27/2025 2:07 AM, Thomas Zimmermann wrote:
+>> Hi
+>>
+>> Am 27.06.25 um 06:31 schrieb Mario Limonciello:
+>>> From: Mario Limonciello <mario.limonciello@amd.com>
+>>>
+>>> On systems with multiple GPUs there can be uncertainty which GPU is the
+>>> primary one used to drive the display at bootup. In order to 
+>>> disambiguate
+>>> this add a new sysfs attribute 'boot_display' that uses the output of
+>>> video_is_primary_device() to populate whether a PCI device was used for
+>>> driving the display.
+>>>
+>>> Signed-off-by: Mario Limonciello <mario.limonciello@amd.com>
+>>> ---
+>>> v6:
+>>>   * Only show for the device that is boot display
+>>>   * Only create after PCI device sysfs files are initialized to ensure
+>>>     that resources are ready.
+>>> v4:
+>>>   * new patch
+>>> ---
+>>>   Documentation/ABI/testing/sysfs-bus-pci |  8 +++++
+>>>   drivers/pci/pci-sysfs.c                 | 46 
+>>> +++++++++++++++++++++++++
+>>
+>> The code looks good. Just one more question: could this be added 
+>> independently from the PCI bus (at a reasonable cost)? There are 
+>> other busses that can host the boot display. Alternatively, we'd add 
+>> this attribute per bus as needed.
+>
+> It depends upon the underlying hardware implementation.  On x86 it's 
+> always PCI and so I realized there is a requirement that PCI resources 
+> are setup before screen_info event works.
+>
+> That is the v5 version of this patch would have had a potential race 
+> condition with userspace where boot_display didn't always show '1' if 
+> userspace read it too quickly.
+>
+> Other architecture's hardware implementation might have similar problem.
+>
+> So in summary I think it would be better to do it per-bus.  If we 
+> realize there is indeed code duplication we can always move this to a 
+> common helper at that point.
 
-Cheers,
-Mikko
+Ok, makes sense. With the kernel test robot's issues fixed:
 
-> 
-> Thanks,
-> Diogo
-> 
->> Cheers
->> Mikko
-> 
+Reviewed-by: Thomas Zimmermann <tzimmermann@suse.de>
+
+I guess that interface also needs some sort of OK from user-space devs?
+
+Best regards
+Thomas
+
+>
+>>
+>> Best regards
+>> Thomas
+>>
+>>>   2 files changed, 54 insertions(+)
+>>>
+>>> diff --git a/Documentation/ABI/testing/sysfs-bus-pci 
+>>> b/Documentation/ ABI/testing/sysfs-bus-pci
+>>> index 69f952fffec72..8b455b1a58852 100644
+>>> --- a/Documentation/ABI/testing/sysfs-bus-pci
+>>> +++ b/Documentation/ABI/testing/sysfs-bus-pci
+>>> @@ -612,3 +612,11 @@ Description:
+>>>             # ls doe_features
+>>>             0001:01        0001:02        doe_discovery
+>>> +
+>>> +What:        /sys/bus/pci/devices/.../boot_display
+>>> +Date:        October 2025
+>>> +Contact:    Linux PCI developers <linux-pci@vger.kernel.org>
+>>> +Description:
+>>> +        This file indicates the device was used as a boot
+>>> +        display. If the device was used as the boot display, the file
+>>> +        will be present and contain "1".
+>>> diff --git a/drivers/pci/pci-sysfs.c b/drivers/pci/pci-sysfs.c
+>>> index 268c69daa4d57..cc766461de1da 100644
+>>> --- a/drivers/pci/pci-sysfs.c
+>>> +++ b/drivers/pci/pci-sysfs.c
+>>> @@ -30,6 +30,7 @@
+>>>   #include <linux/msi.h>
+>>>   #include <linux/of.h>
+>>>   #include <linux/aperture.h>
+>>> +#include <asm/video.h>
+>>>   #include "pci.h"
+>>>   #ifndef ARCH_PCI_DEV_GROUPS
+>>> @@ -679,6 +680,13 @@ const struct attribute_group *pcibus_groups[] = {
+>>>       NULL,
+>>>   };
+>>> +static ssize_t boot_display_show(struct device *dev, struct 
+>>> device_attribute *attr,
+>>> +                 char *buf)
+>>> +{
+>>> +    return sysfs_emit(buf, "1\n");
+>>> +}
+>>> +static DEVICE_ATTR_RO(boot_display);
+>>> +
+>>>   static ssize_t boot_vga_show(struct device *dev, struct 
+>>> device_attribute *attr,
+>>>                    char *buf)
+>>>   {
+>>> @@ -1246,6 +1254,37 @@ static int pci_create_attr(struct pci_dev 
+>>> *pdev, int num, int write_combine)
+>>>       return 0;
+>>>   }
+>>> +/**
+>>> + * pci_create_boot_display_file - create a file in sysfs for @dev
+>>> + * @pdev: dev in question
+>>> + *
+>>> + * Creates a file `boot_display` in sysfs for the PCI device @pdev
+>>> + * if it is the boot display device.
+>>> + */
+>>> +static int pci_create_boot_display_file(struct pci_dev *pdev)
+>>> +{
+>>> +#ifdef CONFIG_VIDEO
+>>> +    if (video_is_primary_device(&pdev->dev))
+>>> +        return sysfs_create_file(&pdev->dev.kobj, 
+>>> &dev_attr_boot_display.attr);
+>>> +#endif
+>>> +    return 0;
+>>> +}
+>>> +
+>>> +/**
+>>> + * pci_remove_boot_display_file - remove the boot display file for 
+>>> @dev
+>>> + * @pdev: dev in question
+>>> + *
+>>> + * Removes the file `boot_display` in sysfs for the PCI device @pdev
+>>> + * if it is the boot display device.
+>>> + */
+>>> +static void pci_remove_boot_display_file(struct pci_dev *pdev)
+>>> +{
+>>> +#ifdef CONFIG_VIDEO
+>>> +    if (video_is_primary_device(&pdev->dev))
+>>> +        sysfs_remove_file(&pdev->dev.kobj, 
+>>> &dev_attr_boot_display.attr);
+>>> +#endif
+>>> +}
+>>> +
+>>>   /**
+>>>    * pci_create_resource_files - create resource files in sysfs for 
+>>> @dev
+>>>    * @pdev: dev in question
+>>> @@ -1654,9 +1693,15 @@ static const struct attribute_group 
+>>> pci_dev_resource_resize_group = {
+>>>   int __must_check pci_create_sysfs_dev_files(struct pci_dev *pdev)
+>>>   {
+>>> +    int retval;
+>>> +
+>>>       if (!sysfs_initialized)
+>>>           return -EACCES;
+>>> +    retval = pci_create_boot_display_file(pdev);
+>>> +    if (retval)
+>>> +        return retval;
+>>> +
+>>>       return pci_create_resource_files(pdev);
+>>>   }
+>>> @@ -1671,6 +1716,7 @@ void pci_remove_sysfs_dev_files(struct pci_dev 
+>>> *pdev)
+>>>       if (!sysfs_initialized)
+>>>           return;
+>>> +    pci_remove_boot_display_file(pdev);
+>>>       pci_remove_resource_files(pdev);
+>>>   }
+>>
+>
+
+-- 
+--
+Thomas Zimmermann
+Graphics Driver Developer
+SUSE Software Solutions Germany GmbH
+Frankenstrasse 146, 90461 Nuernberg, Germany
+GF: Ivo Totev, Andrew Myers, Andrew McDonald, Boudien Moerman
+HRB 36809 (AG Nuernberg)
 
