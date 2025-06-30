@@ -2,61 +2,93 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id D5013AEE9F9
-	for <lists+dri-devel@lfdr.de>; Tue,  1 Jul 2025 00:08:26 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id F1F10AEEA13
+	for <lists+dri-devel@lfdr.de>; Tue,  1 Jul 2025 00:20:09 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B3DA010E23B;
-	Mon, 30 Jun 2025 22:08:23 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7CA2910E121;
+	Mon, 30 Jun 2025 22:20:07 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="VL40OHNc";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="lrMHWKGv";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from nyc.source.kernel.org (nyc.source.kernel.org [147.75.193.91])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 97FE710E23B
- for <dri-devel@lists.freedesktop.org>; Mon, 30 Jun 2025 22:08:21 +0000 (UTC)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by nyc.source.kernel.org (Postfix) with ESMTP id 76108A53625;
- Mon, 30 Jun 2025 22:08:20 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 02EC6C4CEE3;
- Mon, 30 Jun 2025 22:08:19 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1751321300;
- bh=mAQuo7UGn82GJOtu/IIlK8rtii7eZp/rjMYxtF0PlYo=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=VL40OHNcHDMLwYYUsY2v5Qf34MWJ2qc3/xqc8W7+CYsEAQuvGlYMWL/UBQf3XrjNp
- 2RFl4J6/UHJjv+UDpUP15FdaWVRR9DrZM9bw4RCNxASw39j2oHb7gYmMIy7wmdXH6W
- cAenUfvZbee+1eZwdnoC0yOLPK1XyECYfbyUXe3XDTH5PZvvr+ozzRg7QzYe0V+E+W
- Y1QcFnz5FvLE7wto2a94+fkKlRVZF6QRbz4u/R1w4kWElRaHd8/LXFoOXtXclnhlWr
- cKohaBfzb3y93X+XHhgMWM8sxFW9WzcYgcbbGuSnUnVNJLuXE5z6Q5mzhxtrxgSehM
- HjGECpIUzPddw==
-Date: Mon, 30 Jun 2025 17:08:19 -0500
-From: Rob Herring <robh@kernel.org>
-To: Maxime Ripard <mripard@kernel.org>
-Cc: Saravana Kannan <saravanak@google.com>,
- Sumit Semwal <sumit.semwal@linaro.org>,
- Benjamin Gaignard <benjamin.gaignard@collabora.com>,
- Brian Starkey <Brian.Starkey@arm.com>, John Stultz <jstultz@google.com>,
- "T.J. Mercier" <tjmercier@google.com>,
- Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
- Krzysztof Kozlowski <krzk+dt@kernel.org>,
- Conor Dooley <conor+dt@kernel.org>, Andrew Davis <afd@ti.com>,
- Jared Kangas <jkangas@redhat.com>,
- Mattijs Korpershoek <mkorpershoek@kernel.org>,
- devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org,
- linaro-mm-sig@lists.linaro.org
-Subject: Re: [PATCH v5 1/2] dt-bindings: reserved-memory: Introduce
- carved-out memory region binding
-Message-ID: <20250630220819.GA3454648-robh@kernel.org>
-References: <20250617-dma-buf-ecc-heap-v5-0-0abdc5863a4f@kernel.org>
- <20250617-dma-buf-ecc-heap-v5-1-0abdc5863a4f@kernel.org>
- <20250627193132.GB4032621-robh@kernel.org>
- <20250630-attentive-fortunate-turaco-2e36d2@houat>
+Received: from mail-pf1-f178.google.com (mail-pf1-f178.google.com
+ [209.85.210.178])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 32B5E10E121;
+ Mon, 30 Jun 2025 22:20:06 +0000 (UTC)
+Received: by mail-pf1-f178.google.com with SMTP id
+ d2e1a72fcca58-747fc7506d4so2332357b3a.0; 
+ Mon, 30 Jun 2025 15:20:06 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20230601; t=1751322006; x=1751926806; darn=lists.freedesktop.org;
+ h=in-reply-to:content-transfer-encoding:content-disposition
+ :mime-version:references:message-id:subject:cc:to:from:date:from:to
+ :cc:subject:date:message-id:reply-to;
+ bh=NHiuZMzfMwC6+R9h6OiCUTROtFSvuO1j8HDLI3Uql14=;
+ b=lrMHWKGvhuvz84FHtdXsRgm7DWCL2hIEoyQcEiHeksYL288FJiH87yqJzXByn3nQJO
+ 90Ya1dNed85B6o4JVjMANwFkUlXZaEscvHB9RVB/YvF3ukC1sjpgjASBnmJWU3guBRej
+ WOfEVzah7zzGFGh8xDO2Qw3/effnmGD83QEgOVj26UJYiVrr9C5HQqlKSvwLr6BydwU0
+ HGsUrrzV6mGQ+xbobHGsEhHLAHhR9u10SU9zSDahjtAZugI3ORpH1YKmFqzSUaG0c37U
+ K1+Rki8b/tN1h7H+mCuuzP4sHe4nFBLULqFTV9vM4us+2INxij1YTQeGNxRw83KNIqx4
+ L8mA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1751322006; x=1751926806;
+ h=in-reply-to:content-transfer-encoding:content-disposition
+ :mime-version:references:message-id:subject:cc:to:from:date
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=NHiuZMzfMwC6+R9h6OiCUTROtFSvuO1j8HDLI3Uql14=;
+ b=sPgqqvmicuoHVo2uwf2F0p5eMmV6TOtgAZUlc/k4kudIuzhff1Hd7W1TitYCKbtcT8
+ CaMhk6q0aa/Ftd12T1UbfU6mwVKKVz+m8LjNtIkC2eX3x/Vn7jXRcBFd7kU/LNySztBL
+ FOX9j9j9WgbbQiWIVQkpWSNakbaDZ/cTsp7wJD45LitrF6hK93Uzw0VtFCg9/TTL34l1
+ sipTuZRri0ttbPO6k+RbWb/9iW7enUfCuHQKF1QVr+88SxvpKstH0Qqv6dyvQVR7a+V9
+ aoDsVlmmQjdcDLFOjTUTEu4wGr5I30FHxeaOy6cDck7nVQK3GtaCKlIuBPn3nRVWkYyy
+ tf5w==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCViJlz9H7DKiC1SoRG8fa27iRT9CdIumBhRzj7r3FnSLLFDO6wyMSg4WeNPPDzuOmCrTjLrvQrZYls=@lists.freedesktop.org,
+ AJvYcCXbybIP4lWKpRIg3mPOtbPfgmO8gPXHCT9nokCCZLGEVrZM4uFGITG82F/uTi3jLX0WnDJ7jDWnPlK7@lists.freedesktop.org
+X-Gm-Message-State: AOJu0Yx3OR1N5jHnFFZ4/8LjmeaUN+h4q734oR/7nXLjNuuyCMl1YDiF
+ So89/fWIIZ//rCj7LbDXNt5hvVDgpjzWj6lYxg/ImXZlQFrbSyJczQoFDQ8iwA==
+X-Gm-Gg: ASbGncu+LE5su7EVbLb/zAlq6awnu98TlJalHN4nBPkGipgPBMYsEBpU+NI9GmVWE1E
+ Gm5mJeSDefegJ7u/TdBrh0fUwtZSwdn1PNvEH5JDHXCSY1Nddxej5yEA8UHsMtKIQ7MCB/XAbK4
+ dmsa3uLmI/ZlIsuITON1yxtOWDuDtgjg962MgD2e7w/9zJ9nFpZnuJOBbm/L9AOA/LyFAyZPkGr
+ dI4M6irrN1n3m3EqyFQNZZaMiV7qESBQmWfTd5UsHtlFoUvTkH6fj2nL7MdVMvrqBen0w3mVdvj
+ z2RMdhzExsl6wTUyD3lxtydSqPPcNjJpKY8RaRV+I+AFCu73qKsiKN6UvCFFkw==
+X-Google-Smtp-Source: AGHT+IGBsxbNKvaAB+y/2y328Um5BPe7Wjg0g4g9kDG4VOXg1/QRqgyAXH7egABiIMDNmkwj7hYcHg==
+X-Received: by 2002:a17:903:32c1:b0:235:e71e:a37b with SMTP id
+ d9443c01a7336-23ac4633ccbmr244404305ad.34.1751322005549; 
+ Mon, 30 Jun 2025 15:20:05 -0700 (PDT)
+Received: from localhost ([216.228.127.130]) by smtp.gmail.com with ESMTPSA id
+ d9443c01a7336-23acb3b7d97sm90566615ad.172.2025.06.30.15.20.04
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 30 Jun 2025 15:20:04 -0700 (PDT)
+Date: Mon, 30 Jun 2025 18:20:02 -0400
+From: Yury Norov <yury.norov@gmail.com>
+To: Vincent Mailhol <mailhol.vincent@wanadoo.fr>
+Cc: linux-kernel@vger.kernel.org, intel-gfx@lists.freedesktop.org,
+ dri-devel@lists.freedesktop.org, Andi Shyti <andi.shyti@linux.intel.com>,
+ David Laight <David.Laight@aculab.com>,
+ Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+ Catalin Marinas <catalin.marinas@arm.com>,
+ Anshuman Khandual <anshuman.khandual@arm.com>,
+ linux-arm-kernel@lists.infradead.org,
+ Lucas De Marchi <lucas.demarchi@intel.com>,
+ Rasmus Villemoes <linux@rasmusvillemoes.dk>,
+ Jani Nikula <jani.nikula@linux.intel.com>,
+ Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
+ Rodrigo Vivi <rodrigo.vivi@intel.com>,
+ Tvrtko Ursulin <tursulin@ursulin.net>,
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+ Andrew Morton <akpm@linux-foundation.org>
+Subject: Re: [PATCH v2 0/3] bits: Split asm and non-asm GENMASK*() and unify
+ definitions
+Message-ID: <aGMNhk0FrcQGcC5P@yury>
+References: <20250609-consolidate-genmask-v2-0-b8cce8107e49@wanadoo.fr>
+ <0e5988e2-eb98-4931-86b8-dcbb8b4cb605@wanadoo.fr>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
-In-Reply-To: <20250630-attentive-fortunate-turaco-2e36d2@houat>
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <0e5988e2-eb98-4931-86b8-dcbb8b4cb605@wanadoo.fr>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -72,73 +104,23 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, Jun 30, 2025 at 06:41:38PM +0200, Maxime Ripard wrote:
-> Hi Rob,
-> 
-> On Fri, Jun 27, 2025 at 02:31:32PM -0500, Rob Herring wrote:
-> > On Tue, Jun 17, 2025 at 02:25:40PM +0200, Maxime Ripard wrote:
-> > > Some parts of the memory can be dedicated to specific purposes and
-> > > exposed as a dedicated memory allocator.
-> > > 
-> > > This is especially useful if that particular region has a particular
-> > > properties the rest of the memory doesn't have. For example, some
-> > > platforms have their entire RAM covered by ECC but for a small area
-> > > meant to be used by applications that don't need ECC, and its associated
-> > > overhead.
-> > > 
-> > > Let's introduce a binding to describe such a region and allow the OS to
-> > > create a dedicated memory allocator for it.
-> > > 
-> > > Signed-off-by: Maxime Ripard <mripard@kernel.org>
-> > > ---
-> > >  .../bindings/reserved-memory/carved-out.yaml       | 49 ++++++++++++++++++++++
-> > >  1 file changed, 49 insertions(+)
-> > > 
-> > > diff --git a/Documentation/devicetree/bindings/reserved-memory/carved-out.yaml b/Documentation/devicetree/bindings/reserved-memory/carved-out.yaml
-> > > new file mode 100644
-> > > index 0000000000000000000000000000000000000000..9ab5d1ebd9ebd9111b7c064fabe1c45e752da83b
-> > > --- /dev/null
-> > > +++ b/Documentation/devicetree/bindings/reserved-memory/carved-out.yaml
-> > > @@ -0,0 +1,49 @@
-> > > +# SPDX-License-Identifier: GPL-2.0-only OR BSD-2-Clause
-> > > +%YAML 1.2
-> > > +---
-> > > +$id: http://devicetree.org/schemas/reserved-memory/carved-out.yaml#
-> > > +$schema: http://devicetree.org/meta-schemas/core.yaml#
-> > > +
-> > > +title: Carved-out Memory Region
-> > > +
-> > > +description: |
-> > 
-> > Don't need '|'.
-> > 
-> > > +  Specifies that the reserved memory region has been carved out of the
-> > > +  main memory allocator, and is intended to be used by the OS as a
-> > > +  dedicated memory allocator.
-> > 
-> > Other than the commit msg, it is completely lost that this is for 
-> > ECC-less memory.
-> 
-> Because it's not. One of the first feedback I got was that the way to
-> identify what a heap provides was the heap name.
-> 
-> So, as far as the binding go, a heap just exposes a chunk of memory the
-> memory allocator wouldn't use. The actual semantics of that chunk of
-> memory don't matter.
+On Mon, Jun 30, 2025 at 11:07:43PM +0900, Vincent Mailhol wrote:
+> Hi Yury,
 
-But they do because you use one carve out for one thing and another 
-carve out for another purpose and they probably aren't interchangeable.
-For the most part, everything in /reserved-memory is a carve out from 
-regular memory though we failed to enforce that.
+... 
 
-> > This description applies to CMA area as well. So what's the difference?
+> I didn't hear back from you on this series. Are you still interested in this
+> cleanup or should I just abandon it?
 > 
-> Yeah, I kind of agree, which is why I initially started with a property,
-> and you then asked for a compatible.
+> Note that now that the GENMASK_U*() are upstream, I am done. I think that it
+> will be better with this clean-up, but I do not mind if we keep it as it.
+> 
+> Just let me know what you think.
 
-My issues with properties is we have to support N factorial cases for 
-combinations of N properties. It's already fragile. Whereas a compatible 
-is (hopefully) well defined as to what's needed and is only 1 more case 
-to support.
+Hi Vincent,
 
-Rob
+Sorry for delay and thank you for pinging me on it.
+I'll take a look on it at the weekend.
+
+Thanks,
+Yury
