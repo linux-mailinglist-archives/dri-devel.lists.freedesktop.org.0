@@ -2,107 +2,65 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id A2C12AEDA81
-	for <lists+dri-devel@lfdr.de>; Mon, 30 Jun 2025 13:10:35 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 12C19AEDADE
+	for <lists+dri-devel@lfdr.de>; Mon, 30 Jun 2025 13:26:14 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 073E310E407;
-	Mon, 30 Jun 2025 11:10:33 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1263810E40F;
+	Mon, 30 Jun 2025 11:26:11 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=redhat.com header.i=@redhat.com header.b="Qpm35KlZ";
+	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=igalia.com header.i=@igalia.com header.b="q0KCCkkE";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [170.10.133.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id CD31A10E407
- for <dri-devel@lists.freedesktop.org>; Mon, 30 Jun 2025 11:10:31 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1751281830;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=M51SNgRSdkBVqofCljCWPGL6IaM6V48QvSeJNOH04Cs=;
- b=Qpm35KlZ3gTiIsi1emYhjlNyyUsE62HUF5XwZmFhaoceH06YRln/JAIePT82phOXoMVyZ3
- zelt1u5DGV/lJR17c+mxK59Pfd/z94hdxe3MgaAITvpPDyhWUiNrjDbKxjjUu8zbBT/hon
- N5mHOf1nC5c+0/P4HbkQxCw3JZ3YyDo=
-Received: from mail-ed1-f71.google.com (mail-ed1-f71.google.com
- [209.85.208.71]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-380-2ZZ4WQ7UNYuSB8rheqFqmg-1; Mon, 30 Jun 2025 07:10:27 -0400
-X-MC-Unique: 2ZZ4WQ7UNYuSB8rheqFqmg-1
-X-Mimecast-MFC-AGG-ID: 2ZZ4WQ7UNYuSB8rheqFqmg_1751281826
-Received: by mail-ed1-f71.google.com with SMTP id
- 4fb4d7f45d1cf-60728151592so2040894a12.1
- for <dri-devel@lists.freedesktop.org>; Mon, 30 Jun 2025 04:10:27 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1751281826; x=1751886626;
- h=content-transfer-encoding:in-reply-to:content-language:references
- :cc:to:from:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=M51SNgRSdkBVqofCljCWPGL6IaM6V48QvSeJNOH04Cs=;
- b=Mf/v4Qt+4OwSxgON/ezx+sZkj/2zKqD9McFR9EsDPygvHojwlC3KmUBnopGIUE8Zkg
- AiCOdl9sKl/0lfdPw9fVIbKFaEGuMPaKX/9Zs7Eanh1HUQa+o8fFfS5FAQIGyb1eoz9s
- 24WpxRqCwMqkbheZ1K+0qyf2dbi3yLBs+OixN4nahyQSXQStK9f9gGoT7/6S8QDv2VJ3
- GQz7VN3z/cOzTqEjs6YWgsihkQskJFJEu7SH1MT7BJJ6Ad60qk0UIV9ZP+5Yls31LZay
- FwWUfHnvEFfG6oPm34U10qTSw1jSEs4ecW0utlfg6C1QrvlPa3RXbl1wuF3VgS2pEe8W
- /LqQ==
-X-Forwarded-Encrypted: i=1;
- AJvYcCXXXCPT2I3unHMpV2lNAHXc4jUfdULkshySXUrQ56XT9OMGC3DWm8TPKhyCUJ5PTM5u0+Vo1tPn1uc=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YzutaED2tDO8zNn7Xto7dTeqXQ3bwPoxAHawQ6d5yWFW0A5xxba
- dKuqwz8MJvpb0Klzx4uPEdpe1NerS23Hq+o9L+3s2gzGd+efIL/LPv1U/6F2JoCyYccv24WiIe7
- CHwtPzSuoYBJGh1qFZ2HnAftL39xqZEFZ1D5ExwRQY7L9WvXFWpAskhHlAgDwtvkMd0eq4g==
-X-Gm-Gg: ASbGncsxgqyObbcQHo/CvQ6EzNMwhspO1bMF6xq/NfgXnjCreSr73Q1n+7UWTfkkxg2
- hGyovICnXUQHsfi+C3AQMttixUoR+rtt4UdAFfJSIT/mxKIQFXyPQhC3PcbQmxcn8SIqJB4+0UG
- c9pwQ3dXIhwRHxaTnXd4O/MOfKiRIlTG/AQddVJFwTnM1XGBI3CWRV0/MIs/8gzflz1J4WqkW2D
- bRfomxbFceWfSMdjHg/yJyEk8IJRqt2G34FBa4tFMdAfZ+e9rFtH6zZ4HW7BK7Ec5kEO990fAie
- g045ljxeQaGOPhKfhw1dpqVZBO06HqXI/WavtEjNOFmUU2tE7NlXeQl9GalZQ2oei12M178vkd0
- uQrx+fCapTyOW0d4B69VrhVYJPQsDshTYHP9zsQBtVR3/1nAD/qeDAR1TH8bQDO5XQ9ZGkT7BNQ
- ==
-X-Received: by 2002:a05:6402:2550:b0:60c:4220:5d89 with SMTP id
- 4fb4d7f45d1cf-60c88e049ffmr10654096a12.23.1751281826059; 
- Mon, 30 Jun 2025 04:10:26 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IFq6/wmQdRyWuusd+TrsspGtgm4nht0FD4qB/wN9wyan/H6VbfFrLbQcWsRb+AImUtwr0ZQ5A==
-X-Received: by 2002:a05:6402:2550:b0:60c:4220:5d89 with SMTP id
- 4fb4d7f45d1cf-60c88e049ffmr10654051a12.23.1751281825601; 
- Mon, 30 Jun 2025 04:10:25 -0700 (PDT)
-Received: from ?IPV6:2001:1c00:c32:7800:5bfa:a036:83f0:f9ec?
- (2001-1c00-0c32-7800-5bfa-a036-83f0-f9ec.cable.dynamic.v6.ziggo.nl.
- [2001:1c00:c32:7800:5bfa:a036:83f0:f9ec])
- by smtp.gmail.com with ESMTPSA id
- 4fb4d7f45d1cf-60c831cb724sm5730480a12.53.2025.06.30.04.10.24
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 30 Jun 2025 04:10:25 -0700 (PDT)
-Message-ID: <e0bcd0a8-dbb5-4272-a549-1029f4dd0e41@redhat.com>
-Date: Mon, 30 Jun 2025 13:10:24 +0200
+Received: from fanzine2.igalia.com (fanzine2.igalia.com [213.97.179.56])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1B37D10E40E;
+ Mon, 30 Jun 2025 11:26:06 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com; 
+ s=20170329;
+ h=Content-Transfer-Encoding:Content-Type:In-Reply-To:From:
+ References:Cc:To:Subject:MIME-Version:Date:Message-ID:Sender:Reply-To:
+ Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
+ Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
+ List-Subscribe:List-Post:List-Owner:List-Archive;
+ bh=KTch8RGig26EdKTqZ+Ga+GYQ19PjBijkv/2Y6AchRSU=; b=q0KCCkkEvB5qp409GDnecogLWH
+ 42L+RGwe4AocX3/YUlZAjZ7ykK0aT0pzPOKJwl6IJCv5jPpuxI7Iwsz36l+iBa723b49VqO5HA8R/
+ We7YlqlZLaXHiZNFcBiyJiGyYYY8wDwHwgZ1UoU8URGiQMGTP7tDjkPSV96rY00EoyFHovPCqIw9v
+ pezxtu5TPWGI/xDxpcHZcbcVVMPPV7i4E3lpCVGzMafWejLwKihHBRux91jRJryLzExSyw6tpx00u
+ uArUBNwTAN210qEjdt8NGReno5BSTLOd5Q+dWlt6Uxi9oo48SHuUJnBQ4F/gKe5lw0hSHufSxZmLU
+ ZcrGjO9w==;
+Received: from [189.7.87.79] (helo=[192.168.0.7])
+ by fanzine2.igalia.com with esmtpsa 
+ (Cipher TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_128_GCM:128) (Exim)
+ id 1uWCdn-00AS3d-PV; Mon, 30 Jun 2025 13:25:40 +0200
+Message-ID: <9c9afdec-491c-4ab7-b642-c9ea4660b117@igalia.com>
+Date: Mon, 30 Jun 2025 08:25:28 -0300
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] agp/amd64: Bind to unsupported devices only if AGP is
- present
-From: Hans de Goede <hdegoede@redhat.com>
-To: Lukas Wunner <lukas@wunner.de>
-Cc: Ben Hutchings <ben@decadent.org.uk>, David Airlie <airlied@redhat.com>,
- Bjorn Helgaas <helgaas@kernel.org>, Joerg Roedel <joro@8bytes.org>,
- Suravee Suthikulpanit <suravee.suthikulpanit@amd.com>,
- Andi Kleen <ak@linux.intel.com>, Ahmed Salem <x0rw3ll@gmail.com>,
- Borislav Petkov <bp@alien8.de>, dri-devel@lists.freedesktop.org,
- iommu@lists.linux.dev, linux-pci@vger.kernel.org
-References: <f8ff40f35a9a5836d1371f60e85c09c5735e3c5e.1750497201.git.lukas@wunner.de>
- <b73fbb3e3f03d842f36e6ba2e6a8ad0bb4b904fd.camel@decadent.org.uk>
- <aFalrV1500saBto5@wunner.de>
- <279f63810875f2168c591aab0f30f8284d12fe02.camel@decadent.org.uk>
- <aFa8JJaRP-FUyy6Y@wunner.de>
- <9077aab5304e1839786df9adb33c334d10c69397.camel@decadent.org.uk>
- <98012c55-1e0d-4c1b-b650-5bb189d78009@redhat.com>
- <aFwIu0QveVuJZNoU@wunner.de>
- <eb98477c-2d5c-4980-ab21-6aed8f0451c9@redhat.com>
-In-Reply-To: <eb98477c-2d5c-4980-ab21-6aed8f0451c9@redhat.com>
-X-Mimecast-Spam-Score: 0
-X-Mimecast-MFC-PROC-ID: -2COxr1m2sa7Y2Y10Lr9BYlYiulRSd2IaqKYtGtPq8U_1751281826
-X-Mimecast-Originator: redhat.com
-Content-Language: en-US, nl
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Subject: Re: [PATCH v3 2/8] drm/sched: Allow drivers to skip the reset and
+ keep on running
+To: Matthew Brost <matthew.brost@intel.com>,
+ Danilo Krummrich <dakr@kernel.org>, Philipp Stanner <phasta@kernel.org>,
+ =?UTF-8?Q?Christian_K=C3=B6nig?= <ckoenig.leichtzumerken@gmail.com>,
+ Tvrtko Ursulin <tvrtko.ursulin@igalia.com>, Simona Vetter <simona@ffwll.ch>,
+ David Airlie <airlied@gmail.com>, Melissa Wen <mwen@igalia.com>,
+ Lucas Stach <l.stach@pengutronix.de>,
+ Russell King <linux+etnaviv@armlinux.org.uk>,
+ Christian Gmeiner <christian.gmeiner@gmail.com>,
+ Lucas De Marchi <lucas.demarchi@intel.com>,
+ =?UTF-8?Q?Thomas_Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>,
+ Rodrigo Vivi <rodrigo.vivi@intel.com>,
+ Boris Brezillon <boris.brezillon@collabora.com>,
+ Rob Herring <robh@kernel.org>, Steven Price <steven.price@arm.com>,
+ Liviu Dudau <liviu.dudau@arm.com>
+Cc: kernel-dev@igalia.com, dri-devel@lists.freedesktop.org,
+ etnaviv@lists.freedesktop.org, intel-xe@lists.freedesktop.org
+References: <20250618-sched-skip-reset-v3-0-8be5cca2725d@igalia.com>
+ <20250618-sched-skip-reset-v3-2-8be5cca2725d@igalia.com>
+Content-Language: en-US
+From: =?UTF-8?Q?Ma=C3=ADra_Canal?= <mcanal@igalia.com>
+In-Reply-To: <20250618-sched-skip-reset-v3-2-8be5cca2725d@igalia.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -120,66 +78,152 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 Hi,
 
-On 25-Jun-25 8:43 PM, Hans de Goede wrote:
-> Hi,
-> 
-> On 25-Jun-25 4:33 PM, Lukas Wunner wrote:
->> On Wed, Jun 25, 2025 at 04:08:38PM +0200, Hans de Goede wrote:
->>> Lukas made me aware of this attempt to fix the KERN_CRIT msg, because
->>> I wrote a slightly different patch to fix this:
->>>
->>> https://lore.kernel.org/dri-devel/20250625112411.4123-1-hansg@kernel.org/
->>>
->>> This seems like a cleaner fix to me and something which would be good
->>> to have regardless since currently the driver_attach() call is doing
->>> too much work because the promisc table catches an unnecessary wide
->>> net / match matching many PCI devices which cannot be AGP capable
->>> at all.
->>
->> So how do you know that all of these unsupported devices have
->> PCI_CLASS_BRIDGE_HOST?
-> 
-> The top of the driver says
-> 
->  * This is a GART driver for the AMD Opteron/Athlon64 on-CPU northbridge.
->  * It also includes support for the AMD 8151 AGP bridge
-> 
-> Note this only talks about north bridges.
-> 
-> Also given the age of AGP, I would expect the agp_amd64_pci_table[]
-> to be pretty much complete and the need for probing for unknown AGP
-> capable bridges is likely a relic which can be disabled by default.
-> 
-> Actually the amd64-agp code is weird in that has support for
-> unknown AGP bridges enabled by default in the first place.
-> 
-> The global probe unknown AGP bridges bool which is called
-> agp_try_unsupported_boot is false by default.
-> 
-> As discussed in the thread with my patch, we should probably
-> just change the AMD specific agp_try_unsupported to default
-> to false too.
-> 
->> The only thing we know is that an AGP
->> Capability must be present.
->>
->> In particular, AGP 3.0 sec 2.5 explicitly allows PCI-to-PCI bridges
->> in addition to Host-to-PCI bridges.
-> 
-> Ok, so we can add a second entry to the agp_amd64_pci_promisc_table[]
-> to match PCI to PCI bridges just to be sure, that still feels
-> cleaner to me.
+@Matthew, @Philipp, @Danilo, do you folks have some feedback about this
+patch and also 1/8 and 7/8? I'd be glad to hear your thoughts and/or
+gather some R-b's. Thanks!
 
-ping? It would be good to get some consensus on how to
-fix this and move forward with a fix. Either the patch from
-this thread; or my patch:
+Best Regards,
+- Maíra
 
-https://lore.kernel.org/dri-devel/20250625112411.4123-1-hansg@kernel.org/
-
-Works for me, the most important thing here is to get this
-regression fixed.
-
-Regards,
-
-Hans
+On 18/06/25 11:47, Maíra Canal wrote:
+> When the DRM scheduler times out, it's possible that the GPU isn't hung;
+> instead, a job may still be running, and there may be no valid reason to
+> reset the hardware. This can occur in two situations:
+> 
+>    1. The GPU exposes some mechanism that ensures the GPU is still making
+>       progress. By checking this mechanism, the driver can safely skip the
+>       reset, re-arm the timeout, and allow the job to continue running until
+>       completion. This is the case for v3d, Etnaviv, and Xe.
+>    2. Timeout has fired before the free-job worker. Consequently, the
+>       scheduler calls `timedout_job()` for a job that isn't timed out.
+> 
+> These two scenarios are problematic because the job was removed from the
+> `sched->pending_list` before calling `sched->ops->timedout_job()`, which
+> means that when the job finishes, it won't be freed by the scheduler
+> though `sched->ops->free_job()` - leading to a memory leak.
+> 
+> To solve those problems, create a new `drm_gpu_sched_stat`, called
+> DRM_GPU_SCHED_STAT_NO_HANG, that allows a driver to skip the reset. The
+> new status will indicate that the job must be reinserted into the
+> pending list, and the hardware / driver will still complete that job.
+> 
+> Signed-off-by: Maíra Canal <mcanal@igalia.com>
+> ---
+>   drivers/gpu/drm/scheduler/sched_main.c | 43 ++++++++++++++++++++++++++++++++--
+>   include/drm/gpu_scheduler.h            |  3 +++
+>   2 files changed, 44 insertions(+), 2 deletions(-)
+> 
+> diff --git a/drivers/gpu/drm/scheduler/sched_main.c b/drivers/gpu/drm/scheduler/sched_main.c
+> index fb6d9eddf5b378910b66d456f3610ff2ca7c0f41..5e1c07ca867cb14746cec9a7e53896fe17af6e58 100644
+> --- a/drivers/gpu/drm/scheduler/sched_main.c
+> +++ b/drivers/gpu/drm/scheduler/sched_main.c
+> @@ -380,11 +380,16 @@ static void drm_sched_run_free_queue(struct drm_gpu_scheduler *sched)
+>   {
+>   	struct drm_sched_job *job;
+>   
+> -	spin_lock(&sched->job_list_lock);
+>   	job = list_first_entry_or_null(&sched->pending_list,
+>   				       struct drm_sched_job, list);
+>   	if (job && dma_fence_is_signaled(&job->s_fence->finished))
+>   		__drm_sched_run_free_queue(sched);
+> +}
+> +
+> +static void drm_sched_run_free_queue_unlocked(struct drm_gpu_scheduler *sched)
+> +{
+> +	spin_lock(&sched->job_list_lock);
+> +	drm_sched_run_free_queue(sched);
+>   	spin_unlock(&sched->job_list_lock);
+>   }
+>   
+> @@ -537,6 +542,31 @@ static void drm_sched_job_begin(struct drm_sched_job *s_job)
+>   	spin_unlock(&sched->job_list_lock);
+>   }
+>   
+> +/**
+> + * drm_sched_job_reinsert_on_false_timeout - Reinsert the job on a false timeout
+> + * @sched: scheduler instance
+> + * @job: job to be reinserted on the pending list
+> + *
+> + * In the case of a "false timeout" - when a timeout occurs but the GPU isn't
+> + * hung and the job is making progress, the scheduler must reinsert the job back
+> + * into the pending list. Otherwise, the job and its resources won't be freed
+> + * through the &drm_sched_backend_ops.free_job callback.
+> + *
+> + * Note that after reinserting the job, the scheduler enqueues the free-job
+> + * work again if ready. Otherwise, a signaled job could be added to the pending
+> + * list, but never freed.
+> + *
+> + * This function must be used in "false timeout" cases only.
+> + */
+> +static void drm_sched_job_reinsert_on_false_timeout(struct drm_gpu_scheduler *sched,
+> +						    struct drm_sched_job *job)
+> +{
+> +	spin_lock(&sched->job_list_lock);
+> +	list_add(&job->list, &sched->pending_list);
+> +	drm_sched_run_free_queue(sched);
+> +	spin_unlock(&sched->job_list_lock);
+> +}
+> +
+>   static void drm_sched_job_timedout(struct work_struct *work)
+>   {
+>   	struct drm_gpu_scheduler *sched;
+> @@ -570,6 +600,9 @@ static void drm_sched_job_timedout(struct work_struct *work)
+>   			job->sched->ops->free_job(job);
+>   			sched->free_guilty = false;
+>   		}
+> +
+> +		if (status == DRM_GPU_SCHED_STAT_NO_HANG)
+> +			drm_sched_job_reinsert_on_false_timeout(sched, job);
+>   	} else {
+>   		spin_unlock(&sched->job_list_lock);
+>   	}
+> @@ -592,6 +625,9 @@ static void drm_sched_job_timedout(struct work_struct *work)
+>    * This function is typically used for reset recovery (see the docu of
+>    * drm_sched_backend_ops.timedout_job() for details). Do not call it for
+>    * scheduler teardown, i.e., before calling drm_sched_fini().
+> + *
+> + * As it's used for reset recovery, drm_sched_stop() shouldn't be called
+> + * if the driver skipped the reset (DRM_GPU_SCHED_STAT_NO_HANG).
+>    */
+>   void drm_sched_stop(struct drm_gpu_scheduler *sched, struct drm_sched_job *bad)
+>   {
+> @@ -677,6 +713,9 @@ EXPORT_SYMBOL(drm_sched_stop);
+>    * drm_sched_backend_ops.timedout_job() for details). Do not call it for
+>    * scheduler startup. The scheduler itself is fully operational after
+>    * drm_sched_init() succeeded.
+> + *
+> + * As it's used for reset recovery, drm_sched_start() shouldn't be called
+> + * if the driver skipped the reset (DRM_GPU_SCHED_STAT_NO_HANG).
+>    */
+>   void drm_sched_start(struct drm_gpu_scheduler *sched, int errno)
+>   {
+> @@ -1198,7 +1237,7 @@ static void drm_sched_free_job_work(struct work_struct *w)
+>   	if (job)
+>   		sched->ops->free_job(job);
+>   
+> -	drm_sched_run_free_queue(sched);
+> +	drm_sched_run_free_queue_unlocked(sched);
+>   	drm_sched_run_job_queue(sched);
+>   }
+>   
+> diff --git a/include/drm/gpu_scheduler.h b/include/drm/gpu_scheduler.h
+> index 83e5c00d8dd9a83ab20547a93d6fc572de97616e..423bcc7d7584d3f85cc5a10982f3cf637a781825 100644
+> --- a/include/drm/gpu_scheduler.h
+> +++ b/include/drm/gpu_scheduler.h
+> @@ -393,11 +393,14 @@ struct drm_sched_job {
+>    * @DRM_GPU_SCHED_STAT_NONE: Reserved. Do not use.
+>    * @DRM_GPU_SCHED_STAT_RESET: The GPU hung and successfully reset.
+>    * @DRM_GPU_SCHED_STAT_ENODEV: Error: Device is not available anymore.
+> + * @DRM_GPU_SCHED_STAT_NO_HANG: Contrary to scheduler's belief, the GPU
+> + * did not hang and is operational.
+>    */
+>   enum drm_gpu_sched_stat {
+>   	DRM_GPU_SCHED_STAT_NONE,
+>   	DRM_GPU_SCHED_STAT_RESET,
+>   	DRM_GPU_SCHED_STAT_ENODEV,
+> +	DRM_GPU_SCHED_STAT_NO_HANG,
+>   };
+>   
+>   /**
+> 
 
