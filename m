@@ -2,64 +2,59 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5DD7CAEDA33
-	for <lists+dri-devel@lfdr.de>; Mon, 30 Jun 2025 12:45:15 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id D5DA9AEDA49
+	for <lists+dri-devel@lfdr.de>; Mon, 30 Jun 2025 12:52:56 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7993E10E3F5;
-	Mon, 30 Jun 2025 10:45:13 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id BDB0610E215;
+	Mon, 30 Jun 2025 10:52:53 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="Wv8UFVB1";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="ecgrLFsX";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
- by gabe.freedesktop.org (Postfix) with ESMTPS id ED45A10E3F5
- for <dri-devel@lists.freedesktop.org>; Mon, 30 Jun 2025 10:45:11 +0000 (UTC)
+Received: from nyc.source.kernel.org (nyc.source.kernel.org [147.75.193.91])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D12B210E215
+ for <dri-devel@lists.freedesktop.org>; Mon, 30 Jun 2025 10:52:51 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by dfw.source.kernel.org (Postfix) with ESMTP id A47685C5C3F;
- Mon, 30 Jun 2025 10:45:10 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id D78F1C4CEE3;
- Mon, 30 Jun 2025 10:45:09 +0000 (UTC)
+ by nyc.source.kernel.org (Postfix) with ESMTP id 176A2A53208;
+ Mon, 30 Jun 2025 10:52:51 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 67264C4CEE3;
+ Mon, 30 Jun 2025 10:52:50 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1751280310;
- bh=wXMWujE7XchWdZ1zs2TcjwFnfNGsISRibnIGmp2rHBg=;
+ s=k20201202; t=1751280770;
+ bh=q1KZr0/MIJZ8BsWYHDkbrBS3lhf5eDtx+xoZZVvacOU=;
  h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=Wv8UFVB1aU4AvzIw1ixfToJE1xEcqMoMHqYghwS78xjMENr06K8/DX6FHA3Mf3wDe
- Eo1Rr3ee6ZGEWGAmOKgF1i6f3GVlN3nDpwd+riFvj5z/BPnxA4R0AWJn0S6DItq05o
- 8WK0Bl96+tRkn2HLbNoy1AJcIEkXViT3bIG340LONbwIuedqpekwlBzGYT9X4XwUWX
- W5ORZ8Ej2+zfwfiortCTzgSvQfJZ+6FspsFztS+1QHk2wTxbd7yzXeKoo4fZvrHJLW
- umdUfe8Bu2okJ3c99tNMqapZJfNw1yTPvNhE12oaOwYI3iQDTghzvzB50ZWBwK6TSh
- hvPlygaXqrocg==
-Date: Mon, 30 Jun 2025 12:45:07 +0200
+ b=ecgrLFsXHv0STRWJRz3rjgLu6kC+84OjZyTK1M0XU+VV/KKLSJY8iVk0z07rGAGIC
+ KqMHfdnDu0i+XTUpzBL4Qr6niVls6FpN+2mp1ifhAQhSiG9CbOD4thykXFUKZqfCfu
+ /xJagnZanADmRgv/M/JyWxDSkme+rjDfUlsdJ8eeBucWSWK2XGEz2hmLrRE9WiQzDz
+ 97lHo+RItUwfJzNhw0os/KYbbPg8VrCbY8/NuRXBUVLa7tcruYfoncbXoIs8S8nN+u
+ i31YDGGmI4ZaLFUVM12wiHeBsOt20QVNPTp/349ad86D3N7LTb3eCQj1MlVO6GTUtR
+ VP61RBZsxBIKg==
+Date: Mon, 30 Jun 2025 12:52:48 +0200
 From: Maxime Ripard <mripard@kernel.org>
-To: Krzysztof Kozlowski <krzk@kernel.org>
-Cc: Hans de Goede <hdegoede@redhat.com>, 
- Luca Weiss <luca.weiss@fairphone.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
- Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>, 
- Simona Vetter <simona@ffwll.ch>, Rob Herring <robh@kernel.org>, 
- Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
- Javier Martinez Canillas <javierm@redhat.com>, Helge Deller <deller@gmx.de>,
- linux-fbdev@vger.kernel.org, 
- dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org,
- linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v2 1/5] dt-bindings: display: simple-framebuffer: Add
- interconnects property
-Message-ID: <20250630-tapir-of-astonishing-artistry-ad0bd8@houat>
-References: <20250623-simple-drm-fb-icc-v2-0-f69b86cd3d7d@fairphone.com>
- <20250623-simple-drm-fb-icc-v2-1-f69b86cd3d7d@fairphone.com>
- <20250627-mysterious-optimistic-bird-acaafb@krzk-bin>
- <DAX7ZB27SBPV.2Y0I09TVSF3TT@fairphone.com>
- <1129bc60-f9cb-40be-9869-8ffa3b3c9748@kernel.org>
- <8a3ad930-bfb1-4531-9d34-fdf7d437f352@redhat.com>
- <85521ded-734d-48e8-8f76-c57739102ded@kernel.org>
- <20250630-stirring-kiwi-of-adventure-8f22ba@houat>
- <b9f010ca-1564-4a3a-b004-ef179d5c90a6@kernel.org>
+To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Cc: Mike Looijmans <mike.looijmans@topic.nl>, 
+ dri-devel@lists.freedesktop.org, David Airlie <airlied@gmail.com>, 
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Michal Simek <michal.simek@amd.com>, 
+ Simona Vetter <simona@ffwll.ch>, Thomas Zimmermann <tzimmermann@suse.de>, 
+ Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>,
+ linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] drm: xlnx: zynqmp_dp: Support DRM_FORMAT_XRGB8888
+Message-ID: <20250630-delicate-stirring-sawfly-dd81be@houat>
+References: <1b153bce-a66a-45ee-a5c6-963ea6fb1c82.949ef384-8293-46b8-903f-40a477c056ae.fb98a918-329e-4536-a0a5-a99b22ba0120@emailsignatures365.codetwo.com>
+ <20250627145058.6880-1-mike.looijmans@topic.nl>
+ <20250627181911.GF24912@pendragon.ideasonboard.com>
+ <42af6260-c8af-42e1-a9bb-adfaaabf0190@topic.nl>
+ <20250630-psychedelic-tested-smilodon-adcbb3@houat>
+ <20250630091156.GE24861@pendragon.ideasonboard.com>
+ <20250630-phenomenal-taipan-of-imagination-59b300@houat>
+ <20250630093335.GC20333@pendragon.ideasonboard.com>
 MIME-Version: 1.0
 Content-Type: multipart/signed; micalg=pgp-sha384;
- protocol="application/pgp-signature"; boundary="2z4ar3mqh5a4nutv"
+ protocol="application/pgp-signature"; boundary="7zpx456z6zatiarb"
 Content-Disposition: inline
-In-Reply-To: <b9f010ca-1564-4a3a-b004-ef179d5c90a6@kernel.org>
+In-Reply-To: <20250630093335.GC20333@pendragon.ideasonboard.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -76,132 +71,114 @@ Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 
---2z4ar3mqh5a4nutv
+--7zpx456z6zatiarb
 Content-Type: text/plain; protected-headers=v1; charset=us-ascii
 Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
-Subject: Re: [PATCH v2 1/5] dt-bindings: display: simple-framebuffer: Add
- interconnects property
+Subject: Re: [PATCH] drm: xlnx: zynqmp_dp: Support DRM_FORMAT_XRGB8888
 MIME-Version: 1.0
 
-On Mon, Jun 30, 2025 at 11:36:51AM +0200, Krzysztof Kozlowski wrote:
-> On 30/06/2025 10:38, Maxime Ripard wrote:
-> > On Mon, Jun 30, 2025 at 10:24:06AM +0200, Krzysztof Kozlowski wrote:
-> >> On 29/06/2025 14:07, Hans de Goede wrote:
-> >>> Hi Krzysztof,
-> >>>
-> >>> On 28-Jun-25 1:49 PM, Krzysztof Kozlowski wrote:
-> >>>> On 27/06/2025 11:48, Luca Weiss wrote:
-> >>>>> Hi Krzysztof,
-> >>>>>
-> >>>>> On Fri Jun 27, 2025 at 10:08 AM CEST, Krzysztof Kozlowski wrote:
-> >>>>>> On Mon, Jun 23, 2025 at 08:44:45AM +0200, Luca Weiss wrote:
-> >>>>>>> Document the interconnects property which is a list of interconne=
-ct
-> >>>>>>> paths that is used by the framebuffer and therefore needs to be k=
-ept
-> >>>>>>> alive when the framebuffer is being used.
-> >>>>>>>
-> >>>>>>> Acked-by: Thomas Zimmermann <tzimmermann@suse.de>
-> >>>>>>> Signed-off-by: Luca Weiss <luca.weiss@fairphone.com>
-> >>>>>>> ---
-> >>>>>>>  Documentation/devicetree/bindings/display/simple-framebuffer.yam=
-l | 3 +++
-> >>>>>>>  1 file changed, 3 insertions(+)
-> >>>>>>>
-> >>>>>>> diff --git a/Documentation/devicetree/bindings/display/simple-fra=
-mebuffer.yaml b/Documentation/devicetree/bindings/display/simple-framebuffe=
-r.yaml
-> >>>>>>> index 296500f9da05e296dbbeec50ba5186b6b30aaffc..f0fa0ef23d91043df=
-b2b220c654b80e2e80850cd 100644
-> >>>>>>> --- a/Documentation/devicetree/bindings/display/simple-framebuffe=
-r.yaml
-> >>>>>>> +++ b/Documentation/devicetree/bindings/display/simple-framebuffe=
-r.yaml
-> >>>>>>> @@ -79,6 +79,9 @@ properties:
-> >>>>>>>    power-domains:
-> >>>>>>>      description: List of power domains used by the framebuffer.
-> >>>>>>> =20
-> >>>>>>> +  interconnects:
-> >>>>>>> +    description: List of interconnect paths used by the framebuf=
-fer.
-> >>>>>>> +
-> >>>>>>
-> >>>>>> maxItems: 1, or this is not a simple FB anymore. Anything which ne=
-eds
-> >>>>>> some sort of resources in unknown way is not simple anymore. You n=
-eed
-> >>>>>> device specific bindings.
-> >>>>>
-> >>>>> The bindings support an arbitrary number of clocks, regulators,
-> >>>>> power-domains. Why should I artificially limit the interconnects to=
- only
-> >>>>> one?
-> >>>>
-> >>>> And IMO they should not. Bindings are not supposed to be generic.
-> >>>
-> >>> The simplefb binding is a binding to allow keeping the firmware, e.g.
-> >>> uboot setup framebuffer alive to e.g. show a boot splash until
-> >>> the native display-engine drive loads. Needing display-engine
-> >>> specific bindings totally contradicts the whole goal of=20
-> >>
-> >> No, it does not. DT is well designed for that through expressing
-> >> compatibility. I did not say you cannot have generic fallback for simp=
-le
-> >> use case.
-> >>
-> >> But this (and previous patchset) grows this into generic binding ONLY
-> >> and that is not correct.
+On Mon, Jun 30, 2025 at 12:33:35PM +0300, Laurent Pinchart wrote:
+> On Mon, Jun 30, 2025 at 11:29:08AM +0200, Maxime Ripard wrote:
+> > On Mon, Jun 30, 2025 at 12:11:56PM +0300, Laurent Pinchart wrote:
+> > > On Mon, Jun 30, 2025 at 10:27:55AM +0200, Maxime Ripard wrote:
+> > > > On Mon, Jun 30, 2025 at 10:03:16AM +0200, Mike Looijmans wrote:
+> > > > > On 27-06-2025 20:19, Laurent Pinchart wrote:
+> > > > > > On Fri, Jun 27, 2025 at 04:50:46PM +0200, Mike Looijmans wrote:
+> > > > > > > XRGB8888 is the default mode that Xorg will want to use. Add =
+support
+> > > > > > > for this to the Zynqmp DisplayPort driver, so that applicatio=
+ns can use
+> > > > > > > 32-bit framebuffers. This solves that the X server would fail=
+ to start
+> > > > > > > unless one provided an xorg.conf that sets DefaultDepth to 16.
+> > > > > > >=20
+> > > > > > > Signed-off-by: Mike Looijmans <mike.looijmans@topic.nl>
+> > > > > > > ---
+> > > > > > >=20
+> > > > > > >   drivers/gpu/drm/xlnx/zynqmp_disp.c | 5 +++++
+> > > > > > >   1 file changed, 5 insertions(+)
+> > > > > > >=20
+> > > > > > > diff --git a/drivers/gpu/drm/xlnx/zynqmp_disp.c b/drivers/gpu=
+/drm/xlnx/zynqmp_disp.c
+> > > > > > > index 80d1e499a18d..501428437000 100644
+> > > > > > > --- a/drivers/gpu/drm/xlnx/zynqmp_disp.c
+> > > > > > > +++ b/drivers/gpu/drm/xlnx/zynqmp_disp.c
+> > > > > > > @@ -312,6 +312,11 @@ static const struct zynqmp_disp_format a=
+vbuf_gfx_fmts[] =3D {
+> > > > > > >   		.buf_fmt	=3D ZYNQMP_DISP_AV_BUF_FMT_NL_GFX_RGBA8888,
+> > > > > > >   		.swap		=3D true,
+> > > > > > >   		.sf		=3D scaling_factors_888,
+> > > > > > > +	}, {
+> > > > > > > +		.drm_fmt	=3D DRM_FORMAT_XRGB8888,
+> > > > > > > +		.buf_fmt	=3D ZYNQMP_DISP_AV_BUF_FMT_NL_GFX_RGBA8888,
+> > > > > > > +		.swap		=3D true,
+> > > > > > > +		.sf		=3D scaling_factors_888,
+> > > > > >=20
+> > > > > > I'm afraid that's not enough. There's a crucial difference betw=
+een
+> > > > > > DRM_FORMAT_ARGB8888 (already supported by this driver) and
+> > > > > > DRM_FORMAT_XRGB8888: for the latter, the 'X' component must be =
+ignored.
+> > > > > > The graphics layer is blended on top of the video layer, and th=
+e blender
+> > > > > > uses both a global alpha parameter and the alpha channel of the=
+ graphics
+> > > > > > layer for 32-bit RGB formats. This will lead to incorrect opera=
+tion when
+> > > > > > the 'X' component is not set to full opacity.
+> > > > >=20
+> > > > > I spent a few hours digging in the source code and what I could f=
+ind in the
+> > > > > TRM and register maps, but there's not enough information in ther=
+e to
+> > > > > explain how the blender works. The obvious "XRGB" implementation =
+would be to
+> > > > > just disable the blender.
+> > > > >=20
+> > > > > What I got from experimenting so far is that the alpha component =
+is ignored
+> > > > > anyway while the video path isn't active. So as long as one isn't=
+ using the
+> > > > > video blending path, the ARGB and XRGB modes are identical.
+> > > > >=20
+> > > > > Guess I'll need assistance from AMD/Xilinx to completely implemen=
+t the XRGB
+> > > > > modes.
+> > > > >=20
+> > > > > (For our application, this patch is sufficient as it solves the i=
+ssues like
+> > > > > X11 not starting up, OpenGL not working and horrendously slow sca=
+ling
+> > > > > performance)
+> > > >=20
+> > > > Given that we consider XRGB8888 mandatory,
+> > >=20
+> > > How about platforms that can't support it at all ?
 > >=20
-> > Can we have a proper definition of what a correct device tree binding is
-> > then?
-> >=20
-> > It's a bit surprising to have *that* discussion over a binding that is
-> > now well older than a decade now, and while there is definitely some
-> > generic bindings in ePAPR/DT spec, like the CPU ones.
+> > We emulate it.
 >=20
-> Hm? In ARM world at least they are specific, e.g. they have specific
-> compatibles.
->=20
-> >=20
-> > If you don't consider that spec to be correct DT bindings, please
-> > provide a definition of what that is, and / or reasonable alternatives.
-> >=20
-> > Also, no, a device specific binding isn't reasonable here, because we
-> > *don't* have a device. From a technical standpoint, the firmware creates
->=20
-> You touch internal parts of the SoC and you list very specific SoC
-> parts. Interconnect is internal part of the SoC and only specific
-> devices are using it.
->=20
-> You define here generic SW construct for something which is opposite of
-> generic: the interconnect connecting two specific, unique components of
-> one, given SoC.
->=20
-> > the framebuffer, Linux just uses it. Just like you don't have a
-> > device/platform specific compatible for PSCI, SCPI, et al.
->=20
-> They follow some sort of spec and still they do not reference chosen
-> SoC-design-specific properties.
+> Does that imply a full memcpy of the frame buffer in the kernel driver,
+> or is it emulated in userspace ?
 
-ish.
+Neither :)
 
-I mean, on theory, you're absolutely correct. In practice,
-assigned-clock-parents, assigned-clock-rates, or protected-clocks for
-example exist and are *only* about SoC-design specific behaviours.
+The kernel deals with it through drm_fb_xrgb8888_to_* helpers, but only
+on the parts of the framebuffer that were modified through the damage
+API.
 
 Maxime
 
---2z4ar3mqh5a4nutv
+--7zpx456z6zatiarb
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iJUEABMJAB0WIQTkHFbLp4ejekA/qfgnX84Zoj2+dgUCaGJqrwAKCRAnX84Zoj2+
-dh39AX9zdlE7lH+G78LqemzNaC1qyQx2EBeMEMVM3nimVQN4kHOYHHm+tp+q2szm
-O8OMuqkBgMxiYf+EbLKsRFdu5yB6Q8lQ1WgOmR8mtOKsPjecd8iby7KGmzt/2n/d
-5IpPDuJG2w==
-=h3OD
+iJUEABMJAB0WIQTkHFbLp4ejekA/qfgnX84Zoj2+dgUCaGJsfwAKCRAnX84Zoj2+
+dny7AYDd0xgmlPJq48l6j6ITd1NQBpubs0QOV0cxbuBfCQk6LucgA/OSNsNH1XvL
+jJupuxEBgOUIy+PG4bk0zviI7u3lVVeR0byLR4tjhiTMfJaV1ZaeFUJewKnbJQoj
+eN0/o9upwQ==
+=WNY/
 -----END PGP SIGNATURE-----
 
---2z4ar3mqh5a4nutv--
+--7zpx456z6zatiarb--
