@@ -2,107 +2,107 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5F076AED582
-	for <lists+dri-devel@lfdr.de>; Mon, 30 Jun 2025 09:26:56 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5D019AED60A
+	for <lists+dri-devel@lfdr.de>; Mon, 30 Jun 2025 09:46:57 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6F83210E3A3;
-	Mon, 30 Jun 2025 07:26:53 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8475710E3AA;
+	Mon, 30 Jun 2025 07:46:55 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=redhat.com header.i=@redhat.com header.b="J2/zltMC";
+	dkim=pass (2048-bit key; unprotected) header.d=qualcomm.com header.i=@qualcomm.com header.b="C3ke4a4v";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [170.10.133.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id DB57010E3A3
- for <dri-devel@lists.freedesktop.org>; Mon, 30 Jun 2025 07:26:50 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1751268409;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=PliJmn1HXur6pMQoL8rB2hExixfTgf4evesy0cgfaZA=;
- b=J2/zltMCgVKvKaClGM3ObITh7/WhCX5c5JMUaudD/Sxd6VM+Af+A7Rs2DIrZrQI/v6yjJy
- 1z8qwaoXlPpd9ZyioIud0rC/+nfx8IFmwKHgCrpwc5b8cS7sLYj6JISQcqvTZOfvysw0bd
- utbEDFHAEUPITiPbPeTN53wcpTMVtkM=
-Received: from mail-ej1-f72.google.com (mail-ej1-f72.google.com
- [209.85.218.72]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-416-0myLh-4IMLCdQm0Vmr4WXw-1; Mon, 30 Jun 2025 03:26:45 -0400
-X-MC-Unique: 0myLh-4IMLCdQm0Vmr4WXw-1
-X-Mimecast-MFC-AGG-ID: 0myLh-4IMLCdQm0Vmr4WXw_1751268405
-Received: by mail-ej1-f72.google.com with SMTP id
- a640c23a62f3a-adb33457610so185853766b.3
- for <dri-devel@lists.freedesktop.org>; Mon, 30 Jun 2025 00:26:45 -0700 (PDT)
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com
+ [205.220.168.131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 285E810E3AA
+ for <dri-devel@lists.freedesktop.org>; Mon, 30 Jun 2025 07:46:54 +0000 (UTC)
+Received: from pps.filterd (m0279867.ppops.net [127.0.0.1])
+ by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 55TNV3b3015956
+ for <dri-devel@lists.freedesktop.org>; Mon, 30 Jun 2025 07:46:53 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
+ cc:content-transfer-encoding:content-type:date:from:in-reply-to
+ :message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
+ aV5arrU7+ZA+U/JE+Y5+I1him+/VX9ALPSKT3ozfsNM=; b=C3ke4a4vl201lBOK
+ RrIUY9Ndk576Ip+RUkfLPiUZRibZ+dXQzad0DLVLmhYT8st4ksnmNjh2a0wqQuvc
+ Iq/YLiQsvtAvkyXsJqP73TD3MoHMa3Fj2KjpIwgYnAxabVxIdGwsaQB7tlKVZnOD
+ eZB5EzFAaht8+bl9r/uVJC/ZU5GmNMtIsT5CTOvWG8xWKNKCdz6t4xp7o+7XVPpQ
+ Pppl1mLqdh7Jv1JerjnQTaDjFa8nvNJ/YJKbnsEHJJpfemKCc4LIBnnlxwPcODUr
+ AMdVNTS7JG+rHbdS3Duu/7du94zp8bCdPoyXDlctEQCY0nUe2YmsQ0qLn619Loic
+ ZNt2sQ==
+Received: from mail-qt1-f197.google.com (mail-qt1-f197.google.com
+ [209.85.160.197])
+ by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 47j63k3ysx-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
+ for <dri-devel@lists.freedesktop.org>; Mon, 30 Jun 2025 07:46:53 +0000 (GMT)
+Received: by mail-qt1-f197.google.com with SMTP id
+ d75a77b69052e-4a461632999so82737911cf.1
+ for <dri-devel@lists.freedesktop.org>; Mon, 30 Jun 2025 00:46:53 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1751268405; x=1751873205;
- h=content-transfer-encoding:in-reply-to:from:content-language
- :references:cc:to:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=PliJmn1HXur6pMQoL8rB2hExixfTgf4evesy0cgfaZA=;
- b=bIEo1VHPpEeHAZ31xgdJjgmkphIcGonO0PemCjOkIvfs+4fI5bBtKf54FMTuIOg/5o
- v71h8HrR6TWlRFEVy3CcCHIf70tIkXSGmO36XmwW+pPFMfh88dsdJUDrk8SPmU5kUCUi
- P6ain2bsVMg/K25+rx0kUuWNAqLy7RitAItnxavumoocEJD5ZwEmVcx/hk+cuxOjl1DS
- yKky9HefIii6S883LMGAcusDEfbZwMkoVYYwn0wuinCDUGY7i5TCWFHvQuXeYQUIO/lI
- Ewu6d9P5DsxqIDlKZ6NaBGnRN2sGVXqRv50GG6SMqL5jbahrVgKMUx0Ay27D0rhFNBNR
- C1aw==
+ d=1e100.net; s=20230601; t=1751269612; x=1751874412;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=aV5arrU7+ZA+U/JE+Y5+I1him+/VX9ALPSKT3ozfsNM=;
+ b=hII2DIJ38LkqguswMJN73TJZbnciYNOra67lWeBqdzfH86x68DbrVnrueZpRfIeS4E
+ iyS70MfT0Z1a1WyUrWmqB4WEpUB3WafNu/PB3AF/0/fEyKHrjwEfj6kOd5gXIGOSy74Q
+ O8UVofPk1lQqC4ztdGxEbyp5T+oJFdAiLRANmaE1mH194RbE+koPtet59+BSXNPTzE6p
+ aIBd/oN12KXQPy+CAgLJfiz3L2IeqctRfsM7vOaMIJShWeqGU1a2bSVS5WG1mGRZGRU/
+ psrXZbok7QfSSVPLC1jC2XVFHPeDhwrUOoMCtpg05oypFqMByPLNsYdIJB6M1d1ISAk7
+ UHlQ==
 X-Forwarded-Encrypted: i=1;
- AJvYcCX7Nhsgd24L/hrWr+u5EB2diT4u4kAnn+5gSYtqnq3PeOnmmpFD035C168XQowLh4PwCPaxq2eaWts=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YwxudP9lIp/xsZlXoiUA9Tu41hSR7Zt0pgfgCm+7A+YYsBmEVCq
- A6NmUk4uslAZpeX+01k2K3USwIni1QV0MyzHpxmsEE1d/nSw4A5DZtW5KQ21bCmYMcZCYbnLm+R
- W+xxWHMISsaIofpheC9S27vdJ3GkaKYQgRwm65FoybzCCQVWvCAApd1fX1+hZFdfcHYh2sA==
-X-Gm-Gg: ASbGnctqmIWQLct3CksDnIb46ma3i3iANEyPPaPZWG2CwZ4/xQP8utsfDAGE/wezbN9
- dLRPkF7Pymk/9/kAyq74NHbr6/w1sUHYDkKcyhFl0MvmdQM/v/pNZajsv6Zvm+dTvI/d0xVbg8i
- 2GbrcMv+D0u4PkKa9LBFNkaFtwwS/62Iy4K2YKTtBrBLamVfolVzIWfYFIV5aWBWADrkm0pOCYa
- JIIMbmJN46QD37h5frtS3OXmJYe2w8EkK2qYppzhhl9hoTCCfTGiWLWS/JMESIsWLN6/AEUo2gU
- AsRdpS/HHmwWVDEf4O7tZt0koBirQSevB88wGW2W/mK54xTAbC2hQELsBUmUy5WEqN9CvMduKhh
- IYxPF+RgniCCD3Cq5udzS68nyPqExCJqj0UdRT9WQRpZxd5VMzW+M/10qiqxl3bI/nOO4LQukPg
- ==
-X-Received: by 2002:a17:907:9611:b0:ade:4593:d7cd with SMTP id
- a640c23a62f3a-ae34fd7dba9mr1214867366b.13.1751268404579; 
- Mon, 30 Jun 2025 00:26:44 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IFiYh3llMDXU4xGZ9swkyEgz9p+asDK16qOjNtV3Z/UlrkO6eBkaLFQvar4Jfxyj+guT7BUfw==
-X-Received: by 2002:a17:907:9611:b0:ade:4593:d7cd with SMTP id
- a640c23a62f3a-ae34fd7dba9mr1214864766b.13.1751268404067; 
- Mon, 30 Jun 2025 00:26:44 -0700 (PDT)
-Received: from ?IPV6:2001:1c00:c32:7800:5bfa:a036:83f0:f9ec?
- (2001-1c00-0c32-7800-5bfa-a036-83f0-f9ec.cable.dynamic.v6.ziggo.nl.
- [2001:1c00:c32:7800:5bfa:a036:83f0:f9ec])
- by smtp.gmail.com with ESMTPSA id
- a640c23a62f3a-ae353639bf1sm624173066b.32.2025.06.30.00.26.43
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 30 Jun 2025 00:26:43 -0700 (PDT)
-Message-ID: <72aab355-263c-4f63-8818-3d76bd3f6826@redhat.com>
-Date: Mon, 30 Jun 2025 09:26:42 +0200
+ AJvYcCXzJ6udb4lRRKnh1fabe+AU3yr6NsnliChvY2FgEVabxGiaynscLKwzaQf14hM1Dp021qNPTEKKJ+w=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YwBIWHVUyt1JTjTQmKiGXxkW2QK0/z0WyW1ryTDkcP4ojpZyipo
+ ZlgL9QZq53CfrLLwRflkU0eVR1bFkOSf1YvCUOixfgssB36b81YR7NgEycQG2HdBp+uRP/Cqt2n
+ o9hdciM8Nh7pOUEUlXFI+8JIVL1yHTSKmZXwEqhXPIUF+htcPfLVvHSmB1wV/ZfeTu3+YXVakK3
+ RMqv6vUJm73umr4bmJOQl1MCQemHPTXF0BDtptwcyE4zHt/w==
+X-Gm-Gg: ASbGncvP654E0M+ClV0tqY1TUyE4cN910Gz6ntRfF71hkRZfgZ+Xt81NtwiN+DbZTtl
+ AikoUg3+dAJDyEPfeIERyPnt3O9+lwzktRwHTdL0HDStZtUEXPbyGZCJmRIyp0u22gEIIO/3vTj
+ nyw8/m
+X-Received: by 2002:a05:622a:19a9:b0:4a7:1402:3b1 with SMTP id
+ d75a77b69052e-4a7fc9d42e0mr208097701cf.11.1751269612160; 
+ Mon, 30 Jun 2025 00:46:52 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IHOvh/sVxktuPWb06IhY+S4eQ2LmVWxABhCied3HVcjyhp4T4/fXXJl6/WNp99su8uwy9KlMy+OVyVMPANfnJg=
+X-Received: by 2002:a05:622a:19a9:b0:4a7:1402:3b1 with SMTP id
+ d75a77b69052e-4a7fc9d42e0mr208097461cf.11.1751269611774; Mon, 30 Jun 2025
+ 00:46:51 -0700 (PDT)
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 1/5] dt-bindings: display: simple-framebuffer: Add
- interconnects property
-To: Thomas Zimmermann <tzimmermann@suse.de>,
- Krzysztof Kozlowski <krzk@kernel.org>, Luca Weiss <luca.weiss@fairphone.com>
-Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, David Airlie <airlied@gmail.com>,
- Simona Vetter <simona@ffwll.ch>, Rob Herring <robh@kernel.org>,
- Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
- <conor+dt@kernel.org>, Javier Martinez Canillas <javierm@redhat.com>,
- Helge Deller <deller@gmx.de>, linux-fbdev@vger.kernel.org,
- dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org,
- linux-kernel@vger.kernel.org
-References: <20250623-simple-drm-fb-icc-v2-0-f69b86cd3d7d@fairphone.com>
- <20250623-simple-drm-fb-icc-v2-1-f69b86cd3d7d@fairphone.com>
- <20250627-mysterious-optimistic-bird-acaafb@krzk-bin>
- <d8d85415-efc4-4a11-842e-23272cae29f7@suse.de>
- <b94b752c-d7f7-41d6-ac79-d21427f20964@kernel.org>
- <f15a775d-d82f-4ac9-9d88-159ffcf7e81c@suse.de>
-From: Hans de Goede <hdegoede@redhat.com>
-In-Reply-To: <f15a775d-d82f-4ac9-9d88-159ffcf7e81c@suse.de>
-X-Mimecast-Spam-Score: 0
-X-Mimecast-MFC-PROC-ID: GkJNSPV7oa2xUMkSLAlrIi9DXmAq5SROsGyunXxQ3tE_1751268405
-X-Mimecast-Originator: redhat.com
-Content-Language: en-US, nl
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+References: <20250629023836.744441-1-loic.poulain@oss.qualcomm.com>
+ <20250630-venomous-sheep-of-control-dece32@houat>
+In-Reply-To: <20250630-venomous-sheep-of-control-dece32@houat>
+From: Loic Poulain <loic.poulain@oss.qualcomm.com>
+Date: Mon, 30 Jun 2025 09:46:40 +0200
+X-Gm-Features: Ac12FXx5QL13lTjzd0UGa9J3b8pNzZiFauUmDe_cO3me7OhYQM44e34xq6x6DOA
+Message-ID: <CAFEp6-3UVNfHo3s1MOXw88bAMVh=3QzF7H2N2UoVXyV6R3BBpw@mail.gmail.com>
+Subject: Re: [PATCH] drm/bridge: anx7625: Fix invalid EDID size
+To: Maxime Ripard <mripard@kernel.org>
+Cc: andrzej.hajda@intel.com, neil.armstrong@linaro.org, rfoss@kernel.org,
+ dri-devel@lists.freedesktop.org, lumag@kernel.org,
+ Laurent.pinchart@ideasonboard.com, jernej.skrabec@gmail.com,
+ maarten.lankhorst@linux.intel.com
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Authority-Analysis: v=2.4 cv=ZKfXmW7b c=1 sm=1 tr=0 ts=686240ed cx=c_pps
+ a=EVbN6Ke/fEF3bsl7X48z0g==:117 a=IkcTkHD0fZMA:10 a=6IFa9wvqVegA:10
+ a=VwQbUJbxAAAA:8 a=EUspDBNiAAAA:8 a=Z-KoOJIlDxAInEDke3kA:9 a=QEXdDO2ut3YA:10
+ a=a_PwQJl-kcHnX1M80qC6:22
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwNjMwMDA2MyBTYWx0ZWRfX0BE5jzDBfnN+
+ oaIPHwZZ71gDq1HqxsrV3aEk/ZhpgO9Pee1e17Bb1EnA1k0hKCMd++bwT65z03BC1MouUFvAXI1
+ E/FA4GcX8cpXv/Nwg8mdd5RfCmP70QT1zQy1Omfl06Qikimdv4FQXEG6CHL6NiUXJV35v+QthrL
+ WXgIGFtylWoyEi7SaL3TAd3kzlIpMKSdmRf4ayY8Wx/SpXMN60D04YjVZrTivvJwgZsEoKhzlt9
+ bAXCg+1iOQPhxeXhlmKKEqq3+PePI7rI1cdDQniXfN9r/sFEAJ6iCugtY5/lM/Yfxb12A8B3OMu
+ +7BfzZN/OXIk/MmYweAkThKhGQ7tCLaC1qDgypCExZAKAgyucgnpiPQXR8pygDlj7h0tsHa44AV
+ V4/HuaeL3zLN1e6NWas6RoddaJd2WbcgrRNgDPs2ab19oK7JPW9j9Nm0Oe5QvEzcaHjTrYAw
+X-Proofpoint-ORIG-GUID: Pg7FoBAkb2i0ljOjqydN6CPutInUaPxk
+X-Proofpoint-GUID: Pg7FoBAkb2i0ljOjqydN6CPutInUaPxk
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1099,Hydra:6.1.7,FMLib:17.12.80.40
+ definitions=2025-06-30_01,2025-06-27_01,2025-03-28_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ adultscore=0 mlxscore=0 mlxlogscore=809 spamscore=0 suspectscore=0
+ bulkscore=0 priorityscore=1501 lowpriorityscore=0 phishscore=0
+ impostorscore=0 malwarescore=0 clxscore=1015 classifier=spam authscore=0
+ authtc=n/a authcc= route=outbound adjust=0 reason=mlx scancount=1
+ engine=8.19.0-2505280000 definitions=main-2506300063
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -118,96 +118,45 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi,
+Hi Maxime,
 
-On 30-Jun-25 8:34 AM, Thomas Zimmermann wrote:
-> Hi
-> 
-> Am 28.06.25 um 13:50 schrieb Krzysztof Kozlowski:
->> On 27/06/2025 13:34, Thomas Zimmermann wrote:
->>> Hi
->>>
->>> Am 27.06.25 um 10:08 schrieb Krzysztof Kozlowski:
->>>> On Mon, Jun 23, 2025 at 08:44:45AM +0200, Luca Weiss wrote:
->>>>> Document the interconnects property which is a list of interconnect
->>>>> paths that is used by the framebuffer and therefore needs to be kept
->>>>> alive when the framebuffer is being used.
->>>>>
->>>>> Acked-by: Thomas Zimmermann <tzimmermann@suse.de>
->>>>> Signed-off-by: Luca Weiss <luca.weiss@fairphone.com>
->>>>> ---
->>>>>    Documentation/devicetree/bindings/display/simple-framebuffer.yaml | 3 +++
->>>>>    1 file changed, 3 insertions(+)
->>>>>
->>>>> diff --git a/Documentation/devicetree/bindings/display/simple-framebuffer.yaml b/Documentation/devicetree/bindings/display/simple-framebuffer.yaml
->>>>> index 296500f9da05e296dbbeec50ba5186b6b30aaffc..f0fa0ef23d91043dfb2b220c654b80e2e80850cd 100644
->>>>> --- a/Documentation/devicetree/bindings/display/simple-framebuffer.yaml
->>>>> +++ b/Documentation/devicetree/bindings/display/simple-framebuffer.yaml
->>>>> @@ -79,6 +79,9 @@ properties:
->>>>>      power-domains:
->>>>>        description: List of power domains used by the framebuffer.
->>>>>    +  interconnects:
->>>>> +    description: List of interconnect paths used by the framebuffer.
->>>>> +
->>>> maxItems: 1, or this is not a simple FB anymore. Anything which needs
->>>> some sort of resources in unknown way is not simple anymore. You need
->>>> device specific bindings.
->>> In this context, 'simple' means that this device cannot change display
->>> modes or do graphics acceleration. The hardware itself is not
->>> necessarily simple. As Javier pointed out, it's initialized by firmware
->> If hardware is not simple, then it needs specific bindings.
->>
->>> on the actual hardware. Think of 'VGA-for-ARM'. We need these resources
->>> to keep the display working.
->> I don't claim you do not need these resources. I claim device is not
->> simple thus does not suit rules for generic bindings. Generic bindings
->> are in general not allowed and we have them only for very, very simple
->> devices.
->>
->> You say this is not simple device, so there you go - specific binding
->> for this complex (not-simple) device.
-> 
-> No, I didn't. I said that the device is simple. I did not say that the device's hardware is simple. Sounds nonsensical, but makes sense here. The simple-framebuffer is just the range of display memory that the firmware configured for printing boot-up messages. We use it for the kernel's output as well.  Being generic and simple is the exact raison d'etre for simple-framebuffer.  (The display property points to the actual hardware, but we don't need it.)
+On Mon, Jun 30, 2025 at 9:07=E2=80=AFAM Maxime Ripard <mripard@kernel.org> =
+wrote:
+> On Sun, Jun 29, 2025 at 04:38:36AM +0200, Loic Poulain wrote:
+> > DRM checks EDID block count against allocated size in drm_edid_valid
+> > function. We have to allocate the right EDID size instead of the max
+> > size to prevent the EDID to be reported as invalid.
+> >
+> > Fixes: 7c585f9a71aa ("drm/bridge: anx7625: use struct drm_edid more")
+> > Signed-off-by: Loic Poulain <loic.poulain@oss.qualcomm.com>
+> > ---
+> >  drivers/gpu/drm/bridge/analogix/anx7625.c | 2 +-
+> >  1 file changed, 1 insertion(+), 1 deletion(-)
+> >
+> > diff --git a/drivers/gpu/drm/bridge/analogix/anx7625.c b/drivers/gpu/dr=
+m/bridge/analogix/anx7625.c
+> > index 8a9079c2ed5c..5a81d1bfc815 100644
+> > --- a/drivers/gpu/drm/bridge/analogix/anx7625.c
+> > +++ b/drivers/gpu/drm/bridge/analogix/anx7625.c
+> > @@ -1801,7 +1801,7 @@ static const struct drm_edid *anx7625_edid_read(s=
+truct anx7625_data *ctx)
+> >               return NULL;
+> >       }
+> >
+> > -     ctx->cached_drm_edid =3D drm_edid_alloc(edid_buf, FOUR_BLOCK_SIZE=
+);
+> > +     ctx->cached_drm_edid =3D drm_edid_alloc(edid_buf, edid_num * ONE_=
+BLOCK_SIZE);
+> >       kfree(edid_buf);
+>
+> Do we need to cache the whole EDIDs? AFAIU, it's only ever used to get
+> the manufacturer name, which fits into a u32 / 4 u8. We should probably
+> just cache that.
 
-I believe part of the problem here is the simple part of the simplefb
-name in hindsight that is a mistake and we should have called the thing
-firmware-framebuffer since its goal is to pass along a firmware setup
-framebuffer to the OS for displaying stuff.
-
-As for the argument for having a firmware-framebuffer not being allowed
-because framebuffers are to complex to have a generic binding, that
-ship has long sailed since we already have the simplefb binding.
-
-And since we already have the binding I do not find this not being
-simple a valid technical argument. That is an argument to allow
-having a generic binding at all or to not have it at all, but here
-we already have the binding and this is just about evolving the binding
-with changing hw needs.
-
-And again this reminds me very much of the whole clocks / regulators
-addition to simplefb discussion we had over a decade ago. Back then
-we had a huge thread, almost a flamefest with in my memory over
-a 100 emails and back then the only argument against adding them
-was also "it is not simple", which IMHO really is a non argument for
-an already existing binding. Certainly it is not a good technical
-argument.
-
-During the last decade, after clocks and regulators were added to
-the binding. simplefb has been used successfully on millions (billions?)
-handover the firmware framebuffer to the OS for bootsplash use,
-replacing various vendor hacks for this. Disallowing the addition of
-interconnect support to the simplefb binding will only result in
-various vendor hacks appearing in vendor kernels for this, which
-I believe is something which we should try to avoid.
-
-So as the maintainer of the simplefb kernel driver for over a decade
-I strongly advice the DT maintainers to accept this bindings patch
-and from my my side this still is:
-
-Reviewed-by: Hans de Goede <hansg@kernel.org>
+While the cached EDID is indeed used internally to retrieve the
+product ID, its content is also returned via the DRM read_edid
+callback. This value is then used by the DRM core to enumerate
+available display modes, and likely also when reading EDID from sysfs.
 
 Regards,
-
-Hans
-
-
+Loic
