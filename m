@@ -2,72 +2,156 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id A664BAEE196
-	for <lists+dri-devel@lfdr.de>; Mon, 30 Jun 2025 16:56:41 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 299B5AEE1B0
+	for <lists+dri-devel@lfdr.de>; Mon, 30 Jun 2025 16:58:59 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7D8F910E478;
-	Mon, 30 Jun 2025 14:56:38 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 91D4C10E479;
+	Mon, 30 Jun 2025 14:58:56 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=collabora.com header.i=daniel.almeida@collabora.com header.b="LaNd+3Rm";
+	dkim=pass (1024-bit key; unprotected) header.d=amd.com header.i=@amd.com header.b="dqEc1K6M";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from sender4-pp-f112.zoho.com (sender4-pp-f112.zoho.com
- [136.143.188.112])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 39C2B10E478
- for <dri-devel@lists.freedesktop.org>; Mon, 30 Jun 2025 14:56:37 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; t=1751295386; cv=none; 
- d=zohomail.com; s=zohoarc; 
- b=ZGlNV2l5V1p8kneC4T+tk/ihVo+22kzM+tsSbsGRgqHnnZLjcZ4fBP3+aJMyNehnhGNWsjnGSsgUAyDvAS4n6Y0HQWWCMextaB27r3q1gMGZ9HHviHRBLyQCHW3zm4hjciR/2Nb1TQdeoFoZ39cfOT0SzeGs185tJCSTMJFt2sM=
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com;
- s=zohoarc; t=1751295386;
- h=Content-Type:Content-Transfer-Encoding:Cc:Cc:Date:Date:From:From:In-Reply-To:MIME-Version:Message-ID:References:Subject:Subject:To:To:Message-Id:Reply-To;
- bh=MKhJfCU8D6oNq8OjnvEEFXCCvsMtAzMA8rF6Nvg89Ms=; 
- b=gXharJowWmYmafraz05F/lkcwuuc1UzCUHghDPdmC6W/xf3q5LShHybFksuJ4jqdz5/bWC8itfpZNixiVineY5Lsg/Jd1laUBvWWPklBFOIO8oJarcCpFkMa2rEUkMi/yYqzqLp5Z38UGJCugtYsZEHrjmqHeQO/XvnLADvdmMo=
-ARC-Authentication-Results: i=1; mx.zohomail.com;
- dkim=pass  header.i=collabora.com;
- spf=pass  smtp.mailfrom=daniel.almeida@collabora.com;
- dmarc=pass header.from=<daniel.almeida@collabora.com>
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1751295386; 
- s=zohomail; d=collabora.com; i=daniel.almeida@collabora.com;
- h=Content-Type:Mime-Version:Subject:Subject:From:From:In-Reply-To:Date:Date:Cc:Cc:Content-Transfer-Encoding:Message-Id:Message-Id:References:To:To:Reply-To;
- bh=MKhJfCU8D6oNq8OjnvEEFXCCvsMtAzMA8rF6Nvg89Ms=;
- b=LaNd+3RmAFYjSJGSpu4F0vfBpvWEi9POu0xohXiYkXhzhY/WxGKKMAyaLs/Gmkjw
- D/IYuaTOvgk7A3BoPSqkcOt31RuOGQjd2mjU+iCttmm0U/K3RqVuEtUwDChH9IzAqR9
- /k1q/d0t1g8LtXCgSRYVSXat9fcbTTnERRKOXFwM=
-Received: by mx.zohomail.com with SMTPS id 1751295384184695.2470900354887;
- Mon, 30 Jun 2025 07:56:24 -0700 (PDT)
-Content-Type: text/plain;
-	charset=utf-8
-Mime-Version: 1.0 (Mac OS X Mail 16.0 \(3826.600.51.1.1\))
-Subject: Re: [PATCH] Introduce Tyr
-From: Daniel Almeida <daniel.almeida@collabora.com>
-In-Reply-To: <6bb2344c-de0f-4bf9-b9ff-b7c7338ea1d7@arm.com>
-Date: Mon, 30 Jun 2025 11:56:06 -0300
-Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
- Simona Vetter <simona@ffwll.ch>, Miguel Ojeda <ojeda@kernel.org>,
- Alex Gaynor <alex.gaynor@gmail.com>, Boqun Feng <boqun.feng@gmail.com>,
- Gary Guo <gary@garyguo.net>,
- =?utf-8?Q?Bj=C3=B6rn_Roy_Baron?= <bjorn3_gh@protonmail.com>,
- Benno Lossin <lossin@kernel.org>, Andreas Hindborg <a.hindborg@kernel.org>,
- Alice Ryhl <aliceryhl@google.com>, Trevor Gross <tmgross@umich.edu>,
- Danilo Krummrich <dakr@kernel.org>, Daniel Stone <daniels@collabora.com>,
- Rob Herring <robh@kernel.org>, Alice Ryhl <alice.ryhl@google.com>,
- Beata Michalska <beata.michalska@arm.com>,
- Carsten Haitzler <carsten.haitzler@foss.arm.com>,
- Boris Brezillon <boris.brezillon@collabora.com>,
- Ashley Smith <ashley.smith@collabora.com>, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, rust-for-linux@vger.kernel.org,
- kernel@collabora.com
-Content-Transfer-Encoding: quoted-printable
-Message-Id: <1ADD8502-39D2-4705-8426-67AA8865E7BC@collabora.com>
-References: <20250627-tyr-v1-1-cb5f4c6ced46@collabora.com>
- <6bb2344c-de0f-4bf9-b9ff-b7c7338ea1d7@arm.com>
-To: Steven Price <steven.price@arm.com>
-X-Mailer: Apple Mail (2.3826.600.51.1.1)
-X-ZohoMailClient: External
+Received: from NAM04-DM6-obe.outbound.protection.outlook.com
+ (mail-dm6nam04on2054.outbound.protection.outlook.com [40.107.102.54])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id AB4B989ABE;
+ Mon, 30 Jun 2025 14:58:54 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=TC0JiSaK/mQKgOMFRm3I9jyTAaQZcHy+Ccbyg7jr5SBlYALwNQqEVsqtz0z5bT3xDF6u2Hsznm4o6TnXN6PiXaex0koQ15cg+qGc2UoFoZ72xyD5n0UePGTvCYusRFUj9e2NBVr2MHPY2ZE9BTW3d4lbGc9oCG1vYYty0CwBkJ//0C4UectAthFEGuV8bLHcMLsNpzlOgjKGzNZDAhZrd2Qb0599eLx2TAfMNRLUZt77jNlLC8q8lxLDa8GZ/NJgbsMjdwnU2+kJRs8VjBU5gCZXl7DqLmVA/V3/QoQFRZ8kB6MOXEmxVbaLW8/JK78VY3PeQR1qpy0AHg07U2GAKQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=mvtb4d3Xj8YjzHPKFWNudhMBvla7X4D30+z/vAJrgr8=;
+ b=LO2e7wVVnhWVKP/9/fRtZQTcciCRnhqwkdsDh1iM8fTOCIqP19brV491dxdLqJ++XeQzXLC3NDfAhhUVan0SADM7hbj2j5bh3TqyD3Vu0c8JccfiCHcL1P3JK3STFDia7rzBOMczs07YysdDkteJ/TugsdzcwJzrM0AdIluDN/vi41qFR1uZjaGw5O94zr0tsXsx3fr0LiRdO176StqB2jRUStApbDeVcTN8my6y3EJypsMSC5WnGru6BSTi3865hKIztDULgOjrBfktl/5n+9hwxDO3/+eINl+jzBQ5x3BITAoTiwjMCVaweKlj1+VtP9lKbVK0Tsveq25MncwFfQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
+ header.d=amd.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=mvtb4d3Xj8YjzHPKFWNudhMBvla7X4D30+z/vAJrgr8=;
+ b=dqEc1K6M+NkxgZBPWXTbB+hQU9UWDGXhAj0/bAutI67G2tS0/yc23zgTmAHGwfK2Bywi3cOrqasd+A2NQxAU6A4i9j9KFyFKDvzWuycl1HSOhC/jnpo+qE0yYvDurKSOlj0VliE2rX3qKgN/JqDlhTce3fu56W/4fSqkFMdPz5w=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=amd.com;
+Received: from PH7PR12MB5685.namprd12.prod.outlook.com (2603:10b6:510:13c::22)
+ by PH0PR12MB7009.namprd12.prod.outlook.com (2603:10b6:510:21c::8)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8880.27; Mon, 30 Jun
+ 2025 14:58:52 +0000
+Received: from PH7PR12MB5685.namprd12.prod.outlook.com
+ ([fe80::46fb:96f2:7667:7ca5]) by PH7PR12MB5685.namprd12.prod.outlook.com
+ ([fe80::46fb:96f2:7667:7ca5%5]) with mapi id 15.20.8880.027; Mon, 30 Jun 2025
+ 14:58:52 +0000
+Message-ID: <c90e389f-d737-4151-a6b2-5131e13820a8@amd.com>
+Date: Mon, 30 Jun 2025 16:58:46 +0200
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v6 2/5] drm: move debugfs functionality from drm_drv.c to
+ drm_debugfs.c
+To: "Khatri, Sunil" <sukhatri@amd.com>, Sunil Khatri <sunil.khatri@amd.com>,
+ dri-devel@lists.freedesktop.org
+Cc: amd-gfx@lists.freedesktop.org, simona@ffwll.ch, tzimmermann@suse.de,
+ tursulin@ursulin.net, phasta@kernel.org, dakr@kernel.org
+References: <20250627094921.911009-1-sunil.khatri@amd.com>
+ <20250627094921.911009-2-sunil.khatri@amd.com>
+ <d94574be-4054-40d0-98e7-36c32c1ca556@amd.com>
+ <8bad0398-7e4f-4611-8b21-cfbdbe671429@amd.com>
+Content-Language: en-US
+From: =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
+In-Reply-To: <8bad0398-7e4f-4611-8b21-cfbdbe671429@amd.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-ClientProxiedBy: BLAPR03CA0177.namprd03.prod.outlook.com
+ (2603:10b6:208:32f::30) To PH7PR12MB5685.namprd12.prod.outlook.com
+ (2603:10b6:510:13c::22)
+MIME-Version: 1.0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: PH7PR12MB5685:EE_|PH0PR12MB7009:EE_
+X-MS-Office365-Filtering-Correlation-Id: 7f171d72-0983-4a64-597b-08ddb7e6a079
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;ARA:13230040|1800799024|366016|376014;
+X-Microsoft-Antispam-Message-Info: =?utf-8?B?RU9ObTRyd0lGUE83WlAwWDcxUXgwYVNwdWpaR0dSWU9CeXl1OUpScnpqSDN4?=
+ =?utf-8?B?NkNSM1REZFJxb003aDl0djE5VGtKbEFtM3lJVzAxVUFXV1J0QzJDcG5Balk0?=
+ =?utf-8?B?dllaZmc4TEkvaXBQUlN4L0dtaDhOK0NpclRmQjhQQlBqelh0enFoR0VZbGdP?=
+ =?utf-8?B?Wm9TQ3VQK2NPeVhoVzV0SUdFQVhYUVVtRC9CMTBleUJaOTRkd3o3bnVhVWRx?=
+ =?utf-8?B?Y25oWkM2MEVqazZZckREa3dBSlp1Y1AzaEVXc2JwZTNOVkFVVXp2eksvTndi?=
+ =?utf-8?B?cjRqN2tPTyt6L3FkdGtZL2ljUWlGeE5TWEJjbTBseGxuT2pWZTdidE1UNEpE?=
+ =?utf-8?B?NXFubENjRzg4c2M5QmJNTVRlanp2b3ZmYUN2SjVpckcyWVRKMXI2Sk15Rkkz?=
+ =?utf-8?B?Q1pseTZmU1dFNmpicUFGNXp5VXVmR0R4Qk4zay9ibk8vZVh0OXVubmcwVHBS?=
+ =?utf-8?B?S051MTQ2THFxZnRqNFlLVU9Odk95TU1UR1VJUXFrYjM5WXhyUnJJa2doUVVQ?=
+ =?utf-8?B?KzFJRFZMeG1SUHZzVEd0bW9Ld2REb3lMS05YeVF5R0lmazBQTmNlc1VGR2I3?=
+ =?utf-8?B?YytKa1JzcG1raUFUV1RCcTNndHlyc0RCK1RYRU54Q2U2cEtpZU5Mb0llWmlF?=
+ =?utf-8?B?NUUzUkNSYi9QNTQyNUo4NU01SElsWHAzRHk5bVgrRzBTKzRZRjRja3JCdW8r?=
+ =?utf-8?B?MTJaQkYrRFllVkxUREJHa05HelBaQTRYaEtFOGxZUGUzUjV2YjliSW5oK29W?=
+ =?utf-8?B?S3JBVVpxSnlGcGJSa09PczJ6ZWtyeWVzdU9OMkJ0UGVEWGF0c0RBMnNoS01N?=
+ =?utf-8?B?cllqUkg3V3JKak5KM2ZQVy93YmFhT09DMDV0MkV5dlZ0aE1rWXdZYU5mZDQ3?=
+ =?utf-8?B?clhLQ0gyeG84QlJwQXRHR2VkOFNWWXpLRVJ6Z1hHeGJYVWs5RVd5cEpCb0Vz?=
+ =?utf-8?B?YkFIQUpLVm5OQVBLb2lPY2lhY05CdVE1SjBqVnBTQzQyUzVtYkpKOUNRRkJC?=
+ =?utf-8?B?cEdONXkwTGxqb1VOT1V4OUlFYTc4L1kwS2xrRm9RdE1RQXQzMDRhdHRIbGE3?=
+ =?utf-8?B?NVZYc2VVRndMVnl2RFJidDJHelJ1MjkydTE2YmVlN0JnekhsMTRmV3dWU1Fq?=
+ =?utf-8?B?ZVVSV0dsNDljZ2E1QXhRUUtqMWRKV2NGNERDSUxocHpHMzJGTjRKeHNFWHhm?=
+ =?utf-8?B?U1c4cEZoWVdvUFZtNG1EK0RJNlhpc3ZEaTA4RGlaekEzM3IrR292ejVNWVNJ?=
+ =?utf-8?B?a3Z1TWVrbHV3S0FXZWQzMG5xRXdyR2dVUDd0S2FkcUJzK25RNmh6WW5TN3hG?=
+ =?utf-8?B?Y0R3azZrY1RPQWhuVXVBcXM5TTNCWUFzcVpRUlVEZUhvU1MwMVltVjA1TXU0?=
+ =?utf-8?B?c1k0WVpWN0RnUTBnb3JUWlhEZVp3aXdkOVdhRjFLdngyVnZDZko4dkZBZ1Ur?=
+ =?utf-8?B?ZmZEamQyRHhoUFpBMzZBQy9hTXM2V2ZyWm8wbVRoVlFBdFZpV1ZsRzhHQmxJ?=
+ =?utf-8?B?UUNYdkUwQTJGOFo4eXF6elEvdVdCc01lci8wbEp0YkN2eDJqZlAvR3dIMSt3?=
+ =?utf-8?B?dVJaeVBJRnNPQjVzR0pGWWlsV21jM3RtTWhPeGYxczZQTFY4YXZaUVZLclNC?=
+ =?utf-8?B?ak5ua28wdVB2YjM4bjNDUi9qejd4ek5zME81diszcjRuc0RORnJPSzVzUHdD?=
+ =?utf-8?B?a0IzZDdiRTN5cHRyNE1hMTJ4Z05xQmowTTYvcjRuMFl2YkZZeE51Um9XYmhO?=
+ =?utf-8?B?UzQvcEEvR2Zra0Z1UGZCSWFvUFIrbDNmbWsrbGQzVzV5ZzYyMUhMVy9DOXVR?=
+ =?utf-8?B?SjZOWm5QUXhGRTk0SGF2eHlnbDlqdWw0Ykp2anpUOU8yS3J4OTNZTVg3ckRZ?=
+ =?utf-8?B?aXJ5QVBRbE1MNm9ZNlJJZFk5RDZzN3BmUmpySVJRVGNyZGVRNFFYVnZqVHR3?=
+ =?utf-8?Q?gckC8TD0f8Y=3D?=
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:PH7PR12MB5685.namprd12.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230040)(1800799024)(366016)(376014); DIR:OUT; SFP:1101; 
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?OEFONjJDc1haM3RlcHVPc3BHSFFLRW1UemFOK2NmN2NRUDVOTkthTFFWSEdU?=
+ =?utf-8?B?dnRScXRmY2dsWXBjOUhVSzNQSjFFY1JNR3pNc2JBWGtUMUtsOUd2clE2eG93?=
+ =?utf-8?B?L2NTMGNSN1YyeUYyMWxoTVBCZkZlMm5XQmlDdGN1aWZseVFMOG5NNWVwSS9B?=
+ =?utf-8?B?R2xTQ3hBeWxsSVorMDBab0paNFN4RGV4aXNNK21XODg4Ny9kMm9Nc0N5MEE3?=
+ =?utf-8?B?cEw1Q0hzS3AzRjZCTjhqcEdtTUN0OGduNTgzTllGZ3RNS1hmbEtJdFNNME56?=
+ =?utf-8?B?cVBoSjYraHlnY3g1bEpWaXlQT2JXejdrbUpJWmJFVkxDMExvbFJ0bWFZaDVS?=
+ =?utf-8?B?L0FGU0JMWGkyS2IwbSt0di9XUGN3R1BDTkFmVVh5ZkhnNVhNVjJBWmJFT1Nx?=
+ =?utf-8?B?R0RIRUt6d0ZoSmxuUWxZbWZtaFc2SFlZMkIybWdsekhyczQ4Ly81Z1ZJS3Fr?=
+ =?utf-8?B?SEtqTm1KRGJkOWFjWThKRkRyS3ZhRlFNMDcrZmM4eWlPQlFIZzUwdm1BYkNq?=
+ =?utf-8?B?S1JyWnNnbGpZUXBBSWtBS2lLQkN6VEdsRkFwS1Z4OUp5V0IzcTRtNGFqZ1Za?=
+ =?utf-8?B?bmNzZFUveG1DRS9DWXRydjFBTUVmbjFTa2laeWNiNitzelZRRTZiMW5CZTBs?=
+ =?utf-8?B?Sm5TRW9TcFNidkdZTTI4N09jUFlocFVTM0ZOU1BiZ3lUd0lhSFBPWjFJQlVI?=
+ =?utf-8?B?b1pPSGNkOXA2c1FIajBBdXc3a2o3czFjeXV2ZGFYS3dnMUtja1UzcDBRSzk0?=
+ =?utf-8?B?V2xtTTJnNFlXYVhUbit3VXdUbHRZNzUva0poVnY5Y0dIU2dVMGF1RE1IS0xh?=
+ =?utf-8?B?ZEsxNGpQaENFTWpCTElhMThaY1VVSm4wR1dKQnl2eW5ReFBzdHhZNVpMOFJy?=
+ =?utf-8?B?NnM2dzZ2VjFMTDlZSjBPU25mVTMyK005RjdSclRtaXdpYmZ5Skhaa29JdlNL?=
+ =?utf-8?B?VTRQUzVSNVhHVEhnNjFienNPa2Uzb1Q2WXRxZVE3cEpSNDJxajN0V3BqSGRk?=
+ =?utf-8?B?cDc0QVZmZlAyMUYzV0o5ZEVRMTdNNjA4aEpQK3lad2c5WTllQ0pYN2JFdGlZ?=
+ =?utf-8?B?SEFDZjl3TnFRMk1RMUF0SHZSYWRZOTY3ZURYcHFBSks1VzBoMngyYmFYY2ow?=
+ =?utf-8?B?MUFrT3I1S3RiUUpOTnZkanpVVnpqZGZzSHUzUFdLajlpY1VUclhFdkNXS3FP?=
+ =?utf-8?B?cHVDa05Jbk40RmRaSVFOKzViQ1ZjZjk5OTNWY2E4dGpiOTk5RVZGYUxTeElD?=
+ =?utf-8?B?Mk9TTTF4NE5OaVY2eEhhQWNBMmtKQUJtQ0xhZlNiUU9KdmZ2aVNKZkFmdEFv?=
+ =?utf-8?B?b0drLzYycDFNbDByZm02dVZDMUx1aUQ5MmI1Umt0Zy9JK3RXN29XUzFDbHl6?=
+ =?utf-8?B?dVpiRWVVTVc4aTQzVnpoWmpNWm1oL0k5SFdYaEdOVU9hYWsrdURhV2Z2T3FG?=
+ =?utf-8?B?ZnFYdkgxZ1JHSzlBT0RaYnNBZ2hwS05FVHdnVTZBczZsQ1dib3RSY3paOEVk?=
+ =?utf-8?B?YkFXV3pua3RiV1p6TlhqQlVxV3crazF4akRVbTViVmdpRGVTaDlNQndHTTd3?=
+ =?utf-8?B?dEp4bnIvK21xdDA2Q0VraElacWxwd1duTGVRQmtyTWxBaEtCRE9nQzYwRU5N?=
+ =?utf-8?B?amdqYmhGOHNqZFVuRHRVZjNFUm03elJXbUdFSXlybDdVTndrRzdpanZPTWZG?=
+ =?utf-8?B?ZjVMaHc4a1lnY1lZNC80ZG5oOHgxTHo1SU5RSnc2S1lna1dNYkZKZk1HdDhX?=
+ =?utf-8?B?NStTZUIwREhWeUxKTWtJNmdTd2pZcUw1THpKZWVKRlNwbytKOGRuM1FpZVY0?=
+ =?utf-8?B?WXhvMmlkcTJMa25rcVViQkpRRUpaSVRVbXVqdGVIN21HWUlOYUZXWWx1N0xX?=
+ =?utf-8?B?a3FUL2hOZVhDYmxWaWhyK3V6NUg5NVc4SU5VMFFpbm1OaWVDQ1FHa3hUT0R5?=
+ =?utf-8?B?NkJ6TW44ZkoxRjZmZVkrMDNDVzhudE10NlVtNUJGeHNnUzBOMCtYSkJWeGpF?=
+ =?utf-8?B?Ty9MZ1pSdUJCQlhUK2RLMi9aSWpZNmlteHUxNGlhN2tjTElIODJnM1Z4V0RN?=
+ =?utf-8?B?ZWxtd2E3OEFnZ0szdm8xZEh6dTA5WHlxUndlTEQvU0pSbUJ6YUp6bW1SKzA1?=
+ =?utf-8?Q?GX5WjpoOr6lVZVewd80zDDHYx?=
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 7f171d72-0983-4a64-597b-08ddb7e6a079
+X-MS-Exchange-CrossTenant-AuthSource: PH7PR12MB5685.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 30 Jun 2025 14:58:52.1209 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: 01D9qV6HLXhonn4YZ46ySwLYerpPAJgFHTDIsbRbBWbT8iHSnu+xV74sILW9SHWz
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH0PR12MB7009
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -83,589 +167,216 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Steven,
+On 30.06.25 15:34, Khatri, Sunil wrote:
+> 
+> On 6/30/2025 5:11 PM, Christian König wrote:
+>>
+>> On 27.06.25 11:49, Sunil Khatri wrote:
+>>> move the debugfs functions from drm_drv.c to drm_debugfs.c
+>>>
+>>> move this root node to the debugfs for easily handling
+>>> of future requirements to add more information in the
+>>> root directory and one of which is planned to have
+>>> directories for each client in the root directory
+>>> which is dri.
+>>>
+>>> Suggested-by: Christian König <christian.koenig@amd.com>
+>>> Signed-off-by: Sunil Khatri <sunil.khatri@amd.com>
+>>> ---
+>>>   drivers/gpu/drm/drm_debugfs.c  | 33 +++++++++++++++++++++++++++------
+>>>   drivers/gpu/drm/drm_drv.c      | 19 +++++--------------
+>>>   drivers/gpu/drm/drm_internal.h |  6 ++----
+>>>   include/drm/drm_drv.h          | 19 +++++++++++++++++--
+>>>   4 files changed, 51 insertions(+), 26 deletions(-)
+>>>
+>>> diff --git a/drivers/gpu/drm/drm_debugfs.c b/drivers/gpu/drm/drm_debugfs.c
+>>> index 2d43bda82887..5807dd64d28a 100644
+>>> --- a/drivers/gpu/drm/drm_debugfs.c
+>>> +++ b/drivers/gpu/drm/drm_debugfs.c
+>>> @@ -44,6 +44,9 @@
+>>>   #include "drm_crtc_internal.h"
+>>>   #include "drm_internal.h"
+>>>   +static struct dentry *accel_debugfs_root;
+>>> +static struct dentry *drm_debugfs_root;
+>>> +
+>>>   /***************************************************
+>>>    * Initialization, etc.
+>>>    **************************************************/
+>>> @@ -286,16 +289,35 @@ int drm_debugfs_remove_files(const struct drm_info_list *files, int count,
+>>>   }
+>>>   EXPORT_SYMBOL(drm_debugfs_remove_files);
+>>>   +void drm_debugfs_init_root(void)
+>>> +{
+>>> +    drm_debugfs_root = debugfs_create_dir("dri", NULL);
+>>> +    accel_debugfs_root = debugfs_create_dir("accel", NULL);
+>>> +}
+>>> +
+>>> +void drm_debugfs_remove_root(void)
+>>> +{
+>>> +    debugfs_remove(drm_debugfs_root);
+>>> +}
+>>> +
+>>> +void drm_debugfs_remove_accel_root(void)
+>>> +{
+>>> +    debugfs_remove(accel_debugfs_root);
+>>> +}
+>> Those two can be removed together as well I think, apart from that the patch looks good to me.
+> If i got you right you mean to club
+> 
+> drm_debugfs_remove_root and drm_debugfs_remove_accel_root in one function drm_debugfs_remove_root?
 
-> On 30 Jun 2025, at 07:11, Steven Price <steven.price@arm.com> wrote:
->=20
-> Hi Daniel,
->=20
-> My Rust is still quite weak, so I'll just review the GPU-specific =
-parts.
-> Please CC me on future posts.
+Yes, exactly that.
 
-I just realized I forgot about cc=E2=80=99ing the current Panthor =
-maintainers. My bad.
+Christian.
 
->> +
->> +fn issue_soft_reset(iomem: &Devres<IoMem<0>>) -> Result<()> {
->> +    let irq_enable_cmd =3D 1 | bit_u32(8);
->=20
-> Badly named variable? This appears to be the encoding for a soft_reset
-> command.
-
-You=E2=80=99re right.
-
->=20
->> +    regs::GPU_CMD.write(iomem, irq_enable_cmd)?;
->> +
->> +    let op =3D || regs::GPU_INT_RAWSTAT.read(iomem);
->> +    let cond =3D |raw_stat: &u32| -> bool { (*raw_stat >> 8) & 1 =3D=3D=
- 1 };
->=20
-> You appear to have a define (GPU_INT_RAWSTAT_RESET_COMPLETED) but are
-> not using it?
-
-That=E2=80=99s true, I missed it.
-
->=20
-> Also I know panthor also gets this wrong. But the names here don't =
-match
-> the architecture (this is GPU_IRQ_RAWSTAT). Panthor is actually =
-somewhat
-> confused as some defines are GPU_IRQ_xxx, but cross-referencing with =
-the
-> architecture specs is so much easier when the names match up.
-
-So.. that=E2=80=99s something I=E2=80=99ve been meaning to discuss for a =
-while actually.
-
-If the best approach here is to stick to the nomenclature from the spec =
-I can
-definitely rework it. However, when working on the downstream code, I =
-found
-that a few of the names used in the shared region were a bit cryptic. =
-=46rom the
-top of my mind I can recall things like "db_req/db_ack" and "ep_cfg". I =
-just
-found "doorbell_request/doorbell_ack" and "endpoint_config" to be more
-descriptive. There were others too that I can't recall now.
-
-[=E2=80=A6]
-
->=20
->> +
->> +const INFO: drm::driver::DriverInfo =3D drm::driver::DriverInfo {
->> +    major: 0,
->> +    minor: 0,
->> +    patchlevel: 0,
->> +    name: c_str!("panthor"),
->> +    desc: c_str!("ARM Mali CSF-based Rust GPU driver"),
->=20
-> I'm not sure what your long-term plan here is. I can see the benefit =
-of
-> keeping the major/minor and name matching panthor. I would have =
-thought
-> including "Tyr" in the description might be handy to make it obvious
-> which driver is being used (panthor already has "Panthor"). There are
-> also other marketing nitpicks over the description, but I don't know =
-if
-> anyone actually cares ;)
-
-
-So the main idea here at Collabora is to have Tyr work as a drop-in =
-replacement
-for Panthor in panvk. In other words, the objective is to not have to =
-add yet a
-new panvk backend.
-
-Feel free to suggest whatever is on your mind for the description field. =
-I am
-pretty sure we can replace it with your version instead.
-
-
-[=E2=80=A6]
-
->> diff --git a/drivers/gpu/drm/tyr/gpu.rs b/drivers/gpu/drm/tyr/gpu.rs
->> new file mode 100644
->> index =
-0000000000000000000000000000000000000000..a33caa7b2968e62da136f245422023ba=
-6e3ad5c3
->> --- /dev/null
->> +++ b/drivers/gpu/drm/tyr/gpu.rs
->> @@ -0,0 +1,217 @@
->> +// SPDX-License-Identifier: GPL-2.0 or MIT
->> +
->> +use crate::regs::*;
->> +use kernel::bits;
->> +use kernel::bits::genmask_u32;
->> +use kernel::devres::Devres;
->> +use kernel::io;
->> +use kernel::io::mem::IoMem;
->> +use kernel::platform;
->> +use kernel::prelude::*;
->> +use kernel::time;
->> +use kernel::transmute::AsBytes;
->> +
->> +// This can be queried by userspace to get information about the =
-GPU.
->> +#[repr(C)]
->> +pub(crate) struct GpuInfo {
->> +    pub(crate) gpu_id: u32,
->> +    pub(crate) csf_id: u32,
->> +    pub(crate) gpu_rev: u32,
->> +    pub(crate) core_features: u32,
->> +    pub(crate) l2_features: u32,
->> +    pub(crate) tiler_features: u32,
->> +    pub(crate) mem_features: u32,
->> +    pub(crate) mmu_features: u32,
->> +    pub(crate) thread_features: u32,
->> +    pub(crate) max_threads: u32,
->> +    pub(crate) thread_max_workgroup_size: u32,
->> +    pub(crate) thread_max_barrier_size: u32,
->> +    pub(crate) coherency_features: u32,
->> +    pub(crate) texture_features: [u32; 4],
->> +    pub(crate) as_present: u32,
->> +    pub(crate) shader_present: u64,
->> +    pub(crate) tiler_present: u64,
->> +    pub(crate) l2_present: u64,
->> +}
->=20
-> This may be me not understanding Rust. But this doesn't match struct
-> drm_panthor_gpu_info - the ordering is different and you haven't
-> included the padding. Does this actually work?
-
-Oh, that is just a major bug :)
-
-The fields and their ordering must definitely match if we want this to =
-work. I
-will fix it on v2.
-
-Thanks for catching it.
-
-By the way, it works in the sense that something can be read from =
-userspace,
-i.e.: you can run the IGT branch to test it. Of course, with the field =
-ordering
-being shuffled, we won't read the right things.
-
-Note that I did not test with panvk yet, that would have probably caught =
-it.
-
->=20
->> +
->> +impl GpuInfo {
->> +    pub(crate) fn new(iomem: &Devres<IoMem>) -> Result<Self> {
->> +        let gpu_id =3D GPU_ID.read(iomem)?;
->> +        let csf_id =3D GPU_CSF_ID.read(iomem)?;
->> +        let gpu_rev =3D GPU_REVID.read(iomem)?;
->> +        let core_features =3D GPU_CORE_FEATURES.read(iomem)?;
->> +        let l2_features =3D GPU_L2_FEATURES.read(iomem)?;
->> +        let tiler_features =3D GPU_TILER_FEATURES.read(iomem)?;
->> +        let mem_features =3D GPU_MEM_FEATURES.read(iomem)?;
->> +        let mmu_features =3D GPU_MMU_FEATURES.read(iomem)?;
->> +        let thread_features =3D GPU_THREAD_FEATURES.read(iomem)?;
->> +        let max_threads =3D GPU_THREAD_MAX_THREADS.read(iomem)?;
->> +        let thread_max_workgroup_size =3D =
-GPU_THREAD_MAX_WORKGROUP_SIZE.read(iomem)?;
->> +        let thread_max_barrier_size =3D =
-GPU_THREAD_MAX_BARRIER_SIZE.read(iomem)?;
->> +        let coherency_features =3D =
-GPU_COHERENCY_FEATURES.read(iomem)?;
->> +
->> +        let texture_features =3D GPU_TEXTURE_FEATURES0.read(iomem)?;
->> +
->> +        let as_present =3D GPU_AS_PRESENT.read(iomem)?;
->> +
->> +        let shader_present =3D GPU_SHADER_PRESENT_LO.read(iomem)? as =
-u64;
->> +        let shader_present =3D shader_present | =
-(GPU_SHADER_PRESENT_HI.read(iomem)? as u64) << 32;
->> +
->> +        let tiler_present =3D GPU_TILER_PRESENT_LO.read(iomem)? as =
-u64;
->> +        let tiler_present =3D tiler_present | =
-(GPU_TILER_PRESENT_HI.read(iomem)? as u64) << 32;
->> +
->> +        let l2_present =3D GPU_L2_PRESENT_LO.read(iomem)? as u64;
->> +        let l2_present =3D l2_present | =
-(GPU_L2_PRESENT_HI.read(iomem)? as u64) << 32;
->> +
->> +        Ok(Self {
->> +            gpu_id,
->> +            csf_id,
->> +            gpu_rev,
->> +            core_features,
->> +            l2_features,
->> +            tiler_features,
->> +            mem_features,
->> +            mmu_features,
->> +            thread_features,
->> +            max_threads,
->> +            thread_max_workgroup_size,
->> +            thread_max_barrier_size,
->> +            coherency_features,
->> +            texture_features: [texture_features, 0, 0, 0],
->> +            as_present,
->> +            shader_present,
->> +            tiler_present,
->> +            l2_present,
->> +        })
->=20
-> TODO: Add texture_featues_{1,2,3}.
-
-Ack
-
->=20
->> +    }
->> +
->> +    pub(crate) fn log(&self, pdev: &platform::Device) {
->> +        let major =3D (self.gpu_id >> 16) & 0xff;
->> +        let minor =3D (self.gpu_id >> 8) & 0xff;
->> +        let status =3D self.gpu_id & 0xff;
->> +
->> +        let model_name =3D if let Some(model) =3D GPU_MODELS
->> +            .iter()
->> +            .find(|&f| f.major =3D=3D major && f.minor =3D=3D minor)
->> +        {
->> +            model.name
->> +        } else {
->> +            "unknown"
->> +        };
->=20
-> Just a heads up, we have some horrible naming rules for later GPUs =
-(see
-> Karunika's patch[1] adding panthor support). E.g. for major 11, minor =
-2:
->=20
-> * If shaders > 10 && ray tracing then Mali-G715-Immortalis
-> * else if shaders >=3D 7 then Mali-G715
-> * else Mali-G615 (also for major 11, minor 3).
->=20
-> Although you may want to ignore this craziness for now ;)
->=20
-> [1]
-> =
-https://lore.kernel.org/all/20250602143216.2621881-6-karunika.choo@arm.com=
-/
-
-I think we should ignore this for now. Tyr will probably not work on =
-anything
-else other than the rk3588 for the time being anyway.
-
->> +}
->> diff --git a/drivers/gpu/drm/tyr/regs.rs =
-b/drivers/gpu/drm/tyr/regs.rs
->> new file mode 100644
->> index =
-0000000000000000000000000000000000000000..db36cfd030d202e47619cb744cae5597=
-d47f6029
->> --- /dev/null
->> +++ b/drivers/gpu/drm/tyr/regs.rs
->> @@ -0,0 +1,252 @@
->> +// SPDX-License-Identifier: GPL-2.0 or MIT
->> +
->> +#![allow(dead_code)]
->> +
->> +use kernel::bits::bit_u64;
->> +use kernel::devres::Devres;
->> +use kernel::io::mem::IoMem;
->> +use kernel::{bits::bit_u32, prelude::*};
->> +
->> +/// Represents a register in the Register Set
->> +pub(crate) struct Register<const OFFSET: usize>;
->> +
->> +impl<const OFFSET: usize> Register<OFFSET> {
->> +    #[inline]
->> +    pub(crate) fn read(&self, iomem: &Devres<IoMem>) -> Result<u32> =
-{
->> +        (*iomem).try_access().ok_or(ENODEV)?.try_read32(OFFSET)
->> +    }
->> +
->> +    #[inline]
->> +    pub(crate) fn write(&self, iomem: &Devres<IoMem>, value: u32) -> =
-Result<()> {
->> +        (*iomem)
->> +            .try_access()
->> +            .ok_or(ENODEV)?
->> +            .try_write32(value, OFFSET)
->> +    }
->> +}
->=20
-> You might want to consider a 64 bit register abstraction as well.
-> Panthor recently switched over to avoid the whole _HI/_LO dance.
-
-Right, that should be achievable for v2.
-
->=20
->> +
->> +pub(crate) const GPU_ID: Register<0x0> =3D Register;
->> +pub(crate) const GPU_L2_FEATURES: Register<0x4> =3D Register;
->> +pub(crate) const GPU_CORE_FEATURES: Register<0x8> =3D Register;
->> +pub(crate) const GPU_CSF_ID: Register<0x1c> =3D Register;
->> +pub(crate) const GPU_REVID: Register<0x280> =3D Register;
->> +pub(crate) const GPU_TILER_FEATURES: Register<0xc> =3D Register;
->> +pub(crate) const GPU_MEM_FEATURES: Register<0x10> =3D Register;
->> +pub(crate) const GPU_MMU_FEATURES: Register<0x14> =3D Register;
->> +pub(crate) const GPU_AS_PRESENT: Register<0x18> =3D Register;
->> +pub(crate) const GPU_INT_RAWSTAT: Register<0x20> =3D Register;
->> +
->> +pub(crate) const GPU_INT_RAWSTAT_FAULT: u32 =3D bit_u32(0);
->> +pub(crate) const GPU_INT_RAWSTAT_PROTECTED_FAULT: u32 =3D =
-bit_u32(1);
->> +pub(crate) const GPU_INT_RAWSTAT_RESET_COMPLETED: u32 =3D =
-bit_u32(8);
->> +pub(crate) const GPU_INT_RAWSTAT_POWER_CHANGED_SINGLE: u32 =3D =
-bit_u32(9);
->> +pub(crate) const GPU_INT_RAWSTAT_POWER_CHANGED_ALL: u32 =3D =
-bit_u32(10);
->> +pub(crate) const GPU_INT_RAWSTAT_CLEAN_CACHES_COMPLETED: u32 =3D =
-bit_u32(17);
->> +pub(crate) const GPU_INT_RAWSTAT_DOORBELL_STATUS: u32 =3D =
-bit_u32(18);
->> +pub(crate) const GPU_INT_RAWSTAT_MCU_STATUS: u32 =3D bit_u32(19);
->> +
->> +pub(crate) const GPU_INT_CLEAR: Register<0x24> =3D Register;
->> +pub(crate) const GPU_INT_MASK: Register<0x28> =3D Register;
->> +pub(crate) const GPU_INT_STAT: Register<0x2c> =3D Register;
->> +pub(crate) const GPU_CMD: Register<0x30> =3D Register;
->> +pub(crate) const GPU_THREAD_FEATURES: Register<0xac> =3D Register;
->> +pub(crate) const GPU_THREAD_MAX_THREADS: Register<0xa0> =3D =
-Register;
->> +pub(crate) const GPU_THREAD_MAX_WORKGROUP_SIZE: Register<0xa4> =3D =
-Register;
->> +pub(crate) const GPU_THREAD_MAX_BARRIER_SIZE: Register<0xa8> =3D =
-Register;
->> +pub(crate) const GPU_TEXTURE_FEATURES0: Register<0xb0> =3D Register;
->> +pub(crate) const GPU_SHADER_PRESENT_LO: Register<0x100> =3D =
-Register;
->> +pub(crate) const GPU_SHADER_PRESENT_HI: Register<0x104> =3D =
-Register;
->> +pub(crate) const GPU_TILER_PRESENT_LO: Register<0x110> =3D Register;
->> +pub(crate) const GPU_TILER_PRESENT_HI: Register<0x114> =3D Register;
->> +pub(crate) const GPU_L2_PRESENT_LO: Register<0x120> =3D Register;
->> +pub(crate) const GPU_L2_PRESENT_HI: Register<0x124> =3D Register;
->> +pub(crate) const L2_READY_LO: Register<0x160> =3D Register;
->> +pub(crate) const L2_READY_HI: Register<0x164> =3D Register;
->> +pub(crate) const L2_PWRON_LO: Register<0x1a0> =3D Register;
->> +pub(crate) const L2_PWRON_HI: Register<0x1a4> =3D Register;
->> +pub(crate) const L2_PWRTRANS_LO: Register<0x220> =3D Register;
->> +pub(crate) const L2_PWRTRANS_HI: Register<0x204> =3D Register;
->> +pub(crate) const L2_PWRACTIVE_LO: Register<0x260> =3D Register;
->> +pub(crate) const L2_PWRACTIVE_HI: Register<0x264> =3D Register;
->> +
->> +pub(crate) const MCU_CONTROL: Register<0x700> =3D Register;
->> +pub(crate) const MCU_CONTROL_ENABLE: u32 =3D 1;
->> +pub(crate) const MCU_CONTROL_AUTO: u32 =3D 2;
->> +pub(crate) const MCU_CONTROL_DISABLE: u32 =3D 0;
->> +
->> +pub(crate) const MCU_STATUS: Register<0x704> =3D Register;
->> +pub(crate) const MCU_STATUS_DISABLED: u32 =3D 0;
->> +pub(crate) const MCU_STATUS_ENABLED: u32 =3D 1;
->> +pub(crate) const MCU_STATUS_HALT: u32 =3D 2;
->> +pub(crate) const MCU_STATUS_FATAL: u32 =3D 3;
->> +
->> +pub(crate) const GPU_COHERENCY_FEATURES: Register<0x300> =3D =
-Register;
->> +
->> +pub(crate) const JOB_INT_RAWSTAT: Register<0x1000> =3D Register;
->> +pub(crate) const JOB_INT_CLEAR: Register<0x1004> =3D Register;
->> +pub(crate) const JOB_INT_MASK: Register<0x1008> =3D Register;
->> +pub(crate) const JOB_INT_STAT: Register<0x100c> =3D Register;
->> +
->> +pub(crate) const JOB_INT_GLOBAL_IF: u32 =3D bit_u32(31);
->> +
->> +pub(crate) const MMU_INT_RAWSTAT: Register<0x2000> =3D Register;
->> +pub(crate) const MMU_INT_CLEAR: Register<0x2004> =3D Register;
->> +pub(crate) const MMU_INT_MASK: Register<0x2008> =3D Register;
->> +pub(crate) const MMU_INT_STAT: Register<0x200c> =3D Register;
->> +
->> +pub(crate) const AS_TRANSCFG_ADRMODE_UNMAPPED: u64 =3D bit_u64(0);
->> +pub(crate) const AS_TRANSCFG_ADRMODE_IDENTITY: u64 =3D bit_u64(1);
->> +pub(crate) const AS_TRANSCFG_ADRMODE_AARCH64_4K: u64 =3D bit_u64(2) =
-| bit_u64(1);
->> +pub(crate) const AS_TRANSCFG_ADRMODE_AARCH64_64K: u64 =3D =
-bit_u64(3);
->> +pub(crate) const fn as_transcfg_ina_bits(x: u64) -> u64 {
->> +    x << 6
->> +}
->> +pub(crate) const fn as_transcfg_outa_bits(x: u64) -> u64 {
->> +    x << 14
->> +}
->> +pub(crate) const AS_TRANSCFG_SL_CONCAT: u64 =3D bit_u64(22);
->> +pub(crate) const AS_TRANSCFG_PTW_MEMATTR_NC: u64 =3D bit_u64(24);
->> +pub(crate) const AS_TRANSCFG_PTW_MEMATTR_WB: u64 =3D bit_u64(25);
->> +pub(crate) const AS_TRANSCFG_PTW_SH_NS: u64 =3D 0 << 28;
->> +pub(crate) const AS_TRANSCFG_PTW_SH_OS: u64 =3D bit_u64(29);
->> +pub(crate) const AS_TRANSCFG_PTW_SH_IS: u64 =3D bit_u64(29) | =
-bit_u64(28);
->> +pub(crate) const AS_TRANSCFG_PTW_RA: u64 =3D bit_u64(30);
->> +pub(crate) const AS_TRANSCFG_DISABLE_HIER_AP: u64 =3D bit_u64(33);
->> +pub(crate) const AS_TRANSCFG_DISABLE_AF_FAULT: u64 =3D bit_u64(34);
->> +pub(crate) const AS_TRANSCFG_WXN: u64 =3D bit_u64(35);
->> +
->> +pub(crate) const MMU_BASE: usize =3D 0x2400;
->> +pub(crate) const MMU_AS_SHIFT: usize =3D 6;
->> +
->> +const fn mmu_as(as_nr: usize) -> usize {
->> +    MMU_BASE + (as_nr << MMU_AS_SHIFT)
->> +}
->> +
->> +pub(crate) struct AsRegister(usize);
->> +
->> +impl AsRegister {
->> +    fn new(as_nr: usize, offset: usize) -> Result<Self> {
->> +        if as_nr >=3D 32 {
->=20
-> Should be 16 really. This is a bit of an architectural quirk. There =
-are
-> only ever 16 sets of address space registers, but the AS_PRESENT
-> register is defined as 32 bit.
-
-Oh, I did not know that.
-
->=20
->> +            Err(EINVAL)
->> +        } else {
->> +            Ok(AsRegister(mmu_as(as_nr) + offset))
->> +        }
->> +    }
->> +
->> +    #[inline]
->> +    pub(crate) fn read(&self, iomem: &Devres<IoMem>) -> Result<u32> =
-{
->> +        (*iomem).try_access().ok_or(ENODEV)?.try_read32(self.0)
->> +    }
->> +
->> +    #[inline]
->> +    pub(crate) fn write(&self, iomem: &Devres<IoMem>, value: u32) -> =
-Result<()> {
->> +        (*iomem)
->> +            .try_access()
->> +            .ok_or(ENODEV)?
->> +            .try_write32(value, self.0)
->> +    }
->> +}
->> +
->> +pub(crate) fn as_transtab_lo(as_nr: usize) -> Result<AsRegister> {
->> +    AsRegister::new(as_nr, 0x0)
->> +}
->> +
->> +pub(crate) fn as_transtab_hi(as_nr: usize) -> Result<AsRegister> {
->> +    AsRegister::new(as_nr, 0x4)
->> +}
->> +
->> +pub(crate) fn as_memattr_lo(as_nr: usize) -> Result<AsRegister> {
->> +    AsRegister::new(as_nr, 0x8)
->> +}
->> +
->> +pub(crate) fn as_memattr_hi(as_nr: usize) -> Result<AsRegister> {
->> +    AsRegister::new(as_nr, 0xc)
->> +}
->> +
->> +pub(crate) fn as_lockaddr_lo(as_nr: usize) -> Result<AsRegister> {
->> +    AsRegister::new(as_nr, 0x10)
->> +}
->> +
->> +pub(crate) fn as_lockaddr_hi(as_nr: usize) -> Result<AsRegister> {
->> +    AsRegister::new(as_nr, 0x14)
->> +}
->> +
->> +pub(crate) fn as_command(as_nr: usize) -> Result<AsRegister> {
->> +    AsRegister::new(as_nr, 0x18)
->> +}
->> +
->> +pub(crate) fn as_faultstatus(as_nr: usize) -> Result<AsRegister> {
->> +    AsRegister::new(as_nr, 0x1c)
->> +}
->> +
->> +pub(crate) const AS_FAULTSTATUS_ACCESS_TYPE_MASK: u32 =3D 0x3 << 8;
->> +pub(crate) const AS_FAULTSTATUS_ACCESS_TYPE_ATOMIC: u32 =3D 0x0 << =
-8;
->> +pub(crate) const AS_FAULTSTATUS_ACCESS_TYPE_EX: u32 =3D 0x1 << 8;
->> +pub(crate) const AS_FAULTSTATUS_ACCESS_TYPE_READ: u32 =3D 0x2 << 8;
->> +pub(crate) const AS_FAULTSTATUS_ACCESS_TYPE_WRITE: u32 =3D 0x3 << 8;
->> +
->> +pub(crate) fn as_faultaddress_lo(as_nr: usize) -> Result<AsRegister> =
-{
->> +    AsRegister::new(as_nr, 0x20)
->> +}
->> +
->> +pub(crate) fn as_faultaddress_hi(as_nr: usize) -> Result<AsRegister> =
-{
->> +    AsRegister::new(as_nr, 0x24)
->> +}
->> +
->> +pub(crate) const AS_COMMAND_NOP: u32 =3D 0;
->> +pub(crate) const AS_COMMAND_UPDATE: u32 =3D 1;
->> +pub(crate) const AS_COMMAND_LOCK: u32 =3D 2;
->> +pub(crate) const AS_COMMAND_UNLOCK: u32 =3D 3;
->> +pub(crate) const AS_COMMAND_FLUSH_PT: u32 =3D 4;
->> +pub(crate) const AS_COMMAND_FLUSH_MEM: u32 =3D 5;
->=20
-> These should be moved up next to as_command().
-
-Ack
-
->=20
->> +
->> +pub(crate) fn as_status(as_nr: usize) -> Result<AsRegister> {
->> +    AsRegister::new(as_nr, 0x28)
->> +}
->> +
->> +pub(crate) const AS_STATUS_ACTIVE: u32 =3D bit_u32(0);
->> +
->> +pub(crate) fn as_transcfg_lo(as_nr: usize) -> Result<AsRegister> {
->> +    AsRegister::new(as_nr, 0x30)
->> +}
->> +pub(crate) fn as_transcfg_hi(as_nr: usize) -> Result<AsRegister> {
->> +    AsRegister::new(as_nr, 0x34)
->> +}
->> +
->> +pub(crate) const AS_LOCK_REGION_MIN_SIZE: u32 =3D bit_u32(15);
->> +
->> +pub(crate) const AS_MEMATTR_AARCH64_INNER_ALLOC_IMPL: u32 =3D 2 << =
-2;
->> +
->> +pub(crate) fn as_memattr_aarch64_inner_alloc_expl(w: bool, r: bool) =
--> u32 {
->> +    (3 << 2) | ((w as u32) << 0) | ((r as u32) << 1)
->> +}
->> +pub(crate) const AS_MEMATTR_AARCH64_SH_MIDGARD_INNER: u32 =3D 0 << =
-4;
->> +pub(crate) const AS_MEMATTR_AARCH64_SH_CPU_INNER: u32 =3D 1 << 4;
->> +pub(crate) const AS_MEMATTR_AARCH64_SH_CPU_INNER_SHADER_COH: u32 =3D =
-2 << 4;
->> +pub(crate) const AS_MEMATTR_AARCH64_SHARED: u32 =3D 0 << 6;
->> +pub(crate) const AS_MEMATTR_AARCH64_INNER_OUTER_NC: u32 =3D 1 << 6;
->> +pub(crate) const AS_MEMATTR_AARCH64_INNER_OUTER_WB: u32 =3D 2 << 6;
->> +pub(crate) const AS_MEMATTR_AARCH64_FAULT: u32 =3D 3 << 6;
->=20
-> These also should be moved.
-
-Ack
-
-[=E2=80=A6]
-
->> diff --git a/rust/uapi/uapi_helper.h b/rust/uapi/uapi_helper.h
->> index =
-1409441359f510236256bc17851f9aac65c45c4e..f9959c1d889170ebe6ad5f98a431225f=
-b08625b5 100644
->> --- a/rust/uapi/uapi_helper.h
->> +++ b/rust/uapi/uapi_helper.h
->> @@ -9,6 +9,7 @@
->> #include <uapi/asm-generic/ioctl.h>
->> #include <uapi/drm/drm.h>
->> #include <uapi/drm/nova_drm.h>
->> +#include<uapi/drm/panthor_drm.h>
->=20
-> Missing space, I can review C for style :)
-
-Ack
-
->=20
-> Thanks,
-> Steve
->=20
->> #include <uapi/linux/mdio.h>
->> #include <uapi/linux/mii.h>
->> #include <uapi/linux/ethtool.h>
->>=20
->> ---
->> base-commit: 1b1d6cbeba24e4c9ff39580101472efeb3bd9b6f
->> change-id: 20250627-tyr-683ec49113ba
->>=20
->> Best regards,
-
-=E2=80=94 Daniel
-
+> 
+> Regards
+> Sunil Khatri
+> 
+>>
+>> Regards,
+>> Christian.
+>>
+>>> +
+>>> +
+>>>   /**
+>>>    * drm_debugfs_dev_init - create debugfs directory for the device
+>>>    * @dev: the device which we want to create the directory for
+>>> - * @root: the parent directory depending on the device type
+>>>    *
+>>>    * Creates the debugfs directory for the device under the given root directory.
+>>>    */
+>>> -void drm_debugfs_dev_init(struct drm_device *dev, struct dentry *root)
+>>> +void drm_debugfs_dev_init(struct drm_device *dev)
+>>>   {
+>>> -    dev->debugfs_root = debugfs_create_dir(dev->unique, root);
+>>> +    if (drm_core_check_feature(dev, DRIVER_COMPUTE_ACCEL))
+>>> +        dev->debugfs_root = debugfs_create_dir(dev->unique, accel_debugfs_root);
+>>> +    else
+>>> +        dev->debugfs_root = debugfs_create_dir(dev->unique, drm_debugfs_root);
+>>>   }
+>>>     /**
+>>> @@ -322,14 +344,13 @@ void drm_debugfs_dev_register(struct drm_device *dev)
+>>>           drm_atomic_debugfs_init(dev);
+>>>   }
+>>>   -int drm_debugfs_register(struct drm_minor *minor, int minor_id,
+>>> -             struct dentry *root)
+>>> +int drm_debugfs_register(struct drm_minor *minor, int minor_id)
+>>>   {
+>>>       struct drm_device *dev = minor->dev;
+>>>       char name[64];
+>>>         sprintf(name, "%d", minor_id);
+>>> -    minor->debugfs_symlink = debugfs_create_symlink(name, root,
+>>> +    minor->debugfs_symlink = debugfs_create_symlink(name, drm_debugfs_root,
+>>>                               dev->unique);
+>>>         /* TODO: Only for compatibility with drivers */
+>>> diff --git a/drivers/gpu/drm/drm_drv.c b/drivers/gpu/drm/drm_drv.c
+>>> index 5d57b622f9aa..68f50d915153 100644
+>>> --- a/drivers/gpu/drm/drm_drv.c
+>>> +++ b/drivers/gpu/drm/drm_drv.c
+>>> @@ -69,9 +69,6 @@ DEFINE_XARRAY_ALLOC(drm_minors_xa);
+>>>    */
+>>>   static bool drm_core_init_complete;
+>>>   -static struct dentry *drm_debugfs_root;
+>>> -static struct dentry *accel_debugfs_root;
+>>> -
+>>>   DEFINE_STATIC_SRCU(drm_unplug_srcu);
+>>>     /*
+>>> @@ -184,8 +181,7 @@ static int drm_minor_register(struct drm_device *dev, enum drm_minor_type type)
+>>>           return 0;
+>>>         if (minor->type != DRM_MINOR_ACCEL) {
+>>> -        ret = drm_debugfs_register(minor, minor->index,
+>>> -                       drm_debugfs_root);
+>>> +        ret = drm_debugfs_register(minor, minor->index);
+>>>           if (ret) {
+>>>               DRM_ERROR("DRM: Failed to initialize /sys/kernel/debug/dri.\n");
+>>>               goto err_debugfs;
+>>> @@ -752,10 +748,7 @@ static int drm_dev_init(struct drm_device *dev,
+>>>           goto err;
+>>>       }
+>>>   -    if (drm_core_check_feature(dev, DRIVER_COMPUTE_ACCEL))
+>>> -        drm_debugfs_dev_init(dev, accel_debugfs_root);
+>>> -    else
+>>> -        drm_debugfs_dev_init(dev, drm_debugfs_root);
+>>> +    drm_debugfs_dev_init(dev);
+>>>         return 0;
+>>>   @@ -1167,10 +1160,10 @@ static void drm_core_exit(void)
+>>>   {
+>>>       drm_privacy_screen_lookup_exit();
+>>>       drm_panic_exit();
+>>> -    debugfs_remove(accel_debugfs_root);
+>>> +    drm_debugfs_remove_accel_root();
+>>>       accel_core_exit();
+>>>       unregister_chrdev(DRM_MAJOR, "drm");
+>>> -    debugfs_remove(drm_debugfs_root);
+>>> +    drm_debugfs_remove_root();
+>>>       drm_sysfs_destroy();
+>>>       WARN_ON(!xa_empty(&drm_minors_xa));
+>>>       drm_connector_ida_destroy();
+>>> @@ -1189,14 +1182,12 @@ static int __init drm_core_init(void)
+>>>           goto error;
+>>>       }
+>>>   -    drm_debugfs_root = debugfs_create_dir("dri", NULL);
+>>> +    drm_debugfs_init_root();
+>>>         ret = register_chrdev(DRM_MAJOR, "drm", &drm_stub_fops);
+>>>       if (ret < 0)
+>>>           goto error;
+>>>   -    accel_debugfs_root = debugfs_create_dir("accel", NULL);
+>>> -
+>>>       ret = accel_core_init();
+>>>       if (ret < 0)
+>>>           goto error;
+>>> diff --git a/drivers/gpu/drm/drm_internal.h b/drivers/gpu/drm/drm_internal.h
+>>> index b2b6a8e49dda..d2d8e72f32d9 100644
+>>> --- a/drivers/gpu/drm/drm_internal.h
+>>> +++ b/drivers/gpu/drm/drm_internal.h
+>>> @@ -186,8 +186,7 @@ void drm_gem_vunmap(struct drm_gem_object *obj, struct iosys_map *map);
+>>>   #if defined(CONFIG_DEBUG_FS)
+>>>   void drm_debugfs_dev_fini(struct drm_device *dev);
+>>>   void drm_debugfs_dev_register(struct drm_device *dev);
+>>> -int drm_debugfs_register(struct drm_minor *minor, int minor_id,
+>>> -             struct dentry *root);
+>>> +int drm_debugfs_register(struct drm_minor *minor, int minor_id);
+>>>   void drm_debugfs_unregister(struct drm_minor *minor);
+>>>   void drm_debugfs_connector_add(struct drm_connector *connector);
+>>>   void drm_debugfs_connector_remove(struct drm_connector *connector);
+>>> @@ -205,8 +204,7 @@ static inline void drm_debugfs_dev_register(struct drm_device *dev)
+>>>   {
+>>>   }
+>>>   -static inline int drm_debugfs_register(struct drm_minor *minor, int minor_id,
+>>> -                       struct dentry *root)
+>>> +static inline int drm_debugfs_register(struct drm_minor *minor, int minor_id)
+>>>   {
+>>>       return 0;
+>>>   }
+>>> diff --git a/include/drm/drm_drv.h b/include/drm/drm_drv.h
+>>> index a43d707b5f36..a02bf4885b79 100644
+>>> --- a/include/drm/drm_drv.h
+>>> +++ b/include/drm/drm_drv.h
+>>> @@ -566,9 +566,24 @@ static inline bool drm_firmware_drivers_only(void)
+>>>   }
+>>>     #if defined(CONFIG_DEBUG_FS)
+>>> -void drm_debugfs_dev_init(struct drm_device *dev, struct dentry *root);
+>>> +void drm_debugfs_dev_init(struct drm_device *dev);
+>>> +void drm_debugfs_init_root(void);
+>>> +void drm_debugfs_remove_root(void);
+>>> +void drm_debugfs_remove_accel_root(void);
+>>>   #else
+>>> -static inline void drm_debugfs_dev_init(struct drm_device *dev, struct dentry *root)
+>>> +static inline void drm_debugfs_dev_init(struct drm_device *dev)
+>>> +{
+>>> +}
+>>> +
+>>> +static inline void drm_debugfs_init_root(void)
+>>> +{
+>>> +}
+>>> +
+>>> +static inline void drm_debugfs_remove_root(void)
+>>> +{
+>>> +}
+>>> +
+>>> +static inline void drm_debugfs_remove_accel_root(void)
+>>>   {
+>>>   }
+>>>   #endif
 
