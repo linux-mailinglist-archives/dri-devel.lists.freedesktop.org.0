@@ -2,36 +2,36 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5BAC7AEDE55
-	for <lists+dri-devel@lfdr.de>; Mon, 30 Jun 2025 15:09:43 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id BFA81AEDE97
+	for <lists+dri-devel@lfdr.de>; Mon, 30 Jun 2025 15:15:09 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5482610E43C;
-	Mon, 30 Jun 2025 13:09:41 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id CEF0310E43E;
+	Mon, 30 Jun 2025 13:15:06 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from szxga08-in.huawei.com (szxga08-in.huawei.com [45.249.212.255])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C472310E43C
- for <dri-devel@lists.freedesktop.org>; Mon, 30 Jun 2025 13:09:39 +0000 (UTC)
-Received: from mail.maildlp.com (unknown [172.19.163.48])
- by szxga08-in.huawei.com (SkyGuard) with ESMTP id 4bW5zL0rkSz1d1jd;
- Mon, 30 Jun 2025 21:07:10 +0800 (CST)
+Received: from szxga04-in.huawei.com (szxga04-in.huawei.com [45.249.212.190])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 15F6910E43E
+ for <dri-devel@lists.freedesktop.org>; Mon, 30 Jun 2025 13:15:05 +0000 (UTC)
+Received: from mail.maildlp.com (unknown [172.19.163.44])
+ by szxga04-in.huawei.com (SkyGuard) with ESMTP id 4bW63q2xGnz2CfZj;
+ Mon, 30 Jun 2025 21:11:03 +0800 (CST)
 Received: from dggemv705-chm.china.huawei.com (unknown [10.3.19.32])
- by mail.maildlp.com (Postfix) with ESMTPS id 5203C180064;
- Mon, 30 Jun 2025 21:09:37 +0800 (CST)
+ by mail.maildlp.com (Postfix) with ESMTPS id 450DF1401E9;
+ Mon, 30 Jun 2025 21:15:03 +0800 (CST)
 Received: from kwepemq100007.china.huawei.com (7.202.195.175) by
  dggemv705-chm.china.huawei.com (10.3.19.32) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.1544.11; Mon, 30 Jun 2025 21:09:37 +0800
+ 15.2.1544.11; Mon, 30 Jun 2025 21:15:03 +0800
 Received: from [10.159.166.136] (10.159.166.136) by
  kwepemq100007.china.huawei.com (7.202.195.175) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.1544.11; Mon, 30 Jun 2025 21:09:36 +0800
-Message-ID: <16a13fe1-2311-44c0-9611-9002189cd2be@huawei.com>
-Date: Mon, 30 Jun 2025 21:09:34 +0800
+ 15.2.1544.11; Mon, 30 Jun 2025 21:15:02 +0800
+Message-ID: <15b82b51-4119-4cbc-94af-28cff068dc2f@huawei.com>
+Date: Mon, 30 Jun 2025 21:15:00 +0800
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 drm-dp 06/10] drm/hisilicon/hibmc: add dp mode valid
- check
+Subject: Re: [PATCH v2 drm-dp 07/10] drm/hisilicon/hibmc: fix dp and vga
+ cannot show together
 To: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
 CC: <xinliang.liu@linaro.org>, <tiantao6@hisilicon.com>,
  <maarten.lankhorst@linux.intel.com>, <mripard@kernel.org>,
@@ -42,10 +42,10 @@ CC: <xinliang.liu@linaro.org>, <tiantao6@hisilicon.com>,
  <jani.nikula@linux.intel.com>, <dri-devel@lists.freedesktop.org>,
  <linux-kernel@vger.kernel.org>, <shiyongbang@huawei.com>
 References: <20250620093104.2016196-1-shiyongbang@huawei.com>
- <20250620093104.2016196-7-shiyongbang@huawei.com>
- <qrmfobeguesumq2jjajrqaoyiwatlaz4wcklalmmhjinoql3oe@ulcv7jmocsjo>
+ <20250620093104.2016196-8-shiyongbang@huawei.com>
+ <7mgk3hueodkzodedjxpkzpf2b4x2n3fdqi42lmtsgozlaxv2tc@4cx7nb5pg7tb>
 From: Yongbang Shi <shiyongbang@huawei.com>
-In-Reply-To: <qrmfobeguesumq2jjajrqaoyiwatlaz4wcklalmmhjinoql3oe@ulcv7jmocsjo>
+In-Reply-To: <7mgk3hueodkzodedjxpkzpf2b4x2n3fdqi42lmtsgozlaxv2tc@4cx7nb5pg7tb>
 Content-Type: text/plain; charset="UTF-8"; format=flowed
 Content-Transfer-Encoding: 7bit
 X-Originating-IP: [10.159.166.136]
@@ -67,150 +67,35 @@ Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 
-> On Fri, Jun 20, 2025 at 05:31:00PM +0800, Yongbang Shi wrote:
+> On Fri, Jun 20, 2025 at 05:31:01PM +0800, Yongbang Shi wrote:
 >> From: Baihan Li <libaihan@huawei.com>
 >>
->> If DP is connected, add mode check and BW check in mode_valid_ctx() to
->> ensure DP's cfg is usable.
+>> If VGA and DP connected together, there will be only one can get crtc.
+>> Add encoder possible_clones to support two connectors enable.
 >>
->> Fixes: f9698f802e50 ("drm/hisilicon/hibmc: Restructuring the header dp_reg.h")
+>> Fixes: 0ab6ea261c1f ("drm/hisilicon/hibmc: add dp module in hibmc")
+>> Fixes: 3c7623fb5bb6 ("drm/hisilicon/hibmc: Enable this hot plug detect of irq feature")
 >> Signed-off-by: Baihan Li <libaihan@huawei.com>
 >> Signed-off-by: Yongbang Shi <shiyongbang@huawei.com>
 >> ---
 >> ChangeLog:
 >> v1 -> v2:
->>    - delete if (!dp->is_connected) in hibmc_dp_mode_valid(), suggested by Dmitry Baryshkov.
->> ---
->>   drivers/gpu/drm/hisilicon/hibmc/dp/dp_hw.c    | 10 ++++
->>   drivers/gpu/drm/hisilicon/hibmc/dp/dp_hw.h    |  6 +++
->>   .../gpu/drm/hisilicon/hibmc/hibmc_drm_dp.c    | 51 +++++++++++++++++++
->>   3 files changed, 67 insertions(+)
->>
->> diff --git a/drivers/gpu/drm/hisilicon/hibmc/dp/dp_hw.c b/drivers/gpu/drm/hisilicon/hibmc/dp/dp_hw.c
->> index 98cc534ba794..5b1f943b601c 100644
->> --- a/drivers/gpu/drm/hisilicon/hibmc/dp/dp_hw.c
->> +++ b/drivers/gpu/drm/hisilicon/hibmc/dp/dp_hw.c
->> @@ -273,6 +273,16 @@ void hibmc_dp_reset_link(struct hibmc_dp *dp)
->>   	dp->dp_dev->link.status.channel_equalized = false;
->>   }
->>   
->> +u8 hibmc_dp_get_link_rate(struct hibmc_dp *dp)
->> +{
->> +	return dp->dp_dev->link.cap.link_rate;
->> +}
->> +
->> +u8 hibmc_dp_get_lanes(struct hibmc_dp *dp)
->> +{
->> +	return dp->dp_dev->link.cap.lanes;
->> +}
->> +
->>   static const struct hibmc_dp_color_raw g_rgb_raw[] = {
->>   	{CBAR_COLOR_BAR, 0x000, 0x000, 0x000},
->>   	{CBAR_WHITE,     0xfff, 0xfff, 0xfff},
->> diff --git a/drivers/gpu/drm/hisilicon/hibmc/dp/dp_hw.h b/drivers/gpu/drm/hisilicon/hibmc/dp/dp_hw.h
->> index 9b45e88e47e4..0059a2648a38 100644
->> --- a/drivers/gpu/drm/hisilicon/hibmc/dp/dp_hw.h
->> +++ b/drivers/gpu/drm/hisilicon/hibmc/dp/dp_hw.h
->> @@ -12,6 +12,10 @@
->>   #include <drm/drm_print.h>
->>   #include <drm/display/drm_dp_helper.h>
->>   
->> +/* 27 * 10000000 * 80% = 216000000 */
->> +#define DP_MODE_VALI_CAL	216000000
->> +#define BPP_24				24
->> +
->>   struct hibmc_dp_dev;
->>   
->>   enum hibmc_dp_cbar_pattern {
->> @@ -62,5 +66,7 @@ void hibmc_dp_reset_link(struct hibmc_dp *dp);
->>   void hibmc_dp_hpd_cfg(struct hibmc_dp *dp);
->>   void hibmc_dp_enable_int(struct hibmc_dp *dp);
->>   void hibmc_dp_disable_int(struct hibmc_dp *dp);
->> +u8 hibmc_dp_get_link_rate(struct hibmc_dp *dp);
->> +u8 hibmc_dp_get_lanes(struct hibmc_dp *dp);
->>   
->>   #endif
->> diff --git a/drivers/gpu/drm/hisilicon/hibmc/hibmc_drm_dp.c b/drivers/gpu/drm/hisilicon/hibmc/hibmc_drm_dp.c
->> index c0de796225b7..40f95880b278 100644
->> --- a/drivers/gpu/drm/hisilicon/hibmc/hibmc_drm_dp.c
->> +++ b/drivers/gpu/drm/hisilicon/hibmc/hibmc_drm_dp.c
->> @@ -15,6 +15,28 @@
->>   
->>   #define DP_MASKED_SINK_HPD_PLUG_INT	BIT(2)
->>   
->> +struct hibmc_dp_disp_clk {
->> +	u16 hdisplay;
->> +	u16 vdisplay;
->> +	u32 clock;
->> +};
->> +
->> +static const struct hibmc_dp_disp_clk hibmc_dp_clk_table[] = {
->> +	{640, 480, 25175}, /* 25175 khz */
->> +	{800, 600, 40000}, /* 40000 khz */
->> +	{1024, 768, 65000}, /* 65000 khz */
->> +	{1152, 864, 80000}, /* 80000 khz */
->> +	{1280, 768, 79500}, /* 79500 khz */
->> +	{1280, 720, 74250}, /* 74250 khz */
->> +	{1280, 960, 108000}, /* 108000 khz */
->> +	{1280, 1024, 108000}, /* 108000 khz */
->> +	{1440, 900, 106500}, /* 106500 khz */
->> +	{1600, 900, 108000}, /* 108000 khz */
->> +	{1600, 1200, 162000}, /* 162000 khz */
->> +	{1920, 1080, 148500}, /* 148500 khz */
->> +	{1920, 1200, 193250}, /* 193250 khz */
->> +};
->> +
->>   static int hibmc_dp_connector_get_modes(struct drm_connector *connector)
->>   {
->>   	const struct drm_edid *drm_edid;
->> @@ -49,9 +71,38 @@ static int hibmc_dp_detect(struct drm_connector *connector,
->>   	return connector_status_disconnected;
->>   }
->>   
->> +static int hibmc_dp_mode_valid(struct drm_connector *connector,
->> +			       const struct drm_display_mode *mode,
->> +			       struct drm_modeset_acquire_ctx *ctx,
->> +			       enum drm_mode_status *status)
->> +{
->> +	struct hibmc_dp *dp = to_hibmc_dp(connector);
->> +	u64 cur_val, max_val;
->> +
->> +	/* check DP link BW */
->> +	cur_val = (u64)mode->htotal * mode->vtotal * drm_mode_vrefresh(mode) * BPP_24;
->> +	max_val = (u64)hibmc_dp_get_link_rate(dp) * DP_MODE_VALI_CAL * hibmc_dp_get_lanes(dp);
->> +
->> +	*status = cur_val > max_val ? MODE_CLOCK_HIGH : MODE_OK;
->> +
->> +	/* check the clock */
-> Why? Is it really fixed to the values in the table?
+>>    - don't tie VGA and DP status, suggested by Dmitry Baryshkov.
+>>    - use crtc clone to let 2 connectors can display simultaneous
+> How does this help? I had an impression that your hw can actually
+> display only either to DP or to VGA. Can it send the same (aka cloned)
+> video stream to both connectors at the same time?
 
-Right, our chip spec said that one resolution can only support one clock, and we only support 11 clocks
-above in the struct hibmc_dp_disp_clk{}, which is the limited of our display block.
+Right, we support it. We support using KVM remotely operated, and
+local maintenance using DP at the same time. KVM and VGA are both
+using VDAC connector in driver. Actually, there are three outputs showing
+at the same time.
 
 Thanks,
 Baihan.
 
 
->> +	for (size_t i = 0; i < ARRAY_SIZE(hibmc_dp_clk_table); i++) {
->> +		if (hibmc_dp_clk_table[i].hdisplay == mode->hdisplay &&
->> +		    hibmc_dp_clk_table[i].vdisplay == mode->vdisplay) {
->> +			if (hibmc_dp_clk_table[i].clock != mode->clock) {
->> +				*status = MODE_CLOCK_RANGE;
->> +				return 0;
->> +			}
->> +		}
->> +	}
->> +
->> +	return 0;
->> +}
->> +
->>   static const struct drm_connector_helper_funcs hibmc_dp_conn_helper_funcs = {
->>   	.get_modes = hibmc_dp_connector_get_modes,
->>   	.detect_ctx = hibmc_dp_detect,
->> +	.mode_valid_ctx = hibmc_dp_mode_valid,
->>   };
->>   
->>   static int hibmc_dp_late_register(struct drm_connector *connector)
->> -- 
->> 2.33.0
+>> ---
+>>   drivers/gpu/drm/hisilicon/hibmc/hibmc_drm_drv.c | 8 ++++++++
+>>   1 file changed, 8 insertions(+)
 >>
