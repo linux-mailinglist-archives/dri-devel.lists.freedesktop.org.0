@@ -2,36 +2,36 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id AA2E9AEE0EF
-	for <lists+dri-devel@lfdr.de>; Mon, 30 Jun 2025 16:36:47 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2B793AEE0F0
+	for <lists+dri-devel@lfdr.de>; Mon, 30 Jun 2025 16:36:48 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id CBBA610E483;
+	by gabe.freedesktop.org (Postfix) with ESMTP id EB46F10E47C;
 	Mon, 30 Jun 2025 14:36:45 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from rtg-sunil-navi33.amd.com (unknown [165.204.156.251])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2973710E46C;
- Mon, 30 Jun 2025 14:36:37 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6476A10E470;
+ Mon, 30 Jun 2025 14:36:40 +0000 (UTC)
 Received: from rtg-sunil-navi33.amd.com (localhost [127.0.0.1])
  by rtg-sunil-navi33.amd.com (8.15.2/8.15.2/Debian-22ubuntu3) with ESMTP id
- 55UEaHbl2520168; Mon, 30 Jun 2025 20:06:17 +0530
+ 55UEaMvQ2520204; Mon, 30 Jun 2025 20:06:22 +0530
 Received: (from sunil@localhost)
- by rtg-sunil-navi33.amd.com (8.15.2/8.15.2/Submit) id 55UEaH6Z2520167;
- Mon, 30 Jun 2025 20:06:17 +0530
+ by rtg-sunil-navi33.amd.com (8.15.2/8.15.2/Submit) id 55UEaMIp2520203;
+ Mon, 30 Jun 2025 20:06:22 +0530
 From: Sunil Khatri <sunil.khatri@amd.com>
 To: =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>,
  dri-devel@lists.freedesktop.org
 Cc: amd-gfx@lists.freedesktop.org, simona@ffwll.ch, tzimmermann@suse.de,
  tursulin@ursulin.net, phasta@kernel.org, dakr@kernel.org,
  Sunil Khatri <sunil.khatri@amd.com>
-Subject: [PATCH v7 4/5] drm/amdgpu: add debugfs support for VM pagetable per
- client
-Date: Mon, 30 Jun 2025 20:06:12 +0530
-Message-Id: <20250630143613.2520111-4-sunil.khatri@amd.com>
+Subject: [PATCH v7 5/5] drm/amdgpu: add support of debugfs for mqd information
+Date: Mon, 30 Jun 2025 20:06:13 +0530
+Message-Id: <20250630143613.2520111-5-sunil.khatri@amd.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20250630143613.2520111-1-sunil.khatri@amd.com>
 References: <20250630143613.2520111-1-sunil.khatri@amd.com>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -48,156 +48,114 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Add a debugfs file under the client directory which shares
-the root page table base address of the VM.
+Add debugfs support for mqd for each queue of the client.
 
-This address could be used to dump the pagetable for debug
-memory issues.
+The address exposed to debugfs could be used to dump
+the mqd.
 
 Signed-off-by: Sunil Khatri <sunil.khatri@amd.com>
+Reviewed-by: Christian König <christian.koenig@amd.com>
 ---
- drivers/gpu/drm/amd/amdgpu/amdgpu_debugfs.c | 52 +++++++++++++++++++++
- drivers/gpu/drm/amd/amdgpu/amdgpu_debugfs.h |  1 +
- drivers/gpu/drm/amd/amdgpu/amdgpu_kms.c     |  2 +-
- drivers/gpu/drm/amd/amdgpu/amdgpu_vm.c      |  4 +-
- drivers/gpu/drm/amd/amdgpu/amdgpu_vm.h      |  4 +-
- 5 files changed, 60 insertions(+), 3 deletions(-)
+ drivers/gpu/drm/amd/amdgpu/amdgpu_userq.c | 52 +++++++++++++++++++++++
+ drivers/gpu/drm/amd/amdgpu/amdgpu_userq.h |  1 +
+ 2 files changed, 53 insertions(+)
 
-diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_debugfs.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_debugfs.c
-index f81608330a3d..6762dd11f00c 100644
---- a/drivers/gpu/drm/amd/amdgpu/amdgpu_debugfs.c
-+++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_debugfs.c
-@@ -2131,6 +2131,55 @@ int amdgpu_debugfs_init(struct amdgpu_device *adev)
- 	return 0;
+diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_userq.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_userq.c
+index 295e7186e156..115d53bc9a8d 100644
+--- a/drivers/gpu/drm/amd/amdgpu/amdgpu_userq.c
++++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_userq.c
+@@ -318,6 +318,9 @@ amdgpu_userq_destroy(struct drm_file *filp, int queue_id)
+ 		amdgpu_bo_unreserve(queue->db_obj.obj);
+ 	}
+ 	amdgpu_bo_unref(&queue->db_obj.obj);
++
++	debugfs_remove_recursive(queue->debugfs_queue);
++
+ 	r = amdgpu_userq_unmap_helper(uq_mgr, queue);
+ 	amdgpu_userq_cleanup(uq_mgr, queue, queue_id);
+ 	mutex_unlock(&uq_mgr->userq_mutex);
+@@ -343,6 +346,46 @@ static int amdgpu_userq_priority_permit(struct drm_file *filp,
+ 	return -EACCES;
  }
  
-+static int amdgpu_pt_info_read(struct seq_file *m, void *unused)
++#if defined(CONFIG_DEBUG_FS)
++static int amdgpu_mqd_info_read(struct seq_file *m, void *unused)
 +{
-+	struct drm_file *file;
-+	struct amdgpu_fpriv *fpriv;
-+	struct amdgpu_bo *root_bo;
++	struct amdgpu_usermode_queue *queue = m->private;
++	struct amdgpu_bo *bo;
 +	int r;
 +
-+	file = m->private;
-+	if (!file)
++	if (!queue || !queue->mqd.obj)
 +		return -EINVAL;
 +
-+	fpriv = file->driver_priv;
-+	if (!fpriv && !fpriv->vm.root.bo)
-+		return -ENODEV;
-+
-+	root_bo = amdgpu_bo_ref(fpriv->vm.root.bo);
-+	r = amdgpu_bo_reserve(root_bo, true);
++	bo = amdgpu_bo_ref(queue->mqd.obj);
++	r = amdgpu_bo_reserve(bo, true);
 +	if (r) {
-+		amdgpu_bo_unref(&root_bo);
++		amdgpu_bo_unref(&bo);
 +		return -EINVAL;
 +	}
 +
-+	seq_printf(m, "gpu_address: 0x%llx\n", amdgpu_bo_gpu_offset(fpriv->vm.root.bo));
++	seq_printf(m, "queue_type %d\n", queue->queue_type);
++	seq_printf(m, "mqd_gpu_address: 0x%llx\n", amdgpu_bo_gpu_offset(queue->mqd.obj));
 +
-+	amdgpu_bo_unreserve(root_bo);
-+	amdgpu_bo_unref(&root_bo);
++	amdgpu_bo_unreserve(bo);
++	amdgpu_bo_unref(&bo);
 +
 +	return 0;
 +}
 +
-+static int amdgpu_pt_info_open(struct inode *inode, struct file *file)
++static int amdgpu_mqd_info_open(struct inode *inode, struct file *file)
 +{
-+	return single_open(file, amdgpu_pt_info_read, inode->i_private);
++	return single_open(file, amdgpu_mqd_info_read, inode->i_private);
 +}
 +
-+static const struct file_operations amdgpu_pt_info_fops = {
++static const struct file_operations amdgpu_mqd_info_fops = {
 +	.owner = THIS_MODULE,
-+	.open = amdgpu_pt_info_open,
++	.open = amdgpu_mqd_info_open,
 +	.read = seq_read,
 +	.llseek = seq_lseek,
 +	.release = single_release,
 +};
++#endif
 +
-+void amdgpu_debugfs_vm_init(struct drm_file *file)
-+{
-+	debugfs_create_file("vm_pagetable_info", 0444, file->debugfs_client, file,
-+			    &amdgpu_pt_info_fops);
-+}
+ static int
+ amdgpu_userq_create(struct drm_file *filp, union drm_amdgpu_userq *args)
+ {
+@@ -352,6 +395,7 @@ amdgpu_userq_create(struct drm_file *filp, union drm_amdgpu_userq *args)
+ 	const struct amdgpu_userq_funcs *uq_funcs;
+ 	struct amdgpu_usermode_queue *queue;
+ 	struct amdgpu_db_info db_info;
++	char *queue_name;
+ 	bool skip_map_queue;
+ 	uint64_t index;
+ 	int qid, r = 0;
+@@ -475,6 +519,14 @@ amdgpu_userq_create(struct drm_file *filp, union drm_amdgpu_userq *args)
+ 		}
+ 	}
+ 
++	queue_name = kasprintf(GFP_KERNEL, "queue-%d", qid);
++	if (!queue_name)
++		return -ENOMEM;
 +
- #else
- int amdgpu_debugfs_init(struct amdgpu_device *adev)
- {
-@@ -2140,4 +2189,7 @@ int amdgpu_debugfs_regs_init(struct amdgpu_device *adev)
- {
- 	return 0;
- }
-+void amdgpu_debugfs_vm_init(struct drm_file *file)
-+{
-+}
- #endif
-diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_debugfs.h b/drivers/gpu/drm/amd/amdgpu/amdgpu_debugfs.h
-index 0425432d8659..e7b3c38e5186 100644
---- a/drivers/gpu/drm/amd/amdgpu/amdgpu_debugfs.h
-+++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_debugfs.h
-@@ -33,4 +33,5 @@ void amdgpu_debugfs_fence_init(struct amdgpu_device *adev);
- void amdgpu_debugfs_firmware_init(struct amdgpu_device *adev);
- void amdgpu_debugfs_gem_init(struct amdgpu_device *adev);
- void amdgpu_debugfs_mes_event_log_init(struct amdgpu_device *adev);
-+void amdgpu_debugfs_vm_init(struct drm_file *file);
++	/* Queue dentry per client to hold MQD information   */
++	queue->debugfs_queue = debugfs_create_dir(queue_name, filp->debugfs_client);
++	debugfs_create_file("mqd_info", 0444, queue->debugfs_queue, queue, &amdgpu_mqd_info_fops);
++	kfree(queue_name);
  
-diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_kms.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_kms.c
-index 195ed81d39ff..27aa1b551dbf 100644
---- a/drivers/gpu/drm/amd/amdgpu/amdgpu_kms.c
-+++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_kms.c
-@@ -1395,7 +1395,7 @@ int amdgpu_driver_open_kms(struct drm_device *dev, struct drm_file *file_priv)
- 	if (r)
- 		goto error_pasid;
+ 	args->out.queue_id = qid;
  
--	r = amdgpu_vm_init(adev, &fpriv->vm, fpriv->xcp_id);
-+	r = amdgpu_vm_init(adev, &fpriv->vm, fpriv->xcp_id, file_priv);
- 	if (r)
- 		goto error_pasid;
+diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_userq.h b/drivers/gpu/drm/amd/amdgpu/amdgpu_userq.h
+index ec040c2fd6c9..b1ca91b7cda4 100644
+--- a/drivers/gpu/drm/amd/amdgpu/amdgpu_userq.h
++++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_userq.h
+@@ -65,6 +65,7 @@ struct amdgpu_usermode_queue {
+ 	struct dma_fence	*last_fence;
+ 	u32			xcp_id;
+ 	int			priority;
++	struct dentry		*debugfs_queue;
+ };
  
-diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_vm.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_vm.c
-index f042372d9f2e..7e31fb5f6f33 100644
---- a/drivers/gpu/drm/amd/amdgpu/amdgpu_vm.c
-+++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_vm.c
-@@ -2527,6 +2527,7 @@ void amdgpu_vm_set_task_info(struct amdgpu_vm *vm)
-  * @adev: amdgpu_device pointer
-  * @vm: requested vm
-  * @xcp_id: GPU partition selection id
-+ * @file: drm_file
-  *
-  * Init @vm fields.
-  *
-@@ -2534,7 +2535,7 @@ void amdgpu_vm_set_task_info(struct amdgpu_vm *vm)
-  * 0 for success, error for failure.
-  */
- int amdgpu_vm_init(struct amdgpu_device *adev, struct amdgpu_vm *vm,
--		   int32_t xcp_id)
-+		   int32_t xcp_id, struct drm_file *file)
- {
- 	struct amdgpu_bo *root_bo;
- 	struct amdgpu_bo_vm *root;
-@@ -2610,6 +2611,7 @@ int amdgpu_vm_init(struct amdgpu_device *adev, struct amdgpu_vm *vm,
- 	if (r)
- 		dev_dbg(adev->dev, "Failed to create task info for VM\n");
- 
-+	amdgpu_debugfs_vm_init(file);
- 	amdgpu_bo_unreserve(vm->root.bo);
- 	amdgpu_bo_unref(&root_bo);
- 
-diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_vm.h b/drivers/gpu/drm/amd/amdgpu/amdgpu_vm.h
-index f3ad687125ad..555afaf867c4 100644
---- a/drivers/gpu/drm/amd/amdgpu/amdgpu_vm.h
-+++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_vm.h
-@@ -487,7 +487,9 @@ int amdgpu_vm_set_pasid(struct amdgpu_device *adev, struct amdgpu_vm *vm,
- 			u32 pasid);
- 
- long amdgpu_vm_wait_idle(struct amdgpu_vm *vm, long timeout);
--int amdgpu_vm_init(struct amdgpu_device *adev, struct amdgpu_vm *vm, int32_t xcp_id);
-+int amdgpu_vm_init(struct amdgpu_device *adev, struct amdgpu_vm *vm, int32_t xcp_id,
-+		   struct drm_file *file);
-+
- int amdgpu_vm_make_compute(struct amdgpu_device *adev, struct amdgpu_vm *vm);
- void amdgpu_vm_fini(struct amdgpu_device *adev, struct amdgpu_vm *vm);
- int amdgpu_vm_lock_pd(struct amdgpu_vm *vm, struct drm_exec *exec,
+ struct amdgpu_userq_funcs {
 -- 
 2.34.1
 
