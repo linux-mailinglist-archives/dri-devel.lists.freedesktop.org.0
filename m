@@ -2,76 +2,63 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id BEB44AEDDB1
-	for <lists+dri-devel@lfdr.de>; Mon, 30 Jun 2025 14:58:17 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id ED9D6AEDE14
+	for <lists+dri-devel@lfdr.de>; Mon, 30 Jun 2025 15:04:33 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D77A210E445;
-	Mon, 30 Jun 2025 12:58:15 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0391410E225;
+	Mon, 30 Jun 2025 13:04:31 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=foss.st.com header.i=@foss.st.com header.b="G62k8V8R";
+	dkim=pass (1024-bit key; unprotected) header.d=ti.com header.i=@ti.com header.b="qE5umnSW";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx07-00178001.pphosted.com (mx08-00178001.pphosted.com
- [91.207.212.93])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 14E2110E445
- for <dri-devel@lists.freedesktop.org>; Mon, 30 Jun 2025 12:58:03 +0000 (UTC)
-Received: from pps.filterd (m0046660.ppops.net [127.0.0.1])
- by mx07-00178001.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 55UBxpaI008960;
- Mon, 30 Jun 2025 14:57:54 +0200
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=foss.st.com; h=
- cc:content-transfer-encoding:content-type:date:from:in-reply-to
- :message-id:mime-version:references:subject:to; s=selector1; bh=
- yOw3lCVampqxfyk9oAF3ADllyOFT8WJA9FdDVtqo38s=; b=G62k8V8RY1FfrItE
- Tvl+AoL9C4pMU7Gy4+slJ3TZTandK1RZ2+SJQk0Ted4pMT+nniEahXVOcHdy3KIz
- imMPAF4Rxi8yIA3l7nwxq7belA6VB0ADr5ZesovNNw3GSKzTTQ65L8gX7FcQ5d27
- vLTqB0PZrZK5XJ4ll4D5PABYQ7fPKhxGkDYfJiviCczscSG16q3QzZhQds8kjzaO
- VG6wHqsgD3pnDGKlWpaHtuAqu0HLaq20RdoSwfG5DNPZw62YWhWMo/rdrFeuOn3h
- NrCmCqiKo/RfHdrRN73mpfXSJTdihxFmizHN5cw8sKu7tzUEHN6MTEESmgtcFh2+
- 5F0/RA==
-Received: from beta.dmz-ap.st.com (beta.dmz-ap.st.com [138.198.100.35])
- by mx07-00178001.pphosted.com (PPS) with ESMTPS id 47j5h8qk4k-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Mon, 30 Jun 2025 14:57:53 +0200 (MEST)
-Received: from euls16034.sgp.st.com (euls16034.sgp.st.com [10.75.44.20])
- by beta.dmz-ap.st.com (STMicroelectronics) with ESMTP id 9518940051;
- Mon, 30 Jun 2025 14:56:31 +0200 (CEST)
-Received: from Webmail-eu.st.com (shfdag1node2.st.com [10.75.129.70])
- by euls16034.sgp.st.com (STMicroelectronics) with ESMTP id 5D835B42C3E;
- Mon, 30 Jun 2025 14:55:26 +0200 (CEST)
-Received: from localhost (10.252.20.7) by SHFDAG1NODE2.st.com (10.75.129.70)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.39; Mon, 30 Jun
- 2025 14:55:25 +0200
-From: =?utf-8?q?Cl=C3=A9ment_Le_Goffic?= <clement.legoffic@foss.st.com>
-Date: Mon, 30 Jun 2025 14:55:15 +0200
-Subject: [PATCH v3 3/3] i2c: stm32f7: support i2c_*_dma_safe_msg_buf APIs
+Received: from lelvem-ot01.ext.ti.com (lelvem-ot01.ext.ti.com [198.47.23.234])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 32CE810E225
+ for <dri-devel@lists.freedesktop.org>; Mon, 30 Jun 2025 13:04:29 +0000 (UTC)
+Received: from fllvem-sh04.itg.ti.com ([10.64.41.54])
+ by lelvem-ot01.ext.ti.com (8.15.2/8.15.2) with ESMTP id 55UD49L32626771;
+ Mon, 30 Jun 2025 08:04:09 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
+ s=ti-com-17Q1; t=1751288649;
+ bh=CSjmg654iKbhp0vIomNxU29sKDgmLT4I7lK4aG+jWS0=;
+ h=Date:Subject:To:CC:References:From:In-Reply-To;
+ b=qE5umnSW9Nkibm57cg2SQeGfiCyLrv9jLcQOPqTM9H8GEKG2Q3LNuClWHHtL20m47
+ PGY6ll4YWNh2MSQYzHhHf77mK/nUmu0G3BS4ryCCds8qgIIPjOBYukeA8nDNHS/q4U
+ M0W3vI7PjDpuqhJ6/M73hfmqSxXOhD1nq40W93SY=
+Received: from DFLE102.ent.ti.com (dfle102.ent.ti.com [10.64.6.23])
+ by fllvem-sh04.itg.ti.com (8.18.1/8.18.1) with ESMTPS id 55UD49HL1908816
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES128-SHA256 bits=128 verify=FAIL);
+ Mon, 30 Jun 2025 08:04:09 -0500
+Received: from DFLE102.ent.ti.com (10.64.6.23) by DFLE102.ent.ti.com
+ (10.64.6.23) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2507.55; Mon, 30
+ Jun 2025 08:04:08 -0500
+Received: from lelvem-mr05.itg.ti.com (10.180.75.9) by DFLE102.ent.ti.com
+ (10.64.6.23) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2507.55 via
+ Frontend Transport; Mon, 30 Jun 2025 08:04:08 -0500
+Received: from [172.24.227.193] (devarsh-precision-tower-3620.dhcp.ti.com
+ [172.24.227.193])
+ by lelvem-mr05.itg.ti.com (8.18.1/8.18.1) with ESMTP id 55UD45Sw3932686;
+ Mon, 30 Jun 2025 08:04:05 -0500
+Message-ID: <a90d2db8-0c38-45b1-b295-9c7b38215a38@ti.com>
+Date: Mon, 30 Jun 2025 18:34:04 +0530
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
-Message-ID: <20250630-i2c-upstream-v3-3-7a23ab26683a@foss.st.com>
-References: <20250630-i2c-upstream-v3-0-7a23ab26683a@foss.st.com>
-In-Reply-To: <20250630-i2c-upstream-v3-0-7a23ab26683a@foss.st.com>
-To: Pierre-Yves MORDRET <pierre-yves.mordret@foss.st.com>, Alain Volmat
- <alain.volmat@foss.st.com>, Andi Shyti <andi.shyti@kernel.org>, "Maxime
- Coquelin" <mcoquelin.stm32@gmail.com>, Alexandre Torgue
- <alexandre.torgue@foss.st.com>, Sumit Semwal <sumit.semwal@linaro.org>,
- =?utf-8?q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
- "M'boumba Cedric Madianga" <cedric.madianga@gmail.com>,
- Wolfram Sang <wsa@kernel.org>
-CC: Pierre-Yves MORDRET <pierre-yves.mordret@st.com>,
- <linux-i2c@vger.kernel.org>, <linux-stm32@st-md-mailman.stormreply.com>,
- <linux-arm-kernel@lists.infradead.org>, <linux-kernel@vger.kernel.org>,
- <linux-media@vger.kernel.org>, <dri-devel@lists.freedesktop.org>,
- <linaro-mm-sig@lists.linaro.org>, =?utf-8?q?Cl=C3=A9ment_Le_Goffic?=
- <clement.legoffic@foss.st.com>
-X-Mailer: b4 0.15-dev-c25d1
-X-Originating-IP: [10.252.20.7]
-X-ClientProxiedBy: SHFCAS1NODE2.st.com (10.75.129.73) To SHFDAG1NODE2.st.com
- (10.75.129.70)
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1099,Hydra:6.1.7,FMLib:17.12.80.40
- definitions=2025-06-30_03,2025-06-27_01,2025-03-28_01
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2] drm/tidss: Decouple max_pclk from tidss feats to
+ remove clock dependency
+To: Jayesh Choudhary <j-choudhary@ti.com>, <jyri.sarha@iki.fi>,
+ <dri-devel@lists.freedesktop.org>, <tomi.valkeinen@ideasonboard.com>
+CC: <maarten.lankhorst@linux.intel.com>, <mripard@kernel.org>,
+ <tzimmermann@suse.de>, <airlied@gmail.com>, <simona@ffwll.ch>,
+ <linux-kernel@vger.kernel.org>
+References: <20250618100509.20386-1-j-choudhary@ti.com>
+Content-Language: en-US
+From: Devarsh Thakkar <devarsht@ti.com>
+In-Reply-To: <20250618100509.20386-1-j-choudhary@ti.com>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 7bit
+X-C2ProcessedOrg: 333ef613-75bf-4e12-a4b1-8e3623f5dcea
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -87,93 +74,294 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Use the i2c-core-base APIs to allocate a DMA safe buffer when needed.
+Hi Jayesh,
 
-Acked-by: Alain Volmat <alain.volmat@foss.st.com>
-Signed-off-by: Clément Le Goffic <clement.legoffic@foss.st.com>
----
- drivers/i2c/busses/i2c-stm32f7.c | 36 +++++++++++++++++++++++++-----------
- 1 file changed, 25 insertions(+), 11 deletions(-)
+Thanks for the patch.
 
-diff --git a/drivers/i2c/busses/i2c-stm32f7.c b/drivers/i2c/busses/i2c-stm32f7.c
-index 042386b4cabe..d06f0efdece3 100644
---- a/drivers/i2c/busses/i2c-stm32f7.c
-+++ b/drivers/i2c/busses/i2c-stm32f7.c
-@@ -742,9 +742,12 @@ static void stm32f7_i2c_dma_callback(void *arg)
- 	struct stm32f7_i2c_dev *i2c_dev = (struct stm32f7_i2c_dev *)arg;
- 	struct stm32_i2c_dma *dma = i2c_dev->dma;
- 	struct device *dev = dma->chan_using->device->dev;
-+	struct stm32f7_i2c_msg *f7_msg = &i2c_dev->f7_msg;
- 
- 	stm32f7_i2c_disable_dma_req(i2c_dev);
- 	dma_unmap_single(dev, dma->dma_buf, dma->dma_len, dma->dma_data_dir);
-+	if (!f7_msg->smbus)
-+		i2c_put_dma_safe_msg_buf(f7_msg->buf, i2c_dev->msg, true);
- 	complete(&dma->dma_complete);
- }
- 
-@@ -880,6 +883,7 @@ static void stm32f7_i2c_xfer_msg(struct stm32f7_i2c_dev *i2c_dev,
- {
- 	struct stm32f7_i2c_msg *f7_msg = &i2c_dev->f7_msg;
- 	void __iomem *base = i2c_dev->base;
-+	u8 *dma_buf;
- 	u32 cr1, cr2;
- 	int ret;
- 
-@@ -929,17 +933,23 @@ static void stm32f7_i2c_xfer_msg(struct stm32f7_i2c_dev *i2c_dev,
- 
- 	/* Configure DMA or enable RX/TX interrupt */
- 	i2c_dev->use_dma = false;
--	if (i2c_dev->dma && f7_msg->count >= STM32F7_I2C_DMA_LEN_MIN
--	    && !i2c_dev->atomic) {
--		ret = stm32_i2c_prep_dma_xfer(i2c_dev->dev, i2c_dev->dma,
--					      msg->flags & I2C_M_RD,
--					      f7_msg->count, f7_msg->buf,
--					      stm32f7_i2c_dma_callback,
--					      i2c_dev);
--		if (!ret)
--			i2c_dev->use_dma = true;
--		else
--			dev_warn(i2c_dev->dev, "can't use DMA\n");
-+	if (i2c_dev->dma && !i2c_dev->atomic) {
-+		dma_buf = i2c_get_dma_safe_msg_buf(msg, STM32F7_I2C_DMA_LEN_MIN);
-+		if (dma_buf) {
-+			f7_msg->buf = dma_buf;
-+			ret = stm32_i2c_prep_dma_xfer(i2c_dev->dev, i2c_dev->dma,
-+						      msg->flags & I2C_M_RD,
-+						      f7_msg->count, f7_msg->buf,
-+						      stm32f7_i2c_dma_callback,
-+						      i2c_dev);
-+			if (ret) {
-+				dev_warn(i2c_dev->dev, "can't use DMA\n");
-+				i2c_put_dma_safe_msg_buf(f7_msg->buf, msg, false);
-+				f7_msg->buf = msg->buf;
-+			} else {
-+				i2c_dev->use_dma = true;
-+			}
-+		}
- 	}
- 
- 	if (!i2c_dev->use_dma) {
-@@ -1626,6 +1636,8 @@ static irqreturn_t stm32f7_i2c_isr_event_thread(int irq, void *data)
- 			dmaengine_terminate_async(dma->chan_using);
- 			dma_unmap_single(i2c_dev->dev, dma->dma_buf, dma->dma_len,
- 					 dma->dma_data_dir);
-+			if (!f7_msg->smbus)
-+				i2c_put_dma_safe_msg_buf(f7_msg->buf, i2c_dev->msg, false);
- 		}
- 		f7_msg->result = -ENXIO;
- 	}
-@@ -1648,6 +1660,8 @@ static irqreturn_t stm32f7_i2c_isr_event_thread(int irq, void *data)
- 				dmaengine_terminate_async(dma->chan_using);
- 				dma_unmap_single(i2c_dev->dev, dma->dma_buf, dma->dma_len,
- 						 dma->dma_data_dir);
-+				if (!f7_msg->smbus)
-+					i2c_put_dma_safe_msg_buf(f7_msg->buf, i2c_dev->msg, false);
- 				f7_msg->result = -ETIMEDOUT;
- 			}
- 		}
+On 18/06/25 15:35, Jayesh Choudhary wrote:
+> TIDSS hardware by itself does not have variable max_pclk for each VP.
+> Each VP supports a fixed maximum pixel clock. 
 
--- 
-2.43.0
+As discussed offline, I think VP max pixel clock is more dependent on 
+SoC than DSS itself as SoC provides the pixel clock to the DSS.
 
+K2 devices and AM62*
+> devices uses "ultra-light" version where each VP supports a max of
+> 300MHz
+
+Again it depends on SoC, AM62 and AM62A have around 165Mhz, AM62P has 
+300 Mhz for some VPs.
+
+  whereas J7* devices uses TIDSS where all VP can support a
+> max pclk of 600MHz.
+> The limitation that has been modeled till now comes from the clock
+> (PLL can only be programmed to a particular max value). Due to this
+> we end up using different compatible for each SoC when the clocking
+> architecture changes for VPs, even when the hardware is essentially
+> the same.
+> max_pclk cannot be entirely removed since the display controller
+> should tell if a particular mode clock can be supported or not in crtc's
+> "mode_valid()" call. So remove "max_pclk_khz" from the static display
+> feat and add it to "tidss_device" structure which would be modified in
+> runtime.
+
+
+I think we can totally go away with max_pixel_clk then since it is 
+anyway not dependent on DSS version but SoC and for checking a 
+particular mode can be supported or not, you are anyway making a call to 
+DM via clk_round_rate API to determine whether a pixel clock is possible 
+to set or not.
+
+  In mode_valid() call, check if a best frequency match for mode
+> clock can be found or not using "clk_round_rate()". Based on that,
+> propagate "max_pclk" and check max_clk again only if the requested mode
+> clock is greater than saved value. (As the preferred display mode is
+> usually the max resolution, driver ends up checking the maximum clock
+
+Yes usually preferred is the highest but not compulsory and when it is 
+not max_pixel_clk for the first mode encountered won't be actually the 
+max, hence the name might be misleading.
+
+> the first time itself which is used in subsequent checks)
+
+Ok, so you basically want to buffer the highest pixel clock encountered 
+while checking mode_valid for each new mode getting set. However the 
+name max_pixel_clk is little misleading as it tends to signify that this 
+is actually the max vp clock at all the times, so someone else might 
+misuse this field. Say for e.g. you cannect a 1280x720 monitor and it 
+would give very less pixel clock value in this field even though VP can 
+support much higher.
+
+So maybe, rename it as cur_max_pclk and add a comment to mention what it 
+signifies.
+
+
+> Since TIDSS display controller provides clock tolerance of 5%, we use
+> this while checking the max_pclk. Also, move up "dispc_pclk_diff()"
+> before it is called.
+> 
+> This will make the existing compatibles reusable.
+> 
+> Signed-off-by: Jayesh Choudhary <j-choudhary@ti.com>
+> ---
+> 
+> Changelog v1->v2:
+> - Rebase it on linux-next after OLDI support series[0] as all of its
+>    patches are reviewed and tested and it touches one of the functions
+>    used.
+>    
+> v1 patch link:
+> <https://lore.kernel.org/all/20250618075804.139844-1-j-choudhary@ti.com/>
+> 
+> Test log on TI's J784S4 SoC with a couple of downstream patches
+> to integrate DSI support on one of the video ports:
+> <https://gist.github.com/Jayesh2000/ad4ab87028740efa60e5eb83fb892097>
+> 
+>  From the logs, we can see that for CLK ID 218 (DSS), we do not have to
+> call sci_clk_determine_rate() multiple times. So there is very little
+> overhead of this call even with multiple mode_valid() called during
+> display run.
+>  From weston-simple-egl application, I have seen that there is no frame
+> drop or performance impact.
+> 
+> Once this patch gets in, I will send patches for AM62P and J722S DSS
+> support.
+> 
+> [0]: https://lore.kernel.org/all/20250528122544.817829-1-aradhya.bhatia@linux.dev/
+> 
+>   drivers/gpu/drm/tidss/tidss_dispc.c | 74 ++++++++++++-----------------
+>   drivers/gpu/drm/tidss/tidss_dispc.h |  1 -
+>   drivers/gpu/drm/tidss/tidss_drv.h   |  2 +
+>   3 files changed, 33 insertions(+), 44 deletions(-)
+> 
+> diff --git a/drivers/gpu/drm/tidss/tidss_dispc.c b/drivers/gpu/drm/tidss/tidss_dispc.c
+> index c0277fa36425..ad9ffc3685b4 100644
+> --- a/drivers/gpu/drm/tidss/tidss_dispc.c
+> +++ b/drivers/gpu/drm/tidss/tidss_dispc.c
+> @@ -58,10 +58,6 @@ static const u16 tidss_k2g_common_regs[DISPC_COMMON_REG_TABLE_LEN] = {
+>   const struct dispc_features dispc_k2g_feats = {
+>   	.min_pclk_khz = 4375,
+>   
+> -	.max_pclk_khz = {
+> -		[DISPC_VP_DPI] = 150000,
+> -	},
+> -
+>   	/*
+>   	 * XXX According TRM the RGB input buffer width up to 2560 should
+>   	 *     work on 3 taps, but in practice it only works up to 1280.
+> @@ -144,11 +140,6 @@ static const u16 tidss_am65x_common_regs[DISPC_COMMON_REG_TABLE_LEN] = {
+>   };
+>   
+>   const struct dispc_features dispc_am65x_feats = {
+> -	.max_pclk_khz = {
+> -		[DISPC_VP_DPI] = 165000,
+> -		[DISPC_VP_OLDI_AM65X] = 165000,
+> -	},
+> -
+>   	.scaling = {
+>   		.in_width_max_5tap_rgb = 1280,
+>   		.in_width_max_3tap_rgb = 2560,
+> @@ -244,11 +235,6 @@ static const u16 tidss_j721e_common_regs[DISPC_COMMON_REG_TABLE_LEN] = {
+>   };
+>   
+>   const struct dispc_features dispc_j721e_feats = {
+> -	.max_pclk_khz = {
+> -		[DISPC_VP_DPI] = 170000,
+> -		[DISPC_VP_INTERNAL] = 600000,
+> -	},
+> -
+>   	.scaling = {
+>   		.in_width_max_5tap_rgb = 2048,
+>   		.in_width_max_3tap_rgb = 4096,
+> @@ -315,11 +301,6 @@ const struct dispc_features dispc_j721e_feats = {
+>   };
+>   
+>   const struct dispc_features dispc_am625_feats = {
+> -	.max_pclk_khz = {
+> -		[DISPC_VP_DPI] = 165000,
+> -		[DISPC_VP_INTERNAL] = 170000,
+> -	},
+> -
+>   	.scaling = {
+>   		.in_width_max_5tap_rgb = 1280,
+>   		.in_width_max_3tap_rgb = 2560,
+> @@ -380,10 +361,6 @@ const struct dispc_features dispc_am62a7_feats = {
+>   	 * if the code reaches dispc_mode_valid with VP1,
+>   	 * it should return MODE_BAD.
+>   	 */
+> -	.max_pclk_khz = {
+> -		[DISPC_VP_TIED_OFF] = 0,
+> -		[DISPC_VP_DPI] = 165000,
+> -	},
+>   
+>   	.scaling = {
+>   		.in_width_max_5tap_rgb = 1280,
+> @@ -441,10 +418,6 @@ const struct dispc_features dispc_am62a7_feats = {
+>   };
+>   
+>   const struct dispc_features dispc_am62l_feats = {
+> -	.max_pclk_khz = {
+> -		[DISPC_VP_DPI] = 165000,
+> -	},
+> -
+>   	.subrev = DISPC_AM62L,
+>   
+>   	.common = "common",
+> @@ -1347,25 +1320,48 @@ static void dispc_vp_set_default_color(struct dispc_device *dispc,
+>   			DISPC_OVR_DEFAULT_COLOR2, (v >> 32) & 0xffff);
+>   }
+>   
+> +/*
+> + * Calculate the percentage difference between the requested pixel clock rate
+> + * and the effective rate resulting from calculating the clock divider value.
+> + */
+> +unsigned int dispc_pclk_diff(unsigned long rate, unsigned long real_rate)
+> +{
+> +	int r = rate / 100, rr = real_rate / 100;
+> +
+> +	return (unsigned int)(abs(((rr - r) * 100) / r));
+> +}
+> +
+> +static int check_max_pixel_clock(struct dispc_device *dispc,
+> +				 u32 hw_videoport, unsigned long clock)
+> +{
+> +	if (clock > dispc->tidss->max_pclk[hw_videoport]) {
+> +		unsigned long round_clock = clk_round_rate(dispc->vp_clk[hw_videoport], clock);
+> +
+> +		if (dispc_pclk_diff(clock, round_clock) > 5)
+> +			return -EINVAL;
+> +
+> +		dispc->tidss->max_pclk[hw_videoport] = round_clock;
+> +	}
+> +
+
+s/max_pclk/curr_max_pclk
+
+> +	return 0;
+> +}
+> +
+>   enum drm_mode_status dispc_vp_mode_valid(struct dispc_device *dispc,
+>   					 u32 hw_videoport,
+>   					 const struct drm_display_mode *mode)
+>   {
+>   	u32 hsw, hfp, hbp, vsw, vfp, vbp;
+>   	enum dispc_vp_bus_type bus_type;
+> -	int max_pclk;
+>   
+>   	bus_type = dispc->feat->vp_bus_type[hw_videoport];
+>   
+> -	max_pclk = dispc->feat->max_pclk_khz[bus_type];
+> -
+> -	if (WARN_ON(max_pclk == 0))
+> +	if (bus_type == DISPC_VP_TIED_OFF)
+>   		return MODE_BAD;
+>   
+>   	if (mode->clock < dispc->feat->min_pclk_khz)
+>   		return MODE_CLOCK_LOW;
+>   
+> -	if (mode->clock > max_pclk)
+> +	if (check_max_pixel_clock(dispc, hw_videoport, mode->clock * 1000))
+>   		return MODE_CLOCK_HIGH;
+>   
+>   	if (mode->hdisplay > 4096)
+> @@ -1437,17 +1433,6 @@ void dispc_vp_disable_clk(struct dispc_device *dispc, u32 hw_videoport)
+>   	clk_disable_unprepare(dispc->vp_clk[hw_videoport]);
+>   }
+>   
+> -/*
+> - * Calculate the percentage difference between the requested pixel clock rate
+> - * and the effective rate resulting from calculating the clock divider value.
+> - */
+> -unsigned int dispc_pclk_diff(unsigned long rate, unsigned long real_rate)
+> -{
+> -	int r = rate / 100, rr = real_rate / 100;
+> -
+> -	return (unsigned int)(abs(((rr - r) * 100) / r));
+> -}
+> -
+>   int dispc_vp_set_clk_rate(struct dispc_device *dispc, u32 hw_videoport,
+>   			  unsigned long rate)
+>   {
+> @@ -3087,6 +3072,9 @@ int dispc_init(struct tidss_device *tidss)
+>   	}
+>   	dev_dbg(dev, "DSS fclk %lu Hz\n", clk_get_rate(dispc->fclk));
+>   
+> +	for (i = 0; i < dispc->feat->num_vps; i++)
+> +		dispc->tidss->max_pclk[i] = 0;
+> +
+
+Ain't the struct already kzalloced when tidss_device is allocated ?
+
+>   	of_property_read_u32(dispc->dev->of_node, "max-memory-bandwidth",
+>   			     &dispc->memory_bandwidth_limit);
+>   
+> diff --git a/drivers/gpu/drm/tidss/tidss_dispc.h b/drivers/gpu/drm/tidss/tidss_dispc.h
+> index b8614f62186c..45b1a8aa9089 100644
+> --- a/drivers/gpu/drm/tidss/tidss_dispc.h
+> +++ b/drivers/gpu/drm/tidss/tidss_dispc.h
+> @@ -75,7 +75,6 @@ enum dispc_dss_subrevision {
+>   
+>   struct dispc_features {
+>   	int min_pclk_khz;
+> -	int max_pclk_khz[DISPC_VP_MAX_BUS_TYPE];
+>   
+>   	struct dispc_features_scaling scaling;
+>   
+> diff --git a/drivers/gpu/drm/tidss/tidss_drv.h b/drivers/gpu/drm/tidss/tidss_drv.h
+> index d14d5d28f0a3..59c67ae8e721 100644
+> --- a/drivers/gpu/drm/tidss/tidss_drv.h
+> +++ b/drivers/gpu/drm/tidss/tidss_drv.h
+> @@ -22,6 +22,8 @@ struct tidss_device {
+>   
+>   	const struct dispc_features *feat;
+>   	struct dispc_device *dispc;
+> +	long max_pclk[TIDSS_MAX_PORTS];
+
+unsigned long ??
+
+Regards
+Devarsh
+> +
+>   
+>   	unsigned int num_crtcs;
+>   	struct drm_crtc *crtcs[TIDSS_MAX_PORTS];
