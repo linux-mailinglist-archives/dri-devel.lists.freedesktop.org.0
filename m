@@ -2,79 +2,79 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2AFC0AED47C
-	for <lists+dri-devel@lfdr.de>; Mon, 30 Jun 2025 08:26:39 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5CE68AED4AE
+	for <lists+dri-devel@lfdr.de>; Mon, 30 Jun 2025 08:34:33 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1DF1710E396;
-	Mon, 30 Jun 2025 06:26:36 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 03FCC10E397;
+	Mon, 30 Jun 2025 06:34:31 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=suse.de header.i=@suse.de header.b="Y8oqyeZc";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="lPjziXHR";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="A37pL8ug";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="8jlYB3vz";
+	dkim=pass (1024-bit key; unprotected) header.d=suse.de header.i=@suse.de header.b="FQa4Mp/l";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="o27tnlgF";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="Ln25oTgd";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="YwRAp/0X";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 576C010E396
- for <dri-devel@lists.freedesktop.org>; Mon, 30 Jun 2025 06:26:35 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 75ADD10E397
+ for <dri-devel@lists.freedesktop.org>; Mon, 30 Jun 2025 06:34:29 +0000 (UTC)
 Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org
  [IPv6:2a07:de40:b281:104:10:150:64:97])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
  (No client certificate requested)
- by smtp-out1.suse.de (Postfix) with ESMTPS id ADCF92115F;
- Mon, 30 Jun 2025 06:26:32 +0000 (UTC)
+ by smtp-out1.suse.de (Postfix) with ESMTPS id 79DFD21162;
+ Mon, 30 Jun 2025 06:34:26 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1751264794; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ t=1751265267; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
  mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=NTCtVjkRjsf3XpkGGcPoiPqUEUrXTqpdn4TyrxK7LAc=;
- b=Y8oqyeZcu5bvlchPCren4YulqZwz1oQIzhQDSAYfz+pksULp+xLpymUmDJpoYrfqwn0qBY
- s+miDsFHv8P1EoDSXYP4PTK4gYh7wFamcj/M/p+EZ1ulMpj21lwKhpswt5waI5hta1enjR
- CYospKGGnC+jWjxHVzI/rNWTjjk1Wrs=
+ bh=5IqDc3sZrgnoQG6EKUHkbFAo9DO4sY2rRWM2t0/Bl6A=;
+ b=FQa4Mp/l+Dg1Hi8//BBoNR6sP0cyUVLjPFwmahEIwdQjU/umVZSFOdODXG4DbBVg0b0xMK
+ 0pJa9zDCpZmRBQ0xiaOnxQpCPXy5JMb0QZr5mAinn6aRpoU/jegoy2eDJpEl0z/iIBY1JL
+ XPA5Vs2mH9jvN8JTmziNg39Pfaw0C7o=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1751264794;
+ s=susede2_ed25519; t=1751265267;
  h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
  mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=NTCtVjkRjsf3XpkGGcPoiPqUEUrXTqpdn4TyrxK7LAc=;
- b=lPjziXHRIkHPf9FPVLshdRJDEv3ZKteUXxXdZNb759JO/ok6tdHsm03yBQiXGemYf30sNa
- ja58e83qUCqkYJAw==
+ bh=5IqDc3sZrgnoQG6EKUHkbFAo9DO4sY2rRWM2t0/Bl6A=;
+ b=o27tnlgFx65AGqvVjyZAT7rRkc71izMa2QSXSKwTdnfI8BaI+5pY+T1pywsvBZmkfCsVaT
+ 5DGxbDcQnpl8uWCQ==
 Authentication-Results: smtp-out1.suse.de;
- dkim=pass header.d=suse.de header.s=susede2_rsa header.b=A37pL8ug;
- dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=8jlYB3vz
+ dkim=pass header.d=suse.de header.s=susede2_rsa header.b=Ln25oTgd;
+ dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b="YwRAp/0X"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1751264792; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ t=1751265266; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
  mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=NTCtVjkRjsf3XpkGGcPoiPqUEUrXTqpdn4TyrxK7LAc=;
- b=A37pL8ugalGsGlArBQV45uxx1IvxrCqH1wL84g7F/Trq3PBJf97Uc0dsJeMWz8qsqbVpPl
- Q6YXCsuBc/7g+JIkE4Um1B3njsoXMPyxHZWHMewA+rtKx916DsfK/mwfxzZUGAQ690bom1
- S4mAdLrfmKsQQxdut20gwG6ICKc4gnU=
+ bh=5IqDc3sZrgnoQG6EKUHkbFAo9DO4sY2rRWM2t0/Bl6A=;
+ b=Ln25oTgdPtqx3XQzjYnlGWsUe8p6wGEPJcMLlkT7SoE0L31l7lpk8IUJYVwZGcHgKCdZLT
+ CKDYt/vP8zoxu3tpMvWrTWbsoNASKbkHTHW+Ue6T6ZWta7cpJAO5cmL1PtKpuiCcbS7Q5X
+ crawVCE65VqaBot7H0LMAeA8IGG21kE=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1751264792;
+ s=susede2_ed25519; t=1751265266;
  h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
  mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=NTCtVjkRjsf3XpkGGcPoiPqUEUrXTqpdn4TyrxK7LAc=;
- b=8jlYB3vzuplOjwn1h48flND04rrA1D6x6I0IHvQzyEe4wVZOV3FIX81OxVCqgXHzRtJ1F+
- Bcqv4UwzirORrjBw==
+ bh=5IqDc3sZrgnoQG6EKUHkbFAo9DO4sY2rRWM2t0/Bl6A=;
+ b=YwRAp/0X24gGbDEndNKR0txUPrOWLLrX+Yxb6qaVVqFWbPvaJd/fmlxW8O/K11duXnPB6o
+ zMzXnVIMyFuKiOAg==
 Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
  (No client certificate requested)
- by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 45B8913983;
- Mon, 30 Jun 2025 06:26:32 +0000 (UTC)
+ by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 0FD2413AEB;
+ Mon, 30 Jun 2025 06:34:26 +0000 (UTC)
 Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
- by imap1.dmz-prg2.suse.org with ESMTPSA id tnCaDxguYmgiVwAAD6G6ig
- (envelope-from <tzimmermann@suse.de>); Mon, 30 Jun 2025 06:26:32 +0000
-Message-ID: <7c6f14d7-643e-4a2a-aa2c-59d0f265cbb5@suse.de>
-Date: Mon, 30 Jun 2025 08:26:31 +0200
+ by imap1.dmz-prg2.suse.org with ESMTPSA id E21vAvIvYmhjWQAAD6G6ig
+ (envelope-from <tzimmermann@suse.de>); Mon, 30 Jun 2025 06:34:26 +0000
+Message-ID: <f15a775d-d82f-4ac9-9d88-159ffcf7e81c@suse.de>
+Date: Mon, 30 Jun 2025 08:34:25 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
 Subject: Re: [PATCH v2 1/5] dt-bindings: display: simple-framebuffer: Add
@@ -93,8 +93,8 @@ Cc: Hans de Goede <hdegoede@redhat.com>,
 References: <20250623-simple-drm-fb-icc-v2-0-f69b86cd3d7d@fairphone.com>
  <20250623-simple-drm-fb-icc-v2-1-f69b86cd3d7d@fairphone.com>
  <20250627-mysterious-optimistic-bird-acaafb@krzk-bin>
- <DAX7ZB27SBPV.2Y0I09TVSF3TT@fairphone.com>
- <1129bc60-f9cb-40be-9869-8ffa3b3c9748@kernel.org>
+ <d8d85415-efc4-4a11-842e-23272cae29f7@suse.de>
+ <b94b752c-d7f7-41d6-ac79-d21427f20964@kernel.org>
 Content-Language: en-US
 From: Thomas Zimmermann <tzimmermann@suse.de>
 Autocrypt: addr=tzimmermann@suse.de; keydata=
@@ -121,9 +121,13 @@ Autocrypt: addr=tzimmermann@suse.de; keydata=
  SAQO9xD1Zk9/61JWk8OysuIh7MXkl0fxbRKWE93XeQBhIJHQfnc+YBLprdnxR446Sh8Wn/2D
  Ya8cavuWf2zrB6cZurs048xe0UbSW5AOSo4V9M0jzYI4nZqTmPxYyXbm30Kvmz0rYVRaitYJ
  4kyYYMhuULvrJDMjZRvaNe52tkKAvMevcGdt38H4KSVXAylqyQOW5zvPc4/sq9c=
-In-Reply-To: <1129bc60-f9cb-40be-9869-8ffa3b3c9748@kernel.org>
+In-Reply-To: <b94b752c-d7f7-41d6-ac79-d21427f20964@kernel.org>
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
+X-Rspamd-Server: rspamd2.dmz-prg2.suse.org
+X-Rspamd-Queue-Id: 79DFD21162
+X-Rspamd-Action: no action
+X-Spam-Flag: NO
 X-Spamd-Result: default: False [-3.01 / 50.00]; BAYES_HAM(-3.00)[100.00%];
  SUSPICIOUS_RECIPS(1.50)[]; NEURAL_HAM_LONG(-1.00)[-1.000];
  R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
@@ -139,17 +143,13 @@ X-Spamd-Result: default: False [-3.01 / 50.00]; BAYES_HAM(-3.00)[100.00%];
  RCVD_COUNT_TWO(0.00)[2]; FROM_EQ_ENVFROM(0.00)[];
  FROM_HAS_DN(0.00)[]; TO_DN_SOME(0.00)[];
  TO_MATCH_ENVRCPT_SOME(0.00)[]; MID_RHS_MATCH_FROM(0.00)[];
- DNSWL_BLOCKED(0.00)[2a07:de40:b281:106:10:150:64:167:received,2a07:de40:b281:104:10:150:64:97:from];
+ DNSWL_BLOCKED(0.00)[2a07:de40:b281:104:10:150:64:97:from,2a07:de40:b281:106:10:150:64:167:received];
  RCVD_VIA_SMTP_AUTH(0.00)[]; TAGGED_RCPT(0.00)[dt];
- DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:helo,
- imap1.dmz-prg2.suse.org:rdns, fairphone.com:email, suse.de:dkim, suse.de:mid,
- suse.de:email]
-X-Spam-Level: 
-X-Spam-Flag: NO
-X-Rspamd-Queue-Id: ADCF92115F
-X-Rspamd-Action: no action
-X-Rspamd-Server: rspamd1.dmz-prg2.suse.org
+ DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:mid, suse.de:dkim, suse.de:email,
+ imap1.dmz-prg2.suse.org:rdns, imap1.dmz-prg2.suse.org:helo,
+ fairphone.com:email]
 X-Spam-Score: -3.01
+X-Spam-Level: 
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -167,11 +167,11 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 Hi
 
-Am 28.06.25 um 13:49 schrieb Krzysztof Kozlowski:
-> On 27/06/2025 11:48, Luca Weiss wrote:
->> Hi Krzysztof,
+Am 28.06.25 um 13:50 schrieb Krzysztof Kozlowski:
+> On 27/06/2025 13:34, Thomas Zimmermann wrote:
+>> Hi
 >>
->> On Fri Jun 27, 2025 at 10:08 AM CEST, Krzysztof Kozlowski wrote:
+>> Am 27.06.25 um 10:08 schrieb Krzysztof Kozlowski:
 >>> On Mon, Jun 23, 2025 at 08:44:45AM +0200, Luca Weiss wrote:
 >>>> Document the interconnects property which is a list of interconnect
 >>>> paths that is used by the framebuffer and therefore needs to be kept
@@ -180,42 +180,52 @@ Am 28.06.25 um 13:49 schrieb Krzysztof Kozlowski:
 >>>> Acked-by: Thomas Zimmermann <tzimmermann@suse.de>
 >>>> Signed-off-by: Luca Weiss <luca.weiss@fairphone.com>
 >>>> ---
->>>>   Documentation/devicetree/bindings/display/simple-framebuffer.yaml | 3 +++
->>>>   1 file changed, 3 insertions(+)
+>>>>    Documentation/devicetree/bindings/display/simple-framebuffer.yaml | 3 +++
+>>>>    1 file changed, 3 insertions(+)
 >>>>
 >>>> diff --git a/Documentation/devicetree/bindings/display/simple-framebuffer.yaml b/Documentation/devicetree/bindings/display/simple-framebuffer.yaml
 >>>> index 296500f9da05e296dbbeec50ba5186b6b30aaffc..f0fa0ef23d91043dfb2b220c654b80e2e80850cd 100644
 >>>> --- a/Documentation/devicetree/bindings/display/simple-framebuffer.yaml
 >>>> +++ b/Documentation/devicetree/bindings/display/simple-framebuffer.yaml
 >>>> @@ -79,6 +79,9 @@ properties:
->>>>     power-domains:
->>>>       description: List of power domains used by the framebuffer.
->>>>   
+>>>>      power-domains:
+>>>>        description: List of power domains used by the framebuffer.
+>>>>    
 >>>> +  interconnects:
 >>>> +    description: List of interconnect paths used by the framebuffer.
 >>>> +
 >>> maxItems: 1, or this is not a simple FB anymore. Anything which needs
 >>> some sort of resources in unknown way is not simple anymore. You need
 >>> device specific bindings.
->> The bindings support an arbitrary number of clocks, regulators,
->> power-domains. Why should I artificially limit the interconnects to only
->> one?
-> And IMO they should not. Bindings are not supposed to be generic.
+>> In this context, 'simple' means that this device cannot change display
+>> modes or do graphics acceleration. The hardware itself is not
+>> necessarily simple. As Javier pointed out, it's initialized by firmware
+> If hardware is not simple, then it needs specific bindings.
 >
->> The driver code also has that support added in this series.
-> That's not the problem here.
+>> on the actual hardware. Think of 'VGA-for-ARM'. We need these resources
+>> to keep the display working.
+> I don't claim you do not need these resources. I claim device is not
+> simple thus does not suit rules for generic bindings. Generic bindings
+> are in general not allowed and we have them only for very, very simple
+> devices.
+>
+> You say this is not simple device, so there you go - specific binding
+> for this complex (not-simple) device.
 
-Then could you please state the problem in clear terms? We're obviously 
-not all on the same page here.
+No, I didn't. I said that the device is simple. I did not say that the 
+device's hardware is simple. Sounds nonsensical, but makes sense here. 
+The simple-framebuffer is just the range of display memory that the 
+firmware configured for printing boot-up messages. We use it for the 
+kernel's output as well.  Being generic and simple is the exact raison 
+d'etre for simple-framebuffer.  (The display property points to the 
+actual hardware, but we don't need it.)
 
 Best regards
 Thomas
 
 >
->
 > Best regards,
 > Krzysztof
->
 
 -- 
 --
