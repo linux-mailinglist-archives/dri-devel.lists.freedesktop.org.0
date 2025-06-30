@@ -2,61 +2,65 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id D6C62AEDC2F
-	for <lists+dri-devel@lfdr.de>; Mon, 30 Jun 2025 14:00:53 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id A0D25AEDC39
+	for <lists+dri-devel@lfdr.de>; Mon, 30 Jun 2025 14:06:06 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D727010E216;
-	Mon, 30 Jun 2025 12:00:51 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4011310E42C;
+	Mon, 30 Jun 2025 12:06:02 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="PbicQGGa";
+	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=igalia.com header.i=@igalia.com header.b="TO6TC3pL";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.14])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 96E0710E216
- for <dri-devel@lists.freedesktop.org>; Mon, 30 Jun 2025 12:00:50 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1751284850; x=1782820850;
- h=date:from:to:cc:subject:message-id:references:
- mime-version:in-reply-to;
- bh=3UP6/zsnjMtPAeLt6dXjNe/FngS9HP1K+9JJqvKaSkA=;
- b=PbicQGGazHUVi9URakUHlHhdDlMOZ+r11/iODsCBQaRZEP9IUgNp9NNg
- 5Z+VBOguR3GvB9zHSgCYPNcLdcCaG2YUMPPYLSqmaB4bvOuqdIIKGPzNS
- Pbhv/P+q7guLpAku6ugqQRunXXukVkqsAn2bJUGiqVd4R8zcwJ+7j5UtF
- fruvI1Q8LWetnpn2Q0IpP5FIq1bKafW+fWJqCJTo71+XCT9CrRpwbx8a2
- 4mI9L//WSsUJCaMmveHY46sUSagiyiwNWE4gLk/Aj3z9/7vPxpFjqjHC1
- Vx/YQaSgCHju/C/EUfCE04tuSX8ImS2+Oh21LV9Do+uF2USQaVtPInqcT w==;
-X-CSE-ConnectionGUID: nq181W1lR76xa82gA/1Wow==
-X-CSE-MsgGUID: Wjswl6p8QSG8OVbOg6IgEw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11479"; a="53600491"
-X-IronPort-AV: E=Sophos;i="6.16,277,1744095600"; d="scan'208";a="53600491"
-Received: from orviesa010.jf.intel.com ([10.64.159.150])
- by fmvoesa108.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 30 Jun 2025 05:00:50 -0700
-X-CSE-ConnectionGUID: gxQU/eWrSY6kiHPjHzaXfQ==
-X-CSE-MsgGUID: avHILRMkRTWpTbGBToP/UQ==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.16,277,1744095600"; d="scan'208";a="152827636"
-Received: from lkp-server01.sh.intel.com (HELO e8142ee1dce2) ([10.239.97.150])
- by orviesa010.jf.intel.com with ESMTP; 30 Jun 2025 05:00:47 -0700
-Received: from kbuild by e8142ee1dce2 with local (Exim 4.96)
- (envelope-from <lkp@intel.com>) id 1uWDBl-000YwY-29;
- Mon, 30 Jun 2025 12:00:45 +0000
-Date: Mon, 30 Jun 2025 19:59:49 +0800
-From: kernel test robot <lkp@intel.com>
-To: Dave Airlie <airlied@gmail.com>, dri-devel@lists.freedesktop.org,
- linux-mm@kvack.org, Johannes Weiner <hannes@cmpxchg.org>,
- Christian Koenig <christian.koenig@amd.com>
-Cc: oe-kbuild-all@lists.linux.dev, Dave Chinner <david@fromorbit.com>,
- Kairui Song <kasong@tencent.com>, Dave Airlie <airlied@redhat.com>
-Subject: Re: [PATCH 13/17] ttm/pool: enable memcg tracking and shrinker.
-Message-ID: <202506301921.i2QYb2bo-lkp@intel.com>
-References: <20250630045005.1337339-14-airlied@gmail.com>
+Received: from fanzine2.igalia.com (fanzine2.igalia.com [213.97.179.56])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E6CF610E434;
+ Mon, 30 Jun 2025 12:06:00 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com; 
+ s=20170329;
+ h=Content-Transfer-Encoding:Content-Type:In-Reply-To:From:
+ References:Cc:To:Subject:MIME-Version:Date:Message-ID:Sender:Reply-To:
+ Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
+ Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
+ List-Subscribe:List-Post:List-Owner:List-Archive;
+ bh=CK6H37qy+MtP48/QHQbXPjvWYoze/2sbuXupit5KHZ0=; b=TO6TC3pLdVCABrphOZcEr4ToYO
+ pzRtnEJpjoPY20NYh3Rxaj3jxDom9eNZs+OXWUy5dpi3CoDMtoDpdeB4H/Fl3tQ+Qx7lzIC9cNopF
+ LskK2PSoF1igaQYK36ou7z3bZy1qVd07zADy0rEmS8r1p9e6U3uGjDOfp3opRsN49RX6bgibeiLRG
+ bk+AxtJqkLOhmvTTw156Fkb1GTfgGBZlrx3exJ51vth0gPyONxlilgLxL0bWAEnAwol0G6pxahfp2
+ bNSKCH32doLI0IcmFOPtb9meoLFnMMDWewvnDp8RgsOMHnlfUv/PgzgvGkPOe9pguoxAE9khNEeTf
+ kMaB8FKw==;
+Received: from [189.7.87.79] (helo=[192.168.0.7])
+ by fanzine2.igalia.com with esmtpsa 
+ (Cipher TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_128_GCM:128) (Exim)
+ id 1uWDGX-00ASms-37; Mon, 30 Jun 2025 14:05:41 +0200
+Message-ID: <27c7fef3-ce37-48b9-bf63-3b3417618835@igalia.com>
+Date: Mon, 30 Jun 2025 09:05:31 -0300
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20250630045005.1337339-14-airlied@gmail.com>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v3 3/8] drm/sched: Make timeout KUnit tests faster
+To: phasta@kernel.org, Matthew Brost <matthew.brost@intel.com>,
+ Danilo Krummrich <dakr@kernel.org>,
+ =?UTF-8?Q?Christian_K=C3=B6nig?= <ckoenig.leichtzumerken@gmail.com>,
+ Tvrtko Ursulin <tvrtko.ursulin@igalia.com>, Simona Vetter <simona@ffwll.ch>,
+ David Airlie <airlied@gmail.com>, Melissa Wen <mwen@igalia.com>,
+ Lucas Stach <l.stach@pengutronix.de>,
+ Russell King <linux+etnaviv@armlinux.org.uk>,
+ Christian Gmeiner <christian.gmeiner@gmail.com>,
+ Lucas De Marchi <lucas.demarchi@intel.com>,
+ =?UTF-8?Q?Thomas_Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>,
+ Rodrigo Vivi <rodrigo.vivi@intel.com>,
+ Boris Brezillon <boris.brezillon@collabora.com>,
+ Rob Herring <robh@kernel.org>, Steven Price <steven.price@arm.com>,
+ Liviu Dudau <liviu.dudau@arm.com>
+Cc: kernel-dev@igalia.com, dri-devel@lists.freedesktop.org,
+ etnaviv@lists.freedesktop.org, intel-xe@lists.freedesktop.org
+References: <20250618-sched-skip-reset-v3-0-8be5cca2725d@igalia.com>
+ <20250618-sched-skip-reset-v3-3-8be5cca2725d@igalia.com>
+ <2670247a8982f794a508f4cf3ae43ad7ac66862a.camel@mailbox.org>
+Content-Language: en-US
+From: =?UTF-8?Q?Ma=C3=ADra_Canal?= <mcanal@igalia.com>
+In-Reply-To: <2670247a8982f794a508f4cf3ae43ad7ac66862a.camel@mailbox.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -72,121 +76,119 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Dave,
+Hi Philipp,
 
-kernel test robot noticed the following build errors:
+On 30/06/25 08:53, Philipp Stanner wrote:
+> On Wed, 2025-06-18 at 11:47 -0300, Maíra Canal wrote:
+>> As more KUnit tests are introduced to evaluate the basic capabilities
+>> of
+>> the `timedout_job()` hook, the test suite will continue to increase
+>> in
+>> duration. To reduce the overall running time of the test suite,
+>> decrease
+>> the scheduler's timeout for the timeout tests.
+>>
+>> Before this commit:
+>>
+>> [15:42:26] Elapsed time: 15.637s total, 0.002s configuring, 10.387s
+>> building, 5.229s running
+>>
+>> After this commit:
+>>
+>> [15:45:26] Elapsed time: 9.263s total, 0.002s configuring, 5.168s
+>> building, 4.037s running
+> 
+> I guess those times were measured with the entire series?
 
-[auto build test ERROR on drm/drm-next]
-[cannot apply to akpm-mm/mm-everything linus/master v6.16-rc4 next-20250630]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
+No, they were measured without the new test that I introduced in the
+next patch.
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Dave-Airlie/drm-ttm-use-gpu-mm-stats-to-track-gpu-memory-allocations-v2/20250630-134938
-base:   git://anongit.freedesktop.org/drm/drm drm-next
-patch link:    https://lore.kernel.org/r/20250630045005.1337339-14-airlied%40gmail.com
-patch subject: [PATCH 13/17] ttm/pool: enable memcg tracking and shrinker.
-config: riscv-randconfig-001-20250630 (https://download.01.org/0day-ci/archive/20250630/202506301921.i2QYb2bo-lkp@intel.com/config)
-compiler: riscv64-linux-gcc (GCC) 8.5.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250630/202506301921.i2QYb2bo-lkp@intel.com/reproduce)
+> 
+> It's not clear to me whether this patch is independent from the series.
+> I suppose it is. We should aim towards having series's narrowly focused
+> topic-wise, but I get why you included it here.
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202506301921.i2QYb2bo-lkp@intel.com/
+ From my perspective, this patch is a preparation to the next one. As
+I'll introduce another timeout-related test in the next patch, I was
+trying to ensure that we will keep the time-budget reasonable.
 
-All errors (new ones prefixed by >>):
+> 
+> That said, is there a specific reason for you aiming at ~10s (9.263)?
+> That's only a bit faster than the 15.637.
+> 
 
-   drivers/gpu/drm/ttm/ttm_pool.c: In function 'ttm_pool_restore_commit':
->> drivers/gpu/drm/ttm/ttm_pool.c:675:5: error: 'struct page' has no member named 'memcg_data'
-       p->memcg_data = 0;
-        ^~
-   drivers/gpu/drm/ttm/ttm_pool.c: In function 'ttm_pool_backup':
-   drivers/gpu/drm/ttm/ttm_pool.c:1142:9: error: 'struct page' has no member named 'memcg_data'
-        page->memcg_data = 0;
-            ^~
+Actually, the only thing that this patch affects is the runtime. So, it
+went from 5.229s to 4.037s (-22.8%). However, as we add more and more
+timeout tests, the absolute difference would get more significant.
 
+> Couldn't it make sense, as you're at it already, to speed this up to
+> just a few seconds, like 3-5? Then it should really be quiet IRW that
+> topic for a while.
 
-vim +675 drivers/gpu/drm/ttm/ttm_pool.c
+I believe that further decreasing the timeout could lead to racy
+scenarios and flaky tests.
 
-   627	
-   628	/*
-   629	 * When restoring, restore backed-up content to the newly allocated page and
-   630	 * if successful, populate the page-table and dma-address arrays.
-   631	 */
-   632	static int ttm_pool_restore_commit(struct ttm_pool_tt_restore *restore,
-   633					   struct file *backup,
-   634					   const struct ttm_operation_ctx *ctx,
-   635					   struct ttm_pool_alloc_state *alloc)
-   636	
-   637	{
-   638		pgoff_t i, nr = 1UL << restore->order;
-   639		struct page **first_page = alloc->pages;
-   640		struct page *p;
-   641		int ret = 0;
-   642	
-   643		for (i = restore->restored_pages; i < nr; ++i) {
-   644			p = first_page[i];
-   645			if (ttm_backup_page_ptr_is_handle(p)) {
-   646				unsigned long handle = ttm_backup_page_ptr_to_handle(p);
-   647	
-   648				if (IS_ENABLED(CONFIG_FAULT_INJECTION) && ctx->interruptible &&
-   649				    should_fail(&backup_fault_inject, 1)) {
-   650					ret = -EINTR;
-   651					break;
-   652				}
-   653	
-   654				if (handle == 0) {
-   655					restore->restored_pages++;
-   656					continue;
-   657				}
-   658	
-   659				ret = ttm_backup_copy_page(backup, restore->alloced_page + i,
-   660							   handle, ctx->interruptible);
-   661				if (ret)
-   662					break;
-   663	
-   664				ttm_backup_drop(backup, handle);
-   665			} else if (p) {
-   666				/*
-   667				 * We could probably avoid splitting the old page
-   668				 * using clever logic, but ATM we don't care, as
-   669				 * we prioritize releasing memory ASAP. Note that
-   670				 * here, the old retained page is always write-back
-   671				 * cached.
-   672				 */
-   673				ttm_pool_split_for_swap(restore->pool, p);
-   674				copy_highpage(restore->alloced_page + i, p);
- > 675				p->memcg_data = 0;
-   676				__free_pages(p, 0);
-   677			}
-   678	
-   679			restore->restored_pages++;
-   680			first_page[i] = ttm_backup_handle_to_page_ptr(0);
-   681		}
-   682	
-   683		if (ret) {
-   684			if (!restore->restored_pages) {
-   685				dma_addr_t *dma_addr = alloc->dma_addr ? &restore->first_dma : NULL;
-   686	
-   687				ttm_pool_unmap_and_free(restore->pool, restore->alloced_page,
-   688							dma_addr, restore->page_caching);
-   689				restore->restored_pages = nr;
-   690			}
-   691			return ret;
-   692		}
-   693	
-   694		ttm_pool_allocated_page_commit(restore->alloced_page, restore->first_dma,
-   695					       alloc, nr);
-   696		if (restore->page_caching == alloc->tt_caching || PageHighMem(restore->alloced_page))
-   697			alloc->caching_divide = alloc->pages;
-   698		restore->snapshot_alloc = *alloc;
-   699		restore->alloced_pages += nr;
-   700	
-   701		return 0;
-   702	}
-   703	
+Best Regards,
+- Maíra
 
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+> 
+> 
+> P.
+> 
+>>
+>> Signed-off-by: Maíra Canal <mcanal@igalia.com>
+>> Reviewed-by: Tvrtko Ursulin <tvrtko.ursulin@igalia.com>
+>> ---
+>>   drivers/gpu/drm/scheduler/tests/tests_basic.c | 8 +++++---
+>>   1 file changed, 5 insertions(+), 3 deletions(-)
+>>
+>> diff --git a/drivers/gpu/drm/scheduler/tests/tests_basic.c
+>> b/drivers/gpu/drm/scheduler/tests/tests_basic.c
+>> index
+>> 7230057e0594c6246f02608f07fcb1f8d738ac75..41c648782f4548e202bd8711b45
+>> d28eead9bd0b2 100644
+>> --- a/drivers/gpu/drm/scheduler/tests/tests_basic.c
+>> +++ b/drivers/gpu/drm/scheduler/tests/tests_basic.c
+>> @@ -5,6 +5,8 @@
+>>   
+>>   #include "sched_tests.h"
+>>   
+>> +#define MOCK_TIMEOUT (HZ / 5)
+>> +
+>>   /*
+>>    * DRM scheduler basic tests should check the basic functional
+>> correctness of
+>>    * the scheduler, including some very light smoke testing. More
+>> targeted tests,
+>> @@ -28,7 +30,7 @@ static void drm_sched_basic_exit(struct kunit
+>> *test)
+>>   
+>>   static int drm_sched_timeout_init(struct kunit *test)
+>>   {
+>> -	test->priv = drm_mock_sched_new(test, HZ);
+>> +	test->priv = drm_mock_sched_new(test, MOCK_TIMEOUT);
+>>   
+>>   	return 0;
+>>   }
+>> @@ -227,14 +229,14 @@ static void drm_sched_basic_timeout(struct
+>> kunit *test)
+>>   	done = drm_mock_sched_job_wait_scheduled(job, HZ);
+>>   	KUNIT_ASSERT_TRUE(test, done);
+>>   
+>> -	done = drm_mock_sched_job_wait_finished(job, HZ / 2);
+>> +	done = drm_mock_sched_job_wait_finished(job, MOCK_TIMEOUT /
+>> 2);
+>>   	KUNIT_ASSERT_FALSE(test, done);
+>>   
+>>   	KUNIT_ASSERT_EQ(test,
+>>   			job->flags & DRM_MOCK_SCHED_JOB_TIMEDOUT,
+>>   			0);
+>>   
+>> -	done = drm_mock_sched_job_wait_finished(job, HZ);
+>> +	done = drm_mock_sched_job_wait_finished(job, MOCK_TIMEOUT);
+>>   	KUNIT_ASSERT_FALSE(test, done);
+>>   
+>>   	KUNIT_ASSERT_EQ(test,
+>>
+> 
+
