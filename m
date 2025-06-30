@@ -2,49 +2,49 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2936FAED399
-	for <lists+dri-devel@lfdr.de>; Mon, 30 Jun 2025 06:52:11 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8B67EAED39A
+	for <lists+dri-devel@lfdr.de>; Mon, 30 Jun 2025 06:52:18 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 54EDE10E383;
-	Mon, 30 Jun 2025 04:52:09 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C7EFB10E386;
+	Mon, 30 Jun 2025 04:52:16 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from us-smtp-delivery-44.mimecast.com
- (us-smtp-delivery-44.mimecast.com [207.211.30.44])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6BA4410E383
- for <dri-devel@lists.freedesktop.org>; Mon, 30 Jun 2025 04:52:07 +0000 (UTC)
-Received: from mx-prod-mc-02.mail-002.prod.us-west-2.aws.redhat.com
- (ec2-54-186-198-63.us-west-2.compute.amazonaws.com [54.186.198.63]) by
+ (us-smtp-delivery-44.mimecast.com [205.139.111.44])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2040010E386
+ for <dri-devel@lists.freedesktop.org>; Mon, 30 Jun 2025 04:52:15 +0000 (UTC)
+Received: from mx-prod-mc-06.mail-002.prod.us-west-2.aws.redhat.com
+ (ec2-35-165-154-97.us-west-2.compute.amazonaws.com [35.165.154.97]) by
  relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
- cipher=TLS_AES_256_GCM_SHA384) id us-mta-269-ibABlrs8OoipVJHsENiZsw-1; Mon,
- 30 Jun 2025 00:52:04 -0400
-X-MC-Unique: ibABlrs8OoipVJHsENiZsw-1
-X-Mimecast-MFC-AGG-ID: ibABlrs8OoipVJHsENiZsw_1751259123
+ cipher=TLS_AES_256_GCM_SHA384) id us-mta-120-UYST-VgoMZWNlIeKrG9lPw-1; Mon,
+ 30 Jun 2025 00:52:10 -0400
+X-MC-Unique: UYST-VgoMZWNlIeKrG9lPw-1
+X-Mimecast-MFC-AGG-ID: UYST-VgoMZWNlIeKrG9lPw_1751259129
 Received: from mx-prod-int-05.mail-002.prod.us-west-2.aws.redhat.com
  (mx-prod-int-05.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.17])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
  (No client certificate requested)
- by mx-prod-mc-02.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS
- id 278841955F38; Mon, 30 Jun 2025 04:52:03 +0000 (UTC)
+ by mx-prod-mc-06.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS
+ id 7D3B9180028C; Mon, 30 Jun 2025 04:52:09 +0000 (UTC)
 Received: from dreadlord.redhat.com (unknown [10.67.24.96])
  by mx-prod-int-05.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTP
- id E08D01956095; Mon, 30 Jun 2025 04:51:57 +0000 (UTC)
+ id 46B211956095; Mon, 30 Jun 2025 04:52:03 +0000 (UTC)
 From: Dave Airlie <airlied@gmail.com>
 To: dri-devel@lists.freedesktop.org, linux-mm@kvack.org,
  Johannes Weiner <hannes@cmpxchg.org>,
  Christian Koenig <christian.koenig@amd.com>
 Cc: Dave Chinner <david@fromorbit.com>, Kairui Song <kasong@tencent.com>,
  Dave Airlie <airlied@redhat.com>
-Subject: [PATCH 15/17] memcontrol: allow objcg api when memcg is config off.
-Date: Mon, 30 Jun 2025 14:49:34 +1000
-Message-ID: <20250630045005.1337339-16-airlied@gmail.com>
+Subject: [PATCH 16/17] memcontrol: export current_obj_cgroup
+Date: Mon, 30 Jun 2025 14:49:35 +1000
+Message-ID: <20250630045005.1337339-17-airlied@gmail.com>
 In-Reply-To: <20250630045005.1337339-1-airlied@gmail.com>
 References: <20250630045005.1337339-1-airlied@gmail.com>
 MIME-Version: 1.0
 X-Scanned-By: MIMEDefang 3.0 on 10.30.177.17
 X-Mimecast-Spam-Score: 0
-X-Mimecast-MFC-PROC-ID: qaHt62c0fkVqrOmFK1dFCZJt_R0nsKqVdgF1EHnkBvo_1751259123
+X-Mimecast-MFC-PROC-ID: U-KNSTNnZ7L4m-G-9GZ_tLTxu1ldJ1NZcf6die71qtc_1751259129
 X-Mimecast-Originator: gmail.com
 Content-Transfer-Encoding: quoted-printable
 content-type: text/plain; charset=WINDOWS-1252; x-default=true
@@ -65,32 +65,26 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 From: Dave Airlie <airlied@redhat.com>
 
-amdgpu wants to use the objcg api and not have to enable ifdef
-around it, so just add a dummy function for the config off path.
+This is needed to use get_obj_cgroup_from_current from a module.
 
 Signed-off-by: Dave Airlie <airlied@redhat.com>
 ---
- include/linux/memcontrol.h | 5 +++++
- 1 file changed, 5 insertions(+)
+ mm/memcontrol.c | 1 +
+ 1 file changed, 1 insertion(+)
 
-diff --git a/include/linux/memcontrol.h b/include/linux/memcontrol.h
-index ff82d603910d..12ba5e00a6d1 100644
---- a/include/linux/memcontrol.h
-+++ b/include/linux/memcontrol.h
-@@ -1758,6 +1758,11 @@ static inline void __memcg_kmem_uncharge_page(struct=
- page *page, int order)
- {
- }
+diff --git a/mm/memcontrol.c b/mm/memcontrol.c
+index 87d75963a9ed..1e52e43cc239 100644
+--- a/mm/memcontrol.c
++++ b/mm/memcontrol.c
+@@ -2726,6 +2726,7 @@ __always_inline struct obj_cgroup *current_obj_cgroup=
+(void)
 =20
-+static inline struct obj_cgroup *get_obj_cgroup_from_current(void)
-+{
-+=09return NULL;
-+}
-+
- static inline struct obj_cgroup *get_obj_cgroup_from_folio(struct folio *f=
-olio)
+ =09return objcg;
+ }
++EXPORT_SYMBOL_GPL(current_obj_cgroup);
+=20
+ struct obj_cgroup *get_obj_cgroup_from_folio(struct folio *folio)
  {
- =09return NULL;
 --=20
 2.49.0
 
