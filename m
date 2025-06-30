@@ -2,114 +2,52 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8C1CAAEE270
-	for <lists+dri-devel@lfdr.de>; Mon, 30 Jun 2025 17:30:24 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id EE803AEE283
+	for <lists+dri-devel@lfdr.de>; Mon, 30 Jun 2025 17:31:53 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id BEF4610E48A;
-	Mon, 30 Jun 2025 15:30:22 +0000 (UTC)
-Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="XYPbMh56";
-	dkim-atps=neutral
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1DEFE10E48C;
+	Mon, 30 Jun 2025 15:31:52 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-f46.google.com (mail-wm1-f46.google.com
- [209.85.128.46])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8993D10E48A
- for <dri-devel@lists.freedesktop.org>; Mon, 30 Jun 2025 15:30:21 +0000 (UTC)
-Received: by mail-wm1-f46.google.com with SMTP id
- 5b1f17b1804b1-451dbe494d6so24562565e9.1
- for <dri-devel@lists.freedesktop.org>; Mon, 30 Jun 2025 08:30:21 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1751297420; x=1751902220; darn=lists.freedesktop.org;
- h=content-transfer-encoding:in-reply-to:organization:autocrypt
- :content-language:references:cc:to:subject:reply-to:from:user-agent
- :mime-version:date:message-id:from:to:cc:subject:date:message-id
- :reply-to; bh=DGTv9DA8OgIotosx9NMXq1/HPJSXLQDEwwR6pknrsRA=;
- b=XYPbMh56zrRM+FRhkYwcIyoMU24FHbrcAuoDKHbxAwejXKQGS2iDdT4MzkdiX1tpzx
- ZCD+EXwgTLa2vzzQv+k0Okt9K2dwWeJGNxPyjy/Cx4I9REr7otFFWda9031f7F/AV9dw
- y+qujE7HJUQbGJEHUVnQphfogirjkNaV+rVfZvLRXieicoF/17PDK0Q3FalYXGncrT4q
- XJ/Fw4V5lYVc8XEs4Ympy0pzsPSiaFFyH2b2zx13wG6yJ30TEkhCSGXBSyfyYylaWxO8
- kvDfYqcj2lcmtxmVI2O4KkqFYgGdKztDHezePQnIrobO0dYfw0ngnUdw4tAxZv23RRuN
- Ru3w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1751297420; x=1751902220;
- h=content-transfer-encoding:in-reply-to:organization:autocrypt
- :content-language:references:cc:to:subject:reply-to:from:user-agent
- :mime-version:date:message-id:x-gm-message-state:from:to:cc:subject
- :date:message-id:reply-to;
- bh=DGTv9DA8OgIotosx9NMXq1/HPJSXLQDEwwR6pknrsRA=;
- b=NT64TXGi1rh2XeIr/n2iPD3xpvTB04JIHjS8KM3yLx7XNJkh0CZLigXHLA3qpo2aF/
- VHYOgbErtgsAcGgHqEuEP9eTfNgpLgtnNbjxiQcdyYsN11SmJJJjN42COPuR0I713RNM
- d7Qk1afLAgML3Q7gP+9vPsT1lyUKytr+qHEPemd/pK6H2Ct9ofh8bQj9FtY1K9FlzqS4
- 7Dtnw5TA9IaudFTcWbyoZAsHi4OLI+WZbD92VCvH2xngyazmCM8tPsdWiruCm56m9DC+
- vR3b765QPhzp146ttkL5P/JPa8u1Nbpnt6unPjuavKSjQx+yQR+X/DxrMH51+8Fq34fJ
- LoYw==
-X-Gm-Message-State: AOJu0YxmVhwPupXQOAifFCjAW8LNndNISxMwa+Z8l9I7ojIwIDvsHNAb
- ZBBmn1M/hNM0zJV928o0A92XHmCL7dLlagqtf1oQUl834UKzJ2y9subBUTw38E0BPVE=
-X-Gm-Gg: ASbGncv0u6/uXI0Y+Ny79x9XO6f/RE8V8YkSNz8haH0D9I90IhcvfD1jJywHMDCFyOZ
- GMB7APrSx26OgTS8HIsDyHmZTxQ7pw31jn+BOs7T71KFI0mV8ijekzEmrY3Pw0GDunqOTpqfVJf
- NWnjiSRDMK2fRA/M62FrNBVTs3hfoKPMau3DNkDjWKvg8YOC04m/kMAEE/qZWzvKLchYpv+oiKp
- 1OeW+QFV44H1YYSohwjTEgBE4EsLB/eGk304swK7cyUfY7i961eVa6p5t3vS5mSVnf74LvMJ2oe
- BZi92UrlDMS8VCDR1CbBYkICSYGsMKnrhpa77Kew4pP09xMlSQKX3zI56ld1JwB25Sh5JTcwcdq
- S9IWFuYB0DoAatuJyDKd/xI5SBAUTyq0Yt9nK3Ra+04V7mkdTYA==
-X-Google-Smtp-Source: AGHT+IFvWnNK7c9pHnmc3UC7tkpuMWNHknPoJAqzT3g2x6NczxE8AVBDLRq94Fo6HOwUJ2h9CR4RBQ==
-X-Received: by 2002:a05:600c:c4ac:b0:43c:f895:cb4e with SMTP id
- 5b1f17b1804b1-4538ee7dcb1mr159818555e9.17.1751297419686; 
- Mon, 30 Jun 2025 08:30:19 -0700 (PDT)
-Received: from ?IPV6:2a01:e0a:3d9:2080:abe8:a49c:efe7:4dfb?
- ([2a01:e0a:3d9:2080:abe8:a49c:efe7:4dfb])
- by smtp.gmail.com with ESMTPSA id
- ffacd0b85a97d-3a892e52a26sm10845160f8f.51.2025.06.30.08.30.18
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 30 Jun 2025 08:30:19 -0700 (PDT)
-Message-ID: <0e5356db-f10b-4beb-8427-f3ffcd6a2d69@linaro.org>
-Date: Mon, 30 Jun 2025 17:30:18 +0200
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+ by gabe.freedesktop.org (Postfix) with ESMTP id 99F2210E48B
+ for <dri-devel@lists.freedesktop.org>; Mon, 30 Jun 2025 15:31:50 +0000 (UTC)
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+ by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 3D0541516;
+ Mon, 30 Jun 2025 08:31:34 -0700 (PDT)
+Received: from [10.57.28.116] (unknown [10.57.28.116])
+ by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 97E153F6A8;
+ Mon, 30 Jun 2025 08:31:38 -0700 (PDT)
+Message-ID: <a1b3561d-f5de-4474-85ef-1525a6c36bc5@arm.com>
+Date: Mon, 30 Jun 2025 16:31:35 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-From: Neil Armstrong <neil.armstrong@linaro.org>
-Subject: Re: [PATCH v3 2/2] drm: panel: add support for Samsung S6E8AA5X01
- panel controller
-To: Kaustabh Chakraborty <kauschluss@disroot.org>,
- Jessica Zhang <quic_jesszhan@quicinc.com>, David Airlie <airlied@gmail.com>,
- Simona Vetter <simona@ffwll.ch>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+Subject: Re: [PATCH] Introduce Tyr
+To: Daniel Almeida <daniel.almeida@collabora.com>
+Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
  Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
- Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
- Conor Dooley <conor+dt@kernel.org>,
- Jessica Zhang <jessica.zhang@oss.qualcomm.com>
-Cc: dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org,
- linux-kernel@vger.kernel.org
-References: <20250625-panel-samsung-s6e8aa5x01-v3-0-9a1494fe6c50@disroot.org>
- <20250625-panel-samsung-s6e8aa5x01-v3-2-9a1494fe6c50@disroot.org>
-Content-Language: en-US, fr
-Autocrypt: addr=neil.armstrong@linaro.org; keydata=
- xsBNBE1ZBs8BCAD78xVLsXPwV/2qQx2FaO/7mhWL0Qodw8UcQJnkrWmgTFRobtTWxuRx8WWP
- GTjuhvbleoQ5Cxjr+v+1ARGCH46MxFP5DwauzPekwJUD5QKZlaw/bURTLmS2id5wWi3lqVH4
- BVF2WzvGyyeV1o4RTCYDnZ9VLLylJ9bneEaIs/7cjCEbipGGFlfIML3sfqnIvMAxIMZrvcl9
- qPV2k+KQ7q+aXavU5W+yLNn7QtXUB530Zlk/d2ETgzQ5FLYYnUDAaRl+8JUTjc0CNOTpCeik
- 80TZcE6f8M76Xa6yU8VcNko94Ck7iB4vj70q76P/J7kt98hklrr85/3NU3oti3nrIHmHABEB
- AAHNKk5laWwgQXJtc3Ryb25nIDxuZWlsLmFybXN0cm9uZ0BsaW5hcm8ub3JnPsLAkQQTAQoA
- OwIbIwULCQgHAwUVCgkICwUWAgMBAAIeAQIXgBYhBInsPQWERiF0UPIoSBaat7Gkz/iuBQJk
- Q5wSAhkBAAoJEBaat7Gkz/iuyhMIANiD94qDtUTJRfEW6GwXmtKWwl/mvqQtaTtZID2dos04
- YqBbshiJbejgVJjy+HODcNUIKBB3PSLaln4ltdsV73SBcwUNdzebfKspAQunCM22Mn6FBIxQ
- GizsMLcP/0FX4en9NaKGfK6ZdKK6kN1GR9YffMJd2P08EO8mHowmSRe/ExAODhAs9W7XXExw
- UNCY4pVJyRPpEhv373vvff60bHxc1k/FF9WaPscMt7hlkbFLUs85kHtQAmr8pV5Hy9ezsSRa
- GzJmiVclkPc2BY592IGBXRDQ38urXeM4nfhhvqA50b/nAEXc6FzqgXqDkEIwR66/Gbp0t3+r
- yQzpKRyQif3OwE0ETVkGzwEIALyKDN/OGURaHBVzwjgYq+ZtifvekdrSNl8TIDH8g1xicBYp
- QTbPn6bbSZbdvfeQPNCcD4/EhXZuhQXMcoJsQQQnO4vwVULmPGgtGf8PVc7dxKOeta+qUh6+
- SRh3vIcAUFHDT3f/Zdspz+e2E0hPV2hiSvICLk11qO6cyJE13zeNFoeY3ggrKY+IzbFomIZY
- 4yG6xI99NIPEVE9lNBXBKIlewIyVlkOaYvJWSV+p5gdJXOvScNN1epm5YHmf9aE2ZjnqZGoM
- Mtsyw18YoX9BqMFInxqYQQ3j/HpVgTSvmo5ea5qQDDUaCsaTf8UeDcwYOtgI8iL4oHcsGtUX
- oUk33HEAEQEAAcLAXwQYAQIACQUCTVkGzwIbDAAKCRAWmrexpM/4rrXiB/sGbkQ6itMrAIfn
- M7IbRuiSZS1unlySUVYu3SD6YBYnNi3G5EpbwfBNuT3H8//rVvtOFK4OD8cRYkxXRQmTvqa3
- 3eDIHu/zr1HMKErm+2SD6PO9umRef8V82o2oaCLvf4WeIssFjwB0b6a12opuRP7yo3E3gTCS
- KmbUuLv1CtxKQF+fUV1cVaTPMyT25Od+RC1K+iOR0F54oUJvJeq7fUzbn/KdlhA8XPGzwGRy
- 4zcsPWvwnXgfe5tk680fEKZVwOZKIEuJC3v+/yZpQzDvGYJvbyix0lHnrCzq43WefRHI5XTT
- QbM0WUIBIcGmq38+OgUsMYu4NzLu7uZFAcmp6h8g
-Organization: Linaro
-In-Reply-To: <20250625-panel-samsung-s6e8aa5x01-v3-2-9a1494fe6c50@disroot.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+ Miguel Ojeda <ojeda@kernel.org>, Alex Gaynor <alex.gaynor@gmail.com>,
+ Boqun Feng <boqun.feng@gmail.com>, Gary Guo <gary@garyguo.net>,
+ =?UTF-8?Q?Bj=C3=B6rn_Roy_Baron?= <bjorn3_gh@protonmail.com>,
+ Benno Lossin <lossin@kernel.org>, Andreas Hindborg <a.hindborg@kernel.org>,
+ Alice Ryhl <aliceryhl@google.com>, Trevor Gross <tmgross@umich.edu>,
+ Danilo Krummrich <dakr@kernel.org>, Daniel Stone <daniels@collabora.com>,
+ Rob Herring <robh@kernel.org>, Alice Ryhl <alice.ryhl@google.com>,
+ Beata Michalska <beata.michalska@arm.com>,
+ Carsten Haitzler <carsten.haitzler@foss.arm.com>,
+ Boris Brezillon <boris.brezillon@collabora.com>,
+ Ashley Smith <ashley.smith@collabora.com>, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, rust-for-linux@vger.kernel.org,
+ kernel@collabora.com
+References: <20250627-tyr-v1-1-cb5f4c6ced46@collabora.com>
+ <6bb2344c-de0f-4bf9-b9ff-b7c7338ea1d7@arm.com>
+ <1ADD8502-39D2-4705-8426-67AA8865E7BC@collabora.com>
+From: Steven Price <steven.price@arm.com>
+Content-Language: en-GB
+In-Reply-To: <1ADD8502-39D2-4705-8426-67AA8865E7BC@collabora.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -122,1055 +60,502 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Reply-To: Neil Armstrong <neil.armstrong@linaro.org>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Him
+Hi Daniel,
 
-On 25/06/2025 14:41, Kaustabh Chakraborty wrote:
-> Samsung S6E8AA5X01 is an AMOLED MIPI DSI panel controller. Implement
-> a basic panel driver for such panels.
+On 30/06/2025 15:56, Daniel Almeida wrote:
+> Hi Steven,
 > 
-> The driver also initializes a backlight device, which works by changing
-> the panel's gamma values and aid brightness levels appropriately, with
-> the help of look-up tables acquired from downstream kernel sources.
+>> On 30 Jun 2025, at 07:11, Steven Price <steven.price@arm.com> wrote:
+>>
+>> Hi Daniel,
+>>
+>> My Rust is still quite weak, so I'll just review the GPU-specific parts.
+>> Please CC me on future posts.
 > 
-> Signed-off-by: Kaustabh Chakraborty <kauschluss@disroot.org>
-> ---
->   drivers/gpu/drm/panel/Kconfig                    |  11 +
->   drivers/gpu/drm/panel/Makefile                   |   1 +
->   drivers/gpu/drm/panel/panel-samsung-s6e8aa5x01.c | 980 +++++++++++++++++++++++
->   3 files changed, 992 insertions(+)
+> I just realized I forgot about cc’ing the current Panthor maintainers. My bad.
+
+No big deal, but I'm not always on top of checking the lists.
+
+>>> +
+>>> +fn issue_soft_reset(iomem: &Devres<IoMem<0>>) -> Result<()> {
+>>> +    let irq_enable_cmd = 1 | bit_u32(8);
+>>
+>> Badly named variable? This appears to be the encoding for a soft_reset
+>> command.
 > 
-> diff --git a/drivers/gpu/drm/panel/Kconfig b/drivers/gpu/drm/panel/Kconfig
-> index d5aa1c95c6a45b2fea9b1d7a9e8a39fe617b860c..3d92ec3d7a1e85bf099e50e78b666fa38267d05c 100644
-> --- a/drivers/gpu/drm/panel/Kconfig
-> +++ b/drivers/gpu/drm/panel/Kconfig
-> @@ -833,6 +833,17 @@ config DRM_PANEL_SAMSUNG_S6E8AA0
->   	select DRM_MIPI_DSI
->   	select VIDEOMODE_HELPERS
->   
-> +config DRM_PANEL_SAMSUNG_S6E8AA5X01
-> +	tristate "Samsung S6E8AA5X01 panel"
-> +	depends on GPIOLIB && OF && REGULATOR
-> +	depends on DRM_MIPI_DSI
-> +	depends on BACKLIGHT_CLASS_DEVICE
-> +	help
-> +	  Say Y here if you want to enable support for Samsung S6E8AA5X01 panel
-> +	  controller. The controller is driven by the MIPI DSI protocol with 4
-> +	  lanes. Panels are available in multiple sizes by vendors, such as in
-> +	  720x1280@60Hz or 720x1480@60Hz.
-> +
->   config DRM_PANEL_SAMSUNG_SOFEF00
->   	tristate "Samsung sofef00/s6e3fc2x01 OnePlus 6/6T DSI cmd mode panels"
->   	depends on OF
-> diff --git a/drivers/gpu/drm/panel/Makefile b/drivers/gpu/drm/panel/Makefile
-> index 73a39bc726045f3ce52fdeef8c0ec762a4a378c7..995cf2b22427897313f806280b0bc9a67a7b4879 100644
-> --- a/drivers/gpu/drm/panel/Makefile
-> +++ b/drivers/gpu/drm/panel/Makefile
-> @@ -86,6 +86,7 @@ obj-$(CONFIG_DRM_PANEL_SAMSUNG_S6E63M0_DSI) += panel-samsung-s6e63m0-dsi.o
->   obj-$(CONFIG_DRM_PANEL_SAMSUNG_S6E88A0_AMS427AP24) += panel-samsung-s6e88a0-ams427ap24.o
->   obj-$(CONFIG_DRM_PANEL_SAMSUNG_S6E88A0_AMS452EF01) += panel-samsung-s6e88a0-ams452ef01.o
->   obj-$(CONFIG_DRM_PANEL_SAMSUNG_S6E8AA0) += panel-samsung-s6e8aa0.o
-> +obj-$(CONFIG_DRM_PANEL_SAMSUNG_S6E8AA5X01) += panel-samsung-s6e8aa5x01.o
->   obj-$(CONFIG_DRM_PANEL_SAMSUNG_SOFEF00) += panel-samsung-sofef00.o
->   obj-$(CONFIG_DRM_PANEL_SEIKO_43WVF1G) += panel-seiko-43wvf1g.o
->   obj-$(CONFIG_DRM_PANEL_SHARP_LQ101R1SX01) += panel-sharp-lq101r1sx01.o
-> diff --git a/drivers/gpu/drm/panel/panel-samsung-s6e8aa5x01.c b/drivers/gpu/drm/panel/panel-samsung-s6e8aa5x01.c
-> new file mode 100644
-> index 0000000000000000000000000000000000000000..da3365d4ec76b1ede891d5690766b2cf67b9930e
-> --- /dev/null
-> +++ b/drivers/gpu/drm/panel/panel-samsung-s6e8aa5x01.c
-> @@ -0,0 +1,980 @@
-> +// SPDX-License-Identifier: GPL-2.0-only
-> +/*
-> + * Samsung S6E8AA5X01 display panel driver.
-> + *
-> + * Copyright (C) 2025 Kaustabh Chakraborty <kauschluss@disroot.org>
-> + */
-> +
-> +#include <linux/backlight.h>
-> +#include <linux/gpio/consumer.h>
-> +#include <linux/module.h>
-> +#include <linux/of.h>
-> +#include <linux/regulator/consumer.h>
-> +
-> +#include <drm/drm_mipi_dsi.h>
-> +#include <drm/drm_modes.h>
-> +#include <drm/drm_panel.h>
-> +#include <drm/drm_probe_helper.h>
-> +
-> +/* Manufacturer Command Set */
-> +#define MCS_AIDCTL		0xb2
-> +#define MCS_ADAPTIVECTL		0xb5
-> +#define MCS_ELVSS		0xb6
-> +#define MCS_TEMPERCTL		0xb8
-> +#define MCS_PENTILE		0xc0
-> +#define MCS_GAMMACTL		0xca
-> +#define MCS_LTPSCTL		0xcb
-> +#define MCS_PCD			0xcc
-> +#define MCS_ERRFLAG		0xe7
-> +#define MCS_ACCESSPROT		0xf0
-> +#define MCS_DISPCTL		0xf2
-> +#define MCS_GAMMAUPD		0xf7
-> +
-> +#define GAMMA_CMD_LEN	34
-> +#define AID_CMD_LEN	3
-> +
-> +static const struct {
-> +	u8 gamma[GAMMA_CMD_LEN];
-> +	u8 aid[AID_CMD_LEN];
-> +} s6e8aa5x01_cmds[] = {
-> +	{
-> +		/* 5 nits */
-> +		{ MCS_GAMMACTL,
-> +		  0x00, 0x98, 0x00, 0xa4, 0x00, 0x94,
-> +		  0x88, 0x89, 0x8a, 0x87, 0x87, 0x89,
-> +		  0x8d, 0x8c, 0x8d, 0x89, 0x8c, 0x8e,
-> +		  0x8e, 0x8f, 0x90, 0xa3, 0xa2, 0x9a,
-> +		  0xcf, 0xca, 0x9f, 0xe6, 0xff, 0xb4,
-> +		  0x00, 0x00, 0x00, },
-> +		{ MCS_AIDCTL, 0x05, 0xa5 },
-> +	}, {
-> +		/* 6 nits */
-> +		{ MCS_GAMMACTL,
-> +		  0x00, 0x98, 0x00, 0xa4, 0x00, 0x95,
-> +		  0x88, 0x89, 0x8b, 0x87, 0x87, 0x89,
-> +		  0x8c, 0x8a, 0x8c, 0x85, 0x88, 0x8c,
-> +		  0x8b, 0x8c, 0x8e, 0xa2, 0xa2, 0x9a,
-> +		  0xd0, 0xcc, 0xa2, 0xed, 0xff, 0xb7,
-> +		  0x00, 0x00, 0x00, },
-> +		{ MCS_AIDCTL, 0x05, 0x95 },
-> +	}, {
-> +		/* 7 nits */
-> +		{ MCS_GAMMACTL,
-> +		  0x00, 0x98, 0x00, 0xa4, 0x00, 0x95,
-> +		  0x88, 0x89, 0x8b, 0x87, 0x87, 0x89,
-> +		  0x8c, 0x8a, 0x8c, 0x85, 0x88, 0x8c,
-> +		  0x8b, 0x8c, 0x8e, 0xa2, 0xa2, 0x99,
-> +		  0xc8, 0xc4, 0x9d, 0xed, 0xff, 0xb7,
-> +		  0x00, 0x00, 0x00, },
-> +		{ MCS_AIDCTL, 0x05, 0x89 },
-> +	}, {
-> +		/* 8 nits */
-> +		{ MCS_GAMMACTL,
-> +		  0x00, 0x98, 0x00, 0xa4, 0x00, 0x96,
-> +		  0x88, 0x89, 0x8a, 0x87, 0x87, 0x89,
-> +		  0x8a, 0x88, 0x8b, 0x83, 0x86, 0x8b,
-> +		  0x8c, 0x8b, 0x8d, 0x9d, 0x9f, 0x97,
-> +		  0xc7, 0xc3, 0x9c, 0xf5, 0xff, 0xbb,
-> +		  0x00, 0x00, 0x00, },
-> +		{ MCS_AIDCTL, 0x05, 0x7e },
-> +	}, {
-> +		/* 9 nits */
-> +		{ MCS_GAMMACTL,
-> +		  0x00, 0x98, 0x00, 0xa4, 0x00, 0x96,
-> +		  0x88, 0x89, 0x8a, 0x87, 0x87, 0x89,
-> +		  0x89, 0x86, 0x8a, 0x82, 0x84, 0x88,
-> +		  0x90, 0x8f, 0x91, 0x95, 0x97, 0x94,
-> +		  0xc6, 0xc2, 0x9d, 0xf5, 0xff, 0xbb,
-> +		  0x00, 0x00, 0x00, },
-> +		{ MCS_AIDCTL, 0x05, 0x73 },
-> +	}, {
-> +		/* 10 nits */
-> +		{ MCS_GAMMACTL,
-> +		  0x00, 0x98, 0x00, 0xa4, 0x00, 0x96,
-> +		  0x88, 0x89, 0x8a, 0x87, 0x87, 0x89,
-> +		  0x89, 0x86, 0x8a, 0x82, 0x84, 0x88,
-> +		  0x90, 0x8f, 0x91, 0x94, 0x97, 0x93,
-> +		  0xc6, 0xc2, 0x9e, 0xec, 0xff, 0xb7,
-> +		  0x00, 0x00, 0x00, },
-> +		{ MCS_AIDCTL, 0x05, 0x67 },
-> +	}, {
-> +		/* 11 nits */
-> +		{ MCS_GAMMACTL,
-> +		  0x00, 0x98, 0x00, 0xa4, 0x00, 0x96,
-> +		  0x88, 0x89, 0x8a, 0x87, 0x87, 0x89,
-> +		  0x89, 0x86, 0x8a, 0x82, 0x84, 0x88,
-> +		  0x8b, 0x8b, 0x8d, 0x90, 0x93, 0x92,
-> +		  0xc5, 0xc1, 0x9c, 0xf5, 0xff, 0xbb,
-> +		  0x00, 0x00, 0x00, },
-> +		{ MCS_AIDCTL, 0x05, 0x56 },
-> +	}, {
-> +		/* 12 nits */
-> +		{ MCS_GAMMACTL,
-> +		  0x00, 0x98, 0x00, 0xa4, 0x00, 0x96,
-> +		  0x88, 0x89, 0x8b, 0x87, 0x87, 0x89,
-> +		  0x89, 0x86, 0x89, 0x82, 0x84, 0x88,
-> +		  0x87, 0x86, 0x8a, 0x8c, 0x90, 0x8f,
-> +		  0xcd, 0xc9, 0xa1, 0xec, 0xff, 0xb7,
-> +		  0x00, 0x00, 0x00, },
-> +		{ MCS_AIDCTL, 0x05, 0x4a },
-> +	}, {
-> +		/* 13 nits */
-> +		{ MCS_GAMMACTL,
-> +		  0x00, 0x98, 0x00, 0xa4, 0x00, 0x96,
-> +		  0x88, 0x89, 0x8b, 0x87, 0x87, 0x89,
-> +		  0x89, 0x86, 0x89, 0x82, 0x84, 0x88,
-> +		  0x87, 0x86, 0x8a, 0x8c, 0x90, 0x8e,
-> +		  0xc4, 0xbf, 0x9c, 0xf5, 0xff, 0xbb,
-> +		  0x00, 0x00, 0x00, },
-> +		{ MCS_AIDCTL, 0x05, 0x3b },
-> +	}, {
-> +		/* 14 nits */
-> +		{ MCS_GAMMACTL,
-> +		  0x00, 0x98, 0x00, 0xa4, 0x00, 0x96,
-> +		  0x88, 0x89, 0x8b, 0x87, 0x87, 0x89,
-> +		  0x89, 0x86, 0x89, 0x82, 0x84, 0x88,
-> +		  0x87, 0x86, 0x89, 0x8c, 0x90, 0x8f,
-> +		  0xc2, 0xbf, 0x9c, 0xec, 0xff, 0xb7,
-> +		  0x00, 0x00, 0x00, },
-> +		{ MCS_AIDCTL, 0x05, 0x35 },
-> +	}, {
-> +		/* 15 nits */
-> +		{ MCS_GAMMACTL,
-> +		  0x00, 0x98, 0x00, 0xa4, 0x00, 0x96,
-> +		  0x88, 0x89, 0x8b, 0x87, 0x87, 0x89,
-> +		  0x89, 0x86, 0x89, 0x82, 0x84, 0x88,
-> +		  0x87, 0x86, 0x89, 0x8c, 0x90, 0x8f,
-> +		  0xb7, 0xb6, 0x96, 0xec, 0xff, 0xb7,
-> +		  0x00, 0x00, 0x00, },
-> +		{ MCS_AIDCTL, 0x05, 0x25 },
-> +	}, {
-> +		/* 16 nits */
-> +		{ MCS_GAMMACTL,
-> +		  0x00, 0x98, 0x00, 0xa4, 0x00, 0x96,
-> +		  0x88, 0x89, 0x8b, 0x87, 0x87, 0x89,
-> +		  0x89, 0x86, 0x89, 0x82, 0x84, 0x88,
-> +		  0x88, 0x86, 0x89, 0x8c, 0x90, 0x8f,
-> +		  0xb7, 0xb6, 0x96, 0xec, 0xff, 0xb7,
-> +		  0x00, 0x00, 0x00, },
-> +		{ MCS_AIDCTL, 0x05, 0x20 },
-> +	}, {
-> +		/* 17 nits */
-> +		{ MCS_GAMMACTL,
-> +		  0x00, 0x98, 0x00, 0xa4, 0x00, 0x96,
-> +		  0x88, 0x89, 0x8b, 0x87, 0x87, 0x89,
-> +		  0x89, 0x86, 0x89, 0x7f, 0x80, 0x86,
-> +		  0x86, 0x85, 0x89, 0x88, 0x8c, 0x8e,
-> +		  0xbf, 0xbe, 0x9c, 0xec, 0xff, 0xb7,
-> +		  0x00, 0x00, 0x00, },
-> +		{ MCS_AIDCTL, 0x05, 0x11 },
-> +	}, {
-> +		/* 19 nits */
-> +		{ MCS_GAMMACTL,
-> +		  0x00, 0x98, 0x00, 0xa4, 0x00, 0x96,
-> +		  0x88, 0x89, 0x8b, 0x87, 0x87, 0x89,
-> +		  0x89, 0x86, 0x89, 0x7f, 0x80, 0x86,
-> +		  0x87, 0x85, 0x89, 0x88, 0x8c, 0x8e,
-> +		  0xb3, 0xb4, 0x97, 0xeb, 0xff, 0xb7,
-> +		  0x00, 0x00, 0x00, },
-> +		{ MCS_AIDCTL, 0x04, 0xf2 },
-> +	}, {
-> +		/* 20 nits */
-> +		{ MCS_GAMMACTL,
-> +		  0x00, 0x98, 0x00, 0xa4, 0x00, 0x95,
-> +		  0x88, 0x89, 0x8b, 0x87, 0x87, 0x89,
-> +		  0x89, 0x86, 0x89, 0x7f, 0x80, 0x86,
-> +		  0x87, 0x85, 0x89, 0x89, 0x8c, 0x8e,
-> +		  0xb3, 0xb4, 0x97, 0xeb, 0xff, 0xb7,
-> +		  0x00, 0x00, 0x00, },
-> +		{ MCS_AIDCTL, 0x04, 0xe4 },
-> +	}, {
-> +		/* 21 nits */
-> +		{ MCS_GAMMACTL,
-> +		  0x00, 0x98, 0x00, 0xa4, 0x00, 0x96,
-> +		  0x88, 0x89, 0x8b, 0x87, 0x87, 0x89,
-> +		  0x8a, 0x88, 0x8b, 0x7d, 0x7e, 0x84,
-> +		  0x8c, 0x8a, 0x8c, 0x8e, 0x90, 0x8f,
-> +		  0xb6, 0xb6, 0x97, 0xe3, 0xff, 0xb3,
-> +		  0x00, 0x00, 0x00, },
-> +		{ MCS_AIDCTL, 0x04, 0xd5 },
-> +	}, {
-> +		/* 22 nits */
-> +		{ MCS_GAMMACTL,
-> +		  0x00, 0x98, 0x00, 0xa4, 0x00, 0x97,
-> +		  0x88, 0x89, 0x8b, 0x87, 0x87, 0x89,
-> +		  0x8a, 0x88, 0x8b, 0x81, 0x82, 0x86,
-> +		  0x87, 0x86, 0x88, 0x8e, 0x90, 0x8f,
-> +		  0xb6, 0xb6, 0x95, 0xe3, 0xff, 0xb3,
-> +		  0x00, 0x00, 0x00, },
-> +		{ MCS_AIDCTL, 0x04, 0xc5 },
-> +	}, {
-> +		/* 24 nits */
-> +		{ MCS_GAMMACTL,
-> +		  0x00, 0x98, 0x00, 0xa4, 0x00, 0x97,
-> +		  0x88, 0x89, 0x8b, 0x88, 0x88, 0x8a,
-> +		  0x8a, 0x87, 0x8a, 0x81, 0x82, 0x86,
-> +		  0x87, 0x86, 0x88, 0x8e, 0x90, 0x8f,
-> +		  0xb6, 0xb6, 0x94, 0xe3, 0xff, 0xb3,
-> +		  0x00, 0x00, 0x00, },
-> +		{ MCS_AIDCTL, 0x04, 0xa7 },
-> +	}, {
-> +		/* 25 nits */
-> +		{ MCS_GAMMACTL,
-> +		  0x00, 0x98, 0x00, 0xa4, 0x00, 0x98,
-> +		  0x88, 0x89, 0x8b, 0x88, 0x88, 0x8a,
-> +		  0x8a, 0x87, 0x8a, 0x81, 0x82, 0x86,
-> +		  0x87, 0x86, 0x87, 0x8e, 0x90, 0x8f,
-> +		  0xbf, 0xbf, 0x9a, 0xda, 0xfa, 0xaf,
-> +		  0x00, 0x00, 0x00, },
-> +		{ MCS_AIDCTL, 0x04, 0x95 },
-> +	}, {
-> +		/* 27 nits */
-> +		{ MCS_GAMMACTL,
-> +		  0x00, 0x98, 0x00, 0xa4, 0x00, 0x99,
-> +		  0x88, 0x89, 0x8b, 0x88, 0x88, 0x8a,
-> +		  0x8a, 0x87, 0x8a, 0x83, 0x86, 0x8a,
-> +		  0x88, 0x87, 0x87, 0x88, 0x8b, 0x8c,
-> +		  0xbf, 0xbf, 0x9a, 0xda, 0xfa, 0xaf,
-> +		  0x00, 0x00, 0x00, },
-> +		{ MCS_AIDCTL, 0x04, 0x76 },
-> +	}, {
-> +		/* 29 nits */
-> +		{ MCS_GAMMACTL,
-> +		  0x00, 0x98, 0x00, 0xa4, 0x00, 0x99,
-> +		  0x88, 0x89, 0x8b, 0x88, 0x88, 0x8a,
-> +		  0x8a, 0x87, 0x8b, 0x83, 0x86, 0x89,
-> +		  0x88, 0x87, 0x88, 0x88, 0x8b, 0x8b,
-> +		  0xbf, 0xbf, 0x9a, 0xda, 0xfa, 0xaf,
-> +		  0x00, 0x00, 0x00, },
-> +		{ MCS_AIDCTL, 0x04, 0x54 },
-> +	}, {
-> +		/* 30 nits */
-> +		{ MCS_GAMMACTL,
-> +		  0x00, 0x98, 0x00, 0xa4, 0x00, 0x9a,
-> +		  0x88, 0x89, 0x8b, 0x88, 0x88, 0x8a,
-> +		  0x8a, 0x87, 0x8a, 0x84, 0x86, 0x8a,
-> +		  0x87, 0x87, 0x87, 0x88, 0x8b, 0x8b,
-> +		  0xbf, 0xbf, 0x99, 0xda, 0xfa, 0xaf,
-> +		  0x00, 0x00, 0x00, },
-> +		{ MCS_AIDCTL, 0x04, 0x44 },
-> +	}, {
-> +		/* 32 nits */
-> +		{ MCS_GAMMACTL,
-> +		  0x00, 0x98, 0x00, 0xa4, 0x00, 0x9a,
-> +		  0x89, 0x89, 0x8c, 0x88, 0x88, 0x8a,
-> +		  0x89, 0x87, 0x8a, 0x84, 0x86, 0x8a,
-> +		  0x87, 0x87, 0x87, 0x89, 0x8b, 0x8b,
-> +		  0xbf, 0xbf, 0x98, 0xd2, 0xf2, 0xac,
-> +		  0x00, 0x00, 0x00, },
-> +		{ MCS_AIDCTL, 0x04, 0x1f },
-> +	}, {
-> +		/* 34 nits */
-> +		{ MCS_GAMMACTL,
-> +		  0x00, 0x98, 0x00, 0xa4, 0x00, 0x9b,
-> +		  0x88, 0x89, 0x8b, 0x88, 0x88, 0x8a,
-> +		  0x8b, 0x87, 0x8b, 0x83, 0x86, 0x89,
-> +		  0x87, 0x87, 0x88, 0x88, 0x8b, 0x8a,
-> +		  0xbf, 0xbf, 0x98, 0xd2, 0xf2, 0xac,
-> +		  0x00, 0x00, 0x00, },
-> +		{ MCS_AIDCTL, 0x03, 0xff },
-> +	}, {
-> +		/* 37 nits */
-> +		{ MCS_GAMMACTL,
-> +		  0x00, 0x98, 0x00, 0xa4, 0x00, 0x9b,
-> +		  0x89, 0x89, 0x8c, 0x88, 0x88, 0x8a,
-> +		  0x8a, 0x87, 0x8a, 0x81, 0x82, 0x86,
-> +		  0x86, 0x86, 0x86, 0x8d, 0x90, 0x8d,
-> +		  0xc0, 0xbf, 0x9a, 0xd2, 0xf2, 0xac,
-> +		  0x00, 0x00, 0x00, },
-> +		{ MCS_AIDCTL, 0x03, 0xd3 },
-> +	}, {
-> +		/* 39 nits */
-> +		{ MCS_GAMMACTL,
-> +		  0x00, 0x98, 0x00, 0xa4, 0x00, 0x9b,
-> +		  0x89, 0x89, 0x8c, 0x88, 0x88, 0x8a,
-> +		  0x8a, 0x87, 0x8a, 0x81, 0x82, 0x86,
-> +		  0x87, 0x86, 0x87, 0x8d, 0x90, 0x8d,
-> +		  0xb6, 0xb6, 0x93, 0xda, 0xf9, 0xaf,
-> +		  0x00, 0x00, 0x00, },
-> +		{ MCS_AIDCTL, 0x03, 0xb3 },
-> +	}, {
-> +		/* 41 nits */
-> +		{ MCS_GAMMACTL,
-> +		  0x00, 0x98, 0x00, 0xa4, 0x00, 0x9b,
-> +		  0x89, 0x89, 0x8c, 0x88, 0x88, 0x8a,
-> +		  0x8a, 0x87, 0x8b, 0x81, 0x82, 0x85,
-> +		  0x87, 0x86, 0x87, 0x8d, 0x90, 0x8d,
-> +		  0xb6, 0xb6, 0x94, 0xda, 0xf9, 0xaf,
-> +		  0x00, 0x00, 0x00, },
-> +		{ MCS_AIDCTL, 0x03, 0x93 },
-> +	}, {
-> +		/* 44 nits */
-> +		{ MCS_GAMMACTL,
-> +		  0x00, 0x98, 0x00, 0xa4, 0x00, 0x9b,
-> +		  0x89, 0x89, 0x8c, 0x88, 0x88, 0x8a,
-> +		  0x8a, 0x87, 0x8b, 0x81, 0x82, 0x86,
-> +		  0x87, 0x86, 0x86, 0x85, 0x87, 0x8a,
-> +		  0xbe, 0xbe, 0x99, 0xda, 0xf9, 0xaf,
-> +		  0x00, 0x00, 0x00, },
-> +		{ MCS_AIDCTL, 0x03, 0x66 },
-> +	}, {
-> +		/* 47 nits */
-> +		{ MCS_GAMMACTL,
-> +		  0x00, 0x98, 0x00, 0xa4, 0x00, 0x9b,
-> +		  0x89, 0x89, 0x8c, 0x88, 0x88, 0x8a,
-> +		  0x8a, 0x87, 0x8b, 0x81, 0x82, 0x86,
-> +		  0x88, 0x86, 0x87, 0x84, 0x87, 0x89,
-> +		  0xb4, 0xb4, 0x94, 0xe2, 0xff, 0xb3,
-> +		  0x00, 0x00, 0x00, },
-> +		{ MCS_AIDCTL, 0x03, 0x40 },
-> +	}, {
-> +		/* 50 nits */
-> +		{ MCS_GAMMACTL,
-> +		  0x00, 0x98, 0x00, 0xa4, 0x00, 0x9c,
-> +		  0x89, 0x89, 0x8b, 0x88, 0x88, 0x8a,
-> +		  0x8a, 0x87, 0x8b, 0x81, 0x82, 0x86,
-> +		  0x88, 0x86, 0x87, 0x84, 0x87, 0x89,
-> +		  0xb4, 0xb4, 0x95, 0xe2, 0xff, 0xb3,
-> +		  0x00, 0x00, 0x00, },
-> +		{ MCS_AIDCTL, 0x03, 0x0e },
-> +	}, {
-> +		/* 53 nits */
-> +		{ MCS_GAMMACTL,
-> +		  0x00, 0x98, 0x00, 0xa4, 0x00, 0x9c,
-> +		  0x89, 0x89, 0x8b, 0x88, 0x88, 0x8a,
-> +		  0x8a, 0x87, 0x8b, 0x81, 0x82, 0x86,
-> +		  0x88, 0x86, 0x87, 0x85, 0x87, 0x8a,
-> +		  0xb4, 0xb4, 0x96, 0xe2, 0xff, 0xb3,
-> +		  0x00, 0x00, 0x00, },
-> +		{ MCS_AIDCTL, 0x02, 0xe2 },
-> +	}, {
-> +		/* 56 nits */
-> +		{ MCS_GAMMACTL,
-> +		  0x00, 0x98, 0x00, 0xa4, 0x00, 0x9c,
-> +		  0x89, 0x89, 0x8b, 0x88, 0x88, 0x8a,
-> +		  0x8a, 0x87, 0x8b, 0x81, 0x82, 0x86,
-> +		  0x88, 0x86, 0x87, 0x85, 0x87, 0x8a,
-> +		  0xab, 0xab, 0x90, 0xdd, 0xf7, 0xaf,
-> +		  0x00, 0x00, 0x00, },
-> +		{ MCS_AIDCTL, 0x02, 0xb5 },
-> +	}, {
-> +		/* 60 nits */
-> +		{ MCS_GAMMACTL,
-> +		  0x00, 0x98, 0x00, 0xa4, 0x00, 0x9c,
-> +		  0x89, 0x89, 0x8b, 0x88, 0x88, 0x8a,
-> +		  0x8a, 0x87, 0x8b, 0x82, 0x82, 0x87,
-> +		  0x83, 0x81, 0x84, 0x81, 0x84, 0x88,
-> +		  0xb3, 0xb3, 0x96, 0xcf, 0xe5, 0xa8,
-> +		  0x00, 0x00, 0x00, },
-> +		{ MCS_AIDCTL, 0x02, 0x77 },
-> +	}, {
-> +		/* 64 nits */
-> +		{ MCS_GAMMACTL,
-> +		  0x00, 0x98, 0x00, 0xa4, 0x00, 0x9c,
-> +		  0x89, 0x89, 0x8b, 0x88, 0x88, 0x8a,
-> +		  0x8a, 0x87, 0x8b, 0x82, 0x82, 0x87,
-> +		  0x83, 0x81, 0x84, 0x82, 0x84, 0x88,
-> +		  0xb2, 0xb3, 0x97, 0xcf, 0xe5, 0xa8,
-> +		  0x00, 0x00, 0x00, },
-> +		{ MCS_AIDCTL, 0x02, 0x36 },
-> +	}, {
-> +		/* 68 nits */
-> +		{ MCS_GAMMACTL,
-> +		  0x00, 0x9b, 0x00, 0xa6, 0x00, 0x9d,
-> +		  0x88, 0x88, 0x89, 0x89, 0x89, 0x8b,
-> +		  0x8a, 0x88, 0x8b, 0x7f, 0x80, 0x86,
-> +		  0x88, 0x86, 0x87, 0x7d, 0x7f, 0x85,
-> +		  0xb2, 0xb3, 0x97, 0xcf, 0xe5, 0xa8,
-> +		  0x00, 0x00, 0x00, },
-> +		{ MCS_AIDCTL, 0x02, 0x15 },
-> +	}, {
-> +		/* 72 nits */
-> +		{ MCS_GAMMACTL,
-> +		  0x00, 0x9c, 0x00, 0xa9, 0x00, 0xa0,
-> +		  0x88, 0x88, 0x89, 0x88, 0x88, 0x8a,
-> +		  0x8c, 0x8a, 0x8d, 0x7f, 0x81, 0x85,
-> +		  0x84, 0x82, 0x84, 0x85, 0x87, 0x8a,
-> +		  0xaa, 0xab, 0x93, 0xcf, 0xe5, 0xa8,
-> +		  0x00, 0x00, 0x00, },
-> +		{ MCS_AIDCTL, 0x02, 0x15 },
-> +	}, {
-> +		/* 77 nits */
-> +		{ MCS_GAMMACTL,
-> +		  0x00, 0xa1, 0x00, 0xad, 0x00, 0xa5,
-> +		  0x89, 0x89, 0x8a, 0x88, 0x87, 0x89,
-> +		  0x8c, 0x89, 0x8d, 0x7f, 0x81, 0x85,
-> +		  0x84, 0x83, 0x84, 0x81, 0x83, 0x86,
-> +		  0xaa, 0xab, 0x93, 0xc0, 0xd3, 0xa1,
-> +		  0x00, 0x00, 0x00, },
-> +		{ MCS_AIDCTL, 0x02, 0x15 },
-> +	}, {
-> +		/* 82 nits */
-> +		{ MCS_GAMMACTL,
-> +		  0x00, 0xa5, 0x00, 0xb0, 0x00, 0xa9,
-> +		  0x88, 0x89, 0x89, 0x85, 0x86, 0x89,
-> +		  0x8a, 0x88, 0x8b, 0x82, 0x82, 0x87,
-> +		  0x81, 0x80, 0x82, 0x89, 0x8b, 0x8b,
-> +		  0xa2, 0xa3, 0x8e, 0xc0, 0xd3, 0xa1,
-> +		  0x00, 0x00, 0x00, },
-> +		{ MCS_AIDCTL, 0x02, 0x15 },
-> +	}, {
-> +		/* 87 nits */
-> +		{ MCS_GAMMACTL,
-> +		  0x00, 0xab, 0x00, 0xb4, 0x00, 0xad,
-> +		  0x88, 0x89, 0x8a, 0x84, 0x86, 0x88,
-> +		  0x8a, 0x88, 0x8b, 0x7f, 0x7f, 0x84,
-> +		  0x86, 0x84, 0x85, 0x85, 0x86, 0x88,
-> +		  0xa2, 0xa3, 0x8f, 0xc0, 0xd3, 0xa1,
-> +		  0x00, 0x00, 0x00, },
-> +		{ MCS_AIDCTL, 0x02, 0x15 },
-> +	}, {
-> +		/* 93 nits */
-> +		{ MCS_GAMMACTL,
-> +		  0x00, 0xaf, 0x00, 0xb9, 0x00, 0xb1,
-> +		  0x88, 0x89, 0x8a, 0x84, 0x85, 0x87,
-> +		  0x8a, 0x89, 0x8b, 0x7e, 0x7e, 0x83,
-> +		  0x87, 0x86, 0x86, 0x88, 0x8a, 0x89,
-> +		  0x9c, 0x9c, 0x8b, 0xc0, 0xd3, 0xa1,
-> +		  0x00, 0x00, 0x00, },
-> +		{ MCS_AIDCTL, 0x02, 0x15 },
-> +	}, {
-> +		/* 98 nits */
-> +		{ MCS_GAMMACTL,
-> +		  0x00, 0xb3, 0x00, 0xbc, 0x00, 0xb5,
-> +		  0x88, 0x88, 0x88, 0x84, 0x84, 0x86,
-> +		  0x8a, 0x88, 0x8a, 0x7f, 0x7f, 0x84,
-> +		  0x84, 0x83, 0x84, 0x88, 0x8a, 0x89,
-> +		  0x9c, 0x9c, 0x8b, 0xc0, 0xd3, 0xa1,
-> +		  0x00, 0x00, 0x00, },
-> +		{ MCS_AIDCTL, 0x02, 0x15 },
-> +	}, {
-> +		/* 105 nits */
-> +		{ MCS_GAMMACTL,
-> +		  0x00, 0xb7, 0x00, 0xc0, 0x00, 0xba,
-> +		  0x87, 0x87, 0x88, 0x85, 0x85, 0x87,
-> +		  0x89, 0x88, 0x89, 0x7f, 0x7f, 0x83,
-> +		  0x81, 0x80, 0x82, 0x88, 0x8a, 0x89,
-> +		  0x9c, 0x9c, 0x8c, 0xb2, 0xc2, 0x9a,
-> +		  0x00, 0x00, 0x00, },
-> +		{ MCS_AIDCTL, 0x02, 0x15 },
-> +	}, {
-> +		/* 111 nits */
-> +		{ MCS_GAMMACTL,
-> +		  0x00, 0xbb, 0x00, 0xc3, 0x00, 0xbe,
-> +		  0x87, 0x87, 0x88, 0x85, 0x85, 0x88,
-> +		  0x88, 0x87, 0x89, 0x80, 0x80, 0x84,
-> +		  0x81, 0x81, 0x82, 0x85, 0x86, 0x87,
-> +		  0x9c, 0x9c, 0x8b, 0xb2, 0xc2, 0x9a,
-> +		  0x00, 0x00, 0x00, },
-> +		{ MCS_AIDCTL, 0x02, 0x15 },
-> +	}, {
-> +		/* 119 nits */
-> +		{ MCS_GAMMACTL,
-> +		  0x00, 0xc0, 0x00, 0xc8, 0x00, 0xc4,
-> +		  0x87, 0x87, 0x88, 0x82, 0x84, 0x86,
-> +		  0x87, 0x85, 0x87, 0x82, 0x81, 0x84,
-> +		  0x83, 0x82, 0x83, 0x80, 0x81, 0x84,
-> +		  0x9c, 0x9c, 0x8c, 0xb2, 0xc2, 0x9a,
-> +		  0x00, 0x00, 0x00, },
-> +		{ MCS_AIDCTL, 0x02, 0x14 },
-> +	}, {
-> +		/* 126 nits */
-> +		{ MCS_GAMMACTL,
-> +		  0x00, 0xc0, 0x00, 0xc8, 0x00, 0xc4,
-> +		  0x87, 0x87, 0x88, 0x82, 0x84, 0x86,
-> +		  0x87, 0x85, 0x87, 0x82, 0x81, 0x84,
-> +		  0x83, 0x82, 0x83, 0x80, 0x81, 0x84,
-> +		  0x9c, 0x9c, 0x8d, 0xb2, 0xc2, 0x9a,
-> +		  0x00, 0x00, 0x00, },
-> +		{ MCS_AIDCTL, 0x01, 0xde },
-> +	}, {
-> +		/* 134 nits */
-> +		{ MCS_GAMMACTL,
-> +		  0x00, 0xc0, 0x00, 0xc8, 0x00, 0xc4,
-> +		  0x87, 0x87, 0x88, 0x82, 0x84, 0x86,
-> +		  0x87, 0x85, 0x87, 0x82, 0x81, 0x84,
-> +		  0x83, 0x82, 0x83, 0x80, 0x81, 0x84,
-> +		  0x9c, 0x9c, 0x8d, 0xa4, 0xb0, 0x92,
-> +		  0x00, 0x00, 0x00, },
-> +		{ MCS_AIDCTL, 0x01, 0x94 },
-> +	}, {
-> +		/* 143 nits */
-> +		{ MCS_GAMMACTL,
-> +		  0x00, 0xc0, 0x00, 0xc8, 0x00, 0xc3,
-> +		  0x87, 0x87, 0x88, 0x82, 0x84, 0x86,
-> +		  0x87, 0x85, 0x87, 0x82, 0x81, 0x85,
-> +		  0x83, 0x82, 0x83, 0x80, 0x81, 0x84,
-> +		  0x92, 0x92, 0x89, 0xab, 0xb6, 0x96,
-> +		  0x00, 0x00, 0x00, },
-> +		{ MCS_AIDCTL, 0x01, 0x46 },
-> +	}, {
-> +		/* 152 nits */
-> +		{ MCS_GAMMACTL,
-> +		  0x00, 0xc0, 0x00, 0xc8, 0x00, 0xc3,
-> +		  0x87, 0x87, 0x88, 0x83, 0x84, 0x86,
-> +		  0x87, 0x85, 0x87, 0x81, 0x81, 0x85,
-> +		  0x84, 0x82, 0x83, 0x80, 0x81, 0x83,
-> +		  0x92, 0x92, 0x8b, 0xab, 0xb6, 0x96,
-> +		  0x00, 0x00, 0x00, },
-> +		{ MCS_AIDCTL, 0x00, 0xfa },
-> +	}, {
-> +		/* 162 nits */
-> +		{ MCS_GAMMACTL,
-> +		  0x00, 0xc0, 0x00, 0xc8, 0x00, 0xc3,
-> +		  0x87, 0x87, 0x88, 0x83, 0x84, 0x86,
-> +		  0x87, 0x85, 0x87, 0x81, 0x81, 0x84,
-> +		  0x84, 0x82, 0x84, 0x80, 0x81, 0x83,
-> +		  0x92, 0x92, 0x8b, 0x9d, 0xa4, 0x8e,
-> +		  0x00, 0x00, 0x00, },
-> +		{ MCS_AIDCTL, 0x00, 0xac },
-> +	}, {
-> +		/* 172 nits */
-> +		{ MCS_GAMMACTL,
-> +		  0x00, 0xc0, 0x00, 0xc8, 0x00, 0xc3,
-> +		  0x87, 0x87, 0x88, 0x83, 0x84, 0x86,
-> +		  0x87, 0x85, 0x87, 0x81, 0x81, 0x84,
-> +		  0x84, 0x82, 0x83, 0x80, 0x81, 0x84,
-> +		  0x93, 0x92, 0x8c, 0x9d, 0xa4, 0x8e,
-> +		  0x00, 0x00, 0x00, },
-> +		{ MCS_AIDCTL, 0x00, 0x57 },
-> +	}, {
-> +		/* 183 nits */
-> +		{ MCS_GAMMACTL,
-> +		  0x00, 0xc2, 0x00, 0xca, 0x00, 0xc5,
-> +		  0x86, 0x86, 0x87, 0x85, 0x84, 0x87,
-> +		  0x87, 0x86, 0x88, 0x7e, 0x80, 0x83,
-> +		  0x84, 0x82, 0x83, 0x80, 0x81, 0x83,
-> +		  0x93, 0x92, 0x8c, 0x9d, 0xa4, 0x8e,
-> +		  0x00, 0x00, 0x00, },
-> +		{ MCS_AIDCTL, 0x00, 0x10 },
-> +	}, {
-> +		/* 195 nits */
-> +		{ MCS_GAMMACTL,
-> +		  0x00, 0xc7, 0x00, 0xce, 0x00, 0xc9,
-> +		  0x86, 0x87, 0x86, 0x83, 0x83, 0x85,
-> +		  0x85, 0x84, 0x86, 0x82, 0x82, 0x85,
-> +		  0x80, 0x80, 0x81, 0x81, 0x81, 0x84,
-> +		  0x93, 0x92, 0x8c, 0x9d, 0xa4, 0x8e,
-> +		  0x00, 0x00, 0x00, },
-> +		{ MCS_AIDCTL, 0x00, 0x10 },
-> +	}, {
-> +		/* 207 nits */
-> +		{ MCS_GAMMACTL,
-> +		  0x00, 0xcc, 0x00, 0xd2, 0x00, 0xce,
-> +		  0x86, 0x86, 0x87, 0x81, 0x83, 0x84,
-> +		  0x84, 0x82, 0x84, 0x83, 0x83, 0x85,
-> +		  0x81, 0x81, 0x82, 0x7c, 0x7d, 0x81,
-> +		  0x93, 0x92, 0x8c, 0x9d, 0xa4, 0x8e,
-> +		  0x00, 0x00, 0x00, },
-> +		{ MCS_AIDCTL, 0x00, 0x10 },
-> +	}, {
-> +		/* 220 nits */
-> +		{ MCS_GAMMACTL,
-> +		  0x00, 0xd1, 0x00, 0xd6, 0x00, 0xd3,
-> +		  0x86, 0x86, 0x86, 0x81, 0x83, 0x84,
-> +		  0x84, 0x82, 0x84, 0x80, 0x80, 0x83,
-> +		  0x81, 0x81, 0x82, 0x7c, 0x7d, 0x81,
-> +		  0x93, 0x92, 0x8c, 0x9d, 0xa4, 0x8e,
-> +		  0x00, 0x00, 0x00, },
-> +		{ MCS_AIDCTL, 0x00, 0x10 },
-> +	}, {
-> +		/* 234 nits */
-> +		{ MCS_GAMMACTL,
-> +		  0x00, 0xd6, 0x00, 0xdb, 0x00, 0xd8,
-> +		  0x85, 0x85, 0x85, 0x81, 0x83, 0x84,
-> +		  0x83, 0x82, 0x83, 0x80, 0x80, 0x82,
-> +		  0x84, 0x82, 0x83, 0x79, 0x79, 0x7e,
-> +		  0x93, 0x92, 0x8d, 0x9d, 0xa4, 0x8e,
-> +		  0x00, 0x00, 0x00, },
-> +		{ MCS_AIDCTL, 0x00, 0x10 },
-> +	}, {
-> +		/* 249 nits */
-> +		{ MCS_GAMMACTL,
-> +		  0x00, 0xdc, 0x00, 0xe0, 0x00, 0xdd,
-> +		  0x84, 0x84, 0x84, 0x81, 0x82, 0x83,
-> +		  0x84, 0x82, 0x84, 0x7f, 0x7f, 0x82,
-> +		  0x81, 0x80, 0x81, 0x80, 0x81, 0x82,
-> +		  0x8c, 0x8c, 0x86, 0x9d, 0xa4, 0x8e,
-> +		  0x00, 0x00, 0x00, },
-> +		{ MCS_AIDCTL, 0x00, 0x10 },
-> +	}, {
-> +		/* 265 nits */
-> +		{ MCS_GAMMACTL,
-> +		  0x00, 0xe2, 0x00, 0xe5, 0x00, 0xe3,
-> +		  0x83, 0x83, 0x83, 0x81, 0x82, 0x83,
-> +		  0x82, 0x82, 0x83, 0x82, 0x81, 0x83,
-> +		  0x7f, 0x7e, 0x80, 0x7c, 0x7d, 0x80,
-> +		  0x8c, 0x8c, 0x86, 0x8e, 0x92, 0x87,
-> +		  0x00, 0x00, 0x00, },
-> +		{ MCS_AIDCTL, 0x00, 0x10 },
-> +	}, {
-> +		/* 282 nits */
-> +		{ MCS_GAMMACTL,
-> +		  0x00, 0xe8, 0x00, 0xea, 0x00, 0xe9,
-> +		  0x83, 0x83, 0x83, 0x80, 0x82, 0x82,
-> +		  0x81, 0x82, 0x82, 0x82, 0x81, 0x82,
-> +		  0x81, 0x80, 0x81, 0x80, 0x80, 0x81,
-> +		  0x85, 0x85, 0x83, 0x8e, 0x92, 0x87,
-> +		  0x00, 0x00, 0x00, },
-> +		{ MCS_AIDCTL, 0x00, 0x10 },
-> +	}, {
-> +		/* 300 nits */
-> +		{ MCS_GAMMACTL,
-> +		  0x00, 0xed, 0x00, 0xef, 0x00, 0xed,
-> +		  0x81, 0x82, 0x81, 0x81, 0x81, 0x82,
-> +		  0x82, 0x82, 0x83, 0x80, 0x80, 0x81,
-> +		  0x81, 0x81, 0x82, 0x83, 0x83, 0x83,
-> +		  0x80, 0x80, 0x7f, 0x8e, 0x92, 0x87,
-> +		  0x00, 0x00, 0x00, },
-> +		{ MCS_AIDCTL, 0x00, 0x10 },
-> +	}, {
-> +		/* 316 nits */
-> +		{ MCS_GAMMACTL,
-> +		  0x00, 0xf3, 0x00, 0xf4, 0x00, 0xf3,
-> +		  0x80, 0x81, 0x80, 0x81, 0x81, 0x81,
-> +		  0x82, 0x82, 0x82, 0x81, 0x80, 0x81,
-> +		  0x82, 0x82, 0x83, 0x80, 0x80, 0x80,
-> +		  0x80, 0x80, 0x7f, 0x80, 0x80, 0x80,
-> +		  0x00, 0x00, 0x00, },
-> +		{ MCS_AIDCTL, 0x00, 0x10 },
-> +	}, {
-> +		/* 333 nits */
-> +		{ MCS_GAMMACTL,
-> +		  0x00, 0xf8, 0x00, 0xf8, 0x00, 0xf8,
-> +		  0x80, 0x81, 0x80, 0x81, 0x80, 0x81,
-> +		  0x81, 0x82, 0x82, 0x81, 0x80, 0x81,
-> +		  0x83, 0x83, 0x83, 0x7e, 0x7d, 0x7e,
-> +		  0x80, 0x80, 0x7f, 0x80, 0x80, 0x80,
-> +		  0x00, 0x00, 0x00, },
-> +		{ MCS_AIDCTL, 0x00, 0x10 },
-> +	}, {
-> +		/* 360 nits */
-> +		{ MCS_GAMMACTL,
-> +		  0x01, 0x00, 0x01, 0x00, 0x01, 0x00,
-> +		  0x80, 0x80, 0x80, 0x80, 0x80, 0x80,
-> +		  0x80, 0x80, 0x80, 0x80, 0x80, 0x80,
-> +		  0x80, 0x80, 0x80, 0x80, 0x80, 0x80,
-> +		  0x80, 0x80, 0x80, 0x80, 0x80, 0x80,
-> +		  0x00, 0x00, 0x00, },
-> +		{ MCS_AIDCTL, 0x00, 0x10 },
-> +	}, {
-> +		/* 378 nits */
-> +		{ MCS_GAMMACTL,
-> +		  0x01, 0x04, 0x01, 0x03, 0x01, 0x04,
-> +		  0x7f, 0x7f, 0x80, 0x7f, 0x7f, 0x7f,
-> +		  0x7f, 0x7f, 0x7f, 0x7f, 0x7f, 0x7f,
-> +		  0x80, 0x7f, 0x7f, 0x7f, 0x7f, 0x7f,
-> +		  0x80, 0x80, 0x7f, 0x7f, 0x7f, 0x7f,
-> +		  0x00, 0x00, 0x00, },
-> +		{ MCS_AIDCTL, 0x00, 0x10 },
-> +	}, {
-> +		/* 395 nits */
-> +		{ MCS_GAMMACTL,
-> +		  0x01, 0x09, 0x01, 0x07, 0x01, 0x08,
-> +		  0x7e, 0x7f, 0x80, 0x7f, 0x7f, 0x7f,
-> +		  0x7f, 0x7f, 0x7f, 0x7f, 0x7f, 0x7f,
-> +		  0x80, 0x7f, 0x7f, 0x7e, 0x7e, 0x7e,
-> +		  0x80, 0x80, 0x7f, 0x7e, 0x7e, 0x7f,
-> +		  0x00, 0x00, 0x00, },
-> +		{ MCS_AIDCTL, 0x00, 0x10 },
-> +	}, {
-> +		/* 413 nits */
-> +		{ MCS_GAMMACTL,
-> +		  0x01, 0x0e, 0x01, 0x0b, 0x01, 0x0c,
-> +		  0x7e, 0x7f, 0x80, 0x7e, 0x7e, 0x7e,
-> +		  0x7e, 0x7e, 0x7e, 0x7f, 0x7f, 0x7f,
-> +		  0x80, 0x7f, 0x7f, 0x7d, 0x7d, 0x7d,
-> +		  0x80, 0x80, 0x7f, 0x7d, 0x7e, 0x7e,
-> +		  0x00, 0x00, 0x00, },
-> +		{ MCS_AIDCTL, 0x00, 0x10 },
-> +	}, {
-> +		/* 430 nits */
-> +		{ MCS_GAMMACTL,
-> +		  0x01, 0x13, 0x01, 0x0f, 0x01, 0x10,
-> +		  0x7d, 0x7f, 0x80, 0x7e, 0x7e, 0x7e,
-> +		  0x7e, 0x7e, 0x7e, 0x7f, 0x7f, 0x7f,
-> +		  0x80, 0x7f, 0x7f, 0x7d, 0x7d, 0x7d,
-> +		  0x80, 0x80, 0x7f, 0x7c, 0x7d, 0x7e,
-> +		  0x00, 0x00, 0x00, },
-> +		{ MCS_AIDCTL, 0x00, 0x10 },
-> +	}, {
-> +		/* 448 nits */
-> +		{ MCS_GAMMACTL,
-> +		  0x01, 0x18, 0x01, 0x13, 0x01, 0x14,
-> +		  0x7c, 0x7e, 0x80, 0x7e, 0x7e, 0x7e,
-> +		  0x7e, 0x7e, 0x7d, 0x7e, 0x7f, 0x7e,
-> +		  0x80, 0x7f, 0x7f, 0x7c, 0x7c, 0x7c,
-> +		  0x80, 0x80, 0x7e, 0x7b, 0x7c, 0x7d,
-> +		  0x00, 0x00, 0x00, },
-> +		{ MCS_AIDCTL, 0x00, 0x10 },
-> +	}, {
-> +		/* 465 nits */
-> +		{ MCS_GAMMACTL,
-> +		  0x01, 0x1d, 0x01, 0x17, 0x01, 0x18,
-> +		  0x7c, 0x7e, 0x80, 0x7d, 0x7d, 0x7d,
-> +		  0x7d, 0x7d, 0x7d, 0x7e, 0x7f, 0x7e,
-> +		  0x80, 0x7f, 0x7f, 0x7b, 0x7b, 0x7b,
-> +		  0x80, 0x80, 0x7e, 0x7a, 0x7c, 0x7d,
-> +		  0x00, 0x00, 0x00, },
-> +		{ MCS_AIDCTL, 0x00, 0x10 },
-> +	}, {
-> +		/* 483 nits */
-> +		{ MCS_GAMMACTL,
-> +		  0x01, 0x22, 0x01, 0x1b, 0x01, 0x1c,
-> +		  0x7b, 0x7e, 0x80, 0x7d, 0x7d, 0x7d,
-> +		  0x7d, 0x7d, 0x7c, 0x7e, 0x7f, 0x7e,
-> +		  0x80, 0x7f, 0x7f, 0x7a, 0x7a, 0x7a,
-> +		  0x80, 0x80, 0x7e, 0x79, 0x7b, 0x7c,
-> +		  0x00, 0x00, 0x00, },
-> +		{ MCS_AIDCTL, 0x00, 0x10 },
-> +	}, {
-> +		/* 500 nits */
-> +		{ MCS_GAMMACTL,
-> +		  0x01, 0x27, 0x01, 0x1f, 0x01, 0x20,
-> +		  0x7b, 0x7e, 0x80, 0x7d, 0x7d, 0x7d,
-> +		  0x7d, 0x7d, 0x7c, 0x7e, 0x7f, 0x7e,
-> +		  0x80, 0x7f, 0x7f, 0x7a, 0x7a, 0x7a,
-> +		  0x81, 0x80, 0x7e, 0x79, 0x7b, 0x7c,
-> +		  0x00, 0x00, 0x00, },
-> +		{ MCS_AIDCTL, 0x00, 0x10 },
-> +	},
-> +};
-> +
-> +struct s6e8aa5x01_ctx {
-> +	struct drm_panel panel;
-> +	struct mipi_dsi_device *dsi;
-> +	struct drm_display_mode mode;
-> +	struct backlight_device *backlight;
-> +	struct regulator_bulk_data supplies[2];
-> +	struct gpio_desc *reset_gpio;
-> +	u32 bus_flags;
-> +	u32 width;
-> +	u32 height;
-> +};
-> +
-> +static inline struct s6e8aa5x01_ctx *to_s6e8aa5x01_ctx(struct drm_panel *panel)
-> +{
-> +	return container_of(panel, struct s6e8aa5x01_ctx, panel);
-> +}
-> +
-> +static int s6e8aa5x01_update_status(struct backlight_device *backlight)
-> +{
-> +	struct s6e8aa5x01_ctx *ctx = bl_get_data(backlight);
-> +	struct mipi_dsi_multi_context dsi = { .dsi = ctx->dsi };
-> +	u16 lvl = backlight_get_brightness(backlight);
-> +
-> +	if (!ctx->panel.enabled)
-> +		return 0;
-> +
-> +	mipi_dsi_dcs_write_seq_multi(&dsi, MCS_ACCESSPROT, 0x5a, 0x5a);
-> +
-> +	mipi_dsi_dcs_write_buffer_multi(&dsi, s6e8aa5x01_cmds[lvl].gamma, GAMMA_CMD_LEN);
-> +	mipi_dsi_dcs_write_buffer_multi(&dsi, s6e8aa5x01_cmds[lvl].aid, AID_CMD_LEN);
-> +	mipi_dsi_dcs_write_seq_multi(&dsi, MCS_GAMMAUPD, 0x03);
-> +
-> +	mipi_dsi_dcs_write_seq_multi(&dsi, MCS_ACCESSPROT, 0xa5, 0xa5);
-> +
-> +	return dsi.accum_err;
-> +}
-> +
-> +static int s6e8aa5x01_prepare(struct drm_panel *panel)
-> +{
-> +	struct s6e8aa5x01_ctx *ctx = to_s6e8aa5x01_ctx(panel);
-> +	struct device *dev = &ctx->dsi->dev;
-> +	int ret;
-> +
-> +	ret = regulator_bulk_enable(ARRAY_SIZE(ctx->supplies), ctx->supplies);
-> +	if (ret < 0) {
-> +		dev_err(dev, "Failed to enable regulators: %d\n", ret);
-> +		return ret;
-> +	}
-> +
-> +	gpiod_set_value_cansleep(ctx->reset_gpio, 0);
-> +	usleep_range(5000, 6000);
-> +	gpiod_set_value_cansleep(ctx->reset_gpio, 1);
-> +	usleep_range(5000, 6000);
-> +	gpiod_set_value_cansleep(ctx->reset_gpio, 0);
-> +	usleep_range(10000, 11000);
-> +
-> +	return 0;
-> +}
-> +
-> +static int s6e8aa5x01_unprepare(struct drm_panel *panel)
-> +{
-> +	struct s6e8aa5x01_ctx *ctx = to_s6e8aa5x01_ctx(panel);
-> +
-> +	gpiod_set_value_cansleep(ctx->reset_gpio, 1);
-> +	usleep_range(5000, 6000);
-> +
-> +	regulator_bulk_disable(ARRAY_SIZE(ctx->supplies), ctx->supplies);
-> +
-> +	return 0;
-> +}
-> +
-> +static int s6e8aa5x01_enable(struct drm_panel *panel)
-> +{
-> +	struct s6e8aa5x01_ctx *ctx = to_s6e8aa5x01_ctx(panel);
-> +	struct mipi_dsi_multi_context dsi = { .dsi = ctx->dsi };
-> +
-> +	mipi_dsi_dcs_exit_sleep_mode_multi(&dsi);
-> +	mipi_dsi_msleep(&dsi, 100);
-> +
-> +	mipi_dsi_dcs_write_seq_multi(&dsi, MCS_ACCESSPROT, 0x5a, 0x5a);
-> +
-> +	mipi_dsi_dcs_write_seq_multi(&dsi, MCS_PENTILE, 0xd8, 0xd8, 0x00);
-> +	mipi_dsi_dcs_write_seq_multi(&dsi, MCS_PCD, 0x5c);
-> +	mipi_dsi_dcs_write_seq_multi(&dsi, MCS_ERRFLAG, 0xed, 0xc7, 0x23, 0x67);
-> +	mipi_dsi_dcs_write_seq_multi(&dsi, MCS_DISPCTL, 0x0c, 0x0c, 0xb9, 0x01);
-> +	mipi_dsi_dcs_write_seq_multi(&dsi, MCS_LTPSCTL,
-> +				0x00, 0x45, 0x10, 0x10, 0x08, 0x32, 0x54, 0x00,
-> +				0x00, 0x00, 0x00, 0x07, 0x06, 0x00, 0x00, 0x00,
-> +				0x00, 0x00, 0x48, 0x5e, 0x00, 0x00, 0x00, 0x00,
-> +				0x00, 0x03, 0x00, 0x00, 0x00, 0xad, 0x00, 0x00,
-> +				0x08, 0x05, 0x2a, 0x54, 0x03, 0xcc, 0x00, 0xff,
-> +				0xfb, 0x03, 0x0d, 0x00, 0x11, 0x0f, 0x02, 0x03,
-> +				0x0b, 0x0c, 0x13, 0x13, 0x13, 0x13, 0x13, 0x13,
-> +				0x13, 0x13, 0x13, 0x13, 0x00, 0x02, 0x03, 0x0b,
-> +				0x0c, 0x13, 0x13, 0x13, 0x13, 0x13, 0x13, 0x13,
-> +				0x13, 0x13);
-> +
-> +	mipi_dsi_dcs_write_seq_multi(&dsi, MCS_ACCESSPROT, 0xa5, 0xa5);
-> +
-> +	mipi_dsi_dcs_set_display_on_multi(&dsi);
-> +
-> +	return dsi.accum_err;
-> +}
-> +
-> +static int s6e8aa5x01_disable(struct drm_panel *panel)
-> +{
-> +	struct s6e8aa5x01_ctx *ctx = to_s6e8aa5x01_ctx(panel);
-> +	struct mipi_dsi_multi_context dsi = { .dsi = ctx->dsi };
-> +
-> +	mipi_dsi_dcs_set_display_off_multi(&dsi);
-> +	mipi_dsi_msleep(&dsi, 100);
-> +
-> +	mipi_dsi_dcs_enter_sleep_mode_multi(&dsi);
-> +	mipi_dsi_msleep(&dsi, 150);
-> +
-> +	return dsi.accum_err;
-> +}
-> +
-> +static int s6e8aa5x01_get_modes(struct drm_panel *panel,
-> +				struct drm_connector *connector)
-> +{
-> +	struct s6e8aa5x01_ctx *ctx = to_s6e8aa5x01_ctx(panel);
-> +	struct drm_display_mode *mode;
-> +
-> +	mode = drm_mode_duplicate(connector->dev, &ctx->mode);
-> +	if (!mode)
-> +		return -ENOMEM;
-> +
-> +	mode->type |= DRM_MODE_TYPE_DRIVER | DRM_MODE_TYPE_PREFERRED;
-> +	drm_mode_probed_add(connector, mode);
-> +	drm_mode_set_name(mode);
-> +
-> +	connector->display_info.width_mm = mode->width_mm;
-> +	connector->display_info.height_mm = mode->height_mm;
-> +	connector->display_info.bus_flags = ctx->bus_flags;
-> +
-> +	return 1;
-> +}
-> +
-> +static const struct backlight_ops s6e8aa5x01_bl_ops = {
-> +	.update_status = s6e8aa5x01_update_status,
-> +};
-> +
-> +static const struct drm_panel_funcs s6e8aa5x01_panel_funcs = {
-> +	.prepare = s6e8aa5x01_prepare,
-> +	.unprepare = s6e8aa5x01_unprepare,
-> +	.enable = s6e8aa5x01_enable,
-> +	.disable = s6e8aa5x01_disable,
-> +	.get_modes = s6e8aa5x01_get_modes,
-> +};
-> +
-> +static int s6e8aa5x01_probe(struct mipi_dsi_device *dsi)
-> +{
-> +	struct device *dev = &dsi->dev;
-> +	struct s6e8aa5x01_ctx *ctx;
-> +	int ret;
-> +
-> +	ctx = devm_kzalloc(dev, sizeof(*ctx), GFP_KERNEL);
-> +	if (!ctx)
-> +		return -ENOMEM;
-
-PLease switch to devm_drm_panel_alloc()
-
-> +
-> +	ctx->dsi = dsi;
-> +	mipi_dsi_set_drvdata(dsi, ctx);
-> +
-> +	ctx->supplies[0].supply = "vdd";
-> +	ctx->supplies[1].supply = "vci";
-> +	ret = devm_regulator_bulk_get(dev, ARRAY_SIZE(ctx->supplies),
-> +				      ctx->supplies);
-
-And devm_regulator_bulk_get_const()
-
-> +	if (ret < 0)
-> +		return dev_err_probe(dev, ret, "Failed to get regulators\n");
-> +
-> +	ctx->reset_gpio = devm_gpiod_get_optional(dev, "reset", GPIOD_ASIS);
-> +	if (IS_ERR(ctx->reset_gpio))
-> +		return dev_err_probe(dev, PTR_ERR(ctx->reset_gpio),
-> +				     "Failed to get reset-gpios\n");
-> +
-> +	ret = of_get_drm_panel_display_mode(dev->of_node, &ctx->mode,
-> +					    &ctx->bus_flags);
-> +	if (ret < 0)
-> +		return dev_err_probe(dev, ret, "Failed to get panel timings\n");
-> +
-> +	ctx->backlight = devm_backlight_device_register(dev, dev_name(dev), dev,
-> +							ctx, &s6e8aa5x01_bl_ops,
-> +							NULL);
-> +	if (IS_ERR(ctx->backlight))
-> +		return dev_err_probe(dev, PTR_ERR(ctx->backlight),
-> +				     "Failed to register backlight device\n");
-> +
-> +	ctx->backlight->props.type = BACKLIGHT_PLATFORM;
-> +	ctx->backlight->props.brightness = ARRAY_SIZE(s6e8aa5x01_cmds) - 1;
-> +	ctx->backlight->props.max_brightness = ARRAY_SIZE(s6e8aa5x01_cmds) - 1;
-> +
-> +	dsi->lanes = 4;
-> +	dsi->format = MIPI_DSI_FMT_RGB888;
-> +	dsi->mode_flags = MIPI_DSI_MODE_VIDEO | MIPI_DSI_MODE_VIDEO_BURST |
-> +			  MIPI_DSI_MODE_VIDEO_NO_HFP;
-> +
-> +	drm_panel_init(&ctx->panel, dev, &s6e8aa5x01_panel_funcs,
-> +		       DRM_MODE_CONNECTOR_DSI);
-> +	ctx->panel.prepare_prev_first = true;
-> +
-> +	drm_panel_add(&ctx->panel);
-> +
-> +	ret = devm_mipi_dsi_attach(dev, dsi);
-> +	if (ret < 0) {
-> +		drm_panel_remove(&ctx->panel);
-> +		return dev_err_probe(dev, ret, "Failed to attach to DSI host\n");
-> +	}
-> +
-> +	return 0;
-> +}
-> +
-> +static void s6e8aa5x01_remove(struct mipi_dsi_device *dsi)
-> +{
-> +	struct s6e8aa5x01_ctx *ctx = mipi_dsi_get_drvdata(dsi);
-> +
-> +	drm_panel_remove(&ctx->panel);
-> +}
-> +
-> +static const struct of_device_id s6e8aa5x01_of_device_id[] = {
-> +	{ .compatible = "samsung,s6e8aa5x01" },
-> +	{ }
-> +};
-> +MODULE_DEVICE_TABLE(of, s6e8aa5x01_of_device_id);
-> +
-> +static struct mipi_dsi_driver s6e8aa5x01_dsi_driver = {
-> +	.probe = s6e8aa5x01_probe,
-> +	.remove = s6e8aa5x01_remove,
-> +	.driver = {
-> +		.name = "panel-samsung-s6e8aa5x01",
-> +		.of_match_table = s6e8aa5x01_of_device_id,
-> +	},
-> +};
-> +module_mipi_dsi_driver(s6e8aa5x01_dsi_driver);
-> +
-> +MODULE_AUTHOR("Kaustabh Chakraborty <kauschluss@disroot.org>");
-> +MODULE_DESCRIPTION("Samsung S6E8AA5X01 Display Panel Driver");
-> +MODULE_LICENSE("GPL");
+> You’re right.
 > 
+>>
+>>> +    regs::GPU_CMD.write(iomem, irq_enable_cmd)?;
+>>> +
+>>> +    let op = || regs::GPU_INT_RAWSTAT.read(iomem);
+>>> +    let cond = |raw_stat: &u32| -> bool { (*raw_stat >> 8) & 1 == 1 };
+>>
+>> You appear to have a define (GPU_INT_RAWSTAT_RESET_COMPLETED) but are
+>> not using it?
+> 
+> That’s true, I missed it.
+> 
+>>
+>> Also I know panthor also gets this wrong. But the names here don't match
+>> the architecture (this is GPU_IRQ_RAWSTAT). Panthor is actually somewhat
+>> confused as some defines are GPU_IRQ_xxx, but cross-referencing with the
+>> architecture specs is so much easier when the names match up.
+> 
+> So.. that’s something I’ve been meaning to discuss for a while actually.
+> 
+> If the best approach here is to stick to the nomenclature from the spec I can
+> definitely rework it. However, when working on the downstream code, I found
+> that a few of the names used in the shared region were a bit cryptic. From the
+> top of my mind I can recall things like "db_req/db_ack" and "ep_cfg". I just
+> found "doorbell_request/doorbell_ack" and "endpoint_config" to be more
+> descriptive. There were others too that I can't recall now.
+
+We've generally been somewhat sloppy in the past and definitely
+preferred more descriptive names when the architecture is overly terse.
+I don't have any strong opinions, but IRQ changed to INT bugs me because
+it's no shorter or more descriptive - just harder to search for when you
+can't remember which term is used ;)
+
+> […]
+> 
+>>
+>>> +
+>>> +const INFO: drm::driver::DriverInfo = drm::driver::DriverInfo {
+>>> +    major: 0,
+>>> +    minor: 0,
+>>> +    patchlevel: 0,
+>>> +    name: c_str!("panthor"),
+>>> +    desc: c_str!("ARM Mali CSF-based Rust GPU driver"),
+>>
+>> I'm not sure what your long-term plan here is. I can see the benefit of
+>> keeping the major/minor and name matching panthor. I would have thought
+>> including "Tyr" in the description might be handy to make it obvious
+>> which driver is being used (panthor already has "Panthor"). There are
+>> also other marketing nitpicks over the description, but I don't know if
+>> anyone actually cares ;)
+> 
+> 
+> So the main idea here at Collabora is to have Tyr work as a drop-in replacement
+> for Panthor in panvk. In other words, the objective is to not have to add yet a
+> new panvk backend.
+
+Cool, that is what I expected but I wanted to check because you
+obviously haven't yet got to v1.0.
+
+> 
+> Feel free to suggest whatever is on your mind for the description field. I am
+> pretty sure we can replace it with your version instead.
+
+Well I'm not a marketing expert, but "Arm Mali Tyr DRM driver" would be
+my suggestion. ARM has been Arm for a few years now, and for 'reasons'
+there's been reluctance to refer to 'CSF' in the past. But the only part
+I really care about is a easy/obvious way to distinguish Panthor/Tyr for
+debugging purposes.
+
+> 
+> […]
+> 
+>>> diff --git a/drivers/gpu/drm/tyr/gpu.rs b/drivers/gpu/drm/tyr/gpu.rs
+>>> new file mode 100644
+>>> index 0000000000000000000000000000000000000000..a33caa7b2968e62da136f245422023ba6e3ad5c3
+>>> --- /dev/null
+>>> +++ b/drivers/gpu/drm/tyr/gpu.rs
+>>> @@ -0,0 +1,217 @@
+>>> +// SPDX-License-Identifier: GPL-2.0 or MIT
+>>> +
+>>> +use crate::regs::*;
+>>> +use kernel::bits;
+>>> +use kernel::bits::genmask_u32;
+>>> +use kernel::devres::Devres;
+>>> +use kernel::io;
+>>> +use kernel::io::mem::IoMem;
+>>> +use kernel::platform;
+>>> +use kernel::prelude::*;
+>>> +use kernel::time;
+>>> +use kernel::transmute::AsBytes;
+>>> +
+>>> +// This can be queried by userspace to get information about the GPU.
+>>> +#[repr(C)]
+>>> +pub(crate) struct GpuInfo {
+>>> +    pub(crate) gpu_id: u32,
+>>> +    pub(crate) csf_id: u32,
+>>> +    pub(crate) gpu_rev: u32,
+>>> +    pub(crate) core_features: u32,
+>>> +    pub(crate) l2_features: u32,
+>>> +    pub(crate) tiler_features: u32,
+>>> +    pub(crate) mem_features: u32,
+>>> +    pub(crate) mmu_features: u32,
+>>> +    pub(crate) thread_features: u32,
+>>> +    pub(crate) max_threads: u32,
+>>> +    pub(crate) thread_max_workgroup_size: u32,
+>>> +    pub(crate) thread_max_barrier_size: u32,
+>>> +    pub(crate) coherency_features: u32,
+>>> +    pub(crate) texture_features: [u32; 4],
+>>> +    pub(crate) as_present: u32,
+>>> +    pub(crate) shader_present: u64,
+>>> +    pub(crate) tiler_present: u64,
+>>> +    pub(crate) l2_present: u64,
+>>> +}
+>>
+>> This may be me not understanding Rust. But this doesn't match struct
+>> drm_panthor_gpu_info - the ordering is different and you haven't
+>> included the padding. Does this actually work?
+> 
+> Oh, that is just a major bug :)
+> 
+> The fields and their ordering must definitely match if we want this to work. I
+> will fix it on v2.
+> 
+> Thanks for catching it.
+> 
+> By the way, it works in the sense that something can be read from userspace,
+> i.e.: you can run the IGT branch to test it. Of course, with the field ordering
+> being shuffled, we won't read the right things.
+> 
+> Note that I did not test with panvk yet, that would have probably caught it.
+
+Yeah I suspected that might have been the case. I was just unsure of my
+abilty to read Rust and wondered if there was some magic reordering that
+I didn't understand.
+
+[...]
+>>> +    }
+>>> +
+>>> +    pub(crate) fn log(&self, pdev: &platform::Device) {
+>>> +        let major = (self.gpu_id >> 16) & 0xff;
+>>> +        let minor = (self.gpu_id >> 8) & 0xff;
+>>> +        let status = self.gpu_id & 0xff;
+>>> +
+>>> +        let model_name = if let Some(model) = GPU_MODELS
+>>> +            .iter()
+>>> +            .find(|&f| f.major == major && f.minor == minor)
+>>> +        {
+>>> +            model.name
+>>> +        } else {
+>>> +            "unknown"
+>>> +        };
+>>
+>> Just a heads up, we have some horrible naming rules for later GPUs (see
+>> Karunika's patch[1] adding panthor support). E.g. for major 11, minor 2:
+>>
+>> * If shaders > 10 && ray tracing then Mali-G715-Immortalis
+>> * else if shaders >= 7 then Mali-G715
+>> * else Mali-G615 (also for major 11, minor 3).
+>>
+>> Although you may want to ignore this craziness for now ;)
+>>
+>> [1]
+>> https://lore.kernel.org/all/20250602143216.2621881-6-karunika.choo@arm.com/
+> 
+> I think we should ignore this for now. Tyr will probably not work on anything
+> else other than the rk3588 for the time being anyway.
+
+Yes, that makes sense.
+
+>>> +}
+>>> diff --git a/drivers/gpu/drm/tyr/regs.rs b/drivers/gpu/drm/tyr/regs.rs
+>>> new file mode 100644
+>>> index 0000000000000000000000000000000000000000..db36cfd030d202e47619cb744cae5597d47f6029
+>>> --- /dev/null
+>>> +++ b/drivers/gpu/drm/tyr/regs.rs
+>>> @@ -0,0 +1,252 @@
+>>> +// SPDX-License-Identifier: GPL-2.0 or MIT
+>>> +
+>>> +#![allow(dead_code)]
+>>> +
+>>> +use kernel::bits::bit_u64;
+>>> +use kernel::devres::Devres;
+>>> +use kernel::io::mem::IoMem;
+>>> +use kernel::{bits::bit_u32, prelude::*};
+>>> +
+>>> +/// Represents a register in the Register Set
+>>> +pub(crate) struct Register<const OFFSET: usize>;
+>>> +
+>>> +impl<const OFFSET: usize> Register<OFFSET> {
+>>> +    #[inline]
+>>> +    pub(crate) fn read(&self, iomem: &Devres<IoMem>) -> Result<u32> {
+>>> +        (*iomem).try_access().ok_or(ENODEV)?.try_read32(OFFSET)
+>>> +    }
+>>> +
+>>> +    #[inline]
+>>> +    pub(crate) fn write(&self, iomem: &Devres<IoMem>, value: u32) -> Result<()> {
+>>> +        (*iomem)
+>>> +            .try_access()
+>>> +            .ok_or(ENODEV)?
+>>> +            .try_write32(value, OFFSET)
+>>> +    }
+>>> +}
+>>
+>> You might want to consider a 64 bit register abstraction as well.
+>> Panthor recently switched over to avoid the whole _HI/_LO dance.
+> 
+> Right, that should be achievable for v2.
+> 
+>>
+>>> +
+>>> +pub(crate) const GPU_ID: Register<0x0> = Register;
+>>> +pub(crate) const GPU_L2_FEATURES: Register<0x4> = Register;
+>>> +pub(crate) const GPU_CORE_FEATURES: Register<0x8> = Register;
+>>> +pub(crate) const GPU_CSF_ID: Register<0x1c> = Register;
+>>> +pub(crate) const GPU_REVID: Register<0x280> = Register;
+>>> +pub(crate) const GPU_TILER_FEATURES: Register<0xc> = Register;
+>>> +pub(crate) const GPU_MEM_FEATURES: Register<0x10> = Register;
+>>> +pub(crate) const GPU_MMU_FEATURES: Register<0x14> = Register;
+>>> +pub(crate) const GPU_AS_PRESENT: Register<0x18> = Register;
+>>> +pub(crate) const GPU_INT_RAWSTAT: Register<0x20> = Register;
+>>> +
+>>> +pub(crate) const GPU_INT_RAWSTAT_FAULT: u32 = bit_u32(0);
+>>> +pub(crate) const GPU_INT_RAWSTAT_PROTECTED_FAULT: u32 = bit_u32(1);
+>>> +pub(crate) const GPU_INT_RAWSTAT_RESET_COMPLETED: u32 = bit_u32(8);
+>>> +pub(crate) const GPU_INT_RAWSTAT_POWER_CHANGED_SINGLE: u32 = bit_u32(9);
+>>> +pub(crate) const GPU_INT_RAWSTAT_POWER_CHANGED_ALL: u32 = bit_u32(10);
+>>> +pub(crate) const GPU_INT_RAWSTAT_CLEAN_CACHES_COMPLETED: u32 = bit_u32(17);
+>>> +pub(crate) const GPU_INT_RAWSTAT_DOORBELL_STATUS: u32 = bit_u32(18);
+>>> +pub(crate) const GPU_INT_RAWSTAT_MCU_STATUS: u32 = bit_u32(19);
+>>> +
+>>> +pub(crate) const GPU_INT_CLEAR: Register<0x24> = Register;
+>>> +pub(crate) const GPU_INT_MASK: Register<0x28> = Register;
+>>> +pub(crate) const GPU_INT_STAT: Register<0x2c> = Register;
+>>> +pub(crate) const GPU_CMD: Register<0x30> = Register;
+>>> +pub(crate) const GPU_THREAD_FEATURES: Register<0xac> = Register;
+>>> +pub(crate) const GPU_THREAD_MAX_THREADS: Register<0xa0> = Register;
+>>> +pub(crate) const GPU_THREAD_MAX_WORKGROUP_SIZE: Register<0xa4> = Register;
+>>> +pub(crate) const GPU_THREAD_MAX_BARRIER_SIZE: Register<0xa8> = Register;
+>>> +pub(crate) const GPU_TEXTURE_FEATURES0: Register<0xb0> = Register;
+>>> +pub(crate) const GPU_SHADER_PRESENT_LO: Register<0x100> = Register;
+>>> +pub(crate) const GPU_SHADER_PRESENT_HI: Register<0x104> = Register;
+>>> +pub(crate) const GPU_TILER_PRESENT_LO: Register<0x110> = Register;
+>>> +pub(crate) const GPU_TILER_PRESENT_HI: Register<0x114> = Register;
+>>> +pub(crate) const GPU_L2_PRESENT_LO: Register<0x120> = Register;
+>>> +pub(crate) const GPU_L2_PRESENT_HI: Register<0x124> = Register;
+>>> +pub(crate) const L2_READY_LO: Register<0x160> = Register;
+>>> +pub(crate) const L2_READY_HI: Register<0x164> = Register;
+>>> +pub(crate) const L2_PWRON_LO: Register<0x1a0> = Register;
+>>> +pub(crate) const L2_PWRON_HI: Register<0x1a4> = Register;
+>>> +pub(crate) const L2_PWRTRANS_LO: Register<0x220> = Register;
+>>> +pub(crate) const L2_PWRTRANS_HI: Register<0x204> = Register;
+>>> +pub(crate) const L2_PWRACTIVE_LO: Register<0x260> = Register;
+>>> +pub(crate) const L2_PWRACTIVE_HI: Register<0x264> = Register;
+>>> +
+>>> +pub(crate) const MCU_CONTROL: Register<0x700> = Register;
+>>> +pub(crate) const MCU_CONTROL_ENABLE: u32 = 1;
+>>> +pub(crate) const MCU_CONTROL_AUTO: u32 = 2;
+>>> +pub(crate) const MCU_CONTROL_DISABLE: u32 = 0;
+>>> +
+>>> +pub(crate) const MCU_STATUS: Register<0x704> = Register;
+>>> +pub(crate) const MCU_STATUS_DISABLED: u32 = 0;
+>>> +pub(crate) const MCU_STATUS_ENABLED: u32 = 1;
+>>> +pub(crate) const MCU_STATUS_HALT: u32 = 2;
+>>> +pub(crate) const MCU_STATUS_FATAL: u32 = 3;
+>>> +
+>>> +pub(crate) const GPU_COHERENCY_FEATURES: Register<0x300> = Register;
+>>> +
+>>> +pub(crate) const JOB_INT_RAWSTAT: Register<0x1000> = Register;
+>>> +pub(crate) const JOB_INT_CLEAR: Register<0x1004> = Register;
+>>> +pub(crate) const JOB_INT_MASK: Register<0x1008> = Register;
+>>> +pub(crate) const JOB_INT_STAT: Register<0x100c> = Register;
+>>> +
+>>> +pub(crate) const JOB_INT_GLOBAL_IF: u32 = bit_u32(31);
+>>> +
+>>> +pub(crate) const MMU_INT_RAWSTAT: Register<0x2000> = Register;
+>>> +pub(crate) const MMU_INT_CLEAR: Register<0x2004> = Register;
+>>> +pub(crate) const MMU_INT_MASK: Register<0x2008> = Register;
+>>> +pub(crate) const MMU_INT_STAT: Register<0x200c> = Register;
+>>> +
+>>> +pub(crate) const AS_TRANSCFG_ADRMODE_UNMAPPED: u64 = bit_u64(0);
+>>> +pub(crate) const AS_TRANSCFG_ADRMODE_IDENTITY: u64 = bit_u64(1);
+>>> +pub(crate) const AS_TRANSCFG_ADRMODE_AARCH64_4K: u64 = bit_u64(2) | bit_u64(1);
+>>> +pub(crate) const AS_TRANSCFG_ADRMODE_AARCH64_64K: u64 = bit_u64(3);
+>>> +pub(crate) const fn as_transcfg_ina_bits(x: u64) -> u64 {
+>>> +    x << 6
+>>> +}
+>>> +pub(crate) const fn as_transcfg_outa_bits(x: u64) -> u64 {
+>>> +    x << 14
+>>> +}
+>>> +pub(crate) const AS_TRANSCFG_SL_CONCAT: u64 = bit_u64(22);
+>>> +pub(crate) const AS_TRANSCFG_PTW_MEMATTR_NC: u64 = bit_u64(24);
+>>> +pub(crate) const AS_TRANSCFG_PTW_MEMATTR_WB: u64 = bit_u64(25);
+>>> +pub(crate) const AS_TRANSCFG_PTW_SH_NS: u64 = 0 << 28;
+>>> +pub(crate) const AS_TRANSCFG_PTW_SH_OS: u64 = bit_u64(29);
+>>> +pub(crate) const AS_TRANSCFG_PTW_SH_IS: u64 = bit_u64(29) | bit_u64(28);
+>>> +pub(crate) const AS_TRANSCFG_PTW_RA: u64 = bit_u64(30);
+>>> +pub(crate) const AS_TRANSCFG_DISABLE_HIER_AP: u64 = bit_u64(33);
+>>> +pub(crate) const AS_TRANSCFG_DISABLE_AF_FAULT: u64 = bit_u64(34);
+>>> +pub(crate) const AS_TRANSCFG_WXN: u64 = bit_u64(35);
+>>> +
+>>> +pub(crate) const MMU_BASE: usize = 0x2400;
+>>> +pub(crate) const MMU_AS_SHIFT: usize = 6;
+>>> +
+>>> +const fn mmu_as(as_nr: usize) -> usize {
+>>> +    MMU_BASE + (as_nr << MMU_AS_SHIFT)
+>>> +}
+>>> +
+>>> +pub(crate) struct AsRegister(usize);
+>>> +
+>>> +impl AsRegister {
+>>> +    fn new(as_nr: usize, offset: usize) -> Result<Self> {
+>>> +        if as_nr >= 32 {
+>>
+>> Should be 16 really. This is a bit of an architectural quirk. There are
+>> only ever 16 sets of address space registers, but the AS_PRESENT
+>> register is defined as 32 bit.
+> 
+> Oh, I did not know that.
+
+It's somewhat non-obvious from the spec. I'd never really thought about
+it before - it's one of those things that seems obvious when you've
+worked Mali for too long ;)
 
 Thanks,
-Neil
+Steve
+
+>>
+>>> +            Err(EINVAL)
+>>> +        } else {
+>>> +            Ok(AsRegister(mmu_as(as_nr) + offset))
+>>> +        }
+>>> +    }
+>>> +
+>>> +    #[inline]
+>>> +    pub(crate) fn read(&self, iomem: &Devres<IoMem>) -> Result<u32> {
+>>> +        (*iomem).try_access().ok_or(ENODEV)?.try_read32(self.0)
+>>> +    }
+>>> +
+>>> +    #[inline]
+>>> +    pub(crate) fn write(&self, iomem: &Devres<IoMem>, value: u32) -> Result<()> {
+>>> +        (*iomem)
+>>> +            .try_access()
+>>> +            .ok_or(ENODEV)?
+>>> +            .try_write32(value, self.0)
+>>> +    }
+>>> +}
+>>> +
+>>> +pub(crate) fn as_transtab_lo(as_nr: usize) -> Result<AsRegister> {
+>>> +    AsRegister::new(as_nr, 0x0)
+>>> +}
+>>> +
+>>> +pub(crate) fn as_transtab_hi(as_nr: usize) -> Result<AsRegister> {
+>>> +    AsRegister::new(as_nr, 0x4)
+>>> +}
+>>> +
+>>> +pub(crate) fn as_memattr_lo(as_nr: usize) -> Result<AsRegister> {
+>>> +    AsRegister::new(as_nr, 0x8)
+>>> +}
+>>> +
+>>> +pub(crate) fn as_memattr_hi(as_nr: usize) -> Result<AsRegister> {
+>>> +    AsRegister::new(as_nr, 0xc)
+>>> +}
+>>> +
+>>> +pub(crate) fn as_lockaddr_lo(as_nr: usize) -> Result<AsRegister> {
+>>> +    AsRegister::new(as_nr, 0x10)
+>>> +}
+>>> +
+>>> +pub(crate) fn as_lockaddr_hi(as_nr: usize) -> Result<AsRegister> {
+>>> +    AsRegister::new(as_nr, 0x14)
+>>> +}
+>>> +
+>>> +pub(crate) fn as_command(as_nr: usize) -> Result<AsRegister> {
+>>> +    AsRegister::new(as_nr, 0x18)
+>>> +}
+>>> +
+>>> +pub(crate) fn as_faultstatus(as_nr: usize) -> Result<AsRegister> {
+>>> +    AsRegister::new(as_nr, 0x1c)
+>>> +}
+>>> +
+>>> +pub(crate) const AS_FAULTSTATUS_ACCESS_TYPE_MASK: u32 = 0x3 << 8;
+>>> +pub(crate) const AS_FAULTSTATUS_ACCESS_TYPE_ATOMIC: u32 = 0x0 << 8;
+>>> +pub(crate) const AS_FAULTSTATUS_ACCESS_TYPE_EX: u32 = 0x1 << 8;
+>>> +pub(crate) const AS_FAULTSTATUS_ACCESS_TYPE_READ: u32 = 0x2 << 8;
+>>> +pub(crate) const AS_FAULTSTATUS_ACCESS_TYPE_WRITE: u32 = 0x3 << 8;
+>>> +
+>>> +pub(crate) fn as_faultaddress_lo(as_nr: usize) -> Result<AsRegister> {
+>>> +    AsRegister::new(as_nr, 0x20)
+>>> +}
+>>> +
+>>> +pub(crate) fn as_faultaddress_hi(as_nr: usize) -> Result<AsRegister> {
+>>> +    AsRegister::new(as_nr, 0x24)
+>>> +}
+>>> +
+>>> +pub(crate) const AS_COMMAND_NOP: u32 = 0;
+>>> +pub(crate) const AS_COMMAND_UPDATE: u32 = 1;
+>>> +pub(crate) const AS_COMMAND_LOCK: u32 = 2;
+>>> +pub(crate) const AS_COMMAND_UNLOCK: u32 = 3;
+>>> +pub(crate) const AS_COMMAND_FLUSH_PT: u32 = 4;
+>>> +pub(crate) const AS_COMMAND_FLUSH_MEM: u32 = 5;
+>>
+>> These should be moved up next to as_command().
+> 
+> Ack
+> 
+>>
+>>> +
+>>> +pub(crate) fn as_status(as_nr: usize) -> Result<AsRegister> {
+>>> +    AsRegister::new(as_nr, 0x28)
+>>> +}
+>>> +
+>>> +pub(crate) const AS_STATUS_ACTIVE: u32 = bit_u32(0);
+>>> +
+>>> +pub(crate) fn as_transcfg_lo(as_nr: usize) -> Result<AsRegister> {
+>>> +    AsRegister::new(as_nr, 0x30)
+>>> +}
+>>> +pub(crate) fn as_transcfg_hi(as_nr: usize) -> Result<AsRegister> {
+>>> +    AsRegister::new(as_nr, 0x34)
+>>> +}
+>>> +
+>>> +pub(crate) const AS_LOCK_REGION_MIN_SIZE: u32 = bit_u32(15);
+>>> +
+>>> +pub(crate) const AS_MEMATTR_AARCH64_INNER_ALLOC_IMPL: u32 = 2 << 2;
+>>> +
+>>> +pub(crate) fn as_memattr_aarch64_inner_alloc_expl(w: bool, r: bool) -> u32 {
+>>> +    (3 << 2) | ((w as u32) << 0) | ((r as u32) << 1)
+>>> +}
+>>> +pub(crate) const AS_MEMATTR_AARCH64_SH_MIDGARD_INNER: u32 = 0 << 4;
+>>> +pub(crate) const AS_MEMATTR_AARCH64_SH_CPU_INNER: u32 = 1 << 4;
+>>> +pub(crate) const AS_MEMATTR_AARCH64_SH_CPU_INNER_SHADER_COH: u32 = 2 << 4;
+>>> +pub(crate) const AS_MEMATTR_AARCH64_SHARED: u32 = 0 << 6;
+>>> +pub(crate) const AS_MEMATTR_AARCH64_INNER_OUTER_NC: u32 = 1 << 6;
+>>> +pub(crate) const AS_MEMATTR_AARCH64_INNER_OUTER_WB: u32 = 2 << 6;
+>>> +pub(crate) const AS_MEMATTR_AARCH64_FAULT: u32 = 3 << 6;
+>>
+>> These also should be moved.
+> 
+> Ack
+> 
+> […]
+> 
+>>> diff --git a/rust/uapi/uapi_helper.h b/rust/uapi/uapi_helper.h
+>>> index 1409441359f510236256bc17851f9aac65c45c4e..f9959c1d889170ebe6ad5f98a431225fb08625b5 100644
+>>> --- a/rust/uapi/uapi_helper.h
+>>> +++ b/rust/uapi/uapi_helper.h
+>>> @@ -9,6 +9,7 @@
+>>> #include <uapi/asm-generic/ioctl.h>
+>>> #include <uapi/drm/drm.h>
+>>> #include <uapi/drm/nova_drm.h>
+>>> +#include<uapi/drm/panthor_drm.h>
+>>
+>> Missing space, I can review C for style :)
+> 
+> Ack
+> 
+>>
+>> Thanks,
+>> Steve
+>>
+>>> #include <uapi/linux/mdio.h>
+>>> #include <uapi/linux/mii.h>
+>>> #include <uapi/linux/ethtool.h>
+>>>
+>>> ---
+>>> base-commit: 1b1d6cbeba24e4c9ff39580101472efeb3bd9b6f
+>>> change-id: 20250627-tyr-683ec49113ba
+>>>
+>>> Best regards,
+> 
+> — Daniel
+> 
+> 
 
