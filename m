@@ -2,153 +2,151 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 42CA2AED9A6
-	for <lists+dri-devel@lfdr.de>; Mon, 30 Jun 2025 12:20:36 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id A4F34AED9BB
+	for <lists+dri-devel@lfdr.de>; Mon, 30 Jun 2025 12:23:14 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 40F5810E3F3;
-	Mon, 30 Jun 2025 10:20:34 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id AFF0610E3F6;
+	Mon, 30 Jun 2025 10:23:12 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=amd.com header.i=@amd.com header.b="rBMXCYFz";
+	dkim=pass (1024-bit key; unprotected) header.d=amd.com header.i=@amd.com header.b="G03pMFMQ";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from NAM12-DM6-obe.outbound.protection.outlook.com
- (mail-dm6nam12on2043.outbound.protection.outlook.com [40.107.243.43])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 17CFF10E3F3
- for <dri-devel@lists.freedesktop.org>; Mon, 30 Jun 2025 10:20:33 +0000 (UTC)
+Received: from NAM12-MW2-obe.outbound.protection.outlook.com
+ (mail-mw2nam12on2047.outbound.protection.outlook.com [40.107.244.47])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2780D10E3F6
+ for <dri-devel@lists.freedesktop.org>; Mon, 30 Jun 2025 10:23:11 +0000 (UTC)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=OXZOWJpsxBuLutAtAKU5OF+/q+4+0eUZB4Q96jOvfQMIe3YA0lXg6QwSmRs5fLIVsPopKrCydqAD1xLeFisz1rc75N3JqNLp8clBJ8DjPGxDkYcOhzbSkamz43QMKwqu0rMy31TPk9OsE2Maxv/P3uXIqEZCd9tTS7CTXscZHESdcxMXwRu+Ae3NZ9GzOjOMuhdjJSMC1PeodGi9lLZ0kCCVHHJeePIGi1ZjvRFbUsmG/YJuO4TsfnXTVucfkc33+wiQU+NBltNQ6fYLxggKyxx4Y6Wkxa6Ldv1WROObAUKsCdnTs8DXUlpSXtv+b9bcy/lVq+xQMq/Cv/Qf3GDW7w==
+ b=lIfYuFKEnozSAs682i43uK8UmoBPIKob3L+bVymuxAoJALKW1xcfYlAq6fZaUOGNajE/GK7zoMhWqMNsFlEiSx4RSPMpiIOMFdMVFyuvrQKbTPYY2NyrcVCARMKe5fypKISQXDkhDTSNX4+tRMCMe+93POlW7K1xQ3QOqLrZ/QDGiTyjSda52a9TgUy2EQLN0YKD+a44Dq4QdNBFZMVHBIqqvUcdxJ4smIrLh4tI0ruqc45sl0vKLOrIr6THbLc/y1C+biEmJxOq2mxTPMgw4Sh6y3UZS7Oo24HfrcEiG1uMz2HdQNwvHe0xNI4y/9LwaLfk/bC/+FuyYefydgY8dQ==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=RPpO4rfDwK2JbAHtx5KcjEtMeojfsLN3GQBDpCnNXaE=;
- b=FUGvhnTE+dBUQ+LMGDMcpDz1jFBY7FLDXSbvz7v3iAWoID9DHfu2xVi9BnEXPgs4nuECiB/YKRE4G1m3kgKMPD1RjPsDN1kq9VHM2y2IarSCUkkdlXIxV+fIuMJjhaDgwEF9MOgBdXpWDT0zFmcFKjVvMiWecpowvvXoFpbZ55Q9zrM6l4Rq/uiO9n1I07IbqPPzlAx4lxleHgYqdKBsyYG9G1UgEi50fzEu6FkyAHkZjzPh61by46YyIjdstKIBErJOhjGkr2NkECqY2Bgp1I5e8o7bfijVxZK5LAmWt1CbBaA4fQz4A5R9dT1S/lt9EmSULLF/+/mGnF1PNvh8eQ==
+ bh=6/edVV5f7vKeIg/6Mg7G9WsfvRVY4DXE+eVJvDHagLg=;
+ b=orDng1Nr4KDrqOMo4zLqh9fyLhjXQgBOa17CZit6K86R7GH4r3mfjiMvyUtGtslF3nMLCDjbQqck5v1Hu9p/f8l65UFQ7SJuQD7fKLe9AV3LU/ZA7kPryX5PnJ0zxBnfqxQyzIiESxtuZaDmEVKrfFFZ12GmBrJGiJeXyrYYGm+FsgWheytP14EqmPUmLHqphNXpDEu3e7hhyqZb65VaonMM1sk6DTPitLv0uhyLlMuxmoj+PEGbDr4XZteivK7f9SeX4fZzCjTNf5eRKuQaZ0AfYwPFAuCnxeleXaphW4/z6ZY/hlUIDQNedqpjeRYJCoYiuQRNVTWxL7DX7/g+6g==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
  header.d=amd.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=RPpO4rfDwK2JbAHtx5KcjEtMeojfsLN3GQBDpCnNXaE=;
- b=rBMXCYFzvWudSlB1jr7N31Q4gByLuMCMZLPfjw/ozWPQXmvvP5WSEdNTDRpOwrLEkdXjBjmHDYvV2iE+js6ID3R6qKGwSTxBgAlkLr4DVU94IlYoN/aqHEwK9t3CdckTgChiwajovm6h45i9DLDwWgMR+U38BxoA1hMiSFpacZ8=
+ bh=6/edVV5f7vKeIg/6Mg7G9WsfvRVY4DXE+eVJvDHagLg=;
+ b=G03pMFMQD1XmRne2l8MfOI5hpkyrPdLbSQ2yA/dp2wPaXMtMNeOxgumCd+FVA1hQzxyqfmUu6aeb8Xp8HU/fT8e+hiIOEq22A3xXQjjnxSvbV+Ai9Vb/e9McsjzyP+9quH2qcfHt9o4Pvw2p8ArEYajNL88iyxDWal+zx1k9VX8=
 Authentication-Results: dkim=none (message not signed)
  header.d=none;dmarc=none action=none header.from=amd.com;
 Received: from PH7PR12MB5685.namprd12.prod.outlook.com (2603:10b6:510:13c::22)
  by MN2PR12MB4390.namprd12.prod.outlook.com (2603:10b6:208:26e::21)
  with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8880.30; Mon, 30 Jun
- 2025 10:20:30 +0000
+ 2025 10:23:08 +0000
 Received: from PH7PR12MB5685.namprd12.prod.outlook.com
  ([fe80::46fb:96f2:7667:7ca5]) by PH7PR12MB5685.namprd12.prod.outlook.com
  ([fe80::46fb:96f2:7667:7ca5%5]) with mapi id 15.20.8880.027; Mon, 30 Jun 2025
- 10:20:30 +0000
-Message-ID: <ef369d08-1913-47f2-818c-e4f6643f6600@amd.com>
-Date: Mon, 30 Jun 2025 12:20:24 +0200
+ 10:23:08 +0000
+Message-ID: <3a5bf0b0-7d45-445f-b9aa-d1a884634275@amd.com>
+Date: Mon, 30 Jun 2025 12:23:02 +0200
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 10/17] ttm: add a memcg accounting flag to the
- alloc/populate APIs
+Subject: Re: [PATCH 13/17] ttm/pool: enable memcg tracking and shrinker.
 To: Dave Airlie <airlied@gmail.com>, dri-devel@lists.freedesktop.org,
  linux-mm@kvack.org, Johannes Weiner <hannes@cmpxchg.org>
 Cc: Dave Chinner <david@fromorbit.com>, Kairui Song <kasong@tencent.com>,
  Dave Airlie <airlied@redhat.com>
 References: <20250630045005.1337339-1-airlied@gmail.com>
- <20250630045005.1337339-11-airlied@gmail.com>
+ <20250630045005.1337339-14-airlied@gmail.com>
 Content-Language: en-US
 From: =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
-In-Reply-To: <20250630045005.1337339-11-airlied@gmail.com>
+In-Reply-To: <20250630045005.1337339-14-airlied@gmail.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: MN2PR08CA0006.namprd08.prod.outlook.com
- (2603:10b6:208:239::11) To PH7PR12MB5685.namprd12.prod.outlook.com
+X-ClientProxiedBy: MN2PR19CA0018.namprd19.prod.outlook.com
+ (2603:10b6:208:178::31) To PH7PR12MB5685.namprd12.prod.outlook.com
  (2603:10b6:510:13c::22)
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
 X-MS-TrafficTypeDiagnostic: PH7PR12MB5685:EE_|MN2PR12MB4390:EE_
-X-MS-Office365-Filtering-Correlation-Id: 35171771-6910-4851-f78b-08ddb7bfbd57
+X-MS-Office365-Filtering-Correlation-Id: 6618f9c7-07e6-4942-34bd-08ddb7c01b9e
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: BCL:0;ARA:13230040|376014|366016|1800799024;
-X-Microsoft-Antispam-Message-Info: =?utf-8?B?czNEUENWMmR4QXZHU09ZSVZ0ZW82Njk4VlBmcUp4cnFWS2pOVDdITEFMTVFZ?=
- =?utf-8?B?V2gwa2lLa1BSUGNuSkhTN3RoUG9LL0dINzJ3RzZ4aUVPdFBCZmVJMHIveUJI?=
- =?utf-8?B?MEFxWnVoWEtmdTd5VzZZQUZ0OUtNWGU5ZnF4U3ZPeXRoMng0UHV4cTFUb2Qv?=
- =?utf-8?B?OUlVTlZGQjVRcDNPNVZSSlJBNDRmSXJPMjZQT3J5MW0zRktnTnYrWG1JS0Ez?=
- =?utf-8?B?b013SEJTZ1N5c3UxaHFxR1JnQWxPSllLWFZHYyswYnUzSlBPUjZzWHVob0lE?=
- =?utf-8?B?Rk9RZXJ3T1REQ3Q2eUd2OXFEZm9wd0d6ZXNQSTlIWVRxR0ZRdmlxY1VkQXBn?=
- =?utf-8?B?Q1VCekt3VEdtSWphbERtd3FEYWNyUFRPQ3hGYlBSMnNNVG5nYlp1YkpPd0x1?=
- =?utf-8?B?RHRySDRoWWRpbzlJTlpycVVOMkNJRnpkbksvWGQ0UWp3aW5Dd2Yyb0NGV3Zp?=
- =?utf-8?B?eDBQT2QvbXpZTngxWjNORncxaHdiNHhoYnptczhSY0c0K0htYjBPc0VML2hF?=
- =?utf-8?B?ZE0xVnBtaThYc2g3cGVtdVBpcjNuTlpVTDcwenVKYXNIY2FXYmpUV2kxVHR1?=
- =?utf-8?B?cUZ1YVJScWowYzdxSXFTbGxUWFFQVHhuMWd1VnFDS2J5ZmxNRG1USXRHbzAr?=
- =?utf-8?B?TVIyV25nRGdpK0l0aXNZZ0xybmJrRVRUQUs5NGllSVJPb1RyQUttanhQWHRE?=
- =?utf-8?B?dklnOGpFbDl3QnluUFlLdTBRNzd3Y1VPQnljSkM5UUx1QTA4czYySFNJbXI2?=
- =?utf-8?B?OGFXUjlNMFk2b3JFMXVGTkZ3VnR6WHZWWFVsaDQ5WHFqWmw2S0xhZWVla0M2?=
- =?utf-8?B?UVllbndGM2pTMzNvKzZ1blJrYUFjMnR4cDNVcGgwRjFueHoxeWNkRWNRYUFh?=
- =?utf-8?B?WnlMZElCMjdQNCtEZGVtZ2dwak04OVpOcm1oRTc4eThqYUlJOFJ0VmE0TnRh?=
- =?utf-8?B?cHpuM0VRc1R0cmVManlqWWZoc1JVYnhhNll6TGtaNjBJci9Ha1BjY3BWRmNz?=
- =?utf-8?B?U01WRFpvZ0xOTnE5VTJTa3Zuc3hhWU9NS3N0bW8yRWM0a3JVUlI0b2NKbkto?=
- =?utf-8?B?UEVienBqTTZlVENDRy9KbXI0dGF5R2Q0Nm5qR2xoaGlaRk5PQWp1a3NoVXF2?=
- =?utf-8?B?OE9oYk9zajF1UmNpbmhxSHQ1RStDVmprbTRsWWZvRkpjN3dHbjFnb2dkaWJW?=
- =?utf-8?B?RFNCVitIR1BOejlGS0pRZXFSZ3FKeW1Kb3I4TU9scDFZaXVDY0tiUGtpdjNT?=
- =?utf-8?B?V0drUCtSVm1RMWRQdW51VlBFQ1A3aXVudGxBSjYwaUR2MTU5WWtLcVRwV0E4?=
- =?utf-8?B?UE9JdjhwWWJrdEc1UUt6S2NVM2d6MXd6YzRqVzYwMi9zUkkrZnRBYWM3d1hW?=
- =?utf-8?B?cDVyZ2NxQmZkRVYvd2xQVFUzd3hhR0duSG1rSi9YVC9DTjR4SU9hdTNtb1Y4?=
- =?utf-8?B?eHQ5SGN6TmNjSCtpYmFaUmd4ZHFZMXZ3dWZnZVRNR1JHYTdrMFRtUnM1aVB0?=
- =?utf-8?B?VGdpTHdYbnNxb3c0VTlkeUp3WWsydS84TjlVTzNMK1IvTlVQRUlVYkZUNEhH?=
- =?utf-8?B?elUyVmZRMW8vakNiZTZMUnNNNEM0T1NRTUVESjRVeVlDK2IzczJYYk16aUdx?=
- =?utf-8?B?N2lPRFdRU1ZvcVcrYWlnT29IWXV4aE9VZjRPVVZSbUhKTlRTN2FZaFBoMlJ4?=
- =?utf-8?B?YzJiQlRaMXZIUHlQL2o1Tk9LVTQyNFovRCtJL2xGZXoyNUh6SWdmeURwSHFF?=
- =?utf-8?B?S3dwM0Q3WUN3eHFPazBnSk5YTlJGeXUrQVh5ZDdlblZrcmZacElHNkQvci95?=
- =?utf-8?B?cUx4M2RISC9qcmNQaVlKWjFJd1cyWVkvMVYzMFNMYkUwN0JCNjdPYndiZERa?=
- =?utf-8?B?SWNYS3BQbkxNUFNEM3ZFS0s0eVg2MEcvMFQ2RlVPVGJOU2VETnhhQXpocWZr?=
- =?utf-8?Q?dHT/FmEq6LE=3D?=
+X-Microsoft-Antispam-Message-Info: =?utf-8?B?RjNlYVZROGY4dDRCWnlhSUtLM2xvWW1oYlpmYmFCNFYvbjBJanhCcDVhRW03?=
+ =?utf-8?B?Qm1rZVlQd0xSNjkwcmN1ODNHSkprR3JLQ1FSRFVSdzBQT1pvWmI5cWZDcEVT?=
+ =?utf-8?B?Y2h4UVB4eXRCRC9jbUZQR2RGSmhOY1pZUGloNWd4dmlLdTBldzIvZ25JMy9S?=
+ =?utf-8?B?NFhobTk0WEpwWFRqTFllQWtxSnNweWQ3VUNiSEwwcUVtTG1wOUdEMU9ScGJW?=
+ =?utf-8?B?M0EyS3RsQTdhM2lEWjNYSDlJZk9UM2QxMGwzTmp5UmduMWZsZFV6UVYvM29B?=
+ =?utf-8?B?VzBqRlBBRm9tYnVNM1dnZFhaeFpiWUtiY202SDF2M1MrSVVyRzRKbFQ1L3F5?=
+ =?utf-8?B?cWZQY1pXTUVuVi9oV1lMakFvV2RRamhFR3p4L0RLM0dyaFQrcG1JNVo2Z1pY?=
+ =?utf-8?B?SkFHQU4zc2lmN2h5dUdremxjTUsrc1hDcWN4cFZ2Z1JmZks3amxoMXB1bDA4?=
+ =?utf-8?B?clNYbURpYXd0S2xpMmxFUWpHVDB4YXJEd3I4RlpxY2VzSXg4NkVQdmVHRUtz?=
+ =?utf-8?B?MGU1cnp0a0ZQaHlpN1NRMm5LSGIxdUgrOVljUEh1eU8vVjRlNkt4Y3RET0Fu?=
+ =?utf-8?B?RjJhV0pqNlA3RmpXVThzNVE3UDJIeUhYdVlGTEJDNlZpckdWRHVKSVhZQ3c3?=
+ =?utf-8?B?ajlOZDV0bDg0UFZGSVZNZTVqRjAwOUJ0N1ZYMWJJUnZDdVRabHBrV1ZTZDFM?=
+ =?utf-8?B?NkZYNkh3Z2JUMkJQZVJWUy8vSW8zYzNCdktzV240NzJ5NCtqbklPeEVURUty?=
+ =?utf-8?B?Ymxxd0pkWkdWc0M1dHQ1aTkxczdFVURjL081UFJGZEswSjhSZ3RzemJkSTls?=
+ =?utf-8?B?ODB5aDZZSWtTNjlJcyt2czFiUkNGNkxpZmZWN0c2K2pJQ1gyZUNnUUcxVWZj?=
+ =?utf-8?B?MWk5Nk53akNkT05ZMEZLKzdEUXhvREgwTVhCRXpNMElKN0dZS0J3ZUFBN2Vx?=
+ =?utf-8?B?OG9zaUpCd0o5aEFoMmQzd3NOTFBZRENGVGlXL0w4UFdwSERLNnNUcHR2RlhV?=
+ =?utf-8?B?OVdudENJZlVGVno0bzc5QnVmUzRsaGFPTHRpZEo5aGF4dzlJMHFCSEVoR0J1?=
+ =?utf-8?B?cWdtOGF1VlRqMjl6SWt1ajhNQjIzdWFIQU5vY0diSk5PTHZ0YjloM0U5eVlK?=
+ =?utf-8?B?bEJ1SmhobmdaeDlqOGFxbTVRdzIwdnhReUcvTm0zVUxreWVQdzVlUGdBa0Vx?=
+ =?utf-8?B?dm45cmlaa1JyaGJHbTJYQzIya1RubWk4Nk9UcXJ6anVwSWVFb3lRanZSMUFI?=
+ =?utf-8?B?bTVteVlJVWxJRWlOYW90bWxXdWVZVW9kcG1saExqVk9KK1dmMXlCdmlxT3Z6?=
+ =?utf-8?B?NDhud1dYTzJNMXhkcmVXRlB3VFlBdWlBaitLTGFac3NJSGJRNlNVVUE2UWlB?=
+ =?utf-8?B?dGFkZTZHS0x2dXRHY3R1RCtuR1JTZzIzajc2MU9ETlQyU2JGSnBFNURydkRq?=
+ =?utf-8?B?aWJ4RDNWY0E2c0NEQTM1UElsaGxLR2NCOGtLNlkzQUtIaU9Td3kwcTZpRUJi?=
+ =?utf-8?B?WEdKdnNmYXdlOW1XV25tMUR4T0ZvVnNpRTNqWjQ2SmtVQ21UMFFQQU9NRTVX?=
+ =?utf-8?B?UHBnNHJaV3JHcEhtQllpRjU0Z1F0dDluZnhESW0wSTYxTXJrVmljeWZEQllX?=
+ =?utf-8?B?MlFHTTc2Ny9CL21xUDVnYmlLUzhyS3kzVHdDNlNaMHpRalQvWVJ5M0FkUXVw?=
+ =?utf-8?B?UmJ2ZUdncHV5Y1BzQld0WURNc0tGLzJ0TlRMbW9FOWhWUlppLzZ4OFRSdGpX?=
+ =?utf-8?B?MlZlcm9TTHp3emo5M2NqRlZaQWwvcnJkQzFmMVlHVlNwQzZUUXJVVEE2Qk5k?=
+ =?utf-8?B?RnFZRXV1dURxT05XOTIveURBUzdkNW5HM2J4eldKT1hWa0lqL25tS2lZd1FN?=
+ =?utf-8?B?djVzWUMvWjAxc1Vib20rU2kxWE9lWmtnZ1R5cFJiWkRUM3c9PQ==?=
 X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
  IPV:NLI; SFV:NSPM; H:PH7PR12MB5685.namprd12.prod.outlook.com; PTR:; CAT:NONE;
  SFS:(13230040)(376014)(366016)(1800799024); DIR:OUT; SFP:1101; 
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?ZDVhSCs1am5RcXpRTW8rRjR4QWVpZ2RTNTgzcSs1d28ybEdCZUgzOFA1Tytv?=
- =?utf-8?B?NEdJck5YUWljSVZGcmhRdCtEelloYjRxY0hQQXVwOHdhaFFnUkpvNWw1NFdW?=
- =?utf-8?B?ejRvOXBLeHZzYUYvYUVYdExmeVNRZS9rUFlBNlAreHRSVmdzNGhpYkdwaFR3?=
- =?utf-8?B?WERZRDB2UWhTaHpSeHg1WXFaV3ZISTBUMkgxSTB2bnRKY3EwL1ROOUVGbU5G?=
- =?utf-8?B?d25MOUJ3bEJRUnlFMGdmSExIbkxoY0ZkWnVGQzMrZDIyTXMwTGd1T3gzYjEx?=
- =?utf-8?B?a0dKenh3SXZwcmV4eXRrS3lER0VDZU5tMXpJR3BPTmtmdFpibjcrNnFDNEk5?=
- =?utf-8?B?Q2JLbE80YnExdGNLcm9wK09LQXhYa3d2N3EvNk5IZVZkMzVrdkRqMzBDdmwy?=
- =?utf-8?B?cVJ5K3ltTTY2azZJNzZNdFU3TkhqbjBnckJvMk9ucVlPVUtsakovWEZuRkor?=
- =?utf-8?B?U0dKN3lTbkxyNStEcDVRMXc0SVdpdVFtTzROSTFsSVFiTlM0VHlrM0ZuK0ZE?=
- =?utf-8?B?Q3NGSyt1NE1mTVBUeFhSdGFNQWxTYzlDUGI0STZ2SlF0Y3JLVVlpbW5TUkVJ?=
- =?utf-8?B?NGxENzQraTZEVmpOTUpuM3BJbVB0YmNZSFhhMGRNOXFMNWZFUnVGZi9vVWd4?=
- =?utf-8?B?ZXNPekZyWTFNVW1nWVZsNGpubXdPY2dhNmZpeTNGMnlxVW5nakhzSjRBazR2?=
- =?utf-8?B?MFhnN1FWem8zMnl4ejhYa2E5ZGFtNE9xYzQ3ZTVRdTJ4WEgwb1Iwbkh3aFAr?=
- =?utf-8?B?di9oMVZFcmZVWStuN2wyL2Z5Y21uMjVWaWJYKzlHNzF2YzhLNWRvbFJYZWJp?=
- =?utf-8?B?bHF1VW1KVnJaTDRKQU9kY2U5cDk5YStpemZkQjdzekY0dDBncFFpVzdGTG5a?=
- =?utf-8?B?NTlwM0Q1bkl2WUZnZWRpQVc1NzVBMi84UUtZR2FHalNPK2w3K1plZnc0cDY4?=
- =?utf-8?B?cFZXR3BOQnpvZ202RlFlQVhrYUl5cEVVVCtOdnBua3dkUlArU3VwZk8ycjlp?=
- =?utf-8?B?ajZaSmpVVmMzcEIwY0JSUnJTYXNFeE5hMjQ2ZlVMUm1mVnZzNnBtSzVPWFJu?=
- =?utf-8?B?UTVYUTNQd3BZcDVNaEFFd2dNM2FoaU9wWXRQa3BBajRJMTkrTlJKdk5Gb2NQ?=
- =?utf-8?B?WUJIeG9Kc2NIU0VVRVlURzdueUUwcHcxQytueGNEbkkwdnNPa1FsTmpOUEF0?=
- =?utf-8?B?WFRRMWJxUWJFQlBxeGx4U1Jab1IwRCtNczVpalJ1aUlRTmdtdXdpbklKbTFw?=
- =?utf-8?B?c3JyV1NrWVU5Lzl4L2wxUFhyeXYzSmtyVHNoT2FreVlzcmV0UXlOSCtBNlFY?=
- =?utf-8?B?NHFoTktPdlJQaWp4bFJKbngzZUNNbUt0aUxzWVBObTdMY0xCL2orZHM0SzVn?=
- =?utf-8?B?cm41NEVHWk45RkVNVHVIQUJvVkptS3hLUDAyR0w2L0wraGFwRWJra2VxN0tH?=
- =?utf-8?B?dThtMUtXeVNQdmM0YkFaN0k4OUtlMFNzS1V1T2g0U2lKS283Q0NkTExIeG9J?=
- =?utf-8?B?OHA2VGJYUDJNTHZFTGRINEZ5QmNabXBuSm4vdHBncjN0NUtVb1J0cXlTdWl2?=
- =?utf-8?B?cVMyaFNXMjkvdVhjdTBZNHp6KzBYTU1aWDZOYitFRkR1T0NycWg2RnBmSS9t?=
- =?utf-8?B?NUpFZ2s5U1V5VXpZV2FLQU1ROEoxNHkzVnRvR1JiVGg4RDRiZzdrMk5XMnZ2?=
- =?utf-8?B?ZjRMcitMdjE0L21rT2RwVTdGOHRIRFUxRXFSb0VqdWs4QnBCaENHSG0rTjFO?=
- =?utf-8?B?NHRjTmFnL3FTMnV0R3ltN1dsMUlXV1QvZTNKNkZ1Y21MenJ3RDlQeDZyREEz?=
- =?utf-8?B?OHhwRG5KcXMrZlRsNDNrRCtZdjFDaTNjd1pWQ0hSS3RLTW5WNDRydWIwUVJs?=
- =?utf-8?B?RUk1bWlHRzArajY3SVJ0TUVoU29XS2JreVN4RnZGKzFrdVBwS0NrdHFJTmh3?=
- =?utf-8?B?b053SW1EUEtQY1U1N1hwdHp4VnVWR3ZTa1RQbldqMUFEQzQvYmtXcFN6NG5l?=
- =?utf-8?B?bUhMclBBc2Z0TlJTVkszSnhOOFBWMVVvOE0xVjN5MlVlWE9NWE9nbyttZ1ly?=
- =?utf-8?B?Q2phRkhyVWFWdjFXWW82cC9pNUpnbkN6OWNGcFBkRG8xQVRJTTMvd1RwS0RF?=
- =?utf-8?Q?6d3FK8QUheiYtxFfWRRgLAJvV?=
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?V0JjZGQ0b1A4QVpwRTZPT2VvdmhtdkUxb2lJWmNTemJCK09Ceno3WWdkU25s?=
+ =?utf-8?B?U3JkZVppaWE0dUdkNmpOVEttQmNhbEhJU3M1VmVrR2pFT0Y1VGFNeGVMTVpY?=
+ =?utf-8?B?WE5xbE5LMFRkd0FKWUlQMzJ5eHFaNlh6SmdjZjgzSGRKZkRFVjFndmc4eGJC?=
+ =?utf-8?B?WXorZWNGL2pnOTQ4Um1WWUNnMWJETmxaOU4wQWF5NFFkQzRoR1BlNkdXRHA4?=
+ =?utf-8?B?bzFFd2JQR0ExZHZnTVh2anYxZDAwTlcyaEgraWViTlhDM1BwNVJ2aHM2N2l5?=
+ =?utf-8?B?SGNlNFgyYXl4N1ROTVdkV2V4T09CWmFCeWVYYjlKWm1MdVZnMUZnS3JQd3kw?=
+ =?utf-8?B?UlNUdFV6WHhaVUZWSHRSbEcrdjdSYnNiVEYrQ3YzRysxcENqRkR1Z0hleDNp?=
+ =?utf-8?B?NVJnQWMvUlFBYm1sUk1BSkVIeUJvM2VqZk9WNnB5SE4yVGUrOU9XLzRYVmdW?=
+ =?utf-8?B?M1VqNEYybWppUjlzT3k4bFdLR0VMSVc0UDRvWDFReCtWS1kzUnZweHlsS2Zy?=
+ =?utf-8?B?VXdORkhWZEg1OFJQdmh4d0dPYW05TUZLUjh6VG5mT0FNUzhvYUhGcXZNUUxF?=
+ =?utf-8?B?TDc0NU5oVlRRK2hmYVlkRGI2cHBOY0N4STJUcStxTEg3YVRCU1ZOSXl4cUo5?=
+ =?utf-8?B?MWNZUTE5RXRvdGVpOHh3MVBDdWtQaXhsOGljZGJscHpDRzc1ZWROVnpNdEFr?=
+ =?utf-8?B?RDRaTUZJQXhSQ2lYckxUVUw0ekFUMjhaMTR1S09OU0U5eGp3WkZRYTAyRFRi?=
+ =?utf-8?B?VkdkODJlRmY1NjJ2QjRvN1ZTY3RWMmpRd3ZlWTBRS3dQUys3dG1admZtWXM5?=
+ =?utf-8?B?dUd6SHNMR2RNdFY3cWtxYkdhZkRDK1lqOFZUOU9abmt0MmpsQ1B1QkZ3T2tH?=
+ =?utf-8?B?ZnhnSmdqR0pKcG1OWmJsSFBmYnlCOGs3dmJMMURLbm5aZFpRMEo4OXh6KzUv?=
+ =?utf-8?B?TE5Da2p6U3ltU1NWMTcvYmpiQ28ycFl0M1o1QWszZzJGc1pkbnBCZzd2VnBG?=
+ =?utf-8?B?ZE9GaGZtSVVnMmVHdmc5UDAyKzNNMHVuSWFTOGh1SFZaYW11MVp4WndQZmli?=
+ =?utf-8?B?VDA4SVpLMDJBL1FvSmRXYVV4NGwxZm9oY3dzT1VJWnUxd2lRNVgzZ0V2NkJi?=
+ =?utf-8?B?Ym1nK0RsdjBQUk1kZUlMVUNSdjA2ajVSaGZwWG1ra0k0NkxZMkIzUTk3Q0Zi?=
+ =?utf-8?B?WUtGSmMxRnMzWGxWVGtrN3oxaFFqb3pvVXBZV2hhQjd1SklQYmdZSjZwYmJx?=
+ =?utf-8?B?U2oxaTdKTDAvMjU2Rjg4SUkrRlhwNXlNbFEyL3NET2VVSkpjY0ZLdUdHTlpK?=
+ =?utf-8?B?VVR1L2xRTnRSeWM2ekJVc3hyVVpYeThqcHdXT0ZBVDVFdzVIMXdyWHpSU2M3?=
+ =?utf-8?B?U3NZQlhTN0x4MkFZTWRQWnJuMTZQdnlndGc2KzNrS3dXY0lrZ2NHL3p4YlBD?=
+ =?utf-8?B?bXpraEpkRTV2N1A2Q0t5WnVLVlB6SXNKOCtEY2NzclpsYzBEbHVIYmdkd3NN?=
+ =?utf-8?B?cFhKQzMySWVOR3pncDJqVWVwTkNYeUFkZ1l5ZkFQekVhTnRKVTZQMlVPVXdt?=
+ =?utf-8?B?ZlQ0Sk9UUkJZeXJnVVc3TnhPS3NYeFlHWmVpa1Y4djEvSEZHb3FZdzJhQ2l2?=
+ =?utf-8?B?Qm9uN1pEcVhCZ0VteVlhUW9URTJjWTR4cXcxVXpkaXdEMm4yaG1lNDhnQzgy?=
+ =?utf-8?B?UFJsd1c5dWJVOGc3YUJoSkdENlVCbjVrSFEwdXRDenA1YWFGR1dVQnIvRUg5?=
+ =?utf-8?B?Y2xzbUwvOCt6WHNUY3FmRjRVK0MwblJKUWdub2VRZ1dqSUI2S3FYWlBySmpV?=
+ =?utf-8?B?MXpOTUYwMC84NEJjakpPd0pTVzhyR3BOUEVZUTlkU1pGbnVtcElpa0dOcW9H?=
+ =?utf-8?B?SE82Ymw3MXhwS1NEWWxqU0RMVUNYNTFCOXRHNzBjMVMxSzVReDBRTyt0eFk0?=
+ =?utf-8?B?SXZlMk5qckZzdXlIL25oZVEvWk1zSDR4SzlkSFE4OFhlbVYyK0c3MmJIZWdi?=
+ =?utf-8?B?S0JEODB0N2w0S3p1bmVJOXNMQTl5aTBpN2hWVWtCV1Z0VjFtelZhUW5UMTNT?=
+ =?utf-8?B?NVZDT0p1WTZTbzlzeUhKc00xWktPSDVoRE14UDhoT2JRMmNwMmhlTHJ4Rm9s?=
+ =?utf-8?Q?kxDF7+ZeJCQ/Jox/9NzxA3Xk5?=
 X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 35171771-6910-4851-f78b-08ddb7bfbd57
+X-MS-Exchange-CrossTenant-Network-Message-Id: 6618f9c7-07e6-4942-34bd-08ddb7c01b9e
 X-MS-Exchange-CrossTenant-AuthSource: PH7PR12MB5685.namprd12.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 30 Jun 2025 10:20:30.1788 (UTC)
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 30 Jun 2025 10:23:08.4513 (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: Tss5+HNBOPfEpdgDfsP/Kt0Le1gGWgu6OUB8M4fChBnVUtYdlY3Oq7R6Nx9rtTOg
+X-MS-Exchange-CrossTenant-UserPrincipalName: Ih8WRp09BOdaHlSlhG6ZSDnKolnECGzs4DeHkYvPiyC5gPIhGBkja1xARCtNEmv4
 X-MS-Exchange-Transport-CrossTenantHeadersStamped: MN2PR12MB4390
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -168,15 +166,14 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 On 30.06.25 06:49, Dave Airlie wrote:
 > From: Dave Airlie <airlied@redhat.com>
 > 
-> This flag does nothing yet, but this just changes the APIs to accept
-> it in the future across all users.
+> This enables all the backend code to use the list lru in memcg mode,
+> and set the shrinker to be memcg aware.
 > 
-> This flag will eventually be filled out with when to account a tt
-> populate to a memcg.
+> It adds the loop case for when pooled pages end up being reparented
+> to a higher memcg group, that newer memcg can search for them there
+> and take them back.
 
-I would keep the pool completely out of memcg accounting and always account at a higher level.
-
-Accounting that low just gives a hughe surfurce for driver issues.
+Again, this makes no sense at all and will break existing use cases.
 
 Regards,
 Christian.
@@ -184,585 +181,274 @@ Christian.
 > 
 > Signed-off-by: Dave Airlie <airlied@redhat.com>
 > ---
->  drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.c          |  3 ++-
->  drivers/gpu/drm/i915/gem/i915_gem_ttm.c          |  5 +++--
->  drivers/gpu/drm/i915/gem/i915_gem_ttm_move.c     |  2 +-
->  drivers/gpu/drm/i915/gem/i915_gem_ttm_pm.c       |  4 ++--
->  drivers/gpu/drm/loongson/lsdc_ttm.c              |  3 ++-
->  drivers/gpu/drm/nouveau/nouveau_bo.c             |  6 ++++--
->  drivers/gpu/drm/radeon/radeon_ttm.c              |  3 ++-
->  drivers/gpu/drm/ttm/tests/ttm_bo_validate_test.c |  2 +-
->  drivers/gpu/drm/ttm/tests/ttm_pool_test.c        | 16 ++++++++--------
->  drivers/gpu/drm/ttm/tests/ttm_tt_test.c          | 12 ++++++------
->  drivers/gpu/drm/ttm/ttm_bo.c                     |  5 +++--
->  drivers/gpu/drm/ttm/ttm_bo_util.c                |  6 +++---
->  drivers/gpu/drm/ttm/ttm_bo_vm.c                  |  4 +++-
->  drivers/gpu/drm/ttm/ttm_pool.c                   |  6 ++++--
->  drivers/gpu/drm/ttm/ttm_tt.c                     |  8 +++++---
->  drivers/gpu/drm/vmwgfx/vmwgfx_blit.c             |  4 ++--
->  drivers/gpu/drm/vmwgfx/vmwgfx_ttm_buffer.c       |  7 ++++---
->  drivers/gpu/drm/xe/xe_bo.c                       |  3 ++-
->  include/drm/ttm/ttm_bo.h                         |  1 +
->  include/drm/ttm/ttm_device.h                     |  1 +
->  include/drm/ttm/ttm_pool.h                       |  1 +
->  include/drm/ttm/ttm_tt.h                         |  1 +
->  22 files changed, 61 insertions(+), 42 deletions(-)
+>  drivers/gpu/drm/ttm/ttm_pool.c | 123 ++++++++++++++++++++++++++++-----
+>  1 file changed, 105 insertions(+), 18 deletions(-)
 > 
-> diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.c
-> index 9c5df35f05b7..920b412156dd 100644
-> --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.c
-> +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.c
-> @@ -1138,6 +1138,7 @@ static struct ttm_tt *amdgpu_ttm_tt_create(struct ttm_buffer_object *bo,
->   */
->  static int amdgpu_ttm_tt_populate(struct ttm_device *bdev,
->  				  struct ttm_tt *ttm,
-> +				  bool memcg_account,
->  				  struct ttm_operation_ctx *ctx)
->  {
->  	struct amdgpu_device *adev = amdgpu_ttm_adev(bdev);
-> @@ -1161,7 +1162,7 @@ static int amdgpu_ttm_tt_populate(struct ttm_device *bdev,
->  		pool = &adev->mman.ttm_pools[gtt->pool_id];
->  	else
->  		pool = &adev->mman.bdev.pool;
-> -	ret = ttm_pool_alloc(pool, ttm, ctx);
-> +	ret = ttm_pool_alloc(pool, ttm, memcg_account, ctx);
->  	if (ret)
->  		return ret;
->  
-> diff --git a/drivers/gpu/drm/i915/gem/i915_gem_ttm.c b/drivers/gpu/drm/i915/gem/i915_gem_ttm.c
-> index 1f4814968868..6cdaf3696583 100644
-> --- a/drivers/gpu/drm/i915/gem/i915_gem_ttm.c
-> +++ b/drivers/gpu/drm/i915/gem/i915_gem_ttm.c
-> @@ -314,6 +314,7 @@ static struct ttm_tt *i915_ttm_tt_create(struct ttm_buffer_object *bo,
->  
->  static int i915_ttm_tt_populate(struct ttm_device *bdev,
->  				struct ttm_tt *ttm,
-> +				bool memcg_account,
->  				struct ttm_operation_ctx *ctx)
->  {
->  	struct i915_ttm_tt *i915_tt = container_of(ttm, typeof(*i915_tt), ttm);
-> @@ -321,7 +322,7 @@ static int i915_ttm_tt_populate(struct ttm_device *bdev,
->  	if (i915_tt->is_shmem)
->  		return i915_ttm_tt_shmem_populate(bdev, ttm, ctx);
->  
-> -	return ttm_pool_alloc(&bdev->pool, ttm, ctx);
-> +	return ttm_pool_alloc(&bdev->pool, ttm, memcg_account, ctx);
->  }
->  
->  static void i915_ttm_tt_unpopulate(struct ttm_device *bdev, struct ttm_tt *ttm)
-> @@ -808,7 +809,7 @@ static int __i915_ttm_get_pages(struct drm_i915_gem_object *obj,
->  	}
->  
->  	if (bo->ttm && !ttm_tt_is_populated(bo->ttm)) {
-> -		ret = ttm_bo_populate(bo, &ctx);
-> +		ret = ttm_bo_populate(bo, false, &ctx);
->  		if (ret)
->  			return ret;
->  
-> diff --git a/drivers/gpu/drm/i915/gem/i915_gem_ttm_move.c b/drivers/gpu/drm/i915/gem/i915_gem_ttm_move.c
-> index 2f6b33edb9c9..4ab1eb3e42bc 100644
-> --- a/drivers/gpu/drm/i915/gem/i915_gem_ttm_move.c
-> +++ b/drivers/gpu/drm/i915/gem/i915_gem_ttm_move.c
-> @@ -624,7 +624,7 @@ int i915_ttm_move(struct ttm_buffer_object *bo, bool evict,
->  
->  	/* Populate ttm with pages if needed. Typically system memory. */
->  	if (ttm && (dst_man->use_tt || (ttm->page_flags & TTM_TT_FLAG_SWAPPED))) {
-> -		ret = ttm_bo_populate(bo, ctx);
-> +		ret = ttm_bo_populate(bo, false, ctx);
->  		if (ret)
->  			return ret;
->  	}
-> diff --git a/drivers/gpu/drm/i915/gem/i915_gem_ttm_pm.c b/drivers/gpu/drm/i915/gem/i915_gem_ttm_pm.c
-> index 61596cecce4d..0b555979d786 100644
-> --- a/drivers/gpu/drm/i915/gem/i915_gem_ttm_pm.c
-> +++ b/drivers/gpu/drm/i915/gem/i915_gem_ttm_pm.c
-> @@ -90,7 +90,7 @@ static int i915_ttm_backup(struct i915_gem_apply_to_region *apply,
->  		goto out_no_lock;
->  
->  	backup_bo = i915_gem_to_ttm(backup);
-> -	err = ttm_bo_populate(backup_bo, &ctx);
-> +	err = ttm_bo_populate(backup_bo, false, &ctx);
->  	if (err)
->  		goto out_no_populate;
->  
-> @@ -189,7 +189,7 @@ static int i915_ttm_restore(struct i915_gem_apply_to_region *apply,
->  	if (!backup_bo->resource)
->  		err = ttm_bo_validate(backup_bo, i915_ttm_sys_placement(), &ctx);
->  	if (!err)
-> -		err = ttm_bo_populate(backup_bo, &ctx);
-> +		err = ttm_bo_populate(backup_bo, false, &ctx);
->  	if (!err) {
->  		err = i915_gem_obj_copy_ttm(obj, backup, pm_apply->allow_gpu,
->  					    false);
-> diff --git a/drivers/gpu/drm/loongson/lsdc_ttm.c b/drivers/gpu/drm/loongson/lsdc_ttm.c
-> index 2e42c6970c9f..6d8781506802 100644
-> --- a/drivers/gpu/drm/loongson/lsdc_ttm.c
-> +++ b/drivers/gpu/drm/loongson/lsdc_ttm.c
-> @@ -110,6 +110,7 @@ lsdc_ttm_tt_create(struct ttm_buffer_object *tbo, uint32_t page_flags)
->  
->  static int lsdc_ttm_tt_populate(struct ttm_device *bdev,
->  				struct ttm_tt *ttm,
-> +				bool memcg_account,
->  				struct ttm_operation_ctx *ctx)
->  {
->  	bool slave = !!(ttm->page_flags & TTM_TT_FLAG_EXTERNAL);
-> @@ -122,7 +123,7 @@ static int lsdc_ttm_tt_populate(struct ttm_device *bdev,
->  		return 0;
->  	}
->  
-> -	return ttm_pool_alloc(&bdev->pool, ttm, ctx);
-> +	return ttm_pool_alloc(&bdev->pool, ttm, memcg_account, ctx);
->  }
->  
->  static void lsdc_ttm_tt_unpopulate(struct ttm_device *bdev,
-> diff --git a/drivers/gpu/drm/nouveau/nouveau_bo.c b/drivers/gpu/drm/nouveau/nouveau_bo.c
-> index b96f0555ca14..1f2b9f5f2bf8 100644
-> --- a/drivers/gpu/drm/nouveau/nouveau_bo.c
-> +++ b/drivers/gpu/drm/nouveau/nouveau_bo.c
-> @@ -1417,7 +1417,9 @@ vm_fault_t nouveau_ttm_fault_reserve_notify(struct ttm_buffer_object *bo)
->  
->  static int
->  nouveau_ttm_tt_populate(struct ttm_device *bdev,
-> -			struct ttm_tt *ttm, struct ttm_operation_ctx *ctx)
-> +			struct ttm_tt *ttm,
-> +			bool memcg_account,
-> +			struct ttm_operation_ctx *ctx)
->  {
->  	struct ttm_tt *ttm_dma = (void *)ttm;
->  	struct nouveau_drm *drm;
-> @@ -1434,7 +1436,7 @@ nouveau_ttm_tt_populate(struct ttm_device *bdev,
->  
->  	drm = nouveau_bdev(bdev);
->  
-> -	return ttm_pool_alloc(&drm->ttm.bdev.pool, ttm, ctx);
-> +	return ttm_pool_alloc(&drm->ttm.bdev.pool, ttm, memcg_account, ctx);
->  }
->  
->  static void
-> diff --git a/drivers/gpu/drm/radeon/radeon_ttm.c b/drivers/gpu/drm/radeon/radeon_ttm.c
-> index 616d25c8c2de..8c4273239d16 100644
-> --- a/drivers/gpu/drm/radeon/radeon_ttm.c
-> +++ b/drivers/gpu/drm/radeon/radeon_ttm.c
-> @@ -526,6 +526,7 @@ static struct radeon_ttm_tt *radeon_ttm_tt_to_gtt(struct radeon_device *rdev,
->  
->  static int radeon_ttm_tt_populate(struct ttm_device *bdev,
->  				  struct ttm_tt *ttm,
-> +				  bool memcg_account,
->  				  struct ttm_operation_ctx *ctx)
->  {
->  	struct radeon_device *rdev = radeon_get_rdev(bdev);
-> @@ -547,7 +548,7 @@ static int radeon_ttm_tt_populate(struct ttm_device *bdev,
->  		return 0;
->  	}
->  
-> -	return ttm_pool_alloc(&rdev->mman.bdev.pool, ttm, ctx);
-> +	return ttm_pool_alloc(&rdev->mman.bdev.pool, ttm, memcg_account, ctx);
->  }
->  
->  static void radeon_ttm_tt_unpopulate(struct ttm_device *bdev, struct ttm_tt *ttm)
-> diff --git a/drivers/gpu/drm/ttm/tests/ttm_bo_validate_test.c b/drivers/gpu/drm/ttm/tests/ttm_bo_validate_test.c
-> index 3148f5d3dbd6..b52e3c1089e6 100644
-> --- a/drivers/gpu/drm/ttm/tests/ttm_bo_validate_test.c
-> +++ b/drivers/gpu/drm/ttm/tests/ttm_bo_validate_test.c
-> @@ -538,7 +538,7 @@ static void ttm_bo_validate_no_placement_signaled(struct kunit *test)
->  
->  	if (params->with_ttm) {
->  		old_tt = priv->ttm_dev->funcs->ttm_tt_create(bo, 0);
-> -		ttm_pool_alloc(&priv->ttm_dev->pool, old_tt, &ctx);
-> +		ttm_pool_alloc(&priv->ttm_dev->pool, old_tt, false, &ctx);
->  		bo->ttm = old_tt;
->  	}
->  
-> diff --git a/drivers/gpu/drm/ttm/tests/ttm_pool_test.c b/drivers/gpu/drm/ttm/tests/ttm_pool_test.c
-> index 39234a3e98c4..aaf152c2383d 100644
-> --- a/drivers/gpu/drm/ttm/tests/ttm_pool_test.c
-> +++ b/drivers/gpu/drm/ttm/tests/ttm_pool_test.c
-> @@ -88,7 +88,7 @@ static struct ttm_pool *ttm_pool_pre_populated(struct kunit *test,
->  
->  	ttm_pool_init(pool, devs->dev, NUMA_NO_NODE, true, false);
->  
-> -	err = ttm_pool_alloc(pool, tt, &simple_ctx);
-> +	err = ttm_pool_alloc(pool, tt, false, &simple_ctx);
->  	KUNIT_ASSERT_EQ(test, err, 0);
->  
->  	ttm_pool_free(pool, tt);
-> @@ -157,7 +157,7 @@ static void ttm_pool_alloc_basic(struct kunit *test)
->  	KUNIT_ASSERT_EQ(test, pool->nid, NUMA_NO_NODE);
->  	KUNIT_ASSERT_EQ(test, pool->use_dma_alloc, params->use_dma_alloc);
->  
-> -	err = ttm_pool_alloc(pool, tt, &simple_ctx);
-> +	err = ttm_pool_alloc(pool, tt, false, &simple_ctx);
->  	KUNIT_ASSERT_EQ(test, err, 0);
->  	KUNIT_ASSERT_EQ(test, tt->num_pages, expected_num_pages);
->  
-> @@ -220,7 +220,7 @@ static void ttm_pool_alloc_basic_dma_addr(struct kunit *test)
->  
->  	ttm_pool_init(pool, devs->dev, NUMA_NO_NODE, true, false);
->  
-> -	err = ttm_pool_alloc(pool, tt, &simple_ctx);
-> +	err = ttm_pool_alloc(pool, tt, false, &simple_ctx);
->  	KUNIT_ASSERT_EQ(test, err, 0);
->  	KUNIT_ASSERT_EQ(test, tt->num_pages, expected_num_pages);
->  
-> @@ -253,7 +253,7 @@ static void ttm_pool_alloc_order_caching_match(struct kunit *test)
->  	tt = ttm_tt_kunit_init(test, 0, caching, size);
->  	KUNIT_ASSERT_NOT_NULL(test, tt);
->  
-> -	err = ttm_pool_alloc(pool, tt, &simple_ctx);
-> +	err = ttm_pool_alloc(pool, tt, false, &simple_ctx);
->  	KUNIT_ASSERT_EQ(test, err, 0);
->  
->  	KUNIT_ASSERT_TRUE(test, !list_lru_count(&pt->pages));
-> @@ -285,7 +285,7 @@ static void ttm_pool_alloc_caching_mismatch(struct kunit *test)
->  	KUNIT_ASSERT_FALSE(test, !list_lru_count(&pt_pool->pages));
->  	KUNIT_ASSERT_TRUE(test, !list_lru_count(&pt_tt->pages));
->  
-> -	err = ttm_pool_alloc(pool, tt, &simple_ctx);
-> +	err = ttm_pool_alloc(pool, tt, false, &simple_ctx);
->  	KUNIT_ASSERT_EQ(test, err, 0);
->  
->  	ttm_pool_free(pool, tt);
-> @@ -319,7 +319,7 @@ static void ttm_pool_alloc_order_mismatch(struct kunit *test)
->  	KUNIT_ASSERT_FALSE(test, !list_lru_count(&pt_pool->pages));
->  	KUNIT_ASSERT_TRUE(test, !list_lru_count(&pt_tt->pages));
->  
-> -	err = ttm_pool_alloc(pool, tt, &simple_ctx);
-> +	err = ttm_pool_alloc(pool, tt, false, &simple_ctx);
->  	KUNIT_ASSERT_EQ(test, err, 0);
->  
->  	ttm_pool_free(pool, tt);
-> @@ -349,7 +349,7 @@ static void ttm_pool_free_dma_alloc(struct kunit *test)
->  	KUNIT_ASSERT_NOT_NULL(test, pool);
->  
->  	ttm_pool_init(pool, devs->dev, NUMA_NO_NODE, true, false);
-> -	ttm_pool_alloc(pool, tt, &simple_ctx);
-> +	ttm_pool_alloc(pool, tt, false, &simple_ctx);
->  
->  	pt = &pool->caching[caching].orders[order];
->  	KUNIT_ASSERT_TRUE(test, !list_lru_count(&pt->pages));
-> @@ -380,7 +380,7 @@ static void ttm_pool_free_no_dma_alloc(struct kunit *test)
->  	KUNIT_ASSERT_NOT_NULL(test, pool);
->  
->  	ttm_pool_init(pool, devs->dev, NUMA_NO_NODE, false, false);
-> -	ttm_pool_alloc(pool, tt, &simple_ctx);
-> +	ttm_pool_alloc(pool, tt, false, &simple_ctx);
->  
->  	pt = &pool->caching[caching].orders[order];
->  	KUNIT_ASSERT_TRUE(test, list_lru_count(&pt->pages) == 1);
-> diff --git a/drivers/gpu/drm/ttm/tests/ttm_tt_test.c b/drivers/gpu/drm/ttm/tests/ttm_tt_test.c
-> index 61ec6f580b62..333c503e218b 100644
-> --- a/drivers/gpu/drm/ttm/tests/ttm_tt_test.c
-> +++ b/drivers/gpu/drm/ttm/tests/ttm_tt_test.c
-> @@ -262,7 +262,7 @@ static void ttm_tt_populate_null_ttm(struct kunit *test)
->  	struct ttm_operation_ctx ctx = { };
->  	int err;
->  
-> -	err = ttm_tt_populate(devs->ttm_dev, NULL, &ctx);
-> +	err = ttm_tt_populate(devs->ttm_dev, NULL, false, &ctx);
->  	KUNIT_ASSERT_EQ(test, err, -EINVAL);
->  }
->  
-> @@ -283,11 +283,11 @@ static void ttm_tt_populate_populated_ttm(struct kunit *test)
->  	err = ttm_tt_init(tt, bo, 0, ttm_cached, 0);
->  	KUNIT_ASSERT_EQ(test, err, 0);
->  
-> -	err = ttm_tt_populate(devs->ttm_dev, tt, &ctx);
-> +	err = ttm_tt_populate(devs->ttm_dev, tt, false, &ctx);
->  	KUNIT_ASSERT_EQ(test, err, 0);
->  	populated_page = *tt->pages;
->  
-> -	err = ttm_tt_populate(devs->ttm_dev, tt, &ctx);
-> +	err = ttm_tt_populate(devs->ttm_dev, tt, false, &ctx);
->  	KUNIT_ASSERT_PTR_EQ(test, populated_page, *tt->pages);
->  }
->  
-> @@ -307,7 +307,7 @@ static void ttm_tt_unpopulate_basic(struct kunit *test)
->  	err = ttm_tt_init(tt, bo, 0, ttm_cached, 0);
->  	KUNIT_ASSERT_EQ(test, err, 0);
->  
-> -	err = ttm_tt_populate(devs->ttm_dev, tt, &ctx);
-> +	err = ttm_tt_populate(devs->ttm_dev, tt, false, &ctx);
->  	KUNIT_ASSERT_EQ(test, err, 0);
->  	KUNIT_ASSERT_TRUE(test, ttm_tt_is_populated(tt));
->  
-> @@ -351,7 +351,7 @@ static void ttm_tt_swapin_basic(struct kunit *test)
->  	err = ttm_tt_init(tt, bo, 0, ttm_cached, 0);
->  	KUNIT_ASSERT_EQ(test, err, 0);
->  
-> -	err = ttm_tt_populate(devs->ttm_dev, tt, &ctx);
-> +	err = ttm_tt_populate(devs->ttm_dev, tt, false, &ctx);
->  	KUNIT_ASSERT_EQ(test, err, 0);
->  	KUNIT_ASSERT_TRUE(test, ttm_tt_is_populated(tt));
->  
-> @@ -361,7 +361,7 @@ static void ttm_tt_swapin_basic(struct kunit *test)
->  	KUNIT_ASSERT_TRUE(test, tt->page_flags & TTM_TT_FLAG_SWAPPED);
->  
->  	/* Swapout depopulates TT, allocate pages and then swap them in */
-> -	err = ttm_pool_alloc(&devs->ttm_dev->pool, tt, &ctx);
-> +	err = ttm_pool_alloc(&devs->ttm_dev->pool, tt, false, &ctx);
->  	KUNIT_ASSERT_EQ(test, err, 0);
->  
->  	err = ttm_tt_swapin(tt);
-> diff --git a/drivers/gpu/drm/ttm/ttm_bo.c b/drivers/gpu/drm/ttm/ttm_bo.c
-> index f4d9e68b21e7..af04bb8e2c2a 100644
-> --- a/drivers/gpu/drm/ttm/ttm_bo.c
-> +++ b/drivers/gpu/drm/ttm/ttm_bo.c
-> @@ -142,7 +142,7 @@ static int ttm_bo_handle_move_mem(struct ttm_buffer_object *bo,
->  			goto out_err;
->  
->  		if (mem->mem_type != TTM_PL_SYSTEM) {
-> -			ret = ttm_bo_populate(bo, ctx);
-> +			ret = ttm_bo_populate(bo, false, ctx);
->  			if (ret)
->  				goto out_err;
->  		}
-> @@ -1256,6 +1256,7 @@ void ttm_bo_tt_destroy(struct ttm_buffer_object *bo)
->   * is set to true.
->   */
->  int ttm_bo_populate(struct ttm_buffer_object *bo,
-> +		    bool memcg_account,
->  		    struct ttm_operation_ctx *ctx)
->  {
->  	struct ttm_tt *tt = bo->ttm;
-> @@ -1268,7 +1269,7 @@ int ttm_bo_populate(struct ttm_buffer_object *bo,
->  		return 0;
->  
->  	swapped = ttm_tt_is_swapped(tt);
-> -	ret = ttm_tt_populate(bo->bdev, tt, ctx);
-> +	ret = ttm_tt_populate(bo->bdev, tt, memcg_account, ctx);
->  	if (ret)
->  		return ret;
->  
-> diff --git a/drivers/gpu/drm/ttm/ttm_bo_util.c b/drivers/gpu/drm/ttm/ttm_bo_util.c
-> index 250675d56b1c..764d1cf1ecbe 100644
-> --- a/drivers/gpu/drm/ttm/ttm_bo_util.c
-> +++ b/drivers/gpu/drm/ttm/ttm_bo_util.c
-> @@ -167,7 +167,7 @@ int ttm_bo_move_memcpy(struct ttm_buffer_object *bo,
->  	src_man = ttm_manager_type(bdev, src_mem->mem_type);
->  	if (ttm && ((ttm->page_flags & TTM_TT_FLAG_SWAPPED) ||
->  		    dst_man->use_tt)) {
-> -		ret = ttm_bo_populate(bo, ctx);
-> +		ret = ttm_bo_populate(bo, false, ctx);
->  		if (ret)
->  			return ret;
->  	}
-> @@ -354,7 +354,7 @@ static int ttm_bo_kmap_ttm(struct ttm_buffer_object *bo,
->  
->  	BUG_ON(!ttm);
->  
-> -	ret = ttm_bo_populate(bo, &ctx);
-> +	ret = ttm_bo_populate(bo, false, &ctx);
->  	if (ret)
->  		return ret;
->  
-> @@ -511,7 +511,7 @@ int ttm_bo_vmap(struct ttm_buffer_object *bo, struct iosys_map *map)
->  		pgprot_t prot;
->  		void *vaddr;
->  
-> -		ret = ttm_bo_populate(bo, &ctx);
-> +		ret = ttm_bo_populate(bo, false, &ctx);
->  		if (ret)
->  			return ret;
->  
-> diff --git a/drivers/gpu/drm/ttm/ttm_bo_vm.c b/drivers/gpu/drm/ttm/ttm_bo_vm.c
-> index b47020fca199..c5ad447debe3 100644
-> --- a/drivers/gpu/drm/ttm/ttm_bo_vm.c
-> +++ b/drivers/gpu/drm/ttm/ttm_bo_vm.c
-> @@ -225,7 +225,9 @@ vm_fault_t ttm_bo_vm_fault_reserved(struct vm_fault *vmf,
->  		};
->  
->  		ttm = bo->ttm;
-> -		err = ttm_bo_populate(bo, &ctx);
-> +		err = ttm_bo_populate(bo,
-> +				      false,
-> +				      &ctx);
->  		if (err) {
->  			if (err == -EINTR || err == -ERESTARTSYS ||
->  			    err == -EAGAIN)
 > diff --git a/drivers/gpu/drm/ttm/ttm_pool.c b/drivers/gpu/drm/ttm/ttm_pool.c
-> index c6192c915f0d..0526900366e5 100644
+> index 210f4ac4de67..49e92f40ab23 100644
 > --- a/drivers/gpu/drm/ttm/ttm_pool.c
 > +++ b/drivers/gpu/drm/ttm/ttm_pool.c
-> @@ -744,6 +744,7 @@ static unsigned int ttm_pool_alloc_find_order(unsigned int highest,
+> @@ -143,7 +143,9 @@ static int ttm_pool_nid(struct ttm_pool *pool) {
 >  }
 >  
->  static int __ttm_pool_alloc(struct ttm_pool *pool, struct ttm_tt *tt,
-> +			    bool memcg_account,
->  			    const struct ttm_operation_ctx *ctx,
->  			    struct ttm_pool_alloc_state *alloc,
->  			    struct ttm_pool_tt_restore *restore)
-> @@ -854,6 +855,7 @@ static int __ttm_pool_alloc(struct ttm_pool *pool, struct ttm_tt *tt,
->   * Returns: 0 on successe, negative error code otherwise.
->   */
->  int ttm_pool_alloc(struct ttm_pool *pool, struct ttm_tt *tt,
-> +		   bool memcg_account,
->  		   struct ttm_operation_ctx *ctx)
+>  /* Allocate pages of size 1 << order with the given gfp_flags */
+> -static struct page *ttm_pool_alloc_page(struct ttm_pool *pool, gfp_t gfp_flags,
+> +static struct page *ttm_pool_alloc_page(struct ttm_pool *pool,
+> +					struct obj_cgroup *objcg,
+> +					gfp_t gfp_flags,
+>  					unsigned int order)
 >  {
->  	struct ttm_pool_alloc_state alloc;
-> @@ -863,7 +865,7 @@ int ttm_pool_alloc(struct ttm_pool *pool, struct ttm_tt *tt,
+>  	unsigned long attr = DMA_ATTR_FORCE_CONTIGUOUS;
+> @@ -163,6 +165,10 @@ static struct page *ttm_pool_alloc_page(struct ttm_pool *pool, gfp_t gfp_flags,
+>  		p = alloc_pages_node(pool->nid, gfp_flags, order);
+>  		if (p) {
+>  			p->private = order;
+> +			if (!mem_cgroup_charge_gpu_page(objcg, p, order, gfp_flags, false)) {
+> +				__free_pages(p, order);
+> +				return NULL;
+> +			}
+>  			mod_node_page_state(NODE_DATA(ttm_pool_nid(pool)), NR_GPU_ACTIVE, (1 << order));
+>  		}
+>  		return p;
+> @@ -214,6 +220,7 @@ static void ttm_pool_free_page(struct ttm_pool *pool, enum ttm_caching caching,
+>  #endif
 >  
->  	ttm_pool_alloc_state_init(tt, &alloc);
+>  	if (!pool || !pool->use_dma_alloc) {
+> +		mem_cgroup_uncharge_gpu_page(p, order, reclaim);
+>  		mod_node_page_state(NODE_DATA(ttm_pool_nid(pool)),
+>  				    reclaim ? NR_GPU_RECLAIM : NR_GPU_ACTIVE,
+>  				    -(1 << order));
+> @@ -303,12 +310,13 @@ static void ttm_pool_type_give(struct ttm_pool_type *pt, struct page *p)
 >  
-> -	return __ttm_pool_alloc(pool, tt, ctx, &alloc, NULL);
-> +	return __ttm_pool_alloc(pool, tt, memcg_account, ctx, &alloc, NULL);
+>  	INIT_LIST_HEAD(&p->lru);
+>  	rcu_read_lock();
+> -	list_lru_add(&pt->pages, &p->lru, nid, NULL);
+> +	list_lru_add(&pt->pages, &p->lru, nid, page_memcg_check(p));
+>  	rcu_read_unlock();
+>  
+>  	atomic_long_add(num_pages, &allocated_pages[nid]);
+>  	mod_node_page_state(NODE_DATA(nid), NR_GPU_ACTIVE, -num_pages);
+>  	mod_node_page_state(NODE_DATA(nid), NR_GPU_RECLAIM, num_pages);
+> +	mem_cgroup_move_gpu_page_reclaim(NULL, p, pt->order, true);
 >  }
->  EXPORT_SYMBOL(ttm_pool_alloc);
 >  
-> @@ -916,7 +918,7 @@ int ttm_pool_restore_and_alloc(struct ttm_pool *pool, struct ttm_tt *tt,
->  			return 0;
->  	}
->  
-> -	return __ttm_pool_alloc(pool, tt, ctx, &alloc, tt->restore);
-> +	return __ttm_pool_alloc(pool, tt, false, ctx, &alloc, tt->restore);
+>  static enum lru_status take_one_from_lru(struct list_head *item,
+> @@ -323,20 +331,59 @@ static enum lru_status take_one_from_lru(struct list_head *item,
+>  	return LRU_REMOVED;
 >  }
 >  
->  /**
-> diff --git a/drivers/gpu/drm/ttm/ttm_tt.c b/drivers/gpu/drm/ttm/ttm_tt.c
-> index 506e257dfba8..8f38de3b2f1c 100644
-> --- a/drivers/gpu/drm/ttm/ttm_tt.c
-> +++ b/drivers/gpu/drm/ttm/ttm_tt.c
-> @@ -366,7 +366,9 @@ int ttm_tt_swapout(struct ttm_device *bdev, struct ttm_tt *ttm,
->  EXPORT_SYMBOL_FOR_TESTS_ONLY(ttm_tt_swapout);
->  
->  int ttm_tt_populate(struct ttm_device *bdev,
-> -		    struct ttm_tt *ttm, struct ttm_operation_ctx *ctx)
-> +		    struct ttm_tt *ttm,
-> +		    bool memcg_account,
-> +		    struct ttm_operation_ctx *ctx)
+> -/* Take pages from a specific pool_type, return NULL when nothing available */
+> -static struct page *ttm_pool_type_take(struct ttm_pool_type *pt, int nid)
+> +static int pool_lru_get_page(struct ttm_pool_type *pt, int nid,
+> +			     struct page **page_out,
+> +			     struct obj_cgroup *objcg,
+> +			     struct mem_cgroup *memcg)
 >  {
 >  	int ret;
+>  	struct page *p = NULL;
+>  	unsigned long nr_to_walk = 1;
+> +	unsigned int num_pages = 1 << pt->order;
 >  
-> @@ -395,9 +397,9 @@ int ttm_tt_populate(struct ttm_device *bdev,
+> -	ret = list_lru_walk_node(&pt->pages, nid, take_one_from_lru, (void *)&p, &nr_to_walk);
+> +	ret = list_lru_walk_one(&pt->pages, nid, memcg, take_one_from_lru, (void *)&p, &nr_to_walk);
+>  	if (ret == 1 && p) {
+> -		atomic_long_sub(1 << pt->order, &allocated_pages[nid]);
+> -		mod_node_page_state(NODE_DATA(nid), NR_GPU_ACTIVE, (1 << pt->order));
+> -		mod_node_page_state(NODE_DATA(nid), NR_GPU_RECLAIM, -(1 << pt->order));
+> +		atomic_long_sub(num_pages, &allocated_pages[nid]);
+> +		mod_node_page_state(NODE_DATA(nid), NR_GPU_RECLAIM, -num_pages);
+> +
+> +		if (!mem_cgroup_move_gpu_page_reclaim(objcg, p, pt->order, false)) {
+> +			__free_pages(p, pt->order);
+> +			p = NULL;
+> +		}
+> +		if (p)
+> +			mod_node_page_state(NODE_DATA(nid), NR_GPU_ACTIVE, num_pages);
 >  	}
->  
->  	if (bdev->funcs->ttm_tt_populate)
-> -		ret = bdev->funcs->ttm_tt_populate(bdev, ttm, ctx);
-> +		ret = bdev->funcs->ttm_tt_populate(bdev, ttm, memcg_account, ctx);
->  	else
-> -		ret = ttm_pool_alloc(&bdev->pool, ttm, ctx);
-> +		ret = ttm_pool_alloc(&bdev->pool, ttm, memcg_account, ctx);
->  	if (ret)
->  		goto error;
->  
-> diff --git a/drivers/gpu/drm/vmwgfx/vmwgfx_blit.c b/drivers/gpu/drm/vmwgfx/vmwgfx_blit.c
-> index fa5841fda659..a4d4ebf585fe 100644
-> --- a/drivers/gpu/drm/vmwgfx/vmwgfx_blit.c
-> +++ b/drivers/gpu/drm/vmwgfx/vmwgfx_blit.c
-> @@ -569,13 +569,13 @@ int vmw_bo_cpu_blit(struct vmw_bo *vmw_dst,
->  		dma_resv_assert_held(src->base.resv);
->  
->  	if (!ttm_tt_is_populated(dst->ttm)) {
-> -		ret = dst->bdev->funcs->ttm_tt_populate(dst->bdev, dst->ttm, &ctx);
-> +		ret = dst->bdev->funcs->ttm_tt_populate(dst->bdev, dst->ttm, false, &ctx);
->  		if (ret)
->  			return ret;
->  	}
->  
->  	if (!ttm_tt_is_populated(src->ttm)) {
-> -		ret = src->bdev->funcs->ttm_tt_populate(src->bdev, src->ttm, &ctx);
-> +		ret = src->bdev->funcs->ttm_tt_populate(src->bdev, src->ttm, false, &ctx);
->  		if (ret)
->  			return ret;
->  	}
-> diff --git a/drivers/gpu/drm/vmwgfx/vmwgfx_ttm_buffer.c b/drivers/gpu/drm/vmwgfx/vmwgfx_ttm_buffer.c
-> index 5553892d7c3e..2351dafc1c68 100644
-> --- a/drivers/gpu/drm/vmwgfx/vmwgfx_ttm_buffer.c
-> +++ b/drivers/gpu/drm/vmwgfx/vmwgfx_ttm_buffer.c
-> @@ -360,7 +360,8 @@ static void vmw_ttm_destroy(struct ttm_device *bdev, struct ttm_tt *ttm)
->  
->  
->  static int vmw_ttm_populate(struct ttm_device *bdev,
-> -			    struct ttm_tt *ttm, struct ttm_operation_ctx *ctx)
-> +			    struct ttm_tt *ttm, bool memcg_account,
-> +			    struct ttm_operation_ctx *ctx)
->  {
->  	bool external = (ttm->page_flags & TTM_TT_FLAG_EXTERNAL) != 0;
->  
-> @@ -372,7 +373,7 @@ static int vmw_ttm_populate(struct ttm_device *bdev,
->  						       ttm->dma_address,
->  						       ttm->num_pages);
->  
-> -	return ttm_pool_alloc(&bdev->pool, ttm, ctx);
-> +	return ttm_pool_alloc(&bdev->pool, ttm, memcg_account, ctx);
+> -	return p;
+> +	*page_out = p;
+> +	return ret;
+> +}
+> +
+> +/* Take pages from a specific pool_type, return NULL when nothing available */
+> +static struct page *ttm_pool_type_take(struct ttm_pool_type *pt, int nid,
+> +				       struct obj_cgroup *orig_objcg)
+> +{
+> +	struct page *page_out = NULL;
+> +	int ret;
+> +	struct mem_cgroup *orig_memcg = orig_objcg ? get_mem_cgroup_from_objcg(orig_objcg) : NULL;
+> +	struct mem_cgroup *memcg = orig_memcg;
+> +
+> +	/*
+> +	 * Attempt to get a page from the current memcg, but if it hasn't got any in it's level,
+> +	 * go up to the parent and check there. This helps the scenario where multiple apps get
+> +	 * started into their own cgroup from a common parent and want to reuse the pools.
+> +	 */
+> +	while (!page_out) {
+> +		ret = pool_lru_get_page(pt, nid, &page_out, orig_objcg, memcg);
+> +		if (ret == 1)
+> +			break;
+> +		if (!memcg)
+> +			break;
+> +		memcg = parent_mem_cgroup(memcg);
+> +		if (!memcg)
+> +			break;
+> +	}
+> +
+> +	mem_cgroup_put(orig_memcg);
+> +	return page_out;
 >  }
 >  
->  static void vmw_ttm_unpopulate(struct ttm_device *bdev,
-> @@ -580,7 +581,7 @@ int vmw_bo_create_and_populate(struct vmw_private *dev_priv,
->  	if (unlikely(ret != 0))
->  		return ret;
+>  /* Initialize and add a pool type to the global shrinker list */
+> @@ -346,7 +393,7 @@ static void ttm_pool_type_init(struct ttm_pool_type *pt, struct ttm_pool *pool,
+>  	pt->pool = pool;
+>  	pt->caching = caching;
+>  	pt->order = order;
+> -	list_lru_init(&pt->pages);
+> +	list_lru_init_memcg(&pt->pages, mm_shrinker);
 >  
-> -	ret = vmw_ttm_populate(vbo->tbo.bdev, vbo->tbo.ttm, &ctx);
-> +	ret = vmw_ttm_populate(vbo->tbo.bdev, vbo->tbo.ttm, false, &ctx);
->  	if (likely(ret == 0)) {
->  		struct vmw_ttm_tt *vmw_tt =
->  			container_of(vbo->tbo.ttm, struct vmw_ttm_tt, dma_ttm);
-> diff --git a/drivers/gpu/drm/xe/xe_bo.c b/drivers/gpu/drm/xe/xe_bo.c
-> index 7aa2c17825da..522cbff11563 100644
-> --- a/drivers/gpu/drm/xe/xe_bo.c
-> +++ b/drivers/gpu/drm/xe/xe_bo.c
-> @@ -504,6 +504,7 @@ static struct ttm_tt *xe_ttm_tt_create(struct ttm_buffer_object *ttm_bo,
+>  	spin_lock(&shrinker_lock);
+>  	list_add_tail(&pt->shrinker_list, &shrinker_list);
+> @@ -389,6 +436,30 @@ static void ttm_pool_type_fini(struct ttm_pool_type *pt)
+>  	ttm_pool_dispose_list(pt, &dispose);
 >  }
 >  
->  static int xe_ttm_tt_populate(struct ttm_device *ttm_dev, struct ttm_tt *tt,
-> +			      bool memcg_account,
->  			      struct ttm_operation_ctx *ctx)
+> +static int ttm_pool_check_objcg(struct obj_cgroup *objcg)
+> +{
+> +#ifdef CONFIG_MEMCG
+> +	int r = 0;
+> +	struct mem_cgroup *memcg;
+> +	if (!objcg)
+> +		return 0;
+> +
+> +	memcg = get_mem_cgroup_from_objcg(objcg);
+> +	for (unsigned i = 0; i < NR_PAGE_ORDERS; i++) {
+> +		r = memcg_list_lru_alloc(memcg, &global_write_combined[i].pages, GFP_KERNEL);
+> +		if (r) {
+> +			break;
+> +		}
+> +		r = memcg_list_lru_alloc(memcg, &global_uncached[i].pages, GFP_KERNEL);
+> +		if (r) {
+> +			break;
+> +		}
+> +	}
+> +	css_put(&memcg->css);
+> +#endif
+> +	return 0;
+> +}
+> +
+>  /* Return the pool_type to use for the given caching and order */
+>  static struct ttm_pool_type *ttm_pool_select_type(struct ttm_pool *pool,
+>  						  enum ttm_caching caching,
+> @@ -418,7 +489,9 @@ static struct ttm_pool_type *ttm_pool_select_type(struct ttm_pool *pool,
+>  }
+>  
+>  /* Free pages using the per-node shrinker list */
+> -static unsigned int ttm_pool_shrink(int nid, unsigned long num_to_free)
+> +static unsigned int ttm_pool_shrink(int nid,
+> +				    struct mem_cgroup *memcg,
+> +				    unsigned long num_to_free)
 >  {
->  	struct xe_ttm_tt *xe_tt = container_of(tt, struct xe_ttm_tt, ttm);
-> @@ -521,7 +522,7 @@ static int xe_ttm_tt_populate(struct ttm_device *ttm_dev, struct ttm_tt *tt,
->  		err = ttm_tt_restore(ttm_dev, tt, ctx);
->  	} else {
->  		ttm_tt_clear_backed_up(tt);
-> -		err = ttm_pool_alloc(&ttm_dev->pool, tt, ctx);
-> +		err = ttm_pool_alloc(&ttm_dev->pool, tt, memcg_account, ctx);
+>  	LIST_HEAD(dispose);
+>  	struct ttm_pool_type *pt;
+> @@ -430,7 +503,11 @@ static unsigned int ttm_pool_shrink(int nid, unsigned long num_to_free)
+>  	list_move_tail(&pt->shrinker_list, &shrinker_list);
+>  	spin_unlock(&shrinker_lock);
+>  
+> -	num_pages = list_lru_walk_node(&pt->pages, nid, pool_move_to_dispose_list, &dispose, &num_to_free);
+> +	if (!memcg) {
+> +		num_pages = list_lru_walk_node(&pt->pages, nid, pool_move_to_dispose_list, &dispose, &num_to_free);
+> +	} else {
+> +		num_pages = list_lru_walk_one(&pt->pages, nid, memcg, pool_move_to_dispose_list, &dispose, &num_to_free);
+> +	}
+>  	num_pages *= 1 << pt->order;
+>  
+>  	ttm_pool_dispose_list(pt, &dispose);
+> @@ -595,6 +672,7 @@ static int ttm_pool_restore_commit(struct ttm_pool_tt_restore *restore,
+>  			 */
+>  			ttm_pool_split_for_swap(restore->pool, p);
+>  			copy_highpage(restore->alloced_page + i, p);
+> +			p->memcg_data = 0;
+>  			__free_pages(p, 0);
+>  		}
+>  
+> @@ -756,6 +834,7 @@ static int __ttm_pool_alloc(struct ttm_pool *pool, struct ttm_tt *tt,
+>  	bool allow_pools;
+>  	struct page *p;
+>  	int r;
+> +	struct obj_cgroup *objcg = memcg_account ? tt->objcg : NULL;
+>  
+>  	WARN_ON(!alloc->remaining_pages || ttm_tt_is_populated(tt));
+>  	WARN_ON(alloc->dma_addr && !pool->dev);
+> @@ -773,6 +852,9 @@ static int __ttm_pool_alloc(struct ttm_pool *pool, struct ttm_tt *tt,
+>  
+>  	page_caching = tt->caching;
+>  	allow_pools = true;
+> +
+> +	ttm_pool_check_objcg(objcg);
+> +
+>  	for (order = ttm_pool_alloc_find_order(MAX_PAGE_ORDER, alloc);
+>  	     alloc->remaining_pages;
+>  	     order = ttm_pool_alloc_find_order(order, alloc)) {
+> @@ -782,7 +864,7 @@ static int __ttm_pool_alloc(struct ttm_pool *pool, struct ttm_tt *tt,
+>  		p = NULL;
+>  		pt = ttm_pool_select_type(pool, page_caching, order);
+>  		if (pt && allow_pools)
+> -			p = ttm_pool_type_take(pt, ttm_pool_nid(pool));
+> +			p = ttm_pool_type_take(pt, ttm_pool_nid(pool), objcg);
+>  
+>  		/*
+>  		 * If that fails or previously failed, allocate from system.
+> @@ -793,7 +875,7 @@ static int __ttm_pool_alloc(struct ttm_pool *pool, struct ttm_tt *tt,
+>  		if (!p) {
+>  			page_caching = ttm_cached;
+>  			allow_pools = false;
+> -			p = ttm_pool_alloc_page(pool, gfp_flags, order);
+> +			p = ttm_pool_alloc_page(pool, objcg, gfp_flags, order);
+>  		}
+>  		/* If that fails, lower the order if possible and retry. */
+>  		if (!p) {
+> @@ -937,7 +1019,7 @@ void ttm_pool_free(struct ttm_pool *pool, struct ttm_tt *tt)
+>  
+>  	while (atomic_long_read(&allocated_pages[nid]) > pool_node_limit[nid]) {
+>  		unsigned long diff = pool_node_limit[nid] - atomic_long_read(&allocated_pages[nid]);
+> -		ttm_pool_shrink(nid, diff);
+> +		ttm_pool_shrink(nid, NULL, diff);
 >  	}
->  	if (err)
->  		return err;
-> diff --git a/include/drm/ttm/ttm_bo.h b/include/drm/ttm/ttm_bo.h
-> index 894ff7ccd68e..099dc2604baa 100644
-> --- a/include/drm/ttm/ttm_bo.h
-> +++ b/include/drm/ttm/ttm_bo.h
-> @@ -464,6 +464,7 @@ pgprot_t ttm_io_prot(struct ttm_buffer_object *bo, struct ttm_resource *res,
->  		     pgprot_t tmp);
->  void ttm_bo_tt_destroy(struct ttm_buffer_object *bo);
->  int ttm_bo_populate(struct ttm_buffer_object *bo,
-> +		    bool memcg_account,
->  		    struct ttm_operation_ctx *ctx);
+>  }
+>  EXPORT_SYMBOL(ttm_pool_free);
+> @@ -1057,6 +1139,7 @@ long ttm_pool_backup(struct ttm_pool *pool, struct ttm_tt *tt,
+>  			if (flags->purge) {
+>  				shrunken += num_pages;
+>  				page->private = 0;
+> +				page->memcg_data = 0;
+>  				__free_pages(page, order);
+>  				memset(tt->pages + i, 0,
+>  				       num_pages * sizeof(*tt->pages));
+> @@ -1193,10 +1276,14 @@ static unsigned long ttm_pool_shrinker_scan(struct shrinker *shrink,
+>  					    struct shrink_control *sc)
+>  {
+>  	unsigned long num_freed = 0;
+> +	int num_pools;
+> +	spin_lock(&shrinker_lock);
+> +	num_pools = list_count_nodes(&shrinker_list);
+> +	spin_unlock(&shrinker_lock);
 >  
->  /* Driver LRU walk helpers initially targeted for shrinking. */
-> diff --git a/include/drm/ttm/ttm_device.h b/include/drm/ttm/ttm_device.h
-> index 39b8636b1845..903ca40ebf92 100644
-> --- a/include/drm/ttm/ttm_device.h
-> +++ b/include/drm/ttm/ttm_device.h
-> @@ -84,6 +84,7 @@ struct ttm_device_funcs {
->  	 */
->  	int (*ttm_tt_populate)(struct ttm_device *bdev,
->  			       struct ttm_tt *ttm,
-> +			       bool memcg_account,
->  			       struct ttm_operation_ctx *ctx);
+>  	do
+> -		num_freed += ttm_pool_shrink(sc->nid, sc->nr_to_scan);
+> -	while (num_freed < sc->nr_to_scan &&
+> +		num_freed += ttm_pool_shrink(sc->nid, sc->memcg, sc->nr_to_scan);
+> +	while (num_pools-- >= 0 && num_freed < sc->nr_to_scan &&
+>  	       atomic_long_read(&allocated_pages[sc->nid]));
 >  
->  	/**
-> diff --git a/include/drm/ttm/ttm_pool.h b/include/drm/ttm/ttm_pool.h
-> index df56527c4853..da5b94226203 100644
-> --- a/include/drm/ttm/ttm_pool.h
-> +++ b/include/drm/ttm/ttm_pool.h
-> @@ -79,6 +79,7 @@ struct ttm_pool {
->  };
+>  	sc->nr_scanned = num_freed;
+> @@ -1388,7 +1475,7 @@ int ttm_pool_mgr_init(unsigned long num_pages)
+>  	spin_lock_init(&shrinker_lock);
+>  	INIT_LIST_HEAD(&shrinker_list);
 >  
->  int ttm_pool_alloc(struct ttm_pool *pool, struct ttm_tt *tt,
-> +		   bool memcg_account,
->  		   struct ttm_operation_ctx *ctx);
->  void ttm_pool_free(struct ttm_pool *pool, struct ttm_tt *tt);
+> -	mm_shrinker = shrinker_alloc(SHRINKER_NUMA_AWARE, "drm-ttm_pool");
+> +	mm_shrinker = shrinker_alloc(SHRINKER_MEMCG_AWARE | SHRINKER_NUMA_AWARE, "drm-ttm_pool");
+>  	if (!mm_shrinker)
+>  		return -ENOMEM;
 >  
-> diff --git a/include/drm/ttm/ttm_tt.h b/include/drm/ttm/ttm_tt.h
-> index 406437ad674b..15d4019685f6 100644
-> --- a/include/drm/ttm/ttm_tt.h
-> +++ b/include/drm/ttm/ttm_tt.h
-> @@ -250,6 +250,7 @@ int ttm_tt_swapout(struct ttm_device *bdev, struct ttm_tt *ttm,
->   * Calls the driver method to allocate pages for a ttm
->   */
->  int ttm_tt_populate(struct ttm_device *bdev, struct ttm_tt *ttm,
-> +		    bool memcg_account,
->  		    struct ttm_operation_ctx *ctx);
->  
->  /**
 
