@@ -2,71 +2,50 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1DE4EAED145
-	for <lists+dri-devel@lfdr.de>; Sun, 29 Jun 2025 23:29:01 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 287CAAED389
+	for <lists+dri-devel@lfdr.de>; Mon, 30 Jun 2025 06:50:27 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D54B010E035;
-	Sun, 29 Jun 2025 21:28:38 +0000 (UTC)
-Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="cyYWz0cq";
-	dkim-atps=neutral
+	by gabe.freedesktop.org (Postfix) with ESMTP id 08E1E10E0A2;
+	Mon, 30 Jun 2025 04:50:24 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.12])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E661110E035
- for <dri-devel@lists.freedesktop.org>; Sun, 29 Jun 2025 21:28:36 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1751232517; x=1782768517;
- h=date:from:to:cc:subject:message-id:references:
- mime-version:in-reply-to;
- bh=slX9fChmUoL5l9nvF+ZMylk+SnKP5UtGpkfN0xJ+NZs=;
- b=cyYWz0cqy1sxsnWr1NFoqq9nCgUhTpDQwsMRw//m7CpRenuw482YUthq
- AZnxgZtaYzhY5HswJK6C7MU32wQMfNJdhbz50Q4offK3ezmD3Kb7J+tCn
- /h9Qc0z+fXSVVzIPlP+rRVc6jdQN/4Ik/ZzfMlIrVN1I1BYCz0trz0UZr
- kBQDcVwkH5pbhVaIieYUTRa7Mmf49/K5svoJlXINjQk6LPXp+kpBlzMSh
- Wrp4mpZdedXlHyWmvFfArHmwK0Hpjd1F56rqANQNKBGTiBvSoHv+vcQks
- pUdTb9HaSFiTtbpcqVdy7rGbxD7Zm+cZZTlNbK1vdYQj690jWBRHXFIuF Q==;
-X-CSE-ConnectionGUID: 6H4BuzZ+Ra6WtJ9LjwwZIg==
-X-CSE-MsgGUID: 4pLRXTq4Q0WsnZYy9cuMxg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11479"; a="57261639"
-X-IronPort-AV: E=Sophos;i="6.16,276,1744095600"; d="scan'208";a="57261639"
-Received: from orviesa009.jf.intel.com ([10.64.159.149])
- by fmvoesa106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 29 Jun 2025 14:28:36 -0700
-X-CSE-ConnectionGUID: 6WMCJYmKRu+jB6KsrlCtww==
-X-CSE-MsgGUID: qdWMCtPQQsmFYRdXgAHS5g==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.16,276,1744095600"; d="scan'208";a="153026179"
-Received: from lkp-server01.sh.intel.com (HELO e8142ee1dce2) ([10.239.97.150])
- by orviesa009.jf.intel.com with ESMTP; 29 Jun 2025 14:28:32 -0700
-Received: from kbuild by e8142ee1dce2 with local (Exim 4.96)
- (envelope-from <lkp@intel.com>) id 1uVzZd-000YFC-2f;
- Sun, 29 Jun 2025 21:28:29 +0000
-Date: Mon, 30 Jun 2025 05:27:59 +0800
-From: kernel test robot <lkp@intel.com>
-To: Louis Chauvet <louis.chauvet@bootlin.com>,
- Melissa Wen <melissa.srw@gmail.com>,
- =?iso-8859-1?Q?Ma=EDra?= Canal <mairacanal@riseup.net>,
- Haneen Mohammed <hamohammed.sa@gmail.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- Rodrigo Siqueira <siqueira@igalia.com>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
- dri-devel@lists.freedesktop.org, arthurgrillo@riseup.net,
- linux-kernel@vger.kernel.org, jeremie.dautheribes@bootlin.com,
- miquel.raynal@bootlin.com, thomas.petazzoni@bootlin.com,
- seanpaul@google.com, nicolejadeyee@google.com,
- Louis Chauvet <louis.chauvet@bootlin.com>
-Subject: Re: [PATCH v6 7/8] drm/vkms: Create helper macro for YUV formats
-Message-ID: <202506300528.vxGyGV82-lkp@intel.com>
-References: <20250628-b4-new-color-formats-v6-7-2125b193f91a@bootlin.com>
+Received: from us-smtp-delivery-44.mimecast.com
+ (us-smtp-delivery-44.mimecast.com [207.211.30.44])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4795310E0A2
+ for <dri-devel@lists.freedesktop.org>; Mon, 30 Jun 2025 04:50:22 +0000 (UTC)
+Received: from mx-prod-mc-05.mail-002.prod.us-west-2.aws.redhat.com
+ (ec2-54-186-198-63.us-west-2.compute.amazonaws.com [54.186.198.63]) by
+ relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
+ cipher=TLS_AES_256_GCM_SHA384) id us-mta-47-K_va_72UMMi8zod4aG77Fw-1; Mon,
+ 30 Jun 2025 00:50:17 -0400
+X-MC-Unique: K_va_72UMMi8zod4aG77Fw-1
+X-Mimecast-MFC-AGG-ID: K_va_72UMMi8zod4aG77Fw_1751259016
+Received: from mx-prod-int-05.mail-002.prod.us-west-2.aws.redhat.com
+ (mx-prod-int-05.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.17])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+ (No client certificate requested)
+ by mx-prod-mc-05.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS
+ id 668C4193F048; Mon, 30 Jun 2025 04:50:15 +0000 (UTC)
+Received: from dreadlord.redhat.com (unknown [10.67.24.96])
+ by mx-prod-int-05.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTP
+ id 3DCFD1956095; Mon, 30 Jun 2025 04:50:09 +0000 (UTC)
+From: Dave Airlie <airlied@gmail.com>
+To: dri-devel@lists.freedesktop.org, linux-mm@kvack.org,
+ Johannes Weiner <hannes@cmpxchg.org>,
+ Christian Koenig <christian.koenig@amd.com>
+Cc: Dave Chinner <david@fromorbit.com>,
+	Kairui Song <kasong@tencent.com>
+Subject: drm/ttm/memcg/lru: enable memcg tracking for ttm and amdgpu driver
+Date: Mon, 30 Jun 2025 14:49:19 +1000
+Message-ID: <20250630045005.1337339-1-airlied@gmail.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20250628-b4-new-color-formats-v6-7-2125b193f91a@bootlin.com>
+X-Scanned-By: MIMEDefang 3.0 on 10.30.177.17
+X-Mimecast-Spam-Score: 0
+X-Mimecast-MFC-PROC-ID: XFmcbzs2X1fvWm4PzdhhJdFddE3YlxO4t5uV8yhNcMU_1751259016
+X-Mimecast-Originator: gmail.com
+Content-Transfer-Encoding: quoted-printable
+content-type: text/plain; charset=WINDOWS-1252; x-default=true
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -82,38 +61,38 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Louis,
+Hi all,
 
-kernel test robot noticed the following build warnings:
+tl;dr: start using list_lru/numa/memcg in GPU driver core and amdgpu driver=
+ for now.
 
-[auto build test WARNING on bb8aa27eff6f3376242da37c2d02b9dcc66934b1]
+This is a complete series of patches, some of which have been sent before a=
+nd reviewed,
+but I want to get the complete picture for others, and try to figure out ho=
+w best to land this.
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Louis-Chauvet/drm-vkms-Create-helpers-macro-to-avoid-code-duplication-in-format-callbacks/20250628-065148
-base:   bb8aa27eff6f3376242da37c2d02b9dcc66934b1
-patch link:    https://lore.kernel.org/r/20250628-b4-new-color-formats-v6-7-2125b193f91a%40bootlin.com
-patch subject: [PATCH v6 7/8] drm/vkms: Create helper macro for YUV formats
-config: x86_64-randconfig-073-20250630 (https://download.01.org/0day-ci/archive/20250630/202506300528.vxGyGV82-lkp@intel.com/config)
-compiler: clang version 20.1.7 (https://github.com/llvm/llvm-project 6146a88f60492b520a36f8f8f3231e15f3cc6082)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250630/202506300528.vxGyGV82-lkp@intel.com/reproduce)
+There are 3 pieces to this:
+01->02: add support for global gpu stat counters (previously posted, patch =
+2 is newer)
+03->07: port ttm pools to list_lru for numa awareness
+08->14: add memcg stats + gpu apis, then port ttm pools to memcg aware list=
+_lru and shrinker
+15->17: enable amdgpu to use new functionality.
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202506300528.vxGyGV82-lkp@intel.com/
+The biggest difference in the memcg code from previously is I discovered wh=
+at
+obj cgroups were designed for and I'm reusing the page/objcg intergration t=
+hat=20
+already exists, to avoid reinventing that wheel right now.
 
-All warnings (new ones prefixed by >>):
+There are some igt-gpu-tools tests I've written at:
+https://gitlab.freedesktop.org/airlied/igt-gpu-tools/-/tree/amdgpu-cgroups?=
+ref_type=3Dheads
 
-   Warning: drivers/gpu/drm/vkms/vkms_formats.c:317 Excess function parameter '__VA_ARGS__' description in 'READ_LINE'
-   Warning: drivers/gpu/drm/vkms/vkms_formats.c:344 function parameter 'a' not described in 'READ_LINE_ARGB8888'
-   Warning: drivers/gpu/drm/vkms/vkms_formats.c:344 function parameter 'r' not described in 'READ_LINE_ARGB8888'
-   Warning: drivers/gpu/drm/vkms/vkms_formats.c:344 function parameter 'g' not described in 'READ_LINE_ARGB8888'
-   Warning: drivers/gpu/drm/vkms/vkms_formats.c:344 function parameter 'b' not described in 'READ_LINE_ARGB8888'
-   Warning: drivers/gpu/drm/vkms/vkms_formats.c:354 function parameter 'a' not described in 'READ_LINE_le16161616'
-   Warning: drivers/gpu/drm/vkms/vkms_formats.c:354 function parameter 'r' not described in 'READ_LINE_le16161616'
-   Warning: drivers/gpu/drm/vkms/vkms_formats.c:354 function parameter 'g' not described in 'READ_LINE_le16161616'
-   Warning: drivers/gpu/drm/vkms/vkms_formats.c:354 function parameter 'b' not described in 'READ_LINE_le16161616'
->> Warning: drivers/gpu/drm/vkms/vkms_formats.c:490 Excess function parameter '__VA_ARGS__' description in 'READ_LINE_YUV_SEMIPLANAR'
+One problem is there are a lot of delayed action, that probably means the t=
+esting
+needs a bit more robustness, but the tests validate all the basic paths.
 
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+Regards,
+Dave.
+
