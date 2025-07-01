@@ -2,66 +2,66 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 771B5AEF38C
-	for <lists+dri-devel@lfdr.de>; Tue,  1 Jul 2025 11:41:13 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id A594DAEF390
+	for <lists+dri-devel@lfdr.de>; Tue,  1 Jul 2025 11:41:24 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 74D9C10E060;
-	Tue,  1 Jul 2025 09:41:11 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id BAC1B10E570;
+	Tue,  1 Jul 2025 09:41:22 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="B18e9h0K";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="GRIUIbAP";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pf1-f178.google.com (mail-pf1-f178.google.com
- [209.85.210.178])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1037E10E570
- for <dri-devel@lists.freedesktop.org>; Tue,  1 Jul 2025 09:41:10 +0000 (UTC)
-Received: by mail-pf1-f178.google.com with SMTP id
- d2e1a72fcca58-749248d06faso5567839b3a.2
- for <dri-devel@lists.freedesktop.org>; Tue, 01 Jul 2025 02:41:10 -0700 (PDT)
+Received: from mail-pf1-f172.google.com (mail-pf1-f172.google.com
+ [209.85.210.172])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 88C0B10E570
+ for <dri-devel@lists.freedesktop.org>; Tue,  1 Jul 2025 09:41:21 +0000 (UTC)
+Received: by mail-pf1-f172.google.com with SMTP id
+ d2e1a72fcca58-747fc77bb2aso2851281b3a.3
+ for <dri-devel@lists.freedesktop.org>; Tue, 01 Jul 2025 02:41:21 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1751362869; x=1751967669; darn=lists.freedesktop.org;
+ d=gmail.com; s=20230601; t=1751362881; x=1751967681; darn=lists.freedesktop.org;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=p6VPondI9s6Ps40JI4paXgB0FQE9DZBVRKYHGloiqBo=;
- b=B18e9h0Kt8uPz5YI2LUcl7WUnlY0Ba8FB8dZgzrE3oivNtUnoyvmJxagcIEW92OyWx
- Va6Hy+vOlJuxcsaduchWTn/NKRkXOO9/pnquotPK2OwzsJwXhCO/m2ypC+PRBGQBWxB/
- GWkujucGcZp7bfoY+tiwJ7/Ye4tJ6GWWjLvjLXG7pFm+eHULkCdgH/3E9Pqp68sh5GyQ
- w/3H+W6z5idWsY1i3kWZLFXiWiBo3BoRPypshulX8519KLHvijz+IDyjnKaNlw0aDS1n
- 8l1Kir+jGPku8Sbz9PVuditA65x2yORwDn+Xt2pIdjMvxw++AFwCjC0O1Q+Pt8tdaJy6
- Lt4Q==
+ bh=3PnEDkQYSGlej4tjD/bQ1dPRo4xaWxnAEWg0UHJoseU=;
+ b=GRIUIbAPNqyN6D+vmahGudCCwVi0YW94PmsVsXD7fKXIJntDtw8g2cDYuFlTGMphsF
+ vGMzbhcVrctVSuNl3oiyo4otyrI8Jxf1/zCh5lt0n/3gDlDgXh5PHnbZ5mQnLvbxCXGJ
+ Pf4fNYFL1sBCiPo0amtFS9xuDETe2Q4kRoChi12qYESDXFTL7NvmobOT0lK9JDQnEdSF
+ H42tSZbuJ8VQMU+Tf3uR3IApJX5+EubwIV+NLHZH3gTobxVa1eJy2Q3e1aKr1cZIQvMw
+ Djk21zJHtG8wWkW3RW070cK6lytJC2tvGDvyFy3Z/ww488OwbhB64iJb8vRgsNvbHvnZ
+ wpHg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1751362869; x=1751967669;
+ d=1e100.net; s=20230601; t=1751362881; x=1751967681;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=p6VPondI9s6Ps40JI4paXgB0FQE9DZBVRKYHGloiqBo=;
- b=YzyBBIwdOFS/Prn0Id11uuLUhApXYTUm+RhgLHAI0SyuUof3JsSyfP7DpFlkEZRenW
- 5FKN6z27ei3DuT4h2XE6951Nt1epJvHEJXg/xITMNjPZaMTnyn904pU+6hRrDR1CMqPF
- ZfQO35xIZItN0+QpshZ2dzkKYg+0/JNJKXRdbKsJ7r1QhlDwf0Flhnm+f8NbEU3mZkfd
- DENT0sml3S8LVVDJ7/R01livloj5xNYbft6l2OwSoOXCxBbieigIDV9CiSzuXAbxlJ/R
- FrwaNAdbP8Z8y6epqFl2Vi1cNBeStu35rc2IE9EB/lggS796rnbW525ZVoCZEK7x4axu
- 1/Kg==
+ bh=3PnEDkQYSGlej4tjD/bQ1dPRo4xaWxnAEWg0UHJoseU=;
+ b=qLf92QwBRiI6poYlXJoI1kI+aX7I2z3ltj8LNguixU8fE2SqSUyQrt4v9r0B21a3gE
+ L3Ki7GBoRn93+qVYZ46pxTQQvpt6TNTrFsFoqyHYWG17NzQgEVV5KOPu/ZvRfELL4nK5
+ ELfNHZ48B0QiFouDEH/NpBMMWWIMPsm3IERF/QCvpY7WxJDIFIf9mZKXd1Jdocq3eC4U
+ O+P7aA9sJx+U2FvpZfBr2+5L3iE8T24rU4OBhIkM+F8viduz+ByxLLtVSkR8Sy/r29ja
+ 1fGlNZvTe7wclt8U8cJIocbJlWBtrvNCEP5bH8XVxL3ABqTiWO35Wb9KlZQEo3bi5FeI
+ 4U2g==
 X-Forwarded-Encrypted: i=1;
- AJvYcCXi7Kiln8eDJFhL4UmNZMxVBVOimISGroRhm2r3+uJ62tMzO5DVgla7bP489CHAot9JlHmbPb4FjpY=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YzGV2vk3X36dBXBMwY2ss+vk03/jH8VPgLiw9XbH+/HZ4dAfRQ8
- 7jFwN6rrMwjoYY/wQ2xnhNzZpc79EgT/hn3Ld6qhydmd2o2TW23S9oBV
-X-Gm-Gg: ASbGncuoG5KkM8N3ksFXu2VY2gDOB0lKEUgs1tV1Ze3DDsAbZtwTJ8K476meqWz+hsU
- hUJLkvter3KSUCQABGkuRnUSQHUOxLTaWKrmRMMHZkyurpSEnREeJe716SPSWLezlql9vb89TII
- FKx8XZvp/kv/wCNna6LKQcV2SzKxv2NpjLsU40F5pycvkfpQOE0eRTDecEUxtaAOjzZaP3/8ygY
- PCAFF6ZeRx6Vp94SKhGNbexJ/Fou2usNkbD6Byw3bvzzgpU5b0m7AXnaqpbEf0S+5b+R0nFHqFn
- YyyQyH4rOGWIyP2yJBeBrl5j2AlrJnGzDI5s59oZ4tgjGNdB3PlAG+UKu+h8FtmMM3e251lyYcP
- 0CA==
-X-Google-Smtp-Source: AGHT+IGCUJ6tlUrEWS8XsccIwNxw4AUXaAE5LiMgz6vheF+DRB+JBGiWDglKUzh32UvkY9tpeCODvQ==
-X-Received: by 2002:a05:6a00:1302:b0:736:43d6:f008 with SMTP id
- d2e1a72fcca58-74af6f40a01mr24461769b3a.12.1751362869457; 
- Tue, 01 Jul 2025 02:41:09 -0700 (PDT)
+ AJvYcCV4oA+IHqSHv2Ec5l57Nix3RNl1XGdt2gpqhOrH8Vybo/NY2vmvd7AcAY6CfTv1vTnaq59SE/d5XIU=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YwdloD/zISG4CvcrECTzs5s+Z0xGOHxgbB+GloZwde/LVO00dt4
+ 69a8uqhI01ynv0LOjuzs2WB0iuOKUcMk50XA+80x4JI1R7BJUKGVmDLg
+X-Gm-Gg: ASbGncv7lcZPXGv/mmsP0+1JYxSKbWoZEw5YC0Dc+2ATFBPJMavRTbnShF5HVN12uPa
+ OPKVjkzfhOmsV+JwgWMukCC/Za6HpW4TCVCFAwnKQ0MPJIb2bWrTlMD3ClZCTHvtuXXDUF/ZTUU
+ isQKRpi37/FyxUJIUodooezxUnP0JkVKVUZwzFA0ItyXC3Mz52tC87RMET399kP1KsP1CHhbh20
+ ccHeuJtkOj21wSvKkVgcpN29Y4KJ3MOpfF5xWXT7pEwL1DNrRr/se1CTYwREy/xxrQWQjHPQt9n
+ kPxtNYGUtizu0wplQC9XlOufyHYKoMDNT0PGcQftTkw1WANDwQcTxeI5Rj+0AqV7BxkjJizYjgX
+ leQ==
+X-Google-Smtp-Source: AGHT+IEbeQc69MS0gQNp4/0czRTMPM7cTE3egdA7+5pA0TfD6EU6FUYVk5lBMVTPZAs3gk2+USbR3A==
+X-Received: by 2002:a05:6a00:2302:b0:748:1bac:ad5f with SMTP id
+ d2e1a72fcca58-74af6f22722mr22370210b3a.12.1751362880881; 
+ Tue, 01 Jul 2025 02:41:20 -0700 (PDT)
 Received: from localhost.localdomain ([49.37.221.186])
  by smtp.googlemail.com with ESMTPSA id
- d2e1a72fcca58-74af57e7279sm10945766b3a.150.2025.07.01.02.41.04
+ d2e1a72fcca58-74af57e7279sm10945766b3a.150.2025.07.01.02.41.15
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 01 Jul 2025 02:41:08 -0700 (PDT)
+ Tue, 01 Jul 2025 02:41:20 -0700 (PDT)
 From: Abdun Nihaal <abdun.nihaal@gmail.com>
 To: andy@kernel.org
 Cc: Abdun Nihaal <abdun.nihaal@gmail.com>, dan.carpenter@linaro.org,
@@ -69,11 +69,13 @@ Cc: Abdun Nihaal <abdun.nihaal@gmail.com>, dan.carpenter@linaro.org,
  tzimmermann@suse.de, riyandhiman14@gmail.com, willy@infradead.org,
  notro@tronnes.org, thomas.petazzoni@free-electrons.com,
  dri-devel@lists.freedesktop.org, linux-fbdev@vger.kernel.org,
- linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: [PATCH v4 1/2] Revert "staging: fbtft: fix potential memory leak in
- fbtft_framebuffer_alloc()"
-Date: Tue,  1 Jul 2025 15:10:22 +0530
-Message-ID: <a689f32d6c56d6c5c6ba8e2faa0305b5e92d9897.1751361715.git.abdun.nihaal@gmail.com>
+ linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org,
+ Andy Shevchenko <andriy.shevchenko@intel.com>,
+ Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+Subject: [PATCH v4 2/2] staging: fbtft: cleanup error handling in
+ fbtft_framebuffer_alloc()
+Date: Tue,  1 Jul 2025 15:10:23 +0530
+Message-ID: <b0b55510097245e4f96663123130f197c01dca4d.1751361715.git.abdun.nihaal@gmail.com>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <cover.1751361715.git.abdun.nihaal@gmail.com>
 References: <cover.1751361715.git.abdun.nihaal@gmail.com>
@@ -94,32 +96,119 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-This reverts commit eb2cb7dab60f ("staging: fbtft: fix potential memory
-leak in fbtft_framebuffer_alloc()").
+The error handling in fbtft_framebuffer_alloc() mixes managed allocation
+and plain allocation, and performs error handling in an order different
+from the order in fbtft_framebuffer_release().
 
-An updated patch has been added as commit 505bffe21233 ("staging:
-fbtft: fix potential memory leak in fbtft_framebuffer_alloc()"),
-and so reverting the old patch.
+Fix them by moving vmem allocation closer to where it is used, and using
+plain kzalloc() for txbuf allocation.
 
+Suggested-by: Andy Shevchenko <andriy.shevchenko@intel.com>
+Suggested-by: Dan Carpenter <dan.carpenter@linaro.org>
 Signed-off-by: Abdun Nihaal <abdun.nihaal@gmail.com>
+Reviewed-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+Reviewed-by: Dan Carpenter <dan.carpenter@linaro.org>
 ---
-Newly added in v4.
+v3->v4:
+- Added Reviewed-by tags
 
- drivers/staging/fbtft/fbtft-core.c | 1 -
- 1 file changed, 1 deletion(-)
+v2->v3: 
+- Remove the if check before kfree of txbuf.buf, because it is zero
+  initialized on allocation, and kfree is NULL aware.
+
+Newly added in v2
+
+ drivers/staging/fbtft/fbtft-core.c | 31 +++++++++++++++---------------
+ 1 file changed, 16 insertions(+), 15 deletions(-)
 
 diff --git a/drivers/staging/fbtft/fbtft-core.c b/drivers/staging/fbtft/fbtft-core.c
-index d920164e7710..8538b6bab6a5 100644
+index 8538b6bab6a5..9e7b84071174 100644
 --- a/drivers/staging/fbtft/fbtft-core.c
 +++ b/drivers/staging/fbtft/fbtft-core.c
-@@ -695,7 +695,6 @@ struct fb_info *fbtft_framebuffer_alloc(struct fbtft_display *display,
+@@ -568,18 +568,13 @@ struct fb_info *fbtft_framebuffer_alloc(struct fbtft_display *display,
+ 		height = display->height;
+ 	}
+ 
+-	vmem_size = display->width * display->height * bpp / 8;
+-	vmem = vzalloc(vmem_size);
+-	if (!vmem)
+-		goto alloc_fail;
+-
+ 	fbdefio = devm_kzalloc(dev, sizeof(struct fb_deferred_io), GFP_KERNEL);
+ 	if (!fbdefio)
+-		goto alloc_fail;
++		return NULL;
+ 
+ 	buf = devm_kzalloc(dev, 128, GFP_KERNEL);
+ 	if (!buf)
+-		goto alloc_fail;
++		return NULL;
+ 
+ 	if (display->gamma_num && display->gamma_len) {
+ 		gamma_curves = devm_kcalloc(dev,
+@@ -588,12 +583,17 @@ struct fb_info *fbtft_framebuffer_alloc(struct fbtft_display *display,
+ 					    sizeof(gamma_curves[0]),
+ 					    GFP_KERNEL);
+ 		if (!gamma_curves)
+-			goto alloc_fail;
++			return NULL;
+ 	}
+ 
+ 	info = framebuffer_alloc(sizeof(struct fbtft_par), dev);
+ 	if (!info)
+-		goto alloc_fail;
++		return NULL;
++
++	vmem_size = display->width * display->height * bpp / 8;
++	vmem = vzalloc(vmem_size);
++	if (!vmem)
++		goto release_framebuf;
+ 
+ 	info->screen_buffer = vmem;
+ 	info->fbops = &fbtft_ops;
+@@ -613,7 +613,7 @@ struct fb_info *fbtft_framebuffer_alloc(struct fbtft_display *display,
+ 	info->fix.accel =          FB_ACCEL_NONE;
+ 	info->fix.smem_len =       vmem_size;
+ 	if (fb_deferred_io_init(info))
+-		goto release_framebuf;
++		goto release_screen_buffer;
+ 
+ 	info->var.rotate =         pdata->rotate;
+ 	info->var.xres =           width;
+@@ -668,7 +668,7 @@ struct fb_info *fbtft_framebuffer_alloc(struct fbtft_display *display,
+ #endif
+ 
+ 	if (txbuflen > 0) {
+-		txbuf = devm_kzalloc(par->info->device, txbuflen, GFP_KERNEL);
++		txbuf = kzalloc(txbuflen, GFP_KERNEL);
+ 		if (!txbuf)
+ 			goto cleanup_deferred;
+ 		par->txbuf.buf = txbuf;
+@@ -694,12 +694,10 @@ struct fb_info *fbtft_framebuffer_alloc(struct fbtft_display *display,
+ 
  cleanup_deferred:
  	fb_deferred_io_cleanup(info);
++release_screen_buffer:
++	vfree(info->screen_buffer);
  release_framebuf:
--	fb_deferred_io_cleanup(info);
  	framebuffer_release(info);
- 
- alloc_fail:
+-
+-alloc_fail:
+-	vfree(vmem);
+-
+ 	return NULL;
+ }
+ EXPORT_SYMBOL(fbtft_framebuffer_alloc);
+@@ -712,6 +710,9 @@ EXPORT_SYMBOL(fbtft_framebuffer_alloc);
+  */
+ void fbtft_framebuffer_release(struct fb_info *info)
+ {
++	struct fbtft_par *par = info->par;
++
++	kfree(par->txbuf.buf);
+ 	fb_deferred_io_cleanup(info);
+ 	vfree(info->screen_buffer);
+ 	framebuffer_release(info);
 -- 
 2.43.0
 
