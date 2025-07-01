@@ -2,60 +2,57 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 27FDDAEF2AF
-	for <lists+dri-devel@lfdr.de>; Tue,  1 Jul 2025 11:09:00 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 42EECAEF2B1
+	for <lists+dri-devel@lfdr.de>; Tue,  1 Jul 2025 11:09:04 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 11D2310E572;
-	Tue,  1 Jul 2025 09:08:58 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2762A10E574;
+	Tue,  1 Jul 2025 09:09:02 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="VgIIZ9TU";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="DBNqX1Fn";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.11])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3729810E56F;
- Tue,  1 Jul 2025 09:08:57 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 32FA210E55F;
+ Tue,  1 Jul 2025 09:09:01 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1751360937; x=1782896937;
+ t=1751360941; x=1782896941;
  h=from:to:cc:subject:date:message-id:in-reply-to:
  references:mime-version:content-transfer-encoding;
- bh=U2KlIWIZ4E5ySX5ZHLmAs18VIqpprG+irqTyD0u890g=;
- b=VgIIZ9TUNFxZPrRvZHjv5gDwpQIj9dRQifLlu7IcObB9AYb73c4glCTN
- wqvqHSflzL3HWvsmiM1x+yDlkJDkh7cUqtAV71RY7+F2tRco5cn9X6Mei
- rMy7Po2TsJYShYCwAFtr2Ru5bYncbnIUQU4M7gTSfzGa09o4VBN6XH0cx
- +y81vEPw/x0GR2fjK25YMI0nCKEnVitU0zqqaLMRuGq4phqwgFXCaOadI
- bYj9yJBr2ySEC6wNtI5qy+9d1GYxqFD6XQNX4cBDjT1E4zRMsPXWjbgGn
- 6SpNnvsqn30CjCiZoIbKKm0pukHEtNzeKNVjNKkGUN98NO5j+aXKyvMjA A==;
-X-CSE-ConnectionGUID: MWY/OsgqTnWW9YB8wPhpZw==
-X-CSE-MsgGUID: 2EW2lpF1S7+IdcDtPbxgCQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11480"; a="64218585"
-X-IronPort-AV: E=Sophos;i="6.16,279,1744095600"; d="scan'208";a="64218585"
+ bh=J6RrilEwIqFj/C94Q79PLClMtORmkTLQTk4j9QJmEDY=;
+ b=DBNqX1FnxYg1zcdw//06kzpcARxgdTHWXZzW9GTk6VdN/hGOkw77exIP
+ R6YBpeIzcD6S18cg5NiFbLqi9EQDJGR+1HJi/RSTUNATEAPw8h4TYmMJL
+ Pht98CVn83WndXR43GdTKq/A++WhtKM7IOcnBPM7MBudh3EUmf9Rw72j6
+ jmb6c2QFqS8ciZUyxi4UQzkUk5ZYX7dhkUpQnEfUy4le072QLTHBV7Hsq
+ SvrL786kJbcVyWLzbn45Xli41RAlnEA7e8vwDdZw8NUVUDNCQ5fz6jCzt
+ ij3Y6U8B2aazK2LXTgAcya4BTuNnDHauTxijS66w8H4I7ARk1FQABROnI Q==;
+X-CSE-ConnectionGUID: vtXqrCJERWqh2OjxXTTK0A==
+X-CSE-MsgGUID: kH4MRBc+TBeeOzPd9YCOqA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11480"; a="64218599"
+X-IronPort-AV: E=Sophos;i="6.16,279,1744095600"; d="scan'208";a="64218599"
 Received: from orviesa005.jf.intel.com ([10.64.159.145])
  by fmvoesa105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 01 Jul 2025 02:08:57 -0700
-X-CSE-ConnectionGUID: tEsn6lv9QeOh7SOwcZ55YQ==
-X-CSE-MsgGUID: QxO1wgINR56//xQe68PaFg==
+ 01 Jul 2025 02:09:01 -0700
+X-CSE-ConnectionGUID: tJZbMtIeReGAoZGxnAlKbQ==
+X-CSE-MsgGUID: brgx0hFBTumfZoxItKpSTA==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.16,279,1744095600"; d="scan'208";a="159427305"
+X-IronPort-AV: E=Sophos;i="6.16,279,1744095600"; d="scan'208";a="159427327"
 Received: from zzombora-mobl1.ger.corp.intel.com (HELO stinkbox)
  ([10.245.245.11])
- by orviesa005.jf.intel.com with SMTP; 01 Jul 2025 02:08:52 -0700
+ by orviesa005.jf.intel.com with SMTP; 01 Jul 2025 02:08:58 -0700
 Received: by stinkbox (sSMTP sendmail emulation);
- Tue, 01 Jul 2025 12:08:50 +0300
+ Tue, 01 Jul 2025 12:08:56 +0300
 From: Ville Syrjala <ville.syrjala@linux.intel.com>
 To: dri-devel@lists.freedesktop.org
 Cc: intel-gfx@lists.freedesktop.org, intel-xe@lists.freedesktop.org,
- Rob Clark <robdclark@gmail.com>, Abhinav Kumar <quic_abhinavk@quicinc.com>,
- Dmitry Baryshkov <lumag@kernel.org>, Sean Paul <sean@poorly.run>,
- Marijn Suijten <marijn.suijten@somainline.org>,
- linux-arm-msm@vger.kernel.org, freedreno@lists.freedesktop.org,
- Thomas Zimmermann <tzimmermann@suse.de>,
- Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
-Subject: [PATCH v2 15/19] drm/msm: Pass along the format info from
+ Thierry Reding <thierry.reding@gmail.com>,
+ Mikko Perttunen <mperttunen@nvidia.com>, linux-tegra@vger.kernel.org,
+ Thomas Zimmermann <tzimmermann@suse.de>
+Subject: [PATCH v2 16/19] drm/tegra: Pass along the format info from
  .fb_create() to drm_helper_mode_fill_fb_struct()
-Date: Tue,  1 Jul 2025 12:07:18 +0300
-Message-ID: <20250701090722.13645-16-ville.syrjala@linux.intel.com>
+Date: Tue,  1 Jul 2025 12:07:19 +0300
+Message-ID: <20250701090722.13645-17-ville.syrjala@linux.intel.com>
 X-Mailer: git-send-email 2.49.0
 In-Reply-To: <20250701090722.13645-1-ville.syrjala@linux.intel.com>
 References: <20250701090722.13645-1-ville.syrjala@linux.intel.com>
@@ -81,80 +78,79 @@ From: Ville Syrjälä <ville.syrjala@linux.intel.com>
 
 Plumb the format info from .fb_create() all the way to
 drm_helper_mode_fill_fb_struct() to avoid the redundant
-lookups.
+lookup.
 
 For the fbdev case a manual drm_get_format_info() lookup
 is needed.
 
-Cc: Rob Clark <robdclark@gmail.com>
-Cc: Abhinav Kumar <quic_abhinavk@quicinc.com>
-Cc: Dmitry Baryshkov <lumag@kernel.org>
-Cc: Sean Paul <sean@poorly.run>
-Cc: Marijn Suijten <marijn.suijten@somainline.org>
-Cc: linux-arm-msm@vger.kernel.org
-Cc: freedreno@lists.freedesktop.org
+Cc: Thierry Reding <thierry.reding@gmail.com>
+Cc: Mikko Perttunen <mperttunen@nvidia.com>
+Cc: linux-tegra@vger.kernel.org
 Reviewed-by: Thomas Zimmermann <tzimmermann@suse.de>
-Acked-by: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
 Signed-off-by: Ville Syrjälä <ville.syrjala@linux.intel.com>
 ---
- drivers/gpu/drm/msm/msm_fb.c | 14 ++++++++------
- 1 file changed, 8 insertions(+), 6 deletions(-)
+ drivers/gpu/drm/tegra/drm.h   | 1 +
+ drivers/gpu/drm/tegra/fb.c    | 5 +++--
+ drivers/gpu/drm/tegra/fbdev.c | 4 +++-
+ 3 files changed, 7 insertions(+), 3 deletions(-)
 
-diff --git a/drivers/gpu/drm/msm/msm_fb.c b/drivers/gpu/drm/msm/msm_fb.c
-index 0615427e85ce..d7bc4479547d 100644
---- a/drivers/gpu/drm/msm/msm_fb.c
-+++ b/drivers/gpu/drm/msm/msm_fb.c
-@@ -30,6 +30,7 @@ struct msm_framebuffer {
- #define to_msm_framebuffer(x) container_of(x, struct msm_framebuffer, base)
+diff --git a/drivers/gpu/drm/tegra/drm.h b/drivers/gpu/drm/tegra/drm.h
+index 77e520c43f72..1dd3670f37db 100644
+--- a/drivers/gpu/drm/tegra/drm.h
++++ b/drivers/gpu/drm/tegra/drm.h
+@@ -185,6 +185,7 @@ bool tegra_fb_is_bottom_up(struct drm_framebuffer *framebuffer);
+ int tegra_fb_get_tiling(struct drm_framebuffer *framebuffer,
+ 			struct tegra_bo_tiling *tiling);
+ struct drm_framebuffer *tegra_fb_alloc(struct drm_device *drm,
++				       const struct drm_format_info *info,
+ 				       const struct drm_mode_fb_cmd2 *mode_cmd,
+ 				       struct tegra_bo **planes,
+ 				       unsigned int num_planes);
+diff --git a/drivers/gpu/drm/tegra/fb.c b/drivers/gpu/drm/tegra/fb.c
+index d359683f5ce6..dd041089f797 100644
+--- a/drivers/gpu/drm/tegra/fb.c
++++ b/drivers/gpu/drm/tegra/fb.c
+@@ -102,6 +102,7 @@ static const struct drm_framebuffer_funcs tegra_fb_funcs = {
+ };
  
- static struct drm_framebuffer *msm_framebuffer_init(struct drm_device *dev,
-+		const struct drm_format_info *info,
- 		const struct drm_mode_fb_cmd2 *mode_cmd, struct drm_gem_object **bos);
+ struct drm_framebuffer *tegra_fb_alloc(struct drm_device *drm,
++				       const struct drm_format_info *info,
+ 				       const struct drm_mode_fb_cmd2 *mode_cmd,
+ 				       struct tegra_bo **planes,
+ 				       unsigned int num_planes)
+@@ -114,7 +115,7 @@ struct drm_framebuffer *tegra_fb_alloc(struct drm_device *drm,
+ 	if (!fb)
+ 		return ERR_PTR(-ENOMEM);
  
- static int msm_framebuffer_dirtyfb(struct drm_framebuffer *fb,
-@@ -149,7 +150,7 @@ struct drm_framebuffer *msm_framebuffer_create(struct drm_device *dev,
- 		}
+-	drm_helper_mode_fill_fb_struct(drm, fb, NULL, mode_cmd);
++	drm_helper_mode_fill_fb_struct(drm, fb, info, mode_cmd);
+ 
+ 	for (i = 0; i < fb->format->num_planes; i++)
+ 		fb->obj[i] = &planes[i]->gem;
+@@ -166,7 +167,7 @@ struct drm_framebuffer *tegra_fb_create(struct drm_device *drm,
+ 		planes[i] = to_tegra_bo(gem);
  	}
  
--	fb = msm_framebuffer_init(dev, mode_cmd, bos);
-+	fb = msm_framebuffer_init(dev, info, mode_cmd, bos);
+-	fb = tegra_fb_alloc(drm, cmd, planes, i);
++	fb = tegra_fb_alloc(drm, info, cmd, planes, i);
  	if (IS_ERR(fb)) {
- 		ret = PTR_ERR(fb);
- 		goto out_unref;
-@@ -164,11 +165,9 @@ struct drm_framebuffer *msm_framebuffer_create(struct drm_device *dev,
- }
- 
- static struct drm_framebuffer *msm_framebuffer_init(struct drm_device *dev,
-+		const struct drm_format_info *info,
- 		const struct drm_mode_fb_cmd2 *mode_cmd, struct drm_gem_object **bos)
- {
--	const struct drm_format_info *info = drm_get_format_info(dev,
--								 mode_cmd->pixel_format,
--								 mode_cmd->modifier[0]);
- 	struct msm_drm_private *priv = dev->dev_private;
- 	struct msm_kms *kms = priv->kms;
- 	struct msm_framebuffer *msm_fb = NULL;
-@@ -222,7 +221,7 @@ static struct drm_framebuffer *msm_framebuffer_init(struct drm_device *dev,
- 		msm_fb->base.obj[i] = bos[i];
+ 		err = PTR_ERR(fb);
+ 		goto unreference;
+diff --git a/drivers/gpu/drm/tegra/fbdev.c b/drivers/gpu/drm/tegra/fbdev.c
+index cd9d798f8870..1b70f5e164af 100644
+--- a/drivers/gpu/drm/tegra/fbdev.c
++++ b/drivers/gpu/drm/tegra/fbdev.c
+@@ -106,7 +106,9 @@ int tegra_fbdev_driver_fbdev_probe(struct drm_fb_helper *helper,
+ 		return PTR_ERR(info);
  	}
  
--	drm_helper_mode_fill_fb_struct(dev, fb, NULL, mode_cmd);
-+	drm_helper_mode_fill_fb_struct(dev, fb, info, mode_cmd);
- 
- 	ret = drm_framebuffer_init(dev, fb, &msm_framebuffer_funcs);
- 	if (ret) {
-@@ -271,7 +270,10 @@ msm_alloc_stolen_fb(struct drm_device *dev, int w, int h, int p, uint32_t format
- 
- 	msm_gem_object_set_name(bo, "stolenfb");
- 
--	fb = msm_framebuffer_init(dev, &mode_cmd, &bo);
-+	fb = msm_framebuffer_init(dev,
-+				  drm_get_format_info(dev, mode_cmd.pixel_format,
-+						      mode_cmd.modifier[0]),
-+				  &mode_cmd, &bo);
+-	fb = tegra_fb_alloc(drm, &cmd, &bo, 1);
++	fb = tegra_fb_alloc(drm,
++			    drm_get_format_info(drm, cmd.pixel_format, cmd.modifier[0]),
++			    &cmd, &bo, 1);
  	if (IS_ERR(fb)) {
- 		DRM_DEV_ERROR(dev->dev, "failed to allocate fb\n");
- 		/* note: if fb creation failed, we can't rely on fb destroy
+ 		err = PTR_ERR(fb);
+ 		dev_err(drm->dev, "failed to allocate DRM framebuffer: %d\n",
 -- 
 2.49.0
 
