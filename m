@@ -2,60 +2,68 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id A342AAEFAD3
-	for <lists+dri-devel@lfdr.de>; Tue,  1 Jul 2025 15:38:11 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id BC9B1AEFB20
+	for <lists+dri-devel@lfdr.de>; Tue,  1 Jul 2025 15:48:56 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0A79810E5AD;
-	Tue,  1 Jul 2025 13:38:08 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 24E9289A1F;
+	Tue,  1 Jul 2025 13:48:54 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; secure) header.d=mailbox.org header.i=@mailbox.org header.b="D3AZFk3D";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="e98RBByA";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mout-p-102.mailbox.org (mout-p-102.mailbox.org [80.241.56.152])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8F46110E5AD
- for <dri-devel@lists.freedesktop.org>; Tue,  1 Jul 2025 13:38:06 +0000 (UTC)
-Received: from smtp102.mailbox.org (smtp102.mailbox.org
- [IPv6:2001:67c:2050:b231:465::102])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
- (No client certificate requested)
- by mout-p-102.mailbox.org (Postfix) with ESMTPS id 4bWkcW3HwMz9sdP;
- Tue,  1 Jul 2025 15:38:03 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mailbox.org;
- s=mail20150812; 
- t=1751377083; h=from:from:reply-to:reply-to:subject:subject:date:date:
- message-id:message-id:to:to:cc:cc:mime-version:mime-version:
- content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=fG49IWnqi5Qsh1rud8FkyB6EdwDzoRE72QFqV2fypms=;
- b=D3AZFk3DVTfhK+H1H2QGWIOeLwgkwC9uMyQOlY/FuZjuHgmyZ21Qfl1aaFq78zji03a0kj
- EN4R2CDw5UETHXl2O+UZhuZDHHaugwhF93+rFeMZisSmwE7MBRLeszahZ/+StspN88PfFD
- D9kIbpuGie/c807dDjyd4c+XCuj9JSV2AnKlnk3Sdsz6jjTy/551ie9HuTH7g/QTEc1GeC
- ic2zVfo7hqzsbX49rZuT+RFXj7AsYRQH5dLuYqZhc0V4bcMyQ5L1EyfkNsY/ChapOZcfwq
- YK8wpj2t/VXLaUdavwXeHANGp6xdU3h4kXnK22OaLWBZTbIfYvOK0dPkiAzYag==
-Message-ID: <4d41dfaf0b48166c41a476f128d59785ddaeeb5f.camel@mailbox.org>
-Subject: Re: [PATCH] drm/sched/tests: Make timedout_job callback a better
- role model
-From: Philipp Stanner <phasta@mailbox.org>
-To: Philipp Stanner <phasta@kernel.org>, Matthew Brost
- <matthew.brost@intel.com>,  Danilo Krummrich <dakr@kernel.org>, Christian
- =?ISO-8859-1?Q?K=F6nig?= <ckoenig.leichtzumerken@gmail.com>, Maarten
- Lankhorst <maarten.lankhorst@linux.intel.com>, Maxime Ripard
- <mripard@kernel.org>,  Thomas Zimmermann <tzimmermann@suse.de>, David
- Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, Tvrtko Ursulin
- <tvrtko.ursulin@igalia.com>, Pierre-Eric Pelloux-Prayer
- <pierre-eric.pelloux-prayer@amd.com>
-Cc: dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
-Date: Tue, 01 Jul 2025 15:37:56 +0200
-In-Reply-To: <20250605134154.191764-2-phasta@kernel.org>
-References: <20250605134154.191764-2-phasta@kernel.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.17])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5536989A1F
+ for <dri-devel@lists.freedesktop.org>; Tue,  1 Jul 2025 13:48:53 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1751377733; x=1782913733;
+ h=date:from:to:cc:subject:message-id:references:
+ mime-version:in-reply-to;
+ bh=COcxqTJmLCQuqGNIIvXZW8XzPWpwkkkrB4it1BwU/rw=;
+ b=e98RBByAmidyKcLppr5KThRntVRU+Objwyqc8QjmOVKaQculxTHyFnCa
+ va530QJvwpOsiflfL+tqNSdwMl60e5CNXduPHq6gsifUaWHUSSPlZAFOg
+ wxPHQ/XMLzmMo6iNBrnz5zmIXEhxa88w1CDZ+OPhCLvOd0hy2ZBw2e/oW
+ 35vPVzwDjpCDn+pk+vxBA2LLTjWxxJhFQhB7QWo39ns0UpD9TJYUDu0uA
+ M79Apm5w0jE5NHOniKuCJpMatj86ah+efYOUDsPU+mkM1fULa6Ple1S4f
+ 5xZWsDIrYBGGPnW59BcZ4qVp+rPgW3QcEYeGKmF2kGP8NpzhhwOvW144k g==;
+X-CSE-ConnectionGUID: QIg2EVnnTOCLdpcEg0prCA==
+X-CSE-MsgGUID: Nksyj82GQe65DdS8fksNOg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11481"; a="53579999"
+X-IronPort-AV: E=Sophos;i="6.16,279,1744095600"; d="scan'208";a="53579999"
+Received: from orviesa009.jf.intel.com ([10.64.159.149])
+ by fmvoesa111.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 01 Jul 2025 06:48:52 -0700
+X-CSE-ConnectionGUID: 7znLXOmqSLKgUFROLBP8PQ==
+X-CSE-MsgGUID: +ro+hUc/Ta2CfGOwTALfIA==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.16,279,1744095600"; d="scan'208";a="153548388"
+Received: from smile.fi.intel.com ([10.237.72.52])
+ by orviesa009.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 01 Jul 2025 06:48:49 -0700
+Received: from andy by smile.fi.intel.com with local (Exim 4.98.2)
+ (envelope-from <andriy.shevchenko@intel.com>)
+ id 1uWbLp-0000000BbxK-2psc; Tue, 01 Jul 2025 16:48:45 +0300
+Date: Tue, 1 Jul 2025 16:48:45 +0300
+From: Andy Shevchenko <andriy.shevchenko@intel.com>
+To: Abdun Nihaal <abdun.nihaal@gmail.com>
+Cc: andy@kernel.org, dan.carpenter@linaro.org, gregkh@linuxfoundation.org,
+ lorenzo.stoakes@oracle.com, tzimmermann@suse.de,
+ riyandhiman14@gmail.com, willy@infradead.org, notro@tronnes.org,
+ thomas.petazzoni@free-electrons.com,
+ dri-devel@lists.freedesktop.org, linux-fbdev@vger.kernel.org,
+ linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v4 1/2] Revert "staging: fbtft: fix potential memory leak
+ in fbtft_framebuffer_alloc()"
+Message-ID: <aGPnPVjB6bGKMkwV@smile.fi.intel.com>
+References: <cover.1751361715.git.abdun.nihaal@gmail.com>
+ <a689f32d6c56d6c5c6ba8e2faa0305b5e92d9897.1751361715.git.abdun.nihaal@gmail.com>
 MIME-Version: 1.0
-X-MBO-RS-ID: d448f7998a01351db5f
-X-MBO-RS-META: 89rnnf8ig8imhwy68phfjgr1x37xts95
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <a689f32d6c56d6c5c6ba8e2faa0305b5e92d9897.1751361715.git.abdun.nihaal@gmail.com>
+Organization: Intel Finland Oy - BIC 0357606-4 - c/o Alberga Business Park, 6
+ krs, Bertel Jungin Aukio 5, 02600 Espoo
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -68,87 +76,21 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Reply-To: phasta@kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, 2025-06-05 at 15:41 +0200, Philipp Stanner wrote:
-> Since the drm_mock_scheduler does not have real users in userspace,
-> nor
-> does it have real hardware or firmware rings, it's not necessary to
-> signal timedout fences nor free jobs - from a functional standpoint.
->=20
-> The unit tests, however, serve as a reference implementation and a
-> first
-> example for new scheduler users. Therefore, they should approximate
-> the
-> canonical usage as much as possible.
->=20
-> Make sure timed out hardware fences get signaled with the appropriate
-> error code.
->=20
-> Signed-off-by: Philipp Stanner <phasta@kernel.org>
+On Tue, Jul 01, 2025 at 03:10:22PM +0530, Abdun Nihaal wrote:
+> This reverts commit eb2cb7dab60f ("staging: fbtft: fix potential memory
+> leak in fbtft_framebuffer_alloc()").
+> 
+> An updated patch has been added as commit 505bffe21233 ("staging:
+> fbtft: fix potential memory leak in fbtft_framebuffer_alloc()"),
+> and so reverting the old patch.
 
-Pushed that one to drm-misc-next
+Revert has its automatic line, please do not remove it.
 
-P.
+-- 
+With Best Regards,
+Andy Shevchenko
 
-> ---
-> =C2=A0.../gpu/drm/scheduler/tests/mock_scheduler.c=C2=A0 | 26
-> ++++++++++++++++++-
-> =C2=A01 file changed, 25 insertions(+), 1 deletion(-)
->=20
-> diff --git a/drivers/gpu/drm/scheduler/tests/mock_scheduler.c
-> b/drivers/gpu/drm/scheduler/tests/mock_scheduler.c
-> index 7f947ab9d322..49d067fecd67 100644
-> --- a/drivers/gpu/drm/scheduler/tests/mock_scheduler.c
-> +++ b/drivers/gpu/drm/scheduler/tests/mock_scheduler.c
-> @@ -200,12 +200,36 @@ static struct dma_fence
-> *mock_sched_run_job(struct drm_sched_job *sched_job)
-> =C2=A0	return &job->hw_fence;
-> =C2=A0}
-> =C2=A0
-> +/*
-> + * Normally, drivers would take appropriate measures in this
-> callback, such as
-> + * killing the entity the faulty job is associated with, resetting
-> the hardware
-> + * and / or resubmitting non-faulty jobs.
-> + *
-> + * For the mock scheduler, there are no hardware rings to be
-> resetted nor jobs
-> + * to be resubmitted. Thus, this function merely ensures that
-> + *=C2=A0=C2=A0 a) timedout fences get signaled properly and removed from=
- the
-> pending list
-> + *=C2=A0=C2=A0 b) the mock scheduler framework gets informed about the t=
-imeout
-> via a flag
-> + *=C2=A0=C2=A0 c) The drm_sched_job, not longer needed, gets freed
-> + */
-> =C2=A0static enum drm_gpu_sched_stat
-> =C2=A0mock_sched_timedout_job(struct drm_sched_job *sched_job)
-> =C2=A0{
-> +	struct drm_mock_scheduler *sched =3D
-> drm_sched_to_mock_sched(sched_job->sched);
-> =C2=A0	struct drm_mock_sched_job *job =3D
-> drm_sched_job_to_mock_job(sched_job);
-> +	unsigned long flags;
-> =C2=A0
-> -	job->flags |=3D DRM_MOCK_SCHED_JOB_TIMEDOUT;
-> +	spin_lock_irqsave(&sched->lock, flags);
-> +	if (!dma_fence_is_signaled_locked(&job->hw_fence)) {
-> +		list_del(&job->link);
-> +		job->flags |=3D DRM_MOCK_SCHED_JOB_TIMEDOUT;
-> +		dma_fence_set_error(&job->hw_fence, -ETIMEDOUT);
-> +		dma_fence_signal_locked(&job->hw_fence);
-> +	}
-> +	spin_unlock_irqrestore(&sched->lock, flags);
-> +
-> +	dma_fence_put(&job->hw_fence);
-> +	drm_sched_job_cleanup(sched_job);
-> +	/* Mock job itself is freed by the kunit framework. */
-> =C2=A0
-> =C2=A0	return DRM_GPU_SCHED_STAT_NOMINAL;
-> =C2=A0}
 
