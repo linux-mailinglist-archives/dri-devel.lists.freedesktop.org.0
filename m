@@ -2,152 +2,50 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 81650AEEFE1
-	for <lists+dri-devel@lfdr.de>; Tue,  1 Jul 2025 09:40:21 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 12303AEF035
+	for <lists+dri-devel@lfdr.de>; Tue,  1 Jul 2025 09:55:04 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E8B6210E27D;
-	Tue,  1 Jul 2025 07:40:17 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2B62910E517;
+	Tue,  1 Jul 2025 07:55:01 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=amd.com header.i=@amd.com header.b="fsS9Vt4s";
+	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=igalia.com header.i=@igalia.com header.b="D9OmReHE";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from NAM10-DM6-obe.outbound.protection.outlook.com
- (mail-dm6nam10on2089.outbound.protection.outlook.com [40.107.93.89])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A181510E273;
- Tue,  1 Jul 2025 07:40:16 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=jjyP6cXs4iYVsbU2Di+Ci5+eUP2zCfsSYXNEhXwndPbLt456tquJ51FYUIAPYmcbt4/P64bgJrQ5bB2vVbb0Yqln02uxhUGUSGGanH9fqVmRvP2Swe8/vdV9p23c8BbAAql4Q2mjBDReVStOZFZ3GEe1cmpGf5fCw19KIXW7UEtyyAFwTe16QTjuMGDILO3VcQ92/MV12F1caGiAjgEC8M7B2rYaK3mwHW1r5p72RVgTYAdW9IS8o3S5Wt3HtQBixKDKvWr6bLON5LXSz5bRUATxeK1Tq40bIcHIagB3XLcLPIPg+9Vt/Eq/n8fdcVv/fOiugGhXJi0ugPe3m/bh6g==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=f3vvG47sFs1VigW1rhIYqzU6mveqwQW+5gL7ixq6zbo=;
- b=ADnmu0Ovp66GN3ZfRjhG3ItuMIivV19tqU/Q3USdqDdu48i3JfMJ/RetDHHp94E+PS8P7zZTzF1Tk964v8uH7dZMueDw0NOKJmw0ii7p4OuUbpzOt6g61Lln4HC58S8WSfCm0kuQq8QfWaT5M7NEBCbKhWvuIIhjkfb5jK0ljlG2z6Fh1LE7ac10Bu8KVcIE+la/m1kNgvEO5MUyCd7209vEMZyY9LGqimaGUE9y1SVpOUb2nO9m26zA4seq9Z1qezCCqyZR53wl31nLFqW9d8+PNwesDcxAwcnaBQJvnMka8+u0U1ft9h7XbPInHoW5859RqfJtQzc6kPPYltj8IA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
- header.d=amd.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=f3vvG47sFs1VigW1rhIYqzU6mveqwQW+5gL7ixq6zbo=;
- b=fsS9Vt4se6dloDXpb910kd7e2EyXQ4giR8M4P6llUz19LdQM7x51S2GCOohlZMx7Nz1RKCU6fhXEuqp28UE7wW59fxC0Pmyv5o3pw3/llUFt4nl7WakquMKuL5htLcRML8WhuCG3pwsPC3+XVDI7gZOelrwGNUR+e6tB0qsIVy0=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=amd.com;
-Received: from PH7PR12MB5685.namprd12.prod.outlook.com (2603:10b6:510:13c::22)
- by PH0PR12MB5607.namprd12.prod.outlook.com (2603:10b6:510:142::22)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8880.32; Tue, 1 Jul
- 2025 07:40:12 +0000
-Received: from PH7PR12MB5685.namprd12.prod.outlook.com
- ([fe80::46fb:96f2:7667:7ca5]) by PH7PR12MB5685.namprd12.prod.outlook.com
- ([fe80::46fb:96f2:7667:7ca5%5]) with mapi id 15.20.8880.027; Tue, 1 Jul 2025
- 07:40:11 +0000
-Message-ID: <8b288dcd-81ed-4047-89b4-4bc8a4062fb2@amd.com>
-Date: Tue, 1 Jul 2025 09:40:05 +0200
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] drm/sched: Increment job count before swapping tail spsc
- queue
-To: Matthew Brost <matthew.brost@intel.com>, intel-xe@lists.freedesktop.org,
- dri-devel@lists.freedesktop.org
-Cc: dakr@kernel.org, pstanner@redhat.com
-References: <20250613212013.719312-1-matthew.brost@intel.com>
-Content-Language: en-US
-From: =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
-In-Reply-To: <20250613212013.719312-1-matthew.brost@intel.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-ClientProxiedBy: BL0PR02CA0073.namprd02.prod.outlook.com
- (2603:10b6:208:51::14) To PH7PR12MB5685.namprd12.prod.outlook.com
- (2603:10b6:510:13c::22)
+Received: from fanzine2.igalia.com (fanzine2.igalia.com [213.97.179.56])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id ED6C510E517
+ for <dri-devel@lists.freedesktop.org>; Tue,  1 Jul 2025 07:54:56 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com; 
+ s=20170329;
+ h=MIME-Version:Content-Transfer-Encoding:Content-Type:References:
+ In-Reply-To:Date:Cc:To:From:Subject:Message-ID:Sender:Reply-To:Content-ID:
+ Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc
+ :Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:List-Subscribe:
+ List-Post:List-Owner:List-Archive;
+ bh=hrbnYKP9HJiVr+q8/mf1c3MZ6UlfqLpKE3n/097LtYI=; b=D9OmReHELvI7Hj98yzsXb5hD+/
+ M1ASh2DjBBeHQXqhHmNvnqi1+hpABbI2s+byqrGhbhEcUzeJpi8etG+bdkdjnZGDyqKJ/OfaJ+y2z
+ XPTclabUpuNkJ5Wnm4/+b6xIhF3F82qFDHJywIq4/zCeyXXp4fQCgf5YUv0C2bGNOm/2UgiyARatw
+ nODUx1AwYTWpce98dFNmCDlSvmFPvLY5W68qdTMh8ekqphBMa+YdKe+HKsaiza3ZuYbHG6FeDgUKb
+ seC4CmgfkWTe4OZgsKvxPHaoW1i6PmUabiW0vph/zApLyqL4XkW/BfGbOfbD1DRNhp3GphTJtcwcn
+ /en7J7Gg==;
+Received: from [139.47.50.206] (helo=[192.168.1.139])
+ by fanzine2.igalia.com with esmtpsa 
+ (Cipher TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_256_GCM:256) (Exim)
+ id 1uWVpP-00Arrm-2L; Tue, 01 Jul 2025 09:54:55 +0200
+Message-ID: <add8de0a7a515b2d48dd2f98347f7455f1d25e37.camel@igalia.com>
+Subject: Re: [PATCH] drm/v3d: Disable interrupts before resetting the GPU
+From: "Juan A." =?ISO-8859-1?Q?Su=E1rez?= <jasuarez@igalia.com>
+To: =?ISO-8859-1?Q?Ma=EDra?= Canal <mcanal@igalia.com>, Melissa Wen
+ <mwen@igalia.com>, Iago Toral <itoral@igalia.com>
+Cc: dri-devel@lists.freedesktop.org, kernel-dev@igalia.com, 
+ stable@vger.kernel.org
+Date: Tue, 01 Jul 2025 09:54:54 +0200
+In-Reply-To: <20250628224243.47599-1-mcanal@igalia.com>
+References: <20250628224243.47599-1-mcanal@igalia.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.56.2 (3.56.2-1.fc42) 
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: PH7PR12MB5685:EE_|PH0PR12MB5607:EE_
-X-MS-Office365-Filtering-Correlation-Id: 4215cbcd-45dd-4b53-17fa-08ddb8728299
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;ARA:13230040|1800799024|366016|376014|7053199007;
-X-Microsoft-Antispam-Message-Info: =?utf-8?B?ZE9JUnMxTEN1N09EYVRJL0JaTGJ5M3g4Qy91V3VXdEdURnhuemE4NXVaeE1E?=
- =?utf-8?B?dXdPWVowM2ltSEhxOXp0REhkN0xpdGlBUU5CL1hNd0duamZVK3JOMDFQbFFt?=
- =?utf-8?B?MmlacjIzLzBXeCtTSHNvblRLTHZVbklxbzE1VDFiU1BwS2VzdnNuQ0JWSFhS?=
- =?utf-8?B?OS9TeG8xdGNLOTNSbUZqNEtJbFk5TXlRYnY2WS94bkFyNHEvUWc1Q25vSDBL?=
- =?utf-8?B?T1JmWDZaNCtIQmQ5d2Iwc0ZuTjVHd3BjSW5oeUJlcUd4TzAvNk9VYmJKZktH?=
- =?utf-8?B?VWlLaW5Ycms4VUpJbFhSakgybWZGTGJYOTJScDF5enZ1NEFQV1krT1RCRE05?=
- =?utf-8?B?UytnY20vY0lCc3RPNTd1ckJ1UjVQZk1MQTRnYlBNbVBUQm9HYy85THJUdVN3?=
- =?utf-8?B?eVNMWHhpdEdYUVJoUWF4a2VqU3lOOWdPR2YwSjdUV2dISDR2ZXVrZDZVUWF3?=
- =?utf-8?B?a2VJSWFjVkwwYVVjNEloU1Z3TXRLdGNGb3I1dENpSUpiRmNtVXlFWHh5azN5?=
- =?utf-8?B?azZrSHFVdlBMSFZGWUc0S3FQTnNqN0JXWmNxck1PM1ZyS1RPRURWV1A5T0l6?=
- =?utf-8?B?S3prYUhHVEhkM0dlSE9JRnVWdSsveXlzWGhDcC9zajZKMVpVM0lyNU96dlh1?=
- =?utf-8?B?Y0QzNlB5TW8xd0lzQnNGTzk0U0doQ1B6a1lKSDRXa2NTMXNwZjUxcmdENVIv?=
- =?utf-8?B?QjlKRHR5NVMvTktIMS83K044VjlXYWY0WnlTQk1mcHE3cWNYcXVPMXRXYXRQ?=
- =?utf-8?B?VlUrbWdGZUQ1Q2ptejMvUzM0UzBaNFVxMFpQSGZEeU1keTZhUlVlQXFkdy9t?=
- =?utf-8?B?aXVnN3ZtaHY2RmVmZmxuZHdJMWU3L1BVQVJDQkE0ZWxYZWJvUzgvTkViZnd3?=
- =?utf-8?B?Ymh4TXVMQXBPa016TUlCYlNXUHhhVUJESXdXYklPR3FKRVZDRHRERTRCaW5H?=
- =?utf-8?B?blpiZ1BzQjdreWxaaGVhU2lTUFpvdjRiQTYvdzlra0lNbGZJRk5DeHk0VE5C?=
- =?utf-8?B?dHdoVWlPVGttTVpJbjhZNjFjSUJVM3hqMFR6RDZXb2dkaC82VURqc3p4NWp4?=
- =?utf-8?B?VHdycUdxY3hqblZRSEZLN0g1UFovdjN1MmpBc1orVm8wMGs4UVdpRXhCTElC?=
- =?utf-8?B?Mm1ZUnFUazFPMHZZNjB5bUdmMVBPY3hVTE4raUVoUzMwTzVScVZoQXhEeDJq?=
- =?utf-8?B?VkpBOG5SZTFuRXJKanlkbUU5REFZeFRJQnFVc3ZIalJnZ3NWTkdkd3pJUVZF?=
- =?utf-8?B?UDUyRXZ6R2Q5cnVTTHRvYUNmWjBRZUpIenN5WkYzMzc5eDQzbTQ4N20xZ3Y1?=
- =?utf-8?B?MW84OEVpZjQrVHJuR29LQnA4bVRmWGRvUk55M0tZTmxMalJkOGVzV1QrcHE2?=
- =?utf-8?B?Z2pKSzRTTFBYdkdpb1huNHNRM3F4WjR5akM3WE1pV3F0V3JRdnYvYllFSFVQ?=
- =?utf-8?B?WHkvcUkyWGl2ZWF1ak9qUlV0SGxIU1ZwdHBRdEFlZWNOeUxWMDZxdUJDT0tW?=
- =?utf-8?B?SEtSMldZZlV4ckJxNXgwSlF0aVhlNEhUeVhtcjROanNhNXJwT0pEeStUcVcr?=
- =?utf-8?B?dG5vU0RtenN5ajZMT3RTcmEwSDVTa2xxNlUwVzExZk4vQ0Zhcjl0OHJvZnhR?=
- =?utf-8?B?d2NvMjBGK2VUVldjVEpUTGJOK3RuMGxTZllkaERxSjRucVZjUVRZazlqQkhp?=
- =?utf-8?B?QklNT1pyQW1OVGRTUHdua3NIOVA3RWQyOU5YUFU1blVEK3dLSFhFUW1SU3ZO?=
- =?utf-8?B?MUR0NWl4SXBHVGhjb2pTZjErN05RUUNBV2kzR2U2QloxNTFpWFZrdnA0cWJr?=
- =?utf-8?B?RWlpOGx5ajA3Ymk2RjIxbzNueXZiZUVLTTJaR1YzQXdrL1dnL2hPWEdVeFRB?=
- =?utf-8?B?VDQxS0RML0ViYnpHRU4rVGtRanlYUGw0ZGd6YVI2N1JacVE1Wk1DZ0JiakxU?=
- =?utf-8?Q?xiv3bPtkTjA=3D?=
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:PH7PR12MB5685.namprd12.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230040)(1800799024)(366016)(376014)(7053199007); DIR:OUT; SFP:1101; 
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?SHhNdXpTay80cmhhSDFBVFZVVEExUDBza2ZBWGJsL1BFYkFMNU16ZWg4NGda?=
- =?utf-8?B?eVVMbFFRVDlrMkh0QWIxaU1GVWNoVW8yWkpOTHhMZFh3SGI0VXkzSWM0bEtI?=
- =?utf-8?B?Z21FdEtFUUczT1NDTGFTV0FPRHF2dm96UVhoS01JNVZmZHZ2MjF2RWNxMUlp?=
- =?utf-8?B?QTk1WUp1bWJubGtseGtWZFVINDRpYjI1UkRyTjBqQ01YYmxCWEhzRXB4TDN3?=
- =?utf-8?B?L0RSdFI0SGFLTlBpdHFrTFk2R0x1TnFoUCs5OVNHSXE0UTNWNitHNFk4Q3cz?=
- =?utf-8?B?TUlYTWVWZDY3THVCSlZ3WStwdVFyS05wbjBPVWFPZzlzWjhrUmZEcFlPR1VK?=
- =?utf-8?B?dnR2R21uNndINjdneGkya3RSN2pjeWo3TFA1emJSQUNkMFNobE41bWpZdFhH?=
- =?utf-8?B?RzRRN01WeEVtbHI0NEpwNWs3TXJvU0J1a3BiaGs2OHg5ODVweXhoOE5odWUr?=
- =?utf-8?B?cnN0WElkNHRZMHo1YjExM25TbGNsdG53N1ZjYWpwTE5VUmpHb1MrT0kzWm5q?=
- =?utf-8?B?TU1CaGt0Vk1kajJHOUh3eFVzalBhd2ZuZVFrUkhBRUhEZ1BwOE8xb0Q2Umx3?=
- =?utf-8?B?TnMydXp6aGZNUVNJWmVLb0tGMERraEc5Zm1QdEh1N2dPb2s0SHBGNTdxQTY5?=
- =?utf-8?B?VU54OHllb1FKSnMwcUltZXZRekVObG1GZk40TXVjNEhmSjdCNHYrWktMU0xs?=
- =?utf-8?B?emY4cFhncndRUURYZDg3YVU5TVhNWVA4c2xPRHBrRTVsbDlaVTZMMmZNLzRw?=
- =?utf-8?B?enBsRVZMQjZaZ3lhcC8wZGp6Q0IyRWVZajJ2WVJpbGVnNmlDcUlXMll6aVc2?=
- =?utf-8?B?T0pCS0x2aUMyc29DWnhiR2VacmllN2VhZ2g3R1Q1eW1MM2tUNjN6ejViRW9U?=
- =?utf-8?B?b3pyVjIwRnRhc1hyam1IZWU5eS9wcmJGUlVqSkNaNDRibjIvSit3S1l4UkIy?=
- =?utf-8?B?QVBpbHhmcmF3K1FhUXNIT3cyY2g4YmFKdXBYczFwRk5YeHpBOHh3ZHltRU1h?=
- =?utf-8?B?YTVFbUtMN2ZkaW9WK2VVOU9rYnc2OHgzQ0tUZG9NSGdyNkU0ekt5M1p3RVRz?=
- =?utf-8?B?ek82Z0ZVQzNHSlRPR1NxNE15WXViN2RhaDFBVDc1WVBGUUQvZW5oWTZGMUYr?=
- =?utf-8?B?WDBmME1IQ1ZIL2hCT0ZxSjZ6ZDFDakhsbzNWRVYxck1TOTlyeXdYZnZJa0No?=
- =?utf-8?B?SDAxRzNCbHlTd2pFazZvL3ZBQWlubWZQTEZyNVV3S0dYd0hxV1ZSWjhuRUZB?=
- =?utf-8?B?WXpDNTBVTjk4anEvNmw1WGgzcmVxTkI3RGt0ZHBKTEhQYi9YWmVPTTZQZ2lm?=
- =?utf-8?B?QmNuUVVRbS9XU1JWYlQzYmNkWFBPeWZ1MXJ4RVlDYUZrbTduemp0T1VoaUxo?=
- =?utf-8?B?S1NZQk9xWHZ6T0h1blRlTFhBSWFteWtacndOVWtFUS9oSkNsZFpyRG5UeFFh?=
- =?utf-8?B?VWFGK3RkeFV0bHdydGlrUXV3WFJmVWRSUm1RQVZ1Q2k4TUk1RXI1eFpvWnM0?=
- =?utf-8?B?dk50RTBrRlJRTEEvUGFFYzBJNm9HL3VVT2VDOWFOUHdBdXMwSVlUZGU5VkdQ?=
- =?utf-8?B?U1l1aXNwZUNRalNXeVRJckdCdDRPVUFPMS9YV2hzb1I4MEprdXNYSmdSMnpL?=
- =?utf-8?B?eSs2Z1lRWFB3emF2MEp6RXk1QjdpL0oySk1YVDR5dVN3K1Q1eEJPYmpFZjkx?=
- =?utf-8?B?U0JjNEJkY0FOTU9Tdkc5ejdkODhNZ2t5T1BWN2dzdEJRejRRTmV5bFZFeFZQ?=
- =?utf-8?B?TVJKV2Yvd0JpTjMvMWh5dTBnVlFDNlp6ZldPUDhIOUtSdHNvUWxTMUFlQ29y?=
- =?utf-8?B?MERWUVhBblRIVU5TdnRaNXMwOGRSRCtVaWpEd2NSdUVnOGdxUStLVkM0QkJ4?=
- =?utf-8?B?UWU0QnUzQyszK1hyZmlQUmk3NHNUbHRUeGJmZ1ZtM3RtYWRVZCthUk5JZmZC?=
- =?utf-8?B?c005VlIxNVlxd3Zwb0h5TjVOcTR4ZlRPVkptYUZZNXFMbE53SUEzcDRIbG1D?=
- =?utf-8?B?MTRUbFBSV2RlZ1huZ2hQWjZDT0ZpTEpXajZMVUltMU05amFRQnhnbWlBWGlJ?=
- =?utf-8?B?Y3VUTXA0cjRVdE5XWlNFeHNYQnZGNHgvbUI4RFVpdFpaMDlsSXVGTGZGVE5R?=
- =?utf-8?Q?vaChrTvL9HyEc4vwEjHOqB7BY?=
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 4215cbcd-45dd-4b53-17fa-08ddb8728299
-X-MS-Exchange-CrossTenant-AuthSource: PH7PR12MB5685.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 01 Jul 2025 07:40:11.7434 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: gjofVehdMszdUqN2XyV4DsMHNeSin/N7zTdHG/1qNfcdEAbEDZofngh/Vz1R7xeK
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH0PR12MB5607
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -163,45 +61,259 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 13.06.25 23:20, Matthew Brost wrote:
-> A small race exists between spsc_queue_push and the run-job worker, in
-> which spsc_queue_push may return not-first while the run-job worker has
-> already idled due to the job count being zero. If this race occurs, job
-> scheduling stops, leading to hangs while waiting on the job’s DMA
-> fences.
-> 
-> Seal this race by incrementing the job count before appending to the
-> SPSC queue.
-> 
-> This race was observed on a drm-tip 6.16-rc1 build with the Xe driver in
-> an SVM test case.
-> 
-> Fixes: 1b1f42d8fde4 ("drm: move amd_gpu_scheduler into common location")
-> Fixes: 27105db6c63a ("drm/amdgpu: Add SPSC queue to scheduler.")
+Reviewed-by: Juan A. Suarez <jasuarez@igalia.com>
+
+On Sat, 2025-06-28 at 19:42 -0300, Ma=C3=ADra Canal wrote:
+> Currently, an interrupt can be triggered during a GPU reset, which
+> can
+> lead to GPU hangs and NULL pointer dereference in an interrupt
+> context
+> as shown in the following trace:
+>=20
+> =C2=A0[=C2=A0 314.035040] Unable to handle kernel NULL pointer dereferenc=
+e at
+> virtual address 00000000000000c0
+> =C2=A0[=C2=A0 314.043822] Mem abort info:
+> =C2=A0[=C2=A0 314.046606]=C2=A0=C2=A0 ESR =3D 0x0000000096000005
+> =C2=A0[=C2=A0 314.050347]=C2=A0=C2=A0 EC =3D 0x25: DABT (current EL), IL =
+=3D 32 bits
+> =C2=A0[=C2=A0 314.055651]=C2=A0=C2=A0 SET =3D 0, FnV =3D 0
+> =C2=A0[=C2=A0 314.058695]=C2=A0=C2=A0 EA =3D 0, S1PTW =3D 0
+> =C2=A0[=C2=A0 314.061826]=C2=A0=C2=A0 FSC =3D 0x05: level 1 translation f=
+ault
+> =C2=A0[=C2=A0 314.066694] Data abort info:
+> =C2=A0[=C2=A0 314.069564]=C2=A0=C2=A0 ISV =3D 0, ISS =3D 0x00000005, ISS2=
+ =3D 0x00000000
+> =C2=A0[=C2=A0 314.075039]=C2=A0=C2=A0 CM =3D 0, WnR =3D 0, TnD =3D 0, Tag=
+Access =3D 0
+> =C2=A0[=C2=A0 314.080080]=C2=A0=C2=A0 GCS =3D 0, Overlay =3D 0, DirtyBit =
+=3D 0, Xs =3D 0
+> =C2=A0[=C2=A0 314.085382] user pgtable: 4k pages, 39-bit VAs,
+> pgdp=3D0000000102728000
+> =C2=A0[=C2=A0 314.091814] [00000000000000c0] pgd=3D0000000000000000,
+> p4d=3D0000000000000000, pud=3D0000000000000000
+> =C2=A0[=C2=A0 314.100511] Internal error: Oops: 0000000096000005 [#1] PRE=
+EMPT
+> SMP
+> =C2=A0[=C2=A0 314.106770] Modules linked in: v3d i2c_brcmstb vc4
+> snd_soc_hdmi_codec gpu_sched drm_shmem_helper drm_display_helper cec
+> drm_dma_helper drm_kms_helper drm drm_panel_orientation_quirks
+> snd_soc_core snd_compress snd_pcm_dmaengine snd_pcm snd_timer snd
+> backlight
+> =C2=A0[=C2=A0 314.129654] CPU: 0 UID: 0 PID: 0 Comm: swapper/0 Not tainte=
+d
+> 6.12.25+rpt-rpi-v8 #1=C2=A0 Debian 1:6.12.25-1+rpt1
+> =C2=A0[=C2=A0 314.139388] Hardware name: Raspberry Pi 4 Model B Rev 1.4 (=
+DT)
+> =C2=A0[=C2=A0 314.145211] pstate: 600000c5 (nZCv daIF -PAN -UAO -TCO -DIT=
+ -SSBS
+> BTYPE=3D--)
+> =C2=A0[=C2=A0 314.152165] pc : v3d_irq+0xec/0x2e0 [v3d]
+> =C2=A0[=C2=A0 314.156187] lr : v3d_irq+0xe0/0x2e0 [v3d]
+> =C2=A0[=C2=A0 314.160198] sp : ffffffc080003ea0
+> =C2=A0[=C2=A0 314.163502] x29: ffffffc080003ea0 x28: ffffffec1f184980 x27=
+:
+> 021202b000000000
+> =C2=A0[=C2=A0 314.170633] x26: ffffffec1f17f630 x25: ffffff8101372000 x24=
+:
+> ffffffec1f17d9f0
+> =C2=A0[=C2=A0 314.177764] x23: 000000000000002a x22: 000000000000002a x21=
+:
+> ffffff8103252000
+> =C2=A0[=C2=A0 314.184895] x20: 0000000000000001 x19: 00000000deadbeef x18=
+:
+> 0000000000000000
+> =C2=A0[=C2=A0 314.192026] x17: ffffff94e51d2000 x16: ffffffec1dac3cb0 x15=
+:
+> c306000000000000
+> =C2=A0[=C2=A0 314.199156] x14: 0000000000000000 x13: b2fc982e03cc5168 x12=
+:
+> 0000000000000001
+> =C2=A0[=C2=A0 314.206286] x11: ffffff8103f8bcc0 x10: ffffffec1f196868 x9 =
+:
+> ffffffec1dac3874
+> =C2=A0[=C2=A0 314.213416] x8 : 0000000000000000 x7 : 0000000000042a3a x6 =
+:
+> ffffff810017a180
+> =C2=A0[=C2=A0 314.220547] x5 : ffffffec1ebad400 x4 : ffffffec1ebad320 x3 =
+:
+> 00000000000bebeb
+> =C2=A0[=C2=A0 314.227677] x2 : 0000000000000000 x1 : 0000000000000000 x0 =
+:
+> 0000000000000000
+> =C2=A0[=C2=A0 314.234807] Call trace:
+> =C2=A0[=C2=A0 314.237243]=C2=A0 v3d_irq+0xec/0x2e0 [v3d]
+> =C2=A0[=C2=A0 314.240906]=C2=A0 __handle_irq_event_percpu+0x58/0x218
+> =C2=A0[=C2=A0 314.245609]=C2=A0 handle_irq_event+0x54/0xb8
+> =C2=A0[=C2=A0 314.249439]=C2=A0 handle_fasteoi_irq+0xac/0x240
+> =C2=A0[=C2=A0 314.253527]=C2=A0 handle_irq_desc+0x48/0x68
+> =C2=A0[=C2=A0 314.257269]=C2=A0 generic_handle_domain_irq+0x24/0x38
+> =C2=A0[=C2=A0 314.261879]=C2=A0 gic_handle_irq+0x48/0xd8
+> =C2=A0[=C2=A0 314.265533]=C2=A0 call_on_irq_stack+0x24/0x58
+> =C2=A0[=C2=A0 314.269448]=C2=A0 do_interrupt_handler+0x88/0x98
+> =C2=A0[=C2=A0 314.273624]=C2=A0 el1_interrupt+0x34/0x68
+> =C2=A0[=C2=A0 314.277193]=C2=A0 el1h_64_irq_handler+0x18/0x28
+> =C2=A0[=C2=A0 314.281281]=C2=A0 el1h_64_irq+0x64/0x68
+> =C2=A0[=C2=A0 314.284673]=C2=A0 default_idle_call+0x3c/0x168
+> =C2=A0[=C2=A0 314.288675]=C2=A0 do_idle+0x1fc/0x230
+> =C2=A0[=C2=A0 314.291895]=C2=A0 cpu_startup_entry+0x3c/0x50
+> =C2=A0[=C2=A0 314.295810]=C2=A0 rest_init+0xe4/0xf0
+> =C2=A0[=C2=A0 314.299030]=C2=A0 start_kernel+0x5e8/0x790
+> =C2=A0[=C2=A0 314.302684]=C2=A0 __primary_switched+0x80/0x90
+> =C2=A0[=C2=A0 314.306691] Code: 940029eb 360ffc13 f9442ea0 52800001 (f940=
+6017)
+> =C2=A0[=C2=A0 314.312775] ---[ end trace 0000000000000000 ]---
+> =C2=A0[=C2=A0 314.317384] Kernel panic - not syncing: Oops: Fatal excepti=
+on in
+> interrupt
+> =C2=A0[=C2=A0 314.324249] SMP: stopping secondary CPUs
+> =C2=A0[=C2=A0 314.328167] Kernel Offset: 0x2b9da00000 from 0xffffffc08000=
+0000
+> =C2=A0[=C2=A0 314.334076] PHYS_OFFSET: 0x0
+> =C2=A0[=C2=A0 314.336946] CPU features: 0x08,00002013,c0200000,0200421b
+> =C2=A0[=C2=A0 314.342337] Memory Limit: none
+> =C2=A0[=C2=A0 314.345382] ---[ end Kernel panic - not syncing: Oops: Fata=
+l
+> exception in interrupt ]---
+>=20
+> Before resetting the GPU, it's necessary to disable all interrupts
+> and
+> deal with any interrupt handler still in-flight. Otherwise, the GPU
+> might
+> reset with jobs still running, or yet, an interrupt could be handled
+> during the reset.
+>=20
 > Cc: stable@vger.kernel.org
-> Signed-off-by: Matthew Brost <matthew.brost@intel.com>
-
-Sorry for the late response, if it isn't already pushed to drm-misc-fixes then feel free to add Reviewed-by: Christian König <christian.koenig@amd.com>
-
+> Fixes: 57692c94dcbe ("drm/v3d: Introduce a new DRM driver for
+> Broadcom V3D V3.x+")
+> Signed-off-by: Ma=C3=ADra Canal <mcanal@igalia.com>
 > ---
->  include/drm/spsc_queue.h | 4 +++-
->  1 file changed, 3 insertions(+), 1 deletion(-)
-> 
-> diff --git a/include/drm/spsc_queue.h b/include/drm/spsc_queue.h
-> index 125f096c88cb..ee9df8cc67b7 100644
-> --- a/include/drm/spsc_queue.h
-> +++ b/include/drm/spsc_queue.h
-> @@ -70,9 +70,11 @@ static inline bool spsc_queue_push(struct spsc_queue *queue, struct spsc_node *n
->  
->  	preempt_disable();
->  
-> +	atomic_inc(&queue->job_count);
-> +	smp_mb__after_atomic();
+> =C2=A0drivers/gpu/drm/v3d/v3d_drv.h |=C2=A0 8 ++++++++
+> =C2=A0drivers/gpu/drm/v3d/v3d_gem.c |=C2=A0 2 ++
+> =C2=A0drivers/gpu/drm/v3d/v3d_irq.c | 37 +++++++++++++++++++++++++-------=
+-
+> --
+> =C2=A03 files changed, 37 insertions(+), 10 deletions(-)
+>=20
+> diff --git a/drivers/gpu/drm/v3d/v3d_drv.h
+> b/drivers/gpu/drm/v3d/v3d_drv.h
+> index b51f0b648a08..411e47702f8a 100644
+> --- a/drivers/gpu/drm/v3d/v3d_drv.h
+> +++ b/drivers/gpu/drm/v3d/v3d_drv.h
+> @@ -101,6 +101,12 @@ enum v3d_gen {
+> =C2=A0	V3D_GEN_71 =3D 71,
+> =C2=A0};
+> =C2=A0
+> +enum v3d_irq {
+> +	V3D_CORE_IRQ,
+> +	V3D_HUB_IRQ,
+> +	V3D_MAX_IRQS,
+> +};
 > +
->  	tail = (struct spsc_node **)atomic_long_xchg(&queue->tail, (long)&node->next);
->  	WRITE_ONCE(*tail, node);
-> -	atomic_inc(&queue->job_count);
->  
->  	/*
->  	 * In case of first element verify new node will be visible to the consumer
-
+> =C2=A0struct v3d_dev {
+> =C2=A0	struct drm_device drm;
+> =C2=A0
+> @@ -112,6 +118,8 @@ struct v3d_dev {
+> =C2=A0
+> =C2=A0	bool single_irq_line;
+> =C2=A0
+> +	int irq[V3D_MAX_IRQS];
+> +
+> =C2=A0	struct v3d_perfmon_info perfmon_info;
+> =C2=A0
+> =C2=A0	void __iomem *hub_regs;
+> diff --git a/drivers/gpu/drm/v3d/v3d_gem.c
+> b/drivers/gpu/drm/v3d/v3d_gem.c
+> index d7d16da78db3..37bf5eecdd2c 100644
+> --- a/drivers/gpu/drm/v3d/v3d_gem.c
+> +++ b/drivers/gpu/drm/v3d/v3d_gem.c
+> @@ -134,6 +134,8 @@ v3d_reset(struct v3d_dev *v3d)
+> =C2=A0	if (false)
+> =C2=A0		v3d_idle_axi(v3d, 0);
+> =C2=A0
+> +	v3d_irq_disable(v3d);
+> +
+> =C2=A0	v3d_idle_gca(v3d);
+> =C2=A0	v3d_reset_sms(v3d);
+> =C2=A0	v3d_reset_v3d(v3d);
+> diff --git a/drivers/gpu/drm/v3d/v3d_irq.c
+> b/drivers/gpu/drm/v3d/v3d_irq.c
+> index 2cca5d3a26a2..a515a301e480 100644
+> --- a/drivers/gpu/drm/v3d/v3d_irq.c
+> +++ b/drivers/gpu/drm/v3d/v3d_irq.c
+> @@ -260,7 +260,7 @@ v3d_hub_irq(int irq, void *arg)
+> =C2=A0int
+> =C2=A0v3d_irq_init(struct v3d_dev *v3d)
+> =C2=A0{
+> -	int irq1, ret, core;
+> +	int irq, ret, core;
+> =C2=A0
+> =C2=A0	INIT_WORK(&v3d->overflow_mem_work, v3d_overflow_mem_work);
+> =C2=A0
+> @@ -271,17 +271,24 @@ v3d_irq_init(struct v3d_dev *v3d)
+> =C2=A0		V3D_CORE_WRITE(core, V3D_CTL_INT_CLR,
+> V3D_CORE_IRQS(v3d->ver));
+> =C2=A0	V3D_WRITE(V3D_HUB_INT_CLR, V3D_HUB_IRQS(v3d->ver));
+> =C2=A0
+> -	irq1 =3D platform_get_irq_optional(v3d_to_pdev(v3d), 1);
+> -	if (irq1 =3D=3D -EPROBE_DEFER)
+> -		return irq1;
+> -	if (irq1 > 0) {
+> -		ret =3D devm_request_irq(v3d->drm.dev, irq1,
+> +	irq =3D platform_get_irq_optional(v3d_to_pdev(v3d), 1);
+> +	if (irq =3D=3D -EPROBE_DEFER)
+> +		return irq;
+> +	if (irq > 0) {
+> +		v3d->irq[V3D_CORE_IRQ] =3D irq;
+> +
+> +		ret =3D devm_request_irq(v3d->drm.dev, v3d-
+> >irq[V3D_CORE_IRQ],
+> =C2=A0				=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 v3d_irq, IRQF_SHARED,
+> =C2=A0				=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 "v3d_core0", v3d);
+> =C2=A0		if (ret)
+> =C2=A0			goto fail;
+> -		ret =3D devm_request_irq(v3d->drm.dev,
+> -				=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0
+> platform_get_irq(v3d_to_pdev(v3d), 0),
+> +
+> +		irq =3D platform_get_irq(v3d_to_pdev(v3d), 0);
+> +		if (irq < 0)
+> +			return irq;
+> +		v3d->irq[V3D_HUB_IRQ] =3D irq;
+> +
+> +		ret =3D devm_request_irq(v3d->drm.dev, v3d-
+> >irq[V3D_HUB_IRQ],
+> =C2=A0				=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 v3d_hub_irq, IRQF_SHARED,
+> =C2=A0				=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 "v3d_hub", v3d);
+> =C2=A0		if (ret)
+> @@ -289,8 +296,12 @@ v3d_irq_init(struct v3d_dev *v3d)
+> =C2=A0	} else {
+> =C2=A0		v3d->single_irq_line =3D true;
+> =C2=A0
+> -		ret =3D devm_request_irq(v3d->drm.dev,
+> -				=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0
+> platform_get_irq(v3d_to_pdev(v3d), 0),
+> +		irq =3D platform_get_irq(v3d_to_pdev(v3d), 0);
+> +		if (irq < 0)
+> +			return irq;
+> +		v3d->irq[V3D_CORE_IRQ] =3D irq;
+> +
+> +		ret =3D devm_request_irq(v3d->drm.dev, v3d-
+> >irq[V3D_CORE_IRQ],
+> =C2=A0				=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 v3d_irq, IRQF_SHARED,
+> =C2=A0				=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 "v3d", v3d);
+> =C2=A0		if (ret)
+> @@ -331,6 +342,12 @@ v3d_irq_disable(struct v3d_dev *v3d)
+> =C2=A0		V3D_CORE_WRITE(core, V3D_CTL_INT_MSK_SET, ~0);
+> =C2=A0	V3D_WRITE(V3D_HUB_INT_MSK_SET, ~0);
+> =C2=A0
+> +	/* Finish any interrupt handler still in flight. */
+> +	for (int i =3D 0; i < V3D_MAX_IRQS; i++) {
+> +		if (v3d->irq[i])
+> +			synchronize_irq(v3d->irq[i]);
+> +	}
+> +
+> =C2=A0	/* Clear any pending interrupts we might have left. */
+> =C2=A0	for (core =3D 0; core < v3d->cores; core++)
+> =C2=A0		V3D_CORE_WRITE(core, V3D_CTL_INT_CLR,
+> V3D_CORE_IRQS(v3d->ver));
