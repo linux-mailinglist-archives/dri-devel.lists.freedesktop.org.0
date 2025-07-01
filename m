@@ -2,64 +2,55 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 756DFAEFD1D
-	for <lists+dri-devel@lfdr.de>; Tue,  1 Jul 2025 16:51:42 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 734B5AEFA38
+	for <lists+dri-devel@lfdr.de>; Tue,  1 Jul 2025 15:22:27 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A550010E2B1;
-	Tue,  1 Jul 2025 14:51:39 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2082210E5A9;
+	Tue,  1 Jul 2025 13:22:24 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=ti.com header.i=@ti.com header.b="evMQbb58";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="f9MBxLw+";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from fllvem-ot03.ext.ti.com (fllvem-ot03.ext.ti.com [198.47.19.245])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0EF1510E2B1
- for <dri-devel@lists.freedesktop.org>; Tue,  1 Jul 2025 14:51:38 +0000 (UTC)
-Received: from lelvem-sh01.itg.ti.com ([10.180.77.71])
- by fllvem-ot03.ext.ti.com (8.15.2/8.15.2) with ESMTP id 561DCWwO3321452;
- Tue, 1 Jul 2025 08:12:32 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
- s=ti-com-17Q1; t=1751375552;
- bh=6MPo5B7QzRak+hNKiJwQdJgnEubBotM30t/YWAjUMYU=;
- h=Date:Subject:To:CC:References:From:In-Reply-To;
- b=evMQbb58XyXAq1lHsGPkUKQCndcaJFkumRnlMN5pM+vFekdkBCNIynym8mjzrZAoh
- krsiHJ+PwC1zEfnpRl4Md69cpgp/JNV0f9GSEdgm0G9Ib4/dKFTYSGLu8RZevynrnW
- 6HDQ6vEvRUPQWuiQ4wYQ+5J0loAaFoJUK4cGO2fA=
-Received: from DFLE107.ent.ti.com (dfle107.ent.ti.com [10.64.6.28])
- by lelvem-sh01.itg.ti.com (8.18.1/8.18.1) with ESMTPS id 561DCWwg247591
- (version=TLSv1.2 cipher=ECDHE-RSA-AES128-SHA256 bits=128 verify=FAIL);
- Tue, 1 Jul 2025 08:12:32 -0500
-Received: from DFLE103.ent.ti.com (10.64.6.24) by DFLE107.ent.ti.com
- (10.64.6.28) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2507.55; Tue, 1
- Jul 2025 08:12:31 -0500
-Received: from lelvem-mr05.itg.ti.com (10.180.75.9) by DFLE103.ent.ti.com
- (10.64.6.24) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2507.55 via
- Frontend Transport; Tue, 1 Jul 2025 08:12:31 -0500
-Received: from [172.24.227.193] (devarsh-precision-tower-3620.dhcp.ti.com
- [172.24.227.193])
- by lelvem-mr05.itg.ti.com (8.18.1/8.18.1) with ESMTP id 561DCSQa1607227;
- Tue, 1 Jul 2025 08:12:28 -0500
-Message-ID: <a382dc7d-94f8-4fe5-99a6-913e73d4a808@ti.com>
-Date: Tue, 1 Jul 2025 18:42:27 +0530
+Received: from nyc.source.kernel.org (nyc.source.kernel.org [147.75.193.91])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2E5F610E286;
+ Tue,  1 Jul 2025 13:22:23 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+ by nyc.source.kernel.org (Postfix) with ESMTP id F2B42A52FCF;
+ Tue,  1 Jul 2025 13:22:21 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6047CC4CEEB;
+ Tue,  1 Jul 2025 13:22:17 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1751376141;
+ bh=whKGu+ajEl81bP78bhCwKxoEBbt3SnanKihrJ68af28=;
+ h=From:To:Cc:Subject:Date:From;
+ b=f9MBxLw+WmrIjPXSZE8GyJti6//XFK/lTygH82PpOqzF7Q2mA+9pwfjjGNVYr5gVG
+ 1/X3jl2RaiUAg52bMKpKEq93yPaCtzNa6kXEHmFBBJcT16BmAUxGiIFLv6jMObCwjp
+ VWLvVopZv+5zIRGDCXecaMrkUzJRXWxnxxEP5HQSGbFAziix4xDar445txDM1zgmq9
+ FmWG50Hx4/JS/DaMbargGwcFp7MEy1cuT3fNP/2NA6DnCFHcp83FE2rr5iwmkJvAPE
+ 51rJK6Frl05aLeM6S+TqO2rZRIbGwvPsRkujicUu/wqIL8AmEo0ekGCBwCiaXg8Klz
+ NDx64lkwoPzNQ==
+From: Philipp Stanner <phasta@kernel.org>
+To: Lyude Paul <lyude@redhat.com>, Danilo Krummrich <dakr@kernel.org>,
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+ Matthew Brost <matthew.brost@intel.com>,
+ Philipp Stanner <phasta@kernel.org>,
+ =?UTF-8?q?Christian=20K=C3=B6nig?= <ckoenig.leichtzumerken@gmail.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>,
+ Sumit Semwal <sumit.semwal@linaro.org>,
+ Tvrtko Ursulin <tvrtko.ursulin@igalia.com>,
+ Pierre-Eric Pelloux-Prayer <pierre-eric.pelloux-prayer@amd.com>
+Cc: dri-devel@lists.freedesktop.org, nouveau@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
+ linaro-mm-sig@lists.linaro.org
+Subject: [PATCH 0/6] drm/sched: Fix memory leaks with cancel_job() callback
+Date: Tue,  1 Jul 2025 15:21:38 +0200
+Message-ID: <20250701132142.76899-3-phasta@kernel.org>
+X-Mailer: git-send-email 2.49.0
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v3 2/3] drm/tidss: Remove max_pclk_khz from tidss display
- features
-To: Jayesh Choudhary <j-choudhary@ti.com>, <jyri.sarha@iki.fi>,
- <maarten.lankhorst@linux.intel.com>, <mripard@kernel.org>,
- <tzimmermann@suse.de>, <dri-devel@lists.freedesktop.org>,
- <tomi.valkeinen@ideasonboard.com>, <mwalle@kernel.org>
-CC: <airlied@gmail.com>, <simona@ffwll.ch>, <linux-kernel@vger.kernel.org>
-References: <20250701095541.190422-1-j-choudhary@ti.com>
- <20250701095541.190422-3-j-choudhary@ti.com>
-Content-Language: en-US
-From: Devarsh Thakkar <devarsht@ti.com>
-In-Reply-To: <20250701095541.190422-3-j-choudhary@ti.com>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 7bit
-X-C2ProcessedOrg: 333ef613-75bf-4e12-a4b1-8e3623f5dcea
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -75,231 +66,37 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Jayesh,
+Changes since the RFC:
+  - Rename helper function for drm_sched_fini(). (Tvrtko)
+  - Add Link to Tvrtko's RFC patch to patch 1.
 
-On 01/07/25 15:25, Jayesh Choudhary wrote:
-> TIDSS hardware by itself does not have variable max_pclk for each VP.
-> The maximum pixel clock is determined by the limiting factor between
-> the functional clock and the PLL
 
-and the pixel clock
-.
-> 
-> The limitation that has been modeled till now comes from the clock
-> (PLL can only be programmed to a particular max value). Instead of
-> putting it as a constant field in dispc_features, we can query the
-> DM to see if requested clock can be set or not and use it in
-> "mode_valid()".
-> 
-> Replace constant "max_pclk_khz" in dispc_features with "curr_max_pclk"
-> in tidss_device structure which would be modified in runtime.
-> In mode_valid() call, check if a best frequency match for mode clock
-> can be found or not using "clk_round_rate()". Based on that, propagate
-> "cur_max_pclk" and query DM again only if the requested mode clock
-> is greater than cur_max_pclk. (As the preferred display mode is usually
-> the max resolution, driver ends up checking the highest clock the first
-> time itself which is used in subsequent checks)
-> 
-> Since TIDSS display controller provides clock tolerance of 5%, we use
-> this while checking the curr_max_pclk. Also, move up "dispc_pclk_diff()"
-> before it is called.
-> 
-> This will make the existing compatibles reusable
+Since a long time, drm_sched_fini() can leak jobs that are still in
+drm_sched.pending_list.
 
-reusable if DSS features are same across two SoCs and only difference 
-being the pixel clock.
+This series solves the leaks in a backwards-compatible manner by adding
+a new, optional callback. If that callback is implemented, the scheduler
+uses it to cancel all jobs from pending_list and then frees them.
 
-> 
-> Signed-off-by: Jayesh Choudhary <j-choudhary@ti.com>
-> ---
->   drivers/gpu/drm/tidss/tidss_dispc.c | 77 +++++++++++------------------
->   drivers/gpu/drm/tidss/tidss_dispc.h |  1 -
->   drivers/gpu/drm/tidss/tidss_drv.h   |  2 +
->   3 files changed, 31 insertions(+), 49 deletions(-)
-> 
-> diff --git a/drivers/gpu/drm/tidss/tidss_dispc.c b/drivers/gpu/drm/tidss/tidss_dispc.c
-> index 3f6cff2ab1b2..fb59a6a0f86a 100644
-> --- a/drivers/gpu/drm/tidss/tidss_dispc.c
-> +++ b/drivers/gpu/drm/tidss/tidss_dispc.c
-> @@ -58,10 +58,6 @@ static const u16 tidss_k2g_common_regs[DISPC_COMMON_REG_TABLE_LEN] = {
->   const struct dispc_features dispc_k2g_feats = {
->   	.min_pclk_khz = 4375,
->   
-> -	.max_pclk_khz = {
-> -		[DISPC_VP_DPI] = 150000,
-> -	},
-> -
->   	/*
->   	 * XXX According TRM the RGB input buffer width up to 2560 should
->   	 *     work on 3 taps, but in practice it only works up to 1280.
-> @@ -144,11 +140,6 @@ static const u16 tidss_am65x_common_regs[DISPC_COMMON_REG_TABLE_LEN] = {
->   };
->   
->   const struct dispc_features dispc_am65x_feats = {
-> -	.max_pclk_khz = {
-> -		[DISPC_VP_DPI] = 165000,
-> -		[DISPC_VP_OLDI_AM65X] = 165000,
-> -	},
-> -
->   	.scaling = {
->   		.in_width_max_5tap_rgb = 1280,
->   		.in_width_max_3tap_rgb = 2560,
-> @@ -244,11 +235,6 @@ static const u16 tidss_j721e_common_regs[DISPC_COMMON_REG_TABLE_LEN] = {
->   };
->   
->   const struct dispc_features dispc_j721e_feats = {
-> -	.max_pclk_khz = {
-> -		[DISPC_VP_DPI] = 170000,
-> -		[DISPC_VP_INTERNAL] = 600000,
-> -	},
-> -
->   	.scaling = {
->   		.in_width_max_5tap_rgb = 2048,
->   		.in_width_max_3tap_rgb = 4096,
-> @@ -315,11 +301,6 @@ const struct dispc_features dispc_j721e_feats = {
->   };
->   
->   const struct dispc_features dispc_am625_feats = {
-> -	.max_pclk_khz = {
-> -		[DISPC_VP_DPI] = 165000,
-> -		[DISPC_VP_INTERNAL] = 170000,
-> -	},
-> -
->   	.scaling = {
->   		.in_width_max_5tap_rgb = 1280,
->   		.in_width_max_3tap_rgb = 2560,
-> @@ -376,15 +357,6 @@ const struct dispc_features dispc_am625_feats = {
->   };
->   
->   const struct dispc_features dispc_am62a7_feats = {
-> -	/*
-> -	 * if the code reaches dispc_mode_valid with VP1,
-> -	 * it should return MODE_BAD.
-> -	 */
-> -	.max_pclk_khz = {
-> -		[DISPC_VP_TIED_OFF] = 0,
-> -		[DISPC_VP_DPI] = 165000,
-> -	},
-> -
->   	.scaling = {
->   		.in_width_max_5tap_rgb = 1280,
->   		.in_width_max_3tap_rgb = 2560,
-> @@ -441,10 +413,6 @@ const struct dispc_features dispc_am62a7_feats = {
->   };
->   
->   const struct dispc_features dispc_am62l_feats = {
-> -	.max_pclk_khz = {
-> -		[DISPC_VP_DPI] = 165000,
-> -	},
-> -
->   	.subrev = DISPC_AM62L,
->   
->   	.common = "common",
-> @@ -1347,25 +1315,49 @@ static void dispc_vp_set_default_color(struct dispc_device *dispc,
->   			DISPC_OVR_DEFAULT_COLOR2, (v >> 32) & 0xffff);
->   }
->   
-> +/*
-> + * Calculate the percentage difference between the requested pixel clock rate
-> + * and the effective rate resulting from calculating the clock divider value.
-> + */
-> +unsigned int dispc_pclk_diff(unsigned long rate, unsigned long real_rate)
-> +{
-> +	int r = rate / 100, rr = real_rate / 100;
-> +
-> +	return (unsigned int)(abs(((rr - r) * 100) / r));
-> +}
-> +
-> +static int check_pixel_clock(struct dispc_device *dispc,
-> +			     u32 hw_videoport, unsigned long clock)
-> +{
-> +	if (clock > dispc->tidss->curr_max_pclk[hw_videoport] &&
-> +	    !dispc->tidss->is_oldi_vp[hw_videoport]) {
-> +		unsigned long round_clock = clk_round_rate(dispc->vp_clk[hw_videoport], clock);
-> +
-> +		if (dispc_pclk_diff(clock, round_clock) > 5)
-> +			return -EINVAL;
-> +
-> +		dispc->tidss->curr_max_pclk[hw_videoport] = round_clock;
-> +	}
-> +
-> +	return 0;
-> +}
-> +
->   enum drm_mode_status dispc_vp_mode_valid(struct dispc_device *dispc,
->   					 u32 hw_videoport,
->   					 const struct drm_display_mode *mode)
->   {
->   	u32 hsw, hfp, hbp, vsw, vfp, vbp;
->   	enum dispc_vp_bus_type bus_type;
-> -	int max_pclk;
->   
->   	bus_type = dispc->feat->vp_bus_type[hw_videoport];
->   
-> -	max_pclk = dispc->feat->max_pclk_khz[bus_type];
-> -
-> -	if (WARN_ON(max_pclk == 0))
-> +	if (WARN_ON(bus_type == DISPC_VP_TIED_OFF))
->   		return MODE_BAD;
->   
->   	if (mode->clock < dispc->feat->min_pclk_khz)
->   		return MODE_CLOCK_LOW;
->   
-> -	if (mode->clock > max_pclk)
-> +	if (check_pixel_clock(dispc, hw_videoport, mode->clock * 1000))
->   		return MODE_CLOCK_HIGH;
->   
->   	if (mode->hdisplay > 4096)
-> @@ -1437,17 +1429,6 @@ void dispc_vp_disable_clk(struct dispc_device *dispc, u32 hw_videoport)
->   	clk_disable_unprepare(dispc->vp_clk[hw_videoport]);
->   }
->   
-> -/*
-> - * Calculate the percentage difference between the requested pixel clock rate
-> - * and the effective rate resulting from calculating the clock divider value.
-> - */
-> -unsigned int dispc_pclk_diff(unsigned long rate, unsigned long real_rate)
-> -{
-> -	int r = rate / 100, rr = real_rate / 100;
-> -
-> -	return (unsigned int)(abs(((rr - r) * 100) / r));
-> -}
-> -
->   int dispc_vp_set_clk_rate(struct dispc_device *dispc, u32 hw_videoport,
->   			  unsigned long rate)
->   {
-> diff --git a/drivers/gpu/drm/tidss/tidss_dispc.h b/drivers/gpu/drm/tidss/tidss_dispc.h
-> index 60c1b400eb89..fbfe6e304ac8 100644
-> --- a/drivers/gpu/drm/tidss/tidss_dispc.h
-> +++ b/drivers/gpu/drm/tidss/tidss_dispc.h
-> @@ -78,7 +78,6 @@ enum dispc_dss_subrevision {
->   
->   struct dispc_features {
->   	int min_pclk_khz;
-> -	int max_pclk_khz[DISPC_VP_MAX_BUS_TYPE];
->   
->   	struct dispc_features_scaling scaling;
->   
-> diff --git a/drivers/gpu/drm/tidss/tidss_drv.h b/drivers/gpu/drm/tidss/tidss_drv.h
-> index 82beaaceadb3..e89c38a386f7 100644
-> --- a/drivers/gpu/drm/tidss/tidss_drv.h
-> +++ b/drivers/gpu/drm/tidss/tidss_drv.h
-> @@ -25,6 +25,8 @@ struct tidss_device {
->   	const struct dispc_features *feat;
->   	struct dispc_device *dispc;
->   	bool is_oldi_vp[TIDSS_MAX_PORTS];
-> +	/* stores max supported pixel clock requested during checking modes */
 
-Stores highest pixel clock value found to be valid while checking 
-supported modes for connected display
+Philipp Stanner (6):
+  drm/sched: Avoid memory leaks with cancel_job() callback
+  drm/sched/tests: Port to cancel_job()
+  drm/sched: Warn if pending list is not empty
+  drm/nouveau: Make fence container helper usable driver-wide
+  drm/nouveau: Add new callback for scheduler teardown
+  drm/nouveau: Remove waitque for sched teardown
 
-With suggested changes,
-Reviewed-by: Devarsh Thakkar <devarsht@ti.com>
+ drivers/gpu/drm/nouveau/nouveau_fence.c       | 35 ++++++----
+ drivers/gpu/drm/nouveau/nouveau_fence.h       |  7 ++
+ drivers/gpu/drm/nouveau/nouveau_sched.c       | 35 ++++++----
+ drivers/gpu/drm/nouveau/nouveau_sched.h       |  9 +--
+ drivers/gpu/drm/nouveau/nouveau_uvmm.c        |  8 +--
+ drivers/gpu/drm/scheduler/sched_main.c        | 37 +++++++----
+ .../gpu/drm/scheduler/tests/mock_scheduler.c  | 66 +++++++------------
+ include/drm/gpu_scheduler.h                   | 18 +++++
+ 8 files changed, 122 insertions(+), 93 deletions(-)
 
-Regards
-Devarsh
+-- 
+2.49.0
 
-> +	unsigned long curr_max_pclk[TIDSS_MAX_PORTS];
->   
->   
->   	unsigned int num_crtcs;
