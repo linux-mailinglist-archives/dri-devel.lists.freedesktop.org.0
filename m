@@ -2,68 +2,64 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id BC9B1AEFB20
-	for <lists+dri-devel@lfdr.de>; Tue,  1 Jul 2025 15:48:56 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id D5C49AEFB2D
+	for <lists+dri-devel@lfdr.de>; Tue,  1 Jul 2025 15:52:53 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 24E9289A1F;
-	Tue,  1 Jul 2025 13:48:54 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C165689D8E;
+	Tue,  1 Jul 2025 13:52:50 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="e98RBByA";
+	dkim=pass (1024-bit key; unprotected) header.d=ti.com header.i=@ti.com header.b="LSLLYyNu";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.17])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5536989A1F
- for <dri-devel@lists.freedesktop.org>; Tue,  1 Jul 2025 13:48:53 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1751377733; x=1782913733;
- h=date:from:to:cc:subject:message-id:references:
- mime-version:in-reply-to;
- bh=COcxqTJmLCQuqGNIIvXZW8XzPWpwkkkrB4it1BwU/rw=;
- b=e98RBByAmidyKcLppr5KThRntVRU+Objwyqc8QjmOVKaQculxTHyFnCa
- va530QJvwpOsiflfL+tqNSdwMl60e5CNXduPHq6gsifUaWHUSSPlZAFOg
- wxPHQ/XMLzmMo6iNBrnz5zmIXEhxa88w1CDZ+OPhCLvOd0hy2ZBw2e/oW
- 35vPVzwDjpCDn+pk+vxBA2LLTjWxxJhFQhB7QWo39ns0UpD9TJYUDu0uA
- M79Apm5w0jE5NHOniKuCJpMatj86ah+efYOUDsPU+mkM1fULa6Ple1S4f
- 5xZWsDIrYBGGPnW59BcZ4qVp+rPgW3QcEYeGKmF2kGP8NpzhhwOvW144k g==;
-X-CSE-ConnectionGUID: QIg2EVnnTOCLdpcEg0prCA==
-X-CSE-MsgGUID: Nksyj82GQe65DdS8fksNOg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11481"; a="53579999"
-X-IronPort-AV: E=Sophos;i="6.16,279,1744095600"; d="scan'208";a="53579999"
-Received: from orviesa009.jf.intel.com ([10.64.159.149])
- by fmvoesa111.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 01 Jul 2025 06:48:52 -0700
-X-CSE-ConnectionGUID: 7znLXOmqSLKgUFROLBP8PQ==
-X-CSE-MsgGUID: +ro+hUc/Ta2CfGOwTALfIA==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.16,279,1744095600"; d="scan'208";a="153548388"
-Received: from smile.fi.intel.com ([10.237.72.52])
- by orviesa009.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 01 Jul 2025 06:48:49 -0700
-Received: from andy by smile.fi.intel.com with local (Exim 4.98.2)
- (envelope-from <andriy.shevchenko@intel.com>)
- id 1uWbLp-0000000BbxK-2psc; Tue, 01 Jul 2025 16:48:45 +0300
-Date: Tue, 1 Jul 2025 16:48:45 +0300
-From: Andy Shevchenko <andriy.shevchenko@intel.com>
-To: Abdun Nihaal <abdun.nihaal@gmail.com>
-Cc: andy@kernel.org, dan.carpenter@linaro.org, gregkh@linuxfoundation.org,
- lorenzo.stoakes@oracle.com, tzimmermann@suse.de,
- riyandhiman14@gmail.com, willy@infradead.org, notro@tronnes.org,
- thomas.petazzoni@free-electrons.com,
- dri-devel@lists.freedesktop.org, linux-fbdev@vger.kernel.org,
- linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v4 1/2] Revert "staging: fbtft: fix potential memory leak
- in fbtft_framebuffer_alloc()"
-Message-ID: <aGPnPVjB6bGKMkwV@smile.fi.intel.com>
-References: <cover.1751361715.git.abdun.nihaal@gmail.com>
- <a689f32d6c56d6c5c6ba8e2faa0305b5e92d9897.1751361715.git.abdun.nihaal@gmail.com>
+Received: from fllvem-ot04.ext.ti.com (fllvem-ot04.ext.ti.com [198.47.19.246])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C9E4489D8E
+ for <dri-devel@lists.freedesktop.org>; Tue,  1 Jul 2025 13:52:49 +0000 (UTC)
+Received: from lelvem-sh01.itg.ti.com ([10.180.77.71])
+ by fllvem-ot04.ext.ti.com (8.15.2/8.15.2) with ESMTP id 561DqRDe3641037;
+ Tue, 1 Jul 2025 08:52:27 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
+ s=ti-com-17Q1; t=1751377947;
+ bh=FTF/AEIXXqhNtk5GjBm/k+4avWMMlLyOk1QXMjnzEzw=;
+ h=Date:Subject:To:CC:References:From:In-Reply-To;
+ b=LSLLYyNuy85WTCdydaSVQob0q35nEjejDPwacsHg1QZYspq75ShyOIWbxaCZB77gp
+ vdZBNkkkYyn4B2dKah4I68tzykGmxL8wrzsXuWoYcBZ1ytAQHfF87zDjlXUnj2jXRz
+ vHvkcBtjJ4EBBUOna4COPqqL3fVvXPC9dDXzhfKc=
+Received: from DFLE106.ent.ti.com (dfle106.ent.ti.com [10.64.6.27])
+ by lelvem-sh01.itg.ti.com (8.18.1/8.18.1) with ESMTPS id 561DqQUW274646
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES128-SHA256 bits=128 verify=FAIL);
+ Tue, 1 Jul 2025 08:52:26 -0500
+Received: from DFLE102.ent.ti.com (10.64.6.23) by DFLE106.ent.ti.com
+ (10.64.6.27) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2507.55; Tue, 1
+ Jul 2025 08:52:26 -0500
+Received: from lelvem-mr05.itg.ti.com (10.180.75.9) by DFLE102.ent.ti.com
+ (10.64.6.23) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2507.55 via
+ Frontend Transport; Tue, 1 Jul 2025 08:52:26 -0500
+Received: from [172.24.227.193] (devarsh-precision-tower-3620.dhcp.ti.com
+ [172.24.227.193])
+ by lelvem-mr05.itg.ti.com (8.18.1/8.18.1) with ESMTP id 561DqLhA1660820;
+ Tue, 1 Jul 2025 08:52:23 -0500
+Message-ID: <5ed30153-53e0-4f1f-9c45-2f2530b9034e@ti.com>
+Date: Tue, 1 Jul 2025 19:22:20 +0530
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <a689f32d6c56d6c5c6ba8e2faa0305b5e92d9897.1751361715.git.abdun.nihaal@gmail.com>
-Organization: Intel Finland Oy - BIC 0357606-4 - c/o Alberga Business Park, 6
- krs, Bertel Jungin Aukio 5, 02600 Espoo
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v3 3/3] drm/tidss: oldi: Add atomic_check hook for oldi
+ bridge
+To: Jayesh Choudhary <j-choudhary@ti.com>, <jyri.sarha@iki.fi>,
+ <maarten.lankhorst@linux.intel.com>, <mripard@kernel.org>,
+ <tzimmermann@suse.de>, <dri-devel@lists.freedesktop.org>,
+ <tomi.valkeinen@ideasonboard.com>, <mwalle@kernel.org>
+CC: <airlied@gmail.com>, <simona@ffwll.ch>, <linux-kernel@vger.kernel.org>
+References: <20250701095541.190422-1-j-choudhary@ti.com>
+ <20250701095541.190422-4-j-choudhary@ti.com>
+Content-Language: en-US
+From: Devarsh Thakkar <devarsht@ti.com>
+In-Reply-To: <20250701095541.190422-4-j-choudhary@ti.com>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 7bit
+X-C2ProcessedOrg: 333ef613-75bf-4e12-a4b1-8e3623f5dcea
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -79,18 +75,70 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, Jul 01, 2025 at 03:10:22PM +0530, Abdun Nihaal wrote:
-> This reverts commit eb2cb7dab60f ("staging: fbtft: fix potential memory
-> leak in fbtft_framebuffer_alloc()").
+On 01/07/25 15:25, Jayesh Choudhary wrote:
+> Since OLDI consumes DSS VP clock directly as serial clock, certain
+> checks cannot be performed in tidss driver which should be checked
+> in oldi driver. Add check for mode clock and set the curr_max_pclk
+> field for tidss in case the VP is OLDI.
 > 
-> An updated patch has been added as commit 505bffe21233 ("staging:
-> fbtft: fix potential memory leak in fbtft_framebuffer_alloc()"),
-> and so reverting the old patch.
+> Signed-off-by: Jayesh Choudhary <j-choudhary@ti.com>
+> ---
+>   drivers/gpu/drm/tidss/tidss_oldi.c | 24 ++++++++++++++++++++++++
+>   1 file changed, 24 insertions(+)
+> 
+> diff --git a/drivers/gpu/drm/tidss/tidss_oldi.c b/drivers/gpu/drm/tidss/tidss_oldi.c
+> index 63e07c8edeaa..a1f5fb39b32c 100644
+> --- a/drivers/gpu/drm/tidss/tidss_oldi.c
+> +++ b/drivers/gpu/drm/tidss/tidss_oldi.c
+> @@ -309,6 +309,29 @@ static u32 *tidss_oldi_atomic_get_input_bus_fmts(struct drm_bridge *bridge,
+>   	return input_fmts;
+>   }
+>   
+> +static int tidss_oldi_bridge_atomic_check(struct drm_bridge *bridge,
+> +					  struct drm_bridge_state *bridge_state,
+> +					  struct drm_crtc_state *crtc_state,
+> +					  struct drm_connector_state *conn_state)
+> +{
+> +	struct tidss_oldi *oldi = drm_bridge_to_tidss_oldi(bridge);
+> +	struct drm_display_mode *adjusted_mode;
+> +	unsigned long round_clock;
+> +
+> +	adjusted_mode = &crtc_state->adjusted_mode;
+> +
+> +	if (adjusted_mode->clock > oldi->tidss->curr_max_pclk[oldi->parent_vp]) {
+> +		round_clock = clk_round_rate(oldi->serial, adjusted_mode->clock * 7 * 1000);
+> +
+> +		if (dispc_pclk_diff(adjusted_mode->clock * 7 * 1000, round_clock) > 5)
+> +			return -EINVAL;
+> +
+> +		oldi->tidss->curr_max_pclk[oldi->parent_vp] = round_clock;
+> +	}
+> +
+> +	return 0;
+> +}
+> +
+>   static const struct drm_bridge_funcs tidss_oldi_bridge_funcs = {
+>   	.attach	= tidss_oldi_bridge_attach,
+>   	.atomic_pre_enable = tidss_oldi_atomic_pre_enable,
+> @@ -317,6 +340,7 @@ static const struct drm_bridge_funcs tidss_oldi_bridge_funcs = {
+>   	.atomic_duplicate_state = drm_atomic_helper_bridge_duplicate_state,
+>   	.atomic_destroy_state = drm_atomic_helper_bridge_destroy_state,
+>   	.atomic_reset = drm_atomic_helper_bridge_reset,
+> +	.atomic_check = tidss_oldi_bridge_atomic_check,
 
-Revert has its automatic line, please do not remove it.
 
--- 
-With Best Regards,
-Andy Shevchenko
+Nitpick: looks like some mismatch in naming convention.
+We don't use bridge for other atomic calls for e.g. 
+tidss_oldi_atomic_pre_enable, tidss_oldi_atomic_post_disable so maybe 
+change those too ?
 
+With suggested change,
 
+Reviewed-by: Devarsh Thakkar <devarsht@ti.com>
+
+Regards
+Devarsh
+
+>   };
+>   
+>   static int get_oldi_mode(struct device_node *oldi_tx, int *companion_instance)
