@@ -2,52 +2,49 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id A8EEFAF02C4
-	for <lists+dri-devel@lfdr.de>; Tue,  1 Jul 2025 20:28:32 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5B436AF0329
+	for <lists+dri-devel@lfdr.de>; Tue,  1 Jul 2025 20:50:03 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4B68B10E615;
-	Tue,  1 Jul 2025 18:28:29 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id AC03410E611;
+	Tue,  1 Jul 2025 18:49:59 +0000 (UTC)
+Authentication-Results: gabe.freedesktop.org;
+	dkim=pass (1024-bit key; unprotected) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="Nwn7zXqM";
+	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from bmailout1.hostsharing.net (bmailout1.hostsharing.net
- [83.223.95.100])
- by gabe.freedesktop.org (Postfix) with ESMTPS id CD34210E615
- for <dri-devel@lists.freedesktop.org>; Tue,  1 Jul 2025 18:28:27 +0000 (UTC)
-Received: from h08.hostsharing.net (h08.hostsharing.net
- [IPv6:2a01:37:1000::53df:5f1c:0])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256
- client-signature RSA-PSS (4096 bits) client-digest SHA256)
- (Client CN "*.hostsharing.net", Issuer "RapidSSL TLS RSA CA G1" (verified OK))
- by bmailout1.hostsharing.net (Postfix) with ESMTPS id 6BD232C06643;
- Tue,  1 Jul 2025 20:28:26 +0200 (CEST)
-Received: by h08.hostsharing.net (Postfix, from userid 100393)
- id 5A77A3A083B; Tue,  1 Jul 2025 20:28:26 +0200 (CEST)
-Date: Tue, 1 Jul 2025 20:28:26 +0200
-From: Lukas Wunner <lukas@wunner.de>
-To: Hans de Goede <hdegoede@redhat.com>
-Cc: Ben Hutchings <ben@decadent.org.uk>, David Airlie <airlied@redhat.com>,
- Bjorn Helgaas <helgaas@kernel.org>, Joerg Roedel <joro@8bytes.org>,
- Suravee Suthikulpanit <suravee.suthikulpanit@amd.com>,
- Andi Kleen <ak@linux.intel.com>, Ahmed Salem <x0rw3ll@gmail.com>,
- Borislav Petkov <bp@alien8.de>, dri-devel@lists.freedesktop.org,
- iommu@lists.linux.dev, linux-pci@vger.kernel.org
-Subject: Re: [PATCH] agp/amd64: Bind to unsupported devices only if AGP is
- present
-Message-ID: <aGQoyo0UrvFQ3qlO@wunner.de>
-References: <f8ff40f35a9a5836d1371f60e85c09c5735e3c5e.1750497201.git.lukas@wunner.de>
- <b73fbb3e3f03d842f36e6ba2e6a8ad0bb4b904fd.camel@decadent.org.uk>
- <aFalrV1500saBto5@wunner.de>
- <279f63810875f2168c591aab0f30f8284d12fe02.camel@decadent.org.uk>
- <aFa8JJaRP-FUyy6Y@wunner.de>
- <9077aab5304e1839786df9adb33c334d10c69397.camel@decadent.org.uk>
- <98012c55-1e0d-4c1b-b650-5bb189d78009@redhat.com>
- <aFwIu0QveVuJZNoU@wunner.de>
- <eb98477c-2d5c-4980-ab21-6aed8f0451c9@redhat.com>
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
+ [213.167.242.64])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8D10C10E60C;
+ Tue,  1 Jul 2025 18:49:58 +0000 (UTC)
+Received: from pendragon.ideasonboard.com (81-175-209-231.bb.dnainternet.fi
+ [81.175.209.231])
+ by perceval.ideasonboard.com (Postfix) with UTF8SMTPSA id 583397E0;
+ Tue,  1 Jul 2025 20:49:34 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+ s=mail; t=1751395774;
+ bh=btjGnMDX8vkqk6UaF2hfFA+4qDJCCMOKBK3eO0iMlX8=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=Nwn7zXqMeB9/9GedyWwwtywMnm/Elch7my/uYCtDmOZg4dgFPXSOp0U1JByVGIWZN
+ P2BXuKimywD6rtoSSmy12cEEP0MDYZvrPzjRhs+jxhepj5hADabIe5Rv6hYsM9nGy8
+ Qf7F1fWg4r/4HFQWsVaHy4M9KIOkIhBtZAlA8ddU=
+Date: Tue, 1 Jul 2025 21:49:30 +0300
+From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To: Ville Syrjala <ville.syrjala@linux.intel.com>
+Cc: dri-devel@lists.freedesktop.org, intel-gfx@lists.freedesktop.org,
+ intel-xe@lists.freedesktop.org, Harry Wentland <harry.wentland@amd.com>,
+ Leo Li <sunpeng.li@amd.com>, Rodrigo Siqueira <siqueira@igalia.com>,
+ Alex Deucher <alexander.deucher@amd.com>, amd-gfx@lists.freedesktop.org,
+ Thomas Zimmermann <tzimmermann@suse.de>
+Subject: Re: [PATCH v2 01/19] drm: Pass pixel_format+modifier to
+ .get_format_info()
+Message-ID: <20250701184930.GA16835@pendragon.ideasonboard.com>
+References: <20250701090722.13645-1-ville.syrjala@linux.intel.com>
+ <20250701090722.13645-2-ville.syrjala@linux.intel.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <eb98477c-2d5c-4980-ab21-6aed8f0451c9@redhat.com>
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20250701090722.13645-2-ville.syrjala@linux.intel.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -63,33 +60,145 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, Jun 25, 2025 at 08:43:45PM +0200, Hans de Goede wrote:
-> On 25-Jun-25 4:33 PM, Lukas Wunner wrote:
-> > So how do you know that all of these unsupported devices have
-> > PCI_CLASS_BRIDGE_HOST?
-> 
-> The top of the driver says
-> 
->  * This is a GART driver for the AMD Opteron/Athlon64 on-CPU northbridge.
->  * It also includes support for the AMD 8151 AGP bridge
-> 
-> Note this only talks about north bridges.
-> 
-> Also given the age of AGP, I would expect the agp_amd64_pci_table[]
-> to be pretty much complete and the need for probing for unknown AGP
-> capable bridges is likely a relic which can be disabled by default.
-> 
-> Actually the amd64-agp code is weird in that has support for
-> unknown AGP bridges enabled by default in the first place.
+Hi Ville,
 
-I agree that probing *any* PCI device should never have been introduced,
-much less made the default.  But changing that risks regressing
-users that depend on it.
+Thank you for the patch.
 
-The conservative approach is to retain the existing behavior,
-but make it more benign by constraining probing to devices with
-AGP Capability, as we did prior to 6fd024893911.
+On Tue, Jul 01, 2025 at 12:07:04PM +0300, Ville Syrjala wrote:
+> From: Ville Syrjälä <ville.syrjala@linux.intel.com>
+> 
+> Decouple .get_format_info() from struct drm_mode_fb_cmd2 and just
+> pass the pixel format+modifier combo in by hand.
+> 
+> We may want to use .get_format_info() outside of the normal
+> addfb paths where we won't have a struct drm_mode_fb_cmd2, and
+> creating a temporary one just for this seems silly.
+> 
+> v2: Fix intel_fb_get_format_info() docs (Laurent)
+> 
+> Cc: Harry Wentland <harry.wentland@amd.com>
+> Cc: Leo Li <sunpeng.li@amd.com>
+> Cc: Rodrigo Siqueira <siqueira@igalia.com>
+> Cc: Alex Deucher <alexander.deucher@amd.com>
+> Cc: amd-gfx@lists.freedesktop.org
+> Cc: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+> Reviewed-by: Thomas Zimmermann <tzimmermann@suse.de>
+> Signed-off-by: Ville Syrjälä <ville.syrjala@linux.intel.com>
 
-Thanks,
+Reviewed-by: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
 
-Lukas
+> ---
+>  .../gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_plane.c   |  4 ++--
+>  .../gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_plane.h   |  2 +-
+>  drivers/gpu/drm/drm_fourcc.c                          |  3 ++-
+>  drivers/gpu/drm/i915/display/intel_fb.c               | 11 ++++++-----
+>  drivers/gpu/drm/i915/display/intel_fb.h               |  2 +-
+>  include/drm/drm_mode_config.h                         |  2 +-
+>  6 files changed, 13 insertions(+), 11 deletions(-)
+> 
+> diff --git a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_plane.c b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_plane.c
+> index b7c6e8d13435..eef51652ca35 100644
+> --- a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_plane.c
+> +++ b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_plane.c
+> @@ -92,9 +92,9 @@ enum dm_micro_swizzle {
+>  	MICRO_SWIZZLE_R = 3
+>  };
+>  
+> -const struct drm_format_info *amdgpu_dm_plane_get_format_info(const struct drm_mode_fb_cmd2 *cmd)
+> +const struct drm_format_info *amdgpu_dm_plane_get_format_info(u32 pixel_format, u64 modifier)
+>  {
+> -	return amdgpu_lookup_format_info(cmd->pixel_format, cmd->modifier[0]);
+> +	return amdgpu_lookup_format_info(pixel_format, modifier);
+>  }
+>  
+>  void amdgpu_dm_plane_fill_blending_from_plane_state(const struct drm_plane_state *plane_state,
+> diff --git a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_plane.h b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_plane.h
+> index 615d2ab2b803..ea2619b507db 100644
+> --- a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_plane.h
+> +++ b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_plane.h
+> @@ -58,7 +58,7 @@ int amdgpu_dm_plane_init(struct amdgpu_display_manager *dm,
+>  			 unsigned long possible_crtcs,
+>  			 const struct dc_plane_cap *plane_cap);
+>  
+> -const struct drm_format_info *amdgpu_dm_plane_get_format_info(const struct drm_mode_fb_cmd2 *cmd);
+> +const struct drm_format_info *amdgpu_dm_plane_get_format_info(u32 pixel_format, u64 modifier);
+>  
+>  void amdgpu_dm_plane_fill_blending_from_plane_state(const struct drm_plane_state *plane_state,
+>  				    bool *per_pixel_alpha, bool *pre_multiplied_alpha,
+> diff --git a/drivers/gpu/drm/drm_fourcc.c b/drivers/gpu/drm/drm_fourcc.c
+> index 2890e889dd15..4b4444f6d504 100644
+> --- a/drivers/gpu/drm/drm_fourcc.c
+> +++ b/drivers/gpu/drm/drm_fourcc.c
+> @@ -430,7 +430,8 @@ drm_get_format_info(struct drm_device *dev,
+>  	const struct drm_format_info *info = NULL;
+>  
+>  	if (dev->mode_config.funcs->get_format_info)
+> -		info = dev->mode_config.funcs->get_format_info(mode_cmd);
+> +		info = dev->mode_config.funcs->get_format_info(mode_cmd->pixel_format,
+> +							       mode_cmd->modifier[0]);
+>  
+>  	if (!info)
+>  		info = drm_format_info(mode_cmd->pixel_format);
+> diff --git a/drivers/gpu/drm/i915/display/intel_fb.c b/drivers/gpu/drm/i915/display/intel_fb.c
+> index 6158031821fd..52c4901dc072 100644
+> --- a/drivers/gpu/drm/i915/display/intel_fb.c
+> +++ b/drivers/gpu/drm/i915/display/intel_fb.c
+> @@ -422,21 +422,22 @@ unsigned int intel_fb_modifier_to_tiling(u64 fb_modifier)
+>  
+>  /**
+>   * intel_fb_get_format_info: Get a modifier specific format information
+> - * @cmd: FB add command structure
+> + * @pixel_format: pixel format
+> + * @modifier: modifier
+>   *
+>   * Returns:
+> - * Returns the format information for @cmd->pixel_format specific to @cmd->modifier[0],
+> + * Returns the format information for @pixel_format specific to @modifier,
+>   * or %NULL if the modifier doesn't override the format.
+>   */
+>  const struct drm_format_info *
+> -intel_fb_get_format_info(const struct drm_mode_fb_cmd2 *cmd)
+> +intel_fb_get_format_info(u32 pixel_format, u64 modifier)
+>  {
+> -	const struct intel_modifier_desc *md = lookup_modifier_or_null(cmd->modifier[0]);
+> +	const struct intel_modifier_desc *md = lookup_modifier_or_null(modifier);
+>  
+>  	if (!md || !md->formats)
+>  		return NULL;
+>  
+> -	return lookup_format_info(md->formats, md->format_count, cmd->pixel_format);
+> +	return lookup_format_info(md->formats, md->format_count, pixel_format);
+>  }
+>  
+>  static bool plane_caps_contain_any(u8 caps, u8 mask)
+> diff --git a/drivers/gpu/drm/i915/display/intel_fb.h b/drivers/gpu/drm/i915/display/intel_fb.h
+> index bdd76b372957..7d1267fbeee2 100644
+> --- a/drivers/gpu/drm/i915/display/intel_fb.h
+> +++ b/drivers/gpu/drm/i915/display/intel_fb.h
+> @@ -47,7 +47,7 @@ u64 *intel_fb_plane_get_modifiers(struct intel_display *display,
+>  bool intel_fb_plane_supports_modifier(struct intel_plane *plane, u64 modifier);
+>  
+>  const struct drm_format_info *
+> -intel_fb_get_format_info(const struct drm_mode_fb_cmd2 *cmd);
+> +intel_fb_get_format_info(u32 pixel_format, u64 modifier);
+>  
+>  bool
+>  intel_format_info_is_yuv_semiplanar(const struct drm_format_info *info,
+> diff --git a/include/drm/drm_mode_config.h b/include/drm/drm_mode_config.h
+> index 9e524b51a001..e971e1b8a850 100644
+> --- a/include/drm/drm_mode_config.h
+> +++ b/include/drm/drm_mode_config.h
+> @@ -95,7 +95,7 @@ struct drm_mode_config_funcs {
+>  	 * The format information specific to the given fb metadata, or
+>  	 * NULL if none is found.
+>  	 */
+> -	const struct drm_format_info *(*get_format_info)(const struct drm_mode_fb_cmd2 *mode_cmd);
+> +	const struct drm_format_info *(*get_format_info)(u32 pixel_format, u64 modifier);
+>  
+>  	/**
+>  	 * @mode_valid:
+
+-- 
+Regards,
+
+Laurent Pinchart
