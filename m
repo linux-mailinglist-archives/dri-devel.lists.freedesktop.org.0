@@ -2,111 +2,63 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 27D46AF0132
-	for <lists+dri-devel@lfdr.de>; Tue,  1 Jul 2025 19:08:00 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7693AAF0188
+	for <lists+dri-devel@lfdr.de>; Tue,  1 Jul 2025 19:16:18 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 474C410E603;
-	Tue,  1 Jul 2025 17:07:57 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3401910E2D4;
+	Tue,  1 Jul 2025 17:16:16 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="AA28ZGDG";
+	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=igalia.com header.i=@igalia.com header.b="LMW4Qskz";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pf1-f177.google.com (mail-pf1-f177.google.com
- [209.85.210.177])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3355410E5FB;
- Tue,  1 Jul 2025 17:07:56 +0000 (UTC)
-Received: by mail-pf1-f177.google.com with SMTP id
- d2e1a72fcca58-74917867678so476221b3a.0; 
- Tue, 01 Jul 2025 10:07:56 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1751389676; x=1751994476; darn=lists.freedesktop.org;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc:subject:date
- :message-id:reply-to;
- bh=otvAmKrNgrGmm953h66f4Y1tIUJExy7j19EPbj8H6iA=;
- b=AA28ZGDG+nB4IChojqo5hx9cAvd8EaIIc8kFygsmX8qe2/77VRQliGM01kVpm4xexc
- wMPFsOrbEEzGFQ6NCO5mhtwTxEvAV3h+KgX6YyKx9v0RT2Y6QjARcXFrRyWtos//Sypv
- ykeVAO6F9XOMU1JMNoGT3YRYys4CpiG+lMek2CvmQ4ppmGqp1ANhij3wilQ0TvB7usOB
- Sn9QS0WZxZhFGUeCnep0pHXy1Suyp41Lg8RHfUSqs9RZLEOiSMIVt9kWAKYgJYlV5qFy
- K20W5RsiLfbYUBEWuLLakDKRBefdOtrGUrl02UOfBQOLL3SJEvTyKfhEaPYrl0siCuwp
- QOBA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1751389676; x=1751994476;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=otvAmKrNgrGmm953h66f4Y1tIUJExy7j19EPbj8H6iA=;
- b=Z2VrpsKb0Mv3iw6t9f6HgSlicobisnzi4ygYV0ekmb4coprELbZZkVmoZ5HiU/HBX3
- dw2IrFKzbemWf+5zVsk+KbNzaz4beer8XDH3eS6PlEfYEvJtZWubWVMA3e2znRi0kAxb
- W5/L7XltGlUgfN6VcFey7IStt1CzdvMwS3bbVsLwuwg+8TCuj7kWqD3zXMQsmf/iSyUh
- zvujqXhryTO0d3DV5iSzepwx2MlqlTsIhaHOihigPaLGXkwLL4zM/W9bSkcYHmmSeK3k
- M2DVkUVEDFIB/xsE7x86gg9ONaLsKsPjxbusrrbsP4NAF1trKxjTpIz+JPwpYHndkDKJ
- o1Tw==
-X-Forwarded-Encrypted: i=1;
- AJvYcCV3i7CSanbxGIAS/r251KgidA5tTD5xrYc2N9d09wSBoiufVAhBdViUv4mlkuxwGx3M0gVDfDqF5gA=@lists.freedesktop.org,
- AJvYcCVxWz0nO20t/JmPsDClQZIdqn+xyej6q3vTRGwmkU68lJYGlZg03mht58mkBAwK8V+3edVDX2KcPQ==@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YxhOFKJ4Y9pdIu7cbE196lmyJtfp9Zi8FFmTU2LPdYRuiltMV0h
- g4A5iYBBUAAEy2Bg0FO/EDxmNJaJQEgc3UqdOwK2OOjnbMABAq0RW5Fist1uguXp8jKrRC3LJeB
- pGDGqvVAjC1oLxq4YJVy6+M2U3mwVByw=
-X-Gm-Gg: ASbGnctkYGTR6SEJOBwR243Lk1eFFcBHocPBG9yfvp5OAPdT2i/Zpxd3ULRzIYXyr6B
- hAcYe7GnZ2spbzYzfr9ZXz8Rl0b17y8zmMGAHvEE3lKjwT5EG0fKCGN0LFQc2OTGKEzQ4aPs+cy
- 1xtAALXiQ5jbgVPocP0XHh/VmnMRwnqEWG+xZOQc6Q4eyy/m5nU9Tkvw==
-X-Google-Smtp-Source: AGHT+IGgyj2cxaLL1I/RbT9oFzMdK+mMcfN6YoSZuvCYWImRFjEfnNWMRG/RDCPN3KNKY0Jv5Rbef8Y4TKqAiOAmPyk=
-X-Received: by 2002:a17:90b:1843:b0:314:29ff:6845 with SMTP id
- 98e67ed59e1d1-319519ee90bmr2461781a91.4.1751389675613; Tue, 01 Jul 2025
- 10:07:55 -0700 (PDT)
+Received: from fanzine2.igalia.com (fanzine2.igalia.com [213.97.179.56])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id BF4B510E107;
+ Tue,  1 Jul 2025 17:16:14 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com; 
+ s=20170329;
+ h=Content-Transfer-Encoding:Content-Type:In-Reply-To:From:
+ References:Cc:To:Subject:MIME-Version:Date:Message-ID:Sender:Reply-To:
+ Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
+ Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
+ List-Subscribe:List-Post:List-Owner:List-Archive;
+ bh=6IEtzqE137u9jHssTSFjJCmKDbuni2jML6h3b370Esw=; b=LMW4QskzgN+AmWYIdci2g3KNqY
+ vDTc4KmueohTnV3NHrg/8zyQIrmRtzAd8/jo/y7VdbCwxkXQBtiFwobVFCov9st88rSTCLxKuvMm0
+ 016kNTF3GGHXTwetTWSuczPT9hjXKZUmRpFzIo3ONvk+q7u9+2qKE+Zs9oDB+tfkaC1NRaXopD/zG
+ Yh+VLGd/O75HIH9FPtZiefybglAj1nalP+YcZwCTz6OTiH7mIFsy3ZJi4z1ioPuMrtye3qOz0r2l/
+ naxaZOhcnaoe9/GcfUg6cCTMOw3rzRCaXE8jl7Ls7KQVjbXO4uOZW/RJl5u7lXap19VBmekUJrok3
+ PZLqceRQ==;
+Received: from [179.100.5.63] (helo=[192.168.15.100])
+ by fanzine2.igalia.com with esmtpsa 
+ (Cipher TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_128_GCM:128) (Exim)
+ id 1uWeaU-00B4RS-0I; Tue, 01 Jul 2025 19:16:06 +0200
+Message-ID: <a820d534-42ef-4391-ab81-36316af4411b@igalia.com>
+Date: Tue, 1 Jul 2025 14:15:59 -0300
 MIME-Version: 1.0
-References: <20250701-cstr-core-v13-0-29f7d3eb97a6@gmail.com>
-In-Reply-To: <20250701-cstr-core-v13-0-29f7d3eb97a6@gmail.com>
-From: Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>
-Date: Tue, 1 Jul 2025 19:07:43 +0200
-X-Gm-Features: Ac12FXxPrxBmeSfKO3xPaPnHZ9Ojlak6uQ0jVcG0JF2jdPMZA5As1xRK0OZ6894
-Message-ID: <CANiq72kb5b-Q4OwASfGg6gz94fCQSLH34u29umQRsF8MEhR+6g@mail.gmail.com>
-Subject: Re: [PATCH v13 0/5] rust: replace kernel::str::CStr w/ core::ffi::CStr
-To: Tamir Duberstein <tamird@gmail.com>
-Cc: Michal Rostecki <vadorovsky@protonmail.com>,
- Miguel Ojeda <ojeda@kernel.org>, 
- Alex Gaynor <alex.gaynor@gmail.com>, Boqun Feng <boqun.feng@gmail.com>, 
- Gary Guo <gary@garyguo.net>,
- =?UTF-8?Q?Bj=C3=B6rn_Roy_Baron?= <bjorn3_gh@protonmail.com>, 
- Andreas Hindborg <a.hindborg@kernel.org>, Alice Ryhl <aliceryhl@google.com>, 
- Trevor Gross <tmgross@umich.edu>, Brendan Higgins <brendan.higgins@linux.dev>, 
- David Gow <davidgow@google.com>, Rae Moar <rmoar@google.com>, 
- Danilo Krummrich <dakr@kernel.org>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, 
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- "Rafael J. Wysocki" <rafael@kernel.org>, 
- Luis Chamberlain <mcgrof@kernel.org>, Russ Weight <russ.weight@linux.dev>, 
- FUJITA Tomonori <fujita.tomonori@gmail.com>, Rob Herring <robh@kernel.org>, 
- Saravana Kannan <saravanak@google.com>, Peter Zijlstra <peterz@infradead.org>, 
- Ingo Molnar <mingo@redhat.com>, Will Deacon <will@kernel.org>,
- Waiman Long <longman@redhat.com>, Nathan Chancellor <nathan@kernel.org>,
- Nick Desaulniers <nick.desaulniers+lkml@gmail.com>, 
- Bill Wendling <morbo@google.com>, Justin Stitt <justinstitt@google.com>,
- Andrew Lunn <andrew@lunn.ch>, 
- Heiner Kallweit <hkallweit1@gmail.com>, Russell King <linux@armlinux.org.uk>, 
- "David S. Miller" <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>, 
- Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
- Bjorn Helgaas <bhelgaas@google.com>, 
- Arnd Bergmann <arnd@arndb.de>, Jens Axboe <axboe@kernel.dk>,
- Benno Lossin <lossin@kernel.org>, 
- =?UTF-8?Q?Krzysztof_Wilczy=C5=84ski?= <kwilczynski@kernel.org>, 
- Dave Ertman <david.m.ertman@intel.com>, Ira Weiny <ira.weiny@intel.com>, 
- Leon Romanovsky <leon@kernel.org>, Breno Leitao <leitao@debian.org>, 
- Viresh Kumar <viresh.kumar@linaro.org>,
- Michael Turquette <mturquette@baylibre.com>, 
- Stephen Boyd <sboyd@kernel.org>, rust-for-linux@vger.kernel.org, 
- linux-kernel@vger.kernel.org, linux-kselftest@vger.kernel.org, 
- kunit-dev@googlegroups.com, dri-devel@lists.freedesktop.org, 
- netdev@vger.kernel.org, devicetree@vger.kernel.org, llvm@lists.linux.dev, 
- linux-pci@vger.kernel.org, nouveau@lists.freedesktop.org, 
- linux-block@vger.kernel.org, linux-pm@vger.kernel.org, 
- linux-clk@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2 1/5] drm: Add a firmware flash method to device wedged
+ uevent
+To: Riana Tauro <riana.tauro@intel.com>, Raag Jadav <raag.jadav@intel.com>,
+ =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
+Cc: Rodrigo Vivi <rodrigo.vivi@intel.com>, intel-xe@lists.freedesktop.org,
+ dri-devel@lists.freedesktop.org, anshuman.gupta@intel.com,
+ lucas.demarchi@intel.com, aravind.iddamsetty@linux.intel.com,
+ umesh.nerlige.ramappa@intel.com, frank.scarbrough@intel.com,
+ David Airlie <airlied@gmail.com>
+References: <d057d1e8-8b90-445c-8ccb-8a13e5d41a4c@intel.com>
+ <44eac6fd-df68-4ae1-8970-57a686f5782f@amd.com> <aFsaXXKZSBPrcYJb@intel.com>
+ <aF8PZMuMgmWKYJgo@intel.com> <4a2bead2-3db6-4526-b980-712362b6e770@amd.com>
+ <aGLKgholpl8Z3zWm@intel.com> <cebd70d9-57b5-4e89-b715-4ada250e2eb1@intel.com>
+ <eb143cc5-306c-4900-b391-9ee023c1c5b7@intel.com>
+ <aGPvbagza6HwF4kE@black.fi.intel.com>
+ <8f0c1489-df00-4d40-a51c-39dcfa185d3e@amd.com>
+ <aGQGnrDZRcq9pC9q@black.fi.intel.com>
+ <6e1aaa77-2d4f-484f-8abd-b62d7ddb80b5@intel.com>
+Content-Language: en-US
+From: =?UTF-8?Q?Andr=C3=A9_Almeida?= <andrealmeid@igalia.com>
+In-Reply-To: <6e1aaa77-2d4f-484f-8abd-b62d7ddb80b5@intel.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -122,22 +74,155 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, Jul 1, 2025 at 6:49=E2=80=AFPM Tamir Duberstein <tamird@gmail.com> =
-wrote:
->
-> This picks up from Michal Rostecki's work[0]. Per Michal's guidance I
-> have omitted Co-authored tags, as the end result is quite different.
->
-> Link: https://lore.kernel.org/rust-for-linux/20240819153656.28807-2-vador=
-ovsky@protonmail.com/t/#u [0]
-> Closes: https://github.com/Rust-for-Linux/linux/issues/1075
->
-> Signed-off-by: Tamir Duberstein <tamird@gmail.com>
+Em 01/07/2025 13:44, Riana Tauro escreveu:
+> 
+> 
+> On 7/1/2025 9:32 PM, Raag Jadav wrote:
+>> On Tue, Jul 01, 2025 at 04:35:42PM +0200, Christian König wrote:
+>>> On 01.07.25 16:23, Raag Jadav wrote:
+>>>> On Tue, Jul 01, 2025 at 05:11:24PM +0530, Riana Tauro wrote:
+>>>>> On 7/1/2025 5:07 PM, Riana Tauro wrote:
+>>>>>> On 6/30/2025 11:03 PM, Rodrigo Vivi wrote:
+>>>>>>> On Mon, Jun 30, 2025 at 10:29:10AM +0200, Christian König wrote:
+>>>>>>>> On 27.06.25 23:38, Rodrigo Vivi wrote:
+>>>>>>>>>>> Or at least print a big warning into the system log?
+>>>>>>>>>>>
+>>>>>>>>>>> I mean a firmware update is usually something which
+>>>>>>>>>>> the system administrator triggers very explicitly
+>>>>>>>>>>> because when it fails for some reason (e.g.
+>>>>>>>>>>> unexpected reset, power outage or whatever) it can
+>>>>>>>>>>> sometimes brick the HW.
+>>>>>>>>>>>
+>>>>>>>>>>> I think it's rather brave to do this automatically.
+>>>>>>>>>>> Are you sure we don't talk past each other on the
+>>>>>>>>>>> meaning of the wedge event?
+>>>>>>>>>>
+>>>>>>>>>> The goal is not to do that automatically, but raise the
+>>>>>>>>>> uevent to the admin
+>>>>>>>>>> with enough information that they can decide for the right 
+>>>>>>>>>> correctable
+>>>>>>>>>> action.
+>>>>>>>>>
+>>>>>>>>> Christian, Andre, any concerns with this still?
+>>>>>>>>
+>>>>>>>> Well, that sounds not quite the correct use case for wedge events.
+>>>>>>>>
+>>>>>>>> See the wedge event is made for automation.
+>>>>>>>
+>>>>>>> I respectfully disagree with this statement.
+>>>>>>>
+>>>>>>> The wedged state in i915 and xe, then ported to drm, was never 
+>>>>>>> just about
+>>>>>>> automation. Of course, the unbind + flr + rebind is one that driver
+>>>>>>> cannot
+>>>>>>> do by itself, hence needs automation. But wedge cases were also very
+>>>>>>> useful
+>>>>>>> in other situations like keeping the device in the failure stage for
+>>>>>>> debuging
+>>>>>>> (without automation) or keeping other critical things up like
+>>>>>>> display with SW
+>>>>>>> rendering (again, nothing about automation).
+>>>
+>>> Granted, automation is probably not the right term.
+>>>
+>>> What I wanted to say is that the wedge event should not replace 
+>>> information in the system log.
+>>>
+>>>>>>>
+>>>>>>>> For example to allow a process supervising containers get the
+>>>>>>>> device working again and re-start the container which used it or
+>>>>>>>> gather crash log etc .....
+>>>>>>>>
+>>>>>>>> When you want to notify the system administrator which manual
+>>>>>>>> intervention is necessary then I would just write that into the
+>>>>>>>> system log and raise a device event with WEDGED=unknown.
+>>>>>>>>
+>>>>>>>> What we could potentially do is to separate between
+>>>>>>>> WEDGED=unknown and WEDGED=manual, e.g. between driver has no
+>>>>>>>> idea what to do and driver printed useful info into the system
+>>>>>>>> log.
+>>>>>>>
+>>>>>>> Well, you are right here. Even our official documentation in drm- 
+>>>>>>> uapi.rst
+>>>>>>> already tells that firmware flashing should be a case for 'unknown'.
+>>>>>>
+>>>>>> I had added specific method since we know firmware flash will recover
+>>>>>> the error.  Sure will change it.
+>>>>>>
+>>>>>> In the current code, there is no recovery method named "unknown" even
+>>>>>> though the document mentions it
+>>>>>>
+>>>>>> https://elixir.bootlin.com/linux/v6.16-rc4/source/drivers/gpu/drm/
+>>>>>> drm_drv.c#L534
+>>>>>>
+>>>>>> Since we are adding something new, can it be "manual" instead of 
+>>>>>> unknown?
+>>>>>
+>>>>> Okay missed it. It's in the drm_dev_wedged_event function. Will use 
+>>>>> unknown
+>>>>>>
+>>>>>>> Let's go with that then. And use other hints like logs and sysfs so,
+>>>>>>> Admin
+>>>>>>> has a better information of what to do.
+>>>>>>>
+>>>>>>>> But creating an event with WEDGED=firmware-flash just sounds to
+>>>>>>>> specific, when we go down that route we might soon have
+>>>>>>>> WEDGE=change- bios-setting, WEDGE=....
+>>>>>>>
+>>>>>>> Well, I agree that we shouldn't explode the options exponentially 
+>>>>>>> here.
+>>>>>>>
+>>>>>>> Although I believe that firmware flashing should be a common case 
+>>>>>>> in many
+>>>>>>> case and could be a candidate for another indication.
+>>>>>>>
+>>>>>>> But let's move on with WEDGE='unknown' for this case.
+>>>>
+>>>> I understand that WEDGED=firmware-flash can't be handled in a 
+>>>> generic way
+>>>> for all drivers but it is simply not as same as WEDGED=unknown since 
+>>>> the
+>>>> driver knows something specific needs to be done here.
+>>>>
+>>>> I'm wondering if we could add a WEDGED=vendor-specific method for such
+>>>> cases?
+>>>
+>>> Works for me as well.
+>>>
+>>> My main concern was that we should not start to invent specific wedge 
+>>> events for all kind of different problems.
+>>>
+>>> On the other hand what's the additional value to distinct between 
+>>> unknown and vendor-specific?
+>>>
+>>> In other words even if the necessary handling is unknown to the wedge 
+>>> event, the administrator could and should still examine the logs to 
+>>> see what to do.
+>>
+>> They're somewhat similar except the consumer can execute vendor specific
+>> triggers (look at some sys/proc entries or logs) based on device id that
+>> the consumer is already familiar with as defined by the vendor, and could
+>> potentially be automated.
+>>
+>> Unknown is basically "I'm clueless and good luck with your 
+>> investigation".
+>>
+>> So the distinction is whether the driver is able to provide definition 
+>> for
+>> its vendor specific cases and how well documented they are.
+> 
+> Agree with Raag. We know which recovery method works here. Rather than 
+> using 'unknown', 'manual/vendor' macro seems better with vendor specific 
+> documentation for recovery.
+> 
 
-Thanks for keeping this up.
+That makes sense for me as well, thanks!
 
-Let's see if we get some Acked-by's -- otherwise, we may want to split
-by subsystem and avoid flagday changes wherever possible.
+> Thanks
+> Riana
+> 
+>>
+>> Raag
+> 
+> 
 
-Cheers,
-Miguel
