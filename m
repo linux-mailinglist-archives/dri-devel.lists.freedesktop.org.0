@@ -2,162 +2,111 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id BE1DEAF00B6
-	for <lists+dri-devel@lfdr.de>; Tue,  1 Jul 2025 18:53:59 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 27D46AF0132
+	for <lists+dri-devel@lfdr.de>; Tue,  1 Jul 2025 19:08:00 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 054F210E5EF;
-	Tue,  1 Jul 2025 16:53:56 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 474C410E603;
+	Tue,  1 Jul 2025 17:07:57 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=amd.com header.i=@amd.com header.b="ionYpf4H";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="AA28ZGDG";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from NAM10-BN7-obe.outbound.protection.outlook.com
- (mail-bn7nam10on2057.outbound.protection.outlook.com [40.107.92.57])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 00C5F10E5E5;
- Tue,  1 Jul 2025 16:53:53 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=K4seGP3E8z1svK9o3E6f8etd324/viBb9Z5e8666/HZ1N32tD1OLXpY7mJdsVHCBkI0ODNDMCnIjOMm30uIM+t693jEDmfZeooA9ZC/AVjfOO8ZAbjcXSV+FXmEEJO/jG5MlMj7kd+2V1aoMTwszAVSsQtM55k897OPv9xg7HJ4NXvswMZKHS5gtY4NMB3dwPRix+39wMBWReJW3qfwa67LIHuLoDw69VRx/tv8WZDWaGDT4v4hTAIiotT6yoQonQEjeWrv7su7KXZa5oFwE9rFpGb1WE2qamZE63a1sqoabwptbpOsxoIUySINfr0MjeCkRN9Ps2GBOI92KzNPttQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=bPs8k+8mE6FejROiOMUq1DqYyaOIk+gPNal1w6/aWUg=;
- b=Xs4DM4XzHQHFexlHIZhWjbESXhnBK4Dhudd1qDerGDvEE9xF7UDgbiePN6FJsPFjXXB1bdkUoA/JkzQ+cfRJEVtBkUNFCixriStzY8TkoUGAsCsDOt+NsSe75fVxxoaCNYnVQXCb2UglNZtE/F3TyyCeYO+5bLVdgdHETl1nCZa/GRIRnQu7r7Fs1ThqDvIuz8DuxTzk1IxdwttBKA52097v8Z0wbnNh3dRKHMeeqfak16uAmsDQmYPVcT1WzEfrutjnyTxg7ILA2P6KGdDX77/LOpuP0F10BOhS4GcDI5tPXo8epx14tEvkaypdmYR6qhd1FDFgj1X0eEqYj4b6kA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
- header.d=amd.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=bPs8k+8mE6FejROiOMUq1DqYyaOIk+gPNal1w6/aWUg=;
- b=ionYpf4HEeuyAamAC19Il8onWJUbL/Jhfkk9vrEKbVzyxy/dqCjGTAimNpTltQIjcq9h+bQXb0fao+XR3Y8LXqzvknNZNmIO8/J5v4Ck5CdKHq3vsMRkE2O+2J/ejSTA2Tu5zYpolPwHJ6er8xEnOy8foa0YyyQXkVP0IMGMzx4=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=amd.com;
-Received: from BL1PR12MB5753.namprd12.prod.outlook.com (2603:10b6:208:390::15)
- by SJ2PR12MB9138.namprd12.prod.outlook.com (2603:10b6:a03:565::9)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8835.29; Tue, 1 Jul
- 2025 16:53:49 +0000
-Received: from BL1PR12MB5753.namprd12.prod.outlook.com
- ([fe80::81e6:908a:a59b:87e2]) by BL1PR12MB5753.namprd12.prod.outlook.com
- ([fe80::81e6:908a:a59b:87e2%6]) with mapi id 15.20.8880.021; Tue, 1 Jul 2025
- 16:53:49 +0000
-Message-ID: <0cfc548f-3a76-43d6-836f-708ecb7f5479@amd.com>
-Date: Tue, 1 Jul 2025 22:23:43 +0530
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v8 1/4] drm: move drm based debugfs funcs to drm_debugfs.c
-To: Jeff Hugo <jeff.hugo@oss.qualcomm.com>,
- "Khatri, Sunil" <Sunil.Khatri@amd.com>,
- "Koenig, Christian" <Christian.Koenig@amd.com>,
- "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>
-Cc: "amd-gfx@lists.freedesktop.org" <amd-gfx@lists.freedesktop.org>,
- "simona@ffwll.ch" <simona@ffwll.ch>,
- "tzimmermann@suse.de" <tzimmermann@suse.de>,
- "tursulin@ursulin.net" <tursulin@ursulin.net>,
- "phasta@kernel.org" <phasta@kernel.org>, "dakr@kernel.org"
- <dakr@kernel.org>,
- "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
- Oded Gabbay <ogabbay@kernel.org>
-References: <20250701063303.3210665-1-sunil.khatri@amd.com>
- <BL1PR12MB575314D550E85AAB35321DA79341A@BL1PR12MB5753.namprd12.prod.outlook.com>
- <04216cc3-c8ec-4782-a021-705f53c0fefc@oss.qualcomm.com>
-Content-Language: en-US
-From: "Khatri, Sunil" <sukhatri@amd.com>
-In-Reply-To: <04216cc3-c8ec-4782-a021-705f53c0fefc@oss.qualcomm.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-ClientProxiedBy: PN4PR01CA0096.INDPRD01.PROD.OUTLOOK.COM
- (2603:1096:c01:2af::8) To BL1PR12MB5753.namprd12.prod.outlook.com
- (2603:10b6:208:390::15)
+Received: from mail-pf1-f177.google.com (mail-pf1-f177.google.com
+ [209.85.210.177])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3355410E5FB;
+ Tue,  1 Jul 2025 17:07:56 +0000 (UTC)
+Received: by mail-pf1-f177.google.com with SMTP id
+ d2e1a72fcca58-74917867678so476221b3a.0; 
+ Tue, 01 Jul 2025 10:07:56 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20230601; t=1751389676; x=1751994476; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=otvAmKrNgrGmm953h66f4Y1tIUJExy7j19EPbj8H6iA=;
+ b=AA28ZGDG+nB4IChojqo5hx9cAvd8EaIIc8kFygsmX8qe2/77VRQliGM01kVpm4xexc
+ wMPFsOrbEEzGFQ6NCO5mhtwTxEvAV3h+KgX6YyKx9v0RT2Y6QjARcXFrRyWtos//Sypv
+ ykeVAO6F9XOMU1JMNoGT3YRYys4CpiG+lMek2CvmQ4ppmGqp1ANhij3wilQ0TvB7usOB
+ Sn9QS0WZxZhFGUeCnep0pHXy1Suyp41Lg8RHfUSqs9RZLEOiSMIVt9kWAKYgJYlV5qFy
+ K20W5RsiLfbYUBEWuLLakDKRBefdOtrGUrl02UOfBQOLL3SJEvTyKfhEaPYrl0siCuwp
+ QOBA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1751389676; x=1751994476;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=otvAmKrNgrGmm953h66f4Y1tIUJExy7j19EPbj8H6iA=;
+ b=Z2VrpsKb0Mv3iw6t9f6HgSlicobisnzi4ygYV0ekmb4coprELbZZkVmoZ5HiU/HBX3
+ dw2IrFKzbemWf+5zVsk+KbNzaz4beer8XDH3eS6PlEfYEvJtZWubWVMA3e2znRi0kAxb
+ W5/L7XltGlUgfN6VcFey7IStt1CzdvMwS3bbVsLwuwg+8TCuj7kWqD3zXMQsmf/iSyUh
+ zvujqXhryTO0d3DV5iSzepwx2MlqlTsIhaHOihigPaLGXkwLL4zM/W9bSkcYHmmSeK3k
+ M2DVkUVEDFIB/xsE7x86gg9ONaLsKsPjxbusrrbsP4NAF1trKxjTpIz+JPwpYHndkDKJ
+ o1Tw==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCV3i7CSanbxGIAS/r251KgidA5tTD5xrYc2N9d09wSBoiufVAhBdViUv4mlkuxwGx3M0gVDfDqF5gA=@lists.freedesktop.org,
+ AJvYcCVxWz0nO20t/JmPsDClQZIdqn+xyej6q3vTRGwmkU68lJYGlZg03mht58mkBAwK8V+3edVDX2KcPQ==@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YxhOFKJ4Y9pdIu7cbE196lmyJtfp9Zi8FFmTU2LPdYRuiltMV0h
+ g4A5iYBBUAAEy2Bg0FO/EDxmNJaJQEgc3UqdOwK2OOjnbMABAq0RW5Fist1uguXp8jKrRC3LJeB
+ pGDGqvVAjC1oLxq4YJVy6+M2U3mwVByw=
+X-Gm-Gg: ASbGnctkYGTR6SEJOBwR243Lk1eFFcBHocPBG9yfvp5OAPdT2i/Zpxd3ULRzIYXyr6B
+ hAcYe7GnZ2spbzYzfr9ZXz8Rl0b17y8zmMGAHvEE3lKjwT5EG0fKCGN0LFQc2OTGKEzQ4aPs+cy
+ 1xtAALXiQ5jbgVPocP0XHh/VmnMRwnqEWG+xZOQc6Q4eyy/m5nU9Tkvw==
+X-Google-Smtp-Source: AGHT+IGgyj2cxaLL1I/RbT9oFzMdK+mMcfN6YoSZuvCYWImRFjEfnNWMRG/RDCPN3KNKY0Jv5Rbef8Y4TKqAiOAmPyk=
+X-Received: by 2002:a17:90b:1843:b0:314:29ff:6845 with SMTP id
+ 98e67ed59e1d1-319519ee90bmr2461781a91.4.1751389675613; Tue, 01 Jul 2025
+ 10:07:55 -0700 (PDT)
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: BL1PR12MB5753:EE_|SJ2PR12MB9138:EE_
-X-MS-Office365-Filtering-Correlation-Id: ffb3640e-eb91-4361-2bd8-08ddb8bfd9ef
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;ARA:13230040|1800799024|366016|376014|7416014;
-X-Microsoft-Antispam-Message-Info: =?utf-8?B?OThzVkxEOXJtSmFxUnpCd3FLZVNFamsyS0pFU09HaEhrOVYwc0EvS2svd1pU?=
- =?utf-8?B?cXlNTWxmdXhMMnoybHRUNnljdGtocjI0akZrRm8wYVlIYlYvQXgvaVo0Mmdu?=
- =?utf-8?B?ZXQxdWF4bjRVVWY5Nm41MS8vRzVvc1ZycVh4R1RyMFV1ZU5tSDdSUm4vdGYy?=
- =?utf-8?B?anRCRGZ0QjFHNFpVZ3czZXRXbGZRR3lvcmZsQnFuR2lWem9jSXJVMU5GZ1lG?=
- =?utf-8?B?Ull0T0Q2Qit5OEpUY3QzWHo4b0R0UVhpNkwvZDVCbTRRdnE3UzRvQjl4ODg4?=
- =?utf-8?B?clIvZ2NZRzRZMHZ3b05ScjNhcFJZMUNHRjZTdnVOdWlwN1Q4djIvaVF5bDFw?=
- =?utf-8?B?NEFqZlZuOWptd1FmZnlaUTZwbzEySlAvaTJOcW4vNXdNUFBJb1J5cXVMbDdN?=
- =?utf-8?B?cURYSW9CblFqQ2FnV0Z3TVhia1REQXpSUHlpeHRNWVZiekZSTkZuTjl3elRp?=
- =?utf-8?B?YmpiYitkNFNVNUxFWEFzNy9FRncxUG1VNElxVGlmTzlKUU5WZ2NibC80eHlY?=
- =?utf-8?B?T2lvOW1kU090NVdzK1V2U1ZDYkdLMFhjYXh1bnl0NUNDN2ladS9MQlkvQTNi?=
- =?utf-8?B?cmdKU1JMajQ5U3JnVEVsbFhVa0ZKbE80WDZLeUZxWjlPYm1MNWpFYVRnYUFG?=
- =?utf-8?B?MExFNS9YVUJHS0FxVHVWV21pQTVrMmpselJjQ0RBbGFoSXY4bDhXck9Da2ll?=
- =?utf-8?B?OFJNSWZNa0QyUjdUSjVjVm1ic0x3Yk9hNEw5VktPYVJSMlVJTG1PaHhtN1RM?=
- =?utf-8?B?RmhSU3U5S0tjdC9RZENHMVpiellIM2tJd0FRTWRYVDM1Tytwb3JpbVNmMWRJ?=
- =?utf-8?B?dTE0R0E1VGJ3YitIelRTYno3MkhtRCtLUzhBSnBYZ3VJUlBvRHE1S1dWRkhC?=
- =?utf-8?B?M1RISTc0bG1ic04zYWszOHNnMzVhaDlMaFovNVpJZnNObEVGS0dXMVdDYVJY?=
- =?utf-8?B?WmdiNFJTb0pWcWdtckNIWEpEeWNrRFd6R0w5VFNMVVhIKy9rWVRjY3JoRHVo?=
- =?utf-8?B?aHlodXVSZHpnMkdJMGUyc3Q3VFlJSnJZVW1XVC8yRVljaXZHUFpqNTNMYllR?=
- =?utf-8?B?SFFCWnZoRUVOVjBEVGhYU29hTDZpSzRUYXR0T3VhWGtNYWZNUTMzT3V0U2FE?=
- =?utf-8?B?RUZPbnVHWWd2Q2pOVmJFanl3ZHVCTWtocFo3a0VDTUI5Ykc2SHVvbDNYL1dm?=
- =?utf-8?B?d1ZZUmtLYXcxY1UrQ2ZJN0xNS2s0Ukh2bXRKaVRhMDdjQWR1czE5eVcrem10?=
- =?utf-8?B?LzdsSENidXhLNFpYS1pvaG9ldFhWNVlvY3pzZ1M1Q1k4VVFNQ25qdmJWcjN3?=
- =?utf-8?B?TG82d3hkWHFTM09JclBwZ1pLQjJTOHh1NFhrRU1IcjQybHZoNVF2aEFNQVVw?=
- =?utf-8?B?SDBLVzh6ZEQweFpWM29OWEJBdFZ4UE1lNnZMWlJOMnZ0YWRDVVB4Y1hKK3Zx?=
- =?utf-8?B?TllpaWhjd1N1NFdDcmNYUUM4YzFKNUFLWkc1bGpwaDNOR2RySDM2eDYxRC9D?=
- =?utf-8?B?cGtqeDlWMEpaeEZGNTA5T0daWU1KWERoMHA3N2szbUpZcWJVV1p1ejZrc3g4?=
- =?utf-8?B?dDFXbDM0aWlLQjcza2ZFSkhuMER1Z0YyYUxaYnROTEs3TThINDdra2g1ZW9y?=
- =?utf-8?B?U1c1WmtjVGVEWTJnZGtHNUptbmJRYmF4QklhdStQN1hHTjhUeXdTd1hqNU0z?=
- =?utf-8?B?UHFtSE4rUFhPSW1pTkNBSnRlS0dBVzNRTlJqSy91bnU1WTlkNEgvVmVBQkY2?=
- =?utf-8?B?OHEzVWxmd2Z1TTRZNXBmN2NpSnF3bWVwb2M0bmpPbXhsY3Q5VC9RZktpQThZ?=
- =?utf-8?B?VEMydUNGWFhmdHVmKytUL2NPanpUZkQ1WHFJMTlFYUlERGM0OU1TNTNrMmxF?=
- =?utf-8?B?b3cyUFlWd0k1Wi84VmxtTENOZWQvOXF5dnFqOHJNQ0d6NmY3Sm54emlkSEhj?=
- =?utf-8?Q?bZh2aVJC/+I=3D?=
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:BL1PR12MB5753.namprd12.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230040)(1800799024)(366016)(376014)(7416014); DIR:OUT; SFP:1101; 
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?YjdlZUVxeHVuWmJrR3U1UmtQVCtqa2drd3Nadzc5d05lcm1vVkFMWVlEcklZ?=
- =?utf-8?B?UDNMcjB4cHdRT3ZXMTVSL1Y3bkl6b0JRWUZvWThxTHR1dUFhemxDNWVpZ2xs?=
- =?utf-8?B?MjBQb0djYWNWUFJuYjVIekwxdEh4dlkrSnBWRy9vbGt5WXVnYk1VdUhmdVVB?=
- =?utf-8?B?a1c0d2hWYm51V1BMK1QvQk1JbkxablFUbW5kOWRpZnRzbWRScGZWeWRkM2c0?=
- =?utf-8?B?SGNBM2hYQWgxWVc3dzNBcnlnR0RoVXZ3ZTduMFVDWW1hYVdqenZFQXVBNjFp?=
- =?utf-8?B?bW56dCtCUm5kY2dtL2wwWHc1WGdQbmk4ckpPVmp6QXo0WUQrakx3Y2FTMU5n?=
- =?utf-8?B?c1puOXlySDRocEcrWHJCZHZLSUJqMjZTQTRsLzRhS1h0M1J1UlZHY1lPazdB?=
- =?utf-8?B?dGc2SmEzVk1xWFcrbVhzNW0xVmRJbENXVm1YaHRFcEpQK3pLbUpqaVgrV25k?=
- =?utf-8?B?UlFOd0FaRkR2bUJJR05kQWdJSldVUU1QTmNFRVplcmRsK0lDeEJBeG1wbHAr?=
- =?utf-8?B?djdYMEtObmRzRGFXV1ZjZldKeDFja1VkYkJpSU8xTHl2aVp0QnJXTHVKMkdW?=
- =?utf-8?B?YjVsVEV2REtEb1lJQmk0ejI5djgrcUY1NDJDbHptS1VoN25jbWc2a2tGWmUr?=
- =?utf-8?B?MmhEQzlvZnJ2TlhRcDJvY2Y4L3FYdzRPTEZSVDlXTXlZbDFGODMvQkhFcHdR?=
- =?utf-8?B?UkFXKzRMeWZxblgxYW1VV252RDU4YldhaXZRZDE5c0FyVVpQYUdhUHk5M1cv?=
- =?utf-8?B?RHhsN2N4cjdxSDRVbHhDS09Wb1NBQlhJRTVzUTlvWWxWY0RyWlJRTExha1Jk?=
- =?utf-8?B?Y3V3R3o2a3V3a0ZTN3RGVDZkUDkxN3g2NTB1Ky9UQng2Zk1BR2hvNTZTaHR5?=
- =?utf-8?B?S25DM3FYSkJDeEN2aDg0cUxXdFdqaTl0QWsvRWhPRFRqU3lheExzUFNWVkVT?=
- =?utf-8?B?ZzhzOUFaWTVYMDd6eXZjTndmalJoaWsrdlVyV3FwV2lvc1lvUGRPRmFSclRj?=
- =?utf-8?B?MkZSUStkL1VBTWJDa2h5akUvM0hYZlFsWm9QWGtzam15blBrRW5jQWdQMmdN?=
- =?utf-8?B?WVh5RjBOQjM1bVlmOTMwa0hsUm45bm5KSGFyLythaHpsZlppdDFzWndYQTlN?=
- =?utf-8?B?R2VITExZQTZIbWRJZ3FGcnJaOG1yNG93SUdGVkROSVBOOGwzRDc4Tk5Rc2NY?=
- =?utf-8?B?Y3g4ZnIzV0tMc3N0YjNIYjMrY3RoZytXVFFhcWFEd01UVzNvZ3pVSFVuUGFn?=
- =?utf-8?B?UGs4SG4rZWxOWldaUmpLOTBidlJpVG9yQ1hmbkpQc3N0STU4ZjRva2M2Rnk0?=
- =?utf-8?B?alRneFhLQmdzakdJeXFnSHVETHFvN1crWDBkVENHQjRkVFZqR0FGeHJjM0Za?=
- =?utf-8?B?ZzY0TXc1Z2w5R0xLZmFjOHJYT2o5bmIwc20rWU9iSGFBTGNkVUxvWmVBQ2lQ?=
- =?utf-8?B?NzFDeExoT0hPa3NkNFFLa1Bua3hub1hIc2lJNkowUm90N2ZFWmRWbHdIK2RB?=
- =?utf-8?B?aStkM2FwaytjU0ZRT2JEVTNSZFRiZTYvaGpsNUtlRmZHNFR4SVYrZlQvcklS?=
- =?utf-8?B?RXlGUks5eWRTYnRVYUpJTUNsV0h1SisyK1JRcXNNRlFoYURUV3FYZFhvUkRL?=
- =?utf-8?B?eUt0YkxVYTBqdGU2OSt5dGM5WFpiM25NQjF3QWVRUU1CU01DZk84TTRPZFc2?=
- =?utf-8?B?TGxhY2xOQWpNQ3BkNmNtVmpTR2UvZXk1ZzRBUnFQazhjSDNuYXJMSmlxT3lC?=
- =?utf-8?B?cVRlY3JJbkpYUXJtZHV5ZTZURTJKZDg2clFFWkN5b0IyM3BOS0RUdjlCYlo2?=
- =?utf-8?B?eENRbGxpK2xwS2hJS2NrMlp1TkU2eURMemlWUEJOZStuSmFRVFZuN3dGbG9V?=
- =?utf-8?B?Uko5anloQ0J4V01Kc2hxbWZ6UWM4MnNSOVFTdWxCWTFqdHNaSHVWbERPNFYx?=
- =?utf-8?B?MExQaWdHQkVmZnRXVUlvejV1SVFDZDZjWllGL050VXZ3My9oWm5zZDM1cUdL?=
- =?utf-8?B?ekZyKzVaOXVheWd6R3IyTGFGN3hLckVXMEVQNG8wVzFUZnJPUFhWckdPVkpH?=
- =?utf-8?B?NVRMRUhrcGFsODloZkpyYjRjMU1nWmxNK1RFemx2blByWVlxM3lZNTIxMXl3?=
- =?utf-8?Q?t2NEFv22NNIcOvQJzNRetA/WH?=
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: ffb3640e-eb91-4361-2bd8-08ddb8bfd9ef
-X-MS-Exchange-CrossTenant-AuthSource: BL1PR12MB5753.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 01 Jul 2025 16:53:49.4908 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: qBrLOlH/ThN689OYCEhyRxuz5AvDgojSBACqUa7jp+pecE0RBddcpqhR8XF6kZPLCyuEa2qyTe7D8husWf66OQ==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SJ2PR12MB9138
+References: <20250701-cstr-core-v13-0-29f7d3eb97a6@gmail.com>
+In-Reply-To: <20250701-cstr-core-v13-0-29f7d3eb97a6@gmail.com>
+From: Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>
+Date: Tue, 1 Jul 2025 19:07:43 +0200
+X-Gm-Features: Ac12FXxPrxBmeSfKO3xPaPnHZ9Ojlak6uQ0jVcG0JF2jdPMZA5As1xRK0OZ6894
+Message-ID: <CANiq72kb5b-Q4OwASfGg6gz94fCQSLH34u29umQRsF8MEhR+6g@mail.gmail.com>
+Subject: Re: [PATCH v13 0/5] rust: replace kernel::str::CStr w/ core::ffi::CStr
+To: Tamir Duberstein <tamird@gmail.com>
+Cc: Michal Rostecki <vadorovsky@protonmail.com>,
+ Miguel Ojeda <ojeda@kernel.org>, 
+ Alex Gaynor <alex.gaynor@gmail.com>, Boqun Feng <boqun.feng@gmail.com>, 
+ Gary Guo <gary@garyguo.net>,
+ =?UTF-8?Q?Bj=C3=B6rn_Roy_Baron?= <bjorn3_gh@protonmail.com>, 
+ Andreas Hindborg <a.hindborg@kernel.org>, Alice Ryhl <aliceryhl@google.com>, 
+ Trevor Gross <tmgross@umich.edu>, Brendan Higgins <brendan.higgins@linux.dev>, 
+ David Gow <davidgow@google.com>, Rae Moar <rmoar@google.com>, 
+ Danilo Krummrich <dakr@kernel.org>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, 
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ "Rafael J. Wysocki" <rafael@kernel.org>, 
+ Luis Chamberlain <mcgrof@kernel.org>, Russ Weight <russ.weight@linux.dev>, 
+ FUJITA Tomonori <fujita.tomonori@gmail.com>, Rob Herring <robh@kernel.org>, 
+ Saravana Kannan <saravanak@google.com>, Peter Zijlstra <peterz@infradead.org>, 
+ Ingo Molnar <mingo@redhat.com>, Will Deacon <will@kernel.org>,
+ Waiman Long <longman@redhat.com>, Nathan Chancellor <nathan@kernel.org>,
+ Nick Desaulniers <nick.desaulniers+lkml@gmail.com>, 
+ Bill Wendling <morbo@google.com>, Justin Stitt <justinstitt@google.com>,
+ Andrew Lunn <andrew@lunn.ch>, 
+ Heiner Kallweit <hkallweit1@gmail.com>, Russell King <linux@armlinux.org.uk>, 
+ "David S. Miller" <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>, 
+ Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
+ Bjorn Helgaas <bhelgaas@google.com>, 
+ Arnd Bergmann <arnd@arndb.de>, Jens Axboe <axboe@kernel.dk>,
+ Benno Lossin <lossin@kernel.org>, 
+ =?UTF-8?Q?Krzysztof_Wilczy=C5=84ski?= <kwilczynski@kernel.org>, 
+ Dave Ertman <david.m.ertman@intel.com>, Ira Weiny <ira.weiny@intel.com>, 
+ Leon Romanovsky <leon@kernel.org>, Breno Leitao <leitao@debian.org>, 
+ Viresh Kumar <viresh.kumar@linaro.org>,
+ Michael Turquette <mturquette@baylibre.com>, 
+ Stephen Boyd <sboyd@kernel.org>, rust-for-linux@vger.kernel.org, 
+ linux-kernel@vger.kernel.org, linux-kselftest@vger.kernel.org, 
+ kunit-dev@googlegroups.com, dri-devel@lists.freedesktop.org, 
+ netdev@vger.kernel.org, devicetree@vger.kernel.org, llvm@lists.linux.dev, 
+ linux-pci@vger.kernel.org, nouveau@lists.freedesktop.org, 
+ linux-block@vger.kernel.org, linux-pm@vger.kernel.org, 
+ linux-clk@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -173,22 +122,22 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-
-On 7/1/2025 8:50 PM, Jeff Hugo wrote:
-> On 7/1/2025 7:02 AM, Khatri, Sunil wrote:
->> [AMD Official Use Only - AMD Internal Distribution Only]
+On Tue, Jul 1, 2025 at 6:49=E2=80=AFPM Tamir Duberstein <tamird@gmail.com> =
+wrote:
 >
-> I cannot review this message with this restriction.  In my opinion, 
-> your email client is not properly configured for interfacing with the 
-> community.
-
-Hi Hugo,
-
-Sorry for the email client issue. Fixed that and sent v9 patch set with 
-right format and also attached the cover letter too. Hope this clarifies.
-
-Regards
-Sunil Khatri
-
+> This picks up from Michal Rostecki's work[0]. Per Michal's guidance I
+> have omitted Co-authored tags, as the end result is quite different.
 >
-> -Jeff
+> Link: https://lore.kernel.org/rust-for-linux/20240819153656.28807-2-vador=
+ovsky@protonmail.com/t/#u [0]
+> Closes: https://github.com/Rust-for-Linux/linux/issues/1075
+>
+> Signed-off-by: Tamir Duberstein <tamird@gmail.com>
+
+Thanks for keeping this up.
+
+Let's see if we get some Acked-by's -- otherwise, we may want to split
+by subsystem and avoid flagday changes wherever possible.
+
+Cheers,
+Miguel
