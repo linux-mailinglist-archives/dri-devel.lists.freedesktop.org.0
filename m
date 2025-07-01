@@ -2,72 +2,89 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 422E7AEFED1
-	for <lists+dri-devel@lfdr.de>; Tue,  1 Jul 2025 18:02:49 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 73774AEFF06
+	for <lists+dri-devel@lfdr.de>; Tue,  1 Jul 2025 18:07:26 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4BB2810E5CE;
-	Tue,  1 Jul 2025 16:02:46 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id DEFC710E2C6;
+	Tue,  1 Jul 2025 16:07:23 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="hf2cxLov";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="R5U0HOiz";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.19])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4D7E410E5C9;
- Tue,  1 Jul 2025 16:02:45 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1751385765; x=1782921765;
- h=date:from:to:cc:subject:message-id:references:
- mime-version:content-transfer-encoding:in-reply-to;
- bh=aESLfZ/Zbyk8oAmFemD9A74FqBu0jKbWYS+CvI6dOYU=;
- b=hf2cxLovSwv/GcYZWgGMheZfckHc9snltVki+q+rxq0GD6fS4qPYDU6/
- YonxtE1aNZcQb5jMNa/eDpvtRTHBY470HAnWUopB4z6XOwepuHvtsXDDZ
- YfV2mhB9J2kb17rKzdpmjl1iXMmEE1MPnTtIRvIOXvSX41nGiSG5oKwHI
- UjtKNNNeaXQEq7KFuNiM6SFUc687/U6DLokie2dG2C84PGGVq1UO2g5KK
- ta27E3f/emFmIXQxit3s9dnRYCzlW0vcnsbSTw9aP4mC8TQ21dQJaF+xT
- p3ZbJ5kN9wB+yzurP5rDqtuqMhtCyy/6qqvpZPeZaU8S8CvBAZqX0nwY5 Q==;
-X-CSE-ConnectionGUID: DQsVAEpyRKKSeKpU9KQyDQ==
-X-CSE-MsgGUID: CQbBcputQSqWvaWCcWAmgA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11481"; a="52773439"
-X-IronPort-AV: E=Sophos;i="6.16,279,1744095600"; d="scan'208";a="52773439"
-Received: from orviesa004.jf.intel.com ([10.64.159.144])
- by fmvoesa113.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 01 Jul 2025 09:02:45 -0700
-X-CSE-ConnectionGUID: NgSWudPqQySdpyBuXyBGxg==
-X-CSE-MsgGUID: /SY1ZZgpS0asPfpLYSdGSg==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.16,279,1744095600"; d="scan'208";a="158374314"
-Received: from black.fi.intel.com ([10.237.72.28])
- by orviesa004.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 01 Jul 2025 09:02:41 -0700
-Date: Tue, 1 Jul 2025 19:02:38 +0300
-From: Raag Jadav <raag.jadav@intel.com>
-To: Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>
-Cc: Riana Tauro <riana.tauro@intel.com>, Rodrigo Vivi <rodrigo.vivi@intel.com>,
- intel-xe@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
- anshuman.gupta@intel.com, lucas.demarchi@intel.com,
- aravind.iddamsetty@linux.intel.com, umesh.nerlige.ramappa@intel.com,
- frank.scarbrough@intel.com,
- =?iso-8859-1?Q?Andr=E9?= Almeida <andrealmeid@igalia.com>,
- David Airlie <airlied@gmail.com>
-Subject: Re: [PATCH v2 1/5] drm: Add a firmware flash method to device wedged
- uevent
-Message-ID: <aGQGnrDZRcq9pC9q@black.fi.intel.com>
-References: <d057d1e8-8b90-445c-8ccb-8a13e5d41a4c@intel.com>
- <44eac6fd-df68-4ae1-8970-57a686f5782f@amd.com>
- <aFsaXXKZSBPrcYJb@intel.com> <aF8PZMuMgmWKYJgo@intel.com>
- <4a2bead2-3db6-4526-b980-712362b6e770@amd.com>
- <aGLKgholpl8Z3zWm@intel.com>
- <cebd70d9-57b5-4e89-b715-4ada250e2eb1@intel.com>
- <eb143cc5-306c-4900-b391-9ee023c1c5b7@intel.com>
- <aGPvbagza6HwF4kE@black.fi.intel.com>
- <8f0c1489-df00-4d40-a51c-39dcfa185d3e@amd.com>
+Received: from mail-pj1-f48.google.com (mail-pj1-f48.google.com
+ [209.85.216.48])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D8F6D10E2C6;
+ Tue,  1 Jul 2025 16:07:22 +0000 (UTC)
+Received: by mail-pj1-f48.google.com with SMTP id
+ 98e67ed59e1d1-312efc384fcso753382a91.3; 
+ Tue, 01 Jul 2025 09:07:22 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20230601; t=1751386042; x=1751990842; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=6s5/kLm6bcjzmUmo8TOBM6JrD/Wu1K8ZqjA08OXVfrw=;
+ b=R5U0HOizSNgfaI8lSkJbprm9z/tmzpnJ4xo76xuTSbecx3MlbkjeSLhV1AbbuJf3LB
+ 4NzUxdypUSawkHr/e9TTKghS+0kOZHSe1yohbMHi5CzvJEYPwEC/v+Q5IrSwZUyz1E+C
+ 0MWVFgxO6jetbQZELpsX7ONVMfDcjmdWJPNCeQpB5tPz/RXekRJyAmNlYuDGkHU68xXB
+ iuUgn94MVyo16m8QB34T1pgx2scClr6l4R+05lhDo36GVkll57Y1VFUuGxKoqWD5wVAN
+ 4fYHIm8N4ZAm+mB2wvxYosXx44N3M5Cm08paj9xydJxtxA5HQIVQeg/pemXf9AS7NlVj
+ nXpg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1751386042; x=1751990842;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=6s5/kLm6bcjzmUmo8TOBM6JrD/Wu1K8ZqjA08OXVfrw=;
+ b=HR69JH04iMyJeQpAFuD9aDD3bejmNFSXM3ILSTwnFbhj39Di8NFCzdgjIQKmOnVPu5
+ 2LmHotY13YkE5yC4B0hY8Ezk/4lSAbRSY1tA0VMPq3KKyRKSOW3Wr4xJenwqPLaZ8zhD
+ RrPsYURGIp1e9UXCaGzfjGDE63XAF0iYNzJVihI3FhXewgQR/EBP39pB7SvHriLc8zEE
+ TzF5LI++G4IJY3xVXD6GsnsuUgtrCfdD74OAPmwbSqYVEIepm4Q7a+xkpoVztRw0SAq6
+ AKQTIba1QVKR2bFvcEyhn8PziiFJm7FP+7U6+u0SwDGxLv/MqpIFvchkH8V1orw/2N7+
+ cZEw==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCUHFpxOjY8n/WDlaWTDmDkkVIVRHk8PaWSNoMj73y9En/Yb5e6lzILBELNJDIhCKel4+c2hwrxBE3Mr@lists.freedesktop.org,
+ AJvYcCV7Y3k3WDmWFS80ctMzectxx3/OW/hgxPmj/Ae9CUBL891ZZeoBaRVtTgyIaoUFYxl6yP3U8vTs@lists.freedesktop.org
+X-Gm-Message-State: AOJu0Yy7jShyudaVJmsWFZLbYIS6EoUuFyb7QNJ4ozI/IUM9fFhMdvAg
+ rzIaikTP71EaF3zSeSZ9ehbs8IzZoecSMxn1/6lbqSm3KyThqFR5UnIaAp4d0HYdqvvoBnh0trQ
+ DpPkotIoFDuTpN/qR1yA28h+tlqyZAlo=
+X-Gm-Gg: ASbGncuHghFdMABsN1iH7CwdwKfGJ2eunBya3k12Y59dzfErEz/c3kf8iwhMHLnAKSr
+ UvN+3ZS2GYO1tHfxGtI6T5lBjUkHKX37DKGFrldZ/DEWJr17dZ0k2HBgXZSFuNUaK0RBu+u7/h3
+ xV4/2x2COFDKxgPiY8cQHbZAxji3/5V2AFO0368LNDWK6M
+X-Google-Smtp-Source: AGHT+IFQJNo7HwID/TeXlAbTPbbNefXtXxAG2rRd8AEgaEOCEY9ozjNHRKWsTXfzbsIfuCVK/y+uC5IX0mQc9ZwS12g=
+X-Received: by 2002:a17:90b:180e:b0:310:8d54:3209 with SMTP id
+ 98e67ed59e1d1-31a800bba6bmr1931961a91.2.1751386042181; Tue, 01 Jul 2025
+ 09:07:22 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <8f0c1489-df00-4d40-a51c-39dcfa185d3e@amd.com>
+References: <20250630104116.3050306-1-guoqing.zhang@amd.com>
+ <20250630104116.3050306-4-guoqing.zhang@amd.com>
+ <8806781b-90d1-4b99-a798-dd1d29d4c8c0@amd.com>
+ <8eb1700d-4d60-4a1e-9d09-718f65baaf1e@amd.com>
+ <019a15d5-142f-4761-9408-58c103d3922b@amd.com>
+In-Reply-To: <019a15d5-142f-4761-9408-58c103d3922b@amd.com>
+From: Alex Deucher <alexdeucher@gmail.com>
+Date: Tue, 1 Jul 2025 12:07:10 -0400
+X-Gm-Features: Ac12FXwdbdy8HjwfCgq96-OHQZyxxU6ldvjvewIOGImA43uESTZlF3tB4NQ9pb0
+Message-ID: <CADnq5_PHfNTbLL7Xmb9HFgtZemDVaLSqbrONWWEf9hjwk1rF1Q@mail.gmail.com>
+Subject: Re: [PATCH 3/3] drm/amdgpu: skip kfd resume_process for
+ dev_pm_ops.thaw()
+To: =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
+Cc: "Zhang, GuoQing (Sam)" <GuoQing.Zhang@amd.com>,
+ "rafael@kernel.org" <rafael@kernel.org>, 
+ "len.brown@intel.com" <len.brown@intel.com>,
+ "pavel@kernel.org" <pavel@kernel.org>, 
+ "Deucher, Alexander" <Alexander.Deucher@amd.com>, 
+ "Limonciello, Mario" <Mario.Limonciello@amd.com>, "Lazar,
+ Lijo" <Lijo.Lazar@amd.com>, 
+ "Zhao, Victor" <Victor.Zhao@amd.com>, "Chang, HaiJun" <HaiJun.Chang@amd.com>, 
+ "Ma, Qing (Mark)" <Qing.Ma@amd.com>, 
+ "amd-gfx@lists.freedesktop.org" <amd-gfx@lists.freedesktop.org>, 
+ "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>, 
+ "linux-pm@vger.kernel.org" <linux-pm@vger.kernel.org>, 
+ "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -83,121 +100,149 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, Jul 01, 2025 at 04:35:42PM +0200, Christian König wrote:
->On 01.07.25 16:23, Raag Jadav wrote:
->> On Tue, Jul 01, 2025 at 05:11:24PM +0530, Riana Tauro wrote:
->>> On 7/1/2025 5:07 PM, Riana Tauro wrote:
->>>> On 6/30/2025 11:03 PM, Rodrigo Vivi wrote:
->>>>> On Mon, Jun 30, 2025 at 10:29:10AM +0200, Christian König wrote:
->>>>>> On 27.06.25 23:38, Rodrigo Vivi wrote:
->>>>>>>>> Or at least print a big warning into the system log?
->>>>>>>>>
->>>>>>>>> I mean a firmware update is usually something which
->>>>>>>>> the system administrator triggers very explicitly
->>>>>>>>> because when it fails for some reason (e.g.
->>>>>>>>> unexpected reset, power outage or whatever) it can
->>>>>>>>> sometimes brick the HW.
->>>>>>>>>
->>>>>>>>> I think it's rather brave to do this automatically.
->>>>>>>>> Are you sure we don't talk past each other on the
->>>>>>>>> meaning of the wedge event?
->>>>>>>>
->>>>>>>> The goal is not to do that automatically, but raise the
->>>>>>>> uevent to the admin
->>>>>>>> with enough information that they can decide for the right correctable
->>>>>>>> action.
->>>>>>>
->>>>>>> Christian, Andre, any concerns with this still?
->>>>>>
->>>>>> Well, that sounds not quite the correct use case for wedge events.
->>>>>>
->>>>>> See the wedge event is made for automation.
->>>>>
->>>>> I respectfully disagree with this statement.
->>>>>
->>>>> The wedged state in i915 and xe, then ported to drm, was never just about
->>>>> automation. Of course, the unbind + flr + rebind is one that driver
->>>>> cannot
->>>>> do by itself, hence needs automation. But wedge cases were also very
->>>>> useful
->>>>> in other situations like keeping the device in the failure stage for
->>>>> debuging
->>>>> (without automation) or keeping other critical things up like
->>>>> display with SW
->>>>> rendering (again, nothing about automation).
+On Tue, Jul 1, 2025 at 4:32=E2=80=AFAM Christian K=C3=B6nig <christian.koen=
+ig@amd.com> wrote:
 >
-> Granted, automation is probably not the right term.
+> On 01.07.25 10:03, Zhang, GuoQing (Sam) wrote:
+> >
+> > thaw() is called before writing the hiberation image to swap disk. See
+> > the doc here.
+> > https://github.com/torvalds/linux/blob/v6.14/Documentation/driver-api/p=
+m/devices.rst?plain=3D1#L552 <https://github.com/torvalds/linux/blob/v6.14/=
+Documentation/driver-api/pm/devices.rst?plain=3D1#L552>
+> >
+> > And amdgpu implemented thaw() callback by calling amdgpu_device_resume(=
+).
+> > https://github.com/torvalds/linux/blob/v6.14/drivers/gpu/drm/amd/amdgpu=
+/amdgpu_drv.c#L2572 <https://github.com/torvalds/linux/blob/v6.14/drivers/g=
+pu/drm/amd/amdgpu/amdgpu_drv.c#L2572>
+> >
+> > This patch is skip amdgpu_amdkfd_resume_process() call in thaw() during
+> > hibernation. it is not skipped in restore() during resume from
+> > hibernation when system boot again.
+> >
+> >
+> > I just found the following kernel doc. Thaw() is intended to resume the
+> > storage device for saving the hibernation image.
 >
-> What I wanted to say is that the wedge event should not replace information in the system log.
+> Ah, that makes much more sense.
 >
->>>>>
->>>>>> For example to allow a process supervising containers get the
->>>>>> device working again and re-start the container which used it or
->>>>>> gather crash log etc .....
->>>>>>
->>>>>> When you want to notify the system administrator which manual
->>>>>> intervention is necessary then I would just write that into the
->>>>>> system log and raise a device event with WEDGED=unknown.
->>>>>>
->>>>>> What we could potentially do is to separate between
->>>>>> WEDGED=unknown and WEDGED=manual, e.g. between driver has no
->>>>>> idea what to do and driver printed useful info into the system
->>>>>> log.
->>>>>
->>>>> Well, you are right here. Even our official documentation in drm-uapi.rst
->>>>> already tells that firmware flashing should be a case for 'unknown'.
->>>>
->>>> I had added specific method since we know firmware flash will recover
->>>> the error.  Sure will change it.
->>>>
->>>> In the current code, there is no recovery method named "unknown" even
->>>> though the document mentions it
->>>>
->>>> https://elixir.bootlin.com/linux/v6.16-rc4/source/drivers/gpu/drm/
->>>> drm_drv.c#L534
->>>>
->>>> Since we are adding something new, can it be "manual" instead of unknown?
->>>
->>> Okay missed it. It's in the drm_dev_wedged_event function. Will use unknown
->>>>
->>>>> Let's go with that then. And use other hints like logs and sysfs so,
->>>>> Admin
->>>>> has a better information of what to do.
->>>>>
->>>>>> But creating an event with WEDGED=firmware-flash just sounds to
->>>>>> specific, when we go down that route we might soon have
->>>>>> WEDGE=change- bios-setting, WEDGE=....
->>>>>
->>>>> Well, I agree that we shouldn't explode the options exponentially here.
->>>>>
->>>>> Although I believe that firmware flashing should be a common case in many
->>>>> case and could be a candidate for another indication.
->>>>>
->>>>> But let's move on with WEDGE='unknown' for this case.
->> 
->> I understand that WEDGED=firmware-flash can't be handled in a generic way
->> for all drivers but it is simply not as same as WEDGED=unknown since the
->> driver knows something specific needs to be done here.
->> 
->> I'm wondering if we could add a WEDGED=vendor-specific method for such
->> cases?
+> > Our GPU is not involved
+> > in it, it is not necessary to resume our GPU in thaw().
+> > https://github.com/torvalds/linux/blob/v6.14/Documentation/power/pci.rs=
+t?plain=3D1#L588 <https://github.com/torvalds/linux/blob/v6.14/Documentatio=
+n/power/pci.rst?plain=3D1#L588>
+> >
+> > So another implementation is to remove the amdgpu_device_resume() call
+> > in amdgpu_pmops_thaw(), and skip amdgpu_device_ip_suspend() call in
+> > amdgpu_pci_shutdown()for hibernation.
+> > Initial tests show it's working fine for hibernation successful case.
+> > Should I switch to this implementation?
 >
-> Works for me as well.
+> No idea. Alex and the KFD guys need to take a look at that.
 >
-> My main concern was that we should not start to invent specific wedge events for all kind of different problems.
+> > But thaw() is also called to restore the GPU when hibernation is aborte=
+d
+> > due to some error in hibernation image creation stage. In this case,
+> > amdgpu_device_resume() is needed in thaw().
+> >
+> > So I need a method to check if hibernation is aborted or not to
+> > conditionally skip amdgpu_device_resume() in thaw(). Currently I don't
+> > know how to do this.
 >
-> On the other hand what's the additional value to distinct between unknown and vendor-specific?
+> Yeah that approach here looks fishy to me, but I don't know how to proper=
+ly fix it either.
 >
-> In other words even if the necessary handling is unknown to the wedge event, the administrator could and should still examine the logs to see what to do.
+> @Alex any idea?
 
-They're somewhat similar except the consumer can execute vendor specific
-triggers (look at some sys/proc entries or logs) based on device id that
-the consumer is already familiar with as defined by the vendor, and could
-potentially be automated.
+Yeah, I'm not sure how to handle that.  I don't see a way to avoid
+having all of the callbacks.  We could ideally skip some of the steps.
+Maybe we could optimize the freeze and thaw routines if we had some
+hint from the pm core about why we were getting called.  E.g., thaw
+after a failed hibernation restore.
 
-Unknown is basically "I'm clueless and good luck with your investigation".
+Alex
 
-So the distinction is whether the driver is able to provide definition for
-its vendor specific cases and how well documented they are.
-
-Raag
+>
+> Regards,
+> Christian.
+>
+> >
+> >
+> > Regards
+> > Sam
+> >
+> >
+> > On 2025/6/30 19:58, Christian K=C3=B6nig wrote:
+> >> On 30.06.25 12:41, Samuel Zhang wrote:
+> >>> The hibernation successful workflow:
+> >>> - prepare: evict VRAM and swapout GTT BOs
+> >>> - freeze
+> >>> - create the hibernation image in system memory
+> >>> - thaw: swapin and restore BOs
+> >> Why should a thaw happen here in between?
+> >>
+> >>> - complete
+> >>> - write hibernation image to disk
+> >>> - amdgpu_pci_shutdown
+> >>> - goto S5, turn off the system.
+> >>>
+> >>> During prepare stage of hibernation, VRAM and GTT BOs will be swapout=
+ to
+> >>> shmem. Then in thaw stage, all BOs will be swapin and restored.
+> >> That's not correct. This is done by the application starting again and=
+ not during thaw.
+> >>
+> >>> On server with 192GB VRAM * 8 dGPUs and 1.7TB system memory,
+> >>> the swapin and restore BOs takes too long (50 minutes) and it is not
+> >>> necessary since the follow-up stages does not use GPU.
+> >>>
+> >>> This patch is to skip BOs restore during thaw to reduce the hibernati=
+on
+> >>> time.
+> >> As far as I can see that doesn't make sense. The KFD processes need to=
+ be resumed here and that can't be skipped.
+> >>
+> >> Regards,
+> >> Christian.
+> >>
+> >>> Signed-off-by: Samuel Zhang <guoqing.zhang@amd.com>
+> >>> ---
+> >>>   drivers/gpu/drm/amd/amdgpu/amdgpu_device.c | 2 +-
+> >>>   drivers/gpu/drm/amd/amdgpu/amdgpu_drv.c    | 2 ++
+> >>>   2 files changed, 3 insertions(+), 1 deletion(-)
+> >>>
+> >>> diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_device.c b/drivers/gpu=
+/drm/amd/amdgpu/amdgpu_device.c
+> >>> index a8f4697deb1b..b550d07190a2 100644
+> >>> --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_device.c
+> >>> +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_device.c
+> >>> @@ -5328,7 +5328,7 @@ int amdgpu_device_resume(struct drm_device *dev=
+, bool notify_clients)
+> >>>               amdgpu_virt_init_data_exchange(adev);
+> >>>               amdgpu_virt_release_full_gpu(adev, true);
+> >>>
+> >>> -            if (!adev->in_s0ix && !r && !adev->in_runpm)
+> >>> +            if (!adev->in_s0ix && !r && !adev->in_runpm && !adev->in=
+_s4)
+> >>>                       r =3D amdgpu_amdkfd_resume_process(adev);
+> >>>       }
+> >>>
+> >>> diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_drv.c b/drivers/gpu/dr=
+m/amd/amdgpu/amdgpu_drv.c
+> >>> index 571b70da4562..23b76e8ac2fd 100644
+> >>> --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_drv.c
+> >>> +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_drv.c
+> >>> @@ -2734,7 +2734,9 @@ static int amdgpu_pmops_poweroff(struct device =
+*dev)
+> >>>   static int amdgpu_pmops_restore(struct device *dev)
+> >>>   {
+> >>>       struct drm_device *drm_dev =3D dev_get_drvdata(dev);
+> >>> +    struct amdgpu_device *adev =3D drm_to_adev(drm_dev);
+> >>>
+> >>> +    adev->in_s4 =3D false;
+> >>>       return amdgpu_device_resume(drm_dev, true);
+> >>>   }
+> >>>
+> >
+>
