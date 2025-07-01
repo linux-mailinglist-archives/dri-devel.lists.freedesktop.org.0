@@ -2,49 +2,64 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id BE311AF04A9
-	for <lists+dri-devel@lfdr.de>; Tue,  1 Jul 2025 22:20:24 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 430DCAF0526
+	for <lists+dri-devel@lfdr.de>; Tue,  1 Jul 2025 22:53:50 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B05C410E66C;
-	Tue,  1 Jul 2025 20:20:22 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A82D410E2E9;
+	Tue,  1 Jul 2025 20:53:47 +0000 (UTC)
+Authentication-Results: gabe.freedesktop.org;
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="ZzP2lnYh";
+	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from leonov.paulk.fr (leonov.paulk.fr [185.233.101.22])
- by gabe.freedesktop.org (Postfix) with ESMTPS id DFC1110E648
- for <dri-devel@lists.freedesktop.org>; Tue,  1 Jul 2025 20:20:21 +0000 (UTC)
-Received: from laika.paulk.fr (12.234.24.109.rev.sfr.net [109.24.234.12])
- by leonov.paulk.fr (Postfix) with ESMTPS id 7E0761F0004D
- for <dri-devel@lists.freedesktop.org>; Tue,  1 Jul 2025 20:20:20 +0000 (UTC)
-Received: by laika.paulk.fr (Postfix, from userid 65534)
- id 0D801AC96B0; Tue,  1 Jul 2025 20:20:19 +0000 (UTC)
-X-Spam-Checker-Version: SpamAssassin 4.0.0 (2022-12-13) on spamassassin
-X-Spam-Level: *
-X-Spam-Status: No, score=1.3 required=5.0 tests=RDNS_NONE autolearn=no
- autolearn_force=no version=4.0.0
-Received: from localhost.localdomain (unknown [192.168.1.64])
- by laika.paulk.fr (Postfix) with ESMTP id 4308BAC968E;
- Tue,  1 Jul 2025 20:14:29 +0000 (UTC)
-From: Paul Kocialkowski <paulk@sys-base.io>
-To: dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org,
- linux-kernel@vger.kernel.org
-Cc: Neil Armstrong <neil.armstrong@linaro.org>,
- Jessica Zhang <quic_jesszhan@quicinc.com>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>, Rob Herring <robh@kernel.org>,
- Krzysztof Kozlowski <krzk+dt@kernel.org>,
- Conor Dooley <conor+dt@kernel.org>,
- Thierry Reding <thierry.reding@gmail.com>, Sam Ravnborg <sam@ravnborg.org>,
- Paul Kocialkowski <paulk@sys-base.io>
-Subject: [PATCH 2/2] drm/panel: simple: Add Olimex LCD-OLinuXino-5CTS support
-Date: Tue,  1 Jul 2025 22:14:26 +0200
-Message-ID: <20250701201426.814750-2-paulk@sys-base.io>
-X-Mailer: git-send-email 2.49.0
-In-Reply-To: <20250701201426.814750-1-paulk@sys-base.io>
-References: <20250701201426.814750-1-paulk@sys-base.io>
+Received: from tor.source.kernel.org (tor.source.kernel.org [172.105.4.254])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 06D2D10E2F0
+ for <dri-devel@lists.freedesktop.org>; Tue,  1 Jul 2025 20:53:47 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+ by tor.source.kernel.org (Postfix) with ESMTP id 2FE92613A9
+ for <dri-devel@lists.freedesktop.org>; Tue,  1 Jul 2025 20:48:16 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPS id CB314C4CEEB
+ for <dri-devel@lists.freedesktop.org>; Tue,  1 Jul 2025 20:48:15 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1751402895;
+ bh=D8igEE3Z39OGUYyX4xgT6xT+wpADLLYmDeTj6lQGnKI=;
+ h=From:To:Subject:Date:In-Reply-To:References:From;
+ b=ZzP2lnYhpfGkXpejxngwgUTqgDYVOaUX1MUaEcCdg/xStz7jDmcpysTMkDqWqDet9
+ jUu3TMXRf55/iBAY7q4NMzAqi4/32ji1CBXDCSnd2i/3MVvvsUiSVLUuKgze+CCqpr
+ IVlBi72XiFZqKgtoG85901GLQMoHqi/jty63q+zVmUI4uMvMzb2WIH9kcKw742UeOW
+ 4fTQMFf77/ty9y/Tk99ppyDXX9uX4P5oobKifS9Y37eCyLt58hgrw/AxqfAM78HKiW
+ FtjWV7c3u2pKCyV/1MqlTcIGZLRil78wQF4GvnXuo/DRxurQR+kxOrVdmJp91Tq4L+
+ 05jpKZE7Bj0Pw==
+Received: by aws-us-west-2-korg-bugzilla-1.web.codeaurora.org (Postfix,
+ from userid 48) id C4321C4160E; Tue,  1 Jul 2025 20:48:15 +0000 (UTC)
+From: bugzilla-daemon@kernel.org
+To: dri-devel@lists.freedesktop.org
+Subject: [Bug 220304] [amdgpu] DisplayPort resource allocation issue (one
+ blank screen)
+Date: Tue, 01 Jul 2025 20:48:15 +0000
+X-Bugzilla-Reason: None
+X-Bugzilla-Type: changed
+X-Bugzilla-Watch-Reason: AssignedTo drivers_video-dri@kernel-bugs.osdl.org
+X-Bugzilla-Product: Drivers
+X-Bugzilla-Component: Video(DRI - non Intel)
+X-Bugzilla-Version: 2.5
+X-Bugzilla-Keywords: 
+X-Bugzilla-Severity: normal
+X-Bugzilla-Who: jonas@sldr.se
+X-Bugzilla-Status: NEW
+X-Bugzilla-Resolution: 
+X-Bugzilla-Priority: P3
+X-Bugzilla-Assigned-To: drivers_video-dri@kernel-bugs.osdl.org
+X-Bugzilla-Flags: 
+X-Bugzilla-Changed-Fields: 
+Message-ID: <bug-220304-2300-zgovHHFDsz@https.bugzilla.kernel.org/>
+In-Reply-To: <bug-220304-2300@https.bugzilla.kernel.org/>
+References: <bug-220304-2300@https.bugzilla.kernel.org/>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Bugzilla-URL: https://bugzilla.kernel.org/
+Auto-Submitted: auto-generated
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -60,58 +75,15 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Add support for the Olimex LCD-OLinuXino-5CTS, a 5-inch TFT LCD panel
-with a mode operating at 33.3 MHz.
+https://bugzilla.kernel.org/show_bug.cgi?id=3D220304
 
-Signed-off-by: Paul Kocialkowski <paulk@sys-base.io>
----
- drivers/gpu/drm/panel/panel-simple.c | 26 ++++++++++++++++++++++++++
- 1 file changed, 26 insertions(+)
+--- Comment #1 from J.A. Hult=C3=A9n (jonas@sldr.se) ---
+As far as I've gotten, I've narrowed the bisect range down to:
+bad: db5d28c0bfe566908719bec8e25443aabecbb802
+good: afd29f36aaf733985df1ba162424581b8b8853b4
 
-diff --git a/drivers/gpu/drm/panel/panel-simple.c b/drivers/gpu/drm/panel/panel-simple.c
-index 0a3b26bb4d73..b3d7a0eeabd5 100644
---- a/drivers/gpu/drm/panel/panel-simple.c
-+++ b/drivers/gpu/drm/panel/panel-simple.c
-@@ -3655,6 +3655,29 @@ static const struct panel_desc olimex_lcd_olinuxino_43ts = {
- 	.bus_format = MEDIA_BUS_FMT_RGB888_1X24,
- };
- 
-+static const struct drm_display_mode olimex_lcd_olinuxino_5cts_mode = {
-+	.clock = 33300,
-+	.hdisplay = 800,
-+	.hsync_start = 800 + 210,
-+	.hsync_end = 800 + 210 + 20,
-+	.htotal = 800 + 210 + 20 + 26,
-+	.vdisplay = 480,
-+	.vsync_start = 480 + 22,
-+	.vsync_end = 480 + 22 + 10,
-+	.vtotal = 480 + 22 + 10 + 13,
-+};
-+
-+static const struct panel_desc olimex_lcd_olinuxino_5cts = {
-+	.modes = &olimex_lcd_olinuxino_5cts_mode,
-+	.num_modes = 1,
-+	.size = {
-+		.width = 154,
-+		.height = 86,
-+	},
-+	.bus_format = MEDIA_BUS_FMT_RGB888_1X24,
-+};
-+
-+
- static const struct display_timing ontat_kd50g21_40nt_a1_timing = {
- 	.pixelclock = { 30000000, 30000000, 50000000 },
- 	.hactive = { 800, 800, 800 },
-@@ -5214,6 +5237,9 @@ static const struct of_device_id platform_of_match[] = {
- 	}, {
- 		.compatible = "olimex,lcd-olinuxino-43-ts",
- 		.data = &olimex_lcd_olinuxino_43ts,
-+	}, {
-+		.compatible = "olimex,lcd-olinuxino-5-cts",
-+		.data = &olimex_lcd_olinuxino_5cts,
- 	}, {
- 		.compatible = "ontat,kd50g21-40nt-a1",
- 		.data = &ontat_kd50g21_40nt_a1,
--- 
-2.49.0
+--=20
+You may reply to this email to add a comment.
 
+You are receiving this mail because:
+You are watching the assignee of the bug.=
