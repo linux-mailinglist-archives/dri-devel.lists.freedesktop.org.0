@@ -2,53 +2,50 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id A2B4BAEF58A
-	for <lists+dri-devel@lfdr.de>; Tue,  1 Jul 2025 12:49:59 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id EC3FBAEF591
+	for <lists+dri-devel@lfdr.de>; Tue,  1 Jul 2025 12:51:21 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id AA6E810E587;
-	Tue,  1 Jul 2025 10:49:56 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0D54D10E284;
+	Tue,  1 Jul 2025 10:51:20 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="p8o6kBRj";
+	dkim=pass (1024-bit key; unprotected) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="orv+/qhq";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4B71410E587
- for <dri-devel@lists.freedesktop.org>; Tue,  1 Jul 2025 10:49:55 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5032E10E284
+ for <dri-devel@lists.freedesktop.org>; Tue,  1 Jul 2025 10:51:19 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by dfw.source.kernel.org (Postfix) with ESMTP id 0A2555C063B;
- Tue,  1 Jul 2025 10:49:54 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3B5D9C4CEEE;
- Tue,  1 Jul 2025 10:49:53 +0000 (UTC)
+ by dfw.source.kernel.org (Postfix) with ESMTP id CB5265C61CD;
+ Tue,  1 Jul 2025 10:51:18 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 07E22C4CEEB;
+ Tue,  1 Jul 2025 10:51:17 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
- s=korg; t=1751366993;
- bh=rfmh8mLv26aS8gI+IYRKA9NzVJaudp50BtCKlSVDjfs=;
+ s=korg; t=1751367078;
+ bh=B1ageIM76CYeFiz/IR/5u5ZtiGofDdwmNOw8njBE8Ro=;
  h=From:To:Cc:Subject:Date:From;
- b=p8o6kBRjvT/CsthagHt2+YonQbhuyV62p/Vtd00HQRTefy1F8pXr8k2y5QDUHacfH
- Pyqioei8ykiaTwZ+C6/qCg52AG+X7i7rLI+hsOxEWm4o/bpmLQUp4EYzZRjycLsYTw
- jFeMxbz+83SNoUiW84zoZOSJGsrqoOdccliTexTg=
+ b=orv+/qhqCBjAjCmvMR7X4FGSHh02PkqLycMWFkKoY1zBqg+E4NDs0ddek0T/4SCJ2
+ AjKbNEEk47cTn0EG6x0HcYSoAwcIZwxuoSWpG94hAaIb4o6ewvSkY6BEKorjDOx3ut
+ 5uagF3CzyiqKTXnG+ImB1WI5QRUk7/ukW4Gp3Mqs=
 From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 To: linux-kernel@vger.kernel.org
 Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- Louis Chauvet <louis.chauvet@bootlin.com>,
- Thomas Zimmermann <tzimmermann@suse.de>,
- Haneen Mohammed <hamohammed.sa@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- Melissa Wen <melissa.srw@gmail.com>,
  Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
  Maxime Ripard <mripard@kernel.org>, David Airlie <airlied@gmail.com>,
- dri-devel@lists.freedesktop.org, Lyude Paul <lyude@redhat.com>
-Subject: [PATCH v5] drm/vkms: convert to use faux_device
-Date: Tue,  1 Jul 2025 12:49:48 +0200
-Message-ID: <2025070147-antics-pleat-edd2@gregkh>
+ Simona Vetter <simona@ffwll.ch>, dri-devel@lists.freedesktop.org,
+ Thomas Zimmermann <tzimmermann@suse.de>, Lyude Paul <lyude@redhat.com>
+Subject: [PATCH v5] drm/vgem/vgem_drv convert to use faux_device
+Date: Tue,  1 Jul 2025 12:51:15 +0200
+Message-ID: <2025070114-iron-shiny-b92e@gregkh>
 X-Mailer: git-send-email 2.50.0
 MIME-Version: 1.0
-Lines: 137
-X-Developer-Signature: v=1; a=openpgp-sha256; l=4473;
+Lines: 110
+X-Developer-Signature: v=1; a=openpgp-sha256; l=3591;
  i=gregkh@linuxfoundation.org; h=from:subject:message-id;
- bh=rfmh8mLv26aS8gI+IYRKA9NzVJaudp50BtCKlSVDjfs=;
- b=owGbwMvMwCRo6H6F97bub03G02pJDBnJe71P2ip++1VzRr+PQc1gxZ5pNw4//bJ+S2cdn6dlU
- /6m8Bb5jlgWBkEmBlkxRZYv23iO7q84pOhlaHsaZg4rE8gQBi5OAZiIxESGBWsthGSSLVamF4bq
- pV/KXNJ7RXHfMoZZzE+nXp/pOiXKIFpg2qI1yzQOGAS/AQA=
+ bh=B1ageIM76CYeFiz/IR/5u5ZtiGofDdwmNOw8njBE8Ro=;
+ b=owGbwMvMwCRo6H6F97bub03G02pJDBnJexd9ZveatVvbKOjp4t0aXqfOfNpvX81k3mxu2i4oU
+ e7Oz7G4I5aFQZCJQVZMkeXLNp6j+ysOKXoZ2p6GmcPKBDKEgYtTACZivYRhvou03pl5ybc1nu1y
+ r2EyN/rK71pVzbDg/FeV8IXs5YwtU36udKw6sGrdH4FVAA==
 X-Developer-Key: i=gregkh@linuxfoundation.org; a=openpgp;
  fpr=F4B60CC5BF78C2214A313DCB3147D40DDB2DFB29
 Content-Transfer-Encoding: 8bit
@@ -67,64 +64,64 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The vkms driver does not need to create a platform device, as there is
+The vgem driver does not need to create a platform device, as there is
 no real platform resources associated it,  it only did so because it was
 simple to do that in order to get a device to use for resource
 management of drm resources.  Change the driver to use the faux device
 instead as this is NOT a real platform device.
 
-Tested-by: Louis Chauvet <louis.chauvet@bootlin.com>
-Reviewed-by: Louis Chauvet <louis.chauvet@bootlin.com>
-Reviewed-by: Thomas Zimmermann <tzimmermann@suse.de>
-Cc: Haneen Mohammed <hamohammed.sa@gmail.com>
-Cc: Simona Vetter <simona@ffwll.ch>
-Cc: Melissa Wen <melissa.srw@gmail.com>
 Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
 Cc: Maxime Ripard <mripard@kernel.org>
 Cc: David Airlie <airlied@gmail.com>
+Cc: Simona Vetter <simona@ffwll.ch>
 Cc: dri-devel@lists.freedesktop.org
+Reviewed-by: Thomas Zimmermann <tzimmermann@suse.de>
 Reviewed-by: Lyude Paul <lyude@redhat.com>
 Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 ---
-v5: - rebased against 6.16-rc4
-    - added reviewed-by and tested-by lines
-    - was somehow dropped from drm trees, resending to make sure it
-      isn't lost
+v5: - rebased against 6.16-rc4 and resent as it seems to have been lost
+v4: - api tweaked due to parent pointer added to faux_device create
+      function.
+v3: - new patch in the series.  For an example of the api working, does
+      not have to be merged at this time, but I can take it if the
+      maintainers give an ack.
 
-v4: - first version of the patch, was part of a larger patch series that
-      has been mostly all applied to the tree.
+ drivers/gpu/drm/vgem/vgem_drv.c | 30 +++++++++++++++---------------
+ 1 file changed, 15 insertions(+), 15 deletions(-)
 
- drivers/gpu/drm/vkms/vkms_drv.c | 28 ++++++++++++++--------------
- drivers/gpu/drm/vkms/vkms_drv.h |  4 ++--
- 2 files changed, 16 insertions(+), 16 deletions(-)
-
-diff --git a/drivers/gpu/drm/vkms/vkms_drv.c b/drivers/gpu/drm/vkms/vkms_drv.c
-index a24d1655f7b8..e8472d9b6e3b 100644
---- a/drivers/gpu/drm/vkms/vkms_drv.c
-+++ b/drivers/gpu/drm/vkms/vkms_drv.c
-@@ -10,7 +10,7 @@
-  */
+diff --git a/drivers/gpu/drm/vgem/vgem_drv.c b/drivers/gpu/drm/vgem/vgem_drv.c
+index 2752ab4f1c97..260c64733972 100644
+--- a/drivers/gpu/drm/vgem/vgem_drv.c
++++ b/drivers/gpu/drm/vgem/vgem_drv.c
+@@ -32,7 +32,7 @@
  
+ #include <linux/dma-buf.h>
  #include <linux/module.h>
 -#include <linux/platform_device.h>
 +#include <linux/device/faux.h>
- #include <linux/dma-mapping.h>
+ #include <linux/shmem_fs.h>
+ #include <linux/vmalloc.h>
  
- #include <drm/clients/drm_client_setup.h>
-@@ -149,27 +149,27 @@ static int vkms_modeset_init(struct vkms_device *vkmsdev)
- static int vkms_create(struct vkms_config *config)
+@@ -52,7 +52,7 @@
+ 
+ static struct vgem_device {
+ 	struct drm_device drm;
+-	struct platform_device *platform;
++	struct faux_device *faux_dev;
+ } *vgem_device;
+ 
+ static int vgem_open(struct drm_device *dev, struct drm_file *file)
+@@ -127,27 +127,27 @@ static const struct drm_driver vgem_driver = {
+ static int __init vgem_init(void)
  {
  	int ret;
 -	struct platform_device *pdev;
 +	struct faux_device *fdev;
- 	struct vkms_device *vkms_device;
- 	const char *dev_name;
  
- 	dev_name = vkms_config_get_device_name(config);
--	pdev = platform_device_register_simple(dev_name, -1, NULL, 0);
+-	pdev = platform_device_register_simple("vgem", -1, NULL, 0);
 -	if (IS_ERR(pdev))
 -		return PTR_ERR(pdev);
-+	fdev = faux_device_create(dev_name, NULL, NULL);
++	fdev = faux_device_create("vgem", NULL, NULL);
 +	if (!fdev)
 +		return -ENODEV;
  
@@ -134,19 +131,23 @@ index a24d1655f7b8..e8472d9b6e3b 100644
  		goto out_unregister;
  	}
  
--	vkms_device = devm_drm_dev_alloc(&pdev->dev, &vkms_driver,
-+	vkms_device = devm_drm_dev_alloc(&fdev->dev, &vkms_driver,
- 					 struct vkms_device, drm);
- 	if (IS_ERR(vkms_device)) {
- 		ret = PTR_ERR(vkms_device);
+-	dma_coerce_mask_and_coherent(&pdev->dev,
++	dma_coerce_mask_and_coherent(&fdev->dev,
+ 				     DMA_BIT_MASK(64));
+ 
+-	vgem_device = devm_drm_dev_alloc(&pdev->dev, &vgem_driver,
++	vgem_device = devm_drm_dev_alloc(&fdev->dev, &vgem_driver,
+ 					 struct vgem_device, drm);
+ 	if (IS_ERR(vgem_device)) {
+ 		ret = PTR_ERR(vgem_device);
  		goto out_devres;
  	}
--	vkms_device->platform = pdev;
-+	vkms_device->faux_dev = fdev;
- 	vkms_device->config = config;
- 	config->dev = vkms_device;
+-	vgem_device->platform = pdev;
++	vgem_device->faux_dev = fdev;
  
-@@ -203,9 +203,9 @@ static int vkms_create(struct vkms_config *config)
+ 	/* Final step: expose the device/driver to userspace */
+ 	ret = drm_dev_register(&vgem_device->drm, 0);
+@@ -157,19 +157,19 @@ static int __init vgem_init(void)
  	return 0;
  
  out_devres:
@@ -158,50 +159,19 @@ index a24d1655f7b8..e8472d9b6e3b 100644
  	return ret;
  }
  
-@@ -231,19 +231,19 @@ static int __init vkms_init(void)
- 
- static void vkms_destroy(struct vkms_config *config)
+ static void __exit vgem_exit(void)
  {
--	struct platform_device *pdev;
-+	struct faux_device *fdev;
+-	struct platform_device *pdev = vgem_device->platform;
++	struct faux_device *fdev = vgem_device->faux_dev;
  
- 	if (!config->dev) {
- 		DRM_INFO("vkms_device is NULL.\n");
- 		return;
- 	}
- 
--	pdev = config->dev->platform;
-+	fdev = config->dev->faux_dev;
- 
- 	drm_dev_unregister(&config->dev->drm);
- 	drm_atomic_helper_shutdown(&config->dev->drm);
+ 	drm_dev_unregister(&vgem_device->drm);
 -	devres_release_group(&pdev->dev, NULL);
 -	platform_device_unregister(pdev);
 +	devres_release_group(&fdev->dev, NULL);
 +	faux_device_destroy(fdev);
- 
- 	config->dev = NULL;
  }
-diff --git a/drivers/gpu/drm/vkms/vkms_drv.h b/drivers/gpu/drm/vkms/vkms_drv.h
-index a74a7fc3a056..5a46016e1890 100644
---- a/drivers/gpu/drm/vkms/vkms_drv.h
-+++ b/drivers/gpu/drm/vkms/vkms_drv.h
-@@ -197,13 +197,13 @@ struct vkms_config;
-  * struct vkms_device - Description of a VKMS device
-  *
-  * @drm - Base device in DRM
-- * @platform - Associated platform device
-+ * @faux_dev - Associated faux device
-  * @output - Configuration and sub-components of the VKMS device
-  * @config: Configuration used in this VKMS device
-  */
- struct vkms_device {
- 	struct drm_device drm;
--	struct platform_device *platform;
-+	struct faux_device *faux_dev;
- 	const struct vkms_config *config;
- };
  
+ module_init(vgem_init);
 -- 
 2.50.0
 
