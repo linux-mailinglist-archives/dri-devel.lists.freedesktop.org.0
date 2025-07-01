@@ -2,34 +2,34 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4188FAEFA41
-	for <lists+dri-devel@lfdr.de>; Tue,  1 Jul 2025 15:22:43 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id A3216AEFA44
+	for <lists+dri-devel@lfdr.de>; Tue,  1 Jul 2025 15:22:48 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4F4AE10E5AB;
-	Tue,  1 Jul 2025 13:22:41 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A2CFC10E5AF;
+	Tue,  1 Jul 2025 13:22:46 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="aUyjcazN";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="eJWzypBb";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8B4D610E2BC;
- Tue,  1 Jul 2025 13:22:40 +0000 (UTC)
+Received: from tor.source.kernel.org (tor.source.kernel.org [172.105.4.254])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0573A10E5AD;
+ Tue,  1 Jul 2025 13:22:45 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by dfw.source.kernel.org (Postfix) with ESMTP id 1105E5C560F;
+ by tor.source.kernel.org (Postfix) with ESMTP id 7615E6143F;
+ Tue,  1 Jul 2025 13:22:44 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 37C21C4CEEB;
  Tue,  1 Jul 2025 13:22:40 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id B07B4C4CEEB;
- Tue,  1 Jul 2025 13:22:35 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1751376159;
- bh=QPT51nD7e7AHwZ27sJjHwy+UmpkZSyFDrE7MKORACwU=;
+ s=k20201202; t=1751376164;
+ bh=YPEvwsrhEYilovZE/FzKLWSDVL/XkoOF8+zmDx8isVw=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=aUyjcazN1qGH9bivXxKWfTg67qgyJoURtVk5CGRZQe/PRMxHT53CAnVUrVbwLnBa4
- 3Ug7jwkXtem6lrSlRFJPGDoABmoAk8Mv6ZR4NaZHDSLxKLkmAbNQANoTjDQNuCZxTj
- 4QHnx+c/PhLiiAhwx4CUC0l6srLR6oAFFvmmvhpUzhTyJbX1vxErL/nPpAvDc9OvuN
- uXiTN7S0vy1zwi+O71pQ/mhUS9dxivm9PlJKd4grBl23GpBbWrr0ShGxFR1Iam0oXT
- rntwg7NUbg11zwZpVGQhrizf+qCAFv+rJOAvfb2oizGOe6+DlVQPfqTP3RCRpmseC0
- bPe4CCkU6ArFA==
+ b=eJWzypBbI9YtnzazLXUr4k+L5FjPNNBvtjlZBTnC3q4zfJuLUhsK2AdaT28MFA7Oq
+ +W0ZCKoackXsY2UqpkVVQp+OoferUgFLtK0FsjuPno3gSVhQlMZKQg6AKkNtTLysqg
+ D67DCdkCRGIUQb4LjYZWQ0FtTXTCX4HehKAB+AlhD7jUdJr2nXXQvjNVaSpm2xMyql
+ WiINbodPorB0fIEvQqF4ysV6XCKckJsdMmdBebF5WJLH3v5f4Ndmx0Ns1V4Gy5aOHS
+ rVREw5a4Uefw49RsBhOdZdUKx0XvY29OFO2+5MVIZp/bT76+lcWQraYxP/TIdagE9L
+ UYx/PiOjyy9Pw==
 From: Philipp Stanner <phasta@kernel.org>
 To: Lyude Paul <lyude@redhat.com>, Danilo Krummrich <dakr@kernel.org>,
  David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
@@ -45,10 +45,9 @@ To: Lyude Paul <lyude@redhat.com>, Danilo Krummrich <dakr@kernel.org>,
 Cc: dri-devel@lists.freedesktop.org, nouveau@lists.freedesktop.org,
  linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
  linaro-mm-sig@lists.linaro.org
-Subject: [PATCH 4/6] drm/nouveau: Make fence container helper usable
- driver-wide
-Date: Tue,  1 Jul 2025 15:21:42 +0200
-Message-ID: <20250701132142.76899-7-phasta@kernel.org>
+Subject: [PATCH 5/6] drm/nouveau: Add new callback for scheduler teardown
+Date: Tue,  1 Jul 2025 15:21:43 +0200
+Message-ID: <20250701132142.76899-8-phasta@kernel.org>
 X-Mailer: git-send-email 2.49.0
 In-Reply-To: <20250701132142.76899-3-phasta@kernel.org>
 References: <20250701132142.76899-3-phasta@kernel.org>
@@ -69,115 +68,101 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-In order to implement a new DRM GPU scheduler callback in Nouveau, a
-helper for obtaining a nouveau_fence from a dma_fence is necessary. Such
-a helper exists already inside nouveau_fence.c, called from_fence().
+There is a new callback for always tearing the scheduler down in a
+leak-free, deadlock-free manner.
 
-Make that helper available to other C files with a more precise name.
+Port Nouveau as its first user by providing the scheduler with a
+callback that ensures the fence context gets killed in drm_sched_fini().
 
 Signed-off-by: Philipp Stanner <phasta@kernel.org>
 ---
- drivers/gpu/drm/nouveau/nouveau_fence.c | 20 +++++++-------------
- drivers/gpu/drm/nouveau/nouveau_fence.h |  6 ++++++
- 2 files changed, 13 insertions(+), 13 deletions(-)
+ drivers/gpu/drm/nouveau/nouveau_fence.c | 15 +++++++++++++++
+ drivers/gpu/drm/nouveau/nouveau_fence.h |  1 +
+ drivers/gpu/drm/nouveau/nouveau_sched.c | 15 ++++++++++++++-
+ 3 files changed, 30 insertions(+), 1 deletion(-)
 
 diff --git a/drivers/gpu/drm/nouveau/nouveau_fence.c b/drivers/gpu/drm/nouveau/nouveau_fence.c
-index d5654e26d5bc..869d4335c0f4 100644
+index 869d4335c0f4..9f345a008717 100644
 --- a/drivers/gpu/drm/nouveau/nouveau_fence.c
 +++ b/drivers/gpu/drm/nouveau/nouveau_fence.c
-@@ -38,12 +38,6 @@
- static const struct dma_fence_ops nouveau_fence_ops_uevent;
- static const struct dma_fence_ops nouveau_fence_ops_legacy;
- 
--static inline struct nouveau_fence *
--from_fence(struct dma_fence *fence)
--{
--	return container_of(fence, struct nouveau_fence, base);
--}
--
- static inline struct nouveau_fence_chan *
- nouveau_fctx(struct nouveau_fence *fence)
- {
-@@ -77,7 +71,7 @@ nouveau_local_fence(struct dma_fence *fence, struct nouveau_drm *drm)
- 	    fence->ops != &nouveau_fence_ops_uevent)
- 		return NULL;
- 
--	return from_fence(fence);
-+	return to_nouveau_fence(fence);
+@@ -240,6 +240,21 @@ nouveau_fence_emit(struct nouveau_fence *fence)
+ 	return ret;
  }
  
- void
-@@ -268,7 +262,7 @@ nouveau_fence_done(struct nouveau_fence *fence)
- static long
- nouveau_fence_wait_legacy(struct dma_fence *f, bool intr, long wait)
- {
--	struct nouveau_fence *fence = from_fence(f);
-+	struct nouveau_fence *fence = to_nouveau_fence(f);
- 	unsigned long sleep_time = NSEC_PER_MSEC / 1000;
- 	unsigned long t = jiffies, timeout = t + wait;
- 
-@@ -448,7 +442,7 @@ static const char *nouveau_fence_get_get_driver_name(struct dma_fence *fence)
- 
- static const char *nouveau_fence_get_timeline_name(struct dma_fence *f)
- {
--	struct nouveau_fence *fence = from_fence(f);
-+	struct nouveau_fence *fence = to_nouveau_fence(f);
- 	struct nouveau_fence_chan *fctx = nouveau_fctx(fence);
- 
- 	return !fctx->dead ? fctx->name : "dead channel";
-@@ -462,7 +456,7 @@ static const char *nouveau_fence_get_timeline_name(struct dma_fence *f)
-  */
- static bool nouveau_fence_is_signaled(struct dma_fence *f)
- {
--	struct nouveau_fence *fence = from_fence(f);
-+	struct nouveau_fence *fence = to_nouveau_fence(f);
- 	struct nouveau_fence_chan *fctx = nouveau_fctx(fence);
- 	struct nouveau_channel *chan;
- 	bool ret = false;
-@@ -478,7 +472,7 @@ static bool nouveau_fence_is_signaled(struct dma_fence *f)
- 
- static bool nouveau_fence_no_signaling(struct dma_fence *f)
- {
--	struct nouveau_fence *fence = from_fence(f);
-+	struct nouveau_fence *fence = to_nouveau_fence(f);
- 
- 	/*
- 	 * caller should have a reference on the fence,
-@@ -503,7 +497,7 @@ static bool nouveau_fence_no_signaling(struct dma_fence *f)
- 
- static void nouveau_fence_release(struct dma_fence *f)
- {
--	struct nouveau_fence *fence = from_fence(f);
-+	struct nouveau_fence *fence = to_nouveau_fence(f);
- 	struct nouveau_fence_chan *fctx = nouveau_fctx(fence);
- 
- 	kref_put(&fctx->fence_ref, nouveau_fence_context_put);
-@@ -521,7 +515,7 @@ static const struct dma_fence_ops nouveau_fence_ops_legacy = {
- 
- static bool nouveau_fence_enable_signaling(struct dma_fence *f)
- {
--	struct nouveau_fence *fence = from_fence(f);
-+	struct nouveau_fence *fence = to_nouveau_fence(f);
- 	struct nouveau_fence_chan *fctx = nouveau_fctx(fence);
- 	bool ret;
- 
-diff --git a/drivers/gpu/drm/nouveau/nouveau_fence.h b/drivers/gpu/drm/nouveau/nouveau_fence.h
-index 6a983dd9f7b9..183dd43ecfff 100644
---- a/drivers/gpu/drm/nouveau/nouveau_fence.h
-+++ b/drivers/gpu/drm/nouveau/nouveau_fence.h
-@@ -17,6 +17,12 @@ struct nouveau_fence {
- 	unsigned long timeout;
- };
- 
-+static inline struct nouveau_fence *
-+to_nouveau_fence(struct dma_fence *fence)
++void
++nouveau_fence_cancel(struct nouveau_fence *fence)
 +{
-+	return container_of(fence, struct nouveau_fence, base);
++	struct nouveau_fence_chan *fctx = nouveau_fctx(fence);
++	unsigned long flags;
++
++	spin_lock_irqsave(&fctx->lock, flags);
++	if (!dma_fence_is_signaled_locked(&fence->base)) {
++		dma_fence_set_error(&fence->base, -ECANCELED);
++		if (nouveau_fence_signal(fence))
++			nvif_event_block(&fctx->event);
++	}
++	spin_unlock_irqrestore(&fctx->lock, flags);
 +}
 +
- int  nouveau_fence_create(struct nouveau_fence **, struct nouveau_channel *);
- int  nouveau_fence_new(struct nouveau_fence **, struct nouveau_channel *);
- void nouveau_fence_unref(struct nouveau_fence **);
+ bool
+ nouveau_fence_done(struct nouveau_fence *fence)
+ {
+diff --git a/drivers/gpu/drm/nouveau/nouveau_fence.h b/drivers/gpu/drm/nouveau/nouveau_fence.h
+index 183dd43ecfff..9957a919bd38 100644
+--- a/drivers/gpu/drm/nouveau/nouveau_fence.h
++++ b/drivers/gpu/drm/nouveau/nouveau_fence.h
+@@ -29,6 +29,7 @@ void nouveau_fence_unref(struct nouveau_fence **);
+ 
+ int  nouveau_fence_emit(struct nouveau_fence *);
+ bool nouveau_fence_done(struct nouveau_fence *);
++void nouveau_fence_cancel(struct nouveau_fence *fence);
+ int  nouveau_fence_wait(struct nouveau_fence *, bool lazy, bool intr);
+ int  nouveau_fence_sync(struct nouveau_bo *, struct nouveau_channel *, bool exclusive, bool intr);
+ 
+diff --git a/drivers/gpu/drm/nouveau/nouveau_sched.c b/drivers/gpu/drm/nouveau/nouveau_sched.c
+index 460a5fb02412..2ec62059c351 100644
+--- a/drivers/gpu/drm/nouveau/nouveau_sched.c
++++ b/drivers/gpu/drm/nouveau/nouveau_sched.c
+@@ -11,6 +11,7 @@
+ #include "nouveau_exec.h"
+ #include "nouveau_abi16.h"
+ #include "nouveau_sched.h"
++#include "nouveau_chan.h"
+ 
+ #define NOUVEAU_SCHED_JOB_TIMEOUT_MS		10000
+ 
+@@ -393,10 +394,23 @@ nouveau_sched_free_job(struct drm_sched_job *sched_job)
+ 	nouveau_job_fini(job);
+ }
+ 
++static void
++nouveau_sched_cancel_job(struct drm_sched_job *sched_job)
++{
++	struct nouveau_fence *fence;
++	struct nouveau_job *job;
++
++	job = to_nouveau_job(sched_job);
++	fence = to_nouveau_fence(job->done_fence);
++
++	nouveau_fence_cancel(fence);
++}
++
+ static const struct drm_sched_backend_ops nouveau_sched_ops = {
+ 	.run_job = nouveau_sched_run_job,
+ 	.timedout_job = nouveau_sched_timedout_job,
+ 	.free_job = nouveau_sched_free_job,
++	.cancel_job = nouveau_sched_cancel_job,
+ };
+ 
+ static int
+@@ -482,7 +496,6 @@ nouveau_sched_create(struct nouveau_sched **psched, struct nouveau_drm *drm,
+ 	return 0;
+ }
+ 
+-
+ static void
+ nouveau_sched_fini(struct nouveau_sched *sched)
+ {
 -- 
 2.49.0
 
