@@ -2,88 +2,58 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C57AEAEEC2C
-	for <lists+dri-devel@lfdr.de>; Tue,  1 Jul 2025 03:47:12 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id AA990AEEC46
+	for <lists+dri-devel@lfdr.de>; Tue,  1 Jul 2025 04:00:11 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1115910E4D4;
-	Tue,  1 Jul 2025 01:47:09 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3230210E162;
+	Tue,  1 Jul 2025 02:00:09 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=redhat.com header.i=@redhat.com header.b="XddNP6+s";
+	dkim=pass (1024-bit key; unprotected) header.d=collabora.com header.i=dmitry.osipenko@collabora.com header.b="dHC3Uu2L";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [170.10.133.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 518D310E252
- for <dri-devel@lists.freedesktop.org>; Tue,  1 Jul 2025 01:47:07 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1751334426;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=mx+fbRinTMuynJD3Fbg1OVPYmDGc6Dy2p+EFhYrKJs4=;
- b=XddNP6+sT58fUswNu3mbgpDHgcDkOA5xMnOxmFmxRqSW6a3SmaUuZSKDPPykvFJgj/8HOU
- aaloEffDJDGH6qfKLhT8+b806ppr6+zZi20Um/+4+Zl85Omp/yvzbzTrV7yNXwPHLEid3B
- yBrD0+iFq1tvzrrj3Ai9z65nanp3kTM=
-Received: from mail-pj1-f70.google.com (mail-pj1-f70.google.com
- [209.85.216.70]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-156-YKgX7TITOFKxjD3bl668BA-1; Mon, 30 Jun 2025 21:47:03 -0400
-X-MC-Unique: YKgX7TITOFKxjD3bl668BA-1
-X-Mimecast-MFC-AGG-ID: YKgX7TITOFKxjD3bl668BA_1751334422
-Received: by mail-pj1-f70.google.com with SMTP id
- 98e67ed59e1d1-311ae2b6647so3271167a91.0
- for <dri-devel@lists.freedesktop.org>; Mon, 30 Jun 2025 18:47:03 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1751334421; x=1751939221;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=mx+fbRinTMuynJD3Fbg1OVPYmDGc6Dy2p+EFhYrKJs4=;
- b=sDWvNVgZzJv/t1iZqSB4lD6O+8OwmjzQgVgjmf213fTWIZgtHonXRAWRPtC6ow2Fyo
- jY9QYGiRVlFYByaNQRjzngvP4d/PRv72iDo1X+U2rTTLEUgTYFyRjinrBNWYJ8Mmsszy
- VQikHyHoF4fk2i88+avVvw1jRiIZlH7f9HFCcTf+ccw0uIMUmZcmCwbNUR3b5BtVH7Uc
- Kx1kGp3ag36HuZDtPGWj0evY3x+4Bb/C2AZgxJWVQTBUWp3xIHDE3DvLn7S70AY4U1DR
- 5bWqo8Sj3AOpdIF0GNBEuQFb2oxnwmnqKU+IytIzJgJsXcyBUiAN0k4iHmsRIajg/Bi6
- F9OA==
-X-Forwarded-Encrypted: i=1;
- AJvYcCWudQSrxvVH1sOeZkEXovQdTsjE7vD2R958L+EmrApxQaq62SJ6B1FnhPkstNbiUPepzRH8BHBZ0Nc=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YwFmwRQvzXDLM8n7A/b++zd9NMcy38oNji+ILDxAP4IUXunJdUc
- Iz9KPQx4P6X+7bTv5B77S3cDKLEb7txSUC0LLIqRViQ2AescxkXwM81ZEkMa+U3zV6FPkGfF+Ff
- By1svw0J4shcHVaQ7Y0XDyX9PCOaQXRcAT6oVPyyB5gRjH3KGlSe7E0pZeUrjB4B5mAajoUUFuE
- 3OF58hoheGmqZaw6YL8ZiaCfnGIodt3KcbxAiYPdNLd1zP
-X-Gm-Gg: ASbGncsHfAEVHfsa9ZV4aGRMzPnOYASx522Vw1DpRYCeCxSgfp7sWEFBXnMyAss7HBR
- 9rXgf2JX2H1LRI8lwKjeITXDgKxZVWbQXndYn4GbGBSdLosp0cP0NyNv0cGsnrgTClGNLGAqip+
- TMhA==
-X-Received: by 2002:a17:90b:3d05:b0:311:e8cc:4256 with SMTP id
- 98e67ed59e1d1-318c92a3dbemr17104429a91.22.1751334421432; 
- Mon, 30 Jun 2025 18:47:01 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IHlrpj6c4bDiachKhO61td+dxHFiG6TPr6jQRY17LMe42Gje+2uWk9zqkD+CLJtS/E1UDMG4APzV9IOPr6SxG4=
-X-Received: by 2002:a17:90b:3d05:b0:311:e8cc:4256 with SMTP id
- 98e67ed59e1d1-318c92a3dbemr17104408a91.22.1751334421030; Mon, 30 Jun 2025
- 18:47:01 -0700 (PDT)
+Received: from sender4-pp-f112.zoho.com (sender4-pp-f112.zoho.com
+ [136.143.188.112])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B093110E162
+ for <dri-devel@lists.freedesktop.org>; Tue,  1 Jul 2025 02:00:07 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; t=1751335205; cv=none; 
+ d=zohomail.com; s=zohoarc; 
+ b=gFB3D/to1dDdBhVl/ZKpwfA2BPn5KScazz9sVJtkkuRW8xM6NioYzvX5Ln+P8+ZyLzlHMdhFuRvUNQYPB42rDB3n8LkKSK+WxrRQklvW4HBB7mmGL4d4QPLiKRpsYz4TZiMNQlSxjQorvbnxqY/kUaJk83gUsPSE9rvSX4MhEj0=
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com;
+ s=zohoarc; t=1751335205;
+ h=Content-Type:Content-Transfer-Encoding:Cc:Cc:Date:Date:From:From:In-Reply-To:MIME-Version:Message-ID:References:Subject:Subject:To:To:Message-Id:Reply-To;
+ bh=Rzwy82EGOReukd9dNrvDsdV0Kaxnv5kI7ekg4aJ/C4c=; 
+ b=ScLuH+YECktLCrvjUlQnoE9VV6WBRePhMJCUpbjzdZ0d4jx1B7A1DRq7HUMZ4Vwqt2CiI/fq6bKWptz5JpFBCTORhacgoy5D02JjPKa3iXVUiLTTQzVJTKhsU3h90P2F2Cp+OI5aHTPhzHZj9E63P54wy5bFKJOUsC8QXPziqks=
+ARC-Authentication-Results: i=1; mx.zohomail.com;
+ dkim=pass  header.i=collabora.com;
+ spf=pass  smtp.mailfrom=dmitry.osipenko@collabora.com;
+ dmarc=pass header.from=<dmitry.osipenko@collabora.com>
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1751335204; 
+ s=zohomail; d=collabora.com; i=dmitry.osipenko@collabora.com; 
+ h=Message-ID:Date:Date:MIME-Version:Subject:Subject:To:To:Cc:Cc:References:From:From:In-Reply-To:Content-Type:Content-Transfer-Encoding:Message-Id:Reply-To;
+ bh=Rzwy82EGOReukd9dNrvDsdV0Kaxnv5kI7ekg4aJ/C4c=;
+ b=dHC3Uu2LdtAdly9EM6lsswknlTs/CHIlRE/OQqtCR9VKEaqqGHsK3XP4OoPDZm8j
+ oearp5oEmdp6NucKJnv5bsARps1uAX4SLoXUGLNqywBOVgHAznQ9FJAJ/W4QvXURvzt
+ q+scobt3r2KmNTviShtQNaLYu6y2pK9BJwaHPCWM=
+Received: by mx.zohomail.com with SMTPS id 1751335201707250.9608433199718;
+ Mon, 30 Jun 2025 19:00:01 -0700 (PDT)
+Message-ID: <f414f729-d485-4318-b5c9-c652ce388db0@collabora.com>
+Date: Tue, 1 Jul 2025 04:59:59 +0300
 MIME-Version: 1.0
-References: <20250630045005.1337339-1-airlied@gmail.com>
- <20250630045005.1337339-11-airlied@gmail.com>
- <ef369d08-1913-47f2-818c-e4f6643f6600@amd.com>
-In-Reply-To: <ef369d08-1913-47f2-818c-e4f6643f6600@amd.com>
-From: David Airlie <airlied@redhat.com>
-Date: Tue, 1 Jul 2025 11:46:49 +1000
-X-Gm-Features: Ac12FXz8Yl3XsxcNjfns2VGpmm_72FeLedIQb5YUSNDP6Bs-0dQvjILAWHhRJ4s
-Message-ID: <CAMwc25o5H9YZiNdrE5N8coEvvM1KGtKCX4jW7oTWUXgi2PvTLA@mail.gmail.com>
-Subject: Re: [PATCH 10/17] ttm: add a memcg accounting flag to the
- alloc/populate APIs
-To: =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
-Cc: Dave Airlie <airlied@gmail.com>, dri-devel@lists.freedesktop.org,
- linux-mm@kvack.org, 
- Johannes Weiner <hannes@cmpxchg.org>, Dave Chinner <david@fromorbit.com>, 
- Kairui Song <kasong@tencent.com>
-X-Mimecast-Spam-Score: 0
-X-Mimecast-MFC-PROC-ID: FtjhRrWAmvB9HuHgXAfOdUSri0vAgNrh0cNGUt6gS5U_1751334422
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+User-Agent: Mozilla Thunderbird
+Subject: Re: [RFC PATCH v2 0/2] Virtio-GPU suspend and resume
+To: "Kim, Dongwon" <dongwon.kim@intel.com>,
+ "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>
+Cc: "Kasireddy, Vivek" <vivek.kasireddy@intel.com>
+References: <20250523220015.994716-1-dongwon.kim@intel.com>
+ <23e2560e-276f-42d3-a525-0c0405c8641c@collabora.com>
+ <PH8PR11MB68791BB9A9F720E820C57D14FA73A@PH8PR11MB6879.namprd11.prod.outlook.com>
+Content-Language: en-US
+From: Dmitry Osipenko <dmitry.osipenko@collabora.com>
+In-Reply-To: <PH8PR11MB68791BB9A9F720E820C57D14FA73A@PH8PR11MB6879.namprd11.prod.outlook.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-ZohoMailClient: External
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -99,32 +69,82 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, Jun 30, 2025 at 8:20=E2=80=AFPM Christian K=C3=B6nig
-<christian.koenig@amd.com> wrote:
->
-> On 30.06.25 06:49, Dave Airlie wrote:
-> > From: Dave Airlie <airlied@redhat.com>
-> >
-> > This flag does nothing yet, but this just changes the APIs to accept
-> > it in the future across all users.
-> >
-> > This flag will eventually be filled out with when to account a tt
-> > populate to a memcg.
->
-> I would keep the pool completely out of memcg accounting and always accou=
-nt at a higher level.
->
-> Accounting that low just gives a hughe surfurce for driver issues.
+On 6/18/25 01:41, Kim, Dongwon wrote:
+...
+>> Have you figured out why 10ms workaround is needed?
+> 
+> [Kim, Dongwon] Unfortunately, I don't know why it fails without the delay. I wanted to narrow down further
+> so enabled printk during suspend and resume but hang didn't occur with the timing changes
+> caused by printks.  I've also tried more deterministic methods that make it wait based on some
+> kinds of "status" but none of them have worked so far. If you have any suggestions on possible
+> condition we can check instead of just sleeping, please let me know.
+> 10ms seems to be close to minimum to make it work 100% for several days (rtcwake sleep and
+> wake up every 5 sec).
 
-https://lore.kernel.org/dri-devel/20250512061913.3522902-6-airlied@gmail.co=
-m/
+Was able to reproduce the hang and got a crash backtrace with no_console_suspend:
 
-This is where I already tried it, and had to move it back:
+[   63.824827] PM: suspend entry (deep)
+[   63.825041] Filesystems sync: 0.000 seconds
+[   63.990951] Freezing user space processes
+[   63.992488] Freezing user space processes completed (elapsed 0.001 seconds)
+[   63.992775] OOM killer disabled.
+[   63.992902] Freezing remaining freezable tasks
+[   63.994099] Freezing remaining freezable tasks completed (elapsed 0.001 seconds)
+[   64.002183] Oops: general protection fault, probably for non-canonical address 0x2abe0ea26847fb08: 0000 [#1] SMP NOPTI
+[   64.003172] CPU: 9 UID: 0 PID: 178 Comm: kworker/9:2 Not tainted 6.15.4-00002-g01117b4373b2-dirty #123 PREEMPT(voluntary) 
+[   64.003614] Hardware name: QEMU Standard PC (Q35 + ICH9, 2009), BIOS rel-1.16.3-0-ga6ed6b701f0a-prebuilt.qemu.org 04/01/2014
+[   64.004036] Workqueue: events virtio_gpu_dequeue_ctrl_func
+[   64.004280] RIP: 0010:virtqueue_get_buf_ctx_split+0x86/0x130
+[   64.004515] Code: 01 66 23 43 50 0f b7 c0 8b 74 c1 04 8b 44 c1 08 41 89 45 00 3b 73 58 0f 83 96 d7 20 ff 89 f0 48 c1 e0 04 48 03 83 80 00 00 00 <4c> 8b 20 4d 85 e4 0f 84 5a d7 20 ff 48 89 df e8 46 fc ff ff 0f b7
+[   64.005227] RSP: 0018:ffffc90000b53d90 EFLAGS: 00010202
+[   64.005430] RAX: 2abe0ea26847fb08 RBX: ffff888102d58a00 RCX: ffff8881255314c0
+[   64.005698] RDX: 0000000000000000 RSI: 0000000000000008 RDI: ffff888102d58a00
+[   64.005975] RBP: ffffc90000b53db0 R08: 8080808080808080 R09: ffff88885b470b40
+[   64.006273] R10: ffff8881000508c8 R11: fefefefefefefeff R12: 0000000000000001
+[   64.006907] R13: ffffc90000b53dfc R14: ffffc90000b53dfc R15: ffff8881032d0568
+[   64.007205] FS:  0000000000000000(0000) GS:ffff8888d6650000(0000) knlGS:0000000000000000
+[   64.007511] CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
+[   64.007732] CR2: 00007efedc4d3000 CR3: 00000001056e9000 CR4: 0000000000750ef0
+[   64.008014] PKRU: 55555554
+[   64.008123] Call Trace:
+[   64.008223]  <TASK>
+[   64.008314]  virtqueue_get_buf+0x46/0x60
+[   64.008465]  virtio_gpu_dequeue_ctrl_func+0x86/0x2a0
+[   64.008655]  process_one_work+0x18a/0x370
+[   64.008823]  worker_thread+0x31a/0x460
+[   64.008971]  ? _raw_spin_unlock_irqrestore+0x27/0x50
+[   64.009176]  ? srso_alias_return_thunk+0x5/0xfbef5
+[   64.009369]  ? __pfx_worker_thread+0x10/0x10
+[   64.009532]  kthread+0x126/0x230
+[   64.009662]  ? _raw_spin_unlock_irq+0x1f/0x40
+[   64.009836]  ? __pfx_kthread+0x10/0x10
+[   64.009986]  ret_from_fork+0x3a/0x60
+[   64.010156]  ? __pfx_kthread+0x10/0x10
+[   64.010318]  ret_from_fork_asm+0x1a/0x30
+[   64.010507]  </TASK>
+[   64.010616] Modules linked in:
+[   64.010785] ---[ end trace 0000000000000000 ]--- 
 
-"This version moves back from the resource to the tt layer,
-when accounting at the resource layer, if an object is swapped
-out there was no way to remove it from the accounting, whereas
-the tt layer has more info for this."
+==
 
-Dave.
+The trace tells that virtio queue is active after it has been removed. This change fixes the crash, please test:
 
+diff --git a/drivers/gpu/drm/virtio/virtgpu_drv.c b/drivers/gpu/drm/virtio/virtgpu_drv.c
+index 03ab78b44ab3..48bb21f33306 100644
+--- a/drivers/gpu/drm/virtio/virtgpu_drv.c
++++ b/drivers/gpu/drm/virtio/virtgpu_drv.c
+@@ -187,6 +187,10 @@ static int virtgpu_freeze(struct virtio_device *vdev)
+        flush_work(&vgdev->ctrlq.dequeue_work);
+        flush_work(&vgdev->cursorq.dequeue_work);
+        flush_work(&vgdev->config_changed_work);
++       wait_event(vgdev->ctrlq.ack_queue,
++                  vgdev->ctrlq.vq->num_free == vgdev->ctrlq.vq->num_max);
++       wait_event(vgdev->cursorq.ack_queue,
++                  vgdev->cursorq.vq->num_free == vgdev->cursorq.vq->num_max);
+        vdev->config->del_vqs(vdev);
+ 
+        return 0;
+
+-- 
+Best regards,
+Dmitry
