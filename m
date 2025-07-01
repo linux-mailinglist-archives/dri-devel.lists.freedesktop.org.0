@@ -2,34 +2,34 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 734B5AEFA38
-	for <lists+dri-devel@lfdr.de>; Tue,  1 Jul 2025 15:22:27 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id A7227AEFA3D
+	for <lists+dri-devel@lfdr.de>; Tue,  1 Jul 2025 15:22:35 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2082210E5A9;
-	Tue,  1 Jul 2025 13:22:24 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 58BCA10E59F;
+	Tue,  1 Jul 2025 13:22:28 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="f9MBxLw+";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="uM4Lt5Pv";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from nyc.source.kernel.org (nyc.source.kernel.org [147.75.193.91])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2E5F610E286;
- Tue,  1 Jul 2025 13:22:23 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 495BC10E5A8;
+ Tue,  1 Jul 2025 13:22:27 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by nyc.source.kernel.org (Postfix) with ESMTP id F2B42A52FCF;
+ by nyc.source.kernel.org (Postfix) with ESMTP id 788C3A51F15;
+ Tue,  1 Jul 2025 13:22:26 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 19F85C4CEED;
  Tue,  1 Jul 2025 13:22:21 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6047CC4CEEB;
- Tue,  1 Jul 2025 13:22:17 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1751376141;
- bh=whKGu+ajEl81bP78bhCwKxoEBbt3SnanKihrJ68af28=;
- h=From:To:Cc:Subject:Date:From;
- b=f9MBxLw+WmrIjPXSZE8GyJti6//XFK/lTygH82PpOqzF7Q2mA+9pwfjjGNVYr5gVG
- 1/X3jl2RaiUAg52bMKpKEq93yPaCtzNa6kXEHmFBBJcT16BmAUxGiIFLv6jMObCwjp
- VWLvVopZv+5zIRGDCXecaMrkUzJRXWxnxxEP5HQSGbFAziix4xDar445txDM1zgmq9
- FmWG50Hx4/JS/DaMbargGwcFp7MEy1cuT3fNP/2NA6DnCFHcp83FE2rr5iwmkJvAPE
- 51rJK6Frl05aLeM6S+TqO2rZRIbGwvPsRkujicUu/wqIL8AmEo0ekGCBwCiaXg8Klz
- NDx64lkwoPzNQ==
+ s=k20201202; t=1751376146;
+ bh=hXhp4BvIw/DZIP5VkSnykQPTFuMxetN8CAwOyfsiMXM=;
+ h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+ b=uM4Lt5PvVRlHNCFMtlu2A6FguRMpI6r/EZkTauoht3CDD5I4IHuWiEhDxACJBCm2Z
+ KhDLdGuxfqJPnUVOdwYRxT1BCysbI3Gj4ioN25nrEBr+PbfYhgyDvakViX/U+bct+J
+ UY7XVq4bTAzt0lZkU8ZCOSwJzix6suWiUhcPHLo03N3Rblmhs1QFZxnKoPCphWCmgr
+ 5ytX+KB5mbIYsXPaXXjjMSd3/6oTIeVJWkJ4LmUIow3z2W+h15WI4V34rec+4A2jlI
+ 6NmdwNpxVSW1h1rm93NV5tdP/c+sgz/VaioVn05dKEJ7jaLCd7ZMSz+yYfk9d3i/rh
+ T9CRUWUv25qmw==
 From: Philipp Stanner <phasta@kernel.org>
 To: Lyude Paul <lyude@redhat.com>, Danilo Krummrich <dakr@kernel.org>,
  David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
@@ -45,10 +45,12 @@ To: Lyude Paul <lyude@redhat.com>, Danilo Krummrich <dakr@kernel.org>,
 Cc: dri-devel@lists.freedesktop.org, nouveau@lists.freedesktop.org,
  linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
  linaro-mm-sig@lists.linaro.org
-Subject: [PATCH 0/6] drm/sched: Fix memory leaks with cancel_job() callback
-Date: Tue,  1 Jul 2025 15:21:38 +0200
-Message-ID: <20250701132142.76899-3-phasta@kernel.org>
+Subject: [PATCH 1/6] drm/sched: Avoid memory leaks with cancel_job() callback
+Date: Tue,  1 Jul 2025 15:21:39 +0200
+Message-ID: <20250701132142.76899-4-phasta@kernel.org>
 X-Mailer: git-send-email 2.49.0
+In-Reply-To: <20250701132142.76899-3-phasta@kernel.org>
+References: <20250701132142.76899-3-phasta@kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -66,37 +68,113 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Changes since the RFC:
-  - Rename helper function for drm_sched_fini(). (Tvrtko)
-  - Add Link to Tvrtko's RFC patch to patch 1.
+Since its inception, the GPU scheduler can leak memory if the driver
+calls drm_sched_fini() while there are still jobs in flight.
 
+The simplest way to solve this in a backwards compatible manner is by
+adding a new callback, drm_sched_backend_ops.cancel_job(), which
+instructs the driver to signal the hardware fence associated with the
+job. Afterwards, the scheduler can savely use the established free_job()
+callback for freeing the job.
 
-Since a long time, drm_sched_fini() can leak jobs that are still in
-drm_sched.pending_list.
+Implement the new backend_ops callback cancel_job().
 
-This series solves the leaks in a backwards-compatible manner by adding
-a new, optional callback. If that callback is implemented, the scheduler
-uses it to cancel all jobs from pending_list and then frees them.
+Suggested-by: Tvrtko Ursulin <tvrtko.ursulin@igalia.com>
+Link: https://lore.kernel.org/dri-devel/20250418113211.69956-1-tvrtko.ursulin@igalia.com/
+Signed-off-by: Philipp Stanner <phasta@kernel.org>
+---
+ drivers/gpu/drm/scheduler/sched_main.c | 34 ++++++++++++++++----------
+ include/drm/gpu_scheduler.h            | 18 ++++++++++++++
+ 2 files changed, 39 insertions(+), 13 deletions(-)
 
-
-Philipp Stanner (6):
-  drm/sched: Avoid memory leaks with cancel_job() callback
-  drm/sched/tests: Port to cancel_job()
-  drm/sched: Warn if pending list is not empty
-  drm/nouveau: Make fence container helper usable driver-wide
-  drm/nouveau: Add new callback for scheduler teardown
-  drm/nouveau: Remove waitque for sched teardown
-
- drivers/gpu/drm/nouveau/nouveau_fence.c       | 35 ++++++----
- drivers/gpu/drm/nouveau/nouveau_fence.h       |  7 ++
- drivers/gpu/drm/nouveau/nouveau_sched.c       | 35 ++++++----
- drivers/gpu/drm/nouveau/nouveau_sched.h       |  9 +--
- drivers/gpu/drm/nouveau/nouveau_uvmm.c        |  8 +--
- drivers/gpu/drm/scheduler/sched_main.c        | 37 +++++++----
- .../gpu/drm/scheduler/tests/mock_scheduler.c  | 66 +++++++------------
- include/drm/gpu_scheduler.h                   | 18 +++++
- 8 files changed, 122 insertions(+), 93 deletions(-)
-
+diff --git a/drivers/gpu/drm/scheduler/sched_main.c b/drivers/gpu/drm/scheduler/sched_main.c
+index c63543132f9d..1239954f5f7c 100644
+--- a/drivers/gpu/drm/scheduler/sched_main.c
++++ b/drivers/gpu/drm/scheduler/sched_main.c
+@@ -1353,6 +1353,18 @@ int drm_sched_init(struct drm_gpu_scheduler *sched, const struct drm_sched_init_
+ }
+ EXPORT_SYMBOL(drm_sched_init);
+ 
++static void drm_sched_cancel_remaining_jobs(struct drm_gpu_scheduler *sched)
++{
++	struct drm_sched_job *job, *tmp;
++
++	/* All other accessors are stopped. No locking necessary. */
++	list_for_each_entry_safe_reverse(job, tmp, &sched->pending_list, list) {
++		sched->ops->cancel_job(job);
++		list_del(&job->list);
++		sched->ops->free_job(job);
++	}
++}
++
+ /**
+  * drm_sched_fini - Destroy a gpu scheduler
+  *
+@@ -1360,19 +1372,11 @@ EXPORT_SYMBOL(drm_sched_init);
+  *
+  * Tears down and cleans up the scheduler.
+  *
+- * This stops submission of new jobs to the hardware through
+- * drm_sched_backend_ops.run_job(). Consequently, drm_sched_backend_ops.free_job()
+- * will not be called for all jobs still in drm_gpu_scheduler.pending_list.
+- * There is no solution for this currently. Thus, it is up to the driver to make
+- * sure that:
+- *
+- *  a) drm_sched_fini() is only called after for all submitted jobs
+- *     drm_sched_backend_ops.free_job() has been called or that
+- *  b) the jobs for which drm_sched_backend_ops.free_job() has not been called
+- *     after drm_sched_fini() ran are freed manually.
+- *
+- * FIXME: Take care of the above problem and prevent this function from leaking
+- * the jobs in drm_gpu_scheduler.pending_list under any circumstances.
++ * This stops submission of new jobs to the hardware through &struct
++ * drm_sched_backend_ops.run_job. If &struct drm_sched_backend_ops.cancel_job
++ * is implemented, all jobs will be canceled through it and afterwards cleaned
++ * up through &struct drm_sched_backend_ops.free_job. If cancel_job is not
++ * implemented, memory could leak.
+  */
+ void drm_sched_fini(struct drm_gpu_scheduler *sched)
+ {
+@@ -1402,6 +1406,10 @@ void drm_sched_fini(struct drm_gpu_scheduler *sched)
+ 	/* Confirm no work left behind accessing device structures */
+ 	cancel_delayed_work_sync(&sched->work_tdr);
+ 
++	/* Avoid memory leaks if supported by the driver. */
++	if (sched->ops->cancel_job)
++		drm_sched_cancel_remaining_jobs(sched);
++
+ 	if (sched->own_submit_wq)
+ 		destroy_workqueue(sched->submit_wq);
+ 	sched->ready = false;
+diff --git a/include/drm/gpu_scheduler.h b/include/drm/gpu_scheduler.h
+index e62a7214e052..190844370f48 100644
+--- a/include/drm/gpu_scheduler.h
++++ b/include/drm/gpu_scheduler.h
+@@ -512,6 +512,24 @@ struct drm_sched_backend_ops {
+          * and it's time to clean it up.
+ 	 */
+ 	void (*free_job)(struct drm_sched_job *sched_job);
++
++	/**
++	 * @cancel_job: Used by the scheduler to guarantee remaining jobs' fences
++	 * get signaled in drm_sched_fini().
++	 *
++	 * Used by the scheduler to cancel all jobs that have not been executed
++	 * with &struct drm_sched_backend_ops.run_job by the time
++	 * drm_sched_fini() gets invoked.
++	 *
++	 * Drivers need to signal the passed job's hardware fence with an
++	 * appropriate error code (e.g., -ECANCELED) in this callback. They
++	 * must not free the job.
++	 *
++	 * The scheduler will only call this callback once it stopped calling
++	 * all other callbacks forever, with the exception of &struct
++	 * drm_sched_backend_ops.free_job.
++	 */
++	void (*cancel_job)(struct drm_sched_job *sched_job);
+ };
+ 
+ /**
 -- 
 2.49.0
 
