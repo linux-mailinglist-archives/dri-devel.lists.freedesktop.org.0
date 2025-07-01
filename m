@@ -2,83 +2,82 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 41F5CAEFF82
-	for <lists+dri-devel@lfdr.de>; Tue,  1 Jul 2025 18:21:13 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5D2A1AEFF83
+	for <lists+dri-devel@lfdr.de>; Tue,  1 Jul 2025 18:21:17 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5833E10E5C7;
-	Tue,  1 Jul 2025 16:21:11 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9103F10E5C8;
+	Tue,  1 Jul 2025 16:21:15 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=qualcomm.com header.i=@qualcomm.com header.b="QmIPjjF8";
+	dkim=pass (2048-bit key; unprotected) header.d=qualcomm.com header.i=@qualcomm.com header.b="AXaP810p";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com
  [205.220.180.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B5A6010E5C9
- for <dri-devel@lists.freedesktop.org>; Tue,  1 Jul 2025 16:21:09 +0000 (UTC)
-Received: from pps.filterd (m0279869.ppops.net [127.0.0.1])
- by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 561A7WvQ025200
- for <dri-devel@lists.freedesktop.org>; Tue, 1 Jul 2025 16:21:09 GMT
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C9B0510E5C8
+ for <dri-devel@lists.freedesktop.org>; Tue,  1 Jul 2025 16:21:14 +0000 (UTC)
+Received: from pps.filterd (m0279871.ppops.net [127.0.0.1])
+ by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 561AiJCn025086
+ for <dri-devel@lists.freedesktop.org>; Tue, 1 Jul 2025 16:21:14 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
  cc:content-transfer-encoding:content-type:date:from:in-reply-to
  :message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
- 0+w5ZpBtBKx9XMObDCi7zYvJA0s3GIDL4r9tOJGZS2k=; b=QmIPjjF8scfL9ukU
- mGB22UBepB2VRVfze+b/rcLsoVx2UMIoo6pNo54kyO1ThGCogQ4rGT2hghx7w81b
- R9luX4qyoDMldq/4QLo4slv60zJ9NF9U0Ozy4ppw3yqCGVWQ4HIawnrKyIyyTDXE
- 4cuQSm1RKbPaVUO4xvFAWIui2rgF+c3yKNfIP4A9kKmHgCxKw+/MwlMl2RlA5DQc
- zsgnfKB3Bscxph81kuX2XbgPo0/m2whk6tae0mjb+/eiAxcoG+crCKI8I97qR+lO
- w+hwbVozghzlbWZ7/z/hpCukpypfrTTZZBMIEsU5TdwGek3Q3COCrUjjp6+/JMKh
- FI9MAg==
-Received: from mail-pg1-f198.google.com (mail-pg1-f198.google.com
- [209.85.215.198])
- by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 47kd64ptjp-1
+ azQj83Mmk/KxwVbKtYnkyraSdBj9/Y2r1xncvr9qZTM=; b=AXaP810pOvQYnQYk
+ rPwxmcwtgmMQrvF33lMTlg4zr1G8pf1JLEf1I0LYm+z+kTbmXYCbwAwv/mqX8fVy
+ wFuHJ/FdZ7OiFJ9KXTF9+Ghn+gAPxFXJqOKnUZH1QliacHWXZsSVRMHS6cmKAT76
+ BIW3fjV7WfWmaCZyJtPYiUaUGQlLm7IKyDjZdPbR1/CcEOF8/81hJISfwZJX9nDc
+ ePzYNkT1Dc19Ool0I7RIxsiKEDbU/KOE8GW6enaJJXbFJsmol5Tld6pojvh19vC4
+ /EYVbO8aBnf9jrZuD04Zb+1nqPq4Jj2RWobfFI7noxr+k/OfwDrS3KwG5A4Qn9bX
+ cR1Aww==
+Received: from mail-pf1-f199.google.com (mail-pf1-f199.google.com
+ [209.85.210.199])
+ by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 47j8021fde-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
- for <dri-devel@lists.freedesktop.org>; Tue, 01 Jul 2025 16:21:08 +0000 (GMT)
-Received: by mail-pg1-f198.google.com with SMTP id
- 41be03b00d2f7-b2fa1a84566so2583586a12.1
- for <dri-devel@lists.freedesktop.org>; Tue, 01 Jul 2025 09:21:08 -0700 (PDT)
+ for <dri-devel@lists.freedesktop.org>; Tue, 01 Jul 2025 16:21:13 +0000 (GMT)
+Received: by mail-pf1-f199.google.com with SMTP id
+ d2e1a72fcca58-74913a4f606so3059412b3a.1
+ for <dri-devel@lists.freedesktop.org>; Tue, 01 Jul 2025 09:21:13 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1751386867; x=1751991667;
+ d=1e100.net; s=20230601; t=1751386873; x=1751991673;
  h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
  :mime-version:subject:date:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=0+w5ZpBtBKx9XMObDCi7zYvJA0s3GIDL4r9tOJGZS2k=;
- b=TNbxj7+0d5syUu5RyqyW+4xMGkkfHBzIPVdEuFDVxHGQYPzzxPCeHdIwHvU7/j7fdl
- 3zF6+b/5kG42Ex2+YEQuhnLFWOPaI+LTGXshMS4Rm/EBkDgCNBCw1W5qJ6sZvi6k8gWU
- wKofZB5NRoXBaZoBlKsU5WdRJmATQyKiqt1n3gzlmDhZafgRv9aoMfUhS1nBDb45MTtd
- ph5472hnMvxH11TaF9y4g6KfN5IG4qIOeBke+mHeWopB2VnJQg9NobQtpCqG4eKFwMr3
- MXwYm7Gshqjgu+VY7Hoq/XrPoLtHpHza1Wux91ms/47SEC++ZkLpuNdrWL+LfThnWlWD
- JrpQ==
+ bh=azQj83Mmk/KxwVbKtYnkyraSdBj9/Y2r1xncvr9qZTM=;
+ b=osJrnpoEP+oG5OJ5RCGuilGbiCk+F4KK7ttoYImeUN/SWZpRnwaYUbnZ/keSDEjzuo
+ BR+V1ddll/z3X70jGWBxgfhfK0R87CTrb1ZDins6zPjEnExR/jwng+uctKY2Bq8pGs6v
+ TrhoXodGxKUUSndeBk5KJ7gc6tuVMI/h+HaQ10DXsKRaIDJHGxKOyYhbaLm0NR80K8JZ
+ ZaQMaYzjKm5KsKqTCgTxG1rvqNOIEXivd33LGaLsKJawJpxzMWwxIvsuB1Ctwzk/myjo
+ 8j1Ep0dGiavPBRLOarBjHpf9sl+8DQhMgd5ubGvnPZ82hLCKcmN0PeOLeN6H0C3YQrno
+ KxwQ==
 X-Forwarded-Encrypted: i=1;
- AJvYcCWuTyoveytCGKVVYCOW1m6AVqzy6U3VCtpP9HdJuFcEBxKJGKuhWk5oz0FTKNbuNrfPnwylyKr2PCg=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YytHxmJjRLVIUzN5RuihehEHgqpCtj0D09hdJbBprjkrHo6TW2p
- bA2LeIhcs6FnexKC+tLvZG9zfq79jWFRaLZsiy0pgxEr0LjDhCphQMm3mla6asD22EMa35M/eEY
- fHwWR7SGWHrSnTq5uoftm4/YajiBOMFeEd9fBPeNtmia9fA6+Y5HiWkV3gWf6SfdAXjMGHubteU
- xhhsw=
-X-Gm-Gg: ASbGncvMCo/IWGWFs2fBRZ6Jr1Upc+qpXUqqhaTgsgQ8jqsGMQz7WYGUriWEDDHHhGR
- d/IaPjBUen5gEWq09IRoqR0XMW5533tT5aq7t9kxm7MfdjogYitEF+kXk2DLpXwlKVFHZ+Kp1G3
- owbh8GJlxAJgdklyB/CfGWR0Ss4x9HYWEqFCnedXCN7cugY7+LgXRdBJJZUtF9SwRoL6ftZf2+y
- YH/PcikTmFaxQpG0r3oHy//LwgEo1UjT6+hUp3s/p7Ol8ZfhOfzYmMofRBznmb0wVmczoVzKiaw
- cvOuuYoDPAXRJDir2Q8jdwF2srK6RvXsTF1c9QzU7WMtXOE=
-X-Received: by 2002:a05:6a20:2588:b0:1f5:9208:3ad6 with SMTP id
- adf61e73a8af0-220a18337a1mr30392725637.41.1751386867010; 
- Tue, 01 Jul 2025 09:21:07 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IFdDDA7VRG+NDWgAWPFIw88bukUBqM/DPB+EDNZhxmferppqBDMOlnEwSYgc6UqRL52udBz1g==
-X-Received: by 2002:a05:6a20:2588:b0:1f5:9208:3ad6 with SMTP id
- adf61e73a8af0-220a18337a1mr30392659637.41.1751386866521; 
- Tue, 01 Jul 2025 09:21:06 -0700 (PDT)
+ AJvYcCUK3A15+nSd8ULSFcKhtdVoykSEl5YaZjXK1CSZDGJp1VJUIWxEuzWl/e74jTQI2Q/AuC4J8xEWj58=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YxpTSEMpTjqTMNGIae/RaUNdaz9B6ntv1tBjqB5rVE6RtSvHIBw
+ MspmX8jTsOAi5X4U2x0sLd65TfcunPvmmqF8k/1VGsoGW5mBsMGc4ufhvWA+jSSniDQ5kzCx9Ca
+ DBqLRP8agr8sobnHn1Z5rOakIYuct4vesGLSXz0vZSqFR/FGFZ71/Ro94oUxjgOqNg2Icw/M=
+X-Gm-Gg: ASbGncv7kCKfqLE8d0wSrtQdde4cwP8bOwPJ/u6gkZah9UynOcPdhlGdbrBsCT01VBX
+ Q6IktoJhftCHFPb9BxEq508VX3KGEzeZIZPWInu3ypMxsJQHgUtJevvQnZPuQEJr3AvrjcklM3o
+ MbFTNqSyfkUqrR79Q1r0TMpek5Crq6D5DCr0PYG2BzksWegNh5I57HScv8DdUpkyhXA9kPmmCUe
+ pVAyUQ1rXm1Agx6TvnU94aJ+IKXpclUGEGy+Mocah+0zxSAJ4BCuxFcCKfLHW4t6bagMhSFm8Lg
+ 92ltnfrYdwZvt2MdHhfqog0aSnDXwo5AsaDw7CMHFDaFPs0=
+X-Received: by 2002:a05:6a00:928d:b0:736:2a73:6756 with SMTP id
+ d2e1a72fcca58-74af70a7cd5mr22530374b3a.21.1751386872611; 
+ Tue, 01 Jul 2025 09:21:12 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IEecrO+V7Bz+q8mJ2CDKZ/SQ9oZaD+cS9NTiHZCC1vT0OJ9WMqoEMlvUTMNHQy3TEelC0HoMQ==
+X-Received: by 2002:a05:6a00:928d:b0:736:2a73:6756 with SMTP id
+ d2e1a72fcca58-74af70a7cd5mr22530329b3a.21.1751386872172; 
+ Tue, 01 Jul 2025 09:21:12 -0700 (PDT)
 Received: from hu-akhilpo-hyd.qualcomm.com ([202.46.23.25])
  by smtp.gmail.com with ESMTPSA id
- d2e1a72fcca58-74af5805265sm12573010b3a.168.2025.07.01.09.21.01
+ d2e1a72fcca58-74af5805265sm12573010b3a.168.2025.07.01.09.21.06
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 01 Jul 2025 09:21:06 -0700 (PDT)
+ Tue, 01 Jul 2025 09:21:11 -0700 (PDT)
 From: Akhil P Oommen <akhilpo@oss.qualcomm.com>
-Date: Tue, 01 Jul 2025 21:50:44 +0530
-Subject: [PATCH v2 1/3] drm/msm/adreno: Add speedbin support for X1-85
+Date: Tue, 01 Jul 2025 21:50:45 +0530
+Subject: [PATCH v2 2/3] dt-bindings: power: qcom,rpmpd: add Turbo L5 corner
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20250701-x1e-speedbin-b4-v2-1-a8a7e06d39fb@oss.qualcomm.com>
+Message-Id: <20250701-x1e-speedbin-b4-v2-2-a8a7e06d39fb@oss.qualcomm.com>
 References: <20250701-x1e-speedbin-b4-v2-0-a8a7e06d39fb@oss.qualcomm.com>
 In-Reply-To: <20250701-x1e-speedbin-b4-v2-0-a8a7e06d39fb@oss.qualcomm.com>
 To: Rob Clark <robin.clark@oss.qualcomm.com>, Sean Paul <sean@poorly.run>,
@@ -92,37 +91,39 @@ To: Rob Clark <robin.clark@oss.qualcomm.com>, Sean Paul <sean@poorly.run>,
  Conor Dooley <conor+dt@kernel.org>, Bjorn Andersson <andersson@kernel.org>
 Cc: linux-arm-msm@vger.kernel.org, dri-devel@lists.freedesktop.org,
  freedreno@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- devicetree@vger.kernel.org, Akhil P Oommen <akhilpo@oss.qualcomm.com>
+ devicetree@vger.kernel.org, Akhil P Oommen <akhilpo@oss.qualcomm.com>,
+ Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
 X-Mailer: b4 0.14.2
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1751386855; l=929;
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1751386855; l=878;
  i=akhilpo@oss.qualcomm.com; s=20240726; h=from:subject:message-id;
- bh=XFr0UsCyCOcjko1cdlmNH6cXzSCtwggWcwGF5puvtvU=;
- b=gJ6pDb5Kn9ocK1b4VzRIL1H8oWfTVEUJc9L95LY3O/MAF7x4Ci2ZmVPs4eB2uMPKeUYNs9xCW
- iljqWpYNTajCtBJ1dpzplJyl6f+VNaEjMIm52m+wF+Cybsq6is50ods
+ bh=Za6lIWF/Guy1GsjD4sh7LPCArHr2/CqqWk9C2FJ2SII=;
+ b=/qoadYRq2CIL3dDt2uzdosYg4pWF6aJq3+3r7tYv+cVDujCQFvGoNr2jCHbcRIo/G7YiE+DAY
+ GzgGzFreaATBfb5Mp8vvtOk/qRs2irrznGDZk++QBrGbmk4hgKxq+O0
 X-Developer-Key: i=akhilpo@oss.qualcomm.com; a=ed25519;
  pk=lmVtttSHmAUYFnJsQHX80IIRmYmXA4+CzpGcWOOsfKA=
-X-Authority-Analysis: v=2.4 cv=Z+PsHGRA c=1 sm=1 tr=0 ts=68640af4 cx=c_pps
- a=Qgeoaf8Lrialg5Z894R3/Q==:117 a=ZePRamnt/+rB5gQjfz0u9A==:17
- a=IkcTkHD0fZMA:10 a=Wb1JkmetP80A:10 a=EUspDBNiAAAA:8 a=gUrcRKAgYtiFYHip7zAA:9
- a=QEXdDO2ut3YA:10 a=x9snwWr2DeNwDh03kgHS:22
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwNzAxMDExMCBTYWx0ZWRfXzE41W9Vi2dFm
- k0kZYDourVNfdSRw3M1FGf78e0R5rlHr4+4rI5QcKVbZxGy5pa7G6cn2UzTK46ZFocwmcEmtRCX
- fwGEIcuqG19Vv3LUbPAJGGsmUjaw/FgWMZ3snbAAIEKMQO20zh6E0Zr/PlnhpYS7+lZYe/wKiir
- Wloxb+v2/6PxvqifBzBMytPennMwuUj4r/SKVV6tCUYRWy0n7KBi9RhfVABhHwfqdmFriMvu+ph
- eoG5beS+3H2rQYe3s9Sdpkj+DQmUG3JeDdvYxtlueO5/kqnZUYdaANUEPJ55Ve6Z/zOufFSMUCM
- Aw9bKrwOhKnU3QNDx6IbiTPRfhWr8BlcahCY0wyboHeD/W7leIdeNwFKketPJIj4dPtqOow91HY
- oGKeOTLhdpX92IR0PN2kLScgpdKj/GUtZrXu2noAFJcKkplbcrdkljbWAKUDglwdTGYjFocp
-X-Proofpoint-GUID: BR-IbD7kMLrbk85pIEf3jlKjdWvz3jPy
-X-Proofpoint-ORIG-GUID: BR-IbD7kMLrbk85pIEf3jlKjdWvz3jPy
+X-Proofpoint-GUID: ndF11I8YPuPRqMQP-cX_d-rnOcPQxhbK
+X-Authority-Analysis: v=2.4 cv=YPWfyQGx c=1 sm=1 tr=0 ts=68640af9 cx=c_pps
+ a=WW5sKcV1LcKqjgzy2JUPuA==:117 a=ZePRamnt/+rB5gQjfz0u9A==:17
+ a=IkcTkHD0fZMA:10 a=Wb1JkmetP80A:10 a=KKAkSRfTAAAA:8 a=EUspDBNiAAAA:8
+ a=S83do3EnnC4SDWe4yxQA:9 a=QEXdDO2ut3YA:10 a=OpyuDcXvxspvyRM73sMx:22
+ a=cvBusfyB2V15izCimMoJ:22
+X-Proofpoint-ORIG-GUID: ndF11I8YPuPRqMQP-cX_d-rnOcPQxhbK
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwNzAxMDExMCBTYWx0ZWRfX8TsuB80GXr4Y
+ uzLVG0/8kDvJaVtJZ425YtWQzcqL0JTqfS79Sn7rXTjuDt43SzuSj36/+RMNj7o+nIg2e6/CPEM
+ jzn9dUkg2TYOIWz91fagLwc1uIPzEv08yGvO9pfM5oLxQ+G44MHBPpcl5PeoGGMT9hb4XukhQhf
+ BQUOLYqC6VU1aQJP2/fBKlcCJJMca7bB2LCNLvJbSUCdBp0m9coE8WBw3ELHLYiyVABuaYDnlP3
+ ukyt7WlomNvIWVtbAyLRwB+Hu+Sdi/7tZ5mkjPf1MbBJWpusP4dQ3wjio67d8dN2uOQYYGUl9vw
+ ewaeGWAc1BST65Do9iG3EddZVdJ9SToycAhkhc/NAfXhHUDlcnbp+fyuze0FdMfL1s616jhKDgm
+ 2tTq+QkpmjCi5WsE4jMQH8XV1kxmvPq5NYqvbwZf+7NMhqq38QeP6KZ6b9Objp5jK9uEEcIY
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.293,Aquarius:18.0.1099,Hydra:6.1.7,FMLib:17.12.80.40
  definitions=2025-07-01_02,2025-06-27_01,2025-03-28_01
 X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- phishscore=0 lowpriorityscore=0 clxscore=1015 malwarescore=0 mlxlogscore=956
- spamscore=0 adultscore=0 mlxscore=0 priorityscore=1501 bulkscore=0
- impostorscore=0 suspectscore=0 classifier=spam authscore=0 authtc=n/a authcc=
- route=outbound adjust=0 reason=mlx scancount=1 engine=8.19.0-2505280000
- definitions=main-2507010110
+ spamscore=0 mlxlogscore=794 mlxscore=0 malwarescore=0 suspectscore=0
+ lowpriorityscore=0 clxscore=1015 impostorscore=0 adultscore=0
+ priorityscore=1501 bulkscore=0 phishscore=0 classifier=spam authscore=0
+ authtc=n/a authcc= route=outbound adjust=0 reason=mlx scancount=1
+ engine=8.19.0-2505280000 definitions=main-2507010110
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -138,32 +139,26 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Add the speedbin table to the X1-85's entry in the catalogue to
-enable SKU detection.
+Update the RPMH level definitions to include TURBO_L5 corner.
 
+Acked-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
 Signed-off-by: Akhil P Oommen <akhilpo@oss.qualcomm.com>
 ---
- drivers/gpu/drm/msm/adreno/a6xx_catalog.c | 7 +++++++
- 1 file changed, 7 insertions(+)
+ include/dt-bindings/power/qcom-rpmpd.h | 1 +
+ 1 file changed, 1 insertion(+)
 
-diff --git a/drivers/gpu/drm/msm/adreno/a6xx_catalog.c b/drivers/gpu/drm/msm/adreno/a6xx_catalog.c
-index 7748f92919b883bbcea839a61158ab52e6e4e79d..2fdaaf4372d381c351df92b8dcb21da0fcd02776 100644
---- a/drivers/gpu/drm/msm/adreno/a6xx_catalog.c
-+++ b/drivers/gpu/drm/msm/adreno/a6xx_catalog.c
-@@ -1442,6 +1442,13 @@ static const struct adreno_info a7xx_gpus[] = {
- 			.gmu_cgc_mode = 0x00020202,
- 		},
- 		.preempt_record_size = 4192 * SZ_1K,
-+		.speedbins = ADRENO_SPEEDBINS(
-+			{ 0,	0 },
-+			{ 59,	1 },
-+			{ 7,	2 },
-+			{ 232,	3 },
-+			{ 146,	4 },
-+		),
- 	}, {
- 		.chip_ids = ADRENO_CHIP_IDS(0x43051401), /* "C520v2" */
- 		.family = ADRENO_7XX_GEN3,
+diff --git a/include/dt-bindings/power/qcom-rpmpd.h b/include/dt-bindings/power/qcom-rpmpd.h
+index d9b7bac309537cbfd2488e7d4fe21d195c919ef5..f15bcee7c9283e74dc8e6f9b6b6f73c0ced009e4 100644
+--- a/include/dt-bindings/power/qcom-rpmpd.h
++++ b/include/dt-bindings/power/qcom-rpmpd.h
+@@ -240,6 +240,7 @@
+ #define RPMH_REGULATOR_LEVEL_TURBO_L2		432
+ #define RPMH_REGULATOR_LEVEL_TURBO_L3		448
+ #define RPMH_REGULATOR_LEVEL_TURBO_L4		452
++#define RPMH_REGULATOR_LEVEL_TURBO_L5		456
+ #define RPMH_REGULATOR_LEVEL_SUPER_TURBO 	464
+ #define RPMH_REGULATOR_LEVEL_SUPER_TURBO_NO_CPR	480
+ 
 
 -- 
 2.48.1
