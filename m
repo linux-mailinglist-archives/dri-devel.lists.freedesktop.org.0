@@ -2,64 +2,64 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id D5C49AEFB2D
-	for <lists+dri-devel@lfdr.de>; Tue,  1 Jul 2025 15:52:53 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8C32AAEFC11
+	for <lists+dri-devel@lfdr.de>; Tue,  1 Jul 2025 16:23:38 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C165689D8E;
-	Tue,  1 Jul 2025 13:52:50 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id AE8D610E0A1;
+	Tue,  1 Jul 2025 14:23:36 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=ti.com header.i=@ti.com header.b="LSLLYyNu";
+	dkim=pass (2048-bit key; unprotected) header.d=bootlin.com header.i=@bootlin.com header.b="choOrvm4";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from fllvem-ot04.ext.ti.com (fllvem-ot04.ext.ti.com [198.47.19.246])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C9E4489D8E
- for <dri-devel@lists.freedesktop.org>; Tue,  1 Jul 2025 13:52:49 +0000 (UTC)
-Received: from lelvem-sh01.itg.ti.com ([10.180.77.71])
- by fllvem-ot04.ext.ti.com (8.15.2/8.15.2) with ESMTP id 561DqRDe3641037;
- Tue, 1 Jul 2025 08:52:27 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
- s=ti-com-17Q1; t=1751377947;
- bh=FTF/AEIXXqhNtk5GjBm/k+4avWMMlLyOk1QXMjnzEzw=;
- h=Date:Subject:To:CC:References:From:In-Reply-To;
- b=LSLLYyNuy85WTCdydaSVQob0q35nEjejDPwacsHg1QZYspq75ShyOIWbxaCZB77gp
- vdZBNkkkYyn4B2dKah4I68tzykGmxL8wrzsXuWoYcBZ1ytAQHfF87zDjlXUnj2jXRz
- vHvkcBtjJ4EBBUOna4COPqqL3fVvXPC9dDXzhfKc=
-Received: from DFLE106.ent.ti.com (dfle106.ent.ti.com [10.64.6.27])
- by lelvem-sh01.itg.ti.com (8.18.1/8.18.1) with ESMTPS id 561DqQUW274646
- (version=TLSv1.2 cipher=ECDHE-RSA-AES128-SHA256 bits=128 verify=FAIL);
- Tue, 1 Jul 2025 08:52:26 -0500
-Received: from DFLE102.ent.ti.com (10.64.6.23) by DFLE106.ent.ti.com
- (10.64.6.27) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2507.55; Tue, 1
- Jul 2025 08:52:26 -0500
-Received: from lelvem-mr05.itg.ti.com (10.180.75.9) by DFLE102.ent.ti.com
- (10.64.6.23) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2507.55 via
- Frontend Transport; Tue, 1 Jul 2025 08:52:26 -0500
-Received: from [172.24.227.193] (devarsh-precision-tower-3620.dhcp.ti.com
- [172.24.227.193])
- by lelvem-mr05.itg.ti.com (8.18.1/8.18.1) with ESMTP id 561DqLhA1660820;
- Tue, 1 Jul 2025 08:52:23 -0500
-Message-ID: <5ed30153-53e0-4f1f-9c45-2f2530b9034e@ti.com>
-Date: Tue, 1 Jul 2025 19:22:20 +0530
+Received: from mslow3.mail.gandi.net (mslow3.mail.gandi.net [217.70.178.249])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C377410E0A1
+ for <dri-devel@lists.freedesktop.org>; Tue,  1 Jul 2025 14:23:34 +0000 (UTC)
+Received: from relay15.mail.gandi.net (relay15.mail.gandi.net [217.70.178.235])
+ by mslow3.mail.gandi.net (Postfix) with ESMTP id 250E5581E0A
+ for <dri-devel@lists.freedesktop.org>; Tue,  1 Jul 2025 14:02:35 +0000 (UTC)
+Received: by mail.gandi.net (Postfix) with ESMTPSA id 59F964421D;
+ Tue,  1 Jul 2025 14:02:29 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
+ t=1751378553;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=9wNiSpbzQknJpKVfuVw5tskrSeR1nY2LZ1EcYx9joOU=;
+ b=choOrvm4wSWYRsKjBg19VNuSjpFFlK/jUrYsdOuCwcJ7+20T59YYQdyAdR3yN6RxxjTYpO
+ +dh1vXk78wl2LP+efCf/aHl7bhaRhukymtns7nsDvf4kreWZznvb+bKXlccpJJRWBhdN6Y
+ X07PAHZrlU6orM6IdwfMJQm9wW1Trxkt56pcseHJ9IZ7ZKdMe3+M4FsLlib15zrLCuT6Qm
+ 9kX89aINRxyY69v5QlkOilyuZm/gA/gqM/VDMxoPneEo8JLeK2rQWbXQkwD/22UPjYNOtp
+ QXj1fcXA1tpMqHTcncnS6OfqPxVwG7FFK1lgVE9sIbo+ouZk/GLfssqRSZS2pg==
+Date: Tue, 1 Jul 2025 16:02:19 +0200
+From: Luca Ceresoli <luca.ceresoli@bootlin.com>
+To: Maxime Ripard <mripard@kernel.org>
+Cc: Marek Szyprowski <m.szyprowski@samsung.com>,
+ dri-devel@lists.freedesktop.org, Andrzej Hajda <andrzej.hajda@intel.com>,
+ Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>,
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>, Jonas Karlman
+ <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>, Maarten
+ Lankhorst <maarten.lankhorst@linux.intel.com>, Thomas Zimmermann
+ <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>, Simona Vetter
+ <simona@ffwll.ch>, Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>,
+ Douglas Anderson <dianders@chromium.org>, Damon Ding
+ <damon.ding@rock-chips.com>
+Subject: Re: [PATCH] drm/bridge: analogix_dp: Use devm_drm_bridge_alloc() API
+Message-ID: <20250701160219.20dc7466@booty>
+In-Reply-To: <20250630-famous-dark-boar-89bed7@houat>
+References: <CGME20250627165702eucas1p12dbc50fea261d6846e67880bbef5c564@eucas1p1.samsung.com>
+ <20250627165652.580798-1-m.szyprowski@samsung.com>
+ <20250630-famous-dark-boar-89bed7@houat>
+Organization: Bootlin
+X-Mailer: Claws Mail 4.3.1 (GTK 3.24.49; x86_64-redhat-linux-gnu)
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v3 3/3] drm/tidss: oldi: Add atomic_check hook for oldi
- bridge
-To: Jayesh Choudhary <j-choudhary@ti.com>, <jyri.sarha@iki.fi>,
- <maarten.lankhorst@linux.intel.com>, <mripard@kernel.org>,
- <tzimmermann@suse.de>, <dri-devel@lists.freedesktop.org>,
- <tomi.valkeinen@ideasonboard.com>, <mwalle@kernel.org>
-CC: <airlied@gmail.com>, <simona@ffwll.ch>, <linux-kernel@vger.kernel.org>
-References: <20250701095541.190422-1-j-choudhary@ti.com>
- <20250701095541.190422-4-j-choudhary@ti.com>
-Content-Language: en-US
-From: Devarsh Thakkar <devarsht@ti.com>
-In-Reply-To: <20250701095541.190422-4-j-choudhary@ti.com>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 7bit
-X-C2ProcessedOrg: 333ef613-75bf-4e12-a4b1-8e3623f5dcea
+X-GND-State: clean
+X-GND-Score: -100
+X-GND-Cause: gggruggvucftvghtrhhoucdtuddrgeeffedrtdefgddugeejudcutefuodetggdotefrodftvfcurfhrohhfihhlvgemucfitefpfffkpdcuggftfghnshhusghstghrihgsvgenuceurghilhhouhhtmecufedtudenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujfgurhepfffhvfevuffkjghfohfogggtgfesthejredtredtvdenucfhrhhomhepnfhutggrucevvghrvghsohhlihcuoehluhgtrgdrtggvrhgvshholhhisegsohhothhlihhnrdgtohhmqeenucggtffrrghtthgvrhhnpeeglefffefghefhtddvfeeufeeiveekgffgleekieduteekkeetvdehudekgfdvvdenucffohhmrghinhepsghoohhtlhhinhdrtghomhenucfkphephedurddujeelrddutdefrdehheenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepihhnvghtpeehuddrudejledruddtfedrheehpdhhvghlohepsghoohhthidpmhgrihhlfhhrohhmpehluhgtrgdrtggvrhgvshholhhisegsohhothhlihhnrdgtohhmpdhnsggprhgtphhtthhopeduiedprhgtphhtthhopehmrhhiphgrrhgusehkvghrnhgvlhdrohhrghdprhgtphhtthhopehmrdhsiiihphhrohifshhkihesshgrmhhsuhhnghdrtghomhdprhgtphhtthhopegurhhiqdguvghvvghlsehlihhsthhsrdhfrhgvvgguvghskhhtohhprdhorhhgpdhrtghpthhtoheprghnughriigvjhdrhhgrjhgurgesihhnthgvlhdrtghomhdprhgtphhtt
+ hhopehnvghilhdrrghrmhhsthhrohhngheslhhinhgrrhhordhorhhgpdhrtghpthhtoheprhhfohhssheskhgvrhhnvghlrdhorhhgpdhrtghpthhtohepnfgruhhrvghnthdrphhinhgthhgrrhhtsehiuggvrghsohhnsghorghrugdrtghomhdprhgtphhtthhopehjohhnrghssehkfihisghoohdrshgv
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -75,70 +75,36 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 01/07/25 15:25, Jayesh Choudhary wrote:
-> Since OLDI consumes DSS VP clock directly as serial clock, certain
-> checks cannot be performed in tidss driver which should be checked
-> in oldi driver. Add check for mode clock and set the curr_max_pclk
-> field for tidss in case the VP is OLDI.
+Hello Marek, Maxime,
+
+thanks Marek for spotting the issue and sending a patch!
+
+On Mon, 30 Jun 2025 18:44:24 +0200
+Maxime Ripard <mripard@kernel.org> wrote:
+
+> > @@ -1643,7 +1625,7 @@ int analogix_dp_bind(struct analogix_dp_device *dp, struct drm_device *drm_dev)
+> >  		return ret;
+> >  	}
+> >  
+> > -	ret = analogix_dp_create_bridge(drm_dev, dp);
+> > +	ret = drm_bridge_attach(dp->encoder, &dp->bridge, NULL, 0);
+> >  	if (ret) {
+> >  		DRM_ERROR("failed to create bridge (%d)\n", ret);
+> >  		goto err_unregister_aux;  
 > 
-> Signed-off-by: Jayesh Choudhary <j-choudhary@ti.com>
-> ---
->   drivers/gpu/drm/tidss/tidss_oldi.c | 24 ++++++++++++++++++++++++
->   1 file changed, 24 insertions(+)
-> 
-> diff --git a/drivers/gpu/drm/tidss/tidss_oldi.c b/drivers/gpu/drm/tidss/tidss_oldi.c
-> index 63e07c8edeaa..a1f5fb39b32c 100644
-> --- a/drivers/gpu/drm/tidss/tidss_oldi.c
-> +++ b/drivers/gpu/drm/tidss/tidss_oldi.c
-> @@ -309,6 +309,29 @@ static u32 *tidss_oldi_atomic_get_input_bus_fmts(struct drm_bridge *bridge,
->   	return input_fmts;
->   }
->   
-> +static int tidss_oldi_bridge_atomic_check(struct drm_bridge *bridge,
-> +					  struct drm_bridge_state *bridge_state,
-> +					  struct drm_crtc_state *crtc_state,
-> +					  struct drm_connector_state *conn_state)
-> +{
-> +	struct tidss_oldi *oldi = drm_bridge_to_tidss_oldi(bridge);
-> +	struct drm_display_mode *adjusted_mode;
-> +	unsigned long round_clock;
-> +
-> +	adjusted_mode = &crtc_state->adjusted_mode;
-> +
-> +	if (adjusted_mode->clock > oldi->tidss->curr_max_pclk[oldi->parent_vp]) {
-> +		round_clock = clk_round_rate(oldi->serial, adjusted_mode->clock * 7 * 1000);
-> +
-> +		if (dispc_pclk_diff(adjusted_mode->clock * 7 * 1000, round_clock) > 5)
-> +			return -EINVAL;
-> +
-> +		oldi->tidss->curr_max_pclk[oldi->parent_vp] = round_clock;
-> +	}
-> +
-> +	return 0;
-> +}
-> +
->   static const struct drm_bridge_funcs tidss_oldi_bridge_funcs = {
->   	.attach	= tidss_oldi_bridge_attach,
->   	.atomic_pre_enable = tidss_oldi_atomic_pre_enable,
-> @@ -317,6 +340,7 @@ static const struct drm_bridge_funcs tidss_oldi_bridge_funcs = {
->   	.atomic_duplicate_state = drm_atomic_helper_bridge_duplicate_state,
->   	.atomic_destroy_state = drm_atomic_helper_bridge_destroy_state,
->   	.atomic_reset = drm_atomic_helper_bridge_reset,
-> +	.atomic_check = tidss_oldi_bridge_atomic_check,
+> It looks like you don't set bridge->driver_private anymore. Is it on purpose?
 
+This looks correct to me. In current code, driver_private is used to
+hold a pointer to the driver private struct (struct
+analogix_dp_device). With devm_drm_bridge_alloc() container_of() is now
+enough, no pointer is needed. With the patch applied, driver_private
+becomes unused.
 
-Nitpick: looks like some mismatch in naming convention.
-We don't use bridge for other atomic calls for e.g. 
-tidss_oldi_atomic_pre_enable, tidss_oldi_atomic_post_disable so maybe 
-change those too ?
+Thus I think the patch is correct:
 
-With suggested change,
+Reviewed-by: Luca Ceresoli <luca.ceresoli@bootlin.com>
 
-Reviewed-by: Devarsh Thakkar <devarsht@ti.com>
-
-Regards
-Devarsh
-
->   };
->   
->   static int get_oldi_mode(struct device_node *oldi_tx, int *companion_instance)
+-- 
+Luca Ceresoli, Bootlin
+Embedded Linux and Kernel engineering
+https://bootlin.com
