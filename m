@@ -2,66 +2,58 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2998DAEF1F2
-	for <lists+dri-devel@lfdr.de>; Tue,  1 Jul 2025 10:56:33 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id ED7CDAEF277
+	for <lists+dri-devel@lfdr.de>; Tue,  1 Jul 2025 11:07:31 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0FA0C10E53E;
-	Tue,  1 Jul 2025 08:56:31 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A846210E542;
+	Tue,  1 Jul 2025 09:07:27 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="j+rU7K6f";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="OW6gY3QN";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.17])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 530F710E53E
- for <dri-devel@lists.freedesktop.org>; Tue,  1 Jul 2025 08:56:30 +0000 (UTC)
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.11])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 320B010E426;
+ Tue,  1 Jul 2025 09:07:26 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1751360190; x=1782896190;
- h=from:to:cc:subject:in-reply-to:references:date:
- message-id:mime-version:content-transfer-encoding;
- bh=OAO/ikfI+GMvqFN77olj2KKo2t9HbvIdrcFz2wQvYKo=;
- b=j+rU7K6fHT78c6AdduWBAhEaydPm0rNIeqG4/kJJU+mV4SG65Pi5ginM
- +UjToE0uHr2KFizcUISHa9Hkn+GeVovvwcMjipoLl04pEowhrzHr9RX0R
- hDJ5gAbbM1iHcMbMd6ci9L0mXijQVtD1bPCMAMCyRPEoj+LLKr5fYgBlz
- u2nfKHRzuZs5TZgVopB74Y2VRkcWb9yN9yxirQpH00DLMY+4hSDRgNWI+
- MdDvvVnpgYqUtczr3g2rwGfirZtAR4HO9xnFstAY5sqC3RZMkXujL9Xzw
- q6+Vm1Q+rXsBIa1Ue7PHtABZQaW09JKObAWo37eN1IYBXrSobYIjKrhkX A==;
-X-CSE-ConnectionGUID: XSEaljMQSkq/7ENcgLemUQ==
-X-CSE-MsgGUID: flEvqhxhQJaLpiSflNcVWw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11480"; a="53552006"
-X-IronPort-AV: E=Sophos;i="6.16,279,1744095600"; d="scan'208";a="53552006"
-Received: from orviesa009.jf.intel.com ([10.64.159.149])
- by fmvoesa111.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 01 Jul 2025 01:56:30 -0700
-X-CSE-ConnectionGUID: gUkcfxYbTVidcD/fTGvoyA==
-X-CSE-MsgGUID: qdixlhaNR2ib5PoAEil8xg==
+ t=1751360846; x=1782896846;
+ h=from:to:cc:subject:date:message-id:mime-version:
+ content-transfer-encoding;
+ bh=7IsDl6xI15SCVVYCG3Ahsj4Abb83DAIDkR7hyytCqXA=;
+ b=OW6gY3QN7cb0Cresmh1dd6F5SaiXKPsvhOg0obvBF7KQeuG53fGYAGNV
+ hKdRqQWo1mY4YX3onhuDgfne3//AarnDBjT/GpSeIO5ECE2mzAaQxOTcu
+ J3AbgUHt9d/2fbVDKFAXBFU3lVVIWkqjK6mcCFmubw7HvTV2KOJ6Wg+ob
+ /KPEPUqEVm+XgkAZNW2bUS2C/pkyUOinvlZ1rjH5dCe+KY1BVcZHVFnGG
+ HrvaQP6nqHn4w89u8mCEuOYiNmXtKQQKn+wpvEox8YefijDONkBq/+UD6
+ Dpo6Xel39ZSe1KYj5YTbGyFrBSgd83RKqQdZ3z/W3ZhVwhRJhpSv2yb/U A==;
+X-CSE-ConnectionGUID: zkD37elcQQe/yrAGKuPQEA==
+X-CSE-MsgGUID: tC+KcxHmRC+HnfGcrR571Q==
+X-IronPort-AV: E=McAfee;i="6800,10657,11480"; a="64218249"
+X-IronPort-AV: E=Sophos;i="6.16,279,1744095600"; d="scan'208";a="64218249"
+Received: from orviesa005.jf.intel.com ([10.64.159.145])
+ by fmvoesa105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 01 Jul 2025 02:07:26 -0700
+X-CSE-ConnectionGUID: nFBS+xQ/SYq9TQ9AqtKncw==
+X-CSE-MsgGUID: eoNqW87aTR2v4MWLkMMDfw==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.16,279,1744095600"; d="scan'208";a="153478831"
-Received: from slindbla-desk.ger.corp.intel.com (HELO localhost)
- ([10.245.246.239])
- by orviesa009-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 01 Jul 2025 01:56:27 -0700
-From: Jani Nikula <jani.nikula@linux.intel.com>
-To: Loic Poulain <loic.poulain@oss.qualcomm.com>, Maxime Ripard
- <mripard@kernel.org>
-Cc: andrzej.hajda@intel.com, neil.armstrong@linaro.org, rfoss@kernel.org,
- dri-devel@lists.freedesktop.org, lumag@kernel.org,
- Laurent.pinchart@ideasonboard.com, jernej.skrabec@gmail.com,
- maarten.lankhorst@linux.intel.com
-Subject: Re: [PATCH] drm/bridge: anx7625: Fix invalid EDID size
-In-Reply-To: <CAFEp6-2N4G0J+Fmke369t7zsnHDpi4zPuRx_Xn-hXAWN7URoJA@mail.gmail.com>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
-References: <20250629023836.744441-1-loic.poulain@oss.qualcomm.com>
- <20250630-venomous-sheep-of-control-dece32@houat>
- <CAFEp6-3UVNfHo3s1MOXw88bAMVh=3QzF7H2N2UoVXyV6R3BBpw@mail.gmail.com>
- <20250630-angelic-macaque-of-spirit-fadc59@houat>
- <CAFEp6-2N4G0J+Fmke369t7zsnHDpi4zPuRx_Xn-hXAWN7URoJA@mail.gmail.com>
-Date: Tue, 01 Jul 2025 11:56:23 +0300
-Message-ID: <77a6722549f3bb5d5e22a11762bf55bf16935e85@intel.com>
+X-IronPort-AV: E=Sophos;i="6.16,279,1744095600"; d="scan'208";a="159426839"
+Received: from zzombora-mobl1.ger.corp.intel.com (HELO stinkbox)
+ ([10.245.245.11])
+ by orviesa005.jf.intel.com with SMTP; 01 Jul 2025 02:07:24 -0700
+Received: by stinkbox (sSMTP sendmail emulation);
+ Tue, 01 Jul 2025 12:07:22 +0300
+From: Ville Syrjala <ville.syrjala@linux.intel.com>
+To: dri-devel@lists.freedesktop.org
+Cc: intel-gfx@lists.freedesktop.org,
+	intel-xe@lists.freedesktop.org
+Subject: [PATCH v2 00/19] drm: Eliminate redundant drm_format_info lookups
+Date: Tue,  1 Jul 2025 12:07:03 +0300
+Message-ID: <20250701090722.13645-1-ville.syrjala@linux.intel.com>
+X-Mailer: git-send-email 2.49.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -77,81 +69,107 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, 01 Jul 2025, Loic Poulain <loic.poulain@oss.qualcomm.com> wrote:
-> On Mon, Jun 30, 2025 at 10:40=E2=80=AFAM Maxime Ripard <mripard@kernel.or=
-g> wrote:
->>
->> On Mon, Jun 30, 2025 at 09:46:40AM +0200, Loic Poulain wrote:
->> > Hi Maxime,
->> >
->> > On Mon, Jun 30, 2025 at 9:07=E2=80=AFAM Maxime Ripard <mripard@kernel.=
-org> wrote:
->> > > On Sun, Jun 29, 2025 at 04:38:36AM +0200, Loic Poulain wrote:
->> > > > DRM checks EDID block count against allocated size in drm_edid_val=
-id
->> > > > function. We have to allocate the right EDID size instead of the m=
-ax
->> > > > size to prevent the EDID to be reported as invalid.
->> > > >
->> > > > Fixes: 7c585f9a71aa ("drm/bridge: anx7625: use struct drm_edid mor=
-e")
->> > > > Signed-off-by: Loic Poulain <loic.poulain@oss.qualcomm.com>
->> > > > ---
->> > > >  drivers/gpu/drm/bridge/analogix/anx7625.c | 2 +-
->> > > >  1 file changed, 1 insertion(+), 1 deletion(-)
->> > > >
->> > > > diff --git a/drivers/gpu/drm/bridge/analogix/anx7625.c b/drivers/g=
-pu/drm/bridge/analogix/anx7625.c
->> > > > index 8a9079c2ed5c..5a81d1bfc815 100644
->> > > > --- a/drivers/gpu/drm/bridge/analogix/anx7625.c
->> > > > +++ b/drivers/gpu/drm/bridge/analogix/anx7625.c
->> > > > @@ -1801,7 +1801,7 @@ static const struct drm_edid *anx7625_edid_r=
-ead(struct anx7625_data *ctx)
->> > > >               return NULL;
->> > > >       }
->> > > >
->> > > > -     ctx->cached_drm_edid =3D drm_edid_alloc(edid_buf, FOUR_BLOCK=
-_SIZE);
->> > > > +     ctx->cached_drm_edid =3D drm_edid_alloc(edid_buf, edid_num *=
- ONE_BLOCK_SIZE);
->> > > >       kfree(edid_buf);
->> > >
->> > > Do we need to cache the whole EDIDs? AFAIU, it's only ever used to g=
-et
->> > > the manufacturer name, which fits into a u32 / 4 u8. We should proba=
-bly
->> > > just cache that.
->> >
->> > While the cached EDID is indeed used internally to retrieve the
->> > product ID, its content is also returned via the DRM read_edid
->> > callback. This value is then used by the DRM core to enumerate
->> > available display modes, and likely also when reading EDID from sysfs.
->>
->> You still don't need to allocate and store a copy of the EDIDs in your
->> driver to implement what you listed so far.
->
-> Right, we could change how the driver behaves on callback and just
-> cache what we need for internal usage. That change was initially a
-> pure fix, do you recommend changing all of this in this change, or in
-> a follow-up one.
+From: Ville Syrjälä <ville.syrjala@linux.intel.com>
 
-If there's a follow-up, I really *really* think it should be to rewrite
-EDID reading in anx7625.c altogether. The current thing is busted in
-more ways than I have time to enumerate right now. And it's not because
-I'm in a huge rush. Just look at sp_tx_edid_read() and the functions it
-calls.
+I noticed a bunch of redundant (and rather expensive) drm_format_info
+lookups in some traces recently. This series is an attempt to eliminate
+them.
 
-The end result should be based on providing a straightforward read_block
-callback for drm_edid_read_custom().
+v2: Rebase
 
-I've actually started this a few times myself, but it's a bit much for
-someone without the hardware to test it, nor skin in the game. The
-current code is too complex to trivially refactor.
+Ville Syrjälä (19):
+  drm: Pass pixel_format+modifier to .get_format_info()
+  drm: Pass pixel_format+modifier directly to drm_get_format_info()
+  drm: Look up the format info earlier
+  drm: Pass the format info to .fb_create()
+  drm: Allow the caller to pass in the format info to
+    drm_helper_mode_fill_fb_struct()
+  drm/malidp: Pass along the format info from .fb_create()
+    malidp_verify_afbc_framebuffer_size()
+  drm/gem: Pass along the format info from .fb_create() to
+    drm_helper_mode_fill_fb_struct()
+  drm/gem/afbc: Eliminate redundant drm_get_format_info()
+  drm/amdgpu: Pass along the format info from .fb_create() to
+    drm_helper_mode_fill_fb_struct()
+  drm/armada: Pass along the format info from .fb_create() to
+    drm_helper_mode_fill_fb_struct()
+  drm/exynos: Pass along the format info from .fb_create() to
+    drm_helper_mode_fill_fb_struct()
+  drm/gma500: Pass along the format info from .fb_create() to
+    drm_helper_mode_fill_fb_struct()
+  drm/i915: Pass along the format info from .fb_create() to
+    drm_helper_mode_fill_fb_struct()
+  drm/komeda: Pass along the format info from .fb_create() to
+    drm_helper_mode_fill_fb_struct()
+  drm/msm: Pass along the format info from .fb_create() to
+    drm_helper_mode_fill_fb_struct()
+  drm/tegra: Pass along the format info from .fb_create() to
+    drm_helper_mode_fill_fb_struct()
+  drm/virtio: Pass along the format info from .fb_create() to
+    drm_helper_mode_fill_fb_struct()
+  drm/vmwgfx: Pass along the format info from .fb_create() to
+    drm_helper_mode_fill_fb_struct()
+  drm: Make passing of format info to drm_helper_mode_fill_fb_struct()
+    mandatory
 
+ drivers/gpu/drm/amd/amdgpu/amdgpu_display.c   |  6 ++-
+ drivers/gpu/drm/amd/amdgpu/amdgpu_display.h   |  1 +
+ .../amd/display/amdgpu_dm/amdgpu_dm_plane.c   |  4 +-
+ .../amd/display/amdgpu_dm/amdgpu_dm_plane.h   |  2 +-
+ .../arm/display/komeda/komeda_framebuffer.c   |  3 +-
+ .../arm/display/komeda/komeda_framebuffer.h   |  1 +
+ drivers/gpu/drm/arm/malidp_drv.c              | 12 +++---
+ drivers/gpu/drm/armada/armada_fb.c            | 12 +++---
+ drivers/gpu/drm/armada/armada_fb.h            |  4 +-
+ drivers/gpu/drm/armada/armada_fbdev.c         |  5 ++-
+ drivers/gpu/drm/drm_fourcc.c                  | 10 +++--
+ drivers/gpu/drm/drm_framebuffer.c             | 27 ++++++------
+ drivers/gpu/drm/drm_gem_framebuffer_helper.c  | 42 +++++++++----------
+ drivers/gpu/drm/drm_modeset_helper.c          |  4 +-
+ drivers/gpu/drm/exynos/exynos_drm_fb.c        |  7 ++--
+ drivers/gpu/drm/exynos/exynos_drm_fb.h        |  1 +
+ drivers/gpu/drm/exynos/exynos_drm_fbdev.c     |  5 ++-
+ drivers/gpu/drm/gma500/fbdev.c                |  5 ++-
+ drivers/gpu/drm/gma500/framebuffer.c          | 14 ++++---
+ drivers/gpu/drm/gma500/psb_drv.h              |  1 +
+ drivers/gpu/drm/i915/display/intel_fb.c       | 20 +++++----
+ drivers/gpu/drm/i915/display/intel_fb.h       |  5 ++-
+ drivers/gpu/drm/i915/display/intel_fbdev_fb.c |  6 ++-
+ .../drm/i915/display/intel_plane_initial.c    |  3 +-
+ drivers/gpu/drm/ingenic/ingenic-drm-drv.c     |  5 ++-
+ drivers/gpu/drm/mediatek/mtk_drm_drv.c        |  5 +--
+ drivers/gpu/drm/msm/msm_drv.h                 |  3 +-
+ drivers/gpu/drm/msm/msm_fb.c                  | 18 ++++----
+ drivers/gpu/drm/mxsfb/mxsfb_drv.c             |  9 +---
+ drivers/gpu/drm/nouveau/nouveau_display.c     |  6 ++-
+ drivers/gpu/drm/nouveau/nouveau_display.h     |  1 +
+ drivers/gpu/drm/omapdrm/omap_fb.c             | 10 ++---
+ drivers/gpu/drm/omapdrm/omap_fb.h             |  3 +-
+ drivers/gpu/drm/qxl/qxl_display.c             |  3 +-
+ drivers/gpu/drm/radeon/radeon_display.c       |  3 +-
+ drivers/gpu/drm/radeon/radeon_fbdev.c         |  3 +-
+ drivers/gpu/drm/renesas/rcar-du/rcar_du_kms.c |  3 +-
+ drivers/gpu/drm/renesas/rz-du/rzg2l_du_kms.c  |  3 +-
+ .../gpu/drm/renesas/shmobile/shmob_drm_kms.c  |  3 +-
+ drivers/gpu/drm/rockchip/rockchip_drm_fb.c    | 11 ++---
+ drivers/gpu/drm/tegra/drm.h                   |  2 +
+ drivers/gpu/drm/tegra/fb.c                    |  7 ++--
+ drivers/gpu/drm/tegra/fbdev.c                 |  4 +-
+ drivers/gpu/drm/tests/drm_framebuffer_test.c  |  1 +
+ drivers/gpu/drm/vc4/vc4_kms.c                 |  3 +-
+ drivers/gpu/drm/virtio/virtgpu_display.c      |  6 ++-
+ drivers/gpu/drm/vmwgfx/vmwgfx_kms.c           | 15 ++++---
+ drivers/gpu/drm/vmwgfx/vmwgfx_kms.h           |  1 +
+ drivers/gpu/drm/xe/display/intel_fbdev_fb.c   |  6 ++-
+ drivers/gpu/drm/xe/display/xe_plane_initial.c |  2 +-
+ drivers/gpu/drm/xen/xen_drm_front_kms.c       |  3 +-
+ drivers/gpu/drm/xlnx/zynqmp_kms.c             |  3 +-
+ include/drm/drm_fourcc.h                      |  3 +-
+ include/drm/drm_gem_framebuffer_helper.h      |  6 +++
+ include/drm/drm_mode_config.h                 |  3 +-
+ include/drm/drm_modeset_helper.h              |  2 +
+ 56 files changed, 214 insertions(+), 142 deletions(-)
 
-BR,
-Jani.
+-- 
+2.49.0
 
-
---=20
-Jani Nikula, Intel
