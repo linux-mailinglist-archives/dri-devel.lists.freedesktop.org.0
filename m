@@ -2,101 +2,83 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id D75DDAEF708
-	for <lists+dri-devel@lfdr.de>; Tue,  1 Jul 2025 13:48:06 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id D8050AEF764
+	for <lists+dri-devel@lfdr.de>; Tue,  1 Jul 2025 13:55:22 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id BFA6C10E59C;
-	Tue,  1 Jul 2025 11:48:03 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8DCF110E594;
+	Tue,  1 Jul 2025 11:55:20 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=quicinc.com header.i=@quicinc.com header.b="MPBgrhp7";
+	dkim=pass (2048-bit key; unprotected) header.d=aol.com header.i=@aol.com header.b="ZFnZwAvK";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com
- [205.220.168.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 21FB210E59C
- for <dri-devel@lists.freedesktop.org>; Tue,  1 Jul 2025 11:48:03 +0000 (UTC)
-Received: from pps.filterd (m0279866.ppops.net [127.0.0.1])
- by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 5618lCvZ026544;
- Tue, 1 Jul 2025 11:47:54 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
- cc:content-transfer-encoding:content-type:date:from:in-reply-to
- :message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
- rCGpL5WtLCGHD7lGDK/ISop6wOAMqbvqcoNsJwiihW0=; b=MPBgrhp7EkFMuk/i
- WvA1LuBdxuKhUs5pH0lkPCj+KvzspP8lCVgVeCn0zUo4mgxPfhWYjB9a3U7PAd56
- Bo1VuKvFgqBOIFWnInNfxIg9/YFOrK8a8V1iiW/dpwciJPdpf6EoiuFPCsNQUZOn
- /DogWUZySNf+K7FVN0tz7KuTX0fauaLt2fi12l5J7gDWa4hnxeDHTxqjliJ+lBK6
- gIWHrLPmxm7N762zm9lPUDEOhBf920q8jRjVqHcsNhmyA584VA8+cbuEy+O2idMw
- Fp7Urk6tyqY+yb+lkX5ZvVWM0qTfgYy6pPfqSzvDt7yT3Ss2LEKMi7BSBiQHBpsT
- p1HHtw==
-Received: from nalasppmta04.qualcomm.com (Global_NAT1.qualcomm.com
- [129.46.96.20])
- by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 47j9pcrm2p-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Tue, 01 Jul 2025 11:47:54 +0000 (GMT)
-Received: from nalasex01b.na.qualcomm.com (nalasex01b.na.qualcomm.com
- [10.47.209.197])
- by NALASPPMTA04.qualcomm.com (8.18.1.2/8.18.1.2) with ESMTPS id 561BlrvZ020980
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Tue, 1 Jul 2025 11:47:53 GMT
-Received: from [10.217.222.28] (10.80.80.8) by nalasex01b.na.qualcomm.com
- (10.47.209.197) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1748.10; Tue, 1 Jul
- 2025 04:47:47 -0700
-Message-ID: <2455f20c-130c-4f27-9cf4-6411e485b845@quicinc.com>
-Date: Tue, 1 Jul 2025 17:17:44 +0530
+Received: from sonic312-23.consmr.mail.gq1.yahoo.com
+ (sonic312-23.consmr.mail.gq1.yahoo.com [98.137.69.204])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2B58B10E59A
+ for <dri-devel@lists.freedesktop.org>; Tue,  1 Jul 2025 11:55:19 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=aol.com; s=a2048;
+ t=1751370918; bh=aCdpH5QZRxMfssKfq9MICezlKlSbdc2MH2kmzXnJ2dI=;
+ h=From:To:Cc:Subject:Date:References:From:Subject:Reply-To;
+ b=ZFnZwAvKIIhqjJ52Zj/7iUUBcIEf/mHH1htbeW8P+sq30Q1ywStBOS7Ez9Oavf6VeXKm9sy2RetmTqoT4TqQ6Vf+EUIB1kvpteH4PSzoknb91ztTbrEKnqRzq6Lv0kLfExnA8DKhrJZP1POGIzBIqFSEeB6WBxPZlcaJ/tVNCPyEb4k1f/AQLo6UwiHrwaG7B9KzwZb22SGndvw4n02twG/d8foG5MWsT1Y6ocUkLB/UzfEgawJvwLXbE4LbfZchwc0WSmOYUtoHTQPXnEbLR/7LERHUneEiduZuC4YChEOLD0d7m49dF0rtQqFIFRo36DOLIMtAV3cGtMZKy2ATMQ==
+X-SONIC-DKIM-SIGN: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yahoo.com; s=s2048;
+ t=1751370918; bh=v8bG7XB8tKg7bwdZFw0VLugV2SIGSnEhgHXjkJlsy85=;
+ h=X-Sonic-MF:From:To:Subject:Date:From:Subject;
+ b=MJl1BeNV1xr9aHMg5Rb3uuUXoqO3yxIwT5AjGWID3Dy90da6U6I4XFPwFqYTHhsrA2AQbasI1oUUhe4DRaBgL2Fum2LzvFCNQqebx0ye0KTewsPjUKu6TcIahYyHtNIcJ3u1X8+o7dSKVncTAC55UdOHJzOvcqKjIEZRmirnOP1eqwOu3o8dmWmq2QFFUiuKaQVV89Ro8f9tP1meWwnJCUkmaXStq/H1pAE/I/KCzZOwGRCkQDPpIzkOIsCTUuKHlGhPUrOaIvbsrFauIPUkz9C0vL3AsAWCyXxf84sMAN6JDVW1vm/by4IQqfui6HA8Cx7pm3/8GZcu+od0L8gcGg==
+X-YMail-OSG: KR.Ns.UVM1mSa7XqjYhWmVahUAEuePOIydPVTeSeF6rM0psOVTkYvrrESbxF1FP
+ 9HQR.wxRkItXnCUB.NGKigiB64yBDsnaXPeK0fEBJfZH2KS4wq54sTmoM37WNnJhhcbw8eA2spby
+ UUONNfvy4RXbukpKTswmu49iiUgNySSkBCZrQb46hBJKtfqh7oE.fYCbio5i1VWJyD_tWlx2A6i3
+ TwQvIk_ABJOw3lmFBUf1W7b0vm2o8jSOJu2yv3aYLs5kTAEzeYR0r2jEqF9YCePazQTI_dp0v90W
+ kOOvFNadGFnix7SBw3xOvXzApQYjirSiHoV3d80OGSfMxxoqeLGiBArwskGQRRaXWcyTNi.8qUTA
+ SVwB.M4gZ8su8n.UYPAEiU5ImZjwpv7XfNSqgvMPBMDiKlz6QcxOA6uWW7Su18bj5jaOZDL0vxcv
+ H3DC41xDQjFpXV_6F1xiOlIXMaKUrvVIf8t1tc4MqdqDiPYQBfj_2gOXmjKb4E.cLU_2H.TjifV2
+ 5iviHPjGJyeUoJUp1EhgHTZUa6aTO9Ajwt9ni6DxdwXdLgR59.4PxvTxkaW23JfqECMSyk01N_Bd
+ XqkMe7X7bE.3XcSiD10tGlf34V.7h8OleMBTdXMZlblmAd_SW6R.FK_Y0XthE603dLeXfvEzjINZ
+ ikyOgdB07aYXzMBIGZb5Dodgf9Z0AkWnJKkYztQCffsBSTANX_IzYc4C0R7bxoMru58fsvR5N9_U
+ hGpNbcz_Ns9NqbJ08Ju8CEIBZUvUgQJGi_TxMc4dBgZO15PByzxtr1NQAeIEnD0Je8pT.jqSsYIR
+ qHVmt7K7ht4kBcCFs.K_74q.gMHhzn1a24jk2WRkJR1eTkN68.6RGPPKkgqHle11HJj9nTNTjPuC
+ 2IqMEG4z8ISsUtvD3gvWYrYt0lmqTwCgcHwHQhPrqNRjy5Q5hXc95eBf0FrDPPNsvEBO6X8gY1a.
+ bOUafHhB.AI21zL3d1qOvPSMgZz0R0eqKLdUsuTbu0vLUrC3AlgM7gUJkwe2KxphE8fXwh_5vTbp
+ 5RS9eMcmP8q.647Ulv1SzUetS_AtX77zzaYsf5COhWcPx02B7QY9RcT8qWU_0R32N8zjTvx9W57v
+ htewEbkSWsNBAGD0XgW.FuQM.9g9GnjnRPxW73aEO1MmReD5WQ4MCrDAozNXvI0tBKLCgVGEkXK_
+ qu8PLycF7wcSUS1kDzn6nD5P49z23dEETV4LWznGdQXLD_jKHksFnQ7aEi_QPjq3T0QM9T0rOrnU
+ 4AuA3h_DGwz.rfPNnkScNYv_Do1DY6cdeT8BaJ5U6nipFBlIODa8QtCNXj8xoZ.SkTDJonUgxOMG
+ dKuYqN0KgxYgvKx9MQgYgUysgHEXJ1zEOenMj4K9M5D48yokwnyTkHIwtXuWC37A.HxlRKcWCL.7
+ alMoqZoS9yU7DXUdBMeFstaUAIv8DlAPK9KkZHjbZr_e6TO6au0WQlPKHGNg6Qc_JEpUk16qOIkV
+ B8eM0UHfcaP0Z9XFYgtsci8pB9BTbgYSU9chuMYUgGQKkVhXjs2UFNZcH4luMecb42RSBAgJcOgY
+ Vx_r0btRnZmia8QSZb8JNVJi_x_CiQdbmZpdtZdco4fJ2QYH4XlTezt8qQVLe1Xk9E2TRwt6wV2G
+ 3KyNWrKUNjoYo0r5Y1PFkoZSb6IWuc3osgD8Qr9MoPhljclDEbVhzOJx0VrhWeEwHHdmy2pu_Pe7
+ dS8ntEbo8Rp7YxTXdgIbcpNSxFyBg8wQ90h53iPsvLhizlgtGDs4XDbTy1i04I4kLwdBWPSOIZq0
+ d.BFIl5abwJcN4Zwunco.8G0VqfYkc_lnr39OaOPtYiOZ6QzI1SuVaED.qu3gDDCuqNGuM0A9q1y
+ zT1vO9zfzQKyPiZ0dVee2EAUQx_n7Z9iUnQ0NtbKy3e8oFeNYsu2NfvyuHtfzFdUir4NpLnMUrjx
+ 8UOxaFWAZZ3BEBgmE_kR7WzOhnfJDhr4CVHuKBdc2XAEEd6_ybs6AxLOcZito3nIjS4FVqr4hzhB
+ FKSW0fb6OF88ahYTQ7qiYCtXzp42PRq0qXIRSd3lmLyO1MfNx.CwVJKDVR66Efwh8MtMf0wselza
+ qwZ3M_uvHrpc637r8GI5sxXoBtdmLaS_PQFTkdJxDoZzjKsyigvZ5SPU.pBNHhGLi1MKj8UZUK3_
+ mc7BH.PYKUxxoqrky_57hWW5zAW394Vu7sE1nJnpr_nsP7nnJ6QZztiByPrQrl6pkIHN_LoZeq03
+ irDHnFeptHzM3zdD0u7qb3lezkh.vtOijxCqL1xh4T7B4io7TO1fJ2ZANZkXnhQBu5VQU9Inlqz2
+ L
+X-Sonic-MF: <rubenru09@aol.com>
+X-Sonic-ID: 25e66419-7370-4560-a4e8-3595986d5bb5
+Received: from sonic.gate.mail.ne1.yahoo.com by
+ sonic312.consmr.mail.gq1.yahoo.com with HTTP; Tue, 1 Jul 2025 11:55:18 +0000
+Received: by hermes--production-ir2-858bd4ff7b-nknbf (Yahoo Inc. Hermes SMTP
+ Server) with ESMTPA ID 557e0d14bcf47e6d0b13962042679d71; 
+ Tue, 01 Jul 2025 11:55:16 +0000 (UTC)
+From: Ruben Wauters <rubenru09@aol.com>
+To: Jani Nikula <jani.nikula@linux.intel.com>,
+ Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
+ Rodrigo Vivi <rodrigo.vivi@intel.com>,
+ Tvrtko Ursulin <tursulin@ursulin.net>, David Airlie <airlied@gmail.com>,
+ Simona Vetter <simona@ffwll.ch>
+Cc: Ruben Wauters <rubenru09@aol.com>, intel-gfx@lists.freedesktop.org,
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ kernel-janitors@vger.kernel.org
+Subject: [PATCH v2] drm/i915: replace DRM_DEBUG_SELFTEST with DRM_KUNIT_TEST
+Date: Tue,  1 Jul 2025 12:54:51 +0100
+Message-ID: <20250701115511.5445-1-rubenru09@aol.com>
+X-Mailer: git-send-email 2.48.1
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v5 08/12] firmware: qcom: tzmem: export shm_bridge
- create/delete
-To: Amirreza Zarrabi <amirreza.zarrabi@oss.qualcomm.com>, Jens Wiklander
- <jens.wiklander@linaro.org>, Sumit Garg <sumit.garg@kernel.org>, "Bjorn
- Andersson" <andersson@kernel.org>, Konrad Dybcio <konradybcio@kernel.org>,
- Bartosz Golaszewski <bartosz.golaszewski@linaro.org>, Apurupa Pattapu
- <quic_apurupa@quicinc.com>, Kees Cook <kees@kernel.org>, "Gustavo A. R.
- Silva" <gustavoars@kernel.org>, Sumit Semwal <sumit.semwal@linaro.org>,
- =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
-CC: Harshal Dev <quic_hdev@quicinc.com>, <linux-arm-msm@vger.kernel.org>,
- <op-tee@lists.trustedfirmware.org>, <linux-kernel@vger.kernel.org>,
- <linux-hardening@vger.kernel.org>, <dri-devel@lists.freedesktop.org>,
- <linaro-mm-sig@lists.linaro.org>, <linux-doc@vger.kernel.org>,
- Neil Armstrong <neil.armstrong@linaro.org>
-References: <20250526-qcom-tee-using-tee-ss-without-mem-obj-v5-0-024e3221b0b9@oss.qualcomm.com>
- <20250526-qcom-tee-using-tee-ss-without-mem-obj-v5-8-024e3221b0b9@oss.qualcomm.com>
-Content-Language: en-US
-From: Kuldeep Singh <quic_kuldsing@quicinc.com>
-In-Reply-To: <20250526-qcom-tee-using-tee-ss-without-mem-obj-v5-8-024e3221b0b9@oss.qualcomm.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
-X-Originating-IP: [10.80.80.8]
-X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
- nalasex01b.na.qualcomm.com (10.47.209.197)
-X-QCInternal: smtphost
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
- signatures=585085
-X-Proofpoint-GUID: ztKxMaTHEsgXeingGXCKylzfZjaG2-ty
-X-Proofpoint-ORIG-GUID: ztKxMaTHEsgXeingGXCKylzfZjaG2-ty
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwNzAxMDA3MyBTYWx0ZWRfX74DO11z9dMYF
- 62b2TucWlwr7aP2wLjZ5GJ8VxyRAYqmoReJedk6CNfnGBZJatEM1OJrxmydL4DRvLfDVKk0HSaA
- glGZa43wXvVkw2RNorrrDsT4ohoJw23givoio+J4JT9e/Hl2q/3PXbKXE+zYKGWyQ4nIZf/gX/x
- 0ygEgUAUl4FzOcg4AoT3/bKo4Ebv9c//GZKuU6wOBpOmIJ8xM3KNdFtLFJeJVYgtJ/wQHRhXx5t
- 8smIEsHc/qD5i5mML4oYknS7mIIQko5H7+L0qHY+ISOyaPPxqcBIb2UT8LymslIwxMEQzt9YzTg
- n4t9AjjbkwFN7EiF6/75yhn9k5v8CoFMGTOfN3Gk1JPh9kXi6WPxG7qRXFFayej7yueJMXnlc23
- +VdTOVUtCt62g4uAKYeR/hiM109i/duCv/ogYnnAOajxoeL8VSKAQRXcAvhJEhkPTRXvgCNO
-X-Authority-Analysis: v=2.4 cv=QMFoRhLL c=1 sm=1 tr=0 ts=6863caea cx=c_pps
- a=ouPCqIW2jiPt+lZRy3xVPw==:117 a=ouPCqIW2jiPt+lZRy3xVPw==:17
- a=GEpy-HfZoHoA:10 a=IkcTkHD0fZMA:10 a=Wb1JkmetP80A:10 a=KKAkSRfTAAAA:8
- a=EUspDBNiAAAA:8 a=T2KzT_qPCcxtbzpLTyEA:9 a=QEXdDO2ut3YA:10
- a=cvBusfyB2V15izCimMoJ:22
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1099,Hydra:6.1.7,FMLib:17.12.80.40
- definitions=2025-07-01_02,2025-06-27_01,2025-03-28_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- malwarescore=0 priorityscore=1501 bulkscore=0 spamscore=0 adultscore=0
- mlxlogscore=999 mlxscore=0 lowpriorityscore=0 suspectscore=0 impostorscore=0
- clxscore=1011 phishscore=0 classifier=spam authscore=0 authtc=n/a authcc=
- route=outbound adjust=0 reason=mlx scancount=1 engine=8.19.0-2505280000
- definitions=main-2507010073
+Content-Transfer-Encoding: 8bit
+References: <20250701115511.5445-1-rubenru09.ref@aol.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -112,70 +94,38 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+DRM_DEBUG_SELFTEST was removed in commit fc8d29e298cf (drm: selftest:
+convert drm_mm selftest to KUnit) and all functions under it were
+converted to KUnit, under the DRM_KUNIT_TEST option
 
-On 5/27/2025 12:26 PM, Amirreza Zarrabi wrote:
-> Anyone with access to contiguous physical memory should be able to
-> share memory with QTEE using shm_bridge.
-> 
-> Tested-by: Neil Armstrong <neil.armstrong@linaro.org>
-> Signed-off-by: Amirreza Zarrabi <amirreza.zarrabi@oss.qualcomm.com>
-> ---
->  drivers/firmware/qcom/qcom_tzmem.c       | 57 +++++++++++++++++++++++++-------
->  include/linux/firmware/qcom/qcom_tzmem.h | 15 +++++++++
->  2 files changed, 60 insertions(+), 12 deletions(-)
-> 
-> diff --git a/drivers/firmware/qcom/qcom_tzmem.c b/drivers/firmware/qcom/qcom_tzmem.c
-> index 4fe333fd2f07..e9e4f06924ae 100644
-> --- a/drivers/firmware/qcom/qcom_tzmem.c
-> +++ b/drivers/firmware/qcom/qcom_tzmem.c
-> @@ -108,25 +108,61 @@ static int qcom_tzmem_init(void)
->  	return 0;
->  }
->  
-> -static int qcom_tzmem_init_area(struct qcom_tzmem_area *area)
-> +/**
-> + * qcom_tzmem_shm_bridge_create() - Create a SHM bridge.
-> + * @paddr: Physical address of the memory to share.
-> + * @size: Size of the memory to share.
-> + * @handle: Handle to the SHM bridge.
-> + *
-> + * On platforms that support SHM bridge, this function creates a SHM bridge
-> + * for the given memory region with QTEE. The handle returned by this function
-> + * must be passed to qcom_tzmem_shm_bridge_delete() to free the SHM bridge.
-> + *
-> + * Return: On success, returns 0; on failure, returns < 0.
-> + */
-> +int qcom_tzmem_shm_bridge_create(phys_addr_t paddr, size_t size, u64 *handle)
->  {
->  	u64 pfn_and_ns_perm, ipfn_and_s_perm, size_and_flags;
-> -	int ret;
->  
->  	if (!qcom_tzmem_using_shm_bridge)
->  		return 0;
->  
-> -	pfn_and_ns_perm = (u64)area->paddr | QCOM_SCM_PERM_RW;
-> -	ipfn_and_s_perm = (u64)area->paddr | QCOM_SCM_PERM_RW;
-> -	size_and_flags = area->size | (1 << QCOM_SHM_BRIDGE_NUM_VM_SHIFT);
-> +	pfn_and_ns_perm = paddr | QCOM_SCM_PERM_RW;
-> +	ipfn_and_s_perm = paddr | QCOM_SCM_PERM_RW;
-> +	size_and_flags = size | (1 << QCOM_SHM_BRIDGE_NUM_VM_SHIFT);
-> +	if (qcom_scm_shm_bridge_create(pfn_and_ns_perm, ipfn_and_s_perm,
-> +				       size_and_flags, QCOM_SCM_VMID_HLOS,
-> +				       handle))
+This conversion however did not occur in the Kconfig.debug file in the
+i915 directory.
 
-Can we add a debug log here to ease debugging in future?
-Something like this can also work.
+This patch replaces the select for DRM_DEBUG_SELFTEST, an option that no
+longer exists, with the correct select, DRM_KUNIT_TEST.
 
-pr_err("Shm bridge creation failed, ret: %d, NS PA|Perm: 0x%llx,
-size|flags: 0x%llx\n", ret, pfn_and_ns_perm_flags, size_and_flags);
+Signed-off-by: Ruben Wauters <rubenru09@aol.com>
+---
+v2 changes:
+- update commit message to contain more detail about the background of
+  the change and why it is necessary
+---
+ drivers/gpu/drm/i915/Kconfig.debug | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-> +		return -EINVAL;
-> +
-> +	return 0;
-> +}
-> +EXPORT_SYMBOL_GPL(qcom_tzmem_shm_bridge_create);
-
+diff --git a/drivers/gpu/drm/i915/Kconfig.debug b/drivers/gpu/drm/i915/Kconfig.debug
+index 1852e0804942..b15b1cecb3aa 100644
+--- a/drivers/gpu/drm/i915/Kconfig.debug
++++ b/drivers/gpu/drm/i915/Kconfig.debug
+@@ -50,7 +50,7 @@ config DRM_I915_DEBUG
+ 	select DRM_VGEM # used by igt/prime_vgem (dmabuf interop checks)
+ 	select DRM_DEBUG_MM if DRM=y
+ 	select DRM_EXPORT_FOR_TESTS if m
+-	select DRM_DEBUG_SELFTEST
++	select DRM_KUNIT_TEST
+ 	select DMABUF_SELFTESTS
+ 	select SW_SYNC # signaling validation framework (igt/syncobj*)
+ 	select DRM_I915_WERROR
 -- 
-Regards
-Kuldeep
+2.48.1
 
