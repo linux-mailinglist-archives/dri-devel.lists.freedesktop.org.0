@@ -2,157 +2,102 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 05DE4AEF0A8
-	for <lists+dri-devel@lfdr.de>; Tue,  1 Jul 2025 10:16:14 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id A4EE1AEF0B2
+	for <lists+dri-devel@lfdr.de>; Tue,  1 Jul 2025 10:17:09 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B070210E13D;
-	Tue,  1 Jul 2025 08:16:10 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id BF48610E51A;
+	Tue,  1 Jul 2025 08:17:07 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=amd.com header.i=@amd.com header.b="vi6kfs4n";
+	dkim=pass (2048-bit key; unprotected) header.d=riscstar-com.20230601.gappssmtp.com header.i=@riscstar-com.20230601.gappssmtp.com header.b="OPTCLJ1o";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from NAM11-BN8-obe.outbound.protection.outlook.com
- (mail-bn8nam11on2064.outbound.protection.outlook.com [40.107.236.64])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D7C3110E13D
- for <dri-devel@lists.freedesktop.org>; Tue,  1 Jul 2025 08:16:09 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=wy6TlzYIxZgBhsX/bfOIf1G9n5DNn0MdKafCv5/Mwt6DR2YxXLVwOjSFvxmxqOsCppmEkDytQ2SunNXE1xhB6Zl9IakUNhVD19TtLNQxysJNEWapm/+YWXed/JyndisZTuCxtMHvviolqXKfB+Om6xd2H5MOkxAQbwZ7rPKETV8FQEjubErezFE7tdFO97MHaMWYP4WKInYBCVBEPMMK56c0c76yLssOd2v/z+lwPdNrR7tMGyB7GLxkfVhVWt+B826+O1a4adOSA71IlIm5jJn9unuB9T9psdStX5fzhLxrnaZKkNNJQNBNHTni+NzwsugMGif741Z7mp05ahGjOA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=ySZ0nEIBLldTSGrMe/lB5vgKAA02730agk2H0nC8amU=;
- b=flHDh/ZNK23QOXO43R81FfLBLYPRIGzC+7dJMs0p/9hK4OoRP7dA38KkctksMN2yaCN6rJ4M3ZLhZ4HpVRB6U5Syewiy7j2IJfNJwm+dmuOWvSg7pWoqy4D9NNZH2yoKeD9czgs5VL50Kb8vdbPYN+qSQrZfTQeYFJh1MRLeke6wKWy5+ZKB0uvzWJETZ3tPf1JQF7/VYUYPtRnaxqGowk5ADztWUJ2/PXpQi0EKDA1A12ODdETMo9zOzem9ohGw9Pg/x/FID+Da/dWzlPEaB+UvnUtwsMwr2ZAnvw25CkEdgc/26DE1ppBHicY6bt9pV4B4PaXdICVYn+wpYTvfAA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
- header.d=amd.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=ySZ0nEIBLldTSGrMe/lB5vgKAA02730agk2H0nC8amU=;
- b=vi6kfs4ny6BaHzeXeCXDrxIoPqvZV4+lkA/lNbPJmYWRrr5E2auNfo6GYF0TD9NlGuPgGorO55VzsyxDyJH+UVZvcgs0ZD0lKauNGi0LQQAo4mZjuMYHDlK2h/yXUl1WtCd3rgfTzXPPWP4qBxsf+JfHGaAVlSFcpmhMQjTQl44=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=amd.com;
-Received: from PH7PR12MB5685.namprd12.prod.outlook.com (2603:10b6:510:13c::22)
- by IA1PR12MB9468.namprd12.prod.outlook.com (2603:10b6:208:596::15)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8901.19; Tue, 1 Jul
- 2025 08:16:07 +0000
-Received: from PH7PR12MB5685.namprd12.prod.outlook.com
- ([fe80::46fb:96f2:7667:7ca5]) by PH7PR12MB5685.namprd12.prod.outlook.com
- ([fe80::46fb:96f2:7667:7ca5%5]) with mapi id 15.20.8880.027; Tue, 1 Jul 2025
- 08:16:07 +0000
-Message-ID: <26c79b1e-0f7f-4efa-9040-92df8c5bdf1f@amd.com>
-Date: Tue, 1 Jul 2025 10:15:59 +0200
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 12/17] ttm: add objcg pointer to bo and tt
-To: David Airlie <airlied@redhat.com>
-Cc: Dave Airlie <airlied@gmail.com>, dri-devel@lists.freedesktop.org,
- linux-mm@kvack.org, Johannes Weiner <hannes@cmpxchg.org>,
- Dave Chinner <david@fromorbit.com>, Kairui Song <kasong@tencent.com>
-References: <20250630045005.1337339-1-airlied@gmail.com>
- <20250630045005.1337339-13-airlied@gmail.com>
- <20a90668-3ddf-4153-9953-a2df9179a1b1@amd.com>
- <CAMwc25ok0Q93+EeyyoR-S0Ffvi-GswDiUGA8rPBwZ+C+5Y8HVA@mail.gmail.com>
- <cf6cb95f-df79-40ae-95d5-dc5a7620a136@amd.com>
- <CAMwc25q-kBRGDrphU+iAyqENZhgdRtEnSrR9z6b5bQ_JFzzK2g@mail.gmail.com>
-Content-Language: en-US
-From: =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
-In-Reply-To: <CAMwc25q-kBRGDrphU+iAyqENZhgdRtEnSrR9z6b5bQ_JFzzK2g@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-ClientProxiedBy: BL1P221CA0009.NAMP221.PROD.OUTLOOK.COM
- (2603:10b6:208:2c5::24) To PH7PR12MB5685.namprd12.prod.outlook.com
- (2603:10b6:510:13c::22)
+Received: from mail-wm1-f44.google.com (mail-wm1-f44.google.com
+ [209.85.128.44])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4D32310E51A
+ for <dri-devel@lists.freedesktop.org>; Tue,  1 Jul 2025 08:17:06 +0000 (UTC)
+Received: by mail-wm1-f44.google.com with SMTP id
+ 5b1f17b1804b1-451e2f0d9c2so37075545e9.1
+ for <dri-devel@lists.freedesktop.org>; Tue, 01 Jul 2025 01:17:06 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=riscstar-com.20230601.gappssmtp.com; s=20230601; t=1751357825; x=1751962625;
+ darn=lists.freedesktop.org; 
+ h=cc:to:message-id:content-transfer-encoding:mime-version:subject
+ :date:from:from:to:cc:subject:date:message-id:reply-to;
+ bh=XfPRhGcB3Y4E2N3R/jd+CsAbatnKTO0iTJe0rlZi1wM=;
+ b=OPTCLJ1oSDz8MMGCp4Y+DFLA7vrJ0kMVrey4NxCMy5Fh0EO2kSLdYcaJ6IN3Walpyt
+ Np+Kj4Z0eGI+KXCZ0NG/gSZ3bNGFl4BAod8KmGbJjpyNAW2kxbvK0sOqf7kSmVRAVGYn
+ WpDHc5SbsRIT2Kz0C4uE7YZC9mro5jH7SLbOe2NUlRsHiQqe7HIaQHwIK2V+YoKPW8yO
+ akzga03zj1wX+dKtxYv87Gg+uiUhh1PlJUdAcuQva+dfIH7lOiZ01Fx/r9BzU8t53Noo
+ Wpg6LhveMYHTrCrUFxYFfSq2wVWh5lM3LgBnQq0RPclBMIu998AMGag0Y7hyoED7qHD7
+ C0gA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1751357825; x=1751962625;
+ h=cc:to:message-id:content-transfer-encoding:mime-version:subject
+ :date:from:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=XfPRhGcB3Y4E2N3R/jd+CsAbatnKTO0iTJe0rlZi1wM=;
+ b=V51dNYHrJDG/2mHMgVB7WbBVgjj9IuxgHuMku4Fuoh9rL2tjf9eKpEW7JyB5mVgPyE
+ lwVmefpeY724+m7ay6TSseGIMorXOPzjY1q4mnRKd5cs7AQr1/ndQJNY+id/gyrr6cDz
+ 0LefCrRAnVFxCiYay70CJsTy7SbASolOJkYbEAGF1kXFU+eWnRibjC30dU22N4RIKlBF
+ hitdZ7epSdFpoWrJ4+N7NfYbtSa7k6Mk+xZ71yfh3c9q4CMGlqD8Q07VhNNW1mcJY6sd
+ ciU9+iGyBKwmlbr/gp4JO4d+YeKsoLVn0haQDm++Q6aM3wNb+6IhQty9hAuzX4tbAhAs
+ l8uA==
+X-Gm-Message-State: AOJu0YyeYc9MvtJ+pud0QB0s1oBFsRUvh/pTzO4dHQqkeLMbbNKFElbH
+ SIP/Nrw5EBjZjtXPoROWrV2I0UQgSfrXJB9samvqwqU9CSs9fg+2Rvt02KyQ/x6rLEU=
+X-Gm-Gg: ASbGnctcBuiKSMdtWRiNGhvPs6WLpNbtgSEP/8FHUrbLdLTemomu0ei++yXEHzjSbOU
+ poCbFnk/I2bLbV/Rs1n+zVYSUKc5RjoSiyDfpdA4A+d1yMw3Qi721ZKvvbMUfNq2oOnPno8P1gk
+ 2DNf6O7FYsqQ25ljxJVa3+eAqknBT4Afa4lelkOF/2+oWDNSgyVq3Ixt7PDL0JCIpl2Zy8o84mR
+ ETAYvJVmn1zkq07HPbg+3sRkOK0lGgcmnPCowcEHfrZGw0YiJGJXoh0e20W1G2OhSuNx0tMCewS
+ KA94n3P0NbhAZBnRjGUWZHkogQ5Tjgg9aIPLFF5vzW/mI/GgmxqqRUVle9c5S3r24v+6G8dxUnO
+ DKviRuKh4VmKffG+d45ehPHjtaxBjd3rZyHmMQDWt6N4=
+X-Google-Smtp-Source: AGHT+IFNW0Gd1HhmH87xCE6By8JuGO3PB2k4h6ksmT3X58JMjtLORuZd9++ccAGzs4slWB1G0Jx0/w==
+X-Received: by 2002:a05:600c:c0c8:b0:43c:ed33:a500 with SMTP id
+ 5b1f17b1804b1-453a79673d4mr17688195e9.10.1751357824351; 
+ Tue, 01 Jul 2025 01:17:04 -0700 (PDT)
+Received: from aspen.lan
+ (aztw-34-b2-v4wan-166919-cust780.vm26.cable.virginm.net. [82.37.195.13])
+ by smtp.gmail.com with ESMTPSA id
+ ffacd0b85a97d-3a88c7fab6esm12766675f8f.31.2025.07.01.01.17.03
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 01 Jul 2025 01:17:03 -0700 (PDT)
+From: daniel@riscstar.com
+X-Google-Original-From: danielt@kernel.org
+Date: Tue, 01 Jul 2025 09:16:30 +0100
+Subject: [PATCH] drm/edp-panel: Add touchscreen panel used by Lenovo X13s
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: PH7PR12MB5685:EE_|IA1PR12MB9468:EE_
-X-MS-Office365-Filtering-Correlation-Id: e4a11e75-8afc-4883-28fe-08ddb8778771
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;ARA:13230040|366016|1800799024|376014;
-X-Microsoft-Antispam-Message-Info: =?utf-8?B?UVdSU0VZeDgrWlAzUDBueVgvUExDaU1CcVp2d1l2YW53L1hDZWIxZG5yZ25k?=
- =?utf-8?B?SFBuY2psajdOYktyUlBvVXhrcloxei9MMTNmK0VqU05UV0EzeVJpRkdSSlJM?=
- =?utf-8?B?QU9iMFlhY2Y4aEpLRExQSnY0Y3R3KzFrUWlLUE16VHpZd0hUTnArbTBGaGZn?=
- =?utf-8?B?Tmw2OFdTOVlCWmdOQ0xzOU9BOEpYNnJqdWkxUHZOYk5IZzFocS9rYmFIRGpv?=
- =?utf-8?B?aTBRWFlialE2U05sdkVXMmNTMGVKYnFPUzFSL25EZ1l3dHNwcEl4MnNyeVdh?=
- =?utf-8?B?NktwTFo4WTlQSTJCQUxyOFhwZTdxZEFHM2ZkNGFScUNtYTBJbzFRbEtyMHh4?=
- =?utf-8?B?Q2hpWUtQOWkwQ1Q5czMwOFFZajYxTnFBYmZoYjFzWk1RaUZOM0JaZ210NWI1?=
- =?utf-8?B?VXBxdVB5bFNHS0N2SHl6emtKNkxvdElJeE9rYnRhSkxUeDRYa1VQRjY4anpS?=
- =?utf-8?B?ZFkzUzlhUGJoaU9tS3FPZlRQTXhSa25pWUs0Nm9NYTkyRnBKV1VmNE9jUk1X?=
- =?utf-8?B?WG1lditqdGR4dHkyU1lDWDU4M3hHbmhNWThZcHh2WHVxU1F6Uml5UGUwdk1u?=
- =?utf-8?B?WXRxcTIwaE5VQVBQMnAwOEZxOUxqOG1KY0lmRkFmazVuenVJSjdhclF6dkJ4?=
- =?utf-8?B?VXZCeDVwVGRMcU1Gd3JBTjhSNHBmdERONXc1cCtaY2g3NTdWUWVMVUdXSUxV?=
- =?utf-8?B?aHN1NGgwWnlRQmF1bTZ0V2l6S0VYOEVVbzhsNTBjOEdqeWJHWVBudWRaTnpm?=
- =?utf-8?B?bGgrTkt6OG80aFJVNGJGaEx4cHB0UzZsa2Z3djQxYS9jR0Y3dXpJa3d6OHF5?=
- =?utf-8?B?ZXVHaS9EbXR0Z1FXRTgrL0pRc2IwMFY1VGc4NW1VSDlWQkdsSWc5MG00eU9Q?=
- =?utf-8?B?QXlkUVBBc3ZmVWtEL3EyZHZRTjFldXBVazRxazRlVmZOa3RMb1N1Rko2K1g4?=
- =?utf-8?B?Mnp0aVVyWTMreSt3SUdRM0NtMkxIendwM3dEckxRVHpPV1VOV29GVjVqb0Jl?=
- =?utf-8?B?SkMyQjlqZ0dLU3FJRnRPbXZBQ09wc2hpSFdtRStuTXpENHdrWFdKT0ljWWZR?=
- =?utf-8?B?Si83bzEzRmpRdFpZcFNtenVPcHZOOTFDKzBrM1NzSnlkTXE1ZmlaWGtuV3Mr?=
- =?utf-8?B?TDhHMU5MamxtbUVVQjZtUUd2U1Bib2xPS3JhbmpkcVM0dWZLZURNNEtGS1VT?=
- =?utf-8?B?ZDJkbzhHSFU3bTBSWU9VOStneGVMcGxWN0M3ajA0ZDdrNkNqS3VRQVVxMTJj?=
- =?utf-8?B?ZzA4UU9kdFE5WHJFNGpHYmtiajlvaUNTUC9oZGFhNVV2UUxWZllteUFGZ2k5?=
- =?utf-8?B?N1Y3WFlkZmcwRnVXWGk4ZS9xb3lzNi9lUkhLZGdqZmlzZ3VGTDc3czJQWENx?=
- =?utf-8?B?UlFUMkFFVjJ3Uk9lRFpDbDJnNDhiS3Azd0xkREsrdUUzSmppeDdoUHhPZURM?=
- =?utf-8?B?Qnc5Y1R3dGNGNGV5N2RGNzVzQXJpOHZvOGNvVkhXenRLOXlONmw3WkMwYUVW?=
- =?utf-8?B?L2o2dHZxd2tuS3h1UHBFQnhXUFlYNFB1WnpQWnBreUY4OHJrR0JHL1lpM1ll?=
- =?utf-8?B?YnF6b0FZZVY5Nm8wT1FpOXQyb0NleVJYR2luZ3V0VVpSa21JbGY1YkNnK013?=
- =?utf-8?B?SzA3UTlBeVNHVElSN1RVK0plMzVGYklySUtkdmpjM1dtZlBPWko3aW1wYk5i?=
- =?utf-8?B?NHdwTkRCMWk5V3p6N1g1V3B4dXJ4WnVYUyt6VVlHVDFVL1BJcTRWbWFhRVdZ?=
- =?utf-8?B?L2lvNHlJajRmOHZDSXRqL3pmd1F6Q1AyOFlkUFFwbUl5ejM4UHhQWitXak5D?=
- =?utf-8?B?djVSbWV6eDQ4dWJpcEVjVWdtaWZBdzNxNjI3TS9RSU0rWE45RFk2cjFac3JG?=
- =?utf-8?B?b055aFJaYStrS2thYndJK3JIUC9oaW43QTRQSjVGS1VHRnRtUG5nZkkyZWFt?=
- =?utf-8?Q?KFS/DwlzSz0=3D?=
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:PH7PR12MB5685.namprd12.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230040)(366016)(1800799024)(376014); DIR:OUT; SFP:1101; 
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?UDZYNXM5TWZDYmZaZjdRN2ViS0ErVFNzRkdWRVpKSmdoTmNDMnZ2WXVzNGsx?=
- =?utf-8?B?OTFYSk9BMFJQWjduNWxSdlJpNzBKUzA3dS9EeldWWDBTUUtrRVFXVS8vSkpj?=
- =?utf-8?B?Z3psV2RpZTh2cmVMODVqUjFPNEZEbFVrYitDanYzbFkwSW5DRCtIemhMRmlP?=
- =?utf-8?B?UGpjWk5tM2dHSnA3TDVDb2g2TDIxVS9EaFNFc0xPTXBOeDFJUDgraWtEYTNs?=
- =?utf-8?B?NFROcStOOUJpd0N3NkloajdDUTdMQzVDbEVMNzBTTnVGUlRncWNONEFWOTVI?=
- =?utf-8?B?WjBNaWNhbUhVKzFlRGxrdjI0bjhuVTlQaGR3enRzeXg2ajllaytqQmV1dXhB?=
- =?utf-8?B?NUxpbUg2bEYvMmhGRFN5SFkrWVdaajJONDhZOEFEMGNRdUVwbndpSFpveDJi?=
- =?utf-8?B?VzNwREkwSytRVkZvK0pNZXdVTFE2alhMb0YvVXNUcGwySmg4YmYrNHI0NWh1?=
- =?utf-8?B?TTVuQ0hITnNzU25WekxHT3cyNE1pYVhjcVNBZEFzbkNlenY4a3pSb0l5M3c4?=
- =?utf-8?B?NEgvTkdVS0ZGL0dqbWxvZHRnd0taY3NLeHlmRVZXb1ptL0lpclJMOUliZnNs?=
- =?utf-8?B?ekExQXhHU1NCRkdGMHhGb0o1aGluaUZyZTlnd3ZrcG1PSlNCTE4ycFJJNjNE?=
- =?utf-8?B?bDEvaDN4aE9IUEFFOGZOZncrRUpvZ3ZQRnV1UWVTZG4rT0ZnR2F3bHYxZ0pI?=
- =?utf-8?B?RHZIaWdKV3VKdTg4ODNQNmVGdDJ1RHdaam42endVa0dBMVh6SHBKa0YyaUla?=
- =?utf-8?B?UU1EN3BKUHBTcFZUYi9zbVNlcDlJSUZpV2ovcmRvb1V0U0R6WndZVVA4c0Fa?=
- =?utf-8?B?eUxEbnBjL0ZQWHR3Nm9pUVQ0aGRjeGFvTGRwNDhNM1lqSmRGeVBXVEFCM0Zt?=
- =?utf-8?B?UkRFdEVlajlhRDN1N1QrYk9jQ0dySVhRTlRTZ09aTzBnOUFFZStCWjkxZGh3?=
- =?utf-8?B?V2hVQWFFQW5HLzgvdEgwNGU3eUZaT0djNnNUNzk2Ykp3SUdLVjVQMXUycmdJ?=
- =?utf-8?B?SUlpd01rTThsNndkdmxrTHNiTmdyNTNMZUxhRzRDMVczVUtJVHV6Zk9IdHVq?=
- =?utf-8?B?anl6OGYrRGZ6K0hzbWZqUm9SMlBQNzJ1UUEwSXlEYk5PdjNKSGE3ZUNRcndu?=
- =?utf-8?B?VFBvMGszS0lrRFlLdXlaYVhBUHpWMzdkcGd5SlU5dS9CeHFaaUovUlZSZ0to?=
- =?utf-8?B?V1NmWW1PVDJCaDQ3ZVQwR1RVN0MweFN3L01nKzFEemFPOWFZcExTZnp0Ymx1?=
- =?utf-8?B?aE1lQVpYWndwSVl2V29kRFNzRXpHUjBSb0x2dTNoWlhEdW12TE1wLzFmdWFn?=
- =?utf-8?B?c2Jhb2N1M0hzTVIxV2tIS1U3dnVlK0R6NmcveVM2ZmFSZzNVTjVVcVUycFlR?=
- =?utf-8?B?TDkxR0Jnd01zcmE4VkI0dkRZNlc0TFhDM3MzOFlQV1hTM1NuZkpEclE1MjUz?=
- =?utf-8?B?b211WCsvR3RrSUZadkltSjMwSkFQMVl3VUxleDI4S0JEdHcvN29LRWlJdTc0?=
- =?utf-8?B?Z2NzTnpuWHgvcldyV0l1ZkVuUlp3MTE5WXhBKzM2ejFSU2ZxWmRlZGpEengx?=
- =?utf-8?B?Smo2c0NKTHpUYmFJRk1VbmRDMnJxQWFZdkQ3akhXaWNLb05xY2JSOEJidjlx?=
- =?utf-8?B?TEYzRTdKL0xqWjR4MzVMSXNRK0FEUkhxMitRTnBWT2d2OS9aVlR6SFRoQ0Jp?=
- =?utf-8?B?SENNc1UxMFU2bkRCYUhjbjl2MUdFV2dTWURhRkdrWFpuWk91akZDUFN5ZVdB?=
- =?utf-8?B?Y1VZK0FnWGI3RUZOY1R6U0Z2UXhYb0U2eERkSGJ5c3dYWVVtam1kT0NXQVl2?=
- =?utf-8?B?WmRPNUhIR1ZUVEJpMmdrT3F4MnUzWm1uOUNEUUVyM1V3MlJtYnNUbCt6cWVq?=
- =?utf-8?B?bGRhV1I5anRaMHhVMG8vZUtXOTlOYi83UFhMbXpQS1VvU3RqR245UjlLYmQw?=
- =?utf-8?B?SDgyRStuWGswb3Q3cGYrN3lHRjJKRnhCQmw3ZDhsOGVqVFJRbklSU3JaR1Rr?=
- =?utf-8?B?TS8xaXYrak8waGozTDB0eEtaNXJSQm9RN0VaeFgwUmQ2ZUlWN3NLNUFEdkVz?=
- =?utf-8?B?TVpoa2lFZHlQajhsaWtqRFB6YnNvRXlXdlVPTDRJK2JhaktacktxWm9OcW91?=
- =?utf-8?Q?g2soF3O8t2LuL7ycgXn1fqRDv?=
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: e4a11e75-8afc-4883-28fe-08ddb8778771
-X-MS-Exchange-CrossTenant-AuthSource: PH7PR12MB5685.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 01 Jul 2025 08:16:07.1424 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: fA8KvjXUWPiy+OU1SUpEgFxiw1TeBn77ys58kJTnp2gLNQZ76TG8K1ezKzN+vNR+
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: IA1PR12MB9468
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+Message-Id: <20250701-x13x-touchscreen-lookup-v1-1-a1277f119f92@riscstar.com>
+X-B4-Tracking: v=1; b=H4sIAF2ZY2gC/x3MSwqAMAwA0atI1gZa6w+vIi4kRg1KK61KQby7x
+ eVbzDwQ2AsH6LIHPN8SxNkEnWdA62gXRpmSoVBFpRqlMWoT8XQXrYE8s8Xdue06UJlxajWZmco
+ aUn14niX+53543w+q+pwIaQAAAA==
+X-Change-ID: 20250701-x13x-touchscreen-lookup-03ad81c3fc46
+To: Douglas Anderson <dianders@chromium.org>, 
+ Neil Armstrong <neil.armstrong@linaro.org>, 
+ Jessica Zhang <quic_jesszhan@quicinc.com>, 
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>
+Cc: dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org, 
+ Daniel Thompson <daniel@riscstar.com>
+X-Mailer: b4 0.14.2
+X-Developer-Signature: v=1; a=openpgp-sha256; l=2020; i=daniel@riscstar.com;
+ h=from:subject:message-id; bh=rsCSDF4oa1mXKkIMQDvD8kEAVJWdqOYxGDG8Q97DkO8=;
+ b=owEBbQKS/ZANAwAKAXzjJV0594ihAcsmYgBoY5lr4c6SE8UwkHRKilPNXpBDUkdYB0HUtZ1Z+
+ Ibel7vdVxSJAjMEAAEKAB0WIQQvNUFTUPeVarpwrPB84yVdOfeIoQUCaGOZawAKCRB84yVdOfeI
+ oTSBEACYPrcSUl8ZMnpPrIHbBehm4w1OmEz+4S7ROwOR6GAZmIgvOTlpvv90AuioK12iAMIIG70
+ 0dMnlSmINF2XuuWWqHJvoJ/xHAOqAJGuj6MTnQCg1pbMBsYpAPUHzJOAQbPfYGoQb9bQskXiUGB
+ JXyqo/PUzhk9qSn2N0g18Qmdcv8Y8SUeq4gl68s48xk6HOZYjCPiusl5oIEzpUv2SCz7lultbAa
+ PV4n+zQHfXnwLgpieAtqET5qdYbe2eFj2eXDq8ngvrfqUp9pToUfNpA31BAxVxGPohOx8Q+FB5M
+ BX/9ZjvS+5jbS85t1l8ysLDC8ZWQN27Ir+2COPdTAb+SrClhDYu06oiV0CeGgKD+GdF8ErQLdgl
+ niKwdNZr8hAQQXFZSOeNaMLsFNAywcKrBUV/PDl9uuooaXXUNhMwVFCnUncrIgJBm/48LjHSW1n
+ dHSKoWfuu+U/2cbi/nJiJ8CObR41bZRUr1z7YSubYw6V7uuWwGqq9Lbz/i6yzh2q7ALpyjQSFgL
+ fKCZzM8SjZiURhzPHo49d08X58F2dph39P76Kg37zsY2jqSgCfrNyuDp8omlwzAxZT6nJ3/lbm1
+ WCNYH5pP4+tdq1pzyYDp6/vR8ZYrZ1rZqtiIR2M1ROjIzh/BOWDpy0XVzb30vW2V3hxlRPm6/8k
+ Y8Cj6o3OKOysb9w==
+X-Developer-Key: i=daniel@riscstar.com; a=openpgp;
+ fpr=E38BE19861669213F6E2661AA8A4E3BC5B7B28BE
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -168,69 +113,50 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 01.07.25 10:06, David Airlie wrote:
-> On Tue, Jul 1, 2025 at 5:22 PM Christian König <christian.koenig@amd.com> wrote:
->>>>> diff --git a/include/drm/ttm/ttm_tt.h b/include/drm/ttm/ttm_tt.h
->>>>> index 15d4019685f6..c13fea4c2915 100644
->>>>> --- a/include/drm/ttm/ttm_tt.h
->>>>> +++ b/include/drm/ttm/ttm_tt.h
->>>>> @@ -126,6 +126,8 @@ struct ttm_tt {
->>>>>       enum ttm_caching caching;
->>>>>       /** @restore: Partial restoration from backup state. TTM private */
->>>>>       struct ttm_pool_tt_restore *restore;
->>>>> +     /** @objcg: Object cgroup for this TT allocation */
->>>>> +     struct obj_cgroup *objcg;
->>>>>  };
->>>>
->>>> We should probably keep that out of the pool and account the memory to the BO instead.
->>>>
->>>
->>> I tried that like 2-3 patch posting iterations ago, you suggested it
->>> then, it didn't work. It has to be done at the pool level, I think it
->>> was due to swap handling.
->>
->> When you do it at the pool level the swap/shrink handling is broken as well, just not for amdgpu.
->>
->> See xe_bo_shrink() and drivers/gpu/drm/xe/xe_shrinker.c on how XE does it.
-> 
-> I've read all of that, but I don't think it needs changing yet, though
-> I do think I probably need to do a bit more work on the ttm
-> backup/restore paths to account things, but again we suffer from the
-> what happens if your cgroup runs out of space on a restore path,
-> similiar to eviction.
+From: Daniel Thompson <daniel@riscstar.com>
 
-My thinking was rather that because of this we do it at the resource level and keep memory accounted to whoever allocated it even if it's backed up or swapped out.
+After (checks watch) a little over two years I finally investigated the
+boot warning on my Thinkpad X13s and it was caused by the conservative
+timings warning in panel-edp.c . The X13s was sold with a variety of
+different panel versions; I have the 300 nit multi-touch variant.
 
-> Blocking the problems we can solve now on the problems we've no idea
-> how to solve means nobody gets experience with solving anything.
+I have been unable to secure panel documentation so the I copied the
+timings from NV133WUM-N63.
 
-Well that's exactly the reason why I'm suggesting this. Ignoring swapping/backup for now seems to make things much easier.
+The raw EDID is:
 
->> So the best we can do is to do it at the resource level because that is common for everybody.
->>
->> This doesn't takes swapping on amdgpu into account, but that should not be that relevant since we wanted to remove that and switch to the XE approach anyway.
-> 
-> I don't understand, we cannot do it at the resource level, I sent
-> patches to try, they don't fundamentally work properly, so it isn't
-> going to fly. We can solve it at the pool level, so we should, if we
-> somehow rearchitect things later to solve it at the resource level,
-> but I feel we'd have to make swap handling operate at the resource
-> level instead of tt level to have any chance.
-> 
-> Swapping via the backup/restore paths should be accounted properly,
-> since moving pages out to swap one way cgroups can reduce the memory
-> usage, if we can't account that swapped pages aren't removed from the
-> page count, then it isn't going to work properly.
+00 ff ff ff ff ff ff 00 09 e5 84 0a 00 00 00 00
+1e 1f 01 04 a5 1d 12 78 03 5c 70 a6 51 4c 9c 26
+0e 50 54 00 00 00 01 01 01 01 01 01 01 01 01 01
+01 01 01 01 01 01 74 3c 80 a0 70 b0 28 40 30 20
+36 00 1e b3 10 00 00 1a 00 00 00 fd 00 28 3c 4b
+4b 10 01 0a 20 20 20 20 20 20 00 00 00 fe 00 42
+4f 45 20 48 46 0a 20 20 20 20 20 20 00 00 00 fe
+00 4e 56 31 33 33 57 55 4d 2d 54 30 31 0a 00 51
 
-But that is only possible if you generalize the shrinker XE has implemented for at least amdgpu as well (and make it memcg aware).
+Signed-off-by: Daniel Thompson <daniel@riscstar.com>
+---
+ drivers/gpu/drm/panel/panel-edp.c | 1 +
+ 1 file changed, 1 insertion(+)
 
-That's exactly what I would try to avoid because it means tons of additional driver specific work before we can get at least a foundation for memcg awareness.
+diff --git a/drivers/gpu/drm/panel/panel-edp.c b/drivers/gpu/drm/panel/panel-edp.c
+index 90e8c154a9788ad40e2101fdf39cbd92f2e0773a..9144de974f1e4abdd1af12613238f6f28d98fc41 100644
+--- a/drivers/gpu/drm/panel/panel-edp.c
++++ b/drivers/gpu/drm/panel/panel-edp.c
+@@ -1935,6 +1935,7 @@ static const struct edp_panel_entry edp_panels[] = {
+ 	EDP_PANEL_ENTRY('B', 'O', 'E', 0x0a3e, &delay_200_500_e80, "NV116WHM-N49"),
+ 	EDP_PANEL_ENTRY('B', 'O', 'E', 0x0a5d, &delay_200_500_e50, "NV116WHM-N45"),
+ 	EDP_PANEL_ENTRY('B', 'O', 'E', 0x0ac5, &delay_200_500_e50, "NV116WHM-N4C"),
++	EDP_PANEL_ENTRY('B', 'O', 'E', 0x0a84, &delay_200_500_e50, "NV133WUM-T01"),
+ 	EDP_PANEL_ENTRY('B', 'O', 'E', 0x0ae8, &delay_200_500_e50_p2e80, "NV140WUM-N41"),
+ 	EDP_PANEL_ENTRY('B', 'O', 'E', 0x0b09, &delay_200_500_e50_po2e200, "NV140FHM-NZ"),
+ 	EDP_PANEL_ENTRY('B', 'O', 'E', 0x0b34, &delay_200_500_e80, "NV122WUM-N41"),
 
-Alternatively we could implement a shrinker for the existing swapping path, but I tried that before and Sima, Thomas and I agreed that this is not the right thing todo and rather came up with the XE shrinker.
+---
+base-commit: d0b3b7b22dfa1f4b515fd3a295b3fd958f9e81af
+change-id: 20250701-x13x-touchscreen-lookup-03ad81c3fc46
 
-Christian.
-
-> 
-> Dave.
-> 
+Best regards,
+-- 
+Daniel Thompson <daniel@riscstar.com>
 
