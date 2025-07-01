@@ -2,93 +2,78 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8C0BEAEF324
-	for <lists+dri-devel@lfdr.de>; Tue,  1 Jul 2025 11:22:55 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 74C68AEF389
+	for <lists+dri-devel@lfdr.de>; Tue,  1 Jul 2025 11:41:04 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D2C7A10E576;
-	Tue,  1 Jul 2025 09:22:51 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 498A210E562;
+	Tue,  1 Jul 2025 09:41:01 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b="O9MuBhJh";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="kifEHTcL";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ed1-f44.google.com (mail-ed1-f44.google.com
- [209.85.208.44])
- by gabe.freedesktop.org (Postfix) with ESMTPS id AF76910E56A
- for <dri-devel@lists.freedesktop.org>; Tue,  1 Jul 2025 09:22:50 +0000 (UTC)
-Received: by mail-ed1-f44.google.com with SMTP id
- 4fb4d7f45d1cf-6097b404f58so9041223a12.3
- for <dri-devel@lists.freedesktop.org>; Tue, 01 Jul 2025 02:22:50 -0700 (PDT)
+Received: from mail-pf1-f179.google.com (mail-pf1-f179.google.com
+ [209.85.210.179])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 94CB510E57E
+ for <dri-devel@lists.freedesktop.org>; Tue,  1 Jul 2025 09:40:59 +0000 (UTC)
+Received: by mail-pf1-f179.google.com with SMTP id
+ d2e1a72fcca58-74ad4533ac5so5469280b3a.0
+ for <dri-devel@lists.freedesktop.org>; Tue, 01 Jul 2025 02:40:59 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=baylibre-com.20230601.gappssmtp.com; s=20230601; t=1751361769; x=1751966569;
- darn=lists.freedesktop.org; 
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:from:to:cc:subject:date
- :message-id:reply-to;
- bh=Zo/TsBTSnhnhtOzaR0L2fwad79M6B39oGRvluo5f4Vo=;
- b=O9MuBhJhl24hn3e42pviX3mp7f/UaqtUJ3QVQ2tVI2sqyDxhdHVCoHemONMr3ODcw+
- CXp9//YGTKA21Smc1Dn3qwp2eZsmJ+ShjSP39DuYtUyq/C0itJ2Ipo1QZaMb4j54ikrM
- N6IhNR4fN3MpRdhbLPKS+t3aHWbVaRGlJAXA0c/zgZrkua5/qOG9E3ubxdoLFGRbh0Sq
- aSTce3xyyn3MaP31xZjtuyDYVxFVyNCSNDFb2JDZqDat6pNJScQ/WZhUzrN+wJa3cvAS
- 5Uc0Gd0O20P2Fl2IwENoAWeAjt15k93A2gzMOfDhnbxPmqRz+Jmns5GzhwN1waYn7ARU
- m0lQ==
+ d=gmail.com; s=20230601; t=1751362859; x=1751967659; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:from:to:cc:subject:date:message-id:reply-to;
+ bh=Y91NncPK7/NcNQ1UmJol8Fd0Ci46AhdIGyCjKnxZtQM=;
+ b=kifEHTcLf4TsW9RTm9b7xKzwwZ+wCIEB0ukltODWPd8ZAiVZRcl6ltwaAShfF8YDAm
+ Pw9q+NdAMN/6WM1Xh4LmBHDO/WJqe1vH64lpksz7hJtlobBWxPmkV+iek1BID68HS9rX
+ tAbzdlcrmRol+i7tzyh2R5R+XB+gTv0/R83eFYytE6PooCJfk2XWnyjXqQDB5wnzRCpb
+ 9+gxuJnZSp+ikKKdzJ2SEaAukdWarZH4AgVIOyia7If7nsXonoAegKS8fAIJEXU3yNnm
+ uYZG3schI+fh7h9u0bGbrTMJtimV364cPjCmIXpqTh1FOzVCo9A0ecyP+yBKbqSacOaH
+ r3vA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1751361769; x=1751966569;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=Zo/TsBTSnhnhtOzaR0L2fwad79M6B39oGRvluo5f4Vo=;
- b=JIry5PK0KXd+uVY4afGmUNVPs9IF1qgJ+DFLC9O9CGBWAP6sTo7TKYwq8KG6xn+Zjf
- 5/koQiDoC58kLJjEAEhNe5E2AjWrGKNJux5kNUHUs7oSXzDUeWOp9lP5+ko12dzyK+xu
- GtS8P4UVvGCOuDv4EE383EmpWnZIa9cgNrl2T9nPYieIqGfNlLjEblxnnrOpwkVX136K
- K1zRosXer2Mnsoj9O3GmsDGIB4oGCkivJzlFXGEw+z4U0XwrmAu+2PvTa4Nrc6Ejd5m6
- 5uWx9cqPp7eEdsahms4XoLFlDP+Tpmgw2iAhYZEPhS1iNXiDW75EBz/UkVR4zLlWIXK8
- bU5w==
-X-Gm-Message-State: AOJu0Yyqq0GTC6IHVgSuGuFN0PouLFw9U6k0F9M2kHaxHvCWYD7BtaHC
- E9JdPeT0h5pHlxhsChWAZ7V87ut59R2feNJiyqOaFIyNJOUCeVvTswf2FPOCOzbCkVY=
-X-Gm-Gg: ASbGncvwHQWA0r/7LjdfmFrzLRsQYONrkvHcUQyIDe05QqsuGvREJh9mZIYCrPaOs+S
- o8qBFOpgXwvvRkiCzTm87dJ4qq0ePQFGBWc9RFKbwpXpEP5LT+SHytJiQVzUfjWrutLhsh3I76D
- vMjgVygKe0QQD5i4rctFtKFXw4mV3w7jf2ZrNAfhTFynFv6ED2TVbbT/YjvLLyI+tp3BkAptWQ6
- 2US110BKPei+Z/6sEqHWZoRgYhsJyOrNTjJEOLyn9L/1w5yW2MXLw5KyPTADGg7qxoIwdFKYB2f
- emd//gedkxSGQ4k8arNjcmotDj0MQEu4fMFZr0JP3iqjbeJWuHspJhK1SJwi4JHfnrJMrTV8utZ
- gSCgDyOitxLPWqOyvAyyUXXrRzGMz
-X-Google-Smtp-Source: AGHT+IEP2MB6PmcecA+vSBxvN/masCQ3N4UCTqJS/cDNcu9bjsD9JeRomQ0HDPukLAFStOZO3Om4Tw==
-X-Received: by 2002:a05:6402:4412:b0:60b:fb2c:b789 with SMTP id
- 4fb4d7f45d1cf-60c88ddd1fcmr12936963a12.21.1751361769148; 
- Tue, 01 Jul 2025 02:22:49 -0700 (PDT)
-Received: from localhost
- (p200300f65f06ab0400000000000001b9.dip0.t-ipconnect.de.
- [2003:f6:5f06:ab04::1b9]) by smtp.gmail.com with UTF8SMTPSA id
- 4fb4d7f45d1cf-60c8320b592sm7195568a12.75.2025.07.01.02.22.48
+ d=1e100.net; s=20230601; t=1751362859; x=1751967659;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=Y91NncPK7/NcNQ1UmJol8Fd0Ci46AhdIGyCjKnxZtQM=;
+ b=xC1MHgWjssakz4wxtb9SsBH3BxM6QZF1RX8GInlV17HHxY8pgTOn/dv/b22r8mxJ1o
+ mA35B1Bo4Pmna7eLq1xlDnOXfUuPdTfAaWgOSiHRksHgiv297L0WeERqeEwyhKbuZ0cJ
+ 3v4WzjhvF71TYUahdnYfbM7HOLSE8RDBW5dHqWmHx6hvH0yrfIdjVtYsrJz3g+U21+yU
+ toWlS7h73JAFizfiiUjq/EyDgJpcTg78sWL25HG0CfTEcAl+lHb17T7oiH9J4AINBQkr
+ O4ky1l4lgvHpYGj07FKjeuT6PTiFMMQpHJT9Fy/+CC06phGbOVPCyBKFyxknAxbnAVol
+ GTxg==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCV3BHCjJnE6rXHcs10x4fFJn0jR1uNjlENl9bpyzrpN0Y0RtSYTqQd2yQm2SPSDOZwwGJrRdhL3FJk=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YwQ/WfUhoQkr+trrT5E9GuPnxkoqZBUbrK2yRrFx27goBeP4g5t
+ INlVdCq3sKsxiduVfUKEj10bnDQzqeX9JbBZsmGhaNIXis6Vaf++ikR0
+X-Gm-Gg: ASbGncsFveKxvGGoxKyal3LvqxWlths9ZJkPq6OOo5RoOKXz2BsIZRXPwn5Po8iR6MC
+ vqCADdEut5PKi1wsNGz9hec7t/IkLsEZytHkf3BsMMKkYu6QoKbNQqM0iySIuKi57XBXclnFnpj
+ jYZ+S7eSs2mqxeibWV1jANlVAaChPAkEq0f5cAzuaFGzR+w0KL92XsQnTYZgwquL7FH6wK8DqKb
+ 7TmUPFtHM0X2I/yGnHzLag7WwtpwzetxqTJOCXzm0r1lTLo3KTgsd7o1XMnKarK6OV/N6LIOsYE
+ cppAk3/4rM/YHwEedNNmTHpm0w9ceBu7aynokU1ifGZIXDGc0dkeWbfF71I89Ihu7/svq03aO0K
+ SIg==
+X-Google-Smtp-Source: AGHT+IGVMTwoGg5+t/VBPlWizgX/TDlm9njeq315sfW+K8E17Imd2YRP7ugM+hDbZut/vexETw2A2Q==
+X-Received: by 2002:a05:6a21:7109:b0:220:898b:2ca1 with SMTP id
+ adf61e73a8af0-222c9a71c21mr4955815637.21.1751362859066; 
+ Tue, 01 Jul 2025 02:40:59 -0700 (PDT)
+Received: from localhost.localdomain ([49.37.221.186])
+ by smtp.googlemail.com with ESMTPSA id
+ d2e1a72fcca58-74af57e7279sm10945766b3a.150.2025.07.01.02.40.53
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 01 Jul 2025 02:22:48 -0700 (PDT)
-From: =?UTF-8?q?Uwe=20Kleine-K=C3=B6nig?= <u.kleine-koenig@baylibre.com>
-To: Flavio Suligoi <f.suligoi@asem.it>, Lee Jones <lee@kernel.org>,
- Daniel Thompson <danielt@kernel.org>, Jingoo Han <jingoohan1@gmail.com>,
- Helge Deller <deller@gmx.de>
-Cc: dri-devel@lists.freedesktop.org, linux-fbdev@vger.kernel.org,
- linux-pwm@vger.kernel.org
-Subject: [PATCH 2/2] backlight: mp3309c: Initialize backlight properties
- without memset
-Date: Tue,  1 Jul 2025 11:22:37 +0200
-Message-ID: <14514a1b0d3df6438aa10bb74f1c4fc2367d9987.1751361465.git.u.kleine-koenig@baylibre.com>
-X-Mailer: git-send-email 2.49.0
-In-Reply-To: <cover.1751361465.git.u.kleine-koenig@baylibre.com>
-References: <cover.1751361465.git.u.kleine-koenig@baylibre.com>
+ Tue, 01 Jul 2025 02:40:58 -0700 (PDT)
+From: Abdun Nihaal <abdun.nihaal@gmail.com>
+To: andy@kernel.org
+Cc: Abdun Nihaal <abdun.nihaal@gmail.com>, dan.carpenter@linaro.org,
+ gregkh@linuxfoundation.org, lorenzo.stoakes@oracle.com,
+ tzimmermann@suse.de, riyandhiman14@gmail.com, willy@infradead.org,
+ notro@tronnes.org, thomas.petazzoni@free-electrons.com,
+ dri-devel@lists.freedesktop.org, linux-fbdev@vger.kernel.org,
+ linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
+Subject: [PATCH v4 0/2] staging: fbtft: cleanup fbtft_framebuffer_alloc()
+Date: Tue,  1 Jul 2025 15:10:21 +0530
+Message-ID: <cover.1751361715.git.abdun.nihaal@gmail.com>
+X-Mailer: git-send-email 2.43.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1573;
- i=u.kleine-koenig@baylibre.com; h=from:subject:message-id;
- bh=5agSzbXLvANUjeYbgj9vz6RxkJOxk8CMj/v7lHFWdt8=;
- b=owEBbQGS/pANAwAKAY+A+1h9Ev5OAcsmYgBoY6jgBvBEU9XlWZGFkK/ttXFd/DcPA1cEI1DbW
- 3sCHBUZ4buJATMEAAEKAB0WIQQ/gaxpOnoeWYmt/tOPgPtYfRL+TgUCaGOo4AAKCRCPgPtYfRL+
- Tvq7B/0TX3Aaz+14n37ZHEmP5rNiPkBkauLgV6PlfScVDkZtCJOzdS073lgqm54H6V/oTMtQEID
- zpgPjaUcTO+NJ8nkulWdGhIhhVG16ApKKJEMuNr5NWKqg5fyv/Y/jsp20kgk9pBMhXe6S9kahPd
- HWTN18Yp8cH3IsB21UXjApAvwcMIUcyqtbrzkXvQhJLZT87Mv09DxpXSYRpuYHc6gf3J1KvcOfS
- e9BJvTwcb8ooxa79xZlNsSV5tJFRA874qsjdA+jzTgZA20FnclMw9gNmNR8Wo6HJqHRJfxE/VKW
- C9jsBd+RSW7yBLqJmbTr3WNOQWrjLpkzJMRdydd6aOt8I/t7
-X-Developer-Key: i=u.kleine-koenig@baylibre.com; a=openpgp;
- fpr=0D2511F322BFAB1C1580266BE2DCDD9132669BD6
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -105,44 +90,43 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Assigning values to a struct using a compound literal (since C99) also
-guarantees that all unspecified struct members are empty-initialized, so
-it properly replaces the memset to zero.
+Cleanup error handling in fbtft_framebuffer_alloc()
 
-The code looks a bit nicer and more idiomatic (though that might be
-subjective?). The resulting binary is a bit smaller. On ARCH=arm with
-an allnoconfig + minimal changes to enable the mp3309c driver the
-difference is 12 bytes.
+This patchset includes the revert commit for the v1 patch, and the
+cleanup patch that is not yet applied.
 
-Signed-off-by: Uwe Kleine-König <u.kleine-koenig@baylibre.com>
----
- drivers/video/backlight/mp3309c.c | 13 +++++++------
- 1 file changed, 7 insertions(+), 6 deletions(-)
+I have not included the v3 patch ("staging: fbtft: fix potential memory 
+leak in fbtft_framebuffer_alloc()") in this patchset, as it has been 
+already applied on staging-testing
 
-diff --git a/drivers/video/backlight/mp3309c.c b/drivers/video/backlight/mp3309c.c
-index bb4e85531cea..9337110ce6e5 100644
---- a/drivers/video/backlight/mp3309c.c
-+++ b/drivers/video/backlight/mp3309c.c
-@@ -352,12 +352,13 @@ static int mp3309c_probe(struct i2c_client *client)
- 	chip->pdata = pdata;
- 
- 	/* Backlight properties */
--	memset(&props, 0, sizeof(struct backlight_properties));
--	props.brightness = pdata->default_brightness;
--	props.max_brightness = pdata->max_brightness;
--	props.scale = BACKLIGHT_SCALE_LINEAR;
--	props.type = BACKLIGHT_RAW;
--	props.power = BACKLIGHT_POWER_ON;
-+	props = (typeof(props)){
-+		.brightness = pdata->default_brightness,
-+		.max_brightness = pdata->max_brightness,
-+		.scale = BACKLIGHT_SCALE_LINEAR,
-+		.type = BACKLIGHT_RAW,
-+		.power = BACKLIGHT_POWER_ON,
-+	};
- 	chip->bl = devm_backlight_device_register(dev, "mp3309c", dev, chip,
- 						  &mp3309c_bl_ops, &props);
- 	if (IS_ERR(chip->bl))
+v4:
+- Add a revert patch to remove v1 patch
+- Not included the patch that is already applied on staging-testing
+- Added Reviewed-by tags
+
+v3:
+- Remove a redundant check before calling kfree
+
+v2:
+- Change the earlier patch to also handle the error code returned by
+  fb_deferred_io_init() and update Fixes tag to point to the commit that
+  introduced the memory allocation (which leads to leak).
+- Add second patch to make the error handling order symmetric to
+  fbtft_framebuffer_release() and also remove managed allocation for
+  txbuf as suggested by Andy and Dan.
+
+Link to v3: https://lore.kernel.org/linux-staging/cover.1751207100.git.abdun.nihaal@gmail.com/
+Link to v2: https://lore.kernel.org/linux-staging/cover.1751086324.git.abdun.nihaal@gmail.com/T/#md111471ddd69e6ddb0a6b98e565551ffbd791a34
+Link to v1: https://lore.kernel.org/all/20250626172412.18355-1-abdun.nihaal@gmail.com/
+
+Abdun Nihaal (2):
+  Revert "staging: fbtft: fix potential memory leak in
+    fbtft_framebuffer_alloc()"
+  staging: fbtft: cleanup error handling in fbtft_framebuffer_alloc()
+
+ drivers/staging/fbtft/fbtft-core.c | 32 +++++++++++++++---------------
+ 1 file changed, 16 insertions(+), 16 deletions(-)
+
 -- 
-2.49.0
+2.43.0
 
