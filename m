@@ -2,85 +2,51 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 71EC5AEECA1
-	for <lists+dri-devel@lfdr.de>; Tue,  1 Jul 2025 04:59:41 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 896E7AEECB1
+	for <lists+dri-devel@lfdr.de>; Tue,  1 Jul 2025 05:07:09 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5F09A10E4DD;
-	Tue,  1 Jul 2025 02:59:22 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 08D8A10E4DF;
+	Tue,  1 Jul 2025 03:07:06 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=aol.com header.i=@aol.com header.b="r7HnFznl";
+	dkim=pass (2048-bit key; secure) header.d=canb.auug.org.au header.i=@canb.auug.org.au header.b="gimtROFg";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from sonic310-22.consmr.mail.gq1.yahoo.com
- (sonic310-22.consmr.mail.gq1.yahoo.com [98.137.69.148])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2132810E4DD
- for <dri-devel@lists.freedesktop.org>; Tue,  1 Jul 2025 02:59:21 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=aol.com; s=a2048;
- t=1751338760; bh=QncXrhBWoZyfStRoeWX86SBiHK4kerChKRWDNNe+cMM=;
- h=Subject:From:To:Cc:Date:In-Reply-To:References:From:Subject:Reply-To;
- b=r7HnFznlPnIobPxvrFL4vpY2pDKZaPiyUbTcdzoR44HtXn0CJf7Z6Kdlpu5KFrUWdCCPVls9kAMMmNt6gN3QDi+yfpjYliVSVFtJ+2zJsFRjXWuKP53jqzTqZEA7br2JWNtIqlpOOCrY7T27xRasKgCG+5iio+vYztUyWfrgOVVcUkGo+Wsjv3VmbtQFOEVQSGaeGQ2ogtH+fFyKpTaiNsWmZ1b+e3Reus3MeH4eXzvLiqB4JeyGnF5JvxIFn8TNp9kNIMpcpjOGlVqglIVzN1TfYSEk5rbTUC/fn0gmzFSb69Zp6Mp3i+6VIc2AR9XoINUJF2X8wXeKniUFhznj3Q==
-X-SONIC-DKIM-SIGN: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yahoo.com; s=s2048;
- t=1751338760; bh=JD/g1Tkq1X5vsw2rSB9wzpN7n4Z+Vlzxln33+YWPYOx=;
- h=X-Sonic-MF:Subject:From:To:Date:From:Subject;
- b=ZODCe4sedIEiSErcdtP8Ap/ciczFqHXJkFUoBUQH964bPWi5m1/ZSlA2eB0fAuVcDhPgIc2IwDBF8FAH9DUcRszfQVnAZbr/7tgzDIUNkM6CrZMQmaGZvKtB8LhFZwBSCGm6ryA0Xnj24BOnByugjzmSfMuI1vaSW/OkMePO0T93oln6x4cqY0ni6hgfVTxLf6vrMc1Mp9i83nKCYu1ly3ciGq4UkxLRA+Av+LCkisxHy9Cg29ifYZdmAfZYsCBV1kOzmGARFoqx9bljo33KK6Lo1rcMFVcRF1e8cUPVBD20qYIeO+E2r/EuzXrrjY/L4zIHUE/HQp9WFAjOVh9BVg==
-X-YMail-OSG: .rhQ3wwVM1nSODRfzIuPbiSSRXkg3P9APAsqYHw3SI4BTC87lZqnv7jB9ZT9GEx
- IpthOs_9mm3h8ldaLchxk0qFWNUUNpm3thIX45mwgHyRpBrYuifPMusyeuF3ccoS5bNYUt45lwdn
- 496qeVlw5WBWOAfTieUFvaxOm9H7zs85pVAqZ_QQqJeHlpxbL39jPRd52xKu92XyaMgHXY_HDnI.
- eZIMgnjNZzsUL9KM4F31QrNmtzPHxXovwTvL95Cen2xUQHs.tVMfNhyV_pindBTqGGABxJlgRGnu
- CTQE5yI_63yPJ8Mwe7KZBo3A_gRFTIIkCzEz1L05SWdrvAdI.xUcg.9zTR.PJqKK4AUpyGbvq1lJ
- cZT5NUvXu5fMEaYDbi0TgHWvDpr3fJSsEl4IUAMuhOunPnvRpnibVv9AMvdh3xU_kN.KitgX2dpm
- vjVFCgdLI_xWO_xW6Dn0.0N3h0yfn8Nq3tLDqElcu9FnMRbFETMtOhHrBFzR71JTxHlwVG_qQd2a
- wHgdJRwoRp1s6r4kNPvEC1o_DrEWfUn031PnFV6OXvuIhQnnY4wsz9lPUpNXPV10GSwp3x4iHmEL
- dCg4Kf1_IG7MwQBCRy9O8Kq4XtgYoyTnzSu64nlhWXUVtst8qHOm1mKuqNlv1h2nQ9eGVPHoEOb2
- iGr4Twt8x2ozDaTErbnWnniqWVF1uEfkEbhChfKE2KZ.XGEEYYiW1xmgiVgpHU08FbgfyXj0r8Yx
- 3ZRrSd3WU7POh1msKs3wPrzIxxeVQiTYmanWvqt2EazascREFFP3fbR3Sey4oJ3t6aySpBNCApQ4
- u7jCkfurZTiONqdtZE463erUtRs6NNdQAu45kRLDgE8gveg6gj87QTYnGWtGp4ZVVtE2sTXPif.n
- .cHXI_OzmWBaXazKY8fa8VS0unNRcU26mJw0fJoGCbee2Th0833MdzsLmaEzSMmaBexEF6Q0M1lc
- W19KTSAr89mpTpZx2d7uWILbe.P.XZzEPHsboNaPzAp9jYibk6gKrEg.HrwHyt0fBoC.xoiNOeYN
- Hd7exU_wzzrL5WeGJMUj5rUosQ3ORA.c0o_BtEx_sorohN0BRW8rWaNC5aCVEOxQroolVV9q85oZ
- KrEIbLwEvNs69AldUf.t.bpCY2LZyqmnrhOUawGTXDqe_SDiVc0VYVun9nnWR6VmFdRM8fH5oA.o
- CP.LJ1hryAD9NdcESTow_Pm8A.vGASAWbYFLr5Asl5IRloWgnBT7OEoxmyYXPhNooSKS5eqozYS3
- c6E7VT.d6ui_WtbeeFKKwrYzdvTln8MuWRj.It.2GWjIHs7BqK47wnbFlLSHTfMjXDGK_ZY9fbtt
- d20PERUOnjWxwkJqLjz4rQwpEkyjh.oDqPo8iY5I4WSAhvLXDqe9GlcjkvhPPlQQs3szbJHBKstT
- O_7ErSDm9gz2HISy_.9HVE_54CJ_Omn9ufHvtoRjRaFfW1O5.ZZDiFJdwRA7uUv4K6bVj_8fgC9N
- NFwUIMYfwAZqLBr2m3x1709eJFt541obQ8Vxj3b6GphjgIFdAMm1QqaBOGtNRYXJqa6S7y0BZN.m
- dUXkpZp9uj4OWtbtYbrMXF17PR2gGJYpn3AwCraxQn7EDhcxcH8Zf5MnkgZMlyb7Cgw7I7SAFC2I
- 2P9fanZfSSEkyyei0o4osTmUnMZbRDH7pIT4c4Fqos113bjsq95jscknc8x6x_wChj1Fb0Kd_iVE
- TR2ogcMx43th7xEmS0_tstKgIKfigjgFod4sPU05Gc7yPMckmBr_MRWq.HVZIlRGv5vSzm99iAqE
- cQ.qDzNyRdcXGZcSZoTQyJc1ujgkJX4neBMHlgSDzUs.oD6n0t9v7Akxq3uD1MjlOu2oH76I2N5R
- H5ud2ZPlxoznHhbCuozhXDyRmpRxIqnvx1GIAa05mwy1bv26Uzc3LQWNYpHvpic.a.gPVdCztVK3
- FCuFaYEOj9n0VIs4NC7pGZhrFRG410niIhGlKKXMLj35NVzbGGy6vXEypcVvKCDbNKRnfEmcZ4yg
- 18RXMjt4V4kJhCrsdEkH3WGNmGV8yHsKyxeDPfUzXfvoY0APjdiaMkz6DwKPc8L3fU9O6MH04ODO
- _6MxDbw5qrFfqsrlLEgg.3XcCBWFrBknBQTpC8NowpL6Irn5Ql5hYOSSc9Ud0xqCFJPD7vy2Q9VI
- JvSt9314e3Sv2SBEJkUMbgUTlgBpz357zBXsWaEW0pKTdZMzOkThlRca8DKfmqrxWYnRxWXaWfmF
- WeatraFYpV9qOcK2CIwTmzIr5CQPnQaB8h.Thl6l3xnpGYEb2qDakWGtJk2pLja4RHdWPOQ--
-X-Sonic-MF: <rubenru09@aol.com>
-X-Sonic-ID: fb9aa69a-2d1e-4f1e-b6d9-b0d90b6f6c28
-Received: from sonic.gate.mail.ne1.yahoo.com by
- sonic310.consmr.mail.gq1.yahoo.com with HTTP; Tue, 1 Jul 2025 02:59:20 +0000
-Received: by hermes--production-ir2-858bd4ff7b-86wkp (Yahoo Inc. Hermes SMTP
- Server) with ESMTPA ID 6689a8ae3d4d560dea262125f11816eb; 
- Tue, 01 Jul 2025 02:59:14 +0000 (UTC)
-Message-ID: <270d7d993e7d16c7dedb7709274cbdb3c853bf09.camel@aol.com>
-Subject: Re: [PATCH] drm/i915: replace DRM_DEBUG_SELFTEST with DRM_KUNIT_TEST
-From: Ruben Wauters <rubenru09@aol.com>
-To: Jani Nikula <jani.nikula@linux.intel.com>, Joonas Lahtinen	
- <joonas.lahtinen@linux.intel.com>, Rodrigo Vivi <rodrigo.vivi@intel.com>, 
- Tvrtko Ursulin <tursulin@ursulin.net>, David Airlie <airlied@gmail.com>,
- Simona Vetter <simona@ffwll.ch>
-Cc: intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org, 
- linux-kernel@vger.kernel.org, kernel-janitors@vger.kernel.org
-Date: Tue, 01 Jul 2025 03:59:12 +0100
-In-Reply-To: <20250701025426.262129-1-rubenru09@aol.com>
-References: <20250701025426.262129-1-rubenru09.ref@aol.com>
- <20250701025426.262129-1-rubenru09@aol.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.56.0-1 
+Received: from mail.ozlabs.org (gandalf.ozlabs.org [150.107.74.76])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 99D8410E4DF;
+ Tue,  1 Jul 2025 03:07:04 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=canb.auug.org.au;
+ s=202503; t=1751339223;
+ bh=cnRZycmV29wnxz+1tOWhqeDibAbM/eb88xyiQu5/VMk=;
+ h=Date:From:To:Cc:Subject:From;
+ b=gimtROFgLqBy5fxNe5aGfKebs2dojJNTFVwG4LJANpQ9F3C1ldjA8odO+en3N8le0
+ vUQ1Spb+lbTmusbr1m+BkEPHMB2zuyppZNpA6K0ha8oraT1NmBha1TTvgswXBPOM3t
+ udhjob3a9zDFUlez+DTq5SUEXv0Swww8/wSfrcDuo3x2X6u3v7B7YVv7tUrO5wC0cI
+ pDq3wIsXmEyZXEGivtzwP0bg47DnVzrgW2kDDgCkqJy/xuy3DZRGbOuneI9oLJaa04
+ 4BWs+Yyz0BZbt7fucfVh2tVvw3V+vygrcwaZ3t2WZznhQLtslAXle/r9swiJ860BYT
+ 5qzk8Gggxh9Tg==
+Received: from authenticated.ozlabs.org (localhost [127.0.0.1])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ (Client did not present a certificate)
+ by mail.ozlabs.org (Postfix) with ESMTPSA id 4bWScQ2mmnz4xSX;
+ Tue,  1 Jul 2025 13:07:02 +1000 (AEST)
+Date: Tue, 1 Jul 2025 13:07:02 +1000
+From: Stephen Rothwell <sfr@canb.auug.org.au>
+To: Simona Vetter <simona.vetter@ffwll.ch>, Dave Airlie <airlied@redhat.com>
+Cc: Intel Graphics <intel-gfx@lists.freedesktop.org>, DRI
+ <dri-devel@lists.freedesktop.org>, Alex Deucher
+ <alexander.deucher@amd.com>, =?UTF-8?B?QW5kcsOp?= Almeida
+ <andrealmeid@igalia.com>, Christian =?UTF-8?B?S8O2bmln?=
+ <christian.koenig@amd.com>, Christian =?UTF-8?B?S8O2bmln?=
+ <ckoenig.leichtzumerken@gmail.com>, Linux Kernel Mailing List
+ <linux-kernel@vger.kernel.org>, Linux Next Mailing List
+ <linux-next@vger.kernel.org>
+Subject: linux-next: manual merge of the drm-misc tree with the drm tree
+Message-ID: <20250701130702.416ba635@canb.auug.org.au>
 MIME-Version: 1.0
-X-Mailer: WebService/1.1.24099
- mail.backend.jedi.jws.acl:role.jedi.acl.token.atz.jws.hermes.aol
+Content-Type: multipart/signed; boundary="Sig_/3km7j/xIsIBB_inJew/ru1b";
+ protocol="application/pgp-signature"; micalg=pgp-sha256
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -96,37 +62,132 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, 2025-07-01 at 03:50 +0100, Ruben Wauters wrote:
-> DRM_DEBUG_SELFTEST was replaced with DRM_KUNIT_TEST.
->=20
-> This patch replaces the select in Kconfig.debug to use the
-> replacement.
->=20
-> Signed-off-by: Ruben Wauters <rubenru09@aol.com>
-> ---
-> =C2=A0drivers/gpu/drm/i915/Kconfig.debug | 2 +-
-> =C2=A01 file changed, 1 insertion(+), 1 deletion(-)
->=20
-> diff --git a/drivers/gpu/drm/i915/Kconfig.debug
-> b/drivers/gpu/drm/i915/Kconfig.debug
-> index 1852e0804942..b15b1cecb3aa 100644
-> --- a/drivers/gpu/drm/i915/Kconfig.debug
-> +++ b/drivers/gpu/drm/i915/Kconfig.debug
-> @@ -50,7 +50,7 @@ config DRM_I915_DEBUG
-> =C2=A0	select DRM_VGEM # used by igt/prime_vgem (dmabuf interop
-> checks)
-> =C2=A0	select DRM_DEBUG_MM if DRM=3Dy
-> =C2=A0	select DRM_EXPORT_FOR_TESTS if m
-> -	select DRM_DEBUG_SELFTEST
-> +	select DRM_KUNIT_TEST
-> =C2=A0	select DMABUF_SELFTESTS
-> =C2=A0	select SW_SYNC # signaling validation framework
-> (igt/syncobj*)
-> =C2=A0	select DRM_I915_WERROR
+--Sig_/3km7j/xIsIBB_inJew/ru1b
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: quoted-printable
 
+Hi all,
 
-(apologies I appear to have mistyped an email, I am sending it via a
-reply with the correct email included, please let me know if you'd
-rather I resend it)
+Today's linux-next merge of the drm-misc tree got a conflict in:
 
-Ruben Wauters
+  drivers/gpu/drm/amd/amdgpu/amdgpu_job.c
+
+between commits:
+
+  183bccafa176 ("drm: Create a task info option for wedge events")
+  a72002cb181f ("drm/amdgpu: Make use of drm_wedge_task_info")
+
+from the drm tree and commits:
+
+  821aacb2dcf0 ("drm/amdgpu: rework queue reset scheduler interaction")
+  43ca5eb94b38 ("drm/amdgpu: move guilty handling into ring resets")
+  38b20968f3d8 ("drm/amdgpu: move scheduler wqueue handling into callbacks")
+
+from the drm-misc tree.
+
+I fixed it up (see below) and can carry the fix as necessary. This
+is now fixed as far as linux-next is concerned, but any non trivial
+conflicts should be mentioned to your upstream maintainer when your tree
+is submitted for merging.  You may also want to consider cooperating
+with the maintainer of the conflicting tree to minimise any particularly
+complex conflicts.
+
+--=20
+Cheers,
+Stephen Rothwell
+
+diff --cc drivers/gpu/drm/amd/amdgpu/amdgpu_job.c
+index 6b4ffa9ceb7a,f0b7080dccb8..000000000000
+--- a/drivers/gpu/drm/amd/amdgpu/amdgpu_job.c
++++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_job.c
+@@@ -89,11 -89,9 +89,10 @@@ static enum drm_gpu_sched_stat amdgpu_j
+  {
+  	struct amdgpu_ring *ring =3D to_amdgpu_ring(s_job->sched);
+  	struct amdgpu_job *job =3D to_amdgpu_job(s_job);
+ +	struct drm_wedge_task_info *info =3D NULL;
+  	struct amdgpu_task_info *ti;
+  	struct amdgpu_device *adev =3D ring->adev;
+- 	int idx;
+- 	int r;
++ 	int idx, r;
+ =20
+  	if (!drm_dev_enter(adev_to_drm(adev), &idx)) {
+  		dev_info(adev->dev, "%s - device unplugged skipping recovery on schedul=
+er:%s",
+@@@ -133,47 -133,22 +132,24 @@@
+  	if (unlikely(adev->debug_disable_gpu_ring_reset)) {
+  		dev_err(adev->dev, "Ring reset disabled by debug mask\n");
+  	} else if (amdgpu_gpu_recovery && ring->funcs->reset) {
+- 		bool is_guilty;
+-=20
+- 		dev_err(adev->dev, "Starting %s ring reset\n", s_job->sched->name);
+- 		/* stop the scheduler, but don't mess with the
+- 		 * bad job yet because if ring reset fails
+- 		 * we'll fall back to full GPU reset.
+- 		 */
+- 		drm_sched_wqueue_stop(&ring->sched);
+-=20
+- 		/* for engine resets, we need to reset the engine,
+- 		 * but individual queues may be unaffected.
+- 		 * check here to make sure the accounting is correct.
+- 		 */
+- 		if (ring->funcs->is_guilty)
+- 			is_guilty =3D ring->funcs->is_guilty(ring);
+- 		else
+- 			is_guilty =3D true;
+-=20
+- 		if (is_guilty)
+- 			dma_fence_set_error(&s_job->s_fence->finished, -ETIME);
+-=20
+- 		r =3D amdgpu_ring_reset(ring, job->vmid);
++ 		dev_err(adev->dev, "Starting %s ring reset\n",
++ 			s_job->sched->name);
++ 		r =3D amdgpu_ring_reset(ring, job->vmid, NULL);
+  		if (!r) {
+- 			if (amdgpu_ring_sched_ready(ring))
+- 				drm_sched_stop(&ring->sched, s_job);
+- 			if (is_guilty) {
+- 				atomic_inc(&ring->adev->gpu_reset_counter);
+- 				amdgpu_fence_driver_force_completion(ring);
+- 			}
+- 			if (amdgpu_ring_sched_ready(ring))
+- 				drm_sched_start(&ring->sched, 0);
+- 			dev_err(adev->dev, "Ring %s reset succeeded\n", ring->sched.name);
+- 			drm_dev_wedged_event(adev_to_drm(adev), DRM_WEDGE_RECOVERY_NONE, info);
++ 			atomic_inc(&ring->adev->gpu_reset_counter);
++ 			dev_err(adev->dev, "Ring %s reset succeeded\n",
++ 				ring->sched.name);
++ 			drm_dev_wedged_event(adev_to_drm(adev),
+ -					     DRM_WEDGE_RECOVERY_NONE);
+++					     DRM_WEDGE_RECOVERY_NONE, info);
+  			goto exit;
+  		}
+- 		dev_err(adev->dev, "Ring %s reset failure\n", ring->sched.name);
++ 		dev_err(adev->dev, "Ring %s reset failed\n", ring->sched.name);
+  	}
++=20
+  	dma_fence_set_error(&s_job->s_fence->finished, -ETIME);
+ =20
+ +	amdgpu_vm_put_task_info(ti);
+ +
+  	if (amdgpu_device_should_recover_gpu(ring->adev)) {
+  		struct amdgpu_reset_context reset_context;
+  		memset(&reset_context, 0, sizeof(reset_context));
+
+--Sig_/3km7j/xIsIBB_inJew/ru1b
+Content-Type: application/pgp-signature
+Content-Description: OpenPGP digital signature
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAEBCAAdFiEENIC96giZ81tWdLgKAVBC80lX0GwFAmhjUNYACgkQAVBC80lX
+0GwYQQf+ONG+nBDAzZ2dO5RA1bLBgMGIXhiyUJNFQ2WhZ1X4tRLK6M7oFOQBy8oo
+MzKZZpzDo2y+bjavb9CbLZTZ6uG04G7wtZNrFGcxIqlJ/LCCbZ2oBSEXHcVmUKAh
+kuSdh8XDZj3ONKWeOvHXCZbre3GNCgQQpdR5kszrYtBY/KiGoiku8WUPWKI9HJcj
+eK0J+fTEPTvtAay+K7WwZ+ijf6enNj7vFHuyaTy04CDAK59CKi+ngv8E2NWTcyb7
+M3FSCs4CX8DdyqG3ToLZJlkUwUAsc3B8rg56B9l8qrUGKXd1roIMnkgvu8mxeQDv
+dsrwrWa5RHg1KsU6iXirLZlOkcUetA==
+=JnSB
+-----END PGP SIGNATURE-----
+
+--Sig_/3km7j/xIsIBB_inJew/ru1b--
