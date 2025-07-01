@@ -2,55 +2,60 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8C65AAEF1D4
-	for <lists+dri-devel@lfdr.de>; Tue,  1 Jul 2025 10:51:16 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id EEE9DAEF1D5
+	for <lists+dri-devel@lfdr.de>; Tue,  1 Jul 2025 10:51:25 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0282610E531;
-	Tue,  1 Jul 2025 08:51:13 +0000 (UTC)
-Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="L5BTktHB";
-	dkim-atps=neutral
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3747210E536;
+	Tue,  1 Jul 2025 08:51:24 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.13])
- by gabe.freedesktop.org (Postfix) with ESMTPS id CC26D10E122;
- Tue,  1 Jul 2025 08:51:11 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1751359871; x=1782895871;
- h=from:to:cc:subject:date:message-id:mime-version:
- content-transfer-encoding;
- bh=H430Oql6pWEHqTS456iNuTxON2paNdsugBZuI+YI3qE=;
- b=L5BTktHB6jiDaggGsVUEaeSB2ujkc9bhBzkQufGRTIC8D5EKmHlq1u0L
- tbyfQdO1KdWk/P5wxQyIIktqjsc3wJ2CAlmnXgVHNXkAdT8nZ/OfsJ72u
- azbSGAURsSsi9fuJA3W5L2mResqmiI8qHEFc2qihUXPPYYBuc3iei1R6P
- 428o4QURIRQoSMsAIiQXtEybCwnHgGXRLiKL009U4xUOXXdZwnY7nwpY2
- wiU/4asGdp3POk3oMWFp1h3EtmSpXGhzn/A/i2ERzq6rD6Zlo6lD2VM/q
- 3ETfa4AdwADvqPwxXsFLC9PfeXfMSeawYsbzEaom/cjWWaebCps8FmwCT w==;
-X-CSE-ConnectionGUID: vsGeVt99R66Ixswl7HVTsg==
-X-CSE-MsgGUID: +SegyjNiRkeZHKEHzIQRsw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11480"; a="64665468"
-X-IronPort-AV: E=Sophos;i="6.16,279,1744095600"; d="scan'208";a="64665468"
-Received: from fmviesa002.fm.intel.com ([10.60.135.142])
- by orvoesa105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 01 Jul 2025 01:51:07 -0700
-X-CSE-ConnectionGUID: VJvOBPx9S9a97mpWo3muCQ==
-X-CSE-MsgGUID: OO4CgFU6S8Cfa0zGpqUS8A==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.16,279,1744095600"; d="scan'208";a="177368271"
-Received: from kandpal-x299-ud4-pro.iind.intel.com ([10.190.239.10])
- by fmviesa002.fm.intel.com with ESMTP; 01 Jul 2025 01:51:05 -0700
-From: Suraj Kandpal <suraj.kandpal@intel.com>
-To: dri-devel@lists.freedesktop.org, intel-xe@lists.freedesktop.org,
- intel-gfx@lists.freedesktop.org
-Cc: ankit.k.nautiyal@intel.com, linux-next@vger.kernel.org,
- sfr@canb.auug.org.au, Suraj Kandpal <suraj.kandpal@intel.com>
-Subject: [PATCH] drm/dp: Add documentation for luminance_set
-Date: Tue,  1 Jul 2025 14:20:54 +0530
-Message-Id: <20250701085054.746408-1-suraj.kandpal@intel.com>
-X-Mailer: git-send-email 2.34.1
+Received: from metis.whiteo.stw.pengutronix.de
+ (metis.whiteo.stw.pengutronix.de [185.203.201.7])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 33F6F10E536
+ for <dri-devel@lists.freedesktop.org>; Tue,  1 Jul 2025 08:51:23 +0000 (UTC)
+Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
+ by metis.whiteo.stw.pengutronix.de with esmtps
+ (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256) (Exim 4.92)
+ (envelope-from <p.zabel@pengutronix.de>)
+ id 1uWWhi-0006IB-Mc; Tue, 01 Jul 2025 10:51:02 +0200
+Received: from lupine.office.stw.pengutronix.de ([2a0a:edc0:0:900:1d::4e]
+ helo=lupine)
+ by drehscheibe.grey.stw.pengutronix.de with esmtps (TLS1.3) tls
+ TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384 (Exim 4.96)
+ (envelope-from <p.zabel@pengutronix.de>) id 1uWWhg-006F2S-27;
+ Tue, 01 Jul 2025 10:51:00 +0200
+Received: from pza by lupine with local (Exim 4.96)
+ (envelope-from <p.zabel@pengutronix.de>) id 1uWWhb-0004aR-1k;
+ Tue, 01 Jul 2025 10:50:55 +0200
+Message-ID: <aafdb0e9dee2041ae64b2fe8677b4b3d45401bc8.camel@pengutronix.de>
+Subject: Re: [PATCH v2 0/4] drm/bridge: samsung-dsim: Stop controlling vsync
+ display FIFO flush in panels
+From: Philipp Zabel <p.zabel@pengutronix.de>
+To: Inki Dae <inki.dae@samsung.com>, Jagan Teki
+ <jagan@amarulasolutions.com>,  Marek Szyprowski <m.szyprowski@samsung.com>,
+ Andrzej Hajda <andrzej.hajda@intel.com>, Neil Armstrong
+ <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>, Laurent
+ Pinchart <Laurent.pinchart@ideasonboard.com>, Jonas Karlman
+ <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>, Maarten
+ Lankhorst <maarten.lankhorst@linux.intel.com>,  Maxime Ripard
+ <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, David Airlie
+ <airlied@gmail.com>,  Simona Vetter <simona@ffwll.ch>, Artur Weber
+ <aweber.kernel@gmail.com>, Jessica Zhang <quic_jesszhan@quicinc.com>,
+ Jessica Zhang <jessica.zhang@oss.qualcomm.com>
+Cc: dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org, 
+ kernel@pengutronix.de
+Date: Tue, 01 Jul 2025 10:50:55 +0200
+In-Reply-To: <20250627-dsi-vsync-flush-v2-0-4066899a5608@pengutronix.de>
+References: <20250627-dsi-vsync-flush-v2-0-4066899a5608@pengutronix.de>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.46.4-2 
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+X-SA-Exim-Connect-IP: 2a0a:edc0:0:c01:1d::a2
+X-SA-Exim-Mail-From: p.zabel@pengutronix.de
+X-SA-Exim-Scanned: No (on metis.whiteo.stw.pengutronix.de);
+ SAEximRunCond expanded to false
+X-PTX-Original-Recipient: dri-devel@lists.freedesktop.org
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -66,27 +71,17 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Documentation for luminance_set for struct drm_edp_backlight_info
-was missed which causes warnings.
+On Fr, 2025-06-27 at 13:45 +0200, Philipp Zabel wrote:
+> This series enables the vsync flush feature in the samsung-dsim driver
+> unconditionally and removes the MIPI_DSI_MODE_VSYNC_FLUSH flag.
 
-Fixes: 2af612ad4290 ("drm/dp: Introduce new member in drm_backlight_info")
-Signed-off-by: Suraj Kandpal <suraj.kandpal@intel.com>
----
- include/drm/display/drm_dp_helper.h | 1 +
- 1 file changed, 1 insertion(+)
+Applied to drm-misc-next.
 
-diff --git a/include/drm/display/drm_dp_helper.h b/include/drm/display/drm_dp_helper.h
-index 774c6d3e2001..87caa4f1fdb8 100644
---- a/include/drm/display/drm_dp_helper.h
-+++ b/include/drm/display/drm_dp_helper.h
-@@ -843,6 +843,7 @@ drm_dp_has_quirk(const struct drm_dp_desc *desc, enum drm_dp_quirk quirk)
-  * @lsb_reg_used: Do we also write values to the DP_EDP_BACKLIGHT_BRIGHTNESS_LSB register?
-  * @aux_enable: Does the panel support the AUX enable cap?
-  * @aux_set: Does the panel support setting the brightness through AUX?
-+ * @luminance_set: Does the panel support setting the brightness through AUX using luminance values?
-  *
-  * This structure contains various data about an eDP backlight, which can be populated by using
-  * drm_edp_backlight_init().
--- 
-2.34.1
-
+[1/4] drm/bridge: samsung-dsim: Always flush display FIFO on vsync pulse
+      commit: a36c533ad3e1b8c0326d665d2d02d2ef7aea8f92
+[2/4] drm/panel: samsung-s6d7aa0: Drop MIPI_DSI_MODE_VSYNC_FLUSH flag
+      commit: f488640e51312fbca02f9229d238a2aed7a8aac9
+[3/4] drm/panel: samsung-s6e8aa0: Drop MIPI_DSI_MODE_VSYNC_FLUSH flag
+      commit: 5c449ddbaba1c807c4674f92e5ebf6a887edb58c
+[4/4] drm/mipi-dsi: Drop MIPI_DSI_MODE_VSYNC_FLUSH flag
+      commit: 12853b279100adc7074b51db23bf62a41cb84cb8
