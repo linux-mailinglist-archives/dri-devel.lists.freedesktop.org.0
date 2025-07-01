@@ -2,116 +2,72 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 11029AEFDFC
-	for <lists+dri-devel@lfdr.de>; Tue,  1 Jul 2025 17:23:50 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 422E7AEFED1
+	for <lists+dri-devel@lfdr.de>; Tue,  1 Jul 2025 18:02:49 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2CC3510E2CB;
-	Tue,  1 Jul 2025 15:23:47 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4BB2810E5CE;
+	Tue,  1 Jul 2025 16:02:46 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=qualcomm.com header.i=@qualcomm.com header.b="IXdIeObC";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="hf2cxLov";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com
- [205.220.168.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8370F10E2CB
- for <dri-devel@lists.freedesktop.org>; Tue,  1 Jul 2025 15:23:46 +0000 (UTC)
-Received: from pps.filterd (m0279867.ppops.net [127.0.0.1])
- by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 5619pwoU032540
- for <dri-devel@lists.freedesktop.org>; Tue, 1 Jul 2025 15:23:46 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
- cc:content-transfer-encoding:content-type:date:from:in-reply-to
- :message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
- exYQa/SxTFohiL9rk/rsqhEqPzoQg/k5BFR36bKcrY8=; b=IXdIeObCcsIBWc8x
- qWgx7B0Ohk6eLOrElKt8nIaWr8OuMFD/ZG22UC69pZKvTltAj51G17N8jEoMZkZa
- ebKwDUu8S3bf1QZIqYD34F8AvzNg+qAVZ4gVaYBDRWxs8wo1efeFX8jiL6iA6nzz
- mwpUIJscwsoUSRQVCFJsnt5Z+enL+6Go8Fplhjer7LRSSV4xTmBACp5JZtR0LL4x
- Fz7SdqRRLY0Oc0xTscvZ7ZCvfP6Lj3OAGCQ6fArguFmPQgzzOeexYTIWP6rOzN8S
- N/T3Eub5jDgqo+OLUov1ei5+mujCoQ4FZrO0P9rzvwm8cogItCVd/R+l6qcu4lBZ
- DjELzA==
-Received: from mail-pl1-f200.google.com (mail-pl1-f200.google.com
- [209.85.214.200])
- by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 47j63k9g5g-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
- for <dri-devel@lists.freedesktop.org>; Tue, 01 Jul 2025 15:23:46 +0000 (GMT)
-Received: by mail-pl1-f200.google.com with SMTP id
- d9443c01a7336-2349498f00eso53702065ad.0
- for <dri-devel@lists.freedesktop.org>; Tue, 01 Jul 2025 08:23:45 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1751383425; x=1751988225;
- h=content-transfer-encoding:in-reply-to:from:content-language
- :references:cc:to:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=exYQa/SxTFohiL9rk/rsqhEqPzoQg/k5BFR36bKcrY8=;
- b=wk7XiPBFP/hzgVGwXWE6pIM/gr3Sob1Tx4s+zjMFQfXfA4sxv3DhzsxfSDLpHDVQNx
- Vkk+9lboWik7TLWc4xl15GH7Ie8JQt5ETZLu21F9N3EXmRGxO//Qiz7R7OwYc52qTdk1
- uyQDOexHGkA5h+YW3oqnsbYOyKJlU2jEnFBu9K3pgDDciEncromHM6vBmltdvWZrS7oV
- UBVa7LAMJcWwpCTl7zIl9WnTuYJHjPgv0vDOS+oFzFs5uDYiy7xGq7sKnhmKQ7QDphkL
- al5q9wWAvdLDJ2c8+vCYlTSVMk2n+m6KL55OnidrM4kpbk1ka2Egw1Nm57YgmVxZDhUP
- svjw==
-X-Forwarded-Encrypted: i=1;
- AJvYcCXl5Bugtii4xNu6CVF+nPEm/0TTtgmcXDkmE8/gf0VirEMfphcLQ+DPElx9JppxkT0snmKAjJJuG/E=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0Yw+yGi3YhzuUB4XUEqhutcMwD/CVZUlmLLxReJ6E+nYLCHrgFWc
- +n/RXd4XGVhHeHfpLP4PBYWT3f5jF9TXytNO/MwPD9Ix4A9FfgGmsTQCDgeXL40gWIGT6XcxlSZ
- qKZZU7If380eATPMPMbmLVf5h2BzA/x7lQ+07XUJwcn7v8lapj+e5uI+aALHTPbkHPWDEUQQ=
-X-Gm-Gg: ASbGncvrzsM2K22Ebfma98rjvKo89q+3sqMw5k5oekiaMhdAfw3uGIcWkojhb9fMN0x
- tCKkGLa3uFio3mbUfEel4/Ria6lNg5knIbDZ2wh9hfftc6nUiSl5Y0gNg5+J+BI9In8vdIE9DgC
- Juq0OOwtqFQVitQw6p2bOMuBUUtUIou/eKKuK5ZRaihdVeKEjUHbx1dDXX9A8J4tkE6dwz5ftDa
- 38VkGE4Sxaz+D7Y/kg0+w1iLzfz5CeLIjtLuboEZf3wTp80bz+ciGMevce1US+QlyGGBPv/ZgbY
- YEsF/n7cJ/fzfqR2l6TPODtOnnKAGuv9pIn0cwyYTFe5e/23gx1u+MrABQjP/2YSBh4GGmUX
-X-Received: by 2002:a17:902:db01:b0:231:9817:6ec1 with SMTP id
- d9443c01a7336-23b354dcec6mr61641665ad.17.1751383424984; 
- Tue, 01 Jul 2025 08:23:44 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IEzeFM4sfWDHwxnw4b8YUjQqPTFrx84Wk9Tl/cQIW7vhIff40Tj7+wyn3B1Cpbc96mvyds34A==
-X-Received: by 2002:a17:902:db01:b0:231:9817:6ec1 with SMTP id
- d9443c01a7336-23b354dcec6mr61641205ad.17.1751383424416; 
- Tue, 01 Jul 2025 08:23:44 -0700 (PDT)
-Received: from [10.226.59.182] (i-global254.qualcomm.com. [199.106.103.254])
- by smtp.gmail.com with ESMTPSA id
- d9443c01a7336-23acb3c8b52sm106544015ad.244.2025.07.01.08.23.43
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 01 Jul 2025 08:23:44 -0700 (PDT)
-Message-ID: <643a59de-79c6-4440-bc62-4b89eea784a3@oss.qualcomm.com>
-Date: Tue, 1 Jul 2025 09:23:42 -0600
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.19])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4D7E410E5C9;
+ Tue,  1 Jul 2025 16:02:45 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1751385765; x=1782921765;
+ h=date:from:to:cc:subject:message-id:references:
+ mime-version:content-transfer-encoding:in-reply-to;
+ bh=aESLfZ/Zbyk8oAmFemD9A74FqBu0jKbWYS+CvI6dOYU=;
+ b=hf2cxLovSwv/GcYZWgGMheZfckHc9snltVki+q+rxq0GD6fS4qPYDU6/
+ YonxtE1aNZcQb5jMNa/eDpvtRTHBY470HAnWUopB4z6XOwepuHvtsXDDZ
+ YfV2mhB9J2kb17rKzdpmjl1iXMmEE1MPnTtIRvIOXvSX41nGiSG5oKwHI
+ UjtKNNNeaXQEq7KFuNiM6SFUc687/U6DLokie2dG2C84PGGVq1UO2g5KK
+ ta27E3f/emFmIXQxit3s9dnRYCzlW0vcnsbSTw9aP4mC8TQ21dQJaF+xT
+ p3ZbJ5kN9wB+yzurP5rDqtuqMhtCyy/6qqvpZPeZaU8S8CvBAZqX0nwY5 Q==;
+X-CSE-ConnectionGUID: DQsVAEpyRKKSeKpU9KQyDQ==
+X-CSE-MsgGUID: CQbBcputQSqWvaWCcWAmgA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11481"; a="52773439"
+X-IronPort-AV: E=Sophos;i="6.16,279,1744095600"; d="scan'208";a="52773439"
+Received: from orviesa004.jf.intel.com ([10.64.159.144])
+ by fmvoesa113.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 01 Jul 2025 09:02:45 -0700
+X-CSE-ConnectionGUID: NgSWudPqQySdpyBuXyBGxg==
+X-CSE-MsgGUID: /SY1ZZgpS0asPfpLYSdGSg==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.16,279,1744095600"; d="scan'208";a="158374314"
+Received: from black.fi.intel.com ([10.237.72.28])
+ by orviesa004.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 01 Jul 2025 09:02:41 -0700
+Date: Tue, 1 Jul 2025 19:02:38 +0300
+From: Raag Jadav <raag.jadav@intel.com>
+To: Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>
+Cc: Riana Tauro <riana.tauro@intel.com>, Rodrigo Vivi <rodrigo.vivi@intel.com>,
+ intel-xe@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+ anshuman.gupta@intel.com, lucas.demarchi@intel.com,
+ aravind.iddamsetty@linux.intel.com, umesh.nerlige.ramappa@intel.com,
+ frank.scarbrough@intel.com,
+ =?iso-8859-1?Q?Andr=E9?= Almeida <andrealmeid@igalia.com>,
+ David Airlie <airlied@gmail.com>
+Subject: Re: [PATCH v2 1/5] drm: Add a firmware flash method to device wedged
+ uevent
+Message-ID: <aGQGnrDZRcq9pC9q@black.fi.intel.com>
+References: <d057d1e8-8b90-445c-8ccb-8a13e5d41a4c@intel.com>
+ <44eac6fd-df68-4ae1-8970-57a686f5782f@amd.com>
+ <aFsaXXKZSBPrcYJb@intel.com> <aF8PZMuMgmWKYJgo@intel.com>
+ <4a2bead2-3db6-4526-b980-712362b6e770@amd.com>
+ <aGLKgholpl8Z3zWm@intel.com>
+ <cebd70d9-57b5-4e89-b715-4ada250e2eb1@intel.com>
+ <eb143cc5-306c-4900-b391-9ee023c1c5b7@intel.com>
+ <aGPvbagza6HwF4kE@black.fi.intel.com>
+ <8f0c1489-df00-4d40-a51c-39dcfa185d3e@amd.com>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v7 1/5] drm: move the debugfs accel driver code to drm
- layer
-To: "Khatri, Sunil" <sukhatri@amd.com>, Sunil Khatri <sunil.khatri@amd.com>,
- =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
- dri-devel@lists.freedesktop.org
-Cc: amd-gfx@lists.freedesktop.org, simona@ffwll.ch, tzimmermann@suse.de,
- tursulin@ursulin.net, phasta@kernel.org, dakr@kernel.org
-References: <20250630143613.2520111-1-sunil.khatri@amd.com>
- <9e45cdbe-8cdf-42ab-8769-067ff8f30e1c@oss.qualcomm.com>
- <7d1d4aef-8819-4e5b-af83-762a8d2ca0fa@amd.com>
-Content-Language: en-US
-From: Jeff Hugo <jeff.hugo@oss.qualcomm.com>
-In-Reply-To: <7d1d4aef-8819-4e5b-af83-762a8d2ca0fa@amd.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Authority-Analysis: v=2.4 cv=ZKfXmW7b c=1 sm=1 tr=0 ts=6863fd82 cx=c_pps
- a=IZJwPbhc+fLeJZngyXXI0A==:117 a=JYp8KDb2vCoCEuGobkYCKw==:17
- a=IkcTkHD0fZMA:10 a=Wb1JkmetP80A:10 a=jG12YPyu7umpLBzujXsA:9
- a=QEXdDO2ut3YA:10 a=uG9DUKGECoFWVXl0Dc02:22
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwNzAxMDEwMiBTYWx0ZWRfXy0z2bFzXVGS0
- dxrrgEMCoIEHfKGGAsXy4GEskBfhGlwhVPFD8F2z8f4EoUEIHuXJebk/c2fRPDRT8XybAri9HQi
- WKkMCtQ8F9dmJjYNhLjOgD+eloNzrSYCCeI8k+b8EUGDbsVKv+CFXMvS28FbrqNiSCU/bQzYvpM
- +oiUNT+yWt0MOX2ZtGIgKVBrdpY5ajGAHYXvL9xBcY7zVLSXp100URGosXfFd+T3QbCclhG7jdx
- OR7I4xLZDKdNLX22DwWWrxHdVSIe4Cvl3lBxGhb0ABmhDvkxZdSWa5/8t4UvNlg7utkKMHdjecE
- y4U31VEVwC6CfCcB8rHD2Fgi2vHluEPtGVk8EzUTkOEt/6YVxmDuTH/Ez9sWxSjELDxnutb7voq
- UaMiMKy7uskT8SZevkNuIMCCN0pIRju2ibh0yBNPmJpYrjTpAceWRfZUcoMXlumjYudjSrMm
-X-Proofpoint-ORIG-GUID: jE6d4aLMFMPkWXJiow56vyPOc9HRx23V
-X-Proofpoint-GUID: jE6d4aLMFMPkWXJiow56vyPOc9HRx23V
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1099,Hydra:6.1.7,FMLib:17.12.80.40
- definitions=2025-07-01_02,2025-06-27_01,2025-03-28_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- adultscore=0 mlxscore=0 mlxlogscore=999 spamscore=0 suspectscore=0
- bulkscore=0 priorityscore=1501 lowpriorityscore=0 phishscore=0
- impostorscore=0 malwarescore=0 clxscore=1015 classifier=spam authscore=0
- authtc=n/a authcc= route=outbound adjust=0 reason=mlx scancount=1
- engine=8.19.0-2505280000 definitions=main-2507010102
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <8f0c1489-df00-4d40-a51c-39dcfa185d3e@amd.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -127,17 +83,121 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 7/1/2025 12:14 AM, Khatri, Sunil wrote:
-> 
-> On 6/30/2025 8:49 PM, Jeff Hugo wrote:
->> On 6/30/2025 8:36 AM, Sunil Khatri wrote:
->>
->> I don't see a cover letter on list. Surely there should be one?
-> Yes there is one with the first version of patches.
+On Tue, Jul 01, 2025 at 04:35:42PM +0200, Christian König wrote:
+>On 01.07.25 16:23, Raag Jadav wrote:
+>> On Tue, Jul 01, 2025 at 05:11:24PM +0530, Riana Tauro wrote:
+>>> On 7/1/2025 5:07 PM, Riana Tauro wrote:
+>>>> On 6/30/2025 11:03 PM, Rodrigo Vivi wrote:
+>>>>> On Mon, Jun 30, 2025 at 10:29:10AM +0200, Christian König wrote:
+>>>>>> On 27.06.25 23:38, Rodrigo Vivi wrote:
+>>>>>>>>> Or at least print a big warning into the system log?
+>>>>>>>>>
+>>>>>>>>> I mean a firmware update is usually something which
+>>>>>>>>> the system administrator triggers very explicitly
+>>>>>>>>> because when it fails for some reason (e.g.
+>>>>>>>>> unexpected reset, power outage or whatever) it can
+>>>>>>>>> sometimes brick the HW.
+>>>>>>>>>
+>>>>>>>>> I think it's rather brave to do this automatically.
+>>>>>>>>> Are you sure we don't talk past each other on the
+>>>>>>>>> meaning of the wedge event?
+>>>>>>>>
+>>>>>>>> The goal is not to do that automatically, but raise the
+>>>>>>>> uevent to the admin
+>>>>>>>> with enough information that they can decide for the right correctable
+>>>>>>>> action.
+>>>>>>>
+>>>>>>> Christian, Andre, any concerns with this still?
+>>>>>>
+>>>>>> Well, that sounds not quite the correct use case for wedge events.
+>>>>>>
+>>>>>> See the wedge event is made for automation.
+>>>>>
+>>>>> I respectfully disagree with this statement.
+>>>>>
+>>>>> The wedged state in i915 and xe, then ported to drm, was never just about
+>>>>> automation. Of course, the unbind + flr + rebind is one that driver
+>>>>> cannot
+>>>>> do by itself, hence needs automation. But wedge cases were also very
+>>>>> useful
+>>>>> in other situations like keeping the device in the failure stage for
+>>>>> debuging
+>>>>> (without automation) or keeping other critical things up like
+>>>>> display with SW
+>>>>> rendering (again, nothing about automation).
+>
+> Granted, automation is probably not the right term.
+>
+> What I wanted to say is that the wedge event should not replace information in the system log.
+>
+>>>>>
+>>>>>> For example to allow a process supervising containers get the
+>>>>>> device working again and re-start the container which used it or
+>>>>>> gather crash log etc .....
+>>>>>>
+>>>>>> When you want to notify the system administrator which manual
+>>>>>> intervention is necessary then I would just write that into the
+>>>>>> system log and raise a device event with WEDGED=unknown.
+>>>>>>
+>>>>>> What we could potentially do is to separate between
+>>>>>> WEDGED=unknown and WEDGED=manual, e.g. between driver has no
+>>>>>> idea what to do and driver printed useful info into the system
+>>>>>> log.
+>>>>>
+>>>>> Well, you are right here. Even our official documentation in drm-uapi.rst
+>>>>> already tells that firmware flashing should be a case for 'unknown'.
+>>>>
+>>>> I had added specific method since we know firmware flash will recover
+>>>> the error.  Sure will change it.
+>>>>
+>>>> In the current code, there is no recovery method named "unknown" even
+>>>> though the document mentions it
+>>>>
+>>>> https://elixir.bootlin.com/linux/v6.16-rc4/source/drivers/gpu/drm/
+>>>> drm_drv.c#L534
+>>>>
+>>>> Since we are adding something new, can it be "manual" instead of unknown?
+>>>
+>>> Okay missed it. It's in the drm_dev_wedged_event function. Will use unknown
+>>>>
+>>>>> Let's go with that then. And use other hints like logs and sysfs so,
+>>>>> Admin
+>>>>> has a better information of what to do.
+>>>>>
+>>>>>> But creating an event with WEDGED=firmware-flash just sounds to
+>>>>>> specific, when we go down that route we might soon have
+>>>>>> WEDGE=change- bios-setting, WEDGE=....
+>>>>>
+>>>>> Well, I agree that we shouldn't explode the options exponentially here.
+>>>>>
+>>>>> Although I believe that firmware flashing should be a common case in many
+>>>>> case and could be a candidate for another indication.
+>>>>>
+>>>>> But let's move on with WEDGE='unknown' for this case.
+>> 
+>> I understand that WEDGED=firmware-flash can't be handled in a generic way
+>> for all drivers but it is simply not as same as WEDGED=unknown since the
+>> driver knows something specific needs to be done here.
+>> 
+>> I'm wondering if we could add a WEDGED=vendor-specific method for such
+>> cases?
+>
+> Works for me as well.
+>
+> My main concern was that we should not start to invent specific wedge events for all kind of different problems.
+>
+> On the other hand what's the additional value to distinct between unknown and vendor-specific?
+>
+> In other words even if the necessary handling is unknown to the wedge event, the administrator could and should still examine the logs to see what to do.
 
-I don't even see a v1 on the list for this patch when searching the 
-subject.  Typically the cover letter is sent out with every version of 
-the series.  This is v7, surely the content of the cover letter has also 
-evolved.
+They're somewhat similar except the consumer can execute vendor specific
+triggers (look at some sys/proc entries or logs) based on device id that
+the consumer is already familiar with as defined by the vendor, and could
+potentially be automated.
 
--Jeff
+Unknown is basically "I'm clueless and good luck with your investigation".
+
+So the distinction is whether the driver is able to provide definition for
+its vendor specific cases and how well documented they are.
+
+Raag
