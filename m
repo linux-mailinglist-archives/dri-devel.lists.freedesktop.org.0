@@ -2,159 +2,153 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id A5AA1AF0C8E
-	for <lists+dri-devel@lfdr.de>; Wed,  2 Jul 2025 09:27:54 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id D53A7AF0C91
+	for <lists+dri-devel@lfdr.de>; Wed,  2 Jul 2025 09:29:07 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9F3F110E2FF;
-	Wed,  2 Jul 2025 07:27:51 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B583510E2FA;
+	Wed,  2 Jul 2025 07:29:05 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=amd.com header.i=@amd.com header.b="eDGIP1sZ";
+	dkim=pass (1024-bit key; unprotected) header.d=amd.com header.i=@amd.com header.b="vntlFDdd";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from NAM04-DM6-obe.outbound.protection.outlook.com
- (mail-dm6nam04on2076.outbound.protection.outlook.com [40.107.102.76])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4D5EA10E2FF
- for <dri-devel@lists.freedesktop.org>; Wed,  2 Jul 2025 07:27:50 +0000 (UTC)
+ (mail-dm6nam04on2081.outbound.protection.outlook.com [40.107.102.81])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 86A6710E27F;
+ Wed,  2 Jul 2025 07:29:04 +0000 (UTC)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=V8MWcME0DzQIgW51Ab0LMFEU2aJbaBTmcE5nM3/TzVgDxm8/oQ+1XvtXPnDuxqCRWv4ct0Mml3jo0Vs7LUTvjILLDZufI1yaOchG1H+kwjTx6cVALvarNOegXAcwwhdfuq7v7DU5OZABBJgSqEMkPcLT7sen2EgbtB9UmxFO9qzMt8c5HHfSFCELnirEGAD+3gmhz8bKAMHbXyMSGhCyu/kvy0WaCFOr2GbmvVcFKlzf9gaZXz0j6dDEDkgy4y1aueT/CFzzpOCPVL3IRigmxCIjKjHB6qL4PaAx5D9FTFlMvu4p9rZLTsyp9BuNpOvnocOTznWQPQ5koQgfUw77Rg==
+ b=nZ9vi3cr7Ryjk7gso9T1tgAGUPIw8gsw5cEyhqRy6ff42Rp7Nc5HXBE2vboocvNnsyBlyKdyVcOrXhhbmvFGoMpVJflUNAABaW7JYPq5lt6wdVJwtLj8iG8jC0sKVDfZpVmJ+Q0SuJoF0Zi29hzJJuBAOs+y1FSEcA5SopNtbAp8D1qzG+FdfUqEdwSiLJJZiBdbMlg8npn5x8IFKHIzTSSsRsX7ObpNMz/kbZASeuZv4vb/H5kwlN69S13fXp33GP4rHtUAyo7SIXarViDebQ8X77bBtJUp47Vlzq1y8xEt7fwtDk73rqK4wIjMyyUiku4TLG85CXRDx5g7m3XBsA==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=cHlykQXgPL71pDAxOA9DA9Vkux8z6EiXK3MxHm8vJU8=;
- b=BUVvfZX0Qu14F3g7rL6aZC5FzQrW7EQLpvV8wn+/aVgO3ktmRtrasjxuX1nM1jp41ZKEuif/q3jTkfndc/MsJmZT8pMd6mHc3iHQfLz1GeUmLbkkWgTtckUQPOvDykQIjTFOC5g1ENk6+xfVB0qGsr4zZUoY9C/PkcEVmazMq8aXuf+9tubrTtwUGaoPjrqXassZju/mK83ufmrQFIjZH72LbrLy+A1oZcbGk9hkejkD40ElrSalUpjKOX/2mBVHS9vY6d2LOuPCt+JdAareGSTs+9FKRX6F2TDRjg5gywfzOsBp0UieiaVIHvO+9TKmVB2/8ckr8deAIWpjpAt0qg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
- header.d=amd.com; arc=none
+ bh=87vRPEoSoVMRg2cW+tsTcXFq+Wsb9sTy1u4FjqeZfZg=;
+ b=qmT4/FpAmu+/Mj0ucfkWg5NgT6UarRCyjMfyWJRxCYYcnhZEqYuufo+N9vXF9WAQe/wq7pm4e2x4SdF89tD9tL+LNHbbKBQsafcOlgg9SU3RuNu0oVjs/aBVZiHmU6gTx32aMfSgleP8feAq3GqnegV8U1Nc+zz3Qx/bpvlzDVoXCmw/wFASh/SzGeX8gNc6QfWJEte1R7uImDGu6d3ayuWo8ljeu5TKlJgPuh1fTPwvaYzaIBk4EsQ6/Gh0HOiB55MgIDlS7pwLJSrRMdS2t3CBb2GsxFTyFYBJmhmYdIlTGLgotSVL7islywmSdEMCd26EzfHWgc1Fi4f/oMXgsg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
+ 165.204.84.17) smtp.rcpttodomain=kernel.org smtp.mailfrom=amd.com; dmarc=pass
+ (p=quarantine sp=quarantine pct=100) action=none header.from=amd.com;
+ dkim=none (message not signed); arc=none (0)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=cHlykQXgPL71pDAxOA9DA9Vkux8z6EiXK3MxHm8vJU8=;
- b=eDGIP1sZuKQWcQ1qWKG3Ggda5f66mJsrimq2gU41wlmg8MagtxUIRjNTJQBqp6FGOB8Q8PQoeeveIpDfVtZR3CffGxZbb7PyZuvdj9D1LgM5rNIrHYUGkJzGnXS3IxI99+yHOZOCH95qeF0HezqK1BCrz0hnSUWAfhWZqn0MuXM=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=amd.com;
-Received: from PH7PR12MB5685.namprd12.prod.outlook.com (2603:10b6:510:13c::22)
- by SA1PR12MB8843.namprd12.prod.outlook.com (2603:10b6:806:379::5)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8857.37; Wed, 2 Jul
- 2025 07:27:47 +0000
-Received: from PH7PR12MB5685.namprd12.prod.outlook.com
- ([fe80::46fb:96f2:7667:7ca5]) by PH7PR12MB5685.namprd12.prod.outlook.com
- ([fe80::46fb:96f2:7667:7ca5%5]) with mapi id 15.20.8901.018; Wed, 2 Jul 2025
- 07:27:47 +0000
-Message-ID: <54b2ee4a-0f2f-49a1-a680-8dc1193e2d30@amd.com>
-Date: Wed, 2 Jul 2025 09:27:42 +0200
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 12/17] ttm: add objcg pointer to bo and tt
-To: David Airlie <airlied@redhat.com>
-Cc: Dave Airlie <airlied@gmail.com>, dri-devel@lists.freedesktop.org,
- linux-mm@kvack.org, Johannes Weiner <hannes@cmpxchg.org>,
- Dave Chinner <david@fromorbit.com>, Kairui Song <kasong@tencent.com>
-References: <20250630045005.1337339-1-airlied@gmail.com>
- <20250630045005.1337339-13-airlied@gmail.com>
- <20a90668-3ddf-4153-9953-a2df9179a1b1@amd.com>
- <CAMwc25ok0Q93+EeyyoR-S0Ffvi-GswDiUGA8rPBwZ+C+5Y8HVA@mail.gmail.com>
- <cf6cb95f-df79-40ae-95d5-dc5a7620a136@amd.com>
- <CAMwc25q-kBRGDrphU+iAyqENZhgdRtEnSrR9z6b5bQ_JFzzK2g@mail.gmail.com>
- <26c79b1e-0f7f-4efa-9040-92df8c5bdf1f@amd.com>
- <CAMwc25oMQ_=Hagb9N6SN3pFFPwZ8+8ZBOGvziCPhUypMpPeKUQ@mail.gmail.com>
-Content-Language: en-US
-From: =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
-In-Reply-To: <CAMwc25oMQ_=Hagb9N6SN3pFFPwZ8+8ZBOGvziCPhUypMpPeKUQ@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-ClientProxiedBy: FR2P281CA0139.DEUP281.PROD.OUTLOOK.COM
- (2603:10a6:d10:9e::10) To PH7PR12MB5685.namprd12.prod.outlook.com
- (2603:10b6:510:13c::22)
+ bh=87vRPEoSoVMRg2cW+tsTcXFq+Wsb9sTy1u4FjqeZfZg=;
+ b=vntlFDddvLwooIOUMhz7KXSskRL/ihD+ijejqjJnG0Z0Vmw7uirnb56rVw2fRxAt7+NoUCwF0zuVVdcX5CxlZ6Glpt/k/shX58ufQ7kS48XCWD/JQZ5Vsd04s5AOxxRBnmL1HE8f90yMJ9G2wsacUOt737SJCOAhnbe3FICTxHU=
+Received: from PH7P220CA0105.NAMP220.PROD.OUTLOOK.COM (2603:10b6:510:32d::20)
+ by CH1PPF12253E83C.namprd12.prod.outlook.com
+ (2603:10b6:61f:fc00::606) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8835.25; Wed, 2 Jul
+ 2025 07:28:56 +0000
+Received: from CO1PEPF000044F9.namprd21.prod.outlook.com
+ (2603:10b6:510:32d:cafe::4c) by PH7P220CA0105.outlook.office365.com
+ (2603:10b6:510:32d::20) with Microsoft SMTP Server (version=TLS1_3,
+ cipher=TLS_AES_256_GCM_SHA384) id 15.20.8901.21 via Frontend Transport; Wed,
+ 2 Jul 2025 07:28:56 +0000
+X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 165.204.84.17)
+ smtp.mailfrom=amd.com; dkim=none (message not signed)
+ header.d=none;dmarc=pass action=none header.from=amd.com;
+Received-SPF: Pass (protection.outlook.com: domain of amd.com designates
+ 165.204.84.17 as permitted sender) receiver=protection.outlook.com;
+ client-ip=165.204.84.17; helo=SATLEXMB04.amd.com; pr=C
+Received: from SATLEXMB04.amd.com (165.204.84.17) by
+ CO1PEPF000044F9.mail.protection.outlook.com (10.167.241.199) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.20.8922.1 via Frontend Transport; Wed, 2 Jul 2025 07:28:55 +0000
+Received: from SATLEXMB05.amd.com (10.181.40.146) by SATLEXMB04.amd.com
+ (10.181.40.145) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.39; Wed, 2 Jul
+ 2025 02:28:55 -0500
+Received: from SATLEXMB04.amd.com (10.181.40.145) by SATLEXMB05.amd.com
+ (10.181.40.146) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.39; Wed, 2 Jul
+ 2025 02:28:54 -0500
+Received: from [10.65.159.153] (10.180.168.240) by SATLEXMB04.amd.com
+ (10.181.40.145) with Microsoft SMTP Server id 15.1.2507.39 via Frontend
+ Transport; Wed, 2 Jul 2025 02:28:51 -0500
+Message-ID: <558ad3d6-7349-40f1-ba06-0fa46701b247@amd.com>
+Date: Wed, 2 Jul 2025 15:28:50 +0800
 MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 1/3] drm/amdgpu: move GTT to SHM after eviction for
+ hibernation
+To: =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>, "Zhang,
+ GuoQing (Sam)" <GuoQing.Zhang@amd.com>, "rafael@kernel.org"
+ <rafael@kernel.org>, "len.brown@intel.com" <len.brown@intel.com>,
+ "pavel@kernel.org" <pavel@kernel.org>, "Deucher, Alexander"
+ <Alexander.Deucher@amd.com>, "Limonciello, Mario"
+ <Mario.Limonciello@amd.com>, "Lazar, Lijo" <Lijo.Lazar@amd.com>
+CC: "Zhao, Victor" <Victor.Zhao@amd.com>, "Chang, HaiJun"
+ <HaiJun.Chang@amd.com>, "Ma, Qing (Mark)" <Qing.Ma@amd.com>,
+ "amd-gfx@lists.freedesktop.org" <amd-gfx@lists.freedesktop.org>,
+ "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
+ "linux-pm@vger.kernel.org" <linux-pm@vger.kernel.org>,
+ "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
+References: <20250630104116.3050306-1-guoqing.zhang@amd.com>
+ <20250630104116.3050306-2-guoqing.zhang@amd.com>
+ <ce04e266-6c3f-4256-aade-bafca8609ab3@amd.com>
+ <DM4PR12MB5937FFB3E121E489A261785DE541A@DM4PR12MB5937.namprd12.prod.outlook.com>
+ <ba843972-f564-4817-8651-b3b776c5f375@amd.com>
+Content-Language: en-US
+From: Samuel Zhang <guoqzhan@amd.com>
+In-Reply-To: <ba843972-f564-4817-8651-b3b776c5f375@amd.com>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 8bit
+Received-SPF: None (SATLEXMB05.amd.com: guoqzhan@amd.com does not designate
+ permitted sender hosts)
+X-EOPAttributedMessage: 0
 X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: PH7PR12MB5685:EE_|SA1PR12MB8843:EE_
-X-MS-Office365-Filtering-Correlation-Id: ce51ff86-d715-4e60-c27e-08ddb939f19c
+X-MS-TrafficTypeDiagnostic: CO1PEPF000044F9:EE_|CH1PPF12253E83C:EE_
+X-MS-Office365-Filtering-Correlation-Id: 041192a2-30cd-43f6-dd17-08ddb93a1a6c
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;ARA:13230040|1800799024|376014|366016;
-X-Microsoft-Antispam-Message-Info: =?utf-8?B?UVl4Uk5ZSkpxUkxFQTZIM1FqV1M1b1FERVpXaXNyelBxNTJCaTlrZnBNM2ZC?=
- =?utf-8?B?RVRlUE1UcWZiMjVkbjdMYVB6RzZzK3lrWWVnTkM5M2xFdFdmWXBnczhLUllk?=
- =?utf-8?B?SCsyVG13enNpZ01ySk1HQyt1N1ZaR0V0bGJ0a3Q5V2NocDBLak9pQzdLSm54?=
- =?utf-8?B?TDhxdzJKcFl2eTduVkQ1SUwzTzBOanJyZ1NXYkNoRnp4OExpVzZLdHFVK3Mx?=
- =?utf-8?B?Mk9zUzkvUGM4RTNKWFR5SnBmTm9ZVGFNc2lCNDlDR1JvdGEyRGNoT2hja1Q0?=
- =?utf-8?B?T0RkU1kxQlNlWm12aUFCVWVxa0NoNFhJdXE3MmJsT3J4eDJVY2NBdHRHVHJ6?=
- =?utf-8?B?RUVVK2doc1hqSnM0RngvcHZ5RHFsaUs3SmhTd2dJU1cvbDBIMjFsbTJwZkdv?=
- =?utf-8?B?WkQ5WXJ2UWpYVDY1WkRYQlpWUDc3eHZQandIM1RtQlU1a2E2L04wRkhVSHpV?=
- =?utf-8?B?ZTIyVHhiK0dxNXQydDZ0Z1h1cUx5U2hwdUdVRkwya3RKc24zL0VLMmFhcEc4?=
- =?utf-8?B?ejByeFlXL1RRMUpYeWVubExONlIwbjYramJicitSSUo1ajJlSWNUM0pNQUNB?=
- =?utf-8?B?V2lyQUJZYjFmVXJGUDcraUlzckEwSCtMMW5QUEdvalB1d0g2cE5VU2lwOTRY?=
- =?utf-8?B?a1hTVFRuRlVLVVduQ2RsZWczUEdneUFTRmxtTVhHREpYQ0cyK0hVMGRQclpF?=
- =?utf-8?B?b2NzRHVZdHZNbGZQdndjRm9uclQ0V1BONVhlcnFsWG5OMTBVRW5YUGVYRVNC?=
- =?utf-8?B?eWt3aVFRWlFmaEUwYnIyUXNUdUMyR25SS21BNFpSdEM3THZaVEZKUzhKREpB?=
- =?utf-8?B?S3FWdy9ReXVOaEpZVFN1UlUwOEY0bDRnWG03Z0xseHM1Snd2WllINTVQS3Bm?=
- =?utf-8?B?SHFGVkRiWDlIOSs2UHk4RnpwTk5udEZhd3NGci94WHM1TUFONkh4eTU0a3dB?=
- =?utf-8?B?WU1lWm4xV3ZOSFF4UXFEaHNoaEV2VXRMSlovQzZ6dzVGTytaQ0xDeFBKeDBP?=
- =?utf-8?B?eGJRc1l6ak1XMTVWVHVXektMK092QlFIb2lwZVlEUHYySnBTeEthczlhZG5a?=
- =?utf-8?B?dWVVK2FrV1FXaHEwSVdXa2F6U1d5SnRIUHJ0d1ZzQTZwQmw1NmFJbzhUZ1JR?=
- =?utf-8?B?MmU1VjhTQUhKNFM2T1B4eWxrcDdmaW40dFcrMXA4bHJwR3pLUDY1cUt5bG1Y?=
- =?utf-8?B?TnFBV09xeDJNWUZSVFdPdmRkMGhuRUMzMWhhUmZzQkxLbnBGV3dsNWx4ckZs?=
- =?utf-8?B?QTZ2MTM4dnUvMTJ6dlNHZGtXd0pNR2dsMWo3MmEralFSNWVIWHozbGhEUVRG?=
- =?utf-8?B?SEFkb2dhQzNTRy9qd1o0a29FNG44Mk03K1loU0ozREFUQ3haajV3Y0F2L0Fh?=
- =?utf-8?B?VXRtSHIyZktIcVM3YlQvQ3ZFNXYvVGVGUmtRU1ZRZ1NNUDEzazIyajhnVUhh?=
- =?utf-8?B?ZHZvbXEyV0VrU1ZtZVNmNUQyWXNDbTNncUdnUEM4M2h1aCtxbzA4R1FSa2ZB?=
- =?utf-8?B?MjZHQVBsRGhlbWJKL0ZFTVVEYlpJT0JXODY3L21EL0R5d25GUW5XOTdTZ2lX?=
- =?utf-8?B?bTZQTHF6S2hZWUxmcndiRDd6akc4S3BIdWlwS25nTDJJaC84KzFsaW1KMTNN?=
- =?utf-8?B?UU1kcFhxdXFnYTNidndEb2k2Y0YxR2t0bVdCMkpTdGlVTjE2M1pueGZUVW93?=
- =?utf-8?B?cjRKNml3bFM4RDZBOHFIbExCV0F6aTgvVHd2UjBBSm5iVzRjRzBjRlkyVWxr?=
- =?utf-8?B?aDZRdENMNFQ3L3RZQVE5a2pCdjIvYitWV2ZFV3gzUGJHVkFXT2RFSFg3YzNa?=
- =?utf-8?B?MWIwSTdVb3ZVNU51MnVFRHU0S2VWZ2RTOXYrN0JQWGdURWYvL0F4czRVV3BC?=
- =?utf-8?B?ZDYwTm1zbDhKRm95NWw2MGQ4a2V3TzFrOTRoY3BRaXpYNHNvOXFETmFEOFll?=
- =?utf-8?Q?U2rIykOFbbc=3D?=
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:PH7PR12MB5685.namprd12.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230040)(1800799024)(376014)(366016); DIR:OUT; SFP:1101; 
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?SmNOWVJBS1VjZVFoK09YZll6dVEyOTJ4ZEJmdkZLREd0OHBGRXRhb2pKMXFx?=
- =?utf-8?B?bEpqck1Nd042TCt3TFRZcTRpWmtEeDRpZWFlV0VQSENEajdqS2VLdHJSWi9Q?=
- =?utf-8?B?cG82Y1grQ3ViREZ1Y2lURzlnM2Z3enBQM3A0NkY4dGdKRG1wcjhWSStlWHJY?=
- =?utf-8?B?SkwrcUl1anNncXYwbStzZHNBaG5VQWRBc2h0K004SThXK1E3SGZiME9Bc3Ey?=
- =?utf-8?B?eis4QlhDWURhbkFMR1RNR1ZUTVo3RTFsbTdKNTFIbEhXdzFQN01PTVlXNS8x?=
- =?utf-8?B?eUQ5cHFkQnlpQ2ZOcTZBaU1HT1M1TzhGaC9GTTNlMjNxUUZ1dXMzZnFTYnpl?=
- =?utf-8?B?TzFTVTNtZnVwVmdpMm10Nm9UTjA3MkNFQUxYNlA0b3FwbEpCbU9aa3Q5QjMr?=
- =?utf-8?B?clN4Nlc3ZWsxR1lpbzRYTlVYeTh2eGNoN1p3OElQbVF2NG5mQkw3Vno5UmdL?=
- =?utf-8?B?RTBzUjkrZUpHTkwvY0lIbm5uYWphdnJudXFlUS9EQk1ieFNOL3ZQRlNiQ2J1?=
- =?utf-8?B?QWd0N0NsZkMrQmNYK1JLOWxMTUFCTTJTUGsrTE5scUpRdVRPeWF4UmtiQ2JO?=
- =?utf-8?B?YWJzdS9mUEEvblR5OXk0YVU2eFBmT0tsRGIxc3MzMFJ6ZVh4SVBpVmtPNUVo?=
- =?utf-8?B?Y1BEWktWbldHS3paclFTRkNUVlA5b2MvS3g2eVVEdmwvNi9Ud2c2b090V0tZ?=
- =?utf-8?B?TkFYQm1NTFRoQXRuRlhzaVI1d2k4aCt4Vk5aeUFmUkRBWVlkTlhlZHhiZjc5?=
- =?utf-8?B?K01uRVZsM21tQ21CSEQveXFwdVdMVlJOVkV2MHJ1TlI0eGNCVXAySWNLUFdW?=
- =?utf-8?B?VTZDbmxWa1hRYXpoSk9uT3Y5TTZ2ajBpd0tpTlFlU3FwSkRXM3BwWVByNWNr?=
- =?utf-8?B?U1VhUXNjdE9EeVp2d0pFendNaVNhSDV3THBvVHVESDlpTVFJQndvdENTaVVT?=
- =?utf-8?B?V3RRTjRWMm1pNTcrRU1BOWhWaWRISTgvdEpSa3orcUhWMkYvR0V1L1diR0hv?=
- =?utf-8?B?SmlTQ28rNExpc0IyUlUwNmZSSHNwYVQxNTdxL1ZROFRFTTdJSEdrTUdGa0wy?=
- =?utf-8?B?S1Vib1BRQ3JUL2NQNEFjRzFlVnNWeWtIV2REWGtDQVVrUnFINEgzUnF4REZX?=
- =?utf-8?B?NWJKaHF5MU8reENaOFc5SGhBeEN5YVdHYnkxa0hGK0FyZ2oyYUhXQmU1T0tW?=
- =?utf-8?B?SFUzLzVrTTdseXZZaGNTc3VzbVNxNWYwbmNmV25lVmtzRzhsT0hzeTcxdUFI?=
- =?utf-8?B?anZLcGV6SWNUb1BYejZQOGlEWUtpUVM2eUl5YkNCUVpNZnFxOElNakJHWFNF?=
- =?utf-8?B?RDIwcUxxV2xKeStpTThJMllaUDBUT3JUSTVIQllKcE5XNmdoYm5keTZJY0Nv?=
- =?utf-8?B?Tyt2OGZzbEUwdlVYcDlpeUYwU1N3eEJOWDVabGFOQlpsRFRUVWx0ZWZrUGgx?=
- =?utf-8?B?VGJUcWZhZFFCNGxTS3g5SFFTM0laZTZObDBEcWZwMnZNMkFUQ1J1UEo2N2M3?=
- =?utf-8?B?bEFVQkQreC85ZDRUaENGNzBOYTdVVysxYjYyWkNwUkcrZTQwMGNERkdNSmNZ?=
- =?utf-8?B?WW43R3FlYUpTSmhuL0o1MmxYYkdodEZkVU9oS0dlK0l3bERPMVdnUGlxbGdz?=
- =?utf-8?B?bklzK3ozVXAydXBxbC9JcUo1bmpzK2xOVXh2aTFnWWRnajJvYWE3aFNma3JF?=
- =?utf-8?B?MmNsWjhkSmxSRnBWTTlTSVdDZTlhcVpjU2p5cHZ5ZEV4LzBBQUhqRlVad2tN?=
- =?utf-8?B?WG0wTVFNN3dxY083dXZXazRscGd6NkRHcVhUc0h0b05sNVAraWY5Q0tTd2ts?=
- =?utf-8?B?MktJOWRIaVlnemV0d1FEOW5WWXZrc1NRRy9Sc0pHOVhtUGNRb2xFTDJXbytl?=
- =?utf-8?B?N3VUK0RhUFE4U1JjSUtFcFFiTk03WWtIYnNIZGpEV0FnL3dSd09FU2dmUlpT?=
- =?utf-8?B?dlpKQ1VNVytoR2JjUko5TFZWZnhkWDh5OUhhQW5Pcm42YjJvaEd0ckNVNmFS?=
- =?utf-8?B?aVB0cS9PYjZ4WTh5T3FsT1lJRWxYeEtKTmZmR2VmVEJFSzFlMUtUMk9iNjN4?=
- =?utf-8?B?NlgzK0o0d2p1azBQUE5GNHBIT3lCRzUxWVV6KzEvdG9FaXNxRmlHaWM1dlFm?=
- =?utf-8?Q?Li30MFqzzcfx1h0VGVGoPLmqq?=
+X-Microsoft-Antispam: BCL:0;
+ ARA:13230040|36860700013|82310400026|1800799024|376014|921020; 
+X-Microsoft-Antispam-Message-Info: =?utf-8?B?MGM5VVJuN0RLZHZ3K0hmUEZZazRoMThEZktmZmx5RVRaSk4rVC9PQyt5MzJZ?=
+ =?utf-8?B?WnZyQ0d3ckpaQ3dIVllnSVBaMVhna3ExRGltMW5VemRUUERreWpoR3dmR1BK?=
+ =?utf-8?B?TWpWRmZCbEIxYVhGQU4yWFFlQzJIcFNjSlJKT3p3KzNaUUZ0Zkl5NTB2V1Zi?=
+ =?utf-8?B?S0czTUkxZ0N1Y2FlTHcrbU5SOE10VFoxV1MvNUZWR1pOd1pObXRKTXBqcDlO?=
+ =?utf-8?B?SlBPNjhwUi9JelQrYzJjTWl6alZNazVHWEVDTk0xWmd1ZXFnb1VIS0NEdXk1?=
+ =?utf-8?B?dkMzV1hoSEVIMXZMY0pUY0JkVkU2WW9KUWR5am1kRHlhVDM5dERGMDBoSzZ5?=
+ =?utf-8?B?RzE4RXNwVWVrczdvRU5MQjVMSXFnQnlPVE02eHJLdzlIQkFXRCtrSnd4VlFs?=
+ =?utf-8?B?TlorcUx1dkpZTWhuckw2RUp4QUxvV056bFl2a2NSQUhwQkxZTjRQcmFOazhk?=
+ =?utf-8?B?aUk0aUpCcVhJdWdxendXa3c3T1RXQzJ6SXNhd1VJdWpRbFFHVmg3SHJYWVdC?=
+ =?utf-8?B?R29MaHlSeFc3dTQ2aXF5K05VaHFuaUF1OVFXRUFBWmV6QWxvOEpETkVqUlJE?=
+ =?utf-8?B?NGozMW1DV0MrQXpoTWVnd1FOYndBZlBQM3FFRy96b05ndGpuTE85bGUyNzFt?=
+ =?utf-8?B?WUZsQzVGVmVyQkkrdUNacmpEaERWYU43NVRHQUVlV01QcU9zOE5wM3N4TjdV?=
+ =?utf-8?B?a0xYRzNibHYyK0wwQU9qK0xKcW9na1V2Nkl6eWlZamdXa2RCbEJySUpYeDF6?=
+ =?utf-8?B?U25Yc2VKT0VWYzFCVEZ5Ri9KTVE2ajNadWg2SHlOSC9SWUhnd0VlbDZkU2ht?=
+ =?utf-8?B?cm8zK3A0dGpkaGFoSWEzMGM4Q1FlVmpRaEZnSVk5cVBuZXlDdVIvSXlIL3Rw?=
+ =?utf-8?B?NkRGbld6NnJjYWVERVZ4R0h0TWNTWHUyQi9MVWtuYWpPeFN2U3JzTkJuS3h2?=
+ =?utf-8?B?RXR0NnhTclYvai9LWmZEa2NNWDNJdWYvSDFBN0czUGs4K3BxSUtkR1VzTUtJ?=
+ =?utf-8?B?QWZtWlRQay9wZUx2bkFYK0F6NWFmUGFIVVFrT2lYcjBxWUNiaTRjMjN0dTNw?=
+ =?utf-8?B?MzhjY2lhRlNSeVhjMFpBK1VDclVvOXM0THFmUG1uVHNzS3UvZCs5V0NQZUlw?=
+ =?utf-8?B?SmxTS2gyWkUzd1R2QSszVkFhcVpwWEM4TFh0SlBTTW9pUzJPSVYxeWt6NnRP?=
+ =?utf-8?B?UTl2UXlwV0FRVXF2RHFjamc5aGhtcHRiMWgvOCtwUHJxQTFkV3VLUmZKOU5W?=
+ =?utf-8?B?czBVN2h4anZxeFFNVGZuZ3pnUkhpdHdwRnBSc1NpenFDYm82WEpzdDlaQWVG?=
+ =?utf-8?B?b2dBdEUzTDhJVEVhcTdtOVBwODZLMEZ6d01PSy9EdktWdE9INFZEVDJOck1Z?=
+ =?utf-8?B?NlBLanJiMHZBcXFHcTRBUHdjMm5UOFQyYkF3M0N2NURzU3FYNXFzeGE3UXll?=
+ =?utf-8?B?VG9mSjZVQ0RVcHJyd3U2MlV3cHhEKzh4WHA5dnk4YkI0S2hwNU1SSlNocVlE?=
+ =?utf-8?B?N05zMGExRFAzdU1TQ2Y5M1hiOVpyTmNBaDhrc05SMHlBLzI3eWd6c3RReXM2?=
+ =?utf-8?B?clNJZENVS2Z6NnErMXB2ZFlSY0Z4UnAwUm43azV0MFgzNXpybGo1NlJBcEs4?=
+ =?utf-8?B?MENNVHhDdGVwV1gxTkwrd1NwODJhc2ZLSHhkWWw1OXFVTXZQS0VjTVJmNmdC?=
+ =?utf-8?B?Vk53R0xQY2MyeFA5bE9JbXpJWk50MndFVmtMa0tZSXhWK2lnbmIyZ3NCeVVN?=
+ =?utf-8?B?Q09ERDFKUm1UTWxhcDdYby9yUnJPUmxaR0xJd0V5UlVaV1kxNzB0WTZ4aDJI?=
+ =?utf-8?B?Skd2Q1phekd0cFhPalJ6SVVFREFBUkFoaFphN09nSkpkUnhNUnVCOEY3MFhJ?=
+ =?utf-8?B?SEhuVkNtV3ZqRnY0bXVVZWJsTXpweWNXQThMMWl4b0lyQ0tSejVqYS9wMTdM?=
+ =?utf-8?B?Qzg3RlZTamo1VlVGQjR1ZWZmTWlodG1DOXljd3ZsbTc4eTZSMnJZbmNCSmFP?=
+ =?utf-8?B?c2k3NmQwTnIxQmVVMXJsdk95NjRRT3ZFVlpPbjFpK2ZsWHdFN21hQ1dVeUUv?=
+ =?utf-8?B?M2xOUzNZaFg2RzR3VXZUem5KM0hIUkcxdGlFZz09?=
+X-Forefront-Antispam-Report: CIP:165.204.84.17; CTRY:US; LANG:en; SCL:1; SRV:;
+ IPV:CAL; SFV:NSPM; H:SATLEXMB04.amd.com; PTR:InfoDomainNonexistent; CAT:NONE;
+ SFS:(13230040)(36860700013)(82310400026)(1800799024)(376014)(921020); DIR:OUT;
+ SFP:1101; 
 X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: ce51ff86-d715-4e60-c27e-08ddb939f19c
-X-MS-Exchange-CrossTenant-AuthSource: PH7PR12MB5685.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 02 Jul 2025 07:27:47.6629 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 02 Jul 2025 07:28:55.7726 (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: 041192a2-30cd-43f6-dd17-08ddb93a1a6c
 X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: hEFd/cl1DWDY8OFoFOzVmUbz1a47q6rQQ29SN+cA61+coO/qj9K11FUyG5jSzFzC
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SA1PR12MB8843
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=3dd8961f-e488-4e60-8e11-a82d994e183d; Ip=[165.204.84.17];
+ Helo=[SATLEXMB04.amd.com]
+X-MS-Exchange-CrossTenant-AuthSource: CO1PEPF000044F9.namprd21.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: CH1PPF12253E83C
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -170,103 +164,209 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 02.07.25 00:11, David Airlie wrote:
-> On Tue, Jul 1, 2025 at 6:16 PM Christian König <christian.koenig@amd.com> wrote:
+
+On 2025/7/1 16:22, Christian König wrote:
+> On 01.07.25 10:18, Zhang, GuoQing (Sam) wrote:
+>> [AMD Official Use Only - AMD Internal Distribution Only]
 >>
->> On 01.07.25 10:06, David Airlie wrote:
->>> On Tue, Jul 1, 2025 at 5:22 PM Christian König <christian.koenig@amd.com> wrote:
->>>>>>> diff --git a/include/drm/ttm/ttm_tt.h b/include/drm/ttm/ttm_tt.h
->>>>>>> index 15d4019685f6..c13fea4c2915 100644
->>>>>>> --- a/include/drm/ttm/ttm_tt.h
->>>>>>> +++ b/include/drm/ttm/ttm_tt.h
->>>>>>> @@ -126,6 +126,8 @@ struct ttm_tt {
->>>>>>>       enum ttm_caching caching;
->>>>>>>       /** @restore: Partial restoration from backup state. TTM private */
->>>>>>>       struct ttm_pool_tt_restore *restore;
->>>>>>> +     /** @objcg: Object cgroup for this TT allocation */
->>>>>>> +     struct obj_cgroup *objcg;
->>>>>>>  };
->>>>>>
->>>>>> We should probably keep that out of the pool and account the memory to the BO instead.
->>>>>>
->>>>>
->>>>> I tried that like 2-3 patch posting iterations ago, you suggested it
->>>>> then, it didn't work. It has to be done at the pool level, I think it
->>>>> was due to swap handling.
->>>>
->>>> When you do it at the pool level the swap/shrink handling is broken as well, just not for amdgpu.
->>>>
->>>> See xe_bo_shrink() and drivers/gpu/drm/xe/xe_shrinker.c on how XE does it.
+>>
+>> Hi Christian,
+>>
+>>   
+>>
+>> Thank you for the feedback.
+>>
+>>   
+>>
+>> For “return ret < 0 ? ret : 0;”, it is equivalent to “return ret;” since ret is always <= 0 after the loop.
+> No it isn't.
+>
+> ttm_global_swapout() returns the number of pages swapped out and only a negative error code if something went wrong.
+
+
+/**
+  * move GTT BOs to shmem for hibernation.
+  *
+  * returns 0 on success, negative on failure.
+  */
+int ttm_device_prepare_hibernation(void)
+{
+     struct ttm_operation_ctx ctx = {
+         .interruptible = false,
+         .no_wait_gpu = false,
+         .force_alloc = true
+     };
+     int ret;
+
+     do {
+         ret = ttm_global_swapout(&ctx, GFP_KERNEL);
+     } while (ret > 0);
+     return ret;
+}
+
+This is the new code version.
+If ttm_global_swapout() return positive number, the while loop will 
+continue to the next iteration.
+The while loop stops only when ttm_global_swapout() returns 0 or 
+negative number. In both case, the new function can just return the ret.
+
+The ret values printed in the do while loop:
+[   53.745892] [TTM DEVICE] ttm_device_prepare_hibernation:164 ret 512
+[   53.950975] [TTM DEVICE] ttm_device_prepare_hibernation:164 ret 35840
+[   53.951713] [TTM DEVICE] ttm_device_prepare_hibernation:164 ret 9
+[   67.712196] [TTM DEVICE] ttm_device_prepare_hibernation:164 ret 2187264
+[   67.713726] [TTM DEVICE] ttm_device_prepare_hibernation:164 ret 512
+[   67.759212] [TTM DEVICE] ttm_device_prepare_hibernation:164 ret 32768
+[   67.761946] [TTM DEVICE] ttm_device_prepare_hibernation:164 ret 1024
+[   67.762685] [TTM DEVICE] ttm_device_prepare_hibernation:164 ret 85
+[   67.763518] [TTM DEVICE] ttm_device_prepare_hibernation:164 ret 175
+[   67.767318] [TTM DEVICE] ttm_device_prepare_hibernation:164 ret 2367
+[   67.767942] [TTM DEVICE] ttm_device_prepare_hibernation:164 ret 1
+[   67.768499] [TTM DEVICE] ttm_device_prepare_hibernation:164 ret 1
+[   67.769054] [TTM DEVICE] ttm_device_prepare_hibernation:164 ret 1
+...
+[   67.783554] [TTM DEVICE] ttm_device_prepare_hibernation:164 ret 1
+[   67.785755] [TTM DEVICE] ttm_device_prepare_hibernation:164 ret 1
+[   67.788607] [TTM DEVICE] ttm_device_prepare_hibernation:164 ret 1
+[   67.789906] [TTM DEVICE] ttm_device_prepare_hibernation:164 ret 0
+
+
+Regards
+Sam
+
+
+
+>
+> And it's probably not a good idea to return that from the new function.
+>
+> Regards,
+> Christian.
+>
+>>   
+>>
+>> For all other comments, I will revise the patch accordingly in v2.
+>>
+>>   
+>>
+>> Regards
+>>
+>> Sam
+>>
+>>   
+>>
+>>   
+>>
+>> *From: *Koenig, Christian <Christian.Koenig@amd.com>
+>> *Date: *Monday, June 30, 2025 at 19:54
+>> *To: *Zhang, GuoQing (Sam) <GuoQing.Zhang@amd.com>, rafael@kernel.org <rafael@kernel.org>, len.brown@intel.com <len.brown@intel.com>, pavel@kernel.org <pavel@kernel.org>, Deucher, Alexander <Alexander.Deucher@amd.com>, Limonciello, Mario <Mario.Limonciello@amd.com>, Lazar, Lijo <Lijo.Lazar@amd.com>
+>> *Cc: *Zhao, Victor <Victor.Zhao@amd.com>, Chang, HaiJun <HaiJun.Chang@amd.com>, Ma, Qing (Mark) <Qing.Ma@amd.com>, amd-gfx@lists.freedesktop.org <amd-gfx@lists.freedesktop.org>, dri-devel@lists.freedesktop.org <dri-devel@lists.freedesktop.org>, linux-pm@vger.kernel.org <linux-pm@vger.kernel.org>, linux-kernel@vger.kernel.org <linux-kernel@vger.kernel.org>
+>> *Subject: *Re: [PATCH 1/3] drm/amdgpu: move GTT to SHM after eviction for hibernation
+>>
+>> On 30.06.25 12:41, Samuel Zhang wrote:
+>>> When hibernate with data center dGPUs, huge number of VRAM BOs evicted
+>>> to GTT and takes too much system memory. This will cause hibernation
+>>> fail due to insufficient memory for creating the hibernation image.
 >>>
->>> I've read all of that, but I don't think it needs changing yet, though
->>> I do think I probably need to do a bit more work on the ttm
->>> backup/restore paths to account things, but again we suffer from the
->>> what happens if your cgroup runs out of space on a restore path,
->>> similiar to eviction.
+>>> Move GTT BOs to shmem in KMD, then shmem to swap disk in kernel
+>>> hibernation code to make room for hibernation image.
+>> This should probably be two patches, one for TTM and then an amdgpu patch to forward the event.
 >>
->> My thinking was rather that because of this we do it at the resource level and keep memory accounted to whoever allocated it even if it's backed up or swapped out.
+>>> Signed-off-by: Samuel Zhang <guoqing.zhang@amd.com>
+>>> ---
+>>>    drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.c | 13 ++++++++++++-
+>>>    drivers/gpu/drm/ttm/ttm_resource.c      | 18 ++++++++++++++++++
+>>>    include/drm/ttm/ttm_resource.h          |  1 +
+>>>    3 files changed, 31 insertions(+), 1 deletion(-)
+>>>
+>>> diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.c
+>>> index 4d57269c9ca8..5aede907a591 100644
+>>> --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.c
+>>> +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.c
+>>> @@ -2889,6 +2889,7 @@ int amdgpu_fill_buffer(struct amdgpu_bo *bo,
+>>>    int amdgpu_ttm_evict_resources(struct amdgpu_device *adev, int mem_type)
+>>>    {
+>>>          struct ttm_resource_manager *man;
+>>> +     int r;
+>>>    
+>>>          switch (mem_type) {
+>>>          case TTM_PL_VRAM:
+>>> @@ -2903,7 +2904,17 @@ int amdgpu_ttm_evict_resources(struct amdgpu_device *adev, int mem_type)
+>>>                  return -EINVAL;
+>>>          }
+>>>    
+>>> -     return ttm_resource_manager_evict_all(&adev->mman.bdev, man);
+>>> +     r = ttm_resource_manager_evict_all(&adev->mman.bdev, man);
+>>> +     if (r) {
+>>> +             DRM_ERROR("Failed to evict memory type %d\n", mem_type);
+>>> +             return r;
+>>> +     }
+>>> +     if (adev->in_s4 && mem_type == TTM_PL_VRAM) {
+>>> +             r = ttm_resource_manager_swapout();
+>>> +             if (r)
+>>> +                     DRM_ERROR("Failed to swap out, %d\n", r);
+>>> +     }
+>>> +     return r;
+>>>    }
+>>>    
+>>>    #if defined(CONFIG_DEBUG_FS)
+>>> diff --git a/drivers/gpu/drm/ttm/ttm_resource.c b/drivers/gpu/drm/ttm/ttm_resource.c
+>>> index fd41b56e2c66..07b1f5a5afc2 100644
+>>> --- a/drivers/gpu/drm/ttm/ttm_resource.c
+>>> +++ b/drivers/gpu/drm/ttm/ttm_resource.c
+>>> @@ -534,6 +534,24 @@ void ttm_resource_manager_init(struct ttm_resource_manager *man,
+>>>    }
+>>>    EXPORT_SYMBOL(ttm_resource_manager_init);
+>>>    
+>>> +int ttm_resource_manager_swapout(void)
+>> This needs documentation, better placement and a better name.
 >>
->>> Blocking the problems we can solve now on the problems we've no idea
->>> how to solve means nobody gets experience with solving anything.
+>> First of all put it into ttm_device.c instead of the resource manager.
 >>
->> Well that's exactly the reason why I'm suggesting this. Ignoring swapping/backup for now seems to make things much easier.
-> 
-> It makes it easier now, but when we have to solve swapping, step one
-> will be moving all this code around to what I have now, and starting
-> from there.
-> 
-> This just raises the bar to solving the next problem.
-> 
-> We need to find incremental approaches to getting all the pieces of
-> the puzzle solved, or else we will still be here in 10 years.
-> 
-> The steps I've formulated (none of them are perfect, but they all seem
-> better than status quo)
-> 
-> 1. add global counters for pages - now we can at least see things in
-> vmstat and per-node
-> 2. add numa to the pool lru - we can remove our own numa code and
-> align with core kernel - probably doesn't help anything
-
-So far no objections from my side to that.
-
-> 3. add memcg awareness to the pool and pool shrinker.
->     if you are on a APU with no swap configured - you have a lot better time.
->     if you are on a dGPU or APU with swap - you have a moderately
-> better time, but I can't see you having a worse time.
-
-Well that's what I'm strongly disagreeing on.
-
-Adding memcg to the pool has no value at all and complicates things massively when moving forward.
-
-What exactly should be the benefit of that?
-
-> 4. look into tt level swapping and seeing how to integrate that lru
-> with numa/memcg awareness
->     in theory we can do better than allocated_pages tracking, (I'd
-> like to burn that down, since it seems at odds with memcg)
-> 5. look into xe swapping and see if we can integrate that numa/memcg better.
-> 
-> So the question I really want answered when I'm submitting patches
-> isn't, what does this not fix or not make better, but what does this
-> actively make worse than the status quo and is it heading in a
-> consistent direction to solve the problem.
-> 
-> Accounting at the resource level makes stuff better, but I don't
-> believe after implementing it that it is consistent with solving the
-> overall problem.
-
-Exactly that's my point. See accounting is no problem at all, that can be done on any possible level.
-
-What is tricky is shrinking, e.g. either core MM or memcg asking to reduce the usage of memory and moving things into swap.
-
-And that can only be done either on the resource level or the tt object, but not the pool level.
-
-The whole TTM pool is to aid a 28 year old HW design which has no practical relevance on modern systems and we should really not touch that in any way possible.
-
-Christian.
-
-> 
-> Dave.
-> 
-
+>> Then call it something like ttm_device_prepare_hibernation or similar.
+>>
+>>
+>>> +{
+>>> +     struct ttm_operation_ctx ctx = {
+>>> +             .interruptible = false,
+>>> +             .no_wait_gpu = false,
+>>> +             .force_alloc = true
+>>> +     };
+>>> +     int ret;
+>>> +
+>>> +     while (true) {
+>> Make that:
+>>
+>> do {
+>>          ret = ...
+>> } while (ret > 0);
+>>
+>>> +             ret = ttm_global_swapout(&ctx, GFP_KERNEL);
+>>> +             if (ret <= 0)
+>>> +                     break;
+>>> +     }
+>>> +     return ret;
+>> It's rather pointless to return the number of swapped out pages.
+>>
+>> Make that "return ret < 0 ? ret : 0;
+>>
+>> Regards,
+>> Christian.
+>>
+>>> +}
+>>> +EXPORT_SYMBOL(ttm_resource_manager_swapout);
+>>> +
+>>>    /*
+>>>     * ttm_resource_manager_evict_all
+>>>     *
+>>> diff --git a/include/drm/ttm/ttm_resource.h b/include/drm/ttm/ttm_resource.h
+>>> index b873be9597e2..46181758068e 100644
+>>> --- a/include/drm/ttm/ttm_resource.h
+>>> +++ b/include/drm/ttm/ttm_resource.h
+>>> @@ -463,6 +463,7 @@ void ttm_resource_manager_init(struct ttm_resource_manager *man,
+>>>    
+>>>    int ttm_resource_manager_evict_all(struct ttm_device *bdev,
+>>>                                     struct ttm_resource_manager *man);
+>>> +int ttm_resource_manager_swapout(void);
+>>>    
+>>>    uint64_t ttm_resource_manager_usage(struct ttm_resource_manager *man);
+>>>    void ttm_resource_manager_debug(struct ttm_resource_manager *man,
