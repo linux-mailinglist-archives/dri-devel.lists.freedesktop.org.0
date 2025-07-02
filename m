@@ -2,61 +2,61 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id EDFFDAF13CF
-	for <lists+dri-devel@lfdr.de>; Wed,  2 Jul 2025 13:26:16 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id D3405AF13FC
+	for <lists+dri-devel@lfdr.de>; Wed,  2 Jul 2025 13:37:01 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8BB4C10E70C;
-	Wed,  2 Jul 2025 11:26:13 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0520E10E6F0;
+	Wed,  2 Jul 2025 11:36:59 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=igalia.com header.i=@igalia.com header.b="kizCZh+i";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="mF+Mxsfn";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from fanzine2.igalia.com (fanzine2.igalia.com [213.97.179.56])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A614710E6F5;
- Wed,  2 Jul 2025 11:26:09 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com; 
- s=20170329;
- h=Content-Transfer-Encoding:Content-Type:In-Reply-To:From:
- References:Cc:To:Subject:MIME-Version:Date:Message-ID:Sender:Reply-To:
- Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
- Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
- List-Subscribe:List-Post:List-Owner:List-Archive;
- bh=ns2w6N9Pjlk+8B2/l+fxUqcQUBBJ4EGiVr4r9E2WKwY=; b=kizCZh+ijbuiIlJvnQBSd5hmQW
- 8S79AdZQFGP1dHRcu2uIDgWSpM59qBMq2B92l24sJ+10rQqTFvSBGO0O8UciTzSJ30AKuFudPRJ39
- e5nNfhceKYT+gHeFLKCjGhLTagvEYhIwpIdFuEbs5Fo/AN/wdppEvsnDHtyI5UmrDMwH+zDbSdEML
- Rmf0hJJQL2t4zaVri03LHVAZXOkAG4+kBiBFtHWETvFCj2RcWaXVmtKiuvUQN2SSI0E7bBlApu2/i
- 4aY3cpOEw/4m5SmNULDDuzRM8yIlL5fZXNsi6amqI5gVW74fx4l+85hULODDFjamO5wQ3V3tFWQZr
- bnHQ9wCw==;
-Received: from [81.79.92.254] (helo=[192.168.0.101])
- by fanzine2.igalia.com with esmtpsa 
- (Cipher TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_128_GCM:128) (Exim)
- id 1uWvb3-00BQeD-Fg; Wed, 02 Jul 2025 13:25:49 +0200
-Message-ID: <9a070a66-f6fd-45b4-958c-c6e9f3487a0c@igalia.com>
-Date: Wed, 2 Jul 2025 12:25:48 +0100
-MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 2/6] drm/sched/tests: Port to cancel_job()
-To: phasta@kernel.org, Lyude Paul <lyude@redhat.com>,
- Danilo Krummrich <dakr@kernel.org>, David Airlie <airlied@gmail.com>,
- Simona Vetter <simona@ffwll.ch>, Matthew Brost <matthew.brost@intel.com>,
- =?UTF-8?Q?Christian_K=C3=B6nig?= <ckoenig.leichtzumerken@gmail.com>,
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B887D10E6F0
+ for <dri-devel@lists.freedesktop.org>; Wed,  2 Jul 2025 11:36:57 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+ by dfw.source.kernel.org (Postfix) with ESMTP id 8B4615C6C22;
+ Wed,  2 Jul 2025 11:36:56 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id E239DC4CEED;
+ Wed,  2 Jul 2025 11:36:55 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1751456216;
+ bh=AR2YdjUQDruKw3xwEOLHDbUEwgTRlLLrLUuQcRkPcwk=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=mF+MxsfngCXb328CwhUUDfE58INzeO/02EHWhYdfq92zRhxhdu9m3eJy38g/Z2+my
+ PEo2RicQ5A29nvdeyqkEhYXmYPboIIoBnvwoyjTo33CStZrq6JwcxbeXINWGNT7z3f
+ V0h82qzbUvYiU0/w0GdHs6pl8GqKnD7kpM5FIhdB/O3UqCLfHOsR83L6FB+gFjKTY0
+ VvjpbF/cL+u6rtx027/kfZy2nlIfRBljuP/L2/yJYG1Tzj1L1m4ah1WTAD5SV3yc9C
+ atIKqU3Z259Hwdsi1bfTag54achQvlF3vPxb6tcJRRGnxMXaQac8Pe1qjRKwYG5wv2
+ f6PbOLbcQg9gQ==
+Date: Wed, 2 Jul 2025 13:36:53 +0200
+From: Maxime Ripard <mripard@kernel.org>
+To: Paul Kocialkowski <paulk@sys-base.io>
+Cc: linux-media@vger.kernel.org, devicetree@vger.kernel.org, 
+ linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev,
+ linux-kernel@vger.kernel.org, 
+ linux-clk@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ linux-gpio@vger.kernel.org, 
+ Yong Deng <yong.deng@magewell.com>, Rob Herring <robh@kernel.org>, 
+ Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>,
+ Chen-Yu Tsai <wens@csie.org>, 
+ Jernej Skrabec <jernej.skrabec@gmail.com>, Samuel Holland <samuel@sholland.org>,
+ Michael Turquette <mturquette@baylibre.com>, Stephen Boyd <sboyd@kernel.org>, 
  Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
- Sumit Semwal <sumit.semwal@linaro.org>,
- Pierre-Eric Pelloux-Prayer <pierre-eric.pelloux-prayer@amd.com>
-Cc: dri-devel@lists.freedesktop.org, nouveau@lists.freedesktop.org,
- linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
- linaro-mm-sig@lists.linaro.org
-References: <20250701132142.76899-3-phasta@kernel.org>
- <20250701132142.76899-5-phasta@kernel.org>
- <f9b55d5b-0018-4850-a9b7-2f267467e957@igalia.com>
- <6762d33b4fe8e7b264a7403f228e6ec6723ae623.camel@mailbox.org>
-Content-Language: en-GB
-From: Tvrtko Ursulin <tvrtko.ursulin@igalia.com>
-In-Reply-To: <6762d33b4fe8e7b264a7403f228e6ec6723ae623.camel@mailbox.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+ Thomas Zimmermann <tzimmermann@suse.de>, 
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, 
+ Linus Walleij <linus.walleij@linaro.org>, Icenowy Zheng <icenowy@aosc.xyz>, 
+ Andre Przywara <andre.przywara@arm.com>
+Subject: Re: [PATCH 5/5] drm/sun4i: Run the mixer clock at 297 MHz on V3s
+Message-ID: <20250702-psychedelic-stalwart-jerboa-a626eb@houat>
+References: <20250701201124.812882-1-paulk@sys-base.io>
+ <20250701201124.812882-6-paulk@sys-base.io>
+MIME-Version: 1.0
+Content-Type: multipart/signed; micalg=pgp-sha384;
+ protocol="application/pgp-signature"; boundary="v4szwvinjjahevo3"
+Content-Disposition: inline
+In-Reply-To: <20250701201124.812882-6-paulk@sys-base.io>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -73,238 +73,60 @@ Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 
-On 02/07/2025 11:56, Philipp Stanner wrote:
-> On Wed, 2025-07-02 at 11:36 +0100, Tvrtko Ursulin wrote:
->>
->> On 01/07/2025 14:21, Philipp Stanner wrote:
->>> The GPU Scheduler now supports a new callback, cancel_job(), which
->>> lets
->>> the scheduler cancel all jobs which might not yet be freed when
->>> drm_sched_fini() runs. Using this callback allows for significantly
->>> simplifying the mock scheduler teardown code.
->>>
->>> Implement the cancel_job() callback and adjust the code where
->>> necessary.
->>
->> Cross referencing against my version I think you missed this hunk:
->>
->> --- a/drivers/gpu/drm/scheduler/tests/sched_tests.h
->> +++ b/drivers/gpu/drm/scheduler/tests/sched_tests.h
->> @@ -49,7 +49,6 @@ struct drm_mock_scheduler {
->>
->>    	spinlock_t		lock;
->>    	struct list_head	job_list;
->> -	struct list_head	done_list;
->>
->>    	struct {
->>    		u64		context;
->>
-> 
-> Right, overlooked that one.
-> 
->>
->> I also had this:
->>
->> @@ -97,7 +96,8 @@ struct drm_mock_sched_job {
->>    	struct completion	done;
->>
->>    #define DRM_MOCK_SCHED_JOB_DONE		0x1
->> -#define DRM_MOCK_SCHED_JOB_TIMEDOUT	0x2
->> +#define DRM_MOCK_SCHED_JOB_CANCELED	0x2
->> +#define DRM_MOCK_SCHED_JOB_TIMEDOUT	0x4
->>
->> And was setting it in the callback. And since we should add a test to
->> explicitly cover the new callback, and just the callback, that could
->> make it very easy to do it.
-> 
-> What do you imagine that to look like? The scheduler only invokes the
-> callback on tear down.
-> 
-> We also don't have tests that only test free_job() and the like, do
-> we?
-> 
-> You cannot test a callback for the scheduler, because the callback is
-> implemented in the driver.
-> 
-> Callbacks are tested by using the scheduler. In this case, it's tested
-> the intended way by the unit tests invoking drm_sched_free().
+--v4szwvinjjahevo3
+Content-Type: text/plain; protected-headers=v1; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
+Subject: Re: [PATCH 5/5] drm/sun4i: Run the mixer clock at 297 MHz on V3s
+MIME-Version: 1.0
 
-Something like (untested):
+On Tue, Jul 01, 2025 at 10:11:24PM +0200, Paul Kocialkowski wrote:
+> The DE mixer clock is currently set to run at 150 MHz, while the
+> Allwinner BSP configures it at 300 MHz and other platforms typically
+> run at 297 MHz.
+>=20
+> 150 MHz appears to be enough given the restricted graphics capabilities
+> of the SoC (with a work area of only 1024x1024). However it typically
+> causes the DE clock to be parented to the periph0 pll instead of the
+> video PLL.
+>=20
+> While this should generally not be a concern, it appears (based on
+> experimentation) that both the DE and TCON clocks need to be parented
+> to the same PLL for these units to work. While we cannot represent this
+> constraint in the clock driver, it appears that the TCON clock will
+> often get parented to the video pll (typically running at 297 MHz for
+> the CSI units needs), for instance when driving displays with a 33 MHz
+> pixel clock (33 being a natural divider of 297).
+>=20
+> Running the DE clock at 297 MHz will typically result in parenting to
+> the video pll instead of the periph0 pll, thus making the display
+> output functional.
+>=20
+> This is all a bit fragile but it solves the issue with displays running
+> at 33 Mhz and brings V3s to use the same frequency as other platforms,
+> making support more unified.
 
-static void drm_sched_test_cleanup(struct kunit *test)
-{
-	struct drm_mock_sched_entity *entity;
-	struct drm_mock_scheduler *sched;
-	struct drm_mock_sched_job job;
-	bool done;
+It's beyond fragile, and doesn't have anything to do with the DRM driver.
 
-	/*
-	 * Check that the job cancel callback gets invoked by the scheduler.
-	 */
+You should set up the clock tree properly in the clock driver, and then
+add NO_REPARENT to the DE clock to make sure it stays that way.
 
-	sched = drm_mock_sched_new(test, MAX_SCHEDULE_TIMEOUT);
-	entity = drm_mock_sched_entity_new(test,
-					   DRM_SCHED_PRIORITY_NORMAL,
-					   sched);
+And then, you can change the clock rate if you want to, but at least you
+don't set a rate and hope that the side effects work your way, and won't
+happen again.
 
-	job = drm_mock_sched_job_new(test, entity);
-	drm_mock_sched_job_submit(job);
-	done = drm_mock_sched_job_wait_scheduled(job, HZ);
-	KUNIT_ASSERT_TRUE(test, done);
+Maxime
 
-	drm_mock_sched_entity_free(entity);
-	drm_mock_sched_fini(sched);
+--v4szwvinjjahevo3
+Content-Type: application/pgp-signature; name="signature.asc"
 
-	KUNIT_ASSERT_TRUE(test, job->flags & DRM_MOCK_SCHED_JOB_CANCELED);
-}
+-----BEGIN PGP SIGNATURE-----
 
-Or via the hw fence status.
+iJUEABMJAB0WIQTkHFbLp4ejekA/qfgnX84Zoj2+dgUCaGUZ0QAKCRAnX84Zoj2+
+dkUOAX9QETvGjudIqLH1LHrODK1oz9R7fTZgMW27nwd0xCKcdeLTvQKST2uEzWle
+vJapl8MBfAx2o6ST5tt4OTYqAlQbnHgSbySZjkHgRUqtZhP/pvQc99/anfjE9qN1
+3VMToXuhRg==
+=p0B2
+-----END PGP SIGNATURE-----
 
-Regards,
-
-Tvrtko
-
->>> Signed-off-by: Philipp Stanner <phasta@kernel.org>
->>> ---
->>>    .../gpu/drm/scheduler/tests/mock_scheduler.c  | 66 +++++++-------
->>> -----
->>>    1 file changed, 23 insertions(+), 43 deletions(-)
->>>
->>> diff --git a/drivers/gpu/drm/scheduler/tests/mock_scheduler.c
->>> b/drivers/gpu/drm/scheduler/tests/mock_scheduler.c
->>> index 49d067fecd67..2d3169d95200 100644
->>> --- a/drivers/gpu/drm/scheduler/tests/mock_scheduler.c
->>> +++ b/drivers/gpu/drm/scheduler/tests/mock_scheduler.c
->>> @@ -63,7 +63,7 @@ static void drm_mock_sched_job_complete(struct
->>> drm_mock_sched_job *job)
->>>    	lockdep_assert_held(&sched->lock);
->>>    
->>>    	job->flags |= DRM_MOCK_SCHED_JOB_DONE;
->>> -	list_move_tail(&job->link, &sched->done_list);
->>> +	list_del(&job->link);
->>>    	dma_fence_signal_locked(&job->hw_fence);
->>>    	complete(&job->done);
->>>    }
->>> @@ -236,26 +236,39 @@ mock_sched_timedout_job(struct drm_sched_job
->>> *sched_job)
->>>    
->>>    static void mock_sched_free_job(struct drm_sched_job *sched_job)
->>>    {
->>> -	struct drm_mock_scheduler *sched =
->>> -			drm_sched_to_mock_sched(sched_job->sched);
->>>    	struct drm_mock_sched_job *job =
->>> drm_sched_job_to_mock_job(sched_job);
->>> -	unsigned long flags;
->>>    
->>> -	/* Remove from the scheduler done list. */
->>> -	spin_lock_irqsave(&sched->lock, flags);
->>> -	list_del(&job->link);
->>> -	spin_unlock_irqrestore(&sched->lock, flags);
->>>    	dma_fence_put(&job->hw_fence);
->>> -
->>>    	drm_sched_job_cleanup(sched_job);
->>>    
->>>    	/* Mock job itself is freed by the kunit framework. */
->>>    }
->>>    
->>> +static void mock_sched_cancel_job(struct drm_sched_job *sched_job)
->>> +{
->>> +	struct drm_mock_scheduler *sched =
->>> drm_sched_to_mock_sched(sched_job->sched);
->>> +	struct drm_mock_sched_job *job =
->>> drm_sched_job_to_mock_job(sched_job);
->>> +	unsigned long flags;
->>> +
->>> +	hrtimer_cancel(&job->timer);
->>> +
->>> +	spin_lock_irqsave(&sched->lock, flags);
->>> +	if (!dma_fence_is_signaled_locked(&job->hw_fence)) {
->>> +		list_del(&job->link);
->>> +		dma_fence_set_error(&job->hw_fence, -ECANCELED);
->>> +		dma_fence_signal_locked(&job->hw_fence);
->>> +	}
->>> +	spin_unlock_irqrestore(&sched->lock, flags);
->>> +
->>> +	/* The GPU Scheduler will call
->>> drm_sched_backend_ops.free_job(), still.
->>> +	 * Mock job itself is freed by the kunit framework. */
->>
->> /*
->>    * Multiline comment style to stay consistent, at least in this
->> file.
->>    */
->>
->> The rest looks good, but I need to revisit the timeout/free handling
->> since it has been a while and you changed it recently.
->>
->> Regards,
->>
->> Tvrtko
->>
->>> +}
->>> +
->>>    static const struct drm_sched_backend_ops drm_mock_scheduler_ops
->>> = {
->>>    	.run_job = mock_sched_run_job,
->>>    	.timedout_job = mock_sched_timedout_job,
->>> -	.free_job = mock_sched_free_job
->>> +	.free_job = mock_sched_free_job,
->>> +	.cancel_job = mock_sched_cancel_job,
->>>    };
->>>    
->>>    /**
->>> @@ -289,7 +302,6 @@ struct drm_mock_scheduler
->>> *drm_mock_sched_new(struct kunit *test, long timeout)
->>>    	sched->hw_timeline.context = dma_fence_context_alloc(1);
->>>    	atomic_set(&sched->hw_timeline.next_seqno, 0);
->>>    	INIT_LIST_HEAD(&sched->job_list);
->>> -	INIT_LIST_HEAD(&sched->done_list);
->>>    	spin_lock_init(&sched->lock);
->>>    
->>>    	return sched;
->>> @@ -304,38 +316,6 @@ struct drm_mock_scheduler
->>> *drm_mock_sched_new(struct kunit *test, long timeout)
->>>     */
->>>    void drm_mock_sched_fini(struct drm_mock_scheduler *sched)
->>>    {
->>> -	struct drm_mock_sched_job *job, *next;
->>> -	unsigned long flags;
->>> -	LIST_HEAD(list);
->>> -
->>> -	drm_sched_wqueue_stop(&sched->base);
->>> -
->>> -	/* Force complete all unfinished jobs. */
->>> -	spin_lock_irqsave(&sched->lock, flags);
->>> -	list_for_each_entry_safe(job, next, &sched->job_list,
->>> link)
->>> -		list_move_tail(&job->link, &list);
->>> -	spin_unlock_irqrestore(&sched->lock, flags);
->>> -
->>> -	list_for_each_entry(job, &list, link)
->>> -		hrtimer_cancel(&job->timer);
->>> -
->>> -	spin_lock_irqsave(&sched->lock, flags);
->>> -	list_for_each_entry_safe(job, next, &list, link)
->>> -		drm_mock_sched_job_complete(job);
->>> -	spin_unlock_irqrestore(&sched->lock, flags);
->>> -
->>> -	/*
->>> -	 * Free completed jobs and jobs not yet processed by the
->>> DRM scheduler
->>> -	 * free worker.
->>> -	 */
->>> -	spin_lock_irqsave(&sched->lock, flags);
->>> -	list_for_each_entry_safe(job, next, &sched->done_list,
->>> link)
->>> -		list_move_tail(&job->link, &list);
->>> -	spin_unlock_irqrestore(&sched->lock, flags);
->>> -
->>> -	list_for_each_entry_safe(job, next, &list, link)
->>> -		mock_sched_free_job(&job->base);
->>> -
->>>    	drm_sched_fini(&sched->base);
->>>    }
->>>    
->>
-> 
-
+--v4szwvinjjahevo3--
