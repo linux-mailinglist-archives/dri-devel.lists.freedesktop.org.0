@@ -2,169 +2,164 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 00B44AF0CF8
-	for <lists+dri-devel@lfdr.de>; Wed,  2 Jul 2025 09:49:01 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id BD25CAF0D1C
+	for <lists+dri-devel@lfdr.de>; Wed,  2 Jul 2025 09:49:41 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8FD1C10E079;
-	Wed,  2 Jul 2025 07:48:58 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id DC51810E312;
+	Wed,  2 Jul 2025 07:49:39 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=amd.com header.i=@amd.com header.b="43UEbdQX";
+	dkim=pass (1024-bit key; unprotected) header.d=suse.de header.i=@suse.de header.b="oz3WEWgg";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="c6+OnuAK";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="oz3WEWgg";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="c6+OnuAK";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from NAM11-CO1-obe.outbound.protection.outlook.com
- (mail-co1nam11on2067.outbound.protection.outlook.com [40.107.220.67])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1C4A310E079;
- Wed,  2 Jul 2025 07:48:57 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=umVlF77fZssT9M0CzyUV+GxfzT7hNM/MSiG/TG++UasTC+EggoRUQ8V+qKAc3Gc38TrxFxNx8LZJg4NGwqcCef19E1/t+fOJlGbJd6Uea4k8RC14eC6+NfnfgDGiscRAxa9OBqOeCEsP/PQI0mRcK0lXxD3CQUolWmta+XJl32d9IKyGf8g2+t1FnLO8bCepT/g/gmpOuAQmA9eZDpoWRdvcyCcPijDA+Z5ADuGGaNSp2kIMaDsC18OpkaQTOP1jWzupmy8FiHyBVga/6EROFhE/gOKfes2swTDjXG3eFjrlNhHVrJLrTUOFvemdxmvI5Du8iSzNhPM6Bp5qgcTKxQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=W/U8F0oOJWbG90xTe1aumRBaVXx+Br5cBuz7ajRVPlI=;
- b=cizgG+neAFS9nEvfkyP0MRAEfJqL250cY3D4MrJjw6spl0s3LjUDOlNLOwulpsFflus1NMfSPSDfDj4eNiadmznWamYTZIYx9xmwASYmhx3kCh+A9099B7aobWyFrhkqBzi1y9xf+vkkAIw+VFEbMc/Bj5qQMYLog10mhynm4cvKUnhUnZUEX7dNR/mYIZzCAEwCGNCD0eJnSBlmRlFD7xPGpq183yGRWKVhRuGhqE+NPBRrQO+ZPVXREcwysLQzbd8p2hfMPayx4FMKph4s8jjaglAr9Hq8m+eULFUno8dRGmmrg7GLub9Yv+SiNOszhchknlY7Qav2pX1GSjuw4A==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
- header.d=amd.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=W/U8F0oOJWbG90xTe1aumRBaVXx+Br5cBuz7ajRVPlI=;
- b=43UEbdQXducTvbd8elkeTrzoRGPhdyoipFgUQl2RJeE0/Q7+wT+TlAJ5Lg4Dx+uoguGerPQd9d6kghyUavVzWk4E5151cGOfyQajsh0ZEEZ0NkLoGw7SgiKWGwfAHY/kSryWyTJWTM3+U13Arte+V6LO62+WyfA1KT/tOi1gRuE=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=amd.com;
-Received: from PH7PR12MB5685.namprd12.prod.outlook.com (2603:10b6:510:13c::22)
- by DS0PR12MB6631.namprd12.prod.outlook.com (2603:10b6:8:d1::14) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8901.20; Wed, 2 Jul
- 2025 07:48:53 +0000
-Received: from PH7PR12MB5685.namprd12.prod.outlook.com
- ([fe80::46fb:96f2:7667:7ca5]) by PH7PR12MB5685.namprd12.prod.outlook.com
- ([fe80::46fb:96f2:7667:7ca5%5]) with mapi id 15.20.8901.018; Wed, 2 Jul 2025
- 07:48:52 +0000
-Message-ID: <62ff22f5-f10d-4b32-aa04-eabb21935fdf@amd.com>
-Date: Wed, 2 Jul 2025 09:48:47 +0200
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 1/3] drm/amdgpu: move GTT to SHM after eviction for
- hibernation
-To: Samuel Zhang <guoqzhan@amd.com>,
- "Zhang, GuoQing (Sam)" <GuoQing.Zhang@amd.com>,
- "rafael@kernel.org" <rafael@kernel.org>,
- "len.brown@intel.com" <len.brown@intel.com>,
- "pavel@kernel.org" <pavel@kernel.org>,
- "Deucher, Alexander" <Alexander.Deucher@amd.com>,
- "Limonciello, Mario" <Mario.Limonciello@amd.com>,
- "Lazar, Lijo" <Lijo.Lazar@amd.com>
-Cc: "Zhao, Victor" <Victor.Zhao@amd.com>, "Chang, HaiJun"
- <HaiJun.Chang@amd.com>, "Ma, Qing (Mark)" <Qing.Ma@amd.com>,
- "amd-gfx@lists.freedesktop.org" <amd-gfx@lists.freedesktop.org>,
- "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
- "linux-pm@vger.kernel.org" <linux-pm@vger.kernel.org>,
- "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
-References: <20250630104116.3050306-1-guoqing.zhang@amd.com>
- <20250630104116.3050306-2-guoqing.zhang@amd.com>
- <ce04e266-6c3f-4256-aade-bafca8609ab3@amd.com>
- <DM4PR12MB5937FFB3E121E489A261785DE541A@DM4PR12MB5937.namprd12.prod.outlook.com>
- <ba843972-f564-4817-8651-b3b776c5f375@amd.com>
- <558ad3d6-7349-40f1-ba06-0fa46701b247@amd.com>
-Content-Language: en-US
-From: =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
-In-Reply-To: <558ad3d6-7349-40f1-ba06-0fa46701b247@amd.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-ClientProxiedBy: FR4P281CA0082.DEUP281.PROD.OUTLOOK.COM
- (2603:10a6:d10:cd::12) To PH7PR12MB5685.namprd12.prod.outlook.com
- (2603:10b6:510:13c::22)
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B801310E312
+ for <dri-devel@lists.freedesktop.org>; Wed,  2 Jul 2025 07:49:38 +0000 (UTC)
+Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org
+ [IPv6:2a07:de40:b281:104:10:150:64:97])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ (No client certificate requested)
+ by smtp-out1.suse.de (Postfix) with ESMTPS id 31CD62111F;
+ Wed,  2 Jul 2025 07:49:37 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+ t=1751442577; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+ bh=5qgNZZo+UhrOw0qZY5yzCbxyS0sZdhvhyBwDFlNZPn0=;
+ b=oz3WEWggc4R2HbV+0+aBPK1Y4RXZcIi7eBbXCZ3EUjcEJYUISWyZOfEEQKRlJzF2QYtVtm
+ ZTzk4NmRlRThEsLY2ImfBhTn7L9aGgH6w0ndqs1uKk+QtPrRToWYrRK0yN8VZJlQuSeif6
+ YgR6+CZfcXqmuC5EkymSxi0yMWnlxEY=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+ s=susede2_ed25519; t=1751442577;
+ h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+ bh=5qgNZZo+UhrOw0qZY5yzCbxyS0sZdhvhyBwDFlNZPn0=;
+ b=c6+OnuAKYY9awBdfeywvmh/5Gc+JIqt5Hl6RyTduPv+ZgHTefqJqPsT5+irWeoLvJHFmYs
+ U82NN1d5cKdzJ3Dg==
+Authentication-Results: smtp-out1.suse.de;
+ dkim=pass header.d=suse.de header.s=susede2_rsa header.b=oz3WEWgg;
+ dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=c6+OnuAK
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+ t=1751442577; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+ bh=5qgNZZo+UhrOw0qZY5yzCbxyS0sZdhvhyBwDFlNZPn0=;
+ b=oz3WEWggc4R2HbV+0+aBPK1Y4RXZcIi7eBbXCZ3EUjcEJYUISWyZOfEEQKRlJzF2QYtVtm
+ ZTzk4NmRlRThEsLY2ImfBhTn7L9aGgH6w0ndqs1uKk+QtPrRToWYrRK0yN8VZJlQuSeif6
+ YgR6+CZfcXqmuC5EkymSxi0yMWnlxEY=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+ s=susede2_ed25519; t=1751442577;
+ h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+ bh=5qgNZZo+UhrOw0qZY5yzCbxyS0sZdhvhyBwDFlNZPn0=;
+ b=c6+OnuAKYY9awBdfeywvmh/5Gc+JIqt5Hl6RyTduPv+ZgHTefqJqPsT5+irWeoLvJHFmYs
+ U82NN1d5cKdzJ3Dg==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ (No client certificate requested)
+ by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 956D213A24;
+ Wed,  2 Jul 2025 07:49:36 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+ by imap1.dmz-prg2.suse.org with ESMTPSA id s2TeIpDkZGjoQQAAD6G6ig
+ (envelope-from <tzimmermann@suse.de>); Wed, 02 Jul 2025 07:49:36 +0000
+Message-ID: <ef053350-975b-4685-8e09-0493d526801d@suse.de>
+Date: Wed, 2 Jul 2025 09:49:36 +0200
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: PH7PR12MB5685:EE_|DS0PR12MB6631:EE_
-X-MS-Office365-Filtering-Correlation-Id: 2176971e-2bbc-425c-7d3f-08ddb93ce34f
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;ARA:13230040|376014|366016|1800799024|921020;
-X-Microsoft-Antispam-Message-Info: =?utf-8?B?NkZMQ0hUeDE3Qnc2dStkbjhKbFhpRkVkRFBuby9jVUdoRHhtOVpwTG5SOXIy?=
- =?utf-8?B?SCtEaDdycTgyMGp4NnV6dzBlQWw4RlQ5ZU1tWFpWT1V2SkJxVEJ2UXVubEhE?=
- =?utf-8?B?TEpvdHN6OHVDRlJzelBRREgwOU1pQ05aTlB5UFh3dUdWckFTNm1DQkhaTnZU?=
- =?utf-8?B?ZEJQaUxxVHJVc1oxVUpaNzEycUwwcnFDS1l6TkdNRFVGQ2VlSjFlQXJTQmRL?=
- =?utf-8?B?eHNOQ0VrQXdQMHVlcm1CMC9wMFpBQXhzT1hDU3VaRndEOW9VVHowSW1ZaFUr?=
- =?utf-8?B?bnFDWldYUW9lcXkrUEU1M2MxTVllTWswWEUrNmpqK09IWFVLUWtva0NXZUI5?=
- =?utf-8?B?RSs1cVhROTVrSUs5MDdGMEhYSUdla1RhcHpUb1ErazNKd2pIRURid2c3ZTVo?=
- =?utf-8?B?UVFGT29qVmg2WWNNZEJEam1vSnpaMDAvZWs1cWVCQmlWc3M3ZXZGQmVSazNx?=
- =?utf-8?B?NlRWZFg2eFZpM05QS0thR3YyczEzclQ2R003SGhOb2xJWnJHNzN3UlpFSm4v?=
- =?utf-8?B?RVZZOHpjTnB5VldPQVB0ZlljRUdnY1RpMXRldWdROWtiTkh4dzk1TU44S3N0?=
- =?utf-8?B?Q01ibXFGMUVWRnVjMFlGV3VvSk9QT1BWbzlOcnlJS1VWeWJjNDFYMC9KVVFk?=
- =?utf-8?B?ekEvVXNFMzNsWUQ2RFRYeGRqVmhmNWZmK2NzdjhZV1JiS1NMRm5oRmtYeTF1?=
- =?utf-8?B?Q2d6dy9IenBNeUo4ci9BN2pSTEtrejRSLzUwcEl6enJ2c3hIOHpSdGJHcXBW?=
- =?utf-8?B?RjJYUHN4RlhuZmxSTG5aa0lUOXBjWjBHeFVVYjVhbDZnaExEaEVXNktJT04z?=
- =?utf-8?B?TUY3REcyWlRrQ09oM0ZMcWhwcEtxN2pXb0dqVlhpWWMvRE5JT0ZXUEZLbGdZ?=
- =?utf-8?B?RFlIWUlhMW0wMkt4MkFkdFFPUHRRdWI5d2RZc3AwS0E1MzZQbUJyUWJQZllv?=
- =?utf-8?B?QUdmMjl1WDJSbUNSVzdvV0Z2SXo5QmxSMTFBSzErM3hzVTBnTWo2SzQvK2VT?=
- =?utf-8?B?UTVtTkJ6cEs1RXhBeUxHOEJWT0wrY1pCSElIeFlxazh0bGNBdm9hcVVTUFA0?=
- =?utf-8?B?dHFVWHRoVm5IM216WlE1RHFXOXF6eDhZYWNQMTNVQVpsejhMU1JlaVllQU9v?=
- =?utf-8?B?cnZ4Z21MWStQZ1oxc1ZFWjdMbnhnUDVaVlVBNFdEV1Z3c1ZTb2pGb2lyanNK?=
- =?utf-8?B?STh1Zmh6UGNpNUtuc3dZdnhkQWxXUnlVK2NMYjZhMTFPYlJjSWltaUtUd0pz?=
- =?utf-8?B?dVFjQlgxVDViMG91QXE0bFVMWjM2SEN1S0ZQaU5zWklIY1IxQ3g2a1JVb25G?=
- =?utf-8?B?VzZhaTEybkNOS3VQZUxqR0o3TUkwQUJ6YzRSbE55RWxDT04zZDBJQkk3d0lv?=
- =?utf-8?B?QVloeEVidHEyWGZVRkRqWGF1MWluVlExcXNlNVRzZHpIZjErQ1JTRmJSQm5h?=
- =?utf-8?B?UklyWWU5SlJ5SHd4NlUzSUdyTk1ZaDk3S2JydVdvM296aUNLT204NGFXMWo4?=
- =?utf-8?B?VDdHUU81VEtuR1hiY2ppQWUvRjF4ZHFZbUw0aXk2aGZLa2FZUW5RV0ZsdmNs?=
- =?utf-8?B?Y2JwNy9Ea2J3UWlkb1hUSmwzRERkNEtRUWtXbG8yemcvSVgyK0F5M2RsV0I5?=
- =?utf-8?B?bHh3anFvYjg0WE9sMnBkL1NpV3RJMFhqYzloU1BsQ21zeWQvN2x3UlFzb254?=
- =?utf-8?B?ZjMrMnA4U1ZubFRIL2dPK2YyQ3E1VnZMeWFHWW0vRmdQRE8zMWNYSURZZHc5?=
- =?utf-8?B?S3hHNUtFa2hiYmd0ZTRZQ0w2L3V1NlpOaVpadzJzZkh0dUNQN1RwVk1EN0d2?=
- =?utf-8?B?VkNyRnB3MFVTdVNIQlVqRVNNUmJpUDVpRlVEQ3VHbTNYd0VnOVBQbEprNFpL?=
- =?utf-8?B?bnk0T0QzKy8zMHY4VnZST2tGaCtPSmxyT2hIY0oxZ3BnaHFoUDNCSUlCLzdU?=
- =?utf-8?B?dDdmM3luUHpZVUp1QWZOcHdQT1REVVI4QmVLY1dkVzQvcFVRY2pyVGRiamcr?=
- =?utf-8?B?ZkNnS04wVTlnPT0=?=
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:PH7PR12MB5685.namprd12.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230040)(376014)(366016)(1800799024)(921020); DIR:OUT; SFP:1101; 
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?Nk9DY05iM3RZQnFKM1AzUDMzYk9ESHBid3lrRkNTRzNsVnpneFk0Ylp4OFEw?=
- =?utf-8?B?TTBiRDY0bXpwV2VlKzFzNW5nRkhBNFBjL3k1eUVhR21oTmVXMkIrY0RrQTgw?=
- =?utf-8?B?cGRON2Ewd2t6T0pES1lvRE1BNjZ3WVRwazVoTjRoTEpNK0JScjh2N2c5K3Fp?=
- =?utf-8?B?UUNlbnJ4dEJiaXFzTUdyRDUyTjZOMk9yajJsMlo1QjFWV29jMGdaUms3aXo2?=
- =?utf-8?B?QWV5YnMwaW5Mcnd6V1cvbWdmVVhxVnRFc0NDSHpqVDdRdHcyd2tVTlozaDVn?=
- =?utf-8?B?Q1owd2JocGlXSkVnN0IvSnZaTVlxdFRHV2x3TzlSSFhnSEwzNE9Ea3ZaZ0c4?=
- =?utf-8?B?TWQ4eEpId0pzOUgrclhsaURwY0IzaTIzSDlscDdlREhjNkhGaVd6Z2p5RWNm?=
- =?utf-8?B?Vld6STJKK0V3Z2tTcnFlUXVGL3NTMjcxOFJMMVVwRHNMVzZFN1hqQUpLd2Fx?=
- =?utf-8?B?U01qbTlydDdjSUh3bzNXZ2xjQlpyTmhGeHJDdUtWLysyZVFPOCtCQnZ4VFo1?=
- =?utf-8?B?NWUzcVArUW9zMUE0NmF0V1pZOEwwc3FtMWRTenltcnNuZXcvV0FLMklFV2RC?=
- =?utf-8?B?TURxWll0WDNCTXZoa1RveVM3WVNIc0NiNkgyeFNVcjFBMjBYajM2Y3RHMXJX?=
- =?utf-8?B?TTQzUG5DL1F6MkgvcVc0WkRQMkxOakpsTUNjZkF5WWJZSENJUFZqbEtPQWdk?=
- =?utf-8?B?b3lId2grL0Fxd1NZKzNrZzU2R0w1aEFvMWhhRHlqSmJaaWdablFRcjNFLzZT?=
- =?utf-8?B?Y2VHUThuWitlUkJvaDYvQUwwT3cvbG51M2Y5NnhSSnZWV05GdEh3VGhPblRX?=
- =?utf-8?B?b3F1K1lINzRiLzF0azNkQklLd1dpRnY3RmQyRXRrYmRMUGVRMGZadXVzU3lY?=
- =?utf-8?B?K2pmSERJZk5QL05GTVlLbERNYjZ4aU93ZVR3cW0vR2ZBcUloT0lPeEdLb0hz?=
- =?utf-8?B?TS96MTBhUUZHdzhRcGwzVERMN0VMOWxlVlNhNVRMZjRvUktvSEE1a0IxaEZT?=
- =?utf-8?B?SVBmUThEYkpEYy82c1RraklnVmlsN2lEVzJ5emJacEJtS043dVlXMmxMc3pa?=
- =?utf-8?B?UEJmdGZZcFRlUjUxbkJIelU0NkdyTkRHSW1wKzBTOU14d0Y2VStsdGJrK3Ix?=
- =?utf-8?B?U014b1FUNGZ5VW1aVU9EcGV2RzF3TXVseW8wY1h6cGhzWjdMajFscUtwbnVw?=
- =?utf-8?B?NjltV1lkR2g0RmdkNTZ2aTl1OWU5elo4ZUM5dW9JWS9hWGMzY0hDNU5iREVR?=
- =?utf-8?B?YVNJSXY2MXhNMDd0WHBGY3JvcGVvRlBsdVVtZEwrckdod1FTSFdRNE5Eb1lW?=
- =?utf-8?B?UFZJQ0dHVlpZUkZqanZBR3dqWWRNSC9uS0xlSmt3VEIrOTBvOHZZcUJkZzJI?=
- =?utf-8?B?YThDdXlnZmN5a2dKZHlkNTAxRTBSWWtRdkEyUkpJUG85SkFGaU83WEZ3dHI0?=
- =?utf-8?B?QS9pL2FWWXRCUXc0UFJlTGp5MEdRczc0V3dOT2FuUFg3cG96RHh5QUp3c3cz?=
- =?utf-8?B?UjMzelNWcm9MOXZkWm02SEdEQTZMbEpWYnhBVkRzYU9naDBxSGZackFmSjFv?=
- =?utf-8?B?TVRPb3A2Mnd3YjBLaUJvSUw4WDRyaG5aN0JUNWxZd28vM01Zc1UzcjNEMHA1?=
- =?utf-8?B?azhabmtFdVM4TTJLN3IzM3dvcG5SNEk2dzZhTUpqdXlCNHJTM0UrSFA4dVpl?=
- =?utf-8?B?aW4wWDVuS1BQcXc2aVBVcklHWFV2Kzg5WnhCNDl4alpIOE5XQk5GYWg2d0Iy?=
- =?utf-8?B?TnlaSTArb0hXNElBbC8zVzZoU2JhWTdyL2JwMDRkZG5wL2ZJdkg1b05yeVRP?=
- =?utf-8?B?L0poZHMrUHBBMHVVU3I0bmNIWFhJemdXQ0s1NE9ZbTlhR0lZZTRMNXZpaGRq?=
- =?utf-8?B?YVl0N1JEV3d4MHJXWS9DOE11MENMWjE5d3pLbVZ3d3M3dEFQa3RnaE5mMm1I?=
- =?utf-8?B?ZEZ0ZC90TGNCS1JqOHFJMUZkeUJlazRMZytCL3VrM0hpWlFocTNpN3QwZlph?=
- =?utf-8?B?Vk9FZW5XeUQ2ME1rRDVEM2NYNjFtMFJHdHRpY21BKzNCWmRlT2QvdFdXSEov?=
- =?utf-8?B?eG1ZbkxQVWtsdzgrcmxKQWlUaURXd2ZnSEs5TGFCUlNlUVo3NEY1SkNjL0h3?=
- =?utf-8?Q?6GTwLvbjc1Yu465Z+tEEIeF9F?=
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 2176971e-2bbc-425c-7d3f-08ddb93ce34f
-X-MS-Exchange-CrossTenant-AuthSource: PH7PR12MB5685.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 02 Jul 2025 07:48:52.2267 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: 930AvchIv9jj0AwxufH7zdDqXxbzPGxB2EbHwEegGOzBDomZfqUjTV8Ig/M5Iydr
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DS0PR12MB6631
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v6 9/9] PCI: Add a new 'boot_display' attribute
+To: Mario Limonciello <superm1@kernel.org>, David Airlie <airlied@gmail.com>
+Cc: Alex Deucher <alexander.deucher@amd.com>,
+ =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
+ Simona Vetter <simona@ffwll.ch>, Lukas Wunner <lukas@wunner.de>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, David Woodhouse <dwmw2@infradead.org>,
+ Lu Baolu <baolu.lu@linux.intel.com>, Joerg Roedel <joro@8bytes.org>,
+ Will Deacon <will@kernel.org>, Robin Murphy <robin.murphy@arm.com>,
+ Alex Williamson <alex.williamson@redhat.com>,
+ Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
+ "open list:DRM DRIVERS" <dri-devel@lists.freedesktop.org>,
+ open list <linux-kernel@vger.kernel.org>,
+ "open list:INTEL IOMMU (VT-d)" <iommu@lists.linux.dev>,
+ "open list:PCI SUBSYSTEM" <linux-pci@vger.kernel.org>,
+ "open list:VFIO DRIVER" <kvm@vger.kernel.org>,
+ "open list:SOUND" <linux-sound@vger.kernel.org>,
+ Daniel Dadap <ddadap@nvidia.com>,
+ Mario Limonciello <mario.limonciello@amd.com>,
+ Bjorn Helgaas <bhelgaas@google.com>
+References: <20250627043108.3141206-1-superm1@kernel.org>
+ <20250627043108.3141206-10-superm1@kernel.org>
+ <41587824-4a05-4ead-b24c-4729007cd663@suse.de>
+ <8878af70-3eb8-495b-b8df-43a10285c4f5@kernel.org>
+ <732aeb75-71e7-49e7-a5f2-2080ee94a273@suse.de>
+ <8f9efe23-c774-477d-97ad-8e22532ad6b2@kernel.org>
+Content-Language: en-US
+From: Thomas Zimmermann <tzimmermann@suse.de>
+Autocrypt: addr=tzimmermann@suse.de; keydata=
+ xsBNBFs50uABCADEHPidWt974CaxBVbrIBwqcq/WURinJ3+2WlIrKWspiP83vfZKaXhFYsdg
+ XH47fDVbPPj+d6tQrw5lPQCyqjwrCPYnq3WlIBnGPJ4/jreTL6V+qfKRDlGLWFjZcsrPJGE0
+ BeB5BbqP5erN1qylK9i3gPoQjXGhpBpQYwRrEyQyjuvk+Ev0K1Jc5tVDeJAuau3TGNgah4Yc
+ hdHm3bkPjz9EErV85RwvImQ1dptvx6s7xzwXTgGAsaYZsL8WCwDaTuqFa1d1jjlaxg6+tZsB
+ 9GluwvIhSezPgnEmimZDkGnZRRSFiGP8yjqTjjWuf0bSj5rUnTGiyLyRZRNGcXmu6hjlABEB
+ AAHNJ1Rob21hcyBaaW1tZXJtYW5uIDx0emltbWVybWFubkBzdXNlLmRlPsLAjgQTAQgAOAIb
+ AwULCQgHAgYVCgkICwIEFgIDAQIeAQIXgBYhBHIX+6yM6c9jRKFo5WgNwR1TC3ojBQJftODH
+ AAoJEGgNwR1TC3ojx1wH/0hKGWugiqDgLNXLRD/4TfHBEKmxIrmfu9Z5t7vwUKfwhFL6hqvo
+ lXPJJKQpQ2z8+X2vZm/slsLn7J1yjrOsoJhKABDi+3QWWSGkaGwRJAdPVVyJMfJRNNNIKwVb
+ U6B1BkX2XDKDGffF4TxlOpSQzdtNI/9gleOoUA8+jy8knnDYzjBNOZqLG2FuTdicBXblz0Mf
+ vg41gd9kCwYXDnD91rJU8tzylXv03E75NCaTxTM+FBXPmsAVYQ4GYhhgFt8S2UWMoaaABLDe
+ 7l5FdnLdDEcbmd8uLU2CaG4W2cLrUaI4jz2XbkcPQkqTQ3EB67hYkjiEE6Zy3ggOitiQGcqp
+ j//OwE0EWznS4AEIAMYmP4M/V+T5RY5at/g7rUdNsLhWv1APYrh9RQefODYHrNRHUE9eosYb
+ T6XMryR9hT8XlGOYRwKWwiQBoWSDiTMo/Xi29jUnn4BXfI2px2DTXwc22LKtLAgTRjP+qbU6
+ 3Y0xnQN29UGDbYgyyK51DW3H0If2a3JNsheAAK+Xc9baj0LGIc8T9uiEWHBnCH+RdhgATnWW
+ GKdDegUR5BkDfDg5O/FISymJBHx2Dyoklv5g4BzkgqTqwmaYzsl8UxZKvbaxq0zbehDda8lv
+ hFXodNFMAgTLJlLuDYOGLK2AwbrS3Sp0AEbkpdJBb44qVlGm5bApZouHeJ/+n+7r12+lqdsA
+ EQEAAcLAdgQYAQgAIAIbDBYhBHIX+6yM6c9jRKFo5WgNwR1TC3ojBQJftOH6AAoJEGgNwR1T
+ C3ojVSkIALpAPkIJPQoURPb1VWjh34l0HlglmYHvZszJWTXYwavHR8+k6Baa6H7ufXNQtThR
+ yIxJrQLW6rV5lm7TjhffEhxVCn37+cg0zZ3j7zIsSS0rx/aMwi6VhFJA5hfn3T0TtrijKP4A
+ SAQO9xD1Zk9/61JWk8OysuIh7MXkl0fxbRKWE93XeQBhIJHQfnc+YBLprdnxR446Sh8Wn/2D
+ Ya8cavuWf2zrB6cZurs048xe0UbSW5AOSo4V9M0jzYI4nZqTmPxYyXbm30Kvmz0rYVRaitYJ
+ 4kyYYMhuULvrJDMjZRvaNe52tkKAvMevcGdt38H4KSVXAylqyQOW5zvPc4/sq9c=
+In-Reply-To: <8f9efe23-c774-477d-97ad-8e22532ad6b2@kernel.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-Spamd-Result: default: False [-4.51 / 50.00]; BAYES_HAM(-3.00)[100.00%];
+ NEURAL_HAM_LONG(-1.00)[-1.000];
+ R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+ NEURAL_HAM_SHORT(-0.20)[-1.000]; MIME_GOOD(-0.10)[text/plain];
+ MX_GOOD(-0.01)[];
+ DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+ FREEMAIL_TO(0.00)[kernel.org,gmail.com];
+ FUZZY_BLOCKED(0.00)[rspamd.com];
+ RBL_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:104:10:150:64:97:from]; 
+ RCPT_COUNT_TWELVE(0.00)[25]; TO_DN_ALL(0.00)[];
+ MIME_TRACE(0.00)[0:+]; ARC_NA(0.00)[];
+ TO_MATCH_ENVRCPT_ALL(0.00)[];
+ FREEMAIL_ENVRCPT(0.00)[gmail.com]; RCVD_TLS_ALL(0.00)[];
+ RCVD_COUNT_TWO(0.00)[2]; FROM_EQ_ENVFROM(0.00)[];
+ FROM_HAS_DN(0.00)[];
+ SPAMHAUS_XBL(0.00)[2a07:de40:b281:104:10:150:64:97:from];
+ DNSWL_BLOCKED(0.00)[2a07:de40:b281:106:10:150:64:167:received,2a07:de40:b281:104:10:150:64:97:from];
+ RECEIVED_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:106:10:150:64:167:received];
+ MID_RHS_MATCH_FROM(0.00)[]; DKIM_TRACE(0.00)[suse.de:+];
+ RCVD_VIA_SMTP_AUTH(0.00)[];
+ DBL_BLOCKED_OPENRESOLVER(0.00)[amd.com:email, suse.de:dkim, suse.de:mid,
+ suse.de:email, imap1.dmz-prg2.suse.org:helo, imap1.dmz-prg2.suse.org:rdns]
+X-Spam-Level: 
+X-Spam-Flag: NO
+X-Rspamd-Queue-Id: 31CD62111F
+X-Rspamd-Action: no action
+X-Rspamd-Server: rspamd1.dmz-prg2.suse.org
+X-Spam-Score: -4.51
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -180,205 +175,209 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 02.07.25 09:28, Samuel Zhang wrote:
-> 
-> On 2025/7/1 16:22, Christian König wrote:
->> On 01.07.25 10:18, Zhang, GuoQing (Sam) wrote:
->>> [AMD Official Use Only - AMD Internal Distribution Only]
->>>
->>>
->>> Hi Christian,
->>>
->>>  
->>> Thank you for the feedback.
->>>
->>>  
->>> For “return ret < 0 ? ret : 0;”, it is equivalent to “return ret;” since ret is always <= 0 after the loop.
->> No it isn't.
->>
->> ttm_global_swapout() returns the number of pages swapped out and only a negative error code if something went wrong.
-> 
-> 
-> /**
->  * move GTT BOs to shmem for hibernation.
->  *
->  * returns 0 on success, negative on failure.
->  */
-> int ttm_device_prepare_hibernation(void)
-> {
->     struct ttm_operation_ctx ctx = {
->         .interruptible = false,
->         .no_wait_gpu = false,
->         .force_alloc = true
->     };
->     int ret;
-> 
->     do {
->         ret = ttm_global_swapout(&ctx, GFP_KERNEL);
->     } while (ret > 0);
->     return ret;
-> }
-> 
-> This is the new code version.
-> If ttm_global_swapout() return positive number, the while loop will continue to the next iteration.
-> The while loop stops only when ttm_global_swapout() returns 0 or negative number. In both case, the new function can just return the ret.
+Hi
 
-Ok, now I at least got what you wanted to do. But that is not really what I had in mind and isn't really good coding style.
-
-Please use ttm_device_swapout() instead of ttm_global_swapout(), apart from that we can probably keep it that way.
-
-Regards,
-Christian.
-
-> 
-> The ret values printed in the do while loop:
-> [   53.745892] [TTM DEVICE] ttm_device_prepare_hibernation:164 ret 512
-> [   53.950975] [TTM DEVICE] ttm_device_prepare_hibernation:164 ret 35840
-> [   53.951713] [TTM DEVICE] ttm_device_prepare_hibernation:164 ret 9
-> [   67.712196] [TTM DEVICE] ttm_device_prepare_hibernation:164 ret 2187264
-> [   67.713726] [TTM DEVICE] ttm_device_prepare_hibernation:164 ret 512
-> [   67.759212] [TTM DEVICE] ttm_device_prepare_hibernation:164 ret 32768
-> [   67.761946] [TTM DEVICE] ttm_device_prepare_hibernation:164 ret 1024
-> [   67.762685] [TTM DEVICE] ttm_device_prepare_hibernation:164 ret 85
-> [   67.763518] [TTM DEVICE] ttm_device_prepare_hibernation:164 ret 175
-> [   67.767318] [TTM DEVICE] ttm_device_prepare_hibernation:164 ret 2367
-> [   67.767942] [TTM DEVICE] ttm_device_prepare_hibernation:164 ret 1
-> [   67.768499] [TTM DEVICE] ttm_device_prepare_hibernation:164 ret 1
-> [   67.769054] [TTM DEVICE] ttm_device_prepare_hibernation:164 ret 1
-> ...
-> [   67.783554] [TTM DEVICE] ttm_device_prepare_hibernation:164 ret 1
-> [   67.785755] [TTM DEVICE] ttm_device_prepare_hibernation:164 ret 1
-> [   67.788607] [TTM DEVICE] ttm_device_prepare_hibernation:164 ret 1
-> [   67.789906] [TTM DEVICE] ttm_device_prepare_hibernation:164 ret 0
-> 
-> 
-> Regards
-> Sam
-> 
-> 
-> 
+Am 30.06.25 um 20:37 schrieb Mario Limonciello:
+> On 6/30/2025 2:24 AM, Thomas Zimmermann wrote:
+>> Hi
 >>
->> And it's probably not a good idea to return that from the new function.
->>
->> Regards,
->> Christian.
->>
->>>  
->>> For all other comments, I will revise the patch accordingly in v2.
->>>
->>>  
->>> Regards
->>>
->>> Sam
->>>
->>>  
->>>  
->>> *From: *Koenig, Christian <Christian.Koenig@amd.com>
->>> *Date: *Monday, June 30, 2025 at 19:54
->>> *To: *Zhang, GuoQing (Sam) <GuoQing.Zhang@amd.com>, rafael@kernel.org <rafael@kernel.org>, len.brown@intel.com <len.brown@intel.com>, pavel@kernel.org <pavel@kernel.org>, Deucher, Alexander <Alexander.Deucher@amd.com>, Limonciello, Mario <Mario.Limonciello@amd.com>, Lazar, Lijo <Lijo.Lazar@amd.com>
->>> *Cc: *Zhao, Victor <Victor.Zhao@amd.com>, Chang, HaiJun <HaiJun.Chang@amd.com>, Ma, Qing (Mark) <Qing.Ma@amd.com>, amd-gfx@lists.freedesktop.org <amd-gfx@lists.freedesktop.org>, dri-devel@lists.freedesktop.org <dri-devel@lists.freedesktop.org>, linux-pm@vger.kernel.org <linux-pm@vger.kernel.org>, linux-kernel@vger.kernel.org <linux-kernel@vger.kernel.org>
->>> *Subject: *Re: [PATCH 1/3] drm/amdgpu: move GTT to SHM after eviction for hibernation
->>>
->>> On 30.06.25 12:41, Samuel Zhang wrote:
->>>> When hibernate with data center dGPUs, huge number of VRAM BOs evicted
->>>> to GTT and takes too much system memory. This will cause hibernation
->>>> fail due to insufficient memory for creating the hibernation image.
+>> Am 27.06.25 um 17:37 schrieb Mario Limonciello:
+>>> On 6/27/2025 2:07 AM, Thomas Zimmermann wrote:
+>>>> Hi
 >>>>
->>>> Move GTT BOs to shmem in KMD, then shmem to swap disk in kernel
->>>> hibernation code to make room for hibernation image.
->>> This should probably be two patches, one for TTM and then an amdgpu patch to forward the event.
->>>
->>>> Signed-off-by: Samuel Zhang <guoqing.zhang@amd.com>
->>>> ---
->>>>    drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.c | 13 ++++++++++++-
->>>>    drivers/gpu/drm/ttm/ttm_resource.c      | 18 ++++++++++++++++++
->>>>    include/drm/ttm/ttm_resource.h          |  1 +
->>>>    3 files changed, 31 insertions(+), 1 deletion(-)
+>>>> Am 27.06.25 um 06:31 schrieb Mario Limonciello:
+>>>>> From: Mario Limonciello <mario.limonciello@amd.com>
+>>>>>
+>>>>> On systems with multiple GPUs there can be uncertainty which GPU 
+>>>>> is the
+>>>>> primary one used to drive the display at bootup. In order to 
+>>>>> disambiguate
+>>>>> this add a new sysfs attribute 'boot_display' that uses the output of
+>>>>> video_is_primary_device() to populate whether a PCI device was 
+>>>>> used for
+>>>>> driving the display.
+>>>>>
+>>>>> Signed-off-by: Mario Limonciello <mario.limonciello@amd.com>
+>>>>> ---
+>>>>> v6:
+>>>>>   * Only show for the device that is boot display
+>>>>>   * Only create after PCI device sysfs files are initialized to 
+>>>>> ensure
+>>>>>     that resources are ready.
+>>>>> v4:
+>>>>>   * new patch
+>>>>> ---
+>>>>>   Documentation/ABI/testing/sysfs-bus-pci |  8 +++++
+>>>>>   drivers/pci/pci-sysfs.c                 | 46 
+>>>>> +++++++++++++++++++++ ++++
 >>>>
->>>> diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.c
->>>> index 4d57269c9ca8..5aede907a591 100644
->>>> --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.c
->>>> +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.c
->>>> @@ -2889,6 +2889,7 @@ int amdgpu_fill_buffer(struct amdgpu_bo *bo,
->>>>    int amdgpu_ttm_evict_resources(struct amdgpu_device *adev, int mem_type)
->>>>    {
->>>>          struct ttm_resource_manager *man;
->>>> +     int r;
->>>>             switch (mem_type) {
->>>>          case TTM_PL_VRAM:
->>>> @@ -2903,7 +2904,17 @@ int amdgpu_ttm_evict_resources(struct amdgpu_device *adev, int mem_type)
->>>>                  return -EINVAL;
->>>>          }
->>>>    -     return ttm_resource_manager_evict_all(&adev->mman.bdev, man);
->>>> +     r = ttm_resource_manager_evict_all(&adev->mman.bdev, man);
->>>> +     if (r) {
->>>> +             DRM_ERROR("Failed to evict memory type %d\n", mem_type);
->>>> +             return r;
->>>> +     }
->>>> +     if (adev->in_s4 && mem_type == TTM_PL_VRAM) {
->>>> +             r = ttm_resource_manager_swapout();
->>>> +             if (r)
->>>> +                     DRM_ERROR("Failed to swap out, %d\n", r);
->>>> +     }
->>>> +     return r;
->>>>    }
->>>>       #if defined(CONFIG_DEBUG_FS)
->>>> diff --git a/drivers/gpu/drm/ttm/ttm_resource.c b/drivers/gpu/drm/ttm/ttm_resource.c
->>>> index fd41b56e2c66..07b1f5a5afc2 100644
->>>> --- a/drivers/gpu/drm/ttm/ttm_resource.c
->>>> +++ b/drivers/gpu/drm/ttm/ttm_resource.c
->>>> @@ -534,6 +534,24 @@ void ttm_resource_manager_init(struct ttm_resource_manager *man,
->>>>    }
->>>>    EXPORT_SYMBOL(ttm_resource_manager_init);
->>>>    +int ttm_resource_manager_swapout(void)
->>> This needs documentation, better placement and a better name.
+>>>> The code looks good. Just one more question: could this be added 
+>>>> independently from the PCI bus (at a reasonable cost)? There are 
+>>>> other busses that can host the boot display. Alternatively, we'd 
+>>>> add this attribute per bus as needed.
 >>>
->>> First of all put it into ttm_device.c instead of the resource manager.
+>>> It depends upon the underlying hardware implementation.  On x86 it's 
+>>> always PCI and so I realized there is a requirement that PCI 
+>>> resources are setup before screen_info event works.
 >>>
->>> Then call it something like ttm_device_prepare_hibernation or similar.
+>>> That is the v5 version of this patch would have had a potential race 
+>>> condition with userspace where boot_display didn't always show '1' 
+>>> if userspace read it too quickly.
 >>>
+>>> Other architecture's hardware implementation might have similar 
+>>> problem.
 >>>
->>>> +{
->>>> +     struct ttm_operation_ctx ctx = {
->>>> +             .interruptible = false,
->>>> +             .no_wait_gpu = false,
->>>> +             .force_alloc = true
->>>> +     };
->>>> +     int ret;
->>>> +
->>>> +     while (true) {
->>> Make that:
+>>> So in summary I think it would be better to do it per-bus.  If we 
+>>> realize there is indeed code duplication we can always move this to 
+>>> a common helper at that point.
+>>
+>> Ok, makes sense. With the kernel test robot's issues fixed:
+>>
+>> Reviewed-by: Thomas Zimmermann <tzimmermann@suse.de>
+>
+> Thanks, I've got a fix locally for it.
+>>
+>> I guess that interface also needs some sort of OK from user-space devs?
+>>
+>
+> Who needs to OK it?  I do have MR's for matching userspace 
+> implementations mentioned in the cover letter already.
+
+The MRs are the right place. Maybe ask Dave Airlie for a comment. He was 
+most outspoken against the original approach.
+
+Best regards
+Thomas
+
+>
+>> Best regards
+>> Thomas
+>>
 >>>
->>> do {
->>>          ret = ...
->>> } while (ret > 0);
+>>>>
+>>>> Best regards
+>>>> Thomas
+>>>>
+>>>>>   2 files changed, 54 insertions(+)
+>>>>>
+>>>>> diff --git a/Documentation/ABI/testing/sysfs-bus-pci b/ 
+>>>>> Documentation/ ABI/testing/sysfs-bus-pci
+>>>>> index 69f952fffec72..8b455b1a58852 100644
+>>>>> --- a/Documentation/ABI/testing/sysfs-bus-pci
+>>>>> +++ b/Documentation/ABI/testing/sysfs-bus-pci
+>>>>> @@ -612,3 +612,11 @@ Description:
+>>>>>             # ls doe_features
+>>>>>             0001:01        0001:02        doe_discovery
+>>>>> +
+>>>>> +What:        /sys/bus/pci/devices/.../boot_display
+>>>>> +Date:        October 2025
+>>>>> +Contact:    Linux PCI developers <linux-pci@vger.kernel.org>
+>>>>> +Description:
+>>>>> +        This file indicates the device was used as a boot
+>>>>> +        display. If the device was used as the boot display, the 
+>>>>> file
+>>>>> +        will be present and contain "1".
+>>>>> diff --git a/drivers/pci/pci-sysfs.c b/drivers/pci/pci-sysfs.c
+>>>>> index 268c69daa4d57..cc766461de1da 100644
+>>>>> --- a/drivers/pci/pci-sysfs.c
+>>>>> +++ b/drivers/pci/pci-sysfs.c
+>>>>> @@ -30,6 +30,7 @@
+>>>>>   #include <linux/msi.h>
+>>>>>   #include <linux/of.h>
+>>>>>   #include <linux/aperture.h>
+>>>>> +#include <asm/video.h>
+>>>>>   #include "pci.h"
+>>>>>   #ifndef ARCH_PCI_DEV_GROUPS
+>>>>> @@ -679,6 +680,13 @@ const struct attribute_group *pcibus_groups[] 
+>>>>> = {
+>>>>>       NULL,
+>>>>>   };
+>>>>> +static ssize_t boot_display_show(struct device *dev, struct 
+>>>>> device_attribute *attr,
+>>>>> +                 char *buf)
+>>>>> +{
+>>>>> +    return sysfs_emit(buf, "1\n");
+>>>>> +}
+>>>>> +static DEVICE_ATTR_RO(boot_display);
+>>>>> +
+>>>>>   static ssize_t boot_vga_show(struct device *dev, struct 
+>>>>> device_attribute *attr,
+>>>>>                    char *buf)
+>>>>>   {
+>>>>> @@ -1246,6 +1254,37 @@ static int pci_create_attr(struct pci_dev 
+>>>>> *pdev, int num, int write_combine)
+>>>>>       return 0;
+>>>>>   }
+>>>>> +/**
+>>>>> + * pci_create_boot_display_file - create a file in sysfs for @dev
+>>>>> + * @pdev: dev in question
+>>>>> + *
+>>>>> + * Creates a file `boot_display` in sysfs for the PCI device @pdev
+>>>>> + * if it is the boot display device.
+>>>>> + */
+>>>>> +static int pci_create_boot_display_file(struct pci_dev *pdev)
+>>>>> +{
+>>>>> +#ifdef CONFIG_VIDEO
+>>>>> +    if (video_is_primary_device(&pdev->dev))
+>>>>> +        return sysfs_create_file(&pdev->dev.kobj, 
+>>>>> &dev_attr_boot_display.attr);
+>>>>> +#endif
+>>>>> +    return 0;
+>>>>> +}
+>>>>> +
+>>>>> +/**
+>>>>> + * pci_remove_boot_display_file - remove the boot display file 
+>>>>> for @dev
+>>>>> + * @pdev: dev in question
+>>>>> + *
+>>>>> + * Removes the file `boot_display` in sysfs for the PCI device @pdev
+>>>>> + * if it is the boot display device.
+>>>>> + */
+>>>>> +static void pci_remove_boot_display_file(struct pci_dev *pdev)
+>>>>> +{
+>>>>> +#ifdef CONFIG_VIDEO
+>>>>> +    if (video_is_primary_device(&pdev->dev))
+>>>>> +        sysfs_remove_file(&pdev->dev.kobj, 
+>>>>> &dev_attr_boot_display.attr);
+>>>>> +#endif
+>>>>> +}
+>>>>> +
+>>>>>   /**
+>>>>>    * pci_create_resource_files - create resource files in sysfs 
+>>>>> for @dev
+>>>>>    * @pdev: dev in question
+>>>>> @@ -1654,9 +1693,15 @@ static const struct attribute_group 
+>>>>> pci_dev_resource_resize_group = {
+>>>>>   int __must_check pci_create_sysfs_dev_files(struct pci_dev *pdev)
+>>>>>   {
+>>>>> +    int retval;
+>>>>> +
+>>>>>       if (!sysfs_initialized)
+>>>>>           return -EACCES;
+>>>>> +    retval = pci_create_boot_display_file(pdev);
+>>>>> +    if (retval)
+>>>>> +        return retval;
+>>>>> +
+>>>>>       return pci_create_resource_files(pdev);
+>>>>>   }
+>>>>> @@ -1671,6 +1716,7 @@ void pci_remove_sysfs_dev_files(struct 
+>>>>> pci_dev *pdev)
+>>>>>       if (!sysfs_initialized)
+>>>>>           return;
+>>>>> +    pci_remove_boot_display_file(pdev);
+>>>>>       pci_remove_resource_files(pdev);
+>>>>>   }
+>>>>
 >>>
->>>> +             ret = ttm_global_swapout(&ctx, GFP_KERNEL);
->>>> +             if (ret <= 0)
->>>> +                     break;
->>>> +     }
->>>> +     return ret;
->>> It's rather pointless to return the number of swapped out pages.
->>>
->>> Make that "return ret < 0 ? ret : 0;
->>>
->>> Regards,
->>> Christian.
->>>
->>>> +}
->>>> +EXPORT_SYMBOL(ttm_resource_manager_swapout);
->>>> +
->>>>    /*
->>>>     * ttm_resource_manager_evict_all
->>>>     *
->>>> diff --git a/include/drm/ttm/ttm_resource.h b/include/drm/ttm/ttm_resource.h
->>>> index b873be9597e2..46181758068e 100644
->>>> --- a/include/drm/ttm/ttm_resource.h
->>>> +++ b/include/drm/ttm/ttm_resource.h
->>>> @@ -463,6 +463,7 @@ void ttm_resource_manager_init(struct ttm_resource_manager *man,
->>>>       int ttm_resource_manager_evict_all(struct ttm_device *bdev,
->>>>                                     struct ttm_resource_manager *man);
->>>> +int ttm_resource_manager_swapout(void);
->>>>       uint64_t ttm_resource_manager_usage(struct ttm_resource_manager *man);
->>>>    void ttm_resource_manager_debug(struct ttm_resource_manager *man,
+>>
+>
+
+-- 
+--
+Thomas Zimmermann
+Graphics Driver Developer
+SUSE Software Solutions Germany GmbH
+Frankenstrasse 146, 90461 Nuernberg, Germany
+GF: Ivo Totev, Andrew Myers, Andrew McDonald, Boudien Moerman
+HRB 36809 (AG Nuernberg)
 
