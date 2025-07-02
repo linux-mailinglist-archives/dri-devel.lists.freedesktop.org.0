@@ -2,44 +2,44 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id D58F0AF0F01
-	for <lists+dri-devel@lfdr.de>; Wed,  2 Jul 2025 11:08:01 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id A5049AF0F06
+	for <lists+dri-devel@lfdr.de>; Wed,  2 Jul 2025 11:08:05 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B826A10E67C;
-	Wed,  2 Jul 2025 09:07:59 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7AA5B10E67A;
+	Wed,  2 Jul 2025 09:08:03 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="eyKtaG8d";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="OHz10hGn";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C3A1A10E682;
- Wed,  2 Jul 2025 09:07:58 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A3F6110E668;
+ Wed,  2 Jul 2025 09:08:02 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1751447278; x=1782983278;
+ t=1751447282; x=1782983282;
  h=from:to:cc:subject:date:message-id:in-reply-to:
  references:mime-version:content-transfer-encoding;
- bh=+T1XZVY3EF+98+x3d2B+llo1tyqAgNYLHChNkh7FpHE=;
- b=eyKtaG8d9F0/OuoWlBI2RV8BnnNZEgcft4sK5q+AjCwp/hzIW5cyr369
- rd8+BSRaj/BxGKCaN22FjfhNtzoUqeXUWk53eGygKExNac+IZQwI9GMep
- H06LkiRR9xqaLIcQyDZnRDPIPoV88DFitKtrO9BQo6wpJIcpp/3a1Lzl8
- FaPfqA0UowLLyBRgKo6cjAp1vXBVhrsyRB4To8b0eEJ0JcubpGzS57v7A
- x5zfnJSao/RZrqGc5oojVEg1ybco0DtgQmbRNDOGVjfGvmwqDUfSOKOB7
- KdVQvNeAfbsGzBGFeSzI45CVhqUaeQHXkJjmqeBtYB4Pt0iGzDakmm8HX A==;
-X-CSE-ConnectionGUID: U98kSpSXRyK/EngpXn7amw==
-X-CSE-MsgGUID: SLE4Ghe+QeGbnQIV624pxw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11481"; a="64427001"
-X-IronPort-AV: E=Sophos;i="6.16,281,1744095600"; d="scan'208";a="64427001"
+ bh=rehJkBC3pvblNXstRixXxh8m67FRuMMLfQ9XcFwQIRU=;
+ b=OHz10hGnbxb8Uan3BVh3eRdWYNq1WQMxErYfmi+Xve+4AdAibUPVl0ZE
+ nyWK2FNi+bF/XB61KeFO0kSDwyDzTej7HI8ucRXfSLr0k/3WuanffvjbR
+ Fn88ADxyY1GwqSGRNSRLJ4tXr6gF6wjvCtNVxoO6gcAK/NVpA147kVu0K
+ O9sWSi5bPWkQYGmKZ2XnUJPaK81VAUc7YpVV+0EifBQY2yDzKzbg0FznY
+ DKbqgqCFzFJv33KKW0WtYtRAJwDt9kBMc5u8VBj5arVTiu+PFI5sO4uID
+ yJhoxnCyokSeOIipsncIG+ZDdK1c2Rko7U4xxqiy32HCijOTf+MdZa0hO g==;
+X-CSE-ConnectionGUID: SjM777oBQymsoX83oL0XLA==
+X-CSE-MsgGUID: wUTzzoNlR1e4bbruQmPFmg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11481"; a="64427012"
+X-IronPort-AV: E=Sophos;i="6.16,281,1744095600"; d="scan'208";a="64427012"
 Received: from fmviesa004.fm.intel.com ([10.60.135.144])
  by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 02 Jul 2025 02:07:58 -0700
-X-CSE-ConnectionGUID: iilf+mMjQt+JJp2/tctNnQ==
-X-CSE-MsgGUID: r1XwOADUSfK9gvfqRx/mhQ==
+ 02 Jul 2025 02:08:02 -0700
+X-CSE-ConnectionGUID: QmXl5OqDRMyDxbcgXahPeA==
+X-CSE-MsgGUID: zEwuvJ/jT0CgTSXBHikr8A==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.16,281,1744095600"; d="scan'208";a="159536441"
+X-IronPort-AV: E=Sophos;i="6.16,281,1744095600"; d="scan'208";a="159536466"
 Received: from cfl-desktop.iind.intel.com ([10.190.239.20])
- by fmviesa004.fm.intel.com with ESMTP; 02 Jul 2025 02:07:54 -0700
+ by fmviesa004.fm.intel.com with ESMTP; 02 Jul 2025 02:07:58 -0700
 From: Uma Shankar <uma.shankar@intel.com>
 To: intel-gfx@lists.freedesktop.org, intel-xe@lists.freedesktop.org,
  dri-devel@lists.freedesktop.org
@@ -48,9 +48,9 @@ Cc: chaitanya.kumar.borah@intel.com, ville.syrjala@linux.intel.com,
  mwen@igalia.com, jadahl@redhat.com, sebastian.wick@redhat.com,
  shashank.sharma@amd.com, swati2.sharma@intel.com, alex.hung@amd.com,
  Uma Shankar <uma.shankar@intel.com>
-Subject: [v5 06/24] drm: Add helper to extract lut from struct drm_color_lut_32
-Date: Wed,  2 Jul 2025 14:49:18 +0530
-Message-ID: <20250702091936.3004854-7-uma.shankar@intel.com>
+Subject: [v5 07/24] drm/i915: Add identifiers for intel color blocks
+Date: Wed,  2 Jul 2025 14:49:19 +0530
+Message-ID: <20250702091936.3004854-8-uma.shankar@intel.com>
 X-Mailer: git-send-email 2.42.0
 In-Reply-To: <20250702091936.3004854-1-uma.shankar@intel.com>
 References: <20250702091936.3004854-1-uma.shankar@intel.com>
@@ -73,42 +73,37 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 From: Chaitanya Kumar Borah <chaitanya.kumar.borah@intel.com>
 
-Add helper to extract lut values in the precision needed by
-hardware.
+Add macros to identify intel color blocks. It will help
+in mapping drm_color_ops to intel color HW blocks
 
-Signed-off-by: Uma Shankar <uma.shankar@intel.com>
 Signed-off-by: Chaitanya Kumar Borah <chaitanya.kumar.borah@intel.com>
+Signed-off-by: Uma Shankar <uma.shankar@intel.com>
 ---
- include/drm/drm_color_mgmt.h | 16 ++++++++++++++++
- 1 file changed, 16 insertions(+)
+ drivers/gpu/drm/i915/display/intel_display_limits.h | 13 +++++++++++++
+ 1 file changed, 13 insertions(+)
 
-diff --git a/include/drm/drm_color_mgmt.h b/include/drm/drm_color_mgmt.h
-index ba420444b9f3..b1d12f06fc6e 100644
---- a/include/drm/drm_color_mgmt.h
-+++ b/include/drm/drm_color_mgmt.h
-@@ -50,6 +50,22 @@ static inline u32 drm_color_lut_extract(u32 user_input, int bit_precision)
- 					 (1 << 16) - 1);
- }
+diff --git a/drivers/gpu/drm/i915/display/intel_display_limits.h b/drivers/gpu/drm/i915/display/intel_display_limits.h
+index f0fa27e365ab..97c960cc16aa 100644
+--- a/drivers/gpu/drm/i915/display/intel_display_limits.h
++++ b/drivers/gpu/drm/i915/display/intel_display_limits.h
+@@ -138,4 +138,17 @@ enum hpd_pin {
+ 	HPD_NUM_PINS
+ };
  
-+/**
-+ * drm_color_lut_32_extract - clamp and round LUT entries
-+ * @user_input: input value
-+ * @bit_precision: number of bits the hw LUT supports
-+ *
-+ * Extract U0.bit_precision from a U0.32 LUT value.
++/*
++ * Intel Color Blocks
 + *
 + */
-+static inline u32 drm_color_lut_32_extract(u32 user_input, int bit_precision)
-+{
-+	u64 max = (bit_precision >= 64) ? ~0ULL : (1ULL << bit_precision) - 1;
 +
-+	return DIV_ROUND_CLOSEST_ULL((u64)user_input * max,
-+				     (1ULL << 32) - 1);
-+}
++enum intel_color_block {
++	CB_PLANE_PRE_CSC_LUT,
++	CB_PLANE_CSC,
++	CB_PLANE_POST_CSC_LUT,
 +
- u64 drm_color_ctm_s31_32_to_qm_n(u64 user_input, u32 m, u32 n);
- 
- void drm_crtc_enable_color_mgmt(struct drm_crtc *crtc,
++	I915_MAX_CB
++};
++
+ #endif /* __INTEL_DISPLAY_LIMITS_H__ */
 -- 
 2.42.0
 
