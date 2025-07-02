@@ -2,194 +2,119 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 75D3AAF100F
-	for <lists+dri-devel@lfdr.de>; Wed,  2 Jul 2025 11:36:22 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1194DAF103A
+	for <lists+dri-devel@lfdr.de>; Wed,  2 Jul 2025 11:42:24 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 87B8E10E689;
-	Wed,  2 Jul 2025 09:36:18 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D5ACE10E32A;
+	Wed,  2 Jul 2025 09:42:20 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="egNBd0aB";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="MxbPJZLw";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0F3AE10E689;
- Wed,  2 Jul 2025 09:36:18 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1751448978; x=1782984978;
- h=from:to:cc:subject:date:message-id:in-reply-to:
- references:content-transfer-encoding:mime-version;
- bh=SFUeTta9xw2rzV7j9vU/7losU1uWbNldGh53+x0QK1k=;
- b=egNBd0aBC2OUnMVuVrDcRyxakkQGI3wh86JaCZvxuDDXFZeSwAXB+DRE
- OIDjIWD299lp7+dSCPdBuJ8wQBfsimknSvlMUvfGf40dKghQNwhPPoTWv
- TLDX+am1hoVuS2fMdx8RoyP+B9z6HrKIsohiwo6WyjzPchbNWI4oXHUFO
- XjEdodasVvRKO0czDmA0h28EPFjZEPqsW4y2LxPoyPZL9Ww/7N7YHHA3J
- yflmN+djJuhyAA2etD6/DoFK9zsJ3Jc1Rbtn9e57gClxY/r9aTHvC4lcY
- DNQKg6hK75puD91UTAgvG1CL+ymdhdnr+rLSQ38OWtxv4D5evU0rSWE8J Q==;
-X-CSE-ConnectionGUID: LpvuwbY0QPihY9XEq62rbQ==
-X-CSE-MsgGUID: Z6/AkfNvQtifaud1Uho1Jw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11481"; a="79176920"
-X-IronPort-AV: E=Sophos;i="6.16,281,1744095600"; d="scan'208";a="79176920"
-Received: from orviesa010.jf.intel.com ([10.64.159.150])
- by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 02 Jul 2025 02:36:12 -0700
-X-CSE-ConnectionGUID: fF3zyKiKRVSfw0+LSpwvEg==
-X-CSE-MsgGUID: WmRwUvYnRruKhWinYztpnA==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.16,281,1744095600"; d="scan'208";a="153431720"
-Received: from orsmsx902.amr.corp.intel.com ([10.22.229.24])
- by orviesa010.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 02 Jul 2025 02:36:13 -0700
-Received: from ORSMSX901.amr.corp.intel.com (10.22.229.23) by
- ORSMSX902.amr.corp.intel.com (10.22.229.24) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.1544.25; Wed, 2 Jul 2025 02:36:12 -0700
-Received: from ORSEDG903.ED.cps.intel.com (10.7.248.13) by
- ORSMSX901.amr.corp.intel.com (10.22.229.23) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.1544.25 via Frontend Transport; Wed, 2 Jul 2025 02:36:12 -0700
-Received: from NAM02-SN1-obe.outbound.protection.outlook.com (40.107.96.77) by
- edgegateway.intel.com (134.134.137.113) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.1544.25; Wed, 2 Jul 2025 02:36:12 -0700
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=nMDtMMNFkZkR5CDSch1man3WjWJvTES7LbVZomioBAGyodWfoq2DAyWThYy3psufGWp6d1WsfYd2Vt46th0eD3CqNTMWXWhR9Slq/W80auXC28nifMnB5GP3+0FvE2gEOGJRyOWasmt8ahEcTCPJDkvnGDeMYw6T7NXnWiVEJ8Ny9iV4M4JOLxBU0t1iKoEZ6ibNzdnkux5AoqSvi8siV2+2NYUd5f2wouXwzgbtrNd+11SMq8x+AULO4HM2AcWJjAz9mLZW4iPJKSupmbPVRkvySOZ33RDOHpJ73uRC7oBNxjbnw7sEW8WSQLGsREo2uKacLwJ4mhTwcTYmzqNLdg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=NgvonhnhOOp3y9IkBdF3tj7BEdS/9TrASkLg/a7DuGs=;
- b=g0IGkQtJcSlwMIA9j5AmRJMLqNlmWB5255ens9HOsaYaq1XjVVLQ7ldQU7Dm7jTRX2zM1cS+Jja5OEI8BN74GmcJruWiSeZtKhFWXqWhK05kCmriambk6j+KrUvS4r9aUTUv0JkafvFfWks43ceCENrR67AbIhaifpXIAr8l+l8ymBSjB+0K7UrAUvyALgWZrqA+zpAVRah2+jCj5J9Jtc2CLFqZza7gJBk76II1Qpj/arTIyqLUWBufpnJKI14cRQuE0Zl+ymLpE/R9mBsRq2MxmTfXYkjinM5Ibz7PEbaIL3alGzpq8OTVeLilk965gL7/r1asJj3ViWgdjn80sg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
- dkim=pass header.d=intel.com; arc=none
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=intel.com;
-Received: from DM4PR11MB5373.namprd11.prod.outlook.com (2603:10b6:5:394::7) by
- SJ0PR11MB4846.namprd11.prod.outlook.com (2603:10b6:a03:2d8::24) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8901.19; Wed, 2 Jul
- 2025 09:36:03 +0000
-Received: from DM4PR11MB5373.namprd11.prod.outlook.com
- ([fe80::927a:9c08:26f7:5b39]) by DM4PR11MB5373.namprd11.prod.outlook.com
- ([fe80::927a:9c08:26f7:5b39%6]) with mapi id 15.20.8901.018; Wed, 2 Jul 2025
- 09:36:03 +0000
-From: =?UTF-8?q?Micha=C5=82=20Winiarski?= <michal.winiarski@intel.com>
-To: Bjorn Helgaas <bhelgaas@google.com>, <linux-pci@vger.kernel.org>,
- <linux-kernel@vger.kernel.org>
-CC: <intel-xe@lists.freedesktop.org>, <dri-devel@lists.freedesktop.org>,
- =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>,
- =?UTF-8?q?Krzysztof=20Wilczy=C5=84ski?= <kw@linux.com>,
- =?UTF-8?q?Ilpo=20J=C3=A4rvinen?= <ilpo.jarvinen@linux.intel.com>, "Rodrigo
- Vivi" <rodrigo.vivi@intel.com>, Michal Wajdeczko
- <michal.wajdeczko@intel.com>, Lucas De Marchi <lucas.demarchi@intel.com>,
- =?UTF-8?q?Thomas=20Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, Maxime Ripard
- <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, David Airlie
- <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, Matt Roper
- <matthew.d.roper@intel.com>, =?UTF-8?q?Micha=C5=82=20Winiarski?=
- <michal.winiarski@intel.com>
-Subject: [PATCH v10 5/5] PCI: Allow drivers to control VF BAR size
-Date: Wed, 2 Jul 2025 11:35:22 +0200
-Message-ID: <20250702093522.518099-6-michal.winiarski@intel.com>
-X-Mailer: git-send-email 2.49.0
-In-Reply-To: <20250702093522.518099-1-michal.winiarski@intel.com>
-References: <20250702093522.518099-1-michal.winiarski@intel.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 8bit
-X-ClientProxiedBy: VI1P190CA0001.EURP190.PROD.OUTLOOK.COM
- (2603:10a6:802:2b::14) To DM4PR11MB5373.namprd11.prod.outlook.com
- (2603:10b6:5:394::7)
+Received: from mail-wr1-f52.google.com (mail-wr1-f52.google.com
+ [209.85.221.52])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 98FEF10E32A
+ for <dri-devel@lists.freedesktop.org>; Wed,  2 Jul 2025 09:42:19 +0000 (UTC)
+Received: by mail-wr1-f52.google.com with SMTP id
+ ffacd0b85a97d-3a4ef2c2ef3so3659678f8f.2
+ for <dri-devel@lists.freedesktop.org>; Wed, 02 Jul 2025 02:42:19 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20230601; t=1751449338; x=1752054138; darn=lists.freedesktop.org;
+ h=cc:to:autocrypt:subject:from:content-language:user-agent
+ :mime-version:date:message-id:from:to:cc:subject:date:message-id
+ :reply-to; bh=AL4Q7J3vJ8teU14qOCKHQMf2Oqlcoy+k13iLtd5zxes=;
+ b=MxbPJZLwUq4jTJcquvLLxIz4iVkqnTo9bG6iN+4Uxe1xoUPXvFOV5qN4fS00uIaa57
+ ohrT9StQsdLWEugPkBm9ZUjIH1MBTBe4zFpvs1KnePxZcv2wmKY5GdAmbfFBbM2L6ztE
+ dFPcSgwm/8HV4uuIzLc8+0CI6e9b+LEz/e0puZnImri6vcdWkJnMa6xxNOl9dyEEaF1k
+ FnlzAFCWMItwf+dIIMzi7gkVNDyUKxlWl34Q2dC+XFRxmqSPkB3Fl+rLONn/gf5IG6ef
+ FNps7F8dN3xWWORxO5J5YwOqCBf2XnTnndcBnnF9FxNHEH3vpSI9VOg5z8CryuupOuys
+ tmFQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1751449338; x=1752054138;
+ h=cc:to:autocrypt:subject:from:content-language:user-agent
+ :mime-version:date:message-id:x-gm-message-state:from:to:cc:subject
+ :date:message-id:reply-to;
+ bh=AL4Q7J3vJ8teU14qOCKHQMf2Oqlcoy+k13iLtd5zxes=;
+ b=mqDf0/DcfUdGMaqL1uXqx/f2nTL0UZ5FwKEPaR4A4BPr/JOryk/KnmKGQv5JeEyFYt
+ HyDrUW4Qyj78smzsGHJDIhb6N5mlnB88VJN5MVcT8DsjSC7LLwSPM+Ne4iF+cHQN3CX6
+ eK/ZWgRmK+myi4Zm7ejOhb+WsOztn3BJqb41YVyy/a2Od6QuCqzCCrWb/DwjbA5goknB
+ +L4QwUcA0YG6xfDdWW7B5TFLduSh1up18NA6RgklwNDTTsWpfXkc2zLwOVQoeexaXPfN
+ ZzmzJ+UN2Dl2hdfNluhSI+tOftC+P09ILKVJs3KSIAk3JJyTFNUdt4RO+TK40iTNHD2z
+ AxMA==
+X-Gm-Message-State: AOJu0Ywu6qy38BizuGD5o6bQRiMLYq0nbBkwlOL008KtW+xw4qSJAopQ
+ xfhocfJUbK++hR6JNz/DAoyAx32+8eg4zub6KJ06v78nwmWWi9n5PRnx8UggntfvIprERl3z
+X-Gm-Gg: ASbGncsRZkQtBVOQvLWPbsQN0xjTI6MN1le/P4rwFDObT5PvLPzorbP1pve5AXJQaAg
+ Tcel24FqMGOOSDMr00PjZ5aGdztRu7v2t1P0JGFyeweW4219aa3ht3E2YtJuJTayHoWzt3HCjxu
+ jh5bSguzOA0oC4qhBdy2fbh0cjzhRl+MHkmtD7dNyDL+PwSSveyML9XtPhnuHyLfSVsszvne7gu
+ uiFKifdpbgYhF+Hu+wBqVE4DocEb2nlOMx0/TDCYHPeG1jZHoPQzE78prqH2eD/RjQeq19wU1W1
+ bKWbQPt2ipzEE62+1eZo6t+JjVnPmin8Hxo5FdyqibNJaR89+Lgpg9XCgNkH7401K1nL
+X-Google-Smtp-Source: AGHT+IEzEnj13dlHQ5rul4e2j99B00ZAhc3XeDzukgDyhpBldeGjn58tVxChGXagrFAXtJ/ZsAt74Q==
+X-Received: by 2002:a5d:64e7:0:b0:3a5:8a68:b823 with SMTP id
+ ffacd0b85a97d-3b1fed6f921mr1616405f8f.23.1751449338000; 
+ Wed, 02 Jul 2025 02:42:18 -0700 (PDT)
+Received: from [192.168.1.248] ([87.254.0.133])
+ by smtp.googlemail.com with ESMTPSA id
+ ffacd0b85a97d-3a892e5f44dsm15431969f8f.87.2025.07.02.02.42.17
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Wed, 02 Jul 2025 02:42:17 -0700 (PDT)
+Message-ID: <056b34c3-c1ea-4b8c-9672-c98903ffd012@gmail.com>
+Date: Wed, 2 Jul 2025 10:41:52 +0100
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: DM4PR11MB5373:EE_|SJ0PR11MB4846:EE_
-X-MS-Office365-Filtering-Correlation-Id: bcfb779d-3197-4c82-2340-08ddb94bdccc
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;ARA:13230040|376014|7416014|366016|1800799024;
-X-Microsoft-Antispam-Message-Info: =?utf-8?B?RFBKeGxMODRyS0U5TEp5dzhhaUh1SWYxQlpNSFVDZmlxZGlOcGpWa1haMUd6?=
- =?utf-8?B?Ri93RnRKZVZtSlU5NW1MVWR0V3FaUUJ5MGV2enl1bGpXS1BaYWVreEczMzB1?=
- =?utf-8?B?alNXSmdINVBWUTBuRk5uZ2dCd2pLNWVaKzdLdThrUHlkSkVHZiswUklHeVNz?=
- =?utf-8?B?QUppNzZRN3ZLWGlEZ3RHNlhIMFMvV25JbjRJVXRIQ0tHOUlQK04vRG1zOUtT?=
- =?utf-8?B?dnRWZ0o3ZE8wbEhRdndIQ3p2bVk4RHFYUVEwemI3SE1pMTNZRGRXTDU4QzNq?=
- =?utf-8?B?K0R4TmVJeEZOMTNqdThTaFczUDhqRnhWaXREK2ttLzVjazZzdi81Y2k5SWYv?=
- =?utf-8?B?aVJRb1owNXZMVXordkd1dEFBb3JvbFk4OUFRQ1lXMUpITnlXazVUbVR3a043?=
- =?utf-8?B?WEtha3ZLbHF0anFDRmZoWjNWTVNaVjl4V3YxM0dRWUw5aFF1TzlFQU9TNHJJ?=
- =?utf-8?B?eHhQdzJNSFE0dC9LamtwaGsxVmxpOGgrd09aWU5NbWQrbWdDMG1CS3M4WEVm?=
- =?utf-8?B?ZDQ0V3RMb0xnbXdyMDZDaUFTMmltYVpuek13UWxqQ2JoQnBlYzBxV3RXM2xB?=
- =?utf-8?B?bTlXdmFDSGJtcGw0TG01NDRXVkxEK2V1ejRyVmN0Y0VZSXJFRjJDR2RialZS?=
- =?utf-8?B?cmRyRWp0VHFLS01HVXpwdzM3NG56VXRPU2V0OHZmZ0t2N2tVSzVicTdOM3c5?=
- =?utf-8?B?VEJQZGdKTkdNV2dlMzlpK0J1YUxDc2NlYTZ0YVM1R0YrUVpZOVBlZ2tPTVNS?=
- =?utf-8?B?VzBPOTVHR1FwL1RFQnoxTlVqUnZuMzEyNXdXR1VCMFpxdkxmYVlESUEzbnNC?=
- =?utf-8?B?R0ZCVDh4Sk11TW5ZZHpDUE82K01ONUZuNzFJcSsvdFo2ZkczV2l1elBhekZR?=
- =?utf-8?B?c0R3NThwSFI5UyttekoybVRXSlJrTUdVUXV3dkNnZmtVajlEUXFWOTZBUS9j?=
- =?utf-8?B?eEUrY2hQODhuMGoxWklOVmFKMitMYzNnQTBhMkltc3p6YVgvdUV2TzgxWGJs?=
- =?utf-8?B?cjkrcDJxcVEwNkVjTFBqWjd2dzlnaVhlU2g4TTJIUVV1NzZmdVN4VkpOQmFC?=
- =?utf-8?B?SEllU0lrdHc0SEhtK0JCQnA1djZyMVYzV0hVT2UxMVRxVzRTQVE1akpTNVBH?=
- =?utf-8?B?Sk5QZ3ErWWxmVXVUcTljOVpWNjJpMGZ2SktkSGVNM0QyYlVhVE5lR0sxV1JX?=
- =?utf-8?B?WmlVMGpacTRZRENueGw3QklRQ1gzaFhsRFQ1NjlOMFQ4cGxHZFhlL1U0aUgx?=
- =?utf-8?B?cDZEMzQzS0U5dVlrRU5wUzBwN01vOGo0dUlHU05EMXFsTFFxTllXcHZwM0V3?=
- =?utf-8?B?dXVHcUpKSmhaMStnNmpOTEwrdUxWWG5sN2hjZW50WmpPeS9aSDUwYTRTUFBL?=
- =?utf-8?B?QXYyelVGWUFvMnVDNm4vcVhSaXN0TFBKWFI2a1N0RHdBTllHNjI1V2FUcHRJ?=
- =?utf-8?B?cFErcjAxLzdxaXNoSmxGcEM2NXp3NEsvNXgyUFZMSlIyOGl3MDdBajhpRkEv?=
- =?utf-8?B?WFlRcjhpQWZsYVpYSUp6LzE5UVNlM3NaajU2UERsVVFoeVhoaytyaEMrcUFa?=
- =?utf-8?B?TjJHQmFQVW54aS8vVU5ZaEhjQ1ZEZmhrc2hmK3V1NTBtb0dSSm9QQ0MyRFpM?=
- =?utf-8?B?RWZVRVpORzJ3YVVQSTBrdTMvR0dKZzBXLy80Yzlzb0ZtMGJCVTV6YUpqZzlo?=
- =?utf-8?B?UU1JdzdDU2dZcHcvMC9EdWR5VGVkdU5KbnExOGpNNjg2OWx6SmVWVVMwQlhV?=
- =?utf-8?B?L3QzajhEYU9nc0xUTFRKaENBdldGVDk3emxhVEJUSGJCa0lpNkhGS1Roeitt?=
- =?utf-8?B?V2YzdHliSkVPQmFzdERiN2lmUXEzMUhQSUxhd2x3WXROQ0J2MDBpenlRR3do?=
- =?utf-8?B?NFZHamtyODI1Qy9jc0dod2VrT3ppT3VBc3hTekpjQkJOaVE9PQ==?=
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:DM4PR11MB5373.namprd11.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230040)(376014)(7416014)(366016)(1800799024); DIR:OUT; SFP:1101; 
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?WHdSSWJQYVhKK3U4aEpLb0JhK3M5Q0FUYnBlYWZTMk9oMFNtVWRTQjJkU2oz?=
- =?utf-8?B?cWVYU3lqbkg2Tk1WUWVZdHdMS1IzV1hGbTBHWkJhSEhDdktNYmNqeUdiM0FV?=
- =?utf-8?B?R1M4cUFmZC9MdkpLK1FJSVFTN2dNWFhPdWVyTVdpc3JzS3p4eVFReW1hdXhN?=
- =?utf-8?B?MkV2ZmtXRFcxZGdja1hnaDVUZDdoNnZaaDR1ZGNZSXNsSXByMnZDeTkveTBD?=
- =?utf-8?B?NCs5ZzlSSjcveVZjWDM3b1h6em54eVhlVlNQK2Z1S1dpRXQ4TXJ2SDZaUDdp?=
- =?utf-8?B?WUNLSTJUT1V3MkcwVlgxeEZKcnlmV2hxSTJKcngrSVVlemxTdGFsS0g1NFpm?=
- =?utf-8?B?cWNkcm5FQStmU3djRVhHU3ZtWmlTYXVWUThFZjJnYVNUclFtV2JHTmpMSjBI?=
- =?utf-8?B?UWs1eWVoOHQ5THFZT3diSUFjM3diSlBNYzZmVmpxdTllQm5saGtWeHBCdkxt?=
- =?utf-8?B?SGcvNDhVdWlYaFZ0blFjYmhYeEJTc3F0TGF3bjVjV0Noa3oxdlBmc2ZYNzVp?=
- =?utf-8?B?WEdMaVp2Zk42UWtBNzNQYWU0bFJWLzhjeC8vMm0yajlnNXg2UkVKM2JEdlBY?=
- =?utf-8?B?ZlZpTFhzWDBZVVpDMzloK2lhYWo5UDRFWkxFRHMrZEZlS3cwYkE3U2prRytj?=
- =?utf-8?B?QTdFRjNWMjUxdVhFNXc0OXhXV3BhU1JtTm9LUXc2MWhFVEx6bWFWUFNEcm9D?=
- =?utf-8?B?QjgzcGZZdEd4VDlXd0tZYWZlcU5SWERKV2xRM2RGMHgrOVFvMEV3NkU0Njhk?=
- =?utf-8?B?eHArT01iYllHSnVkcU55U1YwUUVXdFV0WlIwdGdwSlJRZVY2dG1CODVwZWJ4?=
- =?utf-8?B?QTZ4aTZ5WmxJY1ZsVjlveUJxaUNiNzFjZTBXV0lYQ0kzRlFiVFdQZmlYWllG?=
- =?utf-8?B?M0FleStCa3o5azJiYkpubDc3Nkl5V21aVm0wdzdJN0VpZE1IUjhMOW00NFMx?=
- =?utf-8?B?V0pyYWxvTGttNmdNVy93c05RYUtaRi9VTldxb0VVd0xpM0owT1d5bE0rVnFZ?=
- =?utf-8?B?elIwaHpzdE9zWUNuak45OWFHUk1NUTlBS3FtY2Z5NVdWYnc2OVV2SEQwdzRi?=
- =?utf-8?B?U0o1STdQSkp1Szd1dDJITVhPQ1pYU1c3a0lRS1VvQUtqQk9Xb2E0cTNFMWVz?=
- =?utf-8?B?MnBNWWdGMi9HeXB6ZjhMZ0dGalM4enZZc1BKMVlLcjQwYnU0Zy9rK241ZE5i?=
- =?utf-8?B?bXFCR3pWbTRDaVREZzFaMDJNTzZaYjI1Uy8xNnN2bzd1Wm9iVE8xTTZoY0xR?=
- =?utf-8?B?LzRiWGlvQW1aWCtrbXZnNEJFTTZhYXZtMC93dWgzSkxrNC90SGd2Y1p0bmZp?=
- =?utf-8?B?ODhFS0ZiSzJ4L2ZPcEdDRUFhMUp0bVZiMzFEc3NHeXVJa3dPZUlPQ2lsTzlp?=
- =?utf-8?B?N2V0V1k4bHRISm92em00MlNyd2YvVVIrYW4zMXl4alhocDlTREkxRkVzTWk1?=
- =?utf-8?B?UlZtUWgveEZZZGloMnhTTHNhWGp3WlhVMEVDZ0p2amVBNXlQbVBaTDVMM1Ev?=
- =?utf-8?B?eFBweWlWNEF1aTBOOTBzZTgrdTY2Z2R6a0E2Z1JnUkhRLzdwQ1N5QndwT3Ri?=
- =?utf-8?B?M2tsS0w0UXZ6ZVFrUnJ4Y3J4aHFQWFNNdlR4THBwcVhlcURxYWU2YjJqNjhW?=
- =?utf-8?B?Zko1MTR0MkNJRGJEdE1OOEdjVTgyaTQ3RThDVTg2eXNEZzRjU002ZGNNV2NF?=
- =?utf-8?B?bFQrS2pzZHZKL0h6am5Sb0lMeWhFTi9SNng1aW9IendtZVRibXAxY2l6MUFY?=
- =?utf-8?B?SFErSk1pZk11cllvYVNVN3F5Ti9JcDlYUVNFdnZmVGdRODMvWXBBV0xpNnRP?=
- =?utf-8?B?MjFsbE1KbXgvSC94ZU5PaEEyMWlWblBoeWI1ek9yL2JxeVBFRkZQbyt6UDlW?=
- =?utf-8?B?Qjd2M2FiYzlNS1RUdVc4QlB2WnBzQS80STFhM2xQVGJvazZJM1Q3dGllRGJV?=
- =?utf-8?B?NWI3UDNuTWJUSGRoeUcwWlRxRnZxZVBpdGtaN0ZONG9tNTBFVFdNdlBIUVdl?=
- =?utf-8?B?c0I3VE82Tm5mZEgrOXM5R0ZmMWI2dzlGWGEwMyt6ZWtybE52N2VVTTM4NWJT?=
- =?utf-8?B?U1huUDd0ekZkY0lsRWtoQklJanoycGxYaVljQW1hc2FBUFliNndXNmRvSXdz?=
- =?utf-8?B?SGtsbGJDYzdJNjR3MDcwd3p3Vk1zSzlhTXRUaVQvazI3VXhlN3FrbWlpRmli?=
- =?utf-8?B?QWc9PQ==?=
-X-MS-Exchange-CrossTenant-Network-Message-Id: bcfb779d-3197-4c82-2340-08ddb94bdccc
-X-MS-Exchange-CrossTenant-AuthSource: DM4PR11MB5373.namprd11.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 02 Jul 2025 09:36:03.5735 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: QEvTpY1Xqe+5cjq96UyZxK+4Q9RGKnhxBq1IZUQgVBYRny1KL2hnxAE0i9f8h+lIVh4M87pl6fyHGcBCZsQC422WIUvTIBhAd16EfZAdBh4=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SJ0PR11MB4846
-X-OriginatorOrg: intel.com
+User-Agent: Mozilla Thunderbird
+Content-Language: en-US
+From: "Colin King (gmail)" <colin.i.king@gmail.com>
+Subject: re: drm/bridge: tc358767: convert to devm_drm_bridge_alloc() API
+Autocrypt: addr=colin.i.king@gmail.com; keydata=
+ xsFNBE6TJCgBEACo6nMNvy06zNKj5tiwDsXXS+LhT+LwtEsy9EnraKYXAf2xwazcICSjX06e
+ fanlyhB0figzQO0n/tP7BcfMVNG7n1+DC71mSyRK1ZERcG1523ajvdZOxbBCTvTitYOy3bjs
+ +LXKqeVMhK3mRvdTjjmVpWnWqJ1LL+Hn12ysDVVfkbtuIm2NoaSEC8Ae8LSSyCMecd22d9Pn
+ LR4UeFgrWEkQsqROq6ZDJT9pBLGe1ZS0pVGhkRyBP9GP65oPev39SmfAx9R92SYJygCy0pPv
+ BMWKvEZS/7bpetPNx6l2xu9UvwoeEbpzUvH26PHO3DDAv0ynJugPCoxlGPVf3zcfGQxy3oty
+ dNTWkP6Wh3Q85m+AlifgKZudjZLrO6c+fAw/jFu1UMjNuyhgShtFU7NvEzL3RqzFf9O1qM2m
+ uj83IeFQ1FZ65QAiCdTa3npz1vHc7N4uEQBUxyXgXfCI+A5yDnjHwzU0Y3RYS52TA3nfa08y
+ LGPLTf5wyAREkFYou20vh5vRvPASoXx6auVf1MuxokDShVhxLpryBnlKCobs4voxN54BUO7m
+ zuERXN8kadsxGFzItAyfKYzEiJrpUB1yhm78AecDyiPlMjl99xXk0zs9lcKriaByVUv/NsyJ
+ FQj/kmdxox3XHi9K29kopFszm1tFiDwCFr/xumbZcMY17Yi2bQARAQABzSdDb2xpbiBJYW4g
+ S2luZyA8Y29saW4uaS5raW5nQGdtYWlsLmNvbT7CwZEEEwEIADsCGwMFCwkIBwMFFQoJCAsF
+ FgIDAQACHgECF4AWIQRwYtqk8AG5xmFnAM9owoffxqgCJgUCY8GcawIZAQAKCRBowoffxqgC
+ Jtd/EACIWcaxfVt/MH4qqo5ELsjCFPVp+RhVpQDWy8v9Np2YbTcZ4AY2Zj4Pq/HrZ3F/Bh02
+ v85C6mNv8BDTKev6Qcq3BYw0iqw6/xLNvRcSFHM81mQI9xtnAWIWfI9k5hpX19QooPIIP3GO
+ MdMc1uRUGTxTgTFAAsAswRY3kMzo6k7arQnUs9zbiZ9SmS43qWOIxzGnvneekHHDAcomc/oh
+ o7kgj6rKp/f9qRrhForkgVQwdj6iBlW934yRXzeFVF3wr7Lk5GQNIEkJiNQPZs54ojBS/Kx6
+ 3UTLT1HgOp6UY9RPEi9wubmUR+J6YjLRZMr5PCcA86EYmRoysnnJ8Q/SlBVD8nppGVEcuvrb
+ H3MBfhmwOPDc3RyLkEtKfSTB92k1hsmRkx9zkyuUzhcSnqQnpWGJD+xtKHvcHRT7Uxaa+SDw
+ UDM36BjkyVcZQy8c+Is2jA55uwNgPpiA7n82pTeT+FRGd+7iCLQHaryu6FO6DNDv09RbPBjI
+ iC/q814aeKJaSILP1ld9/PEBrLPdm+6lG6OKOt9DDV6jPmfR96FydjxcmI1cgZVgPomSxv2J
+ B1erOggB8rmX4hhWYsVQl1AXZs3LdEpJ6clmCPspn/ufZxHslgR9/WR1EvPMQc8XtssF55p8
+ ehRIcVSXDRcMFr3ZuqMTXcL68YbDmv5OGS95O1Gs4c7BTQROkyQoARAAxfoc/nNKhdEefA8I
+ jPDPz6KcxbuYnrQaZdI1M4JWioTGSilu5QK+Kc3hOD4CeGcEHdHUpMet4UajPetxXt+Yl663
+ oJacGcYG2xpbkSaaHqBls7lKVxOmXtANpyAhS5O/WmB7BUcJysqJfTNAMmRwrwV4tRwHY9e4
+ l3qwmDf2SCw+UjtHQ4kJee9P9Uad3dc9Jdeg7gpyvl9yOxk/GfQd1gK+igkYj9Bq76KY8cJI
+ +GdfdZj/2rn9aqVj1xADy1QL7uaDO3ZUyMV+3WGun8JXJtbqG2b5rV3gxLhyd05GxYER62cL
+ oedBjC4LhtUI4SD15cxO/zwULM4ecxsT4/HEfNbcbOiv9BhkZyKz4QiJTqE1PC/gXp8WRd9b
+ rrXUnB8NRAIAegLEXcHXfGvQEfl3YRxs0HpfJBsgaeDAO+dPIodC/fjAT7gq0rHHI8Fffpn7
+ E7M622aLCIVaQWnhza1DKYcBXvR2xlMEHkurTq/qcmzrTVB3oieWlNzaaN3mZFlRnjz9juL6
+ /K41UNcWTCFgNfMVGi071Umq1e/yKoy29LjE8+jYO0nHqo7IMTuCd+aTzghvIMvOU5neTSnu
+ OitcRrDRts8310OnDZKH1MkBRlWywrXX0Mlle/nYFJzpz4a0yqRXyeZZ1qS6c3tC38ltNwqV
+ sfceMjJcHLyBcNoS2jkAEQEAAcLBXwQYAQgACQUCTpMkKAIbDAAKCRBowoffxqgCJniWD/43
+ aaTHm+wGZyxlV3fKzewiwbXzDpFwlmjlIYzEQGO3VSDIhdYj2XOkoIojErHRuySYTIzLi08Q
+ NJF9mej9PunWZTuGwzijCL+JzRoYEo/TbkiiT0Ysolyig/8DZz11RXQWbKB5xFxsgBRp4nbu
+ Ci1CSIkpuLRyXaDJNGWiUpsLdHbcrbgtSFh/HiGlaPwIehcQms50c7xjRcfvTn3HO/mjGdeX
+ ZIPV2oDrog2df6+lbhMPaL55A0+B+QQLMrMaP6spF+F0NkUEmPz97XfVjS3ly77dWiTUXMHC
+ BCoGeQDt2EGxCbdXRHwlO0wCokabI5wv4kIkBxrdiLzXIvKGZjNxEBIu8mag9OwOnaRk50av
+ TkO3xoY9Ekvfcmb6KB93wSBwNi0br4XwwIE66W1NMC75ACKNE9m/UqEQlfBRKR70dm/OjW01
+ OVjeHqmUGwG58Qu7SaepC8dmZ9rkDL310X50vUdY2nrb6ZN4exfq/0QAIfhL4LD1DWokSUUS
+ 73/W8U0GYZja8O/XiBTbESJLZ4i8qJiX9vljzlBAs4dZXy6nvcorlCr/pubgGpV3WsoYj26f
+ yR7NRA0YEqt7YoqzrCq4fyjKcM/9tqhjEQYxcGAYX+qM4Lo5j5TuQ1Rbc38DsnczZV05Mu7e
+ FVPMkxl2UyaayDvhrO9kNXvl1SKCpdzCMQ==
+To: Luca Ceresoli <luca.ceresoli@bootlin.com>,
+ Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
+Cc: "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
+ "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature";
+ boundary="------------HmFe4WOS7fNp4xwygCXH6U04"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -205,139 +130,149 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Drivers could leverage the fact that the VF BAR MMIO reservation is
-created for total number of VFs supported by the device by resizing the
-BAR to larger size when smaller number of VFs is enabled.
+This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
+--------------HmFe4WOS7fNp4xwygCXH6U04
+Content-Type: multipart/mixed; boundary="------------PJ00F2d9gQ00jhKeF2tPhjeX";
+ protected-headers="v1"
+From: "Colin King (gmail)" <colin.i.king@gmail.com>
+To: Luca Ceresoli <luca.ceresoli@bootlin.com>,
+ Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
+Cc: "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
+ "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
+Message-ID: <056b34c3-c1ea-4b8c-9672-c98903ffd012@gmail.com>
+Subject: re: drm/bridge: tc358767: convert to devm_drm_bridge_alloc() API
 
-Add a pci_iov_vf_bar_set_size() function to control the size and a
-pci_iov_vf_bar_get_sizes() helper to get the VF BAR sizes that will
-allow up to num_vfs to be successfully enabled with the current
-underlying reservation size.
+--------------PJ00F2d9gQ00jhKeF2tPhjeX
+Content-Type: multipart/mixed; boundary="------------wi5dnFuCAAIN1crZyhj3LocE"
 
-Signed-off-by: Michał Winiarski <michal.winiarski@intel.com>
-Reviewed-by: Ilpo Järvinen <ilpo.jarvinen@linux.intel.com>
----
- drivers/pci/iov.c   | 73 +++++++++++++++++++++++++++++++++++++++++++++
- include/linux/pci.h |  6 ++++
- 2 files changed, 79 insertions(+)
+--------------wi5dnFuCAAIN1crZyhj3LocE
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: base64
 
-diff --git a/drivers/pci/iov.c b/drivers/pci/iov.c
-index f34173c70b32a..ac4375954c947 100644
---- a/drivers/pci/iov.c
-+++ b/drivers/pci/iov.c
-@@ -8,11 +8,15 @@
-  */
- 
- #include <linux/bitfield.h>
-+#include <linux/bits.h>
-+#include <linux/log2.h>
- #include <linux/pci.h>
-+#include <linux/sizes.h>
- #include <linux/slab.h>
- #include <linux/export.h>
- #include <linux/string.h>
- #include <linux/delay.h>
-+#include <asm/div64.h>
- #include "pci.h"
- 
- #define VIRTFN_ID_LEN	17	/* "virtfn%u\0" for 2^32 - 1 */
-@@ -1313,3 +1317,72 @@ int pci_sriov_configure_simple(struct pci_dev *dev, int nr_virtfn)
- 	return nr_virtfn;
- }
- EXPORT_SYMBOL_GPL(pci_sriov_configure_simple);
-+
-+/**
-+ * pci_iov_vf_bar_set_size - set a new size for a VF BAR
-+ * @dev: the PCI device
-+ * @resno: the resource number
-+ * @size: new size as defined in the spec (0=1MB, 31=128TB)
-+ *
-+ * Set the new size of a VF BAR that supports VF resizable BAR capability.
-+ * Unlike pci_resize_resource(), this does not cause the resource that
-+ * reserves the MMIO space (originally up to total_VFs) to be resized, which
-+ * means that following calls to pci_enable_sriov() can fail if the resources
-+ * no longer fit.
-+ *
-+ * Return: 0 on success, or negative on failure.
-+ */
-+int pci_iov_vf_bar_set_size(struct pci_dev *dev, int resno, int size)
-+{
-+	u32 sizes;
-+	int ret;
-+
-+	if (!pci_resource_is_iov(resno))
-+		return -EINVAL;
-+
-+	if (pci_iov_is_memory_decoding_enabled(dev))
-+		return -EBUSY;
-+
-+	sizes = pci_rebar_get_possible_sizes(dev, resno);
-+	if (!sizes)
-+		return -ENOTSUPP;
-+
-+	if (!(sizes & BIT(size)))
-+		return -EINVAL;
-+
-+	ret = pci_rebar_set_size(dev, resno, size);
-+	if (ret)
-+		return ret;
-+
-+	pci_iov_resource_set_size(dev, resno, pci_rebar_size_to_bytes(size));
-+
-+	return 0;
-+}
-+EXPORT_SYMBOL_GPL(pci_iov_vf_bar_set_size);
-+
-+/**
-+ * pci_iov_vf_bar_get_sizes - get VF BAR sizes allowing to create up to num_vfs
-+ * @dev: the PCI device
-+ * @resno: the resource number
-+ * @num_vfs: number of VFs
-+ *
-+ * Get the sizes of a VF resizable BAR that can accommodate @num_vfs within
-+ * the currently assigned size of the resource @resno.
-+ *
-+ * Return: A bitmask of sizes in format defined in the spec (bit 0=1MB,
-+ * bit 31=128TB).
-+ */
-+u32 pci_iov_vf_bar_get_sizes(struct pci_dev *dev, int resno, int num_vfs)
-+{
-+	u64 vf_len = pci_resource_len(dev, resno);
-+	u32 sizes;
-+
-+	if (!num_vfs)
-+		return 0;
-+
-+	do_div(vf_len, num_vfs);
-+	sizes = (roundup_pow_of_two(vf_len + 1) - 1) >> ilog2(SZ_1M);
-+
-+	return sizes & pci_rebar_get_possible_sizes(dev, resno);
-+}
-+EXPORT_SYMBOL_GPL(pci_iov_vf_bar_get_sizes);
-diff --git a/include/linux/pci.h b/include/linux/pci.h
-index 05e68f35f3923..28f06045ab200 100644
---- a/include/linux/pci.h
-+++ b/include/linux/pci.h
-@@ -2438,6 +2438,8 @@ int pci_sriov_set_totalvfs(struct pci_dev *dev, u16 numvfs);
- int pci_sriov_get_totalvfs(struct pci_dev *dev);
- int pci_sriov_configure_simple(struct pci_dev *dev, int nr_virtfn);
- resource_size_t pci_iov_resource_size(struct pci_dev *dev, int resno);
-+int pci_iov_vf_bar_set_size(struct pci_dev *dev, int resno, int size);
-+u32 pci_iov_vf_bar_get_sizes(struct pci_dev *dev, int resno, int num_vfs);
- void pci_vf_drivers_autoprobe(struct pci_dev *dev, bool probe);
- 
- /* Arch may override these (weak) */
-@@ -2490,6 +2492,10 @@ static inline int pci_sriov_get_totalvfs(struct pci_dev *dev)
- #define pci_sriov_configure_simple	NULL
- static inline resource_size_t pci_iov_resource_size(struct pci_dev *dev, int resno)
- { return 0; }
-+static inline int pci_iov_vf_bar_set_size(struct pci_dev *dev, int resno, int size)
-+{ return -ENODEV; }
-+static inline u32 pci_iov_vf_bar_get_sizes(struct pci_dev *dev, int resno, int num_vfs)
-+{ return 0; }
- static inline void pci_vf_drivers_autoprobe(struct pci_dev *dev, bool probe) { }
- #endif
- 
--- 
-2.49.0
+SGksDQoNCkkgYmVsaWV2ZSB0aGVyZSBpcyBhIHJlZ3Jlc3Npb24gaW4gbGludXgtbmV4dCBj
+YXVzZWQgYnkgdGhlIGZvbGxvd2luZyANCmNvbW1pdDoNCg0KY29tbWl0IGE1OWEyNzE3Njkx
+NDlmMGI4MjU4NTA3Mjc2ZjNkMmEyNDM3MGNiZGINCkF1dGhvcjogTHVjYSBDZXJlc29saSA8
+bHVjYS5jZXJlc29saUBib290bGluLmNvbT4NCkRhdGU6ICAgV2VkIE1heSAyOCAxMToyOToz
+NiAyMDI1ICswMjAwDQoNCiAgICAgZHJtL2JyaWRnZTogdGMzNTg3Njc6IGNvbnZlcnQgdG8g
+ZGV2bV9kcm1fYnJpZGdlX2FsbG9jKCkgQVBJDQoNCg0KdGhlIGlzc3VlIGlzIGFzIGZvbGxv
+d3M6DQoNCnN0YXRpYyBpbnQgdGNfcHJvYmVfYnJpZGdlX2VuZHBvaW50KHN0cnVjdCB0Y19k
+YXRhICp0YywgZW51bSB0Y19tb2RlIG1vZGUpDQp7DQogICAgICAgICBzdHJ1Y3QgZGV2aWNl
+ICpkZXYgPSB0Yy0+ZGV2Ow0KICAgICAgICAgc3RydWN0IG9mX2VuZHBvaW50IGVuZHBvaW50
+Ow0KICAgICAgICAgc3RydWN0IGRldmljZV9ub2RlICpub2RlID0gTlVMTDsNCg0KICAgICAg
+ICAgZm9yX2VhY2hfZW5kcG9pbnRfb2Zfbm9kZShkZXYtPm9mX25vZGUsIG5vZGUpIHsNCiAg
+ICAgICAgICAgICAgICAgaWYgKGVuZHBvaW50LnBvcnQgPT0gMikgew0KCQkJLi4uDQoJCQku
+Li4NCg0KVGhlIGNoZWNrIGZvciBlbmRwb2ludC5wb3J0ID09IDIgaXMgY2hlY2tpbmcgYW4g
+dW5pbml0aWFsaXplZCBmaWVsZCBpbiANCnRoZSB1bmluaXRpYWxpemVkIHN0cnVjdHVyZSBl
+bmRwb2ludC4gVGhlIGNvZGUgYmVmb3JlIHRoaXMgY29tbWl0IGNhbGxlZCANCiAgb2ZfZ3Jh
+cGhfcGFyc2VfZW5kcG9pbnQobm9kZSwgJmVuZHBvaW50KSB0byBmZXRjaCBlbmRwb2ludCBh
+bmQgbm93IA0KdGhpcyBzZWVtcyB0byBiZSBtaXNzaW5nLg0KDQpDb2xpbg0KDQoNCg==
+--------------wi5dnFuCAAIN1crZyhj3LocE
+Content-Type: application/pgp-keys; name="OpenPGP_0x68C287DFC6A80226.asc"
+Content-Disposition: attachment; filename="OpenPGP_0x68C287DFC6A80226.asc"
+Content-Description: OpenPGP public key
+Content-Transfer-Encoding: quoted-printable
 
+-----BEGIN PGP PUBLIC KEY BLOCK-----
+
+xsFNBE6TJCgBEACo6nMNvy06zNKj5tiwDsXXS+LhT+LwtEsy9EnraKYXAf2xwazc
+ICSjX06efanlyhB0figzQO0n/tP7BcfMVNG7n1+DC71mSyRK1ZERcG1523ajvdZO
+xbBCTvTitYOy3bjs+LXKqeVMhK3mRvdTjjmVpWnWqJ1LL+Hn12ysDVVfkbtuIm2N
+oaSEC8Ae8LSSyCMecd22d9PnLR4UeFgrWEkQsqROq6ZDJT9pBLGe1ZS0pVGhkRyB
+P9GP65oPev39SmfAx9R92SYJygCy0pPvBMWKvEZS/7bpetPNx6l2xu9UvwoeEbpz
+UvH26PHO3DDAv0ynJugPCoxlGPVf3zcfGQxy3otydNTWkP6Wh3Q85m+AlifgKZud
+jZLrO6c+fAw/jFu1UMjNuyhgShtFU7NvEzL3RqzFf9O1qM2muj83IeFQ1FZ65QAi
+CdTa3npz1vHc7N4uEQBUxyXgXfCI+A5yDnjHwzU0Y3RYS52TA3nfa08yLGPLTf5w
+yAREkFYou20vh5vRvPASoXx6auVf1MuxokDShVhxLpryBnlKCobs4voxN54BUO7m
+zuERXN8kadsxGFzItAyfKYzEiJrpUB1yhm78AecDyiPlMjl99xXk0zs9lcKriaBy
+VUv/NsyJFQj/kmdxox3XHi9K29kopFszm1tFiDwCFr/xumbZcMY17Yi2bQARAQAB
+zSdDb2xpbiBJYW4gS2luZyA8Y29saW4uaS5raW5nQGdtYWlsLmNvbT7CwZEEEwEI
+ADsCGwMFCwkIBwMFFQoJCAsFFgIDAQACHgECF4AWIQRwYtqk8AG5xmFnAM9owoff
+xqgCJgUCY8GcawIZAQAKCRBowoffxqgCJtd/EACIWcaxfVt/MH4qqo5ELsjCFPVp
++RhVpQDWy8v9Np2YbTcZ4AY2Zj4Pq/HrZ3F/Bh02v85C6mNv8BDTKev6Qcq3BYw0
+iqw6/xLNvRcSFHM81mQI9xtnAWIWfI9k5hpX19QooPIIP3GOMdMc1uRUGTxTgTFA
+AsAswRY3kMzo6k7arQnUs9zbiZ9SmS43qWOIxzGnvneekHHDAcomc/oho7kgj6rK
+p/f9qRrhForkgVQwdj6iBlW934yRXzeFVF3wr7Lk5GQNIEkJiNQPZs54ojBS/Kx6
+3UTLT1HgOp6UY9RPEi9wubmUR+J6YjLRZMr5PCcA86EYmRoysnnJ8Q/SlBVD8npp
+GVEcuvrbH3MBfhmwOPDc3RyLkEtKfSTB92k1hsmRkx9zkyuUzhcSnqQnpWGJD+xt
+KHvcHRT7Uxaa+SDwUDM36BjkyVcZQy8c+Is2jA55uwNgPpiA7n82pTeT+FRGd+7i
+CLQHaryu6FO6DNDv09RbPBjIiC/q814aeKJaSILP1ld9/PEBrLPdm+6lG6OKOt9D
+DV6jPmfR96FydjxcmI1cgZVgPomSxv2JB1erOggB8rmX4hhWYsVQl1AXZs3LdEpJ
+6clmCPspn/ufZxHslgR9/WR1EvPMQc8XtssF55p8ehRIcVSXDRcMFr3ZuqMTXcL6
+8YbDmv5OGS95O1Gs4c0iQ29saW4gS2luZyA8Y29saW4ua2luZ0B1YnVudHUuY29t
+PsLBdwQTAQgAIQUCTwq47wIbAwULCQgHAwUVCgkICwUWAgMBAAIeAQIXgAAKCRBo
+woffxqgCJo1bD/4gPIQ0Muy5TGHqTQ/bSiQ9oWjS5rAQvsrsVwcm2Ka7Uo8LzG8e
+grZrYieJxn3Qc22b98TiT6/5+sMa3XxhxBZ9FvALve175NPOz+2pQsAV88tR5NWk
+5YSzhrpzi7+klkWEVAB71hKFZcT0qNlDSeg9NXfbXOyCVNPDJQJfrtOPEuutuRuU
+hrXziaRchqmlhmszKZGHWybmPWnDQEAJdRs2Twwsi68WgScqapqd1vq2+5vWqzUT
+JcoHrxVOnlBq0e0IlbrpkxnmxhfQ+tx/Sw9BP9RITgOEFh6tf7uwly6/aqNWMgFL
+WACArNMMkWyOsFj8ouSMjk4lglT96ksVeCUfKqvCYRhMMUuXxAe+q/lxsXC+6qok
+Jlcd25I5U+hZ52pz3A+0bDDgIDXKXn7VbKooJxTwN1x2g3nsOLffXn/sCsIoslO4
+6nbr0rfGpi1YqeXcTdU2Cqlj2riBy9xNgCiCrqrGfX7VCdzVwpQHyNxBzzGG6JOm
+9OJ2UlpgbbSh6/GJFReW+I62mzC5VaAoPgxmH38g0mA8MvRT7yVpLep331F3Inmq
+4nkpRxLd39dgj6ejjkfMhWVpSEmCnQ/Tw81z/ZCWExFp6+3Q933hGSvifTecKQlO
+x736wORwjjCYH/A3H7HK4/R9kKfL2xKzD+42ejmGqQjleTGUulue8JRtpM1AQ29s
+aW4gSWFuIEtpbmcgKEludGVsIENvbGluIElhbiBLaW5nIGtleSkgPGNvbGluLmtp
+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
+=3DQKm6
+-----END PGP PUBLIC KEY BLOCK-----
+
+--------------wi5dnFuCAAIN1crZyhj3LocE--
+
+--------------PJ00F2d9gQ00jhKeF2tPhjeX--
+
+--------------HmFe4WOS7fNp4xwygCXH6U04
+Content-Type: application/pgp-signature; name="OpenPGP_signature.asc"
+Content-Description: OpenPGP digital signature
+Content-Disposition: attachment; filename="OpenPGP_signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+wsF5BAABCAAjFiEEcGLapPABucZhZwDPaMKH38aoAiYFAmhk/uEFAwAAAAAACgkQaMKH38aoAiZ0
+oxAAlw7O8Nz4Xm+m/Gt2UG/19XFeZZFK9Z98L92C6RAKwSXuutWbgL41e5Es09gnYF2PwFIeCVsC
+rvgMneI6orW7Up46vuVxstJrQ6sm2q8oOx50nKS1ThU73irmiC0neTrsoi+l7LIHwzD5QKGGjJTG
+wncMk4kASxc00PFDYA/IgWFSwvEWaU4pmL6I5XOj4lIU1EQwiR6zSeeBVy1rkeg3AARZ4+gZEmbA
+lVVYvENANeCnR8lpwGWTZPgTWJqNI7E9/FmvO2ILfj1Afaf7qQdLHggZmglii+iJJ6x/pLtj5ZOW
+R8RRBXk4G3vMCvTjD/MHrw6CZ9DevmEozeQOSFSMw9gDeNsTo8kIw1ZNP9Gh0iDqkrVQ9ClmGG2x
+MKftntjQQSNA73BMxiO9ssFJYR8lsvyKKgO6k1qjodxlLlUd+neBml23CyUNdNWqiAoAPpE0rkVh
+9KHJBNCkFa1DmfWWnqsLfB+yzyTGpjEL1ZvWkTnNTXIK1ZGY15psNLTpxLxJoHikFHjnVv9T9Or6
+LaOWwRPHVlLvpox7G7GLv9pdvTRWaAtccXGwpP5S3d/KCKUNNDNCDchTRy7EPSjGYK1Amb/4L0+x
+fmsb5a3X7grrA3/G6UTK8Q6Ffcue1l7ZxKhFMU8q7nlyK5LZn64GEfAPDudJFo/nBNBKJl1DqmIC
+kIw=
+=loTL
+-----END PGP SIGNATURE-----
+
+--------------HmFe4WOS7fNp4xwygCXH6U04--
