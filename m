@@ -2,30 +2,30 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id A6371AF5E21
-	for <lists+dri-devel@lfdr.de>; Wed,  2 Jul 2025 18:11:21 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id EDE2FAF5E0D
+	for <lists+dri-devel@lfdr.de>; Wed,  2 Jul 2025 18:06:49 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 89B9610E739;
-	Wed,  2 Jul 2025 16:11:18 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0A98410E72C;
+	Wed,  2 Jul 2025 16:06:47 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=linux.dev header.i=@linux.dev header.b="J23fCSUX";
+	dkim=pass (1024-bit key; unprotected) header.d=linux.dev header.i=@linux.dev header.b="A39qaWfe";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from out-180.mta0.migadu.com (out-180.mta0.migadu.com
- [91.218.175.180])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6E72510E739
- for <dri-devel@lists.freedesktop.org>; Wed,  2 Jul 2025 16:11:17 +0000 (UTC)
-Date: Wed, 2 Jul 2025 09:02:53 -0700
+Received: from out-182.mta1.migadu.com (out-182.mta1.migadu.com
+ [95.215.58.182])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id ED40F10E72C
+ for <dri-devel@lists.freedesktop.org>; Wed,  2 Jul 2025 16:06:44 +0000 (UTC)
+Date: Wed, 2 Jul 2025 09:06:38 -0700
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
- t=1751472181;
+ t=1751472403;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=JmKpgw7JxflsdjAvdn78UOLyrgy5j/ltn6L9d5qwGqg=;
- b=J23fCSUXkIuGwEC3bvhOwMbwNz0SefxLm8KigJv5REYSzQ5sy+aA9caK8ht+7c9lSQll9I
- 3f28xk/NNd7VO/GkScdST30K7NVx3ilWY28xuRI9YbB1deNpX6ss49dliGSvnqKa3L7kec
- QkZrQ9KhSf+fIq8/1MotwIEztGpsYB8=
+ bh=srTNbsweal/ZTMihhkqr7z7S4H0d6CYN8w3bSn5u8Xk=;
+ b=A39qaWfe2ddBeltU2pFOoAwv6donCRWRvZDOgD8qmVSQrt4qnlrAd4ekZPSwWXTghLDzVi
+ pKmXJZ+XL+6XDWnKML/XT/EwXwvE1YzpkNh+bLXrXYFJ+uAaHX0g1BNM7mv/fGYhgs2cD5
+ z6fNQMDxZWl6I/amQzQystCjf7mgaig=
 X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and
  include these headers.
 From: Shakeel Butt <shakeel.butt@linux.dev>
@@ -35,14 +35,14 @@ Cc: dri-devel@lists.freedesktop.org, linux-mm@kvack.org,
  Christian Koenig <christian.koenig@amd.com>, 
  Dave Chinner <david@fromorbit.com>, Kairui Song <kasong@tencent.com>, 
  Dave Airlie <airlied@redhat.com>
-Subject: Re: [PATCH 17/17] amdgpu: add support for memory cgroups
-Message-ID: <wejb2ykaltp5gtufrzz3mwp43hrxugzuubclt4amrpr4koznan@cb7dfmnvik6a>
+Subject: Re: [PATCH 08/17] memcg: add support for GPU page counters.
+Message-ID: <kk5qq4af4roysrnba3w5433fmhmbt4ps5kfnmvickh3uxlqc3g@lpqtnmqhuzgm>
 References: <20250630045005.1337339-1-airlied@gmail.com>
- <20250630045005.1337339-18-airlied@gmail.com>
+ <20250630045005.1337339-9-airlied@gmail.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20250630045005.1337339-18-airlied@gmail.com>
+In-Reply-To: <20250630045005.1337339-9-airlied@gmail.com>
 X-Migadu-Flow: FLOW_OUT
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -59,40 +59,64 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, Jun 30, 2025 at 02:49:36PM +1000, Dave Airlie wrote:
+On Mon, Jun 30, 2025 at 02:49:27PM +1000, Dave Airlie wrote:
 > From: Dave Airlie <airlied@redhat.com>
 > 
-> This adds support for adding a obj cgroup to a buffer object,
-> and passing in the placement flags to make sure it's accounted
-> properly.
+> This introduces 2 new statistics and 3 new memcontrol APIs for dealing
+> with GPU system memory allocations.
+> 
+> The stats corresponds to the same stats in the global vmstat,
+> for number of active GPU pages, and number of pages in pools that
+> can be reclaimed.
+> 
+> The first API charges a order of pages to a objcg, and sets
+> the objcg on the pages like kmem does, and updates the active/reclaim
+> statistic.
+> 
+> The second API uncharges a page from the obj cgroup it is currently charged
+> to.
+> 
+> The third API allows moving a page to/from reclaim and between obj cgroups.
+> When pages are added to the pool lru, this just updates accounting.
+> When pages are being removed from a pool lru, they can be taken from
+> the parent objcg so this allows them to be uncharged from there and transferred
+> to a new child objcg.
 > 
 > Signed-off-by: Dave Airlie <airlied@redhat.com>
 > ---
->  drivers/gpu/drm/amd/amdgpu/amdgpu_gem.c    |  2 ++
->  drivers/gpu/drm/amd/amdgpu/amdgpu_object.c | 13 +++++++++----
->  drivers/gpu/drm/amd/amdgpu/amdgpu_object.h |  1 +
->  drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.c    |  2 ++
->  4 files changed, 14 insertions(+), 4 deletions(-)
+>  Documentation/admin-guide/cgroup-v2.rst |   6 ++
+>  include/linux/memcontrol.h              |  14 +++
+>  mm/memcontrol.c                         | 110 ++++++++++++++++++++++++
+>  3 files changed, 130 insertions(+)
 > 
-> diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_gem.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_gem.c
-> index e5e33a68d935..d250183bab03 100644
-> --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_gem.c
-> +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_gem.c
-> @@ -198,6 +198,7 @@ static void amdgpu_gem_object_free(struct drm_gem_object *gobj)
->  	struct amdgpu_bo *aobj = gem_to_amdgpu_bo(gobj);
+> diff --git a/Documentation/admin-guide/cgroup-v2.rst b/Documentation/admin-guide/cgroup-v2.rst
+> index 0cc35a14afbe..d6f057c4fe2e 100644
+> --- a/Documentation/admin-guide/cgroup-v2.rst
+> +++ b/Documentation/admin-guide/cgroup-v2.rst
+> @@ -1542,6 +1542,12 @@ The following nested keys are defined.
+>  	  vmalloc (npn)
+>  		Amount of memory used for vmap backed memory.
 >  
->  	amdgpu_hmm_unregister(aobj);
-> +	obj_cgroup_put(aobj->tbo.objcg);
->  	ttm_bo_put(&aobj->tbo);
->  }
->  
-> @@ -225,6 +226,7 @@ int amdgpu_gem_object_create(struct amdgpu_device *adev, unsigned long size,
->  	bp.domain = initial_domain;
->  	bp.bo_ptr_size = sizeof(struct amdgpu_bo);
->  	bp.xcp_id_plus1 = xcp_id_plus1;
-> +	bp.objcg = get_obj_cgroup_from_current();
+> +	  gpu (npn)
+> +		Amount of system memory used for GPU devices.
+> +
+> +	  gpu_reclaim (npn)
+> +		Amount of system memory cached for GPU devices.
+> +
+>  	  shmem
+>  		Amount of cached filesystem data that is swap-backed,
+>  		such as tmpfs, shm segments, shared anonymous mmap()s
+> diff --git a/include/linux/memcontrol.h b/include/linux/memcontrol.h
+> index 87b6688f124a..ff82d603910d 100644
+> --- a/include/linux/memcontrol.h
+> +++ b/include/linux/memcontrol.h
+> @@ -36,6 +36,8 @@ enum memcg_stat_item {
+>  	MEMCG_SOCK,
+>  	MEMCG_PERCPU_B,
+>  	MEMCG_VMALLOC,
+> +	MEMCG_GPU,
+> +	MEMCG_GPU_RECLAIM,
 
-In what context this function is called? Is that the same for
-ttm_pool_alloc_page()? Is remote charging happening in
-ttm_pool_alloc_page()?
+You already added node level counters i.e. GPUActive & GPUReclaim, just
+use those instead of these. Add them to memcg_node_stat_items[].
 
