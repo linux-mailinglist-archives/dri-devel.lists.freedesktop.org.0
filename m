@@ -2,77 +2,168 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 58EE8AF5E38
-	for <lists+dri-devel@lfdr.de>; Wed,  2 Jul 2025 18:14:09 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id BA978AF5E32
+	for <lists+dri-devel@lfdr.de>; Wed,  2 Jul 2025 18:13:30 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 66FBC10E743;
-	Wed,  2 Jul 2025 16:14:07 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C14EC10E15A;
+	Wed,  2 Jul 2025 16:13:28 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="RTaLnFCy";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="HmXHNi6S";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pf1-f171.google.com (mail-pf1-f171.google.com
- [209.85.210.171])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 65E3D10E743
- for <dri-devel@lists.freedesktop.org>; Wed,  2 Jul 2025 16:14:06 +0000 (UTC)
-Received: by mail-pf1-f171.google.com with SMTP id
- d2e1a72fcca58-74b50c71b0aso642704b3a.0
- for <dri-devel@lists.freedesktop.org>; Wed, 02 Jul 2025 09:14:06 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1751472846; x=1752077646; darn=lists.freedesktop.org;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:from:to:cc:subject:date:message-id:reply-to;
- bh=0c/84mBXTtb1I5DJ3f//CNcOZAIu4pgnp07Yr6FAASE=;
- b=RTaLnFCyAQiv4gkL2C5+N6rUSvMcCcH0HbF3ueZ+OJmM4Q/fhBsZ83M7edvbYRwGhw
- LWNhbGuCYyaq7qyaqFAdeD5qqNvfwH+pNl0EolaFo//pPzTVYjoH8SyH2gxnrVHMPvmJ
- jRCt6fuTnYSNcFE5J6XNg/69R13O3vo5NTlsUOqqK+EcHmQZ9LF3rDOIRzRu3cXqIqGv
- xSWWHB4jTtqYDI0eTjekbvFVwith7aMXhtI7Ayx0DPihn1bHAMiWtjYa0lWCKF1/d40X
- f7873u0R7ONmNBdgr7IplFC5SMEfoUSfi2JxQQYESFnTkElmc3noEulcQ0bfFhfsUlht
- fcWw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1751472846; x=1752077646;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=0c/84mBXTtb1I5DJ3f//CNcOZAIu4pgnp07Yr6FAASE=;
- b=qJ6pm1t5WeohRL47dQa0hx22YJ4uJyhwWEfwyceF1/dh6mw9ZvADuzO29X13etjvQs
- KLOR2rLjVVm408aAj5I0Uf70N0EzNvF9BgFC/bVu6/L79mhiRXvspntN6TCd3h4iZ37t
- SXOlK/rnjXK5jtvD0PPqVlWznDN3Nwh+0FAuy/VNW4T+Cq+TUJX88ewgU5waFdv9bMdt
- JU8EMHtMrKghI/xE18197SflK9uP6E2ZSomlNcfipHoPLbUhbvCz77ozQJuGXT/1iagY
- 0dbe+kNorkz8u16GZKbOhWuQUich6QzEeEhZMdujX0xLfKB5P1UcRV/kGu5o2NEGbfTR
- WTYg==
-X-Forwarded-Encrypted: i=1;
- AJvYcCXVJKSEwv0Og6rnCjvlmCRxkO0szUniY/BRLR+ZURjwQtQjFlop8MIoB+7yX2/w0IkTAin1q+YIBZA=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0Yxls2RrmbezlxoIfsDPwJDuWy5fpYhMN55Vmvcawr8Nn+agUsCI
- KnvXgcEKMu9ezAnMtsMKIuOncgw8a75BIiPCmsR0WSTvoE/Edl7zi/NApDIhr5A6pyU=
-X-Gm-Gg: ASbGncs/Bu/DyEYeF1fmqylCN0Kxghc0Df7Er/Vg20zuJuSK5foO4j7Jf9z6Hip2sN4
- ZZ8y/29beAwftuLq/BfHc4Nw7T/QHKYtagXV9xZQNH1rWJ8AF2M+yRqF95lwGdmE1+p5bEzHyJi
- /X6h1dimtX+oWdK44vQLRWA7xIJsxPvX+0Aphg31PP/y/RtenYAX5TK3lpMRaYQ87+RFfK/3eWd
- 0r+alNdAov4PVegvSmG8wU6/HZ6B9uK3KHUU86scvZNMpjEs/JKER090VMxU51aHSNqSDwn9u6W
- FySLKHg1yLTX2vwrIryc/DAmuYHSzCWQLOxV6cyMpRiAczSZXf9uJiv9oOsuZJmLfWT0rM4ft1M
- JmGq927M=
-X-Google-Smtp-Source: AGHT+IEVOoy1Wg3zr/ivZW5QJMDsut3/0p00VNy9N/gGgSjttY9YOrjPlh1fZzMAA62oF74U2z1nzQ==
-X-Received: by 2002:a05:6a21:62c6:b0:220:82c7:309c with SMTP id
- adf61e73a8af0-222d7db195bmr6344370637.7.1751472845622; 
- Wed, 02 Jul 2025 09:14:05 -0700 (PDT)
-Received: from localhost.localdomain ([2405:201:c408:a02c:2fc6:2cad:e985:b61d])
- by smtp.gmail.com with ESMTPSA id
- 41be03b00d2f7-b35016ee1e0sm9385740a12.54.2025.07.02.09.14.01
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 02 Jul 2025 09:14:05 -0700 (PDT)
-From: Kevin Paul Reddy Janagari <kevinpaul468@gmail.com>
-To: airlied@gmail.com, simona@ffwll.ch, maarten.lankhorst@linux.intel.com,
- mripard@kernel.org, tzimmermann@suse.de, corbet@lwn.net,
- dri-devel@lists.freedesktop.org, linux-doc@vger.kernel.org
-Cc: linux-kernel@vger.kernel.org,
-	kevinpaul468@gmail.com
-Subject: [PATCH v3] workaround for Sphinx false positive preventing indexing
-Date: Wed,  2 Jul 2025 21:43:37 +0530
-Message-Id: <20250702161337.69943-1-kevinpaul468@gmail.com>
-X-Mailer: git-send-email 2.39.5
-MIME-Version: 1.0
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.16])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 63B4810E15A;
+ Wed,  2 Jul 2025 16:13:27 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1751472808; x=1783008808;
+ h=date:from:to:cc:subject:message-id:references:
+ content-transfer-encoding:in-reply-to:mime-version;
+ bh=pNv8pav2rm4812b+6RoGvJG0tDyXeliH2GHOnK/UdUE=;
+ b=HmXHNi6Syve2IhkE5ZJ/1Vv6aP6YCqq7zTBHiHb+Q0IVAMNrCxs7rMBu
+ mBwdPXSUWUkEcCDeF23OY/lfItdRZpJ9Ft33psLYYrRTYlWplaSw+ajsP
+ 9F6BFfeJ/za2rPP/WsR37Sg5SxjOxcOBoL0r033tUNw4qJY4cFwCABmx4
+ SMWG0h+xklRho0Rv4ojzcMFjjGLDspCYeZ+01RtR9xHGliUVnwpPtjPng
+ 7OtodYKNRwwVsGbHDNs+WwWdyz9OTWK/xeemi62UFV6RuTqXYVNksPUfM
+ J1E8Z1idZbH//VDTkintgMVeJu6vSLYAVoVqVQjDHhwjiFdPHpsHL6Vnk A==;
+X-CSE-ConnectionGUID: YTbrHiqwQWCLq570poY1jw==
+X-CSE-MsgGUID: ngDhNM5qR4a1ERwGCwhBhw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11482"; a="53890082"
+X-IronPort-AV: E=Sophos;i="6.16,281,1744095600"; d="scan'208";a="53890082"
+Received: from orviesa008.jf.intel.com ([10.64.159.148])
+ by orvoesa108.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 02 Jul 2025 09:13:27 -0700
+X-CSE-ConnectionGUID: wGTHtGZjT/mSafatppt1lw==
+X-CSE-MsgGUID: NKTsFVqcSGmYlaT71U81Wg==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.16,281,1744095600"; d="scan'208";a="154625106"
+Received: from orsmsx902.amr.corp.intel.com ([10.22.229.24])
+ by orviesa008.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 02 Jul 2025 09:13:27 -0700
+Received: from ORSMSX901.amr.corp.intel.com (10.22.229.23) by
+ ORSMSX902.amr.corp.intel.com (10.22.229.24) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.1544.25; Wed, 2 Jul 2025 09:13:26 -0700
+Received: from ORSEDG903.ED.cps.intel.com (10.7.248.13) by
+ ORSMSX901.amr.corp.intel.com (10.22.229.23) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.1544.25 via Frontend Transport; Wed, 2 Jul 2025 09:13:26 -0700
+Received: from NAM11-DM6-obe.outbound.protection.outlook.com (40.107.223.85)
+ by edgegateway.intel.com (134.134.137.113) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.1544.25; Wed, 2 Jul 2025 09:13:26 -0700
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=mjY8tja367OOAK6h8xjt/DLuk6s3+4EnFOswFpmbP9VN2MQFSPiWUz9qb2/dkFQuuD3LdNuGOptK0tEBKt2UZnBVm5x7lZn+wLD9cFDN4n+gUcVH3jcl+BpNjsmoNA7DwajIAsAfhp3VUN5htlDsSz/rpjVefs9Luw22l6FnwlyQquTnOHqa9XiUAvYkjyWwkPKp9N5Xg6uMJA19/tk/YZ2EYMjNLxHjvnj+z1fWmYc0AWUYD73rcbKYTYqpI1/ATAo/aEwZf0tJZnLIQ0gSJO52mc3LfnMWQK16CewZP2CmFDQ0b01ZszZ9Tnd43axChI79dzr/4Zn5PeYISwDMDA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=ro6tnQe7+tF4dP0Wucfaa17uH7Xov/dkN8sng5iqCw4=;
+ b=zG7xLeMsn5vPHjbtcqsIsGor+vtRmTgIksi3CR/WFB8fPn+PcW0AdpYuCreFCJqb5iTGquPcR8gW1S0Bit+49L4aQB+Vkb0stUU6pbFn+jGfa7Q4WyW5dpA1Kx2V+XGE954lP9xlKI8CNbdoQtJI0IRSSCA02K4eNm4hlrguof6DBCEKKVylaG97hXIWpAJxvUkO0M0JL0oOJa5FAq1RANTmqhsWj2hqgDnawHM7iVRoQCfCdEswSfoLLVpgTuFQxn0nTSoMtFCullyA4isfRaONkQe1xpcuIU0J55l0DaTQNSfqzdVRtAIcrgzFMJ2pJDceypLSBMoj5ZP2LWlX3Q==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
+ dkim=pass header.d=intel.com; arc=none
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=intel.com;
+Received: from PH7PR11MB6522.namprd11.prod.outlook.com (2603:10b6:510:212::12)
+ by DS7PR11MB6246.namprd11.prod.outlook.com (2603:10b6:8:99::15) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8901.20; Wed, 2 Jul
+ 2025 16:13:24 +0000
+Received: from PH7PR11MB6522.namprd11.prod.outlook.com
+ ([fe80::9e94:e21f:e11a:332]) by PH7PR11MB6522.namprd11.prod.outlook.com
+ ([fe80::9e94:e21f:e11a:332%5]) with mapi id 15.20.8901.018; Wed, 2 Jul 2025
+ 16:13:24 +0000
+Date: Wed, 2 Jul 2025 09:15:06 -0700
+From: Matthew Brost <matthew.brost@intel.com>
+To: Christian =?iso-8859-1?Q?K=F6nig?= <ckoenig.leichtzumerken@gmail.com>
+CC: <thomas.hellstrom@linux.intel.com>, <intel-xe@lists.freedesktop.org>,
+ <dri-devel@lists.freedesktop.org>, <amd-gfx@lists.freedesktop.org>
+Subject: Re: Switching TTM over to GEM refcounts v2
+Message-ID: <aGVbCnLV9fWNwPnS@lstrano-desk.jf.intel.com>
+References: <20250702110028.2521-1-christian.koenig@amd.com>
+Content-Type: text/plain; charset="iso-8859-1"
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
+In-Reply-To: <20250702110028.2521-1-christian.koenig@amd.com>
+X-ClientProxiedBy: BYAPR02CA0057.namprd02.prod.outlook.com
+ (2603:10b6:a03:54::34) To PH7PR11MB6522.namprd11.prod.outlook.com
+ (2603:10b6:510:212::12)
+MIME-Version: 1.0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: PH7PR11MB6522:EE_|DS7PR11MB6246:EE_
+X-MS-Office365-Filtering-Correlation-Id: 83e62fc4-0bc8-4d9f-bfeb-08ddb9835f31
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;ARA:13230040|376014|1800799024|366016;
+X-Microsoft-Antispam-Message-Info: =?iso-8859-1?Q?g4Rn2VJuGJyvRUiVdezOZsT6SsrvfjJmv8/lrPV20aRsywD8F++03lSZIr?=
+ =?iso-8859-1?Q?vBJYLE6b5wEjvAoWRup+J39E5XZI1ggYfqZeS9nuHFcfMaHs7RGGu5UvMr?=
+ =?iso-8859-1?Q?P0ME37463v4ZdWhTL/cJ0g906+xL4GwLyLjGP6oW2fMjnZV8VoEtnNhZFk?=
+ =?iso-8859-1?Q?0TwWeKWqvL/hrM8nuMy0LK4xXbzXtuOvWF7lD6c5dgyp/n3PTh+gWW0lYY?=
+ =?iso-8859-1?Q?ip5o2A5Bw0opxMP6CIiTKJkc9eOTFpKy17vkgJkwyScJkH2oKd6AyhocLE?=
+ =?iso-8859-1?Q?6UnEHBmwDnfCk+/nOlthNNwHiRNGRxpQkMFsIEbCx21DNNRZnWOeOaVThF?=
+ =?iso-8859-1?Q?rL3lHlvhQV+ObYEpVZByV7Jkqmh2aQthSu8n4Rf4KwTE/bG642LGKLiteb?=
+ =?iso-8859-1?Q?tJf7O7/0aqL4ADfYQP9btKO0Q3gb96mwNp0WO/uEslYUwsrEkods8TsHs7?=
+ =?iso-8859-1?Q?jOTSXBFgQ7zbV8KIOMPXq+p7goqQGq7AW8747kZGPy+dxs6uRjL3MkuFCY?=
+ =?iso-8859-1?Q?m38yNVW57y1m51V8dZSEXqljBzZcBoVyA6wszqGoXXSbHBzdFHbx1nen1W?=
+ =?iso-8859-1?Q?2jyvsOLZQagPJQZH11FKT9JFyazoFPSXYv9AOIlSU7tKj/oL+f8tQGpBMg?=
+ =?iso-8859-1?Q?DQ0K9cizcfrgVvsd/J0pVBzJAm3GpZbVTX+gC5V25XDwXnk0pb4ntWL4Ri?=
+ =?iso-8859-1?Q?K4YXOGRvoBDpabD/BSOGVPeB977M4HQtMYbCuRf8nQLT1GVsFrrqedEW14?=
+ =?iso-8859-1?Q?0Vyop9otFeyIPcVEROYUR3IbweaGCpmTHKrmRyEU44hXDLwmHKqe0NxDDA?=
+ =?iso-8859-1?Q?ZcLRY7e7IumVAgIEr9D3Gfbykk+Ln1reRmTLyU1gVMGl2yZNQFJpr+/E/t?=
+ =?iso-8859-1?Q?/zMdLxwxZYPHaFDGjB6l2i78aTkSBF+kW0MLrQIpmibD73PbhX1eD3U1cT?=
+ =?iso-8859-1?Q?wkws0RDeCTjdM4XnrhH7qo03SlHzXxhSKER0Fj7AHvCIw34/rGOo0OuazY?=
+ =?iso-8859-1?Q?ip8mpZCpr+YZKnxC3YFms/Ilp47vI2cpECx+S6w8qlzex/GvrvZDPWyhFa?=
+ =?iso-8859-1?Q?re62ptef92JOzQUhl7pmCXvqHc2G3GwMOn/wSnz06L9o4uEkrE9KJadHDr?=
+ =?iso-8859-1?Q?Q9cBCxMKlsiHuIGKE0ukqsmWYAtbOj4HtABQ+tAlkeHpFUtomA9IzWAhIZ?=
+ =?iso-8859-1?Q?zO/2OjcGEQBymXRP+88epSPD/nW89VE/T7/qAHy4jYPToIT7CejAgqJUDE?=
+ =?iso-8859-1?Q?TEeQIkpi95rnyPqrzOVxMX9/HuN9GcMtsQ1ILtO3Ipbz7X8tQp13uQ/jSo?=
+ =?iso-8859-1?Q?9TaXIwMGAvFN77mCbVLFnFe7cFPAslMod8KM+fIaM/N+wtASuUm8pBNOjE?=
+ =?iso-8859-1?Q?UbEPR3/nXWVQy42fL+IkPlE4HuNDiQBYOimRMDjHTrmgc8QGzQTQ5wUXn9?=
+ =?iso-8859-1?Q?o1HLf4GfEflvcLzvb6l+HiuIr2blni75gTWFPA=3D=3D?=
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:PH7PR11MB6522.namprd11.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230040)(376014)(1800799024)(366016); DIR:OUT; SFP:1101; 
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?iso-8859-1?Q?EFOm0wSgulXo8Eqb+bJmMIoAy97tEe4Ar/fHbwMfb93WCCy87p+ckoWRLt?=
+ =?iso-8859-1?Q?oBRIDGQ/qYnZ0isip9Vb5g8/tatVkvzgIJrYXV/4FH3XWYFYoBoS0gtguW?=
+ =?iso-8859-1?Q?czGS2ZZSup+5a8OoAtVt5woPZXvrQ4OGhhWWJ5blY2iEMv3/FvOQ+I++VP?=
+ =?iso-8859-1?Q?n9yQJNxHMoB/hr1DnSgpaeBvQNAuCdnOERrQVwRd44Q8i7B6Q6HANzDccy?=
+ =?iso-8859-1?Q?E+ZAff5+XMSR7mEmTOZN6jaDAW8JWUvXstL1hBMBLfzf6mCH/X6ZW8VzOq?=
+ =?iso-8859-1?Q?wtTf/fDdVvoY2TkvjXXrilD0ags9gvJo5ibcT/aLZ8ynDqAWcRo3lFTTml?=
+ =?iso-8859-1?Q?58ACGOmcA2Z/i5N2Qkn35wqZWhLETic5+sn5ioRhf4R4hE9bYB192UdAWE?=
+ =?iso-8859-1?Q?DORPvu0NS49m9t73ALjRCTxpoztXW8jBpWOGVMqRdF1diDWBGMYjDufEO5?=
+ =?iso-8859-1?Q?h0y7wm+jGeYaA8i5z7GnKZV6KzFk6UfSC2R/qLM8Psg/78Q4YXFSD4vg6F?=
+ =?iso-8859-1?Q?c7MFIrMqGpaZnxOVJ18BZmDJIWrWPRMCnsgymmD7C7dGEKJMV/IhnWz5Dy?=
+ =?iso-8859-1?Q?n9uukj3A7UTkA8ePcTli29PwmJptkrMwKolYJJgPJtSuwqggzFjW/VSCnq?=
+ =?iso-8859-1?Q?zP8qfi0r6G2XEIZnYnFTYX73ccZ4zbE2KoirxJgB5cnTbZiaOcs+GPG1iA?=
+ =?iso-8859-1?Q?5fbznikoUREPnS1KPugqq33q+aehxF0whTy/ZnKbPxJdNOCpLEcgDbOHKy?=
+ =?iso-8859-1?Q?J4mkeL8Kg+KtH3xdHddfjg5aSKBCEpb9QRz+dadoqV7BRDMDjlz0biSdqv?=
+ =?iso-8859-1?Q?lz7ykuYUuXUixph8DHvuC69Y8xQo8QHYWwZi8tyXmXfvMnLgc8j48OzKsZ?=
+ =?iso-8859-1?Q?IarJXLt4xomUt6mcBQejtDtKQCa9ywaNcx1D4wGLHnyXYOVRDvis4UsxEO?=
+ =?iso-8859-1?Q?obEDDZdZfTo+A3P/YlOvOfiX1Y4VRvNtVvvjsaSbB7AnRLlovYs1IcxfE/?=
+ =?iso-8859-1?Q?pAHjuM02wxfdpdN0hI716HyuPcK8DPA1ORR0FiwNY7YmeixSnONniX3g15?=
+ =?iso-8859-1?Q?3MMoFbsNdcNI/sAUlAhGWUaR+579oH6k6QMqlpReYR469oPCD2LsuJJfnZ?=
+ =?iso-8859-1?Q?qUZ8tZJOvr0TMfDHeggjQVRphWV6eb4GZxfM+0rlLhdniobctbWuzXvYP8?=
+ =?iso-8859-1?Q?oAqtFQB1RNdRMPp2x/Ps/AUi1hOZ3uDGHz8mHZSLuOIqeyXKBzjVL6TZHs?=
+ =?iso-8859-1?Q?mgsSOJom/596/4jfmJrsQ5+w34hIiHdPU/fdLPLENsFXugpMKdyoU3PYYm?=
+ =?iso-8859-1?Q?AJcjrbfxyOtpsU/BWk+r8k7aRMBxujvaej/uUhPyuwILPklplIi8bYX5x9?=
+ =?iso-8859-1?Q?5fs3Hog3b60Oikvu1ENuJt+YTN6vQ8BR7K3QZeKx3rum7Ld9h4dWBSQpN2?=
+ =?iso-8859-1?Q?gAjaN/a8uQJXNZ7YmSzJHbYATqYFwbuz9e/8fgsnmb0NODlyB9xFRbQdK0?=
+ =?iso-8859-1?Q?CI11EZD1y/bNtpDfpkUKVs1vH2Nf3ZQk/hups8rH1QxjMvzxmqTqYbmQF8?=
+ =?iso-8859-1?Q?nrBWb5/rZx7K4p8VUoH3WDXihzA3ki864746M6Lt2oapjJqDSX2kOL9BKC?=
+ =?iso-8859-1?Q?Zgm9W5KeP9PYM+TayMbhmFwALIEo2cxy5bmx2Ww+A4P81jNRfJkTB/Jg?=
+ =?iso-8859-1?Q?=3D=3D?=
+X-MS-Exchange-CrossTenant-Network-Message-Id: 83e62fc4-0bc8-4d9f-bfeb-08ddb9835f31
+X-MS-Exchange-CrossTenant-AuthSource: PH7PR11MB6522.namprd11.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 02 Jul 2025 16:13:24.6367 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: qHpiS6YuToh4sdZTIlPZwSuXQ4wHZAgYfQBPVFSyV/Myf1w438sQzPrwgmCV+3fjUf9N43har7r+yyl8qF1mGw==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DS7PR11MB6246
+X-OriginatorOrg: intel.com
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -88,63 +179,24 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Functions drm_format_info, drm_modeset_lock, drm_ioctl_flags are not being
-indexed in the documentation because there are structs with the same name
-and sphinx is only indexing one of them, Added them to namespaces as a
-workaround for suppressing the warnings and indexing the functions
+On Wed, Jul 02, 2025 at 01:00:26PM +0200, Christian König wrote:
+> Hi everyone,
+> 
+> v2 of this patch set. I've either pushed or removed the other
+> patches from v1, so only two remain.
+> 
+> Pretty straight forward conversation and shouldn't result in any visible
+> technical difference.
+> 
+> Please review and/or comment.
+> 
 
-This is a bug of Sphinx >=3.1, first reported by Mauro in September 2020
-Link: https://github.com/sphinx-doc/sphinx/issues/8241
-Open Pull Request
-Link: https://github.com/sphinx-doc/sphinx/pull/8313
+I'll take a look but heads up Thomas is out until 7/21. I know he did
+some concerns on v1, so might need to wait for him to get back?
 
-Signed-off-by: Kevin Paul Reddy Janagari <kevinpaul468@gmail.com>
----
- Documentation/gpu/drm-kms.rst  | 4 ++++
- Documentation/gpu/drm-uapi.rst | 2 ++
- 2 files changed, 6 insertions(+)
+Matt 
 
-diff --git a/Documentation/gpu/drm-kms.rst b/Documentation/gpu/drm-kms.rst
-index abfe220764e1..b18a99869b6d 100644
---- a/Documentation/gpu/drm-kms.rst
-+++ b/Documentation/gpu/drm-kms.rst
-@@ -357,8 +357,10 @@ Format Functions Reference
- .. kernel-doc:: include/drm/drm_fourcc.h
-    :internal:
- 
-+.. c:namespace-push:: gpu_drm
- .. kernel-doc:: drivers/gpu/drm/drm_fourcc.c
-    :export:
-+.. c:namespace-pop::
- 
- .. _kms_dumb_buffer_objects:
- 
-@@ -473,8 +475,10 @@ KMS Locking
- .. kernel-doc:: include/drm/drm_modeset_lock.h
-    :internal:
- 
-+.. c:namespace:: gpu_drm
- .. kernel-doc:: drivers/gpu/drm/drm_modeset_lock.c
-    :export:
-+.. c:namespace-pop::
- 
- KMS Properties
- ==============
-diff --git a/Documentation/gpu/drm-uapi.rst b/Documentation/gpu/drm-uapi.rst
-index 69f72e71a96e..e9d7b7282a19 100644
---- a/Documentation/gpu/drm-uapi.rst
-+++ b/Documentation/gpu/drm-uapi.rst
-@@ -554,8 +554,10 @@ DRM specific patterns. Note that ENOTTY has the slightly unintuitive meaning of
- .. kernel-doc:: include/drm/drm_ioctl.h
-    :internal:
- 
-+.. c:namespace-push:: gpu_drm
- .. kernel-doc:: drivers/gpu/drm/drm_ioctl.c
-    :export:
-+.. c:namespace-pop::
- 
- .. kernel-doc:: drivers/gpu/drm/drm_ioc32.c
-    :export:
--- 
-2.39.5
-
+> Regards,
+> Christian.
+> 
+> 
