@@ -2,100 +2,70 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id D4EBCAF646F
-	for <lists+dri-devel@lfdr.de>; Wed,  2 Jul 2025 23:56:26 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id EE04EAF5B60
+	for <lists+dri-devel@lfdr.de>; Wed,  2 Jul 2025 16:41:49 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7102210E799;
-	Wed,  2 Jul 2025 21:56:23 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id EA30610E719;
+	Wed,  2 Jul 2025 14:41:46 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="a0ea98PJ";
+	dkim=pass (2048-bit key; secure) header.d=mailbox.org header.i=@mailbox.org header.b="hIr+wojs";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pf1-f171.google.com (mail-pf1-f171.google.com
- [209.85.210.171])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C135F10E719;
- Wed,  2 Jul 2025 14:12:35 +0000 (UTC)
-Received: by mail-pf1-f171.google.com with SMTP id
- d2e1a72fcca58-74b56b1d301so376092b3a.1; 
- Wed, 02 Jul 2025 07:12:35 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1751465555; x=1752070355; darn=lists.freedesktop.org;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to:subject
- :user-agent:mime-version:date:message-id:from:to:cc:subject:date
- :message-id:reply-to;
- bh=3hi0b4Q2TMU9s9ow4O1FxnYpGW2LdSH037wzbnfcLAI=;
- b=a0ea98PJVNFGMl9rm2Yx4zynXvpGTlKl7yja1L7C5lWVhBWOwcIRJISletb4tK7NYw
- 85oRHMS/9/HdPL4XzB8NQozztXScjtGlNErvnv9xy35fRrhlwwmnqV6yZU0hYP23QClT
- bVpA7usDKeDsah/lbG58U9X7/LKIj8vp4tFcNGysnAI6sadMSH11SSVWnBlnjDD5dAPY
- G2zFd5h5fvKnXtGKogUnNmWSdPJtRLEy4qyjKc5mHVpNXw66x7vJyrcBhQskuXJc657o
- /1BrT97/ZOuSIcShqS8v7IfxE5YoHsQzBFwCXfdiu3PhSu+IM2Vw4eOuiSSXyv9qrloS
- fXtA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1751465555; x=1752070355;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to:subject
- :user-agent:mime-version:date:message-id:x-gm-message-state:from:to
- :cc:subject:date:message-id:reply-to;
- bh=3hi0b4Q2TMU9s9ow4O1FxnYpGW2LdSH037wzbnfcLAI=;
- b=RbD9AwoBjgLawzq1b3zId6BqXSyW3iBXQ+E9PxwiIhXObjyJqHsUv6YGWvr6/HQW0n
- hXKelZM/m3DbFm9lHZPaqP+NmSHGpbasV41b0eKKDLhRRVxrI9MlYhdlrifc7QtHbjUi
- 5MnQ8+yV0drNYv2fuD+Ud0LmH01HIPKE9Y9KnfztvhFkFAeyrOOYVHDQa5ponsja1cgi
- g1MPPHI6dyQwDQW/nm0KTge/WwnquP3bEidbBYMU74j88Rwnfs59ED/7eeuDNc4OlpbZ
- 3fA6kmpmks2XiWuOlRqZ4F+8hR4OtY6SLIds05WMY7NNhi8hsi1FQgQhXWVEew+oBUus
- DVrA==
-X-Forwarded-Encrypted: i=1;
- AJvYcCUJykqWPNAt2XplixvWI62ZlzWspJvFncznK7eKukaYpsS5yhu6QF5h7RnTxaJ12t2RyXBMR9zgHJ4=@lists.freedesktop.org,
- AJvYcCVXw+owGl06MgFFTSh/c3teHMWpMj6LavPHXpQcrdftrTOwzJNWFpafWkWLJtIO06erUkQaNEsb3lgq@lists.freedesktop.org
-X-Gm-Message-State: AOJu0Yz4vlVhZOupxe9/zt/gZh/W1Re72vYXLOUg6JpnyHdtOjNGVRxf
- OolzclIxnBnfroM991xSZW5MeMlWkJiAMx2hS4BV5htQlpQ7ysmg3Oq1
-X-Gm-Gg: ASbGncvt/zijfjErm/IpETRm3S+mhB2MYQgD7+Sh+DQeFCUJ2RcffwLFoQTc/JLhrrx
- /0zK3cedeQjkh4kXoUXxy6WLJKCHAJOUJE6yZLRZg8nKvaJ32GdRGm0n5fx7q/4bVarx7i6BOmr
- LxHff6iWN408kzTUprGzIygFVkWYhA5DbqIdxY06zJr616Rsc4YfpWVvvcmGHDY7j6SSFZBbPEF
- Wf/wuymxNce1wGEMLs/zKzeCmHsIHCWxF0cn5X4g+ir3tpQnhHiYqwZ7fSMJ47eUOfptItDVHIv
- D9HOktGBSg0ygmzGrzDwWsJgkbN28v3y/qitN3Elt/waJ4LYxiXG5+026INz9I+DfW4PSpCgnkY
- mfTLbnkdPpFP0aU0xO0t2LS17PjdXkGI7eZQHles=
-X-Google-Smtp-Source: AGHT+IFKRDLioih13g48ycaXA5K8ysUyKk1vSQvjV96+wwiKTloc/oO2WVx/lFSAoNhOajXgeeSAFQ==
-X-Received: by 2002:a05:6a20:a126:b0:21d:fd1:9be with SMTP id
- adf61e73a8af0-222d7de1c90mr4563817637.12.1751465555071; 
- Wed, 02 Jul 2025 07:12:35 -0700 (PDT)
-Received: from ?IPV6:240e:305:798e:6800:ad23:906d:e07c:8a1e?
- ([240e:305:798e:6800:ad23:906d:e07c:8a1e])
- by smtp.gmail.com with ESMTPSA id
- d2e1a72fcca58-74af56ce9f3sm14100034b3a.122.2025.07.02.07.12.25
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 02 Jul 2025 07:12:34 -0700 (PDT)
-Message-ID: <54a85ec6-992d-4685-9031-114ba634e0a3@gmail.com>
-Date: Wed, 2 Jul 2025 22:12:20 +0800
+Received: from mout-p-201.mailbox.org (mout-p-201.mailbox.org [80.241.56.171])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9755D10E0F0;
+ Wed,  2 Jul 2025 14:41:45 +0000 (UTC)
+Received: from smtp1.mailbox.org (smtp1.mailbox.org
+ [IPv6:2001:67c:2050:b231:465::1])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ (No client certificate requested)
+ by mout-p-201.mailbox.org (Postfix) with ESMTPS id 4bXMzV0hT6z9tfD;
+ Wed,  2 Jul 2025 16:41:42 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mailbox.org;
+ s=mail20150812; 
+ t=1751467302; h=from:from:reply-to:reply-to:subject:subject:date:date:
+ message-id:message-id:to:to:cc:cc:mime-version:mime-version:
+ content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=hglbfCzFrOAybwh1qJpoXMsHMDVKvyjTRSRyDb3vwuI=;
+ b=hIr+wojs6dElPlj6XfkFrj+vduMR0k51igAK4XB/SCOkr/fI1ysPl+twvSJp0aQhofPrCZ
+ FxvoHTa7dDlMSFmqFYuuG8rFfTFQVRaWdZCbzv9SGChx8EQtjPqLxUXE8UB92AAukveBJE
+ niiwnOFI3CBK/a6hodotzO2H9K1DCgG265kACgaqs14ppGO4nF7UGD+I7cQBAy8t/uwU5u
+ PFDecqjiHHY0Ln1VcEjjJHkqYQ4VKbB3RoqBNmau7VqlpyZHhgQTlNiB1Bo8HPifqrVvt4
+ cA6JIxQAdu0NsyhqrngWdzBlWhq1lSgvSvIEDs/OUOJ8nO7nK8+nMTSw4VndmA==
+Message-ID: <0ce7780150d1f45af52d5281c732ef8e08dcc0fa.camel@mailbox.org>
+Subject: Re: [PATCH v3 3/8] drm/sched: Make timeout KUnit tests faster
+From: Philipp Stanner <phasta@mailbox.org>
+To: =?ISO-8859-1?Q?Ma=EDra?= Canal <mcanal@igalia.com>, phasta@kernel.org, 
+ Matthew Brost <matthew.brost@intel.com>, Danilo Krummrich
+ <dakr@kernel.org>, Christian =?ISO-8859-1?Q?K=F6nig?=
+ <ckoenig.leichtzumerken@gmail.com>, Tvrtko Ursulin
+ <tvrtko.ursulin@igalia.com>, Simona Vetter <simona@ffwll.ch>, David Airlie
+ <airlied@gmail.com>, Melissa Wen <mwen@igalia.com>,  Lucas Stach
+ <l.stach@pengutronix.de>, Russell King <linux+etnaviv@armlinux.org.uk>,
+ Christian Gmeiner <christian.gmeiner@gmail.com>, Lucas De Marchi
+ <lucas.demarchi@intel.com>,  Thomas =?ISO-8859-1?Q?Hellstr=F6m?=
+ <thomas.hellstrom@linux.intel.com>, Rodrigo Vivi <rodrigo.vivi@intel.com>, 
+ Boris Brezillon <boris.brezillon@collabora.com>, Rob Herring
+ <robh@kernel.org>, Steven Price <steven.price@arm.com>,  Liviu Dudau
+ <liviu.dudau@arm.com>
+Cc: kernel-dev@igalia.com, dri-devel@lists.freedesktop.org, 
+ etnaviv@lists.freedesktop.org, intel-xe@lists.freedesktop.org
+Date: Wed, 02 Jul 2025 16:41:32 +0200
+In-Reply-To: <4487245c-17d0-4e4a-b3fb-209a95c60664@igalia.com>
+References: <20250618-sched-skip-reset-v3-0-8be5cca2725d@igalia.com>
+ <20250618-sched-skip-reset-v3-3-8be5cca2725d@igalia.com>
+ <2670247a8982f794a508f4cf3ae43ad7ac66862a.camel@mailbox.org>
+ <27c7fef3-ce37-48b9-bf63-3b3417618835@igalia.com>
+ <8e727f9644df9ba7d8c5f3966e146e5eb0684121.camel@mailbox.org>
+ <4487245c-17d0-4e4a-b3fb-209a95c60664@igalia.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v3 3/4] fs: change write_begin/write_end interface to take
- struct kiocb *
-To: Matthew Wilcox <willy@infradead.org>
-Cc: "tytso@mit.edu" <tytso@mit.edu>, "hch@infradead.org" <hch@infradead.org>, 
- "adilger.kernel@dilger.ca" <adilger.kernel@dilger.ca>,
- "brauner@kernel.org" <brauner@kernel.org>,
- "jani.nikula@linux.intel.com" <jani.nikula@linux.intel.com>,
- "rodrigo.vivi@intel.com" <rodrigo.vivi@intel.com>,
- "tursulin@ursulin.net" <tursulin@ursulin.net>,
- "airlied@gmail.com" <airlied@gmail.com>,
- "linux-fsdevel@vger.kernel.org" <linux-fsdevel@vger.kernel.org>,
- "linux-ext4@vger.kernel.org" <linux-ext4@vger.kernel.org>,
- "linux-block@vger.kernel.org" <linux-block@vger.kernel.org>,
- "intel-gfx@lists.freedesktop.org" <intel-gfx@lists.freedesktop.org>,
- "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
- "linux-mm@kvack.org" <linux-mm@kvack.org>,
- "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
- "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
- "chentao325@qq.com" <chentao325@qq.com>,
- "frank.li@vivo.com" <frank.li@vivo.com>
-References: <20250627110257.1870826-1-chentaotao@didiglobal.com>
- <20250627110257.1870826-4-chentaotao@didiglobal.com>
- <aF68sKzx24P1q54h@casper.infradead.org>
-From: Taotao Chen <chentt325@gmail.com>
-In-Reply-To: <aF68sKzx24P1q54h@casper.infradead.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-Mailman-Approved-At: Wed, 02 Jul 2025 21:56:20 +0000
+X-MBO-RS-ID: 4385639048a2885b595
+X-MBO-RS-META: kh4rhjjewhrrbft7n7t8xhfybqy8n4bf
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -108,108 +78,133 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
+Reply-To: phasta@kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-
-在 2025/6/27 23:45, Matthew Wilcox 写道:
-> On Fri, Jun 27, 2025 at 11:03:11AM +0000, 陈涛涛 Taotao Chen wrote:
->> diff --git a/fs/exfat/file.c b/fs/exfat/file.c
->> index 841a5b18e3df..fdc2fa1e5c41 100644
->> --- a/fs/exfat/file.c
->> +++ b/fs/exfat/file.c
->> @@ -532,10 +532,12 @@ int exfat_file_fsync(struct file *filp, loff_t start, loff_t end, int datasync)
->>   	return blkdev_issue_flush(inode->i_sb->s_bdev);
->>   }
->>   
->> -static int exfat_extend_valid_size(struct file *file, loff_t new_valid_size)
->> +static int exfat_extend_valid_size(const struct kiocb *iocb,
->> +				   loff_t new_valid_size)
->>   {
->>   	int err;
->>   	loff_t pos;
->> +	struct file *file = iocb->ki_filp;
->>   	struct inode *inode = file_inode(file);
->>   	struct exfat_inode_info *ei = EXFAT_I(inode);
->>   	struct address_space *mapping = inode->i_mapping;
->> @@ -551,14 +553,14 @@ static int exfat_extend_valid_size(struct file *file, loff_t new_valid_size)
->>   		if (pos + len > new_valid_size)
->>   			len = new_valid_size - pos;
->>   
->> -		err = ops->write_begin(file, mapping, pos, len, &folio, NULL);
->> +		err = ops->write_begin(iocb, mapping, pos, len, &folio, NULL);
->>   		if (err)
->>   			goto out;
->>   
->>   		off = offset_in_folio(folio, pos);
->>   		folio_zero_new_buffers(folio, off, off + len);
->>   
->> -		err = ops->write_end(file, mapping, pos, len, len, folio, NULL);
->> +		err = ops->write_end(iocb, mapping, pos, len, len, folio, NULL);
->>   		if (err < 0)
->>   			goto out;
->>   		pos += len;
->> @@ -604,7 +606,7 @@ static ssize_t exfat_file_write_iter(struct kiocb *iocb, struct iov_iter *iter)
->>   	}
->>   
->>   	if (pos > valid_size) {
->> -		ret = exfat_extend_valid_size(file, pos);
->> +		ret = exfat_extend_valid_size(iocb, pos);
->>   		if (ret < 0 && ret != -ENOSPC) {
->>   			exfat_err(inode->i_sb,
->>   				"write: fail to zero from %llu to %llu(%zd)",
->> @@ -655,8 +657,11 @@ static vm_fault_t exfat_page_mkwrite(struct vm_fault *vmf)
->>   	struct file *file = vma->vm_file;
->>   	struct inode *inode = file_inode(file);
->>   	struct exfat_inode_info *ei = EXFAT_I(inode);
->> +	struct kiocb iocb;
->>   	loff_t start, end;
->>   
->> +	init_sync_kiocb(&iocb, file);
->> +
->>   	if (!inode_trylock(inode))
->>   		return VM_FAULT_RETRY;
->>   
->> @@ -665,7 +670,7 @@ static vm_fault_t exfat_page_mkwrite(struct vm_fault *vmf)
->>   			start + vma->vm_end - vma->vm_start);
->>   
->>   	if (ei->valid_size < end) {
->> -		err = exfat_extend_valid_size(file, end);
->> +		err = exfat_extend_valid_size(&iocb, end);
->>   		if (err < 0) {
->>   			inode_unlock(inode);
->>   			return vmf_fs_error(err);
-> This is unnecessary work.  The only ->write_begin/write_end that we'll
-> see here is exfat_write_begin() / exfat_write_end() which don't actually
-> need iocb (or file).  Traditionally we pass NULL in these situations,
-> but the exfat people probably weren't aware of this convention.
->
-> exfat_extend_valid_size() only uses the file it's passed to get the
-> inode, and both callers already have the inode.  So I'd change
-> exfat_extend_valid_size() to take an inode instead of a file as its
-> first argument, then you can skip the creation of an iocb in
-> exfat_page_mkwrite().
-
-
-My initial goal was to maintain consistency with the updated ->write_begin/
-
-->write_end interfaces. That meant passing the iocb to avoid special cases
-
-and keep the changes minimal and safe.
-
-But you're right, since exfat_write_begin() and exfat_write_end() don't 
-use the
-
-iocb or file pointer, passing NULL is fine, and having 
-exfat_extend_valid_size()
-
-directly take an inode makes the code simpler and clearer.
-
-
-In addition, inside the ntfs_extend_initialized_size() function, I also 
-set the iocb
-
-parameter to NULL when calling ntfs_write_begin() and ntfs_write_end().
+On Mon, 2025-06-30 at 11:04 -0300, Ma=C3=ADra Canal wrote:
+> Hi Philipp,
+>=20
+> On 30/06/25 09:20, Philipp Stanner wrote:
+> > On Mon, 2025-06-30 at 09:05 -0300, Ma=C3=ADra Canal wrote:
+> > > Hi Philipp,
+> > >=20
+> > > On 30/06/25 08:53, Philipp Stanner wrote:
+> > > > On Wed, 2025-06-18 at 11:47 -0300, Ma=C3=ADra Canal wrote:
+> > > > > As more KUnit tests are introduced to evaluate the basic
+> > > > > capabilities
+> > > > > of
+> > > > > the `timedout_job()` hook, the test suite will continue to
+> > > > > increase
+> > > > > in
+> > > > > duration. To reduce the overall running time of the test
+> > > > > suite,
+> > > > > decrease
+> > > > > the scheduler's timeout for the timeout tests.
+> > > > >=20
+> > > > > Before this commit:
+> > > > >=20
+> > > > > [15:42:26] Elapsed time: 15.637s total, 0.002s configuring,
+> > > > > 10.387s
+> > > > > building, 5.229s running
+> > > > >=20
+> > > > > After this commit:
+> > > > >=20
+> > > > > [15:45:26] Elapsed time: 9.263s total, 0.002s configuring,
+> > > > > 5.168s
+> > > > > building, 4.037s running
+> > > >=20
+> > > > I guess those times were measured with the entire series?
+> > >=20
+> > > No, they were measured without the new test that I introduced in
+> > > the
+> > > next patch.
+> > >=20
+> > > >=20
+> > > > It's not clear to me whether this patch is independent from the
+> > > > series.
+> > > > I suppose it is. We should aim towards having series's narrowly
+> > > > focused
+> > > > topic-wise, but I get why you included it here.
+> > >=20
+> > > =C2=A0=C2=A0From my perspective, this patch is a preparation to the n=
+ext
+> > > one. As
+> > > I'll introduce another timeout-related test in the next patch, I
+> > > was
+> > > trying to ensure that we will keep the time-budget reasonable.
+> > >=20
+> > > >=20
+> > > > That said, is there a specific reason for you aiming at ~10s
+> > > > (9.263)?
+> > > > That's only a bit faster than the 15.637.
+> > > >=20
+> > >=20
+> > > Actually, the only thing that this patch affects is the runtime.
+> > > So,
+> > > it
+> > > went from 5.229s to 4.037s (-22.8%). However, as we add more and
+> > > more
+> > > timeout tests, the absolute difference would get more
+> > > significant.
+> >=20
+> > I understand that. My point is that the decrease of total run time
+> > that
+> > you state in your commit message doesn't sound that significant to
+> > me.
+> > ~10s is still pretty long.
+> >=20
+> > >=20
+> > > > Couldn't it make sense, as you're at it already, to speed this
+> > > > up
+> > > > to
+> > > > just a few seconds, like 3-5? Then it should really be quiet
+> > > > IRW
+> > > > that
+> > > > topic for a while.
+> > >=20
+> > > I believe that further decreasing the timeout could lead to racy
+> > > scenarios and flaky tests.
+> >=20
+> > That doesn't make sense to me. What could race with what? I guess
+> > you
+> > mean the completion's timeout racing with the signaling timer.
+>=20
+> I discussed a bit about it with Tvrtko in v1 [1][2].
+>=20
+> [1]=20
+> https://lore.kernel.org/all/7cc3cc3d-7f67-4c69-bccb-32133e1d7cba@igalia.c=
+om/
+> [2]=20
+> https://lore.kernel.org/all/146f3943-0a94-4399-9f49-be8228a86828@igalia.c=
+om/
 
 
+Thx, thought about it, makes sense.
+
+Acked-by: Philipp Stanner <phasta@kernel.org>
+
+>=20
+> Best Regards,
+> - Ma=C3=ADra
+>=20
+> >=20
+> > Anyways, I'm personally not suffering from the tests being too
+> > slow. So
+> > just take this as ideas. I'm fine with it being merged as it is
+> > now.
+> >=20
+> >=20
+> > P.
+> >=20
+> > >=20
+> > > Best Regards,
+> > > - Ma=C3=ADra
+> > >=20
+> > > >=20
+> > > >=20
+> > > > P.
+> > > >=20
+>=20
+>=20
 
