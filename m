@@ -2,79 +2,50 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 60166AF6622
-	for <lists+dri-devel@lfdr.de>; Thu,  3 Jul 2025 01:19:19 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7781FAF6634
+	for <lists+dri-devel@lfdr.de>; Thu,  3 Jul 2025 01:27:23 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C451610E0AC;
-	Wed,  2 Jul 2025 23:19:16 +0000 (UTC)
-Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel-dk.20230601.gappssmtp.com header.i=@kernel-dk.20230601.gappssmtp.com header.b="SKOPTOtP";
-	dkim-atps=neutral
+	by gabe.freedesktop.org (Postfix) with ESMTP id BA4E110E7AD;
+	Wed,  2 Jul 2025 23:27:21 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-il1-f173.google.com (mail-il1-f173.google.com
- [209.85.166.173])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2476D10E0AC
- for <dri-devel@lists.freedesktop.org>; Wed,  2 Jul 2025 23:19:14 +0000 (UTC)
-Received: by mail-il1-f173.google.com with SMTP id
- e9e14a558f8ab-3e05bb6efe0so4840615ab.3
- for <dri-devel@lists.freedesktop.org>; Wed, 02 Jul 2025 16:19:14 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=kernel-dk.20230601.gappssmtp.com; s=20230601; t=1751498354; x=1752103154;
- darn=lists.freedesktop.org; 
- h=content-transfer-encoding:mime-version:date:message-id:subject
- :references:in-reply-to:cc:to:from:from:to:cc:subject:date
- :message-id:reply-to;
- bh=0l/N30YfYOnzNVPk9e9LC8H0KdFEXlOJ5r3jt1u/SPs=;
- b=SKOPTOtPxnoyXKOefXtqv3AiYF9LLG2wpJCq5ETtkTspbZOwUWjrAERAeNGmjuYzf0
- Jtr9eFJCSlvuj7vTidmxIcG6vcawlzfusTujWkCIVsnrpgkLvlNeeICokAy9NBLXKBx9
- TZZQdiT/ICYmjTuWXEVeAnsH7gw3+bpsPsSHYmh0VoR+CGwaZcfhoBYiCcg+gOC0o66e
- JUUyG6MJWkYa/VNjSREhPzAv+vLft1rfBv6BJjU9EXQZHLJ72yS64//zn041o08F9v5t
- oJx+ycFlXwarsbl3wK4s3rcAGKn7qfV+dqNqS5Kz/pql3DKPVIcbtD6J7Iynxe+XPNG6
- 1v4A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1751498354; x=1752103154;
- h=content-transfer-encoding:mime-version:date:message-id:subject
- :references:in-reply-to:cc:to:from:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=0l/N30YfYOnzNVPk9e9LC8H0KdFEXlOJ5r3jt1u/SPs=;
- b=Nmu2a3pCYjyZpYWA/LUUaL5HcjNSpAocRL8SSiVXrq09OaRGbqL45mOXVbelSmekK4
- HKP2OmgU0yeR+dpBlhrQ3DhZErX0X5hh/QBQ6B7xmyg6d0cooopELhMUEFHDz8oNPUc7
- SWVdGV+c2unR3tikw+fddYhFtErWN2Z4ctH5Lz1ox5aNh0LVwo9dWITfzsmi5kGz0tUD
- 2uc0IvlMR90l6bBkXmpcq7hOP9uri9TVhDutdpiE7Y1I7SzltIr721QyMNzu+fzgwRlE
- xI2GYH0rr+zcL5mbqsIaW8PXT+gRQbKQJtpSGTthJCDft+rGldcLUJsly+zm/qsrtgqK
- Es0g==
-X-Forwarded-Encrypted: i=1;
- AJvYcCXhpGCPAbQCqpolinXb0H+IfZ39USdvsIjEBgBhdzqReUdkHeUroYajnawgEb+VpZeFBme7KQc3dCM=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YylirfnTTn7ktK3n+wdUYiyJX5ZlE08da+CgcmZ7WvUTdsXiahb
- ownPF5KEpEhwg/n850JMyVdOUcllR3aS8yUBB7bGfdpvjsX/mDJ/RYDcoyL7JlMFlUo=
-X-Gm-Gg: ASbGncuw9TyIBvvyVZjZCKlmb+MPbu4I1+vjXpCJysTG+TWOJXwHV0YVHW9c1/PQ624
- UzFUgSaPT3cPbuHczZ9OzQwBsZNK2ijnu47Iqaqq3yBjFGP4RJSzi7NYGMOKyYho2m77fgt38u7
- v47IKabRV0mCUDqNVshelp0dJkx5BO7mmRHkMHY4K5dN9V6qNM/QxCiFq4xT88PYRrWyLaAVcEv
- pHLGcSd+fbqwp1YEyQA7w6LHLkjWHovTTXh93TSISX9tva66jBXaXP+LDMJTS/zB4J+VBsm+n3x
- 8TNjywIUl0O3vKN4zTxYPiOGWh+EtHLOiq5Y1Y5kXp9IOB4tfSERkw==
-X-Google-Smtp-Source: AGHT+IHMH7E5jXmc85tpF2ZmfhX9o8LwIpGAXUuM2IRAjJ7JFybYjfZFdD948UlZ9MRk58ULXnrHNQ==
-X-Received: by 2002:a05:6e02:380a:b0:3dd:f813:64c5 with SMTP id
- e9e14a558f8ab-3e05c9d5573mr12171415ab.22.1751498353991; 
- Wed, 02 Jul 2025 16:19:13 -0700 (PDT)
-Received: from [127.0.0.1] ([198.8.77.157]) by smtp.gmail.com with ESMTPSA id
- e9e14a558f8ab-3df4a09165dsm38313005ab.43.2025.07.02.16.19.12
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 02 Jul 2025 16:19:12 -0700 (PDT)
-From: Jens Axboe <axboe@kernel.dk>
-To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
- Al Viro <viro@zeniv.linux.org.uk>
-Cc: linux-fsdevel@vger.kernel.org, dri-devel@lists.freedesktop.org
-In-Reply-To: <20250702211408.GA3406663@ZenIV>
-References: <20250702211305.GE1880847@ZenIV> <20250702211408.GA3406663@ZenIV>
-Subject: Re: (subset) [PATCH 01/11] zynqmp: don't bother with
- debugfs_file_{get,put}() in proxied fops
-Message-Id: <175149835231.467027.7368105747282893229.b4-ty@kernel.dk>
-Date: Wed, 02 Jul 2025 17:19:12 -0600
+Received: from us-smtp-delivery-44.mimecast.com
+ (us-smtp-delivery-44.mimecast.com [207.211.30.44])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D7C0910E7AE
+ for <dri-devel@lists.freedesktop.org>; Wed,  2 Jul 2025 23:27:19 +0000 (UTC)
+Received: from mx-prod-mc-06.mail-002.prod.us-west-2.aws.redhat.com
+ (ec2-35-165-154-97.us-west-2.compute.amazonaws.com [35.165.154.97]) by
+ relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
+ cipher=TLS_AES_256_GCM_SHA384) id us-mta-547-T3tA0_UbOA-ewe5BGFB0Zw-1; Wed,
+ 02 Jul 2025 19:27:15 -0400
+X-MC-Unique: T3tA0_UbOA-ewe5BGFB0Zw-1
+X-Mimecast-MFC-AGG-ID: T3tA0_UbOA-ewe5BGFB0Zw_1751498834
+Received: from mx-prod-int-02.mail-002.prod.us-west-2.aws.redhat.com
+ (mx-prod-int-02.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.15])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+ (No client certificate requested)
+ by mx-prod-mc-06.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS
+ id 876D91800287; Wed,  2 Jul 2025 23:27:14 +0000 (UTC)
+Received: from dreadlord.redhat.com (unknown [10.67.32.31])
+ by mx-prod-int-02.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTP
+ id F09981956087; Wed,  2 Jul 2025 23:27:10 +0000 (UTC)
+From: Dave Airlie <airlied@gmail.com>
+To: dri-devel@lists.freedesktop.org,
+	nouveau@lists.freedesktop.org
+Cc: Dave Airlie <airlied@redhat.com>, Ben Skeggs <bskeggs@nvidia.com>,
+ Danilo Krummrich <dakr@kernel.org>
+Subject: [PATCH] nouveau/gsp: add a 50ms delay between fbsr and driver unload
+ rpcs
+Date: Thu,  3 Jul 2025 09:27:07 +1000
+Message-ID: <20250702232707.175679-1-airlied@gmail.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-X-Mailer: b4 0.14.3-dev-d7477
+X-Scanned-By: MIMEDefang 3.0 on 10.30.177.15
+X-Mimecast-Spam-Score: 0
+X-Mimecast-MFC-PROC-ID: yxTiEYJUj9li62DqGmcSQWZOnbv69g27AqyYZQDB7HE_1751498834
+X-Mimecast-Originator: gmail.com
+Content-Transfer-Encoding: quoted-printable
+content-type: text/plain; charset=WINDOWS-1252; x-default=true
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -90,25 +61,45 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+From: Dave Airlie <airlied@redhat.com>
 
-On Wed, 02 Jul 2025 22:14:08 +0100, Al Viro wrote:
-> When debugfs file has been created by debugfs_create_file_unsafe(),
-> we do need the file_operations methods to use debugfs_file_{get,put}()
-> to prevent concurrent removal; for files created by debugfs_create_file()
-> that is done in the wrappers that call underlying methods, so there's
-> no point whatsoever duplicating that in the underlying methods themselves.
-> 
-> 
-> [...]
+This fixes a bunch of command hangs after runtime suspend/resume.
 
-Applied, thanks!
+This fixes a regression caused by code movement in the commit below,
+the commit seems to just change timings enough to cause this to happen
+now, and adding the sleep seems to avoid it.
 
-[10/11] blk-mq-debugfs: use debugfs_get_aux()
-        commit: c25885fc939f29200cccb58ffdb920a91ec62647
+I've spent some time trying to root cause it to no great avail,
+it seems like a bug on the firmware side, but it could be a bug
+in our rpc handling that I can't find.
 
-Best regards,
--- 
-Jens Axboe
+Either way, we should land the workaround to fix the problem,
+while we continue to work out the root cause.
 
+Signed-off-by: Dave Airlie <airlied@redhat.com>
+Cc: Ben Skeggs <bskeggs@nvidia.com>
+Cc: Danilo Krummrich <dakr@kernel.org>
+Fixes: 21b039715ce9 ("drm/nouveau/gsp: add hals for fbsr.suspend/resume()")
+---
+ drivers/gpu/drm/nouveau/nvkm/subdev/gsp/rm/r535/gsp.c | 3 +++
+ 1 file changed, 3 insertions(+)
 
+diff --git a/drivers/gpu/drm/nouveau/nvkm/subdev/gsp/rm/r535/gsp.c b/driver=
+s/gpu/drm/nouveau/nvkm/subdev/gsp/rm/r535/gsp.c
+index baf42339f93e..ff362a6d9f5c 100644
+--- a/drivers/gpu/drm/nouveau/nvkm/subdev/gsp/rm/r535/gsp.c
++++ b/drivers/gpu/drm/nouveau/nvkm/subdev/gsp/rm/r535/gsp.c
+@@ -1744,6 +1744,9 @@ r535_gsp_fini(struct nvkm_gsp *gsp, bool suspend)
+ =09=09=09nvkm_gsp_sg_free(gsp->subdev.device, &gsp->sr.sgt);
+ =09=09=09return ret;
+ =09=09}
++
++=09=09/* without this Turing ends up resetting all channels after resume. =
+*/
++=09=09msleep(50);
+ =09}
+=20
+ =09ret =3D r535_gsp_rpc_unloading_guest_driver(gsp, suspend);
+--=20
+2.49.0
 
