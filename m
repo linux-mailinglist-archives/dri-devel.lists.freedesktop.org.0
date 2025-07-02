@@ -2,126 +2,77 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8C594AF5E36
-	for <lists+dri-devel@lfdr.de>; Wed,  2 Jul 2025 18:13:44 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 58EE8AF5E38
+	for <lists+dri-devel@lfdr.de>; Wed,  2 Jul 2025 18:14:09 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B4FB810E741;
-	Wed,  2 Jul 2025 16:13:42 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 66FBC10E743;
+	Wed,  2 Jul 2025 16:14:07 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=amd.com header.i=@amd.com header.b="xVsDIZQR";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="RTaLnFCy";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from NAM11-CO1-obe.outbound.protection.outlook.com
- (mail-co1nam11on2068.outbound.protection.outlook.com [40.107.220.68])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0A6F010E741
- for <dri-devel@lists.freedesktop.org>; Wed,  2 Jul 2025 16:13:42 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=Fj8gf5UxDu9efmB4JMNU5fERkgwKH5AjoIf//mYRCJgwB5hWhrWrerW+h2b4zxSxsuxes6svW2AI3eE24Q0NPj8mmXJywQlo0DidSFcCrbBNdoGnx4CvxhJwStXOymyrlNG9QwYWICuUMTlf8MflAqjB/XBJJZ1MKMuKp6atc82IbgLUr+5/9CRAys3KOg6PoXAPCvsndh2FfckcP9JQjRp9RBoL/Dgu3Z324DRkPn4N+EC2sfobiAVH/sghVFrmWGwLQnCpUMR34HBdYH29DpcVVr1UDaH3LdJCGdNdkGx3efJSnepU32tiJpxtqVbqzsKJJAnbgo4Kbp1Kq5AdjA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=Ik1fsrU3+1GM9eFwPLMAXJh38CC+gxZmcnGsD0S1ytI=;
- b=RwbgBvWpXlGq9zv4gk9N0WQP5J9vQEB18SlfsexS7NqcmAjdFvJsVtlwYUxRwuYnH7tJAH/jTVNv+eP7Dz4blWFnnzXdxqazOfKcxyT4CGoN0OEChcRsXeonSZZ1ORgB3jmCMXKkwAo85CJPaIquhzHb+JVVGw/EVDDVPNUuOfPMjrata2I7bAmXbISXXQzpQI55ZA+k4A4cNERfqvw6pwZtjOiQM8ZDnn+DtiXyMZOf+16SAYPCzZBZ6Qbib0rWPy8XoIjthUNIn9pJwLT0O2MWSmBRatxuOGShqghPeOWH7lJfXWXYuwq40yjZydr8sUyCCU56C2fYV9/be3FhRA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
- 165.204.84.17) smtp.rcpttodomain=linux.intel.com smtp.mailfrom=amd.com;
- dmarc=pass (p=quarantine sp=quarantine pct=100) action=none
- header.from=amd.com; dkim=none (message not signed); arc=none (0)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=Ik1fsrU3+1GM9eFwPLMAXJh38CC+gxZmcnGsD0S1ytI=;
- b=xVsDIZQRzKh25OQv06cpWeuPDVXg15C5/9ePZE80MCtT6VJkVrzIRy1F8rWJvip8osuA+yx7I6UAi7zi0F3WA+IenTQd+V0wB07XbKZkmO+9Id84rPexTwzfl2Ofn79FO4dNayUobXP94negjYYWIgqSLOUdgUGqa8dDt2OOhSA=
-Received: from SN7P222CA0016.NAMP222.PROD.OUTLOOK.COM (2603:10b6:806:124::16)
- by PH8PR12MB7325.namprd12.prod.outlook.com (2603:10b6:510:217::19)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8880.17; Wed, 2 Jul
- 2025 16:13:36 +0000
-Received: from SA2PEPF00001504.namprd04.prod.outlook.com
- (2603:10b6:806:124:cafe::9e) by SN7P222CA0016.outlook.office365.com
- (2603:10b6:806:124::16) with Microsoft SMTP Server (version=TLS1_3,
- cipher=TLS_AES_256_GCM_SHA384) id 15.20.8901.21 via Frontend Transport; Wed,
- 2 Jul 2025 16:13:35 +0000
-X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 165.204.84.17)
- smtp.mailfrom=amd.com; dkim=none (message not signed)
- header.d=none;dmarc=pass action=none header.from=amd.com;
-Received-SPF: Pass (protection.outlook.com: domain of amd.com designates
- 165.204.84.17 as permitted sender) receiver=protection.outlook.com;
- client-ip=165.204.84.17; helo=SATLEXMB04.amd.com; pr=C
-Received: from SATLEXMB04.amd.com (165.204.84.17) by
- SA2PEPF00001504.mail.protection.outlook.com (10.167.242.36) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.20.8901.15 via Frontend Transport; Wed, 2 Jul 2025 16:13:35 +0000
-Received: from FRAPPELLOUX01.amd.com (10.180.168.240) by SATLEXMB04.amd.com
- (10.181.40.145) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.39; Wed, 2 Jul
- 2025 11:13:33 -0500
-From: Pierre-Eric Pelloux-Prayer <pierre-eric.pelloux-prayer@amd.com>
-To: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, Maxime Ripard
- <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, David Airlie
- <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>
-CC: Pierre-Eric Pelloux-Prayer <pierre-eric.pelloux-prayer@amd.com>,
- <dri-devel@lists.freedesktop.org>, <linux-kernel@vger.kernel.org>
-Subject: [PATCH v1 3/3] drm/buddy: dont go over the higher orders multiple
- times
-Date: Wed, 2 Jul 2025 18:12:04 +0200
-Message-ID: <20250702161208.25188-4-pierre-eric.pelloux-prayer@amd.com>
-X-Mailer: git-send-email 2.43.0
-In-Reply-To: <20250702161208.25188-1-pierre-eric.pelloux-prayer@amd.com>
-References: <20250702161208.25188-1-pierre-eric.pelloux-prayer@amd.com>
+Received: from mail-pf1-f171.google.com (mail-pf1-f171.google.com
+ [209.85.210.171])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 65E3D10E743
+ for <dri-devel@lists.freedesktop.org>; Wed,  2 Jul 2025 16:14:06 +0000 (UTC)
+Received: by mail-pf1-f171.google.com with SMTP id
+ d2e1a72fcca58-74b50c71b0aso642704b3a.0
+ for <dri-devel@lists.freedesktop.org>; Wed, 02 Jul 2025 09:14:06 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20230601; t=1751472846; x=1752077646; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:from:to:cc:subject:date:message-id:reply-to;
+ bh=0c/84mBXTtb1I5DJ3f//CNcOZAIu4pgnp07Yr6FAASE=;
+ b=RTaLnFCyAQiv4gkL2C5+N6rUSvMcCcH0HbF3ueZ+OJmM4Q/fhBsZ83M7edvbYRwGhw
+ LWNhbGuCYyaq7qyaqFAdeD5qqNvfwH+pNl0EolaFo//pPzTVYjoH8SyH2gxnrVHMPvmJ
+ jRCt6fuTnYSNcFE5J6XNg/69R13O3vo5NTlsUOqqK+EcHmQZ9LF3rDOIRzRu3cXqIqGv
+ xSWWHB4jTtqYDI0eTjekbvFVwith7aMXhtI7Ayx0DPihn1bHAMiWtjYa0lWCKF1/d40X
+ f7873u0R7ONmNBdgr7IplFC5SMEfoUSfi2JxQQYESFnTkElmc3noEulcQ0bfFhfsUlht
+ fcWw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1751472846; x=1752077646;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=0c/84mBXTtb1I5DJ3f//CNcOZAIu4pgnp07Yr6FAASE=;
+ b=qJ6pm1t5WeohRL47dQa0hx22YJ4uJyhwWEfwyceF1/dh6mw9ZvADuzO29X13etjvQs
+ KLOR2rLjVVm408aAj5I0Uf70N0EzNvF9BgFC/bVu6/L79mhiRXvspntN6TCd3h4iZ37t
+ SXOlK/rnjXK5jtvD0PPqVlWznDN3Nwh+0FAuy/VNW4T+Cq+TUJX88ewgU5waFdv9bMdt
+ JU8EMHtMrKghI/xE18197SflK9uP6E2ZSomlNcfipHoPLbUhbvCz77ozQJuGXT/1iagY
+ 0dbe+kNorkz8u16GZKbOhWuQUich6QzEeEhZMdujX0xLfKB5P1UcRV/kGu5o2NEGbfTR
+ WTYg==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCXVJKSEwv0Og6rnCjvlmCRxkO0szUniY/BRLR+ZURjwQtQjFlop8MIoB+7yX2/w0IkTAin1q+YIBZA=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0Yxls2RrmbezlxoIfsDPwJDuWy5fpYhMN55Vmvcawr8Nn+agUsCI
+ KnvXgcEKMu9ezAnMtsMKIuOncgw8a75BIiPCmsR0WSTvoE/Edl7zi/NApDIhr5A6pyU=
+X-Gm-Gg: ASbGncs/Bu/DyEYeF1fmqylCN0Kxghc0Df7Er/Vg20zuJuSK5foO4j7Jf9z6Hip2sN4
+ ZZ8y/29beAwftuLq/BfHc4Nw7T/QHKYtagXV9xZQNH1rWJ8AF2M+yRqF95lwGdmE1+p5bEzHyJi
+ /X6h1dimtX+oWdK44vQLRWA7xIJsxPvX+0Aphg31PP/y/RtenYAX5TK3lpMRaYQ87+RFfK/3eWd
+ 0r+alNdAov4PVegvSmG8wU6/HZ6B9uK3KHUU86scvZNMpjEs/JKER090VMxU51aHSNqSDwn9u6W
+ FySLKHg1yLTX2vwrIryc/DAmuYHSzCWQLOxV6cyMpRiAczSZXf9uJiv9oOsuZJmLfWT0rM4ft1M
+ JmGq927M=
+X-Google-Smtp-Source: AGHT+IEVOoy1Wg3zr/ivZW5QJMDsut3/0p00VNy9N/gGgSjttY9YOrjPlh1fZzMAA62oF74U2z1nzQ==
+X-Received: by 2002:a05:6a21:62c6:b0:220:82c7:309c with SMTP id
+ adf61e73a8af0-222d7db195bmr6344370637.7.1751472845622; 
+ Wed, 02 Jul 2025 09:14:05 -0700 (PDT)
+Received: from localhost.localdomain ([2405:201:c408:a02c:2fc6:2cad:e985:b61d])
+ by smtp.gmail.com with ESMTPSA id
+ 41be03b00d2f7-b35016ee1e0sm9385740a12.54.2025.07.02.09.14.01
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 02 Jul 2025 09:14:05 -0700 (PDT)
+From: Kevin Paul Reddy Janagari <kevinpaul468@gmail.com>
+To: airlied@gmail.com, simona@ffwll.ch, maarten.lankhorst@linux.intel.com,
+ mripard@kernel.org, tzimmermann@suse.de, corbet@lwn.net,
+ dri-devel@lists.freedesktop.org, linux-doc@vger.kernel.org
+Cc: linux-kernel@vger.kernel.org,
+	kevinpaul468@gmail.com
+Subject: [PATCH v3] workaround for Sphinx false positive preventing indexing
+Date: Wed,  2 Jul 2025 21:43:37 +0530
+Message-Id: <20250702161337.69943-1-kevinpaul468@gmail.com>
+X-Mailer: git-send-email 2.39.5
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-Originating-IP: [10.180.168.240]
-X-ClientProxiedBy: SATLEXMB03.amd.com (10.181.40.144) To SATLEXMB04.amd.com
- (10.181.40.145)
-X-EOPAttributedMessage: 0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: SA2PEPF00001504:EE_|PH8PR12MB7325:EE_
-X-MS-Office365-Filtering-Correlation-Id: 6c03b0f0-1cdc-4d21-5705-08ddb98365c2
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
- ARA:13230040|1800799024|376014|36860700013|82310400026; 
-X-Microsoft-Antispam-Message-Info: =?us-ascii?Q?7FPfXiVCZxILjuV/nzvRpMK/FBYIgvadxKV6mFY60jur9EDwOx9FU1ENfUSd?=
- =?us-ascii?Q?DYz5eAfKawiylss9E0fMe0qdZ6CHYGnozQcjjKU8cU3TugPW8ZhV5kgWgdNr?=
- =?us-ascii?Q?9LTEI5CpZXLVhxrWVnGtTh/w7F74LABveejwvzGjfwVXWBo1Qj03+er1uxoI?=
- =?us-ascii?Q?/c1PwGeN2uitefhK63zB2gtCw3TF/AE6CAlTAA55TDxAXDpCkLJHyGxrZ4MF?=
- =?us-ascii?Q?fGrbPHSb22po2lquz+tOKJl5itAmpyw3D7AZkJy9Q0bisTXQk9UY0dyIFhQw?=
- =?us-ascii?Q?D6agBq4KzeZnQIYs9H0/knp4WnwGVEySpv7wsIzQN4S2jpt2TQedmodADg6W?=
- =?us-ascii?Q?0k8244uXw9244dkiRbMO/5tiUJI4N/ArHoPqoDn/hoXnLj6pY5dyOTYsGXpE?=
- =?us-ascii?Q?DwN/sRCErIvZ9tTzFuwk85s8hSrPe5w5p3Qh8V5JOVPEP6imXvdkfpSg4/Nf?=
- =?us-ascii?Q?XOa49+wU8o60bqL9xdgjyB5PFNNYHjEwhlE52NrBTbEXyLAaTRIsYsaRIO1Y?=
- =?us-ascii?Q?H6BTwItrXITbekWXnCTdUdL8vBE9288baZPXo7Zx3saPlMK3QVexnDWQqzFT?=
- =?us-ascii?Q?cG563HcHDHwfKrLZILI9T3MdwB/vDJ7MnxUICbpnUAWh+B1D8OY0RxLE4LnI?=
- =?us-ascii?Q?LaXYvCb/G9enKnutEvzXhZlVfly28SciPf8GGdwSHLAiglMgEk61SdLJVHRe?=
- =?us-ascii?Q?jcq9SkXgaE8Vgd4HwWaA7nVfajTWAa6i3U/hcNjVIpDdD98PWKWRRILDW8yU?=
- =?us-ascii?Q?uv+QmsQUiAj3jXNR7riIZjDVuoNg/h43ry4Rk7J8nmE5GMyjxXRaHReFQUqX?=
- =?us-ascii?Q?6y+ffKmCVXMiD5v3EJwwffvtj+pQluDwRW4wc+84uMunHhRo4GipqB3NYO3Q?=
- =?us-ascii?Q?O3+9ytkSlI4GTder17tSLj7e3hvH1MU78JfXoRAwsnBr6fiv9AaUQXNp9YrF?=
- =?us-ascii?Q?yK1xbDi102SUWU6V9t6CDWPkQzf9E2PCaO0tttqg/rV3gNHne3WLfb0FH1vN?=
- =?us-ascii?Q?AtVlciMIZQy/yvjSCsB+cG1Lms/1mSnnJ6K7y49pl9aGX0JmJ4BVwXTQQPZl?=
- =?us-ascii?Q?GATtm/JqiZLyA5jww1fCWTDwxp7vmCIHfkPwKK00jHdGMHJOIG87oGlUoFEf?=
- =?us-ascii?Q?/MhUn/B0tRsX2x0ePB1Zl3HTA+lID8xsjG8PwG8KNaD3f9pb99e49sbvnGcs?=
- =?us-ascii?Q?JeUBiG81+Wog3bIb+iWv75d0Et3OFpXJdahpZ5OEFkTF4sXvOqa1NCsrV2lr?=
- =?us-ascii?Q?/Js8aVzTkNVDqe7X9MU3YNGa40ni38IfJmlwDtHqxjzx3YybFdFKDL6o3oIh?=
- =?us-ascii?Q?3C5a1Pm66zgqqRZMmmm+JpWNG85ymfR30+EoHih66HfQK9L/F6FRVHNhvpzW?=
- =?us-ascii?Q?POxY+/PrxR2SjxiQNAMCH2zaWTjH3g36XWxJ2fSwMxnPvBhBU7LxOxBO7HPl?=
- =?us-ascii?Q?iBaeiVy2Qmn2sY4fXkS/UAavnLtmhcg4MqwembNyNrnq4wIVt7koCmBYs2ri?=
- =?us-ascii?Q?JbsKgUDvAf/LeaXuzCh8WWJTScHBkzXiy9RZ?=
-X-Forefront-Antispam-Report: CIP:165.204.84.17; CTRY:US; LANG:en; SCL:1; SRV:;
- IPV:CAL; SFV:NSPM; H:SATLEXMB04.amd.com; PTR:InfoDomainNonexistent; CAT:NONE;
- SFS:(13230040)(1800799024)(376014)(36860700013)(82310400026); DIR:OUT;
- SFP:1101; 
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 02 Jul 2025 16:13:35.4909 (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: 6c03b0f0-1cdc-4d21-5705-08ddb98365c2
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=3dd8961f-e488-4e60-8e11-a82d994e183d; Ip=[165.204.84.17];
- Helo=[SATLEXMB04.amd.com]
-X-MS-Exchange-CrossTenant-AuthSource: SA2PEPF00001504.namprd04.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Anonymous
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH8PR12MB7325
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -137,123 +88,63 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-AFAICT the rationale for the loop is to:
-1) try to allocate from the preferred order
-2) if it fails, try higher orders (order + 1 -> max order)
-3) if it fails, try smaller orders (order - 1 -> min order)
+Functions drm_format_info, drm_modeset_lock, drm_ioctl_flags are not being
+indexed in the documentation because there are structs with the same name
+and sphinx is only indexing one of them, Added them to namespaces as a
+workaround for suppressing the warnings and indexing the functions
 
-Steps 1 and 2 are covered by the loop going through [order, max_order].
-Currently step 3 tries again [order, max_order] but with decreasing
-values of order.
+This is a bug of Sphinx >=3.1, first reported by Mauro in September 2020
+Link: https://github.com/sphinx-doc/sphinx/issues/8241
+Open Pull Request
+Link: https://github.com/sphinx-doc/sphinx/pull/8313
 
-This is wasteful, so change it to evaluate only order.
-
-Signed-off-by: Pierre-Eric Pelloux-Prayer <pierre-eric.pelloux-prayer@amd.com>
+Signed-off-by: Kevin Paul Reddy Janagari <kevinpaul468@gmail.com>
 ---
- drivers/gpu/drm/drm_buddy.c | 17 ++++++++++++-----
- 1 file changed, 12 insertions(+), 5 deletions(-)
+ Documentation/gpu/drm-kms.rst  | 4 ++++
+ Documentation/gpu/drm-uapi.rst | 2 ++
+ 2 files changed, 6 insertions(+)
 
-diff --git a/drivers/gpu/drm/drm_buddy.c b/drivers/gpu/drm/drm_buddy.c
-index fd31322b3d41..9d3723f2cff9 100644
---- a/drivers/gpu/drm/drm_buddy.c
-+++ b/drivers/gpu/drm/drm_buddy.c
-@@ -590,13 +590,14 @@ __drm_buddy_alloc_range_bias(struct drm_buddy *mm,
+diff --git a/Documentation/gpu/drm-kms.rst b/Documentation/gpu/drm-kms.rst
+index abfe220764e1..b18a99869b6d 100644
+--- a/Documentation/gpu/drm-kms.rst
++++ b/Documentation/gpu/drm-kms.rst
+@@ -357,8 +357,10 @@ Format Functions Reference
+ .. kernel-doc:: include/drm/drm_fourcc.h
+    :internal:
  
- static struct drm_buddy_block *
- get_maxblock(struct drm_buddy *mm, unsigned int order,
-+	     unsigned int max_order,
- 	     unsigned long flags)
- {
- 	struct drm_buddy_block *max_block = NULL, *block = NULL;
- 	bool wants_clear;
- 	unsigned int i;
++.. c:namespace-push:: gpu_drm
+ .. kernel-doc:: drivers/gpu/drm/drm_fourcc.c
+    :export:
++.. c:namespace-pop::
  
--	for (i = order; i <= mm->max_order; ++i) {
-+	for (i = order; i <= max_order; ++i) {
- 		struct drm_buddy_block *tmp_block;
+ .. _kms_dumb_buffer_objects:
  
- 		wants_clear = flags & DRM_BUDDY_PREFER_CLEAR_ALLOCATION;
-@@ -635,6 +636,7 @@ get_maxblock(struct drm_buddy *mm, unsigned int order,
- static struct drm_buddy_block *
- alloc_from_freelist(struct drm_buddy *mm,
- 		    unsigned int order,
-+		    unsigned int max_order,
- 		    unsigned long flags)
- {
- 	struct drm_buddy_block *block = NULL;
-@@ -643,12 +645,12 @@ alloc_from_freelist(struct drm_buddy *mm,
- 	int err;
+@@ -473,8 +475,10 @@ KMS Locking
+ .. kernel-doc:: include/drm/drm_modeset_lock.h
+    :internal:
  
- 	if (flags & DRM_BUDDY_TOPDOWN_ALLOCATION) {
--		block = get_maxblock(mm, order, flags);
-+		block = get_maxblock(mm, order, max_order, flags);
- 		if (block)
- 			/* Store the obtained block order */
- 			tmp = drm_buddy_block_order(block);
- 	} else {
--		for (tmp = order; tmp <= mm->max_order; ++tmp) {
-+		for (tmp = order; tmp <= max_order; ++tmp) {
- 			struct drm_buddy_block *tmp_block;
- 			wants_clear = flags & DRM_BUDDY_PREFER_CLEAR_ALLOCATION;
++.. c:namespace:: gpu_drm
+ .. kernel-doc:: drivers/gpu/drm/drm_modeset_lock.c
+    :export:
++.. c:namespace-pop::
  
-@@ -956,6 +958,7 @@ static struct drm_buddy_block *
- __drm_buddy_alloc_blocks(struct drm_buddy *mm,
- 			 u64 start, u64 end,
- 			 unsigned int order,
-+			 unsigned int max_order,
- 			 unsigned long flags)
- {
- 	if (flags & DRM_BUDDY_RANGE_ALLOCATION)
-@@ -964,7 +967,7 @@ __drm_buddy_alloc_blocks(struct drm_buddy *mm,
- 						     order, flags);
- 	else
- 		/* Allocate from freelist */
--		return alloc_from_freelist(mm, order, flags);
-+		return alloc_from_freelist(mm, order, max_order, flags);
- }
+ KMS Properties
+ ==============
+diff --git a/Documentation/gpu/drm-uapi.rst b/Documentation/gpu/drm-uapi.rst
+index 69f72e71a96e..e9d7b7282a19 100644
+--- a/Documentation/gpu/drm-uapi.rst
++++ b/Documentation/gpu/drm-uapi.rst
+@@ -554,8 +554,10 @@ DRM specific patterns. Note that ENOTTY has the slightly unintuitive meaning of
+ .. kernel-doc:: include/drm/drm_ioctl.h
+    :internal:
  
- /**
-@@ -995,7 +998,7 @@ int drm_buddy_alloc_blocks(struct drm_buddy *mm,
- {
- 	struct drm_buddy_block *block = NULL;
- 	u64 original_size, original_min_size;
--	unsigned int min_order, order;
-+	unsigned int min_order, max_order, order;
- 	LIST_HEAD(allocated);
- 	unsigned long pages;
- 	int err;
-@@ -1044,6 +1047,7 @@ int drm_buddy_alloc_blocks(struct drm_buddy *mm,
++.. c:namespace-push:: gpu_drm
+ .. kernel-doc:: drivers/gpu/drm/drm_ioctl.c
+    :export:
++.. c:namespace-pop::
  
- 	do {
- 		order = min(order, (unsigned int)fls(pages) - 1);
-+		max_order = mm->max_order;
- 		BUG_ON(order > mm->max_order);
- 		BUG_ON(order < min_order);
- 
-@@ -1051,6 +1055,7 @@ int drm_buddy_alloc_blocks(struct drm_buddy *mm,
- 			block = __drm_buddy_alloc_blocks(mm, start,
- 							 end,
- 							 order,
-+							 max_order,
- 							 flags);
- 			if (!IS_ERR(block))
- 				break;
-@@ -1062,6 +1067,7 @@ int drm_buddy_alloc_blocks(struct drm_buddy *mm,
- 					block = __drm_buddy_alloc_blocks(mm, start,
- 									 end,
- 									 min_order,
-+									 mm->max_order,
- 									 flags);
- 					if (!IS_ERR(block)) {
- 						order = min_order;
-@@ -1082,6 +1088,7 @@ int drm_buddy_alloc_blocks(struct drm_buddy *mm,
- 				err = -ENOSPC;
- 				goto err_free;
- 			}
-+			max_order = order;
- 		} while (1);
- 
- 		mark_allocated(block);
+ .. kernel-doc:: drivers/gpu/drm/drm_ioc32.c
+    :export:
 -- 
-2.43.0
+2.39.5
 
