@@ -2,55 +2,55 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2919AAF5EFE
-	for <lists+dri-devel@lfdr.de>; Wed,  2 Jul 2025 18:48:15 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2B2DAAF5EFF
+	for <lists+dri-devel@lfdr.de>; Wed,  2 Jul 2025 18:48:18 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3420210E767;
-	Wed,  2 Jul 2025 16:48:13 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5A12610E763;
+	Wed,  2 Jul 2025 16:48:16 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="CHq5OjWJ";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="Xz2FQhfI";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.11])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 38EE810E761;
- Wed,  2 Jul 2025 16:48:12 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0C41E10E776;
+ Wed,  2 Jul 2025 16:48:15 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1751474892; x=1783010892;
+ t=1751474895; x=1783010895;
  h=from:to:cc:subject:date:message-id:in-reply-to:
  references:mime-version:content-transfer-encoding;
- bh=CVPEMvHxy+G3ghl0MmEF80BkbhRbo4yNjg3nTiGO010=;
- b=CHq5OjWJGTkhgi0s+lfO2Ql8pVfKMNDjpnrCk6p17dHvb9b7R5B1LjYC
- 6P/XC17GBSuJPkT4zOMBe/j41DvqALRXqzvlocSDpFh5l//HZW7DJqnG3
- CbQ44l7T3/UO7ZGMM+AVDBvOr8XT2nyrUSvSR38GfU0ygzM6D7sC4OtN6
- WzkM3hTT7HqIPPXG9DxMXvSvcvq/mhX0D0W56EUs/ebGzf+GEAcPgYAjn
- m178SNblA+BZwmcBkeleZqB0zY3FnQc/Q8pq+cUob20HTdrtCQ4QVpipL
- pwKxSWDSlTvwf032L3n5Zv6n/eiHJPPm/A5ZMiL3AgRpZSyPGpTU9dUYw A==;
-X-CSE-ConnectionGUID: HgyipHyURIGRdIvDiAYdzg==
-X-CSE-MsgGUID: rgz8rsnJTruJ/sCwD7r0QQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11482"; a="64380760"
-X-IronPort-AV: E=Sophos;i="6.16,281,1744095600"; d="scan'208";a="64380760"
+ bh=26ZVxTovVWawxfzohxN6Dj9Di2Irl9eXzKpJdB1Vttc=;
+ b=Xz2FQhfINtfKUxsgah/7kYNBmFOsInD+YO363yM/PMnRJlQEj5EtRYQQ
+ lSStm6CUFnMGMg5P12NLGtB4qxJ2qz4+1MIhcmq3ljQnjXGITTudwsMRl
+ kD7KqSlFmFVBlXiReRRrJKxAYvf6HBMjIZ3JM8gCjbk8OG+LLat+YoH4j
+ hvEd4AxEH42MwcI8BQOHk2GGYdF1cNIoPFXvP4b/6oOOtlh8BzHb8UxRS
+ FLUPstjzuggdRK6ulZKqu8OpEMVQD3hv3MfeSO37qU7GHmv8+NRfcyLFv
+ no7BK9UaBmJoY6iwEK6TFxmLDcEXT6MqFl2WsE7exz5P5eDLd8GCibXbL w==;
+X-CSE-ConnectionGUID: IPvHu2m6R8O/BxioIRxZwA==
+X-CSE-MsgGUID: ncw/w/LeT5ytnAG5vYFWGg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11482"; a="64380764"
+X-IronPort-AV: E=Sophos;i="6.16,281,1744095600"; d="scan'208";a="64380764"
 Received: from orviesa010.jf.intel.com ([10.64.159.150])
  by fmvoesa105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 02 Jul 2025 09:48:12 -0700
-X-CSE-ConnectionGUID: F+QOKJaFT3KY1g0tpRAAJw==
-X-CSE-MsgGUID: V0W9pgY5SUWvsL69duBcPw==
+ 02 Jul 2025 09:48:15 -0700
+X-CSE-ConnectionGUID: Azh9/9f3S1aOdzXeux1MAA==
+X-CSE-MsgGUID: pUtmIEB8RYGhOVDVOXH/7A==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.16,281,1744095600"; d="scan'208";a="153535618"
+X-IronPort-AV: E=Sophos;i="6.16,281,1744095600"; d="scan'208";a="153535628"
 Received: from unknown (HELO bnilawar-desk2.iind.intel.com) ([10.190.239.41])
  by orviesa010-auth.jf.intel.com with
- ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Jul 2025 09:48:10 -0700
+ ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Jul 2025 09:48:13 -0700
 From: Badal Nilawar <badal.nilawar@intel.com>
 To: intel-xe@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
  linux-kernel@vger.kernel.org
 Cc: anshuman.gupta@intel.com, rodrigo.vivi@intel.com,
  alexander.usyskin@intel.com, gregkh@linuxfoundation.org,
  daniele.ceraolospurio@intel.com
-Subject: [PATCH v5 06/10] drm/xe/xe_late_bind_fw: Reload late binding fw in
- rpm resume
-Date: Wed,  2 Jul 2025 22:22:12 +0530
-Message-Id: <20250702165216.557074-7-badal.nilawar@intel.com>
+Subject: [PATCH v5 07/10] drm/xe/xe_late_bind_fw: Reload late binding fw
+ during system resume
+Date: Wed,  2 Jul 2025 22:22:13 +0530
+Message-Id: <20250702165216.557074-8-badal.nilawar@intel.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20250702165216.557074-1-badal.nilawar@intel.com>
 References: <20250702165216.557074-1-badal.nilawar@intel.com>
@@ -71,65 +71,40 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Reload late binding fw during runtime resume.
+Reload late binding fw during resume from system suspend
 
+v2:
+  - Unconditionally reload late binding fw (Rodrigo)
+  - Flush worker during system suspend
+
+Cc: Rodrigo Vivi <rodrigo.vivi@intel.com>
 Signed-off-by: Badal Nilawar <badal.nilawar@intel.com>
 ---
-v5: Flush worker in rpm suspend is not needed any more as
-    xe_late_bind_fw_load gets the rpm ref before queuing worker
-    to ensure worker completes lb fw loading.
----
- drivers/gpu/drm/xe/xe_late_bind_fw.c | 2 +-
- drivers/gpu/drm/xe/xe_late_bind_fw.h | 1 +
- drivers/gpu/drm/xe/xe_pm.c           | 4 ++++
- 3 files changed, 6 insertions(+), 1 deletion(-)
+ drivers/gpu/drm/xe/xe_pm.c | 4 ++++
+ 1 file changed, 4 insertions(+)
 
-diff --git a/drivers/gpu/drm/xe/xe_late_bind_fw.c b/drivers/gpu/drm/xe/xe_late_bind_fw.c
-index 56166816a535..3fb84d2f0a76 100644
---- a/drivers/gpu/drm/xe/xe_late_bind_fw.c
-+++ b/drivers/gpu/drm/xe/xe_late_bind_fw.c
-@@ -82,7 +82,7 @@ static int xe_late_bind_fw_num_fans(struct xe_late_bind *late_bind)
- 		return 0;
- }
- 
--static void xe_late_bind_wait_for_worker_completion(struct xe_late_bind *late_bind)
-+void xe_late_bind_wait_for_worker_completion(struct xe_late_bind *late_bind)
- {
- 	struct xe_device *xe = late_bind_to_xe(late_bind);
- 	struct xe_late_bind_fw *lbfw;
-diff --git a/drivers/gpu/drm/xe/xe_late_bind_fw.h b/drivers/gpu/drm/xe/xe_late_bind_fw.h
-index 28d56ed2bfdc..07e437390539 100644
---- a/drivers/gpu/drm/xe/xe_late_bind_fw.h
-+++ b/drivers/gpu/drm/xe/xe_late_bind_fw.h
-@@ -12,5 +12,6 @@ struct xe_late_bind;
- 
- int xe_late_bind_init(struct xe_late_bind *late_bind);
- int xe_late_bind_fw_load(struct xe_late_bind *late_bind);
-+void xe_late_bind_wait_for_worker_completion(struct xe_late_bind *late_bind);
- 
- #endif
 diff --git a/drivers/gpu/drm/xe/xe_pm.c b/drivers/gpu/drm/xe/xe_pm.c
-index ff749edc005b..734fe259600e 100644
+index 734fe259600e..13afaf97d831 100644
 --- a/drivers/gpu/drm/xe/xe_pm.c
 +++ b/drivers/gpu/drm/xe/xe_pm.c
-@@ -20,6 +20,7 @@
- #include "xe_gt.h"
- #include "xe_guc.h"
- #include "xe_irq.h"
-+#include "xe_late_bind_fw.h"
- #include "xe_pcode.h"
- #include "xe_pxp.h"
- #include "xe_trace.h"
-@@ -550,6 +551,9 @@ int xe_pm_runtime_resume(struct xe_device *xe)
+@@ -127,6 +127,8 @@ int xe_pm_suspend(struct xe_device *xe)
+ 	if (err)
+ 		goto err;
+ 
++	xe_late_bind_wait_for_worker_completion(&xe->late_bind);
++
+ 	for_each_gt(gt, xe, id)
+ 		xe_gt_suspend_prepare(gt);
+ 
+@@ -205,6 +207,8 @@ int xe_pm_resume(struct xe_device *xe)
  
  	xe_pxp_pm_resume(xe->pxp);
  
-+	if (xe->d3cold.allowed)
-+		xe_late_bind_fw_load(&xe->late_bind);
++	xe_late_bind_fw_load(&xe->late_bind);
 +
- out:
- 	xe_rpm_lockmap_release(xe);
- 	xe_pm_write_callback_task(xe, NULL);
+ 	drm_dbg(&xe->drm, "Device resumed\n");
+ 	return 0;
+ err:
 -- 
 2.34.1
 
