@@ -2,64 +2,79 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7491DAF0E2E
-	for <lists+dri-devel@lfdr.de>; Wed,  2 Jul 2025 10:38:16 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8F032AF0E6B
+	for <lists+dri-devel@lfdr.de>; Wed,  2 Jul 2025 10:49:14 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3CE7710E31A;
-	Wed,  2 Jul 2025 08:38:13 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id EBC4D10E108;
+	Wed,  2 Jul 2025 08:49:11 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=ti.com header.i=@ti.com header.b="uugPSulg";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="D59Wxw6K";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from lelvem-ot01.ext.ti.com (lelvem-ot01.ext.ti.com [198.47.23.234])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8E9DF10E31A
- for <dri-devel@lists.freedesktop.org>; Wed,  2 Jul 2025 08:38:11 +0000 (UTC)
-Received: from fllvem-sh04.itg.ti.com ([10.64.41.54])
- by lelvem-ot01.ext.ti.com (8.15.2/8.15.2) with ESMTP id 5628bnML3182023;
- Wed, 2 Jul 2025 03:37:49 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
- s=ti-com-17Q1; t=1751445469;
- bh=t1zdbnyiWh8u1SR9sO0+G5ymI2WgryouqWTt/VzIYx0=;
- h=Date:Subject:To:CC:References:From:In-Reply-To;
- b=uugPSulg7qlwsxwqoc++DUagJCz2wJ2ttSS/L1kmCgcX7hCAHBrKyeoU50tDUHesc
- ub8IRTqHBy1yp9Dwk3OmECuGOaLmnc8WX/ikKQ2gh7GHdvSHKzPZOPZEsP8lKfRlXr
- zr6fNQQiTiKvOxZeOn7MbIBW+w1QJ6l8cvLon+7k=
-Received: from DLEE106.ent.ti.com (dlee106.ent.ti.com [157.170.170.36])
- by fllvem-sh04.itg.ti.com (8.18.1/8.18.1) with ESMTPS id 5628bmSH3746060
- (version=TLSv1.2 cipher=ECDHE-RSA-AES128-SHA256 bits=128 verify=FAIL);
- Wed, 2 Jul 2025 03:37:48 -0500
-Received: from DLEE107.ent.ti.com (157.170.170.37) by DLEE106.ent.ti.com
- (157.170.170.36) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2507.55; Wed, 2
- Jul 2025 03:37:47 -0500
-Received: from lelvem-mr05.itg.ti.com (10.180.75.9) by DLEE107.ent.ti.com
- (157.170.170.37) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2507.55 via
- Frontend Transport; Wed, 2 Jul 2025 03:37:47 -0500
-Received: from [172.24.227.193] (devarsh-precision-tower-3620.dhcp.ti.com
- [172.24.227.193])
- by lelvem-mr05.itg.ti.com (8.18.1/8.18.1) with ESMTP id 5628bibs3108249;
- Wed, 2 Jul 2025 03:37:44 -0500
-Message-ID: <a04215a1-3100-45d5-968f-742e09baf9aa@ti.com>
-Date: Wed, 2 Jul 2025 14:07:43 +0530
+Received: from mail-wm1-f41.google.com (mail-wm1-f41.google.com
+ [209.85.128.41])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6C80310E108
+ for <dri-devel@lists.freedesktop.org>; Wed,  2 Jul 2025 08:49:10 +0000 (UTC)
+Received: by mail-wm1-f41.google.com with SMTP id
+ 5b1f17b1804b1-451d6ade159so29099215e9.1
+ for <dri-devel@lists.freedesktop.org>; Wed, 02 Jul 2025 01:49:10 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20230601; t=1751446149; x=1752050949; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:from:to:cc:subject:date:message-id:reply-to;
+ bh=iziNAMdJAZIDx33n/pmbnZ5EW53u9SNG08MJ3g31k6s=;
+ b=D59Wxw6KM0cRr51F2LCSuh0O47adE3oMZ4VYs+tjKrhUr5P9dhAH2kICgvJ05Y/PJb
+ bfrbU1b3hYvGILGIDx8ZuLhdk3XZ2O1yY+GjYhE2qyCvq14b06snHApsShWlE5oY8Ap7
+ sudC+7PNg5pcIEsGAtMP5SwHEOGsP2u8vS9oCr+OHLMnldVRvOCmRmbijRUgm2y2+x7r
+ GIYvdj4z/2ZT4njm3B0mgq9rtMtpTTREmDgxg1cbY45QSdehSYazVnfTp6NSU8x1kjfB
+ t/jpgWS2HAIxroubpa4S9AWfrNQQh9f+1Q8q2khNzhcxo3Vu9KL2kHzts4DTdlKxrBhm
+ mI4w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1751446149; x=1752050949;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=iziNAMdJAZIDx33n/pmbnZ5EW53u9SNG08MJ3g31k6s=;
+ b=ohlwXKNhUHGV/2vGr9U9aG7FaZ2eQMy3XI2qUbg+IvaVDODvtdIT25BlIrLJu1ld8C
+ M2DpZGCLCKGTaZz7d5qi5oUv9QHULbu2QZI8QsfOONC9k2eF7RYwCss8Maq0FgPQPlfy
+ atugaZ1Fb+f3V5BBskzQHnHAvR8aS/m2ZL6f1b79OqvZijTp6J4Vd401m4SjzkV1p9Tw
+ OMcfOMtFvIFsU19u2aIHdJdOKAWSVKO9YHtqC46kD45lDEi5FoMoJ0THL1qMw6OzIjso
+ Hs4v+mG9O9InNapuFaeBKtRKD8kJDtd8syvlLEBShmtT8aOAe/N1gYlnFirwp+gjuk3G
+ DDNg==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCULx9VxIW598AdmbSsaXrGCUI1xhUfm25RckGUq1xWUCfjzsk3cQmwk2txrjo3EY6C4vBmkKgBDpJ8=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YwsT+9EyX+EK1GfZJgHzGOmxLoIqn/279PmCo2bkibQYrjbiXIL
+ JL1yykJbfelc48brtciLRum4Y3xvza95VBM6Deuhn5hNeE2JUzuwHAPB
+X-Gm-Gg: ASbGncuRme7oeHHRVmgYPXgp1Jj9Gs8vLjhTlA7iIvVeHL0zUfNYnTsrAgouAjRnwBp
+ mNli5gTGaWOK8mRuQC9HQso1tZK4paAYRjR10BWh1vr9unxLPBnVJS2YAe71TMh99Y7SK3pCriD
+ qEJGe3xk5jw+zNAKrPHOwZX6SzIFyvTjlL/VHg8XTUBSpBmF6SgEUSRkJehTtIdtYw7/PbQiaHH
+ WwWELh1anz88wxbIU4eNKtsFEgBQ6VU4AvrbUSFzCn7bsNcrpZm1QaHtQOVj6FdTSxKnEBJFLUh
+ x7Z/piy/sKDoMjoyaYI84gcrX47lv6UrZsxLY8eOZ9BWL36xVpUt+Tl2APa+
+X-Google-Smtp-Source: AGHT+IFxiYecp4uZ8N06XdkoxoWRIDA9NFEdTiYseV/L9zVDNrtz7gti0tX6H09Zso27sqM6lEyn8w==
+X-Received: by 2002:a05:600c:8692:b0:453:62e9:125a with SMTP id
+ 5b1f17b1804b1-454a37fe36cmr14424645e9.18.1751446148516; 
+ Wed, 02 Jul 2025 01:49:08 -0700 (PDT)
+Received: from localhost ([87.254.0.133]) by smtp.gmail.com with UTF8SMTPSA id
+ ffacd0b85a97d-3a892e6214fsm15636752f8f.98.2025.07.02.01.49.08
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 02 Jul 2025 01:49:08 -0700 (PDT)
+From: Colin Ian King <colin.i.king@gmail.com>
+To: Jyri Sarha <jyri.sarha@iki.fi>,
+ Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
+ Simona Vetter <simona@ffwll.ch>, dri-devel@lists.freedesktop.org
+Cc: kernel-janitors@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: [PATCH][next] drm/tidss: remove redundant assignment to variable ret
+Date: Wed,  2 Jul 2025 09:48:44 +0100
+Message-ID: <20250702084844.966199-1-colin.i.king@gmail.com>
+X-Mailer: git-send-email 2.50.0
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v3 0/3] Decouple max_pclk check from constant display feats
-To: Jayesh Choudhary <j-choudhary@ti.com>, <jyri.sarha@iki.fi>,
- <maarten.lankhorst@linux.intel.com>, <mripard@kernel.org>,
- <tzimmermann@suse.de>, <dri-devel@lists.freedesktop.org>,
- <tomi.valkeinen@ideasonboard.com>, <mwalle@kernel.org>
-CC: <airlied@gmail.com>, <simona@ffwll.ch>, <linux-kernel@vger.kernel.org>
-References: <20250701095541.190422-1-j-choudhary@ti.com>
- <a0489fea-8c06-4c89-a530-8be691f4705d@ti.com>
- <71b4bd21-573e-4b48-a57f-6496e97d2eff@ti.com>
-Content-Language: en-US
-From: Devarsh Thakkar <devarsht@ti.com>
-In-Reply-To: <71b4bd21-573e-4b48-a57f-6496e97d2eff@ti.com>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 7bit
-X-C2ProcessedOrg: 333ef613-75bf-4e12-a4b1-8e3623f5dcea
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -75,49 +90,28 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 02/07/25 12:31, Jayesh Choudhary wrote:
-> Hello Devarsh,
-> 
-> On 01/07/25 19:00, Devarsh Thakkar wrote:
->> On 01/07/25 15:25, Jayesh Choudhary wrote:
->>> In an effort to make the existing compatibles more usable, we are
->>> removing the max_pclk_khz form dispc_features structure and doing the
->>> correspondig checks using "curr_max_pclk[]".
->>>
->>> Changes are fully backwards compatible.
->>>
->>> After integration of OLDI support[0], we need additional patches in
->>> oldi to identify the VP that has OLDI. We have to do this since
->>> OLDI driver owns the VP clock (its serial clock) and we cannot perform
->>> clock operations on those VP clock from tidss driver. This issue was
->>> also reported upstream when DSI fixes[1] had some clock related calls
->>> in tidss driver. When "clk_round_rate()" is called, ideally it should
->>> have gone to "sci_clk_determine_rate()" to query DM but it doesn't since
->>> clock is owned by OLDI not tidss.
->>>
->>
->> As series is fixing above issue (abnormal behaviour while calling 
->> clk_round_rate from tidss for VP clock being used by OLDI), can we add 
->> "Fixes tag" for the patches?
-> 
-> 
-> This seems like a preemptive fix. So I was not sure what to add.
-> 
-> If it should be added then which commit?
-> 7246e0929945 ("drm/tidss: Add OLDI bridge support") ?
-> 
+The assignment of zero to variable is redundant as the following
+continue statement loops back to the start of the loop where
+ret is assigned a new value from the return to the call to
+get_parent_dss_vp. Remove assignment.
 
-Yes, this looks good. I think good to add it as a bug fix since 
-otherwise it causes an abnormal behavior while setting up the VP clock 
-from tidss.
+Signed-off-by: Colin Ian King <colin.i.king@gmail.com>
+---
+ drivers/gpu/drm/tidss/tidss_oldi.c | 1 -
+ 1 file changed, 1 deletion(-)
 
-Regards
-Devarsh
+diff --git a/drivers/gpu/drm/tidss/tidss_oldi.c b/drivers/gpu/drm/tidss/tidss_oldi.c
+index 8223b8fec8ce..182a69354424 100644
+--- a/drivers/gpu/drm/tidss/tidss_oldi.c
++++ b/drivers/gpu/drm/tidss/tidss_oldi.c
+@@ -464,7 +464,6 @@ int tidss_oldi_init(struct tidss_device *tidss)
+ 				 * which may still be connected.
+ 				 * Continue to search for that.
+ 				 */
+-				ret = 0;
+ 				continue;
+ 			}
+ 			goto err_put_node;
+-- 
+2.50.0
 
-
-> Warm Regards,
-> Jayesh
-> 
->>
->> Regards
->> Devarsh
