@@ -2,99 +2,64 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5B6E4AF0E17
-	for <lists+dri-devel@lfdr.de>; Wed,  2 Jul 2025 10:31:56 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7491DAF0E2E
+	for <lists+dri-devel@lfdr.de>; Wed,  2 Jul 2025 10:38:16 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1EF7A10E31C;
-	Wed,  2 Jul 2025 08:31:50 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3CE7710E31A;
+	Wed,  2 Jul 2025 08:38:13 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="NDAnK9Ee";
+	dkim=pass (1024-bit key; unprotected) header.d=ti.com header.i=@ti.com header.b="uugPSulg";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from sea.source.kernel.org (sea.source.kernel.org [172.234.252.31])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3F31710E31C
- for <dri-devel@lists.freedesktop.org>; Wed,  2 Jul 2025 08:31:48 +0000 (UTC)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by sea.source.kernel.org (Postfix) with ESMTP id E428545C1B;
- Wed,  2 Jul 2025 08:31:47 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3524BC4CEED;
- Wed,  2 Jul 2025 08:31:40 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1751445107;
- bh=a/eRWd8UASswXjdzw5QzgVVAhavoHjL2Qy+4/uDrzto=;
- h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
- b=NDAnK9Ee0VhEu+OQoZKjvUMsT0uxnYqmlsHX+kppvR27pu7/MOy/MyUV0l80ITn2w
- wFB+xFuuvqfNLfdUhNr/v2eO/gZnwa+xZxQRubZ/ADGLZwbnun2ezuW4GB+J9rPm26
- V9cOO7NRTNytnL70BloANdUQpRvqMT/IKaS7OGM5DTSl3/bUjUBwpaFBL7F/Lw+ZfA
- qu6y1H2UXL/RcIi0deCEZ5dk2VePfsRga6VBTxfhaPOqf2REuEaU/ISwbNuM2iX1Zn
- nAv+dbr6VBY/BMk899QMzQYbO6Q2eRfgCrozr/JfcQIAxUf/XpY/a9ikQENBq0NPib
- bIb0TMyMD3dWw==
-Message-ID: <6d086b12-e5b3-4367-95bd-eba6cbecde5a@kernel.org>
-Date: Wed, 2 Jul 2025 10:31:38 +0200
+Received: from lelvem-ot01.ext.ti.com (lelvem-ot01.ext.ti.com [198.47.23.234])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8E9DF10E31A
+ for <dri-devel@lists.freedesktop.org>; Wed,  2 Jul 2025 08:38:11 +0000 (UTC)
+Received: from fllvem-sh04.itg.ti.com ([10.64.41.54])
+ by lelvem-ot01.ext.ti.com (8.15.2/8.15.2) with ESMTP id 5628bnML3182023;
+ Wed, 2 Jul 2025 03:37:49 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
+ s=ti-com-17Q1; t=1751445469;
+ bh=t1zdbnyiWh8u1SR9sO0+G5ymI2WgryouqWTt/VzIYx0=;
+ h=Date:Subject:To:CC:References:From:In-Reply-To;
+ b=uugPSulg7qlwsxwqoc++DUagJCz2wJ2ttSS/L1kmCgcX7hCAHBrKyeoU50tDUHesc
+ ub8IRTqHBy1yp9Dwk3OmECuGOaLmnc8WX/ikKQ2gh7GHdvSHKzPZOPZEsP8lKfRlXr
+ zr6fNQQiTiKvOxZeOn7MbIBW+w1QJ6l8cvLon+7k=
+Received: from DLEE106.ent.ti.com (dlee106.ent.ti.com [157.170.170.36])
+ by fllvem-sh04.itg.ti.com (8.18.1/8.18.1) with ESMTPS id 5628bmSH3746060
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES128-SHA256 bits=128 verify=FAIL);
+ Wed, 2 Jul 2025 03:37:48 -0500
+Received: from DLEE107.ent.ti.com (157.170.170.37) by DLEE106.ent.ti.com
+ (157.170.170.36) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2507.55; Wed, 2
+ Jul 2025 03:37:47 -0500
+Received: from lelvem-mr05.itg.ti.com (10.180.75.9) by DLEE107.ent.ti.com
+ (157.170.170.37) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2507.55 via
+ Frontend Transport; Wed, 2 Jul 2025 03:37:47 -0500
+Received: from [172.24.227.193] (devarsh-precision-tower-3620.dhcp.ti.com
+ [172.24.227.193])
+ by lelvem-mr05.itg.ti.com (8.18.1/8.18.1) with ESMTP id 5628bibs3108249;
+ Wed, 2 Jul 2025 03:37:44 -0500
+Message-ID: <a04215a1-3100-45d5-968f-742e09baf9aa@ti.com>
+Date: Wed, 2 Jul 2025 14:07:43 +0530
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 1/2] dt-bindings: display: simple: Add Olimex
- LCD-OLinuXino-5CTS
-To: Paul Kocialkowski <paulk@sys-base.io>, dri-devel@lists.freedesktop.org,
- devicetree@vger.kernel.org, linux-kernel@vger.kernel.org
-Cc: Neil Armstrong <neil.armstrong@linaro.org>,
- Jessica Zhang <quic_jesszhan@quicinc.com>, David Airlie <airlied@gmail.com>,
- Simona Vetter <simona@ffwll.ch>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
- Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
- Conor Dooley <conor+dt@kernel.org>, Thierry Reding
- <thierry.reding@gmail.com>, Sam Ravnborg <sam@ravnborg.org>
-References: <20250702082230.1291953-1-paulk@sys-base.io>
-From: Krzysztof Kozlowski <krzk@kernel.org>
+Subject: Re: [PATCH v3 0/3] Decouple max_pclk check from constant display feats
+To: Jayesh Choudhary <j-choudhary@ti.com>, <jyri.sarha@iki.fi>,
+ <maarten.lankhorst@linux.intel.com>, <mripard@kernel.org>,
+ <tzimmermann@suse.de>, <dri-devel@lists.freedesktop.org>,
+ <tomi.valkeinen@ideasonboard.com>, <mwalle@kernel.org>
+CC: <airlied@gmail.com>, <simona@ffwll.ch>, <linux-kernel@vger.kernel.org>
+References: <20250701095541.190422-1-j-choudhary@ti.com>
+ <a0489fea-8c06-4c89-a530-8be691f4705d@ti.com>
+ <71b4bd21-573e-4b48-a57f-6496e97d2eff@ti.com>
 Content-Language: en-US
-Autocrypt: addr=krzk@kernel.org; keydata=
- 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 a/A=
-In-Reply-To: <20250702082230.1291953-1-paulk@sys-base.io>
-Content-Type: text/plain; charset=UTF-8
+From: Devarsh Thakkar <devarsht@ti.com>
+In-Reply-To: <71b4bd21-573e-4b48-a57f-6496e97d2eff@ti.com>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
 Content-Transfer-Encoding: 7bit
+X-C2ProcessedOrg: 333ef613-75bf-4e12-a4b1-8e3623f5dcea
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -110,16 +75,49 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 02/07/2025 10:22, Paul Kocialkowski wrote:
-> Add the Olimex LCD-OLinuXino-5CTS, a 5-inch TFT LCD panel.
+On 02/07/25 12:31, Jayesh Choudhary wrote:
+> Hello Devarsh,
 > 
-> Signed-off-by: Paul Kocialkowski <paulk@sys-base.io>
-> ---
+> On 01/07/25 19:00, Devarsh Thakkar wrote:
+>> On 01/07/25 15:25, Jayesh Choudhary wrote:
+>>> In an effort to make the existing compatibles more usable, we are
+>>> removing the max_pclk_khz form dispc_features structure and doing the
+>>> correspondig checks using "curr_max_pclk[]".
+>>>
+>>> Changes are fully backwards compatible.
+>>>
+>>> After integration of OLDI support[0], we need additional patches in
+>>> oldi to identify the VP that has OLDI. We have to do this since
+>>> OLDI driver owns the VP clock (its serial clock) and we cannot perform
+>>> clock operations on those VP clock from tidss driver. This issue was
+>>> also reported upstream when DSI fixes[1] had some clock related calls
+>>> in tidss driver. When "clk_round_rate()" is called, ideally it should
+>>> have gone to "sci_clk_determine_rate()" to query DM but it doesn't since
+>>> clock is owned by OLDI not tidss.
+>>>
+>>
+>> As series is fixing above issue (abnormal behaviour while calling 
+>> clk_round_rate from tidss for VP clock being used by OLDI), can we add 
+>> "Fixes tag" for the patches?
 > 
-> Changes since v1:
-> - Fixed yaml indentation.
+> 
+> This seems like a preemptive fix. So I was not sure what to add.
+> 
+> If it should be added then which commit?
+> 7246e0929945 ("drm/tidss: Add OLDI bridge support") ?
+> 
 
-Acked-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+Yes, this looks good. I think good to add it as a bug fix since 
+otherwise it causes an abnormal behavior while setting up the VP clock 
+from tidss.
 
-Best regards,
-Krzysztof
+Regards
+Devarsh
+
+
+> Warm Regards,
+> Jayesh
+> 
+>>
+>> Regards
+>> Devarsh
