@@ -2,56 +2,50 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id D5E32AF652D
-	for <lists+dri-devel@lfdr.de>; Thu,  3 Jul 2025 00:27:24 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id BB4F7AF6517
+	for <lists+dri-devel@lfdr.de>; Thu,  3 Jul 2025 00:25:04 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E7D4010E0A6;
-	Wed,  2 Jul 2025 22:27:19 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 796D010E033;
+	Wed,  2 Jul 2025 22:25:01 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="Zvi01jcP";
+	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=igalia.com header.i=@igalia.com header.b="JzhVz3LA";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.11])
- by gabe.freedesktop.org (Postfix) with ESMTPS id AC3D610E08A
- for <dri-devel@lists.freedesktop.org>; Wed,  2 Jul 2025 22:27:18 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1751495238; x=1783031238;
- h=from:to:cc:subject:date:message-id:in-reply-to:
- references:mime-version:content-transfer-encoding;
- bh=+oV/NxmWgs7lz2L9+thGJi+gudPpUk7pk7TyhV4vBFs=;
- b=Zvi01jcPtG00FUEka0C0mQWhH0W+6zhBS9j5Mo7OeYUPn47UbR/BvihG
- aLu6GohjGseXj/ZQ0xXVclMIdhL6+isN4YmDafT8snjpfRsi1ctyg8HGM
- vRP3VfiUinrMGOMT4AnmaKibITAK4o99e9mbB8hX+sQikMKCxtwuGSfJG
- 0Sd3y9U+VYHp7eQI8uDkWLTwtIZ7DN9/jQmqJsbjLTnpUd7nijrbTAUUo
- n9IKg2Pqrwo3M8v/QXMrsBoklGRKleld72FrE7TXcGqHPyf3/jhY0Zdy1
- JR3v3Jt+jMZAUPfty18g32M+78Z6cEHdMkcpqgv4/08Z9UBWnT1aCO01X Q==;
-X-CSE-ConnectionGUID: FHPRpHMARzq/X/LWQIohww==
-X-CSE-MsgGUID: c5Mnb760T4GLxxG2lPXnLQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11482"; a="64407293"
-X-IronPort-AV: E=Sophos;i="6.16,282,1744095600"; d="scan'208";a="64407293"
-Received: from orviesa004.jf.intel.com ([10.64.159.144])
- by fmvoesa105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 02 Jul 2025 15:27:18 -0700
-X-CSE-ConnectionGUID: DqWwTD9bRqm89D+EGBRXZw==
-X-CSE-MsgGUID: R+yFV06USMO81xfND8YKhA==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.16,282,1744095600"; d="scan'208";a="158767787"
-Received: from dongwonk-z390-aorus-ultra.fm.intel.com ([10.105.129.124])
- by orviesa004.jf.intel.com with ESMTP; 02 Jul 2025 15:27:18 -0700
-From: dongwon.kim@intel.com
-To: dri-devel@lists.freedesktop.org
-Cc: Dmitry Osipenko <dmitry.osipenko@collabora.com>,
- Vivek Kasireddy <vivek.kasireddy@intel.com>
-Subject: [PATCH v3 2/2] drm/virtio: Implement save and restore for
- virtio_gpu_objects
-Date: Wed,  2 Jul 2025 15:24:30 -0700
-Message-Id: <20250702222430.2316723-3-dongwon.kim@intel.com>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20250702222430.2316723-1-dongwon.kim@intel.com>
-References: <20250702222430.2316723-1-dongwon.kim@intel.com>
+Received: from fanzine2.igalia.com (fanzine2.igalia.com [213.97.179.56])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E230910E033
+ for <dri-devel@lists.freedesktop.org>; Wed,  2 Jul 2025 22:24:59 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com; 
+ s=20170329;
+ h=Content-Transfer-Encoding:Content-Type:In-Reply-To:From:
+ References:Cc:To:Subject:MIME-Version:Date:Message-ID:Sender:Reply-To:
+ Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
+ Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
+ List-Subscribe:List-Post:List-Owner:List-Archive;
+ bh=Yk0ycOmnsxbXDGome0X32AZzO4GzLwJnDsvNl3HTL2k=; b=JzhVz3LAxTv44YmOG8Apv/pdP1
+ YDXhKrbrwLXvDVt2KfBayHzhZin0JSAxuBt36Zi7RJQq49jNVR8wukGrdyn1YCM5FrGVwthAG5PKH
+ b4MiecarD6aqVTVvWZ+yPUgXh1/+zYhcommfVAPRR07Dg0+WPj7UIXT6MOBmiHJC06ktKsWQb3Zwx
+ TcxIn3ksYoC0ahNPSHOzZmf4CEBnwkymNh38DPRZXt6pgfQMRQeaO1N9ZvnDpnqzQYQeaHFVG3sNM
+ qoXa2cuv0aq6UOqoL8hn/5riKGCiTlymE1ePjtyvJ8UJdFRhFo53ZMj3Xz9KedbQqXF2Gai4MGE3N
+ xxhIJSTQ==;
+Received: from [189.7.87.79] (helo=[192.168.0.7])
+ by fanzine2.igalia.com with esmtpsa 
+ (Cipher TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_128_GCM:128) (Exim)
+ id 1uX5sv-00Bee3-LX; Thu, 03 Jul 2025 00:24:57 +0200
+Message-ID: <d849afe5-af7f-4ef3-a545-96e19e217b43@igalia.com>
+Date: Wed, 2 Jul 2025 19:24:52 -0300
 MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] drm/v3d: Disable interrupts before resetting the GPU
+To: Melissa Wen <mwen@igalia.com>, Iago Toral <itoral@igalia.com>,
+ =?UTF-8?Q?Juan_A_=2E_Su=C3=A1rez?= <jasuarez@igalia.com>
+Cc: dri-devel@lists.freedesktop.org, kernel-dev@igalia.com,
+ stable@vger.kernel.org
+References: <20250628224243.47599-1-mcanal@igalia.com>
+Content-Language: en-US
+From: =?UTF-8?Q?Ma=C3=ADra_Canal?= <mcanal@igalia.com>
+In-Reply-To: <20250628224243.47599-1-mcanal@igalia.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -68,202 +62,81 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Dongwon Kim <dongwon.kim@intel.com>
+On 28/06/25 19:42, Maíra Canal wrote:
+> Currently, an interrupt can be triggered during a GPU reset, which can
+> lead to GPU hangs and NULL pointer dereference in an interrupt context
+> as shown in the following trace:
+> 
+>   [  314.035040] Unable to handle kernel NULL pointer dereference at virtual address 00000000000000c0
+>   [  314.043822] Mem abort info:
+>   [  314.046606]   ESR = 0x0000000096000005
+>   [  314.050347]   EC = 0x25: DABT (current EL), IL = 32 bits
+>   [  314.055651]   SET = 0, FnV = 0
+>   [  314.058695]   EA = 0, S1PTW = 0
+>   [  314.061826]   FSC = 0x05: level 1 translation fault
+>   [  314.066694] Data abort info:
+>   [  314.069564]   ISV = 0, ISS = 0x00000005, ISS2 = 0x00000000
+>   [  314.075039]   CM = 0, WnR = 0, TnD = 0, TagAccess = 0
+>   [  314.080080]   GCS = 0, Overlay = 0, DirtyBit = 0, Xs = 0
+>   [  314.085382] user pgtable: 4k pages, 39-bit VAs, pgdp=0000000102728000
+>   [  314.091814] [00000000000000c0] pgd=0000000000000000, p4d=0000000000000000, pud=0000000000000000
+>   [  314.100511] Internal error: Oops: 0000000096000005 [#1] PREEMPT SMP
+>   [  314.106770] Modules linked in: v3d i2c_brcmstb vc4 snd_soc_hdmi_codec gpu_sched drm_shmem_helper drm_display_helper cec drm_dma_helper drm_kms_helper drm drm_panel_orientation_quirks snd_soc_core snd_compress snd_pcm_dmaengine snd_pcm snd_timer snd backlight
+>   [  314.129654] CPU: 0 UID: 0 PID: 0 Comm: swapper/0 Not tainted 6.12.25+rpt-rpi-v8 #1  Debian 1:6.12.25-1+rpt1
+>   [  314.139388] Hardware name: Raspberry Pi 4 Model B Rev 1.4 (DT)
+>   [  314.145211] pstate: 600000c5 (nZCv daIF -PAN -UAO -TCO -DIT -SSBS BTYPE=--)
+>   [  314.152165] pc : v3d_irq+0xec/0x2e0 [v3d]
+>   [  314.156187] lr : v3d_irq+0xe0/0x2e0 [v3d]
+>   [  314.160198] sp : ffffffc080003ea0
+>   [  314.163502] x29: ffffffc080003ea0 x28: ffffffec1f184980 x27: 021202b000000000
+>   [  314.170633] x26: ffffffec1f17f630 x25: ffffff8101372000 x24: ffffffec1f17d9f0
+>   [  314.177764] x23: 000000000000002a x22: 000000000000002a x21: ffffff8103252000
+>   [  314.184895] x20: 0000000000000001 x19: 00000000deadbeef x18: 0000000000000000
+>   [  314.192026] x17: ffffff94e51d2000 x16: ffffffec1dac3cb0 x15: c306000000000000
+>   [  314.199156] x14: 0000000000000000 x13: b2fc982e03cc5168 x12: 0000000000000001
+>   [  314.206286] x11: ffffff8103f8bcc0 x10: ffffffec1f196868 x9 : ffffffec1dac3874
+>   [  314.213416] x8 : 0000000000000000 x7 : 0000000000042a3a x6 : ffffff810017a180
+>   [  314.220547] x5 : ffffffec1ebad400 x4 : ffffffec1ebad320 x3 : 00000000000bebeb
+>   [  314.227677] x2 : 0000000000000000 x1 : 0000000000000000 x0 : 0000000000000000
+>   [  314.234807] Call trace:
+>   [  314.237243]  v3d_irq+0xec/0x2e0 [v3d]
+>   [  314.240906]  __handle_irq_event_percpu+0x58/0x218
+>   [  314.245609]  handle_irq_event+0x54/0xb8
+>   [  314.249439]  handle_fasteoi_irq+0xac/0x240
+>   [  314.253527]  handle_irq_desc+0x48/0x68
+>   [  314.257269]  generic_handle_domain_irq+0x24/0x38
+>   [  314.261879]  gic_handle_irq+0x48/0xd8
+>   [  314.265533]  call_on_irq_stack+0x24/0x58
+>   [  314.269448]  do_interrupt_handler+0x88/0x98
+>   [  314.273624]  el1_interrupt+0x34/0x68
+>   [  314.277193]  el1h_64_irq_handler+0x18/0x28
+>   [  314.281281]  el1h_64_irq+0x64/0x68
+>   [  314.284673]  default_idle_call+0x3c/0x168
+>   [  314.288675]  do_idle+0x1fc/0x230
+>   [  314.291895]  cpu_startup_entry+0x3c/0x50
+>   [  314.295810]  rest_init+0xe4/0xf0
+>   [  314.299030]  start_kernel+0x5e8/0x790
+>   [  314.302684]  __primary_switched+0x80/0x90
+>   [  314.306691] Code: 940029eb 360ffc13 f9442ea0 52800001 (f9406017)
+>   [  314.312775] ---[ end trace 0000000000000000 ]---
+>   [  314.317384] Kernel panic - not syncing: Oops: Fatal exception in interrupt
+>   [  314.324249] SMP: stopping secondary CPUs
+>   [  314.328167] Kernel Offset: 0x2b9da00000 from 0xffffffc080000000
+>   [  314.334076] PHYS_OFFSET: 0x0
+>   [  314.336946] CPU features: 0x08,00002013,c0200000,0200421b
+>   [  314.342337] Memory Limit: none
+>   [  314.345382] ---[ end Kernel panic - not syncing: Oops: Fatal exception in interrupt ]---
+> 
+> Before resetting the GPU, it's necessary to disable all interrupts and
+> deal with any interrupt handler still in-flight. Otherwise, the GPU might
+> reset with jobs still running, or yet, an interrupt could be handled
+> during the reset.
+> 
+> Cc: stable@vger.kernel.org
+> Fixes: 57692c94dcbe ("drm/v3d: Introduce a new DRM driver for Broadcom V3D V3.x+")
+> Signed-off-by: Maíra Canal <mcanal@igalia.com>
 
-Host KVM/QEMU loses all graphics resources submitted by the guest OS
-upon resumption from sleep or hibernation. This results in invalid
-resource errors when the guest OS attempts to interact with the host
-regarding those resources.
+Applied to misc/kernel.git (drm-misc-fixes). Thanks for the review!
 
-To address this issue, the virtio-gpu driver now resubmits all existing
-resources upon resumption. A linked list has been introduced to maintain
-references to all created `virtio_gpu_object` instances and their parameters.
-
-Whenever a new object is created and sent to the host, it is added to this
-list. During the `.resume` function, all backed-up objects are re-sent to
-the host using the 'create resource' virtio GPU command, ensuring the
-resources are restored seamlessly.
-
-v2: - Attach backing is done if bo->attached was set before
-
-Tested-by: Dmitry Osipenko <dmitry.osipenko@collabora.com>
-Cc: Dmitry Osipenko <dmitry.osipenko@collabora.com>
-Cc: Vivek Kasireddy <vivek.kasireddy@intel.com>
-Signed-off-by: Dongwon Kim <dongwon.kim@intel.com>
----
- drivers/gpu/drm/virtio/virtgpu_drv.c    |  6 +++
- drivers/gpu/drm/virtio/virtgpu_drv.h    | 10 ++++
- drivers/gpu/drm/virtio/virtgpu_kms.c    |  1 +
- drivers/gpu/drm/virtio/virtgpu_object.c | 72 +++++++++++++++++++++++++
- 4 files changed, 89 insertions(+)
-
-diff --git a/drivers/gpu/drm/virtio/virtgpu_drv.c b/drivers/gpu/drm/virtio/virtgpu_drv.c
-index bcdd6e37db3e..3f0c84696f30 100644
---- a/drivers/gpu/drm/virtio/virtgpu_drv.c
-+++ b/drivers/gpu/drm/virtio/virtgpu_drv.c
-@@ -207,6 +207,12 @@ static int virtgpu_restore(struct virtio_device *vdev)
- 
- 	virtio_device_ready(vdev);
- 
-+	error = virtio_gpu_object_restore_all(vgdev);
-+	if (error) {
-+		DRM_ERROR("Failed to recover objects\n");
-+		return error;
-+	}
-+
- 	error = drm_mode_config_helper_resume(dev);
- 	if (error) {
- 		DRM_ERROR("resume error %d\n", error);
-diff --git a/drivers/gpu/drm/virtio/virtgpu_drv.h b/drivers/gpu/drm/virtio/virtgpu_drv.h
-index 1279f998c8e0..55f836378237 100644
---- a/drivers/gpu/drm/virtio/virtgpu_drv.h
-+++ b/drivers/gpu/drm/virtio/virtgpu_drv.h
-@@ -126,6 +126,12 @@ struct virtio_gpu_object_array {
- 	struct drm_gem_object *objs[] __counted_by(total);
- };
- 
-+struct virtio_gpu_object_restore {
-+	struct virtio_gpu_object *bo;
-+	struct virtio_gpu_object_params params;
-+	struct list_head node;
-+};
-+
- struct virtio_gpu_vbuffer;
- struct virtio_gpu_device;
- 
-@@ -265,6 +271,7 @@ struct virtio_gpu_device {
- 	struct work_struct obj_free_work;
- 	spinlock_t obj_free_lock;
- 	struct list_head obj_free_list;
-+	struct list_head obj_restore;
- 
- 	struct virtio_gpu_drv_capset *capsets;
- 	uint32_t num_capsets;
-@@ -479,6 +486,9 @@ bool virtio_gpu_is_shmem(struct virtio_gpu_object *bo);
- 
- int virtio_gpu_resource_id_get(struct virtio_gpu_device *vgdev,
- 			       uint32_t *resid);
-+
-+int virtio_gpu_object_restore_all(struct virtio_gpu_device *vgdev);
-+
- /* virtgpu_prime.c */
- int virtio_gpu_resource_assign_uuid(struct virtio_gpu_device *vgdev,
- 				    struct virtio_gpu_object *bo);
-diff --git a/drivers/gpu/drm/virtio/virtgpu_kms.c b/drivers/gpu/drm/virtio/virtgpu_kms.c
-index 6c1af77ea083..17d182737910 100644
---- a/drivers/gpu/drm/virtio/virtgpu_kms.c
-+++ b/drivers/gpu/drm/virtio/virtgpu_kms.c
-@@ -162,6 +162,7 @@ int virtio_gpu_init(struct virtio_device *vdev, struct drm_device *dev)
- 	vgdev->fence_drv.context = dma_fence_context_alloc(1);
- 	spin_lock_init(&vgdev->fence_drv.lock);
- 	INIT_LIST_HEAD(&vgdev->fence_drv.fences);
-+	INIT_LIST_HEAD(&vgdev->obj_restore);
- 	INIT_LIST_HEAD(&vgdev->cap_cache);
- 	INIT_WORK(&vgdev->config_changed_work,
- 		  virtio_gpu_config_changed_work_func);
-diff --git a/drivers/gpu/drm/virtio/virtgpu_object.c b/drivers/gpu/drm/virtio/virtgpu_object.c
-index 5517cff8715c..15c2598187ed 100644
---- a/drivers/gpu/drm/virtio/virtgpu_object.c
-+++ b/drivers/gpu/drm/virtio/virtgpu_object.c
-@@ -61,6 +61,38 @@ static void virtio_gpu_resource_id_put(struct virtio_gpu_device *vgdev, uint32_t
- 	}
- }
- 
-+static void virtio_gpu_object_add_restore_list(struct virtio_gpu_device *vgdev,
-+					       struct virtio_gpu_object *bo,
-+					       struct virtio_gpu_object_params *params)
-+{
-+	struct virtio_gpu_object_restore *new;
-+
-+	new = kvmalloc(sizeof(*new), GFP_KERNEL);
-+	if (!new) {
-+		DRM_ERROR("Fail to allocate virtio_gpu_object_restore");
-+		return;
-+	}
-+
-+	new->bo = bo;
-+	memcpy(&new->params, params, sizeof(*params));
-+
-+	list_add_tail(&new->node, &vgdev->obj_restore);
-+}
-+
-+static void virtio_gpu_object_del_restore_list(struct virtio_gpu_device *vgdev,
-+					       struct virtio_gpu_object *bo)
-+{
-+	struct virtio_gpu_object_restore *curr, *tmp;
-+
-+	list_for_each_entry_safe(curr, tmp, &vgdev->obj_restore, node) {
-+		if (bo == curr->bo) {
-+			list_del(&curr->node);
-+			kvfree(curr);
-+			break;
-+		}
-+	}
-+}
-+
- void virtio_gpu_cleanup_object(struct virtio_gpu_object *bo)
- {
- 	struct virtio_gpu_device *vgdev = bo->base.base.dev->dev_private;
-@@ -84,6 +116,7 @@ void virtio_gpu_cleanup_object(struct virtio_gpu_object *bo)
- 		drm_gem_object_release(&bo->base.base);
- 		kfree(bo);
- 	}
-+	virtio_gpu_object_del_restore_list(vgdev, bo);
- }
- 
- static void virtio_gpu_free_object(struct drm_gem_object *obj)
-@@ -257,8 +290,11 @@ int virtio_gpu_object_create(struct virtio_gpu_device *vgdev,
- 					       objs, fence);
- 		virtio_gpu_object_attach(vgdev, bo, ents, nents);
- 	}
-+	/* add submitted object to restore list */
-+	virtio_gpu_object_add_restore_list(vgdev, bo, params);
- 
- 	*bo_ptr = bo;
-+
- 	return 0;
- 
- err_put_objs:
-@@ -271,3 +307,39 @@ int virtio_gpu_object_create(struct virtio_gpu_device *vgdev,
- 	drm_gem_shmem_free(shmem_obj);
- 	return ret;
- }
-+
-+int virtio_gpu_object_restore_all(struct virtio_gpu_device *vgdev)
-+{
-+	struct virtio_gpu_object_restore *curr, *tmp;
-+	struct virtio_gpu_mem_entry *ents;
-+	unsigned int nents;
-+	int ret;
-+
-+	list_for_each_entry_safe(curr, tmp, &vgdev->obj_restore, node) {
-+		ret = virtio_gpu_object_shmem_init(vgdev, curr->bo, &ents, &nents);
-+		if (ret)
-+			break;
-+
-+		if (curr->params.blob) {
-+			virtio_gpu_cmd_resource_create_blob(vgdev, curr->bo, &curr->params,
-+							    ents, nents);
-+		} else if (curr->params.virgl) {
-+			virtio_gpu_cmd_resource_create_3d(vgdev, curr->bo, &curr->params,
-+							  NULL, NULL);
-+
-+			if (curr->bo->attached) {
-+				curr->bo->attached = false;
-+				virtio_gpu_object_attach(vgdev, curr->bo, ents, nents);
-+			}
-+		} else {
-+			virtio_gpu_cmd_create_resource(vgdev, curr->bo, &curr->params,
-+						       NULL, NULL);
-+			if (curr->bo->attached) {
-+				curr->bo->attached = false;
-+				virtio_gpu_object_attach(vgdev, curr->bo, ents, nents);
-+			}
-+		}
-+	}
-+
-+	return ret;
-+}
--- 
-2.34.1
-
+Best Regards,
+- Maíra
