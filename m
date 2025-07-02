@@ -2,100 +2,46 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 73536AF646E
-	for <lists+dri-devel@lfdr.de>; Wed,  2 Jul 2025 23:56:24 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 75041AF5CCE
+	for <lists+dri-devel@lfdr.de>; Wed,  2 Jul 2025 17:25:11 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3DB5210E074;
-	Wed,  2 Jul 2025 21:56:21 +0000 (UTC)
-Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="nD5Ji6kZ";
-	dkim-atps=neutral
+	by gabe.freedesktop.org (Postfix) with ESMTP id A142310E173;
+	Wed,  2 Jul 2025 15:25:09 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pl1-f177.google.com (mail-pl1-f177.google.com
- [209.85.214.177])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6FD6F10E0F0;
- Wed,  2 Jul 2025 14:51:44 +0000 (UTC)
-Received: by mail-pl1-f177.google.com with SMTP id
- d9443c01a7336-23694cec0feso69109755ad.2; 
- Wed, 02 Jul 2025 07:51:44 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1751467904; x=1752072704; darn=lists.freedesktop.org;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to:subject
- :user-agent:mime-version:date:message-id:from:to:cc:subject:date
- :message-id:reply-to;
- bh=qBca6/tX4UaiNS88cVzn9ejTz7Ui0nOCiCDYDy5kH/4=;
- b=nD5Ji6kZa8kvi1OKxAsvYVvuQskmUxShf+kTvyZWBWigl7qTuF/GYSESzQDDNQnKvv
- t5YvhM4yZBaO/xcyVNoJM+F8eDf2t1vsqioYWyPerxCHILIqVOnrGpa/0wCm6Amn7sNt
- kdYjUcTOBeY8/LCEdb11hDklMvPeBOLIMLg3BDlax3n+/izpXDONaZwnmoKOVj0nkfYI
- 3+RwCAM0Qn2v1ZIvcyu+5ZOGDr/EMruAopjtk2VCMrgTrXUc5u5KV4Ixxjo2V/S/egjp
- 2H5hIYFvuFQRyWgZ1Ah3qcubmfruOfewuVPIFpnqNgaLObn7vCRqrQl5muISd1St41bq
- w1nQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1751467904; x=1752072704;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to:subject
- :user-agent:mime-version:date:message-id:x-gm-message-state:from:to
- :cc:subject:date:message-id:reply-to;
- bh=qBca6/tX4UaiNS88cVzn9ejTz7Ui0nOCiCDYDy5kH/4=;
- b=TnFoBSBtOPqmXh/h2xrL1hhyCqPwzTtlxE/MHJZTKS1yK5PoXHTD9QFwMb/n6CLWFQ
- GPWvqvqub3rs3N0Lau/ucuWN9VpaQAYg5t8p9E43o9LI3G9gMlC8KFYubaFI7wYJUHd+
- a85gakjjKd5Lg9KrxHheuyZ+rw7jos0rdMJPKWB9rPHNE3fLmNM0FbIWHXgP4uY78EdI
- bnOlyRiTmyByqtMyX0TMx7NrWrnCL78SRZT0IVaEMBuaju31y40bCjlZVEUl8Frohtzt
- kTnTpUA81CG5wZNYOA53Jyij1+EWbjDjjARO3fZ0nqPi7fbULDVJr2piNeQoMTdHeZRp
- Uu8Q==
-X-Forwarded-Encrypted: i=1;
- AJvYcCVDX21aPQi48td2RUaBYMas1/G73TN3w5uMo93E9yIE2kgxHQHqIj+hHyXEmmjfSW5TiD8vTWriqLQp@lists.freedesktop.org,
- AJvYcCWOuH13xOTKzFB2/vDzmjQ0RC8Q8wo0Deg/FcbhqjvUdGG+FCxX5cgrm0WAxanq4ztkh4N0ytuSVis=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YyNif+kJHaNJkZP+dLdHSDdNw24+PpcXOMWU18RJZytGLQfnJwx
- XKyackS6Xf0fMR8WJOJ+WwO5rLHAkNTLcixV0WfWX+Upb+g8RkkDMi4z
-X-Gm-Gg: ASbGncs1/EaR2YjtrCHcdxmpNEZId5HDlcb3UVGT8Mh4a8P1xhnFLCdiEvmQsnrEyBh
- oUXfPFU6Y+DW9SJIVI/N2KxEAck4FLTwkZuB84dhyw2dzlutmPCxca8vRYCrPp79xDYwWNknQVp
- LeR67ycGgb/3SjwGSfnfVFyAWac8IfFx7kMeb3mW9zwCnZExpimc54xbWWDISdsq1/0KsBL+VrU
- wj1kXA+lSonpoMv2ndRNtvmzvQx/1hTOlzRN6lZO78BwpMEngop5fNCFg77iMWAfMx7qMFd9KRS
- n/uuth1TVXvbNocYq0s0/rW2n5No0iMUwr4KCfY5o0MFV1Mrozl4blwAZj0BMe9HQLoWuKMpSDr
- d8EriSVr5dYT7+BA98NqN+tjL+OaqW39xpozT7Xk=
-X-Google-Smtp-Source: AGHT+IHGXFFKwi9KhnB1akNKraPfzeJ2zmSUqQqb7SzFIxYzfjGRA13Y+veDJQIEsP0m/DU4C4O2oA==
-X-Received: by 2002:a17:902:c94a:b0:232:1daf:6f06 with SMTP id
- d9443c01a7336-23c6e5d3a53mr39666775ad.47.1751467903710; 
- Wed, 02 Jul 2025 07:51:43 -0700 (PDT)
-Received: from ?IPV6:240e:305:798e:6800:81a5:8e22:d9f1:ac68?
- ([240e:305:798e:6800:81a5:8e22:d9f1:ac68])
- by smtp.gmail.com with ESMTPSA id
- d9443c01a7336-23acb3afc94sm138573955ad.155.2025.07.02.07.51.34
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 02 Jul 2025 07:51:43 -0700 (PDT)
-Message-ID: <34b3f8f1-5adf-4f82-8d06-b906cdf0552d@gmail.com>
-Date: Wed, 2 Jul 2025 22:51:30 +0800
-MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v3 3/4] fs: change write_begin/write_end interface to take
- struct kiocb *
-To: Matthew Wilcox <willy@infradead.org>
-Cc: "tytso@mit.edu" <tytso@mit.edu>, "hch@infradead.org" <hch@infradead.org>, 
- "adilger.kernel@dilger.ca" <adilger.kernel@dilger.ca>,
- "brauner@kernel.org" <brauner@kernel.org>,
- "jani.nikula@linux.intel.com" <jani.nikula@linux.intel.com>,
- "rodrigo.vivi@intel.com" <rodrigo.vivi@intel.com>,
- "tursulin@ursulin.net" <tursulin@ursulin.net>,
- "airlied@gmail.com" <airlied@gmail.com>,
- "linux-fsdevel@vger.kernel.org" <linux-fsdevel@vger.kernel.org>,
- "linux-ext4@vger.kernel.org" <linux-ext4@vger.kernel.org>,
- "linux-block@vger.kernel.org" <linux-block@vger.kernel.org>,
- "intel-gfx@lists.freedesktop.org" <intel-gfx@lists.freedesktop.org>,
- "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
- "linux-mm@kvack.org" <linux-mm@kvack.org>,
- "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
- "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
- "chentao325@qq.com" <chentao325@qq.com>,
- "frank.li@vivo.com" <frank.li@vivo.com>
-References: <20250627110257.1870826-1-chentaotao@didiglobal.com>
- <20250627110257.1870826-4-chentaotao@didiglobal.com>
- <aF6-L5Eu7XieS8aM@casper.infradead.org>
-From: Taotao Chen <chentt325@gmail.com>
-In-Reply-To: <aF6-L5Eu7XieS8aM@casper.infradead.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-Mailman-Approved-At: Wed, 02 Jul 2025 21:56:20 +0000
+X-Greylist: delayed 597 seconds by postgrey-1.36 at gabe;
+ Wed, 02 Jul 2025 15:25:08 UTC
+Received: from mailout3.hostsharing.net (mailout3.hostsharing.net
+ [176.9.242.54])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 57E0710E173
+ for <dri-devel@lists.freedesktop.org>; Wed,  2 Jul 2025 15:25:08 +0000 (UTC)
+Received: from h08.hostsharing.net (h08.hostsharing.net [83.223.95.28])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256
+ client-signature RSA-PSS (4096 bits) client-digest SHA256)
+ (Client CN "*.hostsharing.net", Issuer "RapidSSL TLS RSA CA G1" (verified OK))
+ by mailout3.hostsharing.net (Postfix) with UTF8SMTPS id 62BAE3006AD5;
+ Wed,  2 Jul 2025 17:15:09 +0200 (CEST)
+Received: from localhost (unknown [89.246.108.87])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange ECDHE (prime256v1) server-signature RSA-PSS (4096 bits)
+ server-digest SHA256) (No client certificate requested)
+ by h08.hostsharing.net (Postfix) with UTF8SMTPSA id 15F9C619FB4D;
+ Wed,  2 Jul 2025 17:15:09 +0200 (CEST)
+X-Mailbox-Line: From b29e7fbfc6d146f947603d0ebaef44cbd2f0d754 Mon Sep 17
+ 00:00:00 2001
+Message-ID: <b29e7fbfc6d146f947603d0ebaef44cbd2f0d754.1751468802.git.lukas@wunner.de>
+From: Lukas Wunner <lukas@wunner.de>
+Date: Wed, 2 Jul 2025 17:15:15 +0200
+Subject: [PATCH v2] agp/amd64: Check AGP Capability before binding to
+ unsupported devices
+To: David Airlie <airlied@redhat.com>, Bjorn Helgaas <helgaas@kernel.org>
+Cc: Ben Hutchings <ben@decadent.org.uk>, Joerg Roedel <joro@8bytes.org>,
+ Suravee Suthikulpanit <suravee.suthikulpanit@amd.com>,
+ Andi Kleen <ak@linux.intel.com>, Ahmed Salem <x0rw3ll@gmail.com>,
+ Borislav Petkov <bp@alien8.de>, Hans de Goede <hdegoede@redhat.com>,
+ Thomas Gleixner <tglx@linutronix.de>, dri-devel@lists.freedesktop.org,
+ iommu@lists.linux.dev, linux-pci@vger.kernel.org
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -111,16 +57,112 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+Since commit 172efbb40333 ("AGP: Try unsupported AGP chipsets on x86-64
+by default"), the AGP driver for AMD Opteron/Athlon64 CPUs has attempted
+to bind to any PCI device possessing an AGP Capability.
 
+Commit 6fd024893911 ("amd64-agp: Probe unknown AGP devices the right
+way") subsequently reworked the driver to perform a bind attempt to
+any PCI device (regardless of AGP Capability) and reject a device in
+the driver's ->probe() hook if it lacks the AGP Capability.
 
-在 2025/6/27 23:52, Matthew Wilcox 写道:
-> On Fri, Jun 27, 2025 at 11:03:11AM +0000, 陈涛涛 Taotao Chen wrote:
->> @@ -1399,13 +1400,10 @@ static int write_end_fn(handle_t *handle, struct inode *inode,
->>   }
->>   
->>   /*
->> - * We need to pick up the new inode size which generic_commit_write gave us
->> - * `file' can be NULL - eg, when called from page_symlink().
->> - *
-> Why delete this?  It seems still true to me, other than s/file/iocb/
-Sorry, that was my mistake...
+On modern CPUs exposing an AMD IOMMU, this subtle change results in an
+annoying message with KERN_CRIT severity:
+
+  pci 0000:00:00.2: Resources present before probing
+
+The message is emitted by the driver core prior to invoking a driver's
+->probe() hook.  The check for an AGP Capability in the ->probe() hook
+happens too late to prevent the message.
+
+The message has appeared only recently with commit 3be5fa236649 (Revert
+"iommu/amd: Prevent binding other PCI drivers to IOMMU PCI devices").
+Prior to the commit, no driver could bind to AMD IOMMUs.
+
+The reason for the message is that an MSI is requested early on for the
+AMD IOMMU, which results in a call from msi_sysfs_create_group() to
+devm_device_add_group().  A devres resource is thus attached to the
+driver-less AMD IOMMU, which is normally not allowed, but presumably
+cannot be avoided because requesting the MSI from a regular PCI driver
+might be too late.
+
+Avoid the message by once again checking for an AGP Capability *before*
+binding to an unsupported device.  Achieve that by way of the PCI core's
+dynid functionality.
+
+pci_add_dynid() can fail only with -ENOMEM (on allocation failure) or
+-EINVAL (on bus_to_subsys() failure).  It doesn't seem worth the extra
+code to propagate those error codes out of the for_each_pci_dev() loop,
+so simply error out with -ENODEV if there was no successful bind attempt.
+In the -ENOMEM case, a splat is emitted anyway, and the -EINVAL case can
+never happen because it requires failure of bus_register(&pci_bus_type),
+in which case there's no driver probing of PCI devices.
+
+Hans has voiced a preference to no longer probe unsupported devices by
+default (i.e. set agp_try_unsupported = 0).  In fact, the help text for
+CONFIG_AGP_AMD64 pretends this to be the default.  Alternatively, he
+proposes probing only devices with PCI_CLASS_BRIDGE_HOST.  However these
+approaches risk regressing users who depend on the existing behavior.
+
+Fixes: 3be5fa236649 (Revert "iommu/amd: Prevent binding other PCI drivers to IOMMU PCI devices")
+Reported-by: Fedor Pchelkin <pchelkin@ispras.ru>
+Closes: https://lore.kernel.org/r/wpoivftgshz5b5aovxbkxl6ivvquinukqfvb5z6yi4mv7d25ew@edtzr2p74ckg/
+Reported-by: Hans de Goede <hansg@kernel.org>
+Closes: https://lore.kernel.org/r/20250625112411.4123-1-hansg@kernel.org/
+Signed-off-by: Lukas Wunner <lukas@wunner.de>
+---
+Changes v1 -> v2:
+ * Use pci_add_dynid() to bind only to devices with AGP Capability
+   (based on a suggestion from Ben).
+ * Rephrase commit message to hopefully explain the history more accurately.
+   Explain why resources are attached to the driver-less AMD IOMMU
+   (requested by Ben).
+ * Acknowledge Hans as reporter.
+
+ drivers/char/agp/amd64-agp.c | 16 ++++++++--------
+ 1 file changed, 8 insertions(+), 8 deletions(-)
+
+diff --git a/drivers/char/agp/amd64-agp.c b/drivers/char/agp/amd64-agp.c
+index bf490967241a..2505df1f4e69 100644
+--- a/drivers/char/agp/amd64-agp.c
++++ b/drivers/char/agp/amd64-agp.c
+@@ -720,11 +720,6 @@ static const struct pci_device_id agp_amd64_pci_table[] = {
+ 
+ MODULE_DEVICE_TABLE(pci, agp_amd64_pci_table);
+ 
+-static const struct pci_device_id agp_amd64_pci_promisc_table[] = {
+-	{ PCI_DEVICE_CLASS(0, 0) },
+-	{ }
+-};
+-
+ static DEFINE_SIMPLE_DEV_PM_OPS(agp_amd64_pm_ops, NULL, agp_amd64_resume);
+ 
+ static struct pci_driver agp_amd64_pci_driver = {
+@@ -739,6 +734,7 @@ static struct pci_driver agp_amd64_pci_driver = {
+ /* Not static due to IOMMU code calling it early. */
+ int __init agp_amd64_init(void)
+ {
++	struct pci_dev *pdev = NULL;
+ 	int err = 0;
+ 
+ 	if (agp_off)
+@@ -767,9 +763,13 @@ int __init agp_amd64_init(void)
+ 		}
+ 
+ 		/* Look for any AGP bridge */
+-		agp_amd64_pci_driver.id_table = agp_amd64_pci_promisc_table;
+-		err = driver_attach(&agp_amd64_pci_driver.driver);
+-		if (err == 0 && agp_bridges_found == 0) {
++		for_each_pci_dev(pdev)
++			if (pci_find_capability(pdev, PCI_CAP_ID_AGP))
++				pci_add_dynid(&agp_amd64_pci_driver,
++					      pdev->vendor, pdev->device,
++					      pdev->subsystem_vendor,
++					      pdev->subsystem_device, 0, 0, 0);
++		if (agp_bridges_found == 0) {
+ 			pci_unregister_driver(&agp_amd64_pci_driver);
+ 			err = -ENODEV;
+ 		}
+-- 
+2.47.2
+
