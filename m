@@ -2,48 +2,46 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3BE5FAF8015
-	for <lists+dri-devel@lfdr.de>; Thu,  3 Jul 2025 20:34:50 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 528F2AF8018
+	for <lists+dri-devel@lfdr.de>; Thu,  3 Jul 2025 20:34:54 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id AF8F510E06C;
-	Thu,  3 Jul 2025 18:34:47 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id BBA7410E8B6;
+	Thu,  3 Jul 2025 18:34:52 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="uSyLT5YZ";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="KBXB5E/A";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from sea.source.kernel.org (sea.source.kernel.org [172.234.252.31])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0023910E06C;
- Thu,  3 Jul 2025 18:34:46 +0000 (UTC)
+Received: from nyc.source.kernel.org (nyc.source.kernel.org [147.75.193.91])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9804F10E8C0
+ for <dri-devel@lists.freedesktop.org>; Thu,  3 Jul 2025 18:34:51 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by sea.source.kernel.org (Postfix) with ESMTP id BAAA2462C6;
- Thu,  3 Jul 2025 18:34:46 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 66D70C4CEED;
- Thu,  3 Jul 2025 18:34:46 +0000 (UTC)
+ by nyc.source.kernel.org (Postfix) with ESMTP id 8B164A53994;
+ Thu,  3 Jul 2025 18:34:50 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id EB042C4CEF1;
+ Thu,  3 Jul 2025 18:34:49 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1751567686;
- bh=1O+dcVmKb7pf+ofnchqB5Zpzgy1lEe0VkAGuU2rHWj0=;
+ s=k20201202; t=1751567690;
+ bh=bDZvxl9Xe6x2DBmna5WFdeUtvHa3VGAXRUVqmCbgMh8=;
  h=From:To:Cc:Subject:Date:From;
- b=uSyLT5YZ1mOsWNz927r7VxIOrl4FQnXXx0U/mbouGrSH6qlREA7ovTVAYpVHhVzEa
- QdFJtgYDQQlkCTJrDWXKa0fS0oz8qaLOKOjunu6vbYODIs+gnY6jPk2eIdh7uB5E6V
- 2yN0OR03ZdQRhueAMdlBwz9HGkBUl1M+g7TymTvZwKwywLC4htHApkjeLO/2gXUsol
- jSsoyySg/wmfbDnqPM6Pq8wKbJBb4vbOaPVss+GnUu8/ZqFRevuv1iYt/0r6ZOA/Fk
- N+mO1vFa8dK93KT6cqm46dY2Obl0NbwiFglLtrPD2XAZZ1SKMtHWNBwsZ+SnixjnM0
- J7LeaZiGkeFuw==
+ b=KBXB5E/AlNPTHFI2uVIqAIZ8xtl2jEMJdNKUt9x7wU7xvyx0D1zD3NeyNdFdEPeTQ
+ kE2NPm5/5nLIunr3a/7cQx9O7KffTVL5AZoWhU5JdBtjfDq3msfwOoU86NQnDQLJ2P
+ ZZ1GctqR44x9iPkvi8vb80i9K2tI12YHfNm3iwWdFjPu7DK9luuL7WcRHugK5sI7UK
+ 5ptEkiTYLtBT8C4ubbn6eMClY+46cnDTo37AuecM1uhvBtqVvOi/zulncHRaqWIupB
+ hMdjWJ0zZgA1cGb+Eg24PpjPh5p39MjvKWAFhWpdb9khGDwfAUmWUWwohzW3lKLL8z
+ NexAskl4ARGMA==
 From: "Rob Herring (Arm)" <robh@kernel.org>
-To: Rob Clark <robin.clark@oss.qualcomm.com>, Sean Paul <sean@poorly.run>,
- Konrad Dybcio <konradybcio@kernel.org>,
- Dmitry Baryshkov <lumag@kernel.org>,
- Abhinav Kumar <abhinav.kumar@linux.dev>,
- Jessica Zhang <jessica.zhang@oss.qualcomm.com>,
- Marijn Suijten <marijn.suijten@somainline.org>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>
-Cc: linux-arm-msm@vger.kernel.org, dri-devel@lists.freedesktop.org,
- freedreno@lists.freedesktop.org, linux-kernel@vger.kernel.org
-Subject: [PATCH] drm/msm: Use of_reserved_mem_region_to_resource() for
+To: Thomas Zimmermann <tzimmermann@suse.de>,
+ Javier Martinez Canillas <javierm@redhat.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, David Airlie <airlied@gmail.com>,
+ Simona Vetter <simona@ffwll.ch>
+Cc: dri-devel@lists.freedesktop.org,
+	linux-kernel@vger.kernel.org
+Subject: [PATCH] drm/simpledrm: Use of_reserved_mem_region_to_resource() for
  "memory-region"
-Date: Thu,  3 Jul 2025 13:34:41 -0500
-Message-ID: <20250703183442.2073717-1-robh@kernel.org>
+Date: Thu,  3 Jul 2025 13:34:47 -0500
+Message-ID: <20250703183447.2073902-1-robh@kernel.org>
 X-Mailer: git-send-email 2.47.2
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
@@ -65,100 +63,51 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 Use the newly added of_reserved_mem_region_to_resource() function to
 handle "memory-region" properties.
 
-The original code did not set 'zap_available' to false if
-of_address_to_resource() failed which seems like an oversight.
-
 Signed-off-by: Rob Herring (Arm) <robh@kernel.org>
 ---
- drivers/gpu/drm/msm/adreno/adreno_gpu.c | 17 +++++------------
- drivers/gpu/drm/msm/msm_drv.c           | 15 +++++----------
- 2 files changed, 10 insertions(+), 22 deletions(-)
+ drivers/gpu/drm/sysfb/simpledrm.c | 15 +++++----------
+ 1 file changed, 5 insertions(+), 10 deletions(-)
 
-diff --git a/drivers/gpu/drm/msm/adreno/adreno_gpu.c b/drivers/gpu/drm/msm/adreno/adreno_gpu.c
-index 2348ffb35f7e..c1060d5b6d05 100644
---- a/drivers/gpu/drm/msm/adreno/adreno_gpu.c
-+++ b/drivers/gpu/drm/msm/adreno/adreno_gpu.c
-@@ -10,7 +10,7 @@
- #include <linux/interconnect.h>
- #include <linux/firmware/qcom/qcom_scm.h>
- #include <linux/kernel.h>
+diff --git a/drivers/gpu/drm/sysfb/simpledrm.c b/drivers/gpu/drm/sysfb/simpledrm.c
+index a1c3119330de..c8856e6645e2 100644
+--- a/drivers/gpu/drm/sysfb/simpledrm.c
++++ b/drivers/gpu/drm/sysfb/simpledrm.c
+@@ -4,7 +4,7 @@
+ #include <linux/clk.h>
+ #include <linux/of_clk.h>
+ #include <linux/minmax.h>
 -#include <linux/of_address.h>
 +#include <linux/of_reserved_mem.h>
- #include <linux/pm_opp.h>
- #include <linux/slab.h>
- #include <linux/soc/qcom/mdt_loader.h>
-@@ -33,7 +33,7 @@ static int zap_shader_load_mdt(struct msm_gpu *gpu, const char *fwname,
- 	struct device *dev = &gpu->pdev->dev;
- 	const struct firmware *fw;
- 	const char *signed_fwname = NULL;
--	struct device_node *np, *mem_np;
-+	struct device_node *np;
- 	struct resource r;
- 	phys_addr_t mem_phys;
- 	ssize_t mem_size;
-@@ -51,18 +51,11 @@ static int zap_shader_load_mdt(struct msm_gpu *gpu, const char *fwname,
- 		return -ENODEV;
- 	}
- 
--	mem_np = of_parse_phandle(np, "memory-region", 0);
--	of_node_put(np);
--	if (!mem_np) {
-+	ret = of_reserved_mem_region_to_resource(np, 0, &r);
-+	if (ret) {
- 		zap_available = false;
--		return -EINVAL;
--	}
--
--	ret = of_address_to_resource(mem_np, 0, &r);
--	of_node_put(mem_np);
--	if (ret)
- 		return ret;
--
-+	}
- 	mem_phys = r.start;
- 
- 	/*
-diff --git a/drivers/gpu/drm/msm/msm_drv.c b/drivers/gpu/drm/msm/msm_drv.c
-index f316e6776f67..31e4de05579a 100644
---- a/drivers/gpu/drm/msm/msm_drv.c
-+++ b/drivers/gpu/drm/msm/msm_drv.c
-@@ -8,7 +8,7 @@
- #include <linux/dma-mapping.h>
- #include <linux/fault-inject.h>
- #include <linux/debugfs.h>
--#include <linux/of_address.h>
-+#include <linux/of_reserved_mem.h>
- #include <linux/uaccess.h>
- 
- #include <drm/clients/drm_client_setup.h>
-@@ -126,8 +126,8 @@ bool msm_use_mmu(struct drm_device *dev)
- static int msm_init_vram(struct drm_device *dev)
+ #include <linux/platform_data/simplefb.h>
+ #include <linux/platform_device.h>
+ #include <linux/pm_domain.h>
+@@ -180,22 +180,17 @@ simplefb_get_format_of(struct drm_device *dev, struct device_node *of_node)
+ static struct resource *
+ simplefb_get_memory_of(struct drm_device *dev, struct device_node *of_node)
  {
- 	struct msm_drm_private *priv = dev->dev_private;
--	struct device_node *node;
- 	unsigned long size = 0;
-+	struct resource r;
- 	int ret = 0;
+-	struct device_node *np;
+-	struct resource *res;
++	struct resource r, *res;
+ 	int err;
  
- 	/* In the device-tree world, we could have a 'memory-region'
-@@ -147,14 +147,9 @@ static int msm_init_vram(struct drm_device *dev)
- 	 *     load and do initial modeset)
- 	 */
+-	np = of_parse_phandle(of_node, "memory-region", 0);
+-	if (!np)
++	err = of_reserved_mem_region_to_resource(of_node, 0, &r);
++	if (err)
+ 		return NULL;
  
--	node = of_parse_phandle(dev->dev->of_node, "memory-region", 0);
--	if (node) {
--		struct resource r;
--		ret = of_address_to_resource(node, 0, &r);
--		of_node_put(node);
--		if (ret)
--			return ret;
--		size = r.end - r.start + 1;
-+	ret = of_reserved_mem_region_to_resource(dev->dev->of_node, 0, &r);
-+	if (!ret) {
-+		size = resource_size(&r);
- 		DRM_INFO("using VRAM carveout: %lx@%pa\n", size, &r.start);
+-	res = devm_kzalloc(dev->dev, sizeof(*res), GFP_KERNEL);
++	res = devm_kmemdup(dev->dev, &r, sizeof(r), GFP_KERNEL);
+ 	if (!res)
+ 		return ERR_PTR(-ENOMEM);
  
- 		/* if we have no IOMMU, then we need to use carveout allocator.
+-	err = of_address_to_resource(np, 0, res);
+-	if (err)
+-		return ERR_PTR(err);
+-
+ 	if (of_property_present(of_node, "reg"))
+ 		drm_warn(dev, "preferring \"memory-region\" over \"reg\" property\n");
+ 
 -- 
 2.47.2
 
