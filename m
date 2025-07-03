@@ -2,44 +2,43 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6FD8DAF801D
-	for <lists+dri-devel@lfdr.de>; Thu,  3 Jul 2025 20:35:00 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9733FAF8024
+	for <lists+dri-devel@lfdr.de>; Thu,  3 Jul 2025 20:35:21 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id CDB4F10E8C0;
-	Thu,  3 Jul 2025 18:34:58 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 006E410E113;
+	Thu,  3 Jul 2025 18:35:20 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="dh14DThc";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="fbu0Pmtu";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from tor.source.kernel.org (tor.source.kernel.org [172.105.4.254])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6581810E8C2
- for <dri-devel@lists.freedesktop.org>; Thu,  3 Jul 2025 18:34:58 +0000 (UTC)
+Received: from sea.source.kernel.org (sea.source.kernel.org [172.234.252.31])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0165E10E113
+ for <dri-devel@lists.freedesktop.org>; Thu,  3 Jul 2025 18:35:18 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by tor.source.kernel.org (Postfix) with ESMTP id 7B3A561454;
- Thu,  3 Jul 2025 18:34:57 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0FC2AC4CEF1;
- Thu,  3 Jul 2025 18:34:56 +0000 (UTC)
+ by sea.source.kernel.org (Postfix) with ESMTP id D6B944419B;
+ Thu,  3 Jul 2025 18:35:17 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 88A50C4CEE3;
+ Thu,  3 Jul 2025 18:35:17 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1751567697;
- bh=ddJR3g0DV3NYq/GCtOKJsDzPchINn9NuvOh3PYb40VM=;
+ s=k20201202; t=1751567717;
+ bh=9jb2HLI9HrPZc5LhaUHkznBv5LXACEW22xeTnBLCoi0=;
  h=From:To:Cc:Subject:Date:From;
- b=dh14DThcxzPcGCkaUf/KmJZB8nPRrBPA7/kM3zkQJMKWNyixu+r1jcOs+pTvad3Cd
- qAKBclM5ak3+ocK4oVw65IrfQY7+s98z1blgQs/fMaGtdTogNbs/dYmsrCqam0JJpZ
- Nb736EZUdJWeWPS6VRdLx85iPM+ZuoxcIUxCs0511FByEaWAau8MPswTCFWPo/47rL
- vRRGEVXlHAPdcsCFCucHfcDJk6sPvVtH4ddQaXwRi+E6MvGPqRtZzoiNRC3pZRKtSH
- DjuYtBKVmigvW857+yeU1VTRbAroOFHC7Rhu9dcupXw7tYolbaZHSh/aHZqAl6sHlR
- 7a1h5ulglWS5w==
+ b=fbu0PmtuWC2GHVZSZNyBmOQD1mxvq6kYdXkW2FM1JSYB+I+vH9ljZS16YYVZIj2vD
+ aDL6ezVHjRe/XjOBeBR6NNZcT1fokxdggvz2MOCFomJS4wyk/soWy9H3ydAnxM8fzt
+ v9bXUvP3dMKjX2hdjfbRc7G3QWQtcTBDGn1KeLASvZobFtIRCRZq9TWxLsyYY6Dcma
+ MydtI83vGfDLFvj+Er9QgOncX+cHKdCZPzsTXu39CivQistF+pTPIU+Ml29OAuRg2h
+ mrCilhUS92/eDOLb7cyx7OuqTDlYFGtvefyTrhENHgJqMAzZ+hjNx8ScEd8OBMTdMH
+ qaCqoc6qmT1fA==
 From: "Rob Herring (Arm)" <robh@kernel.org>
-To: Srinivas Kandagatla <srini@kernel.org>,
- Amol Maheshwari <amahesh@qti.qualcomm.com>, Arnd Bergmann <arnd@arndb.de>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc: linux-arm-msm@vger.kernel.org, dri-devel@lists.freedesktop.org,
+To: Hans de Goede <hdegoede@redhat.com>,
+	Helge Deller <deller@gmx.de>
+Cc: linux-fbdev@vger.kernel.org, dri-devel@lists.freedesktop.org,
  linux-kernel@vger.kernel.org
-Subject: [PATCH] misc: fastrpc: Use of_reserved_mem_region_to_resource() for
+Subject: [PATCH] fbdev: simplefb: Use of_reserved_mem_region_to_resource() for
  "memory-region"
-Date: Thu,  3 Jul 2025 13:34:54 -0500
-Message-ID: <20250703183455.2074215-1-robh@kernel.org>
+Date: Thu,  3 Jul 2025 13:35:13 -0500
+Message-ID: <20250703183514.2074928-1-robh@kernel.org>
 X-Mailer: git-send-email 2.47.2
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
@@ -63,57 +62,62 @@ handle "memory-region" properties.
 
 The error handling is a bit different. "memory-region" is optional, so
 failed lookup is not an error. But then an error in
-of_reserved_mem_lookup() is treated as an error. However, that
+of_address_to_resource() is treated as an error. However, that
 distinction is not really important. Either the region is available
 and usable or it is not. So now, it is just
 of_reserved_mem_region_to_resource() which is checked for an error.
 
 Signed-off-by: Rob Herring (Arm) <robh@kernel.org>
 ---
- drivers/misc/fastrpc.c | 19 +++++++------------
- 1 file changed, 7 insertions(+), 12 deletions(-)
+ drivers/video/fbdev/simplefb.c | 17 ++++-------------
+ 1 file changed, 4 insertions(+), 13 deletions(-)
 
-diff --git a/drivers/misc/fastrpc.c b/drivers/misc/fastrpc.c
-index 378923594f02..53e88a1bc430 100644
---- a/drivers/misc/fastrpc.c
-+++ b/drivers/misc/fastrpc.c
-@@ -2262,8 +2262,6 @@ static int fastrpc_rpmsg_probe(struct rpmsg_device *rpdev)
- 	int i, err, domain_id = -1, vmcount;
- 	const char *domain;
- 	bool secure_dsp;
--	struct device_node *rmem_node;
--	struct reserved_mem *rmem;
- 	unsigned int vmids[FASTRPC_MAX_VMIDS];
- 
- 	err = of_property_read_string(rdev->of_node, "label", &domain);
-@@ -2306,20 +2304,17 @@ static int fastrpc_rpmsg_probe(struct rpmsg_device *rpdev)
- 		}
+diff --git a/drivers/video/fbdev/simplefb.c b/drivers/video/fbdev/simplefb.c
+index be95fcddce4c..1893815dc67f 100644
+--- a/drivers/video/fbdev/simplefb.c
++++ b/drivers/video/fbdev/simplefb.c
+@@ -21,9 +21,9 @@
+ #include <linux/platform_device.h>
+ #include <linux/clk.h>
+ #include <linux/of.h>
+-#include <linux/of_address.h>
+ #include <linux/of_clk.h>
+ #include <linux/of_platform.h>
++#include <linux/of_reserved_mem.h>
+ #include <linux/parser.h>
+ #include <linux/pm_domain.h>
+ #include <linux/regulator/consumer.h>
+@@ -134,7 +134,7 @@ struct simplefb_params {
+ static int simplefb_parse_dt(struct platform_device *pdev,
+ 			   struct simplefb_params *params)
+ {
+-	struct device_node *np = pdev->dev.of_node, *mem;
++	struct device_node *np = pdev->dev.of_node;
+ 	int ret;
+ 	const char *format;
+ 	int i;
+@@ -174,19 +174,10 @@ static int simplefb_parse_dt(struct platform_device *pdev,
+ 		return -EINVAL;
  	}
  
--	rmem_node = of_parse_phandle(rdev->of_node, "memory-region", 0);
--	if (domain_id == SDSP_DOMAIN_ID && rmem_node) {
-+	if (domain_id == SDSP_DOMAIN_ID) {
-+		struct resource res;
- 		u64 src_perms;
- 
--		rmem = of_reserved_mem_lookup(rmem_node);
--		if (!rmem) {
--			err = -EINVAL;
--			goto err_free_data;
+-	mem = of_parse_phandle(np, "memory-region", 0);
+-	if (mem) {
+-		ret = of_address_to_resource(mem, 0, &params->memory);
+-		if (ret < 0) {
+-			dev_err(&pdev->dev, "failed to parse memory-region\n");
+-			of_node_put(mem);
+-			return ret;
 -		}
-+		err = of_reserved_mem_region_to_resource(rdev->of_node, 0, &res);
-+		if (!err) {
-+			src_perms = BIT(QCOM_SCM_VMID_HLOS);
- 
--		src_perms = BIT(QCOM_SCM_VMID_HLOS);
 -
--		qcom_scm_assign_mem(rmem->base, rmem->size, &src_perms,
-+			qcom_scm_assign_mem(res.start, resource_size(&res), &src_perms,
- 				    data->vmperms, data->vmcount);
-+		}
- 
++	ret = of_reserved_mem_region_to_resource(np, 0, &params->memory);
++	if (!ret) {
+ 		if (of_property_present(np, "reg"))
+ 			dev_warn(&pdev->dev, "preferring \"memory-region\" over \"reg\" property\n");
+-
+-		of_node_put(mem);
+ 	} else {
+ 		memset(&params->memory, 0, sizeof(params->memory));
  	}
- 
 -- 
 2.47.2
 
