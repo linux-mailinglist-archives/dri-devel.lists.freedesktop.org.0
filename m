@@ -2,83 +2,87 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 331CAAF6707
-	for <lists+dri-devel@lfdr.de>; Thu,  3 Jul 2025 02:56:21 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id A48D5AF6859
+	for <lists+dri-devel@lfdr.de>; Thu,  3 Jul 2025 04:54:05 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4815F10E0E0;
-	Thu,  3 Jul 2025 00:56:18 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6034510E110;
+	Thu,  3 Jul 2025 02:54:03 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel-dk.20230601.gappssmtp.com header.i=@kernel-dk.20230601.gappssmtp.com header.b="xRx/Dkyt";
+	dkim=pass (1024-bit key; unprotected) header.d=redhat.com header.i=@redhat.com header.b="iSMvU6Wx";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-il1-f172.google.com (mail-il1-f172.google.com
- [209.85.166.172])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1FE6610E0E0
- for <dri-devel@lists.freedesktop.org>; Thu,  3 Jul 2025 00:56:17 +0000 (UTC)
-Received: by mail-il1-f172.google.com with SMTP id
- e9e14a558f8ab-3df303e45d3so25207085ab.0
- for <dri-devel@lists.freedesktop.org>; Wed, 02 Jul 2025 17:56:17 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=kernel-dk.20230601.gappssmtp.com; s=20230601; t=1751504176; x=1752108976;
- darn=lists.freedesktop.org; 
- h=content-transfer-encoding:in-reply-to:from:content-language
- :references:cc:to:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date:message-id:reply-to;
- bh=Gla6qP1t7YkfAtEHd9+jQ2W8xSnenoBZz1/ucOZWmds=;
- b=xRx/Dkyt7KF2qwB0VWe0uOKwq48ruLIp2YM+B5VrKxiA+GJSCTSvZPYtEQ0iAPKcnv
- aEp5hydsuZ/dRQma/GeifcYkYOrmgH7xZSU/1kNFKnP8TJVs/h+DrBgRxJkhRSnnjYuP
- cP1UkLUGN/BS9r43X3Z5inf9ZORxmrOPvz1lGUn1qgxzoSLoswCrpdJJK5oPdrklA4Zf
- 7qwmy7NP5jprRJbGweX7r17lXrnUWE4ZbBLHj37oJatNGz7iMs7XPx6EprAH3SN5c9aa
- 2rzyZNxtbUETm2kI2eZ1Qj/A5Kg/fI3LUHVSJVhTt4DFXMSOyhM683Ki2+ho4JWTGDn+
- RSpA==
+Received: from us-smtp-delivery-124.mimecast.com
+ (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2330610E110
+ for <dri-devel@lists.freedesktop.org>; Thu,  3 Jul 2025 02:54:01 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1751511239;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=8WjOSSzl9i5hwKcEFLqL2mkoftabsoi7XWLQ81Rdfaw=;
+ b=iSMvU6Wxs1HFSLWTdeBW0ECmBHRs0VbrxEsgD4AhgJRVfRJgo0WmpPTgMV80alIEOEnwaZ
+ KML8PjEOVKnoSrqzUTFnMw3gT2HmcZCnENgcAJSWLVc2fEI1jP2hzqcmMOhjsOHa6uI5Z1
+ jcDqMOoIwxEgELzmLZ4e62wJK2o29rY=
+Received: from mail-pj1-f69.google.com (mail-pj1-f69.google.com
+ [209.85.216.69]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-304-0HCMpyaVNRGmBRrSpCNjMA-1; Wed, 02 Jul 2025 22:53:57 -0400
+X-MC-Unique: 0HCMpyaVNRGmBRrSpCNjMA-1
+X-Mimecast-MFC-AGG-ID: 0HCMpyaVNRGmBRrSpCNjMA_1751511236
+Received: by mail-pj1-f69.google.com with SMTP id
+ 98e67ed59e1d1-3132c1942a1so7875979a91.2
+ for <dri-devel@lists.freedesktop.org>; Wed, 02 Jul 2025 19:53:57 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1751504176; x=1752108976;
- h=content-transfer-encoding:in-reply-to:from:content-language
- :references:cc:to:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=Gla6qP1t7YkfAtEHd9+jQ2W8xSnenoBZz1/ucOZWmds=;
- b=LZwue7+K2D+972I0VIHVI1jt/Cd9+G/0ldEKGuXGJl7CrFHnm3IVpSGNHnC6exYwc4
- Mi0pLlYLHPOT9ZyrK5MV4DE8jnoGFBA6IZtbBwKxDc0B2Yc0ZcIH4wCpkufcAwJ+hiIV
- 06U4c+qw1k6FyINLP/GaS52fK8hq9mmw6FqxhC1Bt54iCVIt9WkCu4i8IOsW3lKvJ21u
- FYBauNlZS7dMY00u1N1nupFqUJ9bZ/Nj0mVOSj9nOvGbjnWLWmohdPC726K/o35naqzz
- oouLT9wdSVgJCobtU0ITH65bZ1pMFp5k2z/H1KfzoeD7D8gT3O3qZQBJeDFJS4VCbbOs
- yYWQ==
+ d=1e100.net; s=20230601; t=1751511236; x=1752116036;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=8WjOSSzl9i5hwKcEFLqL2mkoftabsoi7XWLQ81Rdfaw=;
+ b=gqCwHCOvHT9bzxx8lCrcFdVn/i2vak+Cgh0z2YfrsIbwrtwbcNqD/MPogYBWVHowt7
+ 8jNMPzbVypWjLxM/nPmMOokLrm+pzfceetwspkwICAPfK9XVqbTcdQOMi04y5x6c5ZUS
+ +CsU4/I2E0djkoYkCgATECIG9aOtKJRXcam3aymYz3nwaaz4+v5E0MDHnKqVMoUaI0Lu
+ GEtS7WzT3CTq47jkT5uujo4B18X8+FW1/4U5I6P2Bi9WdBIcJYS+s9nThtxoE188f+Hv
+ QFCc9paDGNA0F71SBoxUTUodfAcPykO18ska5bQz5dMN7hWAXKRHQg2OtR3HmrxnIAHV
+ BrrA==
 X-Forwarded-Encrypted: i=1;
- AJvYcCVoQgUzmyxzbJuERtqqKJQq2RcqUWIVKq7INbRSmGpgc90VIZNCh44KYXeJBov6fHUttS6cqw5+N2U=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0Yx3aGmx/w2XKAq9jAGmQCWUn8++luu84eKI1qFVU4K52ZIupWhy
- Z4DHN9CcZdcNK9cWHvPaZuMPRzOpeCySZqVaaTJ2w6QNFNHIcj8wD+g4BeQFDFWnj2g=
-X-Gm-Gg: ASbGncuozM9pG446O1EbGehmiFZRuPYh6ggIBJjZLnpwR9R+52rZVpdWMTtKQZHhVgh
- SBPm3dLEc/4ruE+hy0IsYr9PNwxyeQe/RHjm48Lga6Ax31o5YJ88JRiVbd+oj+c+SdyRPeKE8Ug
- MOb+2qAx/fWtgqXSxyrOmEevNSjEx3Tjqw2vWAiQq+WndIdKcB72dOEQFtD/gzBMvdxwdswOsa1
- qJ/qCmAHg2ffstZMMc9Rmp0sBYgEHmphESEoIp82A9IjxnAhknIKPUFfTFrshQgcP/tdki5vn2j
- DDTTmX6iwPJHkYen86LYNEAmN3Wepzq1GQXQ0jAJJTRHAgBPAjtfG1PqVEs=
-X-Google-Smtp-Source: AGHT+IHVeyE4FS4TVhh7Og7XFxFfwxtZOPNp0ZpGWvvrw7Wd/PRX6REYiRhsuDEP240fqLJ9kNxiKg==
-X-Received: by 2002:a05:6e02:1987:b0:3df:4046:93a9 with SMTP id
- e9e14a558f8ab-3e054923dc4mr62019995ab.5.1751504176280; 
- Wed, 02 Jul 2025 17:56:16 -0700 (PDT)
-Received: from [192.168.1.150] ([198.8.77.157])
- by smtp.gmail.com with ESMTPSA id
- 8926c6da1cb9f-50204aae3ccsm3260651173.116.2025.07.02.17.56.15
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 02 Jul 2025 17:56:15 -0700 (PDT)
-Message-ID: <30afcf80-a49c-4c5a-9979-2f27142f7251@kernel.dk>
-Date: Wed, 2 Jul 2025 18:56:14 -0600
+ AJvYcCX+R+CmYIue3oeQ20r415oIv47me+tiF53dDOfpsc5dj+suLY3lCGYnpr7wNec1KPBDj3uN/5XD38k=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0Yzrxg7QDs2CCq6w8543MX8HH44HGwUJcSrM6ucKLz18kKsLmxs5
+ g6Qy5EjH0lc7QWdbX0nX5tjSpKrzYNG4Z/FHPcRyuOeXlqM0Fl+NW98AqFFaLa7lHhEHo1/S2Bo
+ /PK6Hb87eDVNO41vX9dOk3DR3swuHVTqMSLq3mZLv4gQXsPxxFY7gFr4tO8716F3l2djUWgN6pE
+ VXZDCd3XXDYNgCPjZSH2WXx1YwAowWyQk5NUptHlcj4OAh
+X-Gm-Gg: ASbGnctbCQy0MTaL+hR24NyZAdEfXzSEjSUDVTZYzDgOl1oXDzrpBU3MiESFBftgBuy
+ 2tyQAtcoH77GAhheynPQMEc6XpGnh2yXECMqjlkv1DULFFiYswgrvoVZGSwk9IFkhYYl+Mk386T
+ +mbQ==
+X-Received: by 2002:a17:90b:544f:b0:311:a314:c2ca with SMTP id
+ 98e67ed59e1d1-31a90b112eamr6468307a91.6.1751511236050; 
+ Wed, 02 Jul 2025 19:53:56 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IHQ0Xb9fVsUanKrj9SJ4vz5CwsHLm4J8mEWNpGvRrcL91HtgZSgYiDwJaegQOLaUORsw+a8ntTg9xrcftHWllI=
+X-Received: by 2002:a17:90b:544f:b0:311:a314:c2ca with SMTP id
+ 98e67ed59e1d1-31a90b112eamr6468284a91.6.1751511235652; Wed, 02 Jul 2025
+ 19:53:55 -0700 (PDT)
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: (subset) [PATCH 01/11] zynqmp: don't bother with
- debugfs_file_{get,put}() in proxied fops
-To: Al Viro <viro@zeniv.linux.org.uk>
-Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- linux-fsdevel@vger.kernel.org, dri-devel@lists.freedesktop.org
-References: <20250702211305.GE1880847@ZenIV> <20250702211408.GA3406663@ZenIV>
- <175149835231.467027.7368105747282893229.b4-ty@kernel.dk>
- <20250703002329.GF1880847@ZenIV>
-Content-Language: en-US
-From: Jens Axboe <axboe@kernel.dk>
-In-Reply-To: <20250703002329.GF1880847@ZenIV>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+References: <20250630045005.1337339-1-airlied@gmail.com>
+ <20250630045005.1337339-18-airlied@gmail.com>
+ <wejb2ykaltp5gtufrzz3mwp43hrxugzuubclt4amrpr4koznan@cb7dfmnvik6a>
+In-Reply-To: <wejb2ykaltp5gtufrzz3mwp43hrxugzuubclt4amrpr4koznan@cb7dfmnvik6a>
+From: David Airlie <airlied@redhat.com>
+Date: Thu, 3 Jul 2025 12:53:44 +1000
+X-Gm-Features: Ac12FXzoyceVxp-9CmDA-WGGbRF72A_pItim0nylHqazTjwRzjAE3R0S457FDxU
+Message-ID: <CAMwc25rPTiTshBMvHeGr=8kwC+MJdSA=UdKucybTwSxbuWvk4A@mail.gmail.com>
+Subject: Re: [PATCH 17/17] amdgpu: add support for memory cgroups
+To: Shakeel Butt <shakeel.butt@linux.dev>
+Cc: Dave Airlie <airlied@gmail.com>, dri-devel@lists.freedesktop.org,
+ linux-mm@kvack.org, Johannes Weiner <hannes@cmpxchg.org>,
+ Christian Koenig <christian.koenig@amd.com>, 
+ Dave Chinner <david@fromorbit.com>, Kairui Song <kasong@tencent.com>
+X-Mimecast-Spam-Score: 0
+X-Mimecast-MFC-PROC-ID: cCbDbt9xx_u77fuzefMAKHUxfhnxexnxQ6FA2BcveU4_1751511236
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -94,33 +98,57 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 7/2/25 6:23 PM, Al Viro wrote:
-> On Wed, Jul 02, 2025 at 05:19:12PM -0600, Jens Axboe wrote:
->>
->> On Wed, 02 Jul 2025 22:14:08 +0100, Al Viro wrote:
->>> When debugfs file has been created by debugfs_create_file_unsafe(),
->>> we do need the file_operations methods to use debugfs_file_{get,put}()
->>> to prevent concurrent removal; for files created by debugfs_create_file()
->>> that is done in the wrappers that call underlying methods, so there's
->>> no point whatsoever duplicating that in the underlying methods themselves.
->>>
->>>
->>> [...]
->>
->> Applied, thanks!
->>
->> [10/11] blk-mq-debugfs: use debugfs_get_aux()
->>         commit: c25885fc939f29200cccb58ffdb920a91ec62647
-> 
-> Umm...  That sucker depends upon the previous commit - you'll
-> need to cast debugfs_get_aux() result to void * without that...
+On Thu, Jul 3, 2025 at 2:03=E2=80=AFAM Shakeel Butt <shakeel.butt@linux.dev=
+> wrote:
+>
+> On Mon, Jun 30, 2025 at 02:49:36PM +1000, Dave Airlie wrote:
+> > From: Dave Airlie <airlied@redhat.com>
+> >
+> > This adds support for adding a obj cgroup to a buffer object,
+> > and passing in the placement flags to make sure it's accounted
+> > properly.
+> >
+> > Signed-off-by: Dave Airlie <airlied@redhat.com>
+> > ---
+> >  drivers/gpu/drm/amd/amdgpu/amdgpu_gem.c    |  2 ++
+> >  drivers/gpu/drm/amd/amdgpu/amdgpu_object.c | 13 +++++++++----
+> >  drivers/gpu/drm/amd/amdgpu/amdgpu_object.h |  1 +
+> >  drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.c    |  2 ++
+> >  4 files changed, 14 insertions(+), 4 deletions(-)
+> >
+> > diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_gem.c b/drivers/gpu/drm/=
+amd/amdgpu/amdgpu_gem.c
+> > index e5e33a68d935..d250183bab03 100644
+> > --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_gem.c
+> > +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_gem.c
+> > @@ -198,6 +198,7 @@ static void amdgpu_gem_object_free(struct drm_gem_o=
+bject *gobj)
+> >       struct amdgpu_bo *aobj =3D gem_to_amdgpu_bo(gobj);
+> >
+> >       amdgpu_hmm_unregister(aobj);
+> > +     obj_cgroup_put(aobj->tbo.objcg);
+> >       ttm_bo_put(&aobj->tbo);
+> >  }
+> >
+> > @@ -225,6 +226,7 @@ int amdgpu_gem_object_create(struct amdgpu_device *=
+adev, unsigned long size,
+> >       bp.domain =3D initial_domain;
+> >       bp.bo_ptr_size =3D sizeof(struct amdgpu_bo);
+> >       bp.xcp_id_plus1 =3D xcp_id_plus1;
+> > +     bp.objcg =3D get_obj_cgroup_from_current();
+>
+> In what context this function is called? Is that the same for
+> ttm_pool_alloc_page()? Is remote charging happening in
+> ttm_pool_alloc_page()?
+>
 
-Gah ok - wasn't cleear since I wasn't CC'ed on the series, just the
-single patch. If it's a single patch, I'm assuming it's good to go
-if it looks good.
+No, this function is called from userspace ioctl paths that allocate
+GPU objects (GEM objects).
 
-I'll just drop it.
+The objects are lazily allocated, so this might not trigger any pages
+being bound to the object, until it is populated, either via mapping +
+page faults or by being used in a GPU command submission, which is
+when the ttm_pool_alloc_page happens.
 
--- 
-Jens Axboe
+Dave.
 
