@@ -2,109 +2,75 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id D841AAF6F16
-	for <lists+dri-devel@lfdr.de>; Thu,  3 Jul 2025 11:46:10 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id B7D04AF6FE2
+	for <lists+dri-devel@lfdr.de>; Thu,  3 Jul 2025 12:22:05 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 93FB710E7FA;
-	Thu,  3 Jul 2025 09:46:07 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7991110E05E;
+	Thu,  3 Jul 2025 10:21:47 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="lJMnHNxG";
+	dkim=pass (1024-bit key; unprotected) header.d=samsung.com header.i=@samsung.com header.b="UMvZTPf5";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
- by gabe.freedesktop.org (Postfix) with ESMTPS id CD36510E801
- for <dri-devel@lists.freedesktop.org>; Thu,  3 Jul 2025 09:46:05 +0000 (UTC)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by dfw.source.kernel.org (Postfix) with ESMTP id 433605C5E2D;
- Thu,  3 Jul 2025 09:46:05 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id AF723C4CEEB;
- Thu,  3 Jul 2025 09:45:59 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1751535964;
- bh=TqdILGUNLtHaa0kCIrn2n4mfoPZE8hzzx5z+kIeQFjE=;
- h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
- b=lJMnHNxGEsCc4AINdhA6QQ7tcG9NUVosc4hrtxWYkvPH0dQEH5A31Oz+dlQzZnrSF
- r/r06Q9f0oWYzkIgq9JUHw1dhm/rbnR1LA2dJaHKLKc2XzgkNRsPZgGjeaey0mAHQN
- qmhK+aoVeMKQYCQck8COGRberTNMRmMs9OVnof5sTrjjFXgYsPF+HM5sP3NtBZMRA/
- OzC7Zg10KWGcEolc5ibRqWlVviocNADbL7zSWx4iWDHT6c90c3nhXwdPTmuUJpQWL4
- BjCFhXLIwOF7EKjQ8GIvShR9s2XgUOnvw5bjx1sVV7q8OvTNJtMlq8wtgzsUCWqViM
- jIqiAVLxVTDPg==
-Message-ID: <6af504ef-55b8-4599-a379-40842edfcfa5@kernel.org>
-Date: Thu, 3 Jul 2025 11:45:57 +0200
+Received: from mailout2.w1.samsung.com (mailout2.w1.samsung.com
+ [210.118.77.12])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id BEBA510E05E
+ for <dri-devel@lists.freedesktop.org>; Thu,  3 Jul 2025 10:21:45 +0000 (UTC)
+Received: from eucas1p1.samsung.com (unknown [182.198.249.206])
+ by mailout2.w1.samsung.com (KnoxPortal) with ESMTP id
+ 20250703102143euoutp02f2db49f0d4752d403fb791014b9ddd23~OtqATatPV0930209302euoutp02O
+ for <dri-devel@lists.freedesktop.org>; Thu,  3 Jul 2025 10:21:43 +0000 (GMT)
+DKIM-Filter: OpenDKIM Filter v2.11.0 mailout2.w1.samsung.com
+ 20250703102143euoutp02f2db49f0d4752d403fb791014b9ddd23~OtqATatPV0930209302euoutp02O
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=samsung.com;
+ s=mail20170921; t=1751538103;
+ bh=nS7gGLPcYu431wACYDIpnQCjfgmdMYV2m+06WEOimxI=;
+ h=Date:Subject:To:Cc:From:In-Reply-To:References:From;
+ b=UMvZTPf5MFlYbVthTszDlaAh2NyGedz2J80TIqan8EPLEip18Xoe//ExhI+DzeMZ7
+ Y414rsSATVtoYPH/HyaGIRHkKHOIJbBL0jjLdx0Ln3JoUL8WtRta+WIHlpziSIfn4m
+ j5SnuJeiSMBtJPx9MMOL0WQSQXWRykSbsz9ilvEw=
+Received: from eusmtip2.samsung.com (unknown [203.254.199.222]) by
+ eucas1p2.samsung.com (KnoxPortal) with ESMTPA id
+ 20250703102143eucas1p273c64519df9ebb05e9b3a7d9a38ad341~Otp-qSogJ1836718367eucas1p2p;
+ Thu,  3 Jul 2025 10:21:43 +0000 (GMT)
+Received: from [192.168.1.44] (unknown [106.210.136.40]) by
+ eusmtip2.samsung.com (KnoxPortal) with ESMTPA id
+ 20250703102141eusmtip2ab7c1f9865f3ac73941aa40cc36a67b8~Otp_moHuq2747427474eusmtip20;
+ Thu,  3 Jul 2025 10:21:41 +0000 (GMT)
+Message-ID: <fa235fa1-d5ad-44b7-bf52-068ea41fc9ea@samsung.com>
+Date: Thu, 3 Jul 2025 12:21:41 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 1/5] dt-bindings: display: simple-framebuffer: Add
- interconnects property
-To: Maxime Ripard <mripard@kernel.org>, Hans de Goede <hdegoede@redhat.com>
-Cc: Thomas Zimmermann <tzimmermann@suse.de>,
- Luca Weiss <luca.weiss@fairphone.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
- Conor Dooley <conor+dt@kernel.org>,
- Javier Martinez Canillas <javierm@redhat.com>, Helge Deller <deller@gmx.de>,
- linux-fbdev@vger.kernel.org, dri-devel@lists.freedesktop.org,
- devicetree@vger.kernel.org, linux-kernel@vger.kernel.org
-References: <20250623-simple-drm-fb-icc-v2-1-f69b86cd3d7d@fairphone.com>
- <20250627-mysterious-optimistic-bird-acaafb@krzk-bin>
- <DAX7ZB27SBPV.2Y0I09TVSF3TT@fairphone.com>
- <1129bc60-f9cb-40be-9869-8ffa3b3c9748@kernel.org>
- <8a3ad930-bfb1-4531-9d34-fdf7d437f352@redhat.com>
- <85521ded-734d-48e8-8f76-c57739102ded@kernel.org>
- <e534d496-6ce0-46c8-835d-94b3346446a7@redhat.com>
- <6e4253dd-cd73-4302-b9df-44c8c311eb22@kernel.org>
- <e2159868-f31d-4d35-b6b1-2cbd1a9d249b@suse.de>
- <f5fe3fe1-903a-48ca-9249-b77bc07dbc77@redhat.com>
- <20250703-light-baboon-of-experiment-179ca3@houat>
-From: Krzysztof Kozlowski <krzk@kernel.org>
+Subject: Re: [PATCH v7 1/5] drm/imagination: Use pwrseq for TH1520 GPU power
+ management
+To: Guo Ren <guoren@kernel.org>, Fu Wei <wefu@redhat.com>, Rob Herring
+ <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
+ <conor+dt@kernel.org>, Bartosz Golaszewski <brgl@bgdev.pl>, Philipp Zabel
+ <p.zabel@pengutronix.de>, Frank Binns <frank.binns@imgtec.com>, Matt Coster
+ <matt.coster@imgtec.com>, Maarten Lankhorst
+ <maarten.lankhorst@linux.intel.com>, Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
+ Simona Vetter <simona@ffwll.ch>, Paul Walmsley <paul.walmsley@sifive.com>,
+ Palmer Dabbelt <palmer@dabbelt.com>, Albert Ou <aou@eecs.berkeley.edu>,
+ Alexandre Ghiti <alex@ghiti.fr>, Ulf Hansson <ulf.hansson@linaro.org>, Marek
+ Szyprowski <m.szyprowski@samsung.com>, Drew Fustini <fustini@kernel.org>
+Cc: linux-riscv@lists.infradead.org, devicetree@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-pm@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, Bartosz Golaszewski
+ <bartosz.golaszewski@linaro.org>
 Content-Language: en-US
-Autocrypt: addr=krzk@kernel.org; keydata=
- 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 a/A=
-In-Reply-To: <20250703-light-baboon-of-experiment-179ca3@houat>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+From: Michal Wilczynski <m.wilczynski@samsung.com>
+In-Reply-To: <20250626-apr_14_for_sending-v7-1-6593722e0217@samsung.com>
+Content-Transfer-Encoding: 7bit
+X-CMS-MailID: 20250703102143eucas1p273c64519df9ebb05e9b3a7d9a38ad341
+X-Msg-Generator: CA
+Content-Type: text/plain; charset="utf-8"
+X-RootMTR: 20250626093356eucas1p1adfcd565173d939f82e15252189c316f
+X-EPHeader: CA
+X-CMS-RootMailID: 20250626093356eucas1p1adfcd565173d939f82e15252189c316f
+References: <20250626-apr_14_for_sending-v7-0-6593722e0217@samsung.com>
+ <CGME20250626093356eucas1p1adfcd565173d939f82e15252189c316f@eucas1p1.samsung.com>
+ <20250626-apr_14_for_sending-v7-1-6593722e0217@samsung.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -120,28 +86,50 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 03/07/2025 11:41, Maxime Ripard wrote:
->>> But does that work with *any* device that requires interconnects? The next such simple-framebuffer device should work out of the box *without* the kernel knowing anything about it. That's one of the key features of the simple-framebuffer.  If we have to maintainer per-device feature sets, it breaks that assumption.
->>
->> The driver code for this can still be generic and since the driver
->> will bind to the fallback plain "simple-framebuffer" compatible
->> this should also work for new platforms.
->>
->> The e.g. "qcom.simple-framebuffer-sm8650-mdss" compatible would
->> purely be something in the dt-bindings to document which simplefb
->> implementations will have interconnects and which ones will not.
->>
->> The driver does not necessarily need to check these more
->> precise compatibles, it can still just check for the generic
->> presence of interconnects.
+
+
+On 6/26/25 11:33, Michal Wilczynski wrote:
+> Update the Imagination PVR DRM driver to leverage the pwrseq framework
+> for managing the complex power sequence of the GPU on the T-HEAD TH1520
+> SoC.
 > 
-> This ship has kind of sailed though. This binding has been used by
-> plenty of firmwares and bootloaders over the years, and has been
-> deployed on plenty of devices already.
+> To cleanly separate platform specific logic from the generic driver,
+> this patch introduces a `pwr_power_sequence_ops` struct containing
+> function pointers for power_on and power_off operations. This allows for
+> different power management strategies to be selected at probe time based
+> on the device's compatible string.
 > 
-> Good luck fixing it in all of them, and then updating every device.
-No one suggested that... We speak about new devices, although maybe this
-one SM7635 new device runs plenty of firmwares and bootloaders?
+> A `pvr_device_data` struct, associated with each compatible in the
+> of_device_id table, points to the appropriate ops table (manual or
+> pwrseq).
+> 
+> At probe time, the driver inspects the assigned ops struct. If the
+> pwrseq variant is detected, the driver calls
+> devm_pwrseq_get("gpu-power"), deferring probe if the sequencer is not
+> yet available. Otherwise, it falls back to the existing manual clock and
+> reset handling. The runtime PM callbacks now call the appropriate
+> functions via the ops table.
+> 
+> Reviewed-by: Ulf Hansson <ulf.hansson@linaro.org>
+> Reviewed-by: Bartosz Golaszewski <bartosz.golaszewski@linaro.org>
+> Signed-off-by: Michal Wilczynski <m.wilczynski@samsung.com>
+> ---
+>  drivers/gpu/drm/imagination/pvr_device.c |  36 +++++++-
+>  drivers/gpu/drm/imagination/pvr_device.h |  17 ++++
+>  drivers/gpu/drm/imagination/pvr_drv.c    |  27 +++++-
+>  drivers/gpu/drm/imagination/pvr_power.c  | 139 ++++++++++++++++++++++---------
+>  drivers/gpu/drm/imagination/pvr_power.h  |  13 +++
+>  5 files changed, 185 insertions(+), 47 deletions(-)
+> 
+
+Hi,
+
+I'm checking in on the status of my pwrseq patch above. Is this on track
+for the next merge window?
+
+Please let me know if there's anything else needed from my end to help
+get it ready.
 
 Best regards,
-Krzysztof
+-- 
+Michal Wilczynski <m.wilczynski@samsung.com>
