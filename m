@@ -2,63 +2,57 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id A86B2AF815A
-	for <lists+dri-devel@lfdr.de>; Thu,  3 Jul 2025 21:30:02 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id B8F49AF8140
+	for <lists+dri-devel@lfdr.de>; Thu,  3 Jul 2025 21:26:49 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 958BE10E1C2;
-	Thu,  3 Jul 2025 19:30:00 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0B0A410E1CE;
+	Thu,  3 Jul 2025 19:26:47 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="cEiKHGt4";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="POAMDLPg";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.16])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6DA0510E1C2
- for <dri-devel@lists.freedesktop.org>; Thu,  3 Jul 2025 19:29:59 +0000 (UTC)
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.12])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3124410E1C2;
+ Thu,  3 Jul 2025 19:26:45 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1751571000; x=1783107000;
- h=date:from:to:cc:subject:message-id:references:
- mime-version:in-reply-to;
- bh=S5LofzUEXpq1vyCwo3YZcP+hQsGsFW0lU5QbNdytI7I=;
- b=cEiKHGt4uhUoqQJrj50jHHAsYspKmgmVIW5/yhkQgN0oZ3VFin1bxYuZ
- KuxN9MuZwcBRR6ERl1mAOapcZRHczReK1F3gNZssOgYPXdHJ0/da0IarB
- lIZtT7WhJBUxuyvKQczAJKRrTZQI8diom5zjvxu65bgUVlHLiIhaxwDSD
- lcICqnP6LuG7mpqqSp4VdnvC0PqK8rF4YPnAb5lj+6Z7GCUze6T56YUdJ
- SdcUN/ywTaQkylBZNuW0Lr8MTq7T3V5BNqg7Pm9KvFEMh/GK4zNQRXiHK
- CDd1CkQJCS/4YwvMd6YchP7UjYQkyOg1VQhg3jBiCvppqFO76VsjWt/zq A==;
-X-CSE-ConnectionGUID: x/OzNVYCREW+8yH+bizkIg==
-X-CSE-MsgGUID: y3AFioFDSCGPR34/3HQflg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11483"; a="54024334"
-X-IronPort-AV: E=Sophos;i="6.16,285,1744095600"; d="scan'208";a="54024334"
-Received: from fmviesa001.fm.intel.com ([10.60.135.141])
- by orvoesa108.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 03 Jul 2025 12:30:00 -0700
-X-CSE-ConnectionGUID: gJ+8UEYCShSEF1UXpBmqjg==
-X-CSE-MsgGUID: ktih2KroQKWMHOuYOaJtxQ==
+ t=1751570805; x=1783106805;
+ h=from:to:cc:subject:date:message-id:mime-version:
+ content-transfer-encoding;
+ bh=9RTluMGj1g8RD7d0i52mXsmYAFSsoM546/tWGlFWYdE=;
+ b=POAMDLPgZjIb6aihfl65Re186uOXUY4hKDJ8eg9w/VweHy3X0soqL4On
+ Rn3ejJaiqR2WeABNFGfOigxWH5ukwWqdRkbt4881VXxc61M1jwADNUE9d
+ +yOJ9OHvAHdzBXq247E6jSEWw35V4UHew58x63xvZgiZVtKjxfVue3Qvh
+ Qeq9WMvsEnR2ZHGAMvdeF/6pJNrdapULWpkmbf73sriNWVYA7k+qvdglp
+ SFeoB/beWwIMi0T0jP6VmGPDqivHAyUg2I3v5v3MdZXxzs/SF0h+uT67I
+ O2+QGg7Du3K0hnaOC9ux/tnuZHxDNdhiCDX3Kz8q6p1D6ILtHCRRuNgW8 g==;
+X-CSE-ConnectionGUID: Mp+BFf55ROq3KalBbEZepw==
+X-CSE-MsgGUID: S4rX6qStQfS/pkRSDArT4Q==
+X-IronPort-AV: E=McAfee;i="6800,10657,11483"; a="65361986"
+X-IronPort-AV: E=Sophos;i="6.16,285,1744095600"; d="scan'208";a="65361986"
+Received: from orviesa001.jf.intel.com ([10.64.159.141])
+ by orvoesa104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 03 Jul 2025 12:26:45 -0700
+X-CSE-ConnectionGUID: 9Dn6TtZqR+ywhu72IhBjoA==
+X-CSE-MsgGUID: 5uWW33KBQ9SR0glKFo/YOA==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.16,285,1744095600"; d="scan'208";a="185399038"
-Received: from tassilo.jf.intel.com (HELO tassilo) ([10.54.38.190])
+X-IronPort-AV: E=Sophos;i="6.16,285,1744095600"; d="scan'208";a="191624617"
+Received: from unknown (HELO bnilawar-desk2.iind.intel.com) ([10.190.239.41])
  by smtpauth.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 03 Jul 2025 12:29:58 -0700
-Date: Thu, 3 Jul 2025 12:29:57 -0700
-From: Andi Kleen <ak@linux.intel.com>
-To: Lukas Wunner <lukas@wunner.de>
-Cc: David Airlie <airlied@redhat.com>, Bjorn Helgaas <helgaas@kernel.org>,
- Ben Hutchings <ben@decadent.org.uk>, Joerg Roedel <joro@8bytes.org>,
- Suravee Suthikulpanit <suravee.suthikulpanit@amd.com>,
- Ahmed Salem <x0rw3ll@gmail.com>, Borislav Petkov <bp@alien8.de>,
- Hans de Goede <hdegoede@redhat.com>, Thomas Gleixner <tglx@linutronix.de>,
- dri-devel@lists.freedesktop.org, iommu@lists.linux.dev,
- linux-pci@vger.kernel.org
-Subject: Re: [PATCH v2] agp/amd64: Check AGP Capability before binding to
- unsupported devices
-Message-ID: <aGbaNd3qCK3WvAe-@tassilo>
-References: <b29e7fbfc6d146f947603d0ebaef44cbd2f0d754.1751468802.git.lukas@wunner.de>
+ 03 Jul 2025 12:26:43 -0700
+From: Badal Nilawar <badal.nilawar@intel.com>
+To: intel-xe@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org
+Cc: anshuman.gupta@intel.com, rodrigo.vivi@intel.com,
+ alexander.usyskin@intel.com, gregkh@linuxfoundation.org,
+ daniele.ceraolospurio@intel.com
+Subject: [PATCH v6 00/10] Introducing firmware late binding
+Date: Fri,  4 Jul 2025 01:00:56 +0530
+Message-Id: <20250703193106.954536-1-badal.nilawar@intel.com>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <b29e7fbfc6d146f947603d0ebaef44cbd2f0d754.1751468802.git.lukas@wunner.de>
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -74,18 +68,79 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+Introducing firmware late binding feature to enable firmware loading
+for the devices, such as the fan controller and voltage regulator,
+during the driver probe.
+Typically, firmware for these devices are part of IFWI flash image but
+can be replaced at probe after OEM tuning.
 
-I suspect these days it would be also reasonable to drop it this old
-hack.
+v2:
+ - Dropped voltage regulator specific code as binaries for it will not
+   be available for upstreaming as of now.
+ - Address review comments
+v3:
+ - Dropped fwctl patch for now
+ - Added new patch to extract binary version
+ - Address v2 review comments
+v4:
+ - Address v3 review comments
+v5:
+ xe_kmd:
+ - Dropped mutex is worker flush in unbind blocking component
+   removal while fw download is in progress
+ - Handled the fw load in all 3 scenarios (probe, system resume, rpm resume)
+   by holding rpm wake ref in outer bounds of worker.
+ mei:
+ - Most of the review comments
+v6:
+ - rebased
+ - Disabled fw load upon error
 
-If any of these old chipsets are still missing I would rather adds its
-PCI-ID.
+Alexander Usyskin (2):
+  mei: bus: add mei_cldev_mtu interface
+  mei: late_bind: add late binding component driver
 
-There will be certainly not any new unknown ones for these old CPUs.
+Badal Nilawar (8):
+  drm/xe/xe_late_bind_fw: Introducing xe_late_bind_fw
+  drm/xe/xe_late_bind_fw: Initialize late binding firmware
+  drm/xe/xe_late_bind_fw: Load late binding firmware
+  drm/xe/xe_late_bind_fw: Reload late binding fw in rpm resume
+  drm/xe/xe_late_bind_fw: Reload late binding fw during system resume
+  drm/xe/xe_late_bind_fw: Introduce debug fs node to disable late
+    binding
+  drm/xe/xe_late_bind_fw: Extract and print version info
+  drm/xe/xe_late_bind_fw: Select INTEL_MEI_LATE_BIND for CI
 
-Also there shouldn't be that many high speed devices that need the 
-old 4GB IOMMU anyways, and for low speed ones it's fine to use swiotlb
-instead.
+ drivers/gpu/drm/xe/Kconfig                  |   1 +
+ drivers/gpu/drm/xe/Makefile                 |   1 +
+ drivers/gpu/drm/xe/xe_debugfs.c             |  41 ++
+ drivers/gpu/drm/xe/xe_device.c              |   5 +
+ drivers/gpu/drm/xe/xe_device_types.h        |   6 +
+ drivers/gpu/drm/xe/xe_late_bind_fw.c        | 461 ++++++++++++++++++++
+ drivers/gpu/drm/xe/xe_late_bind_fw.h        |  17 +
+ drivers/gpu/drm/xe/xe_late_bind_fw_types.h  |  77 ++++
+ drivers/gpu/drm/xe/xe_pci.c                 |   2 +
+ drivers/gpu/drm/xe/xe_pci_types.h           |   1 +
+ drivers/gpu/drm/xe/xe_pm.c                  |   8 +
+ drivers/gpu/drm/xe/xe_uc_fw_abi.h           |  66 +++
+ drivers/misc/mei/Kconfig                    |   1 +
+ drivers/misc/mei/Makefile                   |   1 +
+ drivers/misc/mei/bus.c                      |  13 +
+ drivers/misc/mei/late_bind/Kconfig          |  13 +
+ drivers/misc/mei/late_bind/Makefile         |   9 +
+ drivers/misc/mei/late_bind/mei_late_bind.c  | 272 ++++++++++++
+ include/drm/intel/i915_component.h          |   1 +
+ include/drm/intel/late_bind_mei_interface.h |  64 +++
+ include/linux/mei_cl_bus.h                  |   1 +
+ 21 files changed, 1061 insertions(+)
+ create mode 100644 drivers/gpu/drm/xe/xe_late_bind_fw.c
+ create mode 100644 drivers/gpu/drm/xe/xe_late_bind_fw.h
+ create mode 100644 drivers/gpu/drm/xe/xe_late_bind_fw_types.h
+ create mode 100644 drivers/misc/mei/late_bind/Kconfig
+ create mode 100644 drivers/misc/mei/late_bind/Makefile
+ create mode 100644 drivers/misc/mei/late_bind/mei_late_bind.c
+ create mode 100644 include/drm/intel/late_bind_mei_interface.h
 
--Andi
+-- 
+2.34.1
 
