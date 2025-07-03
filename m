@@ -2,55 +2,90 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id CD9F8AF8316
-	for <lists+dri-devel@lfdr.de>; Fri,  4 Jul 2025 00:02:17 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id E149BAF828E
+	for <lists+dri-devel@lfdr.de>; Thu,  3 Jul 2025 23:22:57 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6FBCA10E900;
-	Thu,  3 Jul 2025 22:02:12 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6320B10E8F0;
+	Thu,  3 Jul 2025 21:22:39 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=permerror (0-bit key) header.d=aaront.org header.i=@aaront.org header.b="dqoXjpFe";
-	dkim=pass (2048-bit key; secure) header.d=aaront.org header.i=@aaront.org header.b="v/BVgkC3";
+	dkim=pass (1024-bit key; unprotected) header.d=redhat.com header.i=@redhat.com header.b="hk0HHFCi";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-X-Greylist: delayed 436 seconds by postgrey-1.36 at gabe;
- Thu, 03 Jul 2025 21:27:29 UTC
-Received: from smtp-out0.aaront.org (smtp-out0.aaront.org [52.10.12.108])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9E35710E8F5;
- Thu,  3 Jul 2025 21:27:29 +0000 (UTC)
-Received: from smtp-send0.aaront.org (localhost [IPv6:::1])
- by smtp-out0.aaront.org (Postfix) with ESMTP id 4bY8mq5CtwzMY;
- Thu,  3 Jul 2025 21:20:11 +0000 (UTC)
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/simple; d=aaront.org;
- h=from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding; s=3r7feyyp; bh=/kZmNYWZNOTJQa4opCPhE
- 9MeAHI82FTFippa+nVrA1o=; b=dqoXjpFePZxdEULpDnRSc1iIU4UTydj/TLfKH
- HPMBaqlkHTLVMC3dGVYex9NVU6iBEYzQmXt8W7LxEMeYThhAQ==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=aaront.org; h=
- from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding; s=4x7dsrm2; bh=/kZmNYWZNOTJQa4opCPhE
- 9MeAHI82FTFippa+nVrA1o=; b=v/BVgkC3yRTStqMBR2f8EZeF/HuMKVSqzUfqb
- HxVf5nKI7XyG5CgmhaI4PA6+MoQIVykqJYaxMC4e9JYhTBMI8Oh9/3O1B3vQAJzA
- yT2qo3NmNXZx/dWD34nULC8n6maD5SQR/xGNsh5iNgOJIrUxOV2McxS++VvkUKhq
- dUDyj0q+yqm1NV4nNraI9k9HuU/OO/G1hgnJsho3gpx3WQRKYpNqNhP26Cf+J6UW
- ZACEQtJm0eJV4qEn5NmRynCJAFU8SnrjpamGAqpqgz6HEktS8gABBh8nvkeNHtqe
- icIBqKWKHm0g67l8+0EPGXIG9g2CgVUc+/O3lNR0i3LQ2J98w==
-Received: by smtp-send0.aaront.org (Postfix) id 4bY8mq323rzJm;
- Thu,  3 Jul 2025 21:20:11 +0000 (UTC)
-From: Aaron Thompson <dev@aaront.org>
-To: nouveau@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
- Lyude Paul <lyude@redhat.com>, Danilo Krummrich <dakr@kernel.org>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- Timur Tabi <ttabi@nvidia.com>
-Cc: linux-kernel@vger.kernel.org, Aaron Thompson <dev@aaront.org>,
- stable@vger.kernel.org
-Subject: [PATCH] drm/nouveau: Do not fail module init on debugfs errors
-Date: Thu,  3 Jul 2025 21:19:49 +0000
-Message-Id: <20250703211949.9916-1-dev@aaront.org>
-X-Mailer: git-send-email 2.39.5
+Received: from us-smtp-delivery-124.mimecast.com
+ (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D8FCE10E8F0
+ for <dri-devel@lists.freedesktop.org>; Thu,  3 Jul 2025 21:22:36 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1751577755;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=Hj/RZV132CEm1ornmujQIV2oN5pOhDeHuqZxkw4e3AI=;
+ b=hk0HHFCiDxk5fVh2nYyhpBmYhlfaXoTFabKH2anfU7A1ldPsjSr73PTR+R4A6FiHmBvZyk
+ OhKyMjZtlt+dMRsCVtPJ0C6uTst6NpX9yx/JKoux4WrHm5SrALx0Mii3MiTE5K9OSHUArz
+ 5FDiXZhZdj6r39fVvh9LBI2jxHsM880=
+Received: from mail-pj1-f71.google.com (mail-pj1-f71.google.com
+ [209.85.216.71]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-347-qZJrWaC_OwOrkoGbekrhjg-1; Thu, 03 Jul 2025 17:22:34 -0400
+X-MC-Unique: qZJrWaC_OwOrkoGbekrhjg-1
+X-Mimecast-MFC-AGG-ID: qZJrWaC_OwOrkoGbekrhjg_1751577753
+Received: by mail-pj1-f71.google.com with SMTP id
+ 98e67ed59e1d1-312df02acf5so1064411a91.1
+ for <dri-devel@lists.freedesktop.org>; Thu, 03 Jul 2025 14:22:33 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1751577752; x=1752182552;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=Hj/RZV132CEm1ornmujQIV2oN5pOhDeHuqZxkw4e3AI=;
+ b=Cqk//nVfcW7okM9E5AJRqwcor+P1zXL6CBVRXrCQfGh3gU07lS8eipAV5Wpk/S6m1A
+ McyYgif36jjcHWKL/UG4tGhrv7i8WN9sT9a/mYDe6sL5X9hZFxsCfarabOjHyk/8Q4v9
+ NNhqPWCi4bsPHg5wx1AcNYQEDZ43OgTi1hCAAtzCFSnScDohUwVfTWMLM1QFhiPgj2Mq
+ J/PrHopk2ndSkBPMPtfCPVmUJV80nuzXrgDM0ktyiZvYrIc2Cw+L9yvXDiPK7KFJRmjM
+ bW/BrsKTxGPcBPOU6D2BLma3zmUkTkvz3KNSmfS+in7eOOzfzQe3pi1CS20UWvdmRVzF
+ Yr5A==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCW9NXAnYhGfQeIitCGS9TvM0kiwnertBtwo6fjJrz2NdBlH23mxn8z4sTjgkm7IZetK1l6NGf4ap/I=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YyDElALWzc5r4OpX+k9MBS1wRaeoT43W2ZA1uZsEj9Z84Yh4egg
+ 16ZXwb0Iq8WIbDrhtWl5hgSq/ayWTeX6Hpnhop+fEx2Brqdja0FZXz3L5+9STkIRJC1MikwiTkq
+ XzIbMNBcAzlGm9tEhJ3ej9UyqgSyzuFb6zUsLZN0r17YCBabQwzfyocPzpwGqi/SQ2O4Gvaju6d
+ xMyNKyime1EkJaeBCvd9eFHl48nDfYjWSqeXM/JNF0viWeTttEhwuruOc=
+X-Gm-Gg: ASbGncvmxf9DbZj9SIXAfee8MVHMKhNH0tPxUsmbUEMR/B7trI+Rts97fq5WWzM0o9Z
+ Avl+7YOhXtzsnq9EEYxQkMtnJ2hrUE8XIYgs7cxfTXQtNQc/wDToB8kZXjoIIjgR9xbQlkI1odK
+ QbOQ==
+X-Received: by 2002:a17:90b:288b:b0:313:aefa:b08 with SMTP id
+ 98e67ed59e1d1-31aab8ed31fmr517323a91.16.1751577752275; 
+ Thu, 03 Jul 2025 14:22:32 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IEfGS4zw2IpBk5STJ0Hm0dnh1KNZ245qqlOIaPU/7TdkTGJTG1oQZNFO9TWe6ekxtILRdjuSItsclw+H7tjcss=
+X-Received: by 2002:a17:90b:288b:b0:313:aefa:b08 with SMTP id
+ 98e67ed59e1d1-31aab8ed31fmr517305a91.16.1751577751937; Thu, 03 Jul 2025
+ 14:22:31 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Mailman-Approved-At: Thu, 03 Jul 2025 22:02:11 +0000
+References: <20250630045005.1337339-1-airlied@gmail.com>
+ <20250630045005.1337339-18-airlied@gmail.com>
+ <wejb2ykaltp5gtufrzz3mwp43hrxugzuubclt4amrpr4koznan@cb7dfmnvik6a>
+ <CAMwc25rPTiTshBMvHeGr=8kwC+MJdSA=UdKucybTwSxbuWvk4A@mail.gmail.com>
+ <3b5t4djauhnbvhqjwuktrcphlvahpdyi2b6j3ktoapakxcvpgz@zjpokeykiwy7>
+ <0b887b01-6de3-4633-86f7-20f5b43eeb35@amd.com>
+ <jsmwlcpgsmhkwohao6t5eu3mhypumuqp2pvtbxxkkchivbg4vp@i4pcdsq5xflq>
+In-Reply-To: <jsmwlcpgsmhkwohao6t5eu3mhypumuqp2pvtbxxkkchivbg4vp@i4pcdsq5xflq>
+From: David Airlie <airlied@redhat.com>
+Date: Fri, 4 Jul 2025 07:22:20 +1000
+X-Gm-Features: Ac12FXwU62okdCrSxmcxw0FH27VG5IbHzWriW3mZObaAGPhhechQmL-w2YyFi20
+Message-ID: <CAMwc25pTVMqF6j+Fb7CQr1HGn6kGvdMquSzzYYbP4vs4RvBMnQ@mail.gmail.com>
+Subject: Re: [PATCH 17/17] amdgpu: add support for memory cgroups
+To: Shakeel Butt <shakeel.butt@linux.dev>
+Cc: =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>, 
+ Dave Airlie <airlied@gmail.com>, dri-devel@lists.freedesktop.org,
+ linux-mm@kvack.org, 
+ Johannes Weiner <hannes@cmpxchg.org>, Dave Chinner <david@fromorbit.com>, 
+ Kairui Song <kasong@tencent.com>
+X-Mimecast-Spam-Score: 0
+X-Mimecast-MFC-PROC-ID: ZSzcL5pdINzmmUnyfCN4n8A_bAMnLDbK7B1njZADf7Q_1751577753
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -66,95 +101,27 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Aaron Thompson <dev@aaront.org>
+>
+> Do you mean a task in cgroup A does amdgpu_gem_object_create() and then
+> the actual allocation can happen in the task in cgroup B?
 
-If CONFIG_DEBUG_FS is enabled, nouveau_drm_init() returns an error if it
-fails to create the "nouveau" directory in debugfs. One case where that
-will happen is when debugfs access is restricted by
-CONFIG_DEBUG_FS_ALLOW_NONE or by the boot parameter debugfs=off, which
-cause the debugfs APIs to return -EPERM.
+On android and in some graphics scenarios, this might happen, not sure
+if it does always though. We have scenarios where a display server
+allocate a buffer for an application to write into and then it
+displays it, the ownership of that buffer can be a big rough.
 
-So just ignore errors from debugfs. Note that nouveau_debugfs_root may
-be an error now, but that is a standard pattern for debugfs. From
-include/linux/debugfs.h:
+But in most scenarios I think it'll be the same cgroup, and I think we
+generally should account it to the original cgroup unless we
+explicitly move the object to another one, (which we haven't got any
+code for yet).
 
-"NOTE: it's expected that most callers should _ignore_ the errors
-returned by this function. Other debugfs functions handle the fact that
-the "dentry" passed to them could be an error and they don't crash in
-that case. Drivers should generally work fine even if debugfs fails to
-init anyway."
+> >
+> > BTW: It might be a good idea to not only limit the amount of memory you actually have allocated, but also how much you wanted to allocate.
+>
+> Do you mean accounting and limiting the reservations? Something like
+> what hugetlb cgroup provides?
+>
 
-Fixes: 97118a1816d2 ("drm/nouveau: create module debugfs root")
-Cc: stable@vger.kernel.org
-Signed-off-by: Aaron Thompson <dev@aaront.org>
----
- drivers/gpu/drm/nouveau/nouveau_debugfs.c | 6 +-----
- drivers/gpu/drm/nouveau/nouveau_debugfs.h | 5 ++---
- drivers/gpu/drm/nouveau/nouveau_drm.c     | 4 +---
- 3 files changed, 4 insertions(+), 11 deletions(-)
-
-diff --git a/drivers/gpu/drm/nouveau/nouveau_debugfs.c b/drivers/gpu/drm/nouveau/nouveau_debugfs.c
-index 200e65a7cefc..c7869a639bef 100644
---- a/drivers/gpu/drm/nouveau/nouveau_debugfs.c
-+++ b/drivers/gpu/drm/nouveau/nouveau_debugfs.c
-@@ -314,14 +314,10 @@ nouveau_debugfs_fini(struct nouveau_drm *drm)
- 	drm->debugfs = NULL;
- }
- 
--int
-+void
- nouveau_module_debugfs_init(void)
- {
- 	nouveau_debugfs_root = debugfs_create_dir("nouveau", NULL);
--	if (IS_ERR(nouveau_debugfs_root))
--		return PTR_ERR(nouveau_debugfs_root);
--
--	return 0;
- }
- 
- void
-diff --git a/drivers/gpu/drm/nouveau/nouveau_debugfs.h b/drivers/gpu/drm/nouveau/nouveau_debugfs.h
-index b7617b344ee2..d05ed0e641c4 100644
---- a/drivers/gpu/drm/nouveau/nouveau_debugfs.h
-+++ b/drivers/gpu/drm/nouveau/nouveau_debugfs.h
-@@ -24,7 +24,7 @@ extern void nouveau_debugfs_fini(struct nouveau_drm *);
- 
- extern struct dentry *nouveau_debugfs_root;
- 
--int  nouveau_module_debugfs_init(void);
-+void nouveau_module_debugfs_init(void);
- void nouveau_module_debugfs_fini(void);
- #else
- static inline void
-@@ -42,10 +42,9 @@ nouveau_debugfs_fini(struct nouveau_drm *drm)
- {
- }
- 
--static inline int
-+static inline void
- nouveau_module_debugfs_init(void)
- {
--	return 0;
- }
- 
- static inline void
-diff --git a/drivers/gpu/drm/nouveau/nouveau_drm.c b/drivers/gpu/drm/nouveau/nouveau_drm.c
-index 0c82a63cd49d..1527b801f013 100644
---- a/drivers/gpu/drm/nouveau/nouveau_drm.c
-+++ b/drivers/gpu/drm/nouveau/nouveau_drm.c
-@@ -1461,9 +1461,7 @@ nouveau_drm_init(void)
- 	if (!nouveau_modeset)
- 		return 0;
- 
--	ret = nouveau_module_debugfs_init();
--	if (ret)
--		return ret;
-+	nouveau_module_debugfs_init();
- 
- #ifdef CONFIG_NOUVEAU_PLATFORM_DRIVER
- 	platform_driver_register(&nouveau_platform_driver);
-
-base-commit: d0b3b7b22dfa1f4b515fd3a295b3fd958f9e81af
--- 
-2.39.5
+I'll let Christian answer that,
+Dave.
 
