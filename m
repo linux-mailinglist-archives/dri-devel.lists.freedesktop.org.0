@@ -2,41 +2,42 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id A7BA8AF6C35
+	by mail.lfdr.de (Postfix) with ESMTPS id BCC71AF6C36
 	for <lists+dri-devel@lfdr.de>; Thu,  3 Jul 2025 09:57:58 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0B8E010E7E0;
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4481E10E7DF;
 	Thu,  3 Jul 2025 07:57:32 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=bootlin.com header.i=@bootlin.com header.b="kqA+ZFRb";
+	dkim=pass (2048-bit key; unprotected) header.d=bootlin.com header.i=@bootlin.com header.b="GLCNwHuH";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from relay8-d.mail.gandi.net (relay8-d.mail.gandi.net
  [217.70.183.201])
- by gabe.freedesktop.org (Postfix) with ESMTPS id CB50710E7DC
- for <dri-devel@lists.freedesktop.org>; Thu,  3 Jul 2025 07:57:29 +0000 (UTC)
-Received: by mail.gandi.net (Postfix) with ESMTPSA id B4F3E44498;
- Thu,  3 Jul 2025 07:57:27 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D162910E7DC
+ for <dri-devel@lists.freedesktop.org>; Thu,  3 Jul 2025 07:57:30 +0000 (UTC)
+Received: by mail.gandi.net (Postfix) with ESMTPSA id B221E44497;
+ Thu,  3 Jul 2025 07:57:28 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
- t=1751529448;
+ t=1751529449;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=xor3CjGzOLPr9kT51iYNqi58nPlYRydTENN8kwzKB+s=;
- b=kqA+ZFRbFhdl7+v9Fqmdr92KU64nUi2uYmFQ4d5Dm0AUELC/5ZKqC3A6MpCw6gkezT7ZDr
- mBoafnbCkFR7asRx8uCpIr+51fdhu4zPMGyPL9kpJIDNnqRngj87U72dExRulO4Ev6AU0V
- yRAwdHXm81mtYstAzJd6l2UJBL1OeP+WapSAhTwXhKL4r3aKS9jHc04NbXTB8XIme/kT0v
- e3wIw6zO1ma+GVXaZprNyXWzIgdvwNpSd9CKe/BB/UMs5euPh/37QKKSHxRTFpyqGzPLlB
- cDKv8mBxe9/bn9Un7pr9bYF34D+MwDO9ZW5tptbB4wYGRyuw1cy1ATw+wW4K3g==
+ bh=V5fdycQpcOVGSAwdzjg/Hh3sq7mvnuiLJ3tLN3MFKYw=;
+ b=GLCNwHuH3XfbI1MdrNbZuqE+H6wH2Kdam2DXv+ngE8YyCqcVDAj+wfIUHQLvIjYDxAWPMP
+ E04OKHA10ZqVpXAhia0A9mls8eKGNSVQGjjGuGDy6ugn33ad0D1LEfnPcq3hTD8e1PEoZO
+ ym4lKHxG/UQb/7Y4K6IoqonrSjIeH24kuQIzzp3PHpxdUpHmJqiknrXvu8ByUlde2ZmIIY
+ XhgZFpONykeWpz50PpuOb5F4reqbrgykvD60zeinmCZEhjcWs4PIlgG3oAixkrnHS/Ugui
+ uauzDgPAV8h7ziuzXPgAkEZFf/izhOnSVIg0zXDmgz/L73+ZTNSsgYhHsNb5nw==
 From: Louis Chauvet <louis.chauvet@bootlin.com>
-Date: Thu, 03 Jul 2025 09:57:01 +0200
-Subject: [PATCH v7 5/8] drm/vkms: Add support for RGB888 formats
+Date: Thu, 03 Jul 2025 09:57:02 +0200
+Subject: [PATCH v7 6/8] drm/vkms: Change YUV helpers to support u16 inputs
+ for conversion
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
-Message-Id: <20250703-b4-new-color-formats-v7-5-15fd8fd2e15c@bootlin.com>
+Message-Id: <20250703-b4-new-color-formats-v7-6-15fd8fd2e15c@bootlin.com>
 References: <20250703-b4-new-color-formats-v7-0-15fd8fd2e15c@bootlin.com>
 In-Reply-To: <20250703-b4-new-color-formats-v7-0-15fd8fd2e15c@bootlin.com>
 To: Melissa Wen <melissa.srw@gmail.com>, 
@@ -54,27 +55,27 @@ Cc: dri-devel@lists.freedesktop.org, arthurgrillo@riseup.net,
  Louis Chauvet <louis.chauvet@bootlin.com>, 
  =?utf-8?q?Ma=C3=ADra_Canal?= <mcanal@igalia.com>
 X-Mailer: b4 0.15-dev
-X-Developer-Signature: v=1; a=openpgp-sha256; l=2003;
+X-Developer-Signature: v=1; a=openpgp-sha256; l=18499;
  i=louis.chauvet@bootlin.com; h=from:subject:message-id;
- bh=2Jf/qjD85M4WSRxtEpGCluMxSP6BXTGF6SPxegmrRUA=;
- b=owEBbQKS/ZANAwAIASCtLsZbECziAcsmYgBoZjfgKKG48v6367zrWTwGsloP2cj80JOQmpQVq
- Dnw875SqYmJAjMEAAEIAB0WIQRPj7g/vng8MQxQWQQgrS7GWxAs4gUCaGY34AAKCRAgrS7GWxAs
- 4h0KEACCIhqNAH7+RDj0/9EkGBUS6qQUkMr8rWNDStAtmHPVE5jMc2ReNdDTZJyWCOxKj3ecv/2
- MhHIIBngLYJez1gDWAP6U96SgoqPlDfOYmI65TjWZnOom+JZBBh5Rpg/xPEVgRQXNVXlg71aT9m
- g6jIqwaKa9X3v5wh0jtDjhC52kHFUghaqBtD8lnbAmXWA9hFs3nPCkVkj4gn6+nLlSvy6yxlQKA
- SQfllCiBFTUbrPku1UxsuS0CujxmfSPIpKCEe0KwchIMBDkkdySmYU+ESj3XO8/cIDpsC08oXfn
- PiNTVYcHHkoaLwOQcKQKNmdohWXQnM7Buy8x0/LcHUp/R9HydDpOWIt48odsHUmkpAJUgUOUvoi
- w10gj0ziSUpF+JAsjt/ERKcNlo8ZtLWiG1paTNpnymUlcdLWK5u7ZskwU0S2OYzdO4EaK+hLdN/
- 599HQDcU51VNJGeFYTZ0h0zE1DUUP+9J8eo4SE2wfkTZxaVc/DEPCxljGwtw67HTP3BuaSi4QwF
- atS7Jhoq40PzhgGzTnXYg9jbGNKD8xk+/v3EYAwcn7B/HRaU6tKKzCaW6CujCbcVU5Vi42Hyn5j
- KkvF2HfsnCMs0HuZk7/PpmFyaQ4VD4+zvlqf3IBAVmpUBXXbv3fhgWSFG88xRLa1ozCS1Lf4Jo0
- aKXg8Dzu5wqshRA==
+ bh=DXHU5NdAVlEqRArAJ3rqlwVknFH8Tyl4jvTB2+MS5Pk=;
+ b=owEBbQKS/ZANAwAIASCtLsZbECziAcsmYgBoZjfhJENPGZ+uozzIjsMtXUTcbrepo/rTAI4jO
+ mVwhMwh4BqJAjMEAAEIAB0WIQRPj7g/vng8MQxQWQQgrS7GWxAs4gUCaGY34QAKCRAgrS7GWxAs
+ 4siSD/4yNzSYaEeKpG/Ggdc9GBB66A6udFsMXw0PrR+mHMvnTlXHlRquz3NExdQESeukWc9LHmf
+ eY2n0vFGwXQ7njjdk566HKc8Zgmrd8tmgOfxSwHYKuP4pXcIXMT1S7no44g+rh+2h1cFYAQbpfm
+ 5iaun6nxdZ4MWpUB4bf+aRn/cTGuOeOOosnLSsP8uUhSPIvYd0DVCdkLLxz3aG3xoP6UCoOSElY
+ VENET/AWyLkx9MHwpv7dceGL1Zy5vYSbho+gn1ShoX5DDMy6LzgT+4CBBLmf6Ojki1F3bs5aAXb
+ M1LksSVM7dMiGQ0dE361l10TJFWPUdNP7cG3ph3uWa1JwnQn1lX8eSSsOhiHzsIvGYL0ol8K/St
+ qr/M6OJfla7x5U48G/fN5Iyp6Bxx+lXisiGcxSTAB0vlSa0reF4ku44QGDlmF4arYNK+4BRhIMC
+ ODur+wLja2TKYc2T6Qo/gXg3yMmX3z+2CKjCYBF8o+V/hpzV/1JluprcO0IlDQZD+S5bg5re8FP
+ wkPCcjA2u4A5KEXA5bFADeOkAf8E0CLh15T4dePPzTBHuvKJ2e2GvXav+O+eYdep2iNpbJ5xeYl
+ I/GzdcrZ4H3aUC015PvdnJhseMeGP4yjfYGBfDF4zWshfqA1+3ue7Urv4E7LGPXXomoj4JqyMkC
+ CSa7ixa9t2bUuBQ==
 X-Developer-Key: i=louis.chauvet@bootlin.com; a=openpgp;
  fpr=8B7104AE9A272D6693F527F2EC1883F55E0B40A5
 X-GND-State: clean
 X-GND-Score: -100
-X-GND-Cause: gggruggvucftvghtrhhoucdtuddrgeeffedrtdefgdduleejfecutefuodetggdotefrodftvfcurfhrohhfihhlvgemucfitefpfffkpdcuggftfghnshhusghstghrihgsvgenuceurghilhhouhhtmecufedtudenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujfgurhephfffufggtgfgkfhfjgfvvefosehtkeertdertdejnecuhfhrohhmpefnohhuihhsucevhhgruhhvvghtuceolhhouhhishdrtghhrghuvhgvthessghoohhtlhhinhdrtghomheqnecuggftrfgrthhtvghrnheptdeiveeiudehtddtgfethfduudefffduteekgeevueetudevheehieevtddttdeknecukfhppeeltddrkeelrdduieefrdduvdejnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehinhgvthepledtrdekledrudeifedruddvjedphhgvlhhopegludelvddrudeikedrtddrvddtngdpmhgrihhlfhhrohhmpehlohhuihhsrdgthhgruhhvvghtsegsohhothhlihhnrdgtohhmpdhnsggprhgtphhtthhopedvtddprhgtphhtthhopehsihhmohhnrgesfhhffihllhdrtghhpdhrtghpthhtohephhgrmhhohhgrmhhmvggurdhsrgesghhmrghilhdrtghomhdprhgtphhtthhopehsvggrnhhprghulhesghhoohhglhgvrdgtohhmpdhrtghpthhtohepmhgvlhhishhsrgdrshhrfiesghhmrghilhdrtghomhdprhgtphhtthhopehnihgtohhlvghjrgguvgihvggvsehgohhoghhlvgdrtghomhdprhgtp
- hhtthhopegrihhrlhhivggusehgmhgrihhlrdgtohhmpdhrtghpthhtoheprghrthhhuhhrghhrihhllhhosehrihhsvghuphdrnhgvthdprhgtphhtthhopehthhhomhgrshdrphgvthgriiiiohhnihessghoohhtlhhinhdrtghomh
+X-GND-Cause: gggruggvucftvghtrhhoucdtuddrgeeffedrtdefgdduleejfecutefuodetggdotefrodftvfcurfhrohhfihhlvgemucfitefpfffkpdcuggftfghnshhusghstghrihgsvgenuceurghilhhouhhtmecufedtudenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujfgurhephfffufggtgfgkfhfjgfvvefosehtkeertdertdejnecuhfhrohhmpefnohhuihhsucevhhgruhhvvghtuceolhhouhhishdrtghhrghuvhgvthessghoohhtlhhinhdrtghomheqnecuggftrfgrthhtvghrnhepgeeggeejieejgffgtdfftdegvdfhieegvdetgfettdeiveeihfegfeeukeetffffnecuffhomhgrihhnpehrvggrughthhgvughotghsrdhiohenucfkphepledtrdekledrudeifedruddvjeenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepihhnvghtpeeltddrkeelrdduieefrdduvdejpdhhvghloheplgduledvrdduieekrddtrddvtdgnpdhmrghilhhfrhhomheplhhouhhishdrtghhrghuvhgvthessghoohhtlhhinhdrtghomhdpnhgspghrtghpthhtohepvddtpdhrtghpthhtohepshhimhhonhgrsehffhiflhhlrdgthhdprhgtphhtthhopehhrghmohhhrghmmhgvugdrshgrsehgmhgrihhlrdgtohhmpdhrtghpthhtohepshgvrghnphgruhhlsehgohhoghhlvgdrtghomhdprhgtphhtthhopehmvghlihhsshgrrdhsrhifsehgmhgrihhlrdgtohhmpdhrtghpthhtohepnhhitghol
+ hgvjhgruggvhigvvgesghhoohhglhgvrdgtohhmpdhrtghpthhtoheprghirhhlihgvugesghhmrghilhdrtghomhdprhgtphhtthhopegrrhhthhhurhhgrhhilhhlohesrhhishgvuhhprdhnvghtpdhrtghpthhtohepthhhohhmrghsrdhpvghtrgiiiihonhhisegsohhothhlihhnrdgtohhm
 X-GND-Sasl: louis.chauvet@bootlin.com
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -91,55 +92,387 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Add the support for:
-- RGB888
-- BGR888
+Some YUV format uses 16 bit values, so change the helper function for
+conversion to support those new formats.
 
 Reviewed-by: Maíra Canal <mcanal@igalia.com>
 Signed-off-by: Louis Chauvet <louis.chauvet@bootlin.com>
 ---
- drivers/gpu/drm/vkms/vkms_formats.c | 7 +++++++
- drivers/gpu/drm/vkms/vkms_plane.c   | 2 ++
- 2 files changed, 9 insertions(+)
+ drivers/gpu/drm/vkms/tests/vkms_format_test.c | 143 +++++++++++++-------------
+ drivers/gpu/drm/vkms/vkms_formats.c           |  22 ++--
+ drivers/gpu/drm/vkms/vkms_formats.h           |   4 +-
+ 3 files changed, 85 insertions(+), 84 deletions(-)
 
+diff --git a/drivers/gpu/drm/vkms/tests/vkms_format_test.c b/drivers/gpu/drm/vkms/tests/vkms_format_test.c
+index 2e1daef94831..a7788fbc45dc 100644
+--- a/drivers/gpu/drm/vkms/tests/vkms_format_test.c
++++ b/drivers/gpu/drm/vkms/tests/vkms_format_test.c
+@@ -14,20 +14,20 @@
+ MODULE_IMPORT_NS("EXPORTED_FOR_KUNIT_TESTING");
+ 
+ /**
+- * struct pixel_yuv_u8 - Internal representation of a pixel color.
+- * @y: Luma value, stored in 8 bits, without padding, using
++ * struct pixel_yuv_u16 - Internal representation of a pixel color.
++ * @y: Luma value, stored in 16 bits, without padding, using
+  *     machine endianness
+- * @u: Blue difference chroma value, stored in 8 bits, without padding, using
++ * @u: Blue difference chroma value, stored in 16 bits, without padding, using
+  *     machine endianness
+- * @v: Red difference chroma value, stored in 8 bits, without padding, using
++ * @v: Red difference chroma value, stored in 16 bits, without padding, using
+  *     machine endianness
+  */
+-struct pixel_yuv_u8 {
+-	u8 y, u, v;
++struct pixel_yuv_u16 {
++	u16 y, u, v;
+ };
+ 
+ /*
+- * struct yuv_u8_to_argb_u16_case - Reference values to test the color
++ * struct yuv_u16_to_argb_u16_case - Reference values to test the color
+  * conversions in VKMS between YUV to ARGB
+  *
+  * @encoding: Encoding used to convert RGB to YUV
+@@ -39,13 +39,13 @@ struct pixel_yuv_u8 {
+  * @format_pair.yuv: Same color as @format_pair.rgb, but converted to
+  *                   YUV using @encoding and @range.
+  */
+-struct yuv_u8_to_argb_u16_case {
++struct yuv_u16_to_argb_u16_case {
+ 	enum drm_color_encoding encoding;
+ 	enum drm_color_range range;
+ 	size_t n_colors;
+ 	struct format_pair {
+ 		char *name;
+-		struct pixel_yuv_u8 yuv;
++		struct pixel_yuv_u16 yuv;
+ 		struct pixel_argb_u16 argb;
+ 	} colors[TEST_BUFF_SIZE];
+ };
+@@ -57,14 +57,14 @@ struct yuv_u8_to_argb_u16_case {
+  * For more information got to the docs:
+  * https://colour.readthedocs.io/en/master/generated/colour.RGB_to_YCbCr.html
+  */
+-static struct yuv_u8_to_argb_u16_case yuv_u8_to_argb_u16_cases[] = {
++static struct yuv_u16_to_argb_u16_case yuv_u16_to_argb_u16_cases[] = {
+ 	/*
+ 	 * colour.RGB_to_YCbCr(<rgb color in 16 bit form>,
+ 	 *                     K=colour.WEIGHTS_YCBCR["ITU-R BT.601"],
+ 	 *                     in_bits = 16,
+ 	 *                     in_legal = False,
+ 	 *                     in_int = True,
+-	 *                     out_bits = 8,
++	 *                     out_bits = 16,
+ 	 *                     out_legal = False,
+ 	 *                     out_int = True)
+ 	 *
+@@ -76,13 +76,13 @@ static struct yuv_u8_to_argb_u16_case yuv_u8_to_argb_u16_cases[] = {
+ 		.range = DRM_COLOR_YCBCR_FULL_RANGE,
+ 		.n_colors = 6,
+ 		.colors = {
+-			{ "white", { 0xff, 0x80, 0x80 }, { 0xffff, 0xffff, 0xffff, 0xffff }},
+-			{ "gray",  { 0x80, 0x80, 0x80 }, { 0xffff, 0x8080, 0x8080, 0x8080 }},
+-			{ "black", { 0x00, 0x80, 0x80 }, { 0xffff, 0x0000, 0x0000, 0x0000 }},
+-			{ "red",   { 0x4c, 0x55, 0xff }, { 0xffff, 0xffff, 0x0000, 0x0000 }},
+-			{ "green", { 0x96, 0x2c, 0x15 }, { 0xffff, 0x0000, 0xffff, 0x0000 }},
+-			{ "blue",  { 0x1d, 0xff, 0x6b }, { 0xffff, 0x0000, 0x0000, 0xffff }},
+-		},
++			{ "white", { 0xffff, 0x8000, 0x8000 }, { 0xffff, 0xffff, 0xffff, 0xffff }},
++			{ "gray",  { 0x8080, 0x8000, 0x8000 }, { 0xffff, 0x8080, 0x8080, 0x8080 }},
++			{ "black", { 0x0000, 0x8000, 0x8000 }, { 0xffff, 0x0000, 0x0000, 0x0000 }},
++			{ "red",   { 0x4c8b, 0x54ce, 0xffff }, { 0xffff, 0xffff, 0x0000, 0x0000 }},
++			{ "green", { 0x9645, 0x2b33, 0x14d1 }, { 0xffff, 0x0000, 0xffff, 0x0000 }},
++			{ "blue",  { 0x1d2f, 0xffff, 0x6b2f }, { 0xffff, 0x0000, 0x0000, 0xffff }},
++		}
+ 	},
+ 	/*
+ 	 * colour.RGB_to_YCbCr(<rgb color in 16 bit form>,
+@@ -90,7 +90,7 @@ static struct yuv_u8_to_argb_u16_case yuv_u8_to_argb_u16_cases[] = {
+ 	 *                     in_bits = 16,
+ 	 *                     in_legal = False,
+ 	 *                     in_int = True,
+-	 *                     out_bits = 8,
++	 *                     out_bits = 16,
+ 	 *                     out_legal = True,
+ 	 *                     out_int = True)
+ 	 * Tests cases for color conversion generated by converting RGB
+@@ -101,13 +101,13 @@ static struct yuv_u8_to_argb_u16_case yuv_u8_to_argb_u16_cases[] = {
+ 		.range = DRM_COLOR_YCBCR_LIMITED_RANGE,
+ 		.n_colors = 6,
+ 		.colors = {
+-			{ "white", { 0xeb, 0x80, 0x80 }, { 0xffff, 0xffff, 0xffff, 0xffff }},
+-			{ "gray",  { 0x7e, 0x80, 0x80 }, { 0xffff, 0x8080, 0x8080, 0x8080 }},
+-			{ "black", { 0x10, 0x80, 0x80 }, { 0xffff, 0x0000, 0x0000, 0x0000 }},
+-			{ "red",   { 0x51, 0x5a, 0xf0 }, { 0xffff, 0xffff, 0x0000, 0x0000 }},
+-			{ "green", { 0x91, 0x36, 0x22 }, { 0xffff, 0x0000, 0xffff, 0x0000 }},
+-			{ "blue",  { 0x29, 0xf0, 0x6e }, { 0xffff, 0x0000, 0x0000, 0xffff }},
+-		},
++			{ "white", { 0xeb00, 0x8000, 0x8000 }, { 0xffff, 0xffff, 0xffff, 0xffff }},
++			{ "gray",  { 0x7dee, 0x8000, 0x8000 }, { 0xffff, 0x8080, 0x8080, 0x8080 }},
++			{ "black", { 0x1000, 0x8000, 0x8000 }, { 0xffff, 0x0000, 0x0000, 0x0000 }},
++			{ "red",   { 0x517b, 0x5a34, 0xf000 }, { 0xffff, 0xffff, 0x0000, 0x0000 }},
++			{ "green", { 0x908e, 0x35cc, 0x2237 }, { 0xffff, 0x0000, 0xffff, 0x0000 }},
++			{ "blue",  { 0x28f7, 0xf000, 0x6dc9 }, { 0xffff, 0x0000, 0x0000, 0xffff }},
++		}
+ 	},
+ 	/*
+ 	 * colour.RGB_to_YCbCr(<rgb color in 16 bit form>,
+@@ -115,7 +115,7 @@ static struct yuv_u8_to_argb_u16_case yuv_u8_to_argb_u16_cases[] = {
+ 	 *                     in_bits = 16,
+ 	 *                     in_legal = False,
+ 	 *                     in_int = True,
+-	 *                     out_bits = 8,
++	 *                     out_bits = 16,
+ 	 *                     out_legal = False,
+ 	 *                     out_int = True)
+ 	 * Tests cases for color conversion generated by converting RGB
+@@ -126,21 +126,21 @@ static struct yuv_u8_to_argb_u16_case yuv_u8_to_argb_u16_cases[] = {
+ 		.range = DRM_COLOR_YCBCR_FULL_RANGE,
+ 		.n_colors = 6,
+ 		.colors = {
+-			{ "white", { 0xff, 0x80, 0x80 }, { 0xffff, 0xffff, 0xffff, 0xffff }},
+-			{ "gray",  { 0x80, 0x80, 0x80 }, { 0xffff, 0x8080, 0x8080, 0x8080 }},
+-			{ "black", { 0x00, 0x80, 0x80 }, { 0xffff, 0x0000, 0x0000, 0x0000 }},
+-			{ "red",   { 0x36, 0x63, 0xff }, { 0xffff, 0xffff, 0x0000, 0x0000 }},
+-			{ "green", { 0xb6, 0x1e, 0x0c }, { 0xffff, 0x0000, 0xffff, 0x0000 }},
+-			{ "blue",  { 0x12, 0xff, 0x74 }, { 0xffff, 0x0000, 0x0000, 0xffff }},
+-		},
++			{ "white", { 0xffff, 0x8000, 0x8000 }, { 0xffff, 0xffff, 0xffff, 0xffff }},
++			{ "gray",  { 0x8080, 0x8000, 0x8000 }, { 0xffff, 0x8080, 0x8080, 0x8080 }},
++			{ "black", { 0x0000, 0x8000, 0x8000 }, { 0xffff, 0x0000, 0x0000, 0x0000 }},
++			{ "red",   { 0x366d, 0x62ac, 0xffff }, { 0xffff, 0xffff, 0x0000, 0x0000 }},
++			{ "green", { 0xb717, 0x1d55, 0x0bbd }, { 0xffff, 0x0000, 0xffff, 0x0000 }},
++			{ "blue",  { 0x127c, 0xffff, 0x7443 }, { 0xffff, 0x0000, 0x0000, 0xffff }},
++		}
+ 	},
+ 	/*
+ 	 * colour.RGB_to_YCbCr(<rgb color in 16 bit form>,
+ 	 *                     K=colour.WEIGHTS_YCBCR["ITU-R BT.709"],
+ 	 *                     in_bits = 16,
+-	 *                     int_legal = False,
++	 *                     in_legal = False,
+ 	 *                     in_int = True,
+-	 *                     out_bits = 8,
++	 *                     out_bits = 16,
+ 	 *                     out_legal = True,
+ 	 *                     out_int = True)
+ 	 * Tests cases for color conversion generated by converting RGB
+@@ -151,13 +151,13 @@ static struct yuv_u8_to_argb_u16_case yuv_u8_to_argb_u16_cases[] = {
+ 		.range = DRM_COLOR_YCBCR_LIMITED_RANGE,
+ 		.n_colors = 6,
+ 		.colors = {
+-			{ "white", { 0xeb, 0x80, 0x80 }, { 0xffff, 0xffff, 0xffff, 0xffff }},
+-			{ "gray",  { 0x7e, 0x80, 0x80 }, { 0xffff, 0x8080, 0x8080, 0x8080 }},
+-			{ "black", { 0x10, 0x80, 0x80 }, { 0xffff, 0x0000, 0x0000, 0x0000 }},
+-			{ "red",   { 0x3f, 0x66, 0xf0 }, { 0xffff, 0xffff, 0x0000, 0x0000 }},
+-			{ "green", { 0xad, 0x2a, 0x1a }, { 0xffff, 0x0000, 0xffff, 0x0000 }},
+-			{ "blue",  { 0x20, 0xf0, 0x76 }, { 0xffff, 0x0000, 0x0000, 0xffff }},
+-		},
++			{ "white", { 0xeb00, 0x8000, 0x8000 }, { 0xffff, 0xffff, 0xffff, 0xffff }},
++			{ "gray",  { 0x7dee, 0x8000, 0x8000 }, { 0xffff, 0x8080, 0x8080, 0x8080 }},
++			{ "black", { 0x1000, 0x8000, 0x8000 }, { 0xffff, 0x0000, 0x0000, 0x0000 }},
++			{ "red",   { 0x3e8f, 0x6656, 0xf000 }, { 0xffff, 0xffff, 0x0000, 0x0000 }},
++			{ "green", { 0xaca1, 0x29aa, 0x1a45 }, { 0xffff, 0x0000, 0xffff, 0x0000 }},
++			{ "blue",  { 0x1fd0, 0xf000, 0x75bb }, { 0xffff, 0x0000, 0x0000, 0xffff }},
++		}
+ 	},
+ 	/*
+ 	 * colour.RGB_to_YCbCr(<rgb color in 16 bit form>,
+@@ -165,7 +165,7 @@ static struct yuv_u8_to_argb_u16_case yuv_u8_to_argb_u16_cases[] = {
+ 	 *                     in_bits = 16,
+ 	 *                     in_legal = False,
+ 	 *                     in_int = True,
+-	 *                     out_bits = 8,
++	 *                     out_bits = 16,
+ 	 *                     out_legal = False,
+ 	 *                     out_int = True)
+ 	 * Tests cases for color conversion generated by converting RGB
+@@ -176,13 +176,13 @@ static struct yuv_u8_to_argb_u16_case yuv_u8_to_argb_u16_cases[] = {
+ 		.range = DRM_COLOR_YCBCR_FULL_RANGE,
+ 		.n_colors = 6,
+ 		.colors = {
+-			{ "white", { 0xff, 0x80, 0x80 }, { 0xffff, 0xffff, 0xffff, 0xffff }},
+-			{ "gray",  { 0x80, 0x80, 0x80 }, { 0xffff, 0x8080, 0x8080, 0x8080 }},
+-			{ "black", { 0x00, 0x80, 0x80 }, { 0xffff, 0x0000, 0x0000, 0x0000 }},
+-			{ "red",   { 0x43, 0x5c, 0xff }, { 0xffff, 0xffff, 0x0000, 0x0000 }},
+-			{ "green", { 0xad, 0x24, 0x0b }, { 0xffff, 0x0000, 0xffff, 0x0000 }},
+-			{ "blue",  { 0x0f, 0xff, 0x76 }, { 0xffff, 0x0000, 0x0000, 0xffff }},
+-		},
++			{ "white", { 0xffff, 0x8000, 0x8000 }, { 0xffff, 0xffff, 0xffff, 0xffff }},
++			{ "gray",  { 0x8080, 0x8000, 0x8000 }, { 0xffff, 0x8080, 0x8080, 0x8080 }},
++			{ "black", { 0x0000, 0x8000, 0x8000 }, { 0xffff, 0x0000, 0x0000, 0x0000 }},
++			{ "red",   { 0x4340, 0x5c41, 0xffff }, { 0xffff, 0xffff, 0x0000, 0x0000 }},
++			{ "green", { 0xad91, 0x23bf, 0x0a4c }, { 0xffff, 0x0000, 0xffff, 0x0000 }},
++			{ "blue",  { 0x0f2e, 0xffff, 0x75b5 }, { 0xffff, 0x0000, 0x0000, 0xffff }},
++		}
+ 	},
+ 	/*
+ 	 * colour.RGB_to_YCbCr(<rgb color in 16 bit form>,
+@@ -190,7 +190,7 @@ static struct yuv_u8_to_argb_u16_case yuv_u8_to_argb_u16_cases[] = {
+ 	 *                     in_bits = 16,
+ 	 *                     in_legal = False,
+ 	 *                     in_int = True,
+-	 *                     out_bits = 8,
++	 *                     out_bits = 16,
+ 	 *                     out_legal = True,
+ 	 *                     out_int = True)
+ 	 * Tests cases for color conversion generated by converting RGB
+@@ -201,32 +201,30 @@ static struct yuv_u8_to_argb_u16_case yuv_u8_to_argb_u16_cases[] = {
+ 		.range = DRM_COLOR_YCBCR_LIMITED_RANGE,
+ 		.n_colors = 6,
+ 		.colors = {
+-			{ "white", { 0xeb, 0x80, 0x80 }, { 0xffff, 0xffff, 0xffff, 0xffff }},
+-			{ "gray",  { 0x7e, 0x80, 0x80 }, { 0xffff, 0x8080, 0x8080, 0x8080 }},
+-			{ "black", { 0x10, 0x80, 0x80 }, { 0xffff, 0x0000, 0x0000, 0x0000 }},
+-			{ "red",   { 0x4a, 0x61, 0xf0 }, { 0xffff, 0xffff, 0x0000, 0x0000 }},
+-			{ "green", { 0xa4, 0x2f, 0x19 }, { 0xffff, 0x0000, 0xffff, 0x0000 }},
+-			{ "blue",  { 0x1d, 0xf0, 0x77 }, { 0xffff, 0x0000, 0x0000, 0xffff }},
+-		},
++			{ "white", { 0xeb00, 0x8000, 0x8000 }, { 0xffff, 0xffff, 0xffff, 0xffff }},
++			{ "gray",  { 0x7dee, 0x8000, 0x8000 }, { 0xffff, 0x8080, 0x8080, 0x8080 }},
++			{ "black", { 0x1000, 0x8000, 0x8000 }, { 0xffff, 0x0000, 0x0000, 0x0000 }},
++			{ "red",   { 0x4988, 0x60b9, 0xf000 }, { 0xffff, 0xffff, 0x0000, 0x0000 }},
++			{ "green", { 0xa47b, 0x2f47, 0x1902 }, { 0xffff, 0x0000, 0xffff, 0x0000 }},
++			{ "blue",  { 0x1cfd, 0xf000, 0x76fe }, { 0xffff, 0x0000, 0x0000, 0xffff }},
++		}
+ 	},
+ };
+ 
+ /*
+- * vkms_format_test_yuv_u8_to_argb_u16 - Testing the conversion between YUV
++ * vkms_format_test_yuv_u16_to_argb_u16 - Testing the conversion between YUV
+  * colors to ARGB colors in VKMS
+  *
+  * This test will use the functions get_conversion_matrix_to_argb_u16 and
+- * argb_u16_from_yuv888 to convert YUV colors (stored in
+- * yuv_u8_to_argb_u16_cases) into ARGB colors.
++ * argb_u16_from_yuv161616 to convert YUV colors (stored in
++ * yuv_u16_to_argb_u16_cases) into ARGB colors.
+  *
+  * The conversion between YUV and RGB is not totally reversible, so there may be
+  * some difference between the expected value and the result.
+- * In addition, there may be some rounding error as the input color is 8 bits
+- * and output color is 16 bits.
+  */
+-static void vkms_format_test_yuv_u8_to_argb_u16(struct kunit *test)
++static void vkms_format_test_yuv_u16_to_argb_u16(struct kunit *test)
+ {
+-	const struct yuv_u8_to_argb_u16_case *param = test->param_value;
++	const struct yuv_u16_to_argb_u16_case *param = test->param_value;
+ 	struct pixel_argb_u16 argb;
+ 
+ 	for (size_t i = 0; i < param->n_colors; i++) {
+@@ -236,7 +234,8 @@ static void vkms_format_test_yuv_u8_to_argb_u16(struct kunit *test)
+ 		get_conversion_matrix_to_argb_u16
+ 			(DRM_FORMAT_NV12, param->encoding, param->range, &matrix);
+ 
+-		argb = argb_u16_from_yuv888(color->yuv.y, color->yuv.u, color->yuv.v, &matrix);
++		argb = argb_u16_from_yuv161616(&matrix, color->yuv.y, color->yuv.u,
++					       color->yuv.v);
+ 
+ 		KUNIT_EXPECT_LE_MSG(test, abs_diff(argb.a, color->argb.a), 0x1ff,
+ 				    "On the A channel of the color %s expected 0x%04x, got 0x%04x",
+@@ -253,19 +252,19 @@ static void vkms_format_test_yuv_u8_to_argb_u16(struct kunit *test)
+ 	}
+ }
+ 
+-static void vkms_format_test_yuv_u8_to_argb_u16_case_desc(struct yuv_u8_to_argb_u16_case *t,
+-							  char *desc)
++static void vkms_format_test_yuv_u16_to_argb_u16_case_desc(struct yuv_u16_to_argb_u16_case *t,
++							   char *desc)
+ {
+ 	snprintf(desc, KUNIT_PARAM_DESC_SIZE, "%s - %s",
+ 		 drm_get_color_encoding_name(t->encoding), drm_get_color_range_name(t->range));
+ }
+ 
+-KUNIT_ARRAY_PARAM(yuv_u8_to_argb_u16, yuv_u8_to_argb_u16_cases,
+-		  vkms_format_test_yuv_u8_to_argb_u16_case_desc
++KUNIT_ARRAY_PARAM(yuv_u16_to_argb_u16, yuv_u16_to_argb_u16_cases,
++		  vkms_format_test_yuv_u16_to_argb_u16_case_desc
+ );
+ 
+ static struct kunit_case vkms_format_test_cases[] = {
+-	KUNIT_CASE_PARAM(vkms_format_test_yuv_u8_to_argb_u16, yuv_u8_to_argb_u16_gen_params),
++	KUNIT_CASE_PARAM(vkms_format_test_yuv_u16_to_argb_u16, yuv_u16_to_argb_u16_gen_params),
+ 	{}
+ };
+ 
 diff --git a/drivers/gpu/drm/vkms/vkms_formats.c b/drivers/gpu/drm/vkms/vkms_formats.c
-index 544bb6795805..f1649d9bf430 100644
+index f1649d9bf430..cec27a72bc48 100644
 --- a/drivers/gpu/drm/vkms/vkms_formats.c
 +++ b/drivers/gpu/drm/vkms/vkms_formats.c
-@@ -455,6 +455,9 @@ READ_LINE_ARGB8888(ABGR8888_read_line, px, px[3], px[0], px[1], px[2])
- READ_LINE_ARGB8888(RGBA8888_read_line, px, px[0], px[3], px[2], px[1])
- READ_LINE_ARGB8888(BGRA8888_read_line, px, px[0], px[1], px[2], px[3])
+@@ -269,16 +269,17 @@ static struct pixel_argb_u16 argb_u16_from_BGR565(const __le16 *pixel)
+ 	return out_pixel;
+ }
  
-+READ_LINE_ARGB8888(RGB888_read_line, px, 0xFF, px[2], px[1], px[0])
-+READ_LINE_ARGB8888(BGR888_read_line, px, 0xFF, px[0], px[1], px[2])
-+
- READ_LINE_le16161616(ARGB16161616_read_line, px, px[3], px[2], px[1], px[0])
- READ_LINE_le16161616(ABGR16161616_read_line, px, px[3], px[0], px[1], px[2])
- READ_LINE_le16161616(XRGB16161616_read_line, px, cpu_to_le16(0xFFFF), px[2], px[1], px[0])
-@@ -676,6 +679,10 @@ pixel_read_line_t get_pixel_read_line_function(u32 format)
- 		return &XRGB8888_read_line;
- 	case DRM_FORMAT_XBGR8888:
- 		return &XBGR8888_read_line;
-+	case DRM_FORMAT_RGB888:
-+		return &RGB888_read_line;
-+	case DRM_FORMAT_BGR888:
-+		return &BGR888_read_line;
- 	case DRM_FORMAT_ARGB16161616:
- 		return &ARGB16161616_read_line;
- 	case DRM_FORMAT_ABGR16161616:
-diff --git a/drivers/gpu/drm/vkms/vkms_plane.c b/drivers/gpu/drm/vkms/vkms_plane.c
-index 6e7597ab935d..9f34f3a18d8c 100644
---- a/drivers/gpu/drm/vkms/vkms_plane.c
-+++ b/drivers/gpu/drm/vkms/vkms_plane.c
-@@ -19,6 +19,8 @@ static const u32 vkms_formats[] = {
- 	DRM_FORMAT_RGBA8888,
- 	DRM_FORMAT_XRGB8888,
- 	DRM_FORMAT_XBGR8888,
-+	DRM_FORMAT_RGB888,
-+	DRM_FORMAT_BGR888,
- 	DRM_FORMAT_XRGB16161616,
- 	DRM_FORMAT_XBGR16161616,
- 	DRM_FORMAT_ARGB16161616,
+-VISIBLE_IF_KUNIT struct pixel_argb_u16 argb_u16_from_yuv888(u8 y, u8 channel_1, u8 channel_2,
+-							    const struct conversion_matrix *matrix)
++VISIBLE_IF_KUNIT
++struct pixel_argb_u16 argb_u16_from_yuv161616(const struct conversion_matrix *matrix,
++					      u16 y, u16 channel_1, u16 channel_2)
+ {
+ 	u16 r, g, b;
+ 	s64 fp_y, fp_channel_1, fp_channel_2;
+ 	s64 fp_r, fp_g, fp_b;
+ 
+-	fp_y = drm_int2fixp(((int)y - matrix->y_offset) * 257);
+-	fp_channel_1 = drm_int2fixp(((int)channel_1 - 128) * 257);
+-	fp_channel_2 = drm_int2fixp(((int)channel_2 - 128) * 257);
++	fp_y = drm_int2fixp((int)y - matrix->y_offset * 257);
++	fp_channel_1 = drm_int2fixp((int)channel_1 - 128 * 257);
++	fp_channel_2 = drm_int2fixp((int)channel_2 - 128 * 257);
+ 
+ 	fp_r = drm_fixp_mul(matrix->matrix[0][0], fp_y) +
+ 	       drm_fixp_mul(matrix->matrix[0][1], fp_channel_1) +
+@@ -300,7 +301,7 @@ VISIBLE_IF_KUNIT struct pixel_argb_u16 argb_u16_from_yuv888(u8 y, u8 channel_1,
+ 
+ 	return argb_u16_from_u16161616(0xffff, r, g, b);
+ }
+-EXPORT_SYMBOL_IF_KUNIT(argb_u16_from_yuv888);
++EXPORT_SYMBOL_IF_KUNIT(argb_u16_from_yuv161616);
+ 
+ /**
+  * READ_LINE() - Generic generator for a read_line function which can be used for format with one
+@@ -498,8 +499,8 @@ static void semi_planar_yuv_read_line(const struct vkms_plane_state *plane, int
+ 	const struct conversion_matrix *conversion_matrix = &plane->conversion_matrix;
+ 
+ 	for (int i = 0; i < count; i++) {
+-		*out_pixel = argb_u16_from_yuv888(y_plane[0], uv_plane[0], uv_plane[1],
+-						  conversion_matrix);
++		*out_pixel = argb_u16_from_yuv161616(conversion_matrix, y_plane[0] * 257,
++						     uv_plane[0] * 257, uv_plane[1] * 257);
+ 		out_pixel += 1;
+ 		y_plane += step_y;
+ 		if ((i + subsampling_offset + 1) % subsampling == 0)
+@@ -543,8 +544,9 @@ static void planar_yuv_read_line(const struct vkms_plane_state *plane, int x_sta
+ 	const struct conversion_matrix *conversion_matrix = &plane->conversion_matrix;
+ 
+ 	for (int i = 0; i < count; i++) {
+-		*out_pixel = argb_u16_from_yuv888(*y_plane, *channel_1_plane, *channel_2_plane,
+-						  conversion_matrix);
++		*out_pixel = argb_u16_from_yuv161616(conversion_matrix,
++						     *y_plane * 257, *channel_1_plane * 257,
++						     *channel_2_plane * 257);
+ 		out_pixel += 1;
+ 		y_plane += step_y;
+ 		if ((i + subsampling_offset + 1) % subsampling == 0) {
+diff --git a/drivers/gpu/drm/vkms/vkms_formats.h b/drivers/gpu/drm/vkms/vkms_formats.h
+index b4fe62ab9c65..eeb208cdd6b1 100644
+--- a/drivers/gpu/drm/vkms/vkms_formats.h
++++ b/drivers/gpu/drm/vkms/vkms_formats.h
+@@ -14,8 +14,8 @@ void get_conversion_matrix_to_argb_u16(u32 format, enum drm_color_encoding encod
+ 				       struct conversion_matrix *matrix);
+ 
+ #if IS_ENABLED(CONFIG_KUNIT)
+-struct pixel_argb_u16 argb_u16_from_yuv888(u8 y, u8 channel_1, u8 channel_2,
+-					   const struct conversion_matrix *matrix);
++struct pixel_argb_u16 argb_u16_from_yuv161616(const struct conversion_matrix *matrix,
++					      u16 y, u16 channel_1, u16 channel_2);
+ #endif
+ 
+ #endif /* _VKMS_FORMATS_H_ */
 
 -- 
 2.49.0
