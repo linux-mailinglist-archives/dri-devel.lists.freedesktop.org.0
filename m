@@ -2,46 +2,64 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8D553AF7290
-	for <lists+dri-devel@lfdr.de>; Thu,  3 Jul 2025 13:38:07 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id D45C4AF72C1
+	for <lists+dri-devel@lfdr.de>; Thu,  3 Jul 2025 13:46:17 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 356FC10E168;
-	Thu,  3 Jul 2025 11:38:05 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C093010E18C;
+	Thu,  3 Jul 2025 11:46:13 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="PcWAM3Be";
+	dkim=fail reason="signature verification failed" (2048-bit key; secure) header.d=infradead.org header.i=@infradead.org header.b="SdzgeONL";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from nyc.source.kernel.org (nyc.source.kernel.org [147.75.193.91])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 58BA510E168
- for <dri-devel@lists.freedesktop.org>; Thu,  3 Jul 2025 11:38:03 +0000 (UTC)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by nyc.source.kernel.org (Postfix) with ESMTP id 1B985A537F4;
- Thu,  3 Jul 2025 11:38:02 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4C45EC4CEE3;
- Thu,  3 Jul 2025 11:38:01 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
- s=korg; t=1751542681;
- bh=MkhGLruOucZARLsZikLDanvBS9WnavvoCIx5cJdjPfg=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=PcWAM3Be2WoNu0WAmoGdLtqP6ompjjjZfeGtwPUQA4PnstwjjkdcWCF2GRgbmCUGl
- hMUIUckg6g8/d+aXGWFglR0Yoj++ajBQ8KSDnvf6NAQ5n7PYctaWeVU/0ktDNhDrxa
- 1dhHaUVwWJEPBeT7fLD/cj2lFzJMl0c8MXA7YQ6U=
-Date: Thu, 3 Jul 2025 13:37:58 +0200
-From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-To: Al Viro <viro@zeniv.linux.org.uk>
-Cc: Jens Axboe <axboe@kernel.dk>, linux-fsdevel@vger.kernel.org,
- dri-devel@lists.freedesktop.org
-Subject: Re: (subset) [PATCH 01/11] zynqmp: don't bother with
- debugfs_file_{get,put}() in proxied fops
-Message-ID: <2025070316-curled-villain-c282@gregkh>
-References: <20250702211305.GE1880847@ZenIV> <20250702211408.GA3406663@ZenIV>
- <175149835231.467027.7368105747282893229.b4-ty@kernel.dk>
- <20250703002329.GF1880847@ZenIV>
+Received: from casper.infradead.org (casper.infradead.org [90.155.50.34])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D703F10E806;
+ Thu,  3 Jul 2025 11:46:08 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+ d=infradead.org; s=casper.20170209; h=In-Reply-To:Content-Transfer-Encoding:
+ Content-Type:MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:
+ Sender:Reply-To:Content-ID:Content-Description;
+ bh=LVjnHK2a2/GS8JYOQqAkvsSJ569rLPDcokWUDEILfso=; b=SdzgeONLE0Cs/spa7Ech+FjeJR
+ uUtVmD7cSnZ+6KeETxIeGJ0LCoLK580X2oh6bF3SdRoFLS9qASFrCRLqkuU8kF6S2ACiwM7IiOmiu
+ oBoszR+/N1SUVPi7YNRMxU4uJtkfnXpcrxOPlR13goCBbbNOenZLqK62kfj9sGUBHTcbF5g3FTVxw
+ n11VCCHII9HBNq41D32dMXZ9Fb7qBP0hL4b6s7oAcTeL2Bu0h4/MjCioH7Ztg72L0Euz6vKk6S1fn
+ IsDFZLUIoXwX4dv7bzSbFJsPiqNInlB60/tAjzguvvt+6wWAoyIzSL874/4HpJNxsguwpae0OdnVS
+ XWKn310Q==;
+Received: from willy by casper.infradead.org with local (Exim 4.98.2 #2 (Red
+ Hat Linux)) id 1uXIO1-0000000CwiZ-3tcP;
+ Thu, 03 Jul 2025 11:45:53 +0000
+Date: Thu, 3 Jul 2025 12:45:53 +0100
+From: Matthew Wilcox <willy@infradead.org>
+To: "hch@infradead.org" <hch@infradead.org>
+Cc: =?utf-8?B?6ZmI5rab5rab?= Taotao Chen <chentaotao@didiglobal.com>,
+ "tytso@mit.edu" <tytso@mit.edu>,
+ "adilger.kernel@dilger.ca" <adilger.kernel@dilger.ca>,
+ "brauner@kernel.org" <brauner@kernel.org>,
+ "jani.nikula@linux.intel.com" <jani.nikula@linux.intel.com>,
+ "rodrigo.vivi@intel.com" <rodrigo.vivi@intel.com>,
+ "tursulin@ursulin.net" <tursulin@ursulin.net>,
+ "airlied@gmail.com" <airlied@gmail.com>,
+ "linux-fsdevel@vger.kernel.org" <linux-fsdevel@vger.kernel.org>,
+ "linux-ext4@vger.kernel.org" <linux-ext4@vger.kernel.org>,
+ "linux-block@vger.kernel.org" <linux-block@vger.kernel.org>,
+ "intel-gfx@lists.freedesktop.org" <intel-gfx@lists.freedesktop.org>,
+ "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
+ "linux-mm@kvack.org" <linux-mm@kvack.org>,
+ "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
+ "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+ "chentao325@qq.com" <chentao325@qq.com>,
+ "frank.li@vivo.com" <frank.li@vivo.com>
+Subject: Re: [PATCH v3 4/4] ext4: support uncached buffered I/O
+Message-ID: <aGZtcSIryAj4zJtF@casper.infradead.org>
+References: <20250627110257.1870826-1-chentaotao@didiglobal.com>
+ <20250627110257.1870826-5-chentaotao@didiglobal.com>
+ <aF7OzbVwXqbJaLQA@casper.infradead.org>
+ <aGIxiOeJ_-lmRmiT@infradead.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20250703002329.GF1880847@ZenIV>
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <aGIxiOeJ_-lmRmiT@infradead.org>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -57,30 +75,20 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, Jul 03, 2025 at 01:23:29AM +0100, Al Viro wrote:
-> On Wed, Jul 02, 2025 at 05:19:12PM -0600, Jens Axboe wrote:
+On Sun, Jun 29, 2025 at 11:41:12PM -0700, hch@infradead.org wrote:
+> On Fri, Jun 27, 2025 at 06:03:09PM +0100, Matthew Wilcox wrote:
+> > On Fri, Jun 27, 2025 at 11:03:13AM +0000, 陈涛涛 Taotao Chen wrote:
+> > I think this needs to be:
 > > 
-> > On Wed, 02 Jul 2025 22:14:08 +0100, Al Viro wrote:
-> > > When debugfs file has been created by debugfs_create_file_unsafe(),
-> > > we do need the file_operations methods to use debugfs_file_{get,put}()
-> > > to prevent concurrent removal; for files created by debugfs_create_file()
-> > > that is done in the wrappers that call underlying methods, so there's
-> > > no point whatsoever duplicating that in the underlying methods themselves.
-> > > 
-> > > 
-> > > [...]
+> > 	if (iocb && iocb->ki_flags & IOCB_DONTCACHE)
 > > 
-> > Applied, thanks!
-> > 
-> > [10/11] blk-mq-debugfs: use debugfs_get_aux()
-> >         commit: c25885fc939f29200cccb58ffdb920a91ec62647
+> > because it's legit to call write_begin with a NULL argument.  The
+> > 'file' was always an optional argument, and we should preserve that
+> > optionality with this transformation.
 > 
-> Umm...  That sucker depends upon the previous commit - you'll
-> need to cast debugfs_get_aux() result to void * without that...
+> write_begin and write_end are only callbacks through helpers called
+> by the file system.  So if the file system never passes a NULL
+> file/kiocb it doesn't need to check for it.
 
-Wait, what "previous commit" this is patch 01/11 of the series?
+Sure, but some of those helpers are non-obvious, like page_symlink().
 
-I'm all for you just taking this through your trees if it depends on
-something else that is there, but that wasn't obvious, sorry.
-
-greg k-h
