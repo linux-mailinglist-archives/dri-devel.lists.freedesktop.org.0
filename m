@@ -2,56 +2,108 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 422D9AF74AA
-	for <lists+dri-devel@lfdr.de>; Thu,  3 Jul 2025 14:51:32 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9FC43AF749F
+	for <lists+dri-devel@lfdr.de>; Thu,  3 Jul 2025 14:51:16 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 650C610E82F;
-	Thu,  3 Jul 2025 12:51:30 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id F3ED910E825;
+	Thu,  3 Jul 2025 12:51:11 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=163.com header.i=@163.com header.b="jyqIAu5u";
+	dkim=pass (2048-bit key; unprotected) header.d=quicinc.com header.i=@quicinc.com header.b="ZLNFCW6S";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from m16.mail.163.com (m16.mail.163.com [117.135.210.4])
- by gabe.freedesktop.org (Postfix) with ESMTP id E223010E82D;
- Thu,  3 Jul 2025 12:51:27 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=163.com;
- s=s110527; h=From:To:Subject:Date:Message-ID:MIME-Version; bh=bY
- 9B1CwKG8zhSjP6nEjCOwgclQ+hLtFqP3JMLu5HpOk=; b=jyqIAu5ug7na6+ea3C
- sKxwIyIMconO37MZRAF64O1Et15BoBxIs6I68TQVjhbV9j7DcyQVsx9VR53a58uN
- /cb7IOvrVRC6z1TT88QDVJZvjKEQJe+tGNQQlEeIbMDDXCp2MNNamcusr4MDdXwi
- umd7mbCsYHXh2FFuKVCBel0UQ=
-Received: from ProDesk.. (unknown [])
- by gzga-smtp-mtada-g0-3 (Coremail) with SMTP id
- _____wAXBAyWfGZoVnrrCA--.37969S4; 
- Thu, 03 Jul 2025 20:50:39 +0800 (CST)
-From: Andy Yan <andyshrk@163.com>
-To: dmitry.baryshkov@oss.qualcomm.com
-Cc: mripard@kernel.org, neil.armstrong@linaro.org,
- dri-devel@lists.freedesktop.org, dianders@chromium.org,
- jani.nikula@intel.com, lyude@redhat.com, jonathanh@nvidia.com,
- p.zabel@pengutronix.de, simona@ffwll.ch, victor.liu@nxp.com,
- rfoss@kernel.org, chunkuang.hu@kernel.org,
- cristian.ciocaltea@collabora.com, Laurent.pinchart@ideasonboard.com,
- linux-arm-msm@vger.kernel.org, linux-mediatek@lists.infradead.org,
- linux-kernel@vger.kernel.org, freedreno@lists.freedesktop.org,
- Andy Yan <andy.yan@rock-chips.com>
-Subject: [PATCH v3 2/2] drm/bridge: Pass down connector to drm bridge detect
- hook
-Date: Thu,  3 Jul 2025 20:49:53 +0800
-Message-ID: <20250703125027.311109-3-andyshrk@163.com>
-X-Mailer: git-send-email 2.43.0
-In-Reply-To: <20250703125027.311109-1-andyshrk@163.com>
-References: <20250703125027.311109-1-andyshrk@163.com>
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com
+ [205.220.168.131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E92C310E825
+ for <dri-devel@lists.freedesktop.org>; Thu,  3 Jul 2025 12:51:10 +0000 (UTC)
+Received: from pps.filterd (m0279863.ppops.net [127.0.0.1])
+ by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 5637Dg6I007093;
+ Thu, 3 Jul 2025 12:51:05 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
+ cc:content-transfer-encoding:content-type:date:from:in-reply-to
+ :message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
+ pgPkM4z9EmDCEAnFMebZ9hY/9mD9t0tdwZEavmwTb1k=; b=ZLNFCW6SRcJzHuP4
+ U9TlZzKu2H2+mOK79rkyshjZy2CPHPD8oaqe4icqP49VjoS5hKIRULlpfzZGqt7T
+ IS7lUEcpM5oGNh/q01flZUilULPeK7AZ2hQWQczKLNALlC4BGKdgGU71sXa7+PMk
+ ktfQE+q+iDXSzVjK/vu1R3AM817WrjWuk09/qjXuvH538PN3CWOcVVh+bUCc/yH2
+ bW+8JSOYyHMY4iXf5eOF4inMeYWo+lVPqUZYFfmf4RPxzd668bRj3UyIgltKwOdt
+ CiwI0s2yceNgeqeSWIw5eoi9k6ilUYmBgVf6bSHGcT4eiXz6/xmK9fQvIW9LnOvS
+ 4YEcJg==
+Received: from nasanppmta02.qualcomm.com (i-global254.qualcomm.com
+ [199.106.103.254])
+ by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 47kn5jmykn-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Thu, 03 Jul 2025 12:51:04 +0000 (GMT)
+Received: from nasanex01b.na.qualcomm.com (nasanex01b.na.qualcomm.com
+ [10.46.141.250])
+ by NASANPPMTA02.qualcomm.com (8.18.1.2/8.18.1.2) with ESMTPS id 563Cp4WP029439
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Thu, 3 Jul 2025 12:51:04 GMT
+Received: from [10.217.219.62] (10.80.80.8) by nasanex01b.na.qualcomm.com
+ (10.46.141.250) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1748.10; Thu, 3 Jul
+ 2025 05:51:00 -0700
+Message-ID: <28d26c70-178f-413b-b7f8-410c508cfdd7@quicinc.com>
+Date: Thu, 3 Jul 2025 18:20:57 +0530
 MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v6 2/2] i2c: i2c-qcom-geni: Add Block event interrupt
+ support
+From: Jyothi Kumar Seerapu <quic_jseerapu@quicinc.com>
+To: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
+CC: Vinod Koul <vkoul@kernel.org>, Mukesh Kumar Savaliya
+ <quic_msavaliy@quicinc.com>, Viken Dadhaniya <quic_vdadhani@quicinc.com>,
+ Andi Shyti <andi.shyti@kernel.org>, Sumit Semwal <sumit.semwal@linaro.org>,
+ =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
+ <linux-arm-msm@vger.kernel.org>, <dmaengine@vger.kernel.org>,
+ <linux-kernel@vger.kernel.org>, <linux-i2c@vger.kernel.org>,
+ <linux-media@vger.kernel.org>, <dri-devel@lists.freedesktop.org>,
+ <linaro-mm-sig@lists.linaro.org>, <quic_vtanuku@quicinc.com>
+References: <20250506111844.1726-1-quic_jseerapu@quicinc.com>
+ <20250506111844.1726-3-quic_jseerapu@quicinc.com>
+ <qizkfszruwcny7f3g3i7cjst342s6ma62k5sgc6pg6yfoti7b3@fo2ssj7jvff2>
+ <3aa92123-e43e-4bf5-917a-2db6f1516671@quicinc.com>
+ <a98f0f1a-d814-4c6a-9235-918091399e4b@oss.qualcomm.com>
+ <ba7559c8-36b6-4628-8fc4-26121f00abd5@quicinc.com>
+ <w6epbao7dwwx65crst6md4uxi3iivkcj55mhr2ko3z5olezhdl@ffam3xif6tmh>
+ <5ed77f6d-14d7-4b62-9505-ab988fa43bf2@quicinc.com>
+ <644oygj43z2um42tmmldp3feemgzrdoirzfw7pu27k4zi76bwg@wfxbtgqqgh4p>
+ <dc7358a1-ddc5-402e-9024-283f8e46e3b6@quicinc.com>
+ <CAO9ioeVuAO6mYpBSpiTW0jhFRPtkubZ5eEskd1yLBHVdR8_YMA@mail.gmail.com>
+ <1b55d9d4-f3ff-4cd9-8906-5f370da55732@quicinc.com>
+Content-Language: en-US
+In-Reply-To: <1b55d9d4-f3ff-4cd9-8906-5f370da55732@quicinc.com>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
 Content-Transfer-Encoding: 8bit
-X-CM-TRANSID: _____wAXBAyWfGZoVnrrCA--.37969S4
-X-Coremail-Antispam: 1Uf129KBjvAXoWfCFWxWw13tFW3KrWxXFWxCrg_yoW5Gr1fKo
- WfA3sa9ayUG34xX393tF17KF4Yq3ZxKrn3WF4rK3ykWayUG3y7tFyIgFnxXFy7JFyavr47
- Z3ZrKr1rCr17GFn7n29KB7ZKAUJUUUU8529EdanIXcx71UUUUU7v73VFW2AGmfu7bjvjm3
- AaLaJ3UbIYCTnIWIevJa73UjIFyTuYvjxU-dWrDUUUU
-X-Originating-IP: [58.22.7.114]
-X-CM-SenderInfo: 5dqg52xkunqiywtou0bp/xtbB0gl-Xmhmemw9ZgAAs5
+X-Originating-IP: [10.80.80.8]
+X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
+ nasanex01b.na.qualcomm.com (10.46.141.250)
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
+ signatures=585085
+X-Authority-Analysis: v=2.4 cv=KtJN2XWN c=1 sm=1 tr=0 ts=68667cb8 cx=c_pps
+ a=JYp8KDb2vCoCEuGobkYCKw==:117 a=JYp8KDb2vCoCEuGobkYCKw==:17
+ a=GEpy-HfZoHoA:10 a=IkcTkHD0fZMA:10 a=Wb1JkmetP80A:10 a=COk6AnOGAAAA:8
+ a=x8f_750JEDoXyK8ovhkA:9 a=3ZKOabzyN94A:10 a=QEXdDO2ut3YA:10
+ a=TjNXssC_j7lpFel5tvFf:22
+X-Proofpoint-ORIG-GUID: VY_okcxpzkLBNEnezuRnbgzyUS4RNqPz
+X-Proofpoint-GUID: VY_okcxpzkLBNEnezuRnbgzyUS4RNqPz
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwNzAzMDEwNyBTYWx0ZWRfX+dVKWcnsOWJ0
+ 3XMbTotEMDSnA/Mv7+Ww/STjkbeAOcknaKdr+1AqwWIqGVXYUlZBUokPgf96zlZcEul5KlT49mO
+ ahVDCM98q5pzT8W4m7I6ipN4j0GSvD25JXXvABoLh0JOS4zrPz4wEnD0aq77ZqKr9Lvz6CT3Wf4
+ Yo/fN4dEZKkgIJ2iUsqQqyoxRMaUFSG7zi6nLKyx8o4SQ5NF8ACnODCSdpvaBSj3kxN6PQUuwTD
+ tcKZx3XUl0LcRgYqFp2/VoNnHg7H4V93E1ulpTNHdD5qQX2OAt3agvcZFzlRv/31vG6R21mRIWL
+ KpoKDI0snjNmsJNJIA1haEoCeCWRizBfNGkv+yUcIEoV/MDRKl+04pF66nzfCif847F2it+x1Qq
+ EywsqgoeN4AD4FH5MGCVkJBx26FBByoeGURSrePzu0Trw2a2QUaaKSQsOvP/svY0jyVxyZU/
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1099,Hydra:6.1.7,FMLib:17.12.80.40
+ definitions=2025-07-03_03,2025-07-02_04,2025-03-28_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ impostorscore=0 bulkscore=0 priorityscore=1501 malwarescore=0 suspectscore=0
+ mlxscore=0 spamscore=0 adultscore=0 lowpriorityscore=0 phishscore=0
+ clxscore=1015 mlxlogscore=999 classifier=spam authscore=0 authtc=n/a authcc=
+ route=outbound adjust=0 reason=mlx scancount=1 engine=8.19.0-2505280000
+ definitions=main-2507030107
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -67,556 +119,290 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Andy Yan <andy.yan@rock-chips.com>
 
-In some application scenarios, we hope to get the corresponding
-connector when the bridge's detect hook is invoked.
 
-In most cases, we can get the connector by drm_atomic_get_connector_for_encoder
-if the encoder attached to the bridge is enabled, however there will
-still be some scenarios where the detect hook of the bridge is called
-but the corresponding encoder has not been enabled yet. For instance,
-this occurs when the device is hot plug in for the first time.
+On 6/19/2025 9:46 PM, Jyothi Kumar Seerapu wrote:
+> 
+> 
+> On 6/18/2025 1:02 AM, Dmitry Baryshkov wrote:
+>> On Tue, 17 Jun 2025 at 17:11, Jyothi Kumar Seerapu
+>> <quic_jseerapu@quicinc.com> wrote:
+>>>
+>>>
+>>>
+>>> On 5/30/2025 10:12 PM, Dmitry Baryshkov wrote:
+>>>> On Fri, May 30, 2025 at 07:36:05PM +0530, Jyothi Kumar Seerapu wrote:
+>>>>>
+>>>>>
+>>>>> On 5/21/2025 6:15 PM, Dmitry Baryshkov wrote:
+>>>>>> On Wed, May 21, 2025 at 03:58:48PM +0530, Jyothi Kumar Seerapu wrote:
+>>>>>>>
+>>>>>>>
+>>>>>>> On 5/9/2025 9:31 PM, Dmitry Baryshkov wrote:
+>>>>>>>> On 09/05/2025 09:18, Jyothi Kumar Seerapu wrote:
+>>>>>>>>> Hi Dimitry, Thanks for providing the review comments.
+>>>>>>>>>
+>>>>>>>>> On 5/6/2025 5:16 PM, Dmitry Baryshkov wrote:
+>>>>>>>>>> On Tue, May 06, 2025 at 04:48:44PM +0530, Jyothi Kumar Seerapu 
+>>>>>>>>>> wrote:
+>>>>>>>>>>> The I2C driver gets an interrupt upon transfer completion.
+>>>>>>>>>>> When handling multiple messages in a single transfer, this
+>>>>>>>>>>> results in N interrupts for N messages, leading to significant
+>>>>>>>>>>> software interrupt latency.
+>>>>>>>>>>>
+>>>>>>>>>>> To mitigate this latency, utilize Block Event Interrupt (BEI)
+>>>>>>>>>>> mechanism. Enabling BEI instructs the hardware to prevent 
+>>>>>>>>>>> interrupt
+>>>>>>>>>>> generation and BEI is disabled when an interrupt is necessary.
+>>>>>>>>>>>
+>>>>>>>>>>> Large I2C transfer can be divided into chunks of 8 messages 
+>>>>>>>>>>> internally.
+>>>>>>>>>>> Interrupts are not expected for the first 7 message 
+>>>>>>>>>>> completions, only
+>>>>>>>>>>> the last message triggers an interrupt, indicating the 
+>>>>>>>>>>> completion of
+>>>>>>>>>>> 8 messages. This BEI mechanism enhances overall transfer 
+>>>>>>>>>>> efficiency.
+>>>>>>>>>>
+>>>>>>>>>> Why do you need this complexity? Is it possible to set the
+>>>>>>>>>> DMA_PREP_INTERRUPT flag on the last message in the transfer?
+>>>>>>>>>
+>>>>>>>>> If i undertsand correctly, the suggestion is to get the single
+>>>>>>>>> intetrrupt for last i2c message only.
+>>>>>>>>>
+>>>>>>>>> But With this approach, we can't handle large number of i2c 
+>>>>>>>>> messages
+>>>>>>>>> in the transfer.
+>>>>>>>>>
+>>>>>>>>> In GPI driver, number of max TREs support is harcoded to 64 
+>>>>>>>>> (#define
+>>>>>>>>> CHAN_TRES   64) and for I2C message, we need Config TRE, GO TRE 
+>>>>>>>>> and
+>>>>>>>>> DMA TREs. So, the avilable TREs are not sufficient to handle 
+>>>>>>>>> all the
+>>>>>>>>> N messages.
+>>>>>>>>
+>>>>>>>> It sounds like a DMA driver issue. In other words, the DMA 
+>>>>>>>> driver can
+>>>>>>>> know that it must issue an interrupt before exausting 64 TREs in 
+>>>>>>>> order
+>>>>>>>> to
+>>>>>>>>
+>>>>>>>>>
+>>>>>>>>> Here, the plan is to queue i2c messages (QCOM_I2C_GPI_MAX_NUM_MSGS
+>>>>>>>>> or 'num' incase for less messsages), process and unmap/free 
+>>>>>>>>> upon the
+>>>>>>>>> interrupt based on QCOM_I2C_GPI_NUM_MSGS_PER_IRQ.
+>>>>>>>>
+>>>>>>>> Why? This is some random value which has no connection with 
+>>>>>>>> CHAN_TREs.
+>>>>>>>> Also, what if one of the platforms get a 'liter' GPI which 
+>>>>>>>> supports less
+>>>>>>>> TREs in a single run? Or a super-premium platform which can use 256
+>>>>>>>> TREs? Please don't workaround issues from one driver in another 
+>>>>>>>> one.
+>>>>>>>
+>>>>>>> We are trying to utilize the existing CHAN_TRES mentioned in the 
+>>>>>>> GPI driver.
+>>>>>>> With the following approach, the GPI hardware can process N 
+>>>>>>> number of I2C
+>>>>>>> messages, thereby improving throughput and transfer efficiency.
+>>>>>>>
+>>>>>>> The main design consideration for using the block event interrupt 
+>>>>>>> is as
+>>>>>>> follows:
+>>>>>>>
+>>>>>>> Allow the hardware to process the TREs (I2C messages), while the 
+>>>>>>> software
+>>>>>>> concurrently prepares the next set of TREs to be submitted to the 
+>>>>>>> hardware.
+>>>>>>> Once the TREs are processed, they can be freed, enabling the 
+>>>>>>> software to
+>>>>>>> queue new TREs. This approach enhances overall optimization.
+>>>>>>>
+>>>>>>> Please let me know if you have any questions, concerns, or 
+>>>>>>> suggestions.
+>>>>>>
+>>>>>> The question was why do you limit that to 
+>>>>>> QCOM_I2C_GPI_NUM_MSGS_PER_IRQ.
+>>>>>> What is the reason for that limit, etc. If you think about it, The 
+>>>>>> GENI
+>>>>>> / I2C doesn't impose any limit on the number of messages processed in
+>>>>>> one go (if I understand it correctly). Instead the limit comes 
+>>>>>> from the
+>>>>>> GPI DMA driver. As such, please don't add extra 'handling' to the I2C
+>>>>>> driver. Make GPI DMA driver responsible for saying 'no more for now',
+>>>>>> then I2C driver can setup add an interrupt flag and proceed with
+>>>>>> submitting next messages, etc.
+>>>>>>
+>>>>>
+>>>>> For I2C messages, we need to prepare TREs for Config, Go and DMAs. 
+>>>>> However,
+>>>>> if a large number of I2C messages are submitted then may may run 
+>>>>> out of
+>>>>> memory for serving the TREs. The GPI channel supports a maximum of 
+>>>>> 64 TREs,
+>>>>> which is insufficient to serve 32 or even 16 I2C messages 
+>>>>> concurrently,
+>>>>> given the multiple TREs required per message.
+>>>>>
+>>>>> To address this limitation, a strategy has been implemented to 
+>>>>> manage how
+>>>>> many messages can be queued and how memory is recycled. The constant
+>>>>> QCOM_I2C_GPI_MAX_NUM_MSGS is set to 16, defining the upper limit of
+>>>>> messages that can be queued at once. Additionally,
+>>>>> QCOM_I2C_GPI_NUM_MSGS_PER_IRQ is set to 8, meaning that
+>>>>> half of the queued messages are expected to be freed or deallocated 
+>>>>> per
+>>>>> interrupt.
+>>>>> This approach ensures that the driver can efficiently manage TRE 
+>>>>> resources
+>>>>> and continue queuing new I2C messages without exhausting memory.
+>>>>>> I really don't see a reason for additional complicated handling in 
+>>>>>> the
+>>>>>> geni driver that you've implemented. Maybe I misunderstand 
+>>>>>> something. In
+>>>>>> such a case it usually means that you have to explain the design 
+>>>>>> in the
+>>>>>> commit message / in-code comments.
+>>>>>>
+>>>>>
+>>>>>
+>>>>> The I2C Geni driver is designed to prepare and submit descriptors 
+>>>>> to the GPI
+>>>>> driver one message at a time.
+>>>>> As a result, the GPI driver does not have visibility into the current
+>>>>> message index or the total number of I2C messages in a transfer. 
+>>>>> This lack
+>>>>> of context makes it challenging to determine when to set the block 
+>>>>> event
+>>>>> interrupt, which is typically used to signal the completion of a 
+>>>>> batch of
+>>>>> messages.
+>>>>>
+>>>>> So, the responsibility for deciding when to set the BEI should lie 
+>>>>> with the
+>>>>> I2C driver.
+>>>>>
+>>>>> If this approach is acceptable, I will proceed with updating the 
+>>>>> relevant
+>>>>> details in the commit message.
+>>>>>
+>>>>> Please let me know if you have any concerns or suggestions.
+>>>>
+>>> Hi Dmitry, Sorry for the delayed response, and thank you for the
+>>> suggestions.
+>>>
+>>>> - Make gpi_prep_slave_sg() return NULL if flags don't have
+>>>>     DMA_PREP_INTERRUPT flag and there are no 3 empty TREs for the
+>>>>     interrupt-enabled transfer.
+>>> "there are no 3 empty TREs for the interrupt-enabled transfer."
+>>> Could you please help me understand this a bit better?
+>>
+>> In the GPI driver you know how many TREs are available. In
+>> gpi_prep_slave_sg() you can check that and return an error if there
+>> are not enough TREs available.
+>>
+>>>>
+>>>> - If I2C driver gets NULL from dmaengine_prep_slave_single(), retry
+>>>>     again, adding DMA_PREP_INTERRUPT. Make sure that the last one 
+>>>> always
+>>>>     gets DMA_PREP_INTERRUPT.
+>>> Does this mean we need to proceed to the next I2C message and ensure
+>>> that the DMA_PREP_INTERRUPT flag is set for the last I2C message in each
+>>> chunk? And then, should we submit the chunk of messages to the GSI
+>>> hardware for processing?
+>>
+>> No. You don't have to peek at the next I2C message. This all concerns
+>> the current I2C message. The only point where you have to worry is to
+>> explicitly set the flag for the last message.
+>>
+>>>
+>>>>
+>>>> - In geni_i2c_gpi_xfer() split the loop to submit messages until you
+>>>>     can, then call wait_for_completion_timeout() and then
+>>>>     geni_i2c_gpi_unmap() for submitted messages, then continue with 
+>>>> a new
+>>>>     portion of messages.
+>>> Since the GPI channel supports a maximum of 64 TREs, should we consider
+>>> submitting a smaller number of predefined messages — perhaps fewer than
+>>> 32, such as 16?
+>>
+>> Why? Just submit messages until they fit, then flush the DMA async 
+>> channel.
+>>
+>>> This is because handling 32 messages would require one TRE for config
+>>> and 64 TREs for the Go and DMA preparation steps, which exceeds the
+>>> channel's TRE capacity of 64.
+>>>
+>>> We designed the approach to submit a portion of the messages — for
+>>> example, 16 at a time. Once 8 messages are processed and freed, the
+>>> hardware can continue processing the TREs, while the software
+>>> simultaneously prepares the next set of TREs. This parallelism helps in
+>>> efficiently utilizing the hardware and enhances overall system
+>>> optimization.
+>>
+>>
+>> And this overcomplicates the driver and introduces artificial
+>> limitations which need explanation. Please fix it in a simple way
+>> first. Then you can e.g. implement the watermark at the half of the
+>> GPI channel depth and request DMA_PREP_INTERRUPT to be set in the
+>> middle of the full sequence, allowing it to be used asynchronously in
+>> the background.
+>>
+> 
+> Okay, will review it. Thanks.
+> 
+> 
 
-Since the call to bridge's detect is initiated by the connector, passing
-down the corresponding connector directly will make things simpler.
+Hi Dmitry,
 
-Signed-off-by: Andy Yan <andy.yan@rock-chips.com>
----
+Can you please check and confirm the approach to follow is something 
+like the pseudo code mentioned below:
 
-(no changes since v1)
+GPI driver:
+In gpi_prep_slave_sg() function,
 
- drivers/gpu/drm/bridge/adv7511/adv7511_drv.c          |  3 ++-
- drivers/gpu/drm/bridge/analogix/anx7625.c             |  2 +-
- drivers/gpu/drm/bridge/cadence/cdns-mhdp8546-core.c   |  3 ++-
- drivers/gpu/drm/bridge/chrontel-ch7033.c              |  2 +-
- drivers/gpu/drm/bridge/display-connector.c            | 11 ++++++++---
- drivers/gpu/drm/bridge/ite-it6263.c                   |  3 ++-
- drivers/gpu/drm/bridge/ite-it6505.c                   |  2 +-
- drivers/gpu/drm/bridge/ite-it66121.c                  |  3 ++-
- drivers/gpu/drm/bridge/lontium-lt8912b.c              |  6 +++---
- drivers/gpu/drm/bridge/lontium-lt9611.c               |  3 ++-
- drivers/gpu/drm/bridge/lontium-lt9611uxc.c            |  3 ++-
- .../gpu/drm/bridge/megachips-stdpxxxx-ge-b850v3-fw.c  |  3 ++-
- drivers/gpu/drm/bridge/sii902x.c                      |  3 ++-
- drivers/gpu/drm/bridge/simple-bridge.c                |  2 +-
- drivers/gpu/drm/bridge/synopsys/dw-hdmi-qp.c          |  2 +-
- drivers/gpu/drm/bridge/synopsys/dw-hdmi.c             |  3 ++-
- drivers/gpu/drm/bridge/tc358767.c                     |  5 +++--
- drivers/gpu/drm/bridge/ti-sn65dsi86.c                 |  3 ++-
- drivers/gpu/drm/bridge/ti-tfp410.c                    |  2 +-
- drivers/gpu/drm/bridge/ti-tpd12s015.c                 |  8 +++++++-
- drivers/gpu/drm/display/drm_bridge_connector.c        |  2 +-
- drivers/gpu/drm/drm_bridge.c                          |  5 +++--
- drivers/gpu/drm/mediatek/mtk_dp.c                     |  3 ++-
- drivers/gpu/drm/mediatek/mtk_hdmi.c                   |  3 ++-
- drivers/gpu/drm/msm/dp/dp_drm.c                       |  3 ++-
- drivers/gpu/drm/msm/hdmi/hdmi.h                       |  2 +-
- drivers/gpu/drm/msm/hdmi/hdmi_bridge.c                |  2 +-
- drivers/gpu/drm/msm/hdmi/hdmi_hpd.c                   |  4 ++--
- drivers/gpu/drm/rockchip/rk3066_hdmi.c                |  2 +-
- drivers/gpu/drm/xlnx/zynqmp_dp.c                      |  3 ++-
- include/drm/drm_bridge.h                              |  6 ++++--
- 31 files changed, 68 insertions(+), 39 deletions(-)
+if (!(flags & DMA_PREP_INTERRUPT) && !gpi_available_tres(chan))
+	return NULL;
 
-diff --git a/drivers/gpu/drm/bridge/adv7511/adv7511_drv.c b/drivers/gpu/drm/bridge/adv7511/adv7511_drv.c
-index 9df18a8f2e37..cb6b6ce1669e 100644
---- a/drivers/gpu/drm/bridge/adv7511/adv7511_drv.c
-+++ b/drivers/gpu/drm/bridge/adv7511/adv7511_drv.c
-@@ -864,7 +864,8 @@ static int adv7511_bridge_attach(struct drm_bridge *bridge,
- 	return ret;
- }
- 
--static enum drm_connector_status adv7511_bridge_detect(struct drm_bridge *bridge)
-+static enum drm_connector_status
-+adv7511_bridge_detect(struct drm_bridge *bridge, struct drm_connector *connector)
- {
- 	struct adv7511 *adv = bridge_to_adv7511(bridge);
- 
-diff --git a/drivers/gpu/drm/bridge/analogix/anx7625.c b/drivers/gpu/drm/bridge/analogix/anx7625.c
-index 0ac4a82c5a6e..c0ad8f59e483 100644
---- a/drivers/gpu/drm/bridge/analogix/anx7625.c
-+++ b/drivers/gpu/drm/bridge/analogix/anx7625.c
-@@ -2448,7 +2448,7 @@ anx7625_audio_update_connector_status(struct anx7625_data *ctx,
- 				      enum drm_connector_status status);
- 
- static enum drm_connector_status
--anx7625_bridge_detect(struct drm_bridge *bridge)
-+anx7625_bridge_detect(struct drm_bridge *bridge, struct drm_connector *connector)
- {
- 	struct anx7625_data *ctx = bridge_to_anx7625(bridge);
- 	struct device *dev = ctx->dev;
-diff --git a/drivers/gpu/drm/bridge/cadence/cdns-mhdp8546-core.c b/drivers/gpu/drm/bridge/cadence/cdns-mhdp8546-core.c
-index cb5f5a8c539a..a614d1384f71 100644
---- a/drivers/gpu/drm/bridge/cadence/cdns-mhdp8546-core.c
-+++ b/drivers/gpu/drm/bridge/cadence/cdns-mhdp8546-core.c
-@@ -2143,7 +2143,8 @@ static int cdns_mhdp_atomic_check(struct drm_bridge *bridge,
- 	return 0;
- }
- 
--static enum drm_connector_status cdns_mhdp_bridge_detect(struct drm_bridge *bridge)
-+static enum drm_connector_status
-+cdns_mhdp_bridge_detect(struct drm_bridge *bridge, struct drm_connector *connector)
- {
- 	struct cdns_mhdp_device *mhdp = bridge_to_mhdp(bridge);
- 
-diff --git a/drivers/gpu/drm/bridge/chrontel-ch7033.c b/drivers/gpu/drm/bridge/chrontel-ch7033.c
-index ab9274793356..54d49d4882c8 100644
---- a/drivers/gpu/drm/bridge/chrontel-ch7033.c
-+++ b/drivers/gpu/drm/bridge/chrontel-ch7033.c
-@@ -215,7 +215,7 @@ static enum drm_connector_status ch7033_connector_detect(
- {
- 	struct ch7033_priv *priv = conn_to_ch7033_priv(connector);
- 
--	return drm_bridge_detect(priv->next_bridge);
-+	return drm_bridge_detect(priv->next_bridge, connector);
- }
- 
- static const struct drm_connector_funcs ch7033_connector_funcs = {
-diff --git a/drivers/gpu/drm/bridge/display-connector.c b/drivers/gpu/drm/bridge/display-connector.c
-index badd2c7f91a1..52b7b5889e6f 100644
---- a/drivers/gpu/drm/bridge/display-connector.c
-+++ b/drivers/gpu/drm/bridge/display-connector.c
-@@ -40,8 +40,7 @@ static int display_connector_attach(struct drm_bridge *bridge,
- 	return flags & DRM_BRIDGE_ATTACH_NO_CONNECTOR ? 0 : -EINVAL;
- }
- 
--static enum drm_connector_status
--display_connector_detect(struct drm_bridge *bridge)
-+static enum drm_connector_status display_connector_detect(struct drm_bridge *bridge)
- {
- 	struct display_connector *conn = to_display_connector(bridge);
- 
-@@ -82,6 +81,12 @@ display_connector_detect(struct drm_bridge *bridge)
- 	}
- }
- 
-+static enum drm_connector_status
-+display_connector_bridge_detect(struct drm_bridge *bridge, struct drm_connector *connector)
-+{
-+	return display_connector_detect(bridge);
-+}
-+
- static const struct drm_edid *display_connector_edid_read(struct drm_bridge *bridge,
- 							  struct drm_connector *connector)
- {
-@@ -172,7 +177,7 @@ static u32 *display_connector_get_input_bus_fmts(struct drm_bridge *bridge,
- 
- static const struct drm_bridge_funcs display_connector_bridge_funcs = {
- 	.attach = display_connector_attach,
--	.detect = display_connector_detect,
-+	.detect = display_connector_bridge_detect,
- 	.edid_read = display_connector_edid_read,
- 	.atomic_get_output_bus_fmts = display_connector_get_output_bus_fmts,
- 	.atomic_get_input_bus_fmts = display_connector_get_input_bus_fmts,
-diff --git a/drivers/gpu/drm/bridge/ite-it6263.c b/drivers/gpu/drm/bridge/ite-it6263.c
-index c4eedf643f39..cf813672b4ff 100644
---- a/drivers/gpu/drm/bridge/ite-it6263.c
-+++ b/drivers/gpu/drm/bridge/ite-it6263.c
-@@ -693,7 +693,8 @@ static int it6263_bridge_attach(struct drm_bridge *bridge,
- 	return 0;
- }
- 
--static enum drm_connector_status it6263_bridge_detect(struct drm_bridge *bridge)
-+static enum drm_connector_status
-+it6263_bridge_detect(struct drm_bridge *bridge, struct drm_connector *connector)
- {
- 	struct it6263 *it = bridge_to_it6263(bridge);
- 
-diff --git a/drivers/gpu/drm/bridge/ite-it6505.c b/drivers/gpu/drm/bridge/ite-it6505.c
-index b0dc9280d870..89649c17ffad 100644
---- a/drivers/gpu/drm/bridge/ite-it6505.c
-+++ b/drivers/gpu/drm/bridge/ite-it6505.c
-@@ -3238,7 +3238,7 @@ static void it6505_bridge_atomic_post_disable(struct drm_bridge *bridge,
- }
- 
- static enum drm_connector_status
--it6505_bridge_detect(struct drm_bridge *bridge)
-+it6505_bridge_detect(struct drm_bridge *bridge, struct drm_connector *connector)
- {
- 	struct it6505 *it6505 = bridge_to_it6505(bridge);
- 
-diff --git a/drivers/gpu/drm/bridge/ite-it66121.c b/drivers/gpu/drm/bridge/ite-it66121.c
-index 6494f0842793..aa7b1dcc5d70 100644
---- a/drivers/gpu/drm/bridge/ite-it66121.c
-+++ b/drivers/gpu/drm/bridge/ite-it66121.c
-@@ -843,7 +843,8 @@ static enum drm_mode_status it66121_bridge_mode_valid(struct drm_bridge *bridge,
- 	return MODE_OK;
- }
- 
--static enum drm_connector_status it66121_bridge_detect(struct drm_bridge *bridge)
-+static enum drm_connector_status
-+it66121_bridge_detect(struct drm_bridge *bridge, struct drm_connector *connector)
- {
- 	struct it66121_ctx *ctx = container_of(bridge, struct it66121_ctx, bridge);
- 
-diff --git a/drivers/gpu/drm/bridge/lontium-lt8912b.c b/drivers/gpu/drm/bridge/lontium-lt8912b.c
-index bd83228b0f0e..342374cb8fc6 100644
---- a/drivers/gpu/drm/bridge/lontium-lt8912b.c
-+++ b/drivers/gpu/drm/bridge/lontium-lt8912b.c
-@@ -408,7 +408,7 @@ lt8912_connector_detect(struct drm_connector *connector, bool force)
- 	struct lt8912 *lt = connector_to_lt8912(connector);
- 
- 	if (lt->hdmi_port->ops & DRM_BRIDGE_OP_DETECT)
--		return drm_bridge_detect(lt->hdmi_port);
-+		return drm_bridge_detect(lt->hdmi_port, connector);
- 
- 	return lt8912_check_cable_status(lt);
- }
-@@ -607,12 +607,12 @@ lt8912_bridge_mode_valid(struct drm_bridge *bridge,
- }
- 
- static enum drm_connector_status
--lt8912_bridge_detect(struct drm_bridge *bridge)
-+lt8912_bridge_detect(struct drm_bridge *bridge, struct drm_connector *connector)
- {
- 	struct lt8912 *lt = bridge_to_lt8912(bridge);
- 
- 	if (lt->hdmi_port->ops & DRM_BRIDGE_OP_DETECT)
--		return drm_bridge_detect(lt->hdmi_port);
-+		return drm_bridge_detect(lt->hdmi_port, connector);
- 
- 	return lt8912_check_cable_status(lt);
- }
-diff --git a/drivers/gpu/drm/bridge/lontium-lt9611.c b/drivers/gpu/drm/bridge/lontium-lt9611.c
-index ff85ac8130b4..a2d032ee4744 100644
---- a/drivers/gpu/drm/bridge/lontium-lt9611.c
-+++ b/drivers/gpu/drm/bridge/lontium-lt9611.c
-@@ -543,7 +543,8 @@ static int lt9611_regulator_enable(struct lt9611 *lt9611)
- 	return 0;
- }
- 
--static enum drm_connector_status lt9611_bridge_detect(struct drm_bridge *bridge)
-+static enum drm_connector_status
-+lt9611_bridge_detect(struct drm_bridge *bridge, struct drm_connector *connector)
- {
- 	struct lt9611 *lt9611 = bridge_to_lt9611(bridge);
- 	unsigned int reg_val = 0;
-diff --git a/drivers/gpu/drm/bridge/lontium-lt9611uxc.c b/drivers/gpu/drm/bridge/lontium-lt9611uxc.c
-index 766da2cb45a7..38fb8776c0f4 100644
---- a/drivers/gpu/drm/bridge/lontium-lt9611uxc.c
-+++ b/drivers/gpu/drm/bridge/lontium-lt9611uxc.c
-@@ -353,7 +353,8 @@ static void lt9611uxc_bridge_mode_set(struct drm_bridge *bridge,
- 	lt9611uxc_unlock(lt9611uxc);
- }
- 
--static enum drm_connector_status lt9611uxc_bridge_detect(struct drm_bridge *bridge)
-+static enum drm_connector_status
-+lt9611uxc_bridge_detect(struct drm_bridge *bridge, struct drm_connector *connector)
- {
- 	struct lt9611uxc *lt9611uxc = bridge_to_lt9611uxc(bridge);
- 	unsigned int reg_val = 0;
-diff --git a/drivers/gpu/drm/bridge/megachips-stdpxxxx-ge-b850v3-fw.c b/drivers/gpu/drm/bridge/megachips-stdpxxxx-ge-b850v3-fw.c
-index 81dde9ed7bcf..de57f8a9e98c 100644
---- a/drivers/gpu/drm/bridge/megachips-stdpxxxx-ge-b850v3-fw.c
-+++ b/drivers/gpu/drm/bridge/megachips-stdpxxxx-ge-b850v3-fw.c
-@@ -120,7 +120,8 @@ drm_connector_helper_funcs ge_b850v3_lvds_connector_helper_funcs = {
- 	.get_modes = ge_b850v3_lvds_get_modes,
- };
- 
--static enum drm_connector_status ge_b850v3_lvds_bridge_detect(struct drm_bridge *bridge)
-+static enum drm_connector_status
-+ge_b850v3_lvds_bridge_detect(struct drm_bridge *bridge, struct drm_connector *connector)
- {
- 	struct i2c_client *stdp4028_i2c =
- 			ge_b850v3_lvds_ptr->stdp4028_i2c;
-diff --git a/drivers/gpu/drm/bridge/sii902x.c b/drivers/gpu/drm/bridge/sii902x.c
-index 882973e90062..d537b1d036fb 100644
---- a/drivers/gpu/drm/bridge/sii902x.c
-+++ b/drivers/gpu/drm/bridge/sii902x.c
-@@ -458,7 +458,8 @@ static int sii902x_bridge_attach(struct drm_bridge *bridge,
- 	return 0;
- }
- 
--static enum drm_connector_status sii902x_bridge_detect(struct drm_bridge *bridge)
-+static enum drm_connector_status
-+sii902x_bridge_detect(struct drm_bridge *bridge, struct drm_connector *connector)
- {
- 	struct sii902x *sii902x = bridge_to_sii902x(bridge);
- 
-diff --git a/drivers/gpu/drm/bridge/simple-bridge.c b/drivers/gpu/drm/bridge/simple-bridge.c
-index c66bd913e33a..3d15ddd39470 100644
---- a/drivers/gpu/drm/bridge/simple-bridge.c
-+++ b/drivers/gpu/drm/bridge/simple-bridge.c
-@@ -90,7 +90,7 @@ simple_bridge_connector_detect(struct drm_connector *connector, bool force)
- {
- 	struct simple_bridge *sbridge = drm_connector_to_simple_bridge(connector);
- 
--	return drm_bridge_detect(sbridge->next_bridge);
-+	return drm_bridge_detect(sbridge->next_bridge, connector);
- }
- 
- static const struct drm_connector_funcs simple_bridge_con_funcs = {
-diff --git a/drivers/gpu/drm/bridge/synopsys/dw-hdmi-qp.c b/drivers/gpu/drm/bridge/synopsys/dw-hdmi-qp.c
-index f9438e39b94a..39332c57f2c5 100644
---- a/drivers/gpu/drm/bridge/synopsys/dw-hdmi-qp.c
-+++ b/drivers/gpu/drm/bridge/synopsys/dw-hdmi-qp.c
-@@ -876,7 +876,7 @@ static void dw_hdmi_qp_bridge_atomic_disable(struct drm_bridge *bridge,
- }
- 
- static enum drm_connector_status
--dw_hdmi_qp_bridge_detect(struct drm_bridge *bridge)
-+dw_hdmi_qp_bridge_detect(struct drm_bridge *bridge, struct drm_connector *connector)
- {
- 	struct dw_hdmi_qp *hdmi = bridge->driver_private;
- 
-diff --git a/drivers/gpu/drm/bridge/synopsys/dw-hdmi.c b/drivers/gpu/drm/bridge/synopsys/dw-hdmi.c
-index 76c6570e2a85..206b099a35e9 100644
---- a/drivers/gpu/drm/bridge/synopsys/dw-hdmi.c
-+++ b/drivers/gpu/drm/bridge/synopsys/dw-hdmi.c
-@@ -2978,7 +2978,8 @@ static void dw_hdmi_bridge_atomic_enable(struct drm_bridge *bridge,
- 	mutex_unlock(&hdmi->mutex);
- }
- 
--static enum drm_connector_status dw_hdmi_bridge_detect(struct drm_bridge *bridge)
-+static enum drm_connector_status
-+dw_hdmi_bridge_detect(struct drm_bridge *bridge, struct drm_connector *connector)
- {
- 	struct dw_hdmi *hdmi = bridge->driver_private;
- 
-diff --git a/drivers/gpu/drm/bridge/tc358767.c b/drivers/gpu/drm/bridge/tc358767.c
-index 61559467e2d2..d33cde42c25b 100644
---- a/drivers/gpu/drm/bridge/tc358767.c
-+++ b/drivers/gpu/drm/bridge/tc358767.c
-@@ -1760,7 +1760,8 @@ static const struct drm_connector_helper_funcs tc_connector_helper_funcs = {
- 	.get_modes = tc_connector_get_modes,
- };
- 
--static enum drm_connector_status tc_bridge_detect(struct drm_bridge *bridge)
-+static enum drm_connector_status
-+tc_bridge_detect(struct drm_bridge *bridge, struct drm_connector *connector)
- {
- 	struct tc_data *tc = bridge_to_tc(bridge);
- 	bool conn;
-@@ -1785,7 +1786,7 @@ tc_connector_detect(struct drm_connector *connector, bool force)
- 	struct tc_data *tc = connector_to_tc(connector);
- 
- 	if (tc->hpd_pin >= 0)
--		return tc_bridge_detect(&tc->bridge);
-+		return tc_bridge_detect(&tc->bridge, connector);
- 
- 	if (tc->panel_bridge)
- 		return connector_status_connected;
-diff --git a/drivers/gpu/drm/bridge/ti-sn65dsi86.c b/drivers/gpu/drm/bridge/ti-sn65dsi86.c
-index 3d0b4bc5129d..575dc2667592 100644
---- a/drivers/gpu/drm/bridge/ti-sn65dsi86.c
-+++ b/drivers/gpu/drm/bridge/ti-sn65dsi86.c
-@@ -1155,7 +1155,8 @@ static void ti_sn_bridge_atomic_post_disable(struct drm_bridge *bridge,
- 	pm_runtime_put_sync(pdata->dev);
- }
- 
--static enum drm_connector_status ti_sn_bridge_detect(struct drm_bridge *bridge)
-+static enum drm_connector_status
-+ti_sn_bridge_detect(struct drm_bridge *bridge, struct drm_connector *connector)
- {
- 	struct ti_sn65dsi86 *pdata = bridge_to_ti_sn65dsi86(bridge);
- 	int val = 0;
-diff --git a/drivers/gpu/drm/bridge/ti-tfp410.c b/drivers/gpu/drm/bridge/ti-tfp410.c
-index 549e8e8edeb4..b80ee089f880 100644
---- a/drivers/gpu/drm/bridge/ti-tfp410.c
-+++ b/drivers/gpu/drm/bridge/ti-tfp410.c
-@@ -89,7 +89,7 @@ tfp410_connector_detect(struct drm_connector *connector, bool force)
- {
- 	struct tfp410 *dvi = drm_connector_to_tfp410(connector);
- 
--	return drm_bridge_detect(dvi->next_bridge);
-+	return drm_bridge_detect(dvi->next_bridge, connector);
- }
- 
- static const struct drm_connector_funcs tfp410_con_funcs = {
-diff --git a/drivers/gpu/drm/bridge/ti-tpd12s015.c b/drivers/gpu/drm/bridge/ti-tpd12s015.c
-index 0919364e80d1..dcf686c4e73d 100644
---- a/drivers/gpu/drm/bridge/ti-tpd12s015.c
-+++ b/drivers/gpu/drm/bridge/ti-tpd12s015.c
-@@ -77,6 +77,12 @@ static enum drm_connector_status tpd12s015_detect(struct drm_bridge *bridge)
- 		return connector_status_disconnected;
- }
- 
-+static enum drm_connector_status
-+tpd12s015_bridge_detect(struct drm_bridge *bridge, struct drm_connector *connector)
-+{
-+	return tpd12s015_detect(bridge);
-+}
-+
- static void tpd12s015_hpd_enable(struct drm_bridge *bridge)
- {
- 	struct tpd12s015_device *tpd = to_tpd12s015(bridge);
-@@ -94,7 +100,7 @@ static void tpd12s015_hpd_disable(struct drm_bridge *bridge)
- static const struct drm_bridge_funcs tpd12s015_bridge_funcs = {
- 	.attach			= tpd12s015_attach,
- 	.detach			= tpd12s015_detach,
--	.detect			= tpd12s015_detect,
-+	.detect			= tpd12s015_bridge_detect,
- 	.hpd_enable		= tpd12s015_hpd_enable,
- 	.hpd_disable		= tpd12s015_hpd_disable,
- };
-diff --git a/drivers/gpu/drm/display/drm_bridge_connector.c b/drivers/gpu/drm/display/drm_bridge_connector.c
-index 717d96530c38..3e4d561a3a32 100644
---- a/drivers/gpu/drm/display/drm_bridge_connector.c
-+++ b/drivers/gpu/drm/display/drm_bridge_connector.c
-@@ -210,7 +210,7 @@ drm_bridge_connector_detect(struct drm_connector *connector, bool force)
- 	enum drm_connector_status status;
- 
- 	if (detect) {
--		status = detect->funcs->detect(detect);
-+		status = detect->funcs->detect(detect, connector);
- 
- 		if (hdmi)
- 			drm_atomic_helper_connector_hdmi_hotplug(connector, status);
-diff --git a/drivers/gpu/drm/drm_bridge.c b/drivers/gpu/drm/drm_bridge.c
-index 0b450b334afd..dd45d9b504d8 100644
---- a/drivers/gpu/drm/drm_bridge.c
-+++ b/drivers/gpu/drm/drm_bridge.c
-@@ -1237,12 +1237,13 @@ EXPORT_SYMBOL(drm_atomic_bridge_chain_check);
-  * The detection status on success, or connector_status_unknown if the bridge
-  * doesn't support output detection.
-  */
--enum drm_connector_status drm_bridge_detect(struct drm_bridge *bridge)
-+enum drm_connector_status
-+drm_bridge_detect(struct drm_bridge *bridge, struct drm_connector *connector)
- {
- 	if (!(bridge->ops & DRM_BRIDGE_OP_DETECT))
- 		return connector_status_unknown;
- 
--	return bridge->funcs->detect(bridge);
-+	return bridge->funcs->detect(bridge, connector);
- }
- EXPORT_SYMBOL_GPL(drm_bridge_detect);
- 
-diff --git a/drivers/gpu/drm/mediatek/mtk_dp.c b/drivers/gpu/drm/mediatek/mtk_dp.c
-index a5b10b2545dc..bef6eeb30d3e 100644
---- a/drivers/gpu/drm/mediatek/mtk_dp.c
-+++ b/drivers/gpu/drm/mediatek/mtk_dp.c
-@@ -2118,7 +2118,8 @@ static void mtk_dp_update_plugged_status(struct mtk_dp *mtk_dp)
- 	mutex_unlock(&mtk_dp->update_plugged_status_lock);
- }
- 
--static enum drm_connector_status mtk_dp_bdg_detect(struct drm_bridge *bridge)
-+static enum drm_connector_status
-+mtk_dp_bdg_detect(struct drm_bridge *bridge, struct drm_connector *connector)
- {
- 	struct mtk_dp *mtk_dp = mtk_dp_from_bridge(bridge);
- 	enum drm_connector_status ret = connector_status_disconnected;
-diff --git a/drivers/gpu/drm/mediatek/mtk_hdmi.c b/drivers/gpu/drm/mediatek/mtk_hdmi.c
-index 6943cdc77dec..845fd8aa43c3 100644
---- a/drivers/gpu/drm/mediatek/mtk_hdmi.c
-+++ b/drivers/gpu/drm/mediatek/mtk_hdmi.c
-@@ -1174,7 +1174,8 @@ static void mtk_hdmi_hpd_event(bool hpd, struct device *dev)
-  * Bridge callbacks
-  */
- 
--static enum drm_connector_status mtk_hdmi_bridge_detect(struct drm_bridge *bridge)
-+static enum drm_connector_status
-+mtk_hdmi_bridge_detect(struct drm_bridge *bridge, struct drm_connector *connector)
- {
- 	struct mtk_hdmi *hdmi = hdmi_ctx_from_bridge(bridge);
- 
-diff --git a/drivers/gpu/drm/msm/dp/dp_drm.c b/drivers/gpu/drm/msm/dp/dp_drm.c
-index f222d7ccaa88..9a461ab2f32f 100644
---- a/drivers/gpu/drm/msm/dp/dp_drm.c
-+++ b/drivers/gpu/drm/msm/dp/dp_drm.c
-@@ -20,7 +20,8 @@
-  * @bridge: Pointer to drm bridge structure
-  * Returns: Bridge's 'is connected' status
-  */
--static enum drm_connector_status msm_dp_bridge_detect(struct drm_bridge *bridge)
-+static enum drm_connector_status
-+msm_dp_bridge_detect(struct drm_bridge *bridge, struct drm_connector *connector)
- {
- 	struct msm_dp *dp;
- 
-diff --git a/drivers/gpu/drm/msm/hdmi/hdmi.h b/drivers/gpu/drm/msm/hdmi/hdmi.h
-index 1d02d4e1ed5b..02cfd46df594 100644
---- a/drivers/gpu/drm/msm/hdmi/hdmi.h
-+++ b/drivers/gpu/drm/msm/hdmi/hdmi.h
-@@ -215,7 +215,7 @@ int msm_hdmi_bridge_init(struct hdmi *hdmi);
- 
- void msm_hdmi_hpd_irq(struct drm_bridge *bridge);
- enum drm_connector_status msm_hdmi_bridge_detect(
--		struct drm_bridge *bridge);
-+		struct drm_bridge *bridge, struct drm_connector *connector);
- void msm_hdmi_hpd_enable(struct drm_bridge *bridge);
- void msm_hdmi_hpd_disable(struct drm_bridge *bridge);
- 
-diff --git a/drivers/gpu/drm/msm/hdmi/hdmi_bridge.c b/drivers/gpu/drm/msm/hdmi/hdmi_bridge.c
-index 53a7ce8cc7bc..46fd58646d32 100644
---- a/drivers/gpu/drm/msm/hdmi/hdmi_bridge.c
-+++ b/drivers/gpu/drm/msm/hdmi/hdmi_bridge.c
-@@ -475,7 +475,7 @@ msm_hdmi_hotplug_work(struct work_struct *work)
- 		container_of(work, struct hdmi_bridge, hpd_work);
- 	struct drm_bridge *bridge = &hdmi_bridge->base;
- 
--	drm_bridge_hpd_notify(bridge, drm_bridge_detect(bridge));
-+	drm_bridge_hpd_notify(bridge, drm_bridge_detect(bridge, hdmi_bridge->hdmi->connector));
- }
- 
- /* initialize bridge */
-diff --git a/drivers/gpu/drm/msm/hdmi/hdmi_hpd.c b/drivers/gpu/drm/msm/hdmi/hdmi_hpd.c
-index 407e6c449ee0..114b0d507700 100644
---- a/drivers/gpu/drm/msm/hdmi/hdmi_hpd.c
-+++ b/drivers/gpu/drm/msm/hdmi/hdmi_hpd.c
-@@ -177,8 +177,8 @@ static enum drm_connector_status detect_gpio(struct hdmi *hdmi)
- 			connector_status_disconnected;
- }
- 
--enum drm_connector_status msm_hdmi_bridge_detect(
--		struct drm_bridge *bridge)
-+enum drm_connector_status
-+msm_hdmi_bridge_detect(struct drm_bridge *bridge, struct drm_connector *connector)
- {
- 	struct hdmi_bridge *hdmi_bridge = to_hdmi_bridge(bridge);
- 	struct hdmi *hdmi = hdmi_bridge->hdmi;
-diff --git a/drivers/gpu/drm/rockchip/rk3066_hdmi.c b/drivers/gpu/drm/rockchip/rk3066_hdmi.c
-index e7875b52f298..ae4a5ac2299a 100644
---- a/drivers/gpu/drm/rockchip/rk3066_hdmi.c
-+++ b/drivers/gpu/drm/rockchip/rk3066_hdmi.c
-@@ -450,7 +450,7 @@ struct drm_encoder_helper_funcs rk3066_hdmi_encoder_helper_funcs = {
- };
- 
- static enum drm_connector_status
--rk3066_hdmi_bridge_detect(struct drm_bridge *bridge)
-+rk3066_hdmi_bridge_detect(struct drm_bridge *bridge, struct drm_connector *connector)
- {
- 	struct rk3066_hdmi *hdmi = bridge_to_rk3066_hdmi(bridge);
- 
-diff --git a/drivers/gpu/drm/xlnx/zynqmp_dp.c b/drivers/gpu/drm/xlnx/zynqmp_dp.c
-index 02e1feaa6115..588dd5610fa5 100644
---- a/drivers/gpu/drm/xlnx/zynqmp_dp.c
-+++ b/drivers/gpu/drm/xlnx/zynqmp_dp.c
-@@ -1720,7 +1720,8 @@ static enum drm_connector_status __zynqmp_dp_bridge_detect(struct zynqmp_dp *dp)
- 	return connector_status_disconnected;
- }
- 
--static enum drm_connector_status zynqmp_dp_bridge_detect(struct drm_bridge *bridge)
-+static enum drm_connector_status
-+zynqmp_dp_bridge_detect(struct drm_bridge *bridge, struct drm_connector *connector)
- {
- 	struct zynqmp_dp *dp = bridge_to_dp(bridge);
- 
-diff --git a/include/drm/drm_bridge.h b/include/drm/drm_bridge.h
-index 7a75b449bc91..b5a3124f70ed 100644
---- a/include/drm/drm_bridge.h
-+++ b/include/drm/drm_bridge.h
-@@ -660,7 +660,8 @@ struct drm_bridge_funcs {
- 	 *
- 	 * drm_connector_status indicating the bridge output status.
- 	 */
--	enum drm_connector_status (*detect)(struct drm_bridge *bridge);
-+	enum drm_connector_status (*detect)(struct drm_bridge *bridge,
-+					    struct drm_connector *connector);
- 
- 	/**
- 	 * @get_modes:
-@@ -1382,7 +1383,8 @@ drm_atomic_helper_bridge_propagate_bus_fmt(struct drm_bridge *bridge,
- 					u32 output_fmt,
- 					unsigned int *num_input_fmts);
- 
--enum drm_connector_status drm_bridge_detect(struct drm_bridge *bridge);
-+enum drm_connector_status
-+drm_bridge_detect(struct drm_bridge *bridge, struct drm_connector *connector);
- int drm_bridge_get_modes(struct drm_bridge *bridge,
- 			 struct drm_connector *connector);
- const struct drm_edid *drm_bridge_edid_read(struct drm_bridge *bridge,
--- 
-2.43.0
+
+I2C GENI driver:
+
+for (i = 0; i < num; i++)
+{
+    /* Always set interrupt for the last message */
+    if (i == num_msgs - 1)
+	flags |= DMA_PREP_INTERRUPT;
+
+
+    desc = dmaengine_prep_slave_single(chan, dma_addr, len, dir, flags);
+    if (!desc && !(flags & DMA_PREP_INTERRUPT)) {
+	  /* Retry with interrupt if not enough TREs */
+	  flags |= DMA_PREP_INTERRUPT;
+	  desc = dmaengine_prep_slave_single(chan, dma_addr, len, dir,   flags);
+    }
+
+
+    if (!desc)
+	break;
+	
+
+     dmaengine_submit(desc);
+     msg_idx++;
+}	
+
+dma_async_issue_pending(chan));
+
+time_left = wait_for_completion_timeout(&gi2c->done, XFER_TIMEOUT);
+if (!time_left)
+	return -ETIMEDOUT;
+
+Now Invoke "geni_i2c_gpi_unmap" for unmapping all submitted I2C messages.
+
+
+Thanks,
+JyothiKumar
+
+
 
