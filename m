@@ -2,36 +2,36 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 11F6EAF824B
-	for <lists+dri-devel@lfdr.de>; Thu,  3 Jul 2025 22:53:56 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id DE0E4AF824D
+	for <lists+dri-devel@lfdr.de>; Thu,  3 Jul 2025 22:53:58 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5760210E8E8;
-	Thu,  3 Jul 2025 20:53:54 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2911C10E8EE;
+	Thu,  3 Jul 2025 20:53:57 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=collabora.com header.i=@collabora.com header.b="PYdJcb0F";
+	dkim=pass (2048-bit key; unprotected) header.d=collabora.com header.i=@collabora.com header.b="paI2qKHN";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from bali.collaboradmins.com (bali.collaboradmins.com
  [148.251.105.195])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A8DE810E8DB;
- Thu,  3 Jul 2025 20:53:52 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9ACE210E8E7;
+ Thu,  3 Jul 2025 20:53:55 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
- s=mail; t=1751576031;
- bh=pnptQuQ9ul8nylrVc2pKAZ2SD1Z/hkCiZqbmBBAxVdU=;
+ s=mail; t=1751576034;
+ bh=6J+m7sJfFYde+NRfy6nf+kjWVxfONpUpn9vTU0wAjGw=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=PYdJcb0FkW1uBBauZkQEQ3IOCEqR5xAjkY9WwM9shmkmK9kSaJM94O5Ca9pxcAscx
- ljGBrYJysbFFryqoapW8CPuxfasZ9fXCSqbU/n7BT73nM6ecxWE/7JgDexq2gLoUfm
- o8N6vdOOwLqGLMyuEpnbESLCXl6GUINhem3qULEX+auyrfO3GZZi+NRqNVA0ONw/Dr
- rwRd6S9pT9XXdMwuqY3U57ew7xAkIEtEOYjmqob9dILtk0Wcs8q1RIdjbu7Uwh3wNt
- bTyV5iAR3yEYczXSGw2gMl9BPdZ2XtkDzXwKY4JM5ZVs85kNjlPr/sr26oVYYv4Usb
- Lm3cB2qQFi9BA==
+ b=paI2qKHNkEqycFdRMANr2/gpMkapVre+dO57xqkVgtYPGQPpIPTgrNjamfBZ/Ep9n
+ 6sVN2109BNdC7sHaYlsnmb+A7wVTmLMOelZkZaFS8UuAXQMJuuVZBKIGvUshh33qYc
+ 5/Jeix01C0iAAlnAfZTTPuhkhh6GChIx+fkVyVmyYSIWF6RSFzL0JiViuYoGk3xR0c
+ iFHPWFiAYfMLG/+G3MayDXDWV8TB4Ry//dSv5YFwweSVQFX7ghTMitTwdoF12764AM
+ R6WP2ez6cVwBsGzu9JEMibZr0Ny1MDC9czzNi8rd3Ecf0Dl7HjsAbZ55vPka/P5lrX
+ Uqy9lEMHUk+Vw==
 Received: from debian-rockchip-rock5b-rk3588.. (unknown [90.168.160.154])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
  (No client certificate requested) (Authenticated sender: nanokatze)
- by bali.collaboradmins.com (Postfix) with ESMTPSA id 18D3017E10C7;
- Thu,  3 Jul 2025 22:53:50 +0200 (CEST)
+ by bali.collaboradmins.com (Postfix) with ESMTPSA id 078F817E10F4;
+ Thu,  3 Jul 2025 22:53:52 +0200 (CEST)
 From: Caterina Shablia <caterina.shablia@collabora.com>
 To: "Maarten Lankhorst" <maarten.lankhorst@linux.intel.com>,
  "Maxime Ripard" <mripard@kernel.org>,
@@ -50,9 +50,9 @@ Cc: dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
  nouveau@lists.freedesktop.org, intel-xe@lists.freedesktop.org,
  Asahi Lina <lina@asahilina.net>,
  Caterina Shablia <caterina.shablia@collabora.com>
-Subject: [PATCH v3 6/7] drm/gpuvm: Add DRM_GPUVA_REPEAT flag and logic
-Date: Thu,  3 Jul 2025 20:52:58 +0000
-Message-ID: <20250703205308.19419-7-caterina.shablia@collabora.com>
+Subject: [PATCH v3 7/7] drm/panthor: Add support for repeated mappings
+Date: Thu,  3 Jul 2025 20:52:59 +0000
+Message-ID: <20250703205308.19419-8-caterina.shablia@collabora.com>
 X-Mailer: git-send-email 2.47.2
 In-Reply-To: <20250703205308.19419-1-caterina.shablia@collabora.com>
 References: <20250703205308.19419-1-caterina.shablia@collabora.com>
@@ -73,279 +73,242 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Asahi Lina <lina@asahilina.net>
+From: Boris Brezillon <boris.brezillon@collabora.com>
 
-To be able to support "fake sparse" mappings without relying on GPU page
-fault handling, drivers may need to create large (e.g. 4GiB) mappings of
-the same page repeatedly (or same range of pages). Doing this through
-individual mappings would be very wasteful. This can be handled better
-by using a flag on map creation, but to do it safely, drm_gpuvm needs to
-be aware of this special case.
+This allows us to optimize mapping of a relatively small
+portion of a BO over and over in a large VA range, which
+is useful to support Vulkan sparse bindings in an efficient
+way.
 
-Add a flag that signals that a given mapping is a page mapping, which is
-repeated all over the entire requested VA range. This tweaks the
-sm_map() logic to treat the GEM offsets differently when mappings are
-a repeated ones so they are not incremented as they would be with regular
-mappings.
-
-The size of the GEM portion to repeat is passed through
-drm_gpuva::gem::range. Most of the time it will be a page size, but
-it can be bigger as long as it's less that drm_gpuva::va::range, and
-drm_gpuva::gem::range is a multiple of drm_gpuva::va::range.
-
-Signed-off-by: Asahi Lina <lina@asahilina.net>
+Signed-off-by: Boris Brezillon <boris.brezillon@collabora.com>
+Co-developed-by: Caterina Shablia <caterina.shablia@collabora.com>
 Signed-off-by: Caterina Shablia <caterina.shablia@collabora.com>
 ---
- drivers/gpu/drm/drm_gpuvm.c | 71 +++++++++++++++++++++++++++++++++----
- include/drm/drm_gpuvm.h     | 43 +++++++++++++++++++++-
- 2 files changed, 107 insertions(+), 7 deletions(-)
+ drivers/gpu/drm/panthor/panthor_drv.c |  3 +-
+ drivers/gpu/drm/panthor/panthor_mmu.c | 78 ++++++++++++++++++++++++---
+ include/uapi/drm/panthor_drm.h        | 23 ++++++++
+ 3 files changed, 95 insertions(+), 9 deletions(-)
 
-diff --git a/drivers/gpu/drm/drm_gpuvm.c b/drivers/gpu/drm/drm_gpuvm.c
-index a24b6159a0d4..7b0c90119d32 100644
---- a/drivers/gpu/drm/drm_gpuvm.c
-+++ b/drivers/gpu/drm/drm_gpuvm.c
-@@ -2063,6 +2063,7 @@ op_map_cb(const struct drm_gpuvm_ops *fn, void *priv,
- 	op.map.va.range = req->va.range;
- 	op.map.gem.obj = req->gem.obj;
- 	op.map.gem.offset = req->gem.offset;
-+	op.map.gem.range = req->gem.range;
- 	op.map.flags = req->flags;
+diff --git a/drivers/gpu/drm/panthor/panthor_drv.c b/drivers/gpu/drm/panthor/panthor_drv.c
+index 1116f2d2826e..585c07b07c42 100644
+--- a/drivers/gpu/drm/panthor/panthor_drv.c
++++ b/drivers/gpu/drm/panthor/panthor_drv.c
+@@ -1608,6 +1608,7 @@ static void panthor_debugfs_init(struct drm_minor *minor)
+  * - 1.3 - adds DRM_PANTHOR_GROUP_STATE_INNOCENT flag
+  * - 1.4 - adds DRM_IOCTL_PANTHOR_BO_SET_LABEL ioctl
+  * - 1.5 - adds DRM_PANTHOR_SET_USER_MMIO_OFFSET ioctl
++ * - 1.6 - adds DRM_PANTHOR_VM_BIND_OP_MAP_REPEAT flag
+  */
+ static const struct drm_driver panthor_drm_driver = {
+ 	.driver_features = DRIVER_RENDER | DRIVER_GEM | DRIVER_SYNCOBJ |
+@@ -1621,7 +1622,7 @@ static const struct drm_driver panthor_drm_driver = {
+ 	.name = "panthor",
+ 	.desc = "Panthor DRM driver",
+ 	.major = 1,
+-	.minor = 5,
++	.minor = 6,
  
- 	return fn->sm_step_map(&op, priv);
-@@ -2122,12 +2123,53 @@ static bool can_merge(struct drm_gpuvm *gpuvm, const struct drm_gpuva *a,
- 	if (drm_WARN_ON(gpuvm->drm, b->va.addr > a->va.addr + a->va.range))
- 		return false;
+ 	.gem_create_object = panthor_gem_create_object,
+ 	.gem_prime_import_sg_table = drm_gem_shmem_prime_import_sg_table,
+diff --git a/drivers/gpu/drm/panthor/panthor_mmu.c b/drivers/gpu/drm/panthor/panthor_mmu.c
+index a7852485e638..adea26985c31 100644
+--- a/drivers/gpu/drm/panthor/panthor_mmu.c
++++ b/drivers/gpu/drm/panthor/panthor_mmu.c
+@@ -202,6 +202,9 @@ struct panthor_vm_op_ctx {
+ 		/** @map.bo_offset: Offset in the buffer object. */
+ 		u64 bo_offset;
  
-+	if (a->flags & DRM_GPUVA_REPEAT) {
-+		u64 va_diff = b->va.addr - a->va.addr;
++		/** @bo_repeat_range: Repeated BO range. */
++		u32 bo_repeat_range;
 +
-+		/* If this is a repeated mapping, both the GEM range
-+		 * and offset must match.
-+		 */
-+		if (a->gem.range != b->gem.range ||
-+		    a->gem.offset != b->gem.offset)
-+			return false;
-+
-+		/* The difference between the VA addresses must be a
-+		 * multiple of the repeated range, otherwise there's
-+		 * a shift.
-+		 */
-+		if (do_div(va_diff, a->gem.range))
-+			return false;
-+
-+		return true;
-+	}
-+
- 	/* We intentionally ignore u64 underflows because all we care about
- 	 * here is whether the VA diff matches the GEM offset diff.
- 	 */
- 	return b->va.addr - a->va.addr == b->gem.offset - a->gem.offset;
+ 		/**
+ 		 * @map.sgt: sg-table pointing to pages backing the GEM object.
+ 		 *
+@@ -1007,6 +1010,26 @@ panthor_vm_map_pages(struct panthor_vm *vm, u64 iova, int prot,
+ 	return 0;
  }
  
-+static int check_map_req(struct drm_gpuvm *gpuvm,
-+			 const struct drm_gpuvm_map_req *req)
++static int
++panthor_vm_repeated_map_pages(struct panthor_vm *vm, u64 iova, int prot,
++			      struct sg_table *sgt, u64 offset, u64 size,
++			      u64 count)
 +{
-+	if (unlikely(!drm_gpuvm_range_valid(gpuvm, req->va.addr, req->va.range)))
-+		return -EINVAL;
++	/* FIXME: we really need to optimize this at the io_pgtable level. */
++	for (u64 i = 0; i < count; i++) {
++		int ret;
 +
-+	if (req->flags & DRM_GPUVA_REPEAT) {
-+		u64 va_range = req->va.range;
-+
-+		/* For a repeated mapping, GEM range must be > 0
-+		 * and a multiple of the VA range.
-+		 */
-+		if (unlikely(!req->gem.range ||
-+			     (va_range < req->gem.range) ||
-+			     do_div(va_range, req->gem.range)))
-+			return -EINVAL;
++		ret = panthor_vm_map_pages(vm, iova + (size * i), prot,
++					   sgt, offset, size);
++		if (ret) {
++			panthor_vm_unmap_pages(vm, iova, size * (i - 1));
++			return ret;
++		}
 +	}
 +
 +	return 0;
 +}
 +
- static int
- __drm_gpuvm_sm_map(struct drm_gpuvm *gpuvm,
- 		   const struct drm_gpuvm_ops *ops, void *priv,
-@@ -2137,6 +2179,7 @@ __drm_gpuvm_sm_map(struct drm_gpuvm *gpuvm,
- 	struct drm_gpuva reqva = {
- 		.va.addr = req->va.addr,
- 		.va.range = req->va.range,
-+		.gem.range = req->gem.range,
- 		.gem.offset = req->gem.offset,
- 		.gem.obj = req->gem.obj,
- 		.flags = req->flags,
-@@ -2144,7 +2187,8 @@ __drm_gpuvm_sm_map(struct drm_gpuvm *gpuvm,
- 	u64 req_end = req->va.addr + req->va.range;
- 	int ret;
+ static int flags_to_prot(u32 flags)
+ {
+ 	int prot = 0;
+@@ -1203,12 +1226,14 @@ panthor_vm_op_ctx_prealloc_vmas(struct panthor_vm_op_ctx *op_ctx)
+ 	(DRM_PANTHOR_VM_BIND_OP_MAP_READONLY | \
+ 	 DRM_PANTHOR_VM_BIND_OP_MAP_NOEXEC | \
+ 	 DRM_PANTHOR_VM_BIND_OP_MAP_UNCACHED | \
++	 DRM_PANTHOR_VM_BIND_OP_MAP_REPEAT | \
+ 	 DRM_PANTHOR_VM_BIND_OP_TYPE_MASK)
  
--	if (unlikely(!drm_gpuvm_range_valid(gpuvm, req->va.addr, req->va.range)))
-+	ret = check_map_req(gpuvm, req);
-+	if (unlikely(ret))
+ static int panthor_vm_prepare_map_op_ctx(struct panthor_vm_op_ctx *op_ctx,
+ 					 struct panthor_vm *vm,
+ 					 struct panthor_gem_object *bo,
+ 					 u64 offset,
++					 u32 repeat_range,
+ 					 u64 size, u64 va,
+ 					 u32 flags)
+ {
+@@ -1224,9 +1249,22 @@ static int panthor_vm_prepare_map_op_ctx(struct panthor_vm_op_ctx *op_ctx,
+ 	    (flags & DRM_PANTHOR_VM_BIND_OP_TYPE_MASK) != DRM_PANTHOR_VM_BIND_OP_TYPE_MAP)
  		return -EINVAL;
  
- 	drm_gpuvm_for_each_va_range_safe(va, next, gpuvm, req->va.addr, req_end) {
-@@ -2175,7 +2219,8 @@ __drm_gpuvm_sm_map(struct drm_gpuvm *gpuvm,
- 					.va.addr = req_end,
- 					.va.range = range - req->va.range,
- 					.gem.obj = obj,
--					.gem.offset = offset + req->va.range,
-+					.gem.range = va->gem.range,
-+					.gem.offset = offset,
- 					.flags = va->flags,
- 				};
- 				struct drm_gpuva_op_unmap u = {
-@@ -2183,6 +2228,9 @@ __drm_gpuvm_sm_map(struct drm_gpuvm *gpuvm,
- 					.keep = merge,
- 				};
- 
-+				if (!(va->flags & DRM_GPUVA_REPEAT))
-+					n.gem.offset += req->va.range;
+-	/* Make sure the VA and size are aligned and in-bounds. */
+-	if (size > bo->base.base.size || offset > bo->base.base.size - size)
+-		return -EINVAL;
++	if (!(flags & DRM_PANTHOR_VM_BIND_OP_MAP_REPEAT)) {
++		/* Make sure the VA and size are aligned and in-bounds. */
++		if (size > bo->base.base.size || offset > bo->base.base.size - size)
++			return -EINVAL;
++	} else {
++		/* Make sure the repeat_range is in-bounds. */
++		if (repeat_range > bo->base.base.size || offset > bo->base.base.size - repeat_range)
++			return -EINVAL;
 +
- 				ret = op_remap_cb(ops, priv, NULL, &n, &u);
- 				if (ret)
- 					return ret;
-@@ -2194,6 +2242,7 @@ __drm_gpuvm_sm_map(struct drm_gpuvm *gpuvm,
- 				.va.addr = addr,
- 				.va.range = ls_range,
- 				.gem.obj = obj,
-+				.gem.range = va->gem.range,
- 				.gem.offset = offset,
- 				.flags = va->flags,
- 			};
-@@ -2220,11 +2269,14 @@ __drm_gpuvm_sm_map(struct drm_gpuvm *gpuvm,
- 					.va.addr = req_end,
- 					.va.range = end - req_end,
- 					.gem.obj = obj,
--					.gem.offset = offset + ls_range +
--						      req->va.range,
-+					.gem.range = va->gem.range,
-+					.gem.offset = offset,
- 					.flags = va->flags,
- 				};
- 
-+				if (!(va->flags & DRM_GPUVA_REPEAT))
-+					n.gem.offset += ls_range + req->va.range;
++		/* Make sure size is a multiple of repeat_range */
 +
- 				ret = op_remap_cb(ops, priv, &p, &n, &u);
- 				if (ret)
- 					return ret;
-@@ -2250,7 +2302,8 @@ __drm_gpuvm_sm_map(struct drm_gpuvm *gpuvm,
- 					.va.addr = req_end,
- 					.va.range = end - req_end,
- 					.gem.obj = obj,
--					.gem.offset = offset + req_end - addr,
-+					.gem.range = va->gem.range,
-+					.gem.offset = offset,
- 					.flags = va->flags,
- 				};
- 				struct drm_gpuva_op_unmap u = {
-@@ -2258,6 +2311,8 @@ __drm_gpuvm_sm_map(struct drm_gpuvm *gpuvm,
- 					.keep = merge,
- 				};
++		u64 repeat_count = size;
++
++		if (do_div(repeat_count, repeat_range))
++			return -EINVAL;
++	}
  
-+				if (!(va->flags & DRM_GPUVA_REPEAT))
-+					n.gem.offset += req_end - addr;
+ 	/* If the BO has an exclusive VM attached, it can't be mapped to other VMs. */
+ 	if (bo->exclusive_vm_root_gem &&
+@@ -1295,6 +1333,7 @@ static int panthor_vm_prepare_map_op_ctx(struct panthor_vm_op_ctx *op_ctx,
+ 		drm_gem_shmem_unpin(&bo->base);
  
- 				ret = op_remap_cb(ops, priv, NULL, &n, &u);
- 				if (ret)
-@@ -2295,6 +2350,7 @@ __drm_gpuvm_sm_unmap(struct drm_gpuvm *gpuvm,
- 			prev.va.addr = addr;
- 			prev.va.range = req_addr - addr;
- 			prev.gem.obj = obj;
-+			prev.gem.range = va->gem.range;
- 			prev.gem.offset = offset;
- 			prev.flags = va->flags;
+ 	op_ctx->map.bo_offset = offset;
++	op_ctx->map.bo_repeat_range = repeat_range;
  
-@@ -2305,7 +2361,10 @@ __drm_gpuvm_sm_unmap(struct drm_gpuvm *gpuvm,
- 			next.va.addr = req_end;
- 			next.va.range = end - req_end;
- 			next.gem.obj = obj;
--			next.gem.offset = offset + (req_end - addr);
-+			prev.gem.range = va->gem.range;
-+			next.gem.offset = offset;
-+			if (!(va->flags & DRM_GPUVA_REPEAT))
-+				next.gem.offset += req_end - addr;
- 			next.flags = va->flags;
+ 	/* L1, L2 and L3 page tables.
+ 	 * We could optimize L3 allocation by iterating over the sgt and merging
+@@ -2112,9 +2151,22 @@ static int panthor_gpuva_sm_step_map(struct drm_gpuva_op *op, void *priv)
  
- 			next_split = true;
-diff --git a/include/drm/drm_gpuvm.h b/include/drm/drm_gpuvm.h
-index f77a89e791f1..629e8508f99f 100644
---- a/include/drm/drm_gpuvm.h
-+++ b/include/drm/drm_gpuvm.h
-@@ -56,10 +56,19 @@ enum drm_gpuva_flags {
+ 	panthor_vma_init(vma, op_ctx->flags & PANTHOR_VM_MAP_FLAGS);
+ 
+-	ret = panthor_vm_map_pages(vm, op->map.va.addr, flags_to_prot(vma->flags),
+-				   op_ctx->map.sgt, op->map.gem.offset,
+-				   op->map.va.range);
++	if (op_ctx->flags & DRM_PANTHOR_VM_BIND_OP_MAP_REPEAT) {
++		u64 repeat_count = op->map.va.range;
++
++		do_div(repeat_count, op->map.gem.range);
++		ret = panthor_vm_repeated_map_pages(vm, op->map.va.addr,
++						    flags_to_prot(vma->flags),
++						    op_ctx->map.sgt,
++						    op->map.gem.offset,
++						    op->map.gem.range,
++						    repeat_count);
++	} else {
++		ret = panthor_vm_map_pages(vm, op->map.va.addr,
++					   flags_to_prot(vma->flags),
++					   op_ctx->map.sgt, op->map.gem.offset,
++					   op->map.va.range);
++	}
+ 	if (ret)
+ 		return ret;
+ 
+@@ -2237,7 +2289,7 @@ panthor_vm_exec_op(struct panthor_vm *vm, struct panthor_vm_op_ctx *op,
+ 
+ 	switch (op_type) {
+ 	case DRM_PANTHOR_VM_BIND_OP_TYPE_MAP: {
+-		const struct drm_gpuvm_map_req map_req = {
++		struct drm_gpuvm_map_req map_req = {
+ 			.va.addr = op->va.addr,
+ 			.va.range = op->va.range,
+ 			.gem.obj = op->map.vm_bo->obj,
+@@ -2249,6 +2301,11 @@ panthor_vm_exec_op(struct panthor_vm *vm, struct panthor_vm_op_ctx *op,
+ 			break;
+ 		}
+ 
++		if (op->flags & DRM_PANTHOR_VM_BIND_OP_MAP_REPEAT) {
++			map_req.flags |= DRM_GPUVA_REPEAT;
++			map_req.gem.range = op->map.bo_repeat_range;
++		}
++
+ 		ret = drm_gpuvm_sm_map(&vm->base, vm, &map_req);
+ 		break;
+ 	}
+@@ -2497,6 +2554,7 @@ panthor_vm_bind_prepare_op_ctx(struct drm_file *file,
+ 		ret = panthor_vm_prepare_map_op_ctx(op_ctx, vm,
+ 						    gem ? to_panthor_bo(gem) : NULL,
+ 						    op->bo_offset,
++						    op->bo_repeat_range,
+ 						    op->size,
+ 						    op->va,
+ 						    op->flags);
+@@ -2698,7 +2756,11 @@ int panthor_vm_map_bo_range(struct panthor_vm *vm, struct panthor_gem_object *bo
+ 	struct panthor_vm_op_ctx op_ctx;
+ 	int ret;
+ 
+-	ret = panthor_vm_prepare_map_op_ctx(&op_ctx, vm, bo, offset, size, va, flags);
++	/* TODO: would be nice to replace with assert instead */
++	if (flags & DRM_PANTHOR_VM_BIND_OP_MAP_REPEAT)
++		return -EINVAL;
++
++	ret = panthor_vm_prepare_map_op_ctx(&op_ctx, vm, bo, offset, 0, size, va, flags);
+ 	if (ret)
+ 		return ret;
+ 
+diff --git a/include/uapi/drm/panthor_drm.h b/include/uapi/drm/panthor_drm.h
+index e1f43deb7eca..ad278bc234b0 100644
+--- a/include/uapi/drm/panthor_drm.h
++++ b/include/uapi/drm/panthor_drm.h
+@@ -496,6 +496,17 @@ enum drm_panthor_vm_bind_op_flags {
  	 */
- 	DRM_GPUVA_SPARSE = (1 << 1),
+ 	DRM_PANTHOR_VM_BIND_OP_MAP_UNCACHED = 1 << 2,
  
 +	/**
-+	 * @DRM_GPUVA_REPEAT:
++	 * @DRM_PANTHOR_VM_BIND_OP_MAP_REPEAT: Repeat a BO range
 +	 *
-+	 * Flag indicating that the &drm_gpuva is a mapping of a GEM
-+	 * portion repeated multiple times to fill the virtual address
-+	 * range.
++	 * Only valid with DRM_PANTHOR_VM_BIND_OP_TYPE_MAP.
++	 *
++	 * When this is set, a BO range is repeated over the VA range.
++	 * drm_panthor_vm_bind_op::bo_repeat_range defines the size of the
++	 * BO range to repeat.
 +	 */
-+	DRM_GPUVA_REPEAT = (1 << 2),
++	DRM_PANTHOR_VM_BIND_OP_MAP_REPEAT = 1 << 3,
 +
  	/**
- 	 * @DRM_GPUVA_USERBITS: user defined bits
+ 	 * @DRM_PANTHOR_VM_BIND_OP_TYPE_MASK: Mask used to determine the type of operation.
  	 */
--	DRM_GPUVA_USERBITS = (1 << 2),
-+	DRM_GPUVA_USERBITS = (1 << 3),
+@@ -560,6 +571,18 @@ struct drm_panthor_vm_bind_op {
+ 	 */
+ 	struct drm_panthor_obj_array syncs;
+ 
++	/**
++	 * @bo_repeat_range: The size of the range to be repeated.
++	 *
++	 * Must be zero if DRM_PANTHOR_VM_BIND_OP_MAP_REPEAT is not set in
++	 * flags.
++	 *
++	 * Size must be a multiple of bo_repeat_range.
++	 */
++	__u32 bo_repeat_range;
++
++	/** @pad: Padding field. MBZ. */
++	__u32 pad;
  };
  
  /**
-@@ -111,6 +120,18 @@ struct drm_gpuva {
- 		 */
- 		u64 offset;
- 
-+		/*
-+		 * @gem.range: the range of the GEM that is mapped
-+		 *
-+		 * When dealing with normal mappings, this must be zero.
-+		 * When flags has DRM_GPUVA_REPEAT set, this field must be
-+		 * smaller than va.range and va.range must be a multiple of
-+		 * gem.range.
-+		 * This is a u32 not a u64 because we expect repeated mappings
-+		 * to be pointing to relatively small portions of a GEM object.
-+		 */
-+		u32 range;
-+
- 		/**
- 		 * @gem.obj: the mapped &drm_gem_object
- 		 */
-@@ -842,6 +863,17 @@ struct drm_gpuva_op_map {
- 		 */
- 		u64 offset;
- 
-+		/*
-+		 * @gem.range: the range of the GEM that is mapped
-+		 *
-+		 * When dealing with normal mappings, this must be zero.
-+		 * When flags has DRM_GPUVA_REPEAT set, it must be smaller
-+		 * and be a multiple of va.range. This is a u32 not a u64
-+		 * because we expect repeated mappings to be pointing to
-+		 * a relatively small portion of a GEM object.
-+		 */
-+		u32 range;
-+
- 		/**
- 		 * @gem.obj: the &drm_gem_object to map
- 		 */
-@@ -1078,6 +1110,15 @@ struct drm_gpuvm_map_req {
- 
- 		/** @offset: offset in the GEM */
- 		u64 offset;
-+
-+		/**
-+		 * @range: size of the range of the GEM object to map
-+		 *
-+		 * Must be zero unless flags has DRM_GPUVA_REPEAT set.
-+		 * If DRM_GPUVA_REPEAT is set, this field must be less than va.range,
-+		 * and va.range must be a multiple of gem.range.
-+		 */
-+		u32 range;
- 	} gem;
- 
- 	/** @flags: combination of DRM_GPUVA_ flags describing the mapping properties. */
 -- 
 2.47.2
 
