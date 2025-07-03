@@ -2,53 +2,87 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 60A2FAF81BC
-	for <lists+dri-devel@lfdr.de>; Thu,  3 Jul 2025 22:06:19 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id D77E2AF81FE
+	for <lists+dri-devel@lfdr.de>; Thu,  3 Jul 2025 22:36:45 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6CB4B10E1CA;
-	Thu,  3 Jul 2025 20:06:16 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8032E10E05F;
+	Thu,  3 Jul 2025 20:36:41 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=linux.dev header.i=@linux.dev header.b="v31CKCEF";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="aUnuMd3l";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from out-185.mta0.migadu.com (out-185.mta0.migadu.com
- [91.218.175.185])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0634110E1CA
- for <dri-devel@lists.freedesktop.org>; Thu,  3 Jul 2025 20:06:14 +0000 (UTC)
-Date: Thu, 3 Jul 2025 13:06:06 -0700
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
- t=1751573171;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=98sE5XXwek1MXD7aoZozn8TLYGtPuiUoHcJivbZOev0=;
- b=v31CKCEFw9QRak606ceHaDT5VDVf68+LhfFxkTxliLPhqLmxvSw0N3vkaffrOAO2MxZP22
- pUNxw3hHk3TepfPXK1oh3PPokw2B94I+51VveWFh/ydiJYxJl1H7EU2rHIbMBA1NI6Dtjd
- FHC+7sX7YTVj4NoaCqjKMWmhsw7SNRs=
-X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and
- include these headers.
-From: Shakeel Butt <shakeel.butt@linux.dev>
-To: Christian =?utf-8?B?S8O2bmln?= <christian.koenig@amd.com>
-Cc: David Airlie <airlied@redhat.com>, Dave Airlie <airlied@gmail.com>, 
- dri-devel@lists.freedesktop.org, linux-mm@kvack.org,
- Johannes Weiner <hannes@cmpxchg.org>, 
- Dave Chinner <david@fromorbit.com>, Kairui Song <kasong@tencent.com>
-Subject: Re: [PATCH 17/17] amdgpu: add support for memory cgroups
-Message-ID: <jsmwlcpgsmhkwohao6t5eu3mhypumuqp2pvtbxxkkchivbg4vp@i4pcdsq5xflq>
-References: <20250630045005.1337339-1-airlied@gmail.com>
- <20250630045005.1337339-18-airlied@gmail.com>
- <wejb2ykaltp5gtufrzz3mwp43hrxugzuubclt4amrpr4koznan@cb7dfmnvik6a>
- <CAMwc25rPTiTshBMvHeGr=8kwC+MJdSA=UdKucybTwSxbuWvk4A@mail.gmail.com>
- <3b5t4djauhnbvhqjwuktrcphlvahpdyi2b6j3ktoapakxcvpgz@zjpokeykiwy7>
- <0b887b01-6de3-4633-86f7-20f5b43eeb35@amd.com>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <0b887b01-6de3-4633-86f7-20f5b43eeb35@amd.com>
-X-Migadu-Flow: FLOW_OUT
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1134610E05F;
+ Thu,  3 Jul 2025 20:36:41 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+ by dfw.source.kernel.org (Postfix) with ESMTP id 964605C101F;
+ Thu,  3 Jul 2025 20:36:39 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 148E8C4CEE3;
+ Thu,  3 Jul 2025 20:36:27 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1751574999;
+ bh=2saPPEn9425FFhvGNMi4caxWoimFmbNxhrNrgWcW1xo=;
+ h=Date:Cc:Subject:From:To:References:In-Reply-To:From;
+ b=aUnuMd3lAzNVdHKmsSOkvyHqWUVDyN6+5VbON6S2ighNhr4Tqjp9O3PhBDDj2sMad
+ nqxCBeHK5NzhhRVBPjYzNndcgZ/kccpdZAdcJWBV0o9saMIsKJAWtx1ZkxONmMjsdr
+ Udb4YVLk7WBZhm6YqdnYo3NrMhiTwycvAl2TEYwhBHH1wcp24c1oCYgr5FJhsvYWLt
+ 1A7y65+nZaib48GBOEWOV35upeNutd7vyU0IEd94P3uJ8clcVdtjcPpjKfd75HpyQw
+ ZTiOSvUP4VLDscuViykR0Ij4TSTNCChDAd0OR28SQwH0lJd3J8F6FFoacf3Y1B8Imb
+ NEJPgnffMTCAQ==
+Mime-Version: 1.0
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=UTF-8
+Date: Thu, 03 Jul 2025 22:36:26 +0200
+Message-Id: <DB2PIGAQHCJR.3BF8ZHECYH3KB@kernel.org>
+Cc: "Michal Rostecki" <vadorovsky@protonmail.com>, "Miguel Ojeda"
+ <ojeda@kernel.org>, "Alex Gaynor" <alex.gaynor@gmail.com>, "Boqun Feng"
+ <boqun.feng@gmail.com>, "Gary Guo" <gary@garyguo.net>,
+ =?utf-8?q?Bj=C3=B6rn_Roy_Baron?= <bjorn3_gh@protonmail.com>, "Andreas
+ Hindborg" <a.hindborg@kernel.org>, "Alice Ryhl" <aliceryhl@google.com>,
+ "Trevor Gross" <tmgross@umich.edu>, "Brendan Higgins"
+ <brendan.higgins@linux.dev>, "David Gow" <davidgow@google.com>, "Rae Moar"
+ <rmoar@google.com>, "Danilo Krummrich" <dakr@kernel.org>, "Maarten
+ Lankhorst" <maarten.lankhorst@linux.intel.com>, "Maxime Ripard"
+ <mripard@kernel.org>, "Thomas Zimmermann" <tzimmermann@suse.de>, "David
+ Airlie" <airlied@gmail.com>, "Simona Vetter" <simona@ffwll.ch>, "Greg
+ Kroah-Hartman" <gregkh@linuxfoundation.org>, "Rafael J. Wysocki"
+ <rafael@kernel.org>, "Luis Chamberlain" <mcgrof@kernel.org>, "Russ Weight"
+ <russ.weight@linux.dev>, "FUJITA Tomonori" <fujita.tomonori@gmail.com>,
+ "Rob Herring" <robh@kernel.org>, "Saravana Kannan" <saravanak@google.com>,
+ "Peter Zijlstra" <peterz@infradead.org>, "Ingo Molnar" <mingo@redhat.com>,
+ "Will Deacon" <will@kernel.org>, "Waiman Long" <longman@redhat.com>,
+ "Nathan Chancellor" <nathan@kernel.org>, "Nick Desaulniers"
+ <nick.desaulniers+lkml@gmail.com>, "Bill Wendling" <morbo@google.com>,
+ "Justin Stitt" <justinstitt@google.com>, "Andrew Lunn" <andrew@lunn.ch>,
+ "Heiner Kallweit" <hkallweit1@gmail.com>, "Russell King"
+ <linux@armlinux.org.uk>, "David S. Miller" <davem@davemloft.net>, "Eric
+ Dumazet" <edumazet@google.com>, "Jakub Kicinski" <kuba@kernel.org>, "Paolo
+ Abeni" <pabeni@redhat.com>, "Bjorn Helgaas" <bhelgaas@google.com>, "Arnd
+ Bergmann" <arnd@arndb.de>, "Jens Axboe" <axboe@kernel.dk>,
+ =?utf-8?q?Krzysztof_Wilczy=C5=84ski?= <kwilczynski@kernel.org>, "Dave
+ Ertman" <david.m.ertman@intel.com>, "Ira Weiny" <ira.weiny@intel.com>,
+ "Leon Romanovsky" <leon@kernel.org>, "Breno Leitao" <leitao@debian.org>,
+ "Viresh Kumar" <viresh.kumar@linaro.org>, "Michael Turquette"
+ <mturquette@baylibre.com>, "Stephen Boyd" <sboyd@kernel.org>,
+ <rust-for-linux@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
+ <linux-kselftest@vger.kernel.org>, <kunit-dev@googlegroups.com>,
+ <dri-devel@lists.freedesktop.org>, <netdev@vger.kernel.org>,
+ <devicetree@vger.kernel.org>, <llvm@lists.linux.dev>,
+ <linux-pci@vger.kernel.org>, <nouveau@lists.freedesktop.org>,
+ <linux-block@vger.kernel.org>, <linux-pm@vger.kernel.org>,
+ <linux-clk@vger.kernel.org>
+Subject: Re: [PATCH v13 2/5] rust: support formatting of foreign types
+From: "Benno Lossin" <lossin@kernel.org>
+To: "Tamir Duberstein" <tamird@gmail.com>
+X-Mailer: aerc 0.20.1
+References: <20250701-cstr-core-v13-0-29f7d3eb97a6@gmail.com>
+ <20250701-cstr-core-v13-2-29f7d3eb97a6@gmail.com>
+ <DB2BDSN1JH51.14ZZPETJORBC6@kernel.org>
+ <CAJ-ks9nC=AyBPXRY3nJ0NuZvjFskzMcOkVNrBEfXD2hZ5uRntQ@mail.gmail.com>
+ <DB2IJ9HBIM0W.3N0JVGKX558QI@kernel.org>
+ <CAJ-ks9nF5+m+_bn0Pzi9yU0pw0TyN7Fs4x--mQ4ygyHz4A6hzg@mail.gmail.com>
+In-Reply-To: <CAJ-ks9nF5+m+_bn0Pzi9yU0pw0TyN7Fs4x--mQ4ygyHz4A6hzg@mail.gmail.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -64,72 +98,152 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, Jul 03, 2025 at 08:15:09PM +0200, Christian König wrote:
-> On 03.07.25 19:58, Shakeel Butt wrote:
-> > On Thu, Jul 03, 2025 at 12:53:44PM +1000, David Airlie wrote:
-> >> On Thu, Jul 3, 2025 at 2:03 AM Shakeel Butt <shakeel.butt@linux.dev> wrote:
-> >>>
-> >>> On Mon, Jun 30, 2025 at 02:49:36PM +1000, Dave Airlie wrote:
-> >>>> From: Dave Airlie <airlied@redhat.com>
-> >>>>
-> >>>> This adds support for adding a obj cgroup to a buffer object,
-> >>>> and passing in the placement flags to make sure it's accounted
-> >>>> properly.
-> >>>>
-> >>>> Signed-off-by: Dave Airlie <airlied@redhat.com>
-> >>>> ---
-> >>>>  drivers/gpu/drm/amd/amdgpu/amdgpu_gem.c    |  2 ++
-> >>>>  drivers/gpu/drm/amd/amdgpu/amdgpu_object.c | 13 +++++++++----
-> >>>>  drivers/gpu/drm/amd/amdgpu/amdgpu_object.h |  1 +
-> >>>>  drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.c    |  2 ++
-> >>>>  4 files changed, 14 insertions(+), 4 deletions(-)
-> >>>>
-> >>>> diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_gem.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_gem.c
-> >>>> index e5e33a68d935..d250183bab03 100644
-> >>>> --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_gem.c
-> >>>> +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_gem.c
-> >>>> @@ -198,6 +198,7 @@ static void amdgpu_gem_object_free(struct drm_gem_object *gobj)
-> >>>>       struct amdgpu_bo *aobj = gem_to_amdgpu_bo(gobj);
-> >>>>
-> >>>>       amdgpu_hmm_unregister(aobj);
-> >>>> +     obj_cgroup_put(aobj->tbo.objcg);
-> >>>>       ttm_bo_put(&aobj->tbo);
-> >>>>  }
-> >>>>
-> >>>> @@ -225,6 +226,7 @@ int amdgpu_gem_object_create(struct amdgpu_device *adev, unsigned long size,
-> >>>>       bp.domain = initial_domain;
-> >>>>       bp.bo_ptr_size = sizeof(struct amdgpu_bo);
-> >>>>       bp.xcp_id_plus1 = xcp_id_plus1;
-> >>>> +     bp.objcg = get_obj_cgroup_from_current();
-> >>>
-> >>> In what context this function is called? Is that the same for
-> >>> ttm_pool_alloc_page()? Is remote charging happening in
-> >>> ttm_pool_alloc_page()?
-> >>>
-> >>
-> >> No, this function is called from userspace ioctl paths that allocate
-> >> GPU objects (GEM objects).
-> >>
-> >> The objects are lazily allocated, so this might not trigger any pages
-> >> being bound to the object, until it is populated, either via mapping +
-> >> page faults or by being used in a GPU command submission, which is
-> >> when the ttm_pool_alloc_page happens.
-> >>
-> > 
-> > For the mapping + page fault or GPU command submission, can there be a
-> > case where 'current' is not in the same cgroup as the task which has
-> > called amdgpu_gem_object_create() through ioctl? Can the allocation
-> > happen in kthread or workqueue or irq?
-> 
-> Yes, in some use cases that is actually the most common way of ending up in the memory allocation.
-> 
-> Background is that the first one who touches it actually does the allocation.
+On Thu Jul 3, 2025 at 8:55 PM CEST, Tamir Duberstein wrote:
+> On Thu, Jul 3, 2025 at 11:08=E2=80=AFAM Benno Lossin <lossin@kernel.org> =
+wrote:
+>> On Thu Jul 3, 2025 at 3:55 PM CEST, Tamir Duberstein wrote:
+>> > On Thu, Jul 3, 2025 at 5:32=E2=80=AFAM Benno Lossin <lossin@kernel.org=
+> wrote:
+>> >> On Tue Jul 1, 2025 at 6:49 PM CEST, Tamir Duberstein wrote:
+>> >> > Introduce a `fmt!` macro which wraps all arguments in
+>> >> > `kernel::fmt::Adapter` and a `kernel::fmt::Display` trait. This ena=
+bles
+>> >> > formatting of foreign types (like `core::ffi::CStr`) that do not
+>> >> > implement `core::fmt::Display` due to concerns around lossy convers=
+ions which
+>> >> > do not apply in the kernel.
+>> >> >
+>> >> > Replace all direct calls to `format_args!` with `fmt!`.
+>> >> >
+>> >> > Replace all implementations of `core::fmt::Display` with implementa=
+tions
+>> >> > of `kernel::fmt::Display`.
+>> >> >
+>> >> > Suggested-by: Alice Ryhl <aliceryhl@google.com>
+>> >> > Link: https://rust-for-linux.zulipchat.com/#narrow/channel/288089-G=
+eneral/topic/Custom.20formatting/with/516476467
+>> >> > Acked-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+>> >> > Reviewed-by: Alice Ryhl <aliceryhl@google.com>
+>> >> > Signed-off-by: Tamir Duberstein <tamird@gmail.com>
+>> >> > ---
+>> >> >  drivers/block/rnull.rs       |  2 +-
+>> >> >  drivers/gpu/nova-core/gpu.rs |  4 +-
+>> >> >  rust/kernel/block/mq.rs      |  2 +-
+>> >> >  rust/kernel/device.rs        |  2 +-
+>> >> >  rust/kernel/fmt.rs           | 89 ++++++++++++++++++++++++++++++++=
++++++++
+>> >> >  rust/kernel/kunit.rs         |  6 +--
+>> >> >  rust/kernel/lib.rs           |  1 +
+>> >> >  rust/kernel/prelude.rs       |  3 +-
+>> >> >  rust/kernel/print.rs         |  4 +-
+>> >> >  rust/kernel/seq_file.rs      |  2 +-
+>> >> >  rust/kernel/str.rs           | 22 ++++------
+>> >> >  rust/macros/fmt.rs           | 99 ++++++++++++++++++++++++++++++++=
+++++++++++++
+>> >> >  rust/macros/lib.rs           | 19 +++++++++
+>> >> >  rust/macros/quote.rs         |  7 ++++
+>> >> >  scripts/rustdoc_test_gen.rs  |  2 +-
+>> >> >  15 files changed, 236 insertions(+), 28 deletions(-)
+>> >>
+>> >> This would be a lot easier to review if he proc-macro and the call
+>> >> replacement were different patches.
+>> >>
+>> >> Also the `kernel/fmt.rs` file should be a different commit.
+>> >
+>> > Can you help me understand why? The changes you ask to be separated
+>> > would all be in different files, so why would separate commits make it
+>> > easier to review?
+>>
+>> It takes less time to go through the entire patch and give a RB. I can
+>> take smaller time chunks and don't have to get back into the entire
+>> context of the patch when I don't have 30-60min available.
+>
+> Ah, I see what you mean. Yeah, the requirement to RB the entire patch
+> does mean there's a benefit to smaller patches.
+>
+>> In this patch the biggest problem is the rename & addition of new
+>> things, maybe just adding 200 lines in those files could be okay to go
+>> together, see below for more.
+>
+> After implementing your suggestion of re-exporting things from
+> `kernel::fmt` the diffstat is
+>
+> 26 files changed, 253 insertions(+), 51 deletions(-)
+>
+> so I guess I could do all the additions in one patch, but then
+> *everything* else has to go in a single patch together because the
+> formatting macros either want core::fmt::Display or
+> kernel::fmt::Display; they can't work in a halfway state.
 
-Do you mean a task in cgroup A does amdgpu_gem_object_create() and then
-the actual allocation can happen in the task in cgroup B?
+I don't understand, can't you just do:
 
-> 
-> BTW: It might be a good idea to not only limit the amount of memory you actually have allocated, but also how much you wanted to allocate.
+* add `rust/kernel/fmt.rs`,
+* add `rust/macros/fmt.rs`,
+* change all occurrences of `core::fmt` to `kernel::fmt` and
+  `format_args!` to `fmt!`.
 
-Do you mean accounting and limiting the reservations? Something like
-what hugetlb cgroup provides?
+The last one could be split by subsystem, no? Some subsystems might
+interact and thus need simultaneous splitting, but there should be some
+independent ones.
+
+>> > I prefer to keep things in one commit because the changes are highly
+>> > interdependent. The proc macro doesn't make sense without
+>> > kernel/fmt.rs and kernel/fmt.rs is useless without the proc macro.
+>>
+>> I think that `Adapter`, the custom `Display` and their impl blocks
+>> don't need to be in the same commit as the proc-macro. They are related,
+>> but maybe someone is not well-versed in proc-macros and thus doesn't
+>> want to review that part.
+>
+> Sure, I guess I will split them. But as noted above: changing the
+> formatting macros and all the types' trait implementations has to be a
+> "flag day" change.
+
+See above.
+
+>> >> > +impl_fmt_adapter_forward!(Debug, LowerHex, UpperHex, Octal, Binary=
+, Pointer, LowerExp, UpperExp);
+>> >> > +
+>> >> > +/// A copy of [`fmt::Display`] that allows us to implement it for =
+foreign types.
+>> >> > +///
+>> >> > +/// Types should implement this trait rather than [`fmt::Display`]=
+. Together with the [`Adapter`]
+>> >> > +/// type and [`fmt!`] macro, it allows for formatting foreign type=
+s (e.g. types from core) which do
+>> >> > +/// not implement [`fmt::Display`] directly.
+>> >> > +///
+>> >> > +/// [`fmt!`]: crate::prelude::fmt!
+>> >> > +pub trait Display {
+>> >> > +    /// Same as [`fmt::Display::fmt`].
+>> >> > +    fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result;
+>> >> > +}
+>> >> > +
+>> >> > +impl<T: ?Sized + Display> Display for &T {
+>> >> > +    fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
+>> >> > +        Display::fmt(*self, f)
+>> >> > +    }
+>> >> > +}
+>> >> > +
+>> >> > +impl<T: ?Sized + Display> fmt::Display for Adapter<&T> {
+>> >> > +    fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
+>> >> > +        let Self(t) =3D self;
+>> >> > +        Display::fmt(t, f)
+>> >>
+>> >> Why not `Display::fmt(&self.0, f)`?
+>> >
+>> > I like destructuring because it shows me that there's only one field.
+>> > With `self.0` I don't see that.
+>>
+>> And what is the benefit here?
+>
+> In general the benefit is that the method does not ignore some portion
+> of `Self`. A method that uses `self.0` would not provoke a compiler
+> error in case another field is added, while this form would.
+
+Yeah, but why would that change happen here? And even if it got another
+field, why would that invalidate the impl of `fn fmt`?
+
+---
+Cheers,
+Benno
