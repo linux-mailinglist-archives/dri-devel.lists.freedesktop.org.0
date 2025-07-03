@@ -2,78 +2,120 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 91101AF8299
-	for <lists+dri-devel@lfdr.de>; Thu,  3 Jul 2025 23:26:33 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id A1965AF82A0
+	for <lists+dri-devel@lfdr.de>; Thu,  3 Jul 2025 23:27:51 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id F19D410E8F4;
-	Thu,  3 Jul 2025 21:26:31 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0467810E8F6;
+	Thu,  3 Jul 2025 21:27:50 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=google.com header.i=@google.com header.b="zLum9vzP";
+	dkim=pass (2048-bit key; unprotected) header.d=qualcomm.com header.i=@qualcomm.com header.b="BGrvMhL0";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-f54.google.com (mail-wm1-f54.google.com
- [209.85.128.54])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 66B5810E8F4
- for <dri-devel@lists.freedesktop.org>; Thu,  3 Jul 2025 21:26:30 +0000 (UTC)
-Received: by mail-wm1-f54.google.com with SMTP id
- 5b1f17b1804b1-45348bff79fso3363405e9.2
- for <dri-devel@lists.freedesktop.org>; Thu, 03 Jul 2025 14:26:30 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=google.com; s=20230601; t=1751577989; x=1752182789;
- darn=lists.freedesktop.org; 
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc:subject:date
- :message-id:reply-to;
- bh=fcScF2Li2iE+rzeQj24dXvUmzs1FWMrT/HfRy4nr7Co=;
- b=zLum9vzPQGEGxV7pR0lMS4BOohT0G/Tag9V+3b+jdJ4pHzu37LS1P4pK0icsfyO6Pd
- J6cDvHTGInI65CtuKMjGDl+6u9KaMy6fsi81GGpIMPL+cOemLWd2xyacbBdyuROeCKKN
- xPtrHLrxXPdDYOWuhAaki11EBJ16nj68ji0IIEBRaJvhJjDAdAy7Qu0jfadnrNMIER2W
- h7ztbquy49fZdaY/cv4ZSN69ehxGsMKrKQEPa8IkBQ1ccjGz0TtHN7UJxws/nux1fgHw
- 3v3H5Ib6qMseSJ6aLajhwmuX9pc9V3dTocx93lJDxNcT0+6U5oROhDp8lsZJzQhgjrs3
- O2Sw==
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com
+ [205.220.168.131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id F32B010E8F6
+ for <dri-devel@lists.freedesktop.org>; Thu,  3 Jul 2025 21:27:48 +0000 (UTC)
+Received: from pps.filterd (m0279866.ppops.net [127.0.0.1])
+ by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 563KCbMN029535
+ for <dri-devel@lists.freedesktop.org>; Thu, 3 Jul 2025 21:27:48 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
+ cc:content-type:date:from:in-reply-to:message-id:mime-version
+ :references:subject:to; s=qcppdkim1; bh=B8EhHwVKYpVrPJqxIdjJWt6i
+ mKVtstqw6FBfSw5Dfcs=; b=BGrvMhL0TDNFCs2LhwEFqzu7QOyx7f+cCW2mp+kZ
+ 0wLWqk+5N17jvzzu1Ejzhf6b5Rn5C4e8oNlufBfaxIEAiv6ngFCB8Uoui1q2PqP7
+ larACg6xkL6YsWwjNraGORUubtDCBCWV/64XJ5Yg8dVetIFaNAO10I/WdIYmNkoY
+ ZhvNxY5PnPdLW3+AYQrEYb8Ftu6+WtnUYzQ9zMhK3jSzheM04/qjbaVX2g97YAin
+ KLdDNnC+7V7hW4zi1gbXwYC2uza1NUhPNB0YI0EWgdJczDQ/35bUTDtLe+y4gaVW
+ 7Ul3qtUlNrw3LTZ0km0RYzuTt3fjoGcN8jZ606Mm+xYJpw==
+Received: from mail-qk1-f197.google.com (mail-qk1-f197.google.com
+ [209.85.222.197])
+ by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 47nh9s3259-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
+ for <dri-devel@lists.freedesktop.org>; Thu, 03 Jul 2025 21:27:48 +0000 (GMT)
+Received: by mail-qk1-f197.google.com with SMTP id
+ af79cd13be357-7c7c30d8986so72507785a.2
+ for <dri-devel@lists.freedesktop.org>; Thu, 03 Jul 2025 14:27:48 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1751577989; x=1752182789;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=fcScF2Li2iE+rzeQj24dXvUmzs1FWMrT/HfRy4nr7Co=;
- b=N80FlJJiym3ksYTPPCU/Xftu++0Yo2UlmxJMADytv0Gx/8/YjtcsX91Out8wcZJ6cS
- 4FYT3B3iUBbckqlKxPDpLRNQyuqxb41MVfpYQ8GDfBnhgCStw0KmOkIMx9MBeWTbOL58
- cUsJBSEdO524y4kWQtIIDdQ9m1ryoOeTSAiPY8AjMVHTysaJfMokRxwH7J/UM4ghXyTz
- 6aoF3xFTU6FzEFkMRohlfvWSWEqQSOwpOwtdyla3TxJ5iCEUAlTE4yxIQK8tb0YRdO5h
- 6vhkUY+P+HWJyEcvYA2rBMvS1Jy0VVRJ5KL5jnCI+CT6HJ7z6ZfppqgPgPqCIGYXRxrX
- oywg==
+ d=1e100.net; s=20230601; t=1751578067; x=1752182867;
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=B8EhHwVKYpVrPJqxIdjJWt6imKVtstqw6FBfSw5Dfcs=;
+ b=Qx5BFPhVLBYl52AIvnE/BikYP9B0aFDnIiP96R8WUCaEE60gMD7ifYZ0cJczYalYXE
+ HTVGOvrfM69MSZy/MEXZ6iM2cTE90dYkDsMO6Jm3TlypmXxKb233HdeVS5q5ft5iOxJy
+ POHh9GzQ312TpQhc/t30T1VyZZ2i14EvH/0LQskn5tMW0hGW2rkJHOzRAJfioU52lciu
+ skEO6UZV+T2IbFBD6OsLRA6IUozbJbC4IBE9ahoQZ4zkUXY6Iv+L6RWELWY9Y1frwiel
+ pfHD9egtiY7oO1p2nqIyW3PWhrh0pEre++fkGKv4NJyYVK0HdFt91JdBdEAWvuXRQXhF
+ W/mw==
 X-Forwarded-Encrypted: i=1;
- AJvYcCUujCMmzs8bF95lEPdx3veXwwIL6NftGYeD9xyrMuC64vLqk37b+YWNLFzHqb/fZ4UtJrP5PO3LnDA=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YxMFII3nNdVB6IeJX0YVL6hJ6vvhiG7/v8eJyeNomqNCQnWBSNG
- ASjI6hmf7IHvK+zve7OEDVmL39xlitOyvXXaMTvXr9Ngm6zM/zJ825e2A6ssIaaPz3AxLwvJty4
- GRbnoXBrbMHNVTXtc5fqaU9sG/cedMGRi3Xg8/SNe
-X-Gm-Gg: ASbGncuO1gDjk+kOXHMFM55TBoLDRmVANlQ2E+ckRWAn8wHeAiRhTSLNL4f/blgnyBC
- 42QQUxJNx0Sk0XIvggK8ZpLP5Y65PCCQSiXDi02p27pwXxBCSIHFnnXu/DohsYhRMZ0P083YI6k
- C5nlzywK75T9HVfODdmwcJtdd+lG+Uy4J2IiEOZ5p5rj+2
-X-Google-Smtp-Source: AGHT+IG1XAyEUVg2pztxNrKRTh5b09syCpDvfmlq5SM1Ct7agJOSAKKx4USd0rx1a5tClltFn9f3jAuO2suLm6AuLBk=
-X-Received: by 2002:a05:600c:8b6f:b0:43c:f44c:72a6 with SMTP id
- 5b1f17b1804b1-454b305ac33mr1219305e9.2.1751577988601; Thu, 03 Jul 2025
- 14:26:28 -0700 (PDT)
+ AJvYcCXMTbGjAsUSmd9u1LroGg4IgB2qgPzzRw0fbzsHBnZqeXRlt4QJp08pGTL8m6mL2jRsHvLj7h9xAio=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YzzyLTL+ED93pvzQZ3ClLv4AOEgvmr64JLG8x9mijBCThQYHq2D
+ u4ysQGwT72JiFcM5vHmRJg7nRO87vxPfZHVweXxugmPMgwzeJR1dv+VzPvbENdMlATcmO6wj4qT
+ YPWH+/YWXlasknczdC+oRzl2yQDnEf3Y9A/xv+WZq5AuxZqwcDZiLOStTEZcmOVzCWolQPzs=
+X-Gm-Gg: ASbGnctsUw2oBgkESbf6rQmEWQlAQerzdvz5rWgJR9GVouQharRUDwyiIA3cfsT68G0
+ 7uC/R16nf3wfFqssHRv9vukJd8Ilj6E2scT3xMgw19MqY9o+T1p+EzWAcBWJ2nWuPF/W4Os6J7O
+ I1YOLNwMQaiRRpSzHJo5iHS/vFi1br7q+j3zH52hxKLBA+T4ddAi9bKpTtxFsAX+zBmylE9gQk9
+ soeo1IMyMcW61mJ/t/7zq9vfzpuUPzgSec+v/exHl4h+POH39OSqFRfdDOcPJFf/gITp3DE/bSc
+ ANZwzycVHdoIEQgYkCdmHqQnkfRtljoBqctV0Q0GSnMqTiAw5191lUY2lhut2nP4KP1mX2iBPkD
+ WjJr+J4wU9z3lRk++Z5g0zc/i0UJ3Sh6kzcY=
+X-Received: by 2002:a05:620a:3d86:b0:7d5:ca37:79a0 with SMTP id
+ af79cd13be357-7d5ddae521cmr2892085a.18.1751578066816; 
+ Thu, 03 Jul 2025 14:27:46 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IEMJrZqqPZZas9zZzBzoVxAUKC2qdaPz2216jh1dVtgBGxiblPPM6KkbjiAzq0lqA6zcxM0YQ==
+X-Received: by 2002:a05:620a:3d86:b0:7d5:ca37:79a0 with SMTP id
+ af79cd13be357-7d5ddae521cmr2888085a.18.1751578066366; 
+ Thu, 03 Jul 2025 14:27:46 -0700 (PDT)
+Received: from umbar.lan
+ (2001-14ba-a0c3-3a00-264b-feff-fe8b-be8a.rev.dnainternet.fi.
+ [2001:14ba:a0c3:3a00:264b:feff:fe8b:be8a])
+ by smtp.gmail.com with ESMTPSA id
+ 2adb3069b0e04-55638494f6dsm72675e87.123.2025.07.03.14.27.44
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 03 Jul 2025 14:27:44 -0700 (PDT)
+Date: Fri, 4 Jul 2025 00:27:43 +0300
+From: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
+To: Andy Yan <andyshrk@163.com>
+Cc: mripard@kernel.org, neil.armstrong@linaro.org,
+ dri-devel@lists.freedesktop.org, dianders@chromium.org,
+ jani.nikula@intel.com, lyude@redhat.com, jonathanh@nvidia.com,
+ p.zabel@pengutronix.de, simona@ffwll.ch, victor.liu@nxp.com,
+ rfoss@kernel.org, chunkuang.hu@kernel.org,
+ cristian.ciocaltea@collabora.com, Laurent.pinchart@ideasonboard.com,
+ linux-arm-msm@vger.kernel.org, linux-mediatek@lists.infradead.org,
+ linux-kernel@vger.kernel.org, freedreno@lists.freedesktop.org,
+ Andy Yan <andy.yan@rock-chips.com>
+Subject: Re: [PATCH v3 2/2] drm/bridge: Pass down connector to drm bridge
+ detect hook
+Message-ID: <chznjpcx6p2vn3i5jt52peikhipzjiwzlr74gx6mzp3wjstr6p@6zhhknnl3zek>
+References: <20250703125027.311109-1-andyshrk@163.com>
+ <20250703125027.311109-3-andyshrk@163.com>
 MIME-Version: 1.0
-References: <20250629153747.72536-1-dakr@kernel.org>
-In-Reply-To: <20250629153747.72536-1-dakr@kernel.org>
-From: Alice Ryhl <aliceryhl@google.com>
-Date: Thu, 3 Jul 2025 23:26:15 +0200
-X-Gm-Features: Ac12FXyUV-obWXZdLpvBmC6loWxe3pPktRix4vbmOg-M9NjfTWl5JJrUBsohCAM
-Message-ID: <CAH5fLgi3muZpf_xPcByEEjVSnXWspmyucVwXGGYQjWn7+7ZoKQ@mail.gmail.com>
-Subject: Re: [PATCH] rust: drm: device: drop_in_place() the drm::Device in
- release()
-To: Danilo Krummrich <dakr@kernel.org>
-Cc: airlied@gmail.com, simona@ffwll.ch, maarten.lankhorst@linux.intel.com, 
- mripard@kernel.org, tzimmermann@suse.de, ojeda@kernel.org, 
- alex.gaynor@gmail.com, boqun.feng@gmail.com, gary@garyguo.net, 
- bjorn3_gh@protonmail.com, lossin@kernel.org, tmgross@umich.edu, 
- acourbot@nvidia.com, alyssa@rosenzweig.io, lyude@redhat.com, 
- rust-for-linux@vger.kernel.org, dri-devel@lists.freedesktop.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20250703125027.311109-3-andyshrk@163.com>
+X-Authority-Analysis: v=2.4 cv=frrcZE4f c=1 sm=1 tr=0 ts=6866f5d4 cx=c_pps
+ a=50t2pK5VMbmlHzFWWp8p/g==:117 a=xqWC_Br6kY4A:10 a=kj9zAlcOel0A:10
+ a=Wb1JkmetP80A:10 a=s8YR1HE3AAAA:8 a=EUspDBNiAAAA:8 a=nJWoAq30JnpefaDr-ZMA:9
+ a=CjuIK1q_8ugA:10 a=IoWCM6iH3mJn3m4BftBB:22 a=jGH_LyMDp9YhSvY-UuyI:22
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwNzAzMDE3NyBTYWx0ZWRfX2A/LU3gLxqcD
+ cwPEOtXKxH+jEDhRqxdaMw7x6BIsuAINiBMs0UDPWSmBMsls/oMr3exKMtSUdpAnEcg09J3ZzIa
+ nrHpA9vK+QZF+r9/5BJmpHSflbdRLfPrvcW2OfSTLaq0iLnefdMPClosBPuw9jG7hcsUU5yJorH
+ iRPoIr7vF+QnzBTHP/gpV44UgB23umNpPFRxNHn4pUv1QwyVCCTZF4cHc/W9mQXubJKydO7iBUb
+ V1+RIvbFSTsLua9bfNZBqkQuxwFVG8MddEvsbPtYdRaVAgAMCOiV0uGILPswH9Rqgdg9SoHKSv3
+ IMSUmXFDP8Lh5y9n5KX3LTDoDD28E7IVEgnFYUG0ssF8H+Gwa9fLZcfTuR5ZS6FBV0Kb8QL4CKD
+ iHq8jjm2sj06+pdBIHaviDePYtIyLeceTpd3YMDJTkD4Vst/cvMKDMZ9Nmv9Qr89Wnlrb6Bt
+X-Proofpoint-GUID: QBaxri71Uky0fjziaP46luDC8mRmEsgA
+X-Proofpoint-ORIG-GUID: QBaxri71Uky0fjziaP46luDC8mRmEsgA
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1099,Hydra:6.1.7,FMLib:17.12.80.40
+ definitions=2025-07-03_05,2025-07-02_04,2025-03-28_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ phishscore=0 mlxlogscore=837 bulkscore=0 spamscore=0 adultscore=0
+ impostorscore=0 clxscore=1015 lowpriorityscore=0 suspectscore=0 mlxscore=0
+ priorityscore=1501 malwarescore=0 classifier=spam authscore=0 authtc=n/a
+ authcc= route=outbound adjust=0 reason=mlx scancount=1
+ engine=8.19.0-2505280000 definitions=main-2507030177
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -89,22 +131,28 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Sun, Jun 29, 2025 at 5:38=E2=80=AFPM Danilo Krummrich <dakr@kernel.org> =
-wrote:
->
-> In drm::Device::new() we allocate with __drm_dev_alloc() and return an
-> ARef<drm::Device>.
->
-> When the reference count of the drm::Device falls to zero, the C code
-> automatically calls drm_dev_release(), which eventually frees the memory
-> allocated in drm::Device::new().
->
-> However, due to that, drm::Device::drop() is never called. As a result
-> the destructor of the user's private data, i.e. drm::Device::data is
-> never called. Hence, fix this by calling drop_in_place() from the DRM
-> device's release callback.
->
-> Fixes: 1e4b8896c0f3 ("rust: drm: add device abstraction")
-> Signed-off-by: Danilo Krummrich <dakr@kernel.org>
+On Thu, Jul 03, 2025 at 08:49:53PM +0800, Andy Yan wrote:
+> From: Andy Yan <andy.yan@rock-chips.com>
+> 
+> In some application scenarios, we hope to get the corresponding
+> connector when the bridge's detect hook is invoked.
+> 
+> In most cases, we can get the connector by drm_atomic_get_connector_for_encoder
+> if the encoder attached to the bridge is enabled, however there will
+> still be some scenarios where the detect hook of the bridge is called
+> but the corresponding encoder has not been enabled yet. For instance,
+> this occurs when the device is hot plug in for the first time.
+> 
+> Since the call to bridge's detect is initiated by the connector, passing
+> down the corresponding connector directly will make things simpler.
+> 
+> Signed-off-by: Andy Yan <andy.yan@rock-chips.com>
+> ---
+> 
 
-Reviewed-by: Alice Ryhl <aliceryhl@google.com>
+Reviewed-by: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
+
+
+-- 
+With best wishes
+Dmitry
