@@ -2,84 +2,92 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id DA1A5AF69DB
-	for <lists+dri-devel@lfdr.de>; Thu,  3 Jul 2025 07:43:54 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7C9CAAF69EC
+	for <lists+dri-devel@lfdr.de>; Thu,  3 Jul 2025 07:53:57 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 33B7810E0DE;
-	Thu,  3 Jul 2025 05:43:52 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6EB8410E11C;
+	Thu,  3 Jul 2025 05:53:54 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=redhat.com header.i=@redhat.com header.b="LJbl5+Fl";
+	dkim=pass (1024-bit key; unprotected) header.d=redhat.com header.i=@redhat.com header.b="I8kAymOj";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from us-smtp-delivery-124.mimecast.com
  (us-smtp-delivery-124.mimecast.com [170.10.133.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3B22B10E0DE
- for <dri-devel@lists.freedesktop.org>; Thu,  3 Jul 2025 05:43:51 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6B5A110E11C
+ for <dri-devel@lists.freedesktop.org>; Thu,  3 Jul 2025 05:53:53 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1751521430;
+ s=mimecast20190719; t=1751522032;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=kKaZ5viri1/pmq8riVmTFfqdXVoy25LpivCg58yqOOo=;
- b=LJbl5+FlyurjNQoYySGNxxv0TcqIZl+E79d5bEqZ+57be+FtMOzTY4twBKMmuzNr6ePilY
- eTddT4QwrnnBbB0iCq8GYrsczjG6pN0EHMW3s58QW5ik0uIsaC3/pQi/P88baPjaAEvGqk
- eiNPQvlmlVx9GCmOKsnbzIUoOoe95dk=
-Received: from mail-pg1-f197.google.com (mail-pg1-f197.google.com
- [209.85.215.197]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=g93xnR94ghhQeXUascDTqu51LAmFxEiGorxT1x78S3I=;
+ b=I8kAymOjMeDUNaWXYexeVQyYrybLlOmhcVCDTEvDNEFRAVymC9mVoqwujccpJxmI0EZCQ5
+ /fiBqaUXAFKcr5gv54JFSJjY1krYHeDeGUioBuYtlm6FydOkU29DWb81nhxmPnU9F8Tl7p
+ Ft63ljHb0NszqPZizU2gGvlSZvH4jqM=
+Received: from mail-pg1-f200.google.com (mail-pg1-f200.google.com
+ [209.85.215.200]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-620-ugLaFTXsOJ2dB7YJ5qKjHw-1; Thu, 03 Jul 2025 01:43:48 -0400
-X-MC-Unique: ugLaFTXsOJ2dB7YJ5qKjHw-1
-X-Mimecast-MFC-AGG-ID: ugLaFTXsOJ2dB7YJ5qKjHw_1751521427
-Received: by mail-pg1-f197.google.com with SMTP id
- 41be03b00d2f7-b362d101243so1838740a12.0
- for <dri-devel@lists.freedesktop.org>; Wed, 02 Jul 2025 22:43:48 -0700 (PDT)
+ us-mta-398-INOEiEf9OkOUyc5z18p1NA-1; Thu, 03 Jul 2025 01:53:50 -0400
+X-MC-Unique: INOEiEf9OkOUyc5z18p1NA-1
+X-Mimecast-MFC-AGG-ID: INOEiEf9OkOUyc5z18p1NA_1751522030
+Received: by mail-pg1-f200.google.com with SMTP id
+ 41be03b00d2f7-b34fa832869so495451a12.1
+ for <dri-devel@lists.freedesktop.org>; Wed, 02 Jul 2025 22:53:50 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1751521427; x=1752126227;
+ d=1e100.net; s=20230601; t=1751522029; x=1752126829;
  h=content-transfer-encoding:cc:to:subject:message-id:date:from
  :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=kKaZ5viri1/pmq8riVmTFfqdXVoy25LpivCg58yqOOo=;
- b=k1BE+SihOhPLmxWuhmmzBxFUJd1XXKqLl26u3NVCglmUSLXvYdY/2siAOfvm4ry+yu
- CysOv33FBa1OkrPvcfYAKeBNogiRChdwH3ZdFTgV+87YMddnGZ2IxZcGlHdRqtSHaSb0
- MHUE9Jv+IQJ0wUeF1qq7PKracF6EG5ahaiqLD7h/lPdwsgvkomvqY8qk/R0JEafNGAYz
- bU5v6qxp0p3MUin0QaZmSmWKosBg3dKmPvaHK63IiLMllS0fer62G3L8tPZPynxR0dcD
- NQ1bpQBo2WGWUCs0aKnDvyl8pGHWzKPhz5cr/3CLFKONgGXSiPnZ6tI3I1ot4UBgbjc8
- /Esg==
+ bh=g93xnR94ghhQeXUascDTqu51LAmFxEiGorxT1x78S3I=;
+ b=GYts3J9Dh9sYZ1bORkugpliGQjfB4SLQvV8kPAKEDHMlgTjr48RUGeijPJRA5yvsL+
+ StjcC6+2o3z26BAoWwCxUULhaDtB6/5dZRv4xirPr0XYdMzrl0uGDR14iASV5nBW1IVM
+ /m/3IY4Qv2XgfBgq3WtCpuezPZ/7skf4cOlxtSGQRl6RMnOmRza2TtE7eQRwrZgZccCw
+ 5p6jWCFRES0CUdXz6gVOikhVUZAXFQWq0Gkc79v2KVNSoCG/BHwdQgL5VNBzcl09MlYJ
+ tPLDeg/lZ5j7yerc5Kjg/9MSnF4J5wNPn2EIfk3CtZmlzbac+2rqgR2flxDDAnkAP0jI
+ X5mA==
 X-Forwarded-Encrypted: i=1;
- AJvYcCU1sdmBml1enSsy28+ar5xGWKaQMzQsoRoJqpqu4Fg+/RUeMFz7YZTGHlMPOGC/0MYk0s9WujShtkQ=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0Yw8AL3ic00nOJAMs5gXpSvBV9+2MoP09WNRr21x9EsY53YWj8tR
- NA9ty6h2WxEBLhCkzjP1acDiGeF3UP3/y/wm0QuNcUVYZxYW8alsh804ODiSN3w3QaKyvSEPe50
- kYsPs81RuaC8YZ2iValfdYCeT0gAVp3D/CxKNCxNtEshcBiEZUlmfbxwdKuuTtqNuW9/7R8SLmJ
- 9qILYsb2yChOALx+NMwpbxzLgNQVH8EcUOfHm4hrdugqS5
-X-Gm-Gg: ASbGnct1gsGiAmYyl/tnddtfyb2bsXDY9+aUGxuQk71eFZbq5q3eOGc9htLyIdacZhx
- 5t4lVTn1Qqan4JSqhgz+KHVmYLvsSP1FDH3nOnqJcONJWpRgIWKwKmANicFmUYJ0P9C0X2ydm2y
- 5hrg==
-X-Received: by 2002:a17:90b:58c8:b0:312:ffdc:42b2 with SMTP id
- 98e67ed59e1d1-31a90bef1ebmr6758369a91.23.1751521427401; 
- Wed, 02 Jul 2025 22:43:47 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IHNsNNeUhmCJU5v4NOb3SgJID6VMCS7g+2prUcFjlNHum/299MbqRloAN44Kj54IR57+Xk5Lsz5JmEa9QqBrsI=
-X-Received: by 2002:a17:90b:58c8:b0:312:ffdc:42b2 with SMTP id
- 98e67ed59e1d1-31a90bef1ebmr6758357a91.23.1751521427059; Wed, 02 Jul 2025
- 22:43:47 -0700 (PDT)
+ AJvYcCVEz0+8VL7FDcpB5pmV2LXfqXMrW5EN8kBlhXgxAwqtrEEuUi+QPMjJ+hxnkKa5nZ27SEQ98Kswcv8=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0Yz/qT60PE2r2s2e9Qei/aSSLMli/4GUnyWx5tTD0CVZScaLVkT1
+ /sPUj009URe5FqflVnCKRa2p2XRupkPKd6uKah4K+qxhQ4S8VdqoXVH9IkPWWrbDcXWylGGbAgT
+ p6Lb78cestunjAewcxLm4t/TYhdpIa+xhHHGQHDFc9tzL3ZHYWe7Widio5oAIVPCXx0rQwgmbzE
+ VZAStBGqPAFr8lKGnv02XCXg39WtuAxi/3zYuoFa3jXaneglIvaivV09U=
+X-Gm-Gg: ASbGncsFCdZ4cIIPnzFvL+8e5hotS2znfpTDDtIzNpw0eUI3VFbMT4WKIh8GFw098oG
+ jaOn3pyoIVztclAq2DgWBHUUButIOgdMNzYmL27WpNd1FSnc2TOkvkRIxR7ajuYpelfzSS3TYAr
+ F4BA==
+X-Received: by 2002:a17:90b:2252:b0:313:d7ec:b7b7 with SMTP id
+ 98e67ed59e1d1-31a9f5b04ccmr1481431a91.13.1751522029115; 
+ Wed, 02 Jul 2025 22:53:49 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IEw5hFVi//TsCa4Q6XzLBJ8tf++ndTT7/F7yDroUNNHQkrMEr4tlTJRzyW12RoLx7a+Se4ML52TJNjzTq9i/BI=
+X-Received: by 2002:a17:90b:2252:b0:313:d7ec:b7b7 with SMTP id
+ 98e67ed59e1d1-31a9f5b04ccmr1481391a91.13.1751522028543; Wed, 02 Jul 2025
+ 22:53:48 -0700 (PDT)
 MIME-Version: 1.0
 References: <20250630045005.1337339-1-airlied@gmail.com>
- <20250630045005.1337339-9-airlied@gmail.com>
- <kk5qq4af4roysrnba3w5433fmhmbt4ps5kfnmvickh3uxlqc3g@lpqtnmqhuzgm>
-In-Reply-To: <kk5qq4af4roysrnba3w5433fmhmbt4ps5kfnmvickh3uxlqc3g@lpqtnmqhuzgm>
+ <20250630045005.1337339-13-airlied@gmail.com>
+ <20a90668-3ddf-4153-9953-a2df9179a1b1@amd.com>
+ <CAMwc25ok0Q93+EeyyoR-S0Ffvi-GswDiUGA8rPBwZ+C+5Y8HVA@mail.gmail.com>
+ <cf6cb95f-df79-40ae-95d5-dc5a7620a136@amd.com>
+ <CAMwc25q-kBRGDrphU+iAyqENZhgdRtEnSrR9z6b5bQ_JFzzK2g@mail.gmail.com>
+ <26c79b1e-0f7f-4efa-9040-92df8c5bdf1f@amd.com>
+ <CAMwc25oMQ_=Hagb9N6SN3pFFPwZ8+8ZBOGvziCPhUypMpPeKUQ@mail.gmail.com>
+ <54b2ee4a-0f2f-49a1-a680-8dc1193e2d30@amd.com>
+ <CAMwc25oYx1L9H+GCE95ZAxXAwqCDQVjpJfre_Ndv=Z8j8KOyYw@mail.gmail.com>
+ <d925b300-d7e2-48ef-b533-a52fb24d222a@amd.com>
+In-Reply-To: <d925b300-d7e2-48ef-b533-a52fb24d222a@amd.com>
 From: David Airlie <airlied@redhat.com>
-Date: Thu, 3 Jul 2025 15:43:35 +1000
-X-Gm-Features: Ac12FXzaZE0LM44seaQchGs9qGCjGmZ1Sx3Me9vakIm7o5BNxnCpdZzclz6bX1Y
-Message-ID: <CAMwc25pN-bBmQgA7VVWinojeL7ViOi-UcrWRa2+NjiJyitxqcQ@mail.gmail.com>
-Subject: Re: [PATCH 08/17] memcg: add support for GPU page counters.
-To: Shakeel Butt <shakeel.butt@linux.dev>
+Date: Thu, 3 Jul 2025 15:53:37 +1000
+X-Gm-Features: Ac12FXyN8cI1GoKXfE4cc8g5wD4GK8VxW5bbEvzv2TsNWks9aUUHYz3_8vZfjps
+Message-ID: <CAMwc25qr7LY9jH_rztTn1pT-aTEDGCHZP0GnC5U8bd46sp9p+A@mail.gmail.com>
+Subject: Re: [PATCH 12/17] ttm: add objcg pointer to bo and tt
+To: =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
 Cc: Dave Airlie <airlied@gmail.com>, dri-devel@lists.freedesktop.org,
- linux-mm@kvack.org, Johannes Weiner <hannes@cmpxchg.org>,
- Christian Koenig <christian.koenig@amd.com>, 
- Dave Chinner <david@fromorbit.com>, Kairui Song <kasong@tencent.com>
+ linux-mm@kvack.org, 
+ Johannes Weiner <hannes@cmpxchg.org>, Dave Chinner <david@fromorbit.com>, 
+ Kairui Song <kasong@tencent.com>
 X-Mimecast-Spam-Score: 0
-X-Mimecast-MFC-PROC-ID: XRR4j67UEIj6y5dZtlBEvO_YylKkbu0CQfBPcGM4ZPg_1751521427
+X-Mimecast-MFC-PROC-ID: y_v_nFsEjrWm2OV8MiWul9vptCuXwWsTJYFn_kgBts8_1751522030
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
@@ -98,77 +106,146 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, Jul 3, 2025 at 2:06=E2=80=AFAM Shakeel Butt <shakeel.butt@linux.dev=
-> wrote:
+On Wed, Jul 2, 2025 at 6:24=E2=80=AFPM Christian K=C3=B6nig <christian.koen=
+ig@amd.com> wrote:
 >
-> On Mon, Jun 30, 2025 at 02:49:27PM +1000, Dave Airlie wrote:
-> > From: Dave Airlie <airlied@redhat.com>
+> On 02.07.25 09:57, David Airlie wrote:
+> >>>
+> >>> It makes it easier now, but when we have to solve swapping, step one
+> >>> will be moving all this code around to what I have now, and starting
+> >>> from there.
+> >>>
+> >>> This just raises the bar to solving the next problem.
+> >>>
+> >>> We need to find incremental approaches to getting all the pieces of
+> >>> the puzzle solved, or else we will still be here in 10 years.
+> >>>
+> >>> The steps I've formulated (none of them are perfect, but they all see=
+m
+> >>> better than status quo)
+> >>>
+> >>> 1. add global counters for pages - now we can at least see things in
+> >>> vmstat and per-node
+> >>> 2. add numa to the pool lru - we can remove our own numa code and
+> >>> align with core kernel - probably doesn't help anything
+> >>
+> >> So far no objections from my side to that.
+> >>
+> >>> 3. add memcg awareness to the pool and pool shrinker.
+> >>>     if you are on a APU with no swap configured - you have a lot bett=
+er time.
+> >>>     if you are on a dGPU or APU with swap - you have a moderately
+> >>> better time, but I can't see you having a worse time.
+> >>
+> >> Well that's what I'm strongly disagreeing on.
+> >>
+> >> Adding memcg to the pool has no value at all and complicates things ma=
+ssively when moving forward.
+> >>
+> >> What exactly should be the benefit of that?
 > >
-> > This introduces 2 new statistics and 3 new memcontrol APIs for dealing
-> > with GPU system memory allocations.
+> > I'm already showing the benefit of the pool moving to memcg, we've
+> > even talked about it multiple times on the list, it's not a OMG change
+> > the world benefit, but it definitely provides better alignment between
+> > the pool and memcg allocations.
 > >
-> > The stats corresponds to the same stats in the global vmstat,
-> > for number of active GPU pages, and number of pages in pools that
-> > can be reclaimed.
+> > We expose userspace API to allocate write combined memory, we do this
+> > for all currently supported CPU/GPUs. We might think in the future we
+> > don't want to continue to do this, but we do it now. My Fedora 42
+> > desktop uses it, even if you say there is no need.
 > >
-> > The first API charges a order of pages to a objcg, and sets
-> > the objcg on the pages like kmem does, and updates the active/reclaim
-> > statistic.
-> >
-> > The second API uncharges a page from the obj cgroup it is currently cha=
-rged
-> > to.
-> >
-> > The third API allows moving a page to/from reclaim and between obj cgro=
-ups.
-> > When pages are added to the pool lru, this just updates accounting.
-> > When pages are being removed from a pool lru, they can be taken from
-> > the parent objcg so this allows them to be uncharged from there and tra=
-nsferred
-> > to a new child objcg.
-> >
-> > Signed-off-by: Dave Airlie <airlied@redhat.com>
-> > ---
-> >  Documentation/admin-guide/cgroup-v2.rst |   6 ++
-> >  include/linux/memcontrol.h              |  14 +++
-> >  mm/memcontrol.c                         | 110 ++++++++++++++++++++++++
-> >  3 files changed, 130 insertions(+)
-> >
-> > diff --git a/Documentation/admin-guide/cgroup-v2.rst b/Documentation/ad=
-min-guide/cgroup-v2.rst
-> > index 0cc35a14afbe..d6f057c4fe2e 100644
-> > --- a/Documentation/admin-guide/cgroup-v2.rst
-> > +++ b/Documentation/admin-guide/cgroup-v2.rst
-> > @@ -1542,6 +1542,12 @@ The following nested keys are defined.
-> >         vmalloc (npn)
-> >               Amount of memory used for vmap backed memory.
-> >
-> > +       gpu (npn)
-> > +             Amount of system memory used for GPU devices.
-> > +
-> > +       gpu_reclaim (npn)
-> > +             Amount of system memory cached for GPU devices.
-> > +
-> >         shmem
-> >               Amount of cached filesystem data that is swap-backed,
-> >               such as tmpfs, shm segments, shared anonymous mmap()s
-> > diff --git a/include/linux/memcontrol.h b/include/linux/memcontrol.h
-> > index 87b6688f124a..ff82d603910d 100644
-> > --- a/include/linux/memcontrol.h
-> > +++ b/include/linux/memcontrol.h
-> > @@ -36,6 +36,8 @@ enum memcg_stat_item {
-> >       MEMCG_SOCK,
-> >       MEMCG_PERCPU_B,
-> >       MEMCG_VMALLOC,
-> > +     MEMCG_GPU,
-> > +     MEMCG_GPU_RECLAIM,
+> > If I allocate 100% of my memcg budget to WC memory, free it, then
+> > allocate 100% of my budget to non-WC memory, we break container
+> > containment as we can force other cgroups to run out of memory budget
+> > and have to call the global shrinker.
 >
-> You already added node level counters i.e. GPUActive & GPUReclaim, just
-> use those instead of these. Add them to memcg_node_stat_items[].
->
+> Yeah and that is perfectly intentional.
 
-Thanks for the pointer, yes I did mess that up, I've rewrote it
-locally today and it makes more sense now.
+But it's wrong, we've been told by the mm/cgroup people that this
+isn't correct behaviour and we should fix it, and in order to move
+forward with fixing our other problems, we should start with this one.
+We are violating cgroups containment and we should endeavour to stop
+doing so.
+
+>
+> > With this in place, the
+> > container that allocates the WC memory also pays the price to switch
+> > it back. Again this is just correctness, it's not going to fix any
+> > major workloads, but I also don't think it should cause any
+> > regressions, since it won't be worse than current worst case
+> > expectation for most workloads.
+>
+> No, this is not correct behavior any more.
+>
+> Memory which is used by your cgroup is not used for allocations by anothe=
+r cgroup any more nor given back to the core memory managment for the page =
+pool. E.g. one cgroup can't steal the memory from another cgroup any more.
+>
+> In other words that is reserving the memory for the cgroup and don't give=
+ it back to the global pool as soon as you free it.
+
+But what is the big advantage of giving it back to the global pool
+here, I'm pretty neither the worst case or steady state behaviour will
+change here, but the ability for one cgroup to help or hinder another
+cgroup will be curtailed, which as far as I can see is what the cgroup
+behaviour is meant to be. Each piece operates in it's own container,
+and can cause minimal disruption either good or bad to other
+containers.
+
+> That would only be acceptable if we have per cgroup limit on the pool siz=
+e which is *much* lower than the current global limit we have.
+
+That is up to whoever configures the cgroup limits, if they say this
+process should only have access to 1GB of RAM, then between normal RAM
+and uncached/wc RAM they get 1GB, if they need to move RAM between
+this via the ttm shrinker then it's all contained in that cgroup. This
+isn't taking swapping into account, but currently we don't do that
+now.
+
+>
+> Maybe we could register a memcg aware shrinker, but not make the LRU memc=
+g aware or something like that.
+>
+> As far as I can see that would give us the benefit of both approaches, th=
+e only problem is that we would have to do per cgroup counter tracking on o=
+ur own.
+>
+> That's why I asked if we could have TTM pool specific variables in the cg=
+roup.
+>
+> Another alternative would be to change the LRU so that we track per memcg=
+, but allow stealing of pages between cgroups.
+
+I just don't get why we'd want to steal pages, just put all the
+processes in the same cgroup. If you want to do that, we leave it up
+to the cgroup administration to decide what they want to share between
+processes. That policy shouldn't be in the driver/ttm layers, it
+should be entirely configurable by the admin, and default to
+reasonably sane behaviours.
+
+If there is a system out there already using cgroups for containment,
+but relying on this cgroup bypass to share uncached/wc pages, then
+clearly it's not a great system, and we should figure out how to fix
+that. If we need a backwards compat flag to turn this off, then I'm
+fine with that, but we've been told by the cgroup folks that it's not
+really a correct cgroup usage, and we should discourage it.
+
+> > I understand we have to add more code to the tt level and that's fine,
+> > I just don't see why you think starting at the bottom level is wrong?
+> > it clearly has a use, and it's just cleaning up and preparing the
+> > levels, so we can move up and solve the next problem.
+>
+> Because we don't have the necessary functionality to implement a memcg aw=
+are shrinker which moves BOs into swap there.
+
+We need to have two levels of shrinker here, I'm not disputing the tt
+level shinker like xe has doesn't need more work, but right now we
+have two shrinkers that aren't aware of numa or memcg, I'd like to
+start by reducing that to one for the corner case that nobody really
+cares about but would be good to be correct. Then we can work on
+swap/shrinker problem, which isn't this shrinker, and if after we do
+that we find a single shrinker could be take care of it all, then we
+move towards that.
 
 Dave.
 
