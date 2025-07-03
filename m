@@ -2,64 +2,69 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 419EBAF8441
-	for <lists+dri-devel@lfdr.de>; Fri,  4 Jul 2025 01:30:54 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id E21A1AF849F
+	for <lists+dri-devel@lfdr.de>; Fri,  4 Jul 2025 01:59:25 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3EEB910E91A;
-	Thu,  3 Jul 2025 23:30:51 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3C03B10E91C;
+	Thu,  3 Jul 2025 23:59:23 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=bootlin.com header.i=@bootlin.com header.b="gqmaSlT6";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="MlhR8ljQ";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from relay8-d.mail.gandi.net (relay8-d.mail.gandi.net
- [217.70.183.201])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D9F9810E91A
- for <dri-devel@lists.freedesktop.org>; Thu,  3 Jul 2025 23:30:49 +0000 (UTC)
-Received: by mail.gandi.net (Postfix) with ESMTPSA id AC9A6433D1;
- Thu,  3 Jul 2025 23:30:44 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
- t=1751585448;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=tt2N6G+At1qhUgwy4yABNWj0FBwZam0bZ476OEZxgn4=;
- b=gqmaSlT648m32aJZHmRZiIlMw17YRd/ab1WZiUkOlWM2Fbx141xgrPqrbKgfduLMuedSKt
- b6O7l01E6WInSldYVRA7qVhJUXUE4jkD3cXbVZMJIuKUTHbhENXnDDgxTzYAwS78O1aNdw
- ZBYAenhvsbB+moitvIH61X1s7C7N/NAevks6HDSLW+YPlJtsCNjp3xvXORxFplaOlE0U9X
- 2L0OqVxQnrtzpUNZTzRTPsj6s0Czdxoyq+G24HnKd2r2ECNptwhVSD5YlGwjw+l8SiQ19z
- NVXa1tH04EWBexm9plh6g6kT1/yEdrVdLxmSlpRWbtbn9750RpqgTk8puisevg==
-From: Luca Ceresoli <luca.ceresoli@bootlin.com>
-Date: Fri, 04 Jul 2025 01:30:18 +0200
-Subject: [PATCH v2] drm/bridge: tc358767: fix uninitialized variable regression
+Received: from mail-ej1-f46.google.com (mail-ej1-f46.google.com
+ [209.85.218.46])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E0F4810E1E4
+ for <dri-devel@lists.freedesktop.org>; Thu,  3 Jul 2025 23:59:21 +0000 (UTC)
+Received: by mail-ej1-f46.google.com with SMTP id
+ a640c23a62f3a-ae360b6249fso68469666b.1
+ for <dri-devel@lists.freedesktop.org>; Thu, 03 Jul 2025 16:59:21 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20230601; t=1751587160; x=1752191960; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:to:subject:message-id:date:from
+ :mime-version:from:to:cc:subject:date:message-id:reply-to;
+ bh=dbcMoATLah7xWt4jJFpD0PqVaXukcIMzKpD0DdGk9fc=;
+ b=MlhR8ljQ7p9besv6zLovQjXxsi2WQZ9+agbJytLez2BnEjxzChNceEIh8kbaPNroWM
+ z2J89QFGIOqi0Gtc2iXoBTzoQHRUERMjEGvzqMskMvw9JVpW88XIdZhBSI3Qg53qpJ1Z
+ EF5OT2i3f8uDQLi58UbCEfRmv1oRgg0rhhQNZ4zGCa3O5qC5ZIvTNUq59abGyTX05yQ9
+ zbE9ceIbOIJl0h28di6UKXfFAMaTBp8RfGktSsIyP7Q4Z0JAUnP/Gdk3c0OCiYg9qSp5
+ 2ubacKceTg7aeydKKnaKdDbj0YFIsY0oY8NcwAMfiDTJndRPWDtbbJpeqv7HD+e6bTv4
+ Hcrg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1751587160; x=1752191960;
+ h=content-transfer-encoding:to:subject:message-id:date:from
+ :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=dbcMoATLah7xWt4jJFpD0PqVaXukcIMzKpD0DdGk9fc=;
+ b=mLIpEWw8g494L3Yh3dkO2Ql8/5lK/kYgujPSOpzZPzRZlSo6/eSCm5yPbRS0K8sfqa
+ KC0LTyZw6IEIVivvlpkgJy4dZyB4XAE9SDSE3thQ6cKuJz2pXpESBFD+vClfuxVwx4MO
+ GeHo0E+90z/+AqahMSecsRHSgB9vwxyDPwX3+2+I3JJhTj4UgbSMMUDjgynxgMqMr29m
+ SrkghkNARaFSc3NnvixPYrX5HIKOHtpWf6RLUr8dfS/V0VC0ZvJTfqCROYpyeapoeTk8
+ l3AbAHiYmRzlNAwLshodRkjBoDsvq7/dQe9+VuraDXD86Y0m6LEL93NTme+Q+nR0lLVP
+ 8Cqg==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCW9kK83Z5T/Nm3yTsxs9GI2kEduV5P4wTpgoM4ul2h+rzHHnMq2LBa8VWOHPNk0UvXIQzE1Z3ySNAM=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YyuDhyn7cn82f36vmvOzVCT6SOaDc/BCyPT0zNyQzTKw9UMZYR6
+ qrHcrYizI+GSFvR9t7LWpDuffybGcxkJSNx+B0grY/7ToqGotIQuZYx7Wyx9/8f131Z4BhAZNAH
+ +rrjCpICr5pCjwcwiwRZ1ykZqJkriXz0=
+X-Gm-Gg: ASbGncvabQhh0Xg35RyN5D6bPo5MPWGLLcrIwCx+nw1zShrrxOFXIMOx7IuWYgDv0g9
+ h8oLzC2bDXT0AXEl5inzbkJdwEGCMy8hmBzOIKya78LaDOfezb4LCwqgkMb2dN+8Kjtwhs9q4Zr
+ Zsa1VoGRBcsQ2TDLXeiIwXtYqKGGUnaq1Er5GbMPKDKg==
+X-Google-Smtp-Source: AGHT+IGjytOVpP7rVo15QkF6EeB3cO9Nc930BrI7m2AILwxHbQos/NSdiAB9kY1YYmMl1CnD2c1vlPWIuY68wmKWNVg=
+X-Received: by 2002:a17:907:da1:b0:ae3:6cc8:e431 with SMTP id
+ a640c23a62f3a-ae3fbe2297fmr43905966b.57.1751587160197; Thu, 03 Jul 2025
+ 16:59:20 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20250704-drm-bridge-alloc-fix-tc358767-regression-v2-1-ec0e511bedd0@bootlin.com>
-X-B4-Tracking: v=1; b=H4sIAIkSZ2gC/52NTQqDMBCFryJZd0p+NEpXvUdxEZNRB9SUiUiLe
- PdGj9Dl997jfbtIyIRJPIpdMG6UKC4Z9K0QfnTLgEAhs9BSV7KWBgLP0DGF3Lhpih56+sDqTdX
- UtgbGgTGdJ1AZi043Vrneinz3ZszTS/VqM4+U1sjfy7ypM/1DsilQ0PRalz5Ia3z57GJcJ1ruP
- s6iPY7jB/R1LR7iAAAA
-X-Change-ID: 20250703-drm-bridge-alloc-fix-tc358767-regression-536ea2861af6
-To: "Colin King (gmail)" <colin.i.king@gmail.com>, 
- Andrzej Hajda <andrzej.hajda@intel.com>, 
- Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>, 
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>, 
- Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>, 
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, 
- Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
-Cc: Hui Pu <Hui.Pu@gehealthcare.com>, 
- Thomas Petazzoni <thomas.petazzoni@bootlin.com>, 
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org, 
- stable@vger.kernel.org, Luca Ceresoli <luca.ceresoli@bootlin.com>
-X-Mailer: b4 0.14.2
-X-GND-State: clean
-X-GND-Score: -100
-X-GND-Cause: gggruggvucftvghtrhhoucdtuddrgeeffedrtdefgddvudeitdcutefuodetggdotefrodftvfcurfhrohhfihhlvgemucfitefpfffkpdcuggftfghnshhusghstghrihgsvgenuceurghilhhouhhtmecufedtudenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujfgurhephfffufggtgfgkffvvefosehtjeertdertdejnecuhfhrohhmpefnuhgtrgcuvegvrhgvshholhhiuceolhhutggrrdgtvghrvghsohhlihessghoohhtlhhinhdrtghomheqnecuggftrfgrthhtvghrnhepvdeuleetffeutdfhvedvjeffuddtteejtdfhffdvhedvleevteekjeejgfejgfehnecuffhomhgrihhnpehkvghrnhgvlhdrohhrghenucfkphephedurddujeelrddutdefrdehheenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepihhnvghtpeehuddrudejledruddtfedrheehpdhhvghloheplgduledvrdduieekrddurdduleeingdpmhgrihhlfhhrohhmpehluhgtrgdrtggvrhgvshholhhisegsohhothhlihhnrdgtohhmpdhnsggprhgtphhtthhopeduledprhgtphhtthhopehsthgrsghlvgesvhhgvghrrdhkvghrnhgvlhdrohhrghdprhgtphhtthhopegumhhithhrhidrsggrrhihshhhkhhovhesohhsshdrqhhurghltghomhhmrdgtohhmpdhrtghpthhtohepmhhrihhprghrugeskhgvrhhnvghlrdhorhhgpdhrtghpthhtoheplhhinhhugidqkhgvrhhnvghlsehvghgvrhdrkhgvrhhnv
- ghlrdhorhhgpdhrtghpthhtoheprghnughriigvjhdrhhgrjhgurgesihhnthgvlhdrtghomhdprhgtphhtthhopehjvghrnhgvjhdrshhkrhgrsggvtgesghhmrghilhdrtghomhdprhgtphhtthhopegrihhrlhhivggusehgmhgrihhlrdgtohhmpdhrtghpthhtohepshhimhhonhgrsehffhiflhhlrdgthh
-X-GND-Sasl: luca.ceresoli@bootlin.com
+From: Dave Airlie <airlied@gmail.com>
+Date: Fri, 4 Jul 2025 09:59:08 +1000
+X-Gm-Features: Ac12FXwcW3KCTQcHgvP_7iMbELq7vl57lGcAWMXugriwFZC7pglzDjT4afcZ4DQ
+Message-ID: <CAPM=9tz0rQP8VZWKWyuF8kUMqRScxqoa6aVdwWw9=5yYxyYQ2Q@mail.gmail.com>
+Subject: possible amdgpu_task_info reference leak
+To: =?UTF-8?Q?Andr=C3=A9_Almeida?= <andrealmeid@igalia.com>, 
+ "Koenig, Christian" <Christian.Koenig@amd.com>,
+ dri-devel <dri-devel@lists.freedesktop.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -75,48 +80,40 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Commit a59a27176914 ("drm/bridge: tc358767: convert to
-devm_drm_bridge_alloc() API") split tc_probe_bridge_endpoint() in two
-functions, thus duplicating the loop over the endpoints in each of those
-functions. However it missed duplicating the of_graph_parse_endpoint() call
-which initializes the struct of_endpoint, resulting in an uninitialized
-read.
+In this commit :
+a72002cb181f350734108228b24c5d10d358f95a
+Author: Andr=C3=A9 Almeida <andrealmeid@igalia.com>
+Date:   Tue Jun 17 09:49:49 2025 -0300
 
-Fixes: a59a27176914 ("drm/bridge: tc358767: convert to devm_drm_bridge_alloc() API")
-Cc: stable@vger.kernel.org
-Reported-by: Colin King (gmail) <colin.i.king@gmail.com>
-Closes: https://lore.kernel.org/all/056b34c3-c1ea-4b8c-9672-c98903ffd012@gmail.com/
-Reviewed-by: Colin Ian King <colin.i.king@gmail.com>
-Signed-off-by: Luca Ceresoli <luca.ceresoli@bootlin.com>
----
-- Link to v1: https://lore.kernel.org/r/20250703-drm-bridge-alloc-fix-tc358767-regression-v1-1-8f224cd063c4@bootlin.com
----
+    drm/amdgpu: Make use of drm_wedge_task_info
 
-Changes in v2:
-- fix 'Closes:' tag URL
-- add 'Cc: stable@vger.kernel.org'
----
- drivers/gpu/drm/bridge/tc358767.c | 1 +
- 1 file changed, 1 insertion(+)
 
-diff --git a/drivers/gpu/drm/bridge/tc358767.c b/drivers/gpu/drm/bridge/tc358767.c
-index 61559467e2d22b4b1b4223c97766ca3bf58908fd..562fea47b3ecf360e64a414e95ab5d645e610e9e 100644
---- a/drivers/gpu/drm/bridge/tc358767.c
-+++ b/drivers/gpu/drm/bridge/tc358767.c
-@@ -2422,6 +2422,7 @@ static int tc_probe_bridge_endpoint(struct tc_data *tc, enum tc_mode mode)
- 	struct device_node *node = NULL;
- 
- 	for_each_endpoint_of_node(dev->of_node, node) {
-+		of_graph_parse_endpoint(node, &endpoint);
- 		if (endpoint.port == 2) {
- 			of_property_read_u8_array(node, "toshiba,pre-emphasis",
- 						  tc->pre_emphasis,
 
----
-base-commit: b4cd18f485687a2061ee7a0ce6833851fc4438da
-change-id: 20250703-drm-bridge-alloc-fix-tc358767-regression-536ea2861af6
+@@ -164,13 +165,15 @@ static enum drm_gpu_sched_stat
+amdgpu_job_timedout(struct drm_sched_job *s_job)
+                        if (amdgpu_ring_sched_ready(ring))
+                                drm_sched_start(&ring->sched, 0);
+                        dev_err(adev->dev, "Ring %s reset
+succeeded\n", ring->sched.name);
+-                       drm_dev_wedged_event(adev_to_drm(adev),
+DRM_WEDGE_RECOVERY_NONE, NULL);
++                       drm_dev_wedged_event(adev_to_drm(adev),
+DRM_WEDGE_RECOVERY_NONE, info);
+                        goto exit;
+                }
+                dev_err(adev->dev, "Ring %s reset failure\n", ring->sched.n=
+ame);
+        }
+        dma_fence_set_error(&s_job->s_fence->finished, -ETIME);
 
-Best regards,
--- 
-Luca Ceresoli <luca.ceresoli@bootlin.com>
++       amdgpu_vm_put_task_info(ti);
++
+        if (amdgpu_device_should_recover_gpu(ring->adev)) {
+                struct amdgpu_reset_context reset_context;
+                memset(&reset_context, 0, sizeof(reset_context));
 
+
+Doesn't the goto_exit bypass the amdgpu_vm_put_task_info? and cause a
+reference leak at least?
+
+Dave.
