@@ -2,111 +2,115 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0702AAF8185
-	for <lists+dri-devel@lfdr.de>; Thu,  3 Jul 2025 21:45:40 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0A459AF8188
+	for <lists+dri-devel@lfdr.de>; Thu,  3 Jul 2025 21:45:50 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D1EDA10E013;
-	Thu,  3 Jul 2025 19:45:36 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 61B3B10E1B7;
+	Thu,  3 Jul 2025 19:45:48 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=qualcomm.com header.i=@qualcomm.com header.b="bUQiy/Az";
+	dkim=pass (2048-bit key; unprotected) header.d=qualcomm.com header.i=@qualcomm.com header.b="ewcoEFtM";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com
  [205.220.180.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8FFD810E013
- for <dri-devel@lists.freedesktop.org>; Thu,  3 Jul 2025 19:45:35 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 636ED10E8C5
+ for <dri-devel@lists.freedesktop.org>; Thu,  3 Jul 2025 19:45:47 +0000 (UTC)
 Received: from pps.filterd (m0279872.ppops.net [127.0.0.1])
- by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 563EwcIv024702
- for <dri-devel@lists.freedesktop.org>; Thu, 3 Jul 2025 19:45:34 GMT
+ by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 563ER7pp015165
+ for <dri-devel@lists.freedesktop.org>; Thu, 3 Jul 2025 19:45:46 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
  cc:content-type:date:from:in-reply-to:message-id:mime-version
- :references:subject:to; s=qcppdkim1; bh=Vpm/8/blPnVQJ2JqTB/4vup7
- 1un8wdZkh1pHtFspQj0=; b=bUQiy/AziUvgWs8sAbndrYWYtYVCEgWeL+0ZUkr7
- dLIGP5bap2LG4Cqt8xdCLSq0Fbhsw9bYTklm0GbYRIEPD1IJ7hnREy891O7XxP1+
- 4ksnuQ53VpixxZVF3e4jqOO0IxL5X92SGdGcW6iio3cZDqq7HNNBzsg6njj5EPOq
- AlY8SUvDv+OLNJMxH5KYVd4qSyqrDHDv7ZlKLI52g4krg5pYPzUZCypsuan9/1dC
- oBMWWkwHq1e6oh5OSTxy4gMYcUTj7XyeIqYluQftnhsChMGZUfQAcbcKyIVVyWxb
- e0hXXYrs0YYRDp+1Bw9e+MOBueohhjFU4sW1mANnUhKXlA==
-Received: from mail-qk1-f198.google.com (mail-qk1-f198.google.com
- [209.85.222.198])
- by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 47j8s9sjyf-1
+ :references:subject:to; s=qcppdkim1; bh=ZCM7QMSDxKv2qFBgS+zVkBmh
+ E3IR8xSI0qRlItQCwdY=; b=ewcoEFtMIcZSBpo75EPx/BH/CxTkkphmZBNkiuxu
+ 9Udld1HDoCowXgie/z+7iCgs4fHNay5rp0GSM1qTQvITb7z/VxaWBxOLlKTehZuy
+ er5HTFPjJUxQuOTk3nnA4XNwdiXIVTXWTtJFniD8ktHLHoBsMRBu7WnKZQnfyR6U
+ K0yFFaDtCzrIJEvE6Q9PDtVZPXKd2qtH+027PjDWDt1SzGrTBnymoVhAIvrvNjUP
+ u7B2ymKP7pNQIGx3MNH40Iai2Q1/yBLqybPKJp46plETX5SEHy+5fW+hgbmgZmKn
+ KV1f5bwVmUHDq9aiVnMNwSsh8hRyHQ/G0CWi64wUwzLG0Q==
+Received: from mail-qk1-f200.google.com (mail-qk1-f200.google.com
+ [209.85.222.200])
+ by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 47j8s9sk05-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
- for <dri-devel@lists.freedesktop.org>; Thu, 03 Jul 2025 19:45:34 +0000 (GMT)
-Received: by mail-qk1-f198.google.com with SMTP id
- af79cd13be357-7d44a260e45so42119485a.1
- for <dri-devel@lists.freedesktop.org>; Thu, 03 Jul 2025 12:45:34 -0700 (PDT)
+ for <dri-devel@lists.freedesktop.org>; Thu, 03 Jul 2025 19:45:46 +0000 (GMT)
+Received: by mail-qk1-f200.google.com with SMTP id
+ af79cd13be357-7d3e90c3a81so16380985a.1
+ for <dri-devel@lists.freedesktop.org>; Thu, 03 Jul 2025 12:45:46 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1751571934; x=1752176734;
+ d=1e100.net; s=20230601; t=1751571946; x=1752176746;
  h=in-reply-to:content-disposition:mime-version:references:message-id
  :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
  :message-id:reply-to;
- bh=Vpm/8/blPnVQJ2JqTB/4vup71un8wdZkh1pHtFspQj0=;
- b=vfpWX76mnPV+S9spQ9bx0JDEuPPgNH9iT6FDtv6IfEx+tCQKey8O7e81nMUMSx4dM/
- dWJ4Ahq0L+AbINU7ubsGK+Qbu5yV3+G/WT9OO/h4klXaYXWajh9WVnLXKG44fLHHJ9mY
- fEfZb+eaI7CL+o462Jh/mgMWfKRDncgsBt7oQIOJveTInSPFUzxQzoXvQSEaVL+9J93f
- KFGo5H9intn4QR5Y8LhlPJYzUHwXy8gtv1C9a+wpc5lByHMb41d4xO7heEejIun6GFki
- sNt/9Xop0U9b0ZG7pofy5iZ3rqzvWQDjwB5MfSk1p7i8BEdHLKUDkVbE6+CGQ1XyUr63
- dUIQ==
+ bh=ZCM7QMSDxKv2qFBgS+zVkBmhE3IR8xSI0qRlItQCwdY=;
+ b=tQ3ddYAlU2pYMaCs5qTM+1RP3vykRT5u8oLSu3ar4g/1O5ijLEwHWcFb/x97wnsU9R
+ 0ytQj/VbMIBmXY0ZNd/tWD2Pxar/t1zPkSdIJm3ExwnuLIIE4sJ6op283NjI4GhDkrn0
+ uhf6vjeEfyunKtsjp1m8qkerEnWPTgyJIFj9XV5EjXqGnRKGuAutXBKgv7TI+wI7g5Fl
+ d7x60IzwaesG0cDUGPh/O4j+t+2ik7eyFjjR/+jn5TB3J0jPOnOFI8fNiMHZRThi/mFM
+ SjoaL104ITkQX3dUrPnVeqFd6fq2YO5FKezjcXplLO2dggDwO0LgKEdChh7DVuPromkF
+ qVdg==
 X-Forwarded-Encrypted: i=1;
- AJvYcCXgFPF5Yhy9FD0dzsbgxlC3JSNpVamkN0vQp7AX9AH1a/wotemBrRZbNFyY2wsnA1WXvF61yI1uJ7A=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0Yxn8aMgqaEwTU6VdFq/ZM0HWqYsLnM7vLVrb67/XHU78Z4kf6HI
- TFBr6ZqwrdJkt0yhU+aoF94+GHhzTXRgaN093/q/P9PJpOuH56aAGRwJQEbk4ai5GSllx1kDO7E
- TJEvwMPBfbsMKl/bhbn589ItYU6NU3p/5v6EsC9NPKK47gUBdyanKcNb5/TdwPxgm5g6u0dk=
-X-Gm-Gg: ASbGncusATP+Lx1JlsgrsdDeBemT2QxDoBOT7O8lhH/EmPX/lLQxPdGqiYtKxzba/BQ
- ODN9hFlaYAdspzzMFSip5i+K3WrOdZxFbx1UgPGj5NjEyjBdVcjwJXn2HTznm+WxJB6egltKZEv
- +bXY4cUbRg53BCJ4TMDzj1LLFNzwCj4HQfYO4K6733KIQQMosSHeWBjU75vqRjPJNcWlh4wlPM7
- 8Dp/joS7LcOAagtOY3+CMXMZcUukHuNdvLYpiXxL104YHx8GDMeWEKTJFsOzAKzlJDv5u/GEYB0
- l/bTXUICi6R1/ieUZpN0YcO6jZVIrv0+U0fI3pTOwwD0t4Jrd5+tL5z8tMha3uRYlLT/SRmu1Rj
- w03UPxvV42oEXW/CEgh8Eu7sCg1sNHgf1Z/E=
-X-Received: by 2002:a05:620a:40d3:b0:7d3:acfa:de46 with SMTP id
- af79cd13be357-7d5dc6d1439mr68784385a.21.1751571933521; 
- Thu, 03 Jul 2025 12:45:33 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IGE2Tkd8SIj2e0FW5ub/c/5lxoYYP+U2g7RlQkzD/Ph62/PI8j/lbSO1AAEZvodVq3joV8+IQ==
-X-Received: by 2002:a05:620a:40d3:b0:7d3:acfa:de46 with SMTP id
- af79cd13be357-7d5dc6d1439mr68778785a.21.1751571932911; 
- Thu, 03 Jul 2025 12:45:32 -0700 (PDT)
+ AJvYcCXVjLjuo1BP2/PDslQX3e95NsSb1wC7lnRvj9paN6+HSZkdTbIBb2PCvAi44gAm284VMlUyufLobd4=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YxLMHqQQxSxaaAwu3bvXyNxXxo3lXxJGLF6jxZVSbmHrLzNYFWo
+ oWgW+2MOSz8iL6TyHMGIfjNgYTLYNOgnDf7hmqb5D/xmm2o3Nwhciin+Gipl4grcbCAVr5Tvs8Y
+ +PrLJ4qlB3w8h+xgo1LJgPrVkcp4H/YwvVGRvoRy+4UieUxPhUsnLPYSaqwRYBY0DPvSF9W0=
+X-Gm-Gg: ASbGncuagHKFSXzB34Bdah8WAbIja2SBYoCGZia6F62NusgYtyLBWuWCxmNzzSl24LA
+ ZuF8adFuMxPnqa3TwGPfx96Fmbao6BXEgxL2nCbL9uagI+bX+vzIXxaCQEACMa0ID1LhgHKovuA
+ m6OvoekXmCvl59WUHemLPK+EEoS3gyedizGNjfXsqlDvNOC+E8TkyU4Cl0KfRJBuegtb+KZWXZ9
+ as8WQIPt6+8hPe4wNl1SXUuuFRjmZibNQCNJHhopuYvB/9h6KvnEql6ROvp5aKalJoCb+5yKd8y
+ mrdotd6D2PGxeZsSDua6C4mEa9hrUnKz0TNsm7q4JaGaiA5csa/O+87KtrIlJljw9AjHEzB+5sp
+ SXzSRIqTACZF+ub1+Xkym+qsGPe+mHEmfAdo=
+X-Received: by 2002:a05:620a:4586:b0:7d4:6506:cb63 with SMTP id
+ af79cd13be357-7d5dcd151fcmr21172285a.28.1751571945573; 
+ Thu, 03 Jul 2025 12:45:45 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IHS8RFdz2f0aAezmbC6UWYhes3/5YevtRWhAWpjVXlYu8m9CftEOm5G+GE1c6x1xY4sKoE/uA==
+X-Received: by 2002:a05:620a:4586:b0:7d4:6506:cb63 with SMTP id
+ af79cd13be357-7d5dcd151fcmr21168785a.28.1751571944980; 
+ Thu, 03 Jul 2025 12:45:44 -0700 (PDT)
 Received: from umbar.lan
  (2001-14ba-a0c3-3a00-264b-feff-fe8b-be8a.rev.dnainternet.fi.
  [2001:14ba:a0c3:3a00:264b:feff:fe8b:be8a])
  by smtp.gmail.com with ESMTPSA id
- 2adb3069b0e04-556384d57a9sm52843e87.257.2025.07.03.12.45.31
+ 2adb3069b0e04-55638494483sm55037e87.99.2025.07.03.12.45.43
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 03 Jul 2025 12:45:32 -0700 (PDT)
-Date: Thu, 3 Jul 2025 22:45:30 +0300
+ Thu, 03 Jul 2025 12:45:44 -0700 (PDT)
+Date: Thu, 3 Jul 2025 22:45:41 +0300
 From: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
 To: "Rob Herring (Arm)" <robh@kernel.org>
-Cc: Srinivas Kandagatla <srini@kernel.org>,
- Amol Maheshwari <amahesh@qti.qualcomm.com>, Arnd Bergmann <arnd@arndb.de>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+Cc: Rob Clark <robin.clark@oss.qualcomm.com>, Sean Paul <sean@poorly.run>,
+ Konrad Dybcio <konradybcio@kernel.org>,
+ Dmitry Baryshkov <lumag@kernel.org>,
+ Abhinav Kumar <abhinav.kumar@linux.dev>,
+ Jessica Zhang <jessica.zhang@oss.qualcomm.com>,
+ Marijn Suijten <marijn.suijten@somainline.org>,
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
  linux-arm-msm@vger.kernel.org, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] misc: fastrpc: Use of_reserved_mem_region_to_resource()
- for "memory-region"
-Message-ID: <nl6qf6btlkr73ozw6psh4hyt5ke4o6hlctbgzcjukmr4dojbes@rj3zqv32nn2e>
-References: <20250703183455.2074215-1-robh@kernel.org>
+ freedreno@lists.freedesktop.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] drm/msm: Use of_reserved_mem_region_to_resource() for
+ "memory-region"
+Message-ID: <burq5f43rrr544kn2kdzd5mvdi4yep5yz2g3dfortldchfqag5@23c7ciirwrfv>
+References: <20250703183442.2073717-1-robh@kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20250703183455.2074215-1-robh@kernel.org>
-X-Authority-Analysis: v=2.4 cv=H/Pbw/Yi c=1 sm=1 tr=0 ts=6866ddde cx=c_pps
- a=qKBjSQ1v91RyAK45QCPf5w==:117 a=xqWC_Br6kY4A:10 a=kj9zAlcOel0A:10
- a=Wb1JkmetP80A:10 a=VwQbUJbxAAAA:8 a=EUspDBNiAAAA:8 a=9sTWCGXqcYbA0vK5jiAA:9
- a=CjuIK1q_8ugA:10 a=NFOGd7dJGGMPyQGDc5-O:22
-X-Proofpoint-ORIG-GUID: vb3WGokSi_ziO33O5LE7UU6oPkxC6_Tz
-X-Proofpoint-GUID: vb3WGokSi_ziO33O5LE7UU6oPkxC6_Tz
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwNzAzMDE2MyBTYWx0ZWRfXy7NXBPTFz8xW
- M3QfOGnY8GlxpEHEd00CMZ818OCKOL+2PrtWdBlXNMfom63gVW3h+gC1Ks9UzS7C5VgyE3r9CHa
- ECedJd9EIC6RffXugrA8SdzE0pHwxXyGg77hb0B23GCqq+lEDdJudLz/MFeTkw6p4Ndf9KDE9iR
- jDJqtOKrBR6V0zyo0NdpWR4x8W2hZN0tLVBk+RTwkvxhBoi1j2vQ5zAcN9XDiMnilDCwf+FtdST
- gVYikDsPYl3mP0FRsQiZ70H1+69Yg1OnsXiWTYGDxI8aPi3HOap10aHgEuEwq16DoNhzD/wcfmw
- w++jjCnwTqCwEgFEZiCsoH08rrsUVgCynvW0ghVuE11SyJ66A/iyxg+ld/MYQPblXgGKLZ8HPzu
- Y2Nv0GP6ch6IGYePYfMqqnFUuekvdM0+eNTR7Qu+KTRW4bhIMwbIFiTnBGRv1cZD+1U2QdTV
+In-Reply-To: <20250703183442.2073717-1-robh@kernel.org>
+X-Authority-Analysis: v=2.4 cv=H/Pbw/Yi c=1 sm=1 tr=0 ts=6866ddea cx=c_pps
+ a=hnmNkyzTK/kJ09Xio7VxxA==:117 a=xqWC_Br6kY4A:10 a=kj9zAlcOel0A:10
+ a=Wb1JkmetP80A:10 a=VwQbUJbxAAAA:8 a=EUspDBNiAAAA:8 a=iv_ZzY4-czSJ8NSb4YEA:9
+ a=CjuIK1q_8ugA:10 a=PEH46H7Ffwr30OY-TuGO:22
+X-Proofpoint-ORIG-GUID: WcJCw3KVYA0wkDonQ1N1pVOLBSG6HwGW
+X-Proofpoint-GUID: WcJCw3KVYA0wkDonQ1N1pVOLBSG6HwGW
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwNzAzMDE2MyBTYWx0ZWRfX4RGkxVhliKMu
+ YKEmyz5UgYBlN/9xcA93b7lcFxTbV6WpieOayqYpEXQWOW60L5hvgPc2J6KN+WGmBJHMHyPRzBW
+ Sbl2Rl6zJ8LM05zAxXQVqkhpqboTWS4ZPUMOGhpVcvWpc4VUxArObQgXO85BFrIe0+EuTEy2vsG
+ t0TEItUqoelDmrIAjBucIolTFpPEgBDDzqkKMl4iw5qJfSCjnt7KSO9sp/osgPFolHOeCXzu/gK
+ DQ+dRFujv/CxAMCyAjvxUhH56cqvmQHeDZTQzadnblHKq+44piVuLLDD4/g+2lY7NnJcQ8mIWhT
+ UaQKvxqKA3Juh7aUoraoU+lrfOjaRoXVh0XMOgWYCXq0XwzmepQD4Lqeg+wyDMewgiXoh98sYxk
+ zE+8ddxX9eqcT2tRCsCPlBUSy9Vh2pe4fZQ5XKFbSbXAS+v+wMWkgLoUauPMRPPVlbd4Po2F
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.293,Aquarius:18.0.1099,Hydra:6.1.7,FMLib:17.12.80.40
  definitions=2025-07-03_05,2025-07-02_04,2025-03-28_01
 X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- impostorscore=0 malwarescore=0 suspectscore=0 mlxlogscore=652
+ impostorscore=0 malwarescore=0 suspectscore=0 mlxlogscore=821
  priorityscore=1501 clxscore=1015 mlxscore=0 lowpriorityscore=0 spamscore=0
  adultscore=0 bulkscore=0 phishscore=0 classifier=spam authscore=0 authtc=n/a
  authcc= route=outbound adjust=0 reason=mlx scancount=1
@@ -126,25 +130,22 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, Jul 03, 2025 at 01:34:54PM -0500, Rob Herring (Arm) wrote:
+On Thu, Jul 03, 2025 at 01:34:41PM -0500, Rob Herring (Arm) wrote:
 > Use the newly added of_reserved_mem_region_to_resource() function to
 > handle "memory-region" properties.
 > 
-> The error handling is a bit different. "memory-region" is optional, so
-> failed lookup is not an error. But then an error in
-> of_reserved_mem_lookup() is treated as an error. However, that
-> distinction is not really important. Either the region is available
-> and usable or it is not. So now, it is just
-> of_reserved_mem_region_to_resource() which is checked for an error.
+> The original code did not set 'zap_available' to false if
+> of_address_to_resource() failed which seems like an oversight.
 > 
 > Signed-off-by: Rob Herring (Arm) <robh@kernel.org>
 > ---
->  drivers/misc/fastrpc.c | 19 +++++++------------
->  1 file changed, 7 insertions(+), 12 deletions(-)
+>  drivers/gpu/drm/msm/adreno/adreno_gpu.c | 17 +++++------------
+>  drivers/gpu/drm/msm/msm_drv.c           | 15 +++++----------
+>  2 files changed, 10 insertions(+), 22 deletions(-)
+> 
 
 Reviewed-by: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
 
-> 
 
 -- 
 With best wishes
