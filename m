@@ -2,58 +2,51 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 14639AF6E06
-	for <lists+dri-devel@lfdr.de>; Thu,  3 Jul 2025 11:01:59 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2F68FAF6E19
+	for <lists+dri-devel@lfdr.de>; Thu,  3 Jul 2025 11:04:21 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E34D510E336;
-	Thu,  3 Jul 2025 09:01:55 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1D7CF10E7F1;
+	Thu,  3 Jul 2025 09:04:19 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="JaNj9cTv";
+	dkim=pass (1024-bit key; unprotected) header.d=collabora.com header.i=robert.mader@collabora.com header.b="PrU+cmDV";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from nyc.source.kernel.org (nyc.source.kernel.org [147.75.193.91])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2E11210E336
- for <dri-devel@lists.freedesktop.org>; Thu,  3 Jul 2025 09:01:54 +0000 (UTC)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by nyc.source.kernel.org (Postfix) with ESMTP id 4EB77A53718;
- Thu,  3 Jul 2025 09:01:53 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7961BC4CEE3;
- Thu,  3 Jul 2025 09:01:52 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1751533313;
- bh=NAPX3z+5Hzs1tzhGj4iLZXmU149A+uDXJDgyn5k9ggk=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=JaNj9cTvilRL1BXp9dI71RP1VExcmeRml6tzrJQmopCX2CCjbnw4R5UF9887xL0F7
- Xifb8roVNzKhu7Sah44k3nkKKRwb4NHGCHLJPA+9e7JKMwQbjeKptez22c/MsErYQx
- V2ZqTO/NHMkUPFW+WqUfL2gE42k+2R3s20vWb7SVh42DbAvOjaCEX9K9QbTS5423+W
- GS6yNoKt9meth48YXsi9sFRkkVSSrEeN8BF/qdZfgm/6haetTQB4c2zkSfco6mXL21
- OT+MnJSDdWXOUAHOlLEJhteMpR0tXlg6xdj2wj1omjH0zwTMLXzVZuEPott84R64Yz
- 8roZc413BpGKA==
-Date: Thu, 3 Jul 2025 11:01:50 +0200
-From: Maxime Ripard <mripard@kernel.org>
-To: Kaustabh Chakraborty <kauschluss@disroot.org>
-Cc: Neil Armstrong <neil.armstrong@linaro.org>, 
- Jessica Zhang <quic_jesszhan@quicinc.com>, David Airlie <airlied@gmail.com>, 
- Simona Vetter <simona@ffwll.ch>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
- Thomas Zimmermann <tzimmermann@suse.de>, Rob Herring <robh@kernel.org>, 
- Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
- Jessica Zhang <jessica.zhang@oss.qualcomm.com>, dri-devel@lists.freedesktop.org,
- devicetree@vger.kernel.org, 
- linux-kernel@vger.kernel.org, Conor Dooley <conor.dooley@microchip.com>
-Subject: Re: [PATCH v3 1/2] dt-bindings: display: panel: document Samsung
- S6E8AA5X01 panel driver
-Message-ID: <20250703-true-archetypal-skylark-dfb055@houat>
-References: <20250625-panel-samsung-s6e8aa5x01-v3-0-9a1494fe6c50@disroot.org>
- <20250625-panel-samsung-s6e8aa5x01-v3-1-9a1494fe6c50@disroot.org>
- <80055981-3624-4165-af0c-3b60c345e8f8@linaro.org>
- <4b9e44b14395ff4c64eba1bd71e63150@disroot.org>
+Received: from sender4-pp-f112.zoho.com (sender4-pp-f112.zoho.com
+ [136.143.188.112])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 52BCD10E7F1
+ for <dri-devel@lists.freedesktop.org>; Thu,  3 Jul 2025 09:04:18 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; t=1751533456; cv=none; 
+ d=zohomail.com; s=zohoarc; 
+ b=k6XLeC09z489kSHWmXuDY8JrYHc+SRUelEu9narlWFaVztCic19ubfACB6TQVNF1wljTWo/GBCylowceSXRRiRFaDGozjHNXdUxIuEwFCRw0osoQlXNZ2WhOQte11hSUgmfcZ62lpcOEZOLNzA/EIaxqf4xD2sNigv+/Le//2kM=
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com;
+ s=zohoarc; t=1751533456;
+ h=Content-Type:Content-Transfer-Encoding:Cc:Cc:Date:Date:From:From:MIME-Version:Message-ID:Subject:Subject:To:To:Message-Id:Reply-To;
+ bh=frWO6zL0TAZQVYmSaNhnFA4PGDjy6fBzVAXIH4An7nY=; 
+ b=DsqXMxQFeK+GYArQnIasNs48Uq3ViGp61xmkRDuHPnH9mPbXR28CTXQRlBWmBmpmcZh19BdyhNmSozMgedEKsIir0xhHQCkQYt0d+kAtDfw5tTFv7yAReV07GnwZh/uA7YXWPtLoHPW7fef6sBRVeqtor3ZhiZZSI+YV8/+Safo=
+ARC-Authentication-Results: i=1; mx.zohomail.com;
+ dkim=pass  header.i=collabora.com;
+ spf=pass  smtp.mailfrom=robert.mader@collabora.com;
+ dmarc=pass header.from=<robert.mader@collabora.com>
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1751533456; 
+ s=zohomail; d=collabora.com; i=robert.mader@collabora.com;
+ h=From:From:To:To:Cc:Cc:Subject:Subject:Date:Date:Message-ID:MIME-Version:Content-Type:Content-Transfer-Encoding:Message-Id:Reply-To;
+ bh=frWO6zL0TAZQVYmSaNhnFA4PGDjy6fBzVAXIH4An7nY=;
+ b=PrU+cmDVzfLckAIGOghDlRyCAie2Wb1m8UOw15+Ltz0SVL/uusV1MRWJlKSdvl8/
+ 1VH3hlgKpmzbkej3Ti5tkLb7Z4kkzk4Ui3+P4dsrBJ5UEQvHhbwl/BExHeWqJYhdxLQ
+ chdKeh/7MSvRn5wBdB4aEJlirnY38cN6A3LS/L6M=
+Received: by mx.zohomail.com with SMTPS id 1751533453325969.1471666245575;
+ Thu, 3 Jul 2025 02:04:13 -0700 (PDT)
+From: Robert Mader <robert.mader@collabora.com>
+To: dri-devel@lists.freedesktop.org
+Cc: Robert Mader <robert.mader@collabora.com>
+Subject: [PATCH v1] drm/vkms: Add writeback encoders as possible clones
+Date: Thu,  3 Jul 2025 11:03:35 +0200
+Message-ID: <20250703090335.23595-1-robert.mader@collabora.com>
+X-Mailer: git-send-email 2.50.0
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha384;
- protocol="application/pgp-signature"; boundary="vgt7kszogf7yzhtt"
-Content-Disposition: inline
-In-Reply-To: <4b9e44b14395ff4c64eba1bd71e63150@disroot.org>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -69,45 +62,89 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+Since commit 41b4b11da0215 ("drm: Add valid clones check") setting
+the `possible_clones` values is a hard requirement for cloning.
+`vkms` supports cloning for writeback connectors in order to capture
+CRTC content, however that broke with said commit.
 
---vgt7kszogf7yzhtt
-Content-Type: text/plain; protected-headers=v1; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-Subject: Re: [PATCH v3 1/2] dt-bindings: display: panel: document Samsung
- S6E8AA5X01 panel driver
-MIME-Version: 1.0
+Writeback connectors are created on a per-CRTC basis, thus mark
+every non-writeback connector that is compatible with a given CRTC
+as possible clone - and vice-versa.
 
-On Mon, Jun 30, 2025 at 05:18:22PM +0000, Kaustabh Chakraborty wrote:
-> On 2025-06-30 15:29, Neil Armstrong wrote:
-> > On 25/06/2025 14:41, Kaustabh Chakraborty wrote:
-> > > Samsung S6E8AA5X01 is an AMOLED MIPI DSI panel controller. Document
-> > > the
-> > > compatible and devicetree properties of this panel driver. Timings are
-> > > provided through the devicetree node as panels are available in
-> > > different sizes.
-> >=20
-> > Wait, why ? Why not multiple compatibles ?
->=20
-> The panel dimensions is the only thing which differs. The model name,
-> controller, registers, and functionality are supposedly all similar, so
-> I believe this is fine...
+Using a default configuration, the corresponding `drm_info` output
+changes from:
 
-If only the dimensions change, then width-mm and height-mm would be enough,=
- right?
+├───Encoders
+│   ├───Encoder 0
+│   │   ├───Object ID: 40
+│   │   ├───Type: virtual
+│   │   ├───CRTCS: {0}
+│   │   └───Clones: {0}
+│   └───Encoder 1
+│       ├───Object ID: 41
+│       ├───Type: virtual
+│       ├───CRTCS: {0}
+│       └───Clones: {1}
 
-Maxime
+to:
 
---vgt7kszogf7yzhtt
-Content-Type: application/pgp-signature; name="signature.asc"
+├───Encoders
+│   ├───Encoder 0
+│   │   ├───Object ID: 44
+│   │   ├───Type: virtual
+│   │   ├───CRTCS: {0}
+│   │   └───Clones: {0, 1}
+│   └───Encoder 1
+│       ├───Object ID: 50
+│       ├───Type: virtual
+│       ├───CRTCS: {0}
+│       └───Clones: {0, 1}
 
------BEGIN PGP SIGNATURE-----
+Signed-off-by: Robert Mader <robert.mader@collabora.com>
+---
+ drivers/gpu/drm/vkms/vkms_output.c    | 12 ++++++++++++
+ drivers/gpu/drm/vkms/vkms_writeback.c |  2 ++
+ 2 files changed, 14 insertions(+)
 
-iJUEABMJAB0WIQTkHFbLp4ejekA/qfgnX84Zoj2+dgUCaGZG+QAKCRAnX84Zoj2+
-dkaKAYCpDgUynGpFGg0nAqhZ30rfPSkxPdT3Biba4y/wI3F/AcjI9V5YST4HJiga
-ZYrL9SMBf0M/4B6wrK0XPpwgMoKZsNfd5A6/xz/MW8Mf5bKc38jYSUrQQ4OzDSSo
-1h6PhC25sA==
-=PL0P
------END PGP SIGNATURE-----
+diff --git a/drivers/gpu/drm/vkms/vkms_output.c b/drivers/gpu/drm/vkms/vkms_output.c
+index 8d7ca0cdd79f..21935eb88198 100644
+--- a/drivers/gpu/drm/vkms/vkms_output.c
++++ b/drivers/gpu/drm/vkms/vkms_output.c
+@@ -77,9 +77,21 @@ int vkms_output_init(struct vkms_device *vkmsdev)
+ 			return ret;
+ 		}
+ 
++		encoder_cfg->encoder->possible_clones |= BIT(drm_encoder_index(encoder_cfg->encoder));
++
+ 		vkms_config_encoder_for_each_possible_crtc(encoder_cfg, idx, possible_crtc) {
+ 			encoder_cfg->encoder->possible_crtcs |=
+ 				drm_crtc_mask(&possible_crtc->crtc->crtc);
++
++			if (vkms_config_crtc_get_writeback(possible_crtc)) {
++				struct drm_encoder *wb_encoder =
++					&possible_crtc->crtc->wb_encoder;
++
++				encoder_cfg->encoder->possible_clones |=
++					BIT(drm_encoder_index(wb_encoder));
++				wb_encoder->possible_clones |=
++					BIT(drm_encoder_index(encoder_cfg->encoder));
++			}
+ 		}
+ 	}
+ 
+diff --git a/drivers/gpu/drm/vkms/vkms_writeback.c b/drivers/gpu/drm/vkms/vkms_writeback.c
+index fe163271d5b5..12b60fb97c68 100644
+--- a/drivers/gpu/drm/vkms/vkms_writeback.c
++++ b/drivers/gpu/drm/vkms/vkms_writeback.c
+@@ -174,6 +174,8 @@ int vkms_enable_writeback_connector(struct vkms_device *vkmsdev,
+ 	if (ret)
+ 		return ret;
+ 	vkms_output->wb_encoder.possible_crtcs |= drm_crtc_mask(&vkms_output->crtc);
++	vkms_output->wb_encoder.possible_clones |=
++		BIT(drm_encoder_index(&vkms_output->wb_encoder));
+ 
+ 	drm_connector_helper_add(&wb->base, &vkms_wb_conn_helper_funcs);
+ 
+-- 
+2.50.0
 
---vgt7kszogf7yzhtt--
