@@ -2,55 +2,53 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id D73A5AF81BD
-	for <lists+dri-devel@lfdr.de>; Thu,  3 Jul 2025 22:06:21 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 60A2FAF81BC
+	for <lists+dri-devel@lfdr.de>; Thu,  3 Jul 2025 22:06:19 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A9E8210E1CC;
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6CB4B10E1CA;
 	Thu,  3 Jul 2025 20:06:16 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=collabora.com header.i=@collabora.com header.b="ZuOdoL4l";
+	dkim=pass (1024-bit key; unprotected) header.d=linux.dev header.i=@linux.dev header.b="v31CKCEF";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from bali.collaboradmins.com (bali.collaboradmins.com
- [148.251.105.195])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E5BC810E1CA
- for <dri-devel@lists.freedesktop.org>; Thu,  3 Jul 2025 20:06:15 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
- s=mail; t=1751573174;
- bh=SKd6ngcbSzuyPoBy9402pghcS63YIxZy5/NF3GWQKz8=;
- h=From:Date:Subject:To:Cc:From;
- b=ZuOdoL4lXk+W3koN8vS97To6DfYTUs+hGm7GjpCYkiCbQlehuDNI13OpQDzBqo83V
- OL+fuGg3u9HswOLFZ4tCuPO9id6BdNKXhNyC6FRhAjjfCV8mp9+LlplwH+kWs6pwC6
- 6Q5moxXI9f2x/dJpSknUOresr7OnrrqsI0qpf+epj1x8bMl4v/4zUBFmR/4AZjXnU+
- m7HGb0fSJoEApK0UYKUSpfh0e80+iOH+lXlAbH2OK7o0k4N9fIMmN94RD7T11oMrv4
- g34x75xOV8x1ntkK1wCdGdC/v6XW14dVoa28h8wTOfoHO+4kEeR/PZP4CuVvvv8HhA
- zS6jrE/DAxz+w==
-Received: from localhost (unknown [212.93.144.165])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange ECDHE (prime256v1) server-signature RSA-PSS (4096 bits)
- server-digest SHA256) (No client certificate requested)
- (Authenticated sender: cristicc)
- by bali.collaboradmins.com (Postfix) with UTF8SMTPSA id 6803F17E0497;
- Thu,  3 Jul 2025 22:06:14 +0200 (CEST)
-From: Cristian Ciocaltea <cristian.ciocaltea@collabora.com>
-Date: Thu, 03 Jul 2025 23:05:45 +0300
-Subject: [PATCH] drm/display: hdmi-cec-helper: Fix adapter unregistration
+Received: from out-185.mta0.migadu.com (out-185.mta0.migadu.com
+ [91.218.175.185])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0634110E1CA
+ for <dri-devel@lists.freedesktop.org>; Thu,  3 Jul 2025 20:06:14 +0000 (UTC)
+Date: Thu, 3 Jul 2025 13:06:06 -0700
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
+ t=1751573171;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=98sE5XXwek1MXD7aoZozn8TLYGtPuiUoHcJivbZOev0=;
+ b=v31CKCEFw9QRak606ceHaDT5VDVf68+LhfFxkTxliLPhqLmxvSw0N3vkaffrOAO2MxZP22
+ pUNxw3hHk3TepfPXK1oh3PPokw2B94I+51VveWFh/ydiJYxJl1H7EU2rHIbMBA1NI6Dtjd
+ FHC+7sX7YTVj4NoaCqjKMWmhsw7SNRs=
+X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and
+ include these headers.
+From: Shakeel Butt <shakeel.butt@linux.dev>
+To: Christian =?utf-8?B?S8O2bmln?= <christian.koenig@amd.com>
+Cc: David Airlie <airlied@redhat.com>, Dave Airlie <airlied@gmail.com>, 
+ dri-devel@lists.freedesktop.org, linux-mm@kvack.org,
+ Johannes Weiner <hannes@cmpxchg.org>, 
+ Dave Chinner <david@fromorbit.com>, Kairui Song <kasong@tencent.com>
+Subject: Re: [PATCH 17/17] amdgpu: add support for memory cgroups
+Message-ID: <jsmwlcpgsmhkwohao6t5eu3mhypumuqp2pvtbxxkkchivbg4vp@i4pcdsq5xflq>
+References: <20250630045005.1337339-1-airlied@gmail.com>
+ <20250630045005.1337339-18-airlied@gmail.com>
+ <wejb2ykaltp5gtufrzz3mwp43hrxugzuubclt4amrpr4koznan@cb7dfmnvik6a>
+ <CAMwc25rPTiTshBMvHeGr=8kwC+MJdSA=UdKucybTwSxbuWvk4A@mail.gmail.com>
+ <3b5t4djauhnbvhqjwuktrcphlvahpdyi2b6j3ktoapakxcvpgz@zjpokeykiwy7>
+ <0b887b01-6de3-4633-86f7-20f5b43eeb35@amd.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20250703-hdmi-cec-helper-unreg-fix-v1-1-7e7b0eb578bb@collabora.com>
-X-B4-Tracking: v=1; b=H4sIAJjiZmgC/x2MQQqEMBAEvyJzdiAxirhfEQ+StGZAszLBZUH8u
- 8FjFVRdlKGCTJ/qIsVPsnxTAVtX5OOcVrCEwtSYpjO9cRzDLuzhOWI7oHwmxcqL/DkM6K1rB2+
- Xlkp/KIp+3+N03w/uoi0YawAAAA==
-X-Change-ID: 20250703-hdmi-cec-helper-unreg-fix-d9e71349c1f4
-To: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, 
- Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
-Cc: kernel@collabora.com, dri-devel@lists.freedesktop.org, 
- linux-kernel@vger.kernel.org
-X-Mailer: b4 0.14.2
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <0b887b01-6de3-4633-86f7-20f5b43eeb35@amd.com>
+X-Migadu-Flow: FLOW_OUT
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -66,52 +64,72 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Attempting to reload a kernel module of an HDMI driver making use of the
-new CEC helpers revealed a resource deallocation issue, i.e. the entries
-in /dev/cec* keep growing.
+On Thu, Jul 03, 2025 at 08:15:09PM +0200, Christian König wrote:
+> On 03.07.25 19:58, Shakeel Butt wrote:
+> > On Thu, Jul 03, 2025 at 12:53:44PM +1000, David Airlie wrote:
+> >> On Thu, Jul 3, 2025 at 2:03 AM Shakeel Butt <shakeel.butt@linux.dev> wrote:
+> >>>
+> >>> On Mon, Jun 30, 2025 at 02:49:36PM +1000, Dave Airlie wrote:
+> >>>> From: Dave Airlie <airlied@redhat.com>
+> >>>>
+> >>>> This adds support for adding a obj cgroup to a buffer object,
+> >>>> and passing in the placement flags to make sure it's accounted
+> >>>> properly.
+> >>>>
+> >>>> Signed-off-by: Dave Airlie <airlied@redhat.com>
+> >>>> ---
+> >>>>  drivers/gpu/drm/amd/amdgpu/amdgpu_gem.c    |  2 ++
+> >>>>  drivers/gpu/drm/amd/amdgpu/amdgpu_object.c | 13 +++++++++----
+> >>>>  drivers/gpu/drm/amd/amdgpu/amdgpu_object.h |  1 +
+> >>>>  drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.c    |  2 ++
+> >>>>  4 files changed, 14 insertions(+), 4 deletions(-)
+> >>>>
+> >>>> diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_gem.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_gem.c
+> >>>> index e5e33a68d935..d250183bab03 100644
+> >>>> --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_gem.c
+> >>>> +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_gem.c
+> >>>> @@ -198,6 +198,7 @@ static void amdgpu_gem_object_free(struct drm_gem_object *gobj)
+> >>>>       struct amdgpu_bo *aobj = gem_to_amdgpu_bo(gobj);
+> >>>>
+> >>>>       amdgpu_hmm_unregister(aobj);
+> >>>> +     obj_cgroup_put(aobj->tbo.objcg);
+> >>>>       ttm_bo_put(&aobj->tbo);
+> >>>>  }
+> >>>>
+> >>>> @@ -225,6 +226,7 @@ int amdgpu_gem_object_create(struct amdgpu_device *adev, unsigned long size,
+> >>>>       bp.domain = initial_domain;
+> >>>>       bp.bo_ptr_size = sizeof(struct amdgpu_bo);
+> >>>>       bp.xcp_id_plus1 = xcp_id_plus1;
+> >>>> +     bp.objcg = get_obj_cgroup_from_current();
+> >>>
+> >>> In what context this function is called? Is that the same for
+> >>> ttm_pool_alloc_page()? Is remote charging happening in
+> >>> ttm_pool_alloc_page()?
+> >>>
+> >>
+> >> No, this function is called from userspace ioctl paths that allocate
+> >> GPU objects (GEM objects).
+> >>
+> >> The objects are lazily allocated, so this might not trigger any pages
+> >> being bound to the object, until it is populated, either via mapping +
+> >> page faults or by being used in a GPU command submission, which is
+> >> when the ttm_pool_alloc_page happens.
+> >>
+> > 
+> > For the mapping + page fault or GPU command submission, can there be a
+> > case where 'current' is not in the same cgroup as the task which has
+> > called amdgpu_gem_object_create() through ioctl? Can the allocation
+> > happen in kthread or workqueue or irq?
+> 
+> Yes, in some use cases that is actually the most common way of ending up in the memory allocation.
+> 
+> Background is that the first one who touches it actually does the allocation.
 
-Moreover, after a couple of tries the kernel crashes and the whole
-system freezes:
+Do you mean a task in cgroup A does amdgpu_gem_object_create() and then
+the actual allocation can happen in the task in cgroup B?
 
-[   47.515950] Unable to handle kernel paging request at virtual address 0020072007200778
-[...]
-[   47.521707] Internal error: Oops: 0000000096000004 [#1]  SMP
-[...]
-[   47.537597] Call trace:
-[   47.537815]  klist_next+0x20/0x1b8 (P)
-[   47.538152]  device_reorder_to_tail+0x74/0x120
-[   47.538548]  device_reorder_to_tail+0x6c/0x120
-[   47.538944]  device_pm_move_to_tail+0x78/0xd0
-[   47.539334]  deferred_probe_work_func+0x9c/0x110
-[   47.539747]  process_one_work+0x328/0x638
-[   47.540108]  worker_thread+0x264/0x390
-[   47.540445]  kthread+0x20c/0x230
-[   47.540735]  ret_from_fork+0x10/0x20
+> 
+> BTW: It might be a good idea to not only limit the amount of memory you actually have allocated, but also how much you wanted to allocate.
 
-Do a proper cleanup by calling cec_unregister_adapter() instead of
-cec_delete_adapter() in the managed release action handler.
-
-Fixes: 8b1a8f8b2002 ("drm/display: add CEC helpers code")
-Signed-off-by: Cristian Ciocaltea <cristian.ciocaltea@collabora.com>
----
- drivers/gpu/drm/display/drm_hdmi_cec_helper.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
-
-diff --git a/drivers/gpu/drm/display/drm_hdmi_cec_helper.c b/drivers/gpu/drm/display/drm_hdmi_cec_helper.c
-index b4273c3522fa8b4996fd02107a87acefa3a45737..3651ad0f76e0c49cc7b3a8e2148dccb1f290e95a 100644
---- a/drivers/gpu/drm/display/drm_hdmi_cec_helper.c
-+++ b/drivers/gpu/drm/display/drm_hdmi_cec_helper.c
-@@ -69,7 +69,7 @@ static void drm_connector_hdmi_cec_adapter_unregister(struct drm_device *dev, vo
- 	struct drm_connector *connector = res;
- 	struct drm_connector_hdmi_cec_data *data = connector->cec.data;
- 
--	cec_delete_adapter(data->adapter);
-+	cec_unregister_adapter(data->adapter);
- 
- 	if (data->funcs->uninit)
- 		data->funcs->uninit(connector);
-
----
-base-commit: 8d6c58332c7a8ba025fcfa76888b6c37dbce9633
-change-id: 20250703-hdmi-cec-helper-unreg-fix-d9e71349c1f4
-
+Do you mean accounting and limiting the reservations? Something like
+what hugetlb cgroup provides?
