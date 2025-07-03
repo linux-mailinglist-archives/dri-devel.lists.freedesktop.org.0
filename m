@@ -2,41 +2,41 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id EC157AF6C2D
-	for <lists+dri-devel@lfdr.de>; Thu,  3 Jul 2025 09:57:56 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 08C90AF6C2F
+	for <lists+dri-devel@lfdr.de>; Thu,  3 Jul 2025 09:57:57 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 36B0210E7DD;
-	Thu,  3 Jul 2025 07:57:29 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9BB3E10E7DB;
+	Thu,  3 Jul 2025 07:57:28 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=bootlin.com header.i=@bootlin.com header.b="iGUyfV/n";
+	dkim=pass (2048-bit key; unprotected) header.d=bootlin.com header.i=@bootlin.com header.b="DPgnWdwd";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from relay8-d.mail.gandi.net (relay8-d.mail.gandi.net
  [217.70.183.201])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D1A8310E152
- for <dri-devel@lists.freedesktop.org>; Thu,  3 Jul 2025 07:57:26 +0000 (UTC)
-Received: by mail.gandi.net (Postfix) with ESMTPSA id BB4EC44470;
- Thu,  3 Jul 2025 07:57:24 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id CF98310E7DB
+ for <dri-devel@lists.freedesktop.org>; Thu,  3 Jul 2025 07:57:27 +0000 (UTC)
+Received: by mail.gandi.net (Postfix) with ESMTPSA id B514844472;
+ Thu,  3 Jul 2025 07:57:25 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
- t=1751529445;
+ t=1751529446;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=YC72D6jmas7HbuDoo2dtheGUQpMnyB3xcANLswY5f98=;
- b=iGUyfV/nsUxta62JtWshRLK5RdZz58lkBAhpMNU/bCAgPg4Zu+DOrxLCxBCARBmN+jDKzk
- SKs++PckSIkuHqWMtgxc+Uq9oqWynip6KsUoEUuA9/9fi39VUou6ZCllQTKZBoVOB/h7Yb
- 3hsiD1sN8jD8frsk+Xjr1N1QRn/MEiXSHWDNq0aHU978IXmHWGtODFBnoYfVIxR/U1H4ks
- j47Dh6c/RymEIDS+pe+WFLa5soZOScMok6/r3am7lXB5BTghXkX9q2pWqFPzQZNmgR6UaF
- ctXuXDp7AIih2/b7R9OFjy/yk+SI0aYAZMPPqK/guevRR19+HGXojvJAUbViHQ==
+ bh=XkknVkIauESu+gH93JJT1wc5lLVY2IyRlDbzwQ7xmdg=;
+ b=DPgnWdwdOZ0HyO9eGA/mTXXEiiEUBVKuil3d1KCauVCVf5FUm+vN60DJ5uDr+VgCTkP6JM
+ gEMpVv5s9H91QFRSFUG5kT4BsxmEEMY5XwAnplkne04Vin74q++RtVWK6BnqprZAlp8iA1
+ ObHkTQTDo6pHu6P9+laCwQoZ1qHSVNOujv9awnPLT8+ptcbfz2FaVpfGrkNTAzDAseUwnc
+ QMi/07FtPkUMzcAhMyAmtCtEwHv3gyQu4G3dxQnVCYLpm3aI6KhPlqXdzJ1oGyWc1jhy0W
+ iN/ZndlmjuYs0rMqpptuf/sSOKhqwhfXWWmDpuglS2L4RI3mv/JQIT/pA+EcmA==
 From: Louis Chauvet <louis.chauvet@bootlin.com>
-Date: Thu, 03 Jul 2025 09:56:58 +0200
-Subject: [PATCH v7 2/8] drm/vkms: Add support for ARGB8888 formats
+Date: Thu, 03 Jul 2025 09:56:59 +0200
+Subject: [PATCH v7 3/8] drm/vkms: Add support for ARGB16161616 formats
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
-Message-Id: <20250703-b4-new-color-formats-v7-2-15fd8fd2e15c@bootlin.com>
+Message-Id: <20250703-b4-new-color-formats-v7-3-15fd8fd2e15c@bootlin.com>
 References: <20250703-b4-new-color-formats-v7-0-15fd8fd2e15c@bootlin.com>
 In-Reply-To: <20250703-b4-new-color-formats-v7-0-15fd8fd2e15c@bootlin.com>
 To: Melissa Wen <melissa.srw@gmail.com>, 
@@ -54,21 +54,21 @@ Cc: dri-devel@lists.freedesktop.org, arthurgrillo@riseup.net,
  Louis Chauvet <louis.chauvet@bootlin.com>, 
  =?utf-8?q?Ma=C3=ADra_Canal?= <mcanal@igalia.com>
 X-Mailer: b4 0.15-dev
-X-Developer-Signature: v=1; a=openpgp-sha256; l=2495;
+X-Developer-Signature: v=1; a=openpgp-sha256; l=2135;
  i=louis.chauvet@bootlin.com; h=from:subject:message-id;
- bh=42H3WCbIUPVqNcXYaCmH0LfI1AJz/I3qKmRbMLEC9CA=;
- b=owEBbQKS/ZANAwAIASCtLsZbECziAcsmYgBoZjffekWgOst9vJqF478qmegCye2fa0yJNJ11B
- 62v0/j4vHSJAjMEAAEIAB0WIQRPj7g/vng8MQxQWQQgrS7GWxAs4gUCaGY33wAKCRAgrS7GWxAs
- 4km+D/9kcHtS52jaPCalLxl8GAEp1aNMOLHyDLC98nbWHBe9LOqFtYNse74fprDT9dAn2KDA2hG
- 42iWMBxqPPHv2FM0THPhQ/AuZWVe5XOTiHTd7hoEyS9Hh0xhkka5jzvcr0TdyepGzrAkHoLwQq3
- k2kdbieLPfcpfWOsGkaQpDkP++bZJcYijx7DApuTyxgHItKmXV9wHfFDNd4vMwf4L5l1lKxS6vq
- Mb1+g85ELUropPHCffuN2LyO721ua4dzh6vUes84T1cahLdoxFhK8ynIipcnig4lTYHqHAgdHgh
- nrKridfN53duIcGkQK4LsG71lQuNNy2Rrve0nlbkkDnNa8/GhWQdU0lVqIb6Oq15hZ3HEkLG+cY
- PvhEI4FnPbBFua+MRxwBG8xyeHx/5JkdXU45nt8pSNJfjUP+lyem5IbA4NT4BbOzHgefQWzv9rZ
- ck6mS68clMhXcoZG4OX8ZelEeEmJxRZneT5XRs4MXe1SeZO78EB+33/+zYLeLQRgYL9seDWVBFI
- 1ylcnZ8yYbZRZalJVhRMKf8mHF/2GWp2vf+7vVpnDFYRtKYPZnlmAb1JrAWiC0eR8yYgH4Nurog
- IqhAVlDIY4BsxWQR9ok8owMtYMVN6rnLC8IWcpkORfXtWqXPHHuS3CL6rhc+N28FDMw052Pn41s
- GygNH0yvtj4MCKA==
+ bh=xOVnO/wAOs+8umQBv0fayAWJqQEdaAZdMdK0z7q3Ktc=;
+ b=owEBbQKS/ZANAwAIASCtLsZbECziAcsmYgBoZjfgs94OKW8UYlG/V9pLtEtsdr8/nx9P2fcYt
+ RObsscnUFGJAjMEAAEIAB0WIQRPj7g/vng8MQxQWQQgrS7GWxAs4gUCaGY34AAKCRAgrS7GWxAs
+ 4tiSEACOIRx2S8voG58iBJWoULZHfZornS4FZPdVBWZb61mHFZxLgqRyEr2C7jLJ/0DIBUPuTRC
+ ovBzVHIoARLY82Nx2Cw0ub3/yota5ll1dD9LvpIH5lhloK8xTOQ8YeuWe3Cj0wZO81OSmuQPLvl
+ 2kU/VSvzhOdsx9tC2zauLfmlzZ78U/36DdSsfH4b9Ympjk8pCYCxwTQDU44SiblGydS+GxL3DXk
+ o2D5c+3gXC2MKYRHcyGJNAF/p85WpyBnFr2JO1IBCEY96FOiliGUJVUFDhtuPn1JYN/THbdQbqh
+ 4MycbzWFgrZfU525H6Mr/7lewL+waHi6ir6qREaP7uWpz3mzmTMV18wKCgye66OO/ECCt4aGmh7
+ Lxn5IIw0XQFUYo5vs7MxL6jbJ5fgSbPhLcgafaBiPS45X0nA49cMH0LQuWFb9Ecg7LwBPsNOzVO
+ a3iLjgsk2NuX19PknugdRNnFOID3cINDMYfai5Ajk4YXpFzQV2MgqTglBlDLBw9qaPa44LlFk1Z
+ Lu8Kw5rhYg8ir1eTv8WwVSLc32FawxdKpe7/ON71m9FWQbsHXeexIkvLxCYv2MVXs+ufVzPFAsv
+ P2hoz90+Oc2Wura6cb7PgjpGnZQ75WMHof98itwRWl1xWZ8uRLoOxdoVg/3ILH/+rC3CeBsa3x+
+ Yw27h6Yw+va8kFA==
 X-Developer-Key: i=louis.chauvet@bootlin.com; a=openpgp;
  fpr=8B7104AE9A272D6693F527F2EC1883F55E0B40A5
 X-GND-State: clean
@@ -91,73 +91,59 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The formats XRGB8888 and ARGB8888 were already supported. Add the
-support for:
-- XBGR8888
-- ABGR8888
-- RGBA8888
-- BGRA8888
+The formats XRGB16161616 and ARGB16161616 were already supported.
+Add the support for:
+- ABGR16161616
+- XBGR16161616
 
 Reviewed-by: Maíra Canal <mcanal@igalia.com>
 Signed-off-by: Louis Chauvet <louis.chauvet@bootlin.com>
 ---
- drivers/gpu/drm/vkms/vkms_formats.c | 13 +++++++++++--
- drivers/gpu/drm/vkms/vkms_plane.c   |  5 ++++-
- 2 files changed, 15 insertions(+), 3 deletions(-)
+ drivers/gpu/drm/vkms/vkms_formats.c | 6 ++++++
+ drivers/gpu/drm/vkms/vkms_plane.c   | 2 ++
+ 2 files changed, 8 insertions(+)
 
 diff --git a/drivers/gpu/drm/vkms/vkms_formats.c b/drivers/gpu/drm/vkms/vkms_formats.c
-index 07b13481378b..b11cb2955943 100644
+index b11cb2955943..c37d1aae6eac 100644
 --- a/drivers/gpu/drm/vkms/vkms_formats.c
 +++ b/drivers/gpu/drm/vkms/vkms_formats.c
-@@ -438,9 +438,12 @@ static void R4_read_line(const struct vkms_plane_state *plane, int x_start,
- 
- 
- READ_LINE_ARGB8888(XRGB8888_read_line, px, 0xFF, px[2], px[1], px[0])
-+READ_LINE_ARGB8888(XBGR8888_read_line, px, 0xFF, px[0], px[1], px[2])
- 
- READ_LINE_ARGB8888(ARGB8888_read_line, px, px[3], px[2], px[1], px[0])
- READ_LINE_ARGB8888(ABGR8888_read_line, px, px[3], px[0], px[1], px[2])
-+READ_LINE_ARGB8888(RGBA8888_read_line, px, px[0], px[3], px[2], px[1])
-+READ_LINE_ARGB8888(BGRA8888_read_line, px, px[0], px[1], px[2], px[3])
+@@ -446,7 +446,9 @@ READ_LINE_ARGB8888(RGBA8888_read_line, px, px[0], px[3], px[2], px[1])
+ READ_LINE_ARGB8888(BGRA8888_read_line, px, px[0], px[1], px[2], px[3])
  
  READ_LINE_le16161616(ARGB16161616_read_line, px, px[3], px[2], px[1], px[0])
++READ_LINE_le16161616(ABGR16161616_read_line, px, px[3], px[0], px[1], px[2])
  READ_LINE_le16161616(XRGB16161616_read_line, px, cpu_to_le16(0xFFFF), px[2], px[1], px[0])
-@@ -650,10 +653,16 @@ pixel_read_line_t get_pixel_read_line_function(u32 format)
- 	switch (format) {
- 	case DRM_FORMAT_ARGB8888:
- 		return &ARGB8888_read_line;
--	case DRM_FORMAT_XRGB8888:
--		return &XRGB8888_read_line;
- 	case DRM_FORMAT_ABGR8888:
- 		return &ABGR8888_read_line;
-+	case DRM_FORMAT_BGRA8888:
-+		return &BGRA8888_read_line;
-+	case DRM_FORMAT_RGBA8888:
-+		return &RGBA8888_read_line;
-+	case DRM_FORMAT_XRGB8888:
-+		return &XRGB8888_read_line;
-+	case DRM_FORMAT_XBGR8888:
-+		return &XBGR8888_read_line;
++READ_LINE_le16161616(XBGR16161616_read_line, px, cpu_to_le16(0xFFFF), px[0], px[1], px[2])
+ 
+ READ_LINE(RGB565_read_line, px, __le16, argb_u16_from_RGB565, px)
+ 
+@@ -665,8 +667,12 @@ pixel_read_line_t get_pixel_read_line_function(u32 format)
+ 		return &XBGR8888_read_line;
  	case DRM_FORMAT_ARGB16161616:
  		return &ARGB16161616_read_line;
++	case DRM_FORMAT_ABGR16161616:
++		return &ABGR16161616_read_line;
  	case DRM_FORMAT_XRGB16161616:
+ 		return &XRGB16161616_read_line;
++	case DRM_FORMAT_XBGR16161616:
++		return &XBGR16161616_read_line;
+ 	case DRM_FORMAT_RGB565:
+ 		return &RGB565_read_line;
+ 	case DRM_FORMAT_NV12:
 diff --git a/drivers/gpu/drm/vkms/vkms_plane.c b/drivers/gpu/drm/vkms/vkms_plane.c
-index e3fdd161d0f0..01fed722808b 100644
+index 01fed722808b..d4c51b4486f7 100644
 --- a/drivers/gpu/drm/vkms/vkms_plane.c
 +++ b/drivers/gpu/drm/vkms/vkms_plane.c
-@@ -14,8 +14,11 @@
- 
- static const u32 vkms_formats[] = {
- 	DRM_FORMAT_ARGB8888,
--	DRM_FORMAT_XRGB8888,
- 	DRM_FORMAT_ABGR8888,
-+	DRM_FORMAT_BGRA8888,
-+	DRM_FORMAT_RGBA8888,
-+	DRM_FORMAT_XRGB8888,
-+	DRM_FORMAT_XBGR8888,
+@@ -20,7 +20,9 @@ static const u32 vkms_formats[] = {
+ 	DRM_FORMAT_XRGB8888,
+ 	DRM_FORMAT_XBGR8888,
  	DRM_FORMAT_XRGB16161616,
++	DRM_FORMAT_XBGR16161616,
  	DRM_FORMAT_ARGB16161616,
++	DRM_FORMAT_ABGR16161616,
  	DRM_FORMAT_RGB565,
+ 	DRM_FORMAT_NV12,
+ 	DRM_FORMAT_NV16,
 
 -- 
 2.49.0
