@@ -2,145 +2,112 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9A19FAF763C
-	for <lists+dri-devel@lfdr.de>; Thu,  3 Jul 2025 15:54:56 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id D41E8AF7646
+	for <lists+dri-devel@lfdr.de>; Thu,  3 Jul 2025 15:56:34 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id CA59C10E19A;
-	Thu,  3 Jul 2025 13:54:51 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9959410E84B;
+	Thu,  3 Jul 2025 13:56:32 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=suse.de header.i=@suse.de header.b="2EuftoRI";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="sxiGzywR";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="2EuftoRI";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="sxiGzywR";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="bb8zWtmi";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4D72110E19A
- for <dri-devel@lists.freedesktop.org>; Thu,  3 Jul 2025 13:54:50 +0000 (UTC)
-Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org
- [IPv6:2a07:de40:b281:104:10:150:64:97])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
- (No client certificate requested)
- by smtp-out1.suse.de (Postfix) with ESMTPS id 87664211D1;
- Thu,  3 Jul 2025 13:54:48 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1751550888; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=Ln/eOmg31SbvrbxqvpiZmcAcvHuiotzak4X1Z82zXI4=;
- b=2EuftoRIz0AUuC6faY+zGpBIiXycFWuCVFDaSdKQ5tUObxqPTYe3p60Tob0xYp+iAzgVMP
- DYMTjwEfDqxUpdO58GYV26vmCQMvh6gbv9JD7P9rdS+O+x1zVMl+FLJqxFKgkHFiE6CaG6
- RN3KeYd2FzCZlq/6NcQPZGJDxeDlzsk=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1751550888;
- h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=Ln/eOmg31SbvrbxqvpiZmcAcvHuiotzak4X1Z82zXI4=;
- b=sxiGzywRseEK4IcxZqAEwyLOWZfFvlja6JBNZbTs8bfDYVEPBJQFLAdjLe/7xi7yz2Nd/5
- py7OiFeY/GC9xACA==
-Authentication-Results: smtp-out1.suse.de;
- dkim=pass header.d=suse.de header.s=susede2_rsa header.b=2EuftoRI;
- dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=sxiGzywR
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1751550888; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=Ln/eOmg31SbvrbxqvpiZmcAcvHuiotzak4X1Z82zXI4=;
- b=2EuftoRIz0AUuC6faY+zGpBIiXycFWuCVFDaSdKQ5tUObxqPTYe3p60Tob0xYp+iAzgVMP
- DYMTjwEfDqxUpdO58GYV26vmCQMvh6gbv9JD7P9rdS+O+x1zVMl+FLJqxFKgkHFiE6CaG6
- RN3KeYd2FzCZlq/6NcQPZGJDxeDlzsk=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1751550888;
- h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=Ln/eOmg31SbvrbxqvpiZmcAcvHuiotzak4X1Z82zXI4=;
- b=sxiGzywRseEK4IcxZqAEwyLOWZfFvlja6JBNZbTs8bfDYVEPBJQFLAdjLe/7xi7yz2Nd/5
- py7OiFeY/GC9xACA==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
- (No client certificate requested)
- by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id E07C013721;
- Thu,  3 Jul 2025 13:54:47 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
- by imap1.dmz-prg2.suse.org with ESMTPSA id ZbhjNaeLZmhlWQAAD6G6ig
- (envelope-from <tzimmermann@suse.de>); Thu, 03 Jul 2025 13:54:47 +0000
-Message-ID: <a4fcdacb-1cb4-4a40-928a-b64ed3f0d1f0@suse.de>
-Date: Thu, 3 Jul 2025 15:54:47 +0200
+Received: from mail-lj1-f179.google.com (mail-lj1-f179.google.com
+ [209.85.208.179])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C6D6710E84B;
+ Thu,  3 Jul 2025 13:56:30 +0000 (UTC)
+Received: by mail-lj1-f179.google.com with SMTP id
+ 38308e7fff4ca-32b43846e8cso68364471fa.0; 
+ Thu, 03 Jul 2025 06:56:30 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20230601; t=1751550989; x=1752155789; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=XroVTgiipbMk92z/0akuSiUYeZttfe/ce+IMaIERceI=;
+ b=bb8zWtmifPJxkoosl7JwOtUiQrv8tyYx0Gfqbxd9FFPxMdWXk6p3L9fS1ozlNtgzLd
+ wklSDOQ11N2RuDWbNMsHpkbySuTSuHwoL5EYffe1xSGpWF0dvAmumJNAOR6gBbImmL4m
+ n8+sR3OgQPjS6RzaZJE8j2acK6zejgTqW2Oq21oBJsyIh7E21vns+CmS3ZxL9ZhbeV+C
+ UGRgyZpXBeeAgInxKwUrhZ12aWG9hLxHVDfWbvC8X0ivKw6acPFrTi2l5eIY8ihuYyuU
+ UhRN8D1Cgm4o6iONMeSirSH4zrWa5c1ZHTmx7y6t669wYwAp9MlsRfab2aS14UVuLuoT
+ PThw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1751550989; x=1752155789;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=XroVTgiipbMk92z/0akuSiUYeZttfe/ce+IMaIERceI=;
+ b=AmcF00AUaD7EQtd30PUioD6qOhFsmbodbIXxSq5fr47GNx10NSMij1DkWOCxBtnMBf
+ VKAZ2EVvNJ5gp4mtP1R3VHWwQyQbdqj/ZhAN9rS8fObmHSnJnHQS+p1m+vPVLOhy82PB
+ GNA4RnGD3JB2JwbEBe+0TtrnaeiV629ytEhwalJMrf0hwq72QAxyoiUlGQFGRYsI4WRO
+ PwFH7zJouyf1fyKCseJgoVl/nBlWw7gEfkX5ZIGIY8pUnB4rT6UPaye69BE7+8CNjk7h
+ JSqFETi41uP877ZzW6kUoOQRDi2bpKgizNeLEcyli79WC5tL/XUsaUWSeWx50fEfCHMZ
+ 8QBw==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCU1TC1WqxzEyWjGgpI77tGG+oOgVlowog8nW9bO7nlZS/+3R39XAdwNncRjaVfM6oQIERyMYwTMPrs=@lists.freedesktop.org,
+ AJvYcCXRNLpxUUZSoPiOOwCE4F8uUhAmoiJW+q83y3dXT/zJ1ELJhMF37HO/hhrNjNsv7kIC9bKIjal+NA==@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YwKsO/P3xGfiGECIMBkbQpNsO8qWCduDwz1rJ9STLKZA18SRnSi
+ 8z4Z3rMCuGbNuRWyFJRMMm4//bxOUQEJ++vE6ow1+0WSNlb//q+pwdMOiGn5NxLRT4j14q0zR94
+ iiou1FUZwx/0r442CEV2CLxb9G1Hb20g=
+X-Gm-Gg: ASbGncu1uXeHigRbAKLq5OMjBexpnwFRE7ZUa00e4VaJN7nIU59EtozNs40P4gkuSDw
+ PJiWHp+GGp4EvL9uSXAvZ2co2MUVXTDKc75VlB3HE35wKVfh18mifPutzX0NG3FnarMZNj5w31E
+ LiDWppn2Lqjw6ueSLCy2rmMRDcGn7kyaFjW2vS4MO6a9lK
+X-Google-Smtp-Source: AGHT+IHecHJqinQ0GtjAARewm2enIQAyyQD5rKLXQHe+ItluA3s82XioLx3xqz+ougAgIvj7CA1kgvJIs3FoZ5ExGxI=
+X-Received: by 2002:a2e:a369:0:b0:32c:bc69:e921 with SMTP id
+ 38308e7fff4ca-32e0cfaac22mr12120091fa.9.1751550988404; Thu, 03 Jul 2025
+ 06:56:28 -0700 (PDT)
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: Warnings in next-20250703 caused by commit 582111e630f5
-To: =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
- Bert Karwatzki <spasswolf@web.de>
-Cc: linux-kernel@vger.kernel.org, linux-next@vger.kernel.org,
- Anusha Srivatsa <asrivats@redhat.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, Sumit Semwal <sumit.semwal@linaro.org>,
- linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org,
- linaro-mm-sig@lists.linaro.org, stable@vger.kernel.org
-References: <20250703115915.3096-1-spasswolf@web.de>
- <d81decff-35d7-402b-83b2-218aa61f6b09@suse.de>
- <24bf12cf-12a3-405f-9fec-ea1e8ce21a7a@amd.com>
-Content-Language: en-US
-From: Thomas Zimmermann <tzimmermann@suse.de>
-Autocrypt: addr=tzimmermann@suse.de; keydata=
- xsBNBFs50uABCADEHPidWt974CaxBVbrIBwqcq/WURinJ3+2WlIrKWspiP83vfZKaXhFYsdg
- XH47fDVbPPj+d6tQrw5lPQCyqjwrCPYnq3WlIBnGPJ4/jreTL6V+qfKRDlGLWFjZcsrPJGE0
- BeB5BbqP5erN1qylK9i3gPoQjXGhpBpQYwRrEyQyjuvk+Ev0K1Jc5tVDeJAuau3TGNgah4Yc
- hdHm3bkPjz9EErV85RwvImQ1dptvx6s7xzwXTgGAsaYZsL8WCwDaTuqFa1d1jjlaxg6+tZsB
- 9GluwvIhSezPgnEmimZDkGnZRRSFiGP8yjqTjjWuf0bSj5rUnTGiyLyRZRNGcXmu6hjlABEB
- AAHNJ1Rob21hcyBaaW1tZXJtYW5uIDx0emltbWVybWFubkBzdXNlLmRlPsLAjgQTAQgAOAIb
- AwULCQgHAgYVCgkICwIEFgIDAQIeAQIXgBYhBHIX+6yM6c9jRKFo5WgNwR1TC3ojBQJftODH
- AAoJEGgNwR1TC3ojx1wH/0hKGWugiqDgLNXLRD/4TfHBEKmxIrmfu9Z5t7vwUKfwhFL6hqvo
- lXPJJKQpQ2z8+X2vZm/slsLn7J1yjrOsoJhKABDi+3QWWSGkaGwRJAdPVVyJMfJRNNNIKwVb
- U6B1BkX2XDKDGffF4TxlOpSQzdtNI/9gleOoUA8+jy8knnDYzjBNOZqLG2FuTdicBXblz0Mf
- vg41gd9kCwYXDnD91rJU8tzylXv03E75NCaTxTM+FBXPmsAVYQ4GYhhgFt8S2UWMoaaABLDe
- 7l5FdnLdDEcbmd8uLU2CaG4W2cLrUaI4jz2XbkcPQkqTQ3EB67hYkjiEE6Zy3ggOitiQGcqp
- j//OwE0EWznS4AEIAMYmP4M/V+T5RY5at/g7rUdNsLhWv1APYrh9RQefODYHrNRHUE9eosYb
- T6XMryR9hT8XlGOYRwKWwiQBoWSDiTMo/Xi29jUnn4BXfI2px2DTXwc22LKtLAgTRjP+qbU6
- 3Y0xnQN29UGDbYgyyK51DW3H0If2a3JNsheAAK+Xc9baj0LGIc8T9uiEWHBnCH+RdhgATnWW
- GKdDegUR5BkDfDg5O/FISymJBHx2Dyoklv5g4BzkgqTqwmaYzsl8UxZKvbaxq0zbehDda8lv
- hFXodNFMAgTLJlLuDYOGLK2AwbrS3Sp0AEbkpdJBb44qVlGm5bApZouHeJ/+n+7r12+lqdsA
- EQEAAcLAdgQYAQgAIAIbDBYhBHIX+6yM6c9jRKFo5WgNwR1TC3ojBQJftOH6AAoJEGgNwR1T
- C3ojVSkIALpAPkIJPQoURPb1VWjh34l0HlglmYHvZszJWTXYwavHR8+k6Baa6H7ufXNQtThR
- yIxJrQLW6rV5lm7TjhffEhxVCn37+cg0zZ3j7zIsSS0rx/aMwi6VhFJA5hfn3T0TtrijKP4A
- SAQO9xD1Zk9/61JWk8OysuIh7MXkl0fxbRKWE93XeQBhIJHQfnc+YBLprdnxR446Sh8Wn/2D
- Ya8cavuWf2zrB6cZurs048xe0UbSW5AOSo4V9M0jzYI4nZqTmPxYyXbm30Kvmz0rYVRaitYJ
- 4kyYYMhuULvrJDMjZRvaNe52tkKAvMevcGdt38H4KSVXAylqyQOW5zvPc4/sq9c=
-In-Reply-To: <24bf12cf-12a3-405f-9fec-ea1e8ce21a7a@amd.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: base64
-X-Spamd-Result: default: False [-4.41 / 50.00]; BAYES_HAM(-3.00)[100.00%];
- NEURAL_HAM_LONG(-1.00)[-1.000];
- R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
- NEURAL_HAM_SHORT(-0.20)[-1.000]; MIME_BASE64_TEXT(0.10)[];
- MIME_GOOD(-0.10)[text/plain]; MX_GOOD(-0.01)[];
- DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
- RCPT_COUNT_TWELVE(0.00)[12]; FREEMAIL_TO(0.00)[amd.com,web.de];
- MIME_TRACE(0.00)[0:+]; FUZZY_BLOCKED(0.00)[rspamd.com];
- ARC_NA(0.00)[]; TO_MATCH_ENVRCPT_ALL(0.00)[];
- FREEMAIL_ENVRCPT(0.00)[web.de]; RCVD_TLS_ALL(0.00)[];
- RCVD_COUNT_TWO(0.00)[2]; FROM_EQ_ENVFROM(0.00)[];
- FROM_HAS_DN(0.00)[]; TO_DN_SOME(0.00)[];
- DNSWL_BLOCKED(0.00)[2a07:de40:b281:104:10:150:64:97:from,2a07:de40:b281:106:10:150:64:167:received];
- RCVD_VIA_SMTP_AUTH(0.00)[]; MID_RHS_MATCH_FROM(0.00)[];
- DKIM_TRACE(0.00)[suse.de:+];
- DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:dkim, suse.de:mid,
- imap1.dmz-prg2.suse.org:helo, imap1.dmz-prg2.suse.org:rdns]
-X-Spam-Level: 
-X-Spam-Flag: NO
-X-Rspamd-Queue-Id: 87664211D1
-X-Rspamd-Action: no action
-X-Rspamd-Server: rspamd1.dmz-prg2.suse.org
-X-Spam-Score: -4.41
+References: <20250701-cstr-core-v13-0-29f7d3eb97a6@gmail.com>
+ <20250701-cstr-core-v13-2-29f7d3eb97a6@gmail.com>
+ <DB2BDSN1JH51.14ZZPETJORBC6@kernel.org>
+In-Reply-To: <DB2BDSN1JH51.14ZZPETJORBC6@kernel.org>
+From: Tamir Duberstein <tamird@gmail.com>
+Date: Thu, 3 Jul 2025 09:55:52 -0400
+X-Gm-Features: Ac12FXwkwRINIecE-FwYN90tPuGpGFKpT2Ln86Mwgefjv5UkGbvTZ6CcK0fiY_k
+Message-ID: <CAJ-ks9nC=AyBPXRY3nJ0NuZvjFskzMcOkVNrBEfXD2hZ5uRntQ@mail.gmail.com>
+Subject: Re: [PATCH v13 2/5] rust: support formatting of foreign types
+To: Benno Lossin <lossin@kernel.org>
+Cc: Michal Rostecki <vadorovsky@protonmail.com>,
+ Miguel Ojeda <ojeda@kernel.org>, 
+ Alex Gaynor <alex.gaynor@gmail.com>, Boqun Feng <boqun.feng@gmail.com>, 
+ Gary Guo <gary@garyguo.net>,
+ =?UTF-8?Q?Bj=C3=B6rn_Roy_Baron?= <bjorn3_gh@protonmail.com>, 
+ Andreas Hindborg <a.hindborg@kernel.org>, Alice Ryhl <aliceryhl@google.com>, 
+ Trevor Gross <tmgross@umich.edu>, Brendan Higgins <brendan.higgins@linux.dev>, 
+ David Gow <davidgow@google.com>, Rae Moar <rmoar@google.com>, 
+ Danilo Krummrich <dakr@kernel.org>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, 
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ "Rafael J. Wysocki" <rafael@kernel.org>, 
+ Luis Chamberlain <mcgrof@kernel.org>, Russ Weight <russ.weight@linux.dev>, 
+ FUJITA Tomonori <fujita.tomonori@gmail.com>, Rob Herring <robh@kernel.org>, 
+ Saravana Kannan <saravanak@google.com>, Peter Zijlstra <peterz@infradead.org>, 
+ Ingo Molnar <mingo@redhat.com>, Will Deacon <will@kernel.org>,
+ Waiman Long <longman@redhat.com>, Nathan Chancellor <nathan@kernel.org>,
+ Nick Desaulniers <nick.desaulniers+lkml@gmail.com>, 
+ Bill Wendling <morbo@google.com>, Justin Stitt <justinstitt@google.com>,
+ Andrew Lunn <andrew@lunn.ch>, 
+ Heiner Kallweit <hkallweit1@gmail.com>, Russell King <linux@armlinux.org.uk>, 
+ "David S. Miller" <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>, 
+ Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
+ Bjorn Helgaas <bhelgaas@google.com>, 
+ Arnd Bergmann <arnd@arndb.de>, Jens Axboe <axboe@kernel.dk>, 
+ =?UTF-8?Q?Krzysztof_Wilczy=C5=84ski?= <kwilczynski@kernel.org>, 
+ Dave Ertman <david.m.ertman@intel.com>, Ira Weiny <ira.weiny@intel.com>, 
+ Leon Romanovsky <leon@kernel.org>, Breno Leitao <leitao@debian.org>, 
+ Viresh Kumar <viresh.kumar@linaro.org>,
+ Michael Turquette <mturquette@baylibre.com>, 
+ Stephen Boyd <sboyd@kernel.org>, rust-for-linux@vger.kernel.org, 
+ linux-kernel@vger.kernel.org, linux-kselftest@vger.kernel.org, 
+ kunit-dev@googlegroups.com, dri-devel@lists.freedesktop.org, 
+ netdev@vger.kernel.org, devicetree@vger.kernel.org, llvm@lists.linux.dev, 
+ linux-pci@vger.kernel.org, nouveau@lists.freedesktop.org, 
+ linux-block@vger.kernel.org, linux-pm@vger.kernel.org, 
+ linux-clk@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -156,237 +123,357 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-SGkNCg0KQW0gMDMuMDcuMjUgdW0gMTU6NDUgc2NocmllYiBDaHJpc3RpYW4gS8O2bmlnOg0K
-PiBPbiAwMy4wNy4yNSAxNTozNywgVGhvbWFzIFppbW1lcm1hbm4gd3JvdGU6DQo+PiBIaQ0K
-Pj4NCj4+IEFtIDAzLjA3LjI1IHVtIDEzOjU5IHNjaHJpZWIgQmVydCBLYXJ3YXR6a2k6DQo+
-Pj4gV2hlbiBib290aW5nIG5leHQtMjAyNTA3MDMgb24gbXkgTXNpIEFscGhhIDE1IExhcHRv
-cCBydW5uaW5nIGRlYmlhbiBzaWQgKGxhc3QNCj4+PiB1cGRhdGVkIDIwMjUwNzAzKSBJIGdl
-dCBhIHNldmVyYWwgd2FybmluZ3Mgb2YgdGhlIGZvbGxvd2luZyBraW5kOg0KPj4+DQo+Pj4g
-IMKgwqDCoMKgIFvCoMKgwqAgOC43MDI5OTldIFvCoMKgIFQxNjI4XSAtLS0tLS0tLS0tLS1b
-IGN1dCBoZXJlIF0tLS0tLS0tLS0tLS0NCj4+PiAgwqDCoMKgwqAgW8KgwqDCoCA4LjcwMzAw
-MV0gW8KgwqAgVDE2MjhdIFdBUk5JTkc6IGRyaXZlcnMvZ3B1L2RybS9kcm1fZ2VtLmM6Mjg3
-IGF0IGRybV9nZW1fb2JqZWN0X2hhbmRsZV9wdXRfdW5sb2NrZWQrMHhhYS8weGUwLCBDUFUj
-MTQ6IFhvcmcvMTYyOA0KPj4gV2VsbCwgdGhhdCBkaWRuJ3QgdGFrZSBsb25nIHRvIGJsb3cg
-dXAuIFRoYW5rcyBmb3IgcmVwb3J0aW5nIHRoZSBidWcuDQo+Pg0KPj4gSSBoYXZlIGFuIGlk
-ZWEgaG93IHRvIGZpeCB0aGlzLCBidXQgaXQgd291bGQgbGlrZWx5IGp1c3QgdHJpZ2dlciB0
-aGUgbmV4dCBpc3N1ZS4NCj4+DQo+PiBDaHJpc3RpYW4sIGNhbiB3ZSByZXZlcnQgdGhpcyBw
-YXRjaCwgYW5kIGFsc28gdGhlIG90aGVyIHBhdGNoZXMgdGhhdCBzd2l0Y2ggZnJvbSBpbXBv
-cnRfYXR0YWNoLT5kbWFidWYgdG8gLT5kbWFfYnVmIHRoYXQgY2FzZWQgdGhlIHByb2JsZW0/
-DQo+IFN1cmUgd2UgY2FuLCBidXQgSSB3b3VsZCByYXRoZXIgdm90ZSBmb3IgZml4aW5nIHRo
-aXMgYXQgbGVhc3QgZm9yIG5vdy4gVGhvc2UgcGF0Y2hlcyBhcmUgbm90IGp1c3QgY2xlYW51
-cCwgYnV0IGFyZSBmaXhpbmcgcmFyZSBvY2N1cnJpbmcgcmVhbCB3b3JsZCBwcm9ibGVtcy4N
-Cj4NCj4gSWYgd2UgY2FuJ3QgZ2V0IGl0IHdvcmtpbmcgaW4gdGhlIG5leHQgd2VlayBvciBz
-byB3ZSBjYW4gc3RpbGwgcmV2ZXJ0IGJhY2sgdG8gYSB3b3JraW5nIHN0YXRlLg0KPg0KPiBX
-aGF0IGV4YWN0bHkgaXMgdGhlIGlzc3VlPyBUaGF0IGN1cnNvcnMgZG9uJ3QgbmVjZXNzYXJp
-bHkgaGF2ZSBHRU0gaGFuZGxlcz8gSWYgeWVzIGhvdyB3ZSBncmFiL2Ryb3AgaGFuZGxlIHJl
-ZnMgd2hlbiB3ZSBoYXZlIGEgRE1BLWJ1Zj8NCg0KQSBkb3plbiBkcml2ZXJzIGFwcGFyZW50
-bHkgdXNlIGRybV9nZW1fZmJfZGVzdHJveSgpIGJ1dCBub3QgDQpkcm1fZ2VtX2ZiX2luaXRf
-d2l0aF9mdW5jcygpLiBTbyB0aGV5IGRvbid0IHRha2UgdGhlIHJlZiBvbiB0aGUgaGFuZGxl
-LiANClRoYXQncyB3aGF0IHdlJ3JlIHNlZWluZyBoZXJlLiBGaXhpbmcgdGhpcyB3b3VsZCBt
-ZWFuIHRvIGdvIHRocm91Z2ggYWxsIA0KYWZmZWN0ZWQgZHJpdmVycyBhbmQgdGFrZSB0aGUg
-aGFuZGxlIHJlZnMgYW4gbmVlZGVkLiBUaGUgc2hvcnRjdXQgd291bGQgDQpiZSB0byB0YWtl
-IHRoZSBoYW5kbGUgcmVmcyBpbiBkcm1fZnJhbWVidWZmZXJfaW5pdCgpIGFuZCBwdXQgdGhl
-bSBpbiANCmRybV9mcmFtZWJ1ZmZlcl9jbGVhbnVwKCkuIFRob3NlIGFyZSB0aGUgbWluaW1h
-bCBjYWxscyBmb3IgYWxsIA0KaW1wbGVtZW50YXRpb25zLiBCdXQgdGhlcmUncyB0aGUgZmJk
-ZXYgY29kZSBvZiBzb21lIGRyaXZlcnMgdGhhdCBkb2VzIA0KbWFnaWMgaGFja2VyeSBvbiBm
-cmFtZWJ1ZmZlciBhbmQgb2JqZWN0IGFsbG9jYXRpb24uIHNvIHdoYXRldmVyIHdlIGRvLCAN
-Cml0J3MgbGlrZWx5IG5vdCBhIHF1aWNrIGZpeHVwLiBCZXN0IHJlZ2FyZHMgVGhvbWFzDQo+
-DQo+IFJlZ2FyZHMsDQo+IENocmlzdGlhbi4NCj4NCj4+IEJlc3QgcmVnYXJkcw0KPj4gVGhv
-bWFzDQo+Pg0KPj4+ICDCoMKgwqDCoCBbwqDCoMKgIDguNzAzMDA3XSBbwqDCoCBUMTYyOF0g
-TW9kdWxlcyBsaW5rZWQgaW46IHNuZF9zZXFfZHVtbXkgc25kX2hydGltZXIgc25kX3NlcV9t
-aWRpIHNuZF9zZXFfbWlkaV9ldmVudCBzbmRfcmF3bWlkaSBzbmRfc2VxIHNuZF9zZXFfZGV2
-aWNlIHJmY29tbSBibmVwIG5sc19hc2NpaSBubHNfY3A0MzcgdmZhdCBmYXQgc25kX2N0bF9s
-ZWQgc25kX2hkYV9jb2RlY19yZWFsdGVrIHNuZF9oZGFfY29kZWNfZ2VuZXJpYyBzbmRfaGRh
-X3Njb2RlY19jb21wb25lbnQgc25kX2hkYV9jb2RlY19oZG1pIHNuZF9oZGFfaW50ZWwgYnR1
-c2Igc25kX2ludGVsX2RzcGNmZyBidHJ0bCBidGludGVsIHNuZF9oZGFfY29kZWMgdXZjdmlk
-ZW8gc25kX3NvY19kbWljIHNuZF9hY3AzeF9wZG1fZG1hIGJ0YmNtIHNuZF9hY3AzeF9ybiBi
-dG10ayBzbmRfaHdkZXAgdmlkZW9idWYyX3ZtYWxsb2Mgc25kX3NvY19jb3JlIHNuZF9oZGFf
-Y29yZSB2aWRlb2J1ZjJfbWVtb3BzIHNuZF9wY21fb3NzIHV2YyB2aWRlb2J1ZjJfdjRsMiBi
-bHVldG9vdGggc25kX21peGVyX29zcyB2aWRlb2RldiBzbmRfcGNtIHNuZF9ybl9wY2lfYWNw
-M3ggdmlkZW9idWYyX2NvbW1vbiBzbmRfYWNwX2NvbmZpZyBzbmRfdGltZXIgbXNpX3dtaSBl
-Y2RoX2dlbmVyaWMgc25kX3NvY19hY3BpIGVjYyBtYyBzcGFyc2Vfa2V5bWFwIHNuZCB3bWlf
-Ym1vZiBlZGFjX21jZV9hbWQgazEwdGVtcCBzb3VuZGNvcmUgc25kX3BjaV9hY3AzeCBjY3Ag
-YWMgYmF0dGVyeSBidXR0b24gam95ZGV2IGhpZF9zZW5zb3JfYWNjZWxfM2QgaGlkX3NlbnNv
-cl9wcm94IGhpZF9zZW5zb3JfYWxzIGhpZF9zZW5zb3JfbWFnbl8zZCBoaWRfc2Vuc29yX2d5
-cm9fM2QgaGlkX3NlbnNvcl90cmlnZ2VyIGluZHVzdHJpYWxpb190cmlnZ2VyZWRfYnVmZmVy
-IGtmaWZvX2J1ZiBpbmR1c3RyaWFsaW8gaGlkX3NlbnNvcl9paW9fY29tbW9uIGFtZF9wbWMg
-ZXZkZXYgbXQ3OTIxZSBtdDc5MjFfY29tbW9uIG10NzkyeF9saWINCj4+PiBtdDc2X2Nvbm5h
-Y19saWIgbXQ3NiBtYWM4MDIxMSBsaWJhcmM0IGNmZzgwMjExIHJma2lsbCBtc3IgZnVzZQ0K
-Pj4+ICDCoMKgwqDCoCBbwqDCoMKgIDguNzAzMDU2XSBbwqDCoCBUMTYyOF3CoCBudm1lX2Zh
-YnJpY3MgZWZpX3BzdG9yZSBjb25maWdmcyBlZml2YXJmcyBhdXRvZnM0IGV4dDQgbWJjYWNo
-ZSBqYmQyIHVzYmhpZCBhbWRncHUgZHJtX2NsaWVudF9saWIgaTJjX2FsZ29fYml0IGRybV90
-dG1faGVscGVyIHR0bSBkcm1fcGFuZWxfYmFja2xpZ2h0X3F1aXJrcyBkcm1fZXhlYyBkcm1f
-c3ViYWxsb2NfaGVscGVyIGFtZHhjcCBkcm1fYnVkZHkgeGhjaV9wY2kgZ3B1X3NjaGVkIHho
-Y2lfaGNkIGRybV9kaXNwbGF5X2hlbHBlciBoaWRfc2Vuc29yX2h1YiBoaWRfbXVsdGl0b3Vj
-aCBtZmRfY29yZSBoaWRfZ2VuZXJpYyBkcm1fa21zX2hlbHBlciBwc21vdXNlIGkyY19oaWRf
-YWNwaSBudm1lIHVzYmNvcmUgYW1kX3NmaCBpMmNfaGlkIGhpZCBjZWMgc2VyaW9fcmF3IG52
-bWVfY29yZSByODE2OSBjcmMxNiBpMmNfcGlpeDQgdXNiX2NvbW1vbiBpMmNfc21idXMgaTJj
-X2Rlc2lnbndhcmVfcGxhdGZvcm0gaTJjX2Rlc2lnbndhcmVfY29yZQ0KPj4+ICDCoMKgwqDC
-oCBbwqDCoMKgIDguNzAzMDgyXSBbwqDCoCBUMTYyOF0gQ1BVOiAxNCBVSUQ6IDEwMDAgUElE
-OiAxNjI4IENvbW06IFhvcmcgTm90IHRhaW50ZWQgNi4xNi4wLXJjNC1uZXh0LTIwMjUwNzAz
-LW1hc3RlciAjMTI3IFBSRUVNUFRfe1JULChmdWxsKX0NCj4+PiAgwqDCoMKgwqAgW8KgwqDC
-oCA4LjcwMzA4NV0gW8KgwqAgVDE2MjhdIEhhcmR3YXJlIG5hbWU6IE1pY3JvLVN0YXIgSW50
-ZXJuYXRpb25hbCBDby4sIEx0ZC4gQWxwaGEgMTUgQjVFRUsvTVMtMTU4TCwgQklPUyBFMTU4
-TEFNUy4xMEYgMTEvMTEvMjAyNA0KPj4+ICDCoMKgwqDCoCBbwqDCoMKgIDguNzAzMDg2XSBb
-wqDCoCBUMTYyOF0gUklQOiAwMDEwOmRybV9nZW1fb2JqZWN0X2hhbmRsZV9wdXRfdW5sb2Nr
-ZWQrMHhhYS8weGUwDQo+Pj4gIMKgwqDCoMKgIFvCoMKgwqAgOC43MDMwODhdIFvCoMKgIFQx
-NjI4XSBDb2RlOiBjNyBmNiA4YSBmZiA0OCA4OSBlZiBlOCA5NCBkNCAyZSAwMCBlYiBkOCA0
-OCA4YiA0MyAwOCA0OCA4ZCBiOCBkOCAwNiAwMCAwMCBlOCA1MiA3OCAyYiAwMCBjNyA4MyAw
-OCAwMSAwMCAwMCAwMCAwMCAwMCAwMCBlYiA5OCA8MGY+IDBiIDViIDVkIGU5IDk4IGY2IDhh
-IGZmIDQ4IDhiIDgzIDY4IDAxIDAwIDAwIDQ4IDhiIDAwIDQ4IDg1IGMwDQo+Pj4gIMKgwqDC
-oMKgIFvCoMKgwqAgOC43MDMwODldIFvCoMKgIFQxNjI4XSBSU1A6IDAwMTg6ZmZmZmI4ZThj
-N2ZiZmIwMCBFRkxBR1M6IDAwMDEwMjQ2DQo+Pj4gIMKgwqDCoMKgIFvCoMKgwqAgOC43MDMw
-OTFdIFvCoMKgIFQxNjI4XSBSQVg6IDAwMDAwMDAwMDAwMDAwMDAgUkJYOiAwMDAwMDAwMDAw
-MDAwMDAxIFJDWDogMDAwMDAwMDAwMDAwMDAwMA0KPj4+ICDCoMKgwqDCoCBbwqDCoMKgIDgu
-NzAzMDkyXSBbwqDCoCBUMTYyOF0gUkRYOiAwMDAwMDAwMDAwMDAwMDAwIFJTSTogZmZmZjk0
-Y2RjMDYyYjQ3OCBSREk6IGZmZmY5NGNlNzEzOTA0NDgNCj4+PiAgwqDCoMKgwqAgW8KgwqDC
-oCA4LjcwMzA5M10gW8KgwqAgVDE2MjhdIFJCUDogZmZmZjk0Y2UxNDc4MDAxMCBSMDg6IGZm
-ZmY5NGNkYzA2MmI2MTggUjA5OiBmZmZmOTRjZTE0NzgwMjc4DQo+Pj4gIMKgwqDCoMKgIFvC
-oMKgwqAgOC43MDMwOTRdIFvCoMKgIFQxNjI4XSBSMTA6IDAwMDAwMDAwMDAwMDAwMDEgUjEx
-OiBmZmZmOTRjZGMwNjJiNDc4IFIxMjogZmZmZjk0Y2UxNDc4MDAxMA0KPj4+ICDCoMKgwqDC
-oCBbwqDCoMKgIDguNzAzMDk1XSBbwqDCoCBUMTYyOF0gUjEzOiAwMDAwMDAwMDAwMDAwMDA3
-IFIxNDogMDAwMDAwMDAwMDAwMDAwNCBSMTU6IGZmZmY5NGNlMTQ3ODAwMTANCj4+PiAgwqDC
-oMKgwqAgW8KgwqDCoCA4LjcwMzA5Nl0gW8KgwqAgVDE2MjhdIEZTOsKgIDAwMDA3ZmMxNjQy
-NzZiMDAoMDAwMCkgR1M6ZmZmZjk0ZGNiNDljZjAwMCgwMDAwKSBrbmxHUzowMDAwMDAwMDAw
-MDAwMDAwDQo+Pj4gIMKgwqDCoMKgIFvCoMKgwqAgOC43MDMwOTddIFvCoMKgIFQxNjI4XSBD
-UzrCoCAwMDEwIERTOiAwMDAwIEVTOiAwMDAwIENSMDogMDAwMDAwMDA4MDA1MDAzMw0KPj4+
-ICDCoMKgwqDCoCBbwqDCoMKgIDguNzAzMDk4XSBbwqDCoCBUMTYyOF0gQ1IyOiAwMDAwNTY0
-N2NjZDUzMDA4IENSMzogMDAwMDAwMDEyNTMzZjAwMCBDUjQ6IDAwMDAwMDAwMDA3NTBlZjAN
-Cj4+PiAgwqDCoMKgwqAgW8KgwqDCoCA4LjcwMzA5OV0gW8KgwqAgVDE2MjhdIFBLUlU6IDU1
-NTU1NTU0DQo+Pj4gIMKgwqDCoMKgIFvCoMKgwqAgOC43MDMxMDBdIFvCoMKgIFQxNjI4XSBD
-YWxsIFRyYWNlOg0KPj4+ICDCoMKgwqDCoCBbwqDCoMKgIDguNzAzMTAxXSBbwqDCoCBUMTYy
-OF3CoCA8VEFTSz4NCj4+PiAgwqDCoMKgwqAgW8KgwqDCoCA4LjcwMzEwNF0gW8KgwqAgVDE2
-MjhdwqAgZHJtX2dlbV9mYl9kZXN0cm95KzB4MjcvMHg1MCBbZHJtX2ttc19oZWxwZXJdDQo+
-Pj4gIMKgwqDCoMKgIFvCoMKgwqAgOC43MDMxMTNdIFvCoMKgIFQxNjI4XcKgIF9fZHJtX2F0
-b21pY19oZWxwZXJfcGxhbmVfZGVzdHJveV9zdGF0ZSsweDFhLzB4YTAgW2RybV9rbXNfaGVs
-cGVyXQ0KPj4+ICDCoMKgwqDCoCBbwqDCoMKgIDguNzAzMTE5XSBbwqDCoCBUMTYyOF3CoCBk
-cm1fYXRvbWljX2hlbHBlcl9wbGFuZV9kZXN0cm95X3N0YXRlKzB4MTAvMHgyMCBbZHJtX2tt
-c19oZWxwZXJdDQo+Pj4gIMKgwqDCoMKgIFvCoMKgwqAgOC43MDMxMjRdIFvCoMKgIFQxNjI4
-XcKgIGRybV9hdG9taWNfc3RhdGVfZGVmYXVsdF9jbGVhcisweDFjMC8weDJlMA0KPj4+ICDC
-oMKgwqDCoCBbwqDCoMKgIDguNzAzMTI3XSBbwqDCoCBUMTYyOF3CoCBfX2RybV9hdG9taWNf
-c3RhdGVfZnJlZSsweDZjLzB4YjANCj4+PiAgwqDCoMKgwqAgW8KgwqDCoCA4LjcwMzEyOV0g
-W8KgwqAgVDE2MjhdwqAgZHJtX2F0b21pY19oZWxwZXJfZGlzYWJsZV9wbGFuZSsweDkyLzB4
-ZTAgW2RybV9rbXNfaGVscGVyXQ0KPj4+ICDCoMKgwqDCoCBbwqDCoMKgIDguNzAzMTM1XSBb
-wqDCoCBUMTYyOF3CoCBkcm1fbW9kZV9jdXJzb3JfdW5pdmVyc2FsKzB4ZjIvMHgyYTANCj4+
-PiAgwqDCoMKgwqAgW8KgwqDCoCA4LjcwMzE0MF0gW8KgwqAgVDE2MjhdwqAgZHJtX21vZGVf
-Y3Vyc29yX2NvbW1vbi5wYXJ0LjArMHg5Yy8weDFlMA0KPj4+ICDCoMKgwqDCoCBbwqDCoMKg
-IDguNzAzMTQ0XSBbwqDCoCBUMTYyOF3CoCA/IGRybV9tb2RlX3NldHBsYW5lKzB4MzIwLzB4
-MzIwDQo+Pj4gIMKgwqDCoMKgIFvCoMKgwqAgOC43MDMxNDZdIFvCoMKgIFQxNjI4XcKgIGRy
-bV9tb2RlX2N1cnNvcl9pb2N0bCsweDhhLzB4YTANCj4+PiAgwqDCoMKgwqAgW8KgwqDCoCA4
-LjcwMzE0OF0gW8KgwqAgVDE2MjhdwqAgZHJtX2lvY3RsX2tlcm5lbCsweGExLzB4ZjANCj4+
-PiAgwqDCoMKgwqAgW8KgwqDCoCA4LjcwMzE1MV0gW8KgwqAgVDE2MjhdwqAgZHJtX2lvY3Rs
-KzB4MjZhLzB4NTEwDQo+Pj4gIMKgwqDCoMKgIFvCoMKgwqAgOC43MDMxNTNdIFvCoMKgIFQx
-NjI4XcKgID8gZHJtX21vZGVfc2V0cGxhbmUrMHgzMjAvMHgzMjANCj4+PiAgwqDCoMKgwqAg
-W8KgwqDCoCA4LjcwMzE1NV0gW8KgwqAgVDE2MjhdwqAgPyBzcnNvX2FsaWFzX3JldHVybl90
-aHVuaysweDUvMHhmYmVmNQ0KPj4+ICDCoMKgwqDCoCBbwqDCoMKgIDguNzAzMTU3XSBbwqDC
-oCBUMTYyOF3CoCA/IHJ0X3NwaW5fdW5sb2NrKzB4MTIvMHg0MA0KPj4+ICDCoMKgwqDCoCBb
-wqDCoMKgIDguNzAzMTU5XSBbwqDCoCBUMTYyOF3CoCA/IGRvX3NldGl0aW1lcisweDE4NS8w
-eDFkMA0KPj4+ICDCoMKgwqDCoCBbwqDCoMKgIDguNzAzMTYxXSBbwqDCoCBUMTYyOF3CoCA/
-IHNyc29fYWxpYXNfcmV0dXJuX3RodW5rKzB4NS8weGZiZWY1DQo+Pj4gIMKgwqDCoMKgIFvC
-oMKgwqAgOC43MDMxNjRdIFvCoMKgIFQxNjI4XcKgIGFtZGdwdV9kcm1faW9jdGwrMHg0Ni8w
-eDkwIFthbWRncHVdDQo+Pj4gIMKgwqDCoMKgIFvCoMKgwqAgOC43MDMyODNdIFvCoMKgIFQx
-NjI4XcKgIF9feDY0X3N5c19pb2N0bCsweDkxLzB4ZTANCj4+PiAgwqDCoMKgwqAgW8KgwqDC
-oCA4LjcwMzI4Nl0gW8KgwqAgVDE2MjhdwqAgZG9fc3lzY2FsbF82NCsweDY1LzB4ZmMwDQo+
-Pj4gIMKgwqDCoMKgIFvCoMKgwqAgOC43MDMyODldIFvCoMKgIFQxNjI4XcKgIGVudHJ5X1NZ
-U0NBTExfNjRfYWZ0ZXJfaHdmcmFtZSsweDU1LzB4NWQNCj4+PiAgwqDCoMKgwqAgW8KgwqDC
-oCA4LjcwMzI5MV0gW8KgwqAgVDE2MjhdIFJJUDogMDAzMzoweDdmYzE2NDVmNzhkYg0KPj4+
-ICDCoMKgwqDCoCBbwqDCoMKgIDguNzAzMjkyXSBbwqDCoCBUMTYyOF0gQ29kZTogMDAgNDgg
-ODkgNDQgMjQgMTggMzEgYzAgNDggOGQgNDQgMjQgNjAgYzcgMDQgMjQgMTAgMDAgMDAgMDAg
-NDggODkgNDQgMjQgMDggNDggOGQgNDQgMjQgMjAgNDggODkgNDQgMjQgMTAgYjggMTAgMDAg
-MDAgMDAgMGYgMDUgPDg5PiBjMiAzZCAwMCBmMCBmZiBmZiA3NyAxYyA0OCA4YiA0NCAyNCAx
-OCA2NCA0OCAyYiAwNCAyNSAyOCAwMCAwMA0KPj4+ICDCoMKgwqDCoCBbwqDCoMKgIDguNzAz
-Mjk0XSBbwqDCoCBUMTYyOF0gUlNQOiAwMDJiOjAwMDA3ZmZkNzViY2U0MzAgRUZMQUdTOiAw
-MDAwMDI0NiBPUklHX1JBWDogMDAwMDAwMDAwMDAwMDAxMA0KPj4+ICDCoMKgwqDCoCBbwqDC
-oMKgIDguNzAzMjk1XSBbwqDCoCBUMTYyOF0gUkFYOiBmZmZmZmZmZmZmZmZmZmRhIFJCWDog
-MDAwMDU2MjI0ZTg5NmVhMCBSQ1g6IDAwMDA3ZmMxNjQ1Zjc4ZGINCj4+PiAgwqDCoMKgwqAg
-W8KgwqDCoCA4LjcwMzI5Nl0gW8KgwqAgVDE2MjhdIFJEWDogMDAwMDdmZmQ3NWJjZTRjMCBS
-U0k6IDAwMDAwMDAwYzAxYzY0YTMgUkRJOiAwMDAwMDAwMDAwMDAwMDBmDQo+Pj4gIMKgwqDC
-oMKgIFvCoMKgwqAgOC43MDMyOTddIFvCoMKgIFQxNjI4XSBSQlA6IDAwMDA3ZmZkNzViY2U0
-YzAgUjA4OiAwMDAwMDAwMDAwMDAwMTAwIFIwOTogMDAwMDU2MjIxMDU0N2FiMA0KPj4+ICDC
-oMKgwqDCoCBbwqDCoMKgIDguNzAzMjk4XSBbwqDCoCBUMTYyOF0gUjEwOiAwMDAwMDAwMDAw
-MDAwMDRjIFIxMTogMDAwMDAwMDAwMDAwMDI0NiBSMTI6IDAwMDAwMDAwYzAxYzY0YTMNCj4+
-PiAgwqDCoMKgwqAgW8KgwqDCoCA4LjcwMzI5OF0gW8KgwqAgVDE2MjhdIFIxMzogMDAwMDAw
-MDAwMDAwMDAwZiBSMTQ6IDAwMDAwMDAwMDAwMDAwMDAgUjE1OiAwMDAwNTYyMjRlNWMxY2Qw
-DQo+Pj4gIMKgwqDCoMKgIFvCoMKgwqAgOC43MDMzMDJdIFvCoMKgIFQxNjI4XcKgIDwvVEFT
-Sz4NCj4+PiAgwqDCoMKgwqAgW8KgwqDCoCA4LjcwMzMwM10gW8KgwqAgVDE2MjhdIC0tLVsg
-ZW5kIHRyYWNlIDAwMDAwMDAwMDAwMDAwMDAgXS0tLQ0KPj4+DQo+Pj4gQXMgdGhlIHdhcm5p
-bmdzIGRvIG5vdCBvY2N1ciBpbiBuZXh0LTIwMjUwNzAyLCBJIGxvb2tlZCBhdCB0aGUgY29t
-bWl0cyBnaXZlbiBieQ0KPj4+ICQgZ2l0IGxvZyAtLW9uZWxpbmUgbmV4dC0yMDI1MDcwMi4u
-bmV4dC0yMDI1MDcwMyBkcml2ZXJzL2dwdS9kcm0NCj4+PiB0byBzZWFyY2ggZm9yIGEgY3Vs
-cHJpdC4gU28gSSByZXZlcnRlZCB0aGUgbW9zdCBsaWtlbHkgY2FuZGlkYXRlLA0KPj4+IGNv
-bW1pdCA1ODIxMTFlNjMwZjUgKCJkcm0vZ2VtOiBBY3F1aXJlIHJlZmVyZW5jZXMgb24gR0VN
-IGhhbmRsZXMgZm9yIGZyYW1lYnVmZmVycyIpLA0KPj4+IGluIG5leHQtMjAyNTA3MDMgYW5k
-IHRoZSB3YXJuaW5ncyBkaXNhcHBlYXJlZC4NCj4+PiBUaGlzIGlzIHRoZSBoYXJkd2FyZSBJ
-IHVzZWQ6DQo+Pj4gJCBsc3BjaQ0KPj4+IDAwOjAwLjAgSG9zdCBicmlkZ2U6IEFkdmFuY2Vk
-IE1pY3JvIERldmljZXMsIEluYy4gW0FNRF0gUmVub2lyL0NlemFubmUgUm9vdCBDb21wbGV4
-DQo+Pj4gMDA6MDAuMiBJT01NVTogQWR2YW5jZWQgTWljcm8gRGV2aWNlcywgSW5jLiBbQU1E
-XSBSZW5vaXIvQ2V6YW5uZSBJT01NVQ0KPj4+IDAwOjAxLjAgSG9zdCBicmlkZ2U6IEFkdmFu
-Y2VkIE1pY3JvIERldmljZXMsIEluYy4gW0FNRF0gUmVub2lyIFBDSWUgRHVtbXkgSG9zdCBC
-cmlkZ2UNCj4+PiAwMDowMS4xIFBDSSBicmlkZ2U6IEFkdmFuY2VkIE1pY3JvIERldmljZXMs
-IEluYy4gW0FNRF0gUmVub2lyIFBDSWUgR1BQIEJyaWRnZQ0KPj4+IDAwOjAyLjAgSG9zdCBi
-cmlkZ2U6IEFkdmFuY2VkIE1pY3JvIERldmljZXMsIEluYy4gW0FNRF0gUmVub2lyIFBDSWUg
-RHVtbXkgSG9zdCBCcmlkZ2UNCj4+PiAwMDowMi4xIFBDSSBicmlkZ2U6IEFkdmFuY2VkIE1p
-Y3JvIERldmljZXMsIEluYy4gW0FNRF0gUmVub2lyL0NlemFubmUgUENJZSBHUFAgQnJpZGdl
-DQo+Pj4gMDA6MDIuMiBQQ0kgYnJpZGdlOiBBZHZhbmNlZCBNaWNybyBEZXZpY2VzLCBJbmMu
-IFtBTURdIFJlbm9pci9DZXphbm5lIFBDSWUgR1BQIEJyaWRnZQ0KPj4+IDAwOjAyLjMgUENJ
-IGJyaWRnZTogQWR2YW5jZWQgTWljcm8gRGV2aWNlcywgSW5jLiBbQU1EXSBSZW5vaXIvQ2V6
-YW5uZSBQQ0llIEdQUCBCcmlkZ2UNCj4+PiAwMDowMi40IFBDSSBicmlkZ2U6IEFkdmFuY2Vk
-IE1pY3JvIERldmljZXMsIEluYy4gW0FNRF0gUmVub2lyL0NlemFubmUgUENJZSBHUFAgQnJp
-ZGdlDQo+Pj4gMDA6MDguMCBIb3N0IGJyaWRnZTogQWR2YW5jZWQgTWljcm8gRGV2aWNlcywg
-SW5jLiBbQU1EXSBSZW5vaXIgUENJZSBEdW1teSBIb3N0IEJyaWRnZQ0KPj4+IDAwOjA4LjEg
-UENJIGJyaWRnZTogQWR2YW5jZWQgTWljcm8gRGV2aWNlcywgSW5jLiBbQU1EXSBSZW5vaXIg
-SW50ZXJuYWwgUENJZSBHUFAgQnJpZGdlIHRvIEJ1cw0KPj4+IDAwOjE0LjAgU01CdXM6IEFk
-dmFuY2VkIE1pY3JvIERldmljZXMsIEluYy4gW0FNRF0gRkNIIFNNQnVzIENvbnRyb2xsZXIg
-KHJldiA1MSkNCj4+PiAwMDoxNC4zIElTQSBicmlkZ2U6IEFkdmFuY2VkIE1pY3JvIERldmlj
-ZXMsIEluYy4gW0FNRF0gRkNIIExQQyBCcmlkZ2UgKHJldiA1MSkNCj4+PiAwMDoxOC4wIEhv
-c3QgYnJpZGdlOiBBZHZhbmNlZCBNaWNybyBEZXZpY2VzLCBJbmMuIFtBTURdIENlemFubmUg
-RGF0YSBGYWJyaWM7IEZ1bmN0aW9uIDANCj4+PiAwMDoxOC4xIEhvc3QgYnJpZGdlOiBBZHZh
-bmNlZCBNaWNybyBEZXZpY2VzLCBJbmMuIFtBTURdIENlemFubmUgRGF0YSBGYWJyaWM7IEZ1
-bmN0aW9uIDENCj4+PiAwMDoxOC4yIEhvc3QgYnJpZGdlOiBBZHZhbmNlZCBNaWNybyBEZXZp
-Y2VzLCBJbmMuIFtBTURdIENlemFubmUgRGF0YSBGYWJyaWM7IEZ1bmN0aW9uIDINCj4+PiAw
-MDoxOC4zIEhvc3QgYnJpZGdlOiBBZHZhbmNlZCBNaWNybyBEZXZpY2VzLCBJbmMuIFtBTURd
-IENlemFubmUgRGF0YSBGYWJyaWM7IEZ1bmN0aW9uIDMNCj4+PiAwMDoxOC40IEhvc3QgYnJp
-ZGdlOiBBZHZhbmNlZCBNaWNybyBEZXZpY2VzLCBJbmMuIFtBTURdIENlemFubmUgRGF0YSBG
-YWJyaWM7IEZ1bmN0aW9uIDQNCj4+PiAwMDoxOC41IEhvc3QgYnJpZGdlOiBBZHZhbmNlZCBN
-aWNybyBEZXZpY2VzLCBJbmMuIFtBTURdIENlemFubmUgRGF0YSBGYWJyaWM7IEZ1bmN0aW9u
-IDUNCj4+PiAwMDoxOC42IEhvc3QgYnJpZGdlOiBBZHZhbmNlZCBNaWNybyBEZXZpY2VzLCBJ
-bmMuIFtBTURdIENlemFubmUgRGF0YSBGYWJyaWM7IEZ1bmN0aW9uIDYNCj4+PiAwMDoxOC43
-IEhvc3QgYnJpZGdlOiBBZHZhbmNlZCBNaWNybyBEZXZpY2VzLCBJbmMuIFtBTURdIENlemFu
-bmUgRGF0YSBGYWJyaWM7IEZ1bmN0aW9uIDcNCj4+PiAwMTowMC4wIFBDSSBicmlkZ2U6IEFk
-dmFuY2VkIE1pY3JvIERldmljZXMsIEluYy4gW0FNRC9BVEldIE5hdmkgMTAgWEwgVXBzdHJl
-YW0gUG9ydCBvZiBQQ0kgRXhwcmVzcyBTd2l0Y2ggKHJldiBjMykNCj4+PiAwMjowMC4wIFBD
-SSBicmlkZ2U6IEFkdmFuY2VkIE1pY3JvIERldmljZXMsIEluYy4gW0FNRC9BVEldIE5hdmkg
-MTAgWEwgRG93bnN0cmVhbSBQb3J0IG9mIFBDSSBFeHByZXNzIFN3aXRjaA0KPj4+IDAzOjAw
-LjAgRGlzcGxheSBjb250cm9sbGVyOiBBZHZhbmNlZCBNaWNybyBEZXZpY2VzLCBJbmMuIFtB
-TUQvQVRJXSBOYXZpIDIzIFtSYWRlb24gUlggNjYwMC82NjAwIFhULzY2MDBNXSAocmV2IGMz
-KQ0KPj4+IDAzOjAwLjEgQXVkaW8gZGV2aWNlOiBBZHZhbmNlZCBNaWNybyBEZXZpY2VzLCBJ
-bmMuIFtBTUQvQVRJXSBOYXZpIDIxLzIzIEhETUkvRFAgQXVkaW8gQ29udHJvbGxlcg0KPj4+
-IDA0OjAwLjAgTmV0d29yayBjb250cm9sbGVyOiBNRURJQVRFSyBDb3JwLiBNVDc5MjFLIChS
-WjYwOCkgV2ktRmkgNkUgODBNSHoNCj4+PiAwNTowMC4wIEV0aGVybmV0IGNvbnRyb2xsZXI6
-IFJlYWx0ZWsgU2VtaWNvbmR1Y3RvciBDby4sIEx0ZC4gUlRMODExMS84MTY4LzgyMTEvODQx
-MSBQQ0kgRXhwcmVzcyBHaWdhYml0IEV0aGVybmV0IENvbnRyb2xsZXIgKHJldiAxNSkNCj4+
-PiAwNjowMC4wIE5vbi1Wb2xhdGlsZSBtZW1vcnkgY29udHJvbGxlcjogS2luZ3N0b24gVGVj
-aG5vbG9neSBDb21wYW55LCBJbmMuIEtDMzAwMC9GVVJZIFJlbmVnYWRlIE5WTWUgU1NEIFtF
-MThdIChyZXYgMDEpDQo+Pj4gMDc6MDAuMCBOb24tVm9sYXRpbGUgbWVtb3J5IGNvbnRyb2xs
-ZXI6IE1pY3Jvbi9DcnVjaWFsIFRlY2hub2xvZ3kgUDEgTlZNZSBQQ0llIFNTRFtGcmFtcHRv
-bl0gKHJldiAwMykNCj4+PiAwODowMC4wIFZHQSBjb21wYXRpYmxlIGNvbnRyb2xsZXI6IEFk
-dmFuY2VkIE1pY3JvIERldmljZXMsIEluYy4gW0FNRC9BVEldIENlemFubmUgW1JhZGVvbiBW
-ZWdhIFNlcmllcyAvIFJhZGVvbiBWZWdhIE1vYmlsZSBTZXJpZXNdIChyZXYgYzUpDQo+Pj4g
-MDg6MDAuMSBBdWRpbyBkZXZpY2U6IEFkdmFuY2VkIE1pY3JvIERldmljZXMsIEluYy4gW0FN
-RC9BVEldIFJlbm9pciBSYWRlb24gSGlnaCBEZWZpbml0aW9uIEF1ZGlvIENvbnRyb2xsZXIN
-Cj4+PiAwODowMC4yIEVuY3J5cHRpb24gY29udHJvbGxlcjogQWR2YW5jZWQgTWljcm8gRGV2
-aWNlcywgSW5jLiBbQU1EXSBGYW1pbHkgMTdoIChNb2RlbHMgMTBoLTFmaCkgUGxhdGZvcm0g
-U2VjdXJpdHkgUHJvY2Vzc29yDQo+Pj4gMDg6MDAuMyBVU0IgY29udHJvbGxlcjogQWR2YW5j
-ZWQgTWljcm8gRGV2aWNlcywgSW5jLiBbQU1EXSBSZW5vaXIvQ2V6YW5uZSBVU0IgMy4xDQo+
-Pj4gMDg6MDAuNCBVU0IgY29udHJvbGxlcjogQWR2YW5jZWQgTWljcm8gRGV2aWNlcywgSW5j
-LiBbQU1EXSBSZW5vaXIvQ2V6YW5uZSBVU0IgMy4xDQo+Pj4gMDg6MDAuNSBNdWx0aW1lZGlh
-IGNvbnRyb2xsZXI6IEFkdmFuY2VkIE1pY3JvIERldmljZXMsIEluYy4gW0FNRF0gQXVkaW8g
-Q29wcm9jZXNzb3IgKHJldiAwMSkNCj4+PiAwODowMC42IEF1ZGlvIGRldmljZTogQWR2YW5j
-ZWQgTWljcm8gRGV2aWNlcywgSW5jLiBbQU1EXSBGYW1pbHkgMTdoLzE5aC8xYWggSEQgQXVk
-aW8gQ29udHJvbGxlcg0KPj4+IDA4OjAwLjcgU2lnbmFsIHByb2Nlc3NpbmcgY29udHJvbGxl
-cjogQWR2YW5jZWQgTWljcm8gRGV2aWNlcywgSW5jLiBbQU1EXSBTZW5zb3IgRnVzaW9uIEh1
-Yg0KPj4+DQo+Pj4NCj4+PiBCZXJ0IEthcndhdHpraQ0KDQotLSANCi0tDQpUaG9tYXMgWmlt
-bWVybWFubg0KR3JhcGhpY3MgRHJpdmVyIERldmVsb3Blcg0KU1VTRSBTb2Z0d2FyZSBTb2x1
-dGlvbnMgR2VybWFueSBHbWJIDQpGcmFua2Vuc3RyYXNzZSAxNDYsIDkwNDYxIE51ZXJuYmVy
-ZywgR2VybWFueQ0KR0Y6IEl2byBUb3RldiwgQW5kcmV3IE15ZXJzLCBBbmRyZXcgTWNEb25h
-bGQsIEJvdWRpZW4gTW9lcm1hbg0KSFJCIDM2ODA5IChBRyBOdWVybmJlcmcpDQoNCg==
+On Thu, Jul 3, 2025 at 5:32=E2=80=AFAM Benno Lossin <lossin@kernel.org> wro=
+te:
+>
+> On Tue Jul 1, 2025 at 6:49 PM CEST, Tamir Duberstein wrote:
+> > Introduce a `fmt!` macro which wraps all arguments in
+> > `kernel::fmt::Adapter` and a `kernel::fmt::Display` trait. This enables
+> > formatting of foreign types (like `core::ffi::CStr`) that do not
+> > implement `core::fmt::Display` due to concerns around lossy conversions=
+ which
+> > do not apply in the kernel.
+> >
+> > Replace all direct calls to `format_args!` with `fmt!`.
+> >
+> > Replace all implementations of `core::fmt::Display` with implementation=
+s
+> > of `kernel::fmt::Display`.
+> >
+> > Suggested-by: Alice Ryhl <aliceryhl@google.com>
+> > Link: https://rust-for-linux.zulipchat.com/#narrow/channel/288089-Gener=
+al/topic/Custom.20formatting/with/516476467
+> > Acked-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+> > Reviewed-by: Alice Ryhl <aliceryhl@google.com>
+> > Signed-off-by: Tamir Duberstein <tamird@gmail.com>
+> > ---
+> >  drivers/block/rnull.rs       |  2 +-
+> >  drivers/gpu/nova-core/gpu.rs |  4 +-
+> >  rust/kernel/block/mq.rs      |  2 +-
+> >  rust/kernel/device.rs        |  2 +-
+> >  rust/kernel/fmt.rs           | 89 ++++++++++++++++++++++++++++++++++++=
++++
+> >  rust/kernel/kunit.rs         |  6 +--
+> >  rust/kernel/lib.rs           |  1 +
+> >  rust/kernel/prelude.rs       |  3 +-
+> >  rust/kernel/print.rs         |  4 +-
+> >  rust/kernel/seq_file.rs      |  2 +-
+> >  rust/kernel/str.rs           | 22 ++++------
+> >  rust/macros/fmt.rs           | 99 ++++++++++++++++++++++++++++++++++++=
+++++++++
+> >  rust/macros/lib.rs           | 19 +++++++++
+> >  rust/macros/quote.rs         |  7 ++++
+> >  scripts/rustdoc_test_gen.rs  |  2 +-
+> >  15 files changed, 236 insertions(+), 28 deletions(-)
+>
+> This would be a lot easier to review if he proc-macro and the call
+> replacement were different patches.
+>
+> Also the `kernel/fmt.rs` file should be a different commit.
+
+Can you help me understand why? The changes you ask to be separated
+would all be in different files, so why would separate commits make it
+easier to review?
+
+I prefer to keep things in one commit because the changes are highly
+interdependent. The proc macro doesn't make sense without
+kernel/fmt.rs and kernel/fmt.rs is useless without the proc macro.
+
+>
+> > diff --git a/rust/kernel/fmt.rs b/rust/kernel/fmt.rs
+> > new file mode 100644
+> > index 000000000000..348d16987de6
+> > --- /dev/null
+> > +++ b/rust/kernel/fmt.rs
+> > @@ -0,0 +1,89 @@
+> > +// SPDX-License-Identifier: GPL-2.0
+> > +
+> > +//! Formatting utilities.
+> > +
+> > +use core::fmt;
+>
+> I think we should pub export all types that we are still using from
+> `core::fmt`. For example `Result`, `Formatter`, `Debug` etc.
+>
+> That way I can still use the same pattern of importing `fmt` and then
+> writing
+>
+>     impl fmt::Display for MyType {
+>         fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {}
+>     }
+
+Great idea, done for the next spin. It would be nice to be able to
+lint against references to `core::fmt` outside of kernel/fmt.rs.
+
+> > +
+> > +/// Internal adapter used to route allow implementations of formatting=
+ traits for foreign types.
+> > +///
+> > +/// It is inserted automatically by the [`fmt!`] macro and is not mean=
+t to be used directly.
+> > +///
+> > +/// [`fmt!`]: crate::prelude::fmt!
+> > +#[doc(hidden)]
+> > +pub struct Adapter<T>(pub T);
+> > +
+> > +macro_rules! impl_fmt_adapter_forward {
+> > +    ($($trait:ident),* $(,)?) =3D> {
+> > +        $(
+> > +            impl<T: fmt::$trait> fmt::$trait for Adapter<T> {
+> > +                fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Resu=
+lt {
+> > +                    let Self(t) =3D self;
+> > +                    fmt::$trait::fmt(t, f)
+> > +                }
+> > +            }
+> > +        )*
+> > +    };
+> > +}
+> > +
+> > +impl_fmt_adapter_forward!(Debug, LowerHex, UpperHex, Octal, Binary, Po=
+inter, LowerExp, UpperExp);
+> > +
+> > +/// A copy of [`fmt::Display`] that allows us to implement it for fore=
+ign types.
+> > +///
+> > +/// Types should implement this trait rather than [`fmt::Display`]. To=
+gether with the [`Adapter`]
+> > +/// type and [`fmt!`] macro, it allows for formatting foreign types (e=
+.g. types from core) which do
+> > +/// not implement [`fmt::Display`] directly.
+> > +///
+> > +/// [`fmt!`]: crate::prelude::fmt!
+> > +pub trait Display {
+> > +    /// Same as [`fmt::Display::fmt`].
+> > +    fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result;
+> > +}
+> > +
+> > +impl<T: ?Sized + Display> Display for &T {
+> > +    fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
+> > +        Display::fmt(*self, f)
+> > +    }
+> > +}
+> > +
+> > +impl<T: ?Sized + Display> fmt::Display for Adapter<&T> {
+> > +    fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
+> > +        let Self(t) =3D self;
+> > +        Display::fmt(t, f)
+>
+> Why not `Display::fmt(&self.0, f)`?
+
+I like destructuring because it shows me that there's only one field.
+With `self.0` I don't see that.
+
+> > +    }
+> > +}
+> > +
+> > +macro_rules! impl_display_forward {
+> > +    ($(
+> > +        $( { $($generics:tt)* } )? $ty:ty $( { where $($where:tt)* } )=
+?
+> > +    ),* $(,)?) =3D> {
+> > +        $(
+> > +            impl$($($generics)*)? Display for $ty $(where $($where)*)?=
+ {
+> > +                fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Resu=
+lt {
+> > +                    fmt::Display::fmt(self, f)
+> > +                }
+> > +            }
+> > +        )*
+> > +    };
+> > +}
+> > +
+> > +impl_display_forward!(
+> > +    bool,
+> > +    char,
+> > +    core::panic::PanicInfo<'_>,
+> > +    fmt::Arguments<'_>,
+> > +    i128,
+> > +    i16,
+> > +    i32,
+> > +    i64,
+> > +    i8,
+> > +    isize,
+> > +    str,
+> > +    u128,
+> > +    u16,
+> > +    u32,
+> > +    u64,
+> > +    u8,
+> > +    usize,
+> > +    {<T: ?Sized>} crate::sync::Arc<T> {where crate::sync::Arc<T>: fmt:=
+:Display},
+> > +    {<T: ?Sized>} crate::sync::UniqueArc<T> {where crate::sync::Unique=
+Arc<T>: fmt::Display},
+> > +);
+>
+> > diff --git a/rust/macros/fmt.rs b/rust/macros/fmt.rs
+> > new file mode 100644
+> > index 000000000000..edc37c220a89
+> > --- /dev/null
+> > +++ b/rust/macros/fmt.rs
+> > @@ -0,0 +1,99 @@
+> > +// SPDX-License-Identifier: GPL-2.0
+> > +
+> > +use proc_macro::{Ident, TokenStream, TokenTree};
+> > +use std::collections::BTreeSet;
+> > +
+> > +/// Please see [`crate::fmt`] for documentation.
+> > +pub(crate) fn fmt(input: TokenStream) -> TokenStream {
+> > +    let mut input =3D input.into_iter();
+> > +
+> > +    let first_opt =3D input.next();
+> > +    let first_owned_str;
+> > +    let mut names =3D BTreeSet::new();
+> > +    let first_lit =3D {
+> > +        let Some((mut first_str, first_lit)) =3D (match first_opt.as_r=
+ef() {
+> > +            Some(TokenTree::Literal(first_lit)) =3D> {
+> > +                first_owned_str =3D first_lit.to_string();
+> > +                Some(first_owned_str.as_str()).and_then(|first| {
+> > +                    let first =3D first.strip_prefix('"')?;
+> > +                    let first =3D first.strip_suffix('"')?;
+> > +                    Some((first, first_lit))
+>
+> You're only using first_lit to get the span later, so why not just get
+> the span directly here?
+
+Good point. I was probably using it for more stuff in an earlier iteration.
+
+>
+> > +                })
+> > +            }
+> > +            _ =3D> None,
+> > +        }) else {
+> > +            return first_opt.into_iter().chain(input).collect();
+> > +        };
+> > +        while let Some((_, rest)) =3D first_str.split_once('{') {
+>
+> Let's put a comment above this loop mentioning [1] and saying that it
+> parses the identifiers from the format arguments.
+>
+> [1]: https://doc.rust-lang.org/std/fmt/index.html#syntax
+
+=F0=9F=91=8D
+
+>
+> > +            first_str =3D rest;
+> > +            if let Some(rest) =3D first_str.strip_prefix('{') {
+> > +                first_str =3D rest;
+> > +                continue;
+> > +            }
+> > +            if let Some((name, rest)) =3D first_str.split_once('}') {
+> > +                first_str =3D rest;
+> > +                let name =3D name.split_once(':').map_or(name, |(name,=
+ _)| name);
+> > +                if !name.is_empty() && !name.chars().all(|c| c.is_asci=
+i_digit()) {
+> > +                    names.insert(name);
+> > +                }
+> > +            }
+> > +        }
+> > +        first_lit
+> > +    };
+> > +
+> > +    let first_span =3D first_lit.span();
+> > +    let adapter =3D quote_spanned! {
+> > +        first_span =3D> ::kernel::fmt::Adapter
+> > +    };
+>
+> I think we should follow the formatting convention from the quote crate:
+>
+>     let adapter =3D quote_spanned!(first_span=3D> ::kernel::fmt::Adapter)=
+;
+
+Sure.
+
+>
+> > +
+> > +    let mut args =3D TokenStream::from_iter(first_opt);
+> > +    {
+> > +        let mut flush =3D |args: &mut TokenStream, current: &mut Token=
+Stream| {
+>
+> You don't need to pass `args` as a closure argument, since you always
+> call it with `&mut args`.
+
+This doesn't work because of the borrow checker. If I wrote what you
+suggest, then `args` is mutably borrowed by the closure, which
+prohibits the mutable borrow needed for the .extend() call here:
+
+        for tt in input {
+            match &tt {
+                TokenTree::Punct(p) if p.as_char() =3D=3D ',' =3D> {
+                    flush(&mut args, &mut current);
+                    &mut args
+                }
+                _ =3D> &mut current,
+            }
+            .extend([tt]);
+        }
+
+>
+> > +            let current =3D std::mem::take(current);
+> > +            if !current.is_empty() {
+> > +                let (lhs, rhs) =3D (|| {
+> > +                    let mut current =3D current.into_iter();
+> > +                    let mut acc =3D TokenStream::new();
+> > +                    while let Some(tt) =3D current.next() {
+> > +                        // Split on `=3D` only once to handle cases li=
+ke `a =3D b =3D c`.
+> > +                        if matches!(&tt, TokenTree::Punct(p) if p.as_c=
+har() =3D=3D '=3D') {
+> > +                            names.remove(acc.to_string().as_str());
+> > +                            // Include the `=3D` itself to keep the ha=
+ndling below uniform.
+> > +                            acc.extend([tt]);
+> > +                            return (Some(acc), current.collect::<Token=
+Stream>());
+> > +                        }
+> > +                        acc.extend([tt]);
+> > +                    }
+> > +                    (None, acc)
+> > +                })();
+> > +                args.extend(quote_spanned! {
+> > +                    first_span =3D> #lhs #adapter(&#rhs)
+> > +                });
+> > +            }
+> > +        };
+> > +
+> > +        let mut current =3D TokenStream::new();
+>
+> Define this before the closure, then you don't need to pass it as an
+> argument.
+
+Same reason as above. Borrow checker says no.
+
+>
+> ---
+> Cheers,
+> Benno
+>
+> > +        for tt in input {
+> > +            match &tt {
+> > +                TokenTree::Punct(p) if p.as_char() =3D=3D ',' =3D> {
+> > +                    flush(&mut args, &mut current);
+> > +                    &mut args
+> > +                }
+> > +                _ =3D> &mut current,
+> > +            }
+> > +            .extend([tt]);
+> > +        }
+> > +        flush(&mut args, &mut current);
+> > +    }
+> > +
+> > +    for name in names {
+> > +        let name =3D Ident::new(name, first_span);
+> > +        args.extend(quote_spanned! {
+> > +            first_span =3D> , #name =3D #adapter(&#name)
+> > +        });
+> > +    }
+> > +
+> > +    quote_spanned! {
+> > +        first_span =3D> ::core::format_args!(#args)
+> > +    }
+> > +}
