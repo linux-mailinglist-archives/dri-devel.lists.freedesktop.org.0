@@ -2,105 +2,90 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id D547CAF6C8C
-	for <lists+dri-devel@lfdr.de>; Thu,  3 Jul 2025 10:12:47 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id F0D41AF6C8E
+	for <lists+dri-devel@lfdr.de>; Thu,  3 Jul 2025 10:13:01 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 02E4A10E7E5;
-	Thu,  3 Jul 2025 08:12:45 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E49D310E7E9;
+	Thu,  3 Jul 2025 08:12:59 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=bootlin.com header.i=@bootlin.com header.b="F8EUjvtY";
+	dkim=pass (1024-bit key; unprotected) header.d=redhat.com header.i=@redhat.com header.b="bk0LpGN/";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from relay1-d.mail.gandi.net (relay1-d.mail.gandi.net
- [217.70.183.193])
- by gabe.freedesktop.org (Postfix) with ESMTPS id DB0C010E7E5
- for <dri-devel@lists.freedesktop.org>; Thu,  3 Jul 2025 08:12:43 +0000 (UTC)
-Received: by mail.gandi.net (Postfix) with ESMTPSA id 25287432E9;
- Thu,  3 Jul 2025 08:12:42 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
- t=1751530362;
+Received: from us-smtp-delivery-124.mimecast.com
+ (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D469D10E7E7
+ for <dri-devel@lists.freedesktop.org>; Thu,  3 Jul 2025 08:12:58 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1751530378;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=rfm5RqSOeqx29wfYzFNkHGyAWsHuOA5T9K0UAgezsaE=;
- b=F8EUjvtYj6ZMcuMZcC/kUhc5ST8SLmatQ3IUbVi1VD86J/dDNhpGGpKdf7qJYNIso7SOUH
- i2EQ1v0J81NPy75KIuRCRaS3e6rbBTJZFw/za1koAiQvbM5szBGK0D4+VF3bGYcNJwRx/Z
- R6BFmxCHcjvHpJOlpbSf3eXzwODyLNkF1VaP3OIATsdF2pHAHRl3IvYZ22XsO6OTPof2aa
- B/JTk1AArwmKIMs7GTdUSVEIE7QcSjpEcPz0jVbZcXyp49n4hFhkjMKQ36OlQ5nyHc5DuR
- TDxQnW6/PaYCHlyBPVLfFIbIySeo90opy/rq05LXW/cHg52Iv6VUEu4rVbt9Fw==
-Message-ID: <f97bf2f5-4958-4b65-83ed-bd0eb8a4ca64@bootlin.com>
-Date: Thu, 3 Jul 2025 10:12:41 +0200
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type;
+ bh=mzAmqCrGzYULhQVmt+vI7C3IoCgpWDVmftXFyp55eVc=;
+ b=bk0LpGN/Yee7JuQIiB1K6cAb7ot9nrb/5+GturBzua+0qLt351JRKE0DG9wuW1S6KTQf41
+ 1NGONsVQA1q6GDydZ8ZOhF16rQBR+dzC43bKv6am99kvvKAO0sP8wDpwNl15hVFUzmTODW
+ XejZBVZwhuvwleCtz+n3DJzawRc0BnI=
+Received: from mail-wr1-f71.google.com (mail-wr1-f71.google.com
+ [209.85.221.71]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-590-LovFcKEFMgaaZn3l4fFzNQ-1; Thu, 03 Jul 2025 04:12:56 -0400
+X-MC-Unique: LovFcKEFMgaaZn3l4fFzNQ-1
+X-Mimecast-MFC-AGG-ID: LovFcKEFMgaaZn3l4fFzNQ_1751530375
+Received: by mail-wr1-f71.google.com with SMTP id
+ ffacd0b85a97d-3a4f7f1b932so3390419f8f.2
+ for <dri-devel@lists.freedesktop.org>; Thu, 03 Jul 2025 01:12:56 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1751530375; x=1752135175;
+ h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=mzAmqCrGzYULhQVmt+vI7C3IoCgpWDVmftXFyp55eVc=;
+ b=TF7BFxCGlrdeXmAqPdSLj9HFKfIswhuJeZ8G3qw2Jlt48wfF2/rEw8SR489Thd4/7Q
+ 7rwLRFAkNA6SUlhi68IcPNQYIjFN7qdWzAhTBeneWg6BJiUB4tV6jZ2ktEyPFMpZqdll
+ 03m+V0EXAerbVDUElcrvLBQv5LzZJcqVda3KioY4RgNJMDe3LymJbPIVJaPD0E8TOXFS
+ 9PsUq8/N2+h3oU9cvPmrmGgYbuJ/BY/a3sYzyTlW0g42EsnsWqn1UPiO2/tXoupTubgR
+ Zz2Gtxo+w5DtC2hvOB4CSw2tTeOMhezVBr7b5xh7f+Zr1SaWWByIcq3ijWYBE9AU0amR
+ 6hfQ==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCXB8oqFA12btywZ5D8KFsFZc1CdGi0uMKudcY+yzejXqPiFGoB/yS67DzL8c38FGZBnZXPQfS5eNQc=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0Yx4RThbQpyAO/OKcOmxBcDHhA/VkyAYXzcloohvJ+e2HypNJUMu
+ YT0Lfb2kQkdLaOZ2DJYHP4aRdLmbzqzFYiOLDcwYYTQP1WqrWc5ZxZHwMkTNGd1ycaA+RAos29z
+ JUgfOkYN7Mvftk3yDDmGuPCpnIo9QnWP8wcOcFUoKH3lMkGJxvV+vSSHDGsw7h+nyAGaWyA==
+X-Gm-Gg: ASbGnctC3pS1vRdJslSTkOW6O3XAgfusVi8EWUyejJc+XZaOnce+hMhKhHOKGuzI4ds
+ 1rXpOqA/eJIqvrZtLGV9DtBh/ptRJEesEanPAsHskL7w+L0mfbSdCYYzLC/4QicyDu3g8/6rA6d
+ ISO3w0rfoX6nUuq4kjKq6eseM3ef+NM6AqCrV7izl5d1mdyMAowJ+c5Vfss0c8fkFBCpyK8wQM9
+ 1rNQQvOaP2SUFeEK21nE8rukHSdfJirQak0huRC2LNf7YbUCXe5M9JeJWuK3RO9p+y/Y+xuZg==
+X-Received: by 2002:a5d:5e8b:0:b0:3a5:21c8:af31 with SMTP id
+ ffacd0b85a97d-3b1fe5c067dmr4442965f8f.16.1751530374818; 
+ Thu, 03 Jul 2025 01:12:54 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IEDcXfywmSwHnD3z1m8BOw6GCi85VOLyS0ttvCNc9dVnElOHZKb4TySP8/H6efhpYYSfVuudg==
+X-Received: by 2002:a5d:5e8b:0:b0:3a5:21c8:af31 with SMTP id
+ ffacd0b85a97d-3b1fe5c067dmr4442932f8f.16.1751530374266; 
+ Thu, 03 Jul 2025 01:12:54 -0700 (PDT)
+Received: from localhost ([2a01:e0a:b25:f902::ff])
+ by smtp.gmail.com with ESMTPSA id
+ 5b1f17b1804b1-454a99bc81esm19247315e9.33.2025.07.03.01.12.53
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 03 Jul 2025 01:12:53 -0700 (PDT)
+Date: Thu, 3 Jul 2025 10:12:53 +0200
+From: Maxime Ripard <mripard@redhat.com>
+To: Dave Airlie <airlied@gmail.com>, 
+	Simona Vetter <simona.vetter@ffwll.ch>
+Cc: Jani Nikula <jani.nikula@linux.intel.com>, 
+ Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
+ Tvrtko Ursulin <tursulin@ursulin.net>, 
+ Rodrigo Vivi <rodrigo.vivi@intel.com>, Thomas Zimmermann <tzimmermann@suse.de>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, 
+ Thomas =?utf-8?Q?Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>,
+ Oded Gabbay <ogabbay@kernel.org>, 
+ Lucas De Marchi <lucas.demarchi@intel.com>, dri-devel@lists.freedesktop.org,
+ intel-gfx@lists.freedesktop.org, 
+ intel-xe@lists.freedesktop.org, dim-tools@lists.freedesktop.org
+Subject: [PULL] drm-misc-next
+Message-ID: <20250703-chirpy-lilac-dalmatian-2c5838@houat>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 1/1] drm: Simplify drmm_alloc_ordered_workqueue return
-To: Matthew Brost <matthew.brost@intel.com>, dri-devel@lists.freedesktop.org
-References: <20250702232831.3271328-1-matthew.brost@intel.com>
- <20250702232831.3271328-2-matthew.brost@intel.com>
-Content-Language: en-US
-From: Louis Chauvet <louis.chauvet@bootlin.com>
-Autocrypt: addr=louis.chauvet@bootlin.com; keydata=
- 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
-In-Reply-To: <20250702232831.3271328-2-matthew.brost@intel.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-GND-State: clean
-X-GND-Score: -100
-X-GND-Cause: gggruggvucftvghtrhhoucdtuddrgeeffedrtdefgdduleejjecutefuodetggdotefrodftvfcurfhrohhfihhlvgemucfitefpfffkpdcuggftfghnshhusghstghrihgsvgenuceurghilhhouhhtmecufedtudenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujfgurhepkfffgggfuffvfhfhjggtgfesthekredttddvjeenucfhrhhomhepnfhouhhishcuvehhrghuvhgvthcuoehlohhuihhsrdgthhgruhhvvghtsegsohhothhlihhnrdgtohhmqeenucggtffrrghtthgvrhhnpeeuvdetgeevkefhiedugfekveejieeiveeigeeiveduffehfffhgeffffetheekgfenucffohhmrghinhepsghoohhtlhhinhdrtghomhenucfkphepledtrdekledrudeifedruddvjeenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepihhnvghtpeeltddrkeelrdduieefrdduvdejpdhhvghloheplgduledvrdduieekrddtrddvtdgnpdhmrghilhhfrhhomheplhhouhhishdrtghhrghuvhgvthessghoohhtlhhinhdrtghomhdpnhgspghrtghpthhtohepvddprhgtphhtthhopehmrghtthhhvgifrdgsrhhoshhtsehinhhtvghlrdgtohhmpdhrtghpthhtohepughrihdquggvvhgvlheslhhishhtshdrfhhrvggvuggvshhkthhophdrohhrgh
-X-GND-Sasl: louis.chauvet@bootlin.com
+Content-Type: multipart/signed; micalg=pgp-sha384;
+ protocol="application/pgp-signature"; boundary="plgjvafs56cq34fd"
+Content-Disposition: inline
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -117,77 +102,243 @@ Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 
+--plgjvafs56cq34fd
+Content-Type: text/plain; protected-headers=v1; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
+Subject: [PULL] drm-misc-next
+MIME-Version: 1.0
 
-Le 03/07/2025 à 01:28, Matthew Brost a écrit :
-> Rather than returning ERR_PTR or NULL on failure, replace the NULL
-> return with ERR_PTR(-ENOMEM). This simplifies error handling at the
-> caller. While here, add kernel documentation for
-> drmm_alloc_ordered_workqueue.
-> 
-> Cc: Louis Chauvet <louis.chauvet@bootlin.com>
-> Signed-off-by: Matthew Brost <matthew.brost@intel.com>
+Hi,
 
-Reviewed-by: Louis Chauvet <louis.chauvet@bootlin.com>
+Here's this week drm-misc-next PR
 
-As you need it in xe, I don't know the process to apply the patch. 
-Should I apply it on drm-misc-next?
+Maxime
 
-Thanks,
-Louis Chauvet
+drm-misc-next-2025-07-03:
+drm-misc-next for 6.17:
 
-> ---
->   drivers/gpu/drm/vkms/vkms_crtc.c |  2 --
->   include/drm/drm_managed.h        | 15 +++++++++++++--
->   2 files changed, 13 insertions(+), 4 deletions(-)
-> 
-> diff --git a/drivers/gpu/drm/vkms/vkms_crtc.c b/drivers/gpu/drm/vkms/vkms_crtc.c
-> index 8c9898b9055d..e60573e0f3e9 100644
-> --- a/drivers/gpu/drm/vkms/vkms_crtc.c
-> +++ b/drivers/gpu/drm/vkms/vkms_crtc.c
-> @@ -302,8 +302,6 @@ struct vkms_output *vkms_crtc_init(struct drm_device *dev, struct drm_plane *pri
->   	vkms_out->composer_workq = drmm_alloc_ordered_workqueue(dev, "vkms_composer", 0);
->   	if (IS_ERR(vkms_out->composer_workq))
->   		return ERR_CAST(vkms_out->composer_workq);
-> -	if (!vkms_out->composer_workq)
-> -		return ERR_PTR(-ENOMEM);
->   
->   	return vkms_out;
->   }
-> diff --git a/include/drm/drm_managed.h b/include/drm/drm_managed.h
-> index 53017cc609ac..72bfac002c06 100644
-> --- a/include/drm/drm_managed.h
-> +++ b/include/drm/drm_managed.h
-> @@ -129,14 +129,25 @@ void __drmm_mutex_release(struct drm_device *dev, void *res);
->   
->   void __drmm_workqueue_release(struct drm_device *device, void *wq);
->   
-> +/**
-> + * drmm_alloc_ordered_workqueue - &drm_device managed alloc_ordered_workqueue()
-> + * @dev: DRM device
-> + * @fmt: printf format for the name of the workqueue
-> + * @flags: WQ_* flags (only WQ_FREEZABLE and WQ_MEM_RECLAIM are meaningful)
-> + * @args: args for @fmt
-> + *
-> + * This is a &drm_device-managed version of alloc_ordered_workqueue(). The
-> + * allocated workqueue is automatically destroyed on the final drm_dev_put().
-> + *
-> + * Returns: workqueue on success, negative ERR_PTR otherwise.
-> + */
->   #define drmm_alloc_ordered_workqueue(dev, fmt, flags, args...)					\
->   	({											\
->   		struct workqueue_struct *wq = alloc_ordered_workqueue(fmt, flags, ##args);	\
->   		wq ? ({										\
->   			int ret = drmm_add_action_or_reset(dev, __drmm_workqueue_release, wq);	\
->   			ret ? ERR_PTR(ret) : wq;						\
-> -		}) :										\
-> -			wq;									\
-> +		}) : ERR_PTR(-ENOMEM);								\
->   	})
->   
->   #endif
+UAPI Changes:
 
--- 
-Louis Chauvet, Bootlin
-Embedded Linux and Kernel engineering
-https://bootlin.com
+Cross-subsystem Changes:
+
+Core Changes:
+
+- bridge: More reference counting
+- dp: Implement backlight control helpers
+- fourcc: Add half-float and 32b float formats, RGB161616, BGR161616
+- mipi-dsi: Drop MIPI_DSI_MODE_VSYNC_FLUSH flag
+- ttm: Improve eviction
+
+Driver Changes:
+- i915: Use backlight control helpers for eDP
+- tidss: Add AM65x OLDI bridge support
+
+- panels:
+  - panel-edp: Add CMN N116BCJ-EAK support
+  - raydium-rm67200: misc cleanups, optional reset
+  - new panel: DJN HX83112B
+The following changes since commit d6b93bfa5d1eba452e494d3a05d6bef65bc569b7:
+
+  drm/nouveau/disp: Use dev->dev to get the device (2025-06-25 20:07:03 +02=
+00)
+
+are available in the Git repository at:
+
+  https://gitlab.freedesktop.org/drm/misc/kernel.git tags/drm-misc-next-202=
+5-07-03
+
+for you to fetch changes up to b4cd18f485687a2061ee7a0ce6833851fc4438da:
+
+  drm/dp: Add documentation for luminance_set (2025-07-02 16:26:07 +0530)
+
+----------------------------------------------------------------
+drm-misc-next for 6.17:
+
+UAPI Changes:
+
+Cross-subsystem Changes:
+
+Core Changes:
+
+- bridge: More reference counting
+- dp: Implement backlight control helpers
+- fourcc: Add half-float and 32b float formats, RGB161616, BGR161616
+- mipi-dsi: Drop MIPI_DSI_MODE_VSYNC_FLUSH flag
+- ttm: Improve eviction
+
+Driver Changes:
+- i915: Use backlight control helpers for eDP
+- tidss: Add AM65x OLDI bridge support
+
+- panels:
+  - panel-edp: Add CMN N116BCJ-EAK support
+  - raydium-rm67200: misc cleanups, optional reset
+  - new panel: DJN HX83112B
+
+----------------------------------------------------------------
+Andy Shevchenko (1):
+      firmware: sysfb: Don't use "proxy" headers
+
+Andy Yan (4):
+      dt-bindings: display: panel: Make reset-gpio as optional for Raydium =
+RM67200
+      drivers/panel: raydium-rm67200: Make reset-gpio optional
+      drm/panel: raydium-rm67200: Move initialization from enable() to prep=
+are stage
+      drm/panel: raydium-rm67200: Add missing drm_display_mode flags
+
+Aradhya Bhatia (4):
+      dt-bindings: display: ti,am65x-dss: Re-indent the example
+      dt-bindings: display: ti: Add schema for AM625 OLDI Transmitter
+      drm/tidss: Mark AM65x OLDI code separately
+      drm/tidss: Add OLDI bridge support
+
+Bartosz Golaszewski (1):
+      drm/bridge: ti-sn65dsi86: remove unnecessary GPIO line direction check
+
+Christian K=F6nig (1):
+      drm/vmwgfx: drop printing the TTM refcount for debugging
+
+Cristian Ciocaltea (1):
+      dt-bindings: display: vop2: Add optional PLL clock property for rk3576
+
+Jacopo Mondi (1):
+      drm/fourcc: Add RGB161616 and BGR161616 formats
+
+Javier Martinez Canillas (1):
+      MAINTAINERS: Add missing sysfb files to firmware framebuffers entry
+
+Langyan Ye (1):
+      drm/panel-edp: Add CMN N116BCJ-EAK
+
+Luca Ceresoli (3):
+      drm/bridge: get/put the bridge reference in drm_bridge_add/remove()
+      drm/bridge: get/put the bridge reference in drm_bridge_attach/detach()
+      drm/bridge: add warning for bridges not using devm_drm_bridge_alloc()
+
+Luca Weiss (3):
+      dt-bindings: vendor-prefixes: document Shenzhen DJN Optronics Technol=
+ogy
+      dt-bindings: display: panel: Add Himax HX83112B
+      drm/panel: Add driver for DJN HX83112B LCD panel
+
+Philipp Stanner (1):
+      drm/sched/tests: Make timedout_job callback a better role model
+
+Philipp Zabel (6):
+      drm/bridge: samsung-dsim: use while loop in samsung_dsim_transfer_sta=
+rt
+      drm/bridge: samsung-dsim: Use HZ_PER_MHZ macro from units.h
+      drm/bridge: samsung-dsim: Always flush display FIFO on vsync pulse
+      drm/panel: samsung-s6d7aa0: Drop MIPI_DSI_MODE_VSYNC_FLUSH flag
+      drm/panel: samsung-s6e8aa0: Drop MIPI_DSI_MODE_VSYNC_FLUSH flag
+      drm/mipi-dsi: Drop MIPI_DSI_MODE_VSYNC_FLUSH flag
+
+Rob Clark (2):
+      drm/fourcc: Add missing half-float formats
+      drm/fourcc: Add 32b float formats
+
+Steven Price (1):
+      drm/panthor: Wait for _READY register when powering on
+
+Suraj Kandpal (14):
+      drm/dp: Introduce new member in drm_backlight_info
+      drm/dp: Add argument in drm_edp_backlight_init
+      drm/dp: Add argument for max luminance in drm_edp_backlight_init
+      drm/dp: Move from u16 to u32 for max in drm_edp_backlight_info
+      drm/dp: Change current_level argument type to u32
+      drm/dp: Modify drm_edp_probe_state
+      drm/dp: Change argument type for drm_edp_backlight_set_level
+      drm/dp: Modify drm_edp_backlight_set_level
+      drm/dp: Change argument type of drm_edp_backlight_enable
+      drm/dp: Enable backlight control using luminance
+      drm/i915/backlight: Use drm helper to initialize edp backlight
+      drm/i915/backlight: Use drm helper to set edp backlight
+      drm/i915/backlight: Use drm_edp_backlight_enable
+      drm/dp: Add documentation for luminance_set
+
+Thomas Hellstr=F6m (3):
+      drm/ttm: Use a struct for the common part of struct ttm_lru_walk and =
+struct ttm_bo_lru_cursor
+      drm/ttm, drm/xe: Modify the struct ttm_bo_lru_walk_cursor initializat=
+ion
+      drm/ttm, drm_xe, Implement ttm_lru_walk_for_evict() using the guarded=
+ LRU iteration
+
+Thomas Zimmermann (1):
+      drm/format-helper: Split off byte swapping from drm_fb_xrgb8888_to_rg=
+b565()
+
+ .../bindings/display/panel/himax,hx83112b.yaml     |  73 +++
+ .../bindings/display/panel/raydium,rm67200.yaml    |   1 -
+ .../bindings/display/rockchip/rockchip-vop2.yaml   |  56 +-
+ .../bindings/display/ti/ti,am625-oldi.yaml         |  79 +++
+ .../bindings/display/ti/ti,am65x-dss.yaml          | 199 ++++++-
+ .../devicetree/bindings/vendor-prefixes.yaml       |   2 +
+ MAINTAINERS                                        |   3 +
+ drivers/gpu/drm/bridge/samsung-dsim.c              |  79 ++-
+ drivers/gpu/drm/bridge/ti-sn65dsi86.c              |   5 -
+ drivers/gpu/drm/display/drm_dp_helper.c            |  92 +++-
+ drivers/gpu/drm/drm_bridge.c                       |  24 +-
+ drivers/gpu/drm/drm_format_helper.c                |  68 ++-
+ drivers/gpu/drm/drm_format_internal.h              |   6 +
+ drivers/gpu/drm/drm_fourcc.c                       |   8 +
+ drivers/gpu/drm/drm_mipi_dbi.c                     |   8 +-
+ drivers/gpu/drm/gud/gud_pipe.c                     |   9 +-
+ .../gpu/drm/i915/display/intel_dp_aux_backlight.c  | 142 ++---
+ drivers/gpu/drm/nouveau/dispnv50/disp.c            |   2 +-
+ drivers/gpu/drm/nouveau/nouveau_backlight.c        |   7 +-
+ drivers/gpu/drm/panel/Kconfig                      |  10 +
+ drivers/gpu/drm/panel/Makefile                     |   1 +
+ drivers/gpu/drm/panel/panel-edp.c                  |   1 +
+ drivers/gpu/drm/panel/panel-himax-hx83112b.c       | 430 +++++++++++++++
+ drivers/gpu/drm/panel/panel-raydium-rm67200.c      |  39 +-
+ drivers/gpu/drm/panel/panel-samsung-s6d7aa0.c      |   2 +-
+ drivers/gpu/drm/panel/panel-samsung-s6e8aa0.c      |   2 +-
+ drivers/gpu/drm/panthor/panthor_gpu.c              |   5 +-
+ drivers/gpu/drm/scheduler/tests/mock_scheduler.c   |  26 +-
+ drivers/gpu/drm/tests/drm_format_helper_test.c     |   8 +-
+ drivers/gpu/drm/tidss/Makefile                     |   3 +-
+ drivers/gpu/drm/tidss/tidss_dispc.c                |  92 ++--
+ drivers/gpu/drm/tidss/tidss_dispc.h                |   7 +-
+ drivers/gpu/drm/tidss/tidss_dispc_regs.h           |  29 +-
+ drivers/gpu/drm/tidss/tidss_drv.c                  |   9 +
+ drivers/gpu/drm/tidss/tidss_drv.h                  |   5 +
+ drivers/gpu/drm/tidss/tidss_kms.c                  |   2 +-
+ drivers/gpu/drm/tidss/tidss_oldi.c                 | 598 +++++++++++++++++=
+++++
+ drivers/gpu/drm/tidss/tidss_oldi.h                 |  43 ++
+ drivers/gpu/drm/ttm/ttm_bo.c                       |  24 +-
+ drivers/gpu/drm/ttm/ttm_bo_util.c                  | 202 +++----
+ drivers/gpu/drm/vmwgfx/vmwgfx_gem.c                |   5 +-
+ drivers/gpu/drm/xe/xe_shrinker.c                   |   8 +-
+ include/drm/display/drm_dp_helper.h                |  11 +-
+ include/drm/drm_format_helper.h                    |   6 +-
+ include/drm/drm_mipi_dsi.h                         |   2 -
+ include/drm/ttm/ttm_bo.h                           |  44 +-
+ include/linux/sysfb.h                              |   6 +-
+ include/uapi/drm/drm_fourcc.h                      |  20 +-
+ 48 files changed, 2030 insertions(+), 473 deletions(-)
+ create mode 100644 Documentation/devicetree/bindings/display/panel/himax,h=
+x83112b.yaml
+ create mode 100644 Documentation/devicetree/bindings/display/ti/ti,am625-o=
+ldi.yaml
+ create mode 100644 drivers/gpu/drm/panel/panel-himax-hx83112b.c
+ create mode 100644 drivers/gpu/drm/tidss/tidss_oldi.c
+ create mode 100644 drivers/gpu/drm/tidss/tidss_oldi.h
+
+--plgjvafs56cq34fd
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iJUEABMJAB0WIQTkHFbLp4ejekA/qfgnX84Zoj2+dgUCaGY7hAAKCRAnX84Zoj2+
+dkbZAYDGUWhUpzA9gJIn/pzK351TmwaNVjwOonWBtOAZyQl0+L1RRVV8xLCKVWDi
+tP59DZ0BgIsEp/RxP15QJaBDJ9A8pPEfrzUR3NOYjLxi7M7x7drm/Q1/Rp0r/Czj
+fjqFNwZ2XA==
+=5YlA
+-----END PGP SIGNATURE-----
+
+--plgjvafs56cq34fd--
 
