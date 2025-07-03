@@ -2,42 +2,43 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 30200AF7A6A
-	for <lists+dri-devel@lfdr.de>; Thu,  3 Jul 2025 17:13:12 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id D06D5AF7A6B
+	for <lists+dri-devel@lfdr.de>; Thu,  3 Jul 2025 17:13:14 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8DCDE10E872;
-	Thu,  3 Jul 2025 15:13:10 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3E17E10E879;
+	Thu,  3 Jul 2025 15:13:13 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="M8jSFJlc";
+	dkim=pass (1024-bit key; unprotected) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="OW9YnW2J";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from tor.source.kernel.org (tor.source.kernel.org [172.105.4.254])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9390210E87A
- for <dri-devel@lists.freedesktop.org>; Thu,  3 Jul 2025 15:13:09 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8A7AB10E879
+ for <dri-devel@lists.freedesktop.org>; Thu,  3 Jul 2025 15:13:12 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by tor.source.kernel.org (Postfix) with ESMTP id C901061455;
- Thu,  3 Jul 2025 15:13:08 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 19EE0C4CEED;
- Thu,  3 Jul 2025 15:13:07 +0000 (UTC)
+ by tor.source.kernel.org (Postfix) with ESMTP id 091CE61446;
+ Thu,  3 Jul 2025 15:13:12 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4206AC4CEE3;
+ Thu,  3 Jul 2025 15:13:11 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
- s=korg; t=1751555588;
- bh=rnCioXGSZVjMdxrHe/wdUDWpvWLb244uboipYegY21o=;
+ s=korg; t=1751555591;
+ bh=kPRRQIdajowrvuWvSfLhZYiUYr95/9iEWlCK9lgEiMk=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=M8jSFJlcKbuoJoLVEm07CKZea8YNIN+BGDng+b0RNHsxifpMUcDlBiBKO9KI8vlrp
- Qiyi1JPORFwfV36zOaDpL3CM5lO+8kLcGDQVWM4rU8hrGEz3IeV6wcO/xn/S6YfzZa
- UjXOcuf8eN3bH673icdDGFcfCysu1TJQfdk8HVMI=
+ b=OW9YnW2JQuVXEoj632+yixv4wSot7Taq6qwK920p5zkNajOmwPQ2s/DmCB+twNkee
+ 8aMXhgl+K+zChk0Yera9SMajZInygRcjjGeVMODYZjiKbGRO+dA83TTzNKbh9wlI0P
+ kPTVUi59WNESKJ+RPEk4Da3tFXZw86dmG1qch4CI=
 From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 To: stable@vger.kernel.org
 Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>, patches@lists.linux.dev,
- "Jiri Slaby (SUSE)" <jirislaby@kernel.org>, Helge Deller <deller@gmx.de>,
- "James E.J. Bottomley" <James.Bottomley@HansenPartnership.com>,
- Daniel Vetter <daniel@ffwll.ch>, linux-fbdev@vger.kernel.org,
- dri-devel@lists.freedesktop.org, linux-parisc@vger.kernel.org,
- Sasha Levin <sashal@kernel.org>
-Subject: [PATCH 6.6 060/139] tty: vt: make consw::con_switch() return a bool
-Date: Thu,  3 Jul 2025 16:42:03 +0200
-Message-ID: <20250703143943.515430439@linuxfoundation.org>
+ Thomas Zimmermann <tzimmermann@suse.de>,
+ Andrei Borzenkov <arvidjaar@gmail.com>,
+ Javier Martinez Canillas <javierm@redhat.com>,
+ Hans de Goede <hdegoede@redhat.com>, linux-fbdev@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, Sasha Levin <sashal@kernel.org>
+Subject: [PATCH 6.6 061/139] dummycon: Trigger redraw when switching consoles
+ with deferred takeover
+Date: Thu,  3 Jul 2025 16:42:04 +0200
+Message-ID: <20250703143943.553875999@linuxfoundation.org>
 X-Mailer: git-send-email 2.50.0
 In-Reply-To: <20250703143941.182414597@linuxfoundation.org>
 References: <20250703143941.182414597@linuxfoundation.org>
@@ -65,191 +66,93 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 ------------------
 
-From: Jiri Slaby (SUSE) <jirislaby@kernel.org>
+From: Thomas Zimmermann <tzimmermann@suse.de>
 
-[ Upstream commit 8d5cc8eed738e3202379722295c626cba0849785 ]
+[ Upstream commit 03bcbbb3995ba5df43af9aba45334e35f2dfe27b ]
 
-The non-zero (true) return value from consw::con_switch() means a redraw
-is needed. So make this return type a bool explicitly instead of int.
-The latter might imply that -Eerrors are expected. They are not.
+Signal vt subsystem to redraw console when switching to dummycon
+with deferred takeover enabled. Makes the console switch to fbcon
+and displays the available output.
 
-And document the hook.
+With deferred takeover enabled, dummycon acts as the placeholder
+until the first output to the console happens. At that point, fbcon
+takes over. If the output happens while dummycon is not active, it
+cannot inform fbcon. This is the case if the vt subsystem runs in
+graphics mode.
 
-Signed-off-by: "Jiri Slaby (SUSE)" <jirislaby@kernel.org>
-Cc: Helge Deller <deller@gmx.de>
-Cc: "James E.J. Bottomley" <James.Bottomley@HansenPartnership.com>
-Cc: Daniel Vetter <daniel@ffwll.ch>
+A typical graphical boot starts plymouth, a display manager and a
+compositor; all while leaving out dummycon. Switching to a text-mode
+console leaves the console with dummycon even if a getty terminal
+has been started.
+
+Returning true from dummycon's con_switch helper signals the vt
+subsystem to redraw the screen. If there's output available dummycon's
+con_putc{s} helpers trigger deferred takeover of fbcon, which sets a
+display mode and displays the output. If no output is available,
+dummycon remains active.
+
+v2:
+- make the comment slightly more verbose (Javier)
+
+Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
+Reported-by: Andrei Borzenkov <arvidjaar@gmail.com>
+Closes: https://bugzilla.suse.com/show_bug.cgi?id=1242191
+Tested-by: Andrei Borzenkov <arvidjaar@gmail.com>
+Acked-by: Javier Martinez Canillas <javierm@redhat.com>
+Fixes: 83d83bebf401 ("console/fbcon: Add support for deferred console takeover")
+Cc: Hans de Goede <hdegoede@redhat.com>
 Cc: linux-fbdev@vger.kernel.org
 Cc: dri-devel@lists.freedesktop.org
-Cc: linux-parisc@vger.kernel.org
-Tested-by: Helge Deller <deller@gmx.de> # parisc STI console
-Link: https://lore.kernel.org/r/20240122110401.7289-31-jirislaby@kernel.org
-Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Stable-dep-of: 03bcbbb3995b ("dummycon: Trigger redraw when switching consoles with deferred takeover")
+Cc: <stable@vger.kernel.org> # v4.19+
+Link: https://lore.kernel.org/r/20250520071418.8462-1-tzimmermann@suse.de
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- drivers/tty/vt/vt.c                 | 2 +-
- drivers/video/console/dummycon.c    | 4 ++--
- drivers/video/console/mdacon.c      | 4 ++--
- drivers/video/console/newport_con.c | 4 ++--
- drivers/video/console/sticon.c      | 4 ++--
- drivers/video/console/vgacon.c      | 4 ++--
- drivers/video/fbdev/core/fbcon.c    | 6 +++---
- include/linux/console.h             | 4 +++-
- 8 files changed, 17 insertions(+), 15 deletions(-)
+ drivers/video/console/dummycon.c | 18 +++++++++++++-----
+ 1 file changed, 13 insertions(+), 5 deletions(-)
 
-diff --git a/drivers/tty/vt/vt.c b/drivers/tty/vt/vt.c
-index a368c98c92be3..c5ec7306aa713 100644
---- a/drivers/tty/vt/vt.c
-+++ b/drivers/tty/vt/vt.c
-@@ -962,7 +962,7 @@ void redraw_screen(struct vc_data *vc, int is_switch)
- 	}
- 
- 	if (redraw) {
--		int update;
-+		bool update;
- 		int old_was_color = vc->vc_can_do_color;
- 
- 		set_origin(vc);
 diff --git a/drivers/video/console/dummycon.c b/drivers/video/console/dummycon.c
-index 6918014b02408..d701f2b51f5b1 100644
+index d701f2b51f5b1..d99e1b3e4e5c1 100644
 --- a/drivers/video/console/dummycon.c
 +++ b/drivers/video/console/dummycon.c
-@@ -119,9 +119,9 @@ static bool dummycon_scroll(struct vc_data *vc, unsigned int top,
+@@ -82,6 +82,15 @@ static int dummycon_blank(struct vc_data *vc, int blank, int mode_switch)
+ 	/* Redraw, so that we get putc(s) for output done while blanked */
+ 	return 1;
+ }
++
++static bool dummycon_switch(struct vc_data *vc)
++{
++	/*
++	 * Redraw, so that we get putc(s) for output done while switched
++	 * away. Informs deferred consoles to take over the display.
++	 */
++	return true;
++}
+ #else
+ static void dummycon_putc(struct vc_data *vc, int c, int ypos, int xpos) { }
+ static void dummycon_putcs(struct vc_data *vc, const unsigned short *s,
+@@ -90,6 +99,10 @@ static int dummycon_blank(struct vc_data *vc, int blank, int mode_switch)
+ {
+ 	return 0;
+ }
++static bool dummycon_switch(struct vc_data *vc)
++{
++	return false;
++}
+ #endif
+ 
+ static const char *dummycon_startup(void)
+@@ -119,11 +132,6 @@ static bool dummycon_scroll(struct vc_data *vc, unsigned int top,
  	return false;
  }
  
--static int dummycon_switch(struct vc_data *vc)
-+static bool dummycon_switch(struct vc_data *vc)
- {
--	return 0;
-+	return false;
- }
- 
+-static bool dummycon_switch(struct vc_data *vc)
+-{
+-	return false;
+-}
+-
  /*
-diff --git a/drivers/video/console/mdacon.c b/drivers/video/console/mdacon.c
-index 1ddbb6cd5b0ca..26b41a8f36c87 100644
---- a/drivers/video/console/mdacon.c
-+++ b/drivers/video/console/mdacon.c
-@@ -454,9 +454,9 @@ static void mdacon_clear(struct vc_data *c, unsigned int y, unsigned int x,
- 	scr_memsetw(dest, eattr, width * 2);
- }
- 
--static int mdacon_switch(struct vc_data *c)
-+static bool mdacon_switch(struct vc_data *c)
- {
--	return 1;	/* redrawing needed */
-+	return true;	/* redrawing needed */
- }
- 
- static int mdacon_blank(struct vc_data *c, int blank, int mode_switch)
-diff --git a/drivers/video/console/newport_con.c b/drivers/video/console/newport_con.c
-index 55c6106b3507b..63d96c4bbdccd 100644
---- a/drivers/video/console/newport_con.c
-+++ b/drivers/video/console/newport_con.c
-@@ -462,7 +462,7 @@ static void newport_cursor(struct vc_data *vc, int mode)
- 	}
- }
- 
--static int newport_switch(struct vc_data *vc)
-+static bool newport_switch(struct vc_data *vc)
- {
- 	static int logo_drawn = 0;
- 
-@@ -476,7 +476,7 @@ static int newport_switch(struct vc_data *vc)
- 		}
- 	}
- 
--	return 1;
-+	return true;
- }
- 
- static int newport_blank(struct vc_data *c, int blank, int mode_switch)
-diff --git a/drivers/video/console/sticon.c b/drivers/video/console/sticon.c
-index d99c2a659bfd4..87900600eff11 100644
---- a/drivers/video/console/sticon.c
-+++ b/drivers/video/console/sticon.c
-@@ -310,9 +310,9 @@ static void sticon_clear(struct vc_data *conp, unsigned int sy, unsigned int sx,
- 	      conp->vc_video_erase_char, font_data[conp->vc_num]);
- }
- 
--static int sticon_switch(struct vc_data *conp)
-+static bool sticon_switch(struct vc_data *conp)
- {
--    return 1;	/* needs refreshing */
-+    return true;	/* needs refreshing */
- }
- 
- static int sticon_blank(struct vc_data *c, int blank, int mode_switch)
-diff --git a/drivers/video/console/vgacon.c b/drivers/video/console/vgacon.c
-index 5b5d1c9ef488c..bbc362db40c58 100644
---- a/drivers/video/console/vgacon.c
-+++ b/drivers/video/console/vgacon.c
-@@ -585,7 +585,7 @@ static void vgacon_doresize(struct vc_data *c,
- 	raw_spin_unlock_irqrestore(&vga_lock, flags);
- }
- 
--static int vgacon_switch(struct vc_data *c)
-+static bool vgacon_switch(struct vc_data *c)
- {
- 	int x = c->vc_cols * VGA_FONTWIDTH;
- 	int y = c->vc_rows * c->vc_cell_height;
-@@ -614,7 +614,7 @@ static int vgacon_switch(struct vc_data *c)
- 			vgacon_doresize(c, c->vc_cols, c->vc_rows);
- 	}
- 
--	return 0;		/* Redrawing not needed */
-+	return false;		/* Redrawing not needed */
- }
- 
- static void vga_set_palette(struct vc_data *vc, const unsigned char *table)
-diff --git a/drivers/video/fbdev/core/fbcon.c b/drivers/video/fbdev/core/fbcon.c
-index c14dbb09341fc..9d095fe03e18b 100644
---- a/drivers/video/fbdev/core/fbcon.c
-+++ b/drivers/video/fbdev/core/fbcon.c
-@@ -2072,7 +2072,7 @@ static int fbcon_resize(struct vc_data *vc, unsigned int width,
- 	return 0;
- }
- 
--static int fbcon_switch(struct vc_data *vc)
-+static bool fbcon_switch(struct vc_data *vc)
- {
- 	struct fb_info *info, *old_info = NULL;
- 	struct fbcon_ops *ops;
-@@ -2194,9 +2194,9 @@ static int fbcon_switch(struct vc_data *vc)
- 			      vc->vc_origin + vc->vc_size_row * vc->vc_top,
- 			      vc->vc_size_row * (vc->vc_bottom -
- 						 vc->vc_top) / 2);
--		return 0;
-+		return false;
- 	}
--	return 1;
-+	return true;
- }
- 
- static void fbcon_generic_blank(struct vc_data *vc, struct fb_info *info,
-diff --git a/include/linux/console.h b/include/linux/console.h
-index e06cee4923fef..38571607065d7 100644
---- a/include/linux/console.h
-+++ b/include/linux/console.h
-@@ -42,6 +42,8 @@ enum vc_intensity;
-  * @con_scroll: move lines from @top to @bottom in direction @dir by @lines.
-  *		Return true if no generic handling should be done.
-  *		Invoked by csi_M and printing to the console.
-+ * @con_switch: notifier about the console switch; it is supposed to return
-+ *		true if a redraw is needed.
-  * @con_set_palette: sets the palette of the console to @table (optional)
-  * @con_scrolldelta: the contents of the console should be scrolled by @lines.
-  *		     Invoked by user. (optional)
-@@ -60,7 +62,7 @@ struct consw {
- 	bool	(*con_scroll)(struct vc_data *vc, unsigned int top,
- 			unsigned int bottom, enum con_scroll dir,
- 			unsigned int lines);
--	int	(*con_switch)(struct vc_data *vc);
-+	bool	(*con_switch)(struct vc_data *vc);
- 	int	(*con_blank)(struct vc_data *vc, int blank, int mode_switch);
- 	int	(*con_font_set)(struct vc_data *vc, struct console_font *font,
- 			unsigned int vpitch, unsigned int flags);
+  *  The console `switch' structure for the dummy console
+  *
 -- 
 2.39.5
 
