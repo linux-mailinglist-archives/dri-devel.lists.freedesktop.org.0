@@ -2,86 +2,95 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id E8705AF8A70
-	for <lists+dri-devel@lfdr.de>; Fri,  4 Jul 2025 10:01:21 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7A3FEAF8AD0
+	for <lists+dri-devel@lfdr.de>; Fri,  4 Jul 2025 10:11:43 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5171310E988;
-	Fri,  4 Jul 2025 08:01:20 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 97E7810E97F;
+	Fri,  4 Jul 2025 08:11:40 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="N1qb1pAi";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="BI46S5Na";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-f51.google.com (mail-lf1-f51.google.com
- [209.85.167.51])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E8C6C10E988
- for <dri-devel@lists.freedesktop.org>; Fri,  4 Jul 2025 08:01:18 +0000 (UTC)
-Received: by mail-lf1-f51.google.com with SMTP id
- 2adb3069b0e04-553bcf41440so810843e87.3
- for <dri-devel@lists.freedesktop.org>; Fri, 04 Jul 2025 01:01:18 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1751616077; x=1752220877; darn=lists.freedesktop.org;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc:subject:date
- :message-id:reply-to;
- bh=W5hy85hwlDseVRTu07tUllVYOTsjRbqVRAcm6Mv7UyA=;
- b=N1qb1pAiOKAtdV90y2HUzI83l2jnrqqri0c4jrpmn0Bo6MMLPRmtUbV5ZqfcoQ0G78
- S0OzDbFR+s6p57Rprb7WXDixrJjQmo1jqKmCbuE+aInpj+sk1aR+PKOjc20OEJiVYgDW
- mOXjPoVLJHySzIRy5AqQhxDJJA/UPKao1s7GCh/3UP/MErLesvbLxfPOwLZ/wip/yFMk
- WI/QhIIwYkvWXKFzh/62D3IDMB8P2WDcpN7UXXR4XXKQyxDtKozPb7zXxOw+rbswtSAl
- U1L+Eq4etf7jwjxE+yU9/pK7xKZFGdac4LhU5A04Mit+Bem8UsgyQgtRsqVAFkbsvkkE
- lpyQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1751616077; x=1752220877;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=W5hy85hwlDseVRTu07tUllVYOTsjRbqVRAcm6Mv7UyA=;
- b=Z5g6ffhQPtoURTlvBAekDv9lnIjTw3I0LpDjQhhGIJ4LBetD1p8vuF9y3nchG7lVrp
- iOerjyU3/qVndXQgSHySOWI+U+G3yzduXhB0Mk8LAAz4TuHAgo+7E+t34LwOKd0oQYnu
- 6lkT5vBaSmqQb2DoJSw5CeoiysnwH5kwgCATz1udZCUWPmCeU99AahXbISuPZ4RcuBKo
- 0w1VNpTvBuWUP2dF6Wys/bR/OAGwjXBBtDJLk2UH4Ga7WLfHm9OFQpxzT/x/kOWBG8dk
- pAEKgprUExDplj2kXa2uNT+OojxnODctXjgxOsaa3Nxx2f8S77EYu4z+8oersGvpUUQo
- WwWw==
-X-Forwarded-Encrypted: i=1;
- AJvYcCVh60zT5bi/rHy7dElnOaHyuoK5yd+N44q+lP7Euh9gSriLVkvshRarwe2QUwuJoMmxfdnMeoVZnnY=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0Ywy3CleUTZfHt54f/f6xdVDFjq5/feZbWEAv9Tlh0hwjcDRWZVM
- tK3XfhBoi0Okpf3f0KSOSOZsrS+WOnTxcsNXojJ+FqgTV020J7tfpS0D1XsgNP3gg5XCMY1s+rS
- eS1txo1cxPBh4/y0HpvThpfqRJ2P9sUOwelKfM3VVTg==
-X-Gm-Gg: ASbGncu/bDQOJpMs6tkhQgVy3piInXcYWCCbEoms7udCZE8vAi/fg9rLrGTzYIrBOI0
- 0SmG1I7R52Zl6bR0Gr71m2QuxTKuaEw4csZ/MIcg0qYT2GViGycZPNOjBl03vBFFFBTjZljI1r3
- 6zIoiVD6QmoTeOSdfCWnnYJDVYOIcZyKzVc6jKmHvirXc=
-X-Google-Smtp-Source: AGHT+IE/4XahMx0H5K8e3G6kGLPvEJmDNT+z5yGiSFu4fWzVouleMPU8+EMqNIa7ZAvHuQVSQceFfXnXHQe0peqw8UY=
-X-Received: by 2002:a05:6512:b26:b0:553:36b7:7b14 with SMTP id
- 2adb3069b0e04-556f1f62c4amr441161e87.37.1751616076829; Fri, 04 Jul 2025
- 01:01:16 -0700 (PDT)
-MIME-Version: 1.0
-References: <20250701201124.812882-1-paulk@sys-base.io>
- <20250701201124.812882-2-paulk@sys-base.io>
-In-Reply-To: <20250701201124.812882-2-paulk@sys-base.io>
-From: Linus Walleij <linus.walleij@linaro.org>
-Date: Fri, 4 Jul 2025 10:01:04 +0200
-X-Gm-Features: Ac12FXztT7uc15QsZMvB3fPDcO72_tN7xc565ddgY25DgxMR-aqghVzmCalro_g
-Message-ID: <CACRpkdanKtZBkH90yAOjm2+7+dcNri+j7wV5AFL7NHSXHi+bSQ@mail.gmail.com>
-Subject: Re: [PATCH 1/5] pinctrl: sunxi: v3s: Fix wrong comment about UART2
- pinmux
-To: Paul Kocialkowski <paulk@sys-base.io>
-Cc: linux-media@vger.kernel.org, devicetree@vger.kernel.org, 
- linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev, 
- linux-kernel@vger.kernel.org, linux-clk@vger.kernel.org, 
- dri-devel@lists.freedesktop.org, linux-gpio@vger.kernel.org, 
- Yong Deng <yong.deng@magewell.com>, Rob Herring <robh@kernel.org>, 
- Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>,
- Chen-Yu Tsai <wens@csie.org>, 
- Jernej Skrabec <jernej.skrabec@gmail.com>, Samuel Holland <samuel@sholland.org>,
- Michael Turquette <mturquette@baylibre.com>, Stephen Boyd <sboyd@kernel.org>, 
- Maxime Ripard <mripard@kernel.org>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.13])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 21A0710E973;
+ Fri,  4 Jul 2025 08:11:39 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1751616699; x=1783152699;
+ h=from:to:cc:subject:in-reply-to:references:date:
+ message-id:mime-version;
+ bh=hXYmRLx6CndyqgBfjOW2CrFdlMs+3zq1ANJEEZCHtM0=;
+ b=BI46S5Naw2+EcTIsU2ORBvTa2ULKftgtyTZWbKJuDIu3AYF3OzrbgfQa
+ iQxy0ezfXaKdDf19i/zUWPdeeV6+xRtj4hewCFjsfVzgy11crYdtN9sLC
+ 25nLs/ned1xAPijRRWJ2YIvJVCfoCcr8wCnSrYEcJJ2MsP4hvXim/Hlgi
+ PVdkfJk6wib7wEOf0qZOS5lqXnAOfsgvyDOo3WKJXE+ZCv+w/T+VA0Au7
+ x8x87nDQRR7Kzqf7AXz1rQfdodOQTmiee9F6JrOYu8Q80hAPboOa70o0M
+ MZ7Bxdkl6KWLEN3np1wVB1MkYi7m7eGT0u7KIF103wWffO7aQ5R8XDEA3 Q==;
+X-CSE-ConnectionGUID: sfdGxUn6QEGFdjUNieVh5g==
+X-CSE-MsgGUID: V9FHthumSJib5wI6lGo7HA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11483"; a="65004416"
+X-IronPort-AV: E=Sophos;i="6.16,286,1744095600"; d="scan'208";a="65004416"
+Received: from fmviesa009.fm.intel.com ([10.60.135.149])
+ by orvoesa105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 04 Jul 2025 01:11:38 -0700
+X-CSE-ConnectionGUID: IaKHq96qSDKcGEjh98uuoA==
+X-CSE-MsgGUID: /7bgrxnWTmeUHlLJS9o4qg==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.16,286,1744095600"; d="scan'208";a="154955604"
+Received: from vpanait-mobl.ger.corp.intel.com (HELO localhost)
+ ([10.245.246.102])
+ by fmviesa009-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 04 Jul 2025 01:11:21 -0700
+From: Jani Nikula <jani.nikula@linux.intel.com>
+To: Sakari Ailus <sakari.ailus@linux.intel.com>, Andrzej Hajda
+ <andrzej.hajda@intel.com>, Neil Armstrong <neil.armstrong@linaro.org>,
+ Robert Foss <rfoss@kernel.org>, Laurent Pinchart
+ <Laurent.pinchart@ideasonboard.com>, Jonas Karlman <jonas@kwiboo.se>,
+ Jernej Skrabec <jernej.skrabec@gmail.com>, Maarten Lankhorst
+ <maarten.lankhorst@linux.intel.com>, Maxime Ripard <mripard@kernel.org>,
  Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
- Simona Vetter <simona@ffwll.ch>, 
- Icenowy Zheng <icenowy@aosc.xyz>, Andre Przywara <andre.przywara@arm.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+ Simona Vetter <simona@ffwll.ch>, Douglas Anderson <dianders@chromium.org>,
+ Lucas Stach <l.stach@pengutronix.de>, Russell King
+ <linux+etnaviv@armlinux.org.uk>, Christian Gmeiner
+ <christian.gmeiner@gmail.com>, Inki Dae <inki.dae@samsung.com>, Seung-Woo
+ Kim <sw0312.kim@samsung.com>, Kyungmin Park <kyungmin.park@samsung.com>,
+ Krzysztof Kozlowski <krzk@kernel.org>, Alim Akhtar
+ <alim.akhtar@samsung.com>, Joonas Lahtinen
+ <joonas.lahtinen@linux.intel.com>, Rodrigo Vivi <rodrigo.vivi@intel.com>,
+ Tvrtko Ursulin <tursulin@ursulin.net>, Laurentiu Palcu
+ <laurentiu.palcu@oss.nxp.com>, Shawn Guo <shawnguo@kernel.org>, Sascha
+ Hauer <s.hauer@pengutronix.de>, Pengutronix Kernel Team
+ <kernel@pengutronix.de>, Fabio Estevam <festevam@gmail.com>, Qiang Yu
+ <yuq825@gmail.com>, Jessica Zhang <jessica.zhang@oss.qualcomm.com>, Boris
+ Brezillon <boris.brezillon@collabora.com>, Steven Price
+ <steven.price@arm.com>, Liviu Dudau <liviu.dudau@arm.com>, Thierry Reding
+ <thierry.reding@gmail.com>, Mikko Perttunen <mperttunen@nvidia.com>,
+ Jonathan Hunter <jonathanh@nvidia.com>, Jyri Sarha <jyri.sarha@iki.fi>,
+ Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>, Dave Stevenson
+ <dave.stevenson@raspberrypi.com>, =?utf-8?Q?Ma=C3=ADra?= Canal
+ <mcanal@igalia.com>,
+ Raspberry Pi Kernel Maintenance <kernel-list@raspberrypi.com>, Dmitry
+ Baryshkov <dmitry.baryshkov@oss.qualcomm.com>, Damon Ding
+ <damon.ding@rock-chips.com>, Ayushi Makhija <quic_amakhija@quicinc.com>,
+ Luca Ceresoli <luca.ceresoli@bootlin.com>, Uwe =?utf-8?Q?Kleine-K=C3=B6ni?=
+ =?utf-8?Q?g?=
+ <u.kleine-koenig@baylibre.com>, Chen-Yu Tsai <wenst@chromium.org>
+Cc: dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ etnaviv@lists.freedesktop.org, linux-arm-kernel@lists.infradead.org,
+ linux-samsung-soc@vger.kernel.org, intel-gfx@lists.freedesktop.org,
+ imx@lists.linux.dev, lima@lists.freedesktop.org,
+ linux-tegra@vger.kernel.org
+Subject: Re: [PATCH 20/80] drivers: drm: Remove redundant
+ pm_runtime_mark_last_busy() calls
+In-Reply-To: <20250704075413.3218307-1-sakari.ailus@linux.intel.com>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+References: <20250704075225.3212486-1-sakari.ailus@linux.intel.com>
+ <20250704075413.3218307-1-sakari.ailus@linux.intel.com>
+Date: Fri, 04 Jul 2025 11:11:17 +0300
+Message-ID: <a48b77bc632824c6f64bbdb3775f97387e9eedb9@intel.com>
+MIME-Version: 1.0
+Content-Type: text/plain
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -97,15 +106,31 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, Jul 1, 2025 at 10:13=E2=80=AFPM Paul Kocialkowski <paulk@sys-base.i=
-o> wrote:
-
-> The original comment doesn't match the pin attribution, probably due
-> to a hasty copy/paste.
+On Fri, 04 Jul 2025, Sakari Ailus <sakari.ailus@linux.intel.com> wrote:
+> pm_runtime_put_autosuspend(), pm_runtime_put_sync_autosuspend(),
+> pm_runtime_autosuspend() and pm_request_autosuspend() now include a call
+> to pm_runtime_mark_last_busy(). Remove the now-reduntant explicit call to
+> pm_runtime_mark_last_busy().
 >
-> Signed-off-by: Paul Kocialkowski <paulk@sys-base.io>
+> Signed-off-by: Sakari Ailus <sakari.ailus@linux.intel.com>
+> ---
+> The cover letter of the set can be found here
+> <URL:https://lore.kernel.org/linux-pm/20250704075225.3212486-1-sakari.ailus@linux.intel.com>.
+>
+> In brief, this patch depends on PM runtime patches adding marking the last
+> busy timestamp in autosuspend related functions. The patches are here, on
+> rc2:
+>
+>         git://git.kernel.org/pub/scm/linux/kernel/git/rafael/linux-pm.git \
+>                 pm-runtime-6.17-rc1
 
-This patch 1/5 applied to the pin control tree.
+I would think it's better to wait for linux-pm to get merged to Linus'
+tree and then backmerged to drm after -rc1 instead of cross-merging that
+directly to drm.
 
-Yours,
-Linus Walleij
+Regardless, for merging the i915 changes via whichever tree,
+
+Acked-by: Jani Nikula <jani.nikula@intel.com>
+
+-- 
+Jani Nikula, Intel
