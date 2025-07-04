@@ -2,157 +2,145 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 16E70AF884E
-	for <lists+dri-devel@lfdr.de>; Fri,  4 Jul 2025 08:52:44 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7022FAF88E9
+	for <lists+dri-devel@lfdr.de>; Fri,  4 Jul 2025 09:15:07 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 89A9910E930;
-	Fri,  4 Jul 2025 06:52:40 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4D6DC10E931;
+	Fri,  4 Jul 2025 07:15:05 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=amd.com header.i=@amd.com header.b="0KR5iYku";
+	dkim=pass (1024-bit key; unprotected) header.d=suse.de header.i=@suse.de header.b="02bOlCrf";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="7yO/E08x";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="xIHgiqq6";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="sf2/LX1d";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from NAM11-DM6-obe.outbound.protection.outlook.com
- (mail-dm6nam11on2066.outbound.protection.outlook.com [40.107.223.66])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 11E8D10E021;
- Fri,  4 Jul 2025 06:52:39 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=naIcErsZstQbMEFkE9V0+FtLgknEmm56SmD/jZgHwSGxQ/OCz5/ymzs9MGpJulS9Kl605GSMi26Fa52vM4slS3zTMmc4fEaKTpBsjL8Jh7sSW2DXWbYp9iTYGFsNk5sKXgZXPMbpeoTZBcTUH5My3lYyL00qof1AtBWpLdn6zdOTElRggTrbZUja+MKJF2FQQqfViBsA65dnoVwgAQwP1rktpAjWt3c/MtthffPbAZqibREz5ewYpNZyWPGVmIEp6yBBhX9qXTq7mlsoOKDjV4pXwerULOmHYT5/JehljqNBQjH6LJICB5i8DEaamPrhzOqxOfkRizsbrxDm7XQ9XQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=jXzpmGf//4tq4yH0BMCn1PaS5r2Jg98hT8saVt85JhY=;
- b=FL8qI7+2IIEvyqluNalppogRaqR/EZY/TMkYOUBjsSYaog5SGRVdMFuHrQU3qpd2krFEScysOOr93o9XL8/itHWBMqY5RCBPe9y8wMaFlu/gn/vtDgR5RJcsF2qz5ExhEL85L/MyEswszi7RE+c46jPKRAvg9oE+WiEv/c3kz/81BHNdyZxEe/bvj0eAtVLLZ39+X7+ia4FINJzV6MUhmiAl8iECarMy5Y78gpzfD/I1Ir2x9vEEp+JtbPQWdgrtwWdZEDHvDzr0jzAwYJpfwz85uB1U3zfcIWYaAUEkA0884M4cq4o2CQLcSEIWsfXO7uBIdM6eFlaNDtIWIiDX0A==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
- header.d=amd.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=jXzpmGf//4tq4yH0BMCn1PaS5r2Jg98hT8saVt85JhY=;
- b=0KR5iYku2ucaRMnORBulEgVrQiljjbH711CFh8wGI8xCL/BwktCY0axROPOkNIGHpb5PxjcY/XCb4NAP+bz4foCcSZX/nP3OfmSPMoksTz78qj13ZAbhIPinGU64fjuIiOPEkie0SEwI2quOg1XaDpLNQFiJ/YShBhc/5ZLFg8Q=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=amd.com;
-Received: from BL1PR12MB5753.namprd12.prod.outlook.com (2603:10b6:208:390::15)
- by SJ0PR12MB7083.namprd12.prod.outlook.com (2603:10b6:a03:4ae::13)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8901.22; Fri, 4 Jul
- 2025 06:52:35 +0000
-Received: from BL1PR12MB5753.namprd12.prod.outlook.com
- ([fe80::81e6:908a:a59b:87e2]) by BL1PR12MB5753.namprd12.prod.outlook.com
- ([fe80::81e6:908a:a59b:87e2%6]) with mapi id 15.20.8901.018; Fri, 4 Jul 2025
- 06:52:35 +0000
-Message-ID: <3ffcf77d-abf2-4c2a-8a0f-f1128fff5de5@amd.com>
-Date: Fri, 4 Jul 2025 12:22:28 +0530
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v9 3/4] drm/amdgpu: add debugfs support for VM pagetable
- per client
-To: =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
- Sunil Khatri <sunil.khatri@amd.com>, dri-devel@lists.freedesktop.org
-Cc: amd-gfx@lists.freedesktop.org, simona@ffwll.ch, tzimmermann@suse.de,
- tursulin@ursulin.net, phasta@kernel.org, dakr@kernel.org,
- linux-kernel@vger.kernel.org, Oded Gabbay <ogabbay@kernel.org>,
- Jeff Hugo <jeff.hugo@oss.qualcomm.com>
-References: <20250701164948.8105-1-sunil.khatri@amd.com>
- <20250701164948.8105-4-sunil.khatri@amd.com>
- <586cff2c-bf69-4202-8ca5-67a3f30d80ec@amd.com>
-Content-Language: en-US
-From: "Khatri, Sunil" <sukhatri@amd.com>
-In-Reply-To: <586cff2c-bf69-4202-8ca5-67a3f30d80ec@amd.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-ClientProxiedBy: PN2PR01CA0247.INDPRD01.PROD.OUTLOOK.COM
- (2603:1096:c01:21a::14) To BL1PR12MB5753.namprd12.prod.outlook.com
- (2603:10b6:208:390::15)
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C5D3510E939
+ for <dri-devel@lists.freedesktop.org>; Fri,  4 Jul 2025 07:15:03 +0000 (UTC)
+Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org
+ [IPv6:2a07:de40:b281:104:10:150:64:97])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ (No client certificate requested)
+ by smtp-out2.suse.de (Postfix) with ESMTPS id B7C9D1F38A;
+ Fri,  4 Jul 2025 07:15:01 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+ t=1751613302; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+ bh=O5It6g8AJgSCNKPu2Nu5pjGj10K7eVLnSXfLMDGV2hw=;
+ b=02bOlCrfwe5LRQjN1cdS8cG5zkMsLTpHLavAdyLeEylKzL5TPBzha4Byy+Wl7b6LvBq87R
+ KOR1PD6fEP7NcmzSdQamk2eiMoyn6fhKuvPoOTpARJGrmzv4BBDID0AJa9VNv4R7+oxRHP
+ pjMs2n5ODOTvFBP253WgsKPTfrKlwYU=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+ s=susede2_ed25519; t=1751613302;
+ h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+ bh=O5It6g8AJgSCNKPu2Nu5pjGj10K7eVLnSXfLMDGV2hw=;
+ b=7yO/E08xfsDVS5yt/Kdik6ey9LF0mW0cqgsPviyVMIs6gcMz1jNs8vcOiy916oWkUp1uNQ
+ lsd6pr/sJ4+o4EBQ==
+Authentication-Results: smtp-out2.suse.de;
+ dkim=pass header.d=suse.de header.s=susede2_rsa header.b=xIHgiqq6;
+ dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b="sf2/LX1d"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+ t=1751613301; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+ bh=O5It6g8AJgSCNKPu2Nu5pjGj10K7eVLnSXfLMDGV2hw=;
+ b=xIHgiqq631fDAqh/pKD6kQelq5BLymA5Gpb4bcSCrmCnKdxkbrQABAKXlUG9BTxbRhwJiB
+ wuIlymSd1TBzvOugQIj1bAJ4SFZSH2aFNElj5QY1dwmT7c8HCDdwl/+fpHee34NRfuMb/S
+ VCWLn3lLdnXc4vY7CG5nEmbIp77sqbE=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+ s=susede2_ed25519; t=1751613301;
+ h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+ bh=O5It6g8AJgSCNKPu2Nu5pjGj10K7eVLnSXfLMDGV2hw=;
+ b=sf2/LX1dI19kFpyzbHRcnSoOHpC/wxQa8a+/kBenGUXIqMxls0bvpiSytDZpwoJ695CERy
+ hr/ppxQ0dO3eSDAg==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ (No client certificate requested)
+ by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 78DF313757;
+ Fri,  4 Jul 2025 07:15:01 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+ by imap1.dmz-prg2.suse.org with ESMTPSA id 8CgdHHV/Z2j/eQAAD6G6ig
+ (envelope-from <tzimmermann@suse.de>); Fri, 04 Jul 2025 07:15:01 +0000
+Message-ID: <cc25c6b6-92df-446f-a63f-4512d72bfc50@suse.de>
+Date: Fri, 4 Jul 2025 09:15:01 +0200
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: BL1PR12MB5753:EE_|SJ0PR12MB7083:EE_
-X-MS-Office365-Filtering-Correlation-Id: 2ccddcbd-8691-4535-5329-08ddbac75b63
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;ARA:13230040|1800799024|7416014|376014|366016;
-X-Microsoft-Antispam-Message-Info: =?utf-8?B?N1B0dGhWeGdDVmQ5YUdDUHVFMlJ1dW1CZzdjVzlwS0VZNU53azR5SWtZNUxZ?=
- =?utf-8?B?TkFTL1FpNjhtRENQK3QyUFBZc05IaC9EMVBvd0lTbG1zSTlDUDA2Wm1jSGV5?=
- =?utf-8?B?WUwxMmxzcXNxZ0ZkeCtoTWlXWDRkZHAwWXRSMWtwQnh3aWIzbHZ0QldXK3RU?=
- =?utf-8?B?NXoxWnBUMmp6d3hFT3gwRkQ4dXFNUm9pbVQ1eHI0OUZWQ3RzT0NOTEtDaitK?=
- =?utf-8?B?VFUyNnl6T3pMSnhQTHNrRHlpNGE3aXhoei96YjVqNFVGUTI1bFZDWlI2ZE5m?=
- =?utf-8?B?MmtiTFNBU3NsQ2NWVHE4UHM0NEZCT3lZaHVxRmhOY005N0g5encvbDVGWFhq?=
- =?utf-8?B?QTNxbUtSNU5FRSt5Sk9IazNTb1NFRUh4ekVLTkZWbmJvTUQ4Z2pOaEJBL1hz?=
- =?utf-8?B?VWl5UVREV1RNMkx3R1VXUEk0S2xFRVU3bDhFYlVkS1d5eHk0cGhOZkdmcTFq?=
- =?utf-8?B?c0JQelRDVG00ZnIxNUYxRTNxT0VON0NPak13SzVIUWRHSkdvRG5HWXQzaWxK?=
- =?utf-8?B?ajlMQVJTVkdzaVVzQVBjNDZoMTdnQzVVQUtwelFvTGJKOEs2Q1ljRk5Yc3Zj?=
- =?utf-8?B?ck9QeUdDd0NpeU0raWdlREV6TWlSMm9LUjh3dklySGN6VVc4b3VLWVNpZ1lU?=
- =?utf-8?B?RjV1OWY3bGJKUjNKSHpCL3FvVm5PWThXNVFyaVY2UVNoNC9CZWNCZUVSaFV0?=
- =?utf-8?B?bktZcVhNS1BWbnlJaEQ5Qk96NFRzdWJNbUFKSk4zTDArMGk4dGlEb0cyZjJ5?=
- =?utf-8?B?dXhCbDI2TXg1OXBmWGNrdjBBeWg5OXZ0U0JnVGRLS0ZQMktXQVd5ZUJmMHE1?=
- =?utf-8?B?ZW1tUy9ELzVLWmU5UHNoKzIxQTFvakQwQjRFOUlzWXh0WW40dEJRRmpqWXZp?=
- =?utf-8?B?aWoyUmpKRGEzUnQ2NkNoKzJHS0lvUTNKZlVvUWZ0UGtLNjlJb3lDZ3cxdnpu?=
- =?utf-8?B?NlczZlM0NU9mQkUvdEZkdC9iakZlLzI2aU1jL2dzTVhaNFpZNnMxSVJpRUxH?=
- =?utf-8?B?ckFDNzB4ZGgvTlh1b1JNU1RjNStQZXo1Tzc2eFRtVUFuNDRva3VqYUlRU1Vs?=
- =?utf-8?B?S2thTE1iRGkyOUZhdEFhRmE1MTdGK0JRdWEwZkYrOGpYbFkybFpZcDRMRlh6?=
- =?utf-8?B?bHFvdkwxRk5hZmNrTVk2QmlrdksrVWZ3QkZOeDVRb3FDRGZFYnJaSWswMTg3?=
- =?utf-8?B?SGtucGFEcEl1OWhrRUZYNHBWWTRSajVNOEhQQ1hpMG5kU3dCYzAwaDU5WHEr?=
- =?utf-8?B?NkxUdnFPQ01DcFpiODFnRXZyNmVJZU5PVDk3TGVpRE1HMEM2RmRTL1BwMmJJ?=
- =?utf-8?B?aUNsYjJSVHZGUncrZUdNdnNvQkxiaXF0eTdiY0JuUU0yTEdKRlhjUEZQTTRy?=
- =?utf-8?B?OEZGeHBEb1VMY0FSb1YxbXVnOWI1VUt0bjErOHBwL1FGWkV0ZXFMa0NZQnBH?=
- =?utf-8?B?TW1tNGxFV3N5OGx0Qmhpc2ZTWU9CbzlNZ1g3RmFkdklzd2JaQWZqdlBKdkVQ?=
- =?utf-8?B?OGthZHZrN1ZqeG1idGtVNXk1Wkx5OFd6TjVzcHEzbkJQaGkvR2xhOTl3eGtt?=
- =?utf-8?B?ZEFpWjRhOCtvaUlVNlpwMjJxczBZUmluR1JFL0g3L2FhalBQUG1yZ3JTL0J5?=
- =?utf-8?B?eHc5V3Rxbk5XRUo2VWRuL2trd3JWWGt0RjM2anZYY2F0RUkrcEV4eGdqRTIr?=
- =?utf-8?B?Q3dmU3ZtMWw2MjBMYTJOVENJTnRBSG1SV0lmVk5hRFFpTzVNZ3FuWmlUMjda?=
- =?utf-8?B?ZVRscEdrNjNIOUh5bGpQL3dERHJsY3FZUTBwTGw2TVpHbjJid0FYcG5mMmVq?=
- =?utf-8?B?NUdXTitYYzhLbXZJWFE5UDE2VUhxZDczK3pVdEMzdXBzcmxXaU56TlhPQ2pt?=
- =?utf-8?B?R3k5RHA3KzhvKzJTYk9JRmdKUGZPUk5VTzNqUVQ2MjhiZnJNSE5VODRXMlJ2?=
- =?utf-8?Q?YlygXinEyKM=3D?=
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:BL1PR12MB5753.namprd12.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230040)(1800799024)(7416014)(376014)(366016); DIR:OUT; SFP:1101; 
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?djlsemdEbFhmSmhxRE9FTktrdWlnYkVmbUdTa1RvWThvZHc4SjA4eXdUWEVx?=
- =?utf-8?B?eG9wZlRNaWl2NlNVNlhpYWZXcWVEUmpwMDVNOFBNQzVuL1Vnc1RxdHpPTU9w?=
- =?utf-8?B?dm02ZUdXVkp0YXdUSWR0K29MVzFrekpSZ055SXU3Zm5JQzlYSnVERjFmL1h6?=
- =?utf-8?B?ckh4Mm84R0FVSGlXRy9FOEl3SUdpQ0xSWFZXM1oyU0o1VFl3aHpNWjhkNTJ2?=
- =?utf-8?B?RUtHdytMdWxVcGZKa0pPdzMrelkxVU5aNnZocG5XUXBQZGNUNWo4SXJNR0hq?=
- =?utf-8?B?L2ZxNGtVL09kMUF3ZXBTTUgrRWl2RlZpSkxOTFRzZHlZNUxENEM4NGR5VTNQ?=
- =?utf-8?B?YTEzMkVkaXZpdGREejM5cmowT0VNckRpRzhDTzhCbVNvdEpjbjJpTUFicmFL?=
- =?utf-8?B?TVhNK3JCQWRFY1hSRVNiMGpUaUlySjAzcjBMeXE5U01BRUlIZTFBVkxhYitQ?=
- =?utf-8?B?WW9nNGhJMHd1RzhhakZzdmpQSmRrNnhjOW1pNjg2VDhPQzROM1hjTWUyVlBS?=
- =?utf-8?B?aWhOdERZc0ZBNll0RjNCTUJwOTJ6MHcwYzhseUdXOUNOMHpFMGQ2aDdmZjdR?=
- =?utf-8?B?ZGVzMmhlWTZwdnZnQTF5QTlCV1h2SkZVTVkyajlidElXbXJIM29yS0N6dFNW?=
- =?utf-8?B?aExQaWcvWmljbWtZMjNQZEo3bmRMY09GSzB6Vlk4ZHdjME4xR1I0Vm5EcHg3?=
- =?utf-8?B?V3gwS1UwenBkQ25qNjhDTVZtcjh2OXhvcjNEVjAzWURUdm9lVmdJaVVxQzZz?=
- =?utf-8?B?VTRJbFo2b0ZFNGRLV29pKzdTcXh6YktNeGZoekJnR1dub1U0dy93b0k5bVkz?=
- =?utf-8?B?ZFFDNnkrek05TkZ2SkNQTDNsUi9MY3dMUis1ejVCWHVUODZiWC9BWXQyRG1z?=
- =?utf-8?B?MTd1Z3F0alIza1FHRVM1MGJ6VGZkWFMvM2RvNzJkYktaZlVoK016emJOYlJm?=
- =?utf-8?B?djNqTlNaaEg3ZWYwODVIK0JJUVlBNUo2REY1eDdHVVdrWXV4M1VuaDJ4SE5V?=
- =?utf-8?B?MVoyck9Eck9EajlRZ2thdGQzNkU2VFMxNGVyN1E0eEZYU1dWQXZLd0dHcUxo?=
- =?utf-8?B?VWJjVkFhbmJEcksxZXBPSElncGgvL0tjYU1ZSUJCaVNKb1JhRTR4UXBNOWlv?=
- =?utf-8?B?eDdlUGI0dGxwaUwxMXFsSXBwSGxiTy9QTGwyL3lNa1NLdWVqKzJvRlU5RUhL?=
- =?utf-8?B?ZEpxb29adUtncmFnaDZKOTg2UXRHZ3ZQNUtHTFVJZGI1c0laMmk4WStrdlY2?=
- =?utf-8?B?S0V2QWg4Zys3dkVEaVFGbjN0RVBOVFRzQkJhTGV0WVZRb3A5WWtmZVJubHB1?=
- =?utf-8?B?SUo3emMrSEh1Q1E2M1lSQ1h4THA5N3F6UzZBTFF3Vnl4NkJic2l1V2NDV2F6?=
- =?utf-8?B?K2ZQYXZQUWJwdnM2cm91V3hRRnkrcy9tOXdvWjJDbm9GSVpwYW1aRHgxak9h?=
- =?utf-8?B?K3VkcHRPVUVFUE1DeWpFL2FVV1ErelJCUDFUQTZDQng2VXFPRnJzN2tTQlJa?=
- =?utf-8?B?amc5M0NMeUFmeFlQZHY3Q0V6LzJuOUo2eVlNVzZSbThhbm9NaGgyUW9IeUVC?=
- =?utf-8?B?UHpoQ0lXQTBKQ3EvdERrck41K3hYc1FXVmEwcGx2RnZWVXZVYithRmc4Rmhs?=
- =?utf-8?B?TjAxblZwVmxjbjJESzYxWkNKNzRDWWl1bmJFOGlkcUtpMnprNWRKUjdwSnpW?=
- =?utf-8?B?QjhmZzV2eG5FdkdEbjU5eTlTTllobWdlek5RaHk4QnFtd1J2eVhCMEVvVVNW?=
- =?utf-8?B?RlJCdG5XRGpYdHowTWE2ajl1ZFA4b2VMbGRzSGdtQzIyU0RvYlNxeGxLQXBa?=
- =?utf-8?B?cHkwYmhWOHZ3WC92VEVGa1BiQ3czcjdHMWdVTWc2Wk85emxLc3Q3Z1JJaHlU?=
- =?utf-8?B?dWtUcmsyVWtrZ2tzQ09lOHZhbnJVTjJsUWhVRW5sd1NmemJqMXhUa3lRazV5?=
- =?utf-8?B?ZmZlcjQ3SDlhdVJsWXdLejJEM3IwQ3daUUFORndxVGxXNUgxN3lSQ2p6Y2dx?=
- =?utf-8?B?OGJDejA3RmVpZTllVHdwQmtnN1dnVklHSlhJNjNpR0VXSll4Nmc0RU1WTldE?=
- =?utf-8?B?V3U4TnpSdHdaQlhrVDB2c1BzNDlRQWNoNVkwV05mTk55WG1odnpqVjlxcnYy?=
- =?utf-8?Q?uMj9xc9acJ3wOorN3TL1aJZch?=
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 2ccddcbd-8691-4535-5329-08ddbac75b63
-X-MS-Exchange-CrossTenant-AuthSource: BL1PR12MB5753.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 04 Jul 2025 06:52:35.4598 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: UgNyid07Le8uG+rAavBkljKi33dq0ajBS6/yDIELZy+NQJbJGE8U0H1JbeWo+FzZSaQWtAjTbc4S8LIApOpTcQ==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SJ0PR12MB7083
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] drm/simpledrm: Use of_reserved_mem_region_to_resource()
+ for "memory-region"
+To: "Rob Herring (Arm)" <robh@kernel.org>,
+ Javier Martinez Canillas <javierm@redhat.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, David Airlie <airlied@gmail.com>,
+ Simona Vetter <simona@ffwll.ch>, Thierry Reding <treding@nvidia.com>
+Cc: dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
+References: <20250703183447.2073902-1-robh@kernel.org>
+Content-Language: en-US
+From: Thomas Zimmermann <tzimmermann@suse.de>
+Autocrypt: addr=tzimmermann@suse.de; keydata=
+ xsBNBFs50uABCADEHPidWt974CaxBVbrIBwqcq/WURinJ3+2WlIrKWspiP83vfZKaXhFYsdg
+ XH47fDVbPPj+d6tQrw5lPQCyqjwrCPYnq3WlIBnGPJ4/jreTL6V+qfKRDlGLWFjZcsrPJGE0
+ BeB5BbqP5erN1qylK9i3gPoQjXGhpBpQYwRrEyQyjuvk+Ev0K1Jc5tVDeJAuau3TGNgah4Yc
+ hdHm3bkPjz9EErV85RwvImQ1dptvx6s7xzwXTgGAsaYZsL8WCwDaTuqFa1d1jjlaxg6+tZsB
+ 9GluwvIhSezPgnEmimZDkGnZRRSFiGP8yjqTjjWuf0bSj5rUnTGiyLyRZRNGcXmu6hjlABEB
+ AAHNJ1Rob21hcyBaaW1tZXJtYW5uIDx0emltbWVybWFubkBzdXNlLmRlPsLAjgQTAQgAOAIb
+ AwULCQgHAgYVCgkICwIEFgIDAQIeAQIXgBYhBHIX+6yM6c9jRKFo5WgNwR1TC3ojBQJftODH
+ AAoJEGgNwR1TC3ojx1wH/0hKGWugiqDgLNXLRD/4TfHBEKmxIrmfu9Z5t7vwUKfwhFL6hqvo
+ lXPJJKQpQ2z8+X2vZm/slsLn7J1yjrOsoJhKABDi+3QWWSGkaGwRJAdPVVyJMfJRNNNIKwVb
+ U6B1BkX2XDKDGffF4TxlOpSQzdtNI/9gleOoUA8+jy8knnDYzjBNOZqLG2FuTdicBXblz0Mf
+ vg41gd9kCwYXDnD91rJU8tzylXv03E75NCaTxTM+FBXPmsAVYQ4GYhhgFt8S2UWMoaaABLDe
+ 7l5FdnLdDEcbmd8uLU2CaG4W2cLrUaI4jz2XbkcPQkqTQ3EB67hYkjiEE6Zy3ggOitiQGcqp
+ j//OwE0EWznS4AEIAMYmP4M/V+T5RY5at/g7rUdNsLhWv1APYrh9RQefODYHrNRHUE9eosYb
+ T6XMryR9hT8XlGOYRwKWwiQBoWSDiTMo/Xi29jUnn4BXfI2px2DTXwc22LKtLAgTRjP+qbU6
+ 3Y0xnQN29UGDbYgyyK51DW3H0If2a3JNsheAAK+Xc9baj0LGIc8T9uiEWHBnCH+RdhgATnWW
+ GKdDegUR5BkDfDg5O/FISymJBHx2Dyoklv5g4BzkgqTqwmaYzsl8UxZKvbaxq0zbehDda8lv
+ hFXodNFMAgTLJlLuDYOGLK2AwbrS3Sp0AEbkpdJBb44qVlGm5bApZouHeJ/+n+7r12+lqdsA
+ EQEAAcLAdgQYAQgAIAIbDBYhBHIX+6yM6c9jRKFo5WgNwR1TC3ojBQJftOH6AAoJEGgNwR1T
+ C3ojVSkIALpAPkIJPQoURPb1VWjh34l0HlglmYHvZszJWTXYwavHR8+k6Baa6H7ufXNQtThR
+ yIxJrQLW6rV5lm7TjhffEhxVCn37+cg0zZ3j7zIsSS0rx/aMwi6VhFJA5hfn3T0TtrijKP4A
+ SAQO9xD1Zk9/61JWk8OysuIh7MXkl0fxbRKWE93XeQBhIJHQfnc+YBLprdnxR446Sh8Wn/2D
+ Ya8cavuWf2zrB6cZurs048xe0UbSW5AOSo4V9M0jzYI4nZqTmPxYyXbm30Kvmz0rYVRaitYJ
+ 4kyYYMhuULvrJDMjZRvaNe52tkKAvMevcGdt38H4KSVXAylqyQOW5zvPc4/sq9c=
+In-Reply-To: <20250703183447.2073902-1-robh@kernel.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Spam-Level: 
+X-Spam-Flag: NO
+X-Rspamd-Queue-Id: B7C9D1F38A
+X-Rspamd-Action: no action
+X-Rspamd-Server: rspamd1.dmz-prg2.suse.org
+X-Spamd-Result: default: False [-4.51 / 50.00]; BAYES_HAM(-3.00)[100.00%];
+ NEURAL_HAM_LONG(-1.00)[-1.000];
+ R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+ NEURAL_HAM_SHORT(-0.20)[-1.000]; MIME_GOOD(-0.10)[text/plain];
+ MX_GOOD(-0.01)[]; FREEMAIL_ENVRCPT(0.00)[gmail.com];
+ TO_MATCH_ENVRCPT_ALL(0.00)[];
+ DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+ FREEMAIL_TO(0.00)[kernel.org,redhat.com,linux.intel.com,gmail.com,ffwll.ch,nvidia.com];
+ RBL_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:104:10:150:64:97:from]; 
+ FUZZY_RATELIMITED(0.00)[rspamd.com]; MIME_TRACE(0.00)[0:+];
+ ARC_NA(0.00)[]; RCVD_TLS_ALL(0.00)[];
+ DKIM_TRACE(0.00)[suse.de:+]; RCVD_VIA_SMTP_AUTH(0.00)[];
+ RCVD_COUNT_TWO(0.00)[2]; FROM_EQ_ENVFROM(0.00)[];
+ FROM_HAS_DN(0.00)[]; TO_DN_SOME(0.00)[];
+ DNSWL_BLOCKED(0.00)[2a07:de40:b281:106:10:150:64:167:received,2a07:de40:b281:104:10:150:64:97:from];
+ RCPT_COUNT_SEVEN(0.00)[9]; MID_RHS_MATCH_FROM(0.00)[];
+ DWL_DNSWL_BLOCKED(0.00)[suse.de:dkim];
+ RECEIVED_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:106:10:150:64:167:received];
+ DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:dkim, suse.de:mid, suse.de:email,
+ imap1.dmz-prg2.suse.org:rdns, imap1.dmz-prg2.suse.org:helo]
+X-Spam-Score: -4.51
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -168,172 +156,77 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+cc'ing Thierry
 
-On 7/3/2025 1:30 PM, Christian König wrote:
-> On 01.07.25 18:49, Sunil Khatri wrote:
->> Add a debugfs file under the client directory which shares
->> the root page table base address of the VM.
->>
->> This address could be used to dump the pagetable for debug
->> memory issues.
->>
->> Signed-off-by: Sunil Khatri <sunil.khatri@amd.com>
->> ---
->>   drivers/gpu/drm/amd/amdgpu/amdgpu_debugfs.c | 52 +++++++++++++++++++++
->>   drivers/gpu/drm/amd/amdgpu/amdgpu_debugfs.h |  1 +
->>   drivers/gpu/drm/amd/amdgpu/amdgpu_kms.c     |  2 +-
->>   drivers/gpu/drm/amd/amdgpu/amdgpu_vm.c      |  4 +-
->>   drivers/gpu/drm/amd/amdgpu/amdgpu_vm.h      |  4 +-
->>   5 files changed, 60 insertions(+), 3 deletions(-)
->>
->> diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_debugfs.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_debugfs.c
->> index f81608330a3d..6762dd11f00c 100644
->> --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_debugfs.c
->> +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_debugfs.c
->> @@ -2131,6 +2131,55 @@ int amdgpu_debugfs_init(struct amdgpu_device *adev)
->>   	return 0;
->>   }
->>   
->> +static int amdgpu_pt_info_read(struct seq_file *m, void *unused)
->> +{
->> +	struct drm_file *file;
->> +	struct amdgpu_fpriv *fpriv;
->> +	struct amdgpu_bo *root_bo;
->> +	int r;
->> +
->> +	file = m->private;
->> +	if (!file)
->> +		return -EINVAL;
->> +
->> +	fpriv = file->driver_priv;
->> +	if (!fpriv && !fpriv->vm.root.bo)
->> +		return -ENODEV;
->> +
->> +	root_bo = amdgpu_bo_ref(fpriv->vm.root.bo);
->> +	r = amdgpu_bo_reserve(root_bo, true);
->> +	if (r) {
->> +		amdgpu_bo_unref(&root_bo);
->> +		return -EINVAL;
->> +	}
->> +
->> +	seq_printf(m, "gpu_address: 0x%llx\n", amdgpu_bo_gpu_offset(fpriv->vm.root.bo));
->> +
->> +	amdgpu_bo_unreserve(root_bo);
->> +	amdgpu_bo_unref(&root_bo);
->> +
->> +	return 0;
->> +}
->> +
->> +static int amdgpu_pt_info_open(struct inode *inode, struct file *file)
->> +{
->> +	return single_open(file, amdgpu_pt_info_read, inode->i_private);
->> +}
->> +
->> +static const struct file_operations amdgpu_pt_info_fops = {
->> +	.owner = THIS_MODULE,
->> +	.open = amdgpu_pt_info_open,
->> +	.read = seq_read,
->> +	.llseek = seq_lseek,
->> +	.release = single_release,
->> +};
->> +
->> +void amdgpu_debugfs_vm_init(struct drm_file *file)
->> +{
->> +	debugfs_create_file("vm_pagetable_info", 0444, file->debugfs_client, file,
->> +			    &amdgpu_pt_info_fops);
->> +}
->> +
->>   #else
->>   int amdgpu_debugfs_init(struct amdgpu_device *adev)
->>   {
->> @@ -2140,4 +2189,7 @@ int amdgpu_debugfs_regs_init(struct amdgpu_device *adev)
->>   {
->>   	return 0;
->>   }
->> +void amdgpu_debugfs_vm_init(struct drm_file *file)
->> +{
->> +}
->>   #endif
->> diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_debugfs.h b/drivers/gpu/drm/amd/amdgpu/amdgpu_debugfs.h
->> index 0425432d8659..e7b3c38e5186 100644
->> --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_debugfs.h
->> +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_debugfs.h
->> @@ -33,4 +33,5 @@ void amdgpu_debugfs_fence_init(struct amdgpu_device *adev);
->>   void amdgpu_debugfs_firmware_init(struct amdgpu_device *adev);
->>   void amdgpu_debugfs_gem_init(struct amdgpu_device *adev);
->>   void amdgpu_debugfs_mes_event_log_init(struct amdgpu_device *adev);
->> +void amdgpu_debugfs_vm_init(struct drm_file *file);
->>   
->> diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_kms.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_kms.c
->> index 4aab5e394ce2..d3f16a966c70 100644
->> --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_kms.c
->> +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_kms.c
->> @@ -1415,7 +1415,7 @@ int amdgpu_driver_open_kms(struct drm_device *dev, struct drm_file *file_priv)
->>   	if (r)
->>   		goto error_pasid;
->>   
->> -	r = amdgpu_vm_init(adev, &fpriv->vm, fpriv->xcp_id);
->> +	r = amdgpu_vm_init(adev, &fpriv->vm, fpriv->xcp_id, file_priv);
->>   	if (r)
->>   		goto error_pasid;
->>   
->> diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_vm.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_vm.c
->> index f042372d9f2e..7e31fb5f6f33 100644
->> --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_vm.c
->> +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_vm.c
->> @@ -2527,6 +2527,7 @@ void amdgpu_vm_set_task_info(struct amdgpu_vm *vm)
->>    * @adev: amdgpu_device pointer
->>    * @vm: requested vm
->>    * @xcp_id: GPU partition selection id
->> + * @file: drm_file
->>    *
->>    * Init @vm fields.
->>    *
->> @@ -2534,7 +2535,7 @@ void amdgpu_vm_set_task_info(struct amdgpu_vm *vm)
->>    * 0 for success, error for failure.
->>    */
->>   int amdgpu_vm_init(struct amdgpu_device *adev, struct amdgpu_vm *vm,
->> -		   int32_t xcp_id)
->> +		   int32_t xcp_id, struct drm_file *file)
->>   {
->>   	struct amdgpu_bo *root_bo;
->>   	struct amdgpu_bo_vm *root;
->> @@ -2610,6 +2611,7 @@ int amdgpu_vm_init(struct amdgpu_device *adev, struct amdgpu_vm *vm,
->>   	if (r)
->>   		dev_dbg(adev->dev, "Failed to create task info for VM\n");
->>   
->> +	amdgpu_debugfs_vm_init(file);
-> Move that into the caller of amdgpu_vm_init(), this way amdgpu_vm_init() also doesn't need to get the drm_file as parameter.
-Ah yes that's better.Sure, Noted.
->
-> With that done Reviewed-by: Christian König <christian.koenig@amd.com>.
->
-> If nobody objects I will push the first two patches to drm-misc-next now, so you only need to edit, rebase and send out again patch #3 and #4.
-Looks like there are new changes and need some more in drm_debugfs.c due 
-to another debugfs file which is not in amd-staging-drm-next. I will 
-make that change and push new patch set.
+Hi,
 
-Regards
-Sunil khatri
+thanks for the patch.
+
+Am 03.07.25 um 20:34 schrieb Rob Herring (Arm):
+> Use the newly added of_reserved_mem_region_to_resource() function to
+> handle "memory-region" properties.
 >
-> Regards,
-> Christian
+> Signed-off-by: Rob Herring (Arm) <robh@kernel.org>
+
+Acked-by: Thomas Zimmermann <tzimmermann@suse.de>
+
+as far as the code is concerned. Might need a review from Thierry, who 
+added the functionality in the first place.
+
+Best regards
+Thomas
+
+> ---
+>   drivers/gpu/drm/sysfb/simpledrm.c | 15 +++++----------
+>   1 file changed, 5 insertions(+), 10 deletions(-)
 >
->>   	amdgpu_bo_unreserve(vm->root.bo);
->>   	amdgpu_bo_unref(&root_bo);
->>   
->> diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_vm.h b/drivers/gpu/drm/amd/amdgpu/amdgpu_vm.h
->> index f3ad687125ad..555afaf867c4 100644
->> --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_vm.h
->> +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_vm.h
->> @@ -487,7 +487,9 @@ int amdgpu_vm_set_pasid(struct amdgpu_device *adev, struct amdgpu_vm *vm,
->>   			u32 pasid);
->>   
->>   long amdgpu_vm_wait_idle(struct amdgpu_vm *vm, long timeout);
->> -int amdgpu_vm_init(struct amdgpu_device *adev, struct amdgpu_vm *vm, int32_t xcp_id);
->> +int amdgpu_vm_init(struct amdgpu_device *adev, struct amdgpu_vm *vm, int32_t xcp_id,
->> +		   struct drm_file *file);
->> +
->>   int amdgpu_vm_make_compute(struct amdgpu_device *adev, struct amdgpu_vm *vm);
->>   void amdgpu_vm_fini(struct amdgpu_device *adev, struct amdgpu_vm *vm);
->>   int amdgpu_vm_lock_pd(struct amdgpu_vm *vm, struct drm_exec *exec,
+> diff --git a/drivers/gpu/drm/sysfb/simpledrm.c b/drivers/gpu/drm/sysfb/simpledrm.c
+> index a1c3119330de..c8856e6645e2 100644
+> --- a/drivers/gpu/drm/sysfb/simpledrm.c
+> +++ b/drivers/gpu/drm/sysfb/simpledrm.c
+> @@ -4,7 +4,7 @@
+>   #include <linux/clk.h>
+>   #include <linux/of_clk.h>
+>   #include <linux/minmax.h>
+> -#include <linux/of_address.h>
+> +#include <linux/of_reserved_mem.h>
+>   #include <linux/platform_data/simplefb.h>
+>   #include <linux/platform_device.h>
+>   #include <linux/pm_domain.h>
+> @@ -180,22 +180,17 @@ simplefb_get_format_of(struct drm_device *dev, struct device_node *of_node)
+>   static struct resource *
+>   simplefb_get_memory_of(struct drm_device *dev, struct device_node *of_node)
+>   {
+> -	struct device_node *np;
+> -	struct resource *res;
+> +	struct resource r, *res;
+>   	int err;
+>   
+> -	np = of_parse_phandle(of_node, "memory-region", 0);
+> -	if (!np)
+> +	err = of_reserved_mem_region_to_resource(of_node, 0, &r);
+> +	if (err)
+>   		return NULL;
+>   
+> -	res = devm_kzalloc(dev->dev, sizeof(*res), GFP_KERNEL);
+> +	res = devm_kmemdup(dev->dev, &r, sizeof(r), GFP_KERNEL);
+>   	if (!res)
+>   		return ERR_PTR(-ENOMEM);
+>   
+> -	err = of_address_to_resource(np, 0, res);
+> -	if (err)
+> -		return ERR_PTR(err);
+> -
+>   	if (of_property_present(of_node, "reg"))
+>   		drm_warn(dev, "preferring \"memory-region\" over \"reg\" property\n");
+>   
+
+-- 
+--
+Thomas Zimmermann
+Graphics Driver Developer
+SUSE Software Solutions Germany GmbH
+Frankenstrasse 146, 90461 Nuernberg, Germany
+GF: Ivo Totev, Andrew Myers, Andrew McDonald, Boudien Moerman
+HRB 36809 (AG Nuernberg)
+
