@@ -2,48 +2,77 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 53B87AF96DD
-	for <lists+dri-devel@lfdr.de>; Fri,  4 Jul 2025 17:35:05 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id D1EA6AF96E0
+	for <lists+dri-devel@lfdr.de>; Fri,  4 Jul 2025 17:35:30 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A283010E2A0;
-	Fri,  4 Jul 2025 15:35:03 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3C68010E2A3;
+	Fri,  4 Jul 2025 15:35:29 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="emz5PoLd";
+	dkim=pass (2048-bit key; unprotected) header.d=imgtec.com header.i=@imgtec.com header.b="okGCi0zX";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from tor.source.kernel.org (tor.source.kernel.org [172.105.4.254])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2877010E2A0
- for <dri-devel@lists.freedesktop.org>; Fri,  4 Jul 2025 15:35:02 +0000 (UTC)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by tor.source.kernel.org (Postfix) with ESMTP id 2974460054;
- Fri,  4 Jul 2025 15:35:01 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 13615C4CEE3;
- Fri,  4 Jul 2025 15:34:59 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1751643300;
- bh=i/PYE1o9TcIAThmf/v3ptk0oOIanNyX13IGbjmgvdRQ=;
- h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
- b=emz5PoLdLLOlj8sPuzgfrMguPZhZCzWKWcT9Ul5U7DV2ZmxpOxcfSp7vBxTNfwlx8
- 1OCnVwKk05GC8PfLKB+tVOOwfKrWOLRipr1DRE1iCWDlu68SCpGdzRy8ZAAJ1vnaXi
- PbNlLEePQ9DFS9Ski9YHp9dug2Ln3Z5PPsNwZvRc617lEIARVEdNglbCcjAjCMbYBI
- mcsiTOTNSN/GqrA/oyEA8beunkOHPH0Q9G7VAFKTymjPfKai0F/Vrx/Cev5KbqM5l9
- tWiv21oGvrDBPSJD2dvHmqA6TeN+BPPoXPlHuDdxDANWV5Qrs/fPvKGL88fkDbG1JK
- /pcWWyxUtDHjw==
-From: Mark Brown <broonie@kernel.org>
-To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
- Al Viro <viro@zeniv.linux.org.uk>
-Cc: linux-fsdevel@vger.kernel.org, dri-devel@lists.freedesktop.org
-In-Reply-To: <20250702211408.GA3406663@ZenIV>
-References: <20250702211408.GA3406663@ZenIV>
-Subject: Re: (subset) [PATCH 01/11] zynqmp: don't bother with
- debugfs_file_{get,put}() in proxied fops
-Message-Id: <175164329981.97594.15505661775329412408.b4-ty@kernel.org>
-Date: Fri, 04 Jul 2025 16:34:59 +0100
+Received: from mx07-00376f01.pphosted.com (mx07-00376f01.pphosted.com
+ [185.132.180.163])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2114810E2B9
+ for <dri-devel@lists.freedesktop.org>; Fri,  4 Jul 2025 15:35:27 +0000 (UTC)
+Received: from pps.filterd (m0168889.ppops.net [127.0.0.1])
+ by mx07-00376f01.pphosted.com (8.18.1.8/8.18.1.8) with ESMTP id 5648IYGi172034;
+ Fri, 4 Jul 2025 16:35:10 +0100
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=imgtec.com; h=cc
+ :content-transfer-encoding:content-type:date:from:in-reply-to
+ :message-id:mime-version:references:subject:to; s=dk201812; bh=i
+ c4dCORjyUvIUluNdB6Hv8sLxo7aFOVTQQMZZh4ItpY=; b=okGCi0zXLFdWJ15MR
+ LHKKZLE0JRbUuCkUuzKJjHXBS+X/haRD1jjNDZdjFhqg0aCmVA5osQE0Efrk5eds
+ dxgJD+uTbs07RhfE8+F43At4Kw2oAiMl9uFlFAMERG7wy3FhNYXAH3dBzkrx0GbR
+ kRH07RiUcVdL793kyuWnCHPlCn00laVE+lSaGaQVUN9Pjo/q7BpXLF07/Vy3ee+B
+ eNR/AxnP/Itdg0h7wHyjXnQ97/EBQpnpIsao0Djr+OTM85qpTgQnIkXkp6kUSXiL
+ JuarBF6Aa7x2oQD5p/khqCaLHm1ri/ir3YEHZIVyuhJ3bUqwUDAfyxxsqzdQroxN
+ C9Qdw==
+Received: from hhmail05.hh.imgtec.org
+ (83-244-153-141.cust-83.exponential-e.net [83.244.153.141])
+ by mx07-00376f01.pphosted.com (PPS) with ESMTPS id 47j8ftcxep-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT);
+ Fri, 04 Jul 2025 16:35:10 +0100 (BST)
+Received: from
+ 1.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.ip6.arpa
+ (172.25.7.125) by HHMAIL05.hh.imgtec.org (10.100.10.120) with Microsoft SMTP
+ Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.44; Fri, 4 Jul 2025 16:35:08 +0100
+From: Matt Coster <matt.coster@imgtec.com>
+To: Frank Binns <frank.binns@imgtec.com>, Alexandru Dadu
+ <alexandru.dadu@imgtec.com>, Maarten Lankhorst
+ <maarten.lankhorst@linux.intel.com>, Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>,
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+ Alessio Belle <alessio.belle@imgtec.com>
+CC: <dri-devel@lists.freedesktop.org>, <linux-kernel@vger.kernel.org>
+In-Reply-To: <20250624-fix-kernel-crash-gpu-hard-reset-v1-1-6d24810d72a6@imgtec.com>
+References: <20250624-fix-kernel-crash-gpu-hard-reset-v1-1-6d24810d72a6@imgtec.com>
+Subject: Re: [PATCH] drm/imagination: Fix kernel crash when hard resetting
+ the GPU
+Message-ID: <175164330873.70322.8845862980956103647.b4-ty@imgtec.com>
+Date: Fri, 4 Jul 2025 16:35:08 +0100
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-X-Mailer: b4 0.15-dev-cff91
+X-Mailer: b4 0.14.2
+X-Originating-IP: [172.25.7.125]
+X-EXCLAIMER-MD-CONFIG: 15a78312-3e47-46eb-9010-2e54d84a9631
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwNjI4MDAyNiBTYWx0ZWRfX5Gs7zLjaetpy
+ VqUtRFg6YPs9FkUBve99ajWSgqxlSNPybyzcqzaLmL6kAikZL7tbnovI74FHmXtt59+C6iK9i0m
+ AGmKMzmVHUNjJiTv4buna52i35SYEpVPiuyVVZ/94f3C9DSgE2auhm0bvFKgdDXxVFgFI06PNCK
+ /iPv3XIxQIOiJ6y0FwFxXqfPFbEFPYNRvK6KCzBndvVwD7Kg8MLM3f9qRdAuEPUra+KJ0ahLAyd
+ 5jEWspJpeP6kwAH7aCDeLnqpO3BVVHMFBFJ9SnNxTrR4LCRrZS+4adb2Wmzt8DR30we7OMJwj7Z
+ L5UXKfXWNJHTfobG7N6HIFlVzA00tqiG1VoCnxqyj6ota4d1k6Xyz4IglBJbwTCIC5rEGM1UZJm
+ mYQMZnDR
+X-Proofpoint-ORIG-GUID: JKLeiVrMa3mQVAY2PDaW3BOGxbFwL4kL
+X-Authority-Analysis: v=2.4 cv=LpiSymdc c=1 sm=1 tr=0 ts=6867f4ae cx=c_pps
+ a=AKOq//PuzOIrVTIF9yBwbA==:117 a=AKOq//PuzOIrVTIF9yBwbA==:17
+ a=fFtJDOQOLN4A:10 a=IkcTkHD0fZMA:10 a=Wb1JkmetP80A:10 a=r_1tXGB3AAAA:8
+ a=_LgECFMNShmt_M_GEIUA:9 a=QEXdDO2ut3YA:10 a=ZXulRonScM0A:10
+ a=zZCYzV9kfG8A:10 a=t8nPyN_e6usw4ciXM-Pk:22
+X-Proofpoint-GUID: JKLeiVrMa3mQVAY2PDaW3BOGxbFwL4kL
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -59,41 +88,28 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, 02 Jul 2025 22:14:08 +0100, Al Viro wrote:
-> When debugfs file has been created by debugfs_create_file_unsafe(),
-> we do need the file_operations methods to use debugfs_file_{get,put}()
-> to prevent concurrent removal; for files created by debugfs_create_file()
-> that is done in the wrappers that call underlying methods, so there's
-> no point whatsoever duplicating that in the underlying methods themselves.
+
+On Tue, 24 Jun 2025 15:22:08 +0100, Alessio Belle wrote:
+> The GPU hard reset sequence calls pm_runtime_force_suspend() and
+> pm_runtime_force_resume(), which according to their documentation should
+> only be used during system-wide PM transitions to sleep states.
 > 
+> The main issue though is that depending on some internal runtime PM
+> state as seen by pm_runtime_force_suspend() (whether the usage count is
+> <= 1), pm_runtime_force_resume() might not resume the device unless
+> needed. If that happens, the runtime PM resume callback
+> pvr_power_device_resume() is not called, the GPU clocks are not
+> re-enabled, and the kernel crashes on the next attempt to access GPU
+> registers as part of the power-on sequence.
 > 
 > [...]
 
-Applied to
+Applied, thanks!
 
-   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/regmap.git for-next
+[1/1] drm/imagination: Fix kernel crash when hard resetting the GPU
+      commit: d38376b3ee48d073c64e75e150510d7e6b4b04f7
 
-Thanks!
-
-[03/11] regmap: get rid of redundant debugfs_file_{get,put}()
-        commit: 9f711c9321cffe3e03709176873c277fa911c366
-
-All being well this means that it will be integrated into the linux-next
-tree (usually sometime in the next 24 hours) and sent to Linus during
-the next merge window (or sooner if it is a bug fix), however if
-problems are discovered then the patch may be dropped or reverted.
-
-You may get further e-mails resulting from automated or manual testing
-and review of the tree, please engage with people reporting problems and
-send followup patches addressing any issues that are reported if needed.
-
-If any updates are required or you are submitting further changes they
-should be sent as incremental updates against current git, existing
-patches will not be replaced.
-
-Please add any relevant lists and maintainers to the CCs when replying
-to this mail.
-
-Thanks,
-Mark
+Best regards,
+-- 
+Matt Coster <matt.coster@imgtec.com>
 
