@@ -2,62 +2,65 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id CD494AF8F0B
-	for <lists+dri-devel@lfdr.de>; Fri,  4 Jul 2025 11:49:14 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 820B1AF8F33
+	for <lists+dri-devel@lfdr.de>; Fri,  4 Jul 2025 11:53:39 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A99FC10E9C8;
-	Fri,  4 Jul 2025 09:49:12 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C107510E9CB;
+	Fri,  4 Jul 2025 09:53:36 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=ti.com header.i=@ti.com header.b="eE7Hu5zg";
+	dkim=pass (2048-bit key; secure) header.d=mailbox.org header.i=@mailbox.org header.b="sK8edQOt";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from fllvem-ot04.ext.ti.com (fllvem-ot04.ext.ti.com [198.47.19.246])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9635310E9D9
- for <dri-devel@lists.freedesktop.org>; Fri,  4 Jul 2025 09:49:10 +0000 (UTC)
-Received: from lelvem-sh02.itg.ti.com ([10.180.78.226])
- by fllvem-ot04.ext.ti.com (8.15.2/8.15.2) with ESMTP id 5649mwXr264780;
- Fri, 4 Jul 2025 04:48:58 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
- s=ti-com-17Q1; t=1751622538;
- bh=1xhFBCswGeNy7iF602Ww8g7YukHk4l20I8/G7K/iQn8=;
- h=From:To:CC:Subject:Date:In-Reply-To:References;
- b=eE7Hu5zg+zkRPFm5TT7pCvPVERD3s3RGleybbjbkrTqmBt7V6RZu0N8HdLk8qg2+W
- cl5aDGWWoEqdY6sT1smcXwhS+nubv+ZZhuYZV63gXTqu9V48uJJQL8PqI4PMPOzSAL
- TCglS75bGVhK5j6dLXStKIyAYzeWn3WwllWwIDMg=
-Received: from DLEE105.ent.ti.com (dlee105.ent.ti.com [157.170.170.35])
- by lelvem-sh02.itg.ti.com (8.18.1/8.18.1) with ESMTPS id 5649mwna2705195
- (version=TLSv1.2 cipher=ECDHE-RSA-AES128-SHA256 bits=128 verify=FAIL);
- Fri, 4 Jul 2025 04:48:58 -0500
-Received: from DLEE104.ent.ti.com (157.170.170.34) by DLEE105.ent.ti.com
- (157.170.170.35) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2507.55; Fri, 4
- Jul 2025 04:48:58 -0500
-Received: from lelvem-mr06.itg.ti.com (10.180.75.8) by DLEE104.ent.ti.com
- (157.170.170.34) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2507.55 via
- Frontend Transport; Fri, 4 Jul 2025 04:48:58 -0500
-Received: from localhost (jayesh-hp-z2-tower-g5-workstation.dhcp.ti.com
- [172.24.227.166])
- by lelvem-mr06.itg.ti.com (8.18.1/8.18.1) with ESMTP id 5649mvdx2499180;
- Fri, 4 Jul 2025 04:48:57 -0500
-From: Jayesh Choudhary <j-choudhary@ti.com>
-To: <jyri.sarha@iki.fi>, <maarten.lankhorst@linux.intel.com>,
- <mripard@kernel.org>, <tzimmermann@suse.de>,
- <dri-devel@lists.freedesktop.org>, <devarsht@ti.com>,
- <tomi.valkeinen@ideasonboard.com>, <mwalle@kernel.org>
-CC: <airlied@gmail.com>, <simona@ffwll.ch>, <linux-kernel@vger.kernel.org>,
- <j-choudhary@ti.com>
-Subject: [PATCH v4 3/3] drm/tidss: oldi: Add atomic_check hook for oldi bridge
-Date: Fri, 4 Jul 2025 15:18:51 +0530
-Message-ID: <20250704094851.182131-4-j-choudhary@ti.com>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20250704094851.182131-1-j-choudhary@ti.com>
-References: <20250704094851.182131-1-j-choudhary@ti.com>
+Received: from mout-p-102.mailbox.org (mout-p-102.mailbox.org [80.241.56.152])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2B50E10E9CB;
+ Fri,  4 Jul 2025 09:53:35 +0000 (UTC)
+Received: from smtp202.mailbox.org (smtp202.mailbox.org [10.196.197.202])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ (No client certificate requested)
+ by mout-p-102.mailbox.org (Postfix) with ESMTPS id 4bYTV335mZz9t3b;
+ Fri,  4 Jul 2025 11:53:31 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mailbox.org;
+ s=mail20150812; 
+ t=1751622811; h=from:from:reply-to:reply-to:subject:subject:date:date:
+ message-id:message-id:to:to:cc:cc:mime-version:mime-version:
+ content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=XVdGgAyV7zv1tE1nDhhj6shdNz3/wOzCG8QXxgZfEtM=;
+ b=sK8edQOtevLwrhp+L6vKqsnyPhoQbmn6cKkpIBkIbYZROKAiTml52HYSYx535BykTmfqgs
+ KW+4eyb9iWUKHdfkgpkAzt0Lqd8Je5ClkDgnc/yz5FM+SD1FHX8les4dYv8lql+vGkczEQ
+ AoUq7lQnsqd/H6nDnn1SXvs7mTLJAfJRAHd6T8FnhH0Vg71E9xuSzYj3vBr8NNplBtGsuY
+ oOmFBdeQ28hs9B4Mbpzf/bhlEv5hvcgxCV1LHV30en1kemPDPhAtRuTMmrbr6zR37wFkDL
+ eD3ai06a8aPDvod+mnIKIC/tFTVc37z2KES/CCVeaDzDVVmS//w7v5/gFU8paw==
+Message-ID: <fc61c7c9d5d341d752458d0ee6313ec932803ab3.camel@mailbox.org>
+Subject: Re: [PATCH 2/6] drm/sched/tests: Port to cancel_job()
+From: Philipp Stanner <phasta@mailbox.org>
+To: Tvrtko Ursulin <tvrtko.ursulin@igalia.com>, phasta@kernel.org, Lyude
+ Paul <lyude@redhat.com>, Danilo Krummrich <dakr@kernel.org>, David Airlie
+ <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, Matthew Brost
+ <matthew.brost@intel.com>, Christian =?ISO-8859-1?Q?K=F6nig?=
+ <ckoenig.leichtzumerken@gmail.com>, Maarten Lankhorst
+ <maarten.lankhorst@linux.intel.com>, Maxime Ripard <mripard@kernel.org>, 
+ Thomas Zimmermann <tzimmermann@suse.de>, Sumit Semwal
+ <sumit.semwal@linaro.org>, Pierre-Eric Pelloux-Prayer
+ <pierre-eric.pelloux-prayer@amd.com>
+Cc: dri-devel@lists.freedesktop.org, nouveau@lists.freedesktop.org, 
+ linux-kernel@vger.kernel.org, linux-media@vger.kernel.org, 
+ linaro-mm-sig@lists.linaro.org
+Date: Fri, 04 Jul 2025 11:53:25 +0200
+In-Reply-To: <9a070a66-f6fd-45b4-958c-c6e9f3487a0c@igalia.com>
+References: <20250701132142.76899-3-phasta@kernel.org>
+ <20250701132142.76899-5-phasta@kernel.org>
+ <f9b55d5b-0018-4850-a9b7-2f267467e957@igalia.com>
+ <6762d33b4fe8e7b264a7403f228e6ec6723ae623.camel@mailbox.org>
+ <9a070a66-f6fd-45b4-958c-c6e9f3487a0c@igalia.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-C2ProcessedOrg: 333ef613-75bf-4e12-a4b1-8e3623f5dcea
+X-MBO-RS-ID: d3de0f1ed48b6cb7079
+X-MBO-RS-META: 6wtz9saqp63urpgjkiru59jusu3qeiad
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -70,63 +73,285 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
+Reply-To: phasta@kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Since OLDI consumes DSS VP clock directly as serial clock, certain
-checks cannot be performed in tidss driver which should be checked
-in oldi driver. Add check for mode clock and set the curr_max_pclk
-field for tidss in case the VP is OLDI.
+On Wed, 2025-07-02 at 12:25 +0100, Tvrtko Ursulin wrote:
+>=20
+> On 02/07/2025 11:56, Philipp Stanner wrote:
+> > On Wed, 2025-07-02 at 11:36 +0100, Tvrtko Ursulin wrote:
+> > >=20
+> > > On 01/07/2025 14:21, Philipp Stanner wrote:
+> > > > The GPU Scheduler now supports a new callback, cancel_job(),
+> > > > which
+> > > > lets
+> > > > the scheduler cancel all jobs which might not yet be freed when
+> > > > drm_sched_fini() runs. Using this callback allows for
+> > > > significantly
+> > > > simplifying the mock scheduler teardown code.
+> > > >=20
+> > > > Implement the cancel_job() callback and adjust the code where
+> > > > necessary.
+> > >=20
+> > > Cross referencing against my version I think you missed this
+> > > hunk:
+> > >=20
+> > > --- a/drivers/gpu/drm/scheduler/tests/sched_tests.h
+> > > +++ b/drivers/gpu/drm/scheduler/tests/sched_tests.h
+> > > @@ -49,7 +49,6 @@ struct drm_mock_scheduler {
+> > >=20
+> > > =C2=A0=C2=A0=C2=A0	spinlock_t		lock;
+> > > =C2=A0=C2=A0=C2=A0	struct list_head	job_list;
+> > > -	struct list_head	done_list;
+> > >=20
+> > > =C2=A0=C2=A0=C2=A0	struct {
+> > > =C2=A0=C2=A0=C2=A0		u64		context;
+> > >=20
+> >=20
+> > Right, overlooked that one.
+> >=20
+> > >=20
+> > > I also had this:
+> > >=20
+> > > @@ -97,7 +96,8 @@ struct drm_mock_sched_job {
+> > > =C2=A0=C2=A0=C2=A0	struct completion	done;
+> > >=20
+> > > =C2=A0=C2=A0 #define DRM_MOCK_SCHED_JOB_DONE		0x1
+> > > -#define DRM_MOCK_SCHED_JOB_TIMEDOUT	0x2
+> > > +#define DRM_MOCK_SCHED_JOB_CANCELED	0x2
+> > > +#define DRM_MOCK_SCHED_JOB_TIMEDOUT	0x4
+> > >=20
+> > > And was setting it in the callback. And since we should add a
+> > > test to
+> > > explicitly cover the new callback, and just the callback, that
+> > > could
+> > > make it very easy to do it.
+> >=20
+> > What do you imagine that to look like? The scheduler only invokes
+> > the
+> > callback on tear down.
+> >=20
+> > We also don't have tests that only test free_job() and the like, do
+> > we?
+> >=20
+> > You cannot test a callback for the scheduler, because the callback
+> > is
+> > implemented in the driver.
+> >=20
+> > Callbacks are tested by using the scheduler. In this case, it's
+> > tested
+> > the intended way by the unit tests invoking drm_sched_free().
+>=20
+> Something like (untested):
+>=20
+> static void drm_sched_test_cleanup(struct kunit *test)
+> {
+> 	struct drm_mock_sched_entity *entity;
+> 	struct drm_mock_scheduler *sched;
+> 	struct drm_mock_sched_job job;
+> 	bool done;
+>=20
+> 	/*
+> 	 * Check that the job cancel callback gets invoked by the
+> scheduler.
+> 	 */
+>=20
+> 	sched =3D drm_mock_sched_new(test, MAX_SCHEDULE_TIMEOUT);
+> 	entity =3D drm_mock_sched_entity_new(test,
+> 					=C2=A0=C2=A0
+> DRM_SCHED_PRIORITY_NORMAL,
+> 					=C2=A0=C2=A0 sched);
+>=20
+> 	job =3D drm_mock_sched_job_new(test, entity);
+> 	drm_mock_sched_job_submit(job);
+> 	done =3D drm_mock_sched_job_wait_scheduled(job, HZ);
+> 	KUNIT_ASSERT_TRUE(test, done);
+>=20
+> 	drm_mock_sched_entity_free(entity);
+> 	drm_mock_sched_fini(sched);
+>=20
+> 	KUNIT_ASSERT_TRUE(test, job->flags &
+> DRM_MOCK_SCHED_JOB_CANCELED);
+> }
 
-Fixes: 7246e0929945 ("drm/tidss: Add OLDI bridge support")
-Reviewed-by: Devarsh Thakkar <devarsht@ti.com>
-Signed-off-by: Jayesh Choudhary <j-choudhary@ti.com>
----
- drivers/gpu/drm/tidss/tidss_oldi.c | 24 ++++++++++++++++++++++++
- 1 file changed, 24 insertions(+)
+That could work =E2=80=93 but it's racy.
 
-diff --git a/drivers/gpu/drm/tidss/tidss_oldi.c b/drivers/gpu/drm/tidss/tidss_oldi.c
-index 63e07c8edeaa..486e7373531b 100644
---- a/drivers/gpu/drm/tidss/tidss_oldi.c
-+++ b/drivers/gpu/drm/tidss/tidss_oldi.c
-@@ -309,6 +309,29 @@ static u32 *tidss_oldi_atomic_get_input_bus_fmts(struct drm_bridge *bridge,
- 	return input_fmts;
- }
- 
-+static int tidss_oldi_atomic_check(struct drm_bridge *bridge,
-+				   struct drm_bridge_state *bridge_state,
-+				   struct drm_crtc_state *crtc_state,
-+				   struct drm_connector_state *conn_state)
-+{
-+	struct tidss_oldi *oldi = drm_bridge_to_tidss_oldi(bridge);
-+	struct drm_display_mode *adjusted_mode;
-+	unsigned long round_clock;
-+
-+	adjusted_mode = &crtc_state->adjusted_mode;
-+
-+	if (adjusted_mode->clock > oldi->tidss->curr_max_pclk[oldi->parent_vp]) {
-+		round_clock = clk_round_rate(oldi->serial, adjusted_mode->clock * 7 * 1000);
-+
-+		if (dispc_pclk_diff(adjusted_mode->clock * 7 * 1000, round_clock) > 5)
-+			return -EINVAL;
-+
-+		oldi->tidss->curr_max_pclk[oldi->parent_vp] = round_clock;
-+	}
-+
-+	return 0;
-+}
-+
- static const struct drm_bridge_funcs tidss_oldi_bridge_funcs = {
- 	.attach	= tidss_oldi_bridge_attach,
- 	.atomic_pre_enable = tidss_oldi_atomic_pre_enable,
-@@ -317,6 +340,7 @@ static const struct drm_bridge_funcs tidss_oldi_bridge_funcs = {
- 	.atomic_duplicate_state = drm_atomic_helper_bridge_duplicate_state,
- 	.atomic_destroy_state = drm_atomic_helper_bridge_destroy_state,
- 	.atomic_reset = drm_atomic_helper_bridge_reset,
-+	.atomic_check = tidss_oldi_atomic_check,
- };
- 
- static int get_oldi_mode(struct device_node *oldi_tx, int *companion_instance)
--- 
-2.34.1
+I wonder if we want to introduce a mechanism into the mock scheduler
+through which we can enforce a simulated GPU hang. Then it would never
+race, and that might be useful for more advanced tests for reset
+recovery and those things.
+
+Opinions?
+
+
+P.
+
+
+>=20
+> Or via the hw fence status.
+>=20
+> Regards,
+>=20
+> Tvrtko
+>=20
+> > > > Signed-off-by: Philipp Stanner <phasta@kernel.org>
+> > > > ---
+> > > > =C2=A0=C2=A0 .../gpu/drm/scheduler/tests/mock_scheduler.c=C2=A0 | 6=
+6 +++++++--
+> > > > -----
+> > > > -----
+> > > > =C2=A0=C2=A0 1 file changed, 23 insertions(+), 43 deletions(-)
+> > > >=20
+> > > > diff --git a/drivers/gpu/drm/scheduler/tests/mock_scheduler.c
+> > > > b/drivers/gpu/drm/scheduler/tests/mock_scheduler.c
+> > > > index 49d067fecd67..2d3169d95200 100644
+> > > > --- a/drivers/gpu/drm/scheduler/tests/mock_scheduler.c
+> > > > +++ b/drivers/gpu/drm/scheduler/tests/mock_scheduler.c
+> > > > @@ -63,7 +63,7 @@ static void
+> > > > drm_mock_sched_job_complete(struct
+> > > > drm_mock_sched_job *job)
+> > > > =C2=A0=C2=A0=C2=A0	lockdep_assert_held(&sched->lock);
+> > > > =C2=A0=C2=A0=20
+> > > > =C2=A0=C2=A0=C2=A0	job->flags |=3D DRM_MOCK_SCHED_JOB_DONE;
+> > > > -	list_move_tail(&job->link, &sched->done_list);
+> > > > +	list_del(&job->link);
+> > > > =C2=A0=C2=A0=C2=A0	dma_fence_signal_locked(&job->hw_fence);
+> > > > =C2=A0=C2=A0=C2=A0	complete(&job->done);
+> > > > =C2=A0=C2=A0 }
+> > > > @@ -236,26 +236,39 @@ mock_sched_timedout_job(struct
+> > > > drm_sched_job
+> > > > *sched_job)
+> > > > =C2=A0=C2=A0=20
+> > > > =C2=A0=C2=A0 static void mock_sched_free_job(struct drm_sched_job
+> > > > *sched_job)
+> > > > =C2=A0=C2=A0 {
+> > > > -	struct drm_mock_scheduler *sched =3D
+> > > > -			drm_sched_to_mock_sched(sched_job-
+> > > > >sched);
+> > > > =C2=A0=C2=A0=C2=A0	struct drm_mock_sched_job *job =3D
+> > > > drm_sched_job_to_mock_job(sched_job);
+> > > > -	unsigned long flags;
+> > > > =C2=A0=C2=A0=20
+> > > > -	/* Remove from the scheduler done list. */
+> > > > -	spin_lock_irqsave(&sched->lock, flags);
+> > > > -	list_del(&job->link);
+> > > > -	spin_unlock_irqrestore(&sched->lock, flags);
+> > > > =C2=A0=C2=A0=C2=A0	dma_fence_put(&job->hw_fence);
+> > > > -
+> > > > =C2=A0=C2=A0=C2=A0	drm_sched_job_cleanup(sched_job);
+> > > > =C2=A0=C2=A0=20
+> > > > =C2=A0=C2=A0=C2=A0	/* Mock job itself is freed by the kunit framewo=
+rk. */
+> > > > =C2=A0=C2=A0 }
+> > > > =C2=A0=C2=A0=20
+> > > > +static void mock_sched_cancel_job(struct drm_sched_job
+> > > > *sched_job)
+> > > > +{
+> > > > +	struct drm_mock_scheduler *sched =3D
+> > > > drm_sched_to_mock_sched(sched_job->sched);
+> > > > +	struct drm_mock_sched_job *job =3D
+> > > > drm_sched_job_to_mock_job(sched_job);
+> > > > +	unsigned long flags;
+> > > > +
+> > > > +	hrtimer_cancel(&job->timer);
+> > > > +
+> > > > +	spin_lock_irqsave(&sched->lock, flags);
+> > > > +	if (!dma_fence_is_signaled_locked(&job->hw_fence)) {
+> > > > +		list_del(&job->link);
+> > > > +		dma_fence_set_error(&job->hw_fence, -
+> > > > ECANCELED);
+> > > > +		dma_fence_signal_locked(&job->hw_fence);
+> > > > +	}
+> > > > +	spin_unlock_irqrestore(&sched->lock, flags);
+> > > > +
+> > > > +	/* The GPU Scheduler will call
+> > > > drm_sched_backend_ops.free_job(), still.
+> > > > +	 * Mock job itself is freed by the kunit framework. */
+> > >=20
+> > > /*
+> > > =C2=A0=C2=A0 * Multiline comment style to stay consistent, at least i=
+n this
+> > > file.
+> > > =C2=A0=C2=A0 */
+> > >=20
+> > > The rest looks good, but I need to revisit the timeout/free
+> > > handling
+> > > since it has been a while and you changed it recently.
+> > >=20
+> > > Regards,
+> > >=20
+> > > Tvrtko
+> > >=20
+> > > > +}
+> > > > +
+> > > > =C2=A0=C2=A0 static const struct drm_sched_backend_ops
+> > > > drm_mock_scheduler_ops
+> > > > =3D {
+> > > > =C2=A0=C2=A0=C2=A0	.run_job =3D mock_sched_run_job,
+> > > > =C2=A0=C2=A0=C2=A0	.timedout_job =3D mock_sched_timedout_job,
+> > > > -	.free_job =3D mock_sched_free_job
+> > > > +	.free_job =3D mock_sched_free_job,
+> > > > +	.cancel_job =3D mock_sched_cancel_job,
+> > > > =C2=A0=C2=A0 };
+> > > > =C2=A0=C2=A0=20
+> > > > =C2=A0=C2=A0 /**
+> > > > @@ -289,7 +302,6 @@ struct drm_mock_scheduler
+> > > > *drm_mock_sched_new(struct kunit *test, long timeout)
+> > > > =C2=A0=C2=A0=C2=A0	sched->hw_timeline.context =3D
+> > > > dma_fence_context_alloc(1);
+> > > > =C2=A0=C2=A0=C2=A0	atomic_set(&sched->hw_timeline.next_seqno, 0);
+> > > > =C2=A0=C2=A0=C2=A0	INIT_LIST_HEAD(&sched->job_list);
+> > > > -	INIT_LIST_HEAD(&sched->done_list);
+> > > > =C2=A0=C2=A0=C2=A0	spin_lock_init(&sched->lock);
+> > > > =C2=A0=C2=A0=20
+> > > > =C2=A0=C2=A0=C2=A0	return sched;
+> > > > @@ -304,38 +316,6 @@ struct drm_mock_scheduler
+> > > > *drm_mock_sched_new(struct kunit *test, long timeout)
+> > > > =C2=A0=C2=A0=C2=A0 */
+> > > > =C2=A0=C2=A0 void drm_mock_sched_fini(struct drm_mock_scheduler *sc=
+hed)
+> > > > =C2=A0=C2=A0 {
+> > > > -	struct drm_mock_sched_job *job, *next;
+> > > > -	unsigned long flags;
+> > > > -	LIST_HEAD(list);
+> > > > -
+> > > > -	drm_sched_wqueue_stop(&sched->base);
+> > > > -
+> > > > -	/* Force complete all unfinished jobs. */
+> > > > -	spin_lock_irqsave(&sched->lock, flags);
+> > > > -	list_for_each_entry_safe(job, next, &sched->job_list,
+> > > > link)
+> > > > -		list_move_tail(&job->link, &list);
+> > > > -	spin_unlock_irqrestore(&sched->lock, flags);
+> > > > -
+> > > > -	list_for_each_entry(job, &list, link)
+> > > > -		hrtimer_cancel(&job->timer);
+> > > > -
+> > > > -	spin_lock_irqsave(&sched->lock, flags);
+> > > > -	list_for_each_entry_safe(job, next, &list, link)
+> > > > -		drm_mock_sched_job_complete(job);
+> > > > -	spin_unlock_irqrestore(&sched->lock, flags);
+> > > > -
+> > > > -	/*
+> > > > -	 * Free completed jobs and jobs not yet processed by
+> > > > the
+> > > > DRM scheduler
+> > > > -	 * free worker.
+> > > > -	 */
+> > > > -	spin_lock_irqsave(&sched->lock, flags);
+> > > > -	list_for_each_entry_safe(job, next, &sched->done_list,
+> > > > link)
+> > > > -		list_move_tail(&job->link, &list);
+> > > > -	spin_unlock_irqrestore(&sched->lock, flags);
+> > > > -
+> > > > -	list_for_each_entry_safe(job, next, &list, link)
+> > > > -		mock_sched_free_job(&job->base);
+> > > > -
+> > > > =C2=A0=C2=A0=C2=A0	drm_sched_fini(&sched->base);
+> > > > =C2=A0=C2=A0 }
+> > > > =C2=A0=C2=A0=20
+> > >=20
+> >=20
+>=20
 
