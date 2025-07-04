@@ -2,65 +2,62 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 820B1AF8F33
-	for <lists+dri-devel@lfdr.de>; Fri,  4 Jul 2025 11:53:39 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id DD22FAF8F41
+	for <lists+dri-devel@lfdr.de>; Fri,  4 Jul 2025 11:56:14 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C107510E9CB;
-	Fri,  4 Jul 2025 09:53:36 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A406410E9D1;
+	Fri,  4 Jul 2025 09:56:12 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; secure) header.d=mailbox.org header.i=@mailbox.org header.b="sK8edQOt";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="GOuiRL/0";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mout-p-102.mailbox.org (mout-p-102.mailbox.org [80.241.56.152])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2B50E10E9CB;
- Fri,  4 Jul 2025 09:53:35 +0000 (UTC)
-Received: from smtp202.mailbox.org (smtp202.mailbox.org [10.196.197.202])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
- (No client certificate requested)
- by mout-p-102.mailbox.org (Postfix) with ESMTPS id 4bYTV335mZz9t3b;
- Fri,  4 Jul 2025 11:53:31 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mailbox.org;
- s=mail20150812; 
- t=1751622811; h=from:from:reply-to:reply-to:subject:subject:date:date:
- message-id:message-id:to:to:cc:cc:mime-version:mime-version:
- content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=XVdGgAyV7zv1tE1nDhhj6shdNz3/wOzCG8QXxgZfEtM=;
- b=sK8edQOtevLwrhp+L6vKqsnyPhoQbmn6cKkpIBkIbYZROKAiTml52HYSYx535BykTmfqgs
- KW+4eyb9iWUKHdfkgpkAzt0Lqd8Je5ClkDgnc/yz5FM+SD1FHX8les4dYv8lql+vGkczEQ
- AoUq7lQnsqd/H6nDnn1SXvs7mTLJAfJRAHd6T8FnhH0Vg71E9xuSzYj3vBr8NNplBtGsuY
- oOmFBdeQ28hs9B4Mbpzf/bhlEv5hvcgxCV1LHV30en1kemPDPhAtRuTMmrbr6zR37wFkDL
- eD3ai06a8aPDvod+mnIKIC/tFTVc37z2KES/CCVeaDzDVVmS//w7v5/gFU8paw==
-Message-ID: <fc61c7c9d5d341d752458d0ee6313ec932803ab3.camel@mailbox.org>
-Subject: Re: [PATCH 2/6] drm/sched/tests: Port to cancel_job()
-From: Philipp Stanner <phasta@mailbox.org>
-To: Tvrtko Ursulin <tvrtko.ursulin@igalia.com>, phasta@kernel.org, Lyude
- Paul <lyude@redhat.com>, Danilo Krummrich <dakr@kernel.org>, David Airlie
- <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, Matthew Brost
- <matthew.brost@intel.com>, Christian =?ISO-8859-1?Q?K=F6nig?=
- <ckoenig.leichtzumerken@gmail.com>, Maarten Lankhorst
- <maarten.lankhorst@linux.intel.com>, Maxime Ripard <mripard@kernel.org>, 
- Thomas Zimmermann <tzimmermann@suse.de>, Sumit Semwal
- <sumit.semwal@linaro.org>, Pierre-Eric Pelloux-Prayer
- <pierre-eric.pelloux-prayer@amd.com>
-Cc: dri-devel@lists.freedesktop.org, nouveau@lists.freedesktop.org, 
- linux-kernel@vger.kernel.org, linux-media@vger.kernel.org, 
- linaro-mm-sig@lists.linaro.org
-Date: Fri, 04 Jul 2025 11:53:25 +0200
-In-Reply-To: <9a070a66-f6fd-45b4-958c-c6e9f3487a0c@igalia.com>
-References: <20250701132142.76899-3-phasta@kernel.org>
- <20250701132142.76899-5-phasta@kernel.org>
- <f9b55d5b-0018-4850-a9b7-2f267467e957@igalia.com>
- <6762d33b4fe8e7b264a7403f228e6ec6723ae623.camel@mailbox.org>
- <9a070a66-f6fd-45b4-958c-c6e9f3487a0c@igalia.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.13])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D4F2F10E9DA
+ for <dri-devel@lists.freedesktop.org>; Fri,  4 Jul 2025 09:56:10 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1751622971; x=1783158971;
+ h=date:from:to:cc:subject:message-id:references:
+ mime-version:content-transfer-encoding:in-reply-to;
+ bh=L7c9YV6rQRDWrOi+ojpWMz0gSgXzj9YMaeuf0yu9nis=;
+ b=GOuiRL/0rim674molPUttS2Ceyoj/XyZrogL0ziX7gnExF0ctut3xYae
+ 7Iv3guPiB1xhTOCE063/elv7kshfWqwGmyXKp9wdGgfEhHjqORo1zoiN3
+ 93WmBGdeQEBQ8euzSsoJL7pnfTvn1R+YV9CdZw51YLGkgmCCRRNupR41J
+ KMzGany2rGBmiUO8QHfsju096B6opxI+1GrMRINQJ7nNXz5YQwt/p8jvP
+ gDagiypNQ32/ImOqmiHeyUszGTUJeaEkf5E+oB6JNHAwCAHVM73JpiwSY
+ 2qPGlGmCbV2A+5iLO7vjY2QJvfZDoVzEBdloCo6X/Yts6gsQtZ6RgSwOz A==;
+X-CSE-ConnectionGUID: kCvAWAeWTBW0JYWNEEFj2g==
+X-CSE-MsgGUID: zOUZOgRhQGGuCjZbI/nQvg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11483"; a="65011860"
+X-IronPort-AV: E=Sophos;i="6.16,286,1744095600"; d="scan'208";a="65011860"
+Received: from orviesa005.jf.intel.com ([10.64.159.145])
+ by orvoesa105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 04 Jul 2025 02:56:10 -0700
+X-CSE-ConnectionGUID: zndkJimUSri/CBE4tR18dw==
+X-CSE-MsgGUID: UpaDveObS62r+iTs4BJoIA==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.16,286,1744095600"; d="scan'208";a="160278905"
+Received: from johunt-mobl9.ger.corp.intel.com (HELO stinkbox)
+ ([10.245.245.106])
+ by orviesa005.jf.intel.com with SMTP; 04 Jul 2025 02:56:09 -0700
+Received: by stinkbox (sSMTP sendmail emulation);
+ Fri, 04 Jul 2025 12:56:07 +0300
+Date: Fri, 4 Jul 2025 12:56:07 +0300
+From: Ville =?iso-8859-1?Q?Syrj=E4l=E4?= <ville.syrjala@linux.intel.com>
+To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Cc: dri-devel@lists.freedesktop.org
+Subject: Re: [PATCH v2 04/19] drm: Pass the format info to .fb_create()
+Message-ID: <aGekmsSgxh0VCxt8@intel.com>
+References: <20250701090722.13645-1-ville.syrjala@linux.intel.com>
+ <20250701090722.13645-5-ville.syrjala@linux.intel.com>
+ <20250701191801.GA17819@pendragon.ideasonboard.com>
 MIME-Version: 1.0
-X-MBO-RS-ID: d3de0f1ed48b6cb7079
-X-MBO-RS-META: 6wtz9saqp63urpgjkiru59jusu3qeiad
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20250701191801.GA17819@pendragon.ideasonboard.com>
+X-Patchwork-Hint: comment
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -73,285 +70,238 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Reply-To: phasta@kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, 2025-07-02 at 12:25 +0100, Tvrtko Ursulin wrote:
->=20
-> On 02/07/2025 11:56, Philipp Stanner wrote:
-> > On Wed, 2025-07-02 at 11:36 +0100, Tvrtko Ursulin wrote:
-> > >=20
-> > > On 01/07/2025 14:21, Philipp Stanner wrote:
-> > > > The GPU Scheduler now supports a new callback, cancel_job(),
-> > > > which
-> > > > lets
-> > > > the scheduler cancel all jobs which might not yet be freed when
-> > > > drm_sched_fini() runs. Using this callback allows for
-> > > > significantly
-> > > > simplifying the mock scheduler teardown code.
-> > > >=20
-> > > > Implement the cancel_job() callback and adjust the code where
-> > > > necessary.
-> > >=20
-> > > Cross referencing against my version I think you missed this
-> > > hunk:
-> > >=20
-> > > --- a/drivers/gpu/drm/scheduler/tests/sched_tests.h
-> > > +++ b/drivers/gpu/drm/scheduler/tests/sched_tests.h
-> > > @@ -49,7 +49,6 @@ struct drm_mock_scheduler {
-> > >=20
-> > > =C2=A0=C2=A0=C2=A0	spinlock_t		lock;
-> > > =C2=A0=C2=A0=C2=A0	struct list_head	job_list;
-> > > -	struct list_head	done_list;
-> > >=20
-> > > =C2=A0=C2=A0=C2=A0	struct {
-> > > =C2=A0=C2=A0=C2=A0		u64		context;
-> > >=20
-> >=20
-> > Right, overlooked that one.
-> >=20
-> > >=20
-> > > I also had this:
-> > >=20
-> > > @@ -97,7 +96,8 @@ struct drm_mock_sched_job {
-> > > =C2=A0=C2=A0=C2=A0	struct completion	done;
-> > >=20
-> > > =C2=A0=C2=A0 #define DRM_MOCK_SCHED_JOB_DONE		0x1
-> > > -#define DRM_MOCK_SCHED_JOB_TIMEDOUT	0x2
-> > > +#define DRM_MOCK_SCHED_JOB_CANCELED	0x2
-> > > +#define DRM_MOCK_SCHED_JOB_TIMEDOUT	0x4
-> > >=20
-> > > And was setting it in the callback. And since we should add a
-> > > test to
-> > > explicitly cover the new callback, and just the callback, that
-> > > could
-> > > make it very easy to do it.
-> >=20
-> > What do you imagine that to look like? The scheduler only invokes
-> > the
-> > callback on tear down.
-> >=20
-> > We also don't have tests that only test free_job() and the like, do
-> > we?
-> >=20
-> > You cannot test a callback for the scheduler, because the callback
-> > is
-> > implemented in the driver.
-> >=20
-> > Callbacks are tested by using the scheduler. In this case, it's
-> > tested
-> > the intended way by the unit tests invoking drm_sched_free().
->=20
-> Something like (untested):
->=20
-> static void drm_sched_test_cleanup(struct kunit *test)
-> {
-> 	struct drm_mock_sched_entity *entity;
-> 	struct drm_mock_scheduler *sched;
-> 	struct drm_mock_sched_job job;
-> 	bool done;
->=20
-> 	/*
-> 	 * Check that the job cancel callback gets invoked by the
-> scheduler.
-> 	 */
->=20
-> 	sched =3D drm_mock_sched_new(test, MAX_SCHEDULE_TIMEOUT);
-> 	entity =3D drm_mock_sched_entity_new(test,
-> 					=C2=A0=C2=A0
-> DRM_SCHED_PRIORITY_NORMAL,
-> 					=C2=A0=C2=A0 sched);
->=20
-> 	job =3D drm_mock_sched_job_new(test, entity);
-> 	drm_mock_sched_job_submit(job);
-> 	done =3D drm_mock_sched_job_wait_scheduled(job, HZ);
-> 	KUNIT_ASSERT_TRUE(test, done);
->=20
-> 	drm_mock_sched_entity_free(entity);
-> 	drm_mock_sched_fini(sched);
->=20
-> 	KUNIT_ASSERT_TRUE(test, job->flags &
-> DRM_MOCK_SCHED_JOB_CANCELED);
-> }
+On Tue, Jul 01, 2025 at 10:18:01PM +0300, Laurent Pinchart wrote:
+> Hi Ville,
+> 
+> Thank you for the patch.
+> 
+> On Tue, Jul 01, 2025 at 12:07:07PM +0300, Ville Syrjala wrote:
+> > From: Ville Syrjälä <ville.syrjala@linux.intel.com>
+> > 
+> > Pass along the format information from the top to .fb_create()
+> > so that we can avoid redundant (and somewhat expensive) lookups
+> > in the drivers.
+> > 
+> > Done with cocci (with some manual fixups):
+> > @@
+> > identifier func =~ ".*create.*";
+> > identifier dev, file, mode_cmd;
+> > @@
+> > struct drm_framebuffer *func(
+> >        struct drm_device *dev,
+> >        struct drm_file *file,
+> > +      const struct drm_format_info *info,
+> >        const struct drm_mode_fb_cmd2 *mode_cmd)
+> > {
+> > ...
+> > (
+> > - const struct drm_format_info *info = drm_get_format_info(...);
+> > |
+> > - const struct drm_format_info *info;
+> > ...
+> > - info = drm_get_format_info(...);
+> > )
+> > <...
+> > - if (!info)
+> > -    return ...;
+> > ...>
+> > }
+> > 
+> > @@
+> > identifier func =~ ".*create.*";
+> > identifier dev, file, mode_cmd;
+> > @@
+> > struct drm_framebuffer *func(
+> >        struct drm_device *dev,
+> >        struct drm_file *file,
+> > +      const struct drm_format_info *info,
+> >        const struct drm_mode_fb_cmd2 *mode_cmd)
+> > {
+> > ...
+> > }
+> > 
+> > @find@
+> > identifier fb_create_func =~ ".*create.*";
+> > identifier dev, file, mode_cmd;
+> > @@
+> > struct drm_framebuffer *fb_create_func(
+> >        struct drm_device *dev,
+> >        struct drm_file *file,
+> > +      const struct drm_format_info *info,
+> >        const struct drm_mode_fb_cmd2 *mode_cmd);
+> > 
+> > @@
+> > identifier find.fb_create_func;
+> > expression dev, file, mode_cmd;
+> > @@
+> > fb_create_func(dev, file
+> > +	       ,info
+> > 	       ,mode_cmd)
+> > 
+> > @@
+> > expression dev, file, mode_cmd;
+> > @@
+> > drm_gem_fb_create(dev, file
+> > +	       ,info
+> > 	       ,mode_cmd)
+> > 
+> > @@
+> > expression dev, file, mode_cmd;
+> > @@
+> > drm_gem_fb_create_with_dirty(dev, file
+> > +	       ,info
+> > 	       ,mode_cmd)
+> > 
+> > @@
+> > expression dev, file_priv, mode_cmd;
+> > identifier info, fb;
+> > @@
+> > info = drm_get_format_info(...);
+> > ...
+> > fb = dev->mode_config.funcs->fb_create(dev, file_priv
+> > +                                      ,info
+> >                                        ,mode_cmd);
+> > 
+> > @@
+> > identifier dev, file_priv, mode_cmd;
+> > @@
+> > struct drm_mode_config_funcs {
+> > ...
+> > struct drm_framebuffer *(*fb_create)(struct drm_device *dev,
+> >                                      struct drm_file *file_priv,
+> > +                                     const struct drm_format_info *info,
+> >                                      const struct drm_mode_fb_cmd2 *mode_cmd);
+> > ...
+> > };
+> > 
+> > v2: Fix kernel docs (Laurent)
+> >     Fix commit msg (Geert)
+> > 
+> > Cc: Alex Deucher <alexander.deucher@amd.com>
+> > Cc: Liviu Dudau <liviu.dudau@arm.com>
+> > Cc: Maxime Ripard <mripard@kernel.org>
+> > Cc: Russell King <linux@armlinux.org.uk>
+> > Cc: Inki Dae <inki.dae@samsung.com>
+> > Cc: Seung-Woo Kim <sw0312.kim@samsung.com>
+> > Cc: Kyungmin Park <kyungmin.park@samsung.com>
+> > Cc: Patrik Jakobsson <patrik.r.jakobsson@gmail.com>
+> > Cc: Chun-Kuang Hu <chunkuang.hu@kernel.org>
+> > Cc: Philipp Zabel <p.zabel@pengutronix.de>
+> > Cc: Rob Clark <robdclark@gmail.com>
+> > Cc: Abhinav Kumar <quic_abhinavk@quicinc.com>
+> > Cc: Dmitry Baryshkov <lumag@kernel.org>
+> > Cc: Sean Paul <sean@poorly.run>
+> > Cc: Marijn Suijten <marijn.suijten@somainline.org>
+> > Cc: Marek Vasut <marex@denx.de>
+> > Cc: Stefan Agner <stefan@agner.ch>
+> > Cc: Lyude Paul <lyude@redhat.com>
+> > Cc: Danilo Krummrich <dakr@kernel.org>
+> > Cc: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
+> > Cc: Dave Airlie <airlied@redhat.com>
+> > Cc: Gerd Hoffmann <kraxel@redhat.com>
+> > Cc: Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
+> > Cc: Biju Das <biju.das.jz@bp.renesas.com>
+> > Cc: Sandy Huang <hjc@rock-chips.com>
+> > Cc: "Heiko Stübner" <heiko@sntech.de>
+> > Cc: Andy Yan <andy.yan@rock-chips.com>
+> > Cc: Thierry Reding <thierry.reding@gmail.com>
+> > Cc: Mikko Perttunen <mperttunen@nvidia.com>
+> > Cc: Dave Stevenson <dave.stevenson@raspberrypi.com>
+> > Cc: "Maíra Canal" <mcanal@igalia.com>
+> > Cc: Raspberry Pi Kernel Maintenance <kernel-list@raspberrypi.com>
+> > Cc: Dmitry Osipenko <dmitry.osipenko@collabora.com>
+> > Cc: Gurchetan Singh <gurchetansingh@chromium.org>
+> > Cc: Chia-I Wu <olvaffe@gmail.com>
+> > Cc: Zack Rusin <zack.rusin@broadcom.com>
+> > Cc: Broadcom internal kernel review list <bcm-kernel-feedback-list@broadcom.com>
+> > Cc: Oleksandr Andrushchenko <oleksandr_andrushchenko@epam.com>
+> > Cc: amd-gfx@lists.freedesktop.org
+> > Cc: linux-arm-msm@vger.kernel.org
+> > Cc: freedreno@lists.freedesktop.org
+> > Cc: nouveau@lists.freedesktop.org
+> > Cc: virtualization@lists.linux.dev
+> > Cc: spice-devel@lists.freedesktop.org
+> > Cc: linux-renesas-soc@vger.kernel.org
+> > Cc: linux-tegra@vger.kernel.org
+> > Cc: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
+> > Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
+> > Reviewed-by: Thomas Zimmermann <tzimmermann@suse.de>
+> > Signed-off-by: Ville Syrjälä <ville.syrjala@linux.intel.com>
+> > ---
+> >  drivers/gpu/drm/amd/amdgpu/amdgpu_display.c            |  1 +
+> >  drivers/gpu/drm/amd/amdgpu/amdgpu_display.h            |  1 +
+> >  .../gpu/drm/arm/display/komeda/komeda_framebuffer.c    |  1 +
+> >  .../gpu/drm/arm/display/komeda/komeda_framebuffer.h    |  1 +
+> >  drivers/gpu/drm/arm/malidp_drv.c                       |  3 ++-
+> >  drivers/gpu/drm/armada/armada_fb.c                     |  6 ++----
+> >  drivers/gpu/drm/armada/armada_fb.h                     |  3 ++-
+> >  drivers/gpu/drm/drm_framebuffer.c                      |  2 +-
+> >  drivers/gpu/drm/drm_gem_framebuffer_helper.c           |  4 ++++
+> >  drivers/gpu/drm/exynos/exynos_drm_fb.c                 |  4 +---
+> >  drivers/gpu/drm/gma500/framebuffer.c                   |  1 +
+> >  drivers/gpu/drm/i915/display/intel_fb.c                |  1 +
+> >  drivers/gpu/drm/i915/display/intel_fb.h                |  1 +
+> >  drivers/gpu/drm/ingenic/ingenic-drm-drv.c              |  5 +++--
+> >  drivers/gpu/drm/mediatek/mtk_drm_drv.c                 |  7 ++-----
+> >  drivers/gpu/drm/msm/msm_drv.h                          |  3 ++-
+> >  drivers/gpu/drm/msm/msm_fb.c                           |  6 ++----
+> >  drivers/gpu/drm/mxsfb/mxsfb_drv.c                      | 10 ++--------
+> >  drivers/gpu/drm/nouveau/nouveau_display.c              |  1 +
+> >  drivers/gpu/drm/nouveau/nouveau_display.h              |  1 +
+> >  drivers/gpu/drm/omapdrm/omap_fb.c                      |  6 ++----
+> >  drivers/gpu/drm/omapdrm/omap_fb.h                      |  3 ++-
+> >  drivers/gpu/drm/qxl/qxl_display.c                      |  1 +
+> >  drivers/gpu/drm/radeon/radeon_display.c                |  1 +
+> >  drivers/gpu/drm/renesas/rcar-du/rcar_du_kms.c          |  3 ++-
+> >  drivers/gpu/drm/renesas/rz-du/rzg2l_du_kms.c           |  3 ++-
+> >  drivers/gpu/drm/renesas/shmobile/shmob_drm_kms.c       |  3 ++-
+> >  drivers/gpu/drm/rockchip/rockchip_drm_fb.c             |  7 +------
+> >  drivers/gpu/drm/tegra/drm.h                            |  1 +
+> >  drivers/gpu/drm/tegra/fb.c                             |  4 +---
+> >  drivers/gpu/drm/tests/drm_framebuffer_test.c           |  1 +
+> >  drivers/gpu/drm/vc4/vc4_kms.c                          |  3 ++-
+> >  drivers/gpu/drm/virtio/virtgpu_display.c               |  1 +
+> >  drivers/gpu/drm/vmwgfx/vmwgfx_kms.c                    |  1 +
+> >  drivers/gpu/drm/xen/xen_drm_front_kms.c                |  1 +
+> >  drivers/gpu/drm/xlnx/zynqmp_kms.c                      |  3 ++-
+> >  include/drm/drm_gem_framebuffer_helper.h               |  3 +++
+> >  include/drm/drm_mode_config.h                          |  1 +
+> >  38 files changed, 59 insertions(+), 49 deletions(-)
+> 
+> [snip]
+> 
+> > diff --git a/include/drm/drm_mode_config.h b/include/drm/drm_mode_config.h
+> > index e971e1b8a850..2e848b816218 100644
+> > --- a/include/drm/drm_mode_config.h
+> > +++ b/include/drm/drm_mode_config.h
+> > @@ -82,6 +82,7 @@ struct drm_mode_config_funcs {
+> >  	 */
+> 
+> It would be nice to document the new parameter here. With that
+> addressed,
 
-That could work =E2=80=93 but it's racy.
+None of the existing parameters are documented (for any of the
+mode_config hooks actually), so I think we'd need a separate
+patch to deal with this.
 
-I wonder if we want to introduce a mechanism into the mock scheduler
-through which we can enforce a simulated GPU hang. Then it would never
-race, and that might be useful for more advanced tests for reset
-recovery and those things.
-
-Opinions?
-
-
-P.
-
-
->=20
-> Or via the hw fence status.
->=20
+> 
+> Reviewed-by: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
+> 
+> >  	struct drm_framebuffer *(*fb_create)(struct drm_device *dev,
+> >  					     struct drm_file *file_priv,
+> > +					     const struct drm_format_info *info,
+> >  					     const struct drm_mode_fb_cmd2 *mode_cmd);
+> >  
+> >  	/**
+> 
+> -- 
 > Regards,
->=20
-> Tvrtko
->=20
-> > > > Signed-off-by: Philipp Stanner <phasta@kernel.org>
-> > > > ---
-> > > > =C2=A0=C2=A0 .../gpu/drm/scheduler/tests/mock_scheduler.c=C2=A0 | 6=
-6 +++++++--
-> > > > -----
-> > > > -----
-> > > > =C2=A0=C2=A0 1 file changed, 23 insertions(+), 43 deletions(-)
-> > > >=20
-> > > > diff --git a/drivers/gpu/drm/scheduler/tests/mock_scheduler.c
-> > > > b/drivers/gpu/drm/scheduler/tests/mock_scheduler.c
-> > > > index 49d067fecd67..2d3169d95200 100644
-> > > > --- a/drivers/gpu/drm/scheduler/tests/mock_scheduler.c
-> > > > +++ b/drivers/gpu/drm/scheduler/tests/mock_scheduler.c
-> > > > @@ -63,7 +63,7 @@ static void
-> > > > drm_mock_sched_job_complete(struct
-> > > > drm_mock_sched_job *job)
-> > > > =C2=A0=C2=A0=C2=A0	lockdep_assert_held(&sched->lock);
-> > > > =C2=A0=C2=A0=20
-> > > > =C2=A0=C2=A0=C2=A0	job->flags |=3D DRM_MOCK_SCHED_JOB_DONE;
-> > > > -	list_move_tail(&job->link, &sched->done_list);
-> > > > +	list_del(&job->link);
-> > > > =C2=A0=C2=A0=C2=A0	dma_fence_signal_locked(&job->hw_fence);
-> > > > =C2=A0=C2=A0=C2=A0	complete(&job->done);
-> > > > =C2=A0=C2=A0 }
-> > > > @@ -236,26 +236,39 @@ mock_sched_timedout_job(struct
-> > > > drm_sched_job
-> > > > *sched_job)
-> > > > =C2=A0=C2=A0=20
-> > > > =C2=A0=C2=A0 static void mock_sched_free_job(struct drm_sched_job
-> > > > *sched_job)
-> > > > =C2=A0=C2=A0 {
-> > > > -	struct drm_mock_scheduler *sched =3D
-> > > > -			drm_sched_to_mock_sched(sched_job-
-> > > > >sched);
-> > > > =C2=A0=C2=A0=C2=A0	struct drm_mock_sched_job *job =3D
-> > > > drm_sched_job_to_mock_job(sched_job);
-> > > > -	unsigned long flags;
-> > > > =C2=A0=C2=A0=20
-> > > > -	/* Remove from the scheduler done list. */
-> > > > -	spin_lock_irqsave(&sched->lock, flags);
-> > > > -	list_del(&job->link);
-> > > > -	spin_unlock_irqrestore(&sched->lock, flags);
-> > > > =C2=A0=C2=A0=C2=A0	dma_fence_put(&job->hw_fence);
-> > > > -
-> > > > =C2=A0=C2=A0=C2=A0	drm_sched_job_cleanup(sched_job);
-> > > > =C2=A0=C2=A0=20
-> > > > =C2=A0=C2=A0=C2=A0	/* Mock job itself is freed by the kunit framewo=
-rk. */
-> > > > =C2=A0=C2=A0 }
-> > > > =C2=A0=C2=A0=20
-> > > > +static void mock_sched_cancel_job(struct drm_sched_job
-> > > > *sched_job)
-> > > > +{
-> > > > +	struct drm_mock_scheduler *sched =3D
-> > > > drm_sched_to_mock_sched(sched_job->sched);
-> > > > +	struct drm_mock_sched_job *job =3D
-> > > > drm_sched_job_to_mock_job(sched_job);
-> > > > +	unsigned long flags;
-> > > > +
-> > > > +	hrtimer_cancel(&job->timer);
-> > > > +
-> > > > +	spin_lock_irqsave(&sched->lock, flags);
-> > > > +	if (!dma_fence_is_signaled_locked(&job->hw_fence)) {
-> > > > +		list_del(&job->link);
-> > > > +		dma_fence_set_error(&job->hw_fence, -
-> > > > ECANCELED);
-> > > > +		dma_fence_signal_locked(&job->hw_fence);
-> > > > +	}
-> > > > +	spin_unlock_irqrestore(&sched->lock, flags);
-> > > > +
-> > > > +	/* The GPU Scheduler will call
-> > > > drm_sched_backend_ops.free_job(), still.
-> > > > +	 * Mock job itself is freed by the kunit framework. */
-> > >=20
-> > > /*
-> > > =C2=A0=C2=A0 * Multiline comment style to stay consistent, at least i=
-n this
-> > > file.
-> > > =C2=A0=C2=A0 */
-> > >=20
-> > > The rest looks good, but I need to revisit the timeout/free
-> > > handling
-> > > since it has been a while and you changed it recently.
-> > >=20
-> > > Regards,
-> > >=20
-> > > Tvrtko
-> > >=20
-> > > > +}
-> > > > +
-> > > > =C2=A0=C2=A0 static const struct drm_sched_backend_ops
-> > > > drm_mock_scheduler_ops
-> > > > =3D {
-> > > > =C2=A0=C2=A0=C2=A0	.run_job =3D mock_sched_run_job,
-> > > > =C2=A0=C2=A0=C2=A0	.timedout_job =3D mock_sched_timedout_job,
-> > > > -	.free_job =3D mock_sched_free_job
-> > > > +	.free_job =3D mock_sched_free_job,
-> > > > +	.cancel_job =3D mock_sched_cancel_job,
-> > > > =C2=A0=C2=A0 };
-> > > > =C2=A0=C2=A0=20
-> > > > =C2=A0=C2=A0 /**
-> > > > @@ -289,7 +302,6 @@ struct drm_mock_scheduler
-> > > > *drm_mock_sched_new(struct kunit *test, long timeout)
-> > > > =C2=A0=C2=A0=C2=A0	sched->hw_timeline.context =3D
-> > > > dma_fence_context_alloc(1);
-> > > > =C2=A0=C2=A0=C2=A0	atomic_set(&sched->hw_timeline.next_seqno, 0);
-> > > > =C2=A0=C2=A0=C2=A0	INIT_LIST_HEAD(&sched->job_list);
-> > > > -	INIT_LIST_HEAD(&sched->done_list);
-> > > > =C2=A0=C2=A0=C2=A0	spin_lock_init(&sched->lock);
-> > > > =C2=A0=C2=A0=20
-> > > > =C2=A0=C2=A0=C2=A0	return sched;
-> > > > @@ -304,38 +316,6 @@ struct drm_mock_scheduler
-> > > > *drm_mock_sched_new(struct kunit *test, long timeout)
-> > > > =C2=A0=C2=A0=C2=A0 */
-> > > > =C2=A0=C2=A0 void drm_mock_sched_fini(struct drm_mock_scheduler *sc=
-hed)
-> > > > =C2=A0=C2=A0 {
-> > > > -	struct drm_mock_sched_job *job, *next;
-> > > > -	unsigned long flags;
-> > > > -	LIST_HEAD(list);
-> > > > -
-> > > > -	drm_sched_wqueue_stop(&sched->base);
-> > > > -
-> > > > -	/* Force complete all unfinished jobs. */
-> > > > -	spin_lock_irqsave(&sched->lock, flags);
-> > > > -	list_for_each_entry_safe(job, next, &sched->job_list,
-> > > > link)
-> > > > -		list_move_tail(&job->link, &list);
-> > > > -	spin_unlock_irqrestore(&sched->lock, flags);
-> > > > -
-> > > > -	list_for_each_entry(job, &list, link)
-> > > > -		hrtimer_cancel(&job->timer);
-> > > > -
-> > > > -	spin_lock_irqsave(&sched->lock, flags);
-> > > > -	list_for_each_entry_safe(job, next, &list, link)
-> > > > -		drm_mock_sched_job_complete(job);
-> > > > -	spin_unlock_irqrestore(&sched->lock, flags);
-> > > > -
-> > > > -	/*
-> > > > -	 * Free completed jobs and jobs not yet processed by
-> > > > the
-> > > > DRM scheduler
-> > > > -	 * free worker.
-> > > > -	 */
-> > > > -	spin_lock_irqsave(&sched->lock, flags);
-> > > > -	list_for_each_entry_safe(job, next, &sched->done_list,
-> > > > link)
-> > > > -		list_move_tail(&job->link, &list);
-> > > > -	spin_unlock_irqrestore(&sched->lock, flags);
-> > > > -
-> > > > -	list_for_each_entry_safe(job, next, &list, link)
-> > > > -		mock_sched_free_job(&job->base);
-> > > > -
-> > > > =C2=A0=C2=A0=C2=A0	drm_sched_fini(&sched->base);
-> > > > =C2=A0=C2=A0 }
-> > > > =C2=A0=C2=A0=20
-> > >=20
-> >=20
->=20
+> 
+> Laurent Pinchart
 
+-- 
+Ville Syrjälä
+Intel
