@@ -2,92 +2,62 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6A9C5AF96A2
-	for <lists+dri-devel@lfdr.de>; Fri,  4 Jul 2025 17:19:58 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6B668AF96BD
+	for <lists+dri-devel@lfdr.de>; Fri,  4 Jul 2025 17:26:29 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1334410E093;
-	Fri,  4 Jul 2025 15:19:56 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 98E2810E299;
+	Fri,  4 Jul 2025 15:26:13 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="A2B07ix0";
+	dkim=pass (2048-bit key; unprotected) header.d=collabora.com header.i=@collabora.com header.b="IQpuTJ46";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from sea.source.kernel.org (sea.source.kernel.org [172.234.252.31])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B84B210E093
- for <dri-devel@lists.freedesktop.org>; Fri,  4 Jul 2025 15:19:54 +0000 (UTC)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by sea.source.kernel.org (Postfix) with ESMTP id 725824547E;
- Fri,  4 Jul 2025 15:19:54 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id ECA64C4CEE3;
- Fri,  4 Jul 2025 15:19:50 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1751642394;
- bh=/ew8MS09xmL3iUz0ZzBhcbPd2CRWVgMKzYHPaMgmnZw=;
+Received: from bali.collaboradmins.com (bali.collaboradmins.com
+ [148.251.105.195])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6D3D110E299
+ for <dri-devel@lists.freedesktop.org>; Fri,  4 Jul 2025 15:26:12 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+ s=mail; t=1751642770;
+ bh=ohRy4gcoGuEcRKZpJdSU1G0sKmqubXx68E7KSC1A01I=;
  h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
- b=A2B07ix0OA27DrqIeFKXIbrYFiuNNYfzmRMHpf7hkTFpC+hob+oIF9tWG4XmAXVat
- Nwj9fwQiU8vJHuCeJTU1dQMaNKZc5vybp0GzyFspI1feNLD9VfaNUmMUEtH2gSLNWV
- j01zjK/Z/4FguO3enRnXNErzj1+fXNc3hIQSCChG1cIrAxzekp1FC/JV2lS7xAD0An
- qR7Bl+YY7JyvjpEYkEjGDAswbpY8SuZ+ZREXzQCxiBrnRQzVi1d7rnAusXeqFLMtYA
- 0ZPUOrb2NikR/Pokw4E1VmG+HzOnTd6Y5wcEzFGvXNHMAd0Wwcrf+IA0gXj423pi6M
- PwLtSJXOohqrg==
-Message-ID: <879d1fa7-04a5-403c-8d23-76631a67f560@kernel.org>
-Date: Fri, 4 Jul 2025 17:19:49 +0200
+ b=IQpuTJ46xB7t9TZsLEqdQUqcaUBAf7UcGR9KeXm5AbW+VdHtVw9PDpxe3+Zx8pk1A
+ 2tofxiaQsxOsBqI1Xoko5rRmH1K5bu7qQfSPpuDh9FHDevntD6KW1HNq8gawLU7HWj
+ QN/lN+G1R0r+Nw79biJPjRdmz1WYurJMekV6zpmEDl6scwasEp6xsbqmNTSljPz6J6
+ pDCt8GB71tdiXMdZ++n5SpjvzRnxX7/0eOzOnA9yMMhfpHs04vvBc2wV18ZLD0P/6T
+ hvRxPGgcRDfX0NNfaE6a/UgspTX3s/2td2/OaNlIvJoPeuPYsoHL9B+Vb1799nm2kj
+ uNYYV5pFL+w3w==
+Received: from [192.168.1.90] (unknown [212.93.144.165])
+ (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ (No client certificate requested) (Authenticated sender: cristicc)
+ by bali.collaboradmins.com (Postfix) with ESMTPSA id EDC8517E07C9;
+ Fri,  4 Jul 2025 17:26:09 +0200 (CEST)
+Message-ID: <c08e55bb-fb93-44d6-bcb2-f1a1b78a5fb7@collabora.com>
+Date: Fri, 4 Jul 2025 18:26:09 +0300
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] virtio: Add missing kerneldoc for virtio_dma_buf_attach
-To: jiang.peng9@zte.com.cn, jasowang@redhat.com, xuanzhuo@linux.alibaba.com
-Cc: mst@redhat.com, eperezma@redhat.com, sumit.semwal@linaro.org,
- christian.koenig@amd.com, virtualization@lists.linux.dev,
- linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
- dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org,
- xu.xin16@zte.com.cn, yang.yang29@zte.com.cn
-References: <20250704152047205U11FdEih1MxrmcmAz0Xpp@zte.com.cn>
-From: Krzysztof Kozlowski <krzk@kernel.org>
+Subject: Re: [PATCH 3/5] drm/rockchip: dw_hdmi_qp: Provide ref clock rate in
+ dw_hdmi_qp_plat_data
+To: Maxime Ripard <mripard@kernel.org>
+Cc: Sandy Huang <hjc@rock-chips.com>, =?UTF-8?Q?Heiko_St=C3=BCbner?=
+ <heiko@sntech.de>, Andy Yan <andy.yan@rock-chips.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
+ Simona Vetter <simona@ffwll.ch>, Andrzej Hajda <andrzej.hajda@intel.com>,
+ Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>,
+ Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>,
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
+ Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>,
+ Catalin Marinas <catalin.marinas@arm.com>, Will Deacon <will@kernel.org>,
+ kernel@collabora.com, dri-devel@lists.freedesktop.org,
+ linux-arm-kernel@lists.infradead.org, linux-rockchip@lists.infradead.org,
+ linux-kernel@vger.kernel.org
+References: <20250704-rk3588-hdmi-cec-v1-0-2bd8de8700cd@collabora.com>
+ <20250704-rk3588-hdmi-cec-v1-3-2bd8de8700cd@collabora.com>
+ <20250704-granite-piculet-of-elevation-f01e08@houat>
 Content-Language: en-US
-Autocrypt: addr=krzk@kernel.org; keydata=
- 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 a/A=
-In-Reply-To: <20250704152047205U11FdEih1MxrmcmAz0Xpp@zte.com.cn>
+From: Cristian Ciocaltea <cristian.ciocaltea@collabora.com>
+In-Reply-To: <20250704-granite-piculet-of-elevation-f01e08@houat>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -105,42 +75,59 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 04/07/2025 09:20, jiang.peng9@zte.com.cn wrote:
-> From: Peng Jiang <jiang.peng9@zte.com.cn>
-> 
-> Add kerneldoc for 'virtio_dma_buf_attach' function to fix W=1 warnings:
-> 
-> drivers/virtio/virtio_dma_buf.c:41 function parameter 'dma_buf' not described in 'virtio_dma_buf_attach'
-> drivers/virtio/virtio_dma_buf.c:41 function parameter 'attach' not described in 'virtio_dma_buf_attach'
-> 
-> Signed-off-by: Peng Jiang <jiang.peng9@zte.com.cn>
-> ---
->  drivers/virtio/virtio_dma_buf.c | 11 ++++++++++-
->  1 file changed, 10 insertions(+), 1 deletion(-)
-> 
-> diff --git a/drivers/virtio/virtio_dma_buf.c b/drivers/virtio/virtio_dma_buf.c
-> index 3fe1d03b0645..18d261ba5197 100644
-> --- a/drivers/virtio/virtio_dma_buf.c
-> +++ b/drivers/virtio/virtio_dma_buf.c
-> @@ -35,7 +35,16 @@ struct dma_buf *virtio_dma_buf_export
->  EXPORT_SYMBOL(virtio_dma_buf_export);
-> 
->  /**
-> - * virtio_dma_buf_attach - mandatory attach callback for virtio dma-bufs
-> + * virtio_dma_buf_attach - Mandatory attach callback for virtio dma-bufs
+Hi Maxime,
 
-Read kernel-doc.rst. Missing ()
+On 7/4/25 6:07 PM, Maxime Ripard wrote:
+> On Fri, Jul 04, 2025 at 05:23:24PM +0300, Cristian Ciocaltea wrote:
+>> In order to support correct initialization of the timer base in the HDMI
+>> QP IP block, extend the platform data to provide the necessary reference
+>> clock rate.
+>>
+>> While at it, ensure plat_data is zero-initialized in
+>> dw_hdmi_qp_rockchip_bind().
+>>
+>> Signed-off-by: Cristian Ciocaltea <cristian.ciocaltea@collabora.com>
+>> ---
+>>  drivers/gpu/drm/rockchip/dw_hdmi_qp-rockchip.c | 13 ++++++++++++-
+>>  include/drm/bridge/dw_hdmi_qp.h                |  1 +
+>>  2 files changed, 13 insertions(+), 1 deletion(-)
+>>
+>> diff --git a/drivers/gpu/drm/rockchip/dw_hdmi_qp-rockchip.c b/drivers/gpu/drm/rockchip/dw_hdmi_qp-rockchip.c
+>> index 126e556025961e8645f3567b4d7a1c73cc2f2e7f..8c1185490009c5f1bc658998a868f8b18dc479a3 100644
+>> --- a/drivers/gpu/drm/rockchip/dw_hdmi_qp-rockchip.c
+>> +++ b/drivers/gpu/drm/rockchip/dw_hdmi_qp-rockchip.c
+>> @@ -431,8 +431,8 @@ static int dw_hdmi_qp_rockchip_bind(struct device *dev, struct device *master,
+>>  				    void *data)
+>>  {
+>>  	struct platform_device *pdev = to_platform_device(dev);
+>> +	struct dw_hdmi_qp_plat_data plat_data = {};
+>>  	const struct rockchip_hdmi_qp_cfg *cfg;
+>> -	struct dw_hdmi_qp_plat_data plat_data;
+>>  	struct drm_device *drm = data;
+>>  	struct drm_connector *connector;
+>>  	struct drm_encoder *encoder;
+>> @@ -515,6 +515,17 @@ static int dw_hdmi_qp_rockchip_bind(struct device *dev, struct device *master,
+>>  		return ret;
+>>  	}
+>>  
+>> +	for (i = 0; i < ret; i++) {
+>> +		if (!strcmp(clks[i].id, "ref")) {
+>> +			plat_data.ref_clk_rate = clk_get_rate(clks[i].clk);
+>> +			break;
+>> +		}
+>> +	}
+>> +	if (!plat_data.ref_clk_rate) {
+>> +		dev_err(hdmi->dev, "Missing ref clock\n");
+>> +		return -EINVAL;
+>> +	}
+>> +
+> 
+> You'd be better off not using clk_bulk, or calling an additional clk_get
+> for the ref clock only.
 
-> + * @dma_buf: Pointer to the shared dma-buf structure
-> + * @attach: Pointer to the newly created attachment metadata
-> + *
-> + * Description: Implements the standard dma-buf attach operation for virtio devices.
+I'd keep clk_bulk as there are 5 more clocks in the list.  But replacing the
+loop with just an extra clk_get would be a simpler approach, indeed, so
+thanks for the hint!
 
-That's not kerneldoc. Which part of kernel-doc document documents such
-syntax?
-
-
-> + *              Retrieves virtio-specific operations through container_of macro,
-> + *              then invokes device-specific attach callback if present.
-Best regards,
-Krzysztof
+Regards,
+Cristian
