@@ -2,55 +2,55 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4FDE8AF9931
-	for <lists+dri-devel@lfdr.de>; Fri,  4 Jul 2025 18:46:42 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id C8913AF9932
+	for <lists+dri-devel@lfdr.de>; Fri,  4 Jul 2025 18:46:44 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9945B10E35F;
-	Fri,  4 Jul 2025 16:46:40 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 20AD210E35C;
+	Fri,  4 Jul 2025 16:46:43 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="iSKp99Rm";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="Mvo+693f";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.14])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 720B710E35A;
- Fri,  4 Jul 2025 16:46:39 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4085210E35C;
+ Fri,  4 Jul 2025 16:46:42 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1751647599; x=1783183599;
+ t=1751647602; x=1783183602;
  h=from:to:cc:subject:date:message-id:in-reply-to:
  references:mime-version:content-transfer-encoding;
- bh=1R19Idxj3kDius8mWLm6qMihg2h0FoKBMPBhn7+/M6A=;
- b=iSKp99RmLkTk5WC0Zf3Usc+Vx5rCSJU+h4/YGtp5fWS0rEHIHW4295fv
- GlCRxiZtvi+EwP1C92thVpZvdX1k7GEbDihEoYb06vEbME54ctPyh6TF8
- wPl8T8QeaMvIT4tPxLa/IQyDJCHJpky00E+oI8pKjjqwHfiwulfHT02Uy
- c6vVLMgtMr9yPKHAqtSggXupsPtJHFg+eWz6WVI3ABZE5+ptmoqbqrrb7
- vGy/RvVhbowPlkoYMVONrPQrgEDu/B/ytH4ZgkZY8+uY9pTT/jQTYqn9t
- TDpoh4QYsc62D4IvWjzVBS1mLORORmoWSs2yZg5uRBXcD9RvrNG+jbvLx A==;
-X-CSE-ConnectionGUID: VC0+cLhaRqSV01EQ3OoOgg==
-X-CSE-MsgGUID: zYyB1RgQRiqnc1AXWoFIoA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11484"; a="57755818"
-X-IronPort-AV: E=Sophos;i="6.16,287,1744095600"; d="scan'208";a="57755818"
+ bh=3PmdhLvdY41V0PizQMRAIJgMLKgL29UIW+nOPM8t0Is=;
+ b=Mvo+693fLCFNHR9U+XCBFomIgtr5qx+jzZtv9tRVIUjghvi8hXt+4l61
+ Qd9YMpB0+3WQ0n6q71vK5r0EzbWA7n2EDpCPkYULeYpPzFwMAoOdXZakU
+ dHhPNkjj+vo7/HL6ACxJeaN9Tq/hLjBffCcdMdffxaN1Kno1BRsTUdP4s
+ PhAei017sdkznwLO0pytt40AAEi/vqhXIYFlYjZAYzP/pmp6HMiTITPf+
+ i8+k5piA+b99/s9bb0o+crX6faOd9Q/UnJ3iTpeapviPNnOvUG/zzfsSe
+ jm5tn69h9f2BtgcOt52/z9BcIw0aQ3B9wwrEPLGTIy7Va09ZWSXPwfdro Q==;
+X-CSE-ConnectionGUID: 9lBuB+dBT/+zQ8l4F90GQg==
+X-CSE-MsgGUID: wahOgNUXR5O2i9NlFOtw0Q==
+X-IronPort-AV: E=McAfee;i="6800,10657,11484"; a="57755827"
+X-IronPort-AV: E=Sophos;i="6.16,287,1744095600"; d="scan'208";a="57755827"
 Received: from orviesa009.jf.intel.com ([10.64.159.149])
  by orvoesa106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 04 Jul 2025 09:46:39 -0700
-X-CSE-ConnectionGUID: WZhNj9sXQ1+b/4cggeazrA==
-X-CSE-MsgGUID: OvAJUMiERPKM62N5gEJDqQ==
+ 04 Jul 2025 09:46:42 -0700
+X-CSE-ConnectionGUID: PMRrAru2TT+YNNwTxbj2yA==
+X-CSE-MsgGUID: yFPzG9OPR0m/I/x/N3IUwQ==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.16,287,1744095600"; d="scan'208";a="154424731"
+X-IronPort-AV: E=Sophos;i="6.16,287,1744095600"; d="scan'208";a="154424738"
 Received: from unknown (HELO bnilawar-desk2.iind.intel.com) ([10.190.239.41])
  by orviesa009-auth.jf.intel.com with
- ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Jul 2025 09:46:37 -0700
+ ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Jul 2025 09:46:40 -0700
 From: Badal Nilawar <badal.nilawar@intel.com>
 To: intel-xe@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
  linux-kernel@vger.kernel.org
 Cc: anshuman.gupta@intel.com, rodrigo.vivi@intel.com,
  alexander.usyskin@intel.com, gregkh@linuxfoundation.org,
  daniele.ceraolospurio@intel.com
-Subject: [PATCH v7 08/10] drm/xe/xe_late_bind_fw: Introduce debug fs node to
- disable late binding
-Date: Fri,  4 Jul 2025 22:20:36 +0530
-Message-Id: <20250704165038.1464460-9-badal.nilawar@intel.com>
+Subject: [PATCH v7 09/10] drm/xe/xe_late_bind_fw: Extract and print version
+ info
+Date: Fri,  4 Jul 2025 22:20:37 +0530
+Message-Id: <20250704165038.1464460-10-badal.nilawar@intel.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20250704165038.1464460-1-badal.nilawar@intel.com>
 References: <20250704165038.1464460-1-badal.nilawar@intel.com>
@@ -71,113 +71,262 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Introduce a debug filesystem node to disable late binding fw reload
-during the system or runtime resume. This is intended for situations
-where the late binding fw needs to be loaded from user mode,
-perticularly for validation purpose.
-Note that xe kmd doesn't participate in late binding flow from user
-space. Binary loaded from the userspace will be lost upon entering to
-D3 cold hence user space app need to handle this situation.
+Extract and print version info of the late binding binary.
 
-v2:
-  - s/(uval == 1) ? true : false/!!uval/ (Daniele)
-v3:
-  - Refine the commit message (Daniele)
+v2: Some refinements (Daniele)
 
-Acked-by: Rodrigo Vivi <rodrigo.vivi@intel.com>
 Signed-off-by: Badal Nilawar <badal.nilawar@intel.com>
 Reviewed-by: Daniele Ceraolo Spurio <daniele.ceraolospurio@intel.com>
 ---
- drivers/gpu/drm/xe/xe_debugfs.c            | 41 ++++++++++++++++++++++
- drivers/gpu/drm/xe/xe_late_bind_fw.c       |  3 ++
- drivers/gpu/drm/xe/xe_late_bind_fw_types.h |  2 ++
- 3 files changed, 46 insertions(+)
+ drivers/gpu/drm/xe/xe_late_bind_fw.c       | 124 +++++++++++++++++++++
+ drivers/gpu/drm/xe/xe_late_bind_fw_types.h |   3 +
+ drivers/gpu/drm/xe/xe_uc_fw_abi.h          |  66 +++++++++++
+ 3 files changed, 193 insertions(+)
 
-diff --git a/drivers/gpu/drm/xe/xe_debugfs.c b/drivers/gpu/drm/xe/xe_debugfs.c
-index d83cd6ed3fa8..d1f6f556efa2 100644
---- a/drivers/gpu/drm/xe/xe_debugfs.c
-+++ b/drivers/gpu/drm/xe/xe_debugfs.c
-@@ -226,6 +226,44 @@ static const struct file_operations atomic_svm_timeslice_ms_fops = {
- 	.write = atomic_svm_timeslice_ms_set,
- };
+diff --git a/drivers/gpu/drm/xe/xe_late_bind_fw.c b/drivers/gpu/drm/xe/xe_late_bind_fw.c
+index 3228864716b5..19e8de114d0c 100644
+--- a/drivers/gpu/drm/xe/xe_late_bind_fw.c
++++ b/drivers/gpu/drm/xe/xe_late_bind_fw.c
+@@ -45,6 +45,121 @@ late_bind_to_xe(struct xe_late_bind *late_bind)
+ 	return container_of(late_bind, struct xe_device, late_bind);
+ }
  
-+static ssize_t disable_late_binding_show(struct file *f, char __user *ubuf,
-+					 size_t size, loff_t *pos)
++static struct xe_device *
++late_bind_fw_to_xe(struct xe_late_bind_fw *lb_fw)
 +{
-+	struct xe_device *xe = file_inode(f)->i_private;
-+	struct xe_late_bind *late_bind = &xe->late_bind;
-+	char buf[32];
-+	int len;
-+
-+	len = scnprintf(buf, sizeof(buf), "%d\n", late_bind->disable);
-+
-+	return simple_read_from_buffer(ubuf, size, pos, buf, len);
++	return container_of(lb_fw, struct xe_device, late_bind.late_bind_fw[lb_fw->id]);
 +}
 +
-+static ssize_t disable_late_binding_set(struct file *f, const char __user *ubuf,
-+					size_t size, loff_t *pos)
++/* Refer to the "Late Bind based Firmware Layout" documentation entry for details */
++static int parse_cpd_header(struct xe_late_bind_fw *lb_fw,
++			    const void *data, size_t size, const char *manifest_entry)
 +{
-+	struct xe_device *xe = file_inode(f)->i_private;
-+	struct xe_late_bind *late_bind = &xe->late_bind;
-+	u32 uval;
-+	ssize_t ret;
++	struct xe_device *xe = late_bind_fw_to_xe(lb_fw);
++	const struct gsc_cpd_header_v2 *header = data;
++	const struct gsc_manifest_header *manifest;
++	const struct gsc_cpd_entry *entry;
++	size_t min_size = sizeof(*header);
++	u32 offset;
++	int i;
 +
-+	ret = kstrtouint_from_user(ubuf, size, sizeof(uval), &uval);
++	/* manifest_entry is mandatory */
++	xe_assert(xe, manifest_entry);
++
++	if (size < min_size || header->header_marker != GSC_CPD_HEADER_MARKER)
++		return -ENOENT;
++
++	if (header->header_length < sizeof(struct gsc_cpd_header_v2)) {
++		drm_err(&xe->drm, "%s late binding fw: Invalid CPD header length %u!\n",
++			fw_id_to_name[lb_fw->id], header->header_length);
++		return -EINVAL;
++	}
++
++	min_size = header->header_length + sizeof(struct gsc_cpd_entry) * header->num_of_entries;
++	if (size < min_size) {
++		drm_err(&xe->drm, "%s late binding fw: too small! %zu < %zu\n",
++			fw_id_to_name[lb_fw->id], size, min_size);
++		return -ENODATA;
++	}
++
++	/* Look for the manifest first */
++	entry = (void *)header + header->header_length;
++	for (i = 0; i < header->num_of_entries; i++, entry++)
++		if (strcmp(entry->name, manifest_entry) == 0)
++			offset = entry->offset & GSC_CPD_ENTRY_OFFSET_MASK;
++
++	if (!offset) {
++		drm_err(&xe->drm, "%s late binding fw: Failed to find manifest_entry\n",
++			fw_id_to_name[lb_fw->id]);
++		return -ENODATA;
++	}
++
++	min_size = offset + sizeof(struct gsc_manifest_header);
++	if (size < min_size) {
++		drm_err(&xe->drm, "%s late binding fw: too small! %zu < %zu\n",
++			fw_id_to_name[lb_fw->id], size, min_size);
++		return -ENODATA;
++	}
++
++	manifest = data + offset;
++
++	lb_fw->version = manifest->fw_version;
++
++	return 0;
++}
++
++/* Refer to the "Late Bind based Firmware Layout" documentation entry for details */
++static int parse_lb_layout(struct xe_late_bind_fw *lb_fw,
++			   const void *data, size_t size, const char *fpt_entry)
++{
++	struct xe_device *xe = late_bind_fw_to_xe(lb_fw);
++	const struct csc_fpt_header *header = data;
++	const struct csc_fpt_entry *entry;
++	size_t min_size = sizeof(*header);
++	u32 offset;
++	int i;
++
++	/* fpt_entry is mandatory */
++	xe_assert(xe, fpt_entry);
++
++	if (size < min_size || header->header_marker != CSC_FPT_HEADER_MARKER)
++		return -ENOENT;
++
++	if (header->header_length < sizeof(struct csc_fpt_header)) {
++		drm_err(&xe->drm, "%s late binding fw: Invalid FPT header length %u!\n",
++			fw_id_to_name[lb_fw->id], header->header_length);
++		return -EINVAL;
++	}
++
++	min_size = header->header_length + sizeof(struct csc_fpt_entry) * header->num_of_entries;
++	if (size < min_size) {
++		drm_err(&xe->drm, "%s late binding fw: too small! %zu < %zu\n",
++			fw_id_to_name[lb_fw->id], size, min_size);
++		return -ENODATA;
++	}
++
++	/* Look for the cpd header first */
++	entry = (void *)header + header->header_length;
++	for (i = 0; i < header->num_of_entries; i++, entry++)
++		if (strcmp(entry->name, fpt_entry) == 0)
++			offset = entry->offset;
++
++	if (!offset) {
++		drm_err(&xe->drm, "%s late binding fw: Failed to find fpt_entry\n",
++			fw_id_to_name[lb_fw->id]);
++		return -ENODATA;
++	}
++
++	min_size = offset + sizeof(struct gsc_cpd_header_v2);
++	if (size < min_size) {
++		drm_err(&xe->drm, "%s late binding fw: too small! %zu < %zu\n",
++			fw_id_to_name[lb_fw->id], size, min_size);
++		return -ENODATA;
++	}
++
++	return parse_cpd_header(lb_fw, data + offset, size - offset, "LTES.man");
++}
++
+ static const char *xe_late_bind_parse_status(uint32_t status)
+ {
+ 	switch (status) {
+@@ -222,6 +337,10 @@ static int __xe_late_bind_fw_init(struct xe_late_bind *late_bind, u32 fw_id)
+ 		return -ENODATA;
+ 	}
+ 
++	ret = parse_lb_layout(lb_fw, fw->data, fw->size, "LTES");
 +	if (ret)
 +		return ret;
 +
-+	if (uval > 1)
-+		return -EINVAL;
-+
-+	late_bind->disable = !!uval;
-+	return size;
-+}
-+
-+static const struct file_operations disable_late_binding_fops = {
-+	.owner = THIS_MODULE,
-+	.read = disable_late_binding_show,
-+	.write = disable_late_binding_set,
-+};
-+
- void xe_debugfs_register(struct xe_device *xe)
- {
- 	struct ttm_device *bdev = &xe->ttm;
-@@ -249,6 +287,9 @@ void xe_debugfs_register(struct xe_device *xe)
- 	debugfs_create_file("atomic_svm_timeslice_ms", 0600, root, xe,
- 			    &atomic_svm_timeslice_ms_fops);
+ 	lb_fw->payload_size = fw->size;
+ 	lb_fw->payload = drmm_kzalloc(&xe->drm, lb_fw->payload_size, GFP_KERNEL);
+ 	if (!lb_fw->payload) {
+@@ -229,6 +348,11 @@ static int __xe_late_bind_fw_init(struct xe_late_bind *late_bind, u32 fw_id)
+ 		return -ENOMEM;
+ 	}
  
-+	debugfs_create_file("disable_late_binding", 0600, root, xe,
-+			    &disable_late_binding_fops);
++	drm_info(&xe->drm, "Using %s firmware from %s version %u.%u.%u.%u\n",
++		 fw_id_to_name[lb_fw->id], lb_fw->blob_path,
++		 lb_fw->version.major, lb_fw->version.minor,
++		 lb_fw->version.hotfix, lb_fw->version.build);
 +
- 	for (mem_type = XE_PL_VRAM0; mem_type <= XE_PL_VRAM1; ++mem_type) {
- 		man = ttm_manager_type(bdev, mem_type);
- 
-diff --git a/drivers/gpu/drm/xe/xe_late_bind_fw.c b/drivers/gpu/drm/xe/xe_late_bind_fw.c
-index 54ba0b57185b..3228864716b5 100644
---- a/drivers/gpu/drm/xe/xe_late_bind_fw.c
-+++ b/drivers/gpu/drm/xe/xe_late_bind_fw.c
-@@ -165,6 +165,9 @@ int xe_late_bind_fw_load(struct xe_late_bind *late_bind)
- 	if (!late_bind->component_added)
- 		return -ENODEV;
- 
-+	if (late_bind->disable)
-+		return 0;
-+
- 	for (fw_id = 0; fw_id < XE_LB_FW_MAX_ID; fw_id++) {
- 		lbfw = &late_bind->late_bind_fw[fw_id];
- 		if (lbfw->payload) {
+ 	memcpy((void *)lb_fw->payload, fw->data, lb_fw->payload_size);
+ 	release_firmware(fw);
+ 	INIT_WORK(&lb_fw->work, xe_late_bind_work);
 diff --git a/drivers/gpu/drm/xe/xe_late_bind_fw_types.h b/drivers/gpu/drm/xe/xe_late_bind_fw_types.h
-index 3cc5fc0593b3..9399d425d80b 100644
+index 9399d425d80b..4404112fd8a7 100644
 --- a/drivers/gpu/drm/xe/xe_late_bind_fw_types.h
 +++ b/drivers/gpu/drm/xe/xe_late_bind_fw_types.h
-@@ -65,6 +65,8 @@ struct xe_late_bind {
- 	struct workqueue_struct *wq;
- 	/** @component_added: whether the component has been added */
- 	bool component_added;
-+	/** @disable: to block late binding reload during pm resume flow*/
-+	bool disable;
+@@ -10,6 +10,7 @@
+ #include <linux/mutex.h>
+ #include <linux/types.h>
+ #include <linux/workqueue.h>
++#include "xe_uc_fw_abi.h"
+ 
+ #define XE_LB_MAX_PAYLOAD_SIZE SZ_4K
+ 
+@@ -39,6 +40,8 @@ struct xe_late_bind_fw {
+ 	size_t payload_size;
+ 	/** @work: worker to upload latebind blob */
+ 	struct work_struct work;
++	/** @version: late binding blob manifest version */
++	struct gsc_version version;
  };
  
+ /**
+diff --git a/drivers/gpu/drm/xe/xe_uc_fw_abi.h b/drivers/gpu/drm/xe/xe_uc_fw_abi.h
+index 87ade41209d0..78782d105fa9 100644
+--- a/drivers/gpu/drm/xe/xe_uc_fw_abi.h
++++ b/drivers/gpu/drm/xe/xe_uc_fw_abi.h
+@@ -318,4 +318,70 @@ struct gsc_manifest_header {
+ 	u32 exponent_size; /* in dwords */
+ } __packed;
+ 
++/**
++ * DOC: Late binding Firmware Layout
++ *
++ * The Late binding binary starts with FPT header, which contains locations
++ * of various partitions of the binary. Here we're interested in finding out
++ * manifest version. To the manifest version, we need to locate CPD header
++ * one of the entry in CPD header points to manifest header. Manifest header
++ * contains the version.
++ *
++ *      +================================================+
++ *      |  FPT Header                                    |
++ *      +================================================+
++ *      |  FPT entries[]                                 |
++ *      |      entry1                                    |
++ *      |      ...                                       |
++ *      |      entryX                                    |
++ *      |          "LTES"                                |
++ *      |          ...                                   |
++ *      |          offset  >-----------------------------|------o
++ *      +================================================+      |
++ *                                                              |
++ *      +================================================+      |
++ *      |  CPD Header                                    |<-----o
++ *      +================================================+
++ *      |  CPD entries[]                                 |
++ *      |      entry1                                    |
++ *      |      ...                                       |
++ *      |      entryX                                    |
++ *      |          "LTES.man"                            |
++ *      |           ...                                  |
++ *      |           offset  >----------------------------|------o
++ *      +================================================+      |
++ *                                                              |
++ *      +================================================+      |
++ *      |  Manifest Header                               |<-----o
++ *      |      ...                                       |
++ *      |      FW version                                |
++ *      |      ...                                       |
++ *      +================================================+
++ */
++
++/* FPT Headers */
++struct csc_fpt_header {
++	u32 header_marker;
++#define CSC_FPT_HEADER_MARKER 0x54504624
++	u32 num_of_entries;
++	u8 header_version;
++	u8 entry_version;
++	u8 header_length; /* in bytes */
++	u8 flags;
++	u16 ticks_to_add;
++	u16 tokens_to_add;
++	u32 uma_size;
++	u32 crc32;
++	struct gsc_version fitc_version;
++} __packed;
++
++struct csc_fpt_entry {
++	u8 name[4]; /* partition name */
++	u32 reserved1;
++	u32 offset; /* offset from beginning of CSE region */
++	u32 length; /* partition length in bytes */
++	u32 reserved2[3];
++	u32 partition_flags;
++} __packed;
++
  #endif
 -- 
 2.34.1
