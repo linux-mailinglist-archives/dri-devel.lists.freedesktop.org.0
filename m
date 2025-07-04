@@ -2,96 +2,68 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 03DA4AF9B51
-	for <lists+dri-devel@lfdr.de>; Fri,  4 Jul 2025 21:50:35 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 62D91AF9B7E
+	for <lists+dri-devel@lfdr.de>; Fri,  4 Jul 2025 22:11:33 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id BDCB710E052;
-	Fri,  4 Jul 2025 19:50:32 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4BE5910EA71;
+	Fri,  4 Jul 2025 20:11:30 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="EtdmTypu";
+	dkim=pass (1024-bit key; unprotected) header.d=zohomail.com header.i=safinaskar@zohomail.com header.b="aA1Tf5hE";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-qv1-f42.google.com (mail-qv1-f42.google.com
- [209.85.219.42])
- by gabe.freedesktop.org (Postfix) with ESMTPS id EC5CB10E052
- for <dri-devel@lists.freedesktop.org>; Fri,  4 Jul 2025 19:50:30 +0000 (UTC)
-Received: by mail-qv1-f42.google.com with SMTP id
- 6a1803df08f44-6fabe9446a0so12151406d6.2
- for <dri-devel@lists.freedesktop.org>; Fri, 04 Jul 2025 12:50:30 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1751658630; x=1752263430; darn=lists.freedesktop.org;
- h=cc:to:message-id:content-transfer-encoding:mime-version:subject
- :date:from:from:to:cc:subject:date:message-id:reply-to;
- bh=XNhvIHtOBpbCJYqem6GBWVYViowpWEgdYxq8EYZIWqA=;
- b=EtdmTypuOy6WZv6r264WwdUqxfgMLnwFO227HkRSISSYU+93p1eROzkqRuJkEGP2vL
- 3zoU+5eZOLanyfzZ1ZYkDh5XohJDKk+Zk0Ro1l7PxbTqj3hm6QEtq2z3SuWu2e7Bh7R3
- +px0+UVDsSBm8S+erRYMq2WgKkiLkrrlL24pCGHJubeb5Axa389CuLb98E9l5VONPmer
- 1ICUXghAn3JeZtYAz6SFKyBfIoLTfJU0CSpg+C0UNXxMV4v2DNcEHQUj3MnxjlAwBIHk
- HAsA/6uMyT8zK1yevtyqT8sly5jFgtOxL/7ptxzmL98bNCFrdNTC7Hz7kJTWvlPAfQkq
- i1yA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1751658630; x=1752263430;
- h=cc:to:message-id:content-transfer-encoding:mime-version:subject
- :date:from:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=XNhvIHtOBpbCJYqem6GBWVYViowpWEgdYxq8EYZIWqA=;
- b=kWrx2FPxuVU2LMC1B/AkBWWEs65deecf/lRqfmk+msafP1ORGOHokuR6hAZLbxsbp1
- F/PrTpMIbgmVpWKnZXq6ykH1qYAe12evKgIFMVrbaox3uiJ2zxuIL72JxpikT7506qi2
- MPhUWoLpMGrDVmACIdaFwP6YJE+hIogC7OswU0KN+RseEdb7pVpOWMe8uY/vd1sN8cbv
- RP15S3qvpQCIOdyS6QJTwQ9xcrnC9jeWNOqAVlfz3TT9gSZzt9r6wOKhN7wSHeLGEtPQ
- E+tm5c2dG794Mq0UTTVXSVQ6XqnhIRtMmPFqpgKDUbJGFMqG3GMOSvJGaW1LaUh+WRv7
- wheg==
-X-Gm-Message-State: AOJu0YztZtindUgvK6FfV68rH3N1PxGLB3jnbP3GEH/eTJCe4BmJQhss
- SuPtbew3szQZsxe0SnZvuZzQNYk4+gflByAmbKRw9H54SP7dy+dNLia0
-X-Gm-Gg: ASbGncsmWl0E0rP1W+Xaf8pLjXQ09ZoCkxVwlJSuMbXLSgnCbtLyXzSLnmqyEGX13eL
- WvmBsa0l4FLOltmS7aaHMEiyjxy1Z5M7IBne81f44T/L5be3QDdEgNU/WKoHkVfY/HLrDwvyZFo
- 9V7pKtiqzrDNlgJ6Dr8T6MrpJR6lZM9KHBLuyxGHftEZEPiKbZpABgh8gVHfHNy52b6deA53ovG
- mI+wrs2xILyhZmgY6tc2LfVfVtaO3N3YlrI35qlvvHhewiYrSm31cbyCMKkuGFcNgbFSFUBbUxk
- 0HWUwixlxiHUvGmXjCI6v0PmaXX/3AryWF82bAjdTuqXnN+MqICltGDV5Ihx9sNFpiLs8vWYdM1
- gNX3ydK8=
-X-Google-Smtp-Source: AGHT+IHlyLvirHQtwBxA+WyaV38kKYeynPoQmfgRGD62rrS/fv9at4t+fZpzQSSH8LM7H/HmJvxgqw==
-X-Received: by 2002:a05:620a:8083:b0:7d2:15e:1f9d with SMTP id
- af79cd13be357-7d5f20b7efamr10937985a.53.1751658629611; 
- Fri, 04 Jul 2025 12:50:29 -0700 (PDT)
-Received: from 156.1.168.192.in-addr.arpa
- ([2600:4041:5c29:e400:94f3:d2bb:5ace:77a1])
- by smtp.gmail.com with ESMTPSA id
- af79cd13be357-7d5dbe91380sm194263085a.95.2025.07.04.12.50.28
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 04 Jul 2025 12:50:29 -0700 (PDT)
-From: Tamir Duberstein <tamird@gmail.com>
-Date: Fri, 04 Jul 2025 15:50:27 -0400
-Subject: [PATCH] rust: drm: remove unnecessary imports
+Received: from sender4-pp-o94.zoho.com (sender4-pp-o94.zoho.com
+ [136.143.188.94])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 46A3D10EA71;
+ Fri,  4 Jul 2025 20:11:27 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; t=1751659886; cv=none; 
+ d=zohomail.com; s=zohoarc; 
+ b=CiuPrGCxm9Vh++d47K22nTz4RfdB3w4mCpeU8bSaxyNusDFL0hMRh5VnFRpreAe12ISo2f0s2bJX1bl1NBIdVZ6ehaoYyNNMqaWIPee7p0kmYknlPC3spUVzGDDBjppTicBTIXBuEXipVZ5O70GRKX/Y0gmSRX+hDDSvPyiMTBI=
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com;
+ s=zohoarc; t=1751659886;
+ h=Content-Type:Content-Transfer-Encoding:Cc:Cc:Date:Date:From:From:In-Reply-To:MIME-Version:Message-ID:References:Subject:Subject:To:To:Message-Id:Reply-To;
+ bh=TS8ZTkfMUMynjI4o3xDUHXwFY9c3gzxNKeP+4/m0WhY=; 
+ b=GhkZzEojlPUustFtaNRrZzmw0Nm3gWf4iNKZFYdiRkc4SM+DpwH0kDkFKCOwK6P5NyXjSlft1gIXmBuf2wWicyEbqPI5u2myyGaQYFA3wrNAre8kKM2loR7FY7M+/oNm7zv0AB/Ye5/Clur/OTi5NRczt+5SXzKXK6OzNK8ivq4=
+ARC-Authentication-Results: i=1; mx.zohomail.com;
+ dkim=pass  header.i=zohomail.com;
+ spf=pass  smtp.mailfrom=safinaskar@zohomail.com;
+ dmarc=pass header.from=<safinaskar@zohomail.com>
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1751659886; 
+ s=zm2022; d=zohomail.com; i=safinaskar@zohomail.com;
+ h=Date:Date:From:From:To:To:Cc:Cc:Message-ID:In-Reply-To:References:Subject:Subject:MIME-Version:Content-Type:Content-Transfer-Encoding:Feedback-ID:Message-Id:Reply-To;
+ bh=TS8ZTkfMUMynjI4o3xDUHXwFY9c3gzxNKeP+4/m0WhY=;
+ b=aA1Tf5hE9yIqTf+z8pF0tuqMt27dbViTC9CVHAM3LmqTufEGbjcqDiKBKvwt5PfI
+ kPTDGPYdlMxsofuIIofLH02E9VzvYP0/MaOeRwGfJxGHUtWYGrPemldovjbqCqz2mPb
+ AXdtU5VmmDkeTG6byxbWF5M92WHbOvX+e3hWvbBk=
+Received: from mail.zoho.com by mx.zohomail.com
+ with SMTP id 1751659883598268.00403358374285;
+ Fri, 4 Jul 2025 13:11:23 -0700 (PDT)
+Received: from  [212.73.77.104] by mail.zoho.com
+ with HTTP;Fri, 4 Jul 2025 13:11:23 -0700 (PDT)
+Date: Sat, 05 Jul 2025 00:11:23 +0400
+From: Askar Safin <safinaskar@zohomail.com>
+To: "Jani Nikula" <jani.nikula@linux.intel.com>
+Cc: "regressions" <regressions@lists.linux.dev>,
+ "intel-gfx" <intel-gfx@lists.freedesktop.org>,
+ "kexec" <kexec@lists.infradead.org>,
+ "dri-devel" <dri-devel@lists.freedesktop.org>,
+ "iommu" <iommu@lists.linux.dev>, "Ben Hutchings" <benh@debian.org>,
+ "joonaslahtinen" <joonas.lahtinen@linux.intel.com>,
+ "josesouza" <jose.souza@intel.com>,
+ "davehansen" <dave.hansen@linux.intel.com>
+Message-ID: <197d710ac39.10e2c241536088.2706332519040181850@zohomail.com>
+In-Reply-To: <cd3ca680ac5751368941713c1071e04d69544d47@intel.com>
+References: <197d1dc3bff.c01ddb9024897.1898328361232711826@zohomail.com>
+ <cd3ca680ac5751368941713c1071e04d69544d47@intel.com>
+Subject: Re: Second kexec_file_load (but not kexec_load) fails on i915 if
+ CONFIG_INTEL_IOMMU_DEFAULT_ON=n
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20250704-cstr-include-drm-v1-1-a279dfc4d753@gmail.com>
-X-B4-Tracking: v=1; b=H4sIAIIwaGgC/x3MQQ5AMBBA0avIrE1SVCquIhbaDiahZIpIxN01l
- m/x/wORhClCmz0gdHHkLSQUeQZuHsJEyD4ZSlXWyiiNLh6CHNxyekIvK3o9DloZW5FtIGW70Mj
- 3v+z69/0AwILqnWIAAAA=
-X-Change-ID: 20250704-cstr-include-drm-d4fa407b3eb8
-To: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, 
- Miguel Ojeda <ojeda@kernel.org>, Alex Gaynor <alex.gaynor@gmail.com>, 
- Boqun Feng <boqun.feng@gmail.com>, Gary Guo <gary@garyguo.net>, 
- =?utf-8?q?Bj=C3=B6rn_Roy_Baron?= <bjorn3_gh@protonmail.com>, 
- Benno Lossin <lossin@kernel.org>, Andreas Hindborg <a.hindborg@kernel.org>, 
- Alice Ryhl <aliceryhl@google.com>, Trevor Gross <tmgross@umich.edu>, 
- Danilo Krummrich <dakr@kernel.org>
-Cc: dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org, 
- rust-for-linux@vger.kernel.org, Tamir Duberstein <tamird@gmail.com>
-X-Mailer: b4 0.15-dev
-X-Developer-Signature: v=1; a=openssh-sha256; t=1751658628; l=1203;
- i=tamird@gmail.com; h=from:subject:message-id;
- bh=4dz5j6fQY62BWNK3xoT3qWhcHo62AErxDVsL3v8iN1M=;
- b=U1NIU0lHAAAAAQAAADMAAAALc3NoLWVkMjU1MTkAAAAgtYz36g7iDMSkY5K7Ab51ksGX7hJgs
- MRt+XVZTrIzMVIAAAAGcGF0YXR0AAAAAAAAAAZzaGE1MTIAAABTAAAAC3NzaC1lZDI1NTE5AAAA
- QA6HMXb6AcvScyaroNxvf09kaezolSYac8eDhIuiN5trPkSYzfw3XEI0evq+r2Qo8EazRmo9Nxx
- L3cKAxGjjRAc=
-X-Developer-Key: i=tamird@gmail.com; a=openssh;
- fpr=SHA256:264rPmnnrb+ERkS7DDS3tuwqcJss/zevJRzoylqMsbc
+Importance: Medium
+User-Agent: Zoho Mail
+X-Mailer: Zoho Mail
+Feedback-ID: rr080112272253fe969a23595c85f91a500000523677c6bdb1982768f926de5e850d1de0b95032a6f4e2403a:zu080112275608904759347c1a8aa6344e00004b892033285efa420125ce24acd53f46b26bce7a66f1b1c3af:rf0801122bdab4c8b6ba9c8fd2fda7bf3c000084e058e1ee92c3f3e119dc5a80b99351bae666e7813a8f88542aa41c26:ZohoMail
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -107,45 +79,31 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-`kernel::str::CStr` is included in the prelude.
+ ---- On Fri, 04 Jul 2025 12:29:01 +0400  Jani Nikula <jani.nikula@linux.intel.com> wrote --- 
+ > Thanks for the detailed debug info. I'm afraid all I can say at this
+ > point is, please file all of this in a bug report as described in
+ > [1]. Please add the drm.debug related options, and attach the dmesgs and
+ > configs in the bug instead of pointing at external sites.
 
-Signed-off-by: Tamir Duberstein <tamird@gmail.com>
----
- drivers/gpu/drm/drm_panic_qr.rs | 2 +-
- rust/kernel/drm/driver.rs       | 1 -
- 2 files changed, 1 insertion(+), 2 deletions(-)
+Okay, now let me speculate how to fix this bug. :) I think someone with moderate kexec understanding
+and with Intel GPU should do this: reproduce the bug and then slowly modify kexec_file_load code until it
+becomes kexec_load code. (Or vice versa.) In the middle of this modification the bug stops to reproduce,
+and so we will know what exactly causes it.
 
-diff --git a/drivers/gpu/drm/drm_panic_qr.rs b/drivers/gpu/drm/drm_panic_qr.rs
-index 6b59d19ab631..09a9b452e8b7 100644
---- a/drivers/gpu/drm/drm_panic_qr.rs
-+++ b/drivers/gpu/drm/drm_panic_qr.rs
-@@ -27,7 +27,7 @@
- //! * <https://github.com/erwanvivien/fast_qr>
- //! * <https://github.com/bjguillot/qr>
- 
--use kernel::{prelude::*, str::CStr};
-+use kernel::prelude::*;
- 
- #[derive(Debug, Clone, Copy, PartialEq, Eq, Ord, PartialOrd)]
- struct Version(usize);
-diff --git a/rust/kernel/drm/driver.rs b/rust/kernel/drm/driver.rs
-index acb638086131..af93d46d03d3 100644
---- a/rust/kernel/drm/driver.rs
-+++ b/rust/kernel/drm/driver.rs
-@@ -10,7 +10,6 @@
-     drm,
-     error::{to_result, Result},
-     prelude::*,
--    str::CStr,
-     types::ARef,
- };
- use macros::vtable;
+kexec_file_load and kexec_load should behave the same. If they do not, then we should
+understand, why. We should closely review their code.
 
----
-base-commit: 769e324b66b0d92d04f315d0c45a0f72737c7494
-change-id: 20250704-cstr-include-drm-d4fa407b3eb8
+Also, in case of kexec_load kernel uncompressing and parsing performed by "kexec" userspace
+tool, and in case of kexec_file_load by kernel. So we should closely review this two uncompressing/parsing code fragments.
+I think that this bug is related to kexec, not to i915. And thus it should be fixed by kexec people, not by i915 people. (But I may be wrong.)
 
-Best regards,
---  
-Tamir Duberstein <tamird@gmail.com>
+But okay, I reported it to that bug tracker anyway: https://gitlab.freedesktop.org/drm/i915/kernel/-/issues/14598
+
+Maybe there is separate kexec bug tracker?
+
+Also, your bug tracker is cool. One can attach files in the middle of report. Why not whole kernel uses it? :)
+
+--
+Askar Safin
+https://types.pl/@safinaskar
 
