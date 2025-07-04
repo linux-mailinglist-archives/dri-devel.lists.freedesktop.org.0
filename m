@@ -2,74 +2,74 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id F364CAF9B90
-	for <lists+dri-devel@lfdr.de>; Fri,  4 Jul 2025 22:16:15 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id B8E8BAF9B8F
+	for <lists+dri-devel@lfdr.de>; Fri,  4 Jul 2025 22:16:14 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2740C10EA77;
-	Fri,  4 Jul 2025 20:16:14 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 13C2910EA78;
+	Fri,  4 Jul 2025 20:16:13 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="DK9wm1D/";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="R1Ajk/tc";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-qk1-f174.google.com (mail-qk1-f174.google.com
- [209.85.222.174])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4300110EA76;
- Fri,  4 Jul 2025 20:16:10 +0000 (UTC)
-Received: by mail-qk1-f174.google.com with SMTP id
- af79cd13be357-7d5dedad887so83602385a.0; 
- Fri, 04 Jul 2025 13:16:10 -0700 (PDT)
+Received: from mail-qt1-f173.google.com (mail-qt1-f173.google.com
+ [209.85.160.173])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3892910EA78;
+ Fri,  4 Jul 2025 20:16:11 +0000 (UTC)
+Received: by mail-qt1-f173.google.com with SMTP id
+ d75a77b69052e-4a9741b513eso26494161cf.1; 
+ Fri, 04 Jul 2025 13:16:11 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1751660169; x=1752264969; darn=lists.freedesktop.org;
+ d=gmail.com; s=20230601; t=1751660170; x=1752264970; darn=lists.freedesktop.org;
  h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
  :mime-version:subject:date:from:from:to:cc:subject:date:message-id
- :reply-to; bh=RRnCMuqdD131ZlyvTYi0z/+zkxHVEj8TfOGSz4lWZYk=;
- b=DK9wm1D/2YpoSgzhFGZHrxEvf1NEjcRZ676T5hLjFz5vjTh4XK9tsevn7G8hot7xsJ
- PBw1VqeQ8cnkdwvuoNKzsG9lLeHlfniOABOGIuDxc2ULj44txs+T98WdDH/EH+Hy+hPX
- R56180pN5wjT9W7/dzfk/oOaxAhX9j1ogkwsY+2G0Lo16vumZ9qylIXBZ9mRfW42EAZD
- R6OgrQ1kfs1g7Tu/kjZpLKmTcdOSCpt/DM9SbVTvSwoV9G5rs+UYH1aZ88AB2eDJu/Fx
- LDdRaXnhux3qlY04IzZd3Q5UwD3QX/9flB1MWJ7SYGS7EFOxYD9Hu+Y9SZ7wP8GdTqQC
- KtUg==
+ :reply-to; bh=rFX61eKYEcol9kAG3M8tjgApkaTg0NmTOXaZhr2OWW4=;
+ b=R1Ajk/tcHMHKOqz6iT+0zQ/3g32b1gnBtH//ZijmFu1R49BcxyjQuRsDBHDKLumrzW
+ 79kiNgPovUdIvcO4MtDkjANOWktieIgOvuXvRibNEyBINloYUIj3ombwpY65HMbBsaBO
+ lBjjNPgreySXDkLeFwUNOATSKp9epLLYRfQlNJeCf4p2HZH+uIQvWK4Fcwc/k3eeVvhv
+ VQkl87rbBN1UIxPTOvs+Y1saLc6saP8IqXawpmZ1N+zfx0XqZo3Z0BuWBnhoFnZcNbFz
+ 3hMbz/AaRqYlHnawc9hjd0x0ZAnBH5840LLN+LoLXb73toytLT2UL76WQ+VbnIPbcdUL
+ Idjg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1751660169; x=1752264969;
+ d=1e100.net; s=20230601; t=1751660170; x=1752264970;
  h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
  :mime-version:subject:date:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=RRnCMuqdD131ZlyvTYi0z/+zkxHVEj8TfOGSz4lWZYk=;
- b=h8jCuAgQtOBluPFCRqWnXqiAWzWQWYPTEW2Jf2tVYtjeLW1BME49dMDdQ2HJ6Q0Voy
- NjGQr1Ku8Jc+14KXKYAmiZjuC0M1dkMTrx8AXVAcOmaoVrWxiTelcsgonobemwWxob5b
- qtfb+ni/7FXheEA2jeRDdCZprjknYC5SROvkl8D3ACvIJsAlaTIvrxR6OEeNDKETmKto
- Onb0OlJKmjBnGz+7EBrc1+5eL4K84mVdCLonXEwKMMljILFIr4DxBPyRiIurcTQEq56U
- sKrs8FTsHvXT/SKR0Ss8XftPAwNDeXtAo7IrQDsRPnuwFhoZrmKAkd/7PWmz8Q53PxLJ
- 3rUA==
+ bh=rFX61eKYEcol9kAG3M8tjgApkaTg0NmTOXaZhr2OWW4=;
+ b=TMF/G9QU/pDvLqU3FRAXpsFXotIcRqFsZ4TSVc0X4CxmUpG5yTg5vXDTyuRrW/Zfzc
+ jG7dfswL5xHV+BG9q1XCA2ZNN6SRCnB6z7HmXb2YU77Qs632lxrQ5safo2cUGbyxNYgh
+ /aKVh8xxzqInvyItqdmDYDf5/m6VvJr5a5ALwnRNF2I1Oze30Gq896y/zjTsVHpWMsHF
+ H6nIGMRTAY/cnYcb2KxFCI6zQXFsTDukQNHpZFJFJZxPR49EZWhi3xiKFFT+LFWX7J1+
+ pppvg73tNuNTKfsA0IrsGkMaK16XnMMEEUyJX2aVRgP9U3fSLcWBE0gEBr4hvGSKdamk
+ IqRw==
 X-Forwarded-Encrypted: i=1;
- AJvYcCVnvV+D4Nv0bEl7Rh2DkcalZogaLyqXrq+FkEpVqvUFpVnSf776eQNaMOEHuHSk7sFYFzVCTCiFy84=@lists.freedesktop.org,
- AJvYcCXJ4epMuRzXim5AUAAn0gBBwv9Fv45wpxFwjnbs/ysmFUhUGlbblEHjIn7V9GQn9654He3eaJW2bw==@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YyXDpoNfSN0bizSv4h3ImHOF/K2iQRSZawWlvJdLmfv7/14zTMH
- gl2Zk9wcD13gwbJwQS/x1eHuwQxXit6UEG99DsT+hNMiVAt/2RHRHjUz
-X-Gm-Gg: ASbGnctSZShthbah6qxvoz6Z1zUUcwjwvnGCY9qybXpQaCfywRE7GIqQaPy+wxb0uFN
- 3YwTfOrCVHjj+DeIIo4V0DuVpl6Y06BJno50n7rjU2aeeL9EqX6PIk8q3ONcuu4PJOwRJ9s5rW7
- paMjDKbiiwPgf29XnVkdaqF2X5W3vWLNXAaU5QEw87P3punAOi+AopsSkBCqShivZpaPQ+2fEb0
- 8sRfU1xEzOy1cl4xo8hp3F0elLgtah406aZxMrQgrnhnuV1+7WbJdpxCVRRyDnWNSITzAG7SvLJ
- 8Pev/evVaABSmrw2ISr7d7EHBSY0jOw+7/GaluQBvalu8Udj0UYuS3HAzLO/L6gvv7xG8XA2/y1
- aA7CGfrE=
-X-Google-Smtp-Source: AGHT+IEPhl7M3pPKVKJRRGXgxtNYr3mSuepsFyT/fNiRn/kJBm9O1QrZ8LLvefwHdmgY4q+idaONGw==
-X-Received: by 2002:a05:620a:4456:b0:7d4:2925:91b8 with SMTP id
- af79cd13be357-7d5ef7c4961mr28485585a.16.1751660169087; 
- Fri, 04 Jul 2025 13:16:09 -0700 (PDT)
+ AJvYcCWsKMn8pjVLPwJb9GvqX+Kjkqq0ADqWQfUX4SdyXtQXRFXD5DUBQIYNlImwzLvubaBhoiGQuFKPTg==@lists.freedesktop.org,
+ AJvYcCX+aYTXGKUcCmjiygmP8xcnjN4J7R5G/NfSEHgLI0cebvysnZNqsmCfDwrLZJVxjMVmPq4sSA+E+0w=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YxnehhZcq+Q8eZB8aidthLya1TrG97iH3H76mu2cckFbzO6QQxO
+ aV/lDVFcfbDup4coNYoLLF+9j79miGL+/Xofa3OVbZGnUxivkYe6JHfu
+X-Gm-Gg: ASbGncs3yguAXmY6iUEZwns4UZscdioXb6C5SkLGCNkb0i9+dSXFPPa6wfOYAeBcLjL
+ XOskfz6azmTvH+mBs9QRZU9VdIgFjqvP647ila1PSB1UvZnBIyIhBLJBkqIDwy40Yb+6muUlCQQ
+ p7abo+Pynqtxi2hCXgVdbRjDus3/xgzb7Y9U9uloalGyQZdxD8iTIkFyWd0I8wejI0accy96Oyj
+ GynyrU3x6jlkyN/9ZKJtT5HsLS465zVnsDpy8qzq2t3lztftMdvX9/K5TAyzmmXy7ZzGcUGTWVZ
+ eoSDYrEPAB6QASGfX5Ecs7oVWOFc+CuZCPwm++UcC/8lbc6vKEtk0HRstvyLzxpgWWKskS7KpYI
+ wCtR4dhI=
+X-Google-Smtp-Source: AGHT+IHCClMp3qYZhSGQu4QEJmyo61DmZpj8XQCRl0CIpaNBHANR9wOTxi6Qz7IzHn6a7YD26jNiWw==
+X-Received: by 2002:ac8:7f8f:0:b0:494:59b0:7347 with SMTP id
+ d75a77b69052e-4a9a69f76cfmr2280131cf.37.1751660170283; 
+ Fri, 04 Jul 2025 13:16:10 -0700 (PDT)
 Received: from 156.1.168.192.in-addr.arpa
  ([2600:4041:5c29:e400:94f3:d2bb:5ace:77a1])
  by smtp.gmail.com with ESMTPSA id
- d75a77b69052e-4a9949e5221sm19772941cf.2.2025.07.04.13.16.07
+ d75a77b69052e-4a9949e5221sm19772941cf.2.2025.07.04.13.16.09
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 04 Jul 2025 13:16:08 -0700 (PDT)
+ Fri, 04 Jul 2025 13:16:09 -0700 (PDT)
 From: Tamir Duberstein <tamird@gmail.com>
-Date: Fri, 04 Jul 2025 16:14:56 -0400
-Subject: [PATCH 5/6] rust: add `CStr` methods matching `core::ffi::CStr`
+Date: Fri, 04 Jul 2025 16:14:57 -0400
+Subject: [PATCH 6/6] rust: use `core::ffi::CStr` method names
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20250704-core-cstr-prepare-v1-5-a91524037783@gmail.com>
+Content-Transfer-Encoding: 8bit
+Message-Id: <20250704-core-cstr-prepare-v1-6-a91524037783@gmail.com>
 References: <20250704-core-cstr-prepare-v1-0-a91524037783@gmail.com>
 In-Reply-To: <20250704-core-cstr-prepare-v1-0-a91524037783@gmail.com>
 To: "Rafael J. Wysocki" <rafael@kernel.org>, 
@@ -85,13 +85,13 @@ Cc: linux-pm@vger.kernel.org, linux-kernel@vger.kernel.org,
  nouveau@lists.freedesktop.org, dri-devel@lists.freedesktop.org, 
  rust-for-linux@vger.kernel.org, Tamir Duberstein <tamird@gmail.com>
 X-Mailer: b4 0.15-dev
-X-Developer-Signature: v=1; a=openssh-sha256; t=1751660161; l=3187;
+X-Developer-Signature: v=1; a=openssh-sha256; t=1751660161; l=4785;
  i=tamird@gmail.com; h=from:subject:message-id;
- bh=ijekkld9R1wbyb2cvN5FAg3adFOAIGh+Sl7Wg4UqSo0=;
+ bh=Gr5Y82FzFOHSFgE4bAXR4LJsBEIiMIFEwMxnG28mI/k=;
  b=U1NIU0lHAAAAAQAAADMAAAALc3NoLWVkMjU1MTkAAAAgtYz36g7iDMSkY5K7Ab51ksGX7hJgs
  MRt+XVZTrIzMVIAAAAGcGF0YXR0AAAAAAAAAAZzaGE1MTIAAABTAAAAC3NzaC1lZDI1NTE5AAAA
- QPIwxczA1HLqncTECE1BZLwn/UXLVbajrq24i9LGs2u/GwbE2mHvzVz95Yp9yW1WgfD35PH8Hrr
- KgvLRh39BRgE=
+ QLas4zvU0lCc78yU+Yb9DLjcVMQs5g7e5Va+eCFZgvaWEOcJlCw4GoHKAaftU93fC6280TgpoTe
+ TE2iS8TMjrAY=
 X-Developer-Key: i=tamird@gmail.com; a=openssh;
  fpr=SHA256:264rPmnnrb+ERkS7DDS3tuwqcJss/zevJRzoylqMsbc
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -109,89 +109,106 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Prepare for replacing `CStr` with `core::ffi::CStr` by soft-deprecating
-methods which don't exist on `core::ffi::CStr`.
+Prepare for `core::ffi::CStr` taking the place of `kernel::str::CStr` by
+avoiding methods that only exist on the latter.
 
-We could keep `as_bytes{,_with_nul}` through an extension trait but
-seeing as we have to introduce `as_char_ptr_in_const_context` as a free
-function, we may as well introduce `to_bytes{,_with_nul}` here to allow
-downstream code to migrate in one cycle rather than two.
+Also avoid `Deref<Target=BStr> for CStr` as that impl doesn't exist on
+`core::ffi::CStr`.
 
 Link: https://github.com/Rust-for-Linux/linux/issues/1075
 Signed-off-by: Tamir Duberstein <tamird@gmail.com>
 ---
- rust/kernel/str.rs | 37 ++++++++++++++++++++++++++++++++++---
- 1 file changed, 34 insertions(+), 3 deletions(-)
+ rust/kernel/error.rs |  2 +-
+ rust/kernel/str.rs   | 20 ++++++++++----------
+ 2 files changed, 11 insertions(+), 11 deletions(-)
 
+diff --git a/rust/kernel/error.rs b/rust/kernel/error.rs
+index ffa8efd2d547..e29a5d76300e 100644
+--- a/rust/kernel/error.rs
++++ b/rust/kernel/error.rs
+@@ -188,7 +188,7 @@ fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
+             Some(name) => f
+                 .debug_tuple(
+                     // SAFETY: These strings are ASCII-only.
+-                    unsafe { core::str::from_utf8_unchecked(name) },
++                    unsafe { core::str::from_utf8_unchecked(name.to_bytes()) },
+                 )
+                 .finish(),
+         }
 diff --git a/rust/kernel/str.rs b/rust/kernel/str.rs
-index f326f0c40ab0..cbb357fc0111 100644
+index cbb357fc0111..6c892550c0ba 100644
 --- a/rust/kernel/str.rs
 +++ b/rust/kernel/str.rs
-@@ -175,6 +175,15 @@ macro_rules! b_str {
-     }};
- }
- 
-+/// Returns a C pointer to the string.
-+// It is a free function rather than a method on an extension trait because:
-+//
-+// - error[E0379]: functions in trait impls cannot be declared const
-+#[inline]
-+pub const fn as_char_ptr_in_const_context(c_str: &CStr) -> *const c_char {
-+    c_str.0.as_ptr()
-+}
-+
- /// Possible errors when using conversion functions in [`CStr`].
- #[derive(Debug, Clone, Copy)]
- pub enum CStrConvertError {
-@@ -294,23 +303,45 @@ pub unsafe fn from_bytes_with_nul_unchecked_mut(bytes: &mut [u8]) -> &mut CStr {
-     }
- 
-     /// Returns a C pointer to the string.
-+    ///
-+    /// Using this function in a const context is deprecated in favor of
-+    /// [`as_char_ptr_in_const_context`] in preparation for replacing `CStr` with `core::ffi::CStr`
-+    /// which does not have this method.
-     #[inline]
-     pub const fn as_char_ptr(&self) -> *const c_char {
--        self.0.as_ptr()
-+        as_char_ptr_in_const_context(self)
-     }
- 
-     /// Convert the string to a byte slice without the trailing `NUL` byte.
-     #[inline]
--    pub fn as_bytes(&self) -> &[u8] {
-+    pub fn to_bytes(&self) -> &[u8] {
-         &self.0[..self.len()]
-     }
- 
-+    /// Convert the string to a byte slice without the trailing `NUL` byte.
-+    ///
-+    /// This function is deprecated in favor of [`Self::to_bytes`] in preparation for replacing
-+    /// `CStr` with `core::ffi::CStr` which does not have this method.
-+    #[inline]
-+    pub fn as_bytes(&self) -> &[u8] {
-+        self.to_bytes()
-+    }
-+
-     /// Convert the string to a byte slice containing the trailing `NUL` byte.
-     #[inline]
--    pub const fn as_bytes_with_nul(&self) -> &[u8] {
-+    pub const fn to_bytes_with_nul(&self) -> &[u8] {
-         &self.0
-     }
- 
-+    /// Convert the string to a byte slice containing the trailing `NUL` byte.
-+    ///
-+    /// This function is deprecated in favor of [`Self::to_bytes_with_nul`] in preparation for
-+    /// replacing `CStr` with `core::ffi::CStr` which does not have this method.
-+    #[inline]
-+    pub const fn as_bytes_with_nul(&self) -> &[u8] {
-+        self.to_bytes_with_nul()
-+    }
-+
-     /// Yields a [`&str`] slice if the [`CStr`] contains valid UTF-8.
+@@ -57,11 +57,11 @@ impl fmt::Display for BStr {
+     /// # use kernel::{prelude::fmt, b_str, str::{BStr, CString}};
+     /// let ascii = b_str!("Hello, BStr!");
+     /// let s = CString::try_from_fmt(fmt!("{ascii}"))?;
+-    /// assert_eq!(s.as_bytes(), "Hello, BStr!".as_bytes());
++    /// assert_eq!(s.to_bytes(), "Hello, BStr!".as_bytes());
      ///
-     /// If the contents of the [`CStr`] are valid UTF-8 data, this
+     /// let non_ascii = b_str!("🦀");
+     /// let s = CString::try_from_fmt(fmt!("{non_ascii}"))?;
+-    /// assert_eq!(s.as_bytes(), "\\xf0\\x9f\\xa6\\x80".as_bytes());
++    /// assert_eq!(s.to_bytes(), "\\xf0\\x9f\\xa6\\x80".as_bytes());
+     /// # Ok::<(), kernel::error::Error>(())
+     /// ```
+     fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
+@@ -89,11 +89,11 @@ impl fmt::Debug for BStr {
+     /// // Embedded double quotes are escaped.
+     /// let ascii = b_str!("Hello, \"BStr\"!");
+     /// let s = CString::try_from_fmt(fmt!("{ascii:?}"))?;
+-    /// assert_eq!(s.as_bytes(), "\"Hello, \\\"BStr\\\"!\"".as_bytes());
++    /// assert_eq!(s.to_bytes(), "\"Hello, \\\"BStr\\\"!\"".as_bytes());
+     ///
+     /// let non_ascii = b_str!("😺");
+     /// let s = CString::try_from_fmt(fmt!("{non_ascii:?}"))?;
+-    /// assert_eq!(s.as_bytes(), "\"\\xf0\\x9f\\x98\\xba\"".as_bytes());
++    /// assert_eq!(s.to_bytes(), "\"\\xf0\\x9f\\x98\\xba\"".as_bytes());
+     /// # Ok::<(), kernel::error::Error>(())
+     /// ```
+     fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
+@@ -465,15 +465,15 @@ impl fmt::Display for CStr {
+     /// # use kernel::str::CString;
+     /// let penguin = c_str!("🐧");
+     /// let s = CString::try_from_fmt(fmt!("{penguin}"))?;
+-    /// assert_eq!(s.as_bytes_with_nul(), "\\xf0\\x9f\\x90\\xa7\0".as_bytes());
++    /// assert_eq!(s.to_bytes_with_nul(), "\\xf0\\x9f\\x90\\xa7\0".as_bytes());
+     ///
+     /// let ascii = c_str!("so \"cool\"");
+     /// let s = CString::try_from_fmt(fmt!("{ascii}"))?;
+-    /// assert_eq!(s.as_bytes_with_nul(), "so \"cool\"\0".as_bytes());
++    /// assert_eq!(s.to_bytes_with_nul(), "so \"cool\"\0".as_bytes());
+     /// # Ok::<(), kernel::error::Error>(())
+     /// ```
+     fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
+-        for &c in self.as_bytes() {
++        for &c in self.to_bytes() {
+             if (0x20..0x7f).contains(&c) {
+                 // Printable character.
+                 f.write_char(c as char)?;
+@@ -874,11 +874,11 @@ fn write_str(&mut self, s: &str) -> fmt::Result {
+ /// use kernel::{str::CString, prelude::fmt};
+ ///
+ /// let s = CString::try_from_fmt(fmt!("{}{}{}", "abc", 10, 20))?;
+-/// assert_eq!(s.as_bytes_with_nul(), "abc1020\0".as_bytes());
++/// assert_eq!(s.to_bytes_with_nul(), "abc1020\0".as_bytes());
+ ///
+ /// let tmp = "testing";
+ /// let s = CString::try_from_fmt(fmt!("{tmp}{}", 123))?;
+-/// assert_eq!(s.as_bytes_with_nul(), "testing123\0".as_bytes());
++/// assert_eq!(s.to_bytes_with_nul(), "testing123\0".as_bytes());
+ ///
+ /// // This fails because it has an embedded `NUL` byte.
+ /// let s = CString::try_from_fmt(fmt!("a\0b{}", 123));
+@@ -948,7 +948,7 @@ impl<'a> TryFrom<&'a CStr> for CString {
+     fn try_from(cstr: &'a CStr) -> Result<CString, AllocError> {
+         let mut buf = KVec::new();
+ 
+-        buf.extend_from_slice(cstr.as_bytes_with_nul(), GFP_KERNEL)?;
++        buf.extend_from_slice(cstr.to_bytes_with_nul(), GFP_KERNEL)?;
+ 
+         // INVARIANT: The `CStr` and `CString` types have the same invariants for
+         // the string data, and we copied it over without changes.
 
 -- 
 2.50.0
