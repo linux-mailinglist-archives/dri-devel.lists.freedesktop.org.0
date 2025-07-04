@@ -2,85 +2,85 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 37DBCAF9846
-	for <lists+dri-devel@lfdr.de>; Fri,  4 Jul 2025 18:32:05 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 069ACAF9848
+	for <lists+dri-devel@lfdr.de>; Fri,  4 Jul 2025 18:32:07 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id BC26E10E349;
-	Fri,  4 Jul 2025 16:32:02 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B77C910E34A;
+	Fri,  4 Jul 2025 16:32:03 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=qualcomm.com header.i=@qualcomm.com header.b="pzJZNgZo";
+	dkim=pass (2048-bit key; unprotected) header.d=qualcomm.com header.i=@qualcomm.com header.b="e0IVnfMw";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com
- [205.220.180.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B6CA610E348
- for <dri-devel@lists.freedesktop.org>; Fri,  4 Jul 2025 16:32:00 +0000 (UTC)
-Received: from pps.filterd (m0279871.ppops.net [127.0.0.1])
- by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 5648fWtb024904
- for <dri-devel@lists.freedesktop.org>; Fri, 4 Jul 2025 16:31:59 GMT
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com
+ [205.220.168.131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1B61910E349
+ for <dri-devel@lists.freedesktop.org>; Fri,  4 Jul 2025 16:32:02 +0000 (UTC)
+Received: from pps.filterd (m0279863.ppops.net [127.0.0.1])
+ by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 5649fxoF016094
+ for <dri-devel@lists.freedesktop.org>; Fri, 4 Jul 2025 16:32:01 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
  cc:content-transfer-encoding:content-type:date:from:in-reply-to
  :message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
- qjHlmwArjTOMKWmC6+bgZpFfSvKDIyWSaR3a4YOlmAs=; b=pzJZNgZoGz5A7zuo
- dinNmipmBGQqxA76MP4Jan0muafX0QVn2EfCIw1yEcZAkF38webrqcQBW2BHWbD5
- OutQGEAqFDeB/WLDbImmiTGnWkUjamw7Q0s558jikPc8JKmYcNgtDAmav74BwPpR
- 4T0fRbSwrcPiP+YJnKprkbvVj13LAbSeIExG6ceaQgJVX/aiSHnUbbfuLYnE/YM+
- AX36LvmKAQB1Gxo1jSMICHIpWtinERqnhXs5geNeUAoGzIF7iMThjJS9XQOjRIsZ
- mEZ0UOBM2e43c6xEi2ClE60/zhl9GWBz/RQxCRQEDu+ec5+hC2kd2DclFnhWJui2
- 4kSPLg==
-Received: from mail-qk1-f197.google.com (mail-qk1-f197.google.com
- [209.85.222.197])
- by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 47j802c7b0-1
+ CA4cR3EPt0ZKpDXPz76t1inkPsQdE85Hlallld4sOBE=; b=e0IVnfMwi4vHGSyF
+ 4tprmXwvmhnaLBzF8lnDm7Ank5+Z6eaQvXV82lDs0fKv8O2zET068/ttmg3P2cx4
+ MPEX3f1G+RdabbDtvVlAzn9xK+D0y4piJZokwZga3KUifq7T0f0oyg6fJMmhsMxY
+ YCpsUJ1DdwAO1gNyNCP+P0sgBMwoosBGRviMIlxDkE3wMLkB/GQhjLyXCcufsVIb
+ M2kvg91sz39aZGmjXhXnWiQQsGU5ynpF4uxx28aDQWSb8Fl/aVZQEIyW91QME501
+ 9P5I/IPq3lGvhsv2lkAVtBchEi8qU1DB0Vuzt6ug1FqzRAXppym6LCnMz1x2v+rT
+ skuHyw==
+Received: from mail-qk1-f200.google.com (mail-qk1-f200.google.com
+ [209.85.222.200])
+ by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 47kn5js19a-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
- for <dri-devel@lists.freedesktop.org>; Fri, 04 Jul 2025 16:31:59 +0000 (GMT)
-Received: by mail-qk1-f197.google.com with SMTP id
- af79cd13be357-7d3d3f6471cso174811985a.3
- for <dri-devel@lists.freedesktop.org>; Fri, 04 Jul 2025 09:31:59 -0700 (PDT)
+ for <dri-devel@lists.freedesktop.org>; Fri, 04 Jul 2025 16:32:01 +0000 (GMT)
+Received: by mail-qk1-f200.google.com with SMTP id
+ af79cd13be357-7d22790afd2so145036585a.2
+ for <dri-devel@lists.freedesktop.org>; Fri, 04 Jul 2025 09:32:01 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1751646719; x=1752251519;
+ d=1e100.net; s=20230601; t=1751646720; x=1752251520;
  h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
  :mime-version:subject:date:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=qjHlmwArjTOMKWmC6+bgZpFfSvKDIyWSaR3a4YOlmAs=;
- b=tT9w9f74Z7rpDYKnJd70Wflm9GO+OeMG/OUWGrUWdzcK1ID3EG6Yo2u/vXH26wRiGr
- 0UWftd3TV1hP57TMhlEIWrkg57zKlaCcB2+0UrNG4kIsiuFVb7rl3KSxzlNwSlazeec6
- UF523bgf3Hc35oHRWbLsGWAeHJKI+907/u9a8SMzqktFiUVVCNufjWWTtOql8fRrZ+1t
- nNC+pn6+W9+3CyjKtCXmyPV/+7U40Pk3eaLz2VEL/e/7w/VXQftGYl9kqmQErHBNBfMi
- 7D0VFKMPy1NRutqmz2/ALGE4kKpMfqmMHi1mU8xZgrAJPK1+LWFustk409O5rrQQ2UUL
- YHmQ==
+ bh=CA4cR3EPt0ZKpDXPz76t1inkPsQdE85Hlallld4sOBE=;
+ b=UwtpB5QS6xAdT0Sxt25zV4EUwgjarR1Yg82TlEpiNjA/29GbjPj7XxF96ooLqpdZLD
+ 2OXGFXkvnT4+hLTiTILtpj0a0tjV8+G1CYZp/FaEp8/FF7NBtNnQL4ZLGUIwkkcCPfvA
+ rMc5td9+DSWbEGsBCDPQYflTjEgnBmOj9xKC0zzkXr4HwlKOp6ZazedS+xeTwOsuALzB
+ nhEAoe57eDFYtB5k8VkXz9LJFptuDulYYvKBbp3avnhDbfvNYWwT079pjPkOk+Qd2/V2
+ lQ5VV0q+Somxz7qmZKQF7KZvFrU779mbTiiXpLzbCVm2I7r7z9fk4dWXVqHHbFzhPoEu
+ yMKA==
 X-Forwarded-Encrypted: i=1;
- AJvYcCUe70U05HX6b1zGmJu34rXCeDNryDjC/U0Dswlk5Csy7vudVMsmix4ESkzqD/6UOtBmXyVW76BGBFg=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YyWEbKaOGHLOmPHW58bvCfccA2E8XF3P1PKdv1vRGCEuSjS4v2H
- O0Mbj3cM78AaYvx9rxsEsBjGFaB9KiU5MB2wEuSZRHjfETg3MzOyFstumN4vIH8Y+Gc+VFa4Cs8
- b3Qlzcj/wM8932vKzzhfERZZ/3zAdWIYFe13OszmGlkyKpltypyr9R/XBLLmKxVAAqDjaQl0=
-X-Gm-Gg: ASbGncskAZhnbUCJjIdkjwusmGeYG6CWH1INdTsLRqkTemhYQhbyUoJr1ii0HNeOPFl
- SGU4T5YfuGHsNFI4kADDLv8j2WNd8FzREf4v/GlBKeF22qTUSVNKfYJWLGiNg/h/yJ1IIRdRIY/
- ZBGwPwx23ECwDaBPYsCmyR1mWYcTyJSnxQZWD/X3a/WI6Ih0EuQVnfININuARcAkEELvQ8ghO64
- gE5QN2brEpxYWQ7Ev4d1zuuFO7opvS1qzU003nOJdh7esPUgSCbcGfQZs9ysAW7JbTu4ljQOGPw
- kmITtLQIF0PCddkLqdCmy3e2p4RUA/AkNjx2LNfzLeGZVqicKsNxj0KG607U4OomPe1izGAaqqC
- MYRcaoHOhBbP2lOXPYnzamYWYiQFRaKM9pwk=
-X-Received: by 2002:a05:620a:4114:b0:7d0:998a:2e64 with SMTP id
- af79cd13be357-7d5dcd40ec1mr456502385a.56.1751646718726; 
- Fri, 04 Jul 2025 09:31:58 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IHpMRUrk1CDVU+F2WTSjBGZWFGqazNAhn/w6PL2+6knrtMnP4ChdfOP+UWbEaeEkMn89T79Ag==
-X-Received: by 2002:a05:620a:4114:b0:7d0:998a:2e64 with SMTP id
- af79cd13be357-7d5dcd40ec1mr456496585a.56.1751646718065; 
- Fri, 04 Jul 2025 09:31:58 -0700 (PDT)
+ AJvYcCU47HrxbXg/Q8/+eK1O+kyyNGuNJdP1JxRx4gP79JG25Qu0+ybE0qCf1w1G/CsOcVdejSvYgLvG8Rk=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YxQ3hMVj9CuJFDPyLXv+d+/a4fx1i2yfJ1jQuHF6ZyDTn2u9CQI
+ sIpeo3TcjN6X3yoTbCwal1yavekMrr5mqW11LpaXr5iuBdD4kTdyM5SNaVCRCcInoHZ4dwMWnEM
+ LK7qKwp1EUxUzFBC/o8SKTxRUUjQmEiSrQ5RrpKR5g2HKo8aai3LGouWG32tHSMuDz3m2UlE=
+X-Gm-Gg: ASbGnct2FNwVq6QL0Dgn/dTkYOy0+XrRxp13l2DFqUyTT+6Dzy+j3I836Yu1H5OnQNZ
+ 806iWp0Z4WxUv4hrQ8+xgzMS4nIiI9e6NksRBjYWjVXDPgc5DiU7ywIQhrzc5kBhpqX4JI0Y1dl
+ 2+yoErEzrq6BRc9BXeNSKGLx8naxMmkstUdYQqpfBPLPdYn1KG3dzCYIDxaWGeegqIGHRQVTO9U
+ NRMi35nnzcykLzdN5/KNWo6pj48fP7vnThmb1q4z5xQfDSUSdAd/OLAThBDCzaIF2qzmax8YPoo
+ xuBafitInTuVb4R8b2d0HE/v7IqFv28wwObkRLMFBnV8Oa+K2S1tUMa832gKCAfThE3MaBh96+C
+ 6KYzC8+18cr6klQRPkap8QKLNo9dgDT3C7CU=
+X-Received: by 2002:a05:620a:4553:b0:7c5:5670:bd6f with SMTP id
+ af79cd13be357-7d5dcd4048bmr562638885a.53.1751646720148; 
+ Fri, 04 Jul 2025 09:32:00 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IFr3+g6l0u0WyfYKx74vE0m1HBQS0pRyhe4KErDw8IpkZJfjmohlKg+ZO0KDPYK/r6AiAHRXw==
+X-Received: by 2002:a05:620a:4553:b0:7c5:5670:bd6f with SMTP id
+ af79cd13be357-7d5dcd4048bmr562631885a.53.1751646719489; 
+ Fri, 04 Jul 2025 09:31:59 -0700 (PDT)
 Received: from umbar.lan
  (2001-14ba-a0c3-3a00-264b-feff-fe8b-be8a.rev.dnainternet.fi.
  [2001:14ba:a0c3:3a00:264b:feff:fe8b:be8a])
  by smtp.gmail.com with ESMTPSA id
- 38308e7fff4ca-32e1af83102sm2813571fa.6.2025.07.04.09.31.56
+ 38308e7fff4ca-32e1af83102sm2813571fa.6.2025.07.04.09.31.58
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 04 Jul 2025 09:31:57 -0700 (PDT)
+ Fri, 04 Jul 2025 09:31:58 -0700 (PDT)
 From: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
-Date: Fri, 04 Jul 2025 19:31:53 +0300
-Subject: [PATCH 1/4] dt-bindings: display/msm: dsi-controller-main: add SC8180X
+Date: Fri, 04 Jul 2025 19:31:54 +0300
+Subject: [PATCH 2/4] dt-bindings: display/msm: describe DPU on SC8180X
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20250704-mdss-schema-v1-1-e978e4e73e14@oss.qualcomm.com>
+Message-Id: <20250704-mdss-schema-v1-2-e978e4e73e14@oss.qualcomm.com>
 References: <20250704-mdss-schema-v1-0-e978e4e73e14@oss.qualcomm.com>
 In-Reply-To: <20250704-mdss-schema-v1-0-e978e4e73e14@oss.qualcomm.com>
 To: Rob Clark <robin.clark@oss.qualcomm.com>,
@@ -100,42 +100,44 @@ To: Rob Clark <robin.clark@oss.qualcomm.com>,
  Konrad Dybcio <konradybcio@kernel.org>
 Cc: linux-arm-msm@vger.kernel.org, dri-devel@lists.freedesktop.org,
  freedreno@lists.freedesktop.org, devicetree@vger.kernel.org,
- linux-kernel@vger.kernel.org
+ linux-kernel@vger.kernel.org,
+ Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>
 X-Mailer: b4 0.14.2
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1468;
+X-Developer-Signature: v=1; a=openpgp-sha256; l=3613;
  i=dmitry.baryshkov@oss.qualcomm.com; h=from:subject:message-id;
- bh=Wcfz4bb2UH4k4iauZC9yeDtbL/XAGvi5MpIvhkWE+84=;
- b=owEBbQGS/pANAwAKAYs8ij4CKSjVAcsmYgBoaAH6NdCA26k5w7rflaL/C0ZoQBv6Ah0F9ug1Z
- Y0jE0oTs9eJATMEAAEKAB0WIQRMcISVXLJjVvC4lX+LPIo+Aiko1QUCaGgB+gAKCRCLPIo+Aiko
- 1d3tB/49669MgQgqtdl5XpVt4x+mRqFwJOfQhto4TFrSToyu4TtQroVaUAA0a6PXNNJnQKjjNaI
- zFcWAAfwkbz2xbvtLvaz9CEuHTV7yq1UGmSJdfhIWDdx1UMkgcpTBkt03Z2JXQDiCdpYW9wHeQe
- VE6dOe0zm0s9ZZ0k8z/RoPPerz2ixTynYeSrH1FrVYczgX3FPjxmAHmPmWKgLoMDpe+GeyhhiaU
- kh2E7j7iwjoP5uijoLT9MNEVA+bqzIB6KAMqE5ohGphvVzjTpZqoH1bIxc7GsrlhMZwy9U5ujE1
- SwLVtNqyyAH5k88oPBL3fDVVygagjafuxZSgqDdaJgUc3fk8
+ bh=LdPFH6oRbQYmT9cq0Y/hHQSHOp9Z0VRztyZKZ01w694=;
+ b=owEBbQGS/pANAwAKAYs8ij4CKSjVAcsmYgBoaAH6nnSALyAuxHSso/6VMpuKfgpAStkiLnufr
+ MDtUiOt/YGJATMEAAEKAB0WIQRMcISVXLJjVvC4lX+LPIo+Aiko1QUCaGgB+gAKCRCLPIo+Aiko
+ 1bkWB/9UNkOrPbaYrvefY+V+F6irbPlq67sccAvejlrV8j2Mb88fT40wYeT7W9kBfH5Q5H/zeeQ
+ tTyZjZiZoO9n9j33gJvEuIdF7w6FW+Ig6A4VDoeIfR7ANqfqAx4lG6qcQI+Pm/pKF//LSSYtKrp
+ mj+NVmr40rTTyAgnf2t7wWtFHBw9kzJcSIVzF6X2qtw07L6F7kT5gE5VDsw7iQjP9YgPFFggKGv
+ Tv2z25esKQwQWn6VC0V/SW3xT8AIPik6P9teglDVl9WBmNepe+ZZAipmQBe+BsuY+74ea55lXkb
+ MCHJYpQoyXr4xOYl16wxxOTukOyvw0JbaTFA13Z/QKe92m9c
 X-Developer-Key: i=dmitry.baryshkov@oss.qualcomm.com; a=openpgp;
  fpr=8F88381DD5C873E4AE487DA5199BF1243632046A
-X-Proofpoint-GUID: S2gh-kajgG0GmVeAGcU3m2Vm2-j1RUPF
-X-Authority-Analysis: v=2.4 cv=YPWfyQGx c=1 sm=1 tr=0 ts=686801ff cx=c_pps
- a=50t2pK5VMbmlHzFWWp8p/g==:117 a=xqWC_Br6kY4A:10 a=IkcTkHD0fZMA:10
- a=Wb1JkmetP80A:10 a=EUspDBNiAAAA:8 a=93dKIss0COAcHyiF0SEA:9 a=QEXdDO2ut3YA:10
- a=IoWCM6iH3mJn3m4BftBB:22
-X-Proofpoint-ORIG-GUID: S2gh-kajgG0GmVeAGcU3m2Vm2-j1RUPF
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwNzA0MDEyNCBTYWx0ZWRfX4vEH5O09rrlu
- GxPQLNYZTT0xFmxAQAz782wMDSSbJrO3sr/nBKPxfm9gCcyGWgtvCasNPiajBatuDmbXva3Yh0v
- ra/YZbTd3IaVVwiwAUtBSptNrb7FdKOECLwACV7yjzY5ByIilWu4fPBmBH1zhgQ3J/EnK9WYcwh
- sAINa0xRqepiOTUYUeTbKxZln58D/njPF2e3CqEcsS507OLTQ+pEF1qmaKtraddmwuPpUwTqS8m
- ZcLY8fTdwLJ/t9RAIQE1fI+bkTakh4Wr2Y6w0FWybGG20pdvWMNK3qRwjXUi0kCOXG7RChKuAGx
- Ps0O2pzm8peYOFCv3J/uqK29g3NYvJM6PdZ4IAzIJqpD9gmbMxVyTfhQUgb/X/vvsZOr7OKI1QU
- uOf4+5S3Ger3JjWbfX8v7obkXL3XhXuod6Tt1olT2wIiyFRBrfQ8ZgFzwJprTd8AbiHLDbCW
+X-Authority-Analysis: v=2.4 cv=KtJN2XWN c=1 sm=1 tr=0 ts=68680201 cx=c_pps
+ a=hnmNkyzTK/kJ09Xio7VxxA==:117 a=xqWC_Br6kY4A:10 a=IkcTkHD0fZMA:10
+ a=Wb1JkmetP80A:10 a=gEfo2CItAAAA:8 a=EUspDBNiAAAA:8 a=KKAkSRfTAAAA:8
+ a=PRzSAg5HSsxOSwAYWMMA:9 a=QEXdDO2ut3YA:10 a=PEH46H7Ffwr30OY-TuGO:22
+ a=sptkURWiP4Gy88Gu7hUp:22 a=cvBusfyB2V15izCimMoJ:22
+X-Proofpoint-ORIG-GUID: AYKXxgdKjcZAoEcHCCazgnVLVrfs5w1d
+X-Proofpoint-GUID: AYKXxgdKjcZAoEcHCCazgnVLVrfs5w1d
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwNzA0MDEyNSBTYWx0ZWRfXwjbd+6/y2iJx
+ vjCOY43fr2V3yCOuAhh9R12O5HjdCDNdoKimeGyu/w/lKcZQuxeg0LlttqSbkc5Vp47LT5mqGwV
+ 8GUW8GssHU6cUYAgCpHYUxIaOeGMOLFm4gFNFC/gGLMiNM/rnWYyjGIH5NwGI6F00curCfGYUiz
+ MXEWbrA2e76yAU/bj06yhU3uFiv6Veypm0LBSZgGQGICA8vVwEQ3q0xGc5ChnomtCSUl5UL9+D6
+ btoD4YdiNyCkUBmSAG6+23c0ETmkVBFa0RvZ6pT4OhOGubg5MaZXRqzr3hmNn+aG/4eomvRkdYK
+ weo09OhvNrnQvLSXyuXMcBqwYEyApMaP7zoKKEH+2+7h7Z+y8CoHi0Wc5xcRUgi7oT1MpQ6fxWZ
+ 2xCUthh5hcj3JSZ5qI4hHAtrQmYrvEdi8vHgMuvZDwmhg4bvFcoH07YdpRYD0R5pCM4FU97L
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.293,Aquarius:18.0.1099,Hydra:6.1.7,FMLib:17.12.80.40
  definitions=2025-07-04_06,2025-07-04_01,2025-03-28_01
 X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- spamscore=0 mlxlogscore=999 mlxscore=0 malwarescore=0 suspectscore=0
- lowpriorityscore=0 clxscore=1015 impostorscore=0 adultscore=0
- priorityscore=1501 bulkscore=0 phishscore=0 classifier=spam authscore=0
- authtc=n/a authcc= route=outbound adjust=0 reason=mlx scancount=1
- engine=8.19.0-2505280000 definitions=main-2507040124
+ impostorscore=0 bulkscore=0 priorityscore=1501 malwarescore=0 suspectscore=0
+ mlxscore=0 spamscore=0 adultscore=0 lowpriorityscore=0 phishscore=0
+ clxscore=1015 mlxlogscore=999 classifier=spam authscore=0 authtc=n/a authcc=
+ route=outbound adjust=0 reason=mlx scancount=1 engine=8.19.0-2505280000
+ definitions=main-2507040125
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -151,36 +153,124 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Describe the SC8180X-specific compatible for the DSI controller persent
-on the SoC. While the current DT for SC8180X doesn't use this
-compatible, all other platforms were updated to have one. This change
-makes SC8180X follow the lead.
+Describe the Display Processing Unit (DPU) as present on the SC8180X
+platform.
 
+Reported-by: Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>
 Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
 ---
- Documentation/devicetree/bindings/display/msm/dsi-controller-main.yaml | 2 ++
- 1 file changed, 2 insertions(+)
+ .../bindings/display/msm/qcom,sc8180x-dpu.yaml     | 103 +++++++++++++++++++++
+ 1 file changed, 103 insertions(+)
 
-diff --git a/Documentation/devicetree/bindings/display/msm/dsi-controller-main.yaml b/Documentation/devicetree/bindings/display/msm/dsi-controller-main.yaml
-index d4bb65c660af8ce8a6bda129a8275c579a705871..4400d4cce07227c2f8938f126c77213b2e4bb9a5 100644
---- a/Documentation/devicetree/bindings/display/msm/dsi-controller-main.yaml
-+++ b/Documentation/devicetree/bindings/display/msm/dsi-controller-main.yaml
-@@ -27,6 +27,7 @@ properties:
-               - qcom,sar2130p-dsi-ctrl
-               - qcom,sc7180-dsi-ctrl
-               - qcom,sc7280-dsi-ctrl
-+              - qcom,sc8180x-dsi-ctrl
-               - qcom,sdm660-dsi-ctrl
-               - qcom,sdm670-dsi-ctrl
-               - qcom,sdm845-dsi-ctrl
-@@ -332,6 +333,7 @@ allOf:
-               - qcom,sar2130p-dsi-ctrl
-               - qcom,sc7180-dsi-ctrl
-               - qcom,sc7280-dsi-ctrl
-+              - qcom,sc8180x-dsi-ctrl
-               - qcom,sdm845-dsi-ctrl
-               - qcom,sm6115-dsi-ctrl
-               - qcom,sm6125-dsi-ctrl
+diff --git a/Documentation/devicetree/bindings/display/msm/qcom,sc8180x-dpu.yaml b/Documentation/devicetree/bindings/display/msm/qcom,sc8180x-dpu.yaml
+new file mode 100644
+index 0000000000000000000000000000000000000000..a411126708b80f77bde88d7dd1ed49184856969c
+--- /dev/null
++++ b/Documentation/devicetree/bindings/display/msm/qcom,sc8180x-dpu.yaml
+@@ -0,0 +1,103 @@
++# SPDX-License-Identifier: GPL-2.0-only OR BSD-2-Clause
++%YAML 1.2
++---
++$id: http://devicetree.org/schemas/display/msm/qcom,sc8180x-dpu.yaml#
++$schema: http://devicetree.org/meta-schemas/core.yaml#
++
++title: Qualcomm SC8180X Display DPU
++
++maintainers:
++  - Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
++
++$ref: /schemas/display/msm/dpu-common.yaml#
++
++properties:
++  compatible:
++    const: qcom,sc8180x-dpu
++
++  reg:
++    items:
++      - description: Address offset and size for mdp register set
++      - description: Address offset and size for vbif register set
++
++  reg-names:
++    items:
++      - const: mdp
++      - const: vbif
++
++  clocks:
++    items:
++      - description: Display AHB clock
++      - description: Display HF AXI clock
++      - description: Display core clock
++      - description: Display vsync clock
++      - description: Display rotator clock
++      - description: Display LUT clock
++
++  clock-names:
++    items:
++      - const: iface
++      - const: bus
++      - const: core
++      - const: vsync
++      - const: rot
++      - const: lut
++
++unevaluatedProperties: false
++
++examples:
++  - |
++    #include <dt-bindings/clock/qcom,dispcc-sm8250.h>
++    #include <dt-bindings/clock/qcom,gcc-sc8180x.h>
++    #include <dt-bindings/interrupt-controller/arm-gic.h>
++    #include <dt-bindings/interconnect/qcom,sc8180x.h>
++    #include <dt-bindings/power/qcom-rpmpd.h>
++
++    display-controller@ae01000 {
++        compatible = "qcom,sc8180x-dpu";
++        reg = <0x0ae01000 0x8f000>,
++              <0x0aeb0000 0x2008>;
++        reg-names = "mdp", "vbif";
++
++        clocks = <&dispcc DISP_CC_MDSS_AHB_CLK>,
++                 <&gcc GCC_DISP_HF_AXI_CLK>,
++                 <&dispcc DISP_CC_MDSS_MDP_CLK>,
++                 <&dispcc DISP_CC_MDSS_VSYNC_CLK>,
++                 <&dispcc DISP_CC_MDSS_ROT_CLK>,
++                 <&dispcc DISP_CC_MDSS_MDP_LUT_CLK>;
++        clock-names = "iface",
++                      "bus",
++                      "core",
++                      "vsync",
++                      "rot",
++                      "lut";
++
++        assigned-clocks = <&dispcc DISP_CC_MDSS_VSYNC_CLK>;
++        assigned-clock-rates = <19200000>;
++
++        operating-points-v2 = <&mdp_opp_table>;
++        power-domains = <&rpmhpd SC8180X_MMCX>;
++
++        interrupt-parent = <&mdss>;
++        interrupts = <0>;
++
++        ports {
++            #address-cells = <1>;
++            #size-cells = <0>;
++
++            port@0 {
++                reg = <0>;
++                endpoint {
++                    remote-endpoint = <&dsi0_in>;
++                };
++            };
++
++            port@1 {
++                reg = <1>;
++                endpoint {
++                    remote-endpoint = <&dsi1_in>;
++                };
++            };
++        };
++    };
++...
 
 -- 
 2.39.5
