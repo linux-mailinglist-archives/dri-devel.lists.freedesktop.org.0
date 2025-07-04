@@ -2,51 +2,56 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id D4F6BAF992B
-	for <lists+dri-devel@lfdr.de>; Fri,  4 Jul 2025 18:46:29 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id B386BAF9925
+	for <lists+dri-devel@lfdr.de>; Fri,  4 Jul 2025 18:46:20 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9300F10E34B;
-	Fri,  4 Jul 2025 16:46:27 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 84B8710E04F;
+	Fri,  4 Jul 2025 16:46:17 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=igalia.com header.i=@igalia.com header.b="bQz2odiz";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="aMJPCia5";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from fanzine2.igalia.com (fanzine2.igalia.com [213.97.179.56])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 671FC10E348
- for <dri-devel@lists.freedesktop.org>; Fri,  4 Jul 2025 16:46:23 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com; 
- s=20170329;
- h=Content-Transfer-Encoding:Content-Type:In-Reply-To:From:
- References:Cc:To:Subject:MIME-Version:Date:Message-ID:Sender:Reply-To:
- Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
- Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
- List-Subscribe:List-Post:List-Owner:List-Archive;
- bh=DfTt13KaBgjZBz5elPAVafFy1ImSQAAQr44AcA6+pGE=; b=bQz2odizhpvQfOzSKFLFj2ENEq
- D12u144AvHHnRFwIx8nQTribkpiQ8FB3lrZUE5Xq5Tx2g5ZnRdeyUicw2Cng12Tgt+Qfy6N2ads+T
- Iw2yYsyN9sOO2c0KqsiuQe9WLbLodu8fKfyoEEpJip1X2BS1+mdcbPjQt8gcPCJfy5lcwb4nxP1eL
- fZLdAhw7tycHAQBg0OxFmC4aST70U1UiUBRajOwV6Dd1c7fXvR2SMNBIZX6pC+3yRzS8BZ4a8Uaqd
- nrPEGNE635mZhzQ2Bu96hsiLBWhywYNg0Y2PAjiUg+7uGfwr58DMBTn0/y7GydFIl3H0L0Bun1fOP
- QirPS3dA==;
-Received: from [179.100.5.63] (helo=[192.168.15.100])
- by fanzine2.igalia.com with esmtpsa 
- (Cipher TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_128_GCM:128) (Exim)
- id 1uXjYC-00CVSU-HD; Fri, 04 Jul 2025 18:46:12 +0200
-Message-ID: <52c32d1b-e5c4-4f6d-82a3-cf02c0cf4681@igalia.com>
-Date: Fri, 4 Jul 2025 13:46:07 -0300
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.14])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id BE9AF10E04F;
+ Fri,  4 Jul 2025 16:46:16 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1751647577; x=1783183577;
+ h=from:to:cc:subject:date:message-id:mime-version:
+ content-transfer-encoding;
+ bh=Xz+BIWfy+iqBB+Sy7bC9qdoFxADPQTx8PM1maWvJsDU=;
+ b=aMJPCia5lTIe51rRMr0NuyJGikHqWsQmENOqbXkvso/WdLYivKw7jbKZ
+ wgiaMV62chg0Nn0dTaSjz0yFlN9n+LPl3r/jTT0umbFopJ4em5K4iJ+9d
+ asmqqh0rRhOmjA0wC/lCcOfYnuLsSEIULR3GDEEQspY+x4miLyImLl+RE
+ TPLzHa546r9RHOV5+p8QMdU1/EKRzWO/Bb99Ttz8djidunqGeVCAflQ3Q
+ 6HB246xu9309xd8S652D21hC9nrl1IadWQQQ0BMZF+J1VKlWEJ1Qo8RT4
+ 1pD1Zx6dqk4cbKlfxA/IVPkkYatOGuu6SIAe6hZnDYn30aypGjiRi64M1 Q==;
+X-CSE-ConnectionGUID: OYXE3sScTaakAfQyZAlXgA==
+X-CSE-MsgGUID: 0JRm3d8iQtewdkjtUNOW9g==
+X-IronPort-AV: E=McAfee;i="6800,10657,11484"; a="57755766"
+X-IronPort-AV: E=Sophos;i="6.16,287,1744095600"; d="scan'208";a="57755766"
+Received: from orviesa009.jf.intel.com ([10.64.159.149])
+ by orvoesa106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 04 Jul 2025 09:46:16 -0700
+X-CSE-ConnectionGUID: zpZdKF4YQB2uVvGpkmOozg==
+X-CSE-MsgGUID: HNY+mPyTRWyMC514adz6fQ==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.16,287,1744095600"; d="scan'208";a="154424639"
+Received: from unknown (HELO bnilawar-desk2.iind.intel.com) ([10.190.239.41])
+ by orviesa009-auth.jf.intel.com with
+ ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Jul 2025 09:46:14 -0700
+From: Badal Nilawar <badal.nilawar@intel.com>
+To: intel-xe@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org
+Cc: anshuman.gupta@intel.com, rodrigo.vivi@intel.com,
+ alexander.usyskin@intel.com, gregkh@linuxfoundation.org,
+ daniele.ceraolospurio@intel.com
+Subject: [PATCH v7 00/10] Introducing firmware late binding
+Date: Fri,  4 Jul 2025 22:20:28 +0530
+Message-Id: <20250704165038.1464460-1-badal.nilawar@intel.com>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v3 1/3] drm/doc: Fix title underline for "Task information"
-To: Raag Jadav <raag.jadav@intel.com>
-Cc: simona@ffwll.ch, Krzysztof Karas <krzysztof.karas@intel.com>,
- airlied@gmail.com, Linux Next Mailing List <linux-next@vger.kernel.org>,
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- Stephen Rothwell <sfr@canb.auug.org.au>, kernel-dev@igalia.com
-References: <20250627171715.438304-1-andrealmeid@igalia.com>
-Content-Language: en-US
-From: =?UTF-8?Q?Andr=C3=A9_Almeida?= <andrealmeid@igalia.com>
-In-Reply-To: <20250627171715.438304-1-andrealmeid@igalia.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -63,43 +68,80 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Raag, gently ping for reviewing this series.
+Introducing firmware late binding feature to enable firmware loading
+for the devices, such as the fan controller and voltage regulator,
+during the driver probe.
+Typically, firmware for these devices are part of IFWI flash image but
+can be replaced at probe after OEM tuning.
 
-Em 27/06/2025 14:17, André Almeida escreveu:
-> Fix the following warning:
-> 
-> Documentation/gpu/drm-uapi.rst:450: WARNING: Title underline too short.
-> 
-> Task information
-> --------------- [docutils]
-> 
-> Fixes: cd37124b4093 ("drm/doc: Add a section about "Task information" for the wedge API")
-> Reported-by: Stephen Rothwell <sfr@canb.auug.org.au>
-> Signed-off-by: André Almeida <andrealmeid@igalia.com>
-> ---
-> v2: Add Reported-by tag
-> ---
->   Documentation/gpu/drm-uapi.rst | 4 ++--
->   1 file changed, 2 insertions(+), 2 deletions(-)
-> 
-> diff --git a/Documentation/gpu/drm-uapi.rst b/Documentation/gpu/drm-uapi.rst
-> index 263e5a97c080..10dea6a1f097 100644
-> --- a/Documentation/gpu/drm-uapi.rst
-> +++ b/Documentation/gpu/drm-uapi.rst
-> @@ -447,7 +447,7 @@ hang is usually the most critical one which can result in consequential hangs or
->   complete wedging.
->   
->   Task information
-> ----------------
-> +----------------
->   
->   The information about which application (if any) was involved in the device
->   wedging is useful for userspace if they want to notify the user about what
-> @@ -728,4 +728,4 @@ Stable uAPI events
->   From ``drivers/gpu/drm/scheduler/gpu_scheduler_trace.h``
->   
->   .. kernel-doc::  drivers/gpu/drm/scheduler/gpu_scheduler_trace.h
-> -   :doc: uAPI trace events
-> \ No newline at end of file
-> +   :doc: uAPI trace events
+v2:
+ - Dropped voltage regulator specific code as binaries for it will not
+   be available for upstreaming as of now.
+ - Address review comments
+v3:
+ - Dropped fwctl patch for now
+ - Added new patch to extract binary version
+ - Address v2 review comments
+v4:
+ - Address v3 review comments
+v5:
+ xe_kmd:
+ - Dropped mutex is worker flush in unbind blocking component
+   removal while fw download is in progress
+ - Handled the fw load in all 3 scenarios (probe, system resume, rpm resume)
+   by holding rpm wake ref in outer bounds of worker.
+ mei:
+ - Most of the review comments
+v6:
+ - rebased
+ - Disabled fw load upon error
+v7:
+ xe_kmd:
+ - resolved kernel doc warnings
+ mei:
+ - Address v6 review comments (greg kh)
+
+Alexander Usyskin (2):
+  mei: bus: add mei_cldev_mtu interface
+  mei: late_bind: add late binding component driver
+
+Badal Nilawar (8):
+  drm/xe/xe_late_bind_fw: Introducing xe_late_bind_fw
+  drm/xe/xe_late_bind_fw: Initialize late binding firmware
+  drm/xe/xe_late_bind_fw: Load late binding firmware
+  drm/xe/xe_late_bind_fw: Reload late binding fw in rpm resume
+  drm/xe/xe_late_bind_fw: Reload late binding fw during system resume
+  drm/xe/xe_late_bind_fw: Introduce debug fs node to disable late
+    binding
+  drm/xe/xe_late_bind_fw: Extract and print version info
+  drm/xe/xe_late_bind_fw: Select INTEL_MEI_LATE_BIND for CI
+
+ drivers/gpu/drm/xe/Kconfig                  |   1 +
+ drivers/gpu/drm/xe/Makefile                 |   1 +
+ drivers/gpu/drm/xe/xe_debugfs.c             |  41 ++
+ drivers/gpu/drm/xe/xe_device.c              |   5 +
+ drivers/gpu/drm/xe/xe_device_types.h        |   6 +
+ drivers/gpu/drm/xe/xe_late_bind_fw.c        | 462 ++++++++++++++++++++
+ drivers/gpu/drm/xe/xe_late_bind_fw.h        |  17 +
+ drivers/gpu/drm/xe/xe_late_bind_fw_types.h  |  75 ++++
+ drivers/gpu/drm/xe/xe_pci.c                 |   2 +
+ drivers/gpu/drm/xe/xe_pci_types.h           |   1 +
+ drivers/gpu/drm/xe/xe_pm.c                  |   8 +
+ drivers/gpu/drm/xe/xe_uc_fw_abi.h           |  66 +++
+ drivers/misc/mei/Kconfig                    |  11 +
+ drivers/misc/mei/Makefile                   |   1 +
+ drivers/misc/mei/bus.c                      |  13 +
+ drivers/misc/mei/mei_late_bind.c            | 271 ++++++++++++
+ include/drm/intel/i915_component.h          |   1 +
+ include/drm/intel/late_bind_mei_interface.h |  62 +++
+ include/linux/mei_cl_bus.h                  |   1 +
+ 19 files changed, 1045 insertions(+)
+ create mode 100644 drivers/gpu/drm/xe/xe_late_bind_fw.c
+ create mode 100644 drivers/gpu/drm/xe/xe_late_bind_fw.h
+ create mode 100644 drivers/gpu/drm/xe/xe_late_bind_fw_types.h
+ create mode 100644 drivers/misc/mei/mei_late_bind.c
+ create mode 100644 include/drm/intel/late_bind_mei_interface.h
+
+-- 
+2.34.1
 
