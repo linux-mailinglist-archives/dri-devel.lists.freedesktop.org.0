@@ -2,42 +2,90 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6F108AF8A48
-	for <lists+dri-devel@lfdr.de>; Fri,  4 Jul 2025 09:57:07 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 315A3AF8A55
+	for <lists+dri-devel@lfdr.de>; Fri,  4 Jul 2025 09:57:47 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id ACC2A10E97C;
-	Fri,  4 Jul 2025 07:57:01 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6413210E986;
+	Fri,  4 Jul 2025 07:57:45 +0000 (UTC)
+Authentication-Results: gabe.freedesktop.org;
+	dkim=fail reason="signature verification failed" (1024-bit key; unprotected) header.d=lunn.ch header.i=@lunn.ch header.b="jTK77Tij";
+	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from rtg-sunil-navi33.amd.com (unknown [165.204.156.251])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0D18C10E97C;
- Fri,  4 Jul 2025 07:56:59 +0000 (UTC)
-Received: from rtg-sunil-navi33.amd.com (localhost [127.0.0.1])
- by rtg-sunil-navi33.amd.com (8.15.2/8.15.2/Debian-22ubuntu3) with ESMTP id
- 5647uV471550174; Fri, 4 Jul 2025 13:26:31 +0530
-Received: (from sunil@localhost)
- by rtg-sunil-navi33.amd.com (8.15.2/8.15.2/Submit) id 5647uVxX1550173;
- Fri, 4 Jul 2025 13:26:31 +0530
-From: Sunil Khatri <sunil.khatri@amd.com>
-To: =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>,
- dri-devel@lists.freedesktop.org
-Cc: amd-gfx@lists.freedesktop.org, simona@ffwll.ch, tzimmermann@suse.de,
- tursulin@ursulin.net, phasta@kernel.org, dakr@kernel.org,
- linux-kernel@vger.kernel.org, Oded Gabbay <ogabbay@kernel.org>,
- Jeff Hugo <jeff.hugo@oss.qualcomm.com>, Jonas Karlman <jonas@kwiboo.se>,
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
- Andrzej Hajda <andrzej.hajda@intel.com>,
- Luca Ceresoli <luca.ceresoli@bootlin.com>,
- Sunil Khatri <sunil.khatri@amd.com>
-Subject: [PATCH v10 4/4] drm/amdgpu: add support of debugfs for mqd information
-Date: Fri,  4 Jul 2025 13:25:48 +0530
-Message-Id: <20250704075548.1549849-5-sunil.khatri@amd.com>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20250704075548.1549849-1-sunil.khatri@amd.com>
-References: <20250704075548.1549849-1-sunil.khatri@amd.com>
+Received: from vps0.lunn.ch (vps0.lunn.ch [156.67.10.101])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 09F6F10E984;
+ Fri,  4 Jul 2025 07:57:44 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=lunn.ch;
+ s=20171124; h=In-Reply-To:Content-Disposition:Content-Type:MIME-Version:
+ References:Message-ID:Subject:Cc:To:From:Date:From:Sender:Reply-To:Subject:
+ Date:Message-ID:To:Cc:MIME-Version:Content-Type:Content-Transfer-Encoding:
+ Content-ID:Content-Description:Content-Disposition:In-Reply-To:References;
+ bh=5qrkD9bX+jI4ab6c+XtoSydd7j+KnW2OaBzeTTEC/QE=; b=jTK77Tij9gZIa4yFat5vka5xRz
+ zxo2K3t3N98K2N9r3t0x1GzxeIxrNCnwCWaXoIAcYUClezLp6LYgcNldRMWVG6g9Wl76TbfZVdEJo
+ 8webAKr8ryhcY5PYw6AJiDWHNqoMr5QS+4SvlL1Zc3qnZ4gKNAd4lQYtfsMSWHxyzqpY=;
+Received: from andrew by vps0.lunn.ch with local (Exim 4.94.2)
+ (envelope-from <andrew@lunn.ch>)
+ id 1uXbIH-000BBm-4J; Fri, 04 Jul 2025 09:57:13 +0200
+Date: Fri, 4 Jul 2025 09:57:13 +0200
+From: Andrew Lunn <andrew@lunn.ch>
+To: Tamir Duberstein <tamird@gmail.com>
+Cc: Benno Lossin <lossin@kernel.org>,
+ Michal Rostecki <vadorovsky@protonmail.com>,
+ Miguel Ojeda <ojeda@kernel.org>, Alex Gaynor <alex.gaynor@gmail.com>,
+ Boqun Feng <boqun.feng@gmail.com>, Gary Guo <gary@garyguo.net>,
+ =?iso-8859-1?Q?Bj=F6rn?= Roy Baron <bjorn3_gh@protonmail.com>,
+ Andreas Hindborg <a.hindborg@kernel.org>,
+ Alice Ryhl <aliceryhl@google.com>, Trevor Gross <tmgross@umich.edu>,
+ Brendan Higgins <brendan.higgins@linux.dev>,
+ David Gow <davidgow@google.com>, Rae Moar <rmoar@google.com>,
+ Danilo Krummrich <dakr@kernel.org>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>,
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ "Rafael J. Wysocki" <rafael@kernel.org>,
+ Luis Chamberlain <mcgrof@kernel.org>, Russ Weight <russ.weight@linux.dev>,
+ FUJITA Tomonori <fujita.tomonori@gmail.com>, Rob Herring <robh@kernel.org>,
+ Saravana Kannan <saravanak@google.com>,
+ Peter Zijlstra <peterz@infradead.org>,
+ Ingo Molnar <mingo@redhat.com>, Will Deacon <will@kernel.org>,
+ Waiman Long <longman@redhat.com>, Nathan Chancellor <nathan@kernel.org>,
+ Nick Desaulniers <nick.desaulniers+lkml@gmail.com>,
+ Bill Wendling <morbo@google.com>, Justin Stitt <justinstitt@google.com>,
+ Heiner Kallweit <hkallweit1@gmail.com>,
+ Russell King <linux@armlinux.org.uk>,
+ "David S. Miller" <davem@davemloft.net>,
+ Eric Dumazet <edumazet@google.com>,
+ Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
+ Bjorn Helgaas <bhelgaas@google.com>, Arnd Bergmann <arnd@arndb.de>,
+ Jens Axboe <axboe@kernel.dk>,
+ Krzysztof =?utf-8?Q?Wilczy=C5=84ski?= <kwilczynski@kernel.org>,
+ Dave Ertman <david.m.ertman@intel.com>,
+ Ira Weiny <ira.weiny@intel.com>, Leon Romanovsky <leon@kernel.org>,
+ Breno Leitao <leitao@debian.org>, Viresh Kumar <viresh.kumar@linaro.org>,
+ Michael Turquette <mturquette@baylibre.com>,
+ Stephen Boyd <sboyd@kernel.org>, rust-for-linux@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-kselftest@vger.kernel.org,
+ kunit-dev@googlegroups.com, dri-devel@lists.freedesktop.org,
+ netdev@vger.kernel.org, devicetree@vger.kernel.org,
+ llvm@lists.linux.dev, linux-pci@vger.kernel.org,
+ nouveau@lists.freedesktop.org, linux-block@vger.kernel.org,
+ linux-pm@vger.kernel.org, linux-clk@vger.kernel.org
+Subject: Re: [PATCH v13 2/5] rust: support formatting of foreign types
+Message-ID: <efe97ed7-dd60-4f1c-ac5c-b700300f0390@lunn.ch>
+References: <20250701-cstr-core-v13-0-29f7d3eb97a6@gmail.com>
+ <20250701-cstr-core-v13-2-29f7d3eb97a6@gmail.com>
+ <DB2BDSN1JH51.14ZZPETJORBC6@kernel.org>
+ <CAJ-ks9nC=AyBPXRY3nJ0NuZvjFskzMcOkVNrBEfXD2hZ5uRntQ@mail.gmail.com>
+ <DB2IJ9HBIM0W.3N0JVGKX558QI@kernel.org>
+ <CAJ-ks9nF5+m+_bn0Pzi9yU0pw0TyN7Fs4x--mQ4ygyHz4A6hzg@mail.gmail.com>
+ <DB2PIGAQHCJR.3BF8ZHECYH3KB@kernel.org>
+ <CAJ-ks9=WmuXLJ6KkMEOP2jTvM_YBJO10SNsq0DU2J+_d4jp7qw@mail.gmail.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <CAJ-ks9=WmuXLJ6KkMEOP2jTvM_YBJO10SNsq0DU2J+_d4jp7qw@mail.gmail.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -53,114 +101,24 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Add debugfs support for mqd for each queue of the client.
+> Yes, it probably can. As you say, some subsystems might interact - the
+> claimed benefit of doing this subsystem-by-subsystem split is that it
+> avoids conflicts with ongoing work that will conflict with a large
+> patch, but this is also the downside; if ongoing work changes the set
+> of interactions between subsystems then a maintainer may find
+> themselves unable to emit the log message they want (because one
+> subsystem is using kernel::fmt while another is still on core::fmt).
 
-The address exposed to debugfs could be used to dump
-the mqd.
+This sounds like an abstraction problem. As a developer, i just want
+an API to print stuff. I don't care about what happens underneath.
 
-Signed-off-by: Sunil Khatri <sunil.khatri@amd.com>
-Reviewed-by: Christian König <christian.koenig@amd.com>
----
- drivers/gpu/drm/amd/amdgpu/amdgpu_userq.c | 52 +++++++++++++++++++++++
- drivers/gpu/drm/amd/amdgpu/amdgpu_userq.h |  1 +
- 2 files changed, 53 insertions(+)
+Could you add an implementation of the API which uses core:fmt
+underneath. Get that merged. You can then convert each subsystem one
+by one to use the new API. Since all you are changing is the API, not
+the implementation, there is no compatibility issues. Then, once all
+users are converted to the API, you can have one patch which flips the
+implementation from core:fmt to kernel:fmt. It might take you three
+kernel cycles to get this done, but that is relatively fast for a tree
+wide change, which sometimes takes years.
 
-diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_userq.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_userq.c
-index 295e7186e156..115d53bc9a8d 100644
---- a/drivers/gpu/drm/amd/amdgpu/amdgpu_userq.c
-+++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_userq.c
-@@ -318,6 +318,9 @@ amdgpu_userq_destroy(struct drm_file *filp, int queue_id)
- 		amdgpu_bo_unreserve(queue->db_obj.obj);
- 	}
- 	amdgpu_bo_unref(&queue->db_obj.obj);
-+
-+	debugfs_remove_recursive(queue->debugfs_queue);
-+
- 	r = amdgpu_userq_unmap_helper(uq_mgr, queue);
- 	amdgpu_userq_cleanup(uq_mgr, queue, queue_id);
- 	mutex_unlock(&uq_mgr->userq_mutex);
-@@ -343,6 +346,46 @@ static int amdgpu_userq_priority_permit(struct drm_file *filp,
- 	return -EACCES;
- }
- 
-+#if defined(CONFIG_DEBUG_FS)
-+static int amdgpu_mqd_info_read(struct seq_file *m, void *unused)
-+{
-+	struct amdgpu_usermode_queue *queue = m->private;
-+	struct amdgpu_bo *bo;
-+	int r;
-+
-+	if (!queue || !queue->mqd.obj)
-+		return -EINVAL;
-+
-+	bo = amdgpu_bo_ref(queue->mqd.obj);
-+	r = amdgpu_bo_reserve(bo, true);
-+	if (r) {
-+		amdgpu_bo_unref(&bo);
-+		return -EINVAL;
-+	}
-+
-+	seq_printf(m, "queue_type %d\n", queue->queue_type);
-+	seq_printf(m, "mqd_gpu_address: 0x%llx\n", amdgpu_bo_gpu_offset(queue->mqd.obj));
-+
-+	amdgpu_bo_unreserve(bo);
-+	amdgpu_bo_unref(&bo);
-+
-+	return 0;
-+}
-+
-+static int amdgpu_mqd_info_open(struct inode *inode, struct file *file)
-+{
-+	return single_open(file, amdgpu_mqd_info_read, inode->i_private);
-+}
-+
-+static const struct file_operations amdgpu_mqd_info_fops = {
-+	.owner = THIS_MODULE,
-+	.open = amdgpu_mqd_info_open,
-+	.read = seq_read,
-+	.llseek = seq_lseek,
-+	.release = single_release,
-+};
-+#endif
-+
- static int
- amdgpu_userq_create(struct drm_file *filp, union drm_amdgpu_userq *args)
- {
-@@ -352,6 +395,7 @@ amdgpu_userq_create(struct drm_file *filp, union drm_amdgpu_userq *args)
- 	const struct amdgpu_userq_funcs *uq_funcs;
- 	struct amdgpu_usermode_queue *queue;
- 	struct amdgpu_db_info db_info;
-+	char *queue_name;
- 	bool skip_map_queue;
- 	uint64_t index;
- 	int qid, r = 0;
-@@ -475,6 +519,14 @@ amdgpu_userq_create(struct drm_file *filp, union drm_amdgpu_userq *args)
- 		}
- 	}
- 
-+	queue_name = kasprintf(GFP_KERNEL, "queue-%d", qid);
-+	if (!queue_name)
-+		return -ENOMEM;
-+
-+	/* Queue dentry per client to hold MQD information   */
-+	queue->debugfs_queue = debugfs_create_dir(queue_name, filp->debugfs_client);
-+	debugfs_create_file("mqd_info", 0444, queue->debugfs_queue, queue, &amdgpu_mqd_info_fops);
-+	kfree(queue_name);
- 
- 	args->out.queue_id = qid;
- 
-diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_userq.h b/drivers/gpu/drm/amd/amdgpu/amdgpu_userq.h
-index ec040c2fd6c9..b1ca91b7cda4 100644
---- a/drivers/gpu/drm/amd/amdgpu/amdgpu_userq.h
-+++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_userq.h
-@@ -65,6 +65,7 @@ struct amdgpu_usermode_queue {
- 	struct dma_fence	*last_fence;
- 	u32			xcp_id;
- 	int			priority;
-+	struct dentry		*debugfs_queue;
- };
- 
- struct amdgpu_userq_funcs {
--- 
-2.34.1
-
+	Andrew
