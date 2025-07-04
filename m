@@ -2,58 +2,94 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 27230AF9686
-	for <lists+dri-devel@lfdr.de>; Fri,  4 Jul 2025 17:15:10 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6A9C5AF96A2
+	for <lists+dri-devel@lfdr.de>; Fri,  4 Jul 2025 17:19:58 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 57DFD10E06E;
-	Fri,  4 Jul 2025 15:15:07 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1334410E093;
+	Fri,  4 Jul 2025 15:19:56 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=igalia.com header.i=@igalia.com header.b="E/vaBBtt";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="A2B07ix0";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from fanzine2.igalia.com (fanzine2.igalia.com [213.97.179.56])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6675D10E06E;
- Fri,  4 Jul 2025 15:15:03 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com; 
- s=20170329;
- h=Content-Transfer-Encoding:Content-Type:In-Reply-To:From:
- References:Cc:To:Subject:MIME-Version:Date:Message-ID:Sender:Reply-To:
- Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
- Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
- List-Subscribe:List-Post:List-Owner:List-Archive;
- bh=ven6hvhaEcO4jhZscLbgCagwItLyOfAT48JqHURfZno=; b=E/vaBBttSM0UWAzyHUr0XX4RrO
- iOPuZ8qn3H5HnUb5RF/I9kpH+OZI2qrH5jST1VqRriomfr4gxW9oWDzlTcI4vOVAlTyyCxrpux+ob
- +q/RkNjH+XwWwwgOdYRLsQlDa3T6IdBbqK45qMU5quCHH7qYWG/QWMGZIiZLuJhUHugXCK2IgvGaJ
- bjHBz64GWnBMI0YZCDF0rztGTbAew7sFgiCmUXJ5sQkl8+iiXY1ZfjSD+wbQMI4A5houtCF/64561
- C6/Ktm92/6uhWrSQf7rakxd5hZKfudwHb9XbvZPLVsiAvWCPdBGx00g6P1OfhxPdBOAKwp5VYbwgf
- AJPVITEA==;
-Received: from [81.79.92.254] (helo=[192.168.0.101])
- by fanzine2.igalia.com with esmtpsa 
- (Cipher TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_128_GCM:128) (Exim)
- id 1uXi7u-00CTna-Ge; Fri, 04 Jul 2025 17:14:58 +0200
-Message-ID: <8acfa716-cbb6-4e4f-9553-f2051c8134a4@igalia.com>
-Date: Fri, 4 Jul 2025 16:14:57 +0100
+Received: from sea.source.kernel.org (sea.source.kernel.org [172.234.252.31])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B84B210E093
+ for <dri-devel@lists.freedesktop.org>; Fri,  4 Jul 2025 15:19:54 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+ by sea.source.kernel.org (Postfix) with ESMTP id 725824547E;
+ Fri,  4 Jul 2025 15:19:54 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id ECA64C4CEE3;
+ Fri,  4 Jul 2025 15:19:50 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1751642394;
+ bh=/ew8MS09xmL3iUz0ZzBhcbPd2CRWVgMKzYHPaMgmnZw=;
+ h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+ b=A2B07ix0OA27DrqIeFKXIbrYFiuNNYfzmRMHpf7hkTFpC+hob+oIF9tWG4XmAXVat
+ Nwj9fwQiU8vJHuCeJTU1dQMaNKZc5vybp0GzyFspI1feNLD9VfaNUmMUEtH2gSLNWV
+ j01zjK/Z/4FguO3enRnXNErzj1+fXNc3hIQSCChG1cIrAxzekp1FC/JV2lS7xAD0An
+ qR7Bl+YY7JyvjpEYkEjGDAswbpY8SuZ+ZREXzQCxiBrnRQzVi1d7rnAusXeqFLMtYA
+ 0ZPUOrb2NikR/Pokw4E1VmG+HzOnTd6Y5wcEzFGvXNHMAd0Wwcrf+IA0gXj423pi6M
+ PwLtSJXOohqrg==
+Message-ID: <879d1fa7-04a5-403c-8d23-76631a67f560@kernel.org>
+Date: Fri, 4 Jul 2025 17:19:49 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v5 04/16] drm/sched: Avoid double re-lock on the job free
- path
-To: phasta@kernel.org, =?UTF-8?Q?Ma=C3=ADra_Canal?= <mcanal@igalia.com>,
- amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org
-Cc: kernel-dev@igalia.com, =?UTF-8?Q?Christian_K=C3=B6nig?=
- <christian.koenig@amd.com>, Danilo Krummrich <dakr@kernel.org>,
- Matthew Brost <matthew.brost@intel.com>
-References: <20250623122746.46478-1-tvrtko.ursulin@igalia.com>
- <20250623122746.46478-5-tvrtko.ursulin@igalia.com>
- <3ab04122-72dc-41f4-95af-6c4bf851c6d0@igalia.com>
- <70a5fcd839c0582ed2216c8a61e128834bf81315.camel@mailbox.org>
- <1a1ef81e-2df4-4d9b-af06-25dfb9bc4192@igalia.com>
- <a20cfbddc2632c5731d7c59f1766a79baa1f2821.camel@mailbox.org>
-Content-Language: en-GB
-From: Tvrtko Ursulin <tvrtko.ursulin@igalia.com>
-In-Reply-To: <a20cfbddc2632c5731d7c59f1766a79baa1f2821.camel@mailbox.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+Subject: Re: [PATCH] virtio: Add missing kerneldoc for virtio_dma_buf_attach
+To: jiang.peng9@zte.com.cn, jasowang@redhat.com, xuanzhuo@linux.alibaba.com
+Cc: mst@redhat.com, eperezma@redhat.com, sumit.semwal@linaro.org,
+ christian.koenig@amd.com, virtualization@lists.linux.dev,
+ linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org,
+ xu.xin16@zte.com.cn, yang.yang29@zte.com.cn
+References: <20250704152047205U11FdEih1MxrmcmAz0Xpp@zte.com.cn>
+From: Krzysztof Kozlowski <krzk@kernel.org>
+Content-Language: en-US
+Autocrypt: addr=krzk@kernel.org; keydata=
+ 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 a/A=
+In-Reply-To: <20250704152047205U11FdEih1MxrmcmAz0Xpp@zte.com.cn>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -69,199 +105,42 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-
-On 04/07/2025 14:59, Philipp Stanner wrote:
-> On Fri, 2025-07-04 at 14:30 +0100, Tvrtko Ursulin wrote:
->>
->> On 04/07/2025 13:56, Philipp Stanner wrote:
->>> On Fri, 2025-07-04 at 09:29 -0300, Maíra Canal wrote:
->>>> Hi Tvrtko,
->>>>
->>>> On 23/06/25 09:27, Tvrtko Ursulin wrote:
->>>>> Currently the job free work item will lock sched->job_list_lock
->>>>> first time
->>>>> to see if there are any jobs, free a single job, and then lock
->>>>> again to
->>>>> decide whether to re-queue itself if there are more finished
->>>>> jobs.
->>>>>
->>>>> Since drm_sched_get_finished_job() already looks at the second
->>>>> job
->>>>> in the
->>>>> queue we can simply add the signaled check and have it return
->>>>> the
->>>>> presence
->>>>> of more jobs to free to the caller. That way the work item does
->>>>> not
->>>>> have
->>>>> to lock the list again and repeat the signaled check.
->>>>>
->>>>> Signed-off-by: Tvrtko Ursulin <tvrtko.ursulin@igalia.com>
->>>>> Cc: Christian König <christian.koenig@amd.com>
->>>>> Cc: Danilo Krummrich <dakr@kernel.org>
->>>>> Cc: Matthew Brost <matthew.brost@intel.com>
->>>>> Cc: Philipp Stanner <phasta@kernel.org>
->>>>> ---
->>>>>     drivers/gpu/drm/scheduler/sched_main.c | 39 +++++++++++-----
->>>>> -----
->>>>> -----
->>>>>     1 file changed, 16 insertions(+), 23 deletions(-)
->>>>>
->>>>> diff --git a/drivers/gpu/drm/scheduler/sched_main.c
->>>>> b/drivers/gpu/drm/scheduler/sched_main.c
->>>>> index 1f077782ec12..c6c26aec07b6 100644
->>>>> --- a/drivers/gpu/drm/scheduler/sched_main.c
->>>>> +++ b/drivers/gpu/drm/scheduler/sched_main.c
->>>>> @@ -366,22 +366,6 @@ static void
->>>>> __drm_sched_run_free_queue(struct
->>>>> drm_gpu_scheduler *sched)
->>>>>     		queue_work(sched->submit_wq, &sched-
->>>>>> work_free_job);
->>>>>     }
->>>>>     
->>>>> -/**
->>>>> - * drm_sched_run_free_queue - enqueue free-job work if ready
->>>>> - * @sched: scheduler instance
->>>>> - */
->>>>> -static void drm_sched_run_free_queue(struct drm_gpu_scheduler
->>>>> *sched)
->>>>> -{
->>>>> -	struct drm_sched_job *job;
->>>>> -
->>>>> -	spin_lock(&sched->job_list_lock);
->>>>> -	job = list_first_entry_or_null(&sched->pending_list,
->>>>> -				       struct drm_sched_job,
->>>>> list);
->>>>> -	if (job && dma_fence_is_signaled(&job->s_fence-
->>>>>> finished))
->>>>> -		__drm_sched_run_free_queue(sched);
->>>>> -	spin_unlock(&sched->job_list_lock);
->>>>> -}
->>>>> -
->>>>>     /**
->>>>>      * drm_sched_job_done - complete a job
->>>>>      * @s_job: pointer to the job which is done
->>>>> @@ -1102,12 +1086,13 @@ drm_sched_select_entity(struct
->>>>> drm_gpu_scheduler *sched)
->>>>>      * drm_sched_get_finished_job - fetch the next finished job
->>>>> to be
->>>>> destroyed
->>>>>      *
->>>>>      * @sched: scheduler instance
->>>>> + * @have_more: are there more finished jobs on the list
->>>>>      *
->>>>>      * Returns the next finished job from the pending list (if
->>>>> there
->>>>> is one)
->>>>>      * ready for it to be destroyed.
->>>>>      */
->>>>>     static struct drm_sched_job *
->>>>> -drm_sched_get_finished_job(struct drm_gpu_scheduler *sched)
->>>>> +drm_sched_get_finished_job(struct drm_gpu_scheduler *sched,
->>>>> bool
->>>>> *have_more)
->>>>>     {
->>>>>     	struct drm_sched_job *job, *next;
->>>>>     
->>>>> @@ -1115,22 +1100,27 @@ drm_sched_get_finished_job(struct
->>>>> drm_gpu_scheduler *sched)
->>>>>     
->>>>>     	job = list_first_entry_or_null(&sched->pending_list,
->>>>>     				       struct drm_sched_job,
->>>>> list);
->>>>> -
->>>>>     	if (job && dma_fence_is_signaled(&job->s_fence-
->>>>>> finished))
->>>>> {
->>>>>     		/* remove job from pending_list */
->>>>>     		list_del_init(&job->list);
->>>>>     
->>>>>     		/* cancel this job's TO timer */
->>>>>     		cancel_delayed_work(&sched->work_tdr);
->>>>> -		/* make the scheduled timestamp more accurate
->>>>> */
->>>>> +
->>>>> +		*have_more = false;
->>>>>     		next = list_first_entry_or_null(&sched-
->>>>>> pending_list,
->>>>>     						typeof(*next),
->>>>> list);
->>>>> -
->>>>>     		if (next) {
->>>>> +			/* make the scheduled timestamp more
->>>>> accurate */
->>>>>     			if
->>>>> (test_bit(DMA_FENCE_FLAG_TIMESTAMP_BIT,
->>>>>     				     &next->s_fence-
->>>>>> scheduled.flags))
->>>>>     				next->s_fence-
->>>>>> scheduled.timestamp
->>>>> =
->>>>>     					dma_fence_timestamp(&j
->>>>> ob-
->>>>>> s_fence->finished);
->>>>> +
->>>>> +			if
->>>>> (test_bit(DMA_FENCE_FLAG_SIGNALED_BIT,
->>>>> +				     &next->s_fence-
->>>>>> finished.flags))
->>>>
->>>> Shouldn't we use dma_fence_is_signaled() to keep the same check
->>>> that
->>>> we
->>>> have in drm_sched_run_free_queue()?
->>>
->>> There is a paused-ongoing discussion about this function:
->>>
->>> https://lore.kernel.org/all/20250522112540.161411-2-phasta@kernel.org/
->>>
->>>
->>> dma_fence_is_signaled() can have side effects by actually
->>> signaling,
->>> instead of just checking.
->>>
->>> Not sure if Tvrtko wanted to bypass that behavior here, though.
->>
->> No, no ulterior motives here. :)
->>
->> It is ages I wrote this, but now I revisited it, and AFAICT I don't
->> see
->> that it matters in this case.
->>
->> It is a scheduler fence which does not implement fence->ops-
->>> signaled()
->> so opportunistic signaling does not come into the picture.
->>
->> I am happy to change it to dma_fence_is_signaled() if that is the
->> preference.
+On 04/07/2025 09:20, jiang.peng9@zte.com.cn wrote:
+> From: Peng Jiang <jiang.peng9@zte.com.cn>
 > 
-> Its our (scheduler's) fence, so we can be sure dma_fence_is_signaled()
-> is OK.
-
-Okay, I changed it to dma_fence_is_signaled() locally.
-
-Regards,
-
-Tvrtko
-
-> I'd still prefer if we could get Christian to accept a function with a
-> superior name, though..
+> Add kerneldoc for 'virtio_dma_buf_attach' function to fix W=1 warnings:
 > 
-> P.
+> drivers/virtio/virtio_dma_buf.c:41 function parameter 'dma_buf' not described in 'virtio_dma_buf_attach'
+> drivers/virtio/virtio_dma_buf.c:41 function parameter 'attach' not described in 'virtio_dma_buf_attach'
 > 
->>
->> Regards,
->>
->> Tvrtko
->>
->>>>> +				*have_more = true;
->>>>> +
->>>>>     			/* start TO timer for next job */
->>>>>     			drm_sched_start_timeout(sched);
->>>>>     		}
->>>>
->>>>
->>>
->>
+> Signed-off-by: Peng Jiang <jiang.peng9@zte.com.cn>
+> ---
+>  drivers/virtio/virtio_dma_buf.c | 11 ++++++++++-
+>  1 file changed, 10 insertions(+), 1 deletion(-)
 > 
+> diff --git a/drivers/virtio/virtio_dma_buf.c b/drivers/virtio/virtio_dma_buf.c
+> index 3fe1d03b0645..18d261ba5197 100644
+> --- a/drivers/virtio/virtio_dma_buf.c
+> +++ b/drivers/virtio/virtio_dma_buf.c
+> @@ -35,7 +35,16 @@ struct dma_buf *virtio_dma_buf_export
+>  EXPORT_SYMBOL(virtio_dma_buf_export);
+> 
+>  /**
+> - * virtio_dma_buf_attach - mandatory attach callback for virtio dma-bufs
+> + * virtio_dma_buf_attach - Mandatory attach callback for virtio dma-bufs
 
+Read kernel-doc.rst. Missing ()
+
+> + * @dma_buf: Pointer to the shared dma-buf structure
+> + * @attach: Pointer to the newly created attachment metadata
+> + *
+> + * Description: Implements the standard dma-buf attach operation for virtio devices.
+
+That's not kerneldoc. Which part of kernel-doc document documents such
+syntax?
+
+
+> + *              Retrieves virtio-specific operations through container_of macro,
+> + *              then invokes device-specific attach callback if present.
+Best regards,
+Krzysztof
