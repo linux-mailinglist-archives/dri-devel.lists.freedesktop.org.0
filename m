@@ -2,51 +2,67 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0E807AF85E6
-	for <lists+dri-devel@lfdr.de>; Fri,  4 Jul 2025 05:06:47 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 65A95AF8CCA
+	for <lists+dri-devel@lfdr.de>; Fri,  4 Jul 2025 10:53:42 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D7CD610E923;
-	Fri,  4 Jul 2025 03:06:43 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9340310E009;
+	Fri,  4 Jul 2025 08:53:40 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=igalia.com header.i=@igalia.com header.b="Uq/e4eJI";
+	dkim=pass (1024-bit key; unprotected) header.d=qq.com header.i=@qq.com header.b="drX7x0it";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from fanzine2.igalia.com (fanzine2.igalia.com [213.97.179.56])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 62ABB10E923;
- Fri,  4 Jul 2025 03:06:42 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com; 
- s=20170329;
- h=Content-Transfer-Encoding:Content-Type:MIME-Version:Message-ID:
- Date:Subject:Cc:To:From:Sender:Reply-To:Content-ID:Content-Description:
- Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
- In-Reply-To:References:List-Id:List-Help:List-Unsubscribe:List-Subscribe:
- List-Post:List-Owner:List-Archive;
- bh=lrLB2w6XrBgAxl5WGmLus+DTYqxCa+sn6BI6H1HllKo=; b=Uq/e4eJI2lwXVCTC52RtDGs9hK
- UcMgFPHuTq+Io5OQWpkta3DpG2kw6OyaST+NrYx5jz0Vt4WG3o7f47NzZz8Lk7erPchG+K34t17s3
- GYAUgNVInwxuMABkq7fP8uMbNB0wUsiCZtvdfoA44Coa6nAscNdhfXilKrkL/QEfdQ8pdcx71A9cx
- 7s9i1yw12bzNsdTiUz/4usb4dMF1X6oShVZLnfisevlWYTH00HLjJw0IHyGIKZHQmOjXcVlQnVZIH
- J5O/e17kZA5TqqTrmk96dJClgOEXCDjbIYFiTH9wJK5bWWGpWgHxcKtphaQU2InbS6vmZPFTpXjXN
- 1uz72BYw==;
-Received: from [179.100.5.63] (helo=localhost.localdomain)
- by fanzine2.igalia.com with esmtpsa 
- (Cipher TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_256_GCM:256) (Exim)
- id 1uXWl5-00CBhm-JO; Fri, 04 Jul 2025 05:06:39 +0200
-From: =?UTF-8?q?Andr=C3=A9=20Almeida?= <andrealmeid@igalia.com>
-To: "Alex Deucher" <alexander.deucher@amd.com>,
- =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>
-Cc: dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- kernel-dev@igalia.com, amd-gfx@lists.freedesktop.org,
- =?UTF-8?q?Andr=C3=A9=20Almeida?= <andrealmeid@igalia.com>,
- Dave Airlie <airlied@gmail.com>
-Subject: [PATCH] drm/amdgpu: Fix lifetime of struct amdgpu_task_info after
- ring reset
-Date: Fri,  4 Jul 2025 00:06:29 -0300
-Message-ID: <20250704030629.1064397-1-andrealmeid@igalia.com>
-X-Mailer: git-send-email 2.49.0
+Received: from out203-205-221-252.mail.qq.com (out203-205-221-252.mail.qq.com
+ [203.205.221.252])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id AAAF010E210
+ for <dri-devel@lists.freedesktop.org>; Fri,  4 Jul 2025 03:20:30 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qq.com; s=s201512;
+ t=1751599229; bh=nYggTAMcLj6Uqc5ac+V9709CFd+IIQwLhlfVXY/u0K4=;
+ h=From:To:Cc:Subject:Date:In-Reply-To:References;
+ b=drX7x0itXUb+lSzbmqKCUgpV+idoOZbkULf/rhH0ltWKxsvBqkdMOk7jWZNIxXDwz
+ AWade0DUmricEdmu52u7qwvQyMrV9YM+UMZUiingvB/bdrSsQwpsIxAjL+qSHxlqfS
+ roOe3TpEmNFsj6u5VXoCusb7Z+lhqci6mc4NqYdk=
+Received: from VM-222-126-tencentos.localdomain ([14.22.11.163])
+ by newxmesmtplogicsvrszb21-0.qq.com (NewEsmtp) with SMTP
+ id 301A4097; Fri, 04 Jul 2025 11:12:01 +0800
+X-QQ-mid: xmsmtpt1751598721t1fxbom3j
+Message-ID: <tencent_CC020A5F9A042ED46D9E3F5792E3FB53F306@qq.com>
+X-QQ-XMAILINFO: NCmjBvJFq6XNTfcRopDfMWg5EYfIHLYheuFWAK/UmgouXBcs/zJRiRSLWo0K2L
+ RRA6nZSGdhBnzAudMiRIDPRvcfKXgsSz4RP4knAs9mq7HQTgOg2PoudFyJCiU9LcX6Y2e5p/WCOI
+ 7U4QhqFi4eFQzbmcAqYWbOXeYWxGeMpO2hxDdaNrbyIFK5j2LR1BxMPHbuI4iN+qAVuekcqLXHWm
+ 9GWdXlp4bYcEvw7wgzX3YKm8GE+HROtUgaFSGPT+XhnfLRo3irQ4FeKS+0ZmJE9hFvU+7QZ4pqRS
+ 4Nareug/R2Itmo1sAXIw5HwRog5cwhDsWT4/zNcDY0YnULcuFps09ySbs446b9/gnpnfKHWlIpC5
+ rJIQ2Z2rab8t80AT5Yr4hQukaHpWTAtB55WFvrN5kBX06M1QWCPRFnel4wnZt2nidHNiiNic2YTy
+ FTG/jJjZbGLKc0LI9XwE/P2toGe30Jzwu4Ahf3Rf1ZuhOZpE0YtBtVqDwEf36eqCatznc1ICUW34
+ u0j0aw4McAsoZQ+Vsr7NmS1VYjKkIS9IpcO4abAaMi6V4cwMIGx97/ZWcjImS/ERbv7v0nyP6CrI
+ +68nP9E21HoHRMnbQ7IjPGlb0jkiqYoZUp4SMh5egYhcrSH5ugFJj6e/utFDCWRsDscfrT+vb0CG
+ o3XT5+likPfAKEPj0T5tbU5abzvyDyCIZdxbLUaSD//CQtgTgkfpxOEoLP2nSf6ll/NXjW265jms
+ ml4KYdNJOtWlSVUk2QyuZIYhA9oEIAHnBqM53lEhv7wR/5531Kop7NuRiGyjGEYwj9oye67S5dGO
+ RaVLvM7x0lDXwyO6kWnqrWb5ngOMk2gBoSMn+AEC746ulNvAQ+6B1H+D6HfqRpnYYrQ6oQyw/esE
+ WQV51ZXFz5UE3SV9YHTAwUyAW4js5DJsY8La00byLqfFDnlMa1l3mrxpvg7OXfcCgeSDiLKhDJCU
+ bRXWR5taDF8OFGLzmY/WW0hfm7mwmlzBEboKeO7ydIuMvJAaOVjzP2XIT1TtrBTfkQLtTBlbtDe4
+ zk5B3whbo6RcDzQr2YebBytUkldli3sZUQsLXj7jN4790CYOXtNXYlqQsjQIaX5nsYLJoOSQ==
+X-QQ-XMRINFO: Mp0Kj//9VHAxr69bL5MkOOs=
+From: jackysliu <1972843537@qq.com>
+To: harry.wentland@amd.com
+Cc: 1972843537@qq.com, Austin.Zheng@amd.com, Dillon.Varone@amd.com,
+ Security@tencent.com, Sung.Lee@amd.com, Wayne.Lin@amd.com,
+ airlied@gmail.com, alexander.deucher@amd.com, alvin.lee2@amd.com,
+ amd-gfx@lists.freedesktop.org, aurabindo.pillai@amd.com,
+ christian.koenig@amd.com, dri-devel@lists.freedesktop.org,
+ joshua.aberback@amd.com, linux-kernel@vger.kernel.org, linux@treblig.org,
+ mario.limonciello@amd.com, ryanseto@amd.com, simona@ffwll.ch,
+ siqueira@igalia.com, sunpeng.li@amd.com
+Subject: RE:[PATCH] drm/amd/display:fix a Null pointer dereference
+ vulnerability
+Date: Fri,  4 Jul 2025 11:11:56 +0800
+X-OQ-MSGID: <20250704031156.3113667-1-1972843537@qq.com>
+X-Mailer: git-send-email 2.43.5
+In-Reply-To: <220f9fb4-45ad-4997-9572-564242737dd4@amd.com>
+References: <220f9fb4-45ad-4997-9572-564242737dd4@amd.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
+X-Mailman-Approved-At: Fri, 04 Jul 2025 08:53:39 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -62,58 +78,14 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-When a ring reset happens, amdgpu calls drm_dev_wedged_event() using
-struct amdgpu_task_info *ti as one of the arguments. After using *ti, a
-call to amdgpu_vm_put_task_info(ti) is required to correctly track its
-lifetime.
+On 2025-07-03 11:15, Harry Wentland wrote
+>Thanks for your patch.
+>
+>Please run and fix this checkpatch.pl warning:
+>
+>WARNING: From:/Signed-off-by: email address mismatch: 'From: jackysliu <1972843537@qq.com>' != 'Signed-off-by: jackysliu <Security@tencent.com>'
 
-However, it's called from a place that the ring reset path never reaches
-due to a goto after drm_dev_wedged_event() is called. Move
-amdgpu_vm_put_task_info() bellow the exit label to make sure that it's
-called regardless of the code path.
-
-amdgpu_vm_put_task_info() can only accept a valid address or NULL as
-argument, so initialise *ti to make sure we can call this function if
-*ti isn't used.
-
-Fixes: a72002cb181f ("drm/amdgpu: Make use of drm_wedge_task_info")
-Reported-by: Dave Airlie <airlied@gmail.com>
-Closes: https://lore.kernel.org/dri-devel/CAPM=9tz0rQP8VZWKWyuF8kUMqRScxqoa6aVdwWw9=5yYxyYQ2Q@mail.gmail.com/
-Signed-off-by: André Almeida <andrealmeid@igalia.com>
----
- drivers/gpu/drm/amd/amdgpu/amdgpu_job.c | 5 ++---
- 1 file changed, 2 insertions(+), 3 deletions(-)
-
-diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_job.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_job.c
-index 1e24590ae144..e69366401f6b 100644
---- a/drivers/gpu/drm/amd/amdgpu/amdgpu_job.c
-+++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_job.c
-@@ -90,7 +90,7 @@ static enum drm_gpu_sched_stat amdgpu_job_timedout(struct drm_sched_job *s_job)
- 	struct amdgpu_ring *ring = to_amdgpu_ring(s_job->sched);
- 	struct amdgpu_job *job = to_amdgpu_job(s_job);
- 	struct drm_wedge_task_info *info = NULL;
--	struct amdgpu_task_info *ti;
-+	struct amdgpu_task_info *ti = NULL;
- 	struct amdgpu_device *adev = ring->adev;
- 	int idx;
- 	int r;
-@@ -172,8 +172,6 @@ static enum drm_gpu_sched_stat amdgpu_job_timedout(struct drm_sched_job *s_job)
- 	}
- 	dma_fence_set_error(&s_job->s_fence->finished, -ETIME);
- 
--	amdgpu_vm_put_task_info(ti);
--
- 	if (amdgpu_device_should_recover_gpu(ring->adev)) {
- 		struct amdgpu_reset_context reset_context;
- 		memset(&reset_context, 0, sizeof(reset_context));
-@@ -199,6 +197,7 @@ static enum drm_gpu_sched_stat amdgpu_job_timedout(struct drm_sched_job *s_job)
- 	}
- 
- exit:
-+	amdgpu_vm_put_task_info(ti);
- 	drm_dev_exit(idx);
- 	return DRM_GPU_SCHED_STAT_NOMINAL;
- }
--- 
-2.49.0
+>I would prefer to simply wrap the dc->ctx->logger and dc->ctx bits
+>with if (!dc->ctx) and avoid the goto.
+Thank you Harry, for the patient review. I'll submit a revised patch later.
 
