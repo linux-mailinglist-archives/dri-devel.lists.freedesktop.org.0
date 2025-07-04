@@ -2,52 +2,110 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2B614AF8B14
-	for <lists+dri-devel@lfdr.de>; Fri,  4 Jul 2025 10:20:08 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id C4728AF8B2B
+	for <lists+dri-devel@lfdr.de>; Fri,  4 Jul 2025 10:21:58 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B9DDE10E2B0;
-	Fri,  4 Jul 2025 08:20:05 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C9FEE10E352;
+	Fri,  4 Jul 2025 08:21:55 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=163.com header.i=@163.com header.b="g3kz60z3";
+	dkim=pass (2048-bit key; secure) header.d=web.de header.i=spasswolf@web.de header.b="ZavIZXmt";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from m16.mail.163.com (m16.mail.163.com [117.135.210.2])
- by gabe.freedesktop.org (Postfix) with ESMTP id 0F0D310E2B0
- for <dri-devel@lists.freedesktop.org>; Fri,  4 Jul 2025 08:20:02 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=163.com;
- s=s110527; h=Date:From:To:Subject:Content-Type:MIME-Version:
- Message-ID; bh=mibiWF16hdn0bP5qO7tnSAg+k3n38sdVq+w+Ms8wFHY=; b=g
- 3kz60z3AYDuGu9PCSO3ovTsSFZsx7LxoJhDEdAEQB7JO4VMWzGp0zDd3E49U+zbe
- X08CMairuKKEg26hx1rGIyGKoUol6qlAcwd9nsI9a0qz029u1yGd2fyT0RcyuePt
- zIAphFeNyGFbC4q7Kf3U8svfzq5icHNxXiTn33wuv4=
-Received: from andyshrk$163.com ( [58.22.7.114] ) by
- ajax-webmail-wmsvr-40-143 (Coremail) ; Fri, 4 Jul 2025 16:19:30 +0800 (CST)
-X-Originating-IP: [58.22.7.114]
-Date: Fri, 4 Jul 2025 16:19:30 +0800 (CST)
-From: "Andy Yan" <andyshrk@163.com>
-To: "Piotr Zalewski" <pZ010001011111@proton.me>
-Cc: hjc@rock-chips.com, heiko@sntech.de, andy.yan@rock-chips.com,
- maarten.lankhorst@linux.intel.com, mripard@kernel.org,
- tzimmermann@suse.de, airlied@gmail.com, simona@ffwll.ch,
- dri-devel@lists.freedesktop.org, linux-arm-kernel@lists.infradead.org,
- linux-rockchip@lists.infradead.org, linux-kernel@vger.kernel.org,
- "Diederik de Haas" <didi.debian@cknow.org>
-Subject: Re:[PATCH] rockchip/drm: vop2: make vp registers nonvolatile
-X-Priority: 3
-X-Mailer: Coremail Webmail Server Version XT5.0.14 build 20240801(9da12a7b)
- Copyright (c) 2002-2025 www.mailtech.cn 163com
-In-Reply-To: <20250628180914.1177177-2-pZ010001011111@proton.me>
-References: <20250628180914.1177177-2-pZ010001011111@proton.me>
-X-NTES-SC: AL_Qu2eA/qauEks5iWbYOkfmkcVgOw9UcO5v/Qk3oZXOJF8jC/rxCoxfntMEmPnyfOOFCWcrheYUhhh58BWV4JgQoINVNPLzzTi97dc2ZFl3s1NsQ==
-Content-Transfer-Encoding: base64
-Content-Type: text/plain; charset=UTF-8
+Received: from mout.web.de (mout.web.de [212.227.17.11])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D1AED10E352
+ for <dri-devel@lists.freedesktop.org>; Fri,  4 Jul 2025 08:21:53 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=web.de;
+ s=s29768273; t=1751617292; x=1752222092; i=spasswolf@web.de;
+ bh=C39CAOss3qy24guk6Pk9qdKydSinnm2BWkFOQLmwFfo=;
+ h=X-UI-Sender-Class:Message-ID:Subject:From:To:Cc:Date:In-Reply-To:
+ References:Content-Type:MIME-Version:Content-Transfer-Encoding:cc:
+ content-transfer-encoding:content-type:date:from:message-id:
+ mime-version:reply-to:subject:to;
+ b=ZavIZXmtXg/FQFT2xteQmlrDagQY6+wbWgfzTrIR29yXI3q5V0k1VrC6rdj7IiEq
+ QxBGGfUIuehUaaCKxw7UbgMVOvQQoxRJfl5COPQ4Jp236yJ5et71wAhGgjkFTesf0
+ 0Rfdl2+h+XVa2LsjI+HNKBzn6QDnO+cfYgzdcwk2vRlLB+zek7V7H8g+IXX/SXUvV
+ OvMyRBmhKIvMePJ09k05y1jtFCB9M4iEGmEokbfUXU3ZMTyPTOt+T4iR1+J4vEmNG
+ Ya8YtC0L2ctZUNO2BlGWW4f5Jr0pN7tIdsAbQvLYa0DlxEoByFg1lV58vMcMjqaC/
+ Zm56//83dAMhAQnEhA==
+X-UI-Sender-Class: 814a7b36-bfc1-4dae-8640-3722d8ec6cd6
+Received: from [192.168.0.101] ([95.223.134.88]) by smtp.web.de (mrweb105
+ [213.165.67.124]) with ESMTPSA (Nemesis) id 1M9ISr-1ua5iW3alz-00DeQV; Fri, 04
+ Jul 2025 10:21:31 +0200
+Message-ID: <7be4f337df6f882ac53a47db851ae92d7a2d1dc0.camel@web.de>
+Subject: Re: Warnings in next-20250703 caused by commit 582111e630f5
+From: Bert Karwatzki <spasswolf@web.de>
+To: Thomas Zimmermann <tzimmermann@suse.de>
+Cc: linux-kernel@vger.kernel.org, linux-next@vger.kernel.org, Anusha
+ Srivatsa	 <asrivats@redhat.com>, Christian =?ISO-8859-1?Q?K=F6nig?=	
+ <christian.koenig@amd.com>, Maarten Lankhorst	
+ <maarten.lankhorst@linux.intel.com>, Maxime Ripard <mripard@kernel.org>, 
+ Sumit Semwal <sumit.semwal@linaro.org>, linux-media@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, 	stable@vger.kernel.org, spasswolf@web.de
+Date: Fri, 04 Jul 2025 10:21:30 +0200
+In-Reply-To: <c17428b3-6f04-4eb7-9140-92c7f27eae4f@suse.de>
+References: <20250703115915.3096-1-spasswolf@web.de>
+ <75abf5c1-aa1a-4405-aae4-a2efccbc3bcb@suse.de>
+ <7a56d95dc2b15fa2dac0c8a4dd20f0e253bf414f.camel@web.de>
+ <c17428b3-6f04-4eb7-9140-92c7f27eae4f@suse.de>
+Content-Type: text/plain; charset="UTF-8"
+User-Agent: Evolution 3.56.1-1 
 MIME-Version: 1.0
-Message-ID: <9947ce4.7929.197d484ec6b.Coremail.andyshrk@163.com>
-X-Coremail-Locale: zh_CN
-X-CM-TRANSID: jygvCgD3V2KSjmdo0I0CAA--.22062W
-X-CM-SenderInfo: 5dqg52xkunqiywtou0bp/xtbBEhSAXmhnjU0l2AABsr
-X-Coremail-Antispam: 1U5529EdanIXcx71UUUUU7vcSsGvfC2KfnxnUU==
+Content-Transfer-Encoding: quoted-printable
+X-Provags-ID: V03:K1:HfCm/7Fv8dgkG6loGeHxqXFrpz+KpHQw0Z465EklLVw/e1uNhkc
+ vXCMGkYddY6JUPyPiPH3se8uq5m//yXK6DestbiLP7drF3HmPBILrZdwx2uH3DFj61hY3T7
+ +AA9IyMyvKKfSjDD04iqL30eOrP83LMHkwTvoSzlRD7+W0fxg7hx80iAcD0TCfEhAq8Z7Yt
+ o6Wj3wOamoLkGxI0NxRcQ==
+X-Spam-Flag: NO
+UI-OutboundReport: notjunk:1;M01:P0:TZ/o5+bl1dU=;LZcyToSejdtbsXI4+pyo5epAmVM
+ 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
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -63,50 +121,63 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-SGVsbG8gUGlvdHIsCgpBdCAyMDI1LTA2LTI5IDAyOjExOjAwLCAiUGlvdHIgWmFsZXdza2kiIDxw
-WjAxMDAwMTAxMTExMUBwcm90b24ubWU+IHdyb3RlOgo+TWFrZSB2aWRlbyBwb3J0IHJlZ2lzdGVy
-cyBub252b2xhdGlsZS4gQXMgRFNQX0NUUkwgcmVnaXN0ZXIgaXMgd3JpdHRlbgo+dG8gdHdpY2Ug
-ZHVlIHRvIGdhbW1hIExVVCBlbmFibGUgYml0IHdoaWNoIGlzIHNldCBvdXRzaWRlIG9mIHRoZSBt
-YWluCj5EU1BfQ1RSTCBpbml0aWFsaXphdGlvbiB3aXRoaW4gYXRvbWljX2VuYWJsZSAoZm9yIHJr
-MzU2eCBjYXNlIGl0IGlzIGFsc28KPm5lY2VzYXJyeSB0byBhbHdheXMgZGlzYWJsZSBnYW1tYSBM
-VVQgYmVmb3JlIHdyaXRpbmcgYSBuZXcgTFVUKSB0aGVyZSBpcwo+YSBjaGFuY2UgdGhhdCBEU1Bf
-Q1RSTCB2YWx1ZSByZWFkLW91dCBpbiBnYW1tYSBMVVQgaW5pdC91cGRhdGUgY29kZSBpcwo+bm90
-IHRoZSBvbmUgd2hpY2ggd2FzIHdyaXR0ZW4gYnkgdGhlIHByZWNlZGluZyBEU1BfQ1RSTCBpbml0
-aWFsaXphdGlvbgo+Y29kZSB3aXRoaW4gYXRvbWljX2VuYWJsZS4gVGhpcyBtaWdodCByZXN1bHQg
-aW4gbWlzY29uZmlndXJlZCBEU1BfQ1RSTAo+d2hpY2ggbGVhZHMgdG8gbm8gdmlzdWFsIG91dHB1
-dFsxXS4gU2luY2UgRFNQX0NUUkwgd3JpdGUgdGFrZXMgZWZmZWN0Cj5hZnRlciBWU1lOQ1sxXSB0
-aGUgaXNzdWUgaXMgbm90IGFsd2F5cyBwcmVzZW50LiBXaGVuIHRlc3RlZCBvbiBQaW5ldGFiMgo+
-d2l0aCBrZXJuZWwgNi4xNCBpdCBoYXBwZW5lcyBvbmx5IHdoZW4gRFJNIGlzIGNvbXBpbGVkIGFz
-IGEgbW9kdWxlWzFdLgo+SW4gb3JkZXIgdG8gY29uZmlybSB0aGF0IGl0IGlzIGJlY2F1c2Ugb2Yg
-dGltaW5nIEkgaW5zZXJ0ZWQgMThtcyB1ZGVsYXkKPmJlZm9yZSB2b3AyX2NydGNfYXRvbWljX3Ry
-eV9zZXRfZ2FtbWEgaW4gYXRvbWljIGVuYWJsZSBhbmQgY29tcGlsZWQgRFJNCj5hcyBtb2R1bGUg
-LSB0aGlzIGhhcyBhbHNvIGZpeGVkIHRoZSBpc3N1ZSBvbiBQaW5ldGFiMi4KPgo+WzFdIGh0dHBz
-Oi8vbG9yZS5rZXJuZWwub3JnL2xpbnV4LXJvY2tjaGlwLzU2MmIzOGU1LmE0OTYuMTk3NWYwOWY5
-ODMuQ29yZW1haWwuYW5keXNocmtAMTYzLmNvbS8KPgo+UmVwb3J0ZWQtYnk6IERpZWRlcmlrIGRl
-IEhhYXMgPGRpZGkuZGViaWFuQGNrbm93Lm9yZz4KPkNsb3NlczogaHR0cHM6Ly9sb3JlLmtlcm5l
-bC5vcmcvbGludXgtcm9ja2NoaXAvREFFVkRTVE1XSTFFLko0NTRWWk4wUjlNQUBja25vdy5vcmcv
-Cj5TdWdnZXN0ZWQtYnk6IEFuZHkgWWFuIDxhbmR5LnlhbkByb2NrLWNoaXBzLmNvbT4KPlNpZ25l
-ZC1vZmYtYnk6IFBpb3RyIFphbGV3c2tpIDxwWjAxMDAwMTAxMTExMUBwcm90b24ubWU+Cj4tLS0K
-PiBkcml2ZXJzL2dwdS9kcm0vcm9ja2NoaXAvcm9ja2NoaXBfZHJtX3ZvcDIuYyB8IDkgKysrKyst
-LS0tCj4gMSBmaWxlIGNoYW5nZWQsIDUgaW5zZXJ0aW9ucygrKSwgNCBkZWxldGlvbnMoLSkKPgo+
-ZGlmZiAtLWdpdCBhL2RyaXZlcnMvZ3B1L2RybS9yb2NrY2hpcC9yb2NrY2hpcF9kcm1fdm9wMi5j
-IGIvZHJpdmVycy9ncHUvZHJtL3JvY2tjaGlwL3JvY2tjaGlwX2RybV92b3AyLmMKPmluZGV4IGQw
-ZjVmZWExNWUyMS4uMjQxMDYwY2MyNGNiIDEwMDY0NAo+LS0tIGEvZHJpdmVycy9ncHUvZHJtL3Jv
-Y2tjaGlwL3JvY2tjaGlwX2RybV92b3AyLmMKPisrKyBiL2RyaXZlcnMvZ3B1L2RybS9yb2NrY2hp
-cC9yb2NrY2hpcF9kcm1fdm9wMi5jCj5AQCAtMjU4OSwxMiArMjU4OSwxMyBAQCBzdGF0aWMgaW50
-IHZvcDJfd2luX2luaXQoc3RydWN0IHZvcDIgKnZvcDIpCj4gfQo+IAo+IC8qCj4tICogVGhlIHdp
-bmRvdyByZWdpc3RlcnMgYXJlIG9ubHkgdXBkYXRlZCB3aGVuIGNvbmZpZyBkb25lIGlzIHdyaXR0
-ZW4uCj4tICogVW50aWwgdGhhdCB0aGV5IHJlYWQgYmFjayB0aGUgb2xkIHZhbHVlLiBBcyB3ZSBy
-ZWFkLW1vZGlmeS13cml0ZQo+LSAqIHRoZXNlIHJlZ2lzdGVycyBtYXJrIHRoZW0gYXMgbm9uLXZv
-bGF0aWxlLiBUaGlzIG1ha2VzIHN1cmUgd2UgcmVhZAo+LSAqIHRoZSBuZXcgdmFsdWVzIGZyb20g
-dGhlIHJlZ21hcCByZWdpc3RlciBjYWNoZS4KPisgKiBUaGUgd2luZG93IGFuZCB2aWRlbyBwb3J0
-IHJlZ2lzdGVycyBhcmUgb25seSB1cGRhdGVkIHdoZW4gY29uZmlnCj4rICogZG9uZSBpcyB3cml0
-dGVuLiBVbnRpbCB0aGF0IHRoZXkgcmVhZCBiYWNrIHRoZSBvbGQgdmFsdWUuIEFzIHdlCj4rICog
-cmVhZC1tb2RpZnktd3JpdGUgdGhlc2UgcmVnaXN0ZXJzIG1hcmsgdGhlbSBhcyBub24tdm9sYXRp
-bGUuIFRoaXMKPisgKiBtYWtlcyBzdXJlIHdlIHJlYWQgdGhlIG5ldyB2YWx1ZXMgZnJvbSB0aGUg
-cmVnbWFwIHJlZ2lzdGVyIGNhY2hlLgo+ICAqLwo+IHN0YXRpYyBjb25zdCBzdHJ1Y3QgcmVnbWFw
-X3JhbmdlIHZvcDJfbm9udm9sYXRpbGVfcmFuZ2VbXSA9IHsKPisJcmVnbWFwX3JlZ19yYW5nZShS
-SzM1NjhfVlAwX0NUUkxfQkFTRSwgUkszNTg4X1ZQM19DVFJMX0JBU0UrMjU1KSwKClNtYWxsIG5p
-dDogdGhlcmUgc2hvdWxkIGJlIHNwYWNlcyBiZWZvcmUgYW5kIGFmdGVyIHRoZSAgKyAKCj4gCXJl
-Z21hcF9yZWdfcmFuZ2UoMHgxMDAwLCAweDIzZmYpLAo+IH07Cj4gCj4tLSAKPjIuNTAuMAo+Cj4K
+Am Freitag, dem 04.07.2025 um 09:51 +0200 schrieb Thomas Zimmermann:
+> Hi
+>=20
+> Am 03.07.25 um 19:23 schrieb Bert Karwatzki:
+> > Am Donnerstag, dem 03.07.2025 um 18:09 +0200 schrieb Thomas Zimmermann=
+:
+> > > Hi,
+> > >=20
+> > > before I give up on the issue, could you please test the attached pa=
+tch?
+> > >=20
+> > > Best regards
+> > > Thomas
+> > >=20
+> > >=20
+> > > --
+> > > Thomas Zimmermann
+> > > Graphics Driver Developer
+> > > SUSE Software Solutions Germany GmbH
+> > > Frankenstrasse 146, 90461 Nuernberg, Germany
+> > > GF: Ivo Totev, Andrew Myers, Andrew McDonald, Boudien Moerman
+> > > HRB 36809 (AG Nuernberg)
+> > I applied the patch on top of next-20250703
+> >=20
+> > $ git log --oneline
+> > 18ee3ed3cb60 (HEAD -> drm_gem_object_handle_put) drm/amdgpu: Provide c=
+ustom framebuffer destroy function
+> > 8d6c58332c7a (tag: next-20250703, origin/master, origin/HEAD, master) =
+Add linux-next specific files for 20250703
+> >=20
+> > and it solves the issue for me (i.e. no warnings).
+>=20
+> Great, thanks for testing. If nothing else, that's the minimal workaroun=
+d.
+>=20
+> Here's another patch, which should solve the problem for all drivers.=20
+> Could you please revert the old fix and apply the new one and test again=
+?
+>=20
+> Best regards
+> Thomas
+>=20
+>=20
+> >=20
+> > Bert Karwatzki
 
+Applied your patch after reverting:
+
+$ git log --oneline
+f4e557e3ae37 (HEAD -> drm_gem_object_handle_put) drm/framebuffer: Acquire =
+internal references on GEM handles
+49f9aa27dc15 Revert "drm/amdgpu: Provide custom framebuffer destroy functi=
+on"
+18ee3ed3cb60 drm/amdgpu: Provide custom framebuffer destroy function
+8d6c58332c7a (tag: next-20250703, origin/master, origin/HEAD, master) Add =
+linux-next specific files for 20250703
+
+again everything works without warning.
+
+Bert Karwatzki
