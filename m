@@ -2,63 +2,117 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id CAF15AF8CB8
-	for <lists+dri-devel@lfdr.de>; Fri,  4 Jul 2025 10:52:26 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 82877AF8CFF
+	for <lists+dri-devel@lfdr.de>; Fri,  4 Jul 2025 10:58:45 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 04D9310E999;
-	Fri,  4 Jul 2025 08:52:24 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D317610E9A4;
+	Fri,  4 Jul 2025 08:58:43 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="A12++TEL";
+	dkim=pass (1024-bit key; unprotected) header.d=suse.de header.i=@suse.de header.b="iWylZ47d";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="nCAAn+i/";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="iWylZ47d";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="nCAAn+i/";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 15DC610E989;
- Fri,  4 Jul 2025 08:52:22 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1751619142; x=1783155142;
- h=message-id:date:mime-version:subject:to:cc:references:
- from:in-reply-to:content-transfer-encoding;
- bh=eDaB4H7uTImRWrHDBvRkFn8cXQ2OlGO5SiT890oT2Yc=;
- b=A12++TELaUCZPjEjQQjJUBcCrZuYAktSCSHp3BaJQaGv954KYE3Ji0dQ
- +UbjUZhhspDyxCC+vsT7M+/Uz6D6iZEnkRUEdY+0FhRnukPqHD+cWXU1t
- XJIkkx/AnMevkyneZgUUmz24FGpa/tcr5Sf7/ndfw6XC/MNhXEeCW9CtX
- HHwZTr8ZVka8VSpsvreTzMnYk/+4hcVkyAQyUujQjV94xuaOsR7vn4SRY
- 1ec2z1fXY61mA61DtUrGpiMzQphzgIxxxOFc8Hh1lzboXmf8KDpk+mxnI
- KiMY7aG9NPW2rE41rqTtwzMrfq0p6Vql5BiZ2J5Gh/ZYgGR9r3M1Ad/+g Q==;
-X-CSE-ConnectionGUID: 04AZaugmR3ek89XCYwvA9A==
-X-CSE-MsgGUID: Qcg+sOUbS4KlDPSbD7NrPQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11483"; a="79391981"
-X-IronPort-AV: E=Sophos;i="6.16,286,1744095600"; d="scan'208";a="79391981"
-Received: from orviesa007.jf.intel.com ([10.64.159.147])
- by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 04 Jul 2025 01:52:22 -0700
-X-CSE-ConnectionGUID: G5wxgdf2Rzq9ri+HZ0T8fw==
-X-CSE-MsgGUID: RBoYUIHbTmeF3eCB66dyMA==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.16,286,1744095600"; d="scan'208";a="154722521"
-Received: from kniemiec-mobl1.ger.corp.intel.com (HELO [10.245.245.51])
- ([10.245.245.51])
- by orviesa007-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 04 Jul 2025 01:52:20 -0700
-Message-ID: <358045a3-c2ac-4d3c-942c-aa5473d88298@intel.com>
-Date: Fri, 4 Jul 2025 09:52:16 +0100
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4D72210E9A4
+ for <dri-devel@lists.freedesktop.org>; Fri,  4 Jul 2025 08:58:42 +0000 (UTC)
+Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org
+ [IPv6:2a07:de40:b281:104:10:150:64:97])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ (No client certificate requested)
+ by smtp-out1.suse.de (Postfix) with ESMTPS id B1F5A211D5;
+ Fri,  4 Jul 2025 08:58:40 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+ t=1751619520; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=9HBWWpnaBBPt8XrWPcqHC0DRZfiS2pRDX42VnjUOfxw=;
+ b=iWylZ47dRUM8RLZH46//yFOT4mZSybNnBn4WlvCNAUo410EmJf4Nh3Pgnv6ZR9zDTm2TmA
+ Pb9eh66Ou4mqHxZSwLSoP3h5Hz1qtx2y78BJVXNs1u+wfy/U58XItqZRoPlDKRvsqqZu2G
+ bb5CfqZPCr7h6PIy+0X3AmO683/49AI=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+ s=susede2_ed25519; t=1751619520;
+ h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=9HBWWpnaBBPt8XrWPcqHC0DRZfiS2pRDX42VnjUOfxw=;
+ b=nCAAn+i/R6ikzy3DnGvLNpRye6nLgtu7Uk38aJnpCjd4UKZe2KJxJ5v6lomDSfB0PCiXEi
+ 78W3NFtSdgrSLhDw==
+Authentication-Results: smtp-out1.suse.de;
+ dkim=pass header.d=suse.de header.s=susede2_rsa header.b=iWylZ47d;
+ dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b="nCAAn+i/"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+ t=1751619520; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=9HBWWpnaBBPt8XrWPcqHC0DRZfiS2pRDX42VnjUOfxw=;
+ b=iWylZ47dRUM8RLZH46//yFOT4mZSybNnBn4WlvCNAUo410EmJf4Nh3Pgnv6ZR9zDTm2TmA
+ Pb9eh66Ou4mqHxZSwLSoP3h5Hz1qtx2y78BJVXNs1u+wfy/U58XItqZRoPlDKRvsqqZu2G
+ bb5CfqZPCr7h6PIy+0X3AmO683/49AI=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+ s=susede2_ed25519; t=1751619520;
+ h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=9HBWWpnaBBPt8XrWPcqHC0DRZfiS2pRDX42VnjUOfxw=;
+ b=nCAAn+i/R6ikzy3DnGvLNpRye6nLgtu7Uk38aJnpCjd4UKZe2KJxJ5v6lomDSfB0PCiXEi
+ 78W3NFtSdgrSLhDw==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ (No client certificate requested)
+ by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 50A6113757;
+ Fri,  4 Jul 2025 08:58:40 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+ by imap1.dmz-prg2.suse.org with ESMTPSA id vSVKEsCXZ2jCHAAAD6G6ig
+ (envelope-from <tzimmermann@suse.de>); Fri, 04 Jul 2025 08:58:40 +0000
+From: Thomas Zimmermann <tzimmermann@suse.de>
+To: christian.koenig@amd.com, asrivats@redhat.com,
+ maarten.lankhorst@linux.intel.com, mripard@kernel.org, airlied@gmail.com,
+ simona@ffwll.ch, patrik.r.jakobsson@gmail.com
+Cc: dri-devel@lists.freedesktop.org, Thomas Zimmermann <tzimmermann@suse.de>,
+ Bert Karwatzki <spasswolf@web.de>, Sumit Semwal <sumit.semwal@linaro.org>,
+ linux-media@vger.kernel.org, linaro-mm-sig@lists.linaro.org,
+ stable@vger.kernel.org
+Subject: [PATCH] drm/framebuffer: Acquire internal references on GEM handles
+Date: Fri,  4 Jul 2025 10:53:34 +0200
+Message-ID: <20250704085541.28165-1-tzimmermann@suse.de>
+X-Mailer: git-send-email 2.50.0
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 2/3] drm/amdgpu: Reset the clear flag in buddy during
- resume
-To: Arunpravin Paneer Selvam <Arunpravin.PaneerSelvam@amd.com>,
- dri-devel@lists.freedesktop.org, amd-gfx@lists.freedesktop.org,
- christian.koenig@amd.com, matthew.brost@intel.com
-Cc: alexander.deucher@amd.com, stable@vger.kernel.org
-References: <20250701190822.5272-1-Arunpravin.PaneerSelvam@amd.com>
- <20250701190822.5272-2-Arunpravin.PaneerSelvam@amd.com>
-Content-Language: en-GB
-From: Matthew Auld <matthew.auld@intel.com>
-In-Reply-To: <20250701190822.5272-2-Arunpravin.PaneerSelvam@amd.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
+X-Spam-Level: 
+X-Spam-Flag: NO
+X-Rspamd-Queue-Id: B1F5A211D5
+X-Rspamd-Action: no action
+X-Rspamd-Server: rspamd1.dmz-prg2.suse.org
+X-Spamd-Result: default: False [-2.01 / 50.00]; BAYES_HAM(-3.00)[100.00%];
+ SUSPICIOUS_RECIPS(1.50)[]; NEURAL_HAM_LONG(-1.00)[-1.000];
+ MID_CONTAINS_FROM(1.00)[];
+ R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+ NEURAL_HAM_SHORT(-0.20)[-1.000]; MIME_GOOD(-0.10)[text/plain];
+ MX_GOOD(-0.01)[]; TO_MATCH_ENVRCPT_ALL(0.00)[]; ARC_NA(0.00)[];
+ DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+ FREEMAIL_TO(0.00)[amd.com,redhat.com,linux.intel.com,kernel.org,gmail.com,ffwll.ch];
+ MIME_TRACE(0.00)[0:+]; FUZZY_RATELIMITED(0.00)[rspamd.com];
+ RCPT_COUNT_TWELVE(0.00)[14];
+ RBL_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:104:10:150:64:97:from]; 
+ FREEMAIL_ENVRCPT(0.00)[gmail.com,web.de];
+ FREEMAIL_CC(0.00)[lists.freedesktop.org,suse.de,web.de,linaro.org,vger.kernel.org,lists.linaro.org];
+ RCVD_COUNT_TWO(0.00)[2];
+ DNSWL_BLOCKED(0.00)[2a07:de40:b281:104:10:150:64:97:from];
+ FROM_EQ_ENVFROM(0.00)[]; FROM_HAS_DN(0.00)[];
+ TO_DN_SOME(0.00)[];
+ RECEIVED_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:106:10:150:64:167:received];
+ RCVD_VIA_SMTP_AUTH(0.00)[]; TAGGED_RCPT(0.00)[];
+ RCVD_TLS_ALL(0.00)[]; DKIM_TRACE(0.00)[suse.de:+];
+ DBL_BLOCKED_OPENRESOLVER(0.00)[amd.com:email, intel.com:email,
+ imap1.dmz-prg2.suse.org:rdns, imap1.dmz-prg2.suse.org:helo, linaro.org:email,
+ suse.de:dkim, suse.de:mid, suse.de:email]
+X-Spam-Score: -2.01
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -74,312 +128,300 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 01/07/2025 20:08, Arunpravin Paneer Selvam wrote:
-> - Added a handler in DRM buddy manager to reset the cleared
->    flag for the blocks in the freelist.
-> 
-> - This is necessary because, upon resuming, the VRAM becomes
->    cluttered with BIOS data, yet the VRAM backend manager
->    believes that everything has been cleared.
-> 
-> v2:
->    - Add lock before accessing drm_buddy_clear_reset_blocks()(Matthew Auld)
->    - Force merge the two dirty blocks.(Matthew Auld)
->    - Add a new unit test case for this issue.(Matthew Auld)
->    - Having this function being able to flip the state either way would be
->      good. (Matthew Brost)
-> 
-> Signed-off-by: Arunpravin Paneer Selvam <Arunpravin.PaneerSelvam@amd.com>
-> Suggested-by: Christian König <christian.koenig@amd.com>
-> Cc: stable@vger.kernel.org
-> Fixes: a68c7eaa7a8f ("drm/amdgpu: Enable clear page functionality")
-> Closes: https://gitlab.freedesktop.org/drm/amd/-/issues/3812
-> ---
->   drivers/gpu/drm/amd/amdgpu/amdgpu_device.c   |  2 +
->   drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.h      |  1 +
->   drivers/gpu/drm/amd/amdgpu/amdgpu_vram_mgr.c | 17 ++++
->   drivers/gpu/drm/drm_buddy.c                  | 90 +++++++++++++++++---
->   include/drm/drm_buddy.h                      |  2 +
->   5 files changed, 99 insertions(+), 13 deletions(-)
-> 
-> diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_device.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_device.c
-> index a59f194e3360..b89e46f29b51 100644
-> --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_device.c
-> +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_device.c
-> @@ -5193,6 +5193,8 @@ int amdgpu_device_resume(struct drm_device *dev, bool notify_clients)
->   		dev->dev->power.disable_depth--;
->   #endif
->   	}
-> +
-> +	amdgpu_vram_mgr_clear_reset_blocks(adev);
->   	adev->in_suspend = false;
->   
->   	if (amdgpu_acpi_smart_shift_update(dev, AMDGPU_SS_DEV_D0))
-> diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.h b/drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.h
-> index 208b7d1d8a27..450e4bf093b7 100644
-> --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.h
-> +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.h
-> @@ -154,6 +154,7 @@ int amdgpu_vram_mgr_reserve_range(struct amdgpu_vram_mgr *mgr,
->   				  uint64_t start, uint64_t size);
->   int amdgpu_vram_mgr_query_page_status(struct amdgpu_vram_mgr *mgr,
->   				      uint64_t start);
-> +void amdgpu_vram_mgr_clear_reset_blocks(struct amdgpu_device *adev);
->   
->   bool amdgpu_res_cpu_visible(struct amdgpu_device *adev,
->   			    struct ttm_resource *res);
-> diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_vram_mgr.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_vram_mgr.c
-> index abdc52b0895a..665656fbc948 100644
-> --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_vram_mgr.c
-> +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_vram_mgr.c
-> @@ -782,6 +782,23 @@ uint64_t amdgpu_vram_mgr_vis_usage(struct amdgpu_vram_mgr *mgr)
->   	return atomic64_read(&mgr->vis_usage);
->   }
->   
-> +/**
-> + * amdgpu_vram_mgr_clear_reset_blocks - reset clear blocks
-> + *
-> + * @adev: amdgpu device pointer
-> + *
-> + * Reset the cleared drm buddy blocks.
-> + */
-> +void amdgpu_vram_mgr_clear_reset_blocks(struct amdgpu_device *adev)
-> +{
-> +	struct amdgpu_vram_mgr *mgr = &adev->mman.vram_mgr;
-> +	struct drm_buddy *mm = &mgr->mm;
-> +
-> +	mutex_lock(&mgr->lock);
-> +	drm_buddy_reset_clear_state(mm, false);
-> +	mutex_unlock(&mgr->lock);
-> +}
-> +
->   /**
->    * amdgpu_vram_mgr_intersects - test each drm buddy block for intersection
->    *
-> diff --git a/drivers/gpu/drm/drm_buddy.c b/drivers/gpu/drm/drm_buddy.c
-> index a1e652b7631d..436f7e4ee202 100644
-> --- a/drivers/gpu/drm/drm_buddy.c
-> +++ b/drivers/gpu/drm/drm_buddy.c
-> @@ -12,6 +12,9 @@
->   
->   #include <drm/drm_buddy.h>
->   
-> +#define FORCE_MERGE	BIT(0)
-> +#define RESET_CLEAR	BIT(1)
-> +
->   static struct kmem_cache *slab_blocks;
->   
->   static struct drm_buddy_block *drm_block_alloc(struct drm_buddy *mm,
-> @@ -60,6 +63,16 @@ static void list_insert_sorted(struct drm_buddy *mm,
->   	__list_add(&block->link, node->link.prev, &node->link);
->   }
->   
-> +static bool is_force_merge_enabled(unsigned int flags)
-> +{
-> +	return flags & FORCE_MERGE;
-> +}
-> +
-> +static bool is_reset_clear_enabled(unsigned int flags)
-> +{
-> +	return flags & RESET_CLEAR;
-> +}
-> +
->   static void clear_reset(struct drm_buddy_block *block)
->   {
->   	block->header &= ~DRM_BUDDY_HEADER_CLEAR;
-> @@ -122,7 +135,7 @@ __get_buddy(struct drm_buddy_block *block)
->   
->   static unsigned int __drm_buddy_free(struct drm_buddy *mm,
->   				     struct drm_buddy_block *block,
-> -				     bool force_merge)
-> +				     unsigned int flags)
->   {
->   	struct drm_buddy_block *parent;
->   	unsigned int order;
-> @@ -135,7 +148,7 @@ static unsigned int __drm_buddy_free(struct drm_buddy *mm,
->   		if (!drm_buddy_block_is_free(buddy))
->   			break;
->   
-> -		if (!force_merge) {
-> +		if (!is_force_merge_enabled(flags)) {
->   			/*
->   			 * Check the block and its buddy clear state and exit
->   			 * the loop if they both have the dissimilar state.
-> @@ -149,7 +162,9 @@ static unsigned int __drm_buddy_free(struct drm_buddy *mm,
->   		}
->   
->   		list_del(&buddy->link);
-> -		if (force_merge && drm_buddy_block_is_clear(buddy))
-> +		if (is_force_merge_enabled(flags) &&
-> +		    !is_reset_clear_enabled(flags) &&
-> +		    drm_buddy_block_is_clear(buddy))
->   			mm->clear_avail -= drm_buddy_block_size(mm, buddy);
->   
->   		drm_block_free(mm, block);
-> @@ -167,7 +182,8 @@ static unsigned int __drm_buddy_free(struct drm_buddy *mm,
->   static int __force_merge(struct drm_buddy *mm,
->   			 u64 start,
->   			 u64 end,
-> -			 unsigned int min_order)
-> +			 unsigned int min_order,
-> +			 unsigned int flags)
->   {
->   	unsigned int order;
->   	int i;
-> @@ -178,6 +194,8 @@ static int __force_merge(struct drm_buddy *mm,
->   	if (min_order > mm->max_order)
->   		return -EINVAL;
->   
-> +	flags |= FORCE_MERGE;
-> +
->   	for (i = min_order - 1; i >= 0; i--) {
->   		struct drm_buddy_block *block, *prev;
->   
-> @@ -198,7 +216,8 @@ static int __force_merge(struct drm_buddy *mm,
->   			if (!drm_buddy_block_is_free(buddy))
->   				continue;
->   
-> -			WARN_ON(drm_buddy_block_is_clear(block) ==
-> +			WARN_ON(!is_reset_clear_enabled(flags) &&
-> +				drm_buddy_block_is_clear(block) ==
->   				drm_buddy_block_is_clear(buddy));
->   
->   			/*
-> @@ -210,10 +229,11 @@ static int __force_merge(struct drm_buddy *mm,
->   				prev = list_prev_entry(prev, link);
->   
->   			list_del(&block->link);
-> -			if (drm_buddy_block_is_clear(block))
-> +			if (!is_reset_clear_enabled(flags) &&
-> +			    drm_buddy_block_is_clear(block))
->   				mm->clear_avail -= drm_buddy_block_size(mm, block);
->   
-> -			order = __drm_buddy_free(mm, block, true);
-> +			order = __drm_buddy_free(mm, block, flags);
->   			if (order >= min_order)
->   				return 0;
->   		}
-> @@ -336,7 +356,7 @@ void drm_buddy_fini(struct drm_buddy *mm)
->   	for (i = 0; i < mm->n_roots; ++i) {
->   		order = ilog2(size) - ilog2(mm->chunk_size);
->   		start = drm_buddy_block_offset(mm->roots[i]);
-> -		__force_merge(mm, start, start + size, order);
-> +		__force_merge(mm, start, start + size, order, 0);
->   
->   		if (WARN_ON(!drm_buddy_block_is_free(mm->roots[i])))
->   			kunit_fail_current_test("buddy_fini() root");
-> @@ -405,6 +425,50 @@ drm_get_buddy(struct drm_buddy_block *block)
->   }
->   EXPORT_SYMBOL(drm_get_buddy);
->   
-> +/**
-> + * drm_buddy_reset_clear_state - reset blocks clear state
-> + *
-> + * @mm: DRM buddy manager
-> + * @is_clear: blocks clear state
-> + *
-> + * Reset the clear state based on @clear value for each block
-> + * in the freelist.
-> + */
-> +void drm_buddy_reset_clear_state(struct drm_buddy *mm, bool is_clear)
-> +{
-> +	u64 root_size, size, start;
-> +	unsigned int order;
-> +	int i;
-> +
-> +	for (i = 0; i <= mm->max_order; ++i) {
-> +		struct drm_buddy_block *block;
-> +
-> +		list_for_each_entry_reverse(block, &mm->free_list[i], link) {
-> +			if (is_clear != drm_buddy_block_is_clear(block)) {
-> +				if (is_clear) {
-> +					mark_cleared(block);
-> +					mm->clear_avail += drm_buddy_block_size(mm, block);
-> +				} else {
-> +					clear_reset(block);
-> +					mm->clear_avail -= drm_buddy_block_size(mm, block);
-> +				}
-> +			}
-> +		}
-> +	}
+Acquire GEM handles in drm_framebuffer_init() and release them in
+the corresponding drm_framebuffer_cleanup(). Ties the handle's
+lifetime to the framebuffer. Not all GEM buffer objects have GEM
+handles. If not set, no refcounting takes place. This is the case
+for some fbdev emulation. This is not a problem as these GEM objects
+do not use dma-bufs and drivers will not release them while fbdev
+emulation is running.
 
-Is it not possible to do the merge step first and then go through 
-whatever is left marking at clear/dirty? If we do that then we maybe 
-don't need any extra changes or flags outside of reset_clear_state? Or 
-am I missing something?
+As all drivers use drm_framebuffer_init(), they will now all hold
+dma-buf references as fixed in commit 5307dce878d4 ("drm/gem: Acquire
+references on GEM handles for framebuffers").
 
-> +
-> +	/* Force merge the two dirty or two cleared blocks */
-> +	size = mm->size;
-> +	for (i = 0; i < mm->n_roots; ++i) {
-> +		order = ilog2(size) - ilog2(mm->chunk_size);
-> +		start = drm_buddy_block_offset(mm->roots[i]);
-> +		__force_merge(mm, start, start + size, order, RESET_CLEAR);
-> +
-> +		root_size = mm->chunk_size << order;
-> +		size -= root_size;
-> +	}
-> +}
-> +EXPORT_SYMBOL(drm_buddy_reset_clear_state);
-> +
->   /**
->    * drm_buddy_free_block - free a block
->    *
-> @@ -419,7 +483,7 @@ void drm_buddy_free_block(struct drm_buddy *mm,
->   	if (drm_buddy_block_is_clear(block))
->   		mm->clear_avail += drm_buddy_block_size(mm, block);
->   
-> -	__drm_buddy_free(mm, block, false);
-> +	__drm_buddy_free(mm, block, 0);
->   }
->   EXPORT_SYMBOL(drm_buddy_free_block);
->   
-> @@ -566,7 +630,7 @@ __alloc_range_bias(struct drm_buddy *mm,
->   	if (buddy &&
->   	    (drm_buddy_block_is_free(block) &&
->   	     drm_buddy_block_is_free(buddy)))
-> -		__drm_buddy_free(mm, block, false);
-> +		__drm_buddy_free(mm, block, 0);
->   	return ERR_PTR(err);
->   }
->   
-> @@ -684,7 +748,7 @@ alloc_from_freelist(struct drm_buddy *mm,
->   
->   err_undo:
->   	if (tmp != order)
-> -		__drm_buddy_free(mm, block, false);
-> +		__drm_buddy_free(mm, block, 0);
->   	return ERR_PTR(err);
->   }
->   
-> @@ -770,7 +834,7 @@ static int __alloc_range(struct drm_buddy *mm,
->   	if (buddy &&
->   	    (drm_buddy_block_is_free(block) &&
->   	     drm_buddy_block_is_free(buddy)))
-> -		__drm_buddy_free(mm, block, false);
-> +		__drm_buddy_free(mm, block, 0);
->   
->   err_free:
->   	if (err == -ENOSPC && total_allocated_on_err) {
-> @@ -1051,7 +1115,7 @@ int drm_buddy_alloc_blocks(struct drm_buddy *mm,
->   			if (order-- == min_order) {
->   				/* Try allocation through force merge method */
->   				if (mm->clear_avail &&
-> -				    !__force_merge(mm, start, end, min_order)) {
-> +				    !__force_merge(mm, start, end, min_order, 0)) {
->   					block = __drm_buddy_alloc_blocks(mm, start,
->   									 end,
->   									 min_order,
-> diff --git a/include/drm/drm_buddy.h b/include/drm/drm_buddy.h
-> index 9689a7c5dd36..8b5273d4b2d1 100644
-> --- a/include/drm/drm_buddy.h
-> +++ b/include/drm/drm_buddy.h
-> @@ -160,6 +160,8 @@ int drm_buddy_block_trim(struct drm_buddy *mm,
->   			 u64 new_size,
->   			 struct list_head *blocks);
->   
-> +void drm_buddy_reset_clear_state(struct drm_buddy *mm, bool is_clear);
-> +
->   void drm_buddy_free_block(struct drm_buddy *mm, struct drm_buddy_block *block);
->   
->   void drm_buddy_free_list(struct drm_buddy *mm,
+In the GEM framebuffer helpers, restore the original ref counting
+on buffer objects. As the helpers for handle refcounting are now
+no longer called from outside the DRM core, unexport the symbols.
+
+Gma500 (unnecessarily) clears the framebuffer's GEM-object pointer
+before calling drm_framebuffer_cleanup(). Remove these lines to
+make it consistent with the rest of the drivers. It's one of the
+fbdev emulations with no GEM handle on their buffers. The change
+to gma500 is therefore rather cosmetic.
+
+Tested on i915, amdgpu (by Bert) and gma500. Also tested on i915
+plus udl for the original problem with dma-buf sharing.
+
+Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
+Fixes: 5307dce878d4 ("drm/gem: Acquire references on GEM handles for framebuffers")
+Reported-by: Bert Karwatzki <spasswolf@web.de>
+Closes: https://lore.kernel.org/dri-devel/20250703115915.3096-1-spasswolf@web.de/
+Tested-by: Bert Karwatzki <spasswolf@web.de>
+Cc: Thomas Zimmermann <tzimmermann@suse.de>
+Cc: Anusha Srivatsa <asrivats@redhat.com>
+Cc: Christian König <christian.koenig@amd.com>
+Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
+Cc: Maxime Ripard <mripard@kernel.org>
+Cc: Sumit Semwal <sumit.semwal@linaro.org>
+Cc: "Christian König" <christian.koenig@amd.com>
+Cc: linux-media@vger.kernel.org
+Cc: dri-devel@lists.freedesktop.org
+Cc: linaro-mm-sig@lists.linaro.org
+Cc: <stable@vger.kernel.org>
+---
+ drivers/gpu/drm/drm_framebuffer.c            | 23 +++++++-
+ drivers/gpu/drm/drm_gem.c                    | 59 +++++++++++++-------
+ drivers/gpu/drm/drm_gem_framebuffer_helper.c | 16 +++---
+ drivers/gpu/drm/drm_internal.h               |  4 +-
+ drivers/gpu/drm/gma500/fbdev.c               |  2 -
+ 5 files changed, 69 insertions(+), 35 deletions(-)
+
+diff --git a/drivers/gpu/drm/drm_framebuffer.c b/drivers/gpu/drm/drm_framebuffer.c
+index b781601946db..e4a10dd053fc 100644
+--- a/drivers/gpu/drm/drm_framebuffer.c
++++ b/drivers/gpu/drm/drm_framebuffer.c
+@@ -862,11 +862,17 @@ EXPORT_SYMBOL_FOR_TESTS_ONLY(drm_framebuffer_free);
+ int drm_framebuffer_init(struct drm_device *dev, struct drm_framebuffer *fb,
+ 			 const struct drm_framebuffer_funcs *funcs)
+ {
++	unsigned int i;
+ 	int ret;
+ 
+ 	if (WARN_ON_ONCE(fb->dev != dev || !fb->format))
+ 		return -EINVAL;
+ 
++	for (i = 0; i < fb->format->num_planes; i++) {
++		if (fb->obj[i])
++			drm_gem_object_handle_get_if_exists_unlocked(fb->obj[i]);
++	}
++
+ 	INIT_LIST_HEAD(&fb->filp_head);
+ 
+ 	fb->funcs = funcs;
+@@ -875,7 +881,7 @@ int drm_framebuffer_init(struct drm_device *dev, struct drm_framebuffer *fb,
+ 	ret = __drm_mode_object_add(dev, &fb->base, DRM_MODE_OBJECT_FB,
+ 				    false, drm_framebuffer_free);
+ 	if (ret)
+-		goto out;
++		goto err;
+ 
+ 	mutex_lock(&dev->mode_config.fb_lock);
+ 	dev->mode_config.num_fb++;
+@@ -883,7 +889,14 @@ int drm_framebuffer_init(struct drm_device *dev, struct drm_framebuffer *fb,
+ 	mutex_unlock(&dev->mode_config.fb_lock);
+ 
+ 	drm_mode_object_register(dev, &fb->base);
+-out:
++
++	return 0;
++
++err:
++	for (i = 0; i < fb->format->num_planes; i++) {
++		if (fb->obj[i])
++			drm_gem_object_handle_put_if_exists_unlocked(fb->obj[i]);
++	}
+ 	return ret;
+ }
+ EXPORT_SYMBOL(drm_framebuffer_init);
+@@ -960,6 +973,12 @@ EXPORT_SYMBOL(drm_framebuffer_unregister_private);
+ void drm_framebuffer_cleanup(struct drm_framebuffer *fb)
+ {
+ 	struct drm_device *dev = fb->dev;
++	unsigned int i;
++
++	for (i = 0; i < fb->format->num_planes; i++) {
++		if (fb->obj[i])
++			drm_gem_object_handle_put_if_exists_unlocked(fb->obj[i]);
++	}
+ 
+ 	mutex_lock(&dev->mode_config.fb_lock);
+ 	list_del(&fb->head);
+diff --git a/drivers/gpu/drm/drm_gem.c b/drivers/gpu/drm/drm_gem.c
+index bc505d938b3e..9d8b9e6b7d25 100644
+--- a/drivers/gpu/drm/drm_gem.c
++++ b/drivers/gpu/drm/drm_gem.c
+@@ -224,23 +224,27 @@ static void drm_gem_object_handle_get(struct drm_gem_object *obj)
+ }
+ 
+ /**
+- * drm_gem_object_handle_get_unlocked - acquire reference on user-space handles
++ * drm_gem_object_handle_get_if_exists_unlocked - acquire reference on user-space handle, if any
+  * @obj: GEM object
+  *
+- * Acquires a reference on the GEM buffer object's handle. Required
+- * to keep the GEM object alive. Call drm_gem_object_handle_put_unlocked()
+- * to release the reference.
++ * Acquires a reference on the GEM buffer object's handle. Required to keep
++ * the GEM object alive. Call drm_gem_object_handle_put_if_exists_unlocked()
++ * to release the reference. Does nothing if the buffer object has no handle.
+  */
+-void drm_gem_object_handle_get_unlocked(struct drm_gem_object *obj)
++void drm_gem_object_handle_get_if_exists_unlocked(struct drm_gem_object *obj)
+ {
+ 	struct drm_device *dev = obj->dev;
+ 
+ 	guard(mutex)(&dev->object_name_lock);
+ 
+-	drm_WARN_ON(dev, !obj->handle_count); /* first ref taken in create-tail helper */
+-	drm_gem_object_handle_get(obj);
++	/*
++	 * First ref taken during GEM object creation, if any. Some
++	 * drivers set up internal framebuffers with GEM objects that
++	 * do not have a GEM handle. Hence, this counter can be zero.
++	 */
++	if (obj->handle_count)
++		drm_gem_object_handle_get(obj);
+ }
+-EXPORT_SYMBOL(drm_gem_object_handle_get_unlocked);
+ 
+ /**
+  * drm_gem_object_handle_free - release resources bound to userspace handles
+@@ -272,21 +276,11 @@ static void drm_gem_object_exported_dma_buf_free(struct drm_gem_object *obj)
+ 	}
+ }
+ 
+-/**
+- * drm_gem_object_handle_put_unlocked - releases reference on user-space handles
+- * @obj: GEM object
+- *
+- * Releases a reference on the GEM buffer object's handle. Possibly releases
+- * the GEM buffer object and associated dma-buf objects.
+- */
+-void drm_gem_object_handle_put_unlocked(struct drm_gem_object *obj)
++static void drm_gem_object_handle_put_unlocked_tail(struct drm_gem_object *obj)
+ {
+ 	struct drm_device *dev = obj->dev;
+ 	bool final = false;
+ 
+-	if (WARN_ON(READ_ONCE(obj->handle_count) == 0))
+-		return;
+-
+ 	/*
+ 	* Must bump handle count first as this may be the last
+ 	* ref, in which case the object would disappear before we
+@@ -304,7 +298,32 @@ void drm_gem_object_handle_put_unlocked(struct drm_gem_object *obj)
+ 	if (final)
+ 		drm_gem_object_put(obj);
+ }
+-EXPORT_SYMBOL(drm_gem_object_handle_put_unlocked);
++
++static void drm_gem_object_handle_put_unlocked(struct drm_gem_object *obj)
++{
++	struct drm_device *dev = obj->dev;
++
++	if (drm_WARN_ON(dev, READ_ONCE(obj->handle_count) == 0))
++		return;
++
++	drm_gem_object_handle_put_unlocked_tail(obj);
++}
++
++/**
++ * drm_gem_object_handle_put_if_exists_unlocked - releases reference on user-space handle, if any
++ * @obj: GEM object
++ *
++ * Releases a reference on the GEM buffer object's handle. Possibly releases
++ * the GEM buffer object and associated dma-buf objects. Does nothing if the
++ * buffer object has no handle.
++ */
++void drm_gem_object_handle_put_if_exists_unlocked(struct drm_gem_object *obj)
++{
++	if (!obj->handle_count)
++		return;
++
++	drm_gem_object_handle_put_unlocked_tail(obj);
++}
+ 
+ /*
+  * Called at device or object close to release the file's
+diff --git a/drivers/gpu/drm/drm_gem_framebuffer_helper.c b/drivers/gpu/drm/drm_gem_framebuffer_helper.c
+index c60d0044d036..618ce725cd75 100644
+--- a/drivers/gpu/drm/drm_gem_framebuffer_helper.c
++++ b/drivers/gpu/drm/drm_gem_framebuffer_helper.c
+@@ -100,7 +100,7 @@ void drm_gem_fb_destroy(struct drm_framebuffer *fb)
+ 	unsigned int i;
+ 
+ 	for (i = 0; i < fb->format->num_planes; i++)
+-		drm_gem_object_handle_put_unlocked(fb->obj[i]);
++		drm_gem_object_put(fb->obj[i]);
+ 
+ 	drm_framebuffer_cleanup(fb);
+ 	kfree(fb);
+@@ -183,10 +183,8 @@ int drm_gem_fb_init_with_funcs(struct drm_device *dev,
+ 		if (!objs[i]) {
+ 			drm_dbg_kms(dev, "Failed to lookup GEM object\n");
+ 			ret = -ENOENT;
+-			goto err_gem_object_handle_put_unlocked;
++			goto err_gem_object_put;
+ 		}
+-		drm_gem_object_handle_get_unlocked(objs[i]);
+-		drm_gem_object_put(objs[i]);
+ 
+ 		min_size = (height - 1) * mode_cmd->pitches[i]
+ 			 + drm_format_info_min_pitch(info, i, width)
+@@ -196,22 +194,22 @@ int drm_gem_fb_init_with_funcs(struct drm_device *dev,
+ 			drm_dbg_kms(dev,
+ 				    "GEM object size (%zu) smaller than minimum size (%u) for plane %d\n",
+ 				    objs[i]->size, min_size, i);
+-			drm_gem_object_handle_put_unlocked(objs[i]);
++			drm_gem_object_put(objs[i]);
+ 			ret = -EINVAL;
+-			goto err_gem_object_handle_put_unlocked;
++			goto err_gem_object_put;
+ 		}
+ 	}
+ 
+ 	ret = drm_gem_fb_init(dev, fb, mode_cmd, objs, i, funcs);
+ 	if (ret)
+-		goto err_gem_object_handle_put_unlocked;
++		goto err_gem_object_put;
+ 
+ 	return 0;
+ 
+-err_gem_object_handle_put_unlocked:
++err_gem_object_put:
+ 	while (i > 0) {
+ 		--i;
+-		drm_gem_object_handle_put_unlocked(objs[i]);
++		drm_gem_object_put(objs[i]);
+ 	}
+ 	return ret;
+ }
+diff --git a/drivers/gpu/drm/drm_internal.h b/drivers/gpu/drm/drm_internal.h
+index f7b414a813ae..9233019f54a8 100644
+--- a/drivers/gpu/drm/drm_internal.h
++++ b/drivers/gpu/drm/drm_internal.h
+@@ -161,8 +161,8 @@ void drm_sysfs_lease_event(struct drm_device *dev);
+ 
+ /* drm_gem.c */
+ int drm_gem_init(struct drm_device *dev);
+-void drm_gem_object_handle_get_unlocked(struct drm_gem_object *obj);
+-void drm_gem_object_handle_put_unlocked(struct drm_gem_object *obj);
++void drm_gem_object_handle_get_if_exists_unlocked(struct drm_gem_object *obj);
++void drm_gem_object_handle_put_if_exists_unlocked(struct drm_gem_object *obj);
+ int drm_gem_handle_create_tail(struct drm_file *file_priv,
+ 			       struct drm_gem_object *obj,
+ 			       u32 *handlep);
+diff --git a/drivers/gpu/drm/gma500/fbdev.c b/drivers/gpu/drm/gma500/fbdev.c
+index 8edefea2ef59..afd252108cfa 100644
+--- a/drivers/gpu/drm/gma500/fbdev.c
++++ b/drivers/gpu/drm/gma500/fbdev.c
+@@ -121,7 +121,6 @@ static void psb_fbdev_fb_destroy(struct fb_info *info)
+ 	drm_fb_helper_fini(fb_helper);
+ 
+ 	drm_framebuffer_unregister_private(fb);
+-	fb->obj[0] = NULL;
+ 	drm_framebuffer_cleanup(fb);
+ 	kfree(fb);
+ 
+@@ -243,7 +242,6 @@ int psb_fbdev_driver_fbdev_probe(struct drm_fb_helper *fb_helper,
+ 
+ err_drm_framebuffer_unregister_private:
+ 	drm_framebuffer_unregister_private(fb);
+-	fb->obj[0] = NULL;
+ 	drm_framebuffer_cleanup(fb);
+ 	kfree(fb);
+ err_drm_gem_object_put:
+-- 
+2.50.0
 
