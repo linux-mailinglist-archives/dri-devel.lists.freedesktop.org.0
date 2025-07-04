@@ -2,39 +2,42 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id DDD4AAF8F68
-	for <lists+dri-devel@lfdr.de>; Fri,  4 Jul 2025 12:05:47 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id DDE33AF8F83
+	for <lists+dri-devel@lfdr.de>; Fri,  4 Jul 2025 12:10:00 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E9D4E10E271;
-	Fri,  4 Jul 2025 10:05:43 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 60A8B10E201;
+	Fri,  4 Jul 2025 10:09:58 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="dIFzhyDo";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="bjHFAeZa";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from nyc.source.kernel.org (nyc.source.kernel.org [147.75.193.91])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 458AC10E201;
- Fri,  4 Jul 2025 10:05:42 +0000 (UTC)
+Received: from sea.source.kernel.org (sea.source.kernel.org [172.234.252.31])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0F83D10E201;
+ Fri,  4 Jul 2025 10:09:58 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by nyc.source.kernel.org (Postfix) with ESMTP id B5A10A53B49;
- Fri,  4 Jul 2025 10:05:40 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5C8AFC4CEE3;
- Fri,  4 Jul 2025 10:05:28 +0000 (UTC)
+ by sea.source.kernel.org (Postfix) with ESMTP id 7FD4742BAC;
+ Fri,  4 Jul 2025 10:09:57 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9EB26C4CEE3;
+ Fri,  4 Jul 2025 10:09:45 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1751623540;
- bh=3zMvBpnjYhXNk119LId6VxXRlohR+SMqHtEt+DjGgOs=;
- h=Date:Cc:Subject:From:To:References:In-Reply-To:From;
- b=dIFzhyDoOtTAbxDe4ng7ZMrO/97heBHHA2tlOt/nH+8zNG51bHrYZPY5Otop9wkEE
- GOrKb3MaWAOEqB12OvaklthhMEb5eZrWI0BPDhSMueKmloWwIpmrdhA574pgwdyDVL
- 5lRojgAt+uopNziY+Nbq2Vyar7Ow/l0OqQ3ieJWWl/vzootQhnKntCRzNGjWwagrXs
- ZQVT86x9TMFgy9J6Lt1mMum6Y6ipYwyQeTLs74SvWohAan1nxvN+IidtlqAZw2lilc
- nqy6gMPSSrHzKKMC7HAuqqW0Qh3uEfCRekMqt+80F1Dobu3rSHA5697iSIX1wfMM87
- 5aWiEaLuho2cA==
+ s=k20201202; t=1751623797;
+ bh=sErifeomiBisSrJ5F/Z1EiOE+yjyaoOoLVJmALiwIss=;
+ h=Date:Subject:From:To:Cc:References:In-Reply-To:From;
+ b=bjHFAeZaJFAnmlfy0BXQom4D2g8nROdZRV9VSgmHVyp34hx86laW5qYZ9hJt1xRQW
+ 0K0KO2yByzLe4dQZLFhD35Ow6d8OFCvrtXqBJsfVoIIfyv2UGdJYm4h3q0G5Jkpw5z
+ wGhbmAF7CZg/+Usn4oPgUWLuVpcLqO00+9bczIkO/xSH+5IJAtnA1+gQ91n+wiBcP6
+ B7oDcHjP2qL77G1iVen1zde1nv2qXrbY4ckstCIFg4BI/BrUjKystwvqi6oNlmq8/O
+ 6gVbjWvcNhrRjps2Q90t25m0FTomyUvTA0EnLcqcQEkGdXcBV9HXEB+8pGkJCpLBEg
+ +vGw4nMjPXgxg==
 Mime-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 Content-Type: text/plain; charset=UTF-8
-Date: Fri, 04 Jul 2025 12:05:26 +0200
-Message-Id: <DB36PVASJ5G9.2TMRXNIXYI9UO@kernel.org>
+Date: Fri, 04 Jul 2025 12:09:43 +0200
+Message-Id: <DB36T5JWBL10.2F56EDJ1XKAD0@kernel.org>
+Subject: Re: [PATCH v13 2/5] rust: support formatting of foreign types
+From: "Benno Lossin" <lossin@kernel.org>
+To: "Tamir Duberstein" <tamird@gmail.com>
 Cc: "Michal Rostecki" <vadorovsky@protonmail.com>, "Miguel Ojeda"
  <ojeda@kernel.org>, "Alex Gaynor" <alex.gaynor@gmail.com>, "Boqun Feng"
  <boqun.feng@gmail.com>, "Gary Guo" <gary@garyguo.net>,
@@ -72,9 +75,6 @@ Cc: "Michal Rostecki" <vadorovsky@protonmail.com>, "Miguel Ojeda"
  <linux-pci@vger.kernel.org>, <nouveau@lists.freedesktop.org>,
  <linux-block@vger.kernel.org>, <linux-pm@vger.kernel.org>,
  <linux-clk@vger.kernel.org>
-Subject: Re: [PATCH v13 2/5] rust: support formatting of foreign types
-From: "Benno Lossin" <lossin@kernel.org>
-To: "Tamir Duberstein" <tamird@gmail.com>
 X-Mailer: aerc 0.20.1
 References: <20250701-cstr-core-v13-0-29f7d3eb97a6@gmail.com>
  <20250701-cstr-core-v13-2-29f7d3eb97a6@gmail.com>
@@ -84,7 +84,8 @@ References: <20250701-cstr-core-v13-0-29f7d3eb97a6@gmail.com>
  <CAJ-ks9nF5+m+_bn0Pzi9yU0pw0TyN7Fs4x--mQ4ygyHz4A6hzg@mail.gmail.com>
  <DB2PIGAQHCJR.3BF8ZHECYH3KB@kernel.org>
  <CAJ-ks9=WmuXLJ6KkMEOP2jTvM_YBJO10SNsq0DU2J+_d4jp7qw@mail.gmail.com>
-In-Reply-To: <CAJ-ks9=WmuXLJ6KkMEOP2jTvM_YBJO10SNsq0DU2J+_d4jp7qw@mail.gmail.com>
+ <CAJ-ks9kNiOgPO7FF3cAbaSNtTWs0_PzQ4k4W0AxjHNFuMJnDcQ@mail.gmail.com>
+In-Reply-To: <CAJ-ks9kNiOgPO7FF3cAbaSNtTWs0_PzQ4k4W0AxjHNFuMJnDcQ@mail.gmail.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -100,45 +101,55 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri Jul 4, 2025 at 12:41 AM CEST, Tamir Duberstein wrote:
-> On Thu, Jul 3, 2025 at 4:36=E2=80=AFPM Benno Lossin <lossin@kernel.org> w=
-rote:
->> On Thu Jul 3, 2025 at 8:55 PM CEST, Tamir Duberstein wrote:
->> > On Thu, Jul 3, 2025 at 11:08=E2=80=AFAM Benno Lossin <lossin@kernel.or=
-g> wrote:
->> >> On Thu Jul 3, 2025 at 3:55 PM CEST, Tamir Duberstein wrote:
->> >> > On Thu, Jul 3, 2025 at 5:32=E2=80=AFAM Benno Lossin <lossin@kernel.=
-org> wrote:
->> >> >> On Tue Jul 1, 2025 at 6:49 PM CEST, Tamir Duberstein wrote:
->> >> >> > +impl<T: ?Sized + Display> fmt::Display for Adapter<&T> {
->> >> >> > +    fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
->> >> >> > +        let Self(t) =3D self;
->> >> >> > +        Display::fmt(t, f)
->> >> >>
->> >> >> Why not `Display::fmt(&self.0, f)`?
->> >> >
->> >> > I like destructuring because it shows me that there's only one fiel=
-d.
->> >> > With `self.0` I don't see that.
->> >>
->> >> And what is the benefit here?
+On Fri Jul 4, 2025 at 1:23 AM CEST, Tamir Duberstein wrote:
+> On Thu, Jul 3, 2025 at 6:41=E2=80=AFPM Tamir Duberstein <tamird@gmail.com=
+> wrote:
+>> On Thu, Jul 3, 2025 at 4:36=E2=80=AFPM Benno Lossin <lossin@kernel.org> =
+wrote:
 >> >
->> > In general the benefit is that the method does not ignore some portion
->> > of `Self`. A method that uses `self.0` would not provoke a compiler
->> > error in case another field is added, while this form would.
+>> > I don't understand, can't you just do:
+>> >
+>> > * add `rust/kernel/fmt.rs`,
+>> > * add `rust/macros/fmt.rs`,
+>> > * change all occurrences of `core::fmt` to `kernel::fmt` and
+>> >   `format_args!` to `fmt!`.
 >>
->> Yeah, but why would that change happen here? And even if it got another
->> field, why would that invalidate the impl of `fn fmt`?
+>> Yes, such a split could be done - I will do so in the next spin
+>>
+>>
+>> > The last one could be split by subsystem, no? Some subsystems might
+>> > interact and thus need simultaneous splitting, but there should be som=
+e
+>> > independent ones.
+>>
+>> Yes, it probably can. As you say, some subsystems might interact - the
+>> claimed benefit of doing this subsystem-by-subsystem split is that it
+>> avoids conflicts with ongoing work that will conflict with a large
+>> patch, but this is also the downside; if ongoing work changes the set
+>> of interactions between subsystems then a maintainer may find
+>> themselves unable to emit the log message they want (because one
+>> subsystem is using kernel::fmt while another is still on core::fmt).
 >
-> I don't know, but I would rather force a person to make that decision
-> when they add another field rather than assume that such an addition
-> wouldn't require changes here.
+> I gave this a try. I ran into the problem that `format_args!` (and,
+> after this patch, `fmt!`) is at the center of `print_macro!`, which
+> itself underpins various other formatting macros. This means we'd have
+> to bifurcate the formatting infrastructure to support an incremental
+> migration. That's quite a bit of code, and likely quite a mess in the
+> resulting git history -- and that's setting aside the toil required to
+> figure out the correct combinations of subsystems that must migrate
+> together.
 
-I don't think so. If this were in another file, then destructuring
-might make sense if the struct could conceivably get more fields in the
-future **and** it if the other file relied on there only being one
-field (or if it *had* to be changed when there was a field added). This
-isn't the case here so it's just unnecessary noise.
+So here is what we can do without duplicating the logic, though it
+requires multiple cycles:
+
+1. We merge the two `fmt.rs` files & each subsystem merges an
+   implementation of `kernel::fmt::Display` for their types, but keeps
+   the `core::fmt::Display` impl around.
+2. After all subsystems have merged the previous step, we change the
+   implementations of `print_macro!` to use `fmt!` instead of
+   `format_args!`.
+3. We remove all occurrences of `core::fmt` (& replace them with
+   `kernel::fmt`), removing the `core::fmt::Display` impls.
 
 ---
 Cheers,
