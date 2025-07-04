@@ -2,49 +2,50 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1ABF2AF85CE
-	for <lists+dri-devel@lfdr.de>; Fri,  4 Jul 2025 04:57:51 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0E807AF85E6
+	for <lists+dri-devel@lfdr.de>; Fri,  4 Jul 2025 05:06:47 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id DD29F10E20F;
-	Fri,  4 Jul 2025 02:57:47 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D7CD610E923;
+	Fri,  4 Jul 2025 03:06:43 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=igalia.com header.i=@igalia.com header.b="JsxY6pJj";
+	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=igalia.com header.i=@igalia.com header.b="Uq/e4eJI";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from fanzine2.igalia.com (fanzine2.igalia.com [213.97.179.56])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8B6D210E20F
- for <dri-devel@lists.freedesktop.org>; Fri,  4 Jul 2025 02:57:42 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 62ABB10E923;
+ Fri,  4 Jul 2025 03:06:42 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com; 
  s=20170329;
- h=Content-Transfer-Encoding:Content-Type:In-Reply-To:From:
- References:To:Subject:MIME-Version:Date:Message-ID:Sender:Reply-To:Cc:
- Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
- Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
- List-Subscribe:List-Post:List-Owner:List-Archive;
- bh=fAiZ4j4wijcmYIWfcCWtn3+rp6BvQoyZlDfJas3wksg=; b=JsxY6pJjQYQljR7vHYnp40itCI
- b1v7QxXPw7hECRVYM5FCe1DimZdKfyPOJ+W5NiZR7hiL/ZKlrNZeghzRrRr8PactqNMPNKGACpkRk
- MMPx6HThsi9j4t9jfnAFAD1Aa1QnjedpFgQNgSpPFq0l2kHdlmYyvpESCpNg4tbehbWep3cLISZbP
- tdKBn2l9gHZIXpxq4BAQ85MwUuMilWgUvHdlT1z60e5LpkYymCpbW2WjXhvUxzS/55Mbuc1X7msLh
- cuCVWskoyeIERAYTDj/URwDv0EkDIYDU4p0Qg3lmKpbBMA9iVyVJhqqtYDV6tBozb26rFvADuEjf4
- Wy/PKnfQ==;
-Received: from [179.100.5.63] (helo=[192.168.15.100])
+ h=Content-Transfer-Encoding:Content-Type:MIME-Version:Message-ID:
+ Date:Subject:Cc:To:From:Sender:Reply-To:Content-ID:Content-Description:
+ Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
+ In-Reply-To:References:List-Id:List-Help:List-Unsubscribe:List-Subscribe:
+ List-Post:List-Owner:List-Archive;
+ bh=lrLB2w6XrBgAxl5WGmLus+DTYqxCa+sn6BI6H1HllKo=; b=Uq/e4eJI2lwXVCTC52RtDGs9hK
+ UcMgFPHuTq+Io5OQWpkta3DpG2kw6OyaST+NrYx5jz0Vt4WG3o7f47NzZz8Lk7erPchG+K34t17s3
+ GYAUgNVInwxuMABkq7fP8uMbNB0wUsiCZtvdfoA44Coa6nAscNdhfXilKrkL/QEfdQ8pdcx71A9cx
+ 7s9i1yw12bzNsdTiUz/4usb4dMF1X6oShVZLnfisevlWYTH00HLjJw0IHyGIKZHQmOjXcVlQnVZIH
+ J5O/e17kZA5TqqTrmk96dJClgOEXCDjbIYFiTH9wJK5bWWGpWgHxcKtphaQU2InbS6vmZPFTpXjXN
+ 1uz72BYw==;
+Received: from [179.100.5.63] (helo=localhost.localdomain)
  by fanzine2.igalia.com with esmtpsa 
- (Cipher TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_128_GCM:128) (Exim)
- id 1uXWcN-00CBaW-CY; Fri, 04 Jul 2025 04:57:39 +0200
-Message-ID: <9f5d746b-791c-4b88-b4ab-19928f68b0b2@igalia.com>
-Date: Thu, 3 Jul 2025 23:57:35 -0300
+ (Cipher TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_256_GCM:256) (Exim)
+ id 1uXWl5-00CBhm-JO; Fri, 04 Jul 2025 05:06:39 +0200
+From: =?UTF-8?q?Andr=C3=A9=20Almeida?= <andrealmeid@igalia.com>
+To: "Alex Deucher" <alexander.deucher@amd.com>,
+ =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>
+Cc: dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ kernel-dev@igalia.com, amd-gfx@lists.freedesktop.org,
+ =?UTF-8?q?Andr=C3=A9=20Almeida?= <andrealmeid@igalia.com>,
+ Dave Airlie <airlied@gmail.com>
+Subject: [PATCH] drm/amdgpu: Fix lifetime of struct amdgpu_task_info after
+ ring reset
+Date: Fri,  4 Jul 2025 00:06:29 -0300
+Message-ID: <20250704030629.1064397-1-andrealmeid@igalia.com>
+X-Mailer: git-send-email 2.49.0
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: possible amdgpu_task_info reference leak
-To: Dave Airlie <airlied@gmail.com>,
- "Koenig, Christian" <Christian.Koenig@amd.com>,
- dri-devel <dri-devel@lists.freedesktop.org>
-References: <CAPM=9tz0rQP8VZWKWyuF8kUMqRScxqoa6aVdwWw9=5yYxyYQ2Q@mail.gmail.com>
-Content-Language: en-US
-From: =?UTF-8?Q?Andr=C3=A9_Almeida?= <andrealmeid@igalia.com>
-In-Reply-To: <CAPM=9tz0rQP8VZWKWyuF8kUMqRScxqoa6aVdwWw9=5yYxyYQ2Q@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -61,46 +62,58 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Dave,
+When a ring reset happens, amdgpu calls drm_dev_wedged_event() using
+struct amdgpu_task_info *ti as one of the arguments. After using *ti, a
+call to amdgpu_vm_put_task_info(ti) is required to correctly track its
+lifetime.
 
-Em 03/07/2025 20:59, Dave Airlie escreveu:
-> In this commit :
-> a72002cb181f350734108228b24c5d10d358f95a
-> Author: André Almeida <andrealmeid@igalia.com>
-> Date:   Tue Jun 17 09:49:49 2025 -0300
-> 
->      drm/amdgpu: Make use of drm_wedge_task_info
-> 
-> 
-> 
-> @@ -164,13 +165,15 @@ static enum drm_gpu_sched_stat
-> amdgpu_job_timedout(struct drm_sched_job *s_job)
->                          if (amdgpu_ring_sched_ready(ring))
->                                  drm_sched_start(&ring->sched, 0);
->                          dev_err(adev->dev, "Ring %s reset
-> succeeded\n", ring->sched.name);
-> -                       drm_dev_wedged_event(adev_to_drm(adev),
-> DRM_WEDGE_RECOVERY_NONE, NULL);
-> +                       drm_dev_wedged_event(adev_to_drm(adev),
-> DRM_WEDGE_RECOVERY_NONE, info);
->                          goto exit;
->                  }
->                  dev_err(adev->dev, "Ring %s reset failure\n", ring->sched.name);
->          }
->          dma_fence_set_error(&s_job->s_fence->finished, -ETIME);
-> 
-> +       amdgpu_vm_put_task_info(ti);
-> +
->          if (amdgpu_device_should_recover_gpu(ring->adev)) {
->                  struct amdgpu_reset_context reset_context;
->                  memset(&reset_context, 0, sizeof(reset_context));
-> 
-> 
-> Doesn't the goto_exit bypass the amdgpu_vm_put_task_info? and cause a
-> reference leak at least?
-> 
+However, it's called from a place that the ring reset path never reaches
+due to a goto after drm_dev_wedged_event() is called. Move
+amdgpu_vm_put_task_info() bellow the exit label to make sure that it's
+called regardless of the code path.
 
-Yep, I think you are right. Let me send a fix for this.
+amdgpu_vm_put_task_info() can only accept a valid address or NULL as
+argument, so initialise *ti to make sure we can call this function if
+*ti isn't used.
 
-> Dave.
+Fixes: a72002cb181f ("drm/amdgpu: Make use of drm_wedge_task_info")
+Reported-by: Dave Airlie <airlied@gmail.com>
+Closes: https://lore.kernel.org/dri-devel/CAPM=9tz0rQP8VZWKWyuF8kUMqRScxqoa6aVdwWw9=5yYxyYQ2Q@mail.gmail.com/
+Signed-off-by: André Almeida <andrealmeid@igalia.com>
+---
+ drivers/gpu/drm/amd/amdgpu/amdgpu_job.c | 5 ++---
+ 1 file changed, 2 insertions(+), 3 deletions(-)
+
+diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_job.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_job.c
+index 1e24590ae144..e69366401f6b 100644
+--- a/drivers/gpu/drm/amd/amdgpu/amdgpu_job.c
++++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_job.c
+@@ -90,7 +90,7 @@ static enum drm_gpu_sched_stat amdgpu_job_timedout(struct drm_sched_job *s_job)
+ 	struct amdgpu_ring *ring = to_amdgpu_ring(s_job->sched);
+ 	struct amdgpu_job *job = to_amdgpu_job(s_job);
+ 	struct drm_wedge_task_info *info = NULL;
+-	struct amdgpu_task_info *ti;
++	struct amdgpu_task_info *ti = NULL;
+ 	struct amdgpu_device *adev = ring->adev;
+ 	int idx;
+ 	int r;
+@@ -172,8 +172,6 @@ static enum drm_gpu_sched_stat amdgpu_job_timedout(struct drm_sched_job *s_job)
+ 	}
+ 	dma_fence_set_error(&s_job->s_fence->finished, -ETIME);
+ 
+-	amdgpu_vm_put_task_info(ti);
+-
+ 	if (amdgpu_device_should_recover_gpu(ring->adev)) {
+ 		struct amdgpu_reset_context reset_context;
+ 		memset(&reset_context, 0, sizeof(reset_context));
+@@ -199,6 +197,7 @@ static enum drm_gpu_sched_stat amdgpu_job_timedout(struct drm_sched_job *s_job)
+ 	}
+ 
+ exit:
++	amdgpu_vm_put_task_info(ti);
+ 	drm_dev_exit(idx);
+ 	return DRM_GPU_SCHED_STAT_NOMINAL;
+ }
+-- 
+2.49.0
 
