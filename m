@@ -2,55 +2,83 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id E0BEBAF934D
-	for <lists+dri-devel@lfdr.de>; Fri,  4 Jul 2025 14:59:31 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id C24B5AF935C
+	for <lists+dri-devel@lfdr.de>; Fri,  4 Jul 2025 15:00:44 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1E65610E214;
-	Fri,  4 Jul 2025 12:59:30 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B8D9510EA2E;
+	Fri,  4 Jul 2025 13:00:42 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; secure) header.d=mailbox.org header.i=@mailbox.org header.b="vFb/EG4c";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="mi+LrZHj";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mout-p-103.mailbox.org (mout-p-103.mailbox.org [80.241.56.161])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7954410E214;
- Fri,  4 Jul 2025 12:59:28 +0000 (UTC)
-Received: from smtp1.mailbox.org (smtp1.mailbox.org [10.196.197.1])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
- (No client certificate requested)
- by mout-p-103.mailbox.org (Postfix) with ESMTPS id 4bYYcY2TlLz9t13;
- Fri,  4 Jul 2025 14:59:25 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mailbox.org;
- s=mail20150812; 
- t=1751633965; h=from:from:reply-to:reply-to:subject:subject:date:date:
- message-id:message-id:to:to:cc:cc:mime-version:mime-version:
- content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=85ulYrWa2aKa6X7PytppDzTSoBmaC9nM/f9Z+G5Oeu4=;
- b=vFb/EG4cHeJRyFTWy14fLOzuSNuEIqoOgM1bxQO+7l+I2CO8ZBSsKF+mOtj3CP/7hAGLuS
- XVGDwHkRhfJXltR3rQbyk6QGGCAMIjX0jUjgPfV/VzguDt7I9aqAj1x7Gs4qw302/6QW9T
- tBYCYuzbKEGwmkI7OnvHUt/pjydc89YxZ9wsvgT/RUpx24024+11t3V5VtwemrO5ATDW3W
- 5Bcw86NsfK8BFnTyZxSlZMPqYYx8p1p1d+Yk1XpTdBRwv70eWbDBilcEcKmYNxXsu6TJPj
- nGaNRSB5i0lEDnjXaCTm/HNfXEEJa4RK+721iPJaRRxV4sOrg2qSoOehyoFe8Q==
-Message-ID: <f010325d1d49b4d7cae44d12c77110c3c36de214.camel@mailbox.org>
-Subject: Re: [PATCH v5 03/16] drm/sched: De-clutter drm_sched_init
-From: Philipp Stanner <phasta@mailbox.org>
-To: Tvrtko Ursulin <tvrtko.ursulin@igalia.com>,
- amd-gfx@lists.freedesktop.org,  dri-devel@lists.freedesktop.org
-Cc: kernel-dev@igalia.com, Christian =?ISO-8859-1?Q?K=F6nig?=
- <christian.koenig@amd.com>, Danilo Krummrich <dakr@kernel.org>, Matthew
- Brost <matthew.brost@intel.com>, Philipp Stanner <phasta@kernel.org>
-Date: Fri, 04 Jul 2025 14:59:23 +0200
-In-Reply-To: <20250623122746.46478-4-tvrtko.ursulin@igalia.com>
-References: <20250623122746.46478-1-tvrtko.ursulin@igalia.com>
- <20250623122746.46478-4-tvrtko.ursulin@igalia.com>
-Content-Type: text/plain; charset="UTF-8"
+Received: from tor.source.kernel.org (tor.source.kernel.org [172.105.4.254])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8EDF510EA2D;
+ Fri,  4 Jul 2025 13:00:41 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+ by tor.source.kernel.org (Postfix) with ESMTP id 6C9C961457;
+ Fri,  4 Jul 2025 13:00:40 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3F840C4CEE3;
+ Fri,  4 Jul 2025 13:00:26 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1751634040;
+ bh=PQ+uuvbgXKFc5vIr220QI1Lf8oYUGvsoSa+Kga5uCxI=;
+ h=Date:Subject:From:To:Cc:References:In-Reply-To:From;
+ b=mi+LrZHjF+yRfLmrMqCm45+w6sUTBWLIFLln4t06TCRfNNID72odMCaUkq6P7uCUX
+ 6UUsEVXl8dcAwtsGpEQ4be8tzBNVlVqFR/dHUws6kyBu1YvtpkQhwwKUxloNwWR9R/
+ IGSdHN0MxrYLaSCkpAV78+BdMxg3sCNdQTC9sRmKmYWFLMqIw4rrFCZRyV7KRJtd2E
+ 0j73lXtusTnleqcS0NxrPxjaCD0MHAoeWaeskbB4i7ET3pELASmMynDmabvpgju8s5
+ lM5kWnUgAXLXzxzcI7AEuaVKCn3OYtKdR4/uhCwyRJ5lqmW3Ng5o+Qj0VkMX0rxdf6
+ 342H5Q7Nz/erA==
+Mime-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
-MIME-Version: 1.0
-X-MBO-RS-META: tnwqegw6qa5tpxygq55tbw8am9hstkwz
-X-MBO-RS-ID: 41c0739efc0bc8a2696
+Content-Type: text/plain; charset=UTF-8
+Date: Fri, 04 Jul 2025 15:00:24 +0200
+Message-Id: <DB3AFTUC22W1.39C4DMWSENZGB@kernel.org>
+Subject: Re: [PATCH v13 3/5] rust: replace `CStr` with `core::ffi::CStr`
+From: "Benno Lossin" <lossin@kernel.org>
+To: "Tamir Duberstein" <tamird@gmail.com>, "Michal Rostecki"
+ <vadorovsky@protonmail.com>, "Miguel Ojeda" <ojeda@kernel.org>, "Alex
+ Gaynor" <alex.gaynor@gmail.com>, "Boqun Feng" <boqun.feng@gmail.com>, "Gary
+ Guo" <gary@garyguo.net>, =?utf-8?q?Bj=C3=B6rn_Roy_Baron?=
+ <bjorn3_gh@protonmail.com>, "Andreas Hindborg" <a.hindborg@kernel.org>,
+ "Alice Ryhl" <aliceryhl@google.com>, "Trevor Gross" <tmgross@umich.edu>,
+ "Brendan Higgins" <brendan.higgins@linux.dev>, "David Gow"
+ <davidgow@google.com>, "Rae Moar" <rmoar@google.com>, "Danilo Krummrich"
+ <dakr@kernel.org>, "Maarten Lankhorst" <maarten.lankhorst@linux.intel.com>,
+ "Maxime Ripard" <mripard@kernel.org>, "Thomas Zimmermann"
+ <tzimmermann@suse.de>, "David Airlie" <airlied@gmail.com>, "Simona Vetter"
+ <simona@ffwll.ch>, "Greg Kroah-Hartman" <gregkh@linuxfoundation.org>,
+ "Rafael J. Wysocki" <rafael@kernel.org>, "Luis Chamberlain"
+ <mcgrof@kernel.org>, "Russ Weight" <russ.weight@linux.dev>, "FUJITA
+ Tomonori" <fujita.tomonori@gmail.com>, "Rob Herring" <robh@kernel.org>,
+ "Saravana Kannan" <saravanak@google.com>, "Peter Zijlstra"
+ <peterz@infradead.org>, "Ingo Molnar" <mingo@redhat.com>, "Will Deacon"
+ <will@kernel.org>, "Waiman Long" <longman@redhat.com>, "Nathan Chancellor"
+ <nathan@kernel.org>, "Nick Desaulniers" <nick.desaulniers+lkml@gmail.com>,
+ "Bill Wendling" <morbo@google.com>, "Justin Stitt"
+ <justinstitt@google.com>, "Andrew Lunn" <andrew@lunn.ch>, "Heiner Kallweit"
+ <hkallweit1@gmail.com>, "Russell King" <linux@armlinux.org.uk>, "David S.
+ Miller" <davem@davemloft.net>, "Eric Dumazet" <edumazet@google.com>, "Jakub
+ Kicinski" <kuba@kernel.org>, "Paolo Abeni" <pabeni@redhat.com>, "Bjorn
+ Helgaas" <bhelgaas@google.com>, "Arnd Bergmann" <arnd@arndb.de>, "Jens
+ Axboe" <axboe@kernel.dk>, =?utf-8?q?Krzysztof_Wilczy=C5=84ski?=
+ <kwilczynski@kernel.org>, "Dave Ertman" <david.m.ertman@intel.com>, "Ira
+ Weiny" <ira.weiny@intel.com>, "Leon Romanovsky" <leon@kernel.org>, "Breno
+ Leitao" <leitao@debian.org>, "Viresh Kumar" <viresh.kumar@linaro.org>,
+ "Michael Turquette" <mturquette@baylibre.com>, "Stephen Boyd"
+ <sboyd@kernel.org>
+Cc: <rust-for-linux@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
+ <linux-kselftest@vger.kernel.org>, <kunit-dev@googlegroups.com>,
+ <dri-devel@lists.freedesktop.org>, <netdev@vger.kernel.org>,
+ <devicetree@vger.kernel.org>, <llvm@lists.linux.dev>,
+ <linux-pci@vger.kernel.org>, <nouveau@lists.freedesktop.org>,
+ <linux-block@vger.kernel.org>, <linux-pm@vger.kernel.org>,
+ <linux-clk@vger.kernel.org>
+X-Mailer: aerc 0.20.1
+References: <20250701-cstr-core-v13-0-29f7d3eb97a6@gmail.com>
+ <20250701-cstr-core-v13-3-29f7d3eb97a6@gmail.com>
+In-Reply-To: <20250701-cstr-core-v13-3-29f7d3eb97a6@gmail.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -63,100 +91,59 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Reply-To: phasta@kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, 2025-06-23 at 13:27 +0100, Tvrtko Ursulin wrote:
-> Move work queue allocation into a helper for a more streamlined
-> function
-> body.
->=20
-> Signed-off-by: Tvrtko Ursulin <tvrtko.ursulin@igalia.com>
-> Cc: Christian K=C3=B6nig <christian.koenig@amd.com>
-> Cc: Danilo Krummrich <dakr@kernel.org>
-> Cc: Matthew Brost <matthew.brost@intel.com>
-> Cc: Philipp Stanner <phasta@kernel.org>
+On Tue Jul 1, 2025 at 6:49 PM CEST, Tamir Duberstein wrote:
+> `kernel::ffi::CStr` was introduced in commit d126d2380131 ("rust: str:
+> add `CStr` type") in November 2022 as an upstreaming of earlier work
+> that was done in May 2021[0]. That earlier work, having predated the
+> inclusion of `CStr` in `core`, largely duplicated the implementation of
+> `std::ffi::CStr`.
+>
+> `std::ffi::CStr` was moved to `core::ffi::CStr` in Rust 1.64 in
+> September 2022. Hence replace `kernel::str::CStr` with `core::ffi::CStr`
+> to reduce our custom code footprint, and retain needed custom
+> functionality through an extension trait.
+>
+> C-String literals were added in Rust 1.77, while our MSRV is 1.78. Thus
+> opportunistically replace instances of `kernel::c_str!` with C-String
+> literals where other code changes were already necessary or where
+> existing code triggered clippy lints; the rest will be done in a later
+> commit.
+>
+> Link: https://github.com/Rust-for-Linux/linux/commit/faa3cbcca03d0dec8f8e=
+43f1d8d5c0860d98a23f [0]
+> Acked-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+> Reviewed-by: Alice Ryhl <aliceryhl@google.com>
+> Signed-off-by: Tamir Duberstein <tamird@gmail.com>
 > ---
-> =C2=A0drivers/gpu/drm/scheduler/sched_main.c | 33 ++++++++++++++++-------=
--
-> --
-> =C2=A01 file changed, 20 insertions(+), 13 deletions(-)
->=20
-> diff --git a/drivers/gpu/drm/scheduler/sched_main.c
-> b/drivers/gpu/drm/scheduler/sched_main.c
-> index a1b445c3b4db..1f077782ec12 100644
-> --- a/drivers/gpu/drm/scheduler/sched_main.c
-> +++ b/drivers/gpu/drm/scheduler/sched_main.c
-> @@ -84,12 +84,6 @@
-> =C2=A0#define CREATE_TRACE_POINTS
-> =C2=A0#include "gpu_scheduler_trace.h"
-> =C2=A0
-> -#ifdef CONFIG_LOCKDEP
-> -static struct lockdep_map drm_sched_lockdep_map =3D {
-> -	.name =3D "drm_sched_lockdep_map"
-> -};
-> -#endif
-> -
-> =C2=A0int drm_sched_policy =3D DRM_SCHED_POLICY_FIFO;
-> =C2=A0
-> =C2=A0/**
-> @@ -1263,6 +1257,25 @@ static void drm_sched_run_job_work(struct
-> work_struct *w)
-> =C2=A0	drm_sched_run_job_queue(sched);
-> =C2=A0}
-> =C2=A0
-> +static struct workqueue_struct *drm_sched_alloc_wq(const char *name)
-> +{
-> +#if (IS_ENABLED(CONFIG_LOCKDEP))
-> +	static struct lockdep_map map =3D {
-> +		.name =3D "drm_sched_lockdep_map"
-> +	};
-> +
-> +	/*
-> +	 * Avoid leaking a lockdep map on each drm sched creation
-> and
-> +	 * destruction by using a single lockdep map for all drm
-> sched
-> +	 * allocated submit_wq.
-> +	 */
-> +
-> +	return alloc_ordered_workqueue_lockdep_map(name,
-> WQ_MEM_RECLAIM, &map);
-> +#else
-> +	return alloc_ordered_workqueue(name, WQ_MEM_RECLAIM);
-> +#endif
-> +}
-> +
-> =C2=A0/**
-> =C2=A0 * drm_sched_init - Init a gpu scheduler instance
-> =C2=A0 *
-> @@ -1303,13 +1316,7 @@ int drm_sched_init(struct drm_gpu_scheduler
-> *sched, const struct drm_sched_init_
-> =C2=A0		sched->submit_wq =3D args->submit_wq;
-> =C2=A0		sched->own_submit_wq =3D false;
-> =C2=A0	} else {
-> -#ifdef CONFIG_LOCKDEP
-> -		sched->submit_wq =3D
-> alloc_ordered_workqueue_lockdep_map(args->name,
-> -
-> 								=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 WQ_MEM_RECLAIM,
-> -
-> 								=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 &drm_sched_lockdep_map);
-> -#else
-> -		sched->submit_wq =3D alloc_ordered_workqueue(args-
-> >name, WQ_MEM_RECLAIM);
-> -#endif
-> +		sched->submit_wq =3D drm_sched_alloc_wq(args->name);
-> =C2=A0		if (!sched->submit_wq)
-> =C2=A0			return -ENOMEM;
+>  drivers/gpu/drm/drm_panic_qr.rs |   2 +-
+>  rust/kernel/auxiliary.rs        |   4 +-
+>  rust/kernel/configfs.rs         |   4 +-
+>  rust/kernel/cpufreq.rs          |   2 +-
+>  rust/kernel/device.rs           |   4 +-
+>  rust/kernel/drm/device.rs       |   4 +-
+>  rust/kernel/error.rs            |   4 +-
+>  rust/kernel/firmware.rs         |  11 +-
+>  rust/kernel/kunit.rs            |   6 +-
+>  rust/kernel/miscdevice.rs       |   2 +-
+>  rust/kernel/net/phy.rs          |   2 +-
+>  rust/kernel/of.rs               |   2 +-
+>  rust/kernel/prelude.rs          |   5 +-
+>  rust/kernel/seq_file.rs         |   4 +-
+>  rust/kernel/str.rs              | 394 +++++++++++-----------------------=
+------
+>  rust/kernel/sync/condvar.rs     |   2 +-
+>  rust/kernel/sync/lock.rs        |   2 +-
+>  rust/kernel/sync/lock/global.rs |   2 +-
+>  samples/rust/rust_configfs.rs   |   2 +-
+>  19 files changed, 140 insertions(+), 318 deletions(-)
 
-You could send this patch separately any time *wink wink*
+Is it also possible to split this? First rename the existing functions
+on our CStr to match upstream & then you don't need to do the rename &
+removal of our CStr in the same patch?
 
-We definitely wanna merge that, and you could then just rebase your RFC
-series on drm-misc-next.
-
-P.
-
-> =C2=A0
-
+---
+Cheers,
+Benno
