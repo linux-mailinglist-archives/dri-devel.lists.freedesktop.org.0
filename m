@@ -2,113 +2,96 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3D5D3AF9B36
-	for <lists+dri-devel@lfdr.de>; Fri,  4 Jul 2025 21:39:33 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 03DA4AF9B51
+	for <lists+dri-devel@lfdr.de>; Fri,  4 Jul 2025 21:50:35 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9E17E10EA70;
-	Fri,  4 Jul 2025 19:39:31 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id BDCB710E052;
+	Fri,  4 Jul 2025 19:50:32 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="ltiiabn4";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="EtdmTypu";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lj1-f170.google.com (mail-lj1-f170.google.com
- [209.85.208.170])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E344610EA70;
- Fri,  4 Jul 2025 19:39:30 +0000 (UTC)
-Received: by mail-lj1-f170.google.com with SMTP id
- 38308e7fff4ca-32b553e33e6so10607351fa.2; 
- Fri, 04 Jul 2025 12:39:30 -0700 (PDT)
+Received: from mail-qv1-f42.google.com (mail-qv1-f42.google.com
+ [209.85.219.42])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id EC5CB10E052
+ for <dri-devel@lists.freedesktop.org>; Fri,  4 Jul 2025 19:50:30 +0000 (UTC)
+Received: by mail-qv1-f42.google.com with SMTP id
+ 6a1803df08f44-6fabe9446a0so12151406d6.2
+ for <dri-devel@lists.freedesktop.org>; Fri, 04 Jul 2025 12:50:30 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1751657969; x=1752262769; darn=lists.freedesktop.org;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc:subject:date
- :message-id:reply-to;
- bh=PaN1iXlsiktU/ZIaAdJUYYtsPKiTgtwWPQpDE5mPO2Y=;
- b=ltiiabn4bLC9Em0urjF2x2PqPEc/EBm6QJ3mBjZ5IFNCRtL7I0jxF2V0tTI7iGVNlQ
- jeptxgmKoJkObafxe16+0mbei2r6THCOEsGUifuioA4bkLoZKJ/kLH6vCGOcdU+Dikro
- 0eU0bn1MFxkcgt2gYEcpLZXKVSC0I+zhSsyp1pJ8PBfLpTfYjhnzItPGB9t+85OxwDUk
- NhO250WbsW8R3Cro5hev0Op5glr4T9sFHO9HS2BVW1hbrJ2Ll6KaIro9uDqzlmhggHqb
- mSmtIwe/S5Chl2LMpLVlnro4WEKL9/CDaP3zWkInR4F+Emfoe3OKyDT/kwLmIxLVMoSa
- VTzw==
+ d=gmail.com; s=20230601; t=1751658630; x=1752263430; darn=lists.freedesktop.org;
+ h=cc:to:message-id:content-transfer-encoding:mime-version:subject
+ :date:from:from:to:cc:subject:date:message-id:reply-to;
+ bh=XNhvIHtOBpbCJYqem6GBWVYViowpWEgdYxq8EYZIWqA=;
+ b=EtdmTypuOy6WZv6r264WwdUqxfgMLnwFO227HkRSISSYU+93p1eROzkqRuJkEGP2vL
+ 3zoU+5eZOLanyfzZ1ZYkDh5XohJDKk+Zk0Ro1l7PxbTqj3hm6QEtq2z3SuWu2e7Bh7R3
+ +px0+UVDsSBm8S+erRYMq2WgKkiLkrrlL24pCGHJubeb5Axa389CuLb98E9l5VONPmer
+ 1ICUXghAn3JeZtYAz6SFKyBfIoLTfJU0CSpg+C0UNXxMV4v2DNcEHQUj3MnxjlAwBIHk
+ HAsA/6uMyT8zK1yevtyqT8sly5jFgtOxL/7ptxzmL98bNCFrdNTC7Hz7kJTWvlPAfQkq
+ i1yA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1751657969; x=1752262769;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=PaN1iXlsiktU/ZIaAdJUYYtsPKiTgtwWPQpDE5mPO2Y=;
- b=QGEjrTqTUDNrnMaak61MA+rNQK5gLbEhdhJjwvBVfQOeqyW96T1SQ9a/kb08ybTpDZ
- 21Cy1JQ13CKYX1fO5xzuEHaHN0qNJdVCG4XkHO0JIg2wAFI7tfxBp0hj43hAqGV226NK
- T24QZ79fzZ37Y0GGPefvkf/PM5BTOwGATDU4nTmVUZ/1NqOt5JneI4ISHZRAR7I+VJrr
- hfTJJ4Tpriy381yVBGBrSVcOyQpNt9ZYfBU57WHbLL7P0/1rgwfkwX2vxvx2McY3IIVR
- jCu+fghMpO2mEUQYbwdb//jYzWcpzt7thYVgvWfxKMK/fsIx0rHsBngl6fypAwAz8A3B
- ISMQ==
-X-Forwarded-Encrypted: i=1;
- AJvYcCU6rZbaW+tWg1Xd/TL+EFwncyXydKQZHbT8/keYTv1KRrvoWZZSAaw6zYV98wOMmvnnY30wTKmREQM=@lists.freedesktop.org,
- AJvYcCUS7OC7vRWTW1lQPGz1P4ek/WCTKt19qAptgZuqGeLR1lwRDNPj/Il5od9sfNeffY8U5l6V4gdW3g==@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YzrInK1VHZTfNMh+IM1zyWNdTqy30XQcb/Qi9BO0jWwLYB+RZRW
- wM+//78DlA5LN4CpRACB6CAzRxBbwVeaHYgqwcMs6N+EF5tX10hXdkxwjJUlkPF6M5g/C57LbAt
- zLNkjjwIQ0zbd0pFU8iPUf7bm+rVbV4k=
-X-Gm-Gg: ASbGnctGQAX3lVSSNSaPv1bLwmKDJfFnAvvw/TeYExSwpxskUKWVqkSRH/se4LE4Ljh
- KbdUqPyBW45P5VRDjzn6RSs8BN3QlUNrYAXyJ3JSOedwjtn3dNiol5byFVsBXW+p76jh0vIQZNt
- 2arrc1KNqnJEM/N07CdvT6ivxrugFmLc/jA8dvyIliPFagNLOxim9KPBtIrmFJPBGn9lpAu71du
- 8nNdw==
-X-Google-Smtp-Source: AGHT+IEUCasNpOjrLiPTdba+G1DzRMt5tyZu55jlQh+AX9oNhtSkPC1M27OuhbpRgJbummxXICHmkFV1J91gViP7ObU=
-X-Received: by 2002:a2e:b88f:0:b0:32a:6c63:92a with SMTP id
- 38308e7fff4ca-32f03639f57mr13413521fa.22.1751657968994; Fri, 04 Jul 2025
- 12:39:28 -0700 (PDT)
-MIME-Version: 1.0
-References: <20250701-cstr-core-v13-0-29f7d3eb97a6@gmail.com>
- <20250701-cstr-core-v13-3-29f7d3eb97a6@gmail.com>
- <DB3AFTUC22W1.39C4DMWSENZGB@kernel.org>
-In-Reply-To: <DB3AFTUC22W1.39C4DMWSENZGB@kernel.org>
+ d=1e100.net; s=20230601; t=1751658630; x=1752263430;
+ h=cc:to:message-id:content-transfer-encoding:mime-version:subject
+ :date:from:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=XNhvIHtOBpbCJYqem6GBWVYViowpWEgdYxq8EYZIWqA=;
+ b=kWrx2FPxuVU2LMC1B/AkBWWEs65deecf/lRqfmk+msafP1ORGOHokuR6hAZLbxsbp1
+ F/PrTpMIbgmVpWKnZXq6ykH1qYAe12evKgIFMVrbaox3uiJ2zxuIL72JxpikT7506qi2
+ MPhUWoLpMGrDVmACIdaFwP6YJE+hIogC7OswU0KN+RseEdb7pVpOWMe8uY/vd1sN8cbv
+ RP15S3qvpQCIOdyS6QJTwQ9xcrnC9jeWNOqAVlfz3TT9gSZzt9r6wOKhN7wSHeLGEtPQ
+ E+tm5c2dG794Mq0UTTVXSVQ6XqnhIRtMmPFqpgKDUbJGFMqG3GMOSvJGaW1LaUh+WRv7
+ wheg==
+X-Gm-Message-State: AOJu0YztZtindUgvK6FfV68rH3N1PxGLB3jnbP3GEH/eTJCe4BmJQhss
+ SuPtbew3szQZsxe0SnZvuZzQNYk4+gflByAmbKRw9H54SP7dy+dNLia0
+X-Gm-Gg: ASbGncsmWl0E0rP1W+Xaf8pLjXQ09ZoCkxVwlJSuMbXLSgnCbtLyXzSLnmqyEGX13eL
+ WvmBsa0l4FLOltmS7aaHMEiyjxy1Z5M7IBne81f44T/L5be3QDdEgNU/WKoHkVfY/HLrDwvyZFo
+ 9V7pKtiqzrDNlgJ6Dr8T6MrpJR6lZM9KHBLuyxGHftEZEPiKbZpABgh8gVHfHNy52b6deA53ovG
+ mI+wrs2xILyhZmgY6tc2LfVfVtaO3N3YlrI35qlvvHhewiYrSm31cbyCMKkuGFcNgbFSFUBbUxk
+ 0HWUwixlxiHUvGmXjCI6v0PmaXX/3AryWF82bAjdTuqXnN+MqICltGDV5Ihx9sNFpiLs8vWYdM1
+ gNX3ydK8=
+X-Google-Smtp-Source: AGHT+IHlyLvirHQtwBxA+WyaV38kKYeynPoQmfgRGD62rrS/fv9at4t+fZpzQSSH8LM7H/HmJvxgqw==
+X-Received: by 2002:a05:620a:8083:b0:7d2:15e:1f9d with SMTP id
+ af79cd13be357-7d5f20b7efamr10937985a.53.1751658629611; 
+ Fri, 04 Jul 2025 12:50:29 -0700 (PDT)
+Received: from 156.1.168.192.in-addr.arpa
+ ([2600:4041:5c29:e400:94f3:d2bb:5ace:77a1])
+ by smtp.gmail.com with ESMTPSA id
+ af79cd13be357-7d5dbe91380sm194263085a.95.2025.07.04.12.50.28
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Fri, 04 Jul 2025 12:50:29 -0700 (PDT)
 From: Tamir Duberstein <tamird@gmail.com>
-Date: Fri, 4 Jul 2025 15:38:53 -0400
-X-Gm-Features: Ac12FXzIFREDgXqCwrv6XJgEObqPEvHKICa5en-HTCiFL74MHyUAIu3tq-_u52g
-Message-ID: <CAJ-ks9=Q2+zmBzq36aYnePmRm2b5NL3buMXP36FpmnJ+UU3FWQ@mail.gmail.com>
-Subject: Re: [PATCH v13 3/5] rust: replace `CStr` with `core::ffi::CStr`
-To: Benno Lossin <lossin@kernel.org>
-Cc: Michal Rostecki <vadorovsky@protonmail.com>,
- Miguel Ojeda <ojeda@kernel.org>, 
- Alex Gaynor <alex.gaynor@gmail.com>, Boqun Feng <boqun.feng@gmail.com>, 
- Gary Guo <gary@garyguo.net>,
- =?UTF-8?Q?Bj=C3=B6rn_Roy_Baron?= <bjorn3_gh@protonmail.com>, 
- Andreas Hindborg <a.hindborg@kernel.org>, Alice Ryhl <aliceryhl@google.com>, 
- Trevor Gross <tmgross@umich.edu>, Brendan Higgins <brendan.higgins@linux.dev>, 
- David Gow <davidgow@google.com>, Rae Moar <rmoar@google.com>, 
- Danilo Krummrich <dakr@kernel.org>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
+Date: Fri, 04 Jul 2025 15:50:27 -0400
+Subject: [PATCH] rust: drm: remove unnecessary imports
+MIME-Version: 1.0
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+Message-Id: <20250704-cstr-include-drm-v1-1-a279dfc4d753@gmail.com>
+X-B4-Tracking: v=1; b=H4sIAIIwaGgC/x3MQQ5AMBBA0avIrE1SVCquIhbaDiahZIpIxN01l
+ m/x/wORhClCmz0gdHHkLSQUeQZuHsJEyD4ZSlXWyiiNLh6CHNxyekIvK3o9DloZW5FtIGW70Mj
+ 3v+z69/0AwILqnWIAAAA=
+X-Change-ID: 20250704-cstr-include-drm-d4fa407b3eb8
+To: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
  Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
  David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, 
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- "Rafael J. Wysocki" <rafael@kernel.org>, 
- Luis Chamberlain <mcgrof@kernel.org>, Russ Weight <russ.weight@linux.dev>, 
- FUJITA Tomonori <fujita.tomonori@gmail.com>, Rob Herring <robh@kernel.org>, 
- Saravana Kannan <saravanak@google.com>, Peter Zijlstra <peterz@infradead.org>, 
- Ingo Molnar <mingo@redhat.com>, Will Deacon <will@kernel.org>,
- Waiman Long <longman@redhat.com>, Nathan Chancellor <nathan@kernel.org>,
- Nick Desaulniers <nick.desaulniers+lkml@gmail.com>, 
- Bill Wendling <morbo@google.com>, Justin Stitt <justinstitt@google.com>,
- Andrew Lunn <andrew@lunn.ch>, 
- Heiner Kallweit <hkallweit1@gmail.com>, Russell King <linux@armlinux.org.uk>, 
- "David S. Miller" <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>, 
- Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
- Bjorn Helgaas <bhelgaas@google.com>, 
- Arnd Bergmann <arnd@arndb.de>, Jens Axboe <axboe@kernel.dk>, 
- =?UTF-8?Q?Krzysztof_Wilczy=C5=84ski?= <kwilczynski@kernel.org>, 
- Dave Ertman <david.m.ertman@intel.com>, Ira Weiny <ira.weiny@intel.com>, 
- Leon Romanovsky <leon@kernel.org>, Breno Leitao <leitao@debian.org>, 
- Viresh Kumar <viresh.kumar@linaro.org>,
- Michael Turquette <mturquette@baylibre.com>, 
- Stephen Boyd <sboyd@kernel.org>, rust-for-linux@vger.kernel.org, 
- linux-kernel@vger.kernel.org, linux-kselftest@vger.kernel.org, 
- kunit-dev@googlegroups.com, dri-devel@lists.freedesktop.org, 
- netdev@vger.kernel.org, devicetree@vger.kernel.org, llvm@lists.linux.dev, 
- linux-pci@vger.kernel.org, nouveau@lists.freedesktop.org, 
- linux-block@vger.kernel.org, linux-pm@vger.kernel.org, 
- linux-clk@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+ Miguel Ojeda <ojeda@kernel.org>, Alex Gaynor <alex.gaynor@gmail.com>, 
+ Boqun Feng <boqun.feng@gmail.com>, Gary Guo <gary@garyguo.net>, 
+ =?utf-8?q?Bj=C3=B6rn_Roy_Baron?= <bjorn3_gh@protonmail.com>, 
+ Benno Lossin <lossin@kernel.org>, Andreas Hindborg <a.hindborg@kernel.org>, 
+ Alice Ryhl <aliceryhl@google.com>, Trevor Gross <tmgross@umich.edu>, 
+ Danilo Krummrich <dakr@kernel.org>
+Cc: dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org, 
+ rust-for-linux@vger.kernel.org, Tamir Duberstein <tamird@gmail.com>
+X-Mailer: b4 0.15-dev
+X-Developer-Signature: v=1; a=openssh-sha256; t=1751658628; l=1203;
+ i=tamird@gmail.com; h=from:subject:message-id;
+ bh=4dz5j6fQY62BWNK3xoT3qWhcHo62AErxDVsL3v8iN1M=;
+ b=U1NIU0lHAAAAAQAAADMAAAALc3NoLWVkMjU1MTkAAAAgtYz36g7iDMSkY5K7Ab51ksGX7hJgs
+ MRt+XVZTrIzMVIAAAAGcGF0YXR0AAAAAAAAAAZzaGE1MTIAAABTAAAAC3NzaC1lZDI1NTE5AAAA
+ QA6HMXb6AcvScyaroNxvf09kaezolSYac8eDhIuiN5trPkSYzfw3XEI0evq+r2Qo8EazRmo9Nxx
+ L3cKAxGjjRAc=
+X-Developer-Key: i=tamird@gmail.com; a=openssh;
+ fpr=SHA256:264rPmnnrb+ERkS7DDS3tuwqcJss/zevJRzoylqMsbc
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -124,58 +107,45 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, Jul 4, 2025 at 9:00=E2=80=AFAM Benno Lossin <lossin@kernel.org> wro=
-te:
->
-> On Tue Jul 1, 2025 at 6:49 PM CEST, Tamir Duberstein wrote:
-> > `kernel::ffi::CStr` was introduced in commit d126d2380131 ("rust: str:
-> > add `CStr` type") in November 2022 as an upstreaming of earlier work
-> > that was done in May 2021[0]. That earlier work, having predated the
-> > inclusion of `CStr` in `core`, largely duplicated the implementation of
-> > `std::ffi::CStr`.
-> >
-> > `std::ffi::CStr` was moved to `core::ffi::CStr` in Rust 1.64 in
-> > September 2022. Hence replace `kernel::str::CStr` with `core::ffi::CStr=
-`
-> > to reduce our custom code footprint, and retain needed custom
-> > functionality through an extension trait.
-> >
-> > C-String literals were added in Rust 1.77, while our MSRV is 1.78. Thus
-> > opportunistically replace instances of `kernel::c_str!` with C-String
-> > literals where other code changes were already necessary or where
-> > existing code triggered clippy lints; the rest will be done in a later
-> > commit.
-> >
-> > Link: https://github.com/Rust-for-Linux/linux/commit/faa3cbcca03d0dec8f=
-8e43f1d8d5c0860d98a23f [0]
-> > Acked-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-> > Reviewed-by: Alice Ryhl <aliceryhl@google.com>
-> > Signed-off-by: Tamir Duberstein <tamird@gmail.com>
-> > ---
-> >  drivers/gpu/drm/drm_panic_qr.rs |   2 +-
-> >  rust/kernel/auxiliary.rs        |   4 +-
-> >  rust/kernel/configfs.rs         |   4 +-
-> >  rust/kernel/cpufreq.rs          |   2 +-
-> >  rust/kernel/device.rs           |   4 +-
-> >  rust/kernel/drm/device.rs       |   4 +-
-> >  rust/kernel/error.rs            |   4 +-
-> >  rust/kernel/firmware.rs         |  11 +-
-> >  rust/kernel/kunit.rs            |   6 +-
-> >  rust/kernel/miscdevice.rs       |   2 +-
-> >  rust/kernel/net/phy.rs          |   2 +-
-> >  rust/kernel/of.rs               |   2 +-
-> >  rust/kernel/prelude.rs          |   5 +-
-> >  rust/kernel/seq_file.rs         |   4 +-
-> >  rust/kernel/str.rs              | 394 +++++++++++---------------------=
---------
-> >  rust/kernel/sync/condvar.rs     |   2 +-
-> >  rust/kernel/sync/lock.rs        |   2 +-
-> >  rust/kernel/sync/lock/global.rs |   2 +-
-> >  samples/rust/rust_configfs.rs   |   2 +-
-> >  19 files changed, 140 insertions(+), 318 deletions(-)
->
-> Is it also possible to split this? First rename the existing functions
-> on our CStr to match upstream & then you don't need to do the rename &
-> removal of our CStr in the same patch?
+`kernel::str::CStr` is included in the prelude.
 
-Yes.
+Signed-off-by: Tamir Duberstein <tamird@gmail.com>
+---
+ drivers/gpu/drm/drm_panic_qr.rs | 2 +-
+ rust/kernel/drm/driver.rs       | 1 -
+ 2 files changed, 1 insertion(+), 2 deletions(-)
+
+diff --git a/drivers/gpu/drm/drm_panic_qr.rs b/drivers/gpu/drm/drm_panic_qr.rs
+index 6b59d19ab631..09a9b452e8b7 100644
+--- a/drivers/gpu/drm/drm_panic_qr.rs
++++ b/drivers/gpu/drm/drm_panic_qr.rs
+@@ -27,7 +27,7 @@
+ //! * <https://github.com/erwanvivien/fast_qr>
+ //! * <https://github.com/bjguillot/qr>
+ 
+-use kernel::{prelude::*, str::CStr};
++use kernel::prelude::*;
+ 
+ #[derive(Debug, Clone, Copy, PartialEq, Eq, Ord, PartialOrd)]
+ struct Version(usize);
+diff --git a/rust/kernel/drm/driver.rs b/rust/kernel/drm/driver.rs
+index acb638086131..af93d46d03d3 100644
+--- a/rust/kernel/drm/driver.rs
++++ b/rust/kernel/drm/driver.rs
+@@ -10,7 +10,6 @@
+     drm,
+     error::{to_result, Result},
+     prelude::*,
+-    str::CStr,
+     types::ARef,
+ };
+ use macros::vtable;
+
+---
+base-commit: 769e324b66b0d92d04f315d0c45a0f72737c7494
+change-id: 20250704-cstr-include-drm-d4fa407b3eb8
+
+Best regards,
+--  
+Tamir Duberstein <tamird@gmail.com>
+
