@@ -2,63 +2,54 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 31DF4AF9AE2
-	for <lists+dri-devel@lfdr.de>; Fri,  4 Jul 2025 20:49:19 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id F23D4AF9AE6
+	for <lists+dri-devel@lfdr.de>; Fri,  4 Jul 2025 20:50:00 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 915BC10E36E;
-	Fri,  4 Jul 2025 18:49:17 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4002E10EA49;
+	Fri,  4 Jul 2025 18:49:59 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="IaxU07/J";
+	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=igalia.com header.i=@igalia.com header.b="XWURf2Eg";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.17])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 570A910E36E
- for <dri-devel@lists.freedesktop.org>; Fri,  4 Jul 2025 18:49:16 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1751654956; x=1783190956;
- h=date:from:to:cc:subject:message-id:references:
- mime-version:content-transfer-encoding:in-reply-to;
- bh=J9EQTPgtZAkbyKrP7A7mUG1ocGbnw/61oiNBNTbXCyk=;
- b=IaxU07/JnRkQBb2f+geI7TpM4/hbaNzD38AELqTO1Aga34nSKkCylVc7
- B1ClviwdENFMAfblLfQxj8y7LKeKkJOZcCjE7NT319yrsG/xT2WPvDbMt
- qDp8Xi0tTRnYn0/AqulMhT7Rlf69ZzPhL8172/HZ7S9AiVKVvNnJpIK5+
- EXgieQgIe0I2bYNc2+vdIMryN+fNdbe/muWtiQobeKOlr4DXlEBA/oKKw
- v14l2k7l5IPrccShqdRIaY6ECnPDVJcwtQM8KOVNsRRnknIR0y4AoVjPl
- 29Ar2KPbllPZUaj76SlDMpjH14kWed/KAr87ewKerQzbID7/vUtqbim31 w==;
-X-CSE-ConnectionGUID: F4kN/xH3SVG/gCf3idmAhg==
-X-CSE-MsgGUID: I0MkJMxZQDKGLWEiKrfP3A==
-X-IronPort-AV: E=McAfee;i="6800,10657,11484"; a="53911561"
-X-IronPort-AV: E=Sophos;i="6.16,288,1744095600"; d="scan'208";a="53911561"
-Received: from fmviesa002.fm.intel.com ([10.60.135.142])
- by fmvoesa111.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 04 Jul 2025 11:49:16 -0700
-X-CSE-ConnectionGUID: Z6mKSEV4SRKUf1qDC9tUWw==
-X-CSE-MsgGUID: VCg8jltGQDeSFGNzkygrdA==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.16,288,1744095600"; d="scan'208";a="178363162"
-Received: from black.fi.intel.com ([10.237.72.28])
- by fmviesa002.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 04 Jul 2025 11:49:13 -0700
-Date: Fri, 4 Jul 2025 21:49:10 +0300
-From: Raag Jadav <raag.jadav@intel.com>
-To: =?iso-8859-1?Q?Andr=E9?= Almeida <andrealmeid@igalia.com>
+Received: from fanzine2.igalia.com (fanzine2.igalia.com [213.97.179.56])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C2BC510EA49
+ for <dri-devel@lists.freedesktop.org>; Fri,  4 Jul 2025 18:49:57 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com; 
+ s=20170329;
+ h=Content-Transfer-Encoding:Content-Type:In-Reply-To:From:
+ References:Cc:To:Subject:MIME-Version:Date:Message-ID:Sender:Reply-To:
+ Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
+ Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
+ List-Subscribe:List-Post:List-Owner:List-Archive;
+ bh=42XmKWmkZOBKqoppcAX7MLfKR1swd4WMG7QYpGY8LJo=; b=XWURf2EgT9RSMDqbX8m/Z6/qED
+ AdAugS5J7nUAbyOKXGydPF9fipN9BGzfd3Oow+ZiOORFvIhblkdS88FshK7SB3AmBpje2spU1eOBx
+ zoq3PKbVaUg2bv4plPwQCJdcGaZnNMtMAHk3oXHD/jePYGa5E6ka+kchbi0n8GAc+upoT6bffjDzI
+ qKsgXprvqt9Jtv1JCKvYi1aLKblqsiP7NLQzo0soT3Q2reI0BXMz9ZUfFKVa5bUHtUjwhEF7/9i0f
+ JvKXEUPPI7HQRWKo7rUcS6i9IxwpB9NAtk17EfdK3gglzsIUJFRvzqkWaLoyh+VMAN71BhYxMyGeC
+ IVi3M9nQ==;
+Received: from [179.100.5.63] (helo=[192.168.15.100])
+ by fanzine2.igalia.com with esmtpsa 
+ (Cipher TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_128_GCM:128) (Exim)
+ id 1uXlTi-00CXk3-Hi; Fri, 04 Jul 2025 20:49:42 +0200
+Message-ID: <73a84621-400e-41f8-b3a3-96499fc3320b@igalia.com>
+Date: Fri, 4 Jul 2025 15:49:36 -0300
+MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v3 1/3] drm/doc: Fix title underline for "Task information"
+To: Raag Jadav <raag.jadav@intel.com>
 Cc: Stephen Rothwell <sfr@canb.auug.org.au>,
- Linux Next Mailing List <linux-next@vger.kernel.org>,
- airlied@gmail.com, simona@ffwll.ch,
- Krzysztof Karas <krzysztof.karas@intel.com>,
+ Linux Next Mailing List <linux-next@vger.kernel.org>, airlied@gmail.com,
+ simona@ffwll.ch, Krzysztof Karas <krzysztof.karas@intel.com>,
  dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
  kernel-dev@igalia.com
-Subject: Re: [PATCH v3 3/3] drm/doc: Fix grammar for "Task information"
-Message-ID: <aGgiJgn2S4e93KU6@black.fi.intel.com>
 References: <20250627171715.438304-1-andrealmeid@igalia.com>
- <20250627171715.438304-3-andrealmeid@igalia.com>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
+ <aGggPuSCEK_opydS@black.fi.intel.com>
+Content-Language: en-US
+From: =?UTF-8?Q?Andr=C3=A9_Almeida?= <andrealmeid@igalia.com>
+In-Reply-To: <aGggPuSCEK_opydS@black.fi.intel.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <20250627171715.438304-3-andrealmeid@igalia.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -74,9 +65,50 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, Jun 27, 2025 at 02:17:15PM -0300, André Almeida wrote:
-> Remove the repetitive wording at the end of "Task information" section.
+Em 04/07/2025 15:41, Raag Jadav escreveu:
+> On Fri, Jun 27, 2025 at 02:17:13PM -0300, AndrÃ© Almeida wrote:
+>> Fix the following warning:
+>>
+>> Documentation/gpu/drm-uapi.rst:450: WARNING: Title underline too short.
+>>
+>> Task information
+>> --------------- [docutils]
+>>
+>> Fixes: cd37124b4093 ("drm/doc: Add a section about "Task information" for the wedge API")
+>> Reported-by: Stephen Rothwell <sfr@canb.auug.org.au>
+>> Signed-off-by: AndrÃ© Almeida <andrealmeid@igalia.com>
+>> ---
+>> v2: Add Reported-by tag
+>> ---
+>>   Documentation/gpu/drm-uapi.rst | 4 ++--
+>>   1 file changed, 2 insertions(+), 2 deletions(-)
+>>
+>> diff --git a/Documentation/gpu/drm-uapi.rst b/Documentation/gpu/drm-uapi.rst
+>> index 263e5a97c080..10dea6a1f097 100644
+>> --- a/Documentation/gpu/drm-uapi.rst
+>> +++ b/Documentation/gpu/drm-uapi.rst
+>> @@ -447,7 +447,7 @@ hang is usually the most critical one which can result in consequential hangs or
+>>   complete wedging.
+>>   
+>>   Task information
+>> ----------------
+>> +----------------
+>>   
+>>   The information about which application (if any) was involved in the device
+>>   wedging is useful for userspace if they want to notify the user about what
+>> @@ -728,4 +728,4 @@ Stable uAPI events
+>>   From ``drivers/gpu/drm/scheduler/gpu_scheduler_trace.h``
+>>   
+>>   .. kernel-doc::  drivers/gpu/drm/scheduler/gpu_scheduler_trace.h
+>> -   :doc: uAPI trace events
+>> \ No newline at end of file
+>> +   :doc: uAPI trace events
 > 
-> Signed-off-by: André Almeida <andrealmeid@igalia.com>
+> Unrelated change. Someone with a different editor added this and now
+> your editor disagrees with it.
+> 
+> Switching to binary mode usually fixes the issue.
+> 
+> Raag
 
-Reviewed-by: Raag Jadav <raag.jadav@intel.com>
+After fixing that, can I add your Reviewed-by:?
