@@ -2,138 +2,108 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 56607AF8BC7
-	for <lists+dri-devel@lfdr.de>; Fri,  4 Jul 2025 10:33:39 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id C5895AF8BF3
+	for <lists+dri-devel@lfdr.de>; Fri,  4 Jul 2025 10:37:38 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id EB90210E981;
-	Fri,  4 Jul 2025 08:33:35 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1CA7610E987;
+	Fri,  4 Jul 2025 08:37:36 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=suse.de header.i=@suse.de header.b="BMu11a/A";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="d0/71qpe";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="feLox8AO";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="SnWJdn9V";
+	dkim=pass (2048-bit key; unprotected) header.d=qualcomm.com header.i=@qualcomm.com header.b="RwmFv/Vr";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E049510E981
- for <dri-devel@lists.freedesktop.org>; Fri,  4 Jul 2025 08:33:34 +0000 (UTC)
-Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
- (No client certificate requested)
- by smtp-out2.suse.de (Postfix) with ESMTPS id 04F4B1F38A;
- Fri,  4 Jul 2025 08:33:32 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1751618013; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=Oq5M/ptnZLMJczsHINhGjNn6mukAceeD1v2DY+Bk5Ls=;
- b=BMu11a/AGWivWw71Vh18MsvBDxk+lGfeEgJhqVNp4RyDfiOp/+pZczBN0ZeIZy65mrrwLx
- WWeQmbo9EqB6IfSqLxi2+2xDSACVnJneH9vHxZREGfA7D1lFTcX+7xLM2WrqdZsZkfVAk3
- bnqwANqTMN2Dv/h8BmwQ3miWMlN5IK8=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1751618013;
- h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=Oq5M/ptnZLMJczsHINhGjNn6mukAceeD1v2DY+Bk5Ls=;
- b=d0/71qpeVhbE6nsXHgrC+gqUe8v7qwuupW2jfbINDErsFfBKnvysy/P4hQLjFpfFiSzjRX
- p+MyYmW77GKpu6BA==
-Authentication-Results: smtp-out2.suse.de;
-	none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1751618012; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=Oq5M/ptnZLMJczsHINhGjNn6mukAceeD1v2DY+Bk5Ls=;
- b=feLox8AOJ5HAm0ObnToGDdlOW8M8aLOH/KwTwhpBnmmyUm118p6Vcv2UDlnDMMt77udme2
- bNl6zdtAhzoFxzvPn8yLJ4f9gtJe3vO5CBhvHqlzYptzotC+lGAngkWw6k7brgFCATK4Mq
- brP4k9L3hYfMM767Quc8cZ5HTGirG4Y=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1751618012;
- h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=Oq5M/ptnZLMJczsHINhGjNn6mukAceeD1v2DY+Bk5Ls=;
- b=SnWJdn9VAfJA4C5YkPw1E6jfCogXQsDQKEDRNLc3hzCcv4y5Yhb7tYDaOJzyN/hhy+gnQp
- CN1o8NIhe26WwNDw==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
- (No client certificate requested)
- by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id B11AB13A71;
- Fri,  4 Jul 2025 08:33:31 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
- by imap1.dmz-prg2.suse.org with ESMTPSA id 6irqKduRZ2i8FAAAD6G6ig
- (envelope-from <tzimmermann@suse.de>); Fri, 04 Jul 2025 08:33:31 +0000
-Message-ID: <a2dad7b6-3798-4f01-a05b-e0cc72bda100@suse.de>
-Date: Fri, 4 Jul 2025 10:33:31 +0200
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com
+ [205.220.168.131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1CCDE10E987
+ for <dri-devel@lists.freedesktop.org>; Fri,  4 Jul 2025 08:37:34 +0000 (UTC)
+Received: from pps.filterd (m0279867.ppops.net [127.0.0.1])
+ by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 56472PuS032116
+ for <dri-devel@lists.freedesktop.org>; Fri, 4 Jul 2025 08:37:33 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
+ cc:content-transfer-encoding:date:from:message-id:mime-version
+ :subject:to; s=qcppdkim1; bh=9mrH41Ue8HyV4g5LafeSKPRlgP+xtMSl2/W
+ 8spQJ1nw=; b=RwmFv/VrOxDWn/9MRZIwYu2i7s7JbsPFrYfxgkX483a2R4uF6m5
+ dfpHEwoCR4SR68gRSkioB/IKfp4DebLK9N6/mZACFJ+VkTrxxXSrOocH1n2s32ya
+ 87/Fy6x4UJQl1P3XCXODeCtRYzwAYeqiRqqZOhSPMSSx9Zk1FqeT7rnIk6d7Qu2T
+ Tx3leLTalQ4tZCA0ueqyZD8bjV7U/wN7Wbi1Al4ibzvIeuqssUIfW/ShusNnmATv
+ JybGjLkhOMXBx4dpRx3zwCXP2UPtI1voJtpT0pngxMwQdI6ibfcXTV0S4cse8jbX
+ 3AiuZJLv/eIg+T9x718xyfRdnlxHwx9u0dA==
+Received: from mail-pf1-f200.google.com (mail-pf1-f200.google.com
+ [209.85.210.200])
+ by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 47j63kkfvp-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
+ for <dri-devel@lists.freedesktop.org>; Fri, 04 Jul 2025 08:37:33 +0000 (GMT)
+Received: by mail-pf1-f200.google.com with SMTP id
+ d2e1a72fcca58-740774348f6so712103b3a.1
+ for <dri-devel@lists.freedesktop.org>; Fri, 04 Jul 2025 01:37:33 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1751618252; x=1752223052;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=9mrH41Ue8HyV4g5LafeSKPRlgP+xtMSl2/W8spQJ1nw=;
+ b=btcZJDMFyBmmpe13OgCpK9cRmSeT6OrkCWPii2Sek4b3cJg8zRkdrb9uCM0SkVYrZH
+ JuJTT3LVbXvV9vNReR7nmukZt+rTIqUuHcilGm5uOYswfFN1uZMgX3K9rhBfj5/RuRxH
+ V9lPg1/LlV5nKhqM93jtZBsqYcrqam+/EDZzRh4TWu7tlD9yhM5ojxUoptFSDghsJubB
+ sjBzCpJ8TwTifJPMV31CVuPfDwLU7xgbWvaU0sOfh7wHyTMg79OxtxsDvhXSYE2azGQk
+ sE1LTTPp9OWZG6eUzWAW6fDjY1qtTapa9EWlX3uG1mZk8F0tZyT1l9XqQt7p7KaoqKGi
+ 2d5A==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCUkkMR/5WPQTR3bEzRPdsZES0HAcDaxT1TMH8J6HHyCF0HN/+wqsZs9d5GR6sW7UVrEMqrS6i9r104=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YyzxWp0bobbdFMOdkyRywJbFa3rSdhRpozs1bTasgyqAZkzz3ur
+ RPKs1actEQRMiWGUGW4rXjLZxZp4pSl47WEEEe4gTy4G+00D0HNp1MdY5yZ7so3SLr/0v1/3X1k
+ +WkLXFb2yzBUpTQYsqLVxKaYbKDWuRHFKnQomjzIlLSG8nluLQRDWVRR505PYX9ujMwZS5fY=
+X-Gm-Gg: ASbGncvWTn4elh+eQ8OkyXb9CWfpfvAQQB1YmpxBSvr3BqQYqKOeoET8NkGGfG0NSaG
+ leAXkb2uph5pmR4s6D60M3pVg60K+1QiYDvDPj2MIS2CdJsylhwKrI1rlsA4wO5FeLQMDMnx5E/
+ fZ7ldjCbTzg2I8R/5e27yA5JMJUVjtQit0yQ6PmpCLFlIi32h8NT7AW4uaV2Zhoyx4xuXlEseMf
+ EB36K87UzXs4jYJObBBsI6zBe7dkDKSuQ4pTPd6/6KCm29scdgJi9oZ4EtbHJHYb739FPCoo5kT
+ T/WZBJNK5frg8r3xhWMNE5cOmvqJDa6RnikrQWbQFK175QFTbkddpfU=
+X-Received: by 2002:a05:6a20:729a:b0:201:2834:6c62 with SMTP id
+ adf61e73a8af0-225c07dfa94mr3176305637.25.1751618252189; 
+ Fri, 04 Jul 2025 01:37:32 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IG0wtR64pukP0DCbAn0UqUe6kuH+yno3K+Yfn3NeYIHerc5XDeRwKrBM9aqYfHqvE/NWPkUHQ==
+X-Received: by 2002:a05:6a20:729a:b0:201:2834:6c62 with SMTP id
+ adf61e73a8af0-225c07dfa94mr3176276637.25.1751618251747; 
+ Fri, 04 Jul 2025 01:37:31 -0700 (PDT)
+Received: from hu-ekangupt-hyd.qualcomm.com ([202.46.23.25])
+ by smtp.gmail.com with ESMTPSA id
+ 41be03b00d2f7-b38f060165csm1281630a12.10.2025.07.04.01.37.28
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Fri, 04 Jul 2025 01:37:31 -0700 (PDT)
+From: Ekansh Gupta <ekansh.gupta@oss.qualcomm.com>
+To: srini@kernel.org, linux-arm-msm@vger.kernel.org
+Cc: gregkh@linuxfoundation.org, quic_bkumar@quicinc.com,
+ linux-kernel@vger.kernel.org, quic_chennak@quicinc.com,
+ dri-devel@lists.freedesktop.org, arnd@arndb.de,
+ dmitry.baryshkov@oss.qualcomm.com
+Subject: [PATCH v1] misc: fastrpc: Add support for userspace allocated buffers
+Date: Fri,  4 Jul 2025 14:07:26 +0530
+Message-Id: <20250704083726.1901705-1-ekansh.gupta@oss.qualcomm.com>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: Warnings in next-20250703 caused by commit 582111e630f5
-To: Bert Karwatzki <spasswolf@web.de>
-Cc: linux-kernel@vger.kernel.org, linux-next@vger.kernel.org,
- Anusha Srivatsa <asrivats@redhat.com>,
- =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, Sumit Semwal <sumit.semwal@linaro.org>,
- linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org,
- stable@vger.kernel.org
-References: <20250703115915.3096-1-spasswolf@web.de>
- <75abf5c1-aa1a-4405-aae4-a2efccbc3bcb@suse.de>
- <7a56d95dc2b15fa2dac0c8a4dd20f0e253bf414f.camel@web.de>
- <c17428b3-6f04-4eb7-9140-92c7f27eae4f@suse.de>
- <7be4f337df6f882ac53a47db851ae92d7a2d1dc0.camel@web.de>
-Content-Language: en-US
-From: Thomas Zimmermann <tzimmermann@suse.de>
-Autocrypt: addr=tzimmermann@suse.de; keydata=
- xsBNBFs50uABCADEHPidWt974CaxBVbrIBwqcq/WURinJ3+2WlIrKWspiP83vfZKaXhFYsdg
- XH47fDVbPPj+d6tQrw5lPQCyqjwrCPYnq3WlIBnGPJ4/jreTL6V+qfKRDlGLWFjZcsrPJGE0
- BeB5BbqP5erN1qylK9i3gPoQjXGhpBpQYwRrEyQyjuvk+Ev0K1Jc5tVDeJAuau3TGNgah4Yc
- hdHm3bkPjz9EErV85RwvImQ1dptvx6s7xzwXTgGAsaYZsL8WCwDaTuqFa1d1jjlaxg6+tZsB
- 9GluwvIhSezPgnEmimZDkGnZRRSFiGP8yjqTjjWuf0bSj5rUnTGiyLyRZRNGcXmu6hjlABEB
- AAHNJ1Rob21hcyBaaW1tZXJtYW5uIDx0emltbWVybWFubkBzdXNlLmRlPsLAjgQTAQgAOAIb
- AwULCQgHAgYVCgkICwIEFgIDAQIeAQIXgBYhBHIX+6yM6c9jRKFo5WgNwR1TC3ojBQJftODH
- AAoJEGgNwR1TC3ojx1wH/0hKGWugiqDgLNXLRD/4TfHBEKmxIrmfu9Z5t7vwUKfwhFL6hqvo
- lXPJJKQpQ2z8+X2vZm/slsLn7J1yjrOsoJhKABDi+3QWWSGkaGwRJAdPVVyJMfJRNNNIKwVb
- U6B1BkX2XDKDGffF4TxlOpSQzdtNI/9gleOoUA8+jy8knnDYzjBNOZqLG2FuTdicBXblz0Mf
- vg41gd9kCwYXDnD91rJU8tzylXv03E75NCaTxTM+FBXPmsAVYQ4GYhhgFt8S2UWMoaaABLDe
- 7l5FdnLdDEcbmd8uLU2CaG4W2cLrUaI4jz2XbkcPQkqTQ3EB67hYkjiEE6Zy3ggOitiQGcqp
- j//OwE0EWznS4AEIAMYmP4M/V+T5RY5at/g7rUdNsLhWv1APYrh9RQefODYHrNRHUE9eosYb
- T6XMryR9hT8XlGOYRwKWwiQBoWSDiTMo/Xi29jUnn4BXfI2px2DTXwc22LKtLAgTRjP+qbU6
- 3Y0xnQN29UGDbYgyyK51DW3H0If2a3JNsheAAK+Xc9baj0LGIc8T9uiEWHBnCH+RdhgATnWW
- GKdDegUR5BkDfDg5O/FISymJBHx2Dyoklv5g4BzkgqTqwmaYzsl8UxZKvbaxq0zbehDda8lv
- hFXodNFMAgTLJlLuDYOGLK2AwbrS3Sp0AEbkpdJBb44qVlGm5bApZouHeJ/+n+7r12+lqdsA
- EQEAAcLAdgQYAQgAIAIbDBYhBHIX+6yM6c9jRKFo5WgNwR1TC3ojBQJftOH6AAoJEGgNwR1T
- C3ojVSkIALpAPkIJPQoURPb1VWjh34l0HlglmYHvZszJWTXYwavHR8+k6Baa6H7ufXNQtThR
- yIxJrQLW6rV5lm7TjhffEhxVCn37+cg0zZ3j7zIsSS0rx/aMwi6VhFJA5hfn3T0TtrijKP4A
- SAQO9xD1Zk9/61JWk8OysuIh7MXkl0fxbRKWE93XeQBhIJHQfnc+YBLprdnxR446Sh8Wn/2D
- Ya8cavuWf2zrB6cZurs048xe0UbSW5AOSo4V9M0jzYI4nZqTmPxYyXbm30Kvmz0rYVRaitYJ
- 4kyYYMhuULvrJDMjZRvaNe52tkKAvMevcGdt38H4KSVXAylqyQOW5zvPc4/sq9c=
-In-Reply-To: <7be4f337df6f882ac53a47db851ae92d7a2d1dc0.camel@web.de>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Spamd-Result: default: False [-4.30 / 50.00]; BAYES_HAM(-3.00)[100.00%];
- NEURAL_HAM_LONG(-1.00)[-1.000];
- NEURAL_HAM_SHORT(-0.20)[-0.999]; MIME_GOOD(-0.10)[text/plain];
- FUZZY_RATELIMITED(0.00)[rspamd.com];
- TO_MATCH_ENVRCPT_ALL(0.00)[]; ARC_NA(0.00)[];
- DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
- MIME_TRACE(0.00)[0:+]; FREEMAIL_TO(0.00)[web.de];
- RCVD_TLS_ALL(0.00)[]; FREEMAIL_ENVRCPT(0.00)[web.de];
- RCVD_VIA_SMTP_AUTH(0.00)[]; FROM_EQ_ENVFROM(0.00)[];
- FROM_HAS_DN(0.00)[]; TO_DN_SOME(0.00)[];
- RCVD_COUNT_TWO(0.00)[2]; RCPT_COUNT_SEVEN(0.00)[11];
- MID_RHS_MATCH_FROM(0.00)[];
- DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:helo,suse.de:mid]
-X-Spam-Flag: NO
-X-Spam-Level: 
-X-Spam-Score: -4.30
+Content-Transfer-Encoding: 8bit
+X-Authority-Analysis: v=2.4 cv=ZKfXmW7b c=1 sm=1 tr=0 ts=686792cd cx=c_pps
+ a=mDZGXZTwRPZaeRUbqKGCBw==:117 a=ZePRamnt/+rB5gQjfz0u9A==:17
+ a=Wb1JkmetP80A:10 a=EUspDBNiAAAA:8 a=cATS2htxDwLtVxRmqX8A:9
+ a=zc0IvFSfCIW2DFIPzwfm:22
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwNzA0MDA2NiBTYWx0ZWRfX+f+vkg7+1vFG
+ 1/iTPWyMvZN3ZJU8By//o8+QNIyoI15SOCiGE1/zmc70lB6d/PsrU6tVvAdOw8ire51hUduBEM4
+ 3+9r6emhiTqZQY8Fg6mZvduFDCHWxtMXsjz/CnMHoC7M6Czf7ziozPM488V3D5TK6nhlFGH/9yp
+ 8f5ADW/PNIw505XFPOcLtI+JLmy4kvqYAsQiW5dLKxjnPJHt1qbEO5sWgHOx4hQ4OOprr804AzG
+ csFMTyekdPWiD7Z1rTYaa6Hvbd0zOhG0J2Yc9CQxrjsBouJXVEkMFXhJDiuJzBbUESW7NDVYtSs
+ ZIwYsMcIaG7U3gi42lez0Qd/NYmV2LdVFgxFDrByYODWfi2+4HU9AobFMBaEnhdFBFRlQg/qCT/
+ 3HbUzCLXgx1aOZqMAej0nYNYnuL/ckZJtiRaNIytkNAnNMSdBYk7c8yiKe87cewNCwOUU00I
+X-Proofpoint-ORIG-GUID: 6a5geRyOH-0LJVkxhlY6S5FnGynyb8xh
+X-Proofpoint-GUID: 6a5geRyOH-0LJVkxhlY6S5FnGynyb8xh
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1099,Hydra:6.1.7,FMLib:17.12.80.40
+ definitions=2025-07-04_03,2025-07-02_04,2025-03-28_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ adultscore=0 mlxscore=0 mlxlogscore=999 spamscore=0 suspectscore=0
+ bulkscore=0 priorityscore=1501 lowpriorityscore=0 phishscore=0
+ impostorscore=0 malwarescore=0 clxscore=1015 classifier=spam authscore=0
+ authtc=n/a authcc= route=outbound adjust=0 reason=mlx scancount=1
+ engine=8.19.0-2505280000 definitions=main-2507040066
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -149,70 +119,285 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi
+Support mapping userspace allocated buffers. If userspace allocates a
+buffer using rpcmem or DMABUF and sends it via a map request, fastrpc
+will map it to SMMU and DSP. Add support for both map and unmap
+requests.
 
-Am 04.07.25 um 10:21 schrieb Bert Karwatzki:
-> Am Freitag, dem 04.07.2025 um 09:51 +0200 schrieb Thomas Zimmermann:
->> Hi
->>
->> Am 03.07.25 um 19:23 schrieb Bert Karwatzki:
->>> Am Donnerstag, dem 03.07.2025 um 18:09 +0200 schrieb Thomas Zimmermann:
->>>> Hi,
->>>>
->>>> before I give up on the issue, could you please test the attached patch?
->>>>
->>>> Best regards
->>>> Thomas
->>>>
->>>>
->>>> --
->>>> Thomas Zimmermann
->>>> Graphics Driver Developer
->>>> SUSE Software Solutions Germany GmbH
->>>> Frankenstrasse 146, 90461 Nuernberg, Germany
->>>> GF: Ivo Totev, Andrew Myers, Andrew McDonald, Boudien Moerman
->>>> HRB 36809 (AG Nuernberg)
->>> I applied the patch on top of next-20250703
->>>
->>> $ git log --oneline
->>> 18ee3ed3cb60 (HEAD -> drm_gem_object_handle_put) drm/amdgpu: Provide custom framebuffer destroy function
->>> 8d6c58332c7a (tag: next-20250703, origin/master, origin/HEAD, master) Add linux-next specific files for 20250703
->>>
->>> and it solves the issue for me (i.e. no warnings).
->> Great, thanks for testing. If nothing else, that's the minimal workaround.
->>
->> Here's another patch, which should solve the problem for all drivers.
->> Could you please revert the old fix and apply the new one and test again?
->>
->> Best regards
->> Thomas
->>
->>
->>> Bert Karwatzki
-> Applied your patch after reverting:
->
-> $ git log --oneline
-> f4e557e3ae37 (HEAD -> drm_gem_object_handle_put) drm/framebuffer: Acquire internal references on GEM handles
-> 49f9aa27dc15 Revert "drm/amdgpu: Provide custom framebuffer destroy function"
-> 18ee3ed3cb60 drm/amdgpu: Provide custom framebuffer destroy function
-> 8d6c58332c7a (tag: next-20250703, origin/master, origin/HEAD, master) Add linux-next specific files for 20250703
->
-> again everything works without warning.
+Signed-off-by: Ekansh Gupta <ekansh.gupta@oss.qualcomm.com>
+---
+ drivers/misc/fastrpc.c | 188 ++++++++++++++++++++++++++++++++---------
+ 1 file changed, 150 insertions(+), 38 deletions(-)
 
-Thanks again. I'll submit this patch for review then.
-
-Best regards
-Thomas
-
->
-> Bert Karwatzki
-
+diff --git a/drivers/misc/fastrpc.c b/drivers/misc/fastrpc.c
+index 378923594f02..3c88c8e9ba51 100644
+--- a/drivers/misc/fastrpc.c
++++ b/drivers/misc/fastrpc.c
+@@ -1797,17 +1797,16 @@ static int fastrpc_get_dsp_info(struct fastrpc_user *fl, char __user *argp)
+ 	return 0;
+ }
+ 
+-static int fastrpc_req_munmap_impl(struct fastrpc_user *fl, struct fastrpc_buf *buf)
++static int fastrpc_req_munmap_dsp(struct fastrpc_user *fl, uintptr_t raddr, u64 size)
+ {
+ 	struct fastrpc_invoke_args args[1] = { [0] = { 0 } };
+ 	struct fastrpc_munmap_req_msg req_msg;
+-	struct device *dev = fl->sctx->dev;
+ 	int err;
+ 	u32 sc;
+ 
+ 	req_msg.client_id = fl->client_id;
+-	req_msg.size = buf->size;
+-	req_msg.vaddr = buf->raddr;
++	req_msg.size = size;
++	req_msg.vaddr = raddr;
+ 
+ 	args[0].ptr = (u64) (uintptr_t) &req_msg;
+ 	args[0].length = sizeof(req_msg);
+@@ -1815,6 +1814,16 @@ static int fastrpc_req_munmap_impl(struct fastrpc_user *fl, struct fastrpc_buf *
+ 	sc = FASTRPC_SCALARS(FASTRPC_RMID_INIT_MUNMAP, 1, 0);
+ 	err = fastrpc_internal_invoke(fl, true, FASTRPC_INIT_HANDLE, sc,
+ 				      &args[0]);
++
++	return err;
++}
++
++static int fastrpc_req_munmap_impl(struct fastrpc_user *fl, struct fastrpc_buf *buf)
++{
++	struct device *dev = fl->sctx->dev;
++	int err;
++
++	err = fastrpc_req_munmap_dsp(fl, buf->raddr, buf->size);
+ 	if (!err) {
+ 		dev_dbg(dev, "unmmap\tpt 0x%09lx OK\n", buf->raddr);
+ 		spin_lock(&fl->lock);
+@@ -1831,8 +1840,10 @@ static int fastrpc_req_munmap_impl(struct fastrpc_user *fl, struct fastrpc_buf *
+ static int fastrpc_req_munmap(struct fastrpc_user *fl, char __user *argp)
+ {
+ 	struct fastrpc_buf *buf = NULL, *iter, *b;
++	struct fastrpc_map *map = NULL, *iterm, *m;
+ 	struct fastrpc_req_munmap req;
+ 	struct device *dev = fl->sctx->dev;
++	int err;
+ 
+ 	if (copy_from_user(&req, argp, sizeof(req)))
+ 		return -EFAULT;
+@@ -1846,35 +1857,91 @@ static int fastrpc_req_munmap(struct fastrpc_user *fl, char __user *argp)
+ 	}
+ 	spin_unlock(&fl->lock);
+ 
+-	if (!buf) {
+-		dev_err(dev, "mmap\t\tpt 0x%09llx [len 0x%08llx] not in list\n",
++	if (buf) {
++		err = fastrpc_req_munmap_impl(fl, buf);
++		if (err) {
++			spin_lock(&fl->lock);
++			list_add_tail(&buf->node, &fl->mmaps);
++			spin_unlock(&fl->lock);
++		}
++		return err;
++	}
++
++	spin_lock(&fl->lock);
++	list_for_each_entry_safe(iterm, m, &fl->maps, node) {
++		if (iterm->raddr == req.vaddrout) {
++			map = iterm;
++			list_del(&iterm->node);
++			break;
++		}
++	}
++	spin_unlock(&fl->lock);
++	if (!map) {
++		dev_dbg(dev, "buffer/map not found addr 0x%09llx, len 0x%08llx\n",
+ 			req.vaddrout, req.size);
+ 		return -EINVAL;
+ 	}
+ 
+-	return fastrpc_req_munmap_impl(fl, buf);
++	err = fastrpc_req_munmap_dsp(fl, map->raddr, map->size);
++	if (err) {
++		dev_dbg(dev, "unmmap\tpt fd = %d, 0x%09llx error\n",  map->fd, map->raddr);
++		spin_lock(&fl->lock);
++		list_add_tail(&map->node, &fl->maps);
++		spin_unlock(&fl->lock);
++	} else {
++		fastrpc_map_put(map);
++	}
++	return err;
+ }
+ 
+-static int fastrpc_req_mmap(struct fastrpc_user *fl, char __user *argp)
++static int fastrpc_req_map_dsp(struct fastrpc_user *fl, u64 phys,
++			       u64 size, u32 flag, uintptr_t vaddrin,
++			       u64 *raddr)
+ {
+ 	struct fastrpc_invoke_args args[3] = { [0 ... 2] = { 0 } };
+-	struct fastrpc_buf *buf = NULL;
+ 	struct fastrpc_mmap_req_msg req_msg;
+ 	struct fastrpc_mmap_rsp_msg rsp_msg;
+ 	struct fastrpc_phy_page pages;
+-	struct fastrpc_req_mmap req;
+-	struct device *dev = fl->sctx->dev;
+ 	int err;
+ 	u32 sc;
+ 
+-	if (copy_from_user(&req, argp, sizeof(req)))
+-		return -EFAULT;
++	req_msg.client_id = fl->client_id;
++	req_msg.flags = flag;
++	req_msg.vaddr = vaddrin;
++	req_msg.num = sizeof(pages);
+ 
+-	if (req.flags != ADSP_MMAP_ADD_PAGES && req.flags != ADSP_MMAP_REMOTE_HEAP_ADDR) {
+-		dev_err(dev, "flag not supported 0x%x\n", req.flags);
++	args[0].ptr = (u64)(uintptr_t)&req_msg;
++	args[0].length = sizeof(req_msg);
+ 
+-		return -EINVAL;
++	pages.addr = phys;
++	pages.size = size;
++
++	args[1].ptr = (u64)(uintptr_t)&pages;
++	args[1].length = sizeof(pages);
++
++	args[2].ptr = (u64)(uintptr_t)&rsp_msg;
++	args[2].length = sizeof(rsp_msg);
++	sc = FASTRPC_SCALARS(FASTRPC_RMID_INIT_MMAP, 2, 1);
++	err = fastrpc_internal_invoke(fl, true, FASTRPC_INIT_HANDLE, sc,
++				      &args[0]);
++
++	if (err) {
++		dev_err(fl->sctx->dev, "mmap error (len 0x%08llx)\n", size);
++		return err;
+ 	}
++	*raddr = rsp_msg.vaddr;
++
++	return 0;
++}
++
++static int fastrpc_req_buf_alloc(struct fastrpc_user *fl,
++				 struct fastrpc_req_mmap req,
++				 char __user *argp)
++{
++	struct device *dev = fl->sctx->dev;
++	struct fastrpc_buf *buf = NULL;
++	u64 raddr = 0;
++	int err;
+ 
+ 	if (req.vaddrin) {
+ 		dev_err(dev, "adding user allocated pages is not supported\n");
+@@ -1891,26 +1958,8 @@ static int fastrpc_req_mmap(struct fastrpc_user *fl, char __user *argp)
+ 		return err;
+ 	}
+ 
+-	req_msg.client_id = fl->client_id;
+-	req_msg.flags = req.flags;
+-	req_msg.vaddr = req.vaddrin;
+-	req_msg.num = sizeof(pages);
+-
+-	args[0].ptr = (u64) (uintptr_t) &req_msg;
+-	args[0].length = sizeof(req_msg);
+-
+-	pages.addr = buf->phys;
+-	pages.size = buf->size;
+-
+-	args[1].ptr = (u64) (uintptr_t) &pages;
+-	args[1].length = sizeof(pages);
+-
+-	args[2].ptr = (u64) (uintptr_t) &rsp_msg;
+-	args[2].length = sizeof(rsp_msg);
+-
+-	sc = FASTRPC_SCALARS(FASTRPC_RMID_INIT_MMAP, 2, 1);
+-	err = fastrpc_internal_invoke(fl, true, FASTRPC_INIT_HANDLE, sc,
+-				      &args[0]);
++	err = fastrpc_req_map_dsp(fl, buf->phys, buf->size, req.flags,
++				  req.vaddrin, &raddr);
+ 	if (err) {
+ 		dev_err(dev, "mmap error (len 0x%08llx)\n", buf->size);
+ 		fastrpc_buf_free(buf);
+@@ -1918,10 +1967,10 @@ static int fastrpc_req_mmap(struct fastrpc_user *fl, char __user *argp)
+ 	}
+ 
+ 	/* update the buffer to be able to deallocate the memory on the DSP */
+-	buf->raddr = (uintptr_t) rsp_msg.vaddr;
++	buf->raddr = (uintptr_t)raddr;
+ 
+ 	/* let the client know the address to use */
+-	req.vaddrout = rsp_msg.vaddr;
++	req.vaddrout = raddr;
+ 
+ 	/* Add memory to static PD pool, protection thru hypervisor */
+ 	if (req.flags == ADSP_MMAP_REMOTE_HEAP_ADDR && fl->cctx->vmcount) {
+@@ -1956,6 +2005,69 @@ static int fastrpc_req_mmap(struct fastrpc_user *fl, char __user *argp)
+ 	return err;
+ }
+ 
++static int fastrpc_req_map_create(struct fastrpc_user *fl,
++				  struct fastrpc_req_mmap req,
++				  char __user *argp)
++{
++	struct fastrpc_map *map = NULL;
++	struct device *dev = fl->sctx->dev;
++	u64 raddr = 0;
++	int err;
++
++	err = fastrpc_map_create(fl, req.fd, req.size, 0, &map);
++	if (err) {
++		dev_err(dev, "failed to map buffer, fd = %d\n", req.fd);
++		return err;
++	}
++
++	err = fastrpc_req_map_dsp(fl, map->phys, map->size, req.flags,
++				  req.vaddrin, &raddr);
++	if (err)
++		goto err_invoke;
++
++	/* update the buffer to be able to deallocate the memory on the DSP */
++	map->raddr = (uintptr_t)raddr;
++
++	/* let the client know the address to use */
++	req.vaddrout = raddr;
++	dev_dbg(dev, "mmap\t\tpt 0x%09llx OK [len 0x%08llx]\n",
++		map->raddr, map->size);
++
++	if (copy_to_user((void __user *)argp, &req, sizeof(req))) {
++		err = -EFAULT;
++		goto err_copy;
++	}
++
++	return 0;
++err_copy:
++	fastrpc_req_munmap_dsp(fl, map->raddr, map->size);
++err_invoke:
++	fastrpc_map_put(map);
++
++	return err;
++}
++
++static int fastrpc_req_mmap(struct fastrpc_user *fl, char __user *argp)
++{
++	struct fastrpc_req_mmap req;
++	int err;
++
++	if (copy_from_user(&req, argp, sizeof(req)))
++		return -EFAULT;
++
++	if ((req.flags == ADSP_MMAP_ADD_PAGES ||
++	     req.flags == ADSP_MMAP_REMOTE_HEAP_ADDR)) {
++		err = fastrpc_req_buf_alloc(fl, req, argp);
++		if (err)
++			return err;
++	} else {
++		err = fastrpc_req_map_create(fl, req, argp);
++		if (err)
++			return err;
++	}
++	return 0;
++}
++
+ static int fastrpc_req_mem_unmap_impl(struct fastrpc_user *fl, struct fastrpc_mem_unmap *req)
+ {
+ 	struct fastrpc_invoke_args args[1] = { [0] = { 0 } };
 -- 
---
-Thomas Zimmermann
-Graphics Driver Developer
-SUSE Software Solutions Germany GmbH
-Frankenstrasse 146, 90461 Nuernberg, Germany
-GF: Ivo Totev, Andrew Myers, Andrew McDonald, Boudien Moerman
-HRB 36809 (AG Nuernberg)
+2.34.1
 
