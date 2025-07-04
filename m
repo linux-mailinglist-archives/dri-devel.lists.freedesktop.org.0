@@ -2,60 +2,48 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3EAA1AF8564
-	for <lists+dri-devel@lfdr.de>; Fri,  4 Jul 2025 04:01:39 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1ABF2AF85CE
+	for <lists+dri-devel@lfdr.de>; Fri,  4 Jul 2025 04:57:51 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6424C10E204;
-	Fri,  4 Jul 2025 02:01:36 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id DD29F10E20F;
+	Fri,  4 Jul 2025 02:57:47 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="hkT6XxXa";
+	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=igalia.com header.i=@igalia.com header.b="JsxY6pJj";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3F03C10E1F7;
- Fri,  4 Jul 2025 02:01:34 +0000 (UTC)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by dfw.source.kernel.org (Postfix) with ESMTP id E90615C67CE;
- Fri,  4 Jul 2025 02:01:32 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9390DC4CEE3;
- Fri,  4 Jul 2025 02:01:31 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1751594492;
- bh=bOYiwreUJd6fupghKK4N1Ov79oxyIiLE7aijDZhysuo=;
- h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
- b=hkT6XxXaM+qLqZ/3aN9wdEephOGUKE6kkqGZMAEWEgdc1TTY/L69D4WqUyWr7Nbxc
- Y95DZlsS+lZBDLlJaNCATZ0IgyVLyvhtQDle6KE9JbY5lE4cPFIczsZc7wZF2FUbH2
- rqUe0BXglbQA8Wx/nZZn6HlZlNtINB6SWw/9MbITS571lQQgWMQ3A1iFi13iv0wLSn
- NKq2KHwUTb17SyaP32hsHnQMOhx8WSffRIWv0NgGpgaPci4MSQNCxDGntkM+0kRElN
- +m4tAlN53C9n7HRIGewrKAFpT0udTf4CVlzaVP5i/ZVA8z+zfKhmLkCobJ1r7VqUUK
- pF0Fx9/E7iWHA==
-Message-ID: <8fda8cf1-1291-422e-bb63-094e38c47b7b@kernel.org>
-Date: Thu, 3 Jul 2025 22:01:30 -0400
+Received: from fanzine2.igalia.com (fanzine2.igalia.com [213.97.179.56])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8B6D210E20F
+ for <dri-devel@lists.freedesktop.org>; Fri,  4 Jul 2025 02:57:42 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com; 
+ s=20170329;
+ h=Content-Transfer-Encoding:Content-Type:In-Reply-To:From:
+ References:To:Subject:MIME-Version:Date:Message-ID:Sender:Reply-To:Cc:
+ Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
+ Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
+ List-Subscribe:List-Post:List-Owner:List-Archive;
+ bh=fAiZ4j4wijcmYIWfcCWtn3+rp6BvQoyZlDfJas3wksg=; b=JsxY6pJjQYQljR7vHYnp40itCI
+ b1v7QxXPw7hECRVYM5FCe1DimZdKfyPOJ+W5NiZR7hiL/ZKlrNZeghzRrRr8PactqNMPNKGACpkRk
+ MMPx6HThsi9j4t9jfnAFAD1Aa1QnjedpFgQNgSpPFq0l2kHdlmYyvpESCpNg4tbehbWep3cLISZbP
+ tdKBn2l9gHZIXpxq4BAQ85MwUuMilWgUvHdlT1z60e5LpkYymCpbW2WjXhvUxzS/55Mbuc1X7msLh
+ cuCVWskoyeIERAYTDj/URwDv0EkDIYDU4p0Qg3lmKpbBMA9iVyVJhqqtYDV6tBozb26rFvADuEjf4
+ Wy/PKnfQ==;
+Received: from [179.100.5.63] (helo=[192.168.15.100])
+ by fanzine2.igalia.com with esmtpsa 
+ (Cipher TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_128_GCM:128) (Exim)
+ id 1uXWcN-00CBaW-CY; Fri, 04 Jul 2025 04:57:39 +0200
+Message-ID: <9f5d746b-791c-4b88-b4ab-19928f68b0b2@igalia.com>
+Date: Thu, 3 Jul 2025 23:57:35 -0300
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v4 0/5] Improvements to S5 power consumption
-To: "Rafael J. Wysocki" <rafael@kernel.org>,
- Bjorn Helgaas <bhelgaas@google.com>
-Cc: Alex Deucher <alexander.deucher@amd.com>,
- "open list:RADEON and AMDGPU DRM DRIVERS" <amd-gfx@lists.freedesktop.org>,
- "open list:HIBERNATION (aka Software Suspend, aka swsusp)"
- <linux-pm@vger.kernel.org>,
- "open list:PCI SUBSYSTEM" <linux-pci@vger.kernel.org>,
- open list <linux-kernel@vger.kernel.org>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- Danilo Krummrich <dakr@kernel.org>,
- "James E . J . Bottomley" <James.Bottomley@hansenpartnership.com>,
- "Martin K . Petersen" <martin.petersen@oracle.com>,
- "open list:DRM DRIVERS" <dri-devel@lists.freedesktop.org>,
- "open list:SCSI SUBSYSTEM" <linux-scsi@vger.kernel.org>,
- "open list:USB SUBSYSTEM" <linux-usb@vger.kernel.org>,
- Mario Limonciello <mario.limonciello@amd.com>
-References: <20250616175019.3471583-1-superm1@kernel.org>
- <CAJZ5v0jc-tjs_a+RCzu6bvrbfhv5QHqsWx-zKjH0wpisiJciKA@mail.gmail.com>
+Subject: Re: possible amdgpu_task_info reference leak
+To: Dave Airlie <airlied@gmail.com>,
+ "Koenig, Christian" <Christian.Koenig@amd.com>,
+ dri-devel <dri-devel@lists.freedesktop.org>
+References: <CAPM=9tz0rQP8VZWKWyuF8kUMqRScxqoa6aVdwWw9=5yYxyYQ2Q@mail.gmail.com>
 Content-Language: en-US
-From: Mario Limonciello <superm1@kernel.org>
-In-Reply-To: <CAJZ5v0jc-tjs_a+RCzu6bvrbfhv5QHqsWx-zKjH0wpisiJciKA@mail.gmail.com>
+From: =?UTF-8?Q?Andr=C3=A9_Almeida?= <andrealmeid@igalia.com>
+In-Reply-To: <CAPM=9tz0rQP8VZWKWyuF8kUMqRScxqoa6aVdwWw9=5yYxyYQ2Q@mail.gmail.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -73,78 +61,46 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 7/3/25 10:29, Rafael J. Wysocki wrote:
-> On Mon, Jun 16, 2025 at 7:50 PM Mario Limonciello <superm1@kernel.org> wrote:
->>
->> From: Mario Limonciello <mario.limonciello@amd.com>
->>
->> A variety of issues both in function and in power consumption have been
->> raised as a result of devices not being put into a low power state when
->> the system is powered off.
->>
->> There have been some localized changes[1] to PCI core to help these issues,
->> but they have had various downsides.
->>
->> This series instead tries to use the S4 flow when the system is being
->> powered off.  This lines up the behavior with what other operating systems
->> do as well.  If for some reason that fails or is not supported, unwind and
->> do the previous S5 flow that will wake all devices and run their shutdown()
->> callbacks.
+Hi Dave,
+
+Em 03/07/2025 20:59, Dave Airlie escreveu:
+> In this commit :
+> a72002cb181f350734108228b24c5d10d358f95a
+> Author: André Almeida <andrealmeid@igalia.com>
+> Date:   Tue Jun 17 09:49:49 2025 -0300
 > 
-> I actually like this approach, but I think that it is risky.
-
-Yeah; it does touch a lot of areas.
-
+>      drm/amdgpu: Make use of drm_wedge_task_info
 > 
-> It also requires more work/review from other people.
-
-I view patches 3-5 as being dependent upon patch 1, so until we have 
-agreement on that one the others might not make a lot of sense.
-
-Bjorn,
-
-Can you take a look at patch 2?
-
 > 
-> I'll be sending some comments on the individual patches going forward,
-> but I think the earliest it can go in is after 6.17-rc1 (given it is
-> reviewed properly till then).
-
-Thanks!
-
 > 
-> Thanks!
+> @@ -164,13 +165,15 @@ static enum drm_gpu_sched_stat
+> amdgpu_job_timedout(struct drm_sched_job *s_job)
+>                          if (amdgpu_ring_sched_ready(ring))
+>                                  drm_sched_start(&ring->sched, 0);
+>                          dev_err(adev->dev, "Ring %s reset
+> succeeded\n", ring->sched.name);
+> -                       drm_dev_wedged_event(adev_to_drm(adev),
+> DRM_WEDGE_RECOVERY_NONE, NULL);
+> +                       drm_dev_wedged_event(adev_to_drm(adev),
+> DRM_WEDGE_RECOVERY_NONE, info);
+>                          goto exit;
+>                  }
+>                  dev_err(adev->dev, "Ring %s reset failure\n", ring->sched.name);
+>          }
+>          dma_fence_set_error(&s_job->s_fence->finished, -ETIME);
 > 
->> v3->v4:
->>   * Fix LKP robot failure
->>   * Rebase on v6.16-rc2
->>
->> Previous submissions [1]:
->> Link: https://lore.kernel.org/linux-pm/CAJZ5v0hrKEJa8Ad7iiAvQ3d_0ysVhzZcXSYc5kkL=6vtseF+bg@mail.gmail.com/T/#m91e4eae868a7405ae579e89b135085f4906225d2
->> Link: https://lore.kernel.org/linux-pci/20250506041934.1409302-1-superm1@kernel.org/
->> Link: https://lore.kernel.org/linux-pci/20231213182656.6165-1-mario.limonciello@amd.com/ (v1)
->> Link: https://lore.kernel.org/linux-pm/20250514193406.3998101-1-superm1@kernel.org/ (v2)
->> Link: https://lore.kernel.org/linux-pm/20250609024619.407257-1-superm1@kernel.org/ (v3)
->>
->> Mario Limonciello (5):
->>    PM: Use hibernate flows for system power off
->>    PCI: Put PCIe ports with downstream devices into D3 at hibernate
->>    drm/amd: Avoid evicting resources at S5
->>    scsi: Add PM_EVENT_POWEROFF into suspend callbacks
->>    usb: sl811-hcd: Add PM_EVENT_POWEROFF into suspend callbacks
->>
->>   drivers/base/power/main.c                  |  7 ++
->>   drivers/gpu/drm/amd/amdgpu/amdgpu_device.c |  4 +
->>   drivers/pci/pci-driver.c                   | 94 ++++++++++++++--------
->>   drivers/scsi/mesh.c                        |  1 +
->>   drivers/scsi/stex.c                        |  1 +
->>   drivers/usb/host/sl811-hcd.c               |  1 +
->>   include/linux/pm.h                         |  3 +
->>   include/trace/events/power.h               |  3 +-
->>   kernel/reboot.c                            |  6 ++
->>   9 files changed, 86 insertions(+), 34 deletions(-)
->>
->> --
->> 2.43.0
->>
+> +       amdgpu_vm_put_task_info(ti);
+> +
+>          if (amdgpu_device_should_recover_gpu(ring->adev)) {
+>                  struct amdgpu_reset_context reset_context;
+>                  memset(&reset_context, 0, sizeof(reset_context));
+> 
+> 
+> Doesn't the goto_exit bypass the amdgpu_vm_put_task_info? and cause a
+> reference leak at least?
+> 
+
+Yep, I think you are right. Let me send a fix for this.
+
+> Dave.
 
