@@ -2,54 +2,54 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id CB966AF8C2A
-	for <lists+dri-devel@lfdr.de>; Fri,  4 Jul 2025 10:41:59 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2B79BAF8C2C
+	for <lists+dri-devel@lfdr.de>; Fri,  4 Jul 2025 10:42:01 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0559910E997;
-	Fri,  4 Jul 2025 08:41:56 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B2F9410E998;
+	Fri,  4 Jul 2025 08:41:58 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=foss.st.com header.i=@foss.st.com header.b="CX/LaQsN";
+	dkim=pass (2048-bit key; unprotected) header.d=foss.st.com header.i=@foss.st.com header.b="I1qgQ10f";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx08-00178001.pphosted.com (mx08-00178001.pphosted.com
- [91.207.212.93])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B2BB210E997
- for <dri-devel@lists.freedesktop.org>; Fri,  4 Jul 2025 08:41:54 +0000 (UTC)
-Received: from pps.filterd (m0369457.ppops.net [127.0.0.1])
- by mx07-00178001.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 5647Zr9v012099;
- Fri, 4 Jul 2025 10:41:40 +0200
+Received: from mx07-00178001.pphosted.com (mx07-00178001.pphosted.com
+ [185.132.182.106])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9556210E996
+ for <dri-devel@lists.freedesktop.org>; Fri,  4 Jul 2025 08:41:57 +0000 (UTC)
+Received: from pps.filterd (m0369458.ppops.net [127.0.0.1])
+ by mx07-00178001.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 5647ZrNT028655;
+ Fri, 4 Jul 2025 10:41:46 +0200
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=foss.st.com; h=
  cc:content-transfer-encoding:content-type:date:from:in-reply-to
  :message-id:mime-version:references:subject:to; s=selector1; bh=
- T+nHIjk3CgnMjH/o8M23MKc/+/PyZ7sJdxyhMJ6Ka/4=; b=CX/LaQsNge428SQj
- SuztwM9Qwozyfyw8KguWd1ub3aZz2cbTXYSNNNXO9/W03fLBqUuZ74B+L0LULcWh
- BhTPeD8q6DJFC+5q+if76n4b8CMbvgxlXb5/Pfc5iWxLz7BAbdZVKmGQ9YOZbeG/
- SvtrJcpO5mcxgi9/EELSdQzT3tqXYWCUQAjB66/QxlKdVwfmKG/pjz0lVJgY2nzB
- HObByf9fx46mgcPv4BhILZhggZ/WfQF9etpJPN5Llb67kT3OjmpZa7qBcxgpQtRG
- 5j50phFMt0qHuI067V/HAWLh+RjzWkiJzrYabWsNPIkfeNMWfHaliv4G3fghn4H0
- Si/xcg==
+ eago0RZdyrerOdy6yEfqaUqyo2OFIpdQliz92NLH9S8=; b=I1qgQ10fN3ww2k8s
+ Sdp3ZBe1GoA1iUJwC5Er7fn95fXqvWOrJdbXmVCQrFZ0Y10eIJKspdKrwmCBDjNn
+ kQRqBqaiT40/OsieTsuLq7cS6NC7Wwvfeqxxx7lhBCP2PyxsTlw4HqHXzoTdgygw
+ sUAAUssurpuVGl6/uKt/aRQw/nmhe3ODFIlw2x7/w4pjUv8NDoo4Nst4K14Ff2Gh
+ 2taGJBoigEwq70MispjCnDBHMgqIuWJDN0z5qU5sTI5QLSe3u3kst9wEpPDR5kvE
+ FlDwv7A1iuBf8RSve3+WQsu+w/M1KRwwFgv6aDMlmyvnYzUHKumCJmSAzC/KcEf7
+ w0ae6g==
 Received: from beta.dmz-ap.st.com (beta.dmz-ap.st.com [138.198.100.35])
- by mx07-00178001.pphosted.com (PPS) with ESMTPS id 47jubp8w0e-1
+ by mx07-00178001.pphosted.com (PPS) with ESMTPS id 47jsy59k3x-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Fri, 04 Jul 2025 10:41:40 +0200 (MEST)
+ Fri, 04 Jul 2025 10:41:46 +0200 (MEST)
 Received: from euls16034.sgp.st.com (euls16034.sgp.st.com [10.75.44.20])
- by beta.dmz-ap.st.com (STMicroelectronics) with ESMTP id 995604004F;
+ by beta.dmz-ap.st.com (STMicroelectronics) with ESMTP id 99C2840051;
  Fri,  4 Jul 2025 10:40:31 +0200 (CEST)
 Received: from Webmail-eu.st.com (shfdag1node2.st.com [10.75.129.70])
- by euls16034.sgp.st.com (STMicroelectronics) with ESMTP id 4336847F9B2;
- Fri,  4 Jul 2025 10:39:37 +0200 (CEST)
+ by euls16034.sgp.st.com (STMicroelectronics) with ESMTP id 022ED483149;
+ Fri,  4 Jul 2025 10:39:38 +0200 (CEST)
 Received: from localhost (10.48.86.185) by SHFDAG1NODE2.st.com (10.75.129.70)
  with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.39; Fri, 4 Jul
- 2025 10:39:36 +0200
+ 2025 10:39:37 +0200
 From: =?utf-8?q?Cl=C3=A9ment_Le_Goffic?= <clement.legoffic@foss.st.com>
-Date: Fri, 4 Jul 2025 10:39:14 +0200
-Subject: [PATCH v4 1/3] i2c: stm32: fix the device used for the DMA map
+Date: Fri, 4 Jul 2025 10:39:15 +0200
+Subject: [PATCH v4 2/3] i2c: stm32f7: unmap DMA mapped buffer
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
-Message-ID: <20250704-i2c-upstream-v4-1-84a095a2c728@foss.st.com>
+Message-ID: <20250704-i2c-upstream-v4-2-84a095a2c728@foss.st.com>
 References: <20250704-i2c-upstream-v4-0-84a095a2c728@foss.st.com>
 In-Reply-To: <20250704-i2c-upstream-v4-0-84a095a2c728@foss.st.com>
 To: Pierre-Yves MORDRET <pierre-yves.mordret@foss.st.com>, Alain Volmat
@@ -87,71 +87,97 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-If the DMA mapping failed, it produced an error log with the wrong
-device name:
-"stm32-dma3 40400000.dma-controller: rejecting DMA map of vmalloc memory"
-Fix this issue by replacing the dev with the I2C dev.
+Before each I2C transfer using DMA, the I2C buffer is DMA'pped to make
+sure the memory buffer is DMA'able. This is handle in the function
+`stm32_i2c_prep_dma_xfer()`.
+If the transfer fails for any reason the I2C buffer must be unmap.
+Use the dma_callback to factorize the code and fix this issue.
 
-Fixes: bb8822cbbc53 ("i2c: i2c-stm32: Add generic DMA API")
+Note that the `stm32f7_i2c_dma_callback()` is now called in case of DMA
+transfer success and error and that the `complete()` on the dma_complete
+completion structure is done inconditionnally in case of transfer
+success or error as well as the `dmaengine_terminate_async()`.
+This is allowed as a `complete()` in case transfer error has no effect
+as well as a `dmaengine_terminate_async()` on a transfer success.
+
+Also fix the unneeded cast and remove not more needed variables.
+
+Fixes: 7ecc8cfde553 ("i2c: i2c-stm32f7: Add DMA support")
 Acked-by: Alain Volmat <alain.volmat@foss.st.com>
 Signed-off-by: Clément Le Goffic <clement.legoffic@foss.st.com>
 ---
- drivers/i2c/busses/i2c-stm32.c   | 8 +++-----
- drivers/i2c/busses/i2c-stm32f7.c | 4 ++--
- 2 files changed, 5 insertions(+), 7 deletions(-)
+ drivers/i2c/busses/i2c-stm32f7.c | 20 +++++++-------------
+ 1 file changed, 7 insertions(+), 13 deletions(-)
 
-diff --git a/drivers/i2c/busses/i2c-stm32.c b/drivers/i2c/busses/i2c-stm32.c
-index 157c64e27d0b..f84ec056e36d 100644
---- a/drivers/i2c/busses/i2c-stm32.c
-+++ b/drivers/i2c/busses/i2c-stm32.c
-@@ -102,7 +102,6 @@ int stm32_i2c_prep_dma_xfer(struct device *dev, struct stm32_i2c_dma *dma,
- 			    void *dma_async_param)
- {
- 	struct dma_async_tx_descriptor *txdesc;
--	struct device *chan_dev;
- 	int ret;
- 
- 	if (rd_wr) {
-@@ -116,11 +115,10 @@ int stm32_i2c_prep_dma_xfer(struct device *dev, struct stm32_i2c_dma *dma,
- 	}
- 
- 	dma->dma_len = len;
--	chan_dev = dma->chan_using->device->dev;
- 
--	dma->dma_buf = dma_map_single(chan_dev, buf, dma->dma_len,
-+	dma->dma_buf = dma_map_single(dev, buf, dma->dma_len,
- 				      dma->dma_data_dir);
--	if (dma_mapping_error(chan_dev, dma->dma_buf)) {
-+	if (dma_mapping_error(dev, dma->dma_buf)) {
- 		dev_err(dev, "DMA mapping failed\n");
- 		return -EINVAL;
- 	}
-@@ -150,7 +148,7 @@ int stm32_i2c_prep_dma_xfer(struct device *dev, struct stm32_i2c_dma *dma,
- 	return 0;
- 
- err:
--	dma_unmap_single(chan_dev, dma->dma_buf, dma->dma_len,
-+	dma_unmap_single(dev, dma->dma_buf, dma->dma_len,
- 			 dma->dma_data_dir);
- 	return ret;
- }
 diff --git a/drivers/i2c/busses/i2c-stm32f7.c b/drivers/i2c/busses/i2c-stm32f7.c
-index e4aaeb2262d0..817d081460c2 100644
+index 817d081460c2..73a7b8894c0d 100644
 --- a/drivers/i2c/busses/i2c-stm32f7.c
 +++ b/drivers/i2c/busses/i2c-stm32f7.c
-@@ -741,10 +741,10 @@ static void stm32f7_i2c_dma_callback(void *arg)
+@@ -739,10 +739,11 @@ static void stm32f7_i2c_disable_dma_req(struct stm32f7_i2c_dev *i2c_dev)
+ 
+ static void stm32f7_i2c_dma_callback(void *arg)
  {
- 	struct stm32f7_i2c_dev *i2c_dev = (struct stm32f7_i2c_dev *)arg;
+-	struct stm32f7_i2c_dev *i2c_dev = (struct stm32f7_i2c_dev *)arg;
++	struct stm32f7_i2c_dev *i2c_dev = arg;
  	struct stm32_i2c_dma *dma = i2c_dev->dma;
--	struct device *dev = dma->chan_using->device->dev;
  
  	stm32f7_i2c_disable_dma_req(i2c_dev);
--	dma_unmap_single(dev, dma->dma_buf, dma->dma_len, dma->dma_data_dir);
-+	dma_unmap_single(i2c_dev->dev, dma->dma_buf, dma->dma_len,
-+			 dma->dma_data_dir);
++	dmaengine_terminate_async(dma->chan_using);
+ 	dma_unmap_single(i2c_dev->dev, dma->dma_buf, dma->dma_len,
+ 			 dma->dma_data_dir);
  	complete(&dma->dma_complete);
- }
+@@ -1510,7 +1511,6 @@ static irqreturn_t stm32f7_i2c_handle_isr_errs(struct stm32f7_i2c_dev *i2c_dev,
+ 	u16 addr = f7_msg->addr;
+ 	void __iomem *base = i2c_dev->base;
+ 	struct device *dev = i2c_dev->dev;
+-	struct stm32_i2c_dma *dma = i2c_dev->dma;
  
+ 	/* Bus error */
+ 	if (status & STM32F7_I2C_ISR_BERR) {
+@@ -1551,10 +1551,8 @@ static irqreturn_t stm32f7_i2c_handle_isr_errs(struct stm32f7_i2c_dev *i2c_dev,
+ 	}
+ 
+ 	/* Disable dma */
+-	if (i2c_dev->use_dma) {
+-		stm32f7_i2c_disable_dma_req(i2c_dev);
+-		dmaengine_terminate_async(dma->chan_using);
+-	}
++	if (i2c_dev->use_dma)
++		stm32f7_i2c_dma_callback(i2c_dev);
+ 
+ 	i2c_dev->master_mode = false;
+ 	complete(&i2c_dev->complete);
+@@ -1600,7 +1598,6 @@ static irqreturn_t stm32f7_i2c_isr_event_thread(int irq, void *data)
+ {
+ 	struct stm32f7_i2c_dev *i2c_dev = data;
+ 	struct stm32f7_i2c_msg *f7_msg = &i2c_dev->f7_msg;
+-	struct stm32_i2c_dma *dma = i2c_dev->dma;
+ 	void __iomem *base = i2c_dev->base;
+ 	u32 status, mask;
+ 	int ret;
+@@ -1619,10 +1616,8 @@ static irqreturn_t stm32f7_i2c_isr_event_thread(int irq, void *data)
+ 		dev_dbg(i2c_dev->dev, "<%s>: Receive NACK (addr %x)\n",
+ 			__func__, f7_msg->addr);
+ 		writel_relaxed(STM32F7_I2C_ICR_NACKCF, base + STM32F7_I2C_ICR);
+-		if (i2c_dev->use_dma) {
+-			stm32f7_i2c_disable_dma_req(i2c_dev);
+-			dmaengine_terminate_async(dma->chan_using);
+-		}
++		if (i2c_dev->use_dma)
++			stm32f7_i2c_dma_callback(i2c_dev);
+ 		f7_msg->result = -ENXIO;
+ 	}
+ 
+@@ -1640,8 +1635,7 @@ static irqreturn_t stm32f7_i2c_isr_event_thread(int irq, void *data)
+ 			ret = wait_for_completion_timeout(&i2c_dev->dma->dma_complete, HZ);
+ 			if (!ret) {
+ 				dev_dbg(i2c_dev->dev, "<%s>: Timed out\n", __func__);
+-				stm32f7_i2c_disable_dma_req(i2c_dev);
+-				dmaengine_terminate_async(dma->chan_using);
++				stm32f7_i2c_dma_callback(i2c_dev);
+ 				f7_msg->result = -ETIMEDOUT;
+ 			}
+ 		}
 
 -- 
 2.43.0
