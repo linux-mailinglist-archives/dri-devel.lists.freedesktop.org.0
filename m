@@ -2,65 +2,58 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id DC716AF9645
-	for <lists+dri-devel@lfdr.de>; Fri,  4 Jul 2025 17:07:46 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 27230AF9686
+	for <lists+dri-devel@lfdr.de>; Fri,  4 Jul 2025 17:15:10 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D90D110E02E;
-	Fri,  4 Jul 2025 15:07:43 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 57DFD10E06E;
+	Fri,  4 Jul 2025 15:15:07 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="S3C1949L";
+	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=igalia.com header.i=@igalia.com header.b="E/vaBBtt";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from nyc.source.kernel.org (nyc.source.kernel.org [147.75.193.91])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 864F210E02E
- for <dri-devel@lists.freedesktop.org>; Fri,  4 Jul 2025 15:07:42 +0000 (UTC)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by nyc.source.kernel.org (Postfix) with ESMTP id 6D046A53C59;
- Fri,  4 Jul 2025 15:07:41 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id BF17AC4CEE3;
- Fri,  4 Jul 2025 15:07:40 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1751641661;
- bh=xY/yriO6tBXfy5srN553QPb2aXYA16dzeg1QniS6sGE=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=S3C1949LJUYLkuDiWGT3TQF97d10CRTILMNnFMrDU8BasTdu+D1z7NslqV7Mwnt3B
- tWZRqRWBjDuwqGAR3WJ2iR8T4mAsTVoNSRZJjD4iKOCdC6rZFfZ/PlFoOAn4BShq3S
- lwXdMu4kaA+UXlgPSnpAnObWhmg5qWwIu5gtbggwCK5b7l8vf//Mez1ov5ym16rWKv
- BPagAflTusNu+6uh+4hlgIIyrTvaA6aVFEy0aplzhe1zC4p6QDqNyqB/BCFigTxdzH
- RBY3HIKxJhdpcRNbX8zhCy3JDBoRkyxXONeZohARzWT/qAe2dfU6DW58jbHLS7sg29
- QUVPtYv+5JXDg==
-Date: Fri, 4 Jul 2025 17:07:38 +0200
-From: Maxime Ripard <mripard@kernel.org>
-To: Cristian Ciocaltea <cristian.ciocaltea@collabora.com>
-Cc: Sandy Huang <hjc@rock-chips.com>, 
- Heiko =?utf-8?Q?St=C3=BCbner?= <heiko@sntech.de>,
- Andy Yan <andy.yan@rock-chips.com>, 
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Thomas Zimmermann <tzimmermann@suse.de>, 
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, 
- Andrzej Hajda <andrzej.hajda@intel.com>,
- Neil Armstrong <neil.armstrong@linaro.org>, 
- Robert Foss <rfoss@kernel.org>,
- Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>, 
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
- Jonas Karlman <jonas@kwiboo.se>, 
- Jernej Skrabec <jernej.skrabec@gmail.com>,
- Catalin Marinas <catalin.marinas@arm.com>, 
- Will Deacon <will@kernel.org>, kernel@collabora.com,
- dri-devel@lists.freedesktop.org, 
- linux-arm-kernel@lists.infradead.org, linux-rockchip@lists.infradead.org,
- linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 3/5] drm/rockchip: dw_hdmi_qp: Provide ref clock rate in
- dw_hdmi_qp_plat_data
-Message-ID: <20250704-granite-piculet-of-elevation-f01e08@houat>
-References: <20250704-rk3588-hdmi-cec-v1-0-2bd8de8700cd@collabora.com>
- <20250704-rk3588-hdmi-cec-v1-3-2bd8de8700cd@collabora.com>
+Received: from fanzine2.igalia.com (fanzine2.igalia.com [213.97.179.56])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6675D10E06E;
+ Fri,  4 Jul 2025 15:15:03 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com; 
+ s=20170329;
+ h=Content-Transfer-Encoding:Content-Type:In-Reply-To:From:
+ References:Cc:To:Subject:MIME-Version:Date:Message-ID:Sender:Reply-To:
+ Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
+ Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
+ List-Subscribe:List-Post:List-Owner:List-Archive;
+ bh=ven6hvhaEcO4jhZscLbgCagwItLyOfAT48JqHURfZno=; b=E/vaBBttSM0UWAzyHUr0XX4RrO
+ iOPuZ8qn3H5HnUb5RF/I9kpH+OZI2qrH5jST1VqRriomfr4gxW9oWDzlTcI4vOVAlTyyCxrpux+ob
+ +q/RkNjH+XwWwwgOdYRLsQlDa3T6IdBbqK45qMU5quCHH7qYWG/QWMGZIiZLuJhUHugXCK2IgvGaJ
+ bjHBz64GWnBMI0YZCDF0rztGTbAew7sFgiCmUXJ5sQkl8+iiXY1ZfjSD+wbQMI4A5houtCF/64561
+ C6/Ktm92/6uhWrSQf7rakxd5hZKfudwHb9XbvZPLVsiAvWCPdBGx00g6P1OfhxPdBOAKwp5VYbwgf
+ AJPVITEA==;
+Received: from [81.79.92.254] (helo=[192.168.0.101])
+ by fanzine2.igalia.com with esmtpsa 
+ (Cipher TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_128_GCM:128) (Exim)
+ id 1uXi7u-00CTna-Ge; Fri, 04 Jul 2025 17:14:58 +0200
+Message-ID: <8acfa716-cbb6-4e4f-9553-f2051c8134a4@igalia.com>
+Date: Fri, 4 Jul 2025 16:14:57 +0100
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha384;
- protocol="application/pgp-signature"; boundary="oszopqzjak6ldkji"
-Content-Disposition: inline
-In-Reply-To: <20250704-rk3588-hdmi-cec-v1-3-2bd8de8700cd@collabora.com>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v5 04/16] drm/sched: Avoid double re-lock on the job free
+ path
+To: phasta@kernel.org, =?UTF-8?Q?Ma=C3=ADra_Canal?= <mcanal@igalia.com>,
+ amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org
+Cc: kernel-dev@igalia.com, =?UTF-8?Q?Christian_K=C3=B6nig?=
+ <christian.koenig@amd.com>, Danilo Krummrich <dakr@kernel.org>,
+ Matthew Brost <matthew.brost@intel.com>
+References: <20250623122746.46478-1-tvrtko.ursulin@igalia.com>
+ <20250623122746.46478-5-tvrtko.ursulin@igalia.com>
+ <3ab04122-72dc-41f4-95af-6c4bf851c6d0@igalia.com>
+ <70a5fcd839c0582ed2216c8a61e128834bf81315.camel@mailbox.org>
+ <1a1ef81e-2df4-4d9b-af06-25dfb9bc4192@igalia.com>
+ <a20cfbddc2632c5731d7c59f1766a79baa1f2821.camel@mailbox.org>
+Content-Language: en-GB
+From: Tvrtko Ursulin <tvrtko.ursulin@igalia.com>
+In-Reply-To: <a20cfbddc2632c5731d7c59f1766a79baa1f2821.camel@mailbox.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -77,77 +70,198 @@ Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 
---oszopqzjak6ldkji
-Content-Type: text/plain; protected-headers=v1; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-Subject: Re: [PATCH 3/5] drm/rockchip: dw_hdmi_qp: Provide ref clock rate in
- dw_hdmi_qp_plat_data
-MIME-Version: 1.0
+On 04/07/2025 14:59, Philipp Stanner wrote:
+> On Fri, 2025-07-04 at 14:30 +0100, Tvrtko Ursulin wrote:
+>>
+>> On 04/07/2025 13:56, Philipp Stanner wrote:
+>>> On Fri, 2025-07-04 at 09:29 -0300, Maíra Canal wrote:
+>>>> Hi Tvrtko,
+>>>>
+>>>> On 23/06/25 09:27, Tvrtko Ursulin wrote:
+>>>>> Currently the job free work item will lock sched->job_list_lock
+>>>>> first time
+>>>>> to see if there are any jobs, free a single job, and then lock
+>>>>> again to
+>>>>> decide whether to re-queue itself if there are more finished
+>>>>> jobs.
+>>>>>
+>>>>> Since drm_sched_get_finished_job() already looks at the second
+>>>>> job
+>>>>> in the
+>>>>> queue we can simply add the signaled check and have it return
+>>>>> the
+>>>>> presence
+>>>>> of more jobs to free to the caller. That way the work item does
+>>>>> not
+>>>>> have
+>>>>> to lock the list again and repeat the signaled check.
+>>>>>
+>>>>> Signed-off-by: Tvrtko Ursulin <tvrtko.ursulin@igalia.com>
+>>>>> Cc: Christian König <christian.koenig@amd.com>
+>>>>> Cc: Danilo Krummrich <dakr@kernel.org>
+>>>>> Cc: Matthew Brost <matthew.brost@intel.com>
+>>>>> Cc: Philipp Stanner <phasta@kernel.org>
+>>>>> ---
+>>>>>     drivers/gpu/drm/scheduler/sched_main.c | 39 +++++++++++-----
+>>>>> -----
+>>>>> -----
+>>>>>     1 file changed, 16 insertions(+), 23 deletions(-)
+>>>>>
+>>>>> diff --git a/drivers/gpu/drm/scheduler/sched_main.c
+>>>>> b/drivers/gpu/drm/scheduler/sched_main.c
+>>>>> index 1f077782ec12..c6c26aec07b6 100644
+>>>>> --- a/drivers/gpu/drm/scheduler/sched_main.c
+>>>>> +++ b/drivers/gpu/drm/scheduler/sched_main.c
+>>>>> @@ -366,22 +366,6 @@ static void
+>>>>> __drm_sched_run_free_queue(struct
+>>>>> drm_gpu_scheduler *sched)
+>>>>>     		queue_work(sched->submit_wq, &sched-
+>>>>>> work_free_job);
+>>>>>     }
+>>>>>     
+>>>>> -/**
+>>>>> - * drm_sched_run_free_queue - enqueue free-job work if ready
+>>>>> - * @sched: scheduler instance
+>>>>> - */
+>>>>> -static void drm_sched_run_free_queue(struct drm_gpu_scheduler
+>>>>> *sched)
+>>>>> -{
+>>>>> -	struct drm_sched_job *job;
+>>>>> -
+>>>>> -	spin_lock(&sched->job_list_lock);
+>>>>> -	job = list_first_entry_or_null(&sched->pending_list,
+>>>>> -				       struct drm_sched_job,
+>>>>> list);
+>>>>> -	if (job && dma_fence_is_signaled(&job->s_fence-
+>>>>>> finished))
+>>>>> -		__drm_sched_run_free_queue(sched);
+>>>>> -	spin_unlock(&sched->job_list_lock);
+>>>>> -}
+>>>>> -
+>>>>>     /**
+>>>>>      * drm_sched_job_done - complete a job
+>>>>>      * @s_job: pointer to the job which is done
+>>>>> @@ -1102,12 +1086,13 @@ drm_sched_select_entity(struct
+>>>>> drm_gpu_scheduler *sched)
+>>>>>      * drm_sched_get_finished_job - fetch the next finished job
+>>>>> to be
+>>>>> destroyed
+>>>>>      *
+>>>>>      * @sched: scheduler instance
+>>>>> + * @have_more: are there more finished jobs on the list
+>>>>>      *
+>>>>>      * Returns the next finished job from the pending list (if
+>>>>> there
+>>>>> is one)
+>>>>>      * ready for it to be destroyed.
+>>>>>      */
+>>>>>     static struct drm_sched_job *
+>>>>> -drm_sched_get_finished_job(struct drm_gpu_scheduler *sched)
+>>>>> +drm_sched_get_finished_job(struct drm_gpu_scheduler *sched,
+>>>>> bool
+>>>>> *have_more)
+>>>>>     {
+>>>>>     	struct drm_sched_job *job, *next;
+>>>>>     
+>>>>> @@ -1115,22 +1100,27 @@ drm_sched_get_finished_job(struct
+>>>>> drm_gpu_scheduler *sched)
+>>>>>     
+>>>>>     	job = list_first_entry_or_null(&sched->pending_list,
+>>>>>     				       struct drm_sched_job,
+>>>>> list);
+>>>>> -
+>>>>>     	if (job && dma_fence_is_signaled(&job->s_fence-
+>>>>>> finished))
+>>>>> {
+>>>>>     		/* remove job from pending_list */
+>>>>>     		list_del_init(&job->list);
+>>>>>     
+>>>>>     		/* cancel this job's TO timer */
+>>>>>     		cancel_delayed_work(&sched->work_tdr);
+>>>>> -		/* make the scheduled timestamp more accurate
+>>>>> */
+>>>>> +
+>>>>> +		*have_more = false;
+>>>>>     		next = list_first_entry_or_null(&sched-
+>>>>>> pending_list,
+>>>>>     						typeof(*next),
+>>>>> list);
+>>>>> -
+>>>>>     		if (next) {
+>>>>> +			/* make the scheduled timestamp more
+>>>>> accurate */
+>>>>>     			if
+>>>>> (test_bit(DMA_FENCE_FLAG_TIMESTAMP_BIT,
+>>>>>     				     &next->s_fence-
+>>>>>> scheduled.flags))
+>>>>>     				next->s_fence-
+>>>>>> scheduled.timestamp
+>>>>> =
+>>>>>     					dma_fence_timestamp(&j
+>>>>> ob-
+>>>>>> s_fence->finished);
+>>>>> +
+>>>>> +			if
+>>>>> (test_bit(DMA_FENCE_FLAG_SIGNALED_BIT,
+>>>>> +				     &next->s_fence-
+>>>>>> finished.flags))
+>>>>
+>>>> Shouldn't we use dma_fence_is_signaled() to keep the same check
+>>>> that
+>>>> we
+>>>> have in drm_sched_run_free_queue()?
+>>>
+>>> There is a paused-ongoing discussion about this function:
+>>>
+>>> https://lore.kernel.org/all/20250522112540.161411-2-phasta@kernel.org/
+>>>
+>>>
+>>> dma_fence_is_signaled() can have side effects by actually
+>>> signaling,
+>>> instead of just checking.
+>>>
+>>> Not sure if Tvrtko wanted to bypass that behavior here, though.
+>>
+>> No, no ulterior motives here. :)
+>>
+>> It is ages I wrote this, but now I revisited it, and AFAICT I don't
+>> see
+>> that it matters in this case.
+>>
+>> It is a scheduler fence which does not implement fence->ops-
+>>> signaled()
+>> so opportunistic signaling does not come into the picture.
+>>
+>> I am happy to change it to dma_fence_is_signaled() if that is the
+>> preference.
+> 
+> Its our (scheduler's) fence, so we can be sure dma_fence_is_signaled()
+> is OK.
 
-On Fri, Jul 04, 2025 at 05:23:24PM +0300, Cristian Ciocaltea wrote:
-> In order to support correct initialization of the timer base in the HDMI
-> QP IP block, extend the platform data to provide the necessary reference
-> clock rate.
->=20
-> While at it, ensure plat_data is zero-initialized in
-> dw_hdmi_qp_rockchip_bind().
->=20
-> Signed-off-by: Cristian Ciocaltea <cristian.ciocaltea@collabora.com>
-> ---
->  drivers/gpu/drm/rockchip/dw_hdmi_qp-rockchip.c | 13 ++++++++++++-
->  include/drm/bridge/dw_hdmi_qp.h                |  1 +
->  2 files changed, 13 insertions(+), 1 deletion(-)
->=20
-> diff --git a/drivers/gpu/drm/rockchip/dw_hdmi_qp-rockchip.c b/drivers/gpu=
-/drm/rockchip/dw_hdmi_qp-rockchip.c
-> index 126e556025961e8645f3567b4d7a1c73cc2f2e7f..8c1185490009c5f1bc658998a=
-868f8b18dc479a3 100644
-> --- a/drivers/gpu/drm/rockchip/dw_hdmi_qp-rockchip.c
-> +++ b/drivers/gpu/drm/rockchip/dw_hdmi_qp-rockchip.c
-> @@ -431,8 +431,8 @@ static int dw_hdmi_qp_rockchip_bind(struct device *de=
-v, struct device *master,
->  				    void *data)
->  {
->  	struct platform_device *pdev =3D to_platform_device(dev);
-> +	struct dw_hdmi_qp_plat_data plat_data =3D {};
->  	const struct rockchip_hdmi_qp_cfg *cfg;
-> -	struct dw_hdmi_qp_plat_data plat_data;
->  	struct drm_device *drm =3D data;
->  	struct drm_connector *connector;
->  	struct drm_encoder *encoder;
-> @@ -515,6 +515,17 @@ static int dw_hdmi_qp_rockchip_bind(struct device *d=
-ev, struct device *master,
->  		return ret;
->  	}
-> =20
-> +	for (i =3D 0; i < ret; i++) {
-> +		if (!strcmp(clks[i].id, "ref")) {
-> +			plat_data.ref_clk_rate =3D clk_get_rate(clks[i].clk);
-> +			break;
-> +		}
-> +	}
-> +	if (!plat_data.ref_clk_rate) {
-> +		dev_err(hdmi->dev, "Missing ref clock\n");
-> +		return -EINVAL;
-> +	}
-> +
+Okay, I changed it to dma_fence_is_signaled() locally.
 
-You'd be better off not using clk_bulk, or calling an additional clk_get
-for the ref clock only.
+Regards,
 
-Maxime
+Tvrtko
 
---oszopqzjak6ldkji
-Content-Type: application/pgp-signature; name="signature.asc"
+> I'd still prefer if we could get Christian to accept a function with a
+> superior name, though..
+> 
+> P.
+> 
+>>
+>> Regards,
+>>
+>> Tvrtko
+>>
+>>>>> +				*have_more = true;
+>>>>> +
+>>>>>     			/* start TO timer for next job */
+>>>>>     			drm_sched_start_timeout(sched);
+>>>>>     		}
+>>>>
+>>>>
+>>>
+>>
+> 
 
------BEGIN PGP SIGNATURE-----
-
-iJUEABMJAB0WIQTkHFbLp4ejekA/qfgnX84Zoj2+dgUCaGfuNQAKCRAnX84Zoj2+
-dpLOAX9Fn+AyL0zuC8EJRGUMhLDwcaUmA/NnkN/yj+RvnyGSEiCcN475EqSfs8Ar
-XN9rlt8BgIP56Bw6kg86quaBe4oPgxNoKon98/DCRRHYCKPCWZeNss8Bcb7pDsas
-Q/Kd1zxghA==
-=fwlI
------END PGP SIGNATURE-----
-
---oszopqzjak6ldkji--
