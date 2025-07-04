@@ -2,54 +2,56 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 34006AF9280
-	for <lists+dri-devel@lfdr.de>; Fri,  4 Jul 2025 14:29:10 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 911D5AF9282
+	for <lists+dri-devel@lfdr.de>; Fri,  4 Jul 2025 14:29:16 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3EBA010EA17;
-	Fri,  4 Jul 2025 12:29:08 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 03EFA10EA14;
+	Fri,  4 Jul 2025 12:29:15 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=igalia.com header.i=@igalia.com header.b="I6/gasWL";
+	dkim=pass (1024-bit key; unprotected) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="tJVIjRfb";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from fanzine2.igalia.com (fanzine2.igalia.com [213.97.179.56])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5BFAD10EA14;
- Fri,  4 Jul 2025 12:29:07 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com; 
- s=20170329;
- h=Content-Transfer-Encoding:Content-Type:In-Reply-To:From:
- References:Cc:To:Subject:MIME-Version:Date:Message-ID:Sender:Reply-To:
- Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
- Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
- List-Subscribe:List-Post:List-Owner:List-Archive;
- bh=Kw1ivnGwSgQqWx2LNtqdzApaBJz4woAXDKohbG6n5YM=; b=I6/gasWL8XB92yaGPuFXnbH9zj
- itV/zdF8tcO+2n3hHz2hHCulUfZEnziqGtEnqHNwnDJ76UYyNJuKO4FxxU5qmMvzRg08ri+d1+Bg1
- +6UVu/IrVAfrlS24sJgPYNCUiUdb9KC/PHNGg6uk07/VuqWb2JORqWryrBO8VBFc1gN4SKi9kYgYr
- RqoiOiRdXh8PaljZ1lzyzZo1kedaaXvD9u/w1jtkhxlc52qnnSvjXO1raFGvl/EspRdlUSwAtJwer
- jOPESYBp1Q5DDxygFpUZnfuqu/HNVjsktD9V0q35vmTUG/eR9vG7RP8RCpCXcvZQNaFZVfCJgARE1
- 8+fiBgRw==;
-Received: from [189.7.87.79] (helo=[192.168.0.7])
- by fanzine2.igalia.com with esmtpsa 
- (Cipher TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_128_GCM:128) (Exim)
- id 1uXfXM-00CQRS-TH; Fri, 04 Jul 2025 14:29:05 +0200
-Message-ID: <3ab04122-72dc-41f4-95af-6c4bf851c6d0@igalia.com>
-Date: Fri, 4 Jul 2025 09:29:00 -0300
+Received: from tor.source.kernel.org (tor.source.kernel.org [172.105.4.254])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5DD8410EA19;
+ Fri,  4 Jul 2025 12:29:13 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+ by tor.source.kernel.org (Postfix) with ESMTP id 5DF0161463;
+ Fri,  4 Jul 2025 12:29:12 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id B62A7C4CEEE;
+ Fri,  4 Jul 2025 12:29:11 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
+ s=korg; t=1751632152;
+ bh=J468UNvVT2VopBBdD6PHPtiMhQWjyLRoH/R1Ni39bMY=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=tJVIjRfbT0xhg12wLclCyNmCYVVaSHttLBj3ltCRY7nMLj+8Q3zRjtnQzI4K9YH7Q
+ RqDEkhTe3ZEkHBt0uUe+6fVt+lftt30vn7xX09SH2w56HGY8rFGvUAPvTClIqs7377
+ v0YNFJQYOa/NArRfM8xpCzxKxHaUUYtXFym7rmtQ=
+Date: Fri, 4 Jul 2025 14:29:09 +0200
+From: Greg KH <gregkh@linuxfoundation.org>
+To: "Gupta, Anshuman" <anshuman.gupta@intel.com>
+Cc: "Nilawar, Badal" <badal.nilawar@intel.com>,
+ "intel-xe@lists.freedesktop.org" <intel-xe@lists.freedesktop.org>,
+ "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
+ "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+ "Vivi, Rodrigo" <rodrigo.vivi@intel.com>,
+ "Usyskin, Alexander" <alexander.usyskin@intel.com>,
+ "Ceraolo Spurio, Daniele" <daniele.ceraolospurio@intel.com>
+Subject: Re: [PATCH v6 02/10] mei: late_bind: add late binding component driver
+Message-ID: <2025070434-oversleep-amnesty-b4fd@gregkh>
+References: <20250703193106.954536-1-badal.nilawar@intel.com>
+ <20250703193106.954536-3-badal.nilawar@intel.com>
+ <2025070421-cattishly-buffed-d992@gregkh>
+ <0b40eadc-c763-4cbc-910d-cbeb03b432d4@intel.com>
+ <2025070452-rendering-passover-9f8c@gregkh>
+ <fe774af5-76fb-4056-9eae-e2ccb0e0f078@intel.com>
+ <2025070445-brilliant-savor-a98e@gregkh>
+ <CY5PR11MB62115F7951B6045CF254B6A19542A@CY5PR11MB6211.namprd11.prod.outlook.com>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v5 04/16] drm/sched: Avoid double re-lock on the job free
- path
-To: Tvrtko Ursulin <tvrtko.ursulin@igalia.com>,
- amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org
-Cc: kernel-dev@igalia.com, =?UTF-8?Q?Christian_K=C3=B6nig?=
- <christian.koenig@amd.com>, Danilo Krummrich <dakr@kernel.org>,
- Matthew Brost <matthew.brost@intel.com>, Philipp Stanner <phasta@kernel.org>
-References: <20250623122746.46478-1-tvrtko.ursulin@igalia.com>
- <20250623122746.46478-5-tvrtko.ursulin@igalia.com>
-Content-Language: en-US
-From: =?UTF-8?Q?Ma=C3=ADra_Canal?= <mcanal@igalia.com>
-In-Reply-To: <20250623122746.46478-5-tvrtko.ursulin@igalia.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
+In-Reply-To: <CY5PR11MB62115F7951B6045CF254B6A19542A@CY5PR11MB6211.namprd11.prod.outlook.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -65,106 +67,99 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Tvrtko,
-
-On 23/06/25 09:27, Tvrtko Ursulin wrote:
-> Currently the job free work item will lock sched->job_list_lock first time
-> to see if there are any jobs, free a single job, and then lock again to
-> decide whether to re-queue itself if there are more finished jobs.
+On Fri, Jul 04, 2025 at 12:21:42PM +0000, Gupta, Anshuman wrote:
 > 
-> Since drm_sched_get_finished_job() already looks at the second job in the
-> queue we can simply add the signaled check and have it return the presence
-> of more jobs to free to the caller. That way the work item does not have
-> to lock the list again and repeat the signaled check.
 > 
-> Signed-off-by: Tvrtko Ursulin <tvrtko.ursulin@igalia.com>
-> Cc: Christian KÃ¶nig <christian.koenig@amd.com>
-> Cc: Danilo Krummrich <dakr@kernel.org>
-> Cc: Matthew Brost <matthew.brost@intel.com>
-> Cc: Philipp Stanner <phasta@kernel.org>
-> ---
->   drivers/gpu/drm/scheduler/sched_main.c | 39 +++++++++++---------------
->   1 file changed, 16 insertions(+), 23 deletions(-)
-> 
-> diff --git a/drivers/gpu/drm/scheduler/sched_main.c b/drivers/gpu/drm/scheduler/sched_main.c
-> index 1f077782ec12..c6c26aec07b6 100644
-> --- a/drivers/gpu/drm/scheduler/sched_main.c
-> +++ b/drivers/gpu/drm/scheduler/sched_main.c
-> @@ -366,22 +366,6 @@ static void __drm_sched_run_free_queue(struct drm_gpu_scheduler *sched)
->   		queue_work(sched->submit_wq, &sched->work_free_job);
->   }
->   
-> -/**
-> - * drm_sched_run_free_queue - enqueue free-job work if ready
-> - * @sched: scheduler instance
-> - */
-> -static void drm_sched_run_free_queue(struct drm_gpu_scheduler *sched)
-> -{
-> -	struct drm_sched_job *job;
-> -
-> -	spin_lock(&sched->job_list_lock);
-> -	job = list_first_entry_or_null(&sched->pending_list,
-> -				       struct drm_sched_job, list);
-> -	if (job && dma_fence_is_signaled(&job->s_fence->finished))
-> -		__drm_sched_run_free_queue(sched);
-> -	spin_unlock(&sched->job_list_lock);
-> -}
-> -
->   /**
->    * drm_sched_job_done - complete a job
->    * @s_job: pointer to the job which is done
-> @@ -1102,12 +1086,13 @@ drm_sched_select_entity(struct drm_gpu_scheduler *sched)
->    * drm_sched_get_finished_job - fetch the next finished job to be destroyed
->    *
->    * @sched: scheduler instance
-> + * @have_more: are there more finished jobs on the list
->    *
->    * Returns the next finished job from the pending list (if there is one)
->    * ready for it to be destroyed.
->    */
->   static struct drm_sched_job *
-> -drm_sched_get_finished_job(struct drm_gpu_scheduler *sched)
-> +drm_sched_get_finished_job(struct drm_gpu_scheduler *sched, bool *have_more)
->   {
->   	struct drm_sched_job *job, *next;
->   
-> @@ -1115,22 +1100,27 @@ drm_sched_get_finished_job(struct drm_gpu_scheduler *sched)
->   
->   	job = list_first_entry_or_null(&sched->pending_list,
->   				       struct drm_sched_job, list);
-> -
->   	if (job && dma_fence_is_signaled(&job->s_fence->finished)) {
->   		/* remove job from pending_list */
->   		list_del_init(&job->list);
->   
->   		/* cancel this job's TO timer */
->   		cancel_delayed_work(&sched->work_tdr);
-> -		/* make the scheduled timestamp more accurate */
-> +
-> +		*have_more = false;
->   		next = list_first_entry_or_null(&sched->pending_list,
->   						typeof(*next), list);
-> -
->   		if (next) {
-> +			/* make the scheduled timestamp more accurate */
->   			if (test_bit(DMA_FENCE_FLAG_TIMESTAMP_BIT,
->   				     &next->s_fence->scheduled.flags))
->   				next->s_fence->scheduled.timestamp =
->   					dma_fence_timestamp(&job->s_fence->finished);
-> +
-> +			if (test_bit(DMA_FENCE_FLAG_SIGNALED_BIT,
-> +				     &next->s_fence->finished.flags))
+> > -----Original Message-----
+> > From: Greg KH <gregkh@linuxfoundation.org>
+> > Sent: Friday, July 4, 2025 5:31 PM
+> > To: Nilawar, Badal <badal.nilawar@intel.com>
+> > Cc: intel-xe@lists.freedesktop.org; dri-devel@lists.freedesktop.org; linux-
+> > kernel@vger.kernel.org; Gupta, Anshuman <anshuman.gupta@intel.com>;
+> > Vivi, Rodrigo <rodrigo.vivi@intel.com>; Usyskin, Alexander
+> > <alexander.usyskin@intel.com>; Ceraolo Spurio, Daniele
+> > <daniele.ceraolospurio@intel.com>
+> > Subject: Re: [PATCH v6 02/10] mei: late_bind: add late binding component
+> > driver
+> > 
+> > On Fri, Jul 04, 2025 at 05:18:46PM +0530, Nilawar, Badal wrote:
+> > >
+> > > On 04-07-2025 16:04, Greg KH wrote:
+> > > > On Fri, Jul 04, 2025 at 03:59:40PM +0530, Nilawar, Badal wrote:
+> > > > > On 04-07-2025 10:44, Greg KH wrote:
+> > > > > > On Fri, Jul 04, 2025 at 01:00:58AM +0530, Badal Nilawar wrote:
+> > > > > > > From: Alexander Usyskin <alexander.usyskin@intel.com>
+> > > > > > >
+> > > > > > > Add late binding component driver.
+> > > > > > > It allows pushing the late binding configuration from, for
+> > > > > > > example, the Xe graphics driver to the Intel discrete graphics card's
+> > CSE device.
+> > > > > > >
+> > > > > > > Signed-off-by: Alexander Usyskin <alexander.usyskin@intel.com>
+> > > > > > > Signed-off-by: Badal Nilawar <badal.nilawar@intel.com>
+> > > > > > > Reviewed-by: Anshuman Gupta <anshuman.gupta@intel.com>
+> > > > > > > ---
+> > > > > > >    drivers/misc/mei/Kconfig                    |   1 +
+> > > > > > >    drivers/misc/mei/Makefile                   |   1 +
+> > > > > > >    drivers/misc/mei/late_bind/Kconfig          |  13 +
+> > > > > > >    drivers/misc/mei/late_bind/Makefile         |   9 +
+> > > > > > >    drivers/misc/mei/late_bind/mei_late_bind.c  | 272
+> > > > > > > ++++++++++++++++++++
+> > > > > > Why do you have a whole subdir for a single .c file?  What's
+> > > > > > wrong with just keepign it in drivers/misc/mei/ ?
+> > > > > There is separate subdir for each component used by i915/xe, so
+> > > > > one was created for late_bind as well. Should we still drop late_bind
+> > subdir?
+> > > > >
+> > > > > cd drivers/misc/mei/
+> > > > >        gsc_proxy/ hdcp/      late_bind/ pxp/
+> > > > For "modules" that are just a single file, yeah, that's silly, don't
+> > > > do that.
+> > > Another reason to maintain the sub_dir is to accommodate additional
+> > > files for future platforms. If you still insist, I'll remove the sub_dir.
+> > 
+> > Move files around when it happens, for now, it's silly and not needed.
+> > 
+> > > > > > > + * @payload_size: size of the payload data in bytes
+> > > > > > > + * @payload: data to be sent to the firmware  */ struct
+> > > > > > > +csc_heci_late_bind_req {
+> > > > > > > +	struct mkhi_msg_hdr header;
+> > > > > > > +	u32 type;
+> > > > > > > +	u32 flags;
+> > > > > > > +	u32 reserved[2];
+> > > > > > > +	u32 payload_size;
+> > > > > > As these cross the kernel boundry, they should be the correct
+> > > > > > type (__u32), but really, please define the endiness of them
+> > > > > > (__le32) and use the proper macros for that.
+> > > > > If we go with __le32 then while populating elements of structure
+> > > > > csc_heci_late_bind_req  I will be using cpu_to_le32().
+> > > > >
+> > > > > When mapping the response buffer from the firmware with struct
+> > > > > csc_heci_late_bind_rsp, there's no need to use le32_to_cpu() since
+> > > > > the response will already be in little-endian format.
+> > > > How do you know?  Where is that defined?  Where did the conversion
+> > > > happen?
+> > >
+> > > Sorry, I got confused. Conversion is needed when assigning the
+> > > response structure elements.
+> > >
+> > > e.g ret = (int)(le32_to_cpu)rsp.status;
+> > 
+> > But these are read directly from the hardware?  If not, why are they marked as
+> > packed?
+> Yes, these are read from firmware, that is the reason they marked as __packed.
+> IMHO, don't we need change the explicit endianness of response status to address your comment.
+> Are we missing something here?
 
-Shouldn't we use dma_fence_is_signaled() to keep the same check that we
-have in drm_sched_run_free_queue()?
+Yes.  The firmware defines these values as __le32, right?  And if you
+read a chunk of memory and cast it into this structure, those fields
+are now also __le32, right?  So to read them in the driver you need to
+then call le32_to_cpu() on those values.
 
-Best Regards,
-- MaÃ­ra
+Just like data on the USB bus, or any other hardware type.  You must
+define what endian the data is in and then convert it to "native" before
+accessing it properly.
 
-> +				*have_more = true;
-> +
->   			/* start TO timer for next job */
->   			drm_sched_start_timeout(sched);
->   		}
+thanks,
 
-
+greg k-h
