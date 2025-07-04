@@ -2,58 +2,56 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id D9DC0AF8C2B
+	by mail.lfdr.de (Postfix) with ESMTPS id CB966AF8C2A
 	for <lists+dri-devel@lfdr.de>; Fri,  4 Jul 2025 10:41:59 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3D6D410E996;
-	Fri,  4 Jul 2025 08:41:58 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0559910E997;
+	Fri,  4 Jul 2025 08:41:56 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=foss.st.com header.i=@foss.st.com header.b="QmrquhH1";
+	dkim=pass (2048-bit key; unprotected) header.d=foss.st.com header.i=@foss.st.com header.b="CX/LaQsN";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx07-00178001.pphosted.com (mx07-00178001.pphosted.com
- [185.132.182.106])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5E9F610E998
- for <dri-devel@lists.freedesktop.org>; Fri,  4 Jul 2025 08:41:56 +0000 (UTC)
-Received: from pps.filterd (m0241204.ppops.net [127.0.0.1])
- by mx07-00178001.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 5647ZtTI015069;
- Fri, 4 Jul 2025 10:41:45 +0200
+Received: from mx08-00178001.pphosted.com (mx08-00178001.pphosted.com
+ [91.207.212.93])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B2BB210E997
+ for <dri-devel@lists.freedesktop.org>; Fri,  4 Jul 2025 08:41:54 +0000 (UTC)
+Received: from pps.filterd (m0369457.ppops.net [127.0.0.1])
+ by mx07-00178001.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 5647Zr9v012099;
+ Fri, 4 Jul 2025 10:41:40 +0200
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=foss.st.com; h=
- cc:content-transfer-encoding:content-type:date:from:message-id
- :mime-version:subject:to; s=selector1; bh=SG1Uf3WWZKbhZvXehI/zWs
- a4U/GR4wtbqsoht1Gvc/s=; b=QmrquhH140RmkusdKGMoRkObmTKMLtwuLmEXU5
- wmSkUun+22sj1wVLDVEVRsnGu4tBT+iYggKLdQrW3tT3iB55Cndsx+sCwcbkLHSw
- qY/e4APbVTFRDu2IfqWzeL/Qk7Fz8guiua0XZUmiTySeKBPhTq0CTQOsyZ3+KqQU
- aHQomihSjdRo/ZmnxcxGvuxiXDOnmLRn5J06upV1tWs8JjSagMR4GIqmLs+hhKEO
- mJfUOjGFuzyRPluIjYqMaiw3Wi/sirTIirPmVe7jALRVTVSwgYr9bc4wNsrUQu4+
- 5rpV+3eFvlRBQZuFsWd7EsnrGg2xbjoZVshkJtF76eLiEElg==
+ cc:content-transfer-encoding:content-type:date:from:in-reply-to
+ :message-id:mime-version:references:subject:to; s=selector1; bh=
+ T+nHIjk3CgnMjH/o8M23MKc/+/PyZ7sJdxyhMJ6Ka/4=; b=CX/LaQsNge428SQj
+ SuztwM9Qwozyfyw8KguWd1ub3aZz2cbTXYSNNNXO9/W03fLBqUuZ74B+L0LULcWh
+ BhTPeD8q6DJFC+5q+if76n4b8CMbvgxlXb5/Pfc5iWxLz7BAbdZVKmGQ9YOZbeG/
+ SvtrJcpO5mcxgi9/EELSdQzT3tqXYWCUQAjB66/QxlKdVwfmKG/pjz0lVJgY2nzB
+ HObByf9fx46mgcPv4BhILZhggZ/WfQF9etpJPN5Llb67kT3OjmpZa7qBcxgpQtRG
+ 5j50phFMt0qHuI067V/HAWLh+RjzWkiJzrYabWsNPIkfeNMWfHaliv4G3fghn4H0
+ Si/xcg==
 Received: from beta.dmz-ap.st.com (beta.dmz-ap.st.com [138.198.100.35])
- by mx07-00178001.pphosted.com (PPS) with ESMTPS id 47j7r6kx8p-1
+ by mx07-00178001.pphosted.com (PPS) with ESMTPS id 47jubp8w0e-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Fri, 04 Jul 2025 10:41:45 +0200 (MEST)
+ Fri, 04 Jul 2025 10:41:40 +0200 (MEST)
 Received: from euls16034.sgp.st.com (euls16034.sgp.st.com [10.75.44.20])
- by beta.dmz-ap.st.com (STMicroelectronics) with ESMTP id 98DAB4004D;
+ by beta.dmz-ap.st.com (STMicroelectronics) with ESMTP id 995604004F;
  Fri,  4 Jul 2025 10:40:31 +0200 (CEST)
 Received: from Webmail-eu.st.com (shfdag1node2.st.com [10.75.129.70])
- by euls16034.sgp.st.com (STMicroelectronics) with ESMTP id 8586A48213E;
- Fri,  4 Jul 2025 10:39:36 +0200 (CEST)
+ by euls16034.sgp.st.com (STMicroelectronics) with ESMTP id 4336847F9B2;
+ Fri,  4 Jul 2025 10:39:37 +0200 (CEST)
 Received: from localhost (10.48.86.185) by SHFDAG1NODE2.st.com (10.75.129.70)
  with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.39; Fri, 4 Jul
  2025 10:39:36 +0200
 From: =?utf-8?q?Cl=C3=A9ment_Le_Goffic?= <clement.legoffic@foss.st.com>
-Subject: [PATCH v4 0/3] Fix STM32 I2C dma operations
-Date: Fri, 4 Jul 2025 10:39:13 +0200
-Message-ID: <20250704-i2c-upstream-v4-0-84a095a2c728@foss.st.com>
+Date: Fri, 4 Jul 2025 10:39:14 +0200
+Subject: [PATCH v4 1/3] i2c: stm32: fix the device used for the DMA map
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
-X-B4-Tracking: v=1; b=H4sIADGTZ2gC/2XOTQ6DIBCG4as0rIuBGUDtqvdoukCklYU/AUvaG
- O9etBu1y2+S581MJFjvbCCX00S8jS64vktDnE/ENLp7WurqtAkwkExCTh0Y+hrC6K1uqZWVKiX
- jKEtNEhm8fbj3mrvd025cGHv/WeuRL9dfSHG1D0VOGRVQYy0xF1bJ66MPIQtjZvqWLKkIG378I
- 0LiheFCAoqC1+af44YjO3BMPNeAugKlCtR7Ps/zF4+/vAAoAQAA
-X-Change-ID: 20250527-i2c-upstream-e5b69501359a
+Message-ID: <20250704-i2c-upstream-v4-1-84a095a2c728@foss.st.com>
+References: <20250704-i2c-upstream-v4-0-84a095a2c728@foss.st.com>
+In-Reply-To: <20250704-i2c-upstream-v4-0-84a095a2c728@foss.st.com>
 To: Pierre-Yves MORDRET <pierre-yves.mordret@foss.st.com>, Alain Volmat
  <alain.volmat@foss.st.com>, Andi Shyti <andi.shyti@kernel.org>, "Maxime
  Coquelin" <mcoquelin.stm32@gmail.com>, Alexandre Torgue
@@ -89,45 +87,72 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-This patch series aims to fix some issues inside the driver's DMA
-handling.
-It also uses newer I2C DMA API.
+If the DMA mapping failed, it produced an error log with the wrong
+device name:
+"stm32-dma3 40400000.dma-controller: rejecting DMA map of vmalloc memory"
+Fix this issue by replacing the dev with the I2C dev.
 
+Fixes: bb8822cbbc53 ("i2c: i2c-stm32: Add generic DMA API")
+Acked-by: Alain Volmat <alain.volmat@foss.st.com>
 Signed-off-by: Clément Le Goffic <clement.legoffic@foss.st.com>
 ---
-Changes in v4:
-- Patch[1]: Remove all `chan_dev` variable occurrencies
-- Patch[2]:
-    - Refine commit message
-    - Use the dma_callback to factorize the code
-- Patch[3]: Refine commit message
-- Link to v3: https://lore.kernel.org/r/20250630-i2c-upstream-v3-0-7a23ab26683a@foss.st.com
+ drivers/i2c/busses/i2c-stm32.c   | 8 +++-----
+ drivers/i2c/busses/i2c-stm32f7.c | 4 ++--
+ 2 files changed, 5 insertions(+), 7 deletions(-)
 
-Changes in v3:
-- Add Alain Volmat's "Acked-by" on patch 1 and 2
-- Link to v2: https://lore.kernel.org/r/20250627-i2c-upstream-v2-0-8c14523481dc@foss.st.com
+diff --git a/drivers/i2c/busses/i2c-stm32.c b/drivers/i2c/busses/i2c-stm32.c
+index 157c64e27d0b..f84ec056e36d 100644
+--- a/drivers/i2c/busses/i2c-stm32.c
++++ b/drivers/i2c/busses/i2c-stm32.c
+@@ -102,7 +102,6 @@ int stm32_i2c_prep_dma_xfer(struct device *dev, struct stm32_i2c_dma *dma,
+ 			    void *dma_async_param)
+ {
+ 	struct dma_async_tx_descriptor *txdesc;
+-	struct device *chan_dev;
+ 	int ret;
+ 
+ 	if (rd_wr) {
+@@ -116,11 +115,10 @@ int stm32_i2c_prep_dma_xfer(struct device *dev, struct stm32_i2c_dma *dma,
+ 	}
+ 
+ 	dma->dma_len = len;
+-	chan_dev = dma->chan_using->device->dev;
+ 
+-	dma->dma_buf = dma_map_single(chan_dev, buf, dma->dma_len,
++	dma->dma_buf = dma_map_single(dev, buf, dma->dma_len,
+ 				      dma->dma_data_dir);
+-	if (dma_mapping_error(chan_dev, dma->dma_buf)) {
++	if (dma_mapping_error(dev, dma->dma_buf)) {
+ 		dev_err(dev, "DMA mapping failed\n");
+ 		return -EINVAL;
+ 	}
+@@ -150,7 +148,7 @@ int stm32_i2c_prep_dma_xfer(struct device *dev, struct stm32_i2c_dma *dma,
+ 	return 0;
+ 
+ err:
+-	dma_unmap_single(chan_dev, dma->dma_buf, dma->dma_len,
++	dma_unmap_single(dev, dma->dma_buf, dma->dma_len,
+ 			 dma->dma_data_dir);
+ 	return ret;
+ }
+diff --git a/drivers/i2c/busses/i2c-stm32f7.c b/drivers/i2c/busses/i2c-stm32f7.c
+index e4aaeb2262d0..817d081460c2 100644
+--- a/drivers/i2c/busses/i2c-stm32f7.c
++++ b/drivers/i2c/busses/i2c-stm32f7.c
+@@ -741,10 +741,10 @@ static void stm32f7_i2c_dma_callback(void *arg)
+ {
+ 	struct stm32f7_i2c_dev *i2c_dev = (struct stm32f7_i2c_dev *)arg;
+ 	struct stm32_i2c_dma *dma = i2c_dev->dma;
+-	struct device *dev = dma->chan_using->device->dev;
+ 
+ 	stm32f7_i2c_disable_dma_req(i2c_dev);
+-	dma_unmap_single(dev, dma->dma_buf, dma->dma_len, dma->dma_data_dir);
++	dma_unmap_single(i2c_dev->dev, dma->dma_buf, dma->dma_len,
++			 dma->dma_data_dir);
+ 	complete(&dma->dma_complete);
+ }
+ 
 
-Changes in v2:
-- Fix the dev used in dma_unmap also in the error path of
-  `stm32_i2c_prep_dma_xfer`
-- Add a dma_unmap_single also in the ITs error handler
-- Add Alain Volmat's "Acked-by" on patch 3
-- Link to v1: https://lore.kernel.org/r/20250616-i2c-upstream-v1-0-42d3d5374e65@foss.st.com
-
----
-Clément Le Goffic (3):
-      i2c: stm32: fix the device used for the DMA map
-      i2c: stm32f7: unmap DMA mapped buffer
-      i2c: stm32f7: support i2c_*_dma_safe_msg_buf APIs
-
- drivers/i2c/busses/i2c-stm32.c   |  8 +++---
- drivers/i2c/busses/i2c-stm32f7.c | 56 +++++++++++++++++++++-------------------
- 2 files changed, 33 insertions(+), 31 deletions(-)
----
-base-commit: d0b3b7b22dfa1f4b515fd3a295b3fd958f9e81af
-change-id: 20250527-i2c-upstream-e5b69501359a
-
-Best regards,
---  
-Clément Le Goffic <clement.legoffic@foss.st.com>
+-- 
+2.43.0
 
