@@ -2,122 +2,118 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 63040AFA13A
-	for <lists+dri-devel@lfdr.de>; Sat,  5 Jul 2025 20:59:04 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id ADAE1AFA13F
+	for <lists+dri-devel@lfdr.de>; Sat,  5 Jul 2025 21:03:20 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id DE1C010E056;
-	Sat,  5 Jul 2025 18:59:01 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3656810E100;
+	Sat,  5 Jul 2025 19:03:17 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=qualcomm.com header.i=@qualcomm.com header.b="glwbARjF";
+	dkim=pass (2048-bit key; unprotected) header.d=qualcomm.com header.i=@qualcomm.com header.b="X4262PbB";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com
- [205.220.168.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9A97610E056
- for <dri-devel@lists.freedesktop.org>; Sat,  5 Jul 2025 18:59:00 +0000 (UTC)
-Received: from pps.filterd (m0279866.ppops.net [127.0.0.1])
- by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 565Epq6b012082
- for <dri-devel@lists.freedesktop.org>; Sat, 5 Jul 2025 18:59:00 GMT
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com
+ [205.220.180.131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 57BB310E100
+ for <dri-devel@lists.freedesktop.org>; Sat,  5 Jul 2025 19:03:16 +0000 (UTC)
+Received: from pps.filterd (m0279870.ppops.net [127.0.0.1])
+ by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 565HSHI8004830
+ for <dri-devel@lists.freedesktop.org>; Sat, 5 Jul 2025 19:03:15 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
  cc:content-type:date:from:in-reply-to:message-id:mime-version
- :references:subject:to; s=qcppdkim1; bh=ocaOCMHYE8NDO9OEW664JHC6
- 8656egVpSIsX1z3ynhE=; b=glwbARjFKxn/6SSrUX5lqrKzoUw6oEmwe9HpIBw5
- SEhwnJ7qe3Qpu759z9zgz2muJOQMQT4I+w0SSfD0IEAaXyz/UX6PbA+YU0EItnOd
- FI6WQVbgbXtGVRF8Njpb626BChJVy4r+6yAVPliEJl4ybckSLf0weSuhCuWoKquy
- oh55BwDcPXHhDrEi+OqAqnPzJGUjJUvKUdd6DIljgGAJfnGEVWpGw+OwjCLuGFdS
- Ufk6e3KMZq+8HgJBzCDN13+LSO9ia6cAWJrUvcELFdkyz8a5787k0Zd/kTEVwGnQ
- sx+/rwY5KkE2R9SfV2ra9789jTyQxBV+keInD2noWtcelg==
+ :references:subject:to; s=qcppdkim1; bh=GbeLfqtbM84GigusBY9E85yZ
+ ET2t+I54GGzPiTHuUK8=; b=X4262PbBT0ocS+G1VzLtUvvO6QeTriYKsQ7KM6Gl
+ a3/Fp1XauDYfMEYw+cIIH+0GRaRFDS7OQ7oFR0+pbUpB4ju2BqdzCog51Et74914
+ 4HcGXKQnqP/5XDoOeXWxJddBafY4mxgBKnFAZFszy6B2BlO1kfR9VIE/nJoDATpt
+ HEyYlIu3uwcFn71ZYfG54yWQKMAwIVvdl9JUD5f6Fp8ave1iVz7xoO1jb1sVUGuo
+ 5bHfs/pr8+/xOfb/n5D+I3DByTwemsYT64Qrte3vcMiS/57yYNcSKizeTNYAFSCR
+ JVFVhX8tpqnFmY2AMeCqiznGGxtSSfrKs/glJ4vdZDfXjg==
 Received: from mail-qk1-f198.google.com (mail-qk1-f198.google.com
  [209.85.222.198])
- by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 47pwbd1ngp-1
+ by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 47pv4x9um5-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
- for <dri-devel@lists.freedesktop.org>; Sat, 05 Jul 2025 18:58:59 +0000 (GMT)
+ for <dri-devel@lists.freedesktop.org>; Sat, 05 Jul 2025 19:03:15 +0000 (GMT)
 Received: by mail-qk1-f198.google.com with SMTP id
- af79cd13be357-7caee990721so383580585a.1
- for <dri-devel@lists.freedesktop.org>; Sat, 05 Jul 2025 11:58:59 -0700 (PDT)
+ af79cd13be357-7d3f0958112so264850785a.0
+ for <dri-devel@lists.freedesktop.org>; Sat, 05 Jul 2025 12:03:15 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1751741938; x=1752346738;
+ d=1e100.net; s=20230601; t=1751742194; x=1752346994;
  h=in-reply-to:content-disposition:mime-version:references:message-id
  :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
  :message-id:reply-to;
- bh=ocaOCMHYE8NDO9OEW664JHC68656egVpSIsX1z3ynhE=;
- b=n2A30jmi7pkjsaZ0Nl0+T26PBilLb4qNihi+UrvHZNkxEqIVVkRsxH2qhbQQCoNMYm
- V3LCIke4ImzEaU9ImXkZEoaPdNWJnIMdiMRm2T1vwHbebmWRcWig56q6i9GJkmmy1Ox0
- rMEwke4DA/2bqwTiBo4oyZZ9sWrXRUwFDcWxfl78v157PE1XQfnDJ/K4ePFulXdTSrrS
- 6yLWkWLfX2/Sex32NVOp7IiBbBZBMFcT/rp4yqfLtjfkTpBFA+0f4D5JBr7Ypbm58/7U
- K5b9vGYqqXqYI+qkA5Ub3Vx+n7Yqb0T+Z7oaf6+2Wp69ruELGmjqjYhONu20ekgfybqQ
- vzdg==
+ bh=GbeLfqtbM84GigusBY9E85yZET2t+I54GGzPiTHuUK8=;
+ b=lRUlf8fASBkmbuoOB9/Rtll8rFJjh126Lg5xzIzgx5rbkt7Lj+TJjjWC4FIRHBJZFJ
+ Kq7F6EDBl41ZuXyqNAJ5wayiaPFFkRffYc1ns2S0U9oNio9zjzuewYY0BYDFrURVSGA9
+ DPT+Enb2WM/OUfDOQYTCuSWVWM1p7AvNNzA0Lt/itxXuAEPigWiUDdzhz8+pR86mjDlV
+ kLgps3dxowvmu4FJJr9BBJ6NrHltELEmCP4UhvB5QAgppSKY47EGsHWjLmEeK8XlqThe
+ Rptueq9XPBpd62f6zj0HW9LJmPf960ZT4Akro+PTvyCU3ogP0aEeVlSNRpB8PLjGFXNk
+ xQNg==
 X-Forwarded-Encrypted: i=1;
- AJvYcCW4BQyQaSGSDqdM+oaNsGakHtllSFxJlJvVK3cUXQxxb6sfgNJcwZY+Kox6dqe49lf+IROjoPzglnE=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0Yw+HqLl5/75AI1b/Qect9V4AqS9iuXzc26SHS5avDpjZ7NLT6dz
- hX6f1aQ5jTIsyPPWDFxs4Y1AGCS1jZAZkqN4RWYbclF2zB4tVXDCEyXiKRs6NK6rOcbVH6ViJFZ
- V6rWGZTf1jU6zdQZaPzNPljYV62RJJ43EBlBP4a0ez5FNK28tmvg3RJYwBKmX/XDTFy9biU0=
-X-Gm-Gg: ASbGnctj69MlS7SpZFdxF8Vc7Jl+o1wv0IC5Q9RRaNJQLwX6y512x/VcOCCqz/f5Ynf
- XLAvQkq+VaUyaU+tFXHGtVCXK1VTKmRkZb9k66H8gOdIdQ6sc504QOG++ToPWZmaPMIy6bczFV2
- 2kXLG8584+NyTegI5f3iWfDZX4EWDe1wYb5/4aZkfTV2LGDEx3iWK30C/W50N0VG0kdHlRznxit
- kyH9PcTWq2G8GvqrW3t3nN47cKe1UidfMy5rL9M6D96v9ZTjtLAFEAP1qE2X6bGIjUkzO+E0jaK
- qaK9/5WhZcIlWmTn9/T1JXqetoRMIJLGQ7thmM+1Z3qpFv1HX0r1Jh/k2WoqBqrbI3v/kb7ujTb
- v07Dc8T2pK0If0aN3NhDV2TvbpeyldOK89gc=
-X-Received: by 2002:a05:620a:2495:b0:7d5:d49d:3e29 with SMTP id
- af79cd13be357-7d5dcd0a63cmr968456185a.45.1751741938358; 
- Sat, 05 Jul 2025 11:58:58 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IEwZuhJDnQ3LWiy5yGswE6sTDPHJMzCTMeoKblzaS2tUrAReL7ylcXFz0S593CShvSIaBFtHQ==
-X-Received: by 2002:a05:620a:2495:b0:7d5:d49d:3e29 with SMTP id
- af79cd13be357-7d5dcd0a63cmr968452285a.45.1751741937902; 
- Sat, 05 Jul 2025 11:58:57 -0700 (PDT)
+ AJvYcCVyseTS/FuIMZV6xQM4ZhecE97miRbzOPlL6kNdzQbUzY1hnICxl8/PFv2BWoJrmO9Xu5KsEhv/XXQ=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YztnLCRukMGY48xWcmtVnjbgl8Ar6hxa/PVfoZXYqKzGEdBFSPC
+ cFh4K2jhbCO6YMlSElE0GwRcZim/Bg7p1kY75b0JRI1d6uDidh1UKQyW3hl8tvEllPvvAjmLmPC
+ LDrX+i66+h30GAhQys0cv0pGN7Rmc0s34vu0ppGp+iLsuDX6j3CDT5wOYtmij2cJ/2r03xHE=
+X-Gm-Gg: ASbGncueTv7hNp+EfEpSmpNZ2H7PO5sxMWXTZaz7YIH6byTV2iFsR++xCv+HkxOU/Rq
+ 3HDwpYqshvK/kk+HlUQyKeDrMG9BymmeGmwFSJHTgPDHa4tF/cuVIfmEcQ0UaEDzk4ENiapOcMS
+ BkHuykO0nCs2eVJw6465Wzaot7ONx0sN0WVoVXQX2JsYAJNFca87dUDI2ht6L3eqTNQk/GeGUJO
+ NjtbfF/SlQ2Zk8HZWmZW3SINnN9hGiHMjkDBcZ7rclsfuO7ek4GZUMxUa/mALHeLi+yChT+VSPz
+ 4wWK5jgBPSjiEoNvoMAp6TrVfTOC9iqrbz/5Xrlfm29Q2A7KNgKCk1kVEwzj/aeN1HxdbntG+YW
+ T3wAxlVwIs5wzBLwQYhX9g0FvyjApvR59P+4=
+X-Received: by 2002:a05:620a:1b96:b0:7d4:4abb:908f with SMTP id
+ af79cd13be357-7d5f2f3f5fbmr408995885a.42.1751742194460; 
+ Sat, 05 Jul 2025 12:03:14 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IEcvtS4mI2BDeyqNJVRJsTnuleGJAXLklqYBVVRwEGb4WyHXNKOFHugdKts46+FzAjULo25pw==
+X-Received: by 2002:a05:620a:1b96:b0:7d4:4abb:908f with SMTP id
+ af79cd13be357-7d5f2f3f5fbmr408991985a.42.1751742193996; 
+ Sat, 05 Jul 2025 12:03:13 -0700 (PDT)
 Received: from umbar.lan
  (2001-14ba-a0c3-3a00-264b-feff-fe8b-be8a.rev.dnainternet.fi.
  [2001:14ba:a0c3:3a00:264b:feff:fe8b:be8a])
  by smtp.gmail.com with ESMTPSA id
- 2adb3069b0e04-556383d8dccsm665117e87.66.2025.07.05.11.58.56
+ 2adb3069b0e04-556384c18d3sm658991e87.212.2025.07.05.12.03.12
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sat, 05 Jul 2025 11:58:57 -0700 (PDT)
-Date: Sat, 5 Jul 2025 21:58:55 +0300
+ Sat, 05 Jul 2025 12:03:13 -0700 (PDT)
+Date: Sat, 5 Jul 2025 22:03:11 +0300
 From: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
-To: Kaustabh Chakraborty <kauschluss@disroot.org>
-Cc: Neil Armstrong <neil.armstrong@linaro.org>,
- Jessica Zhang <quic_jesszhan@quicinc.com>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+To: Cristian Ciocaltea <cristian.ciocaltea@collabora.com>
+Cc: Andrzej Hajda <andrzej.hajda@intel.com>,
+ Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>,
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
+ Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>,
  Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
  Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>, Rob Herring <robh@kernel.org>,
- Krzysztof Kozlowski <krzk+dt@kernel.org>,
- Conor Dooley <conor+dt@kernel.org>,
- Jessica Zhang <jessica.zhang@oss.qualcomm.com>,
- dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org,
- linux-kernel@vger.kernel.org, Conor Dooley <conor.dooley@microchip.com>
-Subject: Re: [PATCH v3 1/2] dt-bindings: display: panel: document Samsung
- S6E8AA5X01 panel driver
-Message-ID: <cueav4uxbhswv2z3grf4qhwualhg3zxknahrhv6uaedit6dgdv@23enbjmj64d3>
-References: <20250625-panel-samsung-s6e8aa5x01-v3-0-9a1494fe6c50@disroot.org>
- <20250625-panel-samsung-s6e8aa5x01-v3-1-9a1494fe6c50@disroot.org>
- <80055981-3624-4165-af0c-3b60c345e8f8@linaro.org>
- <4b9e44b14395ff4c64eba1bd71e63150@disroot.org>
+ Thomas Zimmermann <tzimmermann@suse.de>,
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+ kernel@collabora.com, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] drm/bridge: adv7511: Fix
+ DRM_BRIDGE_OP_HDMI_{AUDIO|CEC_ADAPTER} setup
+Message-ID: <d2a4ixu6xjcltjylv5c43gkzksbr2n4cqhw4x6tljaph77is7q@mdlp7fhoms26>
+References: <20250704-adv7511-bridge-ops-fix-v1-1-c1385922066e@collabora.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <4b9e44b14395ff4c64eba1bd71e63150@disroot.org>
-X-Proofpoint-GUID: I0xCAgvU8uCJs8hh3JwxJ6JxMqYNxcM4
-X-Proofpoint-ORIG-GUID: I0xCAgvU8uCJs8hh3JwxJ6JxMqYNxcM4
-X-Authority-Analysis: v=2.4 cv=e/kGSbp/ c=1 sm=1 tr=0 ts=686975f3 cx=c_pps
+In-Reply-To: <20250704-adv7511-bridge-ops-fix-v1-1-c1385922066e@collabora.com>
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwNzA1MDEyNSBTYWx0ZWRfX23KaItLW1nGE
+ 4j38zafis2ZBo2wafAWyhq0Jf2xbDCuuFXEpa0OGIcZ+IA2PbhpSYJftY9glRe4PXAUYt6Mde/h
+ wfvTtKlZGHS4Dd5fhcCUwnFIqbBqFGkAUQ4/EV1+cp/wscfUu94Y0lphkPvWZ5DK0lrJWbg3p3r
+ N1A+PHCN29fyaiBzUbVLsUmaZld1m5dLzTsLzgMXnjojDXd/ukHMnFEJQBQjqMOC2RhM1QoqXNi
+ FOM8DVVQG6At7LC/al3bqiIgPbCUB7ITpwbaE3cWelXPA4qFT3VPuIUS+Q2r+6Ybj5vR9OQWNog
+ YLBTQxr/kKBC5atNe68KIO2z4HP0gDx8CYL8X/hMCMzGrXHAyaoBJpUXTaDFrPKEh7UXnBTLmLk
+ wvEfJ1xxJ7xQDkGTIcK0kmZyGOXoilloYJ+b4D4p/na8ICIF7hEuZ2thxiYYH1LUX+9iSdjC
+X-Proofpoint-ORIG-GUID: cn5uO4Qso_dALNClbCvthJSwuZSh1Yl3
+X-Authority-Analysis: v=2.4 cv=DNCP4zNb c=1 sm=1 tr=0 ts=686976f3 cx=c_pps
  a=qKBjSQ1v91RyAK45QCPf5w==:117 a=xqWC_Br6kY4A:10 a=kj9zAlcOel0A:10
- a=Wb1JkmetP80A:10 a=5PY1fqJ0FUbosCpcTIAA:9 a=CjuIK1q_8ugA:10
- a=NFOGd7dJGGMPyQGDc5-O:22
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwNzA1MDEyNSBTYWx0ZWRfX2ZqdbPxS81y4
- MKSTwCM+IlpLecZ+frtkNMVs5lDfOFkT+ZW8hzAWIDVAE1dL9/m4OvIT5/mIVXHJl/qxKdN3oJp
- FvHOt79tUoYJIe3BBsDcRYWhsB19s8vwQb/F/Nbm2llKp/4s67gsagH1ElXBr8DG9QUZokOkERr
- EHlG1qiBlhf+sxWr+BekuH6RfHy9Xt6g9RE0jcoY5W0IvG1coxGWW+jRgVuv9C/R6g817+X6vKg
- /P67lyHHSl6VMzt0SY+lOY3hFbwcA3AA61zCWnb/98jUwvgWxPthZQwyFWiPIjNUk+69zAgbATW
- SiTVeZNQgq56Kl9CAQEbweKxmZmdkm4dCr42MN8cm7CSWM4qEF8680lmw/U4yWy1mVxRkG8lyjd
- erQ6MKnyxTEV+uIK/c63O/SP/NgCJr3eOnSYrSKUi6Qq4o7VzmtoT0snF6K6QHRtfuvcrMAS
+ a=Wb1JkmetP80A:10 a=QX4gbG5DAAAA:8 a=EUspDBNiAAAA:8 a=1kJDpHXNGl3mU_r8nRYA:9
+ a=CjuIK1q_8ugA:10 a=NFOGd7dJGGMPyQGDc5-O:22 a=AbAUZ8qAyYyZVLSsDulk:22
+X-Proofpoint-GUID: cn5uO4Qso_dALNClbCvthJSwuZSh1Yl3
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.293,Aquarius:18.0.1099,Hydra:6.1.7,FMLib:17.12.80.40
  definitions=2025-07-04_07,2025-07-04_01,2025-03-28_01
 X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- spamscore=0 malwarescore=0 impostorscore=0 adultscore=0 mlxlogscore=999
- lowpriorityscore=0 priorityscore=1501 suspectscore=0 mlxscore=0 phishscore=0
- bulkscore=0 clxscore=1015 classifier=spam authscore=0 authtc=n/a authcc=
+ priorityscore=1501 adultscore=0 spamscore=0 clxscore=1015 phishscore=0
+ malwarescore=0 mlxlogscore=999 mlxscore=0 lowpriorityscore=0 bulkscore=0
+ impostorscore=0 suspectscore=0 classifier=spam authscore=0 authtc=n/a authcc=
  route=outbound adjust=0 reason=mlx scancount=1 engine=8.19.0-2505280000
  definitions=main-2507050125
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -135,25 +131,25 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, Jun 30, 2025 at 05:18:22PM +0000, Kaustabh Chakraborty wrote:
-> On 2025-06-30 15:29, Neil Armstrong wrote:
-> > On 25/06/2025 14:41, Kaustabh Chakraborty wrote:
-> > > Samsung S6E8AA5X01 is an AMOLED MIPI DSI panel controller. Document
-> > > the
-> > > compatible and devicetree properties of this panel driver. Timings are
-> > > provided through the devicetree node as panels are available in
-> > > different sizes.
-> > 
-> > Wait, why ? Why not multiple compatibles ?
+On Fri, Jul 04, 2025 at 02:52:54PM +0300, Cristian Ciocaltea wrote:
+> When driver is built with either CONFIG_DRM_I2C_ADV7511_AUDIO or
+> CONFIG_DRM_I2C_ADV7511_CEC disabled, drm_bridge_connector_init() is
+> expected to fail with -EINVAL.  That is because all required audio (or
+> CEC) related callbacks in adv7511_bridge_funcs ended up being NULL.
 > 
-> The panel dimensions is the only thing which differs. The model name,
-> controller, registers, and functionality are supposedly all similar, so
-> I believe this is fine...
+> Set DRM_BRIDGE_OP_HDMI_AUDIO and DRM_BRIDGE_OP_HDMI_CEC_ADAPTER bridge
+> ops only when the aforementioned kernel config options have been
+> enabled.
+> 
+> Fixes: ae01d3183d27 ("drm/bridge: adv7511: switch to the HDMI connector helpers")
+> Signed-off-by: Cristian Ciocaltea <cristian.ciocaltea@collabora.com>
+> ---
+>  drivers/gpu/drm/bridge/adv7511/adv7511_drv.c | 6 +++---
+>  1 file changed, 3 insertions(+), 3 deletions(-)
+> 
 
-I'd say, it is typical to have a controller to be used by different
-panels. However usually those panels have different names or IDs. Please
-follow the typical way of handling such a situation and use panel IDs
-for compatibles.
+Reviewed-by: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
+
 
 -- 
 With best wishes
