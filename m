@@ -2,73 +2,73 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 66F97AFA090
-	for <lists+dri-devel@lfdr.de>; Sat,  5 Jul 2025 16:52:55 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id B34AFAFA091
+	for <lists+dri-devel@lfdr.de>; Sat,  5 Jul 2025 16:52:56 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1414110E22A;
-	Sat,  5 Jul 2025 14:52:51 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 17D5610E22C;
+	Sat,  5 Jul 2025 14:52:53 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=qualcomm.com header.i=@qualcomm.com header.b="EMwVlEF3";
+	dkim=pass (2048-bit key; unprotected) header.d=qualcomm.com header.i=@qualcomm.com header.b="iCbwx1Od";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com
  [205.220.168.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id DEF7210E220
- for <dri-devel@lists.freedesktop.org>; Sat,  5 Jul 2025 14:52:49 +0000 (UTC)
-Received: from pps.filterd (m0279864.ppops.net [127.0.0.1])
- by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 565EVT94030409
- for <dri-devel@lists.freedesktop.org>; Sat, 5 Jul 2025 14:52:49 GMT
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4430710E228
+ for <dri-devel@lists.freedesktop.org>; Sat,  5 Jul 2025 14:52:51 +0000 (UTC)
+Received: from pps.filterd (m0279862.ppops.net [127.0.0.1])
+ by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 565EN1fj011007
+ for <dri-devel@lists.freedesktop.org>; Sat, 5 Jul 2025 14:52:51 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
  cc:content-transfer-encoding:date:from:in-reply-to:message-id
- :mime-version:references:subject:to; s=qcppdkim1; bh=Nk90VOiEFug
- 0vYkjADFImbzNB5RgGN7Xu9yxpfyqjMo=; b=EMwVlEF3LV1v+XqxGnc0prQi2ce
- POIJRSVXse1eRxSZLHLYXK4uhri57YWRiws8HBkYAgd/otBUdtDpq975Qs5VnOT/
- 22aWWmtroGWckkzEUr9q9AS05TrBHqJSiuqwbOUDxcVDfHaLsCZTJDwUIORNXBwO
- wqrBt5BAYEf/IzKlQsPcsZUiNJwNh/qF+Gpav1WT+T0WUIBi99bH1EOn+5da9zHO
- ntWFIGsIxMauQVN7I/L1zLIXjimxjFHQfJddcYFvXM/IqwurSbUI8mEie+IS8kIV
- JCFAoYXcH7L6SYK5PddG9ue5MMUt4eZS4nTZ3RlIGR9FsSSQmHevh+L47Pw==
-Received: from mail-pl1-f200.google.com (mail-pl1-f200.google.com
- [209.85.214.200])
- by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 47pw7q1574-1
+ :mime-version:references:subject:to; s=qcppdkim1; bh=Q8N8EuMWRa1
+ mmGemJFqKzu5M4ZeUODj+NeiD8B3lAIc=; b=iCbwx1OdTY540JdijeWz6mmxNtN
+ jcHGzufMgNE6sGGCM60+73X2CC5hB4a6n+mVQ6+mYuuvlMBiz2FIIWOUV/trq2ee
+ UMff44up788BP/9Fy0qCuDj1vBt9XfVc7m0n9deNVhbfiOA/yIg02c60zEYg+UFT
+ 1gw/mHwX4iTa19joxGK3rdMAymAyIvH2bunT62OgXRwX5Q7P9EvI+qpC+eXw27Vf
+ 1gkUdMMhYJm7/xKconn3a1m1U3sFRSv5D9e/D3rcx7cZEu7LCUTOdHVBF0WeeYQK
+ d2frJQa7ongKYNGoDsd64B5leBQe7HyseXZ1q8o4dxbEXvxwAO/VLaoPQNw==
+Received: from mail-pf1-f197.google.com (mail-pf1-f197.google.com
+ [209.85.210.197])
+ by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 47pvtk15b5-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
- for <dri-devel@lists.freedesktop.org>; Sat, 05 Jul 2025 14:52:49 +0000 (GMT)
-Received: by mail-pl1-f200.google.com with SMTP id
- d9443c01a7336-23494a515e3so13032565ad.2
- for <dri-devel@lists.freedesktop.org>; Sat, 05 Jul 2025 07:52:49 -0700 (PDT)
+ for <dri-devel@lists.freedesktop.org>; Sat, 05 Jul 2025 14:52:50 +0000 (GMT)
+Received: by mail-pf1-f197.google.com with SMTP id
+ d2e1a72fcca58-748f3d4c7e7so1241568b3a.3
+ for <dri-devel@lists.freedesktop.org>; Sat, 05 Jul 2025 07:52:50 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1751727168; x=1752331968;
+ d=1e100.net; s=20230601; t=1751727170; x=1752331970;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=Nk90VOiEFug0vYkjADFImbzNB5RgGN7Xu9yxpfyqjMo=;
- b=B6UQU8S1joWh3zulPE5FPZiNU7lqoctHkZattXYMLwkHppWt1KkhMsVDC2DG92gQkS
- CpmyB0HEXbtocacWH/nfjGA+TBit03zh10JmGdHmB1NVakdyzWBaYtEtYQiJwUOrPcYv
- EfghfT1GoZVsuNkB3iisIIHkUHu67j/tzg61NdObRFx95IIxCqfQe29T6Cp7KHQ6vL8l
- WHLZp9HtJWD1MFmLvnjLmKUngPQ52wjv8S8VZk+oO37RwIqQ1idi4wwp8/U0Fy+bHMi8
- LSLVFsGuLD6MZKCNl/ZWgPXS4rF3y3KGN0wDCgsqtfL81cHUp4m6zMXRPFGKjxo3/R/S
- dgWw==
-X-Gm-Message-State: AOJu0YwwfzLn9Va0fsKTezikzzHFx++XaG6xyoV3BCHFD/tfYiUfgPNH
- M001hp1KNAAZHKn/t+uzCeox2GM7NRPbGAPY4S+8eTByGMa3taoglt05hCP64Klu3/O77MLhlsK
- lydTM07D8Ic0tsyfW+J6PjCmVU97pzRpGlKv5TjTnORgXEv40yKH7pr2xOmRt2rXtsSWdMyLIPf
- BBpHY=
-X-Gm-Gg: ASbGnctP1KxaySktBsGx4g+9xiRfGTmoj4p+WRzKV9yVTkrtGeZhtEi4qvsmoqPCELU
- WFcr89/IFZnBdIybMo/jMfyuugjOoehAZCfzdmvI7IpwLA6bf17vIOhwjMOmkYoH5O5ohAyACOB
- IZ0jIjyuSQr5rcKvxF3OLeWpil26jbhfOaJiOVV/wmSCH0afX1AZZQ0jA36RBFGnE/hn6sM13Bz
- +Zu6cVn+vHEoWqoQ133gF2RTs7/axDMWEvXJJrOUZ7xPdOQmKujs0t7VRu7+LT8jYDtkOS9v3P4
- pGSqXAhQh6ARe2CyEDjLEEJeEj1GxdNNsw==
-X-Received: by 2002:a17:903:41c1:b0:235:f51f:c9e4 with SMTP id
- d9443c01a7336-23c90fcbe60mr34277815ad.12.1751727168485; 
- Sat, 05 Jul 2025 07:52:48 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IGecKCCmRq5wXE4HczwKGdy/aWs+wh50ypGWsS+hlioJO5FRxk3SoGiY7wXQgs9u1NiDjqw0w==
-X-Received: by 2002:a17:903:41c1:b0:235:f51f:c9e4 with SMTP id
- d9443c01a7336-23c90fcbe60mr34277465ad.12.1751727168075; 
- Sat, 05 Jul 2025 07:52:48 -0700 (PDT)
+ bh=Q8N8EuMWRa1mmGemJFqKzu5M4ZeUODj+NeiD8B3lAIc=;
+ b=MfXkIqkn0T0y6R3fMJS8qNyfP3TtPY76KJ/CJW85nCltgfkLwXShR8BTqrtoPXiGlZ
+ AZRyfDBrgfIucRD4ReqXcom9w+WwEyM+p1T+OSbGi+WjXgriEzIv/1XNYdctUOdiXWPr
+ Ot/VUHAs7RWxsGqwe8I8nRL2bfs042lw8X9a19nqmbLMjZWzz2HBTQEiMaREYcCX3ggO
+ Dhf5GktuVcoC+HkuNlVoDUUrcXIAHn5Vk2CNcJZICgMUQ/R48D3noqbMqRb/7a+Hltbq
+ WdU+JSyFqI/KfDYuJgtrcwYtKXrZJKdig1txC6Mf8lIIYqGV0LDYOjx5dXVTpkkbTtyg
+ 1lJA==
+X-Gm-Message-State: AOJu0YzwvOp2N5s51/LMQ3yGf/mpuCJhYqmeIHtkYvIx0s2+8ENjl+UV
+ /jpKUfgU8glzmNqeFkrAdysKvR1nGjPGQ9BY0Q+loH5JUod1RhHKjyvbmqty2Opah+2xND1GbrU
+ BJQ6LXtKXDWIlbw2/vJHvorAhpJCI4T1XDyYNnzqbDUSUYcfIP/zjeNoPoE6OW3kWh2hF7EK9XU
+ Cl1VU=
+X-Gm-Gg: ASbGncuoCTGEVT+BKBSa8xrLnAlBv7OgxgXXf91V5mEZiAKlqgmS3a2SFQUXSZlPakh
+ rFxv8F5y8oeasOQjf63dXUh/YQ8W67IfFIEhktpqYj1xCTxLNIhgvfvMiJr08gqNjzLnR7KmQXs
+ rCwBefWIdyCexRSV3ej0AXzfScCtD8vzFKnglEvrFolT1YZoqXW4PJgNVyqXuZFF41rTAzw0p2g
+ nesEBAx1K8ti8juEqEzuuIbqsbgrHLObgzIQXNjDS2mtRO6XFq33p3f7N7YQsHEEp/JOH6nb8ay
+ UgpivnU/zy98iRR/8vBIBRoHV9o+rfg2aA==
+X-Received: by 2002:a05:6a00:218c:b0:72d:3b2e:fef9 with SMTP id
+ d2e1a72fcca58-74ce65d7abamr9077985b3a.20.1751727169714; 
+ Sat, 05 Jul 2025 07:52:49 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IEl5WMxSoNRG+3cwNkna22DGFREi0kKhH38n/zY2ySFcmwRRf5Bf2PvyWedYjvXUGUcKiTh2A==
+X-Received: by 2002:a05:6a00:218c:b0:72d:3b2e:fef9 with SMTP id
+ d2e1a72fcca58-74ce65d7abamr9077958b3a.20.1751727169338; 
+ Sat, 05 Jul 2025 07:52:49 -0700 (PDT)
 Received: from localhost ([2601:1c0:5000:d5c:5b3e:de60:4fda:e7b1])
  by smtp.gmail.com with ESMTPSA id
- d9443c01a7336-23c8431a38fsm43137835ad.4.2025.07.05.07.52.47
+ d2e1a72fcca58-74ce4180e47sm4753893b3a.103.2025.07.05.07.52.48
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sat, 05 Jul 2025 07:52:47 -0700 (PDT)
+ Sat, 05 Jul 2025 07:52:48 -0700 (PDT)
 From: Rob Clark <robin.clark@oss.qualcomm.com>
 To: dri-devel@lists.freedesktop.org
 Cc: linux-arm-msm@vger.kernel.org, freedreno@lists.freedesktop.org,
@@ -81,34 +81,34 @@ Cc: linux-arm-msm@vger.kernel.org, freedreno@lists.freedesktop.org,
  Marijn Suijten <marijn.suijten@somainline.org>,
  David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
  linux-kernel@vger.kernel.org (open list)
-Subject: [PATCH 1/2] drm/msm: Clean up split driver features
-Date: Sat,  5 Jul 2025 07:52:40 -0700
-Message-ID: <20250705145242.781821-2-robin.clark@oss.qualcomm.com>
+Subject: [PATCH 2/2] drm/msm: Take the ioctls away from the KMS-only driver
+Date: Sat,  5 Jul 2025 07:52:41 -0700
+Message-ID: <20250705145242.781821-3-robin.clark@oss.qualcomm.com>
 X-Mailer: git-send-email 2.50.0
 In-Reply-To: <20250705145242.781821-1-robin.clark@oss.qualcomm.com>
 References: <20250705145242.781821-1-robin.clark@oss.qualcomm.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwNzA1MDA5NyBTYWx0ZWRfX9I8C698lSmJg
- xyVsoErUB9Dih6FmWQ/mIsjQFW2ttX8aJfW//Gy1UtHZbcvOCKM4XRLnrUnukZjUQ/rfEtapiX3
- sHkY/WDU3yTkdaJUWpf7Tg1SKb80ug84KoIV2mCnwvqufFQVNwRr2pZslzUTeg8QLUabyz5e7df
- lLDoYuPSAq5H3K35u1KvBupbeaU/85cbt6NPQsQZQ7vCHNG8rKIQLdnIDhe1rW29Rq5f4WF2dw2
- vx5i9N3wpe/O5WwysfR5dakbEwQ207WqHO8Rmgt052KK8r+x+Hr31/vWDnfSLDJrXxy3OCIA1oI
- nzrvHyfGWo3gBNj1QOjOBoaAHg4etJedCnge8ioZ+IYKIvxX+NuXBL696b5H8hPHk9MhFK5ERNT
- WTEADJsaLyoSrT/dus5AkjulEtlxOu6pkG36LJjwrncikbs6n1TD+COfIlS+Ofxttx5qyloi
-X-Proofpoint-GUID: e7xQeon-4cQAeImF1tYdwbFxlX7HT8t7
-X-Proofpoint-ORIG-GUID: e7xQeon-4cQAeImF1tYdwbFxlX7HT8t7
-X-Authority-Analysis: v=2.4 cv=SOBCVPvH c=1 sm=1 tr=0 ts=68693c41 cx=c_pps
- a=IZJwPbhc+fLeJZngyXXI0A==:117 a=xqWC_Br6kY4A:10 a=Wb1JkmetP80A:10
- a=EUspDBNiAAAA:8 a=udmpUeRRehRK9BJah1YA:9 a=uG9DUKGECoFWVXl0Dc02:22
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwNzA1MDA5NyBTYWx0ZWRfX7AtM2TzcmC4V
+ XIDGMa5MUEnlizhkaSV5zccSRi3rDASDdS5PCdDRWjeMk7r8sfu5F3KKCP04ipuoqRjV1tbSoln
+ MP+Iz/jfwRnk1mULLXpUvK7uuJHwLfoopsPPsm617E3EUYm7MWpZZWfaRxGP3SHYg6rpnqyhFlx
+ wz83vZc5PNTkqV3C1cioB193zp8r0bTd1HQa2tBd3/4sEHlu4JTZbLBcnzRB5pNTal9v7A2IzC2
+ zDlhxaG1cc6ZQOPKK7K4cJiDP7D+JGtoqbp0yzqsDyaIQ28uWjEFNL9gMLbv3bdPLn63B4elE8I
+ WAib/QuhgUeOjfXZkXv52ebnY4OR+wFSruTiFdgKEbyz6w1Xe8/1+v7aYaG+vmxkrVkPYUtpKqK
+ SdDMpAj45KApkkiDBijJYIoXWHY0IuHMKu1qcoegJfWNbCHDe/0MmX65Nh6DsfyMCObJUXlG
+X-Authority-Analysis: v=2.4 cv=Vq0jA/2n c=1 sm=1 tr=0 ts=68693c42 cx=c_pps
+ a=rEQLjTOiSrHUhVqRoksmgQ==:117 a=xqWC_Br6kY4A:10 a=Wb1JkmetP80A:10
+ a=EUspDBNiAAAA:8 a=2c09coKmtNN1XW7u8z0A:9 a=2VI0MkxyNR6bbpdq8BZq:22
+X-Proofpoint-ORIG-GUID: yU9GIAuf57r-glGOOmW5MAX_x3rhnyJE
+X-Proofpoint-GUID: yU9GIAuf57r-glGOOmW5MAX_x3rhnyJE
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.293,Aquarius:18.0.1099,Hydra:6.1.7,FMLib:17.12.80.40
  definitions=2025-07-04_07,2025-07-04_01,2025-03-28_01
 X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- clxscore=1015 priorityscore=1501 lowpriorityscore=0 bulkscore=0
- impostorscore=0 mlxlogscore=999 mlxscore=0 phishscore=0 malwarescore=0
- adultscore=0 suspectscore=0 spamscore=0 classifier=spam authscore=0
- authtc=n/a authcc= route=outbound adjust=0 reason=mlx scancount=1
+ spamscore=0 adultscore=0 bulkscore=0 phishscore=0 lowpriorityscore=0
+ clxscore=1015 mlxscore=0 malwarescore=0 mlxlogscore=906 impostorscore=0
+ suspectscore=0 priorityscore=1501 classifier=spam authscore=0 authtc=n/a
+ authcc= route=outbound adjust=0 reason=mlx scancount=1
  engine=8.19.0-2505280000 definitions=main-2507050097
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -125,72 +125,29 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Avoid the possibility of missing features between the split and unified
-drm driver cases by defining DRIVER_FEATURES_GPU / KMS and using those
-in the drm_driver initializations.
+KMS-only drivers should only allocate dumb buffers.  The driver custom
+ioctls are only meant for the usermode gpu driver (mesa), and not for
+general consumption, so they don't make sense for standalone KMS
+drivers.
 
 Signed-off-by: Rob Clark <robin.clark@oss.qualcomm.com>
 ---
- drivers/gpu/drm/msm/msm_drv.c | 31 ++++++++++++++++---------------
- 1 file changed, 16 insertions(+), 15 deletions(-)
+ drivers/gpu/drm/msm/msm_drv.c | 2 --
+ 1 file changed, 2 deletions(-)
 
 diff --git a/drivers/gpu/drm/msm/msm_drv.c b/drivers/gpu/drm/msm/msm_drv.c
-index b6efc5b9933b..5695de1bbae2 100644
+index 5695de1bbae2..3c856c0ae855 100644
 --- a/drivers/gpu/drm/msm/msm_drv.c
 +++ b/drivers/gpu/drm/msm/msm_drv.c
-@@ -816,14 +816,21 @@ static const struct file_operations fops = {
- 	.show_fdinfo = drm_show_fdinfo,
- };
- 
-+#define DRIVER_FEATURES_GPU ( \
-+		DRIVER_GEM | \
-+		DRIVER_GEM_GPUVA | \
-+		DRIVER_RENDER | \
-+		DRIVER_SYNCOBJ_TIMELINE | \
-+		0 )
-+
-+#define DRIVER_FEATURES_KMS ( \
-+		DRIVER_GEM | \
-+		DRIVER_ATOMIC | \
-+		DRIVER_MODESET | \
-+		0 )
-+
- static const struct drm_driver msm_driver = {
--	.driver_features    = DRIVER_GEM |
--				DRIVER_GEM_GPUVA |
--				DRIVER_RENDER |
--				DRIVER_ATOMIC |
--				DRIVER_MODESET |
--				DRIVER_SYNCOBJ_TIMELINE |
--				DRIVER_SYNCOBJ,
-+	.driver_features    = DRIVER_FEATURES_GPU | DRIVER_FEATURES_KMS,
- 	.open               = msm_open,
- 	.postclose          = msm_postclose,
- 	.dumb_create        = msm_gem_dumb_create,
-@@ -846,9 +853,7 @@ static const struct drm_driver msm_driver = {
- };
- 
- static const struct drm_driver msm_kms_driver = {
--	.driver_features    = DRIVER_GEM |
--				DRIVER_ATOMIC |
--				DRIVER_MODESET,
-+	.driver_features    = DRIVER_FEATURES_KMS,
- 	.open               = msm_open,
- 	.postclose          = msm_postclose,
- 	.dumb_create        = msm_gem_dumb_create,
-@@ -870,11 +875,7 @@ static const struct drm_driver msm_kms_driver = {
- };
- 
- static const struct drm_driver msm_gpu_driver = {
--	.driver_features    = DRIVER_GEM |
--				DRIVER_GEM_GPUVA |
--				DRIVER_RENDER |
--				DRIVER_SYNCOBJ_TIMELINE |
--				DRIVER_SYNCOBJ,
-+	.driver_features    = DRIVER_FEATURES_GPU,
- 	.open               = msm_open,
- 	.postclose          = msm_postclose,
- 	.gem_prime_import_sg_table = msm_gem_prime_import_sg_table,
+@@ -864,8 +864,6 @@ static const struct drm_driver msm_kms_driver = {
+ #endif
+ 	MSM_FBDEV_DRIVER_OPS,
+ 	.show_fdinfo        = msm_show_fdinfo,
+-	.ioctls             = msm_ioctls,
+-	.num_ioctls         = ARRAY_SIZE(msm_ioctls),
+ 	.fops               = &fops,
+ 	.name               = "msm-kms",
+ 	.desc               = "MSM Snapdragon DRM",
 -- 
 2.50.0
 
