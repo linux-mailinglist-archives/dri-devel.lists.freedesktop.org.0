@@ -2,85 +2,85 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 06D80AF9F85
-	for <lists+dri-devel@lfdr.de>; Sat,  5 Jul 2025 12:02:43 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4E225AF9F87
+	for <lists+dri-devel@lfdr.de>; Sat,  5 Jul 2025 12:02:44 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 03A6B10E37D;
-	Sat,  5 Jul 2025 10:02:41 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1603D10E371;
+	Sat,  5 Jul 2025 10:02:42 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=qualcomm.com header.i=@qualcomm.com header.b="MKfI1Qkk";
+	dkim=pass (2048-bit key; unprotected) header.d=qualcomm.com header.i=@qualcomm.com header.b="ggglFIcx";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com
  [205.220.180.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id BBBB310E371
- for <dri-devel@lists.freedesktop.org>; Sat,  5 Jul 2025 10:02:38 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D82B510E371
+ for <dri-devel@lists.freedesktop.org>; Sat,  5 Jul 2025 10:02:40 +0000 (UTC)
 Received: from pps.filterd (m0279873.ppops.net [127.0.0.1])
- by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 565301QR007821
- for <dri-devel@lists.freedesktop.org>; Sat, 5 Jul 2025 10:02:38 GMT
+ by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 565301QT007821
+ for <dri-devel@lists.freedesktop.org>; Sat, 5 Jul 2025 10:02:40 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
  cc:content-transfer-encoding:content-type:date:from:in-reply-to
  :message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
- h/1nhlqlwpSE5F84bbMtq9GEBT3B7Hx0giikeSnmNeY=; b=MKfI1QkkFRL6fSCy
- zeOdYCzOi92HVULTqnk4laMKgHcDqDRbAQmzj0sfB9+StFUfirvgF51qMhiAX/wm
- UAvEKdArHr7UPLmQzR4egnyp/wdYst3Iyj4O7ploY4LL2DZBrxnQsmTbTM/UpA2j
- UzlIWguAEDOXIoBBJkXCd3ENYdRWrld27004YbE7eGYuGzTtoBlQwOQ2dYFN7yNM
- IDraD/Bv1EWEwRvYuy3+zKppJ8rvieAi/1V0GlrkzStekg9/Wgd+phZaLUgSbhso
- LNASMpMXo3qSUd/sXkGxt4NCUQ8lzFqutocAQGtELmiaPINw3/mFU6lWR411dLFD
- 3CfBhQ==
-Received: from mail-qk1-f200.google.com (mail-qk1-f200.google.com
- [209.85.222.200])
- by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 47psdq8s10-1
+ qr9nHXfoeeoP7fUi7W46pBoaSSHXj9P7KxRVEDWZdAM=; b=ggglFIcx/pxfroXC
+ 5pLzjdlKqy8JzrxWDTcgdk2k6qvEZ5aUwq7Y5qqKKzw8Sc8gOS7JZoCPu3sKApPJ
+ nHNMSZfMp6P7fDLuw1cmRXoG4QQJmj3mSEaJAewMUtqsnOeaVxr0HlA7+eIjn/2g
+ T23vDe8jE6hvamIL3N+ibRtwmnj/xcyS0acHnsjF+/Oy3hSF+cbWMfVxr3P6fARU
+ +9JYlIu+L9VFMLyFx+E5emKotmeuiVSeBsZLYIS4Om4qTaiQBz6Q3xQ7oNxCOQVk
+ LC8tmr/vfOlCUnq6pzX9Rpoll9dyHvocgFVRXswWAqwwX8Zu9L38KdpgTlutiXv7
+ YCqMlA==
+Received: from mail-qk1-f199.google.com (mail-qk1-f199.google.com
+ [209.85.222.199])
+ by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 47psdq8s17-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
- for <dri-devel@lists.freedesktop.org>; Sat, 05 Jul 2025 10:02:37 +0000 (GMT)
-Received: by mail-qk1-f200.google.com with SMTP id
- af79cd13be357-7d3e90c3a81so120474685a.1
- for <dri-devel@lists.freedesktop.org>; Sat, 05 Jul 2025 03:02:37 -0700 (PDT)
+ for <dri-devel@lists.freedesktop.org>; Sat, 05 Jul 2025 10:02:39 +0000 (GMT)
+Received: by mail-qk1-f199.google.com with SMTP id
+ af79cd13be357-7d4576e83cdso457344585a.1
+ for <dri-devel@lists.freedesktop.org>; Sat, 05 Jul 2025 03:02:39 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1751709757; x=1752314557;
+ d=1e100.net; s=20230601; t=1751709759; x=1752314559;
  h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
  :mime-version:subject:date:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=h/1nhlqlwpSE5F84bbMtq9GEBT3B7Hx0giikeSnmNeY=;
- b=N6obZabaJJHehyGI9KktRPud7jcaFXrOs4ts+cUiBbSwLkhCdCOhURoMlFwl2Op8sr
- z5R9OXCsmiD+zLzk+odTBPGIcUGdGRst8rNtq3akC9iyRrTKXAfZd1Sc9oZEVmCS9ul+
- bsbvHDx3H2g/hsMKNj0NR06ZQVNWPBnzmf0pfl5PyK51twXhRwW3DxGv/zMO6AQlzZ0x
- d0uWvH3eJL2eQ3U14mYY5INJpkUt6VBMHpFM0jpSNTbw3SUoQBq+pP3drncFQqbxYN87
- RHTCsnU18GhljEOxOaiGGuSCXMnMNajLOgHnUDzNvcgqdeWaGN7SigZLiOxC0R9ktzYK
- zgig==
+ bh=qr9nHXfoeeoP7fUi7W46pBoaSSHXj9P7KxRVEDWZdAM=;
+ b=E7k/ORs+JAmD1xKNFzY6ounP2ilfFVrzRqfu1jWaKmYrC9l07nN8uXR8SLe3JKn7lP
+ cuCMAKNH7b8XuZKUm1OxeFofdD915UZxPXBsIyy84u407pCr1uyX9+x6FXGvWzPIGsAL
+ qrsCMHNGqqXP/nFYazpSDlkUui166H7BynlmLFitaanblEDcgHcZ+iT/f7D+xC+Bpnhj
+ bd+vB+up3HjRgLNOslvZieH1FKYVsujDXmqvsncOqTGj3Ry/GGgNofJV974T162cLW+n
+ VneLPwnJ0fFAVo21NMtlJN2R/v9Hc3nkNFVetIVWlsqQhKMdH2W7kuryLolYzNQ7Xh3l
+ ROcQ==
 X-Forwarded-Encrypted: i=1;
- AJvYcCWOMQc5dFNzmUegCMbWYzdF4VWq+HQ8MKHXTd4JqAEAskEORkB/fpBpMEJsm9XQQ4K45M7B7DwC6F0=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YzmZ6tFBRsVXc9Sm9GQ511L4wnpjxjgnxGxWB8g760ciRiEx9u+
- 8g7UPHS3gw/xWI9tXhpTZy1W2F8k6nr8yXFvQow/Lr813mDDV68jozszsEP3CcizftGWaFHvKyj
- oVYhlBnfkzpNkJMpBfprjQBDcul+AedTjHWIJiNzft3oxIeHGgUetPlbXOD/4FakwI1wHXpU=
-X-Gm-Gg: ASbGncsbo/ScxldPOY1G7e6vyuUtFFbKXWnAM2a6MjOzIL5mQxWgp5ccx6LdxiZ7VIx
- +AZ96hyY9A4J0YA9K032z7WS5vF54o6bVaWhYdUrzyzuLAz8ZczWXkaOeUNtpzwT9Y0thSA5G9x
- 3J+yvwYO3PhOz+kyWFbZ2jhK5dG7blTegnMhqEJJKjrI96QXvyURanpJqMYnue4T4DsXq3ZkaHG
- ecUfvXWuVN69Mf2zJfck9m8hSXJ+cRfXvvLCZRB9TPDVabzQ2pFbrLcIe1MzsnBocZpafdOifh8
- qRpGqH36XNrCoCcosEt92fDjQkPY0QtL9kDL43jXjMpOhhMzVz6Yr0N7Wq/oROCs20lCFCB+VbF
- TWpl5PAWsrB0RgcspJi8ICzYfDe9qG3A1B1w=
-X-Received: by 2002:a05:620a:410e:b0:7d4:3b3b:20f5 with SMTP id
- af79cd13be357-7d5df180268mr729964885a.48.1751709756906; 
- Sat, 05 Jul 2025 03:02:36 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IGnwkDUFYmSv6w9LvplPIPGz2sg8KpSYgqXGg0Jgcp8qXdWOYs4owyRO2ecIbVxnhMp5dKn6Q==
-X-Received: by 2002:a05:620a:410e:b0:7d4:3b3b:20f5 with SMTP id
- af79cd13be357-7d5df180268mr729957085a.48.1751709756147; 
- Sat, 05 Jul 2025 03:02:36 -0700 (PDT)
+ AJvYcCXKfKSpbK6dGrEmnPEqFSOQQMpLxa/JzYUGKU/Xq5S+vycyp+7WL8dpCM8UHEJb0LcffzqoEQjMilE=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YwFUuiCeOZt/1gQkPNQ0xfYkAWQ1xhkMp2RaHkbnwxhEuhmOamz
+ fNm7yPI9P6EZuBDPL05nbPs/O+SvZvWBm8rMg/0JWfE1CfDhi8ugzw3uTdWD7d7yhnkroLzz/10
+ QQBnOqUfFTL5ntVzEcGU6BuYn0m9goX3tWWNl/sTK9NARnPr5pjmC9YLKYBz63+brUwvnBiI=
+X-Gm-Gg: ASbGncvdEso2IQo+z0gFFNq9HMNt2wHX2EwvzXUaWXbpC+uaUHeVx9X/JO3wIDZ9M6v
+ lHK+qbb4a3jFQoftWKufHHC23w6TpLHt7hVcIYjvwr7aT7rfMVr7rUvtiSD69aABOWY0aa4IfQe
+ ExtnWfyehmxGNt0c3HpW3OQKl8T3XEiizoizDA1683Xr1ZB0oz8VsU0A+6/NUj6VBUQLDSwTGDt
+ EYaVdlcfopLuFvLrbcCmAwH4UJp5J8Fo4V/6D6aztFal8cevndTENJs2gaHNeMfIC368XayiSuo
+ NOTNc71SB0tyuyYErdqYy1PYgHf+jRPkqhWRAssaj7JxnOYtlYY6HGjR+2a69cMnottN+abt74Z
+ 6segWMRfyVvqE44mwwjeyMUfFFbqKsRtdTho=
+X-Received: by 2002:a05:620a:172b:b0:7d4:43cf:68e with SMTP id
+ af79cd13be357-7d5ef9b3303mr240399185a.17.1751709759010; 
+ Sat, 05 Jul 2025 03:02:39 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IHf15hUu+CzItaoLcjAJ84fZWCepzL5EYNjpa61wso8RvEzFOqMDAKTjeUuqPlu449XIEuPoA==
+X-Received: by 2002:a05:620a:172b:b0:7d4:43cf:68e with SMTP id
+ af79cd13be357-7d5ef9b3303mr240396385a.17.1751709758572; 
+ Sat, 05 Jul 2025 03:02:38 -0700 (PDT)
 Received: from umbar.lan
  (2001-14ba-a0c3-3a00-264b-feff-fe8b-be8a.rev.dnainternet.fi.
  [2001:14ba:a0c3:3a00:264b:feff:fe8b:be8a])
  by smtp.gmail.com with ESMTPSA id
- 2adb3069b0e04-556384c0558sm526274e87.209.2025.07.05.03.02.33
+ 2adb3069b0e04-556384c0558sm526274e87.209.2025.07.05.03.02.36
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sat, 05 Jul 2025 03:02:34 -0700 (PDT)
+ Sat, 05 Jul 2025 03:02:36 -0700 (PDT)
 From: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
-Date: Sat, 05 Jul 2025 13:02:27 +0300
-Subject: [PATCH v4 02/10] drm/msm: move helper calls to msm_kms.c
+Date: Sat, 05 Jul 2025 13:02:28 +0300
+Subject: [PATCH v4 03/10] drm/msm/mdp4: get rid of mdp4_crtc.id
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20250705-msm-gpu-split-v4-2-fb470c481131@oss.qualcomm.com>
+Message-Id: <20250705-msm-gpu-split-v4-3-fb470c481131@oss.qualcomm.com>
 References: <20250705-msm-gpu-split-v4-0-fb470c481131@oss.qualcomm.com>
 In-Reply-To: <20250705-msm-gpu-split-v4-0-fb470c481131@oss.qualcomm.com>
 To: Rob Clark <robin.clark@oss.qualcomm.com>,
@@ -92,34 +92,33 @@ To: Rob Clark <robin.clark@oss.qualcomm.com>,
  David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
  Konrad Dybcio <konradybcio@kernel.org>
 Cc: linux-arm-msm@vger.kernel.org, dri-devel@lists.freedesktop.org,
- freedreno@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- Abhinav Kumar <quic_abhinavk@quicinc.com>
+ freedreno@lists.freedesktop.org, linux-kernel@vger.kernel.org
 X-Mailer: b4 0.14.2
-X-Developer-Signature: v=1; a=openpgp-sha256; l=3498;
+X-Developer-Signature: v=1; a=openpgp-sha256; l=3130;
  i=dmitry.baryshkov@oss.qualcomm.com; h=from:subject:message-id;
- bh=TG9Y97y24HNtxbyFJsoKUMYBT/41NYtNamoIMKjs3K8=;
- b=owGbwMvMwMXYbdNlx6SpcZXxtFoSQ0bGD+NpfuVMXE8qXWfIlP5WzkqwFZsXN2PHmgTpH/N4+
- pxi40Q6GY1ZGBi5GGTFFFl8ClqmxmxKDvuwY2o9zCBWJpApDFycAjCRH+4cDGsOvWpX+PVAsze+
- zNje906pj+PVZaer58Y0e/7heqm3Kmj2lzzf19yTe1ZsKko+7OJs2P/H3MKBL6xWL+FeidlXFla
- zsys1dS9knpm++CCn2qQtb6zDN9u5FfwJP5GY5pkmwBfJL5hUKXii2F1wssmMC+aBwmum/ma3ji
- 1jMiyJMjulqnfKmS/Hqs044d2pYMb3BtKvP83/JHLvpa6ab63tprZfPM1f0/8yzA5QOrdxYWp+X
- WJKymV2r2Mv1m5Vc+RQmnFiD5e9TJVgf/NVEXEph2Im0aN5yjGuLel/A8TLA79M1V5/6fa3k09n
- hS7WkVxxpin/h7uSuNnnsr76ecc+CHJHurNYZf3TNwIA
+ bh=7I9SSPEIQPGrnlSdPo9OvtX0dZETia0LBeX4obv+vMM=;
+ b=owEBbQGS/pANAwAKAYs8ij4CKSjVAcsmYgBoaPgzNe0zg+PB6a9Y3of8MKVqFfobTxyaNcWi2
+ nn50KXTRmqJATMEAAEKAB0WIQRMcISVXLJjVvC4lX+LPIo+Aiko1QUCaGj4MwAKCRCLPIo+Aiko
+ 1RREB/9OJB18bPIclT1wQ2jGSYAG+LMaE5XWr4+F1sbgGdKNnWV6pCa2cT7yR2vPhAvK7ES37OP
+ ywXc4klooDiRDycpDQ4u8w90zVU1SgVmdDD/80bBOwmXMQ9EsniGpil30R5QfjvQD6CAh3VYlaR
+ xMnTLMraL162cF/M6gFyQy+rZYQXsyPgzP3+nlevTYDDPYYwqjzEJlY6N+1MKXywMzeCF1HbcAn
+ SmNFCh4nHglzNYW/i/0AlR7gUsPlf4BcxMzMQISTFD34VgF1I0SQdMASHK8/azSk997wnsD7JJ9
+ RFbJW+eCVyUaVy8oaxGRCA10C+jRGcCOIKWWmOLhQ1MceZLF
 X-Developer-Key: i=dmitry.baryshkov@oss.qualcomm.com; a=openpgp;
  fpr=8F88381DD5C873E4AE487DA5199BF1243632046A
-X-Authority-Analysis: v=2.4 cv=ffSty1QF c=1 sm=1 tr=0 ts=6868f83d cx=c_pps
- a=hnmNkyzTK/kJ09Xio7VxxA==:117 a=xqWC_Br6kY4A:10 a=IkcTkHD0fZMA:10
- a=Wb1JkmetP80A:10 a=COk6AnOGAAAA:8 a=EUspDBNiAAAA:8 a=5yuRF9vT8A_X6ws8YtoA:9
- a=QEXdDO2ut3YA:10 a=PEH46H7Ffwr30OY-TuGO:22 a=TjNXssC_j7lpFel5tvFf:22
-X-Proofpoint-ORIG-GUID: c1m3ZE2ihk5LX9SNFsnIgkV37JrjV3lp
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwNzA1MDA2NCBTYWx0ZWRfXzTIc6Hca3jz6
- PdSZKULhy/y1mDlBvvAtawsBWxLNJgwVDBxMpgm5kc/j+T3bEC2J5JjSqxH2+wRbwEWIeDH2uKd
- btDszPrMwHFt8FCM8AHI3CxdVMWnp9l2VvC2Pc5XJE4fhIt2/yRUFBVRkr9tnk+mQFWA3hMAlJ9
- Z7dlAwGmBrSpdG5AMY2C8C5ycLZqQNMhA7Dhk5nnBtXd1/obEh/FZg6rwnaWxa9X0Gpg56P1XR1
- FCxHiwzgw7J0ncx7NETPnwe4THLvIeP0kdBFnphgiiyI90XVb7+krSu1Zv4QXTkf41ip3Jp4orK
- rV1NMmRffDsr/RmDtVgHQ4e2S05cRTSX3aAs5Astl/rLB37vnnf0izgtqIyscfHTS2QFpPH2gq6
- tnQECTeyt+i1tNU29MjUNcmSqccQfSFBt6riHmEg9waGht86NHz9BFkizVDbdzj5+1sdcv9Z
-X-Proofpoint-GUID: c1m3ZE2ihk5LX9SNFsnIgkV37JrjV3lp
+X-Authority-Analysis: v=2.4 cv=ffSty1QF c=1 sm=1 tr=0 ts=6868f83f cx=c_pps
+ a=HLyN3IcIa5EE8TELMZ618Q==:117 a=xqWC_Br6kY4A:10 a=IkcTkHD0fZMA:10
+ a=Wb1JkmetP80A:10 a=EUspDBNiAAAA:8 a=JeS6effYNUkig2QXyjUA:9 a=QEXdDO2ut3YA:10
+ a=bTQJ7kPSJx9SKPbeHEYW:22
+X-Proofpoint-ORIG-GUID: esPVy8Vm-revyjoTK5B_j6Z8WJQKxg11
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwNzA1MDA2NCBTYWx0ZWRfXy2rDOUwDmBYd
+ M4wnw1P2jS1p3kYAJAOEZkFAfvQU+xcDQnbi2JQMvPHc++2m/Pf7U1/8VLLBUo2nGqM3HOLsrB/
+ m4jGiQNhRtiGkriPYxGRPkLCM1qEz7ggq4MJscJgZfRn1jKfrFj1Fk20AvX22yRXR86OONdXwj4
+ wc5QFRbg6TOokFczCYn6fc551mAiZN+d5xnCmqYvQhE3vPqaaoVJDQ3nC/FZJ1c71xUrzNYBYxe
+ UrXP992X52iSo3UVK9vyMBOdlGVfPW0pdX593fDWTsNvXE+DUU8awvXT+jrCVKwmAz5wDvwDZ0w
+ XlGzRneLpp8IxsdPpV5gBIDOs0ElJgx3ktND4CCB1gypPPCmbN5VW7Zs/6Gsxz3qewuI364GDbC
+ b+2gBbVh3VYYdmDFpU9SW8jcskWz+kKfW9mhbdHazpZ/DhrZKVueTQxA0zHhpG0MeUa/tiC9
+X-Proofpoint-GUID: esPVy8Vm-revyjoTK5B_j6Z8WJQKxg11
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.293,Aquarius:18.0.1099,Hydra:6.1.7,FMLib:17.12.80.40
  definitions=2025-07-04_07,2025-07-04_01,2025-03-28_01
@@ -144,106 +143,81 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Extract two more KMS-related codepieces to msm_kms.c, removing last
-pieces of KMS code from msm_drv.c.
+There is no reason to store CRTC id, it's a part of the drm_crtc. Drop
+this member and use drm_crtc.name for the warning message.
 
-Reviewed-by: Abhinav Kumar <quic_abhinavk@quicinc.com>
 Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
 ---
- drivers/gpu/drm/msm/msm_drv.c |  9 +++------
- drivers/gpu/drm/msm/msm_kms.c | 20 ++++++++++++++++++++
- drivers/gpu/drm/msm/msm_kms.h |  2 ++
- 3 files changed, 25 insertions(+), 6 deletions(-)
+ drivers/gpu/drm/msm/disp/mdp4/mdp4_crtc.c | 7 ++-----
+ drivers/gpu/drm/msm/disp/mdp4/mdp4_kms.c  | 2 +-
+ drivers/gpu/drm/msm/disp/mdp4/mdp4_kms.h  | 2 +-
+ 3 files changed, 4 insertions(+), 7 deletions(-)
 
-diff --git a/drivers/gpu/drm/msm/msm_drv.c b/drivers/gpu/drm/msm/msm_drv.c
-index 8f79f5b9a61eb39dbd63b4ff225b96e63ee9a5dd..ce22d96033c8efe9210436eff8241f52d3c053bd 100644
---- a/drivers/gpu/drm/msm/msm_drv.c
-+++ b/drivers/gpu/drm/msm/msm_drv.c
-@@ -11,7 +11,6 @@
- #include <linux/of_address.h>
- #include <linux/uaccess.h>
+diff --git a/drivers/gpu/drm/msm/disp/mdp4/mdp4_crtc.c b/drivers/gpu/drm/msm/disp/mdp4/mdp4_crtc.c
+index 2ee03ce2fd398be4f5b101be09c6dfb495324128..da53ca88251e7f184f4a7067fda16d6b426d3c49 100644
+--- a/drivers/gpu/drm/msm/disp/mdp4/mdp4_crtc.c
++++ b/drivers/gpu/drm/msm/disp/mdp4/mdp4_crtc.c
+@@ -17,7 +17,6 @@
+ struct mdp4_crtc {
+ 	struct drm_crtc base;
+ 	char name[8];
+-	int id;
+ 	int ovlp;
+ 	enum mdp4_dma dma;
+ 	bool enabled;
+@@ -539,7 +538,7 @@ static void mdp4_crtc_wait_for_flush_done(struct drm_crtc *crtc)
+ 			mdp4_crtc->flushed_mask),
+ 		msecs_to_jiffies(50));
+ 	if (ret <= 0)
+-		dev_warn(dev->dev, "vblank time out, crtc=%d\n", mdp4_crtc->id);
++		dev_warn(dev->dev, "vblank time out, crtc=%s\n", mdp4_crtc->base.name);
  
--#include <drm/clients/drm_client_setup.h>
- #include <drm/drm_drv.h>
- #include <drm/drm_file.h>
- #include <drm/drm_ioctl.h>
-@@ -74,7 +73,7 @@ static int msm_drm_uninit(struct device *dev)
- 	if (ddev->registered) {
- 		drm_dev_unregister(ddev);
- 		if (priv->kms)
--			drm_atomic_helper_shutdown(ddev);
-+			msm_drm_kms_unregister(dev);
- 	}
+ 	mdp4_crtc->flushed_mask = 0;
  
- 	msm_gem_shrinker_cleanup(ddev);
-@@ -167,10 +166,8 @@ static int msm_drm_init(struct device *dev, const struct drm_driver *drv)
- 	if (ret)
- 		goto err_msm_uninit;
+@@ -624,7 +623,7 @@ static void mdp4_crtc_flip_cleanup(struct drm_device *dev, void *ptr)
  
--	if (priv->kms_init) {
--		drm_kms_helper_poll_init(ddev);
--		drm_client_setup(ddev, NULL);
--	}
-+	if (priv->kms_init)
-+		msm_drm_kms_post_init(dev);
- 
- 	return 0;
- 
-diff --git a/drivers/gpu/drm/msm/msm_kms.c b/drivers/gpu/drm/msm/msm_kms.c
-index c6c4d3a89ba829e161b060b52c91f5323cb5a806..9541dd7f56c9ea0f1d63c77b8ad8e7bc8cb46508 100644
---- a/drivers/gpu/drm/msm/msm_kms.c
-+++ b/drivers/gpu/drm/msm/msm_kms.c
-@@ -13,6 +13,7 @@
- #include <drm/drm_drv.h>
- #include <drm/drm_mode_config.h>
- #include <drm/drm_vblank.h>
-+#include <drm/clients/drm_client_setup.h>
- 
- #include "disp/msm_disp_snapshot.h"
- #include "msm_drv.h"
-@@ -217,6 +218,15 @@ struct drm_gpuvm *msm_kms_init_vm(struct drm_device *dev)
- 	return vm;
- }
- 
-+void msm_drm_kms_unregister(struct device *dev)
-+{
-+	struct platform_device *pdev = to_platform_device(dev);
-+	struct msm_drm_private *priv = platform_get_drvdata(pdev);
-+	struct drm_device *ddev = priv->dev;
-+
-+	drm_atomic_helper_shutdown(ddev);
-+}
-+
- void msm_drm_kms_uninit(struct device *dev)
+ /* initialize crtc */
+ struct drm_crtc *mdp4_crtc_init(struct drm_device *dev,
+-		struct drm_plane *plane, int id, int ovlp_id,
++		struct drm_plane *plane, int ovlp_id,
+ 		enum mdp4_dma dma_id)
  {
- 	struct platform_device *pdev = to_platform_device(dev);
-@@ -366,3 +376,13 @@ void msm_kms_shutdown(struct platform_device *pdev)
- 	if (drm && drm->registered && priv->kms)
- 		drm_atomic_helper_shutdown(drm);
- }
-+
-+void msm_drm_kms_post_init(struct device *dev)
-+{
-+	struct platform_device *pdev = to_platform_device(dev);
-+	struct msm_drm_private *priv = platform_get_drvdata(pdev);
-+	struct drm_device *ddev = priv->dev;
-+
-+	drm_kms_helper_poll_init(ddev);
-+	drm_client_setup(ddev, NULL);
-+}
-diff --git a/drivers/gpu/drm/msm/msm_kms.h b/drivers/gpu/drm/msm/msm_kms.h
-index e48529c0a1554e8b9bf477dd71f59286b388de73..7ecf420d0f16cd68f8f7fd99c52e994fe604851f 100644
---- a/drivers/gpu/drm/msm/msm_kms.h
-+++ b/drivers/gpu/drm/msm/msm_kms.h
-@@ -200,6 +200,8 @@ static inline void msm_kms_destroy(struct msm_kms *kms)
- 		for_each_if (drm_crtc_mask(crtc) & (crtc_mask))
+ 	struct drm_crtc *crtc = NULL;
+@@ -639,8 +638,6 @@ struct drm_crtc *mdp4_crtc_init(struct drm_device *dev,
  
- int msm_drm_kms_init(struct device *dev, const struct drm_driver *drv);
-+void msm_drm_kms_post_init(struct device *dev);
-+void msm_drm_kms_unregister(struct device *dev);
- void msm_drm_kms_uninit(struct device *dev);
+ 	crtc = &mdp4_crtc->base;
  
- #endif /* __MSM_KMS_H__ */
+-	mdp4_crtc->id = id;
+-
+ 	mdp4_crtc->ovlp = ovlp_id;
+ 	mdp4_crtc->dma = dma_id;
+ 
+diff --git a/drivers/gpu/drm/msm/disp/mdp4/mdp4_kms.c b/drivers/gpu/drm/msm/disp/mdp4/mdp4_kms.c
+index 9acde91ad6c37369191e85820e58ee22892a61a5..6d938abe29ee7283de2b1535d3d0159bf09d6dff 100644
+--- a/drivers/gpu/drm/msm/disp/mdp4/mdp4_kms.c
++++ b/drivers/gpu/drm/msm/disp/mdp4/mdp4_kms.c
+@@ -339,7 +339,7 @@ static int modeset_init(struct mdp4_kms *mdp4_kms)
+ 			goto fail;
+ 		}
+ 
+-		crtc  = mdp4_crtc_init(dev, plane, priv->num_crtcs, i,
++		crtc  = mdp4_crtc_init(dev, plane, i,
+ 				mdp4_crtcs[i]);
+ 		if (IS_ERR(crtc)) {
+ 			DRM_DEV_ERROR(dev->dev, "failed to construct crtc for %s\n",
+diff --git a/drivers/gpu/drm/msm/disp/mdp4/mdp4_kms.h b/drivers/gpu/drm/msm/disp/mdp4/mdp4_kms.h
+index f9d988076337cb6fb63af8e76be59b2eb34ab327..fb348583dc84de5c57c77fdf246894e9334af514 100644
+--- a/drivers/gpu/drm/msm/disp/mdp4/mdp4_kms.h
++++ b/drivers/gpu/drm/msm/disp/mdp4/mdp4_kms.h
+@@ -185,7 +185,7 @@ void mdp4_crtc_set_config(struct drm_crtc *crtc, uint32_t config);
+ void mdp4_crtc_set_intf(struct drm_crtc *crtc, enum mdp4_intf intf, int mixer);
+ void mdp4_crtc_wait_for_commit_done(struct drm_crtc *crtc);
+ struct drm_crtc *mdp4_crtc_init(struct drm_device *dev,
+-		struct drm_plane *plane, int id, int ovlp_id,
++		struct drm_plane *plane, int ovlp_id,
+ 		enum mdp4_dma dma_id);
+ 
+ long mdp4_dtv_round_pixclk(struct drm_encoder *encoder, unsigned long rate);
 
 -- 
 2.39.5
