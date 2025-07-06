@@ -2,34 +2,34 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5B1E0AFA5D2
-	for <lists+dri-devel@lfdr.de>; Sun,  6 Jul 2025 16:36:36 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 556C2AFA5D3
+	for <lists+dri-devel@lfdr.de>; Sun,  6 Jul 2025 16:36:37 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 515A610E2BF;
-	Sun,  6 Jul 2025 14:36:34 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5BF9010E2C7;
+	Sun,  6 Jul 2025 14:36:35 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="rFvLJZHc";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="fQM1EHR/";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from tor.source.kernel.org (tor.source.kernel.org [172.105.4.254])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6F9C810E2BF
- for <dri-devel@lists.freedesktop.org>; Sun,  6 Jul 2025 14:36:33 +0000 (UTC)
+Received: from sea.source.kernel.org (sea.source.kernel.org [172.234.252.31])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E90D810E2C7
+ for <dri-devel@lists.freedesktop.org>; Sun,  6 Jul 2025 14:36:34 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by tor.source.kernel.org (Postfix) with ESMTP id 7934161447;
+ by sea.source.kernel.org (Postfix) with ESMTP id D124345CCB;
+ Sun,  6 Jul 2025 14:36:34 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8658AC4CEF2;
  Sun,  6 Jul 2025 14:36:32 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1C696C116B1;
- Sun,  6 Jul 2025 14:36:30 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1751812592;
- bh=LQvOsrvAxtIF9zfBp3smdp/HiFPvr9jOTvuEZPP26Xw=;
+ s=k20201202; t=1751812594;
+ bh=wZDfgswU2/pwcpS3H3uILO4jDTDnQH15cewPVoii5Es=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=rFvLJZHcU29O0N3LGnbtxWxip20YjNqI8oyhqdO0sYhjqsj7lTGgiv+R5o3LI5UUc
- +179CqJfuBWah9qpMn9Wi8YeSrbVF/6LhBghNhADHlnV54hWbDAtxYYTaE5wOyYJcx
- dXgb6DlCZYOdwY0H7GyH6S4dLae8azwQfDaFswhN8Vu2kEc/h+thqGkp4gPGCJhLnd
- zjJ7RXzw87ONI8D9EUG3NVe3sdAgPbEZs1EK26TLBNCe5AX7qr1eRICotXm9MCDs5J
- AmgC4HsP8/KDVxz1TrBTc7vsOpD9dkFaPl6MGczb2lZqBoCAiViGtL33hMIr2oC9BH
- JxljwFndWfVlQ==
+ b=fQM1EHR/Z6qlacJYO5f2mvPCgC/6Fn3imKN60fStl6psZyMt9HfrGYOUhGzOimMhO
+ +aKDUzLY2xJ77mzchgd8zkODC5dLmpuPUCuQEpM1j/kWqSX9WK7+gZ5Ti5g559UHEr
+ thdwk8qAm0e9duaHbknA0s3kBRSfvelucYGWADbJPVxyh+KaCKVNctOHRChdsUD1mC
+ shkiVSFCjjs90TTLgZMEXC5ZU1cZlPorDQy3v4cCxjEf6d6Ua2bFzepf4qFYNvsf2I
+ neWCRvtqI/BCPnxCRqL+0b39erPFgbhcR/fdSkQzJAN/PBSl3RHOvv2JOwfMN3I+un
+ RYW+sPWyHkqZA==
 From: Mario Limonciello <superm1@kernel.org>
 To: David Airlie <airlied@gmail.com>,
 	Bjorn Helgaas <bhelgaas@google.com>
@@ -53,9 +53,9 @@ Cc: Alex Deucher <alexander.deucher@amd.com>,
  Daniel Dadap <ddadap@nvidia.com>,
  Mario Limonciello <mario.limonciello@amd.com>,
  Simona Vetter <simona.vetter@ffwll.ch>, Bjorn Helgaas <helgaas@kernel.org>
-Subject: [PATCH v7 3/9] vga_switcheroo: Use pci_is_display()
-Date: Sun,  6 Jul 2025 09:36:07 -0500
-Message-ID: <20250706143613.1972252-4-superm1@kernel.org>
+Subject: [PATCH v7 4/9] iommu/vt-d: Use pci_is_display()
+Date: Sun,  6 Jul 2025 09:36:08 -0500
+Message-ID: <20250706143613.1972252-5-superm1@kernel.org>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <20250706143613.1972252-1-superm1@kernel.org>
 References: <20250706143613.1972252-1-superm1@kernel.org>
@@ -80,27 +80,28 @@ From: Mario Limonciello <mario.limonciello@amd.com>
 
 The inline pci_is_display() helper does the same thing.  Use it.
 
+Reviewed-by: Lu Baolu <baolu.lu@linux.intel.com>
 Reviewed-by: Daniel Dadap <ddadap@nvidia.com>
 Reviewed-by: Simona Vetter <simona.vetter@ffwll.ch>
 Suggested-by: Bjorn Helgaas <helgaas@kernel.org>
 Signed-off-by: Mario Limonciello <mario.limonciello@amd.com>
 ---
- drivers/gpu/vga/vga_switcheroo.c | 2 +-
+ drivers/iommu/intel/iommu.c | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/drivers/gpu/vga/vga_switcheroo.c b/drivers/gpu/vga/vga_switcheroo.c
-index 18f2c92beff8e..68e45a26e85f7 100644
---- a/drivers/gpu/vga/vga_switcheroo.c
-+++ b/drivers/gpu/vga/vga_switcheroo.c
-@@ -437,7 +437,7 @@ find_active_client(struct list_head *head)
-  */
- bool vga_switcheroo_client_probe_defer(struct pci_dev *pdev)
- {
--	if ((pdev->class >> 16) == PCI_BASE_CLASS_DISPLAY) {
-+	if (pci_is_display(pdev)) {
- 		/*
- 		 * apple-gmux is needed on pre-retina MacBook Pro
- 		 * to probe the panel if pdev is the inactive GPU.
+diff --git a/drivers/iommu/intel/iommu.c b/drivers/iommu/intel/iommu.c
+index 148b944143b81..cad9ed1016cfc 100644
+--- a/drivers/iommu/intel/iommu.c
++++ b/drivers/iommu/intel/iommu.c
+@@ -34,7 +34,7 @@
+ #define ROOT_SIZE		VTD_PAGE_SIZE
+ #define CONTEXT_SIZE		VTD_PAGE_SIZE
+ 
+-#define IS_GFX_DEVICE(pdev) ((pdev->class >> 16) == PCI_BASE_CLASS_DISPLAY)
++#define IS_GFX_DEVICE(pdev) pci_is_display(pdev)
+ #define IS_USB_DEVICE(pdev) ((pdev->class >> 8) == PCI_CLASS_SERIAL_USB)
+ #define IS_ISA_DEVICE(pdev) ((pdev->class >> 8) == PCI_CLASS_BRIDGE_ISA)
+ #define IS_AZALIA(pdev) ((pdev)->vendor == 0x8086 && (pdev)->device == 0x3a3e)
 -- 
 2.43.0
 
