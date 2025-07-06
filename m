@@ -2,109 +2,122 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1FCFBAFA4C6
-	for <lists+dri-devel@lfdr.de>; Sun,  6 Jul 2025 13:29:16 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 600B0AFA4CA
+	for <lists+dri-devel@lfdr.de>; Sun,  6 Jul 2025 13:40:39 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5EEB610E27E;
-	Sun,  6 Jul 2025 11:29:13 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B48A210E27C;
+	Sun,  6 Jul 2025 11:40:36 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=qualcomm.com header.i=@qualcomm.com header.b="aqXA7bPe";
+	dkim=pass (2048-bit key; unprotected) header.d=qualcomm.com header.i=@qualcomm.com header.b="PSD0Jd/x";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com
  [205.220.168.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0F46210E27C
- for <dri-devel@lists.freedesktop.org>; Sun,  6 Jul 2025 11:29:12 +0000 (UTC)
-Received: from pps.filterd (m0279865.ppops.net [127.0.0.1])
- by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 5666xTXu015390
- for <dri-devel@lists.freedesktop.org>; Sun, 6 Jul 2025 11:29:11 GMT
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3724710E27C
+ for <dri-devel@lists.freedesktop.org>; Sun,  6 Jul 2025 11:40:35 +0000 (UTC)
+Received: from pps.filterd (m0279864.ppops.net [127.0.0.1])
+ by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 566BK2bS006848
+ for <dri-devel@lists.freedesktop.org>; Sun, 6 Jul 2025 11:40:34 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
- cc:content-type:date:from:in-reply-to:message-id:mime-version
- :references:subject:to; s=qcppdkim1; bh=lOiTYgyfVIMNWiK4w0/cs8AF
- 7/kBmLhprudO0TxQlMw=; b=aqXA7bPeLDXMYyyOTyJDAv+e5Ks8riQT50oD4KSQ
- H/Jz/bo2qBgCR4E86+i2e7hlNaUz9OYlVw1JrcomAK6xKivHAVCS3n5pJfS5gz3F
- H0OG50uUqKOrpNsLsR3V2jJdDWRbvWWBTSxQ/S7SjJxmsO7yGQiLQk375BlaPtC0
- WxLubewP40Aqy4q1nFVCGIpBqAKvSGHmKaREjIz/Z1pyLyNZ4p/yuWYMmoyJMHLE
- GvnFWFNwGpbw0ZDM/Y3NawgqHsVa/cv0Y37hcaqiWhLM8KzdicgN42C3jR9XmSV1
- pCaXMiGFzygUgP3WRVNDGkyYRYWIc3t9h9ISD02/mdGdog==
-Received: from mail-qv1-f69.google.com (mail-qv1-f69.google.com
- [209.85.219.69])
- by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 47pu0vuqk0-1
+ cc:content-transfer-encoding:content-type:date:from:in-reply-to
+ :message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
+ 5MtJrLZB6vHEJTFAbODLQrWnKEyq1v38Cox+teZzaIw=; b=PSD0Jd/xscPweOes
+ JKoYB8n19FNdfRSiO+HjGlfENKg3f1EfK15Q2LeILY3I5C96fOI1IyUrg2WnOaS1
+ h5uYNvoXmqSpnUbHhoue+LYrr5jRRTebj97epteWV/2hZwchSrHRi5C3YPqlZb12
+ cxL9KzsxQU7JHmCNtIjuoU7tM251/G4DU02wQFtTGoZldTb8y/2ZewGeCTLNDEHo
+ HV8QSgeItBsBoPwSFxnE5WJzuyF9zhmpfInvP3yG8C4aqvZSbQ0yGG96EgeK9YKU
+ 0HomfQO+hboqIX8CjD4NZTGKrYNz5us1os8o7BFjL7UxfXxxVNqlfc/OvQI6eQFd
+ B3GxHw==
+Received: from mail-qv1-f71.google.com (mail-qv1-f71.google.com
+ [209.85.219.71])
+ by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 47pw7q3k35-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
- for <dri-devel@lists.freedesktop.org>; Sun, 06 Jul 2025 11:29:11 +0000 (GMT)
-Received: by mail-qv1-f69.google.com with SMTP id
- 6a1803df08f44-700c2d3f3d6so19281466d6.2
- for <dri-devel@lists.freedesktop.org>; Sun, 06 Jul 2025 04:29:11 -0700 (PDT)
+ for <dri-devel@lists.freedesktop.org>; Sun, 06 Jul 2025 11:40:34 +0000 (GMT)
+Received: by mail-qv1-f71.google.com with SMTP id
+ 6a1803df08f44-6fb5f70b93bso36290876d6.3
+ for <dri-devel@lists.freedesktop.org>; Sun, 06 Jul 2025 04:40:34 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1751801350; x=1752406150;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
- :message-id:reply-to;
- bh=lOiTYgyfVIMNWiK4w0/cs8AF7/kBmLhprudO0TxQlMw=;
- b=CAYrAaTDoqx5jMzUQX7sufJfIma1Thk7d0LdVErwwsrOR0B1p/joYG3BWz+ioYVhk2
- L7MaPYdMjNvQALn9xCckG8HfFiLaCXYgdM/a4bscpd08YRCcBQ3lu+5j8wwg/mOzxpuL
- 0X1GZWVncpOkCOHk5goRa/Li6LWD4xJOfA6MS+AqHWJXUWk0ZkGNZZa0Tu38barCW9M6
- zhiGqAbClf8G6r+eWVU/5qxZzZmJdwcs1QHO1o1HhzyM9bvQo8u+OOgkKlvv2QvBUrTQ
- AFd95UMtZAxe9vtylrjnUu/rh9SsRJKqbFcqxZbkQghQx5DSZW155F0Bh1XMAu0IMXsq
- z7RA==
-X-Gm-Message-State: AOJu0YyXYf2lpvH/hH4ohk1kTVhWhAfKaPEuK03vQwkt3WsIwEm68dub
- zw9bxRTboycv8df4AWZ+ioeNs1M5XOiUUHOiaG7Y0vinqgIoxi6Ua6PgVDk5bsUTteKfBB4D92e
- 0MQtGUHHSA/GVEXTdtg1eR/RObYq1cGrvvadyYZ/Gcn3qkH3UpdCccP4tCeiNlmtt4vkUoEYKgi
- q9DvUD8w==
-X-Gm-Gg: ASbGncsLQxze9n4KaiZUFLP/YfdhyhMy9QrYmB9a4Vk1r5ZsgT9MnziFqvE/TjP9fd0
- ZOaPMH13aTp6EHKIMlzdgRpy13QB3JmA/mkmWsdh9LKpxUIzt0VIGGTRf4QFNiQ5CBOYdqMAzta
- zh5tT5iV3aTfIF1me3zOJAAeURObYR46rit+RaUDg9WVJ0gpfa5/XqTXs/Qa2ZJoDcuxsj3CwcC
- 5zc258rtocLWGA7IMAa/vSVTQPmKt8CpESYa3RcnoOnTZ1yROTrudwxdOW+usGbF69i3pq6iTiu
- 5sLVIhQgyoLA8QeQHWn/wbRfAmC0kh6I7KaUcXuvC7+DxP7VQdMehMqHnA23Oel2OSMQONttRsU
- vFk1B3SIabOo/yl7p+pd+kJMtpjvf0R5jR9E=
-X-Received: by 2002:a05:620a:618f:b0:7d3:90e4:157d with SMTP id
- af79cd13be357-7d5df193723mr1369696785a.54.1751801349782; 
- Sun, 06 Jul 2025 04:29:09 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IHjf8ujcCZQK3OmeUY/Rbyy94Je/ZQGZrfGrXCuVC9ARaWg05Xdecj7xqhXN4rspflfnFHB/w==
-X-Received: by 2002:a05:620a:618f:b0:7d3:90e4:157d with SMTP id
- af79cd13be357-7d5df193723mr1369693485a.54.1751801349314; 
- Sun, 06 Jul 2025 04:29:09 -0700 (PDT)
+ d=1e100.net; s=20230601; t=1751802033; x=1752406833;
+ h=in-reply-to:content-transfer-encoding:content-disposition
+ :mime-version:references:message-id:subject:cc:to:from:date
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=5MtJrLZB6vHEJTFAbODLQrWnKEyq1v38Cox+teZzaIw=;
+ b=Kmg9VCp82pWBkMM37ZZFtzRAzr1KpkJz7YoMlv+E278IpldGMad7z/LswzZlywnCOy
+ eQU3TTzRIMSpj85jIMtUrenVqdnOLT4S7BlLviOqVBFOXk+dkigjzs31atBjgLSAItwn
+ yZzqxZKV8C9LkLvO381xI/WeR4A7kUZ9+BcQBnFz7wJyJ8AJ77DDVBXWuisTpBBuj8OH
+ hczWmv1wdyinC2J0Luyx5DYpDh7Nj2GsqVbiZwjHdlcUa7/6tmsrjC6L/Rz7FtyZvZ7A
+ c2N+slze2L73s2lqWiWmbLJxMDYrLXY8O5KScfvDpGMRvuzFeB7QXMWQBlSTeJFLkHxL
+ tMAQ==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCW6k0N0kIoyMQPlo4Ed/w+Hxyr1bsEtJ1CbsVwlusoU2oyfD/iEMKM8YtSruBVtDaki47lp2YrmOlM=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0Yy1/rWSeqYzkYYkDpuJBjWsJ1QFx8MLbGTRFUUMkKhbbjuN0/uT
+ 3ZVNKVyco62b4NcrE92+wDPkZje42usGoao+rDeG9kR7+xNCJbl+zqDsefJMdjh2jFqwvbQ5Wes
+ 25liselVACGxjcbMf6SLItUMdL7WvdNWKpMe0ryxxLk+JnQkYFpS1gyrNoGiREA++f2SlFXw=
+X-Gm-Gg: ASbGncue7npnaces2e6gKZ4oot45ofAAtnbe7temXOQ59s0NNLxAzd21th54jocfKO1
+ eyjYrQpXezIZhTdFmLVNHllgat3KiYOf/upkWqGwbbRm/uFTFeYH2DWA01vb3ZcFi93zlDIZ1Ew
+ 3slvqpm99m9iohP62VF8kx9B5TLRZQO3tgBtAnJRjmiwENtOOyWvIxc8S/9pNa/IZdUn/NBGMGd
+ kkjrSgMQEvQmX1OwEMW6aoYA+VjEepNIhUTey4ZkW5novZ/K2KVVcHGysjf5vvXlbWK0NIWclbI
+ r46lX47ZWV6g1HvWQTzK455Y234iMrMjilEZdVpRmgyPISqwkD9JbQ2RUovCDS08/MlqZMlPHmB
+ TCDDLoAChcbtgjvnwP//dnciHLP4WbfIP7Dg=
+X-Received: by 2002:a05:620a:408d:b0:7d2:266b:bbd with SMTP id
+ af79cd13be357-7d5ec391bb3mr714977985a.0.1751802032843; 
+ Sun, 06 Jul 2025 04:40:32 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IF3g/38GUwEKc9hX+7DDN51fyxCqyBjPwsxwNJfsOPjbCkjHwKMndS8pl0pRpR8GdpwIqeFOA==
+X-Received: by 2002:a05:620a:408d:b0:7d2:266b:bbd with SMTP id
+ af79cd13be357-7d5ec391bb3mr714972185a.0.1751802032262; 
+ Sun, 06 Jul 2025 04:40:32 -0700 (PDT)
 Received: from umbar.lan
  (2001-14ba-a0c3-3a00-264b-feff-fe8b-be8a.rev.dnainternet.fi.
  [2001:14ba:a0c3:3a00:264b:feff:fe8b:be8a])
  by smtp.gmail.com with ESMTPSA id
- 38308e7fff4ca-32e1b1202casm8234971fa.69.2025.07.06.04.29.08
+ 2adb3069b0e04-556384d5982sm922287e87.258.2025.07.06.04.40.31
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sun, 06 Jul 2025 04:29:08 -0700 (PDT)
-Date: Sun, 6 Jul 2025 14:29:06 +0300
+ Sun, 06 Jul 2025 04:40:31 -0700 (PDT)
+Date: Sun, 6 Jul 2025 14:40:29 +0300
 From: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
-To: Robert Mader <robert.mader@collabora.com>
-Cc: dri-devel@lists.freedesktop.org
-Subject: Re: [PATCH v1] drm/vkms: Add writeback encoders as possible clones
-Message-ID: <27oxphsevfwolf5mpm2vygrmp6wryujwmw65lsb7eqktykdw3z@lahceblqorgn>
-References: <20250703090335.23595-1-robert.mader@collabora.com>
+To: Jani Nikula <jani.nikula@linux.intel.com>
+Cc: Loic Poulain <loic.poulain@oss.qualcomm.com>,
+ Maxime Ripard <mripard@kernel.org>, andrzej.hajda@intel.com,
+ neil.armstrong@linaro.org, rfoss@kernel.org,
+ dri-devel@lists.freedesktop.org, lumag@kernel.org,
+ Laurent.pinchart@ideasonboard.com, jernej.skrabec@gmail.com,
+ maarten.lankhorst@linux.intel.com
+Subject: Re: [PATCH] drm/bridge: anx7625: Fix invalid EDID size
+Message-ID: <gx2jle4h4wf4nszsbmkzibzhjctwx3ifpyj3ar6ullsora725n@2ei2g775b4iv>
+References: <20250629023836.744441-1-loic.poulain@oss.qualcomm.com>
+ <20250630-venomous-sheep-of-control-dece32@houat>
+ <CAFEp6-3UVNfHo3s1MOXw88bAMVh=3QzF7H2N2UoVXyV6R3BBpw@mail.gmail.com>
+ <20250630-angelic-macaque-of-spirit-fadc59@houat>
+ <CAFEp6-2N4G0J+Fmke369t7zsnHDpi4zPuRx_Xn-hXAWN7URoJA@mail.gmail.com>
+ <77a6722549f3bb5d5e22a11762bf55bf16935e85@intel.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20250703090335.23595-1-robert.mader@collabora.com>
-X-Proofpoint-ORIG-GUID: 2jtuJzXmRoGEYE1iZj0iRuFYZGyv0d1E
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwNzA2MDA3MSBTYWx0ZWRfX10KZ/csgKg1x
- Dz84BODodWX5BA+V8K+TInKETCgsU2qRTIEqr/rYAyQSb32+vK5Ty4Lc8TNGnpVuN+nov+PUWO/
- XGAPwYeugSTFdbHkEOjhhwNuyfUnKie1Gm80R2DO8zK4PzzOoKF2KmxxplH1F7uLBqlWqdkSOBt
- 6l9fU+lZIMorBpBGfaupBedIsKWPo08sK8SQ/hG6f9Uz0kOZ6ZtMswCdzVehGzUFdtH504E5AkT
- LlCaoRDgu4ug8r55RHUWEiTodwGVj1/kP521gxWPBh5cpAicD2tsIbYDmdGtwlrykEivzdfIpbY
- Y8M4h6hOxG/cqczDOiNpMa2UEIyxYSyE0f9A0bwdOPxzmTJLPaaRHrJ8uJEsFW1Hl9vGvd161nN
- q1UMinnKaLWXUapwrTwbBRJEx7aakHFEPRqcwtKfAyCF2vQIk61Oa3F9Pju1SxmOpDtTG8/j
-X-Authority-Analysis: v=2.4 cv=Rd2QC0tv c=1 sm=1 tr=0 ts=686a5e07 cx=c_pps
- a=wEM5vcRIz55oU/E2lInRtA==:117 a=xqWC_Br6kY4A:10 a=kj9zAlcOel0A:10
- a=Wb1JkmetP80A:10 a=QX4gbG5DAAAA:8 a=-ZmrBLKp0mmY4W0HBxcA:9 a=CjuIK1q_8ugA:10
- a=OIgjcC2v60KrkQgK7BGD:22 a=AbAUZ8qAyYyZVLSsDulk:22
-X-Proofpoint-GUID: 2jtuJzXmRoGEYE1iZj0iRuFYZGyv0d1E
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <77a6722549f3bb5d5e22a11762bf55bf16935e85@intel.com>
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwNzA2MDA3MyBTYWx0ZWRfX8QT/fUP4yTcJ
+ ZeVPngat6Ju65YHzrCBiJmQDp/Jb4RrIQmrj7dpsotCRjLxri8wNFTsOksigXMCpgmh6B9F5W6i
+ DONhqVjK6wO3WoxtVPTNAd2CrrH98dcrwUyEu8sZmwrENS6W2sUGjkmg7FADogWHM4ldOkPgqp3
+ vhhjg40X97MJY2n9tgT1fp9P+P++aOX58eFBx24T0DDfO1pSOe4I1NrxTRaF1sL263R0BBOL4xO
+ 5L+8GALzl0jMTvClWsk24W7dd0VM/YOJLCmnU04evsXK2BACg62hyZu4ABqNyV5BY2DcCnpa6ei
+ J3g4HswxEEXMRbzZHHPaUpwrhTl/1PsIescrlqNg6rTU4QFLv6fAnVMqTP8vqDoGMszTjbbzH8F
+ OMmGVESd2sFXrk5Civ2/mUxWb7P6zRmKVZHcQjwCOlFcouIDT4ImMbxu8BouMhQl/Bde8FUW
+X-Proofpoint-GUID: 9Qcva-KU5hovzvaYj6xblymTmhcy9m1Q
+X-Proofpoint-ORIG-GUID: 9Qcva-KU5hovzvaYj6xblymTmhcy9m1Q
+X-Authority-Analysis: v=2.4 cv=SOBCVPvH c=1 sm=1 tr=0 ts=686a60b2 cx=c_pps
+ a=UgVkIMxJMSkC9lv97toC5g==:117 a=xqWC_Br6kY4A:10 a=IkcTkHD0fZMA:10
+ a=Wb1JkmetP80A:10 a=EUspDBNiAAAA:8 a=VwQbUJbxAAAA:8 a=hlEkV9Rg_N19d2oT19MA:9
+ a=3ZKOabzyN94A:10 a=QEXdDO2ut3YA:10 a=1HOtulTD9v-eNWfpl4qZ:22
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.293,Aquarius:18.0.1099,Hydra:6.1.7,FMLib:17.12.80.40
  definitions=2025-07-04_07,2025-07-04_01,2025-03-28_01
 X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- bulkscore=0 suspectscore=0 mlxscore=0 malwarescore=0 lowpriorityscore=0
- mlxlogscore=999 impostorscore=0 spamscore=0 phishscore=0 priorityscore=1501
- adultscore=0 clxscore=1015 classifier=spam authscore=0 authtc=n/a authcc=
- route=outbound adjust=0 reason=mlx scancount=1 engine=8.19.0-2505280000
- definitions=main-2507060071
+ clxscore=1015 priorityscore=1501 lowpriorityscore=0 bulkscore=0
+ impostorscore=0 mlxlogscore=999 mlxscore=0 phishscore=0 malwarescore=0
+ adultscore=0 suspectscore=0 spamscore=0 classifier=spam authscore=0
+ authtc=n/a authcc= route=outbound adjust=0 reason=mlx scancount=1
+ engine=8.19.0-2505280000 definitions=main-2507060073
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -120,31 +133,70 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, Jul 03, 2025 at 11:03:35AM +0200, Robert Mader wrote:
-> Since commit 41b4b11da0215 ("drm: Add valid clones check") setting
-> the `possible_clones` values is a hard requirement for cloning.
-> `vkms` supports cloning for writeback connectors in order to capture
-> CRTC content, however that broke with said commit.
+On Tue, Jul 01, 2025 at 11:56:23AM +0300, Jani Nikula wrote:
+> On Tue, 01 Jul 2025, Loic Poulain <loic.poulain@oss.qualcomm.com> wrote:
+> > On Mon, Jun 30, 2025 at 10:40 AM Maxime Ripard <mripard@kernel.org> wrote:
+> >>
+> >> On Mon, Jun 30, 2025 at 09:46:40AM +0200, Loic Poulain wrote:
+> >> > Hi Maxime,
+> >> >
+> >> > On Mon, Jun 30, 2025 at 9:07 AM Maxime Ripard <mripard@kernel.org> wrote:
+> >> > > On Sun, Jun 29, 2025 at 04:38:36AM +0200, Loic Poulain wrote:
+> >> > > > DRM checks EDID block count against allocated size in drm_edid_valid
+> >> > > > function. We have to allocate the right EDID size instead of the max
+> >> > > > size to prevent the EDID to be reported as invalid.
+> >> > > >
+> >> > > > Fixes: 7c585f9a71aa ("drm/bridge: anx7625: use struct drm_edid more")
+> >> > > > Signed-off-by: Loic Poulain <loic.poulain@oss.qualcomm.com>
+> >> > > > ---
+> >> > > >  drivers/gpu/drm/bridge/analogix/anx7625.c | 2 +-
+> >> > > >  1 file changed, 1 insertion(+), 1 deletion(-)
+> >> > > >
+> >> > > > diff --git a/drivers/gpu/drm/bridge/analogix/anx7625.c b/drivers/gpu/drm/bridge/analogix/anx7625.c
+> >> > > > index 8a9079c2ed5c..5a81d1bfc815 100644
+> >> > > > --- a/drivers/gpu/drm/bridge/analogix/anx7625.c
+> >> > > > +++ b/drivers/gpu/drm/bridge/analogix/anx7625.c
+> >> > > > @@ -1801,7 +1801,7 @@ static const struct drm_edid *anx7625_edid_read(struct anx7625_data *ctx)
+> >> > > >               return NULL;
+> >> > > >       }
+> >> > > >
+> >> > > > -     ctx->cached_drm_edid = drm_edid_alloc(edid_buf, FOUR_BLOCK_SIZE);
+> >> > > > +     ctx->cached_drm_edid = drm_edid_alloc(edid_buf, edid_num * ONE_BLOCK_SIZE);
+> >> > > >       kfree(edid_buf);
+> >> > >
+> >> > > Do we need to cache the whole EDIDs? AFAIU, it's only ever used to get
+> >> > > the manufacturer name, which fits into a u32 / 4 u8. We should probably
+> >> > > just cache that.
+> >> >
+> >> > While the cached EDID is indeed used internally to retrieve the
+> >> > product ID, its content is also returned via the DRM read_edid
+> >> > callback. This value is then used by the DRM core to enumerate
+> >> > available display modes, and likely also when reading EDID from sysfs.
+> >>
+> >> You still don't need to allocate and store a copy of the EDIDs in your
+> >> driver to implement what you listed so far.
+> >
+> > Right, we could change how the driver behaves on callback and just
+> > cache what we need for internal usage. That change was initially a
+> > pure fix, do you recommend changing all of this in this change, or in
+> > a follow-up one.
 > 
-> Writeback connectors are created on a per-CRTC basis, thus mark
-> every non-writeback connector that is compatible with a given CRTC
-> as possible clone - and vice-versa.
+> If there's a follow-up, I really *really* think it should be to rewrite
+> EDID reading in anx7625.c altogether. The current thing is busted in
+> more ways than I have time to enumerate right now. And it's not because
+> I'm in a huge rush. Just look at sp_tx_edid_read() and the functions it
+> calls.
 > 
-> Using a default configuration, the corresponding `drm_info` output
-> changes from:
+> The end result should be based on providing a straightforward read_block
+> callback for drm_edid_read_custom().
+> 
+> I've actually started this a few times myself, but it's a bit much for
+> someone without the hardware to test it, nor skin in the game. The
+> current code is too complex to trivially refactor.
 
-It feels like the current possible_clones is incorrect according to the
-documentation. Should there be a Fixes tag?
-
-
-> 
-> 
-> Signed-off-by: Robert Mader <robert.mader@collabora.com>
-> ---
->  drivers/gpu/drm/vkms/vkms_output.c    | 12 ++++++++++++
->  drivers/gpu/drm/vkms/vkms_writeback.c |  2 ++
->  2 files changed, 14 insertions(+)
-> 
+It feels like it should be dropped completely in favour of the DDC
+implementation provided by drm_dp_aux_*(). I'm not sure why the driver
+implements I2C reading on its own.
 
 -- 
 With best wishes
