@@ -2,114 +2,62 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 432D5AFA5AB
-	for <lists+dri-devel@lfdr.de>; Sun,  6 Jul 2025 16:02:42 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6E2A3AFA5CF
+	for <lists+dri-devel@lfdr.de>; Sun,  6 Jul 2025 16:36:31 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 67ABB10E292;
-	Sun,  6 Jul 2025 14:02:39 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5AA5910E295;
+	Sun,  6 Jul 2025 14:36:28 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=qualcomm.com header.i=@qualcomm.com header.b="Qnqpt6A+";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="Ll4o4Sol";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com
- [205.220.168.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D600110E029
- for <dri-devel@lists.freedesktop.org>; Sun,  6 Jul 2025 14:02:37 +0000 (UTC)
-Received: from pps.filterd (m0279862.ppops.net [127.0.0.1])
- by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 566A0OLO032066
- for <dri-devel@lists.freedesktop.org>; Sun, 6 Jul 2025 14:02:37 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
- cc:content-transfer-encoding:content-type:date:from:in-reply-to
- :message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
- Wxj7HqGGrZODqPROvMBKCjS0gz/MMI/Glo0w6GOHDno=; b=Qnqpt6A+0IMlzv5p
- sY5qHSU3K/Nj/C67SrSQ68qU63NIqgZhpXl5RC4gIM+T2p7ymfz7zXSIqx8JAfy9
- 703ZFaioXNeei1MqTXja6/yCEk66cR5Y8yZs4G9U7D91MPAp6MYMwueqzTW5xDEZ
- VembucwALeGx822r46pPDOKISkP9GSK/6LQkKMQjkm/VF3/C3AAJ1DrSLEjdC/aL
- Sga+Ur+JJHCqoibTmuTqg1Idw3usA8oUjIbesPRtozwM8anZmB7itlwS5vNjeJE2
- qAOvWJcpRG8i8ZkTwtYq9U+lmkRcuzJKOB5JbQNfcHZcPt0WmUtrZB1ncIGTNmDT
- ulw11A==
-Received: from mail-pj1-f71.google.com (mail-pj1-f71.google.com
- [209.85.216.71])
- by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 47pvtk4dkq-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
- for <dri-devel@lists.freedesktop.org>; Sun, 06 Jul 2025 14:02:37 +0000 (GMT)
-Received: by mail-pj1-f71.google.com with SMTP id
- 98e67ed59e1d1-315af0857f2so2191716a91.0
- for <dri-devel@lists.freedesktop.org>; Sun, 06 Jul 2025 07:02:37 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1751810556; x=1752415356;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=Wxj7HqGGrZODqPROvMBKCjS0gz/MMI/Glo0w6GOHDno=;
- b=ptu43yy7IzOlrrhDBTjpemjQGq8sqjjaJVW0elmndzPiQFovSf78qG65QfXrd9Fo1t
- BCepTfTjkatoLBVnuzHEgd9sJBEbE1QLM7+9vnYsMEczzZVf3SpvhTX7rArGx2LRcIm3
- MURU5RyN9etWZm1WDFEpD1yMgj9cRjwn/r4UUIwwnhHeUbmUQswzYzJAryT2/J2vMYjL
- ePFhG7AOWaay7ZL3oMb7wNeactk416iqpkhmLIcLEZJWFezKd3qeTDZT/DjIRrlziP/u
- 3mbA3t4KLUGc8aS6/r5NAtd/9COt/SuGPC2LnTNUvTXcFkX1ek/SXF81JimHF6ewGat8
- Mdbg==
-X-Forwarded-Encrypted: i=1;
- AJvYcCUaRoTvterb3O0Fayzh9F5BZMIULqtpXKEX92aBEiLrbKjte7Dg/7hl8LYlEjYBrhX21CaMwv3fIWs=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YzusZt78ERScqEOU2EC8qDQdn197mBqqnp5wXVHBR8AAePSjlK+
- 7sIYbaYg5vdfiHyEwzYOBKU/LG22n6FPRILyhGKfQn9hcO2nJLQAn/MNKVKPzHBvzjzwzRUgR9a
- VetlKtnOxDPsXaz7WaTeTvVezToWy4p+GBFTQW4MliWUTuaoKFXulGfYUVuo64vWiqmMZf5tznI
- pNqhXSwoSMCVP+Z2NEKAt7b7af190LkJgdhzROvZM+4YfL0A==
-X-Gm-Gg: ASbGncs/N08JliKrRcd3o/QRdGBWdZ3nwZmAhcYr6tGcNNBQUhpWk4SI/BYbCE6Jhpp
- INdr92QOlgNSVyZ0z3dyIb52/G8d8tFE8kYcECyHH07ZVTTAs513W/P/BiVhKczy+QO2pkL9Ald
- xOHTVj6M0DL3ddccul8w==
-X-Received: by 2002:a17:90b:28c3:b0:311:f05b:869b with SMTP id
- 98e67ed59e1d1-31aaddc53famr12497032a91.30.1751810556273; 
- Sun, 06 Jul 2025 07:02:36 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IFfcxb3whsTrEP9JFBXZUEILpaINN46Ri6Rk09CCIfQf9eys+yq5fHc4CQx3OZduLcJw1kfjr5yhBJgxFZDRtI=
-X-Received: by 2002:a17:90b:28c3:b0:311:f05b:869b with SMTP id
- 98e67ed59e1d1-31aaddc53famr12496960a91.30.1751810555650; Sun, 06 Jul 2025
- 07:02:35 -0700 (PDT)
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 16E5210E286
+ for <dri-devel@lists.freedesktop.org>; Sun,  6 Jul 2025 14:36:27 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+ by dfw.source.kernel.org (Postfix) with ESMTP id 61E2D5C495B;
+ Sun,  6 Jul 2025 14:36:25 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id EF6AFC4CEED;
+ Sun,  6 Jul 2025 14:36:22 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1751812585;
+ bh=ekByHfhCU5YFqk89HOWrsMr+RRd71IlBqB2XanDxxo0=;
+ h=From:To:Cc:Subject:Date:From;
+ b=Ll4o4Sol1xB9CHvaGKW/406YEBaUdZrTWq6lLV1dFJM2KaUURPnzXKOKi4uTgdkBT
+ 1ARmrnpLtOY7KMVDB1gDHAyrmr+XQkK70EWXKhVUZTeRpMdo/Te6dPK1XIjfMDqk2F
+ JNs1d4BtRaLfWKAppA6dwapoZGigjAsBXAI15chD5JjzbpP/CbfnqPMJBmp90fFLDj
+ EHmkjyr7KRKy+owRH85kLyWUqRUpvY0QS8x+4o2UU6BdcNMgrQEf7O3k+wuUb6uyo7
+ mitoySK8mt5KCmY4x8lFrjn65/4yysdrxaisXKCB964z8BXN/NQ+lJ6TdguYwgTZoQ
+ TtD7bp2k/QZEQ==
+From: Mario Limonciello <superm1@kernel.org>
+To: David Airlie <airlied@gmail.com>,
+	Bjorn Helgaas <bhelgaas@google.com>
+Cc: Alex Deucher <alexander.deucher@amd.com>,
+ =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>,
+ Simona Vetter <simona@ffwll.ch>, Lukas Wunner <lukas@wunner.de>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>,
+ David Woodhouse <dwmw2@infradead.org>, Lu Baolu <baolu.lu@linux.intel.com>,
+ Joerg Roedel <joro@8bytes.org>, Will Deacon <will@kernel.org>,
+ Robin Murphy <robin.murphy@arm.com>,
+ Alex Williamson <alex.williamson@redhat.com>,
+ Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
+ dri-devel@lists.freedesktop.org (open list:DRM DRIVERS),
+ linux-kernel@vger.kernel.org (open list),
+ iommu@lists.linux.dev (open list:INTEL IOMMU (VT-d)),
+ linux-pci@vger.kernel.org (open list:PCI SUBSYSTEM),
+ kvm@vger.kernel.org (open list:VFIO DRIVER),
+ linux-sound@vger.kernel.org (open list:SOUND),
+ Daniel Dadap <ddadap@nvidia.com>,
+ Mario Limonciello <mario.limonciello@amd.com>
+Subject: [PATCH v7 0/9] Adjust fbcon console device detection
+Date: Sun,  6 Jul 2025 09:36:04 -0500
+Message-ID: <20250706143613.1972252-1-superm1@kernel.org>
+X-Mailer: git-send-email 2.43.0
 MIME-Version: 1.0
-References: <20250706-msm-no-iommu-v1-0-9e8274b30c33@oss.qualcomm.com>
- <20250706-msm-no-iommu-v1-3-9e8274b30c33@oss.qualcomm.com>
- <CACSVV00Cdwjhta+ozoQAy0QQ81LM8Skf8RcnFGKscbc03xBA=w@mail.gmail.com>
-In-Reply-To: <CACSVV00Cdwjhta+ozoQAy0QQ81LM8Skf8RcnFGKscbc03xBA=w@mail.gmail.com>
-From: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
-Date: Sun, 6 Jul 2025 17:02:24 +0300
-X-Gm-Features: Ac12FXyooe1pNll4vWeSnZkXQveBQYBb4dYUg2ydMWu4a9IUk0GIhGseVDKlY6A
-Message-ID: <CAO9ioeV47NAo=j=QHdZPSZT_f31jTT=cFSN=EjihboTr4Pmzkw@mail.gmail.com>
-Subject: Re: [PATCH 3/3] drm/msm/mdp4: use msm_kms_init_vm() instead of
- duplicating it
-To: rob.clark@oss.qualcomm.com
-Cc: Dmitry Baryshkov <lumag@kernel.org>,
- Abhinav Kumar <abhinav.kumar@linux.dev>,
- Jessica Zhang <jessica.zhang@oss.qualcomm.com>,
- Sean Paul <sean@poorly.run>,
- Marijn Suijten <marijn.suijten@somainline.org>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- Antonino Maniscalco <antomani103@gmail.com>,
- linux-arm-msm@vger.kernel.org, dri-devel@lists.freedesktop.org,
- freedreno@lists.freedesktop.org, linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwNzA2MDA4OSBTYWx0ZWRfX95H1XqWFLZxP
- c+S5bzQPrLH2kbTUfbDqj6abFd4Go8tEtld8IDQmiuwDmKKwIGmji4NhMOtZs2WzqEtDolsmmO/
- d4zj3ilMqGM4DtOwQeZqmMIBru1ozxwPm4WfbQQnDDIW9Mlgfb2j49ytRTHAvmnkcFp19GTfsAq
- V/Rc3M5xVqMSI1v8bEnPwqfajP8UKC6ITwkY4IIUbpQs4mJbGBw49OoZrrBEDH05NMjiWWbKGDo
- z8dXu1+9C969hPDLy4ONkIRMgXf80x2CbRj+LtCfXG4LRWd150lcr5yKuiXONszY0Aeaq8MJ69X
- T0/WSGhGkk1/V/0DOw8/BvqKWATlAcpBu35b1XcdpPlRaDwJBtKtErAxx/LMrSNoA52XbXIA0iD
- UezrYLi6vp6BebuqhtopdVaLL1QPp3+S2gzbV/2/Jbsbn2Zcwc23Tjt1Jm3lU1L0uqzdsDud
-X-Authority-Analysis: v=2.4 cv=Vq0jA/2n c=1 sm=1 tr=0 ts=686a81fd cx=c_pps
- a=UNFcQwm+pnOIJct1K4W+Mw==:117 a=IkcTkHD0fZMA:10 a=Wb1JkmetP80A:10
- a=EUspDBNiAAAA:8 a=r4SaECpLYQUvehMX0aYA:9 a=QEXdDO2ut3YA:10
- a=uKXjsCUrEbL0IQVhDsJ9:22
-X-Proofpoint-ORIG-GUID: 2wgXtUpdAJxEC5kYf_IXgLabJD_R39xt
-X-Proofpoint-GUID: 2wgXtUpdAJxEC5kYf_IXgLabJD_R39xt
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1099,Hydra:6.1.7,FMLib:17.12.80.40
- definitions=2025-07-04_07,2025-07-04_01,2025-03-28_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- spamscore=0 adultscore=0 bulkscore=0 phishscore=0 lowpriorityscore=0
- clxscore=1015 mlxscore=0 malwarescore=0 mlxlogscore=981 impostorscore=0
- suspectscore=0 priorityscore=1501 classifier=spam authscore=0 authtc=n/a
- authcc= route=outbound adjust=0 reason=mlx scancount=1
- engine=8.19.0-2505280000 definitions=main-2507060089
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -125,97 +73,67 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Sun, 6 Jul 2025 at 16:11, Rob Clark <rob.clark@oss.qualcomm.com> wrote:
->
-> On Sun, Jul 6, 2025 at 3:50=E2=80=AFAM Dmitry Baryshkov
-> <dmitry.baryshkov@oss.qualcomm.com> wrote:
-> >
-> > Use the msm_kms_init_vm() function to allocate memory manager instead o=
-f
-> > hand-coding a copy of it. Although MDP4 platforms don't have MDSS
-> > device, it's still safe to use the function as all MDP4 devices have
-> > IOMMU and the parent of the MDP4 is the root SoC device.
->
-> So, originally the distinction was that mdp4 didn't have the mdss
-> wrapper.  Maybe it works out because device_iommu_mapped(mdp_dev)
-> returns true?
+From: Mario Limonciello <mario.limonciello@amd.com>
 
-Yes, as expressed in the cover letter.
+This series started out as changes to VGA arbiter to try to handle a case
+of a system with 2 GPUs that are not VGA devices.  This was discussed
+but decided not to overload the VGA arbiter for non VGA devices.
 
->
-> BR,
-> -R
->
-> > Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
-> > ---
-> >  drivers/gpu/drm/msm/disp/mdp4/mdp4_kms.c | 27 +++++-------------------=
----
-> >  1 file changed, 5 insertions(+), 22 deletions(-)
-> >
-> > diff --git a/drivers/gpu/drm/msm/disp/mdp4/mdp4_kms.c b/drivers/gpu/drm=
-/msm/disp/mdp4/mdp4_kms.c
-> > index 88296c41d1a5eb0e16cb6ec4d0475000b6318c4e..41d236d30e71ebb6ac8a590=
-52529f36fadf15cd7 100644
-> > --- a/drivers/gpu/drm/msm/disp/mdp4/mdp4_kms.c
-> > +++ b/drivers/gpu/drm/msm/disp/mdp4/mdp4_kms.c
-> > @@ -391,11 +391,9 @@ static void read_mdp_hw_revision(struct mdp4_kms *=
-mdp4_kms,
-> >
-> >  static int mdp4_kms_init(struct drm_device *dev)
-> >  {
-> > -       struct platform_device *pdev =3D to_platform_device(dev->dev);
-> >         struct msm_drm_private *priv =3D dev->dev_private;
-> >         struct mdp4_kms *mdp4_kms =3D to_mdp4_kms(to_mdp_kms(priv->kms)=
-);
-> >         struct msm_kms *kms =3D NULL;
-> > -       struct msm_mmu *mmu;
-> >         struct drm_gpuvm *vm;
-> >         int ret;
-> >         u32 major, minor;
-> > @@ -458,29 +456,14 @@ static int mdp4_kms_init(struct drm_device *dev)
-> >         mdp4_disable(mdp4_kms);
-> >         mdelay(16);
-> >
-> > -       mmu =3D msm_iommu_new(&pdev->dev, 0);
-> > -       if (IS_ERR(mmu)) {
-> > -               ret =3D PTR_ERR(mmu);
-> > +       vm =3D msm_kms_init_vm(mdp4_kms->dev);
-> > +       if (IS_ERR(vm)) {
-> > +               ret =3D PTR_ERR(vm);
-> >                 goto fail;
-> > -       } else if (!mmu) {
-> > -               DRM_DEV_INFO(dev->dev, "no IOMMU configuration is no lo=
-nger supported\n");
-> > -               ret =3D -ENODEV;
-> > -               goto fail;
-> > -       } else {
-> > -               vm  =3D msm_gem_vm_create(dev, mmu, "mdp4",
-> > -                                       0x1000, 0x100000000 - 0x1000,
-> > -                                       true);
-> > -
-> > -               if (IS_ERR(vm)) {
-> > -                       if (!IS_ERR(mmu))
-> > -                               mmu->funcs->destroy(mmu);
-> > -                       ret =3D PTR_ERR(vm);
-> > -                       goto fail;
-> > -               }
-> > -
-> > -               kms->vm =3D vm;
-> >         }
-> >
-> > +       kms->vm =3D vm;
-> > +
-> >         ret =3D modeset_init(mdp4_kms);
-> >         if (ret) {
-> >                 DRM_DEV_ERROR(dev->dev, "modeset_init failed: %d\n", re=
-t);
-> >
-> > --
-> > 2.39.5
-> >
+Instead move the x86 specific detection of framebuffer resources into x86
+specific code that the fbcon can use to properly identify the primary
+device. This code is still called from the VGA arbiter, and the logic does
+not change there. To avoid regression default to VGA arbiter and only fall
+back to looking up with x86 specific detection method.
 
+In order for userspace to also be able to discover which device was the
+primary video display device create a new sysfs file 'boot_display'.
 
+A matching userspace implementation for this file is available here:
+Link: https://gitlab.freedesktop.org/xorg/lib/libpciaccess/-/merge_requests/39
+Link: https://gitlab.freedesktop.org/xorg/xserver/-/merge_requests/2038
 
---=20
-With best wishes
-Dmitry
+Dave Airlie has been pinged for a comment on this approach.
+Dave had suggested in the past [1]:
+
+"
+ But yes if that doesn't work, then maybe we need to make the boot_vga
+ flag mean boot_display_gpu, and fix it in the kernel
+"
+
+This was one of the approached tried in earlier revisions and it was
+rejected in favor of creating a new sysfs file (which is what this
+version does).
+
+It is suggested that this series merge entirely through the PCI tree.
+
+Link: https://gitlab.freedesktop.org/xorg/lib/libpciaccess/-/merge_requests/37#note_2938602 [1]
+Mario Limonciello (9):
+  PCI: Add helper for checking if a PCI device is a display controller
+  vfio/pci: Use pci_is_display()
+  vga_switcheroo: Use pci_is_display()
+  iommu/vt-d: Use pci_is_display()
+  ALSA: hda: Use pci_is_display()
+  Fix access to video_is_primary_device() when compiled without
+    CONFIG_VIDEO
+  PCI/VGA: Replace vga_is_firmware_default() with a screen info check
+  fbcon: Use screen info to find primary device
+  PCI: Add a new 'boot_display' attribute
+
+ Documentation/ABI/testing/sysfs-bus-pci |  8 +++++
+ arch/parisc/include/asm/video.h         |  2 +-
+ arch/sparc/include/asm/video.h          |  2 ++
+ arch/x86/include/asm/video.h            |  2 ++
+ arch/x86/video/video-common.c           | 13 ++++++-
+ drivers/gpu/vga/vga_switcheroo.c        |  2 +-
+ drivers/iommu/intel/iommu.c             |  2 +-
+ drivers/pci/pci-sysfs.c                 | 46 +++++++++++++++++++++++++
+ drivers/pci/vgaarb.c                    | 31 +++--------------
+ drivers/vfio/pci/vfio_pci_igd.c         |  3 +-
+ include/linux/pci.h                     | 15 ++++++++
+ sound/hda/hdac_i915.c                   |  2 +-
+ sound/pci/hda/hda_intel.c               |  4 +--
+ 13 files changed, 97 insertions(+), 35 deletions(-)
+
+-- 
+2.43.0
+
