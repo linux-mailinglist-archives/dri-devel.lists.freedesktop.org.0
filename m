@@ -2,102 +2,47 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3A30FAFA375
-	for <lists+dri-devel@lfdr.de>; Sun,  6 Jul 2025 09:34:05 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id C880DAFA3B8
+	for <lists+dri-devel@lfdr.de>; Sun,  6 Jul 2025 10:37:12 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7EEE68930B;
-	Sun,  6 Jul 2025 07:33:56 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 955D110E045;
+	Sun,  6 Jul 2025 08:37:09 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="gYkoc8Sb";
+	dkim=pass (2048-bit key; secure) header.d=proton.me header.i=@proton.me header.b="bQoU4Wm2";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from sea.source.kernel.org (sea.source.kernel.org [172.234.252.31])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B08528930B
- for <dri-devel@lists.freedesktop.org>; Sun,  6 Jul 2025 07:33:54 +0000 (UTC)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by sea.source.kernel.org (Postfix) with ESMTP id 46CC044460;
- Sun,  6 Jul 2025 07:33:54 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id B43ECC4CEED;
- Sun,  6 Jul 2025 07:33:49 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1751787234;
- bh=AQGKFQrPIXjApzBYitjGcjHwt9fB7afx0P3X1IhaFJc=;
- h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
- b=gYkoc8Sb57ltNTva6csvTVe/KpCxgYPs9mGb8s1snU/XnZ1BRY1TYyd5m9v69yVrh
- mpfVv9LgiLQMTffn3G3yLdMbkgN1xHsX4MbaXp9ZGL3B0BBh4um/7acqx5H77bozY3
- oWz1l6lp9zQbPa/FbLg7lN9b2idVfTz+NPcu4zqEO7TieW31P+Exps173x4pKvlGJF
- 2LYcOTDVLK0A/2VndZ0DQNNNx1b2OU9kv0CVYeTJ8TN/UkqbDe5HZrrT8Gn15s6msh
- Byh+OHDkruRWW1k6gZMSeOiNMLtQd4TnThQsj+TIjC/kDWYlMpGsgLTo0bk/5B216F
- 2INHa+2eNMbBA==
-Message-ID: <32924ee3-2dcd-43bf-8dec-51f85675bee0@kernel.org>
-Date: Sun, 6 Jul 2025 09:33:47 +0200
+Received: from mail-10629.protonmail.ch (mail-10629.protonmail.ch
+ [79.135.106.29])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8ADB810E045
+ for <dri-devel@lists.freedesktop.org>; Sun,  6 Jul 2025 08:37:06 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=proton.me;
+ s=protonmail; t=1751791024; x=1752050224;
+ bh=/Ohrs39hlVJ6gfC/U0noqNa3V3N+ZommgmvaEIkhTAQ=;
+ h=Date:To:From:Cc:Subject:Message-ID:Feedback-ID:From:To:Cc:Date:
+ Subject:Reply-To:Feedback-ID:Message-ID:BIMI-Selector;
+ b=bQoU4Wm2XIOEOoU/Cxdo7xAG4YjGz3rj1xQE4Os+pTuSbwmrdSK1ROnoTkyJGdRlg
+ 2/Ihs/8Wz2jRe4VrpQ7bw0MpmJ9n0DLwJsUoDgHvEPCfyEgCnUwZC1p/Ke8/XrpX9C
+ FBpsa9oeGlehPDymhHY7i0/Twrja5WhMLJE7T0Cyp2sQlzQ+NLvDDovgw1UoOmO4t8
+ UdNMvLcN7B7ELq1AgP0nOWYELYnP+OHXV9+LQ/vMwT71xKIQu6UjqoRAkEmPcadNCA
+ Die+hwEgVRWJa0cBYBEwaxoIpZkDSYVaQwle0IxtriscTD2KhcUSvDCCcrbWSmbzDo
+ J3tDcLe7viCbQ==
+Date: Sun, 06 Jul 2025 08:36:58 +0000
+To: hjc@rock-chips.com, heiko@sntech.de, andy.yan@rock-chips.com,
+ maarten.lankhorst@linux.intel.com, mripard@kernel.org, tzimmermann@suse.de,
+ airlied@gmail.com, simona@ffwll.ch, dri-devel@lists.freedesktop.org,
+ linux-arm-kernel@lists.infradead.org, linux-rockchip@lists.infradead.org,
+ linux-kernel@vger.kernel.org
+From: Piotr Zalewski <pZ010001011111@proton.me>
+Cc: Piotr Zalewski <pZ010001011111@proton.me>,
+ Diederik de Haas <didi.debian@cknow.org>
+Subject: [PATCH v2] rockchip/drm: vop2: make vp registers nonvolatile
+Message-ID: <20250706083629.140332-2-pZ010001011111@proton.me>
+Feedback-ID: 53478694:user:proton
+X-Pm-Message-ID: bdc28c03eaa8b0c275fd97f59617d9355f9144d7
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v3 1/3] dt-bindings: display: samsung,exynos7-decon: add
- properties for iommus and ports
-To: Kaustabh Chakraborty <kauschluss@disroot.org>,
- Inki Dae <inki.dae@samsung.com>, Seung-Woo Kim <sw0312.kim@samsung.com>,
- Kyungmin Park <kyungmin.park@samsung.com>, David Airlie <airlied@gmail.com>,
- Simona Vetter <simona@ffwll.ch>, Alim Akhtar <alim.akhtar@samsung.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
- Rob Herring <robh@kernel.org>, Conor Dooley <conor@kernel.org>,
- Ajay Kumar <ajaykumar.rs@samsung.com>, Akshu Agrawal <akshua@gmail.com>,
- Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>
-Cc: dri-devel@lists.freedesktop.org, linux-arm-kernel@lists.infradead.org,
- linux-samsung-soc@vger.kernel.org, linux-kernel@vger.kernel.org,
- devicetree@vger.kernel.org
-References: <20250627-exynosdrm-decon-v3-0-5b456f88cfea@disroot.org>
- <20250627-exynosdrm-decon-v3-1-5b456f88cfea@disroot.org>
-From: Krzysztof Kozlowski <krzk@kernel.org>
-Content-Language: en-US
-Autocrypt: addr=krzk@kernel.org; keydata=
- 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 a/A=
-In-Reply-To: <20250627-exynosdrm-decon-v3-1-5b456f88cfea@disroot.org>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -113,22 +58,64 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 26/06/2025 21:20, Kaustabh Chakraborty wrote:
-> @@ -80,6 +80,14 @@ properties:
->        - const: vsync
->        - const: lcd_sys
->  
-> +  iommus:
-> +    maxItems: 1
-> +
-> +  ports:
+Make video port registers nonvolatile. As DSP_CTRL register is written
+to twice due to gamma LUT enable bit which is set outside of the main
+DSP_CTRL initialization within atomic_enable (for rk356x case it is also
+necesarry to always disable gamma LUT before writing a new LUT) there is
+a chance that DSP_CTRL value read-out in gamma LUT init/update code is
+not the one which was written by the preceding DSP_CTRL initialization
+code within atomic_enable. This might result in misconfigured DSP_CTRL
+which leads to no visual output[1]. Since DSP_CTRL write takes effect
+after VSYNC[1] the issue is not always present. When tested on Pinetab2
+with kernel 6.14 it happenes only when DRM is compiled as a module[1].
+In order to confirm that it is a timing issue I inserted 18ms udelay
+before vop2_crtc_atomic_try_set_gamma in atomic enable and compiled DRM
+as module - this has also fixed the issue.
 
-This was supposed to be port, no?
+[1] https://lore.kernel.org/linux-rockchip/562b38e5.a496.1975f09f983.Corema=
+il.andyshrk@163.com/
 
-> +    $ref: /schemas/graph.yaml#/properties/ports
-> +    description:
-> +      Contains a port which is connected to mic or dsim node.
-If you are using ports, then you need to list the ports.
+Reported-by: Diederik de Haas <didi.debian@cknow.org>
+Closes: https://lore.kernel.org/linux-rockchip/DAEVDSTMWI1E.J454VZN0R9MA@ck=
+now.org/
+Suggested-by: Andy Yan <andy.yan@rock-chips.com>
+Signed-off-by: Piotr Zalewski <pZ010001011111@proton.me>
+---
 
-Best regards,
-Krzysztof
+Notes:
+    Changes in v2:
+        - add spaces before and after '+'
+   =20
+    Link to v1: https://lore.kernel.org/linux-rockchip/20250628180914.11771=
+77-2-pZ010001011111@proton.me/
+
+ drivers/gpu/drm/rockchip/rockchip_drm_vop2.c | 9 +++++----
+ 1 file changed, 5 insertions(+), 4 deletions(-)
+
+diff --git a/drivers/gpu/drm/rockchip/rockchip_drm_vop2.c b/drivers/gpu/drm=
+/rockchip/rockchip_drm_vop2.c
+index d0f5fea15e21..0931cb636493 100644
+--- a/drivers/gpu/drm/rockchip/rockchip_drm_vop2.c
++++ b/drivers/gpu/drm/rockchip/rockchip_drm_vop2.c
+@@ -2589,12 +2589,13 @@ static int vop2_win_init(struct vop2 *vop2)
+ }
+=20
+ /*
+- * The window registers are only updated when config done is written.
+- * Until that they read back the old value. As we read-modify-write
+- * these registers mark them as non-volatile. This makes sure we read
+- * the new values from the regmap register cache.
++ * The window and video port registers are only updated when config
++ * done is written. Until that they read back the old value. As we
++ * read-modify-write these registers mark them as non-volatile. This
++ * makes sure we read the new values from the regmap register cache.
+  */
+ static const struct regmap_range vop2_nonvolatile_range[] =3D {
++=09regmap_reg_range(RK3568_VP0_CTRL_BASE, RK3588_VP3_CTRL_BASE + 255),
+ =09regmap_reg_range(0x1000, 0x23ff),
+ };
+=20
+--=20
+2.50.0
+
+
