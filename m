@@ -2,34 +2,34 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 21CC5AFA5D7
-	for <lists+dri-devel@lfdr.de>; Sun,  6 Jul 2025 16:36:47 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9C4E4AFA5D8
+	for <lists+dri-devel@lfdr.de>; Sun,  6 Jul 2025 16:36:48 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 75DE310E39E;
-	Sun,  6 Jul 2025 14:36:45 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id EDBF310E39F;
+	Sun,  6 Jul 2025 14:36:46 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="N0ZgnBp9";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="PpbWlYDR";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from nyc.source.kernel.org (nyc.source.kernel.org [147.75.193.91])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B242410E39A
- for <dri-devel@lists.freedesktop.org>; Sun,  6 Jul 2025 14:36:43 +0000 (UTC)
+Received: from tor.source.kernel.org (tor.source.kernel.org [172.105.4.254])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1622F10E39A
+ for <dri-devel@lists.freedesktop.org>; Sun,  6 Jul 2025 14:36:45 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by nyc.source.kernel.org (Postfix) with ESMTP id 48974A4BE1A;
+ by tor.source.kernel.org (Postfix) with ESMTP id 8A10B6112D;
+ Sun,  6 Jul 2025 14:36:44 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 341F7C4CEEF;
  Sun,  6 Jul 2025 14:36:42 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id DE09FC4CEF5;
- Sun,  6 Jul 2025 14:36:39 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1751812602;
- bh=hely8rCeQBZS770H5X6E0gNUH0kghs8qNa/SePVXMhs=;
+ s=k20201202; t=1751812604;
+ bh=qucJBD1l7cekJwkkW3sSPDQAFelB6SpfdgNHX+7KrGs=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=N0ZgnBp9YJ0UPchsvkNm4Jl8YLOp3FgQq3vRwPImT8zZTiwUzKbkm61vMgG44uuUp
- Bw6wcv+tkgc0SMhw+205GtPxxKjIixNrNNH1pZDki24F8mHiQFO7K/8AXbqBhb0YMy
- RR3Xsa8FB4MFQe6wKLrCzaH5u9Pnb40v0E6IdAQSO6IEnrrKVva31tS3ETN3R9eXkj
- VISu+08ZhhW5aPP7k12X0jDcTu4dgf6CuOwWx8qBwsuMAT7SfPCY1MHth0X886q7q/
- T4c+3Ee8KmK2VfytHViGO2UxV2hYD2bQgmBULGo6JGYpTK0gTCiM/ShN4NPkmlTgRZ
- CmglaNfB+AmmA==
+ b=PpbWlYDRkCuGunmFT9sTtHbxSwd/gVVaMktE59Av5bQNJlpIpRWWnBMwON8LQkbBW
+ 6gXenJkP+sbVWehgc9Qa4LZngn4VzayvaKyP4D/gf5ASSXZlb5Nr869RaVew8OnB/6
+ kE61VerYy9vnazyRtGJxRv8MDOupgCzJ6JB3k+P2jlvgUjPkMUX7fXh4EBt5sp4/pE
+ O9W0Z/s5Q9iKMr63iqMxPUUSFuSKz5F64qsgf9NdYhX1RBfEbnOplk9TaDJlRXdfRx
+ zuNEX/u0VqDtrmTAtzX598+shxngHQGeh+kFXhAikczUIzAiLs53PC4Fj2CNbZC1nW
+ i0MO8mX+JbXqg==
 From: Mario Limonciello <superm1@kernel.org>
 To: David Airlie <airlied@gmail.com>,
 	Bjorn Helgaas <bhelgaas@google.com>
@@ -52,10 +52,9 @@ Cc: Alex Deucher <alexander.deucher@amd.com>,
  linux-sound@vger.kernel.org (open list:SOUND),
  Daniel Dadap <ddadap@nvidia.com>,
  Mario Limonciello <mario.limonciello@amd.com>
-Subject: [PATCH v7 7/9] PCI/VGA: Replace vga_is_firmware_default() with a
- screen info check
-Date: Sun,  6 Jul 2025 09:36:11 -0500
-Message-ID: <20250706143613.1972252-8-superm1@kernel.org>
+Subject: [PATCH v7 8/9] fbcon: Use screen info to find primary device
+Date: Sun,  6 Jul 2025 09:36:12 -0500
+Message-ID: <20250706143613.1972252-9-superm1@kernel.org>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <20250706143613.1972252-1-superm1@kernel.org>
 References: <20250706143613.1972252-1-superm1@kernel.org>
@@ -78,67 +77,62 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 From: Mario Limonciello <mario.limonciello@amd.com>
 
-vga_is_firmware_default() checks firmware resources to find the owner
-framebuffer resources to find the firmware PCI device.  This is an
-open coded implementation of screen_info_pci_dev().  Switch to using
-screen_info_pci_dev() instead.
+On systems with non VGA GPUs fbcon can't find the primary GPU because
+video_is_primary_device() only checks the VGA arbiter.
 
-Acked-by: Bjorn Helgaas <bhelgaas@google.com>
+Add a screen info check to video_is_primary_device() so that callers
+can get accurate data on such systems.
+
+Reviewed-by: Thomas Zimmermann <tzimmermann@suse.de>
 Suggested-by: Thomas Zimmermann <tzimmermann@suse.de>
 Signed-off-by: Mario Limonciello <mario.limonciello@amd.com>
 ---
-v6:
- * fix lkp robot error
 v5:
- * split from next patch
+ * Only change video-common.c
+v4:
+ * use helper
 ---
- drivers/pci/vgaarb.c | 31 +++++--------------------------
- 1 file changed, 5 insertions(+), 26 deletions(-)
+ arch/x86/video/video-common.c | 13 ++++++++++++-
+ 1 file changed, 12 insertions(+), 1 deletion(-)
 
-diff --git a/drivers/pci/vgaarb.c b/drivers/pci/vgaarb.c
-index 78748e8d2dbae..b58f94ee48916 100644
---- a/drivers/pci/vgaarb.c
-+++ b/drivers/pci/vgaarb.c
-@@ -556,34 +556,13 @@ EXPORT_SYMBOL(vga_put);
+diff --git a/arch/x86/video/video-common.c b/arch/x86/video/video-common.c
+index 81fc97a2a837a..917568e4d7fb1 100644
+--- a/arch/x86/video/video-common.c
++++ b/arch/x86/video/video-common.c
+@@ -9,6 +9,7 @@
  
- static bool vga_is_firmware_default(struct pci_dev *pdev)
+ #include <linux/module.h>
+ #include <linux/pci.h>
++#include <linux/screen_info.h>
+ #include <linux/vgaarb.h>
+ 
+ #include <asm/video.h>
+@@ -27,6 +28,7 @@ EXPORT_SYMBOL(pgprot_framebuffer);
+ 
+ bool video_is_primary_device(struct device *dev)
  {
--#if defined(CONFIG_X86)
--	u64 base = screen_info.lfb_base;
--	u64 size = screen_info.lfb_size;
--	struct resource *r;
--	u64 limit;
-+#ifdef CONFIG_SCREEN_INFO
 +	struct screen_info *si = &screen_info;
+ 	struct pci_dev *pdev;
  
--	/* Select the device owning the boot framebuffer if there is one */
--
--	if (screen_info.capabilities & VIDEO_CAPABILITY_64BIT_BASE)
--		base |= (u64)screen_info.ext_lfb_base << 32;
--
--	limit = base + size;
--
--	/* Does firmware framebuffer belong to us? */
--	pci_dev_for_each_resource(pdev, r) {
--		if (resource_type(r) != IORESOURCE_MEM)
--			continue;
--
--		if (!r->start || !r->end)
--			continue;
--
--		if (base < r->start || limit >= r->end)
--			continue;
--
--		return true;
--	}
--#endif
-+	return pdev == screen_info_pci_dev(si);
-+#else
- 	return false;
-+#endif
+ 	if (!dev_is_pci(dev))
+@@ -34,7 +36,16 @@ bool video_is_primary_device(struct device *dev)
+ 
+ 	pdev = to_pci_dev(dev);
+ 
+-	return (pdev == vga_default_device());
++	if (!pci_is_display(pdev))
++		return false;
++
++	if (pdev == vga_default_device())
++		return true;
++
++	if (pdev == screen_info_pci_dev(si))
++		return true;
++
++	return false;
  }
+ EXPORT_SYMBOL(video_is_primary_device);
  
- static bool vga_arb_integrated_gpu(struct device *dev)
 -- 
 2.43.0
 
