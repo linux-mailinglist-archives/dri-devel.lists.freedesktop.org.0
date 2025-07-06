@@ -2,85 +2,85 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 278CCAFA494
-	for <lists+dri-devel@lfdr.de>; Sun,  6 Jul 2025 12:50:52 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7C7DCAFA495
+	for <lists+dri-devel@lfdr.de>; Sun,  6 Jul 2025 12:50:53 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id AFAE510E28B;
-	Sun,  6 Jul 2025 10:50:47 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7564B10E38D;
+	Sun,  6 Jul 2025 10:50:51 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=qualcomm.com header.i=@qualcomm.com header.b="goY77ZMh";
+	dkim=pass (2048-bit key; unprotected) header.d=qualcomm.com header.i=@qualcomm.com header.b="Z9HJKwee";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com
  [205.220.168.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 03C5F10E280
- for <dri-devel@lists.freedesktop.org>; Sun,  6 Jul 2025 10:50:46 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 933A210E27E
+ for <dri-devel@lists.freedesktop.org>; Sun,  6 Jul 2025 10:50:49 +0000 (UTC)
 Received: from pps.filterd (m0279865.ppops.net [127.0.0.1])
- by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 5665dGPY003004
- for <dri-devel@lists.freedesktop.org>; Sun, 6 Jul 2025 10:50:46 GMT
+ by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 56690iUR002607
+ for <dri-devel@lists.freedesktop.org>; Sun, 6 Jul 2025 10:50:49 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
  cc:content-transfer-encoding:content-type:date:from:in-reply-to
  :message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
- TXj2kLxWlavFfODBCwO4C0ty0sy70kRk1f8+2FzBiKk=; b=goY77ZMh7wpYl4CD
- 97r0d25IbvAKRjshLAnj/gebj0p7V0ciNSu2pJKCR7nZ5W2rnw7vU8x2pcT8TWMr
- WreXaFnLMszLfn6FJrz3ISm2wYOz3qlwyCIDLOK+wtwm9k1sgmngyxnegxB72q9Q
- cUH59uIqnc2DBCLcXsmdxQNVom040/8Yj/PritiKPxk+LbHNxcP3vWnEBH4aONrt
- mEEccjWRn3JMMfC2csJclEHKVPurYmRsLCW43jaGhuEhH1awuHbXddPRcnmucP6d
- o8383lK+NTs5/RSKWMuSX0recRtg01/A2II/03Lr1TjjfmZVSLKfFUcRM92Rdvns
- PtCYMw==
-Received: from mail-qk1-f197.google.com (mail-qk1-f197.google.com
- [209.85.222.197])
- by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 47pu0vukfq-1
+ gQwF7BjTXtg7965OybbDmRj0hZykpVfXE58N/V76Bys=; b=Z9HJKwee5TLv50Zw
+ jjBRKSb+twj3ZK0Kls/ivOxeaVRfH3rRcJT59qXJXEvXLfoqGKhRGYEuHZumMNqt
+ diUZwR3TASXONH00f5XJ8l1LvHs+jiAJvJ/h1U/hNbriShmnWHo0WF/Zkc7nWrh+
+ cpnGOHZT1SkVzYLnmq21We2O6Uo35xeulz0PbAeqj4x+DPZedtyEovdNT8B4Nv6P
+ XIjcUnu0qKcXJUr8CYzHNQXQhCIkFUBv8dLvF1e0MZQ7+xgbyTfow9aF5+DSFRVW
+ 08+LEt6o7lSF3EXVGbJn3Kpey/9iAtYwWb8wxnjbpbaWtfR4QIRqEZTInWBCIoBL
+ tqq+Sw==
+Received: from mail-qk1-f200.google.com (mail-qk1-f200.google.com
+ [209.85.222.200])
+ by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 47pu0vukg1-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
- for <dri-devel@lists.freedesktop.org>; Sun, 06 Jul 2025 10:50:46 +0000 (GMT)
-Received: by mail-qk1-f197.google.com with SMTP id
- af79cd13be357-7d40f335529so517177385a.0
- for <dri-devel@lists.freedesktop.org>; Sun, 06 Jul 2025 03:50:46 -0700 (PDT)
+ for <dri-devel@lists.freedesktop.org>; Sun, 06 Jul 2025 10:50:49 +0000 (GMT)
+Received: by mail-qk1-f200.google.com with SMTP id
+ af79cd13be357-7d09ed509aaso268709085a.3
+ for <dri-devel@lists.freedesktop.org>; Sun, 06 Jul 2025 03:50:48 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1751799045; x=1752403845;
+ d=1e100.net; s=20230601; t=1751799048; x=1752403848;
  h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
  :mime-version:subject:date:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=TXj2kLxWlavFfODBCwO4C0ty0sy70kRk1f8+2FzBiKk=;
- b=oL19/BWbEtdbIFOKflBwX2fouj9IsPU2LduJv7uRNEaEsG+LF341IpEKBZJ892tVPx
- iqC9S/OSw11TLhwkeS6TkH21EWeEqrOjORdYRLBOKkFTHQD8SNphAFNa0Vwd85CxmBKb
- Ujwa5kSNp9qAAjD0/bT+5BBXLQ1dHIfnZbCPMMmNWPGVfmeI1y7akmaa5eMJwKUjZJwy
- BA9OXVdx+a8RtSdL6DvScVZxE0TmVmqCTmZ85qaNsp+fd0wK3YK6nigm7ZfbgdXOghEo
- dNQGcVgpRL1mCOn5R7A8yC9SSqrosifMMdurnaU7mN0b0+cd4bcbZNI3xeOyIh69Wju8
- aL/A==
+ bh=gQwF7BjTXtg7965OybbDmRj0hZykpVfXE58N/V76Bys=;
+ b=Rr70DtWDddJR72YYIDVmo9wkCzDRxqC0IJErju2Ym/eQ5W638M/+dYWZOITbXYVOBd
+ wjtu8nKfXblqaTqWMVpMeWzSFxalLdubWkE416FDP2gu1Pk/PegjnqrgnyPcIL2t8d5+
+ B2IZZK6Rxk+wBr9/A8Ns8Inx3/fY/KdI2ROgdmBw6Ji7bOVddEvLTk442isc/PlqFjnf
+ qLbahHEQheWr8rwir9qYL3sbBkX8onfoTWJmiJqJjdhwIrXNCog7OhxlH/FDfmyPtXHT
+ 6pFYQdbTmyEH3Nv/4q6mm4JZg0J8yfmOMsl7w9lxQzDM7CBFBlK4EazmGKlo8Jfx5CsP
+ Driw==
 X-Forwarded-Encrypted: i=1;
- AJvYcCV78awvggTrBTWELwzBzH4UEjTR7Ms62wbWQX8xJqSNjMOETXPfEzgDb4aNfvddHqBNd2holGri+f4=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YzD32ufgtZXkN/fLIQvh/Re9rZhvbUnrk5hx9zmyjyuoMJktN2w
- TMda/Y8iXcbk3wiOmwtC41A62miXaZWUpPfzzo3Nt/7Omj7riZxdXn5beZvDqEyfvx9JoFS4W0L
- +thR/sSIZE1WpPF9IKAkQb7LJGMz0ZWqiqBAkNA7PhjdyXcyxHUBY3f7KoD7kpRM0tF9iRYM=
-X-Gm-Gg: ASbGncup0Pv/zqoL7vZ2YmRKK0oPvSagICYZqJIxLs03I2vQX0ZLuqQtmImDGsIrDAg
- 6IEbUCGsPHXLa8GwMfJjwRgLN8/nQ1bv73Ow7tYRk9GgyjNgttT9om7ZB0banIUKXMpAOj2KXaC
- WdKPNp49hyKlJHzPFEDddbR+t3CV+QFnTMm7SdNsZsUaI0Q9BfgX8M3UvZmTGcRupO8FdhK6XFp
- qnay4RqDM3HHSA5Zpd1Y8RFj0cBPw8UgdTFx0lLpEyZNS2esk6gzb/0yiRcoaSFvEjrVUNYOuiu
- NUO9jg2RKjtJyddLeQSr6ROhZmsU6sO/f0n9wUMUaDGo5TkmMPsKYDYowi9jOffsAaQ2RNKn16D
- YIggekfJUOLSMYMLmhFCwJl8LI82VKYyD6bE=
-X-Received: by 2002:a05:620a:6289:b0:7c5:95e6:62c9 with SMTP id
- af79cd13be357-7d5dcd47e14mr1035826385a.29.1751799045089; 
- Sun, 06 Jul 2025 03:50:45 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IENzyvjnnPNU0+auiROsO8L9tJv+5rcHPjjuz97ShcVFzt8dFEs20zG+8sIADzQBxRqDaUTUA==
-X-Received: by 2002:a05:620a:6289:b0:7c5:95e6:62c9 with SMTP id
- af79cd13be357-7d5dcd47e14mr1035824685a.29.1751799044764; 
- Sun, 06 Jul 2025 03:50:44 -0700 (PDT)
+ AJvYcCX1//7hAlhVNYsp2R0ZjsHN1LgCVP5E+6NydfLBZSEKFYmfT7/qENR/3beprISiv5xEu78hHaZLR4A=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0Yz+3Ho/d4jBc2bx4Z+E7PHZr+9OTABluhepVs1ZYdz9iVzSBlBa
+ lotHnD26EgeLNzAGbLP3NzGG/KyDmnzGCFXxHgtmUQ7Lsqei8UFNMJmH9Hj27viLM4/Da5Jr2Uw
+ Y87OEBcDLzIbSTNfQKFMhFGsWvg1cZZIBXuNpg+pQ9nz3wD32nO/k5a/+QsuP7451jVpIcNk=
+X-Gm-Gg: ASbGncvtj8mNWof3VkxZ7ZbRm0UpkXwGHVvUD7jLYqG8vZIjJqcuu2FUG9lPxT/NVo/
+ X9BpRK3Jml/GlqQnxrg+Q12tEpxW9Ybm43s5Wg/a1bybWqSmElJzcIc3CtgE63vOdasvsFSF4oA
+ K0PzK4Od8J7fLzHKyl5gTCq1jufKPnTZIIOI5CMfFqc/wxv6vlkgXvKagdlke2hHjUlNpMOcXAo
+ 5SyX4zMt5JROQgebYnBon/5ju9yMg2rJZI2hyBsqPRusDURL0dcvTPRrNtFS5U0TXRVPgNZR4SX
+ SpaRXK27USG10FVVTiGWrLcmE+1C2cYhurhwvkOqgxpHMa9Y8jPxX7iSDwZSrxmC37395TeW5po
+ AUco9Y/hU+NWBY5WGyw7h3CZkLZSIhZlfbl4=
+X-Received: by 2002:a05:620a:7014:b0:7d4:53d4:578d with SMTP id
+ af79cd13be357-7d5f10fa22fmr697623085a.36.1751799047556; 
+ Sun, 06 Jul 2025 03:50:47 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IEtyZ9ucK7jsORVaYGW7av0WIAu76YoLf2T3keQ5iRHn3mdAtAO4h06LyQ2I0lncFhsncDHXw==
+X-Received: by 2002:a05:620a:7014:b0:7d4:53d4:578d with SMTP id
+ af79cd13be357-7d5f10fa22fmr697620385a.36.1751799047134; 
+ Sun, 06 Jul 2025 03:50:47 -0700 (PDT)
 Received: from umbar.lan
  (2001-14ba-a0c3-3a00-264b-feff-fe8b-be8a.rev.dnainternet.fi.
  [2001:14ba:a0c3:3a00:264b:feff:fe8b:be8a])
  by smtp.gmail.com with ESMTPSA id
- 2adb3069b0e04-556383bb555sm920621e87.20.2025.07.06.03.50.43
+ 2adb3069b0e04-556383bb555sm920621e87.20.2025.07.06.03.50.44
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sun, 06 Jul 2025 03:50:43 -0700 (PDT)
+ Sun, 06 Jul 2025 03:50:46 -0700 (PDT)
 From: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
-Date: Sun, 06 Jul 2025 13:50:36 +0300
-Subject: [PATCH 1/3] drm/msm/mdp4: stop supporting no-IOMMU configuration
+Date: Sun, 06 Jul 2025 13:50:37 +0300
+Subject: [PATCH 2/3] drm/msm: stop supporting no-IOMMU configuration
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20250706-msm-no-iommu-v1-1-9e8274b30c33@oss.qualcomm.com>
+Message-Id: <20250706-msm-no-iommu-v1-2-9e8274b30c33@oss.qualcomm.com>
 References: <20250706-msm-no-iommu-v1-0-9e8274b30c33@oss.qualcomm.com>
 In-Reply-To: <20250706-msm-no-iommu-v1-0-9e8274b30c33@oss.qualcomm.com>
 To: Rob Clark <robin.clark@oss.qualcomm.com>,
@@ -94,31 +94,31 @@ To: Rob Clark <robin.clark@oss.qualcomm.com>,
 Cc: linux-arm-msm@vger.kernel.org, dri-devel@lists.freedesktop.org,
  freedreno@lists.freedesktop.org, linux-kernel@vger.kernel.org
 X-Mailer: b4 0.14.2
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1188;
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1053;
  i=dmitry.baryshkov@oss.qualcomm.com; h=from:subject:message-id;
- bh=N1V1r2a+Uu111oA5aVLPWmTma/v7zxodScONBUW8ukI=;
- b=owEBbQGS/pANAwAKAYs8ij4CKSjVAcsmYgBoalUBQahHAv2TwvvVK6FFPuXM20VbAQOAG8788
- ssuEBgbNNGJATMEAAEKAB0WIQRMcISVXLJjVvC4lX+LPIo+Aiko1QUCaGpVAQAKCRCLPIo+Aiko
- 1f0mB/9PUKhWISZlHBDACtU3YF/1alKgkRr5n3JHsdRqlQeuTcv7GtWeTdbBgfcxxcR1qnFRZwd
- +o40ttKKbXMaTPm3hfz9nSbot1W+caMuNXSLtZUzk2tDECCK0EGsPk5UrRHzVOV9RGR8fWK0Gqo
- GW9m7ZEIJOJqOPXtzaXSeF9DBgHtbWr4mvxSvipVlRBUgJzUCQ8rmNdkpcvdwB/LWtX+d9OSdGD
- XuiYccV7R44JUN6RSc6EhjfQM953FfA9QFRMvrTSqbYhpy+DrYQyOGQm+MvMJmU45x+ofhnueYa
- 6rrDlr4nMhqujzT8V2Zrk7tqCMpl4zFHJMRZGA/hBUIxxDMa
+ bh=CVAxMJ583rYEGC1+K/sUzP+WPoNKZGaqzP5oZqg2sAw=;
+ b=owEBbQGS/pANAwAKAYs8ij4CKSjVAcsmYgBoalUB1+xuuKCza8FRxLDaIpuk4/9nNPUhbOJSM
+ jVRNJAo8N6JATMEAAEKAB0WIQRMcISVXLJjVvC4lX+LPIo+Aiko1QUCaGpVAQAKCRCLPIo+Aiko
+ 1UkMB/9kTumwrySnCjd4VSt41UeB4BUW/u21VLeSik9PtHt1VuBLn6bQIhc2174IcmTnc1lQ0PQ
+ SP8DPvssNDhjdb25NISWlpA22w5hYNeZnoBcwZ1hspvX01vSaHDyavJXQWSsfQAruHog8hEMsjY
+ K+USDp5d+IN6DrP0nM3EJ6/beHJ6aDOyRiM3l9A5IXL7B3Xhe1LS20yXeokJ4aICVQf1vyfzSyC
+ cvagS7NZpMysbO+OeFMjwPvp+N1nXsYGzKCR4R7UKBWs9QeyB/5afJLgsMOCBq9wNURns5Pz2od
+ UJXe5YkdA+va3Df2WP+dyqGhfFsDNpcvDBspBEq4LKD/SDGD
 X-Developer-Key: i=dmitry.baryshkov@oss.qualcomm.com; a=openpgp;
  fpr=8F88381DD5C873E4AE487DA5199BF1243632046A
-X-Proofpoint-ORIG-GUID: O_6a6FQvhY_1GVzVD4EXteSjgyE6FVw4
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwNzA2MDA2NyBTYWx0ZWRfXzax4duZqq5Gd
- avginp6FAuIjQj6usi/evwUdXnT2sz12U061//reeWfDKokvK7rhkwNKDvauXIKM//9fZae9m6p
- KblixA4AuNjH4HYz3QU4+e+7OKU9fbXH7PZZONV/y6AdxDOVZaixSHdMxF6CxN267FOjuimjw+C
- v3hTfFqI7igQIrajcQYrn9hxddkKlTFBmy39K1ESrp67KpCAkTUxuYf4TOfbw9BtS6SCsI7H7Bb
- RKuoeFPMfV1yyzIssQxXlDto2fHK6aaXnJordrK2WhWQoooIPlddm+5l3QBnedGv+frDjfFO2AW
- 1h3PTHN1RKxvdF4lALobVAe00nDbWZPo4HSdHG0M3nEYky+G6pXKjxjSRp71RkSWwhponHt0XkS
- oePdoEKc3YsuGD+ZIBLWpYwOM+YOE0k8m/nAwX3qomWRXIq5sgC8qcc2O+lkfC+9YxsqVxAS
-X-Authority-Analysis: v=2.4 cv=Rd2QC0tv c=1 sm=1 tr=0 ts=686a5506 cx=c_pps
- a=50t2pK5VMbmlHzFWWp8p/g==:117 a=xqWC_Br6kY4A:10 a=IkcTkHD0fZMA:10
- a=Wb1JkmetP80A:10 a=EUspDBNiAAAA:8 a=0pe4r8NFi1m0JDAohsgA:9 a=QEXdDO2ut3YA:10
- a=IoWCM6iH3mJn3m4BftBB:22
-X-Proofpoint-GUID: O_6a6FQvhY_1GVzVD4EXteSjgyE6FVw4
+X-Proofpoint-ORIG-GUID: SyHWKAVcJTbjwhA5qSDhS5oi6cpOZ3Nw
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwNzA2MDA2NyBTYWx0ZWRfX6z2LprBtWimU
+ bsWOP6s+e5LiP4eTTUL/Ka+eQenJVxbnmiVw/9SruWlwWXwsZS2t87/uxihSLERs7darK8jvctj
+ UTFK0XuTJRSLNHgcKVJMBh04+yh1cOeZNPxbrX6qMG2BoiVgNV+FCKCky+k5/cosn3nR6HHaQJn
+ iJWLpMFhWfeqBfI+ZUBoA/TLiIR19LXthJyL550/lihVU5bQyj7nSEkwnwAioTeoNVUFeqyn1Sg
+ spsXCdlSZRgdFD1Dq1Yx8sggQGEZUoAkEyd1hHNT9n8Hx+dsbWW0AQEW8GYzJbVXJPNwz8YVUZU
+ ixkuGdKHsbq/lr443COgAJfps9e4jaGpl3dajSAh0CghNkxjdw5jipw13VLOswIDpI3yc6FDXvU
+ iRrbK6HDaUSY9tyg61OGa9q3sV5oaGfcL6zY+8f7vRAhFK2n1+++yUEDcjw09lR93Noi9Lgb
+X-Authority-Analysis: v=2.4 cv=Rd2QC0tv c=1 sm=1 tr=0 ts=686a5509 cx=c_pps
+ a=hnmNkyzTK/kJ09Xio7VxxA==:117 a=xqWC_Br6kY4A:10 a=IkcTkHD0fZMA:10
+ a=Wb1JkmetP80A:10 a=EUspDBNiAAAA:8 a=bqLZAy-zUTJ7f3hpqcwA:9 a=QEXdDO2ut3YA:10
+ a=PEH46H7Ffwr30OY-TuGO:22
+X-Proofpoint-GUID: SyHWKAVcJTbjwhA5qSDhS5oi6cpOZ3Nw
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.293,Aquarius:18.0.1099,Hydra:6.1.7,FMLib:17.12.80.40
  definitions=2025-07-04_07,2025-07-04_01,2025-03-28_01
@@ -150,26 +150,24 @@ face the lack of the IOMMU for an MDP4 device.
 Fixes: 111fdd2198e6 ("drm/msm: drm_gpuvm conversion")
 Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
 ---
- drivers/gpu/drm/msm/disp/mdp4/mdp4_kms.c | 6 +++---
- 1 file changed, 3 insertions(+), 3 deletions(-)
+ drivers/gpu/drm/msm/msm_kms.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/drivers/gpu/drm/msm/disp/mdp4/mdp4_kms.c b/drivers/gpu/drm/msm/disp/mdp4/mdp4_kms.c
-index 0952c7f18abdca4a7e24e5af8a7132456bfec129..88296c41d1a5eb0e16cb6ec4d0475000b6318c4e 100644
---- a/drivers/gpu/drm/msm/disp/mdp4/mdp4_kms.c
-+++ b/drivers/gpu/drm/msm/disp/mdp4/mdp4_kms.c
-@@ -463,9 +463,9 @@ static int mdp4_kms_init(struct drm_device *dev)
- 		ret = PTR_ERR(mmu);
- 		goto fail;
- 	} else if (!mmu) {
--		DRM_DEV_INFO(dev->dev, "no iommu, fallback to phys "
--				"contig buffers for scanout\n");
--		vm = NULL;
-+		DRM_DEV_INFO(dev->dev, "no IOMMU configuration is no longer supported\n");
-+		ret = -ENODEV;
-+		goto fail;
- 	} else {
- 		vm  = msm_gem_vm_create(dev, mmu, "mdp4",
- 					0x1000, 0x100000000 - 0x1000,
+diff --git a/drivers/gpu/drm/msm/msm_kms.c b/drivers/gpu/drm/msm/msm_kms.c
+index 6889f1c1e72121dcc735fa460ea04cdab11c6705..2e2ab93b0f6f6a462e99d54b33da6dc21b1e8435 100644
+--- a/drivers/gpu/drm/msm/msm_kms.c
++++ b/drivers/gpu/drm/msm/msm_kms.c
+@@ -201,8 +201,8 @@ struct drm_gpuvm *msm_kms_init_vm(struct drm_device *dev)
+ 		return ERR_CAST(mmu);
+ 
+ 	if (!mmu) {
+-		drm_info(dev, "no IOMMU, fallback to phys contig buffers for scanout\n");
+-		return NULL;
++		drm_info(dev, "no IOMMU configuration is no longer supported\n");
++		return ERR_PTR(-ENODEV);
+ 	}
+ 
+ 	vm = msm_gem_vm_create(dev, mmu, "mdp_kms",
 
 -- 
 2.39.5
