@@ -2,70 +2,69 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8855FAFA58F
-	for <lists+dri-devel@lfdr.de>; Sun,  6 Jul 2025 15:42:31 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id F1C19AFA597
+	for <lists+dri-devel@lfdr.de>; Sun,  6 Jul 2025 15:46:29 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4F24710E086;
-	Sun,  6 Jul 2025 13:42:28 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5EA5710E2B5;
+	Sun,  6 Jul 2025 13:46:26 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="J8xYCmvB";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="KZsJUpTd";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pg1-f178.google.com (mail-pg1-f178.google.com
- [209.85.215.178])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B43DC10E086;
- Sun,  6 Jul 2025 13:42:26 +0000 (UTC)
-Received: by mail-pg1-f178.google.com with SMTP id
- 41be03b00d2f7-b31c8eed8f2so82469a12.3; 
- Sun, 06 Jul 2025 06:42:26 -0700 (PDT)
+Received: from mail-pj1-f47.google.com (mail-pj1-f47.google.com
+ [209.85.216.47])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6A54210E2B5;
+ Sun,  6 Jul 2025 13:46:25 +0000 (UTC)
+Received: by mail-pj1-f47.google.com with SMTP id
+ 98e67ed59e1d1-312a806f002so433356a91.3; 
+ Sun, 06 Jul 2025 06:46:25 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1751809346; x=1752414146; darn=lists.freedesktop.org;
+ d=gmail.com; s=20230601; t=1751809585; x=1752414385; darn=lists.freedesktop.org;
  h=content-transfer-encoding:cc:to:subject:message-id:date:from
  :in-reply-to:references:mime-version:from:to:cc:subject:date
  :message-id:reply-to;
- bh=x9p/OUC5tbbC2lQw5VTLyJND4KlM7wvMWqPSiwnuyFw=;
- b=J8xYCmvBeDrIsyeYrfRzJlUJ4eG3b2cfo1lNG06EYKLl3Vl20lH4DCrJmY1gvAiqwh
- kQfzY6OSJE1hkWTBHkyoGOQoXI1f4077pd0j9h5F5EHhdArMGd9Golzfokb6oFwiucgs
- hG8Ms0RNBWUcW05WBwm9YKCxKFSjD7kCDKtiMEHQQtU45i8OhaabpIPT2qzaib735Qsr
- Df7dtqccI2DOxbrhAHLYfdaGKj7ixRx7TTNXPdlsTFJ1wMrKXQAwqeqr7VS5g04nioS9
- eSn1dudr9YiAHrmszW9Lx8FO2MKqL34zxpTSzgk8B7qWUti8EAsiZ0VRnO/gVIJbmSxL
- Q6tw==
+ bh=gKLTNgJgTfofCTlF/JST0qzlC2FbwxSOsAmEM7FOTgU=;
+ b=KZsJUpTdaD+c6ovB/lzBSIegPdzWXv8MV/fHrtreAQI7mdTw3bnK9FPd2KW33XC+xO
+ dzegukY4Mw/1AGIbtF3JqUBbey6QY/riV0XxwxClUUy0Y/BTBkyUHgjRKX55bztO89q4
+ n/pO4083c3cSRhtUDqzSXOaDV84Xu4D+5piv2SD3XXQBeZ1weOPdTH3C0er9A0JeMVlT
+ fjhk1GgLwgrVha0FBw5veprr+Q+b++5Iy50DOOe9V4lBjyqPCjr1EYLqg8qfMpPTAqWk
+ k9BCjMEJVpS5KwQOUpeF65t9YlCzGZimDxwogZqdKlgaMUUSXP9V2evM8rvDhNQb7PBN
+ gcxQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1751809346; x=1752414146;
+ d=1e100.net; s=20230601; t=1751809585; x=1752414385;
  h=content-transfer-encoding:cc:to:subject:message-id:date:from
  :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=x9p/OUC5tbbC2lQw5VTLyJND4KlM7wvMWqPSiwnuyFw=;
- b=ut9lmTpFjGyhOMjK0iNa72dYJD4jW/FQ6xq612X0CIHK2SpoTD38T8ufthfnm5mYsU
- LDBjJEbMBPiPs3q04TO5KHf8rrgT9ZvXWToPENvT+dm7PRnHX9N+9e+uDQ/KGE+/p4pD
- 7N8OjqL2cC3H3HrKTGIF3HT4x0ZP8AB47Snv471QEAVKKNzqG4FHRXXxUofzl/apSqEH
- cRDSwNkCEAp0Y2ZdtA1vRmdj+Ugp7aU/0mAjTu60lfQbTEtdv6Lkb9nIfPT4xD3EdCtJ
- 6KW2SQcYmcig2B8SLFsD+oR68ltzDS9rVsOes0SaHYilS0YWaPFQh2EYSJJPeuKHKv2F
- H/3Q==
+ bh=gKLTNgJgTfofCTlF/JST0qzlC2FbwxSOsAmEM7FOTgU=;
+ b=W2GwyP6qL1GoVdlz4Z5Ri8t3/xp/wujSGsph5EzcsldcVb7OwkbO9FVsJXqsF9xM5A
+ nz1+RpQbGSW4GtVlzlEXqT3nmix+ZE+GI7Sp0YTXk03stCun0Jtkc6jAvuQvRzbiiexo
+ AAbhsidFLyymunhogABAxBSSkJBiyjSi6Nmhpf9CErCViTu6hFBOLDVuYb2hvPzIhAgO
+ EoWzwyFFtITbMiGy1JihWev7WA1RFeryxdLmHP0DX5o8gaI+6rrO8s6c7lV2RBI4DR93
+ ljneYwAtJZVvchgAZa/+kJ1Tj9+cK8fBt+umTJ2XkN/yOhG5Eqr1upuhy4Jhz/KPvzkT
+ X2+A==
 X-Forwarded-Encrypted: i=1;
- AJvYcCUhgye0FUfcolEHYLeSDKmjE+hjVsuYWSTd11o0VKgIlkihNzwecHemr6xI0zfJN5pA2lmjmVks/A==@lists.freedesktop.org,
- AJvYcCWJsFxCrWvrayJXvNw+8YL0MDcI3otbxur9qLFT2D7k22SxLPZg1aTy7MKKN8jzUbO5T4WDPQzNkEE=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YyhYC4XJ4F6lVX32ZzluN7FQDvO7ci5l9+zo+YsIf2EwzzoZM/s
- uS+sbucsja0ioZSBekDRypb+ERj/ysnxXnZC1qFCZ5eGgeNgZT9bWbPXbvwwPjKbsOhZveNCq0E
- MTHYxkrfQ1ZS7kwF1B4MXyK7+nb/Cifk=
-X-Gm-Gg: ASbGncvtkKws5A30t0rkSEsFpdPd6xQOfbAEVpPU/amuzov6trvKf/o83zPOXNqBj3K
- Go+j5mjKYKLSSux28jvRBuej7A4IzarMNWT8lYYd1g7QhrDpeAK1SpgwMrcLOm+KDzBiQeK85Wa
- e//S/Vye2rhZYLQSCoAR/6mmHrG1HtknFfz6avIJMlYz3a
-X-Google-Smtp-Source: AGHT+IEUJFZL2JU8xJSFulzsZPwp7Y5KKKb4k5Vl4oukDhrgiu5ve9lkLrK/mtQ4PMRZ7/XS+4qg94PJ9RHtwPTgAOs=
-X-Received: by 2002:a17:90b:258c:b0:312:1ae9:1537 with SMTP id
- 98e67ed59e1d1-31aaca78f48mr5496701a91.0.1751809346077; Sun, 06 Jul 2025
- 06:42:26 -0700 (PDT)
+ AJvYcCVQiNPwav27RnQ4ggl9mSJSeTw/3GaVx8CGW2ezCRInH4LPCPSltrxquR6VvI3VuKWY4csNbW2yqg==@lists.freedesktop.org,
+ AJvYcCWbRqJekImM9ln38QI5YUl6PCL8Utfyv29pzv76duG2UTFL7gh73LaLBjtVZfnnT31YCxA0c/z+A4c=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YwiUEB3R/CwDFdoEerVenT3a3133bDBHJbNKlN1EBoX+J32i16O
+ mCLLDH2bHEQBHTVLSXBzZ0Ug3rqVu2l0nRrwScG2aUjLCbPbg4sbV3sRwIihPAXU3ZdcXQr355K
+ POYeos3ls4WblxFeYdOnafRPqWmP3Gro=
+X-Gm-Gg: ASbGncu3QGbKclL9Ny7VJbhnDMuG0WWw2Oefht1EYMYFgSHBOzyfIwbE/YLfcwjo3ZS
+ WiADcZIhm26jN3qhonh6S65bON0ycx00jn9sUO3sicoObx+M8UcrQgwUiNMhtOmNJiRxNtcrFh6
+ rIWQ2FALuv82D0DbnUANDxEL2F28MAUuf6asRbUDDJj3e8ZrgNJYoX3HM=
+X-Google-Smtp-Source: AGHT+IHOv9GZgJf2WFKprOIy64F5CrgixXl8Scf2KyipOzlw7oCckduzujowyADaYXCyuHIJ4iHyaN1QrOx7fForFnk=
+X-Received: by 2002:a17:902:d4c5:b0:234:ed31:fc9f with SMTP id
+ d9443c01a7336-23c873bd881mr55359015ad.11.1751809584805; Sun, 06 Jul 2025
+ 06:46:24 -0700 (PDT)
 MIME-Version: 1.0
 References: <20250702-nova-docs-v3-0-f362260813e2@nvidia.com>
- <20250702-nova-docs-v3-1-f362260813e2@nvidia.com>
-In-Reply-To: <20250702-nova-docs-v3-1-f362260813e2@nvidia.com>
+ <20250702-nova-docs-v3-2-f362260813e2@nvidia.com>
+In-Reply-To: <20250702-nova-docs-v3-2-f362260813e2@nvidia.com>
 From: Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>
-Date: Sun, 6 Jul 2025 15:42:13 +0200
-X-Gm-Features: Ac12FXy1CaP3o3WtkbtVOog3-QiqhLt2Ifo86odUyVkUt2_fgezqFSeaSXeO-AY
-Message-ID: <CANiq72kUoyhbwiTeB3Bwv3X0iGLbiVWeQCBvKshOaNMqkEsUPw@mail.gmail.com>
-Subject: Re: [PATCH v3 1/7] gpu: nova-core: Add code comments related to
- devinit
+Date: Sun, 6 Jul 2025 15:46:12 +0200
+X-Gm-Features: Ac12FXwSGwFmNVg0dK0RITOBy2nrTS1QW7QBJAFG70NZ191EM-5_o7Lr9NDvmZQ
+Message-ID: <CANiq72nh71s9to5v1KHJWN79bEFv97zN6jcGJyEQkaJZ5UuJfg@mail.gmail.com>
+Subject: Re: [PATCH v3 2/7] gpu: nova-core: Clarify sysmembar operations
 To: Alexandre Courbot <acourbot@nvidia.com>
 Cc: Danilo Krummrich <dakr@kernel.org>, David Airlie <airlied@gmail.com>,
  Simona Vetter <simona@ffwll.ch>, 
@@ -93,37 +92,26 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, Jul 2, 2025 at 1:04=E2=80=AFPM Alexandre Courbot <acourbot@nvidia.c=
+On Wed, Jul 2, 2025 at 1:05=E2=80=AFPM Alexandre Courbot <acourbot@nvidia.c=
 om> wrote:
 >
-> +        // Check that FWSEC has lowered its protection level before read=
-ing the GFW_BOOT status.
+> +/// driver initialization, and before any falcon is reset.
+> +//
+>  /// Users are responsible for manually calling [`Self::unregister`] befo=
+re dropping this object,
 
-`GFW_BOOT` (another one below), since it is written like that above.
+Missing slash.
 
-> -/* PGC6 */
-> +/*
-> + * PGC6 register space.
-> + *
-> + * `GC6` is a GPU low-power state where VRAM is in self-refresh and the =
-GPU is powered down (except
-> + * for power rails needed to keep self-refresh working and important reg=
-isters and hardware
-> + * blocks).
-> + *
-> + * These scratch registers remain powered on even in a low-power state a=
-nd have a designated group
-> + * number.
-> + */
+Added the possibility of catching this automatically in e.g. `rustdoc` to:
 
-I noticed the file uses `/*` in a couple files -- could `//` be used
-or there is a reason for it?
+    https://github.com/Rust-for-Linux/linux/issues/350
 
-(I guess maybe in a different series, since it is already there for
-PMC in mainline. It could be a good first issue.)
+> +// These two registers together hold the physical system memory address =
+that is used by the GPU for
+> +// perform sysmembar operation (see [`crate::fb::SysmemFlush`]).
 
-The idea is to only use `/*` when `//` cannot be used, e.g. within
-code, so that they have a different purpose.
+This is a normal comment, so the intra-doc link will (sadly) not do anythin=
+g.
 
 Cheers,
 Miguel
