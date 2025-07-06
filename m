@@ -2,43 +2,42 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 40954AFA6F4
-	for <lists+dri-devel@lfdr.de>; Sun,  6 Jul 2025 20:26:11 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id AB8C1AFA6F8
+	for <lists+dri-devel@lfdr.de>; Sun,  6 Jul 2025 20:26:21 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A85C110E107;
-	Sun,  6 Jul 2025 18:26:09 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1D91410E3B5;
+	Sun,  6 Jul 2025 18:26:20 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; secure) header.d=disroot.org header.i=@disroot.org header.b="D1jXqUPE";
+	dkim=pass (2048-bit key; secure) header.d=disroot.org header.i=@disroot.org header.b="PuuZk7/B";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from layka.disroot.org (layka.disroot.org [178.21.23.139])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 523AC10E107
- for <dri-devel@lists.freedesktop.org>; Sun,  6 Jul 2025 18:26:08 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id ECDD410E3B5
+ for <dri-devel@lists.freedesktop.org>; Sun,  6 Jul 2025 18:26:18 +0000 (UTC)
 Received: from mail01.disroot.lan (localhost [127.0.0.1])
- by disroot.org (Postfix) with ESMTP id 2844F20E83;
- Sun,  6 Jul 2025 20:26:07 +0200 (CEST)
+ by disroot.org (Postfix) with ESMTP id CDDE420F29;
+ Sun,  6 Jul 2025 20:26:17 +0200 (CEST)
 X-Virus-Scanned: SPAM Filter at disroot.org
 Received: from layka.disroot.org ([127.0.0.1])
  by localhost (disroot.org [127.0.0.1]) (amavis, port 10024) with ESMTP
- id T8w2O4mm5w3t; Sun,  6 Jul 2025 20:26:05 +0200 (CEST)
+ id rl7io2hTU7H8; Sun,  6 Jul 2025 20:26:14 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=disroot.org; s=mail;
- t=1751826365; bh=3+vm7iL4YxeQBqkYH0pzMX1sP4BS6s4QthWdNBrsH5A=;
+ t=1751826374; bh=/yVlBK3lzKHbYCYl0PZiqbYZGWExt3hrCNM7yAG5SKs=;
  h=From:Date:Subject:References:In-Reply-To:To:Cc;
- b=D1jXqUPEZubQQsLzI6hTvN2mY9f04AZlv+TBmWP8aymUXbY0mOdwht7C4TzG/PIjp
- LYYANp5epFZlOqJnvs1bLgbb96j9QO3pmjuXocI6TGM3ccvijrSBr0YPgh2EpMuOnJ
- 63DDCqRry19JA5+IUQQsMH5nRxB1zmJjYsEKG0YdDVWUjprylnUTldzspgqnIw4AsV
- 1OJYUK7evAUuyLqIHxlitMEI5L3NGvqyxKs+ZI6EIAnNTC+bn7EoEDh1uQ5ZtOcnie
- M6CX3IgzLrD6ErID/KksSFtWL7x4hV3X43DZg+gL5uVl67gogW53v8mgbVH1X/TT46
- R/hsexQkk5RYg==
+ b=PuuZk7/B9sYzIT6Sa12YMRpWqZAaCdVieFegUzi1E4tyKp4RGPNzGK15e/6Z6WVL0
+ pxI2xevy0jNmx5H8drznvGt89zc6lsNqH0IU24A35OOcbo3xY9Ds9BZ9b/A23IqRh4
+ r1ij9hUeA0N6kepk0apZ3Q2op24gyf0xLS0LIiNQ7aLZ9PRDLSLkDk7Y8oOCKjC+MP
+ RBKtSHP10g/4zSQfrIlIKlRz19kxgvj8Yx9ZxzHimJWS/uXucTQ4CieMjOILg/Cmnv
+ hgSZB2dMqUClI+XGoA1FV+i8LGHH+KK+a1rOXx9B4uUUIwh41Rhh5iclmJaCS6Hukb
+ qyD4iRGo2CM8Q==
 From: Kaustabh Chakraborty <kauschluss@disroot.org>
-Date: Sun, 06 Jul 2025 23:55:35 +0530
-Subject: [PATCH v3 01/13] drm/bridge: samsung-dsim: support separate LINK
- and DPHY status registers
+Date: Sun, 06 Jul 2025 23:55:36 +0530
+Subject: [PATCH v3 02/13] drm/bridge: samsung-dsim: add SFRCTRL register
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20250706-exynos7870-dsim-v3-1-9879fb9a644d@disroot.org>
+Message-Id: <20250706-exynos7870-dsim-v3-2-9879fb9a644d@disroot.org>
 References: <20250706-exynos7870-dsim-v3-0-9879fb9a644d@disroot.org>
 In-Reply-To: <20250706-exynos7870-dsim-v3-0-9879fb9a644d@disroot.org>
 To: Inki Dae <inki.dae@samsung.com>, Jagan Teki <jagan@amarulasolutions.com>, 
@@ -59,11 +58,11 @@ Cc: dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
  devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
  linux-samsung-soc@vger.kernel.org, 
  Kaustabh Chakraborty <kauschluss@disroot.org>
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1751826342; l=4978;
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1751826342; l=2917;
  i=kauschluss@disroot.org; s=20250202; h=from:subject:message-id;
- bh=3+vm7iL4YxeQBqkYH0pzMX1sP4BS6s4QthWdNBrsH5A=;
- b=dc4BfCEAV7fGcT4lRM/RcmpmWodN3OAhoQq4Ka5r0EOaDkmg2QdBfV/MTo+epFmDvryOvfbq1
- U2eTd2rTP58ABcWhWRYs4oXspPwUz+xr7z0y+o0MIla9dKbxwZcI/sm
+ bh=/yVlBK3lzKHbYCYl0PZiqbYZGWExt3hrCNM7yAG5SKs=;
+ b=rg0Z6iPqzouiWIlP5bus/OmhjJawqb+W/hjlGRJWv3GSvNiAY+vrpywOhafwiijLkIXX9P0xf
+ 26UKrMhccV4BXBuAKAbT3WgoSNcY87qZ0klfqXZg1Uiqjo3VsDXegQJ
 X-Developer-Key: i=kauschluss@disroot.org; a=ed25519;
  pk=h2xeR+V2I1+GrfDPAhZa3M+NWA0Cnbdkkq1bH3ct1hE=
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -81,129 +80,78 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Exynos7870's DSIM has separate registers for LINK and DPHY status. This
-is in contrast to older variants in the driver which use a single
-register for both.
+On Exynos7870 devices, enabling the display requires disabling
+standby by writing to the SFRCTRL register. Add the register and related
+bit values. Since this behavior isn't available on other SoCs, implement
+a flag in the driver data struct indicating the availability of this
+feature.
 
-Add a driver data flag which indicates that the device variant supports
-the legacy status register. Change the register read calls
-appropriately.
-
-Suggested-by: Inki Dae <inki.dae@samsung.com>
 Signed-off-by: Kaustabh Chakraborty <kauschluss@disroot.org>
 ---
- drivers/gpu/drm/bridge/samsung-dsim.c | 22 ++++++++++++++++++----
+ drivers/gpu/drm/bridge/samsung-dsim.c | 16 ++++++++++++++++
  include/drm/bridge/samsung-dsim.h     |  1 +
- 2 files changed, 19 insertions(+), 4 deletions(-)
+ 2 files changed, 17 insertions(+)
 
 diff --git a/drivers/gpu/drm/bridge/samsung-dsim.c b/drivers/gpu/drm/bridge/samsung-dsim.c
-index c4997795db18280903570646b0a5b2c03b666307..0b061ad0ecec158f994846da08fae59f74bfa091 100644
+index 0b061ad0ecec158f994846da08fae59f74bfa091..dca3939dd99fa07aee309067b93e652bc9a9b78f 100644
 --- a/drivers/gpu/drm/bridge/samsung-dsim.c
 +++ b/drivers/gpu/drm/bridge/samsung-dsim.c
-@@ -31,7 +31,7 @@
- /* returns true iff both arguments logically differs */
- #define NEQV(a, b) (!(a) ^ !(b))
+@@ -157,6 +157,11 @@
+ #define DSIM_INT_RX_ECC_ERR		BIT(15)
+ #define DSIM_INT_RX_CRC_ERR		BIT(14)
  
--/* DSIM_STATUS */
-+/* DSIM_STATUS or DSIM_DPHY_STATUS */
- #define DSIM_STOP_STATE_DAT(x)		(((x) & 0xf) << 0)
- #define DSIM_STOP_STATE_CLK		BIT(8)
- #define DSIM_TX_READY_HS_CLK		BIT(10)
-@@ -240,7 +240,9 @@ enum samsung_dsim_transfer_type {
- };
++/* DSIM_SFRCTRL */
++#define DSIM_SFR_CTRL_STAND_BY		BIT(4)
++#define DSIM_SFR_CTRL_SHADOW_UPDATE	BIT(1)
++#define DSIM_SFR_CTRL_SHADOW_EN		BIT(0)
++
+ /* DSIM_FIFOCTRL */
+ #define DSIM_RX_DATA_FULL		BIT(25)
+ #define DSIM_RX_DATA_EMPTY		BIT(24)
+@@ -257,6 +262,7 @@ enum reg_idx {
+ 	DSIM_PKTHDR_REG,	/* Packet Header FIFO register */
+ 	DSIM_PAYLOAD_REG,	/* Payload FIFO register */
+ 	DSIM_RXFIFO_REG,	/* Read FIFO register */
++	DSIM_SFRCTRL_REG,	/* SFR standby and shadow control register */
+ 	DSIM_FIFOCTRL_REG,	/* FIFO status and control register */
+ 	DSIM_PLLCTRL_REG,	/* PLL control register */
+ 	DSIM_PHYCTRL_REG,
+@@ -1037,6 +1043,7 @@ static void samsung_dsim_set_display_mode(struct samsung_dsim *dsi)
  
- enum reg_idx {
--	DSIM_STATUS_REG,	/* Status register */
-+	DSIM_STATUS_REG,	/* Status register (legacy) */
-+	DSIM_LINK_STATUS_REG,	/* Link status register */
-+	DSIM_DPHY_STATUS_REG,	/* D-PHY status register */
- 	DSIM_SWRST_REG,		/* Software reset register */
- 	DSIM_CLKCTRL_REG,	/* Clock control register */
- 	DSIM_TIMEOUT_REG,	/* Time out register */
-@@ -405,6 +407,7 @@ static const unsigned int imx8mm_dsim_reg_values[] = {
- static const struct samsung_dsim_driver_data exynos3_dsi_driver_data = {
- 	.reg_ofs = exynos_reg_ofs,
- 	.plltmr_reg = 0x50,
-+	.has_legacy_status_reg = 1,
- 	.has_freqband = 1,
- 	.has_clklane_stop = 1,
- 	.num_clks = 2,
-@@ -424,6 +427,7 @@ static const struct samsung_dsim_driver_data exynos3_dsi_driver_data = {
- static const struct samsung_dsim_driver_data exynos4_dsi_driver_data = {
- 	.reg_ofs = exynos_reg_ofs,
- 	.plltmr_reg = 0x50,
-+	.has_legacy_status_reg = 1,
- 	.has_freqband = 1,
- 	.has_clklane_stop = 1,
- 	.num_clks = 2,
-@@ -443,6 +447,7 @@ static const struct samsung_dsim_driver_data exynos4_dsi_driver_data = {
- static const struct samsung_dsim_driver_data exynos5_dsi_driver_data = {
- 	.reg_ofs = exynos_reg_ofs,
- 	.plltmr_reg = 0x58,
-+	.has_legacy_status_reg = 1,
- 	.num_clks = 2,
- 	.max_freq = 1000,
- 	.wait_for_reset = 1,
-@@ -459,6 +464,7 @@ static const struct samsung_dsim_driver_data exynos5_dsi_driver_data = {
- static const struct samsung_dsim_driver_data exynos5433_dsi_driver_data = {
- 	.reg_ofs = exynos5433_reg_ofs,
- 	.plltmr_reg = 0xa0,
-+	.has_legacy_status_reg = 1,
- 	.has_clklane_stop = 1,
- 	.num_clks = 5,
- 	.max_freq = 1500,
-@@ -476,6 +482,7 @@ static const struct samsung_dsim_driver_data exynos5433_dsi_driver_data = {
- static const struct samsung_dsim_driver_data exynos5422_dsi_driver_data = {
- 	.reg_ofs = exynos5433_reg_ofs,
- 	.plltmr_reg = 0xa0,
-+	.has_legacy_status_reg = 1,
- 	.has_clklane_stop = 1,
- 	.num_clks = 2,
- 	.max_freq = 1500,
-@@ -493,6 +500,7 @@ static const struct samsung_dsim_driver_data exynos5422_dsi_driver_data = {
- static const struct samsung_dsim_driver_data imx8mm_dsi_driver_data = {
- 	.reg_ofs = exynos5433_reg_ofs,
- 	.plltmr_reg = 0xa0,
-+	.has_legacy_status_reg = 1,
- 	.has_clklane_stop = 1,
- 	.num_clks = 2,
- 	.max_freq = 2100,
-@@ -688,7 +696,10 @@ static unsigned long samsung_dsim_set_pll(struct samsung_dsim *dsi,
- 			dev_err(dsi->dev, "PLL failed to stabilize\n");
- 			return 0;
- 		}
--		reg = samsung_dsim_read(dsi, DSIM_STATUS_REG);
-+		if (driver_data->has_legacy_status_reg)
-+			reg = samsung_dsim_read(dsi, DSIM_STATUS_REG);
+ static void samsung_dsim_set_display_enable(struct samsung_dsim *dsi, bool enable)
+ {
++	const struct samsung_dsim_driver_data *driver_data = dsi->driver_data;
+ 	u32 reg;
+ 
+ 	reg = samsung_dsim_read(dsi, DSIM_MDRESOL_REG);
+@@ -1045,6 +1052,15 @@ static void samsung_dsim_set_display_enable(struct samsung_dsim *dsi, bool enabl
+ 	else
+ 		reg &= ~DSIM_MAIN_STAND_BY;
+ 	samsung_dsim_write(dsi, DSIM_MDRESOL_REG, reg);
++
++	if (driver_data->has_sfrctrl) {
++		reg = samsung_dsim_read(dsi, DSIM_SFRCTRL_REG);
++		if (enable)
++			reg |= DSIM_SFR_CTRL_STAND_BY;
 +		else
-+			reg = samsung_dsim_read(dsi, DSIM_LINK_STATUS_REG);
- 	} while ((reg & DSIM_PLL_STABLE) == 0);
++			reg &= ~DSIM_SFR_CTRL_STAND_BY;
++		samsung_dsim_write(dsi, DSIM_SFRCTRL_REG, reg);
++	}
+ }
  
- 	dsi->hs_clock = fout;
-@@ -962,7 +973,10 @@ static int samsung_dsim_init_link(struct samsung_dsim *dsi)
- 			return -EFAULT;
- 		}
- 
--		reg = samsung_dsim_read(dsi, DSIM_STATUS_REG);
-+		if (driver_data->has_legacy_status_reg)
-+			reg = samsung_dsim_read(dsi, DSIM_STATUS_REG);
-+		else
-+			reg = samsung_dsim_read(dsi, DSIM_DPHY_STATUS_REG);
- 		if ((reg & DSIM_STOP_STATE_DAT(lanes_mask))
- 		    != DSIM_STOP_STATE_DAT(lanes_mask))
- 			continue;
+ static int samsung_dsim_wait_for_hdr_fifo(struct samsung_dsim *dsi)
 diff --git a/include/drm/bridge/samsung-dsim.h b/include/drm/bridge/samsung-dsim.h
-index 9764d6eb5beb98b5b9427c5c4775c37b24dd6e17..d7877191bad155e877b2812daeb81ac0be6f735c 100644
+index d7877191bad155e877b2812daeb81ac0be6f735c..f0c1e5c5ed490afe0bcfd06830f52471710b29ea 100644
 --- a/include/drm/bridge/samsung-dsim.h
 +++ b/include/drm/bridge/samsung-dsim.h
-@@ -53,6 +53,7 @@ struct samsung_dsim_transfer {
- struct samsung_dsim_driver_data {
- 	const unsigned int *reg_ofs;
- 	unsigned int plltmr_reg;
-+	unsigned int has_legacy_status_reg:1;
+@@ -57,6 +57,7 @@ struct samsung_dsim_driver_data {
  	unsigned int has_freqband:1;
  	unsigned int has_clklane_stop:1;
  	unsigned int has_broken_fifoctrl_emptyhdr:1;
++	unsigned int has_sfrctrl:1;
+ 	unsigned int num_clks;
+ 	unsigned int min_freq;
+ 	unsigned int max_freq;
 
 -- 
 2.49.0
