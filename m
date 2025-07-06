@@ -2,111 +2,121 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id CC384AFA4CC
-	for <lists+dri-devel@lfdr.de>; Sun,  6 Jul 2025 13:42:58 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 78CF8AFA4EC
+	for <lists+dri-devel@lfdr.de>; Sun,  6 Jul 2025 13:50:12 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B0DE910E284;
-	Sun,  6 Jul 2025 11:42:55 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id F0BE510E287;
+	Sun,  6 Jul 2025 11:50:06 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=qualcomm.com header.i=@qualcomm.com header.b="Nn/0OJ7F";
+	dkim=pass (2048-bit key; unprotected) header.d=qualcomm.com header.i=@qualcomm.com header.b="Leacun/c";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com
  [205.220.180.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1610810E284
- for <dri-devel@lists.freedesktop.org>; Sun,  6 Jul 2025 11:42:55 +0000 (UTC)
-Received: from pps.filterd (m0279873.ppops.net [127.0.0.1])
- by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 566BMlNN012795
- for <dri-devel@lists.freedesktop.org>; Sun, 6 Jul 2025 11:42:54 GMT
+ by gabe.freedesktop.org (Postfix) with ESMTPS id ABBB610E287
+ for <dri-devel@lists.freedesktop.org>; Sun,  6 Jul 2025 11:50:05 +0000 (UTC)
+Received: from pps.filterd (m0279872.ppops.net [127.0.0.1])
+ by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 5666G2Pp026850
+ for <dri-devel@lists.freedesktop.org>; Sun, 6 Jul 2025 11:50:05 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
- cc:content-type:date:from:in-reply-to:message-id:mime-version
- :references:subject:to; s=qcppdkim1; bh=JB/XviBNoG6Wd2Sk46ca++Nq
- /pAT5tc7VNBX6s5gVgU=; b=Nn/0OJ7F+OYtcvjfojmd0+fMyOJjwJJsMJE28YEq
- Vmo74tskb+HolUlEh3TxLsYr8VQqtLBHQOIdpmBScN5iMJZQJv8JJBDpxkZ71S/r
- 8b5vcrVRD3HRd0fh+75rJo1Z9Eggu7KzE3lNEfCmyKio5dXDscdFHT/svL4+SmE7
- oP4Fnx7UZ+rdp/UvYe5IUYYoI0iTUyiXBoULOqsLdw3Bljhi8XPHF122AIf/LmBd
- ff4YQuL71GycEiEf/77YEoL1p9ZMrh7YiIJePOkInS1G8iJevh+YibEvDIu0U1h0
- sRn8P8nGh1YwnAuZe8N3nwXodnX16O/Zd3gtbEgHa4uM6Q==
-Received: from mail-qk1-f200.google.com (mail-qk1-f200.google.com
- [209.85.222.200])
- by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 47psdqc33u-1
+ cc:content-transfer-encoding:content-type:date:from:in-reply-to
+ :message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
+ Q9HNInpFc8Sm98uBUx5T9Cx61YxOobfap1a952dfyZc=; b=Leacun/cxyO4anBW
+ d24A/fKZnr/yKL5yoR/0upUutLNvKKfe+EETlP7P9kQ7ng3gEy89PMxdI2cZUirm
+ ZFIWfbiYxJXGvY22Qh/MhrLuCLodKYktGAb8rwNksiOCVbJGjF66p6otzCIL9Fuv
+ kzoj2TKpfpzn4HiCrpv0HvS205AnZ7TR+htfQItZsetjbx7ZmvEZE9Za7j59rrnE
+ qAx513Z8fSzzYRSCwCwLNOVfkBD8xYKLoPb+Yvr3JsllAx69AowytAOUB6awal1F
+ +pZocxyFwGCqwxqPMvbOI1W1XiRrQzfH2ss1VtURH5CZaxrn+W5Ivzp2BrH2sMHK
+ gyoypQ==
+Received: from mail-qk1-f199.google.com (mail-qk1-f199.google.com
+ [209.85.222.199])
+ by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 47pveeuw1f-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
- for <dri-devel@lists.freedesktop.org>; Sun, 06 Jul 2025 11:42:53 +0000 (GMT)
-Received: by mail-qk1-f200.google.com with SMTP id
- af79cd13be357-7d399070cecso403652785a.3
- for <dri-devel@lists.freedesktop.org>; Sun, 06 Jul 2025 04:42:53 -0700 (PDT)
+ for <dri-devel@lists.freedesktop.org>; Sun, 06 Jul 2025 11:50:04 +0000 (GMT)
+Received: by mail-qk1-f199.google.com with SMTP id
+ af79cd13be357-7d3f0958112so332239485a.0
+ for <dri-devel@lists.freedesktop.org>; Sun, 06 Jul 2025 04:50:04 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1751802173; x=1752406973;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
- :message-id:reply-to;
- bh=JB/XviBNoG6Wd2Sk46ca++Nq/pAT5tc7VNBX6s5gVgU=;
- b=BclJuiMdHUXgWyE1O8aMJg8z7J1OR3adUG60e0z9YYDkBXFTMl7f55oeVQleaFLubZ
- qV/PGTqzAmE8XVghoxtuOjRo20GGLcQc5FQ6XJI2erOoB5AqKRUO+cFBYN8M0npW6glZ
- pYkps4dpDc1GL3NqZocFCDnblTyZ2vu89joe5FuENmcDIKVOjJtoclX4ClVDEe1r3QSE
- gytHdVK+L1UVePUnAbWHfE1XgKY4BIar/pA23De6L9bFZfLdxc032uSOD7p2y1Ynl8Iv
- vVUo1/jzcgqA9agmpexL1zFoRCgwX7OHJGTEevV3aolygwvXn5c8x3BDpOqtEJEIv6PK
- kXHg==
+ d=1e100.net; s=20230601; t=1751802604; x=1752407404;
+ h=content-transfer-encoding:mime-version:references:in-reply-to
+ :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=Q9HNInpFc8Sm98uBUx5T9Cx61YxOobfap1a952dfyZc=;
+ b=DKlfiY1Wn0ssR9vwNYppjctrgPjIO9jKChR27Rg3RSDPLZxgi9AbE/+AhQFNAuucYI
+ n093N8hHx+dgSVPxTDvII4XQTO4kjH51M3Bwpcw3/HBi6jS04PBwB4iUP34kcOqVNu+9
+ 0OphVgNnH8sCUeBEoqMX1pOjgHn3VJiT8pxzdqJYlC2+Or0KA8fGEfXsGF38+AJDyyWK
+ Dp+AO1epzEHAt7pRxmeyDAg47WmBvLcc7m0zfICaB6iED+XhvhGIG/72/EXH70bU3qdI
+ kvHUkfPkJbEEho8oloasfVq8v3fb7sI8kmTIh60EbeHIz7fQFOpKt0AVcVHaF7rgZp1n
+ qvFA==
 X-Forwarded-Encrypted: i=1;
- AJvYcCU/JUwvomev/tg8u//n2ecwp1616nFG365BLrBoe9muj4haJVgrpxZfl9BdwVAUMsjCYT49qijmINo=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YzZOFvUt0k2nwfZ2rHPw8tUaKZjcjUGOA+2+6Rvdi5WBnQjxays
- ylmrIghc8/oPx3MMKpn6wJBK7WO+CQ/8k2aJPpyB6IA+oTlpUDqfvKxElutBss0/hyIb+xc8QSK
- eEiqq1YhqzqM69aUyMqpoYWLIrV3KVlAAGmf6FeAGRaBjKLdJUq7TSCGG2w9DqJltMW9luac=
-X-Gm-Gg: ASbGncu/dHQJjD/FJn+7m+k31NOQ/jQEa82R/KkCzK/0ndRiejke3uYBn9j+uIGW7WW
- djS9/Wk6AkaEHpiOPz3YKJCyPtVWfXLHCfRIYZlmgS30/lB2/jIlD+MuO2q5Quh1NBGLSLCbrqW
- 8K0lZLmu8+RoEW730t3OkZYG4Au+ZP8qsuxwqnczRmFW9DM35Mf7JPLNYztXFUIH+zvsovQX4Rq
- S7no+R05QOdH+9O25ZN7/ErmI1bZjkxuCZ6Qw2ytHgFnWMTt6PXNFC8F/D8Mv6JtLQ9Qw88UDw+
- tzTFg+K9BN8NZ7RAtyTn2XxXb3robSG5RX5WyyV0IdeLTR8XJDuSf0VG7K484RWgMFfUBg03Zuu
- aHTuO10VNNNtqFzDmS9YorI/UyK3teqfkXN8=
-X-Received: by 2002:a05:620a:444f:b0:7d5:d144:87dc with SMTP id
- af79cd13be357-7d5df14bae4mr954144185a.43.1751802172968; 
- Sun, 06 Jul 2025 04:42:52 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IFib7rxO7QuHhQSCQVBhNvVA5wjVOmsPcLPJ2YorlNPsS3pG9N6gy80bngE4vfjIb1FX7YjiA==
-X-Received: by 2002:a05:620a:444f:b0:7d5:d144:87dc with SMTP id
- af79cd13be357-7d5df14bae4mr954141585a.43.1751802172560; 
- Sun, 06 Jul 2025 04:42:52 -0700 (PDT)
+ AJvYcCVwld3Nkn4fBsSqa9SP/TOqAC68lSlTTel9xMN2TzQD458MrL7YDMO7DuuC+msOLvK3flNDCGpUefY=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YwKwwbeXvPR+pHmyxBX3jdwlUodPBushQDFEgWsHbZZ8om4Vpmf
+ MolPmNGdquV/L7lymkEfqkAt6f96XDwOI70bQEEPsgCHRFr9HrJ4r5vShhm3SF3rDDXBN5N8Jts
+ jn54zSLqi6JK0BEHwKYfYNuX4tqksOwN9NLcLMakNVcoXwUOgEMa9nPyGLv/yGLiWQ0nFJ0E=
+X-Gm-Gg: ASbGncvH9FV+NxB9eSWEcE6y12uOv3bpmLM0xT+9dfi7XqIBGQQQSFS3G0BoyxNhUxF
+ kpILTcUIK4xYVvcjRpPwcnWC9CVbEiefetuOhdkPDvo9hDEN/1H8imFQWtjR0JIyCaK+ryEwY/e
+ DniqVLq7I8qKfiHkFIVV3T+Mc9CcMxM9gvWYCIhyczzlQFsbKCIls36mWArLBrDVsFpjuf9vynQ
+ Xg4t0BfHvT+LFaJctPTFrGoKqDOQg8SDUet4jrF8hnEjUHkIEuJyP5FXk8cFR1v53Ez3oh0WWkh
+ 7lrx+EswHNJ9Gti0QV8lqmWgrAH2EBGH0tAi+uxnIiOK2yoAa0PlHOmEdpE3FbElnMDDY9lJqcg
+ dm4I2WfKsyXYls9kNA9PpFwgxeMFFouFXWNc=
+X-Received: by 2002:a05:620a:4710:b0:7d4:4d55:98f9 with SMTP id
+ af79cd13be357-7d5f2877ceemr597279285a.28.1751802603997; 
+ Sun, 06 Jul 2025 04:50:03 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IGb6W9CB14eZN8lAc1Ju+O/wZfg00R2RD3YvSB64DN3t3zQ6bM27TvwmM+CwZjrSQ0NktwoPQ==
+X-Received: by 2002:a05:620a:4710:b0:7d4:4d55:98f9 with SMTP id
+ af79cd13be357-7d5f2877ceemr597275885a.28.1751802603572; 
+ Sun, 06 Jul 2025 04:50:03 -0700 (PDT)
 Received: from umbar.lan
  (2001-14ba-a0c3-3a00-264b-feff-fe8b-be8a.rev.dnainternet.fi.
  [2001:14ba:a0c3:3a00:264b:feff:fe8b:be8a])
  by smtp.gmail.com with ESMTPSA id
- 38308e7fff4ca-32e1afc1c87sm8241021fa.28.2025.07.06.04.42.51
+ 2adb3069b0e04-556383d8f2fsm940440e87.78.2025.07.06.04.50.02
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sun, 06 Jul 2025 04:42:51 -0700 (PDT)
-Date: Sun, 6 Jul 2025 14:42:50 +0300
+ Sun, 06 Jul 2025 04:50:02 -0700 (PDT)
 From: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
-To: Loic Poulain <loic.poulain@oss.qualcomm.com>
-Cc: andrzej.hajda@intel.com, neil.armstrong@linaro.org, rfoss@kernel.org,
- dri-devel@lists.freedesktop.org, lumag@kernel.org,
- Laurent.pinchart@ideasonboard.com, jernej.skrabec@gmail.com,
- maarten.lankhorst@linux.intel.com, mripard@kernel.org
-Subject: Re: [PATCH] drm/bridge: anx7625: Fix invalid EDID size
-Message-ID: <qzyshiyj2ne5rpnoqildr5lrll6bamkydgidfaxatktqsvdsoi@j62qe4dslzzl>
-References: <20250629023836.744441-1-loic.poulain@oss.qualcomm.com>
+To: Suraj Kandpal <suraj.kandpal@intel.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Dan Carpenter <dan.carpenter@linaro.org>
+Cc: Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>,
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+ Jani Nikula <jani.nikula@intel.com>, Imre Deak <imre.deak@intel.com>,
+ Arun R Murthy <arun.r.murthy@intel.com>,
+ Dmitry Baryshkov <lumag@kernel.org>,
+ Andy Yan <andy.yan@rock-chips.com>, Dave Airlie <airlied@redhat.com>,
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ kernel-janitors@vger.kernel.org
+Subject: Re: [PATCH] drm/dp: Clean up white space in
+ drm_edp_backlight_probe_state()
+Date: Sun,  6 Jul 2025 14:50:01 +0300
+Message-Id: <175180259610.2709906.15531384408565663524.b4-ty@oss.qualcomm.com>
+X-Mailer: git-send-email 2.39.5
+In-Reply-To: <30b896c2-ae71-4cf2-9511-2713da7e1632@sabinyo.mountain>
+References: <30b896c2-ae71-4cf2-9511-2713da7e1632@sabinyo.mountain>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20250629023836.744441-1-loic.poulain@oss.qualcomm.com>
-X-Authority-Analysis: v=2.4 cv=ffSty1QF c=1 sm=1 tr=0 ts=686a613d cx=c_pps
- a=hnmNkyzTK/kJ09Xio7VxxA==:117 a=xqWC_Br6kY4A:10 a=kj9zAlcOel0A:10
- a=Wb1JkmetP80A:10 a=VwQbUJbxAAAA:8 a=EUspDBNiAAAA:8 a=g1VFs9uhBf4WLQjVR5MA:9
- a=CjuIK1q_8ugA:10 a=PEH46H7Ffwr30OY-TuGO:22
-X-Proofpoint-ORIG-GUID: NsrPW1Ej-SZM-tXQ1QSL7FnOGPYZqRCb
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwNzA2MDA3MyBTYWx0ZWRfX7xvAq+Lklv0p
- Y6LwFdOSZ3m4Kv1MoTVeWEwe41DCoMhpHTgS98dGCcOzn+Lde6fbCzwQhp4qDEvcLsEQcNpFHs/
- Mk1WUij1ir9Mb4q4vr68Kw87lq5nM9ahNqpwtEpdpi99dUpcpLlxVOoyu0Q51UlzmMB7pcZ5hRn
- jcKLLYMhxWOkXCg0WfqUKLM/+g96lgDATZ05UasnE11zltA9D0Y0fkL+41qDInTyF0PetcQTTEi
- ZOEGyADaL7kOwstA5hPr1PqE8BdlQUdw7lY8s/4jE4vl8mDG0Qkl5g9gaTBySpzzZbjvypleals
- gpGGsFi5Ays9tHXGXMEBeuwmpoIgqIIgk9NQElZegj9/9ijdwLNoaO7JJRkcEouclOS0XFpIiBL
- A99zc4MWc2wNOconCmGonkXcoe3/n5eNVJpZigJGv7+A9Tf0gAAmojq5IuOhnEjy2/PHr+aq
-X-Proofpoint-GUID: NsrPW1Ej-SZM-tXQ1QSL7FnOGPYZqRCb
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwNzA2MDA3MyBTYWx0ZWRfXzXX4m5oRW9jj
+ oKNiJasNkH9hPKNXp7im6Cy7xVLFW4JyT0hL2bvZk+BAPSjZqZZ7v5Z9ozz8u0yCuHW4ywIeX8X
+ ERs5+IzVU73dbue8aem807GIWcTzORORi+iHGhAgyAzM5LI5hYT31thFOyEgRLuZpMaMuoLzKv3
+ yECLENamn36W1LufZYLSJOkqvWtNJ6+KuFxRt2tNM6OJ15ncPqAsGC4VGIkfZyRXxD/npoHBI7p
+ x+3w/uDzekkHkUxNfG23LtsOeBFCmsHFkJDdTrogGeSIs9r8NbGvFPj7O1y1802/HJMXiPgLch/
+ EVdhl0U9Y0HXBqeySWrvgZPoSEpyeoYSp6e8+TRda8d9gViu7J+zhonNJ00b0on2TxnOwARz8Sw
+ /KKBArn9npOyDjdAvRnoQMADNdALoLCH/yxzMogzxpmlVRmhbROnx1JvTD/g8gX3WrfRSrcb
+X-Authority-Analysis: v=2.4 cv=dciA3WXe c=1 sm=1 tr=0 ts=686a62ec cx=c_pps
+ a=HLyN3IcIa5EE8TELMZ618Q==:117 a=xqWC_Br6kY4A:10 a=IkcTkHD0fZMA:10
+ a=Wb1JkmetP80A:10 a=bpLDS-e79snoD0d2c9UA:9 a=QEXdDO2ut3YA:10
+ a=bTQJ7kPSJx9SKPbeHEYW:22
+X-Proofpoint-GUID: 87w8LE6_pNHidF8QOwFBMaEEzNlYArPT
+X-Proofpoint-ORIG-GUID: 87w8LE6_pNHidF8QOwFBMaEEzNlYArPT
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.293,Aquarius:18.0.1099,Hydra:6.1.7,FMLib:17.12.80.40
  definitions=2025-07-04_07,2025-07-04_01,2025-03-28_01
 X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- malwarescore=0 mlxlogscore=783 mlxscore=0 bulkscore=0 priorityscore=1501
- phishscore=0 clxscore=1015 suspectscore=0 impostorscore=0 lowpriorityscore=0
- spamscore=0 adultscore=0 classifier=spam authscore=0 authtc=n/a authcc=
+ clxscore=1015 malwarescore=0 suspectscore=0 impostorscore=0 phishscore=0
+ mlxscore=0 mlxlogscore=999 bulkscore=0 lowpriorityscore=0 adultscore=0
+ spamscore=0 priorityscore=1501 classifier=spam authscore=0 authtc=n/a authcc=
  route=outbound adjust=0 reason=mlx scancount=1 engine=8.19.0-2505280000
  definitions=main-2507060073
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -124,40 +134,18 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Sun, Jun 29, 2025 at 04:38:36AM +0200, Loic Poulain wrote:
-> DRM checks EDID block count against allocated size in drm_edid_valid
-> function. We have to allocate the right EDID size instead of the max
-> size to prevent the EDID to be reported as invalid.
+On Wed, 02 Jul 2025 07:55:10 -0500, Dan Carpenter wrote:
+> This code needs to be indented one more tab.
 > 
-> Fixes: 7c585f9a71aa ("drm/bridge: anx7625: use struct drm_edid more")
-
-Cc: stable@kernel.org
-
-Reviewed-by: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
-
-
-> Signed-off-by: Loic Poulain <loic.poulain@oss.qualcomm.com>
-> ---
->  drivers/gpu/drm/bridge/analogix/anx7625.c | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
-> 
-> diff --git a/drivers/gpu/drm/bridge/analogix/anx7625.c b/drivers/gpu/drm/bridge/analogix/anx7625.c
-> index 8a9079c2ed5c..5a81d1bfc815 100644
-> --- a/drivers/gpu/drm/bridge/analogix/anx7625.c
-> +++ b/drivers/gpu/drm/bridge/analogix/anx7625.c
-> @@ -1801,7 +1801,7 @@ static const struct drm_edid *anx7625_edid_read(struct anx7625_data *ctx)
->  		return NULL;
->  	}
->  
-> -	ctx->cached_drm_edid = drm_edid_alloc(edid_buf, FOUR_BLOCK_SIZE);
-> +	ctx->cached_drm_edid = drm_edid_alloc(edid_buf, edid_num * ONE_BLOCK_SIZE);
->  	kfree(edid_buf);
->  
->  out:
-> -- 
-> 2.34.1
 > 
 
+Applied to drm-misc-next, thanks!
+
+[1/1] drm/dp: Clean up white space in drm_edp_backlight_probe_state()
+      commit: e33f256dbc293a1a3a31f18d56f659e7a27a491a
+
+Best regards,
 -- 
 With best wishes
 Dmitry
+
