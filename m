@@ -2,74 +2,54 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C429AAFAC6E
-	for <lists+dri-devel@lfdr.de>; Mon,  7 Jul 2025 09:01:04 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id E3B49AFAD60
+	for <lists+dri-devel@lfdr.de>; Mon,  7 Jul 2025 09:42:06 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 84D1010E42E;
-	Mon,  7 Jul 2025 07:01:02 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D689210E0CC;
+	Mon,  7 Jul 2025 07:42:03 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=didiglobal.com header.i=@didiglobal.com header.b="GqNI3vpl";
+	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=igalia.com header.i=@igalia.com header.b="aWaRFSVU";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx10.didiglobal.com (mx10.didiglobal.com [111.202.70.125])
- by gabe.freedesktop.org (Postfix) with SMTP id 74A0910E421;
- Mon,  7 Jul 2025 07:00:58 +0000 (UTC)
-Received: from mail.didiglobal.com (unknown [10.79.65.20])
- by mx10.didiglobal.com (MailData Gateway V2.8.8) with ESMTPS id F34CA188C74229;
- Mon,  7 Jul 2025 14:59:50 +0800 (CST)
-Received: from BJ03-ACTMBX-09.didichuxing.com (10.79.71.36) by
- BJ02-ACTMBX-02.didichuxing.com (10.79.65.20) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.1748.10; Mon, 7 Jul 2025 15:00:35 +0800
-Received: from BJ03-ACTMBX-07.didichuxing.com (10.79.71.34) by
- BJ03-ACTMBX-09.didichuxing.com (10.79.71.36) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.1748.10; Mon, 7 Jul 2025 15:00:34 +0800
-Received: from BJ03-ACTMBX-07.didichuxing.com ([fe80::2e1a:dd47:6d25:287e]) by
- BJ03-ACTMBX-07.didichuxing.com ([fe80::2e1a:dd47:6d25:287e%7]) with
- mapi id 15.02.1748.010; Mon, 7 Jul 2025 15:00:34 +0800
-X-MD-Sfrom: chentaotao@didiglobal.com
-X-MD-SrcIP: 10.79.65.20
-From: =?gb2312?B?s8LMzszOIFRhb3RhbyBDaGVu?= <chentaotao@didiglobal.com>
-To: "tytso@mit.edu" <tytso@mit.edu>, "hch@infradead.org" <hch@infradead.org>, 
- "adilger.kernel@dilger.ca" <adilger.kernel@dilger.ca>,
- "willy@infradead.org"
- <willy@infradead.org>, "brauner@kernel.org" <brauner@kernel.org>,
- "jani.nikula@linux.intel.com" <jani.nikula@linux.intel.com>,
- "rodrigo.vivi@intel.com" <rodrigo.vivi@intel.com>, "tursulin@ursulin.net"
- <tursulin@ursulin.net>, "airlied@gmail.com" <airlied@gmail.com>
-CC: "linux-fsdevel@vger.kernel.org" <linux-fsdevel@vger.kernel.org>,
- "linux-ext4@vger.kernel.org" <linux-ext4@vger.kernel.org>,
- "linux-block@vger.kernel.org" <linux-block@vger.kernel.org>,
- "intel-gfx@lists.freedesktop.org" <intel-gfx@lists.freedesktop.org>,
- "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
- "linux-mm@kvack.org" <linux-mm@kvack.org>, "linux-doc@vger.kernel.org"
- <linux-doc@vger.kernel.org>, "linux-kernel@vger.kernel.org"
- <linux-kernel@vger.kernel.org>, "chentao325@qq.com" <chentao325@qq.com>,
- "frank.li@vivo.com" <frank.li@vivo.com>,
- =?gb2312?B?s8LMzszOIFRhb3RhbyBDaGVu?= <chentaotao@didiglobal.com>
-Subject: [PATCH v4 5/5] ext4: support uncached buffered I/O
-Thread-Topic: [PATCH v4 5/5] ext4: support uncached buffered I/O
-Thread-Index: AQHb7wzVwHDyJpOeWECj7YO1Y+Mm6Q==
-Date: Mon, 7 Jul 2025 07:00:34 +0000
-Message-ID: <20250707070023.206725-6-chentaotao@didiglobal.com>
-In-Reply-To: <20250707070023.206725-1-chentaotao@didiglobal.com>
-Accept-Language: zh-CN, en-US
-Content-Language: zh-CN
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-originating-ip: [10.79.64.102]
-Content-Type: text/plain; charset="gb2312"
-Content-Transfer-Encoding: base64
+Received: from fanzine2.igalia.com (fanzine2.igalia.com [213.97.179.56])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8535510E0CC;
+ Mon,  7 Jul 2025 07:42:02 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com; 
+ s=20170329;
+ h=Content-Transfer-Encoding:Content-Type:In-Reply-To:From:
+ References:Cc:To:Subject:MIME-Version:Date:Message-ID:Sender:Reply-To:
+ Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
+ Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
+ List-Subscribe:List-Post:List-Owner:List-Archive;
+ bh=c6CLwTIMWcYWBn9i+wFI1ayP6RsZGwi1/983/GpksWc=; b=aWaRFSVUqnt0F8HkEKNAiHZbbB
+ DXPDf7/KQQCB5atKGXYV1Vq7WX6QLvrfExSB/ZgRjhNsB2Z0nh9T3HKCrJv6oolQxIdIa7b74tWpE
+ WsppBsljY0WAsLI0fOKmrjkb70uZJexFtXeIEA10rCFePZVEwxlocUhLN6UWKiZhJCMd2KVJeqV6H
+ ihwoRjqd2xkUy/Kbc+mmAvJBCZwl7MoMhCKD7uylpBPOAujSuBNmk6+AJsGe0BnMpzNfi2VUmcLlD
+ /MX8Ld9fht7MUxQRKJTUQ4zRcPERr4kYnmNdeYjkoo7enAEXugROCTChXi7kzkNcE4vbA68wtLMDn
+ 6YksBKFw==;
+Received: from [81.79.92.254] (helo=[192.168.0.101])
+ by fanzine2.igalia.com with esmtpsa 
+ (Cipher TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_128_GCM:128) (Exim)
+ id 1uYgUB-00DPrZ-RG; Mon, 07 Jul 2025 09:41:59 +0200
+Message-ID: <9d5ef179-7ae6-49e9-9e58-b3be4f1eed97@igalia.com>
+Date: Mon, 7 Jul 2025 08:41:58 +0100
 MIME-Version: 1.0
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=didiglobal.com;
- s=2025; t=1751871613;
- bh=7NwIqzCgC1RdJfhixz5bD3co5fgHiYbQk2Lmr3rknQE=;
- h=From:To:CC:Subject:Date:Message-ID:Content-Type;
- b=GqNI3vpldugsvZfWl52mz/qjKRMeDae+SorQJkIbBjy8E5gGrjYe+qlSd9Q3yuWmZ
- MjMVxlYW7HIy/iqpSQW4n7lpWzjMpr+KYHMBuyGh9uG0W2Z1wW0JTnrrnQ8/CmpoD5
- Tl0aOs/To2S0asmzu6yUcY01uUy8g8KbCiU3a4M8=
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v5 11/16] drm/sched: Account entity GPU time
+To: =?UTF-8?Q?Ma=C3=ADra_Canal?= <mcanal@igalia.com>,
+ amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org
+Cc: kernel-dev@igalia.com, =?UTF-8?Q?Christian_K=C3=B6nig?=
+ <christian.koenig@amd.com>, Danilo Krummrich <dakr@kernel.org>,
+ Matthew Brost <matthew.brost@intel.com>, Philipp Stanner <phasta@kernel.org>
+References: <20250623122746.46478-1-tvrtko.ursulin@igalia.com>
+ <20250623122746.46478-12-tvrtko.ursulin@igalia.com>
+ <8ae350fa-6257-46f1-86b9-b129c708485c@igalia.com>
+Content-Language: en-GB
+From: Tvrtko Ursulin <tvrtko.ursulin@igalia.com>
+In-Reply-To: <8ae350fa-6257-46f1-86b9-b129c708485c@igalia.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -85,53 +65,209 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-RnJvbTogVGFvdGFvIENoZW4gPGNoZW50YW90YW9AZGlkaWdsb2JhbC5jb20+DQoNClNldCBGT1Bf
-RE9OVENBQ0hFIGluIGV4dDRfZmlsZV9vcGVyYXRpb25zIHRvIGRlY2xhcmUgc3VwcG9ydCBmb3IN
-CnVuY2FjaGVkIGJ1ZmZlcmVkIEkvTy4NCg0KVG8gaGFuZGxlIHRoaXMgZmxhZywgdXBkYXRlIGV4
-dDRfd3JpdGVfYmVnaW4oKSBhbmQgZXh0NF9kYV93cml0ZV9iZWdpbigpDQp0byB1c2Ugd3JpdGVf
-YmVnaW5fZ2V0X2ZvbGlvKCksIHdoaWNoIGVuY2Fwc3VsYXRlcyBGR1BfRE9OVENBQ0hFIGxvZ2lj
-DQpiYXNlZCBvbiBpb2NiLT5raV9mbGFncy4NCg0KUGFydCBvZiBhIHNlcmllcyByZWZhY3Rvcmlu
-ZyBhZGRyZXNzX3NwYWNlX29wZXJhdGlvbnMgd3JpdGVfYmVnaW4gYW5kDQp3cml0ZV9lbmQgY2Fs
-bGJhY2tzIHRvIHVzZSBzdHJ1Y3Qga2lvY2IgZm9yIHBhc3Npbmcgd3JpdGUgY29udGV4dCBhbmQN
-CmZsYWdzLg0KDQpTaWduZWQtb2ZmLWJ5OiBUYW90YW8gQ2hlbiA8Y2hlbnRhb3Rhb0BkaWRpZ2xv
-YmFsLmNvbT4NCi0tLQ0KIGZzL2V4dDQvZmlsZS5jICB8ICAzICsrLQ0KIGZzL2V4dDQvaW5vZGUu
-YyB8IDEyICsrKy0tLS0tLS0tLQ0KIDIgZmlsZXMgY2hhbmdlZCwgNSBpbnNlcnRpb25zKCspLCAx
-MCBkZWxldGlvbnMoLSkNCg0KZGlmZiAtLWdpdCBhL2ZzL2V4dDQvZmlsZS5jIGIvZnMvZXh0NC9m
-aWxlLmMNCmluZGV4IDIxZGY4MTM0NzE0Ny4uMjc0YjQxYTQ3NmM4IDEwMDY0NA0KLS0tIGEvZnMv
-ZXh0NC9maWxlLmMNCisrKyBiL2ZzL2V4dDQvZmlsZS5jDQpAQCAtOTc3LDcgKzk3Nyw4IEBAIGNv
-bnN0IHN0cnVjdCBmaWxlX29wZXJhdGlvbnMgZXh0NF9maWxlX29wZXJhdGlvbnMgPSB7DQogCS5z
-cGxpY2Vfd3JpdGUJPSBpdGVyX2ZpbGVfc3BsaWNlX3dyaXRlLA0KIAkuZmFsbG9jYXRlCT0gZXh0
-NF9mYWxsb2NhdGUsDQogCS5mb3BfZmxhZ3MJPSBGT1BfTU1BUF9TWU5DIHwgRk9QX0JVRkZFUl9S
-QVNZTkMgfA0KLQkJCSAgRk9QX0RJT19QQVJBTExFTF9XUklURSwNCisJCQkgIEZPUF9ESU9fUEFS
-QUxMRUxfV1JJVEUgfA0KKwkJCSAgRk9QX0RPTlRDQUNIRSwNCiB9Ow0KIA0KIGNvbnN0IHN0cnVj
-dCBpbm9kZV9vcGVyYXRpb25zIGV4dDRfZmlsZV9pbm9kZV9vcGVyYXRpb25zID0gew0KZGlmZiAt
-LWdpdCBhL2ZzL2V4dDQvaW5vZGUuYyBiL2ZzL2V4dDQvaW5vZGUuYw0KaW5kZXggOWExNmVmZDA3
-MmJiLi41YzcwMjQwNTFmMWUgMTAwNjQ0DQotLS0gYS9mcy9leHQ0L2lub2RlLmMNCisrKyBiL2Zz
-L2V4dDQvaW5vZGUuYw0KQEAgLTEyNjQsNyArMTI2NCw2IEBAIHN0YXRpYyBpbnQgZXh0NF93cml0
-ZV9iZWdpbihjb25zdCBzdHJ1Y3Qga2lvY2IgKmlvY2IsDQogCXN0cnVjdCBmb2xpbyAqZm9saW87
-DQogCXBnb2ZmX3QgaW5kZXg7DQogCXVuc2lnbmVkIGZyb20sIHRvOw0KLQlmZ2ZfdCBmZ3AgPSBG
-R1BfV1JJVEVCRUdJTjsNCiANCiAJcmV0ID0gZXh0NF9lbWVyZ2VuY3lfc3RhdGUoaW5vZGUtPmlf
-c2IpOw0KIAlpZiAodW5saWtlbHkocmV0KSkNCkBAIC0xMjg4LDE2ICsxMjg3LDE0IEBAIHN0YXRp
-YyBpbnQgZXh0NF93cml0ZV9iZWdpbihjb25zdCBzdHJ1Y3Qga2lvY2IgKmlvY2IsDQogCX0NCiAN
-CiAJLyoNCi0JICogX19maWxlbWFwX2dldF9mb2xpbygpIGNhbiB0YWtlIGEgbG9uZyB0aW1lIGlm
-IHRoZQ0KKwkgKiB3cml0ZV9iZWdpbl9nZXRfZm9saW8oKSBjYW4gdGFrZSBhIGxvbmcgdGltZSBp
-ZiB0aGUNCiAJICogc3lzdGVtIGlzIHRocmFzaGluZyBkdWUgdG8gbWVtb3J5IHByZXNzdXJlLCBv
-ciBpZiB0aGUgZm9saW8NCiAJICogaXMgYmVpbmcgd3JpdHRlbiBiYWNrLiAgU28gZ3JhYiBpdCBm
-aXJzdCBiZWZvcmUgd2Ugc3RhcnQNCiAJICogdGhlIHRyYW5zYWN0aW9uIGhhbmRsZS4gIFRoaXMg
-YWxzbyBhbGxvd3MgdXMgdG8gYWxsb2NhdGUNCiAJICogdGhlIGZvbGlvIChpZiBuZWVkZWQpIHdp
-dGhvdXQgdXNpbmcgR0ZQX05PRlMuDQogCSAqLw0KIHJldHJ5X2dyYWI6DQotCWZncCB8PSBmZ2Zf
-c2V0X29yZGVyKGxlbik7DQotCWZvbGlvID0gX19maWxlbWFwX2dldF9mb2xpbyhtYXBwaW5nLCBp
-bmRleCwgZmdwLA0KLQkJCQkgICAgbWFwcGluZ19nZnBfbWFzayhtYXBwaW5nKSk7DQorCWZvbGlv
-ID0gd3JpdGVfYmVnaW5fZ2V0X2ZvbGlvKGlvY2IsIG1hcHBpbmcsIGluZGV4LCBsZW4pOw0KIAlp
-ZiAoSVNfRVJSKGZvbGlvKSkNCiAJCXJldHVybiBQVFJfRVJSKGZvbGlvKTsNCiANCkBAIC0zMDQ2
-LDcgKzMwNDMsNiBAQCBzdGF0aWMgaW50IGV4dDRfZGFfd3JpdGVfYmVnaW4oY29uc3Qgc3RydWN0
-IGtpb2NiICppb2NiLA0KIAlzdHJ1Y3QgZm9saW8gKmZvbGlvOw0KIAlwZ29mZl90IGluZGV4Ow0K
-IAlzdHJ1Y3QgaW5vZGUgKmlub2RlID0gbWFwcGluZy0+aG9zdDsNCi0JZmdmX3QgZmdwID0gRkdQ
-X1dSSVRFQkVHSU47DQogDQogCXJldCA9IGV4dDRfZW1lcmdlbmN5X3N0YXRlKGlub2RlLT5pX3Ni
-KTsNCiAJaWYgKHVubGlrZWx5KHJldCkpDQpAQCAtMzA3Miw5ICszMDY4LDcgQEAgc3RhdGljIGlu
-dCBleHQ0X2RhX3dyaXRlX2JlZ2luKGNvbnN0IHN0cnVjdCBraW9jYiAqaW9jYiwNCiAJfQ0KIA0K
-IHJldHJ5Og0KLQlmZ3AgfD0gZmdmX3NldF9vcmRlcihsZW4pOw0KLQlmb2xpbyA9IF9fZmlsZW1h
-cF9nZXRfZm9saW8obWFwcGluZywgaW5kZXgsIGZncCwNCi0JCQkJICAgIG1hcHBpbmdfZ2ZwX21h
-c2sobWFwcGluZykpOw0KKwlmb2xpbyA9IHdyaXRlX2JlZ2luX2dldF9mb2xpbyhpb2NiLCBtYXBw
-aW5nLCBpbmRleCwgbGVuKTsNCiAJaWYgKElTX0VSUihmb2xpbykpDQogCQlyZXR1cm4gUFRSX0VS
-Uihmb2xpbyk7DQogDQotLSANCjIuMzQuMQ0K
+
+On 04/07/2025 15:18, Maíra Canal wrote:
+> Hi Tvrtko,
+> 
+> In general, LGTM, but I miss documentation for all the new structures
+> and functions that you implemented.
+
+Okay, I added some kerneldoc locally.
+
+Regards,
+
+Tvrtko
+
+> On 23/06/25 09:27, Tvrtko Ursulin wrote:
+>> To implement fair scheduling we need a view into the GPU time consumed by
+>> entities. Problem we have is that jobs and entities objects have 
+>> decoupled
+>> lifetimes, where at the point we have a view into accurate GPU time, we
+>> cannot link back to the entity any longer.
+>>
+>> Solve this by adding a light weight entity stats object which is 
+>> reference
+>> counted by both entity and the job and hence can safely be used from
+>> either side.
+>>
+>> With that, the only other thing we need is to add a helper for adding the
+>> job's GPU time into the respective entity stats object, and call it once
+>> the accurate GPU time has been calculated.
+>>
+>> Signed-off-by: Tvrtko Ursulin <tvrtko.ursulin@igalia.com>
+>> Cc: Christian König <christian.koenig@amd.com>
+>> Cc: Danilo Krummrich <dakr@kernel.org>
+>> Cc: Matthew Brost <matthew.brost@intel.com>
+>> Cc: Philipp Stanner <phasta@kernel.org>
+>> ---
+>>   drivers/gpu/drm/scheduler/sched_entity.c   | 29 ++++++++++++++++
+>>   drivers/gpu/drm/scheduler/sched_internal.h | 40 ++++++++++++++++++++++
+>>   drivers/gpu/drm/scheduler/sched_main.c     |  6 +++-
+>>   include/drm/gpu_scheduler.h                |  5 +++
+>>   4 files changed, 79 insertions(+), 1 deletion(-)
+>>
+>> diff --git a/drivers/gpu/drm/scheduler/sched_entity.c b/drivers/gpu/ 
+>> drm/scheduler/sched_entity.c
+>> index e42526aa22dc..466914506c36 100644
+>> --- a/drivers/gpu/drm/scheduler/sched_entity.c
+>> +++ b/drivers/gpu/drm/scheduler/sched_entity.c
+>> @@ -32,6 +32,29 @@
+>>   #include "gpu_scheduler_trace.h"
+>> +
+>> +void drm_sched_entity_stats_release(struct kref *kref)
+>> +{
+>> +    struct drm_sched_entity_stats *stats =
+>> +        container_of(kref, typeof(*stats), kref);
+>> +
+>> +    kfree(stats);
+>> +}
+>> +
+>> +static struct drm_sched_entity_stats *drm_sched_entity_stats_alloc(void)
+>> +{
+>> +    struct drm_sched_entity_stats *stats;
+>> +
+>> +    stats = kzalloc(sizeof(*stats), GFP_KERNEL);
+>> +    if (!stats)
+>> +        return NULL;
+>> +
+>> +    kref_init(&stats->kref);
+>> +    spin_lock_init(&stats->lock);
+>> +
+>> +    return stats;
+>> +}
+>> +
+>>   /**
+>>    * drm_sched_entity_init - Init a context entity used by scheduler when
+>>    * submit to HW ring.
+>> @@ -65,6 +88,11 @@ int drm_sched_entity_init(struct drm_sched_entity 
+>> *entity,
+>>           return -EINVAL;
+>>       memset(entity, 0, sizeof(struct drm_sched_entity));
+>> +
+>> +    entity->stats = drm_sched_entity_stats_alloc();
+>> +    if (!entity->stats)
+>> +        return -ENOMEM;
+>> +
+>>       INIT_LIST_HEAD(&entity->list);
+>>       entity->rq = NULL;
+>>       entity->guilty = guilty;
+>> @@ -340,6 +368,7 @@ void drm_sched_entity_fini(struct drm_sched_entity 
+>> *entity)
+>>       dma_fence_put(rcu_dereference_check(entity->last_scheduled, true));
+>>       RCU_INIT_POINTER(entity->last_scheduled, NULL);
+>> +    drm_sched_entity_stats_put(entity->stats);
+>>   }
+>>   EXPORT_SYMBOL(drm_sched_entity_fini);
+>> diff --git a/drivers/gpu/drm/scheduler/sched_internal.h b/drivers/gpu/ 
+>> drm/scheduler/sched_internal.h
+>> index 703ee48fbc58..000c4a5b2c86 100644
+>> --- a/drivers/gpu/drm/scheduler/sched_internal.h
+>> +++ b/drivers/gpu/drm/scheduler/sched_internal.h
+>> @@ -3,6 +3,15 @@
+>>   #ifndef _DRM_GPU_SCHEDULER_INTERNAL_H_
+>>   #define _DRM_GPU_SCHEDULER_INTERNAL_H_
+>> +#include <linux/ktime.h>
+>> +#include <linux/kref.h>
+>> +#include <linux/spinlock.h>
+>> +
+>> +struct drm_sched_entity_stats {
+>> +    struct kref    kref;
+>> +    spinlock_t    lock;
+>> +    ktime_t        runtime;
+>> +};
+>>   /* Used to choose between FIFO and RR job-scheduling */
+>>   extern int drm_sched_policy;
+>> @@ -93,4 +102,35 @@ drm_sched_entity_is_ready(struct drm_sched_entity 
+>> *entity)
+>>       return true;
+>>   }
+>> +void drm_sched_entity_stats_release(struct kref *kref);
+>> +
+>> +static inline struct drm_sched_entity_stats *
+>> +drm_sched_entity_stats_get(struct drm_sched_entity_stats *stats)
+>> +{
+>> +    kref_get(&stats->kref);
+>> +
+>> +    return stats;
+>> +}
+>> +
+>> +static inline void
+>> +drm_sched_entity_stats_put(struct drm_sched_entity_stats *stats)
+>> +{
+>> +    kref_put(&stats->kref, drm_sched_entity_stats_release);
+>> +}
+>> +
+>> +static inline void
+>> +drm_sched_entity_stats_job_add_gpu_time(struct drm_sched_job *job)
+>> +{
+>> +    struct drm_sched_entity_stats *stats = job->entity_stats;
+>> +    struct drm_sched_fence *s_fence = job->s_fence;
+>> +    ktime_t start, end;
+>> +
+>> +    start = dma_fence_timestamp(&s_fence->scheduled);
+>> +    end = dma_fence_timestamp(&s_fence->finished);
+>> +
+>> +    spin_lock(&stats->lock);
+>> +    stats->runtime = ktime_add(stats->runtime, ktime_sub(end, start));
+>> +    spin_unlock(&stats->lock);
+>> +}
+>> +
+>>   #endif
+>> diff --git a/drivers/gpu/drm/scheduler/sched_main.c b/drivers/gpu/drm/ 
+>> scheduler/sched_main.c
+>> index f87bb4681b93..22cc0dd536db 100644
+>> --- a/drivers/gpu/drm/scheduler/sched_main.c
+>> +++ b/drivers/gpu/drm/scheduler/sched_main.c
+>> @@ -620,6 +620,7 @@ void drm_sched_job_arm(struct drm_sched_job *job)
+>>       job->sched = sched;
+>>       job->s_priority = entity->priority;
+>> +    job->entity_stats = drm_sched_entity_stats_get(entity->stats);
+>>       drm_sched_fence_init(job->s_fence, job->entity);
+>>   }
+>> @@ -810,6 +811,7 @@ void drm_sched_job_cleanup(struct drm_sched_job *job)
+>>            * been called.
+>>            */
+>>           dma_fence_put(&job->s_fence->finished);
+>> +        drm_sched_entity_stats_put(job->entity_stats);
+>>       } else {
+>>           /* The job was aborted before it has been committed to be run;
+>>            * notably, drm_sched_job_arm() has not been called.
+>> @@ -958,8 +960,10 @@ static void drm_sched_free_job_work(struct 
+>> work_struct *w)
+>>           container_of(w, struct drm_gpu_scheduler, work_free_job);
+>>       struct drm_sched_job *job;
+>> -    while ((job = drm_sched_get_finished_job(sched)))
+>> +    while ((job = drm_sched_get_finished_job(sched))) {
+>> +        drm_sched_entity_stats_job_add_gpu_time(job);
+>>           sched->ops->free_job(job);
+>> +    }
+>>       drm_sched_run_job_queue(sched);
+>>   }
+>> diff --git a/include/drm/gpu_scheduler.h b/include/drm/gpu_scheduler.h
+>> index 9f8b3b78d24d..cbbcd1c05154 100644
+>> --- a/include/drm/gpu_scheduler.h
+>> +++ b/include/drm/gpu_scheduler.h
+>> @@ -71,6 +71,8 @@ enum drm_sched_priority {
+>>       DRM_SCHED_PRIORITY_COUNT
+>>   };
+>> +struct drm_sched_entity_stats;
+>> +
+>>   /**
+>>    * struct drm_sched_entity - A wrapper around a job queue (typically
+>>    * attached to the DRM file_priv).
+>> @@ -109,6 +111,8 @@ struct drm_sched_entity {
+>>        */
+>>       struct drm_sched_rq        *rq;
+>> +    struct drm_sched_entity_stats    *stats;
+>> +
+>>       /**
+>>        * @sched_list:
+>>        *
+>> @@ -355,6 +359,7 @@ struct drm_sched_job {
+>>       struct drm_sched_fence        *s_fence;
+>>       struct drm_sched_entity         *entity;
+>> +    struct drm_sched_entity_stats    *entity_stats;
+>>       enum drm_sched_priority        s_priority;
+>>       u32                credits;
+> 
+
