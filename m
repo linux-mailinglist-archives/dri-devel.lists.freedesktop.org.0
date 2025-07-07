@@ -2,62 +2,54 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5BF03AFAF85
-	for <lists+dri-devel@lfdr.de>; Mon,  7 Jul 2025 11:21:22 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1F8FCAFAFEE
+	for <lists+dri-devel@lfdr.de>; Mon,  7 Jul 2025 11:39:49 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B56F810E0DA;
-	Mon,  7 Jul 2025 09:21:20 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 22BE910E059;
+	Mon,  7 Jul 2025 09:39:47 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="Wr4Wqbdi";
+	dkim=pass (1024-bit key; unprotected) header.d=163.com header.i=@163.com header.b="J4ja/z0g";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from tor.source.kernel.org (tor.source.kernel.org [172.105.4.254])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8618110E0DA
- for <dri-devel@lists.freedesktop.org>; Mon,  7 Jul 2025 09:21:19 +0000 (UTC)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by tor.source.kernel.org (Postfix) with ESMTP id 90B1D6143D;
- Mon,  7 Jul 2025 09:21:18 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id C5514C4AF09;
- Mon,  7 Jul 2025 09:21:17 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1751880078;
- bh=cMgp7w1xzV8IZvTez7Crfym5sM3mfY6lYsuuyjV36MM=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=Wr4Wqbdiotlti8NiuukR6NkPo/qxKP7/r0c91Aw8etczRNGxaodHte3BxLEZDrlDe
- 6sdR94HNqjDxr3z2c3vrz6Z7TVrx2eCs7D30VCFSIHNa6U2WiOYVQJcTxwFw7pOU1z
- HJhTfznV6CCfa59NXuPL51GQoMMrU42HwshkKeV9hRfVC5I3T7mTlBjazyAT9lriDH
- 9ovbAmYFyL/Ik9UiIowX0TetD5WMiBk1kOn47u6U/sFhipYTAMuTc7rv1BKGRBKb15
- LDqcckNLHdpfUNUo8fy0Erbgf5qtiiTqj7BR753W3tNjF/2L4KOdh7K3VtAEVVY2aL
- Q+WhKSV1nFb/g==
-Date: Mon, 7 Jul 2025 11:21:15 +0200
-From: Maxime Ripard <mripard@kernel.org>
-To: Luca Ceresoli <luca.ceresoli@bootlin.com>
-Cc: Marek Szyprowski <m.szyprowski@samsung.com>, 
- dri-devel@lists.freedesktop.org, Andrzej Hajda <andrzej.hajda@intel.com>, 
- Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>, 
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
- Jonas Karlman <jonas@kwiboo.se>, 
- Jernej Skrabec <jernej.skrabec@gmail.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
- Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>, 
- Simona Vetter <simona@ffwll.ch>,
- Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>, 
- Douglas Anderson <dianders@chromium.org>,
- Damon Ding <damon.ding@rock-chips.com>
-Subject: Re: [PATCH] drm/bridge: analogix_dp: Use devm_drm_bridge_alloc() API
-Message-ID: <20250707-just-gray-sheep-1d8be4@houat>
-References: <CGME20250627165702eucas1p12dbc50fea261d6846e67880bbef5c564@eucas1p1.samsung.com>
- <20250627165652.580798-1-m.szyprowski@samsung.com>
- <20250630-famous-dark-boar-89bed7@houat>
- <20250701160219.20dc7466@booty>
- <20250701-petite-mutant-starling-24bbe5@houat>
- <20250703175032.6f49f862@booty>
+X-Greylist: delayed 932 seconds by postgrey-1.36 at gabe;
+ Mon, 07 Jul 2025 09:39:45 UTC
+Received: from m16.mail.163.com (m16.mail.163.com [220.197.31.2])
+ by gabe.freedesktop.org (Postfix) with ESMTP id 7C47F10E059
+ for <dri-devel@lists.freedesktop.org>; Mon,  7 Jul 2025 09:39:45 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=163.com;
+ s=s110527; h=Message-ID:Date:MIME-Version:Subject:To:From:
+ Content-Type; bh=W66/dbK4Xwfefk7OxFMLWKDsjpz1zv53LGHljDMha0g=;
+ b=J4ja/z0gMlVEeTQWzO56zWx5vjtxfAxkGz/Oz4FCye1bdJbp8FK15ugawAbhax
+ XYxHkXm1nDExGEQVlT7sGOWKIAZ9Bmx3C0fPvHB1tAJZtH/y6Zocj5L5YBhbwuEm
+ PKHvQaII3ABxCd/wCPl9V+0eG1Lcgdm8luuflM7B5aLng=
+Received: from [10.42.20.80] (unknown [])
+ by gzga-smtp-mtada-g1-0 (Coremail) with SMTP id
+ _____wDnTyAzkmto5RUbDQ--.50855S2; 
+ Mon, 07 Jul 2025 17:24:04 +0800 (CST)
+Message-ID: <a937f41f-2cee-459d-b94f-b7f979072f3e@163.com>
+Date: Mon, 7 Jul 2025 17:24:03 +0800
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha384;
- protocol="application/pgp-signature"; boundary="4ozqtq6qsjl6cvyk"
-Content-Disposition: inline
-In-Reply-To: <20250703175032.6f49f862@booty>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] fbdev: efifb: do not load efifb if PCI BAR has changed
+ but not fixuped
+To: Thomas Zimmermann <tzimmermann@suse.de>, Helge Deller <deller@gmx.de>
+Cc: Peter Jones <pjones@redhat.com>, linux-fbdev@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ Shixiong Ou <oushixiong@kylinos.cn>
+References: <20250626094937.515552-1-oushixiong1025@163.com>
+ <3b3feb03-c417-4569-b7b0-44565d7cce4f@suse.de>
+From: Shixiong Ou <oushixiong1025@163.com>
+In-Reply-To: <3b3feb03-c417-4569-b7b0-44565d7cce4f@suse.de>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-CM-TRANSID: _____wDnTyAzkmto5RUbDQ--.50855S2
+X-Coremail-Antispam: 1Uf129KBjvJXoWxtr4UuF43ZryfuFy3ur47twb_yoW7Ar4rpF
+ WfGFW3CF48Xrn7Gws8G3WDAF1fZr4kWFyqkFZxK3W8Ary7Ar1YvrnruryDury5ZrWkJF1x
+ tr4jyw1akF15CaDanT9S1TB71UUUUU7qnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
+ 9KBjDUYxBIdaVFxhVjvjDU0xZFpf9x07UTbytUUUUU=
+X-Originating-IP: [116.128.244.169]
+X-CM-SenderInfo: xrxvxxx0lr0wirqskqqrwthudrp/1tbiXAd5D2heWMK4AgADs4
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -74,78 +66,159 @@ Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 
---4ozqtq6qsjl6cvyk
-Content-Type: text/plain; protected-headers=v1; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-Subject: Re: [PATCH] drm/bridge: analogix_dp: Use devm_drm_bridge_alloc() API
-MIME-Version: 1.0
+在 2025/6/27 17:13, Thomas Zimmermann 写道:
+> Hi
+>
+> Am 26.06.25 um 11:49 schrieb oushixiong1025@163.com:
+>> From: Shixiong Ou <oushixiong@kylinos.cn>
+>>
+>> [WHY]
+>> On an ARM machine, the following log is present:
+>> [    0.900884] efifb: framebuffer at 0x1020000000, using 3072k, total 
+>> 3072k
+>> [    2.297884] amdgpu 0000:04:00.0: 
+>> remove_conflicting_pci_framebuffers: bar 0: 0x1000000000 -> 0x100fffffff
+>> [    2.297886] amdgpu 0000:04:00.0: 
+>> remove_conflicting_pci_framebuffers: bar 2: 0x1010000000 -> 0x10101fffff
+>> [    2.297888] amdgpu 0000:04:00.0: 
+>> remove_conflicting_pci_framebuffers: bar 5: 0x58200000 -> 0x5823ffff
+>>
+>> It show that the efifb framebuffer base is out of PCI BAR, and this
+>> results in both efi-framebuffer and amdgpudrmfb co-existing.
+>>
+>> The fbcon will be bound to efi-framebuffer by default and cannot be 
+>> used.
+>>
+>> [HOW]
+>> Do not load efifb driver if PCI BAR has changed but not fixuped.
+>> In the following cases:
+>>     1. screen_info_lfb_pdev is NULL.
+>>     2. __screen_info_relocation_is_valid return false.
+>
+> Apart from ruling out invalid screen_info, did you figure out why the 
+> relocation tracking didn't work? It would be good to fix this if 
+> possible.
+>
+> Best regards
+> Thomas
+>
+I haven’t figure out the root cause yet.
 
-On Thu, Jul 03, 2025 at 05:50:32PM +0200, Luca Ceresoli wrote:
-> Hi Maxime,
->=20
-> On Tue, 1 Jul 2025 16:27:54 +0200
-> Maxime Ripard <mripard@kernel.org> wrote:
->=20
-> > On Tue, Jul 01, 2025 at 04:02:19PM +0200, Luca Ceresoli wrote:
-> > > Hello Marek, Maxime,
-> > >=20
-> > > thanks Marek for spotting the issue and sending a patch!
-> > >=20
-> > > On Mon, 30 Jun 2025 18:44:24 +0200
-> > > Maxime Ripard <mripard@kernel.org> wrote:
-> > >  =20
-> > > > > @@ -1643,7 +1625,7 @@ int analogix_dp_bind(struct analogix_dp_dev=
-ice *dp, struct drm_device *drm_dev)
-> > > > >  		return ret;
-> > > > >  	}
-> > > > > =20
-> > > > > -	ret =3D analogix_dp_create_bridge(drm_dev, dp);
-> > > > > +	ret =3D drm_bridge_attach(dp->encoder, &dp->bridge, NULL, 0);
-> > > > >  	if (ret) {
-> > > > >  		DRM_ERROR("failed to create bridge (%d)\n", ret);
-> > > > >  		goto err_unregister_aux;   =20
-> > > >=20
-> > > > It looks like you don't set bridge->driver_private anymore. Is it o=
-n purpose? =20
-> > >=20
-> > > This looks correct to me. In current code, driver_private is used to
-> > > hold a pointer to the driver private struct (struct
-> > > analogix_dp_device). With devm_drm_bridge_alloc() container_of() is n=
-ow
-> > > enough, no pointer is needed. With the patch applied, driver_private
-> > > becomes unused. =20
-> >=20
-> > Then we should remove it from the structure if it's unused.
->=20
-> Makes sense now that struct drm_bridge is meant to be always embedded
-> in a driver-private struct. But several drivers are still using it, so
-> those would need to be updated beforehand:
->=20
-> $ git grep  -l driver_private -- drivers/gpu/drm/ | wc -l
-> 23
-> $
+This issue is quite rare and might be related to the EFI firmware.
+However, I wonder if we could add some handling when no PCI resources 
+are found in screen_info_fixup_lfb(), as a temporary workaround for the 
+problem I mentioned earlier.
 
-Ah, you're right, sorry for the noise.
+Best regards
+Shixiong Ou
 
-> So I think this patch should be taken as it fixes a regression. Do you
-> agree on this?
+>>
+>> Signed-off-by: Shixiong Ou <oushixiong@kylinos.cn>
+>> ---
+>>   drivers/video/fbdev/efifb.c     |  4 ++++
+>>   drivers/video/screen_info_pci.c | 24 ++++++++++++++++++++++++
+>>   include/linux/screen_info.h     |  5 +++++
+>>   3 files changed, 33 insertions(+)
+>>
+>> diff --git a/drivers/video/fbdev/efifb.c b/drivers/video/fbdev/efifb.c
+>> index 0e1bd3dba255..de8d016c9a66 100644
+>> --- a/drivers/video/fbdev/efifb.c
+>> +++ b/drivers/video/fbdev/efifb.c
+>> @@ -303,6 +303,10 @@ static void efifb_setup(struct screen_info *si, 
+>> char *options)
+>>     static inline bool fb_base_is_valid(struct screen_info *si)
+>>   {
+>> +    /* check whether fb_base has changed but not fixuped */
+>> +    if (!screen_info_is_useful())
+>> +        return false;
+>> +
+>>       if (si->lfb_base)
+>>           return true;
+>>   diff --git a/drivers/video/screen_info_pci.c 
+>> b/drivers/video/screen_info_pci.c
+>> index 66bfc1d0a6dc..ac57dcaf0cac 100644
+>> --- a/drivers/video/screen_info_pci.c
+>> +++ b/drivers/video/screen_info_pci.c
+>> @@ -9,6 +9,8 @@ static struct pci_dev *screen_info_lfb_pdev;
+>>   static size_t screen_info_lfb_bar;
+>>   static resource_size_t screen_info_lfb_res_start; // original start 
+>> of resource
+>>   static resource_size_t screen_info_lfb_offset; // framebuffer 
+>> offset within resource
+>> +static bool screen_info_changed;
+>> +static bool screen_info_fixuped;
+>>     static bool __screen_info_relocation_is_valid(const struct 
+>> screen_info *si, struct resource *pr)
+>>   {
+>> @@ -24,6 +26,24 @@ static bool 
+>> __screen_info_relocation_is_valid(const struct screen_info *si, stru
+>>       return true;
+>>   }
+>>   +bool screen_info_is_useful(void)
+>> +{
+>> +    unsigned int type;
+>> +    const struct screen_info *si = &screen_info;
+>> +
+>> +    type = screen_info_video_type(si);
+>> +    if (type != VIDEO_TYPE_EFI)
+>> +        return true;
+>> +
+>> +    if (screen_info_changed && !screen_info_fixuped) {
+>> +        pr_warn("The screen_info has changed but not fixuped");
+>> +        return false;
+>> +    }
+>> +
+>> +    pr_info("The screen_info is useful");
+>> +    return true;
+>> +}
+>> +
+>>   void screen_info_apply_fixups(void)
+>>   {
+>>       struct screen_info *si = &screen_info;
+>> @@ -32,18 +52,22 @@ void screen_info_apply_fixups(void)
+>>           struct resource *pr = 
+>> &screen_info_lfb_pdev->resource[screen_info_lfb_bar];
+>>             if (pr->start != screen_info_lfb_res_start) {
+>> +            screen_info_changed = true;
+>>               if (__screen_info_relocation_is_valid(si, pr)) {
+>>                   /*
+>>                    * Only update base if we have an actual
+>>                    * relocation to a valid I/O range.
+>>                    */
+>>                   __screen_info_set_lfb_base(si, pr->start + 
+>> screen_info_lfb_offset);
+>> +                screen_info_fixuped = true;
+>>                   pr_info("Relocating firmware framebuffer to offset 
+>> %pa[d] within %pr\n",
+>>                       &screen_info_lfb_offset, pr);
+>>               } else {
+>>                   pr_warn("Invalid relocating, disabling firmware 
+>> framebuffer\n");
+>>               }
+>>           }
+>> +    } else {
+>> +        screen_info_changed = true;
+>>       }
+>>   }
+>>   diff --git a/include/linux/screen_info.h b/include/linux/screen_info.h
+>> index 923d68e07679..632cdbb1adbe 100644
+>> --- a/include/linux/screen_info.h
+>> +++ b/include/linux/screen_info.h
+>> @@ -138,9 +138,14 @@ ssize_t screen_info_resources(const struct 
+>> screen_info *si, struct resource *r,
+>>   u32 __screen_info_lfb_bits_per_pixel(const struct screen_info *si);
+>>     #if defined(CONFIG_PCI)
+>> +bool screen_info_is_useful(void);
+>>   void screen_info_apply_fixups(void);
+>>   struct pci_dev *screen_info_pci_dev(const struct screen_info *si);
+>>   #else
+>> +bool screen_info_is_useful(void)
+>> +{
+>> +    return true;
+>> +}
+>>   static inline void screen_info_apply_fixups(void)
+>>   { }
+>>   static inline struct pci_dev *screen_info_pci_dev(const struct 
+>> screen_info *si)
+>
 
-As far as I know, that commit only exists in drm-misc-next. Also, it
-should have a Fixes tag.
-
-Maxime
-
---4ozqtq6qsjl6cvyk
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iJUEABMJAB0WIQTkHFbLp4ejekA/qfgnX84Zoj2+dgUCaGuRhwAKCRAnX84Zoj2+
-dobyAYC5tJAbYuv+e8xjBJh6t5LMyfne0m8hew2h2w1CL4tQvlhg2TMAP9/A2XJD
-+gcuBCYBgN58vb4p3LS+C+5OI94cusLvHH7Q50rbIYSvybcTCTbBXyHPp8/2nDyi
-SrZlhynhdQ==
-=ctMq
------END PGP SIGNATURE-----
-
---4ozqtq6qsjl6cvyk--
