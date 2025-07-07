@@ -2,73 +2,171 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1070CAFBD67
-	for <lists+dri-devel@lfdr.de>; Mon,  7 Jul 2025 23:24:07 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id C6634AFBD6D
+	for <lists+dri-devel@lfdr.de>; Mon,  7 Jul 2025 23:24:10 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3E85810E565;
-	Mon,  7 Jul 2025 21:23:57 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id DF8C710E570;
+	Mon,  7 Jul 2025 21:24:05 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=mediatek.com header.i=@mediatek.com header.b="eUopBNLU";
+	dkim=pass (2048-bit key; unprotected) header.d=vivo.com header.i=@vivo.com header.b="ZYurT6yI";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mailgw01.mediatek.com (unknown [60.244.123.138])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D767110E300
- for <dri-devel@lists.freedesktop.org>; Mon,  7 Jul 2025 01:33:21 +0000 (UTC)
-X-UUID: 5aba923e5ad211f0b1510d84776b8c0b-20250707
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=mediatek.com;
- s=dk; 
- h=Content-Type:Content-Transfer-Encoding:MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:CC:To:From;
- bh=qGhF4xjLVXPOOuOMkbfISUd7i+FvW0Z2/VH51vlf5ds=; 
- b=eUopBNLUbqx+pbrX73SzMeLBSBAVPihHHIsJDQbyS2o3dSb111F3XlgFWeKkmeafw8M6VQo+a6gGvOjAhmvzhZ8Zkm8hocwfiBR2RBAVLbrT2Bys1uV8JpGWiaJTo3QB3zDu6JB3XGFl6eyz0qRqmRhQn28a8HOKRuWRwfh6heA=;
-X-CID-P-RULE: Release_Ham
-X-CID-O-INFO: VERSION:1.3.2, REQID:f3f54cf3-0406-41e4-9ea1-be3824010f24, IP:0,
- UR
- L:0,TC:0,Content:-5,EDM:0,RT:0,SF:0,FILE:0,BULK:0,RULE:Release_Ham,ACTION:
- release,TS:-5
-X-CID-META: VersionHash:9eb4ff7, CLOUDID:52def073-15a7-4ae6-ad4b-94c27b45c266,
- B
- ulkID:nil,BulkQuantity:0,Recheck:0,SF:81|82|102,TC:nil,Content:0|50,EDM:-3
- ,IP:nil,URL:99|1,File:nil,RT:nil,Bulk:nil,QS:nil,BEC:nil,COL:0,OSI:0,OSA:0
- ,AV:0,LES:1,SPR:NO,DKR:0,DKP:0,BRR:0,BRE:0,ARC:0
-X-CID-BVR: 0
-X-CID-BAS: 0,_,0,_
-X-CID-FACTOR: TF_CID_SPAM_SNR,TF_CID_SPAM_ULS
-X-CID-RHF: D41D8CD98F00B204E9800998ECF8427E
-X-UUID: 5aba923e5ad211f0b1510d84776b8c0b-20250707
-Received: from mtkmbs11n2.mediatek.inc [(172.21.101.187)] by
- mailgw01.mediatek.com (envelope-from <shangyao.lin@mediatek.com>)
- (Generic MTA with TLSv1.2 ECDHE-RSA-AES256-GCM-SHA384 256/256)
- with ESMTP id 1242543706; Mon, 07 Jul 2025 09:33:16 +0800
-Received: from mtkmbs11n2.mediatek.inc (172.21.101.187) by
- mtkmbs13n2.mediatek.inc (172.21.101.108) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.1258.39; Mon, 7 Jul 2025 09:33:14 +0800
-Received: from mtksitap99.mediatek.inc (10.233.130.16) by
- mtkmbs11n2.mediatek.inc (172.21.101.73) with Microsoft SMTP Server id
- 15.2.1258.39 via Frontend Transport; Mon, 7 Jul 2025 09:33:14 +0800
-From: shangyao lin <shangyao.lin@mediatek.com>
-To: Mauro Carvalho Chehab <mchehab@kernel.org>, Rob Herring <robh@kernel.org>, 
- Krzysztof Kozlowski <krzk+dt@kernel.org>,
- Conor Dooley <conor+dt@kernel.org>, 
- Matthias Brugger <matthias.bgg@gmail.com>, AngeloGioacchino Del Regno
- <angelogioacchino.delregno@collabora.com>
-CC: Shangyao Lin <shangyao.lin@mediatek.com>, <linux-media@vger.kernel.org>,
- <devicetree@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
- <linux-arm-kernel@lists.infradead.org>, <linux-mediatek@lists.infradead.org>, 
- <dri-devel@lists.freedesktop.org>, <linaro-mm-sig@lists.linaro.org>,
- <Project_Global_Chrome_Upstream_Group@mediatek.com>
-Subject: [PATCH v2 13/13] media: uapi: mediatek: document ISP7x camera system
- and user controls
-Date: Mon, 7 Jul 2025 09:31:54 +0800
-Message-ID: <20250707013154.4055874-14-shangyao.lin@mediatek.com>
-X-Mailer: git-send-email 2.45.2
-In-Reply-To: <20250707013154.4055874-1-shangyao.lin@mediatek.com>
-References: <20250707013154.4055874-1-shangyao.lin@mediatek.com>
-MIME-Version: 1.0
+Received: from OS8PR02CU002.outbound.protection.outlook.com
+ (mail-japanwestazon11012065.outbound.protection.outlook.com [40.107.75.65])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4D4FD10E44F;
+ Mon,  7 Jul 2025 11:49:30 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=bRN4oari+JBA4YngN0c+2eb9AhEr3RMlu6a27wGHlWHkIrHTOHlCEIVc+dQnwjpoG0m6UiR58AbWACI8uEubnA0v53d2mSQsfZAaPN/wF0omNqW0PPSA/tWKghtT7o4Fc+FyKZGejzdip8k2E5K6K10xcA0TNFf0veJRwSDgKlZF7/Jm7RZYk+fV7YgWJ4b89JhwqItxLHXErLjcUDfQ7Hsrbf8VRKixoYtXQwEa2Kpwsv41Jjn8NLSiRBxH2QqWKmxjIDLei39dfdUIY1VlPLbDiENEUJqus3FBNko7+FawgtZGrUoGVeMyL0sZUGPbLnW15ZjJprz5qba+Gm1meA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=ksBfp2AIWByMov8+43Nc4Tp2S5FLVTqstpaceKchNQk=;
+ b=TO1PcQHt4UJ5j7ElAYcFcL0QPgGNXfCLGSoAHT2ZiRUHYgw4CxZX9vDnljMsE8PEFUe5DEpd/NeznkK+WAuK2owInojoEc6rSJomhfKuF/X/0egkR+SZ059BWYxvTXsC3kkl1gdMieUhujWmp+gDkiz2i988zGl6P/LPWfXhK68EikohCZZALE8Y/wLYXSciDlnlOxErKV/qsjSWluFdfszmlUS+2JWGAKLZVTO6bOT4sc5uABbOwA0YIqP2bAKRZFVzaT+Sru2xNhKeb0mXQY5W2lUKe3C/juhsPvFgXL0WSVr09xUxA+zPWL5p5wMxf6VDVxsoGZuJZXQfRyAx5A==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=vivo.com; dmarc=pass action=none header.from=vivo.com;
+ dkim=pass header.d=vivo.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=vivo.com; s=selector2; 
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=ksBfp2AIWByMov8+43Nc4Tp2S5FLVTqstpaceKchNQk=;
+ b=ZYurT6yI6GtzzZJlXiTjDe2tfLHrTACbV/Yt5GR52DKxkSk7B+bL/sg/5rIvjnenytH00ea5cjJ8UhCp7aOQ4/eo4MswgXO9EjtmdEfY1FqawZblOKQCYZgW0Eq0G20NbfqTHD90eupvtGdnrDnjtB28wSbcdjEwJeQs1Rv/QpGEe4IcCWaORVt2uIMIZU/3nNUhEUuhaZUqyYswH6Cw/BBq2dWwmMtBtKVyg1HcDYlkpt+TPfZ8E2AGg83aF2FpEhxIff8y8GrzeckNYoL8xwaHkiYvsf33VuX1Dos5h+Lu4RXtJy6/+0oCZzDfnYpBj6Z93rnrjMCOaaChV47O9g==
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=vivo.com;
+Received: from SEZPR06MB7140.apcprd06.prod.outlook.com (2603:1096:101:228::14)
+ by TY1PPF5F1F8FF60.apcprd06.prod.outlook.com (2603:1096:408::916)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8901.24; Mon, 7 Jul
+ 2025 11:49:25 +0000
+Received: from SEZPR06MB7140.apcprd06.prod.outlook.com
+ ([fe80::9eaf:17a9:78b4:67c0]) by SEZPR06MB7140.apcprd06.prod.outlook.com
+ ([fe80::9eaf:17a9:78b4:67c0%5]) with mapi id 15.20.8901.021; Mon, 7 Jul 2025
+ 11:49:24 +0000
+Message-ID: <a4cc7c59-2dfd-497e-9f20-b12ea86a1baa@vivo.com>
+Date: Mon, 7 Jul 2025 19:48:34 +0800
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v4 4/5] mm/filemap: add write_begin_get_folio() helper
+ function
+To: =?UTF-8?B?6ZmI5rab5rabIFRhb3RhbyBDaGVu?= <chentaotao@didiglobal.com>,
+ "tytso@mit.edu" <tytso@mit.edu>, "hch@infradead.org" <hch@infradead.org>,
+ "adilger.kernel@dilger.ca" <adilger.kernel@dilger.ca>,
+ "willy@infradead.org" <willy@infradead.org>,
+ "brauner@kernel.org" <brauner@kernel.org>,
+ "jani.nikula@linux.intel.com" <jani.nikula@linux.intel.com>,
+ "rodrigo.vivi@intel.com" <rodrigo.vivi@intel.com>,
+ "tursulin@ursulin.net" <tursulin@ursulin.net>,
+ "airlied@gmail.com" <airlied@gmail.com>
+Cc: "linux-fsdevel@vger.kernel.org" <linux-fsdevel@vger.kernel.org>,
+ "linux-ext4@vger.kernel.org" <linux-ext4@vger.kernel.org>,
+ "linux-block@vger.kernel.org" <linux-block@vger.kernel.org>,
+ "intel-gfx@lists.freedesktop.org" <intel-gfx@lists.freedesktop.org>,
+ "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
+ "linux-mm@kvack.org" <linux-mm@kvack.org>,
+ "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
+ "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+ "chentao325@qq.com" <chentao325@qq.com>,
+ "frank.li@vivo.com" <frank.li@vivo.com>
+References: <20250707070023.206725-5-chentaotao@didiglobal.com>
+From: hanqi <hanqi@vivo.com>
+In-Reply-To: <20250707070023.206725-5-chentaotao@didiglobal.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-Mailman-Approved-At: Mon, 07 Jul 2025 21:23:55 +0000
+X-ClientProxiedBy: SI2PR02CA0019.apcprd02.prod.outlook.com
+ (2603:1096:4:195::13) To SEZPR06MB7140.apcprd06.prod.outlook.com
+ (2603:1096:101:228::14)
+MIME-Version: 1.0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: SEZPR06MB7140:EE_|TY1PPF5F1F8FF60:EE_
+X-MS-Office365-Filtering-Correlation-Id: ee66d21a-6b8f-4d2c-8ac7-08ddbd4c51ba
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+ ARA:13230040|7416014|376014|366016|1800799024|7053199007|921020; 
+X-Microsoft-Antispam-Message-Info: =?utf-8?B?OHRHek1ZSEhJdUJOMWIzZ2R4NDN0N25FeFppMXZEcUxjRFpqbEZXcUJRc2g3?=
+ =?utf-8?B?aCtkVWtJKytlRFJEU0lJS01jL2p2NkhSQ3ZPWStJcm5QNlROVWIxTDd6U3By?=
+ =?utf-8?B?N0ZLZktYZDB5ZVVDbU5xTmg5SHFQMDVUNlZXVDJ6OXpBUnJheUZSUU1BVUp6?=
+ =?utf-8?B?SWx1NlhBN3hYRHJ2TlpYd0RkT0h2QXVESVpPaThYMDg4QThyaU9XYlY5bklr?=
+ =?utf-8?B?SXZBcVJqVVppZVBZcVo5ak5BZU8vVDRMa2VrbDN3YVN2SUw5a0NNWDZNbXVr?=
+ =?utf-8?B?N09tODg0WXdYOW5EU3VBOFU2YUJmU0loQkxWNkZYR2dQQ21jdjZDUm4yeGl1?=
+ =?utf-8?B?OVVucStmazZSTFRyditRSUhnTGNJWmZoWmlsZm5XbTI0bTFwV1JzcFU4bTlD?=
+ =?utf-8?B?Vlk4QnAzbmp6ektSOTVqZXQ1bnVQQjhiTHZ4ak8yQ1QzQWIvck5jd3dQRmZy?=
+ =?utf-8?B?MTJOeHhrYkh4cTJiODNFeFhIc1RBRHRUcTFQdHlzSHFBdSthdnlORmJvdmRD?=
+ =?utf-8?B?c1VGdFphZmZ6Tmd2aHpyV2txY2R0Snl6Mnk2ZzRJdldWSEtNV2FDVDc4dGpz?=
+ =?utf-8?B?MGlxZUNaK3Job1hRNDJaRFVDaWoyclE4bDRWL2c4V1V4dFN2YXNjbU9KRXc3?=
+ =?utf-8?B?ZE9IdEVBa0UxNHlLSExtOXd3VUVNc3kvell4V00vSXp1MVBqQndidzRMY08y?=
+ =?utf-8?B?YkpoZk1lSTBHdW9OVzBGTDJJdHhZNW1ySS9YcEEzM3ByNmtVWGZoM3BuaWVR?=
+ =?utf-8?B?aC94ZDQ4aWJ4a3hYSTkxd0xrWTBCL1BPdnduWkxhTFUvZ3k4eTd3c2xlYSs2?=
+ =?utf-8?B?aSs0YSsxbmFpYmJJZnJ5dVBPZVBmMzBhaTdETHhGbVZxUjRpZWUrNVFpSlBP?=
+ =?utf-8?B?ZVhLVWNOYUorajJJbHVZRXFZQm1veVUxRE4rbENkekEwZ2JNcHlqaGUrVENP?=
+ =?utf-8?B?US95ZWRnUXdRcFVyaHV2UGpkb3RXRWpQQUhzRmU0a3UxY0YycW5oSVhJMHhN?=
+ =?utf-8?B?Rk16YjVxWnIvYUhQYmdhWUIvdytSWW9jVHZUSDhUVzdPVXZqL0VhOXZtUlRn?=
+ =?utf-8?B?TUR2ek9STFNIN0YwUnpIYkYveWh5UmRic3BVNTNTVWdoaHZhSHYzbVBTQjBw?=
+ =?utf-8?B?Uzh3SWJXWDlSdHcvNTdGNTBxeDNoZGRJMlVYYk5tNnFXRWNmQWhRMEtrWTVF?=
+ =?utf-8?B?b2JWcTBKOGIrU3NZUWN6WFdDa1RiQ1dibVBrVjFOVVp4TU5FM25WaHBXNXlK?=
+ =?utf-8?B?dmJKL2NvcDhKV2dxSnlNRnNRVmx3TXVrZmZVV1p5VHVkYzd6RnAzTFNCV3d5?=
+ =?utf-8?B?ZWpydVVpRjVoT2dFZExIRXRUUGJ0aUJoTTdXcGVtd1Y2d1AySFA2WTRhcHk1?=
+ =?utf-8?B?dWdHNmJtQ0VDN0hiRU01S2lJaTNrTjRRN1d1MmM3Y2pXbnVtbDBNekNUdnc5?=
+ =?utf-8?B?VzU3UlYybzNQTFVUVFN5V1RRZTFadURQL1A4dzQzcU44V2toRUZhWUtNM0Ex?=
+ =?utf-8?B?UkxFOXo3OFdORlFzM09DS3NpKzMrN0lYMGNUL0JCb0tRR29tQ1lvVDd3T3FV?=
+ =?utf-8?B?T1k5bS9iU3FKNDE3M1lmOTdxU2NrWDlReFdMeFJrWFVzcDU1Zm93dWdIRmk5?=
+ =?utf-8?B?dTgrRHM5dFJoQ2IvUjJsa1h2Y2dvV2RQaXBOM1VhZDlLRXRoRmlXNVBOendx?=
+ =?utf-8?B?ak1XdThKa25qeEtUMWdIdkF5YXZYbGhsaWlnU3BvNWhTNUJVVFFrRk9kNDVi?=
+ =?utf-8?B?MCtGMlp0QUsrSVE3L2hJUS9rcm9vT0RiRDZJMGVDY1krRnNtQ0pWTENuU1dE?=
+ =?utf-8?B?eDA0RzRQdjJHcE1IbjBLa1hZZCtpMmtoY1BpN2l0azJpdTE0WGQwWERKUGx0?=
+ =?utf-8?B?bVFzOFEvN0s3dUM3TVR4cHZBdWswUVRJUHV3OE1IU3Fubk5kbXJqWmwwbVlx?=
+ =?utf-8?B?c1FMcVhMaU8yNGdudFMyVUFLMmdTL3BuK0FtZ1pyeWhGTkc4NTJIeUlOenlm?=
+ =?utf-8?B?RkpQRzREcnhBPT0=?=
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:SEZPR06MB7140.apcprd06.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230040)(7416014)(376014)(366016)(1800799024)(7053199007)(921020);
+ DIR:OUT; SFP:1101; 
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?Q1A3SWlJcGJ1cHEzS3g1Y3VSYksyVTZvWWF2ZHJ2eFAraFQ0cmJnWnpGU25l?=
+ =?utf-8?B?QTRmbmQvbDV6RmtkMEFmQWFURTVTRjV2Q013V2NDRUhXdDBQY013YTIrcmZo?=
+ =?utf-8?B?czlPNkVabFdIdEV5QkhoR2Z4Z2JheWVVSE9CYW5Zb1VsOEFsRmE2RlRTWVI3?=
+ =?utf-8?B?cVZoRkhKOTVQNzJaNGNkcjFJRUdzdkFzbDNtdXVvN0xnTDVNbFdUS1VJTjVX?=
+ =?utf-8?B?cU9VY0N4ZklDSE9FampicXNadFg3MitTRjZXM2R3MnpXSHQyNksvcVB2Mi9V?=
+ =?utf-8?B?KzdENkpBdXNVclRsWDNLTzhsUXFTL3paUEdUU0dOSUFzeWJadEh0R0ZLaFBh?=
+ =?utf-8?B?RzZhVW0zekJKKzhqU20zSEtYekRqSGxNM2dJaTR5TXZqOW5wMkFqU1kwanpi?=
+ =?utf-8?B?TkJrMDJYRE1xRXc0ZTNyL3JiaDAxR09rT0JZYzZCcGd5enp3N0JqOGtoUmk0?=
+ =?utf-8?B?NmRzUWJ2S3ZxdDRnWHlaRVlIbGRHTVdOVmNFM2VDODhwenFKZUh4dGdwd1ov?=
+ =?utf-8?B?elhGY3N2ZDRIa1p6YTVjN0dzdUN4ZjhjTkhrbEF5a0NZd012Q2VHdjBzRnpm?=
+ =?utf-8?B?R3k4N3YyY3pLM1hBM1B3Rk14YXNaNWpkWTBkNHo2Q0ZTSis4bkIweWhac0Fn?=
+ =?utf-8?B?SGNLckR2RXpTSWR3WG5MSEI3bUhmbktOT0tEYnNvV1J6SHpRbDRoR0VlalR0?=
+ =?utf-8?B?U2RNdGg5VGZCRWNQazhzellYRUYyYzFjYXUwYnhjR1p4VVJOQVY3dkdzVG96?=
+ =?utf-8?B?VGRlVkYrSkxJUlNiQ0FpWi95aDBlSHY0RURvcWY0SnFvL05hdCtkT0pjVjFl?=
+ =?utf-8?B?RTFueDMxTERSUExPWUd1UDJ0R08zeXl5bmZRejVCdUlIVlhOSlp1ZHFOdHlm?=
+ =?utf-8?B?UGNmNzhKWVdRNmVoMVViYjZub2V0cGt4QUYrdkFRWGVzanV6SzlURThFTUlw?=
+ =?utf-8?B?c0dPS3BNeUIwMHYxdWk0aHp1T0lGNmhldHJXekpRLzlJU2Z0RmJ4MGNmNnpj?=
+ =?utf-8?B?RCt6TEw0cms3VGhsMW9Xa2ZPenV3RmtWY3NGZVJIN0lhdnMwOGhEU1VUaFVz?=
+ =?utf-8?B?MTJrU25uZE9Fa2h2cmUwaWNIOGR2SmlvUVlCZHdWaUNhSXlOWGhaaWVhRjEr?=
+ =?utf-8?B?b0NkVmlIUDhqU25HSHl5bkNFK1lXRjUxbW0zZldJeGlhbkhBbWpXdFZ3aGVp?=
+ =?utf-8?B?QTlBb0lWUFJaeUxxSmUvQy9ab1ZZZjJjaHNUekdNdUExMEp2ak5YOTZzNlVv?=
+ =?utf-8?B?TUVlcVZlOWxHckxGb0w0SHJVcWVYSkxWRE9kdXB1bHJCa3JQN2w4OG5DZU85?=
+ =?utf-8?B?VTQxcDFkSnpiRmprOU4xYmoxMktiY1JuY25mdk1LUEhBcElHV201aXlWZFZX?=
+ =?utf-8?B?dkVkOGJnWGxTQmJvYVo5eVJ5bUpuUnBJVTVsZEsrNzBzVzhINXpSWVZGQkhm?=
+ =?utf-8?B?QzE3OW5MUkYxNXFoWXNzdlpUQ29BczJ5MzN6MlNtM0RLdTdTajdvNC9CbUFV?=
+ =?utf-8?B?U1FqVUZXbFBob0VEaVNTOFlCbjhwT3BJa1ROc2ZaRjIzZFgrNm0rVlY2amxU?=
+ =?utf-8?B?aGFJZnRyT2hXYzhWKzE3UWozVWJ5aXpWUC9HMG8xKzF0M1VoaTlGUjg2OTNq?=
+ =?utf-8?B?UFFVeEh4SHNhK3ExaTFublNJcjM5YjdBK2ZzeVFNSk85UXIwNm1kZExTQTRX?=
+ =?utf-8?B?VWROVFZtcW04RjhjZEIxck9nR2hDcS80dGZBd3hXaW1nRG9hRjdSL3JqbjBw?=
+ =?utf-8?B?UGloWVZWSTVIbUJKZVhybGxiRWZ4WldRSnR5MHpwbjJtVXJJYmFRQjhBN01i?=
+ =?utf-8?B?Smgxck8zYXlpVUM3UzE2TlFOU0tLRzA4enZDMXFPVGxCaHZNa0FONlpmekVv?=
+ =?utf-8?B?bjM1UXg3Wk9hdk5yczBzWm5WRFdZbmlpVFVrN0c3Z1FtU1MzYmN0SldDVlEy?=
+ =?utf-8?B?Y0wyWWdCWmowYTBsb2s2cFVON3dUVzdGOW9UdU8vUUJ2VzRDOHY5WDF0SjR2?=
+ =?utf-8?B?bTVOQTl3UTRHaVhiZVVkcEJRbzhESndWME1DM0xGVFduNzhNVEFwQk54OFZF?=
+ =?utf-8?B?anhVYUhjcHFSYzhJMnVSL3A3aWhLakk0aVJzSVZSekI4R3JqNTFrOS9sbVBR?=
+ =?utf-8?Q?skIV+yNGlIpaOxKs0Dn7Fa3CZ?=
+X-OriginatorOrg: vivo.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: ee66d21a-6b8f-4d2c-8ac7-08ddbd4c51ba
+X-MS-Exchange-CrossTenant-AuthSource: SEZPR06MB7140.apcprd06.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 07 Jul 2025 11:49:24.5110 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 923e42dc-48d5-4cbe-b582-1a797a6412ed
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: 2sjr/peJbd3lSQNGT+0I12eFpDruZ9vXxqOjFqMJZozwBhyCDIN657YTh/mBKQ+mpaWEcH05lv9+gvj6LkvPkw==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: TY1PPF5F1F8FF60
+X-Mailman-Approved-At: Mon, 07 Jul 2025 21:23:54 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -84,328 +182,92 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: "shangyao.lin" <shangyao.lin@mediatek.com>
 
-This document covers:
-- The hardware pipeline and firmware interface
-- Integration with the V4L2 CAMSYS/media controller framework
-- The list of custom V4L2 controls, their usage, valid ranges, and typical usage flow
 
-Signed-off-by: shangyao.lin <shangyao.lin@mediatek.com>
----
- .../media/v4l/mtk-isp7x-camsys.rst            |  94 +++++++++
- .../media/v4l/mtk-isp7x-controls.rst          | 199 ++++++++++++++++++
- 2 files changed, 293 insertions(+)
- create mode 100755 Documentation/userspace-api/media/v4l/mtk-isp7x-camsys.rst
- create mode 100755 Documentation/userspace-api/media/v4l/mtk-isp7x-controls.rst
+在 2025/7/7 15:00, 陈涛涛 Taotao Chen 写道:
+> From: Taotao Chen <chentaotao@didiglobal.com>
+>
+> Add write_begin_get_folio() to simplify the common folio lookup logic
+> used by filesystem ->write_begin() implementations.
+>
+> This helper wraps __filemap_get_folio() with common flags such as
+> FGP_WRITEBEGIN, conditional FGP_DONTCACHE, and set folio order based
+> on the write length.
+>
+> Part of a series refactoring address_space_operations write_begin and
+> write_end callbacks to use struct kiocb for passing write context and
+> flags.
+>
+> Signed-off-by: Taotao Chen <chentaotao@didiglobal.com>
+> ---
+>   include/linux/pagemap.h |  3 +++
+>   mm/filemap.c            | 30 ++++++++++++++++++++++++++++++
+>   2 files changed, 33 insertions(+)
+>
+> diff --git a/include/linux/pagemap.h b/include/linux/pagemap.h
+> index e63fbfbd5b0f..cbf8539ba11b 100644
+> --- a/include/linux/pagemap.h
+> +++ b/include/linux/pagemap.h
+> @@ -749,6 +749,9 @@ struct folio *__filemap_get_folio(struct address_space *mapping, pgoff_t index,
+>   		fgf_t fgp_flags, gfp_t gfp);
+>   struct page *pagecache_get_page(struct address_space *mapping, pgoff_t index,
+>   		fgf_t fgp_flags, gfp_t gfp);
+> +struct folio *write_begin_get_folio(const struct kiocb *iocb,
+> +				    struct address_space *mapping,
+> +				    pgoff_t index, size_t len);
+>   
+>   /**
+>    * filemap_get_folio - Find and get a folio.
+> diff --git a/mm/filemap.c b/mm/filemap.c
+> index ba089d75fc86..9520f65c287a 100644
+> --- a/mm/filemap.c
+> +++ b/mm/filemap.c
+> @@ -2026,6 +2026,36 @@ struct folio *__filemap_get_folio(struct address_space *mapping, pgoff_t index,
+>   }
+>   EXPORT_SYMBOL(__filemap_get_folio);
+>   
+> +
+> +/**
+> + * write_begin_get_folio - Get folio for write_begin with flags
+> + * @iocb: kiocb passed from write_begin (may be NULL)
+> + * @mapping: the address space to search in
+> + * @index: page cache index
+> + * @len: length of data being written
+> + *
+> + * This is a helper for filesystem write_begin() implementations.
+> + * It wraps __filemap_get_folio(), setting appropriate flags in
+> + * the write begin context.
+> + *
+> + * Returns a folio or an ERR_PTR.
+> + */
 
-diff --git a/Documentation/userspace-api/media/v4l/mtk-isp7x-camsys.rst b/Documentation/userspace-api/media/v4l/mtk-isp7x-camsys.rst
-new file mode 100755
-index 000000000000..04a1fe1c448d
---- /dev/null
-+++ b/Documentation/userspace-api/media/v4l/mtk-isp7x-camsys.rst
-@@ -0,0 +1,94 @@
-+==========================
-+MediaTek ISP7x Camera System
-+==========================
-+
-+Overview
-+========
-+
-+The MediaTek ISP7x camera system is designed to provide a flexible, high-performance image capture pipeline for SoCs, leveraging the Linux V4L2 framework. The system is composed of multiple hardware modules (Sensor, SENINF, RAW ISP, etc.) and a firmware backend, with a clear separation of control and data flow. This document describes the hardware architecture from the perspective of the interface exposed to the firmware (backend), and how it integrates with the V4L2 CAMSYS framework.
-+
-+V4L2 CAMSYS Framework Overview
-+==============================
-+
-+The V4L2 CAMSYS framework models the camera pipeline as a set of interconnected devices and subdevices:
-+
-+- **Video Device**: Exposes buffer queue/dequeue (enque/deque) operations to user space, allowing applications to stream image data.
-+- **Subdevice**: Represents a hardware block (e.g., sensor, SENINF, RAW ISP) and handles control/configuration operations.
-+- **Pads and Links**: Each subdevice has pads (input/output endpoints). Media links connect pads, representing the physical and logical data flow between hardware blocks.
-+
-+The topology and link state are established at probe time and can be dynamically enabled/disabled by user space, depending on the desired pipeline configuration.
-+
-+Hardware Pipeline
-+=================
-+
-+A typical pipeline consists of:
-+
-+.. code-block::
-+
-+    Sensor --> SENINF --> RAW ISP --> (optional: YUV ISP) --> Memory
-+
-+- **Sensor**: Provides MIPI CSI-2 data.
-+- **SENINF**: Receives and demultiplexes sensor data, supports virtual channel (VC) and data type (DT) routing.
-+- **RAW ISP**: Main image signal processor, handles demosaicing, noise reduction, and other image enhancements.
-+- **YUV ISP** (optional): Further processing for YUV output.
-+- **CAMSYS**: System controller, manages pipeline state, buffer flow, and synchronization.
-+
-+Firmware Interface
-+==================
-+
-+The firmware (backend, e.g., CCD/SCP) is responsible for:
-+
-+- Calculating hardware settings (3A, tuning, DMA, FBC, Twin, etc.) for each frame.
-+- Generating command queues (CQ) and descriptors to program the hardware.
-+- Abstracting hardware-specific details from the kernel driver.
-+
-+The kernel driver communicates with the firmware via an inter-processor interface (IPI), typically using RPMSG. The main interactions are:
-+
-+1. **Session Management**: The kernel establishes a session with the firmware at stream-on, and destroys it at stream-off.
-+2. **Per-frame Request Scheduling**: For each user request (frame), the kernel sends a request to the firmware, including sensor settings, buffer addresses, and control parameters.
-+3. **CQ Generation**: The firmware generates the necessary command queues and returns them to the kernel.
-+4. **Event Notification**: The firmware notifies the kernel of CQ completion, errors, or other events.
-+
-+Request Scheduling and Buffer Flow
-+==================================
-+
-+The request scheduling flow is as follows:
-+
-+1. **User space** submits a request (with buffer and control settings) via V4L2.
-+2. **PipeMgr** (user space) collects requests, groups them by file descriptor, and sends them to the kernel CAMSYS driver.
-+3. **CAMSYS** schedules requests, manages buffer flow, and coordinates with the firmware for hardware programming.
-+4. **Firmware** processes each request, generates CQ, and signals completion.
-+5. **Kernel** dequeues the buffer and notifies user space.
-+
-+The system supports per-frame control, allowing sensor settings and ISP parameters to be updated on a frame-by-frame basis.
-+
-+Media Controller Topology
-+=========================
-+
-+The media controller graph models the hardware pipeline as a set of entities (video devices, subdevices) connected by links. Each entity exposes pads, and links are established at probe time based on the hardware configuration and device tree.
-+
-+.. code-block::
-+
-+    +---------+     +--------+     +--------+     +------+
-+    | Sensor  | --> | SENINF | --> | RAW ISP| --> | Video|
-+    +---------+     +--------+     +--------+     +------+
-+
-+- Solid lines: active links (enabled)
-+- Dashed lines: inactive links (disabled)
-+
-+User space can query and configure the topology using standard V4L2 and media controller APIs.
-+
-+Backend Abstraction
-+===================
-+
-+The backend firmware abstracts hardware-specific programming, allowing the kernel driver to remain generic and maintainable. All hardware register programming, tuning, and advanced features are handled in the firmware, with the kernel acting as a control and data flow manager.
-+
-+This separation ensures that proprietary hardware details remain in the firmware, while the kernel driver exposes a standard V4L2 interface.
-+
-+Summary
-+=======
-+
-+- The MediaTek ISP7x camera system is built on the V4L2 media controller framework, with a modular pipeline of video devices and subdevices.
-+- The kernel driver manages pipeline state, buffer flow, and per-frame control, while delegating hardware programming to the backend firmware via IPI.
-+- The firmware interface is session-based, supports per-frame CQ generation, and abstracts all hardware-specific details from the kernel.
-+- The media controller graph models the hardware pipeline, allowing flexible configuration and dynamic topology management.
-\ No newline at end of file
-diff --git a/Documentation/userspace-api/media/v4l/mtk-isp7x-controls.rst b/Documentation/userspace-api/media/v4l/mtk-isp7x-controls.rst
-new file mode 100755
-index 000000000000..0e8d41d339e7
---- /dev/null
-+++ b/Documentation/userspace-api/media/v4l/mtk-isp7x-controls.rst
-@@ -0,0 +1,199 @@
-+==========================================
-+MediaTek ISP Camsys User Space Interface
-+==========================================
-+
-+Overview
-+--------
-+
-+The MediaTek ISP camsys driver provides a set of custom V4L2 controls for user space
-+applications to configure and query the ISP hardware. These controls allow
-+fine-grained management of resource allocation, feature enablement, and
-+hardware-specific settings.
-+
-+Typical Usage Flow
-+------------------
-+
-+1. Open the video device node (e.g., ``/dev/video0``).
-+2. Set required V4L2 controls using ``VIDIOC_S_CTRL`` or ``VIDIOC_S_EXT_CTRLS``.
-+3. Set up video format and buffers (``VIDIOC_S_FMT``, ``VIDIOC_REQBUFS``, etc.).
-+4. Start streaming with ``VIDIOC_STREAMON``.
-+5. Queue and dequeue buffers for image processing (``VIDIOC_QBUF``, ``VIDIOC_DQBUF``).
-+6. Stop streaming with ``VIDIOC_STREAMOFF``.
-+
-+Control List and Documentation
-+-----------------------------
-+
-+Below is a list of custom V4L2 controls provided by the camsys driver, with detailed descriptions.
-+
-+.. list-table::
-+   :header-rows: 1
-+
-+   * - Control Name
-+     - Type
-+     - Description
-+     - Valid Values / Range
-+     - When to Set
-+
-+   * - ``V4L2_CID_MTK_CAM_USED_ENGINE_LIMIT``
-+     - Integer
-+     - Limits the maximum number of RAW engines (hardware pipelines) that can be used for this stream.
-+     - 1 ~ 2 (default: 2)
-+     - Before streaming
-+
-+   * - ``V4L2_CID_MTK_CAM_BIN_LIMIT``
-+     - Integer
-+     - Sets the maximum binning ratio allowed for the stream.
-+     - 0 ~ 0xFFF (default: 0)
-+     - Before streaming
-+
-+   * - ``V4L2_CID_MTK_CAM_FRZ_LIMIT``
-+     - Integer
-+     - Sets the maximum resizer (FRZ) ratio allowed (as a percentage).
-+     - 70 ~ 100 (default: 100)
-+     - Before streaming
-+
-+   * - ``V4L2_CID_MTK_CAM_RESOURCE_PLAN_POLICY``
-+     - Integer (Enum)
-+     - Selects the resource planning policy for the stream.
-+     - 0: Default, 1: Power-saving, 2: Performance, ... (0~10)
-+     - Before streaming
-+
-+   * - ``V4L2_CID_MTK_CAM_USED_ENGINE``
-+     - Integer
-+     - Reports or sets the number of RAW engines actually used for this stream after negotiation.
-+     - 1 ~ 2 (default: 2)
-+     - After resource negotiation
-+
-+   * - ``V4L2_CID_MTK_CAM_BIN``
-+     - Boolean
-+     - Enables or disables binning for the stream.
-+     - 0 (disable), 1 (enable, default)
-+     - Before streaming
-+
-+   * - ``V4L2_CID_MTK_CAM_FRZ``
-+     - Integer
-+     - Sets the resizer (FRZ) ratio (as a percentage) for the stream.
-+     - 70 ~ 100 (default: 100)
-+     - Before streaming
-+
-+   * - ``V4L2_CID_MTK_CAM_USED_ENGINE_TRY``
-+     - Integer
-+     - Reports the number of RAW engines that would be used for the current "try" format negotiation.
-+     - 1 ~ 2 (default: 2)
-+     - After VIDIOC_TRY_FMT
-+
-+   * - ``V4L2_CID_MTK_CAM_BIN_TRY``
-+     - Boolean
-+     - Reports whether binning would be enabled for the current "try" format negotiation.
-+     - 0, 1 (default: 1)
-+     - After VIDIOC_TRY_FMT
-+
-+   * - ``V4L2_CID_MTK_CAM_FRZ_TRY``
-+     - Integer
-+     - Reports the resizer ratio that would be used for the current "try" format negotiation.
-+     - 70 ~ 100 (default: 100)
-+     - After VIDIOC_TRY_FMT
-+
-+   * - ``V4L2_CID_MTK_CAM_PIXEL_RATE``
-+     - Integer64
-+     - Sets the pixel rate (in pixels per second) of the sensor for resource calculation.
-+     - 0 ~ 0xFFFFFFFF
-+     - Before streaming
-+
-+   * - ``V4L2_CID_MTK_CAM_FEATURE``
-+     - Bitmask (Integer64)
-+     - Bitmask of enabled features for the stream (e.g., HDR, 3A, etc.). See driver header for details.
-+     - Bitmask (0 ~ RAW_FUNCTION_END)
-+     - Before streaming or per-frame
-+
-+   * - ``V4L2_CID_MTK_CAM_SYNC_ID``
-+     - Integer64
-+     - Frame synchronization ID for multi-sensor or multi-pipeline synchronization.
-+     - -1 ~ 0x7FFFFFFF (default: -1)
-+     - Before streaming or per-frame
-+
-+   * - ``V4L2_CID_MTK_CAM_RAW_PATH_SELECT``
-+     - Integer
-+     - Selects the RAW path (e.g., main or secondary) for the stream.
-+     - 0, 1 (default: 1)
-+     - Before streaming
-+
-+   * - ``V4L2_CID_MTK_CAM_HSF_EN``
-+     - Integer
-+     - Enables or disables hardware secure flow (HSF) for the stream.
-+     - 0 (disable), 1 (enable)
-+     - Before streaming
-+
-+   * - ``V4L2_CID_MTK_CAM_PDE_INFO``
-+     - Integer (struct mtk_cam_pde_info)
-+     - Provides or sets phase detection (PDE) information for PDAF/AF features.
-+     - See struct definition
-+     - Before streaming or per-frame
-+
-+   * - ``V4L2_CID_MTK_CAM_MSTREAM_EXPOSURE``
-+     - Integer/Integer64
-+     - Controls multi-stream exposure settings for advanced HDR or multi-exposure modes.
-+     - See driver header
-+     - Before streaming or per-frame
-+
-+   * - ``V4L2_CID_MTK_CAM_RAW_RESOURCE_CALC``
-+     - Compound (struct mtk_cam_resource)
-+     - Triggers resource calculation for the current format and settings.
-+     - See struct definition
-+     - During format negotiation
-+
-+   * - ``V4L2_CID_MTK_CAM_TG_FLASH_CFG``
-+     - Integer/struct
-+     - Configures timing generator (TG) and flash synchronization.
-+     - See driver header
-+     - Before streaming or per-frame
-+
-+   * - ``V4L2_CID_MTK_CAM_RAW_RESOURCE_UPDATE``
-+     - Integer
-+     - Notifies the driver of a sensor mode update (e.g., seamless switch).
-+     - 0 ~ 0xF (default: 0)
-+     - When sensor mode changes
-+
-+   * - ``V4L2_CID_MTK_CAM_CAMSYS_HW_MODE``
-+     - Integer64
-+     - Selects the hardware mode for the CAMSYS pipeline (e.g., normal, secure, etc.).
-+     - 0 ~ 0x7FFFFFFF
-+     - Before streaming
-+
-+Control Usage Patterns
-+---------------------
-+
-+- Controls with ``_TRY`` suffix are used to query the result of a "try" format negotiation (``VIDIOC_TRY_FMT``), without committing changes.
-+- Controls without ``_TRY`` are used to set or get the actual configuration (``VIDIOC_S_FMT``, ``VIDIOC_G_CTRL``).
-+- Use ``V4L2_CID_MTK_CAM_RAW_RESOURCE_CALC`` to check if the requested format and settings are feasible, and to get recommended values.
-+- Use ``V4L2_CID_MTK_CAM_RAW_RESOURCE_UPDATE`` to notify the driver of a sensor mode change (e.g., seamless switch).
-+- Use ``V4L2_CID_MTK_CAM_SYNC_ID`` to synchronize frames across multiple pipelines.
-+- Use ``V4L2_CID_MTK_CAM_FEATURE`` to enable/disable advanced features (bitmask).
-+- Use ``V4L2_CID_MTK_CAM_PDE_INFO`` to set/get phase detection information for PDAF/AF.
-+- Use ``V4L2_CID_MTK_CAM_PIXEL_RATE`` to inform the driver of the sensor's pixel rate for bandwidth/resource calculation.
-+
-+Example: Setting a Control
-+--------------------------
-+
-+.. code-block:: c
-+
-+   int fd = open("/dev/video0", O_RDWR);
-+   struct v4l2_control ctrl = {
-+       .id = V4L2_CID_MTK_CAM_BIN_LIMIT,
-+       .value = 2,
-+   };
-+   if (ioctl(fd, VIDIOC_S_CTRL, &ctrl) < 0) {
-+       perror("Failed to set BIN_LIMIT");
-+   }
-+
-+Notes
-+-----
-+
-+- All controls should be set before starting the video stream unless otherwise specified.
-+- Refer to the driver header file for detailed struct definitions and bitmask values.
-+- The driver will reject invalid values or unsupported configurations with -EINVAL.
-+
-+References
-+----------
-+
-+- V4L2 documentation: https://www.kernel.org/doc/html/latest/userspace-api/media/v4l/v4l2.html
-\ No newline at end of file
--- 
-2.18.0
+hi, tao
+I think it might be worth considering adding an fgf_t parameter to the
+write_begin_get_folio() helper, since in some filesystems the fgp_flags
+passed to __filemap_get_folio() in write_begin are not limited to just
+FGP_WRITEBEGIN. Something like:
+struct folio *write_begin_get_folio(const struct kiocb *iocb,
+				    struct address_space *mapping,
+				    pgoff_t index, size_t len,
+                                     fgf_t fgp_flags)
+
+> +struct folio *write_begin_get_folio(const struct kiocb *iocb,
+> +				    struct address_space *mapping,
+> +				    pgoff_t index, size_t len)
+> +{
+> +	fgf_t fgp_flags = FGP_WRITEBEGIN;
+> +
+> +	fgp_flags |= fgf_set_order(len);
+> +
+> +	if (iocb && iocb->ki_flags & IOCB_DONTCACHE)
+> +		fgp_flags |= FGP_DONTCACHE;
+> +
+> +	return __filemap_get_folio(mapping, index, fgp_flags,
+> +				   mapping_gfp_mask(mapping));
+> +}
+> +EXPORT_SYMBOL(write_begin_get_folio);
+> +
+>   static inline struct folio *find_get_entry(struct xa_state *xas, pgoff_t max,
+>   		xa_mark_t mark)
+>   {
 
