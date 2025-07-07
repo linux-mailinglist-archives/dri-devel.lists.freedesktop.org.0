@@ -2,75 +2,79 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3E035AFB715
-	for <lists+dri-devel@lfdr.de>; Mon,  7 Jul 2025 17:18:32 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id A6AB8AFB716
+	for <lists+dri-devel@lfdr.de>; Mon,  7 Jul 2025 17:18:35 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D759510E321;
-	Mon,  7 Jul 2025 15:18:28 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E4F8710E4CC;
+	Mon,  7 Jul 2025 15:18:30 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; secure) header.d=ffwll.ch header.i=@ffwll.ch header.b="deVvz7X8";
+	dkim=pass (1024-bit key; secure) header.d=ffwll.ch header.i=@ffwll.ch header.b="QjnM7Rvm";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-f47.google.com (mail-wm1-f47.google.com
- [209.85.128.47])
- by gabe.freedesktop.org (Postfix) with ESMTPS id DA54910E4CA
- for <dri-devel@lists.freedesktop.org>; Mon,  7 Jul 2025 15:18:27 +0000 (UTC)
-Received: by mail-wm1-f47.google.com with SMTP id
- 5b1f17b1804b1-4531e146a24so22750305e9.0
- for <dri-devel@lists.freedesktop.org>; Mon, 07 Jul 2025 08:18:27 -0700 (PDT)
+Received: from mail-wr1-f43.google.com (mail-wr1-f43.google.com
+ [209.85.221.43])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9B83F10E321
+ for <dri-devel@lists.freedesktop.org>; Mon,  7 Jul 2025 15:18:28 +0000 (UTC)
+Received: by mail-wr1-f43.google.com with SMTP id
+ ffacd0b85a97d-3a6d1369d4eso1911379f8f.2
+ for <dri-devel@lists.freedesktop.org>; Mon, 07 Jul 2025 08:18:28 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=ffwll.ch; s=google; t=1751901506; x=1752506306; darn=lists.freedesktop.org; 
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:from:to:cc:subject:date:message-id:reply-to;
- bh=dDyUvZNv5CDa5hocwZakQH5cNmENDMsfcPjRy3ud2is=;
- b=deVvz7X8c/jd3KNIoYDNnozByBrA8tsJqdcSO5MNQwHrXCiZ5HgJJIwQ4XPWd2WqVw
- 9rDuNcvf9nnKKGrwO/MPQ0OmOyRLavEQlnLV/KFBXPa1Us4KhXY1ZWopZJWVOrqAyxcJ
- p03uv3jr0zcGIl8kYmXDr3MuX9KH/eqrJzO8I=
+ d=ffwll.ch; s=google; t=1751901507; x=1752506307; darn=lists.freedesktop.org; 
+ h=content-transfer-encoding:mime-version:references:in-reply-to
+ :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=a6CC1cvUAsk8N7isqx6HALT3NrV0r67uwhMiDy5SbZQ=;
+ b=QjnM7Rvm6Oo2E8WH/4iHJie15ZWdIJG9zXzshwq98dScxsw/hD1FOtc7z5BtzoIG26
+ T27WP8xAnT83DiXASpBqGrWzqBC3grc4DfHHlcDi6MuOZFW2edAKjKbmmhU9jIeEy51V
+ EW2qOMrv7ijiWAyP3EXWQqVEYWULYD6r1lmfQ=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1751901506; x=1752506306;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=dDyUvZNv5CDa5hocwZakQH5cNmENDMsfcPjRy3ud2is=;
- b=AFp2dBhnRBTpMWrkwM5pWI8pJ00rJI3o+9YR2NLwicctsE6D/IsY2Uz731nMhE4frp
- 0HBE1YaR7NK0/69K45yO3CIyIRY0gd7desV4nanY/MKN7SY8kf8s15ocpI8trIumTWrG
- uKbBQ0FL76y+k7Uu3428pLZWm2/Gc9ykuvfUP9vFo8trMzy/jKf7cWcYB8t9pCPU1DaZ
- DveMAcg2mDFnEwPa0XCnGcsgYME99fLGf6I1RZe+RJiv7SsS5CBTi5AKB09SxWhnAqsd
- 4UuP9Wd/8+hXh3CflYELoBzO+0LXQzi6iKROMw+Y66r/7NVyjiT85NqYmPfKh1t+uQhW
- nWfg==
-X-Gm-Message-State: AOJu0Yy+x/MjwVLSPoDAaCRz6MjW1EjdNPpXlPZQQchZkpONu7UCe0AR
- te8zhJZaMKQJRmTh/WXhI82BJ0t8oxiTGySpY6YAUpcVb8d9l465YyDQBK+nXDx+61XgkNp0j0s
- VmAq98i4=
-X-Gm-Gg: ASbGncuVjo0CLUlWkBgsBGkf4F56MDgBjg8Oi/dkzfPEqY/QDI/gZvIBduRb++fKVrS
- 8RTOnHPJLujAGgzzTB1Y2xcuYuMqW+NQzFCnYGAxfiTmNrkAqj9NEliTItIBVA4Rj7B1Yat0H/g
- JC1zS7xcttWjXzBEPBYVcwlhk6Wa9D7DMRWORpp/EhHDlaEVZ4y+f6O+BaeKFBQ5KhLxCoy+DTO
- sIs824tAXYho+KdUEpNhiHoI0k4a1WpYCPTnNt/i3rnbBL/jntYjFgGz1kUVpbpc98P7ecdMe9n
- ZAvGwJKuSaYsXgwmMyl2KAVrr0aXy0/PN7mA8WA1ClWp2BtW30YKHfc5aTqLAmRwYaWOhhlSKg=
- =
-X-Google-Smtp-Source: AGHT+IHkcWwX9LDmtC86uNJtoHdD49oLmsozTA8OJxJjZUo33P5D+GyfKtm4tZh+OpBnEJdv54iyJA==
-X-Received: by 2002:a05:6000:41e4:b0:3a4:d53d:be20 with SMTP id
- ffacd0b85a97d-3b49aa60651mr5656442f8f.18.1751901506040; 
- Mon, 07 Jul 2025 08:18:26 -0700 (PDT)
+ d=1e100.net; s=20230601; t=1751901507; x=1752506307;
+ h=content-transfer-encoding:mime-version:references:in-reply-to
+ :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=a6CC1cvUAsk8N7isqx6HALT3NrV0r67uwhMiDy5SbZQ=;
+ b=aMfSL0oYeqnJj63GCP9v/clnI6IBmWD7aUhK9DKVfUHLaGlpt98cAyCHW1rXB8YVqQ
+ qs3Mq6P5BSRbUg695jt3oa2BbI1FcYER0Yl51OILE9JppsaoEmljmVWR33ZXrYPCmu2m
+ n3OD4SGTEskVV3/lR9G9Jg9dDnwBxBE5vj3zNG9DJzXNRfhXXAE91xgVnn+8F8QxEOfK
+ KcmGoQH7Y4eBVmLvD5kKCOgnzccke0FWU9kEZ+p+TBg8x2prFnJwkEP38ayHtI6EWX9a
+ 5u0J7+thAlp0OTNgdGh25sfV8987xIZ2/NUj1IBD4j+53iyWJBIe5OGEsmnOL7g1RQtJ
+ D7MA==
+X-Gm-Message-State: AOJu0Yy4hnjm5wA6C+udPxAsskXfHL//VRl6JEsXfJihSJ2ONtls9xPs
+ kvVsxtVmxRZVQ98/fxWNRUK98FL7r4XdrlLZFTZOCuasiBWGsMo2PFQpqSxmcgz3QiwQmyNh1op
+ 5BX/41CU=
+X-Gm-Gg: ASbGncvuA4Yc9U8QPK8M5aVsLFf+0Dt64tiYhHODPSowoAzYtcAwmlC9IGw1JcVIYRP
+ +vh6McSNPTpWetVjH5PdgIGRCAyWXraAWEypqpHdCXs1I9HPmNoVaZx1JkFSFLQ8bJmVwR503iQ
+ tuuqFpfa73iWy8nV+j4/kSV19CwLwcF1uO229gTmf3qkjbtRY/WLGtY7nPsb/7VJfwPP8b3oybt
+ r69BjiMi8ZV+AUAzIMzkWClwDKADsJgJl21n50ua0hCviyc/Ww37D0akekKCX266JL3fOQtLI6m
+ 8Z9y/Y3tkkkhU7G+uPz2uwb7S4MQjvNGLCDD0Os5DveQKxM+dYhGE0HgIdBrRnm4osY27vjvlOw
+ FC+PpsN6L
+X-Google-Smtp-Source: AGHT+IE1hrQ7ioK++cpM3hGypspA/hPhNJKSpa4wQM0tRAz+AQxBfs6swIe4874tnKWPX4+F9Kw+Tw==
+X-Received: by 2002:a5d:5f81:0:b0:3a8:3105:1d49 with SMTP id
+ ffacd0b85a97d-3b49aa80b6bmr7411887f8f.45.1751901507016; 
+ Mon, 07 Jul 2025 08:18:27 -0700 (PDT)
 Received: from phenom.ffwll.local ([2a02:168:57f4:0:5485:d4b2:c087:b497])
  by smtp.gmail.com with ESMTPSA id
- ffacd0b85a97d-3b46d4c8619sm10369057f8f.0.2025.07.07.08.18.24
+ ffacd0b85a97d-3b46d4c8619sm10369057f8f.0.2025.07.07.08.18.26
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 07 Jul 2025 08:18:25 -0700 (PDT)
+ Mon, 07 Jul 2025 08:18:26 -0700 (PDT)
 From: Simona Vetter <simona.vetter@ffwll.ch>
 To: DRI Development <dri-devel@lists.freedesktop.org>
 Cc: Intel Xe Development <intel-xe@lists.freedesktop.org>,
  Simona Vetter <simona.vetter@ffwll.ch>,
- Jacek Lawrynowicz <jacek.lawrynowicz@linux.intel.com>,
- Thomas Zimmermann <tzimmermann@suse.de>, stable@vger.kernel.org,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, David Airlie <airlied@gmail.com>,
- Simona Vetter <simona@ffwll.ch>, Simona Vetter <simona.vetter@intel.com>
-Subject: [PATCH 1/2] drm/gem: Fix race in drm_gem_handle_create_tail()
-Date: Mon,  7 Jul 2025 17:18:13 +0200
-Message-ID: <20250707151814.603897-1-simona.vetter@ffwll.ch>
+ =?UTF-8?q?Adri=C3=A1n=20Larumbe?= <adrian.larumbe@collabora.com>,
+ Boris Brezillon <boris.brezillon@collabora.com>,
+ Steven Price <steven.price@arm.com>, Liviu Dudau <liviu.dudau@arm.com>,
+ Simona Vetter <simona.vetter@intel.com>
+Subject: [PATCH 2/2] drm/panthor: Fix UAF in panthor_gem_create_with_handle()
+ debugfs code
+Date: Mon,  7 Jul 2025 17:18:14 +0200
+Message-ID: <20250707151814.603897-2-simona.vetter@ffwll.ch>
 X-Mailer: git-send-email 2.49.0
+In-Reply-To: <20250707151814.603897-1-simona.vetter@ffwll.ch>
+References: <20250707151814.603897-1-simona.vetter@ffwll.ch>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -87,139 +91,139 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Object creation is a careful dance where we must guarantee that the
-object is fully constructed before it is visible to other threads, and
-GEM buffer objects are no difference.
+The object is potentially already gone after the drm_gem_object_put().
+In general the object should be fully constructed before calling
+drm_gem_handle_create(), except the debugfs tracking uses a separate
+lock and list and separate flag to denotate whether the object is
+actually initilized.
 
-Final publishing happens by calling drm_gem_handle_create(). After
-that the only allowed thing to do is call drm_gem_object_put() because
-a concurrent call to the GEM_CLOSE ioctl with a correctly guessed id
-(which is trivial since we have a linear allocator) can already tear
-down the object again.
+Since I'm touching this all anyway simplify this by only adding the
+object to the debugfs when it's ready for that, which allows us to
+delete that separate flag. panthor_gem_debugfs_bo_rm() already checks
+whether we've actually been added to the list or this is some error
+path cleanup.
 
-Luckily most drivers get this right, the very few exceptions I've
-pinged the relevant maintainers for. Unfortunately we also need
-drm_gem_handle_create() when creating additional handles for an
-already existing object (e.g. GETFB ioctl or the various bo import
-ioctl), and hence we cannot have a drm_gem_handle_create_and_put() as
-the only exported function to stop these issues from happening.
+v2: Fix build issues for !CONFIG_DEBUGFS (Adrián)
 
-Now unfortunately the implementation of drm_gem_handle_create() isn't
-living up to standards: It does correctly finishe object
-initialization at the global level, and hence is safe against a
-concurrent tear down. But it also sets up the file-private aspects of
-the handle, and that part goes wrong: We fully register the object in
-the drm_file.object_idr before calling drm_vma_node_allow() or
-obj->funcs->open, which opens up races against concurrent removal of
-that handle in drm_gem_handle_delete().
-
-Fix this with the usual two-stage approach of first reserving the
-handle id, and then only registering the object after we've completed
-the file-private setup.
-
-Jacek reported this with a testcase of concurrently calling GEM_CLOSE
-on a freshly-created object (which also destroys the object), but it
-should be possible to hit this with just additional handles created
-through import or GETFB without completed destroying the underlying
-object with the concurrent GEM_CLOSE ioctl calls.
-
-Note that the close-side of this race was fixed in f6cd7daecff5 ("drm:
-Release driver references to handle before making it available
-again"), which means a cool 9 years have passed until someone noticed
-that we need to make this symmetry or there's still gaps left :-/
-Without the 2-stage close approach we'd still have a race, therefore
-that's an integral part of this bugfix.
-
-More importantly, this means we can have NULL pointers behind
-allocated id in our drm_file.object_idr. We need to check for that
-now:
-
-- drm_gem_handle_delete() checks for ERR_OR_NULL already
-
-- drm_gem.c:object_lookup() also chekcs for NULL
-
-- drm_gem_release() should never be called if there's another thread
-  still existing that could call into an IOCTL that creates a new
-  handle, so cannot race. For paranoia I added a NULL check to
-  drm_gem_object_release_handle() though.
-
-- most drivers (etnaviv, i915, msm) are find because they use
-  idr_find(), which maps both ENOENT and NULL to NULL.
-
-- drivers using idr_for_each_entry() should also be fine, because
-  idr_get_next does filter out NULL entries and continues the
-  iteration.
-
-- The same holds for drm_show_memory_stats().
-
-v2: Use drm_WARN_ON (Thomas)
-
-Reported-by: Jacek Lawrynowicz <jacek.lawrynowicz@linux.intel.com>
-Tested-by: Jacek Lawrynowicz <jacek.lawrynowicz@linux.intel.com>
-Reviewed-by: Thomas Zimmermann <tzimmermann@suse.de>
-Cc: stable@vger.kernel.org
-Cc: Jacek Lawrynowicz <jacek.lawrynowicz@linux.intel.com>
-Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
-Cc: Maxime Ripard <mripard@kernel.org>
-Cc: Thomas Zimmermann <tzimmermann@suse.de>
-Cc: David Airlie <airlied@gmail.com>
-Cc: Simona Vetter <simona@ffwll.ch>
+Fixes: a3707f53eb3f ("drm/panthor: show device-wide list of DRM GEM objects over DebugFS")
+Cc: Adrián Larumbe <adrian.larumbe@collabora.com>
+Cc: Boris Brezillon <boris.brezillon@collabora.com>
+Cc: Steven Price <steven.price@arm.com>
+Cc: Liviu Dudau <liviu.dudau@arm.com>
 Signed-off-by: Simona Vetter <simona.vetter@intel.com>
 Signed-off-by: Simona Vetter <simona.vetter@ffwll.ch>
 ---
- drivers/gpu/drm/drm_gem.c | 10 +++++++++-
- include/drm/drm_file.h    |  3 +++
- 2 files changed, 12 insertions(+), 1 deletion(-)
+ drivers/gpu/drm/panthor/panthor_gem.c | 34 ++++++++++++++-------------
+ drivers/gpu/drm/panthor/panthor_gem.h |  3 ---
+ 2 files changed, 18 insertions(+), 19 deletions(-)
 
-diff --git a/drivers/gpu/drm/drm_gem.c b/drivers/gpu/drm/drm_gem.c
-index bc505d938b3e..1aa9192c4cc6 100644
---- a/drivers/gpu/drm/drm_gem.c
-+++ b/drivers/gpu/drm/drm_gem.c
-@@ -316,6 +316,9 @@ drm_gem_object_release_handle(int id, void *ptr, void *data)
- 	struct drm_file *file_priv = data;
- 	struct drm_gem_object *obj = ptr;
+diff --git a/drivers/gpu/drm/panthor/panthor_gem.c b/drivers/gpu/drm/panthor/panthor_gem.c
+index 7c00fd77758b..8232f91f3bf7 100644
+--- a/drivers/gpu/drm/panthor/panthor_gem.c
++++ b/drivers/gpu/drm/panthor/panthor_gem.c
+@@ -16,10 +16,14 @@
+ #include "panthor_mmu.h"
  
-+	if (drm_WARN_ON(obj->dev, !data))
-+		return 0;
-+
- 	if (obj->funcs->close)
- 		obj->funcs->close(obj, file_priv);
+ #ifdef CONFIG_DEBUG_FS
+-static void panthor_gem_debugfs_bo_add(struct panthor_device *ptdev,
+-				       struct panthor_gem_object *bo)
++static void panthor_gem_debugfs_bo_init(struct panthor_gem_object *bo)
+ {
+ 	INIT_LIST_HEAD(&bo->debugfs.node);
++}
++static void panthor_gem_debugfs_bo_add(struct panthor_gem_object *bo)
++{
++	struct panthor_device *ptdev = container_of(bo->base.base.dev,
++						    struct panthor_device, base);
  
-@@ -436,7 +439,7 @@ drm_gem_handle_create_tail(struct drm_file *file_priv,
- 	idr_preload(GFP_KERNEL);
- 	spin_lock(&file_priv->table_lock);
+ 	bo->debugfs.creator.tgid = current->group_leader->pid;
+ 	get_task_comm(bo->debugfs.creator.process_name, current->group_leader);
+@@ -44,14 +48,13 @@ static void panthor_gem_debugfs_bo_rm(struct panthor_gem_object *bo)
  
--	ret = idr_alloc(&file_priv->object_idr, obj, 1, 0, GFP_NOWAIT);
-+	ret = idr_alloc(&file_priv->object_idr, NULL, 1, 0, GFP_NOWAIT);
+ static void panthor_gem_debugfs_set_usage_flags(struct panthor_gem_object *bo, u32 usage_flags)
+ {
+-	bo->debugfs.flags = usage_flags | PANTHOR_DEBUGFS_GEM_USAGE_FLAG_INITIALIZED;
++	bo->debugfs.flags = usage_flags;
++	panthor_gem_debugfs_bo_add(bo);
+ }
+ #else
+-static void panthor_gem_debugfs_bo_add(struct panthor_device *ptdev,
+-				       struct panthor_gem_object *bo)
+-{}
+ static void panthor_gem_debugfs_bo_rm(struct panthor_gem_object *bo) {}
+ static void panthor_gem_debugfs_set_usage_flags(struct panthor_gem_object *bo, u32 usage_flags) {}
++static void panthor_gem_debugfs_bo_init(struct panthor_gem_object *bo) {}
+ #endif
  
- 	spin_unlock(&file_priv->table_lock);
- 	idr_preload_end();
-@@ -457,6 +460,11 @@ drm_gem_handle_create_tail(struct drm_file *file_priv,
- 			goto err_revoke;
+ static void panthor_gem_free_object(struct drm_gem_object *obj)
+@@ -246,7 +249,7 @@ struct drm_gem_object *panthor_gem_create_object(struct drm_device *ddev, size_t
+ 	drm_gem_gpuva_set_lock(&obj->base.base, &obj->gpuva_list_lock);
+ 	mutex_init(&obj->label.lock);
+ 
+-	panthor_gem_debugfs_bo_add(ptdev, obj);
++	panthor_gem_debugfs_bo_init(obj);
+ 
+ 	return &obj->base.base;
+ }
+@@ -285,6 +288,12 @@ panthor_gem_create_with_handle(struct drm_file *file,
+ 		bo->base.base.resv = bo->exclusive_vm_root_gem->resv;
  	}
  
-+	/* mirrors drm_gem_handle_delete to avoid races */
-+	spin_lock(&file_priv->table_lock);
-+	obj = idr_replace(&file_priv->object_idr, obj, handle);
-+	WARN_ON(obj != NULL);
-+	spin_unlock(&file_priv->table_lock);
- 	*handlep = handle;
- 	return 0;
++	/*
++	 * No explicit flags are needed in the call below, since the
++	 * function internally sets the INITIALIZED bit for us.
++	 */
++	panthor_gem_debugfs_set_usage_flags(bo, 0);
++
+ 	/*
+ 	 * Allocate an id of idr table where the obj is registered
+ 	 * and handle has the id what user can see.
+@@ -296,12 +305,6 @@ panthor_gem_create_with_handle(struct drm_file *file,
+ 	/* drop reference from allocate - handle holds it now. */
+ 	drm_gem_object_put(&shmem->base);
  
-diff --git a/include/drm/drm_file.h b/include/drm/drm_file.h
-index eab7546aad79..115763799625 100644
---- a/include/drm/drm_file.h
-+++ b/include/drm/drm_file.h
-@@ -300,6 +300,9 @@ struct drm_file {
- 	 *
- 	 * Mapping of mm object handles to object pointers. Used by the GEM
- 	 * subsystem. Protected by @table_lock.
-+	 *
-+	 * Note that allocated entries might be NULL as a transient state when
-+	 * creating or deleting a handle.
- 	 */
- 	struct idr object_idr;
+-	/*
+-	 * No explicit flags are needed in the call below, since the
+-	 * function internally sets the INITIALIZED bit for us.
+-	 */
+-	panthor_gem_debugfs_set_usage_flags(bo, 0);
+-
+ 	return ret;
+ }
  
+@@ -387,7 +390,7 @@ static void panthor_gem_debugfs_bo_print(struct panthor_gem_object *bo,
+ 	unsigned int refcount = kref_read(&bo->base.base.refcount);
+ 	char creator_info[32] = {};
+ 	size_t resident_size;
+-	u32 gem_usage_flags = bo->debugfs.flags & (u32)~PANTHOR_DEBUGFS_GEM_USAGE_FLAG_INITIALIZED;
++	u32 gem_usage_flags = bo->debugfs.flags;
+ 	u32 gem_state_flags = 0;
+ 
+ 	/* Skip BOs being destroyed. */
+@@ -436,8 +439,7 @@ void panthor_gem_debugfs_print_bos(struct panthor_device *ptdev,
+ 
+ 	scoped_guard(mutex, &ptdev->gems.lock) {
+ 		list_for_each_entry(bo, &ptdev->gems.node, debugfs.node) {
+-			if (bo->debugfs.flags & PANTHOR_DEBUGFS_GEM_USAGE_FLAG_INITIALIZED)
+-				panthor_gem_debugfs_bo_print(bo, m, &totals);
++			panthor_gem_debugfs_bo_print(bo, m, &totals);
+ 		}
+ 	}
+ 
+diff --git a/drivers/gpu/drm/panthor/panthor_gem.h b/drivers/gpu/drm/panthor/panthor_gem.h
+index 4dd732dcd59f..8fc7215e9b90 100644
+--- a/drivers/gpu/drm/panthor/panthor_gem.h
++++ b/drivers/gpu/drm/panthor/panthor_gem.h
+@@ -35,9 +35,6 @@ enum panthor_debugfs_gem_usage_flags {
+ 
+ 	/** @PANTHOR_DEBUGFS_GEM_USAGE_FLAG_FW_MAPPED: BO is mapped on the FW VM. */
+ 	PANTHOR_DEBUGFS_GEM_USAGE_FLAG_FW_MAPPED = BIT(PANTHOR_DEBUGFS_GEM_USAGE_FW_MAPPED_BIT),
+-
+-	/** @PANTHOR_DEBUGFS_GEM_USAGE_FLAG_INITIALIZED: BO is ready for DebugFS display. */
+-	PANTHOR_DEBUGFS_GEM_USAGE_FLAG_INITIALIZED = BIT(31),
+ };
+ 
+ /**
 -- 
 2.49.0
 
