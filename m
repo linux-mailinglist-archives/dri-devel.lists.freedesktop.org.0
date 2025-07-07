@@ -2,80 +2,52 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7436CAFBCAD
-	for <lists+dri-devel@lfdr.de>; Mon,  7 Jul 2025 22:39:51 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id F215DAFBD3C
+	for <lists+dri-devel@lfdr.de>; Mon,  7 Jul 2025 23:11:06 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 53A3F10E55B;
-	Mon,  7 Jul 2025 20:39:49 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 75BAB10E562;
+	Mon,  7 Jul 2025 21:11:04 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=chromium.org header.i=@chromium.org header.b="Go4ebuOH";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="L3VOAGZW";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pg1-f173.google.com (mail-pg1-f173.google.com
- [209.85.215.173])
- by gabe.freedesktop.org (Postfix) with ESMTPS id BECD310E557
- for <dri-devel@lists.freedesktop.org>; Mon,  7 Jul 2025 20:39:47 +0000 (UTC)
-Received: by mail-pg1-f173.google.com with SMTP id
- 41be03b00d2f7-7fd581c2bf4so3082466a12.3
- for <dri-devel@lists.freedesktop.org>; Mon, 07 Jul 2025 13:39:47 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=chromium.org; s=google; t=1751920787; x=1752525587;
- darn=lists.freedesktop.org; 
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:from:to:cc:subject:date
- :message-id:reply-to;
- bh=f7Pwyu+TcrHbTH88xvec2KnRARhjHeFwLVDM62N+ORE=;
- b=Go4ebuOHOl5FIuY2TN6e44MrQYamDFnhian+sBQrlHpCfu2Sd/6cGrwQXp2TNhCdJv
- WE03DdpLp6WxUsv+2FlUf1Rh2kmkoiUvsTT4V+9dJ+0kkZu8poFuqj5XwbdBBEmO+l/v
- 43D7s1blAKWRQfwGzlHp9brjkgJjZtkOvA+PY=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1751920787; x=1752525587;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=f7Pwyu+TcrHbTH88xvec2KnRARhjHeFwLVDM62N+ORE=;
- b=Aekjyyp0s9dxJ+WZBOf6sIIbi3cvFbW3tEejvCXc0lObvCZ1t/k1W4PNFQCwynyQ+8
- LfTODqZAbaWGZ39PnLekLrHISEGczFIO0FMT5OZMMlQHH6QCcR/rqSCTsFjXnfmXdE0q
- AVsMJhKow1sFb8FvSNL99i+YE64jpLA9a+Ds5JpXkmlFEAgYP99ySoI7qfK2zMOhXuH/
- NaBBZEchc+4RhIUwT0oDbmN2RGGcdMT4NDjRRjIx/c/UNCvPxhAv2a8qQ/OfFkiDdpIp
- XbLvm2ephMWqXRhJQ+0P6Zc8uuow2ikzg/F8Rda6ygDgnJxvIEftq9iLWC+hjAMcjTeO
- hUsA==
-X-Forwarded-Encrypted: i=1;
- AJvYcCW4Gf5WlqYq/ApXtFM2pRw73z/TwudDxgsqMnVyuPi/FPakrbiAH7cf+VWIkNKCf6gqwrOfLw5Irbo=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0Yxq8I1ZAQyMVjYK7NtEhCGoUNIVyzYixlm62Oo1N05WkUKxa22e
- rjM+F0lpGr5If6403DlWp/+S41cuKNfMxrjuNtlKDtnjz1p0gKcvn8JpREbOTZIU8g==
-X-Gm-Gg: ASbGncuJTXIT+dW0O1VX/UaZmQbmjzzH2lFCwl/cUcyGQshn+rHAoYo4SegvQF6Dc5/
- aklEhXzyhnpAnJnpVfiXndb6q6BhtUiUqyu2uBL1O1HTlsXrcVQe80mYHDO1ai8ltZpkOCTrA/J
- IQ5CtfZGyF9angUqaLMT8yHV216SVcgSFfP7KXH+M4xXzHVDSpuEbg7OkspPemof2YyBllAsb8j
- +6J/HQLL6KgAnQ/7gDThpUdAkYNYfy8Y4fAF2xSuIXWQ3JQV8b4Uem1ExApv0HRxk/zdkflwrZM
- 5JQrepwhPcLNSM29bzWI9C58ceRJ5AeXjIaC3njpdYqW7tolEWQ7zx7cu2DuHEQeYVQDhZRXYGv
- Ff4gyVD7S0mKkrG5gNAXU2jgUqVQNTpHS45dpEgAJ6pZxihJ2JwguGg==
-X-Google-Smtp-Source: AGHT+IEWxy3ItjqWEV6kdkw2QKIjeohqwsGnkaBBwmSiEOrsVLsXeApoq/l5kOVcDJoUbrBNB3L2Gg==
-X-Received: by 2002:a17:90b:3fcd:b0:313:db0b:75d7 with SMTP id
- 98e67ed59e1d1-31aadd9fd3amr19071529a91.27.1751920787262; 
- Mon, 07 Jul 2025 13:39:47 -0700 (PDT)
-Received: from justonli3.c.googlers.com.com
- (206.138.168.34.bc.googleusercontent.com. [34.168.138.206])
- by smtp.gmail.com with ESMTPSA id
- 98e67ed59e1d1-31c21eddf04sm171912a91.45.2025.07.07.13.39.46
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 07 Jul 2025 13:39:46 -0700 (PDT)
-From: Juston Li <justonli@chromium.org>
-To: intel-xe@lists.freedesktop.org,
-	dri-devel@lists.freedesktop.org
-Cc: Tvrtko Ursulin <tursulin@ursulin.net>,
- Tvrtko Ursulin <tvrtko.ursulin@igalia.com>,
- Yiwei Zhang <zzyiwei@google.com>, Rodrigo Vivi <rodrigo.vivi@intel.com>,
- Lucas De Marchi <lucas.demarchi@intel.com>,
- Juston Li <justonli@chromium.org>
-Subject: [PATCH v5 2/2] drm/xe/bo: add GPU memory trace points
-Date: Mon,  7 Jul 2025 13:38:23 -0700
-Message-ID: <20250707203849.545312-2-justonli@chromium.org>
-X-Mailer: git-send-email 2.50.0.727.gbf7dc18ff4-goog
-In-Reply-To: <20250707203849.545312-1-justonli@chromium.org>
-References: <20250707203849.545312-1-justonli@chromium.org>
+Received: from sea.source.kernel.org (sea.source.kernel.org [172.234.252.31])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7696810E22E;
+ Mon,  7 Jul 2025 21:11:03 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+ by sea.source.kernel.org (Postfix) with ESMTP id 36A4B451F3;
+ Mon,  7 Jul 2025 21:11:03 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 73623C4CEE3;
+ Mon,  7 Jul 2025 21:11:01 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1751922663;
+ bh=Lg4u13uAmgHRLld5Hf/tZezJZ36zcVVTz03CItZdysM=;
+ h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+ b=L3VOAGZWXaclKeafiL9QMUdQ2AYAB569oGKPTQEqr99ftPw0q163qji6YzcdL8RsR
+ tHAk9UHlyPlxkFebo3AC5m0Sks6PpDzPYuqhNym0rUBEbvBONAqs0BoVXKOugFKpIQ
+ PrKjnZBIEYmAk3NDTDgkZV7T7OZEXMgG1lyVNakPS4wn6hBXXDsJurcXmfMvelP4Rt
+ 5hGu3FwCGiODHl5hZXVLyJ2qTDef4lom4OsrLouD74pUvXGC4my3/c6wOBOfQnmczb
+ EuJXgo1vrFtZbGV7xoSKAl2zgTzXTRbRvIttlMyRmvwQQTMAcNETbsL0ZaHlu9PWH2
+ I5zDIhNjeqNfA==
+Message-ID: <c2b14619-c981-4caf-a295-2571506cc955@kernel.org>
+Date: Mon, 7 Jul 2025 23:10:59 +0200
 MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH resend] drm/i915/bios: Apply vlv_fixup_mipi_sequences() to
+ v2 mipi-sequences too
+To: =?UTF-8?B?VmlsbGUgU3lyasOkbMOk?= <ville.syrjala@linux.intel.com>
+Cc: Jani Nikula <jani.nikula@linux.intel.com>,
+ Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
+ Rodrigo Vivi <rodrigo.vivi@intel.com>, Tvrtko Ursulin
+ <tursulin@ursulin.net>, intel-gfx <intel-gfx@lists.freedesktop.org>,
+ dri-devel@lists.freedesktop.org, Hans de Goede <hdegoede@redhat.com>
+References: <20250703143824.7121-1-hansg@kernel.org>
+ <aGetkP3IZ0FYHzAz@intel.com>
+Content-Language: en-US, nl
+From: Hans de Goede <hansg@kernel.org>
+In-Reply-To: <aGetkP3IZ0FYHzAz@intel.com>
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -92,105 +64,109 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Add TRACE_GPU_MEM tracepoints for tracking global GPU memory usage.
+Hi Ville,
 
-These are required by VSR on Android 12+ for reporting GPU driver memory
-allocations.
+On 4-Jul-25 12:31 PM, Ville Syrjälä wrote:
+> On Thu, Jul 03, 2025 at 04:38:24PM +0200, Hans de Goede wrote:
+>> From: Hans de Goede <hdegoede@redhat.com>
+>>
+>> It turns out that the fixup from vlv_fixup_mipi_sequences() is necessary
+>> for some DSI panel's with version 2 mipi-sequences too.
+>>
+>> Specifically the Acer Iconia One 8 A1-840 (not to be confused with the
+>> A1-840FHD which is different) has the following sequences:
+>>
+>> BDB block 53 (1284 bytes) - MIPI sequence block:
+>> 	Sequence block version v2
+>> 	Panel 0 *
+>>
+>> Sequence 2 - MIPI_SEQ_INIT_OTP
+>> 	GPIO index 9, source 0, set 0 (0x00)
+>> 	Delay: 50000 us
+>> 	GPIO index 9, source 0, set 1 (0x01)
+>> 	Delay: 6000 us
+>> 	GPIO index 9, source 0, set 0 (0x00)
+>> 	Delay: 6000 us
+>> 	GPIO index 9, source 0, set 1 (0x01)
+>> 	Delay: 25000 us
+>> 	Send DCS: Port A, VC 0, LP, Type 39, Length 5, Data ff aa 55 a5 80
+>> 	Send DCS: Port A, VC 0, LP, Type 39, Length 3, Data 6f 11 00
+>> 	...
+>> 	Send DCS: Port A, VC 0, LP, Type 05, Length 1, Data 29
+>> 	Delay: 120000 us
+>>
+>> Sequence 4 - MIPI_SEQ_DISPLAY_OFF
+>> 	Send DCS: Port A, VC 0, LP, Type 05, Length 1, Data 28
+>> 	Delay: 105000 us
+>> 	Send DCS: Port A, VC 0, LP, Type 05, Length 2, Data 10 00
+>> 	Delay: 10000 us
+>>
+>> Sequence 5 - MIPI_SEQ_ASSERT_RESET
+>> 	Delay: 10000 us
+>> 	GPIO index 9, source 0, set 0 (0x00)
+>>
+>> Notice how there is no MIPI_SEQ_DEASSERT_RESET, instead the deassert
+>> is done at the beginning of MIPI_SEQ_INIT_OTP, which is exactly what
+>> the fixup from vlv_fixup_mipi_sequences() fixes up.
+>>
+>> Extend it to also apply to v2 sequences, this fixes the panel not working
+>> on the Acer Iconia One 8 A1-840.
+> 
+> Do we have the full VBT for this machine already in some bug? If not,
+> please file a new issue with the VBT attached for posterity.
 
-v5:
- - Drop process_mem tracking
- - Set the gpu_id field to dev->primary->index (Lucas, Tvrtko)
- - Formatting cleanup under 80 columns
+I've filed: https://gitlab.freedesktop.org/drm/i915/kernel/-/issues/14605
+with the VBT attached and I'll add a Closes: tag pointing to that
+to the patch while applying it to drm-intel-fixes.
 
-v3:
- - Use now configurable CONFIG_TRACE_GPU_MEM instead of adding a
-   per-driver Kconfig (Lucas)
+Regards,
 
-v2:
- - Use u64 as preferred by checkpatch (Tvrtko)
- - Fix errors in comments/Kconfig description (Tvrtko)
- - drop redundant "CONFIG" in Kconfig
+Hans
 
-Signed-off-by: Juston Li <justonli@chromium.org>
-Reviewed-by: Tvrtko Ursulin <tvrtko.ursulin@igalia.com>
----
- drivers/gpu/drm/xe/xe_bo.c           | 22 ++++++++++++++++++++++
- drivers/gpu/drm/xe/xe_device_types.h |  8 ++++++++
- 2 files changed, 30 insertions(+)
 
-diff --git a/drivers/gpu/drm/xe/xe_bo.c b/drivers/gpu/drm/xe/xe_bo.c
-index 4e39188a021ab..950eef514c11c 100644
---- a/drivers/gpu/drm/xe/xe_bo.c
-+++ b/drivers/gpu/drm/xe/xe_bo.c
-@@ -19,6 +19,8 @@
- 
- #include <kunit/static_stub.h>
- 
-+#include <trace/events/gpu_mem.h>
-+
- #include "xe_device.h"
- #include "xe_dma_buf.h"
- #include "xe_drm_client.h"
-@@ -418,6 +420,24 @@ static void xe_ttm_tt_account_subtract(struct xe_device *xe, struct ttm_tt *tt)
- 		xe_shrinker_mod_pages(xe->mem.shrinker, -(long)tt->num_pages, 0);
- }
- 
-+#if IS_ENABLED(CONFIG_TRACE_GPU_MEM)
-+static void update_global_total_pages(struct ttm_device *ttm_dev,
-+				      long num_pages)
-+{
-+	struct xe_device *xe = ttm_to_xe_device(ttm_dev);
-+	u64 global_total_pages =
-+		atomic64_add_return(num_pages, &xe->global_total_pages);
-+
-+	trace_gpu_mem_total(xe->drm.primary->index, 0,
-+			    global_total_pages << PAGE_SHIFT);
-+}
-+#else
-+static inline void update_global_total_pages(struct ttm_device *ttm_dev,
-+					     long num_pages)
-+{
-+}
-+#endif
-+
- static struct ttm_tt *xe_ttm_tt_create(struct ttm_buffer_object *ttm_bo,
- 				       u32 page_flags)
- {
-@@ -525,6 +545,7 @@ static int xe_ttm_tt_populate(struct ttm_device *ttm_dev, struct ttm_tt *tt,
- 
- 	xe_tt->purgeable = false;
- 	xe_ttm_tt_account_add(ttm_to_xe_device(ttm_dev), tt);
-+	update_global_total_pages(ttm_dev, tt->num_pages);
- 
- 	return 0;
- }
-@@ -541,6 +562,7 @@ static void xe_ttm_tt_unpopulate(struct ttm_device *ttm_dev, struct ttm_tt *tt)
- 
- 	ttm_pool_free(&ttm_dev->pool, tt);
- 	xe_ttm_tt_account_subtract(xe, tt);
-+	update_global_total_pages(ttm_dev, -(long)tt->num_pages);
- }
- 
- static void xe_ttm_tt_destroy(struct ttm_device *ttm_dev, struct ttm_tt *tt)
-diff --git a/drivers/gpu/drm/xe/xe_device_types.h b/drivers/gpu/drm/xe/xe_device_types.h
-index e5d02a47a5287..6f3698a0bc176 100644
---- a/drivers/gpu/drm/xe/xe_device_types.h
-+++ b/drivers/gpu/drm/xe/xe_device_types.h
-@@ -641,6 +641,14 @@ struct xe_device {
- 		unsigned int fsb_freq, mem_freq, is_ddr3;
- 	};
- #endif
-+
-+#if IS_ENABLED(CONFIG_TRACE_GPU_MEM)
-+	/**
-+	 * @global_total_pages: global GPU page usage tracked for gpu_mem
-+	 * tracepoints
-+	 */
-+	atomic64_t global_total_pages;
-+#endif
- };
- 
- /**
--- 
-2.50.0.727.gbf7dc18ff4-goog
+
+> 
+>>
+>> Signed-off-by: Hans de Goede <hdegoede@redhat.com>
+>> ---
+>>  drivers/gpu/drm/i915/display/intel_bios.c | 8 ++++----
+>>  1 file changed, 4 insertions(+), 4 deletions(-)
+>>
+>> diff --git a/drivers/gpu/drm/i915/display/intel_bios.c b/drivers/gpu/drm/i915/display/intel_bios.c
+>> index ba7b8938b17c..166ee11831ab 100644
+>> --- a/drivers/gpu/drm/i915/display/intel_bios.c
+>> +++ b/drivers/gpu/drm/i915/display/intel_bios.c
+>> @@ -1938,7 +1938,7 @@ static int get_init_otp_deassert_fragment_len(struct intel_display *display,
+>>  	int index, len;
+>>  
+>>  	if (drm_WARN_ON(display->drm,
+>> -			!data || panel->vbt.dsi.seq_version != 1))
+>> +			!data || panel->vbt.dsi.seq_version >= 3))
+>>  		return 0;
+>>  
+>>  	/* index = 1 to skip sequence byte */
+>> @@ -1961,7 +1961,7 @@ static int get_init_otp_deassert_fragment_len(struct intel_display *display,
+>>  }
+>>  
+>>  /*
+>> - * Some v1 VBT MIPI sequences do the deassert in the init OTP sequence.
+>> + * Some v1/v2 VBT MIPI sequences do the deassert in the init OTP sequence.
+>>   * The deassert must be done before calling intel_dsi_device_ready, so for
+>>   * these devices we split the init OTP sequence into a deassert sequence and
+>>   * the actual init OTP part.
+>> @@ -1972,9 +1972,9 @@ static void vlv_fixup_mipi_sequences(struct intel_display *display,
+>>  	u8 *init_otp;
+>>  	int len;
+>>  
+>> -	/* Limit this to v1 vid-mode sequences */
+>> +	/* Limit this to v1/v2 vid-mode sequences */
+>>  	if (panel->vbt.dsi.config->is_cmd_mode ||
+>> -	    panel->vbt.dsi.seq_version != 1)
+>> +	    panel->vbt.dsi.seq_version >= 3)
+>>  		return;
+>>  
+>>  	/* Only do this if there are otp and assert seqs and no deassert seq */
+>> -- 
+>> 2.49.0
+> 
 
