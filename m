@@ -2,43 +2,43 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 256CDAFB665
-	for <lists+dri-devel@lfdr.de>; Mon,  7 Jul 2025 16:48:12 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0C315AFB668
+	for <lists+dri-devel@lfdr.de>; Mon,  7 Jul 2025 16:48:18 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 473F910E4C3;
-	Mon,  7 Jul 2025 14:48:00 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 20D8F10E4C5;
+	Mon,  7 Jul 2025 14:48:06 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=igalia.com header.i=@igalia.com header.b="d8J7Hlzc";
+	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=igalia.com header.i=@igalia.com header.b="fv6bZjgN";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from fanzine2.igalia.com (fanzine2.igalia.com [213.97.179.56])
- by gabe.freedesktop.org (Postfix) with ESMTPS id DCCBE10E4B6;
- Mon,  7 Jul 2025 14:47:58 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8317810E4C5;
+ Mon,  7 Jul 2025 14:48:05 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com; 
  s=20170329; h=Cc:To:In-Reply-To:References:Message-Id:
  Content-Transfer-Encoding:Content-Type:MIME-Version:Subject:Date:From:Sender:
  Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender
  :Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
  List-Subscribe:List-Post:List-Owner:List-Archive;
- bh=8gDAPHIx/SIOxpjtPi1fqlauPu92LN2klkb723oHq3A=; b=d8J7Hlzc47wZkAUNldthb7HgyB
- jfPIPXD2RDqLpv3REKatHh4ey89k6I0bO+C9iZPHRxsk1zYkgp33BvcFK8QbBRNXQyceACPuUG18U
- ox+3Ebw6UdxHh8OJDctzng/V61nIIkaY+DgnduFz0ELaLFNjo7Gz57pCBsJqFfosIb42iYYZF3Fvk
- pkkwxpPZQ8Ti1QNMeOk6neu0CiQ1dZWnk1t1JBPb4o8jH117ML0Xm4gnSGpp1ItSs2iZ6loLbkjWN
- qzIueUw85q275Ij1uD2U7JtoxWQu8eLECP1fJm8xapY2ybYdRgeLCWgdQTLlBGqYIwVLLioiBZ+eO
- DLOZqQ8g==;
+ bh=krH+VWHQr+aEkT3p91ADZAu3tVM2zwuCGfOiPJmDBfc=; b=fv6bZjgNpyiyIguKwYsDK1xbvs
+ rDDCCdjgiyYEUMBv7OczqF7DMUQctBtqOHEEZljhxUtLP2DuUCdeA8TZBFX4C4jbDZpyad9LXlsSw
+ y9x7O/wJYoQDA8UMzWKtJH05WMbBlKoi8iqlqttjZNS6wPOONEBKkPfUBmnmYk4RiQEnggFv+3tOP
+ u0Wkj4lP7ZTFEvlptWHEqd24yMcY4UIUD/scZRHc9/kEhi5rf15B++msGtl42VdSMNGfK5Xi/0upA
+ qUOFf3XVRAjYOQzMxxNoxUQN9P588kG1Mb93IH3FTUEA2rmDsx0fo5Wt9g/fyPV6d1zuB+cjHHjFP
+ s0USCCKg==;
 Received: from [187.36.210.68] (helo=janis.local)
  by fanzine2.igalia.com with esmtpsa 
  (Cipher TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_256_GCM:256) (Exim)
- id 1uYn8J-00DaQv-1X; Mon, 07 Jul 2025 16:47:51 +0200
+ id 1uYn8Q-00DaQv-6R; Mon, 07 Jul 2025 16:47:58 +0200
 From: =?utf-8?q?Ma=C3=ADra_Canal?= <mcanal@igalia.com>
-Date: Mon, 07 Jul 2025 11:46:36 -0300
-Subject: [PATCH v4 7/8] drm/xe: Use DRM_GPU_SCHED_STAT_NO_HANG to skip the
- reset
+Date: Mon, 07 Jul 2025 11:46:37 -0300
+Subject: [PATCH v4 8/8] drm/panfrost: Use DRM_GPU_SCHED_STAT_NO_HANG to
+ skip the reset
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
-Message-Id: <20250707-sched-skip-reset-v4-7-036c0f0f584f@igalia.com>
+Message-Id: <20250707-sched-skip-reset-v4-8-036c0f0f584f@igalia.com>
 References: <20250707-sched-skip-reset-v4-0-036c0f0f584f@igalia.com>
 In-Reply-To: <20250707-sched-skip-reset-v4-0-036c0f0f584f@igalia.com>
 To: Matthew Brost <matthew.brost@intel.com>, 
@@ -59,15 +59,15 @@ Cc: kernel-dev@igalia.com, dri-devel@lists.freedesktop.org,
  etnaviv@lists.freedesktop.org, intel-xe@lists.freedesktop.org, 
  =?utf-8?q?Ma=C3=ADra_Canal?= <mcanal@igalia.com>
 X-Mailer: b4 0.14.2
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1849; i=mcanal@igalia.com;
- h=from:subject:message-id; bh=c09hATWmZxSGm/3xEB/j8DuBGmO8MWerOvYReOgHCA4=;
- b=owEBbQGS/pANAwAIAT/zDop2iPqqAcsmYgBoa93ZmOIjru9jm9nQNhhREpvA/GkwZNn7tj2Bs
- PMexaZub6GJATMEAAEIAB0WIQT45F19ARZ3Bymmd9E/8w6Kdoj6qgUCaGvd2QAKCRA/8w6Kdoj6
- qk3eCACLMsrOWqtR9a/EZLCJKQgGBKZ32i3Z/Q5DiaMz+IApH3MjYLb5tXSeVJeTRk9yh7/6Bys
- boGb43fczNkSYCi03HJbEyOuaaSY1dY+xc5lHcLzIDOlWH9cU0toKBYANlDsQgkSQy59gVASGR4
- uJcYLQNk6Phi/2bz7JbBqLTwIQVzLlQZDRNp+20nLKh+WY1mienriCjHLm9O5uci7Nt2QXdsGWf
- aWmeDJEWSld1jJcPuQf1tKc7MFdg6kqVGsu1zP341Skh5HZo+NlgUY6PvxKkXAR8L9c95tlIoU3
- RJWHTLJdVTXf0KljuBivOAbdMXsuCdcWk1NjSD6rcceuaHT5
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1908; i=mcanal@igalia.com;
+ h=from:subject:message-id; bh=sxWOlZK5QB5jdRqSvq8dUQVhRlLER1UbbdKyJ4mpqvI=;
+ b=owEBbQGS/pANAwAIAT/zDop2iPqqAcsmYgBoa93ZuvtFWTLguFgjA42RixHw2vNMfrb/KhtIA
+ kP2j8HYxUKJATMEAAEIAB0WIQT45F19ARZ3Bymmd9E/8w6Kdoj6qgUCaGvd2QAKCRA/8w6Kdoj6
+ qmNSB/4lpv6Y1JjoXSDFWS37/Hlg+71YQFah/v/LuLR7UirScFBmurT60Bou1g92d/ZJdpzK2I3
+ 33hZyde02vyTGMCAW/T7UGatudE+N9/0iFnbqc1jVukMzqXpMyG1LTL71QtOSwnIjD1qfpGzqO5
+ qHMqenNDCHzeXdeG13FAN5ChYmp9/5m5ZSiqcRoBKg/Rn9uzI5HFkdkWyzalfjyDSQzYgfcoghg
+ 8v13IONVUlxp8B9Gl5tP9nM4jpqNjV+OqHdgNzBOVAvv/hUU/d14cCuPOfv11cQlkfhZLy6siwK
+ C3SozArgHjqLXbvim7hN2ok9XutAYBph6wBubyR0mOvtKqDh
 X-Developer-Key: i=mcanal@igalia.com; a=openpgp;
  fpr=F8E45D7D0116770729A677D13FF30E8A7688FAAA
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -85,51 +85,48 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Xe can skip the reset if TDR has fired before the free job worker and can
-also re-arm the timeout timer in some scenarios. Instead of manipulating
-scheduler's internals, inform the scheduler that the job did not actually
+Panfrost can skip the reset if TDR has fired before the free-job worker.
+Currently, since Panfrost doesn't take any action on these scenarios, the
+job is being leaked, considering that `free_job()` won't be called.
+
+To avoid such leaks, inform the scheduler that the job did not actually
 timeout and no reset was performed through the new status code
 DRM_GPU_SCHED_STAT_NO_HANG.
 
-Note that, in the first case, there is no need to restart submission if it
-hasn't been stopped.
-
 Signed-off-by: Maíra Canal <mcanal@igalia.com>
+Reviewed-by: Steven Price <steven.price@arm.com>
 ---
- drivers/gpu/drm/xe/xe_guc_submit.c | 12 +++---------
- 1 file changed, 3 insertions(+), 9 deletions(-)
+ drivers/gpu/drm/panfrost/panfrost_job.c | 8 ++++----
+ 1 file changed, 4 insertions(+), 4 deletions(-)
 
-diff --git a/drivers/gpu/drm/xe/xe_guc_submit.c b/drivers/gpu/drm/xe/xe_guc_submit.c
-index 9c7e445b9ea7ce7e3610eadca023e6d810e683e9..f6289eeffd852e40b33d0e455d9bcc21a4fb1467 100644
---- a/drivers/gpu/drm/xe/xe_guc_submit.c
-+++ b/drivers/gpu/drm/xe/xe_guc_submit.c
-@@ -1078,12 +1078,8 @@ guc_exec_queue_timedout_job(struct drm_sched_job *drm_job)
- 	 * list so job can be freed and kick scheduler ensuring free job is not
- 	 * lost.
+diff --git a/drivers/gpu/drm/panfrost/panfrost_job.c b/drivers/gpu/drm/panfrost/panfrost_job.c
+index afcffe7f8fe9e11f84e4ab7e8f5a72f7bf583690..842e012cdc68e130a13e08ffae3b7fdf5f8e1acc 100644
+--- a/drivers/gpu/drm/panfrost/panfrost_job.c
++++ b/drivers/gpu/drm/panfrost/panfrost_job.c
+@@ -751,11 +751,11 @@ static enum drm_gpu_sched_stat panfrost_job_timedout(struct drm_sched_job
+ 	int js = panfrost_job_get_slot(job);
+ 
+ 	/*
+-	 * If the GPU managed to complete this jobs fence, the timeout is
+-	 * spurious. Bail out.
++	 * If the GPU managed to complete this jobs fence, the timeout has
++	 * fired before free-job worker. The timeout is spurious, so bail out.
  	 */
--	if (test_bit(DMA_FENCE_FLAG_SIGNALED_BIT, &job->fence->flags)) {
--		xe_sched_add_pending_job(sched, job);
--		xe_sched_submission_start(sched);
--
+ 	if (dma_fence_is_signaled(job->done_fence))
 -		return DRM_GPU_SCHED_STAT_RESET;
--	}
-+	if (test_bit(DMA_FENCE_FLAG_SIGNALED_BIT, &job->fence->flags))
 +		return DRM_GPU_SCHED_STAT_NO_HANG;
  
- 	/* Kill the run_job entry point */
- 	xe_sched_submission_stop(sched);
-@@ -1261,10 +1257,8 @@ guc_exec_queue_timedout_job(struct drm_sched_job *drm_job)
- 	 * but there is not currently an easy way to do in DRM scheduler. With
- 	 * some thought, do this in a follow up.
- 	 */
--	xe_sched_add_pending_job(sched, job);
- 	xe_sched_submission_start(sched);
--
--	return DRM_GPU_SCHED_STAT_RESET;
-+	return DRM_GPU_SCHED_STAT_NO_HANG;
- }
+ 	/*
+ 	 * Panfrost IRQ handler may take a long time to process an interrupt
+@@ -770,7 +770,7 @@ static enum drm_gpu_sched_stat panfrost_job_timedout(struct drm_sched_job
  
- static void __guc_exec_queue_fini_async(struct work_struct *w)
+ 	if (dma_fence_is_signaled(job->done_fence)) {
+ 		dev_warn(pfdev->dev, "unexpectedly high interrupt latency\n");
+-		return DRM_GPU_SCHED_STAT_RESET;
++		return DRM_GPU_SCHED_STAT_NO_HANG;
+ 	}
+ 
+ 	dev_err(pfdev->dev, "gpu sched timeout, js=%d, config=0x%x, status=0x%x, head=0x%x, tail=0x%x, sched_job=%p",
 
 -- 
 2.50.0
