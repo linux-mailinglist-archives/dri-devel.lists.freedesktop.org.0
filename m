@@ -2,171 +2,79 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C6634AFBD6D
-	for <lists+dri-devel@lfdr.de>; Mon,  7 Jul 2025 23:24:10 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id CF3CAAFBD74
+	for <lists+dri-devel@lfdr.de>; Mon,  7 Jul 2025 23:24:17 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id DF8C710E570;
-	Mon,  7 Jul 2025 21:24:05 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id DDA3410E573;
+	Mon,  7 Jul 2025 21:24:15 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=vivo.com header.i=@vivo.com header.b="ZYurT6yI";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="BnB/NpIO";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from OS8PR02CU002.outbound.protection.outlook.com
- (mail-japanwestazon11012065.outbound.protection.outlook.com [40.107.75.65])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4D4FD10E44F;
- Mon,  7 Jul 2025 11:49:30 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=bRN4oari+JBA4YngN0c+2eb9AhEr3RMlu6a27wGHlWHkIrHTOHlCEIVc+dQnwjpoG0m6UiR58AbWACI8uEubnA0v53d2mSQsfZAaPN/wF0omNqW0PPSA/tWKghtT7o4Fc+FyKZGejzdip8k2E5K6K10xcA0TNFf0veJRwSDgKlZF7/Jm7RZYk+fV7YgWJ4b89JhwqItxLHXErLjcUDfQ7Hsrbf8VRKixoYtXQwEa2Kpwsv41Jjn8NLSiRBxH2QqWKmxjIDLei39dfdUIY1VlPLbDiENEUJqus3FBNko7+FawgtZGrUoGVeMyL0sZUGPbLnW15ZjJprz5qba+Gm1meA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=ksBfp2AIWByMov8+43Nc4Tp2S5FLVTqstpaceKchNQk=;
- b=TO1PcQHt4UJ5j7ElAYcFcL0QPgGNXfCLGSoAHT2ZiRUHYgw4CxZX9vDnljMsE8PEFUe5DEpd/NeznkK+WAuK2owInojoEc6rSJomhfKuF/X/0egkR+SZ059BWYxvTXsC3kkl1gdMieUhujWmp+gDkiz2i988zGl6P/LPWfXhK68EikohCZZALE8Y/wLYXSciDlnlOxErKV/qsjSWluFdfszmlUS+2JWGAKLZVTO6bOT4sc5uABbOwA0YIqP2bAKRZFVzaT+Sru2xNhKeb0mXQY5W2lUKe3C/juhsPvFgXL0WSVr09xUxA+zPWL5p5wMxf6VDVxsoGZuJZXQfRyAx5A==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=vivo.com; dmarc=pass action=none header.from=vivo.com;
- dkim=pass header.d=vivo.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=vivo.com; s=selector2; 
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=ksBfp2AIWByMov8+43Nc4Tp2S5FLVTqstpaceKchNQk=;
- b=ZYurT6yI6GtzzZJlXiTjDe2tfLHrTACbV/Yt5GR52DKxkSk7B+bL/sg/5rIvjnenytH00ea5cjJ8UhCp7aOQ4/eo4MswgXO9EjtmdEfY1FqawZblOKQCYZgW0Eq0G20NbfqTHD90eupvtGdnrDnjtB28wSbcdjEwJeQs1Rv/QpGEe4IcCWaORVt2uIMIZU/3nNUhEUuhaZUqyYswH6Cw/BBq2dWwmMtBtKVyg1HcDYlkpt+TPfZ8E2AGg83aF2FpEhxIff8y8GrzeckNYoL8xwaHkiYvsf33VuX1Dos5h+Lu4RXtJy6/+0oCZzDfnYpBj6Z93rnrjMCOaaChV47O9g==
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=vivo.com;
-Received: from SEZPR06MB7140.apcprd06.prod.outlook.com (2603:1096:101:228::14)
- by TY1PPF5F1F8FF60.apcprd06.prod.outlook.com (2603:1096:408::916)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8901.24; Mon, 7 Jul
- 2025 11:49:25 +0000
-Received: from SEZPR06MB7140.apcprd06.prod.outlook.com
- ([fe80::9eaf:17a9:78b4:67c0]) by SEZPR06MB7140.apcprd06.prod.outlook.com
- ([fe80::9eaf:17a9:78b4:67c0%5]) with mapi id 15.20.8901.021; Mon, 7 Jul 2025
- 11:49:24 +0000
-Message-ID: <a4cc7c59-2dfd-497e-9f20-b12ea86a1baa@vivo.com>
-Date: Mon, 7 Jul 2025 19:48:34 +0800
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v4 4/5] mm/filemap: add write_begin_get_folio() helper
- function
-To: =?UTF-8?B?6ZmI5rab5rabIFRhb3RhbyBDaGVu?= <chentaotao@didiglobal.com>,
- "tytso@mit.edu" <tytso@mit.edu>, "hch@infradead.org" <hch@infradead.org>,
- "adilger.kernel@dilger.ca" <adilger.kernel@dilger.ca>,
- "willy@infradead.org" <willy@infradead.org>,
- "brauner@kernel.org" <brauner@kernel.org>,
- "jani.nikula@linux.intel.com" <jani.nikula@linux.intel.com>,
- "rodrigo.vivi@intel.com" <rodrigo.vivi@intel.com>,
- "tursulin@ursulin.net" <tursulin@ursulin.net>,
- "airlied@gmail.com" <airlied@gmail.com>
-Cc: "linux-fsdevel@vger.kernel.org" <linux-fsdevel@vger.kernel.org>,
- "linux-ext4@vger.kernel.org" <linux-ext4@vger.kernel.org>,
- "linux-block@vger.kernel.org" <linux-block@vger.kernel.org>,
- "intel-gfx@lists.freedesktop.org" <intel-gfx@lists.freedesktop.org>,
- "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
- "linux-mm@kvack.org" <linux-mm@kvack.org>,
- "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
- "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
- "chentao325@qq.com" <chentao325@qq.com>,
- "frank.li@vivo.com" <frank.li@vivo.com>
-References: <20250707070023.206725-5-chentaotao@didiglobal.com>
-From: hanqi <hanqi@vivo.com>
-In-Reply-To: <20250707070023.206725-5-chentaotao@didiglobal.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-ClientProxiedBy: SI2PR02CA0019.apcprd02.prod.outlook.com
- (2603:1096:4:195::13) To SEZPR06MB7140.apcprd06.prod.outlook.com
- (2603:1096:101:228::14)
+Received: from mail-yb1-f180.google.com (mail-yb1-f180.google.com
+ [209.85.219.180])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8E9E510E322
+ for <dri-devel@lists.freedesktop.org>; Mon,  7 Jul 2025 16:14:57 +0000 (UTC)
+Received: by mail-yb1-f180.google.com with SMTP id
+ 3f1490d57ef6-e7569ccf04cso2721378276.0
+ for <dri-devel@lists.freedesktop.org>; Mon, 07 Jul 2025 09:14:57 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20230601; t=1751904896; x=1752509696; darn=lists.freedesktop.org;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:from:to:cc:subject:date:message-id:reply-to;
+ bh=O2TeZOJwxzH1nOGV5X51rLD2dK5A11alLClunbUH9Cs=;
+ b=BnB/NpIOTMAnjeUjmEb4Bjcu7GN70dxNY9qxepQ3hQMeHlN+1+upG26+S/bo6txDhJ
+ K3hN3baYcmWIeJPrXaK2aQiGPBJFMjLWqDgvWbfdiyjYAAb/xWMeyPc8fXTtwdmBoThO
+ QfX/glvACQE9jxsR8sOSl8XZk8zUMdxXDoTnJpigw+v12lUDF650WG8yvHh3GSz//mM5
+ V0LCyx1Raz341vzjCRaFiv9cePYYIju05qtf4TWGoafmn+zFSBqAzvt3cwbVKGfY/+G2
+ Tb7r7fS+7jFsoJCYrc/5FaoblWbhiL0kn6Fhov/7fTJQamT/4O7ffSZgyko/pnEQaYVx
+ eEMg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1751904896; x=1752509696;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=O2TeZOJwxzH1nOGV5X51rLD2dK5A11alLClunbUH9Cs=;
+ b=Ei/WaNDohi//IiF/gphfvTgfhx5v+EyyzMHHOxOgjWREZQ/EnODvmHW5ugwhSZ96g7
+ eKvsWfPdFIQvTOmwywukuEfSyOM/bRoF72+RNwyfbfE/0xoBu1SFyTwPQG/tUKjgBoq5
+ BTEqykHdONBU1v7mJT614YmS/4vBI/tnMJU37JBbSBYZ9wNFYqrx7Q+y8qzzctCWw58N
+ GtUNacI7suC/OeJ8TbfDTrpoX/top9V2bi0uVP+DZRlyufG7bWuJMisDKlrPou2B+spg
+ QiAWaBi7xM+cmmxXN5Lb0gr5kaSDkMWpF2mYCXqNxRBmCm7KpQ8qQK/VfRNeTJ2UxhXH
+ b9/w==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCVL8GNV+VjR1htICNjbYAsQFYa/s7fqnjVrq+uv506TlOOGSJD41GaUEi4eg4Qnde9yaiSgB6C0SrE=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0Yzoma6qi7EQ9L9h2lnEXb4H4mXm8/Ctmf/obAT/Fjv0g6nEY3Vv
+ +LwdXVsxeyMDlRt5+i9EiGYUG2Tq+VnYRNcpbufvE4k254wzROCSeUhFOXXceLjZe7IvNoXlxke
+ dpDVP0hyZnUSLDxV93MosrAgUTj7Z9G8=
+X-Gm-Gg: ASbGnctyrVbg9JDkvcTT8qBE5027fQHMA9hcoBUPGPoYsoXMtc+aoQvKsH3MalfY7pL
+ e7hekRwUd2SUckcYuLDnD5ntejKEAW+hWYHvFK9+UJO4hncP4KGa8XMpuB3bwMMA3WkshRXYJDq
+ fyPevHHB9Fj16x5vfL/H12m8vBYTw8iwA2lTp/gCavNRSB2l5yaEaHLxjhc7S5Ri2QYLHtx0o=
+X-Google-Smtp-Source: AGHT+IEH/sghPyYwQr1ZDp2T9iVXj0TxftbRSFOL1DFWXuN7bcu9C+D6tZZAUivpDYivT67YUyjqdFug6qYsFAlhkFg=
+X-Received: by 2002:a05:690c:9511:b0:70e:143:b82f with SMTP id
+ 00721157ae682-7166b69ebf6mr144614987b3.32.1751904896459; Mon, 07 Jul 2025
+ 09:14:56 -0700 (PDT)
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: SEZPR06MB7140:EE_|TY1PPF5F1F8FF60:EE_
-X-MS-Office365-Filtering-Correlation-Id: ee66d21a-6b8f-4d2c-8ac7-08ddbd4c51ba
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
- ARA:13230040|7416014|376014|366016|1800799024|7053199007|921020; 
-X-Microsoft-Antispam-Message-Info: =?utf-8?B?OHRHek1ZSEhJdUJOMWIzZ2R4NDN0N25FeFppMXZEcUxjRFpqbEZXcUJRc2g3?=
- =?utf-8?B?aCtkVWtJKytlRFJEU0lJS01jL2p2NkhSQ3ZPWStJcm5QNlROVWIxTDd6U3By?=
- =?utf-8?B?N0ZLZktYZDB5ZVVDbU5xTmg5SHFQMDVUNlZXVDJ6OXpBUnJheUZSUU1BVUp6?=
- =?utf-8?B?SWx1NlhBN3hYRHJ2TlpYd0RkT0h2QXVESVpPaThYMDg4QThyaU9XYlY5bklr?=
- =?utf-8?B?SXZBcVJqVVppZVBZcVo5ak5BZU8vVDRMa2VrbDN3YVN2SUw5a0NNWDZNbXVr?=
- =?utf-8?B?N09tODg0WXdYOW5EU3VBOFU2YUJmU0loQkxWNkZYR2dQQ21jdjZDUm4yeGl1?=
- =?utf-8?B?OVVucStmazZSTFRyditRSUhnTGNJWmZoWmlsZm5XbTI0bTFwV1JzcFU4bTlD?=
- =?utf-8?B?Vlk4QnAzbmp6ektSOTVqZXQ1bnVQQjhiTHZ4ak8yQ1QzQWIvck5jd3dQRmZy?=
- =?utf-8?B?MTJOeHhrYkh4cTJiODNFeFhIc1RBRHRUcTFQdHlzSHFBdSthdnlORmJvdmRD?=
- =?utf-8?B?c1VGdFphZmZ6Tmd2aHpyV2txY2R0Snl6Mnk2ZzRJdldWSEtNV2FDVDc4dGpz?=
- =?utf-8?B?MGlxZUNaK3Job1hRNDJaRFVDaWoyclE4bDRWL2c4V1V4dFN2YXNjbU9KRXc3?=
- =?utf-8?B?ZE9IdEVBa0UxNHlLSExtOXd3VUVNc3kvell4V00vSXp1MVBqQndidzRMY08y?=
- =?utf-8?B?YkpoZk1lSTBHdW9OVzBGTDJJdHhZNW1ySS9YcEEzM3ByNmtVWGZoM3BuaWVR?=
- =?utf-8?B?aC94ZDQ4aWJ4a3hYSTkxd0xrWTBCL1BPdnduWkxhTFUvZ3k4eTd3c2xlYSs2?=
- =?utf-8?B?aSs0YSsxbmFpYmJJZnJ5dVBPZVBmMzBhaTdETHhGbVZxUjRpZWUrNVFpSlBP?=
- =?utf-8?B?ZVhLVWNOYUorajJJbHVZRXFZQm1veVUxRE4rbENkekEwZ2JNcHlqaGUrVENP?=
- =?utf-8?B?US95ZWRnUXdRcFVyaHV2UGpkb3RXRWpQQUhzRmU0a3UxY0YycW5oSVhJMHhN?=
- =?utf-8?B?Rk16YjVxWnIvYUhQYmdhWUIvdytSWW9jVHZUSDhUVzdPVXZqL0VhOXZtUlRn?=
- =?utf-8?B?TUR2ek9STFNIN0YwUnpIYkYveWh5UmRic3BVNTNTVWdoaHZhSHYzbVBTQjBw?=
- =?utf-8?B?Uzh3SWJXWDlSdHcvNTdGNTBxeDNoZGRJMlVYYk5tNnFXRWNmQWhRMEtrWTVF?=
- =?utf-8?B?b2JWcTBKOGIrU3NZUWN6WFdDa1RiQ1dibVBrVjFOVVp4TU5FM25WaHBXNXlK?=
- =?utf-8?B?dmJKL2NvcDhKV2dxSnlNRnNRVmx3TXVrZmZVV1p5VHVkYzd6RnAzTFNCV3d5?=
- =?utf-8?B?ZWpydVVpRjVoT2dFZExIRXRUUGJ0aUJoTTdXcGVtd1Y2d1AySFA2WTRhcHk1?=
- =?utf-8?B?dWdHNmJtQ0VDN0hiRU01S2lJaTNrTjRRN1d1MmM3Y2pXbnVtbDBNekNUdnc5?=
- =?utf-8?B?VzU3UlYybzNQTFVUVFN5V1RRZTFadURQL1A4dzQzcU44V2toRUZhWUtNM0Ex?=
- =?utf-8?B?UkxFOXo3OFdORlFzM09DS3NpKzMrN0lYMGNUL0JCb0tRR29tQ1lvVDd3T3FV?=
- =?utf-8?B?T1k5bS9iU3FKNDE3M1lmOTdxU2NrWDlReFdMeFJrWFVzcDU1Zm93dWdIRmk5?=
- =?utf-8?B?dTgrRHM5dFJoQ2IvUjJsa1h2Y2dvV2RQaXBOM1VhZDlLRXRoRmlXNVBOendx?=
- =?utf-8?B?ak1XdThKa25qeEtUMWdIdkF5YXZYbGhsaWlnU3BvNWhTNUJVVFFrRk9kNDVi?=
- =?utf-8?B?MCtGMlp0QUsrSVE3L2hJUS9rcm9vT0RiRDZJMGVDY1krRnNtQ0pWTENuU1dE?=
- =?utf-8?B?eDA0RzRQdjJHcE1IbjBLa1hZZCtpMmtoY1BpN2l0azJpdTE0WGQwWERKUGx0?=
- =?utf-8?B?bVFzOFEvN0s3dUM3TVR4cHZBdWswUVRJUHV3OE1IU3Fubk5kbXJqWmwwbVlx?=
- =?utf-8?B?c1FMcVhMaU8yNGdudFMyVUFLMmdTL3BuK0FtZ1pyeWhGTkc4NTJIeUlOenlm?=
- =?utf-8?B?RkpQRzREcnhBPT0=?=
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:SEZPR06MB7140.apcprd06.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230040)(7416014)(376014)(366016)(1800799024)(7053199007)(921020);
- DIR:OUT; SFP:1101; 
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?Q1A3SWlJcGJ1cHEzS3g1Y3VSYksyVTZvWWF2ZHJ2eFAraFQ0cmJnWnpGU25l?=
- =?utf-8?B?QTRmbmQvbDV6RmtkMEFmQWFURTVTRjV2Q013V2NDRUhXdDBQY013YTIrcmZo?=
- =?utf-8?B?czlPNkVabFdIdEV5QkhoR2Z4Z2JheWVVSE9CYW5Zb1VsOEFsRmE2RlRTWVI3?=
- =?utf-8?B?cVZoRkhKOTVQNzJaNGNkcjFJRUdzdkFzbDNtdXVvN0xnTDVNbFdUS1VJTjVX?=
- =?utf-8?B?cU9VY0N4ZklDSE9FampicXNadFg3MitTRjZXM2R3MnpXSHQyNksvcVB2Mi9V?=
- =?utf-8?B?KzdENkpBdXNVclRsWDNLTzhsUXFTL3paUEdUU0dOSUFzeWJadEh0R0ZLaFBh?=
- =?utf-8?B?RzZhVW0zekJKKzhqU20zSEtYekRqSGxNM2dJaTR5TXZqOW5wMkFqU1kwanpi?=
- =?utf-8?B?TkJrMDJYRE1xRXc0ZTNyL3JiaDAxR09rT0JZYzZCcGd5enp3N0JqOGtoUmk0?=
- =?utf-8?B?NmRzUWJ2S3ZxdDRnWHlaRVlIbGRHTVdOVmNFM2VDODhwenFKZUh4dGdwd1ov?=
- =?utf-8?B?elhGY3N2ZDRIa1p6YTVjN0dzdUN4ZjhjTkhrbEF5a0NZd012Q2VHdjBzRnpm?=
- =?utf-8?B?R3k4N3YyY3pLM1hBM1B3Rk14YXNaNWpkWTBkNHo2Q0ZTSis4bkIweWhac0Fn?=
- =?utf-8?B?SGNLckR2RXpTSWR3WG5MSEI3bUhmbktOT0tEYnNvV1J6SHpRbDRoR0VlalR0?=
- =?utf-8?B?U2RNdGg5VGZCRWNQazhzellYRUYyYzFjYXUwYnhjR1p4VVJOQVY3dkdzVG96?=
- =?utf-8?B?VGRlVkYrSkxJUlNiQ0FpWi95aDBlSHY0RURvcWY0SnFvL05hdCtkT0pjVjFl?=
- =?utf-8?B?RTFueDMxTERSUExPWUd1UDJ0R08zeXl5bmZRejVCdUlIVlhOSlp1ZHFOdHlm?=
- =?utf-8?B?UGNmNzhKWVdRNmVoMVViYjZub2V0cGt4QUYrdkFRWGVzanV6SzlURThFTUlw?=
- =?utf-8?B?c0dPS3BNeUIwMHYxdWk0aHp1T0lGNmhldHJXekpRLzlJU2Z0RmJ4MGNmNnpj?=
- =?utf-8?B?RCt6TEw0cms3VGhsMW9Xa2ZPenV3RmtWY3NGZVJIN0lhdnMwOGhEU1VUaFVz?=
- =?utf-8?B?MTJrU25uZE9Fa2h2cmUwaWNIOGR2SmlvUVlCZHdWaUNhSXlOWGhaaWVhRjEr?=
- =?utf-8?B?b0NkVmlIUDhqU25HSHl5bkNFK1lXRjUxbW0zZldJeGlhbkhBbWpXdFZ3aGVp?=
- =?utf-8?B?QTlBb0lWUFJaeUxxSmUvQy9ab1ZZZjJjaHNUekdNdUExMEp2ak5YOTZzNlVv?=
- =?utf-8?B?TUVlcVZlOWxHckxGb0w0SHJVcWVYSkxWRE9kdXB1bHJCa3JQN2w4OG5DZU85?=
- =?utf-8?B?VTQxcDFkSnpiRmprOU4xYmoxMktiY1JuY25mdk1LUEhBcElHV201aXlWZFZX?=
- =?utf-8?B?dkVkOGJnWGxTQmJvYVo5eVJ5bUpuUnBJVTVsZEsrNzBzVzhINXpSWVZGQkhm?=
- =?utf-8?B?QzE3OW5MUkYxNXFoWXNzdlpUQ29BczJ5MzN6MlNtM0RLdTdTajdvNC9CbUFV?=
- =?utf-8?B?U1FqVUZXbFBob0VEaVNTOFlCbjhwT3BJa1ROc2ZaRjIzZFgrNm0rVlY2amxU?=
- =?utf-8?B?aGFJZnRyT2hXYzhWKzE3UWozVWJ5aXpWUC9HMG8xKzF0M1VoaTlGUjg2OTNq?=
- =?utf-8?B?UFFVeEh4SHNhK3ExaTFublNJcjM5YjdBK2ZzeVFNSk85UXIwNm1kZExTQTRX?=
- =?utf-8?B?VWROVFZtcW04RjhjZEIxck9nR2hDcS80dGZBd3hXaW1nRG9hRjdSL3JqbjBw?=
- =?utf-8?B?UGloWVZWSTVIbUJKZVhybGxiRWZ4WldRSnR5MHpwbjJtVXJJYmFRQjhBN01i?=
- =?utf-8?B?Smgxck8zYXlpVUM3UzE2TlFOU0tLRzA4enZDMXFPVGxCaHZNa0FONlpmekVv?=
- =?utf-8?B?bjM1UXg3Wk9hdk5yczBzWm5WRFdZbmlpVFVrN0c3Z1FtU1MzYmN0SldDVlEy?=
- =?utf-8?B?Y0wyWWdCWmowYTBsb2s2cFVON3dUVzdGOW9UdU8vUUJ2VzRDOHY5WDF0SjR2?=
- =?utf-8?B?bTVOQTl3UTRHaVhiZVVkcEJRbzhESndWME1DM0xGVFduNzhNVEFwQk54OFZF?=
- =?utf-8?B?anhVYUhjcHFSYzhJMnVSL3A3aWhLakk0aVJzSVZSekI4R3JqNTFrOS9sbVBR?=
- =?utf-8?Q?skIV+yNGlIpaOxKs0Dn7Fa3CZ?=
-X-OriginatorOrg: vivo.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: ee66d21a-6b8f-4d2c-8ac7-08ddbd4c51ba
-X-MS-Exchange-CrossTenant-AuthSource: SEZPR06MB7140.apcprd06.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 07 Jul 2025 11:49:24.5110 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 923e42dc-48d5-4cbe-b582-1a797a6412ed
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: 2sjr/peJbd3lSQNGT+0I12eFpDruZ9vXxqOjFqMJZozwBhyCDIN657YTh/mBKQ+mpaWEcH05lv9+gvj6LkvPkw==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: TY1PPF5F1F8FF60
-X-Mailman-Approved-At: Mon, 07 Jul 2025 21:23:54 +0000
+References: <20250707131224.249496-1-tzimmermann@suse.de>
+ <a3336964-1b72-421c-b4dc-2ac3f548430b@amd.com>
+ <4c1bc40d-6bd4-4102-b12f-fda320216e1d@suse.de>
+In-Reply-To: <4c1bc40d-6bd4-4102-b12f-fda320216e1d@suse.de>
+From: Satadru Pramanik <satadru@gmail.com>
+Date: Mon, 7 Jul 2025 12:14:45 -0400
+X-Gm-Features: Ac12FXwLW-kzgBGBX2BN7ywRqUGvq6k9Zgs39ChwD4snb-Za0Q20DQC9JARQFNc
+Message-ID: <CAFrh3J9uh0M5bWeS3cv_Cb1yFTKhE2+9mSk5hsZTzWW3uYKaWg@mail.gmail.com>
+Subject: Re: [PATCH v3] drm/framebuffer: Acquire internal references on GEM
+ handles
+To: Thomas Zimmermann <tzimmermann@suse.de>
+Cc: =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>, 
+ asrivats@redhat.com, maarten.lankhorst@linux.intel.com, mripard@kernel.org, 
+ airlied@gmail.com, simona@ffwll.ch, jean-christophe@guillain.net, 
+ superm1@kernel.org, bp@alien8.de, dri-devel@lists.freedesktop.org, 
+ linux-kernel@vger.kernel.org, Bert Karwatzki <spasswolf@web.de>, 
+ Sumit Semwal <sumit.semwal@linaro.org>, linux-media@vger.kernel.org, 
+ linaro-mm-sig@lists.linaro.org, stable@vger.kernel.org
+Content-Type: multipart/alternative; boundary="00000000000008a81c0639592506"
+X-Mailman-Approved-At: Mon, 07 Jul 2025 21:23:55 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -182,92 +90,131 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+--00000000000008a81c0639592506
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
+Applying this patch to 6.16-rc5 resolves the sleep issue regression from
+6.16-rc4 I was having on my MacBookPro11,3 (Mid-2014 15" MacBookPro), which
+has the NVIDIA GK107M GPU enabled via the Nouveau driver.
 
-在 2025/7/7 15:00, 陈涛涛 Taotao Chen 写道:
-> From: Taotao Chen <chentaotao@didiglobal.com>
->
-> Add write_begin_get_folio() to simplify the common folio lookup logic
-> used by filesystem ->write_begin() implementations.
->
-> This helper wraps __filemap_get_folio() with common flags such as
-> FGP_WRITEBEGIN, conditional FGP_DONTCACHE, and set folio order based
-> on the write length.
->
-> Part of a series refactoring address_space_operations write_begin and
-> write_end callbacks to use struct kiocb for passing write context and
-> flags.
->
-> Signed-off-by: Taotao Chen <chentaotao@didiglobal.com>
-> ---
->   include/linux/pagemap.h |  3 +++
->   mm/filemap.c            | 30 ++++++++++++++++++++++++++++++
->   2 files changed, 33 insertions(+)
->
-> diff --git a/include/linux/pagemap.h b/include/linux/pagemap.h
-> index e63fbfbd5b0f..cbf8539ba11b 100644
-> --- a/include/linux/pagemap.h
-> +++ b/include/linux/pagemap.h
-> @@ -749,6 +749,9 @@ struct folio *__filemap_get_folio(struct address_space *mapping, pgoff_t index,
->   		fgf_t fgp_flags, gfp_t gfp);
->   struct page *pagecache_get_page(struct address_space *mapping, pgoff_t index,
->   		fgf_t fgp_flags, gfp_t gfp);
-> +struct folio *write_begin_get_folio(const struct kiocb *iocb,
-> +				    struct address_space *mapping,
-> +				    pgoff_t index, size_t len);
->   
->   /**
->    * filemap_get_folio - Find and get a folio.
-> diff --git a/mm/filemap.c b/mm/filemap.c
-> index ba089d75fc86..9520f65c287a 100644
-> --- a/mm/filemap.c
-> +++ b/mm/filemap.c
-> @@ -2026,6 +2026,36 @@ struct folio *__filemap_get_folio(struct address_space *mapping, pgoff_t index,
->   }
->   EXPORT_SYMBOL(__filemap_get_folio);
->   
-> +
-> +/**
-> + * write_begin_get_folio - Get folio for write_begin with flags
-> + * @iocb: kiocb passed from write_begin (may be NULL)
-> + * @mapping: the address space to search in
-> + * @index: page cache index
-> + * @len: length of data being written
-> + *
-> + * This is a helper for filesystem write_begin() implementations.
-> + * It wraps __filemap_get_folio(), setting appropriate flags in
-> + * the write begin context.
-> + *
-> + * Returns a folio or an ERR_PTR.
-> + */
+Many thanks,
 
-hi, tao
-I think it might be worth considering adding an fgf_t parameter to the
-write_begin_get_folio() helper, since in some filesystems the fgp_flags
-passed to __filemap_get_folio() in write_begin are not limited to just
-FGP_WRITEBEGIN. Something like:
-struct folio *write_begin_get_folio(const struct kiocb *iocb,
-				    struct address_space *mapping,
-				    pgoff_t index, size_t len,
-                                     fgf_t fgp_flags)
+Satadru
 
-> +struct folio *write_begin_get_folio(const struct kiocb *iocb,
-> +				    struct address_space *mapping,
-> +				    pgoff_t index, size_t len)
-> +{
-> +	fgf_t fgp_flags = FGP_WRITEBEGIN;
-> +
-> +	fgp_flags |= fgf_set_order(len);
-> +
-> +	if (iocb && iocb->ki_flags & IOCB_DONTCACHE)
-> +		fgp_flags |= FGP_DONTCACHE;
-> +
-> +	return __filemap_get_folio(mapping, index, fgp_flags,
-> +				   mapping_gfp_mask(mapping));
-> +}
-> +EXPORT_SYMBOL(write_begin_get_folio);
-> +
->   static inline struct folio *find_get_entry(struct xa_state *xas, pgoff_t max,
->   		xa_mark_t mark)
->   {
+On Mon, Jul 7, 2025 at 9:33=E2=80=AFAM Thomas Zimmermann <tzimmermann@suse.=
+de>
+wrote:
 
+> Hi
+>
+> Am 07.07.25 um 15:21 schrieb Christian K=C3=B6nig:
+>
+> >>
+> >> +#define DRM_FRAMEBUFFER_HAS_HANDLE_REF(_i)  BIT(0u + (_i))
+> > Why the "0u + (_i)" here? An macro trick?
+>
+> You mean why not just BIT(_i)? internal_flags could possibly contain
+> additional flags. Just using BIT(_i) would make it look as if it's only
+> for those handle refs.
+>
+> Best regards
+> Thomas
+>
+> >
+> > Regards,
+> > Christian.
+> >
+> >> +
+> >>   /**
+> >>    * struct drm_framebuffer - frame buffer object
+> >>    *
+> >> @@ -188,6 +191,10 @@ struct drm_framebuffer {
+> >>       * DRM_MODE_FB_MODIFIERS.
+> >>       */
+> >>      int flags;
+> >> +    /**
+> >> +     * @internal_flags: Framebuffer flags like
+> DRM_FRAMEBUFFER_HAS_HANDLE_REF.
+> >> +     */
+> >> +    unsigned int internal_flags;
+> >>      /**
+> >>       * @filp_head: Placed on &drm_file.fbs, protected by
+> &drm_file.fbs_lock.
+> >>       */
+>
+> --
+> --
+> Thomas Zimmermann
+> Graphics Driver Developer
+> SUSE Software Solutions Germany GmbH
+> Frankenstrasse 146, 90461 Nuernberg, Germany
+> GF: Ivo Totev, Andrew Myers, Andrew McDonald, Boudien Moerman
+> HRB 36809 (AG Nuernberg)
+>
+>
+
+--00000000000008a81c0639592506
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><div>Applying this patch to 6.16-rc5 resolves the sleep is=
+sue regression from 6.16-rc4 I was having on my=C2=A0MacBookPro11,3 (Mid-20=
+14 15&quot; MacBookPro), which has the=C2=A0NVIDIA GK107M GPU enabled via t=
+he Nouveau driver.</div><div><br></div><div>Many thanks,</div><div><br></di=
+v><div>Satadru</div></div><br><div class=3D"gmail_quote gmail_quote_contain=
+er"><div dir=3D"ltr" class=3D"gmail_attr">On Mon, Jul 7, 2025 at 9:33=E2=80=
+=AFAM Thomas Zimmermann &lt;<a href=3D"mailto:tzimmermann@suse.de">tzimmerm=
+ann@suse.de</a>&gt; wrote:<br></div><blockquote class=3D"gmail_quote" style=
+=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding=
+-left:1ex">Hi<br>
+<br>
+Am 07.07.25 um 15:21 schrieb Christian K=C3=B6nig:<br>
+<br>
+&gt;&gt;=C2=A0 =C2=A0<br>
+&gt;&gt; +#define DRM_FRAMEBUFFER_HAS_HANDLE_REF(_i)=C2=A0 BIT(0u + (_i))<b=
+r>
+&gt; Why the &quot;0u + (_i)&quot; here? An macro trick?<br>
+<br>
+You mean why not just BIT(_i)? internal_flags could possibly contain <br>
+additional flags. Just using BIT(_i) would make it look as if it&#39;s only=
+ <br>
+for those handle refs.<br>
+<br>
+Best regards<br>
+Thomas<br>
+<br>
+&gt;<br>
+&gt; Regards,<br>
+&gt; Christian.<br>
+&gt;<br>
+&gt;&gt; +<br>
+&gt;&gt;=C2=A0 =C2=A0/**<br>
+&gt;&gt;=C2=A0 =C2=A0 * struct drm_framebuffer - frame buffer object<br>
+&gt;&gt;=C2=A0 =C2=A0 *<br>
+&gt;&gt; @@ -188,6 +191,10 @@ struct drm_framebuffer {<br>
+&gt;&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0* DRM_MODE_FB_MODIFIERS.<br>
+&gt;&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0*/<br>
+&gt;&gt;=C2=A0 =C2=A0 =C2=A0 int flags;<br>
+&gt;&gt; +=C2=A0 =C2=A0 /**<br>
+&gt;&gt; +=C2=A0 =C2=A0 =C2=A0* @internal_flags: Framebuffer flags like DRM=
+_FRAMEBUFFER_HAS_HANDLE_REF.<br>
+&gt;&gt; +=C2=A0 =C2=A0 =C2=A0*/<br>
+&gt;&gt; +=C2=A0 =C2=A0 unsigned int internal_flags;<br>
+&gt;&gt;=C2=A0 =C2=A0 =C2=A0 /**<br>
+&gt;&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0* @filp_head: Placed on &amp;drm_file.fb=
+s, protected by &amp;drm_file.fbs_lock.<br>
+&gt;&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0*/<br>
+<br>
+-- <br>
+--<br>
+Thomas Zimmermann<br>
+Graphics Driver Developer<br>
+SUSE Software Solutions Germany GmbH<br>
+Frankenstrasse 146, 90461 Nuernberg, Germany<br>
+GF: Ivo Totev, Andrew Myers, Andrew McDonald, Boudien Moerman<br>
+HRB 36809 (AG Nuernberg)<br>
+<br>
+</blockquote></div>
+
+--00000000000008a81c0639592506--
