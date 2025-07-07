@@ -2,46 +2,103 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C3C0BAFB9FE
-	for <lists+dri-devel@lfdr.de>; Mon,  7 Jul 2025 19:37:31 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 84F2EAFBA00
+	for <lists+dri-devel@lfdr.de>; Mon,  7 Jul 2025 19:38:35 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1A4B110E331;
-	Mon,  7 Jul 2025 17:37:29 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B032010E4F6;
+	Mon,  7 Jul 2025 17:38:23 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="t626NaHz";
+	dkim=pass (2048-bit key; unprotected) header.d=gmx.us header.i=len.bao@gmx.us header.b="jzZAXPQK";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from sea.source.kernel.org (sea.source.kernel.org [172.234.252.31])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2B4C510E165
- for <dri-devel@lists.freedesktop.org>; Mon,  7 Jul 2025 17:37:27 +0000 (UTC)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by sea.source.kernel.org (Postfix) with ESMTP id DE8C3450C2;
- Mon,  7 Jul 2025 17:37:26 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 857CEC4CEE3;
- Mon,  7 Jul 2025 17:37:25 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1751909846;
- bh=8Xmc1kWMbfBAphlEij+eyL7s2osFqXjAldmjAhU1vMY=;
- h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=t626NaHza32X8ifh3RNdryWJrdYrBB4XosdMn0bQk8nP2sD+Wo+y/yMyOJwV0GoiU
- yYgSeDOYv4dtMOtttvLjmw/Wg+V9zbmM7og4UzgmKMj6Z/TjDC5X4lns6EQPj7lrYU
- 5SYRPX0rFQT3dzA1Pwo/pIgh3g4o9qfJAE7lpnRMZO1B1X8adpiXIDzTnj3qywZrJf
- 8EHbqQJHlCyss6vOgkk9sohxYU/2aPihjp4kbVG9/y5x47iU1gmo3LFhHtzxNetgds
- R1AE8W51g70zgST5d9/i+Umicf/twq7QkUK4YqC1tWvZkc8uRWxN4hQQ2ZLhF15/PZ
- gk6DbKQgrohtg==
-From: Hans de Goede <hansg@kernel.org>
-To: David Airlie <airlied@linux.ie>
-Cc: Hans de Goede <hansg@kernel.org>, Lukas Wunner <lukas@wunner.de>,
- Andi Kleen <ak@linux.intel.com>, dri-devel@lists.freedesktop.org
-Subject: [PATCH 3/3] agp/amd64: Remove support for probing unlisted PCI devices
-Date: Mon,  7 Jul 2025 19:37:10 +0200
-Message-ID: <20250707173710.313701-4-hansg@kernel.org>
-X-Mailer: git-send-email 2.49.0
-In-Reply-To: <20250707173710.313701-1-hansg@kernel.org>
-References: <20250707173710.313701-1-hansg@kernel.org>
+Received: from mout.gmx.net (mout.gmx.net [212.227.17.22])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1692010E4F6
+ for <dri-devel@lists.freedesktop.org>; Mon,  7 Jul 2025 17:38:20 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmx.us;
+ s=s31663417; t=1751909891; x=1752514691; i=len.bao@gmx.us;
+ bh=M/R9PLJBJYuOUjT8ZMwGj7nkYG6TVpUT7FXWdZjV6ZE=;
+ h=X-UI-Sender-Class:From:To:Cc:Subject:Date:Message-ID:
+ MIME-Version:Content-Transfer-Encoding:cc:
+ content-transfer-encoding:content-type:date:from:message-id:
+ mime-version:reply-to:subject:to;
+ b=jzZAXPQKQNW/wGESODtspOsnjMhsoxmh9Ot1EQB7mPepZITXmLNNU98gvWY5STsv
+ vuVfc9yF+NZIxyHLzod+T+P9ZONhdtoV6vg8QJi9BNA85Brs8z+gsqBpLzGKkx+OE
+ rOazV4KKJYt9HpIs7iBzefuDZ4aVUvSJdZzzlsMMJumTecemALcafsKeYa++xAb1b
+ sI6R5USytS1ZsHF1kI0iSrI/IkKltA62pw8+0yoP6w6VRCzbz/m3pVyc5ws7sDHqV
+ XA0W7LmYbdKtbcd/+VF0jH0L7e37QmstqXH6GNEQGsXD15eRtKkIkwOgc2YZegUGF
+ 0VHyp+XqODx3Z040WA==
+X-UI-Sender-Class: 724b4f7f-cbec-4199-ad4e-598c01a50d3a
+Received: from ubuntu ([79.159.188.137]) by mail.gmx.net (mrgmx105
+ [212.227.17.174]) with ESMTPSA (Nemesis) id 1MeCpb-1v7tED2n3P-00lozv; Mon, 07
+ Jul 2025 19:38:11 +0200
+From: Len Bao <len.bao@gmx.us>
+To: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
+ Simona Vetter <simona@ffwll.ch>
+Cc: Len Bao <len.bao@gmx.us>, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org
+Subject: [PATCH v2] drm/dp: Remove dead code after return statement
+Date: Mon,  7 Jul 2025 17:37:34 +0000
+Message-ID: <20250707173736.13743-1-len.bao@gmx.us>
+X-Mailer: git-send-email 2.43.0
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: quoted-printable
+X-Provags-ID: V03:K1:3CTQjgmwRVdVmDjx4HGYavnyrdnxebsFFlGi7tDWRcZvYkiEniq
+ 1LM1I5kS3Zo1bX2wp3h7HvwBEJ59ZD+wKrA8slmc19fhSSxIkHusmcdc4lQ2C4yC9rD6Q0C
+ 0tpuiMeJfP7dfLtGw2PsEtRODt4KCREphWSLc/cOYSHW/vapsXNWg9wu97za/TWJUpVAChZ
+ vPlEVqPydoWZ50vywndNQ==
+X-Spam-Flag: NO
+UI-OutboundReport: notjunk:1;M01:P0:WsczdQz7jgc=;X3icrgLILKzbIvyv+3kmSrXscXJ
+ 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
+ mDQqSrxA+4bSXDJPknGQ==
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -57,136 +114,47 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-AMD64 boards with AGP support are so old that the agp_amd64_pci_table
-should be complete and there is no need to probe unlisted PCI devices,
-so lets completely remove support for probing unlisted PCI devices.
+Coverity noticed that the code after the return statement in the
+"drm_dp_pcon_frl_configure_2" function is never reached. So, it can be
+safely removed.
 
-Suggested-by: Andi Kleen <ak@linux.intel.com>
-Signed-off-by: Hans de Goede <hansg@kernel.org>
----
- drivers/char/agp/Kconfig     |  3 +--
- drivers/char/agp/agp.h       |  1 -
- drivers/char/agp/amd64-agp.c | 41 +-----------------------------------
- drivers/char/agp/backend.c   |  4 ----
- 4 files changed, 2 insertions(+), 47 deletions(-)
+Coverity-id: 1648885
+Fixes: af67978ee37e5 ("drm/display: dp: use new DCPD access helpers")
+Signed-off-by: Len Bao <len.bao@gmx.us>
+=2D--
+Changes in v2:
+ - Remove the variable definition (kernel test robot)
 
-diff --git a/drivers/char/agp/Kconfig b/drivers/char/agp/Kconfig
-index c47eb7bf06d4..752b18901613 100644
---- a/drivers/char/agp/Kconfig
-+++ b/drivers/char/agp/Kconfig
-@@ -63,8 +63,7 @@ config AGP_AMD64
- 	  This option gives you AGP support for the GLX component of
- 	  X using the on-CPU northbridge of the AMD Athlon64/Opteron CPUs.
- 	  You still need an external AGP bridge like the AMD 8151, VIA
--	  K8T400M, SiS755. It may also support other AGP bridges when loaded
--	  with agp_try_unsupported=1.
-+	  K8T400M, SiS755.
- 
- config AGP_INTEL
- 	tristate "Intel 440LX/BX/GX, I8xx and E7x05 chipset support"
-diff --git a/drivers/char/agp/agp.h b/drivers/char/agp/agp.h
-index 67d7be800a7c..9fbe100c8f5e 100644
---- a/drivers/char/agp/agp.h
-+++ b/drivers/char/agp/agp.h
-@@ -237,7 +237,6 @@ void agp3_generic_cleanup(void);
- extern const struct aper_size_info_16 agp3_generic_sizes[];
- 
- extern int agp_off;
--extern int agp_try_unsupported_boot;
- 
- long compat_agp_ioctl(struct file *file, unsigned int cmd, unsigned long arg);
- 
-diff --git a/drivers/char/agp/amd64-agp.c b/drivers/char/agp/amd64-agp.c
-index f883c06b538a..e63827724bb1 100644
---- a/drivers/char/agp/amd64-agp.c
-+++ b/drivers/char/agp/amd64-agp.c
-@@ -34,7 +34,6 @@
- #define ULI_X86_64_ENU_SCR_REG		0x54
- 
- static struct resource *aperture_resource;
--static bool agp_try_unsupported __initdata;
- static int agp_bridges_found;
- 
- static void amd64_tlbflush(struct agp_memory *temp)
-@@ -734,47 +733,10 @@ static struct pci_driver agp_amd64_pci_driver = {
- /* Not static due to IOMMU code calling it early. */
- int __init agp_amd64_init(void)
+v1 -> https://lore.kernel.org/all/20250706162431.15029-1-len.bao@gmx.us/
+=2D--
+ drivers/gpu/drm/display/drm_dp_helper.c | 5 -----
+ 1 file changed, 5 deletions(-)
+
+diff --git a/drivers/gpu/drm/display/drm_dp_helper.c b/drivers/gpu/drm/dis=
+play/drm_dp_helper.c
+index dc622c78d..fcff51b6e 100644
+=2D-- a/drivers/gpu/drm/display/drm_dp_helper.c
++++ b/drivers/gpu/drm/display/drm_dp_helper.c
+@@ -3577,7 +3577,6 @@ EXPORT_SYMBOL(drm_dp_pcon_frl_configure_1);
+ int drm_dp_pcon_frl_configure_2(struct drm_dp_aux *aux, int max_frl_mask,
+ 				u8 frl_type)
  {
--	struct pci_dev *pdev = NULL;
--	int err = 0;
+-	int ret;
+ 	u8 buf =3D max_frl_mask;
+=20
+ 	if (frl_type =3D=3D DP_PCON_FRL_LINK_TRAIN_EXTENDED)
+@@ -3586,10 +3585,6 @@ int drm_dp_pcon_frl_configure_2(struct drm_dp_aux *=
+aux, int max_frl_mask,
+ 		buf &=3D ~DP_PCON_FRL_LINK_TRAIN_EXTENDED;
+=20
+ 	return drm_dp_dpcd_write_byte(aux, DP_PCON_HDMI_LINK_CONFIG_2, buf);
+-	if (ret < 0)
+-		return ret;
 -
- 	if (agp_off)
- 		return -EINVAL;
- 
--	err = pci_register_driver(&agp_amd64_pci_driver);
--	if (err < 0)
--		return err;
--
--	if (agp_bridges_found == 0) {
--		if (!agp_try_unsupported && !agp_try_unsupported_boot) {
--			printk(KERN_INFO PFX "No supported AGP bridge found.\n");
--#ifdef MODULE
--			printk(KERN_INFO PFX "You can try agp_try_unsupported=1\n");
--#else
--			printk(KERN_INFO PFX "You can boot with agp=try_unsupported\n");
--#endif
--			pci_unregister_driver(&agp_amd64_pci_driver);
--			return -ENODEV;
--		}
--
--		/* First check that we have at least one AMD64 NB */
--		if (!amd_nb_num()) {
--			pci_unregister_driver(&agp_amd64_pci_driver);
--			return -ENODEV;
--		}
--
--		/* Look for any AGP bridge */
--		for_each_pci_dev(pdev)
--			if (pci_find_capability(pdev, PCI_CAP_ID_AGP))
--				pci_add_dynid(&agp_amd64_pci_driver,
--					      pdev->vendor, pdev->device,
--					      pdev->subsystem_vendor,
--					      pdev->subsystem_device, 0, 0, 0);
--		if (agp_bridges_found == 0) {
--			pci_unregister_driver(&agp_amd64_pci_driver);
--			err = -ENODEV;
--		}
--	}
--	return err;
-+	return pci_register_driver(&agp_amd64_pci_driver);
+-	return 0;
  }
- 
- static int __init agp_amd64_mod_init(void)
-@@ -801,6 +763,5 @@ module_init(agp_amd64_mod_init);
- module_exit(agp_amd64_cleanup);
- 
- MODULE_AUTHOR("Dave Jones, Andi Kleen");
--module_param(agp_try_unsupported, bool, 0);
- MODULE_DESCRIPTION("GART driver for the AMD Opteron/Athlon64 on-CPU northbridge");
- MODULE_LICENSE("GPL");
-diff --git a/drivers/char/agp/backend.c b/drivers/char/agp/backend.c
-index 1776afd3ee07..ca9c3472d4b7 100644
---- a/drivers/char/agp/backend.c
-+++ b/drivers/char/agp/backend.c
-@@ -319,9 +319,7 @@ void agp_remove_bridge(struct agp_bridge_data *bridge)
- EXPORT_SYMBOL_GPL(agp_remove_bridge);
- 
- int agp_off;
--int agp_try_unsupported_boot;
- EXPORT_SYMBOL(agp_off);
--EXPORT_SYMBOL(agp_try_unsupported_boot);
- 
- static int __init agp_init(void)
- {
-@@ -340,8 +338,6 @@ static __init int agp_setup(char *s)
- {
- 	if (!strcmp(s,"off"))
- 		agp_off = 1;
--	if (!strcmp(s,"try_unsupported"))
--		agp_try_unsupported_boot = 1;
- 	return 1;
- }
- __setup("agp=", agp_setup);
--- 
-2.49.0
+ EXPORT_SYMBOL(drm_dp_pcon_frl_configure_2);
+=20
+=2D-=20
+2.43.0
 
