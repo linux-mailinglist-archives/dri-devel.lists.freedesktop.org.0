@@ -2,66 +2,63 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id CB384AFB1DD
-	for <lists+dri-devel@lfdr.de>; Mon,  7 Jul 2025 13:00:20 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 13FB2AFB20A
+	for <lists+dri-devel@lfdr.de>; Mon,  7 Jul 2025 13:12:16 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 31E0710E445;
-	Mon,  7 Jul 2025 11:00:19 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 82A8A10E447;
+	Mon,  7 Jul 2025 11:12:13 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=bootlin.com header.i=@bootlin.com header.b="GtZHU3TZ";
+	dkim=pass (2048-bit key; unprotected) header.d=bootlin.com header.i=@bootlin.com header.b="IMzbot9a";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from relay8-d.mail.gandi.net (relay8-d.mail.gandi.net
- [217.70.183.201])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E8B8B10E443
- for <dri-devel@lists.freedesktop.org>; Mon,  7 Jul 2025 11:00:17 +0000 (UTC)
-Received: by mail.gandi.net (Postfix) with ESMTPSA id 6D98E43B13;
- Mon,  7 Jul 2025 11:00:14 +0000 (UTC)
+Received: from relay3-d.mail.gandi.net (relay3-d.mail.gandi.net
+ [217.70.183.195])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C8AE110E132
+ for <dri-devel@lists.freedesktop.org>; Mon,  7 Jul 2025 11:12:11 +0000 (UTC)
+Received: by mail.gandi.net (Postfix) with ESMTPSA id 8C065204CA;
+ Mon,  7 Jul 2025 11:12:07 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
- t=1751886016;
+ t=1751886730;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=KJ08fgVcPu2E4Q3b9o7vg8fIv0XfpbzcrN1iC3FdEfA=;
- b=GtZHU3TZ7ju8uMcajHenv3DzJN4WYFX1ZfCVz7exmCmvHb93NUHPrX65wgGZ90LUaPuzNh
- Z2tflzaSn/5gfHmx/sDi+89slTpro7FFXd2lSg2t/CA6Z3UMv7CqS7XJgnUu8ZcARJ3uwf
- UZo7HtudUx31BRRR70HRRv/4HBwHPggS6vA5y6NVrOjPtDok4OM2TGIPlXjE35Y5wg0m2Y
- +pT/4omko0gtyLOJOHQdVOFVPnEjufKqyH9n7j+TJ+ZiZF6IVmYzOn6+Tg+3HEEz4Rz9gI
- 2G1yCx+AnuTK6Esfm7swzrR3Z1iREUoJ0M9aLevWm44o/9wRz//ywDMs8Djl3Q==
-Date: Mon, 7 Jul 2025 12:59:54 +0200
+ bh=R2IuGLoN2z6uUxTC0PrzTB7ZmiLrMY5Ne3GgAeVwppg=;
+ b=IMzbot9aBAhY+A1it6LpZpCDyjxBoQIEZACu8HSiFtwHItU4PwlkuJ2jMdd3nFYTVyqrQ7
+ g58FUCdJhatxHJwhIByjBcT8m1wZowSJzo107blG5b5DB2bimuNIiUEi1sNRZDZdwb6kWp
+ 0lzJB2OZyDTuhKH/989quxd98EclsS8hpjf+OCBMQ4UzFP03vc9iNzg+xZ4gi7vjTgVMtE
+ 3diL1I5cvtehD9HFWbk/zakM6rw2dN9U7BtoRVIV0mNHaEKzfusG7E/HhatCo9cS2zuOS8
+ G4nVxrThkkntyGQMBUXKrvTNtrh10EzzaVp5Rrmzeg2YX6W2RHaALEOuRc/FSw==
 From: Luca Ceresoli <luca.ceresoli@bootlin.com>
-To: Marek Szyprowski <m.szyprowski@samsung.com>
-Cc: Maxime Ripard <mripard@kernel.org>, dri-devel@lists.freedesktop.org,
- Andrzej Hajda <andrzej.hajda@intel.com>, Neil Armstrong
- <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>, Laurent
- Pinchart <Laurent.pinchart@ideasonboard.com>, Jonas Karlman
- <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>, Maarten
- Lankhorst <maarten.lankhorst@linux.intel.com>, Thomas Zimmermann
- <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>, Simona Vetter
- <simona@ffwll.ch>, Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>,
- Douglas Anderson <dianders@chromium.org>, Damon Ding
- <damon.ding@rock-chips.com>
-Subject: Re: [PATCH] drm/bridge: analogix_dp: Use devm_drm_bridge_alloc() API
-Message-ID: <20250707125954.5e0bbaa8@booty>
-In-Reply-To: <ce9c6aa3-5372-468f-a4bf-5a261259e459@samsung.com>
-References: <CGME20250627165702eucas1p12dbc50fea261d6846e67880bbef5c564@eucas1p1.samsung.com>
- <20250627165652.580798-1-m.szyprowski@samsung.com>
- <20250630-famous-dark-boar-89bed7@houat>
- <20250701160219.20dc7466@booty>
- <20250701-petite-mutant-starling-24bbe5@houat>
- <20250703175032.6f49f862@booty>
- <ce9c6aa3-5372-468f-a4bf-5a261259e459@samsung.com>
-Organization: Bootlin
-X-Mailer: Claws Mail 4.3.1 (GTK 3.24.49; x86_64-redhat-linux-gnu)
+To: "Colin King (gmail)" <colin.i.king@gmail.com>, 
+ Andrzej Hajda <andrzej.hajda@intel.com>, 
+ Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>, 
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>, 
+ Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>, 
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, 
+ Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>, 
+ Luca Ceresoli <luca.ceresoli@bootlin.com>
+Cc: Hui Pu <Hui.Pu@gehealthcare.com>, 
+ Thomas Petazzoni <thomas.petazzoni@bootlin.com>, 
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org, 
+ stable@vger.kernel.org
+In-Reply-To: <20250704-drm-bridge-alloc-fix-tc358767-regression-v2-1-ec0e511bedd0@bootlin.com>
+References: <20250704-drm-bridge-alloc-fix-tc358767-regression-v2-1-ec0e511bedd0@bootlin.com>
+Subject: Re: [PATCH v2] drm/bridge: tc358767: fix uninitialized variable
+ regression
+Message-Id: <175188670931.81272.9699272605011757855.b4-ty@bootlin.com>
+Date: Mon, 07 Jul 2025 13:11:49 +0200
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-Mailer: b4 0.14.2
 X-GND-State: clean
 X-GND-Score: -100
-X-GND-Cause: gggruggvucftvghtrhhoucdtuddrgeeffedrtdefgdefudeivdcutefuodetggdotefrodftvfcurfhrohhfihhlvgemucfitefpfffkpdcuggftfghnshhusghstghrihgsvgenuceurghilhhouhhtmecufedtudenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujfgurhepfffhvfevuffkjghfohfogggtgfesthhqredtredtjeenucfhrhhomhepnfhutggrucevvghrvghsohhlihcuoehluhgtrgdrtggvrhgvshholhhisegsohhothhlihhnrdgtohhmqeenucggtffrrghtthgvrhhnpefhteduuefgheehleeihfejjeduvdeltddutddtveeltdfhheeguefgteehkefgffenucffohhmrghinhepsghoohhtlhhinhdrtghomhenucfkphepkeejrdduvddtrddvudekrddvtdejnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehinhgvthepkeejrdduvddtrddvudekrddvtdejpdhhvghlohepsghoohhthidpmhgrihhlfhhrohhmpehluhgtrgdrtggvrhgvshholhhisegsohhothhlihhnrdgtohhmpdhnsggprhgtphhtthhopeduiedprhgtphhtthhopehmrdhsiiihphhrohifshhkihesshgrmhhsuhhnghdrtghomhdprhgtphhtthhopehmrhhiphgrrhgusehkvghrnhgvlhdrohhrghdprhgtphhtthhopegurhhiqdguvghvvghlsehlihhsthhsrdhfrhgvvgguvghskhhtohhprdhorhhgpdhrtghpthhtoheprghnughriigvjhdrhhgrjhgurgesihhnthgvlhdrtghomhdprhgtp
- hhtthhopehnvghilhdrrghrmhhsthhrohhngheslhhinhgrrhhordhorhhgpdhrtghpthhtoheprhhfohhssheskhgvrhhnvghlrdhorhhgpdhrtghpthhtohepnfgruhhrvghnthdrphhinhgthhgrrhhtsehiuggvrghsohhnsghorghrugdrtghomhdprhgtphhtthhopehjohhnrghssehkfihisghoohdrshgv
+X-GND-Cause: gggruggvucftvghtrhhoucdtuddrgeeffedrtdefgdefudeigecutefuodetggdotefrodftvfcurfhrohhfihhlvgemucfitefpfffkpdcuggftfghnshhusghstghrihgsvgenuceurghilhhouhhtmecufedtudenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujfgurhephffvvegjfhfukfffgggtgffosehtjeertdertdejnecuhfhrohhmpefnuhgtrgcuvegvrhgvshholhhiuceolhhutggrrdgtvghrvghsohhlihessghoohhtlhhinhdrtghomheqnecuggftrfgrthhtvghrnhepieefvdehvedvgeeftedugeetudevuedvffekhedvfeetkeduleelgeevudffieeinecukfhppeekjedruddvtddrvddukedrvddtjeenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepihhnvghtpeekjedruddvtddrvddukedrvddtjedphhgvlhhopegludelvddrudeikedruddrudefngdpmhgrihhlfhhrohhmpehluhgtrgdrtggvrhgvshholhhisegsohhothhlihhnrdgtohhmpdhnsggprhgtphhtthhopeduledprhgtphhtthhopegtohhlihhnrdhirdhkihhnghesghhmrghilhdrtghomhdprhgtphhtthhopehluhgtrgdrtggvrhgvshholhhisegsohhothhlihhnrdgtohhmpdhrtghpthhtohepnhgvihhlrdgrrhhmshhtrhhonhhgsehlihhnrghrohdrohhrghdprhgtphhtthhopehrfhhoshhssehkvghrnhgvlhdrohhrghdprhgtphhtthhopegumhhithhrhidrsggrrhihshhhkhhov
+ hesohhsshdrqhhurghltghomhhmrdgtohhmpdhrtghpthhtohepmhgrrghrthgvnhdrlhgrnhhkhhhorhhstheslhhinhhugidrihhnthgvlhdrtghomhdprhgtphhtthhopehlihhnuhigqdhkvghrnhgvlhesvhhgvghrrdhkvghrnhgvlhdrohhrghdprhgtphhtthhopehmrhhiphgrrhgusehkvghrnhgvlhdrohhrgh
 X-GND-Sasl: luca.ceresoli@bootlin.com
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -78,72 +75,23 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, 7 Jul 2025 11:07:26 +0200
-Marek Szyprowski <m.szyprowski@samsung.com> wrote:
 
-> On 03.07.2025 17:50, Luca Ceresoli wrote:
-> > On Tue, 1 Jul 2025 16:27:54 +0200
-> > Maxime Ripard <mripard@kernel.org> wrote:
-> > =20
-> >> On Tue, Jul 01, 2025 at 04:02:19PM +0200, Luca Ceresoli wrote: =20
-> >>> Hello Marek, Maxime,
-> >>>
-> >>> thanks Marek for spotting the issue and sending a patch!
-> >>>
-> >>> On Mon, 30 Jun 2025 18:44:24 +0200
-> >>> Maxime Ripard <mripard@kernel.org> wrote:
-> >>>     =20
-> >>>>> @@ -1643,7 +1625,7 @@ int analogix_dp_bind(struct analogix_dp_devic=
-e *dp, struct drm_device *drm_dev)
-> >>>>>   		return ret;
-> >>>>>   	}
-> >>>>>  =20
-> >>>>> -	ret =3D analogix_dp_create_bridge(drm_dev, dp);
-> >>>>> +	ret =3D drm_bridge_attach(dp->encoder, &dp->bridge, NULL, 0);
-> >>>>>   	if (ret) {
-> >>>>>   		DRM_ERROR("failed to create bridge (%d)\n", ret);
-> >>>>>   		goto err_unregister_aux; =20
-> >>>> It looks like you don't set bridge->driver_private anymore. Is it on=
- purpose? =20
-> >>> This looks correct to me. In current code, driver_private is used to
-> >>> hold a pointer to the driver private struct (struct
-> >>> analogix_dp_device). With devm_drm_bridge_alloc() container_of() is n=
-ow
-> >>> enough, no pointer is needed. With the patch applied, driver_private
-> >>> becomes unused. =20
-> >> Then we should remove it from the structure if it's unused. =20
-> > Makes sense now that struct drm_bridge is meant to be always embedded
-> > in a driver-private struct. But several drivers are still using it, so
-> > those would need to be updated beforehand:
-> >
-> > $ git grep  -l driver_private -- drivers/gpu/drm/ | wc -l
-> > 23
-> > $
-> >
-> > So I think this patch should be taken as it fixes a regression. Do you
-> > agree on this? =20
->=20
-> Yes, please apply it as a fix :)
->=20
->=20
-> BTW, there are 2 more bridge drivers that need a fix similar to the=20
-> $subject patch:
->=20
-> $ git grep "bridge =3D devm_kzalloc" drivers/gpu
-> drivers/gpu/drm/sti/sti_hda.c:=C2=A0 bridge =3D devm_kzalloc(dev,=20
-> sizeof(*bridge), GFP_KERNEL);
-> drivers/gpu/drm/sti/sti_hdmi.c: bridge =3D devm_kzalloc(dev,=20
-> sizeof(*bridge), GFP_KERNEL);
+On Fri, 04 Jul 2025 01:30:18 +0200, Luca Ceresoli wrote:
+> Commit a59a27176914 ("drm/bridge: tc358767: convert to
+> devm_drm_bridge_alloc() API") split tc_probe_bridge_endpoint() in two
+> functions, thus duplicating the loop over the endpoints in each of those
+> functions. However it missed duplicating the of_graph_parse_endpoint() call
+> which initializes the struct of_endpoint, resulting in an uninitialized
+> read.
+> 
+> [...]
 
-Ouch. My grep logic was probably too clever and missed these obvious
-ones. I'm taking care of converting these ones later this week as time
-permits, unless patches are sent before.
+Applied, thanks!
 
-Thanks for reporting!
+[1/1] drm/bridge: tc358767: fix uninitialized variable regression
+      commit: cb863540e7c756abe7e709673a3e073c6a7aa8c0
 
-Luca
+Best regards,
+-- 
+Luca Ceresoli <luca.ceresoli@bootlin.com>
 
---=20
-Luca Ceresoli, Bootlin
-Embedded Linux and Kernel engineering
-https://bootlin.com
