@@ -2,43 +2,43 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id D9897AFB661
-	for <lists+dri-devel@lfdr.de>; Mon,  7 Jul 2025 16:47:47 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id E7C34AFB663
+	for <lists+dri-devel@lfdr.de>; Mon,  7 Jul 2025 16:48:03 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D5ADC10E4BD;
-	Mon,  7 Jul 2025 14:47:45 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2AECA10E4BB;
+	Mon,  7 Jul 2025 14:47:52 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=igalia.com header.i=@igalia.com header.b="o+a+7ksA";
+	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=igalia.com header.i=@igalia.com header.b="F2DjzOYO";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from fanzine2.igalia.com (fanzine2.igalia.com [213.97.179.56])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1C85E10E4B6;
- Mon,  7 Jul 2025 14:47:45 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8F51710E4B9;
+ Mon,  7 Jul 2025 14:47:51 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com; 
  s=20170329; h=Cc:To:In-Reply-To:References:Message-Id:
  Content-Transfer-Encoding:Content-Type:MIME-Version:Subject:Date:From:Sender:
  Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender
  :Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
  List-Subscribe:List-Post:List-Owner:List-Archive;
- bh=hL0Te+05pphALKaBruZC+X2BPj/eLtsiKWRilNRGoE8=; b=o+a+7ksAE4F/Ne7odJFL/RuDNe
- unMpH/T2FVaNag5GYD47dNolJ24PANx7VlAEKZ79Bs2K8IjfDoGqJjH+/NUXFRtws5bcmH3I/EfiA
- kV2hqFwp78Vs7k0m+cZqHM1N3Bkkt157hNsose/TRBvJ25lMpzoUQdsqH967X+ei2VNLI+CO0Btll
- ZQJUAdK1uoAkV+1qWWI6HQxLd7UzZPlfPo1ArW0ZbaMNqn7lK/qI9YDgQ4t9332erO3yC5WVvtCOA
- KAjThI2itrt9f0NytFO9XWYff3S128lfxHQxhYXzkWkZl3fPwmrKt3Pt81bKoPwJ0T9Tz/b99Yvj6
- Wd6njmVA==;
+ bh=p4KSvSzgQslydeJTvWmUxaIa6+lIl8Q6ORh08SDISm8=; b=F2DjzOYOv8cyTF0WyWLzVn95YY
+ v2CMvBkTBtFt/IFyumYrm3iHF9sfbhFb52x4zWDnpV9TG8iWdM/Yljl+5D+9NbSsdBxBendMX83lJ
+ 9ky5qPgtjDBH7x0m8kyiSsE5GvNJ49oVuuYro2nm55SwC7FtUp26DRBvXMKQCPDLkuvlcbcrg1oke
+ ZfXllUXppPT8qIv/ufz3KX4yaxKc78GrlK06U0U0ZnuYHcxJc2aI1UHW+2K9whKyEiiB5WD/0SRBs
+ 4tNGoI88LblEw2FXtL6sPmrtSxPudTNA4Q4TIrsV4AP1cefFED2nJq97lX/TMcvDkQPTXrz/zqro+
+ +uu+C43w==;
 Received: from [187.36.210.68] (helo=janis.local)
  by fanzine2.igalia.com with esmtpsa 
  (Cipher TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_256_GCM:256) (Exim)
- id 1uYn84-00DaQv-V7; Mon, 07 Jul 2025 16:47:37 +0200
+ id 1uYn8B-00DaQv-QB; Mon, 07 Jul 2025 16:47:44 +0200
 From: =?utf-8?q?Ma=C3=ADra_Canal?= <mcanal@igalia.com>
-Date: Mon, 07 Jul 2025 11:46:34 -0300
-Subject: [PATCH v4 5/8] drm/v3d: Use DRM_GPU_SCHED_STAT_NO_HANG to skip the
- reset
+Date: Mon, 07 Jul 2025 11:46:35 -0300
+Subject: [PATCH v4 6/8] drm/etnaviv: Use DRM_GPU_SCHED_STAT_NO_HANG to skip
+ the reset
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
-Message-Id: <20250707-sched-skip-reset-v4-5-036c0f0f584f@igalia.com>
+Message-Id: <20250707-sched-skip-reset-v4-6-036c0f0f584f@igalia.com>
 References: <20250707-sched-skip-reset-v4-0-036c0f0f584f@igalia.com>
 In-Reply-To: <20250707-sched-skip-reset-v4-0-036c0f0f584f@igalia.com>
 To: Matthew Brost <matthew.brost@intel.com>, 
@@ -59,15 +59,15 @@ Cc: kernel-dev@igalia.com, dri-devel@lists.freedesktop.org,
  etnaviv@lists.freedesktop.org, intel-xe@lists.freedesktop.org, 
  =?utf-8?q?Ma=C3=ADra_Canal?= <mcanal@igalia.com>
 X-Mailer: b4 0.14.2
-X-Developer-Signature: v=1; a=openpgp-sha256; l=2153; i=mcanal@igalia.com;
- h=from:subject:message-id; bh=43dKvL+k+1OnYIc0UXqZmiF8OGzqYfBkfMaZx3ZSBs8=;
- b=owEBbQGS/pANAwAIAT/zDop2iPqqAcsmYgBoa93YObIGL3cpOXETU9lbf0lRO6mKVXxcrPaPg
- sxSv9M5JhCJATMEAAEIAB0WIQT45F19ARZ3Bymmd9E/8w6Kdoj6qgUCaGvd2AAKCRA/8w6Kdoj6
- qpMDB/4gkfCwrwU1sBGfoTWVeX5tcvVXi6N8S+erv+We9ItYBHOJ5NV9Ut6hotLKCycmLvXgN1Z
- 3zWzU/FXcZof3Sb73ejYdlrIFhdkX8do0V7aAqfzpK9BVoolNXncyOj3SMwugiMKElTHJKoxhe+
- 3Kh4FMxmFvwdj3PGbHSnha+7Dfj9YKal82QXSIlOOmfmF2Z9yELXgJLB220ka0Va6OZxcJaNyaj
- nVsZ7aFU8S5zPCat++gh0bNKEJXX+WxoHy6l2k4ba4tU9FtX61YBpdN9cTD9TstS+d9M71oAmVm
- +DBVaUWuURSQcLBfPzEvqw/DlcGu/3vm1cBSpG8Rm0zmdaUH
+X-Developer-Signature: v=1; a=openpgp-sha256; l=2182; i=mcanal@igalia.com;
+ h=from:subject:message-id; bh=jjjefbLBj8vhxTAGWzpid4iELA1YqufpyPIdLn/QSbs=;
+ b=owEBbQGS/pANAwAIAT/zDop2iPqqAcsmYgBoa93YfN2ksdlrVRterCyexHVPrr1j2cSdLWHSW
+ vvBLt5gnTKJATMEAAEIAB0WIQT45F19ARZ3Bymmd9E/8w6Kdoj6qgUCaGvd2AAKCRA/8w6Kdoj6
+ qpJlB/4zZUlNQjrlBqcoOq9TrY3ai5bZE1eTHtQzKN2h6A3FASPirV5F6f71lCysqMsr79JeX3f
+ yAbL8kP0TEFS+DM0EVRytZUJ0ehiu5iV58Iv+I7XS4wFwPbu6DmW3woMOPlFG7kz7if8eiKkChb
+ L6FcJy+cUbTGk8vQE5TaVDNHfklOC/dri9BsZ0ndtL9zMb5C71UvAjWeAQSvjisFVYZWEQYuUqE
+ 5hg/0tcDHV41+HLnp9WncFj1h3lamJsiRmgZP+poJrdTE6NEBCeXTbL9XVQcFMjiQXoIp1ELB7m
+ 4kP3qXzaDkTrAVJDCItNh0K3h9/7eLU+kD+0k7wREltPSzR8
 X-Developer-Key: i=mcanal@igalia.com; a=openpgp;
  fpr=F8E45D7D0116770729A677D13FF30E8A7688FAAA
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -85,62 +85,61 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-When a CL/CSD job times out, we check if the GPU has made any progress
-since the last timeout. If so, instead of resetting the hardware, we skip
-the reset and allow the timer to be rearmed. This gives long-running jobs
-a chance to complete.
+Etnaviv can skip a hardware reset in two situations:
+
+  1. TDR has fired before the free-job worker and the timeout is spurious.
+  2. The GPU is still making progress on the front-end and we can give
+     the job a chance to complete.
 
 Instead of manipulating scheduler's internals, inform the scheduler that
 the job did not actually timeout and no reset was performed through
 the new status code DRM_GPU_SCHED_STAT_NO_HANG.
 
 Signed-off-by: Maíra Canal <mcanal@igalia.com>
-Reviewed-by: Tvrtko Ursulin <tvrtko.ursulin@igalia.com>
+Reviewed-by: Lucas Stach <l.stach@pengutronix.de>
 ---
- drivers/gpu/drm/v3d/v3d_sched.c | 16 ++--------------
- 1 file changed, 2 insertions(+), 14 deletions(-)
+ drivers/gpu/drm/etnaviv/etnaviv_sched.c | 11 ++++-------
+ 1 file changed, 4 insertions(+), 7 deletions(-)
 
-diff --git a/drivers/gpu/drm/v3d/v3d_sched.c b/drivers/gpu/drm/v3d/v3d_sched.c
-index e2b7f24d528e773968daea0f5b31c869584bb692..cc85f1b19ac405146a2a516f335a46376684bc91 100644
---- a/drivers/gpu/drm/v3d/v3d_sched.c
-+++ b/drivers/gpu/drm/v3d/v3d_sched.c
-@@ -744,16 +744,6 @@ v3d_gpu_reset_for_timeout(struct v3d_dev *v3d, struct drm_sched_job *sched_job)
+diff --git a/drivers/gpu/drm/etnaviv/etnaviv_sched.c b/drivers/gpu/drm/etnaviv/etnaviv_sched.c
+index 7146069a98492f5fab2a49d96e2054f649e1fe3d..46f5391e84a12232b247886cf1311f8e09f42f04 100644
+--- a/drivers/gpu/drm/etnaviv/etnaviv_sched.c
++++ b/drivers/gpu/drm/etnaviv/etnaviv_sched.c
+@@ -40,11 +40,11 @@ static enum drm_gpu_sched_stat etnaviv_sched_timedout_job(struct drm_sched_job
+ 	int change;
+ 
+ 	/*
+-	 * If the GPU managed to complete this jobs fence, the timout is
+-	 * spurious. Bail out.
++	 * If the GPU managed to complete this jobs fence, the timeout has
++	 * fired before free-job worker. The timeout is spurious, so bail out.
+ 	 */
+ 	if (dma_fence_is_signaled(submit->out_fence))
+-		goto out_no_timeout;
++		return DRM_GPU_SCHED_STAT_NO_HANG;
+ 
+ 	/*
+ 	 * If the GPU is still making forward progress on the front-end (which
+@@ -70,7 +70,7 @@ static enum drm_gpu_sched_stat etnaviv_sched_timedout_job(struct drm_sched_job
+ 		gpu->hangcheck_dma_addr = dma_addr;
+ 		gpu->hangcheck_primid = primid;
+ 		gpu->hangcheck_fence = gpu->completed_fence;
+-		goto out_no_timeout;
++		return DRM_GPU_SCHED_STAT_NO_HANG;
+ 	}
+ 
+ 	/* block scheduler */
+@@ -86,10 +86,7 @@ static enum drm_gpu_sched_stat etnaviv_sched_timedout_job(struct drm_sched_job
+ 	drm_sched_resubmit_jobs(&gpu->sched);
+ 
+ 	drm_sched_start(&gpu->sched, 0);
+-	return DRM_GPU_SCHED_STAT_RESET;
+ 
+-out_no_timeout:
+-	list_add(&sched_job->list, &sched_job->sched->pending_list);
  	return DRM_GPU_SCHED_STAT_RESET;
  }
  
--static void
--v3d_sched_skip_reset(struct drm_sched_job *sched_job)
--{
--	struct drm_gpu_scheduler *sched = sched_job->sched;
--
--	spin_lock(&sched->job_list_lock);
--	list_add(&sched_job->list, &sched->pending_list);
--	spin_unlock(&sched->job_list_lock);
--}
--
- static enum drm_gpu_sched_stat
- v3d_cl_job_timedout(struct drm_sched_job *sched_job, enum v3d_queue q,
- 		    u32 *timedout_ctca, u32 *timedout_ctra)
-@@ -772,8 +762,7 @@ v3d_cl_job_timedout(struct drm_sched_job *sched_job, enum v3d_queue q,
- 		*timedout_ctca = ctca;
- 		*timedout_ctra = ctra;
- 
--		v3d_sched_skip_reset(sched_job);
--		return DRM_GPU_SCHED_STAT_RESET;
-+		return DRM_GPU_SCHED_STAT_NO_HANG;
- 	}
- 
- 	return v3d_gpu_reset_for_timeout(v3d, sched_job);
-@@ -818,8 +807,7 @@ v3d_csd_job_timedout(struct drm_sched_job *sched_job)
- 	if (job->timedout_batches != batches) {
- 		job->timedout_batches = batches;
- 
--		v3d_sched_skip_reset(sched_job);
--		return DRM_GPU_SCHED_STAT_RESET;
-+		return DRM_GPU_SCHED_STAT_NO_HANG;
- 	}
- 
- 	return v3d_gpu_reset_for_timeout(v3d, sched_job);
 
 -- 
 2.50.0
