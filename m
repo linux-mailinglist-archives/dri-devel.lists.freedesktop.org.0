@@ -2,138 +2,90 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7EB29AFB86F
-	for <lists+dri-devel@lfdr.de>; Mon,  7 Jul 2025 18:13:25 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9BEC2AFB87F
+	for <lists+dri-devel@lfdr.de>; Mon,  7 Jul 2025 18:17:51 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A299610E4D4;
-	Mon,  7 Jul 2025 16:13:22 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id BA9FC10E323;
+	Mon,  7 Jul 2025 16:17:47 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=amd.com header.i=@amd.com header.b="D6Q2Ee9j";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="NklOQ3ex";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from NAM11-DM6-obe.outbound.protection.outlook.com
- (mail-dm6nam11on2053.outbound.protection.outlook.com [40.107.223.53])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 57C3610E4CB
- for <dri-devel@lists.freedesktop.org>; Mon,  7 Jul 2025 16:13:21 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=PlWpYSeux2jDf7CcoP8t6IUlBgUVvSQU9awKfhy9JIkh+xvV1A1NZ/ywRX/pRJ3KUDwk9Ljg6TGeivhunnIu9OD/P0mW7VpqwNu+3GQmtYK93nmoaQhk4weGmGNuvcLbCf6mh3POVmL9Gf2MjodHUb3PNYQn25cqr5A91nYP7JXn57P5BDgssDGmXDVVNiJ5ObY/QFJfY1OApyrXx46r3qbZ3SIhzCTcvl/g7Eo1spc0VVb9jW/vpOCCsdBvDBUdXsO7n3gZdgGREfrVEp9iY9X7BpzJn2bK80yHRfb49VYJGxdznBo/dDZHExr16j/pLzOluPLKiwbJM3Pn3Pokog==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=vL47XE0BrlrxLv86ipFz9Skrt2ixUoerK8p996xVxr4=;
- b=goZZ/VjRaccC8GPwYm9MBVs70higyhPsrOwZKrFYilCAWwA3ongFkc2jEV4vUxRssEGd2cknynFK8VlWNupRynQuxEdQ827/YhWYo6SM3U4vO3+QgbycfgbcK459SsO878NwCwYxAw+B42EKY9/5kjPLw78U+Y5fgH4IIsczyTHNNrrJKt7rIru9zKOTxqYOd1KTnUI0Vxa5T/bsplvGS90i7G5mgL668zECfOC7YcVEzbslW9GTkwH2MQKVhV7MYqMt5qAY5OW5eIovmXtMZY8BAxBhqVUNtlj+S8pwMz3qhtEGYgjXeUyaZVI8VP8WUwNShFbHwZvRuOgr/fcnrw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
- 165.204.84.17) smtp.rcpttodomain=9elements.com smtp.mailfrom=amd.com;
- dmarc=pass (p=quarantine sp=quarantine pct=100) action=none
- header.from=amd.com; dkim=none (message not signed); arc=none (0)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=vL47XE0BrlrxLv86ipFz9Skrt2ixUoerK8p996xVxr4=;
- b=D6Q2Ee9j+5KOaX7esylRCvg69YJW8SMmr+m0PTm1mi/q8FvbUcox+sjBs8DMFmmyDmXlCBucdMc5Xxwworn9WSs3E75x/yJVDpplTZ/Dsi5CmD1x9x7C3CrYbRoZqFv5cvRLBVYGqJejMoGHES3kKwv14SEJ0wf5SbF3FF/Kb1U=
-Received: from BN0PR08CA0009.namprd08.prod.outlook.com (2603:10b6:408:142::13)
- by CH2PR12MB4149.namprd12.prod.outlook.com (2603:10b6:610:7c::13)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8901.25; Mon, 7 Jul
- 2025 16:13:17 +0000
-Received: from BL02EPF00021F6B.namprd02.prod.outlook.com
- (2603:10b6:408:142:cafe::c7) by BN0PR08CA0009.outlook.office365.com
- (2603:10b6:408:142::13) with Microsoft SMTP Server (version=TLS1_3,
- cipher=TLS_AES_256_GCM_SHA384) id 15.20.8901.27 via Frontend Transport; Mon,
- 7 Jul 2025 16:13:17 +0000
-X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 165.204.84.17)
- smtp.mailfrom=amd.com; dkim=none (message not signed)
- header.d=none;dmarc=pass action=none header.from=amd.com;
-Received-SPF: Pass (protection.outlook.com: domain of amd.com designates
- 165.204.84.17 as permitted sender) receiver=protection.outlook.com;
- client-ip=165.204.84.17; helo=SATLEXMB04.amd.com; pr=C
-Received: from SATLEXMB04.amd.com (165.204.84.17) by
- BL02EPF00021F6B.mail.protection.outlook.com (10.167.249.7) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.20.8901.15 via Frontend Transport; Mon, 7 Jul 2025 16:13:17 +0000
-Received: from SATLEXMB06.amd.com (10.181.40.147) by SATLEXMB04.amd.com
- (10.181.40.145) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.39; Mon, 7 Jul
- 2025 11:13:16 -0500
-Received: from SATLEXMB03.amd.com (10.181.40.144) by SATLEXMB06.amd.com
- (10.181.40.147) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.39; Mon, 7 Jul
- 2025 11:13:15 -0500
-Received: from [172.19.71.207] (10.180.168.240) by SATLEXMB03.amd.com
- (10.181.40.144) with Microsoft SMTP Server id 15.1.2507.39 via Frontend
- Transport; Mon, 7 Jul 2025 11:13:15 -0500
-Message-ID: <987f0165-7aac-13d5-0a13-c49c987719a3@amd.com>
-Date: Mon, 7 Jul 2025 09:13:15 -0700
+Received: from mail-pl1-f169.google.com (mail-pl1-f169.google.com
+ [209.85.214.169])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 82CA110E322;
+ Mon,  7 Jul 2025 16:17:46 +0000 (UTC)
+Received: by mail-pl1-f169.google.com with SMTP id
+ d9443c01a7336-2363616a1a6so30758205ad.3; 
+ Mon, 07 Jul 2025 09:17:46 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20230601; t=1751905066; x=1752509866; darn=lists.freedesktop.org;
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+ bh=plhscmn8unqBogHCLfe3zzhmsxB9tOjf382Kqk10WmM=;
+ b=NklOQ3exrcZCxdsGnIMrbcp6ETmXpK7XN2E3e3ymllqbvTZgtp2VzlhAv1pPZR9vRn
+ g+mSyHIJKu1PUBjYwMK1zU+aLLuO33BOX5FMfSzm1gftIEhqZBl3XlWMx2+H/Oog4LP5
+ CEES3I8QS6BWlf9bqGso3jEgwEyzzlKCYjOtxfB4+pZxFAr/d6f/0payZ3CIBJeoQUnJ
+ /QuxCMIoLkgAUgJprzAjKcUPPdijR8kb+VCnBC5bATDZMGJCKHK2ZpR8HnjqNs0mSQmB
+ VfIqWZG7xdpUmoT9USWo7oXHjJD2hdhQP2wTLkMv2mgaW2heWM4pN5lW95/GdLY5tP8Q
+ HVUA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1751905066; x=1752509866;
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=plhscmn8unqBogHCLfe3zzhmsxB9tOjf382Kqk10WmM=;
+ b=JDjSb3qClhe+3qVMBfLKw5UTxssGvXrlCVb4cDSC6Y3riqUJ0ZjWSCw92t/EdL7xlP
+ IaHeEMDNvzHKwC+6SdEBe0zwH5O5E2S4Vre7Yn8aEN1CJ5WOYtq9K159tGbGWdb3ULCt
+ qD8tA4sRz0eu8A5eaGInKGmyd6uOKY5SM6j16Y3bOziH36W8SzYB76jqyIh8Xj6KaM11
+ j0xDmdnqVG83B3JOF/cPlqfP67xvGcUtUCMU/PoNoB71rxtw+H3BdDmTN2FJ3hW5YCKk
+ ufHOLyLdLclHA9z6eqoXfa9v2SdXoUCeTyNA8lAIaIF7Hc77ZJagrt8KvxHTO+DvOoQv
+ 65Ow==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCW/3LVR+juQ4Ua9VAYUBpXdzHtvmc3plDVXhMt6St6sneVAb14eTEPw22OuPMItKxOPo2+JBzew+yYy@lists.freedesktop.org,
+ AJvYcCWvYDhGbGsoS4ayR+4DGduws/D3b6pZgmecju2nAA1SIFzu+ff7Qgd+7gX5T1fGorsONdKyKmh4k6o=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YxhTTOXMmEfMafNsEy+dOmxnW3liUwamwv95g7QMaSZfFLPD23J
+ 4sXXpduMbFBQoWpciYGgMkzmanQEmItArWKASYhcHUB1fAzVNp9ER9Si
+X-Gm-Gg: ASbGnctbVa3vwAr3lkKiOTaio/CLYep3rgkN1vFufI/BYgF+INIr6tplt0o7rShSwpS
+ LUYIAnu/4SDdbmCx9zWLbic302QpLX0lygKctHzZVQepMhy9RA6O0MuzjD17xLx2eUeE53sGPg8
+ 9JtmH4Hva7CthJyxtB7tyTnkwF40EiHwxcaFl5nT1O4KTMX8BX6Def3tr2PkmJiM56VjREMXrSL
+ VCEjEMBkQadN0AVP5nqtJnMy9UdXZTcdfvGyg4vzM+/gPBM7Xm2jePF2hfUl9MTrOdCJHXEdNPl
+ nfbQQxbNB+5WEKvJrCeGcmtmRU4FbiW2N6/msgerCqr8AV8wrn/Uo63aZEGDHQ==
+X-Google-Smtp-Source: AGHT+IF1moARBkgm2lhQ9mBywi0r3o93XpJWFbU3tfKbOXZ3T+6OukiapWmLixUD8Kkr0uNvuebhpQ==
+X-Received: by 2002:a17:903:b07:b0:234:948b:91c7 with SMTP id
+ d9443c01a7336-23c875d2f93mr217129395ad.51.1751905065725; 
+ Mon, 07 Jul 2025 09:17:45 -0700 (PDT)
+Received: from localhost ([216.228.127.130]) by smtp.gmail.com with ESMTPSA id
+ 41be03b00d2f7-b38ee450a61sm9260195a12.8.2025.07.07.09.17.44
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 07 Jul 2025 09:17:45 -0700 (PDT)
+Date: Mon, 7 Jul 2025 12:17:42 -0400
+From: Yury Norov <yury.norov@gmail.com>
+To: mailhol.vincent@wanadoo.fr
+Cc: Lucas De Marchi <lucas.demarchi@intel.com>,
+ Rasmus Villemoes <linux@rasmusvillemoes.dk>,
+ Jani Nikula <jani.nikula@linux.intel.com>,
+ Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
+ Rodrigo Vivi <rodrigo.vivi@intel.com>,
+ Tvrtko Ursulin <tursulin@ursulin.net>,
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+ Andrew Morton <akpm@linux-foundation.org>,
+ linux-kernel@vger.kernel.org, intel-gfx@lists.freedesktop.org,
+ dri-devel@lists.freedesktop.org, Andi Shyti <andi.shyti@linux.intel.com>,
+ David Laight <David.Laight@aculab.com>,
+ Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+ Catalin Marinas <catalin.marinas@arm.com>,
+ Anshuman Khandual <anshuman.khandual@arm.com>,
+ linux-arm-kernel@lists.infradead.org
+Subject: Re: [PATCH v2 0/3] bits: Split asm and non-asm GENMASK*() and unify
+ definitions
+Message-ID: <aGvzHdDACM1Cw97f@yury>
+References: <20250609-consolidate-genmask-v2-0-b8cce8107e49@wanadoo.fr>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.11.0
-Subject: Re: Is PCI passthrough of the AMD XDNA device possible?
-Content-Language: en-US
-To: Marcello Sylvester Bauer <marcello.bauer@9elements.com>
-CC: <dri-devel@lists.freedesktop.org>, <linux-kernel@vger.kernel.org>, "Zhen, 
- Max" <Max.Zhen@amd.com>
-References: <8ef53fef-a1bf-4948-8105-9fbf341e034b@9elements.com>
-From: Lizhi Hou <lizhi.hou@amd.com>
-In-Reply-To: <8ef53fef-a1bf-4948-8105-9fbf341e034b@9elements.com>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 7bit
-X-EOPAttributedMessage: 0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: BL02EPF00021F6B:EE_|CH2PR12MB4149:EE_
-X-MS-Office365-Filtering-Correlation-Id: dd618eed-d978-47cc-fa96-08ddbd712ee6
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
- ARA:13230040|376014|82310400026|36860700013|1800799024; 
-X-Microsoft-Antispam-Message-Info: =?utf-8?B?cWFhMS83bndrQjdCdGJuZEJSeHIxem54ajVvZjVjZUMydkRSeTJiWjNheXIy?=
- =?utf-8?B?STBkVm9hYjc2SHFiazJmR0Flb0x4cUp6YmJnbWFiTkV6aGhGU0RTdG1TTnpP?=
- =?utf-8?B?ekFWRlROOEpCQmZ6aXhnUmg1NEl5ZDd6ekR1ZmZoeFNSZElYeS9aOC9oRy9w?=
- =?utf-8?B?Mm1abG43d1QxTzBwTjNXbE0rNlg0am9xeGk1YS84aWdLZ3hwQ0FrYVBDajg1?=
- =?utf-8?B?dlFrNnhVbWVWcEY1WW40eUhpcHRYVjN1WVFGT1JKTU1DNkE1dllhZUxBVXp4?=
- =?utf-8?B?U21QM2tqdWl5VUpwWnMyNXF1ZnFqMGVBc0RadUxEZXlwSWxBSkp4MWJtUUhx?=
- =?utf-8?B?dEM1RXI1UlQ3dU5KTktobkpVN1dLN0RVUGI4VWwrVkhFUWpUaXBGd1B5aGdi?=
- =?utf-8?B?cmhxL0lQQUFuR2Q1Y2tZMUZuVnpWRkJYdWlwWG9vd2VNemw1K2lTRjBiQnFH?=
- =?utf-8?B?SmEyMjVySnpyWEpJbTR2clNsQlc3ZExaQWJYZy9JTFk5aVRhMjhxVWVyUEhE?=
- =?utf-8?B?RkhQK1dCcWw1UnRKZERSa2Q5TVVvYmpKSGRkOWl0UUlOVVIyK3hySFdOUk5V?=
- =?utf-8?B?THZwT1RVV0RQVTJEN1ZJWTFteWd1ZCtZVHhkc2xrdWl3TnB1N3dIa0JrR1Uz?=
- =?utf-8?B?eThiMmducy9QeGxjbldqcEpDbHYzeGpYS21qY21QRXZXOWdHdDdhYmU0d0E1?=
- =?utf-8?B?MkxhL0JJSStDU0txNUMwMUFUMVIzSk1yODhjRVk1ZEZMNlBQOWY3aFR0N2Qx?=
- =?utf-8?B?bzRNTGcwR1k5c2FqTXp2RVJzZDRoRis1Q2dKZFlRK0NTTERQM0RzVjBjVE95?=
- =?utf-8?B?MU1OOXJkUEh0YVRjQnRxOHJ4NlRZNHZjSzZKQndpb1dVS2dTN2oxZjgxRVhx?=
- =?utf-8?B?NjRGL1FGYmxSVHorMFROT2hUMWFEbWlyQ1U2VWkxQy9rSWNIZXlIRGp2elFx?=
- =?utf-8?B?VlUrQXNQRlJEVFRHR2h0REJNMUZvRlJJcmg2ckpFMFZZbXhISkRrRlNFa1A1?=
- =?utf-8?B?d1EzYUo0cjM1KzFsbDhRV0I3NEdtQ2RmNy9ZdFh0eDVyOXY1amlNK2xtU1g2?=
- =?utf-8?B?TDNxamxjbUc5dWl6QXUrSWVDeXpNTDFWSnNvdjF6RHgrZjZFWTg3d0FDTSto?=
- =?utf-8?B?SlgwMHdkQU5LV1JOSStaWmszaExDZ2hjQ1dZVTRjVzBneWxJbDdXSjY4NWZo?=
- =?utf-8?B?TmRCeE8xRmY0UGZOYkdad1pTdGhKaC8wOWJjdlg2d0lEU0FKT29KZkg1MUcz?=
- =?utf-8?B?V3dpN3dWZnpxUGphak5hQ1NXSGtOM0VqMEx2NVZ0RjB2UkwySWZ6MEZ2N0Zi?=
- =?utf-8?B?ZFh4eFYzZ0VyNjFrRU9Za3hkeGh0TnFoK3NKR3lwL08rM0c2Y0FuNy9oVzly?=
- =?utf-8?B?eFhBSjVyY3YvODQvdHZEQ1o1UDB1cFR2cUtaL2IxZmNMZkNGUXZGT0VBRWtq?=
- =?utf-8?B?WjJLZkpveEM2VlEwb2Y1L3ArOXY4c0hmaTBkWFJza2Ewc09HZlcwWTRBbzQy?=
- =?utf-8?B?ZG5DcUM4TkN2ZEJKMnJGV3JYMFc5Znc3RktUOGc1alFlbWMzei9NanhjNGlq?=
- =?utf-8?B?dmdxOGFKVlB6Z2dGNitrNUtVcThrRFhSWjB3TkdzRHc5ajFZeGFJeTZDdWt3?=
- =?utf-8?B?ODlkUTdCM1lVYjdWTXdOaGYzUVh3QnlQVVdRUHNUa2x5bVc5aXg3YU5RTmRO?=
- =?utf-8?B?QnJnTUROODNZd3NtcWdEcW9Zd254dXVRWE1jNWpwa0JyVkFEMXFyVFdRdmZs?=
- =?utf-8?B?eVlVUzJhNDBjRkZKcUFCSDNPaExyOXlmOVZ0V3pNNjY0NXJra0xKdmt1Y0JS?=
- =?utf-8?B?ejdwaVZFVDhZSHBpMnFJbFg5T0dPODdSaGR5bU5tR2dFRXB6akx4N1hvSW41?=
- =?utf-8?B?Z1l0UmVMSlRVRXlsTDR1STM1VFY1RnBXU3hNYmJiSHllaFVvK04zaEwzVWtv?=
- =?utf-8?B?bzI0a04vM3NwbDhTcDJkYkV5Q1BWN0c3M3E4MWc4MXQ1eWd2SkdKNDF1K28z?=
- =?utf-8?B?YkkzUGtBZWFaWmNNcDdOZlJNV0FMU1BsdnhGME13ZmVUcjFKTmlSUkU2ZXdP?=
- =?utf-8?B?Rm5wWXR2N0F1RWpEaTZhOU41L0l4V0d5eU9sQT09?=
-X-Forefront-Antispam-Report: CIP:165.204.84.17; CTRY:US; LANG:en; SCL:1; SRV:;
- IPV:CAL; SFV:NSPM; H:SATLEXMB04.amd.com; PTR:InfoDomainNonexistent; CAT:NONE;
- SFS:(13230040)(376014)(82310400026)(36860700013)(1800799024); DIR:OUT;
- SFP:1101; 
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 07 Jul 2025 16:13:17.1900 (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: dd618eed-d978-47cc-fa96-08ddbd712ee6
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=3dd8961f-e488-4e60-8e11-a82d994e183d; Ip=[165.204.84.17];
- Helo=[SATLEXMB04.amd.com]
-X-MS-Exchange-CrossTenant-AuthSource: BL02EPF00021F6B.namprd02.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Anonymous
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: CH2PR12MB4149
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20250609-consolidate-genmask-v2-0-b8cce8107e49@wanadoo.fr>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -149,82 +101,78 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+On Mon, Jun 09, 2025 at 11:45:44AM +0900, Vincent Mailhol via B4 Relay wrote:
+> This is a subset of below series:
+> 
+>   bits: Fixed-type GENMASK_U*() and BIT_U*()
+>   Link: https://lore.kernel.org/r/20250308-fixed-type-genmasks-v6-0-f59315e73c29@wanadoo.fr
+> 
+> Yury suggested to split the above series in two steps:
+> 
+>   #1 Introduce the new fixed type GENMASK_U*() (already merged upstream)
+>   #2 Consolidate the existing GENMASK*()
+> 
+> This new series is the resulting step #2 following the split.
+> 
+> And thus, this series consolidate all the non-asm GENMASK*() so that
+> they now all depend on GENMASK_TYPE() which was introduced in step #1.
+> 
+> To do so, I had to split the definition of the asm and non-asm
+> GENMASK(). I think this is controversial. So I initially implemented a
+> first draft in which both the asm and non-asm version would rely on
+> the same helper macro, i.e. adding this:
+> 
+>   #define __GENMASK_TYPE(t, w, h, l)		\
+>   	(((t)~_ULL(0) << (l)) &			\
+>   	 ((t)~_ULL(0) >> (w - 1 - (h))))
+> 
+> to uapi/bits.h. And then, the different GENMASK()s would look like
+> this:
+> 
+>   #define __GENMASK(h, l) __GENMASK_TYPE(unsigned long, __BITS_PER_LONG, h, l)
+> 
+> and so on.
+> 
+> I implemented it, and the final result looked quite ugly. Not only do
+> we need to manually provide the width each time, the biggest concern
+> is that adding this to the uapi is asking for trouble. Who knows how
+> people are going to use this? And once it is in the uapi, there is
+> virtually no way back.
+> 
+> Adding to this, that macro can not even be generalised to u128
+> integers, whereas after the split, it can.
+> 
+> And so, after implementing both, the asm seems way cleaner than the
+> non-asm split and is, I think, the best compromise.
+> 
+> Aside from the split, the asm's GENMASK() and GENMASK_ULL() are left
+> untouched. While there are some strong incentives to also simplify
+> these as pointed by David Laight in this thread:
+> 
+>   https://lore.kernel.org/all/20250309102312.4ff08576@pumpkin/
+> 
+> this series deliberately limit its scope to the non-asm variants.
+> 
+> Here are the bloat-o-meter stats:
+> 
+>   $ ./scripts/bloat-o-meter vmlinux_before.o vmlinux_after.o
+>   add/remove: 0/0 grow/shrink: 4/2 up/down: 5/-9 (-4)
+>   Function                                     old     new   delta
+>   intel_psr_invalidate                         352     354      +2
+>   mst_stream_compute_config                   1589    1590      +1
+>   intel_psr_flush                              707     708      +1
+>   intel_dp_compute_link_config                1338    1339      +1
+>   intel_drrs_activate                          398     395      -3
+>   cfg80211_inform_bss_data                    5137    5131      -6
+>   Total: Before=23333846, After=23333842, chg -0.00%
+> 
+> (done with GCC 12.4.1 on an x86_64 defconfig)
 
-On 7/2/25 02:14, Marcello Sylvester Bauer wrote:
-> Greetings,
->
-> I have some questions about making the AMD XDNA NPU accessible in a 
-> virtualized environment. I tried using VFIO on QEMU, but I could not 
-> get it to work.
->
-> Here is a brief rundown of the resulting issues:
->
-> Simply adding the device to QEMU ("-device 
-> vfio-pci,host=0000:c4:00.1,addr=4") results in the following error:
-> ```
-> amdxdna 0000:c4:00.1: [drm] *ERROR* aie2_init: Enable PASID failed, 
-> ret -19
-> amdxdna 0000:c4:00.1: [drm] *ERROR* amdxdna_probe: Hardware init 
-> failed, ret -19
-> ```
-> This makes sense, as the drive relies on the IOMMU for the PASID 
-> extension.
->
-> Fortunately, QEMU supports hardware-assisted IOMMU virtualization with 
-> the AMD-vIOMMU device ("-device amd-iommu,intremap=on").
-> While the driver can enable the PASID extension with this device, it 
-> fails to establish communication with PSP during firmware validation:
-> ```
-> amdxdna 0000:00:04.1: [drm] *ERROR* fw return error 0x8
-> amdxdna 0000:00:04.1: [drm] *ERROR* failed to validate fw, ret -5
-> amdxdna 0000:00:04.1: [drm] *ERROR* aie2_hw_start: failed to start 
-> psp, ret -5
-> amdxdna 0000:00:04.1: [drm] *ERROR* aie2_smu_exec: smu cmd 4 timed out
-> amdxdna 0000:00:04.1: [drm] *ERROR* aie2_smu_fini: Power off failed, 
-> ret -110
-> amdxdna 0000:00:04.1: [drm] *ERROR* aie2_init: start npu failed, ret -5
-> amdxdna 0000:00:04.1: [drm] *ERROR* amdxdna_probe: Hardware init 
-> failed, ret -5
-> amdxdna 0000:00:04.1: probe with driver amdxdna failed with error -5
-> ```
->
-> Note that it also causes other devices on the host system to 
-> malfunction, such as the GPU:
-> ```
-> amdgpu 0000:c3:00.0: amdgpu: SMU: I'm not done with your previous 
-> command: SMN_C2PMSG_66:0x0000000F SMN_C2PMSG_82:0x00000007
-> amdgpu 0000:c3:00.0: amdgpu: SMU: I'm not done with your previous 
-> command: SMN_C2PMSG_66:0x0000000F SMN_C2PMSG_82:0x00000007
-> amdgpu 0000:c3:00.0: amdgpu: SMU: I'm not done with your previous 
-> command: SMN_C2PMSG_66:0x0000000F SMN_C2PMSG_82:0x00000007
-> amdgpu 0000:c3:00.0: amdgpu: Failed to disable gfxoff!
-> ```
->
-> Now to the questions in this regard:
->
-> Are there any known limitations or information regarding the 
-> virtualization of AMD XNDA?
-> Is there public documentation on how the device interacts with the PSP 
-> BAR, and if not, what does firmware error 8 mean?
+So, I'm still concerned about that split for C and asm implementations.
+But seemingly nobody else does, and after all it's a nice consolidation.
 
-Unfortunately, XDNA hardware/firmware does not support passthrough. The 
-validate fw error with passthrough setup is known. If you would use XDNA 
-in VM, you may try virtio solution: https://github.com/amd/virtio-npu
-
+I've moved this in bitmap-for-next for testing. Thank you Vincent for
+your work.
 
 Thanks,
-
-Lizhi
-
->
-> Thanks for the support.
->
-> Kind regards,
-> Marcello
-> -- 
-> hardware: Lenovo ThinkPad T14s Gen 6 (AMD Ryzen AI 7 PRO 360)
-> QEMU: v10.0.0
-> Linux host: v6.15.4
-> Linux guest: 6.14.0-22-generic (Ubuntu 25.04)
->
->
+Yury
