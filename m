@@ -2,65 +2,154 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0B573AFBDDB
-	for <lists+dri-devel@lfdr.de>; Mon,  7 Jul 2025 23:51:39 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id C808AAFBE27
+	for <lists+dri-devel@lfdr.de>; Tue,  8 Jul 2025 00:12:17 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0958910E03B;
-	Mon,  7 Jul 2025 21:51:36 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8BE5B10E0B1;
+	Mon,  7 Jul 2025 22:12:13 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="H4572+o0";
+	dkim=pass (1024-bit key; unprotected) header.d=amd.com header.i=@amd.com header.b="S2ocvJnb";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-qk1-f180.google.com (mail-qk1-f180.google.com
- [209.85.222.180])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C32E410E03B
- for <dri-devel@lists.freedesktop.org>; Mon,  7 Jul 2025 21:51:34 +0000 (UTC)
-Received: by mail-qk1-f180.google.com with SMTP id
- af79cd13be357-7d20f79a00dso556919785a.0
- for <dri-devel@lists.freedesktop.org>; Mon, 07 Jul 2025 14:51:34 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1751925094; x=1752529894; darn=lists.freedesktop.org;
- h=cc:to:subject:message-id:date:from:mime-version:from:to:cc:subject
- :date:message-id:reply-to;
- bh=qBG8RgRp5aWpRNqXfp/hHId5FOptjrBygU9EaAjmUuU=;
- b=H4572+o0UdPoNNAaUog5qRGFQKzdkQhYMwV29dwZIztXPQdoW5MDDm2fBPg1Xwi9pK
- XFUXkHOLEeNcT2G5UxyGlHE3vSvQufMFWOes7Dtolj6AOGE211KO5nBkmD5uwzsI+VCI
- G/kBSSt77uNbkxq/FaA/iXqOZLLeqVKApUqlR+feJ9JfOzi4G/iddPm+2SLmZ/BmRuyt
- Veu2TVH7UeXATQNjrlrkPFJcRNUdvW3WyhSbIXrPvzPwVTfaQBdxKo5VqGDfrpZJOom7
- R7HGWNYmJriW5A3ZPKhc3SYfmqzTcXfoemheTdE1zRSpRV/vpdtrQpuYDC68bkmxrLDG
- PHvQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1751925094; x=1752529894;
- h=cc:to:subject:message-id:date:from:mime-version:x-gm-message-state
- :from:to:cc:subject:date:message-id:reply-to;
- bh=qBG8RgRp5aWpRNqXfp/hHId5FOptjrBygU9EaAjmUuU=;
- b=dA2OdRcL7wEGSAM+9DlYRtZjxjBMY4lX5YvJdbqIGBtliNN4b20pPcAItFgYnHCz+n
- iqRvGzT1piL6KXfBNQz3/dNyUNQtHHbt9BSAk+5lR3S1tIPxTkUbTOkT/PjAdDwnZgy5
- fc2rh5M6tuNpAw5XQlj8q/w/zVU9FY7zj6HzC85ZZyC8s4sb2f/Hq5ojFo76xGeKJXdt
- ZTZu2kH3GBSCvzh9l8yNseKT51cV+Qf4j2UqKGz60i1mYmWZL1YHaOWxsNzF2rdUvoIb
- LJo+QBanw7jujTelgILKUOD5gKyvzAq2ZqvVADaupaORYLkRIIOwJWgprLdMV/3AxhGJ
- JjZg==
-X-Gm-Message-State: AOJu0YxBo9HexR/Fc/ii5yNIbKI0YP2tHNFojkeTAaHn/aHvvGbb85Xx
- YTo8zEjDrcIEMBsxpMBXv5jefEqMcfxNg5rT12XFa7xHSmhkvTi9XjANYo/QQjdYJJcY9Ur77Xw
- uRNxQOq4bGVWhP/uLxH2Rm+L9jcTmb/I=
-X-Gm-Gg: ASbGncv3yHF8PkkAUVZ39CWN8FEjt0/2J+w1BKWgCw24MxpVWADfStHcc3SsZi0gUr0
- Abn8cPFQarDsa986wqyIOXpeUw/JpnVNgRye1dQwqqvrX/puuRVV7PIwwBHzC8jzvK23+qvEAnY
- DAyf2CH+Gph7Fol2Fhpvb62z7Gkon8jW92+oSpBN5bQOKkLj+RpObsbUFGFnWL+lxwsq4qSmBpG
- pSeHJwAM+X3+RlH
-X-Google-Smtp-Source: AGHT+IH/WpBXkCAX5gTtSFLfM0VHrfYiIyCEHbg1/iwHSjr4d+fy0Ff9QmZAqzy8rURzr5JkI4V2XmoySpRzI3xVa2o=
-X-Received: by 2002:a05:620a:708e:b0:7d0:98fc:83f9 with SMTP id
- af79cd13be357-7d5dcc7297emr1805784085a.18.1751925093768; Mon, 07 Jul 2025
- 14:51:33 -0700 (PDT)
+Received: from NAM10-MW2-obe.outbound.protection.outlook.com
+ (mail-mw2nam10on2059.outbound.protection.outlook.com [40.107.94.59])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id F368410E0AD;
+ Mon,  7 Jul 2025 22:12:11 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=Ps99uXRUNssF2fNgT8G44MY+9eQ4oAzrL3tUzyDwjzQx0GPSvZnudkflRSuGVSDSn/vVxEi5kLJIBXfbufMCTSNjJQJJ2msvxlpXxvAYHBibA92lrgEZ4Lu6Ofyjz4508fj3e1YrY7mi0H7v3DgTBhDilVHHWLOiXuEPx3DvPcf3glXeiS8kUcEOb7PrS4Xsi5tHOkz2bFDBBQLBkHrRIr0paLUMZWItUbQxUBps3yxoTEsK7Qvhb6H/+0xS4UCIlBf5BrUvNK65Tu5nwA/EKF14r9PUCqBXRSQQ0zGoCz2YlLjsi3viWxBeu9MUa11vr+h5s/rDkE15NUR2B3JIUw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=RG+bG/7vAEDE2MAHqhMkkO5R/8g+KoRHAoRdE+RLcss=;
+ b=ply8EFkPhRFNDxwV3+yvRfdQymaUvUPQqyooQEWSKKVRoxTRcq/dadoUekP0bLWt9BBB1sd7MpGfmxyYVavDb8jZzOhUv01ktogJYUO+Opoq4xR756mEWjX9FHfM8eBPm/jkoS8dNw+t0JeikPGyr7/Coe3ln5d9kDXZ84tqKSDU1iVByVR9knIWlNN4Mxs0G0PkraCgiSm0uNRT8cFXkxWNF3sT7qRZO1YKmGh4+Vw3BENAhAbtKi/AZnJztot5DzT2hCcwx7N9ubHrUGrCfBqepbbnGvLVhWYqB27B8vQ8cak4rTRR3drKoTlVdn2GCiStbaSSyg5Swcjs6E3yzg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
+ header.d=amd.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=RG+bG/7vAEDE2MAHqhMkkO5R/8g+KoRHAoRdE+RLcss=;
+ b=S2ocvJnbybn5Q8I6vzEWTWZGZStL4cU9zDXAPyRmEk2zGvkQ2LId9yPgiqkl4nfb/3yqIG6jpoftyFnRysggr95ynKvQHT/V1PMhILRGSKcJ+HGWNoagnupRxD2HGbsL3JrcgmgiTrTmJXhSZTVgWM3FPSU7uvH5Q6kHCDh9sBY=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=amd.com;
+Received: from BN9PR12MB5115.namprd12.prod.outlook.com (2603:10b6:408:118::14)
+ by IA0PPF44635DB8D.namprd12.prod.outlook.com
+ (2603:10b6:20f:fc04::bcc) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8835.25; Mon, 7 Jul
+ 2025 22:12:09 +0000
+Received: from BN9PR12MB5115.namprd12.prod.outlook.com
+ ([fe80::9269:317f:e85:cf81]) by BN9PR12MB5115.namprd12.prod.outlook.com
+ ([fe80::9269:317f:e85:cf81%7]) with mapi id 15.20.8901.024; Mon, 7 Jul 2025
+ 22:12:08 +0000
+Message-ID: <56e7ec54-9820-4e02-be97-2a9e1dedd117@amd.com>
+Date: Mon, 7 Jul 2025 18:12:06 -0400
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] drm/amdkfd: enable kfd on LoongArch systems
+To: Han Gao <rabenda.cn@gmail.com>, Alex Deucher <alexander.deucher@amd.com>, 
+ =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>
+Cc: amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org, loongarch@lists.linux.dev
+References: <2b83380bf64a424b9cb902a20a244c3e106c4bb8.1751702072.git.rabenda.cn@gmail.com>
+Content-Language: en-US
+From: Felix Kuehling <felix.kuehling@amd.com>
+Organization: AMD Inc.
+In-Reply-To: <2b83380bf64a424b9cb902a20a244c3e106c4bb8.1751702072.git.rabenda.cn@gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-ClientProxiedBy: YT3PR01CA0139.CANPRD01.PROD.OUTLOOK.COM
+ (2603:10b6:b01:83::31) To BN9PR12MB5115.namprd12.prod.outlook.com
+ (2603:10b6:408:118::14)
 MIME-Version: 1.0
-From: Steve French <smfrench@gmail.com>
-Date: Mon, 7 Jul 2025 16:51:22 -0500
-X-Gm-Features: Ac12FXy3learX7rqABOLMiQr7WvFHfcz0ICgQjm93cahy8vEBhOo_shQG00bqMU
-Message-ID: <CAH2r5msTzHGf5YhYra+_5yFFGkc=1o2z_-QmtsA=5rNdy35j0g@mail.gmail.com>
-Subject: Flood of RIPs in DRM driver starting with 6.16-rc5
-To: David Airlie <airlied@redhat.com>, "simona@ffwll.ch" <simona@ffwll.ch>
-Cc: dri-devel@lists.freedesktop.org, LKML <linux-kernel@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: BN9PR12MB5115:EE_|IA0PPF44635DB8D:EE_
+X-MS-Office365-Filtering-Correlation-Id: 9d6059f4-7ea3-4e36-9852-08ddbda3509c
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;ARA:13230040|366016|1800799024|376014|7053199007;
+X-Microsoft-Antispam-Message-Info: =?utf-8?B?OXB2SGVSOWVLSWFnbEJONGRTZjdYdVJVT1doZm96VHU1U09DWWVxcldNVm1J?=
+ =?utf-8?B?RlRCMDBvbG9CajZsT0MwdFgvbkhBUnBxTVdVbXlqa0pZdTJOUkhlcHkwVUJF?=
+ =?utf-8?B?eUc0Yld2ZlNNNlpFcFRLTEE3a1B4U0pleXo5T1cvU08rZlVqQ29XVTluTWZI?=
+ =?utf-8?B?dFBvRU5ERmR2TURYNmNLN3B3WHVvV3ZrTEtsNUhYeEtVMTNJRzl5UnpBVGI3?=
+ =?utf-8?B?WVZHbUNYekthUzBzdUVOa0hBeG9DNS81TTVBL3g3Qk9GS2FLbXFEUkJtdTJx?=
+ =?utf-8?B?NVdTd1BwZUpxN1lRRWZFdEYyT25qa1c0U1pmRGp4cGxCSit1ZTBJcFlGeWxI?=
+ =?utf-8?B?UFpBQTgxR0E3N21RNlpaOVplc1VDZSthNFZGMzFBUlh0SUF4R0trSVpxNzhU?=
+ =?utf-8?B?bnFCemREZXN6Y3YyNERTL3JJeVJlUkU0OE55Mlg5dElBVFRpWDlyeFR6bUhG?=
+ =?utf-8?B?R3NVbmVLWGl6UzREUG5ud2pXeHQxTlJ1RU43U3ZtS0o0bDQwTm1ET1lFcyt5?=
+ =?utf-8?B?TXRKNUEyS3NURWYyZXU2T2FSckx4b25vcjFuNzV3VGVnRi9YZ1l3enZhSXJE?=
+ =?utf-8?B?blRaNXVFR2tBNXl6TWJNMmFYRnUrVDhIZEl0dGk4QlNycnFjaFpHTE8rV29Z?=
+ =?utf-8?B?ZHU2Y0FqMTd2SVFCci9obXJsL3pWSnNoQUptZWRwbWVSK3VxcGNwSTU4OUJJ?=
+ =?utf-8?B?NHZNTmVQZk1JSVZVM0s4ekN4Z0UwZmlhbEtIVkxnRE0wSWx2RGUzWEdVZThQ?=
+ =?utf-8?B?YnpGRlozcGhFcW5xNFJTazBQU0xpUzJvazU1SEs3ZnRPUXkya2lZekFwNUFT?=
+ =?utf-8?B?bjFEK0JOUmxxNkV0anlmcW9zMzkzaEVkcE91ZDlpci9iblRFdS80WXJTMUlI?=
+ =?utf-8?B?NHdoWjVUM0Q2VitxZ2l3U0dVSGNQNFpnSC9kdUZzMVNqWU1VWnZDa1NPOEc3?=
+ =?utf-8?B?OFhyQnY3NkRPcDZ4UTE1U24wV2p4Sm9xdUR6MWxrOHpDNHlqNFNwMC9JVTJI?=
+ =?utf-8?B?NzV0Y01UMHg5MWRwYUoxc0NoTHJ5a0ZGdzF0QmZac0FRaFIvUmVLVnhkaFRR?=
+ =?utf-8?B?NlhWRTNrYzhzMlc5eFREYWVnNzBkTmYxa01YdTFleEw1QXRSN2xUdUdzVTlM?=
+ =?utf-8?B?cm1xN1FvRHNLNzk4d1Bua1g5enFkdXEzZ1dxU05HNjM5dy9QUURuejJRRjhF?=
+ =?utf-8?B?VGNSK3JoT2pRS2FMdmJiSGd0d2lVZUZRQ0ZZd3JYcWIrQmRsNjdrSEpIU0RB?=
+ =?utf-8?B?dFBrVXlmekFmOUdYRUpHeXU2SVptUXhkUjFOYTN4VUJsYXAyakdpZ2NNdzZy?=
+ =?utf-8?B?SlJyZ1VFWS8rYStxUHJEbEFoMHVQclRWTVJsR2FQTFRUWEdheE9NSEVQcEZ5?=
+ =?utf-8?B?a3llbzN3VWZ1dm1JbWhLQnUvRjRDcTByL3ljL1BpdnB3ZXlvZ2twZStUTE5k?=
+ =?utf-8?B?RWIzc3lNMEhBVS9Bd1M4TnZvZzhxNFdWUW50S3VGMlJqYzNyTGMzS2tZTldX?=
+ =?utf-8?B?UmRNR2M1OWFNNWdwZTYxc0dGTEg1VjJEZnZUYk13YkN2R2lTYWNHeEEvUEZG?=
+ =?utf-8?B?QUkyakpGUkZob0hMVzdOWlpYNzc1QTJzTzQ3U1lVSTE5Z1VYVFJSUWJMcWJ1?=
+ =?utf-8?B?K0VTT3FMejJ4OStKK0cwTldNVW84T1pSQ2xqU1FPTmpWbUtsTGYreGpQTldH?=
+ =?utf-8?B?dkVQSmJBMGF1QnpDYmpzN2RqSnJpWlhrdnRwMVZOR0owb1I5QUtsTUQ3dnRl?=
+ =?utf-8?B?amFzWEg4KzB0dEdnUkV3SEpTZVJRbnZPRCtYUXo1NmQvcTFEdHZuY25WTlF1?=
+ =?utf-8?B?blUxQ2xtYkk5czkzWElmZnNuTEUyMUpUV3krV0liSStTeDhMUkNvczZQbUZo?=
+ =?utf-8?B?Q1g1bytaYWJXL0U4azZ0bndLSVlmWkN6TFdlclRZU1pZRlhxVnBJYlFMWUN4?=
+ =?utf-8?Q?94GUaHlEdn0=3D?=
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:BN9PR12MB5115.namprd12.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230040)(366016)(1800799024)(376014)(7053199007); DIR:OUT; SFP:1101; 
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?MXd5WVpVMUEzVzNvVGNXeis1Wnk1bXVvQytFL1h6TXdXVEZuWjFKSmJyQmNV?=
+ =?utf-8?B?SmpVU3VHMUg4bEFVNnU1MlZDK2lmZEIxRk8zb25ka1B2TE4xbS9KUm1mTUNM?=
+ =?utf-8?B?eE5yRG4rQ2prUEtVbm5WWmxRZ2xaSHZqT0hlaXpVWDZDalkvdk9KM0FNMm03?=
+ =?utf-8?B?RHI3YVZEL003Y3hsdVZRYUo2M0Z0MUVWN1BoT1piUkt3Zm1pS3FOankxazI5?=
+ =?utf-8?B?SUVJaEFpakZrZmgwMTVZSmZvN1hkS1lGVTM1bWIwMWVSL08rWmxKOXFpZDA1?=
+ =?utf-8?B?Z3VoMVZjUC9ZaFhCOVdGWDluc2Z6M0tuRWpVdzV1L202cnJqQmk2SllOQmYy?=
+ =?utf-8?B?RzdaMDVqM004NlMveVdZQjVnQU5mSlpieU1IYnlRZXpsWkhaVmZtWGhNODBP?=
+ =?utf-8?B?cU9lajlVZmpkdTZuMUhkMEw3a0FEQ2QvSDNIVjBmZW1KSlM0ZTdnYmIzZTRa?=
+ =?utf-8?B?bWFaOUF2bDZ5bTV6ZjdIazd4N0pQekJ1K0ZXNk1FQm96Y3NHQWgzd1VYbU9h?=
+ =?utf-8?B?TDdkbFpPandhSGY4ZHhia3F3cVRYNVlVZVAvbk9zZXFxMllQZG5PbEZHa2w4?=
+ =?utf-8?B?U1MvN2RSSnFvZ25RejlyeU8waVoveXdmdGhmbTRMZllBemliK1l1WUpEYjAz?=
+ =?utf-8?B?aFBLOWF6YlM3L1pQMDlRMS9iMmpEeEFTOUFhWFN6SFBrT0Q5ZnZzaXlOMHVB?=
+ =?utf-8?B?UXpTRmlmUnd4YngxS1pseTlQRFB1WUdvOWJZbzJpb3BkNUpaWUFQTmRyM2Zr?=
+ =?utf-8?B?bDl3RDdhYklieTFtam11WHY1WU13ckh0czRoSjNOVEEyelBScGIzZ1VHTTJu?=
+ =?utf-8?B?ZEhqV21EUktzc3NEbS8rbTc1TlYvK1RrRncvckYzUXNmZHh2QmtMYkVLRGtY?=
+ =?utf-8?B?am5XbFJqbE1jL2ZaQ0ppU0kvbkhZVGZsdVNsMnNtL09zSjZaMVRXWnBMemc3?=
+ =?utf-8?B?NEdEVE8xYTZJcU9DSXErK1Q3c3BJbWt2U01oYVp0Uk9zWkw2ek9FUEZiR3Ny?=
+ =?utf-8?B?ZXZvYkNEQjNqRkNSMml6MThuZ2J3MDJjR2NTRGZzN2FobE96M1diNmJNQzBt?=
+ =?utf-8?B?RDF1UGN3NkZIZkZBcXJhWUdXTS9zcnZ3N3AzekJoZ2JKN3JCL1NUT0dTcDVo?=
+ =?utf-8?B?S25hbU9XQmd6eDc5ZncwYk1NakVNQ0tQTm5iQWV4d2dHK2xuYkY3dUIyS2Fp?=
+ =?utf-8?B?MzQ4SS9NZTJiekE0SzU3WVlmY0lRajhJMkxDOUNxdmVYZW9NdDVCOTBubGFR?=
+ =?utf-8?B?SS9nM2xsRmVvc2RGT3B1c2R5MVJLSVdUL0xOeWRmTWxSbnRxMng3V0VaTkxQ?=
+ =?utf-8?B?dDlXR21SZTFTaHkybEM5UUZYWitaRW9CelphNjR3Mm9zRHBSM1VPKzRGaHhW?=
+ =?utf-8?B?aDZqMjhZNGxBSlhFNkJZVnRFTWR1SkFEbm9PRDZZNm9OU0t3dC9vd0NWS3o3?=
+ =?utf-8?B?VlNlY2JibWJOMEtBVmtpQmRuT1U5QjdxbjBXcy8vZG5VdVI5RGluL3NtVjRW?=
+ =?utf-8?B?YWFlZk0wd0ZXOVV0VHJsQkpKbkpSVWxTWVFkd1BXTXB1d1V4bkNaaW1rVVM2?=
+ =?utf-8?B?Vno1SDZzbHZnQnN3bWIxb1o1dzUwUjlrajZwMG01SFM5N29jMFQvMVVINjBu?=
+ =?utf-8?B?SFVQTi9LNnBjNStVdWY4dE9WYzVTNUZiNkxLblY2a2g4ZHRXZi9EMTdaUEFj?=
+ =?utf-8?B?V3N4UE1aWE56VmJtb2VtYndBYnQyUHN0SWNhOTV6M0Z2MGJXRmlwbWVYZHd3?=
+ =?utf-8?B?akVqS1FHckJQVlRXQWVROHcvQ0ZoSVRQRUpBUTdNT2pYTnRZSUd3c1VBaWpi?=
+ =?utf-8?B?Tmswb3EwNHFtYnlYZ3VDQVAra20ybm5LUmF2UXNKdGtGL1pEeW1MNU03M2JS?=
+ =?utf-8?B?WDhJc0NOaS95OTgxZHNlcUZ0d0lQRWVCVXdTaEcxYlRQbVlubE43SjMyZmV3?=
+ =?utf-8?B?alNQTytxdEpPajJ4OWdNRWVMOHArekFKbmREYnhLcnlXcE5PZ3FqTXJZRzB6?=
+ =?utf-8?B?K1VFL29vTGpmYkRuRUNteUg0RG1mSlQ4RGdwSU1DSTZybkFhcmhYb2g4NUdx?=
+ =?utf-8?B?WGQrejBTYWs3bEcweVY0dlRxSml0SGJ2YSs5QnZraVRBU1hHM2FGbkxOdERK?=
+ =?utf-8?Q?YK7AtOygCkQcR8lpsop5reisp?=
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 9d6059f4-7ea3-4e36-9852-08ddbda3509c
+X-MS-Exchange-CrossTenant-AuthSource: BN9PR12MB5115.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 07 Jul 2025 22:12:08.8155 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: pft65jYuWEyq+IWCKWyQlyGC+3X0Ye+ImzvU2R7UHO6GYsDSqgJVyR3qjfs4znEbcVJF4OYQZzUHB4dw1HpMfw==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: IA0PPF44635DB8D
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -76,149 +165,34 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-I see these RIP logged every second or two with 6.16-rc5 on boot, and
-they continue indefinitely.  I don't remember seeing these on rc4.
-This happens when booting up, even when doing nothing on laptop
-(Lenovo P52, Ubuntu 24 running normal build of mainline 6.16-rc5) and
-they keep occurring.
+On 2025-07-05 04:05, Han Gao wrote:
+> KFD has been confirmed that can run on LoongArch systems.
+> It's necessary to support CONFIG_HSA_AMD on LoongArch.
+>
+> Signed-off-by: Han Gao <rabenda.cn@gmail.com>
+> ---
+>   drivers/gpu/drm/amd/amdkfd/Kconfig | 2 +-
+>   1 file changed, 1 insertion(+), 1 deletion(-)
+>
+> diff --git a/drivers/gpu/drm/amd/amdkfd/Kconfig b/drivers/gpu/drm/amd/amdkfd/Kconfig
+> index 62e88e5362e9..b2387d529bf0 100644
+> --- a/drivers/gpu/drm/amd/amdkfd/Kconfig
+> +++ b/drivers/gpu/drm/amd/amdkfd/Kconfig
+> @@ -5,7 +5,7 @@
+>   
+>   config HSA_AMD
+>   	bool "HSA kernel driver for AMD GPU devices"
+> -	depends on DRM_AMDGPU && (X86_64 || ARM64 || PPC64 || (RISCV && 64BIT))
+> +	depends on DRM_AMDGPU && (X86_64 || ARM64 || PPC64 || (RISCV && 64BIT) || LOONGARCH)
 
-6.16.0-061600rc5-generic #202507062141 PREEMPT(voluntary)
-[  642.019544] Tainted: [W]=WARN
-[  642.019549] Hardware name: LENOVO 20MAS08500/20MAS08500, BIOS
-N2CET70W (1.53 ) 03/11/2024
-[  642.019556] RIP: 0010:drm_gem_object_handle_put_unlocked+0xc5/0x100
-[  642.019570] Code: ca ff eb 9c 4c 89 e7 e8 09 cf 64 00 eb d0 48 8b
-43 08 48 8d b8 e8 05 00 00 e8 47 8b 60 00 c7 83 e0 00 00 00 00 00 00
-00 eb 90 <0f> 0b 5b 41 5c 5d 31 c0 31 f6 31 ff c3 cc cc cc cc 48 8b 83
-40 01
-[  642.019579] RSP: 0018:ffffd003454f38c8 EFLAGS: 00010246
-[  642.019590] RAX: 0000000000000000 RBX: 0000000000000001 RCX: 0000000000000000
-[  642.019596] RDX: 0000000000000000 RSI: 0000000000000000 RDI: ffff8ced0e693000
-[  642.019602] RBP: ffffd003454f38d8 R08: 0000000000000000 R09: 0000000000000000
-[  642.019609] R10: 0000000000000000 R11: 0000000000000000 R12: ffff8ced06634000
-[  642.019615] R13: 0000000000000000 R14: ffffd003454f3a30 R15: ffff8ced06634000
-[  642.019622] FS:  00007f0b743986c0(0000) GS:ffff8cf4cbd88000(0000)
-knlGS:0000000000000000
-[  642.019630] CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
-[  642.019637] CR2: 00007f0af0384000 CR3: 000000016c6a0006 CR4: 00000000003726f0
-[  642.019645] Call Trace:
-[  642.019651]  <TASK>
-[  642.019658]  drm_gem_fb_destroy+0x35/0x80
-[  642.019673]  drm_framebuffer_free+0x40/0xa0
-[  642.019706]  drm_mode_object_put.part.0+0x5d/0xa0
-[  642.019718]  drm_mode_object_put+0x15/0x30
-[  642.019727]  drm_mode_closefb_ioctl+0x76/0xa0
-[  642.019738]  ? __pfx_drm_mode_closefb_ioctl+0x10/0x10
-[  642.019748]  drm_ioctl_kernel+0xb2/0x110
-[  642.019760]  drm_ioctl+0x2ea/0x5b0
-[  642.019767]  ? __pfx_drm_mode_closefb_ioctl+0x10/0x10
-[  642.019788]  nouveau_drm_ioctl+0x5e/0xc0 [nouveau]
-[  642.020378]  __x64_sys_ioctl+0xa2/0x100
-[  642.020392]  x64_sys_call+0x106b/0x2320
-[  642.020403]  do_syscall_64+0x80/0xe80
-[  642.020416]  ? do_syscall_64+0xb6/0xe80
-[  642.020429]  ? __rseq_handle_notify_resume+0x36/0x70
-[  642.020444]  ? arch_exit_to_user_mode_prepare.isra.0+0xa0/0xc0
-[  642.020455]  ? do_syscall_64+0xb6/0xe80
-[  642.020474]  ? kick_ilb+0x52/0x180
-[  642.020488]  ? update_load_avg+0x8b/0x410
-[  642.020502]  ? __update_blocked_fair+0xac/0x550
-[  642.020515]  ? __note_gp_changes+0x1ca/0x220
-[  642.020529]  ? note_gp_changes+0x8f/0xa0
-[  642.020541]  ? rcu_core+0x1b6/0x370
-[  642.020553]  ? rcu_core_si+0xe/0x20
-[  642.020564]  ? handle_softirqs+0xe4/0x340
-[  642.020576]  ? arch_exit_to_user_mode_prepare.isra.0+0xd/0xc0
-[  642.020588]  ? irqentry_exit_to_user_mode+0x2d/0x1d0
-[  642.020599]  ? irqentry_exit+0x43/0x50
-[  642.020609]  entry_SYSCALL_64_after_hwframe+0x76/0x7e
-[  642.020618] RIP: 0033:0x7f0b7ad24ded
-[  642.020627] Code: 04 25 28 00 00 00 48 89 45 c8 31 c0 48 8d 45 10
-c7 45 b0 10 00 00 00 48 89 45 b8 48 8d 45 d0 48 89 45 c0 b8 10 00 00
-00 0f 05 <89> c2 3d 00 f0 ff ff 77 1a 48 8b 45 c8 64 48 2b 04 25 28 00
-00 00
-[  642.020635] RSP: 002b:00007ffca5eb8f50 EFLAGS: 00000246 ORIG_RAX:
-0000000000000010
-[  642.020647] RAX: ffffffffffffffda RBX: 000055b1a5e17cc0 RCX: 00007f0b7ad24ded
-[  642.020654] RDX: 00007ffca5eb8fe0 RSI: 00000000c00864d0 RDI: 000000000000000c
-[  642.020661] RBP: 00007ffca5eb8fa0 R08: 0000000000000000 R09: 00007f0b7ae03ac0
-[  642.020667] R10: 0000000000000008 R11: 0000000000000246 R12: 00007ffca5eb8fe0
-[  642.020673] R13: 00000000c00864d0 R14: 000000000000000c R15: 000000002640746b
-[  642.020702]  </TASK>
-[  642.020707] ---[ end trace 0000000000000000 ]---
+Is LOONGARCH always 64-bit? If not, please make this (LOONGARCH && 64BIT).
 
-...
+Other than that, I have no objections to applying this patch.
 
-6.16.0-061600rc5-generic #202507062141 PREEMPT(voluntary)
-[  795.464458] Tainted: [W]=WARN
-[  795.464460] Hardware name: LENOVO 20MAS08500/20MAS08500, BIOS
-N2CET70W (1.53 ) 03/11/2024
-[  795.464462] RIP: 0010:drm_gem_object_handle_put_unlocked+0xc5/0x100
-[  795.464468] Code: ca ff eb 9c 4c 89 e7 e8 09 cf 64 00 eb d0 48 8b
-43 08 48 8d b8 e8 05 00 00 e8 47 8b 60 00 c7 83 e0 00 00 00 00 00 00
-00 eb 90 <0f> 0b 5b 41 5c 5d 31 c0 31 f6 31 ff c3 cc cc cc cc 48 8b 83
-40 01
-[  795.464471] RSP: 0018:ffffd003454f3898 EFLAGS: 00010246
-[  795.464476] RAX: 0000000000000000 RBX: 0000000000000001 RCX: 0000000000000000
-[  795.464479] RDX: 0000000000000000 RSI: 0000000000000000 RDI: ffff8ced0e693000
-[  795.464481] RBP: ffffd003454f38a8 R08: 0000000000000000 R09: 0000000000000000
-[  795.464484] R10: 0000000000000000 R11: 0000000000000000 R12: ffff8ced06634000
-[  795.464486] R13: 0000000000000000 R14: ffffd003454f3a00 R15: ffff8ced06634000
-[  795.464489] FS:  00007f0b743986c0(0000) GS:ffff8cf4cb988000(0000)
-knlGS:0000000000000000
-[  795.464492] CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
-[  795.464495] CR2: 00007f0b6c6a9020 CR3: 000000016c6a0006 CR4: 00000000003726f0
-[  795.464498] Call Trace:
-[  795.464500]  <TASK>
-[  795.464504]  drm_gem_fb_destroy+0x35/0x80
-[  795.464510]  drm_framebuffer_free+0x40/0xa0
-[  795.464515]  drm_mode_object_put.part.0+0x5d/0xa0
-[  795.464520]  drm_mode_object_put+0x15/0x30
-[  795.464524]  drm_mode_closefb_ioctl+0x76/0xa0
-[  795.464528]  ? __pfx_drm_mode_closefb_ioctl+0x10/0x10
-[  795.464533]  drm_ioctl_kernel+0xb2/0x110
-[  795.464537]  drm_ioctl+0x2ea/0x5b0
-[  795.464541]  ? __pfx_drm_mode_closefb_ioctl+0x10/0x10
-[  795.464550]  nouveau_drm_ioctl+0x5e/0xc0 [nouveau]
-[  795.464783]  __x64_sys_ioctl+0xa2/0x100
-[  795.464790]  x64_sys_call+0x106b/0x2320
-[  795.464794]  do_syscall_64+0x80/0xe80
-[  795.464802]  ? __x64_sys_poll+0xd2/0x180
-[  795.464808]  ? arch_exit_to_user_mode_prepare.isra.0+0xd/0xc0
-[  795.464813]  ? do_syscall_64+0xb6/0xe80
-[  795.464819]  ? futex_hash+0xe/0x20
-[  795.464823]  ? futex_wake+0x89/0x1b0
-[  795.464830]  ? do_futex+0x18e/0x260
-[  795.464835]  ? __x64_sys_futex+0x127/0x200
-[  795.464839]  ? eventfd_write+0xdc/0x200
-[  795.464844]  ? security_file_permission+0x5b/0x170
-[  795.464850]  ? arch_exit_to_user_mode_prepare.isra.0+0xd/0xc0
-[  795.464854]  ? do_syscall_64+0xb6/0xe80
-[  795.464862]  ? ksys_write+0xd9/0xf0
-[  795.464869]  ? arch_exit_to_user_mode_prepare.isra.0+0xd/0xc0
-[  795.464873]  ? do_syscall_64+0xb6/0xe80
-[  795.464878]  ? do_syscall_64+0xb6/0xe80
-[  795.464883]  ? arch_exit_to_user_mode_prepare.isra.0+0xd/0xc0
-[  795.464888]  ? irqentry_exit_to_user_mode+0x2d/0x1d0
-[  795.464893]  ? irqentry_exit+0x43/0x50
-[  795.464897]  entry_SYSCALL_64_after_hwframe+0x76/0x7e
-[  795.464901] RIP: 0033:0x7f0b7ad24ded
-[  795.464904] Code: 04 25 28 00 00 00 48 89 45 c8 31 c0 48 8d 45 10
-c7 45 b0 10 00 00 00 48 89 45 b8 48 8d 45 d0 48 89 45 c0 b8 10 00 00
-00 0f 05 <89> c2 3d 00 f0 ff ff 77 1a 48 8b 45 c8 64 48 2b 04 25 28 00
-00 00
-[  795.464907] RSP: 002b:00007ffca5eb8f50 EFLAGS: 00000246 ORIG_RAX:
-0000000000000010
-[  795.464912] RAX: ffffffffffffffda RBX: 000055b1a8710050 RCX: 00007f0b7ad24ded
-[  795.464915] RDX: 00007ffca5eb8fe0 RSI: 00000000c00864d0 RDI: 000000000000000c
-[  795.464917] RBP: 00007ffca5eb8fa0 R08: 0000000000000000 R09: 00007f0b7ae03ac0
-[  795.464920] R10: 0000000000000008 R11: 0000000000000246 R12: 00007ffca5eb8fe0
-[  795.464922] R13: 00000000c00864d0 R14: 000000000000000c R15: 000000002f66b7a8
-[  795.464929]  </TASK>
-[  795.464931] ---[ end trace 0000000000000000 ]---
+Regards,
+   Felix
 
 
--- 
-Thanks,
-
-Steve
+>   	select HMM_MIRROR
+>   	select MMU_NOTIFIER
+>   	select DRM_AMDGPU_USERPTR
