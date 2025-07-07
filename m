@@ -2,145 +2,76 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 42AD3AFB4A2
-	for <lists+dri-devel@lfdr.de>; Mon,  7 Jul 2025 15:33:39 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7CBFCAFB4B2
+	for <lists+dri-devel@lfdr.de>; Mon,  7 Jul 2025 15:35:25 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 76E3610E47E;
-	Mon,  7 Jul 2025 13:33:36 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 40AC610E46F;
+	Mon,  7 Jul 2025 13:35:23 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=suse.de header.i=@suse.de header.b="2HRdFvtm";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="9UZxAhEp";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="2HRdFvtm";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="9UZxAhEp";
+	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="IZyof4/Y";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 03B3810E47E
- for <dri-devel@lists.freedesktop.org>; Mon,  7 Jul 2025 13:33:35 +0000 (UTC)
-Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org
- [IPv6:2a07:de40:b281:104:10:150:64:97])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
- (No client certificate requested)
- by smtp-out1.suse.de (Postfix) with ESMTPS id 99B3D210F9;
- Mon,  7 Jul 2025 13:33:33 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1751895213; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=chuu5gdJhTry/FYbKteVhpzSetLsEYOLr6nzGLwfKmU=;
- b=2HRdFvtmnWk/4qlRqjQacbX0wOVfu0ClTAIZu3icmvJFVHemHKwA55HMGL7lrBFGJ0S11W
- fliw5G0VohOSxJ5OhzieLCfzif2p286trQGX44ypsilNKwIcPxBD5AcraUgUfH1Cjb/K5A
- z/LtQFFfZ+AzOW7GGufLgyoWoJewquQ=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1751895213;
- h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=chuu5gdJhTry/FYbKteVhpzSetLsEYOLr6nzGLwfKmU=;
- b=9UZxAhEpF7iHtiaLfd499fX6ox7Vt+Qb6Rzbl14HCglQJtWUW/GfSSa/oy8zLvi+v4BYUM
- EyO/7F8aPzTC6VDQ==
-Authentication-Results: smtp-out1.suse.de;
- dkim=pass header.d=suse.de header.s=susede2_rsa header.b=2HRdFvtm;
- dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=9UZxAhEp
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1751895213; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=chuu5gdJhTry/FYbKteVhpzSetLsEYOLr6nzGLwfKmU=;
- b=2HRdFvtmnWk/4qlRqjQacbX0wOVfu0ClTAIZu3icmvJFVHemHKwA55HMGL7lrBFGJ0S11W
- fliw5G0VohOSxJ5OhzieLCfzif2p286trQGX44ypsilNKwIcPxBD5AcraUgUfH1Cjb/K5A
- z/LtQFFfZ+AzOW7GGufLgyoWoJewquQ=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1751895213;
- h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=chuu5gdJhTry/FYbKteVhpzSetLsEYOLr6nzGLwfKmU=;
- b=9UZxAhEpF7iHtiaLfd499fX6ox7Vt+Qb6Rzbl14HCglQJtWUW/GfSSa/oy8zLvi+v4BYUM
- EyO/7F8aPzTC6VDQ==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
- (No client certificate requested)
- by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 15A1F13757;
- Mon,  7 Jul 2025 13:33:33 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
- by imap1.dmz-prg2.suse.org with ESMTPSA id ozdEA63Ma2grHAAAD6G6ig
- (envelope-from <tzimmermann@suse.de>); Mon, 07 Jul 2025 13:33:33 +0000
-Message-ID: <4c1bc40d-6bd4-4102-b12f-fda320216e1d@suse.de>
-Date: Mon, 7 Jul 2025 15:33:32 +0200
+Received: from mail-ed1-f51.google.com (mail-ed1-f51.google.com
+ [209.85.208.51])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C9CD410E46F
+ for <dri-devel@lists.freedesktop.org>; Mon,  7 Jul 2025 13:35:21 +0000 (UTC)
+Received: by mail-ed1-f51.google.com with SMTP id
+ 4fb4d7f45d1cf-60780d74c85so4299210a12.2
+ for <dri-devel@lists.freedesktop.org>; Mon, 07 Jul 2025 06:35:21 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=linaro.org; s=google; t=1751895320; x=1752500120; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=iglN2fDJo6Jj8oOAA17PlpCWLQPcfqHRK3QqDqJauNc=;
+ b=IZyof4/YeM8y21zr0uJFhS6mwhIQCjh/HJGnPjuITsO3VK/0RWir+MZCK0SdvoTkbu
+ ANPX768nJjnlj+EHQ4gXx1xLLI7cUJMbpJCKomryi5Vo72OKgvz7qATyzrFDwiAz+Gva
+ 8cVbKDoU2VkWEyjYcsxZnMICshWlaMQACbybj8sitCRomC/wc6j1pxjlNNE0IVqm0ELO
+ o4e0vQdZhTlvKf4MqFnm8wjuNmutavl+cCOkOm8eWQbSMF0HvwYhFZl9Nk1MdMPDHn1F
+ ibUMfr7/LlSyLaiJIQzHYd3VGmZ3odl9XNwk7WOW/YwIsF4m7Np6tpbkHKM/+l7zmZQP
+ 9N9w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1751895320; x=1752500120;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=iglN2fDJo6Jj8oOAA17PlpCWLQPcfqHRK3QqDqJauNc=;
+ b=sG5RmHucHcDig8D0BcuysMkXjXWA7BNy08aLRRUoF7JZPNHzZatPU1qiCs0u1i42Ye
+ b+vrlvNW3d5DnE9kcCOCJUg0D5g9nceWP5KMuyfj4qqX8o4w9gGzwVRBlfrX8NRwnD4h
+ rUO+qSj7hCHr2oraBns8ehrTM01socDAm8p4gePrUsZb1heUzOeb2p4nGUnadxFK/AwQ
+ mGAKJqrZHuo0OME5kCvIXKqOzvgQDeah16TtWAHtK7B9PupmHgSg6Kus6Z7iuTBdt6qs
+ nCGtA6aZIK8gf0tBk8Nz5g3Gtb4vpYTR0nHfct7KIZl5Jf2m3cCqUs2tNNUZ1t/CjqpR
+ XCbg==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCWwNN55dRMjn21e/hmquOq8QeyEsjW/qREHZILEjSnRFHxhszZh+ZVmhdK3tjPgFb4cZHVjuugYWmM=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YwSiGPbe6qnkXLcjS3EEfIdmN2tq7MRh4lZGkkxFKCHscT9rs7i
+ ZM7D/YyzZhCOwgV8vDRQrr3XJZL87iTKn2p3YeqAKjuPbD8Vk+AUaCM8miD8eNGNs+s2fKAafdX
+ cr0SDfKd1aIwEUzjVvpXVFOgMAlEKNybUbgmNColXdQ==
+X-Gm-Gg: ASbGncvnHwAlop18FSa0tMUb14FnhLjevhQAKwuhuep1xK9PwE5VorDkeCnH7dzGHKg
+ kvrQjDfZ0QGN6dZ1fH6BdX9LYeGWeX1YRpgZua8Wa7xAlAMAyWylCQQtgVBGlrafVxLxFWS/IkR
+ AnEEWBQL0EBy2u7S1u1AJRt8o+X91G8snQ+YLRcRBqt4qfKE9MV7xHMOXcv1pXNVcRO4bzsa3Vw
+ dunBYIKSgfRew==
+X-Google-Smtp-Source: AGHT+IET++QyEw80P77BIRzs6JWa9kHBMfwtkMIUTg5pCT3exqjnCE5AHFUJIOdI1A973C72FUTiNPTJJ/5qE+IOutw=
+X-Received: by 2002:a50:eb0c:0:b0:607:32e8:652 with SMTP id
+ 4fb4d7f45d1cf-60ff3c0d6e8mr6977121a12.19.1751895320263; Mon, 07 Jul 2025
+ 06:35:20 -0700 (PDT)
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v3] drm/framebuffer: Acquire internal references on GEM
- handles
-To: =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
- asrivats@redhat.com, maarten.lankhorst@linux.intel.com, mripard@kernel.org,
- airlied@gmail.com, simona@ffwll.ch, jean-christophe@guillain.net,
- superm1@kernel.org, satadru@gmail.com, bp@alien8.de
-Cc: dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- Bert Karwatzki <spasswolf@web.de>, Sumit Semwal <sumit.semwal@linaro.org>,
- linux-media@vger.kernel.org, linaro-mm-sig@lists.linaro.org,
- stable@vger.kernel.org
-References: <20250707131224.249496-1-tzimmermann@suse.de>
- <a3336964-1b72-421c-b4dc-2ac3f548430b@amd.com>
-Content-Language: en-US
-From: Thomas Zimmermann <tzimmermann@suse.de>
-Autocrypt: addr=tzimmermann@suse.de; keydata=
- xsBNBFs50uABCADEHPidWt974CaxBVbrIBwqcq/WURinJ3+2WlIrKWspiP83vfZKaXhFYsdg
- XH47fDVbPPj+d6tQrw5lPQCyqjwrCPYnq3WlIBnGPJ4/jreTL6V+qfKRDlGLWFjZcsrPJGE0
- BeB5BbqP5erN1qylK9i3gPoQjXGhpBpQYwRrEyQyjuvk+Ev0K1Jc5tVDeJAuau3TGNgah4Yc
- hdHm3bkPjz9EErV85RwvImQ1dptvx6s7xzwXTgGAsaYZsL8WCwDaTuqFa1d1jjlaxg6+tZsB
- 9GluwvIhSezPgnEmimZDkGnZRRSFiGP8yjqTjjWuf0bSj5rUnTGiyLyRZRNGcXmu6hjlABEB
- AAHNJ1Rob21hcyBaaW1tZXJtYW5uIDx0emltbWVybWFubkBzdXNlLmRlPsLAjgQTAQgAOAIb
- AwULCQgHAgYVCgkICwIEFgIDAQIeAQIXgBYhBHIX+6yM6c9jRKFo5WgNwR1TC3ojBQJftODH
- AAoJEGgNwR1TC3ojx1wH/0hKGWugiqDgLNXLRD/4TfHBEKmxIrmfu9Z5t7vwUKfwhFL6hqvo
- lXPJJKQpQ2z8+X2vZm/slsLn7J1yjrOsoJhKABDi+3QWWSGkaGwRJAdPVVyJMfJRNNNIKwVb
- U6B1BkX2XDKDGffF4TxlOpSQzdtNI/9gleOoUA8+jy8knnDYzjBNOZqLG2FuTdicBXblz0Mf
- vg41gd9kCwYXDnD91rJU8tzylXv03E75NCaTxTM+FBXPmsAVYQ4GYhhgFt8S2UWMoaaABLDe
- 7l5FdnLdDEcbmd8uLU2CaG4W2cLrUaI4jz2XbkcPQkqTQ3EB67hYkjiEE6Zy3ggOitiQGcqp
- j//OwE0EWznS4AEIAMYmP4M/V+T5RY5at/g7rUdNsLhWv1APYrh9RQefODYHrNRHUE9eosYb
- T6XMryR9hT8XlGOYRwKWwiQBoWSDiTMo/Xi29jUnn4BXfI2px2DTXwc22LKtLAgTRjP+qbU6
- 3Y0xnQN29UGDbYgyyK51DW3H0If2a3JNsheAAK+Xc9baj0LGIc8T9uiEWHBnCH+RdhgATnWW
- GKdDegUR5BkDfDg5O/FISymJBHx2Dyoklv5g4BzkgqTqwmaYzsl8UxZKvbaxq0zbehDda8lv
- hFXodNFMAgTLJlLuDYOGLK2AwbrS3Sp0AEbkpdJBb44qVlGm5bApZouHeJ/+n+7r12+lqdsA
- EQEAAcLAdgQYAQgAIAIbDBYhBHIX+6yM6c9jRKFo5WgNwR1TC3ojBQJftOH6AAoJEGgNwR1T
- C3ojVSkIALpAPkIJPQoURPb1VWjh34l0HlglmYHvZszJWTXYwavHR8+k6Baa6H7ufXNQtThR
- yIxJrQLW6rV5lm7TjhffEhxVCn37+cg0zZ3j7zIsSS0rx/aMwi6VhFJA5hfn3T0TtrijKP4A
- SAQO9xD1Zk9/61JWk8OysuIh7MXkl0fxbRKWE93XeQBhIJHQfnc+YBLprdnxR446Sh8Wn/2D
- Ya8cavuWf2zrB6cZurs048xe0UbSW5AOSo4V9M0jzYI4nZqTmPxYyXbm30Kvmz0rYVRaitYJ
- 4kyYYMhuULvrJDMjZRvaNe52tkKAvMevcGdt38H4KSVXAylqyQOW5zvPc4/sq9c=
-In-Reply-To: <a3336964-1b72-421c-b4dc-2ac3f548430b@amd.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-Spamd-Result: default: False [-4.51 / 50.00]; BAYES_HAM(-3.00)[100.00%];
- NEURAL_HAM_LONG(-1.00)[-1.000];
- R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
- NEURAL_HAM_SHORT(-0.20)[-1.000]; MIME_GOOD(-0.10)[text/plain];
- MX_GOOD(-0.01)[]; FUZZY_RATELIMITED(0.00)[rspamd.com];
- FREEMAIL_ENVRCPT(0.00)[gmail.com,web.de]; RCVD_TLS_ALL(0.00)[];
- RCVD_VIA_SMTP_AUTH(0.00)[]; ARC_NA(0.00)[];
- RCPT_COUNT_TWELVE(0.00)[17]; MIME_TRACE(0.00)[0:+];
- FREEMAIL_TO(0.00)[amd.com,redhat.com,linux.intel.com,kernel.org,gmail.com,ffwll.ch,guillain.net,alien8.de];
- MID_RHS_MATCH_FROM(0.00)[];
- DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
- FROM_HAS_DN(0.00)[];
- FREEMAIL_CC(0.00)[lists.freedesktop.org,vger.kernel.org,web.de,linaro.org,lists.linaro.org];
- TO_DN_SOME(0.00)[]; FROM_EQ_ENVFROM(0.00)[];
- DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:helo,imap1.dmz-prg2.suse.org:rdns,suse.de:mid,suse.de:dkim];
- RCVD_COUNT_TWO(0.00)[2]; TO_MATCH_ENVRCPT_ALL(0.00)[];
- DKIM_TRACE(0.00)[suse.de:+]
-X-Spam-Flag: NO
-X-Spam-Level: 
-X-Rspamd-Queue-Id: 99B3D210F9
-X-Rspamd-Server: rspamd2.dmz-prg2.suse.org
-X-Rspamd-Action: no action
-X-Spam-Score: -4.51
+References: <20250610131231.1724627-1-jkangas@redhat.com>
+ <aGvHUTC7Kbe9lru3@jkangas-thinkpadp1gen3.rmtuswa.csb>
+In-Reply-To: <aGvHUTC7Kbe9lru3@jkangas-thinkpadp1gen3.rmtuswa.csb>
+From: Sumit Semwal <sumit.semwal@linaro.org>
+Date: Mon, 7 Jul 2025 19:05:09 +0530
+X-Gm-Features: Ac12FXyRxHcDe4-WqyYgc42A2U_9x5Uy_U3EHMTjmhyPcBLa1jvXKcYwtoIgS80
+Message-ID: <CAO_48GHtUG_hTFvLVQfG06FxdO_6z5m0WofXKh=WhgCjNguxPg@mail.gmail.com>
+Subject: Re: [PATCH v4 0/3] dma-buf: heaps: Use constant name for CMA heap
+To: Jared Kangas <jkangas@redhat.com>
+Cc: benjamin.gaignard@collabora.com, Brian.Starkey@arm.com, jstultz@google.com,
+ tjmercier@google.com, christian.koenig@amd.com, mripard@kernel.org, 
+ linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org, 
+ linaro-mm-sig@lists.linaro.org, linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -156,47 +87,93 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi
+Hello Jared,
 
-Am 07.07.25 um 15:21 schrieb Christian König:
+On Mon, 7 Jul 2025 at 18:40, Jared Kangas <jkangas@redhat.com> wrote:
+>
+> On Tue, Jun 10, 2025 at 06:12:28AM -0700, Jared Kangas wrote:
+> > Hi all,
+> >
+> > This patch series is based on a previous discussion around CMA heap
+> > naming. [1] The heap's name depends on the device name, which is
+> > generally "reserved", "linux,cma", or "default-pool", but could be any
+> > arbitrary name given to the default CMA area in the devicetree. For a
+> > consistent userspace interface, the series introduces a constant name
+> > for the CMA heap, and for backwards compatibility, an additional Kconfi=
+g
+> > that controls the creation of a legacy-named heap with the same CMA
+> > backing.
+> >
+> > The ideas to handle backwards compatibility in [1] are to either use a
+> > symlink or add a heap node with a duplicate minor. However, I assume
+> > that we don't want to create symlinks in /dev from module initcalls, an=
+d
+> > attempting to duplicate minors would cause device_create() to fail.
+> > Because of these drawbacks, after brainstorming with Maxime Ripard, I
+> > went with creating a new node in devtmpfs with its own minor. This
+> > admittedly makes it a little unclear that the old and new nodes are
+> > backed by the same heap when both are present. The only approach that I
+> > think would provide total clarity on this in userspace is symlinking,
+> > which seemed like a fairly involved solution for devtmpfs, but if I'm
+> > wrong on this, please let me know.
+> >
+> > Changelog:
+> >
+> > v4:
+> >   - Fix ERR_PTR() usage for negative return value.
+> >
+> > v3:
+> >   - Extract documentation markup fix to separate patch.
+> >   - Adjust DEFAULT_CMA_NAME per discussion in [2].
+> >   - Warn if the legacy heap name and the default heap name are the same=
+.
+> >   - Fix DMABUF_HEAPS_CMA_LEGACY prompt.
+> >   - Touch up commit log wording.
+> >
+> > v2:
+> >   - Use tabs instead of spaces for large vertical alignment.
+> >
+> > [1]: https://lore.kernel.org/all/f6412229-4606-41ad-8c05-7bbba2eb6e08@t=
+i.com/
+> > [2]: https://lore.kernel.org/all/CANDhNCroe6ZBtN_o=3Dc71kzFFaWK-fF5rCdn=
+r9P5h1sgPOWSGSw@mail.gmail.com/
+> >
+> > Jared Kangas (3):
+> >   Documentation: dma-buf: heaps: Fix code markup
+> >   dma-buf: heaps: Parameterize heap name in __add_cma_heap()
+> >   dma-buf: heaps: Give default CMA heap a fixed name
+> >
+> >  Documentation/userspace-api/dma-buf-heaps.rst | 11 +++---
+> >  drivers/dma-buf/heaps/Kconfig                 | 10 ++++++
+> >  drivers/dma-buf/heaps/cma_heap.c              | 36 +++++++++++++++----
+> >  3 files changed, 46 insertions(+), 11 deletions(-)
+> >
+> > --
+> > 2.49.0
+> >
+>
+> Hi Sumit,
+>
+> Just wanted to check in on this since discussion has died down this
+> iteration: what's the status on this series? If there's anything I can
+> do to help, I'm happy to lend a hand.
 
->>   
->> +#define DRM_FRAMEBUFFER_HAS_HANDLE_REF(_i)	BIT(0u + (_i))
-> Why the "0u + (_i)" here? An macro trick?
+I'm sorry, I had to be out for a bit due to some personal reasons;
+overall it looks good to me. I'll apply it very soon.
 
-You mean why not just BIT(_i)? internal_flags could possibly contain 
-additional flags. Just using BIT(_i) would make it look as if it's only 
-for those handle refs.
-
-Best regards
-Thomas
+Thank you for your patience!
 
 >
-> Regards,
-> Christian.
+> Thanks,
+> Jared
+Best,
+Sumit.
 >
->> +
->>   /**
->>    * struct drm_framebuffer - frame buffer object
->>    *
->> @@ -188,6 +191,10 @@ struct drm_framebuffer {
->>   	 * DRM_MODE_FB_MODIFIERS.
->>   	 */
->>   	int flags;
->> +	/**
->> +	 * @internal_flags: Framebuffer flags like DRM_FRAMEBUFFER_HAS_HANDLE_REF.
->> +	 */
->> +	unsigned int internal_flags;
->>   	/**
->>   	 * @filp_head: Placed on &drm_file.fbs, protected by &drm_file.fbs_lock.
->>   	 */
 
--- 
---
-Thomas Zimmermann
-Graphics Driver Developer
-SUSE Software Solutions Germany GmbH
-Frankenstrasse 146, 90461 Nuernberg, Germany
-GF: Ivo Totev, Andrew Myers, Andrew McDonald, Boudien Moerman
-HRB 36809 (AG Nuernberg)
 
+--=20
+Thanks and regards,
+
+Sumit Semwal (he / him)
+Senior Tech Lead - Android, Platforms and Virtualisation
+Linaro.org =E2=94=82 Arm Solutions at Light Speed
