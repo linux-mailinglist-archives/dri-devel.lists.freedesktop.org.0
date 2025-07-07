@@ -2,48 +2,59 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5B7FBAFB57A
-	for <lists+dri-devel@lfdr.de>; Mon,  7 Jul 2025 15:58:35 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id CD022AFB5EB
+	for <lists+dri-devel@lfdr.de>; Mon,  7 Jul 2025 16:26:09 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7CB3710E49D;
-	Mon,  7 Jul 2025 13:58:32 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id DF09210E4A6;
+	Mon,  7 Jul 2025 14:26:06 +0000 (UTC)
+Authentication-Results: gabe.freedesktop.org;
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="FtrrWXCw";
+	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from bmailout2.hostsharing.net (bmailout2.hostsharing.net
- [83.223.78.240])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0363010E49D
- for <dri-devel@lists.freedesktop.org>; Mon,  7 Jul 2025 13:58:31 +0000 (UTC)
-Received: from h08.hostsharing.net (h08.hostsharing.net
- [IPv6:2a01:37:1000::53df:5f1c:0])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256
- client-signature RSA-PSS (4096 bits) client-digest SHA256)
- (Client CN "*.hostsharing.net", Issuer "RapidSSL TLS RSA CA G1" (verified OK))
- by bmailout2.hostsharing.net (Postfix) with ESMTPS id 330E42009184;
- Mon,  7 Jul 2025 15:58:30 +0200 (CEST)
-Received: by h08.hostsharing.net (Postfix, from userid 100393)
- id 268BA4D174; Mon,  7 Jul 2025 15:58:30 +0200 (CEST)
-Date: Mon, 7 Jul 2025 15:58:30 +0200
-From: Lukas Wunner <lukas@wunner.de>
-To: Hans de Goede <hansg@kernel.org>
-Cc: Andi Kleen <ak@linux.intel.com>, David Airlie <airlied@redhat.com>,
- Bjorn Helgaas <helgaas@kernel.org>,
- Ben Hutchings <ben@decadent.org.uk>, Joerg Roedel <joro@8bytes.org>,
- Suravee Suthikulpanit <suravee.suthikulpanit@amd.com>,
- Ahmed Salem <x0rw3ll@gmail.com>, Borislav Petkov <bp@alien8.de>,
- Hans de Goede <hdegoede@redhat.com>, Thomas Gleixner <tglx@linutronix.de>,
- dri-devel@lists.freedesktop.org, iommu@lists.linux.dev,
- linux-pci@vger.kernel.org
-Subject: Re: [PATCH v2] agp/amd64: Check AGP Capability before binding to
- unsupported devices
-Message-ID: <aGvShrJJTj2ERdZr@wunner.de>
-References: <b29e7fbfc6d146f947603d0ebaef44cbd2f0d754.1751468802.git.lukas@wunner.de>
- <aGbaNd3qCK3WvAe-@tassilo>
- <4ef523a2-48b3-45e9-94da-7811e1bfae76@kernel.org>
+Received: from nyc.source.kernel.org (nyc.source.kernel.org [147.75.193.91])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3FA4E10E4B2;
+ Mon,  7 Jul 2025 14:26:06 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+ by nyc.source.kernel.org (Postfix) with ESMTP id 79C4AA54040;
+ Mon,  7 Jul 2025 14:26:05 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 426CBC4CEE3;
+ Mon,  7 Jul 2025 14:26:02 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1751898365;
+ bh=OBRjOpjOD3WykltUSQMBZISNgt5fgN/t8xYyHJ16hjA=;
+ h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+ b=FtrrWXCwihQc4HhxP+7uIfFuqgZkW/OrkvocN04uMru1qFolF8COfcG8n9z/7HEu4
+ k1YNKAH+obsa5iDJU39RlkYvJYkhg08KPQC6u3/O3CM1+P+UPNIBKaqPCDtZXJNgIo
+ Ih+9l7xLkH3dXl2QchCsdE9z9HR8PSENbtwZ4jBs1VUdf7VJ2tWbMAEvUIPuJHzFNn
+ T9K7x61OmwJW8pNrYTbukg9jEh3faZkkvUdI9RKAjwwMxESEBMZGmg+mU0b/5ScHOL
+ 0wtjO2m1kt7vOnsb78t0dP0InmhzIcfsu3o3/iWZC+6yCTzBDrn0I4n13PNyZMdT3F
+ P9Kxc/F81DxWg==
+Message-ID: <b78fbad7-b7e3-454d-be67-03777ba3daa4@kernel.org>
+Date: Mon, 7 Jul 2025 16:26:00 +0200
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <4ef523a2-48b3-45e9-94da-7811e1bfae76@kernel.org>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2 7/7] drm/nouveau: Remove waitque for sched teardown
+To: phasta@kernel.org
+Cc: Lyude Paul <lyude@redhat.com>, David Airlie <airlied@gmail.com>,
+ Simona Vetter <simona@ffwll.ch>, Matthew Brost <matthew.brost@intel.com>,
+ =?UTF-8?Q?Christian_K=C3=B6nig?= <ckoenig.leichtzumerken@gmail.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
+ Sumit Semwal <sumit.semwal@linaro.org>,
+ Tvrtko Ursulin <tvrtko.ursulin@igalia.com>,
+ Pierre-Eric Pelloux-Prayer <pierre-eric.pelloux-prayer@amd.com>,
+ dri-devel@lists.freedesktop.org, nouveau@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org, linux-media@vger.kernel.org
+References: <20250707134221.34291-2-phasta@kernel.org>
+ <20250707134221.34291-9-phasta@kernel.org>
+ <89b0a4bf-2a66-4610-93d2-8f2f096592a3@kernel.org>
+ <7d5137a8c71c525c4e806f8ff06102d2e3a47ccc.camel@mailbox.org>
+From: Danilo Krummrich <dakr@kernel.org>
+Content-Language: en-US
+In-Reply-To: <7d5137a8c71c525c4e806f8ff06102d2e3a47ccc.camel@mailbox.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -59,28 +70,32 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, Jul 07, 2025 at 02:53:32PM +0200, Hans de Goede wrote:
-> So I think we should move forward with Lukas' fix dor 6.16 and then
-> my patch to disable probing of unsupported devices by default can
-> be merged into linux-next .
+On 7/7/25 3:54 PM, Philipp Stanner wrote:
+> On Mon, 2025-07-07 at 15:47 +0200, Danilo Krummrich wrote:
+>> On 7/7/25 3:42 PM, Philipp Stanner wrote:
+>>> struct nouveau_sched contains a waitque needed to prevent
+>>> drm_sched_fini() from being called while there are still jobs
+>>> pending.
+>>> Doing so so far would have caused memory leaks.
+>>>
+>>> With the new memleak-free mode of operation switched on in
+>>> drm_sched_fini() by providing the callback
+>>> nouveau_sched_fence_context_kill() the waitque is not necessary
+>>> anymore.
+>>>
+>>> Remove the waitque.
+>>>
+>>> Signed-off-by: Philipp Stanner <phasta@kernel.org>
+>>
+>> Doesn't this break the driver until fixed up by the subsequent patch?
+>>
+> 
+> Did you mean to answer to patch 6?
+> 
+> Patch 6 implements the cancel_job() callback for nouveau, which makes
+> sure the (still existing) waitque will never block. The, now redundant,
+> waitque then gets removed in patch 7.
 
-Sounds good to me.
+Yup, I mixed up the order on my end.
 
-Dave is out all week and has not commented on this matter at all so far:
-
-https://lore.kernel.org/r/CAPM=9tzrmRS9++MP_Y4ab95W71UxjFLzTd176Mok7akwdT2q+w@mail.gmail.com/
-
-I assume Bjorn may not be comfortable applying my patch without an ack
-from Dave.  I am technically able to apply my own patch through drm-misc
-and I believe Hans' Reviewed-by is sufficient to allow me to do that.
-
-I'd feel more comfortable having additional acks or Reviewed-by's though.
-I'm contemplating applying the patch to drm-misc by Wednesday evening,
-that would allow it to land in Linus' tree before v6.16-rc6.
-
-If anyone has objections, needs more time to review or wants to apply
-the patch, please let me know.
-
-Thanks,
-
-Lukas
+Acked-by: Danilo Krummrich <dakr@kernel.org>
