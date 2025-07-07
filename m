@@ -2,85 +2,112 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 36510AFB988
-	for <lists+dri-devel@lfdr.de>; Mon,  7 Jul 2025 19:05:57 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5BE77AFB9A8
+	for <lists+dri-devel@lfdr.de>; Mon,  7 Jul 2025 19:09:27 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 762AE10E500;
-	Mon,  7 Jul 2025 17:05:55 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0CA1310E15A;
+	Mon,  7 Jul 2025 17:09:25 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="KQ1Wh//1";
+	dkim=pass (2048-bit key; unprotected) header.d=qualcomm.com header.i=@qualcomm.com header.b="CosisA/n";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pj1-f54.google.com (mail-pj1-f54.google.com
- [209.85.216.54])
- by gabe.freedesktop.org (Postfix) with ESMTPS id F1BC510E500
- for <dri-devel@lists.freedesktop.org>; Mon,  7 Jul 2025 17:05:54 +0000 (UTC)
-Received: by mail-pj1-f54.google.com with SMTP id
- 98e67ed59e1d1-315b0050bb5so2405710a91.0
- for <dri-devel@lists.freedesktop.org>; Mon, 07 Jul 2025 10:05:54 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1751907954; x=1752512754; darn=lists.freedesktop.org;
- h=content-transfer-encoding:in-reply-to:from:content-language
- :references:to:subject:user-agent:mime-version:date:message-id:from
- :to:cc:subject:date:message-id:reply-to;
- bh=TpMdXzDnCfdN/GalFwfGmK2Pny6VW2Rxcn9/iXdWGFw=;
- b=KQ1Wh//1lTYr/02NrJ2ZEz16PAQBpKlru5RB48le9xrTmvuY5cyFAMwSbrT1HGKi/0
- B9Qm7kWUqAwGxKpPZAb+KCkNJwjmzElJ+NflNa7/0KUR6vFonVZX7dXPmp3rB32WZeWO
- ih0+lMvqePuDWjDf73A4dH3shDw/pfLgeq6eh/wwZrd2xrFluVlJEcIMheSdT4WFn/5Z
- tmOLxg3Tdgx2jD+DmlHmJt2nFQY+yu7ebxRMDvR/LH7QlzJOHcRTcWD4w/LOnbeDA0u/
- HjCDcT+6YuEfTRPHoy+rohcl0rAwiuBhwiSzfB2zjI6Hw3oEl2m56QTO/qsyo0H/2GiO
- niPQ==
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com
+ [205.220.180.131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 64EBE10E165
+ for <dri-devel@lists.freedesktop.org>; Mon,  7 Jul 2025 17:09:24 +0000 (UTC)
+Received: from pps.filterd (m0279869.ppops.net [127.0.0.1])
+ by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 5679iX3w011890
+ for <dri-devel@lists.freedesktop.org>; Mon, 7 Jul 2025 17:09:23 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
+ cc:content-transfer-encoding:content-type:date:from:in-reply-to
+ :message-id:mime-version:references:reply-to:subject:to; s=
+ qcppdkim1; bh=oT1DtUsRaA/zcFPtBS//4Isnss8E6kQPFTLhfURqEU4=; b=Co
+ sisA/nNcWtS2/DV2jolq9HasCQctsMa5kfPmFIqLDrVOD1SDgP0JSJgyJ1+PFaS1
+ zjXJ1V7DJ1yyptbgELitJYpBKHrxrieEgYp5KbfPTqfnPWHCIkO+CxmK/CMNu6H+
+ 1O/QSGgTmGJOo63j14IBH7EBOM97D6IUYWh61F7qbeX4l9LLcvIHZKP63SaDU8+V
+ y2ewIpWM/aj8VE13eJtZv1qU+7/RTiNKWHayoFuWlhvsV9dDPmsqeXo8rqkMPy3W
+ q6X6h0xSyp2wAs2whPMcFR7/wRHbjR6qJPAPx7yPqK8ICRqILPop9LqpjpX0QRj7
+ BPn03wJP/Zj0p6K3qCHQ==
+Received: from mail-ot1-f69.google.com (mail-ot1-f69.google.com
+ [209.85.210.69])
+ by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 47pu2ay8jc-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
+ for <dri-devel@lists.freedesktop.org>; Mon, 07 Jul 2025 17:09:23 +0000 (GMT)
+Received: by mail-ot1-f69.google.com with SMTP id
+ 46e09a7af769-736ec01fe04so2739559a34.3
+ for <dri-devel@lists.freedesktop.org>; Mon, 07 Jul 2025 10:09:23 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1751907954; x=1752512754;
- h=content-transfer-encoding:in-reply-to:from:content-language
- :references:to:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=TpMdXzDnCfdN/GalFwfGmK2Pny6VW2Rxcn9/iXdWGFw=;
- b=SbiamFJGM4EVPbdoUZHHueyrG83mpLT+C2L3cyUFu5HSR3AGpK/CUIkL+OQetSR1Os
- UWQU7IRjfccUmGvs8QpFO9gMGHpkVyYxfT4JZ1c70VWWRNlSajMKJIPN8tsDuRwdb+cW
- WaMZ4OreDfP/cQsZ8BXuOlzmZCMqvHLyU55AZwSUBYK3pwUWQIgIcCJNdQUahFBj7Chx
- d5+ZPq8ykxX3fzpBxoarEtMeG6uVo0Boz2bjVQyW3/GW/MRdSkrBisOT2X7E6B/I9Jzu
- SPjVMSUdQtMOlxG44FvZtCzo9+NTcMeMdg8ixdwJlgihHwJeHQ5YEpnecz1lOf2uVjU0
- E8xg==
-X-Forwarded-Encrypted: i=1;
- AJvYcCVSEKs+tmZfKkagm50ud62KYIUyEBVRz9PDTUgNUXGhiPB/I4xXmyysdIucZBToCxt2qQAvWc3cJ78=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YxCl4CtAH9gKTa64Oits7I9ddoAYDURRyCftQ4bLgUmlWoRfqBp
- QfBv+uyV1zuBQ14VUpGYOzE2gK09qmYzo5tPAgNQYvq48fSXkaNihCV3
-X-Gm-Gg: ASbGncv2yY2jDtkbxP1AkQqi4iTGZmFGgTWrE6qpNOtkO7DTJlT2Ea0iABaHHQTp552
- zIJEHbc872dK1sO/DNTANxYScI/srUjeHuZQN4uAjz4Yr9vAxX5CTdv04IPoqiQ4Y6bSPKvSnVi
- Hp2h2PwyX4bf5mgHdbgkjweqr16ychynh1KkEenUQuyf5QUyYvbDtB/IR4YFrkJHbBoht2d2PoD
- Rj0qnU0OkEGz50ixEC+ywRVAnJ7DmGKAyLyV5myeApI/Skk7aTX28Spft5oQJB+IFPUfHxWnI5X
- MCvAesmiMMlHRfkC56G3FK4rL4IdF7tZNipSJZDtTMgk/T1KA9wDYeof8dlhzCoSnNC/W0xdv8I
- =
-X-Google-Smtp-Source: AGHT+IEF5fattogvax5kob4VN55wmQfM65/bVQ74yFaRHd7Gk2rpdUBuYA2r6FYpXtk6hWnOBGZqww==
-X-Received: by 2002:a17:90b:4b43:b0:312:29e:9ed5 with SMTP id
- 98e67ed59e1d1-31c20e59333mr265155a91.23.1751907954241; 
- Mon, 07 Jul 2025 10:05:54 -0700 (PDT)
-Received: from [10.0.0.86] ([122.172.85.55]) by smtp.gmail.com with ESMTPSA id
- 98e67ed59e1d1-31a9f17bc5bsm11683652a91.48.2025.07.07.10.05.50
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 07 Jul 2025 10:05:53 -0700 (PDT)
-Message-ID: <c7296a36-0bdd-464d-a681-517c814afed7@gmail.com>
-Date: Mon, 7 Jul 2025 22:35:44 +0530
+ d=1e100.net; s=20230601; t=1751908162; x=1752512962;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :reply-to:in-reply-to:references:mime-version:x-gm-message-state
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=oT1DtUsRaA/zcFPtBS//4Isnss8E6kQPFTLhfURqEU4=;
+ b=IhbmxcqqF4gbGVkLL6HKZeUMFv2X9S/QQ4l9hPIIgvgEXMKIIrluY2cZkf9u9CxXzV
+ J2oXqAexLNIdk0R83e2275IUf/HQx3ilsBKfm+zlHaPh5NMeMM/x+aCrUk8yvOUj7Vso
+ /rWwWEWHHq2neH+Raoh97689T4uNc7zCfsUyq1BkUz1155Q4sqepMCdNXznrqr0vgRgN
+ aYEkqS8cWgzTldAGQ+77N37ZLj0JUXGlLicS6l41HLu+FgV7Ktd2sw2vP53kQY/USjX6
+ Yuq8JASq6dF6lv59Sx0a5Gv7gdHTDAa5/QqEQsRjYcEfyxRT9ZN4hM9FFUl+b4/ALE5r
+ NWCA==
+X-Gm-Message-State: AOJu0Yy2hfKPWNg70AnUukiSLq6Z/f90DC7ZOpWzaujXBcrOd6WQQSkj
+ DmYakciIe5lpr8mlkBQqASTQlUUd4EsCj6lfxgpoCkNtWGvBAq8p7L9ohiseGJ3UgzGWNtsIoRi
+ hSglpq//f8fApsTaktddM7rhsl9M4b/AqOZvBshtXtUiwwJFLL/CMDZIB5mmmagBnD2UNXj+xY/
+ MKuDrnCm249x1H+WPBvkA7KUGV9JGRSmyIUy670ckOe0INTQ==
+X-Gm-Gg: ASbGncuZ8X3/Xc/L102WZ505QVGDF9rw9+Qr25PIsr44hRkPGfCTxLUMAEYrVx6PYko
+ y1ED4CGKSLvWkhZEGpqQcKeAg4AuQ/CksJCFIdUo3ZigRjGIHFEnMGNmvRKiWQ2LAmtmNhi/U1R
+ BHspa0Mxk4SGdFgfU1PTLOLa5n2dqCrQnC6UU=
+X-Received: by 2002:a05:6808:211f:b0:40c:5b58:c9f9 with SMTP id
+ 5614622812f47-40d073ccd23mr8743856b6e.22.1751908162428; 
+ Mon, 07 Jul 2025 10:09:22 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IFJFgTDJSExh2v7ckh3Wk01zSJ3P5QE5VWongvlxIz7t3sbZ/GbabrbWMQ+rzFK8GgUIeDgxM2pypdJm3Jto6Y=
+X-Received: by 2002:a05:6808:211f:b0:40c:5b58:c9f9 with SMTP id
+ 5614622812f47-40d073ccd23mr8743829b6e.22.1751908162097; Mon, 07 Jul 2025
+ 10:09:22 -0700 (PDT)
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 3/3] drm: docs: Remove completed task from drm TODO list
-To: Brigham Campbell <me@brighamcampbell.com>, dianders@chromium.org,
- skhan@linuxfoundation.org, linux-kernel-mentees@lists.linux.dev,
- dri-devel@lists.freedesktop.org, linux-doc@vger.kernel.org,
- linux-kernel@vger.kernel.org,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
+References: <20250705145242.781821-1-robin.clark@oss.qualcomm.com>
+ <20250705145242.781821-2-robin.clark@oss.qualcomm.com>
+ <6579c65c-877d-44fe-aa81-5b0e602b33f5@oss.qualcomm.com>
+In-Reply-To: <6579c65c-877d-44fe-aa81-5b0e602b33f5@oss.qualcomm.com>
+From: Rob Clark <rob.clark@oss.qualcomm.com>
+Date: Mon, 7 Jul 2025 10:09:10 -0700
+X-Gm-Features: Ac12FXxuUa5Yn05AD9M7jkS94r-Rdb6D2yJUjRtTcPRlVGpITucDmRppAplnMyc
+Message-ID: <CACSVV03U75=5LYdWkbQ-FOU6L-F50iZ+XgpT=f6+-sRNkEv6sA@mail.gmail.com>
+Subject: Re: [PATCH 1/2] drm/msm: Clean up split driver features
+To: Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>
+Cc: dri-devel@lists.freedesktop.org, linux-arm-msm@vger.kernel.org,
+ freedreno@lists.freedesktop.org,
+ Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>,
+ Dmitry Baryshkov <lumag@kernel.org>,
+ Abhinav Kumar <abhinav.kumar@linux.dev>,
+ Jessica Zhang <jessica.zhang@oss.qualcomm.com>,
+ Sean Paul <sean@poorly.run>,
+ Marijn Suijten <marijn.suijten@somainline.org>,
  David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- Jonathan Corbet <corbet@lwn.net>
-References: <20250707075659.75810-1-me@brighamcampbell.com>
- <20250707075659.75810-4-me@brighamcampbell.com>
-Content-Language: en-US
-From: Tejas Vipin <tejasvipin76@gmail.com>
-In-Reply-To: <20250707075659.75810-4-me@brighamcampbell.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+ open list <linux-kernel@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwNzA3MDEwOCBTYWx0ZWRfX25MjFmX8WjUW
+ VSeKw6A7qE45796q32e/Nb/Ze+3e2oc63Q9LeHI0cb0R/G4o95yLynmmGh7v5aeamsS3XgSIoLk
+ TDLKjX9grQvYeDHhyYAqnmjHe1/K0RwoM5VEqB1ZANibViLajRxE/pF1XzFZf5RXZDxJp8UGfAm
+ aZWrp6OcN42fo4GgjlojW87uOfH1H4lWxSO+Lvj6W8bFIE5VrVJ3A6Oq1RLNc9rPlKt80Pfjj2A
+ F4HYjWnDtNjpl0sObD4XB3RkxmqkQcSLF/xthFyqqQMVRQOsntiYec8rXLajdPAYc/LBK3jvndO
+ CF26ByUetAbOtsDzPKOOHCtYlhw1oNtbOK19tJKLgB8uqR32TFnfYsYwN4jZ4u2bDK3E6+EYIRW
+ oEakKez4kWATQYn1y5TP3vno6Rksd8kKTtxyGMFr7TAB0wecC3iYXBf5R3LxcOtVn4nV5BIe
+X-Proofpoint-ORIG-GUID: iMuBdaFAvMUA1mLoYN_mhhhOQuo1YGg5
+X-Proofpoint-GUID: iMuBdaFAvMUA1mLoYN_mhhhOQuo1YGg5
+X-Authority-Analysis: v=2.4 cv=erTfzppX c=1 sm=1 tr=0 ts=686bff43 cx=c_pps
+ a=z9lCQkyTxNhZyzAvolXo/A==:117 a=IkcTkHD0fZMA:10 a=Wb1JkmetP80A:10
+ a=EUspDBNiAAAA:8 a=mFyTvTkbTY4ge-DhZPYA:9 a=QEXdDO2ut3YA:10
+ a=EyFUmsFV_t8cxB2kMr4A:22
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1099,Hydra:6.1.7,FMLib:17.12.80.40
+ definitions=2025-07-07_04,2025-07-07_01,2025-03-28_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ mlxscore=0 clxscore=1015 impostorscore=0 spamscore=0 priorityscore=1501
+ mlxlogscore=999 bulkscore=0 adultscore=0 malwarescore=0 phishscore=0
+ lowpriorityscore=0 suspectscore=0 classifier=spam authscore=0 authtc=n/a
+ authcc= route=outbound adjust=0 reason=mlx scancount=1
+ engine=8.19.0-2505280000 definitions=main-2507070108
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -93,53 +120,48 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
+Reply-To: rob.clark@oss.qualcomm.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi,
+On Mon, Jul 7, 2025 at 4:42=E2=80=AFAM Konrad Dybcio
+<konrad.dybcio@oss.qualcomm.com> wrote:
+>
+> On 7/5/25 4:52 PM, Rob Clark wrote:
+> > Avoid the possibility of missing features between the split and unified
+> > drm driver cases by defining DRIVER_FEATURES_GPU / KMS and using those
+> > in the drm_driver initializations.
+> >
+> > Signed-off-by: Rob Clark <robin.clark@oss.qualcomm.com>
+> > ---
+> >  drivers/gpu/drm/msm/msm_drv.c | 31 ++++++++++++++++---------------
+> >  1 file changed, 16 insertions(+), 15 deletions(-)
+> >
+> > diff --git a/drivers/gpu/drm/msm/msm_drv.c b/drivers/gpu/drm/msm/msm_dr=
+v.c
+> > index b6efc5b9933b..5695de1bbae2 100644
+> > --- a/drivers/gpu/drm/msm/msm_drv.c
+> > +++ b/drivers/gpu/drm/msm/msm_drv.c
+> > @@ -816,14 +816,21 @@ static const struct file_operations fops =3D {
+> >       .show_fdinfo =3D drm_show_fdinfo,
+> >  };
+> >
+> > +#define DRIVER_FEATURES_GPU ( \
+> > +             DRIVER_GEM | \
+> > +             DRIVER_GEM_GPUVA | \
+> > +             DRIVER_RENDER | \
+> > +             DRIVER_SYNCOBJ_TIMELINE | \
+> > +             0 )
+> > +
+> > +#define DRIVER_FEATURES_KMS ( \
+> > +             DRIVER_GEM | \
+> > +             DRIVER_ATOMIC | \
+> > +             DRIVER_MODESET | \
+> > +             0 )
+>
+> Perhaps I'm missing some C lore, but do we need the "| 0"?
 
-On 7/7/25 1:26 PM, Brigham Campbell wrote:
-> Remove TODO item from drm documentation to transition away from using
-> mipi_dsi_*_write_seq() macros now that the work is complete.
-> 
-> Signed-off-by: Brigham Campbell <me@brighamcampbell.com>
-> ---
->  Documentation/gpu/todo.rst | 18 ------------------
->  1 file changed, 18 deletions(-)
-> 
-> diff --git a/Documentation/gpu/todo.rst b/Documentation/gpu/todo.rst
-> index be8637da3fe9..76afb8a784e3 100644
-> --- a/Documentation/gpu/todo.rst
-> +++ b/Documentation/gpu/todo.rst
-> @@ -497,24 +497,6 @@ Contact: Douglas Anderson <dianders@chromium.org>
->  
->  Level: Intermediate
->  
-> -Transition away from using mipi_dsi_*_write_seq()
-> --------------------------------------------------
-> -
-> -The macros mipi_dsi_generic_write_seq() and mipi_dsi_dcs_write_seq() are
-> -non-intuitive because, if there are errors, they return out of the *caller's*
-> -function. We should move all callers to use mipi_dsi_generic_write_seq_multi()
-> -and mipi_dsi_dcs_write_seq_multi() macros instead.
-> -
-> -Once all callers are transitioned, the macros and the functions that they call,
-> -mipi_dsi_generic_write_chatty() and mipi_dsi_dcs_write_buffer_chatty(), can
-> -probably be removed. Alternatively, if people feel like the _multi() variants
-> -are overkill for some use cases, we could keep the mipi_dsi_*_write_seq()
-> -variants but change them not to return out of the caller.
-> -
-> -Contact: Douglas Anderson <dianders@chromium.org>
-> -
-> -Level: Starter
-> -
->  Remove devm_drm_put_bridge()
->  ----------------------------
->  
+It is just to avoid later diffstat noise when new flags are added :-)
 
-Personally I think there's merit in keeping this TODO around until all
-the other mipi_dsi functions are transitioned as well and removed
-entirely. Maybe rewording it to reflect this could be better?
-
--- 
-Tejas Vipin
+BR,
+-R
