@@ -2,56 +2,62 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id DF30EAFAF7A
-	for <lists+dri-devel@lfdr.de>; Mon,  7 Jul 2025 11:18:21 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5BF03AFAF85
+	for <lists+dri-devel@lfdr.de>; Mon,  7 Jul 2025 11:21:22 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 428B910E312;
-	Mon,  7 Jul 2025 09:18:20 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B56F810E0DA;
+	Mon,  7 Jul 2025 09:21:20 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=fail reason="signature verification failed" (2048-bit key; secure) header.d=kapsi.fi header.i=@kapsi.fi header.b="BUxUMpZ4";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="Wr4Wqbdi";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail.kapsi.fi (mail-auth.kapsi.fi [91.232.154.24])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7222810E312
- for <dri-devel@lists.freedesktop.org>; Mon,  7 Jul 2025 09:18:17 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=kapsi.fi;
- s=20161220; h=Cc:To:Message-Id:Content-Transfer-Encoding:Content-Type:
- MIME-Version:Subject:Date:From:Sender:Reply-To:Content-ID:Content-Description
- :Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
- In-Reply-To:References:List-Id:List-Help:List-Unsubscribe:List-Subscribe:
- List-Post:List-Owner:List-Archive;
- bh=56yF/zI7i6sgqCq8VI4vVeBeXQpKc4+9Sjf8ASmThTs=; b=BUxUMpZ41VghoI+Vz9XXRZu3fk
- 4IKlVayPb5Ns8jQ2nDmw9D6pa+TpLyLpmzHTfPTNjT33I05j2RgN6PYbS36GKPqI1pmY5RIU4/lZm
- 1px5hEMyp/uE9gGJGh72q81jAQ6OwmYntvt6zQ1uPXsz9FwLZLKLbJ3HTZLyRtAkpRTAWxfLyd4aA
- nV3JHK9ueyewZlo6/56+ZFeS6nsuUfnR1SjfJaFAe6L+SDkXe2i2xx4UiZN9KTjuveXMeyFpD9a4W
- jb7CqUX90RTl7ljIQ7QFQbjlaFq/8pYrtjlaYZD9cAa76kXLq9Lt+qNEiZyQ6O0xcVqABr3ytlo6g
- HK2bn/xQ==;
-Received: from [2404:7a80:b960:1a00:5eaa:b33c:a197:a90f]
- (helo=senjougahara.localdomain)
- by mail.kapsi.fi with esmtpsa (TLS1.3) tls
- TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384 (Exim 4.96)
- (envelope-from <cyndis@kapsi.fi>) id 1uYhzH-003mee-2n;
- Mon, 07 Jul 2025 12:18:12 +0300
-From: Mikko Perttunen <cyndis@kapsi.fi>
-Date: Mon, 07 Jul 2025 18:17:39 +0900
-Subject: [PATCH] gpu: host1x: Fix race in syncpt alloc/free
+Received: from tor.source.kernel.org (tor.source.kernel.org [172.105.4.254])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8618110E0DA
+ for <dri-devel@lists.freedesktop.org>; Mon,  7 Jul 2025 09:21:19 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+ by tor.source.kernel.org (Postfix) with ESMTP id 90B1D6143D;
+ Mon,  7 Jul 2025 09:21:18 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id C5514C4AF09;
+ Mon,  7 Jul 2025 09:21:17 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1751880078;
+ bh=cMgp7w1xzV8IZvTez7Crfym5sM3mfY6lYsuuyjV36MM=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=Wr4Wqbdiotlti8NiuukR6NkPo/qxKP7/r0c91Aw8etczRNGxaodHte3BxLEZDrlDe
+ 6sdR94HNqjDxr3z2c3vrz6Z7TVrx2eCs7D30VCFSIHNa6U2WiOYVQJcTxwFw7pOU1z
+ HJhTfznV6CCfa59NXuPL51GQoMMrU42HwshkKeV9hRfVC5I3T7mTlBjazyAT9lriDH
+ 9ovbAmYFyL/Ik9UiIowX0TetD5WMiBk1kOn47u6U/sFhipYTAMuTc7rv1BKGRBKb15
+ LDqcckNLHdpfUNUo8fy0Erbgf5qtiiTqj7BR753W3tNjF/2L4KOdh7K3VtAEVVY2aL
+ Q+WhKSV1nFb/g==
+Date: Mon, 7 Jul 2025 11:21:15 +0200
+From: Maxime Ripard <mripard@kernel.org>
+To: Luca Ceresoli <luca.ceresoli@bootlin.com>
+Cc: Marek Szyprowski <m.szyprowski@samsung.com>, 
+ dri-devel@lists.freedesktop.org, Andrzej Hajda <andrzej.hajda@intel.com>, 
+ Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>, 
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
+ Jonas Karlman <jonas@kwiboo.se>, 
+ Jernej Skrabec <jernej.skrabec@gmail.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
+ Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>, 
+ Simona Vetter <simona@ffwll.ch>,
+ Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>, 
+ Douglas Anderson <dianders@chromium.org>,
+ Damon Ding <damon.ding@rock-chips.com>
+Subject: Re: [PATCH] drm/bridge: analogix_dp: Use devm_drm_bridge_alloc() API
+Message-ID: <20250707-just-gray-sheep-1d8be4@houat>
+References: <CGME20250627165702eucas1p12dbc50fea261d6846e67880bbef5c564@eucas1p1.samsung.com>
+ <20250627165652.580798-1-m.szyprowski@samsung.com>
+ <20250630-famous-dark-boar-89bed7@houat>
+ <20250701160219.20dc7466@booty>
+ <20250701-petite-mutant-starling-24bbe5@houat>
+ <20250703175032.6f49f862@booty>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20250707-host1x-syncpt-race-fix-v1-1-28b0776e70bc@nvidia.com>
-X-B4-Tracking: v=1; b=H4sIALKQa2gC/x2MwQqAIBAFfyX23IIaYfQr0UHsVXuxcCOK6N+Tj
- jMw85AiC5T66qGMU1S2VMDWFcU1pAUsU2FyxrXGG8/rpoe9WO8U94NziOBZLkbT+NnCIbiOSrx
- nFP2Ph/F9PwA03d9oAAAA
-X-Change-ID: 20250707-host1x-syncpt-race-fix-e337f1e2ea28
-To: Thierry Reding <thierry.reding@gmail.com>
-Cc: dri-devel@lists.freedesktop.org, linux-tegra@vger.kernel.org, 
- linux-kernel@vger.kernel.org, Mainak Sen <msen@nvidia.com>, 
- Mikko Perttunen <mperttunen@nvidia.com>
-X-Mailer: b4 0.14.2
-X-SA-Exim-Connect-IP: 2404:7a80:b960:1a00:5eaa:b33c:a197:a90f
-X-SA-Exim-Mail-From: cyndis@kapsi.fi
-X-SA-Exim-Scanned: No (on mail.kapsi.fi); SAEximRunCond expanded to false
+Content-Type: multipart/signed; micalg=pgp-sha384;
+ protocol="application/pgp-signature"; boundary="4ozqtq6qsjl6cvyk"
+Content-Disposition: inline
+In-Reply-To: <20250703175032.6f49f862@booty>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -67,53 +73,79 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Mainak Sen <msen@nvidia.com>
 
-Fix race condition between host1x_syncpt_alloc()
-and host1x_syncpt_put() by using kref_put_mutex()
-instead of kref_put() + manual mutex locking.
+--4ozqtq6qsjl6cvyk
+Content-Type: text/plain; protected-headers=v1; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
+Subject: Re: [PATCH] drm/bridge: analogix_dp: Use devm_drm_bridge_alloc() API
+MIME-Version: 1.0
 
-This ensures no thread can acquire the
-syncpt_mutex after the refcount drops to zero
-but before syncpt_release acquires it.
-This prevents races where syncpoints could
-be allocated while still being cleaned up
-from a previous release.
+On Thu, Jul 03, 2025 at 05:50:32PM +0200, Luca Ceresoli wrote:
+> Hi Maxime,
+>=20
+> On Tue, 1 Jul 2025 16:27:54 +0200
+> Maxime Ripard <mripard@kernel.org> wrote:
+>=20
+> > On Tue, Jul 01, 2025 at 04:02:19PM +0200, Luca Ceresoli wrote:
+> > > Hello Marek, Maxime,
+> > >=20
+> > > thanks Marek for spotting the issue and sending a patch!
+> > >=20
+> > > On Mon, 30 Jun 2025 18:44:24 +0200
+> > > Maxime Ripard <mripard@kernel.org> wrote:
+> > >  =20
+> > > > > @@ -1643,7 +1625,7 @@ int analogix_dp_bind(struct analogix_dp_dev=
+ice *dp, struct drm_device *drm_dev)
+> > > > >  		return ret;
+> > > > >  	}
+> > > > > =20
+> > > > > -	ret =3D analogix_dp_create_bridge(drm_dev, dp);
+> > > > > +	ret =3D drm_bridge_attach(dp->encoder, &dp->bridge, NULL, 0);
+> > > > >  	if (ret) {
+> > > > >  		DRM_ERROR("failed to create bridge (%d)\n", ret);
+> > > > >  		goto err_unregister_aux;   =20
+> > > >=20
+> > > > It looks like you don't set bridge->driver_private anymore. Is it o=
+n purpose? =20
+> > >=20
+> > > This looks correct to me. In current code, driver_private is used to
+> > > hold a pointer to the driver private struct (struct
+> > > analogix_dp_device). With devm_drm_bridge_alloc() container_of() is n=
+ow
+> > > enough, no pointer is needed. With the patch applied, driver_private
+> > > becomes unused. =20
+> >=20
+> > Then we should remove it from the structure if it's unused.
+>=20
+> Makes sense now that struct drm_bridge is meant to be always embedded
+> in a driver-private struct. But several drivers are still using it, so
+> those would need to be updated beforehand:
+>=20
+> $ git grep  -l driver_private -- drivers/gpu/drm/ | wc -l
+> 23
+> $
 
-Remove explicit mutex locking in syncpt_release
-as kref_put_mutex() handles this atomically.
+Ah, you're right, sorry for the noise.
 
-Signed-off-by: Mainak Sen <msen@nvidia.com>
-Fixes: f5ba33fb9690 ("gpu: host1x: Reserve VBLANK syncpoints at initialization")
-Signed-off-by: Mikko Perttunen <mperttunen@nvidia.com>
----
- drivers/gpu/host1x/syncpt.c | 4 +---
- 1 file changed, 1 insertion(+), 3 deletions(-)
+> So I think this patch should be taken as it fixes a regression. Do you
+> agree on this?
 
-diff --git a/drivers/gpu/host1x/syncpt.c b/drivers/gpu/host1x/syncpt.c
-index f63d14a57a1d950daa1a5864613d7f2fe4d04aa9..acc7d82e0585e83db2da82933ada4c817114b16e 100644
---- a/drivers/gpu/host1x/syncpt.c
-+++ b/drivers/gpu/host1x/syncpt.c
-@@ -345,8 +345,6 @@ static void syncpt_release(struct kref *ref)
- 
- 	sp->locked = false;
- 
--	mutex_lock(&sp->host->syncpt_mutex);
--
- 	host1x_syncpt_base_free(sp->base);
- 	kfree(sp->name);
- 	sp->base = NULL;
-@@ -369,7 +367,7 @@ void host1x_syncpt_put(struct host1x_syncpt *sp)
- 	if (!sp)
- 		return;
- 
--	kref_put(&sp->ref, syncpt_release);
-+	kref_put_mutex(&sp->ref, syncpt_release, &sp->host->syncpt_mutex);
- }
- EXPORT_SYMBOL(host1x_syncpt_put);
- 
+As far as I know, that commit only exists in drm-misc-next. Also, it
+should have a Fixes tag.
 
----
-base-commit: 2aeda9592360c200085898a258c4754bfe879921
-change-id: 20250707-host1x-syncpt-race-fix-e337f1e2ea28
+Maxime
 
+--4ozqtq6qsjl6cvyk
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iJUEABMJAB0WIQTkHFbLp4ejekA/qfgnX84Zoj2+dgUCaGuRhwAKCRAnX84Zoj2+
+dobyAYC5tJAbYuv+e8xjBJh6t5LMyfne0m8hew2h2w1CL4tQvlhg2TMAP9/A2XJD
++gcuBCYBgN58vb4p3LS+C+5OI94cusLvHH7Q50rbIYSvybcTCTbBXyHPp8/2nDyi
+SrZlhynhdQ==
+=ctMq
+-----END PGP SIGNATURE-----
+
+--4ozqtq6qsjl6cvyk--
