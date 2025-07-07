@@ -2,59 +2,70 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id A31A2AFBB86
-	for <lists+dri-devel@lfdr.de>; Mon,  7 Jul 2025 21:08:44 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id A0DA5AFBBA2
+	for <lists+dri-devel@lfdr.de>; Mon,  7 Jul 2025 21:17:51 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 052D510E553;
-	Mon,  7 Jul 2025 19:08:43 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2C6F410E522;
+	Mon,  7 Jul 2025 19:17:48 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="hl0pbQOU";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="kk9jQMZR";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.12])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D9B4510E553;
- Mon,  7 Jul 2025 19:08:41 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1751915322; x=1783451322;
- h=from:to:cc:subject:date:message-id:in-reply-to:
- references:mime-version:content-transfer-encoding;
- bh=3PmdhLvdY41V0PizQMRAIJgMLKgL29UIW+nOPM8t0Is=;
- b=hl0pbQOU62zbY/JPvlJHwo0EF+QpCC1gJI1dPsKzsma66ycw29myzgab
- TJJDf0fAuK3UVe2HrCLwT2sAC6biWPVPL0iUIyY/o1pUdhf6j4duBM1/+
- 6xR1T09qSBpQ7KbJ/fXCj0KintOQxOlENvHzOaG+hcNOtyu8FzYmcUXr6
- YICakeHFcZ8h3ND86BV0+NLNdAiT0Wrsukmv9DW1Ttl3+gsfbAt1EMxZD
- 6vYk+X7/6HJOpJEjSjbcGMmR1Beo8CW2Vtw/fMgbWKubLNCiBD9mZXvD8
- 5dOkaAjPqtaf4d/VTpSBU1WbnrOUM3j4mmC8L8t4FexguRa4ZQnXi/Da8 w==;
-X-CSE-ConnectionGUID: mLKuT9XeQOKM5+tCH9NOnQ==
-X-CSE-MsgGUID: xLF0i6tYSa+Vol0nVbUPVA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11487"; a="57945710"
-X-IronPort-AV: E=Sophos;i="6.16,295,1744095600"; d="scan'208";a="57945710"
-Received: from orviesa010.jf.intel.com ([10.64.159.150])
- by fmvoesa106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 07 Jul 2025 12:08:42 -0700
-X-CSE-ConnectionGUID: lT5ACKOcRI+A/pezEv6qCg==
-X-CSE-MsgGUID: LpHWIg+ARV+dRHXuLSPesw==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.16,295,1744095600"; d="scan'208";a="154707547"
-Received: from unknown (HELO bnilawar-desk2.iind.intel.com) ([10.190.239.41])
- by orviesa010-auth.jf.intel.com with
- ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Jul 2025 12:08:39 -0700
-From: Badal Nilawar <badal.nilawar@intel.com>
-To: intel-xe@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org
-Cc: anshuman.gupta@intel.com, rodrigo.vivi@intel.com,
- alexander.usyskin@intel.com, gregkh@linuxfoundation.org,
- daniele.ceraolospurio@intel.com
-Subject: [PATCH v7 9/9] drm/xe/xe_late_bind_fw: Extract and print version info
-Date: Tue,  8 Jul 2025 00:42:37 +0530
-Message-Id: <20250707191237.1782824-10-badal.nilawar@intel.com>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20250707191237.1782824-1-badal.nilawar@intel.com>
-References: <20250707191237.1782824-1-badal.nilawar@intel.com>
+Received: from tor.source.kernel.org (tor.source.kernel.org [172.105.4.254])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 08F4710E33C;
+ Mon,  7 Jul 2025 19:17:46 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+ by tor.source.kernel.org (Postfix) with ESMTP id 210F26111F;
+ Mon,  7 Jul 2025 19:17:45 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id C9812C4CEE3;
+ Mon,  7 Jul 2025 19:17:44 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1751915864;
+ bh=X58se4pufgFYDvpX4RDVuu3hHsO7uUWKHZToESh/FC0=;
+ h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+ b=kk9jQMZRKG2PlUf9xk+DjlJCYb6Z1Rue5IrSXQuoPOvCmE+GfB/OS/yZ6kugg8GOS
+ fwz8iBbQpv0pCaFtfyyQCur4AAOtD23NFyylB55KYw6Bpi/c3k9v0z8eUutp7l1kvd
+ K6IVV9QUIXvfropr19eM+gHliN13MC8o4L//VMUr2b+lab4uCWUWC8TneTKfJSOLc8
+ gEhC1cC7Iw2joC8Ek8NSALgRkl2BDrSF4krThfqQnihmycYY6pc/8S6TlQP6/GWudx
+ h6kQ6GsJjRP1+3dWVP7w7+fML73pu6tEPdqlHOyoKqx+Wp3977eWH5ooXWQwt19sIs
+ n/BlpFgN7eurg==
+Received: by mail-oo1-f46.google.com with SMTP id
+ 006d021491bc7-6113e68da82so1736390eaf.1; 
+ Mon, 07 Jul 2025 12:17:44 -0700 (PDT)
+X-Forwarded-Encrypted: i=1;
+ AJvYcCU0U9Gt4ml7uj+Z9zs6Cz9VLmDj0H21Ii2ec7nJmf1PNvqmaYnxfmmt6B0OjyZbhw11OaD1SyDv@lists.freedesktop.org,
+ AJvYcCVxLIgBR0ZfT4eJughS9HMFRPznSk06L6Ni7BNQAuyHBMTGIUNexoyt0y5QPa/v3jpaGB23mVUCa6L0@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YzLf7V0v5/gWd58og74QCtj3zto9WXgCwlUhP0qZXkACKcdxPZH
+ mZvZ0dEcTWP12hojBhbVxJpsgbsf3JULEzcpneA4lNuPYik/cpplTNZOukuOsszKJGIhF8rkbbV
+ oFbymQ2zX/J3/x0vmv9Yz28+tEBVwg/g=
+X-Google-Smtp-Source: AGHT+IFvvGre2qKtisDKi84+JIJG0BNJKCNho0uAzGYlxwaCn2fgCOqGP0+8tfw2ciOjUepnmH58MZ/QJmKYTv+DXoE=
+X-Received: by 2002:a05:6820:4b07:b0:611:7385:77a0 with SMTP id
+ 006d021491bc7-613c10ca61dmr86938eaf.4.1751915864050; Mon, 07 Jul 2025
+ 12:17:44 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20250704101233.347506-1-guoqing.zhang@amd.com>
+ <20250704101233.347506-5-guoqing.zhang@amd.com>
+ <2c609512-ebe8-4a61-a666-44b308975d72@amd.com>
+In-Reply-To: <2c609512-ebe8-4a61-a666-44b308975d72@amd.com>
+From: "Rafael J. Wysocki" <rafael@kernel.org>
+Date: Mon, 7 Jul 2025 21:17:33 +0200
+X-Gmail-Original-Message-ID: <CAJZ5v0in0Qj5QR5GLNB+1JjOh3rbOR3YB91kr40OSy0ygOWLGg@mail.gmail.com>
+X-Gm-Features: Ac12FXyry_ZMX4wIeZua_zevr27j-iIjf-OututexrSMWXUO4cFW0hY8Xsxad8c
+Message-ID: <CAJZ5v0in0Qj5QR5GLNB+1JjOh3rbOR3YB91kr40OSy0ygOWLGg@mail.gmail.com>
+Subject: Re: [PATCH v2 4/5] PM: hibernate: export variable pm_transition
+To: Mario Limonciello <mario.limonciello@amd.com>,
+ Samuel Zhang <guoqing.zhang@amd.com>
+Cc: lijo.lazar@amd.com, victor.zhao@amd.com, haijun.chang@amd.com, 
+ Qing.Ma@amd.com, linux-pm@vger.kernel.org, linux-kernel@vger.kernel.org, 
+ amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org, 
+ alexander.deucher@amd.com, christian.koenig@amd.com, len.brown@intel.com, 
+ pavel@kernel.org, gregkh@linuxfoundation.org, dakr@kernel.org, 
+ airlied@gmail.com, simona@ffwll.ch, ray.huang@amd.com, matthew.auld@intel.com, 
+ matthew.brost@intel.com, maarten.lankhorst@linux.intel.com, 
+ mripard@kernel.org, tzimmermann@suse.de
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -70,263 +81,75 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Extract and print version info of the late binding binary.
+On Sun, Jul 6, 2025 at 10:40=E2=80=AFPM Mario Limonciello
+<mario.limonciello@amd.com> wrote:
+>
+> On 7/4/2025 6:12 AM, Samuel Zhang wrote:
+> > https://github.com/torvalds/linux/blob/v6.14/Documentation/power/pci.rs=
+t?plain=3D1#L588
+> > Per this kernel doc, dev_pm_ops.thaw() is called mainly for resume
+>
+> Proper way to do this is to put the URL in a 'Link' tag above your SoB.
+> That being said I don't think we need to reference the rst file.  Just
+> reference the html file.
+>
+> Something like this:
+>
+> Per the PCI power management documentation [1] dev_pm_ops.thaw() is
+> called mainly for resume.
+>
+> .
+> .
+> .
+>
+> Link: https://docs.kernel.org/power/pci.html [1]
+> S-o-b: Foo bar <foo@bar.com>
+>
+> > storage devices for saving the hibernation image. Other devices that no=
+t
+>
+> that are not
+>
+> > involved in the image saving do not need to resume the device.
+> >
+> > But dev_pm_ops.thaw() is also called to restore devices when hibernatio=
+n
+> > is aborted due to some error in hibernation image creation stage.
 
-v2: Some refinements (Daniele)
+This isn't factually correct.
 
-Signed-off-by: Badal Nilawar <badal.nilawar@intel.com>
-Reviewed-by: Daniele Ceraolo Spurio <daniele.ceraolospurio@intel.com>
----
- drivers/gpu/drm/xe/xe_late_bind_fw.c       | 124 +++++++++++++++++++++
- drivers/gpu/drm/xe/xe_late_bind_fw_types.h |   3 +
- drivers/gpu/drm/xe/xe_uc_fw_abi.h          |  66 +++++++++++
- 3 files changed, 193 insertions(+)
+dev_pm_ops.thaw() can be called in an error path in two cases: (1) the
+"freeze" transition before the creation of a memory snapshot image
+fails and (2) the "freeze" transition during restore (before jumping
+back to the image kernel) fails.
 
-diff --git a/drivers/gpu/drm/xe/xe_late_bind_fw.c b/drivers/gpu/drm/xe/xe_late_bind_fw.c
-index 3228864716b5..19e8de114d0c 100644
---- a/drivers/gpu/drm/xe/xe_late_bind_fw.c
-+++ b/drivers/gpu/drm/xe/xe_late_bind_fw.c
-@@ -45,6 +45,121 @@ late_bind_to_xe(struct xe_late_bind *late_bind)
- 	return container_of(late_bind, struct xe_device, late_bind);
- }
- 
-+static struct xe_device *
-+late_bind_fw_to_xe(struct xe_late_bind_fw *lb_fw)
-+{
-+	return container_of(lb_fw, struct xe_device, late_bind.late_bind_fw[lb_fw->id]);
-+}
-+
-+/* Refer to the "Late Bind based Firmware Layout" documentation entry for details */
-+static int parse_cpd_header(struct xe_late_bind_fw *lb_fw,
-+			    const void *data, size_t size, const char *manifest_entry)
-+{
-+	struct xe_device *xe = late_bind_fw_to_xe(lb_fw);
-+	const struct gsc_cpd_header_v2 *header = data;
-+	const struct gsc_manifest_header *manifest;
-+	const struct gsc_cpd_entry *entry;
-+	size_t min_size = sizeof(*header);
-+	u32 offset;
-+	int i;
-+
-+	/* manifest_entry is mandatory */
-+	xe_assert(xe, manifest_entry);
-+
-+	if (size < min_size || header->header_marker != GSC_CPD_HEADER_MARKER)
-+		return -ENOENT;
-+
-+	if (header->header_length < sizeof(struct gsc_cpd_header_v2)) {
-+		drm_err(&xe->drm, "%s late binding fw: Invalid CPD header length %u!\n",
-+			fw_id_to_name[lb_fw->id], header->header_length);
-+		return -EINVAL;
-+	}
-+
-+	min_size = header->header_length + sizeof(struct gsc_cpd_entry) * header->num_of_entries;
-+	if (size < min_size) {
-+		drm_err(&xe->drm, "%s late binding fw: too small! %zu < %zu\n",
-+			fw_id_to_name[lb_fw->id], size, min_size);
-+		return -ENODATA;
-+	}
-+
-+	/* Look for the manifest first */
-+	entry = (void *)header + header->header_length;
-+	for (i = 0; i < header->num_of_entries; i++, entry++)
-+		if (strcmp(entry->name, manifest_entry) == 0)
-+			offset = entry->offset & GSC_CPD_ENTRY_OFFSET_MASK;
-+
-+	if (!offset) {
-+		drm_err(&xe->drm, "%s late binding fw: Failed to find manifest_entry\n",
-+			fw_id_to_name[lb_fw->id]);
-+		return -ENODATA;
-+	}
-+
-+	min_size = offset + sizeof(struct gsc_manifest_header);
-+	if (size < min_size) {
-+		drm_err(&xe->drm, "%s late binding fw: too small! %zu < %zu\n",
-+			fw_id_to_name[lb_fw->id], size, min_size);
-+		return -ENODATA;
-+	}
-+
-+	manifest = data + offset;
-+
-+	lb_fw->version = manifest->fw_version;
-+
-+	return 0;
-+}
-+
-+/* Refer to the "Late Bind based Firmware Layout" documentation entry for details */
-+static int parse_lb_layout(struct xe_late_bind_fw *lb_fw,
-+			   const void *data, size_t size, const char *fpt_entry)
-+{
-+	struct xe_device *xe = late_bind_fw_to_xe(lb_fw);
-+	const struct csc_fpt_header *header = data;
-+	const struct csc_fpt_entry *entry;
-+	size_t min_size = sizeof(*header);
-+	u32 offset;
-+	int i;
-+
-+	/* fpt_entry is mandatory */
-+	xe_assert(xe, fpt_entry);
-+
-+	if (size < min_size || header->header_marker != CSC_FPT_HEADER_MARKER)
-+		return -ENOENT;
-+
-+	if (header->header_length < sizeof(struct csc_fpt_header)) {
-+		drm_err(&xe->drm, "%s late binding fw: Invalid FPT header length %u!\n",
-+			fw_id_to_name[lb_fw->id], header->header_length);
-+		return -EINVAL;
-+	}
-+
-+	min_size = header->header_length + sizeof(struct csc_fpt_entry) * header->num_of_entries;
-+	if (size < min_size) {
-+		drm_err(&xe->drm, "%s late binding fw: too small! %zu < %zu\n",
-+			fw_id_to_name[lb_fw->id], size, min_size);
-+		return -ENODATA;
-+	}
-+
-+	/* Look for the cpd header first */
-+	entry = (void *)header + header->header_length;
-+	for (i = 0; i < header->num_of_entries; i++, entry++)
-+		if (strcmp(entry->name, fpt_entry) == 0)
-+			offset = entry->offset;
-+
-+	if (!offset) {
-+		drm_err(&xe->drm, "%s late binding fw: Failed to find fpt_entry\n",
-+			fw_id_to_name[lb_fw->id]);
-+		return -ENODATA;
-+	}
-+
-+	min_size = offset + sizeof(struct gsc_cpd_header_v2);
-+	if (size < min_size) {
-+		drm_err(&xe->drm, "%s late binding fw: too small! %zu < %zu\n",
-+			fw_id_to_name[lb_fw->id], size, min_size);
-+		return -ENODATA;
-+	}
-+
-+	return parse_cpd_header(lb_fw, data + offset, size - offset, "LTES.man");
-+}
-+
- static const char *xe_late_bind_parse_status(uint32_t status)
- {
- 	switch (status) {
-@@ -222,6 +337,10 @@ static int __xe_late_bind_fw_init(struct xe_late_bind *late_bind, u32 fw_id)
- 		return -ENODATA;
- 	}
- 
-+	ret = parse_lb_layout(lb_fw, fw->data, fw->size, "LTES");
-+	if (ret)
-+		return ret;
-+
- 	lb_fw->payload_size = fw->size;
- 	lb_fw->payload = drmm_kzalloc(&xe->drm, lb_fw->payload_size, GFP_KERNEL);
- 	if (!lb_fw->payload) {
-@@ -229,6 +348,11 @@ static int __xe_late_bind_fw_init(struct xe_late_bind *late_bind, u32 fw_id)
- 		return -ENOMEM;
- 	}
- 
-+	drm_info(&xe->drm, "Using %s firmware from %s version %u.%u.%u.%u\n",
-+		 fw_id_to_name[lb_fw->id], lb_fw->blob_path,
-+		 lb_fw->version.major, lb_fw->version.minor,
-+		 lb_fw->version.hotfix, lb_fw->version.build);
-+
- 	memcpy((void *)lb_fw->payload, fw->data, lb_fw->payload_size);
- 	release_firmware(fw);
- 	INIT_WORK(&lb_fw->work, xe_late_bind_work);
-diff --git a/drivers/gpu/drm/xe/xe_late_bind_fw_types.h b/drivers/gpu/drm/xe/xe_late_bind_fw_types.h
-index 9399d425d80b..4404112fd8a7 100644
---- a/drivers/gpu/drm/xe/xe_late_bind_fw_types.h
-+++ b/drivers/gpu/drm/xe/xe_late_bind_fw_types.h
-@@ -10,6 +10,7 @@
- #include <linux/mutex.h>
- #include <linux/types.h>
- #include <linux/workqueue.h>
-+#include "xe_uc_fw_abi.h"
- 
- #define XE_LB_MAX_PAYLOAD_SIZE SZ_4K
- 
-@@ -39,6 +40,8 @@ struct xe_late_bind_fw {
- 	size_t payload_size;
- 	/** @work: worker to upload latebind blob */
- 	struct work_struct work;
-+	/** @version: late binding blob manifest version */
-+	struct gsc_version version;
- };
- 
- /**
-diff --git a/drivers/gpu/drm/xe/xe_uc_fw_abi.h b/drivers/gpu/drm/xe/xe_uc_fw_abi.h
-index 87ade41209d0..78782d105fa9 100644
---- a/drivers/gpu/drm/xe/xe_uc_fw_abi.h
-+++ b/drivers/gpu/drm/xe/xe_uc_fw_abi.h
-@@ -318,4 +318,70 @@ struct gsc_manifest_header {
- 	u32 exponent_size; /* in dwords */
- } __packed;
- 
-+/**
-+ * DOC: Late binding Firmware Layout
-+ *
-+ * The Late binding binary starts with FPT header, which contains locations
-+ * of various partitions of the binary. Here we're interested in finding out
-+ * manifest version. To the manifest version, we need to locate CPD header
-+ * one of the entry in CPD header points to manifest header. Manifest header
-+ * contains the version.
-+ *
-+ *      +================================================+
-+ *      |  FPT Header                                    |
-+ *      +================================================+
-+ *      |  FPT entries[]                                 |
-+ *      |      entry1                                    |
-+ *      |      ...                                       |
-+ *      |      entryX                                    |
-+ *      |          "LTES"                                |
-+ *      |          ...                                   |
-+ *      |          offset  >-----------------------------|------o
-+ *      +================================================+      |
-+ *                                                              |
-+ *      +================================================+      |
-+ *      |  CPD Header                                    |<-----o
-+ *      +================================================+
-+ *      |  CPD entries[]                                 |
-+ *      |      entry1                                    |
-+ *      |      ...                                       |
-+ *      |      entryX                                    |
-+ *      |          "LTES.man"                            |
-+ *      |           ...                                  |
-+ *      |           offset  >----------------------------|------o
-+ *      +================================================+      |
-+ *                                                              |
-+ *      +================================================+      |
-+ *      |  Manifest Header                               |<-----o
-+ *      |      ...                                       |
-+ *      |      FW version                                |
-+ *      |      ...                                       |
-+ *      +================================================+
-+ */
-+
-+/* FPT Headers */
-+struct csc_fpt_header {
-+	u32 header_marker;
-+#define CSC_FPT_HEADER_MARKER 0x54504624
-+	u32 num_of_entries;
-+	u8 header_version;
-+	u8 entry_version;
-+	u8 header_length; /* in bytes */
-+	u8 flags;
-+	u16 ticks_to_add;
-+	u16 tokens_to_add;
-+	u32 uma_size;
-+	u32 crc32;
-+	struct gsc_version fitc_version;
-+} __packed;
-+
-+struct csc_fpt_entry {
-+	u8 name[4]; /* partition name */
-+	u32 reserved1;
-+	u32 offset; /* offset from beginning of CSE region */
-+	u32 length; /* partition length in bytes */
-+	u32 reserved2[3];
-+	u32 partition_flags;
-+} __packed;
-+
- #endif
--- 
-2.34.1
+> > So there need to be a way to query in thaw() to know if hibernation is
+> > aborted or not and conditionally resume devices. Exported pm_transition
+> > is such a way. When thaw() is called, the value is:
+> > - PM_EVENT_THAW: normal hibernate, no need to resume non-storage device=
+s.
+> > - PM_EVENT_RECOVER: cancelled hibernation, need to resume devices.
+>
+> If these events are being exported out for driver use I think that we
+> also need matching kernel doc exported too.
+>
+> That is the comments in include/linux/pm.h need to be converted into
+> kernel doc.
+>
+> Before you make any changes like that though let's see what Rafael
+> thinks of this approach.
+>
+> He might not want to export this symbol out and would prefer a new
+> helper for drivers to use like:
+>
+> inline bool pm_aborted_hibernate();
+>
+> If that's the direction he prefers you'll need to make kernel doc for
+> that instead.
 
+I would prefer a wrapper around pm_transition returning pm_transition.event=
+.
+
+It can be called pm_transition_event() even as far as I'm concerned.
+
+Thanks!
