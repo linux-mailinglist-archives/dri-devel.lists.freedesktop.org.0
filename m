@@ -2,68 +2,148 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0FD2CAFB0E1
-	for <lists+dri-devel@lfdr.de>; Mon,  7 Jul 2025 12:13:46 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 729CAAFB0F1
+	for <lists+dri-devel@lfdr.de>; Mon,  7 Jul 2025 12:17:20 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6E46D88735;
-	Mon,  7 Jul 2025 10:13:44 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 16C7010E436;
+	Mon,  7 Jul 2025 10:17:18 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=bootlin.com header.i=@bootlin.com header.b="X+eOXd+T";
+	dkim=pass (1024-bit key; unprotected) header.d=suse.de header.i=@suse.de header.b="OZ15/u1N";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="lMvW1v9l";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="OZ15/u1N";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="lMvW1v9l";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from relay4-d.mail.gandi.net (relay4-d.mail.gandi.net
- [217.70.183.196])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 612D910E432
- for <dri-devel@lists.freedesktop.org>; Mon,  7 Jul 2025 10:13:42 +0000 (UTC)
-Received: by mail.gandi.net (Postfix) with ESMTPSA id 2D9D143AD8;
- Mon,  7 Jul 2025 10:13:39 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
- t=1751883221;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 58F5A10E436
+ for <dri-devel@lists.freedesktop.org>; Mon,  7 Jul 2025 10:17:16 +0000 (UTC)
+Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org
+ [IPv6:2a07:de40:b281:104:10:150:64:97])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ (No client certificate requested)
+ by smtp-out1.suse.de (Postfix) with ESMTPS id E6D8021199;
+ Mon,  7 Jul 2025 10:17:14 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+ t=1751883435; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=uJ6v8vKMuUeSsnqwBVwgaKkap7Pusx+eOZgrYQrQo6o=;
- b=X+eOXd+T15l8C8kbXpUVnuaNdaFGDRpJ+yKULX8vRV0l1AXvaW8fuSU0ZRuRnIW3moaeGy
- APyse81GVkDtqP1O2AdRlStvfuYsLWWSKaSQPmuQ0gTsAK4H/MeaX717HWqBIJEOcoF+CT
- 1yEVAcQVY4PDCNIbuuaHnDNuBYppsavPaILCh/0JJib3s3vlyVo0VRM3sKfocGkfQJ6ftf
- /T/9ang/348nZRZCXzk/g6RAbPKl+PT8DegbvXx52PDH2KM4/RNkys3oFg6yV7KxiH5rLq
- PynTYD/7Q7IW1ARrtSlOREMoUlzh8ViY7llK5Zi7ZfzsTVq1yzBTHl+B7BMUew==
-Date: Mon, 7 Jul 2025 12:13:19 +0200
-From: Luca Ceresoli <luca.ceresoli@bootlin.com>
-To: Maxime Ripard <mripard@kernel.org>
-Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, Thomas Zimmermann
- <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>, Simona Vetter
- <simona@ffwll.ch>, Andrzej Hajda <andrzej.hajda@intel.com>, Neil Armstrong
- <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>, Laurent
- Pinchart <Laurent.pinchart@ideasonboard.com>, Jonas Karlman
- <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>, Inki Dae
- <inki.dae@samsung.com>, Jagan Teki <jagan@amarulasolutions.com>, Marek
- Szyprowski <m.szyprowski@samsung.com>, Jani Nikula
- <jani.nikula@linux.intel.com>, Dmitry Baryshkov <lumag@kernel.org>, Hui Pu
- <Hui.Pu@gehealthcare.com>, Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- linux-sunxi@lists.linux.dev, Kevin Hilman <khilman@baylibre.com>, Jerome
- Brunet <jbrunet@baylibre.com>, Martin Blumenstingl
- <martin.blumenstingl@googlemail.com>, linux-amlogic@lists.infradead.org
-Subject: Re: [PATCH 00/32] drm/mipi-dsi: avoid DSI host drivers to have
- pointers to DSI devices
-Message-ID: <20250707121319.1e40a73a@booty>
-In-Reply-To: <20250707115853.128f2e6f@booty>
-References: <20250625-drm-dsi-host-no-device-ptr-v1-0-e36bc258a7c5@bootlin.com>
- <20250707-strange-warm-bear-cb4ee8@houat>
- <20250707115853.128f2e6f@booty>
-Organization: Bootlin
-X-Mailer: Claws Mail 4.3.1 (GTK 3.24.49; x86_64-redhat-linux-gnu)
+ in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+ bh=DE2k96o9iD+lqRTj460+OBpJ9c3Jss1dAuax0OXiA08=;
+ b=OZ15/u1NnN/LfxoMWgJ0qoFvtXMP7BOl2FNLR81Cf6WFoNb24W9oNxc5ycteG4qc8eC6X4
+ yqy7UsMPWFwwId7xByuaXMS98hIiIE8SKQo5HHn1Zkol0RLe0F5+QXrU0Ss5tsyzkoA1Om
+ MTRXs/Am8L3eD9v9p0P63BPMT/HY+QI=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+ s=susede2_ed25519; t=1751883435;
+ h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+ bh=DE2k96o9iD+lqRTj460+OBpJ9c3Jss1dAuax0OXiA08=;
+ b=lMvW1v9lPd+8P5GUZC82JRnqQHmU1c95QVvLU8oKus5Bhr8TiYJavPx/gzS7SIztfMuwvq
+ buCUOSIsrf+4S0Ag==
+Authentication-Results: smtp-out1.suse.de;
+ dkim=pass header.d=suse.de header.s=susede2_rsa header.b="OZ15/u1N";
+ dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=lMvW1v9l
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+ t=1751883435; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+ bh=DE2k96o9iD+lqRTj460+OBpJ9c3Jss1dAuax0OXiA08=;
+ b=OZ15/u1NnN/LfxoMWgJ0qoFvtXMP7BOl2FNLR81Cf6WFoNb24W9oNxc5ycteG4qc8eC6X4
+ yqy7UsMPWFwwId7xByuaXMS98hIiIE8SKQo5HHn1Zkol0RLe0F5+QXrU0Ss5tsyzkoA1Om
+ MTRXs/Am8L3eD9v9p0P63BPMT/HY+QI=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+ s=susede2_ed25519; t=1751883435;
+ h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+ bh=DE2k96o9iD+lqRTj460+OBpJ9c3Jss1dAuax0OXiA08=;
+ b=lMvW1v9lPd+8P5GUZC82JRnqQHmU1c95QVvLU8oKus5Bhr8TiYJavPx/gzS7SIztfMuwvq
+ buCUOSIsrf+4S0Ag==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ (No client certificate requested)
+ by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id AF6D713757;
+ Mon,  7 Jul 2025 10:17:14 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+ by imap1.dmz-prg2.suse.org with ESMTPSA id I4ZRKaqea2iVWQAAD6G6ig
+ (envelope-from <tzimmermann@suse.de>); Mon, 07 Jul 2025 10:17:14 +0000
+Message-ID: <2c02e746-73d0-4d3c-aa2e-093523d4d58d@suse.de>
+Date: Mon, 7 Jul 2025 12:17:14 +0200
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
-X-GND-State: clean
-X-GND-Score: -100
-X-GND-Cause: gggruggvucftvghtrhhoucdtuddrgeeffedrtdefgdefudehfecutefuodetggdotefrodftvfcurfhrohhfihhlvgemucfitefpfffkpdcuggftfghnshhusghstghrihgsvgenuceurghilhhouhhtmecufedtudenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujfgurhepfffhvfevuffkjghfohfogggtgfesthhqredtredtjeenucfhrhhomhepnfhutggrucevvghrvghsohhlihcuoehluhgtrgdrtggvrhgvshholhhisegsohhothhlihhnrdgtohhmqeenucggtffrrghtthgvrhhnpedvgeejjeevhefhiefgffethfdtieffheefvedtgeekteejffdtvedugeeihfdvkeenucffohhmrghinhepfhhrvggvuggvshhkthhophdrohhrghdpkhgvrhhnvghlrdhorhhgpdgsohhothhlihhnrdgtohhmnecukfhppeekjedruddvtddrvddukedrvddtjeenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepihhnvghtpeekjedruddvtddrvddukedrvddtjedphhgvlhhopegsohhothihpdhmrghilhhfrhhomheplhhutggrrdgtvghrvghsohhlihessghoohhtlhhinhdrtghomhdpnhgspghrtghpthhtohepvdehpdhrtghpthhtohepmhhrihhprghrugeskhgvrhhnvghlrdhorhhgpdhrtghpthhtohepmhgrrghrthgvnhdrlhgrnhhkhhhorhhstheslhhinhhugidrihhnthgvlhdrtghomhdprhgtphhtthhopehtiihimhhmvghrmhgrnhhnsehsuhhsvgdruggvpdhrtghpthhtoheprghir
- hhlihgvugesghhmrghilhdrtghomhdprhgtphhtthhopehsihhmohhnrgesfhhffihllhdrtghhpdhrtghpthhtoheprghnughriigvjhdrhhgrjhgurgesihhnthgvlhdrtghomhdprhgtphhtthhopehnvghilhdrrghrmhhsthhrohhngheslhhinhgrrhhordhorhhgpdhrtghpthhtoheprhhfohhssheskhgvrhhnvghlrdhorhhg
-X-GND-Sasl: luca.ceresoli@bootlin.com
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] fbdev: efifb: do not load efifb if PCI BAR has changed
+ but not fixuped
+To: Shixiong Ou <oushixiong1025@163.com>, Helge Deller <deller@gmx.de>
+Cc: Peter Jones <pjones@redhat.com>, linux-fbdev@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ Shixiong Ou <oushixiong@kylinos.cn>
+References: <20250626094937.515552-1-oushixiong1025@163.com>
+ <3b3feb03-c417-4569-b7b0-44565d7cce4f@suse.de>
+ <a937f41f-2cee-459d-b94f-b7f979072f3e@163.com>
+ <1687bb52-e724-46a8-af75-26b486634c20@suse.de>
+ <1567a84b-3f78-4f0a-9549-bfe9fd4aa96b@163.com>
+Content-Language: en-US
+From: Thomas Zimmermann <tzimmermann@suse.de>
+Autocrypt: addr=tzimmermann@suse.de; keydata=
+ xsBNBFs50uABCADEHPidWt974CaxBVbrIBwqcq/WURinJ3+2WlIrKWspiP83vfZKaXhFYsdg
+ XH47fDVbPPj+d6tQrw5lPQCyqjwrCPYnq3WlIBnGPJ4/jreTL6V+qfKRDlGLWFjZcsrPJGE0
+ BeB5BbqP5erN1qylK9i3gPoQjXGhpBpQYwRrEyQyjuvk+Ev0K1Jc5tVDeJAuau3TGNgah4Yc
+ hdHm3bkPjz9EErV85RwvImQ1dptvx6s7xzwXTgGAsaYZsL8WCwDaTuqFa1d1jjlaxg6+tZsB
+ 9GluwvIhSezPgnEmimZDkGnZRRSFiGP8yjqTjjWuf0bSj5rUnTGiyLyRZRNGcXmu6hjlABEB
+ AAHNJ1Rob21hcyBaaW1tZXJtYW5uIDx0emltbWVybWFubkBzdXNlLmRlPsLAjgQTAQgAOAIb
+ AwULCQgHAgYVCgkICwIEFgIDAQIeAQIXgBYhBHIX+6yM6c9jRKFo5WgNwR1TC3ojBQJftODH
+ AAoJEGgNwR1TC3ojx1wH/0hKGWugiqDgLNXLRD/4TfHBEKmxIrmfu9Z5t7vwUKfwhFL6hqvo
+ lXPJJKQpQ2z8+X2vZm/slsLn7J1yjrOsoJhKABDi+3QWWSGkaGwRJAdPVVyJMfJRNNNIKwVb
+ U6B1BkX2XDKDGffF4TxlOpSQzdtNI/9gleOoUA8+jy8knnDYzjBNOZqLG2FuTdicBXblz0Mf
+ vg41gd9kCwYXDnD91rJU8tzylXv03E75NCaTxTM+FBXPmsAVYQ4GYhhgFt8S2UWMoaaABLDe
+ 7l5FdnLdDEcbmd8uLU2CaG4W2cLrUaI4jz2XbkcPQkqTQ3EB67hYkjiEE6Zy3ggOitiQGcqp
+ j//OwE0EWznS4AEIAMYmP4M/V+T5RY5at/g7rUdNsLhWv1APYrh9RQefODYHrNRHUE9eosYb
+ T6XMryR9hT8XlGOYRwKWwiQBoWSDiTMo/Xi29jUnn4BXfI2px2DTXwc22LKtLAgTRjP+qbU6
+ 3Y0xnQN29UGDbYgyyK51DW3H0If2a3JNsheAAK+Xc9baj0LGIc8T9uiEWHBnCH+RdhgATnWW
+ GKdDegUR5BkDfDg5O/FISymJBHx2Dyoklv5g4BzkgqTqwmaYzsl8UxZKvbaxq0zbehDda8lv
+ hFXodNFMAgTLJlLuDYOGLK2AwbrS3Sp0AEbkpdJBb44qVlGm5bApZouHeJ/+n+7r12+lqdsA
+ EQEAAcLAdgQYAQgAIAIbDBYhBHIX+6yM6c9jRKFo5WgNwR1TC3ojBQJftOH6AAoJEGgNwR1T
+ C3ojVSkIALpAPkIJPQoURPb1VWjh34l0HlglmYHvZszJWTXYwavHR8+k6Baa6H7ufXNQtThR
+ yIxJrQLW6rV5lm7TjhffEhxVCn37+cg0zZ3j7zIsSS0rx/aMwi6VhFJA5hfn3T0TtrijKP4A
+ SAQO9xD1Zk9/61JWk8OysuIh7MXkl0fxbRKWE93XeQBhIJHQfnc+YBLprdnxR446Sh8Wn/2D
+ Ya8cavuWf2zrB6cZurs048xe0UbSW5AOSo4V9M0jzYI4nZqTmPxYyXbm30Kvmz0rYVRaitYJ
+ 4kyYYMhuULvrJDMjZRvaNe52tkKAvMevcGdt38H4KSVXAylqyQOW5zvPc4/sq9c=
+In-Reply-To: <1567a84b-3f78-4f0a-9549-bfe9fd4aa96b@163.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-Spam-Level: 
+X-Spam-Flag: NO
+X-Rspamd-Queue-Id: E6D8021199
+X-Rspamd-Action: no action
+X-Rspamd-Server: rspamd1.dmz-prg2.suse.org
+X-Spamd-Result: default: False [-4.51 / 50.00]; BAYES_HAM(-3.00)[100.00%];
+ NEURAL_HAM_LONG(-1.00)[-1.000];
+ R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+ NEURAL_HAM_SHORT(-0.20)[-1.000]; MIME_GOOD(-0.10)[text/plain];
+ MX_GOOD(-0.01)[];
+ DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+ FREEMAIL_TO(0.00)[163.com,gmx.de];
+ FUZZY_RATELIMITED(0.00)[rspamd.com];
+ RBL_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:104:10:150:64:97:from]; 
+ TO_DN_SOME(0.00)[]; TO_MATCH_ENVRCPT_ALL(0.00)[];
+ MIME_TRACE(0.00)[0:+]; ARC_NA(0.00)[];
+ FREEMAIL_ENVRCPT(0.00)[163.com,gmx.de]; RCVD_TLS_ALL(0.00)[];
+ DKIM_TRACE(0.00)[suse.de:+]; RCVD_COUNT_TWO(0.00)[2];
+ FROM_EQ_ENVFROM(0.00)[]; FROM_HAS_DN(0.00)[];
+ SPAMHAUS_XBL(0.00)[2a07:de40:b281:104:10:150:64:97:from];
+ DNSWL_BLOCKED(0.00)[2a07:de40:b281:104:10:150:64:97:from,2a07:de40:b281:106:10:150:64:167:received];
+ RCPT_COUNT_SEVEN(0.00)[7]; MID_RHS_MATCH_FROM(0.00)[];
+ RCVD_VIA_SMTP_AUTH(0.00)[];
+ RECEIVED_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:106:10:150:64:167:received];
+ DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:rdns,
+ imap1.dmz-prg2.suse.org:helo, kylinos.cn:email, suse.de:dkim, suse.de:mid]
+X-Spam-Score: -4.51
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -79,299 +159,216 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Maxime,
+Hi
 
-ouch, e-mail sent by mistake unfinished and without proof-reading...
-well, let me continue it below.
+Am 07.07.25 um 12:02 schrieb Shixiong Ou:
+>
+> 在 2025/7/7 17:28, Thomas Zimmermann 写道:
+>> Hi
+>>
+>> Am 07.07.25 um 11:24 schrieb Shixiong Ou:
+>>>
+>>> 在 2025/6/27 17:13, Thomas Zimmermann 写道:
+>>>> Hi
+>>>>
+>>>> Am 26.06.25 um 11:49 schrieb oushixiong1025@163.com:
+>>>>> From: Shixiong Ou <oushixiong@kylinos.cn>
+>>>>>
+>>>>> [WHY]
+>>>>> On an ARM machine, the following log is present:
+>>>>> [    0.900884] efifb: framebuffer at 0x1020000000, using 3072k, 
+>>>>> total 3072k
+>>>>> [    2.297884] amdgpu 0000:04:00.0: 
+>>>>> remove_conflicting_pci_framebuffers: bar 0: 0x1000000000 -> 
+>>>>> 0x100fffffff
+>>>>> [    2.297886] amdgpu 0000:04:00.0: 
+>>>>> remove_conflicting_pci_framebuffers: bar 2: 0x1010000000 -> 
+>>>>> 0x10101fffff
+>>>>> [    2.297888] amdgpu 0000:04:00.0: 
+>>>>> remove_conflicting_pci_framebuffers: bar 5: 0x58200000 -> 0x5823ffff
+>>>>>
+>>>>> It show that the efifb framebuffer base is out of PCI BAR, and this
+>>>>> results in both efi-framebuffer and amdgpudrmfb co-existing.
+>>>>>
+>>>>> The fbcon will be bound to efi-framebuffer by default and cannot 
+>>>>> be used.
+>>>>>
+>>>>> [HOW]
+>>>>> Do not load efifb driver if PCI BAR has changed but not fixuped.
+>>>>> In the following cases:
+>>>>>     1. screen_info_lfb_pdev is NULL.
+>>>>>     2. __screen_info_relocation_is_valid return false.
+>>>>
+>>>> Apart from ruling out invalid screen_info, did you figure out why 
+>>>> the relocation tracking didn't work? It would be good to fix this 
+>>>> if possible.
+>>>>
+>>>> Best regards
+>>>> Thomas
+>>>>
+>>> I haven’t figure out the root cause yet.
+>>>
+>>> This issue is quite rare and might be related to the EFI firmware.
+>>> However, I wonder if we could add some handling when no PCI 
+>>> resources are found in screen_info_fixup_lfb(), as a temporary 
+>>> workaround for the problem I mentioned earlier.
+>>
+>> As I said elsewhere in the thread, you can clear the screen_info's 
+>> video type in the branch at [1] to disable it entirely. We should 
+>> have probably done this anyway. Knowing the cause of the issue would 
+>> still be nice though.
+>>
+>> Best regards
+>> Thomas
+>>
+>> [1] 
+>> https://elixir.bootlin.com/linux/v6.15.5/source/drivers/video/screen_info_pci.c#L44 
+>>
+>>
+> thanks for you suggestion, while there are two cases:
+>     1. screen_info_lfb_pdev is NULL.
+>     2. __screen_info_relocation_is_valid return false.
+>
+> should we do it at [1] too?
 
-On Mon, 7 Jul 2025 11:58:53 +0200
-Luca Ceresoli <luca.ceresoli@bootlin.com> wrote:
+No. This being NULL is an entirely valid state.
 
-> On Mon, 7 Jul 2025 08:16:49 +0200
-> Maxime Ripard <mripard@kernel.org> wrote:
->=20
-> > Hi Luca,
-> >=20
-> > On Wed, Jun 25, 2025 at 06:45:04PM +0200, Luca Ceresoli wrote: =20
-> > > This series is the first attempt at avoiding DSI host drivers to have
-> > > pointers to DSI devices (struct mipi_dsi_device), as discussed during=
- the
-> > > Linux Plumbers Conference 2024 with Maxime and Dmitry.
-> > >=20
-> > > It is working, but I consider this a draft in order to discuss and
-> > > challenge the proposed approach.
-> > >=20
-> > > Overall work
-> > > =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
-> > >=20
-> > > This is part of the work towards removal of bridges from a still exis=
-ting
-> > > DRM pipeline without use-after-free. The grand plan as discussed in [=
-1].
-> > > Here's the work breakdown (=E2=9E=9C marks the current series):
-> > >=20
-> > >  1. =E2=80=A6 add refcounting to DRM bridges (struct drm_bridge)
-> > >     (based on devm_drm_bridge_alloc() [0])
-> > >     A. =E2=9C=94 add new alloc API and refcounting (in v6.16-rc1)
-> > >     B. =E2=9C=94 convert all bridge drivers to new API (now in drm-mi=
-sc-next)
-> > >     C. =E2=9C=94 kunit tests (now in drm-misc-next)
-> > >     D. =E2=80=A6 add get/put to drm_bridge_add/remove() + attach/deta=
-ch()
-> > >          and warn on old allocation pattern (under review)
-> > >     E. =E2=80=A6 add get/put on drm_bridge accessors
-> > >        1. =E2=80=A6 drm_bridge_chain_get_first_bridge() + add a clean=
-up action
-> > >        2. =E2=80=A6 drm_bridge_chain_get_last_bridge()
-> > >        3. drm_bridge_get_prev_bridge()
-> > >        4. drm_bridge_get_next_bridge()
-> > >        5. drm_for_each_bridge_in_chain()
-> > >        6. drm_bridge_connector_init
-> > >        7. of_drm_find_bridge
-> > >        8. drm_of_find_panel_or_bridge, *_of_get_bridge
-> > >     F. debugfs improvements
-> > >  2. handle gracefully atomic updates during bridge removal
-> > >  3. =E2=9E=9C avoid DSI host drivers to have dangling pointers to DSI=
- devices
-> > >       (this series)
-> > >  4. finish the hotplug bridge work, removing the "always-disconnected"
-> > >     connector, moving code to the core and potentially removing the
-> > >     hotplug-bridge itself (this needs to be clarified as points 1-3 a=
-re
-> > >     developed)
-> > >=20
-> > > [0] https://gitlab.freedesktop.org/drm/misc/kernel/-/commit/0cc6aadd7=
-fc1e629b715ea3d1ba537ef2da95eec
-> > > [1] https://lore.kernel.org/lkml/20250206-hotplug-drm-bridge-v6-0-9d6=
-f2c9c3058@bootlin.com/t/#u
-> > >=20
-> > > Motivation
-> > > =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
-> > >=20
-> > > The motivation for this series is that with hot-pluggable hardware a =
-DSI
-> > > device can be disconnected from the DSI host at runtime, and later on
-> > > reconnected, potentially with a different model having different bus
-> > > parameters.
-> > >=20
-> > > DSI host drivers currently receive a struct mipi_dsi_device pointer i=
-n the
-> > > attach callback and some store it permanently for later access to the=
- bur
-> > > format data (lanes, channel, pixel format etc). The stored pointer can
-> > > become dangling if the device is removed, leading to a use-after-free.
-> > >=20
-> > > Currently the data exchange between DSI host and device happens prima=
-rily
-> > > by two means:
-> > >=20
-> > >  * the device requests attach, detach and message transfer to the hos=
-t by
-> > >    calling mipi_dsi_attach/detach/transfer which in turn call the cal=
-lbacks
-> > >    in struct mipi_dsi_host_ops
-> > >     - for this to work, struct mipi_dsi_device has a pointer to the h=
-ost:
-> > >       this is OK because the goal is supporting hotplug of the "remot=
-e"
-> > >       part of the DRM pipeline
-> > >  * the host accesses directly the fields of struct mipi_dsi_device, to
-> > >    which it receives a pointer in the .attach and .detach callbacks
-> > >=20
-> > > The second bullet is the problematic one, which we want to remove.
-> > >=20
-> > > Strategy
-> > > =3D=3D=3D=3D=3D=3D=3D=3D
-> > >=20
-> > > I devised two possible strategies to address it:
-> > >=20
-> > >  1. change the host ops to not pass a struct mipi_dsi_device, but ins=
-tead
-> > >     to pass only a copy of the needed information (bus format mainly)=
-, so
-> > >     the host driver does never access any info from the device
-> > >    =20
-> > >  2. let the host get info from the device as needed, but without havi=
-ng a
-> > >     pointer to it; this is be based on:
-> > >      - storing a __private mipi_dsi_device pointer in struct mipi_dsi=
-_host
-> > >      - adding getters to the DSI core for the host to query the needed
-> > >        info, e.g. drm_mipi_dsi_host_get_device_lanes(host) (the gette=
-rs
-> > >        would be allowed to dereference the device pointer)
-> > >=20
-> > > This series implements strategy 1. It does so by adding a .attach_new=
- host
-> > > op, which does not take a mipi_dsi_device pointer, and converting mos=
-t host
-> > > drivers to it. Once all drivers are converted, the old op can be remo=
-ved,
-> > > and .attach_new renamed to .attach.   =20
-> >=20
-> > I don't recall discussing this particular aspect at Plumbers, so sorry
-> > if we're coming back to the same discussion we had.
-> >=20
-> > I'm not necessarily opposed to changing the MIPI-DSI bus API, but I
-> > don't think changing the semantics to remove the fact that a particular
-> > device is connected or not is a good idea.
-> >=20
-> > I would have expected to have bus driver (maybe) take a device pointer
-> > at attach, and drop it at detach.
-> >=20
-> > Then, when we detect the hotplug of a DSI device, we detach it from its
-> > parent, and we're done.
-> >=20
-> > What prevents us from using that approach? =20
->=20
-> I probably should have done a recap of the whole discussion, so let me
-> do it now.
->=20
-> It all starts with one fact: a DSI device can be disconnected and then
-> a different one connected later on, having a different DSI bus format
-> (lanes, channel, mode flags, whatever). A detach/attach sequence would
-> handle that, but only in the simple case when there is a host/device
-> pair. Let's how consider this topology:
->                                                      =20
->                 =E2=94=8C=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=
-=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=
-=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=90                 =20
->                 =E2=94=82    DSI bridge    =E2=94=82                 =20
-> =E2=94=8C=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=
-=E2=94=80=E2=94=80=E2=94=90  A  =E2=94=82                  =E2=94=82  B  =
-=E2=94=8C=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=
-=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=90
-> =E2=94=82 DSI host=E2=94=9C=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=96=BA=
-=E2=94=82device        host=E2=94=9C=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=
-=96=BA=E2=94=82DSI device =E2=94=82
-> =E2=94=94=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=
-=E2=94=80=E2=94=80=E2=94=98     =E2=94=94=E2=94=80=E2=94=80=E2=94=80=E2=94=
-=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=
-=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=98     =E2=94=
-=94=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=
-=E2=94=80=E2=94=80=E2=94=80=E2=94=98
->                                                      =20
-> Here link A is always connected, link B is hot-pluggable. When the tail
-> device is removed and a different one plugged, a detach/attach sequence
-> can update the bus format on the DSI bridge, but then the DSI bridge
-> cannot update the format on the first host without faking a
-> detach/attach that does not map a real event.
->=20
-> The above topology is probably not common, but it is exactly what the
-> hotplug-bridge introduces [0]. Whether the hotplug-bridge will have to
-> eventually exist or not to support hotplug is still to be defined, but
-> regardless there is another problematic aspect.
->=20
-> The second problematic aspect is that several DSI host drivers will not
-> even drm_bridge_add() until they have an attached DSI device. One such
-> example is samsung-dsim, which calls drm_bridge_add()
-> in samsung_dsim_host_attach(). When such a driver implements the first
-> DSI host, the DSI bridge must register a DSI device before the DRM card
-> can be instantiated. See the lengthy comment before
-> hotplug_bridge_dsi_attach() in [0] for more gory details, but the
-> outcome is that the hotplug-bridge needs to attach a DSI device with
-> a fake format once initially just to let the DRM card probe, and the
-> detach and reattach with the correct format once an actual DSI device
-> is connected at the tail.
->=20
-> [0] https://lore.kernel.org/all/20240917-hotplug-drm-bridge-v4-4-bc4dfee6=
-1be6@bootlin.com/
->=20
-> The above would be improved if the DSI host API provided a way to
-> notify to the host about a bus format change, which is however not
-> present currently.
->=20
-> The naive solution would be adding a new DSI host op:
->=20
->  struct mipi_dsi_host_ops {
->  	int (*attach)(struct mipi_dsi_host *host,
->  		      struct mipi_dsi_device *dsi);
->  	int (*detach)(struct mipi_dsi_host *host,
->  		      struct mipi_dsi_device *dsi);
-> +	int (*bus_fmt_changed)(struct mipi_dsi_host *host,
-> + 		      struct mipi_dsi_device *dsi);
->  	ssize_t (*transfer)(struct mipi_dsi_host *host,
->  			    const struct mipi_dsi_msg *msg);
->  };
->=20
-> This would allow reduce the current sequence:
->  1. attach with dummy format (no tail device yet)
->  2. fake detach
->  3. attach
->=20
-> with:
->  1. attach with dummy format (no tail device yet)
->  2. update format
->=20
-> Adding such a new op would be part of chapter 4 of this work, being it
-> quite useless without hotplug.
->=20
-> However while reasoning about this I noticed the DSI host drivers peek
-> into the struct mipi_dsi_device fields to read the format, so there is
-> no sort of isolation between host and device. Introducing a struct to
-> contain all the format fields looked like a good improvement in terms
-> of code organization.
->=20
-> Yet another aspect is that several host drivers keep a pointer to the
-> device, and thus in case of format change in the DSI device they might
-> be reading different fields at different moments, ending up with an
-> inconsistent format.
->=20
-> The above considerations, which are all partially overlapped, led me to
-> the idea of introducing a struct to exchange a DSI bus format, to be
-> exchanged as a whole ("atomically") between host and device. What's
-> your opinion about introducing such a struct?
->=20
-> The second aspect of this series is not passing pointers, and that's
-> the core topic you questioned. I realize it is not strictly necessary
-> to reach the various goals discussed in this e-mail. The work I'm doing
-> on the drm_bridge struct is actually a way to store a pointer while
-> avoiding use-after-free, so that can obviously be done for a simpler
-> scenario such as DSI host-device. However I thought not passing a
-> pointer would be a more radical solution: if a driver receives no
-> pointer, then it cannot by mistake keep it stored when it shouldn't,
-> maybe in a rare case within a complex driver where it is hard to spot.
->=20
-> I'll be OK to change the approach and keep the pointer passed in the
-> attach/detach ops, if that is the best option. However I'd like to have
-> your opinion about the above topics before working towards that
-> direction, and ensure I fully grasp the usefulness of keeping the
-> pointer.
->=20
-> Post scriptum. The very initial issue that led to all this discussion
-> when writing the hotplug-bridge driver is that the samsung-dsim driver
-> will not drm_bridge_add() until a DSI device does .attach to it. Again,
-> see the comments before hotplug_bridge_dsi_attach() in [0] for details.
-> However by re-examining the driver for the N-th time now from a new
-> POV, I _think_ this is not correct and potentially easy to solve. But thi=
-s leads to one fundamental question:
+Best regards
+Thomas
 
-The question is: should a DSI host bridge driver:
+>
+> Best regards
+> Shixiong Ou
+>
+> [1] 
+> https://elixir.bootlin.com/linux/v6.15.5/source/drivers/video/screen_info_pci.c#L47
+>
+>>>
+>>> Best regards
+>>> Shixiong Ou
+>>>
+>>>>>
+>>>>> Signed-off-by: Shixiong Ou <oushixiong@kylinos.cn>
+>>>>> ---
+>>>>>   drivers/video/fbdev/efifb.c     |  4 ++++
+>>>>>   drivers/video/screen_info_pci.c | 24 ++++++++++++++++++++++++
+>>>>>   include/linux/screen_info.h     |  5 +++++
+>>>>>   3 files changed, 33 insertions(+)
+>>>>>
+>>>>> diff --git a/drivers/video/fbdev/efifb.c 
+>>>>> b/drivers/video/fbdev/efifb.c
+>>>>> index 0e1bd3dba255..de8d016c9a66 100644
+>>>>> --- a/drivers/video/fbdev/efifb.c
+>>>>> +++ b/drivers/video/fbdev/efifb.c
+>>>>> @@ -303,6 +303,10 @@ static void efifb_setup(struct screen_info 
+>>>>> *si, char *options)
+>>>>>     static inline bool fb_base_is_valid(struct screen_info *si)
+>>>>>   {
+>>>>> +    /* check whether fb_base has changed but not fixuped */
+>>>>> +    if (!screen_info_is_useful())
+>>>>> +        return false;
+>>>>> +
+>>>>>       if (si->lfb_base)
+>>>>>           return true;
+>>>>>   diff --git a/drivers/video/screen_info_pci.c 
+>>>>> b/drivers/video/screen_info_pci.c
+>>>>> index 66bfc1d0a6dc..ac57dcaf0cac 100644
+>>>>> --- a/drivers/video/screen_info_pci.c
+>>>>> +++ b/drivers/video/screen_info_pci.c
+>>>>> @@ -9,6 +9,8 @@ static struct pci_dev *screen_info_lfb_pdev;
+>>>>>   static size_t screen_info_lfb_bar;
+>>>>>   static resource_size_t screen_info_lfb_res_start; // original 
+>>>>> start of resource
+>>>>>   static resource_size_t screen_info_lfb_offset; // framebuffer 
+>>>>> offset within resource
+>>>>> +static bool screen_info_changed;
+>>>>> +static bool screen_info_fixuped;
+>>>>>     static bool __screen_info_relocation_is_valid(const struct 
+>>>>> screen_info *si, struct resource *pr)
+>>>>>   {
+>>>>> @@ -24,6 +26,24 @@ static bool 
+>>>>> __screen_info_relocation_is_valid(const struct screen_info *si, stru
+>>>>>       return true;
+>>>>>   }
+>>>>>   +bool screen_info_is_useful(void)
+>>>>> +{
+>>>>> +    unsigned int type;
+>>>>> +    const struct screen_info *si = &screen_info;
+>>>>> +
+>>>>> +    type = screen_info_video_type(si);
+>>>>> +    if (type != VIDEO_TYPE_EFI)
+>>>>> +        return true;
+>>>>> +
+>>>>> +    if (screen_info_changed && !screen_info_fixuped) {
+>>>>> +        pr_warn("The screen_info has changed but not fixuped");
+>>>>> +        return false;
+>>>>> +    }
+>>>>> +
+>>>>> +    pr_info("The screen_info is useful");
+>>>>> +    return true;
+>>>>> +}
+>>>>> +
+>>>>>   void screen_info_apply_fixups(void)
+>>>>>   {
+>>>>>       struct screen_info *si = &screen_info;
+>>>>> @@ -32,18 +52,22 @@ void screen_info_apply_fixups(void)
+>>>>>           struct resource *pr = 
+>>>>> &screen_info_lfb_pdev->resource[screen_info_lfb_bar];
+>>>>>             if (pr->start != screen_info_lfb_res_start) {
+>>>>> +            screen_info_changed = true;
+>>>>>               if (__screen_info_relocation_is_valid(si, pr)) {
+>>>>>                   /*
+>>>>>                    * Only update base if we have an actual
+>>>>>                    * relocation to a valid I/O range.
+>>>>>                    */
+>>>>>                   __screen_info_set_lfb_base(si, pr->start + 
+>>>>> screen_info_lfb_offset);
+>>>>> +                screen_info_fixuped = true;
+>>>>>                   pr_info("Relocating firmware framebuffer to 
+>>>>> offset %pa[d] within %pr\n",
+>>>>>                       &screen_info_lfb_offset, pr);
+>>>>>               } else {
+>>>>>                   pr_warn("Invalid relocating, disabling firmware 
+>>>>> framebuffer\n");
+>>>>>               }
+>>>>>           }
+>>>>> +    } else {
+>>>>> +        screen_info_changed = true;
+>>>>>       }
+>>>>>   }
+>>>>>   diff --git a/include/linux/screen_info.h 
+>>>>> b/include/linux/screen_info.h
+>>>>> index 923d68e07679..632cdbb1adbe 100644
+>>>>> --- a/include/linux/screen_info.h
+>>>>> +++ b/include/linux/screen_info.h
+>>>>> @@ -138,9 +138,14 @@ ssize_t screen_info_resources(const struct 
+>>>>> screen_info *si, struct resource *r,
+>>>>>   u32 __screen_info_lfb_bits_per_pixel(const struct screen_info *si);
+>>>>>     #if defined(CONFIG_PCI)
+>>>>> +bool screen_info_is_useful(void);
+>>>>>   void screen_info_apply_fixups(void);
+>>>>>   struct pci_dev *screen_info_pci_dev(const struct screen_info *si);
+>>>>>   #else
+>>>>> +bool screen_info_is_useful(void)
+>>>>> +{
+>>>>> +    return true;
+>>>>> +}
+>>>>>   static inline void screen_info_apply_fixups(void)
+>>>>>   { }
+>>>>>   static inline struct pci_dev *screen_info_pci_dev(const struct 
+>>>>> screen_info *si)
+>>>>
+>>>
+>>
+>
+>
 
- A) wait for a DSI device to .attach before drm_bridge_add()ing itself,
-    or
- B) drm_bridge_add() itself unconditionally, and let the DSI device
-    .attach whenever it happens?
+-- 
+--
+Thomas Zimmermann
+Graphics Driver Developer
+SUSE Software Solutions Germany GmbH
+Frankenstrasse 146, 90461 Nuernberg, Germany
+GF: Ivo Totev, Andrew Myers, Andrew McDonald, Boudien Moerman
+HRB 36809 (AG Nuernberg)
 
-A) is what many drivers (IIRC the majority) does. It implies the card
-will not be populated until .attach, which in the hotplug case could
-happen very late
-
-B) is done by a few drivers and allows the card to appear in the
-hotplug case without the device, which is needed for hotplug.
-
-I had tried simply moving drm_bridge_add() from .attach to probe in
-the samsung-dsim driver in the pase but that would not work. Now I did
-yet another check at the code and I suspect it can be done with a small
-additional change, but cannot access the hardware to test it currently.
-
-Answering this last question might change and simplify the requirements
-discussed in the (very lengthy, sorry about that) discussion above.
-
-Best regards,
-Luca
-
---=20
-Luca Ceresoli, Bootlin
-Embedded Linux and Kernel engineering
-https://bootlin.com
