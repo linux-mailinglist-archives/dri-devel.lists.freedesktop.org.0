@@ -2,49 +2,45 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id A4EBBAFB656
-	for <lists+dri-devel@lfdr.de>; Mon,  7 Jul 2025 16:47:28 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5BDADAFB659
+	for <lists+dri-devel@lfdr.de>; Mon,  7 Jul 2025 16:47:32 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 910A110E4BA;
-	Mon,  7 Jul 2025 14:47:25 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id EF9B510E4C2;
+	Mon,  7 Jul 2025 14:47:27 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=igalia.com header.i=@igalia.com header.b="C4qhFnDp";
+	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=igalia.com header.i=@igalia.com header.b="jxeVDAxu";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from fanzine2.igalia.com (fanzine2.igalia.com [213.97.179.56])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4CC0B10E4B6;
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 51F1C10E4B9;
  Mon,  7 Jul 2025 14:47:21 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com; 
- s=20170329;
- h=Cc:To:Content-Transfer-Encoding:Content-Type:MIME-Version:
- Message-Id:Date:Subject:From:Sender:Reply-To:Content-ID:Content-Description:
- Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
- In-Reply-To:References:List-Id:List-Help:List-Unsubscribe:List-Subscribe:
- List-Post:List-Owner:List-Archive;
- bh=vm4cjo6VSCZC/fBpikfwauwj9657psOaKIQ/dia6urQ=; b=C4qhFnDpScRF5fc6DjUqu9Lr2N
- DMrMGwNd5HPPup4KTujmBngAuVsE3EdMhwxSlPVv+tp7hUGt8AX+qBOyLjZn+IZk7mr6p8LJTg7ap
- WWksRMTb+Nid7WF/sNQTHWw1GLD/YWiQpvrirBebos1AzWHJltzQbsRPasYZCaQgnMzDaWqzoq/r6
- ckrO/PDx6w1XOsOYUldfd0S109478fK3AHODxoGwdmL1orTnTd0NtsgVstXGlQHlGgD1y+zqhXNhL
- ijZU/p18uhTBrBOQ2YxxSEa8TsHYqv28ub+GOWVJFnmd32Mh+IOuDpQNMk1QZAGI62BhtI58iqksy
- JoXDRVIQ==;
+ s=20170329; h=Cc:To:In-Reply-To:References:Message-Id:
+ Content-Transfer-Encoding:Content-Type:MIME-Version:Subject:Date:From:Sender:
+ Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender
+ :Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
+ List-Subscribe:List-Post:List-Owner:List-Archive;
+ bh=ezqoJkpwsk9NnQUNs/MqS7BwH8/3biYXTz+uR8RXdoU=; b=jxeVDAxusMlFaRvH0CqMNKeUZj
+ QvKVcPyH+VE4c813wDUNZwoIGtG7f2tltTAE3YkcJYlzL1dSZTRM2hVXpyTCHK0BYPXxET+bFdHN6
+ SiyZ8W1LuUw271BXBrpKL7OJpRgAi/UvWEOJI1FaAr6BIMelBNifPEHmH6ZyxJZqrnOX2scO8oI0k
+ dMrkrt1n66sC/QIxF8fZT6pWoNo6cUy9djTL0IyMqKoT7XQBcxZHkOblVSO73cSb8cXw+YOXkAdt5
+ RxXr9FFl94j9ysB7q1KMplmyBsz/QHwypW2Arejc4hLsRso6nyhEXdsUIvCo/hSsLZf9aH+MfuZeO
+ 065HbLzg==;
 Received: from [187.36.210.68] (helo=janis.local)
  by fanzine2.igalia.com with esmtpsa 
  (Cipher TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_256_GCM:256) (Exim)
- id 1uYn7S-00DaQv-Kr; Mon, 07 Jul 2025 16:46:58 +0200
+ id 1uYn7c-00DaQv-79; Mon, 07 Jul 2025 16:47:08 +0200
 From: =?utf-8?q?Ma=C3=ADra_Canal?= <mcanal@igalia.com>
-Subject: [PATCH v4 0/8] drm/sched: Allow drivers to skip the reset with
- DRM_GPU_SCHED_STAT_NO_HANG
-Date: Mon, 07 Jul 2025 11:46:29 -0300
-Message-Id: <20250707-sched-skip-reset-v4-0-036c0f0f584f@igalia.com>
+Date: Mon, 07 Jul 2025 11:46:30 -0300
+Subject: [PATCH v4 1/8] drm/sched: Rename DRM_GPU_SCHED_STAT_NOMINAL to
+ DRM_GPU_SCHED_STAT_RESET
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
-X-B4-Tracking: v=1; b=H4sIAMXda2gC/23NywrCMBCF4VeRrI0kk95w5XuIi2lm2g5eKokUp
- fTdTQuiosv/wHwzqshBOKrtalSBB4nSX1Jk65XyHV5a1kKpFRjITW5AR98x6XiUqw4c+abrpvS
- 2cOAcoUpn18CN3Bdyf0jdSbz14bF8GOy8vjD3iw1WG81kqCiNRdfwTlo8CW58f1azNsCH4MwfA
- ZLgM4MVAVWE+CO4t1DY6o/gklDVnHuPUEJOX8I0TU+7Tm0vNQEAAA==
-X-Change-ID: 20250502-sched-skip-reset-bf7c163233da
+Message-Id: <20250707-sched-skip-reset-v4-1-036c0f0f584f@igalia.com>
+References: <20250707-sched-skip-reset-v4-0-036c0f0f584f@igalia.com>
+In-Reply-To: <20250707-sched-skip-reset-v4-0-036c0f0f584f@igalia.com>
 To: Matthew Brost <matthew.brost@intel.com>, 
  Danilo Krummrich <dakr@kernel.org>, Philipp Stanner <phasta@kernel.org>, 
  =?utf-8?q?Christian_K=C3=B6nig?= <ckoenig.leichtzumerken@gmail.com>, 
@@ -68,15 +64,15 @@ Cc: kernel-dev@igalia.com, dri-devel@lists.freedesktop.org,
  Alex Deucher <alexander.deucher@amd.com>, 
  =?utf-8?q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
 X-Mailer: b4 0.14.2
-X-Developer-Signature: v=1; a=openpgp-sha256; l=6322; i=mcanal@igalia.com;
- h=from:subject:message-id; bh=meH9HiE8bVTd42978097RgXkvxsoDK6ZW/dfzYFAew4=;
- b=owEBbQGS/pANAwAIAT/zDop2iPqqAcsmYgBoa93X7cwys6aabncGBAIUhKGryhUZJ+SJFGSRd
- ZaQbDYu866JATMEAAEIAB0WIQT45F19ARZ3Bymmd9E/8w6Kdoj6qgUCaGvd1wAKCRA/8w6Kdoj6
- ql7vCACljpPcOZ1CkPJi/TM359XqOB+46Ut1gMpWOaY2+xlV/Vhw0nG3sQByUcD1mHfU8hGyANW
- Rb+C5flvb8yHYYkcU6qlglBDBVqGnm7vLxjD8iAXgLRAs1sNTW7ZoQeayhFG77vFKIsE1OwoUz1
- pRe3XcEm383NXzLh6UOh/HmguLkCNVfP0u7HH/bSSINW1yeTUiT5ZxXjHRfBn7uNmwqmC3ra7sD
- 0Kt3gacYzbjL/2xamH71N8FyWTYnCwdfMX/3tGpxfS754m0xjMnGqpZIwETKHveuyJu+XqArHhI
- JLFUgciOI74BCLdfu9am9Ywi1yACSQR5GDxWZTV0kMuB9y+T
+X-Developer-Signature: v=1; a=openpgp-sha256; l=13949; i=mcanal@igalia.com;
+ h=from:subject:message-id; bh=+cszzOTOS02WkHgK6otgiHO/y7C1U3tqq1YAbL9oILI=;
+ b=owGbwMvMwMFo/5mvq6zj1yrG02pJDBnZd6+LzNLqc3R2duN5+vT1DU4/tf+cN3bxnsvzqk5g+
+ db8ukS1k9GYhYGRg0FWTJHlx5PYWkaxcnbNZeUXYQaxMoFMYeDiFICJmMZxMFyc+rJm9tbKxTya
+ RybuXPx+qtg9Z6Y1R/TzTfPUu1RM1OXEpusoe+dzhofHrl7xzm6i+utCg/v94h+alx2amHzg6q7
+ vnkU3tF6GrpgRyTaDozTdZunE56LloqK7L4vYFFVfqTA2STANEg6+VHuDI/+aW72gf0HM5RLGp7
+ 6C+//b7F430XaqX4FX2gzpzjtRtuHzYpNke70usoVv3347N62Wmf+q4KWji3MeGjImXTgnKWd2T
+ rBvtnj3UX6H/uz0N6082//HypvWvp2vk+/wv2Bv1IzsLflWCgcFz7+75qdzLq7z8DYlBfGpEyo3
+ 2daaOay/su0Ru3mMUlHTtOvHHzMtyxJg2KUk5n7XfJIpAA==
 X-Developer-Key: i=mcanal@igalia.com; a=openpgp;
  fpr=F8E45D7D0116770729A677D13FF30E8A7688FAAA
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -94,128 +90,337 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-TL;DR: The only two patches that are lacking R-b's are:
+Among the scheduler's statuses, the only one that indicates an error is
+DRM_GPU_SCHED_STAT_ENODEV. Any status other than DRM_GPU_SCHED_STAT_ENODEV
+signifies that the operation succeeded and the GPU is in a nominal state.
 
-[PATCH 2/8] drm/sched: Allow drivers to skip the reset and keep on running
-[PATCH 7/8] drm/xe: Use DRM_GPU_SCHED_STAT_NO_HANG to skip the reset
+However, to provide more information about the GPU's status, it is needed
+to convey more information than just "OK".
 
-For those two patches, it would be great to gather feedback and/or R-b's,
-particularly from the Intel folks.
+Therefore, rename DRM_GPU_SCHED_STAT_NOMINAL to
+DRM_GPU_SCHED_STAT_RESET, which better communicates the meaning of this
+status. The status DRM_GPU_SCHED_STAT_RESET indicates that the GPU has
+hung, but it has been successfully reset and is now in a nominal state
+again.
 
-Thanks for all the reviews so far!
-
+Signed-off-by: Maíra Canal <mcanal@igalia.com>
+Reviewed-by: Philipp Stanner <phasta@kernel.org>
 ---
-When the DRM scheduler times out, it's possible that the GPU isn't hung;
-instead, a job may still be running, and there may be no valid reason to
-reset the hardware. This can occur in two situations:
-
-  1. The GPU exposes some mechanism that ensures the GPU is still making
-     progress. By checking this mechanism, the driver can safely skip the
-     reset, re-arm the timeout, and allow the job to continue running until
-     completion. This is the case for v3d, Etnaviv, and Xe.
-
-  2. Timeout has fired before the free-job worker. Consequently, the
-     scheduler calls `timedout_job()` for a job that isn't timed out.
-
-These two scenarios are problematic because the job was removed from the
-`sched->pending_list` before calling `sched->ops->timedout_job()`, which
-means that when the job finishes, it won't be freed by the scheduler
-though `sched->ops->free_job()`. As a result, the job and its resources
-won't be freed, leading to a memory leak.
-
-For v3d specifically, we have observed that these memory leaks can be
-significant in certain scenarios, as reported by users in [1][2]. To
-address this situation, I submitted a patch similar to commit 704d3d60fec4
-("drm/etnaviv: don't block scheduler when GPU is still active") for v3d [3].
-This patch has already landed in drm-misc-fixes and successfully resolved
-the users' issues.
-
-However, as I mentioned in [3], exposing the scheduler's internals within
-the drivers isn't ideal and I believe this specific situation can be
-addressed within the DRM scheduler framework.
-
-This series aims to resolve this issue by adding a new DRM sched status
-that allows a driver to skip the reset. This new status will indicate that
-the job should be reinserted into the pending list, and the driver will
-still signal its completion.
-
-[1] https://gitlab.freedesktop.org/mesa/mesa/-/issues/12227
-[2] https://github.com/raspberrypi/linux/issues/6817
-[3] https://lore.kernel.org/dri-devel/20250430210643.57924-1-mcanal@igalia.com/T/
-
-Best Regards,
-- Maíra
-
+To: Min Ma <min.ma@amd.com>
+To: Lizhi Hou <lizhi.hou@amd.com>
+To: Oded Gabbay <ogabbay@kernel.org>
+To: Frank Binns <frank.binns@imgtec.com>
+To: Matt Coster <matt.coster@imgtec.com>
+To: Qiang Yu <yuq825@gmail.com>
+To: Lyude Paul <lyude@redhat.com>
+To: Alex Deucher <alexander.deucher@amd.com>
+To: Christian König <christian.koenig@amd.com>
 ---
-v1 -> v2:
+ drivers/accel/amdxdna/aie2_ctx.c                 | 2 +-
+ drivers/gpu/drm/amd/amdgpu/amdgpu_job.c          | 2 +-
+ drivers/gpu/drm/etnaviv/etnaviv_sched.c          | 4 ++--
+ drivers/gpu/drm/imagination/pvr_queue.c          | 4 ++--
+ drivers/gpu/drm/lima/lima_sched.c                | 6 +++---
+ drivers/gpu/drm/nouveau/nouveau_exec.c           | 2 +-
+ drivers/gpu/drm/nouveau/nouveau_sched.c          | 2 +-
+ drivers/gpu/drm/panfrost/panfrost_job.c          | 6 +++---
+ drivers/gpu/drm/panthor/panthor_mmu.c            | 2 +-
+ drivers/gpu/drm/panthor/panthor_sched.c          | 2 +-
+ drivers/gpu/drm/scheduler/sched_main.c           | 2 +-
+ drivers/gpu/drm/scheduler/tests/mock_scheduler.c | 2 +-
+ drivers/gpu/drm/v3d/v3d_sched.c                  | 6 +++---
+ drivers/gpu/drm/xe/xe_guc_submit.c               | 6 +++---
+ include/drm/gpu_scheduler.h                      | 4 ++--
+ 15 files changed, 26 insertions(+), 26 deletions(-)
 
-- Fix several grammar nits across the documentation and commit messages.
-- Drop "drm/sched: Always free the job after the timeout" (Tvrtko Ursulin)
-- [1/8] NEW PATCH: Rename DRM_GPU_SCHED_STAT_NOMINAL to a more semantic
-	name (Tvrtko Ursulin, Philipp Stanner)
-- [2/8] Rename DRM_GPU_SCHED_STAT_RUNNING to DRM_GPU_SCHED_STAT_NO_HANG (Tvrtko Ursulin, Philipp Stanner)
-- [2/8] Requeue free-job work after reinserting the job to the pending list (Matthew Brost)
-- [2/8] Create a helper function to reinsert the job (Philipp Stanner)
-- [2/8] Rewrite the commit message (Philipp Stanner)
-- [2/8] Add a comment to `drm_sched_start()` documentation, similar to what
-	was commented in `drm_sched_stop()` (Philipp Stanner)
-- [3/8] Keep HZ as timeout for `drm_mock_sched_job_wait_scheduled()` (Tvrtko Ursulin)
-- [4/8] Use a job flag to indicate that `timedout_job()` should skip the
-	reset (Tvrtko Ursulin)
-- [7/8] Use DRM_GPU_SCHED_STAT_NO_HANG to re-arm the timer in other cases
-	as well (Matthew Brost)
-- Link to v1: https://lore.kernel.org/r/20250503-sched-skip-reset-v1-0-ed0d6701a3fe@igalia.com
+diff --git a/drivers/accel/amdxdna/aie2_ctx.c b/drivers/accel/amdxdna/aie2_ctx.c
+index f20999f2d66864fd4a6b7069e866727c37befb39..2cff5419bd2facb59ff5df6388aba0512fd45d5c 100644
+--- a/drivers/accel/amdxdna/aie2_ctx.c
++++ b/drivers/accel/amdxdna/aie2_ctx.c
+@@ -361,7 +361,7 @@ aie2_sched_job_timedout(struct drm_sched_job *sched_job)
+ 	aie2_hwctx_restart(xdna, hwctx);
+ 	mutex_unlock(&xdna->dev_lock);
+ 
+-	return DRM_GPU_SCHED_STAT_NOMINAL;
++	return DRM_GPU_SCHED_STAT_RESET;
+ }
+ 
+ static const struct drm_sched_backend_ops sched_ops = {
+diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_job.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_job.c
+index 1e24590ae1449f49e4632fbf2b931e04c03af8d5..58fd1d1f8571a869ad5d7594ea4bb2599a459113 100644
+--- a/drivers/gpu/drm/amd/amdgpu/amdgpu_job.c
++++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_job.c
+@@ -200,7 +200,7 @@ static enum drm_gpu_sched_stat amdgpu_job_timedout(struct drm_sched_job *s_job)
+ 
+ exit:
+ 	drm_dev_exit(idx);
+-	return DRM_GPU_SCHED_STAT_NOMINAL;
++	return DRM_GPU_SCHED_STAT_RESET;
+ }
+ 
+ int amdgpu_job_alloc(struct amdgpu_device *adev, struct amdgpu_vm *vm,
+diff --git a/drivers/gpu/drm/etnaviv/etnaviv_sched.c b/drivers/gpu/drm/etnaviv/etnaviv_sched.c
+index 76a3a3e517d8d9f654fb6b9e98e72910795cfc7a..7146069a98492f5fab2a49d96e2054f649e1fe3d 100644
+--- a/drivers/gpu/drm/etnaviv/etnaviv_sched.c
++++ b/drivers/gpu/drm/etnaviv/etnaviv_sched.c
+@@ -86,11 +86,11 @@ static enum drm_gpu_sched_stat etnaviv_sched_timedout_job(struct drm_sched_job
+ 	drm_sched_resubmit_jobs(&gpu->sched);
+ 
+ 	drm_sched_start(&gpu->sched, 0);
+-	return DRM_GPU_SCHED_STAT_NOMINAL;
++	return DRM_GPU_SCHED_STAT_RESET;
+ 
+ out_no_timeout:
+ 	list_add(&sched_job->list, &sched_job->sched->pending_list);
+-	return DRM_GPU_SCHED_STAT_NOMINAL;
++	return DRM_GPU_SCHED_STAT_RESET;
+ }
+ 
+ static void etnaviv_sched_free_job(struct drm_sched_job *sched_job)
+diff --git a/drivers/gpu/drm/imagination/pvr_queue.c b/drivers/gpu/drm/imagination/pvr_queue.c
+index 5a41ee79fed646a86344cd16e78efdb45ff02e43..fc415dd0d7a73631bd4144c9f35b9b294c625a12 100644
+--- a/drivers/gpu/drm/imagination/pvr_queue.c
++++ b/drivers/gpu/drm/imagination/pvr_queue.c
+@@ -803,7 +803,7 @@ static void pvr_queue_start(struct pvr_queue *queue)
+  * the scheduler, and re-assign parent fences in the middle.
+  *
+  * Return:
+- *  * DRM_GPU_SCHED_STAT_NOMINAL.
++ *  * DRM_GPU_SCHED_STAT_RESET.
+  */
+ static enum drm_gpu_sched_stat
+ pvr_queue_timedout_job(struct drm_sched_job *s_job)
+@@ -854,7 +854,7 @@ pvr_queue_timedout_job(struct drm_sched_job *s_job)
+ 
+ 	drm_sched_start(sched, 0);
+ 
+-	return DRM_GPU_SCHED_STAT_NOMINAL;
++	return DRM_GPU_SCHED_STAT_RESET;
+ }
+ 
+ /**
+diff --git a/drivers/gpu/drm/lima/lima_sched.c b/drivers/gpu/drm/lima/lima_sched.c
+index 954f4325b859b2977a2cc608a99a6ebb642f1000..739e8c6c6d909aa4263bad8a12ec07f0c6607bb2 100644
+--- a/drivers/gpu/drm/lima/lima_sched.c
++++ b/drivers/gpu/drm/lima/lima_sched.c
+@@ -412,7 +412,7 @@ static enum drm_gpu_sched_stat lima_sched_timedout_job(struct drm_sched_job *job
+ 	 */
+ 	if (dma_fence_is_signaled(task->fence)) {
+ 		DRM_WARN("%s spurious timeout\n", lima_ip_name(ip));
+-		return DRM_GPU_SCHED_STAT_NOMINAL;
++		return DRM_GPU_SCHED_STAT_RESET;
+ 	}
+ 
+ 	/*
+@@ -429,7 +429,7 @@ static enum drm_gpu_sched_stat lima_sched_timedout_job(struct drm_sched_job *job
+ 
+ 	if (dma_fence_is_signaled(task->fence)) {
+ 		DRM_WARN("%s unexpectedly high interrupt latency\n", lima_ip_name(ip));
+-		return DRM_GPU_SCHED_STAT_NOMINAL;
++		return DRM_GPU_SCHED_STAT_RESET;
+ 	}
+ 
+ 	/*
+@@ -467,7 +467,7 @@ static enum drm_gpu_sched_stat lima_sched_timedout_job(struct drm_sched_job *job
+ 	drm_sched_resubmit_jobs(&pipe->base);
+ 	drm_sched_start(&pipe->base, 0);
+ 
+-	return DRM_GPU_SCHED_STAT_NOMINAL;
++	return DRM_GPU_SCHED_STAT_RESET;
+ }
+ 
+ static void lima_sched_free_job(struct drm_sched_job *job)
+diff --git a/drivers/gpu/drm/nouveau/nouveau_exec.c b/drivers/gpu/drm/nouveau/nouveau_exec.c
+index 41b7c608c9054869ddadfe17c96100266e44c254..edbbda78bac90432c4877aa39a9587cf976705c7 100644
+--- a/drivers/gpu/drm/nouveau/nouveau_exec.c
++++ b/drivers/gpu/drm/nouveau/nouveau_exec.c
+@@ -189,7 +189,7 @@ nouveau_exec_job_timeout(struct nouveau_job *job)
+ 	NV_PRINTK(warn, job->cli, "job timeout, channel %d killed!\n",
+ 		  chan->chid);
+ 
+-	return DRM_GPU_SCHED_STAT_NOMINAL;
++	return DRM_GPU_SCHED_STAT_RESET;
+ }
+ 
+ static const struct nouveau_job_ops nouveau_exec_job_ops = {
+diff --git a/drivers/gpu/drm/nouveau/nouveau_sched.c b/drivers/gpu/drm/nouveau/nouveau_sched.c
+index 460a5fb024129a0557f2b55008278e1378019d89..e60f7892f5ce9aff0c5fa1908c1a0445891927ed 100644
+--- a/drivers/gpu/drm/nouveau/nouveau_sched.c
++++ b/drivers/gpu/drm/nouveau/nouveau_sched.c
+@@ -371,7 +371,7 @@ nouveau_sched_timedout_job(struct drm_sched_job *sched_job)
+ {
+ 	struct drm_gpu_scheduler *sched = sched_job->sched;
+ 	struct nouveau_job *job = to_nouveau_job(sched_job);
+-	enum drm_gpu_sched_stat stat = DRM_GPU_SCHED_STAT_NOMINAL;
++	enum drm_gpu_sched_stat stat = DRM_GPU_SCHED_STAT_RESET;
+ 
+ 	drm_sched_stop(sched, sched_job);
+ 
+diff --git a/drivers/gpu/drm/panfrost/panfrost_job.c b/drivers/gpu/drm/panfrost/panfrost_job.c
+index 5657106c2f7d0a0ca6162850767f58f3200cce13..afcffe7f8fe9e11f84e4ab7e8f5a72f7bf583690 100644
+--- a/drivers/gpu/drm/panfrost/panfrost_job.c
++++ b/drivers/gpu/drm/panfrost/panfrost_job.c
+@@ -755,7 +755,7 @@ static enum drm_gpu_sched_stat panfrost_job_timedout(struct drm_sched_job
+ 	 * spurious. Bail out.
+ 	 */
+ 	if (dma_fence_is_signaled(job->done_fence))
+-		return DRM_GPU_SCHED_STAT_NOMINAL;
++		return DRM_GPU_SCHED_STAT_RESET;
+ 
+ 	/*
+ 	 * Panfrost IRQ handler may take a long time to process an interrupt
+@@ -770,7 +770,7 @@ static enum drm_gpu_sched_stat panfrost_job_timedout(struct drm_sched_job
+ 
+ 	if (dma_fence_is_signaled(job->done_fence)) {
+ 		dev_warn(pfdev->dev, "unexpectedly high interrupt latency\n");
+-		return DRM_GPU_SCHED_STAT_NOMINAL;
++		return DRM_GPU_SCHED_STAT_RESET;
+ 	}
+ 
+ 	dev_err(pfdev->dev, "gpu sched timeout, js=%d, config=0x%x, status=0x%x, head=0x%x, tail=0x%x, sched_job=%p",
+@@ -786,7 +786,7 @@ static enum drm_gpu_sched_stat panfrost_job_timedout(struct drm_sched_job
+ 	atomic_set(&pfdev->reset.pending, 1);
+ 	panfrost_reset(pfdev, sched_job);
+ 
+-	return DRM_GPU_SCHED_STAT_NOMINAL;
++	return DRM_GPU_SCHED_STAT_RESET;
+ }
+ 
+ static void panfrost_reset_work(struct work_struct *work)
+diff --git a/drivers/gpu/drm/panthor/panthor_mmu.c b/drivers/gpu/drm/panthor/panthor_mmu.c
+index b39ea6acc6a9681f2ffa7d52248b6d2c119d1f1b..d0ae462015510bd0c25aaffc059d28084e600372 100644
+--- a/drivers/gpu/drm/panthor/panthor_mmu.c
++++ b/drivers/gpu/drm/panthor/panthor_mmu.c
+@@ -2270,7 +2270,7 @@ static enum drm_gpu_sched_stat
+ panthor_vm_bind_timedout_job(struct drm_sched_job *sched_job)
+ {
+ 	WARN(1, "VM_BIND ops are synchronous for now, there should be no timeout!");
+-	return DRM_GPU_SCHED_STAT_NOMINAL;
++	return DRM_GPU_SCHED_STAT_RESET;
+ }
+ 
+ static const struct drm_sched_backend_ops panthor_vm_bind_ops = {
+diff --git a/drivers/gpu/drm/panthor/panthor_sched.c b/drivers/gpu/drm/panthor/panthor_sched.c
+index a2248f692a030c1c84869b9a1948ad1cb0c0b490..8f17394cc82aad9eaf01e473cd9d3dea46fa3d61 100644
+--- a/drivers/gpu/drm/panthor/panthor_sched.c
++++ b/drivers/gpu/drm/panthor/panthor_sched.c
+@@ -3241,7 +3241,7 @@ queue_timedout_job(struct drm_sched_job *sched_job)
+ 
+ 	queue_start(queue);
+ 
+-	return DRM_GPU_SCHED_STAT_NOMINAL;
++	return DRM_GPU_SCHED_STAT_RESET;
+ }
+ 
+ static void queue_free_job(struct drm_sched_job *sched_job)
+diff --git a/drivers/gpu/drm/scheduler/sched_main.c b/drivers/gpu/drm/scheduler/sched_main.c
+index 648b5d2feff886bc12e81af3c35335fa4e5dd050..0f32e2cb43d6af294408968a970990f9f5c47bee 100644
+--- a/drivers/gpu/drm/scheduler/sched_main.c
++++ b/drivers/gpu/drm/scheduler/sched_main.c
+@@ -535,7 +535,7 @@ static void drm_sched_job_timedout(struct work_struct *work)
+ {
+ 	struct drm_gpu_scheduler *sched;
+ 	struct drm_sched_job *job;
+-	enum drm_gpu_sched_stat status = DRM_GPU_SCHED_STAT_NOMINAL;
++	enum drm_gpu_sched_stat status = DRM_GPU_SCHED_STAT_RESET;
+ 
+ 	sched = container_of(work, struct drm_gpu_scheduler, work_tdr.work);
+ 
+diff --git a/drivers/gpu/drm/scheduler/tests/mock_scheduler.c b/drivers/gpu/drm/scheduler/tests/mock_scheduler.c
+index 49d067fecd67f705f7a7b957ce04699e3cc7af76..998162202972eb5919dfff4c8784ecc22c00ec9d 100644
+--- a/drivers/gpu/drm/scheduler/tests/mock_scheduler.c
++++ b/drivers/gpu/drm/scheduler/tests/mock_scheduler.c
+@@ -231,7 +231,7 @@ mock_sched_timedout_job(struct drm_sched_job *sched_job)
+ 	drm_sched_job_cleanup(sched_job);
+ 	/* Mock job itself is freed by the kunit framework. */
+ 
+-	return DRM_GPU_SCHED_STAT_NOMINAL;
++	return DRM_GPU_SCHED_STAT_RESET;
+ }
+ 
+ static void mock_sched_free_job(struct drm_sched_job *sched_job)
+diff --git a/drivers/gpu/drm/v3d/v3d_sched.c b/drivers/gpu/drm/v3d/v3d_sched.c
+index 35f131a46d0701cc8040d3b9654595a2bc260eab..e2b7f24d528e773968daea0f5b31c869584bb692 100644
+--- a/drivers/gpu/drm/v3d/v3d_sched.c
++++ b/drivers/gpu/drm/v3d/v3d_sched.c
+@@ -741,7 +741,7 @@ v3d_gpu_reset_for_timeout(struct v3d_dev *v3d, struct drm_sched_job *sched_job)
+ 
+ 	mutex_unlock(&v3d->reset_lock);
+ 
+-	return DRM_GPU_SCHED_STAT_NOMINAL;
++	return DRM_GPU_SCHED_STAT_RESET;
+ }
+ 
+ static void
+@@ -773,7 +773,7 @@ v3d_cl_job_timedout(struct drm_sched_job *sched_job, enum v3d_queue q,
+ 		*timedout_ctra = ctra;
+ 
+ 		v3d_sched_skip_reset(sched_job);
+-		return DRM_GPU_SCHED_STAT_NOMINAL;
++		return DRM_GPU_SCHED_STAT_RESET;
+ 	}
+ 
+ 	return v3d_gpu_reset_for_timeout(v3d, sched_job);
+@@ -819,7 +819,7 @@ v3d_csd_job_timedout(struct drm_sched_job *sched_job)
+ 		job->timedout_batches = batches;
+ 
+ 		v3d_sched_skip_reset(sched_job);
+-		return DRM_GPU_SCHED_STAT_NOMINAL;
++		return DRM_GPU_SCHED_STAT_RESET;
+ 	}
+ 
+ 	return v3d_gpu_reset_for_timeout(v3d, sched_job);
+diff --git a/drivers/gpu/drm/xe/xe_guc_submit.c b/drivers/gpu/drm/xe/xe_guc_submit.c
+index 4a9ada5edbca4facfbd3ba82082dc9c3af4fc191..9c7e445b9ea7ce7e3610eadca023e6d810e683e9 100644
+--- a/drivers/gpu/drm/xe/xe_guc_submit.c
++++ b/drivers/gpu/drm/xe/xe_guc_submit.c
+@@ -1082,7 +1082,7 @@ guc_exec_queue_timedout_job(struct drm_sched_job *drm_job)
+ 		xe_sched_add_pending_job(sched, job);
+ 		xe_sched_submission_start(sched);
+ 
+-		return DRM_GPU_SCHED_STAT_NOMINAL;
++		return DRM_GPU_SCHED_STAT_RESET;
+ 	}
+ 
+ 	/* Kill the run_job entry point */
+@@ -1251,7 +1251,7 @@ guc_exec_queue_timedout_job(struct drm_sched_job *drm_job)
+ 	/* Start fence signaling */
+ 	xe_hw_fence_irq_start(q->fence_irq);
+ 
+-	return DRM_GPU_SCHED_STAT_NOMINAL;
++	return DRM_GPU_SCHED_STAT_RESET;
+ 
+ sched_enable:
+ 	enable_scheduling(q);
+@@ -1264,7 +1264,7 @@ guc_exec_queue_timedout_job(struct drm_sched_job *drm_job)
+ 	xe_sched_add_pending_job(sched, job);
+ 	xe_sched_submission_start(sched);
+ 
+-	return DRM_GPU_SCHED_STAT_NOMINAL;
++	return DRM_GPU_SCHED_STAT_RESET;
+ }
+ 
+ static void __guc_exec_queue_fini_async(struct work_struct *w)
+diff --git a/include/drm/gpu_scheduler.h b/include/drm/gpu_scheduler.h
+index e62a7214e05217d72de5c6e5168544d47099090a..83e5c00d8dd9a83ab20547a93d6fc572de97616e 100644
+--- a/include/drm/gpu_scheduler.h
++++ b/include/drm/gpu_scheduler.h
+@@ -391,12 +391,12 @@ struct drm_sched_job {
+  * enum drm_gpu_sched_stat - the scheduler's status
+  *
+  * @DRM_GPU_SCHED_STAT_NONE: Reserved. Do not use.
+- * @DRM_GPU_SCHED_STAT_NOMINAL: Operation succeeded.
++ * @DRM_GPU_SCHED_STAT_RESET: The GPU hung and successfully reset.
+  * @DRM_GPU_SCHED_STAT_ENODEV: Error: Device is not available anymore.
+  */
+ enum drm_gpu_sched_stat {
+ 	DRM_GPU_SCHED_STAT_NONE,
+-	DRM_GPU_SCHED_STAT_NOMINAL,
++	DRM_GPU_SCHED_STAT_RESET,
+ 	DRM_GPU_SCHED_STAT_ENODEV,
+ };
+ 
 
-v2 -> v3:
-
-- [2/8] Address comments about the commit message (Philipp Stanner)
-- [2/8] Improve comments and documentation style (Philipp Stanner)
-- [3/8] Rename the commit title to "drm/sched: Make timeout KUnit tests faster" (Philipp Stanner)
-- [3/8] Add Tvrtko's R-b (Tvrtko Ursulin)
-- [4/8] Instead of setting up a job duration, advance it manually (Tvrtko Ursulin)
-- [4/8] Wait for 2 * MOCK_TIMEOUT instead of MOCK_TIMEOUT (Tvrtko Ursulin)
-- [5/8, 6/8, 7/8, 8/8] Use Philipp's suggestion to improve the commit messages (Philipp Stanner)
-- Link to v2: https://lore.kernel.org/r/20250530-sched-skip-reset-v2-0-c40a8d2d8daa@igalia.com
-
-v3 -> v4:
-
-- [1/8] s/betters/better and Philipp's R-b (Philipp Stanner)
-- [2/8] Apply some documentation nits (Philipp Stanner)
-- [3/8] Add Philipp's A-b  (Philipp Stanner)
-- [4/8, 5/8] Add Tvrtko's R-b (Tvrtko Ursulin)
-- [6/8] Add Lucas' R-b (Lucas Stach)
-- Link to v3: https://lore.kernel.org/r/20250618-sched-skip-reset-v3-0-8be5cca2725d@igalia.com
-
----
-Maíra Canal (8):
-      drm/sched: Rename DRM_GPU_SCHED_STAT_NOMINAL to DRM_GPU_SCHED_STAT_RESET
-      drm/sched: Allow drivers to skip the reset and keep on running
-      drm/sched: Make timeout KUnit tests faster
-      drm/sched: Add new test for DRM_GPU_SCHED_STAT_NO_HANG
-      drm/v3d: Use DRM_GPU_SCHED_STAT_NO_HANG to skip the reset
-      drm/etnaviv: Use DRM_GPU_SCHED_STAT_NO_HANG to skip the reset
-      drm/xe: Use DRM_GPU_SCHED_STAT_NO_HANG to skip the reset
-      drm/panfrost: Use DRM_GPU_SCHED_STAT_NO_HANG to skip the reset
-
- drivers/accel/amdxdna/aie2_ctx.c                 |  2 +-
- drivers/gpu/drm/amd/amdgpu/amdgpu_job.c          |  2 +-
- drivers/gpu/drm/etnaviv/etnaviv_sched.c          | 13 +++---
- drivers/gpu/drm/imagination/pvr_queue.c          |  4 +-
- drivers/gpu/drm/lima/lima_sched.c                |  6 +--
- drivers/gpu/drm/nouveau/nouveau_exec.c           |  2 +-
- drivers/gpu/drm/nouveau/nouveau_sched.c          |  2 +-
- drivers/gpu/drm/panfrost/panfrost_job.c          | 10 ++---
- drivers/gpu/drm/panthor/panthor_mmu.c            |  2 +-
- drivers/gpu/drm/panthor/panthor_sched.c          |  2 +-
- drivers/gpu/drm/scheduler/sched_main.c           | 45 +++++++++++++++++--
- drivers/gpu/drm/scheduler/tests/mock_scheduler.c |  7 ++-
- drivers/gpu/drm/scheduler/tests/sched_tests.h    |  1 +
- drivers/gpu/drm/scheduler/tests/tests_basic.c    | 55 ++++++++++++++++++++++--
- drivers/gpu/drm/v3d/v3d_sched.c                  | 18 ++------
- drivers/gpu/drm/xe/xe_guc_submit.c               | 14 ++----
- include/drm/gpu_scheduler.h                      |  7 ++-
- 17 files changed, 134 insertions(+), 58 deletions(-)
----
-base-commit: cedb945101df021e9c7546b7bf490bec4dbc9cc8
-change-id: 20250502-sched-skip-reset-bf7c163233da
+-- 
+2.50.0
 
