@@ -2,105 +2,55 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 62073AFAFCE
-	for <lists+dri-devel@lfdr.de>; Mon,  7 Jul 2025 11:35:14 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2757CAFB08D
+	for <lists+dri-devel@lfdr.de>; Mon,  7 Jul 2025 11:58:57 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 47F5C10E188;
-	Mon,  7 Jul 2025 09:35:12 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 553B910E318;
+	Mon,  7 Jul 2025 09:58:54 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=suse.de header.i=@suse.de header.b="UxpUNfxF";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="RKkCazrf";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="PzqhHMHQ";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="Q6gvapLP";
+	dkim=fail reason="signature verification failed" (2048-bit key; secure) header.d=kapsi.fi header.i=@kapsi.fi header.b="nKhuQZle";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
- by gabe.freedesktop.org (Postfix) with ESMTPS id EC77210E188
- for <dri-devel@lists.freedesktop.org>; Mon,  7 Jul 2025 09:35:10 +0000 (UTC)
-Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
- (No client certificate requested)
- by smtp-out1.suse.de (Postfix) with ESMTPS id C01572116D;
- Mon,  7 Jul 2025 09:35:08 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1751880909; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=igz70Cf+Itmqe3jEUZW+8COy1OSX7eBB4Lone/1SX6w=;
- b=UxpUNfxFS2npvjsFSu8ba7/32uEoZQZXUKilOftl2EiHiiaHSxpee6F6hSmkoMJg54MF1+
- SXb4mV2yD400kqJbV9me32WVhvRYGYarjAd3EujhDo94q7ACnsoMFeL3JDnaY4S5hbtnAu
- KA/nV1SSHCyTMCj80Cx2Oi7ymGizT6E=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1751880909;
- h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=igz70Cf+Itmqe3jEUZW+8COy1OSX7eBB4Lone/1SX6w=;
- b=RKkCazrfmvSO1vK/PN/q6UAaOT4p2mevfE6ZFX8KBGfCrqAupw0welZYK2pPzWLHgAGllq
- vdNtA6Ht+64AMJAA==
-Authentication-Results: smtp-out1.suse.de;
-	none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1751880908; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=igz70Cf+Itmqe3jEUZW+8COy1OSX7eBB4Lone/1SX6w=;
- b=PzqhHMHQwyvF9lpz2r70WPFQ85w4KU1N5MFFeeVmP93xYXqbxXCaSiLR4s/jzDbFI5AHS2
- GnNysHckx+0pT5KnMXnzbnc32opIZQc/0dVZHij0pWbg4paj/ZR+Ph0Qwehnefm/AVO+WU
- 7WBLn46vaNZZuiLlr+dOQI65Ka+NV8w=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1751880908;
- h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=igz70Cf+Itmqe3jEUZW+8COy1OSX7eBB4Lone/1SX6w=;
- b=Q6gvapLPmSg03w5ht0GwfsaTr9j2ofvt27Tjp4eEqQ3mEzqGxp9pz26cfn9t6NGpebpaI6
- 21EZJB9eQwLTI7Dw==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
- (No client certificate requested)
- by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 5132913A5E;
- Mon,  7 Jul 2025 09:35:08 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
- by imap1.dmz-prg2.suse.org with ESMTPSA id 1TdlEsyUa2iXSwAAD6G6ig
- (envelope-from <tzimmermann@suse.de>); Mon, 07 Jul 2025 09:35:08 +0000
-From: Thomas Zimmermann <tzimmermann@suse.de>
-To: christian.koenig@amd.com, asrivats@redhat.com,
- maarten.lankhorst@linux.intel.com, mripard@kernel.org, airlied@gmail.com,
- simona@ffwll.ch, jean-christophe@guillain.net, superm1@kernel.org,
- satadru@gmail.com
-Cc: dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- Thomas Zimmermann <tzimmermann@suse.de>, Bert Karwatzki <spasswolf@web.de>,
- Sumit Semwal <sumit.semwal@linaro.org>, linux-media@vger.kernel.org,
- linaro-mm-sig@lists.linaro.org, stable@vger.kernel.org
-Subject: [PATCH v2] drm/framebuffer: Acquire internal references on GEM handles
-Date: Mon,  7 Jul 2025 11:31:52 +0200
-Message-ID: <20250707093200.78436-1-tzimmermann@suse.de>
-X-Mailer: git-send-email 2.50.0
+Received: from mail.kapsi.fi (mail-auth.kapsi.fi [91.232.154.24])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id EB3F310E318
+ for <dri-devel@lists.freedesktop.org>; Mon,  7 Jul 2025 09:58:52 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=kapsi.fi;
+ s=20161220; h=Cc:To:Message-Id:Content-Transfer-Encoding:Content-Type:
+ MIME-Version:Subject:Date:From:Sender:Reply-To:Content-ID:Content-Description
+ :Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
+ In-Reply-To:References:List-Id:List-Help:List-Unsubscribe:List-Subscribe:
+ List-Post:List-Owner:List-Archive;
+ bh=DJTmg+WhfK7CgNVvUl2qBtbYazeyB4bBuWMjCQQUljw=; b=nKhuQZleEvyG0SR1w10ngQz4pU
+ soNjHDDfGpzJnV0HmdwVlXtsCUnPmc/yihuJ2+7u99keOUcGLCvjkOoF9MxQRTMuFqt/Qdl0S9nRz
+ bYugarW1bArLJElUSgaU3g+SBeZJottEun2B0i8yASBrEG/nEKJH3opLw+JotZuxCyFNLzKtZZ9Qe
+ sTOZpmObzShKGTvgjP2K83hGuxs/OOQgwuKYVQVjKR3fGMj/pKe0pk7/ppCvnhrI0O1CkFP1cHLDa
+ gVHOTwj1s9uJ0Nlpa0uF3koEDdjKsIsHDKQ+yeS6QcY43weMeK3QfODCd9bZGRf1iHVR3TNM8LpC8
+ fjq2pDQA==;
+Received: from [2404:7a80:b960:1a00:5eaa:b33c:a197:a90f]
+ (helo=senjougahara.localdomain)
+ by mail.kapsi.fi with esmtpsa (TLS1.3) tls
+ TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384 (Exim 4.96)
+ (envelope-from <cyndis@kapsi.fi>) id 1uYicZ-003up3-2D;
+ Mon, 07 Jul 2025 12:58:48 +0300
+From: Mikko Perttunen <cyndis@kapsi.fi>
+Date: Mon, 07 Jul 2025 18:58:32 +0900
+Subject: [PATCH] gpu: host1x: Syncpoint interrupt performance optimization
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-Spam-Level: 
-X-Spamd-Result: default: False [-3.30 / 50.00]; BAYES_HAM(-3.00)[100.00%];
- NEURAL_HAM_LONG(-1.00)[-1.000]; MID_CONTAINS_FROM(1.00)[];
- NEURAL_HAM_SHORT(-0.20)[-1.000]; MIME_GOOD(-0.10)[text/plain];
- FUZZY_RATELIMITED(0.00)[rspamd.com]; RCVD_TLS_ALL(0.00)[];
- RCVD_VIA_SMTP_AUTH(0.00)[]; RCPT_COUNT_TWELVE(0.00)[17];
- ARC_NA(0.00)[]; MIME_TRACE(0.00)[0:+];
- FREEMAIL_TO(0.00)[amd.com,redhat.com,linux.intel.com,kernel.org,gmail.com,ffwll.ch,guillain.net];
- FREEMAIL_ENVRCPT(0.00)[gmail.com,web.de];
- DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
- FROM_HAS_DN(0.00)[];
- FREEMAIL_CC(0.00)[lists.freedesktop.org,vger.kernel.org,suse.de,web.de,linaro.org,lists.linaro.org];
- TO_DN_SOME(0.00)[]; FROM_EQ_ENVFROM(0.00)[];
- TO_MATCH_ENVRCPT_ALL(0.00)[]; RCVD_COUNT_TWO(0.00)[2];
- DBL_BLOCKED_OPENRESOLVER(0.00)[amd.com:email, linaro.org:email, intel.com:email,
- imap1.dmz-prg2.suse.org:helo, suse.de:email, suse.de:mid]
-X-Spam-Flag: NO
-X-Spam-Score: -3.30
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+Message-Id: <20250707-host1x-syncpt-irq-perf-v1-1-16d53e516895@nvidia.com>
+X-B4-Tracking: v=1; b=H4sIAEeaa2gC/x3MwQqDMAyA4VeRnA00Finbq4wdnE1nLrVLRJTiu
+ 694/A7/X8FYhQ2eXQXlXUzW3EB9B/My5S+jxGYY3DC64AIuq210oJ15LhuK/rCwJpzIfSg+PPm
+ YoMVFOclxj1/v6/oDGlzGMmgAAAA=
+X-Change-ID: 20250707-host1x-syncpt-irq-perf-a10b1d9313df
+To: Thierry Reding <thierry.reding@gmail.com>
+Cc: dri-devel@lists.freedesktop.org, linux-tegra@vger.kernel.org, 
+ linux-kernel@vger.kernel.org, Mikko Perttunen <mperttunen@nvidia.com>
+X-Mailer: b4 0.14.2
+X-SA-Exim-Connect-IP: 2404:7a80:b960:1a00:5eaa:b33c:a197:a90f
+X-SA-Exim-Mail-From: cyndis@kapsi.fi
+X-SA-Exim-Scanned: No (on mail.kapsi.fi); SAEximRunCond expanded to false
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -116,310 +66,129 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Acquire GEM handles in drm_framebuffer_init() and release them in
-the corresponding drm_framebuffer_cleanup(). Ties the handle's
-lifetime to the framebuffer. Not all GEM buffer objects have GEM
-handles. If not set, no refcounting takes place. This is the case
-for some fbdev emulation. This is not a problem as these GEM objects
-do not use dma-bufs and drivers will not release them while fbdev
-emulation is running. Framebuffer flags keep a bit per color plane
-of which the framebuffer holds a GEM handle reference.
+From: Mikko Perttunen <mperttunen@nvidia.com>
 
-As all drivers use drm_framebuffer_init(), they will now all hold
-dma-buf references as fixed in commit 5307dce878d4 ("drm/gem: Acquire
-references on GEM handles for framebuffers").
+Optimize performance of syncpoint interrupt handling by reading
+the status register in 64-bit chunks when possible, and skipping
+processing when the read value is zero.
 
-In the GEM framebuffer helpers, restore the original ref counting
-on buffer objects. As the helpers for handle refcounting are now
-no longer called from outside the DRM core, unexport the symbols.
-
-v2:
-- track framebuffer handle refs by flag
-- drop gma500 cleanup (Christian)
-
-Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
-Fixes: 5307dce878d4 ("drm/gem: Acquire references on GEM handles for framebuffers")
-Reported-by: Bert Karwatzki <spasswolf@web.de>
-Closes: https://lore.kernel.org/dri-devel/20250703115915.3096-1-spasswolf@web.de/
-Tested-by: Bert Karwatzki <spasswolf@web.de>
-Tested-by: Mario Limonciello <superm1@kernel.org>
-Cc: Thomas Zimmermann <tzimmermann@suse.de>
-Cc: Anusha Srivatsa <asrivats@redhat.com>
-Cc: Christian König <christian.koenig@amd.com>
-Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
-Cc: Maxime Ripard <mripard@kernel.org>
-Cc: Sumit Semwal <sumit.semwal@linaro.org>
-Cc: "Christian König" <christian.koenig@amd.com>
-Cc: linux-media@vger.kernel.org
-Cc: dri-devel@lists.freedesktop.org
-Cc: linaro-mm-sig@lists.linaro.org
-Cc: <stable@vger.kernel.org>
+Signed-off-by: Mikko Perttunen <mperttunen@nvidia.com>
 ---
- drivers/gpu/drm/drm_framebuffer.c            | 31 ++++++++++++++--
- drivers/gpu/drm/drm_gem.c                    | 38 ++++++++++++--------
- drivers/gpu/drm/drm_gem_framebuffer_helper.c | 16 ++++-----
- drivers/gpu/drm/drm_internal.h               |  2 +-
- drivers/gpu/drm/drm_modeset_helper.c         |  2 +-
- include/drm/drm_framebuffer.h                |  9 +++++
- 6 files changed, 71 insertions(+), 27 deletions(-)
+ drivers/gpu/host1x/dev.c        |  9 +++++++++
+ drivers/gpu/host1x/dev.h        |  3 +++
+ drivers/gpu/host1x/hw/intr_hw.c | 40 ++++++++++++++++++++++++++++++----------
+ 3 files changed, 42 insertions(+), 10 deletions(-)
 
-diff --git a/drivers/gpu/drm/drm_framebuffer.c b/drivers/gpu/drm/drm_framebuffer.c
-index b781601946db..23b56cde21d7 100644
---- a/drivers/gpu/drm/drm_framebuffer.c
-+++ b/drivers/gpu/drm/drm_framebuffer.c
-@@ -862,11 +862,23 @@ EXPORT_SYMBOL_FOR_TESTS_ONLY(drm_framebuffer_free);
- int drm_framebuffer_init(struct drm_device *dev, struct drm_framebuffer *fb,
- 			 const struct drm_framebuffer_funcs *funcs)
+diff --git a/drivers/gpu/host1x/dev.c b/drivers/gpu/host1x/dev.c
+index 1f93e5e276c0835eac2f713ffcd60a9db8db2c21..80380b6138276877be9709048c15da85d079f977 100644
+--- a/drivers/gpu/host1x/dev.c
++++ b/drivers/gpu/host1x/dev.c
+@@ -71,6 +71,15 @@ u32 host1x_sync_readl(struct host1x *host1x, u32 r)
+ 	return readl(sync_regs + r);
+ }
+ 
++#ifdef CONFIG_64BIT
++u64 host1x_sync_readq(struct host1x *host1x, u32 r)
++{
++	void __iomem *sync_regs = host1x->regs + host1x->info->sync_offset;
++
++	return readq(sync_regs + r);
++}
++#endif
++
+ void host1x_ch_writel(struct host1x_channel *ch, u32 v, u32 r)
  {
+ 	writel(v, ch->regs + r);
+diff --git a/drivers/gpu/host1x/dev.h b/drivers/gpu/host1x/dev.h
+index d3855a1c6b472a9bd289c753d79906463e6bcdb4..ef44618ed88a128bae9ab712bf49f8abc0f3b778 100644
+--- a/drivers/gpu/host1x/dev.h
++++ b/drivers/gpu/host1x/dev.h
+@@ -179,6 +179,9 @@ void host1x_hypervisor_writel(struct host1x *host1x, u32 v, u32 r);
+ u32 host1x_hypervisor_readl(struct host1x *host1x, u32 r);
+ void host1x_sync_writel(struct host1x *host1x, u32 v, u32 r);
+ u32 host1x_sync_readl(struct host1x *host1x, u32 r);
++#ifdef CONFIG_64BIT
++u64 host1x_sync_readq(struct host1x *host1x, u32 r);
++#endif
+ void host1x_ch_writel(struct host1x_channel *ch, u32 v, u32 r);
+ u32 host1x_ch_readl(struct host1x_channel *ch, u32 r);
+ 
+diff --git a/drivers/gpu/host1x/hw/intr_hw.c b/drivers/gpu/host1x/hw/intr_hw.c
+index 415f8d7e42021b791550ca719adafa088cd34101..fe45890a9bfb1dfcbc0354f76d625e78e72ee548 100644
+--- a/drivers/gpu/host1x/hw/intr_hw.c
++++ b/drivers/gpu/host1x/hw/intr_hw.c
+@@ -11,26 +11,46 @@
+ #include "../intr.h"
+ #include "../dev.h"
+ 
++static void process_32_syncpts(struct host1x *host, u32 val, u32 reg_offset)
++{
++	unsigned int id;
++
++	if (!val)
++		return;
++
++	host1x_sync_writel(host, val, HOST1X_SYNC_SYNCPT_THRESH_INT_DISABLE(reg_offset));
++	host1x_sync_writel(host, val, HOST1X_SYNC_SYNCPT_THRESH_CPU0_INT_STATUS(reg_offset));
++
++	for_each_set_bit(id, (unsigned long *)&val, 32)
++		host1x_intr_handle_interrupt(host, reg_offset * 32 + id);
++}
++
+ static irqreturn_t syncpt_thresh_isr(int irq, void *dev_id)
+ {
+ 	struct host1x_intr_irq_data *irq_data = dev_id;
+ 	struct host1x *host = irq_data->host;
+ 	unsigned long reg;
+-	unsigned int i, id;
 +	unsigned int i;
- 	int ret;
-+	bool exists;
  
- 	if (WARN_ON_ONCE(fb->dev != dev || !fb->format))
- 		return -EINVAL;
++#if !defined(CONFIG_64BIT)
+ 	for (i = irq_data->offset; i < DIV_ROUND_UP(host->info->nb_pts, 32);
+ 	     i += host->num_syncpt_irqs) {
+ 		reg = host1x_sync_readl(host,
+ 			HOST1X_SYNC_SYNCPT_THRESH_CPU0_INT_STATUS(i));
  
-+	for (i = 0; i < fb->format->num_planes; i++) {
-+		if (drm_WARN_ON_ONCE(dev, fb->flags & DRM_FRAMEBUFFER_HAS_HANDLE_REF(i)))
-+			fb->flags &= ~DRM_FRAMEBUFFER_HAS_HANDLE_REF(i);
-+		if (fb->obj[i]) {
-+			exists = drm_gem_object_handle_get_if_exists_unlocked(fb->obj[i]);
-+			if (exists)
-+				fb->flags |= DRM_FRAMEBUFFER_HAS_HANDLE_REF(i);
-+		}
+-		host1x_sync_writel(host, reg,
+-			HOST1X_SYNC_SYNCPT_THRESH_INT_DISABLE(i));
+-		host1x_sync_writel(host, reg,
+-			HOST1X_SYNC_SYNCPT_THRESH_CPU0_INT_STATUS(i));
++		process_32_syncpts(host, reg, i);
 +	}
-+
- 	INIT_LIST_HEAD(&fb->filp_head);
++#else
++	/* All 64-bit capable SoCs have number of syncpoints divisible by 64 */
++	for (i = irq_data->offset; i < DIV_ROUND_UP(host->info->nb_pts, 64);
++	     i += host->num_syncpt_irqs) {
++		reg = host1x_sync_readq(host,
++			HOST1X_SYNC_SYNCPT_THRESH_CPU0_INT_STATUS(i*2));
  
- 	fb->funcs = funcs;
-@@ -875,7 +887,7 @@ int drm_framebuffer_init(struct drm_device *dev, struct drm_framebuffer *fb,
- 	ret = __drm_mode_object_add(dev, &fb->base, DRM_MODE_OBJECT_FB,
- 				    false, drm_framebuffer_free);
- 	if (ret)
--		goto out;
-+		goto err;
+-		for_each_set_bit(id, &reg, 32)
+-			host1x_intr_handle_interrupt(host, i * 32 + id);
++		process_32_syncpts(host, lower_32_bits(reg), i*2+0);
++		process_32_syncpts(host, upper_32_bits(reg), i*2+1);
+ 	}
++#endif
  
- 	mutex_lock(&dev->mode_config.fb_lock);
- 	dev->mode_config.num_fb++;
-@@ -883,7 +895,16 @@ int drm_framebuffer_init(struct drm_device *dev, struct drm_framebuffer *fb,
- 	mutex_unlock(&dev->mode_config.fb_lock);
- 
- 	drm_mode_object_register(dev, &fb->base);
--out:
-+
-+	return 0;
-+
-+err:
-+	for (i = 0; i < fb->format->num_planes; i++) {
-+		if (fb->flags & DRM_FRAMEBUFFER_HAS_HANDLE_REF(i)) {
-+			drm_gem_object_handle_put_unlocked(fb->obj[i]);
-+			fb->flags &= ~DRM_FRAMEBUFFER_HAS_HANDLE_REF(i);
-+		}
-+	}
- 	return ret;
+ 	return IRQ_HANDLED;
  }
- EXPORT_SYMBOL(drm_framebuffer_init);
-@@ -960,6 +981,12 @@ EXPORT_SYMBOL(drm_framebuffer_unregister_private);
- void drm_framebuffer_cleanup(struct drm_framebuffer *fb)
- {
- 	struct drm_device *dev = fb->dev;
-+	unsigned int i;
-+
-+	for (i = 0; i < fb->format->num_planes; i++) {
-+		if (fb->flags & DRM_FRAMEBUFFER_HAS_HANDLE_REF(i))
-+			drm_gem_object_handle_put_unlocked(fb->obj[i]);
-+	}
- 
- 	mutex_lock(&dev->mode_config.fb_lock);
- 	list_del(&fb->head);
-diff --git a/drivers/gpu/drm/drm_gem.c b/drivers/gpu/drm/drm_gem.c
-index bc505d938b3e..41cdab6088ae 100644
---- a/drivers/gpu/drm/drm_gem.c
-+++ b/drivers/gpu/drm/drm_gem.c
-@@ -224,23 +224,34 @@ static void drm_gem_object_handle_get(struct drm_gem_object *obj)
- }
- 
- /**
-- * drm_gem_object_handle_get_unlocked - acquire reference on user-space handles
-+ * drm_gem_object_handle_get_if_exists_unlocked - acquire reference on user-space handle, if any
-  * @obj: GEM object
-  *
-- * Acquires a reference on the GEM buffer object's handle. Required
-- * to keep the GEM object alive. Call drm_gem_object_handle_put_unlocked()
-- * to release the reference.
-+ * Acquires a reference on the GEM buffer object's handle. Required to keep
-+ * the GEM object alive. Call drm_gem_object_handle_put_if_exists_unlocked()
-+ * to release the reference. Does nothing if the buffer object has no handle.
-+ *
-+ * Returns:
-+ * True if a handle exists, or false otherwise
-  */
--void drm_gem_object_handle_get_unlocked(struct drm_gem_object *obj)
-+bool drm_gem_object_handle_get_if_exists_unlocked(struct drm_gem_object *obj)
- {
- 	struct drm_device *dev = obj->dev;
- 
- 	guard(mutex)(&dev->object_name_lock);
- 
--	drm_WARN_ON(dev, !obj->handle_count); /* first ref taken in create-tail helper */
-+	/*
-+	 * First ref taken during GEM object creation, if any. Some
-+	 * drivers set up internal framebuffers with GEM objects that
-+	 * do not have a GEM handle. Hence, this counter can be zero.
-+	 */
-+	if (!obj->handle_count)
-+		return false;
-+
- 	drm_gem_object_handle_get(obj);
-+
-+	return true;
- }
--EXPORT_SYMBOL(drm_gem_object_handle_get_unlocked);
- 
- /**
-  * drm_gem_object_handle_free - release resources bound to userspace handles
-@@ -273,7 +284,7 @@ static void drm_gem_object_exported_dma_buf_free(struct drm_gem_object *obj)
- }
- 
- /**
-- * drm_gem_object_handle_put_unlocked - releases reference on user-space handles
-+ * drm_gem_object_handle_put_unlocked - releases reference on user-space handle
-  * @obj: GEM object
-  *
-  * Releases a reference on the GEM buffer object's handle. Possibly releases
-@@ -284,14 +295,14 @@ void drm_gem_object_handle_put_unlocked(struct drm_gem_object *obj)
- 	struct drm_device *dev = obj->dev;
- 	bool final = false;
- 
--	if (WARN_ON(READ_ONCE(obj->handle_count) == 0))
-+	if (drm_WARN_ON(dev, READ_ONCE(obj->handle_count) == 0))
- 		return;
+@@ -68,12 +88,12 @@ host1x_intr_init_host_sync(struct host1x *host, u32 cpm)
  
  	/*
--	* Must bump handle count first as this may be the last
--	* ref, in which case the object would disappear before we
--	* checked for a name
--	*/
-+	 * Must bump handle count first as this may be the last
-+	 * ref, in which case the object would disappear before
-+	 * we checked for a name.
-+	 */
+ 	 * Program threshold interrupt destination among 8 lines per VM,
+-	 * per syncpoint. For each group of 32 syncpoints (corresponding to one
+-	 * interrupt status register), direct to one interrupt line, going
++	 * per syncpoint. For each group of 64 syncpoints (corresponding to two
++	 * interrupt status registers), direct to one interrupt line, going
+ 	 * around in a round robin fashion.
+ 	 */
+ 	for (id = 0; id < host->info->nb_pts; id++) {
+-		u32 reg_offset = id / 32;
++		u32 reg_offset = id / 64;
+ 		u32 irq_index = reg_offset % host->num_syncpt_irqs;
  
- 	mutex_lock(&dev->object_name_lock);
- 	if (--obj->handle_count == 0) {
-@@ -304,7 +315,6 @@ void drm_gem_object_handle_put_unlocked(struct drm_gem_object *obj)
- 	if (final)
- 		drm_gem_object_put(obj);
- }
--EXPORT_SYMBOL(drm_gem_object_handle_put_unlocked);
- 
- /*
-  * Called at device or object close to release the file's
-diff --git a/drivers/gpu/drm/drm_gem_framebuffer_helper.c b/drivers/gpu/drm/drm_gem_framebuffer_helper.c
-index c60d0044d036..618ce725cd75 100644
---- a/drivers/gpu/drm/drm_gem_framebuffer_helper.c
-+++ b/drivers/gpu/drm/drm_gem_framebuffer_helper.c
-@@ -100,7 +100,7 @@ void drm_gem_fb_destroy(struct drm_framebuffer *fb)
- 	unsigned int i;
- 
- 	for (i = 0; i < fb->format->num_planes; i++)
--		drm_gem_object_handle_put_unlocked(fb->obj[i]);
-+		drm_gem_object_put(fb->obj[i]);
- 
- 	drm_framebuffer_cleanup(fb);
- 	kfree(fb);
-@@ -183,10 +183,8 @@ int drm_gem_fb_init_with_funcs(struct drm_device *dev,
- 		if (!objs[i]) {
- 			drm_dbg_kms(dev, "Failed to lookup GEM object\n");
- 			ret = -ENOENT;
--			goto err_gem_object_handle_put_unlocked;
-+			goto err_gem_object_put;
- 		}
--		drm_gem_object_handle_get_unlocked(objs[i]);
--		drm_gem_object_put(objs[i]);
- 
- 		min_size = (height - 1) * mode_cmd->pitches[i]
- 			 + drm_format_info_min_pitch(info, i, width)
-@@ -196,22 +194,22 @@ int drm_gem_fb_init_with_funcs(struct drm_device *dev,
- 			drm_dbg_kms(dev,
- 				    "GEM object size (%zu) smaller than minimum size (%u) for plane %d\n",
- 				    objs[i]->size, min_size, i);
--			drm_gem_object_handle_put_unlocked(objs[i]);
-+			drm_gem_object_put(objs[i]);
- 			ret = -EINVAL;
--			goto err_gem_object_handle_put_unlocked;
-+			goto err_gem_object_put;
- 		}
- 	}
- 
- 	ret = drm_gem_fb_init(dev, fb, mode_cmd, objs, i, funcs);
- 	if (ret)
--		goto err_gem_object_handle_put_unlocked;
-+		goto err_gem_object_put;
- 
- 	return 0;
- 
--err_gem_object_handle_put_unlocked:
-+err_gem_object_put:
- 	while (i > 0) {
- 		--i;
--		drm_gem_object_handle_put_unlocked(objs[i]);
-+		drm_gem_object_put(objs[i]);
- 	}
- 	return ret;
- }
-diff --git a/drivers/gpu/drm/drm_internal.h b/drivers/gpu/drm/drm_internal.h
-index f921cc73f8b8..e79c3c623c9a 100644
---- a/drivers/gpu/drm/drm_internal.h
-+++ b/drivers/gpu/drm/drm_internal.h
-@@ -161,7 +161,7 @@ void drm_sysfs_lease_event(struct drm_device *dev);
- 
- /* drm_gem.c */
- int drm_gem_init(struct drm_device *dev);
--void drm_gem_object_handle_get_unlocked(struct drm_gem_object *obj);
-+bool drm_gem_object_handle_get_if_exists_unlocked(struct drm_gem_object *obj);
- void drm_gem_object_handle_put_unlocked(struct drm_gem_object *obj);
- int drm_gem_handle_create_tail(struct drm_file *file_priv,
- 			       struct drm_gem_object *obj,
-diff --git a/drivers/gpu/drm/drm_modeset_helper.c b/drivers/gpu/drm/drm_modeset_helper.c
-index ef32f6af10d4..1e8822c4b370 100644
---- a/drivers/gpu/drm/drm_modeset_helper.c
-+++ b/drivers/gpu/drm/drm_modeset_helper.c
-@@ -94,7 +94,7 @@ void drm_helper_mode_fill_fb_struct(struct drm_device *dev,
- 		fb->offsets[i] = mode_cmd->offsets[i];
- 	}
- 	fb->modifier = mode_cmd->modifier[0];
--	fb->flags = mode_cmd->flags;
-+	fb->flags = mode_cmd->flags & DRM_FRAMEBUFFER_FLAGS_UAPI_MASK;
- }
- EXPORT_SYMBOL(drm_helper_mode_fill_fb_struct);
- 
-diff --git a/include/drm/drm_framebuffer.h b/include/drm/drm_framebuffer.h
-index 668077009fce..11fa20d21c58 100644
---- a/include/drm/drm_framebuffer.h
-+++ b/include/drm/drm_framebuffer.h
-@@ -23,6 +23,7 @@
- #ifndef __DRM_FRAMEBUFFER_H__
- #define __DRM_FRAMEBUFFER_H__
- 
-+#include <linux/bits.h>
- #include <linux/ctype.h>
- #include <linux/list.h>
- #include <linux/sched.h>
-@@ -100,6 +101,14 @@ struct drm_framebuffer_funcs {
- 		     unsigned num_clips);
- };
- 
-+#define __DRM_FRAMEBUFFER_FLAGS_BIT_OFFSET 16
-+
-+#define DRM_FRAMEBUFFER_FLAGS_UAPI_MASK \
-+	GENMASK(__DRM_FRAMEBUFFER_FLAGS_BIT_OFFSET - 1, 0)
-+
-+#define DRM_FRAMEBUFFER_HAS_HANDLE_REF(_i) \
-+	BIT((__DRM_FRAMEBUFFER_FLAGS_BIT_OFFSET + (_i)))
-+
- /**
-  * struct drm_framebuffer - frame buffer object
-  *
--- 
-2.50.0
+ 		host1x_sync_writel(host, irq_index, HOST1X_SYNC_SYNCPT_INTR_DEST(id));
+
+---
+base-commit: 2aeda9592360c200085898a258c4754bfe879921
+change-id: 20250707-host1x-syncpt-irq-perf-a10b1d9313df
 
