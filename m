@@ -2,73 +2,49 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8E17CAFD87B
-	for <lists+dri-devel@lfdr.de>; Tue,  8 Jul 2025 22:36:45 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id AB100AFD8B9
+	for <lists+dri-devel@lfdr.de>; Tue,  8 Jul 2025 22:48:49 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id EFF7F10E6DA;
-	Tue,  8 Jul 2025 20:36:43 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0C5A110E6DE;
+	Tue,  8 Jul 2025 20:48:47 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=redhat.com header.i=@redhat.com header.b="AcaNuvsc";
+	dkim=pass (2048-bit key; unprotected) header.d=treblig.org header.i=@treblig.org header.b="Gqnkh++N";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [170.10.129.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2DC4C10E6DA
- for <dri-devel@lists.freedesktop.org>; Tue,  8 Jul 2025 20:36:42 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1752007001;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=mkthyQecCVK2yqwg1DPkHhbTWatnZwsBkt13NL9bfxM=;
- b=AcaNuvscfjiiV8dBmdBObR4aaiEh9kIPP3N1ldHRk5+4o+s/Lu+a503x0UrdAxah344bRV
- Ae9PITRUypYUhin/vms2pYrFlZswMfDzJ+bu3LKOEW2RByyEk7EWdL0o30vZkf/15+6OXO
- VdZ5qHB4BhMu+nxvxFQEPVozp0cLXK0=
-Received: from mx-prod-mc-05.mail-002.prod.us-west-2.aws.redhat.com
- (ec2-54-186-198-63.us-west-2.compute.amazonaws.com [54.186.198.63]) by
- relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
- cipher=TLS_AES_256_GCM_SHA384) id us-mta-647-eXTUk8hJM96iffEYT7fGYg-1; Tue,
- 08 Jul 2025 16:36:40 -0400
-X-MC-Unique: eXTUk8hJM96iffEYT7fGYg-1
-X-Mimecast-MFC-AGG-ID: eXTUk8hJM96iffEYT7fGYg_1752006998
-Received: from mx-prod-int-02.mail-002.prod.us-west-2.aws.redhat.com
- (mx-prod-int-02.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.15])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
- (No client certificate requested)
- by mx-prod-mc-05.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS
- id B8867193F061; Tue,  8 Jul 2025 20:36:38 +0000 (UTC)
-Received: from asrivats-na.rmtustx.csb (unknown [10.2.16.132])
- by mx-prod-int-02.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTP
- id A28B51956087; Tue,  8 Jul 2025 20:36:36 +0000 (UTC)
-From: Anusha Srivatsa <asrivats@redhat.com>
-Date: Tue, 08 Jul 2025 15:35:18 -0500
-Subject: [PATCH 6/6] drm/panel/samsung-s6e63m0: Use refcounted allocation
- in place of devm_kzalloc()
+Received: from mx.treblig.org (mx.treblig.org [46.235.229.95])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C829210E6E1;
+ Tue,  8 Jul 2025 20:48:44 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=treblig.org
+ ; s=bytemarkmx;
+ h=Content-Type:MIME-Version:Message-ID:Subject:From:Date:From
+ :Subject; bh=DZoekFWDQRKYS8E//rmMDVjwcHRmk9UG+oNvcbgcvko=; b=Gqnkh++NdrrEy6eq
+ Z4VZVz+V47pRptvyZxxV/ID/De2WXDpJSTPe46C9TkSgO1qzr6ncjKK1sgriRC0fLFPMmT383TU9b
+ 6BAme5M/yoN/Cb70eXFllJIKFdhPIWxNu1e6M33BN3E5mqMe0vPSUwG1IN1S55VzNsViOoAUOGGMG
+ +h3PAZDWJNu3+ik/pLlvR3NVFYUjqAHCXBQ2oIz5bgLw/mOOE0b24PEE5tNCqyOS2MOHBV+Wp1VYH
+ BmTXI9XS8sQnzPjl2H/VFLgYoDUgFNzWyGxuS4SL8XZ+L6j6QjDMVKlXsd+2nbSx1PpUjWd/bg3sP
+ Wj163Y2bE8KsUNAYuw==;
+Received: from dg by mx.treblig.org with local (Exim 4.96)
+ (envelope-from <dg@treblig.org>) id 1uZFEu-00Erpy-0A;
+ Tue, 08 Jul 2025 20:48:32 +0000
+Date: Tue, 8 Jul 2025 20:48:31 +0000
+From: "Dr. David Alan Gilbert" <linux@treblig.org>
+To: kraxel@redhat.com, airlied@redhat.com, mripard@kernel.org
+Cc: maarten.lankhorst@linux.intel.com, tzimmermann@suse.de,
+ airlied@gmail.com, simona@ffwll.ch, virtualization@lists.linux.dev,
+ spice-devel@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org
+Subject: Re: [PATCH 0/2] drm: qxl: Deadcoding
+Message-ID: <aG2EH86lesn7VZNZ@gallifrey>
+References: <20250413171058.271234-1-linux@treblig.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20250708-b4-simple-panel-api-convert-july-v1-6-630902123ea1@redhat.com>
-References: <20250708-b4-simple-panel-api-convert-july-v1-0-630902123ea1@redhat.com>
-In-Reply-To: <20250708-b4-simple-panel-api-convert-july-v1-0-630902123ea1@redhat.com>
-To: Neil Armstrong <neil.armstrong@linaro.org>, 
- Jessica Zhang <jessica.zhang@oss.qualcomm.com>, 
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>
-Cc: Geert Uytterhoeven <geert@linux-m68k.org>, 
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org, 
- Anusha Srivatsa <asrivats@redhat.com>
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1752006919; l=1510;
- i=asrivats@redhat.com; s=20250122; h=from:subject:message-id;
- bh=vsvHIMQx+bz1MugawrqwN+PrKys/gpceYZf2lTHUZo8=;
- b=/p/iezB5BBWwJRFLoAflR91gj1xcjB9ZRrKdmqtJ7EnES2GYibe0PfCMTmbLkVHOELUPZp7u6
- xjlljvh7aXiDpTeJ1qp+rBOTiN5VHwC0+BENbpvgiTtc/KdkQp6gnqS
-X-Developer-Key: i=asrivats@redhat.com; a=ed25519;
- pk=brnIHkBsUZEhyW6Zyn0U92AeIZ1psws/q8VFbIkf1AU=
-X-Scanned-By: MIMEDefang 3.0 on 10.30.177.15
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+In-Reply-To: <20250413171058.271234-1-linux@treblig.org>
+X-Chocolate: 70 percent or better cocoa solids preferably
+X-Operating-System: Linux/6.1.0-34-amd64 (x86_64)
+X-Uptime: 20:46:26 up 72 days, 5:00, 1 user, load average: 0.00, 0.00, 0.00
+User-Agent: Mutt/2.2.12 (2023-09-09)
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -84,48 +60,40 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Move to using the new API devm_drm_panel_alloc() to allocate the
-panel. In the call to the new API, avoid using explicit type and use
-__typeof() for more type safety.
+* linux@treblig.org (linux@treblig.org) wrote:
+> From: "Dr. David Alan Gilbert" <linux@treblig.org>
+> 
+> Hi,
+>   A couple of small deadcodings for qxl.  The first
+> just cleans up a couple of trivial unusued wrappers.
+> The second cleans out some debugfs code that's been unused
+> for a few years.
+> 
+> Dave
+> Signed-off-by: Dr. David Alan Gilbert <linux@treblig.org>
 
-Signed-off-by: Anusha Srivatsa <asrivats@redhat.com>
----
- drivers/gpu/drm/panel/panel-samsung-s6e63m0.c | 14 +++++++-------
- 1 file changed, 7 insertions(+), 7 deletions(-)
+Hi All,
+  A gentle ping on this clean up set from April.
 
-diff --git a/drivers/gpu/drm/panel/panel-samsung-s6e63m0.c b/drivers/gpu/drm/panel/panel-samsung-s6e63m0.c
-index ea241c89593b6726e8356c30229e99191c69bf03..562ad06c251f8992b3f28894ce2309913324ef11 100644
---- a/drivers/gpu/drm/panel/panel-samsung-s6e63m0.c
-+++ b/drivers/gpu/drm/panel/panel-samsung-s6e63m0.c
-@@ -677,9 +677,13 @@ int s6e63m0_probe(struct device *dev, void *trsp,
- 	u32 max_brightness;
- 	int ret;
- 
--	ctx = devm_kzalloc(dev, sizeof(struct s6e63m0), GFP_KERNEL);
--	if (!ctx)
--		return -ENOMEM;
-+	ctx = devm_drm_panel_alloc(dev, __typeof(*ctx), panel,
-+				   &s6e63m0_drm_funcs,
-+				   dsi_mode ? DRM_MODE_CONNECTOR_DSI :
-+				   DRM_MODE_CONNECTOR_DPI);
-+
-+	if (IS_ERR(ctx))
-+		return PTR_ERR(ctx);
- 
- 	ctx->transport_data = trsp;
- 	ctx->dsi_mode = dsi_mode;
-@@ -712,10 +716,6 @@ int s6e63m0_probe(struct device *dev, void *trsp,
- 		return PTR_ERR(ctx->reset_gpio);
- 	}
- 
--	drm_panel_init(&ctx->panel, dev, &s6e63m0_drm_funcs,
--		       dsi_mode ? DRM_MODE_CONNECTOR_DSI :
--		       DRM_MODE_CONNECTOR_DPI);
--
- 	ret = s6e63m0_backlight_register(ctx, max_brightness);
- 	if (ret < 0)
- 		return ret;
+Thanks in advance,
 
+Dave
+
+> 
+> Dr. David Alan Gilbert (2):
+>   drm: qxl: Remove dead qxl_io_flush_* functions
+>   drm: qxl: Remove unused debugfs code
+> 
+>  drivers/gpu/drm/qxl/qxl_cmd.c     | 10 ----------
+>  drivers/gpu/drm/qxl/qxl_debugfs.c | 29 -----------------------------
+>  drivers/gpu/drm/qxl/qxl_drv.h     | 12 ------------
+>  3 files changed, 51 deletions(-)
+> 
+> -- 
+> 2.49.0
+> 
 -- 
-2.48.1
-
+ -----Open up your eyes, open up your mind, open up your code -------   
+/ Dr. David Alan Gilbert    |       Running GNU/Linux       | Happy  \ 
+\        dave @ treblig.org |                               | In Hex /
+ \ _________________________|_____ http://www.treblig.org   |_______/
