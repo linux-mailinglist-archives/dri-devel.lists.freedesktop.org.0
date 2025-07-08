@@ -2,55 +2,57 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 29A97AFC988
-	for <lists+dri-devel@lfdr.de>; Tue,  8 Jul 2025 13:25:31 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id D0577AFC9A0
+	for <lists+dri-devel@lfdr.de>; Tue,  8 Jul 2025 13:31:35 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id EDD698981D;
-	Tue,  8 Jul 2025 11:25:27 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 999EE10E600;
+	Tue,  8 Jul 2025 11:31:32 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=fail reason="signature verification failed" (2048-bit key; secure) header.d=kapsi.fi header.i=@kapsi.fi header.b="DdVqEzC8";
+	dkim=pass (2048-bit key; secure) header.d=mailbox.org header.i=@mailbox.org header.b="jLLTMa3a";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail.kapsi.fi (mail-auth.kapsi.fi [91.232.154.24])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 833E78981D
- for <dri-devel@lists.freedesktop.org>; Tue,  8 Jul 2025 11:25:25 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=kapsi.fi;
- s=20161220; h=Cc:To:Message-Id:Content-Transfer-Encoding:Content-Type:
- MIME-Version:Subject:Date:From:Sender:Reply-To:Content-ID:Content-Description
- :Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
- In-Reply-To:References:List-Id:List-Help:List-Unsubscribe:List-Subscribe:
- List-Post:List-Owner:List-Archive;
- bh=1qKAiQmGAGw50txF2hzoeWU/sY/Iea/ABnxsW0p3u8M=; b=DdVqEzC8Eo9m+09q75CC1iVUz7
- iesSJpSvIG+tGOo4nvPLg3DFbHzBdZfe7q3ykcBXSJPLQZmFfwKnWY1zOW3/u4L3fLu7iaOjhH8vj
- Gis6rH2wMJf9yVUx36sbBLOVX8iiq42AF01XvqZPfiwpPiYOaq6OXbC9deP8Ulzx59h9/NrluP0HH
- sHiqTBAT3h60U3fB044e69LnyRZL3z9RR+g+LaJIOmLH32r6FofxhFvJVCra5eu2YN7nqj7IfNWFJ
- mlXhAbeE9Tkqutte3SC+IkjIo1FcOG9aQ8O48gX5Z0UmJC80uJ0CkhDWyoGgOP2jgseDczNj9na+a
- ETkRpeYA==;
-Received: from [2404:7a80:b960:1a00:5eaa:b33c:a197:a90f]
- (helo=senjougahara.localdomain)
- by mail.kapsi.fi with esmtpsa (TLS1.3) tls
- TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384 (Exim 4.96)
- (envelope-from <cyndis@kapsi.fi>) id 1uZ6Rr-008J9k-2C;
- Tue, 08 Jul 2025 14:25:20 +0300
-From: Mikko Perttunen <cyndis@kapsi.fi>
-Date: Tue, 08 Jul 2025 20:25:08 +0900
-Subject: [PATCH] gpu: host1x: Wait prefences outside MLOCK
+Received: from mout-p-101.mailbox.org (mout-p-101.mailbox.org [80.241.56.151])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5FE5E10E613;
+ Tue,  8 Jul 2025 11:31:31 +0000 (UTC)
+Received: from smtp202.mailbox.org (smtp202.mailbox.org [10.196.197.202])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ (No client certificate requested)
+ by mout-p-101.mailbox.org (Postfix) with ESMTPS id 4bbzTD27xhz9st5;
+ Tue,  8 Jul 2025 13:31:28 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mailbox.org;
+ s=mail20150812; 
+ t=1751974288; h=from:from:reply-to:reply-to:subject:subject:date:date:
+ message-id:message-id:to:to:cc:cc:mime-version:mime-version:
+ content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=48NORqQb787FlAELzadA21brdOxJHxlBAxmaGaPZ7ZI=;
+ b=jLLTMa3a2MLXSYsIEz3znHf8Xn6iS7u7sdZ4n1lHadXc9CNPGzchco6tNKohNp8AfjOI5f
+ Zosgv+FG+Vm/s4QylPngjDkx6SK4ltD8HqIX2+d5gzW23eAZ4Bh7/1OcUWranutP4TUXjM
+ WjfdH2xeUn74inEtNNw+GZIvTW/XS793jGNVbZqs+7qKZ00O4MShM8MEtW6N3H2aJTxcgj
+ nX2eLKACBnulfD8Jg1IwDS5hRXDFHqUfHfsDYoA8ft7KeLKrlzt/9Fv+JZkJVHsOILARBn
+ UCC52GhxsV2bq21cQb+/5Nip+I7Dl/U0DBjuXryqbVkRedORdYg9XYHvj4UP4g==
+Message-ID: <dcfae9b0caa19e46c36ec7e30c741867d145a828.camel@mailbox.org>
+Subject: Re: [PATCH v6 05/15] drm/sched: Consolidate
+ drm_sched_rq_select_entity_rr
+From: Philipp Stanner <phasta@mailbox.org>
+To: Tvrtko Ursulin <tvrtko.ursulin@igalia.com>, 
+ dri-devel@lists.freedesktop.org
+Cc: intel-xe@lists.freedesktop.org, amd-gfx@lists.freedesktop.org, 
+ kernel-dev@igalia.com, Christian =?ISO-8859-1?Q?K=F6nig?=
+ <christian.koenig@amd.com>, Danilo Krummrich <dakr@kernel.org>, Matthew
+ Brost <matthew.brost@intel.com>, Philipp Stanner <phasta@kernel.org>
+Date: Tue, 08 Jul 2025 13:31:25 +0200
+In-Reply-To: <20250708095147.73366-6-tvrtko.ursulin@igalia.com>
+References: <20250708095147.73366-1-tvrtko.ursulin@igalia.com>
+ <20250708095147.73366-6-tvrtko.ursulin@igalia.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20250708-host1x-wait-prefences-outside-mlock-v1-1-13e98044e35a@nvidia.com>
-X-B4-Tracking: v=1; b=H4sIABMAbWgC/x2NywqDMBAAf0X27EJc6MP+SvEQk7Uu1aRkYyuI/
- 27qcWCY2UA5CSs8qg0Sf0UlhgJNXYEbbXgxii8MZOhibuaOY9TcrPizkvGTeODgWDEuWcUzzlN
- 0b+wHfzVEfetbglL6e7Kel2e37wcNxEtHdQAAAA==
-X-Change-ID: 20250708-host1x-wait-prefences-outside-mlock-bfd6022b9d92
-To: Thierry Reding <thierry.reding@gmail.com>
-Cc: dri-devel@lists.freedesktop.org, linux-tegra@vger.kernel.org, 
- linux-kernel@vger.kernel.org, Mikko Perttunen <mperttunen@nvidia.com>
-X-Mailer: b4 0.14.2
-X-SA-Exim-Connect-IP: 2404:7a80:b960:1a00:5eaa:b33c:a197:a90f
-X-SA-Exim-Mail-From: cyndis@kapsi.fi
-X-SA-Exim-Scanned: No (on mail.kapsi.fi); SAEximRunCond expanded to false
+X-MBO-RS-ID: c8927dff1cbdafaed81
+X-MBO-RS-META: zkddzsr6ji61shex7n9swhh5wmb1d786
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -63,219 +65,108 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
+Reply-To: phasta@kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Mikko Perttunen <mperttunen@nvidia.com>
+On Tue, 2025-07-08 at 10:51 +0100, Tvrtko Ursulin wrote:
+> Extract out two copies of the identical code to function epilogue to
+> make
+> it smaller and more readable.
+>=20
+> Signed-off-by: Tvrtko Ursulin <tvrtko.ursulin@igalia.com>
+> Cc: Christian K=C3=B6nig <christian.koenig@amd.com>
+> Cc: Danilo Krummrich <dakr@kernel.org>
+> Cc: Matthew Brost <matthew.brost@intel.com>
+> Cc: Philipp Stanner <phasta@kernel.org>
 
-The current submission opcode sequence first takes the engine MLOCK,
-and then switches to HOST1X class to wait prefences. This is fine
-while we only use a single channel per engine and there is no
-virtualization, since jobs are serialized on that one channel anyway.
-However, when that assumption doesn't hold, we are keeping the
-engine locked while not running anything on it while waiting for
-prefences to complete.
+Can also be branched out.
 
-To resolve this, execute wait commands in the beginning of the job
-outside the engine MLOCK. We still take the HOST1X MLOCK because
-recent hardware requires register opcodes to be executed within some
-MLOCK, but the hardware also allows unlimited channels to take the
-HOST1X MLOCK at the same time.
+P.
 
-Signed-off-by: Mikko Perttunen <mperttunen@nvidia.com>
----
- drivers/gpu/host1x/hw/channel_hw.c | 106 +++++++++++++++++++++++--------------
- 1 file changed, 66 insertions(+), 40 deletions(-)
-
-diff --git a/drivers/gpu/host1x/hw/channel_hw.c b/drivers/gpu/host1x/hw/channel_hw.c
-index d44b8de890be05b697a7c4b5be697b708cf41cbb..2df6a16d484e046c9aed6bdf6b59f22de573c9d7 100644
---- a/drivers/gpu/host1x/hw/channel_hw.c
-+++ b/drivers/gpu/host1x/hw/channel_hw.c
-@@ -47,24 +47,11 @@ static void trace_write_gather(struct host1x_cdma *cdma, struct host1x_bo *bo,
- 	}
- }
- 
--static void submit_wait(struct host1x_job *job, u32 id, u32 threshold,
--			u32 next_class)
-+static void submit_wait(struct host1x_job *job, u32 id, u32 threshold)
- {
- 	struct host1x_cdma *cdma = &job->channel->cdma;
- 
--#if HOST1X_HW >= 6
--	u32 stream_id;
+> ---
+> =C2=A0drivers/gpu/drm/scheduler/sched_main.c | 48 +++++++++++------------=
 -
--	/*
--	 * If a memory context has been set, use it. Otherwise
--	 * (if context isolation is disabled) use the engine's
--	 * firmware stream ID.
--	 */
--	if (job->memory_context)
--		stream_id = job->memory_context->stream_id;
--	else
--		stream_id = job->engine_fallback_streamid;
--
-+#if HOST1X_HW >= 2
- 	host1x_cdma_push_wide(cdma,
- 		host1x_opcode_setclass(
- 			HOST1X_CLASS_HOST1X,
-@@ -76,23 +63,6 @@ static void submit_wait(struct host1x_job *job, u32 id, u32 threshold,
- 		id,
- 		HOST1X_OPCODE_NOP
- 	);
--	host1x_cdma_push_wide(&job->channel->cdma,
--		host1x_opcode_setclass(job->class, 0, 0),
--		host1x_opcode_setpayload(stream_id),
--		host1x_opcode_setstreamid(job->engine_streamid_offset / 4),
--		HOST1X_OPCODE_NOP);
--#elif HOST1X_HW >= 2
--	host1x_cdma_push_wide(cdma,
--		host1x_opcode_setclass(
--			HOST1X_CLASS_HOST1X,
--			HOST1X_UCLASS_LOAD_SYNCPT_PAYLOAD_32,
--			/* WAIT_SYNCPT_32 is at SYNCPT_PAYLOAD_32+2 */
--			BIT(0) | BIT(2)
--		),
--		threshold,
--		id,
--		host1x_opcode_setclass(next_class, 0, 0)
--	);
- #else
- 	/* TODO add waitchk or use waitbases or other mitigation */
- 	host1x_cdma_push(cdma,
-@@ -103,6 +73,32 @@ static void submit_wait(struct host1x_job *job, u32 id, u32 threshold,
- 		),
- 		host1x_class_host_wait_syncpt(id, threshold)
- 	);
-+#endif
-+}
-+
-+static void submit_setclass(struct host1x_job *job, u32 next_class)
-+{
-+	struct host1x_cdma *cdma = &job->channel->cdma;
-+
-+#if HOST1X_HW >= 6
-+	u32 stream_id;
-+
-+	/*
-+	 * If a memory context has been set, use it. Otherwise
-+	 * (if context isolation is disabled) use the engine's
-+	 * firmware stream ID.
-+	 */
-+	if (job->memory_context)
-+		stream_id = job->memory_context->stream_id;
-+	else
-+		stream_id = job->engine_fallback_streamid;
-+
-+	host1x_cdma_push_wide(cdma,
-+		host1x_opcode_setclass(next_class, 0, 0),
-+		host1x_opcode_setpayload(stream_id),
-+		host1x_opcode_setstreamid(job->engine_streamid_offset / 4),
-+		HOST1X_OPCODE_NOP);
-+#else
- 	host1x_cdma_push(cdma,
- 		host1x_opcode_setclass(next_class, 0, 0),
- 		HOST1X_OPCODE_NOP
-@@ -110,7 +106,8 @@ static void submit_wait(struct host1x_job *job, u32 id, u32 threshold,
- #endif
- }
- 
--static void submit_gathers(struct host1x_job *job, u32 job_syncpt_base)
-+static void submit_gathers(struct host1x_job *job, struct host1x_job_cmd *cmds, u32 num_cmds,
-+			   u32 job_syncpt_base)
- {
- 	struct host1x_cdma *cdma = &job->channel->cdma;
- #if HOST1X_HW < 6
-@@ -119,8 +116,8 @@ static void submit_gathers(struct host1x_job *job, u32 job_syncpt_base)
- 	unsigned int i;
- 	u32 threshold;
- 
--	for (i = 0; i < job->num_cmds; i++) {
--		struct host1x_job_cmd *cmd = &job->cmds[i];
-+	for (i = 0; i < num_cmds; i++) {
-+		struct host1x_job_cmd *cmd = &cmds[i];
- 
- 		if (cmd->is_wait) {
- 			if (cmd->wait.relative)
-@@ -128,7 +125,8 @@ static void submit_gathers(struct host1x_job *job, u32 job_syncpt_base)
- 			else
- 				threshold = cmd->wait.threshold;
- 
--			submit_wait(job, cmd->wait.id, threshold, cmd->wait.next_class);
-+			submit_wait(job, cmd->wait.id, threshold);
-+			submit_setclass(job, cmd->wait.next_class);
- 		} else {
- 			struct host1x_job_gather *g = &cmd->gather;
- 
-@@ -216,7 +214,34 @@ static void channel_program_cdma(struct host1x_job *job)
- 
- #if HOST1X_HW >= 6
- 	u32 fence;
-+	int i = 0;
-+
-+	if (job->num_cmds == 0)
-+		goto prefences_done;
-+	if (!job->cmds[0].is_wait || job->cmds[0].wait.relative)
-+		goto prefences_done;
-+
-+	/* Enter host1x class with invalid stream ID for prefence waits. */
-+	host1x_cdma_push_wide(cdma,
-+		host1x_opcode_acquire_mlock(1),
-+		host1x_opcode_setclass(1, 0, 0),
-+		host1x_opcode_setpayload(0),
-+		host1x_opcode_setstreamid(0x1fffff));
-+
-+	for (i = 0; i < job->num_cmds; i++) {
-+		struct host1x_job_cmd *cmd = &job->cmds[i];
-+
-+		if (!cmd->is_wait || cmd->wait.relative)
-+			break;
-+
-+		submit_wait(job, cmd->wait.id, cmd->wait.threshold);
-+	}
-+
-+	host1x_cdma_push(cdma,
-+		HOST1X_OPCODE_NOP,
-+		host1x_opcode_release_mlock(1));
- 
-+prefences_done:
- 	/* Enter engine class with invalid stream ID. */
- 	host1x_cdma_push_wide(cdma,
- 		host1x_opcode_acquire_mlock(job->class),
-@@ -230,11 +255,12 @@ static void channel_program_cdma(struct host1x_job *job)
- 		host1x_opcode_nonincr(HOST1X_UCLASS_INCR_SYNCPT, 1),
- 		HOST1X_UCLASS_INCR_SYNCPT_INDX_F(job->syncpt->id) |
- 			HOST1X_UCLASS_INCR_SYNCPT_COND_F(4));
--	submit_wait(job, job->syncpt->id, fence, job->class);
-+	submit_wait(job, job->syncpt->id, fence);
-+	submit_setclass(job, job->class);
- 
- 	/* Submit work. */
- 	job->syncpt_end = host1x_syncpt_incr_max(sp, job->syncpt_incrs);
--	submit_gathers(job, job->syncpt_end - job->syncpt_incrs);
-+	submit_gathers(job, job->cmds + i, job->num_cmds - i, job->syncpt_end - job->syncpt_incrs);
- 
- 	/* Before releasing MLOCK, ensure engine is idle again. */
- 	fence = host1x_syncpt_incr_max(sp, 1);
-@@ -242,7 +268,7 @@ static void channel_program_cdma(struct host1x_job *job)
- 		host1x_opcode_nonincr(HOST1X_UCLASS_INCR_SYNCPT, 1),
- 		HOST1X_UCLASS_INCR_SYNCPT_INDX_F(job->syncpt->id) |
- 			HOST1X_UCLASS_INCR_SYNCPT_COND_F(4));
--	submit_wait(job, job->syncpt->id, fence, job->class);
-+	submit_wait(job, job->syncpt->id, fence);
- 
- 	/* Release MLOCK. */
- 	host1x_cdma_push(cdma,
-@@ -272,7 +298,7 @@ static void channel_program_cdma(struct host1x_job *job)
- 
- 	job->syncpt_end = host1x_syncpt_incr_max(sp, job->syncpt_incrs);
- 
--	submit_gathers(job, job->syncpt_end - job->syncpt_incrs);
-+	submit_gathers(job, job->cmds, job->num_cmds, job->syncpt_end - job->syncpt_incrs);
- #endif
- }
- 
-
----
-base-commit: 2aeda9592360c200085898a258c4754bfe879921
-change-id: 20250708-host1x-wait-prefences-outside-mlock-bfd6022b9d92
+> --
+> =C2=A01 file changed, 20 insertions(+), 28 deletions(-)
+>=20
+> diff --git a/drivers/gpu/drm/scheduler/sched_main.c
+> b/drivers/gpu/drm/scheduler/sched_main.c
+> index 2335df4de2b8..9212ebae7476 100644
+> --- a/drivers/gpu/drm/scheduler/sched_main.c
+> +++ b/drivers/gpu/drm/scheduler/sched_main.c
+> @@ -263,38 +263,14 @@ drm_sched_rq_select_entity_rr(struct
+> drm_gpu_scheduler *sched,
+> =C2=A0	entity =3D rq->current_entity;
+> =C2=A0	if (entity) {
+> =C2=A0		list_for_each_entry_continue(entity, &rq->entities,
+> list) {
+> -			if (drm_sched_entity_is_ready(entity)) {
+> -				/* If we can't queue yet, preserve
+> the current
+> -				 * entity in terms of fairness.
+> -				 */
+> -				if (!drm_sched_can_queue(sched,
+> entity)) {
+> -					spin_unlock(&rq->lock);
+> -					return ERR_PTR(-ENOSPC);
+> -				}
+> -
+> -				rq->current_entity =3D entity;
+> -				reinit_completion(&entity-
+> >entity_idle);
+> -				spin_unlock(&rq->lock);
+> -				return entity;
+> -			}
+> +			if (drm_sched_entity_is_ready(entity))
+> +				goto found;
+> =C2=A0		}
+> =C2=A0	}
+> =C2=A0
+> =C2=A0	list_for_each_entry(entity, &rq->entities, list) {
+> -		if (drm_sched_entity_is_ready(entity)) {
+> -			/* If we can't queue yet, preserve the
+> current entity in
+> -			 * terms of fairness.
+> -			 */
+> -			if (!drm_sched_can_queue(sched, entity)) {
+> -				spin_unlock(&rq->lock);
+> -				return ERR_PTR(-ENOSPC);
+> -			}
+> -
+> -			rq->current_entity =3D entity;
+> -			reinit_completion(&entity->entity_idle);
+> -			spin_unlock(&rq->lock);
+> -			return entity;
+> -		}
+> +		if (drm_sched_entity_is_ready(entity))
+> +			goto found;
+> =C2=A0
+> =C2=A0		if (entity =3D=3D rq->current_entity)
+> =C2=A0			break;
+> @@ -303,6 +279,22 @@ drm_sched_rq_select_entity_rr(struct
+> drm_gpu_scheduler *sched,
+> =C2=A0	spin_unlock(&rq->lock);
+> =C2=A0
+> =C2=A0	return NULL;
+> +
+> +found:
+> +	if (!drm_sched_can_queue(sched, entity)) {
+> +		/*
+> +		 * If scheduler cannot take more jobs signal the
+> caller to not
+> +		 * consider lower priority queues.
+> +		 */
+> +		entity =3D ERR_PTR(-ENOSPC);
+> +	} else {
+> +		rq->current_entity =3D entity;
+> +		reinit_completion(&entity->entity_idle);
+> +	}
+> +
+> +	spin_unlock(&rq->lock);
+> +
+> +	return entity;
+> =C2=A0}
+> =C2=A0
+> =C2=A0/**
 
