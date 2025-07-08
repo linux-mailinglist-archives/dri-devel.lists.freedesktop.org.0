@@ -2,41 +2,41 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id D23B1AFCF17
-	for <lists+dri-devel@lfdr.de>; Tue,  8 Jul 2025 17:25:44 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8B262AFCF18
+	for <lists+dri-devel@lfdr.de>; Tue,  8 Jul 2025 17:25:46 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id DC7EE10E693;
-	Tue,  8 Jul 2025 15:25:41 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id CEA5410E694;
+	Tue,  8 Jul 2025 15:25:44 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=bootlin.com header.i=@bootlin.com header.b="QZeV6BBe";
+	dkim=pass (2048-bit key; unprotected) header.d=bootlin.com header.i=@bootlin.com header.b="lUSpOW2/";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from relay4-d.mail.gandi.net (relay4-d.mail.gandi.net
  [217.70.183.196])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1CE6E10E688
- for <dri-devel@lists.freedesktop.org>; Tue,  8 Jul 2025 15:25:39 +0000 (UTC)
-Received: by mail.gandi.net (Postfix) with ESMTPSA id AEE91443E4;
- Tue,  8 Jul 2025 15:25:37 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8A71F10E688
+ for <dri-devel@lists.freedesktop.org>; Tue,  8 Jul 2025 15:25:41 +0000 (UTC)
+Received: by mail.gandi.net (Postfix) with ESMTPSA id 143DC443F2;
+ Tue,  8 Jul 2025 15:25:38 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
- t=1751988338;
+ t=1751988340;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=xdiALbMjSC98BQrOYTgMnjsehTN/QLAP4GL7RBITAns=;
- b=QZeV6BBeqkeibFaCyYZoUTZYydxY55aEg9fjreHnmqR/ey1qV5uSq5qeAP7ZIAMiNKS31q
- IhtzUrcG89Olm4XAaGV/d54wTwZc11mpCB7IQYlT/itEmuMshaLw1aD/aRP5/TAwfu1N6R
- b0cQNGqNsWoZG/nXJxDrYmLL4S3KFAoJK1rkmaplFstUY2NTktLlOfDUNfrirf8tLFlRPk
- 9XqywYBDauGi2GIc8if6F+V6s8Zu5W3sslToUMBa2CZIvvgWgtCep7ETmzkcwBck2fk96O
- F58dwC3uAXOt6ejjsyIh31xNWQwEbsy9YtF7f0Ty57LGbjI3KA8/xwBrYY9s7g==
+ bh=ctNrY6FQpoYSV7We6CT70dZdimTwCYy+eflvJWtBnks=;
+ b=lUSpOW2/MCRwNf7eYoAJ+GQOwDwJ0uR0VIrzfcAqb/elXAv3HKZWnyaXZh4sGDi9S+RZZB
+ bMXRhhf4nMTPozRLcpVh2gk4S17UPuqbWNwX1FnWFge+cNsubudwsBTni+qMxrByCHd5px
+ UoNhCK8j8tEc3FrtUYh6t4CFqkXXBalLQ7GFvyd1l09bc8iATtn+6d0bFpMBJPasu+2HLh
+ qD//hPbaCotLUmK+F8DU2shQkGlUe+L+XwL5yGEKuvbTK2QKtwg5MeIpW31abaOhz/SovB
+ dYK6/wNYoAn0HIUwm6pBFV4CpTui/FPOPLV1+lGwtFGL3e93v5TQKhLsHJE+vw==
 From: Luca Ceresoli <luca.ceresoli@bootlin.com>
-Date: Tue, 08 Jul 2025 17:24:42 +0200
-Subject: [PATCH 1/2] drm/sti: hdmi: convert to devm_drm_bridge_alloc() API
+Date: Tue, 08 Jul 2025 17:24:43 +0200
+Subject: [PATCH 2/2] drm/sti: hda: convert to devm_drm_bridge_alloc() API
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20250708-drm-bridge-convert-to-alloc-api-leftovers-v1-1-6285de8c3759@bootlin.com>
+Message-Id: <20250708-drm-bridge-convert-to-alloc-api-leftovers-v1-2-6285de8c3759@bootlin.com>
 References: <20250708-drm-bridge-convert-to-alloc-api-leftovers-v1-0-6285de8c3759@bootlin.com>
 In-Reply-To: <20250708-drm-bridge-convert-to-alloc-api-leftovers-v1-0-6285de8c3759@bootlin.com>
 To: Alain Volmat <alain.volmat@foss.st.com>, 
@@ -90,109 +90,96 @@ Closes: https://lore.kernel.org/all/ce9c6aa3-5372-468f-a4bf-5a261259e459@samsung
 Fixes: a7748dd127ea ("drm/bridge: get/put the bridge reference in drm_bridge_add/remove()")
 Signed-off-by: Luca Ceresoli <luca.ceresoli@bootlin.com>
 ---
- drivers/gpu/drm/sti/sti_hdmi.c | 26 ++++++++++++--------------
- drivers/gpu/drm/sti/sti_hdmi.h |  2 ++
- 2 files changed, 14 insertions(+), 14 deletions(-)
+ drivers/gpu/drm/sti/sti_hda.c | 27 +++++++++++++--------------
+ 1 file changed, 13 insertions(+), 14 deletions(-)
 
-diff --git a/drivers/gpu/drm/sti/sti_hdmi.c b/drivers/gpu/drm/sti/sti_hdmi.c
-index 37b8d619066ef14a2def26e2e4f90a9c2194238d..4e7c3d78b2b971f8083deae96f3967b44a6499cb 100644
---- a/drivers/gpu/drm/sti/sti_hdmi.c
-+++ b/drivers/gpu/drm/sti/sti_hdmi.c
-@@ -168,6 +168,11 @@ struct sti_hdmi_connector {
- #define to_sti_hdmi_connector(x) \
- 	container_of(x, struct sti_hdmi_connector, drm_connector)
+diff --git a/drivers/gpu/drm/sti/sti_hda.c b/drivers/gpu/drm/sti/sti_hda.c
+index d202b6c1eb8f6032fef547c9f00ca9cd2a914520..2c015f563de96ae58959801493ead870c49f70e5 100644
+--- a/drivers/gpu/drm/sti/sti_hda.c
++++ b/drivers/gpu/drm/sti/sti_hda.c
+@@ -246,6 +246,7 @@ struct sti_hda {
+ 	struct device dev;
+ 	struct drm_device *drm_dev;
+ 	struct drm_display_mode mode;
++	struct drm_bridge bridge;
+ 	void __iomem *regs;
+ 	void __iomem *video_dacs_ctrl;
+ 	struct clk *clk_pix;
+@@ -262,6 +263,11 @@ struct sti_hda_connector {
+ #define to_sti_hda_connector(x) \
+ 	container_of(x, struct sti_hda_connector, drm_connector)
  
-+static struct sti_hdmi *drm_bridge_to_sti_hdmi(struct drm_bridge *bridge)
++static struct sti_hda *drm_bridge_to_sti_hda(struct drm_bridge *bridge)
 +{
-+	return container_of(bridge, struct sti_hdmi, bridge);
++	return container_of(bridge, struct sti_hda, bridge);
 +}
 +
- static const struct drm_prop_enum_list colorspace_mode_names[] = {
- 	{ HDMI_COLORSPACE_RGB, "rgb" },
- 	{ HDMI_COLORSPACE_YUV422, "yuv422" },
-@@ -749,7 +754,7 @@ static void hdmi_debugfs_init(struct sti_hdmi *hdmi, struct drm_minor *minor)
- 
- static void sti_hdmi_disable(struct drm_bridge *bridge)
+ static u32 hda_read(struct sti_hda *hda, int offset)
  {
--	struct sti_hdmi *hdmi = bridge->driver_private;
-+	struct sti_hdmi *hdmi = drm_bridge_to_sti_hdmi(bridge);
+ 	return readl(hda->regs + offset);
+@@ -401,7 +407,7 @@ static void sti_hda_configure_awg(struct sti_hda *hda, u32 *awg_instr, int nb)
  
- 	u32 val = hdmi_read(hdmi, HDMI_CFG);
- 
-@@ -881,7 +886,7 @@ static int hdmi_audio_configure(struct sti_hdmi *hdmi)
- 
- static void sti_hdmi_pre_enable(struct drm_bridge *bridge)
+ static void sti_hda_disable(struct drm_bridge *bridge)
  {
--	struct sti_hdmi *hdmi = bridge->driver_private;
-+	struct sti_hdmi *hdmi = drm_bridge_to_sti_hdmi(bridge);
+-	struct sti_hda *hda = bridge->driver_private;
++	struct sti_hda *hda = drm_bridge_to_sti_hda(bridge);
+ 	u32 val;
  
- 	DRM_DEBUG_DRIVER("\n");
+ 	if (!hda->enabled)
+@@ -426,7 +432,7 @@ static void sti_hda_disable(struct drm_bridge *bridge)
  
-@@ -936,7 +941,7 @@ static void sti_hdmi_set_mode(struct drm_bridge *bridge,
- 			      const struct drm_display_mode *mode,
- 			      const struct drm_display_mode *adjusted_mode)
+ static void sti_hda_pre_enable(struct drm_bridge *bridge)
  {
--	struct sti_hdmi *hdmi = bridge->driver_private;
-+	struct sti_hdmi *hdmi = drm_bridge_to_sti_hdmi(bridge);
+-	struct sti_hda *hda = bridge->driver_private;
++	struct sti_hda *hda = drm_bridge_to_sti_hda(bridge);
+ 	u32 val, i, mode_idx;
+ 	u32 src_filter_y, src_filter_c;
+ 	u32 *coef_y, *coef_c;
+@@ -517,7 +523,7 @@ static void sti_hda_set_mode(struct drm_bridge *bridge,
+ 			     const struct drm_display_mode *mode,
+ 			     const struct drm_display_mode *adjusted_mode)
+ {
+-	struct sti_hda *hda = bridge->driver_private;
++	struct sti_hda *hda = drm_bridge_to_sti_hda(bridge);
+ 	u32 mode_idx;
+ 	int hddac_rate;
  	int ret;
- 
- 	DRM_DEBUG_DRIVER("\n");
-@@ -1273,7 +1278,6 @@ static int sti_hdmi_bind(struct device *dev, struct device *master, void *data)
- 	struct sti_hdmi_connector *connector;
- 	struct cec_connector_info conn_info;
+@@ -677,7 +683,6 @@ static int sti_hda_bind(struct device *dev, struct device *master, void *data)
+ 	struct drm_encoder *encoder;
+ 	struct sti_hda_connector *connector;
  	struct drm_connector *drm_connector;
 -	struct drm_bridge *bridge;
  	int err;
  
  	/* Set the drm device handle */
-@@ -1289,13 +1293,7 @@ static int sti_hdmi_bind(struct device *dev, struct device *master, void *data)
+@@ -693,13 +698,7 @@ static int sti_hda_bind(struct device *dev, struct device *master, void *data)
  
- 	connector->hdmi = hdmi;
+ 	connector->hda = hda;
  
 -	bridge = devm_kzalloc(dev, sizeof(*bridge), GFP_KERNEL);
 -	if (!bridge)
--		return -EINVAL;
+-		return -ENOMEM;
 -
--	bridge->driver_private = hdmi;
--	bridge->funcs = &sti_hdmi_bridge_funcs;
+-	bridge->driver_private = hda;
+-	bridge->funcs = &sti_hda_bridge_funcs;
 -	drm_bridge_attach(encoder, bridge, NULL, 0);
-+	drm_bridge_attach(encoder, &hdmi->bridge, NULL, 0);
++	drm_bridge_attach(encoder, &hda->bridge, NULL, 0);
  
  	connector->encoder = encoder;
  
-@@ -1385,9 +1383,9 @@ static int sti_hdmi_probe(struct platform_device *pdev)
+@@ -745,9 +744,9 @@ static int sti_hda_probe(struct platform_device *pdev)
  
  	DRM_INFO("%s\n", __func__);
  
--	hdmi = devm_kzalloc(dev, sizeof(*hdmi), GFP_KERNEL);
--	if (!hdmi)
+-	hda = devm_kzalloc(dev, sizeof(*hda), GFP_KERNEL);
+-	if (!hda)
 -		return -ENOMEM;
-+	hdmi = devm_drm_bridge_alloc(dev, struct sti_hdmi, bridge, &sti_hdmi_bridge_funcs);
-+	if (IS_ERR(hdmi))
-+		return PTR_ERR(hdmi);
++	hda = devm_drm_bridge_alloc(dev, struct sti_hda, bridge, &sti_hda_bridge_funcs);
++	if (IS_ERR(hda))
++		return PTR_ERR(hda);
  
- 	ddc = of_parse_phandle(pdev->dev.of_node, "ddc", 0);
- 	if (ddc) {
-diff --git a/drivers/gpu/drm/sti/sti_hdmi.h b/drivers/gpu/drm/sti/sti_hdmi.h
-index 6d4c3f57bc46ea7d685682e6635840aaedd94fba..91d43dd46f1393ff182ee19804140897f216a260 100644
---- a/drivers/gpu/drm/sti/sti_hdmi.h
-+++ b/drivers/gpu/drm/sti/sti_hdmi.h
-@@ -12,6 +12,7 @@
- 
- #include <media/cec-notifier.h>
- 
-+#include <drm/drm_bridge.h>
- #include <drm/drm_modes.h>
- #include <drm/drm_property.h>
- 
-@@ -86,6 +87,7 @@ struct sti_hdmi {
- 	struct hdmi_audio_params audio;
- 	struct drm_connector *drm_connector;
- 	struct cec_notifier *notifier;
-+	struct drm_bridge bridge;
- };
- 
- u32 hdmi_read(struct sti_hdmi *hdmi, int offset);
+ 	hda->dev = pdev->dev;
+ 	hda->regs = devm_platform_ioremap_resource_byname(pdev, "hda-reg");
 
 -- 
 2.50.0
