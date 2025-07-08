@@ -2,92 +2,134 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8948CAFC461
-	for <lists+dri-devel@lfdr.de>; Tue,  8 Jul 2025 09:41:54 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 46A82AFC492
+	for <lists+dri-devel@lfdr.de>; Tue,  8 Jul 2025 09:51:31 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C069210E5AF;
-	Tue,  8 Jul 2025 07:41:51 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8862410E5B2;
+	Tue,  8 Jul 2025 07:51:28 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; secure) header.d=ffwll.ch header.i=@ffwll.ch header.b="OLQ0AFKl";
+	dkim=pass (1024-bit key; unprotected) header.d=amd.com header.i=@amd.com header.b="ogo79nKS";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-f53.google.com (mail-wm1-f53.google.com
- [209.85.128.53])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 70C0510E5AF
- for <dri-devel@lists.freedesktop.org>; Tue,  8 Jul 2025 07:41:50 +0000 (UTC)
-Received: by mail-wm1-f53.google.com with SMTP id
- 5b1f17b1804b1-451d7b50815so32504755e9.2
- for <dri-devel@lists.freedesktop.org>; Tue, 08 Jul 2025 00:41:50 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=ffwll.ch; s=google; t=1751960509; x=1752565309; darn=lists.freedesktop.org; 
- h=in-reply-to:content-transfer-encoding:content-disposition
- :mime-version:references:message-id:subject:cc:to:from:date:from:to
- :cc:subject:date:message-id:reply-to;
- bh=nLXLpWrN0RrjvzjS9bZYXIrunV11kVzsxvUhFkoafL4=;
- b=OLQ0AFKlF5YmoYTl5dUXJTp0ORF9I5aEMJp3VBZy8kQZNwdDP0HDU6zQoy9FBVLBSg
- NNeItHWp5hL4cIky2CqyTliko1o8oOLyBhwdtaJgJl4xomXNFNBrOUwVLUX3GCQ3fkSl
- WAVtDT3QSGHX4clwxUz+I1KsozUg6skPW2kSs=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1751960509; x=1752565309;
- h=in-reply-to:content-transfer-encoding:content-disposition
- :mime-version:references:message-id:subject:cc:to:from:date
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=nLXLpWrN0RrjvzjS9bZYXIrunV11kVzsxvUhFkoafL4=;
- b=vK1evU2WIOrD97+YWXH4VO8u33fHSJ3xIjXiws8zJ0C+BOM38Oz+HlaYogkM2zj2D5
- eYZpR41PyNxr0aGFVATT8dOZHPrUTzc5bNAKq0a3ZXoD3/WlxSsCOXGh6qdt5cCIr/ZV
- a0FpYkTzZ5qPfKrwVuh4wPhhQohWj+TEmH0XwMy4ZXLyer6P1SezHRGZrvOzIU7N2eka
- UiLyE+cceUX3VrZy4ku7yAFM6Jjw3QMs9o/tggJ/gxOPvMKU18iRinwFhANNPc0ObnGG
- EypgaLSB6GsJaCDn2BX2ZCBkmBG29onUp6Nt5dSBsttUXwwirNYC1NK5aM5Q8/Z4mU0O
- vIwA==
-X-Forwarded-Encrypted: i=1;
- AJvYcCWXR5mc4YRImrJ9AOoKC7CXYexE2v6h4hRBvtlrIKuuGEdl6AmORE5Yydwfv9f6vDgIO0MK2gG1SnY=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0Yz8qM9iDpSaQwMg8CsLJ1yrsN5C8uAsEGnqHLJ7tf2faLPmHwvm
- RzkZ600NxkHgfiXdmvXfTvFy9dxyNuRdJi1Y3g7Y1kdNgDAIyjCIKXGZspm56cmYLsA=
-X-Gm-Gg: ASbGncvSBiszMTrlJmgRBVqZ7Hf5VXktwp/liYOecqYxY9iN8K2B38pdOWHrQCuw/Jq
- tc+kFDGScJVEb6ZP/6iOMxPO5x4X6rIJe56x9la3CpQYsnxaHNbu8p7uY1P6LVgYz3sTZGOeM1h
- 7cfisvikrwnJn5K6Ofarim+QE4CjuSBr2GhMcEnfN7oIBKJDpkK3JD9fUHsnxhKZgpboGYMdC+U
- GWlyGuad4Bb9xHvL0UoZPv4tIUr6r23tlq1ll0B6OVKimBghzB8Ru26HyrpSRP6dOy9X4W6lMuk
- LFxM4K5NRGTXFSK69GulCGoTY3A7UJD5rt1UG6gQpqQEL3kiKdsB4AyK7RyGjKoo/vra3lgkOw=
- =
-X-Google-Smtp-Source: AGHT+IFDYYh+YQVkLMo6VtvD9z1aU3v2ebhZ3f3RUOuyw4wPvIZHoVbSHZ7xWZtnTf0OIsFwsLRcQQ==
-X-Received: by 2002:a05:600c:a3a5:b0:453:5a04:b60e with SMTP id
- 5b1f17b1804b1-454b3ab9b26mr100685635e9.26.1751960508889; 
- Tue, 08 Jul 2025 00:41:48 -0700 (PDT)
-Received: from phenom.ffwll.local ([2a02:168:57f4:0:5485:d4b2:c087:b497])
- by smtp.gmail.com with ESMTPSA id
- ffacd0b85a97d-3b4708d0ae0sm12458327f8f.33.2025.07.08.00.41.47
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 08 Jul 2025 00:41:48 -0700 (PDT)
-Date: Tue, 8 Jul 2025 09:41:46 +0200
-From: Simona Vetter <simona.vetter@ffwll.ch>
-To: =?iso-8859-1?Q?Ma=EDra?= Canal <mcanal@igalia.com>
-Cc: Matthew Brost <matthew.brost@intel.com>,
- Danilo Krummrich <dakr@kernel.org>, Philipp Stanner <phasta@kernel.org>,
- Christian =?iso-8859-1?Q?K=F6nig?= <ckoenig.leichtzumerken@gmail.com>,
- Tvrtko Ursulin <tvrtko.ursulin@igalia.com>,
- Simona Vetter <simona@ffwll.ch>, David Airlie <airlied@gmail.com>,
- Melissa Wen <mwen@igalia.com>, Lucas Stach <l.stach@pengutronix.de>,
- Russell King <linux+etnaviv@armlinux.org.uk>,
- Christian Gmeiner <christian.gmeiner@gmail.com>,
- Lucas De Marchi <lucas.demarchi@intel.com>,
- Thomas =?iso-8859-1?Q?Hellstr=F6m?= <thomas.hellstrom@linux.intel.com>,
- Rodrigo Vivi <rodrigo.vivi@intel.com>,
- Boris Brezillon <boris.brezillon@collabora.com>,
- Rob Herring <robh@kernel.org>, Steven Price <steven.price@arm.com>,
- Liviu Dudau <liviu.dudau@arm.com>, kernel-dev@igalia.com,
- dri-devel@lists.freedesktop.org, etnaviv@lists.freedesktop.org,
- intel-xe@lists.freedesktop.org
-Subject: Re: [PATCH v4 3/8] drm/sched: Make timeout KUnit tests faster
-Message-ID: <aGzLujIwHJNIHRs8@phenom.ffwll.local>
-References: <20250707-sched-skip-reset-v4-0-036c0f0f584f@igalia.com>
- <20250707-sched-skip-reset-v4-3-036c0f0f584f@igalia.com>
+Received: from NAM12-BN8-obe.outbound.protection.outlook.com
+ (mail-bn8nam12on2055.outbound.protection.outlook.com [40.107.237.55])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1846F10E5B1;
+ Tue,  8 Jul 2025 07:51:28 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=ykgNNKZC/U3NoMvZ6CXndxLAVXz9H+5uJcNQGrBY0o7JBtdyJ2bly6bHEcFKPfetf+xoT5xAY8tDQn16dw+eNFdDsMrAOYBlBvPs5b0GBvBTpnjuQkpveyuqEHPuLIvOIYhisY7JosKPLeN5tQOnKbg9GYghLkEGRhU7ICgqzMlp5I3NlkrFIm+E6BQSrljPMEKCjDbzJba59+ldbtN2iQMFibTKX7ZvW79w3MjxhXUTM/GALWMWF2AUkbbIsPdRWwsk4+xWpVTwaf0qHaxRCncqYBSHP7Ck/InurhteENnapz2pZE7fZXVVEsyV+5D5vHEVFmYXjzVyiX6286VR8w==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=kk+d4hzbuJe50USVOvuui9ITaszWmMDnIMDzEfYFToo=;
+ b=iS8dUwwGyM/BRyoRkooKgg99x5C8Nr3xq1aiaH4iiE0wD3RFNcVWvqN0yuUCg5S3+0aP7UHsHQs91wUlalxSPTYu2JE9C5EX2I+InqA+cmTXHiX14FPH4LcQmo9x53xAceD+dQov+NuowWwlEPijYhnjLHqNTuOMzxy+s9KSH4Gcb5S6In56wc3+vYYGPzAodJfsTGOFbhY4aa4ZTBMWWSLrCGk3rSAMzy75eRanwkT/5b7bqaE+/h15tTN/OYz+ppPs8kANCO8VUY8YusNBoLAo43veFvRB7PHNmwxxv5jF54kPrYypgaoU8Tt/dRNvC9v9TdfyF+moyDdtbpizvA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
+ 165.204.84.17) smtp.rcpttodomain=kernel.org smtp.mailfrom=amd.com; dmarc=pass
+ (p=quarantine sp=quarantine pct=100) action=none header.from=amd.com;
+ dkim=none (message not signed); arc=none (0)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=kk+d4hzbuJe50USVOvuui9ITaszWmMDnIMDzEfYFToo=;
+ b=ogo79nKS+FWk8QSezFDnW/2qXIXBUyrLlNSOXSANvDGbbP5d7Dy7KQhsqGi6gPYzqoiiq3ebORUz2/U4NtHriYTu+5mxjFWuveLo65GGGlLwYsuryFae5MXU3lOsi7DmKS7nb2SClnMJSqDnu+HVT5eiQd+pef0jFS7kPuHs91o=
+Received: from MW4PR04CA0150.namprd04.prod.outlook.com (2603:10b6:303:84::35)
+ by MN2PR12MB4373.namprd12.prod.outlook.com (2603:10b6:208:261::8)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8901.23; Tue, 8 Jul
+ 2025 07:51:24 +0000
+Received: from BY1PEPF0001AE19.namprd04.prod.outlook.com
+ (2603:10b6:303:84:cafe::e3) by MW4PR04CA0150.outlook.office365.com
+ (2603:10b6:303:84::35) with Microsoft SMTP Server (version=TLS1_3,
+ cipher=TLS_AES_256_GCM_SHA384) id 15.20.8901.27 via Frontend Transport; Tue,
+ 8 Jul 2025 07:51:23 +0000
+X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 165.204.84.17)
+ smtp.mailfrom=amd.com; dkim=none (message not signed)
+ header.d=none;dmarc=pass action=none header.from=amd.com;
+Received-SPF: Pass (protection.outlook.com: domain of amd.com designates
+ 165.204.84.17 as permitted sender) receiver=protection.outlook.com;
+ client-ip=165.204.84.17; helo=SATLEXMB03.amd.com; pr=C
+Received: from SATLEXMB03.amd.com (165.204.84.17) by
+ BY1PEPF0001AE19.mail.protection.outlook.com (10.167.242.101) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.20.8901.20 via Frontend Transport; Tue, 8 Jul 2025 07:51:23 +0000
+Received: from SATLEXMB06.amd.com (10.181.40.147) by SATLEXMB03.amd.com
+ (10.181.40.144) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.39; Tue, 8 Jul
+ 2025 02:51:22 -0500
+Received: from SATLEXMB04.amd.com (10.181.40.145) by SATLEXMB06.amd.com
+ (10.181.40.147) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.39; Tue, 8 Jul
+ 2025 02:51:22 -0500
+Received: from hjbog-srdc-41.amd.com (10.180.168.240) by SATLEXMB04.amd.com
+ (10.181.40.145) with Microsoft SMTP Server id 15.1.2507.39 via Frontend
+ Transport; Tue, 8 Jul 2025 02:51:17 -0500
+From: Samuel Zhang <guoqing.zhang@amd.com>
+To: <alexander.deucher@amd.com>, <christian.koenig@amd.com>,
+ <rafael@kernel.org>, <len.brown@intel.com>, <pavel@kernel.org>,
+ <gregkh@linuxfoundation.org>, <dakr@kernel.org>, <airlied@gmail.com>,
+ <simona@ffwll.ch>, <ray.huang@amd.com>, <matthew.auld@intel.com>,
+ <matthew.brost@intel.com>, <maarten.lankhorst@linux.intel.com>,
+ <mripard@kernel.org>, <tzimmermann@suse.de>
+CC: <mario.limonciello@amd.com>, <lijo.lazar@amd.com>, <victor.zhao@amd.com>, 
+ <haijun.chang@amd.com>, <Qing.Ma@amd.com>, <Owen.Zhang2@amd.com>,
+ <linux-pm@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
+ <amd-gfx@lists.freedesktop.org>, <dri-devel@lists.freedesktop.org>, "Samuel
+ Zhang" <guoqing.zhang@amd.com>
+Subject: [PATCH v3 0/5] reduce system memory requirement for hibernation
+Date: Tue, 8 Jul 2025 15:42:43 +0800
+Message-ID: <20250708074248.1674924-1-guoqing.zhang@amd.com>
+X-Mailer: git-send-email 2.43.5
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <20250707-sched-skip-reset-v4-3-036c0f0f584f@igalia.com>
-X-Operating-System: Linux phenom 6.12.30-amd64 
+Content-Type: text/plain
+X-EOPAttributedMessage: 0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: BY1PEPF0001AE19:EE_|MN2PR12MB4373:EE_
+X-MS-Office365-Filtering-Correlation-Id: ed8cbadb-082e-4c28-b66b-08ddbdf43c19
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+ ARA:13230040|82310400026|1800799024|36860700013|376014|7416014|921020; 
+X-Microsoft-Antispam-Message-Info: =?us-ascii?Q?x8X+flMea9yf6B7QMFHYsCTL6/pQDdJJFZgJWSJ7oVZ31YNjIUhjMwETk7Ep?=
+ =?us-ascii?Q?IYg2mapepu+oXSjqpQRKdPQVhPh2n9IKtb8af3G4BTzKlEGkYFuBMR213GLL?=
+ =?us-ascii?Q?y0qepjckwToItw9NuZLCoHzjjOgQ6levO3thu7WG3JgNLefA0Bj+5EZXdz7v?=
+ =?us-ascii?Q?J2s/nr4yx4uUlQEGHHSaHBo5ZKVArcSOxQCHXU6VDiDqOxs5uSiVyTM64vSX?=
+ =?us-ascii?Q?Fdog7HHZQItrkdB7lwQRxwmUfUOH0DXgpxz1CJabmtDkuYETlLWSPmldzqUV?=
+ =?us-ascii?Q?AdHyJ7I/qFgKG2LXDuxxLlLT1q0fKUZUyHx9my8HUrhlEDoJp7NCZEG0JrWG?=
+ =?us-ascii?Q?w8tMaVhzT+lzhb/ECsKiHj9wj7871ObfIHr7s42zpy3wFwSwSe5J6keVDHKE?=
+ =?us-ascii?Q?cEQY2ILxyBMZEnnwyL+mQMT96YoVpek/0wSOCp5XSV29uYDqLjhQJZmi30MX?=
+ =?us-ascii?Q?cisLOyLdKXYYkSYhGzhy/Hy91xwWxCL14ZJx5U6kr+CmH/p8ghME1nDDKaVq?=
+ =?us-ascii?Q?H7+Ml0QE5UBjf9Ob3D69BJsv4FDdCJQJKNzFYM02mJAsUxYRlX3ttkXMVfz0?=
+ =?us-ascii?Q?JNfFix6tN2kvnGlwrXf9h1bYeGQPpv82LlAS740UBKbVOUI5h2glEl9oGO0l?=
+ =?us-ascii?Q?kKnRc1mqinzIag0YJ+D89JQbXGPBOVVFtAx0Y2KMOX5g9/NShQMFHSGHYh2Z?=
+ =?us-ascii?Q?Ajn7vnU142UOCKkga0u6LKh5RF7/wGNJ/R3ml72Lx6ACmf1sTO3IJLCe8F9H?=
+ =?us-ascii?Q?7rJpqa9cfjfUMfV3m8HGEf110xzKDhrnINliOwYpqCUAXWCP8vVm7g9qCOUQ?=
+ =?us-ascii?Q?Ay28SyG/k/5tn9PbMpLPRtjrOZa1+ZLS9dNwNsAnbzPUnmPXz/gwV+Ib7/XD?=
+ =?us-ascii?Q?YNM+ifeQpFm0jJIfQG+rM7+WC1iU/xc7KIkWPFty3+KMtSbNPSWQctl6VuIq?=
+ =?us-ascii?Q?xlLqHJP4MYSmFE478UqgFbOG/RO7elZlDuWgxh73hzwggYUembI12bpWZKya?=
+ =?us-ascii?Q?T6dc+7Rf7eUFAjxuptDAD4RU4FWkGLI3C4lVeWRRK3TbK7BkYhikuydJH6gf?=
+ =?us-ascii?Q?TuBRX7HCAnGL2Ra9LLNzZXy6Fb1F8IPEp8B5wDpFh/ZwX5xpTqMpdWIFk6Cn?=
+ =?us-ascii?Q?FPETQ0/xq7eutRvnNSZpPP9mViShAUI1goTLOEcgLTc7Xtg0YQBe6p+s32/5?=
+ =?us-ascii?Q?bObh1Dxb72yKQVqmljKXPTspqmDE9hmovymztDUj1hBCcoJe0mZ0LYDDBdDc?=
+ =?us-ascii?Q?YMwhJSE5QaAEKas+STRTCthfu5oKkWB1B1i/vW8eTc95LwQru9kQfL+MT0Di?=
+ =?us-ascii?Q?EJHn9JTTLY075YLGeGirUZHHoo8EsZy/bv+jWSQtxH3vlfx13BuZbtGcnSsC?=
+ =?us-ascii?Q?LFJdVCRL8gcbO9BmSscvcmIKLvDpn3DFlfFRdhu5Naa0TfptGl/EVM3ToVYF?=
+ =?us-ascii?Q?cxAHnqV71SgSocnfTIwuYHbGmV5E+sdbBV+lByLgfAcm58Q51aePlpbhRCow?=
+ =?us-ascii?Q?odiaq62FU14NLrQih5xUPh7jpxsl8glsaTqJPCQC/YsaqwzlJcjtDc2obw?=
+ =?us-ascii?Q?=3D=3D?=
+X-Forefront-Antispam-Report: CIP:165.204.84.17; CTRY:US; LANG:en; SCL:1; SRV:;
+ IPV:CAL; SFV:NSPM; H:SATLEXMB03.amd.com; PTR:InfoDomainNonexistent; CAT:NONE;
+ SFS:(13230040)(82310400026)(1800799024)(36860700013)(376014)(7416014)(921020);
+ DIR:OUT; SFP:1101; 
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 08 Jul 2025 07:51:23.3123 (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: ed8cbadb-082e-4c28-b66b-08ddbdf43c19
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=3dd8961f-e488-4e60-8e11-a82d994e183d; Ip=[165.204.84.17];
+ Helo=[SATLEXMB03.amd.com]
+X-MS-Exchange-CrossTenant-AuthSource: BY1PEPF0001AE19.namprd04.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: MN2PR12MB4373
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -103,81 +145,58 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, Jul 07, 2025 at 11:46:32AM -0300, Maíra Canal wrote:
-> As more KUnit tests are introduced to evaluate the basic capabilities of
-> the `timedout_job()` hook, the test suite will continue to increase in
-> duration. To reduce the overall running time of the test suite, decrease
-> the scheduler's timeout for the timeout tests.
-> 
-> Before this commit:
-> 
-> [15:42:26] Elapsed time: 15.637s total, 0.002s configuring, 10.387s building, 5.229s running
-> 
-> After this commit:
-> 
-> [15:45:26] Elapsed time: 9.263s total, 0.002s configuring, 5.168s building, 4.037s running
-> 
-> Signed-off-by: Maíra Canal <mcanal@igalia.com>
-> Reviewed-by: Tvrtko Ursulin <tvrtko.ursulin@igalia.com>
-> Acked-by: Philipp Stanner <phasta@kernel.org>
-> ---
->  drivers/gpu/drm/scheduler/tests/tests_basic.c | 8 +++++---
->  1 file changed, 5 insertions(+), 3 deletions(-)
-> 
-> diff --git a/drivers/gpu/drm/scheduler/tests/tests_basic.c b/drivers/gpu/drm/scheduler/tests/tests_basic.c
-> index 7230057e0594c6246f02608f07fcb1f8d738ac75..41c648782f4548e202bd8711b45d28eead9bd0b2 100644
-> --- a/drivers/gpu/drm/scheduler/tests/tests_basic.c
-> +++ b/drivers/gpu/drm/scheduler/tests/tests_basic.c
-> @@ -5,6 +5,8 @@
->  
->  #include "sched_tests.h"
->  
-> +#define MOCK_TIMEOUT (HZ / 5)
+Modern data center dGPUs are usually equipped with very large VRAM. On
+server with such dGPUs(192GB VRAM * 8) and 2TB system memory, hibernate
+will fail due to no enough free memory.
 
-Eventually I think we want a test interface to immediately time out jobs
-by rescheduling their timer to immediately (and handling all the trickery
-of making sure it's scheduled first). That could also help with testcases
-that want to exercise specific timing.
+The root cause is that during hibernation all VRAM memory get evicted to
+GTT or shmem. In both case, it is in system memory and kernel will try to 
+copy the pages to hibernation image. In the worst case, this causes 2 
+copies of VRAM memory in system memory, 2TB is not enough for the 
+hibernation image. 192GB * 8 * 2 = 3TB > 2TB.
 
-But for now this seems good enough.
--Sima
+The fix includes following changes. With these changes, there's much less
+pages needed to be copied to hibernate image and hibernation can succeed.
+* patch 1 and 2: move GTT to shmem after evicting VRAM. so that the GTT 
+  pages can be freed.
+* patch 3: force write shmem pages to swap disk and free shmem pages.
 
-> +
->  /*
->   * DRM scheduler basic tests should check the basic functional correctness of
->   * the scheduler, including some very light smoke testing. More targeted tests,
-> @@ -28,7 +30,7 @@ static void drm_sched_basic_exit(struct kunit *test)
->  
->  static int drm_sched_timeout_init(struct kunit *test)
->  {
-> -	test->priv = drm_mock_sched_new(test, HZ);
-> +	test->priv = drm_mock_sched_new(test, MOCK_TIMEOUT);
->  
->  	return 0;
->  }
-> @@ -227,14 +229,14 @@ static void drm_sched_basic_timeout(struct kunit *test)
->  	done = drm_mock_sched_job_wait_scheduled(job, HZ);
->  	KUNIT_ASSERT_TRUE(test, done);
->  
-> -	done = drm_mock_sched_job_wait_finished(job, HZ / 2);
-> +	done = drm_mock_sched_job_wait_finished(job, MOCK_TIMEOUT / 2);
->  	KUNIT_ASSERT_FALSE(test, done);
->  
->  	KUNIT_ASSERT_EQ(test,
->  			job->flags & DRM_MOCK_SCHED_JOB_TIMEDOUT,
->  			0);
->  
-> -	done = drm_mock_sched_job_wait_finished(job, HZ);
-> +	done = drm_mock_sched_job_wait_finished(job, MOCK_TIMEOUT);
->  	KUNIT_ASSERT_FALSE(test, done);
->  
->  	KUNIT_ASSERT_EQ(test,
-> 
-> -- 
-> 2.50.0
-> 
+After swapout GTT to shmem in hibernation prepare stage, the GPU will be
+resumed again in thaw stage. The swapin and restore BOs of resume takes
+lots of time (50 mintues observed for 8 dGPUs). And it's unnecessary since
+writing hibernation image do not need GPU for hibernate successful case.
+* patch 4 and 5: skip resume of device in thaw stage for successful
+  hibernation case to reduce the hibernation time.
+
+v2:
+* split first patch to 2 patches, 1 for ttm, 1 for amdgpu
+* refined the new ttm api
+* add more comments for shrink_shmem_memory() and its callsite
+* export variable pm_transition in kernel
+* skip resume in thaw() for successful hibernation case
+v3:
+* refined ttm_device_prepare_hibernation() to accept device argument
+* use guard(mutex) to replace mutex_lock and mutex_unlock
+* move ttm_device_prepare_hibernation call to amdgpu_device_evict_resources()
+* add pm_transition_event(), instead of exporting pm_transition variable
+* refined amdgpu_pmops_thaw(), use switch-case for more clarity
+
+Samuel Zhang (5):
+1. drm/ttm: add ttm_device_prepare_hibernation() api
+2. drm/amdgpu: move GTT to shmem after eviction for hibernation
+3. PM: hibernate: shrink shmem pages after dev_pm_ops.prepare()
+4. PM: hibernate: add new api pm_transition_event()
+5. drm/amdgpu: do not resume device in thaw for normal hibernation
+
+ drivers/base/power/main.c                  |  5 +++++
+ drivers/gpu/drm/amd/amdgpu/amdgpu_device.c | 10 ++++++++-
+ drivers/gpu/drm/amd/amdgpu/amdgpu_drv.c    | 15 ++++++++++++-
+ drivers/gpu/drm/ttm/ttm_device.c           | 23 +++++++++++++++++++
+ include/drm/ttm/ttm_device.h               |  1 +
+ include/linux/pm.h                         | 16 +++++++++++++
+ kernel/power/hibernate.c                   | 26 ++++++++++++++++++++++
+ 7 files changed, 94 insertions(+), 2 deletions(-)
 
 -- 
-Simona Vetter
-Software Engineer, Intel Corporation
-http://blog.ffwll.ch
+2.43.5
+
