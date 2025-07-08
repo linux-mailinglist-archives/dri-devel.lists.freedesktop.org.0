@@ -2,42 +2,42 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id A9DCBAFCFA7
-	for <lists+dri-devel@lfdr.de>; Tue,  8 Jul 2025 17:49:09 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id DB31DAFCFA8
+	for <lists+dri-devel@lfdr.de>; Tue,  8 Jul 2025 17:49:10 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id EB4AF10E6A4;
-	Tue,  8 Jul 2025 15:49:07 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A02E410E6A6;
+	Tue,  8 Jul 2025 15:49:08 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=bootlin.com header.i=@bootlin.com header.b="ZWJ5CgL3";
+	dkim=pass (2048-bit key; unprotected) header.d=bootlin.com header.i=@bootlin.com header.b="BXSh7Znc";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from relay4-d.mail.gandi.net (relay4-d.mail.gandi.net
  [217.70.183.196])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D6FAF10E69E
- for <dri-devel@lists.freedesktop.org>; Tue,  8 Jul 2025 15:49:04 +0000 (UTC)
-Received: by mail.gandi.net (Postfix) with ESMTPSA id BA347443FE;
- Tue,  8 Jul 2025 15:49:01 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E488010E6A3
+ for <dri-devel@lists.freedesktop.org>; Tue,  8 Jul 2025 15:49:06 +0000 (UTC)
+Received: by mail.gandi.net (Postfix) with ESMTPSA id C8273443DB;
+ Tue,  8 Jul 2025 15:49:03 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
- t=1751989743;
+ t=1751989745;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=QzrCMMjmiwe9eE9IVUJli+lIpyyZBeUxNuauzmTsOYc=;
- b=ZWJ5CgL3ZKMkxnggS4VOYdocqmsYq+x8MK2VTJ9EdEA0munPnu1iM26+lzyc2ddBR/d6dk
- svF0nyc7+nE05KJqKz/5nFxF5l/EUo2UPjJ8d9vnv7rhNk5nisMj4i9pXKy0Oh7BUXVzhU
- yJyo0wXNr04e2uAfhLd4PKuWjZnhVOsNKESJzi1UCk6DPugZVFuZSwAWOV/SsWFEde7HrX
- hFBwqhFTYn1HUcCKX+8rXMEBteG0YYNvZlT1Pap0haGLVThvgTy5Ntcizjo4qy+vCq8i6r
- yynh+IitInSnRfG1XSS3ahVkqJvGGh4iDqSHlBp1erugH2+l5xp9fgVAbUvqhg==
+ bh=aMTC3QBYrvHq48KBEug8vTKLT7GUjwQuXIH7m4QRt9o=;
+ b=BXSh7ZncQLt1GPp5+9IWJMftTVyDqk+oHjMrg2Ul9NKZxOtveZ8gYlS/Bdas2RbSXlqxba
+ Lii5zQ9IE1YbOiEHO9dCkYbmg1KrEvsldh8BcNw0qLchDMbNdqeT+LBjpPDhko6FeGrRR2
+ lRUdvjoE6qE+j/NkBbhc+aoeJHLQ1YHxu6z1Ck3Ur+mBokDA9dhHSpV6NQdY8V9uOngix4
+ jJc2mNMysccVdwNh6cvDCaSZtXfl95j4jAI2FZFzIoO2k7xLyx59IbujMp1x7xhGyp0MVE
+ vimiYZN8HKvYw+BWnpDFze3iK+KfIfqTVjg84OXEEPbvJtqBLLimRRX4NgahAA==
 From: Luca Ceresoli <luca.ceresoli@bootlin.com>
-Date: Tue, 08 Jul 2025 17:48:21 +0200
-Subject: [PATCH v9 4/5] drm/atomic-helper: put the bridge returned by
+Date: Tue, 08 Jul 2025 17:48:22 +0200
+Subject: [PATCH v9 5/5] drm/probe-helper: put the bridge returned by
  drm_bridge_chain_get_first_bridge()
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20250708-drm-bridge-alloc-getput-drm_bridge_chain_get_first_bridge-v9-4-db1ba3df7f58@bootlin.com>
+Message-Id: <20250708-drm-bridge-alloc-getput-drm_bridge_chain_get_first_bridge-v9-5-db1ba3df7f58@bootlin.com>
 References: <20250708-drm-bridge-alloc-getput-drm_bridge_chain_get_first_bridge-v9-0-db1ba3df7f58@bootlin.com>
 In-Reply-To: <20250708-drm-bridge-alloc-getput-drm_bridge_chain_get_first_bridge-v9-0-db1ba3df7f58@bootlin.com>
 To: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
@@ -84,83 +84,23 @@ Reviewed-by: Maxime Ripard <mripard@kernel.org>
 Signed-off-by: Luca Ceresoli <luca.ceresoli@bootlin.com>
 ---
 
-Changes in v9:
-- Added R-by Maxime
-
-Changes in v8:
-- reworked after the changes in pre_enable/post_disable order:
-  f6ee26f58870 ("drm/atomic-helper: Refactor crtc & encoder-bridge op loops into separate functions")
-  d5bef6430c85 ("drm/atomic-helper: Separate out bridge pre_enable/post_disable from enable/disable")
-  c9b1150a68d9 ("drm/atomic-helper: Re-order bridge chain pre-enable and post-disable")
-- Removed R-by Maxime as the diff is not identical, even though it is in
-  principle the same (there are 2 new drm_bridge_chain_get_first_bridge
-  calls, thus added the corresponding drm_bridge_put calls)
-
 This patch was added in v7.
 ---
- drivers/gpu/drm/drm_atomic_helper.c | 7 +++++++
- 1 file changed, 7 insertions(+)
+ drivers/gpu/drm/drm_probe_helper.c | 1 +
+ 1 file changed, 1 insertion(+)
 
-diff --git a/drivers/gpu/drm/drm_atomic_helper.c b/drivers/gpu/drm/drm_atomic_helper.c
-index ef56b474acf599bb9cd341674dc83b04ae247eb7..d5ebe6ea0acbc5a08aef7fa41ecb9ed5d8fa8e80 100644
---- a/drivers/gpu/drm/drm_atomic_helper.c
-+++ b/drivers/gpu/drm/drm_atomic_helper.c
-@@ -456,6 +456,7 @@ mode_fixup(struct drm_atomic_state *state)
- 		ret = drm_atomic_bridge_chain_check(bridge,
- 						    new_crtc_state,
- 						    new_conn_state);
+diff --git a/drivers/gpu/drm/drm_probe_helper.c b/drivers/gpu/drm/drm_probe_helper.c
+index 6b3541159c0ffdd6dc05b6a2324ec0de9d1c5474..09b12c30df69d44f099f119739b8d5d2f77907d5 100644
+--- a/drivers/gpu/drm/drm_probe_helper.c
++++ b/drivers/gpu/drm/drm_probe_helper.c
+@@ -119,6 +119,7 @@ drm_mode_validate_pipeline(struct drm_display_mode *mode,
+ 		*status = drm_bridge_chain_mode_valid(bridge,
+ 						      &connector->display_info,
+ 						      mode);
 +		drm_bridge_put(bridge);
- 		if (ret) {
- 			drm_dbg_atomic(encoder->dev, "Bridge atomic check failed\n");
- 			return ret;
-@@ -527,6 +528,7 @@ static enum drm_mode_status mode_valid_path(struct drm_connector *connector,
- 	bridge = drm_bridge_chain_get_first_bridge(encoder);
- 	ret = drm_bridge_chain_mode_valid(bridge, &connector->display_info,
- 					  mode);
-+	drm_bridge_put(bridge);
- 	if (ret != MODE_OK) {
- 		drm_dbg_atomic(encoder->dev, "[BRIDGE] mode_valid() failed\n");
- 		return ret;
-@@ -1212,6 +1214,7 @@ encoder_bridge_disable(struct drm_device *dev, struct drm_atomic_state *state)
- 		 */
- 		bridge = drm_bridge_chain_get_first_bridge(encoder);
- 		drm_atomic_bridge_chain_disable(bridge, state);
-+		drm_bridge_put(bridge);
- 
- 		/* Right function depends upon target state. */
- 		if (funcs) {
-@@ -1329,6 +1332,7 @@ encoder_bridge_post_disable(struct drm_device *dev, struct drm_atomic_state *sta
- 		 */
- 		bridge = drm_bridge_chain_get_first_bridge(encoder);
- 		drm_atomic_bridge_chain_post_disable(bridge, state);
-+		drm_bridge_put(bridge);
- 	}
- }
- 
-@@ -1501,6 +1505,7 @@ crtc_set_mode(struct drm_device *dev, struct drm_atomic_state *state)
- 
- 		bridge = drm_bridge_chain_get_first_bridge(encoder);
- 		drm_bridge_chain_mode_set(bridge, mode, adjusted_mode);
-+		drm_bridge_put(bridge);
- 	}
- }
- 
-@@ -1580,6 +1585,7 @@ encoder_bridge_pre_enable(struct drm_device *dev, struct drm_atomic_state *state
- 		 */
- 		bridge = drm_bridge_chain_get_first_bridge(encoder);
- 		drm_atomic_bridge_chain_pre_enable(bridge, state);
-+		drm_bridge_put(bridge);
- 	}
- }
- 
-@@ -1655,6 +1661,7 @@ encoder_bridge_enable(struct drm_device *dev, struct drm_atomic_state *state)
- 		}
- 
- 		drm_atomic_bridge_chain_enable(bridge, state);
-+		drm_bridge_put(bridge);
- 	}
- }
- 
+ 		if (*status != MODE_OK) {
+ 			/* There is also no point in continuing for crtc check
+ 			 * here. */
 
 -- 
 2.50.0
