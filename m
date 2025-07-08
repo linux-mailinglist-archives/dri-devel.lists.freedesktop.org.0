@@ -2,80 +2,99 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 43B7CAFCB44
-	for <lists+dri-devel@lfdr.de>; Tue,  8 Jul 2025 15:03:07 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id A8876AFCB59
+	for <lists+dri-devel@lfdr.de>; Tue,  8 Jul 2025 15:05:25 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 56F0410E633;
-	Tue,  8 Jul 2025 13:03:04 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0A76910E637;
+	Tue,  8 Jul 2025 13:05:24 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=igalia.com header.i=@igalia.com header.b="JdFEu7PE";
+	dkim=pass (2048-bit key; unprotected) header.d=quicinc.com header.i=@quicinc.com header.b="pXwuuMym";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from fanzine2.igalia.com (fanzine2.igalia.com [213.97.179.56])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 843CD10E633;
- Tue,  8 Jul 2025 13:03:03 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com; 
- s=20170329;
- h=Content-Transfer-Encoding:Content-Type:In-Reply-To:From:
- References:Cc:To:Subject:MIME-Version:Date:Message-ID:Sender:Reply-To:
- Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
- Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
- List-Subscribe:List-Post:List-Owner:List-Archive;
- bh=CyMyoOzxPeWjgAxgKPF6kohtSbJRtTIW2hnbquSOXqk=; b=JdFEu7PEjSL5zluijTDqwm7bFA
- KDlzpRB62hDf7FTri4sgFMFKZ9IAbPwIbYxurQtIBHxzwiWvg5jpYcdIw5ZV6JcMx18tCRGq54vWL
- K8zJscgwk4rVzcCcRm85O7NyKIaWwzFgKqUUD09LpuHl8Kw5Vc2NFrjxyc4gUZnr8kkxmIhhJFAzi
- WJdR3Rqn1sgRx4mr0s0c/UH5926jQuHMDLbdyLOnd/A/M7EZNEgwT9GQk9TkS5fSAvboLI2hv7Jv1
- nNXvHxy60BlEKNAApOnC74HQN94woOay2aU4owCh1Ue/GWN7kAGbHNIRnUnwCZRuHk+y1l+jvswqS
- DYPnZUTw==;
-Received: from [84.65.48.237] (helo=[192.168.0.101])
- by fanzine2.igalia.com with esmtpsa 
- (Cipher TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_128_GCM:128) (Exim)
- id 1uZ7xn-00E173-9x; Tue, 08 Jul 2025 15:02:23 +0200
-Message-ID: <b5d0921c-7cbf-4d55-aa47-c35cd7861c02@igalia.com>
-Date: Tue, 8 Jul 2025 14:02:20 +0100
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com
+ [205.220.168.131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0C8E210E637
+ for <dri-devel@lists.freedesktop.org>; Tue,  8 Jul 2025 13:05:23 +0000 (UTC)
+Received: from pps.filterd (m0279865.ppops.net [127.0.0.1])
+ by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 568AATtA025473;
+ Tue, 8 Jul 2025 13:05:16 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
+ cc:content-transfer-encoding:content-type:date:from:in-reply-to
+ :message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
+ ruomlpVlZhIacYiD0ePUuK2du29Gndfd9nNiKKRvyyc=; b=pXwuuMymD7zR91xj
+ ppbFN2R6VfSVBGDHtU/1mJ4kzwSHHcp2g51zrbx//R1w9tYWEz7A3D6+zartWHck
+ RCua0Nqw8Nmm/4AtiiIKuUxGNq5CBrc7h5edBVujDGtStVlbuBrR+9D1ZAluSMFf
+ yVUotgWskOMaipG950eFvG2Ab2ZUzuIF/Bdyt0dS2PJg1pIoX21dx0gJ/0/lNb+J
+ /tCyisCipjZ3n5jLIe/hDcc8nIF3o40wbs6KMuercSr9NQ5LQkScQ8twuB9BxSKM
+ oD/olgZ/3tuC6mrjk2ti/Kfgz7YoJ8292DzJMKCgjFHMs6ck68ie0l+OkFQ7MpGW
+ IBPkdA==
+Received: from nasanppmta01.qualcomm.com (i-global254.qualcomm.com
+ [199.106.103.254])
+ by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 47pu0wdbwu-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Tue, 08 Jul 2025 13:05:16 +0000 (GMT)
+Received: from nasanex01c.na.qualcomm.com (nasanex01c.na.qualcomm.com
+ [10.45.79.139])
+ by NASANPPMTA01.qualcomm.com (8.18.1.2/8.18.1.2) with ESMTPS id 568D5FnV032597
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Tue, 8 Jul 2025 13:05:15 GMT
+Received: from [10.239.29.49] (10.80.80.8) by nasanex01c.na.qualcomm.com
+ (10.45.79.139) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1748.10; Tue, 8 Jul
+ 2025 06:05:11 -0700
+Message-ID: <94f19455-dbcc-444d-9c5f-291f06682a77@quicinc.com>
+Date: Tue, 8 Jul 2025 21:05:09 +0800
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v4] drm/sched: Use struct for drm_sched_init() params
-To: Philipp Stanner <phasta@kernel.org>, Min Ma <min.ma@amd.com>,
- Lizhi Hou <lizhi.hou@amd.com>, Oded Gabbay <ogabbay@kernel.org>,
- Alex Deucher <alexander.deucher@amd.com>,
- =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
- Xinhui Pan <Xinhui.Pan@amd.com>, David Airlie <airlied@gmail.com>,
- Simona Vetter <simona@ffwll.ch>, Lucas Stach <l.stach@pengutronix.de>,
- Russell King <linux+etnaviv@armlinux.org.uk>,
- Christian Gmeiner <christian.gmeiner@gmail.com>,
- Frank Binns <frank.binns@imgtec.com>, Matt Coster <matt.coster@imgtec.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
- Qiang Yu <yuq825@gmail.com>, Rob Clark <robdclark@gmail.com>,
- Sean Paul <sean@poorly.run>, Konrad Dybcio <konradybcio@kernel.org>,
- Abhinav Kumar <quic_abhinavk@quicinc.com>,
- Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
- Marijn Suijten <marijn.suijten@somainline.org>,
- Karol Herbst <kherbst@redhat.com>, Lyude Paul <lyude@redhat.com>,
- Danilo Krummrich <dakr@redhat.com>,
- Boris Brezillon <boris.brezillon@collabora.com>,
- Rob Herring <robh@kernel.org>, Steven Price <steven.price@arm.com>,
- Liviu Dudau <liviu.dudau@arm.com>, Matthew Brost <matthew.brost@intel.com>,
- Melissa Wen <mwen@igalia.com>, =?UTF-8?Q?Ma=C3=ADra_Canal?=
- <mcanal@igalia.com>, Lucas De Marchi <lucas.demarchi@intel.com>,
- =?UTF-8?Q?Thomas_Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>,
- Rodrigo Vivi <rodrigo.vivi@intel.com>, Sunil Khatri <sunil.khatri@amd.com>,
- Lijo Lazar <lijo.lazar@amd.com>, Hawking Zhang <Hawking.Zhang@amd.com>,
- Mario Limonciello <mario.limonciello@amd.com>, Ma Jun <Jun.Ma2@amd.com>,
- Yunxiang Li <Yunxiang.Li@amd.com>
-Cc: dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- amd-gfx@lists.freedesktop.org, etnaviv@lists.freedesktop.org,
- lima@lists.freedesktop.org, linux-arm-msm@vger.kernel.org,
- freedreno@lists.freedesktop.org, nouveau@lists.freedesktop.org,
- intel-xe@lists.freedesktop.org, Christian Gmeiner <cgmeiner@igalia.com>
-References: <20250211111422.21235-2-phasta@kernel.org>
-Content-Language: en-GB
-From: Tvrtko Ursulin <tvrtko.ursulin@igalia.com>
-In-Reply-To: <20250211111422.21235-2-phasta@kernel.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+Subject: Re: [PATCH v5 3/4] misc: fastrpc: Refactor domain ID to enforce
+ strict mapping
+To: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
+CC: <srini@kernel.org>, <amahesh@qti.qualcomm.com>, <robh@kernel.org>,
+ <krzk+dt@kernel.org>, <conor+dt@kernel.org>, <andersson@kernel.org>,
+ <konradybcio@kernel.org>, <arnd@arndb.de>,
+ <gregkh@linuxfoundation.org>, <quic_kuiw@quicinc.com>,
+ <ekansh.gupta@oss.qualcomm.com>, <devicetree@vger.kernel.org>,
+ <linux-arm-msm@vger.kernel.org>, <dri-devel@lists.freedesktop.org>,
+ <linux-kernel@vger.kernel.org>, "Srinivas
+ Kandagatla" <srinivas.kandagatla@linaro.org>
+References: <20250702025341.1473332-1-quic_lxu5@quicinc.com>
+ <20250702025341.1473332-4-quic_lxu5@quicinc.com>
+ <56gevv7ripovymgclebnjdkxpfg3ppoosjxphkwqplef3hpikv@u5jua6hgxa34>
+Content-Language: en-US
+From: Ling Xu <quic_lxu5@quicinc.com>
+In-Reply-To: <56gevv7ripovymgclebnjdkxpfg3ppoosjxphkwqplef3hpikv@u5jua6hgxa34>
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 8bit
+X-Originating-IP: [10.80.80.8]
+X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
+ nasanex01c.na.qualcomm.com (10.45.79.139)
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
+ signatures=585085
+X-Proofpoint-ORIG-GUID: 16nFtYuwCGKDV-tjsbLbbtKNOzpFz_U5
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwNzA4MDEwOCBTYWx0ZWRfX7SfyBHpwcpQa
+ bXnLiMHs7KEA4Y1xETt17qu2CDgdZLu1QqOL/hjmT59YdT9gRdqMUzR0GkWc6PZ9j+xYy2L1dwi
+ yrg0Qt7ri3WsrWSCzEa0vVL5ig+PDMrYyTNdsKw6Okg58veRFRMwz2AEr+M0s1y80H8E6FEHmRv
+ +XryYOlZq4RRwggHbce/2AlAb0vemuFoxanevaAGDVykn9awuRWVkY7c6Jmvn9t03R2Wrz6wVTv
+ dOhJBFZHCQWpHjliJIl4lKwCcl/tPrqc+6gW6dELIYZmj1zw1mOrkvTC+E7vaviFX9nM/+03TZ8
+ 7eO74TwVDxjOpwdztm2Mz2TTA1RRYpQeH0Ha3EKjEuWq1lOjuFfxnuoARtu1WIPphuwIz1ZS65o
+ TZywL5KGep1+JJcji3tMHqXSAMvNaYucoTifflrkRYuvxRGgh7T/Nv77P6/49YTeiC96P9LJ
+X-Authority-Analysis: v=2.4 cv=Rd2QC0tv c=1 sm=1 tr=0 ts=686d178c cx=c_pps
+ a=JYp8KDb2vCoCEuGobkYCKw==:117 a=JYp8KDb2vCoCEuGobkYCKw==:17
+ a=GEpy-HfZoHoA:10 a=IkcTkHD0fZMA:10 a=Wb1JkmetP80A:10 a=KKAkSRfTAAAA:8
+ a=COk6AnOGAAAA:8 a=oBII3UxN_x4qz-Jc6RUA:9 a=3ZKOabzyN94A:10 a=QEXdDO2ut3YA:10
+ a=cvBusfyB2V15izCimMoJ:22 a=TjNXssC_j7lpFel5tvFf:22
+X-Proofpoint-GUID: 16nFtYuwCGKDV-tjsbLbbtKNOzpFz_U5
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1099,Hydra:6.1.7,FMLib:17.12.80.40
+ definitions=2025-07-08_03,2025-07-07_01,2025-03-28_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ bulkscore=0 suspectscore=0 mlxscore=0 malwarescore=0 lowpriorityscore=0
+ mlxlogscore=999 impostorscore=0 spamscore=0 phishscore=0 priorityscore=1501
+ adultscore=0 clxscore=1015 classifier=spam authscore=0 authtc=n/a authcc=
+ route=outbound adjust=0 reason=mlx scancount=1 engine=8.19.0-2505280000
+ definitions=main-2507080108
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -91,116 +110,188 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-
-
-On 11/02/2025 11:14, Philipp Stanner wrote:
-> drm_sched_init() has a great many parameters and upcoming new
-> functionality for the scheduler might add even more. Generally, the
-> great number of parameters reduces readability and has already caused
-> one missnaming, addressed in:
+在 7/5/2025 12:54 AM, Dmitry Baryshkov 写道:
+> On Wed, Jul 02, 2025 at 08:23:40AM +0530, Ling Xu wrote:
+>> Currently, domain ids are added for each instance, which is not scalable.
+>> Strict domain IDs for domain.
 > 
-> commit 6f1cacf4eba7 ("drm/nouveau: Improve variable name in
-> nouveau_sched_init()").
+> What does this mean?
+
+Currently the domain ids are added for each instance of domain,
+like we defined 3 for cdsp and 4 for cdsp1, but driver doesn't care about
+the instance id.Domain ids are strictly for a domain not each instance.
+
+I will change the title and commit meassage as Srinis suggested in next patch.
+
+misc: fastrpc: cleanup the domain names
+
+Currently the domain ids are added for each instance of domain, this is
+totally not scalable approach.
+
+Clean this mess and create domain ids for only domains not its
+instances.
+
 > 
-> Introduce a new struct for the scheduler init parameters and port all
-> users.
+>>
+>> Co-developed-by: Srinivas Kandagatla <srinivas.kandagatla@linaro.org>
+>> Signed-off-by: Srinivas Kandagatla <srinivas.kandagatla@linaro.org>
+>> Signed-off-by: Ling Xu <quic_lxu5@quicinc.com>
+>> ---
+>>  drivers/misc/fastrpc.c      | 51 ++++++++++++++++---------------------
+>>  include/uapi/misc/fastrpc.h |  2 +-
+>>  2 files changed, 23 insertions(+), 30 deletions(-)
+>>
+>> diff --git a/drivers/misc/fastrpc.c b/drivers/misc/fastrpc.c
+>> index 378923594f02..441f5851eb97 100644
+>> --- a/drivers/misc/fastrpc.c
+>> +++ b/drivers/misc/fastrpc.c
+>> @@ -27,8 +27,7 @@
+>>  #define MDSP_DOMAIN_ID (1)
+>>  #define SDSP_DOMAIN_ID (2)
+>>  #define CDSP_DOMAIN_ID (3)
+>> -#define CDSP1_DOMAIN_ID (4)
+>> -#define FASTRPC_DEV_MAX		5 /* adsp, mdsp, slpi, cdsp, cdsp1 */
+>> +#define FASTRPC_DOMAIN_MAX    CDSP_DOMAIN_ID
 > 
-> Signed-off-by: Philipp Stanner <phasta@kernel.org>
-> Reviewed-by: Liviu Dudau <liviu.dudau@arm.com>
-> Acked-by: Matthew Brost <matthew.brost@intel.com> # for Xe
-> Reviewed-by: Boris Brezillon <boris.brezillon@collabora.com> # for Panfrost and Panthor
-> Reviewed-by: Christian Gmeiner <cgmeiner@igalia.com> # for Etnaviv
-> Reviewed-by: Frank Binns <frank.binns@imgtec.com> # for Imagination
-> Reviewed-by: Tvrtko Ursulin <tvrtko.ursulin@igalia.com> # for Sched
-> Reviewed-by: Maíra Canal <mcanal@igalia.com> # for v3d
-> ---
-> Changes in v4:
->    - Add forgotten driver accel/amdxdna. (Me)
->    - Rephrase the "init to NULL" comments. (Tvrtko)
->    - Apply RBs by Tvrtko and Maira.
->    - Terminate the last struct members with a comma, so that future
->      fields can be added with a minimal patch diff. (Me)
+> Unused
+will delete above line.
 > 
-> Changes in v3:
->    - Various formatting requirements.
+>>  #define FASTRPC_MAX_SESSIONS	14
+>>  #define FASTRPC_MAX_VMIDS	16
+>>  #define FASTRPC_ALIGN		128
+>> @@ -106,8 +105,6 @@
+>>  
+>>  #define miscdev_to_fdevice(d) container_of(d, struct fastrpc_device, miscdev)
+>>  
+>> -static const char *domains[FASTRPC_DEV_MAX] = { "adsp", "mdsp",
+>> -						"sdsp", "cdsp", "cdsp1" };
+>>  struct fastrpc_phy_page {
+>>  	u64 addr;		/* physical address */
+>>  	u64 size;		/* size of contiguous region */
+>> @@ -1723,7 +1720,6 @@ static int fastrpc_get_info_from_kernel(struct fastrpc_ioctl_capability *cap,
+>>  	uint32_t attribute_id = cap->attribute_id;
+>>  	uint32_t *dsp_attributes;
+>>  	unsigned long flags;
+>> -	uint32_t domain = cap->domain;
+>>  	int err;
+>>  
+>>  	spin_lock_irqsave(&cctx->lock, flags);
+>> @@ -1741,7 +1737,7 @@ static int fastrpc_get_info_from_kernel(struct fastrpc_ioctl_capability *cap,
+>>  	err = fastrpc_get_info_from_dsp(fl, dsp_attributes, FASTRPC_MAX_DSP_ATTRIBUTES);
+>>  	if (err == DSP_UNSUPPORTED_API) {
+>>  		dev_info(&cctx->rpdev->dev,
+>> -			 "Warning: DSP capabilities not supported on domain: %d\n", domain);
+>> +			 "Warning: DSP capabilities not supported\n");
+>>  		kfree(dsp_attributes);
+>>  		return -EOPNOTSUPP;
+>>  	} else if (err) {
+>> @@ -1769,17 +1765,6 @@ static int fastrpc_get_dsp_info(struct fastrpc_user *fl, char __user *argp)
+>>  		return  -EFAULT;
+>>  
+>>  	cap.capability = 0;
+>> -	if (cap.domain >= FASTRPC_DEV_MAX) {
+>> -		dev_err(&fl->cctx->rpdev->dev, "Error: Invalid domain id:%d, err:%d\n",
+>> -			cap.domain, err);
+>> -		return -ECHRNG;
+>> -	}
+>> -
+>> -	/* Fastrpc Capablities does not support modem domain */
+>> -	if (cap.domain == MDSP_DOMAIN_ID) {
+>> -		dev_err(&fl->cctx->rpdev->dev, "Error: modem not supported %d\n", err);
+>> -		return -ECHRNG;
+>> -	}
+>>  
+>>  	if (cap.attribute_id >= FASTRPC_MAX_DSP_ATTRIBUTES) {
+>>  		dev_err(&fl->cctx->rpdev->dev, "Error: invalid attribute: %d, err: %d\n",
+>> @@ -2255,6 +2240,20 @@ static int fastrpc_device_register(struct device *dev, struct fastrpc_channel_ct
+>>  	return err;
+>>  }
+>>  
+>> +static int fastrpc_get_domain_id(const char *domain)
+>> +{
+>> +	if (!strncmp(domain, "adsp", 4))
+>> +		return ADSP_DOMAIN_ID;
+>> +	else if (!strncmp(domain, "cdsp", 4))
+>> +		return CDSP_DOMAIN_ID;
+>> +	else if (!strncmp(domain, "mdsp", 4))
+>> +		return MDSP_DOMAIN_ID;
+>> +	else if (!strncmp(domain, "sdsp", 4))
+>> +		return SDSP_DOMAIN_ID;
+>> +
+>> +	return -EINVAL;
+>> +}
+>> +
+>>  static int fastrpc_rpmsg_probe(struct rpmsg_device *rpdev)
+>>  {
+>>  	struct device *rdev = &rpdev->dev;
+>> @@ -2272,15 +2271,10 @@ static int fastrpc_rpmsg_probe(struct rpmsg_device *rpdev)
+>>  		return err;
+>>  	}
+>>  
+>> -	for (i = 0; i < FASTRPC_DEV_MAX; i++) {
+>> -		if (!strcmp(domains[i], domain)) {
+>> -			domain_id = i;
+>> -			break;
+>> -		}
+>> -	}
+>> +	domain_id = fastrpc_get_domain_id(domain);
+>>  
+>>  	if (domain_id < 0) {
+>> -		dev_info(rdev, "FastRPC Invalid Domain ID %d\n", domain_id);
+>> +		dev_info(rdev, "FastRPC Domain %s not supported\n", domain);
+>>  		return -EINVAL;
+>>  	}
+>>  
+>> @@ -2330,21 +2324,20 @@ static int fastrpc_rpmsg_probe(struct rpmsg_device *rpdev)
+>>  	case ADSP_DOMAIN_ID:
+>>  	case MDSP_DOMAIN_ID:
+>>  	case SDSP_DOMAIN_ID:
+>> -		/* Unsigned PD offloading is only supported on CDSP and CDSP1 */
+>> +		/* Unsigned PD offloading is only supported on CDSP */
+>>  		data->unsigned_support = false;
+>> -		err = fastrpc_device_register(rdev, data, secure_dsp, domains[domain_id]);
+>> +		err = fastrpc_device_register(rdev, data, secure_dsp, domain);
+>>  		if (err)
+>>  			goto err_free_data;
+>>  		break;
+>>  	case CDSP_DOMAIN_ID:
+>> -	case CDSP1_DOMAIN_ID:
+>>  		data->unsigned_support = true;
+>>  		/* Create both device nodes so that we can allow both Signed and Unsigned PD */
+>> -		err = fastrpc_device_register(rdev, data, true, domains[domain_id]);
+>> +		err = fastrpc_device_register(rdev, data, true, domain);
+>>  		if (err)
+>>  			goto err_free_data;
+>>  
+>> -		err = fastrpc_device_register(rdev, data, false, domains[domain_id]);
+>> +		err = fastrpc_device_register(rdev, data, false, domain);
+>>  		if (err)
+>>  			goto err_deregister_fdev;
+>>  		break;
+>> diff --git a/include/uapi/misc/fastrpc.h b/include/uapi/misc/fastrpc.h
+>> index f33d914d8f46..27b892b546f6 100644
+>> --- a/include/uapi/misc/fastrpc.h
+>> +++ b/include/uapi/misc/fastrpc.h
+>> @@ -134,7 +134,7 @@ struct fastrpc_mem_unmap {
+>>  };
+>>  
+>>  struct fastrpc_ioctl_capability {
+>> -	__u32 domain;
+>> +	__u32 domain; /* deprecated, ignored by the kernel */
 > 
-> Changes in v2:
->    - Point out that the hang-limit is deprecated. (Christian)
->    - Initialize the structs to 0 at declaration. (Planet Earth)
->    - Don't set stuff explicitly to 0 / NULL. (Tvrtko)
->    - Make the structs const where possible. (Boris)
->    - v3d: Use just 1, universal, function for sched-init. (Maíra)
-> ---
+> reserved1 or unused
+thanks
+will change to _u32 unused;
+> 
+>>  	__u32 attribute_id;
+>>  	__u32 capability;   /* dsp capability */
+>>  	__u32 reserved[4];
+>> -- 
+>> 2.34.1
+>>
+> 
 
-8><
-
-> diff --git a/drivers/gpu/drm/panfrost/panfrost_job.c b/drivers/gpu/drm/panfrost/panfrost_job.c
-> index 9b8e82fb8bc4..5657106c2f7d 100644
-> --- a/drivers/gpu/drm/panfrost/panfrost_job.c
-> +++ b/drivers/gpu/drm/panfrost/panfrost_job.c
-> @@ -836,8 +836,16 @@ static irqreturn_t panfrost_job_irq_handler(int irq, void *data)
->   
->   int panfrost_job_init(struct panfrost_device *pfdev)
->   {
-> +	struct drm_sched_init_args args = {
-> +		.ops = &panfrost_sched_ops,
-> +		.num_rqs = DRM_SCHED_PRIORITY_COUNT,
-> +		.credit_limit = 2,
-> +		.timeout = msecs_to_jiffies(JOB_TIMEOUT_MS),
-> +		.timeout_wq = pfdev->reset.wq,
-
-^^^
-
-> +		.name = "pan_js",
-> +		.dev = pfdev->dev,
-> +	};
->   	struct panfrost_job_slot *js;
-> -	unsigned int nentries = 2;
->   	int ret, j;
->   
->   	/* All GPUs have two entries per queue, but without jobchain
-> @@ -845,7 +853,7 @@ int panfrost_job_init(struct panfrost_device *pfdev)
->   	 * so let's just advertise one entry in that case.
->   	 */
->   	if (!panfrost_has_hw_feature(pfdev, HW_FEATURE_JOBCHAIN_DISAMBIGUATION))
-> -		nentries = 1;
-> +		args.credit_limit = 1;
->   
->   	pfdev->js = js = devm_kzalloc(pfdev->dev, sizeof(*js), GFP_KERNEL);
->   	if (!js)
-
-Stumbled on this while looking at drm_sched_init() workqueue usage.
-
-I think this patch might need a fixup. Because somewhere around here in 
-the code there is this:
-
-	pfdev->reset.wq = alloc_ordered_workqueue("panfrost-reset", 0);
-	if (!pfdev->reset.wq)
-		return -ENOMEM;
-
-Which means that after the patch panfrost is using system_wq for the 
-timeout handler instead the one it creates.
-
-> @@ -875,13 +883,7 @@ int panfrost_job_init(struct panfrost_device *pfdev)
->   	for (j = 0; j < NUM_JOB_SLOTS; j++) {
->   		js->queue[j].fence_context = dma_fence_context_alloc(1);
->   
-> -		ret = drm_sched_init(&js->queue[j].sched,
-> -				     &panfrost_sched_ops, NULL,
-> -				     DRM_SCHED_PRIORITY_COUNT,
-> -				     nentries, 0,
-> -				     msecs_to_jiffies(JOB_TIMEOUT_MS),
-> -				     pfdev->reset.wq,
-> -				     NULL, "pan_js", pfdev->dev);
-> +		ret = drm_sched_init(&js->queue[j].sched, &args);
-
-^^^
-
->   		if (ret) {
->   			dev_err(pfdev->dev, "Failed to create scheduler: %d.", ret);
->   			goto err_sched;
-
-Regards,
-
-Tvrtko
+-- 
+Thx and BRs,
+Ling Xu
 
