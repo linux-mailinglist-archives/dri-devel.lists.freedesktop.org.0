@@ -2,57 +2,68 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1165EAFCF41
-	for <lists+dri-devel@lfdr.de>; Tue,  8 Jul 2025 17:31:41 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id B1F9DAFCFA1
+	for <lists+dri-devel@lfdr.de>; Tue,  8 Jul 2025 17:49:00 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2B70C10E688;
-	Tue,  8 Jul 2025 15:31:37 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5356310E08C;
+	Tue,  8 Jul 2025 15:48:58 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=igalia.com header.i=@igalia.com header.b="PH2ZYKxc";
+	dkim=pass (2048-bit key; unprotected) header.d=bootlin.com header.i=@bootlin.com header.b="oBhuJmtJ";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from fanzine2.igalia.com (fanzine2.igalia.com [213.97.179.56])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 513BE10E115;
- Tue,  8 Jul 2025 15:31:35 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com; 
- s=20170329;
- h=Content-Transfer-Encoding:Content-Type:In-Reply-To:From:
- References:Cc:To:Subject:MIME-Version:Date:Message-ID:Sender:Reply-To:
- Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
- Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
- List-Subscribe:List-Post:List-Owner:List-Archive;
- bh=ZnslGj8hpWFrD+pF+EEY5yHgX3shuD6O/nGEm2OTsdw=; b=PH2ZYKxcf7MyUy96//Xa7DQCPt
- Jqvmp8WXneMstcG0AVuAwvg/UnjYTeSb43wrEXevsHfjbizCZ/B7nd5zbqKDSX9BHo/NdOPosucEo
- 63D9j+fT410e8/CZf2p5TjAB1x3jcBG4xCIMemKz9HywEFlHeelKIGI6wKKXREPh57rXPj2yaidNF
- J+Am0+tPd/a7b5r8OZAv4UIpxU76k8H+AXuE8p7Z84a4fFcQywW6yhfKYBeg0uM+Re1T9+lj95ZkR
- wcBAJCc1hB3U4ihbPCHqB2x9QGQ46Hsfuc34f3Xv/hz+2J1svU5JCwIDwlH2GO0gaq30u5EdaLpXC
- EuLW2bZA==;
-Received: from [84.65.48.237] (helo=[192.168.0.101])
- by fanzine2.igalia.com with esmtpsa 
- (Cipher TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_128_GCM:128) (Exim)
- id 1uZAI8-00E4sQ-C8; Tue, 08 Jul 2025 17:31:32 +0200
-Message-ID: <45c0665d-6b1b-4ba0-a770-8120cfed951e@igalia.com>
-Date: Tue, 8 Jul 2025 16:31:31 +0100
+Received: from relay4-d.mail.gandi.net (relay4-d.mail.gandi.net
+ [217.70.183.196])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A07E4891A3
+ for <dri-devel@lists.freedesktop.org>; Tue,  8 Jul 2025 15:48:56 +0000 (UTC)
+Received: by mail.gandi.net (Postfix) with ESMTPSA id 70DD7443EF;
+ Tue,  8 Jul 2025 15:48:52 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
+ t=1751989735;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=XWn8tkHwi2RjacXnR5yqBza6YOAwtweEnReFLSISQuQ=;
+ b=oBhuJmtJ5xhEbdeIypr91qJvt2On2vgRuZwdbfCFdHX8E21NImCwasafH3Ic5sF5gUGH1M
+ 9MRVNV02Shm1tV6GAp67qJ20zDqLQrwxSkcrCbHdpdDFsehwH6l6Z/PqmeiSzRgeOcdeJp
+ 877K0ROBsJacaH/u1cgdNiou01DuEXaM44Ohp/LcB+xBJkNl8ReCosv4LIfkCQ0UE+D3HQ
+ cHdmvwGhG7z5rMl2zPz97nLh9Doq+vO7PBsyUFuqg92BJ2B+XmjFurUub9V5/zCSOoMKXw
+ FNwbBIfH8W/AM5my+hRwt70sFoe5V02wr+EtXlF6Z0EqavLyT2PAzf/NTT661A==
+From: Luca Ceresoli <luca.ceresoli@bootlin.com>
+Subject: [PATCH v9 0/5] drm/bridge: get/put the bridge returned by
+ drm_bridge_chain_get_first_bridge()
+Date: Tue, 08 Jul 2025 17:48:17 +0200
+Message-Id: <20250708-drm-bridge-alloc-getput-drm_bridge_chain_get_first_bridge-v9-0-db1ba3df7f58@bootlin.com>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v6 14/15] drm/sched: Queue all free credits in one worker
- invocation
-To: =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
- dri-devel@lists.freedesktop.org
-Cc: intel-xe@lists.freedesktop.org, amd-gfx@lists.freedesktop.org,
- kernel-dev@igalia.com, Danilo Krummrich <dakr@kernel.org>,
- Matthew Brost <matthew.brost@intel.com>, Philipp Stanner <phasta@kernel.org>
-References: <20250708095147.73366-1-tvrtko.ursulin@igalia.com>
- <20250708095147.73366-15-tvrtko.ursulin@igalia.com>
- <cb140d4e-01cd-4cd7-bd7c-5c10b44cf98f@amd.com>
- <95da8a36-8231-4578-ae74-35c8ba7f6972@igalia.com>
- <93c27eec-3c4b-4897-ae85-a2eed266a6b7@amd.com>
-Content-Language: en-GB
-From: Tvrtko Ursulin <tvrtko.ursulin@igalia.com>
-In-Reply-To: <93c27eec-3c4b-4897-ae85-a2eed266a6b7@amd.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
+X-B4-Tracking: v=1; b=H4sIAME9bWgC/62OWwqDMBBFtyL5bkoaH2i/3EeRYF46oIkkqbSIe
+ +9ou4R+nnOZuXcj0QQwkdyzjQSzQgTvEJpLRtTYu8FQ0MiEM16yijOqw0xlAI1JP01e0cGk5Zk
+ OL75e4CE4gV5YCDH9NJUmb1RRcK10RfD/EoyF19n96JBHiMmH9zllrQ/7j9a1poyynN/qorSqt
+ 7KV3qcJ3FX5mXT7vn8ASntc5AQBAAA=
+X-Change-ID: 20250620-drm-bridge-alloc-getput-drm_bridge_chain_get_first_bridge-be39c442dcd6
+To: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
+ Andrzej Hajda <andrzej.hajda@intel.com>, 
+ Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>, 
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>, 
+ Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>, 
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, 
+ Marek Vasut <marex@denx.de>, Stefan Agner <stefan@agner.ch>, 
+ Shawn Guo <shawnguo@kernel.org>, Sascha Hauer <s.hauer@pengutronix.de>, 
+ Pengutronix Kernel Team <kernel@pengutronix.de>, 
+ Fabio Estevam <festevam@gmail.com>
+Cc: Liu Ying <victor.liu@nxp.com>, Hui Pu <Hui.Pu@gehealthcare.com>, 
+ Thomas Petazzoni <thomas.petazzoni@bootlin.com>, 
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org, 
+ imx@lists.linux.dev, linux-arm-kernel@lists.infradead.org, 
+ Luca Ceresoli <luca.ceresoli@bootlin.com>
+X-Mailer: b4 0.14.2
+X-GND-State: clean
+X-GND-Score: -100
+X-GND-Cause: gggruggvucftvghtrhhoucdtuddrgeeffedrtdefgdefhedtkecutefuodetggdotefrodftvfcurfhrohhfihhlvgemucfitefpfffkpdcuggftfghnshhusghstghrihgsvgenuceurghilhhouhhtmecufedtudenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujfgurhephffufffkgggtgffvvefosehtkeertdertdejnecuhfhrohhmpefnuhgtrgcuvegvrhgvshholhhiuceolhhutggrrdgtvghrvghsohhlihessghoohhtlhhinhdrtghomheqnecuggftrfgrthhtvghrnhepjeejhffgffelveehhfefudehtdeftdettdekgfekueeihedtieefudevjeffveegnecuffhomhgrihhnpehfrhgvvgguvghskhhtohhprdhorhhgpdhkvghrnhgvlhdrohhrghenucfkphepkeejrdduvddtrddvudekrddvtdejnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehinhgvthepkeejrdduvddtrddvudekrddvtdejpdhhvghloheplgduledvrdduieekrddurddufegnpdhmrghilhhfrhhomheplhhutggrrdgtvghrvghsohhlihessghoohhtlhhinhdrtghomhdpnhgspghrtghpthhtohepvdehpdhrtghpthhtohepmhgrrghrthgvnhdrlhgrnhhkhhhorhhstheslhhinhhugidrihhnthgvlhdrtghomhdprhgtphhtthhopegrihhrlhhivggusehgmhgrihhlrdgtohhmpdhrtghpthhtohepughrihdquggvvhgvlheslhhishhtshdrfhhrvggvuggvshhkthhophdrohhrghdprhgtphhtt
+ hhopehluhgtrgdrtggvrhgvshholhhisegsohhothhlihhnrdgtohhmpdhrtghpthhtohepmhhrihhprghrugeskhgvrhhnvghlrdhorhhgpdhrtghpthhtoheprhhfohhssheskhgvrhhnvghlrdhorhhgpdhrtghpthhtohepjhgvrhhnvghjrdhskhhrrggsvggtsehgmhgrihhlrdgtohhmpdhrtghpthhtoheplhhinhhugidqkhgvrhhnvghlsehvghgvrhdrkhgvrhhnvghlrdhorhhg
+X-GND-Sasl: luca.ceresoli@bootlin.com
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -68,287 +79,82 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+This series adds drm_bridge_get/put() calls for DRM bridges returned by
+drm_bridge_chain_get_first_bridge().
 
-On 08/07/2025 14:02, Christian König wrote:
-> On 08.07.25 14:54, Tvrtko Ursulin wrote:
->>
->> On 08/07/2025 13:37, Christian König wrote:
->>> On 08.07.25 11:51, Tvrtko Ursulin wrote:
->>>> There is no reason to queue just a single job if scheduler can take more
->>>> and re-queue the worker to queue more.
->>>
->>> That's not correct. This was intentionally avoided.
->>>
->>> If more than just the scheduler is using the single threaded workqeueu other workers, especially the timeout worker, can jump in and execute first.
->>>
->>> We explicitely removed submitting more than one job in each worker run.
->>
->> I wanted to ask why, but then I had a look to see if anyone actually does this. And I did not find any driver sharing a single threaded workqueue between submit and timeout.
->>
->> The only driver which even passes in the same workqueue for both is PVR, but it is not a single threaded one.
->>
->> Or perhaps I misunderstood what you said. Could you please clarify either way?
-> 
-> You correctly understood that.
-> 
-> The argument was that submitting more than one job in a worker is simply not beneficial and other work items can jump in and execute.
-> 
-> I have no idea if that is actually used or not. You would need to dig up the discussion when we switched from a kernel thread to work items for the full background.
-> 
-> But in general to do as less work as possible in each worker and then re-submit it is usually a good idea.
+All patches are Reviewed-by Maxime except patch 3.
 
- From the point of view that the single work item invocation shouldn't 
-hog the worker, if the worker is shared, I agree. But what we also want 
-is to feed the GPU as fast as possible, ie. put the CPU to sleep as 
-quickly as possible.
+This is part of the work towards removal of bridges from a still existing
+DRM pipeline without use-after-free. The grand plan was discussed in [1].
+Here's the work breakdown (➜ marks the current series):
 
-If we consider drivers with dedicated workqueues per hardware engine, or 
-even per userspace context, then especially in those cases I don't see 
-what is the benefit of playing the wq re-queue games.
+ 1. ➜ add refcounting to DRM bridges (struct drm_bridge)
+    (based on devm_drm_bridge_alloc() [0])
+    A. ✔ add new alloc API and refcounting (in v6.16-rc1)
+    B. ✔ convert all bridge drivers to new API (now in drm-misc-next)
+    C. ✔ kunit tests (now in drm-misc-next)
+    D. ✔ add get/put to drm_bridge_add/remove() + attach/detach()
+         and warn on old allocation pattern (now in drm-misc-next)
+    E. ➜ add get/put on drm_bridge accessors
+       1. ➜ drm_bridge_chain_get_first_bridge() + add a cleanup action (this series)
+       2. drm_bridge_chain_get_last_bridge()
+       3. drm_bridge_get_prev_bridge()
+       4. drm_bridge_get_next_bridge()
+       5. drm_for_each_bridge_in_chain()
+       6. drm_bridge_connector_init
+       7. of_drm_find_bridge
+       8. drm_of_find_panel_or_bridge, *_of_get_bridge
+    F. debugfs improvements
+ 2. handle gracefully atomic updates during bridge removal
+ 3. … avoid DSI host drivers to have dangling pointers to DSI devices
+ 4. finish the hotplug bridge work, removing the "always-disconnected"
+    connector, moving code to the core and potentially removing the
+    hotplug-bridge itself (this needs to be clarified as points 1-3 are
+    developed)
 
-Anyway, I can park this patch for now, I *think* it will be easy to drop 
-and will just need to rebase 15/15 to cope.
+All the patches in this series have already been sent as part of the larger
+"[PATCH v7 00/11] drm/bridge: add devm_drm_bridge_alloc() with bridge
+refcount" series [2], hence the v9 number. They have all been Reviewed-by
+Maxime too, however they could not be applied at that time, awaiting the
+conversion of all bridge drivers to devm_drm_bridge_alloc(), now done (item
+1.A).
 
-In the meantime I have collected some stats when running Cyberpunk 2077 
-benchmark on amdgpu, just to remind myself that it does happen more than 
-one job can be ready to be passed on to the GPU. Stats of number of 
-submitted jobs per worker invocation (with this patch):
+I'm resending all patches to give them visibility now that they are ready
+to be applied.
 
-		1	2	3	4	5
-gfx_0.0.0	21315	541	9849	171	0
-comp_1.3.0	3093	9	2	0	0
-comp_1.1.0	3501	46	2	1	0
-comp_1.0.1	3451	46	2	0	0
-sdma0		4400	746	279	481	7
+[0] https://gitlab.freedesktop.org/drm/misc/kernel/-/commit/0cc6aadd7fc1e629b715ea3d1ba537ef2da95eec
+[1] https://lore.kernel.org/lkml/20250206-hotplug-drm-bridge-v6-0-9d6f2c9c3058@bootlin.com/t/#u
+[2] https://lore.kernel.org/all/20250314-drm-bridge-refcount-v7-0-152571f8c694@bootlin.com/
 
-This is for userspace contexts only. Quite a good number of three jobs 
-submitted per worker invocation.
+Signed-off-by: Luca Ceresoli <luca.ceresoli@bootlin.com>
+---
+Changes in v9:
+- Small improvement to patch 3
+- Link to v8: https://lore.kernel.org/r/20250620-drm-bridge-alloc-getput-drm_bridge_chain_get_first_bridge-v8-0-0321845fcafb@bootlin.com
 
-Kernel sdma appears to favour deeper queues even more but I forgot to 
-log above 2 jobs per worker invocation:
+Changes in v8:
+- rebased on current drm-misc-next
+- Patch 4: reworked based on current code
+- Link to v7: https://lore.kernel.org/all/20250314-drm-bridge-refcount-v7-0-152571f8c694@bootlin.com/
 
-	1	2	
-sdma0	8009	1913
+---
+Luca Ceresoli (5):
+      drm/bridge: add a cleanup action for scope-based drm_bridge_put() invocation
+      drm/bridge: get the bridge returned by drm_bridge_chain_get_first_bridge()
+      drm/mxsfb: put the bridge returned by drm_bridge_chain_get_first_bridge()
+      drm/atomic-helper: put the bridge returned by drm_bridge_chain_get_first_bridge()
+      drm/probe-helper: put the bridge returned by drm_bridge_chain_get_first_bridge()
 
-I can try to measure the latencies of worker re-queue approach. Another 
-interesting thing would be C-state residencies and CPU power. But given 
-how when the scheduler went from kthread to wq and lost the ability the 
-queue more than one job, I don't think back then anyone measured this? 
-In which case I suspect we even don't know if some latency or efficiency 
-was lost.
+ drivers/gpu/drm/drm_atomic_helper.c |  7 +++++++
+ drivers/gpu/drm/drm_probe_helper.c  |  1 +
+ drivers/gpu/drm/mxsfb/lcdif_kms.c   |  4 ++--
+ include/drm/drm_bridge.h            | 11 +++++++++--
+ 4 files changed, 19 insertions(+), 4 deletions(-)
+---
+base-commit: e21354aea4b4420b53c44e36828607a7c94a994c
+change-id: 20250620-drm-bridge-alloc-getput-drm_bridge_chain_get_first_bridge-be39c442dcd6
 
-Regards,
-
-Tvrtko
-
->>>> We can simply feed the hardware
->>>> with as much as it can take in one go and hopefully win some latency.
->>>>
->>>> Signed-off-by: Tvrtko Ursulin <tvrtko.ursulin@igalia.com>
->>>> Cc: Christian König <christian.koenig@amd.com>
->>>> Cc: Danilo Krummrich <dakr@kernel.org>
->>>> Cc: Matthew Brost <matthew.brost@intel.com>
->>>> Cc: Philipp Stanner <phasta@kernel.org>
->>>> ---
->>>>    drivers/gpu/drm/scheduler/sched_internal.h |   2 -
->>>>    drivers/gpu/drm/scheduler/sched_main.c     | 132 ++++++++++-----------
->>>>    drivers/gpu/drm/scheduler/sched_rq.c       |  12 +-
->>>>    3 files changed, 64 insertions(+), 82 deletions(-)
->>>>
->>>> diff --git a/drivers/gpu/drm/scheduler/sched_internal.h b/drivers/gpu/drm/scheduler/sched_internal.h
->>>> index 15d78abc48df..1a5c2f255223 100644
->>>> --- a/drivers/gpu/drm/scheduler/sched_internal.h
->>>> +++ b/drivers/gpu/drm/scheduler/sched_internal.h
->>>> @@ -22,8 +22,6 @@ struct drm_sched_entity_stats {
->>>>        u64        vruntime;
->>>>    };
->>>>    -bool drm_sched_can_queue(struct drm_gpu_scheduler *sched,
->>>> -             struct drm_sched_entity *entity);
->>>>    void drm_sched_wakeup(struct drm_gpu_scheduler *sched);
->>>>      void drm_sched_rq_init(struct drm_gpu_scheduler *sched,
->>>> diff --git a/drivers/gpu/drm/scheduler/sched_main.c b/drivers/gpu/drm/scheduler/sched_main.c
->>>> index 35025edea669..1fb3f1da4821 100644
->>>> --- a/drivers/gpu/drm/scheduler/sched_main.c
->>>> +++ b/drivers/gpu/drm/scheduler/sched_main.c
->>>> @@ -95,35 +95,6 @@ static u32 drm_sched_available_credits(struct drm_gpu_scheduler *sched)
->>>>        return credits;
->>>>    }
->>>>    -/**
->>>> - * drm_sched_can_queue -- Can we queue more to the hardware?
->>>> - * @sched: scheduler instance
->>>> - * @entity: the scheduler entity
->>>> - *
->>>> - * Return true if we can push at least one more job from @entity, false
->>>> - * otherwise.
->>>> - */
->>>> -bool drm_sched_can_queue(struct drm_gpu_scheduler *sched,
->>>> -             struct drm_sched_entity *entity)
->>>> -{
->>>> -    struct drm_sched_job *s_job;
->>>> -
->>>> -    s_job = drm_sched_entity_queue_peek(entity);
->>>> -    if (!s_job)
->>>> -        return false;
->>>> -
->>>> -    /* If a job exceeds the credit limit, truncate it to the credit limit
->>>> -     * itself to guarantee forward progress.
->>>> -     */
->>>> -    if (s_job->credits > sched->credit_limit) {
->>>> -        dev_WARN(sched->dev,
->>>> -             "Jobs may not exceed the credit limit, truncate.\n");
->>>> -        s_job->credits = sched->credit_limit;
->>>> -    }
->>>> -
->>>> -    return drm_sched_available_credits(sched) >= s_job->credits;
->>>> -}
->>>> -
->>>>    /**
->>>>     * drm_sched_run_job_queue - enqueue run-job work
->>>>     * @sched: scheduler instance
->>>> @@ -940,54 +911,77 @@ static void drm_sched_run_job_work(struct work_struct *w)
->>>>    {
->>>>        struct drm_gpu_scheduler *sched =
->>>>            container_of(w, struct drm_gpu_scheduler, work_run_job);
->>>> +    u32 job_credits, submitted_credits = 0;
->>>>        struct drm_sched_entity *entity;
->>>> -    struct dma_fence *fence;
->>>>        struct drm_sched_fence *s_fence;
->>>>        struct drm_sched_job *sched_job;
->>>> -    int r;
->>>> +    struct dma_fence *fence;
->>>>    -    /* Find entity with a ready job */
->>>> -    entity = drm_sched_rq_select_entity(sched, sched->rq);
->>>> -    if (IS_ERR_OR_NULL(entity))
->>>> -        return;    /* No more work */
->>>> +    while (!READ_ONCE(sched->pause_submit)) {
->>>> +        /* Find entity with a ready job */
->>>> +        entity = drm_sched_rq_select_entity(sched, sched->rq);
->>>> +        if (!entity)
->>>> +            break;    /* No more work */
->>>> +
->>>> +        sched_job = drm_sched_entity_queue_peek(entity);
->>>> +        if (!sched_job) {
->>>> +            complete_all(&entity->entity_idle);
->>>> +            continue;
->>>> +        }
->>>> +
->>>> +        job_credits = sched_job->credits;
->>>> +        /*
->>>> +         * If a job exceeds the credit limit truncate it to guarantee
->>>> +         * forward progress.
->>>> +         */
->>>> +        if (dev_WARN_ONCE(sched->dev, job_credits > sched->credit_limit,
->>>> +                  "Jobs may not exceed the credit limit, truncating.\n"))
->>>> +            job_credits = sched_job->credits = sched->credit_limit;
->>>> +
->>>> +        if (job_credits > drm_sched_available_credits(sched)) {
->>>> +            complete_all(&entity->entity_idle);
->>>> +            break;
->>>> +        }
->>>> +
->>>> +        sched_job = drm_sched_entity_pop_job(entity);
->>>> +        if (!sched_job) {
->>>> +            /* Top entity is not yet runnable after all */
->>>> +            complete_all(&entity->entity_idle);
->>>> +            continue;
->>>> +        }
->>>> +
->>>> +        s_fence = sched_job->s_fence;
->>>> +        drm_sched_job_begin(sched_job);
->>>> +        trace_drm_sched_job_run(sched_job, entity);
->>>> +        submitted_credits += job_credits;
->>>> +        atomic_add(job_credits, &sched->credit_count);
->>>> +
->>>> +        fence = sched->ops->run_job(sched_job);
->>>> +        drm_sched_fence_scheduled(s_fence, fence);
->>>> +
->>>> +        if (!IS_ERR_OR_NULL(fence)) {
->>>> +            int r;
->>>> +
->>>> +            /* Drop for original kref_init of the fence */
->>>> +            dma_fence_put(fence);
->>>> +
->>>> +            r = dma_fence_add_callback(fence, &sched_job->cb,
->>>> +                           drm_sched_job_done_cb);
->>>> +            if (r == -ENOENT)
->>>> +                drm_sched_job_done(sched_job, fence->error);
->>>> +            else if (r)
->>>> +                DRM_DEV_ERROR(sched->dev,
->>>> +                          "fence add callback failed (%d)\n", r);
->>>> +        } else {
->>>> +            drm_sched_job_done(sched_job, IS_ERR(fence) ?
->>>> +                              PTR_ERR(fence) : 0);
->>>> +        }
->>>>    -    sched_job = drm_sched_entity_pop_job(entity);
->>>> -    if (!sched_job) {
->>>>            complete_all(&entity->entity_idle);
->>>> -        drm_sched_run_job_queue(sched);
->>>> -        return;
->>>>        }
->>>>    -    s_fence = sched_job->s_fence;
->>>> -
->>>> -    atomic_add(sched_job->credits, &sched->credit_count);
->>>> -    drm_sched_job_begin(sched_job);
->>>> -
->>>> -    trace_drm_sched_job_run(sched_job, entity);
->>>> -    /*
->>>> -     * The run_job() callback must by definition return a fence whose
->>>> -     * refcount has been incremented for the scheduler already.
->>>> -     */
->>>> -    fence = sched->ops->run_job(sched_job);
->>>> -    complete_all(&entity->entity_idle);
->>>> -    drm_sched_fence_scheduled(s_fence, fence);
->>>> -
->>>> -    if (!IS_ERR_OR_NULL(fence)) {
->>>> -        r = dma_fence_add_callback(fence, &sched_job->cb,
->>>> -                       drm_sched_job_done_cb);
->>>> -        if (r == -ENOENT)
->>>> -            drm_sched_job_done(sched_job, fence->error);
->>>> -        else if (r)
->>>> -            DRM_DEV_ERROR(sched->dev, "fence add callback failed (%d)\n", r);
->>>> -
->>>> -        dma_fence_put(fence);
->>>> -    } else {
->>>> -        drm_sched_job_done(sched_job, IS_ERR(fence) ?
->>>> -                   PTR_ERR(fence) : 0);
->>>> -    }
->>>> -
->>>> -    wake_up(&sched->job_scheduled);
->>>> -    drm_sched_run_job_queue(sched);
->>>> +    if (submitted_credits)
->>>> +        wake_up(&sched->job_scheduled);
->>>>    }
->>>>      static struct workqueue_struct *drm_sched_alloc_wq(const char *name)
->>>> diff --git a/drivers/gpu/drm/scheduler/sched_rq.c b/drivers/gpu/drm/scheduler/sched_rq.c
->>>> index e22f9ff88822..f0afdc0bd417 100644
->>>> --- a/drivers/gpu/drm/scheduler/sched_rq.c
->>>> +++ b/drivers/gpu/drm/scheduler/sched_rq.c
->>>> @@ -197,9 +197,7 @@ void drm_sched_rq_pop_entity(struct drm_sched_entity *entity)
->>>>     *
->>>>     * Find oldest waiting ready entity.
->>>>     *
->>>> - * Return an entity if one is found; return an error-pointer (!NULL) if an
->>>> - * entity was ready, but the scheduler had insufficient credits to accommodate
->>>> - * its job; return NULL, if no ready entity was found.
->>>> + * Return an entity if one is found or NULL if no ready entity was found.
->>>>     */
->>>>    struct drm_sched_entity *
->>>>    drm_sched_rq_select_entity(struct drm_gpu_scheduler *sched,
->>>> @@ -213,14 +211,6 @@ drm_sched_rq_select_entity(struct drm_gpu_scheduler *sched,
->>>>              entity = rb_entry(rb, struct drm_sched_entity, rb_tree_node);
->>>>            if (drm_sched_entity_is_ready(entity)) {
->>>> -            /* If we can't queue yet, preserve the current entity in
->>>> -             * terms of fairness.
->>>> -             */
->>>> -            if (!drm_sched_can_queue(sched, entity)) {
->>>> -                spin_unlock(&rq->lock);
->>>> -                return ERR_PTR(-ENOSPC);
->>>> -            }
->>>> -
->>>>                reinit_completion(&entity->entity_idle);
->>>>                break;
->>>>            }
->>>
->>
-> 
+Best regards,
+-- 
+Luca Ceresoli <luca.ceresoli@bootlin.com>
 
