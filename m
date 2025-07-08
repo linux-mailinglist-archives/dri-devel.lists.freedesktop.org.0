@@ -2,45 +2,45 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id E631AAFD731
-	for <lists+dri-devel@lfdr.de>; Tue,  8 Jul 2025 21:38:39 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2B259AFD732
+	for <lists+dri-devel@lfdr.de>; Tue,  8 Jul 2025 21:38:42 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4AFE710E1BB;
-	Tue,  8 Jul 2025 19:38:37 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4147A10E1C3;
+	Tue,  8 Jul 2025 19:38:39 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=amd.com header.i=@amd.com header.b="vemxqw1u";
+	dkim=pass (1024-bit key; unprotected) header.d=amd.com header.i=@amd.com header.b="UGgMjdpI";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from NAM02-SN1-obe.outbound.protection.outlook.com
- (mail-sn1nam02on2069.outbound.protection.outlook.com [40.107.96.69])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 20B9B10E1BB
- for <dri-devel@lists.freedesktop.org>; Tue,  8 Jul 2025 19:38:36 +0000 (UTC)
+Received: from NAM11-CO1-obe.outbound.protection.outlook.com
+ (mail-co1nam11on2050.outbound.protection.outlook.com [40.107.220.50])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id EAB8D10E1C3
+ for <dri-devel@lists.freedesktop.org>; Tue,  8 Jul 2025 19:38:37 +0000 (UTC)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=BcTMGW8qW7n33hF5abed3P1jkeeW72BWTX8N62wcHeTnixCFnVXVoguW2mmUaMTiMb/rmqeTNw2ue5uh/3L1+OemC2SPoRlyYnP0oyFM5P6yuLU5qfSZpy1mPcfzYiddHsA8L2DSzyCuR/KbS1iAgsjUOLEEOKiVcbn3N3rQnf0mVDUZVPAB5Jwa5+pWhsOp3GuIV25S9qX/Dyk325Tzw3V3U5XsK6ZcuNyJxh752jGLm24nW+m23eE6eCWcVIe+UMpfwzyDQ4nivpjxDsnxyAWURZKwByB5h+7hMVOvf8LolxHHuJ8yMK0/T1iimG6mD72aQzeQWqTioTxCgtGb+Q==
+ b=Q2O19KgH6PJyXOk9obhSOHhZ61ef6FTxk1fqEDLcaJnJjgYGcDXwyp9KVOpdbi1unRqkyhCStRFF/TU1b0eg4svlVeoljAoQbTLkvpFxcOupsZGre4rXmSze/bJiMtgOKoahkxLema5+jbgBlqMz7+6Uh0f5fhEKBrGjcJc4t3KIlMfdvo8vQSP2OJK89x6Td63t+NwAoTaHlOwMjCMo6wkKTY9mld8mnLg69edqa7nmlDKPJwNHZZon4Of9FBY9cuLRmIBy9vfZzb1oam8o3dmD+f1p+AbL3D2y8tXRlIvF9ZCMSlKKCUB2HJYN7FvwZe4wwyPKjFwKbgzK00bYWA==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=bc/25gpQUpJrxVJJ39caHTRQrq7m4n36gkB6CTSqvKU=;
- b=jzGOl5UL/nlev/I9J1HGMBvllIgv+TPX+YZejwQQeEsJnROQTgKQYPg1Dzad6BN0wGmGzQ0v7J8VA2EPwh1l24U+/LCIcWzzR101M5ye8E81lXsy27tLrBQmWMWUkOa26E7liWu15b2UVqFg2aUsTZA9Ksh3Kuzzjj/PDgh4lQdpSWosbpc0SSx/yXTjW1s9a0YRmG+PA5INFNAzGiQpwSltFrkI2HP0miBKtdcAiwx9yZ8JZTiM/olfQvndNtl993DebwtIe8JnkZM+LtQrpFQP2i6pRR1WUu6ldAWG8Jxj/YOZjGfMo06niRi6d0nh8+kRDwlA7R+gnX8lkMq9bw==
+ bh=K32S9FzQH6ObzL2nsxidaTk5NGN9O08gpvzzM1Dyrds=;
+ b=U8SG7QjM+yzS4TtyH+gSB5+NMv+S9havbvo6nwqDwUleVTfoFDgljPgNk01b2rJTQ4Kfje5LV2K3cgUnhrmCSTsINKDHwoyAHsiaCKSbb3FDudfGfGBncIqSwpa4llqriADfU7Ad90ALulLyKP3we0edsF1PsDJF0eA1ERShvCb7XN71G3rYs9nIbKWp6WG+R9E3h2NLEKZVOKhyefh5gRGvKmIrzWqx/7ydvNtKX2Oya9psPXJgr7n7aYP+2gnSUswTEWeFNwgQlYDY+eWHxJv//8ri2WmiPVTX+AW/peyy9zpwqCWveKVUKFoE1avo5sVGH34+79x43mW/fZMS3g==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
  165.204.84.17) smtp.rcpttodomain=lists.freedesktop.org smtp.mailfrom=amd.com; 
  dmarc=pass (p=quarantine sp=quarantine pct=100) action=none
  header.from=amd.com; dkim=none (message not signed); arc=none (0)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=bc/25gpQUpJrxVJJ39caHTRQrq7m4n36gkB6CTSqvKU=;
- b=vemxqw1uL2hnfvsvuk5rK36enhCQ639wA5vYF6pVaoxmWIFnyrXuakCp41biLvqfDSgH0ceLJQf/0YaZZpOE26oZXtTblj7jf3gtn7l9clTfQvshuwXjPWsRwG1Ey2al9hY+Vr602lxfModUtW3WnMmEzTfHp4i1whoLx5robVg=
-Received: from SA9PR13CA0025.namprd13.prod.outlook.com (2603:10b6:806:21::30)
- by PH7PR12MB5997.namprd12.prod.outlook.com (2603:10b6:510:1d9::21)
+ bh=K32S9FzQH6ObzL2nsxidaTk5NGN9O08gpvzzM1Dyrds=;
+ b=UGgMjdpIHCu3G/DUD7XDH8NBGL5XKSyiNJZ6tv+l/fbLzVgT21vgf1dVhr0W4ECy1kNCuuPZxkctNco4RE68rVkNfUyHvWGwN1iTaZJApQ/vm07Rd34a+t7xHeIy6e03Zfs97slc3Zq4vwXZ6QZ3ZOQz7KPLM7HASwKX7vL4qo8=
+Received: from SN7P222CA0001.NAMP222.PROD.OUTLOOK.COM (2603:10b6:806:124::28)
+ by CY3PR12MB9554.namprd12.prod.outlook.com (2603:10b6:930:109::19)
  with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8880.26; Tue, 8 Jul
- 2025 19:38:33 +0000
-Received: from SN1PEPF00036F40.namprd05.prod.outlook.com
- (2603:10b6:806:21:cafe::de) by SA9PR13CA0025.outlook.office365.com
- (2603:10b6:806:21::30) with Microsoft SMTP Server (version=TLS1_3,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8901.27; Tue, 8 Jul
+ 2025 19:38:35 +0000
+Received: from SN1PEPF00036F43.namprd05.prod.outlook.com
+ (2603:10b6:806:124:cafe::a1) by SN7P222CA0001.outlook.office365.com
+ (2603:10b6:806:124::28) with Microsoft SMTP Server (version=TLS1_3,
  cipher=TLS_AES_256_GCM_SHA384) id 15.20.8922.21 via Frontend Transport; Tue,
- 8 Jul 2025 19:38:33 +0000
+ 8 Jul 2025 19:38:35 +0000
 X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 165.204.84.17)
  smtp.mailfrom=amd.com; dkim=none (message not signed)
  header.d=none;dmarc=pass action=none header.from=amd.com;
@@ -48,23 +48,26 @@ Received-SPF: Pass (protection.outlook.com: domain of amd.com designates
  165.204.84.17 as permitted sender) receiver=protection.outlook.com;
  client-ip=165.204.84.17; helo=SATLEXMB04.amd.com; pr=C
 Received: from SATLEXMB04.amd.com (165.204.84.17) by
- SN1PEPF00036F40.mail.protection.outlook.com (10.167.248.24) with Microsoft
+ SN1PEPF00036F43.mail.protection.outlook.com (10.167.248.27) with Microsoft
  SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.20.8901.15 via Frontend Transport; Tue, 8 Jul 2025 19:38:32 +0000
+ 15.20.8901.15 via Frontend Transport; Tue, 8 Jul 2025 19:38:34 +0000
 Received: from fdavid-dev.amd.com (10.180.168.240) by SATLEXMB04.amd.com
  (10.181.40.145) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.39; Tue, 8 Jul
- 2025 14:38:31 -0500
+ 2025 14:38:33 -0500
 From: David Francis <David.Francis@amd.com>
 To: <dri-devel@lists.freedesktop.org>
 CC: <tvrtko.ursulin@igalia.com>, <Felix.Kuehling@amd.com>,
  <David.YatSin@amd.com>, <Chris.Freehill@amd.com>, <Christian.Koenig@amd.com>, 
  <dcostantino@meta.com>, <sruffell@meta.com>, <simona@ffwll.ch>,
- <mripard@kernel.org>, <tzimmermann@suse.de>
-Subject: drm: Add CHANGE_HANDLE ioctl for drm gem 
-Date: Tue, 8 Jul 2025 15:38:08 -0400
-Message-ID: <20250708193809.403141-1-David.Francis@amd.com>
+ <mripard@kernel.org>, <tzimmermann@suse.de>, David Francis
+ <David.Francis@amd.com>
+Subject: [PATCH] drm: Add DRM prime interface to reassign GEM handle
+Date: Tue, 8 Jul 2025 15:38:09 -0400
+Message-ID: <20250708193809.403141-2-David.Francis@amd.com>
 X-Mailer: git-send-email 2.34.1
+In-Reply-To: <20250708193809.403141-1-David.Francis@amd.com>
+References: <20250708193809.403141-1-David.Francis@amd.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Content-Type: text/plain
@@ -73,52 +76,52 @@ X-ClientProxiedBy: SATLEXMB03.amd.com (10.181.40.144) To SATLEXMB04.amd.com
  (10.181.40.145)
 X-EOPAttributedMessage: 0
 X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: SN1PEPF00036F40:EE_|PH7PR12MB5997:EE_
-X-MS-Office365-Filtering-Correlation-Id: 79a3bc2a-e216-485e-8942-08ddbe5705cf
+X-MS-TrafficTypeDiagnostic: SN1PEPF00036F43:EE_|CY3PR12MB9554:EE_
+X-MS-Office365-Filtering-Correlation-Id: 3abebd71-e3de-475c-2cff-08ddbe570737
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: BCL:0;
- ARA:13230040|1800799024|82310400026|376014|36860700013; 
-X-Microsoft-Antispam-Message-Info: =?us-ascii?Q?Ucxlbiou0ADwO0dN5vmZdRua5cu6mrs4khwpPDCJMIoAfySuNKJZTmW18Cwz?=
- =?us-ascii?Q?w92e1opW3OmH5tXy7ZBmyx0t63XjWBhAds0yW1Lnh9WJp2B5VU1RELvhLCo+?=
- =?us-ascii?Q?r8e4iYd/gqEVgY2viWRXpvmHw8BkfNBo0NQ536hoB/OixTJSSxKQozZSkw7b?=
- =?us-ascii?Q?i7AOBogHS3Vk/E042FosJypTtZdio7lNAqo8a8qo6wa6zGi2TI0wtejcbMCB?=
- =?us-ascii?Q?g0Ix/jNpx3k3A3d/q82HUatzJDCnay/+OvgKObtp1GmKdbuUBBA0zdQkR5rh?=
- =?us-ascii?Q?cKYAU+8hsvLXwzjD4MzaAgRabXAYJeUv3mGAuAqw48wtz+0Esf4M5Gor1guG?=
- =?us-ascii?Q?hXc5qD8EBGxXJb2T2bTbE3e97dMe3xgSOxx4loFm37dCxxQBzZKMoScc/U+b?=
- =?us-ascii?Q?v2ZPF3reQSH/yQ7V1nsHlXcKG6xLH1nR8Rzel2uGsAJfIZHsuYs6vnwzWW5s?=
- =?us-ascii?Q?99CKPqP6doS4j4cGf8wVGGPrtzc6G504CO942j45ZVNC48k6/ldJpvOzY1ws?=
- =?us-ascii?Q?N8wJVKPeuAn8TJVrlNx8JV5ed8HiwCSBsZJazQUVfh0ekcbeM/wtQ98xZrl/?=
- =?us-ascii?Q?XBGmXTsa0SglAe8W+GQVPwXSKBlLRV4T28PudhOzS+Wn5QGwRWpBifVLBIxj?=
- =?us-ascii?Q?r35c3SDbQhx9e0RArritX3v9O3FXYUaF7JlgFG8DwSel0KIhVWf0ZZV3zMND?=
- =?us-ascii?Q?WACAUrEMTSPAGgBVuHP0CznLohDwWLN/covBiElYJRyFGjz3Zv8zks+M6te5?=
- =?us-ascii?Q?eK4NTBClapffUu2mLi8XIuRMy1VOQBawE7g0FYsfPFIP7pR61jJZA9qPiata?=
- =?us-ascii?Q?4Ip7MrPf/Ytlj8DeBt0nkGs9rN/og6jnY8l/A0J3gbqxy9YLsl668zVT/o93?=
- =?us-ascii?Q?GCG56ZNE8jKCpI+QYKbT1JsAeZcTYuG/sDvI0D6EbMbm8MbyVnErY7Mk8jq1?=
- =?us-ascii?Q?8ytAlzL4D8CPsrItR67aJq3aHdTBRls2TvbjR1r06LHIiLwTlkKHm4mC6J9B?=
- =?us-ascii?Q?ijGyoMX9Vo6NvodTf7edLUjfilfoxnXYTD9IhpKrt0LzTCYP4f31w5Cxa/fx?=
- =?us-ascii?Q?aeb31TzHuBY0g+m4OqS6joRoTrNSzhWB2ywOjtoa/GayZ4Gc9x2qDCiVwSPj?=
- =?us-ascii?Q?MAtwY4EKNXAMGfcoYg5Lf1h1/ZEkAQUAPV7MzTGPD4+LAhi6MVyfKoj1yGfs?=
- =?us-ascii?Q?fodwCbNBw1f3nNGiq7DM1v+CrmQpLmlqxo5ja0lWbNyLKAG9gcn0VbI35E2s?=
- =?us-ascii?Q?GRgYWUXzPZwV/GvA9dW9CQPsmr/OvMP0c6xRCTB9V+23EbOMdlVTayReZ8sd?=
- =?us-ascii?Q?7DFzREs04ShlFmk32LsRYbMJM+46RmL171+Sxot1GdQpZRj88j2ylf3JhW78?=
- =?us-ascii?Q?1Qq2FfMol9PzvQGJMljWQ0LkgzzDDKO3Uuog5EjADhEG4QxLnjzn9PwMZNV2?=
- =?us-ascii?Q?TZiJCE6Zo4tkx4YodcqQIZQy0/WZ/+zsp8tiKo2kDKujTWhKEBkveptE6zd4?=
- =?us-ascii?Q?zvoOk2eB7u+5sFfX6NqW53pKBKxkdLoy6F0H?=
+ ARA:13230040|82310400026|36860700013|1800799024|376014; 
+X-Microsoft-Antispam-Message-Info: =?us-ascii?Q?Co/le4Qa41gx5siybTC37ZpztoPbey/mNWfCay/90HKGTGqw6Ntbqdd4sUg0?=
+ =?us-ascii?Q?V3z6irUToae9yWg37y1bqN2R3jcsagvylaUNiIwYf3ozYRTBNO9+PwsMWINJ?=
+ =?us-ascii?Q?1txJvzyvuLjEqidVdBDbFMz9YBOXGL/JrbA36KYVaJd6xoa6aHhiydrRXxCG?=
+ =?us-ascii?Q?cwuxe2gYeT+1ZwNamZHcxneuhQthcvDrd1jh9sBcn3lNTjDjntT3UCb43zxd?=
+ =?us-ascii?Q?BU7CqJy+zfC2bEFXnziJmqQPKjpQ/aDplKmd9xWa3OL1qK8cL3V/3XG114lH?=
+ =?us-ascii?Q?MEqKYHycWtWUl/+6EeisrA05o5hqfFsboy8hY20XdZT1YjbVmcc7x11uu4f1?=
+ =?us-ascii?Q?WjoT0oaEVHzX+giw+JKQQrn8VHOwlwcSFoFrZCsyPRxxeEGHISshQdovJavm?=
+ =?us-ascii?Q?k5bwM77rU7Ap71Y5Mlryi42e9zpvC1xcbYntIaGVGX9k2JECVJmGIPnW724y?=
+ =?us-ascii?Q?LOP1fhOE11mTG110U2IKNA4kMfdrLLvgXQebi2vWmXSssi+D8+4JBrCj6tCc?=
+ =?us-ascii?Q?WgcdBEt+dG6TtAHeVE4c6jvycXz441mMThBpNZiwNPr0myKynZQocj3RC5GM?=
+ =?us-ascii?Q?j2KFulXCYELbqcFOKERYHzxd0PzmX9kNf/H/HZT24I+6Mly2MrmRinfDAEHk?=
+ =?us-ascii?Q?6z1kEkpq+C4psZnCe2zqlngPiieShsZAWriaX+i8Fdq2Oc3X92c1E7UO/Nae?=
+ =?us-ascii?Q?KKW5o4apf06bRhJHQ6qZkUTpwbzOLUcWbskO/sI5EcXLGfLp2QiHDpC/Yml2?=
+ =?us-ascii?Q?M+Cx3KSnSCDoeoAfXzYs+SCg2ihGl1KwXIxnz8ur19So/GtgB3I9OcgPZuaE?=
+ =?us-ascii?Q?+1l3lwD34kvXw/oP4LeTOD/cyBJe5/KoUsI8oCw5NTH20jeKK0dyawis5quL?=
+ =?us-ascii?Q?3NvbQH2diJffrabc7jN958eQ1s4gyiRaxjPadDEsWfMzgueHwwfx3oAByQTs?=
+ =?us-ascii?Q?fGqJ3m767nyAFqeBHlua8qkTlcxL6NIJKrSf7r0G6o/3Nj3ug76UvmsiMPyB?=
+ =?us-ascii?Q?OkbDQdH1PEP2Ih5utjiAhXuRVFAwBxQDTYQ/cdCszlbvNdB0YcG/zFdZWXVY?=
+ =?us-ascii?Q?KmzXQUnS6U1o7L4fSvdUWNJol7xE44eyODiCRnzukErFG1sf3WXcea/qSumi?=
+ =?us-ascii?Q?NFAuClvAC8DD+3O8CUcxqBDz2nRcp8/UfVplFr+HOKTxH4hBE5CY8Mw9rEPS?=
+ =?us-ascii?Q?yzwqbSIAyH6p7dKsj5kRP44W3ihiGeTtuTjD+s6rRLy36xNiPRJbn1H3sG3J?=
+ =?us-ascii?Q?7HpA4kS8IEap/jZrs6hhtMQAvBKSDJG48KVuy/J9+oeJocjTQ9U7WhitiCko?=
+ =?us-ascii?Q?Nz4lpjggYqnmmk43JgA8Uet4eLIG6qUXDVv0i/wNqr5pIYqMc/+Iwc9BKDY4?=
+ =?us-ascii?Q?5we6Wwd6uzyLf8FE6yB5whZmo2whPYM7jdHEatVRKs1rEjYrd2DSJ7YZznjt?=
+ =?us-ascii?Q?I4LrQvKHNaAVX6TTg6BURnwruHILBfO7G29KnqlG0dNeCxnv6ruZ+ABpaoLT?=
+ =?us-ascii?Q?IzNcb9ewAhod4QiunRIA3lQIsIHZNfcbWFnv?=
 X-Forefront-Antispam-Report: CIP:165.204.84.17; CTRY:US; LANG:en; SCL:1; SRV:;
  IPV:CAL; SFV:NSPM; H:SATLEXMB04.amd.com; PTR:InfoDomainNonexistent; CAT:NONE;
- SFS:(13230040)(1800799024)(82310400026)(376014)(36860700013); DIR:OUT;
+ SFS:(13230040)(82310400026)(36860700013)(1800799024)(376014); DIR:OUT;
  SFP:1101; 
 X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 08 Jul 2025 19:38:32.3881 (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: 79a3bc2a-e216-485e-8942-08ddbe5705cf
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 08 Jul 2025 19:38:34.8317 (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: 3abebd71-e3de-475c-2cff-08ddbe570737
 X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
 X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=3dd8961f-e488-4e60-8e11-a82d994e183d; Ip=[165.204.84.17];
  Helo=[SATLEXMB04.amd.com]
-X-MS-Exchange-CrossTenant-AuthSource: SN1PEPF00036F40.namprd05.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthSource: SN1PEPF00036F43.namprd05.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Anonymous
 X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH7PR12MB5997
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: CY3PR12MB9554
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -134,13 +137,209 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-This patch adds an ioctl to reassign the gem handle of a bo.
-It was formerly the first patch of my CRIU with dmabuf patchset.
+CRIU restore of drm buffer objects requires the ability to create
+or import a buffer object with a specific gem handle.
 
-Would it be possible to merge this on its own? Internal deadlines
-would prefer this to be in the next kernel release if possible.
+Add new drm ioctl DRM_IOCTL_GEM_CHANGE_HANDLE, which takes
+the gem handle of an object and moves that object to a
+specified new gem handle.
 
-The CRIU patches that are the current use case for this can be
-found at https://github.com/checkpoint-restore/criu/pull/2613
+This ioctl needs to call drm_prime_remove_buf_handle,
+but that function acquires the prime lock, which the ioctl
+needs to hold for other purposes.
 
+Make drm_prime_remove_buf_handle not acquire the prime lock,
+and change its other caller to reflect this.
+
+Signed-off-by: David Francis <David.Francis@amd.com>
+---
+ drivers/gpu/drm/drm_gem.c      | 61 ++++++++++++++++++++++++++++++++++
+ drivers/gpu/drm/drm_internal.h |  4 +++
+ drivers/gpu/drm/drm_ioctl.c    |  1 +
+ drivers/gpu/drm/drm_prime.c    |  6 +---
+ include/uapi/drm/drm.h         | 17 ++++++++++
+ 5 files changed, 84 insertions(+), 5 deletions(-)
+
+diff --git a/drivers/gpu/drm/drm_gem.c b/drivers/gpu/drm/drm_gem.c
+index c6240bab3fa5..693ef636fb3e 100644
+--- a/drivers/gpu/drm/drm_gem.c
++++ b/drivers/gpu/drm/drm_gem.c
+@@ -282,7 +282,12 @@ drm_gem_object_release_handle(int id, void *ptr, void *data)
+ 	if (obj->funcs->close)
+ 		obj->funcs->close(obj, file_priv);
+ 
++	mutex_lock(&file_priv->prime.lock);
++
+ 	drm_prime_remove_buf_handle(&file_priv->prime, id);
++
++	mutex_unlock(&file_priv->prime.lock);
++
+ 	drm_vma_node_revoke(&obj->vma_node, file_priv);
+ 
+ 	drm_gem_object_handle_put_unlocked(obj);
+@@ -888,6 +893,62 @@ drm_gem_flink_ioctl(struct drm_device *dev, void *data,
+ 	return ret;
+ }
+ 
++/**
++ * drm_gem_change_handle_ioctl - implementation of the GEM_CHANGE_HANDLE ioctl
++ * @dev: drm_device
++ * @data: ioctl data
++ * @file_priv: drm file-private structure
++ *
++ * Change the handle of a GEM object to the specified one.
++ * The new handle must be unused. On success the old handle is closed
++ * and all further IOCTL should refer to the new handle only.
++ * Calls to DRM_IOCTL_PRIME_FD_TO_HANDLE will return the new handle.
++ */
++int drm_gem_change_handle_ioctl(struct drm_device *dev, void *data,
++				struct drm_file *file_priv)
++{
++	struct drm_gem_change_handle *args = data;
++	struct drm_gem_object *obj;
++	int ret;
++
++	obj = drm_gem_object_lookup(file_priv, args->handle);
++	if (!obj)
++		return -ENOENT;
++
++	if (args->handle == args->new_handle)
++		return 0;
++
++	mutex_lock(&file_priv->prime.lock);
++
++	spin_lock(&file_priv->table_lock);
++	ret = idr_alloc(&file_priv->object_idr, obj, args->new_handle, args->new_handle + 1, GFP_NOWAIT);
++	spin_unlock(&file_priv->table_lock);
++
++	if (ret < 0)
++		goto out_unlock;
++
++	if (obj->dma_buf) {
++		ret = drm_prime_add_buf_handle(&file_priv->prime, obj->dma_buf, args->new_handle);
++		if (ret < 0) {
++			spin_lock(&file_priv->table_lock);
++			idr_remove(&file_priv->object_idr, args->new_handle);
++			spin_unlock(&file_priv->table_lock);
++			goto out_unlock;
++		}
++
++		drm_prime_remove_buf_handle(&file_priv->prime, args->handle);
++	}
++
++	spin_lock(&file_priv->table_lock);
++	idr_remove(&file_priv->object_idr, args->handle);
++	spin_unlock(&file_priv->table_lock);
++
++out_unlock:
++	mutex_unlock(&file_priv->prime.lock);
++
++	return ret;
++}
++
+ /**
+  * drm_gem_open_ioctl - implementation of the GEM_OPEN ioctl
+  * @dev: drm_device
+diff --git a/drivers/gpu/drm/drm_internal.h b/drivers/gpu/drm/drm_internal.h
+index b2b6a8e49dda..e9d5cdf7e033 100644
+--- a/drivers/gpu/drm/drm_internal.h
++++ b/drivers/gpu/drm/drm_internal.h
+@@ -85,6 +85,8 @@ int drm_prime_fd_to_handle_ioctl(struct drm_device *dev, void *data,
+ 
+ void drm_prime_init_file_private(struct drm_prime_file_private *prime_fpriv);
+ void drm_prime_destroy_file_private(struct drm_prime_file_private *prime_fpriv);
++int drm_prime_add_buf_handle(struct drm_prime_file_private *prime_fpriv,
++			     struct dma_buf *dma_buf, uint32_t handle);
+ void drm_prime_remove_buf_handle(struct drm_prime_file_private *prime_fpriv,
+ 				 uint32_t handle);
+ 
+@@ -168,6 +170,8 @@ int drm_gem_close_ioctl(struct drm_device *dev, void *data,
+ 			struct drm_file *file_priv);
+ int drm_gem_flink_ioctl(struct drm_device *dev, void *data,
+ 			struct drm_file *file_priv);
++int drm_gem_change_handle_ioctl(struct drm_device *dev, void *data,
++				struct drm_file *file_priv);
+ int drm_gem_open_ioctl(struct drm_device *dev, void *data,
+ 		       struct drm_file *file_priv);
+ void drm_gem_open(struct drm_device *dev, struct drm_file *file_private);
+diff --git a/drivers/gpu/drm/drm_ioctl.c b/drivers/gpu/drm/drm_ioctl.c
+index f593dc569d31..d8a24875a7ba 100644
+--- a/drivers/gpu/drm/drm_ioctl.c
++++ b/drivers/gpu/drm/drm_ioctl.c
+@@ -653,6 +653,7 @@ static const struct drm_ioctl_desc drm_ioctls[] = {
+ 	DRM_IOCTL_DEF(DRM_IOCTL_GEM_CLOSE, drm_gem_close_ioctl, DRM_RENDER_ALLOW),
+ 	DRM_IOCTL_DEF(DRM_IOCTL_GEM_FLINK, drm_gem_flink_ioctl, DRM_AUTH),
+ 	DRM_IOCTL_DEF(DRM_IOCTL_GEM_OPEN, drm_gem_open_ioctl, DRM_AUTH),
++	DRM_IOCTL_DEF(DRM_IOCTL_GEM_CHANGE_HANDLE, drm_gem_change_handle_ioctl, DRM_RENDER_ALLOW),
+ 
+ 	DRM_IOCTL_DEF(DRM_IOCTL_MODE_GETRESOURCES, drm_mode_getresources, 0),
+ 
+diff --git a/drivers/gpu/drm/drm_prime.c b/drivers/gpu/drm/drm_prime.c
+index bdb51c8f262e..1f2e858e5000 100644
+--- a/drivers/gpu/drm/drm_prime.c
++++ b/drivers/gpu/drm/drm_prime.c
+@@ -93,7 +93,7 @@ struct drm_prime_member {
+ 	struct rb_node handle_rb;
+ };
+ 
+-static int drm_prime_add_buf_handle(struct drm_prime_file_private *prime_fpriv,
++int drm_prime_add_buf_handle(struct drm_prime_file_private *prime_fpriv,
+ 				    struct dma_buf *dma_buf, uint32_t handle)
+ {
+ 	struct drm_prime_member *member;
+@@ -190,8 +190,6 @@ void drm_prime_remove_buf_handle(struct drm_prime_file_private *prime_fpriv,
+ {
+ 	struct rb_node *rb;
+ 
+-	mutex_lock(&prime_fpriv->lock);
+-
+ 	rb = prime_fpriv->handles.rb_node;
+ 	while (rb) {
+ 		struct drm_prime_member *member;
+@@ -210,8 +208,6 @@ void drm_prime_remove_buf_handle(struct drm_prime_file_private *prime_fpriv,
+ 			rb = rb->rb_left;
+ 		}
+ 	}
+-
+-	mutex_unlock(&prime_fpriv->lock);
+ }
+ 
+ void drm_prime_init_file_private(struct drm_prime_file_private *prime_fpriv)
+diff --git a/include/uapi/drm/drm.h b/include/uapi/drm/drm.h
+index 7fba37b94401..84c819c171d2 100644
+--- a/include/uapi/drm/drm.h
++++ b/include/uapi/drm/drm.h
+@@ -625,6 +625,15 @@ struct drm_gem_open {
+ 	__u64 size;
+ };
+ 
++/* DRM_IOCTL_GEM_CHANGE_HANDLE ioctl argument type */
++struct drm_gem_change_handle {
++	/** Current handle of object */
++	__u32 handle;
++
++	/** Handle to change that object to */
++	__u32 new_handle;
++};
++
+ /**
+  * DRM_CAP_DUMB_BUFFER
+  *
+@@ -1305,6 +1314,14 @@ extern "C" {
+  */
+ #define DRM_IOCTL_SET_CLIENT_NAME	DRM_IOWR(0xD1, struct drm_set_client_name)
+ 
++/**
++ * DRM_IOCTL_GEM_CHANGE_HANDLE - Move an object to a different handle
++ *
++ * Some applications (notably CRIU) need objects to have specific gem handles.
++ * This ioctl changes the object at one gem handle to use a new gem handle.
++ */
++#define DRM_IOCTL_GEM_CHANGE_HANDLE    DRM_IOWR(0xD2, struct drm_gem_change_handle)
++
+ /*
+  * Device specific ioctls should only be in their respective headers
+  * The device specific ioctl range is from 0x40 to 0x9f.
+-- 
+2.34.1
 
