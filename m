@@ -2,162 +2,158 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 271E9AFCD8F
-	for <lists+dri-devel@lfdr.de>; Tue,  8 Jul 2025 16:28:39 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1D4BFAFCD9E
+	for <lists+dri-devel@lfdr.de>; Tue,  8 Jul 2025 16:31:12 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8619510E661;
-	Tue,  8 Jul 2025 14:28:36 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5C9B610E664;
+	Tue,  8 Jul 2025 14:31:09 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=amd.com header.i=@amd.com header.b="T1d7Ukld";
+	dkim=pass (1024-bit key; unprotected) header.d=amd.com header.i=@amd.com header.b="KoQMuPz3";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from NAM12-BN8-obe.outbound.protection.outlook.com
- (mail-bn8nam12on2076.outbound.protection.outlook.com [40.107.237.76])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9BDD810E660;
- Tue,  8 Jul 2025 14:28:34 +0000 (UTC)
+Received: from NAM11-BN8-obe.outbound.protection.outlook.com
+ (mail-bn8nam11on2049.outbound.protection.outlook.com [40.107.236.49])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D873710E663;
+ Tue,  8 Jul 2025 14:31:07 +0000 (UTC)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=vxjHaygs8TWKEn5higuBDdnUAycHO6berTrV9ZIgC9DDPTfRNERuED8F/Rp5zZFStYfZ4rExdydls0ZvmTCu9z+PR0JZaKfeqXH+iT7Fw7d8Zn9IrI/DkJUoPUd6lqZUYSw9rj+nQI68tpyM4EynqpqaD82Z/xOq9WDDl1ki/PxAcsJnXgtaBR17KmeK1LdSnQU8yS9jTe2M1yNSONIH/kxMhV98RmC9hCZlO6+0NWZ+iCSqDinBS+K58bMzT9UiOtrL3/HBzuhmJb/TOUOh7VYtppU5WpKVliIZMiNi9ox/nKxKAfqqYdJtxtHiagNcWOq+61i/qAZgKWav0ZqUjw==
+ b=FkTtCjvMhCJ8LLEVVz4dOluKuhDgd1a6N2E8UuJNuEgBdVKFJqKiPsIM5bKcsVYNh0jGWcm5dyHV/s47SqZW711kIIWMDzgNRKJ6g2aJXn6+LcE3Ukh59RrJ1oqv5PrSPX5/vWrzcyzKlAvdZCpb07LnzRD6nYK4paj88D5fJV5k+L2VoGpcPc0c6mDeWNNBeZ6MeP+MAawHMYAH2+UgqtxWZq4wWBtjjF25q3uRO3/Jk9zWalXSuQU/ZjbD1VIcpLDpBdPw9sJt6j1Dla2dAslVUlJ1OM65J3ttDVFddjfAPQF+nDj7xvUhyI43BrYyrfKl6YifyppbQbFxbXBWCQ==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=13Kss5/ZlqS2hOsyED47OwOTHIyLQlqHAxO1NNr/yVY=;
- b=Rg3J232y04DTAP1N2bJ0DqExZCf+rLcOXD5BUofP5tBOdqUspj+6AM/gb0Vd4JvBnkxQuEZPOsb8fVS3W7LdQH4TTwn6x9YVoO1AwLcMu1j1cMfmuNFfQGnUIT0NZZ9NwJ6hxJCHQPXSnh4HtgdYtjdnQ776LmaeCVl7Ybz00f1+rxjb7eXmbJ/zXLaZZTd4bYMLldgnoFK7uBRC35pNEdSLZYasuqU82pK4oCyaZbm256nuqET7XYqzs6cOTi12tSPt6YBbDTuHLmXyVrdLS4/XxfOoUxEbdJ1AuVBAhKyaEBIcYt6aZD55p+2M0XeBR+brZgbDnO1lXycRkM2/8A==
+ bh=5ao7EqSujX1oXnKB8CL8ma1yl8coxNIywgCv8+xmxQ4=;
+ b=pIDPGc1FUByp4okjT+KLR2uHuTgjbV1zs9MpaaYQiie/x3epfy/C9/t/V+FernUOlkRWbWTGQmhNKW/yjS29bMqmGNEas0fyrNVPsooYO7X24Jl0aatHBBT6o0Hb71Ad+S480P3LH+Io5dRllFhLxanZNWe4nTTTrkJpCqEExNjqirpbR7y8V5TNefavNMETX5P0c6wuE9RGEF6GaJVwQWz1zBmqtYf0LBhjm4UFD6hu0t0CgAcjSK3SXU4wseH5tkHX6E4a9RRX4K5SRVmLwILzncRtZ9kCS/inrvoz4qAOtwm1A4NKrDpALO8OKmHgATC3AN3xcsCUNn47Lpldyw==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
  header.d=amd.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=13Kss5/ZlqS2hOsyED47OwOTHIyLQlqHAxO1NNr/yVY=;
- b=T1d7UkldRylgbQ3KXS1XpeKBT/Rxrjd+sSBE6jVQUQReJoAIX7JeBqwACONXes3hXsIGHyq9JeY+y8X2u8HE2PZYBgd9cWPegnl+t8gggUgOOgGTl8bCDw8q08R+JtqpFzJNGeZ+ebT6/+OGcQmvbfBCJ95rSwLzEe60DGi1/Pc=
+ bh=5ao7EqSujX1oXnKB8CL8ma1yl8coxNIywgCv8+xmxQ4=;
+ b=KoQMuPz3CumZUL8Fl+inwvDGgCYcZooVswQYdQeZ+o7iRESMsntAdLwosh36dMzP8HSKEALCSaW0BZoxtOB02RVIJGBfksjV8BFQ0hMullPsZiHBjNbP5aVUUVmj9HzubP3rqWA2IwJ0nmZRkl7ipfLu39u6F7vHnBRaoc7OWoI=
 Authentication-Results: dkim=none (message not signed)
  header.d=none;dmarc=none action=none header.from=amd.com;
 Received: from MN0PR12MB6101.namprd12.prod.outlook.com (2603:10b6:208:3cb::10)
- by IA1PR12MB9737.namprd12.prod.outlook.com (2603:10b6:208:465::7)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8901.20; Tue, 8 Jul
- 2025 14:28:32 +0000
+ by DS7PR12MB8417.namprd12.prod.outlook.com (2603:10b6:8:eb::21) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8901.27; Tue, 8 Jul
+ 2025 14:31:03 +0000
 Received: from MN0PR12MB6101.namprd12.prod.outlook.com
  ([fe80::37ee:a763:6d04:81ca]) by MN0PR12MB6101.namprd12.prod.outlook.com
  ([fe80::37ee:a763:6d04:81ca%3]) with mapi id 15.20.8901.024; Tue, 8 Jul 2025
- 14:28:32 +0000
-Message-ID: <bd30f96b-44d2-4127-a019-f02bc2689aa2@amd.com>
-Date: Tue, 8 Jul 2025 10:28:21 -0400
+ 14:31:03 +0000
+Message-ID: <6758cecc-d324-4ed5-b38e-2a4384a34d60@amd.com>
+Date: Tue, 8 Jul 2025 10:31:01 -0400
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v3 3/5] PM: hibernate: shrink shmem pages after
- dev_pm_ops.prepare()
-To: Samuel Zhang <guoqing.zhang@amd.com>, alexander.deucher@amd.com,
- christian.koenig@amd.com, rafael@kernel.org, len.brown@intel.com,
+Subject: Re: [PATCH v3 0/5] reduce system memory requirement for hibernation
+To: "Rafael J. Wysocki" <rafael@kernel.org>
+Cc: lijo.lazar@amd.com, victor.zhao@amd.com, haijun.chang@amd.com,
+ Qing.Ma@amd.com, Owen.Zhang2@amd.com, linux-pm@vger.kernel.org,
+ linux-kernel@vger.kernel.org, amd-gfx@lists.freedesktop.org,
+ dri-devel@lists.freedesktop.org, Samuel Zhang <guoqing.zhang@amd.com>,
+ alexander.deucher@amd.com, christian.koenig@amd.com, len.brown@intel.com,
  pavel@kernel.org, gregkh@linuxfoundation.org, dakr@kernel.org,
  airlied@gmail.com, simona@ffwll.ch, ray.huang@amd.com,
  matthew.auld@intel.com, matthew.brost@intel.com,
  maarten.lankhorst@linux.intel.com, mripard@kernel.org, tzimmermann@suse.de
-Cc: lijo.lazar@amd.com, victor.zhao@amd.com, haijun.chang@amd.com,
- Qing.Ma@amd.com, Owen.Zhang2@amd.com, linux-pm@vger.kernel.org,
- linux-kernel@vger.kernel.org, amd-gfx@lists.freedesktop.org,
- dri-devel@lists.freedesktop.org
 References: <20250708074248.1674924-1-guoqing.zhang@amd.com>
- <20250708074248.1674924-4-guoqing.zhang@amd.com>
 Content-Language: en-US
 From: Mario Limonciello <mario.limonciello@amd.com>
-In-Reply-To: <20250708074248.1674924-4-guoqing.zhang@amd.com>
+In-Reply-To: <20250708074248.1674924-1-guoqing.zhang@amd.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: YT4PR01CA0409.CANPRD01.PROD.OUTLOOK.COM
- (2603:10b6:b01:10b::14) To MN0PR12MB6101.namprd12.prod.outlook.com
+X-ClientProxiedBy: YT1PR01CA0134.CANPRD01.PROD.OUTLOOK.COM
+ (2603:10b6:b01:2f::13) To MN0PR12MB6101.namprd12.prod.outlook.com
  (2603:10b6:208:3cb::10)
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: MN0PR12MB6101:EE_|IA1PR12MB9737:EE_
-X-MS-Office365-Filtering-Correlation-Id: fcff4c9b-e897-44f0-9798-08ddbe2bb6d6
+X-MS-TrafficTypeDiagnostic: MN0PR12MB6101:EE_|DS7PR12MB8417:EE_
+X-MS-Office365-Filtering-Correlation-Id: 6f03d260-aef6-448a-2976-08ddbe2c1119
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
- ARA:13230040|1800799024|366016|7416014|376014|921020; 
-X-Microsoft-Antispam-Message-Info: =?utf-8?B?NW9BTzBqc3VmZ2hiTW9ZZXVyK1NadjJtL3FUMGFHTE1uRDlYRkxXQ29VR0VL?=
- =?utf-8?B?TVF5UmZ0SUMwUXV3bS9ZQ1htbklRdWRMQVlBSXRRUEk2clZONzRvRnhUeEZ5?=
- =?utf-8?B?ZWJkZDBWV2JaNEYzWG5UcGRlR0RSelNwRUZ6OWpNdzZ2YmpPT1RBMzN0eTQx?=
- =?utf-8?B?R0hhajNJdkRzd0ZZaUgwZ04yQUJWNVNuczVoaTRxMm5pa20wNFM3WWZ0Y3dZ?=
- =?utf-8?B?dzFId2pIcVFBUDU3cXBMSjlWZHNsRFhLSzhDOUdHT2p2WnFaeXBCWWNoeStJ?=
- =?utf-8?B?V2J4Zi9WeCtwNVc2b0srbUx4NFp5aDZqYldzWEJITmhQS2tZaUp3Y1NkYzhV?=
- =?utf-8?B?a0hRWFdBbmRkYTVSRWIvWW5LOUVra25OQ3JsT0Q3c0dnY2E2VmthTTVsZ0xH?=
- =?utf-8?B?RnBXMUU4aEVDREthbkE2OVBpUTRtYWJlNUtjWWdncDg5a0liYjFHUEYxZmlp?=
- =?utf-8?B?b2MzbjdldVlNVVU2RmI1Qk82ZTZMQkFaMENYbVNGMVFWeVR1emU5RFJybXJ1?=
- =?utf-8?B?Q2ZFRVlKKzNtYTdEUnhpaTVOUGpUeGhJQmFWTHJtMGdiME5tcVBSMUpEbXZ0?=
- =?utf-8?B?WlBNMmRoVHJGSmdvcDFaM3Q0dHZiam55SHFNS0hhcUo1bTZZeG1FSjlPTnV6?=
- =?utf-8?B?cG5MRm4rd0pwa1hua3IrVGRROVpKaW45b0VIdHI2WjVzRjArTkhjUTNkMHRS?=
- =?utf-8?B?Rlp2OUlneXhOUTZMa3Zpdm56dXk4VFVuaTNwTXBuQWw0cVg3bzFrWitJY2Fu?=
- =?utf-8?B?ejY5SVUxdlBCN0xWdWFxdXJUY0QvcFpvMjIzaUtKU2JheUtqazk2M2JQNkZY?=
- =?utf-8?B?MGZ4dS9Nang1a0h2N3VhVFNnelc3RUwrTFRzcytVYlZYekR5QlFuZzVhLysx?=
- =?utf-8?B?aHJXdkNZbVRzZVN4OThpemNuMUZzTmRKVHRQODlFNE12alJZdS9QMUNHVVd4?=
- =?utf-8?B?MjFkWmN4a1JJRU92bWZ0dC9Ic2FoNlNhZE9pZWxIbXRqbk00U1pERHNRWndw?=
- =?utf-8?B?ZnpvRjMrbFhEQ3FvM012MWNxVjJLQnd2clpLTlBvVkd3YzVWU3FjVXZreEJB?=
- =?utf-8?B?SkM5a0EyRlJ2akgxSW5mTVZRY0dRYWhjVFVtdm51YWZxb2dMOHlnakIrOU9L?=
- =?utf-8?B?KzdheGhTdk1VL2pmZHdpeHF4S09XbzFDTkNuOUk2WFRaeUZVQVhjaXhCdmda?=
- =?utf-8?B?ZkxPRm5MTkxOUnl3MWxwMUxOaURhaU5qOFF0NVFZcFBFUWs5SXFaemM1ZW4y?=
- =?utf-8?B?dE9tVmhkWDBVY0pIMldBY1YwNmJoZHVPb3pXR3lHcjdoL0NuQW1ScExzRTZW?=
- =?utf-8?B?QkpPME1ma0dtbTA2d00zdmZKSmExNXBXTzg0M1FPOVlCTnYvKzZoakduNEdv?=
- =?utf-8?B?U2dJY2Z3MkJmdURyeUVjSnNKRzVST0dPZDRCVndTWkg3aFh1ZGh1RGdUT2JZ?=
- =?utf-8?B?SW9jU2NWc25vdFpJWlBHQXBSZkZBNzExV0dQdkZ0K1lFMFc4NmUxb2VGYklQ?=
- =?utf-8?B?YW41Zitaa0NScGxtRGZ3ZUpBeHI3dlFlaUgxRDJjZUoxaHlYbytzU1lxY2I1?=
- =?utf-8?B?SWdzNkN1Q1BYYWZjWHhmQUFHU25mZk5BR2Q2RzBNeStXUldaTzJyTUJWZ016?=
- =?utf-8?B?VnVuanVtTU9IdFBNN1dTcitSc0YzU3o5STBhVTFoeTAwU3ZBSU5ma1JkREN0?=
- =?utf-8?B?YU1STHNUNUg2OVdWSnlRdFEyKzlGSmY5NzdFaVgveGlyYjF2cGo0djNhN3Jw?=
- =?utf-8?B?elBjejk5alh6SnpIUHlyU2RLVVcxQXRGMHJUY3cyYUpuZWNleG4yYWpCWWNq?=
- =?utf-8?B?UXczMGRINitPb1IwZzEyMmNsZFo2aGtvazhMK255aFZtZzlhL0VoUUtRU25Q?=
- =?utf-8?B?NS9yUlhvMUwxVTV4eEtxMFpFUnlCY213VEk2WXlFQW12eUtpaDEzalpQUzFr?=
- =?utf-8?B?NTIxN000ay8wa1VmOEdBeDgrUDBkdWg4NW1xdzAxemt2UWdlR2tFMEhtczF1?=
- =?utf-8?B?cENVUHM2Ny9nPT0=?=
+X-Microsoft-Antispam: BCL:0;ARA:13230040|366016|376014|7416014|1800799024;
+X-Microsoft-Antispam-Message-Info: =?utf-8?B?ditQanNBMS8wbDdwNUlHbmNuaWhEZ3RkeUk4UHlsOXUzNWN5bmFTUlIzakJD?=
+ =?utf-8?B?RXF3UTEvQmFNNFNiT0wvWjJGaUN6eG1FMG1KYWc3YWdIcTl1V0gwUTdiTnVO?=
+ =?utf-8?B?T09Ddk5iMk1hMHZpRkJFOWVwTm9xNXBhUmxuOUtjSEdvZ0dDRFNhd205QTR2?=
+ =?utf-8?B?TitiYnNlWEUxVlBBK0VUZHJaK09wejJSMVFiMVR5NnpjS2t0dWRlK1U1dDh0?=
+ =?utf-8?B?QnFxcmtVOVdpL3JXUFRGMmlRWDFFSEpnYndWVXZ4UVhvSEU4UFZ6Q2krZ3lG?=
+ =?utf-8?B?cTZrZllCelJIUis2VzVzT0JNaG9EenRXU2NlM2ZSSE9Pd3lkWC91Rjh4WlZR?=
+ =?utf-8?B?UjNxWEcwWGYzL1psNStFVWRwQ1FGY0tydjg5MzdTLzk4TTlHUjV1a3U0aURv?=
+ =?utf-8?B?S3FSRDdKUTBWNW5KVHVRYkdkaW4weStTMFFGUzY0ZmxQQ0l4cHE5WVdHb2JN?=
+ =?utf-8?B?MlZzMlUxS0wrWkg0SFJLTnhmYVpkRWR2RUZPcXNHT1I2NVJ5UGdQVWpzOXZZ?=
+ =?utf-8?B?ZGRGNTB2dnhzVVBsYTNPazFUTE9GcldEZW82OCsyVW5GNG1xanhkWDdoTEF4?=
+ =?utf-8?B?bGtCTWhzaFVONWFPUzFpam8vbDRqY2hlVGJLQXozaWVEdGx6eWVmVG9BeEk1?=
+ =?utf-8?B?MWxNTkdDdFIzaldUa1pxc1RQSE1lZlErOHM4dWQxQ2s4WkxsUGlQM25HSHA5?=
+ =?utf-8?B?TG5BMG5EUGtmTVQ3OHNydDdKdndGV0c4Sy92UnlSdS9qck9OWXB3ZVRjMnR6?=
+ =?utf-8?B?cWIydEFKbXlrMWJiRHh1QXNVUTVUZVNzNTFtN3dnWi9kQzY1WnRrTDByWDQz?=
+ =?utf-8?B?K3huQkFxL0hyeUlra0dnRkthM3RjaVpiSmJvelhBNDlsRHZiUUZrVDdWNnRh?=
+ =?utf-8?B?ejdPb2lpVnhxNHBKYU1vR092bE91NTFWaDV0L2xoUkpsd05XWDFhdUFXN1Zy?=
+ =?utf-8?B?RXJ1cnNqWTBid1d3NFU2bVJDem9OSEFsc1E0NnNzZU12L3VXWk9SWnJCUjhi?=
+ =?utf-8?B?TDZCOFpaRVlodlJoUXA5bTJRdzBaN2ErSmRyYmRZNmZUZWFuMzZqUUpreERS?=
+ =?utf-8?B?dmxXQ0g4VnRUTHZPZ284OFNyR3c2L2Jod2ZraEdmNzNCUzBZMFJsKzhuUGZY?=
+ =?utf-8?B?YmlYSWIvbXI0TzlOR0hHRkJ2cmc5RTNMRldmaXpqeDdFNTE2Q01SRkhkbzFp?=
+ =?utf-8?B?bmVTdk9hTzYrbi9EZWFzQk9OcW11UXUrelgvL2hvZk4zM1hHOVhXd2xiTGVB?=
+ =?utf-8?B?UUdJTUVXZUlQS3F6ZmlPeTFtMENZUGlUVEhhUnU0RHRTNDJhaGphVTI2VE5y?=
+ =?utf-8?B?YkFCVkk0TFM5SmxCTEpYenZidzRNWGhaUDEyOXlMQ3NHUWRhclVpOWwvRG4w?=
+ =?utf-8?B?eklvSGtvdkJBMFoxRHJxWk1KYkFoUHFhSTVIeGFzZFVLR2ltbTZFaER5TlZ3?=
+ =?utf-8?B?NkFNUU94M3UzYnlSSzJyRmZzSVQyUmppN3ozdWRDZUgrdXFKNGdqQ1N1VmJv?=
+ =?utf-8?B?TFFtd1IwWks0Ny9UNFcvQ3FiRkZ2dS9BSUN3UVFCL3I2b1FiK3RFVXBkVFhw?=
+ =?utf-8?B?N1FHeWpXVzB0cDN0VWlSa0tZQytVMEVqZU1HT2hPSHVSZGxtWjdPYklUUDky?=
+ =?utf-8?B?N1lMbnRWTVRZb0pPQ0NwZlF1czRFWWM1MkdYQ3UvTjNZTSsxSHdua1ZBelVv?=
+ =?utf-8?B?MW5kd1JSN0xMRXpNcDFJc0EwVWtmMFVQb29CWmlOVmFXUzEyZHdmSGYvUTlo?=
+ =?utf-8?B?d2IvR1QzK2Vsc2pzS1ZlQ3pxVkVFVkUxTFdNaTlQTmxtK0FsSzl6Vk9yVzJI?=
+ =?utf-8?B?Z0w3ZzM5emlrY3UxN3VnejZ6ZDlkVW9hcFJCaHB6RThrK3FxaTFVTnlBRGxq?=
+ =?utf-8?B?ZjJuLzN0bGhXZkJlTVhWS292cnpyL2txTDZvOVhwNEVpaDYyVlVYcDQvQUNk?=
+ =?utf-8?Q?3w8SAVVI85w=3D?=
 X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
  IPV:NLI; SFV:NSPM; H:MN0PR12MB6101.namprd12.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230040)(1800799024)(366016)(7416014)(376014)(921020); DIR:OUT; SFP:1101;
+ SFS:(13230040)(366016)(376014)(7416014)(1800799024); DIR:OUT; SFP:1101; 
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?N2dvQVQ4eGZ6WS9MVml4RitSN2ljZ0NqRnh0UDdRdkIwNUt3ZEJEejV6d20y?=
- =?utf-8?B?Zkloa1cxb2wvbXFNZW9pK1lpT1VLNGluWWlmZmpldzZ6bmFZSldNR01SeENz?=
- =?utf-8?B?cUI5VkFxTGJFdmRUbFEvVUdLaUJFRlhPZTE0ZTZHZzF4QlI5SG1sVEdqWFho?=
- =?utf-8?B?R2pyVCtJUTVvbXh3NWViTnprbzlMZTVCSVRxbDFjMWkxSnpRUGtwdThFeW9u?=
- =?utf-8?B?SXJGd3AzemNrNGxiTEp5MnkvVWZLS2dRc05xblY5VFdGQXk1M0QvcXFLWXdF?=
- =?utf-8?B?UkxoZWpUazU4eG1zV3pzQXdhUGVzaXczTS9jTkVqdWNYTjhXOU9WdDgxUDh2?=
- =?utf-8?B?ZTF2SjVyUk5aZlBGTjhQd2s2b0dPU0F1Yk5CV21sdHhCOVdsbkk2M1duNGNk?=
- =?utf-8?B?cG43blpKUWdNVUREaXB4cG85TU1nTU5kTitra1NXSXcvcnQ3bG9RT2l6RjFi?=
- =?utf-8?B?cEZ6aEpuWXZQd1IxKzdIT0lUUmsxY1Z1TmRjVHBvb2JFcXo3N0NBTmY4VVZu?=
- =?utf-8?B?NitNVW8wL0FLd2dtOHRHRnlTZWVTQW1ZRVJENGVwLzVFaE1kYURxbGNYWmgy?=
- =?utf-8?B?bE5WQ2xxbDRiWC9RNWhYN2ZKMjNRNVpYdlJnWmFOdHphOStBVDZGVmhWM0xP?=
- =?utf-8?B?MGlXTkNjWnozRXFKWFZjZ1ZML2R2ZXp2R0g0UlJEZ2tTd3NMZVlBdTBoeDEw?=
- =?utf-8?B?UDJKWXVCc250Y1pZelJZMXpXdlI5dlZHZDhIVGljQXZybG5PdU9icjh0bm5t?=
- =?utf-8?B?STVLYm5vb3dGMFJlOFhGWFVVVm5FZkhMakJPN1pnZUMzVURsOWZiRFU3QXV2?=
- =?utf-8?B?enJnSnJCclh5WHZiOCt0Yjd1WlB6Q3BwMGNrYnpzTVFsdmhzOGY3T1NTcmp6?=
- =?utf-8?B?bTFjeVJwaXc2SHVSY2kxT0xDSkhucVVPWDBnbDhaNG9RZUhMd3BJQUlmUzEy?=
- =?utf-8?B?OXpNSFpTTEx3U2lrZyt5Qld0dkh1QlkxWjRtaXBGa2d6K2lFVkNxWnFaU1A5?=
- =?utf-8?B?dGo1RC93aGRmWUhIWWRHL0pSb0ZBdjFkdjVvbmEvR2kwdmNYc2lUbmtJOUNQ?=
- =?utf-8?B?T2NDcmNway9rRzJIYmZIT1N0RTdWZ0tXbHVVemtrM25BamFCQ0pBK3VtcnFu?=
- =?utf-8?B?bWpERmZhTVByUXQ4aFl5S1V6aWNwMFRxSkd6RjJNcXpBZVpDWG9XaWRGSm1p?=
- =?utf-8?B?MWZzNmdCUENUcEYvYTY4NE84cjc5V295NWdRVXpYcHlxeXYvRzRLL1h6V1JG?=
- =?utf-8?B?SFVhV0pCa0FtVy8zL0pDME9IQnQyYUxBQ0tRdDcybHpCd2VLa3BoMWlScWt1?=
- =?utf-8?B?K0RsL284Y1JDM0U4eDZ2UkJLMGpHbkhZQkhKd1J3UWF0QUlRejNaTnE4NHZV?=
- =?utf-8?B?TlU5TWxXRGNMOU00RXlTc01rNXkyakxJQU1WUGFmeTgrRy9OZVRVdy9VdThh?=
- =?utf-8?B?U0pkWUtpYkVtUSt3cUM2UmtMZHJQTFhscloyQkN0V1FIcCs0ZVUvT0JWY0RC?=
- =?utf-8?B?Vi9Fei9ISVNyVDNVU0tMQ3VuTUpsbEFGb2w0TmJTTXYrU1ZrbFMyY0tVVTUw?=
- =?utf-8?B?VG9yMU13VXFEUU9ySGRWK2xFWXgxdXVReDZkWmprL2RiQlBLOWhzdHdoWUdy?=
- =?utf-8?B?RVJjZFBoeWdmNTRudnBjT3lEa21OMGlNRUp1K002ZVhUR1VubnUwQmVZQzN5?=
- =?utf-8?B?eEFBUzBLTE5QOTQvSGVwdHZndUtYd2VReE15cHhtN1V4dXZiaGpBWFpvRFdE?=
- =?utf-8?B?RmtMd1BxUVBWQmkzQ0JRclJJQ2tDaVh1L1pGY3hFWkQyN3JxTk5VdHJid2xk?=
- =?utf-8?B?cjVjeER4UDBGM2NCQkJBUU9WZGtaZSsrUWc5SjBpbmpNN1VRTkZ2QzRaelM4?=
- =?utf-8?B?dno4N1NFOEwzTDExRmE2T1RpODNpMnYrY0RPcDRWUlAwdWtqOElvM0QyMmZ1?=
- =?utf-8?B?bGNBeXRjZHlQYjFENEd3d3NJV2JLSjBuMUFIV3hZQ2tic04rM0dVZEgzVVFz?=
- =?utf-8?B?UXg5SXhTejYwTEk2TUtuQmwxR1lpdWplU1lEZ2l1b0M0dStabmxaU3RjZUox?=
- =?utf-8?B?eHMvcXo3bEczU1lqNkIzTW43VTlIdzNrK3kzSk5uY2JSTlFTQ01iME5mazVk?=
- =?utf-8?Q?O444VK1F5TKIDxRgujP+VbZ+p?=
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?b3JjZ091T2hna0VzZExPSGxBYjBDb0FLUTZvM3hEMjE4STNsYmZJNG85ZEVP?=
+ =?utf-8?B?VDh3ZldwUGZWWC9OaFEwdjF3ZFdZdmRXcldzRXlYYlRNM0VOSWQzNVIyS25q?=
+ =?utf-8?B?djFWVTN3dXdFWnVnWkVMTEp3WUdXUitUVjBjWlA0WEhQWTByWVpzVWZmaHhs?=
+ =?utf-8?B?bE40VEpxUUE1VXV0VVdxK3NlU1AzbzY3T1pBZHVTSXYzNmZHYjloeXVLVEF2?=
+ =?utf-8?B?SVN3bGUrWEhMV0NmTHg2a0RIbVVwZG5KNlpNTWZ2a1g4Y3ArKy9KUjRQdVVR?=
+ =?utf-8?B?ZzV5WS8zaEIxL3g2NEJnUG9wbTY4K214V2lrZUtRa3JDeUpyaFhKa0tnY1Zi?=
+ =?utf-8?B?ejdNQjJZUlhHaGZrejVaUHdTQkdXcFVkelBYcHpxaG9ieXBhcGpLM05hbS9S?=
+ =?utf-8?B?ZGt2bDVURlNUbUpNbzA3ekZxSE1jbEMrQWRRL0RDUUFEYllRN1FpWTdDSHpN?=
+ =?utf-8?B?QkFBZ09OejV0cTQ3T0krVndmT1pkazkyd1ZSS0tvdXNSVE5hTWl3ek52cFJv?=
+ =?utf-8?B?Q1ZDcnNPcDdUbUM0d2huMkNXSGtieEJaQ1J3TDIxajBFZE85TDFMZ21uQlZk?=
+ =?utf-8?B?VDRzZ01tWVUyNFBtcHBoMWxISTJCWnR6MVF0VGdSQ1VCSjhablZvRmRXRXlh?=
+ =?utf-8?B?dzk2YUtEa1Q1VHFvMUIxL0s0TlFhT2lsV21QeGlmcmhkSEEybW90WGJnM2Qy?=
+ =?utf-8?B?R1Q4RW9zd2c4VU1MNWdaQS8yTW01TnJoNG40bVhCaFBNcEhBSFpnMU54WXNm?=
+ =?utf-8?B?L3FXbFpTQVBSNFpCUTVWdFo4TzRsd3ZYUUM2RVhnMkVoS292d2RocDFaenZt?=
+ =?utf-8?B?aHhtaUpBTmtTWkpIVVhRZlhLVVlLYzVsNzE2bVA4L3N4K1RzT2pxcVU4OHFQ?=
+ =?utf-8?B?RnVlNkwvS3BWSFNLQU5lMnR3d2J4MFZYOG05ZXpEVzBPNVpwZlRUVm9RUXFv?=
+ =?utf-8?B?aHloV1FidkhXQ1p0bGFCYVN3WStQVTZ0NGd1dUZqM09GMVRIbmdKRmNrcVVn?=
+ =?utf-8?B?bUhSeHVhNklHbWFSWTcxdEJYRkRYMkYxZ2s2QzV6d1oyTzdPb25xVDVBQTlX?=
+ =?utf-8?B?N2JmeVdDUHNnS25aTXB5di8vMkVyVE0yb1hTdWVsYTRSclVSZkJnZXlTeXJU?=
+ =?utf-8?B?YXZNS01NUmxBa0VubENXVElKckhvcWFjNHNvYWJHUUc4cFNwaXNJdGNWczZL?=
+ =?utf-8?B?SmpLTStFd20yR3MrRFFyUk5sNmFacVRkU0NkNWYzWHNiM3NSVEk1cXJGbi9i?=
+ =?utf-8?B?bStGY3E3QlNtNVZkL0Q3bnJLcm4vN3VzdU1BNEJjV21qMENRZlg3aG5ibmJL?=
+ =?utf-8?B?clp2SkVIclVmdWJINlZqZ3ZvR2JZU093WEtIbVlVcnVES0EyOTk1UWFHZUxR?=
+ =?utf-8?B?Q0kyY0JIbFhSVVhrQUsvN2tsOHZiL1dMTUhHOUZhdm1TWWhhY2V5QlQzamlY?=
+ =?utf-8?B?TXdrNFNQYXl6U1VLVWs0dVg1aDgzTHR0VXNRVGRMK3RGQTEyZmZRM1N5RVdC?=
+ =?utf-8?B?cjJMMm1xT0UyeFd3c3JZdDJTQ3RJUzRqOFFmRFpsQmp5M1dTbVhseTVmdVRQ?=
+ =?utf-8?B?UDZGcDJXd3k2RWNzZ3RyUDVMa1VncUxqNElvSEhaOU1sWEJzY2Z1eVBsTFp3?=
+ =?utf-8?B?UHhYQ08ySEJUbEJydU9HNHdnYVRzRWhMcjNLNXFiVGRKZnNhQU4zQzlIYXNy?=
+ =?utf-8?B?b1ZrNXhtLy8zeHp4aDY2cVpsM3ZXc2I0ci9oaGRtQkpxMk5sclJibFVCSGI2?=
+ =?utf-8?B?ZVdSWkY4aUVCOGNMS2cxT1Urc1A2MFRubnIwREt1dkM2MlNxaWU5dTdMb1A1?=
+ =?utf-8?B?UnFIQnlmQ1FDQjNDZGtOb2RVd3lkeVRQRG5IQWJ6aXZiZkNhVkxMVU8wRm51?=
+ =?utf-8?B?dDIwK2RVOXBQejlSNlNGbitSVHhXWkRyV0pCakViNkdxSVd3MVhOTmo1SzhR?=
+ =?utf-8?B?MFJpczlQVEtCVDk1QnlkZFFIbGlYZlgrMk5GaGZRSTVVbFUvZ0ZpK2p1THgw?=
+ =?utf-8?B?NXp3TW9vVnJabkZua3pVamlwRW1zS2QvazVUNXJETXYvU1V1cTJ4ZEYrdTRU?=
+ =?utf-8?B?WHhhOU1ZT1NaY0dLSlNNSnZJR0lOcm9NVTJUZWpmWWsxWWRCczZsdEhhM0dO?=
+ =?utf-8?Q?XFlQgzvccwQwTtGkk1ylbDJ64?=
 X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: fcff4c9b-e897-44f0-9798-08ddbe2bb6d6
+X-MS-Exchange-CrossTenant-Network-Message-Id: 6f03d260-aef6-448a-2976-08ddbe2c1119
 X-MS-Exchange-CrossTenant-AuthSource: MN0PR12MB6101.namprd12.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 08 Jul 2025 14:28:31.9353 (UTC)
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 08 Jul 2025 14:31:03.3037 (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: CMbrE/JqpU5bDyn4xbehCLBbekvzN7Ww55kt4iPpiiqraSFFIZsU7T1CegpLPQ5PKSiqEFdyANk//wmr+8hxiw==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: IA1PR12MB9737
+X-MS-Exchange-CrossTenant-UserPrincipalName: njPzWpc239Qy05+NG898nMOlCVCeVS/0lPZK26IjSRnC4UqGzTJkvNFGjarQrXDMgX+eOiBk+dLdR3emNHM9Vg==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DS7PR12MB8417
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -174,71 +170,69 @@ Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 On 7/8/2025 3:42 AM, Samuel Zhang wrote:
-> When hibernate with data center dGPUs, huge number of VRAM data will be
-> moved to shmem during dev_pm_ops.prepare(). These shmem pages take a lot
-> of system memory so that there's no enough free memory for creating the
-> hibernation image. This will cause hibernation fail and abort.
+> Modern data center dGPUs are usually equipped with very large VRAM. On
+> server with such dGPUs(192GB VRAM * 8) and 2TB system memory, hibernate
+> will fail due to no enough free memory.
 > 
-> After dev_pm_ops.prepare(), call shrink_all_memory() to force move shmem
-> pages to swap disk and reclaim the pages, so that there's enough system
-> memory for hibernation image and less pages needed to copy to the image.
+> The root cause is that during hibernation all VRAM memory get evicted to
+> GTT or shmem. In both case, it is in system memory and kernel will try to
+> copy the pages to hibernation image. In the worst case, this causes 2
+> copies of VRAM memory in system memory, 2TB is not enough for the
+> hibernation image. 192GB * 8 * 2 = 3TB > 2TB.
 > 
-> This patch can only flush and free about half shmem pages. It will be
-> better to flush and free more pages, even all of shmem pages, so that
-> there're less pages to be copied to the hibernation image and the overall
-> hibernation time can be reduced.
+> The fix includes following changes. With these changes, there's much less
+> pages needed to be copied to hibernate image and hibernation can succeed.
+> * patch 1 and 2: move GTT to shmem after evicting VRAM. so that the GTT
+>    pages can be freed.
+> * patch 3: force write shmem pages to swap disk and free shmem pages.
 > 
-> Signed-off-by: Samuel Zhang <guoqing.zhang@amd.com>
+> After swapout GTT to shmem in hibernation prepare stage, the GPU will be
+> resumed again in thaw stage. The swapin and restore BOs of resume takes
+> lots of time (50 mintues observed for 8 dGPUs). And it's unnecessary since
+> writing hibernation image do not need GPU for hibernate successful case.
+> * patch 4 and 5: skip resume of device in thaw stage for successful
+>    hibernation case to reduce the hibernation time.
+> 
+> v2:
+> * split first patch to 2 patches, 1 for ttm, 1 for amdgpu
+> * refined the new ttm api
+> * add more comments for shrink_shmem_memory() and its callsite
+> * export variable pm_transition in kernel
+> * skip resume in thaw() for successful hibernation case
+> v3:
+> * refined ttm_device_prepare_hibernation() to accept device argument
+> * use guard(mutex) to replace mutex_lock and mutex_unlock
+> * move ttm_device_prepare_hibernation call to amdgpu_device_evict_resources()
+> * add pm_transition_event(), instead of exporting pm_transition variable
+> * refined amdgpu_pmops_thaw(), use switch-case for more clarity
+> 
+> Samuel Zhang (5):
+> 1. drm/ttm: add ttm_device_prepare_hibernation() api
+> 2. drm/amdgpu: move GTT to shmem after eviction for hibernation
+> 3. PM: hibernate: shrink shmem pages after dev_pm_ops.prepare()
+> 4. PM: hibernate: add new api pm_transition_event()
+> 5. drm/amdgpu: do not resume device in thaw for normal hibernation
+> 
+>   drivers/base/power/main.c                  |  5 +++++
+>   drivers/gpu/drm/amd/amdgpu/amdgpu_device.c | 10 ++++++++-
+>   drivers/gpu/drm/amd/amdgpu/amdgpu_drv.c    | 15 ++++++++++++-
+>   drivers/gpu/drm/ttm/ttm_device.c           | 23 +++++++++++++++++++
+>   include/drm/ttm/ttm_device.h               |  1 +
+>   include/linux/pm.h                         | 16 +++++++++++++
+>   kernel/power/hibernate.c                   | 26 ++++++++++++++++++++++
+>   7 files changed, 94 insertions(+), 2 deletions(-)
+> 
 
-AFAICT this didn't tangibly change and was just reordered in the series, 
-I think you should carry Rafael's A-b tag forward.
+As there isn't a mention of intent on how to merge when this is fully 
+reviewed, I wanted to ask Rafael what he thinks.
 
-> ---
->   kernel/power/hibernate.c | 26 ++++++++++++++++++++++++++
->   1 file changed, 26 insertions(+)
-> 
-> diff --git a/kernel/power/hibernate.c b/kernel/power/hibernate.c
-> index 10a01af63a80..7ae9d9a7aa1d 100644
-> --- a/kernel/power/hibernate.c
-> +++ b/kernel/power/hibernate.c
-> @@ -370,6 +370,23 @@ static int create_image(int platform_mode)
->   	return error;
->   }
->   
-> +static void shrink_shmem_memory(void)
-> +{
-> +	struct sysinfo info;
-> +	unsigned long nr_shmem_pages, nr_freed_pages;
-> +
-> +	si_meminfo(&info);
-> +	nr_shmem_pages = info.sharedram; /* current page count used for shmem */
-> +	/*
-> +	 * The intent is to reclaim all shmem pages. Though shrink_all_memory() can
-> +	 * only reclaim about half of them, it's enough for creating the hibernation
-> +	 * image.
-> +	 */
-> +	nr_freed_pages = shrink_all_memory(nr_shmem_pages);
-> +	pr_debug("requested to reclaim %lu shmem pages, actually freed %lu pages\n",
-> +			nr_shmem_pages, nr_freed_pages);
-> +}
-> +
->   /**
->    * hibernation_snapshot - Quiesce devices and create a hibernation image.
->    * @platform_mode: If set, use platform driver to prepare for the transition.
-> @@ -411,6 +428,15 @@ int hibernation_snapshot(int platform_mode)
->   		goto Thaw;
->   	}
->   
-> +	/*
-> +	 * Device drivers may move lots of data to shmem in dpm_prepare(). The shmem
-> +	 * pages will use lots of system memory, causing hibernation image creation
-> +	 * fail due to insufficient free memory.
-> +	 * This call is to force flush the shmem pages to swap disk and reclaim
-> +	 * the system memory so that image creation can succeed.
-> +	 */
-> +	shrink_shmem_memory();
-> +
->   	suspend_console();
->   	pm_restrict_gfp_mask();
->   
+The options are either:
+* the linux-pm changes go to linux-pm and an immutable branch for drm to 
+merge
+* everything goes through amd-staging-drm-next (and an amdgpu PR to drm 
+later)
+* everything goes through drm-misc-next
+
+I think everything through drm-misc-next makes most sense if everyone is 
+amenable.
 
