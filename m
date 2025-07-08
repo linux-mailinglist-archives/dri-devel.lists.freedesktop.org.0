@@ -2,137 +2,175 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 739E5AFC4A1
-	for <lists+dri-devel@lfdr.de>; Tue,  8 Jul 2025 09:51:57 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id EB348AFC47F
+	for <lists+dri-devel@lfdr.de>; Tue,  8 Jul 2025 09:49:46 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D147210E5BC;
-	Tue,  8 Jul 2025 07:51:55 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 52D7510E15B;
+	Tue,  8 Jul 2025 07:49:45 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=amd.com header.i=@amd.com header.b="blTlIFQw";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="MSEcHd6K";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from NAM11-DM6-obe.outbound.protection.outlook.com
- (mail-dm6nam11on2064.outbound.protection.outlook.com [40.107.223.64])
- by gabe.freedesktop.org (Postfix) with ESMTPS id AAADE10E5BB;
- Tue,  8 Jul 2025 07:51:54 +0000 (UTC)
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.14])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 476E510E15B;
+ Tue,  8 Jul 2025 07:49:44 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1751960984; x=1783496984;
+ h=from:to:cc:subject:date:message-id:references:
+ in-reply-to:content-transfer-encoding:mime-version;
+ bh=t188XYkacv7D4FWMqOju6TYxIBdJQ+PEDCkLxkjtM3c=;
+ b=MSEcHd6Kx5eZXgQvAQZ4O8DoYg/QS+R7++iSCO5wddsF2Qyw661iRa8D
+ ZWmyEMe455biWXGkNEAfVETIiFdUNwmsbBITTYZLl/4nLr9ws8u8+t4fG
+ vmY8cwfqqh08IEGhTH5sJqtc2VfNO056piCJ/mic/9OsLWdV9jcIgIBYq
+ v1qUWzjqU7V1u/ZfD7tyxXgTAXU77N3B9rsmeODGvqao7MK555+fXOz3r
+ 2+qF9GEybN8kFykJ4tZ7OXyUdfitZ5crx6s4SwwApipXJyplmQ0TsVuX3
+ VKjk99H9QmApzwytKBPMYm6wvzh/Ln/dMcy0H27baTIYk5Erw3W3V3ixp Q==;
+X-CSE-ConnectionGUID: GWb3gxpKTyKym6hO4xS7nQ==
+X-CSE-MsgGUID: QeHO6uANTkWzkXaNDakOJg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11487"; a="54283954"
+X-IronPort-AV: E=Sophos;i="6.16,296,1744095600"; d="scan'208";a="54283954"
+Received: from orviesa003.jf.intel.com ([10.64.159.143])
+ by fmvoesa108.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 08 Jul 2025 00:49:43 -0700
+X-CSE-ConnectionGUID: 086tijQQSAuOy/u2VxU5jA==
+X-CSE-MsgGUID: hnp6AOqLR0qT9aBr43Q6Zw==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.16,296,1744095600"; d="scan'208";a="159764370"
+Received: from orsmsx902.amr.corp.intel.com ([10.22.229.24])
+ by orviesa003.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 08 Jul 2025 00:49:44 -0700
+Received: from ORSMSX901.amr.corp.intel.com (10.22.229.23) by
+ ORSMSX902.amr.corp.intel.com (10.22.229.24) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.1544.25; Tue, 8 Jul 2025 00:49:42 -0700
+Received: from ORSEDG901.ED.cps.intel.com (10.7.248.11) by
+ ORSMSX901.amr.corp.intel.com (10.22.229.23) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.1544.25 via Frontend Transport; Tue, 8 Jul 2025 00:49:42 -0700
+Received: from NAM10-MW2-obe.outbound.protection.outlook.com (40.107.94.54) by
+ edgegateway.intel.com (134.134.137.111) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.1544.25; Tue, 8 Jul 2025 00:49:42 -0700
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=v1bzYsxgjf004ur+BaEM8y+ebjPsGIiPtUMFE4TBUlb2E+dFXEoAaVnz45FSpp8Vg/hiPM0DennlZYS02cVWB6RZlkcs4ckKbX77wM1Q2s4vNPlKmRLxOi4vImuDyCCcX0MCBGwvhOEBbTovxY0jEQMkTF5mABjbk282JoKaeOe4RMHAO3yqTGhKFUxOLwyjTNN6hbGvCssmTDFFwSLrBQXJm3YERJ4OdH+uYF8bhMlxKYhRNPP8DIdLLeWoXCw0nMyAMz9orqBEq7PHWrGmDc/PqnzrTx4WS55FM2bsI7IaRIuxYR/TKYKEAHxDeDUQhhaTv2w7Dry8qMWx804ZkA==
+ b=m9MXXhBFHIEtr3ghuSgIkoPcWdI2j7F8yA5ZPeMF0ZMLkO0iv7fCEFuwLT0HsH1cYiA5DYzf6d6DhOngCIrzR/TUSuhvyXKKbQzlobjkVXRcNkuYN4R9m2ugsqdGsvmxCMaj8kb3XMFBtEDrDXjFoyhg8fvLnyverG7kLBt6b5dXd6jV5jmI75qXZBPbuI4qsHZxvU223UiniQIKaJAetuLZgXrBkeFGENOKTaDdK7Hp05dzAn3tQr0IeQTZa4dzEeyMPreLu/IvUfMIjmDFp7be25h1nrApVi5ftymYzw9LQBPIC/UW6BUoc2Q7j8qaLQeamCgJzyeXO6Vu14nYtQ==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=J+z59hz6hvs10vCN8K6MNPh2EIOQdQt1+J3Ggl8NyT8=;
- b=y15mqYJlZZkbDXT14N9ww0HA0q3lupCLG9tiIFUsdlBKWB6CWAG1S0rihlR8ESO1gvsgt/8uRfM5+xe04tScH+rlSa3D82+N1VI+wp+aHFo7NHOyXFY5hu2AP7GA7xZ7C+3xGjus3fj0AP9q7umv1f6QlE8d8N88r6wkT15ZsGmuKikYsNUauS2J0S67JPdPe0dzt/FWWJq7yjJru7+PM2K5At6yrVFnX2G88J3w6I6+usvlwz58mgqeOIsaaijz0Nuj1lYokkX56rUBT3eOkUQNsN/t0PdcwwgnoCEyxaUSCXJoZc7HP1yZSJ6iZT0tyg8eqbVgDGvOMQYr25CDoA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
- 165.204.84.17) smtp.rcpttodomain=kernel.org smtp.mailfrom=amd.com; dmarc=pass
- (p=quarantine sp=quarantine pct=100) action=none header.from=amd.com;
- dkim=none (message not signed); arc=none (0)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=J+z59hz6hvs10vCN8K6MNPh2EIOQdQt1+J3Ggl8NyT8=;
- b=blTlIFQwSHF4YE1NKJKThVZp3BgeML2txtBvN8M0Svkv34bvaZRJiqsVhgvqXVVVfYCA4TBsacuEoKvCs2uj8Cl49BN+btgtE1h6Qw2V3Z82YvCysj5pWpqXNZImZqhLfJ3XjXhiT7Gu2tw/RL8TM/Z1pnEhJnvX+aMqCmK93Cg=
-Received: from DM6PR05CA0048.namprd05.prod.outlook.com (2603:10b6:5:335::17)
- by SN7PR12MB8004.namprd12.prod.outlook.com (2603:10b6:806:341::7) with
+ bh=VCrn8N3eAi8eSO12lASZR3Se6FEFd0R8KGB3/oEcmfQ=;
+ b=WEcODfhBZvnKx7jI1b19blHs2nh8O2WniyiFMKa+QY/fj7nuO73wRz+P3uYh8JVHTYy4A3RVA2RWgU8+3s/jN608PNcU3Fq9MBJgWv8Hota8JFPhkYEWy6PHdpxhVGeoSlT6ys4fonAWqOS/n7Hzbvr1LkbdKf9nV3+eVPVISdL4fZry93lxgP32igsqiUlIgQNme+pukDJidlZVZGWsCzMTsu7xYN92NCGGmgIdkNMAUsyLOiq4HSlQ4fXMkMuXz6/jDZnPF0xne80iucY0SjUuPWh1+uS3jNtn7ulRYiwsxOWi/D9wVzDZhnrpcr3FGp0TkZxD/khW5bH23yFUlw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
+ dkim=pass header.d=intel.com; arc=none
+Received: from CY5PR11MB6211.namprd11.prod.outlook.com (2603:10b6:930:25::6)
+ by DM4PR11MB7325.namprd11.prod.outlook.com (2603:10b6:8:107::7) with
  Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8901.19; Tue, 8 Jul
- 2025 07:51:51 +0000
-Received: from DS2PEPF0000343A.namprd02.prod.outlook.com
- (2603:10b6:5:335:cafe::f7) by DM6PR05CA0048.outlook.office365.com
- (2603:10b6:5:335::17) with Microsoft SMTP Server (version=TLS1_3,
- cipher=TLS_AES_256_GCM_SHA384) id 15.20.8922.20 via Frontend Transport; Tue,
- 8 Jul 2025 07:51:51 +0000
-X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 165.204.84.17)
- smtp.mailfrom=amd.com; dkim=none (message not signed)
- header.d=none;dmarc=pass action=none header.from=amd.com;
-Received-SPF: Pass (protection.outlook.com: domain of amd.com designates
- 165.204.84.17 as permitted sender) receiver=protection.outlook.com;
- client-ip=165.204.84.17; helo=SATLEXMB04.amd.com; pr=C
-Received: from SATLEXMB04.amd.com (165.204.84.17) by
- DS2PEPF0000343A.mail.protection.outlook.com (10.167.18.37) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.20.8901.15 via Frontend Transport; Tue, 8 Jul 2025 07:51:51 +0000
-Received: from SATLEXMB06.amd.com (10.181.40.147) by SATLEXMB04.amd.com
- (10.181.40.145) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.39; Tue, 8 Jul
- 2025 02:51:51 -0500
-Received: from SATLEXMB04.amd.com (10.181.40.145) by SATLEXMB06.amd.com
- (10.181.40.147) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.39; Tue, 8 Jul
- 2025 02:51:50 -0500
-Received: from hjbog-srdc-41.amd.com (10.180.168.240) by SATLEXMB04.amd.com
- (10.181.40.145) with Microsoft SMTP Server id 15.1.2507.39 via Frontend
- Transport; Tue, 8 Jul 2025 02:51:45 -0500
-From: Samuel Zhang <guoqing.zhang@amd.com>
-To: <alexander.deucher@amd.com>, <christian.koenig@amd.com>,
- <rafael@kernel.org>, <len.brown@intel.com>, <pavel@kernel.org>,
- <gregkh@linuxfoundation.org>, <dakr@kernel.org>, <airlied@gmail.com>,
- <simona@ffwll.ch>, <ray.huang@amd.com>, <matthew.auld@intel.com>,
- <matthew.brost@intel.com>, <maarten.lankhorst@linux.intel.com>,
- <mripard@kernel.org>, <tzimmermann@suse.de>
-CC: <mario.limonciello@amd.com>, <lijo.lazar@amd.com>, <victor.zhao@amd.com>, 
- <haijun.chang@amd.com>, <Qing.Ma@amd.com>, <Owen.Zhang2@amd.com>,
- <linux-pm@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
- <amd-gfx@lists.freedesktop.org>, <dri-devel@lists.freedesktop.org>, "Samuel
- Zhang" <guoqing.zhang@amd.com>
-Subject: [PATCH v3 5/5] drm/amdgpu: do not resume device in thaw for normal
- hibernation
-Date: Tue, 8 Jul 2025 15:42:48 +0800
-Message-ID: <20250708074248.1674924-6-guoqing.zhang@amd.com>
-X-Mailer: git-send-email 2.43.5
-In-Reply-To: <20250708074248.1674924-1-guoqing.zhang@amd.com>
-References: <20250708074248.1674924-1-guoqing.zhang@amd.com>
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8901.27; Tue, 8 Jul
+ 2025 07:49:27 +0000
+Received: from CY5PR11MB6211.namprd11.prod.outlook.com
+ ([fe80::df5a:a32c:8904:15f1]) by CY5PR11MB6211.namprd11.prod.outlook.com
+ ([fe80::df5a:a32c:8904:15f1%4]) with mapi id 15.20.8901.024; Tue, 8 Jul 2025
+ 07:49:27 +0000
+From: "Gupta, Anshuman" <anshuman.gupta@intel.com>
+To: Greg KH <gregkh@linuxfoundation.org>, "Nilawar, Badal"
+ <badal.nilawar@intel.com>
+CC: "intel-xe@lists.freedesktop.org" <intel-xe@lists.freedesktop.org>,
+ "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
+ "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>, "Vivi,
+ Rodrigo" <rodrigo.vivi@intel.com>, "Usyskin, Alexander"
+ <alexander.usyskin@intel.com>, "Ceraolo Spurio, Daniele"
+ <daniele.ceraolospurio@intel.com>
+Subject: RE: [PATCH v7 2/9] mei: late_bind: add late binding component driver
+Thread-Topic: [PATCH v7 2/9] mei: late_bind: add late binding component driver
+Thread-Index: AQHb73KGzgdULyIvqUO23rcookjnCLQnybAAgAAPkeA=
+Date: Tue, 8 Jul 2025 07:49:27 +0000
+Message-ID: <CY5PR11MB621164D6A86BFD6944A5EBCD954EA@CY5PR11MB6211.namprd11.prod.outlook.com>
+References: <20250707191237.1782824-1-badal.nilawar@intel.com>
+ <20250707191237.1782824-3-badal.nilawar@intel.com>
+ <2025070810-clinic-decode-57e6@gregkh>
+In-Reply-To: <2025070810-clinic-decode-57e6@gregkh>
+Accept-Language: en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+authentication-results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=intel.com;
+x-ms-publictraffictype: Email
+x-ms-traffictypediagnostic: CY5PR11MB6211:EE_|DM4PR11MB7325:EE_
+x-ms-office365-filtering-correlation-id: 5e0ddd7f-4697-4d84-c55e-08ddbdf3f6c9
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam: BCL:0; ARA:13230040|1800799024|366016|376014|38070700018;
+x-microsoft-antispam-message-info: =?us-ascii?Q?SU2I2Gza+8RF3q+T/iakhfpft6xtgnrwswRiYgFzpenohYHlKDMcukzHk4Uc?=
+ =?us-ascii?Q?G5pvZU1N0b+R5ELv99n+PyG/PiIKHDTDFRLBZuMfcfnnu7K5IfMcHnKiYFG+?=
+ =?us-ascii?Q?SMBYzVEfQFXXoMps0TL9sYUIlp6lPPm4mW+iQ6o4PMYCpDxKme1VPQfkuUJ9?=
+ =?us-ascii?Q?vNfaBQS5924PkeVOB36Mlpq/GZBm0cNzTe0ikY4Ol8ddZecbcPWa5osu7wGT?=
+ =?us-ascii?Q?HwGeuAKAjEVNp7JzqBsRXQA44dzmE6gWuNpHrTflhD1HHe7s7NkytRCh7vxW?=
+ =?us-ascii?Q?qDykN3stnAuVbb1Zw+8GjGvASxs6YieyxC0Xfqq1mzarhnxprLwPqtXm6LKB?=
+ =?us-ascii?Q?1uW4q7hVWqznyqdBTethyer4OBED8Ze9MsnQV5Ki04v6R+MZdjxY2m2QiFo7?=
+ =?us-ascii?Q?6SoCuUkZwpUYSpYmpkyooVyTvg0ZMh7ObvgCdl1efYU7DxyQbMHeFolMWXfF?=
+ =?us-ascii?Q?Wy6exgdtw86M4nX/vkZTgKfnFVmEFwUB+zLwIdr4YcHyPReYf7u1bKZ30OUT?=
+ =?us-ascii?Q?p6yDy6fl0x4ECt4ti6tLaSs+Afjw3/uP7V952RAwgKslTzLPByOqez2kJauW?=
+ =?us-ascii?Q?a/538LfQOBsY19h4eS4clC33Z8/nveESPSnzMShaXIMmcWzABs6RhzDZB70t?=
+ =?us-ascii?Q?2/hjuiYS8YNpa/uY/WF3oRnjsYsAR41tU57TOO0uoZvshyfSHOoXxZkkrQQF?=
+ =?us-ascii?Q?Gpenad2lyNcIiviTlaHs6srQShZKL8naXeerh420NnsmJcyXtHtVe8DldCND?=
+ =?us-ascii?Q?XJczPacNS/SIC91zuEKkBAxA50TGfKo3cwcwWlRCDSV1IZEbfF5nL7dE6foV?=
+ =?us-ascii?Q?WRPjt3QBksp6fjAuvwOrvTnt2l2RxCSfASI062OqcT+r8iFP2EYYRTGN8qaS?=
+ =?us-ascii?Q?BKJQKW77mmKKi1lJwf5gHgTc7W0bDPG+zvo2Z+L4Sq8SZ8FoqPtfVKNz09Ia?=
+ =?us-ascii?Q?zg4+KqN7+mjLcO/Fe9hqt6cLU51bWEut70tMWYaCrbHWWC/0elGW86qUCE/I?=
+ =?us-ascii?Q?2XNr2UmCYeq5NTPy03mfESCQ+suD9GZrgBS8bbH2qtQ+Pd+L/7PS0InJE63f?=
+ =?us-ascii?Q?3TkYYmuHwgsyK1DtI63jbbrNUaQRFePe5gnymqwhJPzTV5a9xTD8HL5YDdxf?=
+ =?us-ascii?Q?JFjiYvZYVGr8gy+rLU0ER2NeOcVvntjoNmj/7rXJQo8awPe56PXQQGI0TlyI?=
+ =?us-ascii?Q?vovXIIMAiFyKBBX71RKtGMrsvKt3k18x6NvlYJDGFAikUR3bUNohU2hnhncm?=
+ =?us-ascii?Q?pZGy35SmF6FHeU49fYMZsPa3kWswfDF2ok+nuFoHvOApDXqPxOML8D+fDSPt?=
+ =?us-ascii?Q?bq0r2quG11OnZreHQPnspxnLICNDacbJZcMMO/rVtL/EhnPowhY1z04axMAO?=
+ =?us-ascii?Q?po0NwCQi5kUrLgoE+CnOEiz1LjDGXHgAHKUMNpz83y+TdiFdshtc4h8zT+8a?=
+ =?us-ascii?Q?CxpM8HnE74FY0p6CC2hRO46Cie8Q9e4VMELqXs7w/6tsXhW1ofPndw=3D=3D?=
+x-forefront-antispam-report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:CY5PR11MB6211.namprd11.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230040)(1800799024)(366016)(376014)(38070700018); DIR:OUT; SFP:1101; 
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0: =?us-ascii?Q?MWbt5fqUlo2R/p7PCOBAWmp92jdt6G283sJ99vF/aY9gwFelLgt+9NT1BJVA?=
+ =?us-ascii?Q?qwVe03EbaIZTaNha1AMDlb/7HILyoXGFcum9o8S/sKbH83Q969VEuMOOeJ6F?=
+ =?us-ascii?Q?7ZqMfvF40sltgg8ddyuPDWcqvvdr5pPfk+QMnYDVxmbW4YEAjn2N9xj2IJdD?=
+ =?us-ascii?Q?ZgeGGLJCC8PMJReZsomSQWXDsGDJAftOSeyTX9ppskCMiSmW4G3bu3Y2WDvn?=
+ =?us-ascii?Q?UayVlxfuQofFDt8UbXb6MjpU3pXxdtMyiYEiel6dvMB4eY557Vab2uCULJNq?=
+ =?us-ascii?Q?Q+Mfqu22IGSfAi5wNlIt/7mFcglq3nldQiUscfu5RNB044IZe7rgkCekF+p0?=
+ =?us-ascii?Q?vtu3RJk1Kq4iMKVsBPFEf9gQ/ppHa8b8i2ACKTl3q1YQD0N6LHq2a0jCDGKr?=
+ =?us-ascii?Q?XfXpwfq17aDmlCSHKLk4OMw5V70nTAjxoeZ7V4W4ME7sRY+B5kSRjFy1C0Nz?=
+ =?us-ascii?Q?MlUPJ3LpAfuyYUeebapSxe7HrytEPLoVBVx9uU0Z+3novAswhBOzPCdWNTHU?=
+ =?us-ascii?Q?Jy69lo+aV24TaSx+WsGltDlu1npZW480Wg0kKadBpNOvjTO6ps02pS0sDBPZ?=
+ =?us-ascii?Q?mbaQDUmy7luWkZUXR8BEDi2icYO4nmVuYkxfJP8xWhvN2b5+gfTbqAJWRIOj?=
+ =?us-ascii?Q?WsHPhNBkBzSwmCKfNI3h8SRdMDvAKC0Kkq2AA7mFa6/fHGBpph57CIa4ZMhF?=
+ =?us-ascii?Q?rUIuZq9rga7OlXIzV2wN5kMY6jwkTmpxzefkuIlUCC260pLBPEbReTCNCFgF?=
+ =?us-ascii?Q?eUULlsfegQfkFlDK18M1JoYwNs7SEh9DaC+vn87KHoIbwfjgosCY93pt7SUh?=
+ =?us-ascii?Q?IwMwuPhzjL2JZ7lwWSSEqZL4Rbpn13hb/B2P2cf7t7vk8dy9VDpqlGfeaP1e?=
+ =?us-ascii?Q?o0AOc+U/N1g7qsZoG0Y1CJnghZ5PJph+krshnVqEkbGJNeQpBi8VafuYgGqU?=
+ =?us-ascii?Q?JKojn4lF4uZ48gIqOVcPnDaP8VsTftChEN2Z6I5iwKpz4h/+s2ywMbl0fMTI?=
+ =?us-ascii?Q?7d0SfqMQrQ6vcRvPb2l0IzplDxwOPGNSRjYMDkQpWql3THkXJreA46hVI38O?=
+ =?us-ascii?Q?6LwM2RK0/T7B97ibMeBNMV7OanEJmqC5oAtTs3/szqc3V7e3gTm5yygPiU0x?=
+ =?us-ascii?Q?taUVx2FY7BSVfNHsijhehBpniBCeFKczEv7Nv6tQbWC0EAA+Zf7clXXQwOff?=
+ =?us-ascii?Q?/Todr8PBT5kOH+vlcL9XDu2cd6BT+C8dHVu36FgHC5DpsYaF4qTrRPuH0JLH?=
+ =?us-ascii?Q?3zlqLofO9OqmQQH+jn2+AKHgKWhtEXgCgSAkqW7JUxm0qcL1+SOFUeZPsoxW?=
+ =?us-ascii?Q?P8P6Mpr0enA5lT4OTCyFBycRetRbfMBQg2Xce0e/MJqTsNBnqRnMTrDrArgD?=
+ =?us-ascii?Q?VDZPyjdf/+f/EY9KNqsVZZw2YyWa1gUuGxEzktrU+pbZZ7Mgt1egx4Cs2Eg/?=
+ =?us-ascii?Q?0oEswTtFbps+3brJrBfwsKdYgQ/H+v25XDIBIcPJJAARhdpfDgFzN2ds//2W?=
+ =?us-ascii?Q?RM0ZS47fEWAw11v/PCqki4dckw3t7CQQLiRMD+VuqqC7hmcUd39O37NHIV/8?=
+ =?us-ascii?Q?L7U530fFLosM7Mf+FJ00K3uBrqzqRNtqS/uyIHe5?=
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-EOPAttributedMessage: 0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: DS2PEPF0000343A:EE_|SN7PR12MB8004:EE_
-X-MS-Office365-Filtering-Correlation-Id: 92375cc1-0d12-4f22-1f23-08ddbdf44ce6
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
- ARA:13230040|1800799024|82310400026|36860700013|7416014|376014|921020; 
-X-Microsoft-Antispam-Message-Info: =?us-ascii?Q?IHzt+vfbzcf2D8pp5okWaiqqvXeYSjuaJrn32sQFQlF0Px+1m8eKznMHQF6i?=
- =?us-ascii?Q?5AkYZJJhq9ykjq67NDNEky/9xED0SSva8+GFtN9yiZxUh4VCKYvQGNPnMJWS?=
- =?us-ascii?Q?zrW9T4YnRmU4kpbV2hPcxyzJQMuDsgtu6pSW05Rikz5MhuIJWE8eCQ6z2AFO?=
- =?us-ascii?Q?g9pkFD1pNb7k0Fonu3cxcp9hyFaaHM2Qg6xcAwukp5HhFxV98pMSDrnYJ6yF?=
- =?us-ascii?Q?VLlv1q6Zw66Gc9KTNhodOOqr9vT4vNBOSMJQ4aRaGr2B/7WvBGXZDQLBfp7U?=
- =?us-ascii?Q?PZDyD9LGb+k7rWkkAvkN7jXhpPU9idlcWW+J+3WZWN/sXj+sJUBWd31zHvQ0?=
- =?us-ascii?Q?t5rvrSXzRYQM3VdOAcfOFqNGO90uIX7X95aHT8XUTQ/SDSu8EDOYlJTa63H7?=
- =?us-ascii?Q?0h5++4lyweWobgQCP652dIecUD7aVXQsj+8/CNzKEYuc65GX5GAZtisqdA8D?=
- =?us-ascii?Q?MDtZxXMPotaWWQfn0nQIU/XuW9cBO8xlvKA6wq/uEHa1rwMzqVP55A6kDxid?=
- =?us-ascii?Q?8CeKaUrIAzW7MxFdvRF609b5Wbuh7c+XXI3q7+u0C0NfN8g7mp8fmQRHqw1a?=
- =?us-ascii?Q?Dkt16OZKpCYVEruBus5F9fHInYO6NA8Yj++9ayqypcvqLgaIri9m7o/IvmCn?=
- =?us-ascii?Q?E0yTOdShxdw4EcexuSX7tzlpHPaBpCqV2KcBsZ4EFGX14cKcw7pPj9VerLIH?=
- =?us-ascii?Q?fYuuQCz8fwEypX6ayk19U0L9FMLtagHQLHiFJMfifGbkHRS7Ff4KJgRDQUz8?=
- =?us-ascii?Q?hyaJtd6usM5+zNBusp/rtOROMBWwHMrfKg5hhqgElL3hxaYyJgLG4lHs/K2b?=
- =?us-ascii?Q?tCCtphoW5Zq4KjZyh0kHD0p3S2bMevH0JhBgfFd08DuBeZcdl5ILgLImeESo?=
- =?us-ascii?Q?Q5bDkhU4rBf/UCEfKDIP6sm+sZZeMj0+JJM0O8+OVEYsm7azmcO03U96XN39?=
- =?us-ascii?Q?+D8jNS4gBuhBkBQIvNwbNuXOEUJJ631+p8uCTqBzPjDgN8R57fyTX2u9SEDi?=
- =?us-ascii?Q?GokN4Z4U3/yHiTO6ZIIZK7rtp6Yziw6g2+MhZvdr03WQYhlsE9OKkbd4eTDW?=
- =?us-ascii?Q?T8wQZ2uZ+FeZuRUzvI6OcMNgIl4H91fo1eGU0IJQgPTc760RcfRIi1mgGoSL?=
- =?us-ascii?Q?slcSOzL6zHkbWfWGMD91Mqcek7P3U09ztoxEJ2BUgVZfXDh4kNjALU0qkjiO?=
- =?us-ascii?Q?jVNxIWvqaTWyR8gA//JQGUZmVifyDKsEFVHK1moXbzYVXMOMyihptn/ktA3E?=
- =?us-ascii?Q?+sRME1u+L5cHOvzRhshZ+jEma4kQk2wJ+ZF2v51spkVnP1yskAt7wSV+a08q?=
- =?us-ascii?Q?T4MxpQlkFUS2tLJ9yVLu0gnZwghIroSmykwcE0QLm5BndwmUl7supaPPNkfG?=
- =?us-ascii?Q?tOeRm2DYQv25lffivzYSWH3Glmwaz1Kce5TDYgoOFw3k9H+4OHzxWER+PWaE?=
- =?us-ascii?Q?fNJIBV/fsEU0i623beHEXGcz+6Qt+/l+tC39RwM1mx6tc8y6Dot8B7SbKkAZ?=
- =?us-ascii?Q?1uJvHkyBzLekv0std230cpiAhfanMwqZKA/Gp0QeHHZRnCyCSBH/xmCcxA?=
- =?us-ascii?Q?=3D=3D?=
-X-Forefront-Antispam-Report: CIP:165.204.84.17; CTRY:US; LANG:en; SCL:1; SRV:;
- IPV:CAL; SFV:NSPM; H:SATLEXMB04.amd.com; PTR:InfoDomainNonexistent; CAT:NONE;
- SFS:(13230040)(1800799024)(82310400026)(36860700013)(7416014)(376014)(921020);
- DIR:OUT; SFP:1101; 
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 08 Jul 2025 07:51:51.5486 (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: 92375cc1-0d12-4f22-1f23-08ddbdf44ce6
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=3dd8961f-e488-4e60-8e11-a82d994e183d; Ip=[165.204.84.17];
- Helo=[SATLEXMB04.amd.com]
-X-MS-Exchange-CrossTenant-AuthSource: DS2PEPF0000343A.namprd02.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Anonymous
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SN7PR12MB8004
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: CY5PR11MB6211.namprd11.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 5e0ddd7f-4697-4d84-c55e-08ddbdf3f6c9
+X-MS-Exchange-CrossTenant-originalarrivaltime: 08 Jul 2025 07:49:27.1563 (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 46c98d88-e344-4ed4-8496-4ed7712e255d
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: ZpsCQJRIZc9FhV92Siiu6T7emVsuuAxZzcK9dPn0d2dGzqbKP45HvAgXErQU8QdvkFSvypNAAHgHXTumC+zXFRS8k9LTtxIBBnfUENmfCfg=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM4PR11MB7325
+X-OriginatorOrg: intel.com
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -148,52 +186,164 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-For normal hibernation, GPU do not need to be resumed in thaw since it is
-not involved in writing the hibernation image. Skip resume in this case
-can reduce the hibernation time.
 
-On VM with 8 * 192GB VRAM dGPUs, 98% VRAM usage and 1.7TB system memory,
-this can save 50 minutes.
 
-Signed-off-by: Samuel Zhang <guoqing.zhang@amd.com>
----
- drivers/gpu/drm/amd/amdgpu/amdgpu_drv.c | 15 ++++++++++++++-
- 1 file changed, 14 insertions(+), 1 deletion(-)
-
-diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_drv.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_drv.c
-index 4f8632737574..10827becf855 100644
---- a/drivers/gpu/drm/amd/amdgpu/amdgpu_drv.c
-+++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_drv.c
-@@ -2541,6 +2541,10 @@ amdgpu_pci_shutdown(struct pci_dev *pdev)
- 	if (amdgpu_ras_intr_triggered())
- 		return;
- 
-+	/* device maybe not resumed here, return immediately in this case */
-+	if (adev->in_s4 && adev->in_suspend)
-+		return;
-+
- 	/* if we are running in a VM, make sure the device
- 	 * torn down properly on reboot/shutdown.
- 	 * unfortunately we can't detect certain
-@@ -2654,8 +2658,17 @@ static int amdgpu_pmops_freeze(struct device *dev)
- static int amdgpu_pmops_thaw(struct device *dev)
- {
- 	struct drm_device *drm_dev = dev_get_drvdata(dev);
-+	int event = pm_transition_event();
- 
--	return amdgpu_device_resume(drm_dev, true);
-+	switch (event) {
-+	case PM_EVENT_THAW: /* normal case */
-+		return 0;
-+	case PM_EVENT_RECOVER: /* error case */
-+		return amdgpu_device_resume(drm_dev, true);
-+	default:
-+		pr_err("unknown pm_transition_event %d\n", event);
-+		return -EOPNOTSUPP;
-+	}
- }
- 
- static int amdgpu_pmops_poweroff(struct device *dev)
--- 
-2.43.5
-
+> -----Original Message-----
+> From: Greg KH <gregkh@linuxfoundation.org>
+> Sent: Tuesday, July 8, 2025 12:18 PM
+> To: Nilawar, Badal <badal.nilawar@intel.com>
+> Cc: intel-xe@lists.freedesktop.org; dri-devel@lists.freedesktop.org; linu=
+x-
+> kernel@vger.kernel.org; Gupta, Anshuman <anshuman.gupta@intel.com>;
+> Vivi, Rodrigo <rodrigo.vivi@intel.com>; Usyskin, Alexander
+> <alexander.usyskin@intel.com>; Ceraolo Spurio, Daniele
+> <daniele.ceraolospurio@intel.com>
+> Subject: Re: [PATCH v7 2/9] mei: late_bind: add late binding component dr=
+iver
+>=20
+> On Tue, Jul 08, 2025 at 12:42:30AM +0530, Badal Nilawar wrote:
+> > From: Alexander Usyskin <alexander.usyskin@intel.com>
+> >
+> > Add late binding component driver.
+>=20
+> That says what this does, but not why, or even what "late binding"
+> means.
+>=20
+> > It allows pushing the late binding configuration from, for example,
+> > the Xe graphics driver to the Intel discrete graphics card's CSE device=
+.
+> >
+> > Signed-off-by: Alexander Usyskin <alexander.usyskin@intel.com>
+> > Signed-off-by: Badal Nilawar <badal.nilawar@intel.com>
+> > Reviewed-by: Anshuman Gupta <anshuman.gupta@intel.com>
+> > ---
+> >  drivers/misc/mei/Kconfig                    |  11 +
+> >  drivers/misc/mei/Makefile                   |   1 +
+> >  drivers/misc/mei/mei_late_bind.c            | 271 ++++++++++++++++++++
+> >  include/drm/intel/i915_component.h          |   1 +
+> >  include/drm/intel/late_bind_mei_interface.h |  62 +++++
+> >  5 files changed, 346 insertions(+)
+> >  create mode 100644 drivers/misc/mei/mei_late_bind.c  create mode
+> > 100644 include/drm/intel/late_bind_mei_interface.h
+> >
+> > diff --git a/drivers/misc/mei/Kconfig b/drivers/misc/mei/Kconfig index
+> > 7575fee96cc6..36569604038c 100644
+> > --- a/drivers/misc/mei/Kconfig
+> > +++ b/drivers/misc/mei/Kconfig
+> > @@ -81,6 +81,17 @@ config INTEL_MEI_VSC
+> >  	  This driver can also be built as a module. If so, the module
+> >  	  will be called mei-vsc.
+> >
+> > +config INTEL_MEI_LATE_BIND
+> > +	tristate "Intel late binding support on ME Interface"
+> > +	depends on INTEL_MEI_ME
+> > +	depends on DRM_XE
+> > +	help
+> > +	  MEI Support for Late Binding for Intel graphics card.
+> > +
+> > +	  Enables the ME FW interfaces for Late Binding feature,
+> > +	  allowing loading of firmware for the devices like Fan
+> > +	  Controller by Intel Xe driver.
+>=20
+> Where is "Late Binding feature" documented so we know what that is?  Why
+> wouldn't it just always be enabled and why must it be a config option?
+>=20
+> > --- /dev/null
+> > +++ b/include/drm/intel/late_bind_mei_interface.h
+> > @@ -0,0 +1,62 @@
+> > +/* SPDX-License-Identifier: MIT */
+> > +/*
+> > + * Copyright (c) 2025 Intel Corporation  */
+> > +
+> > +#ifndef _LATE_BIND_MEI_INTERFACE_H_
+> > +#define _LATE_BIND_MEI_INTERFACE_H_
+> > +
+> > +#include <linux/types.h>
+> > +
+> > +struct device;
+> > +struct module;
+>=20
+> Not needed.
+>=20
+> > +
+> > +/**
+> > + * Late Binding flags
+> > + * Persistent across warm reset
+>=20
+> persistent where?
+>=20
+> > + */
+> > +#define CSC_LATE_BINDING_FLAGS_IS_PERSISTENT	BIT(0)
+> > +
+> > +/**
+> > + * xe_late_bind_fw_type - enum to determine late binding fw type  */
+> > +enum late_bind_type {
+> > +	CSC_LATE_BINDING_TYPE_FAN_CONTROL =3D 1, };
+>=20
+> shouldn't you have mei_ as a prefix for the enum type and the values?
+>=20
+> > +
+> > +/**
+> > + * Late Binding payload status
+> > + */
+> > +enum csc_late_binding_status {
+>=20
+> Same here, what is "CSC"?
+>=20
+> > +	CSC_LATE_BINDING_STATUS_SUCCESS           =3D 0,
+> > +	CSC_LATE_BINDING_STATUS_4ID_MISMATCH      =3D 1,
+> > +	CSC_LATE_BINDING_STATUS_ARB_FAILURE       =3D 2,
+> > +	CSC_LATE_BINDING_STATUS_GENERAL_ERROR     =3D 3,
+> > +	CSC_LATE_BINDING_STATUS_INVALID_PARAMS    =3D 4,
+> > +	CSC_LATE_BINDING_STATUS_INVALID_SIGNATURE =3D 5,
+> > +	CSC_LATE_BINDING_STATUS_INVALID_PAYLOAD   =3D 6,
+> > +	CSC_LATE_BINDING_STATUS_TIMEOUT           =3D 7,
+> > +};
+>=20
+> This enum type is never used.
+These enum used by CSC firmware to=20
+These Enum used in 5th patch of this series by xe_late_bind_parse_status() =
+to print the error status=20
+returned by CSC firmware in push_config().
+Thanks,
+Anshuman.
+>=20
+> > +
+> > +/**
+> > + * struct late_bind_component_ops - ops for Late Binding services.
+> > + * @owner: Module providing the ops
+> > + * @push_config: Sends a config to FW.
+> > + */
+> > +struct late_bind_component_ops {
+> > +	/**
+> > +	 * @push_config: Sends a config to FW.
+>=20
+> What is "FW"?
+>=20
+> > +	 * @dev: device struct corresponding to the mei device
+>=20
+> Why not pass in the mei device structure, not a 'struct device' so that w=
+e know
+> this is correct?
+>=20
+> > +	 * @type: payload type
+> > +	 * @flags: payload flags
+> > +	 * @payload: payload buffer
+>=20
+> Where are these defined?  Why are they not enums?
+>=20
+> > +	 * @payload_size: payload buffer size
+>=20
+> Size in what?
+>=20
+> > +	 *
+> > +	 * Return: 0 success, negative errno value on transport failure,
+> > +	 *         positive status returned by FW
+> > +	 */
+> > +	int (*push_config)(struct device *dev, u32 type, u32 flags,
+> > +			   const void *payload, size_t payload_size); };
+> > +
+> > +#endif /* _LATE_BIND_MEI_INTERFACE_H_ */
+> > --
+> > 2.34.1
+> >
