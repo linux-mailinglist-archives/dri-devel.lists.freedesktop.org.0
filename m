@@ -2,95 +2,88 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id D829DAFC85E
-	for <lists+dri-devel@lfdr.de>; Tue,  8 Jul 2025 12:27:49 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 70D75AFC82E
+	for <lists+dri-devel@lfdr.de>; Tue,  8 Jul 2025 12:20:37 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 250D610E5E6;
-	Tue,  8 Jul 2025 10:27:45 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C82ED10E5D3;
+	Tue,  8 Jul 2025 10:20:35 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="iXuHEgMi";
+	dkim=pass (2048-bit key; unprotected) header.d=heusel.eu header.i=christian@heusel.eu header.b="jQVp3Im+";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pg1-f181.google.com (mail-pg1-f181.google.com
- [209.85.215.181])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A53E710E1AA
- for <dri-devel@lists.freedesktop.org>; Tue,  8 Jul 2025 10:07:00 +0000 (UTC)
-Received: by mail-pg1-f181.google.com with SMTP id
- 41be03b00d2f7-b31d489a76dso3409917a12.1
- for <dri-devel@lists.freedesktop.org>; Tue, 08 Jul 2025 03:07:00 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1751969220; x=1752574020; darn=lists.freedesktop.org;
- h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
- :mime-version:subject:date:from:from:to:cc:subject:date:message-id
- :reply-to; bh=fVDZwMbI3MaZsqcDOMuRideVCsmXg1PFZTHplOr/W9w=;
- b=iXuHEgMiWt+9KmIzQuvVjmDR555Uei1aFx4vWy5nYvqFyWMKZFq6RH0sudHYDnMwPe
- awloFyq09rQhqUfRC5q7xafEIf0fuXBsuBScVX5T+Os2L1sCjjbSK1t6nuPFGchZetl9
- gcbp+soINVRvrKi2k670sugROOcddoUFRdUUyD5oGRzifLjdJiGIekTaP4c1isexqMoK
- aSKfEnmpx6z3gg1LOR7icNFvBue43l5UL05++FUkSy7o4DKqSh3n/I6dSmVGOiRIKJXJ
- hIDqeZxHOvX6WHR3fXRDcjM0DKaT5UEeWieP0eqWij6R9SxSPSgiN9GjeonI9co8pLB8
- 4gOg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1751969220; x=1752574020;
- h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
- :mime-version:subject:date:from:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=fVDZwMbI3MaZsqcDOMuRideVCsmXg1PFZTHplOr/W9w=;
- b=cV+Ktq9KVmuSv6xug+XICiKdJuPHzVEte0JFo9meger0wK+if0ls9qmNmv83Mb5xqy
- ZaYx/DAUOeqmWv4HOc/l92LNLIg8bb18aAwVJy9HW67tTYzTpAOaSN8NWVUpUpjLRTPO
- VZ3CNIzUmqqQUfNHPkadxcOsAwirYdaHhoiYLRW1v91IvP3CzKXuGQxq4ix8ifIDAvac
- juh3ATjjNOS+dC4jAMdXbLCMUkZyenKSk9bFPb5fRwVmQYM3qw/RUAx/hTbacSvbx7sE
- lM7Ik9yIMgOwAyjVvwFHDHCwUfDxKg1oSaYjzjJX6GRpqcwW9v7z9gsdgkRrgTK14D4m
- T0Iw==
-X-Forwarded-Encrypted: i=1;
- AJvYcCUqmThNZoknBoVLXpEa6VCO1PE2nr7WACGWgDIj4C5Qeu/VXMsHx4TsOscgrFAJ0bIHSV/Mhah1rqs=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YxudnUdgAdI6d35gtUe1VBP9YMFmgkGGFSEXjGiI27mVMEaUT49
- Nzek7GmGmbERyuNtkl9h/Jk1OyOn4eRAPxN0SFgqBP8zv8/MozPKSoqM
-X-Gm-Gg: ASbGncsEybF9Be6Ntmv1xcounujgK/atVZr/fv8FKeeRcdRVWla10aWhGlQae1cmltP
- Qu8JVTs7IIacXNS5UJ/HYesotrm6TlPXONekk5L9Ybq5WzNaGIKcPFgGS+AgyYnwQHS6szY5Gh+
- HxrdmlxzI4UMcAP+OO+nb7MXTid8BTcJ+5T1kgwPapMOpuc1jV+iEx5763sPvZhsQQ3+TMdy8ep
- 0Lr6SYthMq9rioVyKXgS0xS0kg1iwa8xMoDBlUk2V0gglmUbXfhheWQiWwz/lC9UZP6uzcuV2f3
- L/Aw361Ix7PzBLQgjaB5bBh6nEALUKyDqUhRKerkLrFwfMyfKF7aFzTHQVInfK16lkCYB9v3YJt
- pC0ehAEGdxMiLzBU=
-X-Google-Smtp-Source: AGHT+IF5IEEWA6P5DDZbTNTa4RdtlbgzI1iI+TTgS3Fon36qdFB1AdrHk/f2Cb401XdKTWTaFrqLUw==
-X-Received: by 2002:a05:6a21:7a44:b0:220:10e5:825d with SMTP id
- adf61e73a8af0-22608fbba67mr24621523637.8.1751969220107; 
- Tue, 08 Jul 2025 03:07:00 -0700 (PDT)
-Received: from [127.0.1.1] (211-23-39-77.hinet-ip.hinet.net. [211.23.39.77])
- by smtp.gmail.com with ESMTPSA id
- d2e1a72fcca58-74ce359ecd6sm11971174b3a.24.2025.07.08.03.06.57
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 08 Jul 2025 03:06:59 -0700 (PDT)
-From: LiangCheng Wang <zaq14760@gmail.com>
-Date: Tue, 08 Jul 2025 18:06:46 +0800
-Subject: [PATCH 3/3] dt-bindings: display: Add Mayqueen Pixpaper e-ink
- panel
+X-Greylist: delayed 336 seconds by postgrey-1.36 at gabe;
+ Tue, 08 Jul 2025 10:20:33 UTC
+Received: from mout.kundenserver.de (mout.kundenserver.de [212.227.126.133])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 65CB510E5D3;
+ Tue,  8 Jul 2025 10:20:33 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=heusel.eu;
+ s=s1-ionos; t=1751970031; x=1752574831; i=christian@heusel.eu;
+ bh=pVC7GxX7t70O6nV2vsIuzXnuZ90xj4rHSPK+8DUoSsM=;
+ h=X-UI-Sender-Class:Date:From:To:Cc:Subject:Message-ID:References:
+ MIME-Version:Content-Type:In-Reply-To:cc:
+ content-transfer-encoding:content-type:date:from:message-id:
+ mime-version:reply-to:subject:to;
+ b=jQVp3Im+DjSW1Cq4oO+wNwaWM/qqmSsgIhncxNnIuR1yY4rTQjHHFwZzyt4GRss+
+ AMqOpiEB+uWTgt6ZDyUbrel0CNnYpFy51ni017rkHHWtJKLQstinz5wDGOOrVxg4T
+ jhIlp2VoGwAsGR3IMCa1cu/0CjlKVwihmE3MPE43+cpyOAomP1j/UyODCRvInR0Av
+ PL2jAmQ+Txkz1b+J21pgovagWwzzQM4xop0OokSVCXHq0qgwnAtV0NdwYhnvKeoH8
+ FEgMnQtqu+6lJ00d912gwb2UatRUuewzEy1jmJCAjAg1vcl4FZXHY7OBStK+5BcLn
+ Tp1EIL0vk497uVuMag==
+X-UI-Sender-Class: 55c96926-9e95-11ee-ae09-1f7a4046a0f6
+Received: from localhost ([94.31.75.247]) by mrelayeu.kundenserver.de
+ (mreue009 [212.227.15.167]) with ESMTPSA (Nemesis) id
+ 1MyK9U-1ura8N2VIK-0117h4; Tue, 08 Jul 2025 12:14:43 +0200
+Date: Tue, 8 Jul 2025 12:14:41 +0200
+From: Christian Heusel <christian@heusel.eu>
+To: Mikhail Gavrilov <mikhail.v.gavrilov@gmail.com>
+Cc: tzimmermann@suse.de, asrivats@redhat.com, 
+ Christian =?utf-8?B?S8O2bmln?= <Christian.Koenig@amd.com>,
+ maarten.lankhorst@linux.intel.com, mripard@kernel.org, 
+ sumit.semwal@linaro.org, linux-media@vger.kernel.org, 
+ dri-devel <dri-devel@lists.freedesktop.org>, linaro-mm-sig@lists.linaro.org, 
+ amd-gfx list <amd-gfx@lists.freedesktop.org>,
+ Linux regressions mailing list <regressions@lists.linux.dev>, 
+ Linux List Kernel Mailing <linux-kernel@vger.kernel.org>
+Subject: Re: 6.16-rc5/regression/bisected - WARNING in
+ drm_gem_object_handle_put_unlocked after commit 5307dce878d4
+Message-ID: <a028ff08-8478-4cab-8bf6-3c9ea4b21ccc@heusel.eu>
+References: <CABXGCsNxhEu+win6h1Zwi-0e4NeURzOt2KA=BXakRz08moG4uA@mail.gmail.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20250708-drm-v1-3-45055fdadc8a@gmail.com>
-References: <20250708-drm-v1-0-45055fdadc8a@gmail.com>
-In-Reply-To: <20250708-drm-v1-0-45055fdadc8a@gmail.com>
-To: Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
- Conor Dooley <conor+dt@kernel.org>, 
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, 
- Sumit Semwal <sumit.semwal@linaro.org>, 
- =?utf-8?q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>, 
- Wig Cheng <onlywig@gmail.com>
-Cc: devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, 
- dri-devel@lists.freedesktop.org, linux-media@vger.kernel.org, 
- linaro-mm-sig@lists.linaro.org, LiangCheng Wang <zaq14760@gmail.com>
-X-Mailer: b4 0.14.2
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1751969205; l=2111;
- i=zaq14760@gmail.com; h=from:subject:message-id;
- bh=e/Pd6vA+VmaF2zukYk9DBDpw0E2bjx0yWVQX/BqXoL4=;
- b=P5GfjvHLmmcmbgI2dFTUjdqZ0y/W6BouIch2ERcYaoYs/FheTOD13/2l73i/QtsOg1LUKzrJ6
- 4rpICTvKNnLDDbZRfZoin3nmzabD5/ZtFPs7wf6Zde1OAS6Yr6Xq8cR
-X-Developer-Key: i=zaq14760@gmail.com; a=ed25519;
- pk=5IaLhzvMqasgGPT47dsa8HEpfb0/Dv2BZC0TzSLj6E0=
-X-Mailman-Approved-At: Tue, 08 Jul 2025 10:27:44 +0000
+Content-Type: multipart/signed; micalg=pgp-sha512;
+ protocol="application/pgp-signature"; boundary="fya22ekfcjwoyp6c"
+Content-Disposition: inline
+In-Reply-To: <CABXGCsNxhEu+win6h1Zwi-0e4NeURzOt2KA=BXakRz08moG4uA@mail.gmail.com>
+X-Provags-ID: V03:K1:kP9F2Oeo9EM+WR1is69hCSu10i0wMrSM8tP03uSWtSAgZa+h4UW
+ /G52w2AJzg55Fj+GRg/neWqrxYh9CW8AS8/zNoToIatTcTUCofxizj0i+EuI644J3i14PRS
+ nPVy8+aQCMw8Qi157G29tt0Eo+sS3nF9qzWOoYWASCyjrEXjvh1hP7sbDNG4kKbf8g7+hfr
+ vPPPR8g3XexELk3WeaDjg==
+X-Spam-Flag: NO
+UI-OutboundReport: notjunk:1;M01:P0:H2nh9rO2OA0=;jtSf1SzejbeX1LrAyBirK++nz36
+ dnVxpKGjQgoul0PGDASUOwNaDC4KGVgLz0UDwP1B+luszhJAdFHQ21FaaRmGyD74Mg1gEtJTd
+ gZmwiByWgCq43dsr37bKfb4d6VzDQ3iKo/EArB6L8qPx0z4x+0VrR189ui/Fe36iUoIMK6KlN
+ Olv8EvPA+TonTXo0rdfcm+09pQBoP0INxr3UP9Fvo8gY1dmJNBfoWmXuwS4KCKhiwuPHQUl97
+ k/nZFayVPJEX8tUIgim4lxDPvLrSZp0/HTCXruTm++2CiW2kBt0NtFAQn8+os+WoEow8Os7Lu
+ EnBs77UGNYs18d9vyTd9UXW8v+HGE7dnAYks5WigbUSdFT1ZWPrwrh6fWUNqqdX6fXoPX5YGm
+ uGDJ7FadXmh4x70w+mLxloebyAwy9eTLqMe/GuQ0IU5SIxulIhJDVbWe5jDQSahUTCbf7+zWN
+ 3W4mRcgo9CQSgmktKMzYSXDk1iGhkfB909XL2WSUWRmncUfenO1Pr4F57Pi9zo32+vXFoVwCu
+ RCb06wR1iz0pL/hM3vzIfNdP8F4WtiCGLJh03UekM/WjpFCyWl3f3xVjviUnzdoEs66pBIBqF
+ FLtydsMdWNIRYEWfNWnSrsyLqKuQ1k9zYEkmZd7hNeVwEyjEfD+VUWDZQC705GAe5Zk48zUZ8
+ f0U8a1x2IxgEG/F5YICHyY+drKha3lRkeMWwM7ahpINaNGeJYBs/9nV1JeSk8JYkCGDzgWunV
+ FzaaM/Rf/ltcyMchBLv+iCVIY2afIQwtFqkkKSeQ/je1EZ7tkn0Nnoi9iWQ2GlX6HRVCcLfvj
+ YYVJqrTRWq5C/3JetNbxWMq+hylIORnzzDaRhxa1Jv91znCNT2rpPzuGakNk5y6W04/HOCxze
+ wUpsA18oPe3wh1dNJG8Mm5t/XioRC3i+jq/HvycwSXIiE/fJ08iPRQr7qA0Mc3OYHohm6OZez
+ m7MFFj//83pfIkyUYYYkgKMO4vbtaUT+fPVgtgoODq6i2dZ0ATH0Txwf8toJSeCS5B/VT/5rD
+ /d3IyIm5nKSf2lvatVB/Qep0iJKLZcqOxrn8W1e8L2Tpy4RdDmGIDR/zHdBSwQ6nSr9TaiXMj
+ PSPUGyV184lEseNL1BT6KXDy3X/3BL0sfRfHTJPm8NTuXQj76YSr0gY0DrCYH/+72zthZjsI5
+ OffM+J+OURnWwTaYBi14QPEc2+aBdYBwOEeIMmJXBmNjvgIOWNPXgP1WTy6E52gPoktVZIzYQ
+ +9DbsIZDL0UZRVXqnCm3Q8PY4/7QTOU0aLwprc8aB5YneUjC1xbqZibqratTgtnKo3fQwNIjU
+ u/D4Foci1UgOsqEWq3XRoZhQ6msHX6+GX5J/fl5onRjM/S5+DTYsvXDW8o544GkruoB2QFaLM
+ BoS2+Xx2RFuKtoQjL4MRlHpwoWvCHVhIB7DbC/wK8MIzhtAtajP5DoA+Jks7RJFwWd47smx8h
+ mm/A/aKAJZjc1/OhLt7kmWq9C3L3hAV+6yl1G0hySoR/5g2wpa1wc244Lche3+CNYZXIkH0pf
+ 5z3Grhk8OOb2qkoExan6u5DIqagpr5kE1ruGWMnCsKVRkX7jSgCBLNFSfg5qF9pgvL2F5mV7K
+ ZVR7GY3Ein4iILcoRJC3Uy5Zhs42ruiRp7rkc/kXU64F7gR1P6QO1GW25ZNnZ+V/BAwI+b/KQ
+ E=
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -106,84 +99,80 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The binding is for the Mayqueen Pixpaper e-ink display panel,
-controlled via an SPI interface.
 
-Signed-off-by: LiangCheng Wang <zaq14760@gmail.com>
----
- .../bindings/display/mayqueen,pixpaper.yaml        | 63 ++++++++++++++++++++++
- 1 file changed, 63 insertions(+)
+--fya22ekfcjwoyp6c
+Content-Type: text/plain; protected-headers=v1; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
+Subject: Re: 6.16-rc5/regression/bisected - WARNING in
+ drm_gem_object_handle_put_unlocked after commit 5307dce878d4
+MIME-Version: 1.0
 
-diff --git a/Documentation/devicetree/bindings/display/mayqueen,pixpaper.yaml b/Documentation/devicetree/bindings/display/mayqueen,pixpaper.yaml
-new file mode 100644
-index 0000000000000000000000000000000000000000..cd27f8ba5ae1d94660818525b5fa71db98c8acb7
---- /dev/null
-+++ b/Documentation/devicetree/bindings/display/mayqueen,pixpaper.yaml
-@@ -0,0 +1,63 @@
-+# SPDX-License-Identifier: (GPL-2.0 OR BSD-2-Clause)
-+%YAML 1.2
-+---
-+$id: http://devicetree.org/schemas/display/mayqueen,pixpaper.yaml#
-+$schema: http://devicetree.org/meta-schemas/core.yaml#
-+
-+title: Mayqueen Pixpaper e-ink display panel
-+
-+maintainers:
-+  - LiangCheng Wang <zaq14760@gmail.com>
-+
-+description:
-+  The Pixpaper is an e-ink display panel controlled via an SPI interface.
-+  The panel has a resolution of 122x250 pixels and requires GPIO pins for
-+  reset, busy, and data/command control.
-+
-+allOf:
-+  - $ref: /schemas/spi/spi-peripheral-props.yaml#
-+
-+properties:
-+  compatible:
-+    const: mayqueen,pixpaper
-+
-+  reg:
-+    maxItems: 1
-+
-+  spi-max-frequency:
-+    maximum: 1000000
-+    default: 1000000
-+
-+  reset-gpios:
-+    maxItems: 1
-+
-+  busy-gpios:
-+    maxItems: 1
-+
-+  dc-gpios:
-+    maxItems: 1
-+
-+required:
-+  - compatible
-+  - reg
-+  - reset-gpios
-+  - busy-gpios
-+  - dc-gpios
-+
-+unevaluatedProperties: false
-+
-+examples:
-+  - |
-+    #include <dt-bindings/gpio/gpio.h>
-+    spi {
-+        #address-cells = <1>;
-+        #size-cells = <0>;
-+        display@0 {
-+            compatible = "mayqueen,pixpaper";
-+            reg = <0>;
-+            spi-max-frequency = <1000000>;
-+            reset-gpios = <&gpio1 17 GPIO_ACTIVE_HIGH>;
-+            busy-gpios = <&gpio1 18 GPIO_ACTIVE_HIGH>;
-+            dc-gpios = <&gpio1 19 GPIO_ACTIVE_HIGH>;
-+        };
-+    };
+On 25/07/08 02:26PM, Mikhail Gavrilov wrote:
+> Hi Thomas,
 
--- 
-2.34.1
+Hey Mike,
 
+> After commit 5307dce878d4 ("drm/gem: Acquire references on GEM handles
+> for framebuffers"), my kernel log becomes flooded with the following
+> warning:
+> WARNING: CPU: 5 PID: 1812 at drivers/gpu/drm/drm_gem.c:286
+> drm_gem_object_handle_put_unlocked+0x207/0x330
+>=20
+> This occurs during normal GNOME Shell usage, and the trace appears
+> repeatedly. A full stack trace is included below.
+>=20
+> I bisected the issue to this commit:
+> 5307dce878d4 drm/gem: Acquire references on GEM handles for framebuffers
+
+I think this is the same issue as the already fixed
+https://gitlab.freedesktop.org/drm/amd/-/issues/4393
+
+Also this is the fix linked in the issue:
+https://lore.kernel.org/dri-devel/663110e1-3aa0-4f6f-8727-3a240bc96075@kern=
+el.org/T/#me2a0f3254a57cdd157ba79344ab8d51476ba18e5
+
+> Reverting this commit on top of current mainline kernel (6.16-rc5)
+> fixes the issue =E2=80=94 the warnings disappear completely.
+>=20
+> My hardware config: https://linux-hardware.org/?probe=3Dce4c44c524
+>=20
+> Kernel config, full bisect logs, and kernel logs from each bisect step
+> are attached.
+> Please take a look as soon as possible =E2=80=94 this regression could af=
+fect
+> any user relying on fbdev or shadow planes, and the commit is already
+> CC'ed to stable@vger.kernel.org.
+> It would be unfortunate if this made it into a stable release without
+> being addressed.
+>=20
+> Thanks in advance!
+>=20
+> --
+> Best Regards,
+> Mike Gavrilov.
+
+Cheers,
+Chris
+
+--fya22ekfcjwoyp6c
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAABCgAdFiEEb3ea3iR6a4oPcswTwEfU8yi1JYUFAmhs75EACgkQwEfU8yi1
+JYXsLg/+ObOtHgsihU/489f7Y2qWKv5s/4scLsWukSapGhIEIxW0sWySxqzC1Zg9
+JKzfWpnsBe3LbXbTo2/CxhdMaQ8kZWODBig7q0mHJJ72Ag3sBMfhcPkqHaGi2LDV
+AJTcfdb2hnRwbeDAfIFeHBZUws9fVNaNBQw4/n4HuZNSBjI+VC4uAIKk2USnzmPT
+2SEZTXsZw7zKx1lYs/pmOqMguNpbyYstcgqXjH1nxJxLC0X7p5pQTNlqYaKx4lZX
+yj7Eusoff/Va4x4nVv+5FlErKVbAXyRgCH16X99hzdSeda28JbZUqoI1HLZ8D+TY
+PdAlknCqzmKMd7T3DTdMzc0r8K2t1BCpcvJTa8Tl/imo9OV6sdzFLHW9Zrd3ek7x
+e/aV45/7HCDpLpIVDA6t2OUDf9ydeKlIs7koSGBO8nmKBRjmj+XZDIQY4WK1uAw/
+JOSJL/sWF2lqh3GXTPLgy8EXi6GpHuuUnqVjjX1DA+9Pq9Wyl9gNbqmnt7yL7Ry2
+Z6ZkTnlmeKRkOeLmIC3gtnAn37cFm+QNqkRuTFwZPMTVdoxSJMoO/7QNyEWuz5ei
+tLsVAYCHuPKaRzD+IJn9mORKEeY0XLqV0sVrTQLVEf/jx6FB2IvM1BmanMc9Oh4b
+UCqFH2z6b/SyLnqPsTujbWRKpP7gNNfxGkySHlkPcYRiA2EUbR0=
+=iEvw
+-----END PGP SIGNATURE-----
+
+--fya22ekfcjwoyp6c--
