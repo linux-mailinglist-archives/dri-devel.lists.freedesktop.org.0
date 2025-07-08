@@ -2,41 +2,40 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id E02B9AFD393
-	for <lists+dri-devel@lfdr.de>; Tue,  8 Jul 2025 18:58:06 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 183BCAFD396
+	for <lists+dri-devel@lfdr.de>; Tue,  8 Jul 2025 18:58:09 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7E83789C05;
-	Tue,  8 Jul 2025 16:58:04 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8E8A210E008;
+	Tue,  8 Jul 2025 16:58:06 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="SW75u4yX";
+	dkim=pass (1024-bit key; unprotected) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="NOdoU2pl";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from nyc.source.kernel.org (nyc.source.kernel.org [147.75.193.91])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7BA8089C05
- for <dri-devel@lists.freedesktop.org>; Tue,  8 Jul 2025 16:58:02 +0000 (UTC)
+Received: from tor.source.kernel.org (tor.source.kernel.org [172.105.4.254])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2808610E008
+ for <dri-devel@lists.freedesktop.org>; Tue,  8 Jul 2025 16:58:05 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by nyc.source.kernel.org (Postfix) with ESMTP id 61CD1A54055;
- Tue,  8 Jul 2025 16:58:01 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id A6F31C4CEED;
- Tue,  8 Jul 2025 16:58:00 +0000 (UTC)
+ by tor.source.kernel.org (Postfix) with ESMTP id 3DCBB61441;
+ Tue,  8 Jul 2025 16:58:04 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8DF39C4CEED;
+ Tue,  8 Jul 2025 16:58:03 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
- s=korg; t=1751993881;
- bh=O8DY9iQvQuri9ETtgEtgVX+GYzEbahHXVwYWnNZ/LgM=;
+ s=korg; t=1751993883;
+ bh=kx6FJAjprvejNhhebn86h4bHayhejk5tCWnHq6kGeac=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=SW75u4yXfuGz4+cKzD4PijbaRETyCpIe1r6IOu7CWsslFc/X+Nwy9StmXAKrWqape
- V95zDxIHXdMWQo8ztGIGCHhFojeVA45f4OZKWX3HqIMbVvpSEqx969I7wZldSiS3/h
- NkVKKdnZOcekPHfkEoD4KONyLt/tT7xjpqf2RPtM=
+ b=NOdoU2plpmjsRINrVazpm5NOmI0fyuC6YRtPVvC8DcqNfWw0ErmofvKHXimaWj0iK
+ mveOWAQMxsc2Sgix9v2/ZfaqTjWADkPXb+5dVwB2PeIvGcLp5q3xJZlFNwGZN0seLT
+ O7vHSfKAh34asKkBI5qF66qxelRmlydbLqproYI0=
 From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 To: stable@vger.kernel.org
 Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>, patches@lists.linux.dev,
  "Jiri Slaby (SUSE)" <jirislaby@kernel.org>, Helge Deller <deller@gmx.de>,
  linux-fbdev@vger.kernel.org, dri-devel@lists.freedesktop.org,
  Sasha Levin <sashal@kernel.org>
-Subject: [PATCH 5.15 051/160] vgacon: switch vgacon_scrolldelta() and
- vgacon_restore_screen()
-Date: Tue,  8 Jul 2025 18:21:28 +0200
-Message-ID: <20250708162232.956317981@linuxfoundation.org>
+Subject: [PATCH 5.15 052/160] vgacon: remove unneeded forward declarations
+Date: Tue,  8 Jul 2025 18:21:29 +0200
+Message-ID: <20250708162232.984234899@linuxfoundation.org>
 X-Mailer: git-send-email 2.50.0
 In-Reply-To: <20250708162231.503362020@linuxfoundation.org>
 References: <20250708162231.503362020@linuxfoundation.org>
@@ -66,10 +65,9 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 From: Jiri Slaby (SUSE) <jirislaby@kernel.org>
 
-[ Upstream commit 03b89a08484a88fb9e0604cab2b3eb0c2f265c74 ]
+[ Upstream commit 6ceed69cde8fe4a78fe50d62d7a88a5c1eed4709 ]
 
-Switch vgacon_scrolldelta() and vgacon_restore_screen() positions, so
-that the former is not needed to be forward-declared.
+Most of the forward declarations in vgacon are not needed. Drop them.
 
 Signed-off-by: "Jiri Slaby (SUSE)" <jirislaby@kernel.org>
 Cc: Helge Deller <deller@gmx.de>
@@ -79,39 +77,31 @@ Signed-off-by: Helge Deller <deller@gmx.de>
 Stable-dep-of: 03bcbbb3995b ("dummycon: Trigger redraw when switching consoles with deferred takeover")
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- drivers/video/console/vgacon.c | 12 ++++++------
- 1 file changed, 6 insertions(+), 6 deletions(-)
+ drivers/video/console/vgacon.c | 10 +---------
+ 1 file changed, 1 insertion(+), 9 deletions(-)
 
 diff --git a/drivers/video/console/vgacon.c b/drivers/video/console/vgacon.c
-index 7bce5a174f388..b2180fd183307 100644
+index b2180fd183307..9bfe451050209 100644
 --- a/drivers/video/console/vgacon.c
 +++ b/drivers/video/console/vgacon.c
-@@ -163,12 +163,6 @@ static inline void vga_set_mem_top(struct vc_data *c)
- 	write_vga(12, (c->vc_visible_origin - vga_vram_base) / 2);
- }
+@@ -65,16 +65,8 @@ static struct vgastate vgastate;
+  *  Interface used by the world
+  */
  
--static void vgacon_restore_screen(struct vc_data *c)
--{
--	if (c->vc_origin != c->vc_visible_origin)
--		vgacon_scrolldelta(c, 0);
--}
--
- static void vgacon_scrolldelta(struct vc_data *c, int lines)
- {
- 	vc_scrolldelta_helper(c, lines, vga_rolled_over, (void *)vga_vram_base,
-@@ -176,6 +170,12 @@ static void vgacon_scrolldelta(struct vc_data *c, int lines)
- 	vga_set_mem_top(c);
- }
- 
-+static void vgacon_restore_screen(struct vc_data *c)
-+{
-+	if (c->vc_origin != c->vc_visible_origin)
-+		vgacon_scrolldelta(c, 0);
-+}
+-static const char *vgacon_startup(void);
+-static void vgacon_init(struct vc_data *c, int init);
+-static void vgacon_deinit(struct vc_data *c);
+-static void vgacon_cursor(struct vc_data *c, int mode);
+-static int vgacon_switch(struct vc_data *c);
+-static int vgacon_blank(struct vc_data *c, int blank, int mode_switch);
+-static void vgacon_scrolldelta(struct vc_data *c, int lines);
+ static int vgacon_set_origin(struct vc_data *c);
+-static void vgacon_save_screen(struct vc_data *c);
+-static void vgacon_invert_region(struct vc_data *c, u16 * p, int count);
 +
- static const char *vgacon_startup(void)
- {
- 	const char *display_desc = NULL;
+ static struct uni_pagedict *vgacon_uni_pagedir;
+ static int vgacon_refcount;
+ 
 -- 
 2.39.5
 
