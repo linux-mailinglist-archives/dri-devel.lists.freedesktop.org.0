@@ -2,88 +2,154 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id E7FCBAFCA6F
-	for <lists+dri-devel@lfdr.de>; Tue,  8 Jul 2025 14:30:37 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id EFB39AFCA80
+	for <lists+dri-devel@lfdr.de>; Tue,  8 Jul 2025 14:37:45 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 59E1E10E625;
-	Tue,  8 Jul 2025 12:30:34 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7B39F10E61C;
+	Tue,  8 Jul 2025 12:37:42 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; secure) header.d=ffwll.ch header.i=@ffwll.ch header.b="TI/zRKxH";
+	dkim=pass (1024-bit key; unprotected) header.d=amd.com header.i=@amd.com header.b="NeU/jZrY";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-f45.google.com (mail-wm1-f45.google.com
- [209.85.128.45])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4F36410E623
- for <dri-devel@lists.freedesktop.org>; Tue,  8 Jul 2025 12:30:32 +0000 (UTC)
-Received: by mail-wm1-f45.google.com with SMTP id
- 5b1f17b1804b1-4531e146a24so28810665e9.0
- for <dri-devel@lists.freedesktop.org>; Tue, 08 Jul 2025 05:30:32 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=ffwll.ch; s=google; t=1751977831; x=1752582631; darn=lists.freedesktop.org; 
- h=in-reply-to:content-transfer-encoding:content-disposition
- :mime-version:references:message-id:subject:cc:to:from:date:from:to
- :cc:subject:date:message-id:reply-to;
- bh=rx4dEYIe9NApnwnQS011msr/FrxauQfjNeWI/gfP9UA=;
- b=TI/zRKxHBhoVYKWdZFUUbDq0WMdtCCMWtVr2kTII3t9woX1WGwcAflQmaNgDermo8A
- SrqRbfVAdA0osISy12A+ujv8u5u2PvJxiTFhluIyrxT17NwsvHLOIbZwt9JZZjhpZpby
- qAR/tAADRHbcYyDfrTV/DD6+9TBLXCZqQoQDM=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1751977831; x=1752582631;
- h=in-reply-to:content-transfer-encoding:content-disposition
- :mime-version:references:message-id:subject:cc:to:from:date
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=rx4dEYIe9NApnwnQS011msr/FrxauQfjNeWI/gfP9UA=;
- b=LMwouPExsrFWaqRv5j4eNMyG6uv8UEhFW3uRixMXLt1FN211TJ/Wk92tUAWkDgpT8p
- L8b19lQSUyekWueKjqpnnrjPM0ZmHmfLoMS2DfOl97lu+GpYb3pJxcxpIeVR7leYiGa/
- 5oPbSkIK7jLEtyDArqxXVEJy3il8Q98GVhS0VJr0WqgtThqKgO2IDkSC8jRfoGO94v5F
- SKwSAtkVQdzETOh8xCzpmHyeLyo+tCef+Pz/wG/ivN8zHxYAk0kwFmDiPoR8PVj9n5GK
- M/GGxOX5sAPyL7LNqIkSzojKHaReccuL6I/GPGJbs5lLkjJUYGyqJNvht3Gg3b5MwR+B
- KO3g==
-X-Forwarded-Encrypted: i=1;
- AJvYcCVnPeIBxaCvnoBa6B/S8ftSpFhTtgVZhPSNvl1OLJK/oqTbqhoiR6tNUsoH6S7di9lEYoM/j1+mDlQ=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YyUPYXrNhbctlDiadWFvHBX6YwJWcHABeUCN0c9ETXX32Dh5I34
- CIUIsQVaEDbSaFfFj7OHMPhcEsMi7m5Oceil9H8330GrtPlWlRBhX0Q8h6xcyen+Rpk=
-X-Gm-Gg: ASbGncs1FUFJpFDl7cY4anqjNyvssc6DDvreXiJUvDqq3KG8yat7f9rBtbA2/W/Wqve
- wFlno6Qnih4+1nesoNftXAxbLuFei6WWzQsQITBa91zuXKyxAiQ3hMfAbI/5KvCearEkQ88kPfH
- Bh2SU1FsFuuIzIDcz+IHpCAIqbpqeKa0xsvowldNoAEAavjdX/RcKin005Xe6RDH7cs5NRId9Wc
- wiGfC9nsUfYxLaJg47QmYnXBZ0PbXbeiO3cv+J2NoJiHvjQdoH1WInJmRSK+dEzYrkmjwp8e2eS
- vXWq9WIRPkL74PLVhB+lj383WeK+BpnXZP7YBa6eHczPg+WRjB5ZwwVw+GKW8o27SBWFBFAuZw=
- =
-X-Google-Smtp-Source: AGHT+IGFCtyxdkJRl2xMrrw9ZsAUEciqwZGICfS5Uhp/jUouorN8c1RFjyeIjLfpmrxrKaAe5Mx32Q==
-X-Received: by 2002:a05:600c:3492:b0:442:c993:6f94 with SMTP id
- 5b1f17b1804b1-454cd4bb4f5mr25084645e9.12.1751977830363; 
- Tue, 08 Jul 2025 05:30:30 -0700 (PDT)
-Received: from phenom.ffwll.local ([2a02:168:57f4:0:5485:d4b2:c087:b497])
- by smtp.gmail.com with ESMTPSA id
- 5b1f17b1804b1-454cd3a50cbsm20974235e9.18.2025.07.08.05.30.29
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 08 Jul 2025 05:30:29 -0700 (PDT)
-Date: Tue, 8 Jul 2025 14:30:27 +0200
-From: Simona Vetter <simona.vetter@ffwll.ch>
-To: Jani Nikula <jani.nikula@intel.com>
-Cc: Dave Airlie <airlied@gmail.com>, Simona Vetter <simona.vetter@ffwll.ch>,
- Jani Nikula <jani.nikula@linux.intel.com>,
- Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
- Tvrtko Ursulin <tursulin@ursulin.net>,
- Rodrigo Vivi <rodrigo.vivi@intel.com>,
- Thomas Zimmermann <tzimmermann@suse.de>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>,
- Thomas =?iso-8859-1?Q?Hellstr=F6m?= <thomas.hellstrom@linux.intel.com>,
- Oded Gabbay <ogabbay@kernel.org>,
- Lucas De Marchi <lucas.demarchi@intel.com>,
- dri-devel@lists.freedesktop.org, intel-gfx@lists.freedesktop.org,
- intel-xe@lists.freedesktop.org, dim-tools@lists.freedesktop.org
-Subject: Re: [PULL] drm-intel-next
-Message-ID: <aG0PY7k6x4S8ji3b@phenom.ffwll.local>
-References: <6d728bf6ef23681b00dfbc7da9aeae41042dee02@intel.com>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
+Received: from NAM04-MW2-obe.outbound.protection.outlook.com
+ (mail-mw2nam04on2088.outbound.protection.outlook.com [40.107.101.88])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 936DA10E046;
+ Tue,  8 Jul 2025 12:37:40 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=Fro6B0kQ5a8ik0LbSyp8UjpTT1KMea6WM+y+ZcttApngHHbCZiNgBFpxaaTSpZpLQ0B65l4d854l1nlMaOBrSanYxJ6LmoUPWaxBjL9wiuIHtRG/O/DE+h8ykE+MKNnJqcAOxLCKaLjA7qWTIsZKpmWspucF0jSmEcKTkhhC8werhbBJ58u4mXCPGqu+ChEGzPUwgaPZqTuMKbow89gR/5N5aC/2fUhLJ1B7cSuhanp7SwuU3KAwBoLa8LgYlzhlvDGundqMvoqylw5NzCSG/n7WzhqyPicQudbLANWYzZnenysPSiJ1cb/KX/AoIsx1Dj93YCZXaG7gpQqGHUjTsA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=jGXfxiZpLWHqgFqRE9flfuHqQyJ2CCU8p49RncZI0j0=;
+ b=hR/AsLTdbih9efKbkXyhmYp1iJ3rCWdlsCRvOQfRyfI7NNHgc9aTx9N0U8+UdwQMfmRBzmi+PlZaDk0JtIbs/TCy/EtZIT0JOpcLnnCOFuexTFAz9fj8WacPpTizumBH3KoYjmpQUnBrmMP1KcZWCebn35Mw9llMAYrFY9zrlft9jn9Q07s4uNoNsuSElOAPkzNx+qOArgueZWTL5XuX/HXwS9GCDzughY+LUwcNX0xvUD766TD/wH/v68zd59hcEqF5/0NPuMD+zWpK7gnv+ucARRRIuDZRmFFZ5px1AkM8eR/kVkqDkXMdNTlqHYTPk7XmjsNdHSelLXwJOIB7jw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
+ header.d=amd.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=jGXfxiZpLWHqgFqRE9flfuHqQyJ2CCU8p49RncZI0j0=;
+ b=NeU/jZrYhmHPgRtnuWW7CTP6SKFkKdIV2Ua8ymrvDZJ2SkMwL9///sWYCmzSYiAb564YyzNzVSuFE0jr3pXqTiy/iV79McpR18NpZd03/UKo45ZTIBcLu7G0Dmk9K5sanaps4mhvc9if6yvIp+IXvrf3IyIYPhtLixoc8qL4CEk=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=amd.com;
+Received: from PH7PR12MB5685.namprd12.prod.outlook.com (2603:10b6:510:13c::22)
+ by MW4PR12MB7119.namprd12.prod.outlook.com (2603:10b6:303:220::21)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8835.28; Tue, 8 Jul
+ 2025 12:37:38 +0000
+Received: from PH7PR12MB5685.namprd12.prod.outlook.com
+ ([fe80::46fb:96f2:7667:7ca5]) by PH7PR12MB5685.namprd12.prod.outlook.com
+ ([fe80::46fb:96f2:7667:7ca5%5]) with mapi id 15.20.8901.024; Tue, 8 Jul 2025
+ 12:37:37 +0000
+Message-ID: <cb140d4e-01cd-4cd7-bd7c-5c10b44cf98f@amd.com>
+Date: Tue, 8 Jul 2025 14:37:33 +0200
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v6 14/15] drm/sched: Queue all free credits in one worker
+ invocation
+To: Tvrtko Ursulin <tvrtko.ursulin@igalia.com>, dri-devel@lists.freedesktop.org
+Cc: intel-xe@lists.freedesktop.org, amd-gfx@lists.freedesktop.org,
+ kernel-dev@igalia.com, Danilo Krummrich <dakr@kernel.org>,
+ Matthew Brost <matthew.brost@intel.com>, Philipp Stanner <phasta@kernel.org>
+References: <20250708095147.73366-1-tvrtko.ursulin@igalia.com>
+ <20250708095147.73366-15-tvrtko.ursulin@igalia.com>
+Content-Language: en-US
+From: =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
+In-Reply-To: <20250708095147.73366-15-tvrtko.ursulin@igalia.com>
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <6d728bf6ef23681b00dfbc7da9aeae41042dee02@intel.com>
-X-Operating-System: Linux phenom 6.12.30-amd64 
+X-ClientProxiedBy: FR4P281CA0430.DEUP281.PROD.OUTLOOK.COM
+ (2603:10a6:d10:d1::20) To PH7PR12MB5685.namprd12.prod.outlook.com
+ (2603:10b6:510:13c::22)
+MIME-Version: 1.0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: PH7PR12MB5685:EE_|MW4PR12MB7119:EE_
+X-MS-Office365-Filtering-Correlation-Id: 3aed9148-ca90-4a58-af3a-08ddbe1c3891
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;ARA:13230040|1800799024|366016|376014|7053199007;
+X-Microsoft-Antispam-Message-Info: =?utf-8?B?UHBGS2dweWlmcjhnNDN2dW1KYi9KYUY0czFEMzlEUDdpNWFMNWFZc2FBZ2JD?=
+ =?utf-8?B?SmlXWC9wUkdMVEV4RGJUbnhFQ0xLK0JJSHl6Z3B6WXRXdlRrZUFGbEdxeEZl?=
+ =?utf-8?B?NzdrWWFXMHN6dmdJYUtyeEtaeEZ2ZFdoQmt4dlpHakoxR1NrMDA4alZtdTRo?=
+ =?utf-8?B?NnB5MDVrM2hLYmxpeHFSTmdxU3hZT2xyNjg1SDFJM2FIaFdDK0xjWkJsOXVZ?=
+ =?utf-8?B?QVNEMmpIOTdnd3RiVE1CVHhBS2NHTER1ZEFHM1I3ZnkwVlJUd3NrcllIUWpH?=
+ =?utf-8?B?Mzc3V3ZFR3grUjVHalB1STl5Unh1WDB6WUp6OTNGSjBhSTB5UXdsbXV1dVNJ?=
+ =?utf-8?B?ZkQ3TE1aL2xwRTFmYnNEZ2VPVWFsV3kxL0xQSFFJVTJTdDFjdWZINi9qNXg1?=
+ =?utf-8?B?cDIrY1NLbU5HUnlsZFgzdngzb2RtRkpkNGdCQVg2ckJ0a1EwTUhtNnJFWmxE?=
+ =?utf-8?B?MTBrcWZ2WGt6SzI3STlpcHNvVzA4QlBQQVRkRHg2dFR5eWxEbDlIbWJMZlh4?=
+ =?utf-8?B?WnhhZlVpQyt6SHc0c0w1bjBya0M5V3BwS1B0dE1rTzRkVmxYVjRYN2I0NERU?=
+ =?utf-8?B?VkNlRXVmQVRsMFJDSUZ3R2lON09tSWRZbkpLZGpKK3dTbCtYejFzZzkvemcr?=
+ =?utf-8?B?eEcvM3VPRy94dmJDSkpLMHBxd1BoL0E1MXFZM1BJWm1kamVOOWd6ZDVUQith?=
+ =?utf-8?B?N2RYT292eGU2UjN5VkoyZGRObFFXMHBibE1DaGZoZHAvbkRWZTl3SmRFb2t4?=
+ =?utf-8?B?dStld3dMNmZkYUNuc1liRVFwblYxZ3paV3MyTXVtTnBYS3htM3NXcjhIWlR6?=
+ =?utf-8?B?bUR6TldoNVZLdWVHTnljNFFOSTJvMTAzZDFqUFFTaGRvQlh2bG5ZSVprM0Vt?=
+ =?utf-8?B?aUZ2TTlZVzJrT3c2R2pzZjhtblQ1YlJYSDVjNjhWWmJndG95REp2d0NzQ2kv?=
+ =?utf-8?B?eUVnT3lOd1V2KzJZOGJ0SU1EVis0TkUzTDZRRXdYZVd2RW92bXhETUZMVC9x?=
+ =?utf-8?B?WGxOTUtDNnB3SnRPRyttSjFLRjFqS285cjFETUJ5OG5pQWJWSWRqSDNTSWZ0?=
+ =?utf-8?B?S1dnSlY5SDExWnJqdHFFMFl4OVRzUmx1SlNqZVBVOGFNQlpibG9QNW0zRHB3?=
+ =?utf-8?B?WW1NT1MvL3pDTVgxRElhejUxUHdNd0lYOSt3SU5aK0xpd0V3ZlI4Sm1Hc2No?=
+ =?utf-8?B?MnpGVDFnL2FRaHc1YXcwbVhYcmZCV1N3VjNsdlBFcWVxU2NHOVpWaEVKeWNs?=
+ =?utf-8?B?WThvUkR4Z3ZhQ1VaOHU1Q0RHMTkrL3RBLzlQYS9JMkt1bi9jamZOZGQ3a2pQ?=
+ =?utf-8?B?NVRpR2dqT2Q5RmdjZkxYMm9ObzVvTEdDdWg1bncxa08xaFRKN2lqWm1vaG9V?=
+ =?utf-8?B?eTd1bThyM0ptaFNGRTdXdk9ITkIvTCs5UVUwTEZBcGo1MytHRzlxRm5oTk04?=
+ =?utf-8?B?UlltVjRxQVdUU3IvYXBickxZZ2FyTzZBNWxhNGNtK0RVK0dNamJCWDhTaGRz?=
+ =?utf-8?B?M2VuaWpjV3F4dStsTGNLS1NvY3hZVUJYd3ZqUEU0R3JGaDJ0U3poY2k4ZVZF?=
+ =?utf-8?B?Y1ltaDdoUm45WDJSMFVRNU0rR3oyc3dlSWUzcXNwYnhGNlVGNHNNeFkvR0lN?=
+ =?utf-8?B?djkxU1JlWDJZb0p5RVd4WFF6MDhtSTJiS2lqSlRocGlsSkxLbWlkVzZ1dDAr?=
+ =?utf-8?B?REhQNFVheTFRajB6eXdsL1ZJUkQ4V0FPVGdQaXI5N2JMUFMrV25icUdtanR4?=
+ =?utf-8?B?STR0dFhZT3N2NkszeHNaaU1OT1IydURHVTQvQmtZRTM2ZUVDeDBqNVVBSmNT?=
+ =?utf-8?B?eDJ6VWZteW9MRUdBUjZaUzJKQVoyZHY2NzBUR3hDV3JUUDRmUU16VlliVmFB?=
+ =?utf-8?B?am9JUEhXS250cHVzd0V0TmZqeEFPRXZPMTE4YXNoWFNvQVVSZjFnMlMrK1pY?=
+ =?utf-8?Q?GxZPrhGTUv0=3D?=
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:PH7PR12MB5685.namprd12.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230040)(1800799024)(366016)(376014)(7053199007); DIR:OUT; SFP:1101; 
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?dHlObnNkUllJV0YrZUVDRFdDN0gxQkt2K2NEYUpTL05HTnRZMlpteGhWTFJF?=
+ =?utf-8?B?cXdLQ0lhNDFDMml5ZkpTWW0zKzNGNnBHcWNrek92QzJuOTl3VEMxQzUzYkZl?=
+ =?utf-8?B?MWl4MkFPMnhRZm5jMXdDT1BMbGJKeWRncFRBeWdwZUk5eWRDRktPelJnVzVi?=
+ =?utf-8?B?NEVhOHIwOE1CRC9FcGg4OTBKMWxRNUZEK3VnVzlzbkZRVjI5Wno2UG9mUkNn?=
+ =?utf-8?B?R2FaMFRGQ3ZMRmI3TFBNNWlTWVk3d2dwaHFEbkViakdaaEJIeUl0VG1TUmlY?=
+ =?utf-8?B?eUZVKytGbHV6NlpnUVBnNlphLzJ0MDl5djFNQ0FGN282cE5mZVZpQTFQeXhN?=
+ =?utf-8?B?OHorVDBreFBnTm45aXdIVzVYKzYzU1oyNHZsNjFZZDZwbDBXQklhNEZBNWtx?=
+ =?utf-8?B?Y053V0ZNbS82NmducTc1cG1na2Y1MFhVZE1wZEQrTVpMaUVlTzAwcE5rOUxZ?=
+ =?utf-8?B?WGtmbnY5SldKOTNkZWFyVFhJcWQ3WHowUktTa2llai9vd2NtMVE3S1FlN0xH?=
+ =?utf-8?B?NzRxQzJYMXFqZjdOMnhHRGxCTXBBN2R0c3M4ZWxqOHJGekxjYnVTVFV6VStR?=
+ =?utf-8?B?THdZanRIdWdFYno5RkJ0blZaS2t1T1VPNGg5SVVkc1hTdDBtbnZweGVwUm1L?=
+ =?utf-8?B?N2NjVStuTUJQY0hwU2VRNzRxdWpIZlVoVXlqV1dDcW1JMVZiVURjUHc4emd1?=
+ =?utf-8?B?Z2cvYUdmdXR4SDA3dFdVbzd4V1JGMXFieXFyM3ZlRkRneldvemMvcWxBMnhO?=
+ =?utf-8?B?bGpGNk9heXdhNm5JcXJodFRpWWtrdzBwcDVLdDlMSFBsTUcvdDVTblBPY2V0?=
+ =?utf-8?B?blloKzBqS2RxTnRidTV6Zm0zMFdjNHYvbzJjV0drOHVzMWRHZlE4UmpnYTJ6?=
+ =?utf-8?B?dlRFbWVBVEsxa1ZxMWZOS29CUkdjSjdLTFhIQnFva2ViekZScWdzclcwbm55?=
+ =?utf-8?B?QmJ1YTNIcXk3bDA2TVloUkltejhhTDVwVWV3cGczbCtGamdTeW81TGRYVC9o?=
+ =?utf-8?B?ckxmUGl0c1g3ZlFmUHhFeENDVXIzTi9LTURESWhiTzFtaTh2eXNMSWpWRG1y?=
+ =?utf-8?B?d29qWWp1SEYzVWRHT0FyeW50c0g2dXFVTjFwM0drOTlRbXp1WXRRR2E1UE9y?=
+ =?utf-8?B?THR1TGpMazZQYWl6RjBNWXAwS002QzZ0UnVtUGgvbFhCNWh2ckFzSlVid2tL?=
+ =?utf-8?B?Qk9sTGdzb3JWZ0JGeDVxRnoweG5lSm91YWJMbGRpNm5OOEdTQ1R1aEdyWmVG?=
+ =?utf-8?B?U0hjQmtId2FFMUpiaGdubGZBbjludGgvU2RxbHVhdzRZRzkrUFNoQ0ZWeXAr?=
+ =?utf-8?B?eHdqTW52ZU5WTWc5dFBjRllyOENCSGs0RDhCOVNLUEsyYmJMSWE0V1VNNEgx?=
+ =?utf-8?B?TGJNSnNuTmhkdDhNQjV3RnZLVXZkSldaVE9lRjRuWVZ6ZEJkdElWWVFpeGF4?=
+ =?utf-8?B?WGhjT0hoQndRaS9ma0pOZ09QWGxZWU5DUFExdmM3MUZ4MW9sNXkvSXpoOXl3?=
+ =?utf-8?B?anQ0WUNoR0dUZmhhZ0gvbGg1SmtRQlphSi9QRUNaaUtlNWFZWmpyMFJ6ajhV?=
+ =?utf-8?B?eUlIQVdYdW02am9KYVptUW1ydjhza3dwei9DTFhEYlRub3N0ZnNWYktJdzY1?=
+ =?utf-8?B?RG92RlNzdE4vVEROZEpGYVpCa3Rxc3pFd0Zkb3JsdDFQM1RjN2VtUlhFUTFQ?=
+ =?utf-8?B?ckFjU3ZQNU5EeUpZUVIzSEt4TEh3dmxka284QWtGZEd4Snd5UkZESkNiRk8z?=
+ =?utf-8?B?YmloRHdBZnlpNTFHM0QveWt2ckxOYTViZTg3UnVDR1VrMnJWWlZCUGZHa3Fk?=
+ =?utf-8?B?T3l2eTcreVlWaHNGUGJQNGhhb2lXNTVKOFZNbXVKSTV3MlFreUY1U0JBTlpL?=
+ =?utf-8?B?RHJRSmt1aTBSK0JKMlQyZUZ5T1RKMUJwTGFpNlkzTE93b0VlL2puQzBSZ3gr?=
+ =?utf-8?B?ZEZrbmJkVEJXQ1JkNSttQytwNjQ0N3k3cHhWM2h6L0orVk5Mdk5vai9sRzk1?=
+ =?utf-8?B?czFLMUtwRFRxeVgwaS9BSG0yR0lLeXBGYU9tTDJPaGNNQzlsWVRFeHJITndY?=
+ =?utf-8?B?M29Sb3JFamVBK1ZIMG1NZlI2QVh4a2RuNE14TllxalJpTys3TWVLazhzWmJ1?=
+ =?utf-8?Q?IyNH5BVrtFCvu9zQDdnlTb3/o?=
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 3aed9148-ca90-4a58-af3a-08ddbe1c3891
+X-MS-Exchange-CrossTenant-AuthSource: PH7PR12MB5685.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 08 Jul 2025 12:37:37.5783 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: 4LuIMd8THrcsGvDGfU+3UnhC+VFsXHG0RJvS5w8orCtyUZGTcOAHsebSm7LavXSX
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: MW4PR12MB7119
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -99,323 +165,232 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, Jul 04, 2025 at 01:29:23PM +0300, Jani Nikula wrote:
-> 
-> Hi Dave & Sima -
-> 
-> Here's the second i915 feature pull request for v6.17, mostly just
-> display changes.
-> 
-> Rodrigo will handle the subsequent (likely just fixes) pull requests for
-> v6.17, if any.
-> 
-> 
-> BR,
-> Jani.
-> 
-> 
-> drm-intel-next-2025-07-04:
-> drm/i915 feature pull #2 for v6.17:
-> 
-> Features and functionality:
-> - Add drm_panic support for both i915 and xe drivers (Jocelyn Falempe)
-> - Add initial flip queue implementation, disabled by default, for LNL and PTL
->   (Ville)
-> - Add support for Wildcat Lake (WCL) display, version 30.02 (Matt Roper, Matt
->   Atwood, Dnyaneshwar)
-> - Extend drm_panel and follower support to DDI eDP (Arun)
-> 
-> Refactoring and cleanups:
-> - Make all global state objects opaque (Jani)
-> - Move display works to display specific unordered workqueue (Luca)
-> - Add and use struct drm_device based pcode interface (Jani, Lucas)
-> - Use clamp() instead of max()+min() combo (Ankit)
-> - Simplify wait for power well disable (Jani)
-> - Various stylistics cleanups and renames (Jani)
-> 
-> Fixes:
-> - Deal with loss of pipe DMC state (Ville)
-> - Fix PTL HDCP2 stream status check (Suraj)
-> - Add workaround for ADL-P DKL PHY DP and HDMI (Nemesa)
-> - Fix skl_print_wm_changes() stack usage with KMSAN (Arnd Bergmann)
-> - Fix PCON capability reads on non-branch devices (Chaitanya)
-> - Fix which platforms have ultra joiner (Ankit)
-> 
-> DRM core changes:
-> - Add ttm_bo_kmap_try_from_panic() for xe drm_panic support (Jocelyn Falempe)
-> - Add private pointer to struct drm_scanout buffer for xe/i915 drm_panic support
->   (Jocelyn Falempe)
-> 
-> Merges:
-> - Backmerge drm-next for drm_panel and xe changes (Jani)
-> 
-> BR,
-> Jani.
-> 
-> The following changes since commit 36c52fb703e90388285963fc8f03cf60f76cbe4c:
-> 
->   Merge tag 'drm-intel-next-2025-06-18' of https://gitlab.freedesktop.org/drm/i915/kernel into drm-next (2025-06-23 10:49:27 +1000)
-> 
-> are available in the Git repository at:
-> 
->   https://gitlab.freedesktop.org/drm/i915/kernel.git tags/drm-intel-next-2025-07-04
+On 08.07.25 11:51, Tvrtko Ursulin wrote:
+> There is no reason to queue just a single job if scheduler can take more
+> and re-queue the worker to queue more.
 
-Pulled into drm-next, thanks.
--Sima
+That's not correct. This was intentionally avoided.
 
-> 
-> for you to fetch changes up to d6a59ee852758bc69c4cc821954db277a2bd5b93:
-> 
->   drm/ttm: Remove unneeded blank line in comment (2025-07-02 13:31:20 -0700)
-> 
-> ----------------------------------------------------------------
-> drm/i915 feature pull #2 for v6.17:
-> 
-> Features and functionality:
-> - Add drm_panic support for both i915 and xe drivers (Jocelyn Falempe)
-> - Add initial flip queue implementation, disabled by default, for LNL and PTL
->   (Ville)
-> - Add support for Wildcat Lake (WCL) display, version 30.02 (Matt Roper, Matt
->   Atwood, Dnyaneshwar)
-> - Extend drm_panel and follower support to DDI eDP (Arun)
-> 
-> Refactoring and cleanups:
-> - Make all global state objects opaque (Jani)
-> - Move display works to display specific unordered workqueue (Luca)
-> - Add and use struct drm_device based pcode interface (Jani, Lucas)
-> - Use clamp() instead of max()+min() combo (Ankit)
-> - Simplify wait for power well disable (Jani)
-> - Various stylistics cleanups and renames (Jani)
-> 
-> Fixes:
-> - Deal with loss of pipe DMC state (Ville)
-> - Fix PTL HDCP2 stream status check (Suraj)
-> - Add workaround for ADL-P DKL PHY DP and HDMI (Nemesa)
-> - Fix skl_print_wm_changes() stack usage with KMSAN (Arnd Bergmann)
-> - Fix PCON capability reads on non-branch devices (Chaitanya)
-> - Fix which platforms have ultra joiner (Ankit)
-> 
-> DRM core changes:
-> - Add ttm_bo_kmap_try_from_panic() for xe drm_panic support (Jocelyn Falempe)
-> - Add private pointer to struct drm_scanout buffer for xe/i915 drm_panic support
->   (Jocelyn Falempe)
-> 
-> Merges:
-> - Backmerge drm-next for drm_panel and xe changes (Jani)
-> 
-> ----------------------------------------------------------------
-> Ankit Nautiyal (3):
->       drm/i915/snps_hdmi_pll: Fix 64-bit divisor truncation by using div64_u64
->       drm/i915/snps_hdmi_pll: Use clamp() instead of max(min())
->       drm/i915/display: Fix macro HAS_ULTRAJOINER
-> 
-> Arnd Bergmann (1):
->       drm/i915/wm: reduce stack usage in skl_print_wm_changes()
-> 
-> Arun R Murthy (1):
->       drm/i915/panel: register drm_panel and call prepare/unprepare for eDP
-> 
-> Chaitanya Kumar Borah (1):
->       drm/xe/display: read PCON capability only when present
-> 
-> Dan Carpenter (1):
->       drm/i915/selftests: Change mock_request() to return error pointers
-> 
-> Dnyaneshwar Bhadane (3):
->       drm/i915/xe3lpd: Extend DMC load path for display
->       drm/i915/wcl: C10 phy connected to port A and B
->       drm/i915/xe3lpd: Extend WA 16023981245 for display 30.02
-> 
-> Hans de Goede (1):
->       drm/i915/dsi: Fix NULL pointer deref in vlv_dphy_param_init()
-> 
-> Jani Nikula (37):
->       drm/i915/vrr: fix register file style
->       drm/i915/plane: rename intel_atomic_plane.[ch] to intel_plane.[ch]
->       drm/i915/plane: drop atomic from intel_atomic_plane_check_clipping()
->       drm/i915/plane: make intel_plane_atomic_check() static and rename
->       drm/i915/plane: rename intel_atomic_check_planes() to intel_plane_atomic_check()
->       drm/i915/plane: rename intel_atomic_add_affected_planes() to intel_plane_add_affected()
->       Merge drm/drm-next into drm-intel-next
->       drm/i915/panel: make panel funcs static
->       drm/i915/pcode: drop fast wait from snb_pcode_write_timeout()
->       drm/i915/pcode: add struct drm_device based interface
->       drm/xe/pcode: add struct drm_device based interface
->       drm/i915/display: switch to struct drm_device based pcode interface
->       drm/i915/dram: switch to struct drm_device based pcode interface
->       drm/xe/compat: remove old pcode compat interface
->       drm/i915: remove unused DISPLAY_PLANE_FLIP_PENDING() macro
->       drm/i915/wm: abstract intel_dbuf_pmdemand_needs_update()
->       drm/i915/wm: add more accessors to dbuf state
->       drm/i915/wm: make struct intel_dbuf_state opaque type
->       drm/i915/bw: abstract intel_bw_pmdemand_needs_update()
->       drm/i915/bw: relocate intel_can_enable_sagv() and rename to intel_bw_can_enable_sagv()
->       drm/i915: move icl_sagv_{pre, post}_plane_update() to intel_bw.c
->       drm/i915/bw: abstract intel_bw_qgv_point_peakbw()
->       drm/i915/bw: make struct intel_bw_state opaque
->       drm/i915/cdclk: abstract intel_cdclk_logical()
->       drm/i915/cdclk: abstract intel_cdclk_min_cdclk()
->       drm/i915/cdclk: abstract intel_cdclk_bw_min_cdclk()
->       drm/i915/cdclk: abstract intel_cdclk_pmdemand_needs_update()
->       drm/i915/cdclk: abstract intel_cdclk_force_min_cdclk()
->       drm/i915/cdclk: abstract intel_cdclk_read_hw()
->       drm/i915/cdclk: abstract intel_cdclk_actual() and intel_cdclk_actual_voltage_level()
->       drm/i915/cdclk: make struct intel_cdclk_state opaque
->       drm/i915/power: move enum skl_power_gate under display
->       drm/i915/power: relocate {SKL,ICL}_PW_CTL_IDX_TO_PG()
->       drm/i915/power: convert {SKL, ICL}_PW_CTL_IDX_TO_PG() macros to a function
->       drm/i915/fb: use struct intel_display for DISPLAY_VER()
->       drm/i915/display: drop a number of dependencies on i915_drv.h
->       drm/i915/power: use intel_de_wait_for_clear() instead of wait_for()
-> 
-> Jocelyn Falempe (12):
->       drm/panic: Add a private field to struct drm_scanout_buffer
->       drm/i915/fbdev: Add intel_fbdev_get_map()
->       drm/i915/display/i9xx: Add a disable_tiling() for i9xx planes
->       drm/i915/display: Add a disable_tiling() for skl planes
->       drm/ttm: Add ttm_bo_kmap_try_from_panic()
->       drm/i915: Add intel_bo_alloc_framebuffer()
->       drm/i915: Add intel_bo_panic_setup() and intel_bo_panic_finish()
->       drm/i915/display: Add drm_panic support
->       drm/i915/display: Add drm_panic support for Y-tiling with DPT
->       drm/i915/display: Add drm_panic support for 4-tiling with DPT
->       drm/i915/psr: Add intel_psr2_panic_force_full_update
->       drm/ttm: Remove unneeded blank line in comment
-> 
-> Luca Coelho (1):
->       drm/i915/display: move unordered works to new private workqueue
-> 
-> Lucas De Marchi (1):
->       drm/xe: Fix conflicting intel_pcode_* symbols
-> 
-> Matt Atwood (2):
->       drm/i915/xe3lpd: Update bandwidth parameters for display version 30.02
->       drm/i915: Set max cdclk for display 30.02
-> 
-> Matt Roper (1):
->       drm/i915/xe3lpd: Add support for display version 30.02
-> 
-> Nemesa Garg (1):
->       drm/i915/display: Implement wa_16011342517
-> 
-> Suraj Kandpal (2):
->       drm/i915/hdcp: Do not use inline intel_de_read
->       drm/i915/hdcp: Use HDCP2_STREAM_STATUS instead of HDCP2_AUTH_STREAM
-> 
-> Ville Syrjälä (16):
->       drm/i915/dmc: Limit pipe DMC clock gating w/a to just ADL/DG2/MTL
->       drm/i915/dmc: Parametrize MTL_PIPEDMC_GATING_DIS
->       drm/i915/dmc: Shuffle code around
->       drm/i915/dmc: Extract dmc_load_program()
->       drm/i915/dmc: Reload pipe DMC state on TGL when enabling pipe A
->       drm/i915/dmc: Reload pipe DMC MMIO registers for pipe C/D on various platforms
->       drm/i915/dmc: Assert DMC is loaded harder
->       drm/i915/dmc: Pass crtc_state to intel_dmc_{enable,disable}_pipe()
->       drm/i915/dmc: Do not enable the pipe DMC on TGL when PSR is possible
->       drm/i915: Set PKG_C_LATENCY.added_wake_time to 0
->       drm/i915: Try to program PKG_C_LATENCY more correctly
->       drm/i915/dmc: Define flip queue related PIPEDMC registers
->       drm/i915/flipq: Provide the nuts and bolts code for flip queue
->       drm/i915/flipq: Implement flip queue based commit path
->       drm/i915/flipq: Implement Wa_18034343758
->       drm/i915/flipq: Add intel_flipq_dump()
-> 
->  Documentation/gpu/i915.rst                         |  10 +-
->  drivers/gpu/drm/i915/Makefile                      |   5 +-
->  drivers/gpu/drm/i915/display/hsw_ips.c             |  15 +-
->  drivers/gpu/drm/i915/display/i9xx_plane.c          |  36 +-
->  drivers/gpu/drm/i915/display/intel_atomic.c        |   2 +-
->  drivers/gpu/drm/i915/display/intel_audio.c         |   2 +-
->  drivers/gpu/drm/i915/display/intel_bo.c            |  17 +
->  drivers/gpu/drm/i915/display/intel_bo.h            |   5 +
->  drivers/gpu/drm/i915/display/intel_bw.c            | 188 ++++++--
->  drivers/gpu/drm/i915/display/intel_bw.h            |  53 +--
->  drivers/gpu/drm/i915/display/intel_cdclk.c         | 156 +++++--
->  drivers/gpu/drm/i915/display/intel_cdclk.h         |  50 +--
->  drivers/gpu/drm/i915/display/intel_connector.c     |   4 +-
->  drivers/gpu/drm/i915/display/intel_crtc.c          |   2 +-
->  drivers/gpu/drm/i915/display/intel_cursor.c        |  10 +-
->  drivers/gpu/drm/i915/display/intel_cx0_phy.c       |   8 +-
->  drivers/gpu/drm/i915/display/intel_ddi.c           |  20 +
->  drivers/gpu/drm/i915/display/intel_display.c       |  79 +++-
->  drivers/gpu/drm/i915/display/intel_display_core.h  |   9 +
->  .../gpu/drm/i915/display/intel_display_device.c    |   1 +
->  .../gpu/drm/i915/display/intel_display_device.h    |   5 +-
->  .../gpu/drm/i915/display/intel_display_driver.c    |  39 +-
->  drivers/gpu/drm/i915/display/intel_display_irq.c   |   2 +-
->  .../gpu/drm/i915/display/intel_display_params.c    |   3 +
->  .../gpu/drm/i915/display/intel_display_params.h    |   1 +
->  drivers/gpu/drm/i915/display/intel_display_power.c |   4 +-
->  .../drm/i915/display/intel_display_power_well.c    |  44 +-
->  drivers/gpu/drm/i915/display/intel_display_regs.h  |  21 +-
->  drivers/gpu/drm/i915/display/intel_display_types.h |  24 ++
->  drivers/gpu/drm/i915/display/intel_dkl_phy_regs.h  |   1 +
->  drivers/gpu/drm/i915/display/intel_dmc.c           | 457 ++++++++++++++------
->  drivers/gpu/drm/i915/display/intel_dmc.h           |  18 +-
->  drivers/gpu/drm/i915/display/intel_dmc_regs.h      | 190 +++++++++
->  drivers/gpu/drm/i915/display/intel_dmc_wl.c        |   4 +-
->  drivers/gpu/drm/i915/display/intel_dp.c            |   3 +
->  drivers/gpu/drm/i915/display/intel_dp_hdcp.c       |  20 +-
->  drivers/gpu/drm/i915/display/intel_drrs.c          |   7 +-
->  drivers/gpu/drm/i915/display/intel_encoder.c       |   5 +-
->  drivers/gpu/drm/i915/display/intel_fb.c            |   8 +-
->  drivers/gpu/drm/i915/display/intel_fb_pin.c        |   7 +-
->  drivers/gpu/drm/i915/display/intel_fb_pin.h        |   2 +
->  drivers/gpu/drm/i915/display/intel_fbc.c           |   6 +-
->  drivers/gpu/drm/i915/display/intel_fbdev.c         |   5 +
->  drivers/gpu/drm/i915/display/intel_fbdev.h         |   6 +-
->  drivers/gpu/drm/i915/display/intel_flipq.c         | 472 +++++++++++++++++++++
->  drivers/gpu/drm/i915/display/intel_flipq.h         |  37 ++
->  drivers/gpu/drm/i915/display/intel_hdcp.c          |  27 +-
->  drivers/gpu/drm/i915/display/intel_hdcp_regs.h     |   4 +-
->  drivers/gpu/drm/i915/display/intel_hotplug.c       |  12 +-
->  drivers/gpu/drm/i915/display/intel_modeset_setup.c |   2 +-
->  drivers/gpu/drm/i915/display/intel_opregion.c      |   7 +-
->  drivers/gpu/drm/i915/display/intel_panel.c         |   5 +-
->  .../{intel_atomic_plane.c => intel_plane.c}        | 199 ++++++++-
->  .../{intel_atomic_plane.h => intel_plane.h}        |  22 +-
->  drivers/gpu/drm/i915/display/intel_plane_initial.c |   2 +-
->  drivers/gpu/drm/i915/display/intel_pmdemand.c      |  41 +-
->  drivers/gpu/drm/i915/display/intel_pps.c           |   7 +-
->  drivers/gpu/drm/i915/display/intel_psr.c           |  31 +-
->  drivers/gpu/drm/i915/display/intel_psr.h           |   2 +
->  drivers/gpu/drm/i915/display/intel_snps_hdmi_pll.c |   8 +-
->  drivers/gpu/drm/i915/display/intel_sprite.c        |  14 +-
->  drivers/gpu/drm/i915/display/intel_vrr_regs.h      | 121 +++---
->  drivers/gpu/drm/i915/display/skl_universal_plane.c |  36 +-
->  drivers/gpu/drm/i915/display/skl_watermark.c       | 452 ++++++++++----------
->  drivers/gpu/drm/i915/display/skl_watermark.h       |  33 +-
->  drivers/gpu/drm/i915/display/vlv_dsi.c             |   2 +-
->  drivers/gpu/drm/i915/gem/i915_gem_object.h         |   6 +
->  drivers/gpu/drm/i915/gem/i915_gem_pages.c          | 142 +++++++
->  drivers/gpu/drm/i915/i915_reg.h                    |  14 +-
->  drivers/gpu/drm/i915/i915_vma.h                    |   5 +
->  drivers/gpu/drm/i915/intel_pcode.c                 |  29 +-
->  drivers/gpu/drm/i915/intel_pcode.h                 |  15 +-
->  drivers/gpu/drm/i915/selftests/i915_request.c      |  20 +-
->  drivers/gpu/drm/i915/selftests/mock_request.c      |   2 +-
->  drivers/gpu/drm/i915/soc/intel_dram.c              |   5 +-
->  drivers/gpu/drm/ttm/ttm_bo_util.c                  |  26 ++
->  drivers/gpu/drm/xe/Makefile                        |   3 +-
->  .../gpu/drm/xe/compat-i915-headers/intel_pcode.h   |  31 --
->  .../gpu/drm/xe/compat-i915-headers/intel_uncore.h  |   7 -
->  drivers/gpu/drm/xe/display/intel_bo.c              |  91 ++++
->  drivers/gpu/drm/xe/display/xe_fb_pin.c             |   5 +
->  drivers/gpu/drm/xe/display/xe_plane_initial.c      |   2 +-
->  drivers/gpu/drm/xe/xe_pcode.c                      |  30 ++
->  drivers/gpu/drm/xe/xe_pcode.h                      |  12 +-
->  include/drm/drm_panic.h                            |   6 +
->  include/drm/ttm/ttm_bo.h                           |   1 +
->  86 files changed, 2638 insertions(+), 904 deletions(-)
->  create mode 100644 drivers/gpu/drm/i915/display/intel_flipq.c
->  create mode 100644 drivers/gpu/drm/i915/display/intel_flipq.h
->  rename drivers/gpu/drm/i915/display/{intel_atomic_plane.c => intel_plane.c} (89%)
->  rename drivers/gpu/drm/i915/display/{intel_atomic_plane.h => intel_plane.h} (86%)
-> 
-> -- 
-> Jani Nikula, Intel
+If more than just the scheduler is using the single threaded workqeueu other workers, especially the timeout worker, can jump in and execute first.
 
--- 
-Simona Vetter
-Software Engineer, Intel Corporation
-http://blog.ffwll.ch
+We explicitely removed submitting more than one job in each worker run.
+
+Regards,
+Christian.
+
+> We can simply feed the hardware
+> with as much as it can take in one go and hopefully win some latency.
+> 
+> Signed-off-by: Tvrtko Ursulin <tvrtko.ursulin@igalia.com>
+> Cc: Christian KÃ¶nig <christian.koenig@amd.com>
+> Cc: Danilo Krummrich <dakr@kernel.org>
+> Cc: Matthew Brost <matthew.brost@intel.com>
+> Cc: Philipp Stanner <phasta@kernel.org>
+> ---
+>  drivers/gpu/drm/scheduler/sched_internal.h |   2 -
+>  drivers/gpu/drm/scheduler/sched_main.c     | 132 ++++++++++-----------
+>  drivers/gpu/drm/scheduler/sched_rq.c       |  12 +-
+>  3 files changed, 64 insertions(+), 82 deletions(-)
+> 
+> diff --git a/drivers/gpu/drm/scheduler/sched_internal.h b/drivers/gpu/drm/scheduler/sched_internal.h
+> index 15d78abc48df..1a5c2f255223 100644
+> --- a/drivers/gpu/drm/scheduler/sched_internal.h
+> +++ b/drivers/gpu/drm/scheduler/sched_internal.h
+> @@ -22,8 +22,6 @@ struct drm_sched_entity_stats {
+>  	u64		vruntime;
+>  };
+>  
+> -bool drm_sched_can_queue(struct drm_gpu_scheduler *sched,
+> -			 struct drm_sched_entity *entity);
+>  void drm_sched_wakeup(struct drm_gpu_scheduler *sched);
+>  
+>  void drm_sched_rq_init(struct drm_gpu_scheduler *sched,
+> diff --git a/drivers/gpu/drm/scheduler/sched_main.c b/drivers/gpu/drm/scheduler/sched_main.c
+> index 35025edea669..1fb3f1da4821 100644
+> --- a/drivers/gpu/drm/scheduler/sched_main.c
+> +++ b/drivers/gpu/drm/scheduler/sched_main.c
+> @@ -95,35 +95,6 @@ static u32 drm_sched_available_credits(struct drm_gpu_scheduler *sched)
+>  	return credits;
+>  }
+>  
+> -/**
+> - * drm_sched_can_queue -- Can we queue more to the hardware?
+> - * @sched: scheduler instance
+> - * @entity: the scheduler entity
+> - *
+> - * Return true if we can push at least one more job from @entity, false
+> - * otherwise.
+> - */
+> -bool drm_sched_can_queue(struct drm_gpu_scheduler *sched,
+> -			 struct drm_sched_entity *entity)
+> -{
+> -	struct drm_sched_job *s_job;
+> -
+> -	s_job = drm_sched_entity_queue_peek(entity);
+> -	if (!s_job)
+> -		return false;
+> -
+> -	/* If a job exceeds the credit limit, truncate it to the credit limit
+> -	 * itself to guarantee forward progress.
+> -	 */
+> -	if (s_job->credits > sched->credit_limit) {
+> -		dev_WARN(sched->dev,
+> -			 "Jobs may not exceed the credit limit, truncate.\n");
+> -		s_job->credits = sched->credit_limit;
+> -	}
+> -
+> -	return drm_sched_available_credits(sched) >= s_job->credits;
+> -}
+> -
+>  /**
+>   * drm_sched_run_job_queue - enqueue run-job work
+>   * @sched: scheduler instance
+> @@ -940,54 +911,77 @@ static void drm_sched_run_job_work(struct work_struct *w)
+>  {
+>  	struct drm_gpu_scheduler *sched =
+>  		container_of(w, struct drm_gpu_scheduler, work_run_job);
+> +	u32 job_credits, submitted_credits = 0;
+>  	struct drm_sched_entity *entity;
+> -	struct dma_fence *fence;
+>  	struct drm_sched_fence *s_fence;
+>  	struct drm_sched_job *sched_job;
+> -	int r;
+> +	struct dma_fence *fence;
+>  
+> -	/* Find entity with a ready job */
+> -	entity = drm_sched_rq_select_entity(sched, sched->rq);
+> -	if (IS_ERR_OR_NULL(entity))
+> -		return;	/* No more work */
+> +	while (!READ_ONCE(sched->pause_submit)) {
+> +		/* Find entity with a ready job */
+> +		entity = drm_sched_rq_select_entity(sched, sched->rq);
+> +		if (!entity)
+> +			break;	/* No more work */
+> +
+> +		sched_job = drm_sched_entity_queue_peek(entity);
+> +		if (!sched_job) {
+> +			complete_all(&entity->entity_idle);
+> +			continue;
+> +		}
+> +
+> +		job_credits = sched_job->credits;
+> +		/*
+> +		 * If a job exceeds the credit limit truncate it to guarantee
+> +		 * forward progress.
+> +		 */
+> +		if (dev_WARN_ONCE(sched->dev, job_credits > sched->credit_limit,
+> +				  "Jobs may not exceed the credit limit, truncating.\n"))
+> +			job_credits = sched_job->credits = sched->credit_limit;
+> +
+> +		if (job_credits > drm_sched_available_credits(sched)) {
+> +			complete_all(&entity->entity_idle);
+> +			break;
+> +		}
+> +
+> +		sched_job = drm_sched_entity_pop_job(entity);
+> +		if (!sched_job) {
+> +			/* Top entity is not yet runnable after all */
+> +			complete_all(&entity->entity_idle);
+> +			continue;
+> +		}
+> +
+> +		s_fence = sched_job->s_fence;
+> +		drm_sched_job_begin(sched_job);
+> +		trace_drm_sched_job_run(sched_job, entity);
+> +		submitted_credits += job_credits;
+> +		atomic_add(job_credits, &sched->credit_count);
+> +
+> +		fence = sched->ops->run_job(sched_job);
+> +		drm_sched_fence_scheduled(s_fence, fence);
+> +
+> +		if (!IS_ERR_OR_NULL(fence)) {
+> +			int r;
+> +
+> +			/* Drop for original kref_init of the fence */
+> +			dma_fence_put(fence);
+> +
+> +			r = dma_fence_add_callback(fence, &sched_job->cb,
+> +						   drm_sched_job_done_cb);
+> +			if (r == -ENOENT)
+> +				drm_sched_job_done(sched_job, fence->error);
+> +			else if (r)
+> +				DRM_DEV_ERROR(sched->dev,
+> +					      "fence add callback failed (%d)\n", r);
+> +		} else {
+> +			drm_sched_job_done(sched_job, IS_ERR(fence) ?
+> +						      PTR_ERR(fence) : 0);
+> +		}
+>  
+> -	sched_job = drm_sched_entity_pop_job(entity);
+> -	if (!sched_job) {
+>  		complete_all(&entity->entity_idle);
+> -		drm_sched_run_job_queue(sched);
+> -		return;
+>  	}
+>  
+> -	s_fence = sched_job->s_fence;
+> -
+> -	atomic_add(sched_job->credits, &sched->credit_count);
+> -	drm_sched_job_begin(sched_job);
+> -
+> -	trace_drm_sched_job_run(sched_job, entity);
+> -	/*
+> -	 * The run_job() callback must by definition return a fence whose
+> -	 * refcount has been incremented for the scheduler already.
+> -	 */
+> -	fence = sched->ops->run_job(sched_job);
+> -	complete_all(&entity->entity_idle);
+> -	drm_sched_fence_scheduled(s_fence, fence);
+> -
+> -	if (!IS_ERR_OR_NULL(fence)) {
+> -		r = dma_fence_add_callback(fence, &sched_job->cb,
+> -					   drm_sched_job_done_cb);
+> -		if (r == -ENOENT)
+> -			drm_sched_job_done(sched_job, fence->error);
+> -		else if (r)
+> -			DRM_DEV_ERROR(sched->dev, "fence add callback failed (%d)\n", r);
+> -
+> -		dma_fence_put(fence);
+> -	} else {
+> -		drm_sched_job_done(sched_job, IS_ERR(fence) ?
+> -				   PTR_ERR(fence) : 0);
+> -	}
+> -
+> -	wake_up(&sched->job_scheduled);
+> -	drm_sched_run_job_queue(sched);
+> +	if (submitted_credits)
+> +		wake_up(&sched->job_scheduled);
+>  }
+>  
+>  static struct workqueue_struct *drm_sched_alloc_wq(const char *name)
+> diff --git a/drivers/gpu/drm/scheduler/sched_rq.c b/drivers/gpu/drm/scheduler/sched_rq.c
+> index e22f9ff88822..f0afdc0bd417 100644
+> --- a/drivers/gpu/drm/scheduler/sched_rq.c
+> +++ b/drivers/gpu/drm/scheduler/sched_rq.c
+> @@ -197,9 +197,7 @@ void drm_sched_rq_pop_entity(struct drm_sched_entity *entity)
+>   *
+>   * Find oldest waiting ready entity.
+>   *
+> - * Return an entity if one is found; return an error-pointer (!NULL) if an
+> - * entity was ready, but the scheduler had insufficient credits to accommodate
+> - * its job; return NULL, if no ready entity was found.
+> + * Return an entity if one is found or NULL if no ready entity was found.
+>   */
+>  struct drm_sched_entity *
+>  drm_sched_rq_select_entity(struct drm_gpu_scheduler *sched,
+> @@ -213,14 +211,6 @@ drm_sched_rq_select_entity(struct drm_gpu_scheduler *sched,
+>  
+>  		entity = rb_entry(rb, struct drm_sched_entity, rb_tree_node);
+>  		if (drm_sched_entity_is_ready(entity)) {
+> -			/* If we can't queue yet, preserve the current entity in
+> -			 * terms of fairness.
+> -			 */
+> -			if (!drm_sched_can_queue(sched, entity)) {
+> -				spin_unlock(&rq->lock);
+> -				return ERR_PTR(-ENOSPC);
+> -			}
+> -
+>  			reinit_completion(&entity->entity_idle);
+>  			break;
+>  		}
+
