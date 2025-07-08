@@ -2,43 +2,40 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6DCD0AFD3A0
-	for <lists+dri-devel@lfdr.de>; Tue,  8 Jul 2025 18:58:23 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id D3CA9AFD3BC
+	for <lists+dri-devel@lfdr.de>; Tue,  8 Jul 2025 18:59:35 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id BE2D410E6B6;
-	Tue,  8 Jul 2025 16:58:21 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3908810E6B7;
+	Tue,  8 Jul 2025 16:59:34 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="hkq32UR2";
+	dkim=pass (1024-bit key; unprotected) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="vJ/OTYu4";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from tor.source.kernel.org (tor.source.kernel.org [172.105.4.254])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 420AB10E6B5
- for <dri-devel@lists.freedesktop.org>; Tue,  8 Jul 2025 16:58:20 +0000 (UTC)
+Received: from sea.source.kernel.org (sea.source.kernel.org [172.234.252.31])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 125F910E6B7
+ for <dri-devel@lists.freedesktop.org>; Tue,  8 Jul 2025 16:59:33 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by tor.source.kernel.org (Postfix) with ESMTP id B69E261441;
- Tue,  8 Jul 2025 16:58:19 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 15A18C4CEED;
- Tue,  8 Jul 2025 16:58:18 +0000 (UTC)
+ by sea.source.kernel.org (Postfix) with ESMTP id BC74A44896;
+ Tue,  8 Jul 2025 16:59:32 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 46FFCC4CEED;
+ Tue,  8 Jul 2025 16:59:32 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
- s=korg; t=1751993899;
- bh=EsGUECeuU262/9k6MF8D/Bzo9ox1cy3zkxiJjfjyNhA=;
+ s=korg; t=1751993972;
+ bh=30SCST7c6vSylFD7K60EIPhunqpTsf9CBepA/5trSAY=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=hkq32UR253YQgjKzaMPRq7aAOauO65j+cocnXrhOfZvLVejXz1DFKxXcql+zhN3oq
- VwJDPLQoG+9K79ROsA95xFqzZp9UcYeJJTSXJWoVMGyjeVj59gh1l7CCv4P86+P0AH
- MFpwgmJ4/mRHTFwIGXzInz/ccMU5jiMTHW/SADxY=
+ b=vJ/OTYu4K/gxMuGMdDdHRmOoYlEX8StxJkBYkgmwgq7V3q+2Z8a+WppkE21C0KHsM
+ iuzZKNUl5vhvRC/xCgS2QxPqEE1Z9qdjjAprGumQ618KwRZIUx9RiU9n/DhhA+0G5x
+ yy9GUA5AKIuN7WdjVfhhsTpiPMyUegppFJWx7Vmc=
 From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 To: stable@vger.kernel.org
 Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>, patches@lists.linux.dev,
- Thomas Zimmermann <tzimmermann@suse.de>,
- Andrei Borzenkov <arvidjaar@gmail.com>,
- Javier Martinez Canillas <javierm@redhat.com>,
- Hans de Goede <hdegoede@redhat.com>, linux-fbdev@vger.kernel.org,
- dri-devel@lists.freedesktop.org, Sasha Levin <sashal@kernel.org>
-Subject: [PATCH 5.15 056/160] dummycon: Trigger redraw when switching consoles
- with deferred takeover
-Date: Tue,  8 Jul 2025 18:21:33 +0200
-Message-ID: <20250708162233.099847543@linuxfoundation.org>
+ Thomas Zimmermann <tzimmermann@suse.de>, dri-devel@lists.freedesktop.org,
+ Patrik Jakobsson <patrik.r.jakobsson@gmail.com>
+Subject: [PATCH 5.15 082/160] drm/udl: Unregister device before cleaning up on
+ disconnect
+Date: Tue,  8 Jul 2025 18:21:59 +0200
+Message-ID: <20250708162233.802969105@linuxfoundation.org>
 X-Mailer: git-send-email 2.50.0
 In-Reply-To: <20250708162231.503362020@linuxfoundation.org>
 References: <20250708162231.503362020@linuxfoundation.org>
@@ -68,93 +65,46 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 From: Thomas Zimmermann <tzimmermann@suse.de>
 
-[ Upstream commit 03bcbbb3995ba5df43af9aba45334e35f2dfe27b ]
+commit ff9cb6d2035c586ea7c8f1754d4409eec7a2d26d upstream.
 
-Signal vt subsystem to redraw console when switching to dummycon
-with deferred takeover enabled. Makes the console switch to fbcon
-and displays the available output.
+Disconnecting a DisplayLink device results in the following kernel
+error messages
 
-With deferred takeover enabled, dummycon acts as the placeholder
-until the first output to the console happens. At that point, fbcon
-takes over. If the output happens while dummycon is not active, it
-cannot inform fbcon. This is the case if the vt subsystem runs in
-graphics mode.
+[   93.041748] [drm:udl_urb_completion [udl]] *ERROR* udl_urb_completion - nonzero write bulk status received: -115
+[   93.055299] [drm:udl_submit_urb [udl]] *ERROR* usb_submit_urb error fffffffe
+[   93.065363] [drm:udl_urb_completion [udl]] *ERROR* udl_urb_completion - nonzero write bulk status received: -115
+[   93.078207] [drm:udl_submit_urb [udl]] *ERROR* usb_submit_urb error fffffffe
 
-A typical graphical boot starts plymouth, a display manager and a
-compositor; all while leaving out dummycon. Switching to a text-mode
-console leaves the console with dummycon even if a getty terminal
-has been started.
+coming from KMS poll helpers. Shutting down poll helpers runs them
+one final time when the USB device is already gone.
 
-Returning true from dummycon's con_switch helper signals the vt
-subsystem to redraw the screen. If there's output available dummycon's
-con_putc{s} helpers trigger deferred takeover of fbcon, which sets a
-display mode and displays the output. If no output is available,
-dummycon remains active.
-
-v2:
-- make the comment slightly more verbose (Javier)
+Run drm_dev_unplug() first in udl's USB disconnect handler. Udl's
+polling code already handles disconnects gracefully if the device has
+been marked as unplugged.
 
 Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
-Reported-by: Andrei Borzenkov <arvidjaar@gmail.com>
-Closes: https://bugzilla.suse.com/show_bug.cgi?id=1242191
-Tested-by: Andrei Borzenkov <arvidjaar@gmail.com>
-Acked-by: Javier Martinez Canillas <javierm@redhat.com>
-Fixes: 83d83bebf401 ("console/fbcon: Add support for deferred console takeover")
-Cc: Hans de Goede <hdegoede@redhat.com>
-Cc: linux-fbdev@vger.kernel.org
+Fixes: b1a981bd5576 ("drm/udl: drop drm_driver.release hook")
 Cc: dri-devel@lists.freedesktop.org
-Cc: <stable@vger.kernel.org> # v4.19+
-Link: https://lore.kernel.org/r/20250520071418.8462-1-tzimmermann@suse.de
-Signed-off-by: Sasha Levin <sashal@kernel.org>
+Cc: <stable@vger.kernel.org> # v5.8+
+Reviewed-by: Patrik Jakobsson <patrik.r.jakobsson@gmail.com>
+Link: https://patchwork.freedesktop.org/patch/msgid/20250303145604.62962-2-tzimmermann@suse.de
+Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 ---
- drivers/video/console/dummycon.c | 18 +++++++++++++-----
- 1 file changed, 13 insertions(+), 5 deletions(-)
+ drivers/gpu/drm/udl/udl_drv.c |    2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/drivers/video/console/dummycon.c b/drivers/video/console/dummycon.c
-index d701f2b51f5b1..d99e1b3e4e5c1 100644
---- a/drivers/video/console/dummycon.c
-+++ b/drivers/video/console/dummycon.c
-@@ -82,6 +82,15 @@ static int dummycon_blank(struct vc_data *vc, int blank, int mode_switch)
- 	/* Redraw, so that we get putc(s) for output done while blanked */
- 	return 1;
- }
-+
-+static bool dummycon_switch(struct vc_data *vc)
-+{
-+	/*
-+	 * Redraw, so that we get putc(s) for output done while switched
-+	 * away. Informs deferred consoles to take over the display.
-+	 */
-+	return true;
-+}
- #else
- static void dummycon_putc(struct vc_data *vc, int c, int ypos, int xpos) { }
- static void dummycon_putcs(struct vc_data *vc, const unsigned short *s,
-@@ -90,6 +99,10 @@ static int dummycon_blank(struct vc_data *vc, int blank, int mode_switch)
+--- a/drivers/gpu/drm/udl/udl_drv.c
++++ b/drivers/gpu/drm/udl/udl_drv.c
+@@ -110,9 +110,9 @@ static void udl_usb_disconnect(struct us
  {
- 	return 0;
- }
-+static bool dummycon_switch(struct vc_data *vc)
-+{
-+	return false;
-+}
- #endif
+ 	struct drm_device *dev = usb_get_intfdata(interface);
  
- static const char *dummycon_startup(void)
-@@ -119,11 +132,6 @@ static bool dummycon_scroll(struct vc_data *vc, unsigned int top,
- 	return false;
++	drm_dev_unplug(dev);
+ 	drm_kms_helper_poll_fini(dev);
+ 	udl_drop_usb(dev);
+-	drm_dev_unplug(dev);
  }
  
--static bool dummycon_switch(struct vc_data *vc)
--{
--	return false;
--}
--
  /*
-  *  The console `switch' structure for the dummy console
-  *
--- 
-2.39.5
-
 
 
