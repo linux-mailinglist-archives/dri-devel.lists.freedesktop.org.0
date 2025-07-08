@@ -2,148 +2,70 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 69C55AFCDD7
-	for <lists+dri-devel@lfdr.de>; Tue,  8 Jul 2025 16:38:16 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3B0DCAFCDE2
+	for <lists+dri-devel@lfdr.de>; Tue,  8 Jul 2025 16:39:44 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id BFD2910E666;
-	Tue,  8 Jul 2025 14:38:14 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 83E4310E0B0;
+	Tue,  8 Jul 2025 14:39:42 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=redhat.com header.i=@redhat.com header.b="HP/A8IQ7";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="s3O72sxg";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [170.10.129.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B02F510E66C
- for <dri-devel@lists.freedesktop.org>; Tue,  8 Jul 2025 14:38:13 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1751985492;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=EoQP04KByMD1Sm77x5AnudeBRGOmO431zL0RQv2jrp4=;
- b=HP/A8IQ7zGfspwd07oyLHyDJq9WgHe2cRTOopKY/009CqLm4MOU51FQH/DuqgQ+mdUGPMz
- HuOmtGTagtJmHQyI7eOfWY98silI1hA2HLMZYW8GLFGR/OsOrWnk28d2vePFLUCQxf5hUW
- uHJYepIWUfuXwHU5nFsYL+qKCL7opf4=
-Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
- [209.85.128.69]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-587-r4PnQ4fqPdWv27TeI8cU8A-1; Tue, 08 Jul 2025 10:38:11 -0400
-X-MC-Unique: r4PnQ4fqPdWv27TeI8cU8A-1
-X-Mimecast-MFC-AGG-ID: r4PnQ4fqPdWv27TeI8cU8A_1751985490
-Received: by mail-wm1-f69.google.com with SMTP id
- 5b1f17b1804b1-4539b44e7b1so28089715e9.1
- for <dri-devel@lists.freedesktop.org>; Tue, 08 Jul 2025 07:38:11 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1751985490; x=1752590290;
- h=content-transfer-encoding:in-reply-to:organization:autocrypt
- :content-language:from:references:cc:to:subject:user-agent
- :mime-version:date:message-id:x-gm-message-state:from:to:cc:subject
- :date:message-id:reply-to;
- bh=EoQP04KByMD1Sm77x5AnudeBRGOmO431zL0RQv2jrp4=;
- b=iNa7XwXkYRJ/HOqlZcGOvaDsYpyRo+NF5GvHdZEfh39nCfz+mH5P4SqeAxGtRhszWQ
- o5NJnL9jgo7Ie6ZGgqI8xA4OpJQFjdDFbvX+RC/zS8hqfy6icMLhmzDXOCNcwIfmS64s
- j15781gUQ9DPqqQimfjIXhAB2GnGi4Cm4BguHKNkQH9sJsDXfvF8Sp3IBuXJgVD3HQfL
- 0BsEYAYgDbTu7nV5CWYjQvVXdm9hKUDU52Whr40KMZBpR5HZR1q3lPLdHZYJUZyW1Qp2
- tNHt6JC4n/KbLGmX4EY2sICXdTTX7RX6kQUwPLMEKWoc0mCwChz20shRuiYlONvz/tH+
- fdMA==
-X-Gm-Message-State: AOJu0Ywm5pfiwER6Qzs2HLtGy945Hm+EHY5TRGWe8c+7swt8hDjh61PP
- SKF4c4lntfBJG58KFr4YF1i3elkcfVv8Zs3Ij68zaUwy9O85IRS3I+coqKYbzYroFAvQHTH/i1H
- CiN/RyQgfi9X2gAQMNo3urpzd675p4Qy2sxHVZ7EohDqVChI2AIhTZ2dCTPT0rbGvBpmKXev/8v
- vyitJQ
-X-Gm-Gg: ASbGncv1lvnq9wmu97yi0kh0Bl9rG+g/0rgqUXVVOfgoSBLAXG9qSV4Rc7QrDrCE62W
- 9dCS2cIg05m0Z1zx9l5yyQJhzErKxxCPRBbVbYMiBPjG29edBjqBXTpAwPfHUKFhFVLrvE17yAT
- kUH/DCqG9z+B7/SmQPklSP2VH3gGxUOuAHKsHGyFxruLdvs4N02gYO1fO3UOZfML3Q0RB5aI/FB
- Jxhn64w/Ls5RwNT6Z8vI5M+u6lcgDYv1Xg7dSbG2N/zpsftCOosxekrP4HT2rXybJTJR6AGyfq+
- OSZw9FcFNWQjQ87h4rXSoCvYm7JunLsssAXSVe5bNy8c9rPpU1o1iwhS4oruhoWw/3KqbjHHhfS
- LMmzAxcfuvEXUnvmcqZX/bEBCmJQtv5eLPOEtvawlJPiyc68rvg==
-X-Received: by 2002:a05:600c:1549:b0:43d:17f1:2640 with SMTP id
- 5b1f17b1804b1-454bc49ecbamr119364235e9.26.1751985490014; 
- Tue, 08 Jul 2025 07:38:10 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IGJMfWU4WGPVjUWRaLhwNMDAFfUqrlpllAhTnFfHigjAx7GDb43eQYHXrqfR9dAJOxfGUqqYQ==
-X-Received: by 2002:a05:600c:1549:b0:43d:17f1:2640 with SMTP id
- 5b1f17b1804b1-454bc49ecbamr119363605e9.26.1751985489485; 
- Tue, 08 Jul 2025 07:38:09 -0700 (PDT)
-Received: from ?IPV6:2003:d8:2f1a:f500:4346:f17c:2bde:808c?
- (p200300d82f1af5004346f17c2bde808c.dip0.t-ipconnect.de.
- [2003:d8:2f1a:f500:4346:f17c:2bde:808c])
- by smtp.gmail.com with ESMTPSA id
- 5b1f17b1804b1-454cd3d2661sm24623995e9.19.2025.07.08.07.38.08
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 08 Jul 2025 07:38:09 -0700 (PDT)
-Message-ID: <fd22621c-ad89-4ae2-bdee-b0ec6a828059@redhat.com>
-Date: Tue, 8 Jul 2025 16:38:07 +0200
+Received: from nyc.source.kernel.org (nyc.source.kernel.org [147.75.193.91])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 61B8910E0B0;
+ Tue,  8 Jul 2025 14:39:41 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+ by nyc.source.kernel.org (Postfix) with ESMTP id 53E30A53EDD;
+ Tue,  8 Jul 2025 14:39:40 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0158AC4CEEF;
+ Tue,  8 Jul 2025 14:39:40 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1751985580;
+ bh=g7JNnaXSPMt+VqEG9a7P7H3phrBTW8jOu04WbuFibsU=;
+ h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+ b=s3O72sxg3nj0vXCiW+P7HVPpEje5HvkAMPnuzmWE7FHX8DLSeU2Diy6jU/2hGriOX
+ VAat9E+ziM8nyzy9vkXNadkaajXVkwI5XwWy1tnrwmeob4SgnpkH7HxU3HcrmPyxdd
+ 2P/qTalhQJ/ByNmu8cfyYT9hICeNGjC/ZcWaIAZ7C73IZ4y8dDHG5tv7AICCCLkEQI
+ mKuBVwNDVieoaJwXx05nu1aqXLoG0f2rQybj9as/KpVSOo/jnrJJL7UYKsaZZuo5fO
+ E0n9ewrnxfGW7qfU7qR+3+kSKhMBG4i1gJ7KllGCRUqOUMh7A/CUyYfHjzJTSAyLP6
+ OnILmV3ioYMeg==
+Received: by mail-oi1-f181.google.com with SMTP id
+ 5614622812f47-40b71debe9aso1303127b6e.2; 
+ Tue, 08 Jul 2025 07:39:39 -0700 (PDT)
+X-Forwarded-Encrypted: i=1;
+ AJvYcCUDaK/Zy+k0luMOnd4pin6amDE9TySqXpasjO9JBUl+FJmZ2bCD6TOGgO5eKGX395AX9+d7vwLH8qrt@lists.freedesktop.org,
+ AJvYcCUiFVAGfyaABJbOdappRUdBqO4l8IT4HfNF1Kw5oZ+WtMXnp95eC0wT0YhJCpli6bYX+lkZMmtH@lists.freedesktop.org
+X-Gm-Message-State: AOJu0Yx29PBuBqQAR1INMPyEkczIoKKjdPsVsL4zSX8pxj5zn2uQUs8m
+ XG1dKzE0M6mNT9/8UrzTt0dRvCenu62XGnAO6E+Yc9PvlJ6PkEGTZ52dlPSKmYIeEcr0pCZHL6F
+ 6+0+y4NMtg6tDK17McQMzIRkP1ZgD7Nc=
+X-Google-Smtp-Source: AGHT+IHiTi+tK7OBKN3ciDaO2n9BCiXei6vti+iRh6w6s5ITlTagv0S3T9OaABT6TshT1h/8Lt9SWI8UCBcRgqIfg+A=
+X-Received: by 2002:a05:6808:308c:b0:40a:f48f:2c10 with SMTP id
+ 5614622812f47-4125cd1b519mr20316b6e.10.1751985579249; Tue, 08 Jul 2025
+ 07:39:39 -0700 (PDT)
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [RFC 08/11] mm/thp: add split during migration support
-To: Balbir Singh <balbirs@nvidia.com>, linux-mm@kvack.org,
- akpm@linux-foundation.org
-Cc: dri-devel@lists.freedesktop.org, nouveau@lists.freedesktop.org,
- Karol Herbst <kherbst@redhat.com>, Lyude Paul <lyude@redhat.com>,
- Danilo Krummrich <dakr@kernel.org>, David Airlie <airlied@gmail.com>,
- Simona Vetter <simona@ffwll.ch>, =?UTF-8?B?SsOpcsO0bWUgR2xpc3Nl?=
- <jglisse@redhat.com>, Shuah Khan <shuah@kernel.org>,
- Barry Song <baohua@kernel.org>, Baolin Wang <baolin.wang@linux.alibaba.com>,
- Ryan Roberts <ryan.roberts@arm.com>, Matthew Wilcox <willy@infradead.org>,
- Peter Xu <peterx@redhat.com>, Zi Yan <ziy@nvidia.com>,
- Kefeng Wang <wangkefeng.wang@huawei.com>, Jane Chu <jane.chu@oracle.com>,
- Alistair Popple <apopple@nvidia.com>, Donet Tom <donettom@linux.ibm.com>
-References: <20250306044239.3874247-1-balbirs@nvidia.com>
- <20250306044239.3874247-9-balbirs@nvidia.com>
-From: David Hildenbrand <david@redhat.com>
-Autocrypt: addr=david@redhat.com; keydata=
- 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
- WNyWQQ==
-Organization: Red Hat
-In-Reply-To: <20250306044239.3874247-9-balbirs@nvidia.com>
-X-Mimecast-Spam-Score: 0
-X-Mimecast-MFC-PROC-ID: uOM8IK3L_D5WxCLw2l7JRcOHB5w3ZtI3NzDJ4AGEaZ0_1751985490
-X-Mimecast-Originator: redhat.com
-Content-Language: en-US
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+References: <20250708074248.1674924-1-guoqing.zhang@amd.com>
+ <20250708074248.1674924-5-guoqing.zhang@amd.com>
+ <1fa50a8e-9942-45c4-bef0-f31c23ef9923@amd.com>
+In-Reply-To: <1fa50a8e-9942-45c4-bef0-f31c23ef9923@amd.com>
+From: "Rafael J. Wysocki" <rafael@kernel.org>
+Date: Tue, 8 Jul 2025 16:39:28 +0200
+X-Gmail-Original-Message-ID: <CAJZ5v0j4BuFi_WPPvW64=42Ww=tM8xwpX6gPz8_HX8fJE_Wv1Q@mail.gmail.com>
+X-Gm-Features: Ac12FXzvqGDKTtz6zV1G6dpp5vC1FXf7sqbpxq5Jl57O26uN2XAqE-cZGhzEN-A
+Message-ID: <CAJZ5v0j4BuFi_WPPvW64=42Ww=tM8xwpX6gPz8_HX8fJE_Wv1Q@mail.gmail.com>
+Subject: Re: [PATCH v3 4/5] PM: hibernate: add new api pm_transition_event()
+To: Mario Limonciello <mario.limonciello@amd.com>
+Cc: Samuel Zhang <guoqing.zhang@amd.com>, alexander.deucher@amd.com, 
+ christian.koenig@amd.com, rafael@kernel.org, len.brown@intel.com, 
+ pavel@kernel.org, gregkh@linuxfoundation.org, dakr@kernel.org, 
+ airlied@gmail.com, simona@ffwll.ch, ray.huang@amd.com, matthew.auld@intel.com, 
+ matthew.brost@intel.com, maarten.lankhorst@linux.intel.com, 
+ mripard@kernel.org, tzimmermann@suse.de, lijo.lazar@amd.com, 
+ victor.zhao@amd.com, haijun.chang@amd.com, Qing.Ma@amd.com, 
+ Owen.Zhang2@amd.com, linux-pm@vger.kernel.org, linux-kernel@vger.kernel.org, 
+ amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -159,45 +81,87 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 06.03.25 05:42, Balbir Singh wrote:
-> Support splitting pages during THP zone device migration as needed.
-> The common case that arises is that after setup, during migrate
-> the destination might not be able to allocate MIGRATE_PFN_COMPOUND
-> pages.
-> 
-> Add a new routine migrate_vma_split_pages() to support the splitting
-> of already isolated pages. The pages being migrated are already unmapped
-> and marked for migration during setup (via unmap). folio_split() and
-> __split_unmapped_folio() take additional isolated arguments, to avoid
-> unmapping and remaping these pages and unlocking/putting the folio.
-> 
-> Since unmap/remap is avoided in these code paths, an extra reference
-> count is added to the split folio pages, which will be dropped in
-> the finalize phase.
-> 
-> Signed-off-by: Balbir Singh <balbirs@nvidia.com>
-> ---
+On Tue, Jul 8, 2025 at 4:37=E2=80=AFPM Mario Limonciello
+<mario.limonciello@amd.com> wrote:
+>
+> On 7/8/2025 3:42 AM, Samuel Zhang wrote:
+> > dev_pm_ops.thaw() is called in following cases:
+> > * normal case: after hibernation image has been created.
+> > * error case 1: creation of a hibernation image has failed.
+> > * error case 2: restoration from a hibernation image has failed.
+> >
+> > For normal case, it is called mainly for resume storage devices for
+> > saving the hibernation image. Other devices that are not involved
+> > in the image saving do not need to resume the device. But since there's
+> > no api to know which case thaw() is called, device drivers can't
+> > conditionally resume device in thaw().
+> >
+> > The new pm_transition_event() is such a api to query if thaw() is calle=
+d
+> > in normal case. The returned value in thaw() is:
+> > * PM_EVENT_THAW: normal case, no need to resume non-storage devices.
+> > * PM_EVENT_RECOVER: error case, need to resume devices.
+> >
+> > Signed-off-by: Samuel Zhang <guoqing.zhang@amd.com>
+> > ---
+> >   drivers/base/power/main.c |  5 +++++
+> >   include/linux/pm.h        | 16 ++++++++++++++++
+> >   2 files changed, 21 insertions(+)
+> >
+> > diff --git a/drivers/base/power/main.c b/drivers/base/power/main.c
+> > index 40e1d8d8a589..7e0982caa4d4 100644
+> > --- a/drivers/base/power/main.c
+> > +++ b/drivers/base/power/main.c
+> > @@ -62,6 +62,11 @@ static LIST_HEAD(dpm_noirq_list);
+> >
+> >   static DEFINE_MUTEX(dpm_list_mtx);
+> >   static pm_message_t pm_transition;
+> > +int pm_transition_event(void)
+> > +{
+> > +     return pm_transition.event;
+> > +}
+> > +EXPORT_SYMBOL_GPL(pm_transition_event);
+> >
+> >   static int async_error;
+> >
+> > diff --git a/include/linux/pm.h b/include/linux/pm.h
+> > index 78855d794342..d1cb77ede1a2 100644
+> > --- a/include/linux/pm.h
+> > +++ b/include/linux/pm.h
+> > @@ -657,6 +657,22 @@ struct pm_subsys_data {
+> >   #define DPM_FLAG_SMART_SUSPEND              BIT(2)
+> >   #define DPM_FLAG_MAY_SKIP_RESUME    BIT(3)
+> >
+> > +/**
+> > + * pm_transition_event() - Query the current pm transition event value=
+.
+> > + *
+> > + * Used to query the reason why thaw() is called. It will be one of 2 =
+values:
+> > + *
+> > + * PM_EVENT_THAW: normal case.
+> > + *           hibernation image has been created.
+> > + *
+> > + * PM_EVENT_RECOVER: error case.
+> > + *           creation of a hibernation image or restoration of the mai=
+n memory
+> > + *           contents from a hibernation image has failed.
+>
+> I don't believe this documentation is complete.  In the use in this
+> series those are two events used, but as this is now exported this might
+> be used by other callers later which could use it for other PM_EVENT_*.
+>
+> So because of this I think it's best to convert the comment in
+> include/linux/pm.h to kdoc and then reference that from this kdoc.
 
-[...]
++1
 
->   	remap_page(origin_folio, 1 << order,
->   			folio_test_anon(origin_folio) ?
->   				RMP_USE_SHARED_ZEROPAGE : 0);
-> @@ -3808,6 +3823,7 @@ bool uniform_split_supported(struct folio *folio, unsigned int new_order,
->    * @lock_at: a page within @folio to be left locked to caller
->    * @list: after-split folios will be put on it if non NULL
->    * @uniform_split: perform uniform split or not (non-uniform split)
-> + * @isolated: The pages are already unmapped
-
-Isolated -> unmapped? Huh?
-
-Can we just detect that state from the folio so we don't have to pass 
-random boolean variables around?
-
-For example, folio_mapped() can tell you if the folio is currently mapped.
-
--- 
-Cheers,
-
-David / dhildenb
-
+> > + *
+> > + * Return: PM_EVENT_ messages
+> > + */
+> > +int pm_transition_event(void);
+> > +
+> >   struct dev_pm_info {
+> >       pm_message_t            power_state;
+> >       bool                    can_wakeup:1;
+>
