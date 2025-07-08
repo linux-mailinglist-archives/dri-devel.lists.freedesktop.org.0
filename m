@@ -2,81 +2,81 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id F0E51AFCC4D
-	for <lists+dri-devel@lfdr.de>; Tue,  8 Jul 2025 15:37:48 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9CF89AFCC54
+	for <lists+dri-devel@lfdr.de>; Tue,  8 Jul 2025 15:41:10 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4AAFA10E642;
-	Tue,  8 Jul 2025 13:37:45 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E479210E658;
+	Tue,  8 Jul 2025 13:41:07 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=redhat.com header.i=@redhat.com header.b="BG/0LKr1";
+	dkim=pass (1024-bit key; unprotected) header.d=redhat.com header.i=@redhat.com header.b="QfzdF2In";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [170.10.129.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C8AF410E17F
- for <dri-devel@lists.freedesktop.org>; Tue,  8 Jul 2025 13:37:43 +0000 (UTC)
+ (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1471110E653
+ for <dri-devel@lists.freedesktop.org>; Tue,  8 Jul 2025 13:41:07 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1751981862;
+ s=mimecast20190719; t=1751982066;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=IEF+8chj2MkyfolWhjd4h/R7sCyuSgO1z/RGJyUjjsA=;
- b=BG/0LKr1aPVQo9FThyf5UlCeF8VnuVgRAGBk+dJNntLZL98ph+WbzUS71br5CD22tt3yRp
- W3rAyz/gMFIsQSRqYmkiXPrszjQdDCsdKiKrhIVc6TmC8EBUlaTqxK+dpVdFmmCHjmovyx
- EqNO1EDwszi28Uxg7QoR0Pmo7lIRnxQ=
-Received: from mail-wr1-f69.google.com (mail-wr1-f69.google.com
- [209.85.221.69]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=90JZwa2zY540O+XL2x/zpYzBcHl37ktmZ0WyKnrIg+Q=;
+ b=QfzdF2InYKkl9KA3YdYhHjFdlI+ruQoI/x55bv+W8B8BZNvIqpnAVR1D2Aczzyu18gsQZd
+ ZuaO09MdhuMiSSHxzDj9xT58P8Jho5rc/m+5z1o47safKdnUuMzSZcy0eo9Aeo3UDTk6SA
+ jlsyLRvnprSyxONXhSsVMVQU7w6P8TQ=
+Received: from mail-wr1-f71.google.com (mail-wr1-f71.google.com
+ [209.85.221.71]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-13-krbrzLgQOXu_Zj-uQCrTSw-1; Tue, 08 Jul 2025 09:37:41 -0400
-X-MC-Unique: krbrzLgQOXu_Zj-uQCrTSw-1
-X-Mimecast-MFC-AGG-ID: krbrzLgQOXu_Zj-uQCrTSw_1751981860
-Received: by mail-wr1-f69.google.com with SMTP id
- ffacd0b85a97d-3a4f858bc5eso3075593f8f.0
- for <dri-devel@lists.freedesktop.org>; Tue, 08 Jul 2025 06:37:41 -0700 (PDT)
+ us-mta-412-bGhPqQIEOamzCqTomIp--g-1; Tue, 08 Jul 2025 09:41:04 -0400
+X-MC-Unique: bGhPqQIEOamzCqTomIp--g-1
+X-Mimecast-MFC-AGG-ID: bGhPqQIEOamzCqTomIp--g_1751982063
+Received: by mail-wr1-f71.google.com with SMTP id
+ ffacd0b85a97d-3b4a0013c0dso1044596f8f.2
+ for <dri-devel@lists.freedesktop.org>; Tue, 08 Jul 2025 06:41:04 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1751981860; x=1752586660;
+ d=1e100.net; s=20230601; t=1751982063; x=1752586863;
  h=content-transfer-encoding:in-reply-to:organization:autocrypt
  :content-language:from:references:cc:to:subject:user-agent
  :mime-version:date:message-id:x-gm-message-state:from:to:cc:subject
  :date:message-id:reply-to;
- bh=IEF+8chj2MkyfolWhjd4h/R7sCyuSgO1z/RGJyUjjsA=;
- b=K9wmosNvSf2b6UTedw80bPIZJV06cwFeMARy2xaCxmZQ3ssmezJYFP+tU13+ItYNNz
- b6HkUoqsedwxXEx32MfwCOngyL5LrtHDWHhAfVS+z9OsWXgB7/GkyVWVYfIDfgRGKLOh
- b70440IA5YhwoJf/M7Kelu74orA1uLXsa+TNalJ3oEv3P70fkcDbOtcA7Sa7avtwzqHA
- 3kwQc/TOAD7GBJ/XDVsf9ow5ygljns2Mb4wFnzPAgUo4wyZ8MCLYVriYt0x4AbFkxae+
- LFwtwtpAE3V24FEaKaJQAZbbGI/x7m2ZcBl4V0FnXHaNVwcYiOMK4WWONs5M7kUCSBs8
- TFXg==
-X-Gm-Message-State: AOJu0Yw8Bv2JQ98cVGb8FSH3f7aCutY8cMMQhJ8E6U2ZyGlZ+zpX5i0K
- PUUrDu6wLuT8/6dUeg/GbQc8r8ZERXN3Q5mhzgKydRBIzyxVg5WFJ3zkN+KhKCtivXslwESr2xj
- Ut9D1WEwHTjjOngxaVUkhmSAziQ/2b/rAnR/44Ga7ern+nNYMMw1Kq+NzV0s0V6ade4sRxQ==
-X-Gm-Gg: ASbGnct2zCWffvUi3auztv0MQsX16FKZSZYvtkqsMSuiLMu5P+KBqbPo/rnQxZ3H5op
- 1NMbjrwRt/FIxwmEeoS3iQF7+IT32rX302rn4tLan38N5lzbs3A7XgTZEwnsdcvT7P5E8C412Qy
- Q8nxCYlXRqzoCoeyy/2aAAwiCPE6BZIrYsqi/U6geaqpKx6y1IKoi9EKsTN23nd3wHnubXFpWXn
- VLJxq9Qc/IklVmnIoHmi1MVKsiYSeCTnZx8HAP4rm907odr3dpOXdd3AvCQAg4DvP1XYnHfP4Ey
- 9wQXmEYtrEUaqLRBXaMWygHHEvQ5xco0IXUzH0zOgAMEdPFZn4fneYkbb3p9nkwGPzDlq8pAzWi
- rtdS+O9SyYGCbR1r3MN4oIvYxZ4kBMWpHXad8Adf5M1SZ3hHQ/A==
-X-Received: by 2002:a05:6000:25f8:b0:3a1:fcd6:1e6b with SMTP id
- ffacd0b85a97d-3b49704279emr11994810f8f.57.1751981859971; 
- Tue, 08 Jul 2025 06:37:39 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IHyStiHSBwGZxWxlcaJkgqzmyO/mAjpR9b6IG99crQSPHfqfD1DaeJswhgokapiT94/TM5Vyg==
-X-Received: by 2002:a05:6000:25f8:b0:3a1:fcd6:1e6b with SMTP id
- ffacd0b85a97d-3b49704279emr11994762f8f.57.1751981859378; 
- Tue, 08 Jul 2025 06:37:39 -0700 (PDT)
+ bh=90JZwa2zY540O+XL2x/zpYzBcHl37ktmZ0WyKnrIg+Q=;
+ b=K6qhYZ3AqqTIomVhXx2iEaWrqDEJL1vkmrHp+NQGto0IHNy+agzWZvznZ2I7G+0yT9
+ 0ujF+fh+p17mtwWKUKoBpVwxVCn/EwtPX2y+d1N55ZTMzX55yGuDylvvfk2llNA2n2Hz
+ m5tMuAaiMhjKlsDakX688qOhRQQvhRRu8RPeEIiJz87Gom0aZJAw3kC7Y+JqTgMku6pQ
+ eQE5BCSzFqJTGV/XVgTyh2A9NpmKq1KTZbWBjVG+l2bTTkdACm3zPFQgtrNmAQnnQD+5
+ jp8S4tz33vbkLb5xzY6Ibv/hiIZYFKvz9HKSgWaX9MrFmz3LwxzF2KXul0IVznfwgbt7
+ dB9g==
+X-Gm-Message-State: AOJu0Yy6kEl8o+ju08DzB0nZQvUEv/HdfqaU4sIQYwPOIiTDGRxKcCSR
+ /fQ8H0EgBGbORHrNc5jmmFCESpTNsGuq7OiZ0esUdwyGpH5wEnHnnRmvlgaVB9GS9uc1Ucbgf8O
+ UJPQ7H023Pm5mzO1fyzFaKq7m/LJ02JYmpNecFXahCgaAmxUaf7yiyjb1spm6d2mJ6BcsEg==
+X-Gm-Gg: ASbGnctHSKeaM8bIF8vtAnKXCXa8IlZZh0q7PZWqJdZLfJyCk4Jz8NWgS7uXws0/Yxa
+ AthYLfvY2Il98Dus1M4usVy0yQJNcJcC7DLgGs1SKE4sZlL7mA+rKVxYFK8x1OI0TPTwWWGsffa
+ nBTUIhSeki28/xTK/WcsSk3Ip23Sz4FVo77NT8hWlW5ON1qoVpz6hgs1saYtvuwBKr10f8973+h
+ XfpRPrC8v1dC/+qpRMLga1pG21IkxPvkfnT+RhC5nVweannsgcEORtUG7cWlqAsNkRNvIa9SXIU
+ 1sSwameYWr6b8UWLg5lnGTLS3zjsDUBFT0RBHqgZhoO8iG1UlCjquAgRVxvgr2LfLd2D97vtzPP
+ ko3ghvskismOHcEPJ7Osr2y6fVSI2uVfaFqoau+AtU34lqr0qfw==
+X-Received: by 2002:a05:6000:2483:b0:3a4:f902:3872 with SMTP id
+ ffacd0b85a97d-3b4964c09damr11081421f8f.19.1751982063253; 
+ Tue, 08 Jul 2025 06:41:03 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IFTwIccSZ2F+zKMy8zNMAZ8I0g4f+S3AXZFIEXYqZXvwxgwrx/WVWwrXZ8+odW2+fMzTmIWCw==
+X-Received: by 2002:a05:6000:2483:b0:3a4:f902:3872 with SMTP id
+ ffacd0b85a97d-3b4964c09damr11081377f8f.19.1751982062761; 
+ Tue, 08 Jul 2025 06:41:02 -0700 (PDT)
 Received: from ?IPV6:2003:d8:2f1a:f500:4346:f17c:2bde:808c?
  (p200300d82f1af5004346f17c2bde808c.dip0.t-ipconnect.de.
  [2003:d8:2f1a:f500:4346:f17c:2bde:808c])
  by smtp.gmail.com with ESMTPSA id
- ffacd0b85a97d-3b471b97376sm13208221f8f.61.2025.07.08.06.37.37
+ 5b1f17b1804b1-454cd49cee7sm22397085e9.29.2025.07.08.06.41.01
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 08 Jul 2025 06:37:38 -0700 (PDT)
-Message-ID: <564babd9-fe33-4ca7-b63f-73f007fbfb51@redhat.com>
-Date: Tue, 8 Jul 2025 15:37:37 +0200
+ Tue, 08 Jul 2025 06:41:02 -0700 (PDT)
+Message-ID: <59a5d9ed-36db-4799-849b-7bbd885465d1@redhat.com>
+Date: Tue, 8 Jul 2025 15:41:00 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [RFC 01/11] mm/zone_device: support large zone device private
- folios
+Subject: Re: [RFC 02/11] mm/migrate_device: flags for selecting device private
+ THP pages
 To: Balbir Singh <balbirs@nvidia.com>, linux-mm@kvack.org,
  akpm@linux-foundation.org
 Cc: dri-devel@lists.freedesktop.org, nouveau@lists.freedesktop.org,
@@ -90,7 +90,7 @@ Cc: dri-devel@lists.freedesktop.org, nouveau@lists.freedesktop.org,
  Kefeng Wang <wangkefeng.wang@huawei.com>, Jane Chu <jane.chu@oracle.com>,
  Alistair Popple <apopple@nvidia.com>, Donet Tom <donettom@linux.ibm.com>
 References: <20250306044239.3874247-1-balbirs@nvidia.com>
- <20250306044239.3874247-2-balbirs@nvidia.com>
+ <20250306044239.3874247-3-balbirs@nvidia.com>
 From: David Hildenbrand <david@redhat.com>
 Autocrypt: addr=david@redhat.com; keydata=
  xsFNBFXLn5EBEAC+zYvAFJxCBY9Tr1xZgcESmxVNI/0ffzE/ZQOiHJl6mGkmA1R7/uUpiCjJ
@@ -137,9 +137,9 @@ Autocrypt: addr=david@redhat.com; keydata=
  jPrnvUsUUsjRoRNJjKKA/REq+sAnhkNPPZ/NNMjaZ5b8Tovi8C0tmxiCHaQYqj7G2rgnT0kt
  WNyWQQ==
 Organization: Red Hat
-In-Reply-To: <20250306044239.3874247-2-balbirs@nvidia.com>
+In-Reply-To: <20250306044239.3874247-3-balbirs@nvidia.com>
 X-Mimecast-Spam-Score: 0
-X-Mimecast-MFC-PROC-ID: c3S8siJgR7q3_AXnGBWzcoaNhtwrkw5afPW6wg1hHWc_1751981860
+X-Mimecast-MFC-PROC-ID: vHXpPdswjbUKE9ZouHC-wiN5HluQEmwlZpUlh83pEjM_1751982063
 X-Mimecast-Originator: redhat.com
 Content-Language: en-US
 Content-Type: text/plain; charset=UTF-8; format=flowed
@@ -160,200 +160,39 @@ Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 On 06.03.25 05:42, Balbir Singh wrote:
-> Add routines to support allocation of large order zone device folios
-> and helper functions for zone device folios, to check if a folio is
-> device private and helpers for setting zone device data.
+> Add flags to mark zone device migration pages.
 > 
-> When large folios are used, the existing page_free() callback in
-> pgmap is called when the folio is freed, this is true for both
-> PAGE_SIZE and higher order pages.
+> MIGRATE_VMA_SELECT_COMPOUND will be used to select THP pages during
+> migrate_vma_setup() and MIGRATE_PFN_COMPOUND will make migrating
+> device pages as compound pages during device pfn migration.
 > 
 > Signed-off-by: Balbir Singh <balbirs@nvidia.com>
 > ---
->   include/linux/memremap.h | 22 +++++++++++++++++-
->   mm/memremap.c            | 50 +++++++++++++++++++++++++++++-----------
->   2 files changed, 58 insertions(+), 14 deletions(-)
+>   include/linux/migrate.h | 2 ++
+>   1 file changed, 2 insertions(+)
 > 
-> diff --git a/include/linux/memremap.h b/include/linux/memremap.h
-> index 4aa151914eab..11d586dd8ef1 100644
-> --- a/include/linux/memremap.h
-> +++ b/include/linux/memremap.h
-> @@ -169,6 +169,18 @@ static inline bool folio_is_device_private(const struct folio *folio)
->   	return is_device_private_page(&folio->page);
->   }
+> diff --git a/include/linux/migrate.h b/include/linux/migrate.h
+> index 61899ec7a9a3..b5e4f51e64c7 100644
+> --- a/include/linux/migrate.h
+> +++ b/include/linux/migrate.h
+> @@ -167,6 +167,7 @@ static inline int migrate_misplaced_folio(struct folio *folio, int node)
+>   #define MIGRATE_PFN_VALID	(1UL << 0)
+>   #define MIGRATE_PFN_MIGRATE	(1UL << 1)
+>   #define MIGRATE_PFN_WRITE	(1UL << 3)
+> +#define MIGRATE_PFN_COMPOUND	(1UL << 4)
+>   #define MIGRATE_PFN_SHIFT	6
 >   
-> +static inline void *folio_zone_device_data(const struct folio *folio)
-> +{
-> +	VM_BUG_ON_FOLIO(!folio_is_device_private(folio), folio);
-> +	return folio->page.zone_device_data;
-> +}
-
-Not used.
-
-> +
-> +static inline void folio_set_zone_device_data(struct folio *folio, void *data)
-> +{
-> +	VM_BUG_ON_FOLIO(!folio_is_device_private(folio), folio);
-> +	folio->page.zone_device_data = data;
-> +}
-> +
-
-Not used.
-
-Move both into the patch where they are actually used.
-
->   static inline bool is_pci_p2pdma_page(const struct page *page)
->   {
->   	return IS_ENABLED(CONFIG_PCI_P2PDMA) &&
-> @@ -199,7 +211,7 @@ static inline bool folio_is_fsdax(const struct folio *folio)
->   }
+>   static inline struct page *migrate_pfn_to_page(unsigned long mpfn)
+> @@ -185,6 +186,7 @@ enum migrate_vma_direction {
+>   	MIGRATE_VMA_SELECT_SYSTEM = 1 << 0,
+>   	MIGRATE_VMA_SELECT_DEVICE_PRIVATE = 1 << 1,
+>   	MIGRATE_VMA_SELECT_DEVICE_COHERENT = 1 << 2,
+> +	MIGRATE_VMA_SELECT_COMPOUND = 1 << 3,
+>   };
 >   
->   #ifdef CONFIG_ZONE_DEVICE
-> -void zone_device_page_init(struct page *page);
-> +void init_zone_device_folio(struct folio *folio, unsigned int order);
->   void *memremap_pages(struct dev_pagemap *pgmap, int nid);
->   void memunmap_pages(struct dev_pagemap *pgmap);
->   void *devm_memremap_pages(struct device *dev, struct dev_pagemap *pgmap);
-> @@ -209,6 +221,14 @@ struct dev_pagemap *get_dev_pagemap(unsigned long pfn,
->   bool pgmap_pfn_valid(struct dev_pagemap *pgmap, unsigned long pfn);
->   
->   unsigned long memremap_compat_align(void);
-> +
-> +static inline void zone_device_page_init(struct page *page)
-> +{
-> +	struct folio *folio = page_folio(page);
-> +
-> +	init_zone_device_folio(folio, 0);
-> +}
-> +
->   #else
->   static inline void *devm_memremap_pages(struct device *dev,
->   		struct dev_pagemap *pgmap)
-> diff --git a/mm/memremap.c b/mm/memremap.c
-> index 2aebc1b192da..7d98d0a4c0cd 100644
-> --- a/mm/memremap.c
-> +++ b/mm/memremap.c
-> @@ -459,20 +459,21 @@ EXPORT_SYMBOL_GPL(get_dev_pagemap);
->   void free_zone_device_folio(struct folio *folio)
->   {
->   	struct dev_pagemap *pgmap = folio->pgmap;
-> +	unsigned int nr = folio_nr_pages(folio);
-> +	int i;
-> +	bool anon = folio_test_anon(folio);
+>   struct migrate_vma {
 
-You can easily get rid of this (see below).
-
-> +	struct page *page = folio_page(folio, 0);
-
-Please inline folio_page(folio, 0) below instead.
-
->   
->   	if (WARN_ON_ONCE(!pgmap))
->   		return;
->   
->   	mem_cgroup_uncharge(folio);
->   
-> -	/*
-> -	 * Note: we don't expect anonymous compound pages yet. Once supported
-> -	 * and we could PTE-map them similar to THP, we'd have to clear
-> -	 * PG_anon_exclusive on all tail pages.
-> -	 */
-> -	if (folio_test_anon(folio)) {
-> -		VM_BUG_ON_FOLIO(folio_test_large(folio), folio);
-> -		__ClearPageAnonExclusive(folio_page(folio, 0));
-> +	WARN_ON_ONCE(folio_test_large(folio) && !anon);
-> +
-> +	for (i = 0; i < nr; i++) {
-> +		if (anon)
-> +			__ClearPageAnonExclusive(folio_page(folio, i));
->   	}
-
-if (folio_test_anon(folio)) {
-	for (i = 0; i < nr; i++)
-		__ClearPageAnonExclusive(folio_page(folio, i));
-} else {
-	VM_WARN_ON_ONCE(folio_test_large(folio));
-}
-
->   
->   	/*
-> @@ -496,10 +497,19 @@ void free_zone_device_folio(struct folio *folio)
->   
->   	switch (pgmap->type) {
->   	case MEMORY_DEVICE_PRIVATE:
-> +		if (folio_test_large(folio)) {
-> +			folio_unqueue_deferred_split(folio);
-
-Is deferred splitting even a thing for device-private?
-
-Should we ever queue them for deferred splitting?
-
-> +
-> +			percpu_ref_put_many(&folio->pgmap->ref, nr - 1);
-
-Looks like we instead want a helper put_dev_pagemap_refs(pgmap, nr) 
-below instead
-
-> +		}
-> +		pgmap->ops->page_free(page);
-> +		put_dev_pagemap(pgmap);
-> +		page->mapping = NULL;
-> +		break;
->   	case MEMORY_DEVICE_COHERENT:
->   		if (WARN_ON_ONCE(!pgmap->ops || !pgmap->ops->page_free))
->   			break;
-> -		pgmap->ops->page_free(folio_page(folio, 0));
-> +		pgmap->ops->page_free(page);
->   		put_dev_pagemap(pgmap);
->   		break;
->   
-> @@ -523,14 +533,28 @@ void free_zone_device_folio(struct folio *folio)
->   	}
->   }
->   
-> -void zone_device_page_init(struct page *page)
-> +void init_zone_device_folio(struct folio *folio, unsigned int order)
->   {
-> +	struct page *page = folio_page(folio, 0);
-> +
-> +	VM_BUG_ON(order > MAX_ORDER_NR_PAGES);
-
-VM_WARN_ON_ONCE() or anything else that is not *BUG, please.
-
-> +
-> +	WARN_ON_ONCE(order && order != HPAGE_PMD_ORDER);
-
-Why do we need that limitation?
-
-> +
->   	/*
->   	 * Drivers shouldn't be allocating pages after calling
->   	 * memunmap_pages().
->   	 */
-> -	WARN_ON_ONCE(!percpu_ref_tryget_live(&page_pgmap(page)->ref));
-> -	set_page_count(page, 1);
-> +	WARN_ON_ONCE(!percpu_ref_tryget_many(&page_pgmap(page)->ref, 1 << order));
-> +	folio_set_count(folio, 1);
->   	lock_page(page);
-> +
-> +	/*
-> +	 * Only PMD level migration is supported for THP migration
-> +	 */
-
-I don't understand how that comment interacts with the code below. This 
-is basic large folio initialization.
-
-Drop the comment, or move it above the HPAGE_PMD_ORDER check with a 
-clear reason why that limitation excists.
-
-> +	if (order > 1) {
-> +		prep_compound_page(page, order);
-> +		folio_set_large_rmappable(folio);
-> +	}
->   }
-> -EXPORT_SYMBOL_GPL(zone_device_page_init);
-> +EXPORT_SYMBOL_GPL(init_zone_device_folio);
-
+Squash that into the patch where it is actually used.
 
 -- 
 Cheers,
