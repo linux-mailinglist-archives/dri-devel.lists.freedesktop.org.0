@@ -2,42 +2,43 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id A8C39AFCBF0
-	for <lists+dri-devel@lfdr.de>; Tue,  8 Jul 2025 15:26:53 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7F581AFCBF2
+	for <lists+dri-devel@lfdr.de>; Tue,  8 Jul 2025 15:27:00 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0BFF110E648;
-	Tue,  8 Jul 2025 13:26:52 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id BD3C310E64D;
+	Tue,  8 Jul 2025 13:26:58 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=igalia.com header.i=@igalia.com header.b="eDiV8Qah";
+	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=igalia.com header.i=@igalia.com header.b="fIn3NDmN";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from fanzine2.igalia.com (fanzine2.igalia.com [213.97.179.56])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 062AD10E646;
- Tue,  8 Jul 2025 13:26:50 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4D34910E17F;
+ Tue,  8 Jul 2025 13:26:57 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com; 
  s=20170329; h=Cc:To:In-Reply-To:References:Message-Id:
  Content-Transfer-Encoding:Content-Type:MIME-Version:Subject:Date:From:Sender:
  Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender
  :Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
  List-Subscribe:List-Post:List-Owner:List-Archive;
- bh=M4Kvf7ToUyRRFZooaB93D0ErdU+TiBHAyDLoUDu86gU=; b=eDiV8QahP+F/f2cMo8MajhRxwA
- nxwXl3RQ3RFOy0obMWC3r3fdKdKTav1IWTFbe+ChPIQgn4Xw2JvoWH/tOAbt7yJ317mpFjmgXwZWi
- flVgv9A0xOkY1ZKnxu7fVIveo66UQhBYuCxA9JNvXecGTW7agPKjBANkrwnzCBUDxr5Cvqyqupqbs
- j8MTzQAVeyL951ddon4c5raXPajNo6XOV3sV5huOKsE1G7knfwDBpbr988FT2sGy67FOGLAHCHsFt
- H+MHReFvXyFuW1JtG8pO/odt/bheoEnIRVBVb6V5YvANBMWWt/+oVws4+r7tRYQq3QvRKLVluOsZu
- h9B3lUyg==;
+ bh=axLLvYBJ2AC6m84mLAxREcNMT9yF2OsbJtMkBZPypXk=; b=fIn3NDmNBeWXM+BGy2gJwAK8jq
+ a1TGFyQ22SxMv8P4dbwTXGGgVCX/eGugPHjMQNlNkDOUblGPBWKOWy+PYL6JbLotgLyT6I080yZ2Y
+ J1anBfBmjsh3FvQu9IXgdlasrsy+LFFrwdLjavG7cFkK/Gklya0ixFUjdlk5+GPUJOQ60q9X3rQiV
+ 2fBN6X15B2upCWBVEvuvZQtSQINw+8R3PyU9N3QFJMLMnb5Ez+/rxaEN1o96Aiaw0AvgqjS7DtSzE
+ gIT7OBDLat2wkDScwCCTVg9riXwKNGOBqDxL9utGcdRPa5HkJVZtZ7bcxx1Suh4eGGvqfh/Y6adsv
+ Pl/cI2Sg==;
 Received: from [187.36.210.68] (helo=janis.local)
  by fanzine2.igalia.com with esmtpsa 
  (Cipher TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_256_GCM:256) (Exim)
- id 1uZ8LH-00E1hT-9X; Tue, 08 Jul 2025 15:26:39 +0200
+ id 1uZ8LO-00E1hT-9k; Tue, 08 Jul 2025 15:26:46 +0200
 From: =?utf-8?q?Ma=C3=ADra_Canal?= <mcanal@igalia.com>
-Date: Tue, 08 Jul 2025 10:25:44 -0300
-Subject: [PATCH v5 4/8] drm/sched: Add new test for DRM_GPU_SCHED_STAT_NO_HANG
+Date: Tue, 08 Jul 2025 10:25:45 -0300
+Subject: [PATCH v5 5/8] drm/v3d: Use DRM_GPU_SCHED_STAT_NO_HANG to skip the
+ reset
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
-Message-Id: <20250708-sched-skip-reset-v5-4-2612b601f01a@igalia.com>
+Message-Id: <20250708-sched-skip-reset-v5-5-2612b601f01a@igalia.com>
 References: <20250708-sched-skip-reset-v5-0-2612b601f01a@igalia.com>
 In-Reply-To: <20250708-sched-skip-reset-v5-0-2612b601f01a@igalia.com>
 To: Matthew Brost <matthew.brost@intel.com>, 
@@ -58,15 +59,15 @@ Cc: kernel-dev@igalia.com, dri-devel@lists.freedesktop.org,
  etnaviv@lists.freedesktop.org, intel-xe@lists.freedesktop.org, 
  =?utf-8?q?Ma=C3=ADra_Canal?= <mcanal@igalia.com>
 X-Mailer: b4 0.14.2
-X-Developer-Signature: v=1; a=openpgp-sha256; l=3712; i=mcanal@igalia.com;
- h=from:subject:message-id; bh=T+o/acYgBXnIq8hI1xnfhbO5omWYWqeDf0kPQfH+838=;
- b=owEBbQGS/pANAwAIAT/zDop2iPqqAcsmYgBobRxmF7ZFG5ioO9iVpmzQrtVdehCiHaISxhVFZ
- TgVjPD31H+JATMEAAEIAB0WIQT45F19ARZ3Bymmd9E/8w6Kdoj6qgUCaG0cZgAKCRA/8w6Kdoj6
- qvIOB/9T3aIKUbx18BCuIT4U+OjD+G9jbF6B+ZIuB5Rql5Pgi8b+ZP2NQibbk5TZ4Zlr3Wo1SZv
- L7Qz5PzBUisFPNLYjlKY9tT1FWbMZJLYJhnAWApW3b6d+JWvOHA0RKM+kjzwKe4mSbl/MTV7rLH
- X6mT9mMzRD1Yqb/94uIe+PPoiOtbflcFtnDtihcmD05ZS6wQQi6sazrEf+W94eRqvNEeJVhCasL
- o5hgWuiBQZji58tn5tf6QxJordFQT7IuTq7xjypysszsrOdyEe+MSTfwLydYzFPEdaeRb+if0+W
- Y6G4N7xZ93HWHRUuKi45SxWJq2IJeYRCqdXkKt23JemM6nEM
+X-Developer-Signature: v=1; a=openpgp-sha256; l=2153; i=mcanal@igalia.com;
+ h=from:subject:message-id; bh=Hkh3UyCr21p1orxDUVLfLwmqi2c52e1B1Sa6EKMTr3c=;
+ b=owEBbQGS/pANAwAIAT/zDop2iPqqAcsmYgBobRxmeB3Z+0TmIH2nJh1ypD2kNoKiJ/F8jdBr0
+ zjh7ooYk8KJATMEAAEIAB0WIQT45F19ARZ3Bymmd9E/8w6Kdoj6qgUCaG0cZgAKCRA/8w6Kdoj6
+ qkbUB/0YTrLwzTlmJOhUn4JwXXCZH6JEK1vZeH54oaYF61JbOMROo87IgQCmlzBqe3QGAc9DYVj
+ tn0HfUrZ4wXBJYi5/yqF2XtJi4XiEy6d9BFGFsuK7mCnG3eVP0bXUypXZ1LSXi7wEnfDpU5L3rR
+ csRQiBu84SJay0NmrCvHRWPmoFyQ+HnnA+KXBFZmzhlt1RswYSTHaHSgsdsxAvclRTXUjliDnUr
+ B02eeUQaTmZhxq0R52z8pj52UQQOcg3Ib1A8fpswWSarHT1Fa0VKfiVl4ZxUssLnw1LCjVdCz/L
+ nu2vCLEuX91C0ZxePS8IMGqZhk2e/QK0/WMp3kHkwa8hHLDg
 X-Developer-Key: i=mcanal@igalia.com; a=openpgp;
  fpr=F8E45D7D0116770729A677D13FF30E8A7688FAAA
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -84,107 +85,62 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Add a test to submit a single job against a scheduler with the timeout
-configured and verify that if the job is still running, the timeout
-handler will skip the reset and allow the job to complete.
+When a CL/CSD job times out, we check if the GPU has made any progress
+since the last timeout. If so, instead of resetting the hardware, we skip
+the reset and allow the timer to be rearmed. This gives long-running jobs
+a chance to complete.
+
+Instead of manipulating scheduler's internals, inform the scheduler that
+the job did not actually timeout and no reset was performed through
+the new status code DRM_GPU_SCHED_STAT_NO_HANG.
 
 Signed-off-by: Maíra Canal <mcanal@igalia.com>
 Reviewed-by: Tvrtko Ursulin <tvrtko.ursulin@igalia.com>
-Reviewed-by: Philipp Stanner <phasta@kernel.org>
 ---
- drivers/gpu/drm/scheduler/tests/mock_scheduler.c |  5 +++
- drivers/gpu/drm/scheduler/tests/sched_tests.h    |  1 +
- drivers/gpu/drm/scheduler/tests/tests_basic.c    | 47 ++++++++++++++++++++++++
- 3 files changed, 53 insertions(+)
+ drivers/gpu/drm/v3d/v3d_sched.c | 16 ++--------------
+ 1 file changed, 2 insertions(+), 14 deletions(-)
 
-diff --git a/drivers/gpu/drm/scheduler/tests/mock_scheduler.c b/drivers/gpu/drm/scheduler/tests/mock_scheduler.c
-index 998162202972eb5919dfff4c8784ecc22c00ec9d..b3b33f85b7ae30c8e6bba97866a74978b0a96fa7 100644
---- a/drivers/gpu/drm/scheduler/tests/mock_scheduler.c
-+++ b/drivers/gpu/drm/scheduler/tests/mock_scheduler.c
-@@ -231,6 +231,11 @@ mock_sched_timedout_job(struct drm_sched_job *sched_job)
- 	drm_sched_job_cleanup(sched_job);
- 	/* Mock job itself is freed by the kunit framework. */
- 
-+	if (job->flags & DRM_MOCK_SCHED_JOB_DONT_RESET) {
-+		job->flags &= ~DRM_MOCK_SCHED_JOB_DONT_RESET;
-+		return DRM_GPU_SCHED_STAT_NO_HANG;
-+	}
-+
+diff --git a/drivers/gpu/drm/v3d/v3d_sched.c b/drivers/gpu/drm/v3d/v3d_sched.c
+index ebbafedef952a575a3ec2e690c1391d3385782a1..cb9df8822472a4602a5cf7a029ee2ca0a9abc28c 100644
+--- a/drivers/gpu/drm/v3d/v3d_sched.c
++++ b/drivers/gpu/drm/v3d/v3d_sched.c
+@@ -748,16 +748,6 @@ v3d_gpu_reset_for_timeout(struct v3d_dev *v3d, struct drm_sched_job *sched_job)
  	return DRM_GPU_SCHED_STAT_RESET;
  }
  
-diff --git a/drivers/gpu/drm/scheduler/tests/sched_tests.h b/drivers/gpu/drm/scheduler/tests/sched_tests.h
-index fbba38137f0c324cf2472fe5b3a8a78ec016e829..4adf961e1930203fe94241a8a0ae5f7817874a39 100644
---- a/drivers/gpu/drm/scheduler/tests/sched_tests.h
-+++ b/drivers/gpu/drm/scheduler/tests/sched_tests.h
-@@ -98,6 +98,7 @@ struct drm_mock_sched_job {
+-static void
+-v3d_sched_skip_reset(struct drm_sched_job *sched_job)
+-{
+-	struct drm_gpu_scheduler *sched = sched_job->sched;
+-
+-	spin_lock(&sched->job_list_lock);
+-	list_add(&sched_job->list, &sched->pending_list);
+-	spin_unlock(&sched->job_list_lock);
+-}
+-
+ static enum drm_gpu_sched_stat
+ v3d_cl_job_timedout(struct drm_sched_job *sched_job, enum v3d_queue q,
+ 		    u32 *timedout_ctca, u32 *timedout_ctra)
+@@ -776,8 +766,7 @@ v3d_cl_job_timedout(struct drm_sched_job *sched_job, enum v3d_queue q,
+ 		*timedout_ctca = ctca;
+ 		*timedout_ctra = ctra;
  
- #define DRM_MOCK_SCHED_JOB_DONE		0x1
- #define DRM_MOCK_SCHED_JOB_TIMEDOUT	0x2
-+#define DRM_MOCK_SCHED_JOB_DONT_RESET	0x4
- 	unsigned long		flags;
+-		v3d_sched_skip_reset(sched_job);
+-		return DRM_GPU_SCHED_STAT_RESET;
++		return DRM_GPU_SCHED_STAT_NO_HANG;
+ 	}
  
- 	struct list_head	link;
-diff --git a/drivers/gpu/drm/scheduler/tests/tests_basic.c b/drivers/gpu/drm/scheduler/tests/tests_basic.c
-index 41c648782f4548e202bd8711b45d28eead9bd0b2..91c0449590ed24c3da18ab7d930cca47d7c317c7 100644
---- a/drivers/gpu/drm/scheduler/tests/tests_basic.c
-+++ b/drivers/gpu/drm/scheduler/tests/tests_basic.c
-@@ -246,8 +246,55 @@ static void drm_sched_basic_timeout(struct kunit *test)
- 	drm_mock_sched_entity_free(entity);
- }
+ 	return v3d_gpu_reset_for_timeout(v3d, sched_job);
+@@ -822,8 +811,7 @@ v3d_csd_job_timedout(struct drm_sched_job *sched_job)
+ 	if (job->timedout_batches != batches) {
+ 		job->timedout_batches = batches;
  
-+static void drm_sched_skip_reset(struct kunit *test)
-+{
-+	struct drm_mock_scheduler *sched = test->priv;
-+	struct drm_mock_sched_entity *entity;
-+	struct drm_mock_sched_job *job;
-+	unsigned int i;
-+	bool done;
-+
-+	/*
-+	 * Submit a single job against a scheduler with the timeout configured
-+	 * and verify that if the job is still running, the timeout handler
-+	 * will skip the reset and allow the job to complete.
-+	 */
-+
-+	entity = drm_mock_sched_entity_new(test,
-+					   DRM_SCHED_PRIORITY_NORMAL,
-+					   sched);
-+	job = drm_mock_sched_job_new(test, entity);
-+
-+	job->flags = DRM_MOCK_SCHED_JOB_DONT_RESET;
-+
-+	drm_mock_sched_job_submit(job);
-+
-+	done = drm_mock_sched_job_wait_scheduled(job, HZ);
-+	KUNIT_ASSERT_TRUE(test, done);
-+
-+	done = drm_mock_sched_job_wait_finished(job, 2 * MOCK_TIMEOUT);
-+	KUNIT_ASSERT_FALSE(test, done);
-+
-+	KUNIT_ASSERT_EQ(test,
-+			job->flags & DRM_MOCK_SCHED_JOB_TIMEDOUT,
-+			DRM_MOCK_SCHED_JOB_TIMEDOUT);
-+
-+	KUNIT_ASSERT_EQ(test,
-+			job->flags & DRM_MOCK_SCHED_JOB_DONT_RESET,
-+			0);
-+
-+	i = drm_mock_sched_advance(sched, 1);
-+	KUNIT_ASSERT_EQ(test, i, 1);
-+
-+	done = drm_mock_sched_job_wait_finished(job, HZ);
-+	KUNIT_ASSERT_TRUE(test, done);
-+
-+	drm_mock_sched_entity_free(entity);
-+}
-+
- static struct kunit_case drm_sched_timeout_tests[] = {
- 	KUNIT_CASE(drm_sched_basic_timeout),
-+	KUNIT_CASE(drm_sched_skip_reset),
- 	{}
- };
+-		v3d_sched_skip_reset(sched_job);
+-		return DRM_GPU_SCHED_STAT_RESET;
++		return DRM_GPU_SCHED_STAT_NO_HANG;
+ 	}
  
+ 	return v3d_gpu_reset_for_timeout(v3d, sched_job);
 
 -- 
 2.50.0
