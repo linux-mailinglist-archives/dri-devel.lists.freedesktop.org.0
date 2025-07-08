@@ -2,151 +2,67 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id BDA2EAFC381
-	for <lists+dri-devel@lfdr.de>; Tue,  8 Jul 2025 09:01:16 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6A57DAFC387
+	for <lists+dri-devel@lfdr.de>; Tue,  8 Jul 2025 09:02:35 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B725610E59D;
-	Tue,  8 Jul 2025 07:01:14 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D1BB010E598;
+	Tue,  8 Jul 2025 07:02:33 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=amd.com header.i=@amd.com header.b="U3bOptRK";
+	dkim=pass (2048-bit key; secure) header.d=mailbox.org header.i=@mailbox.org header.b="vIz9Xrep";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from NAM10-MW2-obe.outbound.protection.outlook.com
- (mail-mw2nam10on2055.outbound.protection.outlook.com [40.107.94.55])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7075C10E598;
- Tue,  8 Jul 2025 07:01:13 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=t64Q0zQyZe37umQZbtkDg6DEDIZoCvYq7dFR/7iqC2nw+55a58+cPFhoDVByu6JXJVCHSC7KHWEcG7i32UYh/yJEiAiaK2wScHgi8jCfJbctmHtpCbGP5U2/FiWbx/yt2mpoRwpOKpa+9bcILBj4UczyqEluCsRa6KFTNBjE3fyeJrw9PJVRi3AICouLzL3iKbMuA6fYDLNKG/CK5znPVXuxZvbtIN8eZMgUN6owy91hHu73Wxl9WSEb6AZyv8/bcReaaNQveVF09vZ9EMwXrIIGE1hc451C40971wFCyf/fzg3cwvtZcPfTRFl1tZPIba9AcZRofydS2Gb6XFbI/w==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=DYTNWmDCQSii5KoG7dJ2PuqM7CVqJFY3ot19Fgltnaw=;
- b=Qg610txPmnpdVGrBFuZQJELbCkVvGLWjTOc8TaaDOSpNnZrSENc6U3GVxnQbpoFWKIH0W5licvmsqO6XyFSx7kGc7kJDB6m2Tb7IJ/EdehB++hZrfLJG5h5u9nKNyniPb9f26Vn8mZUFYV3rKPKUmfXgyZG+7eQEt0+73GMEIyM5cH44Sb2AFL5pG283zs1PMlo50VCHlqsnCTAqqiAEXb1+15SFBaa1Mli3G5yy7q4Uae7LUsidVXAx//Pcb5BV4V9dzpAvXc2ll9YitJvu7M8/0Hv4cvS6BP42jQDSHxecc5FH72LTbzYkHlr1u0ayPYdaacjaAPf+qsyKapI1tA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
- header.d=amd.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=DYTNWmDCQSii5KoG7dJ2PuqM7CVqJFY3ot19Fgltnaw=;
- b=U3bOptRKToYp5MENc+BqLNmOxjTUKYCxWUF7i25y61PWr/ByG6GqISDmiTBmWOexftKc3ArF9vZkim2eBQOmm7x1cC7HeI91l1ceKe6q4ShVAPemZkdYLnb2QqjlFaO2XiwqILjN//NBnHIJuFvSn0dl4/voelLgLE1qcvxn2x4=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=amd.com;
-Received: from SJ0PR12MB5673.namprd12.prod.outlook.com (2603:10b6:a03:42b::13)
- by DM4PR12MB6424.namprd12.prod.outlook.com (2603:10b6:8:be::16) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8901.26; Tue, 8 Jul
- 2025 07:01:10 +0000
-Received: from SJ0PR12MB5673.namprd12.prod.outlook.com
- ([fe80::ec7a:dd71:9d6c:3062]) by SJ0PR12MB5673.namprd12.prod.outlook.com
- ([fe80::ec7a:dd71:9d6c:3062%4]) with mapi id 15.20.8901.024; Tue, 8 Jul 2025
- 07:01:10 +0000
-Message-ID: <470a613e-d85d-4943-aa48-7590d84f7fd2@amd.com>
-Date: Tue, 8 Jul 2025 09:01:06 +0200
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 1/1] drm/amdkfd: return -ENOTTY for unsupported IOCTLs
-To: Geoffrey McRae <geoffrey.mcrae@amd.com>, Felix.Kuehling@amd.com
-Cc: alexander.deucher@amd.com, amd-gfx@lists.freedesktop.org,
- dri-devel@lists.freedesktop.org
-References: <20250708042219.180109-1-geoffrey.mcrae@amd.com>
-Content-Language: en-US
-From: =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
-In-Reply-To: <20250708042219.180109-1-geoffrey.mcrae@amd.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: FR2P281CA0183.DEUP281.PROD.OUTLOOK.COM
- (2603:10a6:d10:9f::19) To SJ0PR12MB5673.namprd12.prod.outlook.com
- (2603:10b6:a03:42b::13)
+Received: from mout-p-101.mailbox.org (mout-p-101.mailbox.org [80.241.56.151])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E22F410E598;
+ Tue,  8 Jul 2025 07:02:32 +0000 (UTC)
+Received: from smtp1.mailbox.org (smtp1.mailbox.org
+ [IPv6:2001:67c:2050:b231:465::1])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ (No client certificate requested)
+ by mout-p-101.mailbox.org (Postfix) with ESMTPS id 4bbsVs6CKhz9snW;
+ Tue,  8 Jul 2025 09:02:29 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mailbox.org;
+ s=mail20150812; 
+ t=1751958149; h=from:from:reply-to:reply-to:subject:subject:date:date:
+ message-id:message-id:to:to:cc:cc:mime-version:mime-version:
+ content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=WYrigsPXQUSAcsZwd04iu3vJ9pX/CAA6CTElzKsZ9AI=;
+ b=vIz9XrepfJqhBuaXCldtQtASlKEkN3xdBlH0H1j9loYji3SqL0Fq/Bzq7B/n15l+XQlafC
+ N2xKhy3RTYqy7zwecAsTnsooxktYOb0XKLZKTEjMoS1pU7dQQXFcn1bAbcwmCT198R/PgG
+ 7bPQWmiayfNtdwQkU3ypLmZlX2PIWPJHDd1t6csP0QNKaQH8lIJ+gFqtZduKkLdo21OGGP
+ z2qCQ803zDxt8ZiUAoyMqVObqmDvrV8bx1BD8M+AAN7xDNu2vpzVhAAiV+zzriefFlvsAx
+ ntmuy093z8i4rlRduJ9YpEVEfIv/aLuhFc7TBRwApXdAQcZ2zfnmxZWzb3jm8Q==
+Message-ID: <c5f4bb06f88338c03cc903a3ff5c58607625aade.camel@mailbox.org>
+Subject: Re: [PATCH v4 2/8] drm/sched: Allow drivers to skip the reset and
+ keep on running
+From: Philipp Stanner <phasta@mailbox.org>
+To: =?ISO-8859-1?Q?Ma=EDra?= Canal <mcanal@igalia.com>, Matthew Brost
+ <matthew.brost@intel.com>, Danilo Krummrich <dakr@kernel.org>, Philipp
+ Stanner <phasta@kernel.org>, Christian =?ISO-8859-1?Q?K=F6nig?=
+ <ckoenig.leichtzumerken@gmail.com>, Tvrtko Ursulin
+ <tvrtko.ursulin@igalia.com>,  Simona Vetter <simona@ffwll.ch>, David Airlie
+ <airlied@gmail.com>, Melissa Wen <mwen@igalia.com>, Lucas Stach
+ <l.stach@pengutronix.de>, Russell King <linux+etnaviv@armlinux.org.uk>, 
+ Christian Gmeiner <christian.gmeiner@gmail.com>, Lucas De Marchi
+ <lucas.demarchi@intel.com>, Thomas =?ISO-8859-1?Q?Hellstr=F6m?=
+ <thomas.hellstrom@linux.intel.com>, Rodrigo Vivi <rodrigo.vivi@intel.com>,
+ Boris Brezillon <boris.brezillon@collabora.com>, Rob Herring
+ <robh@kernel.org>, Steven Price <steven.price@arm.com>, Liviu Dudau
+ <liviu.dudau@arm.com>
+Cc: kernel-dev@igalia.com, dri-devel@lists.freedesktop.org, 
+ etnaviv@lists.freedesktop.org, intel-xe@lists.freedesktop.org
+Date: Tue, 08 Jul 2025 09:02:19 +0200
+In-Reply-To: <20250707-sched-skip-reset-v4-2-036c0f0f584f@igalia.com>
+References: <20250707-sched-skip-reset-v4-0-036c0f0f584f@igalia.com>
+ <20250707-sched-skip-reset-v4-2-036c0f0f584f@igalia.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: SJ0PR12MB5673:EE_|DM4PR12MB6424:EE_
-X-MS-Office365-Filtering-Correlation-Id: b647132e-88c3-4016-ba94-08ddbded3815
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;ARA:13230040|376014|366016|1800799024;
-X-Microsoft-Antispam-Message-Info: =?utf-8?B?SkRCRUo1RzJKVlFwN0xSbkVISGxqWWRhcC9rNFJHM1JDajhoRDlFc01GNUR0?=
- =?utf-8?B?ZmRBekZodGFIYVllUkY0SDN6S2NldmduRW5RMk1VajVKVTFPbzlCd3dFSUJa?=
- =?utf-8?B?eVp0YmprcEdwVUFVeXZqWnl0eUpoZnAyK0VoWVhJaEhIMTNpbEs5R093ZG5s?=
- =?utf-8?B?a1VpT2lBbkNIcm9DTml3dmxRTGV0eHhLK2twTzlmd2NMUyt6anFma2pUWnFk?=
- =?utf-8?B?QzNvdW9xSEtuZnB4NFEyQ0UzL0pDZDJ2R1hzRlFvcFVCd2dsQjRJMXdqc2FB?=
- =?utf-8?B?QU9uaXYxdlUrNEcxdVpHL2NsbERhQkpPcGdGamlhWW1OVnFwR0Y3bXRxeXRm?=
- =?utf-8?B?aGU2N3pTOFI3a3I2YWswWUtkMnBFQVpMc3EzL09qU3BmdW1VRldaS2puTTVN?=
- =?utf-8?B?YjdPUmVxQ1ZWcC9SMFBKbHJQalYrcGZ6Z3pXNTFxYjZReVF5U3pVQk1LaXVk?=
- =?utf-8?B?SnMxTldwTnNaUS9LS1d1VHkyN3k0TEV4RjVrNFl5Ym8xRkd3dW5kZTlKWnNI?=
- =?utf-8?B?UGQ4RitCaE9lM3VqL3U0eUtzNDhFMDgvRGpLVk5TbFlucHN6M3AyL2l0OHoy?=
- =?utf-8?B?Uk9laDNiWFBZamZDSEhwM01DV2d3S2xDcEloZmQreWkxNk50WXlaTlJRakpX?=
- =?utf-8?B?MWFkY1BQOThXNklmRitodU9qQU5UbEplL1dUdmpiVHhUVmZVc0VxUUE4OVcz?=
- =?utf-8?B?TjZ0MUZqeCtHVTl5NW4wM08xQUFVd0pUWVFycjh3eXRuNUtDWTFvdXFNOHI1?=
- =?utf-8?B?cExMZ3l1YWpHbi92bzF2ZlJYamxHWDJXTk9Jay9zRjJXS1RNYlp5TWh5eUFC?=
- =?utf-8?B?MlVUTURidUdhcWU3cXRxWkJ0VUlzQzQ4YUJFUHBWSzJGUWZWc1d2OGNaTXhX?=
- =?utf-8?B?Zmx3SFRzOXYvek9oU1crazUwQ0VIOHBXQzdFejdmd3NRdFdSeG9jTGpTSnp0?=
- =?utf-8?B?VFVqVW1FZnk0RTdYN3Qxd05CQjY3Nngwb1Q4NE1tT0cvb0krY0RmT0lzUGMz?=
- =?utf-8?B?TXpLTlNrM2MxSzU0ZmZrSCt4TmpnUDNNR05VelRNaUwxM0t2dmZ0SDlhb1J1?=
- =?utf-8?B?SnNlbExnOUxZaDR1VXU2NWQ3RjFIcC80SmdqLzhrRzB5YVFHVnBVWjgwbEoy?=
- =?utf-8?B?RU1SUEVXelhUVldaK1I1QmsvV08rek5HT0dlQXl6akdSQzBpaTl0RHRjejVq?=
- =?utf-8?B?Q2hKVzhpdXRkdU1JRHhkWnRmdXRZSnRLa2owdElTTDNvTG04b0I5UVBhT0J6?=
- =?utf-8?B?Mm13TnFFR0ZXaGsrcmsrZCs3MzJCZDBRL3pUMzR4dFpQYlFXQk9DUkVuWnBh?=
- =?utf-8?B?Rm9pUVE0TjZHUER3MkU3WG1LUUo1Z3FIYm9MT3FnSXhsQVV3SUdtaWxKQkNZ?=
- =?utf-8?B?dmNLTlpyL1NmL2s2MUc0ZjBZWU1kdlpJVEhmbVJPbnlVMHlYK3pHQVJjT2tp?=
- =?utf-8?B?VEJGUStZYUpHZTB2ZkFkbXVnaTJHVFZHcnlvanVvdHM1Z2Z5VE11U2s3UXpn?=
- =?utf-8?B?bnR0dnM2aGNtZE11N0JDaDQ4Z09CSE5PNThMS2J4c2RuWXJ4NHFBN01Nckd0?=
- =?utf-8?B?QTlhb1BIb1loY0duT2xwSnBXTS9NMW9XMnpVbW54TmtYLzczZUZwQTNlaG8z?=
- =?utf-8?B?MHRaSkd6dTdGOVZLVmlZV3hJblpLM3BqMjhCbVFVUlVkcm9nRWMrUUtweXQ5?=
- =?utf-8?B?dHQ5bDhXNEJjUkNhb3pJakdCa2ZYVzdTMnFnZit2S0dkRmVnM2xMN0htaTZF?=
- =?utf-8?B?TGhMeXFDbkpoM2FNTnF0ZDRUYjRLajJ0YWxJR3pmanR5UnlCVG5ucUErMWVw?=
- =?utf-8?B?bmxJb21RYWJDVHJTQ25yaFlmNFFiTjRJVDlQK0tKTnBZWXVqR3FPaWV5L0tS?=
- =?utf-8?B?YmR6K1FObElLaWE2ODFhdHpPczQ4cFp5TTExM25IZmNLc0J4dDJLb1gzMFQ0?=
- =?utf-8?Q?uQW1U1Do3zs=3D?=
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:SJ0PR12MB5673.namprd12.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230040)(376014)(366016)(1800799024); DIR:OUT; SFP:1101; 
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?ZDFiVzhaRUo2NThBQ0RxaVkxY01LZUZ6TitVNjNBZS9OaDRYdDRMK0oxUlFP?=
- =?utf-8?B?cU1aWVhUNlFxenpSU2NwNDFCVDhhbmNaMTRQN1lJWWFQMktDMS9mVGwyNkRn?=
- =?utf-8?B?T0x6ZkYwSlEzY214cEZ3aFNjSGFFV2lTRWRhekJoek1XdmxQeFF0dUYwMzRo?=
- =?utf-8?B?dFFjbFdvMk9HV0FWdXlRdm5qMWRDcmlQOUMwRHIyamFyN1VEcElZTk1CYmxN?=
- =?utf-8?B?alhjemo0Y0thUVBFV2ZqTEVCY3hDTWZUZlp3MnNUN1RHRVpua0U3V3NtUUs3?=
- =?utf-8?B?RnNQa0I5aUsvSTFqL2pmcEx1eWxNRnV5akNjL0g3WkdBd2hmNmNha2xvU0lK?=
- =?utf-8?B?eTcySGtsbE5nSzliSnFuM0FLRVFiMXVwZm43ejVrcnBvQ1c1dWMvVVU5aUEx?=
- =?utf-8?B?S1BUTEdtNzZ2UEZrS3NiWXl4T0JpZ2RmamxsOUtzRm9INWJBNTZkNFhGWm1S?=
- =?utf-8?B?VGcvMnc2U2J4TUFKek9PTE1ZMjQxWXVXTzhrMnlaQXYzaUJPSGdGdjh4Z01s?=
- =?utf-8?B?dnlQdnROUGVvaTI2eDNqeGRMb0FUc3BtZSszR3dLaHVCTzkvVzhPejZxOUdq?=
- =?utf-8?B?M29IdGpnbjlQOHY4SGl6c2JNK3JmbGdNdGpKVjEwNWVKbUU3NEo4MUx6VTFM?=
- =?utf-8?B?d2Q0a2p0aDFtSUdDMEpyV0psdDlwdEF4bmZ3UVNNQmdrMnpuNTdTY0NZVUhx?=
- =?utf-8?B?ay81SXBGTDhpTUVRcFlIckJsVDZ4dHhUK1VsK2JBTm4wYUxzemxqQjdENXhM?=
- =?utf-8?B?dWQ3MUpJZENPN3FoSlRkY3dta3FlTEtVL3YzRGoxYiswTWlDTU9obU9jdDV4?=
- =?utf-8?B?b0EwaWF2Q1RuaWFmVkYrOThSOFIxZnYvc3pValpvWmllMFdMcGRDcGFJZ1RT?=
- =?utf-8?B?aVN1dXRNM1IxOUtETTlMNCtpYmtTVi9mQjd5WThLMG1QMU1TbkRnZmwvMGhT?=
- =?utf-8?B?MzF5dHBOVStBWGZKNzU4dklvc1NuVVl4eVpNdW8vRjVWYXlMMFY3YUFnd29I?=
- =?utf-8?B?WmlkbjNYdUg4YjVKRlF0T2lmekxnOGk3YjJKMUMvcHZESmtDUFErdk1JWjIy?=
- =?utf-8?B?eXBFcFNzcW41azUyQ0NXb3BWKzdJN2V4bGZSZXlGUEpsRnFiNXl0VjRxRUFE?=
- =?utf-8?B?dFpIS25UWVZYUlk2V0JrRjBvd1ZwcmpnQXpNRHpzaFBCTm5OeExDV1VOTnlZ?=
- =?utf-8?B?cW80aWNqSklYY3BaL0RzMzYwRUNhbXlVdHNQN21oUXhETXNsYlJrYTVSV1VG?=
- =?utf-8?B?NXBBaXJ1aGswL2RWN2l0OVVnY0VMeWZ6OHFWcFJTWW42WkFZeXllWS9HMzNS?=
- =?utf-8?B?YU51VHBPaFNOSDlieUxUQXF6bHlpZ3NnTTljTVU3WjRaQzU3eUcwMjFCQkxs?=
- =?utf-8?B?aExudlNDS3RoYytOK0hWcHV1L2orVnl1QUxsK0tTSStINWJGZzNwTFY1UDRo?=
- =?utf-8?B?RnJFTmsyYzZLd0VMUDRnQnNZVjM5d2plbkFpaVY0bFVtbG5nTjFIZXltU2Y2?=
- =?utf-8?B?ZGZCeEdyQ1BFYUxyVWpnbXBwZUdMQ0JlbFUyU3N5cVBYRjFOdG1DdkJLR0hW?=
- =?utf-8?B?MXpNbFRtdnpGU3lZSWo2aEFCeXg4bjZSc0YyN2RvMll5anBsdTM0Vy9sNDFP?=
- =?utf-8?B?cFBUSVZhTC8xUmN4NDl3OTZ0eUlSTXVlTWVtNUp3bThsTEsydVB6czMxTmlV?=
- =?utf-8?B?TkdycklLR0NsaUN3eXpGSDlqQ1VleEtiMHZ2YjJDbHE2TkdkTkdIdkRQTVQ0?=
- =?utf-8?B?NFkzcU1Qb1RSekU2OS82a2lxdldYYTNvazdSSmMrS0plajVNVkhWSm9XbDBD?=
- =?utf-8?B?TVdOT0RpLy9ONlFpdUd0eVNCZk52WE54MjdpdGdRSlVjcDNKTm5Vd252VElt?=
- =?utf-8?B?M012L2Q0a1I1ZmMzQmVCK0JTOGFmWVcrdjBuZ1IrbDJBa3EwZHJGWTl3QUoz?=
- =?utf-8?B?NGFZQWhTZmZNaFArSDJWZ2NpZURkZkRHbjh3a3FHU0lnblFHdm8xWWxZd0tr?=
- =?utf-8?B?MERHcWQ3aWRadVJBbklEQUx0YTlZQXY5UWJMSzdkTzI5YUt4b3VjTUphRnpQ?=
- =?utf-8?B?dDlESk9FL3FIeXFXNXB3S3kzQ09pbDV2MjhkRGZjNWdmbUQ0YWVqK2MvMU1V?=
- =?utf-8?Q?IUxDBs/Q8kNG/Wt0g7WmL9rgn?=
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: b647132e-88c3-4016-ba94-08ddbded3815
-X-MS-Exchange-CrossTenant-AuthSource: SJ0PR12MB5673.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 08 Jul 2025 07:01:10.6640 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: HsUcsLscPbkbiQKuw4MiUh1jeNUscRea0S1lfZNf41Is20C5Dq+PnWqjfXB3VjUP
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM4PR12MB6424
+X-MBO-RS-META: w7184u37jz3s9m8ipncq1ggehbnm65qp
+X-MBO-RS-ID: 4e281e4d2b4ba90d534
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -159,53 +75,276 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
+Reply-To: phasta@kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 08.07.25 06:22, Geoffrey McRae wrote:
-> Some kfd ioctls may not be available depending on the kernel version the
-> user is running, as such we need to report -ENOTTY so userland can
-> determine the cause of the ioctl failure.
+On Mon, 2025-07-07 at 11:46 -0300, Ma=C3=ADra Canal wrote:
+> When the DRM scheduler times out, it's possible that the GPU isn't
+> hung;
+> instead, a job may still be running, and there may be no valid reason
+> to
+> reset the hardware. This can occur in two situations:
+>=20
+> =C2=A0 1. The GPU exposes some mechanism that ensures the GPU is still
+> making
+> =C2=A0=C2=A0=C2=A0=C2=A0 progress. By checking this mechanism, the driver=
+ can safely skip
 
-In general sounds like a good idea, but ENOTTY is potentially a bit misleading.
+I think this should be rephrased, because it reads as if there is a
+mechanism with which the GPU can be forced to still make progress even
+with a while (1) job or something.
 
-We usually use EOPNOTSUPP for that even if its not the original meaning of that error code.
+I think what we want probably is:
 
-Regards,
-Christian.
+"When the DRM scheduler times out, it's possible that the GPU isn't
+hung; instead, a job just took unusually long (longer than the timeout)
+but is still running, and there is, thus, no reason to reset the
+hardware. A false-positive timeout can occur in two scenarios:
 
-> 
-> Signed-off-by: Geoffrey McRae <geoffrey.mcrae@amd.com>
+1. The job took too long, but the driver determined through a GPU-
+specific mechanism that the hardware is still making progress. Hence,
+the driver would like the scheduler to skip the timeout and treat the
+job as still pending from then onward.
+
+> the
+> =C2=A0=C2=A0=C2=A0=C2=A0 reset, re-arm the timeout, and allow the job to =
+continue running
+> until
+> =C2=A0=C2=A0=C2=A0=C2=A0 completion. This is the case for v3d, Etnaviv, a=
+nd Xe.
+> =C2=A0 2. Timeout has fired before the free-job worker. Consequently, the
+> =C2=A0=C2=A0=C2=A0=C2=A0 scheduler calls `sched->ops->timedout_job()` for=
+ a job that
+> isn't
+> =C2=A0=C2=A0=C2=A0=C2=A0 timed out.
+
+
+"2. The job actually did complete from the driver's point of view, but
+there was a race with the scheduler's timeout, which determined this
+job timed out slightly before the free-job worker could remove it from
+the pending_list."
+
+
+Feel free to adjust the wording to your liking.
+
+>=20
+> These two scenarios are problematic because the job was removed from
+> the
+> `sched->pending_list` before calling `sched->ops->timedout_job()`,
+> which
+> means that when the job finishes, it won't be freed by the scheduler
+> though `sched->ops->free_job()` - leading to a memory leak.
+>=20
+> To solve those problems, create a new `drm_gpu_sched_stat`, called
+> DRM_GPU_SCHED_STAT_NO_HANG, that allows a driver to skip the reset.
+
+nit:
+s/that/which
+
+? Reads a bit clearer IMO
+
+> The
+> new status will indicate that the job must be reinserted into the
+> pending list, and the hardware / driver will still complete that job.
+
+I think it would be cool to write it as pending_list consistently
+throughout the patch.
+
+>=20
+> Signed-off-by: Ma=C3=ADra Canal <mcanal@igalia.com>
 > ---
->  drivers/gpu/drm/amd/amdkfd/kfd_chardev.c | 8 ++++++--
->  1 file changed, 6 insertions(+), 2 deletions(-)
-> 
-> diff --git a/drivers/gpu/drm/amd/amdkfd/kfd_chardev.c b/drivers/gpu/drm/amd/amdkfd/kfd_chardev.c
-> index a2149afa5803..36396b7318e7 100644
-> --- a/drivers/gpu/drm/amd/amdkfd/kfd_chardev.c
-> +++ b/drivers/gpu/drm/amd/amdkfd/kfd_chardev.c
-> @@ -3253,8 +3253,10 @@ static long kfd_ioctl(struct file *filep, unsigned int cmd, unsigned long arg)
->  	int retcode = -EINVAL;
->  	bool ptrace_attached = false;
->  
-> -	if (nr >= AMDKFD_CORE_IOCTL_COUNT)
-> +	if (nr >= AMDKFD_CORE_IOCTL_COUNT) {
-> +		retcode = -ENOTTY;
->  		goto err_i1;
-> +	}
->  
->  	if ((nr >= AMDKFD_COMMAND_START) && (nr < AMDKFD_COMMAND_END)) {
->  		u32 amdkfd_size;
-> @@ -3267,8 +3269,10 @@ static long kfd_ioctl(struct file *filep, unsigned int cmd, unsigned long arg)
->  			asize = amdkfd_size;
->  
->  		cmd = ioctl->cmd;
-> -	} else
-> +	} else {
-> +		retcode = -ENOTTY;
->  		goto err_i1;
-> +	}
->  
->  	dev_dbg(kfd_device, "ioctl cmd 0x%x (#0x%x), arg 0x%lx\n", cmd, nr, arg);
->  
+> =C2=A0drivers/gpu/drm/scheduler/sched_main.c | 43
+> ++++++++++++++++++++++++++++++++--
+> =C2=A0include/drm/gpu_scheduler.h=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0 |=C2=A0 3 +++
+> =C2=A02 files changed, 44 insertions(+), 2 deletions(-)
+>=20
+> diff --git a/drivers/gpu/drm/scheduler/sched_main.c
+> b/drivers/gpu/drm/scheduler/sched_main.c
+> index
+> 0f32e2cb43d6af294408968a970990f9f5c47bee..d3f48526883cc7ceea0cd1d0c62
+> fb119f7092704 100644
+> --- a/drivers/gpu/drm/scheduler/sched_main.c
+> +++ b/drivers/gpu/drm/scheduler/sched_main.c
+> @@ -374,11 +374,16 @@ static void drm_sched_run_free_queue(struct
+> drm_gpu_scheduler *sched)
+> =C2=A0{
+> =C2=A0	struct drm_sched_job *job;
+> =C2=A0
+> -	spin_lock(&sched->job_list_lock);
+> =C2=A0	job =3D list_first_entry_or_null(&sched->pending_list,
+> =C2=A0				=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 struct drm_sched_job, list=
+);
+> =C2=A0	if (job && dma_fence_is_signaled(&job->s_fence->finished))
+> =C2=A0		__drm_sched_run_free_queue(sched);
+> +}
+> +
+> +static void drm_sched_run_free_queue_unlocked(struct
+> drm_gpu_scheduler *sched)
+> +{
+> +	spin_lock(&sched->job_list_lock);
+> +	drm_sched_run_free_queue(sched);
+> =C2=A0	spin_unlock(&sched->job_list_lock);
+> =C2=A0}
+> =C2=A0
+> @@ -531,6 +536,31 @@ static void drm_sched_job_begin(struct
+> drm_sched_job *s_job)
+> =C2=A0	spin_unlock(&sched->job_list_lock);
+> =C2=A0}
+> =C2=A0
+> +/**
+> + * drm_sched_job_reinsert_on_false_timeout - reinsert the job on a
+> false timeout
+> + * @sched: scheduler instance
+> + * @job: job to be reinserted on the pending list
+> + *
+> + * In the case of a "false timeout" - when a timeout occurs but the
+> GPU isn't
+> + * hung and the job is making progress, the scheduler must reinsert
+
+nit:
+s/job/GPU
+
+> the job back
+> + * into the pending list. Otherwise, the job and its resources won't
+>=20
+> Dito
+>  be freed
+> + * through the &drm_sched_backend_ops.free_job callback.
+> + *
+> + * Note that after reinserting the job, the scheduler enqueues the
+> free-job
+> + * work again if ready. Otherwise, a signaled job could be added to
+> the pending
+> + * list, but never freed.
+> + *
+> + * This function must be used in "false timeout" cases only.
+
+I think the "Note" should be removed, because it reads as if the API
+user has to mind about that in any way.
+
+If you want to highlight that, maybe move it down in the function body
+as a code comment. I think it's good to know, but not relevant for the
+API user, or is it?
+
+> + */
+> +static void drm_sched_job_reinsert_on_false_timeout(struct
+> drm_gpu_scheduler *sched,
+> +						=C2=A0=C2=A0=C2=A0 struct
+> drm_sched_job *job)
+> +{
+> +	spin_lock(&sched->job_list_lock);
+> +	list_add(&job->list, &sched->pending_list);
+> +	drm_sched_run_free_queue(sched);
+> +	spin_unlock(&sched->job_list_lock);
+> +}
+> +
+> =C2=A0static void drm_sched_job_timedout(struct work_struct *work)
+> =C2=A0{
+> =C2=A0	struct drm_gpu_scheduler *sched;
+> @@ -564,6 +594,9 @@ static void drm_sched_job_timedout(struct
+> work_struct *work)
+> =C2=A0			job->sched->ops->free_job(job);
+> =C2=A0			sched->free_guilty =3D false;
+> =C2=A0		}
+> +
+> +		if (status =3D=3D DRM_GPU_SCHED_STAT_NO_HANG)
+> +			drm_sched_job_reinsert_on_false_timeout(sche
+> d, job);
+> =C2=A0	} else {
+> =C2=A0		spin_unlock(&sched->job_list_lock);
+> =C2=A0	}
+> @@ -586,6 +619,9 @@ static void drm_sched_job_timedout(struct
+> work_struct *work)
+> =C2=A0 * This function is typically used for reset recovery (see the docu
+> of
+> =C2=A0 * drm_sched_backend_ops.timedout_job() for details). Do not call i=
+t
+> for
+> =C2=A0 * scheduler teardown, i.e., before calling drm_sched_fini().
+> + *
+> + * As it's used for reset recovery, drm_sched_stop() shouldn't be
+> called
+> + * if the driver skipped the reset (DRM_GPU_SCHED_STAT_NO_HANG).
+
+I know I suggested these comments; but reading them again I think
+they're confusing.
+
+It reads as if drm_sched_stop() should not be called if the driver,
+sometime in the past, skipped a reset.
+
+It would be more waterproof like so:
+
+"As it is only used for reset recovery, drivers must not call this
+function in their &struct drm_sched_backend_ops.timedout_job callback
+if they are skipping the reset through status &enum
+drm_gpu_sched_stat.DRM_GPU_SCHED_STAT_NO_HANG."
+
+Note that we should also prohibit using the function with
+s/should/must not
+
+Better safe than sorry..
+
+> =C2=A0 */
+> =C2=A0void drm_sched_stop(struct drm_gpu_scheduler *sched, struct
+> drm_sched_job *bad)
+> =C2=A0{
+> @@ -671,6 +707,9 @@ EXPORT_SYMBOL(drm_sched_stop);
+> =C2=A0 * drm_sched_backend_ops.timedout_job() for details). Do not call i=
+t
+> for
+> =C2=A0 * scheduler startup. The scheduler itself is fully operational
+> after
+> =C2=A0 * drm_sched_init() succeeded.
+> + *
+> + * As it's used for reset recovery, drm_sched_start() shouldn't be
+> called
+> + * if the driver skipped the reset (DRM_GPU_SCHED_STAT_NO_HANG).
+
+Same.
+
+
+Otherwise, great series. Looking forward to having this merged.
+
+P.
+
+> =C2=A0 */
+> =C2=A0void drm_sched_start(struct drm_gpu_scheduler *sched, int errno)
+> =C2=A0{
+> @@ -1192,7 +1231,7 @@ static void drm_sched_free_job_work(struct
+> work_struct *w)
+> =C2=A0	if (job)
+> =C2=A0		sched->ops->free_job(job);
+> =C2=A0
+> -	drm_sched_run_free_queue(sched);
+> +	drm_sched_run_free_queue_unlocked(sched);
+> =C2=A0	drm_sched_run_job_queue(sched);
+> =C2=A0}
+> =C2=A0
+> diff --git a/include/drm/gpu_scheduler.h
+> b/include/drm/gpu_scheduler.h
+> index
+> 83e5c00d8dd9a83ab20547a93d6fc572de97616e..257d21d8d1d2c4f035d6d4882e1
+> 59de59b263c76 100644
+> --- a/include/drm/gpu_scheduler.h
+> +++ b/include/drm/gpu_scheduler.h
+> @@ -393,11 +393,14 @@ struct drm_sched_job {
+> =C2=A0 * @DRM_GPU_SCHED_STAT_NONE: Reserved. Do not use.
+> =C2=A0 * @DRM_GPU_SCHED_STAT_RESET: The GPU hung and successfully reset.
+> =C2=A0 * @DRM_GPU_SCHED_STAT_ENODEV: Error: Device is not available
+> anymore.
+> + * @DRM_GPU_SCHED_STAT_NO_HANG: Contrary to scheduler's assumption,
+> the GPU
+> + * did not hang and is still running.
+> =C2=A0 */
+> =C2=A0enum drm_gpu_sched_stat {
+> =C2=A0	DRM_GPU_SCHED_STAT_NONE,
+> =C2=A0	DRM_GPU_SCHED_STAT_RESET,
+> =C2=A0	DRM_GPU_SCHED_STAT_ENODEV,
+> +	DRM_GPU_SCHED_STAT_NO_HANG,
+> =C2=A0};
+> =C2=A0
+> =C2=A0/**
+>=20
 
