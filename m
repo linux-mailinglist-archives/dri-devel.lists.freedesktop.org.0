@@ -2,64 +2,61 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id AA6AFAFD15D
-	for <lists+dri-devel@lfdr.de>; Tue,  8 Jul 2025 18:35:10 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id EE556AFD504
+	for <lists+dri-devel@lfdr.de>; Tue,  8 Jul 2025 19:16:50 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0F56210E028;
-	Tue,  8 Jul 2025 16:35:09 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 58C9310E1A9;
+	Tue,  8 Jul 2025 17:16:49 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="WT70nnZL";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="vDfJHdtR";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from tor.source.kernel.org (tor.source.kernel.org [172.105.4.254])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7DC7810E028
- for <dri-devel@lists.freedesktop.org>; Tue,  8 Jul 2025 16:35:08 +0000 (UTC)
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7CA4F10E1A9;
+ Tue,  8 Jul 2025 17:16:48 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by tor.source.kernel.org (Postfix) with ESMTP id 68B7C6112D
- for <dri-devel@lists.freedesktop.org>; Tue,  8 Jul 2025 16:35:07 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPS id 1F9B8C4CEED
- for <dri-devel@lists.freedesktop.org>; Tue,  8 Jul 2025 16:35:07 +0000 (UTC)
+ by dfw.source.kernel.org (Postfix) with ESMTP id 2A5BA5C57C8;
+ Tue,  8 Jul 2025 17:16:47 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8D8B7C4CEED;
+ Tue,  8 Jul 2025 17:16:46 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1751992507;
- bh=MCMU/vicIYjI7hhx0VfPQQsK6mfoAqeUzVxxUmhEUjU=;
- h=From:To:Subject:Date:From;
- b=WT70nnZLpUeHl+lLJHaet7T3FCQ+Ferx37XXXOOj6IE+OgY/mhSVaoZD3Tia/YrUP
- lDtOj4VbgJd4NiXfWmLYSuantHEZmp6xsMIBWiJM/Pygq1elFKVhH55hguxsyMUjFD
- MGoWzLZXLtoTgyRjyCDkKJF3RukcqGQheI1oXrPB1wuNeGFAVQOqyyaNq5zJui9X3t
- KoGUizxTZuRjmYxf5X6SkC/8YCWAfNqHDeR0ehGcOMOuO5BctNW0Zs7CuTo0PUGRsY
- Tw8Gc6ZX0Wb3qCrpvYGAkA7m281aTeUlfMr1XdtQU/1mPdSbLmpLtiJujFgLCyEM9O
- wKF/Umz7pexnA==
-Received: by aws-us-west-2-korg-bugzilla-1.web.codeaurora.org (Postfix,
- from userid 48) id 11465C3279F; Tue,  8 Jul 2025 16:35:07 +0000 (UTC)
-From: bugzilla-daemon@kernel.org
-To: dri-devel@lists.freedesktop.org
-Subject: [Bug 220326] New: Mismatch between the meanings of brightness and
- actual_brightness
-Date: Tue, 08 Jul 2025 16:35:06 +0000
-X-Bugzilla-Reason: None
-X-Bugzilla-Type: new
-X-Bugzilla-Watch-Reason: AssignedTo drivers_video-dri@kernel-bugs.osdl.org
-X-Bugzilla-Product: Drivers
-X-Bugzilla-Component: Video(DRI - non Intel)
-X-Bugzilla-Version: 2.5
-X-Bugzilla-Keywords: 
-X-Bugzilla-Severity: normal
-X-Bugzilla-Who: kernvirt@gmail.com
-X-Bugzilla-Status: NEW
-X-Bugzilla-Resolution: 
-X-Bugzilla-Priority: P3
-X-Bugzilla-Assigned-To: drivers_video-dri@kernel-bugs.osdl.org
-X-Bugzilla-Flags: 
-X-Bugzilla-Changed-Fields: bug_id short_desc product version rep_platform
- op_sys bug_status bug_severity priority component assigned_to reporter
- cf_regression
-Message-ID: <bug-220326-2300@https.bugzilla.kernel.org/>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Bugzilla-URL: https://bugzilla.kernel.org/
-Auto-Submitted: auto-generated
+ s=k20201202; t=1751995006;
+ bh=8JCM007Su614dbs0l57eUxf4MWAtqpo3iFUjAkEXeAQ=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=vDfJHdtRTlcgaUIFBLrdCi1UWjZWnGedZeU5C7IhRs0DTnUrd43Jb4WcnU3ZVH2XR
+ maXi/ZbFcpUUa1U36gKTtdWhSMQ9mXgQhWrnrrsyjNr/SGyW9Ol6iI9qYAAHlwtX5p
+ 2M5/YD6MYvhd/TtyVkUAtsKtbTo/tx+m26kPiAnhd4senIUj4vT/Zpxg2NA2vKv1Xm
+ +3pTopEo669j9v4NV+3G1AtFLut/nYOYojVW3wZZwPpz0M4F1qc6uPMImCdjCqDhwJ
+ Uv/8nT4jdDruw9aEk7MkFE49Y2FsR97NSDw3ufc3RIYol+W11/7UfAvmCjFxU6mBG5
+ 6agGSBMQYKTCg==
+Date: Tue, 8 Jul 2025 12:16:45 -0500
+From: "Rob Herring (Arm)" <robh@kernel.org>
+To: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
+Cc: Jessica Zhang <jessica.zhang@oss.qualcomm.com>,
+ Thomas Zimmermann <tzimmermann@suse.de>,
+ Abhinav Kumar <abhinav.kumar@linux.dev>,
+ Maxime Ripard <mripard@kernel.org>, Sean Paul <sean@poorly.run>,
+ linux-kernel@vger.kernel.org, Krzysztof Kozlowski <krzk+dt@kernel.org>,
+ Bjorn Andersson <andersson@kernel.org>, devicetree@vger.kernel.org,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ linux-arm-msm@vger.kernel.org, Conor Dooley <conor+dt@kernel.org>,
+ Krishna Manikandan <quic_mkrishn@quicinc.com>,
+ freedreno@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+ Simona Vetter <simona@ffwll.ch>, David Airlie <airlied@gmail.com>,
+ Dmitry Baryshkov <lumag@kernel.org>,
+ Rob Clark <robin.clark@oss.qualcomm.com>,
+ Konrad Dybcio <konradybcio@kernel.org>,
+ Marijn Suijten <marijn.suijten@somainline.org>
+Subject: Re: [PATCH 1/4] dt-bindings: display/msm: dsi-controller-main: add
+ SC8180X
+Message-ID: <175199500495.649724.17681226218267809608.robh@kernel.org>
+References: <20250704-mdss-schema-v1-0-e978e4e73e14@oss.qualcomm.com>
+ <20250704-mdss-schema-v1-1-e978e4e73e14@oss.qualcomm.com>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20250704-mdss-schema-v1-1-e978e4e73e14@oss.qualcomm.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -75,48 +72,18 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-https://bugzilla.kernel.org/show_bug.cgi?id=3D220326
 
-            Bug ID: 220326
-           Summary: Mismatch between the meanings of brightness and
-                    actual_brightness
-           Product: Drivers
-           Version: 2.5
-          Hardware: AMD
-                OS: Linux
-            Status: NEW
-          Severity: normal
-          Priority: P3
-         Component: Video(DRI - non Intel)
-          Assignee: drivers_video-dri@kernel-bugs.osdl.org
-          Reporter: kernvirt@gmail.com
-        Regression: No
+On Fri, 04 Jul 2025 19:31:53 +0300, Dmitry Baryshkov wrote:
+> Describe the SC8180X-specific compatible for the DSI controller persent
+> on the SoC. While the current DT for SC8180X doesn't use this
+> compatible, all other platforms were updated to have one. This change
+> makes SC8180X follow the lead.
+> 
+> Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
+> ---
+>  Documentation/devicetree/bindings/display/msm/dsi-controller-main.yaml | 2 ++
+>  1 file changed, 2 insertions(+)
+> 
 
-Amd ryzen 5 7520u (Mendocino)
-/sys/class/backlight/amdgpu_bl1/type =3D raw
-max_brightness =3D 255
-Bug: The meaning of brightness does not match the meaning of actual_brightn=
-ess
-in /sys/class/backlight/amdgpu_bl1. For example, I set brightness 160 and
-actual_brightness at this moment =3D 100, Also for example 80/25. In other =
-words,
-the higher the brightness level I set, the larger the adjustment step per
-brightness percentage becomes of actual_brightness, for example 0-4% bright=
-ness
-in kde =3D 0 in actual_brightness, While the difference between 40 and 45% =
-is
-already 11 units in actual_brightness.=20
-Tested kernels:6.13-6.15.5
-Distro - debian/fedora/arch
-I've tried:
--kernel parameters: acpi_backlight=3Dvideo/vendor/native
-amdgpu.backlight=3D0
--brightnessctl, acpilight=20
--tty, DE
-Everywhere the result is the same as I described above.
+Acked-by: Rob Herring (Arm) <robh@kernel.org>
 
---=20
-You may reply to this email to add a comment.
-
-You are receiving this mail because:
-You are watching the assignee of the bug.=
