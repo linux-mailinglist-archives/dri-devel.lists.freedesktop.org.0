@@ -2,73 +2,73 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 319D3AFF23C
-	for <lists+dri-devel@lfdr.de>; Wed,  9 Jul 2025 22:00:13 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3FB54AFF23E
+	for <lists+dri-devel@lfdr.de>; Wed,  9 Jul 2025 22:00:15 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8675910E834;
-	Wed,  9 Jul 2025 20:00:11 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2D6E510E83E;
+	Wed,  9 Jul 2025 20:00:13 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="IJZan1xn";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="NHDI+DBL";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-qt1-f177.google.com (mail-qt1-f177.google.com
- [209.85.160.177])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E00FF10E834;
- Wed,  9 Jul 2025 20:00:10 +0000 (UTC)
-Received: by mail-qt1-f177.google.com with SMTP id
- d75a77b69052e-4a43d2d5569so4324041cf.0; 
- Wed, 09 Jul 2025 13:00:10 -0700 (PDT)
+Received: from mail-qt1-f169.google.com (mail-qt1-f169.google.com
+ [209.85.160.169])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 07D9110E83E;
+ Wed,  9 Jul 2025 20:00:12 +0000 (UTC)
+Received: by mail-qt1-f169.google.com with SMTP id
+ d75a77b69052e-4a6f0bcdf45so3707091cf.0; 
+ Wed, 09 Jul 2025 13:00:11 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1752091210; x=1752696010; darn=lists.freedesktop.org;
+ d=gmail.com; s=20230601; t=1752091211; x=1752696011; darn=lists.freedesktop.org;
  h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
  :mime-version:subject:date:from:from:to:cc:subject:date:message-id
- :reply-to; bh=cVzLXa8kSNeGO3MSdRL/brp+J/B65R+0jBRIcOEDB2s=;
- b=IJZan1xnoK8ev3L5p94woVCNTbfQHGP1yijqI8/XrihyFnNWnudzWgkgsp6sHUNxxr
- ewiogQzmA3tHPEmMhBgz6/ztK/YFNtoQq0MNlNvzO63ThjdODgf0nP9UWT+vsdCMOhRT
- G9hm7BA3KU0G0Jk77g9oCW3puZ+qOEX18QLdDCTtFMdAOj0IdCAecqpJ+5X1VYPJNMWT
- VzSO9U8ABawPmTMhBa22CTIXx7+UO1AnjTOwnL7rD1eYN4Z5ZMgtTK1s9gt7F5I3OEGR
- RjeJw7EMOfAdKmkoo6eCH9P0U1MUMjDHbX9avTGTkKfQlr7LG++ZGeCrruEh+koSPkkO
- iDAg==
+ :reply-to; bh=tDFRnPeUzhs4/PEdwk7+RvokosNdr/JcVURCFBZ4l74=;
+ b=NHDI+DBLGHx1/E9oVrXG+612THsmuBoX0vi/ZY/2uwiXKnKvqoOl85yftDcPVE3T+u
+ v5hc78pxunXfDILfpj49ZpLYVmm7DU/BT6ZXY8gRZqJhK2jhGuDSr2nSYduRv0EMMDUJ
+ 6kNwR8XGKk/TZT1b9gQP0mSUuo4hl9a1ZOp826dNlS9TA2XskNozSMtZEMawo6IB+EtV
+ i2mDqt02oILqkb3E6cSdzZHjYIJmOO/5Y2g+YSA/ZAVut9Ev+OmdG3a6AOZrPdDkBXI9
+ ssgXikfKP996Yt0LAMDymVXY+4YM3FOX50+nGDkrHirLZWtXtoxt3+zETBibTzaewXsa
+ WvyA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1752091210; x=1752696010;
+ d=1e100.net; s=20230601; t=1752091211; x=1752696011;
  h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
  :mime-version:subject:date:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=cVzLXa8kSNeGO3MSdRL/brp+J/B65R+0jBRIcOEDB2s=;
- b=gaF0e/xHOR/WAM84dL0UOMqNjnshpg7Wj1mg6tKJ9Eo4FMOIwTym2lp8RHvPQskodn
- PYdldohH4Z4Z6vgcrmzPN2d0m4wOTrV18b+K/Nbe5j4SFkRFe0XuXeaIvknS3K51lN5F
- pSbjUf9XGbMhCOvoQrIvHCPzJ5sHemK7AVRZGVHNHCEhWDLaB6Q7KCwscUtVXQT1hskH
- PE5Fok7Y/dtPcsjl8IELLBciZnZ4xRU/zdlQ/xPFW9kBj+k5ncR2i8Qy75muaO9dPEcZ
- 5jIjLtqeBwahRK1j5TsUS6im0k809cxxnWAtMdO1Abg0YSs8Z/yDzKN0EMKCUCHMIkYy
- s0Cw==
+ bh=tDFRnPeUzhs4/PEdwk7+RvokosNdr/JcVURCFBZ4l74=;
+ b=kY4J+w3Q8L31ERSDbU7F6c3zTxv6RKwW5Gw1ZSQBPwyfpT20DqNIKGtPIAEh9aNawZ
+ ZqG+SKDB+XzX3YjbUi6vjJ8C69dW8k8B5iglCnJ3aeuPvavuEnz7VG2ELw57fMouphre
+ 4/0uz6trhmT6NYKEUYKMo2Hu4iZX8cgW/fA3KJkVosL/ZeXyjef8Jll05LfcXV5aasBk
+ nQsROjml2lEl206yrylO3KSckPLDqqjWuewJv2oga4JH96Gs9jdIwKWzTzGLR8nKjbcP
+ UMNVni6PTaKh9mKaCfXzNleM5WeKemx0NPyIIuJAuyD4A96SCSAUL/lih7u70FmZ8a2m
+ Zf8g==
 X-Forwarded-Encrypted: i=1;
- AJvYcCXWzJCA0bz95EWpESpdSFJk7RzxwxZGCvm6OuKteZI+nzg8lu5XN606cqikwOyxbuH+MbDpairzUOM=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0Yx9ffl5+Ccy950TO7jhS5vRyhMXTtMvXALeh+GtKQu9ZglEUzUa
- +V+LMeTxT8815rNMT4ZEajy/pmRAukmfcSkf5RkdqcC7Ov+YuhhuWLnN
-X-Gm-Gg: ASbGncs1aW7Brj0ovuoxDK1yINnPGe0hdR8D7bN3fGBQwFlJm40a60ePUppmOVU8sEr
- psy95reEhDQtA4uUHy1fE7fdyf1mK3OgMD28u1oQyi5+y/WHmZ/i/gDsMpV7D6/iI68nt1cxHjL
- 4eDB0lV9czHq3EKO0AHuKClNM4SA3nZrEwiUbNIF/qRchMjHOE81qNyT0HhBBSiaIitUSXJvruV
- 5ZcGsgxgoehk4gm6z3A/iJOctdrTmrSu6mvikH09GKNjYDny1qvHakmobehIcG3ZpOkV74knXdR
- 0VctWb8TYvzyVoYAFB3LfA+UCFvztvAMN1b6K+qVjIN6TXx7q3Ks0ooUlDdc0ftTHKscD5qP0jG
- sJi3ndHsG5O/KHvvnl4WcA0KFS3GfCpMt9k8aWEo82edtLhwky8sYDO+Mxw==
-X-Google-Smtp-Source: AGHT+IGXtHAw7tU6Iy2swGDNMQZPoa2ogZIinUn8nn1RGEZpotaHpL4uCE654v9GUCOGSaI9YTFbag==
-X-Received: by 2002:ac8:59cf:0:b0:4a9:91fa:7ff4 with SMTP id
- d75a77b69052e-4a9e9401dfdmr14926921cf.33.1752091209513; 
- Wed, 09 Jul 2025 13:00:09 -0700 (PDT)
+ AJvYcCX+6x1tvYY6aJAy4CYy9NwfXy98C9wL8Ig/2NglgFRU6Tb/L/J3tSDodIfLmyBJpXCwivS6KkANgNc=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YzKCAJBlGCmdywNWwfk1K1ViDsinMWKTUhOkk3o1DMtyPrNWATE
+ zMLxFWCB5sOMWIBTNNxwr6+Ixq7j0n4ODUX9ozd4Qg1UGf1F7BJn+/K3At/Dk/I4BgwG4g==
+X-Gm-Gg: ASbGncvqkm6Ua1jSfH/B0ryQBoosfLE7fy972srzvN/weMbw78O22tWN1UojtW2xxyJ
+ w0s69nXCm5yxpvJDtm02SJvRxLYkP5Qls5oDpzbKNaFPRHBqhcp2z2fgShyYhVxX1NeM1DeF2yQ
+ Qtj9N8+Z6IcdNtd4Ur9vZ1imMwHDRtlz5Dto5CQYU1ulSaVtRLZFgibg2FejkyFl/Ai6yMWkGYu
+ DqIlpwN3g/Ue5W7oJz4WwCq+vHA/D2nscBxaxE5Ijl3MfNp8TfPhgHRQR/Eo0n5Lkwt4BPOm9KS
+ kWXt4hthyJjllCI4tvGeM7nDyI19kj6NkRPm6eNkkDC2VJN7Na+aVq2Vvxcpn/OwmYMREfLXH6u
+ BlbwG+DRQ5US2LuYGEgvqRyWxmabvchBNQFuhF7gOKP+tvGYCUFJfo7LR7A==
+X-Google-Smtp-Source: AGHT+IEV6Rr16PRiwu3F1M2RaV4vh1L7T1b438g7CdovMwJxpF1Aa+qhWAUTQ0cv9RCM1Yx5la3GsA==
+X-Received: by 2002:a05:622a:4c14:b0:4a4:3c3e:5754 with SMTP id
+ d75a77b69052e-4a9e93de7b1mr20714551cf.32.1752091210920; 
+ Wed, 09 Jul 2025 13:00:10 -0700 (PDT)
 Received: from
  1.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.ip6.arpa
  ([148.76.185.197]) by smtp.gmail.com with ESMTPSA id
- d75a77b69052e-4a9949e4aaasm100432891cf.3.2025.07.09.13.00.08
+ d75a77b69052e-4a9949e4aaasm100432891cf.3.2025.07.09.13.00.09
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 09 Jul 2025 13:00:09 -0700 (PDT)
+ Wed, 09 Jul 2025 13:00:10 -0700 (PDT)
 From: Tamir Duberstein <tamird@gmail.com>
-Date: Wed, 09 Jul 2025 16:00:01 -0400
-Subject: [PATCH 2/9] rust: alloc: use `kernel::{fmt,prelude::fmt!}`
+Date: Wed, 09 Jul 2025 16:00:02 -0400
+Subject: [PATCH 3/9] rust: block: use `kernel::{fmt,prelude::fmt!}`
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20250709-core-cstr-fanout-1-v1-2-64308e7203fc@gmail.com>
+Message-Id: <20250709-core-cstr-fanout-1-v1-3-64308e7203fc@gmail.com>
 References: <20250709-core-cstr-fanout-1-v1-0-64308e7203fc@gmail.com>
 In-Reply-To: <20250709-core-cstr-fanout-1-v1-0-64308e7203fc@gmail.com>
 To: Danilo Krummrich <dakr@kernel.org>, David Airlie <airlied@gmail.com>, 
@@ -88,13 +88,13 @@ Cc: nouveau@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
  linux-block@vger.kernel.org, linux-kselftest@vger.kernel.org, 
  kunit-dev@googlegroups.com, Tamir Duberstein <tamird@gmail.com>
 X-Mailer: b4 0.15-dev
-X-Developer-Signature: v=1; a=openssh-sha256; t=1752091203; l=1962;
+X-Developer-Signature: v=1; a=openssh-sha256; t=1752091204; l=2816;
  i=tamird@gmail.com; h=from:subject:message-id;
- bh=3q8XWZjySCzinOtTT6aFMskjuBTX2M/x4Doe4ersSAs=;
+ bh=9xXXRD/lyfY7gXMurVbMC3UhE6y1ksuC3Zml49oUENo=;
  b=U1NIU0lHAAAAAQAAADMAAAALc3NoLWVkMjU1MTkAAAAgtYz36g7iDMSkY5K7Ab51ksGX7hJgs
  MRt+XVZTrIzMVIAAAAGcGF0YXR0AAAAAAAAAAZzaGE1MTIAAABTAAAAC3NzaC1lZDI1NTE5AAAA
- QPHgX8yope2oPhej/PN7N7SAIUDyJ62uVe7A1FlJtghi0M7GvDbe+kOqnz6MGtbjArlwKEf4KPX
- SUaEPP4askAo=
+ QI10u++JHbxVt0b/U9QTw+AgNRfy7j5OE9AiY1OYHAJi16zIiYSv2aE7ZTqvhjldKfBXZ5FbGeV
+ TsnZVhVEVzAc=
 X-Developer-Key: i=tamird@gmail.com; a=openssh;
  fpr=SHA256:264rPmnnrb+ERkS7DDS3tuwqcJss/zevJRzoylqMsbc
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -115,62 +115,73 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 Reduce coupling to implementation details of the formatting machinery by
 avoiding direct use for `core`'s formatting traits and macros.
 
+Suggested-by: Alice Ryhl <aliceryhl@google.com>
+Link: https://rust-for-linux.zulipchat.com/#narrow/channel/288089-General/topic/Custom.20formatting/with/516476467
 Acked-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 Reviewed-by: Alice Ryhl <aliceryhl@google.com>
 Signed-off-by: Tamir Duberstein <tamird@gmail.com>
 ---
- rust/kernel/alloc/kbox.rs        | 2 +-
- rust/kernel/alloc/kvec.rs        | 2 +-
- rust/kernel/alloc/kvec/errors.rs | 2 +-
- 3 files changed, 3 insertions(+), 3 deletions(-)
+ drivers/block/rnull.rs             | 2 +-
+ rust/kernel/block/mq.rs            | 2 +-
+ rust/kernel/block/mq/gen_disk.rs   | 2 +-
+ rust/kernel/block/mq/raw_writer.rs | 3 +--
+ 4 files changed, 4 insertions(+), 5 deletions(-)
 
-diff --git a/rust/kernel/alloc/kbox.rs b/rust/kernel/alloc/kbox.rs
-index ccf1df7da96c..96db3cf8d782 100644
---- a/rust/kernel/alloc/kbox.rs
-+++ b/rust/kernel/alloc/kbox.rs
-@@ -7,7 +7,6 @@
- use super::{AllocError, Allocator, Flags};
- use core::alloc::Layout;
- use core::borrow::{Borrow, BorrowMut};
--use core::fmt;
- use core::marker::PhantomData;
- use core::mem::ManuallyDrop;
- use core::mem::MaybeUninit;
-@@ -16,6 +15,7 @@
- use core::ptr::NonNull;
- use core::result::Result;
+diff --git a/drivers/block/rnull.rs b/drivers/block/rnull.rs
+index d07e76ae2c13..6366da12c5a5 100644
+--- a/drivers/block/rnull.rs
++++ b/drivers/block/rnull.rs
+@@ -51,7 +51,7 @@ fn init(_module: &'static ThisModule) -> impl PinInit<Self, Error> {
+                 .logical_block_size(4096)?
+                 .physical_block_size(4096)?
+                 .rotational(false)
+-                .build(format_args!("rnullb{}", 0), tagset)
++                .build(fmt!("rnullb{}", 0), tagset)
+         })();
  
-+use crate::fmt;
- use crate::init::InPlaceInit;
- use crate::types::ForeignOwnable;
- use pin_init::{InPlaceWrite, Init, PinInit, ZeroableOption};
-diff --git a/rust/kernel/alloc/kvec.rs b/rust/kernel/alloc/kvec.rs
-index 0477041cbc03..a642bdc9cea2 100644
---- a/rust/kernel/alloc/kvec.rs
-+++ b/rust/kernel/alloc/kvec.rs
-@@ -7,8 +7,8 @@
-     layout::ArrayLayout,
-     AllocError, Allocator, Box, Flags,
- };
-+use crate::fmt;
- use core::{
--    fmt,
-     marker::PhantomData,
-     mem::{ManuallyDrop, MaybeUninit},
-     ops::Deref,
-diff --git a/rust/kernel/alloc/kvec/errors.rs b/rust/kernel/alloc/kvec/errors.rs
-index 348b8d27e102..21a920a4b09b 100644
---- a/rust/kernel/alloc/kvec/errors.rs
-+++ b/rust/kernel/alloc/kvec/errors.rs
-@@ -2,7 +2,7 @@
+         try_pin_init!(Self {
+diff --git a/rust/kernel/block/mq.rs b/rust/kernel/block/mq.rs
+index 831445d37181..61ea35bba7d5 100644
+--- a/rust/kernel/block/mq.rs
++++ b/rust/kernel/block/mq.rs
+@@ -82,7 +82,7 @@
+ //!     Arc::pin_init(TagSet::new(1, 256, 1), flags::GFP_KERNEL)?;
+ //! let mut disk = gen_disk::GenDiskBuilder::new()
+ //!     .capacity_sectors(4096)
+-//!     .build(format_args!("myblk"), tagset)?;
++//!     .build(fmt!("myblk"), tagset)?;
+ //!
+ //! # Ok::<(), kernel::error::Error>(())
+ //! ```
+diff --git a/rust/kernel/block/mq/gen_disk.rs b/rust/kernel/block/mq/gen_disk.rs
+index cd54cd64ea88..494c95623b97 100644
+--- a/rust/kernel/block/mq/gen_disk.rs
++++ b/rust/kernel/block/mq/gen_disk.rs
+@@ -6,9 +6,9 @@
+ //! C header: [`include/linux/blk_mq.h`](srctree/include/linux/blk_mq.h)
  
- //! Errors for the [`Vec`] type.
+ use crate::block::mq::{raw_writer::RawWriter, Operations, TagSet};
++use crate::fmt::{self, Write};
+ use crate::{bindings, error::from_err_ptr, error::Result, sync::Arc};
+ use crate::{error, static_lock_class};
+-use core::fmt::{self, Write};
  
--use core::fmt::{self, Debug, Formatter};
-+use kernel::fmt::{self, Debug, Formatter};
- use kernel::prelude::*;
+ /// A builder for [`GenDisk`].
+ ///
+diff --git a/rust/kernel/block/mq/raw_writer.rs b/rust/kernel/block/mq/raw_writer.rs
+index 7e2159e4f6a6..d311e24e2595 100644
+--- a/rust/kernel/block/mq/raw_writer.rs
++++ b/rust/kernel/block/mq/raw_writer.rs
+@@ -1,8 +1,7 @@
+ // SPDX-License-Identifier: GPL-2.0
  
- /// Error type for [`Vec::push_within_capacity`].
+-use core::fmt::{self, Write};
+-
+ use crate::error::Result;
++use crate::fmt::{self, Write};
+ use crate::prelude::EINVAL;
+ 
+ /// A mutable reference to a byte buffer where a string can be written into.
 
 -- 
 2.50.0
