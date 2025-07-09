@@ -2,73 +2,73 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C091AAFF23F
-	for <lists+dri-devel@lfdr.de>; Wed,  9 Jul 2025 22:00:16 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 319D3AFF23C
+	for <lists+dri-devel@lfdr.de>; Wed,  9 Jul 2025 22:00:13 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2716210E840;
-	Wed,  9 Jul 2025 20:00:15 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8675910E834;
+	Wed,  9 Jul 2025 20:00:11 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="eXYTcdf0";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="IJZan1xn";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-qt1-f172.google.com (mail-qt1-f172.google.com
- [209.85.160.172])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5218C10E834;
- Wed,  9 Jul 2025 20:00:09 +0000 (UTC)
-Received: by mail-qt1-f172.google.com with SMTP id
- d75a77b69052e-4a44e94f0b0so3817911cf.1; 
- Wed, 09 Jul 2025 13:00:09 -0700 (PDT)
+Received: from mail-qt1-f177.google.com (mail-qt1-f177.google.com
+ [209.85.160.177])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E00FF10E834;
+ Wed,  9 Jul 2025 20:00:10 +0000 (UTC)
+Received: by mail-qt1-f177.google.com with SMTP id
+ d75a77b69052e-4a43d2d5569so4324041cf.0; 
+ Wed, 09 Jul 2025 13:00:10 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1752091208; x=1752696008; darn=lists.freedesktop.org;
+ d=gmail.com; s=20230601; t=1752091210; x=1752696010; darn=lists.freedesktop.org;
  h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
  :mime-version:subject:date:from:from:to:cc:subject:date:message-id
- :reply-to; bh=I8SYbkq24HYI/QL2FTeNupi8GxAZULeQ0HmG/pWS2Zk=;
- b=eXYTcdf0flmxZ8akL9BDMxSqftgegh29pSXV62wuD88TwbpbjQ31PQq8hHkjCYaeeh
- l8EkCrrd7RztzY2lER19PLSVMEUjqXwyKEz1eC3c+vekdA+V8h7wQFJl5jiLACOeVr9h
- S1DGspUtFQLySmMo6hmSCqbsETsDQKgr5ZkKlzT/8diPu+Gglk/m2/3iFDdzn7PVP5z1
- hw/dOlmQcTVrHhGw/mWgKPS5ls+k1YXYccRu0fm3W8+s94qWjJ2U1g710cqu2hos7ccr
- fPReGoDqZ9O9vlWcI0MPm+5+Yox4oYPpMv5cUU3bXbl1BgRRvepsCIRPHMxbevd0T4TM
- S9cQ==
+ :reply-to; bh=cVzLXa8kSNeGO3MSdRL/brp+J/B65R+0jBRIcOEDB2s=;
+ b=IJZan1xnoK8ev3L5p94woVCNTbfQHGP1yijqI8/XrihyFnNWnudzWgkgsp6sHUNxxr
+ ewiogQzmA3tHPEmMhBgz6/ztK/YFNtoQq0MNlNvzO63ThjdODgf0nP9UWT+vsdCMOhRT
+ G9hm7BA3KU0G0Jk77g9oCW3puZ+qOEX18QLdDCTtFMdAOj0IdCAecqpJ+5X1VYPJNMWT
+ VzSO9U8ABawPmTMhBa22CTIXx7+UO1AnjTOwnL7rD1eYN4Z5ZMgtTK1s9gt7F5I3OEGR
+ RjeJw7EMOfAdKmkoo6eCH9P0U1MUMjDHbX9avTGTkKfQlr7LG++ZGeCrruEh+koSPkkO
+ iDAg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1752091208; x=1752696008;
+ d=1e100.net; s=20230601; t=1752091210; x=1752696010;
  h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
  :mime-version:subject:date:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=I8SYbkq24HYI/QL2FTeNupi8GxAZULeQ0HmG/pWS2Zk=;
- b=g4Vft87Y6tj2/xAjoT4QZ5J//1YcNBu7Q8L9SIfcJEYFYDX9BzkviAiYfWZEx9z/F9
- 9ZGqLI8YRhi9l3to2lOefQUFpbyDXauwjPgzaNwjxsOxH7OmhmRcD6Fzqf2qGz5OLlh1
- v1xgBh7uDwAfa93voh44Cb+2IRRFfajFd9OGKHg46N7GjdEAGqO19BRQEBY6KtZsiXxq
- VmdKMLdXcMzpEvm5v24AGykGh9yJeB8kJ4FCB6+NlDcOaqB7rXxdjZXSyQnBKuOVXfjw
- STzGe+DLQtBOheTWoPlY82DcBoQe7ymxOgD9qbgTZcj5Lfnd4FxtNG7ns7MNn1eLuKBK
- ZSdg==
+ bh=cVzLXa8kSNeGO3MSdRL/brp+J/B65R+0jBRIcOEDB2s=;
+ b=gaF0e/xHOR/WAM84dL0UOMqNjnshpg7Wj1mg6tKJ9Eo4FMOIwTym2lp8RHvPQskodn
+ PYdldohH4Z4Z6vgcrmzPN2d0m4wOTrV18b+K/Nbe5j4SFkRFe0XuXeaIvknS3K51lN5F
+ pSbjUf9XGbMhCOvoQrIvHCPzJ5sHemK7AVRZGVHNHCEhWDLaB6Q7KCwscUtVXQT1hskH
+ PE5Fok7Y/dtPcsjl8IELLBciZnZ4xRU/zdlQ/xPFW9kBj+k5ncR2i8Qy75muaO9dPEcZ
+ 5jIjLtqeBwahRK1j5TsUS6im0k809cxxnWAtMdO1Abg0YSs8Z/yDzKN0EMKCUCHMIkYy
+ s0Cw==
 X-Forwarded-Encrypted: i=1;
- AJvYcCUNT3sTgaUEahCCdt5Gklms5QuMj+6saHs9OAElSX/UIxabGyN6IUXCmFkO45vdDRAlOpxKx2M24yA=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YyUe+Brk7Nh7LAaw++rvN3aC4hRI/FZRT/cB69XoA+3P4GmfcxI
- glHgIy2rIZauZuvqXh2dmKnpeQNWwLsXgIcGV58djwObXhhZ4OHIW3EX
-X-Gm-Gg: ASbGncty/hhqFc2Uy0b5Q1iWbzMK+xQUkue/Yot1uxoZsNGfCDKyMFSlcAWqQdPkaW1
- glfxI+QXBLHL+P5f2ss16f6hJHLmU//OVr3CeX+UBjrK59m+LduO2ySFZZu+X2Ol37gKLFuzSUO
- 4A7tTCSEYj0k8yl5KYZFugGMhUnyWFwL1syet9FvnzPNJEcPSjBNZeCGMQGmEb+c/9enV+EtOCB
- LQMWdMTetMrmIuDDoLa+aRovXQKpuv+7UARJlfYVIAOEYoQCbzNko0I7vECpU53+VTfkolcjRcG
- irQudn4X9e/3kBkNLLZMkgzNo0Xxf7bd3atbXLOBkZT4JYxeBFD9hkKRexrQMily+EXXiaBGgvn
- +RnPwieKs+rpLIJApUxIc0DdUKJ1jizcIdE2ueYmubGSAwh7nx8NlB6qBNQ==
-X-Google-Smtp-Source: AGHT+IGI+gwm5eTKWmm2g8ouSxtbF/xVdr+iB9m75yl89bzxojUSPP7D5dFXau22sPklx8oqNt6QXQ==
-X-Received: by 2002:ac8:578c:0:b0:4a9:c2e1:8844 with SMTP id
- d75a77b69052e-4a9dec1f0bfmr46868371cf.10.1752091208084; 
- Wed, 09 Jul 2025 13:00:08 -0700 (PDT)
+ AJvYcCXWzJCA0bz95EWpESpdSFJk7RzxwxZGCvm6OuKteZI+nzg8lu5XN606cqikwOyxbuH+MbDpairzUOM=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0Yx9ffl5+Ccy950TO7jhS5vRyhMXTtMvXALeh+GtKQu9ZglEUzUa
+ +V+LMeTxT8815rNMT4ZEajy/pmRAukmfcSkf5RkdqcC7Ov+YuhhuWLnN
+X-Gm-Gg: ASbGncs1aW7Brj0ovuoxDK1yINnPGe0hdR8D7bN3fGBQwFlJm40a60ePUppmOVU8sEr
+ psy95reEhDQtA4uUHy1fE7fdyf1mK3OgMD28u1oQyi5+y/WHmZ/i/gDsMpV7D6/iI68nt1cxHjL
+ 4eDB0lV9czHq3EKO0AHuKClNM4SA3nZrEwiUbNIF/qRchMjHOE81qNyT0HhBBSiaIitUSXJvruV
+ 5ZcGsgxgoehk4gm6z3A/iJOctdrTmrSu6mvikH09GKNjYDny1qvHakmobehIcG3ZpOkV74knXdR
+ 0VctWb8TYvzyVoYAFB3LfA+UCFvztvAMN1b6K+qVjIN6TXx7q3Ks0ooUlDdc0ftTHKscD5qP0jG
+ sJi3ndHsG5O/KHvvnl4WcA0KFS3GfCpMt9k8aWEo82edtLhwky8sYDO+Mxw==
+X-Google-Smtp-Source: AGHT+IGXtHAw7tU6Iy2swGDNMQZPoa2ogZIinUn8nn1RGEZpotaHpL4uCE654v9GUCOGSaI9YTFbag==
+X-Received: by 2002:ac8:59cf:0:b0:4a9:91fa:7ff4 with SMTP id
+ d75a77b69052e-4a9e9401dfdmr14926921cf.33.1752091209513; 
+ Wed, 09 Jul 2025 13:00:09 -0700 (PDT)
 Received: from
  1.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.ip6.arpa
  ([148.76.185.197]) by smtp.gmail.com with ESMTPSA id
- d75a77b69052e-4a9949e4aaasm100432891cf.3.2025.07.09.13.00.06
+ d75a77b69052e-4a9949e4aaasm100432891cf.3.2025.07.09.13.00.08
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 09 Jul 2025 13:00:07 -0700 (PDT)
+ Wed, 09 Jul 2025 13:00:09 -0700 (PDT)
 From: Tamir Duberstein <tamird@gmail.com>
-Date: Wed, 09 Jul 2025 16:00:00 -0400
-Subject: [PATCH 1/9] gpu: nova-core: use `kernel::{fmt,prelude::fmt!}`
+Date: Wed, 09 Jul 2025 16:00:01 -0400
+Subject: [PATCH 2/9] rust: alloc: use `kernel::{fmt,prelude::fmt!}`
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20250709-core-cstr-fanout-1-v1-1-64308e7203fc@gmail.com>
+Message-Id: <20250709-core-cstr-fanout-1-v1-2-64308e7203fc@gmail.com>
 References: <20250709-core-cstr-fanout-1-v1-0-64308e7203fc@gmail.com>
 In-Reply-To: <20250709-core-cstr-fanout-1-v1-0-64308e7203fc@gmail.com>
 To: Danilo Krummrich <dakr@kernel.org>, David Airlie <airlied@gmail.com>, 
@@ -88,13 +88,13 @@ Cc: nouveau@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
  linux-block@vger.kernel.org, linux-kselftest@vger.kernel.org, 
  kunit-dev@googlegroups.com, Tamir Duberstein <tamird@gmail.com>
 X-Mailer: b4 0.15-dev
-X-Developer-Signature: v=1; a=openssh-sha256; t=1752091203; l=2067;
+X-Developer-Signature: v=1; a=openssh-sha256; t=1752091203; l=1962;
  i=tamird@gmail.com; h=from:subject:message-id;
- bh=pCigoXsp4LXT/GFOU7Jz2F9f5TrzOun3SN3jz9HmrL4=;
+ bh=3q8XWZjySCzinOtTT6aFMskjuBTX2M/x4Doe4ersSAs=;
  b=U1NIU0lHAAAAAQAAADMAAAALc3NoLWVkMjU1MTkAAAAgtYz36g7iDMSkY5K7Ab51ksGX7hJgs
  MRt+XVZTrIzMVIAAAAGcGF0YXR0AAAAAAAAAAZzaGE1MTIAAABTAAAAC3NzaC1lZDI1NTE5AAAA
- QK0DbMWw/E+Jo/SQJTsgBaDiYcF6u/cfsfhszo37V9mpjmfvwJr1oAexhnOQHh9LyACg7euGN+w
- Ilt9fZxU3zgs=
+ QPHgX8yope2oPhej/PN7N7SAIUDyJ62uVe7A1FlJtghi0M7GvDbe+kOqnz6MGtbjArlwKEf4KPX
+ SUaEPP4askAo=
 X-Developer-Key: i=tamird@gmail.com; a=openssh;
  fpr=SHA256:264rPmnnrb+ERkS7DDS3tuwqcJss/zevJRzoylqMsbc
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -119,46 +119,58 @@ Acked-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 Reviewed-by: Alice Ryhl <aliceryhl@google.com>
 Signed-off-by: Tamir Duberstein <tamird@gmail.com>
 ---
- drivers/gpu/nova-core/gpu.rs         | 3 +--
- drivers/gpu/nova-core/regs/macros.rs | 6 +++---
- 2 files changed, 4 insertions(+), 5 deletions(-)
+ rust/kernel/alloc/kbox.rs        | 2 +-
+ rust/kernel/alloc/kvec.rs        | 2 +-
+ rust/kernel/alloc/kvec/errors.rs | 2 +-
+ 3 files changed, 3 insertions(+), 3 deletions(-)
 
-diff --git a/drivers/gpu/nova-core/gpu.rs b/drivers/gpu/nova-core/gpu.rs
-index 60b86f370284..f1d72da7fddd 100644
---- a/drivers/gpu/nova-core/gpu.rs
-+++ b/drivers/gpu/nova-core/gpu.rs
-@@ -1,12 +1,11 @@
- // SPDX-License-Identifier: GPL-2.0
- 
--use kernel::{device, devres::Devres, error::code::*, pci, prelude::*};
-+use kernel::{device, devres::Devres, error::code::*, fmt, pci, prelude::*};
- 
- use crate::driver::Bar0;
- use crate::firmware::{Firmware, FIRMWARE_VERSION};
- use crate::regs;
- use crate::util;
+diff --git a/rust/kernel/alloc/kbox.rs b/rust/kernel/alloc/kbox.rs
+index ccf1df7da96c..96db3cf8d782 100644
+--- a/rust/kernel/alloc/kbox.rs
++++ b/rust/kernel/alloc/kbox.rs
+@@ -7,7 +7,6 @@
+ use super::{AllocError, Allocator, Flags};
+ use core::alloc::Layout;
+ use core::borrow::{Borrow, BorrowMut};
 -use core::fmt;
+ use core::marker::PhantomData;
+ use core::mem::ManuallyDrop;
+ use core::mem::MaybeUninit;
+@@ -16,6 +15,7 @@
+ use core::ptr::NonNull;
+ use core::result::Result;
  
- macro_rules! define_chipset {
-     ({ $($variant:ident = $value:expr),* $(,)* }) =>
-diff --git a/drivers/gpu/nova-core/regs/macros.rs b/drivers/gpu/nova-core/regs/macros.rs
-index 6851af8b5885..759773a19480 100644
---- a/drivers/gpu/nova-core/regs/macros.rs
-+++ b/drivers/gpu/nova-core/regs/macros.rs
-@@ -106,10 +106,10 @@ macro_rules! register {
++use crate::fmt;
+ use crate::init::InPlaceInit;
+ use crate::types::ForeignOwnable;
+ use pin_init::{InPlaceWrite, Init, PinInit, ZeroableOption};
+diff --git a/rust/kernel/alloc/kvec.rs b/rust/kernel/alloc/kvec.rs
+index 0477041cbc03..a642bdc9cea2 100644
+--- a/rust/kernel/alloc/kvec.rs
++++ b/rust/kernel/alloc/kvec.rs
+@@ -7,8 +7,8 @@
+     layout::ArrayLayout,
+     AllocError, Allocator, Box, Flags,
+ };
++use crate::fmt;
+ use core::{
+-    fmt,
+     marker::PhantomData,
+     mem::{ManuallyDrop, MaybeUninit},
+     ops::Deref,
+diff --git a/rust/kernel/alloc/kvec/errors.rs b/rust/kernel/alloc/kvec/errors.rs
+index 348b8d27e102..21a920a4b09b 100644
+--- a/rust/kernel/alloc/kvec/errors.rs
++++ b/rust/kernel/alloc/kvec/errors.rs
+@@ -2,7 +2,7 @@
  
-         // TODO: display the raw hex value, then the value of all the fields. This requires
-         // matching the fields, which will complexify the syntax considerably...
--        impl ::core::fmt::Debug for $name {
--            fn fmt(&self, f: &mut ::core::fmt::Formatter<'_>) -> ::core::fmt::Result {
-+        impl ::kernel::fmt::Debug for $name {
-+            fn fmt(&self, f: &mut ::kernel::fmt::Formatter<'_>) -> ::kernel::fmt::Result {
-                 f.debug_tuple(stringify!($name))
--                    .field(&format_args!("0x{0:x}", &self.0))
-+                    .field(&::kernel::prelude::fmt!("0x{0:x}", &self.0))
-                     .finish()
-             }
-         }
+ //! Errors for the [`Vec`] type.
+ 
+-use core::fmt::{self, Debug, Formatter};
++use kernel::fmt::{self, Debug, Formatter};
+ use kernel::prelude::*;
+ 
+ /// Error type for [`Vec::push_within_capacity`].
 
 -- 
 2.50.0
