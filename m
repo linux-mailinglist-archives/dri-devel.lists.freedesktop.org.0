@@ -2,72 +2,73 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 26378AFF4CD
-	for <lists+dri-devel@lfdr.de>; Thu, 10 Jul 2025 00:36:57 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id D01AAAFF4F9
+	for <lists+dri-devel@lfdr.de>; Thu, 10 Jul 2025 00:51:36 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7A5EA10E125;
-	Wed,  9 Jul 2025 22:36:54 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3754910E868;
+	Wed,  9 Jul 2025 22:51:35 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="Hc7Smzx3";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="gwbv/yBb";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lj1-f173.google.com (mail-lj1-f173.google.com
- [209.85.208.173])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3CBE610E125;
- Wed,  9 Jul 2025 22:36:53 +0000 (UTC)
-Received: by mail-lj1-f173.google.com with SMTP id
- 38308e7fff4ca-32b49ac6431so2569631fa.1; 
- Wed, 09 Jul 2025 15:36:53 -0700 (PDT)
+Received: from mail-lj1-f170.google.com (mail-lj1-f170.google.com
+ [209.85.208.170])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B63A710E868;
+ Wed,  9 Jul 2025 22:51:34 +0000 (UTC)
+Received: by mail-lj1-f170.google.com with SMTP id
+ 38308e7fff4ca-32f1df5703aso2514141fa.3; 
+ Wed, 09 Jul 2025 15:51:34 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1752100611; x=1752705411; darn=lists.freedesktop.org;
+ d=gmail.com; s=20230601; t=1752101493; x=1752706293; darn=lists.freedesktop.org;
  h=content-transfer-encoding:cc:to:subject:message-id:date:from
  :in-reply-to:references:mime-version:from:to:cc:subject:date
  :message-id:reply-to;
- bh=xhfrvtOMsoaE+gDC4ofthavQSM3N4fj7JS72/QkCgSI=;
- b=Hc7Smzx3xPHgWnXN8F1/BYvgPVLKv9k0Uy67a+UlxDmD5IVWMBaDoFrw58hsKvKW8K
- X37qjiuJm3GFs5mNZXemus9QbBsGCwbRcShOp+4FwBsLLBi91Gb0f5nWR0BFN8JKWYiY
- K2xJvgprmrP6y2ojN09GU0WmMW42Kw5Mh/ZqtBDjmE4LLctXlCSBGUnBSKW7yzOoAdwj
- G+t+Jex4izkNibiPid+QsdNMQrmRmo40RRs4UE+OG+xpsJhYFtSv6ES5m9pd5JCOyb5c
- 3+CtWrcppayvf8+bv3DiBq7TSadVq26UQj9PEMDbHXALaaj2OFLZPD2c2YtGD03UpgVZ
- cVSQ==
+ bh=AT7zdgEz0XpzQD4/Kb0V7s5h4j2xaoLGpeNlxuiDd50=;
+ b=gwbv/yBbhHbLXD7yoRph2Oy1BWnqPeozg0uCdJsP33gnL4Nc+HNmlsVo0F0oiPej8r
+ FgudNH5zWkgvNogi7pjtvXQmWz5qi1rabb01QRtEAKxgIWmLKyAHMcLFhitaGiCArums
+ gG1JOtyegF868O7nh4ZWzfUOGlPyijeHAOUcmhNLcBTxTwVU1tGA0j3J+0rAjFdyQYpT
+ QClCReNk75/L8ACdouzVZeM7jQTZ9dzVaHt9HLWYLIo0GbyIsmlKOcotheKvw9+u0wNI
+ 39Ydl3oVrRwGnjp3t1/0aM6bzJB1u/P3zOX+wg/Oc8Y4VYPvyJ5Hr4tkXdKg/82DtBk7
+ 9zTA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1752100611; x=1752705411;
+ d=1e100.net; s=20230601; t=1752101493; x=1752706293;
  h=content-transfer-encoding:cc:to:subject:message-id:date:from
  :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=xhfrvtOMsoaE+gDC4ofthavQSM3N4fj7JS72/QkCgSI=;
- b=v0DsbTf/jAatDPExjjBwfeyzpaU7KpcpYfaKYoQwLeKICYEuELu7h7OfqIgv3f0BCW
- FNyKiFDZKPe9nFgABKAn9vTzWi1NwqlKuplLL0K8++qFedqIhFqdmLN8jDXwZrSpMq+s
- ZUs9GfVc3jixo+Dbjpql5D1DfTXR2G2yBhVIqc0GHcqYbO9KxXLOU5OFSbZ5b9IGJPpW
- LxJ1MebJytCewJZW00gYy1l/ukxQRh/NJcRXRrlwx/x24KHcvWBatnJvhCUpRmDVphNI
- l5WrAZeQRFtk6X9mAXM9/h5DpE5tEYx6OSnqcVU4hlNtFHgrd11O3dEByojCJtS2bojj
- pb8Q==
+ bh=AT7zdgEz0XpzQD4/Kb0V7s5h4j2xaoLGpeNlxuiDd50=;
+ b=jQdD66O5vsTePCJLihzcS5v5uP7+CFsBTRuvMMmFDOaaxjulQWsHfY9jNtTRBXIxuS
+ Bj9D6A6k0XRb41U4fG143dUXSTmEhsCjby5p2WzFElMy7dsT1Ahol1NRejJg/lODdf3R
+ S5AzyXW32Gf2nAxgbaCW294Kse1VUVmETHvIzRNJFN0qsnKm3vY9ycds6CtWyGNOB/PT
+ prN0X83C7qZYG+COIXkWqjrOvJNz6Q0F1FQWpuIvhrYRgVq5veZ5QCoTTFgx8Lo5gxS/
+ 6BJ00xz5w/Zh5DKtJv+B8x0eyivogflrR5LFWgRLyfi88k4Yf22MFwuDrM79MKjscNTV
+ Zlfw==
 X-Forwarded-Encrypted: i=1;
- AJvYcCUvJ1fHCnPxSmvqpVJzsJqKXBQp8CiBQnCJitVBA7XzpXAQQOeuhpVcsVqYRJtiXhc3bNsHHjCszw==@lists.freedesktop.org,
- AJvYcCXADnnC8UiUI111NXZmxF6qStyud52CY6H9/RnNNq6DI+PgUymxLB+no8J08cSBau9g78Jkx1RrPcY=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YyLt8BkeL2tmzrDG2I19rDD+UR8IJYdX9ISAxZ5TM/0yLCQRSWH
- CC+d0fH5b8ELsDPaG4FJk4s7z2U9hRXPbb+TFijHBH8LLiOEtFCkgstFmCcBWDTG5rYJMFG0EbZ
- iigIRA6Sh5VA1YkdgeFWn0LYaZXjxmOk=
-X-Gm-Gg: ASbGncug2dJIY5ow0EhbsGT1NrK+gJSZFRzyc4A6Q2out+6joVDqrEisNyf+ttYGxjP
- WTEWGxNdgRl6ZgGiJv4cW/bJtG/Lf7dsDMJFUdVbficBdmwD6ub16UUVtX4BzoA5NEFBQL01wsZ
- pPnFIkYZFITAxGZlLlroWTJxw1aU7OwuVwR838JpTo90LiJbSJ2V8lgFEDqu/kUW4fga0nzgVHx
- TPrnA==
-X-Google-Smtp-Source: AGHT+IFONhq6F+DbkzpsEpK1WwNv3QQhAm3j21ralGrjpCechN0UN+rtIDTk39PxuYI9EYRr21JY2C6Wn5OzerY5ENU=
-X-Received: by 2002:a05:651c:49c:b0:32b:80e1:300d with SMTP id
- 38308e7fff4ca-32f4fdaa020mr4072561fa.0.1752100611215; Wed, 09 Jul 2025
- 15:36:51 -0700 (PDT)
+ AJvYcCUhTG2q+oMqYi6DxCV6UlhGYLeH7a/D53LQcRgxnBr9ufHzwhJYTRDoaQnotNfsJC910yGDiZUDmcw=@lists.freedesktop.org,
+ AJvYcCWDgdH4LXO5XDjSd2TdzGdrwR983scXhalH/FetL51BFFdobmXDODzFiPFmvCKrgnTwuxL+zSu70g==@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YwS8PNPBKTPQYyWh/7jZM6d8a6zY35LtucHj8v+K/h9pfPWVMbL
+ ASWxNm0yg2VxnS1AVxAZF+mGTjZ4rHpnhMiwYkoP+2jKRBHjwPY5YEkeXRcG3UE3qLGqOcyZQID
+ LJHNepmoz4M2kjTGxSnfL3NILmw7v3MI=
+X-Gm-Gg: ASbGncsr3eTcSlpedHKxv0egUDbm432olP3AAx/dJ/YxaYG7Lfx/yrn6AIP1uxJrhge
+ tcua8llq8szlXgFJ977iUiBQAhKxpMx7u2y0ZNchAynIKEgBDsry4W0Jvr5r2oP5qtSQdBVTTi7
+ 3KPlPLGUmUAsh0Mj46CzMVPrDdRh9Egw1Ai4mK/X7yN3xWtJWE0UnyoN5po1SJ4AHn14SM0+9Od
+ vj0IY9fyHvWxW7O
+X-Google-Smtp-Source: AGHT+IF27+KrVs2nw7zMxm/lAjmI7ad0idRyIl1c4CvKZ8/UEyE7oxDB/OUDydZblbt7SfQMSlfdwda0M1ohVpNso+I=
+X-Received: by 2002:a05:651c:220d:b0:32f:41a4:5584 with SMTP id
+ 38308e7fff4ca-32f48584db9mr13809651fa.27.1752101492829; Wed, 09 Jul 2025
+ 15:51:32 -0700 (PDT)
 MIME-Version: 1.0
 References: <20250709-core-cstr-fanout-1-v1-0-64308e7203fc@gmail.com>
  <20250709-core-cstr-fanout-1-v1-7-64308e7203fc@gmail.com>
  <DB7SVTBZ46QB.31WTHFLWDHPZY@kernel.org>
  <CAJ-ks9nNc_pThtb+gHUcjEnvR6V0RAEG0tkv+_DHYYjXs1N7=A@mail.gmail.com>
  <DB7V0GL2HVMV.BR1JSWQPDMC3@kernel.org>
-In-Reply-To: <DB7V0GL2HVMV.BR1JSWQPDMC3@kernel.org>
+ <CAJ-ks9n9Z0PtBmqNupS2390B+gq7UJuV0npD+3Ri0tJrQZVB9g@mail.gmail.com>
+In-Reply-To: <CAJ-ks9n9Z0PtBmqNupS2390B+gq7UJuV0npD+3Ri0tJrQZVB9g@mail.gmail.com>
 From: Tamir Duberstein <tamird@gmail.com>
-Date: Wed, 9 Jul 2025 18:36:15 -0400
-X-Gm-Features: Ac12FXy3ucGydWQMIVi5coi-DwzxVJ4W0f_hIIoGG4YPbQ2PMfi0zxdVxhB4wD8
-Message-ID: <CAJ-ks9n9Z0PtBmqNupS2390B+gq7UJuV0npD+3Ri0tJrQZVB9g@mail.gmail.com>
+Date: Wed, 9 Jul 2025 18:50:56 -0400
+X-Gm-Features: Ac12FXy4ZkLQdVyOcORlDTRU2dOMP13FGi20G8_0yikxCOUmMBlYgA2CbZFOSII
+Message-ID: <CAJ-ks9=hdDghvG5d2sK6SWz3OME6BFxZEmrDmfkrAV7Dse8wXQ@mail.gmail.com>
 Subject: Re: [PATCH 7/9] rust: pin-init: use `kernel::{fmt,prelude::fmt!}`
 To: Benno Lossin <lossin@kernel.org>
 Cc: Danilo Krummrich <dakr@kernel.org>, David Airlie <airlied@gmail.com>,
@@ -101,47 +102,13 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, Jul 9, 2025 at 5:58=E2=80=AFPM Benno Lossin <lossin@kernel.org> wro=
-te:
+On Wed, Jul 9, 2025 at 6:36=E2=80=AFPM Tamir Duberstein <tamird@gmail.com> =
+wrote:
 >
-> On Wed Jul 9, 2025 at 11:01 PM CEST, Tamir Duberstein wrote:
-> > On Wed, Jul 9, 2025 at 4:18=E2=80=AFPM Benno Lossin <lossin@kernel.org>=
- wrote:
-> >>
-> >> On Wed Jul 9, 2025 at 10:00 PM CEST, Tamir Duberstein wrote:
-> >> > Reduce coupling to implementation details of the formatting machiner=
-y by
-> >> > avoiding direct use for `core`'s formatting traits and macros.
-> >> >
-> >> > Acked-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-> >> > Reviewed-by: Alice Ryhl <aliceryhl@google.com>
-> >> > Signed-off-by: Tamir Duberstein <tamird@gmail.com>
-> >> > ---
-> >> >  rust/kernel/init.rs | 4 ++--
-> >> >  1 file changed, 2 insertions(+), 2 deletions(-)
-> >>
-> >> I usually prefix patches to init.rs with `rust: init`. I'll fix it up
-> >> when picking the patch or Miguel can do it if he takes it:
-> >>
-> >> Acked-by: Benno Lossin <lossin@kernel.org>
-> >
-> > Actually, squinting at this patch more closely now, I think this isn't
-> > what you had in mind. The comment says "Dummy error that can be
-> > constructed outside the `kernel` crate." but the error now comes from
-> > the kernel crate :(
 >
-> It's a re-export, so the comment still holds.
->
-> > Perhaps you could suggest a different modification that would both
-> > meet the original intent and allow references to core::fmt to
-> > disappear?
->
-> The code comes from a time when `Error::from_errno` was `pub(crate)`,
-> but that was changed some time ago... Now we can just remove the
-> `FromErrno` trait entirely from that example. Feel free to do that in
-> this series or as a standalone patch.
+> Ack, sent https://lore.kernel.org/all/20250709-init-remove-old-workaround=
+-v1-1-a922d32338d2@gmail.com/.
 
-Ack, sent https://lore.kernel.org/all/20250709-init-remove-old-workaround-v=
-1-1-a922d32338d2@gmail.com/.
-
-With that patch, this one can be dropped (since it is just a comment).
+Messed it up, sent v2:
+https://lore.kernel.org/all/20250709-init-remove-old-workaround-v2-0-a3b1be=
+8fd490@gmail.com/.
