@@ -2,71 +2,82 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5A1AFAFEEC2
-	for <lists+dri-devel@lfdr.de>; Wed,  9 Jul 2025 18:15:04 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id B141DAFEECA
+	for <lists+dri-devel@lfdr.de>; Wed,  9 Jul 2025 18:19:05 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id BBB9310E02F;
-	Wed,  9 Jul 2025 16:14:57 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 63C4210E2DE;
+	Wed,  9 Jul 2025 16:19:02 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=ti.com header.i=@ti.com header.b="M0zqQns2";
+	dkim=pass (1024-bit key; unprotected) header.d=chromium.org header.i=@chromium.org header.b="JeHFsHVs";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from lelvem-ot01.ext.ti.com (lelvem-ot01.ext.ti.com [198.47.23.234])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2624C10E02F
- for <dri-devel@lists.freedesktop.org>; Wed,  9 Jul 2025 16:14:56 +0000 (UTC)
-Received: from lelvem-sh01.itg.ti.com ([10.180.77.71])
- by lelvem-ot01.ext.ti.com (8.15.2/8.15.2) with ESMTP id 569GEc6i866973;
- Wed, 9 Jul 2025 11:14:38 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
- s=ti-com-17Q1; t=1752077678;
- bh=qkPRxiZdgjK9MgB5IvFZmTDsVI/VU2ccmWoC4LVxJFE=;
- h=Date:Subject:To:CC:References:From:In-Reply-To;
- b=M0zqQns2DKphNA2swG9UqaIo7IoYKntrIGmkvc2iUARrXbP6sSF4SVaPLcI6bmHpq
- KQsoW6yYS/2xRJ0gCdSyZGMiLyN9HyBChbctipR+tWT94oOGuy+5NBm2z/fqSS+TKY
- lMC9jwXI/mEzWLNQRq8SzR9Ftci4vfIMKVhatzV0=
-Received: from DLEE112.ent.ti.com (dlee112.ent.ti.com [157.170.170.23])
- by lelvem-sh01.itg.ti.com (8.18.1/8.18.1) with ESMTPS id 569GEcTr296137
- (version=TLSv1.2 cipher=ECDHE-RSA-AES128-SHA256 bits=128 verify=FAIL);
- Wed, 9 Jul 2025 11:14:38 -0500
-Received: from DLEE108.ent.ti.com (157.170.170.38) by DLEE112.ent.ti.com
- (157.170.170.23) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2507.55; Wed, 9
- Jul 2025 11:14:37 -0500
-Received: from lelvem-mr05.itg.ti.com (10.180.75.9) by DLEE108.ent.ti.com
- (157.170.170.38) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2507.55 via
- Frontend Transport; Wed, 9 Jul 2025 11:14:37 -0500
-Received: from [10.250.35.60] ([10.250.35.60])
- by lelvem-mr05.itg.ti.com (8.18.1/8.18.1) with ESMTP id 569GEbe1052300;
- Wed, 9 Jul 2025 11:14:37 -0500
-Message-ID: <6045bcfb-35ef-410b-bd7c-0ca7c5c589c4@ti.com>
-Date: Wed, 9 Jul 2025 11:14:37 -0500
+Received: from mail-pl1-f171.google.com (mail-pl1-f171.google.com
+ [209.85.214.171])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2042710E0A7
+ for <dri-devel@lists.freedesktop.org>; Wed,  9 Jul 2025 16:19:01 +0000 (UTC)
+Received: by mail-pl1-f171.google.com with SMTP id
+ d9443c01a7336-237311f5a54so627545ad.2
+ for <dri-devel@lists.freedesktop.org>; Wed, 09 Jul 2025 09:19:01 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=chromium.org; s=google; t=1752077940; x=1752682740;
+ darn=lists.freedesktop.org; 
+ h=mime-version:user-agent:content-transfer-encoding:references
+ :in-reply-to:date:cc:to:from:subject:message-id:from:to:cc:subject
+ :date:message-id:reply-to;
+ bh=WB0cSlpgHObUJTPQDLX4QuR9PrmDikXz04vEGr/TQgo=;
+ b=JeHFsHVs+jgcD4u5LKa99Y0MDHai+PShXXwMyLPx9iFtevBbPZ2Lf6B00c2eTCwTrX
+ ols4i1/3PQlWzKfsVmdHuIf6u/daseBdV+h3dVVyjMbga0TyAdb8QIIhqPiP3eV/SqqH
+ df+VXOzDxMpWFspUI5wlrzyrSAi/nRu6e1rrM=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1752077940; x=1752682740;
+ h=mime-version:user-agent:content-transfer-encoding:references
+ :in-reply-to:date:cc:to:from:subject:message-id:x-gm-message-state
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=WB0cSlpgHObUJTPQDLX4QuR9PrmDikXz04vEGr/TQgo=;
+ b=UPk7KKJKbzchyQt3RpY9IW+bNKQPQpwluNj6DmwiC29lk7b5C3EKMHqRNRE17Ls+h5
+ 0QczgO49rDzKRtQz+aqjT1ct19Tc9C4YpJ08kHlmbVH0s+SXFBa4C0y4+AhZ1ZwmmkmU
+ /ZmQRbPMnn+rrPVJV96pukYq/qgskgqVtpiydmVojsCAumIzvXS8Fe92tguPKjSInxqA
+ sM9NViGcDQCJKD17HPTQQepp2vB2hG5XULFAGk19+nKVOk0QB58/MLHD/NyHfYiEAGhl
+ ZQynDEuudgpnses6//UU9tLknkg5A15toPSJN5VstwkLHHfOuKDKsf0ccgZRiPTC/DlI
+ 2PtQ==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCUVpEyWmUajN/QDCDk0QcgMpcEmtuovk0znll6JGwk1CxmWgPRAyM1hRR5xQITQamJ2Nc4RjWwqPy8=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YycjRMJVxRjofTaLGxKoglVI0DGqFOGHaI7DFSi0tU+DPmx7Bjs
+ Gr96068kiLmHNraNQceydaSOSWuQdpTPiKlc3hLrxF0wZN/hu8i+sI/mh03psFHjOJ8bTn6lDHh
+ 0dk4=
+X-Gm-Gg: ASbGnctz3dSTmLYDkDpbtCKDMeaUeD4cAdOuL1RFKpF2N80WWvwpvkX6oiu5f6DH0zV
+ jnV4iO0/jQUpnmuQZFW+CSMHghO0vmUjdKZxKEKFi0NA5E4vdq7vwWfd8k2XNHt8ODp/Fk9Rs/W
+ 9gWUuBeYqDAK+TwsROTyMaguoOFdhaPjbK0ktMLvnZ3BYibPtJlGM3KuBbODha+C0Jnix2KXXm0
+ owDRRGLRRVLrRUmlbzfBj1OS+Yu2qiN7xnMfbW8sBygnp7+WVekLo/Xm/+/iHLnEbx5+8C+Z0fy
+ rh6lRTGDj1XpXusp9IfKw0NHy4qi3s57fpkTigUSOX8t4ED77aEiXmtYIjmep+lcUUKgjzHZFjY
+ /1nib+as/HGfyam31pvOOK45CIGUp+cA7KIHGaabHEhNvZV3V
+X-Google-Smtp-Source: AGHT+IFke1rWcERTnVfsNfizWhdI48Cb7B3RZHpWRa/Xxw+Wp8UABWvnwAmyc1QGgSwsUq1m6VPQow==
+X-Received: by 2002:a17:90b:4d07:b0:313:1e9d:404b with SMTP id
+ 98e67ed59e1d1-31c2fd26befmr5297301a91.2.1752077940381; 
+ Wed, 09 Jul 2025 09:19:00 -0700 (PDT)
+Received: from justonli3.c.googlers.com
+ (206.138.168.34.bc.googleusercontent.com. [34.168.138.206])
+ by smtp.gmail.com with ESMTPSA id
+ d9443c01a7336-23c8455babasm140538685ad.107.2025.07.09.09.18.59
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 09 Jul 2025 09:18:59 -0700 (PDT)
+Message-ID: <858a70c5779027572476e02fb7aa580cf7e829f9.camel@chromium.org>
+Subject: Re: [PATCH v5 2/2] drm/xe/bo: add GPU memory trace points
+From: Juston Li <justonli@chromium.org>
+To: Lucas De Marchi <lucas.demarchi@intel.com>
+Cc: intel-xe@lists.freedesktop.org, dri-devel@lists.freedesktop.org, Tvrtko
+ Ursulin <tursulin@ursulin.net>, Tvrtko Ursulin <tvrtko.ursulin@igalia.com>,
+ Yiwei Zhang	 <zzyiwei@google.com>, Rodrigo Vivi <rodrigo.vivi@intel.com>
+Date: Wed, 09 Jul 2025 09:18:58 -0700
+In-Reply-To: <dqatebbwn3ek7nfguu2l2b4awc7a4pqlizuh5cvaa5jfqmiakv@z3voepobjgul>
+References: <20250707203849.545312-1-justonli@chromium.org>
+ <20250707203849.545312-2-justonli@chromium.org>
+ <dqatebbwn3ek7nfguu2l2b4awc7a4pqlizuh5cvaa5jfqmiakv@z3voepobjgul>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.56.1-1+build1 
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v6 2/2] dma-buf: heaps: cma: Create CMA heap for each CMA
- reserved region
-To: Maxime Ripard <mripard@kernel.org>, Rob Herring <robh@kernel.org>,
- Saravana Kannan <saravanak@google.com>, Sumit Semwal
- <sumit.semwal@linaro.org>, Benjamin Gaignard
- <benjamin.gaignard@collabora.com>, Brian Starkey <Brian.Starkey@arm.com>,
- John Stultz <jstultz@google.com>, "T.J. Mercier" <tjmercier@google.com>,
- =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>, Krzysztof
- Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, Marek
- Szyprowski <m.szyprowski@samsung.com>, Robin Murphy <robin.murphy@arm.com>
-CC: Jared Kangas <jkangas@redhat.com>, Mattijs Korpershoek
- <mkorpershoek@kernel.org>,
- <devicetree@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
- <linux-media@vger.kernel.org>, <dri-devel@lists.freedesktop.org>,
- <linaro-mm-sig@lists.linaro.org>, <iommu@lists.linux.dev>
-References: <20250709-dma-buf-ecc-heap-v6-0-dac9bf80f35d@kernel.org>
- <20250709-dma-buf-ecc-heap-v6-2-dac9bf80f35d@kernel.org>
-Content-Language: en-US
-From: Andrew Davis <afd@ti.com>
-In-Reply-To: <20250709-dma-buf-ecc-heap-v6-2-dac9bf80f35d@kernel.org>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 7bit
-X-C2ProcessedOrg: 333ef613-75bf-4e12-a4b1-8e3623f5dcea
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -82,112 +93,72 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 7/9/25 7:44 AM, Maxime Ripard wrote:
-> Aside from the main CMA region, it can be useful to allow userspace to
-> allocate from the other CMA reserved regions.
-> 
-> Indeed, those regions can have specific properties that can be useful to
-> a specific us-case.
-> 
-> For example, one of them platform I've been with has ECC enabled on the
-> entire memory but for a specific region. Using that region to allocate
-> framebuffers can be particular beneficial because enabling the ECC has a
-> performance and memory footprint cost.
-> 
-> Thus, exposing these regions as heaps user-space can allocate from and
-> import wherever needed allows to cover that use-case.
-> 
-> For now, only shared-dma-pools regions with the reusable property (ie,
-> backed by CMA) are supported, but eventually we'll want to support other
-> DMA pools types.
-> 
-> Signed-off-by: Maxime Ripard <mripard@kernel.org>
-> ---
->   drivers/dma-buf/heaps/cma_heap.c | 52 +++++++++++++++++++++++++++++++++++++++-
->   1 file changed, 51 insertions(+), 1 deletion(-)
-> 
-> diff --git a/drivers/dma-buf/heaps/cma_heap.c b/drivers/dma-buf/heaps/cma_heap.c
-> index 0df007111975447d555714d61ead9699287fd65a..31a18683ee25788a800f3f878fd958718a930ff7 100644
-> --- a/drivers/dma-buf/heaps/cma_heap.c
-> +++ b/drivers/dma-buf/heaps/cma_heap.c
-> @@ -19,10 +19,12 @@
->   #include <linux/err.h>
->   #include <linux/highmem.h>
->   #include <linux/io.h>
->   #include <linux/mm.h>
->   #include <linux/module.h>
-> +#include <linux/of.h>
-> +#include <linux/of_reserved_mem.h>
->   #include <linux/scatterlist.h>
->   #include <linux/slab.h>
->   #include <linux/vmalloc.h>
->   
->   #define DEFAULT_CMA_NAME "default_cma_region"
-> @@ -421,7 +423,55 @@ static int __init add_default_cma_heap(void)
->   				ERR_PTR(ret));
->   	}
->   
->   	return 0;
->   }
-> -module_init(add_default_cma_heap);
-> +
-> +static int __init add_cma_heaps(void)
-> +{
-> +	struct device_node *rmem_node;
-> +	struct device_node *node;
-> +	int ret;
-> +
-> +	ret = add_default_cma_heap();
+On Tue, 2025-07-08 at 15:29 -0500, Lucas De Marchi wrote:
+> On Mon, Jul 07, 2025 at 01:38:23PM -0700, Juston Li wrote:
+> > Add TRACE_GPU_MEM tracepoints for tracking global GPU memory usage.
+> >=20
+> > These are required by VSR on Android 12+ for reporting GPU driver
+> > memory
+> > allocations.
+> >=20
+> > v5:
+> > - Drop process_mem tracking
+> > - Set the gpu_id field to dev->primary->index (Lucas, Tvrtko)
+> > - Formatting cleanup under 80 columns
+> >=20
+> > v3:
+> > - Use now configurable CONFIG_TRACE_GPU_MEM instead of adding a
+> > =C2=A0 per-driver Kconfig (Lucas)
+> >=20
+> > v2:
+> > - Use u64 as preferred by checkpatch (Tvrtko)
+> > - Fix errors in comments/Kconfig description (Tvrtko)
+> > - drop redundant "CONFIG" in Kconfig
+> >=20
+> > Signed-off-by: Juston Li <justonli@chromium.org>
+> > Reviewed-by: Tvrtko Ursulin <tvrtko.ursulin@igalia.com>
+> > ---
+> > drivers/gpu/drm/xe/xe_bo.c=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0 | 22 ++++++++++++++++++++++
+> > drivers/gpu/drm/xe/xe_device_types.h |=C2=A0 8 ++++++++
+> > 2 files changed, 30 insertions(+)
+> >=20
+> > diff --git a/drivers/gpu/drm/xe/xe_bo.c
+> > b/drivers/gpu/drm/xe/xe_bo.c
+> > index 4e39188a021ab..950eef514c11c 100644
+> > --- a/drivers/gpu/drm/xe/xe_bo.c
+> > +++ b/drivers/gpu/drm/xe/xe_bo.c
+> > @@ -19,6 +19,8 @@
+> >=20
+> > #include <kunit/static_stub.h>
+> >=20
+> > +#include <trace/events/gpu_mem.h>
+> > +
+> > #include "xe_device.h"
+> > #include "xe_dma_buf.h"
+> > #include "xe_drm_client.h"
+> > @@ -418,6 +420,24 @@ static void xe_ttm_tt_account_subtract(struct
+> > xe_device *xe, struct ttm_tt *tt)
+> > 		xe_shrinker_mod_pages(xe->mem.shrinker, -(long)tt-
+> > >num_pages, 0);
+> > }
+> >=20
+> > +#if IS_ENABLED(CONFIG_TRACE_GPU_MEM)
+> > +static void update_global_total_pages(struct ttm_device *ttm_dev,
+> > +				=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 long num_pages)
+> > +{
+>=20
+> wouldn't it be better to move the ifdef inside the function?
+> Any compiler would remove the empty call regardless of the inline
+> annotation, so I think this would make it less error prone if we
+> change
+> function signature.
+>=20
+> No need to send a new version, I can move that while applying
+> if agreed.
 
-Will this double add the default CMA region if it was declared
-using DT (reserved-memory) when all those nodes are again scanned
-through below? Might need a check in that loop for linux,cma-default.
+SGTM, thanks!
 
-> +	if (ret)
-> +		return ret;
-> +
-> +	rmem_node = of_find_node_by_path("/reserved-memory");
-> +	if (!rmem_node)
-> +		goto out;
+Juston
 
-Can just return here, "out" path doesn't need to put a NULL node.
-
-Andrew
-
-> +
-> +	for_each_child_of_node(rmem_node, node) {
-> +		struct reserved_mem *rmem;
-> +		struct cma *cma;
-> +
-> +		rmem = of_reserved_mem_lookup(node);
-> +		if (!rmem) {
-> +			ret = -EINVAL;
-> +			goto err_put_node;
-> +		}
-> +
-> +		if (!of_reserved_mem_is_contiguous(rmem))
-> +			continue;
-> +
-> +		cma = rmem->priv;
-> +		if (!cma) {
-> +			ret = -EINVAL;
-> +			goto err_put_node;
-> +		}
-> +
-> +		ret = __add_cma_heap(cma, of_node_full_name(node));
-> +		if (ret)
-> +			goto err_put_node;
-> +	}
-> +
-> +out:
-> +	of_node_put(rmem_node);
-> +	return 0;
-> +
-> +err_put_node:
-> +	of_node_put(rmem_node);
-> +	return ret;
-> +}
-> +
-> +module_init(add_cma_heaps);
->   MODULE_DESCRIPTION("DMA-BUF CMA Heap");
-> 
+> Lucas De Marchi
