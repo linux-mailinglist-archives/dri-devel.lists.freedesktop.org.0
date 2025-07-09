@@ -2,68 +2,92 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id D0EAAAFEB9E
-	for <lists+dri-devel@lfdr.de>; Wed,  9 Jul 2025 16:19:07 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0F33CAFEBA6
+	for <lists+dri-devel@lfdr.de>; Wed,  9 Jul 2025 16:20:02 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 006F710E00A;
-	Wed,  9 Jul 2025 14:19:05 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 787D710E047;
+	Wed,  9 Jul 2025 14:20:00 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="B+GtN1eS";
+	dkim=pass (2048-bit key; unprotected) header.d=google.com header.i=@google.com header.b="HRWphehB";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.11])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B379B10E00A;
- Wed,  9 Jul 2025 14:19:03 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1752070743; x=1783606743;
- h=date:from:to:cc:subject:message-id:references:
- mime-version:content-transfer-encoding:in-reply-to;
- bh=MpFKdPgrlzZsfqr583UieBgUF6VCTRyQdOSvpHYeQFE=;
- b=B+GtN1eSoC6NFM3VALjLbFf0ljodSx2FFnfBsBPBQGIJJHGzWVEEUZX7
- v777Vxt3rqE/JybXLYBjHh+/WoG9XRqy1TiQxVGrbftIh0rS1WHvZXCml
- lb5cMKfKzlbaYtflcz72mlJStShBaZZwGwQN/ruj4FwlYFlS38bJmHAWh
- EVTuCn8bM02pozUQhv+MTbJMucdv2xtB/WTGmkeN5KVxV9xYMExHuF1tm
- 7B8rQTo6qfOX1P0jk5aXYB0xg4mnbTnrBHOULf83ZiPIp8XjZGsBnNbnx
- F2lCxpi5M5gTegkKOjvR3cvBRZPAPyK8SRjcYRSVcnT6Kv8WNqrq7+Dn+ A==;
-X-CSE-ConnectionGUID: MAYu36FAQZOMRA0ycZ0z2Q==
-X-CSE-MsgGUID: wNx9lyMIRzOxJ9u77zRBiA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11489"; a="64589759"
-X-IronPort-AV: E=Sophos;i="6.16,298,1744095600"; d="scan'208";a="64589759"
-Received: from orviesa010.jf.intel.com ([10.64.159.150])
- by orvoesa103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 09 Jul 2025 07:19:03 -0700
-X-CSE-ConnectionGUID: MgdSzVd4RAqeXg6f/bIlng==
-X-CSE-MsgGUID: esSEkBeTTl26MzwbvbyGag==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.16,298,1744095600"; d="scan'208";a="155199991"
-Received: from black.fi.intel.com ([10.237.72.28])
- by orviesa010.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 09 Jul 2025 07:18:58 -0700
-Date: Wed, 9 Jul 2025 17:18:54 +0300
-From: Raag Jadav <raag.jadav@intel.com>
-To: Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>
-Cc: Simona Vetter <simona.vetter@ffwll.ch>,
- Riana Tauro <riana.tauro@intel.com>, intel-xe@lists.freedesktop.org,
- anshuman.gupta@intel.com, rodrigo.vivi@intel.com,
- lucas.demarchi@intel.com, aravind.iddamsetty@linux.intel.com,
- umesh.nerlige.ramappa@intel.com, frank.scarbrough@intel.com,
- sk.anirban@intel.com,
- =?iso-8859-1?Q?Andr=E9?= Almeida <andrealmeid@igalia.com>,
- David Airlie <airlied@gmail.com>, dri-devel@lists.freedesktop.org
-Subject: Re: [PATCH v4 1/9] drm: Add a vendor-specific recovery method to
- device wedged uevent
-Message-ID: <aG56Trd1h5WbWYJt@black.fi.intel.com>
-References: <20250709112024.1053710-1-riana.tauro@intel.com>
- <20250709112024.1053710-2-riana.tauro@intel.com>
- <aG5xglf8BeGzleWM@phenom.ffwll.local>
- <d42e17ef-30ce-4bf1-9948-7f08fd6f3bac@amd.com>
+Received: from mail-wm1-f46.google.com (mail-wm1-f46.google.com
+ [209.85.128.46])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2070B10E047
+ for <dri-devel@lists.freedesktop.org>; Wed,  9 Jul 2025 14:19:59 +0000 (UTC)
+Received: by mail-wm1-f46.google.com with SMTP id
+ 5b1f17b1804b1-451dbe494d6so64432465e9.1
+ for <dri-devel@lists.freedesktop.org>; Wed, 09 Jul 2025 07:19:59 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=google.com; s=20230601; t=1752070797; x=1752675597;
+ darn=lists.freedesktop.org; 
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=onxQyqbXg2+8eNUdjRi8yLtGmLMnVsEDz+kKPNPRjAo=;
+ b=HRWphehBiYar6Q6BJCeEMivxNShKz6wCInOQtgpo4BR3GG1x3vcGYbUurERS7YwGNE
+ eqFjQolLSVdNA2WA+aaZlGgz/Qgv4Fvj9RQGnJR1Tiw4TiH7Ph7KeEBj7cKjaEXOIwxR
+ YIPW9emV+wx7VNo0cqjFUCc9yeGRAep59lv0eODGLheRWiV9QZ/Z0cLNZjCo6ns8YAeR
+ gncg1RT109O/5Vsm+pPqeHjTVMA6laEBvui0MkzNnYiB4kJcCn9vA/JnzuXF6e+6lfHQ
+ IeGzLJFFaLcNs5f22l04uwBSMAaXZaIElirwbFDGL1TovIyKkEfYdGNotZBJFo2Rjdv+
+ 1mBg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1752070797; x=1752675597;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=onxQyqbXg2+8eNUdjRi8yLtGmLMnVsEDz+kKPNPRjAo=;
+ b=vi0bAclM1wBAly71Hj1nD7oZkLJJ9aEnPZg/ZlTe2bl1TWYAo4jWqBrVsAaDHQB+gq
+ pag2DVKBbrZWQIDulI+vRJ3TNVPBjx8s9RQlc8TftWTy5VnEbeXfwvbiHe1rD3mPN9RW
+ dZXuFCYaBFjnK7+ZoYvsV/ijsTGVIhuiXVVdSkKFMBLl5YkXljRW6KNl1waX6vtWJypQ
+ eQ3cXxgycA0h5p7bGgyYsko4kfTZfg8wyccmC1XB+jE9WRqAmjkBztqq905VVNlnJWQo
+ x5a5I90TLyN5yKVSfo42oR99/ArUY+jGMqifdyWJAgXBkJS+dbI1pnvJaa0FHfNUIeVS
+ /jVA==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCVL2J52/ymu4NeyICHyVW3XVynBxBEqhFjhhI6VwRZoxDc94X63Lnp6E3ZHR/ULWSGJ/u8qVvrV4ok=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YxGOqztlt9LskN0NYd978f7KHuK1l+rq5nevk/wQA+/sQTUrbNq
+ v42S+gffwApLzAxd03Jtt0/JmpXe07RbfcTHuI9Jik7vJkrVsZK1LGP6+48DhpW5HkS3WNMD+/p
+ b4JJhyBjDEZ2g6YtxCHK6lG/H76BLT6U67gjr8BXn
+X-Gm-Gg: ASbGncsKO4P5u72vWMzwX/vDZOgMufFMvSE3mB/7lwQgU71GiMjYRfJJ9IjoQpaMW7q
+ NRWinYUFZn7CxlggcaH604VHUbCcGkqz8gmCSOCm+zz/93VI0CNkhq168+VMG26EzZAAlWgFC6t
+ +7ermn26M/I3fePA0HNMTOb7pRP3XFg5ZgtEFPfyyEhFe9RYJKE9GEBXza11AH9mPW0YR1JwWEe
+ g==
+X-Google-Smtp-Source: AGHT+IHymgYqf5Be4dPgTGavXNkdAqtCHlNw8IloAmJ/sAoTV++LmztnNSzx86sJhSRZfMqHeXmmwb/R6uZnNJhr5Ts=
+X-Received: by 2002:a05:6000:4712:b0:3b4:9721:2b13 with SMTP id
+ ffacd0b85a97d-3b5e450988cmr2292725f8f.14.1752070796982; Wed, 09 Jul 2025
+ 07:19:56 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <d42e17ef-30ce-4bf1-9948-7f08fd6f3bac@amd.com>
+References: <20250709-device-as-ref-v1-1-ebf7059ffa9c@google.com>
+ <DB7KZXKOP5F0.1RMMCBJNR43KO@kernel.org>
+In-Reply-To: <DB7KZXKOP5F0.1RMMCBJNR43KO@kernel.org>
+From: Alice Ryhl <aliceryhl@google.com>
+Date: Wed, 9 Jul 2025 16:19:45 +0200
+X-Gm-Features: Ac12FXzkjhW6iD-XDuQYdQEQJTvTDaPwURvqNJ0qQ1PU5t7-VlkiVmA2ozb6b7I
+Message-ID: <CAH5fLghf1zwmR_hLVAxYU0khmeTGEejTL8qE_BaF3d-Ncg3HAg@mail.gmail.com>
+Subject: Re: [PATCH] drm: rust: rename Device::as_ref() to Device::from_raw()
+To: Danilo Krummrich <dakr@kernel.org>
+Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ Dave Ertman <david.m.ertman@intel.com>, 
+ Ira Weiny <ira.weiny@intel.com>, Leon Romanovsky <leon@kernel.org>,
+ Miguel Ojeda <ojeda@kernel.org>, 
+ Boqun Feng <boqun.feng@gmail.com>, Gary Guo <gary@garyguo.net>, 
+ =?UTF-8?Q?Bj=C3=B6rn_Roy_Baron?= <bjorn3_gh@protonmail.com>, 
+ Benno Lossin <lossin@kernel.org>, Andreas Hindborg <a.hindborg@kernel.org>, 
+ Trevor Gross <tmgross@umich.edu>, Thomas Gleixner <tglx@linutronix.de>, 
+ Peter Zijlstra <peterz@infradead.org>, "Rafael J. Wysocki" <rafael@kernel.org>,
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, 
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, 
+ Thomas Zimmermann <tzimmermann@suse.de>,
+ FUJITA Tomonori <fujita.tomonori@gmail.com>, 
+ Bjorn Helgaas <bhelgaas@google.com>,
+ =?UTF-8?Q?Krzysztof_Wilczy=C5=84ski?= <kwilczynski@kernel.org>, 
+ rust-for-linux@vger.kernel.org, linux-kernel@vger.kernel.org, 
+ dri-devel@lists.freedesktop.org, netdev@vger.kernel.org, 
+ linux-pci@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -79,123 +103,34 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, Jul 09, 2025 at 04:09:20PM +0200, Christian König wrote:
-> On 09.07.25 15:41, Simona Vetter wrote:
-> > On Wed, Jul 09, 2025 at 04:50:13PM +0530, Riana Tauro wrote:
-> >> Certain errors can cause the device to be wedged and may
-> >> require a vendor specific recovery method to restore normal
-> >> operation.
-> >>
-> >> Add a recovery method 'WEDGED=vendor-specific' for such errors. Vendors
-> >> must provide additional recovery documentation if this method
-> >> is used.
-> >>
-> >> v2: fix documentation (Raag)
-> >>
-> >> Cc: André Almeida <andrealmeid@igalia.com>
-> >> Cc: Christian König <christian.koenig@amd.com>
-> >> Cc: David Airlie <airlied@gmail.com>
-> >> Cc: <dri-devel@lists.freedesktop.org>
-> >> Suggested-by: Raag Jadav <raag.jadav@intel.com>
-> >> Signed-off-by: Riana Tauro <riana.tauro@intel.com>
-> > 
-> > I'm not really understanding what this is useful for, maybe concrete
-> > example in the form of driver code that uses this, and some tool or
-> > documentation steps that should be taken for recovery?
-> 
-> The recovery method for this particular case is to flash in a new firmware.
-> 
-> > The issues I'm seeing here is that eventually we'll get different
-> > vendor-specific recovery steps, and maybe even on the same device, and
-> > that leads us to an enumeration issue. Since it's just a string and an
-> > enum I think it'd be better to just allocate a new one every time there's
-> > a new strange recovery method instead of this opaque approach.
-> 
-> That is exactly the opposite of what we discussed so far.
-> 
-> The original idea was to add a firmware-flush recovery method which looked a bit wage since it didn't give any information on what to do exactly.
-> 
-> That's why I suggested to add a more generic vendor-specific event with refers to the documentation and system log to see what actually needs to be done.
-> 
-> Otherwise we would end up with events like firmware-flash, update FW image A, update FW image B, FW version mismatch etc....
+On Wed, Jul 9, 2025 at 4:07=E2=80=AFPM Danilo Krummrich <dakr@kernel.org> w=
+rote:
+>
+> On Wed Jul 9, 2025 at 3:53 PM CEST, Alice Ryhl wrote:
+> > The prefix as_* should not be used for a constructor. Constructors
+> > usually use the prefix from_* instead.
+> >
+> > Some prior art in the stdlib: Box::from_raw, CString::from_raw,
+> > Rc::from_raw, Arc::from_raw, Waker::from_raw, File::from_raw_fd.
+> >
+> > There is also prior art in the kernel crate: cpufreq::Policy::from_raw,
+> > fs::File::from_raw_file, Kuid::from_raw, ARef::from_raw,
+> > SeqFile::from_raw, VmaNew::from_raw, Io::from_raw.
+> >
+> > Link: https://lore.kernel.org/r/aCZYcs6Aj-cz81qs@pollux
+>
+> I think the link you actually wanted to refer to is probably [1]. :)
+>
+> [1] https://lore.kernel.org/all/aCd8D5IA0RXZvtcv@pollux/
 
-Agree. Any newly allocated method that is specific to a vendor is going to
-be opaque anyway, since it can't be generic for all drivers. This just helps
-reduce the noise in DRM core.
+I can update.
 
-And yes, there could be different vendor-specific cases for the same driver
-and the driver should be able to provide the means to distinguish between
-them.
+> > Signed-off-by: Alice Ryhl <aliceryhl@google.com>
+>
+> Can you please split this patch up in one for the DRM renames, i.e. drm::=
+Device,
+> gem::Object and drm::File, and one for device::Device?
 
-Raag
+Sure I will split into two patches.
 
-> >> ---
-> >>  Documentation/gpu/drm-uapi.rst | 9 +++++----
-> >>  drivers/gpu/drm/drm_drv.c      | 2 ++
-> >>  include/drm/drm_device.h       | 4 ++++
-> >>  3 files changed, 11 insertions(+), 4 deletions(-)
-> >>
-> >> diff --git a/Documentation/gpu/drm-uapi.rst b/Documentation/gpu/drm-uapi.rst
-> >> index 263e5a97c080..c33070bdb347 100644
-> >> --- a/Documentation/gpu/drm-uapi.rst
-> >> +++ b/Documentation/gpu/drm-uapi.rst
-> >> @@ -421,10 +421,10 @@ Recovery
-> >>  Current implementation defines three recovery methods, out of which, drivers
-> >>  can use any one, multiple or none. Method(s) of choice will be sent in the
-> >>  uevent environment as ``WEDGED=<method1>[,..,<methodN>]`` in order of less to
-> >> -more side-effects. If driver is unsure about recovery or method is unknown
-> >> -(like soft/hard system reboot, firmware flashing, physical device replacement
-> >> -or any other procedure which can't be attempted on the fly), ``WEDGED=unknown``
-> >> -will be sent instead.
-> >> +more side-effects. If recovery method is specific to vendor
-> >> +``WEDGED=vendor-specific`` will be sent and userspace should refer to vendor
-> >> +specific documentation for further recovery steps. If driver is unsure about
-> >> +recovery or method is unknown, ``WEDGED=unknown`` will be sent instead
-> >>  
-> >>  Userspace consumers can parse this event and attempt recovery as per the
-> >>  following expectations.
-> >> @@ -435,6 +435,7 @@ following expectations.
-> >>      none            optional telemetry collection
-> >>      rebind          unbind + bind driver
-> >>      bus-reset       unbind + bus reset/re-enumeration + bind
-> >> +    vendor-specific vendor specific recovery method
-> >>      unknown         consumer policy
-> >>      =============== ========================================
-> >>  
-> >> diff --git a/drivers/gpu/drm/drm_drv.c b/drivers/gpu/drm/drm_drv.c
-> >> index cdd591b11488..0ac723a46a91 100644
-> >> --- a/drivers/gpu/drm/drm_drv.c
-> >> +++ b/drivers/gpu/drm/drm_drv.c
-> >> @@ -532,6 +532,8 @@ static const char *drm_get_wedge_recovery(unsigned int opt)
-> >>  		return "rebind";
-> >>  	case DRM_WEDGE_RECOVERY_BUS_RESET:
-> >>  		return "bus-reset";
-> >> +	case DRM_WEDGE_RECOVERY_VENDOR:
-> >> +		return "vendor-specific";
-> >>  	default:
-> >>  		return NULL;
-> >>  	}
-> >> diff --git a/include/drm/drm_device.h b/include/drm/drm_device.h
-> >> index 08b3b2467c4c..08a087f149ff 100644
-> >> --- a/include/drm/drm_device.h
-> >> +++ b/include/drm/drm_device.h
-> >> @@ -26,10 +26,14 @@ struct pci_controller;
-> >>   * Recovery methods for wedged device in order of less to more side-effects.
-> >>   * To be used with drm_dev_wedged_event() as recovery @method. Callers can
-> >>   * use any one, multiple (or'd) or none depending on their needs.
-> >> + *
-> >> + * Refer to "Device Wedging" chapter in Documentation/gpu/drm-uapi.rst for more
-> >> + * details.
-> >>   */
-> >>  #define DRM_WEDGE_RECOVERY_NONE		BIT(0)	/* optional telemetry collection */
-> >>  #define DRM_WEDGE_RECOVERY_REBIND	BIT(1)	/* unbind + bind driver */
-> >>  #define DRM_WEDGE_RECOVERY_BUS_RESET	BIT(2)	/* unbind + reset bus device + bind */
-> >> +#define DRM_WEDGE_RECOVERY_VENDOR	BIT(3)	/* vendor specific recovery method */
-> >>  
-> >>  /**
-> >>   * struct drm_wedge_task_info - information about the guilty task of a wedge dev
-> >> -- 
-> >> 2.47.1
-> >>
-> > 
-> 
+Alice
