@@ -2,41 +2,62 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id EDB61AFEE05
-	for <lists+dri-devel@lfdr.de>; Wed,  9 Jul 2025 17:48:29 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id BF8D8AFEE5A
+	for <lists+dri-devel@lfdr.de>; Wed,  9 Jul 2025 18:00:12 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id EB50110E109;
-	Wed,  9 Jul 2025 15:48:26 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4FD9310E06E;
+	Wed,  9 Jul 2025 16:00:10 +0000 (UTC)
+Authentication-Results: gabe.freedesktop.org;
+	dkim=pass (2048-bit key; unprotected) header.d=bootlin.com header.i=@bootlin.com header.b="Yt0hL0A5";
+	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
- by gabe.freedesktop.org (Postfix) with ESMTP id A9F9910E06E;
- Wed,  9 Jul 2025 15:48:25 +0000 (UTC)
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
- by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 682EE1516;
- Wed,  9 Jul 2025 08:48:13 -0700 (PDT)
-Received: from [10.57.86.38] (unknown [10.57.86.38])
- by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 9C4403F738;
- Wed,  9 Jul 2025 08:48:23 -0700 (PDT)
-Message-ID: <6fe2409f-b561-4546-92e1-dd7f8d45ef12@arm.com>
-Date: Wed, 9 Jul 2025 16:48:21 +0100
+Received: from relay2-d.mail.gandi.net (relay2-d.mail.gandi.net
+ [217.70.183.194])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2537210E06E
+ for <dri-devel@lists.freedesktop.org>; Wed,  9 Jul 2025 16:00:07 +0000 (UTC)
+Received: by mail.gandi.net (Postfix) with ESMTPSA id 07039442B3;
+ Wed,  9 Jul 2025 16:00:03 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
+ t=1752076806;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=ssBjI9tL4zH8w0i7uvVdHfRAJbny2996+v1we4JsojM=;
+ b=Yt0hL0A5JCbxElp+aK4twDKbv5rBzOAvDBr5sieeI2l0ZIKjiGySmBmrbrHgW03AAeOC/F
+ y78N1zm0gziAlnNQLZUId+TUUTJkqzscZSFAXlmyQxdf97SY7Hh70fivn7cMewtJL1CFTv
+ PWcXMPRFyiFmQDBsehNMUifjBVQ6L825AYSZZZL768FitOgxy/CKW6sY/qUOThxwYiY3c+
+ VsrUvM4CEW6ra3OJe9C0ovYh/eglxaUGvaIg7pyGYc3wQnVpPwWIKsGF7DXYlq/z+CAUH2
+ DDp9IVN+Dq9mQqplZ6JgGSblMaSCaM+SCwlYuxU6f/Ylhs2FxGL4gQIXX4dSmQ==
+From: Luca Ceresoli <luca.ceresoli@bootlin.com>
+Subject: [PATCH 0/3] drm/bridge: get/put the bridge returned by
+ drm_bridge_get_prev_bridge()
+Date: Wed, 09 Jul 2025 17:59:36 +0200
+Message-Id: <20250709-drm-bridge-alloc-getput-drm_bridge_get_prev_bridge-v1-0-34ba6f395aaa@bootlin.com>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] drm/panthor: Fix UAF in panthor_gem_create_with_handle()
- debugfs code
-To: Simona Vetter <simona.vetter@ffwll.ch>,
- DRI Development <dri-devel@lists.freedesktop.org>
-Cc: Intel Xe Development <intel-xe@lists.freedesktop.org>,
- =?UTF-8?Q?Adri=C3=A1n_Larumbe?= <adrian.larumbe@collabora.com>,
- Boris Brezillon <boris.brezillon@collabora.com>,
- Liviu Dudau <liviu.dudau@arm.com>, Simona Vetter <simona.vetter@intel.com>
-References: <20250707151814.603897-2-simona.vetter@ffwll.ch>
- <20250709135220.1428931-1-simona.vetter@ffwll.ch>
-From: Steven Price <steven.price@arm.com>
-Content-Language: en-GB
-In-Reply-To: <20250709135220.1428931-1-simona.vetter@ffwll.ch>
-Content-Type: text/plain; charset=UTF-8
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
+X-B4-Tracking: v=1; b=H4sIAOiRbmgC/y2NWQqDQBAFryL9nYZRI0avEmSYpTUNbsyoCOLd0
+ 5p8Vj2od0CkwBShTg4ItHHkaRRIHwm4jxk7QvbCkKmsUKWq0IcBbWAvi+n7yWFHy7wul9c/r8X
+ oWWJ/xupZKu/MK7U2BwnL1vJ+n76b8/wCDLWiIIQAAAA=
+X-Change-ID: 20250709-drm-bridge-alloc-getput-drm_bridge_get_prev_bridge-9470dca81bb3
+To: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
+ Andrzej Hajda <andrzej.hajda@intel.com>, 
+ Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>, 
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>, 
+ Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>, 
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>
+Cc: Hui Pu <Hui.Pu@gehealthcare.com>, 
+ Thomas Petazzoni <thomas.petazzoni@bootlin.com>, 
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org, 
+ Luca Ceresoli <luca.ceresoli@bootlin.com>
+X-Mailer: b4 0.14.2
+X-GND-State: clean
+X-GND-Score: -100
+X-GND-Cause: gggruggvucftvghtrhhoucdtuddrgeeffedrtdefgdefjeelkecutefuodetggdotefrodftvfcurfhrohhfihhlvgemucfitefpfffkpdcuggftfghnshhusghstghrihgsvgenuceurghilhhouhhtmecufedtudenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujfgurhephffufffkgggtgffvvefosehtkeertdertdejnecuhfhrohhmpefnuhgtrgcuvegvrhgvshholhhiuceolhhutggrrdgtvghrvghsohhlihessghoohhtlhhinhdrtghomheqnecuggftrfgrthhtvghrnhepjeejhffgffelveehhfefudehtdeftdettdekgfekueeihedtieefudevjeffveegnecuffhomhgrihhnpehfrhgvvgguvghskhhtohhprdhorhhgpdhkvghrnhgvlhdrohhrghenucfkphepkeejrdduvddtrddvudekrddvtdejnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehinhgvthepkeejrdduvddtrddvudekrddvtdejpdhhvghloheplgduledvrdduieekrddurddufegnpdhmrghilhhfrhhomheplhhutggrrdgtvghrvghsohhlihessghoohhtlhhinhdrtghomhdpnhgspghrtghpthhtohepudeipdhrtghpthhtohepjhhonhgrsheskhifihgsohhordhsvgdprhgtphhtthhopefnrghurhgvnhhtrdhpihhntghhrghrthesihguvggrshhonhgsohgrrhgurdgtohhmpdhrtghpthhtohepughrihdquggvvhgvlheslhhishhtshdrfhhrvggvuggvshhkthhophdrohhrghdprhgtphhtthhop
+ ehluhgtrgdrtggvrhgvshholhhisegsohhothhlihhnrdgtohhmpdhrtghpthhtohepthiiihhmmhgvrhhmrghnnhesshhushgvrdguvgdprhgtphhtthhopehlihhnuhigqdhkvghrnhgvlhesvhhgvghrrdhkvghrnhgvlhdrohhrghdprhgtphhtthhopehmrhhiphgrrhgusehkvghrnhgvlhdrohhrghdprhgtphhtthhopehthhhomhgrshdrphgvthgriiiiohhnihessghoohhtlhhinhdrtghomh
+X-GND-Sasl: luca.ceresoli@bootlin.com
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -52,145 +73,56 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 09/07/2025 14:52, Simona Vetter wrote:
-> The object is potentially already gone after the drm_gem_object_put().
-> In general the object should be fully constructed before calling
-> drm_gem_handle_create(), except the debugfs tracking uses a separate
-> lock and list and separate flag to denotate whether the object is
-> actually initilized.
-> 
-> Since I'm touching this all anyway simplify this by only adding the
-> object to the debugfs when it's ready for that, which allows us to
-> delete that separate flag. panthor_gem_debugfs_bo_rm() already checks
-> whether we've actually been added to the list or this is some error
-> path cleanup.
-> 
-> v2: Fix build issues for !CONFIG_DEBUGFS (Adrián)
-> 
-> v3: Add linebreak and remove outdated comment (Liviu)
-> 
-> Fixes: a3707f53eb3f ("drm/panthor: show device-wide list of DRM GEM objects over DebugFS")
-> Cc: Adrián Larumbe <adrian.larumbe@collabora.com>
-> Cc: Boris Brezillon <boris.brezillon@collabora.com>
-> Cc: Steven Price <steven.price@arm.com>
-> Cc: Liviu Dudau <liviu.dudau@arm.com>
-> Reviewed-by: Liviu Dudau <liviu.dudau@arm.com>
-> Signed-off-by: Simona Vetter <simona.vetter@intel.com>
-> Signed-off-by: Simona Vetter <simona.vetter@ffwll.ch>
+This series adds drm_bridge_get/put() calls for DRM bridges returned by
+drm_bridge_get_prev_bridge().
 
-Reviewed-by: Steven Price <steven.price@arm.com>
+This is part of the work towards removal of bridges from a still existing
+DRM pipeline without use-after-free. The grand plan was discussed in [1].
+Here's the work breakdown (➜ marks the current series):
 
-Although a nit on the email subject - you're missing the "v3" tag ;)
+ 1. ➜ add refcounting to DRM bridges (struct drm_bridge)
+    (based on devm_drm_bridge_alloc() [0])
+    A. ✔ add new alloc API and refcounting (in v6.16-rc1)
+    B. ✔ convert all bridge drivers to new API (now in drm-misc-next)
+    C. ✔ kunit tests (now in drm-misc-next)
+    D. ✔ add get/put to drm_bridge_add/remove() + attach/detach()
+         and warn on old allocation pattern (now in drm-misc-next)
+    E. ➜ add get/put on drm_bridge accessors
+       1. … drm_bridge_chain_get_first_bridge() + add a cleanup action
+       2. drm_bridge_chain_get_last_bridge()
+       3. ➜ drm_bridge_get_prev_bridge()
+       4. drm_bridge_get_next_bridge()
+       5. drm_for_each_bridge_in_chain()
+       6. drm_bridge_connector_init
+       7. of_drm_find_bridge
+       8. drm_of_find_panel_or_bridge, *_of_get_bridge
+    F. debugfs improvements
+ 2. handle gracefully atomic updates during bridge removal
+ 3. … avoid DSI host drivers to have dangling pointers to DSI devices
+ 4. finish the hotplug bridge work, removing the "always-disconnected"
+    connector, moving code to the core and potentially removing the
+    hotplug-bridge itself (this needs to be clarified as points 1-3 are
+    developed)
 
-Steve
+[0] https://gitlab.freedesktop.org/drm/misc/kernel/-/commit/0cc6aadd7fc1e629b715ea3d1ba537ef2da95eec
+[1] https://lore.kernel.org/lkml/20250206-hotplug-drm-bridge-v6-0-9d6f2c9c3058@bootlin.com/t/#u
 
-> ---
->  drivers/gpu/drm/panthor/panthor_gem.c | 31 +++++++++++++--------------
->  drivers/gpu/drm/panthor/panthor_gem.h |  3 ---
->  2 files changed, 15 insertions(+), 19 deletions(-)
-> 
-> diff --git a/drivers/gpu/drm/panthor/panthor_gem.c b/drivers/gpu/drm/panthor/panthor_gem.c
-> index 7c00fd77758b..a123bc740ba1 100644
-> --- a/drivers/gpu/drm/panthor/panthor_gem.c
-> +++ b/drivers/gpu/drm/panthor/panthor_gem.c
-> @@ -16,10 +16,15 @@
->  #include "panthor_mmu.h"
->  
->  #ifdef CONFIG_DEBUG_FS
-> -static void panthor_gem_debugfs_bo_add(struct panthor_device *ptdev,
-> -				       struct panthor_gem_object *bo)
-> +static void panthor_gem_debugfs_bo_init(struct panthor_gem_object *bo)
->  {
->  	INIT_LIST_HEAD(&bo->debugfs.node);
-> +}
-> +
-> +static void panthor_gem_debugfs_bo_add(struct panthor_gem_object *bo)
-> +{
-> +	struct panthor_device *ptdev = container_of(bo->base.base.dev,
-> +						    struct panthor_device, base);
->  
->  	bo->debugfs.creator.tgid = current->group_leader->pid;
->  	get_task_comm(bo->debugfs.creator.process_name, current->group_leader);
-> @@ -44,14 +49,13 @@ static void panthor_gem_debugfs_bo_rm(struct panthor_gem_object *bo)
->  
->  static void panthor_gem_debugfs_set_usage_flags(struct panthor_gem_object *bo, u32 usage_flags)
->  {
-> -	bo->debugfs.flags = usage_flags | PANTHOR_DEBUGFS_GEM_USAGE_FLAG_INITIALIZED;
-> +	bo->debugfs.flags = usage_flags;
-> +	panthor_gem_debugfs_bo_add(bo);
->  }
->  #else
-> -static void panthor_gem_debugfs_bo_add(struct panthor_device *ptdev,
-> -				       struct panthor_gem_object *bo)
-> -{}
->  static void panthor_gem_debugfs_bo_rm(struct panthor_gem_object *bo) {}
->  static void panthor_gem_debugfs_set_usage_flags(struct panthor_gem_object *bo, u32 usage_flags) {}
-> +static void panthor_gem_debugfs_bo_init(struct panthor_gem_object *bo) {}
->  #endif
->  
->  static void panthor_gem_free_object(struct drm_gem_object *obj)
-> @@ -246,7 +250,7 @@ struct drm_gem_object *panthor_gem_create_object(struct drm_device *ddev, size_t
->  	drm_gem_gpuva_set_lock(&obj->base.base, &obj->gpuva_list_lock);
->  	mutex_init(&obj->label.lock);
->  
-> -	panthor_gem_debugfs_bo_add(ptdev, obj);
-> +	panthor_gem_debugfs_bo_init(obj);
->  
->  	return &obj->base.base;
->  }
-> @@ -285,6 +289,8 @@ panthor_gem_create_with_handle(struct drm_file *file,
->  		bo->base.base.resv = bo->exclusive_vm_root_gem->resv;
->  	}
->  
-> +	panthor_gem_debugfs_set_usage_flags(bo, 0);
-> +
->  	/*
->  	 * Allocate an id of idr table where the obj is registered
->  	 * and handle has the id what user can see.
-> @@ -296,12 +302,6 @@ panthor_gem_create_with_handle(struct drm_file *file,
->  	/* drop reference from allocate - handle holds it now. */
->  	drm_gem_object_put(&shmem->base);
->  
-> -	/*
-> -	 * No explicit flags are needed in the call below, since the
-> -	 * function internally sets the INITIALIZED bit for us.
-> -	 */
-> -	panthor_gem_debugfs_set_usage_flags(bo, 0);
-> -
->  	return ret;
->  }
->  
-> @@ -387,7 +387,7 @@ static void panthor_gem_debugfs_bo_print(struct panthor_gem_object *bo,
->  	unsigned int refcount = kref_read(&bo->base.base.refcount);
->  	char creator_info[32] = {};
->  	size_t resident_size;
-> -	u32 gem_usage_flags = bo->debugfs.flags & (u32)~PANTHOR_DEBUGFS_GEM_USAGE_FLAG_INITIALIZED;
-> +	u32 gem_usage_flags = bo->debugfs.flags;
->  	u32 gem_state_flags = 0;
->  
->  	/* Skip BOs being destroyed. */
-> @@ -436,8 +436,7 @@ void panthor_gem_debugfs_print_bos(struct panthor_device *ptdev,
->  
->  	scoped_guard(mutex, &ptdev->gems.lock) {
->  		list_for_each_entry(bo, &ptdev->gems.node, debugfs.node) {
-> -			if (bo->debugfs.flags & PANTHOR_DEBUGFS_GEM_USAGE_FLAG_INITIALIZED)
-> -				panthor_gem_debugfs_bo_print(bo, m, &totals);
-> +			panthor_gem_debugfs_bo_print(bo, m, &totals);
->  		}
->  	}
->  
-> diff --git a/drivers/gpu/drm/panthor/panthor_gem.h b/drivers/gpu/drm/panthor/panthor_gem.h
-> index 4dd732dcd59f..8fc7215e9b90 100644
-> --- a/drivers/gpu/drm/panthor/panthor_gem.h
-> +++ b/drivers/gpu/drm/panthor/panthor_gem.h
-> @@ -35,9 +35,6 @@ enum panthor_debugfs_gem_usage_flags {
->  
->  	/** @PANTHOR_DEBUGFS_GEM_USAGE_FLAG_FW_MAPPED: BO is mapped on the FW VM. */
->  	PANTHOR_DEBUGFS_GEM_USAGE_FLAG_FW_MAPPED = BIT(PANTHOR_DEBUGFS_GEM_USAGE_FW_MAPPED_BIT),
-> -
-> -	/** @PANTHOR_DEBUGFS_GEM_USAGE_FLAG_INITIALIZED: BO is ready for DebugFS display. */
-> -	PANTHOR_DEBUGFS_GEM_USAGE_FLAG_INITIALIZED = BIT(31),
->  };
->  
->  /**
+Signed-off-by: Luca Ceresoli <luca.ceresoli@bootlin.com>
+---
+Luca Ceresoli (3):
+      drm/bridge: get the bridge returned by drm_bridge_get_prev_bridge()
+      drm/bridge: select_bus_fmt_recursive(): put the bridge obtained by drm_bridge_get_prev_bridge()
+      drm/bridge: display-connector: put the bridge obtained by drm_bridge_get_prev_bridge()
+
+ drivers/gpu/drm/bridge/display-connector.c | 4 ++--
+ drivers/gpu/drm/drm_bridge.c               | 4 ++--
+ include/drm/drm_bridge.h                   | 9 ++++++++-
+ 3 files changed, 12 insertions(+), 5 deletions(-)
+---
+base-commit: 0f168e7be696a17487e83d1d47e5a408a181080f
+change-id: 20250709-drm-bridge-alloc-getput-drm_bridge_get_prev_bridge-9470dca81bb3
+
+Best regards,
+-- 
+Luca Ceresoli <luca.ceresoli@bootlin.com>
 
