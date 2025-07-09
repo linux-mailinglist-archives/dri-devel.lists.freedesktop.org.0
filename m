@@ -2,58 +2,43 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7FC0DAFF301
-	for <lists+dri-devel@lfdr.de>; Wed,  9 Jul 2025 22:30:24 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6CA3FAFF36A
+	for <lists+dri-devel@lfdr.de>; Wed,  9 Jul 2025 23:01:14 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4385710E850;
-	Wed,  9 Jul 2025 20:30:21 +0000 (UTC)
-Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=emersion.fr header.i=@emersion.fr header.b="IXQu+MF5";
-	dkim-atps=neutral
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3F56110E07C;
+	Wed,  9 Jul 2025 21:01:11 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-X-Greylist: delayed 105559 seconds by postgrey-1.36 at gabe;
- Wed, 09 Jul 2025 20:30:19 UTC
-Received: from mail-0301.mail-europe.com (mail-0301.mail-europe.com
- [188.165.51.139])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C453F10E850
- for <dri-devel@lists.freedesktop.org>; Wed,  9 Jul 2025 20:30:19 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=emersion.fr;
- s=protonmail2; t=1752093014; x=1752352214;
- bh=f3wo+BEjgOI8A8/i/tByZ7AuRr/xEvtzQxvcIiw6tTM=;
- h=Date:To:From:Cc:Subject:Message-ID:In-Reply-To:References:
- Feedback-ID:From:To:Cc:Date:Subject:Reply-To:Feedback-ID:
- Message-ID:BIMI-Selector;
- b=IXQu+MF5Xo4Xtg8BiWBJuf/85IwtYTFi39x9rvgPWeZYUuT/OlQ97cvimHhnKVMZL
- QxEQ4VuMuMCLcuMgVurkQmvMusGyytBueGW9PmB5iZ8z4QcB9s/OiBSgsC1tdNVzZw
- ovTHB58wbSSiMCMAuCybRqEIi44mdIX8ZH+V5m5Pfu4Ydp9IWM1Rd6HCGObbqvSbSs
- QW+3Jz7TJGC0CT+G7B76VMTvZ6XuZB7P7WunobvOUSSJEl6qO78BwcDQt1Z/JRE4jB
- y4kwFhKAZ1fAFPV3fiQqvqN4mNoJ8/E+hFDCO0Vi6GOyIba1V8pyzlP6C62vKz+2Ku
- 7MYKY2E2+9RAA==
-Date: Wed, 09 Jul 2025 20:30:11 +0000
-To: Alex Hung <alex.hung@amd.com>
-From: Simon Ser <contact@emersion.fr>
-Cc: dri-devel@lists.freedesktop.org, amd-gfx@lists.freedesktop.org,
- wayland-devel@lists.freedesktop.org, harry.wentland@amd.com, leo.liu@amd.com,
- ville.syrjala@linux.intel.com, pekka.paalanen@collabora.com, mwen@igalia.com,
- jadahl@redhat.com, sebastian.wick@redhat.com, shashank.sharma@amd.com,
- agoins@nvidia.com, joshua@froggi.es, mdaenzer@redhat.com, aleixpol@kde.org,
- xaver.hugl@gmail.com, victoria@system76.com, daniel@ffwll.ch,
- uma.shankar@intel.com, quic_naseer@quicinc.com, quic_cbraga@quicinc.com,
- quic_abhinavk@quicinc.com, marcan@marcan.st, Liviu.Dudau@arm.com,
- sashamcintosh@google.com, chaitanya.kumar.borah@intel.com,
- louis.chauvet@bootlin.com, arthurgrillo@riseup.net,
- Daniel Stone <daniels@collabora.com>
-Subject: Re: [PATCH V10 40/46] drm/colorop: Define LUT_1D interpolation
-Message-ID: <xn27XZjdRP83I8eaTGnDdLyvppJUppZ_GVsnDJQ1wK3UINAwh4FEutAlh02CtvZoPbB4D7zhof9rGj1DsxHpccpGK7ID-S-DjGi5VRhAD8I=@emersion.fr>
-In-Reply-To: <20250617041746.2884343-41-alex.hung@amd.com>
-References: <20250617041746.2884343-1-alex.hung@amd.com>
- <20250617041746.2884343-41-alex.hung@amd.com>
-Feedback-ID: 1358184:user:proton
-X-Pm-Message-ID: bb790c2e663b1cc6e273456efea57e7c5d9e32f0
+X-Greylist: delayed 302 seconds by postgrey-1.36 at gabe;
+ Wed, 09 Jul 2025 21:01:10 UTC
+Received: from relmlie5.idc.renesas.com (relmlor1.renesas.com
+ [210.160.252.171])
+ by gabe.freedesktop.org (Postfix) with ESMTP id 3C48810E07C
+ for <dri-devel@lists.freedesktop.org>; Wed,  9 Jul 2025 21:01:09 +0000 (UTC)
+X-CSE-ConnectionGUID: SEHcO6xPRZWzKFG0VDFzGQ==
+X-CSE-MsgGUID: LGq+HqAxS1qpbo7yb7rcbA==
+Received: from unknown (HELO relmlir6.idc.renesas.com) ([10.200.68.152])
+ by relmlie5.idc.renesas.com with ESMTP; 10 Jul 2025 05:56:08 +0900
+Received: from lenovo-p330.. (unknown [132.158.152.96])
+ by relmlir6.idc.renesas.com (Postfix) with ESMTP id 4BCA64095590;
+ Thu, 10 Jul 2025 05:56:04 +0900 (JST)
+From: Chris Brandt <chris.brandt@renesas.com>
+To: Geert Uytterhoeven <geert+renesas@glider.be>,
+ Michael Turquette <mturquette@baylibre.com>,
+ Stephen Boyd <sboyd@kernel.org>, Biju Das <biju.das.jz@bp.renesas.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
+ Simona Vetter <simona@ffwll.ch>, Hien Huynh <hien.huynh.px@renesas.com>,
+ Nghia Vo <nghia.vo.zn@renesas.com>, Hugo Villeneuve <hugo@hugovil.com>
+Cc: linux-renesas-soc@vger.kernel.org, linux-clk@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, Chris Brandt <chris.brandt@renesas.com>
+Subject: [PATCH 0/2] Remove hard coded values for MIPI-DSI
+Date: Wed,  9 Jul 2025 16:55:30 -0400
+Message-ID: <20250709205532.747596-1-chris.brandt@renesas.com>
+X-Mailer: git-send-email 2.49.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -69,10 +54,26 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tuesday, June 17th, 2025 at 06:27, Alex Hung <alex.hung@amd.com> wrote:
+When the initial drivers were submitted, some of the timing was hard coded and
+did not allow for any MIPI-DSI panel to be attached.
 
-> - 1D LUT is no longer immutable (Xaver Hugl)
+This series assumes the follow patches have been applied.
+Both patches exist in drm-misc-next.
 
-I think we should keep it immutable for now, and we can make it mutable
-in the future when we want to extend the uAPI to make it switchable by
-user-space.
+5ce16c169a4c ("drm: renesas: rz-du: Add atomic_pre_enable")
+6f392f371650 ("drm: renesas: rz-du: Implement MIPI DSI host transfers")
+
+
+
+Chris Brandt (2):
+  clk: renesas: rzg2l: Remove DSI clock rate restrictions
+  drm: renesas: rz-du: Set DSI divider based on target MIPI device
+
+ drivers/clk/renesas/rzg2l-cpg.c               | 113 ++++++++++++++++--
+ .../gpu/drm/renesas/rz-du/rzg2l_mipi_dsi.c    |  17 +++
+ include/linux/clk/renesas.h                   |   4 +
+ 3 files changed, 124 insertions(+), 10 deletions(-)
+
+--
+2.49.0
+
