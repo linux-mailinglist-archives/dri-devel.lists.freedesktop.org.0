@@ -2,119 +2,62 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C6C42AFF1C1
-	for <lists+dri-devel@lfdr.de>; Wed,  9 Jul 2025 21:25:37 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id C7527AFF200
+	for <lists+dri-devel@lfdr.de>; Wed,  9 Jul 2025 21:46:05 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0EE2E10E35B;
-	Wed,  9 Jul 2025 19:25:35 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id EA4E910E0D5;
+	Wed,  9 Jul 2025 19:46:02 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=qualcomm.com header.i=@qualcomm.com header.b="cv4D78Ud";
+	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=igalia.com header.i=@igalia.com header.b="G4trCGPl";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com
- [205.220.168.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8C96610E35B
- for <dri-devel@lists.freedesktop.org>; Wed,  9 Jul 2025 19:25:33 +0000 (UTC)
-Received: from pps.filterd (m0279866.ppops.net [127.0.0.1])
- by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 569Coj61014430
- for <dri-devel@lists.freedesktop.org>; Wed, 9 Jul 2025 19:25:33 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
- cc:content-transfer-encoding:content-type:date:from:in-reply-to
- :message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
- LxJmEoIV/L+emefvsrdmnd313iEFnFzJl4/I7Di1mus=; b=cv4D78Ud1X3h/gCs
- qPMaz+TMm9VS3DqFYLrBAG6epgV7AnecF3VKdYafxnq96U7AvPb/Byy6ohPh8nKA
- dQgUz8NI44qwhmy5kw9rdwcNIzb+AFXLESYBSLjEfFsAJvyXIJYRAi2oz0AU0C+d
- ynxwrAJgUO1lRJZ3HjzWZ+nb/vWFjjv7WkEJp7jlNLznJzOs0pAUlS7aWrN0AFxh
- MXM6hd8lJsUfzK4/WJroEX9eLavgIqZLx8B1jpReiJPX1KiQk9sN/YBfw4/kv2Bl
- o6GMXRPVDe203Sar8X8p50i/mATIj3PkrixRVGhNjdBkaMmvJi8wUNbh+VsuV1+K
- DZmPmw==
-Received: from mail-qk1-f199.google.com (mail-qk1-f199.google.com
- [209.85.222.199])
- by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 47r9b134x2-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
- for <dri-devel@lists.freedesktop.org>; Wed, 09 Jul 2025 19:25:32 +0000 (GMT)
-Received: by mail-qk1-f199.google.com with SMTP id
- af79cd13be357-7d09a3b806aso4056585a.0
- for <dri-devel@lists.freedesktop.org>; Wed, 09 Jul 2025 12:25:32 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1752089131; x=1752693931;
- h=content-transfer-encoding:in-reply-to:from:content-language
- :references:cc:to:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=LxJmEoIV/L+emefvsrdmnd313iEFnFzJl4/I7Di1mus=;
- b=EqRzBhgqroq1CR6gX5Znnke2c2/PPE773gdORurH8vN1YSw9wJXaoVl0Ygg1BRlvz6
- GXxOzUmhQu6sN7jHRE0zqkveDiSLbxdNTaifOKBUGMKrT4ImLOXAflVG61Aae3gCnew/
- m7YZAL9ncMDQwMS1wGNw1F1BrsfTQj/ewGp/uIz/zAT+5Hi1y3+nfsS1dbiIfOy8PCKb
- KL2DKtvh+3XOEkNz8L+3lRIAitknf9UvamUkuGLygU2Vkij1e3KTd55wuffQC4TbXDUR
- LvMiEZE2MH0xuXwI2rJgAmHObkA6lT7UnU2iVZn9XlACUZ5ls3skboTq/huSF2Zqm/PC
- hYtw==
-X-Forwarded-Encrypted: i=1;
- AJvYcCVHsHE47ef7v2PUYZjAKbYw9x6B/LtABZxhFqkJRZSFpiOiOJ7Aqyw70Ffp2VHTeystbbBZl80kGTg=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0Yz2HeAKPFon9nipmX5NLawpPH6/weUQFOx3FbVUldxUv1WFPA92
- mvufh98VzoIHyGux//KPMGAEQV9+kYoqbH3n3vKJx3Xjarb1ARy6y2eiIE4l7k5WR88s+ti37T6
- rzbw5KC6J3ZUZQv9USkaU693C+3HZwXajRJmwcFiTibpmfh84YM8lJ0rIABm06gk2Om7fIhE=
-X-Gm-Gg: ASbGncvsmO6hTY0MjKBaqrR5tI5xAWM3SBpHX4Kh4gmQKuOGX2H8uMIz5+uTSRpr9Lz
- h7VHTBku3HAXSgpr6RET/oog+DF+pQuvp7PaP9jACSy6e2aQ14gtEtSpjt3H44+3qZLkJfDPmfw
- rZ/MpPyiElFzqfGlMb1/7CHmAa5Io7r3Bmq8OJEUVGX+cLqsCsEMA/xSb8P6vx7o6tj10Lr9o1S
- 2GtUi3+6Z+04oGf4tWDi+oXMcjxO4LNSr9+C+rYPJ6Arn7EQ9nCRd9Lh7dEwK2/D8ChYNDi5KEr
- G2pSzjPqnvIKNtMVz6eHmkXe90AVxHO527A894DdU9djncsAdzOWWcPxlM8fZoJLC22XU6S1S5q
- wpO8=
-X-Received: by 2002:a05:620a:4396:b0:7d4:5cdc:81e2 with SMTP id
- af79cd13be357-7db8a26a97amr207084085a.13.1752089131448; 
- Wed, 09 Jul 2025 12:25:31 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IEF0lD4eFqC8H6SYk9QlZhxremi9oqzguzRcKWuEh7z55IS83KvKx0SZBgDPwxIqBeKKCCbcQ==
-X-Received: by 2002:a05:620a:4396:b0:7d4:5cdc:81e2 with SMTP id
- af79cd13be357-7db8a26a97amr207081385a.13.1752089131024; 
- Wed, 09 Jul 2025 12:25:31 -0700 (PDT)
-Received: from [192.168.143.225] (078088045245.garwolin.vectranet.pl.
- [78.88.45.245]) by smtp.gmail.com with ESMTPSA id
- a640c23a62f3a-ae3f6b5e7c2sm1159545866b.148.2025.07.09.12.25.28
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 09 Jul 2025 12:25:30 -0700 (PDT)
-Message-ID: <f5ea9bc1-7617-4573-a10e-3499161a7819@oss.qualcomm.com>
-Date: Wed, 9 Jul 2025 21:25:27 +0200
+Received: from fanzine2.igalia.com (fanzine2.igalia.com [213.97.179.56])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 50D6110E0A9;
+ Wed,  9 Jul 2025 19:46:01 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com; 
+ s=20170329;
+ h=Content-Transfer-Encoding:Content-Type:In-Reply-To:From:
+ References:Cc:To:Subject:MIME-Version:Date:Message-ID:Sender:Reply-To:
+ Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
+ Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
+ List-Subscribe:List-Post:List-Owner:List-Archive;
+ bh=yPJGpTr+PLQouVy687LGJcKxAYdcVT26GSnS57DoGZU=; b=G4trCGPljC8kKsLtoia41OvMWu
+ njTAucjJD/FvAZA/wYnPqXM3HlRReR+S00Js0bZ21SmCH5aYorYJbXUHaDFDmnJwJa722wk/ewblL
+ WD7mGnVXewwad5BouFGy92WN6uMxA5UamTE9WYyVf5eF7581V+3Ju+SQMRMxdNP1YpxYNN1edOhmn
+ nByT9YiOs5yyUGWXdroQWSmTYaB+im14PmRT4lb3poBuMItFxDB7Vgnz27Eu03SJ5e6pWvbQmD021
+ C5akCMbZ0wTaceJ7We2q1fHiziF0UAC35CUuQ8iOc1L+v76fGNo7c2Lh5URcB3raAE5HWIvzKSI4X
+ Zjnkl2KQ==;
+Received: from [165.204.54.249] (helo=[192.168.111.39])
+ by fanzine2.igalia.com with esmtpsa 
+ (Cipher TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_128_GCM:128) (Exim)
+ id 1uZajo-00EccA-3l; Wed, 09 Jul 2025 21:45:52 +0200
+Message-ID: <c345c8b4-00ca-4e34-a351-0fda60033e38@igalia.com>
+Date: Wed, 9 Jul 2025 15:45:45 -0400
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v6 3/4] misc: fastrpc: Cleanup the domain names
-To: Ling Xu <quic_lxu5@quicinc.com>, srini@kernel.org,
- amahesh@qti.qualcomm.com, robh@kernel.org, krzk+dt@kernel.org,
- conor+dt@kernel.org, andersson@kernel.org, konradybcio@kernel.org,
- arnd@arndb.de, gregkh@linuxfoundation.org
-Cc: quic_kuiw@quicinc.com, ekansh.gupta@oss.qualcomm.com,
- devicetree@vger.kernel.org, linux-arm-msm@vger.kernel.org,
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- Srinivas Kandagatla <srinivas.kandagatla@linaro.org>
-References: <20250709054728.1272480-1-quic_lxu5@quicinc.com>
- <20250709054728.1272480-4-quic_lxu5@quicinc.com>
+Subject: Re: [PATCH V10 26/46] drm/amd/display: Add support for sRGB EOTF in
+ DEGAM block
+To: Alex Hung <alex.hung@amd.com>, dri-devel@lists.freedesktop.org,
+ amd-gfx@lists.freedesktop.org
+Cc: wayland-devel@lists.freedesktop.org, harry.wentland@amd.com,
+ leo.liu@amd.com, ville.syrjala@linux.intel.com,
+ pekka.paalanen@collabora.com, contact@emersion.fr, jadahl@redhat.com,
+ sebastian.wick@redhat.com, shashank.sharma@amd.com, agoins@nvidia.com,
+ joshua@froggi.es, mdaenzer@redhat.com, aleixpol@kde.org,
+ xaver.hugl@gmail.com, victoria@system76.com, daniel@ffwll.ch,
+ uma.shankar@intel.com, quic_naseer@quicinc.com, quic_cbraga@quicinc.com,
+ quic_abhinavk@quicinc.com, marcan@marcan.st, Liviu.Dudau@arm.com,
+ sashamcintosh@google.com, chaitanya.kumar.borah@intel.com,
+ louis.chauvet@bootlin.com, arthurgrillo@riseup.net,
+ Daniel Stone <daniels@collabora.com>
+References: <20250617041746.2884343-1-alex.hung@amd.com>
+ <20250617041746.2884343-27-alex.hung@amd.com>
 Content-Language: en-US
-From: Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>
-In-Reply-To: <20250709054728.1272480-4-quic_lxu5@quicinc.com>
-Content-Type: text/plain; charset=UTF-8
+From: Melissa Wen <mwen@igalia.com>
+In-Reply-To: <20250617041746.2884343-27-alex.hung@amd.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
-X-Authority-Analysis: v=2.4 cv=dYuA3WXe c=1 sm=1 tr=0 ts=686ec22d cx=c_pps
- a=HLyN3IcIa5EE8TELMZ618Q==:117 a=FpWmc02/iXfjRdCD7H54yg==:17
- a=IkcTkHD0fZMA:10 a=Wb1JkmetP80A:10 a=KKAkSRfTAAAA:8 a=COk6AnOGAAAA:8
- a=UMl6nZT6BRNR5OdSVxkA:9 a=QEXdDO2ut3YA:10 a=bTQJ7kPSJx9SKPbeHEYW:22
- a=cvBusfyB2V15izCimMoJ:22 a=TjNXssC_j7lpFel5tvFf:22
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwNzA5MDE3NCBTYWx0ZWRfXwXXG2G7Mym3l
- 8cxheqR/8Ycoj/ty6gFEOyhG+MGBkNBrCSXwT+AQB/QOFAWXdP9oa8+9dlBmZSUGmy8k5dyUY2O
- ldk3mX5o4Y5AcFeqOn/lyzsODriDfrgfPmSINeGD0YDg/Aam5Y/r/A44XEqloM4ZOKdyqGxgxh0
- ZqaispPWNiIvcm0i2wzV3lgCYvca53F4156k0IngAQuNjp5icKYxWBjYhenBZbPYaKKZ4Lz6Mby
- y+MLOIVK5OGdbmxXDiyFLiziq7ju+fYlMdpqB1FGmmd8OoeDB42BI7p2QMFiJK7jnXUAMexs4FU
- GR8D+szOqvj0H80wmBh/1XSLUFquJw3UqhxniZwdLlrpgJZfv069KoLl9yXO5C6KNvmyawAXJka
- zUkoXD2faCb2Wl/+CFS37AidTVizkkwlwu8OakjnXTJ7WCqA8q2FypcMXqN5/LBIN+4Uttes
-X-Proofpoint-GUID: 58C04n1ZTtHT3ThD6UcwSuPqXej-AhkX
-X-Proofpoint-ORIG-GUID: 58C04n1ZTtHT3ThD6UcwSuPqXej-AhkX
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1099,Hydra:6.1.7,FMLib:17.12.80.40
- definitions=2025-07-09_05,2025-07-09_01,2025-03-28_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- phishscore=0 suspectscore=0 clxscore=1015 impostorscore=0 lowpriorityscore=0
- priorityscore=1501 spamscore=0 adultscore=0 mlxlogscore=999 malwarescore=0
- mlxscore=0 bulkscore=0 classifier=spam authscore=0 authtc=n/a authcc=
- route=outbound adjust=0 reason=mlx scancount=1 engine=8.19.0-2505280000
- definitions=main-2507090174
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -130,49 +73,348 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 7/9/25 7:47 AM, Ling Xu wrote:
-> Currently the domain ids are added for each instance of domains, this is
-> totally not scalable approach. Clean this mess and create domain ids for
-> only domains not its instances.
-> 
-> Co-developed-by: Srinivas Kandagatla <srinivas.kandagatla@linaro.org>
-> Signed-off-by: Srinivas Kandagatla <srinivas.kandagatla@linaro.org>
-> Signed-off-by: Ling Xu <quic_lxu5@quicinc.com>
+
+
+On 17/06/2025 00:17, Alex Hung wrote:
+> Expose one 1D curve colorop with support for
+> DRM_COLOROP_1D_CURVE_SRGB_EOTF and program HW to perform
+> the sRGB transform when the colorop is not in bypass.
+>
+> With this change the following IGT test passes:
+> kms_colorop --run plane-XR30-XR30-srgb_eotf
+>
+> The color pipeline now consists of a single colorop:
+> 1. 1D curve colorop w/ sRGB EOTF
+>
+> Signed-off-by: Alex Hung <alex.hung@amd.com>
+> Co-developed-by: Harry Wentland <harry.wentland@amd.com>
+> Signed-off-by: Harry Wentland <harry.wentland@amd.com>
+> Reviewed-by: Daniel Stone <daniels@collabora.com>
 > ---
+> V10:
+>   - Replace DRM_ERROR by drm_err
+>   - Creaet color pipeline when >= DCN_VERSION_3_0
+>
+> V9:
+>   - Update function names by _plane_ (Chaitanya Kumar Borah)
+>   - Update replace cleanup code by drm_colorop_pipeline_destroy (Simon Ser)
+>
+> v8:
+>   - Fix incorrect && by || in __set_colorop_in_tf_1d_curve (Leo Li)
+>
+> v7:
+>   - Fix checkpatch warnings
+>    - Change switch "{ }" position
+>    - Delete double ";"
+>    - Delete "{ }" for single-line if-statement
+>    - Add a new line at EOF
+>    - Change SPDX-License-Identifier: GPL-2.0+ from // to /* */
+>
+> v6:
+>   - cleanup if colorop alloc or init fails
+>
+>   .../gpu/drm/amd/display/amdgpu_dm/Makefile    |  3 +-
+>   .../amd/display/amdgpu_dm/amdgpu_dm_color.c   | 86 +++++++++++++++++++
+>   .../amd/display/amdgpu_dm/amdgpu_dm_colorop.c | 71 +++++++++++++++
+>   .../amd/display/amdgpu_dm/amdgpu_dm_colorop.h | 34 ++++++++
+>   .../amd/display/amdgpu_dm/amdgpu_dm_plane.c   | 16 ++++
+>   5 files changed, 209 insertions(+), 1 deletion(-)
+>   create mode 100644 drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_colorop.c
+>   create mode 100644 drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_colorop.h
+>
+> diff --git a/drivers/gpu/drm/amd/display/amdgpu_dm/Makefile b/drivers/gpu/drm/amd/display/amdgpu_dm/Makefile
+> index 7329b8cc2576..8e949fe77312 100644
+> --- a/drivers/gpu/drm/amd/display/amdgpu_dm/Makefile
+> +++ b/drivers/gpu/drm/amd/display/amdgpu_dm/Makefile
+> @@ -39,7 +39,8 @@ AMDGPUDM = \
+>   	amdgpu_dm_psr.o \
+>   	amdgpu_dm_replay.o \
+>   	amdgpu_dm_quirks.o \
+> -	amdgpu_dm_wb.o
+> +	amdgpu_dm_wb.o \
+> +	amdgpu_dm_colorop.o
+>   
+>   ifdef CONFIG_DRM_AMD_DC_FP
+>   AMDGPUDM += dc_fpu.o
+> diff --git a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_color.c b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_color.c
+> index ebabfe3a512f..0b513ab5050f 100644
+> --- a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_color.c
+> +++ b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_color.c
+> @@ -668,6 +668,18 @@ amdgpu_tf_to_dc_tf(enum amdgpu_transfer_function tf)
+>   	}
+>   }
+>   
+> +static enum dc_transfer_func_predefined
+> +amdgpu_colorop_tf_to_dc_tf(enum drm_colorop_curve_1d_type tf)
+> +{
+> +	switch (tf) {
+> +	case DRM_COLOROP_1D_CURVE_SRGB_EOTF:
+> +	case DRM_COLOROP_1D_CURVE_SRGB_INV_EOTF:
+> +		return TRANSFER_FUNCTION_SRGB;
+> +	default:
+> +		return TRANSFER_FUNCTION_LINEAR;
+> +	}
+> +}
+> +
+>   static void __to_dc_lut3d_color(struct dc_rgb *rgb,
+>   				const struct drm_color_lut lut,
+>   				int bit_precision)
+> @@ -1137,6 +1149,59 @@ __set_dm_plane_degamma(struct drm_plane_state *plane_state,
+>   	return 0;
+>   }
+>   
+> +static int
+> +__set_colorop_in_tf_1d_curve(struct dc_plane_state *dc_plane_state,
+> +		       struct drm_colorop_state *colorop_state)
+> +{
+> +	struct dc_transfer_func *tf = &dc_plane_state->in_transfer_func;
+> +	struct drm_colorop *colorop = colorop_state->colorop;
+> +	struct drm_device *drm = colorop->dev;
+> +
+> +	if (colorop->type != DRM_COLOROP_1D_CURVE ||
+> +	    colorop_state->curve_1d_type != DRM_COLOROP_1D_CURVE_SRGB_EOTF)
+> +		return -EINVAL;
+> +
+> +	if (colorop_state->bypass) {
+> +		tf->type = TF_TYPE_BYPASS;
+> +		tf->tf = TRANSFER_FUNCTION_LINEAR;
+> +		return 0;
+> +	}
+> +
+> +	drm_dbg(drm, "Degamma colorop with ID: %d\n", colorop->base.id);
+> +
+> +	tf->type = TF_TYPE_PREDEFINED;
+> +	tf->tf = amdgpu_colorop_tf_to_dc_tf(colorop_state->curve_1d_type);
+> +
+> +	return 0;
+> +}
+> +
+> +static int
+> +__set_dm_plane_colorop_degamma(struct drm_plane_state *plane_state,
+> +			       struct dc_plane_state *dc_plane_state,
+> +			       struct drm_colorop *colorop)
+> +{
+> +	struct drm_colorop *old_colorop;
+> +	struct drm_colorop_state *colorop_state = NULL, *new_colorop_state;
+> +	struct drm_atomic_state *state = plane_state->state;
+> +	int i = 0;
+> +
+> +	old_colorop = colorop;
+> +
+> +	/* 1st op: 1d curve - degamma */
+> +	for_each_new_colorop_in_state(state, colorop, new_colorop_state, i) {
+> +		if (new_colorop_state->colorop == old_colorop &&
+> +		    new_colorop_state->curve_1d_type == DRM_COLOROP_1D_CURVE_SRGB_EOTF) {
+> +			colorop_state = new_colorop_state;
+> +			break;
+> +		}
+> +	}
+> +
+> +	if (!colorop_state)
+> +		return -EINVAL;
+> +
+> +	return __set_colorop_in_tf_1d_curve(dc_plane_state, colorop_state);
+> +}
+> +
+>   static int
+>   amdgpu_dm_plane_set_color_properties(struct drm_plane_state *plane_state,
+>   				     struct dc_plane_state *dc_plane_state)
+> @@ -1187,6 +1252,24 @@ amdgpu_dm_plane_set_color_properties(struct drm_plane_state *plane_state,
+>   	return 0;
+>   }
+>   
+> +static int
+> +amdgpu_dm_plane_set_colorop_properties(struct drm_plane_state *plane_state,
+> +		       struct dc_plane_state *dc_plane_state)
+> +{
+> +	struct drm_colorop *colorop = plane_state->color_pipeline;
+> +	int ret;
+> +
+> +	/* 1D Curve - DEGAM TF */
+> +	if (!colorop)
+> +		return -EINVAL;
+> +
+> +	ret = __set_dm_plane_colorop_degamma(plane_state, dc_plane_state, colorop);
+> +	if (ret)
+> +		return ret;
+> +
+> +	return 0;
+> +}
+> +
+>   /**
+>    * amdgpu_dm_update_plane_color_mgmt: Maps DRM color management to DC plane.
+>    * @crtc: amdgpu_dm crtc state
+> @@ -1283,5 +1366,8 @@ int amdgpu_dm_update_plane_color_mgmt(struct dm_crtc_state *crtc,
+>   		dc_plane_state->input_csc_color_matrix.enable_adjustment = false;
+>   	}
+>   
+> +	if (!amdgpu_dm_plane_set_colorop_properties(plane_state, dc_plane_state))
+> +		return 0;
+> +
+>   	return amdgpu_dm_plane_set_color_properties(plane_state, dc_plane_state);
+>   }
+> diff --git a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_colorop.c b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_colorop.c
+> new file mode 100644
+> index 000000000000..9d371728b5fd
+> --- /dev/null
+> +++ b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_colorop.c
+> @@ -0,0 +1,71 @@
+> +// SPDX-License-Identifier: MIT
+> +/*
+> + * Copyright 2023 Advanced Micro Devices, Inc.
+> + *
+> + * Permission is hereby granted, free of charge, to any person obtaining a
+> + * copy of this software and associated documentation files (the "Software"),
+> + * to deal in the Software without restriction, including without limitation
+> + * the rights to use, copy, modify, merge, publish, distribute, sublicense,
+> + * and/or sell copies of the Software, and to permit persons to whom the
+> + * Software is furnished to do so, subject to the following conditions:
+> + *
+> + * The above copyright notice and this permission notice shall be included in
+> + * all copies or substantial portions of the Software.
+> + *
+> + * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+> + * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+> + * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.  IN NO EVENT SHALL
+> + * THE COPYRIGHT HOLDER(S) OR AUTHOR(S) BE LIABLE FOR ANY CLAIM, DAMAGES OR
+> + * OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE,
+> + * ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
+> + * OTHER DEALINGS IN THE SOFTWARE.
+> + *
+> + * Authors: AMD
+> + *
+> + */
+> +
+> +#include <drm/drm_print.h>
+> +#include <drm/drm_plane.h>
+> +#include <drm/drm_property.h>
+> +#include <drm/drm_colorop.h>
+> +
+> +#include "amdgpu_dm_colorop.h"
+> +
+> +const u64 amdgpu_dm_supported_degam_tfs =
+> +	BIT(DRM_COLOROP_1D_CURVE_SRGB_EOTF);
+> +
+> +#define MAX_COLOR_PIPELINE_OPS 10
+> +
+> +int amdgpu_dm_initialize_default_pipeline(struct drm_plane *plane, struct drm_prop_enum_list *list)
+> +{
+> +	struct drm_colorop *ops[MAX_COLOR_PIPELINE_OPS];
+> +	struct drm_device *dev = plane->dev;
+> +	int ret;
+> +	int i = 0;
+> +
+> +	memset(ops, 0, sizeof(ops));
+> +
+> +	/* 1D curve - DEGAM TF */
+> +	ops[i] = kzalloc(sizeof(struct drm_colorop), GFP_KERNEL);
+> +	if (!ops[i]) {
+> +		ret = -ENOMEM;
+> +		goto cleanup;
+> +	}
+> +
+> +	ret = drm_plane_colorop_curve_1d_init(dev, ops[i], plane, amdgpu_dm_supported_degam_tfs);
+> +	if (ret)
+> +		goto cleanup;
+> +
+> +	list->type = ops[i]->base.id;
+> +	list->name = kasprintf(GFP_KERNEL, "Color Pipeline %d", ops[i]->base.id);
+> +
+> +	return 0;
+> +
+> +cleanup:
+> +	if (ret == -ENOMEM)
+> +		drm_err(plane->dev, "KMS: Failed to allocate colorop\n");
+> +
+> +	drm_colorop_pipeline_destroy(plane);
+> +
+> +	return ret;
+> +}
+> diff --git a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_colorop.h b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_colorop.h
+> new file mode 100644
+> index 000000000000..3324e2a66079
+> --- /dev/null
+> +++ b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_colorop.h
+> @@ -0,0 +1,34 @@
+> +/* SPDX-License-Identifier: MIT */
+> +/*
+> + * Copyright 2023 Advanced Micro Devices, Inc.
+> + *
+> + * Permission is hereby granted, free of charge, to any person obtaining a
+> + * copy of this software and associated documentation files (the "Software"),
+> + * to deal in the Software without restriction, including without limitation
+> + * the rights to use, copy, modify, merge, publish, distribute, sublicense,
+> + * and/or sell copies of the Software, and to permit persons to whom the
+> + * Software is furnished to do so, subject to the following conditions:
+> + *
+> + * The above copyright notice and this permission notice shall be included in
+> + * all copies or substantial portions of the Software.
+> + *
+> + * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+> + * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+> + * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.  IN NO EVENT SHALL
+> + * THE COPYRIGHT HOLDER(S) OR AUTHOR(S) BE LIABLE FOR ANY CLAIM, DAMAGES OR
+> + * OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE,
+> + * ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
+> + * OTHER DEALINGS IN THE SOFTWARE.
+> + *
+> + * Authors: AMD
+> + *
+> + */
+> +
+> +#ifndef __AMDGPU_DM_COLOROP_H__
+> +#define __AMDGPU_DM_COLOROP_H__
+> +
+> +extern const u64 amdgpu_dm_supported_degam_tfs;
+> +
+> +int amdgpu_dm_initialize_default_pipeline(struct drm_plane *plane, struct drm_prop_enum_list *list);
+> +
+> +#endif /* __AMDGPU_DM_COLOROP_H__*/
+> diff --git a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_plane.c b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_plane.c
+> index 9a5b184e594f..9a56ade18314 100644
+> --- a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_plane.c
+> +++ b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_plane.c
+> @@ -37,6 +37,7 @@
+>   #include "amdgpu_display.h"
+>   #include "amdgpu_dm_trace.h"
+>   #include "amdgpu_dm_plane.h"
+> +#include "amdgpu_dm_colorop.h"
+>   #include "gc/gc_11_0_0_offset.h"
+>   #include "gc/gc_11_0_0_sh_mask.h"
+>   
+> @@ -1790,11 +1791,26 @@ static int
+>   dm_plane_init_colorops(struct drm_plane *plane)
+>   {
+>   	struct drm_prop_enum_list pipelines[MAX_COLOR_PIPELINES];
+> +	struct drm_device *dev = plane->dev;
+> +	struct amdgpu_device *adev = drm_to_adev(dev);
+> +	struct dc *dc = adev->dm.dc;
+>   	int len = 0;
+> +	int ret;
+>   
+>   	if (plane->type == DRM_PLANE_TYPE_CURSOR)
+>   		return 0;
+>   
+> +	/* initialize pipeline */
+> +	if (dc->ctx->dce_version >= DCN_VERSION_3_0) {
+Hi Alex,
 
-[...]
+I think you should skip color pipeline initialization and also doesn't 
+expose COLOR_PIPELINE property in DCN older than 3.
+It means returning earlier as done for cursor planes, instead of only 
+exposing the "Bypass" color pipeline.
+So those HW versions can still use current DRM color properties that is 
+not exposed if COLOR_PIPELINE is.
+> +		ret = amdgpu_dm_initialize_default_pipeline(plane, &(pipelines[len]));
+> +		if (ret) {
+> +			drm_err(plane->dev, "Failed to create color pipeline for plane %d: %d\n",
+> +				plane->base.id, ret);
+> +			return ret;
+> +		}
+> +		len++;
+> +	}
+> +
+>   	/* Create COLOR_PIPELINE property and attach */
+>   	drm_plane_create_color_pipeline_property(plane, pipelines, len);
+>   
 
-> @@ -2330,21 +2323,20 @@ static int fastrpc_rpmsg_probe(struct rpmsg_device *rpdev)
->  	case ADSP_DOMAIN_ID:
->  	case MDSP_DOMAIN_ID:
->  	case SDSP_DOMAIN_ID:
-> -		/* Unsigned PD offloading is only supported on CDSP and CDSP1 */
-> +		/* Unsigned PD offloading is only supported on CDSP */
->  		data->unsigned_support = false;
-> -		err = fastrpc_device_register(rdev, data, secure_dsp, domains[domain_id]);
-> +		err = fastrpc_device_register(rdev, data, secure_dsp, domain);
->  		if (err)
->  			goto err_free_data;
->  		break;
->  	case CDSP_DOMAIN_ID:
-> -	case CDSP1_DOMAIN_ID:
->  		data->unsigned_support = true;
->  		/* Create both device nodes so that we can allow both Signed and Unsigned PD */
-> -		err = fastrpc_device_register(rdev, data, true, domains[domain_id]);
-> +		err = fastrpc_device_register(rdev, data, true, domain);
->  		if (err)
->  			goto err_free_data;
->  
-> -		err = fastrpc_device_register(rdev, data, false, domains[domain_id]);
-> +		err = fastrpc_device_register(rdev, data, false, domain);
->  		if (err)
->  			goto err_deregister_fdev;
->  		break;
-
-Taking a step back, do we realistically need these checks at all?
-I would assume that there is a layer of security on the DSP side
-that would disallow running code in unsigned PDs on e.g. the ADSP.
-
-What happens if one skips them and attempts doing just that?
-
-Konrad
