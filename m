@@ -2,82 +2,79 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B141DAFEECA
-	for <lists+dri-devel@lfdr.de>; Wed,  9 Jul 2025 18:19:05 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 61F64AFEED1
+	for <lists+dri-devel@lfdr.de>; Wed,  9 Jul 2025 18:25:40 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 63C4210E2DE;
-	Wed,  9 Jul 2025 16:19:02 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id CA8EB10E343;
+	Wed,  9 Jul 2025 16:25:38 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=chromium.org header.i=@chromium.org header.b="JeHFsHVs";
+	dkim=pass (2048-bit key; unprotected) header.d=google.com header.i=@google.com header.b="OH44zrKV";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pl1-f171.google.com (mail-pl1-f171.google.com
- [209.85.214.171])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2042710E0A7
- for <dri-devel@lists.freedesktop.org>; Wed,  9 Jul 2025 16:19:01 +0000 (UTC)
-Received: by mail-pl1-f171.google.com with SMTP id
- d9443c01a7336-237311f5a54so627545ad.2
- for <dri-devel@lists.freedesktop.org>; Wed, 09 Jul 2025 09:19:01 -0700 (PDT)
+Received: from mail-pl1-f202.google.com (mail-pl1-f202.google.com
+ [209.85.214.202])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 28DE410E343
+ for <dri-devel@lists.freedesktop.org>; Wed,  9 Jul 2025 16:25:37 +0000 (UTC)
+Received: by mail-pl1-f202.google.com with SMTP id
+ d9443c01a7336-2356ce55d33so1028555ad.0
+ for <dri-devel@lists.freedesktop.org>; Wed, 09 Jul 2025 09:25:37 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=chromium.org; s=google; t=1752077940; x=1752682740;
+ d=google.com; s=20230601; t=1752078337; x=1752683137;
  darn=lists.freedesktop.org; 
- h=mime-version:user-agent:content-transfer-encoding:references
- :in-reply-to:date:cc:to:from:subject:message-id:from:to:cc:subject
- :date:message-id:reply-to;
- bh=WB0cSlpgHObUJTPQDLX4QuR9PrmDikXz04vEGr/TQgo=;
- b=JeHFsHVs+jgcD4u5LKa99Y0MDHai+PShXXwMyLPx9iFtevBbPZ2Lf6B00c2eTCwTrX
- ols4i1/3PQlWzKfsVmdHuIf6u/daseBdV+h3dVVyjMbga0TyAdb8QIIhqPiP3eV/SqqH
- df+VXOzDxMpWFspUI5wlrzyrSAi/nRu6e1rrM=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1752077940; x=1752682740;
- h=mime-version:user-agent:content-transfer-encoding:references
- :in-reply-to:date:cc:to:from:subject:message-id:x-gm-message-state
+ h=to:from:subject:message-id:references:mime-version:in-reply-to:date
  :from:to:cc:subject:date:message-id:reply-to;
- bh=WB0cSlpgHObUJTPQDLX4QuR9PrmDikXz04vEGr/TQgo=;
- b=UPk7KKJKbzchyQt3RpY9IW+bNKQPQpwluNj6DmwiC29lk7b5C3EKMHqRNRE17Ls+h5
- 0QczgO49rDzKRtQz+aqjT1ct19Tc9C4YpJ08kHlmbVH0s+SXFBa4C0y4+AhZ1ZwmmkmU
- /ZmQRbPMnn+rrPVJV96pukYq/qgskgqVtpiydmVojsCAumIzvXS8Fe92tguPKjSInxqA
- sM9NViGcDQCJKD17HPTQQepp2vB2hG5XULFAGk19+nKVOk0QB58/MLHD/NyHfYiEAGhl
- ZQynDEuudgpnses6//UU9tLknkg5A15toPSJN5VstwkLHHfOuKDKsf0ccgZRiPTC/DlI
- 2PtQ==
+ bh=ceX1V+pEYtx5k0rbcDGOFPKwI1VckK/A3ZcmuXkjgsE=;
+ b=OH44zrKVuDycoSYAdj/MpZbje/SPamfF/1DKtiw5slQVscX525dDB4p6l8gXJ3Dt/G
+ oE95IMmwwJLG0FP9rO6PlP2VmLZ5a0o/gdvMu2Y+Vq0xWawOwUXYplPFbECr43/m36Rz
+ DA/D2QInE7W5ppYQxsykxUekEuDICRlCZ7s5M4SzgCrpbcGOcFqzIj6yX40W3srl4iCg
+ Wl2CNWBqMgahThq1lgBPkpeiCf2rGUFFm8Bt0/PtNz7+OTV9KVpzIotrxGu5L6tJLU7V
+ /QwptuQWlevtg5ESAf/Shp1GZ3Os/hAkQkwpAHUqfk+0+f7BpOsuCkaXmUva67UifAil
+ mQtQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1752078337; x=1752683137;
+ h=to:from:subject:message-id:references:mime-version:in-reply-to:date
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=ceX1V+pEYtx5k0rbcDGOFPKwI1VckK/A3ZcmuXkjgsE=;
+ b=pPUOHG7SnMVz6UL2ALy57OCumOR+VzrpfYYtLc2e4uQSMV55fTYLL8uJQdI+Q3/KLO
+ 7thPaF4oF0dxNnDDQ+P0H/mjhMNeDr2nN+Vsg0YvayZXoeG3ns605s/nqH36wORrflQ+
+ ucuHRxZnKlcpgk+10vSf01DH9KdnP5Yc8sYOEPPfGt8ixpz1D6TX5a6uS/Qk4HHrSBlI
+ WdhiarZLSkgBreWxkskYcbkVQCXZo3G4D2LCMgiWfXfm8ko5QfS/WX7/0Xj2jgpxe14D
+ 5TaHmDqSIlHc+DTWsxa6y5ailIJjPiAXefiyzyqOKmiQ98U+pcR1jsTXOtlpiGk8JTHg
+ MB+Q==
 X-Forwarded-Encrypted: i=1;
- AJvYcCUVpEyWmUajN/QDCDk0QcgMpcEmtuovk0znll6JGwk1CxmWgPRAyM1hRR5xQITQamJ2Nc4RjWwqPy8=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YycjRMJVxRjofTaLGxKoglVI0DGqFOGHaI7DFSi0tU+DPmx7Bjs
- Gr96068kiLmHNraNQceydaSOSWuQdpTPiKlc3hLrxF0wZN/hu8i+sI/mh03psFHjOJ8bTn6lDHh
- 0dk4=
-X-Gm-Gg: ASbGnctz3dSTmLYDkDpbtCKDMeaUeD4cAdOuL1RFKpF2N80WWvwpvkX6oiu5f6DH0zV
- jnV4iO0/jQUpnmuQZFW+CSMHghO0vmUjdKZxKEKFi0NA5E4vdq7vwWfd8k2XNHt8ODp/Fk9Rs/W
- 9gWUuBeYqDAK+TwsROTyMaguoOFdhaPjbK0ktMLvnZ3BYibPtJlGM3KuBbODha+C0Jnix2KXXm0
- owDRRGLRRVLrRUmlbzfBj1OS+Yu2qiN7xnMfbW8sBygnp7+WVekLo/Xm/+/iHLnEbx5+8C+Z0fy
- rh6lRTGDj1XpXusp9IfKw0NHy4qi3s57fpkTigUSOX8t4ED77aEiXmtYIjmep+lcUUKgjzHZFjY
- /1nib+as/HGfyam31pvOOK45CIGUp+cA7KIHGaabHEhNvZV3V
-X-Google-Smtp-Source: AGHT+IFke1rWcERTnVfsNfizWhdI48Cb7B3RZHpWRa/Xxw+Wp8UABWvnwAmyc1QGgSwsUq1m6VPQow==
-X-Received: by 2002:a17:90b:4d07:b0:313:1e9d:404b with SMTP id
- 98e67ed59e1d1-31c2fd26befmr5297301a91.2.1752077940381; 
- Wed, 09 Jul 2025 09:19:00 -0700 (PDT)
-Received: from justonli3.c.googlers.com
- (206.138.168.34.bc.googleusercontent.com. [34.168.138.206])
- by smtp.gmail.com with ESMTPSA id
- d9443c01a7336-23c8455babasm140538685ad.107.2025.07.09.09.18.59
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 09 Jul 2025 09:18:59 -0700 (PDT)
-Message-ID: <858a70c5779027572476e02fb7aa580cf7e829f9.camel@chromium.org>
-Subject: Re: [PATCH v5 2/2] drm/xe/bo: add GPU memory trace points
-From: Juston Li <justonli@chromium.org>
-To: Lucas De Marchi <lucas.demarchi@intel.com>
-Cc: intel-xe@lists.freedesktop.org, dri-devel@lists.freedesktop.org, Tvrtko
- Ursulin <tursulin@ursulin.net>, Tvrtko Ursulin <tvrtko.ursulin@igalia.com>,
- Yiwei Zhang	 <zzyiwei@google.com>, Rodrigo Vivi <rodrigo.vivi@intel.com>
-Date: Wed, 09 Jul 2025 09:18:58 -0700
-In-Reply-To: <dqatebbwn3ek7nfguu2l2b4awc7a4pqlizuh5cvaa5jfqmiakv@z3voepobjgul>
-References: <20250707203849.545312-1-justonli@chromium.org>
- <20250707203849.545312-2-justonli@chromium.org>
- <dqatebbwn3ek7nfguu2l2b4awc7a4pqlizuh5cvaa5jfqmiakv@z3voepobjgul>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.56.1-1+build1 
-MIME-Version: 1.0
+ AJvYcCWFBZBfPGFWU/MCs7QZO+djLjOjsQisKU8aq7xDTWRoZjTmn6+/FN6vy/0IKpyX6ZoOmNcOxp9mIwg=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0Yy/55RjStg75pd5OvhC0Dynjka6x2LtJ7Va+W0ueXTpjfjnDAsT
+ 0Ks+DELVNXPH/GyyjcvZq3Y97FDtA62omz0S6mrobfT73w5v2sTeufBWg2Ch0UrTIsuPZlHmkCd
+ efplzFw==
+X-Google-Smtp-Source: AGHT+IH+kN8wldNATK8t+RrFuOEfWrywXkePo1LcH5lJU83pzCFc9eEYj+xjtCKl7JjT7Dl07ty9+fMYhsA=
+X-Received: from pjyr7.prod.google.com ([2002:a17:90a:e187:b0:314:2a3f:89c5])
+ (user=seanjc job=prod-delivery.src-stubby-dispatcher) by
+ 2002:a17:903:190d:b0:234:8a16:d62b
+ with SMTP id d9443c01a7336-23ddb1a4d34mr50987395ad.12.1752078336689; Wed, 09
+ Jul 2025 09:25:36 -0700 (PDT)
+Date: Wed, 9 Jul 2025 09:25:35 -0700
+In-Reply-To: <20250522233733.3176144-1-seanjc@google.com>
+Mime-Version: 1.0
+References: <20250522233733.3176144-1-seanjc@google.com>
+Message-ID: <aG6X__K8MvVYORkr@google.com>
+Subject: Re: [PATCH v3 0/8] x86, KVM: Optimize SEV cache flushing
+From: Sean Christopherson <seanjc@google.com>
+To: Thomas Gleixner <tglx@linutronix.de>, Ingo Molnar <mingo@redhat.com>,
+ Borislav Petkov <bp@alien8.de>, 
+ Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org, 
+ Paolo Bonzini <pbonzini@redhat.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+ linux-kernel@vger.kernel.org, 
+ kvm@vger.kernel.org, dri-devel@lists.freedesktop.org, 
+ Kevin Loughlin <kevinloughlin@google.com>,
+ Tom Lendacky <thomas.lendacky@amd.com>, 
+ Kai Huang <kai.huang@intel.com>, Ingo Molnar <mingo@kernel.org>, 
+ Zheyun Shen <szy0127@sjtu.edu.cn>, Mingwei Zhang <mizhang@google.com>, 
+ Francesco Lavra <francescolavra.fl@gmail.com>
+Content-Type: text/plain; charset="us-ascii"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -93,72 +90,45 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, 2025-07-08 at 15:29 -0500, Lucas De Marchi wrote:
-> On Mon, Jul 07, 2025 at 01:38:23PM -0700, Juston Li wrote:
-> > Add TRACE_GPU_MEM tracepoints for tracking global GPU memory usage.
-> >=20
-> > These are required by VSR on Android 12+ for reporting GPU driver
-> > memory
-> > allocations.
-> >=20
-> > v5:
-> > - Drop process_mem tracking
-> > - Set the gpu_id field to dev->primary->index (Lucas, Tvrtko)
-> > - Formatting cleanup under 80 columns
-> >=20
-> > v3:
-> > - Use now configurable CONFIG_TRACE_GPU_MEM instead of adding a
-> > =C2=A0 per-driver Kconfig (Lucas)
-> >=20
-> > v2:
-> > - Use u64 as preferred by checkpatch (Tvrtko)
-> > - Fix errors in comments/Kconfig description (Tvrtko)
-> > - drop redundant "CONFIG" in Kconfig
-> >=20
-> > Signed-off-by: Juston Li <justonli@chromium.org>
-> > Reviewed-by: Tvrtko Ursulin <tvrtko.ursulin@igalia.com>
-> > ---
-> > drivers/gpu/drm/xe/xe_bo.c=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0 | 22 ++++++++++++++++++++++
-> > drivers/gpu/drm/xe/xe_device_types.h |=C2=A0 8 ++++++++
-> > 2 files changed, 30 insertions(+)
-> >=20
-> > diff --git a/drivers/gpu/drm/xe/xe_bo.c
-> > b/drivers/gpu/drm/xe/xe_bo.c
-> > index 4e39188a021ab..950eef514c11c 100644
-> > --- a/drivers/gpu/drm/xe/xe_bo.c
-> > +++ b/drivers/gpu/drm/xe/xe_bo.c
-> > @@ -19,6 +19,8 @@
-> >=20
-> > #include <kunit/static_stub.h>
-> >=20
-> > +#include <trace/events/gpu_mem.h>
-> > +
-> > #include "xe_device.h"
-> > #include "xe_dma_buf.h"
-> > #include "xe_drm_client.h"
-> > @@ -418,6 +420,24 @@ static void xe_ttm_tt_account_subtract(struct
-> > xe_device *xe, struct ttm_tt *tt)
-> > 		xe_shrinker_mod_pages(xe->mem.shrinker, -(long)tt-
-> > >num_pages, 0);
-> > }
-> >=20
-> > +#if IS_ENABLED(CONFIG_TRACE_GPU_MEM)
-> > +static void update_global_total_pages(struct ttm_device *ttm_dev,
-> > +				=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 long num_pages)
-> > +{
->=20
-> wouldn't it be better to move the ifdef inside the function?
-> Any compiler would remove the empty call regardless of the inline
-> annotation, so I think this would make it less error prone if we
-> change
-> function signature.
->=20
-> No need to send a new version, I can move that while applying
-> if agreed.
+On Thu, May 22, 2025, Sean Christopherson wrote:
+> This is the combination of Kevin's WBNOINVD series[1] with Zheyun's targeted
+> flushing series[2].  The combined goal is to use WBNOINVD instead of WBINVD
+> when doing cached maintenance to prevent data corruption due to C-bit aliasing,
+> and to reduce the number of cache invalidations by only performing flushes on
+> CPUs that have entered the relevant VM since the last cache flush.
+> 
+> All of the non-KVM patches are frontloaded and based on v6.15-rc7, so that
+> they can go through the tip tree (in a stable branch, please :-) ).
 
-SGTM, thanks!
+Tip tree folks, any feedback/thoughts on this series (patches 1-4 in particular)?
+It'd be nice to get this into 6.17, and I'd really like land it by 6.18 at the
+latest.
 
-Juston
-
-> Lucas De Marchi
+> Kevin Loughlin (2):
+>   x86, lib: Add WBNOINVD helper functions
+>   KVM: SEV: Prefer WBNOINVD over WBINVD for cache maintenance efficiency
+> 
+> Sean Christopherson (3):
+>   drm/gpu: Remove dead checks on wbinvd_on_all_cpus()'s return value
+>   x86, lib: Drop the unused return value from wbinvd_on_all_cpus()
+>   KVM: x86: Use wbinvd_on_cpu() instead of an open-coded equivalent
+> 
+> Zheyun Shen (3):
+>   x86, lib: Add wbinvd and wbnoinvd helpers to target multiple CPUs
+>   KVM: SVM: Remove wbinvd in sev_vm_destroy()
+>   KVM: SVM: Flush cache only on CPUs running SEV guest
+> 
+>  arch/x86/include/asm/smp.h           | 23 +++++++-
+>  arch/x86/include/asm/special_insns.h | 32 ++++++++++-
+>  arch/x86/kvm/svm/sev.c               | 85 +++++++++++++++++++---------
+>  arch/x86/kvm/svm/svm.h               |  1 +
+>  arch/x86/kvm/x86.c                   | 11 +---
+>  arch/x86/lib/cache-smp.c             | 26 ++++++++-
+>  drivers/gpu/drm/drm_cache.c          |  9 +--
+>  7 files changed, 140 insertions(+), 47 deletions(-)
+> 
+> 
+> base-commit: a5806cd506af5a7c19bcd596e4708b5c464bfd21
+> -- 
+> 2.49.0.1151.ga128411c76-goog
+> 
