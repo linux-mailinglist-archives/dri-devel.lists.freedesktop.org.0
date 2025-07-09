@@ -2,44 +2,61 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 883EEAFE5E8
-	for <lists+dri-devel@lfdr.de>; Wed,  9 Jul 2025 12:37:17 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6021CAFE635
+	for <lists+dri-devel@lfdr.de>; Wed,  9 Jul 2025 12:46:20 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id DE64210E78E;
-	Wed,  9 Jul 2025 10:37:15 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id EEC0310E0D9;
+	Wed,  9 Jul 2025 10:46:17 +0000 (UTC)
+Authentication-Results: gabe.freedesktop.org;
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="p/RbCtwB";
+	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
- by gabe.freedesktop.org (Postfix) with ESMTP id D7BE710E78E
- for <dri-devel@lists.freedesktop.org>; Wed,  9 Jul 2025 10:37:13 +0000 (UTC)
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
- by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id C35191007;
- Wed,  9 Jul 2025 03:37:01 -0700 (PDT)
-Received: from [10.57.86.38] (unknown [10.57.86.38])
- by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 4E42B3F694;
- Wed,  9 Jul 2025 03:37:10 -0700 (PDT)
-Message-ID: <f66307f4-7745-41a9-8c08-4be3b4d97403@arm.com>
-Date: Wed, 9 Jul 2025 11:37:08 +0100
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B45B810E0D9
+ for <dri-devel@lists.freedesktop.org>; Wed,  9 Jul 2025 10:46:16 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+ by dfw.source.kernel.org (Postfix) with ESMTP id BADD45C5E4E;
+ Wed,  9 Jul 2025 10:46:15 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 138F7C4CEF4;
+ Wed,  9 Jul 2025 10:46:14 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1752057975;
+ bh=toOWmA98bVu2FI5BfREr41cRJRfznyEzuTbtF2pq5vU=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=p/RbCtwBEwgrt+D/0Kzo5Wp3epPu7LvoHPe59rrtU2snFbfwYSud6fLp4oKW2kphE
+ jBFPcZZk1tmRbF9gXLp0JXcX9HfcAch5q2aMh441vLX8O8+XZQ7lhFfX2kz20JLbbn
+ r75bP/kEsBiU5QavKp9gochHOUqd6mRG42yY3EYs2lehuuB7G1ghejqrga/ah/Hfds
+ mDcQ9zhJ9Usp3HpOTBV7vQxTLwH1veANqo5RKJj17irzn3g2+yaN1jZLJWUUhOULs1
+ PcQl/4z3xzp3IHdRFoM3htbF38gfV8o+7bsphf799RO7ECrevKMm0woI6MCCaUjzN3
+ KW+gwwPp0QFjQ==
+Date: Wed, 9 Jul 2025 11:45:56 +0100
+From: Mark Brown <broonie@kernel.org>
+To: Naresh Kamboju <naresh.kamboju@linaro.org>
+Cc: open list <linux-kernel@vger.kernel.org>, lkft-triage@lists.linaro.org,
+ Linux Regressions <regressions@lists.linux.dev>,
+ dri-devel@lists.freedesktop.org,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ Danilo Krummrich <dakr@kernel.org>,
+ "Rafael J. Wysocki" <rafael@kernel.org>,
+ Abdun Nihaal <abdun.nihaal@gmail.com>,
+ Dan Carpenter <dan.carpenter@linaro.org>, Arnd Bergmann <arnd@arndb.de>,
+ Anders Roxell <anders.roxell@linaro.org>,
+ Ben Copeland <benjamin.copeland@linaro.org>,
+ Andrzej Hajda <andrzej.hajda@intel.com>,
+ Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>,
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
+ Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>
+Subject: Re: next-20250702 kernel NULL pointer dereference
+ adv7511_cec_register_volatile
+Message-ID: <aG5IZBTJSabxpyct@finisterre.sirena.org.uk>
+References: <CA+G9fYtvLHtjKbw-zpqGmtmBMgyJ0B8aiVwd8R=vRnj9YOZ3Xw@mail.gmail.com>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] drm/panfrost: Fix scheduler workqueue bug
-To: Philipp Stanner <phasta@kernel.org>,
- Boris Brezillon <boris.brezillon@collabora.com>,
- Rob Herring <robh@kernel.org>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- Tvrtko Ursulin <tvrtko.ursulin@igalia.com>,
- Frank Binns <frank.binns@imgtec.com>, Danilo Krummrich <dakr@kernel.org>,
- Matthew Brost <matthew.brost@intel.com>
-Cc: dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- stable@vger.kernel.org
-References: <20250709102957.100849-2-phasta@kernel.org>
-From: Steven Price <steven.price@arm.com>
-Content-Language: en-GB
-In-Reply-To: <20250709102957.100849-2-phasta@kernel.org>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: multipart/signed; micalg=pgp-sha512;
+ protocol="application/pgp-signature"; boundary="LI3MD61bKK9M3qHg"
+Content-Disposition: inline
+In-Reply-To: <CA+G9fYtvLHtjKbw-zpqGmtmBMgyJ0B8aiVwd8R=vRnj9YOZ3Xw@mail.gmail.com>
+X-Cookie: Do not cut switchbacks.
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -55,47 +72,51 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 09/07/2025 11:29, Philipp Stanner wrote:
-> When the GPU scheduler was ported to using a struct for its
-> initialization parameters, it was overlooked that panfrost creates a
-> distinct workqueue for timeout handling.
-> 
-> The pointer to this new workqueue is not initialized to the struct,
-> resulting in NULL being passed to the scheduler, which then uses the
-> system_wq for timeout handling.
-> 
-> Set the correct workqueue to the init args struct.
-> 
-> Cc: stable@vger.kernel.org # 6.15+
-> Fixes: 796a9f55a8d1 ("drm/sched: Use struct for drm_sched_init() params")
-> Reported-by: Tvrtko Ursulin <tvrtko.ursulin@igalia.com>
-> Closes: https://lore.kernel.org/dri-devel/b5d0921c-7cbf-4d55-aa47-c35cd7861c02@igalia.com/
-> Signed-off-by: Philipp Stanner <phasta@kernel.org>
 
-Reviewed-by: Steven Price <steven.price@arm.com>
+--LI3MD61bKK9M3qHg
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-> ---
->  drivers/gpu/drm/panfrost/panfrost_job.c | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
-> 
-> diff --git a/drivers/gpu/drm/panfrost/panfrost_job.c b/drivers/gpu/drm/panfrost/panfrost_job.c
-> index 5657106c2f7d..15e2d505550f 100644
-> --- a/drivers/gpu/drm/panfrost/panfrost_job.c
-> +++ b/drivers/gpu/drm/panfrost/panfrost_job.c
-> @@ -841,7 +841,6 @@ int panfrost_job_init(struct panfrost_device *pfdev)
->  		.num_rqs = DRM_SCHED_PRIORITY_COUNT,
->  		.credit_limit = 2,
->  		.timeout = msecs_to_jiffies(JOB_TIMEOUT_MS),
-> -		.timeout_wq = pfdev->reset.wq,
->  		.name = "pan_js",
->  		.dev = pfdev->dev,
->  	};
-> @@ -879,6 +878,7 @@ int panfrost_job_init(struct panfrost_device *pfdev)
->  	pfdev->reset.wq = alloc_ordered_workqueue("panfrost-reset", 0);
->  	if (!pfdev->reset.wq)
->  		return -ENOMEM;
-> +	args.timeout_wq = pfdev->reset.wq;
->  
->  	for (j = 0; j < NUM_JOB_SLOTS; j++) {
->  		js->queue[j].fence_context = dma_fence_context_alloc(1);
+On Wed, Jul 09, 2025 at 01:26:02AM +0530, Naresh Kamboju wrote:
 
+> I am investigating this issue,
+> Planning to revert and re-build and test in a loop.
+>   c871c199accb3 regmap: fix potential memory leak of regmap_bus
+
+> [   11.087822] Call trace:
+> [   11.094930] adv7511_cec_register_volatile+0xc/0x30 adv7511 (P)
+> [   11.097194] regcache_read (drivers/base/regmap/regcache.c:273)
+> [   11.103438] _regmap_read (drivers/base/regmap/regmap.c:2805)
+> [   11.107084] regmap_read (drivers/base/regmap/regmap.c:2850)
+
+This backtrace seems fishy, the function that's faulting is just doing a
+straight lookup of the register number without reference to the supplied
+device.  This looks like a preexisting bug in the driver, we create an
+I2C bus for the CEC in adv7511_init_cec_regmap() using a non-devm
+function but register the interrupt handler using devm_request_threaded_irq()
+and devm will free things after the remove function has run.  This means
+that on removal or error cleanup we free the I2C bus while the interrupt
+is still registered but nothing stops the interrupt handler from
+continuing to try to access the freed CEC bus.  This is going to access
+freed memory, I'm kind of surprised it wasn't already having trouble -
+turning on some of the memory debugging options or sanitisers should
+show issues.
+
+Don't use devm_request_threaded_irq() folks...
+
+--LI3MD61bKK9M3qHg
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmhuSGAACgkQJNaLcl1U
+h9CZOAf/c99HaLL754qnRVUODTIV7glQ5Q1Sek0UI1/MTsNPm6n7XKskuUiiN7+2
+LZnY5V5o8K+cT9SVnq4yWNjRqokYzLelg3y5HwmdjbbIMY3ixk96NZ/KdxnnWtCi
+w/Ao85DqtB899+Hl5Lhpgvyp/FEcjT/xPXS2F9lL1Mxs47SaCRwGxA6/e1k4Ol4K
+bgG44Nl2UuilfCvM05/Vn4PEHkdJMEdlL8ss3DKNo1wwqCqaiOnxHsMvp767Ryot
+D08nmTPMcIvrke96xqshqsqIVJfeaX2XINzFQahMwQWAABC5xyujMI6ic2INpFXY
+t0tp8kTIQkEvCi5qgTnK0OPiCb+WuA==
+=mbqq
+-----END PGP SIGNATURE-----
+
+--LI3MD61bKK9M3qHg--
