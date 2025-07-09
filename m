@@ -2,61 +2,58 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 878FFAFF217
-	for <lists+dri-devel@lfdr.de>; Wed,  9 Jul 2025 21:56:40 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id A498EAFF220
+	for <lists+dri-devel@lfdr.de>; Wed,  9 Jul 2025 21:59:02 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8AE8B10E827;
-	Wed,  9 Jul 2025 19:56:38 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 75B2710E83D;
+	Wed,  9 Jul 2025 19:58:51 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=igalia.com header.i=@igalia.com header.b="mBsvRYmV";
+	dkim=pass (2048-bit key; secure) header.d=sntech.de header.i=@sntech.de header.b="CplRT5r6";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from fanzine2.igalia.com (fanzine2.igalia.com [213.97.179.56])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7262510E819;
- Wed,  9 Jul 2025 19:56:37 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com; 
- s=20170329;
- h=Content-Transfer-Encoding:Content-Type:In-Reply-To:From:
- References:Cc:To:Subject:MIME-Version:Date:Message-ID:Sender:Reply-To:
- Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
- Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
- List-Subscribe:List-Post:List-Owner:List-Archive;
- bh=v50Es8LiRxQaBzdyvHIUhOSjlF/TdkUwMMDLgC34goc=; b=mBsvRYmVQZ4S1C7sVri/6BUxz2
- Ch/p+rREhgYdaDr7Lvj6yPkmMm3UGnqECTLJVJdoaoAMpLtlSNgvLtAF+SF4JTAtZNNummYyQQidT
- X4hfTt7U1D3j5o13TCHT1MqRQkMG01RjxYRMDoIDAI7+e5DBZukMDnlAH0cLjPIFyYmVdsUOcUb6Z
- mUALEiQV8GR92IMnMpuGJPwcNWFRzPi4Vk0h4rE5ls0IzPV625Knl+L/UpZBM3PqmHuepkaYZS38E
- Z9xEcQf5e84WeXJOUSX6eHI1vTXv40j8SRAbCy8MOw+OItb7MbXmjxREcShoyGr+RFPWb2nrh4DsF
- 34bK7Uig==;
-Received: from [165.204.54.249] (helo=[192.168.111.39])
- by fanzine2.igalia.com with esmtpsa 
- (Cipher TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_128_GCM:128) (Exim)
- id 1uZau8-00EcoL-IB; Wed, 09 Jul 2025 21:56:32 +0200
-Message-ID: <a56d267c-734e-4787-a035-c39eb062bc3f@igalia.com>
-Date: Wed, 9 Jul 2025 15:56:27 -0400
+Received: from gloria.sntech.de (gloria.sntech.de [185.11.138.130])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 111E210E826
+ for <dri-devel@lists.freedesktop.org>; Wed,  9 Jul 2025 19:58:50 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=sntech.de; 
+ s=gloria202408;
+ h=Content-Type:Content-Transfer-Encoding:MIME-Version:
+ References:In-Reply-To:Message-ID:Date:Subject:Cc:To:From:Reply-To;
+ bh=Oi+8ljfF+JQ62/JezDSEUuiZkb455tkEy3zZWjAXllY=; b=CplRT5r6vcPr6kjF6esg0ft930
+ B90fQvkTqExfjC/bI9ln9oLal5rexREbxOjnqMv5pb0a18gQDO/sUzrXkC7Tuqyq/UnM4SJD5Q4js
+ vJsLIbGSTvV1bEHWxzhmjgOm/rA/4h5hAB4ob+Mw7zL6XdA6rE9zvyCo/QOg4P8+894UnFF8CYXi/
+ 1IF31V+e1mgGDD3pGhy4KUTzB3UcJbZLDkIVFeRNotAoqE6RKf9arcc2Bz3qB6CpXwWSGq1BfspbA
+ GA+h8dm92fFcTEf85HDWVt5VBHBqQYhMdxrjDcu7jBP3mQMgUlZw6Cjx6lJ1IzVJRpmrOxbT++sHQ
+ lK7lIn7A==;
+Received: from i53875a79.versanet.de ([83.135.90.121] helo=diego.localnet)
+ by gloria.sntech.de with esmtpsa (TLS1.3) tls
+ TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384 (Exim 4.94.2)
+ (envelope-from <heiko@sntech.de>)
+ id 1uZavq-0006bE-Gp; Wed, 09 Jul 2025 21:58:18 +0200
+From: Heiko =?UTF-8?B?U3TDvGJuZXI=?= <heiko@sntech.de>
+To: andrzej.hajda@intel.com, neil.armstrong@linaro.org, rfoss@kernel.org,
+ Damon Ding <damon.ding@rock-chips.com>
+Cc: Laurent.pinchart@ideasonboard.com, jonas@kwiboo.se,
+ jernej.skrabec@gmail.com, maarten.lankhorst@linux.intel.com,
+ mripard@kernel.org, tzimmermann@suse.de, airlied@gmail.com, simona@ffwll.ch,
+ jingoohan1@gmail.com, inki.dae@samsung.com, sw0312.kim@samsung.com,
+ kyungmin.park@samsung.com, krzk@kernel.org, alim.akhtar@samsung.com,
+ hjc@rock-chips.com, andy.yan@rock-chips.com,
+ dmitry.baryshkov@oss.qualcomm.com, l.stach@pengutronix.de,
+ dianders@chromium.org, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+ linux-samsung-soc@vger.kernel.org, linux-rockchip@lists.infradead.org,
+ Damon Ding <damon.ding@rock-chips.com>
+Subject: Re: [PATCH v2 05/12] drm/exynos: exynos_dp: Remove redundant
+ &analogix_dp_plat_data.skip_connector
+Date: Wed, 09 Jul 2025 21:58:17 +0200
+Message-ID: <6306541.2iPT33SAM4@diego>
+In-Reply-To: <20250709070139.3130635-6-damon.ding@rock-chips.com>
+References: <20250709070139.3130635-1-damon.ding@rock-chips.com>
+ <20250709070139.3130635-6-damon.ding@rock-chips.com>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH V10 45/46] drm/amd/display: Ensure 3D LUT for color
- pipeline
-To: Alex Hung <alex.hung@amd.com>, dri-devel@lists.freedesktop.org,
- amd-gfx@lists.freedesktop.org
-Cc: wayland-devel@lists.freedesktop.org, harry.wentland@amd.com,
- leo.liu@amd.com, ville.syrjala@linux.intel.com,
- pekka.paalanen@collabora.com, contact@emersion.fr, jadahl@redhat.com,
- sebastian.wick@redhat.com, shashank.sharma@amd.com, agoins@nvidia.com,
- joshua@froggi.es, mdaenzer@redhat.com, aleixpol@kde.org,
- xaver.hugl@gmail.com, victoria@system76.com, daniel@ffwll.ch,
- uma.shankar@intel.com, quic_naseer@quicinc.com, quic_cbraga@quicinc.com,
- quic_abhinavk@quicinc.com, marcan@marcan.st, Liviu.Dudau@arm.com,
- sashamcintosh@google.com, chaitanya.kumar.borah@intel.com,
- louis.chauvet@bootlin.com, arthurgrillo@riseup.net
-References: <20250617041746.2884343-1-alex.hung@amd.com>
- <20250617041746.2884343-46-alex.hung@amd.com>
-Content-Language: en-US
-From: Melissa Wen <mwen@igalia.com>
-In-Reply-To: <20250617041746.2884343-46-alex.hung@amd.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset="utf-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -72,231 +69,44 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+Hi Damon,
 
-
-On 17/06/2025 00:17, Alex Hung wrote:
-> Check dpp.hw_3d_lut before creating shaper tf/lut and 3dlut colorops in
-> colorpipeline and handling these colorops.
->
-> Signed-off-by: Alex Hung <alex.hung@amd.com>
+Am Mittwoch, 9. Juli 2025, 09:01:32 Mitteleurop=C3=A4ische Sommerzeit schri=
+eb Damon Ding:
+> The &analogix_dp_plat_data.skip_connector related check can be replaced
+> by &analogix_dp_plat_data.bridge.
+>=20
+> Signed-off-by: Damon Ding <damon.ding@rock-chips.com>
 > ---
-> V10:
->   - Check dpp.hw_3d_lut before creating shaper tf/lut and 3dlut colorops
->     (Melissa Wen)
->
->   .../amd/display/amdgpu_dm/amdgpu_dm_color.c   |  47 ++++----
->   .../amd/display/amdgpu_dm/amdgpu_dm_colorop.c | 103 +++++++++---------
->   2 files changed, 78 insertions(+), 72 deletions(-)
->
-> diff --git a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_color.c b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_color.c
-> index b53aecd1bebc..c6d4a9365c00 100644
-> --- a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_color.c
-> +++ b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_color.c
-> @@ -1825,6 +1825,7 @@ amdgpu_dm_plane_set_colorop_properties(struct drm_plane_state *plane_state,
->   {
->   	struct drm_colorop *colorop = plane_state->color_pipeline;
->   	struct drm_device *dev = plane_state->plane->dev;
-> +	struct amdgpu_device *adev = drm_to_adev(dev);
->   	int ret;
->   
->   	/* 1D Curve - DEGAM TF */
-> @@ -1857,32 +1858,34 @@ amdgpu_dm_plane_set_colorop_properties(struct drm_plane_state *plane_state,
->   	if (ret)
->   		return ret;
->   
-> -	/* 1D Curve & LUT - SHAPER TF & LUT */
-> -	colorop = colorop->next;
-> -	if (!colorop) {
-> -		drm_dbg(dev, "no Shaper TF colorop found\n");
-> -		return -EINVAL;
-> -	}
-> +	if (adev->dm.dc->caps.color.dpp.hw_3d_lut) {
+>  drivers/gpu/drm/exynos/exynos_dp.c | 1 -
+>  1 file changed, 1 deletion(-)
+>=20
+> diff --git a/drivers/gpu/drm/exynos/exynos_dp.c b/drivers/gpu/drm/exynos/=
+exynos_dp.c
+> index 9d7d3f009e58..9e1313fdecad 100644
+> --- a/drivers/gpu/drm/exynos/exynos_dp.c
+> +++ b/drivers/gpu/drm/exynos/exynos_dp.c
+> @@ -237,7 +237,6 @@ static int exynos_dp_probe(struct platform_device *pd=
+ev)
+>  	dp->plat_data.power_off =3D exynos_dp_poweroff;
+>  	dp->plat_data.attach =3D exynos_dp_bridge_attach;
+>  	dp->plat_data.get_modes =3D exynos_dp_get_modes;
+> -	dp->plat_data.skip_connector =3D !!bridge;
+> =20
+>  out:
+>  	dp->adp =3D analogix_dp_probe(dev, &dp->plat_data);
+>=20
 
-No I think it will not work as expected for movable 3D LUT, since 
-movable 3D LUT is a MPC capability.
-I have actually sent a patch in the past to clarify this on DCN401. So, 
-this check doesn't cover this driver anymore, for example.
-- https://lore.kernel.org/amd-gfx/20250425205236.318520-1-mwen@igalia.com/
+I think you might want to merge=20
+=2D drm/exynos: exynos_dp: Remove redundant &analogix_dp_plat_data.skip_con=
+nector
+=2D drm/bridge: analogix_dp: Remove redundant &analogix_dp_plat_data.skip_c=
+onnector
 
-But I also don't know how to make a more generic check in this movable 
-3D LUT case.
-Any better idea?
+Because when separate this creates a bisection issue.
+Like when a bisect happens to land directly on this commit, you already have
+removed the exynos assignment, but the updated check from the following pat=
+ch
+is not yet in place.
 
-Melissa
-
-> +		/* 1D Curve & LUT - SHAPER TF & LUT */
-> +		colorop = colorop->next;
-> +		if (!colorop) {
-> +			drm_dbg(dev, "no Shaper TF colorop found\n");
-> +			return -EINVAL;
-> +		}
->   
-> -	ret = __set_dm_plane_colorop_shaper(plane_state, dc_plane_state, colorop);
-> -	if (ret)
-> -		return ret;
-> +		ret = __set_dm_plane_colorop_shaper(plane_state, dc_plane_state, colorop);
-> +		if (ret)
-> +			return ret;
->   
-> -	/* Shaper LUT colorop is already handled, just skip here */
-> -	colorop = colorop->next;
-> -	if (!colorop)
-> -		return -EINVAL;
-> +		/* Shaper LUT colorop is already handled, just skip here */
-> +		colorop = colorop->next;
-> +		if (!colorop)
-> +			return -EINVAL;
->   
-> -	/* 3D LUT */
-> -	colorop = colorop->next;
-> -	if (!colorop) {
-> -		drm_dbg(dev, "no 3D LUT colorop found\n");
-> -		return -EINVAL;
-> -	}
-> +		/* 3D LUT */
-> +		colorop = colorop->next;
-> +		if (!colorop) {
-> +			drm_dbg(dev, "no 3D LUT colorop found\n");
-> +			return -EINVAL;
-> +		}
->   
-> -	ret = __set_dm_plane_colorop_3dlut(plane_state, dc_plane_state, colorop);
-> -	if (ret)
-> -		return ret;
-> +		ret = __set_dm_plane_colorop_3dlut(plane_state, dc_plane_state, colorop);
-> +		if (ret)
-> +			return ret;
-> +	}
->   
->   	/* 1D Curve & LUT - BLND TF & LUT */
->   	colorop = colorop->next;
-> diff --git a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_colorop.c b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_colorop.c
-> index 680b4e783959..fdb653548c9a 100644
-> --- a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_colorop.c
-> +++ b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_colorop.c
-> @@ -31,6 +31,7 @@
->   
->   #include "amdgpu.h"
->   #include "amdgpu_dm_colorop.h"
-> +#include "dc.h"
->   
->   const u64 amdgpu_dm_supported_degam_tfs =
->   	BIT(DRM_COLOROP_1D_CURVE_SRGB_EOTF) |
-> @@ -55,6 +56,7 @@ int amdgpu_dm_initialize_default_pipeline(struct drm_plane *plane, struct drm_pr
->   {
->   	struct drm_colorop *ops[MAX_COLOR_PIPELINE_OPS];
->   	struct drm_device *dev = plane->dev;
-> +	struct amdgpu_device *adev = drm_to_adev(dev);
->   	int ret;
->   	int i = 0;
->   
-> @@ -108,57 +110,58 @@ int amdgpu_dm_initialize_default_pipeline(struct drm_plane *plane, struct drm_pr
->   
->   	i++;
->   
-> -	/* 1D curve - SHAPER TF */
-> -	ops[i] = kzalloc(sizeof(struct drm_colorop), GFP_KERNEL);
-> -	if (!ops[i]) {
-> -		ret = -ENOMEM;
-> -		goto cleanup;
-> -	}
-> -
-> -	ret = drm_plane_colorop_curve_1d_init(dev, ops[i], plane,
-> -					      amdgpu_dm_supported_shaper_tfs,
-> -					      DRM_COLOROP_FLAG_ALLOW_BYPASS);
-> -	if (ret)
-> -		goto cleanup;
-> -
-> -	drm_colorop_set_next_property(ops[i-1], ops[i]);
-> -
-> -	i++;
-> -
-> -	/* 1D LUT - SHAPER LUT */
-> -	ops[i] = kzalloc(sizeof(struct drm_colorop), GFP_KERNEL);
-> -	if (!ops[i]) {
-> -		ret = -ENOMEM;
-> -		goto cleanup;
-> +	if (adev->dm.dc->caps.color.dpp.hw_3d_lut) {
-> +		/* 1D curve - SHAPER TF */
-> +		ops[i] = kzalloc(sizeof(struct drm_colorop), GFP_KERNEL);
-> +		if (!ops[i]) {
-> +			ret = -ENOMEM;
-> +			goto cleanup;
-> +		}
-> +
-> +		ret = drm_plane_colorop_curve_1d_init(dev, ops[i], plane,
-> +						amdgpu_dm_supported_shaper_tfs,
-> +						DRM_COLOROP_FLAG_ALLOW_BYPASS);
-> +		if (ret)
-> +			goto cleanup;
-> +
-> +		drm_colorop_set_next_property(ops[i-1], ops[i]);
-> +
-> +		i++;
-> +
-> +		/* 1D LUT - SHAPER LUT */
-> +		ops[i] = kzalloc(sizeof(struct drm_colorop), GFP_KERNEL);
-> +		if (!ops[i]) {
-> +			ret = -ENOMEM;
-> +			goto cleanup;
-> +		}
-> +
-> +		ret = drm_plane_colorop_curve_1d_lut_init(dev, ops[i], plane, MAX_COLOR_LUT_ENTRIES,
-> +							DRM_COLOROP_LUT1D_INTERPOLATION_LINEAR,
-> +							DRM_COLOROP_FLAG_ALLOW_BYPASS);
-> +		if (ret)
-> +			goto cleanup;
-> +
-> +		drm_colorop_set_next_property(ops[i-1], ops[i]);
-> +
-> +		i++;
-> +
-> +		/* 3D LUT */
-> +		ops[i] = kzalloc(sizeof(struct drm_colorop), GFP_KERNEL);
-> +		if (!ops[i]) {
-> +			ret = -ENOMEM;
-> +			goto cleanup;
-> +		}
-> +
-> +		ret = drm_plane_colorop_3dlut_init(dev, ops[i], plane, LUT3D_SIZE,
-> +					DRM_COLOROP_LUT3D_INTERPOLATION_TETRAHEDRAL,
-> +					DRM_COLOROP_FLAG_ALLOW_BYPASS);
-> +		if (ret)
-> +			goto cleanup;
-> +
-> +		drm_colorop_set_next_property(ops[i-1], ops[i]);
-> +
-> +		i++;
->   	}
-> -
-> -	ret = drm_plane_colorop_curve_1d_lut_init(dev, ops[i], plane, MAX_COLOR_LUT_ENTRIES,
-> -						  DRM_COLOROP_LUT1D_INTERPOLATION_LINEAR,
-> -						  DRM_COLOROP_FLAG_ALLOW_BYPASS);
-> -	if (ret)
-> -		goto cleanup;
-> -
-> -	drm_colorop_set_next_property(ops[i-1], ops[i]);
-> -
-> -	i++;
-> -
-> -	/* 3D LUT */
-> -	ops[i] = kzalloc(sizeof(struct drm_colorop), GFP_KERNEL);
-> -	if (!ops[i]) {
-> -		ret = -ENOMEM;
-> -		goto cleanup;
-> -	}
-> -
-> -	ret = drm_plane_colorop_3dlut_init(dev, ops[i], plane, LUT3D_SIZE,
-> -				     DRM_COLOROP_LUT3D_INTERPOLATION_TETRAHEDRAL,
-> -				     DRM_COLOROP_FLAG_ALLOW_BYPASS);
-> -	if (ret)
-> -		goto cleanup;
-> -
-> -	drm_colorop_set_next_property(ops[i-1], ops[i]);
-> -
-> -	i++;
-> -
->   	/* 1D curve - BLND TF */
->   	ops[i] = kzalloc(sizeof(struct drm_colorop), GFP_KERNEL);
->   	if (!ops[i]) {
 
