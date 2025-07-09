@@ -2,42 +2,42 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 477ECAFE997
-	for <lists+dri-devel@lfdr.de>; Wed,  9 Jul 2025 15:03:52 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 25F9CAFE999
+	for <lists+dri-devel@lfdr.de>; Wed,  9 Jul 2025 15:04:30 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9CAD610E7D6;
-	Wed,  9 Jul 2025 13:03:50 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8118110E7E1;
+	Wed,  9 Jul 2025 13:04:28 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="UB96tGYf";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="GUpkfdsw";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from tor.source.kernel.org (tor.source.kernel.org [172.105.4.254])
- by gabe.freedesktop.org (Postfix) with ESMTPS id BA7C910E7D6
- for <dri-devel@lists.freedesktop.org>; Wed,  9 Jul 2025 13:03:49 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8369810E7E1
+ for <dri-devel@lists.freedesktop.org>; Wed,  9 Jul 2025 13:04:27 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by tor.source.kernel.org (Postfix) with ESMTP id 2179D613B2;
- Wed,  9 Jul 2025 13:03:49 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 59935C4CEEF;
- Wed,  9 Jul 2025 13:03:48 +0000 (UTC)
+ by tor.source.kernel.org (Postfix) with ESMTP id F16E061424;
+ Wed,  9 Jul 2025 13:04:26 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5B46EC4CEEF;
+ Wed,  9 Jul 2025 13:04:26 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1752066228;
- bh=xUyoV1xWBdh6kvkOqBd/WOmpv0G99ChjoTaPBGI33C8=;
+ s=k20201202; t=1752066266;
+ bh=xSlEba7/Me3MBHgdbdrycEQgNguAjPGNbCQq1OYfDv0=;
  h=Date:From:To:Subject:In-Reply-To:References:Cc:From;
- b=UB96tGYf3oEnQqa4x4QYcguV2PEeeE/TZQ+G+uN/91Va/yBmfOjDnS1A0mfX3/+KZ
- Bt08IarUmJVvjX7JTAduyozMyt3QfjmJY33sUGkHR5p4BVaYe8DRJaoALrUp8qvxpe
- dpySz2T/nh8WknY/+HbY2ruIgdUQMQFykBDmgxW3EQGKvD7aQcT7jDDJztHrkKljmR
- uTmkfV7cS9oS/OirnPmCENwWU3Ae68x+o2ljq2zGCclDNo2U2fZ0IS62RY4LAseZFj
- CpyPRtZI4qsQrawMYjg8XFRrqTcDARIsAW3EiGEW637jlDqjUpj8/1W/D3bUKLBcRk
- IfrWr9AddYssA==
-Message-ID: <7622afbfbdc652881119fda54916561a@kernel.org>
-Date: Wed, 09 Jul 2025 13:03:46 +0000
+ b=GUpkfdswKkVMSkrYctRRZXgOaoqsJsZM9z6KVLamhZN5f12dIyAMDDI84YkbWn9Xc
+ t3ABZnOj4z71vXBJkSxBDSN86whXk8lDk1WZ5qFIPMkXJz9vUwMGLyoQsRfPvo+S9D
+ umAyPd469Qb0s0fMz36B9p7KjJUCypNkS0MbWLFQz2QtcpA4tAzbJBiNNgOk4WUMEo
+ YhDM/oO5rJscxZj6W3YzGuAbbSogPGfOW8x1jePdYvZPHT3nqMQsR5CQnSt3ifIaRy
+ KF62Zx68aTMuTkw7iDzyyETlKugI35ktVqVIbkvjM43kU1CYMENFjdG8Z4+sK/8LsQ
+ /poFrUiCbGaDA==
+Message-ID: <a73a568ac9d3fa59cc491a1c9b1c299d@kernel.org>
+Date: Wed, 09 Jul 2025 13:04:24 +0000
 From: "Maxime Ripard" <mripard@kernel.org>
 To: "Anusha Srivatsa" <asrivats@redhat.com>
-Subject: Re: [PATCH 3/6] drm/panel/tdo-tl070wsh30: Use refcounted allocation
+Subject: Re: [PATCH 4/6] drm/panel/kd070fhfid015: Use refcounted allocation
  in place of devm_kzalloc()
-In-Reply-To: <20250708-b4-simple-panel-api-convert-july-v1-3-630902123ea1@redhat.com>
-References: <20250708-b4-simple-panel-api-convert-july-v1-3-630902123ea1@redhat.com>
+In-Reply-To: <20250708-b4-simple-panel-api-convert-july-v1-4-630902123ea1@redhat.com>
+References: <20250708-b4-simple-panel-api-convert-july-v1-4-630902123ea1@redhat.com>
 Cc: dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org, "David
  Airlie" <airlied@gmail.com>, "Geert Uytterhoeven" <geert@linux-m68k.org>,
  "Jessica Zhang" <jessica.zhang@oss.qualcomm.com>,
@@ -61,7 +61,7 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, 8 Jul 2025 15:35:15 -0500, Anusha Srivatsa wrote:
+On Tue, 8 Jul 2025 15:35:16 -0500, Anusha Srivatsa wrote:
 > Move to using the new API devm_drm_panel_alloc() to allocate the
 > panel. In the call to the new API, avoid using explicit type and use
 > __typeof() for more type safety.
