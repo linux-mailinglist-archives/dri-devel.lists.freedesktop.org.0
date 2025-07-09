@@ -2,92 +2,57 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0F33CAFEBA6
-	for <lists+dri-devel@lfdr.de>; Wed,  9 Jul 2025 16:20:02 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id AB674AFEBB2
+	for <lists+dri-devel@lfdr.de>; Wed,  9 Jul 2025 16:22:36 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 787D710E047;
-	Wed,  9 Jul 2025 14:20:00 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7BB9C10E05D;
+	Wed,  9 Jul 2025 14:22:34 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=google.com header.i=@google.com header.b="HRWphehB";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="NamG7SQz";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-f46.google.com (mail-wm1-f46.google.com
- [209.85.128.46])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2070B10E047
- for <dri-devel@lists.freedesktop.org>; Wed,  9 Jul 2025 14:19:59 +0000 (UTC)
-Received: by mail-wm1-f46.google.com with SMTP id
- 5b1f17b1804b1-451dbe494d6so64432465e9.1
- for <dri-devel@lists.freedesktop.org>; Wed, 09 Jul 2025 07:19:59 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=google.com; s=20230601; t=1752070797; x=1752675597;
- darn=lists.freedesktop.org; 
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc:subject:date
- :message-id:reply-to;
- bh=onxQyqbXg2+8eNUdjRi8yLtGmLMnVsEDz+kKPNPRjAo=;
- b=HRWphehBiYar6Q6BJCeEMivxNShKz6wCInOQtgpo4BR3GG1x3vcGYbUurERS7YwGNE
- eqFjQolLSVdNA2WA+aaZlGgz/Qgv4Fvj9RQGnJR1Tiw4TiH7Ph7KeEBj7cKjaEXOIwxR
- YIPW9emV+wx7VNo0cqjFUCc9yeGRAep59lv0eODGLheRWiV9QZ/Z0cLNZjCo6ns8YAeR
- gncg1RT109O/5Vsm+pPqeHjTVMA6laEBvui0MkzNnYiB4kJcCn9vA/JnzuXF6e+6lfHQ
- IeGzLJFFaLcNs5f22l04uwBSMAaXZaIElirwbFDGL1TovIyKkEfYdGNotZBJFo2Rjdv+
- 1mBg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1752070797; x=1752675597;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=onxQyqbXg2+8eNUdjRi8yLtGmLMnVsEDz+kKPNPRjAo=;
- b=vi0bAclM1wBAly71Hj1nD7oZkLJJ9aEnPZg/ZlTe2bl1TWYAo4jWqBrVsAaDHQB+gq
- pag2DVKBbrZWQIDulI+vRJ3TNVPBjx8s9RQlc8TftWTy5VnEbeXfwvbiHe1rD3mPN9RW
- dZXuFCYaBFjnK7+ZoYvsV/ijsTGVIhuiXVVdSkKFMBLl5YkXljRW6KNl1waX6vtWJypQ
- eQ3cXxgycA0h5p7bGgyYsko4kfTZfg8wyccmC1XB+jE9WRqAmjkBztqq905VVNlnJWQo
- x5a5I90TLyN5yKVSfo42oR99/ArUY+jGMqifdyWJAgXBkJS+dbI1pnvJaa0FHfNUIeVS
- /jVA==
-X-Forwarded-Encrypted: i=1;
- AJvYcCVL2J52/ymu4NeyICHyVW3XVynBxBEqhFjhhI6VwRZoxDc94X63Lnp6E3ZHR/ULWSGJ/u8qVvrV4ok=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YxGOqztlt9LskN0NYd978f7KHuK1l+rq5nevk/wQA+/sQTUrbNq
- v42S+gffwApLzAxd03Jtt0/JmpXe07RbfcTHuI9Jik7vJkrVsZK1LGP6+48DhpW5HkS3WNMD+/p
- b4JJhyBjDEZ2g6YtxCHK6lG/H76BLT6U67gjr8BXn
-X-Gm-Gg: ASbGncsKO4P5u72vWMzwX/vDZOgMufFMvSE3mB/7lwQgU71GiMjYRfJJ9IjoQpaMW7q
- NRWinYUFZn7CxlggcaH604VHUbCcGkqz8gmCSOCm+zz/93VI0CNkhq168+VMG26EzZAAlWgFC6t
- +7ermn26M/I3fePA0HNMTOb7pRP3XFg5ZgtEFPfyyEhFe9RYJKE9GEBXza11AH9mPW0YR1JwWEe
- g==
-X-Google-Smtp-Source: AGHT+IHymgYqf5Be4dPgTGavXNkdAqtCHlNw8IloAmJ/sAoTV++LmztnNSzx86sJhSRZfMqHeXmmwb/R6uZnNJhr5Ts=
-X-Received: by 2002:a05:6000:4712:b0:3b4:9721:2b13 with SMTP id
- ffacd0b85a97d-3b5e450988cmr2292725f8f.14.1752070796982; Wed, 09 Jul 2025
- 07:19:56 -0700 (PDT)
+Received: from tor.source.kernel.org (tor.source.kernel.org [172.105.4.254])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 75D0810E05D
+ for <dri-devel@lists.freedesktop.org>; Wed,  9 Jul 2025 14:22:33 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+ by tor.source.kernel.org (Postfix) with ESMTP id 94858613B1;
+ Wed,  9 Jul 2025 14:22:32 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6623FC4CEEF;
+ Wed,  9 Jul 2025 14:22:31 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1752070952;
+ bh=RuYtf+o/prZlkiX+R1ATPE24ug38zrQkLBU6YbtB9gk=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=NamG7SQzyQWJ5KWdWWQHeVwsQhVqWV9f1070NVbepNAVaJWziLWvw4WxtupUVj5AY
+ nuKJgYBWeMXoAm/HtGW1fkcZLHjaGk6CQsHImC0C5QwSHqsmT/sknOo5FNWalDWTl4
+ RoIWCU5yClKHjTKMGDEfc4wzk6g+wccEpjZe4+bz0dsQeolEG7j3eZioyxg9MPKdZm
+ 9vAPQZ6b0De2Rp/z8XNoJe6moCn5k7qm+d72v7Zl3yIKew+sB6/nEvwPefnoC3jmBi
+ xwwD6e2JbKdag1hgELjSnKJd6l/L+HPlswWndrbN71xXbznIqSyMhHFdlp5tRoZH/a
+ wh0WrBv/dDi3Q==
+Date: Wed, 9 Jul 2025 16:22:27 +0200
+From: Andi Shyti <andi.shyti@kernel.org>
+To: =?utf-8?Q?Cl=C3=A9ment?= Le Goffic <clement.legoffic@foss.st.com>
+Cc: Pierre-Yves MORDRET <pierre-yves.mordret@foss.st.com>, 
+ Alain Volmat <alain.volmat@foss.st.com>,
+ Maxime Coquelin <mcoquelin.stm32@gmail.com>, 
+ Alexandre Torgue <alexandre.torgue@foss.st.com>,
+ Sumit Semwal <sumit.semwal@linaro.org>, 
+ Christian =?utf-8?B?S8O2bmln?= <christian.koenig@amd.com>,
+ M'boumba Cedric Madianga <cedric.madianga@gmail.com>, 
+ Wolfram Sang <wsa@kernel.org>, Pierre-Yves MORDRET <pierre-yves.mordret@st.com>,
+ linux-i2c@vger.kernel.org, linux-stm32@st-md-mailman.stormreply.com, 
+ linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
+ linux-media@vger.kernel.org, 
+ dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org
+Subject: Re: [PATCH v4 0/3] Fix STM32 I2C dma operations
+Message-ID: <2o7ptcsi2akaphtofm57ok7te7qdxrchygpeqmdjaiushfjffs@5k47ncrcrgxk>
+References: <20250704-i2c-upstream-v4-0-84a095a2c728@foss.st.com>
 MIME-Version: 1.0
-References: <20250709-device-as-ref-v1-1-ebf7059ffa9c@google.com>
- <DB7KZXKOP5F0.1RMMCBJNR43KO@kernel.org>
-In-Reply-To: <DB7KZXKOP5F0.1RMMCBJNR43KO@kernel.org>
-From: Alice Ryhl <aliceryhl@google.com>
-Date: Wed, 9 Jul 2025 16:19:45 +0200
-X-Gm-Features: Ac12FXzkjhW6iD-XDuQYdQEQJTvTDaPwURvqNJ0qQ1PU5t7-VlkiVmA2ozb6b7I
-Message-ID: <CAH5fLghf1zwmR_hLVAxYU0khmeTGEejTL8qE_BaF3d-Ncg3HAg@mail.gmail.com>
-Subject: Re: [PATCH] drm: rust: rename Device::as_ref() to Device::from_raw()
-To: Danilo Krummrich <dakr@kernel.org>
-Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- Dave Ertman <david.m.ertman@intel.com>, 
- Ira Weiny <ira.weiny@intel.com>, Leon Romanovsky <leon@kernel.org>,
- Miguel Ojeda <ojeda@kernel.org>, 
- Boqun Feng <boqun.feng@gmail.com>, Gary Guo <gary@garyguo.net>, 
- =?UTF-8?Q?Bj=C3=B6rn_Roy_Baron?= <bjorn3_gh@protonmail.com>, 
- Benno Lossin <lossin@kernel.org>, Andreas Hindborg <a.hindborg@kernel.org>, 
- Trevor Gross <tmgross@umich.edu>, Thomas Gleixner <tglx@linutronix.de>, 
- Peter Zijlstra <peterz@infradead.org>, "Rafael J. Wysocki" <rafael@kernel.org>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, 
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, 
- Thomas Zimmermann <tzimmermann@suse.de>,
- FUJITA Tomonori <fujita.tomonori@gmail.com>, 
- Bjorn Helgaas <bhelgaas@google.com>,
- =?UTF-8?Q?Krzysztof_Wilczy=C5=84ski?= <kwilczynski@kernel.org>, 
- rust-for-linux@vger.kernel.org, linux-kernel@vger.kernel.org, 
- dri-devel@lists.freedesktop.org, netdev@vger.kernel.org, 
- linux-pci@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=iso-8859-15
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20250704-i2c-upstream-v4-0-84a095a2c728@foss.st.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -103,34 +68,23 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, Jul 9, 2025 at 4:07=E2=80=AFPM Danilo Krummrich <dakr@kernel.org> w=
-rote:
->
-> On Wed Jul 9, 2025 at 3:53 PM CEST, Alice Ryhl wrote:
-> > The prefix as_* should not be used for a constructor. Constructors
-> > usually use the prefix from_* instead.
-> >
-> > Some prior art in the stdlib: Box::from_raw, CString::from_raw,
-> > Rc::from_raw, Arc::from_raw, Waker::from_raw, File::from_raw_fd.
-> >
-> > There is also prior art in the kernel crate: cpufreq::Policy::from_raw,
-> > fs::File::from_raw_file, Kuid::from_raw, ARef::from_raw,
-> > SeqFile::from_raw, VmaNew::from_raw, Io::from_raw.
-> >
-> > Link: https://lore.kernel.org/r/aCZYcs6Aj-cz81qs@pollux
->
-> I think the link you actually wanted to refer to is probably [1]. :)
->
-> [1] https://lore.kernel.org/all/aCd8D5IA0RXZvtcv@pollux/
+Hi Clement,
 
-I can update.
+Thanks for following up on the reviews.
 
-> > Signed-off-by: Alice Ryhl <aliceryhl@google.com>
->
-> Can you please split this patch up in one for the DRM renames, i.e. drm::=
-Device,
-> gem::Object and drm::File, and one for device::Device?
+> Clément Le Goffic (3):
+>       i2c: stm32: fix the device used for the DMA map
+>       i2c: stm32f7: unmap DMA mapped buffer
 
-Sure I will split into two patches.
+I applied the two above in i2c/i2c-host-fixes. I'm not sure we
+need the "Fixes:" tag in the first patch, though, as we are not
+fixing a real bug. But I'm keeping it there for the time being.
 
-Alice
+>       i2c: stm32f7: support i2c_*_dma_safe_msg_buf APIs
+
+This one depends on the previous two to be appliex, so that for
+now I added it in i2c/i2c-host-next. I will place it in the
+proper branch after the weekly pull request.
+
+Thanks,
+Andi
