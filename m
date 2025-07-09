@@ -2,42 +2,42 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 12AD0AFEF17
-	for <lists+dri-devel@lfdr.de>; Wed,  9 Jul 2025 18:49:01 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id C3865AFEF18
+	for <lists+dri-devel@lfdr.de>; Wed,  9 Jul 2025 18:49:02 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6C12910E345;
-	Wed,  9 Jul 2025 16:48:59 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1AA5B10E80E;
+	Wed,  9 Jul 2025 16:49:01 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=bootlin.com header.i=@bootlin.com header.b="XmdDrE54";
+	dkim=pass (2048-bit key; unprotected) header.d=bootlin.com header.i=@bootlin.com header.b="f3gmHcQp";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from relay8-d.mail.gandi.net (relay8-d.mail.gandi.net
  [217.70.183.201])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 917F010E344
- for <dri-devel@lists.freedesktop.org>; Wed,  9 Jul 2025 16:48:56 +0000 (UTC)
-Received: by mail.gandi.net (Postfix) with ESMTPSA id 8E897433D0;
- Wed,  9 Jul 2025 16:48:53 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9C32B10E345
+ for <dri-devel@lists.freedesktop.org>; Wed,  9 Jul 2025 16:48:58 +0000 (UTC)
+Received: by mail.gandi.net (Postfix) with ESMTPSA id 8527743B29;
+ Wed,  9 Jul 2025 16:48:55 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
- t=1752079735;
+ t=1752079737;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=J4PU2TA2p+Fr97D4NM8jh6amfcCLcxF5nilwAjHOb8g=;
- b=XmdDrE540a/n4ErrnnRadwEo8QP7Om8ynHFU7Jhjx60yywe6zYs1gvXGQ4HuS1py6QDCJ0
- Kx3kYmmJIoCcAYOkg+bdTaMvqTFrNYiqI0lzWDRH32mBgms//BjqminyWoZ98jk1Jx/rI2
- JgbRqiy0S0EKX2O7bq9fHZhTqr4m8He8JYcKH36C6eeuu+k7ApBYTLl73f4f6pTr6Bc3A/
- TEmo4+vT2xwX+n/j+CfKsKUpS6O93TCOW0gkxWlnglx/aWBcaAM//5bCkxh7Cr0smsHMho
- Ph8rWDIZohR3kQzrHqAX2kIS7at3j+bAkWQpd105PbaRfO7iZIlNo7sHqF7Bwg==
+ bh=D4+1FqD98SPvBw7irZRwMNhCOgATWsxx4mj2vRRjvXQ=;
+ b=f3gmHcQpY3jlclpQ10Mf16s6qxwzQS4w6CcTcHrofTisuHDx1BbOIxf9uaVkfAPFMh+wbe
+ KR11GJME2pQ2+1mP7+v+zjtjJOlJNdb2Uq/pICu9c4hmA5RbwC6dCJccyM4OrP6bD8DK8k
+ gHhxMN9JTI9Rla6oNNgYseFjZj8HCURnZ1yIyJKFPgLdxBtqaJtbyQTqIIzVO8co6xfdH0
+ CIitXXE6QrFtCs+uu7R5KPdOt4TK9/45LWjLZzk3X/N5uWL+6sxDtQf2JB7eHfBJZTM1K1
+ miBFC63oPYMwz1RL1SbCQc4aRkX9rT+RMNPmGgo3yoI3S8zrOUy8Pin2x/IiWw==
 From: Luca Ceresoli <luca.ceresoli@bootlin.com>
-Date: Wed, 09 Jul 2025 18:48:05 +0200
-Subject: [PATCH 6/9] drm/display: bridge_connector: use
- drm_bridge_is_last()
+Date: Wed, 09 Jul 2025 18:48:06 +0200
+Subject: [PATCH 7/9] drm/bridge: get the bridge returned by
+ drm_bridge_get_next_bridge()
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20250709-drm-bridge-alloc-getput-drm_bridge_get_next_bridge-v1-6-48920b9cf369@bootlin.com>
+Message-Id: <20250709-drm-bridge-alloc-getput-drm_bridge_get_next_bridge-v1-7-48920b9cf369@bootlin.com>
 References: <20250709-drm-bridge-alloc-getput-drm_bridge_get_next_bridge-v1-0-48920b9cf369@bootlin.com>
 In-Reply-To: <20250709-drm-bridge-alloc-getput-drm_bridge_get_next_bridge-v1-0-48920b9cf369@bootlin.com>
 To: Andrzej Hajda <andrzej.hajda@intel.com>, 
@@ -79,33 +79,42 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Simplify code to know whether a bridge is the last in the chain by using
-drm_bridge_is_last().
+drm_bridge_get_next_bridge() returns a bridge pointer that the
+caller could hold for a long time. Increment the refcount of the returned
+bridge and document it must be put by the caller.
 
 Signed-off-by: Luca Ceresoli <luca.ceresoli@bootlin.com>
 ---
- drivers/gpu/drm/display/drm_bridge_connector.c | 5 ++---
- 1 file changed, 2 insertions(+), 3 deletions(-)
+ include/drm/drm_bridge.h | 9 ++++++++-
+ 1 file changed, 8 insertions(+), 1 deletion(-)
 
-diff --git a/drivers/gpu/drm/display/drm_bridge_connector.c b/drivers/gpu/drm/display/drm_bridge_connector.c
-index 6cdb432dbc3004f88988883a37c2486c409ea932..842561d7b3fd5b833b97edc299c4a6d81b2a7168 100644
---- a/drivers/gpu/drm/display/drm_bridge_connector.c
-+++ b/drivers/gpu/drm/display/drm_bridge_connector.c
-@@ -749,12 +749,11 @@ struct drm_connector *drm_bridge_connector_init(struct drm_device *drm,
- 				return ERR_PTR(-EINVAL);
- 		}
+diff --git a/include/drm/drm_bridge.h b/include/drm/drm_bridge.h
+index c2a7a7d2dfc420e9dcf7ea4c093ce1f1b939c820..158d22892bf3ddb469d510735818f14a1c23d7a1 100644
+--- a/include/drm/drm_bridge.h
++++ b/include/drm/drm_bridge.h
+@@ -1305,6 +1305,13 @@ drm_bridge_get_current_state(struct drm_bridge *bridge)
+  * drm_bridge_get_next_bridge() - Get the next bridge in the chain
+  * @bridge: bridge object
+  *
++ * The caller is responsible of having a reference to @bridge via
++ * drm_bridge_get() or equivalent. This function leaves the refcount of
++ * @bridge unmodified.
++ *
++ * The refcount of the returned bridge is incremented. Use drm_bridge_put()
++ * when done with it.
++ *
+  * RETURNS:
+  * the next bridge in the chain after @bridge, or NULL if @bridge is the last.
+  */
+@@ -1314,7 +1321,7 @@ drm_bridge_get_next_bridge(struct drm_bridge *bridge)
+ 	if (list_is_last(&bridge->chain_node, &bridge->encoder->bridge_chain))
+ 		return NULL;
  
--		if (!drm_bridge_get_next_bridge(bridge))
-+		if (drm_bridge_is_last(bridge))
- 			connector_type = bridge->type;
+-	return list_next_entry(bridge, chain_node);
++	return drm_bridge_get(list_next_entry(bridge, chain_node));
+ }
  
- #ifdef CONFIG_OF
--		if (!drm_bridge_get_next_bridge(bridge) &&
--		    bridge->of_node)
-+		if (drm_bridge_is_last(bridge) && bridge->of_node)
- 			connector->fwnode = fwnode_handle_get(of_fwnode_handle(bridge->of_node));
- #endif
- 
+ /**
 
 -- 
 2.50.0
