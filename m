@@ -2,66 +2,58 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C14F2AFF2DD
-	for <lists+dri-devel@lfdr.de>; Wed,  9 Jul 2025 22:21:08 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7FC0DAFF301
+	for <lists+dri-devel@lfdr.de>; Wed,  9 Jul 2025 22:30:24 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4A1D610E84E;
-	Wed,  9 Jul 2025 20:21:06 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4385710E850;
+	Wed,  9 Jul 2025 20:30:21 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="bChUWIyZ";
+	dkim=pass (2048-bit key; unprotected) header.d=emersion.fr header.i=@emersion.fr header.b="IXQu+MF5";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 154BA10E84E
- for <dri-devel@lists.freedesktop.org>; Wed,  9 Jul 2025 20:21:05 +0000 (UTC)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by dfw.source.kernel.org (Postfix) with ESMTP id 3FAA05C6137;
- Wed,  9 Jul 2025 20:21:03 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id E11FEC4CEEF;
- Wed,  9 Jul 2025 20:20:55 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1752092462;
- bh=quTcM77+JwIDAwk/mszow6YJfzgDAsI1Ebx3aEw25ho=;
- h=Date:Cc:Subject:From:To:References:In-Reply-To:From;
- b=bChUWIyZAu8N9v9iqcGEu+8pPx7QPo/j7e1LSNTHfMCR1ybTS2EfBKpaX0Xe9qljU
- jzJCfu4BGEGgzvoeS3AXrq/n6oCJwewWKx9LHwtZBbN3JfQ7Y/f3ECH+6b23epdgzw
- /hT6TLrb8CWQjBayEVsq/8lTsN77CseuGy/SAYgycxdoKjD4iOhkBaDlsJBQffmyfb
- T/b3pq0pL1wMggdFEYxPUB+VVWMYWsD8OXQ74ZYGCWq179+lyUCBycizDOTvaJvzFM
- 5gT7xA1RNXVyX0UQ54FTSnDQ3xci+jrqgG7USlBxP6VumKhnpFIEUypJ8FQqpJhk0m
- VibIefCIzfJhQ==
-Mime-Version: 1.0
+X-Greylist: delayed 105559 seconds by postgrey-1.36 at gabe;
+ Wed, 09 Jul 2025 20:30:19 UTC
+Received: from mail-0301.mail-europe.com (mail-0301.mail-europe.com
+ [188.165.51.139])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C453F10E850
+ for <dri-devel@lists.freedesktop.org>; Wed,  9 Jul 2025 20:30:19 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=emersion.fr;
+ s=protonmail2; t=1752093014; x=1752352214;
+ bh=f3wo+BEjgOI8A8/i/tByZ7AuRr/xEvtzQxvcIiw6tTM=;
+ h=Date:To:From:Cc:Subject:Message-ID:In-Reply-To:References:
+ Feedback-ID:From:To:Cc:Date:Subject:Reply-To:Feedback-ID:
+ Message-ID:BIMI-Selector;
+ b=IXQu+MF5Xo4Xtg8BiWBJuf/85IwtYTFi39x9rvgPWeZYUuT/OlQ97cvimHhnKVMZL
+ QxEQ4VuMuMCLcuMgVurkQmvMusGyytBueGW9PmB5iZ8z4QcB9s/OiBSgsC1tdNVzZw
+ ovTHB58wbSSiMCMAuCybRqEIi44mdIX8ZH+V5m5Pfu4Ydp9IWM1Rd6HCGObbqvSbSs
+ QW+3Jz7TJGC0CT+G7B76VMTvZ6XuZB7P7WunobvOUSSJEl6qO78BwcDQt1Z/JRE4jB
+ y4kwFhKAZ1fAFPV3fiQqvqN4mNoJ8/E+hFDCO0Vi6GOyIba1V8pyzlP6C62vKz+2Ku
+ 7MYKY2E2+9RAA==
+Date: Wed, 09 Jul 2025 20:30:11 +0000
+To: Alex Hung <alex.hung@amd.com>
+From: Simon Ser <contact@emersion.fr>
+Cc: dri-devel@lists.freedesktop.org, amd-gfx@lists.freedesktop.org,
+ wayland-devel@lists.freedesktop.org, harry.wentland@amd.com, leo.liu@amd.com,
+ ville.syrjala@linux.intel.com, pekka.paalanen@collabora.com, mwen@igalia.com,
+ jadahl@redhat.com, sebastian.wick@redhat.com, shashank.sharma@amd.com,
+ agoins@nvidia.com, joshua@froggi.es, mdaenzer@redhat.com, aleixpol@kde.org,
+ xaver.hugl@gmail.com, victoria@system76.com, daniel@ffwll.ch,
+ uma.shankar@intel.com, quic_naseer@quicinc.com, quic_cbraga@quicinc.com,
+ quic_abhinavk@quicinc.com, marcan@marcan.st, Liviu.Dudau@arm.com,
+ sashamcintosh@google.com, chaitanya.kumar.borah@intel.com,
+ louis.chauvet@bootlin.com, arthurgrillo@riseup.net,
+ Daniel Stone <daniels@collabora.com>
+Subject: Re: [PATCH V10 40/46] drm/colorop: Define LUT_1D interpolation
+Message-ID: <xn27XZjdRP83I8eaTGnDdLyvppJUppZ_GVsnDJQ1wK3UINAwh4FEutAlh02CtvZoPbB4D7zhof9rGj1DsxHpccpGK7ID-S-DjGi5VRhAD8I=@emersion.fr>
+In-Reply-To: <20250617041746.2884343-41-alex.hung@amd.com>
+References: <20250617041746.2884343-1-alex.hung@amd.com>
+ <20250617041746.2884343-41-alex.hung@amd.com>
+Feedback-ID: 1358184:user:proton
+X-Pm-Message-ID: bb790c2e663b1cc6e273456efea57e7c5d9e32f0
+MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset=UTF-8
-Date: Wed, 09 Jul 2025 22:20:54 +0200
-Message-Id: <DB7SXTRZ1VKL.VONQAEWAV9TX@kernel.org>
-Cc: <dri-devel@lists.freedesktop.org>, <linux-kernel@vger.kernel.org>,
- <rust-for-linux@vger.kernel.org>, <linux-pm@vger.kernel.org>,
- <linux-kselftest@vger.kernel.org>, <kunit-dev@googlegroups.com>,
- <netdev@vger.kernel.org>, <devicetree@vger.kernel.org>
-Subject: Re: [PATCH 00/10] rust: use `core::ffi::CStr` method names
-From: "Benno Lossin" <lossin@kernel.org>
-To: "Tamir Duberstein" <tamird@gmail.com>, "Maarten Lankhorst"
- <maarten.lankhorst@linux.intel.com>, "Maxime Ripard" <mripard@kernel.org>,
- "Thomas Zimmermann" <tzimmermann@suse.de>, "David Airlie"
- <airlied@gmail.com>, "Simona Vetter" <simona@ffwll.ch>, "Miguel Ojeda"
- <ojeda@kernel.org>, "Alex Gaynor" <alex.gaynor@gmail.com>, "Boqun Feng"
- <boqun.feng@gmail.com>, "Gary Guo" <gary@garyguo.net>,
- =?utf-8?q?Bj=C3=B6rn_Roy_Baron?= <bjorn3_gh@protonmail.com>, "Andreas
- Hindborg" <a.hindborg@kernel.org>, "Alice Ryhl" <aliceryhl@google.com>,
- "Trevor Gross" <tmgross@umich.edu>, "Danilo Krummrich" <dakr@kernel.org>,
- "Greg Kroah-Hartman" <gregkh@linuxfoundation.org>, "Dave Ertman"
- <david.m.ertman@intel.com>, "Ira Weiny" <ira.weiny@intel.com>, "Leon
- Romanovsky" <leon@kernel.org>, "Breno Leitao" <leitao@debian.org>, "Rafael
- J. Wysocki" <rafael@kernel.org>, "Viresh Kumar" <viresh.kumar@linaro.org>,
- "Luis Chamberlain" <mcgrof@kernel.org>, "Russ Weight"
- <russ.weight@linux.dev>, "Brendan Higgins" <brendan.higgins@linux.dev>,
- "David Gow" <davidgow@google.com>, "Rae Moar" <rmoar@google.com>, "FUJITA
- Tomonori" <fujita.tomonori@gmail.com>, "Rob Herring" <robh@kernel.org>,
- "Saravana Kannan" <saravanak@google.com>
-X-Mailer: aerc 0.20.1
-References: <20250709-core-cstr-fanout-1-v1-0-fd793b3e58a2@gmail.com>
-In-Reply-To: <20250709-core-cstr-fanout-1-v1-0-fd793b3e58a2@gmail.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -77,53 +69,10 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed Jul 9, 2025 at 9:58 PM CEST, Tamir Duberstein wrote:
-> This is series 2b/5 of the migration to `core::ffi::CStr`[0].
-> 20250704-core-cstr-prepare-v1-0-a91524037783@gmail.com.
->
-> This series depends on the prior series[0] and is intended to go through
-> the rust tree to reduce the number of release cycles required to
-> complete the work.
->
-> Subsystem maintainers: I would appreciate your `Acked-by`s so that this
-> can be taken through Miguel's tree (where the other series must go).
->
-> [0] https://lore.kernel.org/all/20250704-core-cstr-prepare-v1-0-a91524037=
-783@gmail.com/
->
-> Signed-off-by: Tamir Duberstein <tamird@gmail.com>
-> ---
-> Tamir Duberstein (10):
->       gpu: nova-core: use `core::ffi::CStr` method names
->       rust: auxiliary: use `core::ffi::CStr` method names
->       rust: configfs: use `core::ffi::CStr` method names
->       rust: cpufreq: use `core::ffi::CStr` method names
->       rust: drm: use `core::ffi::CStr` method names
->       rust: firmware: use `core::ffi::CStr` method names
->       rust: kunit: use `core::ffi::CStr` method names
->       rust: miscdevice: use `core::ffi::CStr` method names
->       rust: net: use `core::ffi::CStr` method names
->       rust: of: use `core::ffi::CStr` method names
->
->  drivers/gpu/drm/drm_panic_qr.rs | 2 +-
->  rust/kernel/auxiliary.rs        | 4 ++--
->  rust/kernel/configfs.rs         | 4 ++--
->  rust/kernel/cpufreq.rs          | 2 +-
->  rust/kernel/drm/device.rs       | 4 ++--
->  rust/kernel/firmware.rs         | 2 +-
->  rust/kernel/kunit.rs            | 6 +++---
->  rust/kernel/miscdevice.rs       | 2 +-
->  rust/kernel/net/phy.rs          | 2 +-
->  rust/kernel/of.rs               | 2 +-
->  samples/rust/rust_configfs.rs   | 2 +-
->  11 files changed, 16 insertions(+), 16 deletions(-)
+On Tuesday, June 17th, 2025 at 06:27, Alex Hung <alex.hung@amd.com> wrote:
 
-For the entire series:
+> - 1D LUT is no longer immutable (Xaver Hugl)
 
-Reviewed-by: Benno Lossin <lossin@kernel.org>
-
-Thanks a lot for splitting it up into these tiny pieces!
-
----
-Cheers,
-Benno
+I think we should keep it immutable for now, and we can make it mutable
+in the future when we want to extend the uAPI to make it switchable by
+user-space.
