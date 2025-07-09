@@ -2,45 +2,45 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 23F99AFE03D
-	for <lists+dri-devel@lfdr.de>; Wed,  9 Jul 2025 08:44:43 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 949C3AFE040
+	for <lists+dri-devel@lfdr.de>; Wed,  9 Jul 2025 08:44:49 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 78BEC10E734;
-	Wed,  9 Jul 2025 06:44:41 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id EBDAB10E735;
+	Wed,  9 Jul 2025 06:44:47 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=amd.com header.i=@amd.com header.b="pUFxRUzW";
+	dkim=pass (1024-bit key; unprotected) header.d=amd.com header.i=@amd.com header.b="FYJbhbuk";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from NAM10-BN7-obe.outbound.protection.outlook.com
- (mail-bn7nam10on2052.outbound.protection.outlook.com [40.107.92.52])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A5EDC10E733;
- Wed,  9 Jul 2025 06:44:40 +0000 (UTC)
+Received: from NAM12-BN8-obe.outbound.protection.outlook.com
+ (mail-bn8nam12on2048.outbound.protection.outlook.com [40.107.237.48])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3F98610E737;
+ Wed,  9 Jul 2025 06:44:46 +0000 (UTC)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=WEVpqy52VL3FKpojAhhP2RLXM0ZZ3CVa9S+ym0/8LAKQX606tnzle3yQ2wWceb5cgu7hDd+zCRBzfdKGiC8m5HGJD7LvFV1MlcLy6ibMXFkxVBHKiHTmcPFGI7NM4sGOsoUAskfGGSUN0XnOOYz/cmMbeTRfVHm6zEvRJz+WlWlx3ZmAadlhNWhISON7FbGdmQsll4iuYzZfV+Pk7iUflRtoqkxEnTNF5RFkkfewCx8fd6GN4YICXdJKK2vh6zBhXLVkGEL4L10adXC/PlBBYXtmO/6ldf8Kg3cKZImnWE4FXcJMbmz3zWHXaohOOsJrrxtQY75rLrfRDzxoGnG3Tw==
+ b=LyqmykfvESh6aetbT/UJ+Btg5OVt7ag7860ENS9Cc+qhK2S7T7u4vD/3PK9bpS6LMgcqHJew1IWmWOlyz37gQqT8O7k3nbg8o1TQmJUlZxasccEO7NSiIR6X4wKOfGiQ2TICG+lk+E9k//NUPxGTxhFfAtNmnEgZ6C9AJOAUrKLnx/mqjLuCfwf49XEy7mKa4wAD9hDRvWdxqmm1hd2cRT+QPAxxSOmMwCcXetEYtIa/SmO+oHwTAf5gTVuEZpZ3dTXCpB8qT+lapS7v8qAd3mmDFhZ4/geq9M+sR/PFbcR6PsZrfFHtjwy7JIMNbS0MBNDO3oUJiRxM9okB+pvtSA==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=iPUolXeLQdrBVInU0Qawb5A+BH4a310feGspIdffEug=;
- b=YWdsl/w5gxB3B+HUCvY4L6Owv6vaBVN2i0fyxM72RRzXHTxF01y7jt4B2WOKYzCipyj/AxrGxiTRBc2fsI1/oDNTH7/66xEL+9sDb5yj/AzbR3aoDTMgBgCvb3MO9DdQ63UAwZrrDHsBgSW989MzFe7obmAnAYNf8ES/GapvT4MGH451bQxnnOvcYjMIuIiA7vvUjCkov0aSVEbTJMslUNlP1LWt+xIbjV5/Pa1+XMm0cHy/f6ZScMcmptHD2DFNtJjeCp3rEdxtR0n/Mad6GKpmu51a4nAGEEkHYjrfLVaPYiZOmRqrssVyxkvoNzqS0soekHky+r4mCpFgKEFsNw==
+ bh=ljj7zchQsTgffJ177SfkG1Fp1JkVAGve+OKBjCkBdnc=;
+ b=ARh7MgH1Ye6QmSBPqzt66lsXO4HdU4UMcJ8QbOHrqHv7K1wp1KV9cTzZI+djlF/6wSXaOPN19IHTtG00HRwvkKZjstl318exHInX7kUX1F6jF3SSJq4JZcY+cyZIj0UDA6PsPAy0N1cwZv+wiXvgYJSznc3tS3znC1/rOxEmO1KP4bzlBLNeUQ8H6Yerm69M3OuR/GCEI0+wygVXiVTTlbdf50cD8NY4uMNobAN4nT86xh1JYpcs7oooYjY4P3cRhV9hyk3j4+KtXrP60TlHsclnErTfdopjZ+iioR8fAFQsIly5LTrFgaNq7OB5iXhOQONm0/mU50Bw+sCdz5oa2g==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
  165.204.84.17) smtp.rcpttodomain=kernel.org smtp.mailfrom=amd.com; dmarc=pass
  (p=quarantine sp=quarantine pct=100) action=none header.from=amd.com;
  dkim=none (message not signed); arc=none (0)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=iPUolXeLQdrBVInU0Qawb5A+BH4a310feGspIdffEug=;
- b=pUFxRUzW2Fc/AnMh/axl/Y9/3+DHRiKp6mugjVeysZNI3XQeQy34KCDonezUaTsJy+PEGvs0wMK5Yu1W1PlSlbKcWA2waftHmhO4z1Z3jjbsbhRCYhvE6arcoyDBsLlTaANTCb4Ntw+zKYCGSjRymJyJGRNGIdsXiYVXAafAHJ0=
-Received: from MN2PR11CA0028.namprd11.prod.outlook.com (2603:10b6:208:23b::33)
- by MW6PR12MB7088.namprd12.prod.outlook.com (2603:10b6:303:238::17)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8901.27; Wed, 9 Jul
- 2025 06:44:35 +0000
-Received: from BN2PEPF000044A0.namprd02.prod.outlook.com
- (2603:10b6:208:23b:cafe::aa) by MN2PR11CA0028.outlook.office365.com
- (2603:10b6:208:23b::33) with Microsoft SMTP Server (version=TLS1_3,
+ bh=ljj7zchQsTgffJ177SfkG1Fp1JkVAGve+OKBjCkBdnc=;
+ b=FYJbhbukfMctJrVI89lk0RGTMsEWAGwfPDz0nbLuG13gXp43OdF7LwuX9rZZ7MvT+cfwaJCvfOkbdOAm+sR0mYqYtLxdl/uwyYV6HYqlsrtksp9Qeg5+Knp3GI4sL448NBOEm5V6DV1JDvw4fwDAarmHXYI9vGCaIsJFz4wqix4=
+Received: from BLAP220CA0001.NAMP220.PROD.OUTLOOK.COM (2603:10b6:208:32c::6)
+ by SN7PR12MB6765.namprd12.prod.outlook.com (2603:10b6:806:26b::18) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8901.26; Wed, 9 Jul
+ 2025 06:44:41 +0000
+Received: from BN2PEPF000044A2.namprd02.prod.outlook.com
+ (2603:10b6:208:32c:cafe::bf) by BLAP220CA0001.outlook.office365.com
+ (2603:10b6:208:32c::6) with Microsoft SMTP Server (version=TLS1_3,
  cipher=TLS_AES_256_GCM_SHA384) id 15.20.8922.21 via Frontend Transport; Wed,
- 9 Jul 2025 06:44:34 +0000
+ 9 Jul 2025 06:44:40 +0000
 X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 165.204.84.17)
  smtp.mailfrom=amd.com; dkim=none (message not signed)
  header.d=none;dmarc=pass action=none header.from=amd.com;
@@ -48,16 +48,16 @@ Received-SPF: Pass (protection.outlook.com: domain of amd.com designates
  165.204.84.17 as permitted sender) receiver=protection.outlook.com;
  client-ip=165.204.84.17; helo=SATLEXMB04.amd.com; pr=C
 Received: from SATLEXMB04.amd.com (165.204.84.17) by
- BN2PEPF000044A0.mail.protection.outlook.com (10.167.243.151) with Microsoft
+ BN2PEPF000044A2.mail.protection.outlook.com (10.167.243.153) with Microsoft
  SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.20.8922.22 via Frontend Transport; Wed, 9 Jul 2025 06:44:34 +0000
+ 15.20.8901.20 via Frontend Transport; Wed, 9 Jul 2025 06:44:40 +0000
 Received: from SATLEXMB03.amd.com (10.181.40.144) by SATLEXMB04.amd.com
  (10.181.40.145) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.39; Wed, 9 Jul
- 2025 01:44:34 -0500
+ 2025 01:44:40 -0500
 Received: from hjbog-srdc-41.amd.com (10.180.168.240) by SATLEXMB03.amd.com
  (10.181.40.144) with Microsoft SMTP Server id 15.1.2507.39 via Frontend
- Transport; Wed, 9 Jul 2025 01:44:29 -0500
+ Transport; Wed, 9 Jul 2025 01:44:34 -0500
 From: Samuel Zhang <guoqing.zhang@amd.com>
 To: <alexander.deucher@amd.com>, <christian.koenig@amd.com>,
  <rafael@kernel.org>, <len.brown@intel.com>, <pavel@kernel.org>,
@@ -70,10 +70,9 @@ CC: <mario.limonciello@amd.com>, <lijo.lazar@amd.com>, <victor.zhao@amd.com>,
  <linux-pm@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
  <amd-gfx@lists.freedesktop.org>, <dri-devel@lists.freedesktop.org>, "Samuel
  Zhang" <guoqing.zhang@amd.com>
-Subject: [PATCH v4 3/5] PM: hibernate: shrink shmem pages after
- dev_pm_ops.prepare()
-Date: Wed, 9 Jul 2025 14:44:02 +0800
-Message-ID: <20250709064404.839975-4-guoqing.zhang@amd.com>
+Subject: [PATCH v4 4/5] PM: hibernate: add new api pm_transition_event()
+Date: Wed, 9 Jul 2025 14:44:03 +0800
+Message-ID: <20250709064404.839975-5-guoqing.zhang@amd.com>
 X-Mailer: git-send-email 2.43.5
 In-Reply-To: <20250709064404.839975-1-guoqing.zhang@amd.com>
 References: <20250709064404.839975-1-guoqing.zhang@amd.com>
@@ -84,53 +83,53 @@ Received-SPF: None (SATLEXMB04.amd.com: guoqing.zhang@amd.com does not
  designate permitted sender hosts)
 X-EOPAttributedMessage: 0
 X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: BN2PEPF000044A0:EE_|MW6PR12MB7088:EE_
-X-MS-Office365-Filtering-Correlation-Id: d8c8f3a2-927a-4d73-061e-08ddbeb4113d
+X-MS-TrafficTypeDiagnostic: BN2PEPF000044A2:EE_|SN7PR12MB6765:EE_
+X-MS-Office365-Filtering-Correlation-Id: 2c216511-c823-4808-15b0-08ddbeb414c3
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: BCL:0;
- ARA:13230040|36860700013|7416014|376014|82310400026|1800799024|7053199007|921020;
-X-Microsoft-Antispam-Message-Info: =?us-ascii?Q?ADQ3Truv3IPISREAfKw3FUL88jhuv+yLL0EU450GBBMm7SP/PSjEoIcrL5zM?=
- =?us-ascii?Q?NF0svOMEY9UCk8kE3S0dNPDrwOOjDDYSZsFIV81jgZuVL2Q8iHauG7V2UnvG?=
- =?us-ascii?Q?as0l7VClKO7lZRJZM/0BiwfIIbLJ0G5oexq0ycY9ZlkCk51TB9AzxQzVkiUQ?=
- =?us-ascii?Q?ElBZ/Cen9wio2Kwbro3W13gXXiuJAr+SepF7wkFw0WzukVLfh52Ymkcl8vI5?=
- =?us-ascii?Q?ZQvHP3oBOmYxI54KIWAQigmhhE1m1o6IyDylFeyqnxHjb0jpyMTctNyi5DgX?=
- =?us-ascii?Q?f6qWxpOOe61+2Y/JpjPb4/fbxSrgt/k8dE/kmgR29zclMxwQDlp5HYPzYwrV?=
- =?us-ascii?Q?/LmAcGAE8JaNZ9+vuLYoJRV8CpDLYlxcXq6NtTfjEeYQwtw0JDoNkuS1qxTx?=
- =?us-ascii?Q?lfcXyI5a07tTOVkIwbVsMpbZV/icwvUviC4lL3qxRks1395YWNNIqzLDX6Go?=
- =?us-ascii?Q?OquU+bB99Tw02I/WnlW71MpUU+b9IVyhNVKjTaUmVhmHhJ0UkM7JXib6bclc?=
- =?us-ascii?Q?hIKp6wwHV4wC6vfQVWB3ARRGvwPied1oQ6TrkuOGA5QL3Xb+Anv+j7Ai78z4?=
- =?us-ascii?Q?g6FaMnY4Wm7y9arE2cuIGbDt3JLiWQUuqhQgn6f89igI0GPz5obhlxhkdYX2?=
- =?us-ascii?Q?CAP7wT41TOHzCVGMkDB/sZQfKkOpPWfz3qBNf0dwzqSu7lv18KKNsVlFurpT?=
- =?us-ascii?Q?10KZof8P9vYt1ng1XxjG/glbQeNAC2G+t5/wZ2ZvtRocM1c5Ke57dbIDbqn7?=
- =?us-ascii?Q?EaKCrXvnE2WypvC2HfaW6L93C3ZG1XywqjCC7/KUfmNSfT0G6fgY6sQrsA0H?=
- =?us-ascii?Q?y4IrYp2Hs97TLtLDSn2GkBDKYhMz0ZKq4q6OkejZ/Lo6oKuv5bTN6gKKgAaR?=
- =?us-ascii?Q?9JVyjzMW3XNQv3OCvbv0D/oScMcLK3xKk+w36lfnVBrv9EopIfczsLV32ur4?=
- =?us-ascii?Q?Gqm4mw7G+baHZQet0j2jQhxqgmf0doxBp6z4gwBSIkHTpel2jigDBtjD6iMO?=
- =?us-ascii?Q?1nEd3egBHQD36Q744QCQsnD4qxeuI3ybArTXi6Paq5VHDk4Wm5dJv10GVExk?=
- =?us-ascii?Q?Jh0R5SUzlaHh5Z940ZSfuVotLyM8xDDNNcZMO5Et1OdXgTZd0+syikwy8eDx?=
- =?us-ascii?Q?z3Y/NgJJaBvCrrc+LzmkRRHDrzIjbA1JOVidTTbAipx6sqQcfWCWkaLrdkfr?=
- =?us-ascii?Q?wx8WgFPYKmrpCSugWDb3a5qsQDcvsN/VWpU1mWyRAzyO+PoWtDrQnLOWBW13?=
- =?us-ascii?Q?D1VE4hIJByw1om5IULCZt2erd2jN/9wxc9cbR3Aq6VJ2YL1Ug1UwFd7eS4Ka?=
- =?us-ascii?Q?YanyC8FB0F67a7omuy3QRmJjdfdNEghULRnUsZA7YOm9oxnQGT8wBe+JRKyU?=
- =?us-ascii?Q?Y7SHqv4RU3tu0bN8PH+vkv5tVIKj+67/zfBKys4rGx5dP1TgIU8rizsxiCfg?=
- =?us-ascii?Q?Picup5fuwf8ei8qXMiqy4Lnkj/9bYfDhRflDZeqyKCEMhZM6s6HbVnZNWctR?=
- =?us-ascii?Q?HEDr5sF7Tc+TwXZJVNNhSEptEVBzzNWKEzMzANJ3b/OQL5cTk6vL9qV/nA?=
+ ARA:13230040|1800799024|36860700013|376014|7416014|82310400026|921020; 
+X-Microsoft-Antispam-Message-Info: =?us-ascii?Q?3GKu4RGOLFFA5ijRwI27ZjiGjNYAfxKHBkxXaTQTRqJgeYnqAPsXMiNn31z9?=
+ =?us-ascii?Q?EjYKLyY0X5M/llIspEPlwqM81r6dxrmlrY0AN3wfavlvcN5P0wTNyx9yiYus?=
+ =?us-ascii?Q?vYlzsgTZLDfeRFRSxhYnLvaUw/W+54iIQ8xJdfYHvxvRTQI27bRu+KrZmLOe?=
+ =?us-ascii?Q?W1VL+wUvCEa/SBMaavZdv2OkoCDaqDCn4DVcziiG38ASVSsJw3H84PtcNr4H?=
+ =?us-ascii?Q?WZ3ugn7IZBPzCix624Z003iOdJflxH8ON62KLoQwri1pKOvCePmBOqtuRzmG?=
+ =?us-ascii?Q?bcJgSde+EreEQ2IdcsulGgu4ieuI295tw8JK3JCZcOkw97SZR1mANPQfSL7Q?=
+ =?us-ascii?Q?0PO3/aT7EdWbUy0u0W91q127pBzj0XHXmO00N05khb/Gd8CNgSTZZL2a62td?=
+ =?us-ascii?Q?9Ztk39E4S0kwxp44KBbTfBY+hAFJ0XkDvOHipukz8OvYpEoFLmOkrOVTTUfC?=
+ =?us-ascii?Q?C6EG2aH8BdO+U3Hu3b542wtyOvezLEQiJzKiftyWlSeJSsMQEOIt+ISJtc2L?=
+ =?us-ascii?Q?H8/pbNQMe80wp+GHilwt2130x1rMl/F1P2q4qO3B7/WVMc7Pt7XHk85EXtx3?=
+ =?us-ascii?Q?5CMme8fqDGAELC7fs/gjRAvlp/Hn+raV31/VPr7NLwEcgew9jI2QqTNzd13K?=
+ =?us-ascii?Q?WSSd0T7HBwX9c8ZDHI7YEZS100AQp5DLSruDLv/63ztsfHBB1GXFyL79R50F?=
+ =?us-ascii?Q?0H8Vs6lm0IzkK7y2pAzMkpsMmAJCkJoxgSZN1wYn/itfU+8YiVky6FdSj+va?=
+ =?us-ascii?Q?HLzlTAKtvYMlWMfCrEC27CWEsyR8GyIXkrMsT9pcugfu6vNgap5ghD5QfVlA?=
+ =?us-ascii?Q?7XlQyldxbFDbXBcDsV0qkN9TyFDmtYytSe95tiioGLtYAt66a01pkASihADS?=
+ =?us-ascii?Q?8Cqceleiiz+YYWMZDL9pSFBQR4mhZcwcN5ZzPLy0ytA00uhSGvJgM+zHfWCe?=
+ =?us-ascii?Q?VaA0BqT2qHIJrV2n0NpF7+Nrin07SJsQ5bKds4aqnONciicGkuHKGnsCRC9q?=
+ =?us-ascii?Q?ZgynbxiysYI398a9wg0TKwYkf4k820lb4YnN4Yt6gpkUA1B0QwPm6XPEOkXl?=
+ =?us-ascii?Q?GgqKWT1ORbcExi095KEhCvrxLrVPwfPDzGi7g3MoGGHMcH3crE9v3XPKynS1?=
+ =?us-ascii?Q?LsihOSp7DGP3YxIDRLyOoaFYkNJCoFPQbyTzRkIGIwcPnUwUot+NoFBouNxL?=
+ =?us-ascii?Q?tMeNSTYkr/ObYisHDPuzlaFpxFc/AB8yT0HtqpJ2/+8UeMDE6iMtqz7yPyha?=
+ =?us-ascii?Q?LJXVkMwijNf3vwlz4i17QzNf95dr9zKTH55TBjt6XjBmnWSlaZgdDVLiXAsY?=
+ =?us-ascii?Q?JiAaqncKFDQub+hdsNJ6cmyKu+eQ5I3ytAV7eBF6XdaWEmkSeMXNR6snHqfq?=
+ =?us-ascii?Q?QARrgmsPudj5AmGZmRZmkCblftjf390ZBTjJpin/jZdrOghFx9mgMdeuHhQi?=
+ =?us-ascii?Q?iZXTx+oUIltiEWHUMw/7tLE7BcQxmPsy1No6kxBJpNV1al5BDY7y7i3dSe0j?=
+ =?us-ascii?Q?ccY/3KrgoTBPLwTyRH3bDKx03R2fVHClxr5kyirHGqmE6xdly4soXWc+rQ?=
  =?us-ascii?Q?=3D=3D?=
 X-Forefront-Antispam-Report: CIP:165.204.84.17; CTRY:US; LANG:en; SCL:1; SRV:;
  IPV:CAL; SFV:NSPM; H:SATLEXMB04.amd.com; PTR:InfoDomainNonexistent; CAT:NONE;
- SFS:(13230040)(36860700013)(7416014)(376014)(82310400026)(1800799024)(7053199007)(921020);
+ SFS:(13230040)(1800799024)(36860700013)(376014)(7416014)(82310400026)(921020);
  DIR:OUT; SFP:1101; 
 X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 09 Jul 2025 06:44:34.8656 (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: d8c8f3a2-927a-4d73-061e-08ddbeb4113d
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 09 Jul 2025 06:44:40.7752 (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: 2c216511-c823-4808-15b0-08ddbeb414c3
 X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
 X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=3dd8961f-e488-4e60-8e11-a82d994e183d; Ip=[165.204.84.17];
  Helo=[SATLEXMB04.amd.com]
-X-MS-Exchange-CrossTenant-AuthSource: BN2PEPF000044A0.namprd02.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthSource: BN2PEPF000044A2.namprd02.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Anonymous
 X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: MW6PR12MB7088
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SN7PR12MB6765
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -146,70 +145,165 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-When hibernate with data center dGPUs, huge number of VRAM data will be
-moved to shmem during dev_pm_ops.prepare(). These shmem pages take a lot
-of system memory so that there's no enough free memory for creating the
-hibernation image. This will cause hibernation fail and abort.
+dev_pm_ops.thaw() is called in following cases:
+* normal case: after hibernation image has been created.
+* error case 1: creation of a hibernation image has failed.
+* error case 2: restoration from a hibernation image has failed.
 
-After dev_pm_ops.prepare(), call shrink_all_memory() to force move shmem
-pages to swap disk and reclaim the pages, so that there's enough system
-memory for hibernation image and less pages needed to copy to the image.
+For normal case, it is called mainly for resume storage devices for
+saving the hibernation image. Other devices that are not involved
+in the image saving do not need to resume the device. But since there's
+no api to know which case thaw() is called, device drivers can't
+conditionally resume device in thaw().
 
-This patch can only flush and free about half shmem pages. It will be
-better to flush and free more pages, even all of shmem pages, so that
-there're less pages to be copied to the hibernation image and the overall
-hibernation time can be reduced.
+The new pm_transition_event() is such a api to query if thaw() is called
+in normal case. The returned value in thaw() is:
+* PM_EVENT_THAW: normal case, no need to resume non-storage devices.
+* PM_EVENT_RECOVER: error case, need to resume devices.
 
 Signed-off-by: Samuel Zhang <guoqing.zhang@amd.com>
-Acked-by: Rafael J. Wysocki <rafael@kernel.org>
 ---
- kernel/power/hibernate.c | 26 ++++++++++++++++++++++++++
- 1 file changed, 26 insertions(+)
+ drivers/base/power/main.c |  5 +++
+ include/linux/pm.h        | 85 +++++++++++++++++++++++----------------
+ 2 files changed, 56 insertions(+), 34 deletions(-)
 
-diff --git a/kernel/power/hibernate.c b/kernel/power/hibernate.c
-index 10a01af63a80..7ae9d9a7aa1d 100644
---- a/kernel/power/hibernate.c
-+++ b/kernel/power/hibernate.c
-@@ -370,6 +370,23 @@ static int create_image(int platform_mode)
- 	return error;
- }
+diff --git a/drivers/base/power/main.c b/drivers/base/power/main.c
+index 40e1d8d8a589..7e0982caa4d4 100644
+--- a/drivers/base/power/main.c
++++ b/drivers/base/power/main.c
+@@ -62,6 +62,11 @@ static LIST_HEAD(dpm_noirq_list);
  
-+static void shrink_shmem_memory(void)
+ static DEFINE_MUTEX(dpm_list_mtx);
+ static pm_message_t pm_transition;
++int pm_transition_event(void)
 +{
-+	struct sysinfo info;
-+	unsigned long nr_shmem_pages, nr_freed_pages;
-+
-+	si_meminfo(&info);
-+	nr_shmem_pages = info.sharedram; /* current page count used for shmem */
-+	/*
-+	 * The intent is to reclaim all shmem pages. Though shrink_all_memory() can
-+	 * only reclaim about half of them, it's enough for creating the hibernation
-+	 * image.
-+	 */
-+	nr_freed_pages = shrink_all_memory(nr_shmem_pages);
-+	pr_debug("requested to reclaim %lu shmem pages, actually freed %lu pages\n",
-+			nr_shmem_pages, nr_freed_pages);
++	return pm_transition.event;
 +}
-+
- /**
-  * hibernation_snapshot - Quiesce devices and create a hibernation image.
-  * @platform_mode: If set, use platform driver to prepare for the transition.
-@@ -411,6 +428,15 @@ int hibernation_snapshot(int platform_mode)
- 		goto Thaw;
- 	}
++EXPORT_SYMBOL_GPL(pm_transition_event);
  
-+	/*
-+	 * Device drivers may move lots of data to shmem in dpm_prepare(). The shmem
-+	 * pages will use lots of system memory, causing hibernation image creation
-+	 * fail due to insufficient free memory.
-+	 * This call is to force flush the shmem pages to swap disk and reclaim
-+	 * the system memory so that image creation can succeed.
-+	 */
-+	shrink_shmem_memory();
-+
- 	suspend_console();
- 	pm_restrict_gfp_mask();
+ static int async_error;
  
+diff --git a/include/linux/pm.h b/include/linux/pm.h
+index 78855d794342..7e7b843ba823 100644
+--- a/include/linux/pm.h
++++ b/include/linux/pm.h
+@@ -471,58 +471,59 @@ const struct dev_pm_ops name = { \
+ #define pm_ptr(_ptr) PTR_IF(IS_ENABLED(CONFIG_PM), (_ptr))
+ #define pm_sleep_ptr(_ptr) PTR_IF(IS_ENABLED(CONFIG_PM_SLEEP), (_ptr))
+ 
+-/*
+- * PM_EVENT_ messages
++/**
++ * pm_transition_event() - Query the current pm transition event value.
++ *
++ * One example is used to query the reason why thaw() is called.
++ * It will return one of 2 values in this usage:
++ * * %PM_EVENT_THAW: normal case.
++ * * %PM_EVENT_RECOVER: error case.
++ *
++ * For other usage, it may return other values. See :ref:`PM_EVENT_ messages`
++ * for all possible values.
++ *
++ * Return: One of the %PM_EVENT_ messages
++ */
++int pm_transition_event(void);
++
++/**
++ * DOC: PM_EVENT_ messages
+  *
+- * The following PM_EVENT_ messages are defined for the internal use of the PM
++ * The possible return values of %pm_transition_event().
++ *
++ * The following PM_EVENT_ messages are defined for the use of drivers and PM
+  * core, in order to provide a mechanism allowing the high level suspend and
+  * hibernation code to convey the necessary information to the device PM core
+  * code:
+  *
+- * ON		No transition.
++ * %PM_EVENT_ON:		No transition.
+  *
+- * FREEZE	System is going to hibernate, call ->prepare() and ->freeze()
+- *		for all devices.
++ * %PM_EVENT_FREEZE:	System is going to hibernate, call ->prepare() and
++ *		->freeze() for all devices.
+  *
+- * SUSPEND	System is going to suspend, call ->prepare() and ->suspend()
+- *		for all devices.
++ * %PM_EVENT_SUSPEND:	System is going to suspend, call ->prepare() and
++ *		->suspend() for all devices.
+  *
+- * HIBERNATE	Hibernation image has been saved, call ->prepare() and
++ * %PM_EVENT_HIBERNATE:	Hibernation image has been saved, call ->prepare() and
+  *		->poweroff() for all devices.
+  *
+- * QUIESCE	Contents of main memory are going to be restored from a (loaded)
+- *		hibernation image, call ->prepare() and ->freeze() for all
++ * %PM_EVENT_QUIESCE:	Contents of main memory are going to be restored from
++ *		a (loaded) hibernation image, call ->prepare() and ->freeze() for all
+  *		devices.
+  *
+- * RESUME	System is resuming, call ->resume() and ->complete() for all
+- *		devices.
++ * %PM_EVENT_RESUME:	System is resuming, call ->resume() and ->complete()
++ *		for all devices.
+  *
+- * THAW		Hibernation image has been created, call ->thaw() and
++ * %PM_EVENT_THAW:		Hibernation image has been created, call ->thaw() and
+  *		->complete() for all devices.
+  *
+- * RESTORE	Contents of main memory have been restored from a hibernation
+- *		image, call ->restore() and ->complete() for all devices.
++ * %PM_EVENT_RESTORE:	Contents of main memory have been restored from a
++ *		hibernation image, call ->restore() and ->complete() for all devices.
+  *
+- * RECOVER	Creation of a hibernation image or restoration of the main
+- *		memory contents from a hibernation image has failed, call
++ * %PM_EVENT_RECOVER:	Creation of a hibernation image or restoration of the
++ *		main memory contents from a hibernation image has failed, call
+  *		->thaw() and ->complete() for all devices.
+- *
+- * The following PM_EVENT_ messages are defined for internal use by
+- * kernel subsystems.  They are never issued by the PM core.
+- *
+- * USER_SUSPEND		Manual selective suspend was issued by userspace.
+- *
+- * USER_RESUME		Manual selective resume was issued by userspace.
+- *
+- * REMOTE_WAKEUP	Remote-wakeup request was received from the device.
+- *
+- * AUTO_SUSPEND		Automatic (device idle) runtime suspend was
+- *			initiated by the subsystem.
+- *
+- * AUTO_RESUME		Automatic (device needed) runtime resume was
+- *			requested by a driver.
+  */
+-
+ #define PM_EVENT_INVALID	(-1)
+ #define PM_EVENT_ON		0x0000
+ #define PM_EVENT_FREEZE		0x0001
+@@ -537,6 +538,22 @@ const struct dev_pm_ops name = { \
+ #define PM_EVENT_REMOTE		0x0200
+ #define PM_EVENT_AUTO		0x0400
+ 
++/*
++ * The following PM_EVENT_ messages are defined for internal use by
++ * kernel subsystems.  They are never issued by the PM core.
++ *
++ * USER_SUSPEND	Manual selective suspend was issued by userspace.
++ *
++ * USER_RESUME	Manual selective resume was issued by userspace.
++ *
++ * REMOTE_WAKEUP	Remote-wakeup request was received from the device.
++ *
++ * AUTO_SUSPEND	Automatic (device idle) runtime suspend was
++ *			initiated by the subsystem.
++ *
++ * AUTO_RESUME	Automatic (device needed) runtime resume was
++ *			requested by a driver.
++ */
+ #define PM_EVENT_SLEEP		(PM_EVENT_SUSPEND | PM_EVENT_HIBERNATE)
+ #define PM_EVENT_USER_SUSPEND	(PM_EVENT_USER | PM_EVENT_SUSPEND)
+ #define PM_EVENT_USER_RESUME	(PM_EVENT_USER | PM_EVENT_RESUME)
 -- 
 2.43.5
 
