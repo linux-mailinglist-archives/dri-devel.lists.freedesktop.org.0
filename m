@@ -2,163 +2,169 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7AFABAFE8EF
-	for <lists+dri-devel@lfdr.de>; Wed,  9 Jul 2025 14:31:04 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 66A10AFE921
+	for <lists+dri-devel@lfdr.de>; Wed,  9 Jul 2025 14:40:07 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3EA1910E7C7;
-	Wed,  9 Jul 2025 12:31:02 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6E10610E7D5;
+	Wed,  9 Jul 2025 12:40:04 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=Nvidia.com header.i=@Nvidia.com header.b="DxJzVER1";
+	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="V6Bv1xPw";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from NAM12-DM6-obe.outbound.protection.outlook.com
- (mail-dm6nam12on2075.outbound.protection.outlook.com [40.107.243.75])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1E14E10E7C7;
- Wed,  9 Jul 2025 12:31:01 +0000 (UTC)
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.17])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id BA08410E7DD;
+ Wed,  9 Jul 2025 12:40:03 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1752064804; x=1783600804;
+ h=date:from:to:cc:subject:message-id:reply-to:references:
+ content-transfer-encoding:in-reply-to:mime-version;
+ bh=OZ9W1k44Uc/nvXEcGkKPYd9Gz1ZAF8GPPNA2WX7kNwo=;
+ b=V6Bv1xPw1myBFFvz2etmma4UMIuKuhac+YbgHn02gI1lD+yo0x7Rjq6C
+ Cd53QusPCjnu9xTFbt5FEyFBkZ1zZJluWVudxEiO3AwPQiw7n4E5mvIRl
+ 5HmY1xOjEbU880hMzEzJ2yxiCitJmTq519+ESKLozB5bmqwgCbrb5yDxZ
+ jU7R/hwymRQ/oHwHfZ4p+CyLMEtwyq9EDNvHsNpA0KSlI3ZS4Ad9eZoPE
+ RBlEKaLdRcGLP39HTtF7GqztEyu09Pn48ZZqkJWjUBYXME1i5L4cspVik
+ 0JSQUmxCKfQqiOKnxft/xQF8GHZm95Uz2W3xGd0McPRMeY467V4z6LgFt g==;
+X-CSE-ConnectionGUID: qFaRM6uGTU21vaVxkx2Btg==
+X-CSE-MsgGUID: me3zDqWpQRaXcxZg6jEAOA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11489"; a="54252915"
+X-IronPort-AV: E=Sophos;i="6.16,298,1744095600"; d="scan'208";a="54252915"
+Received: from fmviesa005.fm.intel.com ([10.60.135.145])
+ by fmvoesa111.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 09 Jul 2025 05:40:00 -0700
+X-CSE-ConnectionGUID: uPZuy8vQTXqLBPPMdtkLXw==
+X-CSE-MsgGUID: AcblrSmZQmKRPNdp66zG4Q==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.16,298,1744095600"; d="scan'208";a="160032623"
+Received: from orsmsx903.amr.corp.intel.com ([10.22.229.25])
+ by fmviesa005.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 09 Jul 2025 05:40:00 -0700
+Received: from ORSMSX903.amr.corp.intel.com (10.22.229.25) by
+ ORSMSX903.amr.corp.intel.com (10.22.229.25) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.1544.25; Wed, 9 Jul 2025 05:39:59 -0700
+Received: from ORSEDG901.ED.cps.intel.com (10.7.248.11) by
+ ORSMSX903.amr.corp.intel.com (10.22.229.25) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.1544.25 via Frontend Transport; Wed, 9 Jul 2025 05:39:59 -0700
+Received: from NAM12-BN8-obe.outbound.protection.outlook.com (40.107.237.44)
+ by edgegateway.intel.com (134.134.137.111) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.1544.25; Wed, 9 Jul 2025 05:39:59 -0700
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=cEpVbTh00ZY7bUviUwk/+aGNdAgwZOgNO1YZ4OgotWpPGttBKJMcV1iaxF+4bsiRNJXAOMqZD3/LsdG4wZo7pGZf6/5Dt0XbH15ChdU7nEL02u616HuD+USYpfN6mHsrXuE8ZBASnqtIZpwmqgE07AUfJKN7eNyQzFVnmX+e2LQyDD141Og0LGkrSD9wJUl7sEqLc0fUQMiNBg4crdnomrWi5/BwbjPAEtHF1tXD7xM++j1bOoIs+B6zZ2A9Szf5ZgyB4SeBzTkYo+VcfroRXXXwo+VKvVfmQv3I5wPLQP1NdMYdzbSoujtRsdka2MJZu1+F1YkXOIhRFm9BLA7JJQ==
+ b=LKFqQsM1AS67NLi3GCnsGYa4RxI3CzKLdNxxc3OfPuIafKFSCcwDFWU0a8xbSRcHdTDs88sS598A/eVwS9u/WFWlFSlVopnnPYIZrKS4VdgINuEIHY7NIJdXUy/2+EZdoozTo4MiWDup8ileQtyXVu4r3JpxwQs5Mxb9bvgTy2UhrS+uZ2mRUp05HYKrdqnpbBugY4WH3OnsmVSO+Lb535h1LdW00I4A6xxp+QRQMOpcurRNbJJkMiAepZUc6SThICclTnrNkQnr6qFxgLLAW0gycLOosBLMNoDHYjSJypqbRK4Jb+b5IRbQUg8/S4kAVMfGHnMhFflmw+zOZ6n6eA==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=XJNNHxvTVAFUoEJieU0W6w7ex6k0zmwWiRbCE+xN+OA=;
- b=nS6mGtVeVkEUoM0qKwRLrPK7dX9UuZi9V8vGueTA+hqSCFRdx17u3B4mJJnVkTSTm7miRmAFGYCpeEFr6EB6ChJRF5QoPxlXS+8sY0bijxeCOrhn7E3Xvbzfw0dH1FI0CGKzJ97EMkCX0BD160qMHp0I5SrEdyx9owS2SB/MADrbUvaY4QO7p+82TSAecEsURj+naJzEtRQFCm9R2h3I0wPcnl4akJbtCMOYNycltec92x8zIpeTVxMLjLVV7J8i2kwDkY5IlTPx6LPiO6410da16GdcxrTIiIKi5wmk/RId4/9Fm3MuefF8yn0b6GVsCaa8Cao/4WBqvmBsV/SDcA==
+ bh=U7H+5mWE1luFFEcLAjWd/C/lOtL8yis9YEx7dEThvvo=;
+ b=t+2t0IFl7oZloA0s5Je2+ZmkSSHEGdmW9E2ZTzJXNix/cVD/4JN/HMPGfvGFNwWNZrlEPJ/b/5H+Ieft6MHTixVvcTtnRxQoGSgi6lAtyrblD2xEC/8/vnh7oK8NyH71PZXd3glGNehIYE9vuZpzMLzkGip/hnHT5sCbtLfZ3aPvC5BboSZ3XAPNX7FWFMmsKS+zthPFphZYKSErsWI09luKg3DC++m7wZ4YaJSJOjG4dkzGIbxUheQr6OC9jHHQ8zDPGOFw26DZAnWQ08Nqk3xcmHnpRSx78N06uYlLVcGq268OuhKkFAB/aRGcvN+lYkySaRTloAXwYDIphcVxdA==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
- dkim=pass header.d=nvidia.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=XJNNHxvTVAFUoEJieU0W6w7ex6k0zmwWiRbCE+xN+OA=;
- b=DxJzVER1vscinCcCdCXmgk5kf5mU/a9G1T5wo8JnTEyviL295vE4vY5hbqGyFxdeLXGnKCtHZQwnv4zJ9ZgYzeQJcxkUyxAd9ZDlLPnzaPaeNixPY+asbU68bQNUw1bJ3g03wIctfuE5Bb//eqzvXUP1ScduQQYYj/Qea/oHePXGDgtAR7TPN7JFx8RmY+f5kn0ryQ6rSP7qvalZUcEL26+nUb3l3aGhoWca6yW9UgOqnA7j4U9jerr4jvUbzWWsE2GYfpXM7MxaKyOSGfR1dk4Kqz1FPX56LymSE3PbFiYPcENidQZaFpXGQSxyUPBzfHIts/f/pdHLiuWLsBvh6A==
+ smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
+ dkim=pass header.d=intel.com; arc=none
 Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=nvidia.com;
-Received: from PH8PR12MB7277.namprd12.prod.outlook.com (2603:10b6:510:223::13)
- by DS0PR12MB7970.namprd12.prod.outlook.com (2603:10b6:8:149::13) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8901.28; Wed, 9 Jul
- 2025 12:30:56 +0000
-Received: from PH8PR12MB7277.namprd12.prod.outlook.com
- ([fe80::3a4:70ea:ff05:1251]) by PH8PR12MB7277.namprd12.prod.outlook.com
- ([fe80::3a4:70ea:ff05:1251%5]) with mapi id 15.20.8901.028; Wed, 9 Jul 2025
- 12:30:55 +0000
-Message-ID: <f58d843c-77a0-473e-9e24-5494f4326cc9@nvidia.com>
-Date: Wed, 9 Jul 2025 22:30:42 +1000
-User-Agent: Mozilla Thunderbird
-Subject: Re: [RFC 03/11] mm/thp: zone_device awareness in THP handling code
-To: David Hildenbrand <david@redhat.com>, linux-mm@kvack.org,
- akpm@linux-foundation.org
-Cc: dri-devel@lists.freedesktop.org, nouveau@lists.freedesktop.org,
- Karol Herbst <kherbst@redhat.com>, Lyude Paul <lyude@redhat.com>,
- Danilo Krummrich <dakr@kernel.org>, David Airlie <airlied@gmail.com>,
- Simona Vetter <simona@ffwll.ch>, =?UTF-8?B?SsOpcsO0bWUgR2xpc3Nl?=
- <jglisse@redhat.com>, Shuah Khan <shuah@kernel.org>,
- Barry Song <baohua@kernel.org>, Baolin Wang <baolin.wang@linux.alibaba.com>,
- Ryan Roberts <ryan.roberts@arm.com>, Matthew Wilcox <willy@infradead.org>,
- Peter Xu <peterx@redhat.com>, Zi Yan <ziy@nvidia.com>,
- Kefeng Wang <wangkefeng.wang@huawei.com>, Jane Chu <jane.chu@oracle.com>,
- Alistair Popple <apopple@nvidia.com>, Donet Tom <donettom@linux.ibm.com>
-References: <20250306044239.3874247-1-balbirs@nvidia.com>
- <20250306044239.3874247-4-balbirs@nvidia.com>
- <be029205-9d03-43b0-84f7-1dab530639ca@redhat.com>
-Content-Language: en-US
-From: Balbir Singh <balbirs@nvidia.com>
-In-Reply-To: <be029205-9d03-43b0-84f7-1dab530639ca@redhat.com>
-Content-Type: text/plain; charset=UTF-8
+ header.d=none;dmarc=none action=none header.from=intel.com;
+Received: from SJ0PR11MB4845.namprd11.prod.outlook.com (2603:10b6:a03:2d1::10)
+ by PH7PR11MB5915.namprd11.prod.outlook.com (2603:10b6:510:13c::9)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8901.25; Wed, 9 Jul
+ 2025 12:39:29 +0000
+Received: from SJ0PR11MB4845.namprd11.prod.outlook.com
+ ([fe80::8900:d137:e757:ac9f]) by SJ0PR11MB4845.namprd11.prod.outlook.com
+ ([fe80::8900:d137:e757:ac9f%6]) with mapi id 15.20.8901.021; Wed, 9 Jul 2025
+ 12:39:29 +0000
+Date: Wed, 9 Jul 2025 15:39:24 +0300
+From: Imre Deak <imre.deak@intel.com>
+To: Paul Menzel <pmenzel@molgen.mpg.de>
+CC: <intel-gfx@lists.freedesktop.org>, <intel-xe@lists.freedesktop.org>,
+ <dri-devel@lists.freedesktop.org>, Ville =?iso-8859-1?Q?Syrj=E4l=E4?=
+ <ville.syrjala@linux.intel.com>, Jani Nikula <jani.nikula@linux.intel.com>
+Subject: Re: [PATCH] drm/dp: Change AUX DPCD probe address from
+ LANE0_1_STATUS to TRAINING_PATTERN_SET
+Message-ID: <aG5i_P7dqDEBBEzk@ideak-desk>
+References: <20250708212331.112898-1-imre.deak@intel.com>
+ <af1b1805-375a-450e-925f-2b0860216899@molgen.mpg.de>
+Content-Type: text/plain; charset="iso-8859-1"
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-X-ClientProxiedBy: BYAPR11CA0054.namprd11.prod.outlook.com
- (2603:10b6:a03:80::31) To PH8PR12MB7277.namprd12.prod.outlook.com
- (2603:10b6:510:223::13)
+In-Reply-To: <af1b1805-375a-450e-925f-2b0860216899@molgen.mpg.de>
+X-ClientProxiedBy: LO4P265CA0249.GBRP265.PROD.OUTLOOK.COM
+ (2603:10a6:600:350::14) To SJ0PR11MB4845.namprd11.prod.outlook.com
+ (2603:10b6:a03:2d1::10)
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: PH8PR12MB7277:EE_|DS0PR12MB7970:EE_
-X-MS-Office365-Filtering-Correlation-Id: 2374373d-899b-4bf5-3a0f-08ddbee47331
+X-MS-TrafficTypeDiagnostic: SJ0PR11MB4845:EE_|PH7PR11MB5915:EE_
+X-MS-Office365-Filtering-Correlation-Id: 6d2d252a-11eb-4ec5-03c5-08ddbee5a5cf
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;ARA:13230040|7416014|1800799024|376014|366016;
-X-Microsoft-Antispam-Message-Info: =?utf-8?B?M3VMcjhUMHlVYjdBaVM3aEhBN1lrMHZ1dTNKQmxnaWl4c2lQVTY4Zk5td21I?=
- =?utf-8?B?VnBTdXA1a3ByYmdLVnFGdGpoelI2Z3htODRaTUlpVmoxMzFQYndVakVMM29M?=
- =?utf-8?B?YWlTc1BIbS9MQWZqQ2xoWnNleWZhbFNMbWFRZ1dmRUlzZ3hRTFZuMUduaU05?=
- =?utf-8?B?NGZZaFBjd3BsS0RZM1FEYUdLejg5ME9CcHQwS3dPQnphdlpBN2ZNMzJTVmRB?=
- =?utf-8?B?dllnTjZHbnhsWnROVlAxRkN3cXFNZ2pFU0l1bnBUZ3A4ZCt2a1JoSUNSdmJW?=
- =?utf-8?B?Z2JOU1BDMnFDbDVtSXZ3VjNocmoxakVpaVJQTDRVOVlJaXpaTzJvU080YXNU?=
- =?utf-8?B?QkxPWTlPN0daeFhmTUJSMHlVVFBIWnh6bmFLWHkzWUlBS2w3YkhYaTZObHJx?=
- =?utf-8?B?dU1Fb3E4SmV2VG1LcnJxdlR5aEMyWHdaR0RyT2xBRGNRR0NsN3llQ25FemNK?=
- =?utf-8?B?dzJmdXBCcVE5enpkQWsyOUpzNG5XaWkwL3ovRHhrVVg2WnpDWjVvZVErWHo2?=
- =?utf-8?B?aXdEalhjdk5kaVBkUzRsdW1IV2x0ZWxjR0drcVNMSEc3SEpoSHdGdWdlaE4y?=
- =?utf-8?B?TXRpdFpPRmQ3RlFyZ0lTQjU2RG00VFYyT1l3OVJhYkxZQUlCUlFqd25JbS9q?=
- =?utf-8?B?Mm1QRjdqa1pGcUp5RUZ4QkNXdDVxSW9QOXBxMEhpMGk1MnAyNE1nODQ3a3Vm?=
- =?utf-8?B?bUlZVVV2dldPYVVuQ3QyMGFScHBPUi9veFVQeGRKcTViWFhhRkRIejE3dGlS?=
- =?utf-8?B?TmVYUU5uN3dMcFd2blVOQ2tEcEFBM3FiVGVUT2kzQ2piSXFxcldEV2xrcUhy?=
- =?utf-8?B?STAxaHY0REd2d2QwejFsMU1hbUFSN21XUjZzSS92OTlnSTVhOWx1bU5nNTFP?=
- =?utf-8?B?TEhMOThEY21ZT1RoN3dkbHJKMkZBajJQaUlobDNNUEJ5eXQ0bkFuZ01OUWFs?=
- =?utf-8?B?U09oSC82ZTNkUFRNcTZPcHBtamVrZ3p0Um9xbzhZTmFPb3plMVJQYVJLUThL?=
- =?utf-8?B?RFJzaytlbmdISjMxOWRMMTNwL245VFloaTFpWC82Mis5Vi9ZTzg3UHBHcXRO?=
- =?utf-8?B?cTJoc0tTOSttbU5JODdvTHh4YTBpU3RQbmJXcnZGa1RzOVlZeXB0OU1RbEdI?=
- =?utf-8?B?dzBxdFpUb2kxaGtWRHprWjZVQzYwTjUzdmVUVnVnSUJPKzN6bjM5SkNwOEMz?=
- =?utf-8?B?cnh3K1lDQ1pVOWNVWjhYMnYwMUtsMWs3ZmlOdTJpWVhZK2xhQVlSZjFlWkVQ?=
- =?utf-8?B?c1RzS0VQdnNiMGovNkFsZ1VPTVZnNE9RNWpZMUFwbFhsVmVvOFFSRUtodkZX?=
- =?utf-8?B?UHlBeUdGajhxbW9kY1kza3NENjBEeXY1KzZ6emVPMUFNYzZsQUNuOHk5ejdz?=
- =?utf-8?B?SkQ4Z3dvLzE1NGw1L3dmUXdUbERhMlU3MGZkRTlvcFBXTGhDcng3TXVZYVZS?=
- =?utf-8?B?QVhXYWpiVDRPeXk3THBFQ0FMUmZ6WmJpV3lFOURZa0ZxL3BOZWp6b0t5bE4y?=
- =?utf-8?B?aVl4alJyUVAzc1doeXcyQTdUK2h3ZnRaZFBXV2pQNGpJSlVRMFgyU3RrZWZI?=
- =?utf-8?B?eTFpTGxLU09SaUJrSDlES1NjczJRaWVWaUF3ZUhEOGlUWWtRN3N4Vkhja1Zm?=
- =?utf-8?B?NC9oM0dCVGxSaHBJeHVaVTNicmVCODFPOVd1LytvQnRITWZ6L1BldGNjUXBX?=
- =?utf-8?B?SkUvVXBBTGVFUjZxcTN6cFpIUkpBOG1lZEQwWGxieDJEOEFpWFd6L1BqeSti?=
- =?utf-8?B?Z3pkaWFWUXVvYitQMkkvRnVjRFJYMG9TM08vMXZlZ2Qxa0FQdlBPVC9neWJr?=
- =?utf-8?B?YWxpTVJFT1pUK0JxNzRuWmQ3dnBFS1pSaHdiZXpYWnNKYzVmVzd4amJRTjE3?=
- =?utf-8?B?NnZRZ3B1cEhyVkxTRmxCeHo5bytCRjhYVElCanJOV2R3S05XTVhVVmRSdlRa?=
- =?utf-8?Q?VtkLsft1uDQ=3D?=
+X-Microsoft-Antispam: BCL:0;ARA:13230040|376014|366016|1800799024;
+X-Microsoft-Antispam-Message-Info: =?iso-8859-1?Q?WAtfqv80YJSPPJ4gBiXAlONktFYL+sGZdgg5yDn9k2jRE9KTpdFkSgrFOz?=
+ =?iso-8859-1?Q?3zig1IkjSUgZun/4N7j5YG8Ztb9TksNyko30xx03SLs0n4IgxSTOT0mk0R?=
+ =?iso-8859-1?Q?TQNATM/HXMVghwQ/7tNVBOjtRDXrJH33kw6m0JZKBkhjF/SHE9vi797TxB?=
+ =?iso-8859-1?Q?fl5adIlVjsD06zieCL8t+iJ4+iTDYwFBysxHhg6C7OJG9mrEZqDf5kbkI+?=
+ =?iso-8859-1?Q?LRKjiiAzYGBK+IqGF19PESjc9rk0iUL18UKKjLEtDR0KS+l/E9vsiloIz8?=
+ =?iso-8859-1?Q?iRyEawm4EU+uNadc59Nigh9FmwiLfzwhmKhp0O5JEjjpCs4jc6Dw91Jsnw?=
+ =?iso-8859-1?Q?wH7JiDW/cptm+bqrItRjuYu2vI1FNvZmt1zrvISPanmz822iJiuO4hu3we?=
+ =?iso-8859-1?Q?rGBTgEmqJxcJqSo4POZGv5JtZK1LdJDgONscrKjGUGEY8rReIVvYzn+XQu?=
+ =?iso-8859-1?Q?SGIxmovEN4UAoqqq903OfQq+0FVqTEv1GWTTsQ+iBe+Lo6wzGpAxulLH3M?=
+ =?iso-8859-1?Q?zmh2yuhKOILr5VrJUuJ/sn3DDGuiO4SF0/mKiy8J6ZUL74lGH5gqD20rmK?=
+ =?iso-8859-1?Q?XXULjz9LBRBUL6xIZ0ALYnoOxxmo1SnzE5dLR5IDpawTqT3IQQ1680icVN?=
+ =?iso-8859-1?Q?JNP9TK9X7IdnkCdDh5Uj9mFFiR3ENdblLerfzxWZlHm5sTlZj2DSJ4Ii93?=
+ =?iso-8859-1?Q?iRrhTiSQyMjAqU8px+4mj68KTXiAMauiEaWv1f1dUncztNK6Agwq9azmrE?=
+ =?iso-8859-1?Q?k3JZONVHKousHihYxk9Sdkx8vM1+jOQ41toqKq/5uvBuR7FnrijaLeNlXO?=
+ =?iso-8859-1?Q?HGnGKptBkjlvltA9Neyok2J7NiDFYZ6WHefL8dvcKpMKHy8b+ycSg/Lp1/?=
+ =?iso-8859-1?Q?eM4Pbn07zBFFp3JPehP15gNMZgUzx7R+LVgByc1RcNH5MeF978S8vAWecW?=
+ =?iso-8859-1?Q?+mkrErS2/wO3Iq/x1JJhGd7IBDH1qbbDfBmV8o+XLd6QAbfqUI1K7krGKv?=
+ =?iso-8859-1?Q?81VwwmHwv/70fCyA7TyVBN/K+tN8ZuJRGrOmdsG+YyhHEM+a9EDTXxk7EA?=
+ =?iso-8859-1?Q?g98MkJ5KNMzI8w5cDiKolWd8Q3YQam2W0Tego7ZY7ibhXwpZwkj5nob+Cr?=
+ =?iso-8859-1?Q?n+EfuW9NTXyS3SbvmRjO8zcyt/4kgHzXlQgEfJ/JrmrjHZ5u4BXDPQ4bLr?=
+ =?iso-8859-1?Q?2eNoVrRoi3h2vgEeQWuTkfniDhpOpQtu0iRHqLkYDhXV7vyHJr43VeOido?=
+ =?iso-8859-1?Q?t/ApApXxE897qT5JCJ+vF1cCjo1Hy9ujCWXL8yem737AgB/XyDmzKPH3Ei?=
+ =?iso-8859-1?Q?Z6HAuj3ERNH5EekBvtxpijzQ8ly0gK2l/nwGpi1kjEMlFFf/fxmMKlFouZ?=
+ =?iso-8859-1?Q?q7QCAxaoKcQihHbdU8d8bEhHSAduozLF1uFQOF7susnlMxH/rYbWQ=3D?=
 X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:PH8PR12MB7277.namprd12.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230040)(7416014)(1800799024)(376014)(366016); DIR:OUT; SFP:1101; 
+ IPV:NLI; SFV:NSPM; H:SJ0PR11MB4845.namprd11.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230040)(376014)(366016)(1800799024); DIR:OUT; SFP:1101; 
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?eWhPY09nbFAvdFE1YXZIcDFrWkJwVnpNSktHTzJOU2p3M1Q4a3FnMGtvdVJL?=
- =?utf-8?B?ZTZtNUQydGNSWjNvZUJIelBqRm5MNXZabjBrbmtmYjlCTTBFSldqaWFOeURs?=
- =?utf-8?B?Mk5paUczUkRyTjVMZU9oMStTK0VhOEd1YlRlWStTWW95STN4ZE5ybXFRNVVL?=
- =?utf-8?B?VDRGd2NEUGxyeWxIOHhUTUtwbVRRSWtyR2pkQWtjSEVuSFNwcFNwK2kra3ZN?=
- =?utf-8?B?N3lxYTlXeVpYb0RWc29sRkdqYU9UYjhTRHduU1VrRHlWNXBEOXFIcUwwaDhW?=
- =?utf-8?B?ZHNtZ0M3VHNmVFR2RE45U2hGaEhCK1MwUFFWODdPSEExRDVDcHhIRjZtTlBs?=
- =?utf-8?B?bFdaVFBUYmxvR1ExWXJiUzlkRmFBQ05iWmQxODVhQndsa3BYOC92SDZGaTI0?=
- =?utf-8?B?b1pLd00xZDJmSnZPK3Boc2d4WlpQNjhYVXY2ak84b2p4Z1p4b0VIZS93QU1N?=
- =?utf-8?B?UFRnMkJva1FFYTlkamsrdW1JL3FOSytzYnZ3ZEJ3c2hyTXVFd1ZUaHZ3WVhW?=
- =?utf-8?B?S0c0UVpHbDliaFUxWEh6YjI3R1g3dzEvMEcweEpZSzRhZTZRanNTMlZnRWho?=
- =?utf-8?B?bzd2NDcrZGpyZHhoSHNoWWNKRDRuZjdDWjJsR2xNUG03MXRjK0RtN0lkM0RC?=
- =?utf-8?B?N2ZXZ25GdktKWG1LckxicUNVcGtFV0RNLzM5MUROeFBYWW9ZNDd1WmxEZWx3?=
- =?utf-8?B?akxWekFMVEgxSW9rejA2Uy94N2t0L0I1aUErU2c5VFcxd1ZYSi81T2w3MGxj?=
- =?utf-8?B?a3hTMUV0dDRvbk5MVEFZbU8wZ1kzU0xsdkcyc3h2T2lzQjVPcEphWmpiSEFZ?=
- =?utf-8?B?d2Z3WFJwZHE5VDU0RE5OOFpQT2Yyd2Q5ZkNRbitzZWplN2NRWExJcmxoZ1dt?=
- =?utf-8?B?R3Q3Vy9yZHA0RXR5L1RqVHRRSVZleFZrdXRQVVV5dnE2cXJrbDVWZE9NY0d6?=
- =?utf-8?B?bU14WU9jbHZjSTY2UFpKN2M5ZUovUHg0VmZ2MjNpbTBBOFFRZ0JvN21HM0Zz?=
- =?utf-8?B?ZTZTOWtjQTZJQWd6a0tJeEVYRlJ2K2QyaFcxR3RreExvMTlCNEJIbVJzbWRQ?=
- =?utf-8?B?YVB1V0llNXYzVE1HUDBaOFRObUpTeGtNUkZjTnFKMUQzQldyZHZLUkpDYjRR?=
- =?utf-8?B?bVRVUEY1cm9XdDhNNU5naXp1NEFNMlBONVNabE1iMFVQbjBlOE40VVEyanBo?=
- =?utf-8?B?ZmZyV1pCOFpHT0dvSVZ6NGNRSlg1ZnplczZKakhQOEQ3M3Q2MVpuVVEzYXlI?=
- =?utf-8?B?a2lSWXJYYWU0VHJ5MGhRR2w5dEJ5SmtkdFBVcW1QYk84OU5acjJOUkhaVUtX?=
- =?utf-8?B?YUxobTlhY0hiN2JyUmJzOVFMSytpQ2NxQ01pSFR1ajdNVVdxcGh5TnoyQmli?=
- =?utf-8?B?V0lGSWRKM3MxYVRxaXR3czVjZmNyQlFWL25Gd2d6b2c5ZjFoM2tCWnl1RTgr?=
- =?utf-8?B?V3RpWEJ1ZVFXQ3I3SUJmVjMxNWgxaVhSYzF6VjcxTy9NaDFFazJsejNkajBB?=
- =?utf-8?B?b3BQanA5QmIrMHM5Vjhrdk8xM0RjRnN0SWZoV09RN2hWSmUvNHM5UmcrS1Yy?=
- =?utf-8?B?THhOcDBQdnNncDRvNWxQa0FlZSsraEVIRHlId2pjbUowemZqM1ZHSmg0djdj?=
- =?utf-8?B?RlFYdHpTS3JxRG02ZjFLODBqR3ZDWVdORmhKa21XNXBuaDNHOE9OVU5sRUxr?=
- =?utf-8?B?YWU0OTZ0Q0txVUp3cSttK1E5amhBY1pMY0ZsSktEdFpqLzRab2lDcHp2TVZn?=
- =?utf-8?B?V25WM0YzZ0ZYc0tnVnlEeERldUM0VUkwQmZFSkxKRW8yZkRmZHdudzRwdHYz?=
- =?utf-8?B?ZVQ4MDJyclVmd29rdm81V1cwRXRScVhvcGRBUTBmMXdickRvajdrSGNaK0Iv?=
- =?utf-8?B?T2IzY2UxNUJkaXJOSG1od3FlbjVzNk0wUEZNSnFOa1RNQmlzWGcvbUdUSmk0?=
- =?utf-8?B?ODk4VFZIVE43U3BmSVdVSloyWjNoYWV1ZUYrdVNPNmtUNzJiUzlOM0c5eVk5?=
- =?utf-8?B?b3ZSRTZ4akZ3ZHZzM3IwNWg2SHpzM0Z1eFNySlJkUmRReThhem9NZzdZQlNG?=
- =?utf-8?B?UnpQc0dtVy9kNmJlS28yK3NBbTV4L05uS2JTWHZ1c0xnUlpvbmZyMzNQa3Jt?=
- =?utf-8?Q?XO5yy7OhKOi+lOIIXIxCXEGOI?=
-X-OriginatorOrg: Nvidia.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 2374373d-899b-4bf5-3a0f-08ddbee47331
-X-MS-Exchange-CrossTenant-AuthSource: PH8PR12MB7277.namprd12.prod.outlook.com
+X-MS-Exchange-AntiSpam-MessageData-0: =?iso-8859-1?Q?SNomkIDhv7Bt60B2+bKudZnMD1C8ukYEHCxxilBWSBreupnC4vFr1bywag?=
+ =?iso-8859-1?Q?9QCvP14q0AkhcXYbkX9r79rm9X6HP7PpVYn0H+8qmRA3IQ3/c11NoRpYJp?=
+ =?iso-8859-1?Q?RZSWhxUKkvgiUOEOEyglMmHSkC9R6jKL3E5NO2aiibBzCLC4OH5m5b9KLd?=
+ =?iso-8859-1?Q?q4SOyGS7t/5F+q52tjOS4Gw8sve8OMYFbZXQ8D9Bppsya/DpAo7luZqoMP?=
+ =?iso-8859-1?Q?7PAzfjgXAiBvxbthoWvCxW5QcwZ2u4MdzNkY58LbP44y8glVF5y068qoOx?=
+ =?iso-8859-1?Q?UaXIBbZz4fqNJJQFC4HWrc96AoxudpTqjpPgmkovLciXgE1tpx/el/sFO4?=
+ =?iso-8859-1?Q?CdQp0xLcIzK8utE0fjRbYIbPHJpr8P6pzz3HJDAtpFzwm++ZFLZ0wxFoly?=
+ =?iso-8859-1?Q?PKFt7PkR9J/098gMlug8anmBuK/yjAKgLIXhOzBM7e9jDGI1fC8hn3mZUr?=
+ =?iso-8859-1?Q?1tQ/wLAhyJNgy7bJlYh//LqNvyc8rJ+k8Q92lsxBQUieJc9ryfjIfcJ18R?=
+ =?iso-8859-1?Q?01+Hwnj/tkjkPWhX/ToLYefUfA1IgnYnCGoomlHZC6kR8t6tDqUPWBh+xm?=
+ =?iso-8859-1?Q?61YJ9Kme003JZoJ62bE/K8/uBtH5eJOwducR0mbuV6j/2DF8d4aLcVvLVK?=
+ =?iso-8859-1?Q?eGKBhtkPIjpGlCIGfLcp/VPnzCOqZsHNXz0K+QTM9b2Frr6PFqV5kpxu3h?=
+ =?iso-8859-1?Q?lMjnl06WFsu3pLMckMmrLOwMOPvfJeIhtRwjCoisTwaNyDb3yBgc3i4Faq?=
+ =?iso-8859-1?Q?y9oK9O3LgQPhzd1977dSkkOSwMXAtkoO5BeKKR/t3wjZOL3BZdAVMJEQfE?=
+ =?iso-8859-1?Q?J3ZJGb7xLgCbnsy14LnOGwQgnPLTKziME6BQ8JypXqsIpdV33vwgwR/Rs3?=
+ =?iso-8859-1?Q?A2Xo9nbO4YtFsw7Fy8Z2w8iNtIh6OlK1+rMk2RYNautBv2z94oaUx0YlBW?=
+ =?iso-8859-1?Q?L0/zO7F/0dgP3A9FzRiIIgRixZkNjGf13uL4QjY2+tkSEX8nQLSMfVozz8?=
+ =?iso-8859-1?Q?tpmb+sNirhfWrvsgT0YPbwu1mWHlFIGNCuM+VZU2bKplx/0UJBemtW7Z4p?=
+ =?iso-8859-1?Q?eYpuYXte6VLc4BhC5z0EgxLWrAI90jnuLBv6/yB2fpnGaMepJdyWYd+kfr?=
+ =?iso-8859-1?Q?UuI3yU9/b02063i1YKBlTvyDreaNPQzsow9r3hJoEpadZIS2x26pkDyXMB?=
+ =?iso-8859-1?Q?j9Tr4Tb4dZMaFKsSVZDpTzaRfbiQ9aTZyoDaoUIaAx81weSy3mUv6sYNFa?=
+ =?iso-8859-1?Q?xecQa0HeGttKP+uqYzajWuSRDBXBrmuluhQKdPZCbQLzIOwPyLc6idgz+0?=
+ =?iso-8859-1?Q?lzcjAfR6wV3rNPZUXhuG+08zMlECoZ3P495KU+QgeIj5P2IeIiY/BuzgUd?=
+ =?iso-8859-1?Q?akyQXjXYPKjbs9/zenpx93jOaxAO3r/KRgINEXuENVCdizGFUDvCDXZRA8?=
+ =?iso-8859-1?Q?7fPEs9SiqLlaWQVXTlEncBPPFS/thHeEBUuQ+Wo2yWGIaWQ3JZo92fuJGs?=
+ =?iso-8859-1?Q?UCsABOo5CpXfT15U82Hy+amHC/W/zBitx3OT0F+1wQ5yxrWZIybXKQtE5z?=
+ =?iso-8859-1?Q?DtYFRmNdM7gXnKZ+a85O1f/Ptscg8eIvtfyXvimBw8sJajP2cuJTWqjve3?=
+ =?iso-8859-1?Q?Co64CqNCRAm70v4WH3SFJUpcOhN9W6e5Yw?=
+X-MS-Exchange-CrossTenant-Network-Message-Id: 6d2d252a-11eb-4ec5-03c5-08ddbee5a5cf
+X-MS-Exchange-CrossTenant-AuthSource: SJ0PR11MB4845.namprd11.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 09 Jul 2025 12:30:55.4560 (UTC)
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 09 Jul 2025 12:39:29.7167 (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
+X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: 8hACz5Cfcs+stJ49ch9cXOBQ++zsnmQCXGtMpvFOPpv8GnjB3EgnJBd4Fp1d1O3weo3mIxrcqw1vYiDoy+mbsg==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DS0PR12MB7970
+X-MS-Exchange-CrossTenant-UserPrincipalName: gDSOf2Y5v0qtv11Y8s8qLVf0gJQ8s9gKqUrolDPV11l8XNDWExOpsgG+Ngnkqt1I/tpIJVURxYyT8p6InFFhXQ==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH7PR11MB5915
+X-OriginatorOrg: intel.com
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -171,458 +177,180 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
+Reply-To: imre.deak@intel.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 7/9/25 00:10, David Hildenbrand wrote:
-> On 06.03.25 05:42, Balbir Singh wrote:
->> Make THP handling code in the mm subsystem for THP pages
->> aware of zone device pages. Although the code is
->> designed to be generic when it comes to handling splitting
->> of pages, the code is designed to work for THP page sizes
->> corresponding to HPAGE_PMD_NR.
->>
->> Modify page_vma_mapped_walk() to return true when a zone
->> device huge entry is present, enabling try_to_migrate()
->> and other code migration paths to appropriately process the
->> entry
->>
->> pmd_pfn() does not work well with zone device entries, use
->> pfn_pmd_entry_to_swap() for checking and comparison as for
->> zone device entries.
->>
->> try_to_map_to_unused_zeropage() does not apply to zone device
->> entries, zone device entries are ignored in the call.
->>
->> Signed-off-by: Balbir Singh <balbirs@nvidia.com>
->> ---
->>   mm/huge_memory.c     | 151 +++++++++++++++++++++++++++++++------------
->>   mm/migrate.c         |   2 +
->>   mm/page_vma_mapped.c |  10 +++
->>   mm/rmap.c            |  19 +++++-
->>   4 files changed, 138 insertions(+), 44 deletions(-)
->>
->> diff --git a/mm/huge_memory.c b/mm/huge_memory.c
->> index 826bfe907017..d8e018d1bdbd 100644
->> --- a/mm/huge_memory.c
->> +++ b/mm/huge_memory.c
->> @@ -2247,10 +2247,17 @@ int zap_huge_pmd(struct mmu_gather *tlb, struct vm_area_struct *vma,
->>           } else if (thp_migration_supported()) {
->>               swp_entry_t entry;
->>   -            VM_BUG_ON(!is_pmd_migration_entry(orig_pmd));
->>               entry = pmd_to_swp_entry(orig_pmd);
->>               folio = pfn_swap_entry_folio(entry);
->>               flush_needed = 0;
->> +
->> +            VM_BUG_ON(!is_pmd_migration_entry(*pmd) &&
->> +                    !folio_is_device_private(folio));
+On Wed, Jul 09, 2025 at 07:57:15AM +0200, Paul Menzel wrote:
+> Dear Imre,
 > 
-> Convert that to a VM_WARN_ON_ONCE() while you are at it.
+> Thank you very much for your patch, and the detailed commit message.
 > 
+> Am 08.07.25 um 23:23 schrieb Imre Deak:
+> > Commit a40c5d727b81 ("drm/dp: Change AUX DPCD probe address from
+> > DPCD_REV to LANE0_1_STATUS") stopped using the DPCD_REV register for
+> > DPCD probing, since this results in link training failures at least when
+> > using an Intel Barlow Ridge TBT hub at UHBR link rates (the
+> > DP_INTRA_HOP_AUX_REPLY_INDICATION never getting cleared after the failed
+> > link training). Since accessing DPCD_REV during link training is
+> > prohibited by the DP Standard, LANE0_1_STATUS (0x202) was used instead,
+> > as it falls within the Standard's valid register address range
+> > (0x102-0x106, 0x202-0x207, 0x200c-0x200f, 0x2216) and it fixed the link
+> > training on the above TBT hub.
+> > 
+> > However, reading the LANE0_1_STATUS register also has a side-effect at
+> > least on a Novatek eDP panel, as reported on the Closes: link below,
+> > resulting in screen flickering on that panel. One clear side-effect when
+> > doing the 1-byte probe reads from LANE0_1_STATUS during link training
+> > before reading out the full 6 byte link status starting at the same
+> > address is that the panel will report the link training as completed
+> > with voltage swing 0. This is different from the normal, flicker-free
+> > scenario when no DPCD probing is done, the panel reporting the link
+> > training complete with voltage swing 2.
+> 
+> For the ignorant like me, adding the debug log lines you deduced this from
+> would help.
 
-Ack
+The following are the annotated events from the failure and success
+cases, imo it's better to add this to the bug ticket, keeping the commit
+message more succinct; can do that.
 
-> But really, check that the *pmd* is as expected (device_pritavte entry), and not the folio after the effects.
-> 
-> Also, hiding all that under the thp_migration_supported() looks wrong.
-> 
-> Likely you must clean that up first, to have something that expresses that we support PMD swap entries or sth like that. Not just "migration entries".
-> 
+The failure case, using LANE0_1_STATUS for DPCD probing, from the bug
+ticket's
+https://gitlab.freedesktop.org/-/project/4519/uploads/e440bd79e44fe3442716078fb38fc396/20250630--dell-xps-13-9360--linux-6.16.0-rc3-00002-ga3ef3c2da675--messages.txt :
 
-The logic for the check is
+"""
+[   47.429619] i915 0000:00:02.0: [drm:drm_dp_dpcd_write [drm_display_helper]] AUX A/DDI A/PHY A: 0x00102 AUX <- (ret=  5) 21 00 00 00 00
 
-if (pmd_present()) {
-   ...
-} else if (thp_migration_supported()) {
-  ...
+The source (driver) uses vs/pre-emp 0/0 ([0x105 0x106] = 0x00 0x00)
 
-}
+[   47.429942] i915 0000:00:02.0: [drm:drm_dp_dpcd_probe [drm_display_helper]] AUX A/DDI A/PHY A: 0x00202 AUX -> (ret=  1) 11
+[   47.430289] i915 0000:00:02.0: [drm:drm_dp_dpcd_read [drm_display_helper]] AUX A/DDI A/PHY A: 0x00202 AUX -> (ret=  6) 11 11 80 00 66 66
 
-PMD swap is supported for migration entries (and zone device private after these changes)
+The sink inidicates that CR is complete ([0x202 0x203] = 0x11 0x11).
+The sink also requests vs/pre-emp 2/1, but the source does not change
+to these levels, since the sink already indicated CR as complete.
 
+[   47.430305] i915 0000:00:02.0: [drm:intel_dp_link_train_phy [i915]] [CONNECTOR:106:eDP-1][ENCODER:105:DDI A/PHY A][DPRX] Clock recovery OK
+...
+[   47.431025] i915 0000:00:02.0: [drm:drm_dp_dpcd_write [drm_display_helper]] AUX A/DDI A/PHY A: 0x00102 AUX <- (ret=  5) 22 00 00 00 00
 
+The source starts the EQ phase using the 0/0 vs/pre-emp levels ([0x105
+0x106] = 0x00 0x00), with which CR got completed as indicated by the
+sink above.
+
+[   47.431720] i915 0000:00:02.0: [drm:drm_dp_dpcd_probe [drm_display_helper]] AUX A/DDI A/PHY A: 0x00202 AUX -> (ret=  1) 11
+[   47.432072] i915 0000:00:02.0: [drm:drm_dp_dpcd_read [drm_display_helper]] AUX A/DDI A/PHY A: 0x00202 AUX -> (ret=  6) 77 77 81 00 66 66
+
+The sink indicates that EQ is complete ([0x202-0x204] = 0x77 0x77 0x81).
+The sink also requests vs/pre-emp 2/1, but the source does not change to
+these levels, since the sink already indicated EQ as complete.
+
+[   47.432088] i915 0000:00:02.0: [drm:intel_dp_link_train_phy [i915]] [CONNECTOR:106:eDP-1][ENCODER:105:DDI A/PHY A][DPRX] Channel EQ done. DP Training successful
+"""
+
+The passing case, using TRAINING_PATTERN_SET for DPCD probing, from the
+bug ticket's
+https://gitlab.freedesktop.org/-/project/4519/uploads/a999486f52bc794d2923557334e297e2/20250630--dell-xps-13-9360--linux-6.16.0-rc4-00001-g072887dff624--messages--several-acpi-s3-cycles.txt
+
+"""
+[  388.585357] i915 0000:00:02.0: [drm:drm_dp_dpcd_write [drm_display_helper]] AUX A/DDI A/PHY A: 0x00102 AUX <- (ret=  5) 21 00 00 00 00
+[  388.585696] i915 0000:00:02.0: [drm:drm_dp_dpcd_probe [drm_display_helper]] AUX A/DDI A/PHY A: 0x00102 AUX -> (ret=  1) 21
+[  388.586064] i915 0000:00:02.0: [drm:drm_dp_dpcd_read [drm_display_helper]] AUX A/DDI A/PHY A: 0x00202 AUX -> (ret=  6) 11 11 80 00 66 66
+[  388.586083] i915 0000:00:02.0: [drm:intel_dp_link_train_phy [i915]] [CONNECTOR:106:eDP-1][ENCODER:105:DDI A/PHY A][DPRX] Clock recovery OK
+
+Similarly as in the failure case, sink completes CR with vs/pre-emp 0/0,
+but requesting already vs/pre-emp 2/1.
+
+[  388.586725] i915 0000:00:02.0: [drm:drm_dp_dpcd_write [drm_display_helper]] AUX A/DDI A/PHY A: 0x00102 AUX <- (ret=  5) 22 00 00 00 00
+
+The source starts the EQ phase using the 0/0 vs/pre-emp levels the CR
+phase completed with.
+
+[  388.587421] i915 0000:00:02.0: [drm:drm_dp_dpcd_probe [drm_display_helper]] AUX A/DDI A/PHY A: 0x00102 AUX -> (ret=  1) 22
+[  388.587774] i915 0000:00:02.0: [drm:drm_dp_dpcd_read [drm_display_helper]] AUX A/DDI A/PHY A: 0x00202 AUX -> (ret=  6) 11 77 81 00 66 66
+
+The sink indicates that EQ is still not complete for lane 0/1 ([0x202] =
+0x11) and requests for vs/pre-emp 2/1 for all lanes.
+
+[  388.587786] i915 0000:00:02.0: [drm:intel_dp_get_adjust_train [i915]] [CONNECTOR:106:eDP-1][ENCODER:105:DDI A/PHY A][DPRX] 8b/10b, lanes: 4, vswing request: 2/2/2/2, pre-emphasis request: 1/1/1/1
+[  388.587919] i915 0000:00:02.0: [drm:intel_dp_set_signal_levels [i915]] [CONNECTOR:106:eDP-1][ENCODER:105:DDI A/PHY A][DPRX] 8b/10b, lanes: 4, vswing levels: 2(max)/2(max)/2(max)/2(max), pre-emphasis levels: 1/1/1/1
+[  388.588035] i915 0000:00:02.0: [drm:hsw_set_signal_levels [i915]] Using signal levels 08000000
+[  388.588319] i915 0000:00:02.0: [drm:drm_dp_dpcd_write [drm_display_helper]] AUX A/DDI A/PHY A: 0x00103 AUX <- (ret=  4) 0e 0e 0e 0e
+
+The source switches to vs/pre-emp 2/1 for all lanes as the sink
+requested.
+
+[  388.589007] i915 0000:00:02.0: [drm:drm_dp_dpcd_probe [drm_display_helper]] AUX A/DDI A/PHY A: 0x00102 AUX -> (ret=  1) 22
+[  388.589353] i915 0000:00:02.0: [drm:drm_dp_dpcd_read [drm_display_helper]] AUX A/DDI A/PHY A: 0x00202 AUX -> (ret=  6) 77 77 01 00 66 66
+
+The sink indicates the EQ as complete.
+"""
+
+> > Using the TRAINING_PATTERN_SET register for DPCD probing doesn't have
+> > the above side-effect, the panel will link train with voltage swing 2 as
+> > expected and it will stay flicker-free. This register is also in the
+> > above valid register range and is unlikely to have a side-effect as that
+> > of LANE0_1_STATUS: Reading LANE0_1_STATUS is part of the link training
+> > CR/EQ sequences and so it may cause a state change in the sink - even if
+> > inadvertently as I suspect in the case of the above Novatek panel. As
+> > opposed to this, reading TRAINING_PATTERN_SET is not part of the link
+> > training sequence (it must be only written once at the beginning of the
+> > CR/EQ sequences), so it's unlikely to cause any state change in the
+> > sink.
+> > 
+> > As a side-note, this Novatek panel also lacks support for TPS3, while
+> > claiming support for HBR2, which violates the DP Standard (the Standard
+> > mandating TPS3 for HBR2).
+> 
+> Unrelated, but a warning about this panel firmware/hardware misbehavior
+> would probably be warranted.
+
+There is a debug message about it, not sure if it would make sense to
+convert that to an error/note message instead:
+
+[  388.586203] i915 0000:00:02.0: [drm:intel_dp_link_train_phy [i915]] [CONNECTOR:106:eDP-1][ENCODER:105:DDI A/PHY A][DPRX] >=5.4/6.48 Gbps link rate without sink TPS3 support
 
 > 
->> +
->> +            if (folio_is_device_private(folio)) {
->> +                folio_remove_rmap_pmd(folio, folio_page(folio, 0), vma);
->> +                WARN_ON_ONCE(folio_mapcount(folio) < 0);
->> +            }
+> > Besides the Novatek panel (PSR 1), which this change fixes, I also
+> > verified the change on a Samsung (PSR 1) and an Analogix (PSR 2) eDP
+> > panel as well as on the Intel Barlow Ridge TBT hub.
+> > 
+> > Note that in the drm-tip tree (targeting the v6.17 kernel version) the
+> > i915 and xe drivers keep DPCD probing enabled only for the panel known
+> > to require this (HP ZR24w), hence those drivers in drm-tip are not
+> > affected by the above problem.
+> > 
+> > Cc: Ville Syrj�l� <ville.syrjala@linux.intel.com>
+> > Cc: Jani Nikula <jani.nikula@linux.intel.com>
+> > Fixes: a40c5d727b81 ("drm/dp: Change AUX DPCD probe address from DPCD_REV to LANE0_1_STATUS")
+> > Reported-and-tested-by: Paul Menzel <pmenzel@molgen.mpg.de>
+> > Closes: https://gitlab.freedesktop.org/drm/i915/kernel/-/issues/14558
+> > Signed-off-by: Imre Deak <imre.deak@intel.com>
+> > ---
+> >   drivers/gpu/drm/display/drm_dp_helper.c | 2 +-
+> >   1 file changed, 1 insertion(+), 1 deletion(-)
+> > 
+> > diff --git a/drivers/gpu/drm/display/drm_dp_helper.c b/drivers/gpu/drm/display/drm_dp_helper.c
+> > index 1c3920297906b..1ecc3df7e3167 100644
+> > --- a/drivers/gpu/drm/display/drm_dp_helper.c
+> > +++ b/drivers/gpu/drm/display/drm_dp_helper.c
+> > @@ -742,7 +742,7 @@ ssize_t drm_dp_dpcd_read(struct drm_dp_aux *aux, unsigned int offset,
+> >   	int ret;
+> >   	if (dpcd_access_needs_probe(aux)) {
+> > -		ret = drm_dp_dpcd_probe(aux, DP_LANE0_1_STATUS);
+> > +		ret = drm_dp_dpcd_probe(aux, DP_TRAINING_PATTERN_SET);
+> >   		if (ret < 0)
+> >   			return ret;
+> >   	}
 > 
-> 
-> zap_nonpresent_ptes() does
-> 
-> if (is_device_private_entry(entry)) {
->     ...
-> } else if (is_migration_entry(entry)) {
->     ....
-> }
-> 
-> Can we adjust the same way of foing things? (yes, we might want a thp_migration_supported() check somewhere)
+> Just for the record, I also tested this on top of commit 733923397fd9 (Merge
+> tag 'pwm/for-6.16-rc6-fixes' of
+> git://git.kernel.org/pub/scm/linux/kernel/git/ukleinek/linux), and the
+> flickering is gone.
 
-Are you suggesting refactoring of the code to add zap_nonpresent_pmd()? There really isn't much to be
-done for specifically for migration entries in this context
+Ok, thanks for testing it!
 
+> Kind regards,
 > 
->>           } else
->>               WARN_ONCE(1, "Non present huge pmd without pmd migration enabled!");
->>   @@ -2264,6 +2271,15 @@ int zap_huge_pmd(struct mmu_gather *tlb, struct vm_area_struct *vma,
->>                          -HPAGE_PMD_NR);
->>           }
->>   +        /*
->> +         * Do a folio put on zone device private pages after
->> +         * changes to mm_counter, because the folio_put() will
->> +         * clean folio->mapping and the folio_test_anon() check
->> +         * will not be usable.
->> +         */
->> +        if (folio_is_device_private(folio))
->> +            folio_put(folio);
->> +
->>           spin_unlock(ptl);
->>           if (flush_needed)
->>               tlb_remove_page_size(tlb, &folio->page, HPAGE_PMD_SIZE);
->> @@ -2392,7 +2408,8 @@ int change_huge_pmd(struct mmu_gather *tlb, struct vm_area_struct *vma,
->>           struct folio *folio = pfn_swap_entry_folio(entry);
->>           pmd_t newpmd;
->>   -        VM_BUG_ON(!is_pmd_migration_entry(*pmd));
->> +        VM_BUG_ON(!is_pmd_migration_entry(*pmd) &&
->> +              !folio_is_device_private(folio));
->>           if (is_writable_migration_entry(entry)) {
->>               /*
->>                * A protection check is difficult so
->> @@ -2405,9 +2422,11 @@ int change_huge_pmd(struct mmu_gather *tlb, struct vm_area_struct *vma,
->>               newpmd = swp_entry_to_pmd(entry);
->>               if (pmd_swp_soft_dirty(*pmd))
->>                   newpmd = pmd_swp_mksoft_dirty(newpmd);
->> -        } else {
->> +        } else if (is_writable_device_private_entry(entry)) {
->> +            newpmd = swp_entry_to_pmd(entry);
->> +            entry = make_device_exclusive_entry(swp_offset(entry));
->> +        } else
->>               newpmd = *pmd;
->> -        }
->>             if (uffd_wp)
->>               newpmd = pmd_swp_mkuffd_wp(newpmd);
->> @@ -2860,11 +2879,12 @@ static void __split_huge_pmd_locked(struct vm_area_struct *vma, pmd_t *pmd,
->>       struct page *page;
->>       pgtable_t pgtable;
->>       pmd_t old_pmd, _pmd;
->> -    bool young, write, soft_dirty, pmd_migration = false, uffd_wp = false;
->> -    bool anon_exclusive = false, dirty = false;
->> +    bool young, write, soft_dirty, uffd_wp = false;
->> +    bool anon_exclusive = false, dirty = false, present = false;
->>       unsigned long addr;
->>       pte_t *pte;
->>       int i;
->> +    swp_entry_t swp_entry;
->>         VM_BUG_ON(haddr & ~HPAGE_PMD_MASK);
->>       VM_BUG_ON_VMA(vma->vm_start > haddr, vma);
->> @@ -2918,20 +2938,25 @@ static void __split_huge_pmd_locked(struct vm_area_struct *vma, pmd_t *pmd,
->>           return __split_huge_zero_page_pmd(vma, haddr, pmd);
->>       }
->>   -    pmd_migration = is_pmd_migration_entry(*pmd);
->> -    if (unlikely(pmd_migration)) {
->> -        swp_entry_t entry;
->>   +    present = pmd_present(*pmd);
->> +    if (unlikely(!present)) {
->> +        swp_entry = pmd_to_swp_entry(*pmd);
->>           old_pmd = *pmd;
->> -        entry = pmd_to_swp_entry(old_pmd);
->> -        page = pfn_swap_entry_to_page(entry);
->> -        write = is_writable_migration_entry(entry);
->> +
->> +        folio = pfn_swap_entry_folio(swp_entry);
->> +        VM_BUG_ON(!is_migration_entry(swp_entry) &&
->> +                !is_device_private_entry(swp_entry));
->> +        page = pfn_swap_entry_to_page(swp_entry);
->> +        write = is_writable_migration_entry(swp_entry);
->> +
->>           if (PageAnon(page))
->> -            anon_exclusive = is_readable_exclusive_migration_entry(entry);
->> -        young = is_migration_entry_young(entry);
->> -        dirty = is_migration_entry_dirty(entry);
->> +            anon_exclusive =
->> +                is_readable_exclusive_migration_entry(swp_entry);
->>           soft_dirty = pmd_swp_soft_dirty(old_pmd);
->>           uffd_wp = pmd_swp_uffd_wp(old_pmd);
->> +        young = is_migration_entry_young(swp_entry);
->> +        dirty = is_migration_entry_dirty(swp_entry);
->>       } else {
->>           /*
->>            * Up to this point the pmd is present and huge and userland has
->> @@ -3015,30 +3040,45 @@ static void __split_huge_pmd_locked(struct vm_area_struct *vma, pmd_t *pmd,
->>        * Note that NUMA hinting access restrictions are not transferred to
->>        * avoid any possibility of altering permissions across VMAs.
->>        */
->> -    if (freeze || pmd_migration) {
->> +    if (freeze || !present) {
->>           for (i = 0, addr = haddr; i < HPAGE_PMD_NR; i++, addr += PAGE_SIZE) {
->>               pte_t entry;
->> -            swp_entry_t swp_entry;
->> -
->> -            if (write)
->> -                swp_entry = make_writable_migration_entry(
->> -                            page_to_pfn(page + i));
->> -            else if (anon_exclusive)
->> -                swp_entry = make_readable_exclusive_migration_entry(
->> -                            page_to_pfn(page + i));
->> -            else
->> -                swp_entry = make_readable_migration_entry(
->> -                            page_to_pfn(page + i));
->> -            if (young)
->> -                swp_entry = make_migration_entry_young(swp_entry);
->> -            if (dirty)
->> -                swp_entry = make_migration_entry_dirty(swp_entry);
->> -            entry = swp_entry_to_pte(swp_entry);
->> -            if (soft_dirty)
->> -                entry = pte_swp_mksoft_dirty(entry);
->> -            if (uffd_wp)
->> -                entry = pte_swp_mkuffd_wp(entry);
->> -
->> +            if (freeze || is_migration_entry(swp_entry)) {
->> +                if (write)
->> +                    swp_entry = make_writable_migration_entry(
->> +                                page_to_pfn(page + i));
->> +                else if (anon_exclusive)
->> +                    swp_entry = make_readable_exclusive_migration_entry(
->> +                                page_to_pfn(page + i));
->> +                else
->> +                    swp_entry = make_readable_migration_entry(
->> +                                page_to_pfn(page + i));
->> +                if (young)
->> +                    swp_entry = make_migration_entry_young(swp_entry);
->> +                if (dirty)
->> +                    swp_entry = make_migration_entry_dirty(swp_entry);
->> +                entry = swp_entry_to_pte(swp_entry);
->> +                if (soft_dirty)
->> +                    entry = pte_swp_mksoft_dirty(entry);
->> +                if (uffd_wp)
->> +                    entry = pte_swp_mkuffd_wp(entry);
->> +            } else {
->> +                VM_BUG_ON(!is_device_private_entry(swp_entry));
->> +                if (write)
->> +                    swp_entry = make_writable_device_private_entry(
->> +                                page_to_pfn(page + i));
->> +                else if (anon_exclusive)
->> +                    swp_entry = make_device_exclusive_entry(
->> +                                page_to_pfn(page + i));
-> 
-> I am pretty sure this is wrong. You cannot suddenly mix in device-exclusive entries.
-> 
-> And now I am confused again how device-private, anon and GUP interact.
-> 
-
-:)
-
-Yep, this is wrong, we don't need to anything specific for anon_exclusive since
-device private pages cannot be pinned. Other reviews have pointed towards fixes
-needed as well.
-
->> +                else
->> +                    swp_entry = make_readable_device_private_entry(
->> +                                page_to_pfn(page + i));
->> +                entry = swp_entry_to_pte(swp_entry);
->> +                if (soft_dirty)
->> +                    entry = pte_swp_mksoft_dirty(entry);
->> +                if (uffd_wp)
->> +                    entry = pte_swp_mkuffd_wp(entry);
->> +            }
->>               VM_WARN_ON(!pte_none(ptep_get(pte + i)));
->>               set_pte_at(mm, addr, pte + i, entry);
->>           }
->> @@ -3065,7 +3105,7 @@ static void __split_huge_pmd_locked(struct vm_area_struct *vma, pmd_t *pmd,
->>       }
->>       pte_unmap(pte);
->>   -    if (!pmd_migration)
->> +    if (present)
->>           folio_remove_rmap_pmd(folio, page, vma);
->>       if (freeze)
->>           put_page(page);
->> @@ -3077,6 +3117,7 @@ static void __split_huge_pmd_locked(struct vm_area_struct *vma, pmd_t *pmd,
->>   void split_huge_pmd_locked(struct vm_area_struct *vma, unsigned long address,
->>                  pmd_t *pmd, bool freeze, struct folio *folio)
->>   {
->> +    struct folio *pmd_folio;
->>       VM_WARN_ON_ONCE(folio && !folio_test_pmd_mappable(folio));
->>       VM_WARN_ON_ONCE(!IS_ALIGNED(address, HPAGE_PMD_SIZE));
->>       VM_WARN_ON_ONCE(folio && !folio_test_locked(folio));
->> @@ -3089,7 +3130,14 @@ void split_huge_pmd_locked(struct vm_area_struct *vma, unsigned long address,
->>        */
->>       if (pmd_trans_huge(*pmd) || pmd_devmap(*pmd) ||
->>           is_pmd_migration_entry(*pmd)) {
->> -        if (folio && folio != pmd_folio(*pmd))
->> +        if (folio && !pmd_present(*pmd)) {
->> +            swp_entry_t swp_entry = pmd_to_swp_entry(*pmd);
->> +
->> +            pmd_folio = page_folio(pfn_swap_entry_to_page(swp_entry));
->> +        } else {
->> +            pmd_folio = pmd_folio(*pmd);
->> +        }
->> +        if (folio && folio != pmd_folio)
->>               return;
->>           __split_huge_pmd_locked(vma, pmd, address, freeze);
->>       }
->> @@ -3581,11 +3629,16 @@ static int __split_unmapped_folio(struct folio *folio, int new_order,
->>                        folio_test_swapcache(origin_folio)) ?
->>                            folio_nr_pages(release) : 0));
->>   +            if (folio_is_device_private(release))
->> +                percpu_ref_get_many(&release->pgmap->ref,
->> +                            (1 << new_order) - 1);
->> +
->>               if (release == origin_folio)
->>                   continue;
->>   -            lru_add_page_tail(origin_folio, &release->page,
->> -                        lruvec, list);
->> +            if (!folio_is_device_private(origin_folio))
->> +                lru_add_page_tail(origin_folio, &release->page,
->> +                            lruvec, list);
->>                 /* Some pages can be beyond EOF: drop them from page cache */
->>               if (release->index >= end) {
->> @@ -4625,7 +4678,10 @@ int set_pmd_migration_entry(struct page_vma_mapped_walk *pvmw,
->>           return 0;
->>         flush_cache_range(vma, address, address + HPAGE_PMD_SIZE);
->> -    pmdval = pmdp_invalidate(vma, address, pvmw->pmd);
->> +    if (!folio_is_device_private(folio))
->> +        pmdval = pmdp_invalidate(vma, address, pvmw->pmd);
->> +    else
->> +        pmdval = pmdp_huge_clear_flush(vma, address, pvmw->pmd);
-> 
-> Please handle this like we handle the PTE case -- checking for pmd_present() instead.
-> 
-> Avoid placing these nasty folio_is_device_private() all over the place where avoidable.
-> 
-
-Ack, I'll try and use the presence of pmd to create the migration entries as appropriate
-
->>         /* See folio_try_share_anon_rmap_pmd(): invalidate PMD first. */
->>       anon_exclusive = folio_test_anon(folio) && PageAnonExclusive(page);
->> @@ -4675,6 +4731,17 @@ void remove_migration_pmd(struct page_vma_mapped_walk *pvmw, struct page *new)
->>       entry = pmd_to_swp_entry(*pvmw->pmd);
->>       folio_get(folio);
->>       pmde = mk_huge_pmd(new, READ_ONCE(vma->vm_page_prot));
->> +
->> +    if (unlikely(folio_is_device_private(folio))) {
->> +        if (pmd_write(pmde))
->> +            entry = make_writable_device_private_entry(
->> +                            page_to_pfn(new));
->> +        else
->> +            entry = make_readable_device_private_entry(
->> +                            page_to_pfn(new));
->> +        pmde = swp_entry_to_pmd(entry);
->> +    }
->> +
->>       if (pmd_swp_soft_dirty(*pvmw->pmd))
->>           pmde = pmd_mksoft_dirty(pmde);
->>       if (is_writable_migration_entry(entry))
->> diff --git a/mm/migrate.c b/mm/migrate.c
->> index 59e39aaa74e7..0aa1bdb711c3 100644
->> --- a/mm/migrate.c
->> +++ b/mm/migrate.c
->> @@ -200,6 +200,8 @@ static bool try_to_map_unused_to_zeropage(struct page_vma_mapped_walk *pvmw,
->>         if (PageCompound(page))
->>           return false;
->> +    if (folio_is_device_private(folio))
->> +        return false;
-> 
-> Why is that check required when you are adding THP handling and there is a PageCompound check right there?
-> 
-
-Fair point, we might not need the check here for THP handling.
-
->>       VM_BUG_ON_PAGE(!PageAnon(page), page);
->>       VM_BUG_ON_PAGE(!PageLocked(page), page);
->>       VM_BUG_ON_PAGE(pte_present(*pvmw->pte), page);
->> diff --git a/mm/page_vma_mapped.c b/mm/page_vma_mapped.c
->> index e463c3be934a..5dd2e51477d3 100644
->> --- a/mm/page_vma_mapped.c
->> +++ b/mm/page_vma_mapped.c
->> @@ -278,6 +278,16 @@ bool page_vma_mapped_walk(struct page_vma_mapped_walk *pvmw)
->>                * cannot return prematurely, while zap_huge_pmd() has
->>                * cleared *pmd but not decremented compound_mapcount().
->>                */
->> +            swp_entry_t entry;
->> +
->> +            if (!thp_migration_supported())
->> +                return not_found(pvmw);
-> 
-> This check looks misplaced. We should follow the same model as check_pte().
-> 
-> Checking for THP migration support when you are actually caring about device-private entries is weird.
-> 
-
-The thp migration check is common to the pmd code checks even above the patched code, the
-code checks for thp_migration() and PVMW_MIGRATION. If thp migration is not supported
-is there any point in returning true?
-
-> That is, I would expect something like
-> 
-> } else if (is_swap_pmd(pmde)) {
->     swp_entry_t entry;
-> 
->     entry = pmd_to_swp_entry(pmde);
->     if (!is_device_private_entry(entry))
->         return false;
-> 
-
-I don't think the code above is correct, you'll notice that there is a specific race
-that the code handles for the !pmd_present() case and zap_huge_pmd() when PVMW_SYNC is set
-
-I get the idea you're driving towards, I'll see how I can refactor it better.
-
-
->     ...
-> }
-> 
->> +            entry = pmd_to_swp_entry(pmde);
->> +            if (is_device_private_entry(entry)) {
->> +                pvmw->ptl = pmd_lock(mm, pvmw->pmd);
->> +                return true;
->> +            }
->> +
->>               if ((pvmw->flags & PVMW_SYNC) &&
->>                   thp_vma_suitable_order(vma, pvmw->address,
->>                              PMD_ORDER) &&
->> diff --git a/mm/rmap.c b/mm/rmap.c
->> index 67bb273dfb80..67e99dc5f2ef 100644
->> --- a/mm/rmap.c
->> +++ b/mm/rmap.c
->> @@ -2326,8 +2326,23 @@ static bool try_to_migrate_one(struct folio *folio, struct vm_area_struct *vma,
->>   #ifdef CONFIG_ARCH_ENABLE_THP_MIGRATION
->>           /* PMD-mapped THP migration entry */
->>           if (!pvmw.pte) {
->> -            subpage = folio_page(folio,
->> -                pmd_pfn(*pvmw.pmd) - folio_pfn(folio));
->> +            /*
->> +             * Zone device private folios do not work well with
->> +             * pmd_pfn() on some architectures due to pte
->> +             * inversion.
->> +             */
->> +            if (folio_is_device_private(folio)) {
->> +                swp_entry_t entry = pmd_to_swp_entry(*pvmw.pmd);
->> +                unsigned long pfn = swp_offset_pfn(entry);
->> +
->> +                subpage = folio_page(folio, pfn
->> +                            - folio_pfn(folio));
->> +            } else {
->> +                subpage = folio_page(folio,
->> +                            pmd_pfn(*pvmw.pmd)
->> +                            - folio_pfn(folio));
->> +            }
->> +
-> 
-> 
-> Please follow the same model we use for PTEs.
-> 
-> /*
->  * Handle PFN swap PMDs, such as device-exclusive ones, that
->  * actually map pages.
->  */
-> if (likely(pmd_present(...))) {
-> 
-> }
-> 
-> 
-
-Will refactor to check for pmd_present first
-
-Balbir
+> Paul
