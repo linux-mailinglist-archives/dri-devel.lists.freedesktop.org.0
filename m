@@ -2,73 +2,73 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2EA0FAFF243
+	by mail.lfdr.de (Postfix) with ESMTPS id E944DAFF244
 	for <lists+dri-devel@lfdr.de>; Wed,  9 Jul 2025 22:00:21 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 84C3C10E83F;
-	Wed,  9 Jul 2025 20:00:19 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 31BBF10E844;
+	Wed,  9 Jul 2025 20:00:20 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="MQDWb8eu";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="ew1xcmld";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-qt1-f180.google.com (mail-qt1-f180.google.com
- [209.85.160.180])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3BB3E10E83A;
- Wed,  9 Jul 2025 20:00:18 +0000 (UTC)
-Received: by mail-qt1-f180.google.com with SMTP id
- d75a77b69052e-4a58f79d6e9so3807421cf.2; 
- Wed, 09 Jul 2025 13:00:18 -0700 (PDT)
+Received: from mail-qt1-f182.google.com (mail-qt1-f182.google.com
+ [209.85.160.182])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9771C10E844;
+ Wed,  9 Jul 2025 20:00:19 +0000 (UTC)
+Received: by mail-qt1-f182.google.com with SMTP id
+ d75a77b69052e-4a98208fa69so13266441cf.1; 
+ Wed, 09 Jul 2025 13:00:19 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1752091217; x=1752696017; darn=lists.freedesktop.org;
+ d=gmail.com; s=20230601; t=1752091219; x=1752696019; darn=lists.freedesktop.org;
  h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
  :mime-version:subject:date:from:from:to:cc:subject:date:message-id
- :reply-to; bh=FtAb0bRzj6kkU1aoRo4HWiBiB02s3rvT49BZnRuUOhI=;
- b=MQDWb8euqQpHknYeXdrH/2aZl/+v2ZhQWgVxHf0O6Je/6XAv3T53u7XaIC87zQxUWT
- S4NTidJX15zKLwySLiASlD1/iTnHoaA2RBLIoKty/xKrktXn0J9aMb7CvReyl3XqHgkW
- h2ysfp6da+//L4osgvVkVsBTfWf4PCvmNvtCcx9QegUh+BT815Qyq+SNKObLfU8FFlfB
- GvtOZ3ES7M0cwDnb6jFrb5YYC0be0IXtyBDCickigrgbYEfLVgRC4kj+7WVWS+uNxnPr
- g2fY4S5w11cgzIL9K4VFs39LNN/ThY87CiRP+7/lQNqWuTtKSG8z/ux7ycAeSsiBb7Gp
- Cxfg==
+ :reply-to; bh=FYbYV/jbSYlUlYZK529EkBoBy94/ve5uHCT0jgrrsEc=;
+ b=ew1xcmldRSXZnn+Gqquf288SNSFJuaKEM+q6yGvPmrqNrqnvNNvFq7BCCBLIaBFu8K
+ xYspKOT49fd0NNbHJP7IpQp7T4tuvdlmRJf6BeQI+8ea9roaC8MJUvyavcF0agaJbYwq
+ oZItd5lUbDOrVYDHfkvvN17pYRVAzC8T4yiHqGdb1/TR9gsssD2iH0zLaZ1FbJ/3TKcR
+ SYA0z43E/USjKTc6BB6ukvfaUtz3mtHzOV/ZcG91ZwaAbjVVmwRc5K0IezYS+k/Z3sTq
+ ZzMy+1g7tZ7E9ujRlXIx3Id+Cdd9nztBcvcgbS/ulMvvIR3BCGhKjx5Q3KnnVT4GuhpW
+ 8YHA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1752091217; x=1752696017;
+ d=1e100.net; s=20230601; t=1752091219; x=1752696019;
  h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
  :mime-version:subject:date:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=FtAb0bRzj6kkU1aoRo4HWiBiB02s3rvT49BZnRuUOhI=;
- b=Gz9OTvZ1eLn0w+17xc/St8Gq3QKG9qQXYW+vELc1HJQ0H9lB3V/L61KLhikcmIpBdh
- TgCzHT/qyW4/myz3ea5psJ+bBkhZbVlvk4bYc4VXAoctMHTGBZWkFk8sTlubHUTbOF+Q
- BI/R5deBzDZYPTWuw4Taoe2ROtwv2hgRu6crQtP7me5xdfPInvrgJHKGyvtQ7/rcE+Iz
- KtpsNLf3NdMELGNO3huUTmpNueX6mpxnP8QUTK7yaoGgb4Lflvs31McUVjNQWwQqFX41
- +iAh/IN6QgrxytKgltAn2Rm4UEKG+pvLiP+jtQ6ugzTB3Zf1d1XPv1NrKvJiD67+q9o+
- TvHQ==
+ bh=FYbYV/jbSYlUlYZK529EkBoBy94/ve5uHCT0jgrrsEc=;
+ b=RnmZSs9hJ6RKWoLXGeGb11VYh95+mpgDXLzPCdVJE8JOUD48d8mxO9tgUiFQ3WJ/E4
+ xON7cGHbp+jVDMzFzVWfgxd96Wkrv0l7KvlkGZ0r5JT7tNjcUFr6tYBRMZZQ/Esal6HT
+ meg9/TUKTsgSf1VCwRdH7S/Bua+hS+89L6FSK/C7T28+Z59LxpJUPOa+o3Bj2NPsYYnu
+ pBEDZkVACNDFolrC/AOUzeHlS58cxzFTmNJ9TeV1bGKj4H9LZnH9jfYOA6XiWqn9K+XL
+ po7nwUa+ln/P/hyRRl7LvktLfWG3cAUbyWgRZrmryDwYRNI5QluMs93hcR25vdr9f0UU
+ d6vw==
 X-Forwarded-Encrypted: i=1;
- AJvYcCUiDIoYcnggVgFSaKdkM9xmAE4osoxCdmxof0HjswiiBAxDzMtxlJlhMHDCkgpMu6ZvgBPtq1+B16I=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0Yx8e4IcSrigeVSTWumkY8bkZGc64/8aXsp5sMc8Jj/tqC+8juqb
- sG4waewVM18RJ4g20U4CZRKGOV0oQmFvx7SXnfhI/N6YH1JuTWUJ61eu
-X-Gm-Gg: ASbGncvZ05PCrb5uAjWhqVKq4yhpot+MkTqgWKL7zRDh725Zw55GWJoqcFc/oBs4bV7
- pGMuRXqgmsmraQiZHMwoYXKF2OWsKSwmX+rl8c1aic7BbMUzdSstV5ed1tq++BtYYg6rfq9hfAA
- 1L/7dqkRioKNtuBsbb/gz5wvM0vS6OtRF5otXcGctembEX+fWSD2mGLfAcF8la96y/v762g2txd
- ZnQfex/b2H6DGcSQyTod8wJ9r+yc83rsAHdSkAm0WnZz/5X4jYTU7rX2E5/Jrqji7pEX1TYSvIk
- /s8AXQt+alLltdx1LEH/JuNt8tY3mxwI4Do4AQBeYcV8n5G9qYZvj2oAIDm/iuoAUynvmAjXwMe
- hQ7xwCOI5he42nWK4yjwGYgdTuau6Qu/AJWRJib182a2WSkoILCCB/ss9vJT0aenoEv3t
-X-Google-Smtp-Source: AGHT+IHINhIqlUa7DCpDjHN+II+KrfU91sr0X+Nh9ajVLFRJzCxP8B8BUPyzTg89wGo0r7WtCvZq4Q==
-X-Received: by 2002:ac8:5ed3:0:b0:4a6:c5ee:6ced with SMTP id
- d75a77b69052e-4a9dfe6c7eamr50950701cf.4.1752091216860; 
- Wed, 09 Jul 2025 13:00:16 -0700 (PDT)
+ AJvYcCW+WXIbGkakaP//Ym5emt4eKSSejHXfwu1CZeE+xkmLIKO4bP2oikAtIfK34VrNIhmiHEutBDVYfJg=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YzMSFezqRmeCqRZcXJwzqfi8KM58ydAgBSXXZ8n97Pt4SFXiYyw
+ isZaOjfdtteJePneV0joLg8u6YwKgiou5CfQ+TaGIefl4dUUU+I7eVYY
+X-Gm-Gg: ASbGnctjHy3XTK2xND0LeE21RNpzGRDNAUMDeA5XLY8nPQeQRI8SZI6hHndej964cG6
+ JJCiDOu5haTxydpZB8mvOpq1lI6v+sjov0KYA+BxrdMNa7t5eqqFuxz/xYSaRMfgpdzJtHgjELI
+ WD1YLqJhlDjeuJ/kypzHnS3pnnhWnlmF523wvO9AQzVCgQpKp6z+CM9qYpZwnKujTzmtL+B4ftx
+ ZK9dIUpeb8RN68e6JeDLkNq0UE+MGerDQt7aNODeHyxR/vfDxyDJtMfmcsDJxS9Uv1miXHMXC8F
+ 6AHql7InDuh8HYt+xhMAcVjHFZNMVGKcHSxifMtPk83GbDF/JsGHBt9ZiYC5NMbRwEuA7EGY/SQ
+ 4nomqULJImIBhDwmwXQlsft/wlEMpR/+v7RLUlEOVdGVBL8v6UUi3BvgDzg==
+X-Google-Smtp-Source: AGHT+IEWZGAjchfamIdPYEH1FsR0qpTsGWn1OKlq64cGF3DAghxLjgjw20fv5qWhtdp+gL7T1gCPWg==
+X-Received: by 2002:a05:622a:1b0a:b0:494:731c:8746 with SMTP id
+ d75a77b69052e-4a9e9d39db3mr12683541cf.23.1752091218452; 
+ Wed, 09 Jul 2025 13:00:18 -0700 (PDT)
 Received: from
  1.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.ip6.arpa
  ([148.76.185.197]) by smtp.gmail.com with ESMTPSA id
- d75a77b69052e-4a9949e4aaasm100432891cf.3.2025.07.09.13.00.11
+ d75a77b69052e-4a9949e4aaasm100432891cf.3.2025.07.09.13.00.16
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 09 Jul 2025 13:00:11 -0700 (PDT)
+ Wed, 09 Jul 2025 13:00:17 -0700 (PDT)
 From: Tamir Duberstein <tamird@gmail.com>
-Date: Wed, 09 Jul 2025 16:00:03 -0400
-Subject: [PATCH 4/9] rust: device: use `kernel::{fmt,prelude::fmt!}`
+Date: Wed, 09 Jul 2025 16:00:04 -0400
+Subject: [PATCH 5/9] rust: file: use `kernel::{fmt,prelude::fmt!}`
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20250709-core-cstr-fanout-1-v1-4-64308e7203fc@gmail.com>
+Message-Id: <20250709-core-cstr-fanout-1-v1-5-64308e7203fc@gmail.com>
 References: <20250709-core-cstr-fanout-1-v1-0-64308e7203fc@gmail.com>
 In-Reply-To: <20250709-core-cstr-fanout-1-v1-0-64308e7203fc@gmail.com>
 To: Danilo Krummrich <dakr@kernel.org>, David Airlie <airlied@gmail.com>, 
@@ -88,13 +88,13 @@ Cc: nouveau@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
  linux-block@vger.kernel.org, linux-kselftest@vger.kernel.org, 
  kunit-dev@googlegroups.com, Tamir Duberstein <tamird@gmail.com>
 X-Mailer: b4 0.15-dev
-X-Developer-Signature: v=1; a=openssh-sha256; t=1752091204; l=1197;
+X-Developer-Signature: v=1; a=openssh-sha256; t=1752091204; l=1087;
  i=tamird@gmail.com; h=from:subject:message-id;
- bh=ulVPEZq9Jbltpj5m+ZKcCOATlnirfkaWcJbMC12CGGQ=;
+ bh=5dTiOejZJe8RnjUwx1Mx5Diy0vJJ7o1JB54aVyaQ3/I=;
  b=U1NIU0lHAAAAAQAAADMAAAALc3NoLWVkMjU1MTkAAAAgtYz36g7iDMSkY5K7Ab51ksGX7hJgs
  MRt+XVZTrIzMVIAAAAGcGF0YXR0AAAAAAAAAAZzaGE1MTIAAABTAAAAC3NzaC1lZDI1NTE5AAAA
- QKa+9W1qEMCIC5nwDM5pzqB0yrk8C6OiT/Eck8hVU2yYFOH0UcdQB5HSqXCLqIEzznx1uAPJMxt
- Yys2X7knfKQU=
+ QNJZvlrOcKPbSKef6UpG5KCpY0ZVZYeAhWghFLoYOxqZ6pyW3Fg24FvRlC8yX2hCr7ezE9aSuv5
+ EjP1ebs7IRQY=
 X-Developer-Key: i=tamird@gmail.com; a=openssh;
  fpr=SHA256:264rPmnnrb+ERkS7DDS3tuwqcJss/zevJRzoylqMsbc
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -119,34 +119,30 @@ Acked-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 Reviewed-by: Alice Ryhl <aliceryhl@google.com>
 Signed-off-by: Tamir Duberstein <tamird@gmail.com>
 ---
- rust/kernel/device.rs | 6 +++---
- 1 file changed, 3 insertions(+), 3 deletions(-)
+ rust/kernel/fs/file.rs | 5 +++--
+ 1 file changed, 3 insertions(+), 2 deletions(-)
 
-diff --git a/rust/kernel/device.rs b/rust/kernel/device.rs
-index 5c946af3a4d5..9e9ecdb1beec 100644
---- a/rust/kernel/device.rs
-+++ b/rust/kernel/device.rs
-@@ -5,11 +5,11 @@
- //! C header: [`include/linux/device.h`](srctree/include/linux/device.h)
- 
- use crate::{
--    bindings,
-+    bindings, fmt,
-     str::CStr,
-     types::{ARef, Opaque},
+diff --git a/rust/kernel/fs/file.rs b/rust/kernel/fs/file.rs
+index 35fd5db35c46..67a3654f0fd3 100644
+--- a/rust/kernel/fs/file.rs
++++ b/rust/kernel/fs/file.rs
+@@ -11,6 +11,7 @@
+     bindings,
+     cred::Credential,
+     error::{code::*, Error, Result},
++    fmt,
+     types::{ARef, AlwaysRefCounted, NotThreadSafe, Opaque},
  };
--use core::{fmt, marker::PhantomData, ptr};
-+use core::{marker::PhantomData, ptr};
+ use core::ptr;
+@@ -460,8 +461,8 @@ fn from(_: BadFdError) -> Error {
+     }
+ }
  
- #[cfg(CONFIG_PRINTK)]
- use crate::c_str;
-@@ -345,7 +345,7 @@ macro_rules! impl_device_context_into_aref {
- macro_rules! dev_printk {
-     ($method:ident, $dev:expr, $($f:tt)*) => {
-         {
--            ($dev).$method(::core::format_args!($($f)*));
-+            ($dev).$method($crate::prelude::fmt!($($f)*));
-         }
+-impl core::fmt::Debug for BadFdError {
+-    fn fmt(&self, f: &mut core::fmt::Formatter<'_>) -> core::fmt::Result {
++impl fmt::Debug for BadFdError {
++    fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
+         f.pad("EBADF")
      }
  }
 
