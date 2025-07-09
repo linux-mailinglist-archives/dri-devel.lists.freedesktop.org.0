@@ -2,76 +2,73 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id D7A4CAFF222
+	by mail.lfdr.de (Postfix) with ESMTPS id D9E77AFF223
 	for <lists+dri-devel@lfdr.de>; Wed,  9 Jul 2025 21:59:02 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7E01510E826;
-	Wed,  9 Jul 2025 19:58:58 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id EC01610E829;
+	Wed,  9 Jul 2025 19:58:59 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="NPvkIccy";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="b7EveeqB";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-qt1-f173.google.com (mail-qt1-f173.google.com
- [209.85.160.173])
- by gabe.freedesktop.org (Postfix) with ESMTPS id F03CF10E829
- for <dri-devel@lists.freedesktop.org>; Wed,  9 Jul 2025 19:58:56 +0000 (UTC)
-Received: by mail-qt1-f173.google.com with SMTP id
- d75a77b69052e-4a77ffcb795so2947311cf.0
- for <dri-devel@lists.freedesktop.org>; Wed, 09 Jul 2025 12:58:56 -0700 (PDT)
+Received: from mail-qt1-f178.google.com (mail-qt1-f178.google.com
+ [209.85.160.178])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id BFF5B10E829
+ for <dri-devel@lists.freedesktop.org>; Wed,  9 Jul 2025 19:58:58 +0000 (UTC)
+Received: by mail-qt1-f178.google.com with SMTP id
+ d75a77b69052e-4a58e0b26c4so4389441cf.3
+ for <dri-devel@lists.freedesktop.org>; Wed, 09 Jul 2025 12:58:58 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1752091136; x=1752695936; darn=lists.freedesktop.org;
- h=cc:to:content-transfer-encoding:mime-version:message-id:date
- :subject:from:from:to:cc:subject:date:message-id:reply-to;
- bh=ugaGedfdExj0AxEbdScIbc7eibANo0qNIkwwni0XDDk=;
- b=NPvkIccygg4tHuSaeO3uDECMx8r+cRk3FpqnzZjTjjEj48R6Q3KVvbVt3cUwJwklzf
- FtnjRto9kXiPy5O/b5ccklPUiod753lKyGHDYQFrvFd08tDeHw6fkPHfwX0GP4kJWlAJ
- f8F9CGSuzKRQbYzX/MwMzDNUcOsfRbzlXWnx2p+ErzDsxhry2TTAbnAh1G6pigdACFhj
- N1zfVjF7t3h1E18eSHjEiS3ON0dyrRCB7r3ECdXihIusLQrwqnHyhRlCUs3NGEgrF0Km
- 6sM/Z+zQSDu9iqmRtneWKgrMgG12kAk9/r0+QJIa4ciXVVEp0siuGjef50w2iyg5AOw2
- LqsQ==
+ d=gmail.com; s=20230601; t=1752091138; x=1752695938; darn=lists.freedesktop.org;
+ h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
+ :mime-version:subject:date:from:from:to:cc:subject:date:message-id
+ :reply-to; bh=KjFq7UYS8hmojmjwvZ+zmn/qpSRuJtm2WZezXQ16zw0=;
+ b=b7EveeqBnxjKb5WbJz9Nh4iBAWMzdSUi0W1lZORyZKa4oBgXj3FPU4xT547+TlRAPV
+ fdlgCBLDSJdG8U5h4E4C6sJaenEI+3Qh/oX+JbffQFJou8VQ+9ka1gSrz6F3IeUNlGJL
+ IqKkkuHyGiNafRPwPGjM31wgIk/rZfK8MZnR9tFUkkUwizFOwY2+0nVl610B2aiphEUD
+ 2M02EaBkqj/ycIuj0FLAAqY9Z2bRjrMlUZG8x0tfOMvpM0ZyjPOoc9qJqKBvbGSuFIpv
+ 4O3RN+2mfBTYohOJy9jX+/WOFJRxNUexMelqT5RJBBufSYjQAr4okrj1KVI69OMs7dg9
+ GTTQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1752091136; x=1752695936;
- h=cc:to:content-transfer-encoding:mime-version:message-id:date
- :subject:from:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=ugaGedfdExj0AxEbdScIbc7eibANo0qNIkwwni0XDDk=;
- b=LF44DrFMNV/5Fb97uqesrhkxoxNk4EguVxZQKD325xDSl0tgGB4VNRrYWE9MSdiVis
- JwqBl87k1W+K3oJAzdigYW5PSANx6Co/pTrubekI2ohB5oyDFbuktqja2niHVLQbKB8t
- p1g0/8r1vRe/vYmbfs+DZcW7jtvmfJRbC62WD9w0vMd1cd8B2+7jVRVZ/jbXycfFbpqR
- 23El7ESttI2vO0JBxz12Xgrd94MMVPqzuToWaCxC6m6SP9N0R4/khpn7dYN4YnY/sL1g
- wwIvvuT7zLdrINagOHg1xTpC48JbMCbpWAUErXfSq2wnlYwXb6kmuMcmhwsJRcQE4l1r
- YD7Q==
-X-Gm-Message-State: AOJu0YyrA2qoPSTyVzsKT6gzAH67FvaEPiMpzVNgaUVbKO6+a7o6m7Ny
- YDxOLgTjioNwak6bcINfaDYfx+jlOLPbbZ29b2hbzpRDecVxKlo4F4mv
-X-Gm-Gg: ASbGncsQVgJJy9M75QpjyZmWH9nedBNoyxlnGvXHAhCsKlDMTW8kmPl2UB5D1sF40Tu
- uM03ovSVTHJwsvkx9d8YB7flWOapgyfPHwSqiNaQ/fCjN15McXvaXi4veBTnmDuEJ1GOgdfWDuQ
- oUsCRYKQ8uf/p1yfvGE8K5iYtiUSg/gFfFjVOpiEVd4Xskas9SEgqzw7nYDkTD7qlkuHrva74Is
- N7fcspVDsWiVNYu6TTIbFcxLPFps3ywkydrdGQUnyhgjCdNmUB25gpEkXR97xXcJLZAmElUh/2O
- yZksQJKKATTe2WqQON1lBQ1r1GDS8kDOGr8ONluGjT+Tq3jE+ft9aMSKjfVaKvhF0X3Mi6/D1X3
- p1NKBvugL4qH7jqE93xXxqZnWK26Ty/IOu4p0I3TNQFTnKGIsRBVx1JZgRQ==
-X-Google-Smtp-Source: AGHT+IFRJMxckO2ZQvxVzuz0BTX9q93fp894dtK/TcLSk4gRDmqByiX9UXubFC3KSQukPV9ZDJz60Q==
-X-Received: by 2002:a05:622a:1825:b0:4a9:94c7:f34f with SMTP id
- d75a77b69052e-4a9dec94b7amr59291501cf.21.1752091135769; 
- Wed, 09 Jul 2025 12:58:55 -0700 (PDT)
+ d=1e100.net; s=20230601; t=1752091138; x=1752695938;
+ h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
+ :mime-version:subject:date:from:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=KjFq7UYS8hmojmjwvZ+zmn/qpSRuJtm2WZezXQ16zw0=;
+ b=gYp98BeeUA6G7nKt0L8LPFwWwG7uUtj2BHIVjkeEGrM/TVIzkqXTvG/XMtOJtAik7C
+ Y1NBzAj0U2R6OFS1ywzVhPxJVwgWmiUQLIu0G+GVDyxf1plfqL+EOmvU8IjKWrSB4nyj
+ HXMVPkILLUNna1W+noauVDkamadK8FAjeGpdCuFymwm7giRE4pGzK8TyCwe+HStYuvB4
+ 30+YwXCIwvkeKCaQ690fo1W/Sqwuva3VzrsFEAWfV2gIlFJgDJSN7x/HkyRJCEKRovSb
+ qb1sdKidrh47mu7/VB0qVW0Dh4ZDj6ztt+XLB7Mv2m94v3ejqwHM+hRLezu43eegOSp7
+ xsEw==
+X-Gm-Message-State: AOJu0Yz32L8a+txVHG95OTzqgd0pjloFd97HfpXGZtxsh/cLNhFppH4h
+ +nIqgeIKCPyEpkygY4+Rh2o4N4x5Mqlhzt42TID0betn9oEz8oTjGxl2s1BWvdub30goBQ==
+X-Gm-Gg: ASbGncsDASBPzXyRtzNPZ2SJfwSjwtDXxQgDI3l4Gx2uRx4K455u8qiwaBJPp+DRZDh
+ fU/zIQajsHfXelzb34gKixj9rKHwJoCCGJYO6JUtV+wyBbhwUsmGqgtWPj9o7C7nuso67fgDzbM
+ LL/hnqWKbQmMWFyJMdQ1SgOpyU47umntGXSnfqKx535+g+SfyLiEm2711/QAqcKx4bWzOguKxoO
+ NAjTqlM32158lADjnrDOAqRheaC9dOhCJryJo5DIhQ3m1Qee3qLOHu3/r45jkZSPhNr/VSVZi6R
+ SXbUPcsaQjvn4fYz1neYLJICtgTwWcQe3VttGo0hd8eIK78kQZcH+mfIYWpeOiF8Az7v3Cc854N
+ Hl4FRgIP+Kd/LL+LL+1nYSN6AaolmeHqZzbFBdu2TVY/LzLeKMGN74+ez/Q==
+X-Google-Smtp-Source: AGHT+IFOO4s6abodeExD0GmybGRrIRuRV+W6D5U0I0Tr1TjDy6dph0KjH9CsZ4l2j8Y+zoOtXMhcrg==
+X-Received: by 2002:a05:622a:1350:b0:472:1aed:c8b4 with SMTP id
+ d75a77b69052e-4a9e94ae9f5mr17712751cf.34.1752091137593; 
+ Wed, 09 Jul 2025 12:58:57 -0700 (PDT)
 Received: from
  1.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.ip6.arpa
  ([148.76.185.197]) by smtp.gmail.com with ESMTPSA id
- d75a77b69052e-4a9949faf39sm103584281cf.28.2025.07.09.12.58.54
+ d75a77b69052e-4a9949faf39sm103584281cf.28.2025.07.09.12.58.55
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 09 Jul 2025 12:58:55 -0700 (PDT)
+ Wed, 09 Jul 2025 12:58:56 -0700 (PDT)
 From: Tamir Duberstein <tamird@gmail.com>
-Subject: [PATCH 00/10] rust: use `core::ffi::CStr` method names
-Date: Wed, 09 Jul 2025 15:58:50 -0400
-Message-Id: <20250709-core-cstr-fanout-1-v1-0-fd793b3e58a2@gmail.com>
+Date: Wed, 09 Jul 2025 15:58:51 -0400
+Subject: [PATCH 01/10] gpu: nova-core: use `core::ffi::CStr` method names
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-X-B4-Tracking: v=1; b=H4sIAPrJbmgC/02OzQ7CIBAGX6XZsySwpaz0VYwHfhblYKvQGpOm7
- y5RDx5nk51vNqhcMlcYuw0KP3PN89RAHToIVzddWOTYGFDiIElaEebCItSliOSmeV2EEgmlUer
- YIxJCe7wXTvn1kZ7OXy78WJt7+R7Bu9ok8+2Wl7EjY7lH7Y3xMlqMUqdeDVEGPTiZCKmnQNpq+
- G8au1+R/itqQ3fXwHrLxpGPA/H4VHDe9zfyzQPq6QAAAA==
-X-Change-ID: 20250709-core-cstr-fanout-1-f20611832272
+Message-Id: <20250709-core-cstr-fanout-1-v1-1-fd793b3e58a2@gmail.com>
+References: <20250709-core-cstr-fanout-1-v1-0-fd793b3e58a2@gmail.com>
+In-Reply-To: <20250709-core-cstr-fanout-1-v1-0-fd793b3e58a2@gmail.com>
 To: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
  Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
  David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, 
@@ -97,13 +94,13 @@ Cc: dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
  netdev@vger.kernel.org, devicetree@vger.kernel.org, 
  Tamir Duberstein <tamird@gmail.com>
 X-Mailer: b4 0.15-dev
-X-Developer-Signature: v=1; a=openssh-sha256; t=1752091132; l=2312;
+X-Developer-Signature: v=1; a=openssh-sha256; t=1752091132; l=1094;
  i=tamird@gmail.com; h=from:subject:message-id;
- bh=nBlkFnTcckjF5CbJjPS9IWrVMsJlh81nI5aNSP2eMQM=;
+ bh=lXhB3ReogTGFAKcAXwsx9yhjUwYICNU9NQ66zLyVw8I=;
  b=U1NIU0lHAAAAAQAAADMAAAALc3NoLWVkMjU1MTkAAAAgtYz36g7iDMSkY5K7Ab51ksGX7hJgs
  MRt+XVZTrIzMVIAAAAGcGF0YXR0AAAAAAAAAAZzaGE1MTIAAABTAAAAC3NzaC1lZDI1NTE5AAAA
- QL+jEyeJUnwusSTpkUHLNcdvrxo7ekehQIgOJYoy7eGmGdn3FOTGxYt4+VTVEjFPwFYmYhRb1/P
- mWbFKLWIEewY=
+ QHO89qb+A/14W5ZaKLln68gAAlveEjaoU+oksqwcVVthYSjBuURPwVYoW6QTQrF3UolajEuFQa/
+ faudbNVVOKgE=
 X-Developer-Key: i=tamird@gmail.com; a=openssh;
  fpr=SHA256:264rPmnnrb+ERkS7DDS3tuwqcJss/zevJRzoylqMsbc
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -121,56 +118,31 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-This is series 2b/5 of the migration to `core::ffi::CStr`[0].
-20250704-core-cstr-prepare-v1-0-a91524037783@gmail.com.
+Prepare for `core::ffi::CStr` taking the place of `kernel::str::CStr` by
+avoid methods that only exist on the latter.
 
-This series depends on the prior series[0] and is intended to go through
-the rust tree to reduce the number of release cycles required to
-complete the work.
-
-Subsystem maintainers: I would appreciate your `Acked-by`s so that this
-can be taken through Miguel's tree (where the other series must go).
-
-[0] https://lore.kernel.org/all/20250704-core-cstr-prepare-v1-0-a91524037783@gmail.com/
-
+Link: https://github.com/Rust-for-Linux/linux/issues/1075
+Acked-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Reviewed-by: Alice Ryhl <aliceryhl@google.com>
 Signed-off-by: Tamir Duberstein <tamird@gmail.com>
 ---
-Tamir Duberstein (10):
-      gpu: nova-core: use `core::ffi::CStr` method names
-      rust: auxiliary: use `core::ffi::CStr` method names
-      rust: configfs: use `core::ffi::CStr` method names
-      rust: cpufreq: use `core::ffi::CStr` method names
-      rust: drm: use `core::ffi::CStr` method names
-      rust: firmware: use `core::ffi::CStr` method names
-      rust: kunit: use `core::ffi::CStr` method names
-      rust: miscdevice: use `core::ffi::CStr` method names
-      rust: net: use `core::ffi::CStr` method names
-      rust: of: use `core::ffi::CStr` method names
-
  drivers/gpu/drm/drm_panic_qr.rs | 2 +-
- rust/kernel/auxiliary.rs        | 4 ++--
- rust/kernel/configfs.rs         | 4 ++--
- rust/kernel/cpufreq.rs          | 2 +-
- rust/kernel/drm/device.rs       | 4 ++--
- rust/kernel/firmware.rs         | 2 +-
- rust/kernel/kunit.rs            | 6 +++---
- rust/kernel/miscdevice.rs       | 2 +-
- rust/kernel/net/phy.rs          | 2 +-
- rust/kernel/of.rs               | 2 +-
- samples/rust/rust_configfs.rs   | 2 +-
- 11 files changed, 16 insertions(+), 16 deletions(-)
----
-base-commit: 769e324b66b0d92d04f315d0c45a0f72737c7494
-change-id: 20250709-core-cstr-fanout-1-f20611832272
-prerequisite-change-id: 20250704-core-cstr-prepare-9b9e6a7bd57e:v1
-prerequisite-patch-id: 83b1239d1805f206711a5a936bbb61c83227d573
-prerequisite-patch-id: a0355dd0efcc945b0565dc4e5a0f42b5a3d29c7e
-prerequisite-patch-id: 8585bf441cfab705181f5606c63483c2e88d25aa
-prerequisite-patch-id: 04ec344c0bc23f90dbeac10afe26df1a86ce53ec
-prerequisite-patch-id: a2fc6cd05fce6d6da8d401e9f8a905bb5c0b2f27
-prerequisite-patch-id: f14c099c87562069f25fb7aea6d9aae4086c49a8
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-Best regards,
---  
-Tamir Duberstein <tamird@gmail.com>
+diff --git a/drivers/gpu/drm/drm_panic_qr.rs b/drivers/gpu/drm/drm_panic_qr.rs
+index 6b59d19ab631..fea062cc0383 100644
+--- a/drivers/gpu/drm/drm_panic_qr.rs
++++ b/drivers/gpu/drm/drm_panic_qr.rs
+@@ -948,7 +948,7 @@ fn draw_all(&mut self, data: impl Iterator<Item = u8>) {
+         // nul-terminated string.
+         let url_cstr: &CStr = unsafe { CStr::from_char_ptr(url) };
+         let segments = &[
+-            &Segment::Binary(url_cstr.as_bytes()),
++            &Segment::Binary(url_cstr.to_bytes()),
+             &Segment::Numeric(&data_slice[0..data_len]),
+         ];
+         match EncodedMsg::new(segments, tmp_slice) {
+
+-- 
+2.50.0
 
