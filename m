@@ -2,42 +2,42 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 531E5AFEF19
-	for <lists+dri-devel@lfdr.de>; Wed,  9 Jul 2025 18:49:04 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8723BAFEF1B
+	for <lists+dri-devel@lfdr.de>; Wed,  9 Jul 2025 18:49:06 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A4B5210E346;
-	Wed,  9 Jul 2025 16:49:02 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D249210E34D;
+	Wed,  9 Jul 2025 16:49:04 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=bootlin.com header.i=@bootlin.com header.b="OlONOBfv";
+	dkim=pass (2048-bit key; unprotected) header.d=bootlin.com header.i=@bootlin.com header.b="SSY3iiiq";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from relay8-d.mail.gandi.net (relay8-d.mail.gandi.net
  [217.70.183.201])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B5A6610E354
- for <dri-devel@lists.freedesktop.org>; Wed,  9 Jul 2025 16:49:00 +0000 (UTC)
-Received: by mail.gandi.net (Postfix) with ESMTPSA id 8DA7042FF4;
- Wed,  9 Jul 2025 16:48:57 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B162010E354
+ for <dri-devel@lists.freedesktop.org>; Wed,  9 Jul 2025 16:49:02 +0000 (UTC)
+Received: by mail.gandi.net (Postfix) with ESMTPSA id A1F5A4446A;
+ Wed,  9 Jul 2025 16:48:59 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
- t=1752079739;
+ t=1752079741;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=vZUmY/4i27bu8sw/lSpf4W8qmkyZYrjeB6qHgDMMI70=;
- b=OlONOBfvVU8eqvMakfqazww0v79CWN77tNIX13ZaIpmhAk1J2yQ7k0DVLUFHAEuDw7LiBU
- xjO5gbEWiO/VDglUIaEByyIsC1zCWQcXDKZ0/iXmeDKwBsA8WAbSeOHRzt2o0Sd68JWqv4
- sz+6ggFQaSXogscexzaN0dDMKEELthzk3OcAAE/Fmx6OJk1DpR1wdEUHSq421dQpuD4gff
- qUGfp/swmpVtPbORevdNr8/T2fGZI2Mry+ZQuIwg8IBrz1934p8N1uKVkQ4RBgs6vo3Rb1
- 6NhE465/JN7BBXB3R+rTzdRDYhsXD178bockYQpPFFwzmxPoWqnwuIEsuAxWSg==
+ bh=urTGCRx+pagS/LllFzv+AWPNdvP9WA8Q7pk3WEs5H7Y=;
+ b=SSY3iiiqZgfxbjO7Ed2YqlkJe2nr+7rAgE+hoeE2MfKPpYNCv6lWS2ZSqJR3JnBvrcr31i
+ 4LemqgQUZkjZkGxr5NtL/bd0S+s0BeKoiFoaFAEXWEnHrotV2POodQfllkeQ4qDVCXdvVF
+ feLgtzlXLRNavm/fHEmzkD5Jn95GFCj7wGccQ2slHCbzyqJ1iNhjDBCsVJ2gZ9XuBNS2YN
+ nQrldlk8z+T4VDI84nbT954u6MaVtF8HJw8RIGeCvoEKr/qH+J1SNodfEqTMy7Z1cVFYJ8
+ 6MuVv01k6Udu7LFeLaQ9IvWJumSkk/uXGRAi6SrqO+ozAw5OmKOow3INqlYwNw==
 From: Luca Ceresoli <luca.ceresoli@bootlin.com>
-Date: Wed, 09 Jul 2025 18:48:07 +0200
-Subject: [PATCH 8/9] drm/bridge: put the bridge returned by
+Date: Wed, 09 Jul 2025 18:48:08 +0200
+Subject: [PATCH 9/9] drm/imx: parallel-display: put the bridge returned by
  drm_bridge_get_next_bridge()
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20250709-drm-bridge-alloc-getput-drm_bridge_get_next_bridge-v1-8-48920b9cf369@bootlin.com>
+Message-Id: <20250709-drm-bridge-alloc-getput-drm_bridge_get_next_bridge-v1-9-48920b9cf369@bootlin.com>
 References: <20250709-drm-bridge-alloc-getput-drm_bridge_get_next_bridge-v1-0-48920b9cf369@bootlin.com>
 In-Reply-To: <20250709-drm-bridge-alloc-getput-drm_bridge_get_next_bridge-v1-0-48920b9cf369@bootlin.com>
 To: Andrzej Hajda <andrzej.hajda@intel.com>, 
@@ -84,22 +84,26 @@ when done.
 
 Signed-off-by: Luca Ceresoli <luca.ceresoli@bootlin.com>
 ---
- drivers/gpu/drm/drm_bridge.c | 2 ++
- 1 file changed, 2 insertions(+)
+ drivers/gpu/drm/imx/ipuv3/parallel-display.c | 4 +++-
+ 1 file changed, 3 insertions(+), 1 deletion(-)
 
-diff --git a/drivers/gpu/drm/drm_bridge.c b/drivers/gpu/drm/drm_bridge.c
-index 0b450b334afd82e0460f18fdd248f79d0a2b153d..05e85457099ab1e0a23ea7842c9654c9a6881dfb 100644
---- a/drivers/gpu/drm/drm_bridge.c
-+++ b/drivers/gpu/drm/drm_bridge.c
-@@ -1147,6 +1147,8 @@ drm_atomic_bridge_propagate_bus_flags(struct drm_bridge *bridge,
- 	} else {
- 		next_bridge_state = drm_atomic_get_new_bridge_state(state,
- 								next_bridge);
+diff --git a/drivers/gpu/drm/imx/ipuv3/parallel-display.c b/drivers/gpu/drm/imx/ipuv3/parallel-display.c
+index 6d8325c766979aa3ba98970f00806e99c139d3c3..44b2ce3c2a3a1641c4483a610607555dfbedff9e 100644
+--- a/drivers/gpu/drm/imx/ipuv3/parallel-display.c
++++ b/drivers/gpu/drm/imx/ipuv3/parallel-display.c
+@@ -138,9 +138,11 @@ static int imx_pd_bridge_atomic_check(struct drm_bridge *bridge,
+ 	u32 bus_flags, bus_fmt;
+ 
+ 	next_bridge = drm_bridge_get_next_bridge(bridge);
+-	if (next_bridge)
++	if (next_bridge) {
+ 		next_bridge_state = drm_atomic_get_new_bridge_state(crtc_state->state,
+ 								    next_bridge);
 +		drm_bridge_put(next_bridge);
-+
- 		/*
- 		 * No bridge state attached to the next bridge, just leave the
- 		 * flags to 0.
++	}
+ 
+ 	if (next_bridge_state)
+ 		bus_flags = next_bridge_state->input_bus_cfg.flags;
 
 -- 
 2.50.0
