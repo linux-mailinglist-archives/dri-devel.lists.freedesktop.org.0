@@ -2,82 +2,62 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 20772AFEA2D
-	for <lists+dri-devel@lfdr.de>; Wed,  9 Jul 2025 15:29:23 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 42F6CAFEA5F
+	for <lists+dri-devel@lfdr.de>; Wed,  9 Jul 2025 15:38:43 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 39AB910E7F6;
-	Wed,  9 Jul 2025 13:29:21 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A98D4891C0;
+	Wed,  9 Jul 2025 13:38:40 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; secure) header.d=ffwll.ch header.i=@ffwll.ch header.b="LGNajlkj";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="cok7Ru6t";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-f54.google.com (mail-wm1-f54.google.com
- [209.85.128.54])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1A78110E7E9
- for <dri-devel@lists.freedesktop.org>; Wed,  9 Jul 2025 13:29:20 +0000 (UTC)
-Received: by mail-wm1-f54.google.com with SMTP id
- 5b1f17b1804b1-4538bc1cffdso48544095e9.0
- for <dri-devel@lists.freedesktop.org>; Wed, 09 Jul 2025 06:29:19 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=ffwll.ch; s=google; t=1752067758; x=1752672558; darn=lists.freedesktop.org; 
- h=in-reply-to:content-disposition:mime-version:references
- :mail-followup-to:message-id:subject:cc:to:from:date:from:to:cc
- :subject:date:message-id:reply-to;
- bh=P7ChNGg4ytvrkyPdwTVY+tgK9qtOn9MNMSkgYieKFrs=;
- b=LGNajlkjxb8WuT7l54S41mlgoytxcyPm+PjvYLd9slPvg92DMORvPI/Qee0Ky+fsQw
- jqoJcSCsn/P9TtC1pihSZB4VZimmkP5cmsPfIVeBS4FIOwGe7sHK/jkqJh2axWpOkzRl
- ++GSrqZ8pY9xnFePwViGPciBAYfwbI1l9rLjw=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1752067758; x=1752672558;
- h=in-reply-to:content-disposition:mime-version:references
- :mail-followup-to:message-id:subject:cc:to:from:date
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=P7ChNGg4ytvrkyPdwTVY+tgK9qtOn9MNMSkgYieKFrs=;
- b=fTFjOjyx4Lew6OdQK6nnwWL1YZwE/QzHQAG+Ruoi4PxHUcIFt5/FiHla/mjBX3ZouP
- aAHY1B4c1KKbQ7Y0879h9KA3D/64jWfQheBfyTYeBVLLw7aqF4hcy6rQek2MuJI7PtWm
- YkI74qxlmntqKXm/OnE8Uq+6YMfVY+qwok9bO9ugUeoPujQ5KWIH4FkKeOExJjyrt1UI
- M8MyqT6eaLlP2xkHdpyLgZ32K0gXwqXJo6DwCCtLaxL3ujBggyA4S5WM2aDyI02PURek
- PvOLv8MZoXVmdyQjVAyjRF4XHd5X/dp9qSpNK34IQxfPvvKydrCR3ST+ACQp32jn9ZEg
- AuJg==
-X-Forwarded-Encrypted: i=1;
- AJvYcCWLc69d3gIPGzDcBcWpoMfKDkw2Zxc2bohrshalNN75YtTP5k54JGFsnBjeBBsocN53c4r2RKq4tzs=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YzxVzQ82KmbTiFX/szbaIqPAWoF/jUaffaN85mc4Ok9KSV1RS+x
- GZfZ5kEdnKA7IYquMJysbc93RfswlIcOzx3LoDu4J4iowv7VzJ8ZnuVHvJChJzbYB1jHZUPaAXT
- t70EMqAU=
-X-Gm-Gg: ASbGncsnwDqmMm8ylvUhxymFM1XYq7HNKt8oy1Z0nYbRumOxFmMIoMcf8xJuPABnzcW
- HH1mqWsgbTINzgo7QMRCsS8g86qwY8ZwAREONDKMNQuvlXIbOOslVs9/IVrrVs3XdqqmNo8Fsnw
- Xm+I7EPvE23LzOVdhzfJF4JT+7bYSXWx2QP2xgRdyJUZnxLeiNifQ1SrQcH0OP1JKts6lDHfY5L
- LzsWCb6x+jUUHiwc5YxiOY1zpX1Az43lNqcsW1lyNIeh/1mtWx1T7z/7ue4v2g/dF+4nJsWz4m9
- sF33Q+o4Zt+QEFJGsYwZw4o3neiycsKCe2BjDpeNc07BAlAn8qDEgvFCG0BqmQlrBhoOAYhnRQ=
- =
-X-Google-Smtp-Source: AGHT+IFar//XMLNwcASIfuk7qcZqw3/wXyQn3J1+S0W4CZBJrV82FSt+WnK9/ttO97p5WJTa6+FvZA==
-X-Received: by 2002:a5d:5c84:0:b0:3a5:1c0d:85e8 with SMTP id
- ffacd0b85a97d-3b5e44e3c24mr2126864f8f.22.1752067758459; 
- Wed, 09 Jul 2025 06:29:18 -0700 (PDT)
-Received: from phenom.ffwll.local ([2a02:168:57f4:0:5485:d4b2:c087:b497])
- by smtp.gmail.com with ESMTPSA id
- ffacd0b85a97d-3b47030ba29sm15624007f8f.2.2025.07.09.06.29.17
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 09 Jul 2025 06:29:18 -0700 (PDT)
-Date: Wed, 9 Jul 2025 15:29:16 +0200
-From: Simona Vetter <simona.vetter@ffwll.ch>
-To: oushixiong1025@163.com
-Cc: Simona Vetter <simona@ffwll.ch>, Helge Deller <deller@gmx.de>,
- linux-fbdev@vger.kernel.org, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org, Shixiong Ou <oushixiong@kylinos.cn>
-Subject: Re: [PATCH] fbcon: Fix outdated registered_fb reference in comment
-Message-ID: <aG5urDySjLCCj86J@phenom.ffwll.local>
-Mail-Followup-To: oushixiong1025@163.com, Simona Vetter <simona@ffwll.ch>,
- Helge Deller <deller@gmx.de>, linux-fbdev@vger.kernel.org,
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- Shixiong Ou <oushixiong@kylinos.cn>
-References: <20250709103438.572309-1-oushixiong1025@163.com>
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 061D0891C0
+ for <dri-devel@lists.freedesktop.org>; Wed,  9 Jul 2025 13:38:39 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+ by dfw.source.kernel.org (Postfix) with ESMTP id 13BAC5C58D5;
+ Wed,  9 Jul 2025 13:38:38 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5FEC4C4CEEF;
+ Wed,  9 Jul 2025 13:38:36 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1752068317;
+ bh=h8rkgdzFHzQfCXKGB13VqG6DTj3tCT4fvRbPC6Q9TJc=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=cok7Ru6tbwPf8DJ/GhRrPstP/I0zh/TMSe60GW8wNsnXiRyHW+Tf9VR43hFMEXANp
+ nA9yQR+3gGyjumTd2aR31jkaluaCPUfp9OJzMJNGL6iO1bosVebm+gtOam0s3LgviF
+ 0qgXZtR5I68ISvW6+7jrDWcLGDJ5eZ1lxF4wInZz59liiDUeFKysL48gZydSKKo/sV
+ RBhFESjNO2O8yASjDhpRyrL3yew7ckHOedOhDO2NYrNdFPmP8ofnTqyxuSr/3hpl/V
+ r9BARdBLahmPKDK4L5U6u/awlc3gw3+s31xuPfGtfv7Y4UgprYL97ykPOEARLt/Afz
+ RKn2Zom/0ZhDw==
+Date: Wed, 9 Jul 2025 15:38:34 +0200
+From: Maxime Ripard <mripard@kernel.org>
+To: Nicolas Dufresne <nicolas@ndufresne.ca>
+Cc: Rob Herring <robh@kernel.org>, Saravana Kannan <saravanak@google.com>, 
+ Sumit Semwal <sumit.semwal@linaro.org>,
+ Benjamin Gaignard <benjamin.gaignard@collabora.com>, 
+ Brian Starkey <Brian.Starkey@arm.com>, John Stultz <jstultz@google.com>, 
+ "T.J. Mercier" <tjmercier@google.com>,
+ Christian =?utf-8?B?S8O2bmln?= <christian.koenig@amd.com>, 
+ Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
+ Marek Szyprowski <m.szyprowski@samsung.com>,
+ Robin Murphy <robin.murphy@arm.com>, Andrew Davis <afd@ti.com>, 
+ Jared Kangas <jkangas@redhat.com>,
+ Mattijs Korpershoek <mkorpershoek@kernel.org>, 
+ devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-media@vger.kernel.org, 
+ dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org,
+ iommu@lists.linux.dev
+Subject: Re: [PATCH v6 0/2] dma-buf: heaps: Create a CMA heap for each CMA
+ reserved region
+Message-ID: <20250709-spotted-ancient-oriole-c8bcd1@houat>
+References: <20250709-dma-buf-ecc-heap-v6-0-dac9bf80f35d@kernel.org>
+ <49e3fa834aadb37452112bb704a1a1593c1fd0b8.camel@ndufresne.ca>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: multipart/signed; micalg=pgp-sha384;
+ protocol="application/pgp-signature"; boundary="t6erlqty7rzkhzhp"
 Content-Disposition: inline
-In-Reply-To: <20250709103438.572309-1-oushixiong1025@163.com>
-X-Operating-System: Linux phenom 6.12.30-amd64 
+In-Reply-To: <49e3fa834aadb37452112bb704a1a1593c1fd0b8.camel@ndufresne.ca>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -93,47 +73,116 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, Jul 09, 2025 at 06:34:38PM +0800, oushixiong1025@163.com wrote:
-> From: Shixiong Ou <oushixiong@kylinos.cn>
-> 
-> The variable was renamed to fbcon_registered_fb, but this comment was
-> not updated along with the change. Correct it to avoid confusion.
-> 
-> Signed-off-by: Shixiong Ou <oushixiong@kylinos.cn>
 
-I've added the right Fixes: line and merged this to drm-misc-next, thanks
-for your patch.
--Sima
+--t6erlqty7rzkhzhp
+Content-Type: text/plain; protected-headers=v1; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
+Subject: Re: [PATCH v6 0/2] dma-buf: heaps: Create a CMA heap for each CMA
+ reserved region
+MIME-Version: 1.0
 
-> ---
->  drivers/video/fbdev/core/fbcon.c | 4 ++--
->  1 file changed, 2 insertions(+), 2 deletions(-)
-> 
-> diff --git a/drivers/video/fbdev/core/fbcon.c b/drivers/video/fbdev/core/fbcon.c
-> index 25684f5d6523..d8eab4859fd4 100644
-> --- a/drivers/video/fbdev/core/fbcon.c
-> +++ b/drivers/video/fbdev/core/fbcon.c
-> @@ -953,13 +953,13 @@ static const char *fbcon_startup(void)
->  	int rows, cols;
->  
->  	/*
-> -	 *  If num_registered_fb is zero, this is a call for the dummy part.
-> +	 *  If fbcon_num_registered_fb is zero, this is a call for the dummy part.
->  	 *  The frame buffer devices weren't initialized yet.
->  	 */
->  	if (!fbcon_num_registered_fb || info_idx == -1)
->  		return display_desc;
->  	/*
-> -	 * Instead of blindly using registered_fb[0], we use info_idx, set by
-> +	 * Instead of blindly using fbcon_registered_fb[0], we use info_idx, set by
->  	 * fbcon_fb_registered();
->  	 */
->  	info = fbcon_registered_fb[info_idx];
-> -- 
-> 2.25.1
-> 
+On Wed, Jul 09, 2025 at 09:10:02AM -0400, Nicolas Dufresne wrote:
+> Hi Maxime,
+>=20
+> Le mercredi 09 juillet 2025 =E0 14:44 +0200, Maxime Ripard a =E9crit=A0:
+> > Hi,
+> >=20
+> > Here's another attempt at supporting user-space allocations from a
+> > specific carved-out reserved memory region.
+> >=20
+> > The initial problem we were discussing was that I'm currently working on
+> > a platform which has a memory layout with ECC enabled. However, enabling
+> > the ECC has a number of drawbacks on that platform: lower performance,
+> > increased memory usage, etc. So for things like framebuffers, the
+> > trade-off isn't great and thus there's a memory region with ECC disabled
+> > to allocate from for such use cases.
+> >=20
+> > After a suggestion from John, I chose to first start using heap
+> > allocations flags to allow for userspace to ask for a particular ECC
+> > setup. This is then backed by a new heap type that runs from reserved
+> > memory chunks flagged as such, and the existing DT properties to specify
+> > the ECC properties.
+> >=20
+> > After further discussion, it was considered that flags were not the
+> > right solution, and relying on the names of the heaps would be enough to
+> > let userspace know the kind of buffer it deals with.
+> >=20
+> > Thus, even though the uAPI part of it had been dropped in this second
+> > version, we still needed a driver to create heaps out of carved-out mem=
+ory
+> > regions. In addition to the original usecase, a similar driver can be
+> > found in BSPs from most vendors, so I believe it would be a useful
+> > addition to the kernel.
+> >=20
+> > Some extra discussion with Rob Herring [1] came to the conclusion that
+> > some specific compatible for this is not great either, and as such an
+> > new driver probably isn't called for either.
+> >=20
+> > Some other discussions we had with John [2] also dropped some hints that
+> > multiple CMA heaps might be a good idea, and some vendors seem to do
+> > that too.
+> >=20
+> > So here's another attempt that doesn't affect the device tree at all and
+> > will just create a heap for every CMA reserved memory region.
+>=20
+> Does that means that if we carve-out memory for a co-processor operating =
+system,
+> that memory region is now available to userspace to allocate from ? Or is=
+ there
+> a nuance to that ?
 
--- 
-Simona Vetter
-Software Engineer, Intel Corporation
-http://blog.ffwll.ch
+There is a nuance to that :)
+
+You need to have the "reusable" property set which is documented as:
+
+      The operating system can use the memory in this region with the
+      limitation that the device driver(s) owning the region need to be
+      able to reclaim it back. Typically that means that the operating
+      system can use that region to store volatile or cached data that
+      can be otherwise regenerated or migrated elsewhere.
+
+https://github.com/devicetree-org/dt-schema/blob/main/dtschema/schemas/rese=
+rved-memory/reserved-memory.yaml#L87
+
+If it's not set, it's not exposed, and I'd expect a coprocessor memory
+region wouldn't be flagged as such.
+
+> For other carveout, such as RK3588 HDMI receiver, that is clearly a win, =
+giving
+> user the ability to allocate using externally supplied constraints rather=
+ then
+> having to convince the v4l2 driver to match these. While keeping the safe=
+ty that
+> this carveout will yield valid addresses for the IP.
+>=20
+> Will there be a generic way to find out which driver/device this carveout
+> belongs to ? In V4L2, only complex cameras have userspace drivers, everyt=
+hing
+> else is generic code.
+
+I believe it's a separate discussion, but the current stance is that the
+heap name is enough to identify in a platform-specific way where you
+allocate from. I've worked on documenting what a good name is so
+userspace can pick it up more easily here:
+
+https://lore.kernel.org/r/20250616-dma-buf-heap-names-doc-v2-1-8ae43174cdbf=
+@kernel.org
+
+But it's not really what you expected
+
+Maxime
+
+--t6erlqty7rzkhzhp
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iJUEABMJAB0WIQTkHFbLp4ejekA/qfgnX84Zoj2+dgUCaG5w1QAKCRAnX84Zoj2+
+dp3pAX9+Z09k44eaivapsVKw/NqvekdMSYnQGvkEfOP/NBTjJF5RGakuRbEE73Xk
+qKAYEiMBgKsMpFVvSS9l9pFXZtK1LVDJ1XtphLJBeHq/gZxL+5K0t2qMG09CpG18
+A+HJas+mmg==
+=pWj1
+-----END PGP SIGNATURE-----
+
+--t6erlqty7rzkhzhp--
