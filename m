@@ -2,141 +2,151 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B2810AFE209
-	for <lists+dri-devel@lfdr.de>; Wed,  9 Jul 2025 10:11:54 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id CDA36AFE23F
+	for <lists+dri-devel@lfdr.de>; Wed,  9 Jul 2025 10:16:59 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id EE0A310E75D;
-	Wed,  9 Jul 2025 08:11:52 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 69C8310E760;
+	Wed,  9 Jul 2025 08:16:54 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=suse.de header.i=@suse.de header.b="DiaeyoYc";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="RluFGFtS";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="DiaeyoYc";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="RluFGFtS";
+	dkim=pass (1024-bit key; unprotected) header.d=amd.com header.i=@amd.com header.b="bYGdoo8A";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7DE9110E75D
- for <dri-devel@lists.freedesktop.org>; Wed,  9 Jul 2025 08:11:51 +0000 (UTC)
-Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org
- [IPv6:2a07:de40:b281:104:10:150:64:97])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
- (No client certificate requested)
- by smtp-out1.suse.de (Postfix) with ESMTPS id 35E9821134;
- Wed,  9 Jul 2025 08:11:50 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1752048710; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=zszXG46KKg/gYbE6tecfrtEK4YWIdln2/nG+N/R6x5E=;
- b=DiaeyoYcWg2nORSJ8U1QT12F+34woRwk1AlcHJE/BrPOK5BkV6EEUf8dCajx5vvr8UhCST
- /OPabZkE+uarz6QK+rkQZ84dz/cnSQd0+cJBbbvTG58w+JTYERw4aOoQhyOgO8fPMMNOxQ
- otVshkVZLD/2SDX/oJIZiG04PscA6Y0=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1752048710;
- h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=zszXG46KKg/gYbE6tecfrtEK4YWIdln2/nG+N/R6x5E=;
- b=RluFGFtS4kdvYfaxW0Zjjd4yFKij9Y3f22vdt24qBDUHGtPHkmWMGUiz4M0aTxWw7BWhQc
- eHjyWu1B9C9b6hBA==
-Authentication-Results: smtp-out1.suse.de;
- dkim=pass header.d=suse.de header.s=susede2_rsa header.b=DiaeyoYc;
- dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=RluFGFtS
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1752048710; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=zszXG46KKg/gYbE6tecfrtEK4YWIdln2/nG+N/R6x5E=;
- b=DiaeyoYcWg2nORSJ8U1QT12F+34woRwk1AlcHJE/BrPOK5BkV6EEUf8dCajx5vvr8UhCST
- /OPabZkE+uarz6QK+rkQZ84dz/cnSQd0+cJBbbvTG58w+JTYERw4aOoQhyOgO8fPMMNOxQ
- otVshkVZLD/2SDX/oJIZiG04PscA6Y0=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1752048710;
- h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=zszXG46KKg/gYbE6tecfrtEK4YWIdln2/nG+N/R6x5E=;
- b=RluFGFtS4kdvYfaxW0Zjjd4yFKij9Y3f22vdt24qBDUHGtPHkmWMGUiz4M0aTxWw7BWhQc
- eHjyWu1B9C9b6hBA==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
- (No client certificate requested)
- by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 0F51A13757;
- Wed,  9 Jul 2025 08:11:50 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
- by imap1.dmz-prg2.suse.org with ESMTPSA id msRYAkYkbmhocwAAD6G6ig
- (envelope-from <tzimmermann@suse.de>); Wed, 09 Jul 2025 08:11:50 +0000
-Message-ID: <fd6403d7-93f4-4fa4-ad0d-3ab91cba8183@suse.de>
-Date: Wed, 9 Jul 2025 10:11:49 +0200
-MIME-Version: 1.0
+Received: from NAM11-BN8-obe.outbound.protection.outlook.com
+ (mail-bn8nam11on2063.outbound.protection.outlook.com [40.107.236.63])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8970D10E13B;
+ Wed,  9 Jul 2025 08:16:53 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=KIuVazfsg6AM4XmKI44MXxt+su350lXLed9NePGHCNtxXxroZnGxOwZNJm33k1saOMTHeuTuGuewHrG4CNiE2nvXgnIMcvQGTP/R2M9kE2Q2AggLaQne5zyY1SnQ5eUlL54/G7NiPckuIFHqqRAG3iHgIKQPCSxrw16LBemMir1Sni6muRftkWDQF0t66z6siX4v2AHUdEUhF+4PVGCxiFfiXbLrRaluC0cfCDheK9n/0utbXPP0SkGBkYdUo+uce5FziqJPKndXjrX/D7DGN911TOI+J25Tmt2tlUihuzsyTW3d+Fhj0K4NkiZNXx2OKDDaXGrxmBCw4tu7LVnljA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=n8BfV6utA4zGzWDSq7l6bSCsanVI7cptu/BMe7WRNxY=;
+ b=enYFnk9QBRTHDA9m9+ZdAOh5yS63ZlNIhJ1eo8PbSygsZL1keEKBIB2Hq2lnmIdDUMf/7OxO+U99nyq33C/FgHcv3qKQjX/tAPRhnNUfDoUzo2Zvg5veqF5gWAeds1VQx2A+NARRfhV4P6knQvF4n1wKTrkjWHcbCLBaDenmlzoOcFEGhPr6Cr9CVQZoBWw0iX27NS2ixypanqZuRHQVS9Mb2BZx0Ul92nyQ20IDuF209/49yg+4/DK+c2tdVTcW2tGTexMlY+Mem1BMECc+PTEzBdjZyVrzAjeOELJi6/QUBaHRoO1/qaSZ/v5sWnTF8bLAxfTNmvqmjMJHNv0EVA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
+ header.d=amd.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=n8BfV6utA4zGzWDSq7l6bSCsanVI7cptu/BMe7WRNxY=;
+ b=bYGdoo8AmjWSaoXJTBmk9Fi6VnPQb0NlPTVtp8GTu13dTcsb+sZGxN3wLJb/SL9AWwBmAQH4eghnvaFBTGalARJEgHRUW8qAZrdV5KTDeXQHwvGktHJOHwt4chTrjrT8eIxz03X6RLB5FhiCU9Siwb4NGYbE+dH40sHfZsMxIsc=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=amd.com;
+Received: from PH7PR12MB5685.namprd12.prod.outlook.com (2603:10b6:510:13c::22)
+ by DS7PR12MB8418.namprd12.prod.outlook.com (2603:10b6:8:e9::16) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8901.27; Wed, 9 Jul
+ 2025 08:16:49 +0000
+Received: from PH7PR12MB5685.namprd12.prod.outlook.com
+ ([fe80::46fb:96f2:7667:7ca5]) by PH7PR12MB5685.namprd12.prod.outlook.com
+ ([fe80::46fb:96f2:7667:7ca5%5]) with mapi id 15.20.8901.024; Wed, 9 Jul 2025
+ 08:16:49 +0000
+Message-ID: <3ba76974-1415-4a07-b953-aac90a4e0226@amd.com>
+Date: Wed, 9 Jul 2025 10:16:45 +0200
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2] fbdev: kyro: Add missing PCI memory region request
-To: Giovanni Di Santi <giovanni.disanti.lkl@gmail.com>, deller@gmx.de
-Cc: linux-fbdev@vger.kernel.org, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org
-References: <55e427bc-53d6-4ec8-b86a-99bd7367d5bb@suse.de>
- <20250708185808.845692-1-giovanni.disanti.lkl@gmail.com>
+Subject: Re: [PATCH] drm/amdgpu: fix the logic to validate fpriv and root bo
+To: Sunil Khatri <sunil.khatri@amd.com>, dri-devel@lists.freedesktop.org
+Cc: amd-gfx@lists.freedesktop.org, simona@ffwll.ch, tzimmermann@suse.de,
+ tursulin@ursulin.net, kernel test robot <lkp@intel.com>
+References: <20250709071618.591866-1-sunil.khatri@amd.com>
 Content-Language: en-US
-From: Thomas Zimmermann <tzimmermann@suse.de>
-Autocrypt: addr=tzimmermann@suse.de; keydata=
- xsBNBFs50uABCADEHPidWt974CaxBVbrIBwqcq/WURinJ3+2WlIrKWspiP83vfZKaXhFYsdg
- XH47fDVbPPj+d6tQrw5lPQCyqjwrCPYnq3WlIBnGPJ4/jreTL6V+qfKRDlGLWFjZcsrPJGE0
- BeB5BbqP5erN1qylK9i3gPoQjXGhpBpQYwRrEyQyjuvk+Ev0K1Jc5tVDeJAuau3TGNgah4Yc
- hdHm3bkPjz9EErV85RwvImQ1dptvx6s7xzwXTgGAsaYZsL8WCwDaTuqFa1d1jjlaxg6+tZsB
- 9GluwvIhSezPgnEmimZDkGnZRRSFiGP8yjqTjjWuf0bSj5rUnTGiyLyRZRNGcXmu6hjlABEB
- AAHNJ1Rob21hcyBaaW1tZXJtYW5uIDx0emltbWVybWFubkBzdXNlLmRlPsLAjgQTAQgAOAIb
- AwULCQgHAgYVCgkICwIEFgIDAQIeAQIXgBYhBHIX+6yM6c9jRKFo5WgNwR1TC3ojBQJftODH
- AAoJEGgNwR1TC3ojx1wH/0hKGWugiqDgLNXLRD/4TfHBEKmxIrmfu9Z5t7vwUKfwhFL6hqvo
- lXPJJKQpQ2z8+X2vZm/slsLn7J1yjrOsoJhKABDi+3QWWSGkaGwRJAdPVVyJMfJRNNNIKwVb
- U6B1BkX2XDKDGffF4TxlOpSQzdtNI/9gleOoUA8+jy8knnDYzjBNOZqLG2FuTdicBXblz0Mf
- vg41gd9kCwYXDnD91rJU8tzylXv03E75NCaTxTM+FBXPmsAVYQ4GYhhgFt8S2UWMoaaABLDe
- 7l5FdnLdDEcbmd8uLU2CaG4W2cLrUaI4jz2XbkcPQkqTQ3EB67hYkjiEE6Zy3ggOitiQGcqp
- j//OwE0EWznS4AEIAMYmP4M/V+T5RY5at/g7rUdNsLhWv1APYrh9RQefODYHrNRHUE9eosYb
- T6XMryR9hT8XlGOYRwKWwiQBoWSDiTMo/Xi29jUnn4BXfI2px2DTXwc22LKtLAgTRjP+qbU6
- 3Y0xnQN29UGDbYgyyK51DW3H0If2a3JNsheAAK+Xc9baj0LGIc8T9uiEWHBnCH+RdhgATnWW
- GKdDegUR5BkDfDg5O/FISymJBHx2Dyoklv5g4BzkgqTqwmaYzsl8UxZKvbaxq0zbehDda8lv
- hFXodNFMAgTLJlLuDYOGLK2AwbrS3Sp0AEbkpdJBb44qVlGm5bApZouHeJ/+n+7r12+lqdsA
- EQEAAcLAdgQYAQgAIAIbDBYhBHIX+6yM6c9jRKFo5WgNwR1TC3ojBQJftOH6AAoJEGgNwR1T
- C3ojVSkIALpAPkIJPQoURPb1VWjh34l0HlglmYHvZszJWTXYwavHR8+k6Baa6H7ufXNQtThR
- yIxJrQLW6rV5lm7TjhffEhxVCn37+cg0zZ3j7zIsSS0rx/aMwi6VhFJA5hfn3T0TtrijKP4A
- SAQO9xD1Zk9/61JWk8OysuIh7MXkl0fxbRKWE93XeQBhIJHQfnc+YBLprdnxR446Sh8Wn/2D
- Ya8cavuWf2zrB6cZurs048xe0UbSW5AOSo4V9M0jzYI4nZqTmPxYyXbm30Kvmz0rYVRaitYJ
- 4kyYYMhuULvrJDMjZRvaNe52tkKAvMevcGdt38H4KSVXAylqyQOW5zvPc4/sq9c=
-In-Reply-To: <20250708185808.845692-1-giovanni.disanti.lkl@gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+From: =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
+In-Reply-To: <20250709071618.591866-1-sunil.khatri@amd.com>
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
-X-Spamd-Result: default: False [-3.01 / 50.00]; BAYES_HAM(-3.00)[100.00%];
- SUSPICIOUS_RECIPS(1.50)[]; NEURAL_HAM_LONG(-1.00)[-1.000];
- R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
- NEURAL_HAM_SHORT(-0.20)[-1.000]; MIME_GOOD(-0.10)[text/plain];
- MX_GOOD(-0.01)[];
- URIBL_BLOCKED(0.00)[imap1.dmz-prg2.suse.org:helo,imap1.dmz-prg2.suse.org:rdns,suse.de:mid,suse.de:dkim];
- DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
- RBL_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:104:10:150:64:97:from]; 
- FUZZY_RATELIMITED(0.00)[rspamd.com]; TO_DN_SOME(0.00)[];
- FREEMAIL_TO(0.00)[gmail.com,gmx.de]; MIME_TRACE(0.00)[0:+];
- ARC_NA(0.00)[]; TO_MATCH_ENVRCPT_ALL(0.00)[];
- FREEMAIL_ENVRCPT(0.00)[gmail.com,gmx.de]; RCVD_TLS_ALL(0.00)[];
- RCVD_COUNT_TWO(0.00)[2]; FROM_EQ_ENVFROM(0.00)[];
- FROM_HAS_DN(0.00)[]; RCPT_COUNT_FIVE(0.00)[5];
- MID_RHS_MATCH_FROM(0.00)[]; TAGGED_RCPT(0.00)[];
- RECEIVED_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:106:10:150:64:167:received];
- DKIM_TRACE(0.00)[suse.de:+]; RCVD_VIA_SMTP_AUTH(0.00)[];
- DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:mid, suse.de:dkim,
- imap1.dmz-prg2.suse.org:helo, imap1.dmz-prg2.suse.org:rdns]
-X-Spam-Flag: NO
-X-Spam-Level: 
-X-Rspamd-Queue-Id: 35E9821134
-X-Rspamd-Server: rspamd2.dmz-prg2.suse.org
-X-Rspamd-Action: no action
-X-Spam-Score: -3.01
+X-ClientProxiedBy: FR4P281CA0342.DEUP281.PROD.OUTLOOK.COM
+ (2603:10a6:d10:ea::20) To PH7PR12MB5685.namprd12.prod.outlook.com
+ (2603:10b6:510:13c::22)
+MIME-Version: 1.0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: PH7PR12MB5685:EE_|DS7PR12MB8418:EE_
+X-MS-Office365-Filtering-Correlation-Id: 0378cf05-429a-4ce7-a19e-08ddbec0f3db
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;ARA:13230040|1800799024|366016|376014;
+X-Microsoft-Antispam-Message-Info: =?utf-8?B?TG52dmNHcDJucHJic2FHSEFIMitiZDhSamhyWmVzY3RkSGw0L1hxTTZQN2E3?=
+ =?utf-8?B?VWJSWjd5T3kycklkL2NiVTluRGY5YjltRXptVEtMRUpJZklCczRUZWZYRGNp?=
+ =?utf-8?B?SHFRek1wbHRyM1pjbld4bHNMaDJBTm9RMmdHREM5SkhoQ2FpZnNZRlc5WDIw?=
+ =?utf-8?B?Y2s5TnlsZlhSZUNDRHAxSGc2Wm1Cek1UNVdVNXI1WnlGU2JleGVycWQrcGFo?=
+ =?utf-8?B?c3ZnTVFCVHgyVkhQSklTeWdZTFRuSmtVOUJhWnhFSStHVFNrNUdRUlFVQ2hL?=
+ =?utf-8?B?cGs3MWk4WDE0d2RLSXU2Nzczajc0Uitkb29ESUZ1R2tGTWp4aTB5NnUxbUxt?=
+ =?utf-8?B?cnZmV3ZJdmNyeU1lZWN1MVlPeU1kcHp1ME9ZMXdCRHlUZ0pyWWh2N3pGVWl3?=
+ =?utf-8?B?VW9YaG1Tb3A3QUlydnptdHc3NWc1QUJOQy9zeUd6SE1MRlRCSkw5REtjYTc5?=
+ =?utf-8?B?NjhiTkd1dDVCSGJvZmNNQnNaaVFEWVBnZmF3QTFYRGYxNm9BVjk5RERWZmdY?=
+ =?utf-8?B?TVNhODh0dVY3Z21qVkFlRy9leDhUTHl0TjZra0JyZmVCRGtxcEdKamlldGJ6?=
+ =?utf-8?B?UDFaUFFqemZ0OXpwRU8wTkRkQVJCL3p5TUYzUkIzY0k1aEpuc0gzUE5WT2Z1?=
+ =?utf-8?B?ZWhJaW8yVmttT3JKK2ptcXlSR0dIOWh6eXVzY3pxRlAyb3dPTFhGczU3Z0lY?=
+ =?utf-8?B?Kzl2dnVvUXR2NE1DMHY4SG5BKzV5TUl5MUJ3STVCTlIvTTh2RTFlM1p5TnBI?=
+ =?utf-8?B?UGNTR3ZobXhrd1lJNUtUcGZENEE0QzNTOUNFQWlXRFV1eGJiV2NScXZaR24w?=
+ =?utf-8?B?NFBpQ3U2MkhjU3VSZGNQdU42Ri83VzNIRnNnclo2eWIreXJiWXlEQkhjUzlh?=
+ =?utf-8?B?cVlyTTlWdFFWQmRQcGFMNkpCQkY0U0c3N0Jydmt6ZW91VzVka2hHZDJkL3pn?=
+ =?utf-8?B?SlRlTzBjM2dwRXJHUXFLMXV5eDhtc2x4aGk5NE11VmRWZXN6by8zY1RjS24v?=
+ =?utf-8?B?Q2U3V0xoR1EzbDhvYTR6RXI5R2lZOEU0OG1IMkxxUFBjdXZPS3BuVmpQYTVi?=
+ =?utf-8?B?WlcwSTRsMWIvTCs1ekUvdVNHNDhZYlk4UmU4bXhGUTl0RUlJMnNkUDhOS0d4?=
+ =?utf-8?B?clpRdVdXeW9CN3pMTG42MWs1b2l3VGdJY1hxbVRpa3pidXVIRDRnZGFxaGp1?=
+ =?utf-8?B?K0V3djlJWlpUelpIblZWblliUFRhSWhkYmhLcUF2N3FOWWxiN0NBSmZ5VGd5?=
+ =?utf-8?B?SERZT0ZpR0EyVzFrOVdiVHZLOUh4aWQ3TzBpL2VZYzk3bkRyRk5aT0NhOVhk?=
+ =?utf-8?B?eGtLZVdxWGF2Tk5jWlM2VGtsMjVFa1JuVy9POWZJTFVCMlNuc2dnREdqUWFx?=
+ =?utf-8?B?VnlWZUxOYSt3c0VjQ2kxblBzN211ZFFOSThqL3lvN2NzYkpJUHVHN0g4Zitk?=
+ =?utf-8?B?Nmg1cUU0YVd3REQ5dzRZaXN4ODMyT3JXM3N5RXRtRkpMME1WVzBaVlI2QWFS?=
+ =?utf-8?B?QU1WUi92Y3VTTmluMlZjUC9kZ3dnbVVGMUJ3YkduRXdnN25ob3RPVmROQkZY?=
+ =?utf-8?B?NTBWMFIxUThDUE1LdFBjeVM1a0tqS2F5V29GczVOczZKaUtBK2RUQk82SDdY?=
+ =?utf-8?B?S2ZMSjRXT3BDYXk5eFhEd0RjU2RIQzdHREgrYkVmMVF0ajl3SnFWU0t2NXJG?=
+ =?utf-8?B?V29DNlMvZzlSRkJLVzB0cDZWSjVCY2hWQkQ1bkpDQmdyejduZ3FjTmxwMmI3?=
+ =?utf-8?B?RkNONTJITlV6ZTlSTVVVRlo1Ly9GTjRuUjRoSFhSVmZaU0pXWXFLajQvWWk5?=
+ =?utf-8?B?Mi9DRFozZHJuQ1JLWnBBbTl0c3ZEcithemZubXJSSkF1NnBhU3VlVHR6Wk9F?=
+ =?utf-8?B?OFhhZldOdXE5ak44dzVEdllpdEYxc3JPSGRpRUUxQnlvTENyYkxoNFRVMHQ3?=
+ =?utf-8?Q?e+BRPUS18pA=3D?=
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:PH7PR12MB5685.namprd12.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230040)(1800799024)(366016)(376014); DIR:OUT; SFP:1101; 
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?UWI5d3phaStMb284R21WSG5XSHlTT3diRGt3SXVaSG1nZTAvaVJSbXhnZDhl?=
+ =?utf-8?B?d2pLSnVUcHZ5STdsVTBVYmR5TUVMM1RvSkI2aTQwN1dOZldIQU4rMTROQnNL?=
+ =?utf-8?B?LzV5eVNUc1NFN0NRTC9xMzJMcjI1alBkS25ZYXgyeFlmQmtWSE5nS2xrL1do?=
+ =?utf-8?B?VXZUcHpEL21BL2FYaVVQZThCZzJBekZQYlFZUUp5SCtrdGxTQ0RicUZ2b0JK?=
+ =?utf-8?B?cU9KbTVRRWFXZS9pZVp5c3pTQUdiemhJK01ISUFDankzYlJWMGhwZTdtdVp4?=
+ =?utf-8?B?V296UERCOURkeVhaNnh3Zm1ObCsrRkp6Y09iQnRBWHRPMGNrdXpJbTR6NUM5?=
+ =?utf-8?B?aWhVell2KzhjdkdvOCtjbUprYnVNelN6ZU5XVEt3Y1U4dVQyZE5meUFoamFQ?=
+ =?utf-8?B?WHdYQ3l1UmI2SVhkMmc1WVdwYUFSdnR3MTZMMkZlYllpdHd2elhkNTVYRURj?=
+ =?utf-8?B?WGpSMFJCeDBPY1crNm5CbkIwdjB4Sis1VW9zNmpVb2N5ZTl3bVpubFhhZVQx?=
+ =?utf-8?B?N2wzYlZyWWx5ZEVDUjVZa0JFdGI4YnFURDdKNkZ5THI0TzFZMlpsbDRGbWV3?=
+ =?utf-8?B?bS9CWFFKMzcrbkJ5WFhyUDB1eHM0aXF4enNjN0x0ckJXSHhYNWVkeFFxTnFE?=
+ =?utf-8?B?NG1ud05oNHdEL3VPOEFndkk5NjlMVlNvRS9vMmRpMlBXb3cxMEdia2tydzE0?=
+ =?utf-8?B?VS9ndHlkbjZ5YzVqelFQdTBmSFlvL0RMQVRWZWgrSVdEUzA0N2c2N0N4bGJn?=
+ =?utf-8?B?amFvUW9pbWx0N29acS9SQlVQczhvbHV3dEp4UHZpcGp2N1dzUWNMQjEweURs?=
+ =?utf-8?B?dWRVdjBMYm9xOC9XWDV5VG5iMVJDT1kzRTBvUjFEbzh3M3BJTi9qczlkU20r?=
+ =?utf-8?B?OWNZbEI3eWFKQzhKTVF1QmlSU2hJcTA3Q01KWlAzYkR6MHFYVnplSmYzSWVO?=
+ =?utf-8?B?b2EzaUs2N21SL2xZYnBXTDFBbEYzeVlGRDRPUWovN2Y3YkIxdkZTRkcwUWRI?=
+ =?utf-8?B?QXRrWHVSQXd6S21yRlFDb1JxYk9PaDRKOFY5Z2RhY2ErSWJDVEpPWWVaRkto?=
+ =?utf-8?B?REpVWXNtMWR3VUpLL3hOWUtsQlB4S2gyb1VOYmtadDdSMElDaFhkQ1FPM2RQ?=
+ =?utf-8?B?Q3FFQWowNThjSVF6dHRMVk1ybTZhM3dNVW1qaExwNkNQYUdCNnB5RTBKbzEx?=
+ =?utf-8?B?TXAyYjRvWEJaUWk4ZHVUZjREVWIvQVhyak5wU3BEbUhveitZYTdXTE9vRWRt?=
+ =?utf-8?B?aXNYUXYyMkpaTk95eFY4cHdvT3EzdnVUaXh3UUtBblJWUjU1Y2tYQzhlN3lS?=
+ =?utf-8?B?MzdsY051dnFNWlNtdStYQWJtNi8zNFRxOVhFNFlPWmlXRlNJM1NvcjFZSHV2?=
+ =?utf-8?B?Uy9xTlZqd1ZqMnpRRkpFZEhmblBHdjBlWFgvVVJING1na1lxQjZ3blFYMGNS?=
+ =?utf-8?B?Rlc2ejErZmRoaWtSNlhFU0lHUDI3ZlE1aWN6akgzdDcyU1pDRnhXM0xpWlE4?=
+ =?utf-8?B?TC9mTkg0QUw0SVU1M29UaUNmRUJrNlBid3pBN0tjUE9SdHExTHM5OTNXYytr?=
+ =?utf-8?B?ektKdlJCVkJ1S2dGVGJ6YTVERTdKcGE4aVhTUWR0KzBpZnE0OXBDZ21QYzJk?=
+ =?utf-8?B?UWZCTk1YY1NJeTZ1RmwwaWphMVpEQzluV1BDSTdoN2FLM1NxRzFKWDRjRHJO?=
+ =?utf-8?B?OXl5NVNUWnVsQmVncC9naXBNeFpYTDdBeEZleldmWVExY0VJYnNWN2svN1Rp?=
+ =?utf-8?B?K1cwMVdOVlNtaEtHOUQvOGQ1Q2w4SkJEeEhnLzRhYkJ0VnJBYWtoRityb0lD?=
+ =?utf-8?B?QVpIYTJvZE5FNytOTGlSM2lNbTZNVko3SUdkNExMYmpQVFkwZkI2NVFaZXZp?=
+ =?utf-8?B?SitRTzhaZ0dMOGlmRHpoOC82Mkw0RWV5T2NNVk5CRFcweFhsN2kvTXhZS2RG?=
+ =?utf-8?B?bjlmVFV0bGFYazFaS0xaRTlsRE9LWW45OFE2Z2c0NWt6b3ZYT2I1TC9JUnhr?=
+ =?utf-8?B?dmRhTDJ1QXVKbE9FcjlUdDFOWmxEdFBvOENFYVgzNGJGZHBvVEhHdHcyMlM1?=
+ =?utf-8?B?QTlHZERlRnFEamxOaGE2K20zd2JJRi9DOEJUMkN6aUVnMXVLdS9Qek1NcDNa?=
+ =?utf-8?Q?LLaXpeX/EkF0PL+zM5ybanKFD?=
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 0378cf05-429a-4ce7-a19e-08ddbec0f3db
+X-MS-Exchange-CrossTenant-AuthSource: PH7PR12MB5685.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 09 Jul 2025 08:16:49.3508 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: I5A2RrIHa69iPlNtDKvyrKq9ynKDqFu4tq0JqCTpw9MvEjMMdd3gtftn+m8sdM/T
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DS7PR12MB8418
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -152,85 +162,39 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi
+On 09.07.25 09:16, Sunil Khatri wrote:
+> Fix the smatch warning,
+> smatch warnings:
+> drivers/gpu/drm/amd/amdgpu/amdgpu_debugfs.c:2146 amdgpu_pt_info_read()
+> error: we previously assumed 'fpriv' could be null (see line 2146)
+> 
+> "if (!fpriv && !fpriv->vm.root.bo)", It has to be an OR condition
+> rather than an AND which makes an NULL dereference in case fpriv is NULL.
+> 
+> Reported-by: kernel test robot <lkp@intel.com>
+> Closes: https://lore.kernel.org/oe-kbuild-all/202507090525.9rDWGhz3-lkp@intel.com/
+> Signed-off-by: Sunil Khatri <sunil.khatri@amd.com>
 
-Am 08.07.25 um 20:57 schrieb Giovanni Di Santi:
-> Hi Thomas,
->
-> Thanks for the feedback.
->
-> On Tue, 8 Jul 2025 at 5:10, Thomas Zimmermann wrote:
->> Could this use pcim_request_all_regions() [1] instead? Cleanup and error
->> rollback would be automatic.
->> ...
->> Instead of manual cleanup, you're better off using pcim_enable_device()
->> [2] in kyrofb_probe(). Cleaning up is automatic then.
-> I've applied the changes. I noticed that the driver still has manual
-> ioremap() and pci_ioremap_wc_bar() calls inside the probe function.
-> Should these also be converted to devm_ioremap() and devm_ioremap_wc() to
-> make the cleanup fully automatic? Or should I do it in another patch?
+Reviewed and pushed to drm-misc-next.
 
-If you have the time and interest, you're welcome to change it to the 
-devm_ functions. Ideally, you'd send a series, which each patch 
-addressing a single function.
+Regards,
+Christian.
 
-Best regards
-Thomas
-
->
-> Changes in v2:
-> - Use pcim_enable_device() instead of pci_enable_device()
-> - Use pcim_request_all_regions() instead of pci_request_regions()
-> - Removed manual cleanup code as it's now automatic
->
 > ---
->
-> The kyro framebuffer driver did not request its PCI memory regions,
-> which could lead to conflicts with other drivers.  This change
-> addresses the task "Request memory regions in all fbdev drivers"
-> from the file Documentation/gpu/todo.rst.
->
-> This is addressed by using the managed device functions pcim_enable_device()
-> and pcim_request_all_regions(). This simplifies the code by making error
-> handling and driver removal cleanup automatic for these resources.
->
-> Signed-off-by: Giovanni Di Santi <giovanni.disanti.lkl@gmail.com>
-> ---
->   drivers/video/fbdev/kyro/fbdev.c | 7 ++++++-
->   1 file changed, 6 insertions(+), 1 deletion(-)
->
-> diff --git a/drivers/video/fbdev/kyro/fbdev.c b/drivers/video/fbdev/kyro/fbdev.c
-> index 08ee8baa79f8..86e5d60ed0ff 100644
-> --- a/drivers/video/fbdev/kyro/fbdev.c
-> +++ b/drivers/video/fbdev/kyro/fbdev.c
-> @@ -679,7 +679,8 @@ static int kyrofb_probe(struct pci_dev *pdev, const struct pci_device_id *ent)
->   	if (err)
->   		return err;
->   
-> -	if ((err = pci_enable_device(pdev))) {
-> +	err = pcim_enable_device(pdev);
-> +	if (err) {
->   		printk(KERN_WARNING "kyrofb: Can't enable pdev: %d\n", err);
->   		return err;
->   	}
-> @@ -688,6 +689,10 @@ static int kyrofb_probe(struct pci_dev *pdev, const struct pci_device_id *ent)
->   	if (!info)
->   		return -ENOMEM;
->   
-> +	err = pcim_request_all_regions(pdev, "kyrofb");
-> +	if (err)
-> +		goto out_free_fb;
-> +
->   	currentpar = info->par;
->   
->   	kyro_fix.smem_start = pci_resource_start(pdev, 0);
-
--- 
---
-Thomas Zimmermann
-Graphics Driver Developer
-SUSE Software Solutions Germany GmbH
-Frankenstrasse 146, 90461 Nuernberg, Germany
-GF: Ivo Totev, Andrew Myers, Andrew McDonald, Boudien Moerman
-HRB 36809 (AG Nuernberg)
+>  drivers/gpu/drm/amd/amdgpu/amdgpu_debugfs.c | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+> 
+> diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_debugfs.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_debugfs.c
+> index e49890a23ef6..63cd790b1d7b 100644
+> --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_debugfs.c
+> +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_debugfs.c
+> @@ -2143,7 +2143,7 @@ static int amdgpu_pt_info_read(struct seq_file *m, void *unused)
+>  		return -EINVAL;
+>  
+>  	fpriv = file->driver_priv;
+> -	if (!fpriv && !fpriv->vm.root.bo)
+> +	if (!fpriv || !fpriv->vm.root.bo)
+>  		return -ENODEV;
+>  
+>  	root_bo = amdgpu_bo_ref(fpriv->vm.root.bo);
 
