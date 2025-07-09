@@ -2,34 +2,34 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 91C09AFE850
-	for <lists+dri-devel@lfdr.de>; Wed,  9 Jul 2025 13:53:44 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id E099CAFE851
+	for <lists+dri-devel@lfdr.de>; Wed,  9 Jul 2025 13:53:47 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id EDA4F10E7B7;
-	Wed,  9 Jul 2025 11:53:42 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4E08B10E7B4;
+	Wed,  9 Jul 2025 11:53:46 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="p9vmiO0w";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="hc7htDR1";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from tor.source.kernel.org (tor.source.kernel.org [172.105.4.254])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 752AC10E7B4;
- Wed,  9 Jul 2025 11:53:41 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A212710E7B4;
+ Wed,  9 Jul 2025 11:53:45 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by tor.source.kernel.org (Postfix) with ESMTP id E6B68614AD;
+ by tor.source.kernel.org (Postfix) with ESMTP id 23547614A1;
+ Wed,  9 Jul 2025 11:53:45 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 18D8EC4CEF4;
  Wed,  9 Jul 2025 11:53:40 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id C3875C4CEEF;
- Wed,  9 Jul 2025 11:53:36 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1752062020;
- bh=Jr45GDaF+42wl4BEFdHS/S6QGGlCSlKcGecFU5CGZvo=;
+ s=k20201202; t=1752062024;
+ bh=OZBWcl+PCUb2kCnaY8+5TU8XsQRk5Xln7k2Zc73mGUs=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=p9vmiO0wJGy+be/TMUQ/D2XXdl/jmSvqoVU39tj/aVdyp06EAhivoC75sjpqg+XTM
- pI7O8kCdTiEACr4GdnrvuJ9zwC2A77BJqVOdJnxkQ7OytBTlBd9MEOXlcwmghk1iGg
- zEVxT7GizIyW3TI9pmROs7+CHOAkYfckYkFUPMfpnDkDPFXM+aoUbor6WVKdELYvJI
- jWVYYHkUeHYQ4mkYcS7fHURDki+nZkvdI3IubfzNs+dhFrBJB5aazdB4EnDkiIU1zb
- bjI4IzyQSqEVWuIGm7I0e5NjkrwmYikbFhbvlkPYl8KUIV4ZeO5ZzF7Ax/HWVgOHzV
- SIrkeYMymZAfA==
+ b=hc7htDR1NMf/EMaHugzGMu/u1ql8feeUr50su8YvSky3tbLezUtDafyj8Da3hjSZU
+ rfRuRj0IOtQzkDV1Q1hRWDOSpdR237tZPdZzxNxhW7RguWZ8hvMY0bQb3bqoCm79e5
+ go6TdvZOw3J78s+ARn+5wSd1B4341aWpOyq1LexJ7IXALpVuWEMDfrJg1ZwZbu9zdC
+ H170JKdktW2c6hlIMjGCrnAxwRK9tC07qQiYIBiDofvVIxUWfOBTMhAy36pzAqkIqR
+ hVliH8SGLWifukgJClHn0UtMX+iVDlFuW7W0roaWG7/196SFKDhWqkplf6Wq5dm/U8
+ XAN+PxAI8m+JQ==
 From: Philipp Stanner <phasta@kernel.org>
 To: Lyude Paul <lyude@redhat.com>, Danilo Krummrich <dakr@kernel.org>,
  David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
@@ -44,9 +44,10 @@ To: Lyude Paul <lyude@redhat.com>, Danilo Krummrich <dakr@kernel.org>,
  Pierre-Eric Pelloux-Prayer <pierre-eric.pelloux-prayer@amd.com>
 Cc: dri-devel@lists.freedesktop.org, nouveau@lists.freedesktop.org,
  linux-kernel@vger.kernel.org, linux-media@vger.kernel.org
-Subject: [PATCH v3 4/7] drm/sched: Warn if pending_list is not empty
-Date: Wed,  9 Jul 2025 13:52:54 +0200
-Message-ID: <20250709115257.106370-6-phasta@kernel.org>
+Subject: [PATCH v3 5/7] drm/nouveau: Make fence container helper usable
+ driver-wide
+Date: Wed,  9 Jul 2025 13:52:55 +0200
+Message-ID: <20250709115257.106370-7-phasta@kernel.org>
 X-Mailer: git-send-email 2.49.0
 In-Reply-To: <20250709115257.106370-2-phasta@kernel.org>
 References: <20250709115257.106370-2-phasta@kernel.org>
@@ -67,29 +68,116 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-drm_sched_fini() can leak jobs under certain circumstances.
+In order to implement a new DRM GPU scheduler callback in Nouveau, a
+helper for obtaining a nouveau_fence from a dma_fence is necessary. Such
+a helper exists already inside nouveau_fence.c, called from_fence().
 
-Warn if that happens.
+Make that helper available to other C files with a more precise name.
 
 Signed-off-by: Philipp Stanner <phasta@kernel.org>
+Acked-by: Danilo Krummrich <dakr@kernel.org>
 ---
- drivers/gpu/drm/scheduler/sched_main.c | 3 +++
- 1 file changed, 3 insertions(+)
+ drivers/gpu/drm/nouveau/nouveau_fence.c | 20 +++++++-------------
+ drivers/gpu/drm/nouveau/nouveau_fence.h |  6 ++++++
+ 2 files changed, 13 insertions(+), 13 deletions(-)
 
-diff --git a/drivers/gpu/drm/scheduler/sched_main.c b/drivers/gpu/drm/scheduler/sched_main.c
-index a971f0c9e6e0..93cb74c0ccf8 100644
---- a/drivers/gpu/drm/scheduler/sched_main.c
-+++ b/drivers/gpu/drm/scheduler/sched_main.c
-@@ -1414,6 +1414,9 @@ void drm_sched_fini(struct drm_gpu_scheduler *sched)
- 	sched->ready = false;
- 	kfree(sched->sched_rq);
- 	sched->sched_rq = NULL;
-+
-+	if (!list_empty(&sched->pending_list))
-+		dev_err(sched->dev, "Tearing down scheduler while jobs are pending!\n");
- }
- EXPORT_SYMBOL(drm_sched_fini);
+diff --git a/drivers/gpu/drm/nouveau/nouveau_fence.c b/drivers/gpu/drm/nouveau/nouveau_fence.c
+index d5654e26d5bc..869d4335c0f4 100644
+--- a/drivers/gpu/drm/nouveau/nouveau_fence.c
++++ b/drivers/gpu/drm/nouveau/nouveau_fence.c
+@@ -38,12 +38,6 @@
+ static const struct dma_fence_ops nouveau_fence_ops_uevent;
+ static const struct dma_fence_ops nouveau_fence_ops_legacy;
  
+-static inline struct nouveau_fence *
+-from_fence(struct dma_fence *fence)
+-{
+-	return container_of(fence, struct nouveau_fence, base);
+-}
+-
+ static inline struct nouveau_fence_chan *
+ nouveau_fctx(struct nouveau_fence *fence)
+ {
+@@ -77,7 +71,7 @@ nouveau_local_fence(struct dma_fence *fence, struct nouveau_drm *drm)
+ 	    fence->ops != &nouveau_fence_ops_uevent)
+ 		return NULL;
+ 
+-	return from_fence(fence);
++	return to_nouveau_fence(fence);
+ }
+ 
+ void
+@@ -268,7 +262,7 @@ nouveau_fence_done(struct nouveau_fence *fence)
+ static long
+ nouveau_fence_wait_legacy(struct dma_fence *f, bool intr, long wait)
+ {
+-	struct nouveau_fence *fence = from_fence(f);
++	struct nouveau_fence *fence = to_nouveau_fence(f);
+ 	unsigned long sleep_time = NSEC_PER_MSEC / 1000;
+ 	unsigned long t = jiffies, timeout = t + wait;
+ 
+@@ -448,7 +442,7 @@ static const char *nouveau_fence_get_get_driver_name(struct dma_fence *fence)
+ 
+ static const char *nouveau_fence_get_timeline_name(struct dma_fence *f)
+ {
+-	struct nouveau_fence *fence = from_fence(f);
++	struct nouveau_fence *fence = to_nouveau_fence(f);
+ 	struct nouveau_fence_chan *fctx = nouveau_fctx(fence);
+ 
+ 	return !fctx->dead ? fctx->name : "dead channel";
+@@ -462,7 +456,7 @@ static const char *nouveau_fence_get_timeline_name(struct dma_fence *f)
+  */
+ static bool nouveau_fence_is_signaled(struct dma_fence *f)
+ {
+-	struct nouveau_fence *fence = from_fence(f);
++	struct nouveau_fence *fence = to_nouveau_fence(f);
+ 	struct nouveau_fence_chan *fctx = nouveau_fctx(fence);
+ 	struct nouveau_channel *chan;
+ 	bool ret = false;
+@@ -478,7 +472,7 @@ static bool nouveau_fence_is_signaled(struct dma_fence *f)
+ 
+ static bool nouveau_fence_no_signaling(struct dma_fence *f)
+ {
+-	struct nouveau_fence *fence = from_fence(f);
++	struct nouveau_fence *fence = to_nouveau_fence(f);
+ 
+ 	/*
+ 	 * caller should have a reference on the fence,
+@@ -503,7 +497,7 @@ static bool nouveau_fence_no_signaling(struct dma_fence *f)
+ 
+ static void nouveau_fence_release(struct dma_fence *f)
+ {
+-	struct nouveau_fence *fence = from_fence(f);
++	struct nouveau_fence *fence = to_nouveau_fence(f);
+ 	struct nouveau_fence_chan *fctx = nouveau_fctx(fence);
+ 
+ 	kref_put(&fctx->fence_ref, nouveau_fence_context_put);
+@@ -521,7 +515,7 @@ static const struct dma_fence_ops nouveau_fence_ops_legacy = {
+ 
+ static bool nouveau_fence_enable_signaling(struct dma_fence *f)
+ {
+-	struct nouveau_fence *fence = from_fence(f);
++	struct nouveau_fence *fence = to_nouveau_fence(f);
+ 	struct nouveau_fence_chan *fctx = nouveau_fctx(fence);
+ 	bool ret;
+ 
+diff --git a/drivers/gpu/drm/nouveau/nouveau_fence.h b/drivers/gpu/drm/nouveau/nouveau_fence.h
+index 6a983dd9f7b9..183dd43ecfff 100644
+--- a/drivers/gpu/drm/nouveau/nouveau_fence.h
++++ b/drivers/gpu/drm/nouveau/nouveau_fence.h
+@@ -17,6 +17,12 @@ struct nouveau_fence {
+ 	unsigned long timeout;
+ };
+ 
++static inline struct nouveau_fence *
++to_nouveau_fence(struct dma_fence *fence)
++{
++	return container_of(fence, struct nouveau_fence, base);
++}
++
+ int  nouveau_fence_create(struct nouveau_fence **, struct nouveau_channel *);
+ int  nouveau_fence_new(struct nouveau_fence **, struct nouveau_channel *);
+ void nouveau_fence_unref(struct nouveau_fence **);
 -- 
 2.49.0
 
