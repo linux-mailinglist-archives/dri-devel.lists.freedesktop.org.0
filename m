@@ -2,74 +2,78 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id F0DD6B0056D
-	for <lists+dri-devel@lfdr.de>; Thu, 10 Jul 2025 16:39:01 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 60375B00576
+	for <lists+dri-devel@lfdr.de>; Thu, 10 Jul 2025 16:41:36 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4CFF010E8E4;
-	Thu, 10 Jul 2025 14:39:00 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id AB77C10E8E9;
+	Thu, 10 Jul 2025 14:41:33 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (4096-bit key; unprotected) header.d=alien8.de header.i=@alien8.de header.b="GM0qSzrP";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="Vy6BQXVE";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail.alien8.de (mail.alien8.de [65.109.113.108])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 89DB810E8E4
- for <dri-devel@lists.freedesktop.org>; Thu, 10 Jul 2025 14:38:58 +0000 (UTC)
-Received: from localhost (localhost.localdomain [127.0.0.1])
- by mail.alien8.de (SuperMail on ZX Spectrum 128k) with ESMTP id 99D8240E0218; 
- Thu, 10 Jul 2025 14:38:56 +0000 (UTC)
-X-Virus-Scanned: Debian amavisd-new at mail.alien8.de
-Authentication-Results: mail.alien8.de (amavisd-new); dkim=pass (4096-bit key)
- header.d=alien8.de
-Received: from mail.alien8.de ([127.0.0.1])
- by localhost (mail.alien8.de [127.0.0.1]) (amavisd-new, port 10026)
- with ESMTP id c-rCGHqZO35y; Thu, 10 Jul 2025 14:38:53 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=alien8.de; s=alien8;
- t=1752158333; bh=FhbZcY5GA1HryF1g3erDNl7FlLcO1gA2VNO+aaalq6U=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=GM0qSzrPaqKMRGUThyEc5iqYKjDRCOGwtj59bGXyntk+nyyjS58AEr3xAIG3xZXGG
- HYq2d8ZQ/EW6IRSQ7bgaKAPLFaOHftE47UnyR4o/8D3QpsGCGh2TS2aX+f3PX9sY2r
- a7NivCjvxazIwOC0xwqDyJwEEmW9KRfVeOSkHgRCLvLXN/U2rpIFNFMM0l6CBaSkR6
- j4KxWrvCzWjWgaOtwZh1ClkHMHvIeM1/IARSorOtfBa7fhkIR07nvOwnMX87Lm8V0r
- csexnEvrrMed21BnEC6NnhRaHT5vW0lAjJMl9BjjBgHnT667n6oCQxOYRwhwE3Uu5T
- soTNNe19PMSNBeebPOToRn0taFHJBnooRFQh9FkglzmW727S0jVhL3pl1ZMoCVF0Lp
- miD6Qrh2dCWX5Tu5+96NY9LvZCP9g2EIw9w+mBIBEGJGAf0ochXube1cyaMSuQycBG
- iL7kXQBPO0g5D428rUz6VtXxJPOEW46vL8nPWI36OE1V8oksW4qZNbhpsdRTgqqZwQ
- NwZ29hB31MzhX/dDBlp8z97/CQKrQoDBkWDjKrKcZXNX30ZqJ6q8gOxcirqwJIoRj+
- ssT5CgT0HpaRbAFP7xa5gxsqaDxWZtBZJ5Rvcn+OKDBcSxD4GNn/QVQdTW+YYSmebU
- TNYYlFAoFk2UH3AnGMjZJ1qk=
-Received: from zn.tnic (p57969c58.dip0.t-ipconnect.de [87.150.156.88])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange ECDHE (P-256) server-signature ECDSA (P-256) server-digest
- SHA256) (No client certificate requested)
- by mail.alien8.de (SuperMail on ZX Spectrum 128k) with ESMTPSA id B41EA40E00DE;
- Thu, 10 Jul 2025 14:38:31 +0000 (UTC)
-Date: Thu, 10 Jul 2025 16:38:26 +0200
-From: Borislav Petkov <bp@alien8.de>
-To: Sean Christopherson <seanjc@google.com>
-Cc: Thomas Gleixner <tglx@linutronix.de>, Ingo Molnar <mingo@redhat.com>,
- Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org,
- Paolo Bonzini <pbonzini@redhat.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- linux-kernel@vger.kernel.org, kvm@vger.kernel.org,
- dri-devel@lists.freedesktop.org, Kevin Loughlin <kevinloughlin@google.com>,
- Tom Lendacky <thomas.lendacky@amd.com>,
- Kai Huang <kai.huang@intel.com>, Ingo Molnar <mingo@kernel.org>,
- Zheyun Shen <szy0127@sjtu.edu.cn>, Mingwei Zhang <mizhang@google.com>,
- Francesco Lavra <francescolavra.fl@gmail.com>
-Subject: Re: [PATCH v3 3/8] x86, lib: Add WBNOINVD helper functions
-Message-ID: <20250710143826.GBaG_QYo-9k2G7fvUG@fat_crate.local>
-References: <20250522233733.3176144-1-seanjc@google.com>
- <20250522233733.3176144-4-seanjc@google.com>
- <20250710112902.GCaG-j_l-K6LYRzZsb@fat_crate.local>
- <aG_GlsJWRU0fVxt4@google.com>
+Received: from mail-wm1-f52.google.com (mail-wm1-f52.google.com
+ [209.85.128.52])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9C2AE10E8E8;
+ Thu, 10 Jul 2025 14:41:32 +0000 (UTC)
+Received: by mail-wm1-f52.google.com with SMTP id
+ 5b1f17b1804b1-450cf0120cdso9290425e9.2; 
+ Thu, 10 Jul 2025 07:41:32 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20230601; t=1752158491; x=1752763291; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:to
+ :from:from:to:cc:subject:date:message-id:reply-to;
+ bh=fBtKYanBgJ6oZ8A8D30KEy1xLb3oCs8TKAlWQ5CfxoA=;
+ b=Vy6BQXVEtkV1nsCMoUItMQgNjjCId8fk+fAi/wr5y/Ug/yGqxV589FXzK/m8sXcn2U
+ RibWIL889gm9+qvf9/iAgA9r2GU7BdNt7e5RPSwpwA3OOiiU1cYmIrWC+8fDwjgEmKxG
+ 4ByE7pLPVI9v6k2qzjtgzeeb0DLEGEOncUHgzd34ciFMzHRYjxssCjS8kqOlPLE+mfm4
+ YNkvX8Isei1btxd7ygxnURI+yTI93ysPQWlyA9DogdTI5+muEA3hTT0nbwLGRoaI3erN
+ 0XmTt2N/8Tf9iZOJNp5wmTJ5SLgwub/g+/1l1EJN7DJ+l4LtiuS12NXEIZ4gkZPdKIpY
+ EcJQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1752158491; x=1752763291;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:to
+ :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=fBtKYanBgJ6oZ8A8D30KEy1xLb3oCs8TKAlWQ5CfxoA=;
+ b=O0wW3ifxacXmYn+jOAdlqJx4rQhnm3qHvByinT+5aAZdnrEZW4/CACx8jEPoPrs4L0
+ 42mI05ldoM/lQ+k0kmfVGNl6/97hqLgzVBV6FLsmflR3QX1xiHL/9plJoc2rj107dwbH
+ J7/al2lFnB2v4I+l1g7S+5pVb/baJ3m7yQEl2aRImcZnmRAaV0p/THvvGfwNyXjQFKHH
+ qySsCA0928G4+wuUw9NHAxM86E7mdadrPk65M4W3TgbMbbj6CgotTQXpF6dP/8sYp9dG
+ bBtKzE3G4boeCBiDlqga3XqU7x/5m/W1crsqoRRBPPh5L9j74mb4Hv5lgGEB9I7NBz1E
+ fB0A==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCXAHZqpOcTSLltHIXFsKW1zCdseeX9orWSow/0GITlyXOd4Rp+Tcax60JR3JDWPidqn+8tiOtk0mi0=@lists.freedesktop.org,
+ AJvYcCXv106+DBv20kvDMqdej0eGhYpAEto0ltoE54+HqTgUbZRxCCVSP3rn4nqdKnxw5h+trTawPUBX1LQ=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YxKIPTc45I1Wx6mwlHz7xOL1SxcfHHCPItBPInfltEhNzGJIv/l
+ Jn4W44Zi+gbsApSmDMrGDrZiE6f0wbgINoImt9GzdkyvDJI5F6jGkeub
+X-Gm-Gg: ASbGncvoWUl1DrM7osAJLiYFuxcxyD4yBecBTFBGPZP7voSy1f6ByjitH2OIV+xOwbP
+ k1bb0bdaVHhU3GLohJX/T8pgM2KbhEL9o64VhOwZMi9EQbBrid9JwZgvsliDGzBGaeCa1jQdfpm
+ dwQO72xyrUeZIU2hIx8hRg/DPvJcfUHvBuZZ5NMIcf2GPyPMRxybaoN6x+qrNvSHgeN0HBSfMYI
+ S5Nmi2cSE0UJJm1N7zwlezk1FOX0uuv6eVbSmQmUTBWPEZuRt9EpDdKUfp+FqkwxqkGTxW/KPQJ
+ oTrYoMA6aXlWhIK/gyL8y5oPlupk4bexpnkDHQCo4kGUfw31Ax5e2daOnc0+u6SvlwFFdGH8tH/
+ R
+X-Google-Smtp-Source: AGHT+IE56GPNvJM2MJEOF1+NCDTXbwd1qR7DXEqUgn7pulbwinIHoPXsgUzSqdQtHxSKBrMufnHtag==
+X-Received: by 2002:a05:600c:a407:b0:453:dda:a52e with SMTP id
+ 5b1f17b1804b1-454dec87090mr19020075e9.33.1752158490397; 
+ Thu, 10 Jul 2025 07:41:30 -0700 (PDT)
+Received: from able.fritz.box ([2a00:e180:152f:d800:cb54:c4ae:36fb:9b5a])
+ by smtp.gmail.com with ESMTPSA id
+ 5b1f17b1804b1-454dd540a95sm21670525e9.29.2025.07.10.07.41.29
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 10 Jul 2025 07:41:29 -0700 (PDT)
+From: "=?UTF-8?q?Christian=20K=C3=B6nig?=" <ckoenig.leichtzumerken@gmail.com>
+X-Google-Original-From: =?UTF-8?q?Christian=20K=C3=B6nig?=
+ <christian.koenig@amd.com>
+To: matthew.brost@intel.com, thomas.hellstrom@linux.intel.com,
+ dri-devel@lists.freedesktop.org, intel-xe@lists.freedesktop.org
+Subject: [PATCH 1/2] drm/ttm: fix locking in test
+ ttm_bo_validate_no_placement_signaled
+Date: Thu, 10 Jul 2025 16:41:28 +0200
+Message-Id: <20250710144129.1803-1-christian.koenig@amd.com>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <aG_GlsJWRU0fVxt4@google.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -85,15 +89,41 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, Jul 10, 2025 at 06:56:38AM -0700, Sean Christopherson wrote:
-> Yeah, AFAIK, no reason other than consistency.  GPL it.
+The test works even without it, but lockdep starts screaming when it is
+activated.
 
-Done. Tag x86_core_for_kvm on tip.
+Trivially fix it by acquiring the lock before we try to allocate
+something.
 
-It should appear on the mirrors soon, I hope.
+Signed-off-by: Christian König <christian.koenig@amd.com>
+---
+ drivers/gpu/drm/ttm/tests/ttm_bo_validate_test.c | 9 +++++----
+ 1 file changed, 5 insertions(+), 4 deletions(-)
 
+diff --git a/drivers/gpu/drm/ttm/tests/ttm_bo_validate_test.c b/drivers/gpu/drm/ttm/tests/ttm_bo_validate_test.c
+index 3148f5d3dbd6..38f476787302 100644
+--- a/drivers/gpu/drm/ttm/tests/ttm_bo_validate_test.c
++++ b/drivers/gpu/drm/ttm/tests/ttm_bo_validate_test.c
+@@ -542,14 +542,15 @@ static void ttm_bo_validate_no_placement_signaled(struct kunit *test)
+ 		bo->ttm = old_tt;
+ 	}
+ 
+-	err = ttm_resource_alloc(bo, place, &bo->resource, NULL);
+-	KUNIT_EXPECT_EQ(test, err, 0);
+-	KUNIT_ASSERT_EQ(test, man->usage, size);
+-
+ 	placement = kunit_kzalloc(test, sizeof(*placement), GFP_KERNEL);
+ 	KUNIT_ASSERT_NOT_NULL(test, placement);
+ 
+ 	ttm_bo_reserve(bo, false, false, NULL);
++
++	err = ttm_resource_alloc(bo, place, &bo->resource, NULL);
++	KUNIT_EXPECT_EQ(test, err, 0);
++	KUNIT_ASSERT_EQ(test, man->usage, size);
++
+ 	err = ttm_bo_validate(bo, placement, &ctx);
+ 	ttm_bo_unreserve(bo);
+ 
 -- 
-Regards/Gruss,
-    Boris.
+2.34.1
 
-https://people.kernel.org/tglx/notes-about-netiquette
