@@ -2,81 +2,64 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id AE5B8B00464
-	for <lists+dri-devel@lfdr.de>; Thu, 10 Jul 2025 15:56:56 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 14F74B005EB
+	for <lists+dri-devel@lfdr.de>; Thu, 10 Jul 2025 17:04:44 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6091610E217;
-	Thu, 10 Jul 2025 13:56:42 +0000 (UTC)
-Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=google.com header.i=@google.com header.b="RdaoyjHg";
-	dkim-atps=neutral
+	by gabe.freedesktop.org (Postfix) with ESMTP id DAF3110E0C0;
+	Thu, 10 Jul 2025 15:04:41 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pf1-f201.google.com (mail-pf1-f201.google.com
- [209.85.210.201])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D1CF710E217
- for <dri-devel@lists.freedesktop.org>; Thu, 10 Jul 2025 13:56:40 +0000 (UTC)
-Received: by mail-pf1-f201.google.com with SMTP id
- d2e1a72fcca58-7398d70abbfso1435000b3a.2
- for <dri-devel@lists.freedesktop.org>; Thu, 10 Jul 2025 06:56:40 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=google.com; s=20230601; t=1752155800; x=1752760600;
- darn=lists.freedesktop.org; 
- h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
- :date:from:to:cc:subject:date:message-id:reply-to;
- bh=jdivoy2i5Gr9aD8xwW1tsvlEITdtVn9BeGlg1mVQmjw=;
- b=RdaoyjHgpcLrx0f84J9uaN9AiOLvmmBi92TMADnm8EpiibwfMJVH/bezowFu/SxEIJ
- om+RYleaxOzEPcslRqJvRgK4hTbNT+LEc+a5RdG1R/bjACS/S/t5aXXx5VEszkDGKTJl
- +fu43S1Vov/5pq/4kiLesAmMOC50NKCe3o0EktoNwsrS5jfKRkf9ctzwfAoCREUp7aww
- ii27RIhuFgORpVW6B8I7mnGL+aCv7ZQa30iAc0rsN+DxnnaEMe2K0MKMljZmpwGdRr6q
- DhFvjYHBi2XfWBqsrSQNkUoGuuActB+mE7gWgYZMqFZ4uQaGauGxdJ6qdz8kz0JGtEal
- GMMQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1752155800; x=1752760600;
- h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
- :date:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=jdivoy2i5Gr9aD8xwW1tsvlEITdtVn9BeGlg1mVQmjw=;
- b=OHisxHhUEIMytEw1hJZRlEhKrS/RyYXDZz5V9AxXo+lS5F68ET8RefvW8c8o7avpHY
- RI1nSf+MoOG94Fz3ZvbD12ullcyNppSyRdiIrV5siv/5ssFA6ZpihzknbJSTYdEgc8eM
- eLg8eAikTD9I+LQhqC8d449o6TlM/ILNMfF4ykBDJZVMwdEGMocGeZCC4RbkNzekAykk
- FSGYH/VY5+vgryy+FnjNN1NbBKKz0FpSTExjqg5+vfO3R+WxdIUmZLU/Fs0qedEeoSv9
- 3fSq9i3SxhbKLVI/m18in4lVkBqLFaYSAa6A28T4XinMRQz6qvklyCU11WxoBRAS9HE5
- PnJg==
-X-Forwarded-Encrypted: i=1;
- AJvYcCVOXTcJ938WAlsL8fNdq8LlbzsEpH1uLkmMJ1wCKMgsm1CR1WQnXFTuHU4CNeN8kKjkfUOcSjZh5VE=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YxC9q3vTR4ickw8iJvkbTs5Ga9qYd5iPSkzhoxbNbFG14A9WfZg
- 3vmPOWPM8spdk/3LkXiTJkAljSXKEggDKgXkwPSu7b6WJPj6/gakJSIGP5fq1k6B+H73EoAcLEQ
- kgIFk8g==
-X-Google-Smtp-Source: AGHT+IFQLmoe4r0uGjszcjS65GBUmZL9XmUcIofKbdPbRYIZxHVIlOanHmYbmqpsneWEQZcfGa1zcK869ME=
-X-Received: from pfbfi6.prod.google.com ([2002:a05:6a00:3986:b0:746:247f:7384])
- (user=seanjc job=prod-delivery.src-stubby-dispatcher) by
- 2002:a05:6a00:3c8c:b0:749:ad1:ac8a
- with SMTP id d2e1a72fcca58-74ea6684ae5mr10003879b3a.11.1752155800315; Thu, 10
- Jul 2025 06:56:40 -0700 (PDT)
-Date: Thu, 10 Jul 2025 06:56:38 -0700
-In-Reply-To: <20250710112902.GCaG-j_l-K6LYRzZsb@fat_crate.local>
-Mime-Version: 1.0
-References: <20250522233733.3176144-1-seanjc@google.com>
- <20250522233733.3176144-4-seanjc@google.com>
- <20250710112902.GCaG-j_l-K6LYRzZsb@fat_crate.local>
-Message-ID: <aG_GlsJWRU0fVxt4@google.com>
-Subject: Re: [PATCH v3 3/8] x86, lib: Add WBNOINVD helper functions
-From: Sean Christopherson <seanjc@google.com>
-To: Borislav Petkov <bp@alien8.de>
-Cc: Thomas Gleixner <tglx@linutronix.de>, Ingo Molnar <mingo@redhat.com>, 
- Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org, 
- Paolo Bonzini <pbonzini@redhat.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- linux-kernel@vger.kernel.org, 
- kvm@vger.kernel.org, dri-devel@lists.freedesktop.org, 
- Kevin Loughlin <kevinloughlin@google.com>,
- Tom Lendacky <thomas.lendacky@amd.com>, 
- Kai Huang <kai.huang@intel.com>, Ingo Molnar <mingo@kernel.org>, 
- Zheyun Shen <szy0127@sjtu.edu.cn>, Mingwei Zhang <mizhang@google.com>, 
- Francesco Lavra <francescolavra.fl@gmail.com>
-Content-Type: text/plain; charset="us-ascii"
+X-Greylist: delayed 301 seconds by postgrey-1.36 at gabe;
+ Thu, 10 Jul 2025 03:11:04 UTC
+Received: from mailgw.kylinos.cn (mailgw.kylinos.cn [124.126.103.232])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9F73510E13C
+ for <dri-devel@lists.freedesktop.org>; Thu, 10 Jul 2025 03:11:04 +0000 (UTC)
+X-UUID: cb34ea685d3a11f0b29709d653e92f7d-20250710
+X-CTIC-Tags: HR_CC_COUNT, HR_CC_DOMAIN_COUNT, HR_CC_NAME, HR_CC_NO_NAME,
+ HR_CTE_8B
+ HR_CTT_MISS, HR_DATE_H, HR_DATE_WKD, HR_DATE_ZONE, HR_FROM_NAME
+ HR_SJ_LANG, HR_SJ_LEN, HR_SJ_LETTER, HR_SJ_NOR_SYM, HR_SJ_PHRASE
+ HR_SJ_PHRASE_LEN, HR_SJ_WS, HR_TO_COUNT, HR_TO_DOMAIN_COUNT, HR_TO_NAME
+ IP_TRUSTED, SRC_TRUSTED, DN_TRUSTED, SA_UNTRUSTED, SA_UNFAMILIAR
+ SN_UNTRUSTED, SN_UNFAMILIAR, SPF_NOPASS, DKIM_NOPASS, DMARC_NOPASS
+ CIE_BAD, CIE_GOOD, CIE_GOOD_SPF, GTI_FG_BS, GTI_RG_INFO
+ GTI_C_BU, AMN_T1, AMN_GOOD, AMN_C_TI, AMN_C_BU ABX_MISS_RDNS
+X-CID-P-RULE: Release_Ham
+X-CID-O-INFO: VERSION:1.1.45, REQID:69531f57-c1ce-4aaa-b9a5-ee61f1d6e198, IP:15,
+ URL:0,TC:0,Content:0,EDM:25,RT:0,SF:-5,FILE:0,BULK:0,RULE:Release_Ham,ACTI
+ ON:release,TS:35
+X-CID-INFO: VERSION:1.1.45, REQID:69531f57-c1ce-4aaa-b9a5-ee61f1d6e198, IP:15,
+ UR
+ L:0,TC:0,Content:0,EDM:25,RT:0,SF:-5,FILE:0,BULK:0,RULE:Release_Ham,ACTION
+ :release,TS:35
+X-CID-META: VersionHash:6493067, CLOUDID:00147462416a962fe54cbe135c4aee57,
+ BulkI
+ D:2507101034486T1R7010,BulkQuantity:1,Recheck:0,SF:19|24|44|66|72|78|102,T
+ C:nil,Content:0|50,EDM:5,IP:-2,URL:0,File:nil,RT:nil,Bulk:40,QS:nil,BEC:ni
+ l,COL:0,OSI:0,OSA:0,AV:0,LES:1,SPR:NO,DKR:0,DKP:0,BRR:0,BRE:0,ARC:0
+X-CID-BVR: 0,NGT
+X-CID-BAS: 0,NGT,0,_
+X-CID-FACTOR: TF_CID_SPAM_SNR,TF_CID_SPAM_FSD,TF_CID_SPAM_FSI
+X-UUID: cb34ea685d3a11f0b29709d653e92f7d-20250710
+X-User: lihongtao@kylinos.cn
+Received: from localhost.localdomain [(116.128.244.171)] by mailgw.kylinos.cn
+ (envelope-from <lihongtao@kylinos.cn>) (Generic MTA)
+ with ESMTP id 3746967; Thu, 10 Jul 2025 11:05:54 +0800
+From: lihongtao <lihongtao@kylinos.cn>
+To: Boris Brezillon <boris.brezillon@collabora.com>
+Cc: Rob Herring <robh@kernel.org>, Steven Price <steven.price@arm.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
+ Simona Vetter <simona@ffwll.ch>, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org, lihongtao <lihongtao@kylinos.cn>
+Subject: [PATCH] drm/panfrost: Fix leak when free gem object
+Date: Thu, 10 Jul 2025 11:05:27 +0800
+Message-Id: <20250710030527.167710-1-lihongtao@kylinos.cn>
+X-Mailer: git-send-email 2.25.1
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
+X-Mailman-Approved-At: Thu, 10 Jul 2025 15:04:40 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -92,30 +75,26 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, Jul 10, 2025, Borislav Petkov wrote:
-> On Thu, May 22, 2025 at 04:37:27PM -0700, Sean Christopherson wrote:
-> > diff --git a/arch/x86/lib/cache-smp.c b/arch/x86/lib/cache-smp.c
-> > index 079c3f3cd32c..1789db5d8825 100644
-> > --- a/arch/x86/lib/cache-smp.c
-> > +++ b/arch/x86/lib/cache-smp.c
-> > @@ -19,3 +19,14 @@ void wbinvd_on_all_cpus(void)
-> >  	on_each_cpu(__wbinvd, NULL, 1);
-> >  }
-> >  EXPORT_SYMBOL(wbinvd_on_all_cpus);
-> > +
-> > +static void __wbnoinvd(void *dummy)
-> > +{
-> > +	wbnoinvd();
-> > +}
-> > +
-> > +void wbnoinvd_on_all_cpus(void)
-> > +{
-> > +	on_each_cpu(__wbnoinvd, NULL, 1);
-> > +}
-> > +EXPORT_SYMBOL(wbnoinvd_on_all_cpus);
-> 
-> If there's no particular reason for the non-GPL export besides being
-> consistent with the rest - yes, I did the change for wbinvd_on_all_cpus() but
-> that was loooong time ago - I'd simply make this export _GPL.
+obj->mappings.lock should be destroyed when free
+panfrost gem object in panfrost_gem_free_object.
 
-Yeah, AFAIK, no reason other than consistency.  GPL it.
+Signed-off-by: lihongtao <lihongtao@kylinos.cn>
+---
+ drivers/gpu/drm/panfrost/panfrost_gem.c | 1 +
+ 1 file changed, 1 insertion(+)
+
+diff --git a/drivers/gpu/drm/panfrost/panfrost_gem.c b/drivers/gpu/drm/panfrost/panfrost_gem.c
+index 963f04ba2de6..00549f482eec 100644
+--- a/drivers/gpu/drm/panfrost/panfrost_gem.c
++++ b/drivers/gpu/drm/panfrost/panfrost_gem.c
+@@ -49,6 +49,7 @@ static void panfrost_gem_free_object(struct drm_gem_object *obj)
+ 		kvfree(bo->sgts);
+ 	}
+ 
++	mutex_destroy(&bo->mappings.lock);
+ 	drm_gem_shmem_free(&bo->base);
+ }
+ 
+-- 
+2.25.1
+
