@@ -2,74 +2,93 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3AE08AFFEE1
-	for <lists+dri-devel@lfdr.de>; Thu, 10 Jul 2025 12:14:21 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 04486AFFF2A
+	for <lists+dri-devel@lfdr.de>; Thu, 10 Jul 2025 12:25:54 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3421A10E8A1;
-	Thu, 10 Jul 2025 10:14:18 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4932E10E21A;
+	Thu, 10 Jul 2025 10:25:52 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=didiglobal.com header.i=@didiglobal.com header.b="pUO++xb0";
+	dkim=pass (1024-bit key; unprotected) header.d=redhat.com header.i=@redhat.com header.b="JDhQ9M65";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx9.didiglobal.com (mx9.didiglobal.com [111.202.70.124])
- by gabe.freedesktop.org (Postfix) with SMTP id 8792410E369;
- Thu, 10 Jul 2025 10:14:16 +0000 (UTC)
-Received: from mail.didiglobal.com (unknown [10.79.65.20])
- by mx9.didiglobal.com (MailData Gateway V2.8.8) with ESMTPS id 91DAD181988061; 
- Thu, 10 Jul 2025 18:14:10 +0800 (CST)
-Received: from BJ03-ACTMBX-07.didichuxing.com (10.79.71.34) by
- BJ02-ACTMBX-02.didichuxing.com (10.79.65.20) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.1748.10; Thu, 10 Jul 2025 18:14:14 +0800
-Received: from BJ03-ACTMBX-07.didichuxing.com (10.79.71.34) by
- BJ03-ACTMBX-07.didichuxing.com (10.79.71.34) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.1748.10; Thu, 10 Jul 2025 18:14:13 +0800
-Received: from BJ03-ACTMBX-07.didichuxing.com ([fe80::2e1a:dd47:6d25:287e]) by
- BJ03-ACTMBX-07.didichuxing.com ([fe80::2e1a:dd47:6d25:287e%7]) with
- mapi id 15.02.1748.010; Thu, 10 Jul 2025 18:14:13 +0800
-X-MD-Sfrom: chentaotao@didiglobal.com
-X-MD-SrcIP: 10.79.65.20
-From: =?gb2312?B?s8LMzszOIFRhb3RhbyBDaGVu?= <chentaotao@didiglobal.com>
-To: "tytso@mit.edu" <tytso@mit.edu>, "hch@infradead.org" <hch@infradead.org>, 
- "adilger.kernel@dilger.ca" <adilger.kernel@dilger.ca>,
- "willy@infradead.org"
- <willy@infradead.org>, "brauner@kernel.org" <brauner@kernel.org>,
- "jani.nikula@linux.intel.com" <jani.nikula@linux.intel.com>,
- "rodrigo.vivi@intel.com" <rodrigo.vivi@intel.com>, "tursulin@ursulin.net"
- <tursulin@ursulin.net>, "airlied@gmail.com" <airlied@gmail.com>
-CC: "linux-fsdevel@vger.kernel.org" <linux-fsdevel@vger.kernel.org>,
- "linux-ext4@vger.kernel.org" <linux-ext4@vger.kernel.org>,
- "linux-block@vger.kernel.org" <linux-block@vger.kernel.org>,
- "intel-gfx@lists.freedesktop.org" <intel-gfx@lists.freedesktop.org>,
- "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
- "linux-mm@kvack.org" <linux-mm@kvack.org>, "linux-doc@vger.kernel.org"
- <linux-doc@vger.kernel.org>, "linux-kernel@vger.kernel.org"
- <linux-kernel@vger.kernel.org>, "chentao325@qq.com" <chentao325@qq.com>,
- "frank.li@vivo.com" <frank.li@vivo.com>,
- =?gb2312?B?s8LMzszOIFRhb3RhbyBDaGVu?= <chentaotao@didiglobal.com>
-Subject: [PATCH v5 5/5] ext4: support uncached buffered I/O
-Thread-Topic: [PATCH v5 5/5] ext4: support uncached buffered I/O
-Thread-Index: AQHb8YNidCjBjxjXN0upWQdveJF71w==
-Date: Thu, 10 Jul 2025 10:14:13 +0000
-Message-ID: <20250710101404.362146-6-chentaotao@didiglobal.com>
-In-Reply-To: <20250710101404.362146-1-chentaotao@didiglobal.com>
-Accept-Language: zh-CN, en-US
-Content-Language: zh-CN
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-originating-ip: [10.79.64.102]
-Content-Type: text/plain; charset="gb2312"
-Content-Transfer-Encoding: base64
+Received: from us-smtp-delivery-124.mimecast.com
+ (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B994410E21A
+ for <dri-devel@lists.freedesktop.org>; Thu, 10 Jul 2025 10:25:50 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1752143149;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=1ND1pGEOAughrkErjCqE+57XmE0dcte7108oeuugxKk=;
+ b=JDhQ9M65vBAKEfj3jcvJNSemxn7z3veEDQBcX3Rexy1eWjnNG5YEfOPjQADPnZk011PRU0
+ M2ufPy15bRmV+iJhWTmxZV5n7kRILincKrUCbqYDp+UaKPC8ZTVNCd7V+Vd+UyIEN7+b1A
+ zwbPqhiZqKRVCoKdXr6BdLlTJSM/eeY=
+Received: from mail-wr1-f72.google.com (mail-wr1-f72.google.com
+ [209.85.221.72]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-465-6ATB4-iSPHeGTVTvFuRfNg-1; Thu, 10 Jul 2025 06:25:48 -0400
+X-MC-Unique: 6ATB4-iSPHeGTVTvFuRfNg-1
+X-Mimecast-MFC-AGG-ID: 6ATB4-iSPHeGTVTvFuRfNg_1752143147
+Received: by mail-wr1-f72.google.com with SMTP id
+ ffacd0b85a97d-3a503f28b09so561406f8f.0
+ for <dri-devel@lists.freedesktop.org>; Thu, 10 Jul 2025 03:25:48 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1752143147; x=1752747947;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=1ND1pGEOAughrkErjCqE+57XmE0dcte7108oeuugxKk=;
+ b=ikl70VWSCFo3nUsDT5SzymR0foae0Ox8/FNJwgm4Wn0DKyriVttUTBlxgGGv3btq4P
+ wXQBa6E8rMku8vpmTmsm0Odbi77O/SQ/+OxVjNByJ5k/9L9SWAC3TpTc9dxg0WJCKfey
+ cf4g/KAoQlg2yFvl4u8oL9Svmn73TbIMVGZJtJzRy+WrCTNuE0cu7DVLFt4EMvfum2o+
+ e3pWJHHdLV4BvFYZq6zUsl2/0ACG+QGWMUb/dvT2msdZWnBLY475A0XL61IsAmSjRuKn
+ YG7SfWDfAZRzWF1vXbDm71LemOs+gNqu9rGd4hSKM77qp+6SraqrDxjMFX2MYXUnD33k
+ KcZA==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCVvxIeG5nViB0RMsndEwirCCQSIG+326v2b9d63AWJGs/tmzrx/ZODmC5pykSQwQua8KQ9cyvDgbWA=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0Ywk6kxl8q+HYASiKHCkCxL4pn2gbbzixP/o2ZEX8fJX4b0w5vK0
+ wXbqWUQY//IY7PjGvwz4gOyqe52tVIybCzHkV5DOPHTwhv/N4r7kWqsWqjK0l1MMEwGUohY0tFT
+ RpcmifJP3CR7VA4JnPA6kRHf8tbCKhRUjY72NrtLwj7UOGSOicnJA5yipmFN1lvwGeAaxRQ==
+X-Gm-Gg: ASbGnctcXxoULeIX0g8mYadhvBm1bcmiO6NdQUCt/61ip0YoF9oaYOBKMM7ZSql/6Lr
+ 0stijKRUSN2B+EBt/8FxYn42ri4QmtEmXsxDBN+s0D+XSTRvjgFjYIbqWh0cXttbX2vkXVaL4r2
+ UI6vkk0fFrcRdXkrgoyU0mezzvLvoE/Asjj3833FoD8X28xP00vlh7KPIX7fZgfVYIyUTbJsOAZ
+ dq2I7Q+lTJG9M1XCSeUsVbaeXpQvrc6zBWMrR3QlAan/rkgQX82mgbZLLWEMTp+Izna1Qfglp2r
+ 3rhldAQ/T7WXR9WCqZUcrOAXP6B7ci4vsnMJYNoD2mi22k8=
+X-Received: by 2002:a05:6000:230a:b0:3b5:e78f:f4b3 with SMTP id
+ ffacd0b85a97d-3b5e7f142e5mr2661630f8f.11.1752143146940; 
+ Thu, 10 Jul 2025 03:25:46 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IGw0Fp3hGMQ2ioeBb7L40qD3wSKjLbm3xoYLDE8V5zfgO85zTk2YhsvuUsIz4ABFDvjQSMY4g==
+X-Received: by 2002:a05:6000:230a:b0:3b5:e78f:f4b3 with SMTP id
+ ffacd0b85a97d-3b5e7f142e5mr2661593f8f.11.1752143146504; 
+ Thu, 10 Jul 2025 03:25:46 -0700 (PDT)
+Received: from localhost (62-151-111-63.jazzfree.ya.com. [62.151.111.63])
+ by smtp.gmail.com with ESMTPSA id
+ ffacd0b85a97d-3b5e8e26daasm1512820f8f.91.2025.07.10.03.25.45
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 10 Jul 2025 03:25:45 -0700 (PDT)
+From: Javier Martinez Canillas <javierm@redhat.com>
+To: linux-kernel@vger.kernel.org
+Cc: ipedrosa@redhat.com, Javier Martinez Canillas <javierm@redhat.com>,
+ Conor Dooley <conor+dt@kernel.org>, David Airlie <airlied@gmail.com>,
+ Krzysztof Kozlowski <krzk+dt@kernel.org>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Marcus Folkesson <marcus.folkesson@gmail.com>,
+ Maxime Ripard <mripard@kernel.org>, Rob Herring <robh@kernel.org>,
+ Simona Vetter <simona@ffwll.ch>, Thomas Zimmermann <tzimmermann@suse.de>,
+ devicetree@vger.kernel.org, dri-devel@lists.freedesktop.org
+Subject: [PATCH 0/3] drm/sitronix/st7571-i2c: Add support for the ST7567
+ Controller
+Date: Thu, 10 Jul 2025 12:24:32 +0200
+Message-ID: <20250710102453.101078-1-javierm@redhat.com>
+X-Mailer: git-send-email 2.49.0
 MIME-Version: 1.0
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=didiglobal.com;
- s=2025; t=1752142451;
- bh=7NwIqzCgC1RdJfhixz5bD3co5fgHiYbQk2Lmr3rknQE=;
- h=From:To:CC:Subject:Date:Message-ID:Content-Type;
- b=pUO++xb079uJeMYeGE+v0JZeksYTppApb64G7oWIMCNd4WAin9dCgJa67poFEuvXH
- jNGaueB8IKTYZa6cCoO/9grensZNyjvYFeZHqt6z0wHjB66bHK2K8javVpACzqDmKe
- l3ZaFPY0UWUmbq8VfqXMmkYvLrKD3VzvNYAwScIQ=
+X-Mimecast-Spam-Score: 0
+X-Mimecast-MFC-PROC-ID: KABbzZujcxNwg7WCLyp1xQzFla2v2BwOO6TrGHf2gUI_1752143147
+X-Mimecast-Originator: redhat.com
+Content-Transfer-Encoding: 8bit
+content-type: text/plain; charset="US-ASCII"; x-default=true
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -85,53 +104,38 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-RnJvbTogVGFvdGFvIENoZW4gPGNoZW50YW90YW9AZGlkaWdsb2JhbC5jb20+DQoNClNldCBGT1Bf
-RE9OVENBQ0hFIGluIGV4dDRfZmlsZV9vcGVyYXRpb25zIHRvIGRlY2xhcmUgc3VwcG9ydCBmb3IN
-CnVuY2FjaGVkIGJ1ZmZlcmVkIEkvTy4NCg0KVG8gaGFuZGxlIHRoaXMgZmxhZywgdXBkYXRlIGV4
-dDRfd3JpdGVfYmVnaW4oKSBhbmQgZXh0NF9kYV93cml0ZV9iZWdpbigpDQp0byB1c2Ugd3JpdGVf
-YmVnaW5fZ2V0X2ZvbGlvKCksIHdoaWNoIGVuY2Fwc3VsYXRlcyBGR1BfRE9OVENBQ0hFIGxvZ2lj
-DQpiYXNlZCBvbiBpb2NiLT5raV9mbGFncy4NCg0KUGFydCBvZiBhIHNlcmllcyByZWZhY3Rvcmlu
-ZyBhZGRyZXNzX3NwYWNlX29wZXJhdGlvbnMgd3JpdGVfYmVnaW4gYW5kDQp3cml0ZV9lbmQgY2Fs
-bGJhY2tzIHRvIHVzZSBzdHJ1Y3Qga2lvY2IgZm9yIHBhc3Npbmcgd3JpdGUgY29udGV4dCBhbmQN
-CmZsYWdzLg0KDQpTaWduZWQtb2ZmLWJ5OiBUYW90YW8gQ2hlbiA8Y2hlbnRhb3Rhb0BkaWRpZ2xv
-YmFsLmNvbT4NCi0tLQ0KIGZzL2V4dDQvZmlsZS5jICB8ICAzICsrLQ0KIGZzL2V4dDQvaW5vZGUu
-YyB8IDEyICsrKy0tLS0tLS0tLQ0KIDIgZmlsZXMgY2hhbmdlZCwgNSBpbnNlcnRpb25zKCspLCAx
-MCBkZWxldGlvbnMoLSkNCg0KZGlmZiAtLWdpdCBhL2ZzL2V4dDQvZmlsZS5jIGIvZnMvZXh0NC9m
-aWxlLmMNCmluZGV4IDIxZGY4MTM0NzE0Ny4uMjc0YjQxYTQ3NmM4IDEwMDY0NA0KLS0tIGEvZnMv
-ZXh0NC9maWxlLmMNCisrKyBiL2ZzL2V4dDQvZmlsZS5jDQpAQCAtOTc3LDcgKzk3Nyw4IEBAIGNv
-bnN0IHN0cnVjdCBmaWxlX29wZXJhdGlvbnMgZXh0NF9maWxlX29wZXJhdGlvbnMgPSB7DQogCS5z
-cGxpY2Vfd3JpdGUJPSBpdGVyX2ZpbGVfc3BsaWNlX3dyaXRlLA0KIAkuZmFsbG9jYXRlCT0gZXh0
-NF9mYWxsb2NhdGUsDQogCS5mb3BfZmxhZ3MJPSBGT1BfTU1BUF9TWU5DIHwgRk9QX0JVRkZFUl9S
-QVNZTkMgfA0KLQkJCSAgRk9QX0RJT19QQVJBTExFTF9XUklURSwNCisJCQkgIEZPUF9ESU9fUEFS
-QUxMRUxfV1JJVEUgfA0KKwkJCSAgRk9QX0RPTlRDQUNIRSwNCiB9Ow0KIA0KIGNvbnN0IHN0cnVj
-dCBpbm9kZV9vcGVyYXRpb25zIGV4dDRfZmlsZV9pbm9kZV9vcGVyYXRpb25zID0gew0KZGlmZiAt
-LWdpdCBhL2ZzL2V4dDQvaW5vZGUuYyBiL2ZzL2V4dDQvaW5vZGUuYw0KaW5kZXggOWExNmVmZDA3
-MmJiLi41YzcwMjQwNTFmMWUgMTAwNjQ0DQotLS0gYS9mcy9leHQ0L2lub2RlLmMNCisrKyBiL2Zz
-L2V4dDQvaW5vZGUuYw0KQEAgLTEyNjQsNyArMTI2NCw2IEBAIHN0YXRpYyBpbnQgZXh0NF93cml0
-ZV9iZWdpbihjb25zdCBzdHJ1Y3Qga2lvY2IgKmlvY2IsDQogCXN0cnVjdCBmb2xpbyAqZm9saW87
-DQogCXBnb2ZmX3QgaW5kZXg7DQogCXVuc2lnbmVkIGZyb20sIHRvOw0KLQlmZ2ZfdCBmZ3AgPSBG
-R1BfV1JJVEVCRUdJTjsNCiANCiAJcmV0ID0gZXh0NF9lbWVyZ2VuY3lfc3RhdGUoaW5vZGUtPmlf
-c2IpOw0KIAlpZiAodW5saWtlbHkocmV0KSkNCkBAIC0xMjg4LDE2ICsxMjg3LDE0IEBAIHN0YXRp
-YyBpbnQgZXh0NF93cml0ZV9iZWdpbihjb25zdCBzdHJ1Y3Qga2lvY2IgKmlvY2IsDQogCX0NCiAN
-CiAJLyoNCi0JICogX19maWxlbWFwX2dldF9mb2xpbygpIGNhbiB0YWtlIGEgbG9uZyB0aW1lIGlm
-IHRoZQ0KKwkgKiB3cml0ZV9iZWdpbl9nZXRfZm9saW8oKSBjYW4gdGFrZSBhIGxvbmcgdGltZSBp
-ZiB0aGUNCiAJICogc3lzdGVtIGlzIHRocmFzaGluZyBkdWUgdG8gbWVtb3J5IHByZXNzdXJlLCBv
-ciBpZiB0aGUgZm9saW8NCiAJICogaXMgYmVpbmcgd3JpdHRlbiBiYWNrLiAgU28gZ3JhYiBpdCBm
-aXJzdCBiZWZvcmUgd2Ugc3RhcnQNCiAJICogdGhlIHRyYW5zYWN0aW9uIGhhbmRsZS4gIFRoaXMg
-YWxzbyBhbGxvd3MgdXMgdG8gYWxsb2NhdGUNCiAJICogdGhlIGZvbGlvIChpZiBuZWVkZWQpIHdp
-dGhvdXQgdXNpbmcgR0ZQX05PRlMuDQogCSAqLw0KIHJldHJ5X2dyYWI6DQotCWZncCB8PSBmZ2Zf
-c2V0X29yZGVyKGxlbik7DQotCWZvbGlvID0gX19maWxlbWFwX2dldF9mb2xpbyhtYXBwaW5nLCBp
-bmRleCwgZmdwLA0KLQkJCQkgICAgbWFwcGluZ19nZnBfbWFzayhtYXBwaW5nKSk7DQorCWZvbGlv
-ID0gd3JpdGVfYmVnaW5fZ2V0X2ZvbGlvKGlvY2IsIG1hcHBpbmcsIGluZGV4LCBsZW4pOw0KIAlp
-ZiAoSVNfRVJSKGZvbGlvKSkNCiAJCXJldHVybiBQVFJfRVJSKGZvbGlvKTsNCiANCkBAIC0zMDQ2
-LDcgKzMwNDMsNiBAQCBzdGF0aWMgaW50IGV4dDRfZGFfd3JpdGVfYmVnaW4oY29uc3Qgc3RydWN0
-IGtpb2NiICppb2NiLA0KIAlzdHJ1Y3QgZm9saW8gKmZvbGlvOw0KIAlwZ29mZl90IGluZGV4Ow0K
-IAlzdHJ1Y3QgaW5vZGUgKmlub2RlID0gbWFwcGluZy0+aG9zdDsNCi0JZmdmX3QgZmdwID0gRkdQ
-X1dSSVRFQkVHSU47DQogDQogCXJldCA9IGV4dDRfZW1lcmdlbmN5X3N0YXRlKGlub2RlLT5pX3Ni
-KTsNCiAJaWYgKHVubGlrZWx5KHJldCkpDQpAQCAtMzA3Miw5ICszMDY4LDcgQEAgc3RhdGljIGlu
-dCBleHQ0X2RhX3dyaXRlX2JlZ2luKGNvbnN0IHN0cnVjdCBraW9jYiAqaW9jYiwNCiAJfQ0KIA0K
-IHJldHJ5Og0KLQlmZ3AgfD0gZmdmX3NldF9vcmRlcihsZW4pOw0KLQlmb2xpbyA9IF9fZmlsZW1h
-cF9nZXRfZm9saW8obWFwcGluZywgaW5kZXgsIGZncCwNCi0JCQkJICAgIG1hcHBpbmdfZ2ZwX21h
-c2sobWFwcGluZykpOw0KKwlmb2xpbyA9IHdyaXRlX2JlZ2luX2dldF9mb2xpbyhpb2NiLCBtYXBw
-aW5nLCBpbmRleCwgbGVuKTsNCiAJaWYgKElTX0VSUihmb2xpbykpDQogCQlyZXR1cm4gUFRSX0VS
-Uihmb2xpbyk7DQogDQotLSANCjIuMzQuMQ0K
+This patch-series adds support for the Sitronix ST7567 Controller, which is is a
+monochrome Dot Matrix LCD Controller that has SPI, I2C and parallel interfaces.
+
+The st7571-i2c driver only has support for I2C so displays using other transport
+interfaces are currently not supported.
+
+The DRM_FORMAT_R1 pixel format and data commands are the same than what is used
+by the ST7571 controller, so only is needed a different callback that implements
+the expected initialization sequence for the ST7567 chip.
+
+Patch #1 adds a Device Tree binding schema for the ST7567 Controller.
+
+Patch #2 makes the "reset-gpios" property in the driver to be optional since that
+isn't needed for the ST7567.
+
+Patch #3 finally extends the st7571-i2c driver to also support the ST7567 device.
+
+
+Javier Martinez Canillas (3):
+  dt-bindings: display: Add Sitronix ST7567 LCD Controller
+  drm/sitronix/st7571-i2c: Make the reset GPIO to be optional
+  drm/sitronix/st7571-i2c: Add support for the ST7567 Controller
+
+ .../bindings/display/sitronix,st7567.yaml     | 63 +++++++++++++++++++
+ MAINTAINERS                                   |  1 +
+ drivers/gpu/drm/sitronix/st7571-i2c.c         | 55 +++++++++++++++-
+ 3 files changed, 117 insertions(+), 2 deletions(-)
+ create mode 100644 Documentation/devicetree/bindings/display/sitronix,st7567.yaml
+
+-- 
+2.49.0
+
+base-commit: 93eacfcdfbb590d9ed6889d381d5a586dd1ac860
+branch: drm-st7567
+
