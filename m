@@ -2,85 +2,71 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 988F5B00032
-	for <lists+dri-devel@lfdr.de>; Thu, 10 Jul 2025 13:10:53 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 013D7B00085
+	for <lists+dri-devel@lfdr.de>; Thu, 10 Jul 2025 13:27:48 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0735510E8B0;
-	Thu, 10 Jul 2025 11:10:51 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C566410E20B;
+	Thu, 10 Jul 2025 11:27:44 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="mhLPpExV";
+	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=igalia.com header.i=@igalia.com header.b="m/JdMX7J";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-f43.google.com (mail-lf1-f43.google.com
- [209.85.167.43])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E3DFC10E382
- for <dri-devel@lists.freedesktop.org>; Thu, 10 Jul 2025 11:10:49 +0000 (UTC)
-Received: by mail-lf1-f43.google.com with SMTP id
- 2adb3069b0e04-55502821bd2so809228e87.2
- for <dri-devel@lists.freedesktop.org>; Thu, 10 Jul 2025 04:10:49 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1752145848; x=1752750648; darn=lists.freedesktop.org;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
- bh=s5c6mdpZ5N5FmfKJmH2vsM3IpF/Oago8XZttHkyE30c=;
- b=mhLPpExVS+EbOsE9RxDW79Q/vutSrAsnxsfFLMeaPiYmAujyZvw79X1SQW1PNq332t
- 9EwrasokOQlo2XM3dMt4vimJatfbA6aE2etGAK8kYkBCHBJEkosRcY9bp+bm0rz2sCvp
- UswZo9SVsrqpfwkxvbEcYB5UrLKdUwBuroDl6XxYaE0YIxQ/tf2S+6CDXAI8hjGiQxGD
- 6cUA0jX4YAiDPOJa3qtDTyrptY+rt/BgGUVepVQFpTd8kYrPVrKK00eRwv3j9WHkrsfI
- 4Rx5kqKv5QolbNN0THVFGY+o6KuoCeQR22HDZC74mA3UWkbU/64RI15yveO5LoAtBFad
- jeYw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1752145848; x=1752750648;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
- :message-id:reply-to;
- bh=s5c6mdpZ5N5FmfKJmH2vsM3IpF/Oago8XZttHkyE30c=;
- b=llfOPZWlEUQPGbhWlhYeLDzKu2L9LJzgN3h+SJdqan+2LSaUmAsV315SM9R8iSPkut
- jl9tI1d5hUJU6tP/aJGj3xcTSJdH2vHtUnuYAV6fyEcJ6gmJJhSF0Tcku7MVLyjumyqd
- LXM/JHjVNHxF8dUsnoUojSXQQ1VNke0N7PUeN1tG6OQp7qCYrj4OFMq3Ayw/9KENTA51
- ou9ihlOBQ1XLr1Y8oTd1ZbgN18OIFilpQFtE6ZPHuEvZDKObijiDd50lJbArjVHD0noz
- hoGTPqu2Jy8egHbTI1ofQc57PCgqYOzfb9PxpWsGZc6mTU/D0YjTD0G79wY1a3RGy6pX
- CRBw==
-X-Forwarded-Encrypted: i=1;
- AJvYcCWzExFA904FZggIJcZHUiil5/oEI52X8ElrDK3pDSLKgfOLKt+8dantWbcYoYPdcCMNPj/j2JOsIYE=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YwxM2WCbTTE8V2++agnDebAEzUbAeREwk/ExphdKOHMc8Gmgz6E
- 1iXofsJN4DVie8PwEEYC5Jby0kSbh8meatRRzH3Q5YB0TQmh3kMyxJ2U
-X-Gm-Gg: ASbGncschEzB9EUu5zUkrW8AKrLL9mB2ZzZZPIt4O4vr0mUMOqEIiOHJoVaGoWk+SgG
- ITcUQUH8hnIXXSjtzTooizQkehnFB5G2hO5FEunHOqcJylE8qGRPV0ddb4HIaTsczWAMHoz/hT3
- aTh9MFiPhpjZDaLuzEuyAY7LCr9Raetu7hH8CgZ997qduGV030xwXs6kHLuzRpD1+K2SHwAP10b
- ZkDsczjniJ3WiKQkLFfzk2/+SrcJNfIijbRQdOG6o5JMKjN7ynly9yM5yZIy4ayVmbK1PkCqxjG
- 4Vtg6MHeGCXRHaUnE4G2FyZV55dRKGf/pjr7cdkI5Ia01bxAUj1mvtNrM38JYGKa4VKqmvvDxWm
- gqBnn9oQFRk1n+EaXrwP5508=
-X-Google-Smtp-Source: AGHT+IGAn8vcyrP1uTYa71RAZUTwdPJo5Eh/xm1IGiD6J5/7twt94HWi6Z71hsGH1I9HpbsakCg0Jg==
-X-Received: by 2002:a05:6512:3b23:b0:553:314e:81f7 with SMTP id
- 2adb3069b0e04-5592e34ff2dmr912102e87.17.1752145847792; 
- Thu, 10 Jul 2025 04:10:47 -0700 (PDT)
-Received: from gmail.com (83-233-6-197.cust.bredband2.com. [83.233.6.197])
- by smtp.gmail.com with ESMTPSA id
- 2adb3069b0e04-55943b808efsm331907e87.245.2025.07.10.04.10.46
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 10 Jul 2025 04:10:47 -0700 (PDT)
-Date: Thu, 10 Jul 2025 13:10:45 +0200
-From: Marcus Folkesson <marcus.folkesson@gmail.com>
-To: Javier Martinez Canillas <javierm@redhat.com>
-Cc: linux-kernel@vger.kernel.org, ipedrosa@redhat.com,
- David Airlie <airlied@gmail.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, Simona Vetter <simona@ffwll.ch>,
- Thomas Zimmermann <tzimmermann@suse.de>, dri-devel@lists.freedesktop.org
-Subject: Re: [PATCH 2/3] drm/sitronix/st7571-i2c: Make the reset GPIO to be
- optional
-Message-ID: <aG-ftUl7l2zNm_eH@gmail.com>
-References: <20250710102453.101078-1-javierm@redhat.com>
- <20250710102453.101078-3-javierm@redhat.com>
- <aG-aXTgycE4JEJEZ@gmail.com>
- <87jz4gfgyu.fsf@minerva.mail-host-address-is-not-set>
+Received: from fanzine2.igalia.com (fanzine2.igalia.com [213.97.179.56])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D64D110E0C5;
+ Thu, 10 Jul 2025 11:27:43 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com; 
+ s=20170329;
+ h=Content-Transfer-Encoding:Content-Type:In-Reply-To:From:
+ References:Cc:To:Subject:MIME-Version:Date:Message-ID:Sender:Reply-To:
+ Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
+ Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
+ List-Subscribe:List-Post:List-Owner:List-Archive;
+ bh=Cvw1nJdAfF7H3f7I54xwe7lK9u6FonXqJsYN7tHHtLY=; b=m/JdMX7Jf1H0/PNWEhZ468nY1S
+ Trmpvt/wwC9V5+u/Na+rpR4nStF6TCDHZta+Iqc/aMUCTE9+agnArA7P+mhoFz1FHcDb+66F9U8h1
+ GxFu6nZSBUbuzFhigdpdtfN0IByg80ILQZmYXVm+Nl/2e/ugqXbQIQW4+dSrdUc+UcL3WGXVTLDva
+ d4MfBvOceFGA5Gh3BS5poZOlA2g8dl/tQ9ewBak+UbNhOXFrV7F2QPZfK1C+gu64RDb6OA8nTsQIy
+ L8E43SQWcwnI1notfjf8wmjbfCd+Gxb/MmSUjR03rZtjXgqkoaS7w/mklYgAIroao2mj6mC/KN8/5
+ Ye+pcBXA==;
+Received: from [187.36.210.68] (helo=[192.168.1.103])
+ by fanzine2.igalia.com with esmtpsa 
+ (Cipher TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_128_GCM:128) (Exim)
+ id 1uZpQn-00EuAe-6j; Thu, 10 Jul 2025 13:27:13 +0200
+Message-ID: <8a3e0926-0a01-4a09-bb7e-1bd928e2f311@igalia.com>
+Date: Thu, 10 Jul 2025 08:27:01 -0300
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="Fti6taVECEwEdkZW"
-Content-Disposition: inline
-In-Reply-To: <87jz4gfgyu.fsf@minerva.mail-host-address-is-not-set>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v5 0/8] drm/sched: Allow drivers to skip the reset with
+ DRM_GPU_SCHED_STAT_NO_HANG
+To: phasta@kernel.org, Matthew Brost <matthew.brost@intel.com>,
+ Danilo Krummrich <dakr@kernel.org>,
+ =?UTF-8?Q?Christian_K=C3=B6nig?= <ckoenig.leichtzumerken@gmail.com>,
+ Tvrtko Ursulin <tvrtko.ursulin@igalia.com>, Simona Vetter <simona@ffwll.ch>,
+ David Airlie <airlied@gmail.com>, Melissa Wen <mwen@igalia.com>,
+ Lucas Stach <l.stach@pengutronix.de>,
+ Russell King <linux+etnaviv@armlinux.org.uk>,
+ Christian Gmeiner <christian.gmeiner@gmail.com>,
+ Lucas De Marchi <lucas.demarchi@intel.com>,
+ =?UTF-8?Q?Thomas_Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>,
+ Rodrigo Vivi <rodrigo.vivi@intel.com>,
+ Boris Brezillon <boris.brezillon@collabora.com>,
+ Rob Herring <robh@kernel.org>, Steven Price <steven.price@arm.com>,
+ Liviu Dudau <liviu.dudau@arm.com>, Thomas Zimmermann <tzimmermann@suse.de>,
+ Maxime Ripard <mripard@kernel.org>
+Cc: kernel-dev@igalia.com, dri-devel@lists.freedesktop.org,
+ etnaviv@lists.freedesktop.org, intel-xe@lists.freedesktop.org,
+ Min Ma <min.ma@amd.com>, Lizhi Hou <lizhi.hou@amd.com>,
+ Oded Gabbay <ogabbay@kernel.org>, Frank Binns <frank.binns@imgtec.com>,
+ Matt Coster <matt.coster@imgtec.com>, Qiang Yu <yuq825@gmail.com>,
+ Lyude Paul <lyude@redhat.com>, Alex Deucher <alexander.deucher@amd.com>,
+ =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
+References: <20250708-sched-skip-reset-v5-0-2612b601f01a@igalia.com>
+ <71d67f799ccadb2858747cac516e04cff53e9234.camel@mailbox.org>
+Content-Language: en-US
+From: =?UTF-8?Q?Ma=C3=ADra_Canal?= <mcanal@igalia.com>
+In-Reply-To: <71d67f799ccadb2858747cac516e04cff53e9234.camel@mailbox.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -96,88 +82,92 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
++cc Maxime, Thomas
 
---Fti6taVECEwEdkZW
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Hi Philipp,
 
-Hello Javier,
+On 09/07/25 10:14, Philipp Stanner wrote:
+> On Tue, 2025-07-08 at 10:25 -0300, Maíra Canal wrote:
+>> TL;DR: The only two patches that are lacking R-b's are:
+>>
+>> [PATCH 2/8] drm/sched: Allow drivers to skip the reset and keep on running
+>> [PATCH 7/8] drm/xe: Use DRM_GPU_SCHED_STAT_NO_HANG to skip the reset
+>>    -> If Intel CI succeeds, it's Reviewed-by: Matthew Brost <matthew.brost@intel.com>
+>>
+>> For those two patches, it would be great to gather feedback and/or R-b's,
+>> particularly from the Intel folks.
+>>
+>> Thanks for all the reviews so far!
+>>
+>> ---
 
-On Thu, Jul 10, 2025 at 01:00:41PM +0200, Javier Martinez Canillas wrote:
-> >
-> > devm_gpiod_get_optional() returns -ENOENT when the GPIO is not found,
-> > and that is no error we want to propagage upwards.
-> >
-> > Maybe something like this instead:
-> > if (IS_ERR(st7571->reset) && IS_ERR(st7571->reset) !=3D -ENOENT)
-> >
->=20
-> Are you sure about that? As far as I know, that is exactly the
-> difference between gpiod_get() and gpiod_get_optional() variants.
->=20
-> From the gpiod_get_optional() function helper kernel-doc [0]:
->=20
-> /**
->  * gpiod_get_optional - obtain an optional GPIO for a given GPIO function
->  * @dev: GPIO consumer, can be NULL for system-global GPIOs
->  * @con_id: function within the GPIO consumer
->  * @flags: optional GPIO initialization flags
->  *
->  * This is equivalent to gpiod_get(), except that when no GPIO was assign=
-ed to
->  * the requested function it will return NULL. This is convenient for dri=
-vers
->  * that need to handle optional GPIOs.
->  *
->  * Returns:
->  * The GPIO descriptor corresponding to the function @con_id of device
->  * dev, NULL if no GPIO has been assigned to the requested function, or
->  * another IS_ERR() code if an error occurred while trying to acquire the=
- GPIO.
->  */
->=20
-> while the gpiod_get() kernel-doc says the following:
->=20
-> /**
->  * gpiod_get - obtain a GPIO for a given GPIO function
->  * @dev:	GPIO consumer, can be NULL for system-global GPIOs
->  * @con_id:	function within the GPIO consumer
->  * @flags:	optional GPIO initialization flags
->  *
->  * Returns:
->  * The GPIO descriptor corresponding to the function @con_id of device
->  * dev, -ENOENT if no GPIO has been assigned to the requested function, or
->  * another IS_ERR() code if an error occurred while trying to acquire the=
- GPIO.
->  */
->=20
+[...]
 
-You are completely righ.
+>>        drm/sched: Rename DRM_GPU_SCHED_STAT_NOMINAL to DRM_GPU_SCHED_STAT_RESET
+>>        drm/sched: Allow drivers to skip the reset and keep on running
+>>        drm/sched: Make timeout KUnit tests faster
+>>        drm/sched: Add new test for DRM_GPU_SCHED_STAT_NO_HANG
+>>        drm/v3d: Use DRM_GPU_SCHED_STAT_NO_HANG to skip the reset
+>>        drm/etnaviv: Use DRM_GPU_SCHED_STAT_NO_HANG to skip the reset
+>>        drm/xe: Use DRM_GPU_SCHED_STAT_NO_HANG to skip the reset
+>>        drm/panfrost: Use DRM_GPU_SCHED_STAT_NO_HANG to skip the reset
+>>
+>>   drivers/accel/amdxdna/aie2_ctx.c                 |  2 +-
+>>   drivers/gpu/drm/amd/amdgpu/amdgpu_job.c          |  2 +-
+>>   drivers/gpu/drm/etnaviv/etnaviv_sched.c          | 16 +++----
+>>   drivers/gpu/drm/imagination/pvr_queue.c          |  4 +-
+>>   drivers/gpu/drm/lima/lima_sched.c                |  6 +--
+>>   drivers/gpu/drm/nouveau/nouveau_exec.c           |  2 +-
+>>   drivers/gpu/drm/nouveau/nouveau_sched.c          |  2 +-
+>>   drivers/gpu/drm/panfrost/panfrost_job.c          | 10 ++---
+>>   drivers/gpu/drm/panthor/panthor_mmu.c            |  2 +-
+>>   drivers/gpu/drm/panthor/panthor_sched.c          |  2 +-
+>>   drivers/gpu/drm/scheduler/sched_main.c           | 48 +++++++++++++++++++--
+>>   drivers/gpu/drm/scheduler/tests/mock_scheduler.c |  7 ++-
+>>   drivers/gpu/drm/scheduler/tests/sched_tests.h    |  1 +
+>>   drivers/gpu/drm/scheduler/tests/tests_basic.c    | 55 ++++++++++++++++++++++--
+>>   drivers/gpu/drm/v3d/v3d_sched.c                  | 18 ++------
+>>   drivers/gpu/drm/xe/xe_guc_submit.c               | 14 ++----
+>>   include/drm/gpu_scheduler.h                      |  7 ++-
+>>   17 files changed, 137 insertions(+), 61 deletions(-)
+> 
+> Does not apply to drm-misc-next:
+> 
+> Applying: drm/sched: Rename DRM_GPU_SCHED_STAT_NOMINAL to DRM_GPU_SCHED_STAT_RESET
+> error: patch failed: drivers/gpu/drm/etnaviv/etnaviv_sched.c:87
+> error: drivers/gpu/drm/etnaviv/etnaviv_sched.c: patch does not apply
+> Patch failed at 0001 drm/sched: Rename DRM_GPU_SCHED_STAT_NOMINAL to DRM_GPU_SCHED_STAT_RESET
+> 
+> Awkward. That file has last been touched months ago. On what branch is
+> your series based?
 
-Reviewed-by: Marcus Folkesson <marcus.folkesson@gmail.com>
+It's based on drm-tip, otherwise, Intel CI wouldn't be able to apply the
+series. drm-tip has that Etnaviv fix (commit 61ee19dedb8d "drm/etnaviv:
+Protect the scheduler's pending list with its lock"), which drm-misc-
+next doesn't have yet.
 
-Best regards,
-Marcus Folkesson
+> 
+> Can you rebase?
+> 
+>  From my POV you could also apply it yourself. Looks all good.
 
---Fti6taVECEwEdkZW
-Content-Type: application/pgp-signature; name=signature.asc
+I believe I can apply the series to drm-misc-next and solve the
+conflicts in drm-tip with `dim rebuild-tip`.
 
------BEGIN PGP SIGNATURE-----
+@drm-misc maintainers, would it be an issue if I apply this series to
+drm-misc-next and solve the conflicts?
 
-iQIzBAEBCAAdFiEEBVGi6LZstU1kwSxliIBOb1ldUjIFAmhvn7AACgkQiIBOb1ld
-UjIffw//c3pLhZJ1bRWdSMjo7egI2nUhTlVDEXVGWlnY+fPOG4uQJzFvUV0PM2vx
-usQXvEGi1V2wJn4OF+937kfNUqoYyS/bkBj/QlBZN+/XRPlDitve0B83uUt4nQgJ
-4jxjoaUnsQI/RNX2YSepQJaRh5FGTceeSPyRpVIlW2sy7IcheAB9mCxfhNc6ACtp
-lUhrgsKiZKF3gjpNn5GctJbVyPPrFsdN90wIPXaD6vHdiVGk4gZfqUSxakb5Ifrb
-cx3scfJMYWNPefjYoSmHeCLhBT+nWUls1kXBIWejE45f6tyToHzrIXs737/UFk6Q
-qE7YYfyVsdWFEbzFALq1qY1AkPzVqwshEBNU8kDoL74DW4/pd+dlGctxGgZZYj/q
-UEw/qT5gaq2xyRjDPitUaliFG/40sl1F5MVkcMRux2B7uxOrobZu9iJEPzN5oiA+
-O5ywh6Ky6G4+lSJksgxv5fX4LoNgw6Xg1t5CiJREvhZzEpeqDaMndNfGZQsJg73i
-qaXy5LHd9ApoMkLtCUKgRUP33uUh9GUzXwE5CkY0YGi8lo8ehxz7vxSAhIqXXlUf
-JaLskasLS379gId/czLgtIrdC0DWLgaRILo/ccFspccgVf7UEcF9xxozEnoNfzIW
-bkcNeSkSbgFtSANueTT839c/Q1JgbFZ3mjchardAJ8APLtGq6do=
-=TOBA
------END PGP SIGNATURE-----
+Best Regards,
+- Maíra
 
---Fti6taVECEwEdkZW--
+> 
+> P.
+> 
+> 
+> 
+>> ---
+>> base-commit: 8b32b5509128873da8ecfc06beefcb58927eb50b
+>> change-id: 20250502-sched-skip-reset-bf7c163233da
+>>
+> 
+
