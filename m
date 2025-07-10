@@ -2,141 +2,43 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 71AF2AFFD93
-	for <lists+dri-devel@lfdr.de>; Thu, 10 Jul 2025 11:10:21 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 507A3AFFDFC
+	for <lists+dri-devel@lfdr.de>; Thu, 10 Jul 2025 11:23:34 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1B4F510E1E0;
-	Thu, 10 Jul 2025 09:10:19 +0000 (UTC)
-Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=bp.renesas.com header.i=@bp.renesas.com header.b="nPOKUWcx";
-	dkim-atps=neutral
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4A5BA10E8A0;
+	Thu, 10 Jul 2025 09:23:31 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from TYVP286CU001.outbound.protection.outlook.com
- (mail-japaneastazon11011045.outbound.protection.outlook.com [52.101.125.45])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 339C010E1E0
- for <dri-devel@lists.freedesktop.org>; Thu, 10 Jul 2025 09:10:18 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=nGcG/J6U+S0rFP6zEzhDeO1++65pcSF+aCEkX3/0GvYXfJti2OQDTR8bVAjsonPISJrpAT+9z5CKr5pC2e2Qvr5TriV7CUOhmB0itG1n/u4fuScDw3VgUU6Q8rQVGrI0KmsZ29EM9bnVEeAs1PdA4NUfPlCq9rk+AztR9Pnse3bg5KY6GdrbJ4LC5MZLER+9Gg99m+ewT48W6PV/k/TKnmlddD+HbhCMOlJBFXMN6PDYeoliwb87/nVaWT+6RlDAyhsvu9NVyYoFMPjvX7sJpGuBuj2VClU+7BtuaIbTSHVnr7mtUdgWK0tih6XqGVewDL4XLuyzYKvvqYzJgqywvA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=xAQMCfo1ADZgUD8clYrqzc7uHrgvFtpDGocX3aUWAq4=;
- b=lyuoex5vz5zkruf7la0SUcQB2Sr1Ouc/mo5s44V8GoRiqg76+WKgcDZvcx623GmfBmTdWuPwYaUtMoTKk6aOa/TlbA/4OuXnOVT1+COAwb2qDPpyoYTLeXG6OcYHRycIBDujVEYG+csCBTzPmA4twyPOuB864T0+sfXltpOFcYFlKN3K4ixHqxzIUvDDnOIU27d4VhP+bV61BtoCu75nCEBsnvnU/5vFP8MbHEA9drVg85q0Sw/mnee8mF1fItBHLnWiHj+mDFi7c90xdXEDQNaiRcbHY9Rv8tWYUtnaPkfeDJ+hxzTr5GXFWfVONfdJWrh6/9MpsLh2/GqKfnS9BQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=bp.renesas.com; dmarc=pass action=none
- header.from=bp.renesas.com; dkim=pass header.d=bp.renesas.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bp.renesas.com;
- s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=xAQMCfo1ADZgUD8clYrqzc7uHrgvFtpDGocX3aUWAq4=;
- b=nPOKUWcxpQLXGVlMWtFHiZUUKlBufAeuDClk2TsKuZYAJanC/RoYCY46OMZWOjylrH6DQehfpvERyg1PLlwe1pYCMJTQz5r4mcHqw4e6CrtNSWypecNAoEN4xPZXoVcusre9jlfOE5pfrBiEQVT6Z+yyiZyc+jvrsetgvp8IDAg=
-Received: from TY3PR01MB11346.jpnprd01.prod.outlook.com (2603:1096:400:3d0::7)
- by OS0PR01MB5858.jpnprd01.prod.outlook.com (2603:1096:604:bd::8) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8901.29; Thu, 10 Jul
- 2025 09:10:14 +0000
-Received: from TY3PR01MB11346.jpnprd01.prod.outlook.com
- ([fe80::86ef:ca98:234d:60e1]) by TY3PR01MB11346.jpnprd01.prod.outlook.com
- ([fe80::86ef:ca98:234d:60e1%3]) with mapi id 15.20.8901.028; Thu, 10 Jul 2025
- 09:10:14 +0000
-From: Biju Das <biju.das.jz@bp.renesas.com>
-To: Geert Uytterhoeven <geert+renesas@glider.be>, Maarten Lankhorst
- <maarten.lankhorst@linux.intel.com>, Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
- Simona Vetter <simona@ffwll.ch>
-CC: "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
- "linux-renesas-soc@vger.kernel.org" <linux-renesas-soc@vger.kernel.org>
-Subject: RE: [PATCH] drm: renesas: rz-du: mipi_dsi: Convert to RUNTIME_PM_OPS()
-Thread-Topic: [PATCH] drm: renesas: rz-du: mipi_dsi: Convert to
- RUNTIME_PM_OPS()
-Thread-Index: AQHb8QFhNutWp9A0X06pg/ebOf+IWLQrEqMg
-Date: Thu, 10 Jul 2025 09:10:14 +0000
-Message-ID: <TY3PR01MB113465470522FD4B74A83CB318648A@TY3PR01MB11346.jpnprd01.prod.outlook.com>
-References: <cdfc1b8ec9e62553654639b9e9026bfed8dd07d1.1752086582.git.geert+renesas@glider.be>
-In-Reply-To: <cdfc1b8ec9e62553654639b9e9026bfed8dd07d1.1752086582.git.geert+renesas@glider.be>
-Accept-Language: en-GB, en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-authentication-results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=bp.renesas.com;
-x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: TY3PR01MB11346:EE_|OS0PR01MB5858:EE_
-x-ms-office365-filtering-correlation-id: 75baa619-7361-4cb6-8114-08ddbf91949e
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam: BCL:0; ARA:13230040|376014|1800799024|366016|38070700018;
-x-microsoft-antispam-message-info: =?us-ascii?Q?8Oqs9qvJSS7/Fe04JnFSyO41LHrkbO8sJ1tBROIdJZc7s0e6hc+BS/Ac/Dpp?=
- =?us-ascii?Q?rLG63RHNxVgBHkP0X5zExb0MBsJslk0WVsUUuAKN8arn73xy2ky9CqMkAVWJ?=
- =?us-ascii?Q?VqiHNh/iD/aii8xallf1dtlkHAhcQPUwreVJMfwWUim+fGRMOf/C1gtIDqo2?=
- =?us-ascii?Q?b1VaKdTLA8zSm5/PKCHrdJ8HeIfevaPl4Ap0/2szcocytIrSwibwJQJEQhsM?=
- =?us-ascii?Q?5UZQgQKOtUhaswvECCjApgBds2EotFD2EGHLgeCn0wsUMOLPBc8SXZq4dHwE?=
- =?us-ascii?Q?p+KwDaRSUa6/ME+XhqCdcndHzl+7nKTbSY5RSkVwk8pEjv6MWUT7IzkvemKV?=
- =?us-ascii?Q?sOg6Y+GgifsDI2kvnlsz8Lv6l5pVyhExWjVO/PWgdmvhgShhOaZ+cY/Za/pY?=
- =?us-ascii?Q?ht9kBpBb3o4cALVmLb77dHru19SOuVkEsY0K8wH2HqoTzfbj/jMp5htA2yg3?=
- =?us-ascii?Q?pyL8C3sY1KREOeGG+ymXqn8YTdumsYjDbef8DbWcUJ4FRhThvY4x38Tp7xH5?=
- =?us-ascii?Q?1h044V+4sFKWl0OBg9FIx28gZyxXG2AU3hBIweL/ETlB+jjaOWDbBWIqUlxC?=
- =?us-ascii?Q?uYawDOYHRtbi8ZywjA9F++7x5DiITnD6nW8DTR+T507ppjiROgf+g1V7dR1k?=
- =?us-ascii?Q?jYP6wm5ZXkuxtN72+MDL7Y+zLvjoKkKm6/lCLDoo0XZjBUUI8CWwpfRgmRoa?=
- =?us-ascii?Q?oI4LPrqNO0bfPiZ7MpdQv4cRPiLCVkpjWBu13MkcUDAg27PX/4tIYkUKd4Fa?=
- =?us-ascii?Q?shCPAo8ExQMBk6waiS8PpvtoUfR+Ia61qkj6soG6WFpryaSqkYGTLxcLErE9?=
- =?us-ascii?Q?6cuDJOHt3ayGDwQ8kHQEhh6GM5Wkd7NItpLaJbAoqv7l1gqhBq4JXDkyEVyu?=
- =?us-ascii?Q?Kr4HEcqMswhY8uD0+VfrM3MVpgcNb/3oLtYQsA6E2KoxiEGNFeiCimO6MjET?=
- =?us-ascii?Q?1W5bOMcEeh0fM71jiRy1UT9DQqgalMVC/3/SH4wuJG7yV1L/pi9o7yiztvB7?=
- =?us-ascii?Q?YlD4ZiZmuU0Z/A7y9BYV8QJarM7xZKDxNXfT+svl+XT+LnNkcPujOt/fHEVs?=
- =?us-ascii?Q?l8qP601T4ehGj012OSTJjIGr7j/vAi4YFem8LXmWhA1eWYYpEccZ/kDMQtVw?=
- =?us-ascii?Q?ybt3uWrtkXB7to1gGgcwfJCgAwL/xxiyWIxooG1p9+FHbkiXE+OMFubEKESg?=
- =?us-ascii?Q?Ldv5843EJWEZdyHBonKNTgdfwHu9tT59m06Q7krjNrvkJjqFYekcbr6mfhPB?=
- =?us-ascii?Q?6ev/mY97RtIxgt659nkUIGXhzhDLBbwi7cWWITs8HZZu1RQRbZXNR5cyMDVZ?=
- =?us-ascii?Q?5i4Oy8zY2nRksJdakQR1MMGZgvClnBacndAZLXDZGPqpGJ3Trc5bUhtNROuM?=
- =?us-ascii?Q?DFx4CxO6Tl/hWWj9DpzV8Mwf8WN2Gd2ArdNYUqCdhLfb8NnJlQ7aEQ17wyZE?=
- =?us-ascii?Q?3rp9o+7XByEL0vjkywDppyjyLQzGnWAcY860qLlDmVj6L3bLmErxYA=3D=3D?=
-x-forefront-antispam-report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:TY3PR01MB11346.jpnprd01.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230040)(376014)(1800799024)(366016)(38070700018); DIR:OUT; SFP:1101; 
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0: =?us-ascii?Q?H5dUUXoikYko4RGBTTes3Pwtmji1vuBTksjg+GJHPikxBw7z8IijYGLndSfX?=
- =?us-ascii?Q?uvPhDEpsOLz0zQDE5+A9Qr73twlFhbdBzjTScmgY9mjCsZ1zXOqHb9g27Mqr?=
- =?us-ascii?Q?QMkHRVn8A1/9Ia6150rmwJkfhfwVBa3TGt1mkRqYVbMHsWpJR4QlENhAYd6n?=
- =?us-ascii?Q?e6v4k/+yX2GZdVAXZs8snuoXY+MflZWlC6p2An1uHE6Hvcd9S9xmNHrhOMm4?=
- =?us-ascii?Q?A6kp+1rZ3KUXWOaJTANEZh1pTdyzPABeJ5eKr3AxoP0rOAsSJQakOCtuSAJd?=
- =?us-ascii?Q?20wsIE4pCtyt+G8v9iJOtpuJ7zn3soqfZL7jRQTT7rNtwuwlCqmRTjnXgAVp?=
- =?us-ascii?Q?0rOTso7KpIoDYX7o2quLN8aVklogF2b4uzMTMX8ZQCbzW+kEsT+exGhCKCUT?=
- =?us-ascii?Q?pE5sTfXzRIDUrPlUwRdlgNFcwagqxzTztPgltuNTk3h1ohayF4j4v9Yd/WS+?=
- =?us-ascii?Q?OL01M1nD1Dxlq671kb8QgbdaCHlpvb5/FyfqmhtpQnGe2msx6VTNWIy5StXm?=
- =?us-ascii?Q?4l2tOYHbpX8tPNn+D2i56etT4YWoguaTmDymV+PEx90/ATRbUSr78+nJYUmv?=
- =?us-ascii?Q?YZdpPAZFDJHeUruSb3O3ntdlGe0fc10j8Mb6rxPNUV0KkDQOGVB0nbs70L6U?=
- =?us-ascii?Q?2UKkl4g8vDs1qnQjwps8sC78xTaoxCXFSmjhMVbzL4aY+xI5JaMR+hetu/tm?=
- =?us-ascii?Q?61zobjjaEm3BqlF94JVYI2oq/JUcHJ7/NjdHTFe1nPmZg7BQ6Qa3DJWMnlZa?=
- =?us-ascii?Q?WP2G72tYZct8VDvnE+Nw9degiuB/kgTzTHPLEropJqB56Hf5GT7ffBI7onCu?=
- =?us-ascii?Q?HuGSl6KCLHOm6Uwb90pFcYCoF41Dl0vcpUeIcwIKSZn5Qd5Vg+Rd+U3b2Qmh?=
- =?us-ascii?Q?ZxHtlt+LP8WluDZ0bloux7dYQwGitqys9ebPQcu+7wacFa96CiFZzh/190yG?=
- =?us-ascii?Q?1QUbRP1WOa1hf8mRXqfi7gQkoIBhPYc9ej0eC0BPhiek8BJS1/KA08apmW1y?=
- =?us-ascii?Q?vaLmmwo490WlJdBPTQTO9G/Uc2xdvbXqhUg7Xj5MqyW0LMXkuIoytSFPWcEx?=
- =?us-ascii?Q?BzHWzwWtJd8IaZ9YTXfoCsDBkBta2LyDIl3iHR2Z8BBNQvg6gcjDLRK5CwEY?=
- =?us-ascii?Q?i41+YtZb7CE8c41fwoy2FCEpj+xWK9/V6OZnQQExplQbG2UPyp5c6tOxpbxE?=
- =?us-ascii?Q?JYdhobFxmxfyxmlcz/Y5c3hU3cpzXrmGaVL60zwDS1RGzNZnnVpleJMCNE8k?=
- =?us-ascii?Q?KgYspIM9uLPa6X468FUy5j6aUMuYR8ojanXZif/DsV5iBwugKsemSXRYFx6a?=
- =?us-ascii?Q?UPWUdXNUMuSs80tiIGYLXwpksXBRSRvkwT8pOHS59B47GuKari4yAwexkkxY?=
- =?us-ascii?Q?MfoLybgCbT2GOHwqT3G+tlkeLrprQAevpz/X8AOsYn+oWQEORnkrrthSqn0I?=
- =?us-ascii?Q?eS81n0YfYuolWPdYXfKFCz1xKnTFKQu3r5EHAK2A++T058qXpEnEGspFAqMZ?=
- =?us-ascii?Q?wIpgIrJsD6yNJPy3Pno5+QojVaqrK5WZWq3hN9JjnWuI2KXNz53/D/p59k8T?=
- =?us-ascii?Q?VIZYI/IaVmaZDX9YvjgC6SJrt2FjgNoTlAoW7I+dKnjSeYYAQtfBiNb8bjP5?=
- =?us-ascii?Q?IQ=3D=3D?=
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+ by gabe.freedesktop.org (Postfix) with ESMTP id E497D10E36D;
+ Thu, 10 Jul 2025 09:23:29 +0000 (UTC)
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+ by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 4493A1EA6;
+ Thu, 10 Jul 2025 02:23:18 -0700 (PDT)
+Received: from [10.1.34.27] (e122027.cambridge.arm.com [10.1.34.27])
+ by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 2DCA03F66E;
+ Thu, 10 Jul 2025 02:23:28 -0700 (PDT)
+Message-ID: <08b8dd1b-5178-428d-a830-3af9b7fcea5a@arm.com>
+Date: Thu, 10 Jul 2025 10:23:26 +0100
 MIME-Version: 1.0
-X-OriginatorOrg: bp.renesas.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: TY3PR01MB11346.jpnprd01.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 75baa619-7361-4cb6-8114-08ddbf91949e
-X-MS-Exchange-CrossTenant-originalarrivaltime: 10 Jul 2025 09:10:14.0486 (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 53d82571-da19-47e4-9cb4-625a166a4a2a
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: hZNnVSp3qRhuBittdslkvQIxqybguS91W7QMVkhVJ4ECY4lB7Qjpc5v0p8U775+8tFTq2gDfmUyMwcvcifoROLqJgjHbo5LczmzLOFpAdtA=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: OS0PR01MB5858
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] drm/panthor: Fix UAF in panthor_gem_create_with_handle()
+ debugfs code
+To: Simona Vetter <simona.vetter@ffwll.ch>
+Cc: DRI Development <dri-devel@lists.freedesktop.org>,
+ Intel Xe Development <intel-xe@lists.freedesktop.org>,
+ =?UTF-8?Q?Adri=C3=A1n_Larumbe?= <adrian.larumbe@collabora.com>,
+ Boris Brezillon <boris.brezillon@collabora.com>,
+ Liviu Dudau <liviu.dudau@arm.com>, Simona Vetter <simona.vetter@intel.com>
+References: <20250707151814.603897-2-simona.vetter@ffwll.ch>
+ <20250709135220.1428931-1-simona.vetter@ffwll.ch>
+ <6fe2409f-b561-4546-92e1-dd7f8d45ef12@arm.com>
+ <aG9_gpFtFcLhBe4y@phenom.ffwll.local>
+From: Steven Price <steven.price@arm.com>
+Content-Language: en-GB
+In-Reply-To: <aG9_gpFtFcLhBe4y@phenom.ffwll.local>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -152,23 +54,167 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Geert,
+On 10/07/2025 09:53, Simona Vetter wrote:
+> On Wed, Jul 09, 2025 at 04:48:21PM +0100, Steven Price wrote:
+>> On 09/07/2025 14:52, Simona Vetter wrote:
+>>> The object is potentially already gone after the drm_gem_object_put().
+>>> In general the object should be fully constructed before calling
+>>> drm_gem_handle_create(), except the debugfs tracking uses a separate
+>>> lock and list and separate flag to denotate whether the object is
+>>> actually initilized.
+             ^^^^^^^^^^
+Another nit (although checkpatch takes the credit for noticing): it
+should have an 'a': initialized :p
 
-Thanks for the patch.
+I've fixed this and pushed to drm-misc-next.
 
-> -----Original Message-----
-> From: Geert Uytterhoeven <geert+renesas@glider.be>
-> Sent: 09 July 2025 19:43
-> Subject: [PATCH] drm: renesas: rz-du: mipi_dsi: Convert to RUNTIME_PM_OPS=
-()
->=20
-> Convert the Renesas RZ/G2L MIPI DSI Encoder driver from
-> SET_RUNTIME_PM_OPS() to RUNTIME_PM_OPS() and pm_ptr().  This lets us drop=
- the __maybe_unused
-> annotations from its runtime suspend and resume callbacks, and reduces ke=
-rnel size in case CONFIG_PM
-> is disabled.
->=20
-> Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
+Thanks,
+Steve
 
-Reviewed-by: Biju Das <biju.das.jz@bp.renesas.com>
+>>>
+>>> Since I'm touching this all anyway simplify this by only adding the
+>>> object to the debugfs when it's ready for that, which allows us to
+>>> delete that separate flag. panthor_gem_debugfs_bo_rm() already checks
+>>> whether we've actually been added to the list or this is some error
+>>> path cleanup.
+>>>
+>>> v2: Fix build issues for !CONFIG_DEBUGFS (Adrián)
+>>>
+>>> v3: Add linebreak and remove outdated comment (Liviu)
+>>>
+>>> Fixes: a3707f53eb3f ("drm/panthor: show device-wide list of DRM GEM objects over DebugFS")
+>>> Cc: Adrián Larumbe <adrian.larumbe@collabora.com>
+>>> Cc: Boris Brezillon <boris.brezillon@collabora.com>
+>>> Cc: Steven Price <steven.price@arm.com>
+>>> Cc: Liviu Dudau <liviu.dudau@arm.com>
+>>> Reviewed-by: Liviu Dudau <liviu.dudau@arm.com>
+>>> Signed-off-by: Simona Vetter <simona.vetter@intel.com>
+>>> Signed-off-by: Simona Vetter <simona.vetter@ffwll.ch>
+>>
+>> Reviewed-by: Steven Price <steven.price@arm.com>
+> 
+> Thanks for the review!
+> 
+>> Although a nit on the email subject - you're missing the "v3" tag ;)
+> 
+> Yeah I often forget to set that, oops :-P
+> 
+> Will you or someone from the panthor team land this, or should I push it
+> to drm-misc-next myself?
+> -Sima
+> 
+>>
+>> Steve
+>>
+>>> ---
+>>>  drivers/gpu/drm/panthor/panthor_gem.c | 31 +++++++++++++--------------
+>>>  drivers/gpu/drm/panthor/panthor_gem.h |  3 ---
+>>>  2 files changed, 15 insertions(+), 19 deletions(-)
+>>>
+>>> diff --git a/drivers/gpu/drm/panthor/panthor_gem.c b/drivers/gpu/drm/panthor/panthor_gem.c
+>>> index 7c00fd77758b..a123bc740ba1 100644
+>>> --- a/drivers/gpu/drm/panthor/panthor_gem.c
+>>> +++ b/drivers/gpu/drm/panthor/panthor_gem.c
+>>> @@ -16,10 +16,15 @@
+>>>  #include "panthor_mmu.h"
+>>>  
+>>>  #ifdef CONFIG_DEBUG_FS
+>>> -static void panthor_gem_debugfs_bo_add(struct panthor_device *ptdev,
+>>> -				       struct panthor_gem_object *bo)
+>>> +static void panthor_gem_debugfs_bo_init(struct panthor_gem_object *bo)
+>>>  {
+>>>  	INIT_LIST_HEAD(&bo->debugfs.node);
+>>> +}
+>>> +
+>>> +static void panthor_gem_debugfs_bo_add(struct panthor_gem_object *bo)
+>>> +{
+>>> +	struct panthor_device *ptdev = container_of(bo->base.base.dev,
+>>> +						    struct panthor_device, base);
+>>>  
+>>>  	bo->debugfs.creator.tgid = current->group_leader->pid;
+>>>  	get_task_comm(bo->debugfs.creator.process_name, current->group_leader);
+>>> @@ -44,14 +49,13 @@ static void panthor_gem_debugfs_bo_rm(struct panthor_gem_object *bo)
+>>>  
+>>>  static void panthor_gem_debugfs_set_usage_flags(struct panthor_gem_object *bo, u32 usage_flags)
+>>>  {
+>>> -	bo->debugfs.flags = usage_flags | PANTHOR_DEBUGFS_GEM_USAGE_FLAG_INITIALIZED;
+>>> +	bo->debugfs.flags = usage_flags;
+>>> +	panthor_gem_debugfs_bo_add(bo);
+>>>  }
+>>>  #else
+>>> -static void panthor_gem_debugfs_bo_add(struct panthor_device *ptdev,
+>>> -				       struct panthor_gem_object *bo)
+>>> -{}
+>>>  static void panthor_gem_debugfs_bo_rm(struct panthor_gem_object *bo) {}
+>>>  static void panthor_gem_debugfs_set_usage_flags(struct panthor_gem_object *bo, u32 usage_flags) {}
+>>> +static void panthor_gem_debugfs_bo_init(struct panthor_gem_object *bo) {}
+>>>  #endif
+>>>  
+>>>  static void panthor_gem_free_object(struct drm_gem_object *obj)
+>>> @@ -246,7 +250,7 @@ struct drm_gem_object *panthor_gem_create_object(struct drm_device *ddev, size_t
+>>>  	drm_gem_gpuva_set_lock(&obj->base.base, &obj->gpuva_list_lock);
+>>>  	mutex_init(&obj->label.lock);
+>>>  
+>>> -	panthor_gem_debugfs_bo_add(ptdev, obj);
+>>> +	panthor_gem_debugfs_bo_init(obj);
+>>>  
+>>>  	return &obj->base.base;
+>>>  }
+>>> @@ -285,6 +289,8 @@ panthor_gem_create_with_handle(struct drm_file *file,
+>>>  		bo->base.base.resv = bo->exclusive_vm_root_gem->resv;
+>>>  	}
+>>>  
+>>> +	panthor_gem_debugfs_set_usage_flags(bo, 0);
+>>> +
+>>>  	/*
+>>>  	 * Allocate an id of idr table where the obj is registered
+>>>  	 * and handle has the id what user can see.
+>>> @@ -296,12 +302,6 @@ panthor_gem_create_with_handle(struct drm_file *file,
+>>>  	/* drop reference from allocate - handle holds it now. */
+>>>  	drm_gem_object_put(&shmem->base);
+>>>  
+>>> -	/*
+>>> -	 * No explicit flags are needed in the call below, since the
+>>> -	 * function internally sets the INITIALIZED bit for us.
+>>> -	 */
+>>> -	panthor_gem_debugfs_set_usage_flags(bo, 0);
+>>> -
+>>>  	return ret;
+>>>  }
+>>>  
+>>> @@ -387,7 +387,7 @@ static void panthor_gem_debugfs_bo_print(struct panthor_gem_object *bo,
+>>>  	unsigned int refcount = kref_read(&bo->base.base.refcount);
+>>>  	char creator_info[32] = {};
+>>>  	size_t resident_size;
+>>> -	u32 gem_usage_flags = bo->debugfs.flags & (u32)~PANTHOR_DEBUGFS_GEM_USAGE_FLAG_INITIALIZED;
+>>> +	u32 gem_usage_flags = bo->debugfs.flags;
+>>>  	u32 gem_state_flags = 0;
+>>>  
+>>>  	/* Skip BOs being destroyed. */
+>>> @@ -436,8 +436,7 @@ void panthor_gem_debugfs_print_bos(struct panthor_device *ptdev,
+>>>  
+>>>  	scoped_guard(mutex, &ptdev->gems.lock) {
+>>>  		list_for_each_entry(bo, &ptdev->gems.node, debugfs.node) {
+>>> -			if (bo->debugfs.flags & PANTHOR_DEBUGFS_GEM_USAGE_FLAG_INITIALIZED)
+>>> -				panthor_gem_debugfs_bo_print(bo, m, &totals);
+>>> +			panthor_gem_debugfs_bo_print(bo, m, &totals);
+>>>  		}
+>>>  	}
+>>>  
+>>> diff --git a/drivers/gpu/drm/panthor/panthor_gem.h b/drivers/gpu/drm/panthor/panthor_gem.h
+>>> index 4dd732dcd59f..8fc7215e9b90 100644
+>>> --- a/drivers/gpu/drm/panthor/panthor_gem.h
+>>> +++ b/drivers/gpu/drm/panthor/panthor_gem.h
+>>> @@ -35,9 +35,6 @@ enum panthor_debugfs_gem_usage_flags {
+>>>  
+>>>  	/** @PANTHOR_DEBUGFS_GEM_USAGE_FLAG_FW_MAPPED: BO is mapped on the FW VM. */
+>>>  	PANTHOR_DEBUGFS_GEM_USAGE_FLAG_FW_MAPPED = BIT(PANTHOR_DEBUGFS_GEM_USAGE_FW_MAPPED_BIT),
+>>> -
+>>> -	/** @PANTHOR_DEBUGFS_GEM_USAGE_FLAG_INITIALIZED: BO is ready for DebugFS display. */
+>>> -	PANTHOR_DEBUGFS_GEM_USAGE_FLAG_INITIALIZED = BIT(31),
+>>>  };
+>>>  
+>>>  /**
+>>
+> 
+
