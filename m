@@ -2,42 +2,42 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id D0CC8AFFA92
-	for <lists+dri-devel@lfdr.de>; Thu, 10 Jul 2025 09:14:31 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 68B68AFFA96
+	for <lists+dri-devel@lfdr.de>; Thu, 10 Jul 2025 09:14:48 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 335C110E889;
-	Thu, 10 Jul 2025 07:14:30 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C38BF10E88C;
+	Thu, 10 Jul 2025 07:14:46 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="sFiMwCD0";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="KhXAvlda";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from tor.source.kernel.org (tor.source.kernel.org [172.105.4.254])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E4ADE10E889
- for <dri-devel@lists.freedesktop.org>; Thu, 10 Jul 2025 07:14:28 +0000 (UTC)
+Received: from nyc.source.kernel.org (nyc.source.kernel.org [147.75.193.91])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3816B10E88C
+ for <dri-devel@lists.freedesktop.org>; Thu, 10 Jul 2025 07:14:45 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by tor.source.kernel.org (Postfix) with ESMTP id 654026146A;
- Thu, 10 Jul 2025 07:14:28 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 79D15C4CEF6;
- Thu, 10 Jul 2025 07:14:27 +0000 (UTC)
+ by nyc.source.kernel.org (Postfix) with ESMTP id 750C4A53BBA;
+ Thu, 10 Jul 2025 07:14:44 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9C3DAC4CEE3;
+ Thu, 10 Jul 2025 07:14:43 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1752131668;
- bh=tP+8bldkAQNqJdv4sqZNu7H5cEZhw5wYrPA9vUNr0mo=;
+ s=k20201202; t=1752131684;
+ bh=FvFyBYxEpy9Sn7Einro160cdlw9VKDe5feG5m85a5bA=;
  h=Date:From:To:Subject:In-Reply-To:References:Cc:From;
- b=sFiMwCD0Y2Z9UW0eLCtW626dxI748arN+PuRycIknSn+6NkgxZqVDaacCIVF/QlJK
- OUIopgZEnY6OEBcGbsMJGQ8tU0kO1iUhRyoJ+bP+Pf8Id9qPHRGxh06RSS0VfbJlak
- +lg50+GFgLIUfAyhSG9XGmvA8FGJO1o4Tpxl91RHewW22qA8KHtK7fmOkBUirI98Zn
- 7kJsOWH1URzv1l/RNa4CjJN54FX4KntaPz5wMOG+XbPwerR/y92+9+j1UZ0h5MhtKf
- IVYhZ1Cpoi6D2IrEvMD2PcmnvXOaXP0Jl3aw7HcrZFDqLVyEgt1DiYpyLQR74uxzqq
- zaijhGa6tO1VQ==
-Message-ID: <64be94fba98675539bf02b1dc4c66e0d@kernel.org>
-Date: Thu, 10 Jul 2025 07:14:23 +0000
+ b=KhXAvlda8kGZUzTXYkhLg3om+Qo32HaFYb14lK9fV4FGNBGD7XebP+umP0MEXay13
+ lw5BeT46/tqhFmHXABvGhETF8s/yPBhXwqA3TleECzaorb2joMVovTZ42Rkf3Mso/q
+ hFrDdruiJnJ28JfKbla+Ypq4zDGsG7UTp6+ICk997Kbn0lP4vp1j+8Bk9yAdGoMLh5
+ HZLvuTNeU2gMoi4s1BdRRojbsK2wv3btMSk0QthDZ6wyoF4Sdflh7Y5Hf35p/SvcVc
+ rxlgxw0D+4DTo95e8qolkjude05rg1SvTWBPS1W5IhDc4JuuseQqp2ilnPJae14MiF
+ F0YUPxTzxf6pw==
+Message-ID: <966d844a84836a47ddcc49da0c779633@kernel.org>
+Date: Thu, 10 Jul 2025 07:14:41 +0000
 From: "Maxime Ripard" <mripard@kernel.org>
 To: "Luca Ceresoli" <luca.ceresoli@bootlin.com>
-Subject: Re: [PATCH 6/9] drm/display: bridge_connector: use
- drm_bridge_is_last()
-In-Reply-To: <20250709-drm-bridge-alloc-getput-drm_bridge_get_next_bridge-v1-6-48920b9cf369@bootlin.com>
-References: <20250709-drm-bridge-alloc-getput-drm_bridge_get_next_bridge-v1-6-48920b9cf369@bootlin.com>
+Subject: Re: [PATCH 7/9] drm/bridge: get the bridge returned by
+ drm_bridge_get_next_bridge()
+In-Reply-To: <20250709-drm-bridge-alloc-getput-drm_bridge_get_next_bridge-v1-7-48920b9cf369@bootlin.com>
+References: <20250709-drm-bridge-alloc-getput-drm_bridge_get_next_bridge-v1-7-48920b9cf369@bootlin.com>
 Cc: dri-devel@lists.freedesktop.org, imx@lists.linux.dev,
  linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org, "Andrzej
  Hajda" <andrzej.hajda@intel.com>, "David Airlie" <airlied@gmail.com>, "Fabio
@@ -54,7 +54,7 @@ Cc: dri-devel@lists.freedesktop.org, imx@lists.linux.dev,
  Vetter" <simona@ffwll.ch>, "Thomas Petazzoni" <thomas.petazzoni@bootlin.com>,
  "Thomas Zimmermann" <tzimmermann@suse.de>,
  "Tomi Valkeinen" <tomi.valkeinen@ideasonboard.com>
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -70,11 +70,14 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, 9 Jul 2025 18:48:05 +0200, Luca Ceresoli wrote:
-> Simplify code to know whether a bridge is the last in the chain by using
-> drm_bridge_is_last().
-> 
+On Wed, 9 Jul 2025 18:48:06 +0200, Luca Ceresoli wrote:
+> drm_bridge_get_next_bridge() returns a bridge pointer that the
+> caller could hold for a long time. Increment the refcount of the returned
+> bridge and document it must be put by the caller.
+>=20
 > Signed-off-by: Luca Ceresoli <luca.ceresoli@bootlin.com>
+>=20
+> [ ... ]
 
 Reviewed-by: Maxime Ripard <mripard@kernel.org>
 
