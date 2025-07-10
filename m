@@ -2,75 +2,77 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 60375B00576
-	for <lists+dri-devel@lfdr.de>; Thu, 10 Jul 2025 16:41:36 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 268CDB00577
+	for <lists+dri-devel@lfdr.de>; Thu, 10 Jul 2025 16:41:38 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id AB77C10E8E9;
-	Thu, 10 Jul 2025 14:41:33 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C6CF810E8EB;
+	Thu, 10 Jul 2025 14:41:35 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="Vy6BQXVE";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="K/KH6nky";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-f52.google.com (mail-wm1-f52.google.com
- [209.85.128.52])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9C2AE10E8E8;
+Received: from mail-wm1-f50.google.com (mail-wm1-f50.google.com
+ [209.85.128.50])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id EF0BA10E8E8;
  Thu, 10 Jul 2025 14:41:32 +0000 (UTC)
-Received: by mail-wm1-f52.google.com with SMTP id
- 5b1f17b1804b1-450cf0120cdso9290425e9.2; 
+Received: by mail-wm1-f50.google.com with SMTP id
+ 5b1f17b1804b1-4530921461aso7398275e9.0; 
  Thu, 10 Jul 2025 07:41:32 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=gmail.com; s=20230601; t=1752158491; x=1752763291; darn=lists.freedesktop.org;
- h=content-transfer-encoding:mime-version:message-id:date:subject:to
- :from:from:to:cc:subject:date:message-id:reply-to;
- bh=fBtKYanBgJ6oZ8A8D30KEy1xLb3oCs8TKAlWQ5CfxoA=;
- b=Vy6BQXVEtkV1nsCMoUItMQgNjjCId8fk+fAi/wr5y/Ug/yGqxV589FXzK/m8sXcn2U
- RibWIL889gm9+qvf9/iAgA9r2GU7BdNt7e5RPSwpwA3OOiiU1cYmIrWC+8fDwjgEmKxG
- 4ByE7pLPVI9v6k2qzjtgzeeb0DLEGEOncUHgzd34ciFMzHRYjxssCjS8kqOlPLE+mfm4
- YNkvX8Isei1btxd7ygxnURI+yTI93ysPQWlyA9DogdTI5+muEA3hTT0nbwLGRoaI3erN
- 0XmTt2N/8Tf9iZOJNp5wmTJ5SLgwub/g+/1l1EJN7DJ+l4LtiuS12NXEIZ4gkZPdKIpY
- EcJQ==
+ h=content-transfer-encoding:mime-version:references:in-reply-to
+ :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
+ :reply-to; bh=SdHIeHcxEfDz129fQTVMcTDcqzS760k77rUUBAZYQ1k=;
+ b=K/KH6nkycK2Uwqk9A86BJm7Cl666Dk2uOS146voRmXrBAiygL7jyob2ZX61y0QOMh4
+ cSQy2w+o84l3CaDzqFkeIIoGGbddaAeTTwUfokK5cyvdWYH22rFBFDMgBRdilPW1vDMZ
+ YcJ+tt7Yl0rDo66Rgk0AZ6i8ALBNiOlwRJLC7QVM2orLaV11wF8fwGry6cQYIhWfzaS2
+ ihikOQqxr+KXzqOvjqMMOVBis84xuenihnzWnqo92MIABuX2QE5kn3o6mrCVEpCP7EZO
+ IpmgP+2JW+b0h9RLGWZg0u7McIQneCSjaEGRa1VBYqsfKJCn5Kul/rWt95yTJ4aQ+aRM
+ Xm9A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20230601; t=1752158491; x=1752763291;
- h=content-transfer-encoding:mime-version:message-id:date:subject:to
- :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=fBtKYanBgJ6oZ8A8D30KEy1xLb3oCs8TKAlWQ5CfxoA=;
- b=O0wW3ifxacXmYn+jOAdlqJx4rQhnm3qHvByinT+5aAZdnrEZW4/CACx8jEPoPrs4L0
- 42mI05ldoM/lQ+k0kmfVGNl6/97hqLgzVBV6FLsmflR3QX1xiHL/9plJoc2rj107dwbH
- J7/al2lFnB2v4I+l1g7S+5pVb/baJ3m7yQEl2aRImcZnmRAaV0p/THvvGfwNyXjQFKHH
- qySsCA0928G4+wuUw9NHAxM86E7mdadrPk65M4W3TgbMbbj6CgotTQXpF6dP/8sYp9dG
- bBtKzE3G4boeCBiDlqga3XqU7x/5m/W1crsqoRRBPPh5L9j74mb4Hv5lgGEB9I7NBz1E
- fB0A==
+ h=content-transfer-encoding:mime-version:references:in-reply-to
+ :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=SdHIeHcxEfDz129fQTVMcTDcqzS760k77rUUBAZYQ1k=;
+ b=lVpV1QXWgmOpZxYtfl1RleGW7R0xhIF7OxOhT3+wvBCyRnyHMOgGeyuhJs+72DX/qF
+ 3inSSvsjWlbmFqF1SN0Laeol4zk8ROMASmV+QkGIN23ITO9r3jG3/ehIbMfnVM0AGuB7
+ 2mjDfZkam/X6fRJ4Ga0D6AVPxi+3xMnntUqvWy9AD6Kc1/fydeDM44szLGZ/Nr0p2p0R
+ ima+fg0XHgXwXdyVwqeoyZRJFN6Z5E8HjVolOv5DCGdODHbpg3cuFXFiQh2EkdkdGK+t
+ n+6QqETsb8NJae8W5xPAVq4nwCnJ4GqJEdKc0Oeght7COBo+80i01AxOFc+vYpidAHaW
+ gMlA==
 X-Forwarded-Encrypted: i=1;
- AJvYcCXAHZqpOcTSLltHIXFsKW1zCdseeX9orWSow/0GITlyXOd4Rp+Tcax60JR3JDWPidqn+8tiOtk0mi0=@lists.freedesktop.org,
- AJvYcCXv106+DBv20kvDMqdej0eGhYpAEto0ltoE54+HqTgUbZRxCCVSP3rn4nqdKnxw5h+trTawPUBX1LQ=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YxKIPTc45I1Wx6mwlHz7xOL1SxcfHHCPItBPInfltEhNzGJIv/l
- Jn4W44Zi+gbsApSmDMrGDrZiE6f0wbgINoImt9GzdkyvDJI5F6jGkeub
-X-Gm-Gg: ASbGncvoWUl1DrM7osAJLiYFuxcxyD4yBecBTFBGPZP7voSy1f6ByjitH2OIV+xOwbP
- k1bb0bdaVHhU3GLohJX/T8pgM2KbhEL9o64VhOwZMi9EQbBrid9JwZgvsliDGzBGaeCa1jQdfpm
- dwQO72xyrUeZIU2hIx8hRg/DPvJcfUHvBuZZ5NMIcf2GPyPMRxybaoN6x+qrNvSHgeN0HBSfMYI
- S5Nmi2cSE0UJJm1N7zwlezk1FOX0uuv6eVbSmQmUTBWPEZuRt9EpDdKUfp+FqkwxqkGTxW/KPQJ
- oTrYoMA6aXlWhIK/gyL8y5oPlupk4bexpnkDHQCo4kGUfw31Ax5e2daOnc0+u6SvlwFFdGH8tH/
- R
-X-Google-Smtp-Source: AGHT+IE56GPNvJM2MJEOF1+NCDTXbwd1qR7DXEqUgn7pulbwinIHoPXsgUzSqdQtHxSKBrMufnHtag==
-X-Received: by 2002:a05:600c:a407:b0:453:dda:a52e with SMTP id
- 5b1f17b1804b1-454dec87090mr19020075e9.33.1752158490397; 
- Thu, 10 Jul 2025 07:41:30 -0700 (PDT)
+ AJvYcCVKSRS8SKuaoNUHYVxLOWTeRK2V/kykcSbAfH3tMblU7WyU9w+/vX1XBoUJf2N171Fe/wGT6oUvVDw=@lists.freedesktop.org,
+ AJvYcCVUZ2+j0LJSBEM9uSX9k7EDcrGIoEjRGHlE3sEVhAQgI/4vfT6n2/9+lx31NTQdpmKcLGXFfaZLG9I=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0Yxj225kxvoiG6zOIHTVB/hnGHy2lYj6aG9op0M6a+QWSi5VNPgc
+ Zr5HgICQjEjNaxfgo6ny6yYn+MtBpPreQTS3s3u+JKNAP+E+QXnOcpCc
+X-Gm-Gg: ASbGncvnp5gSXSN2g1WA0jDEmz/htgYbwlJnx/1iiOsSgqwJWk4lvV9ELaQd9p4jKjg
+ AVhs2AlSp7gQzvRQURWGfLUw8ZMqpQa49N3uMEZXOgaNxnVV/GqYPS7hnM0JbjAh7KKCOFVGsPA
+ vYdF5aot1B06PjUYnQETnfANVlNMKVnXLEtLc8qsLV5eZ/WVuo9OPqfupD18Bceeo8rSrfZxZ5P
+ P18ZLy7s3sjMO/Kmx53SVveNVpvn8zBvrrqwPRGob13OII0B2WDN275Hr6LiXDkDghw1jmJ0lBF
+ qK4v6qhO2ev8phzjq4Q8AMWuSD9X3NHluJuY8ly9o9+zb82q/VuUKk0IHraOeSyBGxjYBVG/8Yq
+ cuAnCxfMUboQ=
+X-Google-Smtp-Source: AGHT+IF9hyLVfNy7C0saRHdEdqmCReFru0jl87iQhbH0hOVDtkswfKG4wbOMgh3NGTAOpgN9OwLuZw==
+X-Received: by 2002:a05:600c:888d:b0:43c:f1b8:16ad with SMTP id
+ 5b1f17b1804b1-454d5589236mr59206745e9.30.1752158491129; 
+ Thu, 10 Jul 2025 07:41:31 -0700 (PDT)
 Received: from able.fritz.box ([2a00:e180:152f:d800:cb54:c4ae:36fb:9b5a])
  by smtp.gmail.com with ESMTPSA id
- 5b1f17b1804b1-454dd540a95sm21670525e9.29.2025.07.10.07.41.29
+ 5b1f17b1804b1-454dd540a95sm21670525e9.29.2025.07.10.07.41.30
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 10 Jul 2025 07:41:29 -0700 (PDT)
+ Thu, 10 Jul 2025 07:41:30 -0700 (PDT)
 From: "=?UTF-8?q?Christian=20K=C3=B6nig?=" <ckoenig.leichtzumerken@gmail.com>
 X-Google-Original-From: =?UTF-8?q?Christian=20K=C3=B6nig?=
  <christian.koenig@amd.com>
 To: matthew.brost@intel.com, thomas.hellstrom@linux.intel.com,
  dri-devel@lists.freedesktop.org, intel-xe@lists.freedesktop.org
-Subject: [PATCH 1/2] drm/ttm: fix locking in test
- ttm_bo_validate_no_placement_signaled
-Date: Thu, 10 Jul 2025 16:41:28 +0200
-Message-Id: <20250710144129.1803-1-christian.koenig@amd.com>
+Subject: [PATCH 2/2] drm/ttm: remove ttm_bo_validate_swapout test
+Date: Thu, 10 Jul 2025 16:41:29 +0200
+Message-Id: <20250710144129.1803-2-christian.koenig@amd.com>
 X-Mailer: git-send-email 2.34.1
+In-Reply-To: <20250710144129.1803-1-christian.koenig@amd.com>
+References: <20250710144129.1803-1-christian.koenig@amd.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
@@ -89,41 +91,90 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The test works even without it, but lockdep starts screaming when it is
-activated.
+The test is quite fragile since it tries to allocate halve available system
+memory + 1 page.
 
-Trivially fix it by acquiring the lock before we try to allocate
-something.
+If the system has either not enough memory to make the allocation work
+with other things running in parallel or to much memory so the allocation
+fails as to large/invalid the test won't fail.
+
+Completely remove the test. We already validate swapout on the device
+level and that test seems to be stable.
 
 Signed-off-by: Christian König <christian.koenig@amd.com>
 ---
- drivers/gpu/drm/ttm/tests/ttm_bo_validate_test.c | 9 +++++----
- 1 file changed, 5 insertions(+), 4 deletions(-)
+ .../gpu/drm/ttm/tests/ttm_bo_validate_test.c  | 51 -------------------
+ 1 file changed, 51 deletions(-)
 
 diff --git a/drivers/gpu/drm/ttm/tests/ttm_bo_validate_test.c b/drivers/gpu/drm/ttm/tests/ttm_bo_validate_test.c
-index 3148f5d3dbd6..38f476787302 100644
+index 38f476787302..1bcc67977f48 100644
 --- a/drivers/gpu/drm/ttm/tests/ttm_bo_validate_test.c
 +++ b/drivers/gpu/drm/ttm/tests/ttm_bo_validate_test.c
-@@ -542,14 +542,15 @@ static void ttm_bo_validate_no_placement_signaled(struct kunit *test)
- 		bo->ttm = old_tt;
- 	}
+@@ -758,56 +758,6 @@ static void ttm_bo_validate_move_fence_not_signaled(struct kunit *test)
+ 	ttm_mock_manager_fini(priv->ttm_dev, snd_mem);
+ }
  
--	err = ttm_resource_alloc(bo, place, &bo->resource, NULL);
--	KUNIT_EXPECT_EQ(test, err, 0);
--	KUNIT_ASSERT_EQ(test, man->usage, size);
+-static void ttm_bo_validate_swapout(struct kunit *test)
+-{
+-	unsigned long size_big, size = ALIGN(BO_SIZE, PAGE_SIZE);
+-	enum ttm_bo_type bo_type = ttm_bo_type_device;
+-	struct ttm_buffer_object *bo_small, *bo_big;
+-	struct ttm_test_devices *priv = test->priv;
+-	struct ttm_operation_ctx ctx = { };
+-	struct ttm_placement *placement;
+-	u32 mem_type = TTM_PL_TT;
+-	struct ttm_place *place;
+-	struct sysinfo si;
+-	int err;
 -
- 	placement = kunit_kzalloc(test, sizeof(*placement), GFP_KERNEL);
- 	KUNIT_ASSERT_NOT_NULL(test, placement);
- 
- 	ttm_bo_reserve(bo, false, false, NULL);
-+
-+	err = ttm_resource_alloc(bo, place, &bo->resource, NULL);
-+	KUNIT_EXPECT_EQ(test, err, 0);
-+	KUNIT_ASSERT_EQ(test, man->usage, size);
-+
- 	err = ttm_bo_validate(bo, placement, &ctx);
- 	ttm_bo_unreserve(bo);
- 
+-	si_meminfo(&si);
+-	size_big = ALIGN(((u64)si.totalram * si.mem_unit / 2), PAGE_SIZE);
+-
+-	ttm_mock_manager_init(priv->ttm_dev, mem_type, size_big + size);
+-
+-	place = ttm_place_kunit_init(test, mem_type, 0);
+-	placement = ttm_placement_kunit_init(test, place, 1);
+-
+-	bo_small = kunit_kzalloc(test, sizeof(*bo_small), GFP_KERNEL);
+-	KUNIT_ASSERT_NOT_NULL(test, bo_small);
+-
+-	drm_gem_private_object_init(priv->drm, &bo_small->base, size);
+-
+-	err = ttm_bo_init_reserved(priv->ttm_dev, bo_small, bo_type, placement,
+-				   PAGE_SIZE, &ctx, NULL, NULL,
+-				   &dummy_ttm_bo_destroy);
+-	KUNIT_EXPECT_EQ(test, err, 0);
+-	dma_resv_unlock(bo_small->base.resv);
+-
+-	bo_big = ttm_bo_kunit_init(test, priv, size_big, NULL);
+-
+-	dma_resv_lock(bo_big->base.resv, NULL);
+-	err = ttm_bo_validate(bo_big, placement, &ctx);
+-	dma_resv_unlock(bo_big->base.resv);
+-
+-	KUNIT_EXPECT_EQ(test, err, 0);
+-	KUNIT_EXPECT_NOT_NULL(test, bo_big->resource);
+-	KUNIT_EXPECT_EQ(test, bo_big->resource->mem_type, mem_type);
+-	KUNIT_EXPECT_EQ(test, bo_small->resource->mem_type, TTM_PL_SYSTEM);
+-	KUNIT_EXPECT_TRUE(test, bo_small->ttm->page_flags & TTM_TT_FLAG_SWAPPED);
+-
+-	ttm_bo_put(bo_big);
+-	ttm_bo_put(bo_small);
+-
+-	ttm_mock_manager_fini(priv->ttm_dev, mem_type);
+-}
+-
+ static void ttm_bo_validate_happy_evict(struct kunit *test)
+ {
+ 	u32 mem_type = TTM_PL_VRAM, mem_multihop = TTM_PL_TT,
+@@ -1202,7 +1152,6 @@ static struct kunit_case ttm_bo_validate_test_cases[] = {
+ 	KUNIT_CASE(ttm_bo_validate_move_fence_signaled),
+ 	KUNIT_CASE_PARAM(ttm_bo_validate_move_fence_not_signaled,
+ 			 ttm_bo_validate_wait_gen_params),
+-	KUNIT_CASE(ttm_bo_validate_swapout),
+ 	KUNIT_CASE(ttm_bo_validate_happy_evict),
+ 	KUNIT_CASE(ttm_bo_validate_all_pinned_evict),
+ 	KUNIT_CASE(ttm_bo_validate_allowed_only_evict),
 -- 
 2.34.1
 
