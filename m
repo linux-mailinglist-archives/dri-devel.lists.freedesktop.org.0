@@ -2,74 +2,74 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 94962B006C8
+	by mail.lfdr.de (Postfix) with ESMTPS id 9E357B006CA
 	for <lists+dri-devel@lfdr.de>; Thu, 10 Jul 2025 17:32:23 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D5A0F10E90E;
-	Thu, 10 Jul 2025 15:32:06 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 03B8210E90A;
+	Thu, 10 Jul 2025 15:32:09 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="Bus6Sy8m";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="S+LvyC1B";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-qv1-f43.google.com (mail-qv1-f43.google.com
- [209.85.219.43])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9AA1D10E90A;
- Thu, 10 Jul 2025 15:32:03 +0000 (UTC)
-Received: by mail-qv1-f43.google.com with SMTP id
- 6a1803df08f44-702cbfe860cso11403596d6.1; 
- Thu, 10 Jul 2025 08:32:03 -0700 (PDT)
+Received: from mail-qv1-f42.google.com (mail-qv1-f42.google.com
+ [209.85.219.42])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id F283D10E90E;
+ Thu, 10 Jul 2025 15:32:05 +0000 (UTC)
+Received: by mail-qv1-f42.google.com with SMTP id
+ 6a1803df08f44-6f8aa9e6ffdso9228966d6.3; 
+ Thu, 10 Jul 2025 08:32:05 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1752161523; x=1752766323; darn=lists.freedesktop.org;
+ d=gmail.com; s=20230601; t=1752161525; x=1752766325; darn=lists.freedesktop.org;
  h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
  :mime-version:subject:date:from:from:to:cc:subject:date:message-id
- :reply-to; bh=gjJPn9BNZDTlQCUGZ6ZHdjrXUEWbzobkN6Ni4tq8q/s=;
- b=Bus6Sy8muyVYyd8w0eYMw6d//wAlC/dUhNdpBxjs3PqxOxZmwL+yYKV89TzA0jl+l0
- V6snLQnF4OX6XHdVeK+We3JsWSXWvOasy+YMFemdzCUoDeauIQxKw+LAbuTOyO0r+9QT
- R37i83wsdXW87dLHhlaoUosYFnLo2mUavvHjXyGME3ycR/H+i/aqWt3WD/YMhLebEoTv
- ueh71fjuj9CjFbKeFLF97FNMCKtdYpK5V8SpLKpGSeNExBKlFw8IbHRLVpjscbgqx3TQ
- hWqz169qyRdOKaF8my78EFQx/AyhsC9eb68m9etTB4SwuspPdqGQ9F39rJE/AaL5tLVI
- 0Utg==
+ :reply-to; bh=eAjg0ZV0+LQF8h7dWz/4RhRbIfQ28PSCjaiFK3RId/4=;
+ b=S+LvyC1B5SccHrUilwh/lHVWCL/2mXw2Hn+/fxwX3rZhkORW1phEYVBZvHs1fcVWPf
+ R65DUHM/+NMEkRaId7X6AorBqwL8Y1k7GuRWR4o5Q4NZy4NeK8kmldHkb4FTnoZHSRAE
+ jiY5D9h0mUZy8tD8S+Q7+/5UThZfk0gp4Jm9A8gDO+caR6BQACObZEE9PnNwdcN/KCZh
+ 2Cg7QKpCmzk9+9qNFPWSn8EWOjSNnBdQmTPKmqyD8+lqYH3dvkkcxV4jRyd49p8KuiXa
+ 311c23tGmAnMa+O4JXMr6uEeNR4BeaRSGNNwy47ZUX5SwUJwAc82Ah6SCkJ4IqOqd9jd
+ jMZg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1752161523; x=1752766323;
+ d=1e100.net; s=20230601; t=1752161525; x=1752766325;
  h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
  :mime-version:subject:date:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=gjJPn9BNZDTlQCUGZ6ZHdjrXUEWbzobkN6Ni4tq8q/s=;
- b=kbaM4KXY1bYUqXLbWVBhxFHe7dKvLjUka+S6aa4/YhKuPM5mNupIUUx5/LDSn7dSiY
- PmC161L6bII+t2nolnpZXWIYsLqB80Lz8qrVGe1vZelxI9LMee53XemaU7m4kjBDiQ8x
- 4sjdmXD9YDZpIA1Z4qtkggcx5Gr9BuuyeRpzqgL+55I4Nd7hXhjbJucut3pSNTiq+v/e
- /fQaXkEb8JqA4HoS943eRyBsvo7fSKFzlzAxhrnLO5gTY7cKCcYn46OGoGPnw8xJYvpa
- /62t2Kmy9I8CrII47efq0IIr2ec9Wf1lwO7D2mcm1k/E7eKqU2BcQ/s4VvXJEPm/6Hpg
- fAlQ==
+ bh=eAjg0ZV0+LQF8h7dWz/4RhRbIfQ28PSCjaiFK3RId/4=;
+ b=b7Y7ewy2A7fkEcgTCLpbsrtVuPJAeBUazHs0RUx59/0PPLL66NHFNJFhx7A+L/2fp2
+ FNwFKbjMiKdu6ukjQ5MSBI9Dwp1vG6ncXebl3xjOalavII13x8w6FQ8N0uEJdGoDSRxS
+ bpWIzIY4SexkIjLJo5e9SazMYIEgsDNtqt44tVeXnTKvnT5stZNRytp1NwTkkv3AZKo9
+ K1O4MtqxuI/qfp7nqvitrq8/qTLA04dVyfgTUr5Q8rD9Wt6pShrTNv+Ja00ttsDeV8FQ
+ pv2aEY4Zu6xuc8wVbKCfLG7rKGhyWH2RfPhYi3jIjSc1iZj+tfAL4NVJnYXuLfln50EE
+ o1iw==
 X-Forwarded-Encrypted: i=1;
- AJvYcCX9x3IQH9zZ3iLsk5xyBTBkbKnoqWPcZKAQ4CSq0engvT4XxnHIlQTpUPSfOVSWW4nWBDssCeGaMQ==@lists.freedesktop.org,
- AJvYcCXpo+WNNpcVhI+kjkyPczcne0vFod9UEBV/7xLBV03Qnp2y/O5ShRa2LVonFT6qnMDUyYgB+L9paVU=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YzWtdhwEQjwtPd585nGyoXCb1z37dKS90eF2meHIwCvnGYT20GZ
- JMmqUxJN0sxRlzHTLLaU77U49XSrgJH/mISTWHdnWwUhq+E34skGpGjD
-X-Gm-Gg: ASbGncshgRlZCP0LaLJRlzsLgapR8Bd0+cQJPdZ3huzabhvkrmKyqVTucjUfhqONLax
- WyCDEL9hqqjJQ0MSM0CIgB2UfFkSOxy24Z17GdKgKXehAWqaabsIYijt9yyK6uvS9nJz02r2UpZ
- pHk2B8OJn66kXJiRlKnHdZxkdPI/BRjFsPJRC9wRmzLuZ10bIGEcPfXHbEVtDnd3erzoBW8R4Qy
- 0a35R5gGNMeiDn7G8ow7QdL3pII5ma5uyzKOJ5dKGRU6c2pb1v65FhL63LbVYm97o5tdtSZ+vhZ
- i2Uu0YiVe85b+r0kvPm8B7FSt38Yqssx2Lg5WfBLHyh+CVvw+Zdi+b8IN3uZBFIBrRZDZY2ysrs
- PsDFZECWqFGdAU0i/r/3zu+gJ5KRJNAOix/awHqWit256MB6HbvRW/HNifA==
-X-Google-Smtp-Source: AGHT+IHjIbts0URjbxS9KvRYcAvq4YRl3uR9tFk562fCAP2FVfBcN0PJZZlEyH/xPHjBXW04p9wpRQ==
-X-Received: by 2002:a05:6214:3d11:b0:6fa:a4ed:cce5 with SMTP id
- 6a1803df08f44-7048b9da2e3mr90346426d6.44.1752161522568; 
- Thu, 10 Jul 2025 08:32:02 -0700 (PDT)
+ AJvYcCW5hYvazRy+YJpMyf66eUyMhpC6HRjSL+8B6V8I6/bvH5u3bkBckHWSAjx+M2XLZbXKiFJVotal5g==@lists.freedesktop.org,
+ AJvYcCWbvLudk/rBJQnfynxFCFMGUWu5p3rGdNIF8Z42kx70VHidEePaezTmsOJcGRq/Fo2OD8ZdmRsiIHM=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0Yzxt6Rt58lNFXvXDUbqKg/s4YrM2WMQhbeRntKADN1CPTsTYfhW
+ s3QLuXkGi1DxyiXys6n9AiK5y4cpEb7MWZNktG8ZeCMtecM9AefhDfqG
+X-Gm-Gg: ASbGncsJIMOejSHKMhrnQvjaeN2Ou1xUm/GgLIDy5Mg7eyhLtzxvKabN8PC9I/PkORn
+ 8RRe3jgmVBS4ol4NIfCb+u50d11Qabov7jKj8Agcq1qBtNbpAqaeghuPV3n5Ui5+4fB3gp2vZIB
+ 25tYzdo+HGP7iT3cdNmJO0QvNL1BLJhSLWwkTI5L+X2bp8/SBZ2IQxw+d6RN2f5+IvdqrxynZVr
+ bjpbbPrB35WhrxE5Vn/5A+wPROr9K1Fgn2SK+NTv02iH9RF1AKw2b7W5vw6m7O0XJYKOttQE806
+ E53faZwCpJGUp0yN/4H+kTZF7Lz93ysEpmugmjUBnEHLvm7JgBCG8f/931aSdK2DTy3nXssdQYs
+ ONftMMv6RTjKSDWB6W2E2JvNKVv7JxF2yclv6g6HUStzIaKVrywuEY5y5kQ==
+X-Google-Smtp-Source: AGHT+IHa6QfTTxtysiSDzhEZvT6ceVeIez49OGRLLuuePcNYfbMj3bkmBsvuO2geaZw6Uk2BToW7lA==
+X-Received: by 2002:ad4:5608:0:b0:704:9275:a7c7 with SMTP id
+ 6a1803df08f44-7049275a7d7mr44810926d6.2.1752161524949; 
+ Thu, 10 Jul 2025 08:32:04 -0700 (PDT)
 Received: from
  1.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.ip6.arpa
  ([148.76.185.197]) by smtp.gmail.com with ESMTPSA id
- 6a1803df08f44-704979dbc3asm9449496d6.38.2025.07.10.08.32.00
+ 6a1803df08f44-704979dbc3asm9449496d6.38.2025.07.10.08.32.02
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 10 Jul 2025 08:32:02 -0700 (PDT)
+ Thu, 10 Jul 2025 08:32:04 -0700 (PDT)
 From: Tamir Duberstein <tamird@gmail.com>
-Date: Thu, 10 Jul 2025 11:31:17 -0400
-Subject: [PATCH 14/17] rust: platform: replace `kernel::c_str!` with C-Strings
+Date: Thu, 10 Jul 2025 11:31:18 -0400
+Subject: [PATCH 15/17] rust: seq_file: replace `kernel::c_str!` with C-Strings
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20250710-core-cstr-cstrings-v1-14-027420ea799e@gmail.com>
+Message-Id: <20250710-core-cstr-cstrings-v1-15-027420ea799e@gmail.com>
 References: <20250710-core-cstr-cstrings-v1-0-027420ea799e@gmail.com>
 In-Reply-To: <20250710-core-cstr-cstrings-v1-0-027420ea799e@gmail.com>
 To: "Rafael J. Wysocki" <rafael@kernel.org>, 
@@ -105,13 +105,13 @@ Cc: linux-pm@vger.kernel.org, linux-kernel@vger.kernel.org,
  linux-kselftest@vger.kernel.org, kunit-dev@googlegroups.com, 
  linux-block@vger.kernel.org, Tamir Duberstein <tamird@gmail.com>
 X-Mailer: b4 0.15-dev
-X-Developer-Signature: v=1; a=openssh-sha256; t=1752161490; l=2804;
+X-Developer-Signature: v=1; a=openssh-sha256; t=1752161490; l=1281;
  i=tamird@gmail.com; h=from:subject:message-id;
- bh=b7MnZtqZPQC4U8mIjLdzpMTp0A3ghkW1nvaMttMu1TY=;
+ bh=oWfPD9SZ2WRxhFsnid53HSH+eaDtp4ct8AP6223uNWU=;
  b=U1NIU0lHAAAAAQAAADMAAAALc3NoLWVkMjU1MTkAAAAgtYz36g7iDMSkY5K7Ab51ksGX7hJgs
  MRt+XVZTrIzMVIAAAAGcGF0YXR0AAAAAAAAAAZzaGE1MTIAAABTAAAAC3NzaC1lZDI1NTE5AAAA
- QIC5PltnODTYX8vUFuqLnupbovnoGnPtVA8TJd95OaL9bqCetFK1JYHe9Aro3uVPT4GacvOI9dC
- qPGGQfSlBCgM=
+ QFNv2Kh23FtytsmiZFEP5IAXsVFrrWde3HmnmKMIPax0OI3s+QHLlwEHNMx8/NtqTIKC1Y9eoLt
+ QxveS62SAaQY=
 X-Developer-Key: i=tamird@gmail.com; a=openssh;
  fpr=SHA256:264rPmnnrb+ERkS7DDS3tuwqcJss/zevJRzoylqMsbc
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -136,77 +136,31 @@ Acked-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 Reviewed-by: Alice Ryhl <aliceryhl@google.com>
 Signed-off-by: Tamir Duberstein <tamird@gmail.com>
 ---
- rust/kernel/platform.rs              | 4 ++--
- samples/rust/rust_driver_faux.rs     | 4 ++--
- samples/rust/rust_driver_platform.rs | 4 ++--
- 3 files changed, 6 insertions(+), 6 deletions(-)
+ rust/kernel/seq_file.rs | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/rust/kernel/platform.rs b/rust/kernel/platform.rs
-index 0a6a6be732b2..99ad0b132ab6 100644
---- a/rust/kernel/platform.rs
-+++ b/rust/kernel/platform.rs
-@@ -125,7 +125,7 @@ macro_rules! module_platform_driver {
- /// # Examples
- ///
- ///```
--/// # use kernel::{bindings, c_str, device::Core, of, platform};
-+/// # use kernel::{bindings, device::Core, of, platform};
- ///
- /// struct MyDriver;
- ///
-@@ -134,7 +134,7 @@ macro_rules! module_platform_driver {
- ///     MODULE_OF_TABLE,
- ///     <MyDriver as platform::Driver>::IdInfo,
- ///     [
--///         (of::DeviceId::new(c_str!("test,device")), ())
-+///         (of::DeviceId::new(c"test,device"), ())
- ///     ]
- /// );
- ///
-diff --git a/samples/rust/rust_driver_faux.rs b/samples/rust/rust_driver_faux.rs
-index ecc9fd378cbd..23add3160693 100644
---- a/samples/rust/rust_driver_faux.rs
-+++ b/samples/rust/rust_driver_faux.rs
-@@ -2,7 +2,7 @@
+diff --git a/rust/kernel/seq_file.rs b/rust/kernel/seq_file.rs
+index 855e533813a6..518265558d66 100644
+--- a/rust/kernel/seq_file.rs
++++ b/rust/kernel/seq_file.rs
+@@ -4,7 +4,7 @@
+ //!
+ //! C header: [`include/linux/seq_file.h`](srctree/include/linux/seq_file.h)
  
- //! Rust faux device sample.
+-use crate::{bindings, c_str, fmt, str::CStrExt as _, types::NotThreadSafe, types::Opaque};
++use crate::{bindings, fmt, str::CStrExt as _, types::NotThreadSafe, types::Opaque};
  
--use kernel::{c_str, faux, prelude::*, Module};
-+use kernel::{faux, prelude::*, Module};
- 
- module! {
-     type: SampleModule,
-@@ -20,7 +20,7 @@ impl Module for SampleModule {
-     fn init(_module: &'static ThisModule) -> Result<Self> {
-         pr_info!("Initialising Rust Faux Device Sample\n");
- 
--        let reg = faux::Registration::new(c_str!("rust-faux-sample-device"), None)?;
-+        let reg = faux::Registration::new(c"rust-faux-sample-device", None)?;
- 
-         dev_info!(reg.as_ref(), "Hello from faux device!\n");
- 
-diff --git a/samples/rust/rust_driver_platform.rs b/samples/rust/rust_driver_platform.rs
-index 8b42b3cfb363..e6487a970a59 100644
---- a/samples/rust/rust_driver_platform.rs
-+++ b/samples/rust/rust_driver_platform.rs
-@@ -2,7 +2,7 @@
- 
- //! Rust Platform driver sample.
- 
--use kernel::{c_str, device::Core, of, platform, prelude::*, types::ARef};
-+use kernel::{device::Core, of, platform, prelude::*, types::ARef};
- 
- struct SampleDriver {
-     pdev: ARef<platform::Device>,
-@@ -14,7 +14,7 @@ struct SampleDriver {
-     OF_TABLE,
-     MODULE_OF_TABLE,
-     <SampleDriver as platform::Driver>::IdInfo,
--    [(of::DeviceId::new(c_str!("test,rust-device")), Info(42))]
-+    [(of::DeviceId::new(c"test,rust-device"), Info(42))]
- );
- 
- impl platform::Driver for SampleDriver {
+ /// A utility for generating the contents of a seq file.
+ #[repr(transparent)]
+@@ -36,7 +36,7 @@ pub fn call_printf(&self, args: fmt::Arguments<'_>) {
+         unsafe {
+             bindings::seq_printf(
+                 self.inner.get(),
+-                c_str!("%pA").as_char_ptr(),
++                c"%pA".as_char_ptr(),
+                 core::ptr::from_ref(&args).cast::<crate::ffi::c_void>(),
+             );
+         }
 
 -- 
 2.50.0
