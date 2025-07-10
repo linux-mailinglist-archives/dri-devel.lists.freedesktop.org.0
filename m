@@ -2,51 +2,52 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B585DB00268
-	for <lists+dri-devel@lfdr.de>; Thu, 10 Jul 2025 14:50:11 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0B071B00282
+	for <lists+dri-devel@lfdr.de>; Thu, 10 Jul 2025 14:54:29 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5587610E0D3;
-	Thu, 10 Jul 2025 12:50:09 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6FFF810E8BB;
+	Thu, 10 Jul 2025 12:54:26 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=collabora.com header.i=@collabora.com header.b="XI8c4hGm";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="bGF6/V4O";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from bali.collaboradmins.com (bali.collaboradmins.com
- [148.251.105.195])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 05B0C10E0D3
- for <dri-devel@lists.freedesktop.org>; Thu, 10 Jul 2025 12:50:08 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
- s=mail; t=1752151806;
- bh=hapXZ1CLJj9VVkddZ3yGM3MjfjYbRKQEZ8m4KIxSF8Y=;
- h=Date:To:Cc:From:Subject:From;
- b=XI8c4hGmOVLk7G+hUCnoIap8PCaiABZqR/L9XnkL9lkLnQixmh0MIaSwQisroj8w5
- ZY8x/uUzKFcFYTLvtPoj1dmlDwORgkox4JUHFMwMBIwB99UzBjFH5aa/id5Pf6LXSe
- 6I0bSbz5wyMVaylLCesV3cbVUe2I8xYVt7xvYjC/ip4xWnF4aOYfOLwJ23CiV84rB3
- Vo7AFJ5TvMRhNeUP4puHk27nyu8e0lLrhuj/nKzlmLyiQkBu94fLWttg/1cJbeqUn0
- b8gVV2PfMD3IJDcngGvo3VJ4NczDdjr7TU9hBYE+gh7U0OOhYdUJ/9yNMDeAxKFH/y
- sKiDF5/0XUDsA==
-Received: from [192.168.50.250] (unknown [171.76.82.69])
- (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits))
- (No client certificate requested) (Authenticated sender: vignesh)
- by bali.collaboradmins.com (Postfix) with ESMTPSA id 2A97D17E0FD3;
- Thu, 10 Jul 2025 14:50:03 +0200 (CEST)
-Message-ID: <7559dd68-c9dd-410f-880f-201679e2dd54@collabora.com>
-Date: Thu, 10 Jul 2025 18:20:02 +0530
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id AC25510E37B;
+ Thu, 10 Jul 2025 12:54:24 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+ by dfw.source.kernel.org (Postfix) with ESMTP id 6DC0F5C6D7A;
+ Thu, 10 Jul 2025 12:54:23 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id C28B5C4CEE3;
+ Thu, 10 Jul 2025 12:54:18 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1752152063;
+ bh=u74M1EW5VU19MnDPuvCa6vHxBhmEOdY3hdgjpiY39AM=;
+ h=From:To:Cc:Subject:Date:From;
+ b=bGF6/V4O+tpNGko7XNwOq2zFo/JXkKkGGlryqxq1f0VgJ5zXzfsnQMhuWJTiMqa8D
+ 8YfoE7NDTrdw6GRHlkYNZRYmUf5YVTnSw7II5pdJ3+INflsNlpHC+d72Sdkqb5P+up
+ 9AhKDzmkAruXHLTwcjimh02fp1AKgM8ZzUsOr2xIDSqzzem3H4z/OSl06lntEoWf8+
+ kHgH8jKAwfzENzyAu6ICdLvYApGcFFZA/J1ATqSXp/cIF5K5+4fDFcvBY50mGgAyK9
+ N9mzyGlxNbJchAWXU5LHdDqZF5E27MD1KY/hwllnkt00pVBsdCX+iQmEkeG7cjedb+
+ puK2JwdKBRvpg==
+From: Philipp Stanner <phasta@kernel.org>
+To: Danilo Krummrich <dakr@kernel.org>, David Airlie <airlied@gmail.com>,
+ Simona Vetter <simona@ffwll.ch>, Matthew Brost <matthew.brost@intel.com>,
+ Philipp Stanner <phasta@kernel.org>,
+ =?UTF-8?q?Christian=20K=C3=B6nig?= <ckoenig.leichtzumerken@gmail.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Thomas Zimmermann <tzimmermann@suse.de>,
+ Tvrtko Ursulin <tvrtko.ursulin@igalia.com>,
+ Pierre-Eric Pelloux-Prayer <pierre-eric.pelloux-prayer@amd.com>
+Cc: dri-devel@lists.freedesktop.org, nouveau@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org, linux-media@vger.kernel.org
+Subject: [PATCH v4 0/8] drm/sched: Fix memory leaks with cancel_job() callback
+Date: Thu, 10 Jul 2025 14:54:04 +0200
+Message-ID: <20250710125412.128476-2-phasta@kernel.org>
+X-Mailer: git-send-email 2.49.0
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Content-Language: en-US
-To: linux-mediatek@lists.infradead.org, dri-devel@lists.freedesktop.org
-Cc: chunkuang.hu@kernel.org, p.zabel@pengutronix.de,
- AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
- nfraprado@collabora.com, airlied@gmail.com, daniel@ffwll.ch,
- Daniel Stone <daniels@collabora.com>,
- Helen Mae Koike Fornazier <helen.fornazier@gmail.com>
-From: Vignesh Raman <vignesh.raman@collabora.com>
-Subject: drm-ci: mt8173-elm-hana: kms_flip@blocking-wf_vblank flake
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -62,90 +63,54 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Maintainers,
+Changes in v4:
+  - Change dev_err() to dev_warn() in pending_list emptyness check.
 
-There is a flake test reported for the mediatek driver in drm-ci.
+Changes in v3:
+  - Remove forgotten copy-past artifacts. (Tvrtko)
+  - Remove forgotten done_list struct member. (Tvrtko)
+  - Slightly adjust commit message of patch 7.
+  - Add RBs. (Maira, Danilo, Tvrtko)
 
-# Board Name: mt8173-elm-hana
-# Failure Rate: 20
-# IGT Version: 2.1-g26ddb59c1
-# Linux Version: 6.16.0-rc2
-kms_flip@blocking-wf_vblank
+Changes in v2:
+  - Add new unit test to test cancel_job()'s behavior. (Tvrtko)
+  - Add RB from Maíra
 
-02:13:44.625: DEBUG - Begin test kms_flip@blocking-wf_vblank
-02:13:44.625: ERROR - Igt error: (kms_flip:275) CRITICAL: Test assertion 
-failure function __run_test_on_crtc_set, file ../tests/kms_flip.c:1666:
-02:13:44.625: ERROR - Igt error: (kms_flip:275) CRITICAL: Failed 
-assertion: do_page_flip(o, o->fb_ids[1], 1) == 0
-02:13:44.625: ERROR - Igt error: (kms_flip:275) CRITICAL: Last errno: 
-16, Device or resource busy
-02:13:44.625: ERROR - Igt error: (kms_flip:275) CRITICAL: error: -16 != 0
-02:13:44.625: ERROR - Igt error: Dynamic subtest A-eDP1 failed.
-02:13:44.625: ERROR - Igt error: **** DEBUG ****
-02:13:44.625: ERROR - Igt error: (kms_flip:275) igt_fb-DEBUG: 
-igt_create_fb_with_bo_size(width=1366, height=768, 
-format=XR24(0x34325258), modifier=0x0, size=0)
-02:13:44.625: ERROR - Igt error: (kms_flip:275) igt_fb-DEBUG: 
-igt_create_fb_with_bo_size(handle=1, pitch=5464)
-02:13:44.625: ERROR - Igt error: (kms_flip:275) ioctl_wrappers-DEBUG: 
-Test requirement passed: igt_has_fb_modifiers(fd)
-02:13:44.625: ERROR - Igt error: (kms_flip:275) igt_fb-DEBUG: 
-igt_create_fb_with_bo_size(width=1366, height=768, 
-format=XR24(0x34325258), modifier=0x0, size=0)
-02:13:44.625: ERROR - Igt error: (kms_flip:275) igt_fb-DEBUG: 
-igt_create_fb_with_bo_size(handle=2, pitch=5464)
-02:13:44.625: ERROR - Igt error: (kms_flip:275) ioctl_wrappers-DEBUG: 
-Test requirement passed: igt_has_fb_modifiers(fd)
-02:13:44.625: ERROR - Igt error: (kms_flip:275) igt_fb-DEBUG: Test 
-requirement passed: cairo_surface_status(fb->cairo_surface) == 
-CAIRO_STATUS_SUCCESS
-02:13:44.625: ERROR - Igt error: (kms_flip:275) igt_fb-DEBUG: Test 
-requirement passed: cairo_surface_status(fb->cairo_surface) == 
-CAIRO_STATUS_SUCCESS
-02:13:44.625: ERROR - Igt error: (kms_flip:275) igt_kms-INFO: 
-1366x768: 60 76420 1366 1502 1532 1592 768 776 788 800 0x48 0xa
-02:13:44.625: ERROR - Igt error: (kms_flip:275) DEBUG: No stale events found
-02:13:44.625: ERROR - Igt error: (kms_flip:275) CRITICAL: Test assertion 
-failure function __run_test_on_crtc_set, file ../tests/kms_flip.c:1666:
-02:13:44.625: ERROR - Igt error: (kms_flip:275) CRITICAL: Failed 
-assertion: do_page_flip(o, o->fb_ids[1], 1) == 0
-02:13:44.625: ERROR - Igt error: (kms_flip:275) CRITICAL: Last errno: 
-16, Device or resource busy
-02:13:44.625: ERROR - Igt error: (kms_flip:275) CRITICAL: error: -16 != 0
-02:13:44.625: ERROR - Igt error: (kms_flip:275) igt_core-INFO: Stack trace:
-02:13:44.625: ERROR - Igt error: (kms_flip:275) igt_core-INFO:   #0 
-../lib/igt_core.c:2075 __igt_fail_assert()
-02:13:44.625: ERROR - Igt error: (kms_flip:275) igt_core-INFO:   #1 
-../tests/kms_flip.c:1643 run_test_on_crtc_set.constprop.0()
-02:13:44.625: ERROR - Igt error: (kms_flip:275) igt_core-INFO:   #2 
-../tests/kms_flip.c:1856 run_test()
-02:13:44.625: ERROR - Igt error: (kms_flip:275) igt_core-INFO:   #3 
-../tests/kms_flip.c:2105 __igt_unique____real_main2028()
-02:13:44.625: ERROR - Igt error: (kms_flip:275) igt_core-INFO:   #4 
-../tests/kms_flip.c:2028 main()
-02:13:44.625: ERROR - Igt error: (kms_flip:275) igt_core-INFO:   #5 
-[__libc_init_first+0x80]
-02:13:44.625: ERROR - Igt error: (kms_flip:275) igt_core-INFO:   #6 
-[__libc_start_main+0x98]
-02:13:44.625: ERROR - Igt error: (kms_flip:275) igt_core-INFO:   #7 
-[_start+0x30]
-02:13:44.625: ERROR - Igt error: ****  END  ****
-02:13:44.625: ERROR - Igt error: (kms_flip:275) igt_kms-CRITICAL: Test 
-assertion failure function kmstest_set_connector_dpms, file 
-../lib/igt_kms.c:2247:
-02:13:44.625: ERROR - Igt error: (kms_flip:275) igt_kms-CRITICAL: Failed 
-assertion: found_it
-02:13:44.625: ERROR - Igt error: (kms_flip:275) igt_kms-CRITICAL: Last 
-errno: 9, Bad file descriptor
-02:13:44.625: ERROR - Igt error: (kms_flip:275) igt_kms-CRITICAL: DPMS 
-property not found on 34
-02:13:44.625: ERROR - Test kms_flip@blocking-wf_vblank: Fail: See 
-"/results/igt.kms_flip@blocking-wf_vblank.log"
+Changes since the RFC:
+  - Rename helper function for drm_sched_fini(). (Tvrtko)
+  - Add Link to Tvrtko's RFC patch to patch 1.
 
-Pipeline: https://gitlab.freedesktop.org/vigneshraman/msm/-/jobs/79872311
 
-Please could you have a look at these test results and let us know if 
-you need more information. Thank you.
+Since a long time, drm_sched_fini() can leak jobs that are still in
+drm_sched.pending_list.
 
-Regards,
-Vignesh
+This series solves the leaks in a backwards-compatible manner by adding
+a new, optional callback. If that callback is implemented, the scheduler
+uses it to cancel all jobs from pending_list and then frees them.
+
+Philipp Stanner (8):
+  drm/panfrost: Fix scheduler workqueue bug
+  drm/sched: Avoid memory leaks with cancel_job() callback
+  drm/sched/tests: Implement cancel_job() callback
+  drm/sched/tests: Add unit test for cancel_job()
+  drm/sched: Warn if pending_list is not empty
+  drm/nouveau: Make fence container helper usable driver-wide
+  drm/nouveau: Add new callback for scheduler teardown
+  drm/nouveau: Remove waitque for sched teardown
+
+ drivers/gpu/drm/nouveau/nouveau_fence.c       | 35 ++++++----
+ drivers/gpu/drm/nouveau/nouveau_fence.h       |  7 ++
+ drivers/gpu/drm/nouveau/nouveau_sched.c       | 35 ++++++----
+ drivers/gpu/drm/nouveau/nouveau_sched.h       |  9 +--
+ drivers/gpu/drm/nouveau/nouveau_uvmm.c        |  8 +--
+ drivers/gpu/drm/panfrost/panfrost_job.c       |  2 +-
+ drivers/gpu/drm/scheduler/sched_main.c        | 37 ++++++----
+ .../gpu/drm/scheduler/tests/mock_scheduler.c  | 68 +++++++------------
+ drivers/gpu/drm/scheduler/tests/sched_tests.h |  1 -
+ drivers/gpu/drm/scheduler/tests/tests_basic.c | 42 ++++++++++++
+ include/drm/gpu_scheduler.h                   | 18 +++++
+ 11 files changed, 167 insertions(+), 95 deletions(-)
+
+-- 
+2.49.0
+
