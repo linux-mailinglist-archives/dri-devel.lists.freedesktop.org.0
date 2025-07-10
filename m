@@ -2,91 +2,53 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6D51EB00156
-	for <lists+dri-devel@lfdr.de>; Thu, 10 Jul 2025 14:13:46 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5296EB0015A
+	for <lists+dri-devel@lfdr.de>; Thu, 10 Jul 2025 14:15:32 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 447CE10E37C;
-	Thu, 10 Jul 2025 12:13:44 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id EF25910E8AF;
+	Thu, 10 Jul 2025 12:15:29 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=redhat.com header.i=@redhat.com header.b="PACHBUQp";
+	dkim=pass (2048-bit key; unprotected) header.d=collabora.com header.i=@collabora.com header.b="JEkLxQ3t";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [170.10.129.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E13F310E37C
- for <dri-devel@lists.freedesktop.org>; Thu, 10 Jul 2025 12:13:42 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1752149622;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=V4lgpdxo1FVLUcK9VrQ20Ig1tFoA8+jWoGG13oO7pPY=;
- b=PACHBUQpnKsL2PoHLzqkiLcVsvXBaK75U2OBaBIw/g1d6pP+G10lJpoX1jD2Y2A/9Gh5FW
- b2W0Pcvf+5e9CphojYl4bf1XTfH2pmPq7us4G8+9xX86imm6YHKi/Ewoqmjc4wXw7ifa14
- kpLpapeVItuUEIJF9S5OIHu/XcSLKAs=
-Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
- [209.85.128.70]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-635-Z4pNQXwXOgGugWLKGww_qQ-1; Thu, 10 Jul 2025 08:13:40 -0400
-X-MC-Unique: Z4pNQXwXOgGugWLKGww_qQ-1
-X-Mimecast-MFC-AGG-ID: Z4pNQXwXOgGugWLKGww_qQ_1752149620
-Received: by mail-wm1-f70.google.com with SMTP id
- 5b1f17b1804b1-451ac1b43c4so5094665e9.0
- for <dri-devel@lists.freedesktop.org>; Thu, 10 Jul 2025 05:13:40 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1752149620; x=1752754420;
- h=mime-version:message-id:date:references:in-reply-to:subject:cc:to
- :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=V4lgpdxo1FVLUcK9VrQ20Ig1tFoA8+jWoGG13oO7pPY=;
- b=jxYCZ4ddfN+n6xCLHPCwjJ2HOGvxaygL/RjW0WjJgGywMDNW1TnZSKqbHkqPdeV2Zl
- Y7rL0tKO2UpegGjtPkrR3AwnF0hIbXoXxQOAWTOmwyiZOHBfK7f8od25ScRIHg5t1nzp
- DGd53tefguAfbtp6wGSpBzt4Jewl3CI6lqjTsIqKKNbloIl5pxt0Y3Xly/PyGWapaQX9
- FTQhdQmSY9fNFdsbIaHCPG+yYQ+D6LjDk9mv7MVss9OtyMEi0qHSy7s5Ucep+v5dgsx+
- UWS5rGKxyc4QWb6oLwH+95NsSpHriNisdjiFS76XaSkR6zE67QHe1BWAMHOwwzFbgKJ4
- tA4g==
-X-Forwarded-Encrypted: i=1;
- AJvYcCV6Z8xZAKGYSD+qbdvLn84+Ce3bCNfrC6l7Q4B1P8fRSKygYheNPzP2Qz5ZClFHIMYkdT92GXFhTJw=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0Yy/QeauOkR0f06f4Pop2RQAADCS5wxLYMv7zAq0oxmcDrH5yHx0
- ImQv7n2ptCgYulF4E59eH12aPTWrR6nWILosf1imMEO6sU1axcLsqQ5zIsfKgMVV4RJghhDrAhH
- yhovyCl3faqPwNKXh4xZFB+utVpl4shDJx/pNFuMFq5GQ3OOk5cXl6qwTqW4GJ9FZ9SWjHw==
-X-Gm-Gg: ASbGncuIRJurlCYB50ls8Z8jGIyF9j/W36VuE7Na9/UvEb6TFhTKyGM0P17QJKEGZao
- 1M3v7+Gl5EQFb9LiLTUvsEc8/byhNODPIWJZ9uBOET1MgYYg66j1bws4vzppGOtNKxaxrsSanVT
- vmLtZiJsS2mSd8D4b+W1kLY5KPKt+Iyg+8y74x+nqC5wNzUUVxuiG4ExIrK6mL1gpQ3FNcC/p3x
- 4laM8crdEl1HQC488GakiVOzIC2quUJ7tdc3uyr5NaAEYYJ6QrwxzF//SCqeqmICpcSDWGG6327
- HiTY/DJknAvHFuifsZUNobNqFw1jsolXOd6Uz+DcflKvY2T7AiBYX2wPWRSMIXlSkEynKa54HoK
- uVL0u
-X-Received: by 2002:a05:600c:8717:b0:442:dc6f:7a21 with SMTP id
- 5b1f17b1804b1-454db7e87c2mr38423835e9.3.1752149619716; 
- Thu, 10 Jul 2025 05:13:39 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IFp+CE4OHvWqIhCgoGjMUd0oVm2/xeAAOIhuzXqN72Z/OQpis058DRemX4zgz1jKZQSrDiQmg==
-X-Received: by 2002:a05:600c:8717:b0:442:dc6f:7a21 with SMTP id
- 5b1f17b1804b1-454db7e87c2mr38423525e9.3.1752149619307; 
- Thu, 10 Jul 2025 05:13:39 -0700 (PDT)
-Received: from localhost (62-151-111-63.jazzfree.ya.com. [62.151.111.63])
- by smtp.gmail.com with ESMTPSA id
- 5b1f17b1804b1-454dd439051sm18518215e9.8.2025.07.10.05.13.38
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 10 Jul 2025 05:13:38 -0700 (PDT)
-From: Javier Martinez Canillas <javierm@redhat.com>
-To: Maxime Ripard <mripard@kernel.org>, Maarten Lankhorst
- <maarten.lankhorst@linux.intel.com>, Thomas Zimmermann
- <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>, Simona Vetter
- <simona@ffwll.ch>
-Cc: Dmitry Baryshkov <lumag@kernel.org>, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org, Maxime Ripard <mripard@kernel.org>
-Subject: Re: [PATCH 2/3] drm/tests: edid: Update CTA-861 HDMI Vendor
- Specific Data Block
-In-Reply-To: <20250625-drm-update-edid-v1-2-2d963743ab9e@kernel.org>
-References: <20250625-drm-update-edid-v1-0-2d963743ab9e@kernel.org>
- <20250625-drm-update-edid-v1-2-2d963743ab9e@kernel.org>
-Date: Thu, 10 Jul 2025 14:13:37 +0200
-Message-ID: <87bjpsfdla.fsf@minerva.mail-host-address-is-not-set>
+Received: from bali.collaboradmins.com (bali.collaboradmins.com
+ [148.251.105.195])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6B85710E8AE
+ for <dri-devel@lists.freedesktop.org>; Thu, 10 Jul 2025 12:15:28 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+ s=mail; t=1752149727;
+ bh=okGM5S2CahtaEdt4ff44tZZBw38b8T8JSVlEAdE6h5o=;
+ h=Date:To:Cc:From:Subject:From;
+ b=JEkLxQ3tInZCuAkBThYF1HCzcWwKcjVo6K0vbe7FpwukpdnyLvevyAeqjcjZUO/xy
+ jaFcHxluKNN4/D+M/SRGp2rGceH7BCOWTwIJ9clMpyFOsooDad3waIGmIRvpRfdVkb
+ DxbYhqAQrBSBt7c+01RaCUK8DTMZLDdKWFIQ3Lh3tK16lttvITiSykD0P2wCTeLALq
+ ZF043p7XdB2I16g6p5ORqFqwI/i3fDUlzA2cfV65tqCeuNcCzj14uSTLhh1yao7A0k
+ 8+WMnKWanAnz+AfyB9/TJeqEddNW82KTwHw++ec6qpLmGDcbf66MKNxldSudz+XDIG
+ 6pj0ix68N7Z8A==
+Received: from [192.168.50.250] (unknown [171.76.82.69])
+ (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ (No client certificate requested) (Authenticated sender: vignesh)
+ by bali.collaboradmins.com (Postfix) with ESMTPSA id 4CABD17E0202;
+ Thu, 10 Jul 2025 14:15:24 +0200 (CEST)
+Message-ID: <acfd5838-d861-4dd9-97c3-99fffc9bfa04@collabora.com>
+Date: Thu, 10 Jul 2025 17:45:20 +0530
 MIME-Version: 1.0
-X-Mimecast-Spam-Score: 0
-X-Mimecast-MFC-PROC-ID: QfNT_TOsIL4F-Lmc_jOARxItrpnhFyxusZ0krKzJy6U_1752149620
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain
+User-Agent: Mozilla Thunderbird
+Content-Language: en-US
+To: linux-rockchip@lists.infradead.org,
+ dri-devel <dri-devel@lists.freedesktop.org>
+Cc: hjc@rock-chips.com, heiko@sntech.de, andy.yan@rock-chips.com,
+ maarten.lankhorst@linux.intel.com, Maxime Ripard <mripard@kernel.org>,
+ tzimmermann@suse.de, Dave Airlie <airlied@gmail.com>,
+ Daniel Vetter <daniel@ffwll.ch>, Daniel Stone <daniels@collabora.com>,
+ Helen Mae Koike Fornazier <helen.fornazier@gmail.com>,
+ sebastian.reichel@collabora.com, linux-arm-kernel@lists.infradead.org
+From: Vignesh Raman <vignesh.raman@collabora.com>
+Subject: drm-ci: rk3288-veyron-jaq: kms_flip@flip-vs-absolute-wf_vblank flake
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -102,23 +64,78 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Maxime Ripard <mripard@kernel.org> writes:
+Hi Maintainers,
 
-> For some reason, the HDMI VSDBs in our kunit EDIDs had a length longer
-> than expected.
->
-> While this was harmless, we should get rid of it to make it somewhat
-> predictable.
->
-> Signed-off-by: Maxime Ripard <mripard@kernel.org>
-> ---
+There are some flake test reported for rockchip driver testing in drm-ci.
 
-Reviewed-by: Javier Martinez Canillas <javierm@redhat.com>
+# Board Name: rk3288-veyron-jaq
+# Failure Rate: 40
+# IGT Version: 2.1-g26ddb59c1
+# Linux Version: 6.16.0-rc2
+kms_flip@flip-vs-absolute-wf_vblank
 
--- 
-Best regards,
+command: cd "/igt/libexec/igt-gpu-tools" && 
+"/igt/libexec/igt-gpu-tools/kms_flip" "--run-subtest" 
+"flip-vs-absolute-wf_vblank"
+pid: 602
+exit status: exit status: 98
+stdout:
+-------
+IGT-Version: 2.1-g26ddb59c1 (arm) (Linux: 6.16.0-rc2-g0594d0b01a7c armv7l)
+Using IGT_SRANDOM=1751854095 for randomisation
+Opened device: /dev/dri/card1
+Using monotonic timestamps
+Starting subtest: flip-vs-absolute-wf_vblank
+Starting dynamic subtest: A-eDP1
+   1366x768: 58 74250 1366 1502 1532 1592 768 776 788 800 0x48 0xa
+Expected frametime: 17153us; measured 17157.9us +- 49.751us accuracy 0.87%
+Stack trace:
+Dynamic subtest A-eDP1: FAIL (0.732s)
+Starting dynamic subtest: B-eDP1
+   1366x768: 58 74250 1366 1502 1532 1592 768 776 788 800 0x48 0xa
+Expected frametime: 17153us; measured 17155.1us +- 28.001us accuracy 0.49%
+Event flip: expected 879, counted 880, passrate = 100.00%, encoder type 2
+Event vblank: expected 879, counted 880, passrate = 100.00%, encoder type 2
+Dynamic subtest B-eDP1: SUCCESS (15.797s)
+Subtest flip-vs-absolute-wf_vblank: FAIL (16.557s)
+stderr:
+-------
+(kms_flip:602) CRITICAL: Test assertion failure function calibrate_ts, 
+file ../tests/kms_flip.c:1455:
+(kms_flip:602) CRITICAL: Failed assertion: 3 * stddev / mean < 0.005
+Dynamic subtest A-eDP1 failed.
+**** DEBUG ****
+(kms_flip:602) igt_fb-DEBUG: igt_create_fb_with_bo_size(width=1366, 
+height=768, format=XR24(0x34325258), modifier=0x0, size=0)
+(kms_flip:602) igt_fb-DEBUG: igt_create_fb_with_bo_size(handle=1, 
+pitch=5504)
+(kms_flip:602) ioctl_wrappers-DEBUG: Test requirement passed: 
+igt_has_fb_modifiers(fd)
+(kms_flip:602) igt_fb-DEBUG: igt_create_fb_with_bo_size(width=1366, 
+height=768, format=XR24(0x34325258), modifier=0x0, size=0)
+(kms_flip:602) igt_fb-DEBUG: igt_create_fb_with_bo_size(handle=2, 
+pitch=5504)
+(kms_flip:602) ioctl_wrappers-DEBUG: Test requirement passed: 
+igt_has_fb_modifiers(fd)
+(kms_flip:602) igt_fb-DEBUG: Test requirement passed: 
+cairo_surface_status(fb->cairo_surface) == CAIRO_STATUS_SUCCESS
+(kms_flip:602) igt_fb-DEBUG: Test requirement passed: 
+cairo_surface_status(fb->cairo_surface) == CAIRO_STATUS_SUCCESS
+(kms_flip:602) igt_kms-INFO:   1366x768: 58 74250 1366 1502 1532 1592 
+768 776 788 800 0x48 0xa
+(kms_flip:602) DEBUG: No stale events found
+(kms_flip:602) INFO: Expected frametime: 17153us; measured 17157.9us +- 
+49.751us accuracy 0.87%
+(kms_flip:602) CRITICAL: Test assertion failure function calibrate_ts, 
+file ../tests/kms_flip.c:1455:
+(kms_flip:602) CRITICAL: Failed assertion: 3 * stddev / mean < 0.005
+(kms_flip:602) igt_core-INFO: Stack trace:
+****  END  ****
 
-Javier Martinez Canillas
-Core Platforms
-Red Hat
+Pipeline: https://gitlab.freedesktop.org/vigneshraman/msm/-/jobs/79872339
 
+Please could you have a look at these test results and let us know if 
+you need more information. Thank you.
+
+Regards,
+Vignesh
