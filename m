@@ -2,72 +2,90 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 30E5EB0008F
-	for <lists+dri-devel@lfdr.de>; Thu, 10 Jul 2025 13:29:38 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id BC847B00103
+	for <lists+dri-devel@lfdr.de>; Thu, 10 Jul 2025 13:59:35 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8DDB310E0C5;
-	Thu, 10 Jul 2025 11:29:36 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id AF1C210E386;
+	Thu, 10 Jul 2025 11:59:32 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (4096-bit key; unprotected) header.d=alien8.de header.i=@alien8.de header.b="Gxx2HqAt";
+	dkim=pass (1024-bit key; unprotected) header.d=redhat.com header.i=@redhat.com header.b="VeRcrgai";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail.alien8.de (mail.alien8.de [65.109.113.108])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 43DDF10E0C5
- for <dri-devel@lists.freedesktop.org>; Thu, 10 Jul 2025 11:29:35 +0000 (UTC)
-Received: from localhost (localhost.localdomain [127.0.0.1])
- by mail.alien8.de (SuperMail on ZX Spectrum 128k) with ESMTP id 6369D40E020E; 
- Thu, 10 Jul 2025 11:29:33 +0000 (UTC)
-X-Virus-Scanned: Debian amavisd-new at mail.alien8.de
-Authentication-Results: mail.alien8.de (amavisd-new); dkim=pass (4096-bit key)
- header.d=alien8.de
-Received: from mail.alien8.de ([127.0.0.1])
- by localhost (mail.alien8.de [127.0.0.1]) (amavisd-new, port 10026)
- with ESMTP id A2zW3RKcDLpp; Thu, 10 Jul 2025 11:29:30 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=alien8.de; s=alien8;
- t=1752146969; bh=rz8G5mq5LEqN6TYjqrNYUDOCAUTijX5k1pmbJpMz6Wo=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=Gxx2HqAt2d7wKhrw8qlXYmeSAXd4/gkw6ItvVB03Muzq83pesnZBOdnMprWCPwYjG
- k1qNqreeCMZPLMvlku5bg0vHS6JPw1K/RcsAv6r7QV+LVYH/banXQ1/Y16aluIvtM6
- Z4ptd4CYVBDSX0l5TNYKaZUAD3RqKb98oW8ydzRLCujZhjLiDDlQgnI38UO5cYzih2
- qQEc9XoPyXo877fkwmIehL3nQLAVmYrBqpfILk8KAtNtUPSATeKmK53rwi4kGjOkQb
- YizHosSyl5WrCqmzxO2wk5FUU64gctO1lGcJXaAX5zU25vANQiM/hTdii11QBdKu8u
- enBHAoJF4MqUS26CNU5lKoZVNLRC2wmssH+KSS1frBS5a6GhTnpGblW4n2RR/VwhnN
- 8WL+5MacS2wpFxXg0Y0OkAT9nCydML3orMjTV5rxmJYoT7zgDlZ14VSByU/E2YwvVe
- bWb/GlHW2r7Go8gU2Y5N4VJcumPFXCbOKyLJp++e9m5lyE+UjAR2IiTMmS/tJWWfLT
- xD5Zez9BWA5eQNUOfwgeC2o7rjnUoxEcTC+WKiynpeHRpLkFxDv74wiS7HuoKUA7O2
- OYXszMq9ZMg1t/sCUDsTzf+VddiNxtHp3NorcXff1rsF3je1SBOCsqgeirdXDeJ4tW
- heQxpPz7qMMsD8sr7S4nGtHM=
-Received: from zn.tnic (p57969c58.dip0.t-ipconnect.de [87.150.156.88])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange ECDHE (P-256) server-signature ECDSA (P-256) server-digest
- SHA256) (No client certificate requested)
- by mail.alien8.de (SuperMail on ZX Spectrum 128k) with ESMTPSA id 79A2D40E0169;
- Thu, 10 Jul 2025 11:29:08 +0000 (UTC)
-Date: Thu, 10 Jul 2025 13:29:02 +0200
-From: Borislav Petkov <bp@alien8.de>
-To: Sean Christopherson <seanjc@google.com>
-Cc: Thomas Gleixner <tglx@linutronix.de>, Ingo Molnar <mingo@redhat.com>,
- Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org,
- Paolo Bonzini <pbonzini@redhat.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- linux-kernel@vger.kernel.org, kvm@vger.kernel.org,
- dri-devel@lists.freedesktop.org, Kevin Loughlin <kevinloughlin@google.com>,
- Tom Lendacky <thomas.lendacky@amd.com>,
- Kai Huang <kai.huang@intel.com>, Ingo Molnar <mingo@kernel.org>,
- Zheyun Shen <szy0127@sjtu.edu.cn>, Mingwei Zhang <mizhang@google.com>,
- Francesco Lavra <francescolavra.fl@gmail.com>
-Subject: Re: [PATCH v3 3/8] x86, lib: Add WBNOINVD helper functions
-Message-ID: <20250710112902.GCaG-j_l-K6LYRzZsb@fat_crate.local>
-References: <20250522233733.3176144-1-seanjc@google.com>
- <20250522233733.3176144-4-seanjc@google.com>
+Received: from us-smtp-delivery-124.mimecast.com
+ (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0BAF810E37C
+ for <dri-devel@lists.freedesktop.org>; Thu, 10 Jul 2025 11:59:30 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1752148770;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=ahoQBElSBkoxClyth9k7MWOdW5mJ9+hvXOXZAB99bGE=;
+ b=VeRcrgaiAF25QDzWLQQ3CwzD0Np7ytKJS0GnUIqhB3ADLKtS3lmNHDYqO6JGPwg50ycYm1
+ eKwS/hEb88iJHAzYPKfyiRvMNXr4wOi+gzDcTvI1PNhtmf746v2ton5mLuxHaXbpjkVF4e
+ Vpnohu5Mz79v+xcaf22L38bb0uHM0IA=
+Received: from mail-wr1-f70.google.com (mail-wr1-f70.google.com
+ [209.85.221.70]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-628-iY8KRX_GMLuQIVWU-UT_zw-1; Thu, 10 Jul 2025 07:59:28 -0400
+X-MC-Unique: iY8KRX_GMLuQIVWU-UT_zw-1
+X-Mimecast-MFC-AGG-ID: iY8KRX_GMLuQIVWU-UT_zw_1752148768
+Received: by mail-wr1-f70.google.com with SMTP id
+ ffacd0b85a97d-3a4e713e05bso514079f8f.3
+ for <dri-devel@lists.freedesktop.org>; Thu, 10 Jul 2025 04:59:28 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1752148768; x=1752753568;
+ h=mime-version:message-id:date:references:in-reply-to:subject:cc:to
+ :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=ahoQBElSBkoxClyth9k7MWOdW5mJ9+hvXOXZAB99bGE=;
+ b=mk5m9mna6m3o0l3sYuTx0txq7o9a2q1I4dlgUoEzhtIaalxpqhvY5ERLeqDxAcjZPG
+ TyRFFVTecBJnDDDGcc+Pvh2LtGj6M+MzEl6GyBbGeXuD4fLYHjiK3EEE9LCfWADXs3dr
+ eL/89mZ4uUwy+TCi4jU8g5IEmEPgdxzIrdYvJlo0Uv19rrAzslnrABUXIPsUSbz8B2cu
+ iRwHEvhgn9Jv/2UkU9zJGnd2kd7Bvix8zx6MRci7Ye09ZRPY3Ptm4AiDPAKLdXrOy5go
+ thRQkZt4AaNZMXHJAt1+FRb0nT5QxkoJ0j3xb8Whzj8r/jCAV7SD1K0YDWxqWzs7MPsi
+ 0Rqw==
+X-Gm-Message-State: AOJu0YxLPzbZjzV17Rt8vjYMlWq9vO2rGIK2w6XuoU+Nss875yb/Xmyk
+ H2L+TrLaZ6sjSX7dcZygtWIcQXxEfXw78fWCMxhR2jBizSXa54jl5ogsb/F2BPwXCFZfhmX98cm
+ I8CcYQmZrgde1n7mkmn/e8o2JGz75SP2uvWJl8nsV0hJtaHxlSQYg4Zom6yPev20r4AEbzA==
+X-Gm-Gg: ASbGncvqEB69biKw2FkWNLj2SKExAd/1wfAqFdRQLZCg/5Dk9KHzTl/gnzNZQlsaT5R
+ GFRsbQERoK8SrLkv1RAPd3GCk/h9kX99ZK0m+M4FpKDxY5f7+J7paRdTLGAaD/3nqy2MebMmZdT
+ Y8BfbyLBWS/PwZfUPh6JKvCd4p9TEdnnVJvj5y8vRtXVYfiv0Y3zGB+fPT5HfqzTTtmFTOxE/59
+ NgLz7K8/sz/0RHhih+Yho7wrNY4V++4ExlA5LQTj+H04BTlwL6HJQPm+cR+JMrgQOC3oFpTds29
+ F0GgYZO19xoAdxRm4p/DMsSXeI7GWNBvMn1AtORd+DFhzq1YVDe+DieI/wUDgxGp5geC1TrYfhp
+ 6X/r9
+X-Received: by 2002:a05:6000:2311:b0:3a5:2257:17b4 with SMTP id
+ ffacd0b85a97d-3b5e86f332dmr2114983f8f.55.1752148767613; 
+ Thu, 10 Jul 2025 04:59:27 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IHWZ9E40Bru2XiSfuU6A5MGnXozhH325B6msi4rRi6AGGZE+oN2kmV9ZQ56Dv1ZEuAPjzICVw==
+X-Received: by 2002:a05:6000:2311:b0:3a5:2257:17b4 with SMTP id
+ ffacd0b85a97d-3b5e86f332dmr2114963f8f.55.1752148767186; 
+ Thu, 10 Jul 2025 04:59:27 -0700 (PDT)
+Received: from localhost (62-151-111-63.jazzfree.ya.com. [62.151.111.63])
+ by smtp.gmail.com with ESMTPSA id
+ ffacd0b85a97d-3b5e8bd1924sm1737197f8f.16.2025.07.10.04.59.26
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 10 Jul 2025 04:59:26 -0700 (PDT)
+From: Javier Martinez Canillas <javierm@redhat.com>
+To: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>, Jyri Sarha
+ <jyri.sarha@iki.fi>, Maarten Lankhorst
+ <maarten.lankhorst@linux.intel.com>, Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
+ Simona Vetter <simona@ffwll.ch>
+Cc: dri-devel@lists.freedesktop.org, Laurent Pinchart
+ <laurent.pinchart@ideasonboard.com>, linux-kernel@vger.kernel.org, Devarsh
+ Thakkar <devarsht@ti.com>, Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
+Subject: Re: [PATCH 2/2] drm/tidss: Remove early fb
+In-Reply-To: <20250416-tidss-splash-v1-2-4ff396eb5008@ideasonboard.com>
+References: <20250416-tidss-splash-v1-0-4ff396eb5008@ideasonboard.com>
+ <20250416-tidss-splash-v1-2-4ff396eb5008@ideasonboard.com>
+Date: Thu, 10 Jul 2025 13:59:25 +0200
+Message-ID: <87h5zkfe8y.fsf@minerva.mail-host-address-is-not-set>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20250522233733.3176144-4-seanjc@google.com>
+X-Mimecast-Spam-Score: 0
+X-Mimecast-MFC-PROC-ID: NEZVToqkxNirWY4c4kFeAm0bQZRB5jk9M1NzAk8yZNQ_1752148768
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -83,35 +101,24 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, May 22, 2025 at 04:37:27PM -0700, Sean Christopherson wrote:
-> diff --git a/arch/x86/lib/cache-smp.c b/arch/x86/lib/cache-smp.c
-> index 079c3f3cd32c..1789db5d8825 100644
-> --- a/arch/x86/lib/cache-smp.c
-> +++ b/arch/x86/lib/cache-smp.c
-> @@ -19,3 +19,14 @@ void wbinvd_on_all_cpus(void)
->  	on_each_cpu(__wbinvd, NULL, 1);
->  }
->  EXPORT_SYMBOL(wbinvd_on_all_cpus);
-> +
-> +static void __wbnoinvd(void *dummy)
-> +{
-> +	wbnoinvd();
-> +}
-> +
-> +void wbnoinvd_on_all_cpus(void)
-> +{
-> +	on_each_cpu(__wbnoinvd, NULL, 1);
-> +}
-> +EXPORT_SYMBOL(wbnoinvd_on_all_cpus);
+Tomi Valkeinen <tomi.valkeinen@ideasonboard.com> writes:
 
-If there's no particular reason for the non-GPL export besides being
-consistent with the rest - yes, I did the change for wbinvd_on_all_cpus() but
-that was loooong time ago - I'd simply make this export _GPL.
+Hello Tomi,
 
-Thx.
+> Add a call to drm_aperture_remove_framebuffers() to drop the possible
+> early fb (simplefb).
+>
+> Signed-off-by: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
+> ---
+
+This patch can be picked and is independant of how the other one.
+
+Reviewed-by: Javier Martinez Canillas <javierm@redhat.com>
 
 -- 
-Regards/Gruss,
-    Boris.
+Best regards,
 
-https://people.kernel.org/tglx/notes-about-netiquette
+Javier Martinez Canillas
+Core Platforms
+Red Hat
+
