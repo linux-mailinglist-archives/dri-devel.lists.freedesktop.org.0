@@ -2,94 +2,71 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id A9EDFAFFF2D
-	for <lists+dri-devel@lfdr.de>; Thu, 10 Jul 2025 12:26:03 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id EB03BAFFF22
+	for <lists+dri-devel@lfdr.de>; Thu, 10 Jul 2025 12:25:03 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 04D0E10E373;
-	Thu, 10 Jul 2025 10:26:02 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7AB7B10E20C;
+	Thu, 10 Jul 2025 10:25:01 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=redhat.com header.i=@redhat.com header.b="bnVNbs4i";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="ACKwRNVn";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [170.10.129.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5310C10E373
- for <dri-devel@lists.freedesktop.org>; Thu, 10 Jul 2025 10:25:58 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1752143157;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=rpachhN0uLazu1YIn/ePDV6zDFQOiD+8nZOn/jssAK0=;
- b=bnVNbs4iDV8FRkWRYfi+3GZPR+PWkT+vah/Zurwy5rswLeosqtpOEQZwxth9VD01U+UI9j
- fRe+yYStSxYeCp8zPQduiMf6kUyBHTQ4hhIpuUfRSBZFDNvyPZbwi7ZvaPVsbShT6Vvouy
- Yc4Y0JdbewJAyHyrxdYkbr+n81klP/Q=
-Received: from mail-wr1-f70.google.com (mail-wr1-f70.google.com
- [209.85.221.70]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-177-OTVL2N4HPlmvlUpq5XYjpQ-1; Thu, 10 Jul 2025 06:25:54 -0400
-X-MC-Unique: OTVL2N4HPlmvlUpq5XYjpQ-1
-X-Mimecast-MFC-AGG-ID: OTVL2N4HPlmvlUpq5XYjpQ_1752143153
-Received: by mail-wr1-f70.google.com with SMTP id
- ffacd0b85a97d-3a4f7f1b932so573330f8f.2
- for <dri-devel@lists.freedesktop.org>; Thu, 10 Jul 2025 03:25:54 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1752143153; x=1752747953;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=rpachhN0uLazu1YIn/ePDV6zDFQOiD+8nZOn/jssAK0=;
- b=dxxr/b4usYe5IcQ3nI9TTIdlAmZ5taeUuCBZYOV4U9ldDyl/nfDr7AAPI4xvMsCfVd
- 2p3kNUzIamFSIJENxesmzmgxIJcRsxMXyIa9FKKreAbe3Xz4xygHlVr07Hg7Hjo1Av2I
- ACgePsg5j8pPBlnZKU0ES6/Vpi9vYW2yoTcZ4x2FwAFxngCQrtK2BaaSa3nAjy4ST7Ge
- 0YqlFEt6KEIkjuhCmxJLuYKPvXkRyCLad7qjg6b5xIiQYP1DQc8+AEZjaQ5LQbh5hBfC
- KOME2gtrOzlr5NqJ8TGL5GKgTGbP+7kjtym27xJMiFbJu+Ta5NuwNuLeEgaeB+1BfFh7
- Iejw==
-X-Forwarded-Encrypted: i=1;
- AJvYcCWFgfJ/AO2faOlv7kwq0i5fQlA2Gu95ODxACqIZB79rI/5aZG8IZ+buvxESbyfoNa5biwUPbht2qq8=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YysDS5Glg9hfrixBCPw4UXNVPQkf0Sp37K7nLVQsXexv1WsBXci
- EBxP0zC1aQRH+M8qVSalIs4csZ6S//FQydyzSiwcpn7LiKcF+BW58KXhRGk2TsA1cGsz8Xw/7lo
- K2YyEsXGhF1VherpEh/ETwNovnbRJOC2YL++tBCrHheBbcEZ2a5vn6R8nMidhJgs+lXgzmw==
-X-Gm-Gg: ASbGncuM2RHgp5aGgvIUmC6QBgrLDeph7R1K7MJd4IrisiW3jL+DobVTSkuRap/goeK
- q2ru8ULqg4MDhrXeSJuqr9aqxI4tvAOC0j3JX6jLZYo7KS4N1CmZOIq0hgUkD27156tUMa0eWaF
- PN2sPuf32zWRNUaIQLkLL75/ccvTV2QjM9Tu+iBRfqH5P5Re3DQbRlDczmLpod0LL+ax9sKVUIZ
- L8dOAVSxjwTpJTOOow44iHR6w9uFefHHdtdGI+z4dh2Pk2pbR65zeLRTtBZ2eFDVsAPZ6BG/aOn
- IYHq/daWozQ5RFXomHjJ5Eu4qJSukiDEmEPO+81JifmpTgE=
-X-Received: by 2002:a05:6000:2dc5:b0:3a4:e7b7:3851 with SMTP id
- ffacd0b85a97d-3b5e86fbabbmr1843212f8f.58.1752143153137; 
- Thu, 10 Jul 2025 03:25:53 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IGNFbEAiTWk6bIPshxO3enB3W4uVYluO9n+nPE5yTK/qj5yZCxHAbekX/b1jHd+JAInA2V4AA==
-X-Received: by 2002:a05:6000:2dc5:b0:3a4:e7b7:3851 with SMTP id
- ffacd0b85a97d-3b5e86fbabbmr1843196f8f.58.1752143152721; 
- Thu, 10 Jul 2025 03:25:52 -0700 (PDT)
-Received: from localhost (62-151-111-63.jazzfree.ya.com. [62.151.111.63])
- by smtp.gmail.com with ESMTPSA id
- ffacd0b85a97d-3b5e8e26c97sm1507695f8f.90.2025.07.10.03.25.51
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 10 Jul 2025 03:25:52 -0700 (PDT)
-From: Javier Martinez Canillas <javierm@redhat.com>
-To: linux-kernel@vger.kernel.org
-Cc: ipedrosa@redhat.com, Javier Martinez Canillas <javierm@redhat.com>,
- David Airlie <airlied@gmail.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Marcus Folkesson <marcus.folkesson@gmail.com>,
- Maxime Ripard <mripard@kernel.org>, Simona Vetter <simona@ffwll.ch>,
- Thomas Zimmermann <tzimmermann@suse.de>, dri-devel@lists.freedesktop.org
-Subject: [PATCH 3/3] drm/sitronix/st7571-i2c: Add support for the ST7567
- Controller
-Date: Thu, 10 Jul 2025 12:24:35 +0200
-Message-ID: <20250710102453.101078-4-javierm@redhat.com>
-X-Mailer: git-send-email 2.49.0
-In-Reply-To: <20250710102453.101078-1-javierm@redhat.com>
-References: <20250710102453.101078-1-javierm@redhat.com>
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.11])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id BB1AF10E20C;
+ Thu, 10 Jul 2025 10:25:00 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1752143100; x=1783679100;
+ h=date:from:to:cc:subject:message-id:references:
+ mime-version:content-transfer-encoding:in-reply-to;
+ bh=cFyQn3OgvOrLQgMvrH2pfkBY2lNgNkG6shIGBqwkDxA=;
+ b=ACKwRNVnd0Koa2JfduEBoO9g7XQFZgt3Nv1lnaSsRT9NTKRlNwUVU9wP
+ Dqrxr/u8Mux6g9eeeNlZD9kwBFwpgaIMGyxOc5r5rTYKZvDnaMw5HdG2i
+ TBS5cRevc+f7aVdD3mrtzCHBoHWIrj5rmTIC45nXOVB33E+TpMFNmCOJd
+ HNYvNXXXj5j0SpIL9zWGRqXAAOU5SM54uh3K/VlPGbNCyy3UswZx8h+gd
+ 4FHmrvxwVsxSIp2IDU5hsqTC72UtGz7MdHKVWVR1EsxVK/9z8J/zVmWdJ
+ o7qmqLwEQ9ckN+0/13RbQtQuSoMXpxYmCyoKEq4hCGeXMD4lzLkvDKyx4 A==;
+X-CSE-ConnectionGUID: KhHv1dUsSjuOoO4205I4mA==
+X-CSE-MsgGUID: uyaR6H/5RXmc8Vg7/tqbMw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11489"; a="64999424"
+X-IronPort-AV: E=Sophos;i="6.16,300,1744095600"; d="scan'208";a="64999424"
+Received: from fmviesa003.fm.intel.com ([10.60.135.143])
+ by fmvoesa105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 10 Jul 2025 03:25:00 -0700
+X-CSE-ConnectionGUID: 3klA7TORRnmp8Z86In31XQ==
+X-CSE-MsgGUID: FzaGo2n/T7SA0Ux00YVEtg==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.16,300,1744095600"; d="scan'208";a="160048689"
+Received: from black.fi.intel.com ([10.237.72.28])
+ by fmviesa003.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 10 Jul 2025 03:24:56 -0700
+Date: Thu, 10 Jul 2025 13:24:52 +0300
+From: Raag Jadav <raag.jadav@intel.com>
+To: Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>
+Cc: Simona Vetter <simona.vetter@ffwll.ch>,
+ Rodrigo Vivi <rodrigo.vivi@intel.com>,
+ Riana Tauro <riana.tauro@intel.com>, intel-xe@lists.freedesktop.org,
+ anshuman.gupta@intel.com, lucas.demarchi@intel.com,
+ aravind.iddamsetty@linux.intel.com, umesh.nerlige.ramappa@intel.com,
+ frank.scarbrough@intel.com, sk.anirban@intel.com,
+ =?iso-8859-1?Q?Andr=E9?= Almeida <andrealmeid@igalia.com>,
+ David Airlie <airlied@gmail.com>, dri-devel@lists.freedesktop.org
+Subject: Re: [PATCH v4 1/9] drm: Add a vendor-specific recovery method to
+ device wedged uevent
+Message-ID: <aG-U9JTXDah_tu1U@black.fi.intel.com>
+References: <20250709112024.1053710-1-riana.tauro@intel.com>
+ <20250709112024.1053710-2-riana.tauro@intel.com>
+ <aG5xglf8BeGzleWM@phenom.ffwll.local>
+ <d42e17ef-30ce-4bf1-9948-7f08fd6f3bac@amd.com>
+ <aG56Trd1h5WbWYJt@black.fi.intel.com> <aG6eNcygPshsSlC8@intel.com>
+ <aG-BcFN6M9BtjB2j@phenom.ffwll.local>
+ <cd206f9e-be53-4b22-a166-ed18fa9b833a@amd.com>
 MIME-Version: 1.0
-X-Mimecast-Spam-Score: 0
-X-Mimecast-MFC-PROC-ID: g5dsm4oGA4Eov8eQkEOrCgAE1gMCmLBEWpBtirgyyKE_1752143153
-X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-content-type: text/plain; charset="US-ASCII"; x-default=true
+In-Reply-To: <cd206f9e-be53-4b22-a166-ed18fa9b833a@amd.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -105,105 +82,187 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The Sitronix ST7567 is a monochrome Dot Matrix LCD Controller that has SPI,
-I2C and parallel interfaces. The st7571-i2c driver only has support for I2C
-so displays using other transport interfaces are currently not supported.
+On Thu, Jul 10, 2025 at 11:37:14AM +0200, Christian König wrote:
+> On 10.07.25 11:01, Simona Vetter wrote:
+> > On Wed, Jul 09, 2025 at 12:52:05PM -0400, Rodrigo Vivi wrote:
+> >> On Wed, Jul 09, 2025 at 05:18:54PM +0300, Raag Jadav wrote:
+> >>> On Wed, Jul 09, 2025 at 04:09:20PM +0200, Christian König wrote:
+> >>>> On 09.07.25 15:41, Simona Vetter wrote:
+> >>>>> On Wed, Jul 09, 2025 at 04:50:13PM +0530, Riana Tauro wrote:
+> >>>>>> Certain errors can cause the device to be wedged and may
+> >>>>>> require a vendor specific recovery method to restore normal
+> >>>>>> operation.
+> >>>>>>
+> >>>>>> Add a recovery method 'WEDGED=vendor-specific' for such errors. Vendors
+> >>>>>> must provide additional recovery documentation if this method
+> >>>>>> is used.
+> >>>>>>
+> >>>>>> v2: fix documentation (Raag)
+> >>>>>>
+> >>>>>> Cc: André Almeida <andrealmeid@igalia.com>
+> >>>>>> Cc: Christian König <christian.koenig@amd.com>
+> >>>>>> Cc: David Airlie <airlied@gmail.com>
+> >>>>>> Cc: <dri-devel@lists.freedesktop.org>
+> >>>>>> Suggested-by: Raag Jadav <raag.jadav@intel.com>
+> >>>>>> Signed-off-by: Riana Tauro <riana.tauro@intel.com>
+> >>>>>
+> >>>>> I'm not really understanding what this is useful for, maybe concrete
+> >>>>> example in the form of driver code that uses this, and some tool or
+> >>>>> documentation steps that should be taken for recovery?
+> >>
+> >> The case here is when FW underneath identified something badly corrupted on
+> >> FW land and decided that only a firmware-flashing could solve the day and
+> >> raise interrupt to the driver. At that point we want to wedge, but immediately
+> >> hint the admin the recommended action.
+> >>
+> >>>>
+> >>>> The recovery method for this particular case is to flash in a new firmware.
+> >>>>
+> >>>>> The issues I'm seeing here is that eventually we'll get different
+> >>>>> vendor-specific recovery steps, and maybe even on the same device, and
+> >>>>> that leads us to an enumeration issue. Since it's just a string and an
+> >>>>> enum I think it'd be better to just allocate a new one every time there's
+> >>>>> a new strange recovery method instead of this opaque approach.
+> >>>>
+> >>>> That is exactly the opposite of what we discussed so far.
+> > 
+> > Sorry, I missed that context.
+> > 
+> >>>> The original idea was to add a firmware-flush recovery method which
+> >>>> looked a bit wage since it didn't give any information on what to do
+> >>>> exactly.
+> >>>>
+> >>>> That's why I suggested to add a more generic vendor-specific event
+> >>>> with refers to the documentation and system log to see what actually
+> >>>> needs to be done.
+> >>>>
+> >>>> Otherwise we would end up with events like firmware-flash, update FW
+> >>>> image A, update FW image B, FW version mismatch etc....
+> > 
+> > Yeah, that's kinda what I expect to happen, and we have enough numbers for
+> > this all to not be an issue.
+> > 
+> >>> Agree. Any newly allocated method that is specific to a vendor is going to
+> >>> be opaque anyway, since it can't be generic for all drivers. This just helps
+> >>> reduce the noise in DRM core.
+> >>>
+> >>> And yes, there could be different vendor-specific cases for the same driver
+> >>> and the driver should be able to provide the means to distinguish between
+> >>> them.
+> >>
+> >> Sim, what's your take on this then?
+> >>
+> >> Should we get back to the original idea of firmware-flash?
+> > 
+> > Maybe intel-firmware-flash or something, meaning prefix with the vendor?
+> > 
+> > The reason I think it should be specific is because I'm assuming you want
+> > to script this. And if you have a big fleet with different vendors, then
+> > "vendor-specific" doesn't tell you enough. But if it's something like
+> > $vendor-$magic_step then it does become scriptable, and we do have have a
+> > place to put some documentation on what you should do instead.
+> > 
+> > If the point of this interface isn't that it's scriptable, then I'm not
+> > sure why it needs to be an uevent?
+> 
+> You should probably read up on the previous discussion, cause that is exactly what I asked as well :)
+> 
+> And no, it should *not* be scripted. That would be a bit brave for a firmware update where you should absolutely not power down the system for example.
+> 
+> In my understanding the new value "vendor-specific" basically means it is a known issue with a documented solution, while "unknown" means the driver has no idea how to solve it.
 
-The DRM_FORMAT_R1 pixel format and data commands are the same than what
-is used by the ST7571 controller, so only is needed a different callback
-that implements the expected initialization sequence for the ST7567 chip.
+Yes, and since the recovery procedure is defined and known to the consumer,
+it can potentially be automated (atleast for non-firmware cases).
 
-Signed-off-by: Javier Martinez Canillas <javierm@redhat.com>
----
+> > I guess if you all want to stick with vendor-specific then I think that's
+> > ok with me too, but the docs should at least explain how to figure out
+> > from the uevent which vendor you're on with a small example. What I'm
+> > worried is that if we have this on multiple drivers userspace will
+> > otherwise make a complete mess and might want to run the wrong recovery
+> > steps.
 
- drivers/gpu/drm/sitronix/st7571-i2c.c | 47 +++++++++++++++++++++++++++
- 1 file changed, 47 insertions(+)
+The device id along with driver can be identified from uevent (probably
+available inside DEVPATH somewhere) to distinguish the vendor. So the consumer
+already knows if the device fits the criteria for recovery.
 
-diff --git a/drivers/gpu/drm/sitronix/st7571-i2c.c b/drivers/gpu/drm/sitronix/st7571-i2c.c
-index 73e8db25f895..ea915bd5deeb 100644
---- a/drivers/gpu/drm/sitronix/st7571-i2c.c
-+++ b/drivers/gpu/drm/sitronix/st7571-i2c.c
-@@ -68,6 +68,9 @@
- #define ST7571_SET_COLOR_MODE(c)		(0x10 | FIELD_PREP(GENMASK(0, 0), (c)))
- #define ST7571_COMMAND_SET_NORMAL		(0x00)
- 
-+/* ST7567 commands */
-+#define ST7567_SET_LCD_BIAS(m) (0xa2 | FIELD_PREP(GENMASK(0, 0), (m)))
-+
- #define ST7571_PAGE_HEIGHT 8
- 
- #define DRIVER_NAME "st7571"
-@@ -820,6 +823,37 @@ static void st7571_reset(struct st7571_device *st7571)
- 	gpiod_set_value_cansleep(st7571->reset, 0);
- }
- 
-+static int st7567_lcd_init(struct st7571_device *st7567)
-+{
-+	/*
-+	 * Most of the initialization sequence is taken directly from the
-+	 * referential initial code in the ST7567 datasheet.
-+	 */
-+	u8 commands[] = {
-+		ST7571_DISPLAY_OFF,
-+
-+		ST7567_SET_LCD_BIAS(1),
-+
-+		ST7571_SET_SEG_SCAN_DIR(0),
-+		ST7571_SET_COM_SCAN_DIR(1),
-+
-+		ST7571_SET_REGULATOR_REG(4),
-+		ST7571_SET_CONTRAST_MSB,
-+		ST7571_SET_CONTRAST_LSB(0x20),
-+
-+		ST7571_SET_START_LINE_MSB,
-+		ST7571_SET_START_LINE_LSB(st7567->startline),
-+
-+		ST7571_SET_POWER(0x4),	/* Power Control, VC: ON, VR: OFF, VF: OFF */
-+		ST7571_SET_POWER(0x6),	/* Power Control, VC: ON, VR: ON, VF: OFF */
-+		ST7571_SET_POWER(0x7),	/* Power Control, VC: ON, VR: ON, VF: ON */
-+
-+		ST7571_SET_ENTIRE_DISPLAY_ON(0),
-+	};
-+
-+	return st7571_send_command_list(st7567, commands, ARRAY_SIZE(commands));
-+}
-+
- static int st7571_lcd_init(struct st7571_device *st7571)
- {
- 	/*
-@@ -964,6 +998,17 @@ static void st7571_remove(struct i2c_client *client)
- 	drm_dev_unplug(&st7571->dev);
- }
- 
-+struct st7571_panel_data st7567_config = {
-+	.init = st7567_lcd_init,
-+	.constraints = {
-+		.min_nlines = 1,
-+		.max_nlines = 64,
-+		.min_ncols = 128,
-+		.max_ncols = 128,
-+		.support_grayscale = false,
-+	},
-+};
-+
- struct st7571_panel_data st7571_config = {
- 	.init = st7571_lcd_init,
- 	.constraints = {
-@@ -976,12 +1021,14 @@ struct st7571_panel_data st7571_config = {
- };
- 
- static const struct of_device_id st7571_of_match[] = {
-+	{ .compatible = "sitronix,st7567", .data = &st7567_config },
- 	{ .compatible = "sitronix,st7571", .data = &st7571_config },
- 	{},
- };
- MODULE_DEVICE_TABLE(of, st7571_of_match);
- 
- static const struct i2c_device_id st7571_id[] = {
-+	{ "st7567", 0 },
- 	{ "st7571", 0 },
- 	{ }
- };
--- 
-2.49.0
+> > I think ideally, no matter what, we'd have a concrete driver patch which
+> > then also comes with the documentation for what exactly you're supposed to
+> > do as something you can script. And not just this stand-alone patch here.
 
+Perhaps the rest of the series didn't make it to dri-devel, which will answer
+most of the above.
+
+Raag
+
+> >>>>>> ---
+> >>>>>>  Documentation/gpu/drm-uapi.rst | 9 +++++----
+> >>>>>>  drivers/gpu/drm/drm_drv.c      | 2 ++
+> >>>>>>  include/drm/drm_device.h       | 4 ++++
+> >>>>>>  3 files changed, 11 insertions(+), 4 deletions(-)
+> >>>>>>
+> >>>>>> diff --git a/Documentation/gpu/drm-uapi.rst b/Documentation/gpu/drm-uapi.rst
+> >>>>>> index 263e5a97c080..c33070bdb347 100644
+> >>>>>> --- a/Documentation/gpu/drm-uapi.rst
+> >>>>>> +++ b/Documentation/gpu/drm-uapi.rst
+> >>>>>> @@ -421,10 +421,10 @@ Recovery
+> >>>>>>  Current implementation defines three recovery methods, out of which, drivers
+> >>>>>>  can use any one, multiple or none. Method(s) of choice will be sent in the
+> >>>>>>  uevent environment as ``WEDGED=<method1>[,..,<methodN>]`` in order of less to
+> >>>>>> -more side-effects. If driver is unsure about recovery or method is unknown
+> >>>>>> -(like soft/hard system reboot, firmware flashing, physical device replacement
+> >>>>>> -or any other procedure which can't be attempted on the fly), ``WEDGED=unknown``
+> >>>>>> -will be sent instead.
+> >>>>>> +more side-effects. If recovery method is specific to vendor
+> >>>>>> +``WEDGED=vendor-specific`` will be sent and userspace should refer to vendor
+> >>>>>> +specific documentation for further recovery steps. If driver is unsure about
+> >>>>>> +recovery or method is unknown, ``WEDGED=unknown`` will be sent instead
+> >>>>>>  
+> >>>>>>  Userspace consumers can parse this event and attempt recovery as per the
+> >>>>>>  following expectations.
+> >>>>>> @@ -435,6 +435,7 @@ following expectations.
+> >>>>>>      none            optional telemetry collection
+> >>>>>>      rebind          unbind + bind driver
+> >>>>>>      bus-reset       unbind + bus reset/re-enumeration + bind
+> >>>>>> +    vendor-specific vendor specific recovery method
+> >>>>>>      unknown         consumer policy
+> >>>>>>      =============== ========================================
+> >>>>>>  
+> >>>>>> diff --git a/drivers/gpu/drm/drm_drv.c b/drivers/gpu/drm/drm_drv.c
+> >>>>>> index cdd591b11488..0ac723a46a91 100644
+> >>>>>> --- a/drivers/gpu/drm/drm_drv.c
+> >>>>>> +++ b/drivers/gpu/drm/drm_drv.c
+> >>>>>> @@ -532,6 +532,8 @@ static const char *drm_get_wedge_recovery(unsigned int opt)
+> >>>>>>  		return "rebind";
+> >>>>>>  	case DRM_WEDGE_RECOVERY_BUS_RESET:
+> >>>>>>  		return "bus-reset";
+> >>>>>> +	case DRM_WEDGE_RECOVERY_VENDOR:
+> >>>>>> +		return "vendor-specific";
+> >>>>>>  	default:
+> >>>>>>  		return NULL;
+> >>>>>>  	}
+> >>>>>> diff --git a/include/drm/drm_device.h b/include/drm/drm_device.h
+> >>>>>> index 08b3b2467c4c..08a087f149ff 100644
+> >>>>>> --- a/include/drm/drm_device.h
+> >>>>>> +++ b/include/drm/drm_device.h
+> >>>>>> @@ -26,10 +26,14 @@ struct pci_controller;
+> >>>>>>   * Recovery methods for wedged device in order of less to more side-effects.
+> >>>>>>   * To be used with drm_dev_wedged_event() as recovery @method. Callers can
+> >>>>>>   * use any one, multiple (or'd) or none depending on their needs.
+> >>>>>> + *
+> >>>>>> + * Refer to "Device Wedging" chapter in Documentation/gpu/drm-uapi.rst for more
+> >>>>>> + * details.
+> >>>>>>   */
+> >>>>>>  #define DRM_WEDGE_RECOVERY_NONE		BIT(0)	/* optional telemetry collection */
+> >>>>>>  #define DRM_WEDGE_RECOVERY_REBIND	BIT(1)	/* unbind + bind driver */
+> >>>>>>  #define DRM_WEDGE_RECOVERY_BUS_RESET	BIT(2)	/* unbind + reset bus device + bind */
+> >>>>>> +#define DRM_WEDGE_RECOVERY_VENDOR	BIT(3)	/* vendor specific recovery method */
+> >>>>>>  
+> >>>>>>  /**
+> >>>>>>   * struct drm_wedge_task_info - information about the guilty task of a wedge dev
+> >>>>>> -- 
+> >>>>>> 2.47.1
+> >>>>>>
+> >>>>>
+> >>>>
+> > 
+> 
