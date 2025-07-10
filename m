@@ -2,83 +2,54 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 09787AFFF98
-	for <lists+dri-devel@lfdr.de>; Thu, 10 Jul 2025 12:48:07 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id A7603AFFFA1
+	for <lists+dri-devel@lfdr.de>; Thu, 10 Jul 2025 12:49:38 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 435C110E211;
-	Thu, 10 Jul 2025 10:48:04 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1303A10E8AC;
+	Thu, 10 Jul 2025 10:49:37 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="H4ubQMnV";
+	dkim=pass (2048-bit key; unprotected) header.d=collabora.com header.i=@collabora.com header.b="XuviOK6S";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-f54.google.com (mail-lf1-f54.google.com
- [209.85.167.54])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 89F5E10E211
- for <dri-devel@lists.freedesktop.org>; Thu, 10 Jul 2025 10:48:02 +0000 (UTC)
-Received: by mail-lf1-f54.google.com with SMTP id
- 2adb3069b0e04-5562838ce68so745808e87.2
- for <dri-devel@lists.freedesktop.org>; Thu, 10 Jul 2025 03:48:02 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1752144480; x=1752749280; darn=lists.freedesktop.org;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
- bh=EeyQd3+FwTnYSdw2VCo0s+mkigMBSF97ai9NjTs6fao=;
- b=H4ubQMnVwGreSlhIp9QZ8MyNSfZWG6aqrGRsYAQJS0g8gE646Jo3+OB92CJ+bC814a
- YD+fGM0GfyT1A7hkDkFwOBPp4c/pizUj+ChY5ojDYhRtq7+qjXWPnBBQmQl6StSwfTf6
- lWhgUm+mdGQa7gvc1x3T91hp7tnGdDPRHCgsm8t58dHldYmes4qxzFPOBXQiFC80xwjP
- YUBSsl+DyqgJhAGGlL0YzK8JJxA7mUEYjKKugM9pZS9+Vza2a2vfOfQ2lYgjNNkSvap2
- qU7S1Zs9nlmtHbM5SzURA0hwIn/GpEuC0EkSxspYSp5M3bz24IzjPJUV+XuyaoGQyWeg
- FDLQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1752144480; x=1752749280;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
- :message-id:reply-to;
- bh=EeyQd3+FwTnYSdw2VCo0s+mkigMBSF97ai9NjTs6fao=;
- b=QOaPx4OdaZknRxqFXJOLBzPSQe2yVQTyf2e1KaU5UtVoMZXVNW3Ed/5yl5yO5LyPTD
- 9TiAnBbJXjXOD+YKcNxPEQWf8gtIOM5GCtciNv0j/uv9ud6th6lEjVYkdjuC7NUsOHRU
- 68q2xnkZxiIe5ZxwrMT2D+RobqdTiuQWIklXkJX1i4ArA5d5m6Y+C2Ygyh9eB6TSyNOC
- SCuxY1XQIG7qSjFvIzApwAJetA1Wrdrki6q95qomqRlYRpahX2QtRqotkJbKxlrY3RwW
- pH2MGfUPR8LqOi06UvMfXAuIdKWEgiulD1K3VpDD99jMUvRqUOq2LvW9WIPL9yMrqxKU
- nnzA==
-X-Forwarded-Encrypted: i=1;
- AJvYcCX4KIdmCZ0LtzSp0/G8fNgPGMCNH6UlHR6Wygew+/erPlIYbR+cvCx38QOesUIaBJ5C+Z9v2eVVc3I=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0Yxqb8CEccVFTHAulCQZytkyOVWDWbBEaieOewWeUH4sKR+aEu0C
- RPwCL9Qyyfdv8xGjD5t4wXvzUHeG04qKQPu9Vj4gKB4t9wlpDFx9WAKK
-X-Gm-Gg: ASbGnctReMdh7awjqq1HQ98ocg+7adHMEAoTRR+8S7IC6ncwMAKWe1Q+bQKHmGW7HeG
- Bi4cukGUE2CowKVB/Pe0r1wwQ8V1DY8jFvdVX8vLt3UiLoMCmliujk8x1lGRV9fwAng9wUU+5EB
- ikFQQtIk1nsaYGIhBuZcU4OdYIMLZ9JbaOApB9e514a4YEJaj0SdTQ0o9gdGNOKieM9l5BisKUz
- VQaqg/b+lS7kn6DpthX26lY6ePRGl1c7yFVQ0VT7RlNv66577pngwYXc/tiqdXsgoY0qTnG9VSB
- oSzWZxYogi78jnRCBilSq0Jn2YA4yOR/KpUvpEUwRPp+Ike5eDwynr9rwdo16T6/fDEFxBi/GN8
- Mf/XXn6IbnEJS0L4WO7fC5YA=
-X-Google-Smtp-Source: AGHT+IEOTgz8Yn/OZ6h83EwkwJBqrgRuTKQeHj+q8D1ovN7NKHb6DiFoTh/pZu7ebVo1ZfMvzg5Ceg==
-X-Received: by 2002:a05:6512:3c8a:b0:553:202e:a41c with SMTP id
- 2adb3069b0e04-559000c439fmr1097729e87.28.1752144480144; 
- Thu, 10 Jul 2025 03:48:00 -0700 (PDT)
-Received: from gmail.com (83-233-6-197.cust.bredband2.com. [83.233.6.197])
- by smtp.gmail.com with ESMTPSA id
- 2adb3069b0e04-55943b74335sm329631e87.215.2025.07.10.03.47.59
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 10 Jul 2025 03:47:59 -0700 (PDT)
-Date: Thu, 10 Jul 2025 12:47:57 +0200
-From: Marcus Folkesson <marcus.folkesson@gmail.com>
-To: Javier Martinez Canillas <javierm@redhat.com>
-Cc: linux-kernel@vger.kernel.org, ipedrosa@redhat.com,
- David Airlie <airlied@gmail.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, Simona Vetter <simona@ffwll.ch>,
- Thomas Zimmermann <tzimmermann@suse.de>, dri-devel@lists.freedesktop.org
-Subject: Re: [PATCH 2/3] drm/sitronix/st7571-i2c: Make the reset GPIO to be
- optional
-Message-ID: <aG-aXTgycE4JEJEZ@gmail.com>
-References: <20250710102453.101078-1-javierm@redhat.com>
- <20250710102453.101078-3-javierm@redhat.com>
+Received: from bali.collaboradmins.com (bali.collaboradmins.com
+ [148.251.105.195])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C509E10E8AC
+ for <dri-devel@lists.freedesktop.org>; Thu, 10 Jul 2025 10:49:35 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+ s=mail; t=1752144574;
+ bh=6eCyQRGUL84zvCp0r/7JvZNwmMn+HX4Mb1TJDE3F9Wg=;
+ h=Date:To:Cc:From:Subject:From;
+ b=XuviOK6SBd2NvqMbB2L6+gu9vU3NmambBlBUx0FGqVrbYsdYcqmU28Pr3MWUO6R3o
+ 6Oir2TVfotwjcaQLnNCHkMoPa8smRsz1gjumj/H1DUYXG0oFP0S1GhSfiLKCMnZ3cc
+ aJ9uONWY7gPE52f3OR5+zsRrN4s36z+FVorr2LWvtcATAy4Fq6ScnF/9Jcil2HBYog
+ qbCqW601yIBf4IxJmHfxl3avVAhBnVUOeMdEnvuH5rdB3NpH7eZCSvVaMCLUyoQWio
+ ti5fU/6NJ/ZOV6WaZubJM0cJaXtnu6x9FaNfLoQMBn80BUehK2XOsroFQlV1WkU9sz
+ aoF9r2NETeH7A==
+Received: from [192.168.50.250] (unknown [171.76.82.69])
+ (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits))
+ (No client certificate requested) (Authenticated sender: vignesh)
+ by bali.collaboradmins.com (Postfix) with ESMTPSA id 5501717E0489;
+ Thu, 10 Jul 2025 12:49:31 +0200 (CEST)
+Message-ID: <59724e10-12ca-4481-b0e4-72d7b6e4dae0@collabora.com>
+Date: Thu, 10 Jul 2025 16:19:22 +0530
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="eOMp4AYn7twABwbo"
-Content-Disposition: inline
-In-Reply-To: <20250710102453.101078-3-javierm@redhat.com>
+User-Agent: Mozilla Thunderbird
+Content-Language: en-US
+To: linux-rockchip@lists.infradead.org,
+ dri-devel <dri-devel@lists.freedesktop.org>
+Cc: hjc@rock-chips.com, heiko@sntech.de, andy.yan@rock-chips.com,
+ maarten.lankhorst@linux.intel.com, Maxime Ripard <mripard@kernel.org>,
+ tzimmermann@suse.de, Dave Airlie <airlied@gmail.com>,
+ Daniel Vetter <daniel@ffwll.ch>, Daniel Stone <daniels@collabora.com>,
+ Helen Mae Koike Fornazier <helen.fornazier@gmail.com>,
+ sebastian.reichel@collabora.com, linux-arm-kernel@lists.infradead.org
+From: Vignesh Raman <vignesh.raman@collabora.com>
+Subject: drm-ci: rk3399-gru-kevin: kms_flip@plain-flip-ts-check-interruptible
+ flake
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -94,74 +65,156 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+Hi Maintainers,
 
---eOMp4AYn7twABwbo
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+There are some flake test reported for rockchip driver testing in drm-ci.
 
-On Thu, Jul 10, 2025 at 12:24:34PM +0200, Javier Martinez Canillas wrote:
-> Some Sitronix LCD controllers (such as the ST7567) don't have a reset pin,
-> so lets relax this in the driver and make the reset GPIO to be optional.
->=20
-> The devm_gpiod_get_optional() helper is similar to devm_gpiod_get(), but
-> returns NULL when there isn't a reset-gpios property defined in a DT node.
->=20
-> The DT binding schema for "sitronix,st7571" that require a reset GPIO will
-> enforce the "reset-gpios" to be present, due being a required DT property.
-> But in the driver itself the property can be made optional if not defined.
->=20
-> Signed-off-by: Javier Martinez Canillas <javierm@redhat.com>
-> ---
->=20
->  drivers/gpu/drm/sitronix/st7571-i2c.c | 8 ++++++--
->  1 file changed, 6 insertions(+), 2 deletions(-)
->=20
-> diff --git a/drivers/gpu/drm/sitronix/st7571-i2c.c b/drivers/gpu/drm/sitr=
-onix/st7571-i2c.c
-> index eec846892962..73e8db25f895 100644
-> --- a/drivers/gpu/drm/sitronix/st7571-i2c.c
-> +++ b/drivers/gpu/drm/sitronix/st7571-i2c.c
-> @@ -802,15 +802,19 @@ static int st7571_parse_dt(struct st7571_device *st=
-7571)
->  	st7571->nlines =3D dt.vactive.typ;
->  	st7571->ncols =3D dt.hactive.typ;
-> =20
-> -	st7571->reset =3D devm_gpiod_get(dev, "reset", GPIOD_OUT_HIGH);
-> +	st7571->reset =3D devm_gpiod_get_optional(dev, "reset", GPIOD_OUT_HIGH);
->  	if (IS_ERR(st7571->reset))
-> -		return PTR_ERR(st7571->reset);
-> +		return dev_err_probe(dev, PTR_ERR(st7571->reset),
-> +				     "Failed to get reset gpio\n");
+# Board Name: rk3399-gru-kevin
+# Failure Rate: 40
+# IGT Version: 2.1-g26ddb59c1
+# Linux Version: 6.16.0-rc2
+kms_flip@plain-flip-ts-check-interruptible
 
-devm_gpiod_get_optional() returns -ENOENT when the GPIO is not found,
-and that is no error we want to propagage upwards.
+command: cd "/igt/libexec/igt-gpu-tools" && 
+"/igt/libexec/igt-gpu-tools/kms_flip" "--run-subtest" 
+"plain-flip-ts-check-interruptible"
+pid: 1007
+exit status: exit status: 98
+stdout:
+-------
+IGT-Version: 2.1-g26ddb59c1 (aarch64) (Linux: 6.16.0-rc2-ga202a71c05dc 
+aarch64)
+Using IGT_SRANDOM=1751940132 for randomisation
+Opened device: /dev/dri/card1
+Using monotonic timestamps
+Starting subtest: plain-flip-ts-check-interruptible
+Starting dynamic subtest: A-eDP1
+   2400x1600: 60 266666 2400 2448 2480 2564 1600 1603 1613 1733 0x48 0xa
+Expected frametime: 16663us; measured 16669.4us +- 86.357us accuracy 1.55%
+Stack trace:
+   #0 ../lib/igt_core.c:2075 __igt_fail_assert()
+   #1 ../tests/kms_flip.c:1435 run_test_on_crtc_set.constprop.0()
+   #2 ../tests/kms_flip.c:1856 run_test()
+   #3 ../tests/kms_flip.c:2141 __igt_unique____real_main2028()
+   #4 ../tests/kms_flip.c:2028 main()
+   #5 [__libc_init_first+0x80]
+   #6 [__libc_start_main+0x98]
+   #7 [_start+0x30]
+Dynamic subtest A-eDP1: FAIL (1.733s)
+Starting dynamic subtest: B-eDP1
+   2400x1600: 60 266666 2400 2448 2480 2564 1600 1603 1613 1733 0x48 0xa
+Expected frametime: 16663us; measured 16662.7us +- 30.159us accuracy 0.54%
+Stack trace:
+   #0 ../lib/igt_core.c:2075 __igt_fail_assert()
+   #1 ../tests/kms_flip.c:1435 run_test_on_crtc_set.constprop.0()
+   #2 ../tests/kms_flip.c:1856 run_test()
+   #3 ../tests/kms_flip.c:2141 __igt_unique____real_main2028()
+   #4 ../tests/kms_flip.c:2028 main()
+   #5 [__libc_init_first+0x80]
+   #6 [__libc_start_main+0x98]
+   #7 [_start+0x30]
+Dynamic subtest B-eDP1: FAIL (1.544s)
+Subtest plain-flip-ts-check-interruptible: FAIL (3.308s)
+stderr:
+-------
+(kms_flip:1007) CRITICAL: Test assertion failure function calibrate_ts, 
+file ../tests/kms_flip.c:1455:
+(kms_flip:1007) CRITICAL: Failed assertion: 3 * stddev / mean < 0.005
+(kms_flip:1007) CRITICAL: Last errno: 4, Interrupted system call
+Dynamic subtest A-eDP1 failed.
+**** DEBUG ****
+(kms_flip:1007) igt_fb-DEBUG: igt_create_fb_with_bo_size(width=2400, 
+height=1600, format=XR24(0x34325258), modifier=0x0, size=0)
+(kms_flip:1007) igt_fb-DEBUG: igt_create_fb_with_bo_size(handle=1, 
+pitch=9600)
+(kms_flip:1007) ioctl_wrappers-DEBUG: Test requirement passed: 
+igt_has_fb_modifiers(fd)
+(kms_flip:1007) igt_fb-DEBUG: igt_create_fb_with_bo_size(width=2400, 
+height=1600, format=XR24(0x34325258), modifier=0x0, size=0)
+(kms_flip:1007) igt_fb-DEBUG: igt_create_fb_with_bo_size(handle=2, 
+pitch=9600)
+(kms_flip:1007) ioctl_wrappers-DEBUG: Test requirement passed: 
+igt_has_fb_modifiers(fd)
+(kms_flip:1007) igt_fb-DEBUG: Test requirement passed: 
+cairo_surface_status(fb->cairo_surface) == CAIRO_STATUS_SUCCESS
+(kms_flip:1007) igt_fb-DEBUG: Test requirement passed: 
+cairo_surface_status(fb->cairo_surface) == CAIRO_STATUS_SUCCESS
+(kms_flip:1007) igt_kms-INFO:   2400x1600: 60 266666 2400 2448 2480 2564 
+1600 1603 1613 1733 0x48 0xa
+(kms_flip:1007) DEBUG: No stale events found
+(kms_flip:1007) INFO: Expected frametime: 16663us; measured 16669.4us +- 
+86.357us accuracy 1.55%
+(kms_flip:1007) CRITICAL: Test assertion failure function calibrate_ts, 
+file ../tests/kms_flip.c:1455:
+(kms_flip:1007) CRITICAL: Failed assertion: 3 * stddev / mean < 0.005
+(kms_flip:1007) CRITICAL: Last errno: 4, Interrupted system call
+(kms_flip:1007) igt_core-INFO: Stack trace:
+(kms_flip:1007) igt_core-INFO:   #0 ../lib/igt_core.c:2075 
+__igt_fail_assert()
+(kms_flip:1007) igt_core-INFO:   #1 ../tests/kms_flip.c:1435 
+run_test_on_crtc_set.constprop.0()
+(kms_flip:1007) igt_core-INFO:   #2 ../tests/kms_flip.c:1856 run_test()
+(kms_flip:1007) igt_core-INFO:   #3 ../tests/kms_flip.c:2141 
+__igt_unique____real_main2028()
+(kms_flip:1007) igt_core-INFO:   #4 ../tests/kms_flip.c:2028 main()
+(kms_flip:1007) igt_core-INFO:   #5 [__libc_init_first+0x80]
+(kms_flip:1007) igt_core-INFO:   #6 [__libc_start_main+0x98]
+(kms_flip:1007) igt_core-INFO:   #7 [_start+0x30]
+****  END  ****
+(kms_flip:1007) CRITICAL: Test assertion failure function calibrate_ts, 
+file ../tests/kms_flip.c:1455:
+(kms_flip:1007) CRITICAL: Failed assertion: 3 * stddev / mean < 0.005
+(kms_flip:1007) CRITICAL: Last errno: 4, Interrupted system call
+Dynamic subtest B-eDP1 failed.
+**** DEBUG ****
+(kms_flip:1007) igt_fb-DEBUG: igt_create_fb_with_bo_size(width=2400, 
+height=1600, format=XR24(0x34325258), modifier=0x0, size=0)
+(kms_flip:1007) igt_fb-DEBUG: igt_create_fb_with_bo_size(handle=3, 
+pitch=9600)
+(kms_flip:1007) ioctl_wrappers-DEBUG: Test requirement passed: 
+igt_has_fb_modifiers(fd)
+(kms_flip:1007) igt_fb-DEBUG: igt_create_fb_with_bo_size(width=2400, 
+height=1600, format=XR24(0x34325258), modifier=0x0, size=0)
+(kms_flip:1007) igt_fb-DEBUG: igt_create_fb_with_bo_size(handle=4, 
+pitch=9600)
+(kms_flip:1007) ioctl_wrappers-DEBUG: Test requirement passed: 
+igt_has_fb_modifiers(fd)
+(kms_flip:1007) igt_fb-DEBUG: Test requirement passed: 
+cairo_surface_status(fb->cairo_surface) == CAIRO_STATUS_SUCCESS
+(kms_flip:1007) igt_fb-DEBUG: Test requirement passed: 
+cairo_surface_status(fb->cairo_surface) == CAIRO_STATUS_SUCCESS
+(kms_flip:1007) igt_kms-INFO:   2400x1600: 60 266666 2400 2448 2480 2564 
+1600 1603 1613 1733 0x48 0xa
+(kms_flip:1007) DEBUG: No stale events found
+(kms_flip:1007) INFO: Expected frametime: 16663us; measured 16662.7us +- 
+30.159us accuracy 0.54%
+(kms_flip:1007) CRITICAL: Test assertion failure function calibrate_ts, 
+file ../tests/kms_flip.c:1455:
+(kms_flip:1007) CRITICAL: Failed assertion: 3 * stddev / mean < 0.005
+(kms_flip:1007) CRITICAL: Last errno: 4, Interrupted system call
+(kms_flip:1007) igt_core-INFO: Stack trace:
+(kms_flip:1007) igt_core-INFO:   #0 ../lib/igt_core.c:2075 
+__igt_fail_assert()
+(kms_flip:1007) igt_core-INFO:   #1 ../tests/kms_flip.c:1435 
+run_test_on_crtc_set.constprop.0()
+(kms_flip:1007) igt_core-INFO:   #2 ../tests/kms_flip.c:1856 run_test()
+(kms_flip:1007) igt_core-INFO:   #3 ../tests/kms_flip.c:2141 
+__igt_unique____real_main2028()
+(kms_flip:1007) igt_core-INFO:   #4 ../tests/kms_flip.c:2028 main()
+(kms_flip:1007) igt_core-INFO:   #5 [__libc_init_first+0x80]
+(kms_flip:1007) igt_core-INFO:   #6 [__libc_start_main+0x98]
+(kms_flip:1007) igt_core-INFO:   #7 [_start+0x30]
+****  END  ****
+(kms_flip:1007) igt_kms-CRITICAL: Test assertion failure function 
+kmstest_set_connector_dpms, file ../lib/igt_kms.c:2247:
+(kms_flip:1007) igt_kms-CRITICAL: Failed assertion: found_it
+(kms_flip:1007) igt_kms-CRITICAL: Last errno: 9, Bad file descriptor
+(kms_flip:1007) igt_kms-CRITICAL: DPMS property not found on 54
 
-Maybe something like this instead:
-if (IS_ERR(st7571->reset) && IS_ERR(st7571->reset) !=3D -ENOENT)
+Pipeline: https://gitlab.freedesktop.org/vigneshraman/msm/-/jobs/79971538
 
+Please could you have a look at these test results and let us know if 
+you need more information. Thank you.
 
-Best regards,
-Marcus Folkesson
-
---eOMp4AYn7twABwbo
-Content-Type: application/pgp-signature; name=signature.asc
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAEBCAAdFiEEBVGi6LZstU1kwSxliIBOb1ldUjIFAmhvmlgACgkQiIBOb1ld
-UjIYehAAqdDofl1NZfrXplyMLlYvsv0zY6FKIOjlOzV6Hi/GizuR2JTKqffK+3fn
-OEdmpbkMYj+nWOJBQj9t9uolWGa7A1G3K408CmIXU9vKhbS/EBIbL88CwS3aZUja
-Rg/CW9Mc1RE6CDKaixSQwubaKoiz3RPqC/QwyJY4eZ1gpxKKplRLfAc62bO1WfcZ
-4rOH68fNHH0bO7J3q5gdZtgv/OxtBwhHhVJ6ntCpqTSBr7z3iw+fZsy/z0gilTQy
-M9V/Cq4ilBxMPgu3rLFl/ebC/SGF0S8cIEkiP6UAhY+BWrLIN+JNqASvj1dYnGsn
-Q5odrBX3wI8OwvROzoPfLP4/FmJreYFU40mNZa9+JqrfG1HGc2IBEkRoCZjUVPDg
-/JAS7UGc8S+NQI/C7Q/U5x5IgCgASisDvzSusApuCrp5XRHPQ3TvEDvzU4zUsAue
-p5E66zBveFCMj1agTCBY4M2btwnenfoal881HJGLYp2gtmMBNrWc3PmWwQ31g/cW
-BQMfxtARCAe6VE+wywAQchXRHJeNejJYicAyu8FxacmCR7pMaonzPFUlPyGlUpJi
-5mklgy2FKz8V5M4PQ3Mh8eGyq4JQNTn7Tym6OKY2FTLEwm2uDV2Qx5HtbgRCLJD7
-hUR0Lji4qzMfuJv59Jmzr9C5ufkw1A9DAwbE696PD5E20BTcShk=
-=wIuD
------END PGP SIGNATURE-----
-
---eOMp4AYn7twABwbo--
+Regards,
+Vignesh
