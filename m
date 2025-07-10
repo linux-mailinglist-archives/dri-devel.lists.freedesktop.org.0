@@ -2,51 +2,60 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9DA08B0029E
-	for <lists+dri-devel@lfdr.de>; Thu, 10 Jul 2025 14:55:40 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 65BEAB002B2
+	for <lists+dri-devel@lfdr.de>; Thu, 10 Jul 2025 14:58:18 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id F0B9910E8CE;
-	Thu, 10 Jul 2025 12:55:38 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 18E3710E8D6;
+	Thu, 10 Jul 2025 12:58:16 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=collabora.com header.i=@collabora.com header.b="DwWFa+9Z";
+	dkim=pass (2048-bit key; secure) header.d=mailbox.org header.i=@mailbox.org header.b="q3GiOvBz";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from bali.collaboradmins.com (bali.collaboradmins.com
- [148.251.105.195])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8CAB310E8CE
- for <dri-devel@lists.freedesktop.org>; Thu, 10 Jul 2025 12:55:37 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
- s=mail; t=1752152136;
- bh=evfgw5LpQpEUNf1kUbEZOZi+g5HwXlEuIcDYlkmqUXY=;
- h=Date:To:Cc:From:Subject:From;
- b=DwWFa+9ZrpCSD4qhGo4LqbnBh0QdDR1gyqgvXItqzPVuEmEOHZX+OsAPMQ/S/XuN1
- upvEM/5fF0DperROz8cYlcPCJ4VJg+RufHtiEqsqZnPa/A1J1305EXZbkC5PzHKX4F
- muEkxfoxqljuhOmgt9xcVE+XZbWYwmPPpM8VyZlWGabFOVkwBUQvry6lJ1RJtCaEtA
- gRQDszbOuo8C2L7Yokqjk3DnxGNtdINtTdJthhZtnDHSRhWqqW84qnJFkgQHxGlKQy
- OkMfA5cTwgjYbcxMlpZjlgjVkKi+oPwJcewZIiro1f7x9PbbBAF8WWWCcsH+Yooe/2
- RGg94CfbP+8WA==
-Received: from [192.168.50.250] (unknown [171.76.82.69])
- (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+Received: from mout-p-201.mailbox.org (mout-p-201.mailbox.org [80.241.56.171])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id AF68810E8C8;
+ Thu, 10 Jul 2025 12:58:14 +0000 (UTC)
+Received: from smtp102.mailbox.org (smtp102.mailbox.org [10.196.197.102])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
- (No client certificate requested) (Authenticated sender: vignesh)
- by bali.collaboradmins.com (Postfix) with ESMTPSA id 00ADD17E0FD3;
- Thu, 10 Jul 2025 14:55:33 +0200 (CEST)
-Message-ID: <953ab66e-9dda-4003-9b98-9e0d81e18a1f@collabora.com>
-Date: Thu, 10 Jul 2025 18:25:30 +0530
+ (No client certificate requested)
+ by mout-p-201.mailbox.org (Postfix) with ESMTPS id 4bdFJM2n5Sz9sx4;
+ Thu, 10 Jul 2025 14:58:11 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mailbox.org;
+ s=mail20150812; 
+ t=1752152291; h=from:from:reply-to:reply-to:subject:subject:date:date:
+ message-id:message-id:to:to:cc:cc:mime-version:mime-version:
+ content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=XUdTgSu/zHvFvHHBAYxFI7WNZhlx1N0C5aZ+BZgA/hg=;
+ b=q3GiOvBzyHujBbSJyAfbiklhFM/WL6aD01vbIbLLVfn3xsMoDfFurOVoZidipbO6tdQSCm
+ +jp+NwxFcqSX0dn491UeCiC85OkRiX6DRkUGbRyykenUQnIOAm0ZXo3fOR+ll//rzXmAbh
+ 7uZMY6GrfjZxxJ+E8dEhNHds3xsFBvNz1okgpTa9fVoO0TbEpLL6miqPva47X12iZiQ2d2
+ iH8wNIwu8RjH9obhhxlvnS8hZNHfJTweC3qsF01o52IugnS9sKwBK0Z7iTYc92c3dCHQ8/
+ t4IE0FtScpgYTbTcHgYBuJ8Pj9tAxDWccbazxeLl/GDe3PrX1hOpy5z8gQINEA==
+Message-ID: <bec98a82435d7f448dff219a2238b15b6b3eb754.camel@mailbox.org>
+Subject: Re: [PATCH v4 1/8] drm/panfrost: Fix scheduler workqueue bug
+From: Philipp Stanner <phasta@mailbox.org>
+To: Philipp Stanner <phasta@kernel.org>, Danilo Krummrich <dakr@kernel.org>,
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, Matthew
+ Brost <matthew.brost@intel.com>,  Christian =?ISO-8859-1?Q?K=F6nig?=
+ <ckoenig.leichtzumerken@gmail.com>, Maarten Lankhorst
+ <maarten.lankhorst@linux.intel.com>, Thomas Zimmermann
+ <tzimmermann@suse.de>,  Tvrtko Ursulin <tvrtko.ursulin@igalia.com>,
+ Pierre-Eric Pelloux-Prayer <pierre-eric.pelloux-prayer@amd.com>
+Cc: dri-devel@lists.freedesktop.org, nouveau@lists.freedesktop.org, 
+ linux-kernel@vger.kernel.org, linux-media@vger.kernel.org, 
+ stable@vger.kernel.org
+Date: Thu, 10 Jul 2025 14:58:05 +0200
+In-Reply-To: <20250710125412.128476-3-phasta@kernel.org>
+References: <20250710125412.128476-2-phasta@kernel.org>
+ <20250710125412.128476-3-phasta@kernel.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Content-Language: en-US
-To: linux-mediatek@lists.infradead.org, dri-devel@lists.freedesktop.org
-Cc: chunkuang.hu@kernel.org, p.zabel@pengutronix.de,
- AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
- nfraprado@collabora.com, airlied@gmail.com, daniel@ffwll.ch,
- Daniel Stone <daniels@collabora.com>,
- Helen Mae Koike Fornazier <helen.fornazier@gmail.com>
-From: Vignesh Raman <vignesh.raman@collabora.com>
-Subject: drm-ci: mt8173-elm-hana: kms_flip@busy-flip flake
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+X-MBO-RS-ID: 836fbb2b50af0e52d75
+X-MBO-RS-META: q7ni9ki5c4orx1jns8zppxa9ufa6zses
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -59,94 +68,64 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
+Reply-To: phasta@kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Maintainers,
+On Thu, 2025-07-10 at 14:54 +0200, Philipp Stanner wrote:
+> When the GPU scheduler was ported to using a struct for its
+> initialization parameters, it was overlooked that panfrost creates a
+> distinct workqueue for timeout handling.
+>=20
+> The pointer to this new workqueue is not initialized to the struct,
+> resulting in NULL being passed to the scheduler, which then uses the
+> system_wq for timeout handling.
+>=20
+> Set the correct workqueue to the init args struct.
+>=20
+> Cc: stable@vger.kernel.org=C2=A0# 6.15+
+> Fixes: 796a9f55a8d1 ("drm/sched: Use struct for drm_sched_init()
+> params")
+> Reported-by: Tvrtko Ursulin <tvrtko.ursulin@igalia.com>
+> Closes:
+> https://lore.kernel.org/dri-devel/b5d0921c-7cbf-4d55-aa47-c35cd7861c02@ig=
+alia.com/
+> Signed-off-by: Philipp Stanner <phasta@kernel.org>
+> ---
 
-There is a flake test reported for the mediatek driver in drm-ci.
+aaaarrrgh, how did that one get here!
 
-# Board Name: mt8173-elm-hana
-# Failure Rate: 40
-# IGT Version: 2.1-g26ddb59c1
-# Linux Version: 6.16.0-rc2
-kms_flip@busy-flip
+Ignore that. Will not be merged through this series.
 
-02:13:29.480: DEBUG - Begin test kms_flip@busy-flip
-02:13:29.480: ERROR - Igt error: (kms_flip:222) CRITICAL: Test assertion 
-failure function __run_test_on_crtc_set, file ../tests/kms_flip.c:1666:
-02:13:29.480: ERROR - Igt error: (kms_flip:222) CRITICAL: Failed 
-assertion: do_page_flip(o, o->fb_ids[1], 1) == 0
-02:13:29.480: ERROR - Igt error: (kms_flip:222) CRITICAL: Last errno: 
-16, Device or resource busy
-02:13:29.480: ERROR - Igt error: (kms_flip:222) CRITICAL: error: -16 != 0
-02:13:29.480: ERROR - Igt error: Dynamic subtest A-eDP1 failed.
-02:13:29.480: ERROR - Igt error: **** DEBUG ****
-02:13:29.480: ERROR - Igt error: (kms_flip:222) igt_fb-DEBUG: 
-igt_create_fb_with_bo_size(width=1366, height=768, 
-format=XR24(0x34325258), modifier=0x0, size=0)
-02:13:29.480: ERROR - Igt error: (kms_flip:222) igt_fb-DEBUG: 
-igt_create_fb_with_bo_size(handle=1, pitch=5464)
-02:13:29.480: ERROR - Igt error: (kms_flip:222) ioctl_wrappers-DEBUG: 
-Test requirement passed: igt_has_fb_modifiers(fd)
-02:13:29.480: ERROR - Igt error: (kms_flip:222) igt_fb-DEBUG: 
-igt_create_fb_with_bo_size(width=1366, height=768, 
-format=XR24(0x34325258), modifier=0x0, size=0)
-02:13:29.480: ERROR - Igt error: (kms_flip:222) igt_fb-DEBUG: 
-igt_create_fb_with_bo_size(handle=2, pitch=5464)
-02:13:29.480: ERROR - Igt error: (kms_flip:222) ioctl_wrappers-DEBUG: 
-Test requirement passed: igt_has_fb_modifiers(fd)
-02:13:29.480: ERROR - Igt error: (kms_flip:222) igt_fb-DEBUG: Test 
-requirement passed: cairo_surface_status(fb->cairo_surface) == 
-CAIRO_STATUS_SUCCESS
-02:13:29.480: ERROR - Igt error: (kms_flip:222) igt_fb-DEBUG: Test 
-requirement passed: cairo_surface_status(fb->cairo_surface) == 
-CAIRO_STATUS_SUCCESS
-02:13:29.480: ERROR - Igt error: (kms_flip:222) igt_kms-INFO: 
-1366x768: 60 76420 1366 1502 1532 1592 768 776 788 800 0x48 0xa
-02:13:29.480: ERROR - Igt error: (kms_flip:222) DEBUG: No stale events found
-02:13:29.480: ERROR - Igt error: (kms_flip:222) CRITICAL: Test assertion 
-failure function __run_test_on_crtc_set, file ../tests/kms_flip.c:1666:
-02:13:29.480: ERROR - Igt error: (kms_flip:222) CRITICAL: Failed 
-assertion: do_page_flip(o, o->fb_ids[1], 1) == 0
-02:13:29.480: ERROR - Igt error: (kms_flip:222) CRITICAL: Last errno: 
-16, Device or resource busy
-02:13:29.480: ERROR - Igt error: (kms_flip:222) CRITICAL: error: -16 != 0
-02:13:29.480: ERROR - Igt error: (kms_flip:222) igt_core-INFO: Stack trace:
-02:13:29.480: ERROR - Igt error: (kms_flip:222) igt_core-INFO:   #0 
-../lib/igt_core.c:2075 __igt_fail_assert()
-02:13:29.480: ERROR - Igt error: (kms_flip:222) igt_core-INFO:   #1 
-../tests/kms_flip.c:1643 run_test_on_crtc_set.constprop.0()
-02:13:29.480: ERROR - Igt error: (kms_flip:222) igt_core-INFO:   #2 
-../tests/kms_flip.c:1856 run_test()
-02:13:29.481: ERROR - Igt error: (kms_flip:222) igt_core-INFO:   #3 
-../tests/kms_flip.c:2105 __igt_unique____real_main2028()
-02:13:29.481: ERROR - Igt error: (kms_flip:222) igt_core-INFO:   #4 
-../tests/kms_flip.c:2028 main()
-02:13:29.481: ERROR - Igt error: (kms_flip:222) igt_core-INFO:   #5 
-[__libc_init_first+0x80]
-02:13:29.481: ERROR - Igt error: (kms_flip:222) igt_core-INFO:   #6 
-[__libc_start_main+0x98]
-02:13:29.481: ERROR - Igt error: (kms_flip:222) igt_core-INFO:   #7 
-[_start+0x30]
-02:13:29.481: ERROR - Igt error: ****  END  ****
-02:13:29.481: ERROR - Igt error: (kms_flip:222) igt_kms-CRITICAL: Test 
-assertion failure function kmstest_set_connector_dpms, file 
-../lib/igt_kms.c:2247:
-02:13:29.481: ERROR - Igt error: (kms_flip:222) igt_kms-CRITICAL: Failed 
-assertion: found_it
-02:13:29.481: ERROR - Igt error: (kms_flip:222) igt_kms-CRITICAL: Last 
-errno: 9, Bad file descriptor
-02:13:29.481: ERROR - Igt error: (kms_flip:222) igt_kms-CRITICAL: DPMS 
-property not found on 34
-02:13:29.481: ERROR - Test kms_flip@busy-flip: Fail: See 
-"/results/igt.kms_flip@busy-flip.log"
-02:13:29.481: DEBUG - End test kms_flip@busy-flip
 
-Pipeline: https://gitlab.freedesktop.org/vigneshraman/msm/-/jobs/79872311
+P.
 
-Please could you have a look at these test results and let us know if 
-you need more information. Thank you.
+> =C2=A0drivers/gpu/drm/panfrost/panfrost_job.c | 2 +-
+> =C2=A01 file changed, 1 insertion(+), 1 deletion(-)
+>=20
+> diff --git a/drivers/gpu/drm/panfrost/panfrost_job.c
+> b/drivers/gpu/drm/panfrost/panfrost_job.c
+> index 5657106c2f7d..15e2d505550f 100644
+> --- a/drivers/gpu/drm/panfrost/panfrost_job.c
+> +++ b/drivers/gpu/drm/panfrost/panfrost_job.c
+> @@ -841,7 +841,6 @@ int panfrost_job_init(struct panfrost_device
+> *pfdev)
+> =C2=A0		.num_rqs =3D DRM_SCHED_PRIORITY_COUNT,
+> =C2=A0		.credit_limit =3D 2,
+> =C2=A0		.timeout =3D msecs_to_jiffies(JOB_TIMEOUT_MS),
+> -		.timeout_wq =3D pfdev->reset.wq,
+> =C2=A0		.name =3D "pan_js",
+> =C2=A0		.dev =3D pfdev->dev,
+> =C2=A0	};
+> @@ -879,6 +878,7 @@ int panfrost_job_init(struct panfrost_device
+> *pfdev)
+> =C2=A0	pfdev->reset.wq =3D alloc_ordered_workqueue("panfrost-reset",
+> 0);
+> =C2=A0	if (!pfdev->reset.wq)
+> =C2=A0		return -ENOMEM;
+> +	args.timeout_wq =3D pfdev->reset.wq;
+> =C2=A0
+> =C2=A0	for (j =3D 0; j < NUM_JOB_SLOTS; j++) {
+> =C2=A0		js->queue[j].fence_context =3D
+> dma_fence_context_alloc(1);
 
-Regards,
-Vignesh
