@@ -2,139 +2,127 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id BE0DEAFF9B8
-	for <lists+dri-devel@lfdr.de>; Thu, 10 Jul 2025 08:24:02 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id C2CB6AFF9E9
+	for <lists+dri-devel@lfdr.de>; Thu, 10 Jul 2025 08:36:54 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1747510E87D;
-	Thu, 10 Jul 2025 06:24:01 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 44F0410E880;
+	Thu, 10 Jul 2025 06:36:44 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=amd.com header.i=@amd.com header.b="vuX1svhw";
+	dkim=pass (1024-bit key; unprotected) header.d=amd.com header.i=@amd.com header.b="pgJO7nSd";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from NAM11-CO1-obe.outbound.protection.outlook.com
- (mail-co1nam11on2079.outbound.protection.outlook.com [40.107.220.79])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D385A10E879;
- Thu, 10 Jul 2025 06:23:59 +0000 (UTC)
+Received: from NAM12-DM6-obe.outbound.protection.outlook.com
+ (mail-dm6nam12on2048.outbound.protection.outlook.com [40.107.243.48])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id EDE4010E879;
+ Thu, 10 Jul 2025 06:36:42 +0000 (UTC)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=H3XDvH5/JkODqqYxYFC4/rObRR08X89DPw7BVoy/ar+qJ8D3FPlgs/Iw2UIsUB33X/ppm4jZOXHV7d+DvkGeng4Np0o9KKSWd1VF8Hpoc3o9Tc33BqxitK/yVYg6PAolp+AOVh+FoheGCdTxDRDNYZVBs8jovRtRbbquSV8v4GdPAdvm7gNervNpeudCzs6+BwsqjpK4ORZQq2fNVRrsv1G0uFJ9nNUoNWlgHfHKM6CXhtIW2O/I718++PBgDUI7YV4yo+PfSuLobJdhO951LkXP6Y3QDFS6pbHNa4HEMd/YfTl9h14e6FfZUXAeKUvbWEOBhdj11s0iZwCF700J3g==
+ b=XqQIbv46SYQoxJGR/q9K7U7iYRr/kQsbHshcsoUsYFTn5mxVu/J41n3YOwrKBOVN9KQ1YZBQMSJj7JxGAfEBrLhg0LGx7LvxQ9lERpNy3Jx6H/xN2JFKDOckpN7kp6nJBzSnpPU5Ek9KpvYyyicI6ERRwieTc15S7OAxOQ8nG7jkAlzCNHL5VzFUc86+htf78ZDptBzWoOeaQeLYRnZhQ+nR2xWSOqIET65B7r0Tdeqeho9penMB9bvJo0MFaeWV3hJzw62BzRB9vLcGi6jVfY8OBkVj2ggH5S+I/qRXwSUWRyGyBznOpA/I1AxSKg4k54ZWsML4cI3aLi5/e20yxg==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=vfSTMpMDhiIuTq3yjZ4aIK59TlX2Yq1gv0AJHdRSBWU=;
- b=bSNASPRd1gU2ztjxm1iMAgxRplIBCIBj2ZPObwZAIxPn4t1AuDUNy/a+8RFLxYXt31pmxrUjXCKodnlOJr5rKChJeXloY9nq1eMRuv6oEllTK+sTolrnKWBswjAD+qnVbi9WjJ8WP6F5USx7HD7VPDJPKYsdopiYLZpoFCEVoV0GYjL9FebDsRQC5Oi6ZfD+b8B5OPtifpulSLwGhEfdIkgwuOpmVqO8C/YImm0CXvvM/s8QrBvDyxh74NJrgDpPKaa0tZ+b6mTNr1Vmo/49FMPmeXclSH5p4BlJxQN+vi8bjFihncwQBU6DcKkZrz5zESXymoZPEB1ZqsrMgfnxwg==
+ bh=DcaqUYjClAV2D4ofwcWX5G4o205sPac9HYYi01X6w2M=;
+ b=mNBoE9aTPRwbSfk0BRQlmZpsHCkxBtbefp7Lwxks64ZdlSV1XANzf6Vdn9E6SjK6jPcm/yvSE4nC9toFkZ81TXepv83X6qqH3Oy2yqQOYyv9W8pgAnMx9u+kvdag/zJcoFi6ufRw0mVupNvujL0qyzx2sPrZvxiEJvMdm9ZbgtyRS2Y19gLX7zcUhfBi13EM1qIcylonKNh0ARCE+w9sf2GcHV7IrqLzJH4r8IJd0dTFihpeRJ0NMwtv4BaSv1786TsWzxpDspyaOSo3vHWxsarltcwBz7fGufD0oMoq9jYnGjJfmZfyEMARHsPVbbBkM3amPeDM/UvUJvo1V8Q4Tg==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
- 165.204.84.17) smtp.rcpttodomain=kernel.org smtp.mailfrom=amd.com; dmarc=pass
- (p=quarantine sp=quarantine pct=100) action=none header.from=amd.com;
- dkim=none (message not signed); arc=none (0)
+ 165.204.84.17) smtp.rcpttodomain=lists.freedesktop.org smtp.mailfrom=amd.com; 
+ dmarc=pass (p=quarantine sp=quarantine pct=100) action=none
+ header.from=amd.com; dkim=none (message not signed); arc=none (0)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=vfSTMpMDhiIuTq3yjZ4aIK59TlX2Yq1gv0AJHdRSBWU=;
- b=vuX1svhwf379I5y5q7GjwoT1jszQ7OeU3A/FuLYhO7wEc6yPfjPz/gYXuCKdrQd6jHtRq81WVLXxFk1rmynK9TyKEGZF686vSKkdRMdmMmU4IEKtKUM8zxHlGrCm8nhG8/ZYAGaH8Wed5kYK1C1PCgPCdqo/tYP4a+/grZBKxzU=
-Received: from BLAPR03CA0137.namprd03.prod.outlook.com (2603:10b6:208:32e::22)
- by MN0PR12MB6077.namprd12.prod.outlook.com (2603:10b6:208:3cb::9)
+ bh=DcaqUYjClAV2D4ofwcWX5G4o205sPac9HYYi01X6w2M=;
+ b=pgJO7nSdQkC2lPVFRaxoFC75HaYe7CTLD7xYFRXTQz6zTxeVQenHd0Ac8jpf69IkGZyJv/Ubp8LufSG5n+QKpkjIIZGECx8teq4/MoC+y7CcHdeKvU4KB/UyPmruEgM5nMpCdQC1TAf73kOb0NwgqaDIjj89Q5s+G5tcoi+YfGo=
+Received: from BY1P220CA0004.NAMP220.PROD.OUTLOOK.COM (2603:10b6:a03:59d::15)
+ by BL4PR12MB9480.namprd12.prod.outlook.com (2603:10b6:208:58d::7)
  with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8901.29; Thu, 10 Jul
- 2025 06:23:56 +0000
-Received: from BL6PEPF0001AB74.namprd02.prod.outlook.com
- (2603:10b6:208:32e:cafe::31) by BLAPR03CA0137.outlook.office365.com
- (2603:10b6:208:32e::22) with Microsoft SMTP Server (version=TLS1_3,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8901.25; Thu, 10 Jul
+ 2025 06:36:39 +0000
+Received: from SJ1PEPF000026C3.namprd04.prod.outlook.com
+ (2603:10b6:a03:59d:cafe::dd) by BY1P220CA0004.outlook.office365.com
+ (2603:10b6:a03:59d::15) with Microsoft SMTP Server (version=TLS1_3,
  cipher=TLS_AES_256_GCM_SHA384) id 15.20.8922.22 via Frontend Transport; Thu,
- 10 Jul 2025 06:23:56 +0000
+ 10 Jul 2025 06:36:39 +0000
 X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 165.204.84.17)
  smtp.mailfrom=amd.com; dkim=none (message not signed)
  header.d=none;dmarc=pass action=none header.from=amd.com;
 Received-SPF: Pass (protection.outlook.com: domain of amd.com designates
  165.204.84.17 as permitted sender) receiver=protection.outlook.com;
- client-ip=165.204.84.17; helo=SATLEXMB04.amd.com; pr=C
-Received: from SATLEXMB04.amd.com (165.204.84.17) by
- BL6PEPF0001AB74.mail.protection.outlook.com (10.167.242.167) with Microsoft
+ client-ip=165.204.84.17; helo=SATLEXMB03.amd.com; pr=C
+Received: from SATLEXMB03.amd.com (165.204.84.17) by
+ SJ1PEPF000026C3.mail.protection.outlook.com (10.167.244.100) with Microsoft
  SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.20.8922.22 via Frontend Transport; Thu, 10 Jul 2025 06:23:56 +0000
-Received: from SATLEXMB05.amd.com (10.181.40.146) by SATLEXMB04.amd.com
- (10.181.40.145) with Microsoft SMTP Server (version=TLS1_2,
+ 15.20.8922.22 via Frontend Transport; Thu, 10 Jul 2025 06:36:38 +0000
+Received: from SATLEXMB06.amd.com (10.181.40.147) by SATLEXMB03.amd.com
+ (10.181.40.144) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.39; Thu, 10 Jul
- 2025 01:23:56 -0500
-Received: from SATLEXMB04.amd.com (10.181.40.145) by SATLEXMB05.amd.com
- (10.181.40.146) with Microsoft SMTP Server (version=TLS1_2,
+ 2025 01:36:37 -0500
+Received: from SATLEXMB03.amd.com (10.181.40.144) by SATLEXMB06.amd.com
+ (10.181.40.147) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.39; Thu, 10 Jul
- 2025 01:23:56 -0500
-Received: from hjbog-srdc-41.amd.com (10.180.168.240) by SATLEXMB04.amd.com
- (10.181.40.145) with Microsoft SMTP Server id 15.1.2507.39 via Frontend
- Transport; Thu, 10 Jul 2025 01:23:50 -0500
-From: Samuel Zhang <guoqing.zhang@amd.com>
-To: <alexander.deucher@amd.com>, <christian.koenig@amd.com>,
- <rafael@kernel.org>, <len.brown@intel.com>, <pavel@kernel.org>,
- <gregkh@linuxfoundation.org>, <dakr@kernel.org>, <airlied@gmail.com>,
- <simona@ffwll.ch>, <ray.huang@amd.com>, <matthew.auld@intel.com>,
- <matthew.brost@intel.com>, <maarten.lankhorst@linux.intel.com>,
- <mripard@kernel.org>, <tzimmermann@suse.de>
-CC: <mario.limonciello@amd.com>, <lijo.lazar@amd.com>, <victor.zhao@amd.com>, 
- <haijun.chang@amd.com>, <Qing.Ma@amd.com>, <Owen.Zhang2@amd.com>,
- <linux-pm@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
- <amd-gfx@lists.freedesktop.org>, <dri-devel@lists.freedesktop.org>, "Samuel
- Zhang" <guoqing.zhang@amd.com>
-Subject: [PATCH v6 5/5] drm/amdgpu: do not resume device in thaw for normal
- hibernation
-Date: Thu, 10 Jul 2025 14:23:13 +0800
-Message-ID: <20250710062313.3226149-6-guoqing.zhang@amd.com>
-X-Mailer: git-send-email 2.43.5
-In-Reply-To: <20250710062313.3226149-1-guoqing.zhang@amd.com>
-References: <20250710062313.3226149-1-guoqing.zhang@amd.com>
+ 2025 01:36:37 -0500
+Received: from lcaoubuntu-server.amd.com (10.180.168.240) by
+ SATLEXMB03.amd.com (10.181.40.144) with Microsoft SMTP Server id 15.1.2507.39
+ via Frontend Transport; Thu, 10 Jul 2025 01:36:35 -0500
+From: Lin.Cao <lincao12@amd.com>
+To: <dri-devel@lists.freedesktop.org>, <amd-gfx@lists.freedesktop.org>
+CC: <zhenguo.yin@amd.com>, <Emily.Deng@amd.com>,
+ =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>, Lin.Cao
+ <lincao12@amd.com>
+Subject: [PATCH] drm/scheduler: Fix sched hang when killing app with dependent
+ jobs
+Date: Thu, 10 Jul 2025 14:36:33 +0800
+Message-ID: <20250710063633.498633-1-lincao12@amd.com>
+X-Mailer: git-send-email 2.46.1
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Content-Type: text/plain
-Received-SPF: None (SATLEXMB05.amd.com: guoqing.zhang@amd.com does not
- designate permitted sender hosts)
 X-EOPAttributedMessage: 0
 X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: BL6PEPF0001AB74:EE_|MN0PR12MB6077:EE_
-X-MS-Office365-Filtering-Correlation-Id: c4a7073a-44d9-48fb-216a-08ddbf7a59c3
+X-MS-TrafficTypeDiagnostic: SJ1PEPF000026C3:EE_|BL4PR12MB9480:EE_
+X-MS-Office365-Filtering-Correlation-Id: f995933a-d270-4d74-328f-08ddbf7c1fc1
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: BCL:0;
- ARA:13230040|1800799024|36860700013|82310400026|7416014|376014|921020; 
-X-Microsoft-Antispam-Message-Info: =?us-ascii?Q?3lWqLs6Nwq3H6xi741Q6El3FFzzUF98Kc4Ml/qTpPmXZZjvMrBk1NDkLYxh0?=
- =?us-ascii?Q?VeqFZ/CSF5WAGsCah3hsiZ2rDqwvT1iPgoxkOPjHdkfSJ45neaad1Qvqryki?=
- =?us-ascii?Q?XLLQnqz7xzRL3ZYYDWuOFqbk15bPlorkUK0uMinvAA+rGigeb8c9wQm/3hvW?=
- =?us-ascii?Q?z1D6Ox4lgw5Onhv+XpXwr9MhVaWONy0KqIsEBtIGpUoLnEnxolNVgWKYP2P5?=
- =?us-ascii?Q?+Z8tqrrRzMWgNqz0Jo6h1vtUU8H24xE/UxWddRqLzXXkkA75QqdYxCZngA17?=
- =?us-ascii?Q?/tDILcowTKhOK3z7WSmTad7FpHB/AgbG1AmODM66UYyKNBjK6Y+ih283pDC0?=
- =?us-ascii?Q?Lg/CmN4sgVys4vClsNIOcWsV24Dr+fHXgg1xuBCLXi5RGu2roI3FRcc/u2tr?=
- =?us-ascii?Q?xthjZl1B2Xrp0n/PAd2jrk3mnT0euOdxSu/0iGDSrS2kIRpfMcVAI6FTdZat?=
- =?us-ascii?Q?gnH87443YNHFy9IoQKIwgYe488hkqi501ZK8VEWUixDG0QB04wJhTe8N37Cm?=
- =?us-ascii?Q?1D+iHgAToOMh+a+f2vuct3jSDtPNns1+UXP1KUStC6vT7WaajHuPv6THHTr/?=
- =?us-ascii?Q?TTMucNdyH6K2K1TxXtigCCNDiIJaDc/Oifm2oMlMzhB808KdUAUcfL+e+4PO?=
- =?us-ascii?Q?alm0H7TqqdVUIXnKcZ3Y0MYQJHXE131JzwdGFwrzY6ikOU3F46NtE9B2PybY?=
- =?us-ascii?Q?B5wWncZX8JWPOFFuSMwO4sa+gODNAkwNq67SW1UgG+XdM6CchHYL0GbHdgaT?=
- =?us-ascii?Q?RGcAjWaVNBDXzBVFabuB5J0VtSHHBcSL1yXp18AzdCRk4u87rFrminxmPiB0?=
- =?us-ascii?Q?9FTonzTUVY75O4MFxqZRL1FIuFdmcgEVsPx6vOt+jzgxuKl3i6di3PAL8JjF?=
- =?us-ascii?Q?D/SwEFQC5VNyRPFq7Fb9JcxQ9SIBaFIZKFwXDD9iXem9LYaTQIxPmlRZRDPs?=
- =?us-ascii?Q?+f1FfBAmeiJl97gIR0wx4Q9kJKFn04hij6Oe8gd6eOEuLQU61OtOuxMJmp7S?=
- =?us-ascii?Q?Jdske4fpasJkq+3eo7omjNZjhKr6qSaRn1+kd9X1zQklJ6Z9ewoDssq+Cp1L?=
- =?us-ascii?Q?Hbqbq5O086OqRAkTIQ3xvzBO/OMvJSdNW+aBhDAr/9XsZM1xvKV4SjASW7zS?=
- =?us-ascii?Q?JMf/CoUWimDxABtAtjFy1FpkEkJ3YKHKFlayF808X1FvUEbPS7JicDp6pSdo?=
- =?us-ascii?Q?fIIHslhUD58YNeVaFkCsDvHG9MYIqABUVAwmv7bseYEQBxIZ0E3gkHnYWJH9?=
- =?us-ascii?Q?E96j30BAEDAJYQyAzA1pB0ueYrVLOarhM0nTpsUEJ8Ywxm+z2UGRbxb2t89/?=
- =?us-ascii?Q?tVLugDoxSike4ty4y5DuuVgOt/hi8Chy6BSYJnt0ivNkuXYa2Xt8cw0imk6t?=
- =?us-ascii?Q?loUxQ0ifrNGdPUtMw7Zie8fiEjKAcqf520+1Oncs60AzNU6c0OX/B1N37y9X?=
- =?us-ascii?Q?+sm+zkAKdFDciOcfe951R/+CSSYHrsXnWnH8oc762IWff+vahFsdnomFO+k/?=
- =?us-ascii?Q?5PFjDDbEI8aukWm/XCVPzOd6WyKDOK4ql18oQ9lxUJE+SdHQjPayQ+nKcQ?=
- =?us-ascii?Q?=3D=3D?=
+ ARA:13230040|36860700013|376014|82310400026|1800799024; 
+X-Microsoft-Antispam-Message-Info: =?us-ascii?Q?v029EOfkWwI12tn7+FnYpXoxO1YaM5Ue3OQvAeESJdbCGAvb3vObtwnIaae9?=
+ =?us-ascii?Q?yZXJMVJCodSysB8+zAZ32xwMLXEbWKRNq8QfmaI63BS+0e1QFeS5mRI7GMLD?=
+ =?us-ascii?Q?unB39f2TT5f3xeVg1F4G4MHl6hX5IL/3YjtVFomHnYpB6um6g2b7JQA7wrK6?=
+ =?us-ascii?Q?wVZjnSNyIvoGfLuo9JVp2a2sxzdN2AKaDFEaXXZLjwE0qZEgTvqbW0CyH5Ut?=
+ =?us-ascii?Q?sLigStNqi5M0o5RC1LdZ8yWrCue1VIy9PIgas3Fktz3SJ052oZF9U2svFF8r?=
+ =?us-ascii?Q?tmgPGYUM8kx7HNqgWQM4N9KVhOT1g1EVdAL6B1AXZm3iixKVe+aTSZyZnwOt?=
+ =?us-ascii?Q?Vo5XN/u0IxWU3Q1PM703mmVwLTtbqZHMbHA1/pjJ9PG6udKxNxWz1Mi/24Bk?=
+ =?us-ascii?Q?HvV5PCmQMbObp+l6jB+iKytyshUVyf+/w9usNro40pI2cOv8VFczLWfg8Z10?=
+ =?us-ascii?Q?qROOHjpQbyhfcFq+8a0FCwQtIlkWulQJizbLFwPssIcWY0tOG6vUrSDd5jUj?=
+ =?us-ascii?Q?fmyJoVgobQD/y04vMLgwV5dMRf1NEIucsGPf+qfhPiEWIC8fGByhdxoNFqRZ?=
+ =?us-ascii?Q?yvwOuIsZxKcpcbvP4oODfb4Uc2e3r0h4ljvG31pKid+F/Fm0CzTcGYYhgsJq?=
+ =?us-ascii?Q?qADXvFEuaZuVuQTLdxbQ0oqkX01OBkhFztuFWkFKFuVCviwHbWlP0aO2EUQe?=
+ =?us-ascii?Q?EtvBG4kfbTMEQBN4ce11qZ9wTbPEt0SuGl6v57z2WSKgOCR5x8oYalhRUF/W?=
+ =?us-ascii?Q?+agtNnBDe/n89BbOwokgWBOJ+JY4rpREbxvUhhDr7+wrgCeMLgFsCHvB5KlG?=
+ =?us-ascii?Q?41uq1XKll0zcLyaNQlLrGpN90HSZprP6qlPEOQC4r0gQ+K76uWSRhurgCTCp?=
+ =?us-ascii?Q?7VnjHz2vsXkK6q0PQDzHz0mWS7+Klzus+MSF+aUd3hlLQ9n/TX9pPWEDL+0l?=
+ =?us-ascii?Q?wTgivHF/eNUitqU4BS9oqY+GEIXLl1k2r2PmRkPYFwXjCZOidQAo/v1N7n3c?=
+ =?us-ascii?Q?OahODsnQRKMLoMNK+eblRYEja9fadenWbwKZBwqfDLDayD/BkK8M/3BlPrAl?=
+ =?us-ascii?Q?9MBegu8BabdT5r5maMyFi5RnbZrSv2lSaiDch07REq6HxJB1z4ZOUM4ppk2p?=
+ =?us-ascii?Q?lL2itFDGst4gImKmSk/aM+skgKxymJeov6/zFgrniutaE3Ky4G/anL+Y5n+L?=
+ =?us-ascii?Q?dQBhgNsDzRjyt0bxOe49tOSGQvVqwXQUMuDNs8k6HEvd0FJfhN5ZdjSJprlV?=
+ =?us-ascii?Q?iyyf6W7Xx1ctIM+2xHK6ZMV9HCi3ONmZas/Nj4hiGaSPKIfLeETmEeGBBCPm?=
+ =?us-ascii?Q?P6xz/yD8vokmNsaftpeDkr8nqwx452EqSQv2vdfSvDZrXNxk1UIV+XDVuzPe?=
+ =?us-ascii?Q?ZKL2hFEk8Xpr4VQwe704o18iFX2U2FjmUGvzHyr06zxRzbCmtoRKPbnM/10n?=
+ =?us-ascii?Q?OvJBFJsBp+hWK4VC0SnNTM7GcAIKGQDvh0MtrOsbI1Y2hRfuosKukmvfGyCa?=
+ =?us-ascii?Q?QFaqpl0Dl3i0NJI9fnXOcOFdqaF8Za7vV5XC?=
 X-Forefront-Antispam-Report: CIP:165.204.84.17; CTRY:US; LANG:en; SCL:1; SRV:;
- IPV:CAL; SFV:NSPM; H:SATLEXMB04.amd.com; PTR:InfoDomainNonexistent; CAT:NONE;
- SFS:(13230040)(1800799024)(36860700013)(82310400026)(7416014)(376014)(921020);
- DIR:OUT; SFP:1101; 
+ IPV:CAL; SFV:NSPM; H:SATLEXMB03.amd.com; PTR:InfoDomainNonexistent; CAT:NONE;
+ SFS:(13230040)(36860700013)(376014)(82310400026)(1800799024); DIR:OUT;
+ SFP:1101; 
 X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 10 Jul 2025 06:23:56.8916 (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: c4a7073a-44d9-48fb-216a-08ddbf7a59c3
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 10 Jul 2025 06:36:38.4790 (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: f995933a-d270-4d74-328f-08ddbf7c1fc1
 X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
 X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=3dd8961f-e488-4e60-8e11-a82d994e183d; Ip=[165.204.84.17];
- Helo=[SATLEXMB04.amd.com]
-X-MS-Exchange-CrossTenant-AuthSource: BL6PEPF0001AB74.namprd02.prod.outlook.com
+ Helo=[SATLEXMB03.amd.com]
+X-MS-Exchange-CrossTenant-AuthSource: SJ1PEPF000026C3.namprd04.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Anonymous
 X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: MN0PR12MB6077
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: BL4PR12MB9480
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -150,67 +138,33 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-For normal hibernation, GPU do not need to be resumed in thaw since it is
-not involved in writing the hibernation image. Skip resume in this case
-can reduce the hibernation time.
+When Application A submits jobs (a1, a2, a3) and application B submits
+job b1 with a dependency on a2's scheduler fence, killing application A
+before run_job(a1) causes drm_sched_entity_kill_jobs_work() to force
+signal all jobs sequentially. However, due to missing work_run_job or
+work_free_job in entity_kill_job_work(), the scheduler enters sleep
+state, causing application B hang.
 
-On VM with 8 * 192GB VRAM dGPUs, 98% VRAM usage and 1.7TB system memory,
-this can save 50 minutes.
+Add drm_sched_wakeup() when entity_kill_job_work() to preventing
+scheduler sleep and subsequent application hangs.
 
-Signed-off-by: Samuel Zhang <guoqing.zhang@amd.com>
-Tested-by: Mario Limonciello <mario.limonciello@amd.com>
+Signed-off-by: Lin.Cao <lincao12@amd.com>
 ---
- drivers/gpu/drm/amd/amdgpu/amdgpu_drv.c | 17 +++++++++++++++++
- 1 file changed, 17 insertions(+)
+ drivers/gpu/drm/scheduler/sched_entity.c | 1 +
+ 1 file changed, 1 insertion(+)
 
-diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_drv.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_drv.c
-index 1c54b2e5a225..021defca9b61 100644
---- a/drivers/gpu/drm/amd/amdgpu/amdgpu_drv.c
-+++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_drv.c
-@@ -2541,6 +2541,10 @@ amdgpu_pci_shutdown(struct pci_dev *pdev)
- 	if (amdgpu_ras_intr_triggered())
- 		return;
- 
-+	/* device maybe not resumed here, return immediately in this case */
-+	if (adev->in_s4 && adev->in_suspend)
-+		return;
-+
- 	/* if we are running in a VM, make sure the device
- 	 * torn down properly on reboot/shutdown.
- 	 * unfortunately we can't detect certain
-@@ -2557,6 +2561,10 @@ static int amdgpu_pmops_prepare(struct device *dev)
- 	struct drm_device *drm_dev = dev_get_drvdata(dev);
- 	struct amdgpu_device *adev = drm_to_adev(drm_dev);
- 
-+	/* device maybe not resumed here, return immediately in this case */
-+	if (adev->in_s4 && adev->in_suspend)
-+		return 0;
-+
- 	/* Return a positive number here so
- 	 * DPM_FLAG_SMART_SUSPEND works properly
- 	 */
-@@ -2655,12 +2663,21 @@ static int amdgpu_pmops_thaw(struct device *dev)
- {
- 	struct drm_device *drm_dev = dev_get_drvdata(dev);
- 
-+	/* do not resume device if it's normal hibernation */
-+	if (!pm_hibernate_is_recovering())
-+		return 0;
-+
- 	return amdgpu_device_resume(drm_dev, true);
+diff --git a/drivers/gpu/drm/scheduler/sched_entity.c b/drivers/gpu/drm/scheduler/sched_entity.c
+index e671aa241720..a22b0f65558a 100644
+--- a/drivers/gpu/drm/scheduler/sched_entity.c
++++ b/drivers/gpu/drm/scheduler/sched_entity.c
+@@ -180,6 +180,7 @@ static void drm_sched_entity_kill_jobs_work(struct work_struct *wrk)
+ 	drm_sched_fence_finished(job->s_fence, -ESRCH);
+ 	WARN_ON(job->s_fence->parent);
+ 	job->sched->ops->free_job(job);
++	drm_sched_wakeup(job->sched);
  }
  
- static int amdgpu_pmops_poweroff(struct device *dev)
- {
- 	struct drm_device *drm_dev = dev_get_drvdata(dev);
-+	struct amdgpu_device *adev = drm_to_adev(drm_dev);
-+
-+	/* device maybe not resumed here, return immediately in this case */
-+	if (adev->in_s4 && adev->in_suspend)
-+		return 0;
- 
- 	return amdgpu_device_suspend(drm_dev, true);
- }
+ /* Signal the scheduler finished fence when the entity in question is killed. */
 -- 
-2.43.5
+2.46.1
 
