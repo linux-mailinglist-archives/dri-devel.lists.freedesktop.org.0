@@ -2,56 +2,84 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C6B82B00779
-	for <lists+dri-devel@lfdr.de>; Thu, 10 Jul 2025 17:47:37 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 965E4B007C0
+	for <lists+dri-devel@lfdr.de>; Thu, 10 Jul 2025 17:55:07 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 278EE10E226;
-	Thu, 10 Jul 2025 15:47:36 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 96F8410E22A;
+	Thu, 10 Jul 2025 15:55:05 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="nsCitNrw";
+	dkim=pass (2048-bit key; unprotected) header.d=google.com header.i=@google.com header.b="D4544RcE";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from nyc.source.kernel.org (nyc.source.kernel.org [147.75.193.91])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 81CFE10E226;
- Thu, 10 Jul 2025 15:47:35 +0000 (UTC)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by nyc.source.kernel.org (Postfix) with ESMTP id 6717FA541DA;
- Thu, 10 Jul 2025 15:47:34 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 70190C4CEE3;
- Thu, 10 Jul 2025 15:47:32 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1752162454;
- bh=4WrSJ+ZWFh8+ijA+FOmqLX/WnYSK5XlFQU15JIkymfk=;
- h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
- b=nsCitNrwhBRnpkTRs3pMi4LmgenRr7s8WFPQ22UqIGN37oCMwjTTvPTErvPpJ5y07
- XaqHYTDHpWQO+xGY2Ujo45xi3BIPjGnHhSxZAXTOARrsA8Zjrg6hw7zh1t5Y1Ta2zx
- KkF/sCWB6kjRkKyi7SDc+Z3ihuUI/io/ChkBAny3TnJgkd2GnsG2EqWjnFlUb2YrjS
- 4deXEf9WEMwBTLT6A6NxdqFeq6TaqKxHcBIGtgNnuXl4m0K5sHEPLE33R+3LQDfoTS
- bFNwUphQ37pmRWPYpK1gIccxmIavvZTBTpVj0O5saXimTm3MgwK6hwyUdp61+s4vEo
- VSFvBkIhbHnBg==
-Message-ID: <37c957be-476a-4ddd-8d52-4474c47cb5e9@kernel.org>
-Date: Thu, 10 Jul 2025 17:47:29 +0200
-MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH resend] drm/i915/bios: Apply vlv_fixup_mipi_sequences() to
- v2 mipi-sequences too
-To: Rodrigo Vivi <rodrigo.vivi@intel.com>
-Cc: =?UTF-8?B?VmlsbGUgU3lyasOkbMOk?= <ville.syrjala@linux.intel.com>,
- Jani Nikula <jani.nikula@linux.intel.com>,
- Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
- Tvrtko Ursulin <tursulin@ursulin.net>,
- intel-gfx <intel-gfx@lists.freedesktop.org>,
- dri-devel@lists.freedesktop.org, Hans de Goede <hdegoede@redhat.com>
-References: <20250703143824.7121-1-hansg@kernel.org>
- <aGetkP3IZ0FYHzAz@intel.com>
- <c2b14619-c981-4caf-a295-2571506cc955@kernel.org>
- <aG_dlWJO-3YwXeub@intel.com>
-Content-Language: en-US, nl
-From: Hans de Goede <hansg@kernel.org>
-In-Reply-To: <aG_dlWJO-3YwXeub@intel.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Received: from mail-pj1-f74.google.com (mail-pj1-f74.google.com
+ [209.85.216.74])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id DD62710E22A
+ for <dri-devel@lists.freedesktop.org>; Thu, 10 Jul 2025 15:55:04 +0000 (UTC)
+Received: by mail-pj1-f74.google.com with SMTP id
+ 98e67ed59e1d1-311a6b43ed7so1202960a91.1
+ for <dri-devel@lists.freedesktop.org>; Thu, 10 Jul 2025 08:55:04 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=google.com; s=20230601; t=1752162904; x=1752767704;
+ darn=lists.freedesktop.org; 
+ h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
+ :date:from:to:cc:subject:date:message-id:reply-to;
+ bh=nV1olJ9SZ90DwgRNYjXjgenr93Qe34BEuVW+pd4gRI8=;
+ b=D4544RcEt/6vBAfUIMrcHk2uoPJL3vncn5QJ/6TMLnNp1Plseih3eL7nPjQGb8bfoG
+ DdZI5jFqe7qGIK725Rnsc3GUQngZZuYcSlU+w1IrMFGB/Dq/n9ZasOV44yQ5hIX9u9GI
+ Lx8sEW+a3Hy5pjiv0tCjXmpTPrwwjkqY8TyD9o0ms/2PTijjow/pwJ10zoQVvN+r4aI/
+ smaH8tJ+y3IfWtXwPphuQJARybhAT4+exalut/NmxJ7k4VuSnn+2uLau+JT6+bAcnySv
+ CUxkahyQBE+NN2eeYpHyY2fvogvSzV32ztAuZDA1lBxYkLuMiRYTPiLYfSEdb3oV7KkY
+ WUeg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1752162904; x=1752767704;
+ h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
+ :date:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=nV1olJ9SZ90DwgRNYjXjgenr93Qe34BEuVW+pd4gRI8=;
+ b=RFE6LxLZ/PbzKiCU79HfwM4iOSbxkBYlct4m7w0uYfQ9Agp/PNzkzu2D3cS5GAHFfZ
+ saA0lOMycy0i7NdLS8CD+nGC7CvGmsPLylXH9fUzylPvf4+vpjOmEI0DrxLurwFfT+Qt
+ 71B9wgNaMgkiNtiVC0wftcUXT0i9tnB2RlpFoVNlAA66FmFSNPsLXt60WimMvnIJVcIm
+ WerG912SI3ZCtLB31/dagJ2cer0LKzqMlKFl1ucaApX7tpKHIiJ9gdXlx53l1cVWDvpf
+ ErrQqdkKP/2peU97C+R4lX7jZ6yVksLlwirhoyBZAz8SXAfqkDhl0MwQQWf16gxoVGZf
+ s35g==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCWleHtWCIsg51/ISlUg1a/XSEHcfqYOubC8j+L4hptUSW1LypbdhCmGJsD0s6ppGmFf/VKQMKKcq90=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0Ywv3NrqsygLY2hl5nwwpkBnmtzsnW1TxNVV8HS4UMhR2du0ccjh
+ lvZMUBvmte7Fct6x6yK/bLi7ma/rUUYaBa3ra9qfTvjVilpoaCyPLg6HK1j3ZnDeYcz5qif9JMY
+ KLBMSqQ==
+X-Google-Smtp-Source: AGHT+IFICyjT9NXq9BtYtyMoFZr6GhrLdcBIWlvwDgWHmErMpo1E4lmn/+/4G6o3U8umnLwC4rTugmVEgfI=
+X-Received: from pjb12.prod.google.com ([2002:a17:90b:2f0c:b0:31c:15e1:d04])
+ (user=seanjc job=prod-delivery.src-stubby-dispatcher) by
+ 2002:a17:90b:4d89:b0:311:c1ec:7cfb
+ with SMTP id 98e67ed59e1d1-31c4cce03acmr45281a91.21.1752162904337; Thu, 10
+ Jul 2025 08:55:04 -0700 (PDT)
+Date: Thu, 10 Jul 2025 08:55:02 -0700
+In-Reply-To: <20250710154704.GJ1613633@noisy.programming.kicks-ass.net>
+Mime-Version: 1.0
+References: <20250522233733.3176144-1-seanjc@google.com>
+ <20250522233733.3176144-4-seanjc@google.com>
+ <20250710112902.GCaG-j_l-K6LYRzZsb@fat_crate.local>
+ <20250710143729.GL1613200@noisy.programming.kicks-ass.net>
+ <20250710154704.GJ1613633@noisy.programming.kicks-ass.net>
+Message-ID: <aG_iVqMkeIUELiTX@google.com>
+Subject: Re: [PATCH v3 3/8] x86, lib: Add WBNOINVD helper functions
+From: Sean Christopherson <seanjc@google.com>
+To: Peter Zijlstra <peterz@infradead.org>
+Cc: Borislav Petkov <bp@alien8.de>, Thomas Gleixner <tglx@linutronix.de>,
+ Ingo Molnar <mingo@redhat.com>, 
+ Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org, 
+ Paolo Bonzini <pbonzini@redhat.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+ linux-kernel@vger.kernel.org, 
+ kvm@vger.kernel.org, dri-devel@lists.freedesktop.org, 
+ Kevin Loughlin <kevinloughlin@google.com>,
+ Tom Lendacky <thomas.lendacky@amd.com>, 
+ Kai Huang <kai.huang@intel.com>, Ingo Molnar <mingo@kernel.org>, 
+ Zheyun Shen <szy0127@sjtu.edu.cn>, Mingwei Zhang <mizhang@google.com>, 
+ Francesco Lavra <francescolavra.fl@gmail.com>
+Content-Type: text/plain; charset="us-ascii"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -67,128 +95,120 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Rodrigo,
-
-On 10-Jul-25 5:34 PM, Rodrigo Vivi wrote:
-> On Mon, Jul 07, 2025 at 11:10:59PM +0200, Hans de Goede wrote:
->> Hi Ville,
->>
->> On 4-Jul-25 12:31 PM, Ville Syrjälä wrote:
->>> On Thu, Jul 03, 2025 at 04:38:24PM +0200, Hans de Goede wrote:
->>>> From: Hans de Goede <hdegoede@redhat.com>
->>>>
->>>> It turns out that the fixup from vlv_fixup_mipi_sequences() is necessary
->>>> for some DSI panel's with version 2 mipi-sequences too.
->>>>
->>>> Specifically the Acer Iconia One 8 A1-840 (not to be confused with the
->>>> A1-840FHD which is different) has the following sequences:
->>>>
->>>> BDB block 53 (1284 bytes) - MIPI sequence block:
->>>> 	Sequence block version v2
->>>> 	Panel 0 *
->>>>
->>>> Sequence 2 - MIPI_SEQ_INIT_OTP
->>>> 	GPIO index 9, source 0, set 0 (0x00)
->>>> 	Delay: 50000 us
->>>> 	GPIO index 9, source 0, set 1 (0x01)
->>>> 	Delay: 6000 us
->>>> 	GPIO index 9, source 0, set 0 (0x00)
->>>> 	Delay: 6000 us
->>>> 	GPIO index 9, source 0, set 1 (0x01)
->>>> 	Delay: 25000 us
->>>> 	Send DCS: Port A, VC 0, LP, Type 39, Length 5, Data ff aa 55 a5 80
->>>> 	Send DCS: Port A, VC 0, LP, Type 39, Length 3, Data 6f 11 00
->>>> 	...
->>>> 	Send DCS: Port A, VC 0, LP, Type 05, Length 1, Data 29
->>>> 	Delay: 120000 us
->>>>
->>>> Sequence 4 - MIPI_SEQ_DISPLAY_OFF
->>>> 	Send DCS: Port A, VC 0, LP, Type 05, Length 1, Data 28
->>>> 	Delay: 105000 us
->>>> 	Send DCS: Port A, VC 0, LP, Type 05, Length 2, Data 10 00
->>>> 	Delay: 10000 us
->>>>
->>>> Sequence 5 - MIPI_SEQ_ASSERT_RESET
->>>> 	Delay: 10000 us
->>>> 	GPIO index 9, source 0, set 0 (0x00)
->>>>
->>>> Notice how there is no MIPI_SEQ_DEASSERT_RESET, instead the deassert
->>>> is done at the beginning of MIPI_SEQ_INIT_OTP, which is exactly what
->>>> the fixup from vlv_fixup_mipi_sequences() fixes up.
->>>>
->>>> Extend it to also apply to v2 sequences, this fixes the panel not working
->>>> on the Acer Iconia One 8 A1-840.
->>>
->>> Do we have the full VBT for this machine already in some bug? If not,
->>> please file a new issue with the VBT attached for posterity.
->>
->> I've filed: https://gitlab.freedesktop.org/drm/i915/kernel/-/issues/14605
->> with the VBT attached and I'll add a Closes: tag pointing to that
->> to the patch while applying it to drm-intel-fixes.
+On Thu, Jul 10, 2025, Peter Zijlstra wrote:
+> On Thu, Jul 10, 2025 at 04:37:29PM +0200, Peter Zijlstra wrote:
+> > On Thu, Jul 10, 2025 at 01:29:02PM +0200, Borislav Petkov wrote:
+> > > On Thu, May 22, 2025 at 04:37:27PM -0700, Sean Christopherson wrote:
+> > > > diff --git a/arch/x86/lib/cache-smp.c b/arch/x86/lib/cache-smp.c
+> > > > index 079c3f3cd32c..1789db5d8825 100644
+> > > > --- a/arch/x86/lib/cache-smp.c
+> > > > +++ b/arch/x86/lib/cache-smp.c
+> > > > @@ -19,3 +19,14 @@ void wbinvd_on_all_cpus(void)
+> > > >  	on_each_cpu(__wbinvd, NULL, 1);
+> > > >  }
+> > > >  EXPORT_SYMBOL(wbinvd_on_all_cpus);
+> > > > +
+> > > > +static void __wbnoinvd(void *dummy)
+> > > > +{
+> > > > +	wbnoinvd();
+> > > > +}
+> > > > +
+> > > > +void wbnoinvd_on_all_cpus(void)
+> > > > +{
+> > > > +	on_each_cpu(__wbnoinvd, NULL, 1);
+> > > > +}
+> > > > +EXPORT_SYMBOL(wbnoinvd_on_all_cpus);
+> > > 
+> > > If there's no particular reason for the non-GPL export besides being
+> > > consistent with the rest - yes, I did the change for wbinvd_on_all_cpus() but
+> > > that was loooong time ago - I'd simply make this export _GPL.
+> > 
+> > Uhhhh, how about we use this fancy export to known modules only thing
+> > for this?
+> > 
+> > These are typical things we do *NOT* want people to actually use.
 > 
-> Hi Hans,
+> So kvm-amd is the SEV stuff, AGPGART is the ancient crap nobody cares
+> about, CCP is more SEV stuff, DRM actually does CLFLUSH loops, but has a
+> WBINVD fallback. i915 is rude and actually does WBINVD. Could they
+> pretty please also do CLFLUSH loops?
+
+FWIW, doing CLFLUSH in KVM isn't feasible.  In multiple flows, KVM doesn't have
+a valid virtual mapping, and hardware *requires* a WBINVD for at least one of the
+SEV paths.
+
+> Anyway, the below seems to survive an allmodconfig.
 > 
-> Thank you so much for all the work here.
-> 
-> Just one thing here is that in drm-intel and drm-xe branches,
-> differently from drm-misc ones, we push to the -next variants, and
-> then the maintainers run cherry-pick rounds to propagate to the -fixes ones.
+> ---
+> diff --git a/arch/x86/lib/cache-smp.c b/arch/x86/lib/cache-smp.c
+> index c5c60d07308c..ac3cc32a4054 100644
+> --- a/arch/x86/lib/cache-smp.c
+> +++ b/arch/x86/lib/cache-smp.c
+> @@ -12,19 +12,19 @@ void wbinvd_on_cpu(int cpu)
+>  {
+>  	smp_call_function_single(cpu, __wbinvd, NULL, 1);
+>  }
+> -EXPORT_SYMBOL(wbinvd_on_cpu);
+> +EXPORT_SYMBOL_GPL_FOR_MODULES(wbinvd_on_cpu, "kvm-amd,agpgart,ccp,drm,i915");
 
-Ok, I'll try to remember that for next time.
+Patch 5 of this series drops KVM's homebrewed version of WBINVD-on-CPU, so this
+one at least would need to export the symbol for "kvm" as well.
 
-> I have just moved it around with a force-push, pushed to drm-intel-next and
-> cherry-picked back.
+diff --git a/arch/x86/kvm/x86.c b/arch/x86/kvm/x86.c
+index 1d0e9180148d..d63a2c27e058 100644
+--- a/arch/x86/kvm/x86.c
++++ b/arch/x86/kvm/x86.c
+@@ -4965,11 +4965,6 @@ long kvm_arch_dev_ioctl(struct file *filp,
+ 	return r;
+ }
+ 
+-static void wbinvd_ipi(void *garbage)
+-{
+-	wbinvd();
+-}
+-
+ static bool need_emulate_wbinvd(struct kvm_vcpu *vcpu)
+ {
+ 	return kvm_arch_has_noncoherent_dma(vcpu->kvm);
+@@ -4991,8 +4986,7 @@ void kvm_arch_vcpu_load(struct kvm_vcpu *vcpu, int cpu)
+ 		if (kvm_x86_call(has_wbinvd_exit)())
+ 			cpumask_set_cpu(cpu, vcpu->arch.wbinvd_dirty_mask);
+ 		else if (vcpu->cpu != -1 && vcpu->cpu != cpu)
+-			smp_call_function_single(vcpu->cpu,
+-					wbinvd_ipi, NULL, 1);
++			wbinvd_on_cpu(vcpu->cpu);
+ 	}
+ 
+ 	kvm_x86_call(vcpu_load)(vcpu, cpu);
+-- 
 
-Thank you for fixing things up.
-
-Regards,
-
-Hans
-
-
-
-
->>>> Signed-off-by: Hans de Goede <hdegoede@redhat.com>
->>>> ---
->>>>  drivers/gpu/drm/i915/display/intel_bios.c | 8 ++++----
->>>>  1 file changed, 4 insertions(+), 4 deletions(-)
->>>>
->>>> diff --git a/drivers/gpu/drm/i915/display/intel_bios.c b/drivers/gpu/drm/i915/display/intel_bios.c
->>>> index ba7b8938b17c..166ee11831ab 100644
->>>> --- a/drivers/gpu/drm/i915/display/intel_bios.c
->>>> +++ b/drivers/gpu/drm/i915/display/intel_bios.c
->>>> @@ -1938,7 +1938,7 @@ static int get_init_otp_deassert_fragment_len(struct intel_display *display,
->>>>  	int index, len;
->>>>  
->>>>  	if (drm_WARN_ON(display->drm,
->>>> -			!data || panel->vbt.dsi.seq_version != 1))
->>>> +			!data || panel->vbt.dsi.seq_version >= 3))
->>>>  		return 0;
->>>>  
->>>>  	/* index = 1 to skip sequence byte */
->>>> @@ -1961,7 +1961,7 @@ static int get_init_otp_deassert_fragment_len(struct intel_display *display,
->>>>  }
->>>>  
->>>>  /*
->>>> - * Some v1 VBT MIPI sequences do the deassert in the init OTP sequence.
->>>> + * Some v1/v2 VBT MIPI sequences do the deassert in the init OTP sequence.
->>>>   * The deassert must be done before calling intel_dsi_device_ready, so for
->>>>   * these devices we split the init OTP sequence into a deassert sequence and
->>>>   * the actual init OTP part.
->>>> @@ -1972,9 +1972,9 @@ static void vlv_fixup_mipi_sequences(struct intel_display *display,
->>>>  	u8 *init_otp;
->>>>  	int len;
->>>>  
->>>> -	/* Limit this to v1 vid-mode sequences */
->>>> +	/* Limit this to v1/v2 vid-mode sequences */
->>>>  	if (panel->vbt.dsi.config->is_cmd_mode ||
->>>> -	    panel->vbt.dsi.seq_version != 1)
->>>> +	    panel->vbt.dsi.seq_version >= 3)
->>>>  		return;
->>>>  
->>>>  	/* Only do this if there are otp and assert seqs and no deassert seq */
->>>> -- 
->>>> 2.49.0
->>>
->>
-
+>  
+>  void wbinvd_on_all_cpus(void)
+>  {
+>  	on_each_cpu(__wbinvd, NULL, 1);
+>  }
+> -EXPORT_SYMBOL(wbinvd_on_all_cpus);
+> +EXPORT_SYMBOL_GPL_FOR_MODULES(wbinvd_on_all_cpus, "kvm-amd,agpgart,ccp,drm,i915,intel-gtt");
+>  
+>  void wbinvd_on_cpus_mask(struct cpumask *cpus)
+>  {
+>  	on_each_cpu_mask(cpus, __wbinvd, NULL, 1);
+>  }
+> -EXPORT_SYMBOL_GPL(wbinvd_on_cpus_mask);
+> +EXPORT_SYMBOL_GPL_FOR_MODULES(wbinvd_on_cpus_mask, "kvm,kvm-amd,agpgart,ccp,drm,i915");
+>  
+>  static void __wbnoinvd(void *dummy)
+>  {
+> @@ -35,10 +35,10 @@ void wbnoinvd_on_all_cpus(void)
+>  {
+>  	on_each_cpu(__wbnoinvd, NULL, 1);
+>  }
+> -EXPORT_SYMBOL_GPL(wbnoinvd_on_all_cpus);
+> +EXPORT_SYMBOL_GPL_FOR_MODULES(wbnoinvd_on_all_cpus, "kvm-amd,agpgart,ccp,drm,i915");
+>  
+>  void wbnoinvd_on_cpus_mask(struct cpumask *cpus)
+>  {
+>  	on_each_cpu_mask(cpus, __wbnoinvd, NULL, 1);
+>  }
+> -EXPORT_SYMBOL_GPL(wbnoinvd_on_cpus_mask);
+> +EXPORT_SYMBOL_GPL_FOR_MODULES(wbnoinvd_on_cpus_mask, "kvm-amd,agpgart,ccp,drm,i915");
