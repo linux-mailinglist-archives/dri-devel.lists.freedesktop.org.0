@@ -2,96 +2,60 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id AC9FFB00DF1
-	for <lists+dri-devel@lfdr.de>; Thu, 10 Jul 2025 23:38:37 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 40132B00E02
+	for <lists+dri-devel@lfdr.de>; Thu, 10 Jul 2025 23:42:46 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3805A10E977;
-	Thu, 10 Jul 2025 21:38:34 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id DF83D10E978;
+	Thu, 10 Jul 2025 21:42:42 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="XyWvPxWp";
+	dkim=pass (1024-bit key; unprotected) header.d=collabora.com header.i=dmitry.osipenko@collabora.com header.b="EhKcITll";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5A29410E977
- for <dri-devel@lists.freedesktop.org>; Thu, 10 Jul 2025 21:38:32 +0000 (UTC)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by dfw.source.kernel.org (Postfix) with ESMTP id C414F5C4CB6;
- Thu, 10 Jul 2025 21:38:30 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 49943C4CEE3;
- Thu, 10 Jul 2025 21:38:28 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1752183510;
- bh=D1bZ/Il7ClQbNgydrqEk47MOWGKSp56gk3dIrmpod44=;
- h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
- b=XyWvPxWpzr3Y27zk/fyu3o7TM1kx++cAl6ZeITndjwQxP9dwrOL+P1pc3HdcvLSLD
- RoCuBNlTT8gzXDzNWZhQ9g+IifLoKN3omRdOO5yJ15erOgy1xFz65e9BY7CK03O/Jr
- a6FDmtWrZ7Z9UgJBFSAEIQOwhI+/OAWHDf6BSCnErvpoPihXDBX3GHSLEnrrcEDQVj
- QqBcIAzjfg54w5PCL/tGdJScxepBu8JYz3JS9vvI6LIn6FSn3t/K8dAu71U8MnbTmN
- kyGhdkBFyE4G3r+tzLkn4Ta9K3J2ZFwZuuC3FTY+sYb4IxE55a7hzvKbM76vbIAurT
- pXccyGvEvgK9w==
-Message-ID: <504f6660-4938-47b4-b1db-0a6fe0214e5f@kernel.org>
-Date: Thu, 10 Jul 2025 23:38:26 +0200
+Received: from sender4-pp-f112.zoho.com (sender4-pp-f112.zoho.com
+ [136.143.188.112])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0304910E978
+ for <dri-devel@lists.freedesktop.org>; Thu, 10 Jul 2025 21:42:40 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; t=1752183758; cv=none; 
+ d=zohomail.com; s=zohoarc; 
+ b=jn1bdJhBXVNVHNSsl0tvg1KrPbwCu0MNQ8GHlC/PugN/l2oOu14PZQ0kTji6oLMAiwB3eZVcyICLaDD+HeOrGJ6jqDFFdJlFP+GcZSeELoaoCSt7zRTb7308sVanjkQ8WdgG70xhGgZ9jhzxBXhigkV44fjN7R3C+FpXRQqbLhs=
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com;
+ s=zohoarc; t=1752183758;
+ h=Content-Type:Content-Transfer-Encoding:Cc:Cc:Date:Date:From:From:In-Reply-To:MIME-Version:Message-ID:References:Subject:Subject:To:To:Message-Id:Reply-To;
+ bh=fNWN3i5m26Nu/65ULICAG8wa68sSZ9ePP0AvUli/hwE=; 
+ b=dKbkTjYD83dKzjD/l0K736b9IwwCpD1jpoVeH/I44EbNbARjMJmWLNF83SyW6RDwibM2lzJgH1B+dU/FaBtzlDqDu69h/855Ht2KOWbAF8h/Gh/EZORLoKL2D9CmDlHDSnGrOdq7oq7MeUffCiRvaxjhXbQ4I1Yg6p3PmsKrGTM=
+ARC-Authentication-Results: i=1; mx.zohomail.com;
+ dkim=pass  header.i=collabora.com;
+ spf=pass  smtp.mailfrom=dmitry.osipenko@collabora.com;
+ dmarc=pass header.from=<dmitry.osipenko@collabora.com>
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1752183758; 
+ s=zohomail; d=collabora.com; i=dmitry.osipenko@collabora.com; 
+ h=Message-ID:Date:Date:MIME-Version:Subject:Subject:To:To:Cc:Cc:References:From:From:In-Reply-To:Content-Type:Content-Transfer-Encoding:Message-Id:Reply-To;
+ bh=fNWN3i5m26Nu/65ULICAG8wa68sSZ9ePP0AvUli/hwE=;
+ b=EhKcITllEMZB60onnnVFF+JaR6ppbjRWDn6UYrFGcjJ8dxXIOl7w4cbgNfVP3W+o
+ sWR3XBVDBYsS//6XPP63sdJjvEde6kAICwyWFvVz3zfKnYP8ahBTJUj/45Ba/klTSOi
+ AMvM9i0hm/QYG9HS2QOMydM6fTsiEx98Ehynel1Q=
+Received: by mx.zohomail.com with SMTPS id 175218375549942.942743207452395;
+ Thu, 10 Jul 2025 14:42:35 -0700 (PDT)
+Message-ID: <0eb5e316-5eb5-468e-bee0-b4fc8d0490ae@collabora.com>
+Date: Fri, 11 Jul 2025 00:42:32 +0300
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH V1 4/9] dt-bindings: soc: xilinx: Add AI engine DT binding
-To: "Williams, Gregory" <gregoryw@amd.com>,
- Gregory Williams <gregory.williams@amd.com>, ogabbay@kernel.org,
- michal.simek@amd.com, robh@kernel.org
-Cc: dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org,
- linux-kernel@vger.kernel.org
-References: <20250702155630.1737227-1-gregory.williams@amd.com>
- <20250702155630.1737227-5-gregory.williams@amd.com>
- <7533fd56-aeef-4685-a25f-d64b3f6a2d78@kernel.org>
- <eb3c843a-6762-4ac0-b863-3f500fb15b6f@amd.com>
-From: Krzysztof Kozlowski <krzk@kernel.org>
+Subject: Re: [PATCH v3 2/2] drm/virtio: Implement save and restore for
+ virtio_gpu_objects
+To: "Kim, Dongwon" <dongwon.kim@intel.com>,
+ "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>
+Cc: "Kasireddy, Vivek" <vivek.kasireddy@intel.com>
+References: <20250702222430.2316723-1-dongwon.kim@intel.com>
+ <20250702222430.2316723-3-dongwon.kim@intel.com>
+ <633a9922-2281-4119-8378-8d35089ce89e@collabora.com>
+ <PH8PR11MB6879AE6EDD72B112AADC0BF6FA49A@PH8PR11MB6879.namprd11.prod.outlook.com>
+From: Dmitry Osipenko <dmitry.osipenko@collabora.com>
 Content-Language: en-US
-Autocrypt: addr=krzk@kernel.org; keydata=
- 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 a/A=
-In-Reply-To: <eb3c843a-6762-4ac0-b863-3f500fb15b6f@amd.com>
+In-Reply-To: <PH8PR11MB6879AE6EDD72B112AADC0BF6FA49A@PH8PR11MB6879.namprd11.prod.outlook.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
+X-ZohoMailClient: External
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -107,137 +71,19 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 10/07/2025 21:03, Williams, Gregory wrote:
-> On 7/3/2025 12:48 AM, Krzysztof Kozlowski wrote:
->> On 02/07/2025 17:56, Gregory Williams wrote:
->>> In the device tree, there will be device node for the AI engine device,
->>> and device nodes for the statically configured AI engine apertures.
->>
->> No, describe the hardware, not DTS.
->>
->>> Apertures are an isolated set of columns with in the AI engine device
->>> with their own address space and interrupt.
->>>
->>> Signed-off-by: Gregory Williams <gregory.williams@amd.com>
->>> ---
->>>  .../bindings/soc/xilinx/xlnx,ai-engine.yaml   | 151 ++++++++++++++++++
->>>  1 file changed, 151 insertions(+)
->>>  create mode 100644 Documentation/devicetree/bindings/soc/xilinx/xlnx,ai-engine.yaml
->>>
->>> diff --git a/Documentation/devicetree/bindings/soc/xilinx/xlnx,ai-engine.yaml b/Documentation/devicetree/bindings/soc/xilinx/xlnx,ai-engine.yaml
->>> new file mode 100644
->>> index 000000000000..7d9a36c56366
->>> --- /dev/null
->>> +++ b/Documentation/devicetree/bindings/soc/xilinx/xlnx,ai-engine.yaml
->>
->> Filename matching compatible.
->>
->>> @@ -0,0 +1,151 @@
->>> +# SPDX-License-Identifier: (GPL-2.0 OR BSD-2-Clause)
->>> +%YAML 1.2
->>> +---
->>> +$id: http://devicetree.org/schemas/soc/xilinx/xlnx,ai-engine.yaml#
->>> +$schema: http://devicetree.org/meta-schemas/core.yaml#
->>> +
->>> +title: AMD AI Engine
->>
->> That's really too generic...
-
-You did not answer to other comments here and other patches, so I just
-assume you did not ignore them.
-
->>
->>> +
->>> +maintainers:
->>> +  - Gregory Williams <gregory.williams@amd.com>
->>> +
->>> +description:
->>> +  The AMD AI Engine is a tile processor with many cores (up to 400) that
->>> +  can run in parallel. The data routing between cores is configured through
->>> +  internal switches, and shim tiles interface with external interconnect, such
->>> +  as memory or PL. One AI engine device can have multiple apertures, each
->>> +  has its own address space and interrupt. At runtime application can create
->>> +  multiple partitions within an aperture which are groups of columns of AI
->>> +  engine tiles. Each AI engine partition is the minimum resetable unit for an
->>> +  AI engine application.
->>> +
->>> +properties:
->>> +  compatible:
->>> +    const: xlnx,ai-engine-v2.0
->>
->> What does v2.0 stands for? Versioning is discouraged, unless mapping is
->> well documented.
+On 7/9/25 18:34, Kim, Dongwon wrote:
+> Hi Dmitry,
 > 
-> Sure, I will remove the versioning in V2 patch.
+> I thought about what you are saying - avoiding GPU reset and it would work with normal
+> sleep and restore (s3) but the problem I saw was hibernation scenario (s4). In this case, QEMU
+> process will be terminated after guest hibernation and this actually destroys all the resources
+> anyway. So some sort of recreation seemed to be required from my point of view.
 
-This should be specific to product, so use the actual product/model name.
+Can we add proper hibernation support/handling to the virtio-gpu driver?
+I.e. restoring shmem buffers based on S4 PM_POST_HIBERNATION event and
+not resetting GPU on S3. Entering S4 then should be prohibited if 3d
+contexts feature enabled.
 
-Is this part of a Soc? Then standard rules apply... but I could not
-deduce it from the descriptions or commit msgs.
-
-
-> 
->>
->>> +
->>> +  reg:
->>> +    maxItems: 1
->>> +
->>> +  '#address-cells':
->>> +    const: 2
->>> +
->>> +  '#size-cells':
->>> +    const: 2
->>> +
->>> +  power-domains:
->>
->> Missing constraints.
->>
->>> +    description:
->>> +      Platform management node id used to request power management services
->>> +      from the firmware driver.
->>
->> Drop description, redundant.
->>
->>> +
->>> +  xlnx,aie-gen:
->>> +    $ref: /schemas/types.yaml#/definitions/uint8
->>
->> Why uint8?
->>
->>> +    description:
->>> +      Hardware generation of AI engine device. E.g. the current values supported
->>> +      are 1 (AIE) and 2 (AIEML).
->>
->> No clue what's that, but it is implied by compatible, isn't it?
-> 
-> The driver supports multiple hardware generations. During driver probe, this value is read from the device tree and hardware generation specific
-
-Bindings are about hardware, not driver, so your driver arguments are
-not valid.
-
-> data structures are loaded based on this value. The compatible string is the same between devices.
-
-No. See writing bindings.
-
-> 
->>
->> Missing constraints.
->>
->>> +
->>> +  xlnx,shim-rows:
->>> +    $ref: /schemas/types.yaml#/definitions/uint8-array
->>> +    description:
->>> +      start row and the number of rows of SHIM tiles of the AI engine device
->>
->> Implied by compatible.
-> 
-> The AI Engine device can have different configurations for number of rows and column (even if it is the same hardware generation). This property
-> tells the driver the size and layout of the array, this is not implied by compatible.
-
-Wrap your emails correctly.
-
-Again driver.. no, please describe the hardware, not your drivers.
-
-
+-- 
 Best regards,
-Krzysztof
+Dmitry
