@@ -2,64 +2,64 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 89BA4B005F8
-	for <lists+dri-devel@lfdr.de>; Thu, 10 Jul 2025 17:08:58 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id C16B3B005FC
+	for <lists+dri-devel@lfdr.de>; Thu, 10 Jul 2025 17:09:02 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D505210E8F3;
-	Thu, 10 Jul 2025 15:08:56 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2CB3D10E8F9;
+	Thu, 10 Jul 2025 15:09:01 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="jRWZJP/P";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="hCmk3e8m";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.17])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 81B1B10E8F2;
- Thu, 10 Jul 2025 15:08:55 +0000 (UTC)
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.18])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 821BB10E8F5;
+ Thu, 10 Jul 2025 15:08:57 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1752160136; x=1783696136;
+ t=1752160138; x=1783696138;
  h=from:to:cc:subject:date:message-id:in-reply-to:
  references:content-transfer-encoding:mime-version;
- bh=VtZXA5ahV1WOZQ6IeXjeqpUxJ7aSPmAlXcezJWyBOJw=;
- b=jRWZJP/PpaFEmVxyksW+VNSUXcZ/TWDaCjEXH+fyCsQv7dtYAJOnSnoO
- pWY2ET2Z0zxZRzTD1MVrq0U3EZB/EKt0gDCf685EQW11KsB/b8qbeLoYK
- NHdoTx/2vHvZqjsK3HoHnRngtoQnrmz4C4p3aJQqO+wL/Nz21PLmFqKZr
- wvmL5dfgsFM9QkMhJMRs0gAUDk0hO+wPJlVofqsJ/wCgYbW9yPgJYErvP
- O4N4QVNRXrg51J27rPydif4hxC48EuKRfgPQwkC2nahHEJmuUGWAN6pqM
- +XBIoRnXkhr8hMF5rJwlrfwwi1AN2Jqf3/3DZuh3TykAt8+H19MoaetRQ Q==;
-X-CSE-ConnectionGUID: F2e8KkIrQhaWq7hH3m8qPQ==
-X-CSE-MsgGUID: lBOVv3ikTeaekfK9n14UGA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11490"; a="54416371"
-X-IronPort-AV: E=Sophos;i="6.16,300,1744095600"; d="scan'208";a="54416371"
-Received: from fmviesa003.fm.intel.com ([10.60.135.143])
- by orvoesa109.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 10 Jul 2025 08:08:55 -0700
-X-CSE-ConnectionGUID: tvT5z+WzSfCn6LHEI1/toA==
-X-CSE-MsgGUID: DGdG50IhRVqiGzVtE3FBUQ==
+ bh=IDHCw2Jl37cRzeBjG0QxyIQSJhm5h8XZmib3QM7KAv8=;
+ b=hCmk3e8mT+UxxDXoCVZQ+c7z/w2bEKdwHlvZt/AO+SmDmLrxYQ2JSuhT
+ wntWgP0X4meI5lmWJoAY44giWQsA/hTIR806utfVDdZ+L5L9HHh/TxBV5
+ 52vqM5WnmQdn3V7YVE32L/0ltgHhLkUald6Xjfyux0rJ7k+nNmsg+OUwm
+ j/YgNsxqTUxZVE7xhCSw/8ybFg/EclOXQdYUlL22UxarvW1DAiXhbXrDx
+ uQcvd6BbyssVOGQgtkRbgTQHNz7kjmKM6PpU8PAy28RGVPj1FW0NC1uJl
+ /YbT1UKJKk1kbzTJVPZ+tnTyOh137/9N5kK3XFOYv+aakv2vG3dCM/czq A==;
+X-CSE-ConnectionGUID: tKc8GJgsSMCqa6cx9rrwdw==
+X-CSE-MsgGUID: 9pMfsZTSSp6Eh0u+QeBK7A==
+X-IronPort-AV: E=McAfee;i="6800,10657,11490"; a="54572980"
+X-IronPort-AV: E=Sophos;i="6.16,300,1744095600"; d="scan'208";a="54572980"
+Received: from orviesa002.jf.intel.com ([10.64.159.142])
+ by orvoesa110.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 10 Jul 2025 08:08:57 -0700
+X-CSE-ConnectionGUID: 5+x/Mb1tRoW+kpWiqOgKjg==
+X-CSE-MsgGUID: CfuFssVRReqMg/FQukHYag==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.16,300,1744095600"; d="scan'208";a="160137635"
-Received: from orsmsx901.amr.corp.intel.com ([10.22.229.23])
- by fmviesa003.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 10 Jul 2025 08:08:54 -0700
-Received: from ORSMSX902.amr.corp.intel.com (10.22.229.24) by
- ORSMSX901.amr.corp.intel.com (10.22.229.23) with Microsoft SMTP Server
+X-IronPort-AV: E=Sophos;i="6.16,300,1744095600"; d="scan'208";a="187119243"
+Received: from orsmsx903.amr.corp.intel.com ([10.22.229.25])
+ by orviesa002.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 10 Jul 2025 08:08:57 -0700
+Received: from ORSMSX903.amr.corp.intel.com (10.22.229.25) by
+ ORSMSX903.amr.corp.intel.com (10.22.229.25) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.1544.25; Thu, 10 Jul 2025 08:08:54 -0700
+ 15.2.1544.25; Thu, 10 Jul 2025 08:08:56 -0700
 Received: from ORSEDG901.ED.cps.intel.com (10.7.248.11) by
- ORSMSX902.amr.corp.intel.com (10.22.229.24) with Microsoft SMTP Server
+ ORSMSX903.amr.corp.intel.com (10.22.229.25) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.1544.25 via Frontend Transport; Thu, 10 Jul 2025 08:08:54 -0700
+ 15.2.1544.25 via Frontend Transport; Thu, 10 Jul 2025 08:08:56 -0700
 Received: from NAM10-BN7-obe.outbound.protection.outlook.com (40.107.92.80) by
  edgegateway.intel.com (134.134.137.111) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.1544.25; Thu, 10 Jul 2025 08:08:52 -0700
+ 15.2.1544.25; Thu, 10 Jul 2025 08:08:54 -0700
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=hnnn1w/q7nWTq0B8IXJgxOJq0rVdS9dbLKy2UnYGIIHZw2zq8RsofvaQHU7Rg0EEh91300Oo0PIR5LKeSKpzIDMd7OjgpKuJuQ7C4DklM3Ex5ybi1mr2QAwMwbHPy1ohNRxf7uM2573JRstOZxSPLRHOlDRAFNXCvDa4b7TZT677e8F4DZO6ZgJsfmGJuls//x7w1am2s1iiQhvUvbERWuFIy/0COXKW2PvSEQBlCkqnkBH8uxDWRI3g81I1E1jQJYb0Fax7344AY6ywMm4v01+YMNUbERe73E+59JsPy5g96AvKK2AcSg3eNlIOkcXcAzaMaLEn1Qyr0p3PuAgFTQ==
+ b=SrV/BixFJwHOccuYJx8otynuxn2vUofCo+qv8G4NlbhZ2yZh1W7+1yQVKtjJlskJpnLrGtKOPAKj2u94UxWU20BV4Qxjo8khOyUF9ZcKuvG703FplBDTMn/JmsoNoyYscRPP4PQNRL/FkgvGRiNS/8m44wWOmFNKGoEnjUlZwS4h5MOgjXwOutVEopFeNgKkLLcOoMfT5Vya/UD5wNPojiiBko3lF4MFQfdSdJYoHJ9644GiZpqerjItbRvYVZsGIEOcTAYDvTIoiJ9b6x4JHJGh0UGtIAaJ0KVkEdE739T1mn+uYMUD5Z8eO6BhJ024ALNUcEzcL9JswuQ5l4T03A==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=2FaOl35HoGAgCV5HyPUGYH3cV0EJ6FePLdX6BJuU6SE=;
- b=h+mV7lSMEkOrBudM1dckr6nSz+OVdeHVUo/qEfW0maf1+eNKMe7xQNwhbQKpTH6HZBuyeOpCOfMkXSU6QrbmoZYK7U/8ahbFiz1z+6KRFOGhh/B9ibjzEZQPGrXrk/B/2ZzgTTlUZhQSySG05amiv2TAm++aY2THC0DplIm+2HrmPVryf3dCEC6RpjQ+cEEhXxfKPL1ciLMKwqBZevfYKHSUh+xtb8g4Mvs0Zrkudl/5vuk/UBo9eksXdKwulG3/VDtATluGWbWSFbs2D2DkBzZN1kbIEw+edrYVvLZt7M4PjPaCEDclCrbxPgoOmEum7Ns5pDaMfiEJGDnpf6p7HA==
+ bh=pUeK+Y9oNc6dsGRW+3q2zYEbSVfraJgRT1MVJ2F4/uE=;
+ b=IIJFIuvTROxE2IE1MYkYf2M3vcn6MPt0FJuGbURaAkKD2gnqP0+E9sSd9l3aPEff04lvcmDuKwwTrMPJ2j306vMvqba8bAWacOMxYFJbpagZb6jupI3smu1FQ8L8fRf5R/EpDJ4Zcoq8P+JrEdYFXOW3PD+pgZkqG3v1QBjUro+NL4pibrI96f56zoZpkziM1Pa8p4gVmIRDsNF7+0RamE27BK3dNcfZdNCRPJ6MVh99KQaVn9WIdVVdQnQTgUTEy3nSRiPi6QjWWBSa/DCgBzhmWP5jVSd0xcNLnRLdiK2q/YzGDzeZ11EtG7jFFWcYFplVScXLaukyQjSFkYaK3w==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
  dkim=pass header.d=intel.com; arc=none
@@ -69,100 +69,99 @@ Received: from CYYPR11MB8430.namprd11.prod.outlook.com (2603:10b6:930:c6::19)
  by IA1PR11MB7809.namprd11.prod.outlook.com (2603:10b6:208:3f2::17)
  with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8901.27; Thu, 10 Jul
- 2025 15:08:49 +0000
+ 2025 15:08:52 +0000
 Received: from CYYPR11MB8430.namprd11.prod.outlook.com
  ([fe80::76d2:8036:2c6b:7563]) by CYYPR11MB8430.namprd11.prod.outlook.com
  ([fe80::76d2:8036:2c6b:7563%5]) with mapi id 15.20.8901.024; Thu, 10 Jul 2025
- 15:08:49 +0000
+ 15:08:51 +0000
 From: Rodrigo Vivi <rodrigo.vivi@intel.com>
 To: <intel-xe@lists.freedesktop.org>, <dri-devel@lists.freedesktop.org>,
  <linux-kernel@vger.kernel.org>
 CC: <gregkh@linuxfoundation.org>, <daniele.ceraolospurio@intel.com>,
  <anshuman.gupta@intel.com>, <alexander.usyskin@intel.com>, Badal Nilawar
  <badal.nilawar@intel.com>, Rodrigo Vivi <rodrigo.vivi@intel.com>
-Subject: [PATCH 4/9] drm/xe/xe_late_bind_fw: Initialize late binding firmware
-Date: Thu, 10 Jul 2025 11:08:35 -0400
-Message-ID: <20250710150831.3018674-15-rodrigo.vivi@intel.com>
+Subject: [PATCH 5/9] drm/xe/xe_late_bind_fw: Load late binding firmware
+Date: Thu, 10 Jul 2025 11:08:36 -0400
+Message-ID: <20250710150831.3018674-16-rodrigo.vivi@intel.com>
 X-Mailer: git-send-email 2.49.0
 In-Reply-To: <20250710150831.3018674-11-rodrigo.vivi@intel.com>
 References: <20250710150831.3018674-11-rodrigo.vivi@intel.com>
 Content-Transfer-Encoding: 8bit
 Content-Type: text/plain
-X-ClientProxiedBy: BY5PR04CA0007.namprd04.prod.outlook.com
- (2603:10b6:a03:1d0::17) To CYYPR11MB8430.namprd11.prod.outlook.com
+X-ClientProxiedBy: SJ0PR05CA0030.namprd05.prod.outlook.com
+ (2603:10b6:a03:33b::35) To CYYPR11MB8430.namprd11.prod.outlook.com
  (2603:10b6:930:c6::19)
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
 X-MS-TrafficTypeDiagnostic: CYYPR11MB8430:EE_|IA1PR11MB7809:EE_
-X-MS-Office365-Filtering-Correlation-Id: 4b38399f-9a27-41a1-339e-08ddbfc3aca4
+X-MS-Office365-Filtering-Correlation-Id: 1f327ea8-5329-45f7-7ce5-08ddbfc3ae1b
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: BCL:0;ARA:13230040|366016|1800799024|376014;
-X-Microsoft-Antispam-Message-Info: =?us-ascii?Q?FwRU80GSIAWf81hmrEWXlHzLf3W6FM4jzg3EqcsjY+twBp/JfYHZVv/kBBi+?=
- =?us-ascii?Q?Hm2Y1GSnstYNsPeRNKq1vkWhVzDNo7aFnHTuhndYvm51VQxZbnmQpr9d2xfd?=
- =?us-ascii?Q?dUrelDbVDEFc4yERbo2G4X8hzcLcGsc63PBVXYgGNEnAHLcgY9PMfGp/mi3V?=
- =?us-ascii?Q?ielq7YiWk6xU4OlqBB+jDgRmal9JdjiOgI2N3KMynZJuPN9agmQZiX/rjq7O?=
- =?us-ascii?Q?aDFYNSTqzUl7SZhf/eM7oPqWVPmVyvx3Ipy+bwjeNLph4SY3t70LbxHaoGVT?=
- =?us-ascii?Q?4mG1tBObnKkyC7hnISjYXGmY6skqEdY4uzcnKd8M8EIefH3nZKpvmve1Ybrf?=
- =?us-ascii?Q?ay0DrSoHs4OoA158KEN3vcbx4e81V2dnjnYKEV4x/CWn2+lR51IGTw522jtm?=
- =?us-ascii?Q?MJKS1qTT2y1YL0dch/np44Fgmsn+ELxnH49ImDv3ihA4LEFTUrw72ZIRB/Fs?=
- =?us-ascii?Q?6ORYrnSV/nU/WULP9wSSWex2kCvrWz40xg+sY3oxlzwyDv6AWyFxG1vi3JD2?=
- =?us-ascii?Q?Y9KEtW803qaVak9bPP8QgIdVj7iDS64+ltfbIKCbfUM5Too5stlejQn8l/FW?=
- =?us-ascii?Q?rfBMcWJ451gQcHH3uzL5oOo549PAr22tcZYIcWTeQrtoJK1bOUuJKvSZlzkS?=
- =?us-ascii?Q?54/PGUbCj4B8KXyN1eJ69yj711AdE50DN4Ph+dPbdWM2zw8lYf5hAAEN6zZb?=
- =?us-ascii?Q?F2Rnr0hUHgFy+XDT6Sv67u9+DMu2tsaR+ie+6ec2xPLKPmu9YFa8tmi8PBE6?=
- =?us-ascii?Q?9Az3adZ8VGEcgtOiLj1j9CFwk/W3CJDGjkAvzCxyUAmILN4Pa0W+DGmEccNM?=
- =?us-ascii?Q?8f7nb9m//NAmCAr+sYK6IiSsPTwGcPO/Zdi3z5Onl0JhmzOpfNJlO46NsdXs?=
- =?us-ascii?Q?6Z0GrQ5gWujW1jdEM0BdnI8Td/dqRGc4qGSXYNYNCFlR/IPMU2Bb31wgjKtp?=
- =?us-ascii?Q?GS18NoyVaezPURcHotc1OMUA8UVj6NcUfnzBa3PDImvG6AVvGfkvJjoAflWZ?=
- =?us-ascii?Q?PD3At/76HKoPB9efgTDPi2bMQME/yMRMMqrtHbeC1bKRLEFoIJHpnxBzFzHd?=
- =?us-ascii?Q?2ffgXI72yMpQRa6B+1PGph/3tiEaoaJ3oL6cGKVe/izz3TeZoZ491t6XpsN7?=
- =?us-ascii?Q?B82iDopCQY9++89rzDXgWyKxHgyiq79TVaWfUGmxCjO39p/i7trWRfMsLvVO?=
- =?us-ascii?Q?jamkHjwytk8Ag8HMCrRg1Xpq9sN/4QejcSzlR66joL/bbPNGpweKTA6A/TUy?=
- =?us-ascii?Q?Mh45jbXjq9G6JGHg3MWB0ZIpyJeuE2Gjv3UTaVxrcG2c3BuunCZ9WJjYhPCv?=
- =?us-ascii?Q?srhQtmp+qIm8eUvWvxApdov1OYCUWKAyTRk9BEUBexWRlYmP/K8VSn1SBLHk?=
- =?us-ascii?Q?TJu+7m7fNGn7HWlrLewkGGdqlFsF5lLK/6sXsMyHApbMN1zvnbhIrPgCIFj8?=
- =?us-ascii?Q?C7QwhkrjVt4=3D?=
+X-Microsoft-Antispam-Message-Info: =?us-ascii?Q?q6RY4IlCQ3ewVoNoUt6FjueVIHKH6LjZryF42zkjLAUFBmUWKQLuS/0CApB9?=
+ =?us-ascii?Q?S3hcp2tMMekUFFay1cOawkxwBKhl4k/hZ7PTjX70AkS3+DCmXwMA6P0stCll?=
+ =?us-ascii?Q?u+Ek9hZDqr64VlzI5RRk72lmPMHzWeL21vr8j9oKA1Paoq7kTso8JrkKbkay?=
+ =?us-ascii?Q?IOMd+vqJ67wUJnMUb48kWh2DvEoLF6K3e75UI/jW36bWo9ywBuSPGDKbv/TY?=
+ =?us-ascii?Q?jcNiviXJMRvarNoh6zgPNcMN4PwAsZ8ATavmOES6MLwK+l6GM2wK5UAQxvMH?=
+ =?us-ascii?Q?8CE8cOedmHEvhajujKY2c78sBWBNI0/uR4/IKjKChJ19HRPIS0l7HbS7Q4TM?=
+ =?us-ascii?Q?FnCN6+LCg1LwzOvawXHjEgpwzBZpQoIIWg6nQFLqVCynaha3486Yv/L2dfGz?=
+ =?us-ascii?Q?wVtgf/eOVsQYxbwkYEQVfCh2FdpMCm0/XQCZgH7ghQ24oHXQOcSrV2w3V3vl?=
+ =?us-ascii?Q?jku9kuMFnef7h4kDotVj9uOrx10HmI6U9dZK9in1/WEigL5T9VS5NBvfWrJt?=
+ =?us-ascii?Q?aLORsOVf552qCEgGoQsT1NYWVLrXXYlZwYIRw8kHcAy9+eAt219C24En6w2H?=
+ =?us-ascii?Q?aHV7A2x8vgVhKNqrfxa8+1Z0zuClH/8+RPvlbuN5QB/f24ZJ/brB8uyB2KEx?=
+ =?us-ascii?Q?Hg+ykYbiTN/oXOKN6UKLLGqhtjITL5gdw0ycxINnZduIS11AHILvYJc9uu3t?=
+ =?us-ascii?Q?ltDPksSEzJrLvvnI69ZzQ7RR7uiY9JCWchtbkVBHAu203roUk4+yErA6yJXw?=
+ =?us-ascii?Q?I01vp88gBFfz15SVV74Z03occmPgUAGWrVuFqFRt2pddwZAv+lDkWdOV77+H?=
+ =?us-ascii?Q?X40A+So+Pgth9/nYun5rKSVUlNjXSh+o/S/duk5Af8Xg3VW/AiLvcLBZBEfR?=
+ =?us-ascii?Q?mUTrsdqbl2hCfr8Al9UGiv6xuYIiSuI0Vz6fPO8WgfEpsUToOsgapv2SFm3+?=
+ =?us-ascii?Q?U024VJrx0jn1lgiB2lvLWrdQmhvfyMkNZ/rCTqnF4IlLYY6A5tnZozQanrbZ?=
+ =?us-ascii?Q?13Am9sBQCiPM+oHjJTu+mJsmPHPKpAR2nFTHi1ubGMdxC14sN01T1NEuqdQZ?=
+ =?us-ascii?Q?hJrxTZ3NShscaRw/wxwaG87cMO4mFn5xPQXP75Zfi8FiiT9ezmG73ZmWPrmX?=
+ =?us-ascii?Q?GwpqvCF9TWQ1mLObv9S6tpJoUcI/34g3Qv9bOCPKjPNjqQBlrzrnEXFjIQ8L?=
+ =?us-ascii?Q?K6t/zxaKw8MI/NGFuNm/puRfIB//0QITyRIbkCI1LUH+k0aYwsD4dRnZtsJK?=
+ =?us-ascii?Q?z0R9CRFVzF9J25CZUCgOEfTfpQhaBWbtjbuoqtaKddFCMsHWS19leuCiwuGy?=
+ =?us-ascii?Q?YhFxf5jF2aulpgVeyytS+2RSUICNf1FU6tdZ/YQtngRzFn2Hw1s6FCOpxUek?=
+ =?us-ascii?Q?g6/cmGKjmU0wq7c9PrH+JXZdGPmF7fFiOcRobLwYZvXduGSyCA=3D=3D?=
 X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
  IPV:NLI; SFV:NSPM; H:CYYPR11MB8430.namprd11.prod.outlook.com; PTR:; CAT:NONE;
  SFS:(13230040)(366016)(1800799024)(376014); DIR:OUT; SFP:1101; 
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?96vMbT6dpbHQecARqtDgyoWajwkNUaWVFwaKBVqXmt5vy8OT/a6dyRJ/9U6G?=
- =?us-ascii?Q?n0l4jFVcwdqTT1ylOltWpv9JkdN3PCuVyGVv/XoWulvxPbWtp8Z2TBi1wBdY?=
- =?us-ascii?Q?8GPe+octZsl8psIIuVGcOtgnmn86RLk7KrHSarjiRKsRLwJWWb3C0qQV9yBb?=
- =?us-ascii?Q?+ewBSx67Pzorx68XD4NdIVLZhnLA57wlPPW4uc/sRUCPEy9rPcFNVtoYZGZi?=
- =?us-ascii?Q?/9UE6mKCo0Sxmk1zvhUR9xFnQCP/QmWv11LcX57GLgNm06lBIC924ejPSi+n?=
- =?us-ascii?Q?O7t7I5fMQ0YTRt/QUi5RTdv1aKpd9ldipMpKSwc6Q/ofDpiUm/i13zZg0fY2?=
- =?us-ascii?Q?U0vRadxOisWQb09Hl4U9zgiGx4AJvwIoU5irfs7CP10AMBm92Owr5w1nQ7Z5?=
- =?us-ascii?Q?SCvL8vY7C5kO/FAJj31Vb0ynudlxsNSypeRt/t4dRDo0AK8Ca4JszNxXO5Uk?=
- =?us-ascii?Q?MAKtbr23FI/Ji29hrLU9GAD7nyBjzHJ/nsmPBCe9I9+kREkI3xiswOFmPV73?=
- =?us-ascii?Q?xqG5TJcf42Pg058+eqmK/vzddadxXXQPaKEDbI+3U8JSaPVNZ5jDnfIfCUS3?=
- =?us-ascii?Q?8r7oQAQmPTMxoGsu8TEW2zpxGI6HJCGQTbjPXNLl5OA0mTCyklZGKpZJabEC?=
- =?us-ascii?Q?V5m+bKADbaj25OxUgq5r7RxAiVBIJRfIni6oVFYBfz0ofCB7ysRivNLcqFtA?=
- =?us-ascii?Q?ChhVt1wzY95kTmywqIQFkdLazF9YeUCJClPB0uYie9QZcBFUwvZczMujOQ2N?=
- =?us-ascii?Q?MT9A9C8d2haMFlS68AStcp/X1ChudQALRo+6mem5cePjQ34qwjUHS5BWtMqN?=
- =?us-ascii?Q?N0BCp8TXFzRnknv/C/CwdqWmPb9JEGD8KZmq0t9qi/fUZMLjtUC94GxI4vNv?=
- =?us-ascii?Q?jZYzW56qW9c/cxCijXiLV7o8tFLvilqf9Qit09jfwGOvQRQYnkkfv+I7cRus?=
- =?us-ascii?Q?5SKBN9KXlXhFnj7L/b+NPwtZWWBDCTXWqcbSVDaqFjozxTalu6LPdmtHsPky?=
- =?us-ascii?Q?XnY0uz8LwvJoUfCgsUw8KrNbcIczuuQZUZ+7dPqNJOEisd2K5xwe24WIIj9t?=
- =?us-ascii?Q?hmqKSHGTlGOkvEnoNXel8XDpMfxhkY71u+CHNUUupAipYh17kHt4quK44xen?=
- =?us-ascii?Q?8md5YyIDHJ6/JE5wgssjPBwapa5ZsZpa5TTxIxDiYxtHGn4IsfVhDNXFZ9Hs?=
- =?us-ascii?Q?Ow9ri7br9qqJY+WUnW9ZGfnyDe6D7NZZM/cw+zI1nnduqL2QCigXrZjTKYad?=
- =?us-ascii?Q?L7mZfWOFaO+d0dcx1uJGjE6+TJXg73BiCOPZMIqHAllR5uGWG242RvOH1NS0?=
- =?us-ascii?Q?e//dpZinOx8twCbF8amfdauqCQRAkMk/583xvq23JhFDOmfNup3NsjZu97ke?=
- =?us-ascii?Q?/scvy3bnia/BU6XkY5fdOL3xACBwoaitYrH9T0oK53hKBgeoSis4aY1VoGBh?=
- =?us-ascii?Q?SNKlr5LJQAYWlg8mghSu0m0s3ure7RogEoCSjJCWEQt+j/xeAtOP6vNjA8F4?=
- =?us-ascii?Q?pzq1fO74t6gB6OGK39xh+3W/xHrrcSAoQZnzJmwweXw4N6kUrsN1RpyoXkvx?=
- =?us-ascii?Q?fG2hs/IFGKS5NeMe8dQIqs0DGW+Wi3twya6qZLtmxNHYbZ1rJU7KzHV3tZvX?=
- =?us-ascii?Q?/Q=3D=3D?=
-X-MS-Exchange-CrossTenant-Network-Message-Id: 4b38399f-9a27-41a1-339e-08ddbfc3aca4
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?tVBau5ngy1aaMhllwwYs46LfXad3GF0/HAUfUbnPirjh5nyRBWrfuhfsyis1?=
+ =?us-ascii?Q?dVmPSxjL/x60TIRAcC4X7xBUFXij7ThmKSYYhxqVmpG3TptF/Z3IGlyl2RbD?=
+ =?us-ascii?Q?74FqlCWSshfCM/d/qb69biDYf+5OhrG8YphR2XUNNaJ/G2xDAeRvrxNvewkC?=
+ =?us-ascii?Q?g4BR7Z7LhvxuMAd0JNpMz/Y+44Z19Rr9bl5i75J6liajdUFyM0gamxRdxQKg?=
+ =?us-ascii?Q?U/sIT4So7K7UQB2SGWlnx5tTnm34wicgNpajObwnqQQjfLgaPaC/ryPxfPv0?=
+ =?us-ascii?Q?HjgHTUIkSlzh7h/cNteB9oipLA56JyxtjKn48i4pKca7/pzwJIkMz/WgPu8Y?=
+ =?us-ascii?Q?kCDLIPaQPsP9O++cRPo61+WdJWUDWnRUqefnnttIn8ico2fZupa8++S051cw?=
+ =?us-ascii?Q?iDuZ7zrFM6CfJFvVt1OALZDZwRVQx/8BVKZlBJqpC7eCni5ncrgSMdkePEa2?=
+ =?us-ascii?Q?6q3TARCUYH2zgCLhk6O+rzoA9lrSx1dQ4fjScRivi4iVPrm48K3qWvo/YQDd?=
+ =?us-ascii?Q?jBHjTTOcrE6x13Cie+6zRAS9pgqmrsrNkLS9wmxT4mohEoBfl9L1HKerf4un?=
+ =?us-ascii?Q?mxpyOjFDQeWuA7r2rhujYIiNbs95OzQEZWWHBSBVo2YIPc8Lv8zo0eB7J77Y?=
+ =?us-ascii?Q?lowHUkTfc8QEp5C2jyMMvc1IVQR9zznJeprM2UvhL2h7gbximKQwN6LbS3J9?=
+ =?us-ascii?Q?I/BK6ELtYvnVmLqxLIe9MF+cRs/zvpgNmGoOrJthxvb2AZgio/fI8Oe0kujD?=
+ =?us-ascii?Q?y+G8sAZDj4lLYQfSlbTqD7nKE8fsywSZ0ZQ+PsFW/MhvBcmTLxhzGsiBmfGw?=
+ =?us-ascii?Q?/+r3BidwdG1BAzHfR8E+2H3qIL40TpVvI3QIxImA4zfM/ELj2wQiQo8+y3YJ?=
+ =?us-ascii?Q?htRz0k+WlqvCYicBUbOBQpUnmAxXTucXIzedboptGsckpWAkVaQpjErp0lls?=
+ =?us-ascii?Q?NBZQEJ503ah6/o53EL/Pola4S59gY+/ywZazEeKN3xBuBwNsLAz5gTbVV0Ym?=
+ =?us-ascii?Q?gX8Awls6wL6WKOXcX6MqrsJfeYViPGDsJjFNWPF66Erf0uIK9TS5N860cdY9?=
+ =?us-ascii?Q?ZiXZLyBugCI/jO+7GHIdgVBlGcUwIoBBIKRfMoo02ABIh1bAmboNR5bEQE6h?=
+ =?us-ascii?Q?4QQSu4UWYUejB89dDxgkQVFx0X9KRANOiD8H2bQsiGqeKsHyKMub9T531otW?=
+ =?us-ascii?Q?BuWffue2aEbEYbMhkNE00I0DSiPEiO1Kt+R/mlYEKdISyeiiwcCcMMoblLlq?=
+ =?us-ascii?Q?XYug+KEpKuTbS8o4uv2Vbi/54cjV8DeyIweuVddg6cJE8qTUzQNfWa5Dch2N?=
+ =?us-ascii?Q?/7y6Qpm15lOThF3QPPwUNtimZRSyWFytzhvnUPOhxHVssqxlVau1VItYV2X1?=
+ =?us-ascii?Q?Pla5vV2GTf/Kg5YOIMnFbkRlJqJ1j6LvpO+r+kCh2dlzpBYqyHNAui3AKYGR?=
+ =?us-ascii?Q?XCT+F+R7hjbf3Yok2HVsGYdCUSKYm+sxsH4m6AT/rMw7OqFurCKStS4+vWQo?=
+ =?us-ascii?Q?Ib7JrUmkh4zefEiqMVlzsbEtKmbYUNOPkW1DYVulI7r8rp1sCFdL5bYjTHeC?=
+ =?us-ascii?Q?nkD6NoVe2NwSxjx+oCjgdhBapAf4gdCmgl3fybHLTrXOoXlLEpnZ+baxwqZr?=
+ =?us-ascii?Q?Hw=3D=3D?=
+X-MS-Exchange-CrossTenant-Network-Message-Id: 1f327ea8-5329-45f7-7ce5-08ddbfc3ae1b
 X-MS-Exchange-CrossTenant-AuthSource: CYYPR11MB8430.namprd11.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 10 Jul 2025 15:08:49.4589 (UTC)
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 10 Jul 2025 15:08:51.9086 (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: UIplF9T9zwh8dUn+lqUfClIldXfHCiVW/8wZjYsHFVy90NVJOrOED0wcEfMPJq3GZgOGtY7+fIe91NLDy/9AKw==
+X-MS-Exchange-CrossTenant-UserPrincipalName: zhgyFW+KqzcbXxBfSimhoOP3n/ifkMPvLvpalyWp2JdhC/Eji9ZUy/DiovcC2fqi5fSlpg6/z+9+o3sLUxYJDA==
 X-MS-Exchange-Transport-CrossTenantHeadersStamped: IA1PR11MB7809
 X-OriginatorOrg: intel.com
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -182,204 +181,310 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 From: Badal Nilawar <badal.nilawar@intel.com>
 
-Search for late binding firmware binaries and populate the meta data of
-firmware structures.
+Load late binding firmware
 
-v2 (Daniele):
- - drm_err if firmware size is more than max pay load size
- - s/request_firmware/firmware_request_nowarn/ as firmware will
-   not be available for all possible cards
-v3 (Daniele):
- - init firmware from within xe_late_bind_init, propagate error
- - switch late_bind_fw to array to handle multiple firmware types
-v4 (Daniele):
- - Alloc payload dynamically, fix nits
-v6 (Daniele)
- - %s/MAX_PAYLOAD_SIZE/XE_LB_MAX_PAYLOAD_SIZE/
+v2:
+ - s/EAGAIN/EBUSY/
+ - Flush worker in suspend and driver unload (Daniele)
+v3:
+ - Use retry interval of 6s, in steps of 200ms, to allow
+   other OS components release MEI CL handle (Sasha)
+v4:
+ - return -ENODEV if component not added (Daniele)
+ - parse and print status returned by csc
+v5:
+ - Use payload to check firmware valid (Daniele)
+ - Obtain the RPM reference before scheduling the worker to
+   ensure the device remains awake until the worker completes
+   firmware loading (Rodrigo)
+v6:
+ - In case of error donot re-attempt fw download (Daniele)
+v7 (Rodrigo):
+ - Rename of mei structs and callback.
 
 Signed-off-by: Badal Nilawar <badal.nilawar@intel.com>
 Reviewed-by: Daniele Ceraolo Spurio <daniele.ceraolospurio@intel.com>
 Signed-off-by: Rodrigo Vivi <rodrigo.vivi@intel.com>
 ---
- drivers/gpu/drm/xe/xe_late_bind_fw.c       | 100 ++++++++++++++++++++-
- drivers/gpu/drm/xe/xe_late_bind_fw_types.h |  30 +++++++
- 2 files changed, 129 insertions(+), 1 deletion(-)
+ drivers/gpu/drm/xe/xe_late_bind_fw.c       | 157 ++++++++++++++++++++-
+ drivers/gpu/drm/xe/xe_late_bind_fw.h       |   1 +
+ drivers/gpu/drm/xe/xe_late_bind_fw_types.h |   9 +-
+ 3 files changed, 165 insertions(+), 2 deletions(-)
 
 diff --git a/drivers/gpu/drm/xe/xe_late_bind_fw.c b/drivers/gpu/drm/xe/xe_late_bind_fw.c
-index 152f3e58de94..008be9b12fd9 100644
+index 008be9b12fd9..85cd42a1ec05 100644
 --- a/drivers/gpu/drm/xe/xe_late_bind_fw.c
 +++ b/drivers/gpu/drm/xe/xe_late_bind_fw.c
-@@ -5,6 +5,7 @@
- 
- #include <linux/component.h>
- #include <linux/delay.h>
-+#include <linux/firmware.h>
- 
- #include <drm/drm_managed.h>
- #include <drm/intel/i915_component.h>
-@@ -13,6 +14,16 @@
- 
- #include "xe_device.h"
+@@ -16,6 +16,20 @@
  #include "xe_late_bind_fw.h"
-+#include "xe_pcode.h"
-+#include "xe_pcode_api.h"
+ #include "xe_pcode.h"
+ #include "xe_pcode_api.h"
++#include "xe_pm.h"
 +
-+static const u32 fw_id_to_type[] = {
-+		[XE_LB_FW_FAN_CONTROL] = INTEL_LB_TYPE_FAN_CONTROL,
-+	};
++/*
++ * The component should load quite quickly in most cases, but it could take
++ * a bit. Using a very big timeout just to cover the worst case scenario
++ */
++#define LB_INIT_TIMEOUT_MS 20000
 +
-+static const char * const fw_id_to_name[] = {
-+		[XE_LB_FW_FAN_CONTROL] = "fan_control",
-+	};
++/*
++ * Retry interval set to 6 seconds, in steps of 200 ms, to allow time for
++ * other OS components to release the MEI CL handle
++ */
++#define LB_FW_LOAD_RETRY_MAXCOUNT 30
++#define LB_FW_LOAD_RETRY_PAUSE_MS 200
  
- static struct xe_device *
- late_bind_to_xe(struct xe_late_bind *late_bind)
-@@ -20,6 +31,89 @@ late_bind_to_xe(struct xe_late_bind *late_bind)
+ static const u32 fw_id_to_type[] = {
+ 		[XE_LB_FW_FAN_CONTROL] = INTEL_LB_TYPE_FAN_CONTROL,
+@@ -31,6 +45,30 @@ late_bind_to_xe(struct xe_late_bind *late_bind)
  	return container_of(late_bind, struct xe_device, late_bind);
  }
  
-+static int xe_late_bind_fw_num_fans(struct xe_late_bind *late_bind)
++static const char *xe_late_bind_parse_status(uint32_t status)
 +{
-+	struct xe_device *xe = late_bind_to_xe(late_bind);
-+	struct xe_tile *root_tile = xe_device_get_root_tile(xe);
-+	u32 uval;
-+
-+	if (!xe_pcode_read(root_tile,
-+			   PCODE_MBOX(FAN_SPEED_CONTROL, FSC_READ_NUM_FANS, 0), &uval, NULL))
-+		return uval;
-+	else
-+		return 0;
++	switch (status) {
++	case INTEL_LB_STATUS_SUCCESS:
++		return "success";
++	case INTEL_LB_STATUS_4ID_MISMATCH:
++		return "4Id Mismatch";
++	case INTEL_LB_STATUS_ARB_FAILURE:
++		return "ARB Failure";
++	case INTEL_LB_STATUS_GENERAL_ERROR:
++		return "General Error";
++	case INTEL_LB_STATUS_INVALID_PARAMS:
++		return "Invalid Params";
++	case INTEL_LB_STATUS_INVALID_SIGNATURE:
++		return "Invalid Signature";
++	case INTEL_LB_STATUS_INVALID_PAYLOAD:
++		return "Invalid Payload";
++	case INTEL_LB_STATUS_TIMEOUT:
++		return "Timeout";
++	default:
++		return "Unknown error";
++	}
 +}
 +
-+static int __xe_late_bind_fw_init(struct xe_late_bind *late_bind, u32 fw_id)
+ static int xe_late_bind_fw_num_fans(struct xe_late_bind *late_bind)
+ {
+ 	struct xe_device *xe = late_bind_to_xe(late_bind);
+@@ -44,6 +82,101 @@ static int xe_late_bind_fw_num_fans(struct xe_late_bind *late_bind)
+ 		return 0;
+ }
+ 
++static void xe_late_bind_wait_for_worker_completion(struct xe_late_bind *late_bind)
 +{
 +	struct xe_device *xe = late_bind_to_xe(late_bind);
-+	struct pci_dev *pdev = to_pci_dev(xe->drm.dev);
-+	struct xe_late_bind_fw *lb_fw;
-+	const struct firmware *fw;
-+	u32 num_fans;
-+	int ret;
-+
-+	if (fw_id >= XE_LB_FW_MAX_ID)
-+		return -EINVAL;
-+
-+	lb_fw = &late_bind->late_bind_fw[fw_id];
-+
-+	lb_fw->id = fw_id;
-+	lb_fw->type = fw_id_to_type[lb_fw->id];
-+	lb_fw->flags &= ~INTEL_LB_FLAGS_IS_PERSISTENT;
-+
-+	if (lb_fw->type == INTEL_LB_TYPE_FAN_CONTROL) {
-+		num_fans = xe_late_bind_fw_num_fans(late_bind);
-+		drm_dbg(&xe->drm, "Number of Fans: %d\n", num_fans);
-+		if (!num_fans)
-+			return 0;
-+	}
-+
-+	snprintf(lb_fw->blob_path, sizeof(lb_fw->blob_path), "xe/%s_8086_%04x_%04x_%04x.bin",
-+		 fw_id_to_name[lb_fw->id], pdev->device,
-+		 pdev->subsystem_vendor, pdev->subsystem_device);
-+
-+	drm_dbg(&xe->drm, "Request late binding firmware %s\n", lb_fw->blob_path);
-+	ret = firmware_request_nowarn(&fw, lb_fw->blob_path, xe->drm.dev);
-+	if (ret) {
-+		drm_dbg(&xe->drm, "%s late binding fw not available for current device",
-+			fw_id_to_name[lb_fw->id]);
-+		return 0;
-+	}
-+
-+	if (fw->size > XE_LB_MAX_PAYLOAD_SIZE) {
-+		drm_err(&xe->drm, "Firmware %s size %zu is larger than max pay load size %u\n",
-+			lb_fw->blob_path, fw->size, XE_LB_MAX_PAYLOAD_SIZE);
-+		release_firmware(fw);
-+		return -ENODATA;
-+	}
-+
-+	lb_fw->payload_size = fw->size;
-+	lb_fw->payload = drmm_kzalloc(&xe->drm, lb_fw->payload_size, GFP_KERNEL);
-+	if (!lb_fw->payload) {
-+		release_firmware(fw);
-+		return -ENOMEM;
-+	}
-+
-+	memcpy((void *)lb_fw->payload, fw->data, lb_fw->payload_size);
-+	release_firmware(fw);
-+
-+	return 0;
-+}
-+
-+static int xe_late_bind_fw_init(struct xe_late_bind *late_bind)
-+{
-+	int ret;
++	struct xe_late_bind_fw *lbfw;
 +	int fw_id;
 +
 +	for (fw_id = 0; fw_id < XE_LB_FW_MAX_ID; fw_id++) {
-+		ret = __xe_late_bind_fw_init(late_bind, fw_id);
-+		if (ret)
-+			return ret;
++		lbfw = &late_bind->late_bind_fw[fw_id];
++		if (lbfw->payload && late_bind->wq) {
++			drm_dbg(&xe->drm, "Flush work: load %s firmware\n",
++				fw_id_to_name[lbfw->id]);
++			flush_work(&lbfw->work);
++		}
++	}
++}
++
++static void xe_late_bind_work(struct work_struct *work)
++{
++	struct xe_late_bind_fw *lbfw = container_of(work, struct xe_late_bind_fw, work);
++	struct xe_late_bind *late_bind = container_of(lbfw, struct xe_late_bind,
++						      late_bind_fw[lbfw->id]);
++	struct xe_device *xe = late_bind_to_xe(late_bind);
++	int retry = LB_FW_LOAD_RETRY_MAXCOUNT;
++	int ret;
++	int slept;
++
++	xe_device_assert_mem_access(xe);
++
++	/* we can queue this before the component is bound */
++	for (slept = 0; slept < LB_INIT_TIMEOUT_MS; slept += 100) {
++		if (late_bind->component.ops)
++			break;
++		msleep(100);
++	}
++
++	if (!late_bind->component.ops) {
++		drm_err(&xe->drm, "Late bind component not bound\n");
++		/* Do not re-attempt fw load */
++		drmm_kfree(&xe->drm, (void *)lbfw->payload);
++		lbfw->payload = NULL;
++		goto out;
++	}
++
++	drm_dbg(&xe->drm, "Load %s firmware\n", fw_id_to_name[lbfw->id]);
++
++	do {
++		ret = late_bind->component.ops->push_payload(late_bind->component.mei_dev,
++							     lbfw->type,
++							     lbfw->flags,
++							     lbfw->payload,
++							     lbfw->payload_size);
++		if (!ret)
++			break;
++		msleep(LB_FW_LOAD_RETRY_PAUSE_MS);
++	} while (--retry && ret == -EBUSY);
++
++	if (!ret) {
++		drm_dbg(&xe->drm, "Load %s firmware successful\n",
++			fw_id_to_name[lbfw->id]);
++		goto out;
++	}
++
++	if (ret > 0)
++		drm_err(&xe->drm, "Load %s firmware failed with err %d, %s\n",
++			fw_id_to_name[lbfw->id], ret, xe_late_bind_parse_status(ret));
++	else
++		drm_err(&xe->drm, "Load %s firmware failed with err %d",
++			fw_id_to_name[lbfw->id], ret);
++	/* Do not re-attempt fw load */
++	drmm_kfree(&xe->drm, (void *)lbfw->payload);
++	lbfw->payload = NULL;
++
++out:
++	xe_pm_runtime_put(xe);
++}
++
++int xe_late_bind_fw_load(struct xe_late_bind *late_bind)
++{
++	struct xe_device *xe = late_bind_to_xe(late_bind);
++	struct xe_late_bind_fw *lbfw;
++	int fw_id;
++
++	if (!late_bind->component_added)
++		return -ENODEV;
++
++	for (fw_id = 0; fw_id < XE_LB_FW_MAX_ID; fw_id++) {
++		lbfw = &late_bind->late_bind_fw[fw_id];
++		if (lbfw->payload) {
++			xe_pm_runtime_get_noresume(xe);
++			queue_work(late_bind->wq, &lbfw->work);
++		}
 +	}
 +	return 0;
 +}
 +
- static int xe_late_bind_component_bind(struct device *xe_kdev,
- 				       struct device *mei_kdev, void *data)
+ static int __xe_late_bind_fw_init(struct xe_late_bind *late_bind, u32 fw_id)
  {
-@@ -80,5 +174,9 @@ int xe_late_bind_init(struct xe_late_bind *late_bind)
+ 	struct xe_device *xe = late_bind_to_xe(late_bind);
+@@ -97,6 +230,7 @@ static int __xe_late_bind_fw_init(struct xe_late_bind *late_bind, u32 fw_id)
+ 
+ 	memcpy((void *)lb_fw->payload, fw->data, lb_fw->payload_size);
+ 	release_firmware(fw);
++	INIT_WORK(&lb_fw->work, xe_late_bind_work);
+ 
+ 	return 0;
+ }
+@@ -106,11 +240,16 @@ static int xe_late_bind_fw_init(struct xe_late_bind *late_bind)
+ 	int ret;
+ 	int fw_id;
+ 
++	late_bind->wq = alloc_ordered_workqueue("late-bind-ordered-wq", 0);
++	if (!late_bind->wq)
++		return -ENOMEM;
++
+ 	for (fw_id = 0; fw_id < XE_LB_FW_MAX_ID; fw_id++) {
+ 		ret = __xe_late_bind_fw_init(late_bind, fw_id);
+ 		if (ret)
+ 			return ret;
+ 	}
++
+ 	return 0;
+ }
+ 
+@@ -132,6 +271,8 @@ static void xe_late_bind_component_unbind(struct device *xe_kdev,
+ 	struct xe_device *xe = kdev_to_xe_device(xe_kdev);
+ 	struct xe_late_bind *late_bind = &xe->late_bind;
+ 
++	xe_late_bind_wait_for_worker_completion(late_bind);
++
+ 	late_bind->component.ops = NULL;
+ }
+ 
+@@ -145,7 +286,15 @@ static void xe_late_bind_remove(void *arg)
+ 	struct xe_late_bind *late_bind = arg;
+ 	struct xe_device *xe = late_bind_to_xe(late_bind);
+ 
++	xe_late_bind_wait_for_worker_completion(late_bind);
++
++	late_bind->component_added = false;
++
+ 	component_del(xe->drm.dev, &xe_late_bind_component_ops);
++	if (late_bind->wq) {
++		destroy_workqueue(late_bind->wq);
++		late_bind->wq = NULL;
++	}
+ }
+ 
+ /**
+@@ -174,9 +323,15 @@ int xe_late_bind_init(struct xe_late_bind *late_bind)
  		return err;
  	}
  
--	return devm_add_action_or_reset(xe->drm.dev, xe_late_bind_remove, late_bind);
-+	err = devm_add_action_or_reset(xe->drm.dev, xe_late_bind_remove, late_bind);
++	late_bind->component_added = true;
++
+ 	err = devm_add_action_or_reset(xe->drm.dev, xe_late_bind_remove, late_bind);
+ 	if (err)
+ 		return err;
+ 
+-	return xe_late_bind_fw_init(late_bind);
++	err = xe_late_bind_fw_init(late_bind);
 +	if (err)
 +		return err;
 +
-+	return xe_late_bind_fw_init(late_bind);
++	return xe_late_bind_fw_load(late_bind);
  }
+diff --git a/drivers/gpu/drm/xe/xe_late_bind_fw.h b/drivers/gpu/drm/xe/xe_late_bind_fw.h
+index 4c73571c3e62..28d56ed2bfdc 100644
+--- a/drivers/gpu/drm/xe/xe_late_bind_fw.h
++++ b/drivers/gpu/drm/xe/xe_late_bind_fw.h
+@@ -11,5 +11,6 @@
+ struct xe_late_bind;
+ 
+ int xe_late_bind_init(struct xe_late_bind *late_bind);
++int xe_late_bind_fw_load(struct xe_late_bind *late_bind);
+ 
+ #endif
 diff --git a/drivers/gpu/drm/xe/xe_late_bind_fw_types.h b/drivers/gpu/drm/xe/xe_late_bind_fw_types.h
-index f79e5aefed94..c4a8042f2600 100644
+index c4a8042f2600..5c0574aff7b9 100644
 --- a/drivers/gpu/drm/xe/xe_late_bind_fw_types.h
 +++ b/drivers/gpu/drm/xe/xe_late_bind_fw_types.h
-@@ -10,6 +10,34 @@
+@@ -9,6 +9,7 @@
+ #include <linux/iosys-map.h>
  #include <linux/mutex.h>
  #include <linux/types.h>
++#include <linux/workqueue.h>
  
-+#define XE_LB_MAX_PAYLOAD_SIZE SZ_4K
-+
-+/**
-+ * xe_late_bind_fw_id - enum to determine late binding fw index
-+ */
-+enum xe_late_bind_fw_id {
-+	XE_LB_FW_FAN_CONTROL = 0,
-+	XE_LB_FW_MAX_ID
-+};
-+
-+/**
-+ * struct xe_late_bind_fw
-+ */
-+struct xe_late_bind_fw {
-+	/** @id: firmware index */
-+	u32 id;
-+	/** @blob_path: firmware binary path */
-+	char blob_path[PATH_MAX];
-+	/** @type: firmware type */
-+	u32  type;
-+	/** @flags: firmware flags */
-+	u32  flags;
-+	/** @payload: to store the late binding blob */
-+	const u8  *payload;
-+	/** @payload_size: late binding blob payload_size */
-+	size_t payload_size;
-+};
-+
+ #define XE_LB_MAX_PAYLOAD_SIZE SZ_4K
+ 
+@@ -36,6 +37,8 @@ struct xe_late_bind_fw {
+ 	const u8  *payload;
+ 	/** @payload_size: late binding blob payload_size */
+ 	size_t payload_size;
++	/** @work: worker to upload latebind blob */
++	struct work_struct work;
+ };
+ 
  /**
-  * struct xe_late_bind_component - Late Binding services component
-  * @mei_dev: device that provide Late Binding service.
-@@ -28,6 +56,8 @@ struct xe_late_bind_component {
- struct xe_late_bind {
- 	/** @component: struct for communication with mei component */
+@@ -47,7 +50,7 @@ struct xe_late_bind_fw {
+  */
+ struct xe_late_bind_component {
+ 	struct device *mei_dev;
+-	const struct late_bind_component_ops *ops;
++	const struct intel_lb_component_ops *ops;
+ };
+ 
+ /**
+@@ -58,6 +61,10 @@ struct xe_late_bind {
  	struct xe_late_bind_component component;
-+	/** @late_bind_fw: late binding firmware array */
-+	struct xe_late_bind_fw late_bind_fw[XE_LB_FW_MAX_ID];
+ 	/** @late_bind_fw: late binding firmware array */
+ 	struct xe_late_bind_fw late_bind_fw[XE_LB_FW_MAX_ID];
++	/** @wq: workqueue to submit request to download late bind blob */
++	struct workqueue_struct *wq;
++	/** @component_added: whether the component has been added */
++	bool component_added;
  };
  
  #endif
