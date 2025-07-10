@@ -2,49 +2,48 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0C79AB00DEA
-	for <lists+dri-devel@lfdr.de>; Thu, 10 Jul 2025 23:34:38 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id AC9FFB00DF1
+	for <lists+dri-devel@lfdr.de>; Thu, 10 Jul 2025 23:38:37 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3EBB910E976;
-	Thu, 10 Jul 2025 21:34:36 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3805A10E977;
+	Thu, 10 Jul 2025 21:38:34 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="o0V6Lx88";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="XyWvPxWp";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from nyc.source.kernel.org (nyc.source.kernel.org [147.75.193.91])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 97CC310E976
- for <dri-devel@lists.freedesktop.org>; Thu, 10 Jul 2025 21:34:35 +0000 (UTC)
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5A29410E977
+ for <dri-devel@lists.freedesktop.org>; Thu, 10 Jul 2025 21:38:32 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by nyc.source.kernel.org (Postfix) with ESMTP id 671A5A54816;
- Thu, 10 Jul 2025 21:34:34 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 98CB8C4CEE3;
- Thu, 10 Jul 2025 21:34:31 +0000 (UTC)
+ by dfw.source.kernel.org (Postfix) with ESMTP id C414F5C4CB6;
+ Thu, 10 Jul 2025 21:38:30 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 49943C4CEE3;
+ Thu, 10 Jul 2025 21:38:28 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1752183274;
- bh=D2gSOs6w5MoNnB8XjW8YjK8yUYQ9o/D5CpbFMvAMgPY=;
+ s=k20201202; t=1752183510;
+ bh=D1bZ/Il7ClQbNgydrqEk47MOWGKSp56gk3dIrmpod44=;
  h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
- b=o0V6Lx88eBTVlQEr0scRQNALsAyn9o1OtLFMtdvKpeVSO3wDoohldvUijlKsy/srV
- SzFQxiiAfzotgNxJmVfVqgPTwMovoguKB/Zz/TQclDUo8HkM2ZbvqBZOKRlOpPtcG1
- sTJFkRwRHv6xGBLpfQDvBRTsiAWukX5p1NHycK5nvzHlsIsRgbln9mN22pOb+IFBQ2
- 9vXvSqcg1BvkhoaqDpS2sfIEzCsj4SXssvqPPxWpvPeMuFZvs8IqHDxKUS0i2YoMVz
- /V87+tMhQmBukvSJNBNVhNkjGAJ+rNAz44IO7plqzQt4mIgwWhjDAES3lFLbw5zih1
- XVF+84bXn2w1g==
-Message-ID: <8dd8588c-2384-4999-8433-9ebcf7d5a863@kernel.org>
-Date: Thu, 10 Jul 2025 23:34:29 +0200
+ b=XyWvPxWpzr3Y27zk/fyu3o7TM1kx++cAl6ZeITndjwQxP9dwrOL+P1pc3HdcvLSLD
+ RoCuBNlTT8gzXDzNWZhQ9g+IifLoKN3omRdOO5yJ15erOgy1xFz65e9BY7CK03O/Jr
+ a6FDmtWrZ7Z9UgJBFSAEIQOwhI+/OAWHDf6BSCnErvpoPihXDBX3GHSLEnrrcEDQVj
+ QqBcIAzjfg54w5PCL/tGdJScxepBu8JYz3JS9vvI6LIn6FSn3t/K8dAu71U8MnbTmN
+ kyGhdkBFyE4G3r+tzLkn4Ta9K3J2ZFwZuuC3FTY+sYb4IxE55a7hzvKbM76vbIAurT
+ pXccyGvEvgK9w==
+Message-ID: <504f6660-4938-47b4-b1db-0a6fe0214e5f@kernel.org>
+Date: Thu, 10 Jul 2025 23:38:26 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH V1 3/9] dt-bindings: power: Add AMD Versal power domain
- bindings
+Subject: Re: [PATCH V1 4/9] dt-bindings: soc: xilinx: Add AI engine DT binding
 To: "Williams, Gregory" <gregoryw@amd.com>,
  Gregory Williams <gregory.williams@amd.com>, ogabbay@kernel.org,
  michal.simek@amd.com, robh@kernel.org
 Cc: dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org,
  linux-kernel@vger.kernel.org
 References: <20250702155630.1737227-1-gregory.williams@amd.com>
- <20250702155630.1737227-4-gregory.williams@amd.com>
- <6f4f68af-7b24-480f-8dae-372098b437fc@kernel.org>
- <d4beb853-12a4-43ec-96af-9f6a7881600f@amd.com>
+ <20250702155630.1737227-5-gregory.williams@amd.com>
+ <7533fd56-aeef-4685-a25f-d64b3f6a2d78@kernel.org>
+ <eb3c843a-6762-4ac0-b863-3f500fb15b6f@amd.com>
 From: Krzysztof Kozlowski <krzk@kernel.org>
 Content-Language: en-US
 Autocrypt: addr=krzk@kernel.org; keydata=
@@ -90,7 +89,7 @@ Autocrypt: addr=krzk@kernel.org; keydata=
  jWt87ecuHlpL3uuQ0ZZNWqHgZoQLXoqC2ZV5KrtKWb/jyiFX/sxSrodALf0zf+tfHv0FZWT2
  zHjUqd0t4njD/UOsuIMOQn4Ig0SdivYPfZukb5cdasKJukG1NOpbW7yRNivaCnfZz6dTawXw
  XRIV/KDsHQiyVxKvN73bThKhONkcX2LWuD928tAR6XMM2G5ovxLe09vuOzzfTWQDsm++9UKF a/A=
-In-Reply-To: <d4beb853-12a4-43ec-96af-9f6a7881600f@amd.com>
+In-Reply-To: <eb3c843a-6762-4ac0-b863-3f500fb15b6f@amd.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -108,37 +107,136 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 10/07/2025 20:53, Williams, Gregory wrote:
+On 10/07/2025 21:03, Williams, Gregory wrote:
+> On 7/3/2025 12:48 AM, Krzysztof Kozlowski wrote:
+>> On 02/07/2025 17:56, Gregory Williams wrote:
+>>> In the device tree, there will be device node for the AI engine device,
+>>> and device nodes for the statically configured AI engine apertures.
 >>
+>> No, describe the hardware, not DTS.
 >>
->>>  1 file changed, 55 insertions(+)
->>>  create mode 100644 include/dt-bindings/power/xlnx-versal-power.h
+>>> Apertures are an isolated set of columns with in the AI engine device
+>>> with their own address space and interrupt.
 >>>
->>> diff --git a/include/dt-bindings/power/xlnx-versal-power.h b/include/dt-bindings/power/xlnx-versal-power.h
+>>> Signed-off-by: Gregory Williams <gregory.williams@amd.com>
+>>> ---
+>>>  .../bindings/soc/xilinx/xlnx,ai-engine.yaml   | 151 ++++++++++++++++++
+>>>  1 file changed, 151 insertions(+)
+>>>  create mode 100644 Documentation/devicetree/bindings/soc/xilinx/xlnx,ai-engine.yaml
+>>>
+>>> diff --git a/Documentation/devicetree/bindings/soc/xilinx/xlnx,ai-engine.yaml b/Documentation/devicetree/bindings/soc/xilinx/xlnx,ai-engine.yaml
 >>> new file mode 100644
->>> index 000000000000..effbc70e5a12
+>>> index 000000000000..7d9a36c56366
 >>> --- /dev/null
->>> +++ b/include/dt-bindings/power/xlnx-versal-power.h
->>> @@ -0,0 +1,55 @@
->>> +/* SPDX-License-Identifier: (GPL-2.0 OR BSD-2-Clause) */
->>> +/*
->>> + *  Copyright (C) 2019 - 2021 Xilinx, Inc.
->>> + *  Copyright (C) 2024 Advanced Micro Devices, Inc.
->>> + */
->>> +
->>> +#ifndef _DT_BINDINGS_VERSAL_POWER_H
->>> +#define _DT_BINDINGS_VERSAL_POWER_H
->>> +
->>> +#define PM_DEV_RPU0_0                                (0x18110005U)
->>> +#define PM_DEV_RPU0_1                                (0x18110006U)
+>>> +++ b/Documentation/devicetree/bindings/soc/xilinx/xlnx,ai-engine.yaml
 >>
->> Bindings ID start from 0 or 1 and are decimal numbers. None of these are
->> bindings (and commit msg does not explain here anything).
+>> Filename matching compatible.
 >>
->> Also, where is the compatible using these? Why is this a separate patch?
-> In 'Submitting DT binding patches' it says: "The Documentation/ and include/dt-bindings/ portion of the patch should be a separate patch".
+>>> @@ -0,0 +1,151 @@
+>>> +# SPDX-License-Identifier: (GPL-2.0 OR BSD-2-Clause)
+>>> +%YAML 1.2
+>>> +---
+>>> +$id: http://devicetree.org/schemas/soc/xilinx/xlnx,ai-engine.yaml#
+>>> +$schema: http://devicetree.org/meta-schemas/core.yaml#
+>>> +
+>>> +title: AMD AI Engine
+>>
+>> That's really too generic...
 
-Separate from the driver. But that's a single patch.
+You did not answer to other comments here and other patches, so I just
+assume you did not ignore them.
+
+>>
+>>> +
+>>> +maintainers:
+>>> +  - Gregory Williams <gregory.williams@amd.com>
+>>> +
+>>> +description:
+>>> +  The AMD AI Engine is a tile processor with many cores (up to 400) that
+>>> +  can run in parallel. The data routing between cores is configured through
+>>> +  internal switches, and shim tiles interface with external interconnect, such
+>>> +  as memory or PL. One AI engine device can have multiple apertures, each
+>>> +  has its own address space and interrupt. At runtime application can create
+>>> +  multiple partitions within an aperture which are groups of columns of AI
+>>> +  engine tiles. Each AI engine partition is the minimum resetable unit for an
+>>> +  AI engine application.
+>>> +
+>>> +properties:
+>>> +  compatible:
+>>> +    const: xlnx,ai-engine-v2.0
+>>
+>> What does v2.0 stands for? Versioning is discouraged, unless mapping is
+>> well documented.
+> 
+> Sure, I will remove the versioning in V2 patch.
+
+This should be specific to product, so use the actual product/model name.
+
+Is this part of a Soc? Then standard rules apply... but I could not
+deduce it from the descriptions or commit msgs.
+
+
+> 
+>>
+>>> +
+>>> +  reg:
+>>> +    maxItems: 1
+>>> +
+>>> +  '#address-cells':
+>>> +    const: 2
+>>> +
+>>> +  '#size-cells':
+>>> +    const: 2
+>>> +
+>>> +  power-domains:
+>>
+>> Missing constraints.
+>>
+>>> +    description:
+>>> +      Platform management node id used to request power management services
+>>> +      from the firmware driver.
+>>
+>> Drop description, redundant.
+>>
+>>> +
+>>> +  xlnx,aie-gen:
+>>> +    $ref: /schemas/types.yaml#/definitions/uint8
+>>
+>> Why uint8?
+>>
+>>> +    description:
+>>> +      Hardware generation of AI engine device. E.g. the current values supported
+>>> +      are 1 (AIE) and 2 (AIEML).
+>>
+>> No clue what's that, but it is implied by compatible, isn't it?
+> 
+> The driver supports multiple hardware generations. During driver probe, this value is read from the device tree and hardware generation specific
+
+Bindings are about hardware, not driver, so your driver arguments are
+not valid.
+
+> data structures are loaded based on this value. The compatible string is the same between devices.
+
+No. See writing bindings.
+
+> 
+>>
+>> Missing constraints.
+>>
+>>> +
+>>> +  xlnx,shim-rows:
+>>> +    $ref: /schemas/types.yaml#/definitions/uint8-array
+>>> +    description:
+>>> +      start row and the number of rows of SHIM tiles of the AI engine device
+>>
+>> Implied by compatible.
+> 
+> The AI Engine device can have different configurations for number of rows and column (even if it is the same hardware generation). This property
+> tells the driver the size and layout of the array, this is not implied by compatible.
+
+Wrap your emails correctly.
+
+Again driver.. no, please describe the hardware, not your drivers.
 
 
 Best regards,
