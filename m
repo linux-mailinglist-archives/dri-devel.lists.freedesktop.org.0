@@ -2,46 +2,91 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5A2E1AFFC9A
-	for <lists+dri-devel@lfdr.de>; Thu, 10 Jul 2025 10:42:17 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8B7D6AFFCB0
+	for <lists+dri-devel@lfdr.de>; Thu, 10 Jul 2025 10:45:05 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6FE7810E1DF;
-	Thu, 10 Jul 2025 08:42:14 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id CCFB710E1B4;
+	Thu, 10 Jul 2025 08:45:03 +0000 (UTC)
+Authentication-Results: gabe.freedesktop.org;
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="mWTOgx4P";
+	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from metis.whiteo.stw.pengutronix.de
- (metis.whiteo.stw.pengutronix.de [185.203.201.7])
- by gabe.freedesktop.org (Postfix) with ESMTPS id DFDB710E1DF
- for <dri-devel@lists.freedesktop.org>; Thu, 10 Jul 2025 08:42:12 +0000 (UTC)
-Received: from ptz.office.stw.pengutronix.de ([2a0a:edc0:0:900:1d::77]
- helo=[IPv6:::1]) by metis.whiteo.stw.pengutronix.de with esmtps
- (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256) (Exim 4.92)
- (envelope-from <l.stach@pengutronix.de>)
- id 1uZmqy-0007le-Dq; Thu, 10 Jul 2025 10:42:04 +0200
-Message-ID: <aecd03f464f25d50f379be405a8596261f247897.camel@pengutronix.de>
-Subject: Re: DMA-BUFs always uncached on arm64, causing poor camera
- performance on Librem 5
-From: Lucas Stach <l.stach@pengutronix.de>
-To: Pavel Machek <pavel@ucw.cz>, kraxel@redhat.com,
- vivek.kasireddy@intel.com,  dri-devel@lists.freedesktop.org,
- sumit.semwal@linaro.org,  benjamin.gaignard@collabora.com,
- Brian.Starkey@arm.com, jstultz@google.com,  tjmercier@google.com,
- linux-media@vger.kernel.org,  linaro-mm-sig@lists.linaro.org, kernel list
- <linux-kernel@vger.kernel.org>,  laurent.pinchart@ideasonboard.com,
- linux+etnaviv@armlinux.org.uk,  christian.gmeiner@gmail.com,
- etnaviv@lists.freedesktop.org,  phone-devel@vger.kernel.org
-Date: Thu, 10 Jul 2025 10:42:02 +0200
-In-Reply-To: <aG94uNDrL1MdHJPM@duo.ucw.cz>
-References: <aG94uNDrL1MdHJPM@duo.ucw.cz>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.52.4 (3.52.4-2.fc40) 
+Received: from mail-lf1-f48.google.com (mail-lf1-f48.google.com
+ [209.85.167.48])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5749C10E1B4
+ for <dri-devel@lists.freedesktop.org>; Thu, 10 Jul 2025 08:45:02 +0000 (UTC)
+Received: by mail-lf1-f48.google.com with SMTP id
+ 2adb3069b0e04-558f7fda97eso390810e87.2
+ for <dri-devel@lists.freedesktop.org>; Thu, 10 Jul 2025 01:45:02 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20230601; t=1752137101; x=1752741901; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:in-reply-to:from:content-language
+ :references:cc:to:subject:user-agent:mime-version:date:message-id
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=fKdgn7tzsSWNEcaz5ZCKVyQCaGiMlPWSiLSm5o0J6RA=;
+ b=mWTOgx4P1HiJUzfpJPq2l8GulRsYJ5ERvnVFO5sjdb401Iz3j1z4+/sHPnL3JC6EnI
+ G4HiJMpHQt6sU46ow1hK+A99dn+cjhI3MlUxSLrRDSWQRfHjkZeCDfmYrkyri4/KE0Y9
+ ATovK6IptENHIZ7oQ5c1r8nzhshejO0DWxBuiTuNFN+MhuKEIUX69mSibsRFfilyZP75
+ gsjmPH/y4TZ3F5x5d9ELfg3xci89Jflchx2l/iYIEBXwbfpZwQMjSymzUdlm2PKjGEJZ
+ 6f/bnSStGGp7YlLItvYBccZUqkBOG5uOrpmSerfULQSavD/lCE8/m0+rhEFs6LtMYDUU
+ txlA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1752137101; x=1752741901;
+ h=content-transfer-encoding:in-reply-to:from:content-language
+ :references:cc:to:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=fKdgn7tzsSWNEcaz5ZCKVyQCaGiMlPWSiLSm5o0J6RA=;
+ b=ayc5PHDuwzQ2HN8PXGjF8RU/YQD9PbHV69MJi0t5BGxx+6fFyD2HKlsfp+StnHAYMo
+ CK1ZJuSqaoB6I/qwSVGF8/1pdlG2hYxmDRM+2lSMZnJgNW3gUXJfJ4U1WZ77GCTzfUbh
+ h0+AuabkVl9Jeh4N57auN2ZpB6YcmLf8bI9Pt3t8YrFMkI+9hkYbMlTJ92o7XSNryDOk
+ PdUL/G5VZISEjIyHlvqJXyXxYOgrPXeYGsHkd1hLhNpjwvq2CuG03+yeOspwGq4FzkXU
+ 9eDgkCTqDncpmw9/DZFDrJZM5K08iQF1q+YFjhXAyyJ3sZFjZYfKa3RYZf0KDorDgcwh
+ fNQA==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCU4hvqiND7ICZRmmU7KLItCT1xXyN+1oDb8PmKGXrQqlWbZ1qhhAmoMWFH04YeieIuQWiJEH1tBM4c=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YyZKP2RcS2pPpShHiISjbp3mmauF1mnlNe9ZYwnIsIr1VEaqKd8
+ xwkdvbSJzS1u8VbZeaVRrjsxNuoCjNGbYwNuBUHo1SnYG21t1f5ebE1U
+X-Gm-Gg: ASbGncvmQmYhLq+zx3xjszOSV5XErFsJUEEYfHpQUG2Xo2NENNxqfwxNVGEzihYswHg
+ +g1aDwYbK/J/ShAxKnPMpLwLunBidZlq2YUEqsAboK+A/9Q6p3D40hvm5AhCroZdbFziLToTIc1
+ QW6QZi1GdML0t2ZN1gQAHaRejAFiBS0r6JTFA1Vx46+90KXBSBBzhqItcpT6JXJxdAlvAPCgLaU
+ CsRgFEEqTdN6E9+WO7vdG6a10/YnHWx+p/vkYo5YrWmGeXVCeYugS795+pR8YzHeKlQi/3rHy3a
+ 4D9BAjhc0nJ4sBkL3Yiod+QKwrsiFk+7wVxRz2BSjpupAdkmX5yTcSlu181gVFlDNpus1azhPpP
+ 7rfNf0s4PwPksqN2RCDsKFRraNrl4PhZ0CjA9prWwz4Q7ffCgI2E3Rw==
+X-Google-Smtp-Source: AGHT+IHCpBc1171VY6lUvPoWG4vrSAtb9/OKExB5VZfZ0Hf6igfxd/hFTtzwqncaXe8j8hN1gV5DIA==
+X-Received: by 2002:a05:6512:10c1:b0:558:f7fc:87c4 with SMTP id
+ 2adb3069b0e04-5592e3e0f5dmr646988e87.32.1752137100272; 
+ Thu, 10 Jul 2025 01:45:00 -0700 (PDT)
+Received: from ?IPV6:2a00:1fa0:4464:423a:5ae9:509e:a65e:81f5?
+ ([2a00:1fa0:4464:423a:5ae9:509e:a65e:81f5])
+ by smtp.gmail.com with ESMTPSA id
+ 2adb3069b0e04-5593c9d0942sm278431e87.138.2025.07.10.01.44.58
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Thu, 10 Jul 2025 01:44:59 -0700 (PDT)
+Message-ID: <924e885c-dc19-49f7-9991-58b6e248b208@gmail.com>
+Date: Thu, 10 Jul 2025 11:44:58 +0300
 MIME-Version: 1.0
-X-SA-Exim-Connect-IP: 2a0a:edc0:0:900:1d::77
-X-SA-Exim-Mail-From: l.stach@pengutronix.de
-X-SA-Exim-Scanned: No (on metis.whiteo.stw.pengutronix.de);
- SAEximRunCond expanded to false
-X-PTX-Original-Recipient: dri-devel@lists.freedesktop.org
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 2/2] drm: renesas: rz-du: Set DSI divider based on target
+ MIPI device
+To: Chris Brandt <chris.brandt@renesas.com>,
+ Geert Uytterhoeven <geert+renesas@glider.be>,
+ Michael Turquette <mturquette@baylibre.com>, Stephen Boyd
+ <sboyd@kernel.org>, Biju Das <biju.das.jz@bp.renesas.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+ Hien Huynh <hien.huynh.px@renesas.com>, Nghia Vo <nghia.vo.zn@renesas.com>,
+ Hugo Villeneuve <hugo@hugovil.com>
+Cc: linux-renesas-soc@vger.kernel.org, linux-clk@vger.kernel.org,
+ dri-devel@lists.freedesktop.org
+References: <20250709205532.747596-1-chris.brandt@renesas.com>
+ <20250709205532.747596-3-chris.brandt@renesas.com>
+Content-Language: en-US
+From: Sergey Shtylyov <sergei.shtylyov@gmail.com>
+In-Reply-To: <20250709205532.747596-3-chris.brandt@renesas.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -57,64 +102,37 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Pavel,
+On 7/9/25 11:55 PM, Chris Brandt wrote:
 
-Am Donnerstag, dem 10.07.2025 um 10:24 +0200 schrieb Pavel Machek:
-> Hi!
->=20
-> It seems that DMA-BUFs are always uncached on arm64... which is a
-> problem.
->=20
-> I'm trying to get useful camera support on Librem 5, and that includes
-> recording vidos (and taking photos).
->=20
-> memcpy() from normal memory is about 2msec/1MB. Unfortunately, for
-> DMA-BUFs it is 20msec/1MB, and that basically means I can't easily do
-> 760p video recording. Plus, copying full-resolution photo buffer takes
-> more than 200msec!
->=20
-> There's possibility to do some processing on GPU, and its implemented her=
-e:
->=20
-> https://gitlab.com/tui/tui/-/tree/master/icam?ref_type=3Dheads
->=20
-> but that hits the same problem in the end -- data is in DMA-BUF,
-> uncached, and takes way too long to copy out.
->=20
-> And that's ... wrong. DMA ended seconds ago, complete cache flush
-> would be way cheaper than copying single frame out, and I still have
-> to deal with uncached frames.
->=20
-> So I have two questions:
->=20
-> 1) Is my analysis correct that, no matter how I get frame from v4l and
-> process it on GPU, I'll have to copy it from uncached memory in the
-> end?
+> Before the MIPI DSI clock source can be configured, the target divide
+> ratio needs to be known.
+> 
+> Signed-off-by: Chris Brandt <chris.brandt@renesas.com>
+> ---
+>  drivers/gpu/drm/renesas/rz-du/rzg2l_mipi_dsi.c | 17 +++++++++++++++++
+>  1 file changed, 17 insertions(+)
+> 
+> diff --git a/drivers/gpu/drm/renesas/rz-du/rzg2l_mipi_dsi.c b/drivers/gpu/drm/renesas/rz-du/rzg2l_mipi_dsi.c
+> index 4ad0be03a5b4..a8796df43f75 100644
+> --- a/drivers/gpu/drm/renesas/rz-du/rzg2l_mipi_dsi.c
+> +++ b/drivers/gpu/drm/renesas/rz-du/rzg2l_mipi_dsi.c
+[...]
+> @@ -666,6 +667,22 @@ static int rzg2l_mipi_dsi_host_attach(struct mipi_dsi_host *host,
+>  
+>  	drm_bridge_add(&dsi->bridge);
+>  
+> +	/* Report required division ratio setting for the MIPI clock dividers
 
-If you need to touch the buffers using the CPU then you are either
-stuck with uncached memory or you need to implement bracketed access to
-do the necessary cache maintenance. Be aware that completely flushing
-the cache is not really an option, as that would impact other
-workloads, so you have to flush the cache by walking the virtual
-address space of the buffer, which may take a significant amount of CPU
-time.
+   /* should be on a line of its own (unless you do a networking patch)...
 
-However, if you are only going to use the buffer with the GPU I see no
-reason to touch it from the CPU side. Why would you even need to copy
-the content? After all dma-bufs are meant to enable zero-copy between
-DMA capable accelerators. You can simply import the V4L2 buffer into a
-GL texture using EGL_EXT_image_dma_buf_import. Using this path you
-don't need to bother with the cache at all, as the GPU will directly
-read the video buffers from RAM.
+> +	 * Assume the default clock source is FOUTPOSTDIV (PLL/2) being fed to the DSI-PHY, but also
+> +	 * the DSI-PHY must be 16x the MIPI-DSI HS clock.
+> +	 *
+> +	 * pllclk/2 = vclk * DSI divider
 
-Regards,
-Lucas
+   Why no spaces around / while there are spaces around *?
 
->=20
-> 2) Does anyone have patches / ideas / roadmap how to solve that? It
-> makes GPU unusable for computing, and camera basically unusable for
-> video.
->=20
-> Best regards,
-> 								Pavel
+[...]
+
+MBR, Sergey
 
