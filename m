@@ -2,75 +2,74 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5242CB006BD
-	for <lists+dri-devel@lfdr.de>; Thu, 10 Jul 2025 17:31:52 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 42DD1B006C0
+	for <lists+dri-devel@lfdr.de>; Thu, 10 Jul 2025 17:31:56 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 97FEB10E905;
-	Thu, 10 Jul 2025 15:31:50 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A02D010E907;
+	Thu, 10 Jul 2025 15:31:54 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="MB70nv5/";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="kLReJzEt";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-il1-f173.google.com (mail-il1-f173.google.com
- [209.85.166.173])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0D4B110E8FF;
- Thu, 10 Jul 2025 15:31:49 +0000 (UTC)
-Received: by mail-il1-f173.google.com with SMTP id
- e9e14a558f8ab-3df2f20f4bbso4088705ab.0; 
- Thu, 10 Jul 2025 08:31:49 -0700 (PDT)
+Received: from mail-qv1-f42.google.com (mail-qv1-f42.google.com
+ [209.85.219.42])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4A4AC10E908;
+ Thu, 10 Jul 2025 15:31:51 +0000 (UTC)
+Received: by mail-qv1-f42.google.com with SMTP id
+ 6a1803df08f44-6ecf99dd567so15167196d6.0; 
+ Thu, 10 Jul 2025 08:31:51 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1752161508; x=1752766308; darn=lists.freedesktop.org;
+ d=gmail.com; s=20230601; t=1752161510; x=1752766310; darn=lists.freedesktop.org;
  h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
  :mime-version:subject:date:from:from:to:cc:subject:date:message-id
- :reply-to; bh=WVFjfPNTbi6R66/7pUgl3ALTHRI4zFg3YUCk14hLoUg=;
- b=MB70nv5/AfaDOd9xBwHxRmp0e713mNZZCE6I2ldqT3xp4dhTFudPAATv3CfvNcjO82
- Ve4Q5AupeuXKcw0J2pjBbBt404l2krWobynPaMmrTyVG/nLufG1Qv9+BJsJubuqvHGJl
- ZWPerw602dSSRMGFVXTiFtYALP8haVnxXIg0URVBhp4vex5M1kFjLgAmUeD9CjMKEx4k
- Lxr9OWB6ypnNmgR1cTXiw2biDDPoGo1GL0ev9jK3S7yEz9LMmHPkozG9Js8LDGVCENVp
- QSQTTV/ZSewUjZILQ/dMAouaH/IkAl7ja6vYnM+7senmDReQbNPAlBz4Mf0JCB7qicFS
- UE5g==
+ :reply-to; bh=0/JDalhR7HGrdZn2Na85qCxGVUjNuqdnchv4YNWMoGI=;
+ b=kLReJzEtzdL2dFmCFgTj3UUR/kdQHUJJCLXIs0jKW0iBVphsFQ4Znq81qfSwgAAUjk
+ SoZgTPeAgDjdec59dsrry6bbncTUIWtO6GvJRu2UqREcVXunNNC2orxeX0zQusnGFi/r
+ RSAy65Bjry3Fhs9AbkPAHd56j3xcUAFWbsAagSMQ/4R8K1U2GGW60I14tqHlCZwoHCA2
+ pkP2qpC5RpNuaX9NcE3iIQLlh0/yeF3PD4/GzoAZ/8zv1pvIkYvgdkT8len8M1ORMsOz
+ hgu4E/3qaIaVqvas+ETznvyXsLrAScU1ERiBPIFKRKgwi2VDdv67SatW94XJlYu5HlGx
+ bNLg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1752161508; x=1752766308;
+ d=1e100.net; s=20230601; t=1752161510; x=1752766310;
  h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
  :mime-version:subject:date:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=WVFjfPNTbi6R66/7pUgl3ALTHRI4zFg3YUCk14hLoUg=;
- b=U61twbieUFAx9sAqVb1Il61mJJESlxUYUSePz5NYV0jF9VWKMtTx4Sh3aX66snschc
- Mhluy7EYDHJ95EHrgsdPxMcPqdagT7nme76grKhALTWVz+UZ17+QRZJ7wLef/x4WOliR
- wqOyJzNA3K+rSmz2FIN4JG/DIDfLsnxBCLCNlVeqadonGYuns+a48qxmqICjQ+T6wzlK
- AqEvk8wbLX1Wz40RdJnc4GmZYY4kF/ZyJTla6yL82E0phzSHheHPlj23Ir5t70tKu94G
- W8sJ78a1K8yc88JbbfZSYHAzjZGLSxrLXQyhY4WPNMQu3Bb61d5xbouVgZ12kcTTFA+q
- 5lCg==
+ bh=0/JDalhR7HGrdZn2Na85qCxGVUjNuqdnchv4YNWMoGI=;
+ b=kpjnucM5+e858Tv1a610uBPy96oC4gMhHoSDWDjglhyFHY/7yJHMEI/FdMnQQ1uHKZ
+ NBE8T5WoBFTjPTfDREC5Mey6QY39xYij7E6Uxzq1fcw30t8Sx4dZbKHhr7Hg+9uYEPsl
+ mO7us5MLXj7s7IvmFPl9OKDFHZmfHv+Q8VppcA2yaKOQD2gzIrxdUQ49B2ZFz2IFf3G6
+ opLtx56F3lchzFQvOM6Utueg8YSQWJa3l256RL7ew/VywgUefpp5Sm4A6S37roNATCD8
+ hI7bCRHLPlPAzlNd7i6rmKu4plXNPw3XWzmeTTIURgoSmSxlCMs0OIiEZnovkfHQeqSE
+ ibAw==
 X-Forwarded-Encrypted: i=1;
- AJvYcCVQRJ4DpcS8Rg1tDVtb9fYkxOiExt4FY1Y65mq1qW9TqdJHeFBFyhcnKga3Iclj1eUCYXAxE7v3KLw=@lists.freedesktop.org,
- AJvYcCWVaCIgPr5YfmeEFXWVYqoORrwvcgAgZNL3HXwAUFxA4lobedu0oOeofOB4jjVRXWQyb6XgB+VBfQ==@lists.freedesktop.org
-X-Gm-Message-State: AOJu0Ywrhs6XLyWR8mFOtqLCvjvSXIlnL2/Z7aEPhhmWT+dN6DS0BClD
- 7XJZxl0oLltb5fG0PMbp3cnsOZRFiDFqJCTHtOFfpSTQl1w6FKzc7MQH
-X-Gm-Gg: ASbGnctTaBdZrVE1r8Vyltgkfc76CdLXXxWqOoIBiC+KVjDRuZdbai7CLWMSFApuelJ
- lQXz3O22egx9nKpd2t/mI5j6ppBPQP26ms+T/3A8i+eRXab65oyTxJ9NcAwWr7R8zc+FI36Wdiv
- l3+FiqrCUjHNJSuUfsg22bUo9EuesPWUleH0rCf2W2OI6pr07629ijct/u+6L1PFY4WCQz943lV
- m0FItagQHmf2jjE1ay+tPMFE8iol+6jSWtVeg42CGhyX8dbytvucrmP9fmkw1q+EbdL5C4aPLnQ
- jR4qhOZgwYbuNhKB8OloU12KLJwMsOGyVnc4hUNuKuwQWxyPDwbm/JPBpVm2HSdPNUSvvlubse+
- LI6+GSWUOElJt9UhW1WlyiU9pwc+O3Mau0gs/yTFK/CQUOzC1U6+eY9iJfg==
-X-Google-Smtp-Source: AGHT+IFCym+xBGoaFaMTBAc6u039EKWRGAB/Yd6+c7XI6q8JLxZTaP4UxwS5DlA2tuk9iufaO/epKQ==
-X-Received: by 2002:a05:6e02:b42:b0:3de:2102:f1d8 with SMTP id
- e9e14a558f8ab-3e244019ab8mr53662575ab.18.1752161508131; 
- Thu, 10 Jul 2025 08:31:48 -0700 (PDT)
+ AJvYcCU4HsLlBeFjrVdY8RaqCA5HebnpJK6WOqOpjUYe4PX3BoQJtcthk2lKBi+niG2hVSilKyhUit0BeA==@lists.freedesktop.org,
+ AJvYcCWdg/roGR9MRzSzneSbwKwHqV+E80s33wX38tPd5mo9700YAJZZG+pjIRdnvTFtXPq0fDppaNqWr4c=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YyFshrRbdMRf4IkOxPf9eRryydbH6/6NNMGZ1ILVPSJEh+J3uAS
+ 6B73RfEFhBfjAUM6UdIes0jf+sxXyp+xQWLVDDKt5h9Ok4U9QaS1Mv6n
+X-Gm-Gg: ASbGncuyJzY1HiK2EsRUVUUdeiDtxa4EZFEiHshLMwmf0t+5FDQaljH5KsziTx9yQ5N
+ PrTuD7eUrebXgKrCLVY19r4WVDhLrmgMT4oZQPnfJsP8FWaXCAnjGn3Anl9CKFikNPOGR6zPF+Z
+ lWTKx9OwMcaDgKw3EQbZw5A/6ijAc2r+kEuJjTxuGSmTYNxViPr6Ln711zuAGDpitHQVXKaXb4H
+ ghcshqmO7tvmbR3NQWUT+3gRQPzsmwKkE/yBS5StOytPVIrAfd7nn+tpAcI4HzGy7ZEu4Lhy5cr
+ UV5YRuIGXgb9DWauPQNCRYbemtwucqwDZ5ZDax7f7/fASgg7ijF3cVSPY+Usn4snKK0MiqPYtKv
+ dbQgJ4tSPCyHxoOseR6z69rye3ErlGmtRfGsc04s3XuzjV4gQFqyrL0pVzQ==
+X-Google-Smtp-Source: AGHT+IGlK4u+h32oGxozpab2tD/B7Yph0jCBKI+iYfgyIGiWbIZ+FxxQ7L/p4QWTrgRuBT/dl81aJQ==
+X-Received: by 2002:a05:6214:21ae:b0:6fd:24:b0e0 with SMTP id
+ 6a1803df08f44-7049802b590mr33096746d6.6.1752161510215; 
+ Thu, 10 Jul 2025 08:31:50 -0700 (PDT)
 Received: from
  1.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.ip6.arpa
  ([148.76.185.197]) by smtp.gmail.com with ESMTPSA id
- 6a1803df08f44-704979dbc3asm9449496d6.38.2025.07.10.08.31.46
+ 6a1803df08f44-704979dbc3asm9449496d6.38.2025.07.10.08.31.48
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 10 Jul 2025 08:31:47 -0700 (PDT)
+ Thu, 10 Jul 2025 08:31:49 -0700 (PDT)
 From: Tamir Duberstein <tamird@gmail.com>
-Date: Thu, 10 Jul 2025 11:31:10 -0400
-Subject: [PATCH 07/17] rust: device: replace `kernel::c_str!` with
- C-Strings
+Date: Thu, 10 Jul 2025 11:31:11 -0400
+Subject: [PATCH 08/17] rust: firmware: replace `kernel::c_str!` with C-Strings
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20250710-core-cstr-cstrings-v1-7-027420ea799e@gmail.com>
+Message-Id: <20250710-core-cstr-cstrings-v1-8-027420ea799e@gmail.com>
 References: <20250710-core-cstr-cstrings-v1-0-027420ea799e@gmail.com>
 In-Reply-To: <20250710-core-cstr-cstrings-v1-0-027420ea799e@gmail.com>
 To: "Rafael J. Wysocki" <rafael@kernel.org>, 
@@ -106,13 +105,13 @@ Cc: linux-pm@vger.kernel.org, linux-kernel@vger.kernel.org,
  linux-kselftest@vger.kernel.org, kunit-dev@googlegroups.com, 
  linux-block@vger.kernel.org, Tamir Duberstein <tamird@gmail.com>
 X-Mailer: b4 0.15-dev
-X-Developer-Signature: v=1; a=openssh-sha256; t=1752161489; l=1137;
+X-Developer-Signature: v=1; a=openssh-sha256; t=1752161489; l=1536;
  i=tamird@gmail.com; h=from:subject:message-id;
- bh=lKArFG3jk79KbI1Ip2d9VIpBoj3sVr8YWgzpzTTR72M=;
+ bh=XbZfSG96gLboq9hAwWHxQ0UcnmwXIVGU56caleXhB74=;
  b=U1NIU0lHAAAAAQAAADMAAAALc3NoLWVkMjU1MTkAAAAgtYz36g7iDMSkY5K7Ab51ksGX7hJgs
  MRt+XVZTrIzMVIAAAAGcGF0YXR0AAAAAAAAAAZzaGE1MTIAAABTAAAAC3NzaC1lZDI1NTE5AAAA
- QAzd5arAmJGDCeVxbMUwisyHuguGLVYd1t94JvFxCxzK/cekAHr5Rtjw+6FA4xzDvfKhCkirXSB
- JiQdbWuO4ygU=
+ QHERu/vESXn7qmFFW348pi5DoDLh036HXrIdmw4RD3DKS+WftxpPEwxHBNYrRqltGIq+N1QTXos
+ LZ9h+wNtoCwI=
 X-Developer-Key: i=tamird@gmail.com; a=openssh;
  fpr=SHA256:264rPmnnrb+ERkS7DDS3tuwqcJss/zevJRzoylqMsbc
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -137,31 +136,38 @@ Acked-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 Reviewed-by: Alice Ryhl <aliceryhl@google.com>
 Signed-off-by: Tamir Duberstein <tamird@gmail.com>
 ---
- rust/kernel/device.rs | 4 +---
- 1 file changed, 1 insertion(+), 3 deletions(-)
+ rust/kernel/firmware.rs | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
 
-diff --git a/rust/kernel/device.rs b/rust/kernel/device.rs
-index b34173536230..ff300e1d014b 100644
---- a/rust/kernel/device.rs
-+++ b/rust/kernel/device.rs
-@@ -11,8 +11,6 @@
- };
- use core::{marker::PhantomData, ptr};
- 
--#[cfg(CONFIG_PRINTK)]
--use crate::c_str;
- use crate::str::CStrExt as _;
- 
- /// A reference-counted device.
-@@ -198,7 +196,7 @@ unsafe fn printk(&self, klevel: &[u8], msg: fmt::Arguments<'_>) {
-             bindings::_dev_printk(
-                 klevel.as_ptr().cast::<crate::ffi::c_char>(),
-                 self.as_raw(),
--                c_str!("%pA").as_char_ptr(),
-+                c"%pA".as_char_ptr(),
-                 core::ptr::from_ref(&msg).cast::<crate::ffi::c_void>(),
-             )
-         };
+diff --git a/rust/kernel/firmware.rs b/rust/kernel/firmware.rs
+index 4adcf39b475e..d07849333991 100644
+--- a/rust/kernel/firmware.rs
++++ b/rust/kernel/firmware.rs
+@@ -51,13 +51,13 @@ fn request_nowarn() -> Self {
+ /// # Examples
+ ///
+ /// ```no_run
+-/// # use kernel::{c_str, device::Device, firmware::Firmware};
++/// # use kernel::{device::Device, firmware::Firmware};
+ ///
+ /// # fn no_run() -> Result<(), Error> {
+ /// # // SAFETY: *NOT* safe, just for the example to get an `ARef<Device>` instance
+ /// # let dev = unsafe { Device::get_device(core::ptr::null_mut()) };
+ ///
+-/// let fw = Firmware::request(c_str!("path/to/firmware.bin"), &dev)?;
++/// let fw = Firmware::request(c"path/to/firmware.bin", &dev)?;
+ /// let blob = fw.data();
+ ///
+ /// # Ok(())
+@@ -204,7 +204,7 @@ macro_rules! module_firmware {
+     ($($builder:tt)*) => {
+         const _: () = {
+             const __MODULE_FIRMWARE_PREFIX: &'static $crate::str::CStr = if cfg!(MODULE) {
+-                $crate::c_str!("")
++                c""
+             } else {
+                 <LocalModule as $crate::ModuleMetadata>::NAME
+             };
 
 -- 
 2.50.0
