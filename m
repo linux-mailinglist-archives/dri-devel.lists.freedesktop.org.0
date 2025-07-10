@@ -2,117 +2,170 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 670BEB00A38
-	for <lists+dri-devel@lfdr.de>; Thu, 10 Jul 2025 19:43:51 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0AE73B00B2D
+	for <lists+dri-devel@lfdr.de>; Thu, 10 Jul 2025 20:12:51 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C123910E94B;
-	Thu, 10 Jul 2025 17:43:49 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6B15410E948;
+	Thu, 10 Jul 2025 18:12:47 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=redhat.com header.i=@redhat.com header.b="C1NKOcA9";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="jkuyeKRl";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [170.10.133.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3E8EF10E94A
- for <dri-devel@lists.freedesktop.org>; Thu, 10 Jul 2025 17:43:48 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1752169427;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=/OrtVi+H4smani+Wxuj7rrrlvdLEKHZeWuJz/QAEtZ0=;
- b=C1NKOcA9WOjno+qVJncqzTsNd6tK1OAbQ/UwBy4EBdMnt4Xsye00ti/gS9SWSzC72f3Qme
- 7/4nj1LECVyixuEcNUN0nPDlCSFLDGPZNcQ9nKJJXF3v7bGm4gP1VEyNxbQNKMyEYFUU2b
- VY73g0YPuvBXipL1Hqt2qlcEP3OjR1U=
-Received: from mail-qv1-f72.google.com (mail-qv1-f72.google.com
- [209.85.219.72]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-626-V5YwbrhhPgiow9SN48Uh5A-1; Thu, 10 Jul 2025 13:43:46 -0400
-X-MC-Unique: V5YwbrhhPgiow9SN48Uh5A-1
-X-Mimecast-MFC-AGG-ID: V5YwbrhhPgiow9SN48Uh5A_1752169426
-Received: by mail-qv1-f72.google.com with SMTP id
- 6a1803df08f44-6face45b58dso19844296d6.3
- for <dri-devel@lists.freedesktop.org>; Thu, 10 Jul 2025 10:43:46 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1752169426; x=1752774226;
- h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
- :mime-version:subject:date:from:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=/OrtVi+H4smani+Wxuj7rrrlvdLEKHZeWuJz/QAEtZ0=;
- b=YVFH6MXO80USF1rQHkjvE8mKL8wExZHqSFPmymm+my9l5TA+j4PrZsSdgVaksMxkmD
- 4ycnW4Gvm6yB4x7AvX/38G+42gkpJ44B+9A0Tdo4rBgxrhj7Kr1Jc12qGdtkaM1Go2Lc
- OOwgAZF/8PIwn05VF+wsLjkHoIQQ34F55mNBtrbaMtqxhNRoHYE05vL3+wZN+TfhPl2v
- i2YTQYafhhHqs7tyL0zz0vZ4eLwhlr3KsYI/Z3BF9ofs70huK6aRSUZGs0LdDZiJoqOU
- 3AvnLoGH3rDReHYf1WIkny7IEAl4cAAg4fCBWzciAGHY9/xoovZidZ1M6bL4S4hqvNPB
- Tabw==
-X-Gm-Message-State: AOJu0YwXgISaXZQroTRZV7f+x0SxzKjjU6TAANYt/Epc6frFf+dyWrL1
- F10syadNDjajo6ROyVfqpAt5Ag8boHF+HTkkFUgLkp1D+id/znnV0aOsWS65ixEa711ZiJdUlFw
- x9VXOVTIrsNurXFqw65S053ldMOA7WBNtrSOtufYg0iRNb8KFzO2euDW6C6siCjs9i6Ei1A==
-X-Gm-Gg: ASbGncs1OQWXH2k3011s08hARWZa/+X6GaUbnvMX2sVmJGS81v18OPlumeo0l5I9OSj
- Ju6cLEfF3x/XtPW9aC52ci14AU/8k48XhxtWwS6gikWzndavGGv4Whg3vSbU2+QTxTpPnFne92a
- aNRhNcyvz9Elt8C/iKxvropcNQL8i+zGXl/IgWHA+dDp9lCErmWr2mVqPcmv9OICmWiErogtkUa
- cADk+zMeXWJfkB9ep1HWKgBLg6Qw112+soqSf1IpWoSW6RJXd1idi+C9iy2FIJ0OSvCa+jbvdQo
- ts6o6iFHFb59WqtCtKorOm0aJu5GQ7VDj4MU13F/j/9UBCJR7Uk5v4mSH2wE
-X-Received: by 2002:a05:6214:5d0a:b0:704:9bc2:be36 with SMTP id
- 6a1803df08f44-704a4083bcemr2613836d6.7.1752169425801; 
- Thu, 10 Jul 2025 10:43:45 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IGxO+/+2HUAUPTiUYztt/lC4Yi0Q22OZoIfFBMZk64H2H2sqirYgZh1L3qOGgIkQVmmCaX6kA==
-X-Received: by 2002:a05:6214:5d0a:b0:704:9bc2:be36 with SMTP id
- 6a1803df08f44-704a4083bcemr2613296d6.7.1752169425386; 
- Thu, 10 Jul 2025 10:43:45 -0700 (PDT)
-Received: from [192.168.1.3] (c-73-183-52-120.hsd1.pa.comcast.net.
- [73.183.52.120]) by smtp.gmail.com with ESMTPSA id
- 6a1803df08f44-70497d71419sm10652876d6.86.2025.07.10.10.43.42
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 10 Jul 2025 10:43:44 -0700 (PDT)
-From: Brian Masney <bmasney@redhat.com>
-Date: Thu, 10 Jul 2025 13:43:10 -0400
-Subject: [PATCH 9/9] drm/sun4i/sun4i_tcon_dclk: convert from round_rate()
- to determine_rate()
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.17])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 97B1F10E940;
+ Thu, 10 Jul 2025 18:12:45 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1752171166; x=1783707166;
+ h=date:from:to:cc:subject:message-id:references:
+ content-transfer-encoding:in-reply-to:mime-version;
+ bh=SngjC84J5ft8sfjMRKq5esHdBn8UI1kbb70aWRBA3xA=;
+ b=jkuyeKRlSTwQiexBQxaGPLXqJH3uPEQYCgAjDO5cW9cpqmlBa3lwbiYA
+ H6op3RtpvYtjESiogV9e/tf/Y7YrJcFzP06xNoP58iH6M+YCfRiQC2fGe
+ cyTMiWBCKWCM99aBLfp4CSkKgSsLj++zlUkJfeVvXv/S2Wc/dL/5c8QDb
+ GPCa/nJ2NYj5CUZVdQ3hDWFLPIMAxkXaC63Hv95Scf0Uu/zZLQkGwUbby
+ in+8J3Y+KW2N3RkqaM+uVFCQz+5DwNM7w7QxUWddgdN67Ie7bJQWpCeYp
+ kdbeLovjPsL3pglKVLnKQKcZ0SCOyi5UlbwNS7axD9iokOPleJMIvWhyj Q==;
+X-CSE-ConnectionGUID: P/iiXxvnTJOTa/Vi2Pyr3A==
+X-CSE-MsgGUID: 3ANjhbA3RFWeBB/uSA5rjg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11490"; a="54435519"
+X-IronPort-AV: E=Sophos;i="6.16,301,1744095600"; d="scan'208";a="54435519"
+Received: from orviesa008.jf.intel.com ([10.64.159.148])
+ by orvoesa109.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 10 Jul 2025 11:12:34 -0700
+X-CSE-ConnectionGUID: cqm0OolHR0+0zJKoJgNLTg==
+X-CSE-MsgGUID: 30bPz+wnRE+UmqSouRGsVA==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.16,301,1744095600"; d="scan'208";a="156641010"
+Received: from orsmsx902.amr.corp.intel.com ([10.22.229.24])
+ by orviesa008.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 10 Jul 2025 11:12:30 -0700
+Received: from ORSMSX901.amr.corp.intel.com (10.22.229.23) by
+ ORSMSX902.amr.corp.intel.com (10.22.229.24) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.1544.25; Thu, 10 Jul 2025 11:12:26 -0700
+Received: from ORSEDG902.ED.cps.intel.com (10.7.248.12) by
+ ORSMSX901.amr.corp.intel.com (10.22.229.23) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.1544.25 via Frontend Transport; Thu, 10 Jul 2025 11:12:26 -0700
+Received: from NAM12-MW2-obe.outbound.protection.outlook.com (40.107.244.46)
+ by edgegateway.intel.com (134.134.137.112) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.1544.25; Thu, 10 Jul 2025 11:12:26 -0700
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=oaXXKdSiwY62PWMn8w52s1tpljKG0cSgi56mHjZhNSgxAu6wsf8XxCcWRyoLp82Cqa5sZOgIyUg619LOMpHLLfDLwgzDF4wWPCag7WJV05seKKI3OUI+TFacdrDWdO/2h6wvb4qnGKExOyLRmAyAkxDEFYtzTBPLurlm23/onc3yb0oXIhfS9VoAQrlA/ta8Ai/VWORcFqVYDq87gDir7FKwGFsATULmcjZuSAT005j8hG67tM3xIYRb81yLtSufENPbEEmFJn7wmOXhAyPmgZp4YouGYwatcHXiPGjUdhVYgMkIvolwUHRPl0fLE/dfNjvlkS+eMTWMKZHvzwlW9w==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=7EZcJQBF0b80jPq4K4g8VxDe6sEo7hRy3AJP4EOYvYg=;
+ b=WXfVyfiHtmA7LhvM6jF7ZFZyjI5chESkHRxx7fhFvd7P5Lx6PxsoYA4qbe7OG+Pgo/xh1Ftkzi2GLymYfcUlCq5BW094atFMMCtblFRX+nKQsnDTU+A7THKggAF1FcxHpEnzd0thmA14zP8e21E6w6OQ9ZimlTLMSfLDg2zKAiPc+ZTrPng2CWmNqRRhMJRG92aURJ7wcaYhyy6veLtDRDIx10FjTD+2J8lgxfSzwPWJ89lEGEuGzTxyDp7UDfubrcZhZnpYQnhzdmcNdFHURH5QqSZ65LHZQrNRuKLewhlrmpY86cOIi2RT3QgQ+7LaLrUYSf+b2kzU81YSN1bHRQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
+ dkim=pass header.d=intel.com; arc=none
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=intel.com;
+Received: from PH7PR11MB6522.namprd11.prod.outlook.com (2603:10b6:510:212::12)
+ by PH8PR11MB6706.namprd11.prod.outlook.com (2603:10b6:510:1c5::15)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8901.25; Thu, 10 Jul
+ 2025 18:12:11 +0000
+Received: from PH7PR11MB6522.namprd11.prod.outlook.com
+ ([fe80::9e94:e21f:e11a:332]) by PH7PR11MB6522.namprd11.prod.outlook.com
+ ([fe80::9e94:e21f:e11a:332%5]) with mapi id 15.20.8901.024; Thu, 10 Jul 2025
+ 18:12:11 +0000
+Date: Thu, 10 Jul 2025 11:13:54 -0700
+From: Matthew Brost <matthew.brost@intel.com>
+To: Christian =?iso-8859-1?Q?K=F6nig?= <ckoenig.leichtzumerken@gmail.com>
+CC: <thomas.hellstrom@linux.intel.com>, <dri-devel@lists.freedesktop.org>,
+ <intel-xe@lists.freedesktop.org>
+Subject: Re: [PATCH 2/2] drm/ttm: remove ttm_bo_validate_swapout test
+Message-ID: <aHAC4l1taA5qaX0E@lstrano-desk.jf.intel.com>
+References: <20250710144129.1803-1-christian.koenig@amd.com>
+ <20250710144129.1803-2-christian.koenig@amd.com>
+Content-Type: text/plain; charset="iso-8859-1"
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20250710144129.1803-2-christian.koenig@amd.com>
+X-ClientProxiedBy: MW2PR16CA0002.namprd16.prod.outlook.com (2603:10b6:907::15)
+ To PH7PR11MB6522.namprd11.prod.outlook.com
+ (2603:10b6:510:212::12)
 MIME-Version: 1.0
-Message-Id: <20250710-drm-clk-round-rate-v1-9-601b9ea384c3@redhat.com>
-References: <20250710-drm-clk-round-rate-v1-0-601b9ea384c3@redhat.com>
-In-Reply-To: <20250710-drm-clk-round-rate-v1-0-601b9ea384c3@redhat.com>
-To: Philipp Zabel <p.zabel@pengutronix.de>, 
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, 
- Shawn Guo <shawnguo@kernel.org>, Sascha Hauer <s.hauer@pengutronix.de>, 
- Pengutronix Kernel Team <kernel@pengutronix.de>, 
- Fabio Estevam <festevam@gmail.com>, 
- Linus Walleij <linus.walleij@linaro.org>, 
- Rob Clark <robin.clark@oss.qualcomm.com>, 
- Dmitry Baryshkov <lumag@kernel.org>, 
- Abhinav Kumar <abhinav.kumar@linux.dev>, 
- Jessica Zhang <jessica.zhang@oss.qualcomm.com>, Sean Paul <sean@poorly.run>, 
- Marijn Suijten <marijn.suijten@somainline.org>, 
- Yannick Fertre <yannick.fertre@foss.st.com>, 
- Raphael Gallais-Pou <raphael.gallais-pou@foss.st.com>, 
- Philippe Cornu <philippe.cornu@foss.st.com>, 
- Maxime Coquelin <mcoquelin.stm32@gmail.com>, 
- Alexandre Torgue <alexandre.torgue@foss.st.com>, 
- Chen-Yu Tsai <wens@csie.org>, Jernej Skrabec <jernej.skrabec@gmail.com>, 
- Samuel Holland <samuel@sholland.org>, Stephen Boyd <sboyd@kernel.org>
-Cc: dri-devel@lists.freedesktop.org, imx@lists.linux.dev, 
- linux-clk@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
- linux-kernel@vger.kernel.org, linux-arm-msm@vger.kernel.org, 
- freedreno@lists.freedesktop.org, linux-stm32@st-md-mailman.stormreply.com, 
- linux-sunxi@lists.linux.dev, Brian Masney <bmasney@redhat.com>
-X-Mailer: b4 0.14.2
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1752169393; l=2262;
- i=bmasney@redhat.com; s=20250528; h=from:subject:message-id;
- bh=xPkagiW22ryYRgcFeUxKsYb4R3sx64zzzkaF7TIS6rk=;
- b=l1P9iwEOFZ7iseMUGqrDwyTv1j/GS/74kLm+7ZgYbXOn1R2j8JwTxirCensojfrRCiquhbnNY
- RQW74FdbQM8B7MkeQZA7rAthmyuLBvNMin91wee7+2bXtn9fga4VsSS
-X-Developer-Key: i=bmasney@redhat.com; a=ed25519;
- pk=x20f2BQYftANnik+wvlm4HqLqAlNs/npfVcbhHPOK2U=
-X-Mimecast-Spam-Score: 0
-X-Mimecast-MFC-PROC-ID: Q9lPpS1oV2bK6l_ik1i97Tc9PuE7UaxinTUiB07Pt20_1752169426
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: PH7PR11MB6522:EE_|PH8PR11MB6706:EE_
+X-MS-Office365-Filtering-Correlation-Id: 85a5f1ef-e81d-4ce5-abeb-08ddbfdd4a2b
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;ARA:13230040|1800799024|366016|376014;
+X-Microsoft-Antispam-Message-Info: =?iso-8859-1?Q?8DJArqAln0AYWgaCEV1+HQDOgB5zvVKyfRwzntQ1hNE4hxl+D101OHmkA7?=
+ =?iso-8859-1?Q?U96qceMcH6tHtJW6MFa77VBQFKK21BjsSj/Ex8zw01nMx37U8AeqVpDS2+?=
+ =?iso-8859-1?Q?iCOPOWVWfOvlpYMMRKN4olVKDWexZqU5xOIltEH1PI10/b4JcdFepabFzn?=
+ =?iso-8859-1?Q?SQ67KQfO3EKsf0/9S83Hvo6zCeTwIr2DB4GgYyHsuC4kHR+f+gffDZqCQ2?=
+ =?iso-8859-1?Q?nrG2fzI0GDfiiI35d9ItEU9GuefemUeZJt+EPpYBR6wqfL6vGWjc8U0zqS?=
+ =?iso-8859-1?Q?TbkndplYKgFnPGl7pqAsiUDBHgzhR1gp8JUe6QGG26ip6fLO/6R2xH+q5n?=
+ =?iso-8859-1?Q?0T79dcD6SttRzDz9J87vszD2aXSVSe8D0s8fLC0jQiryCgJ5b2xC01HtS7?=
+ =?iso-8859-1?Q?Qqp1grU92xVASjGGQjUEFl4bPY/sOFlKkrqF4jSlfuJqrgvIbFmmICpPni?=
+ =?iso-8859-1?Q?bD/YJ1tQ+7cMKQNNmxSuzYy2dzf2xnsxpG80k9HSF3T9IB9peb4RdjIgY8?=
+ =?iso-8859-1?Q?zK8RUR4O17+poi1gfvW7VNRcPPKsDC1GsiJX2u3GvhB+yHbVZQfkAkUyKq?=
+ =?iso-8859-1?Q?wzAQcSRrY+PdXCxoedixJ+UQ7mb+RoHwPABDX71XM6K6h4Jpri+OGHd+IG?=
+ =?iso-8859-1?Q?WGGsxzsSoOS8Xa1cmu/vfVcBoJVZuKtMdduANAIGRINKb7eNj1H1jQFERP?=
+ =?iso-8859-1?Q?xQ+x6U3ZzE9Y2hahWWWwUuLP58DdL6hp9sKYftZpmji+GJO7la/ha87q5P?=
+ =?iso-8859-1?Q?YQAt7+HFZC9IeoLQvRRc0pAn8gHHnwfH+4fHYxeK+1jLGw+9IjDq8OOqZ8?=
+ =?iso-8859-1?Q?0G3GT80mYe68HbMuCu6nE2mWAdqLoglI0aZL6w2UI3/JXrE2Nh+t9PmwY+?=
+ =?iso-8859-1?Q?P3vi1WkILuWKrHqHlZbknqPAI/SYi4Tf+FHAVHuAe34AgVt1PwQS06w8Mz?=
+ =?iso-8859-1?Q?28vU8CKuk4nRUWSqXEfEAGXiFi2448EefPRo74+ag1uPatXojqwj01rtj8?=
+ =?iso-8859-1?Q?PkjDinOmSTXBLmfR7K/mFdjG6TgzcXqZDvt3/o3HJhBp9p0ehpAmLvp5kd?=
+ =?iso-8859-1?Q?pPYWpT88ZdNPbZesnqfUdYhfKSUBy+3L6t3W4r7FzUS+axMmVYu3d/AiVR?=
+ =?iso-8859-1?Q?EG2MBhFINiWUIiMPaeZpiVkKYtqPpK8tfrbGDQw0lIetkc7eGFeq23cpbY?=
+ =?iso-8859-1?Q?afzgJdpYIDSJapid0sDLbGjH78UhpcFse2NN5k2OFH/XY6ny8FndFfmzpD?=
+ =?iso-8859-1?Q?TKLWB+pBDgphrByLnjTdoP+dLJdVGdkvZtzfHTSeSd9hMh7KnP46tMa+Jj?=
+ =?iso-8859-1?Q?UT6lO033z+fkW+uxEnLDhqyBCBNP3g1Jk48jLueAQgYvGJCuQzlbqq7veI?=
+ =?iso-8859-1?Q?Pp5SjRKUfLUtKd/7zEFcamoNRNL688IVl0N77q3BSVnRRHaqBH1+SMYx9F?=
+ =?iso-8859-1?Q?VJJONVeb2cQm2l57NwCrPql9lZTzPRP1CL6sN4eBf3HtHGyZnrzXbgotvC?=
+ =?iso-8859-1?Q?0=3D?=
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:PH7PR11MB6522.namprd11.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230040)(1800799024)(366016)(376014); DIR:OUT; SFP:1101; 
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?iso-8859-1?Q?CQ4hfZBMVA2t7Fpt7rCf9HEo6HbZyUIeqOPctcrywAhqddbObjbtLlwuWC?=
+ =?iso-8859-1?Q?Js/scGXuepVHt5oz2FTb7VuZGOyeM1GPKRdImrz9MWGVvrNd9oNyTTgIto?=
+ =?iso-8859-1?Q?04wgLT417WsVhPehcfKnFJh3RS720Cqgp3nPzX/rrrCwI6aaBQIUbDOF7h?=
+ =?iso-8859-1?Q?iIUVBLuEjJ3yemhZ+JiYH00kY6sUTSwvpyDYCbOvOd5uDKW7ytgfVPPIDU?=
+ =?iso-8859-1?Q?2KXkicf8lKbRbtgSpT/CuWY7AtS15nJ0SNoL1ZUaMxkDIqCvL5cf3L7xMm?=
+ =?iso-8859-1?Q?ledziNoPZccgM3PjELvX/OyivM4LHNMOUDFvFRk4p2a0RT8l34/x37TVWx?=
+ =?iso-8859-1?Q?LZyoRkf0ym5+31Pil4HA3zesAEDMmeYvxwUR9DDEevgVLeUFpjVhjF4Pec?=
+ =?iso-8859-1?Q?Hr47md3TjP+sC6P35TzEdU1G7+76en4aAJjB+yl+0s/bKXGcQ+b9POyLR/?=
+ =?iso-8859-1?Q?/PQ5N7j4lfNKM/KPlIMbaAsgUNEAvQArpaNsXlsHiLOJYWLtu1IVi4FGid?=
+ =?iso-8859-1?Q?Lu6LiBPsQeyDiRGyRgEe6V6vc4Bs7IFA/ukxY2DkdtRrdx68W/DBD+4oly?=
+ =?iso-8859-1?Q?oJXmV5GHxYL+GyQ+JlUDZ0I762CWo38DANvHXatYcnJBz5bkfuki5wScMR?=
+ =?iso-8859-1?Q?EhlzwEIaJch9JpWbXYF/o1ZfduB/jBku9vvlmkbWvS3mVRKKjXfraUumfa?=
+ =?iso-8859-1?Q?AWDtl06tvxaHYu0HfHfnU6g9H51E1sUo1pmH/7Aps4zEGZcuy7i1wMjy33?=
+ =?iso-8859-1?Q?Z2I4/qitvnwDkkAAYo1HjpI4becnbZ7/H6p/kXeNeYL2D0ss3tFlxK+R3D?=
+ =?iso-8859-1?Q?uLJ52VPDSQAFCVijbIr42gFxmUW/8pUS82AfgO1xEV7A24nlopBJ93tOCV?=
+ =?iso-8859-1?Q?6huKvjliZRIb2kYOKVl+PNTaGXBp9ny23c5fAXaQ4PP1sK8zL80TmRA0Ku?=
+ =?iso-8859-1?Q?Jv9lc4tMEv1vU5DUbUlSiE48h74T7U+joVoRNiJGp4k2h42EO92i/04yHa?=
+ =?iso-8859-1?Q?cZ0aV5gRHDWIUaqscYmEITjBNVTnPEGcjGHJXMPbI/Smr8gb2dEW1kTwms?=
+ =?iso-8859-1?Q?5ggeE0R/j4lQkuS9VLmehpYincZGzXZF0xTyeMpgzv8I+zkfA/4uC18/9N?=
+ =?iso-8859-1?Q?G1fZrLoB+DXtwz0r41zZgVscbEP8+QqWFER1/e2oxEsZ2UXDVQa88WY2o4?=
+ =?iso-8859-1?Q?spN5rTeaWYhZq+8XWIrPIEFHx6oXsr+FdTqPXuPmeF/9rs6q5KNnCgGQ3j?=
+ =?iso-8859-1?Q?AGr4fEkiY5ix9lUlqh1Va/zz/3atJGZSK7kKkx7Rp1IeToBdv1+Jgmp8zn?=
+ =?iso-8859-1?Q?SXqWnrVd+ZSG7oy0C6CMxvzOEGF5LEgviIhZiUupso8XhLb2YO/bHPFVxy?=
+ =?iso-8859-1?Q?ShiEF9TRgaEKDpq6/UuHw6nJBhfmOH4eazNAmc5fYgm+HFWaquKthvsOZH?=
+ =?iso-8859-1?Q?xwdUTRsvKv6QkvCE5Xu9mq7gE++NJRhmdHpmg4AgrBvwOXNCE/NwtCXwYy?=
+ =?iso-8859-1?Q?WSwz9s7INHURFlN5U0qOnQFJy966a92BEpaB579GK0XFy1nALkKOg579p9?=
+ =?iso-8859-1?Q?1mVi6nZKLWIw32nl8D1F0QlI2yHBOBBFZIo3NLfOHdezKcsqhL4O1rhDIC?=
+ =?iso-8859-1?Q?7cyCn3L8PBKL7QaYn5XrDli+ZPq1wgMgAnaOMoYls1IeY12o4DRaeGrw?=
+ =?iso-8859-1?Q?=3D=3D?=
+X-MS-Exchange-CrossTenant-Network-Message-Id: 85a5f1ef-e81d-4ce5-abeb-08ddbfdd4a2b
+X-MS-Exchange-CrossTenant-AuthSource: PH7PR11MB6522.namprd11.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 10 Jul 2025 18:12:11.1189 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: RHpYQZlNLYczCjdpfEk17mbGRFkaWY1PFhKuTzT8/ckyAy9qwcXfAJKlHxxl8U1flIPVmdQP+5DJM3iSAQkwSQ==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH8PR11MB6706
+X-OriginatorOrg: intel.com
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -128,73 +181,99 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The round_rate() clk ops is deprecated, so migrate this driver from
-round_rate() to determine_rate() using the Coccinelle semantic patch
-on the cover letter of this series.
+On Thu, Jul 10, 2025 at 04:41:29PM +0200, Christian König wrote:
+> The test is quite fragile since it tries to allocate halve available system
+> memory + 1 page.
+> 
+> If the system has either not enough memory to make the allocation work
+> with other things running in parallel or to much memory so the allocation
+> fails as to large/invalid the test won't fail.
+> 
+> Completely remove the test. We already validate swapout on the device
+> level and that test seems to be stable.
+> 
+> Signed-off-by: Christian König <christian.koenig@amd.com>
 
-Signed-off-by: Brian Masney <bmasney@redhat.com>
----
- drivers/gpu/drm/sun4i/sun4i_tcon_dclk.c | 18 ++++++++++--------
- 1 file changed, 10 insertions(+), 8 deletions(-)
+Reviewed-by: Matthew Brost <matthew.brost@intel.com>
 
-diff --git a/drivers/gpu/drm/sun4i/sun4i_tcon_dclk.c b/drivers/gpu/drm/sun4i/sun4i_tcon_dclk.c
-index 03d7de1911cd654f395ea85ad914588c4351f391..9b85bf512d4c81d0a12e8cf726d5d5440343519c 100644
---- a/drivers/gpu/drm/sun4i/sun4i_tcon_dclk.c
-+++ b/drivers/gpu/drm/sun4i/sun4i_tcon_dclk.c
-@@ -67,8 +67,8 @@ static unsigned long sun4i_dclk_recalc_rate(struct clk_hw *hw,
- 	return parent_rate / val;
- }
- 
--static long sun4i_dclk_round_rate(struct clk_hw *hw, unsigned long rate,
--				  unsigned long *parent_rate)
-+static int sun4i_dclk_determine_rate(struct clk_hw *hw,
-+				     struct clk_rate_request *req)
- {
- 	struct sun4i_dclk *dclk = hw_to_dclk(hw);
- 	struct sun4i_tcon *tcon = dclk->tcon;
-@@ -77,7 +77,7 @@ static long sun4i_dclk_round_rate(struct clk_hw *hw, unsigned long rate,
- 	int i;
- 
- 	for (i = tcon->dclk_min_div; i <= tcon->dclk_max_div; i++) {
--		u64 ideal = (u64)rate * i;
-+		u64 ideal = (u64) req->rate * i;
- 		unsigned long rounded;
- 
- 		/*
-@@ -99,17 +99,19 @@ static long sun4i_dclk_round_rate(struct clk_hw *hw, unsigned long rate,
- 			goto out;
- 		}
- 
--		if (abs(rate - rounded / i) <
--		    abs(rate - best_parent / best_div)) {
-+		if (abs(req->rate - rounded / i) <
-+		    abs(req->rate - best_parent / best_div)) {
- 			best_parent = rounded;
- 			best_div = i;
- 		}
- 	}
- 
- out:
--	*parent_rate = best_parent;
-+	req->best_parent_rate = best_parent;
- 
--	return best_parent / best_div;
-+	req->rate = best_parent / best_div;
-+
-+	return 0;
- }
- 
- static int sun4i_dclk_set_rate(struct clk_hw *hw, unsigned long rate,
-@@ -155,7 +157,7 @@ static const struct clk_ops sun4i_dclk_ops = {
- 	.is_enabled	= sun4i_dclk_is_enabled,
- 
- 	.recalc_rate	= sun4i_dclk_recalc_rate,
--	.round_rate	= sun4i_dclk_round_rate,
-+	.determine_rate = sun4i_dclk_determine_rate,
- 	.set_rate	= sun4i_dclk_set_rate,
- 
- 	.get_phase	= sun4i_dclk_get_phase,
+The first patch in series in nowhere to be found in my inbox, but feel
+free to add RB to that patch as well.
 
--- 
-2.50.0
+Matt 
 
+> ---
+>  .../gpu/drm/ttm/tests/ttm_bo_validate_test.c  | 51 -------------------
+>  1 file changed, 51 deletions(-)
+> 
+> diff --git a/drivers/gpu/drm/ttm/tests/ttm_bo_validate_test.c b/drivers/gpu/drm/ttm/tests/ttm_bo_validate_test.c
+> index 38f476787302..1bcc67977f48 100644
+> --- a/drivers/gpu/drm/ttm/tests/ttm_bo_validate_test.c
+> +++ b/drivers/gpu/drm/ttm/tests/ttm_bo_validate_test.c
+> @@ -758,56 +758,6 @@ static void ttm_bo_validate_move_fence_not_signaled(struct kunit *test)
+>  	ttm_mock_manager_fini(priv->ttm_dev, snd_mem);
+>  }
+>  
+> -static void ttm_bo_validate_swapout(struct kunit *test)
+> -{
+> -	unsigned long size_big, size = ALIGN(BO_SIZE, PAGE_SIZE);
+> -	enum ttm_bo_type bo_type = ttm_bo_type_device;
+> -	struct ttm_buffer_object *bo_small, *bo_big;
+> -	struct ttm_test_devices *priv = test->priv;
+> -	struct ttm_operation_ctx ctx = { };
+> -	struct ttm_placement *placement;
+> -	u32 mem_type = TTM_PL_TT;
+> -	struct ttm_place *place;
+> -	struct sysinfo si;
+> -	int err;
+> -
+> -	si_meminfo(&si);
+> -	size_big = ALIGN(((u64)si.totalram * si.mem_unit / 2), PAGE_SIZE);
+> -
+> -	ttm_mock_manager_init(priv->ttm_dev, mem_type, size_big + size);
+> -
+> -	place = ttm_place_kunit_init(test, mem_type, 0);
+> -	placement = ttm_placement_kunit_init(test, place, 1);
+> -
+> -	bo_small = kunit_kzalloc(test, sizeof(*bo_small), GFP_KERNEL);
+> -	KUNIT_ASSERT_NOT_NULL(test, bo_small);
+> -
+> -	drm_gem_private_object_init(priv->drm, &bo_small->base, size);
+> -
+> -	err = ttm_bo_init_reserved(priv->ttm_dev, bo_small, bo_type, placement,
+> -				   PAGE_SIZE, &ctx, NULL, NULL,
+> -				   &dummy_ttm_bo_destroy);
+> -	KUNIT_EXPECT_EQ(test, err, 0);
+> -	dma_resv_unlock(bo_small->base.resv);
+> -
+> -	bo_big = ttm_bo_kunit_init(test, priv, size_big, NULL);
+> -
+> -	dma_resv_lock(bo_big->base.resv, NULL);
+> -	err = ttm_bo_validate(bo_big, placement, &ctx);
+> -	dma_resv_unlock(bo_big->base.resv);
+> -
+> -	KUNIT_EXPECT_EQ(test, err, 0);
+> -	KUNIT_EXPECT_NOT_NULL(test, bo_big->resource);
+> -	KUNIT_EXPECT_EQ(test, bo_big->resource->mem_type, mem_type);
+> -	KUNIT_EXPECT_EQ(test, bo_small->resource->mem_type, TTM_PL_SYSTEM);
+> -	KUNIT_EXPECT_TRUE(test, bo_small->ttm->page_flags & TTM_TT_FLAG_SWAPPED);
+> -
+> -	ttm_bo_put(bo_big);
+> -	ttm_bo_put(bo_small);
+> -
+> -	ttm_mock_manager_fini(priv->ttm_dev, mem_type);
+> -}
+> -
+>  static void ttm_bo_validate_happy_evict(struct kunit *test)
+>  {
+>  	u32 mem_type = TTM_PL_VRAM, mem_multihop = TTM_PL_TT,
+> @@ -1202,7 +1152,6 @@ static struct kunit_case ttm_bo_validate_test_cases[] = {
+>  	KUNIT_CASE(ttm_bo_validate_move_fence_signaled),
+>  	KUNIT_CASE_PARAM(ttm_bo_validate_move_fence_not_signaled,
+>  			 ttm_bo_validate_wait_gen_params),
+> -	KUNIT_CASE(ttm_bo_validate_swapout),
+>  	KUNIT_CASE(ttm_bo_validate_happy_evict),
+>  	KUNIT_CASE(ttm_bo_validate_all_pinned_evict),
+>  	KUNIT_CASE(ttm_bo_validate_allowed_only_evict),
+> -- 
+> 2.34.1
+> 
