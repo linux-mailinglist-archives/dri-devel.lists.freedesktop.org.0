@@ -2,66 +2,73 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id D3194B01F44
-	for <lists+dri-devel@lfdr.de>; Fri, 11 Jul 2025 16:36:19 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id C648DB01F6B
+	for <lists+dri-devel@lfdr.de>; Fri, 11 Jul 2025 16:46:55 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 39BE610EA66;
-	Fri, 11 Jul 2025 14:36:18 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 33D6E10E2B6;
+	Fri, 11 Jul 2025 14:46:53 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=igalia.com header.i=@igalia.com header.b="ME7VczHx";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="AteWjbDy";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from fanzine2.igalia.com (fanzine2.igalia.com [213.97.179.56])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4688110EA66;
- Fri, 11 Jul 2025 14:36:13 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com; 
- s=20170329;
- h=Content-Transfer-Encoding:Content-Type:In-Reply-To:From:
- References:Cc:To:Subject:MIME-Version:Date:Message-ID:Sender:Reply-To:
- Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
- Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
- List-Subscribe:List-Post:List-Owner:List-Archive;
- bh=aCy967UIRg6zoO+D2XjyWnFU8FS0fatcPCvM94I4+0A=; b=ME7VczHxwO1D0Yr8PDqCSrzE/+
- wJd/R5JUu3lxA4eJZhcjEL7xjqlY5c+uUrUk1Qev3O1k1YnfsOLkwDlSXR4gR3b+7h/Zbj674ivVI
- Awv3CoC489f51QofOrvWGYMpCIWtCnzGtyTvJRrkhd1xuZLKdkNf3OS9QZLZpWPl/oKMtlI2DzS+V
- efz6MmZQEdZJVZykQi2l0BYJRdx+qKy/pD5R09P7LB1pqr1585adG9YrEGBOFCZJI88sgMi/DbS9+
- 3AZFvNkgelRkjF69dlRrYfLZM1xmCL83gfmjhZHWb2uMX+zpiiN9/GJafY0heOyQkxpu3xg4UWDio
- XzcAqFBg==;
-Received: from [187.36.210.68] (helo=[192.168.1.103])
- by fanzine2.igalia.com with esmtpsa 
- (Cipher TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_128_GCM:128) (Exim)
- id 1uaEqp-00FPWf-TV; Fri, 11 Jul 2025 16:35:48 +0200
-Message-ID: <6fead129-28d5-4323-a2a8-fc177334619f@igalia.com>
-Date: Fri, 11 Jul 2025 11:35:38 -0300
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 253D910E292;
+ Fri, 11 Jul 2025 14:46:51 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1752245211; x=1783781211;
+ h=date:from:to:cc:subject:message-id:references:
+ mime-version:content-transfer-encoding:in-reply-to;
+ bh=01TMUFB7/dJsmtn+0Bm9lyEpC82i8ZT+V/MPg+pfOlY=;
+ b=AteWjbDyj54FpTu9Fl5hUaV7KwVmrE9fVJqfejCML6vaAGjlNx4OiHO/
+ d2PYatcN8MdOV1qZrt8kJCzU7kCauPgrzfRP/EiQQ38u3cSqKoz1cP/Sn
+ jEkM+OuYb9AqX2xRizlYrDQFsO4IcGSHpW3aJj7rLblEJKRg6YUetm7ya
+ +0thLe7pvN98Pet4IVic9hDlSv4r56lMtoe9jiMi/oB7oJc1sbg3qkZZZ
+ 0qklVRk25WwRAfXZ/XTAALN88bkFs2Opn5/Et2Z6xTG+QwdkEhdqrNhuS
+ mkVM/m4vmRzOI6L5+JAZ7CGBfhAbTpOECVTBqHUYcD/puI5QbDGZPmTCb w==;
+X-CSE-ConnectionGUID: oDeTvGwARdikChEnMi3WLw==
+X-CSE-MsgGUID: BzbQNP4pTZuju+wZ2uJs5w==
+X-IronPort-AV: E=McAfee;i="6800,10657,11491"; a="65245374"
+X-IronPort-AV: E=Sophos;i="6.16,303,1744095600"; d="scan'208";a="65245374"
+Received: from orviesa005.jf.intel.com ([10.64.159.145])
+ by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 11 Jul 2025 07:46:51 -0700
+X-CSE-ConnectionGUID: aBYgIc5/Tbuma5wyYjlG2g==
+X-CSE-MsgGUID: q8NYpnLySbmOP9/XLRPd4w==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.16,303,1744095600"; d="scan'208";a="162068999"
+Received: from johunt-mobl9.ger.corp.intel.com (HELO stinkbox)
+ ([10.245.245.78])
+ by orviesa005.jf.intel.com with SMTP; 11 Jul 2025 07:46:45 -0700
+Received: by stinkbox (sSMTP sendmail emulation);
+ Fri, 11 Jul 2025 17:46:44 +0300
+Date: Fri, 11 Jul 2025 17:46:44 +0300
+From: Ville =?iso-8859-1?Q?Syrj=E4l=E4?= <ville.syrjala@linux.intel.com>
+To: Simona Vetter <simona.vetter@ffwll.ch>
+Cc: Jeff Johnson <jeff.johnson@oss.qualcomm.com>,
+ "Nikula, Jani" <jani.nikula@linux.intel.com>,
+ "Vivi, Rodrigo" <rodrigo.vivi@intel.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>,
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+ Alex Deucher <alexander.deucher@amd.com>,
+ Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
+ dri-devel@lists.freedesktop.org,
+ linux-kernel <linux-kernel@vger.kernel.org>,
+ Linux AMDGPU <amd-gfx@lists.freedesktop.org>
+Subject: Re: WARNING: possible circular locking dependency detected:
+ drm_client_dev_suspend() & radeon_suspend_kms()
+Message-ID: <aHEj1GQjjIiCbhjB@intel.com>
+References: <0a087cfd-bd4c-48f1-aa2f-4a3b12593935@oss.qualcomm.com>
+ <CAKMK7uH7Hcviwyw2wZK=WVxcb4zBC+EKpsREhb4FHe_AxEi8gg@mail.gmail.com>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v5 2/8] drm/sched: Allow drivers to skip the reset and
- keep on running
-To: =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
- Matthew Brost <matthew.brost@intel.com>, Danilo Krummrich <dakr@kernel.org>,
- Philipp Stanner <phasta@kernel.org>,
- Tvrtko Ursulin <tvrtko.ursulin@igalia.com>, Simona Vetter <simona@ffwll.ch>,
- David Airlie <airlied@gmail.com>, Melissa Wen <mwen@igalia.com>,
- Lucas Stach <l.stach@pengutronix.de>,
- Russell King <linux+etnaviv@armlinux.org.uk>,
- Christian Gmeiner <christian.gmeiner@gmail.com>,
- Lucas De Marchi <lucas.demarchi@intel.com>,
- =?UTF-8?Q?Thomas_Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>,
- Rodrigo Vivi <rodrigo.vivi@intel.com>,
- Boris Brezillon <boris.brezillon@collabora.com>,
- Rob Herring <robh@kernel.org>, Steven Price <steven.price@arm.com>,
- Liviu Dudau <liviu.dudau@arm.com>
-Cc: kernel-dev@igalia.com, dri-devel@lists.freedesktop.org,
- etnaviv@lists.freedesktop.org, intel-xe@lists.freedesktop.org
-References: <20250708-sched-skip-reset-v5-0-2612b601f01a@igalia.com>
- <20250708-sched-skip-reset-v5-2-2612b601f01a@igalia.com>
- <20499b2a-0695-430a-9280-035a7e04d328@amd.com>
-Content-Language: en-US
-From: =?UTF-8?Q?Ma=C3=ADra_Canal?= <mcanal@igalia.com>
-In-Reply-To: <20499b2a-0695-430a-9280-035a7e04d328@amd.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
+In-Reply-To: <CAKMK7uH7Hcviwyw2wZK=WVxcb4zBC+EKpsREhb4FHe_AxEi8gg@mail.gmail.com>
+X-Patchwork-Hint: comment
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -77,197 +84,166 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Christian,
+On Fri, Jul 11, 2025 at 11:08:03AM +0200, Simona Vetter wrote:
+> On Thu, Jul 10, 2025 at 04:43:02PM -0700, Jeff Johnson wrote:
+> > I'm trying to debug a hibernation issue with the ath12k driver, but to
+> > establish a baseline I started with Linus' current tree. I have the following
+> > enabled in my .config:
+> >
+> > CONFIG_PROVE_LOCKING=y
+> > CONFIG_PROVE_RAW_LOCK_NESTING=y
+> > CONFIG_PROVE_RCU=y
+> >
+> > As part of the baseline I observed the following:
+> 
+> On a very quick guess I'd bet on the drm_client conversion for i915 to
+> have broken something here. Adding more people.
 
-On 11/07/25 10:22, Christian König wrote:
-> 
-> 
-> On 08.07.25 15:25, Maíra Canal wrote:
->> When the DRM scheduler times out, it's possible that the GPU isn't hung;
->> instead, a job just took unusually long (longer than the timeout) but is
->> still running, and there is, thus, no reason to reset the hardware. This
->> can occur in two scenarios:
->>
->>    1. The job is taking longer than the timeout, but the driver determined
->>       through a GPU-specific mechanism that the hardware is still making
->>       progress. Hence, the driver would like the scheduler to skip the
->>       timeout and treat the job as still pending from then onward. This
->>       happens in v3d, Etnaviv, and Xe.
->>    2. Timeout has fired before the free-job worker. Consequently, the
->>       scheduler calls `sched->ops->timedout_job()` for a job that isn't
->>       timed out.
->>
->> These two scenarios are problematic because the job was removed from the
->> `sched->pending_list` before calling `sched->ops->timedout_job()`, which
->> means that when the job finishes, it won't be freed by the scheduler
->> though `sched->ops->free_job()` - leading to a memory leak.
-> 
-> Yeah, that is unfortunately intentional.
-> 
->> To solve these problems, create a new `drm_gpu_sched_stat`, called
->> DRM_GPU_SCHED_STAT_NO_HANG, which allows a driver to skip the reset. The
->> new status will indicate that the job must be reinserted into
->> `sched->pending_list`, and the hardware / driver will still complete that
->> job.
-> 
-> Well long story short we have already tried this and the whole approach doesn't work correctly in all cases. See the git history around how we used to destroy the jobs.
-> 
-> The basic problem is that you can always race between timing out and Signaling/destroying the job. This is the long lasting job lifetime issue we already discussed more than once.
+Looks to me like it's simply due to this code in radeon:
 
-I do understand that we have a race between timing out and signaling the
-job. However, I believe we are taking measures to mitigate issues.
+radeon_suspend_kms(...)
+{
+	...
+        if (notify_clients) {
+                console_lock();
+                drm_client_dev_suspend(dev, true);
+                console_unlock();
+	}
+	...
+}
 
-We are re-adding the job to the pending list (after it was removed in
-the beginning of the timeout, so we aren't running with
-drm_sched_get_finished_job()) and right after, the scheduler enqueues
-the free-job work again if ready, which guarantees that if a signaled
-job could be added to the pending list, it'll be freed.
+> -Sima
+> 
+> 
+> >
+> > Jul 10 16:12:52 qca-HP-ZBook-14-G2 kernel: ======================================================
+> > Jul 10 16:12:52 qca-HP-ZBook-14-G2 kernel: WARNING: possible circular locking dependency detected
+> > Jul 10 16:12:52 qca-HP-ZBook-14-G2 kernel: 6.16.0-rc5+ #6 Not tainted
+> > Jul 10 16:12:52 qca-HP-ZBook-14-G2 kernel: ------------------------------------------------------
+> > Jul 10 16:12:52 qca-HP-ZBook-14-G2 kernel: kworker/u16:13/3787 is trying to acquire lock:
+> > Jul 10 16:12:52 qca-HP-ZBook-14-G2 kernel: ffff8881113e0308 (&dev->clientlist_mutex){+.+.}-{4:4}, at: drm_client_dev_suspend+0x37/0x250 [drm]
+> > Jul 10 16:12:52 qca-HP-ZBook-14-G2 kernel:
+> >                                            but task is already holding lock:
+> > Jul 10 16:12:52 qca-HP-ZBook-14-G2 kernel: ffffffff8a2e4b80 (console_lock){+.+.}-{0:0}, at: radeon_suspend_kms+0x63b/0x7d0 [radeon]
+> > Jul 10 16:12:52 qca-HP-ZBook-14-G2 kernel:
+> >                                            which lock already depends on the new lock.
+> > Jul 10 16:12:52 qca-HP-ZBook-14-G2 kernel:
+> >                                            the existing dependency chain (in reverse order) is:
+> > Jul 10 16:12:52 qca-HP-ZBook-14-G2 kernel:
+> >                                            -> #1 (console_lock){+.+.}-{0:0}:
+> > Jul 10 16:12:52 qca-HP-ZBook-14-G2 kernel:        console_lock+0x8d/0x130
+> > Jul 10 16:12:52 qca-HP-ZBook-14-G2 kernel:        drm_fb_helper_set_suspend_unlocked+0x10e/0x200 [drm_kms_helper]
+> > Jul 10 16:12:52 qca-HP-ZBook-14-G2 kernel:        drm_fbdev_client_suspend+0x24/0x30 [drm_client_lib]
+> > Jul 10 16:12:52 qca-HP-ZBook-14-G2 kernel:        drm_client_dev_suspend+0x138/0x250 [drm]
+> > Jul 10 16:12:52 qca-HP-ZBook-14-G2 kernel:        i915_drm_suspend.isra.0+0x74/0x260 [i915]
+> > Jul 10 16:12:52 qca-HP-ZBook-14-G2 kernel:        i915_pm_suspend+0x6b/0x90 [i915]
+> > Jul 10 16:12:52 qca-HP-ZBook-14-G2 kernel:        pci_pm_suspend+0x1e3/0x4f0
+> > Jul 10 16:12:52 qca-HP-ZBook-14-G2 kernel:        dpm_run_callback+0xa0/0x100
+> > Jul 10 16:12:52 qca-HP-ZBook-14-G2 kernel:        device_suspend+0x41e/0xdc0
+> > Jul 10 16:12:52 qca-HP-ZBook-14-G2 kernel:        async_suspend+0x1d/0x30
+> > Jul 10 16:12:52 qca-HP-ZBook-14-G2 kernel:        async_run_entry_fn+0x96/0x3e0
+> > Jul 10 16:12:52 qca-HP-ZBook-14-G2 kernel:        process_one_work+0x86e/0x14b0
+> > Jul 10 16:12:52 qca-HP-ZBook-14-G2 kernel:        worker_thread+0x5d0/0xfc0
+> > Jul 10 16:12:52 qca-HP-ZBook-14-G2 kernel:        kthread+0x375/0x750
+> > Jul 10 16:12:52 qca-HP-ZBook-14-G2 kernel:        ret_from_fork+0x215/0x2f0
+> > Jul 10 16:12:52 qca-HP-ZBook-14-G2 kernel:        ret_from_fork_asm+0x1a/0x30
+> > Jul 10 16:12:52 qca-HP-ZBook-14-G2 kernel:
+> >                                            -> #0 (&dev->clientlist_mutex){+.+.}-{4:4}:
+> > Jul 10 16:12:52 qca-HP-ZBook-14-G2 kernel:        __lock_acquire+0x15b5/0x2ac0
+> > Jul 10 16:12:52 qca-HP-ZBook-14-G2 kernel:        lock_acquire+0x154/0x2d0
+> > Jul 10 16:12:52 qca-HP-ZBook-14-G2 kernel:        __mutex_lock+0x15f/0x12c0
+> > Jul 10 16:12:52 qca-HP-ZBook-14-G2 kernel:        drm_client_dev_suspend+0x37/0x250 [drm]
+> > Jul 10 16:12:52 qca-HP-ZBook-14-G2 kernel:        radeon_suspend_kms+0x648/0x7d0 [radeon]
+> > Jul 10 16:12:52 qca-HP-ZBook-14-G2 kernel:        pci_pm_suspend+0x1e3/0x4f0
+> > Jul 10 16:12:52 qca-HP-ZBook-14-G2 kernel:        dpm_run_callback+0xa0/0x100
+> > Jul 10 16:12:52 qca-HP-ZBook-14-G2 kernel:        device_suspend+0x41e/0xdc0
+> > Jul 10 16:12:52 qca-HP-ZBook-14-G2 kernel:        async_suspend+0x1d/0x30
+> > Jul 10 16:12:52 qca-HP-ZBook-14-G2 kernel:        async_run_entry_fn+0x96/0x3e0
+> > Jul 10 16:12:52 qca-HP-ZBook-14-G2 kernel:        process_one_work+0x86e/0x14b0
+> > Jul 10 16:12:52 qca-HP-ZBook-14-G2 kernel:        worker_thread+0x5d0/0xfc0
+> > Jul 10 16:12:52 qca-HP-ZBook-14-G2 kernel:        kthread+0x375/0x750
+> > Jul 10 16:12:52 qca-HP-ZBook-14-G2 kernel:        ret_from_fork+0x215/0x2f0
+> > Jul 10 16:12:52 qca-HP-ZBook-14-G2 kernel:        ret_from_fork_asm+0x1a/0x30
+> > Jul 10 16:12:52 qca-HP-ZBook-14-G2 kernel:
+> >                                            other info that might help us debug this:
+> > Jul 10 16:12:52 qca-HP-ZBook-14-G2 kernel:  Possible unsafe locking scenario:
+> > Jul 10 16:12:52 qca-HP-ZBook-14-G2 kernel:        CPU0                    CPU1
+> > Jul 10 16:12:52 qca-HP-ZBook-14-G2 kernel:        ----                    ----
+> > Jul 10 16:12:52 qca-HP-ZBook-14-G2 kernel:   lock(console_lock);
+> > Jul 10 16:12:52 qca-HP-ZBook-14-G2 kernel:                                lock(&dev->clientlist_mutex);
+> > Jul 10 16:12:52 qca-HP-ZBook-14-G2 kernel:                                lock(console_lock);
+> > Jul 10 16:12:52 qca-HP-ZBook-14-G2 kernel:   lock(&dev->clientlist_mutex);
+> > Jul 10 16:12:52 qca-HP-ZBook-14-G2 kernel:
+> >                                             *** DEADLOCK ***
+> > Jul 10 16:12:52 qca-HP-ZBook-14-G2 kernel: 4 locks held by kworker/u16:13/3787:
+> > Jul 10 16:12:52 qca-HP-ZBook-14-G2 kernel:  #0: ffff888100dee148 ((wq_completion)async){+.+.}-{0:0}, at: process_one_work+0xe97/0x14b0
+> > Jul 10 16:12:52 qca-HP-ZBook-14-G2 kernel:  #1: ffff88813f22fd30 ((work_completion)(&entry->work)){+.+.}-{0:0}, at: process_one_work+0x7f6/0x14b0
+> > Jul 10 16:12:52 qca-HP-ZBook-14-G2 kernel:  #2: ffff8881049241b0 (&dev->mutex){....}-{4:4}, at: device_suspend+0x3bd/0xdc0
+> > Jul 10 16:12:52 qca-HP-ZBook-14-G2 kernel:  #3: ffffffff8a2e4b80 (console_lock){+.+.}-{0:0}, at: radeon_suspend_kms+0x63b/0x7d0 [radeon]
+> > Jul 10 16:12:52 qca-HP-ZBook-14-G2 kernel:
+> >                                            stack backtrace:
+> > Jul 10 16:12:52 qca-HP-ZBook-14-G2 kernel: CPU: 0 UID: 0 PID: 3787 Comm: kworker/u16:13 Not tainted 6.16.0-rc5+ #6 PREEMPT(voluntary)
+> > Jul 10 16:12:52 qca-HP-ZBook-14-G2 kernel: Hardware name: Hewlett-Packard HP ZBook 14 G2/2216, BIOS M71 Ver. 01.31 02/24/2020
+> > Jul 10 16:12:52 qca-HP-ZBook-14-G2 kernel: Workqueue: async async_run_entry_fn
+> > Jul 10 16:12:52 qca-HP-ZBook-14-G2 kernel: Call Trace:
+> > Jul 10 16:12:52 qca-HP-ZBook-14-G2 kernel:  <TASK>
+> > Jul 10 16:12:52 qca-HP-ZBook-14-G2 kernel:  dump_stack_lvl+0x5b/0x80
+> > Jul 10 16:12:52 qca-HP-ZBook-14-G2 kernel:  print_circular_bug.cold+0x178/0x1be
+> > Jul 10 16:12:52 qca-HP-ZBook-14-G2 kernel:  check_noncircular+0x130/0x150
+> > Jul 10 16:12:52 qca-HP-ZBook-14-G2 kernel:  ? 0xffffffffc1600000
+> > Jul 10 16:12:52 qca-HP-ZBook-14-G2 kernel:  ? radeon_suspend_kms+0x63b/0x7d0 [radeon]
+> > Jul 10 16:12:52 qca-HP-ZBook-14-G2 kernel:  __lock_acquire+0x15b5/0x2ac0
+> > Jul 10 16:12:52 qca-HP-ZBook-14-G2 kernel:  lock_acquire+0x154/0x2d0
+> > Jul 10 16:12:52 qca-HP-ZBook-14-G2 kernel:  ? drm_client_dev_suspend+0x37/0x250 [drm]
+> > Jul 10 16:12:52 qca-HP-ZBook-14-G2 kernel:  ? __pfx_stack_trace_save+0x10/0x10
+> > Jul 10 16:12:52 qca-HP-ZBook-14-G2 kernel:  ? acpi_ut_release_mutex+0xba/0x150
+> > Jul 10 16:12:52 qca-HP-ZBook-14-G2 kernel:  __mutex_lock+0x15f/0x12c0
+> > Jul 10 16:12:52 qca-HP-ZBook-14-G2 kernel:  ? drm_client_dev_suspend+0x37/0x250 [drm]
+> > Jul 10 16:12:52 qca-HP-ZBook-14-G2 kernel:  ? drm_client_dev_suspend+0x37/0x250 [drm]
+> > Jul 10 16:12:52 qca-HP-ZBook-14-G2 kernel:  ? add_lock_to_list+0x2c/0x1b0
+> > Jul 10 16:12:52 qca-HP-ZBook-14-G2 kernel:  ? __pfx___mutex_lock+0x10/0x10
+> > Jul 10 16:12:52 qca-HP-ZBook-14-G2 kernel:  ? lock_acquire+0x154/0x2d0
+> > Jul 10 16:12:52 qca-HP-ZBook-14-G2 kernel:  ? radeon_suspend_kms+0x63b/0x7d0 [radeon]
+> > Jul 10 16:12:52 qca-HP-ZBook-14-G2 kernel:  ? drm_client_dev_suspend+0x37/0x250 [drm]
+> > Jul 10 16:12:52 qca-HP-ZBook-14-G2 kernel:  drm_client_dev_suspend+0x37/0x250 [drm]
+> > Jul 10 16:12:52 qca-HP-ZBook-14-G2 kernel:  radeon_suspend_kms+0x648/0x7d0 [radeon]
+> > Jul 10 16:12:52 qca-HP-ZBook-14-G2 kernel:  ? __pfx_radeon_pmops_suspend+0x10/0x10 [radeon]
+> > Jul 10 16:12:52 qca-HP-ZBook-14-G2 kernel:  pci_pm_suspend+0x1e3/0x4f0
+> > Jul 10 16:12:52 qca-HP-ZBook-14-G2 kernel:  ? __pfx_pci_pm_suspend+0x10/0x10
+> > Jul 10 16:12:52 qca-HP-ZBook-14-G2 kernel:  dpm_run_callback+0xa0/0x100
+> > Jul 10 16:12:52 qca-HP-ZBook-14-G2 kernel:  ? __pfx_dpm_run_callback+0x10/0x10
+> > Jul 10 16:12:52 qca-HP-ZBook-14-G2 kernel:  device_suspend+0x41e/0xdc0
+> > Jul 10 16:12:52 qca-HP-ZBook-14-G2 kernel:  ? __pfx_device_suspend+0x10/0x10
+> > Jul 10 16:12:52 qca-HP-ZBook-14-G2 kernel:  ? __pfx_async_suspend+0x10/0x10
+> > Jul 10 16:12:52 qca-HP-ZBook-14-G2 kernel:  async_suspend+0x1d/0x30
+> > Jul 10 16:12:52 qca-HP-ZBook-14-G2 kernel:  async_run_entry_fn+0x96/0x3e0
+> > Jul 10 16:12:52 qca-HP-ZBook-14-G2 kernel:  process_one_work+0x86e/0x14b0
+> > Jul 10 16:12:52 qca-HP-ZBook-14-G2 kernel:  ? __pfx_process_one_work+0x10/0x10
+> > Jul 10 16:12:52 qca-HP-ZBook-14-G2 kernel:  ? assign_work+0x16c/0x240
+> > Jul 10 16:12:52 qca-HP-ZBook-14-G2 kernel:  worker_thread+0x5d0/0xfc0
+> > Jul 10 16:12:52 qca-HP-ZBook-14-G2 kernel:  ? __pfx_worker_thread+0x10/0x10
+> > Jul 10 16:12:52 qca-HP-ZBook-14-G2 kernel:  kthread+0x375/0x750
+> > Jul 10 16:12:52 qca-HP-ZBook-14-G2 kernel:  ? __pfx_kthread+0x10/0x10
+> > Jul 10 16:12:52 qca-HP-ZBook-14-G2 kernel:  ? ret_from_fork+0x1f/0x2f0
+> > Jul 10 16:12:52 qca-HP-ZBook-14-G2 kernel:  ? lock_release+0xc6/0x2a0
+> > Jul 10 16:12:52 qca-HP-ZBook-14-G2 kernel:  ? __pfx_kthread+0x10/0x10
+> > Jul 10 16:12:52 qca-HP-ZBook-14-G2 kernel:  ret_from_fork+0x215/0x2f0
+> > Jul 10 16:12:52 qca-HP-ZBook-14-G2 kernel:  ? __pfx_kthread+0x10/0x10
+> > Jul 10 16:12:52 qca-HP-ZBook-14-G2 kernel:  ret_from_fork_asm+0x1a/0x30
+> > Jul 10 16:12:52 qca-HP-ZBook-14-G2 kernel:  </TASK>
+> >
+> > This doesn't seem to be the cause of the ath12k issue I'm debugging,
+> > but thought it worth mentioning since I only see one similar report
+> > on lore, and that didn't have any apparent follow-up:
+> > https://lore.kernel.org/all/20250202161048.373f89c0@yea/
+> >
+> > /jeff
+> 
+> --
+> Simona Vetter
+> Software Engineer, Intel Corporation
+> http://blog.ffwll.ch
 
-Now, the drivers have the option to bail out of a reset if the timeout
-has fired before the free-job worker, and most importantly, without
-leaks.
-
-Apart from that, +1 to Philipp's answer. This series is just
-incorporating a common use-case to the scheduler's code (which we work
-to improve later on) and it's use isn't mandatory by the drivers.
-
-Best Regards,
-- Maíra
-
-> 
-> If you want to fix this I think the correct approach is to completely drop tracking jobs in the scheduler at all.
-> 
-> Instead we should track the HW fences (or maybe the scheduler fences which point to the HW fence) the scheduler waits for.
-> 
-> This HW fence is then given as a parameter to the driver when we run into a timeout.
-> 
-> This has the clear advantage that dma_fence objects have a well defined livetime and necessary state transition. E.g. you can check at all times if the fence is signaled or not.
-> 
-> Regards,
-> Christian.
-> 
->>   
->> Signed-off-by: Maíra Canal <mcanal@igalia.com>
->> ---
->>   drivers/gpu/drm/scheduler/sched_main.c | 46 ++++++++++++++++++++++++++++++++--
->>   include/drm/gpu_scheduler.h            |  3 +++
->>   2 files changed, 47 insertions(+), 2 deletions(-)
->>
->> diff --git a/drivers/gpu/drm/scheduler/sched_main.c b/drivers/gpu/drm/scheduler/sched_main.c
->> index 0f32e2cb43d6af294408968a970990f9f5c47bee..657846d56dacd4f26fffc954fc3d025c1e6bfc9f 100644
->> --- a/drivers/gpu/drm/scheduler/sched_main.c
->> +++ b/drivers/gpu/drm/scheduler/sched_main.c
->> @@ -374,11 +374,16 @@ static void drm_sched_run_free_queue(struct drm_gpu_scheduler *sched)
->>   {
->>   	struct drm_sched_job *job;
->>   
->> -	spin_lock(&sched->job_list_lock);
->>   	job = list_first_entry_or_null(&sched->pending_list,
->>   				       struct drm_sched_job, list);
->>   	if (job && dma_fence_is_signaled(&job->s_fence->finished))
->>   		__drm_sched_run_free_queue(sched);
->> +}
->> +
->> +static void drm_sched_run_free_queue_unlocked(struct drm_gpu_scheduler *sched)
->> +{
->> +	spin_lock(&sched->job_list_lock);
->> +	drm_sched_run_free_queue(sched);
->>   	spin_unlock(&sched->job_list_lock);
->>   }
->>   
->> @@ -531,6 +536,32 @@ static void drm_sched_job_begin(struct drm_sched_job *s_job)
->>   	spin_unlock(&sched->job_list_lock);
->>   }
->>   
->> +/**
->> + * drm_sched_job_reinsert_on_false_timeout - reinsert the job on a false timeout
->> + * @sched: scheduler instance
->> + * @job: job to be reinserted on the pending list
->> + *
->> + * In the case of a "false timeout" - when a timeout occurs but the GPU isn't
->> + * hung and is making progress, the scheduler must reinsert the job back into
->> + * @sched->pending_list. Otherwise, the job and its resources won't be freed
->> + * through the &struct drm_sched_backend_ops.free_job callback.
->> + *
->> + * This function must be used in "false timeout" cases only.
->> + */
->> +static void drm_sched_job_reinsert_on_false_timeout(struct drm_gpu_scheduler *sched,
->> +						    struct drm_sched_job *job)
->> +{
->> +	spin_lock(&sched->job_list_lock);
->> +	list_add(&job->list, &sched->pending_list);
->> +
->> +	/* After reinserting the job, the scheduler enqueues the free-job work
->> +	 * again if ready. Otherwise, a signaled job could be added to the
->> +	 * pending list, but never freed.
->> +	 */
->> +	drm_sched_run_free_queue(sched);
->> +	spin_unlock(&sched->job_list_lock);
->> +}
->> +
->>   static void drm_sched_job_timedout(struct work_struct *work)
->>   {
->>   	struct drm_gpu_scheduler *sched;
->> @@ -564,6 +595,9 @@ static void drm_sched_job_timedout(struct work_struct *work)
->>   			job->sched->ops->free_job(job);
->>   			sched->free_guilty = false;
->>   		}
->> +
->> +		if (status == DRM_GPU_SCHED_STAT_NO_HANG)
->> +			drm_sched_job_reinsert_on_false_timeout(sched, job);
->>   	} else {
->>   		spin_unlock(&sched->job_list_lock);
->>   	}
->> @@ -586,6 +620,10 @@ static void drm_sched_job_timedout(struct work_struct *work)
->>    * This function is typically used for reset recovery (see the docu of
->>    * drm_sched_backend_ops.timedout_job() for details). Do not call it for
->>    * scheduler teardown, i.e., before calling drm_sched_fini().
->> + *
->> + * As it's only used for reset recovery, drivers must not call this function
->> + * in their &struct drm_sched_backend_ops.timedout_job callback when they
->> + * skip a reset using &enum drm_gpu_sched_stat.DRM_GPU_SCHED_STAT_NO_HANG.
->>    */
->>   void drm_sched_stop(struct drm_gpu_scheduler *sched, struct drm_sched_job *bad)
->>   {
->> @@ -671,6 +709,10 @@ EXPORT_SYMBOL(drm_sched_stop);
->>    * drm_sched_backend_ops.timedout_job() for details). Do not call it for
->>    * scheduler startup. The scheduler itself is fully operational after
->>    * drm_sched_init() succeeded.
->> + *
->> + * As it's only used for reset recovery, drivers must not call this function
->> + * in their &struct drm_sched_backend_ops.timedout_job callback when they
->> + * skip a reset using &enum drm_gpu_sched_stat.DRM_GPU_SCHED_STAT_NO_HANG.
->>    */
->>   void drm_sched_start(struct drm_gpu_scheduler *sched, int errno)
->>   {
->> @@ -1192,7 +1234,7 @@ static void drm_sched_free_job_work(struct work_struct *w)
->>   	if (job)
->>   		sched->ops->free_job(job);
->>   
->> -	drm_sched_run_free_queue(sched);
->> +	drm_sched_run_free_queue_unlocked(sched);
->>   	drm_sched_run_job_queue(sched);
->>   }
->>   
->> diff --git a/include/drm/gpu_scheduler.h b/include/drm/gpu_scheduler.h
->> index 83e5c00d8dd9a83ab20547a93d6fc572de97616e..257d21d8d1d2c4f035d6d4882e159de59b263c76 100644
->> --- a/include/drm/gpu_scheduler.h
->> +++ b/include/drm/gpu_scheduler.h
->> @@ -393,11 +393,14 @@ struct drm_sched_job {
->>    * @DRM_GPU_SCHED_STAT_NONE: Reserved. Do not use.
->>    * @DRM_GPU_SCHED_STAT_RESET: The GPU hung and successfully reset.
->>    * @DRM_GPU_SCHED_STAT_ENODEV: Error: Device is not available anymore.
->> + * @DRM_GPU_SCHED_STAT_NO_HANG: Contrary to scheduler's assumption, the GPU
->> + * did not hang and is still running.
->>    */
->>   enum drm_gpu_sched_stat {
->>   	DRM_GPU_SCHED_STAT_NONE,
->>   	DRM_GPU_SCHED_STAT_RESET,
->>   	DRM_GPU_SCHED_STAT_ENODEV,
->> +	DRM_GPU_SCHED_STAT_NO_HANG,
->>   };
->>   
->>   /**
->>
-> 
-
+-- 
+Ville Syrj�l�
+Intel
