@@ -2,109 +2,76 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4F526B01726
-	for <lists+dri-devel@lfdr.de>; Fri, 11 Jul 2025 11:04:40 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 362CCB0173A
+	for <lists+dri-devel@lfdr.de>; Fri, 11 Jul 2025 11:08:20 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id DB9DB10E9D7;
-	Fri, 11 Jul 2025 09:04:37 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0BBD110E9D9;
+	Fri, 11 Jul 2025 09:08:17 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; secure) header.d=ffwll.ch header.i=@ffwll.ch header.b="I2R+75rX";
+	dkim=pass (1024-bit key; secure) header.d=ffwll.ch header.i=@ffwll.ch header.b="NN7j0jT9";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-f54.google.com (mail-wm1-f54.google.com
- [209.85.128.54])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E316D10E9D6
- for <dri-devel@lists.freedesktop.org>; Fri, 11 Jul 2025 09:04:35 +0000 (UTC)
-Received: by mail-wm1-f54.google.com with SMTP id
- 5b1f17b1804b1-45363645a8eso13495815e9.1
- for <dri-devel@lists.freedesktop.org>; Fri, 11 Jul 2025 02:04:35 -0700 (PDT)
+Received: from mail-ot1-f45.google.com (mail-ot1-f45.google.com
+ [209.85.210.45])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5B6FB10E9D8
+ for <dri-devel@lists.freedesktop.org>; Fri, 11 Jul 2025 09:08:15 +0000 (UTC)
+Received: by mail-ot1-f45.google.com with SMTP id
+ 46e09a7af769-73a44512c8aso508262a34.0
+ for <dri-devel@lists.freedesktop.org>; Fri, 11 Jul 2025 02:08:15 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=ffwll.ch; s=google; t=1752224674; x=1752829474; darn=lists.freedesktop.org; 
- h=in-reply-to:content-disposition:mime-version:references
- :mail-followup-to:message-id:subject:cc:to:from:date:from:to:cc
- :subject:date:message-id:reply-to;
- bh=azkWYqIfD0IX3c6trMXIH2mHQXBlbPclhfsws1MJpdM=;
- b=I2R+75rXhrFUB7omrs5dUnaGe5fGJUfl3RdC0dI441c36/7yj/BIqlwg+5GKLFDyJc
- fc/ToCArokVYnzmQ+sPIo2zRs/u2USOtPciK6Ji78xkOZ4O8HuCNtzf6JBC+4XnYHwWU
- VM7mdIE96u0Cz2TTnXZu/18tTTTOCUdsB1n+c=
+ d=ffwll.ch; s=google; t=1752224894; x=1752829694; darn=lists.freedesktop.org; 
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:from:to:cc:subject:date:message-id:reply-to;
+ bh=/XXJJhy+U3k5gvxPpccx42pN94/IU5yQe/HPwiapn7A=;
+ b=NN7j0jT9NOFmD45Ok9eetFPKc2qAFB/E9zpBmwSi5E1yl+uuh/E7tLhh0IIzwmcPtE
+ HK/OP2Wsj8TMycXqH6HZYQzeQ0wS08MnVpVZaiKRjKPsqxTdJe+/dDmjbTXu4CpFqgPD
+ FHBrUmAiu8jufXem7lG0s7d/+2iyh62X3sOqs=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1752224674; x=1752829474;
- h=in-reply-to:content-disposition:mime-version:references
- :mail-followup-to:message-id:subject:cc:to:from:date
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=azkWYqIfD0IX3c6trMXIH2mHQXBlbPclhfsws1MJpdM=;
- b=R3jvRemfd6Fwy35E/7SmU+s+VotMUATIN6GL5poGVkbTA2NI3jhHxmFR82PsVMt4Cm
- xvCoZaxQKt8I2B9XpTh6Qiy/2SwwcOmhgtwVLRcwCTXYhbZtN0RSj6eZP62kiv0oBfgP
- 3LRnnY0EkjIxdf6kpudFMoOwW0tX4zd/d4HewiCAEIJHjPWcc1lCx53YHKAJ62MAWRSy
- r011T1zC43fpc6tv+2vodLLojGEBSCdVYGNdRQopMFTUtPJ+0zjdjQIiYt88wDfwYQky
- Av9ruvnyjH4Lgc+QIZymHSRpnOGXh3FkGu+uSwmfKFX1hp1UNMRx1wOgfbvaaK5nbS9x
- 3tLw==
+ d=1e100.net; s=20230601; t=1752224894; x=1752829694;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=/XXJJhy+U3k5gvxPpccx42pN94/IU5yQe/HPwiapn7A=;
+ b=QGIhqKB4inRAGT8Y0IATKe54E6mtf/CA9ws+tNWB9BGMRqjbEr1BW+HKsxVHbAkrYW
+ dnkulfpENO9zxdlEmVFSgPT+hRH754ZOIJwVnZB1oJ8cSQQIfDhX3i0W9J/YVMIgmcqq
+ eQs42DMj5Frjlh1oZqheZlthTnipkFC8dgxmq6BEn6L84bh0qJgu3CVFpB4InwijfRjy
+ a4VLUBezdvZb+rdwova/SQ1xnz6ieEhO84v45I7sPq1OyL5bvmqo6bJyZjHdtcpERuro
+ KRFs3T4F/dzSmQDSQFopVbVjo2zMzY1RixufTkgGXgYXV2ZK5hYKJK2i5qGQv6mYHxY9
+ 8WAA==
 X-Forwarded-Encrypted: i=1;
- AJvYcCUjnjA31j8feGvaZxCMm6HoRAuA6IagjObLVXvlPc1XZoefbMtcklnejkdei0TrhnRQ+KmP2JltqFo=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YzxFDBQnRTtpxBWIBSZsZpRBimkwQYO73Jm+sMdeJItTFWlDfdo
- NsOnAjwtYZpJtuSUmf+nu1j9uqwF7M7jagYgS/WKBb7GR08ScuJAVEsemAu9Afv4YNY=
-X-Gm-Gg: ASbGnct8ASAUTgZhJj3s98lGYqUT2oYQlAoe/r5yxw/x7F9EuXhPjvDEL+CL3rBhffs
- NRlI5deP1UKfd1SM080qyjPRHQLR+nemwLtcSouvTk9nxHlKxHRdHxV7oKgVWDiQGYdfLAuPNUM
- 2Jffhs+w0juL8YZ+Kvcz7G84aIzsEJfhDyc2eVIYB3sbjJsW7peD0sYJRhrbBBq/JBy7gXqSm/q
- uupDQ0zduXKk+o/Vq5eskMuyZAJ0K4EcBT9YPDCUoekXL99vZBnFUdr83h6KRiVSu+g6EtFRlyd
- vNYg2zPJIigmW2DBMoqrdnr8j/VA8nBSFat0KxLqjLRwYzO6d98F6oBsAURkEATUNszvGWsaRk2
- Eo0BdFhyN5xW3XYybJdmtRYNGmYSyoUn7PA==
-X-Google-Smtp-Source: AGHT+IFGUXwZZxphgJZiWA8T7e58NqagXtzk90hoNDnBiUkxa4v1W5VvgPBRSAu+F+hnZton6PqeNA==
-X-Received: by 2002:a05:600c:6095:b0:453:c39:d0a7 with SMTP id
- 5b1f17b1804b1-454ec15a9fcmr17912895e9.5.1752224674202; 
- Fri, 11 Jul 2025 02:04:34 -0700 (PDT)
-Received: from phenom.ffwll.local ([2a02:168:57f4:0:5485:d4b2:c087:b497])
- by smtp.gmail.com with ESMTPSA id
- 5b1f17b1804b1-454dd55b1absm41564565e9.40.2025.07.11.02.04.33
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 11 Jul 2025 02:04:33 -0700 (PDT)
-Date: Fri, 11 Jul 2025 11:04:31 +0200
-From: Simona Vetter <simona.vetter@ffwll.ch>
-To: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-Cc: Christian Brauner <brauner@kernel.org>,
- "Paul E. McKenney" <paulmck@kernel.org>,
- Maarten Lankhorst <dev@lankhorst.se>,
- Natalie Vock <natalie.vock@gmx.de>, linux-kernel@vger.kernel.org,
- rcu@vger.kernel.org, cgroups@vger.kernel.org,
- dri-devel@lists.freedesktop.org, Frederic Weisbecker <frederic@kernel.org>,
- Neeraj Upadhyay <neeraj.upadhyay@kernel.org>,
- Joel Fernandes <joelagnelf@nvidia.com>,
- Josh Triplett <josh@joshtriplett.org>, Boqun Feng <boqun.feng@gmail.com>,
- Uladzislau Rezki <urezki@gmail.com>, Steven Rostedt <rostedt@goodmis.org>,
- Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
- Lai Jiangshan <jiangshanlai@gmail.com>,
- Zqiang <qiang.zhang@linux.dev>, Maxime Ripard <mripard@kernel.org>,
- Tejun Heo <tj@kernel.org>, Johannes Weiner <hannes@cmpxchg.org>,
- Michal =?iso-8859-1?Q?Koutn=FD?= <mkoutny@suse.com>
-Subject: Re: [PATCH v1 1/1] rculist: move list_for_each_rcu() to where it
- belongs
-Message-ID: <aHDTn5JgXOpiG_zd@phenom.ffwll.local>
-Mail-Followup-To: Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
- Christian Brauner <brauner@kernel.org>,
- "Paul E. McKenney" <paulmck@kernel.org>,
- Maarten Lankhorst <dev@lankhorst.se>,
- Natalie Vock <natalie.vock@gmx.de>, linux-kernel@vger.kernel.org,
- rcu@vger.kernel.org, cgroups@vger.kernel.org,
- dri-devel@lists.freedesktop.org,
- Frederic Weisbecker <frederic@kernel.org>,
- Neeraj Upadhyay <neeraj.upadhyay@kernel.org>,
- Joel Fernandes <joelagnelf@nvidia.com>,
- Josh Triplett <josh@joshtriplett.org>,
- Boqun Feng <boqun.feng@gmail.com>,
- Uladzislau Rezki <urezki@gmail.com>,
- Steven Rostedt <rostedt@goodmis.org>,
- Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
- Lai Jiangshan <jiangshanlai@gmail.com>,
- Zqiang <qiang.zhang@linux.dev>, Maxime Ripard <mripard@kernel.org>,
- Tejun Heo <tj@kernel.org>, Johannes Weiner <hannes@cmpxchg.org>,
- Michal =?iso-8859-1?Q?Koutn=FD?= <mkoutny@suse.com>
-References: <20250710121528.780875-1-andriy.shevchenko@linux.intel.com>
+ AJvYcCXoiOgCH2L7XCMw8DKvUW2T+Wxz/ld4hXSrMrJJwBqC/mRCMOk7lsNt/HmUZB7/t57P0PMUszNcI/k=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YxwAWBok4bpmWLHG8rYkUhAMqqvdhQl7fQ2kuNwy3UTWmX8IX6V
+ k8rh3+JjgWJlyLi9Lgq5mT8PPdg1GJl70m3YqA8HQiKAgL4S7aOS6eDWbfHTLE0xfKHl6VgImcD
+ ZtVqyqTZMPF2xGFZpjcvLE0GiR0erqaCN3pRXVU80Kg==
+X-Gm-Gg: ASbGncvCEfmWzMMxOxBmcWATRDwlIDwi0iQhuWHbCvqiZOQLNmDFhJZXIUhBXDItESb
+ n0tBsoiXizkWyrfDVx5KCgxwGQRjOyVacLgF0AcLdF/n0KCxHOkpl8W2mpz1KkND5klPYolMPX3
+ Qo2crqOZEg+fz1ETWWKgDS9nU8bOje2t90sZr22QPC64p0eX/7O7RwqZVQDqmn1E+KPLWWT7ofF
+ P9AZ1MktZG0Gq5w9a4zm6UeK24Jne9SgQztbEIDuLJjXds=
+X-Google-Smtp-Source: AGHT+IFcAouWMXXQM8B7V4KLQu1xy86l+CgTbd5aoZM72dZ/yi5Z4/4mq1o6lT3woytFmkQlDVSULy3tTQmzPTG2yOI=
+X-Received: by 2002:a05:6808:16a9:b0:40b:1597:b2d1 with SMTP id
+ 5614622812f47-4150e31e356mr2108092b6e.17.1752224894172; Fri, 11 Jul 2025
+ 02:08:14 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20250710121528.780875-1-andriy.shevchenko@linux.intel.com>
-X-Operating-System: Linux phenom 6.12.30-amd64 
+References: <0a087cfd-bd4c-48f1-aa2f-4a3b12593935@oss.qualcomm.com>
+In-Reply-To: <0a087cfd-bd4c-48f1-aa2f-4a3b12593935@oss.qualcomm.com>
+From: Simona Vetter <simona.vetter@ffwll.ch>
+Date: Fri, 11 Jul 2025 11:08:03 +0200
+X-Gm-Features: Ac12FXy4nqEh1oT4fQDEt08bX866kDDeTYEZ2441A8ZY1XxQ_jSXmu0yOuXQu58
+Message-ID: <CAKMK7uH7Hcviwyw2wZK=WVxcb4zBC+EKpsREhb4FHe_AxEi8gg@mail.gmail.com>
+Subject: Re: WARNING: possible circular locking dependency detected:
+ drm_client_dev_suspend() & radeon_suspend_kms()
+To: Jeff Johnson <jeff.johnson@oss.qualcomm.com>, 
+ "Nikula, Jani" <jani.nikula@linux.intel.com>, "Vivi,
+ Rodrigo" <rodrigo.vivi@intel.com>
+Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, 
+ Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
+ Simona Vetter <simona@ffwll.ch>, Alex Deucher <alexander.deucher@amd.com>,
+ =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>, 
+ dri-devel@lists.freedesktop.org, linux-kernel <linux-kernel@vger.kernel.org>, 
+ Linux AMDGPU <amd-gfx@lists.freedesktop.org>
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -120,85 +87,147 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, Jul 10, 2025 at 03:15:28PM +0300, Andy Shevchenko wrote:
-> The list_for_each_rcu() relies on the rcu_dereference() API which is not
-> provided by the list.h. At the same time list.h is a low-level basic header
-> that must not have dependencies like RCU, besides the fact of the potential
-> circular dependencies in some cases. With all that said, move RCU related
-> API to the rculist.h where it belongs.
-> 
-> Signed-off-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+On Thu, Jul 10, 2025 at 04:43:02PM -0700, Jeff Johnson wrote:
+> I'm trying to debug a hibernation issue with the ath12k driver, but to
+> establish a baseline I started with Linus' current tree. I have the following
+> enabled in my .config:
+>
+> CONFIG_PROVE_LOCKING=y
+> CONFIG_PROVE_RAW_LOCK_NESTING=y
+> CONFIG_PROVE_RCU=y
+>
+> As part of the baseline I observed the following:
 
-Reviewed-by: Simona Vetter <simona.vetter@ffwll.ch>
-
-Also ack for the dmem part for merging through your tree.
+On a very quick guess I'd bet on the drm_client conversion for i915 to
+have broken something here. Adding more people.
 -Sima
 
-> ---
->  include/linux/list.h    | 10 ----------
->  include/linux/rculist.h | 10 ++++++++++
->  kernel/cgroup/dmem.c    |  1 +
->  3 files changed, 11 insertions(+), 10 deletions(-)
-> 
-> diff --git a/include/linux/list.h b/include/linux/list.h
-> index e7e28afd28f8..e7bdad9b8618 100644
-> --- a/include/linux/list.h
-> +++ b/include/linux/list.h
-> @@ -686,16 +686,6 @@ static inline void list_splice_tail_init(struct list_head *list,
->  #define list_for_each(pos, head) \
->  	for (pos = (head)->next; !list_is_head(pos, (head)); pos = pos->next)
->  
-> -/**
-> - * list_for_each_rcu - Iterate over a list in an RCU-safe fashion
-> - * @pos:	the &struct list_head to use as a loop cursor.
-> - * @head:	the head for your list.
-> - */
-> -#define list_for_each_rcu(pos, head)		  \
-> -	for (pos = rcu_dereference((head)->next); \
-> -	     !list_is_head(pos, (head)); \
-> -	     pos = rcu_dereference(pos->next))
-> -
->  /**
->   * list_for_each_continue - continue iteration over a list
->   * @pos:	the &struct list_head to use as a loop cursor.
-> diff --git a/include/linux/rculist.h b/include/linux/rculist.h
-> index 1b11926ddd47..2abba7552605 100644
-> --- a/include/linux/rculist.h
-> +++ b/include/linux/rculist.h
-> @@ -42,6 +42,16 @@ static inline void INIT_LIST_HEAD_RCU(struct list_head *list)
->   */
->  #define list_bidir_prev_rcu(list) (*((struct list_head __rcu **)(&(list)->prev)))
->  
-> +/**
-> + * list_for_each_rcu - Iterate over a list in an RCU-safe fashion
-> + * @pos:	the &struct list_head to use as a loop cursor.
-> + * @head:	the head for your list.
-> + */
-> +#define list_for_each_rcu(pos, head)		  \
-> +	for (pos = rcu_dereference((head)->next); \
-> +	     !list_is_head(pos, (head)); \
-> +	     pos = rcu_dereference(pos->next))
-> +
->  /**
->   * list_tail_rcu - returns the prev pointer of the head of the list
->   * @head: the head of the list
-> diff --git a/kernel/cgroup/dmem.c b/kernel/cgroup/dmem.c
-> index 10b63433f057..e12b946278b6 100644
-> --- a/kernel/cgroup/dmem.c
-> +++ b/kernel/cgroup/dmem.c
-> @@ -14,6 +14,7 @@
->  #include <linux/mutex.h>
->  #include <linux/page_counter.h>
->  #include <linux/parser.h>
-> +#include <linux/rculist.h>
->  #include <linux/slab.h>
->  
->  struct dmem_cgroup_region {
-> -- 
-> 2.47.2
-> 
 
--- 
+>
+> Jul 10 16:12:52 qca-HP-ZBook-14-G2 kernel: ======================================================
+> Jul 10 16:12:52 qca-HP-ZBook-14-G2 kernel: WARNING: possible circular locking dependency detected
+> Jul 10 16:12:52 qca-HP-ZBook-14-G2 kernel: 6.16.0-rc5+ #6 Not tainted
+> Jul 10 16:12:52 qca-HP-ZBook-14-G2 kernel: ------------------------------------------------------
+> Jul 10 16:12:52 qca-HP-ZBook-14-G2 kernel: kworker/u16:13/3787 is trying to acquire lock:
+> Jul 10 16:12:52 qca-HP-ZBook-14-G2 kernel: ffff8881113e0308 (&dev->clientlist_mutex){+.+.}-{4:4}, at: drm_client_dev_suspend+0x37/0x250 [drm]
+> Jul 10 16:12:52 qca-HP-ZBook-14-G2 kernel:
+>                                            but task is already holding lock:
+> Jul 10 16:12:52 qca-HP-ZBook-14-G2 kernel: ffffffff8a2e4b80 (console_lock){+.+.}-{0:0}, at: radeon_suspend_kms+0x63b/0x7d0 [radeon]
+> Jul 10 16:12:52 qca-HP-ZBook-14-G2 kernel:
+>                                            which lock already depends on the new lock.
+> Jul 10 16:12:52 qca-HP-ZBook-14-G2 kernel:
+>                                            the existing dependency chain (in reverse order) is:
+> Jul 10 16:12:52 qca-HP-ZBook-14-G2 kernel:
+>                                            -> #1 (console_lock){+.+.}-{0:0}:
+> Jul 10 16:12:52 qca-HP-ZBook-14-G2 kernel:        console_lock+0x8d/0x130
+> Jul 10 16:12:52 qca-HP-ZBook-14-G2 kernel:        drm_fb_helper_set_suspend_unlocked+0x10e/0x200 [drm_kms_helper]
+> Jul 10 16:12:52 qca-HP-ZBook-14-G2 kernel:        drm_fbdev_client_suspend+0x24/0x30 [drm_client_lib]
+> Jul 10 16:12:52 qca-HP-ZBook-14-G2 kernel:        drm_client_dev_suspend+0x138/0x250 [drm]
+> Jul 10 16:12:52 qca-HP-ZBook-14-G2 kernel:        i915_drm_suspend.isra.0+0x74/0x260 [i915]
+> Jul 10 16:12:52 qca-HP-ZBook-14-G2 kernel:        i915_pm_suspend+0x6b/0x90 [i915]
+> Jul 10 16:12:52 qca-HP-ZBook-14-G2 kernel:        pci_pm_suspend+0x1e3/0x4f0
+> Jul 10 16:12:52 qca-HP-ZBook-14-G2 kernel:        dpm_run_callback+0xa0/0x100
+> Jul 10 16:12:52 qca-HP-ZBook-14-G2 kernel:        device_suspend+0x41e/0xdc0
+> Jul 10 16:12:52 qca-HP-ZBook-14-G2 kernel:        async_suspend+0x1d/0x30
+> Jul 10 16:12:52 qca-HP-ZBook-14-G2 kernel:        async_run_entry_fn+0x96/0x3e0
+> Jul 10 16:12:52 qca-HP-ZBook-14-G2 kernel:        process_one_work+0x86e/0x14b0
+> Jul 10 16:12:52 qca-HP-ZBook-14-G2 kernel:        worker_thread+0x5d0/0xfc0
+> Jul 10 16:12:52 qca-HP-ZBook-14-G2 kernel:        kthread+0x375/0x750
+> Jul 10 16:12:52 qca-HP-ZBook-14-G2 kernel:        ret_from_fork+0x215/0x2f0
+> Jul 10 16:12:52 qca-HP-ZBook-14-G2 kernel:        ret_from_fork_asm+0x1a/0x30
+> Jul 10 16:12:52 qca-HP-ZBook-14-G2 kernel:
+>                                            -> #0 (&dev->clientlist_mutex){+.+.}-{4:4}:
+> Jul 10 16:12:52 qca-HP-ZBook-14-G2 kernel:        __lock_acquire+0x15b5/0x2ac0
+> Jul 10 16:12:52 qca-HP-ZBook-14-G2 kernel:        lock_acquire+0x154/0x2d0
+> Jul 10 16:12:52 qca-HP-ZBook-14-G2 kernel:        __mutex_lock+0x15f/0x12c0
+> Jul 10 16:12:52 qca-HP-ZBook-14-G2 kernel:        drm_client_dev_suspend+0x37/0x250 [drm]
+> Jul 10 16:12:52 qca-HP-ZBook-14-G2 kernel:        radeon_suspend_kms+0x648/0x7d0 [radeon]
+> Jul 10 16:12:52 qca-HP-ZBook-14-G2 kernel:        pci_pm_suspend+0x1e3/0x4f0
+> Jul 10 16:12:52 qca-HP-ZBook-14-G2 kernel:        dpm_run_callback+0xa0/0x100
+> Jul 10 16:12:52 qca-HP-ZBook-14-G2 kernel:        device_suspend+0x41e/0xdc0
+> Jul 10 16:12:52 qca-HP-ZBook-14-G2 kernel:        async_suspend+0x1d/0x30
+> Jul 10 16:12:52 qca-HP-ZBook-14-G2 kernel:        async_run_entry_fn+0x96/0x3e0
+> Jul 10 16:12:52 qca-HP-ZBook-14-G2 kernel:        process_one_work+0x86e/0x14b0
+> Jul 10 16:12:52 qca-HP-ZBook-14-G2 kernel:        worker_thread+0x5d0/0xfc0
+> Jul 10 16:12:52 qca-HP-ZBook-14-G2 kernel:        kthread+0x375/0x750
+> Jul 10 16:12:52 qca-HP-ZBook-14-G2 kernel:        ret_from_fork+0x215/0x2f0
+> Jul 10 16:12:52 qca-HP-ZBook-14-G2 kernel:        ret_from_fork_asm+0x1a/0x30
+> Jul 10 16:12:52 qca-HP-ZBook-14-G2 kernel:
+>                                            other info that might help us debug this:
+> Jul 10 16:12:52 qca-HP-ZBook-14-G2 kernel:  Possible unsafe locking scenario:
+> Jul 10 16:12:52 qca-HP-ZBook-14-G2 kernel:        CPU0                    CPU1
+> Jul 10 16:12:52 qca-HP-ZBook-14-G2 kernel:        ----                    ----
+> Jul 10 16:12:52 qca-HP-ZBook-14-G2 kernel:   lock(console_lock);
+> Jul 10 16:12:52 qca-HP-ZBook-14-G2 kernel:                                lock(&dev->clientlist_mutex);
+> Jul 10 16:12:52 qca-HP-ZBook-14-G2 kernel:                                lock(console_lock);
+> Jul 10 16:12:52 qca-HP-ZBook-14-G2 kernel:   lock(&dev->clientlist_mutex);
+> Jul 10 16:12:52 qca-HP-ZBook-14-G2 kernel:
+>                                             *** DEADLOCK ***
+> Jul 10 16:12:52 qca-HP-ZBook-14-G2 kernel: 4 locks held by kworker/u16:13/3787:
+> Jul 10 16:12:52 qca-HP-ZBook-14-G2 kernel:  #0: ffff888100dee148 ((wq_completion)async){+.+.}-{0:0}, at: process_one_work+0xe97/0x14b0
+> Jul 10 16:12:52 qca-HP-ZBook-14-G2 kernel:  #1: ffff88813f22fd30 ((work_completion)(&entry->work)){+.+.}-{0:0}, at: process_one_work+0x7f6/0x14b0
+> Jul 10 16:12:52 qca-HP-ZBook-14-G2 kernel:  #2: ffff8881049241b0 (&dev->mutex){....}-{4:4}, at: device_suspend+0x3bd/0xdc0
+> Jul 10 16:12:52 qca-HP-ZBook-14-G2 kernel:  #3: ffffffff8a2e4b80 (console_lock){+.+.}-{0:0}, at: radeon_suspend_kms+0x63b/0x7d0 [radeon]
+> Jul 10 16:12:52 qca-HP-ZBook-14-G2 kernel:
+>                                            stack backtrace:
+> Jul 10 16:12:52 qca-HP-ZBook-14-G2 kernel: CPU: 0 UID: 0 PID: 3787 Comm: kworker/u16:13 Not tainted 6.16.0-rc5+ #6 PREEMPT(voluntary)
+> Jul 10 16:12:52 qca-HP-ZBook-14-G2 kernel: Hardware name: Hewlett-Packard HP ZBook 14 G2/2216, BIOS M71 Ver. 01.31 02/24/2020
+> Jul 10 16:12:52 qca-HP-ZBook-14-G2 kernel: Workqueue: async async_run_entry_fn
+> Jul 10 16:12:52 qca-HP-ZBook-14-G2 kernel: Call Trace:
+> Jul 10 16:12:52 qca-HP-ZBook-14-G2 kernel:  <TASK>
+> Jul 10 16:12:52 qca-HP-ZBook-14-G2 kernel:  dump_stack_lvl+0x5b/0x80
+> Jul 10 16:12:52 qca-HP-ZBook-14-G2 kernel:  print_circular_bug.cold+0x178/0x1be
+> Jul 10 16:12:52 qca-HP-ZBook-14-G2 kernel:  check_noncircular+0x130/0x150
+> Jul 10 16:12:52 qca-HP-ZBook-14-G2 kernel:  ? 0xffffffffc1600000
+> Jul 10 16:12:52 qca-HP-ZBook-14-G2 kernel:  ? radeon_suspend_kms+0x63b/0x7d0 [radeon]
+> Jul 10 16:12:52 qca-HP-ZBook-14-G2 kernel:  __lock_acquire+0x15b5/0x2ac0
+> Jul 10 16:12:52 qca-HP-ZBook-14-G2 kernel:  lock_acquire+0x154/0x2d0
+> Jul 10 16:12:52 qca-HP-ZBook-14-G2 kernel:  ? drm_client_dev_suspend+0x37/0x250 [drm]
+> Jul 10 16:12:52 qca-HP-ZBook-14-G2 kernel:  ? __pfx_stack_trace_save+0x10/0x10
+> Jul 10 16:12:52 qca-HP-ZBook-14-G2 kernel:  ? acpi_ut_release_mutex+0xba/0x150
+> Jul 10 16:12:52 qca-HP-ZBook-14-G2 kernel:  __mutex_lock+0x15f/0x12c0
+> Jul 10 16:12:52 qca-HP-ZBook-14-G2 kernel:  ? drm_client_dev_suspend+0x37/0x250 [drm]
+> Jul 10 16:12:52 qca-HP-ZBook-14-G2 kernel:  ? drm_client_dev_suspend+0x37/0x250 [drm]
+> Jul 10 16:12:52 qca-HP-ZBook-14-G2 kernel:  ? add_lock_to_list+0x2c/0x1b0
+> Jul 10 16:12:52 qca-HP-ZBook-14-G2 kernel:  ? __pfx___mutex_lock+0x10/0x10
+> Jul 10 16:12:52 qca-HP-ZBook-14-G2 kernel:  ? lock_acquire+0x154/0x2d0
+> Jul 10 16:12:52 qca-HP-ZBook-14-G2 kernel:  ? radeon_suspend_kms+0x63b/0x7d0 [radeon]
+> Jul 10 16:12:52 qca-HP-ZBook-14-G2 kernel:  ? drm_client_dev_suspend+0x37/0x250 [drm]
+> Jul 10 16:12:52 qca-HP-ZBook-14-G2 kernel:  drm_client_dev_suspend+0x37/0x250 [drm]
+> Jul 10 16:12:52 qca-HP-ZBook-14-G2 kernel:  radeon_suspend_kms+0x648/0x7d0 [radeon]
+> Jul 10 16:12:52 qca-HP-ZBook-14-G2 kernel:  ? __pfx_radeon_pmops_suspend+0x10/0x10 [radeon]
+> Jul 10 16:12:52 qca-HP-ZBook-14-G2 kernel:  pci_pm_suspend+0x1e3/0x4f0
+> Jul 10 16:12:52 qca-HP-ZBook-14-G2 kernel:  ? __pfx_pci_pm_suspend+0x10/0x10
+> Jul 10 16:12:52 qca-HP-ZBook-14-G2 kernel:  dpm_run_callback+0xa0/0x100
+> Jul 10 16:12:52 qca-HP-ZBook-14-G2 kernel:  ? __pfx_dpm_run_callback+0x10/0x10
+> Jul 10 16:12:52 qca-HP-ZBook-14-G2 kernel:  device_suspend+0x41e/0xdc0
+> Jul 10 16:12:52 qca-HP-ZBook-14-G2 kernel:  ? __pfx_device_suspend+0x10/0x10
+> Jul 10 16:12:52 qca-HP-ZBook-14-G2 kernel:  ? __pfx_async_suspend+0x10/0x10
+> Jul 10 16:12:52 qca-HP-ZBook-14-G2 kernel:  async_suspend+0x1d/0x30
+> Jul 10 16:12:52 qca-HP-ZBook-14-G2 kernel:  async_run_entry_fn+0x96/0x3e0
+> Jul 10 16:12:52 qca-HP-ZBook-14-G2 kernel:  process_one_work+0x86e/0x14b0
+> Jul 10 16:12:52 qca-HP-ZBook-14-G2 kernel:  ? __pfx_process_one_work+0x10/0x10
+> Jul 10 16:12:52 qca-HP-ZBook-14-G2 kernel:  ? assign_work+0x16c/0x240
+> Jul 10 16:12:52 qca-HP-ZBook-14-G2 kernel:  worker_thread+0x5d0/0xfc0
+> Jul 10 16:12:52 qca-HP-ZBook-14-G2 kernel:  ? __pfx_worker_thread+0x10/0x10
+> Jul 10 16:12:52 qca-HP-ZBook-14-G2 kernel:  kthread+0x375/0x750
+> Jul 10 16:12:52 qca-HP-ZBook-14-G2 kernel:  ? __pfx_kthread+0x10/0x10
+> Jul 10 16:12:52 qca-HP-ZBook-14-G2 kernel:  ? ret_from_fork+0x1f/0x2f0
+> Jul 10 16:12:52 qca-HP-ZBook-14-G2 kernel:  ? lock_release+0xc6/0x2a0
+> Jul 10 16:12:52 qca-HP-ZBook-14-G2 kernel:  ? __pfx_kthread+0x10/0x10
+> Jul 10 16:12:52 qca-HP-ZBook-14-G2 kernel:  ret_from_fork+0x215/0x2f0
+> Jul 10 16:12:52 qca-HP-ZBook-14-G2 kernel:  ? __pfx_kthread+0x10/0x10
+> Jul 10 16:12:52 qca-HP-ZBook-14-G2 kernel:  ret_from_fork_asm+0x1a/0x30
+> Jul 10 16:12:52 qca-HP-ZBook-14-G2 kernel:  </TASK>
+>
+> This doesn't seem to be the cause of the ath12k issue I'm debugging,
+> but thought it worth mentioning since I only see one similar report
+> on lore, and that didn't have any apparent follow-up:
+> https://lore.kernel.org/all/20250202161048.373f89c0@yea/
+>
+> /jeff
+
+--
 Simona Vetter
 Software Engineer, Intel Corporation
 http://blog.ffwll.ch
