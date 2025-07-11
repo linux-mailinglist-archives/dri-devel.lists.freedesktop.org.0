@@ -2,74 +2,74 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6A6D0B01860
-	for <lists+dri-devel@lfdr.de>; Fri, 11 Jul 2025 11:41:20 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4E0E3B01850
+	for <lists+dri-devel@lfdr.de>; Fri, 11 Jul 2025 11:41:08 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id CDBB610E9FC;
-	Fri, 11 Jul 2025 09:41:18 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 630F210EA12;
+	Fri, 11 Jul 2025 09:41:06 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=suse.de header.i=@suse.de header.b="cpcZxOxE";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="Fk6Et7fQ";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="cpcZxOxE";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="Fk6Et7fQ";
+	dkim=pass (1024-bit key; unprotected) header.d=suse.de header.i=@suse.de header.b="vKnRXOCt";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="jHw1WZq0";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="vKnRXOCt";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="jHw1WZq0";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 56DA910E9FC
- for <dri-devel@lists.freedesktop.org>; Fri, 11 Jul 2025 09:41:18 +0000 (UTC)
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 779DD10EA12
+ for <dri-devel@lists.freedesktop.org>; Fri, 11 Jul 2025 09:41:05 +0000 (UTC)
 Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
  (No client certificate requested)
- by smtp-out2.suse.de (Postfix) with ESMTPS id 949551F7EF;
- Fri, 11 Jul 2025 09:40:59 +0000 (UTC)
+ by smtp-out1.suse.de (Postfix) with ESMTPS id 270972123A;
+ Fri, 11 Jul 2025 09:41:00 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1752226859; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ t=1752226860; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
  mime-version:mime-version:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=ST8u8KPQnXtP/Yc8LIXXXDy1snhqPzR63shknjYxoWM=;
- b=cpcZxOxEG5riJ5HiSIZaGkyvZW3wYP91kO6rAKy23o0/ppLNA+x1MLR6G8muVY8GxJkNew
- 0v6DDdEdw8EaRgTBs4avl/uBl2P48vK0ljksbAmSWkRrCYy2XAoDRxanGA4RRl+b3+a0Nv
- +z77dbrCaUdZLHgTkmnRcGyK9vc5clM=
+ bh=zQEz/yZZ/WEnH1Lii4E7MonrpAU1Igfk5arQzloGwrc=;
+ b=vKnRXOCtwz3S2bvYpHk6WsT4NpiainibGja2mL758qi6KQmERttUCuvW4pnaD47ZL2MNx3
+ QZ7HTsnPgIZhSC9EEUULNm3crEZWkDxOWyeuwxsay8IucWPLqo/cmojzIw29fhatxcWpWn
+ l35E68vhuQPcSWXaqKH2bY/qltot9eA=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1752226859;
+ s=susede2_ed25519; t=1752226860;
  h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
  mime-version:mime-version:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=ST8u8KPQnXtP/Yc8LIXXXDy1snhqPzR63shknjYxoWM=;
- b=Fk6Et7fQvIks3wYp463vwLAp6HutLOeErIwXkpm/DRyRNkIVFHQkS1tylKRtnYj0UC/r2F
- t73ymLmYBAkByKDw==
-Authentication-Results: smtp-out2.suse.de;
+ bh=zQEz/yZZ/WEnH1Lii4E7MonrpAU1Igfk5arQzloGwrc=;
+ b=jHw1WZq0anqkuipo5/fLfSXYJQE4OQVBPybfuDyw8KptcZL3mokIyRmbaMaUAt22KSDWb4
+ xq/hrLssK+jI18Bw==
+Authentication-Results: smtp-out1.suse.de;
 	none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1752226859; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ t=1752226860; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
  mime-version:mime-version:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=ST8u8KPQnXtP/Yc8LIXXXDy1snhqPzR63shknjYxoWM=;
- b=cpcZxOxEG5riJ5HiSIZaGkyvZW3wYP91kO6rAKy23o0/ppLNA+x1MLR6G8muVY8GxJkNew
- 0v6DDdEdw8EaRgTBs4avl/uBl2P48vK0ljksbAmSWkRrCYy2XAoDRxanGA4RRl+b3+a0Nv
- +z77dbrCaUdZLHgTkmnRcGyK9vc5clM=
+ bh=zQEz/yZZ/WEnH1Lii4E7MonrpAU1Igfk5arQzloGwrc=;
+ b=vKnRXOCtwz3S2bvYpHk6WsT4NpiainibGja2mL758qi6KQmERttUCuvW4pnaD47ZL2MNx3
+ QZ7HTsnPgIZhSC9EEUULNm3crEZWkDxOWyeuwxsay8IucWPLqo/cmojzIw29fhatxcWpWn
+ l35E68vhuQPcSWXaqKH2bY/qltot9eA=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1752226859;
+ s=susede2_ed25519; t=1752226860;
  h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
  mime-version:mime-version:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=ST8u8KPQnXtP/Yc8LIXXXDy1snhqPzR63shknjYxoWM=;
- b=Fk6Et7fQvIks3wYp463vwLAp6HutLOeErIwXkpm/DRyRNkIVFHQkS1tylKRtnYj0UC/r2F
- t73ymLmYBAkByKDw==
+ bh=zQEz/yZZ/WEnH1Lii4E7MonrpAU1Igfk5arQzloGwrc=;
+ b=jHw1WZq0anqkuipo5/fLfSXYJQE4OQVBPybfuDyw8KptcZL3mokIyRmbaMaUAt22KSDWb4
+ xq/hrLssK+jI18Bw==
 Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
  (No client certificate requested)
- by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 18AD713918;
+ by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 9B5451388B;
  Fri, 11 Jul 2025 09:40:59 +0000 (UTC)
 Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
- by imap1.dmz-prg2.suse.org with ESMTPSA id yIOWBCvccGjbcAAAD6G6ig
+ by imap1.dmz-prg2.suse.org with ESMTPSA id iKOHJCvccGjbcAAAD6G6ig
  (envelope-from <tzimmermann@suse.de>); Fri, 11 Jul 2025 09:40:59 +0000
 From: Thomas Zimmermann <tzimmermann@suse.de>
 To: simona@ffwll.ch, airlied@gmail.com, christian.koenig@amd.com,
@@ -81,10 +81,10 @@ To: simona@ffwll.ch, airlied@gmail.com, christian.koenig@amd.com,
 Cc: bcm-kernel-feedback-list@broadcom.com, dri-devel@lists.freedesktop.org,
  etnaviv@lists.freedesktop.org, virtualization@lists.linux.dev,
  intel-gfx@lists.freedesktop.org, Thomas Zimmermann <tzimmermann@suse.de>
-Subject: [PATCH 7/9] Revert "drm/gem-framebuffer: Use dma_buf from GEM object
+Subject: [PATCH 8/9] Revert "drm/gem-shmem: Use dma_buf from GEM object
  instance"
-Date: Fri, 11 Jul 2025 11:35:22 +0200
-Message-ID: <20250711093744.120962-8-tzimmermann@suse.de>
+Date: Fri, 11 Jul 2025 11:35:23 +0200
+Message-ID: <20250711093744.120962-9-tzimmermann@suse.de>
 X-Mailer: git-send-email 2.50.0
 In-Reply-To: <20250711093744.120962-1-tzimmermann@suse.de>
 References: <20250711093744.120962-1-tzimmermann@suse.de>
@@ -124,59 +124,37 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-This reverts commit cce16fcd7446dcff7480cd9d2b6417075ed81065.
+This reverts commit 1a148af06000e545e714fe3210af3d77ff903c11.
 
 Reverting because the fix-up commits are suspected to cause regressions.
 
 Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
 ---
- drivers/gpu/drm/drm_gem_framebuffer_helper.c | 8 ++++++--
- 1 file changed, 6 insertions(+), 2 deletions(-)
+ drivers/gpu/drm/drm_gem_shmem_helper.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/drivers/gpu/drm/drm_gem_framebuffer_helper.c b/drivers/gpu/drm/drm_gem_framebuffer_helper.c
-index 618ce725cd75..fefb2a0f6b40 100644
---- a/drivers/gpu/drm/drm_gem_framebuffer_helper.c
-+++ b/drivers/gpu/drm/drm_gem_framebuffer_helper.c
-@@ -420,6 +420,7 @@ EXPORT_SYMBOL(drm_gem_fb_vunmap);
- static void __drm_gem_fb_end_cpu_access(struct drm_framebuffer *fb, enum dma_data_direction dir,
- 					unsigned int num_planes)
- {
-+	struct dma_buf_attachment *import_attach;
- 	struct drm_gem_object *obj;
- 	int ret;
+diff --git a/drivers/gpu/drm/drm_gem_shmem_helper.c b/drivers/gpu/drm/drm_gem_shmem_helper.c
+index 8ac0b1fa5287..5d1349c34afd 100644
+--- a/drivers/gpu/drm/drm_gem_shmem_helper.c
++++ b/drivers/gpu/drm/drm_gem_shmem_helper.c
+@@ -351,7 +351,7 @@ int drm_gem_shmem_vmap_locked(struct drm_gem_shmem_object *shmem,
+ 	dma_resv_assert_held(obj->resv);
  
-@@ -428,9 +429,10 @@ static void __drm_gem_fb_end_cpu_access(struct drm_framebuffer *fb, enum dma_dat
- 		obj = drm_gem_fb_get_obj(fb, num_planes);
- 		if (!obj)
- 			continue;
-+		import_attach = obj->import_attach;
- 		if (!drm_gem_is_imported(obj))
- 			continue;
--		ret = dma_buf_end_cpu_access(obj->dma_buf, dir);
-+		ret = dma_buf_end_cpu_access(import_attach->dmabuf, dir);
- 		if (ret)
- 			drm_err(fb->dev, "dma_buf_end_cpu_access(%u, %d) failed: %d\n",
- 				ret, num_planes, dir);
-@@ -453,6 +455,7 @@ static void __drm_gem_fb_end_cpu_access(struct drm_framebuffer *fb, enum dma_dat
-  */
- int drm_gem_fb_begin_cpu_access(struct drm_framebuffer *fb, enum dma_data_direction dir)
- {
-+	struct dma_buf_attachment *import_attach;
- 	struct drm_gem_object *obj;
- 	unsigned int i;
- 	int ret;
-@@ -463,9 +466,10 @@ int drm_gem_fb_begin_cpu_access(struct drm_framebuffer *fb, enum dma_data_direct
- 			ret = -EINVAL;
- 			goto err___drm_gem_fb_end_cpu_access;
- 		}
-+		import_attach = obj->import_attach;
- 		if (!drm_gem_is_imported(obj))
- 			continue;
--		ret = dma_buf_begin_cpu_access(obj->dma_buf, dir);
-+		ret = dma_buf_begin_cpu_access(import_attach->dmabuf, dir);
- 		if (ret)
- 			goto err___drm_gem_fb_end_cpu_access;
- 	}
+ 	if (drm_gem_is_imported(obj)) {
+-		ret = dma_buf_vmap(obj->dma_buf, map);
++		ret = dma_buf_vmap(obj->import_attach->dmabuf, map);
+ 	} else {
+ 		pgprot_t prot = PAGE_KERNEL;
+ 
+@@ -413,7 +413,7 @@ void drm_gem_shmem_vunmap_locked(struct drm_gem_shmem_object *shmem,
+ 	dma_resv_assert_held(obj->resv);
+ 
+ 	if (drm_gem_is_imported(obj)) {
+-		dma_buf_vunmap(obj->dma_buf, map);
++		dma_buf_vunmap(obj->import_attach->dmabuf, map);
+ 	} else {
+ 		dma_resv_assert_held(shmem->base.resv);
+ 
 -- 
 2.50.0
 
