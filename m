@@ -2,126 +2,51 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5D8B9B01FB0
-	for <lists+dri-devel@lfdr.de>; Fri, 11 Jul 2025 16:54:10 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 927E3B02013
+	for <lists+dri-devel@lfdr.de>; Fri, 11 Jul 2025 17:10:02 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B259710E295;
-	Fri, 11 Jul 2025 14:54:08 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 55E0910E2BF;
+	Fri, 11 Jul 2025 15:09:59 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=amd.com header.i=@amd.com header.b="WEYQx5ko";
+	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=igalia.com header.i=@igalia.com header.b="pQzS0gWR";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from NAM12-DM6-obe.outbound.protection.outlook.com
- (mail-dm6nam12on2088.outbound.protection.outlook.com [40.107.243.88])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9549F10E286
- for <dri-devel@lists.freedesktop.org>; Fri, 11 Jul 2025 14:54:05 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=K8MYUhNw6axIM/o0gm1KtkUwnTHUp1CveQzgRfah2h5Bxyg3NMlbudhIw1mMEHa61Gd301qlERCB2MlcEteS5rMzTgrDAh8X3xxjq8TryXg/kTr+YDMcKKDWieC+NU4EiAF2kzUTMSl7TkxRrbGsRsO0+no5t6WwzQihzzMaHbXwVEAXY3OpFHGgUqPE0t3+ePSUu0fqvL0ioQIopB6u6jEq3vWfN6ggBNKiaPyR0QSg5e4HBQhy8FBihqhd+eYSqfOR22iotrc5etktRbGOdonjOT+M7zZZbwhDVr7cKE3NUIWYpbX7HL1KZpoX6/bILh05emV7maJUMggXtNdfZg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=y1CWYtnSMKhGWxZ1xJA3GRGs293hS+cG2MWYihj0tNo=;
- b=r2vU8e9B+HtkzxXjmBeuYoch/FVs9k8C6KWHw0t4/NUjG2qoMbPTftxMb+zV3b5vIz0kXQs631mBASfZZCoQqmXf2gDEjvSRebeTaKxl72xG35yCChfadcWvLxHGBixvIzre4wmh2GzOBVEEdznm5QzSceobJXuBWjG1m0dpIAn2nzMhFc9/dnqjCNGvjQjtgf66RwIbmuXQKY5XFCi0JEzE7H/mL7dXT+u3lU3er+26eqS8J+pkTqkxGa4Snv4g46cOZwtQU04Y4UzhexnPuPQROHJRTEnGVKp2p1l9R7h4dbOWrDQvXp7HCkcwYvvbBZ/5sSnM6imNNJWPPv5wCQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
- 165.204.84.17) smtp.rcpttodomain=lists.freedesktop.org smtp.mailfrom=amd.com; 
- dmarc=pass (p=quarantine sp=quarantine pct=100) action=none
- header.from=amd.com; dkim=none (message not signed); arc=none (0)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=y1CWYtnSMKhGWxZ1xJA3GRGs293hS+cG2MWYihj0tNo=;
- b=WEYQx5ko8U3rq54IixCmhsl9hWptPuSy1UMv8T5RuiEN8BZHZbk4irsyBm/vshp7L3ryOS/Ec122Pb/IOTHau3gTqMFwRgDlPfV/YHJCtzDvwpMNgzUUIvrUtzwR67LLHe9zcrWYGvXzKlT/lUMVJ4bC2DMre42prAL3v0nYZRw=
-Received: from SJ0PR03CA0332.namprd03.prod.outlook.com (2603:10b6:a03:39c::7)
- by DS7PR12MB5912.namprd12.prod.outlook.com (2603:10b6:8:7d::15) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8922.25; Fri, 11 Jul
- 2025 14:54:02 +0000
-Received: from SJ5PEPF000001CE.namprd05.prod.outlook.com
- (2603:10b6:a03:39c:cafe::b6) by SJ0PR03CA0332.outlook.office365.com
- (2603:10b6:a03:39c::7) with Microsoft SMTP Server (version=TLS1_3,
- cipher=TLS_AES_256_GCM_SHA384) id 15.20.8922.25 via Frontend Transport; Fri,
- 11 Jul 2025 14:54:02 +0000
-X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 165.204.84.17)
- smtp.mailfrom=amd.com; dkim=none (message not signed)
- header.d=none;dmarc=pass action=none header.from=amd.com;
-Received-SPF: Pass (protection.outlook.com: domain of amd.com designates
- 165.204.84.17 as permitted sender) receiver=protection.outlook.com;
- client-ip=165.204.84.17; helo=SATLEXMB04.amd.com; pr=C
-Received: from SATLEXMB04.amd.com (165.204.84.17) by
- SJ5PEPF000001CE.mail.protection.outlook.com (10.167.242.38) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.20.8922.22 via Frontend Transport; Fri, 11 Jul 2025 14:54:02 +0000
-Received: from fdavid-dev.amd.com (10.180.168.240) by SATLEXMB04.amd.com
- (10.181.40.145) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.39; Fri, 11 Jul
- 2025 09:54:00 -0500
-From: David Francis <David.Francis@amd.com>
-To: <dri-devel@lists.freedesktop.org>
-CC: <tvrtko.ursulin@igalia.com>, <Felix.Kuehling@amd.com>,
- <David.YatSin@amd.com>, <Chris.Freehill@amd.com>, <Christian.Koenig@amd.com>, 
- <dcostantino@meta.com>, <sruffell@meta.com>, <simona@ffwll.ch>,
- <mripard@kernel.org>, <tzimmermann@suse.de>, David Francis
- <David.Francis@amd.com>
-Subject: [PATCH 2/2] drm: Move drm_gem ioctl kerneldoc to uapi file
-Date: Fri, 11 Jul 2025 10:53:42 -0400
-Message-ID: <20250711145342.89720-3-David.Francis@amd.com>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20250711145342.89720-1-David.Francis@amd.com>
-References: <20250711145342.89720-1-David.Francis@amd.com>
+Received: from fanzine2.igalia.com (fanzine2.igalia.com [213.97.179.56])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C885610E2BC;
+ Fri, 11 Jul 2025 15:09:55 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com; 
+ s=20170329;
+ h=Content-Transfer-Encoding:Content-Type:MIME-Version:Message-ID:
+ Date:Subject:Cc:To:From:Sender:Reply-To:Content-ID:Content-Description:
+ Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
+ In-Reply-To:References:List-Id:List-Help:List-Unsubscribe:List-Subscribe:
+ List-Post:List-Owner:List-Archive;
+ bh=iFYLZMws7HkhpC6wgha9zbdcjLkcuJkGFaqlqYnJFiM=; b=pQzS0gWRBJJ3i0kGrW1Dt8S6KM
+ Uebmf4qa6vIRKLP3uTJz3JVRFK1D0B4o3f/VwThna5+rx1HPgGRaJxNY7YhxdmS4ndmzvp+uX0mgO
+ V0PgAig1ngb5v3N66x4RnD5NnyFEro+u0y/6ZyAXh0ItYrLfOJBG5cfq7WOKccDQd5D5geCtm9vXM
+ 8GficzBudTIvL2J51qx8fx6kH+2kEiJUZDIUQj/JlTCXLfcq2w/yao1qsHLJmG4kp6/rTAd67MOIq
+ QLPqJ8qS4FjN2CLQMAAfRYUH+c1woc6J+xVC0MFXvSoElUfdfi0rrOE+BcAnYNbQYEGsAWu0/MbsW
+ thUWsu4A==;
+Received: from [84.65.48.237] (helo=localhost)
+ by fanzine2.igalia.com with esmtpsa 
+ (Cipher TLS1.3:ECDHE_SECP256R1__RSA_PSS_RSAE_SHA256__AES_256_GCM:256) (Exim)
+ id 1uaFNp-00FQ7G-B0; Fri, 11 Jul 2025 17:09:53 +0200
+From: Tvrtko Ursulin <tvrtko.ursulin@igalia.com>
+To: dri-devel@lists.freedesktop.org
+Cc: intel-xe@lists.freedesktop.org, amd-gfx@lists.freedesktop.org,
+ kernel-dev@igalia.com, Tvrtko Ursulin <tvrtko.ursulin@igalia.com>,
+ =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>,
+ Danilo Krummrich <dakr@kernel.org>,
+ Matthew Brost <matthew.brost@intel.com>,
+ Philipp Stanner <phasta@kernel.org>
+Subject: [PATCH v2] drm/sched: Avoid double re-lock on the job free path
+Date: Fri, 11 Jul 2025 16:09:49 +0100
+Message-ID: <20250711150949.48667-1-tvrtko.ursulin@igalia.com>
+X-Mailer: git-send-email 2.48.0
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-Originating-IP: [10.180.168.240]
-X-ClientProxiedBy: SATLEXMB03.amd.com (10.181.40.144) To SATLEXMB04.amd.com
- (10.181.40.145)
-X-EOPAttributedMessage: 0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: SJ5PEPF000001CE:EE_|DS7PR12MB5912:EE_
-X-MS-Office365-Filtering-Correlation-Id: b7f75f65-3dac-4632-01a3-08ddc08ac64f
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
- ARA:13230040|36860700013|376014|82310400026|1800799024; 
-X-Microsoft-Antispam-Message-Info: =?us-ascii?Q?WnjnXGHYjksfdLZZWK+fXAs2eYAM9qu0ma5HIZUYK7NfpchZ2c9qLYTnf9fZ?=
- =?us-ascii?Q?s8YjRPT4ax1hhLttuzGkkIk09iLHUHsr3+jPAm1e+gfhbE9rJE6g8DTExoXR?=
- =?us-ascii?Q?5mMLOCjhkU4ZVcHBrhqZNH2yHawZ+8E8lumXjipApIY9+D+l4F9aBPrtvUmr?=
- =?us-ascii?Q?t/fd+vSquiOUSIZ8Zeoofh9ale838fnj3AVu38BOQ0mvPy87+x9gD62eS0N2?=
- =?us-ascii?Q?r9zImEhBEjsQjbHpzjourS7mwDxCjWVczp9zLc49m6IvJm2JKavjdSqs3CPp?=
- =?us-ascii?Q?jJ8c/t6fI+G7C3Cw+NPqKwxYAJzppRGaNrJJdjsKXIxu1U+ZtpoECCCmf0bJ?=
- =?us-ascii?Q?pJYlPur3VRqFNkP6k91Oa608mP0md1QML+TkYKzToOtIQvR9JrSDKqOHvu/l?=
- =?us-ascii?Q?W6APH4O5HGdZchCmqB8NabAx2ddfRPSVS37dtK520CU+G7xQkjzE64oXSwrq?=
- =?us-ascii?Q?UO8izr19sYYtGmPbSksuouyjpCc+236O/tbJThTeRgrIH2QmFi4O8Dj9yscG?=
- =?us-ascii?Q?oTnXL9bWVtGavej+7+4/OovYMxtzKReL/oAYQovKxE3+Q2esl6Rpuai0Dn+J?=
- =?us-ascii?Q?bZt+v21RmHLY6ydSTASuoMDCT8r6EnOf4mDbUM2IHBF+jI/ncAs1bK9qS5yG?=
- =?us-ascii?Q?yQzUsuncMUUjT2jQG2ajxQK1QatT1LaPa6vqUwIr7lmp0S1fcjoWltPBFqZa?=
- =?us-ascii?Q?u9ZpAcYT352PXZCR5T5m8V+DvO7L1M0LN9jAK3BF8IGBvQMIijRog5VegrTo?=
- =?us-ascii?Q?EZx5xne/+uTNZjVkSjPpEpQBihvaqOKd1tE7VofwBxSUpKN9PlgPHjw1Kewl?=
- =?us-ascii?Q?R5pnOT1R/dEFJSyVIixZY8VVsra9xp9YQ1hXBhtuIZmUCIjkehy3jYMoOKZM?=
- =?us-ascii?Q?yNc0GcD8n4TscgatgulcHPBTq7EA9beqrvw5WQwTzF1rViMkz7NeOver/bxu?=
- =?us-ascii?Q?q69vtJEpeY6IUZFEbErCyu6L8UXhoB2aD8DMo5putQY9Aj4Hy0mBsYJAEwvm?=
- =?us-ascii?Q?QtyF7twi9Jk75JVN86K2Rd4S1w8jbBVd+jEAnOCpPe9I2oNcgy5TOsQRyj7G?=
- =?us-ascii?Q?naYyYivdrqHhIzXNANtFAg9HFzjHr+NpLbz87bGk5vNdvKyuTIJTA6TpKVAg?=
- =?us-ascii?Q?MbsdSD8Lh8NdQVAEpY2ERgCa/qnar0ab+3HzxWXKGqXdJBDjiPFd8+o+eF6b?=
- =?us-ascii?Q?cimwISrlOnF1TsRJ+8O5yXf+u8LlQD8Y0RYhbuoEuIiZ4A4YFStofcgiDTBf?=
- =?us-ascii?Q?DI5XTylTWcyubFCIZW/bHcdmN31rl7U3qC56f/RXvDKkfVL0cvNv23c6HMCp?=
- =?us-ascii?Q?oKPLIkSbD3mJC6mAA9jjGwy/78l9WkfbAXzxtsKY/As+2rd39U2o/d+Zxb6U?=
- =?us-ascii?Q?FGM3iG9rQEf4nPLx2KQbt0RuAQR08GIXEHovk+3KBI3fsVSHmrhjvevjrUFW?=
- =?us-ascii?Q?p1/pa4KYLwGwXyS9/NwJ1h/CQyF6hLjkhSmSx90LPif8ZSauCwlD/QPlysGy?=
- =?us-ascii?Q?lvGOIzWZPqZkZaD7KZ35LaWrdkwCwF6vgUrb?=
-X-Forefront-Antispam-Report: CIP:165.204.84.17; CTRY:US; LANG:en; SCL:1; SRV:;
- IPV:CAL; SFV:NSPM; H:SATLEXMB04.amd.com; PTR:InfoDomainNonexistent; CAT:NONE;
- SFS:(13230040)(36860700013)(376014)(82310400026)(1800799024); DIR:OUT;
- SFP:1101; 
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 11 Jul 2025 14:54:02.0218 (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: b7f75f65-3dac-4632-01a3-08ddc08ac64f
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=3dd8961f-e488-4e60-8e11-a82d994e183d; Ip=[165.204.84.17];
- Helo=[SATLEXMB04.amd.com]
-X-MS-Exchange-CrossTenant-AuthSource: SJ5PEPF000001CE.namprd05.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Anonymous
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DS7PR12MB5912
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -137,135 +62,140 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The drm_gem ioctls were documented in internal file drm_gem.c
-instead of uapi header drm.h. Move them there and change to
-appropriate kerneldoc formatting.
+Currently the job free work item will lock sched->job_list_lock first time
+to see if there are any jobs, free a single job, and then lock again to
+decide whether to re-queue itself if there are more finished jobs.
 
-Signed-off-by: David Francis <David.Francis@amd.com>
+Since drm_sched_get_finished_job() already looks at the second job in the
+queue we can simply add the signaled check and have it return the presence
+of more jobs to be freed to the caller. That way the work item does not
+have to lock the list again and repeat the signaled check.
+
+Signed-off-by: Tvrtko Ursulin <tvrtko.ursulin@igalia.com>
+Cc: Christian König <christian.koenig@amd.com>
+Cc: Danilo Krummrich <dakr@kernel.org>
+Cc: Matthew Brost <matthew.brost@intel.com>
+Cc: Philipp Stanner <phasta@kernel.org>
 ---
- drivers/gpu/drm/drm_gem.c | 30 -----------------------------
- include/uapi/drm/drm.h    | 40 +++++++++++++++++++++++++++------------
- 2 files changed, 28 insertions(+), 42 deletions(-)
+v2:
+ * Improve commit text and kerneldoc. (Philipp)
+ * Rename run free work helper. (Philipp)
+---
+ drivers/gpu/drm/scheduler/sched_main.c | 48 +++++++++++---------------
+ 1 file changed, 21 insertions(+), 27 deletions(-)
 
-diff --git a/drivers/gpu/drm/drm_gem.c b/drivers/gpu/drm/drm_gem.c
-index 3166230d0119..08778a15eefb 100644
---- a/drivers/gpu/drm/drm_gem.c
-+++ b/drivers/gpu/drm/drm_gem.c
-@@ -820,14 +820,6 @@ long drm_gem_dma_resv_wait(struct drm_file *filep, u32 handle,
- }
- EXPORT_SYMBOL(drm_gem_dma_resv_wait);
- 
--/**
-- * drm_gem_close_ioctl - implementation of the GEM_CLOSE ioctl
-- * @dev: drm_device
-- * @data: ioctl data
-- * @file_priv: drm file-private structure
-- *
-- * Releases the handle to an mm object.
-- */
- int
- drm_gem_close_ioctl(struct drm_device *dev, void *data,
- 		    struct drm_file *file_priv)
-@@ -843,17 +835,6 @@ drm_gem_close_ioctl(struct drm_device *dev, void *data,
- 	return ret;
+diff --git a/drivers/gpu/drm/scheduler/sched_main.c b/drivers/gpu/drm/scheduler/sched_main.c
+index 33d02b79674d..e183b305a51b 100644
+--- a/drivers/gpu/drm/scheduler/sched_main.c
++++ b/drivers/gpu/drm/scheduler/sched_main.c
+@@ -349,29 +349,13 @@ static void drm_sched_run_job_queue(struct drm_gpu_scheduler *sched)
  }
  
--/**
-- * drm_gem_flink_ioctl - implementation of the GEM_FLINK ioctl
-- * @dev: drm_device
-- * @data: ioctl data
-- * @file_priv: drm file-private structure
-- *
-- * Create a global name for an object, returning the name.
-- *
-- * Note that the name does not hold a reference; when the object
-- * is freed, the name goes away.
+ /**
+- * __drm_sched_run_free_queue - enqueue free-job work
+- * @sched: scheduler instance
 - */
- int
- drm_gem_flink_ioctl(struct drm_device *dev, void *data,
- 		    struct drm_file *file_priv)
-@@ -893,17 +874,6 @@ drm_gem_flink_ioctl(struct drm_device *dev, void *data,
- 	return ret;
+-static void __drm_sched_run_free_queue(struct drm_gpu_scheduler *sched)
+-{
+-	if (!READ_ONCE(sched->pause_submit))
+-		queue_work(sched->submit_wq, &sched->work_free_job);
+-}
+-
+-/**
+- * drm_sched_run_free_queue - enqueue free-job work if ready
++ * drm_sched_run_free_queue - enqueue free-job work
+  * @sched: scheduler instance
+  */
+ static void drm_sched_run_free_queue(struct drm_gpu_scheduler *sched)
+ {
+-	struct drm_sched_job *job;
+-
+-	spin_lock(&sched->job_list_lock);
+-	job = list_first_entry_or_null(&sched->pending_list,
+-				       struct drm_sched_job, list);
+-	if (job && dma_fence_is_signaled(&job->s_fence->finished))
+-		__drm_sched_run_free_queue(sched);
+-	spin_unlock(&sched->job_list_lock);
++	if (!READ_ONCE(sched->pause_submit))
++		queue_work(sched->submit_wq, &sched->work_free_job);
  }
  
--/**
-- * drm_gem_open_ioctl - implementation of the GEM_OPEN ioctl
-- * @dev: drm_device
-- * @data: ioctl data
-- * @file_priv: drm file-private structure
-- *
-- * Open an object using the global name, returning a handle and the size.
-- *
-- * This handle (of course) holds a reference to the object, so the object
-- * will not go away until the handle is deleted.
-- */
- int
- drm_gem_open_ioctl(struct drm_device *dev, void *data,
- 		   struct drm_file *file_priv)
-diff --git a/include/uapi/drm/drm.h b/include/uapi/drm/drm.h
-index e3940b657e16..e512da8f3baf 100644
---- a/include/uapi/drm/drm.h
-+++ b/include/uapi/drm/drm.h
-@@ -597,31 +597,47 @@ struct drm_set_version {
- 	int drm_dd_minor;
- };
+ /**
+@@ -393,7 +377,7 @@ static void drm_sched_job_done(struct drm_sched_job *s_job, int result)
+ 	dma_fence_get(&s_fence->finished);
+ 	drm_sched_fence_finished(s_fence, result);
+ 	dma_fence_put(&s_fence->finished);
+-	__drm_sched_run_free_queue(sched);
++	drm_sched_run_free_queue(sched);
+ }
  
--/* DRM_IOCTL_GEM_CLOSE ioctl argument type */
-+/**
-+ * struct drm_gem_close - Argument for &DRM_IOCTL_GEM_CLOSE ioctl.
-+ * @handle: Handle of the object to be closed.
-+ * @pad: Padding.
+ /**
+@@ -1094,12 +1078,16 @@ drm_sched_select_entity(struct drm_gpu_scheduler *sched)
+  * drm_sched_get_finished_job - fetch the next finished job to be destroyed
+  *
+  * @sched: scheduler instance
++ * @have_more: are there more finished jobs on the list
 + *
-+ * Releases the handle to an mm object.
-+ */
- struct drm_gem_close {
--	/** Handle of the object to be closed. */
- 	__u32 handle;
- 	__u32 pad;
- };
++ * Informs the caller through @have_more whether there are more finished jobs
++ * besides the returned one.
+  *
+  * Returns the next finished job from the pending list (if there is one)
+  * ready for it to be destroyed.
+  */
+ static struct drm_sched_job *
+-drm_sched_get_finished_job(struct drm_gpu_scheduler *sched)
++drm_sched_get_finished_job(struct drm_gpu_scheduler *sched, bool *have_more)
+ {
+ 	struct drm_sched_job *job, *next;
  
--/* DRM_IOCTL_GEM_FLINK ioctl argument type */
-+/**
-+ * struct drm_gem_flink - Argument for &DRM_IOCTL_GEM_FLINK ioctl.
-+ * @handle: Handle for the object being named.
-+ * @name: Returned global name.
-+ *
-+ * Create a global name for an object, returning the name.
-+ *
-+ * Note that the name does not hold a reference; when the object
-+ * is freed, the name goes away.
-+ */
- struct drm_gem_flink {
--	/** Handle for the object being named */
- 	__u32 handle;
--
--	/** Returned global name */
- 	__u32 name;
- };
+@@ -1107,22 +1095,25 @@ drm_sched_get_finished_job(struct drm_gpu_scheduler *sched)
  
--/* DRM_IOCTL_GEM_OPEN ioctl argument type */
-+/**
-+ * struct drm_gem_open - Argument for &DRM_IOCTL_GEM_OPEN ioctl.
-+ * @name: Name of object being opened.
-+ * @handle: Returned handle for the object.
-+ * @size: Returned size of the object
-+ *
-+ * Open an object using the global name, returning a handle and the size.
-+ *
-+ * This handle (of course) holds a reference to the object, so the object
-+ * will not go away until the handle is deleted.
-+ */
- struct drm_gem_open {
--	/** Name of object being opened */
- 	__u32 name;
+ 	job = list_first_entry_or_null(&sched->pending_list,
+ 				       struct drm_sched_job, list);
 -
--	/** Returned handle for the object */
- 	__u32 handle;
+ 	if (job && dma_fence_is_signaled(&job->s_fence->finished)) {
+ 		/* remove job from pending_list */
+ 		list_del_init(&job->list);
+ 
+ 		/* cancel this job's TO timer */
+ 		cancel_delayed_work(&sched->work_tdr);
+-		/* make the scheduled timestamp more accurate */
++
++		*have_more = false;
+ 		next = list_first_entry_or_null(&sched->pending_list,
+ 						typeof(*next), list);
 -
--	/** Returned size of the object */
- 	__u64 size;
- };
+ 		if (next) {
++			/* make the scheduled timestamp more accurate */
+ 			if (test_bit(DMA_FENCE_FLAG_TIMESTAMP_BIT,
+ 				     &next->s_fence->scheduled.flags))
+ 				next->s_fence->scheduled.timestamp =
+ 					dma_fence_timestamp(&job->s_fence->finished);
++
++			*have_more = dma_fence_is_signaled(&next->s_fence->finished);
++
+ 			/* start TO timer for next job */
+ 			drm_sched_start_timeout(sched);
+ 		}
+@@ -1181,12 +1172,15 @@ static void drm_sched_free_job_work(struct work_struct *w)
+ 	struct drm_gpu_scheduler *sched =
+ 		container_of(w, struct drm_gpu_scheduler, work_free_job);
+ 	struct drm_sched_job *job;
++	bool have_more;
+ 
+-	job = drm_sched_get_finished_job(sched);
+-	if (job)
++	job = drm_sched_get_finished_job(sched, &have_more);
++	if (job) {
+ 		sched->ops->free_job(job);
++		if (have_more)
++			drm_sched_run_free_queue(sched);
++	}
+ 
+-	drm_sched_run_free_queue(sched);
+ 	drm_sched_run_job_queue(sched);
+ }
  
 -- 
-2.34.1
+2.48.0
 
