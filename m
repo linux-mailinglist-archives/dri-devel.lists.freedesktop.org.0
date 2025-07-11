@@ -2,66 +2,84 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id A1A19B01B13
-	for <lists+dri-devel@lfdr.de>; Fri, 11 Jul 2025 13:49:41 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id D8F5AB01B40
+	for <lists+dri-devel@lfdr.de>; Fri, 11 Jul 2025 13:56:01 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1007D10E27E;
-	Fri, 11 Jul 2025 11:49:30 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1758110EA25;
+	Fri, 11 Jul 2025 11:55:59 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=collabora.com header.i=dmitry.osipenko@collabora.com header.b="gwXrZr4a";
+	dkim=pass (1024-bit key; unprotected) header.d=redhat.com header.i=@redhat.com header.b="HJXeJhWl";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from sender4-pp-f112.zoho.com (sender4-pp-f112.zoho.com
- [136.143.188.112])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A973810E17C;
- Fri, 11 Jul 2025 11:49:28 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; t=1752234560; cv=none; 
- d=zohomail.com; s=zohoarc; 
- b=SabONUvJpxuNV1hurHLNnz5MS/TmY7ITNm4Oyzbp7P06tKjiSifZXPndu7LaSY90swP+u2KzimXp1BrO8lJzER1/K4LcAXMd/PJ+Ic82cDIh5AF/3tdXA+qq+VV2az997xKmVuMLwmFPLGZKZXtOQ9DBqmaoIRWxsCAuS0z1VjE=
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com;
- s=zohoarc; t=1752234560;
- h=Content-Type:Content-Transfer-Encoding:Cc:Cc:Date:Date:From:From:In-Reply-To:MIME-Version:Message-ID:References:Subject:Subject:To:To:Message-Id:Reply-To;
- bh=qaRUoozPC7x/DI18RjjEH2p+dghiXJRWEJa54Zb9VDc=; 
- b=CayzYeI3GoE76bC66ZE7fen1OmgT/+7fh0KhvKSuxEPZtMj1nlGtvi9ZZ6dl5yyopfYC14wUWWlL4FbFqRjXrm2v9BR+T/Cn0NnaA2xmhVL2EgsyASxHD+ddsKqasHSo9qLd2N7Sr85RsLKY3gVVZGBfaVsJ0kvgj8eOQ73owsY=
-ARC-Authentication-Results: i=1; mx.zohomail.com;
- dkim=pass  header.i=collabora.com;
- spf=pass  smtp.mailfrom=dmitry.osipenko@collabora.com;
- dmarc=pass header.from=<dmitry.osipenko@collabora.com>
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1752234560; 
- s=zohomail; d=collabora.com; i=dmitry.osipenko@collabora.com; 
- h=Message-ID:Date:Date:MIME-Version:Subject:Subject:To:To:Cc:Cc:References:From:From:In-Reply-To:Content-Type:Content-Transfer-Encoding:Message-Id:Reply-To;
- bh=qaRUoozPC7x/DI18RjjEH2p+dghiXJRWEJa54Zb9VDc=;
- b=gwXrZr4alGOV6tI6Q2k8o5IjgNNZ6RdKyFcmFZwEBRwhDcixOyKzMv9stZ7/vF7F
- cZQDMjBARBeTTkO8/DUB437DcUyCoc77V0YQwpEFxeFXPXeYELQ4WvOmtiUquqAFvg8
- ixEJOxliGnlnh8pnX94KUNp0UxEfO31CEvWjlbBU=
-Received: by mx.zohomail.com with SMTPS id 1752234559290960.9209841194504;
- Fri, 11 Jul 2025 04:49:19 -0700 (PDT)
-Message-ID: <cf564056-ef21-409d-a37c-1a1f85c98a01@collabora.com>
-Date: Fri, 11 Jul 2025 14:49:12 +0300
+Received: from us-smtp-delivery-124.mimecast.com
+ (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E216610EA24
+ for <dri-devel@lists.freedesktop.org>; Fri, 11 Jul 2025 11:55:57 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1752234956;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=MwuzFDSNF1XYSxCrBDHROUVPqlZ8SYRES8PPNOw+5xU=;
+ b=HJXeJhWlOrUMl7LgoN61BAdf9P3jFH59TO5oJr9TYd/Vr6JFn8L31fUr8c90LzMMu95wAq
+ hb/6NW6ScEEYTVsrDEfh46w7g7y3gOrUyp0pCL4dmibcc3h52usnH5JXnVzLGLWVHOh0ZE
+ KsAWgtomRNgEDh9rwaJPCEPM4I0lTS0=
+Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
+ [209.85.128.69]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-425-IV_Q_J5hPpGhvVdEFfIr2A-1; Fri, 11 Jul 2025 07:55:55 -0400
+X-MC-Unique: IV_Q_J5hPpGhvVdEFfIr2A-1
+X-Mimecast-MFC-AGG-ID: IV_Q_J5hPpGhvVdEFfIr2A_1752234954
+Received: by mail-wm1-f69.google.com with SMTP id
+ 5b1f17b1804b1-450d290d542so12137325e9.1
+ for <dri-devel@lists.freedesktop.org>; Fri, 11 Jul 2025 04:55:55 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1752234954; x=1752839754;
+ h=mime-version:message-id:date:references:in-reply-to:subject:cc:to
+ :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=MwuzFDSNF1XYSxCrBDHROUVPqlZ8SYRES8PPNOw+5xU=;
+ b=MDiId0hHdm9eQ9wUvyEd+tfRH3KD9ny5NCkwTqtJh5/jN/MWktCS6hCy7iC0nWnxrm
+ /Ve7RzGkkkf4/LMBeK8Jr2Ke6ib0D3F0GyvpCeyy+jqOXJ/Zxbnokb2nqq+gQyzUU5Tu
+ jscq/B46w5FcbQ8z6Aq/4SxegZGn8Dg7XjKimALv12jzPpXZudZ19V6HA/3hFxlSV/f1
+ B8LiXl15PN6e06zFnaJQViqaZ4RYMxmtbCK4LdKz3oTiA10abgY5zZ0FvjKmSZVeiNa9
+ L93MXKbnSo1D9zMqON8LScEFaWomluLsplSNJ64zcAlN9gHVP9tAuuh+fjgPggBX0wgS
+ pmHQ==
+X-Gm-Message-State: AOJu0Yyf0lB8RNdoGEsHkgCQcNVVLEEcj+Zy8vBZrt5dhjhQpygKruHi
+ KCOPaaRQy2+P24uWfx8ypUCvcbOEMqzYiNca2IpNekJZ9yRY7wMFLgymUrCM4VuaPeOHU1Nj0JC
+ 26+RBlZfN53S3eVuI6sTUV1MZAk0NXwcDpMm2nuUcSK7X5mugD3xAZrntu17oUwdVmUW64A==
+X-Gm-Gg: ASbGncvPR/WpPVVMIefk1BTUgNLtk+GRBrnsh4naoSN+2GSB8rwPcJStAB7B0/u/uDS
+ WUuS6cRsqGbKJeCDEqfxETv2Cuax6sTkF4Ja4V7zqPdQkt8fCTcokNwL+dvRKxW9edGSzEDCW8/
+ 10YXSFTuzwbSnE2N+WSSkcWdkdukBhxrENOiAN3+LeOFQ9zuR+YelPxnWx44OyMwuIGv+tK6+7x
+ 2JOls02Ta9k8OB+C8K2LOx8jOAHttfK49VG7i2Nlibn16W4L0d7YvH2txM9ewxuEtzJj+BXn5VA
+ /dQtSB1sz02rBQVstARyatjkjWVzYWRPSZX7LsCIssLmJKwUrNNRS3ZPIFBq1yAYYb/vCLV0fba
+ OWB/PSvrKxFpDxSUbjMTojg==
+X-Received: by 2002:a05:600c:3d8f:b0:43c:fbba:41ba with SMTP id
+ 5b1f17b1804b1-45565edca7emr17731765e9.28.1752234954464; 
+ Fri, 11 Jul 2025 04:55:54 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IHzaH4Mc4qsh8Dto2Y7Me+u0vKHxTstkuDaONIhpZMLNN3nBy6yysYk1uddceGpm8T6pqUcPg==
+X-Received: by 2002:a05:600c:3d8f:b0:43c:fbba:41ba with SMTP id
+ 5b1f17b1804b1-45565edca7emr17731555e9.28.1752234954067; 
+ Fri, 11 Jul 2025 04:55:54 -0700 (PDT)
+Received: from localhost (62-151-111-63.jazzfree.ya.com. [62.151.111.63])
+ by smtp.gmail.com with ESMTPSA id
+ ffacd0b85a97d-3b5e8e2703csm4257131f8f.97.2025.07.11.04.55.53
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Fri, 11 Jul 2025 04:55:53 -0700 (PDT)
+From: Javier Martinez Canillas <javierm@redhat.com>
+To: Thomas Zimmermann <tzimmermann@suse.de>
+Cc: dri-devel@lists.freedesktop.org, Thomas Zimmermann <tzimmermann@suse.de>
+Subject: Re: [PATCH 1/9] video: pixel_format: Add compare helpers
+In-Reply-To: <20250617143649.143967-2-tzimmermann@suse.de>
+References: <20250617143649.143967-1-tzimmermann@suse.de>
+ <20250617143649.143967-2-tzimmermann@suse.de>
+Date: Fri, 11 Jul 2025 13:55:52 +0200
+Message-ID: <871pqneybb.fsf@minerva.mail-host-address-is-not-set>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 3/9] Revert "drm/virtio: Use dma_buf from GEM object
- instance"
-To: Simona Vetter <simona.vetter@ffwll.ch>
-Cc: Thomas Zimmermann <tzimmermann@suse.de>, simona@ffwll.ch,
- airlied@gmail.com, christian.koenig@amd.com, torvalds@linux-foundation.org,
- maarten.lankhorst@linux.intel.com, mripard@kernel.org,
- l.stach@pengutronix.de, linux+etnaviv@armlinux.org.uk, kraxel@redhat.com,
- christian.gmeiner@gmail.com, gurchetansingh@chromium.org, olvaffe@gmail.com,
- zack.rusin@broadcom.com, bcm-kernel-feedback-list@broadcom.com,
- dri-devel@lists.freedesktop.org, etnaviv@lists.freedesktop.org,
- virtualization@lists.linux.dev, intel-gfx@lists.freedesktop.org
-References: <20250711093744.120962-1-tzimmermann@suse.de>
- <20250711093744.120962-4-tzimmermann@suse.de>
- <9058368a-0e5b-4cb5-a04f-6feaa80329a0@collabora.com>
- <aHD2LmTe238vh5BS@phenom.ffwll.local>
-From: Dmitry Osipenko <dmitry.osipenko@collabora.com>
-Content-Language: en-US
-In-Reply-To: <aHD2LmTe238vh5BS@phenom.ffwll.local>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-ZohoMailClient: External
+X-Mimecast-Spam-Score: 0
+X-Mimecast-MFC-PROC-ID: RX5v1wEVrkxDdvzWmQMi8BAilW9wGGT-M_vIw0Pi1y4_1752234954
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -77,51 +95,25 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 7/11/25 14:31, Simona Vetter wrote:
-> On Fri, Jul 11, 2025 at 02:29:04PM +0300, Dmitry Osipenko wrote:
->> On 7/11/25 12:35, Thomas Zimmermann wrote:
->>> This reverts commit 415cb45895f43015515473fbc40563ca5eec9a7c.
->>>
->>> Reverting because the fix-up commits are suspected to cause regressions.
->>>
->>> Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
->>
->> Are the fixes and stable tags missing in the patches? AFAICT, the intent
->> is to fix stable 6.15 kernel regression.
-> 
-> Yes, I'll add them when merging to drm-fixes.
+Thomas Zimmermann <tzimmermann@suse.de> writes:
 
-On a second look, I don't see the reverted commits in 6.15, so only
-6.16-rc should be affected.
+Hello Thomas,
 
->>> ---
->>>  drivers/gpu/drm/virtio/virtgpu_prime.c | 5 +++--
->>>  1 file changed, 3 insertions(+), 2 deletions(-)
->>>
->>> diff --git a/drivers/gpu/drm/virtio/virtgpu_prime.c b/drivers/gpu/drm/virtio/virtgpu_prime.c
->>> index 722cde5e2d86..97aaee26cb02 100644
->>> --- a/drivers/gpu/drm/virtio/virtgpu_prime.c
->>> +++ b/drivers/gpu/drm/virtio/virtgpu_prime.c
->>> @@ -204,15 +204,16 @@ static void virtgpu_dma_buf_free_obj(struct drm_gem_object *obj)
->>>  {
->>>  	struct virtio_gpu_object *bo = gem_to_virtio_gpu_obj(obj);
->>>  	struct virtio_gpu_device *vgdev = obj->dev->dev_private;
->>> +	struct dma_buf_attachment *attach = obj->import_attach;
->>>  
->>>  	if (drm_gem_is_imported(obj)) {
->>> -		struct dma_buf *dmabuf = bo->dma_buf;
->>> +		struct dma_buf *dmabuf = attach->dmabuf;
->>
->> Nit: I'd write this as `dmabuf = obj->import_attach->dmabuf` for more
->> consistency with drm_gem_is_imported()
-> 
-> Reverts shouldn't have any additional changes, even style nits imo, so
-> I'll leave it as-is.
+> Add helpers that compare two pixel-format descriptions against
+> each other.
+>
+> Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
+> ---
+>  include/video/pixel_format.h | 58 ++++++++++++++++++++++++++++++++++++
+>  1 file changed, 58 insertions(+)
+>
 
-AFAICS, this patch is not a direct/clean revert, it reverts two commits
-with manual edit. There is 44b6535d8ace on top of the reverted
-415cb45895f4 and final result isn't same as a revert of 415cb45895f4.
+Reviewed-by: Javier Martinez Canillas <javierm@redhat.com>
 
 -- 
 Best regards,
-Dmitry
+
+Javier Martinez Canillas
+Core Platforms
+Red Hat
+
