@@ -2,42 +2,46 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C12C4B02400
-	for <lists+dri-devel@lfdr.de>; Fri, 11 Jul 2025 20:45:33 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3DB31B02406
+	for <lists+dri-devel@lfdr.de>; Fri, 11 Jul 2025 20:46:46 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D7C7A10E107;
-	Fri, 11 Jul 2025 18:45:30 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 90DD210EAC6;
+	Fri, 11 Jul 2025 18:46:44 +0000 (UTC)
+Authentication-Results: gabe.freedesktop.org;
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="CLtVZ9Ra";
+	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
- by gabe.freedesktop.org (Postfix) with ESMTP id 96C4E10E107
- for <dri-devel@lists.freedesktop.org>; Fri, 11 Jul 2025 18:45:29 +0000 (UTC)
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
- by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 9BFCA16F8;
- Fri, 11 Jul 2025 11:45:18 -0700 (PDT)
-Received: from minigeek.lan (usa-sjc-mx-foss1.foss.arm.com [172.31.20.19])
- by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 037533F694;
- Fri, 11 Jul 2025 11:45:26 -0700 (PDT)
-Date: Fri, 11 Jul 2025 19:43:38 +0100
-From: Andre Przywara <andre.przywara@arm.com>
-To: iuncuim <iuncuim@gmail.com>
-Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, Maxime Ripard
- <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, David Airlie
- <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, Rob Herring
- <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
- <conor+dt@kernel.org>, Chen-Yu Tsai <wens@csie.org>, Jernej Skrabec
- <jernej.skrabec@gmail.com>, Samuel Holland <samuel@sholland.or>,
- dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
- linux-sunxi@lists.linux.dev
-Subject: Re: [PATCH v2 3/3] arm64: dts: allwinner: a523: enable Mali GPU for
- all boards
-Message-ID: <20250711194338.52532eca@minigeek.lan>
-In-Reply-To: <20250711035730.17507-4-iuncuim@gmail.com>
-References: <20250711035730.17507-1-iuncuim@gmail.com>
- <20250711035730.17507-4-iuncuim@gmail.com>
-Organization: Arm Ltd.
-X-Mailer: Claws Mail 4.2.0 (GTK 3.24.31; x86_64-slackware-linux-gnu)
+Received: from sea.source.kernel.org (sea.source.kernel.org [172.234.252.31])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id F420610EAB6
+ for <dri-devel@lists.freedesktop.org>; Fri, 11 Jul 2025 18:46:43 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+ by sea.source.kernel.org (Postfix) with ESMTP id B38E5440E1;
+ Fri, 11 Jul 2025 18:46:43 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 51366C4CEED;
+ Fri, 11 Jul 2025 18:46:43 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1752259603;
+ bh=0TkEIXf++g99C3zeGWDyX2nQea6CDn0SC/EAE+N4esw=;
+ h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+ b=CLtVZ9RaATumi99vK1TwLAUyC3evJEVu45rsgw26SqLhupzDXjPoGnokgCZVVT3t7
+ t0fX+pPPgIVAz5F+VPJnwppL4u+Cmex1b1ldxbioJmvbZZBybMceAu4JxAWLB32tTl
+ 8/lqHQnmVoaBmRwxO0vAynKg9BMaVpUJS6aSYNjpQtFxv5qAxQ8Vl/WefYKVpQNQPY
+ TGUfOlB+VVURQgWl0niDDnzEQnhmI94dkD4qhtC8z3n1G6JR+2cZ5VkrNIYX/BSqzs
+ OJP4X7Q44YMTMTHCOEaZVlkKzCwX/4nfptVFGtOEbIx4DpmdSU1MZERnD8TudaSRsT
+ yRwuM4cBTyC7Q==
+Date: Fri, 11 Jul 2025 11:46:42 -0700
+From: Jakub Kicinski <kuba@kernel.org>
+To: Linus Torvalds <torvalds@linux-foundation.org>
+Cc: Thomas Zimmermann <tzimmermann@suse.de>, Simona Vetter
+ <simona@ffwll.ch>, Dave Airlie <airlied@gmail.com>, davem@davemloft.net,
+ netdev@vger.kernel.org, linux-kernel@vger.kernel.org, pabeni@redhat.com,
+ dri-devel <dri-devel@lists.freedesktop.org>
+Subject: Re: [GIT PULL] Networking for v6.16-rc6 (follow up)
+Message-ID: <20250711114642.2664f28a@kernel.org>
+In-Reply-To: <CAHk-=wj1Y3LfREoHvT4baucVJ5jvy0cMydcPVQNXhprdhuE2AA@mail.gmail.com>
+References: <20250711151002.3228710-1-kuba@kernel.org>
+ <CAHk-=wj1Y3LfREoHvT4baucVJ5jvy0cMydcPVQNXhprdhuE2AA@mail.gmail.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 7bit
@@ -56,97 +60,15 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, 11 Jul 2025 11:57:29 +0800
-iuncuim <iuncuim@gmail.com> wrote:
+On Fri, 11 Jul 2025 11:33:10 -0700 Linus Torvalds wrote:
+> Because this "emergency PR" does seem to have turned my "annoying
+> problem with timeouts at initial login" into "now it doesn't boot at
+> all".
 
-> From: Mikhail Kalashnikov <iuncuim@gmail.com>
-> 
-> All devices based on the A523/A527/H728/T527 processors contain a G57 MC1 GPU.
-> 
-> Enable the DT nodes for this GPU and specify a regulator that supplies power
-> to the SoC's VDD_GPU pins. The other parameters are set in the SoC dtsi,
-> so are board independent.
+Hm. I'm definitely okay with reverting. So if you revert these three:
 
-Checked the schematics of the three boards where those are available,
-and it's indeed DCDC2 there providing the voltage. For the X96QPro+,
-regulators.txt in debugs confirms this as well.
+a3c4a125ec72 ("netlink: Fix rmem check in netlink_broadcast_deliver().")
+a3c4a125ec72 ("netlink: Fix rmem check in netlink_broadcast_deliver().")
+ae8f160e7eb2 ("netlink: Fix wraparounds of sk->sk_rmem_alloc.")
 
-> Signed-off-by: Mikhail Kalashnikov <iuncuim@gmail.com>
-
-Reviewed-by: Andre Przywara <andre.przywara@arm.com>
-
-Cheers,
-Andre
-
-> ---
->  arch/arm64/boot/dts/allwinner/sun55i-a527-cubie-a5e.dts   | 5 +++++
->  arch/arm64/boot/dts/allwinner/sun55i-h728-x96qpro+.dts    | 5 +++++
->  arch/arm64/boot/dts/allwinner/sun55i-t527-avaota-a1.dts   | 5 +++++
->  arch/arm64/boot/dts/allwinner/sun55i-t527-orangepi-4a.dts | 5 +++++
->  4 files changed, 20 insertions(+)
-> 
-> diff --git a/arch/arm64/boot/dts/allwinner/sun55i-a527-cubie-a5e.dts b/arch/arm64/boot/dts/allwinner/sun55i-a527-cubie-a5e.dts
-> index 8bc0f2c72..553ad774e 100644
-> --- a/arch/arm64/boot/dts/allwinner/sun55i-a527-cubie-a5e.dts
-> +++ b/arch/arm64/boot/dts/allwinner/sun55i-a527-cubie-a5e.dts
-> @@ -66,6 +66,11 @@ &gmac0 {
->  	status = "okay";
->  };
->  
-> +&gpu {
-> +	mali-supply = <&reg_dcdc2>;
-> +	status = "okay";
-> +};
-> +
->  &mdio0 {
->  	ext_rgmii_phy: ethernet-phy@1 {
->  		compatible = "ethernet-phy-ieee802.3-c22";
-> diff --git a/arch/arm64/boot/dts/allwinner/sun55i-h728-x96qpro+.dts b/arch/arm64/boot/dts/allwinner/sun55i-h728-x96qpro+.dts
-> index 59db10354..a96927fbd 100644
-> --- a/arch/arm64/boot/dts/allwinner/sun55i-h728-x96qpro+.dts
-> +++ b/arch/arm64/boot/dts/allwinner/sun55i-h728-x96qpro+.dts
-> @@ -54,6 +54,11 @@ &ehci1 {
->  	status = "okay";
->  };
->  
-> +&gpu {
-> +	mali-supply = <&reg_dcdc2>;
-> +	status = "okay";
-> +};
-> +
->  &mmc0 {
->  	vmmc-supply = <&reg_vcc3v3>;
->  	cd-gpios = <&pio 5 6 (GPIO_ACTIVE_LOW | GPIO_PULL_UP)>; /* PF6 */
-> diff --git a/arch/arm64/boot/dts/allwinner/sun55i-t527-avaota-a1.dts b/arch/arm64/boot/dts/allwinner/sun55i-t527-avaota-a1.dts
-> index 142177c1f..b9eeb6753 100644
-> --- a/arch/arm64/boot/dts/allwinner/sun55i-t527-avaota-a1.dts
-> +++ b/arch/arm64/boot/dts/allwinner/sun55i-t527-avaota-a1.dts
-> @@ -76,6 +76,11 @@ &gmac0 {
->  	status = "okay";
->  };
->  
-> +&gpu {
-> +	mali-supply = <&reg_dcdc2>;
-> +	status = "okay";
-> +};
-> +
->  &mdio0 {
->  	ext_rgmii_phy: ethernet-phy@1 {
->  		compatible = "ethernet-phy-ieee802.3-c22";
-> diff --git a/arch/arm64/boot/dts/allwinner/sun55i-t527-orangepi-4a.dts b/arch/arm64/boot/dts/allwinner/sun55i-t527-orangepi-4a.dts
-> index 5f97505ec..d07bb9193 100644
-> --- a/arch/arm64/boot/dts/allwinner/sun55i-t527-orangepi-4a.dts
-> +++ b/arch/arm64/boot/dts/allwinner/sun55i-t527-orangepi-4a.dts
-> @@ -95,6 +95,11 @@ &ehci1 {
->  	status = "okay";
->  };
->  
-> +&gpu {
-> +	mali-supply = <&reg_dcdc2>;
-> +	status = "okay";
-> +};
-> +
->  &mmc0 {
->  	vmmc-supply = <&reg_cldo3>;
->  	cd-gpios = <&pio 5 6 (GPIO_ACTIVE_LOW | GPIO_PULL_UP)>; /* PF6 */
-
+everything is just fine?
