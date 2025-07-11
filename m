@@ -2,60 +2,91 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 883F5B02451
-	for <lists+dri-devel@lfdr.de>; Fri, 11 Jul 2025 21:11:40 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 04132B02463
+	for <lists+dri-devel@lfdr.de>; Fri, 11 Jul 2025 21:18:25 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B7AC110E3C1;
-	Fri, 11 Jul 2025 19:11:37 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1372210E3C3;
+	Fri, 11 Jul 2025 19:18:22 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=collabora.com header.i=adrian.larumbe@collabora.com header.b="YiiFkTtz";
+	dkim=pass (1024-bit key; unprotected) header.d=linux-foundation.org header.i=@linux-foundation.org header.b="gsyCSkVF";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from sender4-pp-f112.zoho.com (sender4-pp-f112.zoho.com
- [136.143.188.112])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 927A410E3BF
- for <dri-devel@lists.freedesktop.org>; Fri, 11 Jul 2025 19:11:36 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; t=1752261080; cv=none; 
- d=zohomail.com; s=zohoarc; 
- b=QQHsWfaQWduGbYVfJfhvhwCtWadu9pBFuRwzhPoUzQzi1H/WAg9fNG6VqjrJxhkuy0aI078bctii0Psg3f9hSyIhUeBs220UZZ6wPN6xQMsSSwRHRl0uWGNiox8c73ZCzXY2M3Mop9xDWjcnPjTon2M1GrMufloRRatNK3H2vwQ=
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com;
- s=zohoarc; t=1752261080;
- h=Content-Type:Cc:Cc:Date:Date:From:From:In-Reply-To:MIME-Version:Message-ID:References:Subject:Subject:To:To:Message-Id:Reply-To;
- bh=Leldv3LSDYNFE4XlW4jcvrOGC0GRo6S1v6TISIZCd3k=; 
- b=Eh/2Owu33vvx3YNkFOHHs96Ipq9VDTNJJaZxNsLh4cYMs7ky5qFTxS+Hk32JBebuvTnXDlllpY2X7e8aUQY+FBOgD0nTKAxZGl97N9aJ7gmaIVdFIr7Uq6/qIuZrkpfcvYOn126cfP8VSMQl4h8Ripp8GdBZEtL3ryB+C8qBzfI=
-ARC-Authentication-Results: i=1; mx.zohomail.com;
- dkim=pass  header.i=collabora.com;
- spf=pass  smtp.mailfrom=adrian.larumbe@collabora.com;
- dmarc=pass header.from=<adrian.larumbe@collabora.com>
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1752261080; 
- s=zohomail; d=collabora.com; i=adrian.larumbe@collabora.com;
- h=Date:Date:From:From:To:To:Cc:Cc:Subject:Subject:Message-ID:References:MIME-Version:Content-Type:In-Reply-To:Message-Id:Reply-To;
- bh=Leldv3LSDYNFE4XlW4jcvrOGC0GRo6S1v6TISIZCd3k=;
- b=YiiFkTtzwDYxaUqhXz5FEipWe7vnDTQ2Jo5fLh7xw8HhTMvodbRH6UzGbD10trFo
- Rbb+/V/qsCxwbFRHuA0fg+2WO+i0Bm9pxQ9S9GXSqsN8FfhwtiyCn8IlLKo7QDxGFhF
- orsRce0IsPt3vPT9ZcnCRYB7BZEEr/QhurgBvtDw=
-Received: by mx.zohomail.com with SMTPS id 1752261079263492.4174914567179;
- Fri, 11 Jul 2025 12:11:19 -0700 (PDT)
-Date: Fri, 11 Jul 2025 20:11:15 +0100
-From: Adrian Larumbe <adrian.larumbe@collabora.com>
-To: Caterina Shablia <caterina.shablia@collabora.com>
-Cc: Boris Brezillon <boris.brezillon@collabora.com>, 
- Steven Price <steven.price@arm.com>, Liviu Dudau <liviu.dudau@arm.com>, 
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, 
- Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>, 
- Simona Vetter <simona@ffwll.ch>, kernel@collabora.com,
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v2 1/7] drm/panthor: Add support for atomic page table
- updates
-Message-ID: <5wxljw27mc4f2i6ag54upmpjxjj5odnd6d57fiiozpb3hjl4zi@okwx34aj56b6>
-References: <20250703152908.16702-2-caterina.shablia@collabora.com>
- <20250703152908.16702-3-caterina.shablia@collabora.com>
+Received: from mail-ed1-f53.google.com (mail-ed1-f53.google.com
+ [209.85.208.53])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 95E1210E3C3
+ for <dri-devel@lists.freedesktop.org>; Fri, 11 Jul 2025 19:18:20 +0000 (UTC)
+Received: by mail-ed1-f53.google.com with SMTP id
+ 4fb4d7f45d1cf-60c4521ae2cso4460014a12.0
+ for <dri-devel@lists.freedesktop.org>; Fri, 11 Jul 2025 12:18:20 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=linux-foundation.org; s=google; t=1752261499; x=1752866299;
+ darn=lists.freedesktop.org; 
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:from:to:cc:subject:date:message-id:reply-to;
+ bh=OGIcMUli3ztNAnPUcFhR5bM9fuY+7pKG/dEA+I+ib0I=;
+ b=gsyCSkVFrm8jxmpUuUTpt1Zmf2KbDzohHNqkNuovb9wfw9lbB475P/Tc16o5JWfwxn
+ 1L2NU8q/QoDAu9H0DF9WmftNYAOUNWp8uz+hxl5p08n4GvFrGKd/m3hVekF9kboWzzKh
+ 8NuLDCG2e3i4e4TxdL65G6axtld55+coFLoNM=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1752261499; x=1752866299;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=OGIcMUli3ztNAnPUcFhR5bM9fuY+7pKG/dEA+I+ib0I=;
+ b=XtG9Fn5KS95uYsG7wy3wHi35zRNhBf3rsuESE35zDM84mw2EU7KRg3p8TQgmZIP8GF
+ 4eL0Y01qI3cCSG2px87ibHy4iyoWh0lsk56CvjNK9OB4Y8OaUAtGC88Tx3/rCnPevJRf
+ gEbLgwVzrhaPFm97CuUIqoVP8GQfv2XmsokBVwaEu0zqhplgrD1VmZbeuXr++7J0mTf8
+ hcFjSMAOvmKGd9JfrF80PQ233ANtEuFXUqs6Ewx8RhDgKpN8M9wxMEsbmwRDnP9IQVUa
+ ftEAWLLHR+/np4P9NV2TpQHvj6oqzmS4tN/jF4Ekft02EZQY7z156+NtofodAUxB/bq5
+ jxOA==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCXC0+JJeDyES8AFgZVwSkPzmnj+6GAsCqy/PSm6nDFTSq37Ct2Yh+L51z4igJf2geXu+R5nRHKd5Z4=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YwDYIGIc3mCK2mb+J1c7W5aWUjC7M6GH5691t7h2Zy5Z5gOKk4X
+ dpoE6fZ4K0noNWToUpxyXeQE/7IetPkMzUARy0Gzl+F7Wsp+DFpT0kwj29iFVcvJXbEqsmR16tZ
+ PCDFG0jeI6w==
+X-Gm-Gg: ASbGncsElytAO9KIJQlpkrrbwcNASDxE0umnqrHIqqyQ/bBI+I2n8UKtMkdO7+nXISn
+ sY7qDwOIOiX8VCGP7fob5X8tStpnguNb5APr9vcAyOLaE3ntdrQbs497xIxUq9MSlCMrM7XY77P
+ SA4grKnQTs7h6+6ywZXag8yZa2Mxxme87P8e3NxLMMfvTAPuyh1Wl2LS5Vw1p6M7ZKMorAlK4IC
+ D8IM337oFokinxd0ckiUQCt4gJt0+FZqePV2Aqf69bZ27MYLw1+POjZcMn8XfCK9RkaJTpZ/gGL
+ zW3AGE88vzGSCCHDKJTfH2r+BMc6r8Ak6UkT0F937eN3vs3FTBh7vvYBVrufntEbxGeHXu7dLHy
+ bVbRj8ImV+N8Fp/ioEgFrCmWRN8PpGD2pXSYQz2me2/GK2/mcjotX+rpiCSBEFT4AH6EpvEje
+X-Google-Smtp-Source: AGHT+IFWY4rffAXdYwFfuQHWKpuj2pn234r4XkCl9SjkaICc/iZCJeR6DIGEJdbQ4wVDt5XNulktBg==
+X-Received: by 2002:a50:8e53:0:b0:607:6324:8da2 with SMTP id
+ 4fb4d7f45d1cf-611e84c0659mr3241212a12.24.1752261498652; 
+ Fri, 11 Jul 2025 12:18:18 -0700 (PDT)
+Received: from mail-ed1-f49.google.com (mail-ed1-f49.google.com.
+ [209.85.208.49]) by smtp.gmail.com with ESMTPSA id
+ 4fb4d7f45d1cf-611c95256d0sm2570492a12.24.2025.07.11.12.18.18
+ for <dri-devel@lists.freedesktop.org>
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Fri, 11 Jul 2025 12:18:18 -0700 (PDT)
+Received: by mail-ed1-f49.google.com with SMTP id
+ 4fb4d7f45d1cf-611f74c1837so1513535a12.3
+ for <dri-devel@lists.freedesktop.org>; Fri, 11 Jul 2025 12:18:18 -0700 (PDT)
+X-Forwarded-Encrypted: i=1;
+ AJvYcCXH0JUCjQOVKu4/Ndv4crQVc15eXsey9lvMp8yQcw65uVkGtZ/j+5jboxrr1TCnIci0dGLz8m8Di/Q=@lists.freedesktop.org
+X-Received: by 2002:a05:6402:11c7:b0:60b:fb2c:b789 with SMTP id
+ 4fb4d7f45d1cf-611e84907ddmr3562736a12.21.1752261497669; Fri, 11 Jul 2025
+ 12:18:17 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20250703152908.16702-3-caterina.shablia@collabora.com>
+References: <20250711151002.3228710-1-kuba@kernel.org>
+ <CAHk-=wj1Y3LfREoHvT4baucVJ5jvy0cMydcPVQNXhprdhuE2AA@mail.gmail.com>
+ <20250711114642.2664f28a@kernel.org>
+ <CAHk-=wjb_8B85uKhr1xuQSei_85u=UzejphRGk2QFiByP+8Brw@mail.gmail.com>
+In-Reply-To: <CAHk-=wjb_8B85uKhr1xuQSei_85u=UzejphRGk2QFiByP+8Brw@mail.gmail.com>
+From: Linus Torvalds <torvalds@linux-foundation.org>
+Date: Fri, 11 Jul 2025 12:18:01 -0700
+X-Gmail-Original-Message-ID: <CAHk-=wiwVkGyDngsNR1Hv5ZUqvmc-x0NUD9aRTOcK3=8fTUO=Q@mail.gmail.com>
+X-Gm-Features: Ac12FXyQ_YSMvJEi4nfPYDndHOPluuiAs0LoNS1cD3a_Bb9k_MZNqvkWl-g86Aw
+Message-ID: <CAHk-=wiwVkGyDngsNR1Hv5ZUqvmc-x0NUD9aRTOcK3=8fTUO=Q@mail.gmail.com>
+Subject: Re: [GIT PULL] Networking for v6.16-rc6 (follow up)
+To: Jakub Kicinski <kuba@kernel.org>
+Cc: Thomas Zimmermann <tzimmermann@suse.de>, Simona Vetter <simona@ffwll.ch>, 
+ Dave Airlie <airlied@gmail.com>, davem@davemloft.net,
+ netdev@vger.kernel.org, linux-kernel@vger.kernel.org, pabeni@redhat.com, 
+ dri-devel <dri-devel@lists.freedesktop.org>
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -71,192 +102,67 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Caterina,
+On Fri, 11 Jul 2025 at 11:54, Linus Torvalds
+<torvalds@linux-foundation.org> wrote:
+>
+> Will do more testing.
 
-On 03.07.2025 15:28, Caterina Shablia wrote:
-> From: Boris Brezillon <boris.brezillon@collabora.com>
->
-> Move the lock/flush_mem operations around the gpuvm_sm_map() calls so
-> we can implement true atomic page updates, where any access in the
-> locked range done by the GPU has to wait for the page table updates
-> to land before proceeding.
->
-> This is needed for vkQueueBindSparse(), so we can replace the dummy
-> page mapped over the entire object by actual BO backed pages in an atomic
-> way.
->
-> Signed-off-by: Boris Brezillon <boris.brezillon@collabora.com>
-> Signed-off-by: Caterina Shablia <caterina.shablia@collabora.com>
-> ---
->  drivers/gpu/drm/panthor/panthor_mmu.c | 65 +++++++++++++++++++++++++--
->  1 file changed, 62 insertions(+), 3 deletions(-)
->
-> diff --git a/drivers/gpu/drm/panthor/panthor_mmu.c b/drivers/gpu/drm/panthor/panthor_mmu.c
-> index b39ea6acc6a9..1e58948587a9 100644
-> --- a/drivers/gpu/drm/panthor/panthor_mmu.c
-> +++ b/drivers/gpu/drm/panthor/panthor_mmu.c
-> @@ -387,6 +387,15 @@ struct panthor_vm {
->  	 * flagged as faulty as a result.
->  	 */
->  	bool unhandled_fault;
-> +
-> +	/** @locked_region: Information about the currently locked region currently. */
+Bah. What I thought was a "reliable hang" isn't actually that at all.
+It ends up still being very random indeed.
 
-Nit: delete second 'current'
+That said, I do think it's related to this netlink issue, because the
+symptoms end up being random delays.
 
-> +	struct {
-> +		/** @locked_region.start: Start of the locked region. */
-> +		u64 start;
-> +
-> +		/** @locked_region.size: Size of the locked region. */
-> +		u64 size;
-> +	} locked_region;
->  };
->
->  /**
-> @@ -775,6 +784,10 @@ int panthor_vm_active(struct panthor_vm *vm)
->  	}
->
->  	ret = panthor_mmu_as_enable(vm->ptdev, vm->as.id, transtab, transcfg, vm->memattr);
-> +	if (!ret && vm->locked_region.size) {
-> +		lock_region(ptdev, vm->as.id, vm->locked_region.start, vm->locked_region.size);
+I've seen it at boot before even logging in (I saw that twice in a row
+after the latest networking pull, which is why I thought it was
+reliable).
 
-Why do we need to lock the region after enabling a new AS?
+But the much more common situation is that some random gnome app ends
+up hanging and then timing out.
 
-> +		ret = wait_ready(ptdev, vm->as.id);
-> +	}
->
->  out_make_active:
->  	if (!ret) {
-> @@ -902,6 +915,9 @@ static int panthor_vm_unmap_pages(struct panthor_vm *vm, u64 iova, u64 size)
->  	struct io_pgtable_ops *ops = vm->pgtbl_ops;
->  	u64 offset = 0;
->
-> +	drm_WARN_ON(&ptdev->base,
-> +		    (iova < vm->locked_region.start) ||
-> +		    (iova + size > vm->locked_region.start + vm->locked_region.size));
->  	drm_dbg(&ptdev->base, "unmap: as=%d, iova=%llx, len=%llx", vm->as.id, iova, size);
->
->  	while (offset < size) {
-> @@ -915,13 +931,12 @@ static int panthor_vm_unmap_pages(struct panthor_vm *vm, u64 iova, u64 size)
->  				iova + offset + unmapped_sz,
->  				iova + offset + pgsize * pgcount,
->  				iova, iova + size);
-> -			panthor_vm_flush_range(vm, iova, offset + unmapped_sz);
+Sometimes it's gnome-shell itself, so when I log in nothing happens,
+and then after a 30s timeout gnome-shell times out and I get back the
+login window.
 
-We've removed all calls to panthor_vm_flush_range(), but I don't see it being done in panthor_vm_exec_op()
-before the region is unlocked. It's effectively become dead code.
+That was what I *thought* was the common failure case, but it turns
+out that I've now several times seen just random other applications
+having that issue. This boot, for example, things "worked", except
+starting gnome-terminal took a long time, and then I get a random
+crash report for gsd-screensaver-proxy.
 
-However, even if we did 'panthor_vm_flush_range(vm, op->va.addr, op->va.range);' in panthor_vm_exec_op() right
-before we unlock the region, we wouldn't be dealing well with the case in which only a partial unmap happens,
-but maybe this isn't a big deal either.
+The backtrace for that was
 
->  			return  -EINVAL;
->  		}
->  		offset += unmapped_sz;
->  	}
->
-> -	return panthor_vm_flush_range(vm, iova, size);
-> +	return 0;
->  }
->
->  static int
-> @@ -938,6 +953,10 @@ panthor_vm_map_pages(struct panthor_vm *vm, u64 iova, int prot,
->  	if (!size)
->  		return 0;
->
-> +	drm_WARN_ON(&ptdev->base,
-> +		    (iova < vm->locked_region.start) ||
-> +		    (iova + size > vm->locked_region.start + vm->locked_region.size));
-> +
->  	for_each_sgtable_dma_sg(sgt, sgl, count) {
->  		dma_addr_t paddr = sg_dma_address(sgl);
->  		size_t len = sg_dma_len(sgl);
-> @@ -985,7 +1004,7 @@ panthor_vm_map_pages(struct panthor_vm *vm, u64 iova, int prot,
->  		offset = 0;
->  	}
->
-> -	return panthor_vm_flush_range(vm, start_iova, iova - start_iova);
+  g_bus_get_sync ->
+    initable_init ->
+      g_data_input_stream_read_line ->
+        g_buffered_input_stream_fill ->
+          g_buffered_input_stream_real_fill ->
+            g_input_stream_read ->
+              g_socket_receive_with_timeout ->
+                g_socket_condition_timed_wait ->
+                  poll ->
+                    __syscall_cancel
 
+and I suspect these are all symptoms of the same thing.
 
-> +	return 0;
->  }
->
->  static int flags_to_prot(u32 flags)
-> @@ -1654,6 +1673,38 @@ static const char *access_type_name(struct panthor_device *ptdev,
->  	}
->  }
->
-> +static int panthor_vm_lock_region(struct panthor_vm *vm, u64 start, u64 size)
-> +{
-> +	struct panthor_device *ptdev = vm->ptdev;
-> +	int ret;
-> +
-> +	mutex_lock(&ptdev->mmu->as.slots_lock);
-> +	drm_WARN_ON(&ptdev->base, vm->locked_region.start || vm->locked_region.size);
-> +	vm->locked_region.start = start;
-> +	vm->locked_region.size = size;
-> +	if (vm->as.id >= 0) {
+My *guess* is that all of these things use a netlink socket, and
+presumably it's the *other* end of the socket has filled up its
+receive queue and is dropping packets as a result, and never
+answering, so then - entirely randomly - depending on how overworked
+things got, and which requests got dropped, some poor gnome process
+never gets a reply and times out and the thing fails.
 
-I guess VM bind operations don't increase the active_cnt of a VM, so we might try to
-be mapping addresses from UM while no active groups are submitting jobs targetting this VM?
+And sometimes the things that fail are not very critical (like some
+gsd-screensaver-proxy) and I can log in happily. And sometimes they
+are rather more critical and nothing works.
 
-> +		lock_region(ptdev, vm->as.id, start, size);
-> +		ret = wait_ready(ptdev, vm->as.id);
+Anyway, because it's so damn random, it's neither bisectable nor easy
+to know when something is "fixed".
 
-I've noticed in mmu_hw_do_operation_locked() we don't do wait_ready() after locking the region.
-Is it missing or else maybe waiting for the AS to be locked isn't necessary here?
+I spent several hours yesterday chasing all the wrong things (because
+I thought it was in drm), and often thought "Oh, that fixed it". Only
+to then realize that nope, the problem still happens.
 
-> +	}
-> +	mutex_unlock(&ptdev->mmu->as.slots_lock);
-> +
-> +	return ret;
-> +}
-> +
-> +static void panthor_vm_unlock_region(struct panthor_vm *vm)
-> +{
-> +	struct panthor_device *ptdev = vm->ptdev;
-> +
-> +	mutex_lock(&ptdev->mmu->as.slots_lock);
-> +	if (vm->as.id >= 0) {
-> +		write_cmd(ptdev, vm->as.id, AS_COMMAND_FLUSH_MEM);
+I will test the reverts. Several times.
 
-I guess this is why we no longer need to call panthor_vm_flush_range() right before this function.
-Does AS_COMMAND_FLUSH_MEM only flush the locked region? Also, why not AS_COMMAND_FLUSH_PT instead?
-
-> +		drm_WARN_ON(&ptdev->base, wait_ready(ptdev, vm->as.id));
-> +	}
-> +	vm->locked_region.start = 0;
-> +	vm->locked_region.size = 0;
-> +	mutex_unlock(&ptdev->mmu->as.slots_lock);
-> +}
-> +
->  static void panthor_mmu_irq_handler(struct panthor_device *ptdev, u32 status)
->  {
->  	bool has_unhandled_faults = false;
-> @@ -2179,6 +2230,11 @@ panthor_vm_exec_op(struct panthor_vm *vm, struct panthor_vm_op_ctx *op,
->
->  	mutex_lock(&vm->op_lock);
->  	vm->op_ctx = op;
-> +
-> +	ret = panthor_vm_lock_region(vm, op->va.addr, op->va.range);
-> +	if (ret)
-> +		goto out;
-> +
->  	switch (op_type) {
->  	case DRM_PANTHOR_VM_BIND_OP_TYPE_MAP:
->  		if (vm->unusable) {
-> @@ -2199,6 +2255,9 @@ panthor_vm_exec_op(struct panthor_vm *vm, struct panthor_vm_op_ctx *op,
->  		break;
->  	}
->
-> +	panthor_vm_unlock_region(vm);
-> +
-> +out:
->  	if (ret && flag_vm_unusable_on_failure)
->  		vm->unusable = true;
->
-> --
-> 2.47.2
-
-Adrian Larumbe
+             Linus
