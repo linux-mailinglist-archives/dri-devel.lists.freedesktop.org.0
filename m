@@ -2,63 +2,110 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id D28A5B0152E
-	for <lists+dri-devel@lfdr.de>; Fri, 11 Jul 2025 09:50:25 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 25F9CB0153D
+	for <lists+dri-devel@lfdr.de>; Fri, 11 Jul 2025 09:56:13 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4976210E9BA;
-	Fri, 11 Jul 2025 07:50:24 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E284810E9C1;
+	Fri, 11 Jul 2025 07:56:10 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=rock-chips.com header.i=@rock-chips.com header.b="f3ABdV+J";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="CxwzvimV";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-m49210.qiye.163.com (mail-m49210.qiye.163.com
- [45.254.49.210])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9A7DD10E9BA
- for <dri-devel@lists.freedesktop.org>; Fri, 11 Jul 2025 07:50:22 +0000 (UTC)
-Received: from [172.16.12.26] (unknown [58.22.7.114])
- by smtp.qiye.163.com (Hmail) with ESMTP id 1baf32046;
- Fri, 11 Jul 2025 15:50:18 +0800 (GMT+08:00)
-Message-ID: <84b8fe6e-0d33-42a9-9f8f-ed10998429e8@rock-chips.com>
-Date: Fri, 11 Jul 2025 15:50:18 +0800
+Received: from nyc.source.kernel.org (nyc.source.kernel.org [147.75.193.91])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5FF2A10E9C1
+ for <dri-devel@lists.freedesktop.org>; Fri, 11 Jul 2025 07:56:09 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+ by nyc.source.kernel.org (Postfix) with ESMTP id 27AE3A54CEA;
+ Fri, 11 Jul 2025 07:56:08 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id ED6A4C4CEED;
+ Fri, 11 Jul 2025 07:56:03 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1752220567;
+ bh=ZTl9Lcxqo1YuOckQGlJbPCZk0uyJdifoQEYcCmzeCIY=;
+ h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+ b=CxwzvimVfkzfrBmMJQJCoLSQfD1YGdL/qdXo+fbYnuW6DSlG7efYaPc9ogj323+K6
+ DtWygRDJh1Q4piDaP5koawGm3Valhr3pKWXzIHwoiwx2dbhmr6ACEjNx8mj/lNDsjr
+ eV+IVp8ryYZX1+RdGaMrVMrFLA9LbmtOFxUEsvoC1H63m4mjqCJTpreKgItaxQQdL8
+ p7aKGzrcbbViKXIXRkVmTXIj5S0o2G9BVuYDHkcjB+r8DA4WFLPUwWlT2YKBZpS2w1
+ uNUH/2jLKUfb2WUiGNpKAonmRrvxZi+h1ik5y4uDc0Zuc9qaKNchaU8UM690/FbT7/
+ aQuBpSQrorIWQ==
+Message-ID: <83a7add6-e72d-4042-af1b-db45fc3f8a34@kernel.org>
+Date: Fri, 11 Jul 2025 09:56:02 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 12/12] drm/bridge: analogix_dp: Apply
- drm_bridge_connector helper
-To: =?UTF-8?Q?Heiko_St=C3=BCbner?= <heiko@sntech.de>,
- andrzej.hajda@intel.com, neil.armstrong@linaro.org, rfoss@kernel.org
-Cc: Laurent.pinchart@ideasonboard.com, jonas@kwiboo.se,
- jernej.skrabec@gmail.com, maarten.lankhorst@linux.intel.com,
- mripard@kernel.org, tzimmermann@suse.de, airlied@gmail.com, simona@ffwll.ch,
- jingoohan1@gmail.com, inki.dae@samsung.com, sw0312.kim@samsung.com,
- kyungmin.park@samsung.com, krzk@kernel.org, alim.akhtar@samsung.com,
- hjc@rock-chips.com, andy.yan@rock-chips.com,
- dmitry.baryshkov@oss.qualcomm.com, l.stach@pengutronix.de,
- dianders@chromium.org, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
- linux-samsung-soc@vger.kernel.org, linux-rockchip@lists.infradead.org
-References: <20250709070139.3130635-1-damon.ding@rock-chips.com>
- <20250709070139.3130635-13-damon.ding@rock-chips.com>
- <6140569.FjKLVJYuhi@diego>
+Subject: Re: [PATCH v2 1/5] dt-bindings: display: simple-framebuffer: Add
+ interconnects property
+To: Luca Weiss <luca.weiss@fairphone.com>,
+ Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
+Cc: Hans de Goede <hdegoede@redhat.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+ Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
+ Conor Dooley <conor+dt@kernel.org>,
+ Javier Martinez Canillas <javierm@redhat.com>, Helge Deller <deller@gmx.de>,
+ linux-fbdev@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ devicetree@vger.kernel.org, linux-kernel@vger.kernel.org
+References: <20250623-simple-drm-fb-icc-v2-0-f69b86cd3d7d@fairphone.com>
+ <20250623-simple-drm-fb-icc-v2-1-f69b86cd3d7d@fairphone.com>
+ <20250627-mysterious-optimistic-bird-acaafb@krzk-bin>
+ <DAX7ZB27SBPV.2Y0I09TVSF3TT@fairphone.com>
+ <1129bc60-f9cb-40be-9869-8ffa3b3c9748@kernel.org>
+ <8a3ad930-bfb1-4531-9d34-fdf7d437f352@redhat.com>
+ <85521ded-734d-48e8-8f76-c57739102ded@kernel.org>
+ <e534d496-6ce0-46c8-835d-94b3346446a7@redhat.com>
+ <6e4253dd-cd73-4302-b9df-44c8c311eb22@kernel.org>
+ <vk7xshncx3vj66ykbt3cfdjwdsx5uewfzlqmfsdbjfgju4awwk@lz76hnenxq2u>
+ <DB927EJAGV63.1RSRM7JK907VL@fairphone.com>
+From: Krzysztof Kozlowski <krzk@kernel.org>
 Content-Language: en-US
-From: Damon Ding <damon.ding@rock-chips.com>
-In-Reply-To: <6140569.FjKLVJYuhi@diego>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-HM-Spam-Status: e1kfGhgUHx5ZQUpXWQgPGg8OCBgUHx5ZQUlOS1dZFg8aDwILHllBWSg2Ly
- tZV1koWUFDSUNOT01LS0k3V1ktWUFJV1kPCRoVCBIfWUFZGUIeS1YYSUJKSUpMQkgfTxhWFRQJFh
- oXVRMBExYaEhckFA4PWVdZGBILWUFZTkNVSUlVTFVKSk9ZV1kWGg8SFR0UWUFZT0tIVUpLSU9PT0
- hVSktLVUpCS0tZBg++
-X-HM-Tid: 0a97f876b52003a3kunm13db4e75f3c74a
-X-HM-MType: 1
-X-HM-Sender-Digest: e1kMHhlZQR0aFwgeV1kSHx4VD1lBWUc6PxA6GCo*KjE2Lx8SUSk5EgEj
- C08wCj5VSlVKTE5JSUlLSUlLTEJNVTMWGhIXVR8aFhQVVR8SFRw7CRQYEFYYExILCFUYFBZFWVdZ
- EgtZQVlOQ1VJSVVMVUpKT1lXWQgBWUFPT0lMNwY+
-DKIM-Signature: a=rsa-sha256;
- b=f3ABdV+J9ZF4Xh4dDg/WOg07CApS5rihUgUFAvDfOc0Q3Sk0KKlc5dUnKK0B8PkH67LddM3XLMInqreiNp6Iq4k45NkImv8eCKuNN/9Qarq/wNQ452zop5AwY0dB2gNx8FzkKokv0WlZypir9qZ2d0Pl+UxU4dsxr9HRKS+eZqs=;
- c=relaxed/relaxed; s=default; d=rock-chips.com; v=1; 
- bh=ugJYj+exyps/6wR5MX4czRxtXgkmuqVMFOJv2QPxESU=;
- h=date:mime-version:subject:message-id:from;
+Autocrypt: addr=krzk@kernel.org; keydata=
+ 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 a/A=
+In-Reply-To: <DB927EJAGV63.1RSRM7JK907VL@fairphone.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -74,89 +121,24 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Heiko,
+On 11/07/2025 09:49, Luca Weiss wrote:
+>> I think this explodes too quickly to be useful. I'd cast my (small) vote
+>> into continuing using the simple-framebuffer as is, without additional
+>> compatible strings and extend the bindings allowing unbound number of
+>> interconnects.
+> 
+> How do we continue on this?
+> 
+> If the current solution is not acceptable, can you suggest one that is?
+> 
+> I'd like to keep this moving to not block the dts upstreaming
+> unnecessarily - or otherwise I need to drop simple-framebuffer from the
+> dts patch and keep this out-of-tree along with a patch like this.
 
-On 2025/7/10 4:11, Heiko Stübner wrote:
-> Am Mittwoch, 9. Juli 2025, 09:01:39 Mitteleuropäische Sommerzeit schrieb Damon Ding:
->> Apply drm_bridge_connector helper for Analogix DP driver.
->>
->> The following changes have been made:
->> - Remove &analogix_dp_device.connector and change
->>    &analogix_dp_device.bridge from a pointer to an instance.
->> - Apply devm_drm_bridge_alloc() to allocate &analogix_dp_device that
->>    contains &drm_bridge.
->> - Apply drm_bridge_connector helper to get rid of &drm_connector_funcs
->>    and &drm_connector_helper_funcs.
->>
->> Signed-off-by: Damon Ding <damon.ding@rock-chips.com>
->>
->> ------
->>
->> Changes in v2:
->> - For &drm_bridge.ops, remove DRM_BRIDGE_OP_HPD and add
->>    DRM_BRIDGE_OP_EDID.
->> - Add analogix_dp_bridge_edid_read().
->> - Move &analogix_dp_plat_data.skip_connector deletion to the previous
->>    patches.
->> ---
->>   .../drm/bridge/analogix/analogix_dp_core.c    | 169 ++++++++----------
->>   .../drm/bridge/analogix/analogix_dp_core.h    |   4 +-
->>   2 files changed, 80 insertions(+), 93 deletions(-)
->>
->> diff --git a/drivers/gpu/drm/bridge/analogix/analogix_dp_core.c b/drivers/gpu/drm/bridge/analogix/analogix_dp_core.c
->> index abc64cc17e4c..fb510e55ef06 100644
->> --- a/drivers/gpu/drm/bridge/analogix/analogix_dp_core.c
->> +++ b/drivers/gpu/drm/bridge/analogix/analogix_dp_core.c
->> @@ -23,6 +23,7 @@
->>   #include <drm/drm_atomic.h>
->>   #include <drm/drm_atomic_helper.h>
->>   #include <drm/drm_bridge.h>
->> +#include <drm/drm_bridge_connector.h>
->>   #include <drm/drm_crtc.h>
->>   #include <drm/drm_device.h>
->>   #include <drm/drm_edid.h>
->> @@ -948,23 +949,13 @@ static int analogix_dp_disable_psr(struct analogix_dp_device *dp)
->>   	return analogix_dp_send_psr_spd(dp, &psr_vsc, true);
->>   }
->>   
->> -static int analogix_dp_get_modes(struct drm_connector *connector)
->> +static int analogix_dp_bridge_get_modes(struct drm_bridge *bridge, struct drm_connector *connector)
->>   {
->> -	struct analogix_dp_device *dp = to_dp(connector);
->> -	const struct drm_edid *drm_edid;
->> +	struct analogix_dp_device *dp = to_dp(bridge);
->>   	int num_modes = 0;
->>   
->>   	if (dp->plat_data->panel) {
->>   		num_modes += drm_panel_get_modes(dp->plat_data->panel, connector);
-> 
-> here is one example where a panel_bridge would help :-)
-> 
-> I.e. I'd think without it the code would need some sort of
-> 
->    	if (dp->plat_data->bridge) {
->    		num_modes += drm_bridge_get_modes(dp->plat_data->bridge, connector);
-> 
-> thing?
-> 
 
-Oh, the handling of bridge here is indeed not well thought out. I will 
-implement the panel-bridge in the next version.
-
->> -	} else {
->> -		drm_edid = drm_edid_read_ddc(connector, &dp->aux.ddc);
->> -
->> -		drm_edid_connector_update(&dp->connector, drm_edid);
->> -
->> -		if (drm_edid) {
->> -			num_modes += drm_edid_connector_add_modes(&dp->connector);
->> -			drm_edid_free(drm_edid);
->> -		}
->>   	}
->>   
->>   	if (dp->plat_data->get_modes)
-> 
+I gave another alternative already (in this thread!) - get an ack or
+opinion from @Rob or @Conor. For the cases I am not sure or I got
+something wrong, I always defer to @Rob.
 
 Best regards,
-Damon
-
+Krzysztof
