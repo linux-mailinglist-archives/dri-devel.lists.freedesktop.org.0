@@ -2,163 +2,109 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B37C3B020EB
-	for <lists+dri-devel@lfdr.de>; Fri, 11 Jul 2025 17:54:11 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6BC8FB02106
+	for <lists+dri-devel@lfdr.de>; Fri, 11 Jul 2025 18:01:14 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 00C7510E3A6;
-	Fri, 11 Jul 2025 15:54:09 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id ADA3210E3A4;
+	Fri, 11 Jul 2025 16:01:11 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=amd.com header.i=@amd.com header.b="09Pr1m0F";
+	dkim=pass (2048-bit key; unprotected) header.d=tomeuvizoso-net.20230601.gappssmtp.com header.i=@tomeuvizoso-net.20230601.gappssmtp.com header.b="NScXFGWm";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from NAM11-DM6-obe.outbound.protection.outlook.com
- (mail-dm6nam11on2061.outbound.protection.outlook.com [40.107.223.61])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B859B10E3A3;
- Fri, 11 Jul 2025 15:54:06 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=uKSnrW4hJzelGKjGTldN+qD8/8wRFuRE0b4LUcXv3IPbEC4hx+wmeZavj5t87VhwDLm2eyDvywhgv3+icZzf5hvejQO4gB5/aA+0rtuSRlMt7XOCcRoTc3gtM5UDJ3pRvuk9L+jHpYafM2DVjkEWIPVWv0xpbsdQitUkRFinotIoHmy8RRX5U4EeJjNHJV3FL+EwLw4yl8WNRitlyBFee50pwxjGihFHAMEyMIxtC/kdtJtp2a5VJKXnLpjNeo5qfI1AZ72LqN6jobe81VI/vmBuUDy24vwd/QXgxrH3LBCg445yggfOqT0BB1saKEA/ylF5+uwCr5dlXXPoBKL8qw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=mvT1NVF0qFd7DTF2r/kO64fxdtQeNOqXahXbasYhtc0=;
- b=it2cVHYLOEqnk0PHovHO1AmjXybk4m/9qOwS2mlLF2IVacxYj2HEjBnLgpU0OxEMIjHE5lNJWg+4m66M1QbHfnklAPDAloxdvWvAN21FrCYcaatBo8SP8rLHYTxAL70pM0t9woC2WOE90TT1GcBbw1K7wgBC7IJ2dGFCyHTpd8LX66CiC6GSQG9lB9sKYmnJ7ywnBwREFaA8KLbyZO0lsXQtmOl05h3D875T2jjVyezLz+4vPwYGsTXN/a2A3MvZxuxDjIhk5q9oJjBe40NfZ+bi9U+auLNZfotKR2D/v96iXIhqyCqJpn8k5ukGKHDKQB5gIUpZqhTO4b2B4fBvmg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
- header.d=amd.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=mvT1NVF0qFd7DTF2r/kO64fxdtQeNOqXahXbasYhtc0=;
- b=09Pr1m0FWsadv0mztb+tS4uDkG0jtnCPjjtJaKHpQe+JHU08AFJ0ebfvGg3DqeKCqwnFoG0wp9FqUcqWS1B3WTW98F6MaO4BA8UbUpUWK/BMyNrHxWiPhYJNHVPYF190NCNsVH98AGxhm4WASm85gtm9iSjdht5KJQ5h4KKJl3U=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=amd.com;
-Received: from DM4PR12MB8476.namprd12.prod.outlook.com (2603:10b6:8:17e::15)
- by CH1PPF711010B62.namprd12.prod.outlook.com (2603:10b6:61f:fc00::614) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8835.25; Fri, 11 Jul
- 2025 15:54:03 +0000
-Received: from DM4PR12MB8476.namprd12.prod.outlook.com
- ([fe80::2ed6:28e6:241e:7fc1]) by DM4PR12MB8476.namprd12.prod.outlook.com
- ([fe80::2ed6:28e6:241e:7fc1%6]) with mapi id 15.20.8901.024; Fri, 11 Jul 2025
- 15:54:02 +0000
-Message-ID: <a0e334fe-c3b8-4b33-8d3c-6d73a380d759@amd.com>
-Date: Fri, 11 Jul 2025 11:54:00 -0400
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v5 00/14] drm/amd/display: more drm_edid to AMD display
- driver
-To: Melissa Wen <mwen@igalia.com>,
- Mario Limonciello <mario.limonciello@amd.com>,
- Rodrigo Siqueira <siqueira@igalia.com>, airlied@gmail.com,
- alexander.deucher@amd.com, andrzej.hajda@intel.com,
- christian.koenig@amd.com, harry.wentland@amd.com,
- maarten.lankhorst@linux.intel.com, mripard@kernel.org,
- neil.armstrong@linaro.org, rfoss@kernel.org, simona@ffwll.ch,
- sunpeng.li@amd.com, tzimmermann@suse.de
-Cc: Jani Nikula <jani.nikula@linux.intel.com>,
- Michel Daenzer <michel.daenzer@mailbox.org>, amd-gfx@lists.freedesktop.org,
- dri-devel@lists.freedesktop.org, kernel-dev@igalia.com
-References: <20250618152216.948406-1-mwen@igalia.com>
-Content-Language: en-US
-From: Alex Hung <alex.hung@amd.com>
-In-Reply-To: <20250618152216.948406-1-mwen@igalia.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: YT1PR01CA0083.CANPRD01.PROD.OUTLOOK.COM
- (2603:10b6:b01:2d::22) To DM4PR12MB8476.namprd12.prod.outlook.com
- (2603:10b6:8:17e::15)
+Received: from mail-ot1-f54.google.com (mail-ot1-f54.google.com
+ [209.85.210.54])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A585010E3A4
+ for <dri-devel@lists.freedesktop.org>; Fri, 11 Jul 2025 16:01:10 +0000 (UTC)
+Received: by mail-ot1-f54.google.com with SMTP id
+ 46e09a7af769-73caf1152bdso1041402a34.3
+ for <dri-devel@lists.freedesktop.org>; Fri, 11 Jul 2025 09:01:10 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=tomeuvizoso-net.20230601.gappssmtp.com; s=20230601; t=1752249670;
+ x=1752854470; darn=lists.freedesktop.org; 
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=ODMKcE1p5YgqiPmFZ5yGUw8T4mr2KE6M7w5D5YC/OsI=;
+ b=NScXFGWmJ09ykLIa8WVufOtu8xyXXUgCUFlytr2fPvBNmVBiGANw5E5gUtXjIB7IYR
+ zM8H2nSt2NWenMnO+amX8HXSHY9KJiag//UebftgwlUMJB0GN+EOgMrgiN/0PBMnGRT6
+ 8lFHqyCxCOOjsHYR36ejF/sv0SCZmx1TjP90N3Jj19Gg3kto+xYdq8PlAMJzvFxu6K91
+ pCmjbY4ttYZyUVg+ekBC0RYZkUebplicV41w+QmgN9z9aCRJsYgqtY8FfUqGiGVOjhfg
+ n+XxrMusx1o1IaXYows/5XKuCHbddnGmPSa6kL/PQN1TsXQFitqP0R54yOxofEVFgjFl
+ Tn5Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1752249670; x=1752854470;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=ODMKcE1p5YgqiPmFZ5yGUw8T4mr2KE6M7w5D5YC/OsI=;
+ b=GUVjaNqOlVnm+RkDs/ywhf+xwgZpGPicagDV4g7XIcNdXaua/cFagLOku6D/ZlSnO2
+ dDYq8QfS2zAEro+bPU/qZAAhsbnfz8SiAlwomp7lLF4aZXyBQnrUFMaqjeJluhH8OXwr
+ BpRas26xn57Rd63HfF8z2WzpTKz80OiD/G0uDUinqGDBm5dg1Rzh5p4sT3bPksOj6bvt
+ cdHLPanqKQXcuBYgeipFKHzr49UbiWMoHstEYXGWusXFh0C53BxwTnCXZ6dSWyTw9p23
+ nNQgxmOLTPqL2IIEoXK3PfnuGtCSUJPJWoa50Ih2x2qv40U6nJtKdHg9FmBdga+uylxf
+ D2Kg==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCXQBY1StUgs84rKnHwiHF9jh/OnqJ/z36zKxeIY/6cYXHc0aNgOY4vVEQnnlMRDs1JL9SWf4sb/TLU=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0Yx1HENteo37kU0UmUKXZ3RrZZWCUef5kFreqLlTRXH9jLj/wkyu
+ kF+PcpobLw/iVhqi9GCneRgrAJZEZYzBJE1NTh7Pq2lGVu3lAgyHgXOatzVbC1l0tsw0fRb4xMW
+ F6DL/yMsqUA==
+X-Gm-Gg: ASbGncvgB+oYb5/1479FRjau+i53Y64O37fvUfs8qtnCkIr9LlmRQ+HajO7bwwkFuyY
+ liX+fm4l6pYZFMlHrVlpKcUwc4jQ0X4aXMhWXh7SbYiIVSv/346uEWrETWhxDbmUnd5AvIVPpFy
+ 3jcIykFc7Tu+GWPAOQLYseavbN4B/bNADD/6vrLiwGZ9SrYY8cK/RoDooWF2nTkKF9abNwy5Vf3
+ XnG2WoM/vvihasO+VV9gGZSpnuVu/DbxDfiR0hbVMQiRx3FInLQ2fvs3zPH+hDYZh8UL71N+cE5
+ 6QM08MqlXYHvwDBx8+mWW4hcqX8Mp3twTrzDtHQ4d1a9ZguyaL/yeFbfZGSzZK7vAZNnrXpOT11
+ up4f+kPEpTxDljAdEecMhmcYJj715qXBZOG66yqmhr1rSKjSRbBkX4pLDOdnffRzvaH0uVL40Gk
+ eJ
+X-Google-Smtp-Source: AGHT+IEWN96QcS30EEp7JDrHJh0pLecrMqrYtyi4c+Km3MdL62jsGKXef2MTjDynYT5HlYGkoS7ceg==
+X-Received: by 2002:a05:6830:7105:b0:72b:8aec:fbd4 with SMTP id
+ 46e09a7af769-73cfc2b4cacmr2286524a34.3.1752249668518; 
+ Fri, 11 Jul 2025 09:01:08 -0700 (PDT)
+Received: from mail-yb1-f180.google.com (mail-yb1-f180.google.com.
+ [209.85.219.180]) by smtp.gmail.com with ESMTPSA id
+ 00721157ae682-717c5d73818sm8108997b3.44.2025.07.11.09.01.07
+ for <dri-devel@lists.freedesktop.org>
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Fri, 11 Jul 2025 09:01:08 -0700 (PDT)
+Received: by mail-yb1-f180.google.com with SMTP id
+ 3f1490d57ef6-e7dc89108bfso2040048276.3
+ for <dri-devel@lists.freedesktop.org>; Fri, 11 Jul 2025 09:01:07 -0700 (PDT)
+X-Forwarded-Encrypted: i=1;
+ AJvYcCXw4v32Fx3cYiFGp8fFh6lQQnsaQ2j5JTd3uHZNfZ1P+xw7oAzsCrytChflpP9suEZqXqtlcKB5L+s=@lists.freedesktop.org
+X-Received: by 2002:a05:6902:1ac3:b0:e8b:5388:af71 with SMTP id
+ 3f1490d57ef6-e8b874165a9mr3797674276.38.1752249665718; Fri, 11 Jul 2025
+ 09:01:05 -0700 (PDT)
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: DM4PR12MB8476:EE_|CH1PPF711010B62:EE_
-X-MS-Office365-Filtering-Correlation-Id: 868bbdaa-ec2a-4bcd-32d5-08ddc0932824
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
- ARA:13230040|366016|7416014|376014|1800799024|921020|7053199007; 
-X-Microsoft-Antispam-Message-Info: =?utf-8?B?d2JPM29QeHVVS0lCdGlFb1JVb0FJRGdxSFFKWmZHcGkwLzUzTS85QktJOVhL?=
- =?utf-8?B?Q211aWI5cjR1cDZBWE51bER6a25EaGY0eEFFTFNOMi80R1pNYjlPTEM2WU1I?=
- =?utf-8?B?a3NYNjNhTTd6YWtpM0ZqUWx0dUdWZDF1R1lnMWlVU1VwVzdWZ21wTmFEc1or?=
- =?utf-8?B?M2NUSjJ2d3lWRC96ZWhoeWpXbWxWOTlJZVd5MExRamMydkd0Y2NNdHJLcC9i?=
- =?utf-8?B?U211c1dxMUNLdnRhMERQQlZLT1Rpd3VyeW5VdXBUNjZRY1pza3k3VGx6K3Bw?=
- =?utf-8?B?S242NWo3TllZZWZxc3djdjJOOHZCU0o1Vk4yM0dsWjBKWHhCUUFLZFlDS3Jx?=
- =?utf-8?B?eUkzcWhxQ292YkQxQU1GV2lOZnZCd3A1c0YxbFA0OWt2SEJJQ1NRTVFDKzE5?=
- =?utf-8?B?Sy82RE5aOVk0Z1hHRHFiOWZwaGRGcmpwb3pjK3BzdmJsMXBkenYxeVRnMlFu?=
- =?utf-8?B?NTdlbytHZm4rRjNUaVRyWXdtQVBrQVoyN04weWlTR1U0emtFdDZIOXdCQ3dE?=
- =?utf-8?B?MEZaWElqRzJxTCsrK1Z0NGJQWEp5dWtkMTlxeHVjR1lHQm0zcmpweGhWL01B?=
- =?utf-8?B?eXg0dDloajVmWjZOUzFmKzNOdWhjd0J1TlF5OUN3UmJPelBJajNlcTVIYzA0?=
- =?utf-8?B?YmRRTW52dnIvRXhaUlJKKzU4TzlyT0JMUHpraUVDakxQWk5WT3NOWGJWb21k?=
- =?utf-8?B?Z3ByZDkwYXcrQzV3OGROcDZ1VldUSHNvQjlHOXg1L0NqNGVoR1VqcjJHdTgr?=
- =?utf-8?B?RkNpNUU2N2pNcUM1d2dsK1dvYWM0TXE5UER2NkdDWm0yV1IwdlZIRzdqTmJk?=
- =?utf-8?B?WENZOFZaRDhwdDRyZzVaTUpaa1NZWnhNRnhOOU8zSCtjS0VScUpXQjZYeVlz?=
- =?utf-8?B?aU03S3pGOXlPbVl6WjdWVDN5WmlQOUp5RVdEOHpJN1U4cXBrV3NYNW9qU01y?=
- =?utf-8?B?M0RBY09NZjRsZXFicXJmd3FDbkN4dW9LMUtsM0RjNEVKVXo1d0VSTWptMmtJ?=
- =?utf-8?B?UW9nSys1Z1lsbFZDUVZCMGVmOVhxMW41TGFSTEZJUlVUNFVZWlpKSCt5d3Av?=
- =?utf-8?B?blNFc0p0dmpqdlFoUmh2azg1L05FNUliV0ZLNXBaOCt1amlLQkxSN2JKS05v?=
- =?utf-8?B?TStDbDRxQUgrQzRjdWZ3NmltVXpXYXFPVm8zanhHMll3Q1VyOWdJdkU4aTJF?=
- =?utf-8?B?TStjWmhWenpoU1JzOGdMYndEWjJWbHQ4NU11RGdCS1lGMWFscHoxczlWNE1o?=
- =?utf-8?B?NkZVRzB5Q2cwMzYwTk9VTHZMNmlDaDlwM3QwY0cyZkJZRi82RU9mQnI2ZXlK?=
- =?utf-8?B?YUN4a2dpYkk2Umo2YUFmRGRGZDZRdUhRL0dXTW5pRGNaSW5ZZU1KVzJqZGln?=
- =?utf-8?B?SjhnOUVZanVSY2ljTnNNNUp0UFFQV0JHcENHUW1qZXVsU3QxZ2lvaWNMZmw0?=
- =?utf-8?B?dlpCa3Q2czVtQjJ4VXVEUWQrYUZHWkcyRVhOYmF3OEVVWjZQRUNlL0srK2dD?=
- =?utf-8?B?NmtQdHNtUkZtNkxJNWhsT1JHdWhYRVA0eElxODBOMklXc2hkeWRTQVQ2OTJm?=
- =?utf-8?B?MFVqL0FFRUhEREEyYVJYUTI1ZmppL0d6UFZjR2ZEOHdBc2l2Y2R3UlA4WUxy?=
- =?utf-8?B?TzM0dWhqNk5pb0NrWndab1BTaDZNdDZvUW9KeFJRTUVxcDQ4U0V1SXVkTE81?=
- =?utf-8?B?cUVjcXJMR1pWeTV3eVJrU0FTa2htRWZSYzlMRnR1d1BIZ2ZKRmdlY01JSllT?=
- =?utf-8?B?LzFnNTNOZDBDaWhvYXBBSlJiY1FWK3lLK3JRaXVCTk5BQ2RQZmdHNlhadkJJ?=
- =?utf-8?B?S2h4NW5VVlhhRlhHcmNCRW5NL3ZTQW0rUkNOVXkxNThHOU5IMkF6TVF3b0xJ?=
- =?utf-8?B?SDRiRWw1U3lsdDYvdG92Kzg2aVN4dDlrSWtoRUtUK00wWkdUcW9HZFFnaDNy?=
- =?utf-8?B?Q2JyZzlteXR1RFpTMjU4ZEE1UEZEbU5VN2xSb2dFTVVtNXVEeDhyYlRyZXVv?=
- =?utf-8?B?eEVHZDdKSHFRPT0=?=
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:DM4PR12MB8476.namprd12.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230040)(366016)(7416014)(376014)(1800799024)(921020)(7053199007);
- DIR:OUT; SFP:1101; 
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?K2ZSbHFwT2FtcVFFYnl4QjhEb0dWNUhQV0dvZjF5V2Faejg2akp6eG1OTWph?=
- =?utf-8?B?ZDJOMnlrTG1MTUgzNSs2OG0vZ1hvQzdXb1QwYnNVek93eEFGS3pPM0gzeTli?=
- =?utf-8?B?WUx5VU42c3lzVVZuNDNLc05CbkhRazhseHNsYWVqKzRpOVUzK0pEcks5b1oz?=
- =?utf-8?B?eFNSVTg5YkN3VkVFaHhIdUt2OWY3OGp6TVA2dy9FSUh4Y0VBcWNwUjFJS0E1?=
- =?utf-8?B?WUNEZko2TWVzek9seHRydVE3aGxGaHFPMXpzRHM2UVNZS3ZsNm5IYlFuNjN6?=
- =?utf-8?B?eFRleDNpQ3ZML2NrYkcwbnRUREZrRkJsMTdsTHdZWEF5TlpDcWVGbHpDMFlS?=
- =?utf-8?B?Vm5Hd1pHdHppK2o5VmJleXJhZTRhSDV2NWhQLzlrRDdDMUdaTkorZlJUN0FQ?=
- =?utf-8?B?T25nL2tpdXJEcGNwSGVzVTZPR1Q2Q3Zub0NoVjdxeFNNM2lEODhsU0NlQmZC?=
- =?utf-8?B?ZGNSMlo4bTRibG51YVN3Q2ZrdVM4TURtS3ZadGJWM1d0WTFaTVlkenZ1aURI?=
- =?utf-8?B?NVcyd2pCRUNyb0lhYmllNHZVNS96RFRZZ1lUczJ5eG1KZCt6UVoySFM0NmRH?=
- =?utf-8?B?b2Nxay9UUzk5eHV5b2tmN1FBV3VxTzY3ZzB4NHZLbFRCNGF6clFxc1NhOXdu?=
- =?utf-8?B?Nk1hNU91L3A2M0FORjQ2WER2Qm9ERXFmMWZyeGFzY0wzSURTWlpHVWpIOXZU?=
- =?utf-8?B?S1p5cnVPcmhCeVl6SzVkd3hqTmdTYjZ3UFZSMUVOWG1ERE53dFhHT0RlUU10?=
- =?utf-8?B?QmJReTFIejhTcndhM1dnOFJhMFU4K3lHblRYaC95VzVkRW5PQmI2aXlVaG9k?=
- =?utf-8?B?L3BrRzdpVUV5L3FmcGExVWZGZlM2S2wrUmJGVFhmeDZOTEFPRVQ4ckovMUdI?=
- =?utf-8?B?WGoyazdCZUpzM0N4MFpycy9iRjhxRnBldDgxUThOam1wTmxJYXNudUJBbVZC?=
- =?utf-8?B?SzZnRThiaGxCSjhKby83Znh6OWdaRFcxTkRicjhaOFZjcnUzQVpUS2lwaVNK?=
- =?utf-8?B?eVdBQWVJODhaZ2ZjM1dqVVNxa0ttWk5JZ0t0MXpZMXBKL1liVVkxQTBRZDNX?=
- =?utf-8?B?ektHV0gzMzM1NnUxNWErZlhqcCtpUExzSkplY0gram5zQUw4b2c1S0RFemk0?=
- =?utf-8?B?cVFDMTlkUVpWOEdKWnp4d0xvT2hXSG90dHJXeGN1Y05WMDZ0ZU1GUG9MTG5o?=
- =?utf-8?B?OFBqLzFuak5oMFBTVjZzRzhWbWpmTmQ2YXc5aVJHNG1jT1BQMFNUMktQL09r?=
- =?utf-8?B?VmhQWTl1dU9JbnVheC9GU0dYdndOdnZwK3dIbkxxTlhwVUhxaEQ0WmJDL252?=
- =?utf-8?B?SVBLMFpLQWVUK01iTWl0SVkyajhlWnhqbWJpLzVkclo4N0NTZjFHTmplaDJK?=
- =?utf-8?B?d0M1eHA0cjQ1Q05FZVJkZTRvbDY4YmJvYURQcEorTFQrdndkU2JxUGNCU0kx?=
- =?utf-8?B?elFjK2tHY1dULzk3WnZ3bnh2QTNRWExGRFd5bHI2UjFKcWUxaFRYOVl6QlBB?=
- =?utf-8?B?SHZrdHhJaS9sL1h3V3Bub1lTS0VaNkFrNVZNMUNVRTRoQU9ScWJYZlFRcWFt?=
- =?utf-8?B?dG5ZOXgwWDh4ZDFNNjRNTlVEWUtGdUIyd0JrMG9pVlF0OGE5eXlhWmRXdWtn?=
- =?utf-8?B?cXdVWWtBOW9ER2h3OWFMU2o4eFhnM3dWQVVWeFFiSEM3cXoxZy9lejh6SVJ5?=
- =?utf-8?B?TERxcWYwdWJpRkJzWkdvK21YTDRhcThNNTA0SW1VY3NMdUJDamJlb2RTQXhE?=
- =?utf-8?B?Q2ZHNjRsSUszTUVmZDg1eVBnK2pTOWRYZDhZYmVReGR4NXo3YlBrWEJmTmFx?=
- =?utf-8?B?RFRRV28xNkl1YjhKVE8xZzNEN3NvV2FZYUpXcjJhTnkvNUxSVGY1Tno0Nyt2?=
- =?utf-8?B?MHlJWGV2RHFwc1N3dWtyRUp3Z0ZuRERGclEvVGtvSDNpalpEdGtqOEdzalA4?=
- =?utf-8?B?V0d5MEUzK1RrWHhFZDJLSGIvbTZCTHhlZXEzemY0cExaaXI3M1Y3SStFTzV5?=
- =?utf-8?B?TS94eFBmbUNIbFdqVHNUTmJ6MDRXcDcvSnVjQWVRT2V4bzhXK2o0KzFTSTZF?=
- =?utf-8?B?aDAxK096T091MlBZalR6RnpmTFgxTDBDV0hBd1JHQ1luZjMyV1NCMG56N2wv?=
- =?utf-8?Q?WQsF4IBAvrGfrE5ndkfIQXxRR?=
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 868bbdaa-ec2a-4bcd-32d5-08ddc0932824
-X-MS-Exchange-CrossTenant-AuthSource: DM4PR12MB8476.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 11 Jul 2025 15:54:02.5040 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: BEH8cuXHfrvYXi0xfk0tBrbl+7C5cjyrezCS4UEHq5fR/X0U6Llv7Jq4rvNmratXhWbzVlqTBbdtqhrF2hiibg==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: CH1PPF711010B62
+References: <20250606-6-10-rocket-v7-0-dc16cfe6fe4e@tomeuvizoso.net>
+ <20250606-6-10-rocket-v7-4-dc16cfe6fe4e@tomeuvizoso.net>
+ <fcb3ca23-7ebd-4f48-92d2-969b24936b9b@arm.com>
+In-Reply-To: <fcb3ca23-7ebd-4f48-92d2-969b24936b9b@arm.com>
+From: Tomeu Vizoso <tomeu@tomeuvizoso.net>
+Date: Fri, 11 Jul 2025 18:00:54 +0200
+X-Gmail-Original-Message-ID: <CAAObsKBiSX0HcxJJjTNGgE4FD4eAYW5wvY=bROtdkZ1mqf_0VQ@mail.gmail.com>
+X-Gm-Features: Ac12FXyh56JbSSKIXGZmdm1LF3IopYU6qYCVm7YM4utxq79Gbdb5weokuDKkAc8
+Message-ID: <CAAObsKBiSX0HcxJJjTNGgE4FD4eAYW5wvY=bROtdkZ1mqf_0VQ@mail.gmail.com>
+Subject: Re: [PATCH v7 04/10] accel/rocket: Add job submission IOCTL
+To: Robin Murphy <robin.murphy@arm.com>
+Cc: Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
+ Conor Dooley <conor+dt@kernel.org>, Heiko Stuebner <heiko@sntech.de>,
+ Oded Gabbay <ogabbay@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, 
+ Sumit Semwal <sumit.semwal@linaro.org>,
+ =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>, 
+ Sebastian Reichel <sebastian.reichel@collabora.com>, 
+ Nicolas Frattaroli <nicolas.frattaroli@collabora.com>,
+ Kever Yang <kever.yang@rock-chips.com>, 
+ Daniel Stone <daniel@fooishbar.org>, Da Xue <da@libre.computer>, 
+ Jeff Hugo <jeff.hugo@oss.qualcomm.com>, devicetree@vger.kernel.org, 
+ linux-arm-kernel@lists.infradead.org, linux-rockchip@lists.infradead.org, 
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org, 
+ linux-doc@vger.kernel.org, linux-media@vger.kernel.org, 
+ linaro-mm-sig@lists.linaro.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -174,134 +120,422 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Thanks Melissa. I will send this series to promotion test and post the 
-result by the end of next week.
+On Tue, Jun 24, 2025 at 3:50=E2=80=AFPM Robin Murphy <robin.murphy@arm.com>=
+ wrote:
+>
+> On 2025-06-06 7:28 am, Tomeu Vizoso wrote:
+> [...]
+> > diff --git a/drivers/accel/rocket/rocket_device.h b/drivers/accel/rocke=
+t/rocket_device.h
+> > index 10acfe8534f00a7985d40a93f4b2f7f69d43caee..50e46f0516bd1615b5f826c=
+5002a6c0ecbf9aed4 100644
+> > --- a/drivers/accel/rocket/rocket_device.h
+> > +++ b/drivers/accel/rocket/rocket_device.h
+> > @@ -13,6 +13,8 @@
+> >   struct rocket_device {
+> >       struct drm_device ddev;
+> >
+> > +     struct mutex sched_lock;
+> > +
+> >       struct mutex iommu_lock;
+>
+> Just realised I missed this in the last patch, but iommu_lock appears to
+> be completely unnecessary now.
+>
+> >       struct rocket_core *cores;
+> [...]
+> > +static void rocket_job_hw_submit(struct rocket_core *core, struct rock=
+et_job *job)
+> > +{
+> > +     struct rocket_task *task;
+> > +     bool task_pp_en =3D 1;
+> > +     bool task_count =3D 1;
+> > +
+> > +     /* GO ! */
+> > +
+> > +     /* Don't queue the job if a reset is in progress */
+> > +     if (atomic_read(&core->reset.pending))
+> > +             return;
+> > +
+> > +     task =3D &job->tasks[job->next_task_idx];
+> > +     job->next_task_idx++;
+> > +
+> > +     rocket_pc_writel(core, BASE_ADDRESS, 0x1);
+> > +
+> > +     rocket_cna_writel(core, S_POINTER, 0xe + 0x10000000 * core->index=
+);
+> > +     rocket_core_writel(core, S_POINTER, 0xe + 0x10000000 * core->inde=
+x);
+>
+> Those really look like bitfield operations rather than actual arithmetic
+> to me.
+>
+> > +
+> > +     rocket_pc_writel(core, BASE_ADDRESS, task->regcmd);
+>
+> I don't see how regcmd is created (I guess that's in userspace?), but
+> given that it's explicitly u64 all the way through - and especially
+> since you claim to support 40-bit DMA addresses - it definitely seems
+> suspicious that the upper 32 bits never seem to be consumed anywhere :/
 
-On 6/18/25 11:19, Melissa Wen wrote:
-> Hi,
-> 
-> Siqueira and I have been working on a solution to reduce the usage of
-> drm_edid_raw in the AMD display driver, since the current guideline in
-> the DRM subsystem is to stop handling raw edid data in driver-specific
-> implementation and use opaque `drm_edid` object with common-code
-> helpers.
-> 
-> In short, this series approaches the issue of maintaining DC as an
-> OS-agnostic component by creating a mid layer to isolate `drm_edid`
-> helpers that need to be called in the DC code, while allowing other OSes
-> to implement their specific implementation. This is an extension of [1].
-> 
-> - Patch 1 addresses a possible leak added by previous migration t drm/amd/display: more drm_edid to AMD display driver
-o
->    drm_edid.
-> - Patch 2 allocates a temporary drm_edid from raw edid for parsing.
-> - Patches 3-7 use common-code, drm_edid helpers to parse edid
->    capabilities instead of driver-specific solutions. For this, patch 4
->    introduces a new helper that gets monitor name from drm_edid.
-> - Patches 8-9 are groundwork to reduce the noise of Linux/DRM specific
->    code in the DC shared code
-> - Patch 10 creates a mid layer to make DC embraces different ways of
->    handling EDID by platforms.
-> - Patch 11 move open-coded management of raw EDID data to the mid
->    layer created before.
-> - Patch 12 introduces a helper that compares EDIDs from two drm_edids.
-> - Patch 13 adds drm_edid to dc_sink struct and a mid-layer helper to
->    free `drm_edid`.
-> - Patch 14 switch dc_edid to drm_edid across the driver in a way that
->    the DC shared code is little affected by Linux specific stuff.
-> 
-> [v1] https://lore.kernel.org/dri-devel/20250411201333.151335-1-mwen@igalia.com/
-> Changes:
-> - fix broken approach to get monitor name from eld (Jani)
->    - I introduced a new helper that gets monitor name from drm_edid
-> - rename drm_edid_eq to drm_edid_eq_buf and doc fixes (Jani)
-> - add NULL edid checks (Jani)
-> - fix mishandling of product_id.manufacturer_name (Michel)
->    - I directly set it to manufacturer_id since sparse didn't complain.
-> - add Mario's r-b in the first fix patch and fix commit msg typo.
-> 
-> [v2] https://lore.kernel.org/dri-devel/20250507001712.120215-1-mwen@igalia.com/
-> Changes:
-> - kernel-doc and commit msg fixes (Jani)
-> - use drm_edid_legacy_init instead of open coded (Jani)
-> - place drm_edid new func into the right section (Jani)
-> - paramenter names fix (Jani)
-> - add Jani's r-b to the patch 12
-> - remove unnecessary include (Jani)
-> - call dc_edid_sink_edid_free in link_detection, instead of drm_edid_free
-> - rebase on top of asdn
-> 
-> [v3] https://lore.kernel.org/dri-devel/20250514202130.291324-1-mwen@igalia.com/
-> Changes:
-> - rebase to asdn
-> - some kernel-doc fixes
-> - move some changes to the right commit
-> 
-> [v4] https://lore.kernel.org/amd-gfx/20250613150015.245917-1-mwen@igalia.com/
-> Changes:
-> - fix comments and commit messages (Mario)
-> - remove unnecessary drm_edid dup and fix mem leak (Mario)
-> - add Mario's rb to patches 5-7
-> 
-> ---
-> 
-> There are three specific points where we still use drm_edid_raw() in the
-> driver:
-> 1. raw edid data for write EDID checksum in DP_TEST_EDID_CHECKSUM via
->     drm_dp_dpcd_write(), that AFAIK there is no common code solution yet;
-> 2. open-coded connectivity log for dc link detection, that maybe can be
->     moved to drm (?);
-> 3. open-coded parser that I suspect is a lot of duplicated code, but
->     needs careful examining.
-> 
-> I suggest to address those points in a next phase for regression control.
-> 
-> Finally, I'm not sure amdgpu_dm/dc_edid is the right place and file name
-> for the mid-layer. Suggestions?
-> 
-> [1] https://lore.kernel.org/amd-gfx/20250308142650.35920-1-mwen@igalia.com/
-> 
-> Let me know yours thoughts!
-> 
-> Melissa
-> 
-> Melissa Wen (12):
->    drm/amd/display: make sure drm_edid stored in aconnector doesn't leak
->    drm/amd/display: start using drm_edid helpers to parse EDID caps
->    drm/amd/display: use drm_edid_product_id for parsing EDID product info
->    drm/edid: introduce a helper that gets monitor name from drm_edid
->    drm/amd/display: get panel id with drm_edid helper
->    drm/amd/display: get SAD from drm_eld when parsing EDID caps
->    drm/amd/display: get SADB from drm_eld when parsing EDID caps
->    drm/amd/display: simplify dm_helpers_parse_edid_caps signature
->    drm/amd/display: change DC functions to accept private types for edid
->    drm/edid: introduce a helper that compares edid data from two drm_edid
->    drm/amd/display: add drm_edid to dc_sink
->    drm/amd/display: move dc_sink from dc_edid to drm_edid
-> 
-> Rodrigo Siqueira (2):
->    drm/amd/display: add a mid-layer file to handle EDID in DC
->    drm/amd/display: create a function to fill dc_sink with edid data
-> 
->   .../gpu/drm/amd/display/amdgpu_dm/Makefile    |   1 +
->   .../gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c |  33 +++---
->   .../amd/display/amdgpu_dm/amdgpu_dm_helpers.c | 105 +++++++-----------
->   .../display/amdgpu_dm/amdgpu_dm_mst_types.c   |  21 ++--
->   .../gpu/drm/amd/display/amdgpu_dm/dc_edid.c   |  33 ++++++
->   .../gpu/drm/amd/display/amdgpu_dm/dc_edid.h   |  15 +++
->   .../drm/amd/display/dc/core/dc_link_exports.c |   9 +-
->   drivers/gpu/drm/amd/display/dc/core/dc_sink.c |   3 +
->   drivers/gpu/drm/amd/display/dc/dc.h           |  10 +-
->   drivers/gpu/drm/amd/display/dc/dm_helpers.h   |   7 +-
->   drivers/gpu/drm/amd/display/dc/inc/link.h     |   9 +-
->   .../drm/amd/display/dc/link/link_detection.c  |  30 ++---
->   .../drm/amd/display/dc/link/link_detection.h  |   9 +-
->   drivers/gpu/drm/bridge/sil-sii8620.c          |   2 +-
->   drivers/gpu/drm/display/drm_dp_mst_topology.c |   2 +-
->   drivers/gpu/drm/drm_edid.c                    |  54 +++++++--
->   include/drm/drm_edid.h                        |  10 +-
->   17 files changed, 193 insertions(+), 160 deletions(-)
->   create mode 100644 drivers/gpu/drm/amd/display/amdgpu_dm/dc_edid.c
->   create mode 100644 drivers/gpu/drm/amd/display/amdgpu_dm/dc_edid.h
-> 
+Yeah, but there's no other register for BASE_ADDRESS address in the TRM.
 
+> > +     rocket_pc_writel(core, REGISTER_AMOUNTS, (task->regcmd_count + 1)=
+ / 2 - 1);
+> > +
+> > +     rocket_pc_writel(core, INTERRUPT_MASK, PC_INTERRUPT_MASK_DPU_0 | =
+PC_INTERRUPT_MASK_DPU_1);
+> > +     rocket_pc_writel(core, INTERRUPT_CLEAR, PC_INTERRUPT_CLEAR_DPU_0 =
+| PC_INTERRUPT_CLEAR_DPU_1);
+> > +
+> > +     rocket_pc_writel(core, TASK_CON, ((0x6 | task_pp_en) << 12) | tas=
+k_count);
+> > +
+> > +     rocket_pc_writel(core, TASK_DMA_BASE_ADDR, 0x0);
+> > +
+> > +     rocket_pc_writel(core, OPERATION_ENABLE, 0x1);
+> > +
+> > +     dev_dbg(core->dev, "Submitted regcmd at 0x%llx to core %d", task-=
+>regcmd, core->index);
+> > +}
+> [...]
+> > +static struct dma_fence *rocket_job_run(struct drm_sched_job *sched_jo=
+b)
+> > +{
+> > +     struct rocket_job *job =3D to_rocket_job(sched_job);
+> > +     struct rocket_device *rdev =3D job->rdev;
+> > +     struct rocket_core *core =3D sched_to_core(rdev, sched_job->sched=
+);
+> > +     struct dma_fence *fence =3D NULL;
+> > +     int ret;
+> > +
+> > +     if (unlikely(job->base.s_fence->finished.error))
+> > +             return NULL;
+> > +
+> > +     /*
+> > +      * Nothing to execute: can happen if the job has finished while
+> > +      * we were resetting the GPU.
+>
+> GPU? (Similarly in various other comments/prints)
+>
+> > +      */
+> > +     if (job->next_task_idx =3D=3D job->task_count)
+> > +             return NULL;
+> > +
+> > +     fence =3D rocket_fence_create(core);
+> > +     if (IS_ERR(fence))
+> > +             return fence;
+> > +
+> > +     if (job->done_fence)
+> > +             dma_fence_put(job->done_fence);
+> > +     job->done_fence =3D dma_fence_get(fence);
+> > +
+> > +     ret =3D pm_runtime_get_sync(core->dev);
+> > +     if (ret < 0)
+> > +             return fence;
+> > +
+> > +     ret =3D iommu_attach_group(job->domain, iommu_group_get(core->dev=
+));
+>
+> I don't see iommu_group_put() anywhere, so you're leaking refcounts all
+> over.
+>
+> > +     if (ret < 0)
+> > +             return fence;
+> > +
+> > +     scoped_guard(spinlock, &core->job_lock) {
+> > +             core->in_flight_job =3D job;
+> > +             rocket_job_hw_submit(core, job);
+> > +     }
+> > +
+> > +     return fence;
+> > +}
+> [...]
+> > +static void rocket_job_handle_irq(struct rocket_core *core)
+> > +{
+> > +     u32 status, raw_status;
+> > +
+> > +     pm_runtime_mark_last_busy(core->dev);
+> > +
+> > +     status =3D rocket_pc_readl(core, INTERRUPT_STATUS);
+> > +     raw_status =3D rocket_pc_readl(core, INTERRUPT_RAW_STATUS);
+> > +
+> > +     rocket_pc_writel(core, OPERATION_ENABLE, 0x0);
+> > +     rocket_pc_writel(core, INTERRUPT_CLEAR, 0x1ffff);
+>
+> What was the point of reading the status registers if we're just going
+> to blindly clear every possible condition anyway?
+>
+> > +     scoped_guard(spinlock, &core->job_lock)
+> > +             if (core->in_flight_job)
+> > +                     rocket_job_handle_done(core, core->in_flight_job)=
+;
+>
+> But then is it really OK to just start the next task regardless of
+> whether the current task was reporting successful completion or an error?
+>
+> > +}
+> > +
+> > +static void
+> > +rocket_reset(struct rocket_core *core, struct drm_sched_job *bad)
+> > +{
+> > +     bool cookie;
+> > +
+> > +     if (!atomic_read(&core->reset.pending))
+> > +             return;
+> > +
+> > +     /*
+> > +      * Stop the scheduler.
+> > +      *
+> > +      * FIXME: We temporarily get out of the dma_fence_signalling sect=
+ion
+> > +      * because the cleanup path generate lockdep splats when taking l=
+ocks
+> > +      * to release job resources. We should rework the code to follow =
+this
+> > +      * pattern:
+> > +      *
+> > +      *      try_lock
+> > +      *      if (locked)
+> > +      *              release
+> > +      *      else
+> > +      *              schedule_work_to_release_later
+> > +      */
+> > +     drm_sched_stop(&core->sched, bad);
+> > +
+> > +     cookie =3D dma_fence_begin_signalling();
+> > +
+> > +     if (bad)
+> > +             drm_sched_increase_karma(bad);
+> > +
+> > +     /*
+> > +      * Mask job interrupts and synchronize to make sure we won't be
+> > +      * interrupted during our reset.
+> > +      */
+> > +     rocket_pc_writel(core, INTERRUPT_MASK, 0x0);
+> > +     synchronize_irq(core->irq);
+>
+> ...except it's a shared IRQ, so it can still merrily fire at any time.
+>
+> > +
+> > +     /* Handle the remaining interrupts before we reset. */
+> > +     rocket_job_handle_irq(core);
+> > +
+> > +     /*
+> > +      * Remaining interrupts have been handled, but we might still hav=
+e
+> > +      * stuck jobs. Let's make sure the PM counters stay balanced by
+> > +      * manually calling pm_runtime_put_noidle() and
+> > +      * rocket_devfreq_record_idle() for each stuck job.
+> > +      * Let's also make sure the cycle counting register's refcnt is
+> > +      * kept balanced to prevent it from running forever
+>
+> Comments that don't match the code are more confusing than helpful :/
+>
+> > +      */
+> > +     scoped_guard(spinlock, &core->job_lock) {
+> > +             if (core->in_flight_job)
+> > +                     pm_runtime_put_noidle(core->dev);
+> > +
+> > +             core->in_flight_job =3D NULL;
+> > +     }
+> > +
+> > +     /* Proceed with reset now. */
+> > +     pm_runtime_force_suspend(core->dev);
+> > +     pm_runtime_force_resume(core->dev);
+>
+> Can you guarantee that actually resets the hardware if something else is
+> holding the power domain open or RPM is disabled? I'm not familiar with
+> the details of drm_sched, but if there are other jobs queued behind the
+> stuck one would it even pass the rocket_job_is_idle() check for suspend
+> to succeed anyway?
+>
+> Not to mention that you have an actual reset control in the DT binding,
+> which isn't even optional... :/
+
+Yeah, I think in my testing the resets didn't work because we didn't
+have the right resources in the DT nodes. Have retested and the
+documented reset process is enough to reset each core.
+
+Will be sending soon a revised version.
+
+Thanks,
+
+Tomeu
+
+> > +     /* GPU has been reset, we can clear the reset pending bit. */
+> > +     atomic_set(&core->reset.pending, 0);
+> > +
+> > +     /*
+> > +      * Now resubmit jobs that were previously queued but didn't have =
+a
+> > +      * chance to finish.
+> > +      * FIXME: We temporarily get out of the DMA fence signalling sect=
+ion
+> > +      * while resubmitting jobs because the job submission logic will
+> > +      * allocate memory with the GFP_KERNEL flag which can trigger mem=
+ory
+> > +      * reclaim and exposes a lock ordering issue.
+> > +      */
+> > +     dma_fence_end_signalling(cookie);
+> > +     drm_sched_resubmit_jobs(&core->sched);
+>
+> Since I happened to look, this says it's deprecated?
+>
+> > +     cookie =3D dma_fence_begin_signalling();
+> > +
+> > +     /* Restart the scheduler */
+> > +     drm_sched_start(&core->sched, 0);
+> > +
+> > +     dma_fence_end_signalling(cookie);
+> > +}
+> > +
+> > +static enum drm_gpu_sched_stat rocket_job_timedout(struct drm_sched_jo=
+b *sched_job)
+> > +{
+> > +     struct rocket_job *job =3D to_rocket_job(sched_job);
+> > +     struct rocket_device *rdev =3D job->rdev;
+> > +     struct rocket_core *core =3D sched_to_core(rdev, sched_job->sched=
+);
+> > +
+> > +     /*
+> > +      * If the GPU managed to complete this jobs fence, the timeout is
+> > +      * spurious. Bail out.
+> > +      */
+> > +     if (dma_fence_is_signaled(job->done_fence))
+> > +             return DRM_GPU_SCHED_STAT_NOMINAL;
+>
+> Do we really need the same return condition twice? What if the IRQ fires
+> immediately after we've made this check, and is handled without delay
+> such that sychronize_irq() effectively still does nothing? Either way
+> we've taken longer than the timeout value to observe the job completing
+> successfully, and either that's significant and worth warning about or
+> it's not - I don't see any point in trying to (inaccurately) nitpick
+> *why* it might have happened.
+>
+> > +     /*
+> > +      * Rocket IRQ handler may take a long time to process an interrup=
+t
+> > +      * if there is another IRQ handler hogging the processing.
+> > +      * For example, the HDMI encoder driver might be stuck in the IRQ
+> > +      * handler for a significant time in a case of bad cable connecti=
+on.
+>
+> What have HDMI cables got to do with anything here? Yes, in general IRQ
+> latency can be high, since CPUs can have IRQs masked and/or be taking
+> higher-priority interrupts for any number of reasons. I don't see how an
+> oddly-specific example (of apparently poor driver design, to boot) is
+> useful.
+>
+> > +      * In order to catch such cases and not report spurious rocket
+> > +      * job timeouts, synchronize the IRQ handler and re-check the fen=
+ce
+> > +      * status.
+> > +      */
+> > +     synchronize_irq(core->irq);
+> > +
+> > +     if (dma_fence_is_signaled(job->done_fence)) {
+> > +             dev_warn(core->dev, "unexpectedly high interrupt latency\=
+n");
+> > +             return DRM_GPU_SCHED_STAT_NOMINAL;
+> > +     }
+> > +
+> > +     dev_err(core->dev, "gpu sched timeout");
+> > +
+> > +     atomic_set(&core->reset.pending, 1);
+> > +     rocket_reset(core, sched_job);
+> > +     iommu_detach_group(NULL, iommu_group_get(core->dev));
+> > +
+> > +     return DRM_GPU_SCHED_STAT_NOMINAL;
+> > +}
+> > +
+> > +static void rocket_reset_work(struct work_struct *work)
+> > +{
+> > +     struct rocket_core *core;
+> > +
+> > +     core =3D container_of(work, struct rocket_core, reset.work);
+> > +     rocket_reset(core, NULL);
+> > +}
+> > +
+> > +static const struct drm_sched_backend_ops rocket_sched_ops =3D {
+> > +     .run_job =3D rocket_job_run,
+> > +     .timedout_job =3D rocket_job_timedout,
+> > +     .free_job =3D rocket_job_free
+> > +};
+> > +
+> > +static irqreturn_t rocket_job_irq_handler_thread(int irq, void *data)
+> > +{
+> > +     struct rocket_core *core =3D data;
+> > +
+> > +     rocket_job_handle_irq(core);
+> > +
+> > +     return IRQ_HANDLED;
+> > +}
+> > +
+> > +static irqreturn_t rocket_job_irq_handler(int irq, void *data)
+> > +{
+> > +     struct rocket_core *core =3D data;
+> > +     u32 raw_status =3D rocket_pc_readl(core, INTERRUPT_RAW_STATUS);
+>
+> Given that this can be a shared IRQ as above, it would be a good idea to
+> take care to avoid register accesses while suspended. Especially if
+> you're trying to utilise suspend to reset a failing job that may well be
+> throwing IOMMU faults.
+>
+> > +
+> > +     WARN_ON(raw_status & PC_INTERRUPT_RAW_STATUS_DMA_READ_ERROR);
+> > +     WARN_ON(raw_status & PC_INTERRUPT_RAW_STATUS_DMA_READ_ERROR);
+> > +
+> > +     if (!(raw_status & PC_INTERRUPT_RAW_STATUS_DPU_0 ||
+> > +           raw_status & PC_INTERRUPT_RAW_STATUS_DPU_1))
+> > +             return IRQ_NONE;
+> > +
+> > +     rocket_pc_writel(core, INTERRUPT_MASK, 0x0);
+> > +
+> > +     return IRQ_WAKE_THREAD;
+> > +}
+> > +
+> > +int rocket_job_init(struct rocket_core *core)
+> > +{
+> > +     struct drm_sched_init_args args =3D {
+> > +             .ops =3D &rocket_sched_ops,
+> > +             .num_rqs =3D DRM_SCHED_PRIORITY_COUNT,
+> > +             .credit_limit =3D 1,
+>
+> Ah, does this mean that all the stuff about queued jobs was in fact all
+> nonsense anyway?
+>
+> > +             .timeout =3D msecs_to_jiffies(JOB_TIMEOUT_MS),
+> > +             .name =3D dev_name(core->dev),
+> > +             .dev =3D core->dev,
+> > +     };
+> > +     int ret;
+> > +
+> > +     INIT_WORK(&core->reset.work, rocket_reset_work);
+> > +     spin_lock_init(&core->job_lock);
+> > +
+> > +     core->irq =3D platform_get_irq(to_platform_device(core->dev), 0);
+> > +     if (core->irq < 0)
+> > +             return core->irq;
+> > +
+> > +     ret =3D devm_request_threaded_irq(core->dev, core->irq,
+> > +                                     rocket_job_irq_handler,
+> > +                                     rocket_job_irq_handler_thread,
+> > +                                     IRQF_SHARED, KBUILD_MODNAME "-job=
+",
+>
+> Is it really a "job" interrupt though? The binding and the register
+> definitions suggest it's just a general status interrupt for the core.
+> Furthermore since we expect to have multiple cores, being able to more
+> easily identify and attribute per-core IRQ activity seems more useful
+> for debugging than copy-pasting from something really rather different
+> which also expects to be the only one of its kind on the system.
+>
+> Thanks,
+> Robin.
+>
+> > +                                     core);
+> > +     if (ret) {
+> > +             dev_err(core->dev, "failed to request job irq");
+> > +             return ret;
+> > +     }
