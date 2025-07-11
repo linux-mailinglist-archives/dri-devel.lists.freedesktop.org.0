@@ -2,85 +2,55 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 646B1B01CBF
-	for <lists+dri-devel@lfdr.de>; Fri, 11 Jul 2025 15:03:14 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 91443B01CC9
+	for <lists+dri-devel@lfdr.de>; Fri, 11 Jul 2025 15:04:22 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7E14F10EA46;
-	Fri, 11 Jul 2025 13:03:12 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id F29E810EA48;
+	Fri, 11 Jul 2025 13:04:20 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=redhat.com header.i=@redhat.com header.b="dMKtWXXK";
+	dkim=pass (2048-bit key; secure) header.d=mailbox.org header.i=@mailbox.org header.b="OYSdm36w";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [170.10.133.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9C52510EA46
- for <dri-devel@lists.freedesktop.org>; Fri, 11 Jul 2025 13:03:10 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1752238989;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+Received: from mout-p-201.mailbox.org (mout-p-201.mailbox.org [80.241.56.171])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 448CE10EA48;
+ Fri, 11 Jul 2025 13:04:19 +0000 (UTC)
+Received: from smtp2.mailbox.org (smtp2.mailbox.org [10.196.197.2])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ (No client certificate requested)
+ by mout-p-201.mailbox.org (Postfix) with ESMTPS id 4bdsNv251Fz9tJf;
+ Fri, 11 Jul 2025 15:04:15 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mailbox.org;
+ s=mail20150812; 
+ t=1752239055; h=from:from:reply-to:reply-to:subject:subject:date:date:
+ message-id:message-id:to:to:cc:cc:mime-version:mime-version:
+ content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=2CLlgTkayiL7lH/rIp4Wr1E31kOJfS0hFCDPi1tctU0=;
- b=dMKtWXXK/okM9a1T2lV4seREfopONeB8hHFg4zSCsTnRunhgOYU3pcpazxN/UtRULth5Vv
- +Gl/VOysde7HeuCvN7h/gubz18myMuvo5SuwYsQjETLlPHGzmop40lfwMfI+ZI/GKgHLv9
- BNzhWt/r4sBmQQo+7m+norAQ4rnt3p8=
-Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
- [209.85.128.70]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-674-HlGQVpw9Nh2hmO91bHm9gA-1; Fri, 11 Jul 2025 09:03:08 -0400
-X-MC-Unique: HlGQVpw9Nh2hmO91bHm9gA-1
-X-Mimecast-MFC-AGG-ID: HlGQVpw9Nh2hmO91bHm9gA_1752238987
-Received: by mail-wm1-f70.google.com with SMTP id
- 5b1f17b1804b1-451ac1b43c4so11683165e9.0
- for <dri-devel@lists.freedesktop.org>; Fri, 11 Jul 2025 06:03:08 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1752238987; x=1752843787;
- h=mime-version:message-id:date:references:in-reply-to:subject:cc:to
- :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=2CLlgTkayiL7lH/rIp4Wr1E31kOJfS0hFCDPi1tctU0=;
- b=qSZ9u+rItDyo+atpx/s6AW/imNSI6VFJAjF9/CJiIE9V1aw3C7a3cIHwgIWeavxNgh
- U5RtUOeAYUD+8JowVkU37iiPny43s/eLYLWQ07leKtWy7DuKNAEkkHg+yCeOMNI54iYC
- 1zBn73/rWMSIE33iFMtCh7spq8wXW1iqAqbHh0rIcYpQuFe/+yGQwDvtYYLXEoCpHRWj
- i/DVlhOlr+db5ldOYYOpjPM3VkOncerFzf0JdSjIxPHpZ6lZBfUdtP/V+mM7pKJsducf
- NcAb0JPGxYVEQKRSTyr5IKUFVEyP5E7QeqeaMthP4Ftk9VarvKzroo5xCBQ8NaoAkeIW
- IZ6g==
-X-Gm-Message-State: AOJu0YwmFHJ5N6+MJvZTcraW/Mm23vZ+OighBn/7V14zrVXfvl+w+8xl
- vgvoDs3/jSgywQr35zQNpqIRMh23Hmy0VcIsZmhsMSAXKuHw32Vc7IhQixl0Pu/grmt8GGnAg2l
- zvwJpHoUe1KeFVktFPCFtRHTkkQVS3/RcOdbJWUPZOiZgxRXoZIO4XZriplVKdapssxFKFA==
-X-Gm-Gg: ASbGncvbaQq7EvnnaZCkvj3IpcuqTAiRgrWgTVISgvIz7Rzd65ARAjlxLvSu9Jdg9Dm
- 0sp/kRPaxBCfOQMOs1N2VSLe1RoxXUH3hv6Vc6/uO4a/WfwlxUDP+RLMK75xBhcifwMzbLEgBre
- V73HoN2lFfM1m1WO/wXGypxRbELSm5eJ6+bzGjA8JdLJgJ8YO7+YwppfRZ72emySQALLdgZsAga
- mwrM1zl1yGVx9mtCDGxplvXybEu83W0c0oEBtDilnYFyJ/JK9XP9d+RhIfloXQEUKZK125vPHqS
- wgDmKQvkUFADT50irBzfJFaVYZafzc0ZzLYJz5GxDcgvzYDr/SNQIh7RAL8jbayio5MP91wJLKW
- 0VNNxWh6AmcahiouL/awosQ==
-X-Received: by 2002:a05:600c:1e26:b0:43c:f3e4:d6f6 with SMTP id
- 5b1f17b1804b1-454f42792eamr31261795e9.31.1752238985639; 
- Fri, 11 Jul 2025 06:03:05 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IGSszBazFgz+Dp0CmG4ZsPyLeInJTj++WdBMtrPc8tefD/uNZj+3ztug4v6dzTJAJ9scKP79Q==
-X-Received: by 2002:a05:600c:1e26:b0:43c:f3e4:d6f6 with SMTP id
- 5b1f17b1804b1-454f42792eamr31260565e9.31.1752238984800; 
- Fri, 11 Jul 2025 06:03:04 -0700 (PDT)
-Received: from localhost (62-151-111-63.jazzfree.ya.com. [62.151.111.63])
- by smtp.gmail.com with ESMTPSA id
- 5b1f17b1804b1-454dd436ac4sm46880935e9.4.2025.07.11.06.03.04
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 11 Jul 2025 06:03:04 -0700 (PDT)
-From: Javier Martinez Canillas <javierm@redhat.com>
-To: Thomas Zimmermann <tzimmermann@suse.de>, lanzano.alex@gmail.com,
- maarten.lankhorst@linux.intel.com, mripard@kernel.org, airlied@gmail.com,
- simona@ffwll.ch
-Cc: dri-devel@lists.freedesktop.org, Thomas Zimmermann <tzimmermann@suse.de>
-Subject: Re: [PATCH] drm/sharp-memory: Do not access GEM-DMA vaddr directly
-In-Reply-To: <20250627152327.8244-1-tzimmermann@suse.de>
-References: <20250627152327.8244-1-tzimmermann@suse.de>
-Date: Fri, 11 Jul 2025 15:03:03 +0200
-Message-ID: <878qkuev7c.fsf@minerva.mail-host-address-is-not-set>
+ bh=1khLG0p7if9vLy4hlYNfztqgtdRedWzjKpVV6sUA3hI=;
+ b=OYSdm36w/ncP9pJfgHH+Kulmwluu+QKwiM4D5dHSLekSPEK6yx+Ax/ggZYQncFlU5P89qg
+ ckbHf4bCkMOeXEzDGlOIgcLWHVMcqdeklnKaQTBxczdKfQ1XppgQXxOkmspYYUowOfR90l
+ NgpNfHx4RW7N7w7F0njnZc/OiMNOi1BVTjN4hTnbLkW/vWxT151UKPXoZ624na1ZqsxPJ2
+ VfagMXD7XqK3F4UjjpgQhTQoJKELboaFZdsOR2JOiB//9BmXeshqcWQaqqtHOMwKgWqFUI
+ whcSTWV3R8uxGEKzj4yyOiPHOKswKHc24IurZWy5MzSP74l0NNEdIkEIfxSE2g==
+Message-ID: <b06d4a88f0e4ba943972b1bc99ef8d6ef79a4ddb.camel@mailbox.org>
+Subject: Re: [PATCH] drm/sched: Avoid double re-lock on the job free path
+From: Philipp Stanner <phasta@mailbox.org>
+To: Tvrtko Ursulin <tvrtko.ursulin@igalia.com>, 
+ dri-devel@lists.freedesktop.org
+Cc: intel-xe@lists.freedesktop.org, amd-gfx@lists.freedesktop.org, 
+ kernel-dev@igalia.com, Christian =?ISO-8859-1?Q?K=F6nig?=
+ <christian.koenig@amd.com>, Danilo Krummrich <dakr@kernel.org>, Matthew
+ Brost <matthew.brost@intel.com>, Philipp Stanner <phasta@kernel.org>
+Date: Fri, 11 Jul 2025 15:04:10 +0200
+In-Reply-To: <20250708122032.75668-1-tvrtko.ursulin@igalia.com>
+References: <20250708122032.75668-1-tvrtko.ursulin@igalia.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 MIME-Version: 1.0
-X-Mimecast-Spam-Score: 0
-X-Mimecast-MFC-PROC-ID: 4hNwqLo8Fq2WPoQb7PtMbp5pJA1wl4aUS64Z2jFdWws_1752238987
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain
+X-MBO-RS-ID: 6adc1c01d9fffb0b9dd
+X-MBO-RS-META: jjtz9ios7qwabfj5utio3s9mms95rmhu
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -93,32 +63,168 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
+Reply-To: phasta@kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Thomas Zimmermann <tzimmermann@suse.de> writes:
+Late to the party; had overlooked that the discussion with Matt is
+resolved. Some comments below
 
-> Use DRM's shadow-plane helper to map and access the GEM object's buffer
-> within kernel address space. Encasulates the vmap logic in the GEM-DMA
-> helpers.
->
-> The sharp-memory driver currently reads the vaddr field from the GME
-> buffer object directly. This only works because GEM code 'automagically'
-> sets vaddr.
->
-> Shadow-plane helpers perform the same steps, but with correct abstraction
-> behind drm_gem_vmap(). The shadow-plane state provides the buffer address
-> in kernel address space and the format-conversion state.
->
-> Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
+On Tue, 2025-07-08 at 13:20 +0100, Tvrtko Ursulin wrote:
+> Currently the job free work item will lock sched->job_list_lock first tim=
+e
+> to see if there are any jobs, free a single job, and then lock again to
+> decide whether to re-queue itself if there are more finished jobs.
+>=20
+> Since drm_sched_get_finished_job() already looks at the second job in the
+> queue we can simply add the signaled check and have it return the presenc=
+e
+> of more jobs to free to the caller. That way the work item does not
+
+optional nit:
+s/to free/to be freed
+
+Reads a bit more cleanly.
+
+> have
+> to lock the list again and repeat the signaled check.
+>=20
+> Signed-off-by: Tvrtko Ursulin <tvrtko.ursulin@igalia.com>
+> Cc: Christian K=C3=B6nig <christian.koenig@amd.com>
+> Cc: Danilo Krummrich <dakr@kernel.org>
+> Cc: Matthew Brost <matthew.brost@intel.com>
+> Cc: Philipp Stanner <phasta@kernel.org>
 > ---
+> =C2=A0drivers/gpu/drm/scheduler/sched_main.c | 37 ++++++++++-------------=
+---
+> =C2=A01 file changed, 14 insertions(+), 23 deletions(-)
+>=20
+> diff --git a/drivers/gpu/drm/scheduler/sched_main.c b/drivers/gpu/drm/sch=
+eduler/sched_main.c
+> index 1f077782ec12..1bce0b66f89c 100644
+> --- a/drivers/gpu/drm/scheduler/sched_main.c
+> +++ b/drivers/gpu/drm/scheduler/sched_main.c
+> @@ -366,22 +366,6 @@ static void __drm_sched_run_free_queue(struct drm_gp=
+u_scheduler *sched)
+> =C2=A0		queue_work(sched->submit_wq, &sched->work_free_job);
+> =C2=A0}
+> =C2=A0
+> -/**
+> - * drm_sched_run_free_queue - enqueue free-job work if ready
+> - * @sched: scheduler instance
+> - */
+> -static void drm_sched_run_free_queue(struct drm_gpu_scheduler *sched)
 
-Reviewed-by: Javier Martinez Canillas <javierm@redhat.com>
+The function name is now free. See my comment at the bottom.
 
--- 
-Best regards,
+> -{
+> -	struct drm_sched_job *job;
+> -
+> -	spin_lock(&sched->job_list_lock);
+> -	job =3D list_first_entry_or_null(&sched->pending_list,
+> -				=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 struct drm_sched_job, list);
+> -	if (job && dma_fence_is_signaled(&job->s_fence->finished))
+> -		__drm_sched_run_free_queue(sched);
+> -	spin_unlock(&sched->job_list_lock);
+> -}
+> -
+> =C2=A0/**
+> =C2=A0 * drm_sched_job_done - complete a job
+> =C2=A0 * @s_job: pointer to the job which is done
+> @@ -1102,12 +1086,13 @@ drm_sched_select_entity(struct drm_gpu_scheduler =
+*sched)
+> =C2=A0 * drm_sched_get_finished_job - fetch the next finished job to be d=
+estroyed
+> =C2=A0 *
+> =C2=A0 * @sched: scheduler instance
+> + * @have_more: are there more finished jobs on the list
 
-Javier Martinez Canillas
-Core Platforms
-Red Hat
+I'd like a very brief sentence below here like:
+
+"Informs the caller through @have_more whether there are more finished
+jobs besides the returned one."
+
+Reason being that it's relatively rare in the kernel that status is not
+transmitted through a return value, so we want that to be very obvious.
+
+> =C2=A0 *
+> =C2=A0 * Returns the next finished job from the pending list (if there is=
+ one)
+> =C2=A0 * ready for it to be destroyed.
+> =C2=A0 */
+> =C2=A0static struct drm_sched_job *
+> -drm_sched_get_finished_job(struct drm_gpu_scheduler *sched)
+> +drm_sched_get_finished_job(struct drm_gpu_scheduler *sched, bool *have_m=
+ore)
+> =C2=A0{
+> =C2=A0	struct drm_sched_job *job, *next;
+> =C2=A0
+> @@ -1115,22 +1100,25 @@ drm_sched_get_finished_job(struct drm_gpu_schedul=
+er *sched)
+> =C2=A0
+> =C2=A0	job =3D list_first_entry_or_null(&sched->pending_list,
+> =C2=A0				=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 struct drm_sched_job, list=
+);
+> -
+> =C2=A0	if (job && dma_fence_is_signaled(&job->s_fence->finished)) {
+> =C2=A0		/* remove job from pending_list */
+> =C2=A0		list_del_init(&job->list);
+> =C2=A0
+> =C2=A0		/* cancel this job's TO timer */
+> =C2=A0		cancel_delayed_work(&sched->work_tdr);
+> -		/* make the scheduled timestamp more accurate */
+> +
+> +		*have_more =3D false;
+
+Don't we want that bool initialized to false at the very beginning of
+the function? That way it can never be forgotten if the code gets
+reworked.
+
+> =C2=A0		next =3D list_first_entry_or_null(&sched->pending_list,
+> =C2=A0						typeof(*next), list);
+> -
+> =C2=A0		if (next) {
+> +			/* make the scheduled timestamp more accurate */
+> =C2=A0			if (test_bit(DMA_FENCE_FLAG_TIMESTAMP_BIT,
+> =C2=A0				=C2=A0=C2=A0=C2=A0=C2=A0 &next->s_fence->scheduled.flags))
+> =C2=A0				next->s_fence->scheduled.timestamp =3D
+> =C2=A0					dma_fence_timestamp(&job->s_fence->finished);
+> +
+> +			*have_more =3D dma_fence_is_signaled(&next->s_fence->finished);
+> +
+> =C2=A0			/* start TO timer for next job */
+> =C2=A0			drm_sched_start_timeout(sched);
+> =C2=A0		}
+> @@ -1189,12 +1177,15 @@ static void drm_sched_free_job_work(struct work_s=
+truct *w)
+> =C2=A0	struct drm_gpu_scheduler *sched =3D
+> =C2=A0		container_of(w, struct drm_gpu_scheduler, work_free_job);
+> =C2=A0	struct drm_sched_job *job;
+> +	bool have_more;
+> =C2=A0
+> -	job =3D drm_sched_get_finished_job(sched);
+> -	if (job)
+> +	job =3D drm_sched_get_finished_job(sched, &have_more);
+> +	if (job) {
+> =C2=A0		sched->ops->free_job(job);
+> +		if (have_more)
+> +			__drm_sched_run_free_queue(sched);
+
+Now that drm_sched_run_free_queue() is dead, it's an excellent
+opportunity to give its name to __drm_sched_run_free_queue() \o/
+
+Cleaner namespace, and reads better with the below
+drm_sched_run_job_queue().
+
+
+Besides, cool patch!
+
+P.
+
+> +	}
+> =C2=A0
+> -	drm_sched_run_free_queue(sched);
+> =C2=A0	drm_sched_run_job_queue(sched);
+> =C2=A0}
+> =C2=A0
 
