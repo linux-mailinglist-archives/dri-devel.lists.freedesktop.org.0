@@ -2,125 +2,142 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3A8A9B01282
-	for <lists+dri-devel@lfdr.de>; Fri, 11 Jul 2025 07:06:02 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5731EB0128A
+	for <lists+dri-devel@lfdr.de>; Fri, 11 Jul 2025 07:07:17 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3D2EE10E9A6;
-	Fri, 11 Jul 2025 05:05:59 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id BC97810E9A7;
+	Fri, 11 Jul 2025 05:07:15 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=qualcomm.com header.i=@qualcomm.com header.b="B9xo24QQ";
+	dkim=pass (2048-bit key; unprotected) header.d=nxp.com header.i=@nxp.com header.b="j7C3gyhj";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com
- [205.220.168.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2096E10E9A6
- for <dri-devel@lists.freedesktop.org>; Fri, 11 Jul 2025 05:05:58 +0000 (UTC)
-Received: from pps.filterd (m0279862.ppops.net [127.0.0.1])
- by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 56B1X9KY008001
- for <dri-devel@lists.freedesktop.org>; Fri, 11 Jul 2025 05:05:57 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
- cc:content-transfer-encoding:content-type:date:from:in-reply-to
- :message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
- ON4p5KKmBIR3FGHX5880lk4pL/vyxFoXHm7nsMOOrHc=; b=B9xo24QQrEIy7vY7
- 2H/4mBPA3lz09M1dFW1fwOCkLhQfAW7ZCNoO5BPE83/2joulY+bKdcmmx1buzB4N
- DJ/k0jMO4qVOPlg9gxsmsShYUDwx4+Tkh5hVzS+GqIQA6tnG6jwrpqRQiwm6b9RS
- XPBK0WcYvjRKsCFErTQqZ8xDU9gfETVVz772t9enoch6qBI1PW/ivByxjkm8ZNhE
- V0l/K9PWd8NBcsTNpnzDVg2pVE4TydTdDmZEskeyhotPZmCkHAhrBUl8EulOipbr
- 2hFqH7AF6YTK/z5hJYO5lxELm+g7qlasIirEqu+f1a1xEQdDlh6mI8QGPKeqqOBC
- j50esQ==
-Received: from mail-pl1-f200.google.com (mail-pl1-f200.google.com
- [209.85.214.200])
- by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 47smcg7aw3-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
- for <dri-devel@lists.freedesktop.org>; Fri, 11 Jul 2025 05:05:57 +0000 (GMT)
-Received: by mail-pl1-f200.google.com with SMTP id
- d9443c01a7336-236725af87fso27652755ad.3
- for <dri-devel@lists.freedesktop.org>; Thu, 10 Jul 2025 22:05:57 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1752210356; x=1752815156;
- h=content-transfer-encoding:in-reply-to:from:content-language
- :references:cc:to:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=ON4p5KKmBIR3FGHX5880lk4pL/vyxFoXHm7nsMOOrHc=;
- b=RdduIxBkqqyeaCpXTvHRk/EgsACzbeO00LiTHz1txVrrWp56BQLX7EyCa7NUos95cJ
- 0oJNB2pjCWOS0J/hIWfYx/4Zi9fM7WGVAcGbvdfAPwDosC7SL7kk+XfNFqgHPq37k601
- mbMgNaU1ByMJL4p+jtZ86i60z5D6x1fVnx/NhHdbI3Jpy14lyRMm69ox3et6GVE/668E
- 6E5SUJ713x+J9zxn8gxMENIDI3RKXDSklD2Z0UeaRglAuUQh2kJyW/pP2ONE774SIWJs
- sEIE0mEqfyhxetiRXPyuB1Ny1d4j2htNoKRl+ZCHdQlCC7C7eyrIz31noBMyQJ6p+4oS
- 0jfA==
-X-Forwarded-Encrypted: i=1;
- AJvYcCXzjxRdGujpXnxf+FKUXn3xkduMcAG9/0+FqEerzAyt+005i1UsQlBHsQfoAA3thRnCeI+17pAdZ9w=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YwVvmDoD/zdbLPV1m+DnE3fp9Fa7Q2gsCXvc+W8y8SnxtYZPSQf
- VJAB29+aHDsM8BQnH2KhaPxG/6JjK8KXn3Krncr1l4P1W5K2i3p+D5qB2Q+QUZ1FZ7L38e+f9OH
- UP3+PCr9VwpBCnQs6LmjT6UwySr/K9/eltgMAwlYKse/Rz+yI3skasNGUrFfyo9cMtxBWmA==
-X-Gm-Gg: ASbGncsRTJNz1MXHpy+An+G+o86ii1CnlmHVtY5IL8uh39bqgmWSiiED1sNEQlcGYdk
- t8csr4h7JhRSLnfS4Afnxx88vN2nRyTwhSbyW70HikJC3lg2eRJbOn46ZWdnzm4LyvnF9pz9LAn
- JHkNnon5MUDW39JAkHBjnJjtbJQBblW/ZUgATOxqD2ouW/h3Orb2cOq4Eh2PEcGW2cpDOK4yC7q
- TzUESZinh73cGWDZdLKOnNI2FXPbbNllLsacVVHjXYyLIM7x1C+BHn16Io3tf8rx4v0cb9yVlCC
- VogW5s8O1sS0sj9CxDirPtwdOlChBD8FmjaQJbzsdT24D+0RMJABhOX0IeFHk7pFssa8JzrKrDM
- c6f3WHb+LiZ0ixXieZRRoe8PzZeg42Sbxdr79pQ==
-X-Received: by 2002:a17:902:e54a:b0:234:8a16:d62b with SMTP id
- d9443c01a7336-23dede38615mr28066775ad.12.1752210356368; 
- Thu, 10 Jul 2025 22:05:56 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IGc9IdZCzOQJSKnApzYY4Ey9QwM3RLDd7RZBRwcYVcIK2ljlo/TA59XUzUEdTJNZzy9kf6SxQ==
-X-Received: by 2002:a17:902:e54a:b0:234:8a16:d62b with SMTP id
- d9443c01a7336-23dede38615mr28066255ad.12.1752210355851; 
- Thu, 10 Jul 2025 22:05:55 -0700 (PDT)
-Received: from [192.168.0.74] (n1-41-240-65.bla22.nsw.optusnet.com.au.
- [1.41.240.65]) by smtp.gmail.com with ESMTPSA id
- d9443c01a7336-23de432289bsm37082315ad.118.2025.07.10.22.05.49
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 10 Jul 2025 22:05:55 -0700 (PDT)
-Message-ID: <ad88258e-dc44-4b82-b49c-e327609ab774@oss.qualcomm.com>
-Date: Fri, 11 Jul 2025 15:05:46 +1000
+Received: from DUZPR83CU001.outbound.protection.outlook.com
+ (mail-northeuropeazon11012047.outbound.protection.outlook.com [52.101.66.47])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3141E10E9A7
+ for <dri-devel@lists.freedesktop.org>; Fri, 11 Jul 2025 05:07:14 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=FjZjqTsM9VRMrHEC6xOKu1YWU4wc7vesl7xSJ8AdiDxCYCafQGaiBcEhAKHQ+ZoIHIh3GUZn2INU71pwve2gMgta/57P/YN5/oOvQlNs9dY57azTqc3n7qfBCBG9HVxR9nT0hAcvkrrXy9eSDtYyVHsLTEhdJhjYDBWUQovMlOGmNeLmIgkqaqlKOU1AZa/g6WhLq+uHqY9ADh4AskyG77gbo8L/oMtNixH+2gQM3tByrUDWApyUbY3Kv3zFJxRvlskq9keZBNYyVDPhGNkABMQ9AWr518EmcOvNWCHblde+vRyxlwFUh2ivvPIP8ymnt6HV8A/a1Cj7FLkcygS03A==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=tbSeD1itN6E0wqvvxc/SDs+CsNsvNo5nLNhZPAPMW8k=;
+ b=COJmCVRCl/FIEbsxyCSKgYMUiCTm5HJcx9L9j7c2YazwcmmjdoSTRL6aAEZBQoNKqPsFqslGuGhMMH3p549uqm0X/PuLftHtns9lauCskoPcI4aNclJzk22Pzw7HjpfHHfk1eh9iv7ruzWifLI2eHla5gOUQxJHb+dQseaJ4VKC1iVIt4OSG0R0UlUXkAds5ZKzpzyOY1+2bTrLFurqlAlCbPPag4QEa2ApgYwMkQ0EUIBtxsuN3N64Vh+26rBCvVOpMJa1ocDl7+3poDsNGxUM+MYidP4urflhJKQSDJTiJjoPKaE12JGBHJ5x4RCvPBzrxjWqW4cNyyRlQLSHk/Q==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=nxp.com; dmarc=pass action=none header.from=nxp.com; dkim=pass
+ header.d=nxp.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nxp.com; s=selector1; 
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=tbSeD1itN6E0wqvvxc/SDs+CsNsvNo5nLNhZPAPMW8k=;
+ b=j7C3gyhjM/nP+4rulBI1OjrQqa9AbULaVqhdwTtP5BhI6I0J1Xb2/z8Vymp0WKTyGIqlHU+kia8f/9YTdPVyTKy7AoOS3KZHA3/ZpL285tx01iJwsLQ9WxLGUXGEfuR7Gx51YrlX30IGXmFSGZ7JmsNoe5qrUTyJcHigFbV8vLDyqeuaTCYo5+AMsYYmshznknNYMaHxXzSfDYuB9OAsIUICn1O9lZ9iSdDEvj21bR0ekxz+Xk5Up7/S23X4kdqo/rOxxoV1TySCRjWJ7JPOdk2dk0o7Y9uDsEz4+cPzj4UPR1oXDMdsKzjbHqe4OF1tdnVQ1oZZqsszAWhkfn8gOg==
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=nxp.com;
+Received: from PAXPR04MB9642.eurprd04.prod.outlook.com (2603:10a6:102:240::14)
+ by DB8PR04MB6796.eurprd04.prod.outlook.com (2603:10a6:10:11e::7) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8922.25; Fri, 11 Jul
+ 2025 05:07:11 +0000
+Received: from PAXPR04MB9642.eurprd04.prod.outlook.com
+ ([fe80::9126:a61e:341d:4b06]) by PAXPR04MB9642.eurprd04.prod.outlook.com
+ ([fe80::9126:a61e:341d:4b06%5]) with mapi id 15.20.8922.023; Fri, 11 Jul 2025
+ 05:07:11 +0000
+Date: Fri, 11 Jul 2025 01:07:06 -0400
+From: Frank Li <Frank.li@nxp.com>
+To: Laurentiu Palcu <laurentiu.palcu@oss.nxp.com>
+Cc: imx@lists.linux.dev, Rob Herring <robh@kernel.org>,
+ Krzysztof Kozlowski <krzk+dt@kernel.org>,
+ Conor Dooley <conor+dt@kernel.org>, Shawn Guo <shawnguo@kernel.org>,
+ Sascha Hauer <s.hauer@pengutronix.de>,
+ Pengutronix Kernel Team <kernel@pengutronix.de>,
+ Fabio Estevam <festevam@gmail.com>, dri-devel@lists.freedesktop.org,
+ devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+ linux-kernel@vger.kernel.org
+Subject: Re: [PATCH 7/8] arm64: dts: imx943-evk: Add support for DCIF and LVDS
+Message-ID: <aHCb+nj2qb8+P5Mp@lizhi-Precision-Tower-5810>
+References: <20250709122332.2874632-1-laurentiu.palcu@oss.nxp.com>
+ <20250709122332.2874632-8-laurentiu.palcu@oss.nxp.com>
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20250709122332.2874632-8-laurentiu.palcu@oss.nxp.com>
+X-ClientProxiedBy: AS4P190CA0035.EURP190.PROD.OUTLOOK.COM
+ (2603:10a6:20b:5d1::11) To PAXPR04MB9642.eurprd04.prod.outlook.com
+ (2603:10a6:102:240::14)
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v5 12/12] Documentation: tee: Add Qualcomm TEE driver
-To: Sumit Garg <sumit.garg@kernel.org>
-Cc: Jens Wiklander <jens.wiklander@linaro.org>,
- Bjorn Andersson <andersson@kernel.org>,
- Konrad Dybcio <konradybcio@kernel.org>,
- Bartosz Golaszewski <bartosz.golaszewski@linaro.org>,
- Apurupa Pattapu <quic_apurupa@quicinc.com>, Kees Cook <kees@kernel.org>,
- "Gustavo A. R. Silva" <gustavoars@kernel.org>,
- Sumit Semwal <sumit.semwal@linaro.org>,
- =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
- Harshal Dev <quic_hdev@quicinc.com>, linux-arm-msm@vger.kernel.org,
- op-tee@lists.trustedfirmware.org, linux-kernel@vger.kernel.org,
- linux-hardening@vger.kernel.org, dri-devel@lists.freedesktop.org,
- linaro-mm-sig@lists.linaro.org, linux-doc@vger.kernel.org
-References: <20250526-qcom-tee-using-tee-ss-without-mem-obj-v5-0-024e3221b0b9@oss.qualcomm.com>
- <20250526-qcom-tee-using-tee-ss-without-mem-obj-v5-12-024e3221b0b9@oss.qualcomm.com>
- <aGu7boxOTB3TFRNU@sumit-X1>
-Content-Language: en-US
-From: Amirreza Zarrabi <amirreza.zarrabi@oss.qualcomm.com>
-In-Reply-To: <aGu7boxOTB3TFRNU@sumit-X1>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-Authority-Analysis: v=2.4 cv=P7o6hjAu c=1 sm=1 tr=0 ts=68709bb5 cx=c_pps
- a=IZJwPbhc+fLeJZngyXXI0A==:117 a=hi51d+lTLNy/RbqRqnOomQ==:17
- a=IkcTkHD0fZMA:10 a=Wb1JkmetP80A:10 a=EUspDBNiAAAA:8 a=7CQSdrXTAAAA:8
- a=VwQbUJbxAAAA:8 a=XIjxTgID6P44-LRwrwcA:9 a=QEXdDO2ut3YA:10 a=M0EVDjxxv-UA:10
- a=uG9DUKGECoFWVXl0Dc02:22 a=a-qgeE7W1pNrGK8U0ZQC:22
-X-Proofpoint-ORIG-GUID: F8iaao-SBLqciIc5iI7WLfqmS_P5FxCY
-X-Proofpoint-GUID: F8iaao-SBLqciIc5iI7WLfqmS_P5FxCY
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwNzExMDAzMyBTYWx0ZWRfX5QS7+9P+H0r/
- 9+oFb7AkCzq3YwTKfMYFOhUwnh9x6ol7kO/FTKyS/q2lL1EQQJQstFIid+TBZGT2kPpn2k8JAoH
- IZBz8sMIa1WkzvjyKGnNJ/b0GK41ncrcgf8HW5rcv4c3RXeIofsE/yfzvvqhfhbkYo57XYdIrpN
- P961l9znkFaMsYPjU8NLzxWpnng/mqVcLiVRrXiZIsOmqRrryQW+5TFi50rsf9awuG7obQEgCCa
- bn3Qcno80EePk4O3H9J339KguRqmNgyMX8lDoRTJWroD51JdbMQMIq4P5mBs4XOdMoOHfsV/Ow5
- N+u/KpFWGckgpsrTSfuAGUSreTD6G/pIaIhasyAAxfWqlA5dEbJHY3HaoK1//FLtvbit8O8c6AL
- xsmabajYb2u5S3ilIIOQt6kPWJ8VrV/pf/JuZvVPmD0pz4YtqC+ro2tOgHNY+Vt3xVzodQ8S
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1099,Hydra:6.1.7,FMLib:17.12.80.40
- definitions=2025-07-11_01,2025-07-09_01,2025-03-28_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- impostorscore=0 priorityscore=1501 phishscore=0 bulkscore=0 mlxscore=0
- malwarescore=0 spamscore=0 lowpriorityscore=0 suspectscore=0 clxscore=1015
- adultscore=0 mlxlogscore=999 classifier=spam authscore=0 authtc=n/a authcc=
- route=outbound adjust=0 reason=mlx scancount=1 engine=8.19.0-2505280000
- definitions=main-2507110033
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: PAXPR04MB9642:EE_|DB8PR04MB6796:EE_
+X-MS-Office365-Filtering-Correlation-Id: ae724cba-9273-4ecd-3408-08ddc038caca
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+ ARA:13230040|19092799006|366016|7416014|376014|52116014|1800799024|38350700014;
+X-Microsoft-Antispam-Message-Info: =?us-ascii?Q?28lpnxpcgubSlZ+unylCYjf51TjfJnKRn2iDADd1HxBVGA+Y7vMSx7yp1aJK?=
+ =?us-ascii?Q?LtEp/pUHHYFg0wlJ5UuFpyLpE91Oqn1DeN9iJinbGZXoR0HRfgU/VqMgtnvS?=
+ =?us-ascii?Q?su7VziNhqNMyraCGzLndmc2O1JMpSl+ZJwn8oNoOTH8yQJcTU17rlmXyenUb?=
+ =?us-ascii?Q?xjI0PiizyA5U8j+VNZLZ+1TKPa1EVrR1NC122Rbfu+8h/QKCTV0G/2X/RMvl?=
+ =?us-ascii?Q?FT3UW2TjOZ3Z9c4GnDC2oGbwGoBfbCr/Izps56EnGt1bIobr/zoq+SNOCEjm?=
+ =?us-ascii?Q?UbvvCS5RhIFuG4//JuwUWXSNZO9L6HBZEo/EIjNuJ/fTaEcRvLu06MW+L58H?=
+ =?us-ascii?Q?fzGUQNEB0JFQY8es4nQTucLSq9OT6K7eLM423ecK0Ol/bnFUbc9tLlasv7Lq?=
+ =?us-ascii?Q?FPsNqfG/ny4brvPhiodHFEsvvdgdPzZkxviBxpb7GXuxZeckq6u1n2Bq9nlQ?=
+ =?us-ascii?Q?tUX7WWi1o6gENksFouS5cqAr51DHy6MvtXyDuRuVcVOhgoo8285RpJA1rwae?=
+ =?us-ascii?Q?ZAtZg0YgdtqtqMmB1MKwC4/q0K9NGXH3W0GfRbYF0xtsbUi04fFBxRDCkYB8?=
+ =?us-ascii?Q?E/+7ja0jVuALbwcvveZFxF6wXpn/SX6RpKrM1EKQLq2C9ZDLx/GCA6VHzVof?=
+ =?us-ascii?Q?lkPGg/OSQFbM5/kjetiWq5iIpSampvfFiOwUVR78udacxT2hNsrXTdMN88Gx?=
+ =?us-ascii?Q?BM9q0AIRgO+ry4tl0271o0ccR6uILXDhz8f3pf8hdzn1qu+jUb6c5Sap2fgD?=
+ =?us-ascii?Q?Nbjkrw+kGjh5F7gMJzWDdaRD3Mxu2912oxuPc5K/Xu18HIIw+YYKFSo+jVGH?=
+ =?us-ascii?Q?6cVTf6qOBL0li+vbJp6jSt8xp5Kp6iGc+LzQEem9/TrbuaM/yaDlBtVHFxhK?=
+ =?us-ascii?Q?0QvFS7p4jAjOVD2HQjtFObJbs4aJmiJcu8OE3QP9BBoDlMDcyx5MZ3deBw2O?=
+ =?us-ascii?Q?2mhZAT2uk4OQ+U5CByd5+y8E4vBox+mUbEhYmE18aQ/zXp3QOiVjP/YatWdA?=
+ =?us-ascii?Q?YKO4NqTlspP8CKLMD0Yr5ZuekqjVzfR5A5z4ZjveLABpAMtaj/OeIYfe/TKV?=
+ =?us-ascii?Q?INO3DmJWeLMn5N/7QVQMqmbsyCD/oFTs6raNH1TdEbzN2h36BAKn4gxIIU32?=
+ =?us-ascii?Q?ri+BxcG54+1117TKndwW8XGJbiNY3y8Fms0ceN3fzQDQerO0CMreN84laSWc?=
+ =?us-ascii?Q?V5bCWGKl4zL3VFEcDvSIxCNhGv4hGKtqbChfdUw/X9dyNqHnxawX1vEl5mm+?=
+ =?us-ascii?Q?Lba3J0HaAIxLRrz9Q07dUkB6Xb0NmnIVSEx9uqxvWbwCmTM2tU/Thh7b4Wee?=
+ =?us-ascii?Q?QuLRIIXSi4/YRq2GhEkBdSv5Pd5IkBqG5Ym+QexUVtn7Z990A50uLM23CLUv?=
+ =?us-ascii?Q?sWkMnTy85EVbPmJQjAXCSJaGtk3aejuCQ9y5ngHTniDt87p7teSNy0u4QLp9?=
+ =?us-ascii?Q?Z/l2oyntMqRaKZAVLr6U/bnVX19kaH/4opzXzvjJ0Z7W+T0imWhT4yOK9RYa?=
+ =?us-ascii?Q?X1eYnDxxdGROzDY=3D?=
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:PAXPR04MB9642.eurprd04.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230040)(19092799006)(366016)(7416014)(376014)(52116014)(1800799024)(38350700014);
+ DIR:OUT; SFP:1101; 
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?YHkw6wZ30wVQjnkP1ylagxJuf1pbXfe6O4HKQ9GsdPln4Qxx7A8Aj49YjhjV?=
+ =?us-ascii?Q?VbWR+zXzD7+jnuJv2mGJ+BHU8wam/Ttf/gYpRnO4CoRhksi9DglRxZwHZGTw?=
+ =?us-ascii?Q?XsoznyjnRXGEtIjzgXMZIULO5G9BsjFrQ7u6aMF0VtmdfJoGSsx+vu9lSdLy?=
+ =?us-ascii?Q?mnIZQG70seI5eG/1g1BPqZBJyvJoY7MY1rKAPFwP/MauK+KfUPpSIk7Ciulc?=
+ =?us-ascii?Q?P6OuNNss4JPKkFxnoCZg1ANmkYw09mSs6xAo5b652RZStrRZhnAtIMU8mAA4?=
+ =?us-ascii?Q?45Dw5KjdHkCvS39sMbxSUQsZuzOrrfvUPN7qY4QugwZi242JezZqRENGwPwi?=
+ =?us-ascii?Q?jASlcIbz+jjT6hrz7AZvYLjIwuc0VvYmqiumDEFt5NCf2n+5wKQFBDGZvBcl?=
+ =?us-ascii?Q?mgxGZsYt7N3VfHGWf5Zvl9eEEE0RE4Dqak2IJpuJ44BKcLvqCZyItU1k35wG?=
+ =?us-ascii?Q?eSQgJgs8Q+L6WsEaNc9GQulbpaZz61Gid6igmejSNtPC3LpRGe61g3CLDlRi?=
+ =?us-ascii?Q?4/S+Q30gaC7ALcdxzZ4WG4AhYE1uKZ5mNNDjtSbEghqp0Nvl49qpUi5pwfN3?=
+ =?us-ascii?Q?gW5vIaUy5uo/DlDoidHzGM5sfJAEBESbf+ka6f64AO4xCp6mVHxf1bV0RGm8?=
+ =?us-ascii?Q?gLf09wLjDkEgun6v42dUdOTishdbboykn3PSIsT8wdHhcGMgLMHbSMJvlUWb?=
+ =?us-ascii?Q?voum4B1DamsIGxo/SAVIfMLBQs4nVs/Fw4hU0PKwOItXFrcezmt2K4xw+CzM?=
+ =?us-ascii?Q?JuNhRsvzav1BcOTjJkFRGMj43ONRYqbA65DrF07fy0Xmq2U0g5cOdR0QMD42?=
+ =?us-ascii?Q?lWvtvKmgXT2x6gaygkV8I1X6zYVV+xQuhcryo1V9WiU1zI0RvashS5b3+/vC?=
+ =?us-ascii?Q?T88DF7kB9z9L9MROQY0Rq035QM9+mWsLvFIOZX5Hsrve1tziM+gWrqIgr1k0?=
+ =?us-ascii?Q?rCq6nz4rawJ3WKj3GNsxwkKOViixkvg5IE5SVi0DV40DU6VzP8QlYsszxIXc?=
+ =?us-ascii?Q?TPZgMOFzDKLEpvL7lu+n+fONluUXneKBYfaIvEYhFqxJiv28vXoKsJ/3NWTT?=
+ =?us-ascii?Q?52Mq5fdNeTNJEVtLCSaZgz5Y9ykKK9IYEYi/s1V6MXwOzXVfveSwufH96SYR?=
+ =?us-ascii?Q?fff7Oj604P60m8/bbJQaAyUFclFPoazDvNFR9MH7wtH5HkxH1UoNvakeP2X7?=
+ =?us-ascii?Q?fWN5ZMFLMUHZ1objD109ZghgKJ51OYFccjDMW8Lb1Rp0Iib2skMi7ioUlbfL?=
+ =?us-ascii?Q?qrW45i99ze5i6IFZW3aFIaulwEiBWYVXbL0XAS8UuSbsax8yV8Guei5tT72c?=
+ =?us-ascii?Q?Ffyo437Vi1s6y9EJtYsZvWnMaxsB1YR/hfjmbgfeC0vO8v1/fuCxnvJ95MnZ?=
+ =?us-ascii?Q?ovJ6cpDdCDNqsyFwvZoVLW1LQ6/1fRODLDp45B484DoFzD+OX7pox9b8tfR3?=
+ =?us-ascii?Q?VwweRlvwRtLZj3hNrHSHWFkwf4oR/1qtTSpMIxoR5iYcb/lQZCC5bKKRWFvX?=
+ =?us-ascii?Q?MgufBEhhaUtTlS3s64+3YUVJm9zrIxiboUdtTceuOjSmV9AXPceBa4t0qTYl?=
+ =?us-ascii?Q?7p4KHwzuquOHrvTOtEw0CFviyJ9u/bEVAiSXO5JD?=
+X-OriginatorOrg: nxp.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: ae724cba-9273-4ecd-3408-08ddc038caca
+X-MS-Exchange-CrossTenant-AuthSource: PAXPR04MB9642.eurprd04.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 11 Jul 2025 05:07:11.2744 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: +ZHwF6CRaTnJt1vN7K3Twp2iF9ARcoWYGWeFbRtRvjZ+IMIkr/Vdg8jHUxytrTNh/RN9MMAbT1I9YN7mWkLEQA==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DB8PR04MB6796
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -136,213 +153,238 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Sumit,
+On Wed, Jul 09, 2025 at 03:23:26PM +0300, Laurentiu Palcu wrote:
+> Add DT nodes for DCIF and LVDS in imx943.dtsi and activate them in
+> imx943-evk.dts.
+>
+> Signed-off-by: Laurentiu Palcu <laurentiu.palcu@oss.nxp.com>
+> ---
+>  arch/arm64/boot/dts/freescale/imx943-evk.dts | 126 +++++++++++++++++++
 
-On 7/7/2025 10:19 PM, Sumit Garg wrote:
-> On Mon, May 26, 2025 at 11:56:57PM -0700, Amirreza Zarrabi wrote:
->> Add documentation for the Qualcomm TEE driver.
->>
->> Signed-off-by: Amirreza Zarrabi <amirreza.zarrabi@oss.qualcomm.com>
->> ---
->>  Documentation/tee/index.rst |   1 +
->>  Documentation/tee/qtee.rst  | 150 ++++++++++++++++++++++++++++++++++++++++++++
->>  MAINTAINERS                 |   1 +
->>  3 files changed, 152 insertions(+)
->>
->> diff --git a/Documentation/tee/index.rst b/Documentation/tee/index.rst
->> index 4be6e69d7837..62afb7ee9b52 100644
->> --- a/Documentation/tee/index.rst
->> +++ b/Documentation/tee/index.rst
->> @@ -11,6 +11,7 @@ TEE Subsystem
->>     op-tee
->>     amd-tee
->>     ts-tee
->> +   qtee
->>  
->>  .. only::  subproject and html
->>  
->> diff --git a/Documentation/tee/qtee.rst b/Documentation/tee/qtee.rst
->> new file mode 100644
->> index 000000000000..8ae4da17c3a7
->> --- /dev/null
->> +++ b/Documentation/tee/qtee.rst
->> @@ -0,0 +1,150 @@
->> +.. SPDX-License-Identifier: GPL-2.0
->> +
->> +=============================================
->> +QTEE (Qualcomm Trusted Execution Environment)
->> +=============================================
->> +
->> +The QTEE driver handles communication with Qualcomm TEE [1].
->> +
->> +The lowest level of communication with QTEE builds on the ARM SMC Calling
->> +Convention (SMCCC) [2], which is the foundation for QTEE's Secure Channel
->> +Manager (SCM) [3] used internally by the driver [4].
->> +
->> +In a QTEE-based system, services are represented as objects with a series of
->> +operations that can be called to produce results, including other objects.
->> +
->> +When an object is hosted within QTEE, executing its operations is referred
->> +to as direct invocation. QTEE can invoke objects hosted in the kernel or
->> +userspace using a method known as callback requests.
->> +
->> +The SCM provides two functions for direct invocation and callback request:
->> +
->> +- QCOM_SCM_SMCINVOKE_INVOKE for direct invocation. It can return either
->> +  a result or a callback request.
->> +- QCOM_SCM_SMCINVOKE_CB_RSP submits a response for a previous callback request.
->> +
->> +The QTEE Transport Message [5] is stacked on top of the SCM driver functions.
->> +
->> +A message consists of two buffers shared with QTEE: inbound and outbound
->> +buffers. The inbound buffer is used for direct invocation, and the outbound
->> +buffer is used to make callback requests. This picture shows the contents of
->> +a QTEE transport message::
->> +
->> +                                      +---------------------+
->> +                                      |                     v
->> +    +-----------------+-------+-------+------+--------------------------+
->> +    | qcomtee_msg_    |object | buffer       |                          |
->> +    |  object_invoke  |  id   | offset, size |                          | (inbound buffer)
->> +    +-----------------+-------+--------------+--------------------------+
->> +    <---- header -----><---- arguments ------><- in/out buffer payload ->
->> +
->> +                                      +-----------+
->> +                                      |           v
->> +    +-----------------+-------+-------+------+----------------------+
->> +    | qcomtee_msg_    |object | buffer       |                      |
->> +    |  callback       |  id   | offset, size |                      | (outbound buffer)
->> +    +-----------------+-------+--------------+----------------------+
->> +
->> +Each buffer is started with a header and array of arguments.
->> +
->> +QTEE Transport Message supports four types of arguments:
->> +
->> +- Input Object (IO) is an object parameter to the current invocation
->> +  or callback request.
->> +- Output Object (OO) is an object parameter from the current invocation
->> +  or callback request.
->> +- Input Buffer (IB) is (offset, size) pair to the inbound or outbound region
->> +  to store parameter to the current invocation or callback request.
->> +- Output Buffer (OB) is (offset, size) pair to the inbound or outbound region
->> +  to store parameter from the current invocation or callback request.
->> +
->> +The QTEE driver provides the qcomtee_object, which represents an object within
->> +both QTEE and the kernel. To access any service in QTEE, a client needs to
->> +invoke an instance of this object. Any structure intended to represent a service
->> +for export to QTEE should include an instance of qcomtee_object::
->> +
->> +	struct driver_service {
->> +		struct qcomtee_object object;
->> +		...
->> +	};
->> +
->> +	#define to_driver_service_object(o) container_of((o), struct driver_service, object)
->> +
->> +	static int driver_service_dispatch(struct qcomtee_object *object, u32 op,
->> +					   struct qcomtee_arg *args)
->> +	{
->> +		struct driver_service *so = to_driver_service_object(object);
->> +
->> +		switch(op) {
->> +		case OBJECT_OP1:
->> +			...
->> +			break;
->> +		default:
->> +			return -EINVAL;
->> +		}
->> +	}
->> +
->> +	static void driver_service_object_release(struct si_object *object)
->> +	{
->> +		struct driver_service *so = to_driver_service_object(object);
->> +		kfree(so);
->> +	}
->> +
->> +	struct si_object_operations driver_service_ops = {
->> +		.release = driver_service_object_release;
->> +		.dispatch = driver_service_dispatch;
->> +	};
->> +
->> +	void service_init(void)
->> +	{
->> +		struct driver_service *so = kzalloc(sizeof(*so), GFP_KERNEL);
->> +
->> +		/* Initialize so->object as a callback object. */
->> +		qcomtee_object_user_init(&so->object, QCOMTEE_OBJECT_TYPE_CB_OBJECT,
->> +					 &driver_service_ops, "driver_service_object");
->> +
->> +		/* Invoke a QTEE object and pass/register 'so->object' with QTEE. */
->> +		...
->> +	}
->> +	module_init(service_init);
-> 
-> Lets drop any reference for kernel client/services since they aren't
-> supported by this patch-set yet.
+Shawn require board dts need sperate patch.
 
-Will do.
+>  arch/arm64/boot/dts/freescale/imx943.dtsi    |  56 ++++++++-
+>  2 files changed, 181 insertions(+), 1 deletion(-)
+>
+> diff --git a/arch/arm64/boot/dts/freescale/imx943-evk.dts b/arch/arm64/boot/dts/freescale/imx943-evk.dts
+> index c8c3eff9df1a2..e7de7ba406407 100644
+> --- a/arch/arm64/boot/dts/freescale/imx943-evk.dts
+> +++ b/arch/arm64/boot/dts/freescale/imx943-evk.dts
+> @@ -125,6 +125,132 @@ memory@80000000 {
+>  		reg = <0x0 0x80000000 0x0 0x80000000>;
+>  		device_type = "memory";
+>  	};
+> +
+> +	hdmi-connector {
+> +		compatible = "hdmi-connector";
+> +		label = "hdmi";
+> +		type = "a";
+> +
+> +		port {
+> +			hdmi_connector_in: endpoint {
+> +				remote-endpoint = <&it6263_out>;
+> +			};
+> +		};
+> +	};
+> +};
+> +
+> +&dcif {
+> +	status = "okay";
+> +};
+> +
+> +&ldb {
+> +	assigned-clocks = <&scmi_clk IMX94_CLK_LDBPLL_VCO>,
+> +			  <&scmi_clk IMX94_CLK_LDBPLL>;
+> +	assigned-clock-rates = <4158000000>, <1039500000>;
+> +	status = "okay";
+> +
+> +	ports {
+> +		#address-cells = <1>;
+> +		#size-cells = <0>;
 
-Regards,
-Amir
+imx94.dts already set it
 
-> 
-> -Sumit
-> 
->> +
->> +The QTEE driver utilizes qcomtee_object to encapsulate userspace objects. When
->> +a callback request is made, it translates into calling the dispatch operation.
->> +For userspace objects, this is converted into requests accessible to callback
->> +servers and available through generic TEE API IOCTLs.
->> +
->> +Picture of the relationship between the different components in the QTEE
->> +architecture::
->> +
->> +         User space               Kernel                     Secure world
->> +         ~~~~~~~~~~               ~~~~~~                     ~~~~~~~~~~~~
->> +   +--------+   +----------+                                +--------------+
->> +   | Client |   |callback  |                                | Trusted      |
->> +   +--------+   |server    |                                | Application  |
->> +      /\        +----------+                                +--------------+
->> +      ||  +----------+ /\                                          /\
->> +      ||  |callback  | ||                                          ||
->> +      ||  |server    | ||                                          \/
->> +      ||  +----------+ ||                                   +--------------+
->> +      \/       /\      ||                                   | TEE Internal |
->> +   +-------+   ||      ||                                   | API          |
->> +   | TEE   |   ||      ||   +--------+--------+             +--------------+
->> +   | Client|   ||      ||   | TEE    | QTEE   |             | QTEE         |
->> +   | API   |   \/      \/   | subsys | driver |             | Trusted OS   |
->> +   +-------+----------------+----+-------+----+-------------+--------------+
->> +   |      Generic TEE API        |       |   QTEE MSG                      |
->> +   |      IOCTL (TEE_IOC_*)      |       |   SMCCC (QCOM_SCM_SMCINVOKE_*)  |
->> +   +-----------------------------+       +---------------------------------+
->> +
->> +References
->> +==========
->> +
->> +[1] https://docs.qualcomm.com/bundle/publicresource/topics/80-70015-11/qualcomm-trusted-execution-environment.html
->> +
->> +[2] http://infocenter.arm.com/help/topic/com.arm.doc.den0028a/index.html
->> +
->> +[3] drivers/firmware/qcom/qcom_scm.c
->> +
->> +[4] drivers/tee/qcomtee/qcom_scm.c
->> +
->> +[5] drivers/tee/qcomtee/qcomtee_msg.h
->> diff --git a/MAINTAINERS b/MAINTAINERS
->> index 99fe1ae22ae0..42823d33cc03 100644
->> --- a/MAINTAINERS
->> +++ b/MAINTAINERS
->> @@ -20515,6 +20515,7 @@ QUALCOMM TEE (QCOMTEE) DRIVER
->>  M:	Amirreza Zarrabi <amirreza.zarrabi@oss.qualcomm.com>
->>  L:	linux-arm-msm@vger.kernel.org
->>  S:	Maintained
->> +F:	Documentation/tee/qtee.rst
->>  F:	drivers/tee/qcomtee/
->>  F:	include/linux/firmware/qcom/qcom_tee.h
->>  
->>
->> -- 
->> 2.34.1
->>
-
+Frank
+> +
+> +		port@1 {
+> +			reg = <1>;
+> +
+> +			lvds_out: endpoint {
+> +				remote-endpoint = <&it6263_in>;
+> +			};
+> +		};
+> +	};
+> +};
+> +
+> +&lpi2c3 {
+> +	clock-frequency = <400000>;
+> +	pinctrl-0 = <&pinctrl_lpi2c3>;
+> +	pinctrl-names = "default";
+> +	status = "okay";
+> +
+> +	pca9548_i2c3: i2c-mux@77 {
+> +		compatible = "nxp,pca9548";
+> +		reg = <0x77>;
+> +		#address-cells = <1>;
+> +		#size-cells = <0>;
+> +
+> +		i2c@0 {
+> +			reg = <0>;
+> +			#address-cells = <1>;
+> +			#size-cells = <0>;
+> +		};
+> +
+> +		i2c@1 {
+> +			reg = <1>;
+> +			#address-cells = <1>;
+> +			#size-cells = <0>;
+> +		};
+> +
+> +		i2c@2 {
+> +			reg = <2>;
+> +			#address-cells = <1>;
+> +			#size-cells = <0>;
+> +		};
+> +
+> +		i2c@3 {
+> +			reg = <3>;
+> +			#address-cells = <1>;
+> +			#size-cells = <0>;
+> +
+> +			lvds-to-hdmi-bridge@4c {
+> +				compatible = "ite,it6263";
+> +				reg = <0x4c>;
+> +				data-mapping = "jeida-24";
+> +				reset-gpios = <&pcal6416_i2c3_u171 8 GPIO_ACTIVE_HIGH>;
+> +
+> +				ports {
+> +					#address-cells = <1>;
+> +					#size-cells = <0>;
+> +
+> +					port@0 {
+> +						reg = <0>;
+> +
+> +						it6263_in: endpoint {
+> +							remote-endpoint = <&lvds_out>;
+> +						};
+> +					};
+> +
+> +					port@2 {
+> +						reg = <2>;
+> +
+> +						it6263_out: endpoint {
+> +							remote-endpoint = <&hdmi_connector_in>;
+> +						};
+> +					};
+> +				};
+> +			};
+> +		};
+> +
+> +		i2c@4 {
+> +			reg = <4>;
+> +			#address-cells = <1>;
+> +			#size-cells = <0>;
+> +		};
+> +
+> +		i2c@5 {
+> +			reg = <5>;
+> +			#address-cells = <1>;
+> +			#size-cells = <0>;
+> +		};
+> +
+> +		i2c@6 {
+> +			reg = <6>;
+> +			#address-cells = <1>;
+> +			#size-cells = <0>;
+> +		};
+> +
+> +		i2c@7 {
+> +			reg = <7>;
+> +			#address-cells = <1>;
+> +			#size-cells = <0>;
+> +		};
+> +	};
+>  };
+>
+>  &lpi2c3 {
+> diff --git a/arch/arm64/boot/dts/freescale/imx943.dtsi b/arch/arm64/boot/dts/freescale/imx943.dtsi
+> index 657c81b6016f2..db00a94812e18 100644
+> --- a/arch/arm64/boot/dts/freescale/imx943.dtsi
+> +++ b/arch/arm64/boot/dts/freescale/imx943.dtsi
+> @@ -148,7 +148,7 @@ l3_cache: l3-cache {
+>  		};
+>  	};
+>
+> -	clock-ldb-pll-div7 {
+> +	clock_ldb_pll_div7: clock-ldb-pll-div7 {
+>  		compatible = "fixed-factor-clock";
+>  		#clock-cells = <0>;
+>  		clocks = <&scmi_clk IMX94_CLK_LDBPLL>;
+> @@ -173,10 +173,64 @@ dispmix_csr: syscon@4b010000 {
+>
+>  		lvds_csr: syscon@4b0c0000 {
+>  			compatible = "nxp,imx94-lvds-csr", "syscon";
+> +			#address-cells = <1>;
+> +			#size-cells = <1>;
+>  			reg = <0x0 0x4b0c0000 0x0 0x10000>;
+>  			clocks = <&scmi_clk IMX94_CLK_DISPAPB>;
+>  			#clock-cells = <1>;
+>  			power-domains = <&scmi_devpd IMX94_PD_DISPLAY>;
+> +
+> +			ldb: ldb@4 {
+> +				compatible = "fsl,imx94-ldb";
+> +				#address-cells = <1>;
+> +				#size-cells = <0>;
+> +				reg = <0x4 0x4>, <0x8 0x4>;
+> +				reg-names = "ldb", "lvds";
+> +				clocks = <&lvds_csr IMX94_CLK_DISPMIX_LVDS_CLK_GATE>;
+> +				clock-names = "ldb";
+> +				status = "disabled";
+> +
+> +				ports {
+> +					#address-cells = <1>;
+> +					#size-cells = <0>;
+> +
+> +					port@0 {
+> +						reg = <0>;
+> +
+> +						lvds_in: endpoint {
+> +							remote-endpoint = <&dcif_out>;
+> +						};
+> +					};
+> +
+> +					port@1 {
+> +						reg = <1>;
+> +					};
+> +				};
+> +			};
+> +		};
+> +
+> +		dcif: display-controller@4b120000 {
+> +			compatible = "nxp,imx94-dcif";
+> +			reg = <0x0 0x4b120000 0x0 0x300000>;
+> +			interrupts = <GIC_SPI 377 IRQ_TYPE_LEVEL_HIGH>,
+> +				     <GIC_SPI 378 IRQ_TYPE_LEVEL_HIGH>,
+> +				     <GIC_SPI 379 IRQ_TYPE_LEVEL_HIGH>;
+> +			interrupt-names = "common", "bg_layer", "fg_layer";
+> +			clocks = <&scmi_clk IMX94_CLK_DISPAPB>,
+> +				 <&scmi_clk IMX94_CLK_DISPAXI>,
+> +				 <&dispmix_csr IMX94_CLK_DISPMIX_CLK_SEL>;
+> +			clock-names = "apb", "axi", "pix";
+> +			assigned-clocks = <&dispmix_csr IMX94_CLK_DISPMIX_CLK_SEL>;
+> +			assigned-clock-parents = <&clock_ldb_pll_div7>;
+> +			power-domains = <&scmi_devpd IMX94_PD_DISPLAY>;
+> +			nxp,blk-ctrl = <&dispmix_csr>;
+> +			status = "disabled";
+> +
+> +			port {
+> +				dcif_out: endpoint {
+> +					remote-endpoint = <&lvds_in>;
+> +				};
+> +			};
+>  		};
+>  	};
+>  };
+> --
+> 2.46.1
+>
