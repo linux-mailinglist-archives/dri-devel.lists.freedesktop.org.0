@@ -2,85 +2,85 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id AFD9EB01BB6
-	for <lists+dri-devel@lfdr.de>; Fri, 11 Jul 2025 14:15:52 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id E8234B01BE0
+	for <lists+dri-devel@lfdr.de>; Fri, 11 Jul 2025 14:24:24 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0515210EA30;
-	Fri, 11 Jul 2025 12:15:51 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 39A9910EA36;
+	Fri, 11 Jul 2025 12:24:23 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; secure) header.d=ffwll.ch header.i=@ffwll.ch header.b="OEpr3Qjn";
+	dkim=pass (1024-bit key; unprotected) header.d=redhat.com header.i=@redhat.com header.b="JaylaLtP";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-f42.google.com (mail-wr1-f42.google.com
- [209.85.221.42])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 83BB210EA49
- for <dri-devel@lists.freedesktop.org>; Fri, 11 Jul 2025 12:15:49 +0000 (UTC)
-Received: by mail-wr1-f42.google.com with SMTP id
- ffacd0b85a97d-3a5123c1533so1095071f8f.2
- for <dri-devel@lists.freedesktop.org>; Fri, 11 Jul 2025 05:15:49 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=ffwll.ch; s=google; t=1752236148; x=1752840948; darn=lists.freedesktop.org; 
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
- bh=j7o6WO/ubCLkafzT7RhuSteJI5L2X5ZOO+7e52gjV7M=;
- b=OEpr3Qjnjc4TT7iermpA2dvoOpRpooGZRTtQdeSIhAv/PewYIb6S8Lhs0h6qRW4Q8Y
- iGf03VuLiDOJigAAnAzOCkkwR2LXF2zsVvo4XYrSQgtUm2tF3bqPLXv27aCaHZ9Y8f2H
- mKwbewcxtxMEoVsG0NCKYnbulCKE74ym4/6Ws=
+Received: from us-smtp-delivery-124.mimecast.com
+ (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 354E010EA37
+ for <dri-devel@lists.freedesktop.org>; Fri, 11 Jul 2025 12:24:21 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1752236660;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=xUgL9Dz+oW7+DeOz096RSABhOz6S9pVb8w5EfdNrkv4=;
+ b=JaylaLtPaTDjc+PHIa3GgyAc2cNqqJrybtR2DXAQ/+tFI+saxZH71BbtZMA8UgE5xo3ojp
+ B14v5WAr/B90yyxSdz0zXnQNjeP0jj9wgaBKrKycRm5SiHoa28ovcSLszhb1pE+qBNrHl8
+ 1EAbGd+RPrClKTKGCVbHOzAbr8QQOVs=
+Received: from mail-wr1-f72.google.com (mail-wr1-f72.google.com
+ [209.85.221.72]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-258-G_XkLB0ONDaTfP53I2vfxA-1; Fri, 11 Jul 2025 08:24:19 -0400
+X-MC-Unique: G_XkLB0ONDaTfP53I2vfxA-1
+X-Mimecast-MFC-AGG-ID: G_XkLB0ONDaTfP53I2vfxA_1752236658
+Received: by mail-wr1-f72.google.com with SMTP id
+ ffacd0b85a97d-3b4a0013c0dso950810f8f.2
+ for <dri-devel@lists.freedesktop.org>; Fri, 11 Jul 2025 05:24:18 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1752236148; x=1752840948;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
- :message-id:reply-to;
- bh=j7o6WO/ubCLkafzT7RhuSteJI5L2X5ZOO+7e52gjV7M=;
- b=EgCWdVP2UFKcfJZZLVgg8vhKKcHXWMnLjQmm4cb7eW28JaFlEb8drA46mBnyDj4DdZ
- /o08D/rH9T3yg/O/pQkePk0MuslzwRmKYQePDFs04+TE4TnxTk6KEWXZeEw096Y2s6R3
- To5UHQ2xvKq8Za8bFIVHnzTNYzR+ztAUPrYN3w2b58dyA8Fl24OVFws4FkzQ3Nk+vECR
- lwmWGfleiVCgeNWY6hAsQokn4dWi02JCLHSkJfEJGVAHfYQ4zMeBJIQTwqHSgRmgiyOX
- y7+QdnabPr4S/GyhCTmQKX1ZoZcViL7KynVEOGNrLuXDfqMeXD1Mj3IT1aMyfmwKdWlB
- VOKg==
-X-Forwarded-Encrypted: i=1;
- AJvYcCUPdVNE4Wmgfvtc4d+SOEONGZ+snJhZkCQ8wjd+y3gmGue1rrwtzl0utczv3p/r5U6wDHxq9ap4VgY=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0Yz5rI7f8zKUhYL4U0l+IIQhFXBJlViRzq7qZJ4gml4Gy9Z41Lq/
- WI9ewXsGkRYvxS6XtpAsPZzqk3UXXLFp+I2n3g8M7/8fPl4Kb/f1QrYUWfO1uN2084o=
-X-Gm-Gg: ASbGncvft1tX8JPjTpovxG34OHHoDsIc0euFOgwhhBlwpORzZUSKysSm6JTfwBq13Cx
- SABJsAe6Vyz0RfKdXaxfsJAELgruqrPKuMemJP1bVcz7I9U7FBYMkQdb2GnOz5ZIL3xifnWOuKr
- gehHKXKG5v8+G0PUWqTjbBftabOcV7wQSgDbpeHb9Gy3yNdESHDCG9w7IGk1EPOl88Q350rjqoB
- WTm9j0kPnqpkYhNse/4AZj1AHMOLJlZ4rHp4paQ0EpPD3rHuAM4uultxmSqiz3UZma+EqB8nL6K
- sfsbG8glbB0+pChgKuQ4e99G9AsaOIhqFFZ3p2R7aIQnTIpSMpN89Cit6wFrgU93x3ts3kYfXKm
- m2uVyZDRH7NonH7j3xYJ9maOEtMPr9FRyKQ==
-X-Google-Smtp-Source: AGHT+IG4lw/1ObjlK9R/H1a8epU8yfIcFEsjIXOWSPEYi65lTbPyWKu8x7qcTt+AHPmA2N3d8d9Yfw==
-X-Received: by 2002:a05:6000:2006:b0:3a8:6262:e78 with SMTP id
- ffacd0b85a97d-3b5f18dc57cmr2802992f8f.37.1752236147762; 
- Fri, 11 Jul 2025 05:15:47 -0700 (PDT)
-Received: from phenom.ffwll.local ([2a02:168:57f4:0:5485:d4b2:c087:b497])
+ d=1e100.net; s=20230601; t=1752236657; x=1752841457;
+ h=mime-version:message-id:date:references:in-reply-to:subject:cc:to
+ :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=xUgL9Dz+oW7+DeOz096RSABhOz6S9pVb8w5EfdNrkv4=;
+ b=tKy/BTzs15ZlHKhjtNUa8wkLyZjMWKdjYqwp8sHHgGWunGRsaKydHjVjKY4UdgdgRk
+ b3dexcvP68CvBub0v+rVpg6ZQAdizZ4RFoZB9DvBdeORngylHnnoot+GarWJWw3ofaum
+ ZD/r+B55h1JGGxh9v2RMc68uSu66nkGuP56l895IN2DWL/o/EkzMNXfu+c6VPV9ZYSt6
+ NEZ4itqr1P4eC5NaKZ1lxgCCGyAjLSU/bWEFMYxOPf7MlpHP1SN1nHRa/hQPpCzM1J9F
+ 8NfOBtHC5q57slIzs2U99GEC9/FW6PQdIaWiFaJObRaMxqp1Z1GJtmb7FKNpjX13tw6x
+ WvXQ==
+X-Gm-Message-State: AOJu0Yyd/5RRYWNGR1yP8OEJkLeNSv26MKkg0AhOyXs4Gp3oamW0+Io/
+ qLkSzAB9TOvVJNbnYb85dFgucMqJIjwDvex0Df71b2OastuBQoBa2bwFOj6XuSXYzByDwoIuehp
+ qmRnzoWYkoFn8tflbjqhYTmKmp3lTxGyeg2jk3gYfkqVlf0xGihSJKN9oFtkQ1zrXjtPBCSujNN
+ TTqg==
+X-Gm-Gg: ASbGnctB5k5ETaNr+vRSv+XjT7iFB4azlmsdks0L+Vxh8WLvylXbuKmE9vRkfeKz8AO
+ LxAXvNe/y9hFBX91MKJ13L3VfEegGCN5GxEv4LSbmU1DP0wXEjyVce5/+6CKdG0EV8D8ybTZcKf
+ Y13qtk0ggIcGjU8LAAfBZWhg+ecPRQhA9jj480MkE7MLNePaNmE/V1FIY1gcFpzzpCLaEz90w3m
+ Hj51GqQis0rsctWQko844BiRx8qO4BWaRemCpPi8r7BNo8jQoEi2dW7m5i6rj/6NlAiipdbBy6+
+ sjPmM7+OsDOK9uUF/8zoGWtrX2kHp1kwYe/t20IuR6xmRLkYfP7VC9J4nn0oeRfhuzolavP5JjD
+ 2XDUEFAtsjZ67Ui5rdGrx2g==
+X-Received: by 2002:a05:6000:2b11:b0:3a6:d92d:9f7c with SMTP id
+ ffacd0b85a97d-3b5f187e900mr2146211f8f.9.1752236657233; 
+ Fri, 11 Jul 2025 05:24:17 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IGILWtjbjeXj6ovdqZxVf3VjVvrQMhFPqeg4Us2t84C25RVQp1c6exggIJW+x7QmM/3aqlLdg==
+X-Received: by 2002:a05:6000:2b11:b0:3a6:d92d:9f7c with SMTP id
+ ffacd0b85a97d-3b5f187e900mr2146188f8f.9.1752236656657; 
+ Fri, 11 Jul 2025 05:24:16 -0700 (PDT)
+Received: from localhost (62-151-111-63.jazzfree.ya.com. [62.151.111.63])
  by smtp.gmail.com with ESMTPSA id
- ffacd0b85a97d-3b5e8e26ff9sm4291582f8f.93.2025.07.11.05.15.46
+ ffacd0b85a97d-3b5e8e0d719sm4361069f8f.54.2025.07.11.05.24.15
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 11 Jul 2025 05:15:47 -0700 (PDT)
-Date: Fri, 11 Jul 2025 14:15:45 +0200
-From: Simona Vetter <simona.vetter@ffwll.ch>
-To: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
-Cc: Simona Vetter <simona.vetter@ffwll.ch>, Dave Airlie <airlied@gmail.com>,
- dim-tools@lists.freedesktop.org, intel-xe@lists.freedesktop.org,
- intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
- Lucas De Marchi <lucas.demarchi@intel.com>,
- Oded Gabbay <ogabbay@kernel.org>,
- Thomas =?iso-8859-1?Q?Hellstr=F6m?= <thomas.hellstrom@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>,
- Rodrigo Vivi <rodrigo.vivi@intel.com>,
- Tvrtko Ursulin <tursulin@ursulin.net>,
- Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
- Jani Nikula <jani.nikula@linux.intel.com>
-Subject: Re: [PULL] drm-misc-fixes
-Message-ID: <aHEAcYYtfj_fcguP@phenom.ffwll.local>
-References: <e522cdc7-1787-48f2-97e5-0f94783970ab@linux.intel.com>
+ Fri, 11 Jul 2025 05:24:16 -0700 (PDT)
+From: Javier Martinez Canillas <javierm@redhat.com>
+To: Thomas Zimmermann <tzimmermann@suse.de>
+Cc: dri-devel@lists.freedesktop.org, Thomas Zimmermann <tzimmermann@suse.de>
+Subject: Re: [PATCH 5/9] drm/color-mgmt: Prepare for RGB332 palettes
+In-Reply-To: <20250617143649.143967-6-tzimmermann@suse.de>
+References: <20250617143649.143967-1-tzimmermann@suse.de>
+ <20250617143649.143967-6-tzimmermann@suse.de>
+Date: Fri, 11 Jul 2025 14:24:15 +0200
+Message-ID: <87ple6ex00.fsf@minerva.mail-host-address-is-not-set>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <e522cdc7-1787-48f2-97e5-0f94783970ab@linux.intel.com>
-X-Operating-System: Linux phenom 6.12.30-amd64 
+X-Mimecast-Spam-Score: 0
+X-Mimecast-MFC-PROC-ID: 1U8uzenvreZty_mC6hASPr4xjpqcdVcqEbsf8-Xqdgo_1752236658
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -96,109 +96,67 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, Jul 10, 2025 at 10:59:19AM +0200, Maarten Lankhorst wrote:
-> Hi Dave, Simona,
-> 
-> Pull request for v6.16!
-> 
-> Best regards,
-> ~Maarten
-> 
-> drm-misc-fixes-2025-07-10:
-> drm-misc-fixes for v6.16-rc6 or final:
-> - Fix nouveau fail on debugfs errors.
-> - Magic 50 ms to fix nouveau suspend.
-> - Call rust destructor on drm device release.
-> - Fix DMA api error handling in tegra/nvdec.
-> - Fix PVR device reset.
-> - Habanalabs maintainer update.
-> - Small memory leak fix when nouveau acpi init fails.
-> - Do not attempt to bind to any PCI device with AGP capability.
-> - Make FB's acquire handles on backing object, same as i915/xe already does.
-> - Fix race in drm_gem_handle_create_tail.
-> The following changes since commit 226862f50a7a88e4e4de9abbf36c64d19acd6fd0:
-> 
->   drm/v3d: Disable interrupts before resetting the GPU (2025-07-02 19:08:11 -0300)
-> 
-> are available in the Git repository at:
-> 
->   https://gitlab.freedesktop.org/drm/misc/kernel.git tags/drm-misc-fixes-2025-07-10
+Thomas Zimmermann <tzimmermann@suse.de> writes:
 
-Pulled into drm-fixes, thanks.
--Sima
+> Add helper drm_crtc_fill_palette_332(), which fills palettes with
+> RGB332 color data. Each color in RGB332 format serves as an index
+> into an 8-bit palette that stores the corresponding component-based
+> colors.
+>
+> Vesadrm will use the new helper to emulate RGB formats on top of
+> framebuffers in C8 format.
+>
+> Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
+> ---
+>  drivers/gpu/drm/drm_color_mgmt.c | 32 ++++++++++++++++++++++++++++++++
+>  include/drm/drm_color_mgmt.h     |  1 +
+>  2 files changed, 33 insertions(+)
+>
+> diff --git a/drivers/gpu/drm/drm_color_mgmt.c b/drivers/gpu/drm/drm_color_mgmt.c
+> index 37a3270bc3c2..7ef214848313 100644
+> --- a/drivers/gpu/drm/drm_color_mgmt.c
+> +++ b/drivers/gpu/drm/drm_color_mgmt.c
+> @@ -817,6 +817,38 @@ void drm_crtc_load_palette_8(struct drm_crtc *crtc, const struct drm_color_lut *
+>  }
+>  EXPORT_SYMBOL(drm_crtc_load_palette_8);
+>  
+> +static void fill_palette_332(struct drm_crtc *crtc, u16 r, u16 g, u16 b,
+> +			     drm_crtc_set_lut_func set_palette)
+> +{
+> +	unsigned int i = (r << 5) | (g << 2) | b;
+> +
+> +	r = (r << 13) | (r << 10) | (r << 7) | (r << 4) | (r << 1) | (r >> 2);
+> +	g = (g << 13) | (g << 10) | (g << 7) | (g << 4) | (g << 1) | (g >> 2);
+> +	b = (b << 14) | (b << 12) | (b << 10) | (b << 8) | (b << 6) | (b << 4) | (b << 2) | b;
+> +
+> +	set_palette(crtc, i, r, g, b);
+> +}
 
-> 
-> for you to fetch changes up to bd46cece51a36ef088f22ef0416ac13b0a46d5b0:
-> 
->   drm/gem: Fix race in drm_gem_handle_create_tail() (2025-07-09 15:53:34 +0200)
-> 
-> ----------------------------------------------------------------
-> drm-misc-fixes for v6.16-rc6 or final:
-> - Fix nouveau fail on debugfs errors.
-> - Magic 50 ms to fix nouveau suspend.
-> - Call rust destructor on drm device release.
-> - Fix DMA api error handling in tegra/nvdec.
-> - Fix PVR device reset.
-> - Habanalabs maintainer update.
-> - Small memory leak fix when nouveau acpi init fails.
-> - Do not attempt to bind to any PCI device with AGP capability.
-> - Make FB's acquire handles on backing object, same as i915/xe already does.
-> - Fix race in drm_gem_handle_create_tail.
-> 
-> ----------------------------------------------------------------
-> Aaron Thompson (1):
->       drm/nouveau: Do not fail module init on debugfs errors
-> 
-> Alessio Belle (1):
->       drm/imagination: Fix kernel crash when hard resetting the GPU
-> 
-> Ben Skeggs (1):
->       drm/nouveau/gsp: fix potential leak of memory used during acpi init
-> 
-> Danilo Krummrich (1):
->       rust: drm: device: drop_in_place() the drm::Device in release()
-> 
-> Dave Airlie (1):
->       nouveau/gsp: add a 50ms delay between fbsr and driver unload rpcs
-> 
-> Lukas Wunner (1):
->       agp/amd64: Check AGP Capability before binding to unsupported devices
-> 
-> Mikko Perttunen (1):
->       drm/tegra: nvdec: Fix dma_alloc_coherent error check
-> 
-> Ofir Bitton (1):
->       MAINTAINERS: Change habanalabs maintainer
-> 
-> Simona Vetter (1):
->       drm/gem: Fix race in drm_gem_handle_create_tail()
-> 
-> Tamir Duberstein (1):
->       rust: drm: remove unnecessary imports
-> 
-> Thomas Zimmermann (1):
->       drm/framebuffer: Acquire internal references on GEM handles
-> 
->  MAINTAINERS                                        |  2 +-
->  drivers/char/agp/amd64-agp.c                       | 16 ++++----
->  drivers/gpu/drm/drm_framebuffer.c                  | 31 +++++++++++++-
->  drivers/gpu/drm/drm_gem.c                          | 48 +++++++++++++++-------
->  drivers/gpu/drm/drm_gem_framebuffer_helper.c       | 16 ++++----
->  drivers/gpu/drm/drm_internal.h                     |  2 +-
->  drivers/gpu/drm/drm_panic_qr.rs                    |  2 +-
->  drivers/gpu/drm/imagination/pvr_power.c            |  4 +-
->  drivers/gpu/drm/nouveau/nouveau_debugfs.c          |  6 +--
->  drivers/gpu/drm/nouveau/nouveau_debugfs.h          |  5 +--
->  drivers/gpu/drm/nouveau/nouveau_drm.c              |  4 +-
->  .../gpu/drm/nouveau/nvkm/subdev/gsp/rm/r535/gsp.c  | 27 +++++++++---
->  drivers/gpu/drm/tegra/nvdec.c                      |  6 +--
->  include/drm/drm_file.h                             |  3 ++
->  include/drm/drm_framebuffer.h                      |  7 ++++
->  rust/kernel/drm/device.rs                          | 12 +++++-
->  rust/kernel/drm/driver.rs                          |  1 -
->  17 files changed, 130 insertions(+), 62 deletions(-)
+I think this helper can benefit of having a kernel-doc or some code
+comments, e.g:
+
+          /* Calculate the 8-bit palette index from the color components */
+          unsigned int i = (r << 5) | (g << 2) | b;
+
+          /* Expand R (3-bit) G (3-bit) and B (2-bit) values to 16-bit depth colors */
+          r = (r << 13) | (r << 10) | (r << 7) | (r << 4) | (r << 1) | (r >> 2);
+          g = (g << 13) | (g << 10) | (g << 7) | (g << 4) | (g << 1) | (g >> 2);
+          b = (b << 14) | (b << 12) | (b << 10) | (b << 8) | (b << 6) | (b << 4) | (b << 2) | b;
+
+          /* Call the drivers' specific callback to program the hardware LUT */
+          set_palette(crtc, i, r, g, b);
+
+It might be evident to you, but I don't think it will be for others looking
+at the code later.
+
+The code itself looks good to me, if I understood it correctly :)
+
+Reviewed-by: Javier Martinez Canillas <javierm@redhat.com>
 
 -- 
-Simona Vetter
-Software Engineer, Intel Corporation
-http://blog.ffwll.ch
+Best regards,
+
+Javier Martinez Canillas
+Core Platforms
+Red Hat
+
