@@ -2,90 +2,52 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id E6989B0242C
-	for <lists+dri-devel@lfdr.de>; Fri, 11 Jul 2025 20:54:37 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id D013EB02443
+	for <lists+dri-devel@lfdr.de>; Fri, 11 Jul 2025 21:08:49 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B355C10E3B5;
-	Fri, 11 Jul 2025 18:54:35 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 88FA210E3C0;
+	Fri, 11 Jul 2025 19:08:46 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=linux-foundation.org header.i=@linux-foundation.org header.b="AkmzeH6p";
+	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=igalia.com header.i=@igalia.com header.b="ObraHUMI";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ed1-f48.google.com (mail-ed1-f48.google.com
- [209.85.208.48])
- by gabe.freedesktop.org (Postfix) with ESMTPS id EA22E10E3B5
- for <dri-devel@lists.freedesktop.org>; Fri, 11 Jul 2025 18:54:33 +0000 (UTC)
-Received: by mail-ed1-f48.google.com with SMTP id
- 4fb4d7f45d1cf-608acb0a27fso3424877a12.0
- for <dri-devel@lists.freedesktop.org>; Fri, 11 Jul 2025 11:54:33 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linux-foundation.org; s=google; t=1752260072; x=1752864872;
- darn=lists.freedesktop.org; 
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:from:to:cc:subject:date:message-id:reply-to;
- bh=h8DF3TN4LDXw2ml6xO8e2jD+Euu91yv1fKkxI9RSJ/c=;
- b=AkmzeH6pey6w1EbAEwZ7wMoapMfZx1RijqqjAOEa4Y+d2C3+BrusXwfL7s0BNXrwcE
- SLc0mL3X2zYp/I4bdDfTHeeEcuQ8VXP1G52o+p0sxA6Pz3jmDw50K4/Tv5Ks9kAYbk3O
- LQZ3RoYjG/xaeC/pLeHtOz49s+mllPZ/ucbdo=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1752260072; x=1752864872;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=h8DF3TN4LDXw2ml6xO8e2jD+Euu91yv1fKkxI9RSJ/c=;
- b=Z32ij7WymDWxaDH/dC+MsGtZ5fH372oGm5GELIr06yjCWvobqJW7bMi7iMr9TpRyL4
- N4+B/dozvxac9PyC53Olk0X//Rax+YlFA9Eha/pdxS36tfbqmWgkREBZ2QxaqVeEj6u3
- 8kBlLWkOMDtLryuQeLUOQMPMm3htQozFSlUA2UzJPeIxoKGPr+hRgy0WomXUn1ROiMPA
- hR+pdB9QY3DCnnEWV7wTjETuuqA25CB7+gVejbrxTrnrQzmlcL3cbs416wL+8IPCA9pZ
- /o+yH8B3YgRBfcZGNZjHwSJmzK0Z/quZphg5Bj09eK1eWg9bubTfUie/BdvnqqTqg56x
- mI4A==
-X-Forwarded-Encrypted: i=1;
- AJvYcCWwOTUKKTKAQTvdNErQKPh0XC+GboKTAs1jrJen8osOGW7100RpGwqlnpPmNXL0Ctl3dBu4UTa4jgU=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YyUBHUq235HXfHaSMlCVSqB4Y5nBDSwgSf7MPJB0F3eN6cyKn4Z
- ehK/WemJ4vQ0QSyMKDYGu72w/2OVZCeY1kimb2CDNaBI3/ZGAkb8w32KGx+r2ArqWDJToXq1GEe
- BlvUZTTiz6A==
-X-Gm-Gg: ASbGnct1t1880g0juABbhW1T8+JejHLBtHCSiNLpP88mfMzv/GRkJypFG7N2w9ZR1cL
- 9Qf+hmLxdGcWAxblrcUE2RJsirgnPFdsa3uB2ySZBrCvPpDwSPJ4Siw01Rca+Q04gGSK23prggy
- E6BRoQy5DNBXJkxZfv8vzHZIWxbes1KS+MWunmqek6eDfmNxLPecSEsbUB18ma5Ln7tJXUAA6HN
- L4xHr6ceZ1MnOQ5fi+wMg6ESsat/QosfWaDthDK0gdhDzH+l3fM9SUueNRCUg/UFleelkgjnFPK
- yYW/m2ofV8iAdLQO3spZSnzIaYli9KgBfDQvuwwl1HsJctR40A8904eYDRtXNb8ECDw5++1rk5w
- GjNZd78mTIsfCkn5GhoVq+PtybGQv/hVo2V/fjSTDqW+O86Y0YvGjgt2devIndmWx3Luuloe+
-X-Google-Smtp-Source: AGHT+IHU9P4uYT7+F5UKWyTw+KXKNYwR93YeRslquM1B8s++GvlzFRU8m+76UlGTHvDP2HgPLiLa6g==
-X-Received: by 2002:a17:907:720e:b0:ae3:24c:6a21 with SMTP id
- a640c23a62f3a-ae6fc0f50fdmr502043766b.26.1752260071922; 
- Fri, 11 Jul 2025 11:54:31 -0700 (PDT)
-Received: from mail-ed1-f46.google.com (mail-ed1-f46.google.com.
- [209.85.208.46]) by smtp.gmail.com with ESMTPSA id
- 4fb4d7f45d1cf-611c973360bsm2570735a12.45.2025.07.11.11.54.31
- for <dri-devel@lists.freedesktop.org>
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 11 Jul 2025 11:54:31 -0700 (PDT)
-Received: by mail-ed1-f46.google.com with SMTP id
- 4fb4d7f45d1cf-60dffae17f3so3571410a12.1
- for <dri-devel@lists.freedesktop.org>; Fri, 11 Jul 2025 11:54:31 -0700 (PDT)
-X-Forwarded-Encrypted: i=1;
- AJvYcCUgUlIP13IbNeLfxQwjk0JbNMV/D+HTaBDxQ7zEglOHpZq7kphljbVfaTx2woAQcY5WzQagdKTVSyg=@lists.freedesktop.org
-X-Received: by 2002:a05:6402:909:b0:609:9115:60f8 with SMTP id
- 4fb4d7f45d1cf-611e847f9e0mr3480426a12.21.1752260070618; Fri, 11 Jul 2025
- 11:54:30 -0700 (PDT)
+Received: from fanzine2.igalia.com (fanzine2.igalia.com [213.97.179.56])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E203110E3BD;
+ Fri, 11 Jul 2025 19:08:43 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com; 
+ s=20170329;
+ h=Content-Transfer-Encoding:Content-Type:In-Reply-To:From:
+ References:Cc:To:Subject:MIME-Version:Date:Message-ID:Sender:Reply-To:
+ Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
+ Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
+ List-Subscribe:List-Post:List-Owner:List-Archive;
+ bh=UjO5jjvC3hP6G/uzyJC+ugsJD8Wne4n4ZF27eWw30vU=; b=ObraHUMIIi5b0c8NS9cNE0PyDC
+ E1OLtdyC7hub8QIC2jzryExm4A2i4+56xA8MeDdgkCWJdjAr64XI/FBr0PIk5drollPPXOOaTEi/Y
+ B+pv63SLWHxkrH7UftY2CVQeF2FHVjENzxbNCD6RKWnO27yoksVvofwfVxbuOsM7ilJ7R24FzINHD
+ aQctwjL5ccwW5TmobpR27UlD1aZVVj+m0v7Tjo9Ef48fRZaefv877zPVEPC5o87K9FBwbQFLawa68
+ wce2RDkmdI4wDFj3hjxD46f9rMW+7QkmwVhIF9xmW/EuGQJf+dGPw0iRNW3HV6wXRgt78up9kY8pO
+ YLGHR7ug==;
+Received: from [187.36.210.68] (helo=[192.168.1.103])
+ by fanzine2.igalia.com with esmtpsa 
+ (Cipher TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_128_GCM:128) (Exim)
+ id 1uaJ6u-00FUdM-Pv; Fri, 11 Jul 2025 21:08:41 +0200
+Message-ID: <d59b7550-5833-4377-9d94-33161f375604@igalia.com>
+Date: Fri, 11 Jul 2025 16:08:34 -0300
 MIME-Version: 1.0
-References: <20250711151002.3228710-1-kuba@kernel.org>
- <CAHk-=wj1Y3LfREoHvT4baucVJ5jvy0cMydcPVQNXhprdhuE2AA@mail.gmail.com>
- <20250711114642.2664f28a@kernel.org>
-In-Reply-To: <20250711114642.2664f28a@kernel.org>
-From: Linus Torvalds <torvalds@linux-foundation.org>
-Date: Fri, 11 Jul 2025 11:54:14 -0700
-X-Gmail-Original-Message-ID: <CAHk-=wjb_8B85uKhr1xuQSei_85u=UzejphRGk2QFiByP+8Brw@mail.gmail.com>
-X-Gm-Features: Ac12FXz6F4j9YIJKyGAUwYcgpVBje1DHMNB65HFrbPl9F9fpay_RiZxgMldk13w
-Message-ID: <CAHk-=wjb_8B85uKhr1xuQSei_85u=UzejphRGk2QFiByP+8Brw@mail.gmail.com>
-Subject: Re: [GIT PULL] Networking for v6.16-rc6 (follow up)
-To: Jakub Kicinski <kuba@kernel.org>
-Cc: Thomas Zimmermann <tzimmermann@suse.de>, Simona Vetter <simona@ffwll.ch>, 
- Dave Airlie <airlied@gmail.com>, davem@davemloft.net,
- netdev@vger.kernel.org, linux-kernel@vger.kernel.org, pabeni@redhat.com, 
- dri-devel <dri-devel@lists.freedesktop.org>
-Content-Type: text/plain; charset="UTF-8"
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2] drm/sched: Avoid double re-lock on the job free path
+To: Tvrtko Ursulin <tvrtko.ursulin@igalia.com>, dri-devel@lists.freedesktop.org
+Cc: intel-xe@lists.freedesktop.org, amd-gfx@lists.freedesktop.org,
+ kernel-dev@igalia.com, =?UTF-8?Q?Christian_K=C3=B6nig?=
+ <christian.koenig@amd.com>, Danilo Krummrich <dakr@kernel.org>,
+ Matthew Brost <matthew.brost@intel.com>, Philipp Stanner <phasta@kernel.org>
+References: <20250711150949.48667-1-tvrtko.ursulin@igalia.com>
+Content-Language: en-US
+From: =?UTF-8?Q?Ma=C3=ADra_Canal?= <mcanal@igalia.com>
+In-Reply-To: <20250711150949.48667-1-tvrtko.ursulin@igalia.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -101,22 +63,152 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, 11 Jul 2025 at 11:46, Jakub Kicinski <kuba@kernel.org> wrote:
->
-> Hm. I'm definitely okay with reverting. So if you revert these three:
->
-> a3c4a125ec72 ("netlink: Fix rmem check in netlink_broadcast_deliver().")
-> a3c4a125ec72 ("netlink: Fix rmem check in netlink_broadcast_deliver().")
-> ae8f160e7eb2 ("netlink: Fix wraparounds of sk->sk_rmem_alloc.")
->
-> everything is just fine?
+Hi Tvrtko,
 
-I'm assuming you mean
+On 11/07/25 12:09, Tvrtko Ursulin wrote:
+> Currently the job free work item will lock sched->job_list_lock first time
+> to see if there are any jobs, free a single job, and then lock again to
+> decide whether to re-queue itself if there are more finished jobs.
+> 
+> Since drm_sched_get_finished_job() already looks at the second job in the
+> queue we can simply add the signaled check and have it return the presence
+> of more jobs to be freed to the caller. That way the work item does not
+> have to lock the list again and repeat the signaled check.
+> 
+> Signed-off-by: Tvrtko Ursulin <tvrtko.ursulin@igalia.com>
+> Cc: Christian König <christian.koenig@amd.com>
+> Cc: Danilo Krummrich <dakr@kernel.org>
+> Cc: Matthew Brost <matthew.brost@intel.com>
+> Cc: Philipp Stanner <phasta@kernel.org>
+> ---
+> v2:
+>   * Improve commit text and kerneldoc. (Philipp)
+>   * Rename run free work helper. (Philipp)
 
-  a215b5723922 netlink: make sure we allow at least one dump skb
-  a3c4a125ec72 netlink: Fix rmem check in netlink_broadcast_deliver().
-  ae8f160e7eb2 netlink: Fix wraparounds of sk->sk_rmem_alloc.
+Maybe, would it be possible not to rename it? Otherwise, I won't be able
+to use the function name `drm_sched_run_free_queue()` in the
+DRM_GPU_SCHED_STAT_NO_HANG series.
 
-Will do more testing.
+Not a big deal, but it would ease reintroducing
+`drm_sched_run_free_queue()` if the series lands after this patch.
 
-             Linus
+Best Regards,
+- Maíra
+
+> ---
+>   drivers/gpu/drm/scheduler/sched_main.c | 48 +++++++++++---------------
+>   1 file changed, 21 insertions(+), 27 deletions(-)
+> 
+> diff --git a/drivers/gpu/drm/scheduler/sched_main.c b/drivers/gpu/drm/scheduler/sched_main.c
+> index 33d02b79674d..e183b305a51b 100644
+> --- a/drivers/gpu/drm/scheduler/sched_main.c
+> +++ b/drivers/gpu/drm/scheduler/sched_main.c
+> @@ -349,29 +349,13 @@ static void drm_sched_run_job_queue(struct drm_gpu_scheduler *sched)
+>   }
+>   
+>   /**
+> - * __drm_sched_run_free_queue - enqueue free-job work
+> - * @sched: scheduler instance
+> - */
+> -static void __drm_sched_run_free_queue(struct drm_gpu_scheduler *sched)
+> -{
+> -	if (!READ_ONCE(sched->pause_submit))
+> -		queue_work(sched->submit_wq, &sched->work_free_job);
+> -}
+> -
+> -/**
+> - * drm_sched_run_free_queue - enqueue free-job work if ready
+> + * drm_sched_run_free_queue - enqueue free-job work
+>    * @sched: scheduler instance
+>    */
+>   static void drm_sched_run_free_queue(struct drm_gpu_scheduler *sched)
+>   {
+> -	struct drm_sched_job *job;
+> -
+> -	spin_lock(&sched->job_list_lock);
+> -	job = list_first_entry_or_null(&sched->pending_list,
+> -				       struct drm_sched_job, list);
+> -	if (job && dma_fence_is_signaled(&job->s_fence->finished))
+> -		__drm_sched_run_free_queue(sched);
+> -	spin_unlock(&sched->job_list_lock);
+> +	if (!READ_ONCE(sched->pause_submit))
+> +		queue_work(sched->submit_wq, &sched->work_free_job);
+>   }
+>   
+>   /**
+> @@ -393,7 +377,7 @@ static void drm_sched_job_done(struct drm_sched_job *s_job, int result)
+>   	dma_fence_get(&s_fence->finished);
+>   	drm_sched_fence_finished(s_fence, result);
+>   	dma_fence_put(&s_fence->finished);
+> -	__drm_sched_run_free_queue(sched);
+> +	drm_sched_run_free_queue(sched);
+>   }
+>   
+>   /**
+> @@ -1094,12 +1078,16 @@ drm_sched_select_entity(struct drm_gpu_scheduler *sched)
+>    * drm_sched_get_finished_job - fetch the next finished job to be destroyed
+>    *
+>    * @sched: scheduler instance
+> + * @have_more: are there more finished jobs on the list
+> + *
+> + * Informs the caller through @have_more whether there are more finished jobs
+> + * besides the returned one.
+>    *
+>    * Returns the next finished job from the pending list (if there is one)
+>    * ready for it to be destroyed.
+>    */
+>   static struct drm_sched_job *
+> -drm_sched_get_finished_job(struct drm_gpu_scheduler *sched)
+> +drm_sched_get_finished_job(struct drm_gpu_scheduler *sched, bool *have_more)
+>   {
+>   	struct drm_sched_job *job, *next;
+>   
+> @@ -1107,22 +1095,25 @@ drm_sched_get_finished_job(struct drm_gpu_scheduler *sched)
+>   
+>   	job = list_first_entry_or_null(&sched->pending_list,
+>   				       struct drm_sched_job, list);
+> -
+>   	if (job && dma_fence_is_signaled(&job->s_fence->finished)) {
+>   		/* remove job from pending_list */
+>   		list_del_init(&job->list);
+>   
+>   		/* cancel this job's TO timer */
+>   		cancel_delayed_work(&sched->work_tdr);
+> -		/* make the scheduled timestamp more accurate */
+> +
+> +		*have_more = false;
+>   		next = list_first_entry_or_null(&sched->pending_list,
+>   						typeof(*next), list);
+> -
+>   		if (next) {
+> +			/* make the scheduled timestamp more accurate */
+>   			if (test_bit(DMA_FENCE_FLAG_TIMESTAMP_BIT,
+>   				     &next->s_fence->scheduled.flags))
+>   				next->s_fence->scheduled.timestamp =
+>   					dma_fence_timestamp(&job->s_fence->finished);
+> +
+> +			*have_more = dma_fence_is_signaled(&next->s_fence->finished);
+> +
+>   			/* start TO timer for next job */
+>   			drm_sched_start_timeout(sched);
+>   		}
+> @@ -1181,12 +1172,15 @@ static void drm_sched_free_job_work(struct work_struct *w)
+>   	struct drm_gpu_scheduler *sched =
+>   		container_of(w, struct drm_gpu_scheduler, work_free_job);
+>   	struct drm_sched_job *job;
+> +	bool have_more;
+>   
+> -	job = drm_sched_get_finished_job(sched);
+> -	if (job)
+> +	job = drm_sched_get_finished_job(sched, &have_more);
+> +	if (job) {
+>   		sched->ops->free_job(job);
+> +		if (have_more)
+> +			drm_sched_run_free_queue(sched);
+> +	}
+>   
+> -	drm_sched_run_free_queue(sched);
+>   	drm_sched_run_job_queue(sched);
+>   }
+>   
+
