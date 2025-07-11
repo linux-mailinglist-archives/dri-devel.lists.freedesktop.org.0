@@ -2,83 +2,83 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 95907B01B80
-	for <lists+dri-devel@lfdr.de>; Fri, 11 Jul 2025 14:08:14 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6E764B01B89
+	for <lists+dri-devel@lfdr.de>; Fri, 11 Jul 2025 14:10:17 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 95B9410EA3B;
-	Fri, 11 Jul 2025 12:08:09 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id AC8BF10E9AB;
+	Fri, 11 Jul 2025 12:10:15 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=redhat.com header.i=@redhat.com header.b="GwvvLSdl";
+	dkim=pass (1024-bit key; unprotected) header.d=redhat.com header.i=@redhat.com header.b="NcCPBxmj";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from us-smtp-delivery-124.mimecast.com
  (us-smtp-delivery-124.mimecast.com [170.10.133.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 821AC10EA2C
- for <dri-devel@lists.freedesktop.org>; Fri, 11 Jul 2025 12:08:07 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0F25110E9AB
+ for <dri-devel@lists.freedesktop.org>; Fri, 11 Jul 2025 12:10:14 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1752235686;
+ s=mimecast20190719; t=1752235814;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=LxBwKtKzZA1zVZeqxIiJszXoyzxhRuRBKZexWiuAeAo=;
- b=GwvvLSdlAzYKwSkIUm8WoiE7luGXhzcPnpTd883X5C+4PNbP47DWKfezw0qpbBfqC13hGP
- 2s2J5xNiWYceHAvrvY+b6X/gZx12Twatei2Oy0DGormDhHbA68BF5H39fCuAmcsMLZf6rw
- 4DBhu+Wi6zjZNlm8EOkRflnnyvHOcEA=
-Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
- [209.85.128.72]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=iAhm/aMBumVaXjLJ1ai/jRSp9zSCXQWpCQQZD8LzbeE=;
+ b=NcCPBxmjU40fOEpZKd6F6iPPmljNX0Yp2NKEkYou9sUHFycYai3XULq/oQiReho+/rQca4
+ CKG8F0JIuKLBagbEkbSwGui4YZxZnwTs4JLVUxqXxfIc6XsSWEXfU3JmPclKg5yE6rCURc
+ 7IuK3zboellRXTtEaTGXgjiBI0nP3GY=
+Received: from mail-wr1-f71.google.com (mail-wr1-f71.google.com
+ [209.85.221.71]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-588-ZuRScdJRN7WS98Z0c_Rc7w-1; Fri, 11 Jul 2025 08:08:05 -0400
-X-MC-Unique: ZuRScdJRN7WS98Z0c_Rc7w-1
-X-Mimecast-MFC-AGG-ID: ZuRScdJRN7WS98Z0c_Rc7w_1752235684
-Received: by mail-wm1-f72.google.com with SMTP id
- 5b1f17b1804b1-454e25b2b83so7534795e9.3
- for <dri-devel@lists.freedesktop.org>; Fri, 11 Jul 2025 05:08:05 -0700 (PDT)
+ us-mta-314-uRMaTwGqPeKJpUUvM4sS-w-1; Fri, 11 Jul 2025 08:10:12 -0400
+X-MC-Unique: uRMaTwGqPeKJpUUvM4sS-w-1
+X-Mimecast-MFC-AGG-ID: uRMaTwGqPeKJpUUvM4sS-w_1752235811
+Received: by mail-wr1-f71.google.com with SMTP id
+ ffacd0b85a97d-3a4eee2398bso1059647f8f.1
+ for <dri-devel@lists.freedesktop.org>; Fri, 11 Jul 2025 05:10:12 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1752235684; x=1752840484;
+ d=1e100.net; s=20230601; t=1752235811; x=1752840611;
  h=mime-version:message-id:date:references:in-reply-to:subject:cc:to
  :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=LxBwKtKzZA1zVZeqxIiJszXoyzxhRuRBKZexWiuAeAo=;
- b=dLTb3AQtsJaall7UCixK8KIkiPQ3uUw0hbc3seM2oxARz7yD1coeXUni+9ssNsdDxq
- NyYsnYbENsMjEMOFAmJp87Tu8yUSS2XDdFOskZQDvCBMxDskUpYnBoj4rYBQH6JntcCi
- X6CjuxDOyHljFcIc8NIavwHY1d47zPJrG3dpIkCdOg7YkRm+CunjQW3Yr7Y+hgqm5X5o
- UrfX8L839qw4anBpJZ7fs4/MnTpEMeMOp2BaIQtaNYopVVGVZr52fSPUATcM16LDOEri
- k32RcSBx+DVgPtBGRw9AVdM5HBrXaUzDnswhRRrJTyTRkiA/RGXWRHbKgHa8jxtqzN5T
- xd0A==
-X-Gm-Message-State: AOJu0YxPGvZZeWVQTS6ZxZcJCHuUgJ0ad7m2cUTC3zHgyVqyS0hHKSkM
- QiDTk5RVV1lhSuF8C3pS0RG/kzGkP9uw7+3HUjW/bHOqtebJOoM6qnfLSnHGRcft526+hgyNegP
- u4ZO6BorrRtjAq1MMghuzBXIQITOa2EqalCkfmFq93tK+nyje/h5z0MWaCnL/TIRVpDae3l004E
- mTmg==
-X-Gm-Gg: ASbGnctNw1xvJQQTRNaFu4LYaYvZLoOJ2EzMHfKTxMlVsP6zh0aO6Lf90E9n1apzaaH
- 33Ua1+ubJHJjDEYCkjlzSK3m55B9t46Bdin9eJ3s/K+5y6NSW3T5cLtZ9ua7pEg/53g63hydtjX
- xVh6rv4eQ29VAWuNetj9taiV1ID72efol/AQU8xhOVH0/KHvKPLhQt6bcFdE8TZFJaXMprfj3eJ
- 5WwUCvse3PkqDA0ScnPM5iq9zfn0IsTgfn7h+F93mpaKuGeeZU8MCnooqdYRVQFQN2iOgfLEa46
- cG5syxO+jRoRsYhxwMlG92qymC6IMnDKokALBd6nv+1kTuxFD3QHVPEfTJaYyTka4VhIf7eBUNF
- paVCDoT3XJxaqKlTj9G6r7Q==
-X-Received: by 2002:a5d:64ec:0:b0:3b4:6577:eed5 with SMTP id
- ffacd0b85a97d-3b5f2db1739mr2218303f8f.12.1752235683851; 
- Fri, 11 Jul 2025 05:08:03 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IE97U/XONoOCId1sSYHUDpJbn8iTn25sBbZ08A1J+e2u5zcf9zXTWIICgl+EH8uX37Cm8s9Kw==
-X-Received: by 2002:a5d:64ec:0:b0:3b4:6577:eed5 with SMTP id
- ffacd0b85a97d-3b5f2db1739mr2218244f8f.12.1752235683210; 
- Fri, 11 Jul 2025 05:08:03 -0700 (PDT)
+ bh=iAhm/aMBumVaXjLJ1ai/jRSp9zSCXQWpCQQZD8LzbeE=;
+ b=ArcPSGL/8rJz7cnCeusfoPi0vIcnUhcpscSOh41YDBneeh7exJgKbNZwM7dBMEJ9dl
+ 78OlPNWFbWQguRkEPIq5t//ih19FUOJ/g5SRljfPVEcz/gv4m3gm2b7j4zXfE2fPLOkP
+ sqUSGYlHcqlYv4frYiR7c5NgdhiodfY4Z8JWGa2eFqdkYDb2u9+eahW0TS3l09DMX46u
+ LPlVhTECExRRubhDoxJcVsk0cfGxubOhnhZY/u9FeYkaYmDObRV5GCIf/hG8liUm2+wM
+ viu62KwYupkIAE7/P3eUi6qXfuLKQoE9s048ZngEcS+VdpfOYClZGWAVRaLLyV5FriZp
+ q7ag==
+X-Gm-Message-State: AOJu0YxJM4AUGVb6EL5pU9iTAAguDQlWlgRa2YwaGAdNQ2o6F2tzWOjc
+ ri180XpNExSpvJM6T0yodShKfKY1iM7usD3G9bLGqTtaNc1hlfMgX/4toB+uH2wIFXEWyFrA2Bv
+ cMcuCj+hxGDEyyp1hzWYshVIzttay177+bacoq5dnIP0IxvCAvQYG1hAjdYgX/arjSzAXP5rIGR
+ /smg==
+X-Gm-Gg: ASbGncv+AovldCV2qHPrLUsJyL9S4GLLouDF8ihcHuuN6YnIckjGgQBHw8drlI6pHUe
+ RU7ZC01LD6qsHzw+thJdF9L2swp2P24VtdEgnNC2MJb7JpMirAJ3ulfE/02jKjj5Jmt+l1qKNod
+ 4aqETfRoUEjM5T8al6Jk7zTAoS3A8BWoe4m5AI3AllTtHbHiDTefvgvYwXeRgGNDue62brlzlap
+ lVafiuXMzF78pbULRMy614qG8CMbwZwyDO3fD1q9YxrkZaLqPA0Z4p9Ra7rySJhh+/HTknFRrbI
+ s5oo1/IOciNOnpWd6DLGnKVdE8MJ2sRCKvJAlXR7JWQZFe+04J8XavLwUiF8rC9OKutM6wEo4S9
+ 01bNy6EoctMXUmv55zQB4nA==
+X-Received: by 2002:a05:6000:4310:b0:3b3:a6c2:1a10 with SMTP id
+ ffacd0b85a97d-3b5f351eb04mr2071275f8f.12.1752235811051; 
+ Fri, 11 Jul 2025 05:10:11 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IHuQgs4WlBDRvhL45tof8d82uXxaHc7iaFy2nmnLNIN0t7Jwpf+bkF1D/m2nBciaUbi7bMWow==
+X-Received: by 2002:a05:6000:4310:b0:3b3:a6c2:1a10 with SMTP id
+ ffacd0b85a97d-3b5f351eb04mr2071228f8f.12.1752235810448; 
+ Fri, 11 Jul 2025 05:10:10 -0700 (PDT)
 Received: from localhost (62-151-111-63.jazzfree.ya.com. [62.151.111.63])
  by smtp.gmail.com with ESMTPSA id
- ffacd0b85a97d-3b5e8e0d88dsm4357598f8f.65.2025.07.11.05.08.02
+ ffacd0b85a97d-3b5e8e1e2cfsm4228705f8f.75.2025.07.11.05.10.09
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 11 Jul 2025 05:08:02 -0700 (PDT)
+ Fri, 11 Jul 2025 05:10:09 -0700 (PDT)
 From: Javier Martinez Canillas <javierm@redhat.com>
 To: Thomas Zimmermann <tzimmermann@suse.de>
 Cc: dri-devel@lists.freedesktop.org, Thomas Zimmermann <tzimmermann@suse.de>
-Subject: Re: [PATCH 3/9] drm/sysfb: Find screen_info format with helpers
-In-Reply-To: <20250617143649.143967-4-tzimmermann@suse.de>
+Subject: Re: [PATCH 4/9] drm/sysfb: Blit to CRTC destination format
+In-Reply-To: <20250617143649.143967-5-tzimmermann@suse.de>
 References: <20250617143649.143967-1-tzimmermann@suse.de>
- <20250617143649.143967-4-tzimmermann@suse.de>
-Date: Fri, 11 Jul 2025 14:08:01 +0200
-Message-ID: <87v7nzdj6m.fsf@minerva.mail-host-address-is-not-set>
+ <20250617143649.143967-5-tzimmermann@suse.de>
+Date: Fri, 11 Jul 2025 14:10:08 +0200
+Message-ID: <87sej3dj33.fsf@minerva.mail-host-address-is-not-set>
 MIME-Version: 1.0
 X-Mimecast-Spam-Score: 0
-X-Mimecast-MFC-PROC-ID: J2CEKUqsx2G2KkHFFO8nfGKusyUT45NvxxeSEdEqYQc_1752235684
+X-Mimecast-MFC-PROC-ID: 5T-XbxCYjxAkoEqmzv2ikkvDjVhxwl8z2_fmNEVbVAM_1752235811
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -98,20 +98,18 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 Thomas Zimmermann <tzimmermann@suse.de> writes:
 
-> Convert drm_sysfb_get_format_si() to lookup the screen_info color
-> format as struct pixel_format with screen_info_pixel_format(). Then
-> search the list of given formats for the screen_info format with
-> pixel_format_equal().
+> Use the color format stored in struct drm_sysfb_crtc_state for
+> color-format conversion instead of the scanout-buffer format
+> announced by firmware. Currently, both values are identical.
 >
-> Replaces custom code with helpers. The pixel-compare helper
-> pixel_format_equal() also handles indexed color formats. Prepares
-> for sysfb drivers to support color palettes.
+> This will allow drivers to modify the CRTC's output format to a
+> certain extend. Specifically, vesadrm will be able to display RGB
+> framebuffers when the scanout buffer is of C8 format. With color-
+> format conversion to RGB332 and correct setup of the C8 palette,
+> output of XRGB8888-based buffers can be achieved.
 >
 > Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
 > ---
->  drivers/gpu/drm/sysfb/drm_sysfb_screen_info.c | 21 ++++++++-----------
->  1 file changed, 9 insertions(+), 12 deletions(-)
->
 
 Reviewed-by: Javier Martinez Canillas <javierm@redhat.com>
 
