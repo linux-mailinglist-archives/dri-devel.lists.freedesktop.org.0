@@ -2,39 +2,40 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 425E4B0174F
-	for <lists+dri-devel@lfdr.de>; Fri, 11 Jul 2025 11:11:21 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id C5743B01754
+	for <lists+dri-devel@lfdr.de>; Fri, 11 Jul 2025 11:11:42 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 72F6210E9ED;
-	Fri, 11 Jul 2025 09:11:18 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3C7A810E9E4;
+	Fri, 11 Jul 2025 09:11:41 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="tzNNTJ5Y";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="t5zHYcJ6";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 715DF10E9F0
- for <dri-devel@lists.freedesktop.org>; Fri, 11 Jul 2025 09:11:17 +0000 (UTC)
+Received: from sea.source.kernel.org (sea.source.kernel.org [172.234.252.31])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 626F310E9E4
+ for <dri-devel@lists.freedesktop.org>; Fri, 11 Jul 2025 09:11:40 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by dfw.source.kernel.org (Postfix) with ESMTP id 418EE5C7002;
- Fri, 11 Jul 2025 09:11:16 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id D423EC4CEED;
- Fri, 11 Jul 2025 09:11:10 +0000 (UTC)
+ by sea.source.kernel.org (Postfix) with ESMTP id 2381C438B9;
+ Fri, 11 Jul 2025 09:11:40 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id F2042C4CEED;
+ Fri, 11 Jul 2025 09:11:34 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1752225075;
- bh=0nbohhXXJ5N3VvNtfOJEvo9EoQefvFRhKbjpAeYezH4=;
- h=Date:Cc:Subject:From:To:References:In-Reply-To:From;
- b=tzNNTJ5Y6XPI6v0D/HYxdnyjHHMcK4iE4HM0rsI3BsOC+YB5C40zGOLsmQ4cRjsLk
- pLtDcB7d0VsC1BGDxkeoKg/3f5XME8HXl66unVghLyFVan/90rhptQbURPN3EGTljB
- Cigp8TjQ1x9d3mIyVFhdfNHXxVv/qXXFNnihyzSgPmNXMBH0DXoiI+b4CAYuxiG3VX
- Z313gAOeeRL5rKCcUcYAuY7NWyECSn9sV4YWgZcB47j3nTL4Ia9sXY2PCVxsiAheRz
- kqJgC+Mxqa5OgVoq3UDK96M6bcF76NUeSDkK9s3nkzowv5ayABRJuybkq9HcenQh6y
- tP0AgCDwEIpdA==
+ s=k20201202; t=1752225100;
+ bh=tudeVcSNoXzHGy2LFEpMNuqRRFSL77J7jE48/SmT3GE=;
+ h=Date:To:Cc:Subject:From:References:In-Reply-To:From;
+ b=t5zHYcJ6NmMa69kELTdf+KaS3dNYHjoWcKpG2Y2O9Gc5IhR2dRmmd8nNw/esLbwrT
+ KqFf2FoMJI5CakGjKAfF+CouVfT0sqaZxzHQAUCKV/4IR3ZObCuXeFLfuSFXzbmVmG
+ Yaj6gKOpcyThw772ug+LAVjyO0eOgm+0N8LrGCrZzSiQLYZRroEt/x3aoEhqpQsO7U
+ 7uK53atW8y5q4ul8Wgtiu+4+DEZG64S/CQ2hWPuJNhykFDeFbCrnL6wGSwkXEqKMB4
+ f7H4rSZ1Cvgwn0dyVuoLjCPljpPWIUZhse4jBF9DhfDaHn8cnIc3feIDmyt5bOtJI1
+ hIi0z+skNoajA==
 Mime-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 Content-Type: text/plain; charset=UTF-8
-Date: Fri, 11 Jul 2025 11:11:09 +0200
-Message-Id: <DB93Y46GKRRM.P22144H9APXG@kernel.org>
+Date: Fri, 11 Jul 2025 11:11:33 +0200
+Message-Id: <DB93YF5EJT58.EVSPYQ3ZJLUU@kernel.org>
+To: "Alice Ryhl" <aliceryhl@google.com>, "Danilo Krummrich" <dakr@kernel.org>
 Cc: "Greg Kroah-Hartman" <gregkh@linuxfoundation.org>, "Dave Ertman"
  <david.m.ertman@intel.com>, "Ira Weiny" <ira.weiny@intel.com>, "Leon
  Romanovsky" <leon@kernel.org>, "Miguel Ojeda" <ojeda@kernel.org>, "Boqun
@@ -51,14 +52,13 @@ Cc: "Greg Kroah-Hartman" <gregkh@linuxfoundation.org>, "Dave Ertman"
  <kwilczynski@kernel.org>, <rust-for-linux@vger.kernel.org>,
  <linux-kernel@vger.kernel.org>, <dri-devel@lists.freedesktop.org>,
  <netdev@vger.kernel.org>, <linux-pci@vger.kernel.org>
-Subject: Re: [PATCH v2 1/2] device: rust: rename Device::as_ref() to
- Device::from_raw()
+Subject: Re: [PATCH v2 2/2] drm: rust: rename as_ref() to from_raw() for drm
+ constructors
 From: "Benno Lossin" <lossin@kernel.org>
-To: "Alice Ryhl" <aliceryhl@google.com>, "Danilo Krummrich" <dakr@kernel.org>
 X-Mailer: aerc 0.20.1
 References: <20250711-device-as-ref-v2-0-1b16ab6402d7@google.com>
- <20250711-device-as-ref-v2-1-1b16ab6402d7@google.com>
-In-Reply-To: <20250711-device-as-ref-v2-1-1b16ab6402d7@google.com>
+ <20250711-device-as-ref-v2-2-1b16ab6402d7@google.com>
+In-Reply-To: <20250711-device-as-ref-v2-2-1b16ab6402d7@google.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -95,13 +95,8 @@ Cheers,
 Benno
 
 > ---
->  rust/kernel/auxiliary.rs  | 2 +-
->  rust/kernel/cpu.rs        | 2 +-
->  rust/kernel/device.rs     | 6 +++---
->  rust/kernel/drm/device.rs | 2 +-
->  rust/kernel/faux.rs       | 2 +-
->  rust/kernel/miscdevice.rs | 2 +-
->  rust/kernel/net/phy.rs    | 2 +-
->  rust/kernel/pci.rs        | 2 +-
->  rust/kernel/platform.rs   | 2 +-
->  9 files changed, 11 insertions(+), 11 deletions(-)
+>  rust/kernel/drm/device.rs  |  2 +-
+>  rust/kernel/drm/file.rs    |  8 ++++----
+>  rust/kernel/drm/gem/mod.rs | 16 ++++++++--------
+>  rust/kernel/drm/ioctl.rs   |  4 ++--
+>  4 files changed, 15 insertions(+), 15 deletions(-)
