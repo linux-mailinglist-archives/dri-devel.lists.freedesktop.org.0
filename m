@@ -2,55 +2,55 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3C7E2B01245
+	by mail.lfdr.de (Postfix) with ESMTPS id 3A131B01244
 	for <lists+dri-devel@lfdr.de>; Fri, 11 Jul 2025 06:33:26 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4DF0010E99F;
-	Fri, 11 Jul 2025 04:33:10 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2DF7810E9A1;
+	Fri, 11 Jul 2025 04:33:12 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=redhat.com header.i=@redhat.com header.b="bP9XWHKE";
+	dkim=pass (1024-bit key; unprotected) header.d=redhat.com header.i=@redhat.com header.b="Bja9ToAP";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from us-smtp-delivery-124.mimecast.com
  (us-smtp-delivery-124.mimecast.com [170.10.129.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 338F010E9A1
- for <dri-devel@lists.freedesktop.org>; Fri, 11 Jul 2025 04:33:08 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 87FA210E9A2
+ for <dri-devel@lists.freedesktop.org>; Fri, 11 Jul 2025 04:33:10 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1752208387;
+ s=mimecast20190719; t=1752208389;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=+ASpOxMdhH1Ni6FA6cOiOM+xnxokYtM9/grNQla7mZ4=;
- b=bP9XWHKECFntcI6bBjlvNMeH9gmKZqZWNVDE5lfYp9ftVg8d1TrJ7NB4cMA3F9v1AXnZdn
- XlNBPz9QytvtZvc+w+WVmJZbOOzbUcQQZIns2UUXJNLjwTmbDH0mxQVzNEapyjO2KGaZ4F
- 6e624AdxEgM7I7b3At+exIfiuBpTwBo=
-Received: from mx-prod-mc-08.mail-002.prod.us-west-2.aws.redhat.com
- (ec2-35-165-154-97.us-west-2.compute.amazonaws.com [35.165.154.97]) by
+ bh=o0Er8YEXgRdZGHwdl+getdRWRYoVoI6fUW/7CIKivU4=;
+ b=Bja9ToAPvSbDXxBSCnWwhZLLwWt6VIhSKBaMp6LCmsPEgUMhR1Iw27P29wXbwMoKg74/Dm
+ ZkhCXasAVuLz+GD69SsSZnpFojyu103XFceEQH8KtXfbmLSiwVjmJQw1Bu6mM5ErUKTyW3
+ YT37L6l11Gclu7INgSb8RAMDxBnZIhM=
+Received: from mx-prod-mc-01.mail-002.prod.us-west-2.aws.redhat.com
+ (ec2-54-186-198-63.us-west-2.compute.amazonaws.com [54.186.198.63]) by
  relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
- cipher=TLS_AES_256_GCM_SHA384) id us-mta-99-0afFhi0sNVKFQBd9kZ0sUQ-1; Fri,
- 11 Jul 2025 00:33:02 -0400
-X-MC-Unique: 0afFhi0sNVKFQBd9kZ0sUQ-1
-X-Mimecast-MFC-AGG-ID: 0afFhi0sNVKFQBd9kZ0sUQ_1752208380
+ cipher=TLS_AES_256_GCM_SHA384) id us-mta-365-TLdhagfXPXSozx3EaBeDTw-1; Fri,
+ 11 Jul 2025 00:33:07 -0400
+X-MC-Unique: TLdhagfXPXSozx3EaBeDTw-1
+X-Mimecast-MFC-AGG-ID: TLdhagfXPXSozx3EaBeDTw_1752208385
 Received: from mx-prod-int-08.mail-002.prod.us-west-2.aws.redhat.com
  (mx-prod-int-08.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.111])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
  (No client certificate requested)
- by mx-prod-mc-08.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS
- id 98CF418089B4; Fri, 11 Jul 2025 04:33:00 +0000 (UTC)
+ by mx-prod-mc-01.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS
+ id 6AA05195608F; Fri, 11 Jul 2025 04:33:04 +0000 (UTC)
 Received: from asrivats-na.rmtustx.csb (unknown [10.2.16.240])
  by mx-prod-int-08.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTP
- id 818CE180045B; Fri, 11 Jul 2025 04:32:57 +0000 (UTC)
+ id F2424180045B; Fri, 11 Jul 2025 04:33:00 +0000 (UTC)
 From: Anusha Srivatsa <asrivats@redhat.com>
-Date: Thu, 10 Jul 2025 23:31:21 -0500
-Subject: [PATCH 10/14] drm/panel/lpm102a188a: Use refcounted allocation in
- place of devm_kzalloc()
+Date: Thu, 10 Jul 2025 23:31:22 -0500
+Subject: [PATCH 11/14] drm/panel/ilitek-ili9882t: Use refcounted allocation
+ in place of devm_kzalloc()
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20250710-b4-driver-convert-last-part-july-v1-10-de73ba81b2f5@redhat.com>
+Message-Id: <20250710-b4-driver-convert-last-part-july-v1-11-de73ba81b2f5@redhat.com>
 References: <20250710-b4-driver-convert-last-part-july-v1-0-de73ba81b2f5@redhat.com>
 In-Reply-To: <20250710-b4-driver-convert-last-part-july-v1-0-de73ba81b2f5@redhat.com>
 To: Neil Armstrong <neil.armstrong@linaro.org>, 
@@ -66,11 +66,11 @@ To: Neil Armstrong <neil.armstrong@linaro.org>,
 Cc: dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org, 
  linux-rpi-kernel@lists.infradead.org, linux-arm-kernel@lists.infradead.org, 
  Anusha Srivatsa <asrivats@redhat.com>
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1752208280; l=1518;
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1752208280; l=1502;
  i=asrivats@redhat.com; s=20250122; h=from:subject:message-id;
- bh=76yWT/SXjPcOqdfDoug/udmadP1Sboehs0wZbeLGz0I=;
- b=CQH52r9at6hFa1Ymf8GJHoUDHfBxW7YTCZJGYAmSh6pqT6Q+ZQB3zYIxMmVhn63/Z8u5Zik6u
- XP2rofWeeouCEuvIMkofaRsIK4J8YECn/v8jJIHDz+9k8N2ynZA3brP
+ bh=ER59UgY9l+Va6Huh6S5CvMkkT0Jw8llNaQIZnUo8YOI=;
+ b=Cvmd7LAzRjijgyydkXPVnN1V2KnrGh6nDgari7Hd+b92Ziq83sjvKn1LqkIk0HOYwW4KQlVGL
+ b3Wzlw4dpJ5Br2q1XF5rekSpMnGNHHMsQ5P9sepjuPv/WjMeoCqbT5Q
 X-Developer-Key: i=asrivats@redhat.com; a=ed25519;
  pk=brnIHkBsUZEhyW6Zyn0U92AeIZ1psws/q8VFbIkf1AU=
 X-Scanned-By: MIMEDefang 3.4.1 on 10.30.177.111
@@ -95,40 +95,37 @@ __typeof() for more type safety.
 
 Signed-off-by: Anusha Srivatsa <asrivats@redhat.com>
 ---
- drivers/gpu/drm/panel/panel-jdi-lpm102a188a.c | 12 ++++++------
- 1 file changed, 6 insertions(+), 6 deletions(-)
+ drivers/gpu/drm/panel/panel-ilitek-ili9882t.c | 10 +++++-----
+ 1 file changed, 5 insertions(+), 5 deletions(-)
 
-diff --git a/drivers/gpu/drm/panel/panel-jdi-lpm102a188a.c b/drivers/gpu/drm/panel/panel-jdi-lpm102a188a.c
-index 5b5082efb282bcf705cf2d38dea24901e9803648..5f897e143758c2be51c39a20eeda2ecd09e1fbee 100644
---- a/drivers/gpu/drm/panel/panel-jdi-lpm102a188a.c
-+++ b/drivers/gpu/drm/panel/panel-jdi-lpm102a188a.c
-@@ -435,9 +435,6 @@ static int jdi_panel_add(struct jdi_panel *jdi)
- 		return dev_err_probe(dev, PTR_ERR(jdi->backlight),
- 				     "failed to create backlight\n");
+diff --git a/drivers/gpu/drm/panel/panel-ilitek-ili9882t.c b/drivers/gpu/drm/panel/panel-ilitek-ili9882t.c
+index 3c24a63b6be8c710a1b7f3524b537d3cb6fc63d3..85c7059be214e722e795e3a55420a32fcfee2e4f 100644
+--- a/drivers/gpu/drm/panel/panel-ilitek-ili9882t.c
++++ b/drivers/gpu/drm/panel/panel-ilitek-ili9882t.c
+@@ -614,8 +614,6 @@ static int ili9882t_add(struct ili9882t *ili)
  
--	drm_panel_init(&jdi->base, &jdi->link1->dev, &jdi_panel_funcs,
+ 	gpiod_set_value(ili->enable_gpio, 0);
+ 
+-	drm_panel_init(&ili->base, dev, &ili9882t_funcs,
 -		       DRM_MODE_CONNECTOR_DSI);
--
- 	drm_panel_add(&jdi->base);
+ 	err = of_drm_get_panel_orientation(dev->of_node, &ili->orientation);
+ 	if (err < 0) {
+ 		dev_err(dev, "%pOF: failed to get orientation %d\n", dev->of_node, err);
+@@ -640,9 +638,11 @@ static int ili9882t_probe(struct mipi_dsi_device *dsi)
+ 	int ret;
+ 	const struct panel_desc *desc;
  
- 	return 0;
-@@ -475,10 +472,13 @@ static int jdi_panel_dsi_probe(struct mipi_dsi_device *dsi)
- 
- 	/* register a panel for only the DSI-LINK1 interface */
- 	if (secondary) {
--		jdi = devm_kzalloc(&dsi->dev, sizeof(*jdi), GFP_KERNEL);
--		if (!jdi) {
-+		jdi = devm_drm_panel_alloc(&dsi->dev, __typeof(*jdi),
-+					   base, &jdi_panel_funcs,
-+					   DRM_MODE_CONNECTOR_DSI);
+-	ili = devm_kzalloc(&dsi->dev, sizeof(*ili), GFP_KERNEL);
+-	if (!ili)
+-		return -ENOMEM;
++	ili = devm_drm_panel_alloc(&dsi->dev, __typeof(*ili), base,
++				   &ili9882t_funcs, DRM_MODE_CONNECTOR_DSI);
 +
-+		if (IS_ERR(jdi)) {
- 			put_device(&secondary->dev);
--			return -ENOMEM;
-+			return PTR_ERR(jdi);
- 		}
++	if (IS_ERR(ili))
++		return PTR_ERR(ili);
  
- 		mipi_dsi_set_drvdata(dsi, jdi);
+ 	desc = of_device_get_match_data(&dsi->dev);
+ 	dsi->lanes = desc->lanes;
 
 -- 
 2.48.1
