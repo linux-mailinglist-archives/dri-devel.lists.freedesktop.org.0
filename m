@@ -2,76 +2,86 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 362CCB0173A
-	for <lists+dri-devel@lfdr.de>; Fri, 11 Jul 2025 11:08:20 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5C8FCB0173E
+	for <lists+dri-devel@lfdr.de>; Fri, 11 Jul 2025 11:08:42 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0BBD110E9D9;
-	Fri, 11 Jul 2025 09:08:17 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B3C2510E9DA;
+	Fri, 11 Jul 2025 09:08:40 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; secure) header.d=ffwll.ch header.i=@ffwll.ch header.b="NN7j0jT9";
+	dkim=pass (1024-bit key; secure) header.d=ffwll.ch header.i=@ffwll.ch header.b="A8JlXSdN";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ot1-f45.google.com (mail-ot1-f45.google.com
- [209.85.210.45])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5B6FB10E9D8
- for <dri-devel@lists.freedesktop.org>; Fri, 11 Jul 2025 09:08:15 +0000 (UTC)
-Received: by mail-ot1-f45.google.com with SMTP id
- 46e09a7af769-73a44512c8aso508262a34.0
- for <dri-devel@lists.freedesktop.org>; Fri, 11 Jul 2025 02:08:15 -0700 (PDT)
+Received: from mail-wr1-f43.google.com (mail-wr1-f43.google.com
+ [209.85.221.43])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 95E8510E9DB
+ for <dri-devel@lists.freedesktop.org>; Fri, 11 Jul 2025 09:08:39 +0000 (UTC)
+Received: by mail-wr1-f43.google.com with SMTP id
+ ffacd0b85a97d-3a4e742dc97so1904777f8f.0
+ for <dri-devel@lists.freedesktop.org>; Fri, 11 Jul 2025 02:08:39 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=ffwll.ch; s=google; t=1752224894; x=1752829694; darn=lists.freedesktop.org; 
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:from:to:cc:subject:date:message-id:reply-to;
- bh=/XXJJhy+U3k5gvxPpccx42pN94/IU5yQe/HPwiapn7A=;
- b=NN7j0jT9NOFmD45Ok9eetFPKc2qAFB/E9zpBmwSi5E1yl+uuh/E7tLhh0IIzwmcPtE
- HK/OP2Wsj8TMycXqH6HZYQzeQ0wS08MnVpVZaiKRjKPsqxTdJe+/dDmjbTXu4CpFqgPD
- FHBrUmAiu8jufXem7lG0s7d/+2iyh62X3sOqs=
+ d=ffwll.ch; s=google; t=1752224918; x=1752829718; darn=lists.freedesktop.org; 
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+ bh=NClqQGvSyyWbFAtwxH41cChinxe5vTi0AslNu9ZJ5jM=;
+ b=A8JlXSdNDAynvcNNxpUdgUJVlaNVlIWv4bgriA0K22kWAMbCvSwd6zLKczMRFrUsqf
+ 7G2htS3p4B4r2hMZCV1Cz48x7QW0+HrIjGJfSxaEONOWSvvIhu3VJGHN8FUTYrA8dHF5
+ A2QpVVuBOpd9qhOfrxBJSASE7Oe96wIIkWlgc=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1752224894; x=1752829694;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=/XXJJhy+U3k5gvxPpccx42pN94/IU5yQe/HPwiapn7A=;
- b=QGIhqKB4inRAGT8Y0IATKe54E6mtf/CA9ws+tNWB9BGMRqjbEr1BW+HKsxVHbAkrYW
- dnkulfpENO9zxdlEmVFSgPT+hRH754ZOIJwVnZB1oJ8cSQQIfDhX3i0W9J/YVMIgmcqq
- eQs42DMj5Frjlh1oZqheZlthTnipkFC8dgxmq6BEn6L84bh0qJgu3CVFpB4InwijfRjy
- a4VLUBezdvZb+rdwova/SQ1xnz6ieEhO84v45I7sPq1OyL5bvmqo6bJyZjHdtcpERuro
- KRFs3T4F/dzSmQDSQFopVbVjo2zMzY1RixufTkgGXgYXV2ZK5hYKJK2i5qGQv6mYHxY9
- 8WAA==
+ d=1e100.net; s=20230601; t=1752224918; x=1752829718;
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=NClqQGvSyyWbFAtwxH41cChinxe5vTi0AslNu9ZJ5jM=;
+ b=fTYzr62/fIS3XJOA9bGqVVTEPb9oZYOlsF61zYrR7z59UGHViJFLlE/ttNOgJ8eGhv
+ Qp/UlY/I9Cx4Sgkj6zlG+HF35XqfdU0mlaF9t1uVk1jO8Ar96ODdZ1bzfhpTG3V6tGcG
+ xH2arLF6Tw5gHpHzwyBCJaCMygGRi3oFNUH+pe50zANfWYsWRUzU/3NARz9jcnmdibbD
+ 8KJ6ro3sjwjNiy9MFR+4rZ9BERuFBRj0EpWaa/hXNwDGQwpSxME5hW2BVNSKbGki+2Qt
+ IsyEWU/DeAFHsl6Nid+U158J/24bVQGMWkuoDwplm7/SH9EOrOzQ7I6lYM7DPX0TOoRb
+ kegw==
 X-Forwarded-Encrypted: i=1;
- AJvYcCXoiOgCH2L7XCMw8DKvUW2T+Wxz/ld4hXSrMrJJwBqC/mRCMOk7lsNt/HmUZB7/t57P0PMUszNcI/k=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YxwAWBok4bpmWLHG8rYkUhAMqqvdhQl7fQ2kuNwy3UTWmX8IX6V
- k8rh3+JjgWJlyLi9Lgq5mT8PPdg1GJl70m3YqA8HQiKAgL4S7aOS6eDWbfHTLE0xfKHl6VgImcD
- ZtVqyqTZMPF2xGFZpjcvLE0GiR0erqaCN3pRXVU80Kg==
-X-Gm-Gg: ASbGncvCEfmWzMMxOxBmcWATRDwlIDwi0iQhuWHbCvqiZOQLNmDFhJZXIUhBXDItESb
- n0tBsoiXizkWyrfDVx5KCgxwGQRjOyVacLgF0AcLdF/n0KCxHOkpl8W2mpz1KkND5klPYolMPX3
- Qo2crqOZEg+fz1ETWWKgDS9nU8bOje2t90sZr22QPC64p0eX/7O7RwqZVQDqmn1E+KPLWWT7ofF
- P9AZ1MktZG0Gq5w9a4zm6UeK24Jne9SgQztbEIDuLJjXds=
-X-Google-Smtp-Source: AGHT+IFcAouWMXXQM8B7V4KLQu1xy86l+CgTbd5aoZM72dZ/yi5Z4/4mq1o6lT3woytFmkQlDVSULy3tTQmzPTG2yOI=
-X-Received: by 2002:a05:6808:16a9:b0:40b:1597:b2d1 with SMTP id
- 5614622812f47-4150e31e356mr2108092b6e.17.1752224894172; Fri, 11 Jul 2025
- 02:08:14 -0700 (PDT)
-MIME-Version: 1.0
-References: <0a087cfd-bd4c-48f1-aa2f-4a3b12593935@oss.qualcomm.com>
-In-Reply-To: <0a087cfd-bd4c-48f1-aa2f-4a3b12593935@oss.qualcomm.com>
+ AJvYcCXsChM8q3bih0OJJy0jrqSjlysRUHMAbDkNfyDUK9AJyYk4rg1zWl6yQc6a6oV7NihW+h3GEy+A3bA=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0Yx3daUFIP25LyJIePHefXcizoI0T448LGCSfAbcCSBTv0SChjZE
+ dPCcoyru2Yex7eeCEju2h7quhNCLvibDwdwn6j8rgse8DOIu0nPqyLm0IqgEHXD/keQ=
+X-Gm-Gg: ASbGncv38+FFzV3huTInA910Ayv5OHDjSj4X/U6/gIUvekE4eYwPZ1Y49BCWN0OoG13
+ 4R2W2CzbfudpLmne7ayoUdyFU06bvvcq44TOWBQIaJPE/r2wTI/4rypu1wfktQ08Q+8/85YRX8U
+ jASOL1NjFVQHqBjbW5vddb74IpAOqS57U2uQ/dnt74311isuUWNuTjOhhFYKV+25pK+RRyrU3A4
+ vRSqFbnpEZNKJprNAsjNaPU6rKH8Wbw4YD0cqY6DpAa3f25ftfjwY86duCQOUFBtgFIID+EQgej
+ w/1MnlNkzv0/R7hMLc6ts3Matgwk/jwOjhjq1lE1FnTQIlRLIzU+V9K6g5yaZw2NJTuqBEnaxYl
+ 0do2QgdxeRl2IE/asrtkVWqJaS5tPF8CsmQ==
+X-Google-Smtp-Source: AGHT+IGVsLzQL1NlYFVJvXIE4T0h4Rt3wByr9RdaY2zy17RQYDMiTV0C4rlOHtb8gaPmgLYxigvqbg==
+X-Received: by 2002:a05:6000:1a8f:b0:3a4:f7e7:3630 with SMTP id
+ ffacd0b85a97d-3b5f1e86f8emr2234076f8f.15.1752224917885; 
+ Fri, 11 Jul 2025 02:08:37 -0700 (PDT)
+Received: from phenom.ffwll.local ([2a02:168:57f4:0:5485:d4b2:c087:b497])
+ by smtp.gmail.com with ESMTPSA id
+ ffacd0b85a97d-3b5e8e269a0sm3871184f8f.86.2025.07.11.02.08.36
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Fri, 11 Jul 2025 02:08:37 -0700 (PDT)
+Date: Fri, 11 Jul 2025 11:08:35 +0200
 From: Simona Vetter <simona.vetter@ffwll.ch>
-Date: Fri, 11 Jul 2025 11:08:03 +0200
-X-Gm-Features: Ac12FXy4nqEh1oT4fQDEt08bX866kDDeTYEZ2441A8ZY1XxQ_jSXmu0yOuXQu58
-Message-ID: <CAKMK7uH7Hcviwyw2wZK=WVxcb4zBC+EKpsREhb4FHe_AxEi8gg@mail.gmail.com>
-Subject: Re: WARNING: possible circular locking dependency detected:
- drm_client_dev_suspend() & radeon_suspend_kms()
-To: Jeff Johnson <jeff.johnson@oss.qualcomm.com>, 
- "Nikula, Jani" <jani.nikula@linux.intel.com>, "Vivi,
- Rodrigo" <rodrigo.vivi@intel.com>
-Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, 
- Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
- Simona Vetter <simona@ffwll.ch>, Alex Deucher <alexander.deucher@amd.com>,
- =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>, 
- dri-devel@lists.freedesktop.org, linux-kernel <linux-kernel@vger.kernel.org>, 
- Linux AMDGPU <amd-gfx@lists.freedesktop.org>
-Content-Type: text/plain; charset="UTF-8"
+To: Maxime Ripard <mripard@redhat.com>
+Cc: Dave Airlie <airlied@gmail.com>, Simona Vetter <simona.vetter@ffwll.ch>,
+ Jani Nikula <jani.nikula@linux.intel.com>,
+ Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
+ Tvrtko Ursulin <tursulin@ursulin.net>,
+ Rodrigo Vivi <rodrigo.vivi@intel.com>,
+ Thomas Zimmermann <tzimmermann@suse.de>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>,
+ Thomas =?iso-8859-1?Q?Hellstr=F6m?= <thomas.hellstrom@linux.intel.com>,
+ Oded Gabbay <ogabbay@kernel.org>,
+ Lucas De Marchi <lucas.demarchi@intel.com>,
+ dri-devel@lists.freedesktop.org, intel-gfx@lists.freedesktop.org,
+ intel-xe@lists.freedesktop.org, dim-tools@lists.freedesktop.org
+Subject: Re: [PULL] drm-misc-next
+Message-ID: <aHDUk5RwrJlNWk4M@phenom.ffwll.local>
+References: <20250710-observant-elite-dingo-acfd6d@houat>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20250710-observant-elite-dingo-acfd6d@houat>
+X-Operating-System: Linux phenom 6.12.30-amd64 
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -87,147 +97,254 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, Jul 10, 2025 at 04:43:02PM -0700, Jeff Johnson wrote:
-> I'm trying to debug a hibernation issue with the ath12k driver, but to
-> establish a baseline I started with Linus' current tree. I have the following
-> enabled in my .config:
->
-> CONFIG_PROVE_LOCKING=y
-> CONFIG_PROVE_RAW_LOCK_NESTING=y
-> CONFIG_PROVE_RCU=y
->
-> As part of the baseline I observed the following:
+On Thu, Jul 10, 2025 at 12:06:19PM +0200, Maxime Ripard wrote:
+> Hi Dave, Sima,
+> 
+> Here's this week drm-misc-next PR. It's likely to be the last PR for
+> this release cycle.
+> 
+> Maxime
+> 
+> drm-misc-next-2025-07-10:
+> drm-misc-next for 6.17:
+> 
+> UAPI Changes:
+> 
+> Cross-subsystem Changes:
+> 
+> Core Changes:
+> 
+> Driver Changes:
+> - amdgpu: debugfs improvements
+> - ast: Improve hardware generations implementation
+> - dma-buf heaps:
+>   - Give the CMA heap a stable name
+> - panthor: fix UAF in debugfs
+> - rockchip: Convert inno_hdmi to a bridge
+> - sti: Convert to devm_drm_bridge_alloc()
+> - vkms: Use faux_device
+> 
+> - bridge:
+>   - Improve CEC handling code, convertions to devm_drm_bridge_alloc()
+> The following changes since commit 203dcde881561f1a4ee1084e2ee438fb4522c94a:
+> 
+>   Merge tag 'drm-msm-next-2025-07-05' of https://gitlab.freedesktop.org/drm/msm into drm-next (2025-07-08 14:31:19 +0200)
+> 
+> are available in the Git repository at:
+> 
+>   https://gitlab.freedesktop.org/drm/misc/kernel.git tags/drm-misc-next-2025-07-10
 
-On a very quick guess I'd bet on the drm_client conversion for i915 to
-have broken something here. Adding more people.
+Pulled into drm-next, thanks!
 -Sima
 
+> 
+> for you to fetch changes up to fe69a391808404977b1f002a6e7447de3de7a88e:
+> 
+>   drm/panthor: Fix UAF in panthor_gem_create_with_handle() debugfs code (2025-07-10 10:16:50 +0100)
+> 
+> ----------------------------------------------------------------
+> drm-misc-next for 6.17:
+> 
+> UAPI Changes:
+> 
+> Cross-subsystem Changes:
+> 
+> Core Changes:
+> 
+> Driver Changes:
+> - amdgpu: debugfs improvements
+> - ast: Improve hardware generations implementation
+> - dma-buf heaps:
+>   - Give the CMA heap a stable name
+> - panthor: fix UAF in debugfs
+> - rockchip: Convert inno_hdmi to a bridge
+> - sti: Convert to devm_drm_bridge_alloc()
+> - vkms: Use faux_device
+> 
+> - bridge:
+>   - Improve CEC handling code, convertions to devm_drm_bridge_alloc()
+> 
+> ----------------------------------------------------------------
+> Alessio Belle (1):
+>       drm/imagination: Clear runtime PM errors while resetting the GPU
+> 
+> Andy Yan (9):
+>       drm/rockchip: inno_hdmi: Merge register definition to c file
+>       drm/rockchip: inno_hdmi: Refactor register macros to make checkpatch happy
+>       drm/rockchip: inno_hdmi: Remove unnecessary parentheses to make checkpatch happy
+>       drm/rockchip: inno_hdmi: Rename function inno_hdmi_reset to inno_hdmi_init_hw
+>       drm/rockchip: inno_hdmi: Move ddc/i2c configuration and HOTPLUG unmute to inno_hdmi_init_hw
+>       drm/rockchip: inno_hdmi: Use sleep_range instead of udelay
+>       drm/rockchip: inno_hdmi: switch i2c registration to devm functions
+>       drm/rockchip: inno_hdmi: Simpify clk get/enable by devm_clk_get_enabled api
+>       drm/rockchip: vop2: Fix the update of LAYER/PORT select registers when there are multi display output on rk3588/rk3568
+> 
+> Chaoyi Chen (2):
+>       drm/rockchip: lvds: Convert to drm bridge
+>       drm/rockchip: cdn-dp: Convert to drm bridge
+> 
+> Cristian Ciocaltea (3):
+>       drm/display: hdmi-cec-helper: Fix adapter unregistration
+>       drm/bridge: Fix kdoc comment for DRM_BRIDGE_OP_HDMI_CEC_ADAPTER
+>       drm/bridge: adv7511: Fix DRM_BRIDGE_OP_HDMI_{AUDIO|CEC_ADAPTER} setup
+> 
+> Dan Carpenter (1):
+>       drm/dp: Clean up white space in drm_edp_backlight_probe_state()
+> 
+> Greg Kroah-Hartman (2):
+>       drm/vkms: convert to use faux_device
+>       drm/vgem/vgem_drv convert to use faux_device
+> 
+> Heiko Stuebner (1):
+>       drm/rockchip: vop2: fail cleanly if missing a primary plane for a video-port
+> 
+> Jared Kangas (3):
+>       Documentation: dma-buf: heaps: Fix code markup
+>       dma-buf: heaps: Parameterize heap name in __add_cma_heap()
+>       dma-buf: heaps: Give default CMA heap a fixed name
+> 
+> Juston Li (1):
+>       gpu/trace: make TRACE_GPU_MEM configurable
+> 
+> Luca Ceresoli (3):
+>       drm/bridge: tc358767: fix uninitialized variable regression
+>       drm/sti: hdmi: convert to devm_drm_bridge_alloc() API
+>       drm/sti: hda: convert to devm_drm_bridge_alloc() API
+> 
+> Maarten Lankhorst (1):
+>       Merge remote-tracking branch 'drm/drm-next' into drm-misc-next
+> 
+> Marek Szyprowski (1):
+>       drm/bridge: analogix_dp: Use devm_drm_bridge_alloc() API
+> 
+> Matthew Brost (1):
+>       drm: Simplify drmm_alloc_ordered_workqueue return
+> 
+> Shixiong Ou (1):
+>       fbcon: Fix outdated registered_fb reference in comment
+> 
+> Simona Vetter (1):
+>       drm/panthor: Fix UAF in panthor_gem_create_with_handle() debugfs code
+> 
+> Sunil Khatri (6):
+>       drm: move drm based debugfs funcs to drm_debugfs.c
+>       drm: add debugfs support on per client-id basis
+>       drm/amdgpu: add debugfs support for VM pagetable per client
+>       drm/amdgpu: add support of debugfs for mqd information
+>       drm/amdgpu: fix MQD debugfs undefined symbol when DEBUG_FS=n
+>       drm/amdgpu: fix the logic to validate fpriv and root bo
+> 
+> T.J. Mercier (1):
+>       dma-buf: system_heap: No separate allocation for attachment sg_tables
+> 
+> Tamir Duberstein (1):
+>       rust: drm: remove unnecessary imports
+> 
+> Thierry Reding (1):
+>       drm/fbdev-client: Skip DRM clients if modesetting is absent
+> 
+> Thomas Zimmermann (13):
+>       drm/gem-shmem: Do not map s/g table by default
+>       drm/tegra: Test for imported buffers with drm_gem_is_imported()
+>       drm/tegra: Use dma_buf from GEM object instance
+>       drm/ast: Declare helpers for POST in header
+>       drm/ast: Move Gen7+ POST code to separate source file
+>       drm/ast: Move Gen6+ POST code to separate source file
+>       drm/ast: Move Gen4+ POST code to separate source file
+>       drm/ast: Move Gen2+ and Gen1 POST code to separate source files
+>       drm/ast: Move struct ast_dramstruct to ast_post.h
+>       drm/ast: Handle known struct ast_dramstruct with helpers
+>       drm/ast: Split ast_set_def_ext_reg() by chip generation
+>       drm/ast: Gen7: Disable VGASR0[1] as on Gen4+
+>       drm/ast: Gen7: Switch default registers to gen4+ state
+> 
+> Tvrtko Ursulin (2):
+>       drm/sched: De-clutter drm_sched_init
+>       drm/sched: Consolidate drm_sched_rq_select_entity_rr
+> 
+> Yumeng Fang (1):
+>       drm/rockchip: dw_hdmi: Use dev_err_probe() to simplify code
+> 
+>  Documentation/userspace-api/dma-buf-heaps.rst      |   11 +-
+>  drivers/Kconfig                                    |    2 -
+>  drivers/accel/drm_accel.c                          |   16 -
+>  drivers/dma-buf/heaps/Kconfig                      |   10 +
+>  drivers/dma-buf/heaps/cma_heap.c                   |   36 +-
+>  drivers/dma-buf/heaps/system_heap.c                |   43 +-
+>  drivers/gpu/drm/amd/amdgpu/amdgpu_debugfs.c        |   52 +
+>  drivers/gpu/drm/amd/amdgpu/amdgpu_debugfs.h        |    1 +
+>  drivers/gpu/drm/amd/amdgpu/amdgpu_kms.c            |    2 +
+>  drivers/gpu/drm/amd/amdgpu/amdgpu_userq.c          |   55 +
+>  drivers/gpu/drm/amd/amdgpu/amdgpu_userq.h          |    1 +
+>  drivers/gpu/drm/ast/Makefile                       |    5 +
+>  drivers/gpu/drm/ast/ast_2000.c                     |  149 ++
+>  drivers/gpu/drm/ast/ast_2100.c                     |  348 ++++
+>  drivers/gpu/drm/ast/ast_2300.c                     | 1328 +++++++++++++
+>  drivers/gpu/drm/ast/ast_2500.c                     |  569 ++++++
+>  drivers/gpu/drm/ast/ast_2600.c                     |   44 +
+>  drivers/gpu/drm/ast/ast_dram_tables.h              |  207 --
+>  drivers/gpu/drm/ast/ast_drv.c                      |    4 +-
+>  drivers/gpu/drm/ast/ast_drv.h                      |   17 +-
+>  drivers/gpu/drm/ast/ast_post.c                     | 2027 +-------------------
+>  drivers/gpu/drm/ast/ast_post.h                     |   50 +
+>  drivers/gpu/drm/bridge/adv7511/adv7511_drv.c       |    6 +-
+>  drivers/gpu/drm/bridge/analogix/analogix_dp_core.c |   40 +-
+>  drivers/gpu/drm/bridge/analogix/analogix_dp_core.h |    3 +-
+>  drivers/gpu/drm/bridge/tc358767.c                  |    1 +
+>  drivers/gpu/drm/clients/drm_client_setup.c         |    5 +
+>  drivers/gpu/drm/display/drm_dp_helper.c            |   14 +-
+>  drivers/gpu/drm/display/drm_hdmi_cec_helper.c      |    2 +-
+>  drivers/gpu/drm/drm_debugfs.c                      |  118 +-
+>  drivers/gpu/drm/drm_drv.c                          |   16 +-
+>  drivers/gpu/drm/drm_file.c                         |   11 +
+>  drivers/gpu/drm/drm_internal.h                     |    6 +-
+>  drivers/gpu/drm/drm_panic_qr.rs                    |    2 +-
+>  drivers/gpu/drm/imagination/pvr_power.c            |   59 +-
+>  drivers/gpu/drm/panthor/panthor_gem.c              |   31 +-
+>  drivers/gpu/drm/panthor/panthor_gem.h              |    3 -
+>  drivers/gpu/drm/rockchip/cdn-dp-core.c             |  291 ++-
+>  drivers/gpu/drm/rockchip/cdn-dp-core.h             |    8 +-
+>  drivers/gpu/drm/rockchip/dw_hdmi-rockchip.c        |   16 +-
+>  drivers/gpu/drm/rockchip/inno_hdmi.c               |  452 ++++-
+>  drivers/gpu/drm/rockchip/inno_hdmi.h               |  349 ----
+>  drivers/gpu/drm/rockchip/rockchip_drm_vop2.c       |   29 +-
+>  drivers/gpu/drm/rockchip/rockchip_drm_vop2.h       |   33 +
+>  drivers/gpu/drm/rockchip/rockchip_lvds.c           |   68 +-
+>  drivers/gpu/drm/rockchip/rockchip_vop2_reg.c       |   89 +-
+>  drivers/gpu/drm/scheduler/sched_main.c             |   81 +-
+>  drivers/gpu/drm/sti/sti_hda.c                      |   27 +-
+>  drivers/gpu/drm/sti/sti_hdmi.c                     |   26 +-
+>  drivers/gpu/drm/sti/sti_hdmi.h                     |    2 +
+>  drivers/gpu/drm/tegra/gem.c                        |    4 +-
+>  drivers/gpu/drm/udl/udl_drv.c                      |    2 +-
+>  drivers/gpu/drm/vgem/vgem_drv.c                    |   30 +-
+>  drivers/gpu/drm/vkms/vkms_crtc.c                   |    2 -
+>  drivers/gpu/drm/vkms/vkms_drv.c                    |   28 +-
+>  drivers/gpu/drm/vkms/vkms_drv.h                    |    4 +-
+>  drivers/gpu/trace/Kconfig                          |   11 +-
+>  drivers/video/Kconfig                              |    2 +
+>  drivers/video/fbdev/core/fbcon.c                   |    4 +-
+>  include/drm/drm_accel.h                            |    5 -
+>  include/drm/drm_bridge.h                           |    2 +-
+>  include/drm/drm_debugfs.h                          |   11 +
+>  include/drm/drm_drv.h                              |   19 +-
+>  include/drm/drm_file.h                             |    7 +
+>  include/drm/drm_gem_shmem_helper.h                 |   18 +-
+>  include/drm/drm_managed.h                          |   15 +-
+>  rust/kernel/drm/driver.rs                          |    1 -
+>  67 files changed, 3761 insertions(+), 3169 deletions(-)
+>  create mode 100644 drivers/gpu/drm/ast/ast_2000.c
+>  create mode 100644 drivers/gpu/drm/ast/ast_2100.c
+>  create mode 100644 drivers/gpu/drm/ast/ast_2300.c
+>  create mode 100644 drivers/gpu/drm/ast/ast_2500.c
+>  create mode 100644 drivers/gpu/drm/ast/ast_2600.c
+>  delete mode 100644 drivers/gpu/drm/ast/ast_dram_tables.h
+>  create mode 100644 drivers/gpu/drm/ast/ast_post.h
+>  delete mode 100644 drivers/gpu/drm/rockchip/inno_hdmi.h
 
->
-> Jul 10 16:12:52 qca-HP-ZBook-14-G2 kernel: ======================================================
-> Jul 10 16:12:52 qca-HP-ZBook-14-G2 kernel: WARNING: possible circular locking dependency detected
-> Jul 10 16:12:52 qca-HP-ZBook-14-G2 kernel: 6.16.0-rc5+ #6 Not tainted
-> Jul 10 16:12:52 qca-HP-ZBook-14-G2 kernel: ------------------------------------------------------
-> Jul 10 16:12:52 qca-HP-ZBook-14-G2 kernel: kworker/u16:13/3787 is trying to acquire lock:
-> Jul 10 16:12:52 qca-HP-ZBook-14-G2 kernel: ffff8881113e0308 (&dev->clientlist_mutex){+.+.}-{4:4}, at: drm_client_dev_suspend+0x37/0x250 [drm]
-> Jul 10 16:12:52 qca-HP-ZBook-14-G2 kernel:
->                                            but task is already holding lock:
-> Jul 10 16:12:52 qca-HP-ZBook-14-G2 kernel: ffffffff8a2e4b80 (console_lock){+.+.}-{0:0}, at: radeon_suspend_kms+0x63b/0x7d0 [radeon]
-> Jul 10 16:12:52 qca-HP-ZBook-14-G2 kernel:
->                                            which lock already depends on the new lock.
-> Jul 10 16:12:52 qca-HP-ZBook-14-G2 kernel:
->                                            the existing dependency chain (in reverse order) is:
-> Jul 10 16:12:52 qca-HP-ZBook-14-G2 kernel:
->                                            -> #1 (console_lock){+.+.}-{0:0}:
-> Jul 10 16:12:52 qca-HP-ZBook-14-G2 kernel:        console_lock+0x8d/0x130
-> Jul 10 16:12:52 qca-HP-ZBook-14-G2 kernel:        drm_fb_helper_set_suspend_unlocked+0x10e/0x200 [drm_kms_helper]
-> Jul 10 16:12:52 qca-HP-ZBook-14-G2 kernel:        drm_fbdev_client_suspend+0x24/0x30 [drm_client_lib]
-> Jul 10 16:12:52 qca-HP-ZBook-14-G2 kernel:        drm_client_dev_suspend+0x138/0x250 [drm]
-> Jul 10 16:12:52 qca-HP-ZBook-14-G2 kernel:        i915_drm_suspend.isra.0+0x74/0x260 [i915]
-> Jul 10 16:12:52 qca-HP-ZBook-14-G2 kernel:        i915_pm_suspend+0x6b/0x90 [i915]
-> Jul 10 16:12:52 qca-HP-ZBook-14-G2 kernel:        pci_pm_suspend+0x1e3/0x4f0
-> Jul 10 16:12:52 qca-HP-ZBook-14-G2 kernel:        dpm_run_callback+0xa0/0x100
-> Jul 10 16:12:52 qca-HP-ZBook-14-G2 kernel:        device_suspend+0x41e/0xdc0
-> Jul 10 16:12:52 qca-HP-ZBook-14-G2 kernel:        async_suspend+0x1d/0x30
-> Jul 10 16:12:52 qca-HP-ZBook-14-G2 kernel:        async_run_entry_fn+0x96/0x3e0
-> Jul 10 16:12:52 qca-HP-ZBook-14-G2 kernel:        process_one_work+0x86e/0x14b0
-> Jul 10 16:12:52 qca-HP-ZBook-14-G2 kernel:        worker_thread+0x5d0/0xfc0
-> Jul 10 16:12:52 qca-HP-ZBook-14-G2 kernel:        kthread+0x375/0x750
-> Jul 10 16:12:52 qca-HP-ZBook-14-G2 kernel:        ret_from_fork+0x215/0x2f0
-> Jul 10 16:12:52 qca-HP-ZBook-14-G2 kernel:        ret_from_fork_asm+0x1a/0x30
-> Jul 10 16:12:52 qca-HP-ZBook-14-G2 kernel:
->                                            -> #0 (&dev->clientlist_mutex){+.+.}-{4:4}:
-> Jul 10 16:12:52 qca-HP-ZBook-14-G2 kernel:        __lock_acquire+0x15b5/0x2ac0
-> Jul 10 16:12:52 qca-HP-ZBook-14-G2 kernel:        lock_acquire+0x154/0x2d0
-> Jul 10 16:12:52 qca-HP-ZBook-14-G2 kernel:        __mutex_lock+0x15f/0x12c0
-> Jul 10 16:12:52 qca-HP-ZBook-14-G2 kernel:        drm_client_dev_suspend+0x37/0x250 [drm]
-> Jul 10 16:12:52 qca-HP-ZBook-14-G2 kernel:        radeon_suspend_kms+0x648/0x7d0 [radeon]
-> Jul 10 16:12:52 qca-HP-ZBook-14-G2 kernel:        pci_pm_suspend+0x1e3/0x4f0
-> Jul 10 16:12:52 qca-HP-ZBook-14-G2 kernel:        dpm_run_callback+0xa0/0x100
-> Jul 10 16:12:52 qca-HP-ZBook-14-G2 kernel:        device_suspend+0x41e/0xdc0
-> Jul 10 16:12:52 qca-HP-ZBook-14-G2 kernel:        async_suspend+0x1d/0x30
-> Jul 10 16:12:52 qca-HP-ZBook-14-G2 kernel:        async_run_entry_fn+0x96/0x3e0
-> Jul 10 16:12:52 qca-HP-ZBook-14-G2 kernel:        process_one_work+0x86e/0x14b0
-> Jul 10 16:12:52 qca-HP-ZBook-14-G2 kernel:        worker_thread+0x5d0/0xfc0
-> Jul 10 16:12:52 qca-HP-ZBook-14-G2 kernel:        kthread+0x375/0x750
-> Jul 10 16:12:52 qca-HP-ZBook-14-G2 kernel:        ret_from_fork+0x215/0x2f0
-> Jul 10 16:12:52 qca-HP-ZBook-14-G2 kernel:        ret_from_fork_asm+0x1a/0x30
-> Jul 10 16:12:52 qca-HP-ZBook-14-G2 kernel:
->                                            other info that might help us debug this:
-> Jul 10 16:12:52 qca-HP-ZBook-14-G2 kernel:  Possible unsafe locking scenario:
-> Jul 10 16:12:52 qca-HP-ZBook-14-G2 kernel:        CPU0                    CPU1
-> Jul 10 16:12:52 qca-HP-ZBook-14-G2 kernel:        ----                    ----
-> Jul 10 16:12:52 qca-HP-ZBook-14-G2 kernel:   lock(console_lock);
-> Jul 10 16:12:52 qca-HP-ZBook-14-G2 kernel:                                lock(&dev->clientlist_mutex);
-> Jul 10 16:12:52 qca-HP-ZBook-14-G2 kernel:                                lock(console_lock);
-> Jul 10 16:12:52 qca-HP-ZBook-14-G2 kernel:   lock(&dev->clientlist_mutex);
-> Jul 10 16:12:52 qca-HP-ZBook-14-G2 kernel:
->                                             *** DEADLOCK ***
-> Jul 10 16:12:52 qca-HP-ZBook-14-G2 kernel: 4 locks held by kworker/u16:13/3787:
-> Jul 10 16:12:52 qca-HP-ZBook-14-G2 kernel:  #0: ffff888100dee148 ((wq_completion)async){+.+.}-{0:0}, at: process_one_work+0xe97/0x14b0
-> Jul 10 16:12:52 qca-HP-ZBook-14-G2 kernel:  #1: ffff88813f22fd30 ((work_completion)(&entry->work)){+.+.}-{0:0}, at: process_one_work+0x7f6/0x14b0
-> Jul 10 16:12:52 qca-HP-ZBook-14-G2 kernel:  #2: ffff8881049241b0 (&dev->mutex){....}-{4:4}, at: device_suspend+0x3bd/0xdc0
-> Jul 10 16:12:52 qca-HP-ZBook-14-G2 kernel:  #3: ffffffff8a2e4b80 (console_lock){+.+.}-{0:0}, at: radeon_suspend_kms+0x63b/0x7d0 [radeon]
-> Jul 10 16:12:52 qca-HP-ZBook-14-G2 kernel:
->                                            stack backtrace:
-> Jul 10 16:12:52 qca-HP-ZBook-14-G2 kernel: CPU: 0 UID: 0 PID: 3787 Comm: kworker/u16:13 Not tainted 6.16.0-rc5+ #6 PREEMPT(voluntary)
-> Jul 10 16:12:52 qca-HP-ZBook-14-G2 kernel: Hardware name: Hewlett-Packard HP ZBook 14 G2/2216, BIOS M71 Ver. 01.31 02/24/2020
-> Jul 10 16:12:52 qca-HP-ZBook-14-G2 kernel: Workqueue: async async_run_entry_fn
-> Jul 10 16:12:52 qca-HP-ZBook-14-G2 kernel: Call Trace:
-> Jul 10 16:12:52 qca-HP-ZBook-14-G2 kernel:  <TASK>
-> Jul 10 16:12:52 qca-HP-ZBook-14-G2 kernel:  dump_stack_lvl+0x5b/0x80
-> Jul 10 16:12:52 qca-HP-ZBook-14-G2 kernel:  print_circular_bug.cold+0x178/0x1be
-> Jul 10 16:12:52 qca-HP-ZBook-14-G2 kernel:  check_noncircular+0x130/0x150
-> Jul 10 16:12:52 qca-HP-ZBook-14-G2 kernel:  ? 0xffffffffc1600000
-> Jul 10 16:12:52 qca-HP-ZBook-14-G2 kernel:  ? radeon_suspend_kms+0x63b/0x7d0 [radeon]
-> Jul 10 16:12:52 qca-HP-ZBook-14-G2 kernel:  __lock_acquire+0x15b5/0x2ac0
-> Jul 10 16:12:52 qca-HP-ZBook-14-G2 kernel:  lock_acquire+0x154/0x2d0
-> Jul 10 16:12:52 qca-HP-ZBook-14-G2 kernel:  ? drm_client_dev_suspend+0x37/0x250 [drm]
-> Jul 10 16:12:52 qca-HP-ZBook-14-G2 kernel:  ? __pfx_stack_trace_save+0x10/0x10
-> Jul 10 16:12:52 qca-HP-ZBook-14-G2 kernel:  ? acpi_ut_release_mutex+0xba/0x150
-> Jul 10 16:12:52 qca-HP-ZBook-14-G2 kernel:  __mutex_lock+0x15f/0x12c0
-> Jul 10 16:12:52 qca-HP-ZBook-14-G2 kernel:  ? drm_client_dev_suspend+0x37/0x250 [drm]
-> Jul 10 16:12:52 qca-HP-ZBook-14-G2 kernel:  ? drm_client_dev_suspend+0x37/0x250 [drm]
-> Jul 10 16:12:52 qca-HP-ZBook-14-G2 kernel:  ? add_lock_to_list+0x2c/0x1b0
-> Jul 10 16:12:52 qca-HP-ZBook-14-G2 kernel:  ? __pfx___mutex_lock+0x10/0x10
-> Jul 10 16:12:52 qca-HP-ZBook-14-G2 kernel:  ? lock_acquire+0x154/0x2d0
-> Jul 10 16:12:52 qca-HP-ZBook-14-G2 kernel:  ? radeon_suspend_kms+0x63b/0x7d0 [radeon]
-> Jul 10 16:12:52 qca-HP-ZBook-14-G2 kernel:  ? drm_client_dev_suspend+0x37/0x250 [drm]
-> Jul 10 16:12:52 qca-HP-ZBook-14-G2 kernel:  drm_client_dev_suspend+0x37/0x250 [drm]
-> Jul 10 16:12:52 qca-HP-ZBook-14-G2 kernel:  radeon_suspend_kms+0x648/0x7d0 [radeon]
-> Jul 10 16:12:52 qca-HP-ZBook-14-G2 kernel:  ? __pfx_radeon_pmops_suspend+0x10/0x10 [radeon]
-> Jul 10 16:12:52 qca-HP-ZBook-14-G2 kernel:  pci_pm_suspend+0x1e3/0x4f0
-> Jul 10 16:12:52 qca-HP-ZBook-14-G2 kernel:  ? __pfx_pci_pm_suspend+0x10/0x10
-> Jul 10 16:12:52 qca-HP-ZBook-14-G2 kernel:  dpm_run_callback+0xa0/0x100
-> Jul 10 16:12:52 qca-HP-ZBook-14-G2 kernel:  ? __pfx_dpm_run_callback+0x10/0x10
-> Jul 10 16:12:52 qca-HP-ZBook-14-G2 kernel:  device_suspend+0x41e/0xdc0
-> Jul 10 16:12:52 qca-HP-ZBook-14-G2 kernel:  ? __pfx_device_suspend+0x10/0x10
-> Jul 10 16:12:52 qca-HP-ZBook-14-G2 kernel:  ? __pfx_async_suspend+0x10/0x10
-> Jul 10 16:12:52 qca-HP-ZBook-14-G2 kernel:  async_suspend+0x1d/0x30
-> Jul 10 16:12:52 qca-HP-ZBook-14-G2 kernel:  async_run_entry_fn+0x96/0x3e0
-> Jul 10 16:12:52 qca-HP-ZBook-14-G2 kernel:  process_one_work+0x86e/0x14b0
-> Jul 10 16:12:52 qca-HP-ZBook-14-G2 kernel:  ? __pfx_process_one_work+0x10/0x10
-> Jul 10 16:12:52 qca-HP-ZBook-14-G2 kernel:  ? assign_work+0x16c/0x240
-> Jul 10 16:12:52 qca-HP-ZBook-14-G2 kernel:  worker_thread+0x5d0/0xfc0
-> Jul 10 16:12:52 qca-HP-ZBook-14-G2 kernel:  ? __pfx_worker_thread+0x10/0x10
-> Jul 10 16:12:52 qca-HP-ZBook-14-G2 kernel:  kthread+0x375/0x750
-> Jul 10 16:12:52 qca-HP-ZBook-14-G2 kernel:  ? __pfx_kthread+0x10/0x10
-> Jul 10 16:12:52 qca-HP-ZBook-14-G2 kernel:  ? ret_from_fork+0x1f/0x2f0
-> Jul 10 16:12:52 qca-HP-ZBook-14-G2 kernel:  ? lock_release+0xc6/0x2a0
-> Jul 10 16:12:52 qca-HP-ZBook-14-G2 kernel:  ? __pfx_kthread+0x10/0x10
-> Jul 10 16:12:52 qca-HP-ZBook-14-G2 kernel:  ret_from_fork+0x215/0x2f0
-> Jul 10 16:12:52 qca-HP-ZBook-14-G2 kernel:  ? __pfx_kthread+0x10/0x10
-> Jul 10 16:12:52 qca-HP-ZBook-14-G2 kernel:  ret_from_fork_asm+0x1a/0x30
-> Jul 10 16:12:52 qca-HP-ZBook-14-G2 kernel:  </TASK>
->
-> This doesn't seem to be the cause of the ath12k issue I'm debugging,
-> but thought it worth mentioning since I only see one similar report
-> on lore, and that didn't have any apparent follow-up:
-> https://lore.kernel.org/all/20250202161048.373f89c0@yea/
->
-> /jeff
 
---
+
+-- 
 Simona Vetter
 Software Engineer, Intel Corporation
 http://blog.ffwll.ch
