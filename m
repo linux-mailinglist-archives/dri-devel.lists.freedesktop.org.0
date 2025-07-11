@@ -2,142 +2,198 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5731EB0128A
-	for <lists+dri-devel@lfdr.de>; Fri, 11 Jul 2025 07:07:17 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 74B2EB0129D
+	for <lists+dri-devel@lfdr.de>; Fri, 11 Jul 2025 07:18:36 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id BC97810E9A7;
-	Fri, 11 Jul 2025 05:07:15 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D285110E9AA;
+	Fri, 11 Jul 2025 05:18:08 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=nxp.com header.i=@nxp.com header.b="j7C3gyhj";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="gksxmGMY";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from DUZPR83CU001.outbound.protection.outlook.com
- (mail-northeuropeazon11012047.outbound.protection.outlook.com [52.101.66.47])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3141E10E9A7
- for <dri-devel@lists.freedesktop.org>; Fri, 11 Jul 2025 05:07:14 +0000 (UTC)
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5C94310E9A8;
+ Fri, 11 Jul 2025 05:18:07 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1752211087; x=1783747087;
+ h=message-id:date:subject:to:cc:references:from:
+ in-reply-to:content-transfer-encoding:mime-version;
+ bh=ErlGq566JvNs7fUPAUhdgKkruCvKczuRzHhQ8xk1zok=;
+ b=gksxmGMYJLRlu1CGM2C57hIzsw4LsiTDQZ7Jts8MTplS6PhX/Qqsx4xR
+ ma7ZHhWmw7Nr8J1ecCQ5EIM7rCAuaoWB1SgW2s4WhwU1j4QBxDQG5DD5/
+ cZICrc56cBBWOQa5XuYM4T3bdrAPs0e71AjWd0vLzQJnHy7pwHuSXry2r
+ yVaM7/DjYDT+8Q4IvsfYNVppprC+kKvbHpZTiLJD7AeDzxOu8WkOiarNx
+ 95YsC5E+MKcxTTY1rABFvKATAjFAI7QH83cjEoeeV6LS5NAiDcItzSBdb
+ FehX2yMc9XndXMqeuBZ7yPAgR/ieVrMiNVMD7m2btzL5dCVlq3XMo3wyP g==;
+X-CSE-ConnectionGUID: GNFkzLG3T4q53vIhMCd58g==
+X-CSE-MsgGUID: 8sfIIyFdRHeNsM4LLV5bog==
+X-IronPort-AV: E=McAfee;i="6800,10657,11490"; a="77049610"
+X-IronPort-AV: E=Sophos;i="6.16,302,1744095600"; d="scan'208";a="77049610"
+Received: from fmviesa003.fm.intel.com ([10.60.135.143])
+ by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 10 Jul 2025 22:18:07 -0700
+X-CSE-ConnectionGUID: 20l3txF1QPu2gYuGy829bw==
+X-CSE-MsgGUID: cjnkB0upTvWqm5VH9Mi9bQ==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.16,302,1744095600"; d="scan'208";a="160296879"
+Received: from orsmsx902.amr.corp.intel.com ([10.22.229.24])
+ by fmviesa003.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 10 Jul 2025 22:18:06 -0700
+Received: from ORSMSX901.amr.corp.intel.com (10.22.229.23) by
+ ORSMSX902.amr.corp.intel.com (10.22.229.24) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.1544.25; Thu, 10 Jul 2025 22:18:06 -0700
+Received: from ORSEDG901.ED.cps.intel.com (10.7.248.11) by
+ ORSMSX901.amr.corp.intel.com (10.22.229.23) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.1544.25 via Frontend Transport; Thu, 10 Jul 2025 22:18:06 -0700
+Received: from NAM12-BN8-obe.outbound.protection.outlook.com (40.107.237.74)
+ by edgegateway.intel.com (134.134.137.111) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.1544.25; Thu, 10 Jul 2025 22:18:04 -0700
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=FjZjqTsM9VRMrHEC6xOKu1YWU4wc7vesl7xSJ8AdiDxCYCafQGaiBcEhAKHQ+ZoIHIh3GUZn2INU71pwve2gMgta/57P/YN5/oOvQlNs9dY57azTqc3n7qfBCBG9HVxR9nT0hAcvkrrXy9eSDtYyVHsLTEhdJhjYDBWUQovMlOGmNeLmIgkqaqlKOU1AZa/g6WhLq+uHqY9ADh4AskyG77gbo8L/oMtNixH+2gQM3tByrUDWApyUbY3Kv3zFJxRvlskq9keZBNYyVDPhGNkABMQ9AWr518EmcOvNWCHblde+vRyxlwFUh2ivvPIP8ymnt6HV8A/a1Cj7FLkcygS03A==
+ b=Some74fcKj7yQWCLyRxSVFXaPrCOc2Dnb07a8XNz09RqR7bW6ybcaUAj0j6QHkv4klm8VgX2jtpBMma+zrLJ9CW4KBZd+hjaUynG8TJaWdq0qABP8bALvu6uoC3ZIyuzmS8CjQmF7jmTAXbKPLrvRat8/AP7Ndu24EIDywNJtAlXA9OZxyTuXGVA9QqrofaPMNrC7eLXXM4wWvKadg5izTleOTwFBG1DeCgN109obtGbjcsiAd46+IbBNjnjysXOoMCCIkVhU76A0XNmN52J+EeUGWOBMQFCRRn3fJLtXOB7d/IBuG9GTa4jczx2uGulQKn1tSTR1x1f6QE9DpKSMg==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=tbSeD1itN6E0wqvvxc/SDs+CsNsvNo5nLNhZPAPMW8k=;
- b=COJmCVRCl/FIEbsxyCSKgYMUiCTm5HJcx9L9j7c2YazwcmmjdoSTRL6aAEZBQoNKqPsFqslGuGhMMH3p549uqm0X/PuLftHtns9lauCskoPcI4aNclJzk22Pzw7HjpfHHfk1eh9iv7ruzWifLI2eHla5gOUQxJHb+dQseaJ4VKC1iVIt4OSG0R0UlUXkAds5ZKzpzyOY1+2bTrLFurqlAlCbPPag4QEa2ApgYwMkQ0EUIBtxsuN3N64Vh+26rBCvVOpMJa1ocDl7+3poDsNGxUM+MYidP4urflhJKQSDJTiJjoPKaE12JGBHJ5x4RCvPBzrxjWqW4cNyyRlQLSHk/Q==
+ bh=IFfh/5voSfmCDR8LvEW4i81fAHeWbJNdqV4+4IsFXvA=;
+ b=fBrDMzedtM5fZQjd8WolntGdYWinN7LWH6/q6IfEl46u+laFjxjWWdTO8fD5cAcT8MNRnq7bioHMl2Xf1xcMzXn+0iYtLhm/WcRuqu6ucl0k5/ok2iUJwF5IicZqU9jeF9WIC3b6xcDvbaqhz3jbPSF+P3An8phcz0IfhD6LwSscwdR+CQCZm0+W2rkRPtnr6kow3Es0zf6ND4tQJwj8f3QyG0raWEd0ZoiPiEm3BKCXj4a5f6bR5K01sLLCgcnnlDNY3NHol3AxLsyPbzBoYiFivR7HlVV1SeZzMj0w9KdMzTgtHzQcQpL8Lkp9fiskg8KhtIDAj/hW2wCLSjjQtw==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=nxp.com; dmarc=pass action=none header.from=nxp.com; dkim=pass
- header.d=nxp.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nxp.com; s=selector1; 
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=tbSeD1itN6E0wqvvxc/SDs+CsNsvNo5nLNhZPAPMW8k=;
- b=j7C3gyhjM/nP+4rulBI1OjrQqa9AbULaVqhdwTtP5BhI6I0J1Xb2/z8Vymp0WKTyGIqlHU+kia8f/9YTdPVyTKy7AoOS3KZHA3/ZpL285tx01iJwsLQ9WxLGUXGEfuR7Gx51YrlX30IGXmFSGZ7JmsNoe5qrUTyJcHigFbV8vLDyqeuaTCYo5+AMsYYmshznknNYMaHxXzSfDYuB9OAsIUICn1O9lZ9iSdDEvj21bR0ekxz+Xk5Up7/S23X4kdqo/rOxxoV1TySCRjWJ7JPOdk2dk0o7Y9uDsEz4+cPzj4UPR1oXDMdsKzjbHqe4OF1tdnVQ1oZZqsszAWhkfn8gOg==
+ smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
+ dkim=pass header.d=intel.com; arc=none
 Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=nxp.com;
-Received: from PAXPR04MB9642.eurprd04.prod.outlook.com (2603:10a6:102:240::14)
- by DB8PR04MB6796.eurprd04.prod.outlook.com (2603:10a6:10:11e::7) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8922.25; Fri, 11 Jul
- 2025 05:07:11 +0000
-Received: from PAXPR04MB9642.eurprd04.prod.outlook.com
- ([fe80::9126:a61e:341d:4b06]) by PAXPR04MB9642.eurprd04.prod.outlook.com
- ([fe80::9126:a61e:341d:4b06%5]) with mapi id 15.20.8922.023; Fri, 11 Jul 2025
- 05:07:11 +0000
-Date: Fri, 11 Jul 2025 01:07:06 -0400
-From: Frank Li <Frank.li@nxp.com>
-To: Laurentiu Palcu <laurentiu.palcu@oss.nxp.com>
-Cc: imx@lists.linux.dev, Rob Herring <robh@kernel.org>,
- Krzysztof Kozlowski <krzk+dt@kernel.org>,
- Conor Dooley <conor+dt@kernel.org>, Shawn Guo <shawnguo@kernel.org>,
- Sascha Hauer <s.hauer@pengutronix.de>,
- Pengutronix Kernel Team <kernel@pengutronix.de>,
- Fabio Estevam <festevam@gmail.com>, dri-devel@lists.freedesktop.org,
- devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
- linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 7/8] arm64: dts: imx943-evk: Add support for DCIF and LVDS
-Message-ID: <aHCb+nj2qb8+P5Mp@lizhi-Precision-Tower-5810>
-References: <20250709122332.2874632-1-laurentiu.palcu@oss.nxp.com>
- <20250709122332.2874632-8-laurentiu.palcu@oss.nxp.com>
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20250709122332.2874632-8-laurentiu.palcu@oss.nxp.com>
-X-ClientProxiedBy: AS4P190CA0035.EURP190.PROD.OUTLOOK.COM
- (2603:10a6:20b:5d1::11) To PAXPR04MB9642.eurprd04.prod.outlook.com
- (2603:10a6:102:240::14)
+ header.d=none;dmarc=none action=none header.from=intel.com;
+Received: from DS0PR11MB7958.namprd11.prod.outlook.com (2603:10b6:8:f9::19) by
+ SJ5PPF183C9380E.namprd11.prod.outlook.com (2603:10b6:a0f:fc02::815)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8901.25; Fri, 11 Jul
+ 2025 05:17:48 +0000
+Received: from DS0PR11MB7958.namprd11.prod.outlook.com
+ ([fe80::d3ba:63fc:10be:dfca]) by DS0PR11MB7958.namprd11.prod.outlook.com
+ ([fe80::d3ba:63fc:10be:dfca%6]) with mapi id 15.20.8901.024; Fri, 11 Jul 2025
+ 05:17:48 +0000
+Message-ID: <75802ca6-42f9-48e6-bd15-72d2d38f5234@intel.com>
+Date: Fri, 11 Jul 2025 10:47:39 +0530
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v4 1/9] drm: Add a vendor-specific recovery method to
+ device wedged uevent
+To: Raag Jadav <raag.jadav@intel.com>, Rodrigo Vivi <rodrigo.vivi@intel.com>
+CC: =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>, Simona Vetter
+ <simona.vetter@ffwll.ch>, <intel-xe@lists.freedesktop.org>,
+ <anshuman.gupta@intel.com>, <lucas.demarchi@intel.com>,
+ <aravind.iddamsetty@linux.intel.com>, <umesh.nerlige.ramappa@intel.com>,
+ <frank.scarbrough@intel.com>, <sk.anirban@intel.com>,
+ =?UTF-8?Q?Andr=C3=A9_Almeida?= <andrealmeid@igalia.com>, David Airlie
+ <airlied@gmail.com>, <dri-devel@lists.freedesktop.org>
+References: <20250709112024.1053710-1-riana.tauro@intel.com>
+ <20250709112024.1053710-2-riana.tauro@intel.com>
+ <aG5xglf8BeGzleWM@phenom.ffwll.local>
+ <d42e17ef-30ce-4bf1-9948-7f08fd6f3bac@amd.com>
+ <aG56Trd1h5WbWYJt@black.fi.intel.com> <aG6eNcygPshsSlC8@intel.com>
+ <aG-BcFN6M9BtjB2j@phenom.ffwll.local>
+ <cd206f9e-be53-4b22-a166-ed18fa9b833a@amd.com>
+ <aG-U9JTXDah_tu1U@black.fi.intel.com> <aHANtkxkhI4_Nb6R@intel.com>
+ <aHA0qzCZH-gWCfOD@black.fi.intel.com>
+Content-Language: en-US
+From: Riana Tauro <riana.tauro@intel.com>
+In-Reply-To: <aHA0qzCZH-gWCfOD@black.fi.intel.com>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 8bit
+X-ClientProxiedBy: MA0PR01CA0046.INDPRD01.PROD.OUTLOOK.COM
+ (2603:1096:a01:81::16) To DS0PR11MB7958.namprd11.prod.outlook.com
+ (2603:10b6:8:f9::19)
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: PAXPR04MB9642:EE_|DB8PR04MB6796:EE_
-X-MS-Office365-Filtering-Correlation-Id: ae724cba-9273-4ecd-3408-08ddc038caca
+X-MS-TrafficTypeDiagnostic: DS0PR11MB7958:EE_|SJ5PPF183C9380E:EE_
+X-MS-Office365-Filtering-Correlation-Id: 42423003-23a9-4c16-eb2d-08ddc03a4653
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
- ARA:13230040|19092799006|366016|7416014|376014|52116014|1800799024|38350700014;
-X-Microsoft-Antispam-Message-Info: =?us-ascii?Q?28lpnxpcgubSlZ+unylCYjf51TjfJnKRn2iDADd1HxBVGA+Y7vMSx7yp1aJK?=
- =?us-ascii?Q?LtEp/pUHHYFg0wlJ5UuFpyLpE91Oqn1DeN9iJinbGZXoR0HRfgU/VqMgtnvS?=
- =?us-ascii?Q?su7VziNhqNMyraCGzLndmc2O1JMpSl+ZJwn8oNoOTH8yQJcTU17rlmXyenUb?=
- =?us-ascii?Q?xjI0PiizyA5U8j+VNZLZ+1TKPa1EVrR1NC122Rbfu+8h/QKCTV0G/2X/RMvl?=
- =?us-ascii?Q?FT3UW2TjOZ3Z9c4GnDC2oGbwGoBfbCr/Izps56EnGt1bIobr/zoq+SNOCEjm?=
- =?us-ascii?Q?UbvvCS5RhIFuG4//JuwUWXSNZO9L6HBZEo/EIjNuJ/fTaEcRvLu06MW+L58H?=
- =?us-ascii?Q?fzGUQNEB0JFQY8es4nQTucLSq9OT6K7eLM423ecK0Ol/bnFUbc9tLlasv7Lq?=
- =?us-ascii?Q?FPsNqfG/ny4brvPhiodHFEsvvdgdPzZkxviBxpb7GXuxZeckq6u1n2Bq9nlQ?=
- =?us-ascii?Q?tUX7WWi1o6gENksFouS5cqAr51DHy6MvtXyDuRuVcVOhgoo8285RpJA1rwae?=
- =?us-ascii?Q?ZAtZg0YgdtqtqMmB1MKwC4/q0K9NGXH3W0GfRbYF0xtsbUi04fFBxRDCkYB8?=
- =?us-ascii?Q?E/+7ja0jVuALbwcvveZFxF6wXpn/SX6RpKrM1EKQLq2C9ZDLx/GCA6VHzVof?=
- =?us-ascii?Q?lkPGg/OSQFbM5/kjetiWq5iIpSampvfFiOwUVR78udacxT2hNsrXTdMN88Gx?=
- =?us-ascii?Q?BM9q0AIRgO+ry4tl0271o0ccR6uILXDhz8f3pf8hdzn1qu+jUb6c5Sap2fgD?=
- =?us-ascii?Q?Nbjkrw+kGjh5F7gMJzWDdaRD3Mxu2912oxuPc5K/Xu18HIIw+YYKFSo+jVGH?=
- =?us-ascii?Q?6cVTf6qOBL0li+vbJp6jSt8xp5Kp6iGc+LzQEem9/TrbuaM/yaDlBtVHFxhK?=
- =?us-ascii?Q?0QvFS7p4jAjOVD2HQjtFObJbs4aJmiJcu8OE3QP9BBoDlMDcyx5MZ3deBw2O?=
- =?us-ascii?Q?2mhZAT2uk4OQ+U5CByd5+y8E4vBox+mUbEhYmE18aQ/zXp3QOiVjP/YatWdA?=
- =?us-ascii?Q?YKO4NqTlspP8CKLMD0Yr5ZuekqjVzfR5A5z4ZjveLABpAMtaj/OeIYfe/TKV?=
- =?us-ascii?Q?INO3DmJWeLMn5N/7QVQMqmbsyCD/oFTs6raNH1TdEbzN2h36BAKn4gxIIU32?=
- =?us-ascii?Q?ri+BxcG54+1117TKndwW8XGJbiNY3y8Fms0ceN3fzQDQerO0CMreN84laSWc?=
- =?us-ascii?Q?V5bCWGKl4zL3VFEcDvSIxCNhGv4hGKtqbChfdUw/X9dyNqHnxawX1vEl5mm+?=
- =?us-ascii?Q?Lba3J0HaAIxLRrz9Q07dUkB6Xb0NmnIVSEx9uqxvWbwCmTM2tU/Thh7b4Wee?=
- =?us-ascii?Q?QuLRIIXSi4/YRq2GhEkBdSv5Pd5IkBqG5Ym+QexUVtn7Z990A50uLM23CLUv?=
- =?us-ascii?Q?sWkMnTy85EVbPmJQjAXCSJaGtk3aejuCQ9y5ngHTniDt87p7teSNy0u4QLp9?=
- =?us-ascii?Q?Z/l2oyntMqRaKZAVLr6U/bnVX19kaH/4opzXzvjJ0Z7W+T0imWhT4yOK9RYa?=
- =?us-ascii?Q?X1eYnDxxdGROzDY=3D?=
+X-Microsoft-Antispam: BCL:0;ARA:13230040|366016|376014|1800799024|7053199007;
+X-Microsoft-Antispam-Message-Info: =?utf-8?B?L2FKa2VxTGJxSmc4YUNmMkdXQVpmelpESnJXZU5odXF3dGFoZDQyWEJQRzRH?=
+ =?utf-8?B?OWFaR0p5ZzQwMkJYWVBUY2lTQUhBdTNiMS8wclhOa1lBMTFKWFhWRHliVGJP?=
+ =?utf-8?B?SDY4ekIwMWd3ck5TWG1uWW43ZW5sS0Yra2ZlM1Z0dTZ3Qldrc3MrMWFCd1NQ?=
+ =?utf-8?B?M1FCWHZwRFhVMDkxL1pJdXo5LytmdGpEU3liZGk1STR2a3doYzJXTXl1TG44?=
+ =?utf-8?B?U0I1ZE9KVjB0SUlUUEVOTzhVMlhlUjdCN1o5eksvRFRaTWc5TmpmdzNOL01o?=
+ =?utf-8?B?UEZJc3NOUGVHYk83d1pnSjd0QUZhSUhzclMzd1J2RUlpZEZDNTZLY080Q0o1?=
+ =?utf-8?B?WUx3VlhGV2NrcEo5M2Z2K2krd3hZOUNaRWtqQ1NrRmplT2tlc0ViTTlDa09r?=
+ =?utf-8?B?bUNtNTUrZUN6aXB4ZTZtdW9WU2xJS21JL2Y5SGVaczBhcklkbytVUDRCSzhs?=
+ =?utf-8?B?MzJSRVc0N0lOdXlqOFJCSWxhWWFtTUpZcnJaeG05ZUdISWtyZGpRMHhiNEFX?=
+ =?utf-8?B?NG1iWGVpTTk2ajNJNS9TdEJ1QkxNSExEdlZ0eVRJZ2lkMGpCUWF5Q3NZYzZw?=
+ =?utf-8?B?NnhkM0xyaDNvMHBMWjR4NzZ4WkFUSmtmNUV2VHp4WkRHcUNtQ2l4L1NyU2tG?=
+ =?utf-8?B?MGJRZHBuNU11dXNpSk1JMXBwMDlOSm9ybVhaN0R0cnNsUkRuVFd2cTR0bDB6?=
+ =?utf-8?B?OXZCSU0xVU1WVmNVaVY1TGZFRE9ZTVhQd2VUbzcxT2JiRnkyZ3phbmo2MW1z?=
+ =?utf-8?B?MnliVEN0eWFPTStNQ0ZLelB2TlRKQ0RJU1BmUGhaTUxIcTQvdW1QajdUNzBQ?=
+ =?utf-8?B?NkNtMlZDaHg3U3lvV081L3J3NkllR1pKdEcvdGs5dGxhU0hOS0d3SHV3SHNp?=
+ =?utf-8?B?OHpvK3ZVTW5lTkprVWp1eGZET1Npc0lyNURlTmlxQjU4ZVNoWk8raWNCUnpR?=
+ =?utf-8?B?Y2NvSVM0UllVbmpnTmQwclVyQVJyTUcwL3RscFVxYlZ3eE8vZ3BQY0JmZFp6?=
+ =?utf-8?B?ZEtWY2NkRnUrYWtzUmxsbUEyWGQwMXU2emRmaVA2NWxwa3BCNDlqRzhSTkRU?=
+ =?utf-8?B?YkxhWDB2aVEzeTVWUVRINEs3QWVxc1NyVHAyZnNmWjJSSE5JbmR4cFhTcmUz?=
+ =?utf-8?B?U2JlMkhJK25WbzdkMnNqT253YXl3M3c3WHdCZEk1Q0RkV1lOSW53QUsvUUU5?=
+ =?utf-8?B?OWw5TWlXZkh0NzdXTXI0eEFKUk9Jai8xM1drNGJDTnptMm5TazZBUCsxS1RS?=
+ =?utf-8?B?U1BodWRYb2NoaTJoWklWQTQ5a0JUY0lSdzhMU0JEMEVXWTQzdXQxVWdIZTMr?=
+ =?utf-8?B?TkV3NDg1RGVqcWRCUmpHTFh3dmI5OFhVTHE5VCswaE95OWtZS1ArRUFwOWxJ?=
+ =?utf-8?B?ZFNOVGtZVloxaTZZOERZSG4vcVRhaGFLR1o2R00rMk02MnJOZWJCOWVMNHlC?=
+ =?utf-8?B?QUlXYVk1L1BtMHF1SEtvZjA2L2NMT3FpQ2g2MmJlVlkwQzBIeXBSMEx5K2RF?=
+ =?utf-8?B?SEdaQjhUWm00cVh2aGJiQWdkbkdDdUREWmErZ2Vjb3M1OFJaU0ZXVzZJdFJZ?=
+ =?utf-8?B?Yk4yVmtweVN3WUxnQTJ5QXZSN250VHV4Nlg2VTF0elZzTkhjaTAzWFhmakd1?=
+ =?utf-8?B?Qmt0U0VwQTNoYmNseVZsc0NrekVOeVJpcTkvOE9uc3lOUEFwaG1xbUlZVm9J?=
+ =?utf-8?B?NHBIUS9PRkNNdURIQk5HSjRkT2dlQ1hiSFpwbzZxZjhMbWk3OU1TWlBROHIw?=
+ =?utf-8?B?U05XMmZ2cWl0dkRZOG16b3NQZkxjQVZuRyszYjhXS0dmZUdDcDNXem9Sc2xP?=
+ =?utf-8?B?dXhEQUwwdHFRZG5nMmd1YWQwRFhyRlN1M0JXY213VS9rZGhaWWw0VW1lQVk3?=
+ =?utf-8?B?ekRJcC9SYlZxUTYvSnloME5zektZbGpvcWZLUkhsWUVIS0VFei9IOXZweUdX?=
+ =?utf-8?Q?vDN06J+I6UU=3D?=
 X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:PAXPR04MB9642.eurprd04.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230040)(19092799006)(366016)(7416014)(376014)(52116014)(1800799024)(38350700014);
- DIR:OUT; SFP:1101; 
+ IPV:NLI; SFV:NSPM; H:DS0PR11MB7958.namprd11.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230040)(366016)(376014)(1800799024)(7053199007); DIR:OUT; SFP:1101; 
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?YHkw6wZ30wVQjnkP1ylagxJuf1pbXfe6O4HKQ9GsdPln4Qxx7A8Aj49YjhjV?=
- =?us-ascii?Q?VbWR+zXzD7+jnuJv2mGJ+BHU8wam/Ttf/gYpRnO4CoRhksi9DglRxZwHZGTw?=
- =?us-ascii?Q?XsoznyjnRXGEtIjzgXMZIULO5G9BsjFrQ7u6aMF0VtmdfJoGSsx+vu9lSdLy?=
- =?us-ascii?Q?mnIZQG70seI5eG/1g1BPqZBJyvJoY7MY1rKAPFwP/MauK+KfUPpSIk7Ciulc?=
- =?us-ascii?Q?P6OuNNss4JPKkFxnoCZg1ANmkYw09mSs6xAo5b652RZStrRZhnAtIMU8mAA4?=
- =?us-ascii?Q?45Dw5KjdHkCvS39sMbxSUQsZuzOrrfvUPN7qY4QugwZi242JezZqRENGwPwi?=
- =?us-ascii?Q?jASlcIbz+jjT6hrz7AZvYLjIwuc0VvYmqiumDEFt5NCf2n+5wKQFBDGZvBcl?=
- =?us-ascii?Q?mgxGZsYt7N3VfHGWf5Zvl9eEEE0RE4Dqak2IJpuJ44BKcLvqCZyItU1k35wG?=
- =?us-ascii?Q?eSQgJgs8Q+L6WsEaNc9GQulbpaZz61Gid6igmejSNtPC3LpRGe61g3CLDlRi?=
- =?us-ascii?Q?4/S+Q30gaC7ALcdxzZ4WG4AhYE1uKZ5mNNDjtSbEghqp0Nvl49qpUi5pwfN3?=
- =?us-ascii?Q?gW5vIaUy5uo/DlDoidHzGM5sfJAEBESbf+ka6f64AO4xCp6mVHxf1bV0RGm8?=
- =?us-ascii?Q?gLf09wLjDkEgun6v42dUdOTishdbboykn3PSIsT8wdHhcGMgLMHbSMJvlUWb?=
- =?us-ascii?Q?voum4B1DamsIGxo/SAVIfMLBQs4nVs/Fw4hU0PKwOItXFrcezmt2K4xw+CzM?=
- =?us-ascii?Q?JuNhRsvzav1BcOTjJkFRGMj43ONRYqbA65DrF07fy0Xmq2U0g5cOdR0QMD42?=
- =?us-ascii?Q?lWvtvKmgXT2x6gaygkV8I1X6zYVV+xQuhcryo1V9WiU1zI0RvashS5b3+/vC?=
- =?us-ascii?Q?T88DF7kB9z9L9MROQY0Rq035QM9+mWsLvFIOZX5Hsrve1tziM+gWrqIgr1k0?=
- =?us-ascii?Q?rCq6nz4rawJ3WKj3GNsxwkKOViixkvg5IE5SVi0DV40DU6VzP8QlYsszxIXc?=
- =?us-ascii?Q?TPZgMOFzDKLEpvL7lu+n+fONluUXneKBYfaIvEYhFqxJiv28vXoKsJ/3NWTT?=
- =?us-ascii?Q?52Mq5fdNeTNJEVtLCSaZgz5Y9ykKK9IYEYi/s1V6MXwOzXVfveSwufH96SYR?=
- =?us-ascii?Q?fff7Oj604P60m8/bbJQaAyUFclFPoazDvNFR9MH7wtH5HkxH1UoNvakeP2X7?=
- =?us-ascii?Q?fWN5ZMFLMUHZ1objD109ZghgKJ51OYFccjDMW8Lb1Rp0Iib2skMi7ioUlbfL?=
- =?us-ascii?Q?qrW45i99ze5i6IFZW3aFIaulwEiBWYVXbL0XAS8UuSbsax8yV8Guei5tT72c?=
- =?us-ascii?Q?Ffyo437Vi1s6y9EJtYsZvWnMaxsB1YR/hfjmbgfeC0vO8v1/fuCxnvJ95MnZ?=
- =?us-ascii?Q?ovJ6cpDdCDNqsyFwvZoVLW1LQ6/1fRODLDp45B484DoFzD+OX7pox9b8tfR3?=
- =?us-ascii?Q?VwweRlvwRtLZj3hNrHSHWFkwf4oR/1qtTSpMIxoR5iYcb/lQZCC5bKKRWFvX?=
- =?us-ascii?Q?MgufBEhhaUtTlS3s64+3YUVJm9zrIxiboUdtTceuOjSmV9AXPceBa4t0qTYl?=
- =?us-ascii?Q?7p4KHwzuquOHrvTOtEw0CFviyJ9u/bEVAiSXO5JD?=
-X-OriginatorOrg: nxp.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: ae724cba-9273-4ecd-3408-08ddc038caca
-X-MS-Exchange-CrossTenant-AuthSource: PAXPR04MB9642.eurprd04.prod.outlook.com
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?Wmt1MWp6d1dILzVsWVI0TnVlalZuYVc1R2hiZ0xadGZ5NGVnZCttRlJvZlRT?=
+ =?utf-8?B?Q3JWZ3M1eU9yVGFCU0ljRHI0VnBCRlVPR081MnN5WEZUaWpJSThBd0FXMk9V?=
+ =?utf-8?B?cVUwWTh6b04wa2lIdlpBRDFiVWNrKzlsdjdldFdlemYwNEVqNVBNKyt0NVJB?=
+ =?utf-8?B?SDNsQVpNYXlydTgrV3NWZG51NE9kVXlnRkkrenpCVkJVNVcvS2FNblQ4ZW9V?=
+ =?utf-8?B?QTJuREdkc0VEanZjTVlzYzlkOVRrd2dETDlsN3hSWldJQ0FEK2FFWjNkbkVp?=
+ =?utf-8?B?SjZTS2tDdFZ5YjVmNmFZL2NXb250RmZvWnNIbFZ1S29ZQitMMllPUDhaQ3N3?=
+ =?utf-8?B?bjQ1VjhhVi9Sd2hmUUg2dEx0Q0FLTHhYZTlFSVo4dXFseldhdWtGRnd1a0ls?=
+ =?utf-8?B?bStFN01YbklqMW1JcHRsZEE2WVJLclRldEo1WFV4NWM1dUQ2VFFGUFNUZUMy?=
+ =?utf-8?B?aVJiWjJ6Z3VmQ0dDM2VnTE9hWDVQQm1nMjlWS1VrT05oc1Q4WG9zVE90Z1lj?=
+ =?utf-8?B?QUhWUERwUktzQ1ppSGNrTkdNZTZ1dkVTZEpHVTdmMjlkcHQyMGd5enljelFz?=
+ =?utf-8?B?ZG4ycm9MWlpWQ1k0ZU5mczV5VENnOExVM1Q5ZWVYMFpZeXgxcjZpSmJUUFhE?=
+ =?utf-8?B?NEhlMm96dDAvWVhrdjJCWWJmSkRNem45bjIrQkt3VG92Q21XbkcxZTBsMW9x?=
+ =?utf-8?B?bTZTaU5zMllBQ1NaVHVJMHlOempBczQxVjAwNGpPRWRHK2FtOHp5M0pmaGNk?=
+ =?utf-8?B?YWU2bXRaTXhGNWsxcUhEeWo2eHpEaXNCKy9EbFIwQ0E3eFU3QjVuUlRCeGJu?=
+ =?utf-8?B?NHlGeUhoODkzeGJFUU1KcjkyN2ZyYmo3dU9FY21tTVJFSHlCMm41RVdmbGU5?=
+ =?utf-8?B?L2dPYWpWNXlyWk40WjJqRjBvckpKakNHN1UzWmtRbjlmblJwc2Rlem0vQWpu?=
+ =?utf-8?B?TDR4K1Ntb2lFWm42dDI2dHBrc0MycHlaQmhYK1FGaEFLN1RET0xmZnhRb2U4?=
+ =?utf-8?B?K25IbjdHL2hSY1Jabi9UN1phRjFqamVCUVlGVno0cWE0Um1tYnpVOEwzYktB?=
+ =?utf-8?B?YjkzZkg4OWhTQWY5RWRmNXZ3SUdTRStuSE1iMWVzQWE2c0ZaQTVZMVNpNXpp?=
+ =?utf-8?B?VjBNVkcvbVFxSmgwNnpnenRYdHlZQktETVkxbmVwNW52b21RN3ZsSlBXNEha?=
+ =?utf-8?B?Z3JqSWJhMDc0STgwWjBOUllqMlNSdlJlNzlzcEVVenl1em9aZk1sdUo5SlJK?=
+ =?utf-8?B?QzBGNWZhM3pTeU8rVVRHMnpmNjU0N21RNENWdndoK3pqd1d3a2pCZXluZGRt?=
+ =?utf-8?B?S1R3WDc5U2M2QzhLeVljeHp6TkxqK0hNUHJtRk1BUWw5S2FqVlNEVGp5RW1S?=
+ =?utf-8?B?SXpYdnMxNklRQmJNckFIcTQ5Q2F2M0hXZ0xPUkZrTFBCbTU5TkxYQ2Q2MXBm?=
+ =?utf-8?B?MU9rSHZWVS80L0pqOURiYVZyb3B1WGY4SERpMG9MbkpyZjBFUjkwVHU3NElS?=
+ =?utf-8?B?aE5xMFd5VjRGcHlReFdza0pqVXJJaGxtdGlFVzI2RDFiZmgxU1cwQUpVZXd1?=
+ =?utf-8?B?WktnZTFyUnBtOGs4UTJxVFgvVHdNa0pONDRXbFM0dVBXUTRnVXF5ZElWTytm?=
+ =?utf-8?B?WTY0WlV1V1FnTVc5eVl3bXZUanplUnZWbmdWdlFqS2FMWVBaZEpCdWxJVlls?=
+ =?utf-8?B?TzR0WEV1Q2hmQUg5aVowZGJqbUkybTNVcW9aaTJxeDVuTDFIdTI3Ylk3bnBk?=
+ =?utf-8?B?WE01L25pcDVKRlFsQ0xQNE5hb29jN2dBd0FlMWpSSmx0emJ0czF3L1pIbGtG?=
+ =?utf-8?B?WlA4RkZRTmY3SHBDVVM5b0ZxYWhWN2dhcUVQOEc5QXBLMThwaTA3bHhFV3dP?=
+ =?utf-8?B?b3pHbXZDclZab0ZIZDVzOW5icnhraEJya1JCTUkraHNuTHZVS0pxUEEzTWtj?=
+ =?utf-8?B?V1VLTGowSkc4dWNOZkw0MkdXWWFRODFnZnhaTjhrSU9Wayt4S3JRMXppTHhr?=
+ =?utf-8?B?YnJNU0hJOS85TnpDZ1FrcWhtMFlJc2UwaDNKZWk3Q040dDI4ZGRROHdiTnlT?=
+ =?utf-8?B?RDJlWGtYYS8zRTZ5d1dKU2NMZlJDYjVVdU9xY1E4OGE1QWJWd3lvMHZyaE5z?=
+ =?utf-8?Q?1R1erktyXmv4t+39bTU4Yksj6?=
+X-MS-Exchange-CrossTenant-Network-Message-Id: 42423003-23a9-4c16-eb2d-08ddc03a4653
+X-MS-Exchange-CrossTenant-AuthSource: DS0PR11MB7958.namprd11.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 11 Jul 2025 05:07:11.2744 (UTC)
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 11 Jul 2025 05:17:48.1179 (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635
+X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: +ZHwF6CRaTnJt1vN7K3Twp2iF9ARcoWYGWeFbRtRvjZ+IMIkr/Vdg8jHUxytrTNh/RN9MMAbT1I9YN7mWkLEQA==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DB8PR04MB6796
+X-MS-Exchange-CrossTenant-UserPrincipalName: tBHVjB6sPPc/GGHSbbtsTZe+CO9CWqvROtaU4R9SHTcz5kxq2MoeZR5KcpnBI0akjIOHw3+2hWVSSVajz0vGuA==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SJ5PPF183C9380E
+X-OriginatorOrg: intel.com
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -153,238 +209,239 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, Jul 09, 2025 at 03:23:26PM +0300, Laurentiu Palcu wrote:
-> Add DT nodes for DCIF and LVDS in imx943.dtsi and activate them in
-> imx943-evk.dts.
->
-> Signed-off-by: Laurentiu Palcu <laurentiu.palcu@oss.nxp.com>
-> ---
->  arch/arm64/boot/dts/freescale/imx943-evk.dts | 126 +++++++++++++++++++
 
-Shawn require board dts need sperate patch.
 
->  arch/arm64/boot/dts/freescale/imx943.dtsi    |  56 ++++++++-
->  2 files changed, 181 insertions(+), 1 deletion(-)
->
-> diff --git a/arch/arm64/boot/dts/freescale/imx943-evk.dts b/arch/arm64/boot/dts/freescale/imx943-evk.dts
-> index c8c3eff9df1a2..e7de7ba406407 100644
-> --- a/arch/arm64/boot/dts/freescale/imx943-evk.dts
-> +++ b/arch/arm64/boot/dts/freescale/imx943-evk.dts
-> @@ -125,6 +125,132 @@ memory@80000000 {
->  		reg = <0x0 0x80000000 0x0 0x80000000>;
->  		device_type = "memory";
->  	};
-> +
-> +	hdmi-connector {
-> +		compatible = "hdmi-connector";
-> +		label = "hdmi";
-> +		type = "a";
-> +
-> +		port {
-> +			hdmi_connector_in: endpoint {
-> +				remote-endpoint = <&it6263_out>;
-> +			};
-> +		};
-> +	};
-> +};
-> +
-> +&dcif {
-> +	status = "okay";
-> +};
-> +
-> +&ldb {
-> +	assigned-clocks = <&scmi_clk IMX94_CLK_LDBPLL_VCO>,
-> +			  <&scmi_clk IMX94_CLK_LDBPLL>;
-> +	assigned-clock-rates = <4158000000>, <1039500000>;
-> +	status = "okay";
-> +
-> +	ports {
-> +		#address-cells = <1>;
-> +		#size-cells = <0>;
+On 7/11/2025 3:16 AM, Raag Jadav wrote:
+> On Thu, Jul 10, 2025 at 03:00:06PM -0400, Rodrigo Vivi wrote:
+>> On Thu, Jul 10, 2025 at 01:24:52PM +0300, Raag Jadav wrote:
+>>> On Thu, Jul 10, 2025 at 11:37:14AM +0200, Christian König wrote:
+>>>> On 10.07.25 11:01, Simona Vetter wrote:
+>>>>> On Wed, Jul 09, 2025 at 12:52:05PM -0400, Rodrigo Vivi wrote:
+>>>>>> On Wed, Jul 09, 2025 at 05:18:54PM +0300, Raag Jadav wrote:
+>>>>>>> On Wed, Jul 09, 2025 at 04:09:20PM +0200, Christian König wrote:
+>>>>>>>> On 09.07.25 15:41, Simona Vetter wrote:
+>>>>>>>>> On Wed, Jul 09, 2025 at 04:50:13PM +0530, Riana Tauro wrote:
+>>>>>>>>>> Certain errors can cause the device to be wedged and may
+>>>>>>>>>> require a vendor specific recovery method to restore normal
+>>>>>>>>>> operation.
+>>>>>>>>>>
+>>>>>>>>>> Add a recovery method 'WEDGED=vendor-specific' for such errors. Vendors
+>>>>>>>>>> must provide additional recovery documentation if this method
+>>>>>>>>>> is used.
+>>>>>>>>>>
+>>>>>>>>>> v2: fix documentation (Raag)
+>>>>>>>>>>
+>>>>>>>>>> Cc: André Almeida <andrealmeid@igalia.com>
+>>>>>>>>>> Cc: Christian König <christian.koenig@amd.com>
+>>>>>>>>>> Cc: David Airlie <airlied@gmail.com>
+>>>>>>>>>> Cc: <dri-devel@lists.freedesktop.org>
+>>>>>>>>>> Suggested-by: Raag Jadav <raag.jadav@intel.com>
+>>>>>>>>>> Signed-off-by: Riana Tauro <riana.tauro@intel.com>
+>>>>>>>>>
+>>>>>>>>> I'm not really understanding what this is useful for, maybe concrete
+>>>>>>>>> example in the form of driver code that uses this, and some tool or
+>>>>>>>>> documentation steps that should be taken for recovery?
+>>>>>>
+>>>>>> The case here is when FW underneath identified something badly corrupted on
+>>>>>> FW land and decided that only a firmware-flashing could solve the day and
+>>>>>> raise interrupt to the driver. At that point we want to wedge, but immediately
+>>>>>> hint the admin the recommended action.
+>>>>>>
+>>>>>>>>
+>>>>>>>> The recovery method for this particular case is to flash in a new firmware.
+>>>>>>>>
+>>>>>>>>> The issues I'm seeing here is that eventually we'll get different
+>>>>>>>>> vendor-specific recovery steps, and maybe even on the same device, and
+>>>>>>>>> that leads us to an enumeration issue. Since it's just a string and an
+>>>>>>>>> enum I think it'd be better to just allocate a new one every time there's
+>>>>>>>>> a new strange recovery method instead of this opaque approach.
+>>>>>>>>
+>>>>>>>> That is exactly the opposite of what we discussed so far.
+>>>>>
+>>>>> Sorry, I missed that context.
+>>>>>
+>>>>>>>> The original idea was to add a firmware-flush recovery method which
+>>>>>>>> looked a bit wage since it didn't give any information on what to do
+>>>>>>>> exactly.
+>>>>>>>>
+>>>>>>>> That's why I suggested to add a more generic vendor-specific event
+>>>>>>>> with refers to the documentation and system log to see what actually
+>>>>>>>> needs to be done.
+>>>>>>>>
+>>>>>>>> Otherwise we would end up with events like firmware-flash, update FW
+>>>>>>>> image A, update FW image B, FW version mismatch etc....
+>>>>>
+>>>>> Yeah, that's kinda what I expect to happen, and we have enough numbers for
+>>>>> this all to not be an issue.
+>>>>>
+>>>>>>> Agree. Any newly allocated method that is specific to a vendor is going to
+>>>>>>> be opaque anyway, since it can't be generic for all drivers. This just helps
+>>>>>>> reduce the noise in DRM core.
+>>>>>>>
+>>>>>>> And yes, there could be different vendor-specific cases for the same driver
+>>>>>>> and the driver should be able to provide the means to distinguish between
+>>>>>>> them.
+>>>>>>
+>>>>>> Sim, what's your take on this then?
+>>>>>>
+>>>>>> Should we get back to the original idea of firmware-flash?
+>>>>>
+>>>>> Maybe intel-firmware-flash or something, meaning prefix with the vendor?
+>>>>>
+>>>>> The reason I think it should be specific is because I'm assuming you want
+>>>>> to script this. And if you have a big fleet with different vendors, then
+>>>>> "vendor-specific" doesn't tell you enough. But if it's something like
+>>>>> $vendor-$magic_step then it does become scriptable, and we do have have a
+>>>>> place to put some documentation on what you should do instead.
+>>>>>
+>>>>> If the point of this interface isn't that it's scriptable, then I'm not
+>>>>> sure why it needs to be an uevent?
+>>>>
+>>>> You should probably read up on the previous discussion, cause that is exactly what I asked as well :)
+>>>>
+>>>> And no, it should *not* be scripted. That would be a bit brave for a firmware update where you should absolutely not power down the system for example.
+>>
+>> I also don't like the idea or even the thought of scripting something like
+>> a firmware-flash. But only to fail with a better pin point to make admin
+>> lives easier with a notification.
+>>
+>>>>
+>>>> In my understanding the new value "vendor-specific" basically means it is a known issue with a documented solution, while "unknown" means the driver has no idea how to solve it.
+>>
+>> Exactly, the hardware and firmware are giving the indication of what should be
+>> done. It is not 'unknown'.
+>>
+>>>
+>>> Yes, and since the recovery procedure is defined and known to the consumer,
+>>> it can potentially be automated (atleast for non-firmware cases).
+>>>
+>>>>> I guess if you all want to stick with vendor-specific then I think that's
+>>
+>> Well, I would honestly prefer a direct firmware-flash, but if that is not
+>> usable by other vendors and there's a push back on that, let's go with
+>> the vendor-specific then.
+> 
+> I think the procedure for firmware-flash is vendor specific, so the wedged event
+> alone is not sufficient either way. The consumer will need more guidance from
+> vendor documentation.
 
-imx94.dts already set it
+Procedure of firmware-flash is vendor specific, but the term 
+'firmware-flash' is still generic. The patch doesn't mention any vendor 
+specific firmware or procedure. The push back was for the number of 
+macros that can be added for other operations.
 
-Frank
-> +
-> +		port@1 {
-> +			reg = <1>;
-> +
-> +			lvds_out: endpoint {
-> +				remote-endpoint = <&it6263_in>;
-> +			};
-> +		};
-> +	};
-> +};
-> +
-> +&lpi2c3 {
-> +	clock-frequency = <400000>;
-> +	pinctrl-0 = <&pinctrl_lpi2c3>;
-> +	pinctrl-names = "default";
-> +	status = "okay";
-> +
-> +	pca9548_i2c3: i2c-mux@77 {
-> +		compatible = "nxp,pca9548";
-> +		reg = <0x77>;
-> +		#address-cells = <1>;
-> +		#size-cells = <0>;
-> +
-> +		i2c@0 {
-> +			reg = <0>;
-> +			#address-cells = <1>;
-> +			#size-cells = <0>;
-> +		};
-> +
-> +		i2c@1 {
-> +			reg = <1>;
-> +			#address-cells = <1>;
-> +			#size-cells = <0>;
-> +		};
-> +
-> +		i2c@2 {
-> +			reg = <2>;
-> +			#address-cells = <1>;
-> +			#size-cells = <0>;
-> +		};
-> +
-> +		i2c@3 {
-> +			reg = <3>;
-> +			#address-cells = <1>;
-> +			#size-cells = <0>;
-> +
-> +			lvds-to-hdmi-bridge@4c {
-> +				compatible = "ite,it6263";
-> +				reg = <0x4c>;
-> +				data-mapping = "jeida-24";
-> +				reset-gpios = <&pcal6416_i2c3_u171 8 GPIO_ACTIVE_HIGH>;
-> +
-> +				ports {
-> +					#address-cells = <1>;
-> +					#size-cells = <0>;
-> +
-> +					port@0 {
-> +						reg = <0>;
-> +
-> +						it6263_in: endpoint {
-> +							remote-endpoint = <&lvds_out>;
-> +						};
-> +					};
-> +
-> +					port@2 {
-> +						reg = <2>;
-> +
-> +						it6263_out: endpoint {
-> +							remote-endpoint = <&hdmi_connector_in>;
-> +						};
-> +					};
-> +				};
-> +			};
-> +		};
-> +
-> +		i2c@4 {
-> +			reg = <4>;
-> +			#address-cells = <1>;
-> +			#size-cells = <0>;
-> +		};
-> +
-> +		i2c@5 {
-> +			reg = <5>;
-> +			#address-cells = <1>;
-> +			#size-cells = <0>;
-> +		};
-> +
-> +		i2c@6 {
-> +			reg = <6>;
-> +			#address-cells = <1>;
-> +			#size-cells = <0>;
-> +		};
-> +
-> +		i2c@7 {
-> +			reg = <7>;
-> +			#address-cells = <1>;
-> +			#size-cells = <0>;
-> +		};
-> +	};
->  };
->
->  &lpi2c3 {
-> diff --git a/arch/arm64/boot/dts/freescale/imx943.dtsi b/arch/arm64/boot/dts/freescale/imx943.dtsi
-> index 657c81b6016f2..db00a94812e18 100644
-> --- a/arch/arm64/boot/dts/freescale/imx943.dtsi
-> +++ b/arch/arm64/boot/dts/freescale/imx943.dtsi
-> @@ -148,7 +148,7 @@ l3_cache: l3-cache {
->  		};
->  	};
->
-> -	clock-ldb-pll-div7 {
-> +	clock_ldb_pll_div7: clock-ldb-pll-div7 {
->  		compatible = "fixed-factor-clock";
->  		#clock-cells = <0>;
->  		clocks = <&scmi_clk IMX94_CLK_LDBPLL>;
-> @@ -173,10 +173,64 @@ dispmix_csr: syscon@4b010000 {
->
->  		lvds_csr: syscon@4b0c0000 {
->  			compatible = "nxp,imx94-lvds-csr", "syscon";
-> +			#address-cells = <1>;
-> +			#size-cells = <1>;
->  			reg = <0x0 0x4b0c0000 0x0 0x10000>;
->  			clocks = <&scmi_clk IMX94_CLK_DISPAPB>;
->  			#clock-cells = <1>;
->  			power-domains = <&scmi_devpd IMX94_PD_DISPLAY>;
-> +
-> +			ldb: ldb@4 {
-> +				compatible = "fsl,imx94-ldb";
-> +				#address-cells = <1>;
-> +				#size-cells = <0>;
-> +				reg = <0x4 0x4>, <0x8 0x4>;
-> +				reg-names = "ldb", "lvds";
-> +				clocks = <&lvds_csr IMX94_CLK_DISPMIX_LVDS_CLK_GATE>;
-> +				clock-names = "ldb";
-> +				status = "disabled";
-> +
-> +				ports {
-> +					#address-cells = <1>;
-> +					#size-cells = <0>;
-> +
-> +					port@0 {
-> +						reg = <0>;
-> +
-> +						lvds_in: endpoint {
-> +							remote-endpoint = <&dcif_out>;
-> +						};
-> +					};
-> +
-> +					port@1 {
-> +						reg = <1>;
-> +					};
-> +				};
-> +			};
-> +		};
-> +
-> +		dcif: display-controller@4b120000 {
-> +			compatible = "nxp,imx94-dcif";
-> +			reg = <0x0 0x4b120000 0x0 0x300000>;
-> +			interrupts = <GIC_SPI 377 IRQ_TYPE_LEVEL_HIGH>,
-> +				     <GIC_SPI 378 IRQ_TYPE_LEVEL_HIGH>,
-> +				     <GIC_SPI 379 IRQ_TYPE_LEVEL_HIGH>;
-> +			interrupt-names = "common", "bg_layer", "fg_layer";
-> +			clocks = <&scmi_clk IMX94_CLK_DISPAPB>,
-> +				 <&scmi_clk IMX94_CLK_DISPAXI>,
-> +				 <&dispmix_csr IMX94_CLK_DISPMIX_CLK_SEL>;
-> +			clock-names = "apb", "axi", "pix";
-> +			assigned-clocks = <&dispmix_csr IMX94_CLK_DISPMIX_CLK_SEL>;
-> +			assigned-clock-parents = <&clock_ldb_pll_div7>;
-> +			power-domains = <&scmi_devpd IMX94_PD_DISPLAY>;
-> +			nxp,blk-ctrl = <&dispmix_csr>;
-> +			status = "disabled";
-> +
-> +			port {
-> +				dcif_out: endpoint {
-> +					remote-endpoint = <&lvds_in>;
-> +				};
-> +			};
->  		};
->  	};
->  };
-> --
-> 2.46.1
->
+
+> 
+> With vendor-specific method, the driver has the opportunity to cover as many
+> cases as it wants without having to create a new method everytime, and face the
+> same dilemma of being vendor agnostic.
+> 
+>>>>> ok with me too, but the docs should at least explain how to figure out
+>>>>> from the uevent which vendor you're on with a small example. What I'm
+>>>>> worried is that if we have this on multiple drivers userspace will
+>>>>> otherwise make a complete mess and might want to run the wrong recovery
+>>>>> steps.
+>>>
+>>> The device id along with driver can be identified from uevent (probably
+>>> available inside DEVPATH somewhere) to distinguish the vendor. So the consumer
+>>> already knows if the device fits the criteria for recovery.
+>>>
+>>>>> I think ideally, no matter what, we'd have a concrete driver patch which
+>>>>> then also comes with the documentation for what exactly you're supposed to
+>>>>> do as something you can script. And not just this stand-alone patch here.
+>>>
+>>> Perhaps the rest of the series didn't make it to dri-devel, which will answer
+>>> most of the above.
+>>
+>> Riana, could you please try to provide a bit more documentation like Sima
+>> asked and re-send the entire series to dri-devel?
+
+Sure will send the entire series to dri-devel. The documentation is 
+present in the series.
+
+> 
+> With the ideas in this thread also documented so that we don't end up repeating
+> the same discussion.
+It is mentioned in cover letter but i didn't send it to dri-devel. will 
+add more details
+
+Thanks
+Riana
+
+> 
+> Raag
+> 
+>>>>>>>>>> ---
+>>>>>>>>>>   Documentation/gpu/drm-uapi.rst | 9 +++++----
+>>>>>>>>>>   drivers/gpu/drm/drm_drv.c      | 2 ++
+>>>>>>>>>>   include/drm/drm_device.h       | 4 ++++
+>>>>>>>>>>   3 files changed, 11 insertions(+), 4 deletions(-)
+>>>>>>>>>>
+>>>>>>>>>> diff --git a/Documentation/gpu/drm-uapi.rst b/Documentation/gpu/drm-uapi.rst
+>>>>>>>>>> index 263e5a97c080..c33070bdb347 100644
+>>>>>>>>>> --- a/Documentation/gpu/drm-uapi.rst
+>>>>>>>>>> +++ b/Documentation/gpu/drm-uapi.rst
+>>>>>>>>>> @@ -421,10 +421,10 @@ Recovery
+>>>>>>>>>>   Current implementation defines three recovery methods, out of which, drivers
+>>>>>>>>>>   can use any one, multiple or none. Method(s) of choice will be sent in the
+>>>>>>>>>>   uevent environment as ``WEDGED=<method1>[,..,<methodN>]`` in order of less to
+>>>>>>>>>> -more side-effects. If driver is unsure about recovery or method is unknown
+>>>>>>>>>> -(like soft/hard system reboot, firmware flashing, physical device replacement
+>>>>>>>>>> -or any other procedure which can't be attempted on the fly), ``WEDGED=unknown``
+>>>>>>>>>> -will be sent instead.
+>>>>>>>>>> +more side-effects. If recovery method is specific to vendor
+>>>>>>>>>> +``WEDGED=vendor-specific`` will be sent and userspace should refer to vendor
+>>>>>>>>>> +specific documentation for further recovery steps. If driver is unsure about
+>>>>>>>>>> +recovery or method is unknown, ``WEDGED=unknown`` will be sent instead
+>>>>>>>>>>   
+>>>>>>>>>>   Userspace consumers can parse this event and attempt recovery as per the
+>>>>>>>>>>   following expectations.
+>>>>>>>>>> @@ -435,6 +435,7 @@ following expectations.
+>>>>>>>>>>       none            optional telemetry collection
+>>>>>>>>>>       rebind          unbind + bind driver
+>>>>>>>>>>       bus-reset       unbind + bus reset/re-enumeration + bind
+>>>>>>>>>> +    vendor-specific vendor specific recovery method
+>>>>>>>>>>       unknown         consumer policy
+>>>>>>>>>>       =============== ========================================
+>>>>>>>>>>   
+>>>>>>>>>> diff --git a/drivers/gpu/drm/drm_drv.c b/drivers/gpu/drm/drm_drv.c
+>>>>>>>>>> index cdd591b11488..0ac723a46a91 100644
+>>>>>>>>>> --- a/drivers/gpu/drm/drm_drv.c
+>>>>>>>>>> +++ b/drivers/gpu/drm/drm_drv.c
+>>>>>>>>>> @@ -532,6 +532,8 @@ static const char *drm_get_wedge_recovery(unsigned int opt)
+>>>>>>>>>>   		return "rebind";
+>>>>>>>>>>   	case DRM_WEDGE_RECOVERY_BUS_RESET:
+>>>>>>>>>>   		return "bus-reset";
+>>>>>>>>>> +	case DRM_WEDGE_RECOVERY_VENDOR:
+>>>>>>>>>> +		return "vendor-specific";
+>>>>>>>>>>   	default:
+>>>>>>>>>>   		return NULL;
+>>>>>>>>>>   	}
+>>>>>>>>>> diff --git a/include/drm/drm_device.h b/include/drm/drm_device.h
+>>>>>>>>>> index 08b3b2467c4c..08a087f149ff 100644
+>>>>>>>>>> --- a/include/drm/drm_device.h
+>>>>>>>>>> +++ b/include/drm/drm_device.h
+>>>>>>>>>> @@ -26,10 +26,14 @@ struct pci_controller;
+>>>>>>>>>>    * Recovery methods for wedged device in order of less to more side-effects.
+>>>>>>>>>>    * To be used with drm_dev_wedged_event() as recovery @method. Callers can
+>>>>>>>>>>    * use any one, multiple (or'd) or none depending on their needs.
+>>>>>>>>>> + *
+>>>>>>>>>> + * Refer to "Device Wedging" chapter in Documentation/gpu/drm-uapi.rst for more
+>>>>>>>>>> + * details.
+>>>>>>>>>>    */
+>>>>>>>>>>   #define DRM_WEDGE_RECOVERY_NONE		BIT(0)	/* optional telemetry collection */
+>>>>>>>>>>   #define DRM_WEDGE_RECOVERY_REBIND	BIT(1)	/* unbind + bind driver */
+>>>>>>>>>>   #define DRM_WEDGE_RECOVERY_BUS_RESET	BIT(2)	/* unbind + reset bus device + bind */
+>>>>>>>>>> +#define DRM_WEDGE_RECOVERY_VENDOR	BIT(3)	/* vendor specific recovery method */
+>>>>>>>>>>   
+>>>>>>>>>>   /**
+>>>>>>>>>>    * struct drm_wedge_task_info - information about the guilty task of a wedge dev
+>>>>>>>>>> -- 
+>>>>>>>>>> 2.47.1
+>>>>>>>>>>
+>>>>>>>>>
+>>>>>>>>
+>>>>>
+>>>>
+
+
