@@ -2,68 +2,67 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4A7B4B027FD
-	for <lists+dri-devel@lfdr.de>; Sat, 12 Jul 2025 01:57:41 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id DAD7BB02804
+	for <lists+dri-devel@lfdr.de>; Sat, 12 Jul 2025 01:59:00 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id AB64A10E184;
-	Fri, 11 Jul 2025 23:57:38 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4EEE010E2F5;
+	Fri, 11 Jul 2025 23:58:59 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="OTkpEGDm";
+	dkim=pass (2048-bit key; secure) header.d=linutronix.de header.i=@linutronix.de header.b="FDGJe12W";
+	dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="W7kso2If";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.19])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8B4F410E184
- for <dri-devel@lists.freedesktop.org>; Fri, 11 Jul 2025 23:57:36 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1752278256; x=1783814256;
- h=date:from:to:cc:subject:message-id:references:
- mime-version:in-reply-to;
- bh=5tT9ORXucLaTLjjDZNriJx1evuX5cza/Yehns8ks1zc=;
- b=OTkpEGDmnezAW0cUFj4O1uuxp2dy//GzFEGwpk6Ppsxt0WEtnuaW1Gz4
- xz5fIx9XMymU7cE3a0+4ZvuCZTAvL0GtSp7BZMbHVTRSzyd7KJG0rNH4m
- sEXcXWWIb72weCtd7Nymirkgmm9wROja/hf6RE1OfgCEV1002oroKB86n
- +54q1YYw7XKsEjilW/FijZprWr+xQlUMRtMXNvm0+LpvlkjDgiUnu7z8w
- siIDEPQlTIutVEYoW3T4UCVhSsIHljKtG567kq9GZ2xHywlq0v0KheNgf
- 1/BCOTClPuyLD8WIqeotYHf0ms+rA9yV+TTC17ZFnqXuzXjFB1KqgOPWQ w==;
-X-CSE-ConnectionGUID: 5OXUPeg+SROIgWRS5c2AlQ==
-X-CSE-MsgGUID: aj1ZazG+QC26r4garSCcZA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11491"; a="54436386"
-X-IronPort-AV: E=Sophos;i="6.16,305,1744095600"; d="scan'208";a="54436386"
-Received: from fmviesa006.fm.intel.com ([10.60.135.146])
- by orvoesa111.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 11 Jul 2025 16:57:36 -0700
-X-CSE-ConnectionGUID: OqbzDUo+S4e1ZPXqnfb15g==
-X-CSE-MsgGUID: /djIIIW1RIyf+YXjuYsB/w==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.16,305,1744095600"; d="scan'208";a="156572850"
-Received: from lkp-server01.sh.intel.com (HELO 9ee84586c615) ([10.239.97.150])
- by fmviesa006.fm.intel.com with ESMTP; 11 Jul 2025 16:57:32 -0700
-Received: from kbuild by 9ee84586c615 with local (Exim 4.96)
- (envelope-from <lkp@intel.com>) id 1uaNcP-0006uV-37;
- Fri, 11 Jul 2025 23:57:29 +0000
-Date: Sat, 12 Jul 2025 07:57:00 +0800
-From: kernel test robot <lkp@intel.com>
-To: iuncuim <iuncuim@gmail.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>,
+Received: from galois.linutronix.de (Galois.linutronix.de [193.142.43.55])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A445D10E2F5
+ for <dri-devel@lists.freedesktop.org>; Fri, 11 Jul 2025 23:58:57 +0000 (UTC)
+Date: Sat, 12 Jul 2025 01:58:54 +0200
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
+ s=2020; t=1752278335;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=imT5HqEkRSNprP7W6NEIrAdL8HwowAu3v+5Es6PMFwM=;
+ b=FDGJe12WV9YV6S3fOxMQ+q4kz9C+xvc9/5227EAJ793/L4hXgNzPtri4QIAKKLFHbVO8RT
+ uW6B9B05weML4Vz4LU0D3IjvnvYmFpD7BweyRpEGBbQ9ASPi38tPIZusebyM26b1dUzau4
+ brQSyBwmjYDNOqfrE7eYeeRvMSFs0YxpAdHh7rppoY71nJXYqDfhFObtnbtqP+L1kY93jf
+ 9b4OokjKzeM1KDIhVuehERYguwk4E9xu5Psh1sE/ZOuOXxSnvKRyDADdOWnov36ibGbqLX
+ xzn5096FQq7D3q30RjJ35gwY0pWI/19ITsKGatekP02CfRQeVtTXKYlkG2sDow==
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=linutronix.de;
+ s=2020e; t=1752278335;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=imT5HqEkRSNprP7W6NEIrAdL8HwowAu3v+5Es6PMFwM=;
+ b=W7kso2IfTKsUrGr4a0eZJAEAENj+pddcsr3DyvSVsWDnogvCKgOeudCbk4HPfVsHOG/80i
+ 4W9bLePA2Sc7K1AA==
+From: Nam Cao <namcao@linutronix.de>
+To: Linus Torvalds <torvalds@linux-foundation.org>
+Cc: Jakub Kicinski <kuba@kernel.org>,
+ Frederic Weisbecker <frederic@kernel.org>,
+ Valentin Schneider <vschneid@redhat.com>,
+ Christian Brauner <brauner@kernel.org>,
  Thomas Zimmermann <tzimmermann@suse.de>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk@kernel.org>,
- Conor Dooley <conor+dt@kernel.org>, Chen-Yu Tsai <wens@csie.org>,
- Jernej Skrabec <jernej.skrabec@gmail.com>,
- Samuel Holland <samuel@sholland.or>
-Cc: oe-kbuild-all@lists.linux.dev, dri-devel@lists.freedesktop.org,
- devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev
-Subject: Re: [PATCH v2 2/3] arm64: dts: allwinner: a523: add Mali GPU node
-Message-ID: <202507120723.0s2u9rLs-lkp@intel.com>
-References: <20250711035730.17507-3-iuncuim@gmail.com>
+ Simona Vetter <simona@ffwll.ch>, Dave Airlie <airlied@gmail.com>,
+ davem@davemloft.net, netdev@vger.kernel.org,
+ linux-kernel@vger.kernel.org, pabeni@redhat.com,
+ dri-devel <dri-devel@lists.freedesktop.org>
+Subject: Re: [GIT PULL] Networking for v6.16-rc6 (follow up)
+Message-ID: <20250711235854.c7rIj1Ix@linutronix.de>
+References: <20250711114642.2664f28a@kernel.org>
+ <CAHk-=wjb_8B85uKhr1xuQSei_85u=UzejphRGk2QFiByP+8Brw@mail.gmail.com>
+ <CAHk-=wiwVkGyDngsNR1Hv5ZUqvmc-x0NUD9aRTOcK3=8fTUO=Q@mail.gmail.com>
+ <CAHk-=whMyX44=Ga_nK-XUffhFH47cgVd2M_Buhi_b+Lz1jV5oQ@mail.gmail.com>
+ <CAHk-=whxjOfjufO8hS27NGnRhfkZfXWTXp1ki=xZz3VPWikMgQ@mail.gmail.com>
+ <20250711125349.0ccc4ac0@kernel.org>
+ <CAHk-=wjp9vnw46tJ_7r-+Q73EWABHsO0EBvBM2ww8ibK9XfSZg@mail.gmail.com>
+ <CAHk-=wjv_uCzWGFoYZVg0_A--jOBSPMWCvdpFo0rW2NnZ=QyLQ@mail.gmail.com>
+ <CAHk-=wi8+Ecn9VJH8WYPb7BR4ECYRZGKiiWdhcCjTKZbNkbTkQ@mail.gmail.com>
+ <CAHk-=wiMJWwgJ4HYsLzJ4_OkhzJ75ah0HrfBBk+W-RGjk4-h2g@mail.gmail.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20250711035730.17507-3-iuncuim@gmail.com>
+In-Reply-To: <CAHk-=wiMJWwgJ4HYsLzJ4_OkhzJ75ah0HrfBBk+W-RGjk4-h2g@mail.gmail.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -79,34 +78,51 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi iuncuim,
+On Fri, Jul 11, 2025 at 03:19:00PM -0700, Linus Torvalds wrote:
+> On Fri, 11 Jul 2025 at 14:46, Linus Torvalds
+> <torvalds@linux-foundation.org> wrote:
+> >
+> > I've only tested the previous commit being good twice now, but I'll go
+> > back to the head of tree and try a revert to verify that this is
+> > really it. Because maybe it's the now Nth time I found something that
+> > hides the problem, not the real issue.
+> >
+> > Fingers crossed that this very timing-dependent odd problem really did
+> > bisect right finally, after many false starts.
+> 
+> Ok, verified. Finally.
+> 
+> I've rebooted this machine five times now with the revert in place,
+> and now that I know to recognize all the subtler signs of breakage,
+> I'm pretty sure I finally got the right culprit.
+> 
+> Sometimes the breakage is literally just something like "it takes an
+> extra ten or fifteen seconds to start up some app" and then everything
+> ends up working, which is why it was so easy to overlook, and why my
+> other bisection attempts were such abject failures.
+> 
+> But that last bisection when I was more careful and knew what to look
+> for ended up laser-guided to that thing.
+> 
+> And apologies to the drm and netlink people who I initially blamed
+> just because there were unrelated bugs that just got merged in the
+> timeframe when I started noticing oddities. You may have had your own
+> bugs, but you were blameless on this issue that I basically spent the
+> last day on (I'd say "wasted" the last day on, but right now I feel
+> good about finding it, so I guess it wasn't wasted time after all).
+> 
+> Anyway, I think reverting that commit 8c44dac8add7 ("eventpoll: Fix
+> priority inversion problem") is the right thing for 6.16, and
+> hopefully Nam Cao & co can figure out what went wrong and we'll
+> revisit this in the future.
 
-kernel test robot noticed the following build errors:
+Yes, please revert it. I had another person reported to me earlier today
+about a breakage. We also think that reverting this commit for 6.16 is the
+right thing.
 
-[auto build test ERROR on sunxi/sunxi/for-next]
-[also build test ERROR on robh/for-next linus/master v6.16-rc5 next-20250711]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
+Sorry for causing trouble. Strangely my laptop has been running with this
+commit for ~6 weeks now without any trouble. Maybe I shouldn't have touched
+this lockless business in the first place.
 
-url:    https://github.com/intel-lab-lkp/linux/commits/iuncuim/dt-bindings-gpu-mali-bifrost-Add-Allwinner-A523-compatible/20250711-120104
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/sunxi/linux.git sunxi/for-next
-patch link:    https://lore.kernel.org/r/20250711035730.17507-3-iuncuim%40gmail.com
-patch subject: [PATCH v2 2/3] arm64: dts: allwinner: a523: add Mali GPU node
-config: arm64-randconfig-001-20250712 (https://download.01.org/0day-ci/archive/20250712/202507120723.0s2u9rLs-lkp@intel.com/config)
-compiler: aarch64-linux-gcc (GCC) 12.3.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250712/202507120723.0s2u9rLs-lkp@intel.com/reproduce)
-
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202507120723.0s2u9rLs-lkp@intel.com/
-
-All errors (new ones prefixed by >>):
-
->> Error: arch/arm64/boot/dts/allwinner/sun55i-a523.dtsi:119.29-30 syntax error
-   FATAL ERROR: Unable to parse input tree
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+Best regards,
+Nam
