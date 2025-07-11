@@ -2,93 +2,92 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7D089B02486
-	for <lists+dri-devel@lfdr.de>; Fri, 11 Jul 2025 21:25:10 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id B2CEDB0249D
+	for <lists+dri-devel@lfdr.de>; Fri, 11 Jul 2025 21:30:53 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D81FE10E036;
-	Fri, 11 Jul 2025 19:25:08 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D5E2E10E26B;
+	Fri, 11 Jul 2025 19:30:50 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=redhat.com header.i=@redhat.com header.b="UQrOoZUc";
+	dkim=pass (1024-bit key; unprotected) header.d=linux-foundation.org header.i=@linux-foundation.org header.b="PTKhuAvz";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [170.10.129.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D894110EABF
- for <dri-devel@lists.freedesktop.org>; Fri, 11 Jul 2025 19:25:06 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1752261905;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=kGO4vRGgXGLL3hZnBNYmBbSAWGoCIWSfs9lOrm3uA2M=;
- b=UQrOoZUcwccLKwvtDF/88I5iWqeOW+vP7c6HVjKAjgPpK6Kc2YKIh9kzRk7k/rWocVhDCY
- 5GxrAaPs260lJE7K2xEKsZwqyePIHmHrOCzBCHjan+Y8dK6pF4rwnfRzMBhfAUziPHo/pC
- 6JnPwiXG+nOmrnRaBI3/X8BA+ZsYL3U=
-Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
- [209.85.128.69]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-695-m0O_DJTnOIiMyd-NUyOrdw-1; Fri, 11 Jul 2025 15:25:04 -0400
-X-MC-Unique: m0O_DJTnOIiMyd-NUyOrdw-1
-X-Mimecast-MFC-AGG-ID: m0O_DJTnOIiMyd-NUyOrdw_1752261903
-Received: by mail-wm1-f69.google.com with SMTP id
- 5b1f17b1804b1-455d95e711cso3840545e9.0
- for <dri-devel@lists.freedesktop.org>; Fri, 11 Jul 2025 12:25:04 -0700 (PDT)
+Received: from mail-ed1-f46.google.com (mail-ed1-f46.google.com
+ [209.85.208.46])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B7BBA10E3C5
+ for <dri-devel@lists.freedesktop.org>; Fri, 11 Jul 2025 19:30:48 +0000 (UTC)
+Received: by mail-ed1-f46.google.com with SMTP id
+ 4fb4d7f45d1cf-60c01f70092so3939636a12.3
+ for <dri-devel@lists.freedesktop.org>; Fri, 11 Jul 2025 12:30:48 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=linux-foundation.org; s=google; t=1752262247; x=1752867047;
+ darn=lists.freedesktop.org; 
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:from:to:cc:subject:date:message-id:reply-to;
+ bh=W42wqNZ6CmAMcEVUi0DgirOnpBMSt1r3eJzW5nHOkPQ=;
+ b=PTKhuAvzq4zb+WhmGKMAcay4sB/JssGzrIolV7SO5YjGLAKzPDtvLXtXRILJXSlFto
+ /eeNcjobkxliyVp9/yGW3Vu0fwc6itBNQmacXuytLgYtBZ1CBMFHYOw988CyXhWKbNKs
+ u40LHdD/r0WClcsybiefZ53vE0PNe+8FWaClI=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1752261903; x=1752866703;
- h=mime-version:message-id:date:references:in-reply-to:subject:cc:to
- :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=kGO4vRGgXGLL3hZnBNYmBbSAWGoCIWSfs9lOrm3uA2M=;
- b=u6gMiBoiLGkRIRTE8NlBMjvVoTTWN6+mI+qdLtbjDj5a8K3EgRkCT8MZ9X+LiS/aUt
- nKRY1Qznvz1rIurMWM70PRvziwvVLkhQIhTaSwPJM1wjJFwg3brqsrgo7og6PlP7lQG4
- aCjjVxisRx25cf74C1e4fNf0o5VkatsmNreqOiZTlsWhAvf6RrcpyedkJxdYrcfZA4XV
- 4ggj4wCoAhz07zt+qBFJpd+NN4E/TIlqJe7CiHfj2A+dvXPeD8VevNxyO/mDOW1V2rTx
- Mj7JS5WXq0dc+o/1LbJLpFkP2NyRT7USzwMXgZZCKWsgk823OigNCmrGxAT+FdZoU4SX
- 8m3A==
+ d=1e100.net; s=20230601; t=1752262247; x=1752867047;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=W42wqNZ6CmAMcEVUi0DgirOnpBMSt1r3eJzW5nHOkPQ=;
+ b=TOqCCP09MZdeRuA1frgcq1IHmKC2UbiMw/absb7vP4CBDsri1QG8RhoeitKuCs6Wd1
+ zs4HGjf5k5W+A/Nk5stDc861+X1MjOVgL1nXdI/USLSYbynLOnl43meHxKvYbdKeZlTy
+ Q66AKj+4Vq5Lt8KEwwrl+a7PZ4dzNcwipC5U2DXbFi2fJpAqeVqu8P7Ue0gMo7ImCOg5
+ jf2KnAxcFYVDHI+TSVc5aztDatZCpynDuLBbMJrXtT8i3wmfTQ5dVWirqhrwtjfF9/vY
+ dAdT4ywioyozteD2zcwXDw9lkmPNTKuiCpJSrXYp8SzUwfaAzrcgF5hgDpAUe1UluIqQ
+ 0DtQ==
 X-Forwarded-Encrypted: i=1;
- AJvYcCXxlR5C8essVgfSbvlNUUmRcQh9NomJkxROmxkINls/KGS9kYpQumiNGV0JA4jVj5H1T2eWvGYzvHI=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YxMqr1MWL1bGNOahNSfZW8gCqnaaF3dDQX7sQTQZRUJ5Np/R324
- r/KikDB+Rq7pvoLuE6yqfO8nJJuniSAh+v4NbJ/47joxdDGt3yO5IRzwptRESD8p3CX/deRka8N
- U7fPeifn7k2/98DlJlmrl2T/SWTrDC3plr8qp+QuixbxkpmVL/fxd514IR4zIps+7N1YGrg==
-X-Gm-Gg: ASbGncvfT84Lx8nVY16OfLXuIEZFbwEDliu8m5q+y5JLgOrxZXlB2zGltWr4RxiXe1j
- snduqfkl0miUW9BCpZC3TbExckLmOmgOfS0QElbBsSDisP4Gne4B7ZkcG6KFZFTeCG8ZEy14fhY
- oYbdKfRttocCZtkY87WTQM89Q+7td00jZFphB49eVEiQL/aLjxNDJ1WfUEmIJslqOZA/5yjG9S4
- VakPGh3542QFgbNxoW/KJEF7NSwHta5LJOYZyoNtC0FT0Z7P2LGplcJh9OWh1QNGEftVNep7oLx
- +vhnhz88UhAVUc4FNw7A1r+7Po+C0j6D2jO8a9DjvT9/okpfVNsm5qq4Zir0NrFwWCZYr2Tvsfg
- AdYzWkJaFN2GKUYiniH5zRw==
-X-Received: by 2002:a05:600c:1e02:b0:450:c9e3:91fe with SMTP id
- 5b1f17b1804b1-454e2a426afmr43642545e9.0.1752261903405; 
- Fri, 11 Jul 2025 12:25:03 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IHsVTpi9JlkuFNtnbmvXjIbTw8+Bi0t6SWJf6PftBV3tD/DcW6zZ9OovWNlJ03/UuP8WcYcUg==
-X-Received: by 2002:a05:600c:1e02:b0:450:c9e3:91fe with SMTP id
- 5b1f17b1804b1-454e2a426afmr43642385e9.0.1752261902955; 
- Fri, 11 Jul 2025 12:25:02 -0700 (PDT)
-Received: from localhost (62-151-111-63.jazzfree.ya.com. [62.151.111.63])
- by smtp.gmail.com with ESMTPSA id
- ffacd0b85a97d-3b5e8e0d88dsm5328231f8f.65.2025.07.11.12.25.02
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 11 Jul 2025 12:25:02 -0700 (PDT)
-From: Javier Martinez Canillas <javierm@redhat.com>
-To: Marcus Folkesson <marcus.folkesson@gmail.com>
-Cc: linux-kernel@vger.kernel.org, ipedrosa@redhat.com, David Airlie
- <airlied@gmail.com>, Maarten Lankhorst
- <maarten.lankhorst@linux.intel.com>, Maxime Ripard <mripard@kernel.org>,
- Simona Vetter <simona@ffwll.ch>, Thomas Zimmermann <tzimmermann@suse.de>,
- dri-devel@lists.freedesktop.org
-Subject: Re: [PATCH 2/3] drm/sitronix/st7571-i2c: Make the reset GPIO to be
- optional
-In-Reply-To: <aG-ftUl7l2zNm_eH@gmail.com>
-References: <20250710102453.101078-1-javierm@redhat.com>
- <20250710102453.101078-3-javierm@redhat.com> <aG-aXTgycE4JEJEZ@gmail.com>
- <87jz4gfgyu.fsf@minerva.mail-host-address-is-not-set>
- <aG-ftUl7l2zNm_eH@gmail.com>
-Date: Fri, 11 Jul 2025 21:25:00 +0200
-Message-ID: <875xfyedir.fsf@minerva.mail-host-address-is-not-set>
+ AJvYcCUsv/ADVkEsUChdHqjDcdgcrQbpW0G++w+z87ulfPnpPDt2XPAwzcnP4Y8ITMddsGrcnt9QmZwi9Ag=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YxYVRcyg/bqpOy3r9qVv1sYXLCVH6bgxuRbA3lxg54NRiKaACRD
+ zkOEjOXgX12tTWDsE2E6eo1qmKI+W8sUB8/R1qE0V4INp+YH7lVngG2egfv5lULN5je4lKHRk49
+ QEX0yUFzD2Q==
+X-Gm-Gg: ASbGncszYKtsggHB4h6XEGajgSzoWbQbyHhb6lzZfFt6/zuW4AoZMwjAJCPFAot3gSe
+ LWU/FQjbW6RGUJto537SQ/JSsI7VfYOooTvvYuzn6yR2ifkGF9Ux305vtGaTRZJuQTUJyOKithd
+ CLLV7XK+kpv68zlaRtv+nAZfLYG18WdlAPMs9WBPnV++H66Y/Iz/DQ3gtD9pQnoKo7WcSVUESH2
+ UYnHmy0Oi2WOizFijD06mSb2H3s7JYOiBzG/OUcbWJELesYwj0ugjbyIDmUwLLfjoTFkk4DRAzA
+ ce1lULc2R13321QBiWiEps8Jkd4OY2QmO3FjKUO7AOVZzSrGzgFoon9lNW34ki/rMagN+ailm9M
+ EvZSTtRwJXyThJ5lvVA3XYP08maW4t0fXMyx8fisAxYJ3NU2wXxStScGqe263UvrMPbpsr5DI
+X-Google-Smtp-Source: AGHT+IG0Xkt4DrW//Ai3tMxT1212hTSjT/CTH01znjvkVcXKIJodkbfAGgZo2WCY/NvoOX65bGf1Vg==
+X-Received: by 2002:a05:6402:2684:b0:60c:3f77:3f4a with SMTP id
+ 4fb4d7f45d1cf-611e760d861mr3850607a12.4.1752262246780; 
+ Fri, 11 Jul 2025 12:30:46 -0700 (PDT)
+Received: from mail-ed1-f46.google.com (mail-ed1-f46.google.com.
+ [209.85.208.46]) by smtp.gmail.com with ESMTPSA id
+ 4fb4d7f45d1cf-611c979893dsm2555666a12.81.2025.07.11.12.30.45
+ for <dri-devel@lists.freedesktop.org>
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Fri, 11 Jul 2025 12:30:46 -0700 (PDT)
+Received: by mail-ed1-f46.google.com with SMTP id
+ 4fb4d7f45d1cf-607ec30df2bso4809604a12.1
+ for <dri-devel@lists.freedesktop.org>; Fri, 11 Jul 2025 12:30:45 -0700 (PDT)
+X-Forwarded-Encrypted: i=1;
+ AJvYcCWmjVZptOvWxz7jRrE9wXZNk5l4ZXqUonSObvERFdqe7X1rXM7Reel8mdmwSP7rLGISAw+AT+hDSCk=@lists.freedesktop.org
+X-Received: by 2002:a05:6402:13d5:b0:601:e99c:9b19 with SMTP id
+ 4fb4d7f45d1cf-611eefbd8ccmr2998361a12.1.1752262244860; Fri, 11 Jul 2025
+ 12:30:44 -0700 (PDT)
 MIME-Version: 1.0
-X-Mimecast-Spam-Score: 0
-X-Mimecast-MFC-PROC-ID: tPH1lvAjrRlcoZuxQQsf2WL-loXb-63RhmjZtdnO7jM_1752261903
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain
+References: <20250711151002.3228710-1-kuba@kernel.org>
+ <CAHk-=wj1Y3LfREoHvT4baucVJ5jvy0cMydcPVQNXhprdhuE2AA@mail.gmail.com>
+ <20250711114642.2664f28a@kernel.org>
+ <CAHk-=wjb_8B85uKhr1xuQSei_85u=UzejphRGk2QFiByP+8Brw@mail.gmail.com>
+ <CAHk-=wiwVkGyDngsNR1Hv5ZUqvmc-x0NUD9aRTOcK3=8fTUO=Q@mail.gmail.com>
+In-Reply-To: <CAHk-=wiwVkGyDngsNR1Hv5ZUqvmc-x0NUD9aRTOcK3=8fTUO=Q@mail.gmail.com>
+From: Linus Torvalds <torvalds@linux-foundation.org>
+Date: Fri, 11 Jul 2025 12:30:28 -0700
+X-Gmail-Original-Message-ID: <CAHk-=whMyX44=Ga_nK-XUffhFH47cgVd2M_Buhi_b+Lz1jV5oQ@mail.gmail.com>
+X-Gm-Features: Ac12FXz05ddJJmdKtsU0c732bvFnqaJPd5imXrgLsnwoQ6msxaZ9czwbq-1pfJM
+Message-ID: <CAHk-=whMyX44=Ga_nK-XUffhFH47cgVd2M_Buhi_b+Lz1jV5oQ@mail.gmail.com>
+Subject: Re: [GIT PULL] Networking for v6.16-rc6 (follow up)
+To: Jakub Kicinski <kuba@kernel.org>
+Cc: Thomas Zimmermann <tzimmermann@suse.de>, Simona Vetter <simona@ffwll.ch>, 
+ Dave Airlie <airlied@gmail.com>, davem@davemloft.net,
+ netdev@vger.kernel.org, linux-kernel@vger.kernel.org, pabeni@redhat.com, 
+ dri-devel <dri-devel@lists.freedesktop.org>
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -104,68 +103,20 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Marcus Folkesson <marcus.folkesson@gmail.com> writes:
-
-Hello Marcus,
-
-> Hello Javier,
+On Fri, 11 Jul 2025 at 12:18, Linus Torvalds
+<torvalds@linux-foundation.org> wrote:
 >
-> On Thu, Jul 10, 2025 at 01:00:41PM +0200, Javier Martinez Canillas wrote:
->> >
->> > devm_gpiod_get_optional() returns -ENOENT when the GPIO is not found,
->> > and that is no error we want to propagage upwards.
->> >
->> > Maybe something like this instead:
->> > if (IS_ERR(st7571->reset) && IS_ERR(st7571->reset) != -ENOENT)
->> >
->> 
->> Are you sure about that? As far as I know, that is exactly the
->> difference between gpiod_get() and gpiod_get_optional() variants.
->> 
->> From the gpiod_get_optional() function helper kernel-doc [0]:
->> 
->> /**
->>  * gpiod_get_optional - obtain an optional GPIO for a given GPIO function
->>  * @dev: GPIO consumer, can be NULL for system-global GPIOs
->>  * @con_id: function within the GPIO consumer
->>  * @flags: optional GPIO initialization flags
->>  *
->>  * This is equivalent to gpiod_get(), except that when no GPIO was assigned to
->>  * the requested function it will return NULL. This is convenient for drivers
->>  * that need to handle optional GPIOs.
->>  *
->>  * Returns:
->>  * The GPIO descriptor corresponding to the function @con_id of device
->>  * dev, NULL if no GPIO has been assigned to the requested function, or
->>  * another IS_ERR() code if an error occurred while trying to acquire the GPIO.
->>  */
->> 
->> while the gpiod_get() kernel-doc says the following:
->> 
->> /**
->>  * gpiod_get - obtain a GPIO for a given GPIO function
->>  * @dev:	GPIO consumer, can be NULL for system-global GPIOs
->>  * @con_id:	function within the GPIO consumer
->>  * @flags:	optional GPIO initialization flags
->>  *
->>  * Returns:
->>  * The GPIO descriptor corresponding to the function @con_id of device
->>  * dev, -ENOENT if no GPIO has been assigned to the requested function, or
->>  * another IS_ERR() code if an error occurred while trying to acquire the GPIO.
->>  */
->> 
+> I spent several hours yesterday chasing all the wrong things (because
+> I thought it was in drm), and often thought "Oh, that fixed it". Only
+> to then realize that nope, the problem still happens.
 >
-> You are completely righ.
->
-> Reviewed-by: Marcus Folkesson <marcus.folkesson@gmail.com>
->
+> I will test the reverts. Several times.
 
-Thanks for your review! Do you plan to look at the other patches too ?
+Well, the first boot with those three commits reverted shows no problem at all.
 
--- 
-Best regards,
+But as mentioned, I've now had "Oh, that fixed it" about ten times.
 
-Javier Martinez Canillas
-Core Platforms
-Red Hat
+So that "Oh, it worked this time" has been tainted by past experience.
+Will do several more boots now in the hope that it's gone for good.
 
+            Linus
