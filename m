@@ -2,55 +2,55 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3CD81B0123C
-	for <lists+dri-devel@lfdr.de>; Fri, 11 Jul 2025 06:32:58 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id B1800B0123F
+	for <lists+dri-devel@lfdr.de>; Fri, 11 Jul 2025 06:33:00 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 95A1E10E99E;
-	Fri, 11 Jul 2025 04:32:56 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1873210E99C;
+	Fri, 11 Jul 2025 04:32:59 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=redhat.com header.i=@redhat.com header.b="IMaov1Fn";
+	dkim=pass (1024-bit key; unprotected) header.d=redhat.com header.i=@redhat.com header.b="e382phAt";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from us-smtp-delivery-124.mimecast.com
  (us-smtp-delivery-124.mimecast.com [170.10.129.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 328B310E99D
- for <dri-devel@lists.freedesktop.org>; Fri, 11 Jul 2025 04:32:53 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 71F2910E99D
+ for <dri-devel@lists.freedesktop.org>; Fri, 11 Jul 2025 04:32:56 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1752208372;
+ s=mimecast20190719; t=1752208375;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=HraXtN+VDBmg8Jr7Ws1Qqx3eC0zBZOgQnBqDsPJqBQo=;
- b=IMaov1FntiIVzus7p3PWkE3APardNarS0FbRFFJ2Ca6Qei/8xOMkpxK83HpqMGqaltJ6Ct
- eCylCCPn1T6pgTSBVBsj2ayXgGLnp4E5XOmB6PDgVST9wRrJ5BmXYqKKE+9jYKkWxELsbA
- W/dpKbxMqjT0mIq8ciVfxLDt8p5Qyvg=
-Received: from mx-prod-mc-02.mail-002.prod.us-west-2.aws.redhat.com
+ bh=GvROWprvZVObxVu7yfL80nRieDhkDbGSMls4JOe4MeA=;
+ b=e382phAtzxJWWFAPR9DpjtH9wywr4CEcqoD53vkzT2Xgtd7wjBmCNlLdRrfXu+xlZEEozp
+ VB+h3C6HBuFBpWjh3WlyVfdzQoTiEdXwAgYuJy7kkXgqAO8jHAjZeMJ5PF9z6ZPIGpLDyV
+ kXgAcbLIv1H7zw0EBIG/snonj0zoZos=
+Received: from mx-prod-mc-04.mail-002.prod.us-west-2.aws.redhat.com
  (ec2-54-186-198-63.us-west-2.compute.amazonaws.com [54.186.198.63]) by
  relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
- cipher=TLS_AES_256_GCM_SHA384) id us-mta-173-TGjdrrW_N6yKyRUk1hCqQw-1; Fri,
- 11 Jul 2025 00:32:48 -0400
-X-MC-Unique: TGjdrrW_N6yKyRUk1hCqQw-1
-X-Mimecast-MFC-AGG-ID: TGjdrrW_N6yKyRUk1hCqQw_1752208366
+ cipher=TLS_AES_256_GCM_SHA384) id us-mta-121-tz-HPw1oNZu7DDbA8AWMvA-1; Fri,
+ 11 Jul 2025 00:32:52 -0400
+X-MC-Unique: tz-HPw1oNZu7DDbA8AWMvA-1
+X-Mimecast-MFC-AGG-ID: tz-HPw1oNZu7DDbA8AWMvA_1752208370
 Received: from mx-prod-int-08.mail-002.prod.us-west-2.aws.redhat.com
  (mx-prod-int-08.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.111])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
  (No client certificate requested)
- by mx-prod-mc-02.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS
- id C0EDE1956089; Fri, 11 Jul 2025 04:32:46 +0000 (UTC)
+ by mx-prod-mc-04.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS
+ id 336E619560A2; Fri, 11 Jul 2025 04:32:50 +0000 (UTC)
 Received: from asrivats-na.rmtustx.csb (unknown [10.2.16.240])
  by mx-prod-int-08.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTP
- id A3327180045B; Fri, 11 Jul 2025 04:32:43 +0000 (UTC)
+ id 1B8C3180045B; Fri, 11 Jul 2025 04:32:46 +0000 (UTC)
 From: Anusha Srivatsa <asrivats@redhat.com>
-Date: Thu, 10 Jul 2025 23:31:17 -0500
-Subject: [PATCH 06/14] drm/panel/lg-sw43408: Use refcounted allocation in
+Date: Thu, 10 Jul 2025 23:31:18 -0500
+Subject: [PATCH 07/14] drm/panel/kd097d04: Use refcounted allocation in
  place of devm_kzalloc()
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20250710-b4-driver-convert-last-part-july-v1-6-de73ba81b2f5@redhat.com>
+Message-Id: <20250710-b4-driver-convert-last-part-july-v1-7-de73ba81b2f5@redhat.com>
 References: <20250710-b4-driver-convert-last-part-july-v1-0-de73ba81b2f5@redhat.com>
 In-Reply-To: <20250710-b4-driver-convert-last-part-july-v1-0-de73ba81b2f5@redhat.com>
 To: Neil Armstrong <neil.armstrong@linaro.org>, 
@@ -66,11 +66,11 @@ To: Neil Armstrong <neil.armstrong@linaro.org>,
 Cc: dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org, 
  linux-rpi-kernel@lists.infradead.org, linux-arm-kernel@lists.infradead.org, 
  Anusha Srivatsa <asrivats@redhat.com>
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1752208280; l=1349;
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1752208280; l=1638;
  i=asrivats@redhat.com; s=20250122; h=from:subject:message-id;
- bh=3QDCqPHPMjOKG75wERMG3gnVgeLbhqq0KjlFSt72mzk=;
- b=G5IhmBlpsZ1SLS/7fDAzeQOm+Jx4AdzwZi0ZTYHQdgUquUhJubClUq4p0zjV/z6ciA/jgpV4O
- TzTQb4PYQ+lDdB4YFAV33wYBG1MFDFsJCCaXOwdKVyT8glRC2Bfp7hA
+ bh=x9jjKpQmSTs4YmDmtzZOKXceb+X207TGO3xWPLWt/E4=;
+ b=nCwchFKw19gEAI9laVB4vJcXAZ1fnbeo5uSxXlTF0jFmOCMdEsCjb98o6tf8Y6hXM7tsQgYfD
+ bZxHP/EnZ7jDHxOU/PX9v8LIiPHtCBEVIqIr7W7p/OsaWx8WC5hgmW6
 X-Developer-Key: i=asrivats@redhat.com; a=ed25519;
  pk=brnIHkBsUZEhyW6Zyn0U92AeIZ1psws/q8VFbIkf1AU=
 X-Scanned-By: MIMEDefang 3.4.1 on 10.30.177.111
@@ -95,37 +95,39 @@ __typeof() for more type safety.
 
 Signed-off-by: Anusha Srivatsa <asrivats@redhat.com>
 ---
- drivers/gpu/drm/panel/panel-lg-sw43408.c | 10 +++++-----
- 1 file changed, 5 insertions(+), 5 deletions(-)
+ drivers/gpu/drm/panel/panel-kingdisplay-kd097d04.c | 12 ++++++------
+ 1 file changed, 6 insertions(+), 6 deletions(-)
 
-diff --git a/drivers/gpu/drm/panel/panel-lg-sw43408.c b/drivers/gpu/drm/panel/panel-lg-sw43408.c
-index f3dcc39670eae866030e705a30c6cfb2594a70bb..46a56ea92ad9ff3a7e60e0ad0810f4082dbed620 100644
---- a/drivers/gpu/drm/panel/panel-lg-sw43408.c
-+++ b/drivers/gpu/drm/panel/panel-lg-sw43408.c
-@@ -246,8 +246,6 @@ static int sw43408_add(struct sw43408_panel *ctx)
+diff --git a/drivers/gpu/drm/panel/panel-kingdisplay-kd097d04.c b/drivers/gpu/drm/panel/panel-kingdisplay-kd097d04.c
+index d6b912277196ee68a7ca57bfefb327dee11596fa..2fc7b0779b37b28c7ed2fba6b28459c8a9d27e70 100644
+--- a/drivers/gpu/drm/panel/panel-kingdisplay-kd097d04.c
++++ b/drivers/gpu/drm/panel/panel-kingdisplay-kd097d04.c
+@@ -337,9 +337,6 @@ static int kingdisplay_panel_add(struct kingdisplay_panel *kingdisplay)
+ 		kingdisplay->enable_gpio = NULL;
+ 	}
  
- 	ctx->base.prepare_prev_first = true;
- 
--	drm_panel_init(&ctx->base, dev, &sw43408_funcs, DRM_MODE_CONNECTOR_DSI);
+-	drm_panel_init(&kingdisplay->base, &kingdisplay->link->dev,
+-		       &kingdisplay_panel_funcs, DRM_MODE_CONNECTOR_DSI);
 -
- 	drm_panel_add(&ctx->base);
- 	return ret;
- }
-@@ -257,9 +255,11 @@ static int sw43408_probe(struct mipi_dsi_device *dsi)
- 	struct sw43408_panel *ctx;
- 	int ret;
+ 	err = drm_panel_of_backlight(&kingdisplay->base);
+ 	if (err)
+ 		return err;
+@@ -364,9 +361,12 @@ static int kingdisplay_panel_probe(struct mipi_dsi_device *dsi)
+ 	dsi->mode_flags = MIPI_DSI_MODE_VIDEO | MIPI_DSI_MODE_VIDEO_BURST |
+ 			  MIPI_DSI_MODE_LPM;
  
--	ctx = devm_kzalloc(&dsi->dev, sizeof(*ctx), GFP_KERNEL);
--	if (!ctx)
+-	kingdisplay = devm_kzalloc(&dsi->dev, sizeof(*kingdisplay), GFP_KERNEL);
+-	if (!kingdisplay)
 -		return -ENOMEM;
-+	ctx = devm_drm_panel_alloc(&dsi->dev, __typeof(*ctx), base,
-+				   &sw43408_funcs, DRM_MODE_CONNECTOR_DSI);
++	kingdisplay = devm_drm_panel_alloc(&dsi->dev, __typeof(*kingdisplay), base,
++					   &kingdisplay_panel_funcs,
++					   DRM_MODE_CONNECTOR_DSI);
 +
-+	if (IS_ERR(ctx))
-+		return PTR_ERR(ctx);
++	if (IS_ERR(kingdisplay))
++		return PTR_ERR(kingdisplay);
  
- 	dsi->mode_flags = MIPI_DSI_MODE_LPM;
- 	dsi->format = MIPI_DSI_FMT_RGB888;
+ 	mipi_dsi_set_drvdata(dsi, kingdisplay);
+ 	kingdisplay->link = dsi;
 
 -- 
 2.48.1
