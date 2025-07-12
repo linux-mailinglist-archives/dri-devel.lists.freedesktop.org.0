@@ -2,47 +2,52 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 559E3B02B80
-	for <lists+dri-devel@lfdr.de>; Sat, 12 Jul 2025 16:46:02 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 145F2B02C71
+	for <lists+dri-devel@lfdr.de>; Sat, 12 Jul 2025 20:27:51 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B910910E301;
-	Sat, 12 Jul 2025 14:46:00 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C176C10E0B7;
+	Sat, 12 Jul 2025 18:27:47 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=fail reason="signature verification failed" (1024-bit key; unprotected) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="r86Yv0rT";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="ZWXW1XZg";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from sea.source.kernel.org (sea.source.kernel.org [172.234.252.31])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 15CA810E301
- for <dri-devel@lists.freedesktop.org>; Sat, 12 Jul 2025 14:45:59 +0000 (UTC)
+Received: from nyc.source.kernel.org (nyc.source.kernel.org [147.75.193.91])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2BD0210E0B7
+ for <dri-devel@lists.freedesktop.org>; Sat, 12 Jul 2025 18:27:46 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by sea.source.kernel.org (Postfix) with ESMTP id E9A0A4534D;
- Sat, 12 Jul 2025 14:45:58 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7429DC4CEEF;
- Sat, 12 Jul 2025 14:45:58 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
- s=korg; t=1752331558;
- bh=Z6nJtXxCafl9NifqOX9nM3hQiC/MyZhQS5d0tSYhyF4=;
- h=Subject:To:Cc:From:Date:From;
- b=r86Yv0rTNTy+4trJWEHR4hNGihv106zBku7dgI+72U3NQhayIS/l+cjSoxFWROVtH
- JPouYVErHWbRVGHORwiedfD7orriLSt7SqkaQ3qqOd18lkygOipXsoFYM5tyi+PSMY
- /JBkhAwqyEXnFelPBVkTOBA9UtrEHEDX1CXk08eQ=
-Subject: Patch "drm/framebuffer: Acquire internal references on GEM handles"
- has been added to the 6.15-stable tree
-To: asrivats@redhat.com, bp@alien8.de, christian.koenig@amd.com,
- dri-devel@lists.freedesktop.org, gregkh@linuxfoundation.org,
- linaro-mm-sig@lists.linaro.org, maarten.lankhorst@linux.intel.com,
- mripard@kernel.org, spasswolf@web.de, sumit.semwal@linaro.org,
- superm1@kernel.org, tzimmermann@suse.de
-Cc: <stable-commits@vger.kernel.org>
-From: <gregkh@linuxfoundation.org>
-Date: Sat, 12 Jul 2025 16:45:33 +0200
-Message-ID: <2025071233-hydrated-transpire-04b5@gregkh>
+ by nyc.source.kernel.org (Postfix) with ESMTP id 069EAA54BBB;
+ Sat, 12 Jul 2025 18:27:45 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 52CFDC4CEEF;
+ Sat, 12 Jul 2025 18:27:43 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1752344864;
+ bh=W4g+kjPJ3K8wnVxOEoch4S5NoRMOytbxldAomVbV/v0=;
+ h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+ b=ZWXW1XZgDikeuWRB5J/Tz5ESJdFkvhkISXQGON87SCIAGEOr3D+w2+8g32CMtr5mL
+ hzpMhb5xonrIZeSJj+vuO88OTjh9J35oiByaffCj//mgGHgwQmR5/y+OZLiZ4tvJ3X
+ YVKZoLYq5E8Ihj3aXPObLsFKC1XuAMNr1cPtwcSL7C1pbP0NGJiKuFmjDRIZYOyva2
+ lk8nxcIYd81fT0y5Ejj/tlcZBKrLP6JJJAFE3FHIirlCUsYw5uSpDSA7JF/Y9t5cBX
+ NHPBBpLkauCZGqVfrnzFOtYR8ei3eohbb8br5X3qWaXyQIj+Jn85sI76Lrikv0w2on
+ efi92+bYdR9Zw==
+Message-ID: <acd5b3e3-5370-49a4-aad9-b1001aa0eb5a@kernel.org>
+Date: Sat, 12 Jul 2025 19:27:42 +0100
 MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] misc: fastrpc: Use of_reserved_mem_region_to_resource()
+ for "memory-region"
+To: "Rob Herring (Arm)" <robh@kernel.org>,
+ Srinivas Kandagatla <srini@kernel.org>,
+ Amol Maheshwari <amahesh@qti.qualcomm.com>, Arnd Bergmann <arnd@arndb.de>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc: linux-arm-msm@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org
+References: <20250703183455.2074215-1-robh@kernel.org>
+Content-Language: en-US
+From: Srinivas Kandagatla <srini@kernel.org>
+In-Reply-To: <20250703183455.2074215-1-robh@kernel.org>
 Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-stable: commit
-X-Patchwork-Hint: ignore 
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -59,328 +64,75 @@ Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 
-This is a note to let you know that I've just added the patch titled
 
-    drm/framebuffer: Acquire internal references on GEM handles
+On 7/3/25 7:34 PM, Rob Herring (Arm) wrote:
+> Use the newly added of_reserved_mem_region_to_resource() function to
+> handle "memory-region" properties.
+> 
+> The error handling is a bit different. "memory-region" is optional, so
+> failed lookup is not an error. But then an error in
+> of_reserved_mem_lookup() is treated as an error. However, that
+> distinction is not really important. Either the region is available
+> and usable or it is not. So now, it is just
+> of_reserved_mem_region_to_resource() which is checked for an error.
+> 
+> Signed-off-by: Rob Herring (Arm) <robh@kernel.org>
+> ---
 
-to the 6.15-stable tree which can be found at:
-    http://www.kernel.org/git/?p=linux/kernel/git/stable/stable-queue.git;a=summary
-
-The filename of the patch is:
-     drm-framebuffer-acquire-internal-references-on-gem-handles.patch
-and it can be found in the queue-6.15 subdirectory.
-
-If you, or anyone else, feels it should not be added to the stable tree,
-please let <stable@vger.kernel.org> know about it.
-
-
-From f6bfc9afc7510cb5e6fbe0a17c507917b0120280 Mon Sep 17 00:00:00 2001
-From: Thomas Zimmermann <tzimmermann@suse.de>
-Date: Mon, 7 Jul 2025 15:11:55 +0200
-Subject: drm/framebuffer: Acquire internal references on GEM handles
-MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-
-From: Thomas Zimmermann <tzimmermann@suse.de>
-
-commit f6bfc9afc7510cb5e6fbe0a17c507917b0120280 upstream.
-
-Acquire GEM handles in drm_framebuffer_init() and release them in
-the corresponding drm_framebuffer_cleanup(). Ties the handle's
-lifetime to the framebuffer. Not all GEM buffer objects have GEM
-handles. If not set, no refcounting takes place. This is the case
-for some fbdev emulation. This is not a problem as these GEM objects
-do not use dma-bufs and drivers will not release them while fbdev
-emulation is running. Framebuffer flags keep a bit per color plane
-of which the framebuffer holds a GEM handle reference.
-
-As all drivers use drm_framebuffer_init(), they will now all hold
-dma-buf references as fixed in commit 5307dce878d4 ("drm/gem: Acquire
-references on GEM handles for framebuffers").
-
-In the GEM framebuffer helpers, restore the original ref counting
-on buffer objects. As the helpers for handle refcounting are now
-no longer called from outside the DRM core, unexport the symbols.
-
-v3:
-- don't mix internal flags with mode flags (Christian)
-v2:
-- track framebuffer handle refs by flag
-- drop gma500 cleanup (Christian)
-
-Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
-Fixes: 5307dce878d4 ("drm/gem: Acquire references on GEM handles for framebuffers")
-Reported-by: Bert Karwatzki <spasswolf@web.de>
-Closes: https://lore.kernel.org/dri-devel/20250703115915.3096-1-spasswolf@web.de/
-Tested-by: Bert Karwatzki <spasswolf@web.de>
-Tested-by: Mario Limonciello <superm1@kernel.org>
-Tested-by: Borislav Petkov (AMD) <bp@alien8.de>
-Cc: Thomas Zimmermann <tzimmermann@suse.de>
-Cc: Anusha Srivatsa <asrivats@redhat.com>
-Cc: Christian König <christian.koenig@amd.com>
-Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
-Cc: Maxime Ripard <mripard@kernel.org>
-Cc: Sumit Semwal <sumit.semwal@linaro.org>
-Cc: "Christian König" <christian.koenig@amd.com>
-Cc: linux-media@vger.kernel.org
-Cc: dri-devel@lists.freedesktop.org
-Cc: linaro-mm-sig@lists.linaro.org
-Cc: <stable@vger.kernel.org>
-Reviewed-by: Christian König <christian.koenig@amd.com>
-Link: https://lore.kernel.org/r/20250707131224.249496-1-tzimmermann@suse.de
-Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
----
- drivers/gpu/drm/drm_framebuffer.c            |   31 ++++++++++++++++++++--
- drivers/gpu/drm/drm_gem.c                    |   38 +++++++++++++++++----------
- drivers/gpu/drm/drm_gem_framebuffer_helper.c |   16 ++++-------
- drivers/gpu/drm/drm_internal.h               |    2 -
- include/drm/drm_framebuffer.h                |    7 ++++
- 5 files changed, 68 insertions(+), 26 deletions(-)
-
---- a/drivers/gpu/drm/drm_framebuffer.c
-+++ b/drivers/gpu/drm/drm_framebuffer.c
-@@ -862,11 +862,23 @@ EXPORT_SYMBOL_FOR_TESTS_ONLY(drm_framebu
- int drm_framebuffer_init(struct drm_device *dev, struct drm_framebuffer *fb,
- 			 const struct drm_framebuffer_funcs *funcs)
- {
-+	unsigned int i;
- 	int ret;
-+	bool exists;
- 
- 	if (WARN_ON_ONCE(fb->dev != dev || !fb->format))
- 		return -EINVAL;
- 
-+	for (i = 0; i < fb->format->num_planes; i++) {
-+		if (drm_WARN_ON_ONCE(dev, fb->internal_flags & DRM_FRAMEBUFFER_HAS_HANDLE_REF(i)))
-+			fb->internal_flags &= ~DRM_FRAMEBUFFER_HAS_HANDLE_REF(i);
-+		if (fb->obj[i]) {
-+			exists = drm_gem_object_handle_get_if_exists_unlocked(fb->obj[i]);
-+			if (exists)
-+				fb->internal_flags |= DRM_FRAMEBUFFER_HAS_HANDLE_REF(i);
-+		}
-+	}
-+
- 	INIT_LIST_HEAD(&fb->filp_head);
- 
- 	fb->funcs = funcs;
-@@ -875,7 +887,7 @@ int drm_framebuffer_init(struct drm_devi
- 	ret = __drm_mode_object_add(dev, &fb->base, DRM_MODE_OBJECT_FB,
- 				    false, drm_framebuffer_free);
- 	if (ret)
--		goto out;
-+		goto err;
- 
- 	mutex_lock(&dev->mode_config.fb_lock);
- 	dev->mode_config.num_fb++;
-@@ -883,7 +895,16 @@ int drm_framebuffer_init(struct drm_devi
- 	mutex_unlock(&dev->mode_config.fb_lock);
- 
- 	drm_mode_object_register(dev, &fb->base);
--out:
-+
-+	return 0;
-+
-+err:
-+	for (i = 0; i < fb->format->num_planes; i++) {
-+		if (fb->internal_flags & DRM_FRAMEBUFFER_HAS_HANDLE_REF(i)) {
-+			drm_gem_object_handle_put_unlocked(fb->obj[i]);
-+			fb->internal_flags &= ~DRM_FRAMEBUFFER_HAS_HANDLE_REF(i);
-+		}
-+	}
- 	return ret;
- }
- EXPORT_SYMBOL(drm_framebuffer_init);
-@@ -960,6 +981,12 @@ EXPORT_SYMBOL(drm_framebuffer_unregister
- void drm_framebuffer_cleanup(struct drm_framebuffer *fb)
- {
- 	struct drm_device *dev = fb->dev;
-+	unsigned int i;
-+
-+	for (i = 0; i < fb->format->num_planes; i++) {
-+		if (fb->internal_flags & DRM_FRAMEBUFFER_HAS_HANDLE_REF(i))
-+			drm_gem_object_handle_put_unlocked(fb->obj[i]);
-+	}
- 
- 	mutex_lock(&dev->mode_config.fb_lock);
- 	list_del(&fb->head);
---- a/drivers/gpu/drm/drm_gem.c
-+++ b/drivers/gpu/drm/drm_gem.c
-@@ -223,23 +223,34 @@ static void drm_gem_object_handle_get(st
- }
- 
- /**
-- * drm_gem_object_handle_get_unlocked - acquire reference on user-space handles
-+ * drm_gem_object_handle_get_if_exists_unlocked - acquire reference on user-space handle, if any
-  * @obj: GEM object
-  *
-- * Acquires a reference on the GEM buffer object's handle. Required
-- * to keep the GEM object alive. Call drm_gem_object_handle_put_unlocked()
-- * to release the reference.
-+ * Acquires a reference on the GEM buffer object's handle. Required to keep
-+ * the GEM object alive. Call drm_gem_object_handle_put_if_exists_unlocked()
-+ * to release the reference. Does nothing if the buffer object has no handle.
-+ *
-+ * Returns:
-+ * True if a handle exists, or false otherwise
-  */
--void drm_gem_object_handle_get_unlocked(struct drm_gem_object *obj)
-+bool drm_gem_object_handle_get_if_exists_unlocked(struct drm_gem_object *obj)
- {
- 	struct drm_device *dev = obj->dev;
- 
- 	guard(mutex)(&dev->object_name_lock);
- 
--	drm_WARN_ON(dev, !obj->handle_count); /* first ref taken in create-tail helper */
-+	/*
-+	 * First ref taken during GEM object creation, if any. Some
-+	 * drivers set up internal framebuffers with GEM objects that
-+	 * do not have a GEM handle. Hence, this counter can be zero.
-+	 */
-+	if (!obj->handle_count)
-+		return false;
-+
- 	drm_gem_object_handle_get(obj);
-+
-+	return true;
- }
--EXPORT_SYMBOL(drm_gem_object_handle_get_unlocked);
- 
- /**
-  * drm_gem_object_handle_free - release resources bound to userspace handles
-@@ -272,7 +283,7 @@ static void drm_gem_object_exported_dma_
- }
- 
- /**
-- * drm_gem_object_handle_put_unlocked - releases reference on user-space handles
-+ * drm_gem_object_handle_put_unlocked - releases reference on user-space handle
-  * @obj: GEM object
-  *
-  * Releases a reference on the GEM buffer object's handle. Possibly releases
-@@ -283,14 +294,14 @@ void drm_gem_object_handle_put_unlocked(
- 	struct drm_device *dev = obj->dev;
- 	bool final = false;
- 
--	if (WARN_ON(READ_ONCE(obj->handle_count) == 0))
-+	if (drm_WARN_ON(dev, READ_ONCE(obj->handle_count) == 0))
- 		return;
- 
- 	/*
--	* Must bump handle count first as this may be the last
--	* ref, in which case the object would disappear before we
--	* checked for a name
--	*/
-+	 * Must bump handle count first as this may be the last
-+	 * ref, in which case the object would disappear before
-+	 * we checked for a name.
-+	 */
- 
- 	mutex_lock(&dev->object_name_lock);
- 	if (--obj->handle_count == 0) {
-@@ -303,7 +314,6 @@ void drm_gem_object_handle_put_unlocked(
- 	if (final)
- 		drm_gem_object_put(obj);
- }
--EXPORT_SYMBOL(drm_gem_object_handle_put_unlocked);
- 
- /*
-  * Called at device or object close to release the file's
---- a/drivers/gpu/drm/drm_gem_framebuffer_helper.c
-+++ b/drivers/gpu/drm/drm_gem_framebuffer_helper.c
-@@ -99,7 +99,7 @@ void drm_gem_fb_destroy(struct drm_frame
- 	unsigned int i;
- 
- 	for (i = 0; i < fb->format->num_planes; i++)
--		drm_gem_object_handle_put_unlocked(fb->obj[i]);
-+		drm_gem_object_put(fb->obj[i]);
- 
- 	drm_framebuffer_cleanup(fb);
- 	kfree(fb);
-@@ -182,10 +182,8 @@ int drm_gem_fb_init_with_funcs(struct dr
- 		if (!objs[i]) {
- 			drm_dbg_kms(dev, "Failed to lookup GEM object\n");
- 			ret = -ENOENT;
--			goto err_gem_object_handle_put_unlocked;
-+			goto err_gem_object_put;
- 		}
--		drm_gem_object_handle_get_unlocked(objs[i]);
--		drm_gem_object_put(objs[i]);
- 
- 		min_size = (height - 1) * mode_cmd->pitches[i]
- 			 + drm_format_info_min_pitch(info, i, width)
-@@ -195,22 +193,22 @@ int drm_gem_fb_init_with_funcs(struct dr
- 			drm_dbg_kms(dev,
- 				    "GEM object size (%zu) smaller than minimum size (%u) for plane %d\n",
- 				    objs[i]->size, min_size, i);
--			drm_gem_object_handle_put_unlocked(objs[i]);
-+			drm_gem_object_put(objs[i]);
- 			ret = -EINVAL;
--			goto err_gem_object_handle_put_unlocked;
-+			goto err_gem_object_put;
- 		}
- 	}
- 
- 	ret = drm_gem_fb_init(dev, fb, mode_cmd, objs, i, funcs);
- 	if (ret)
--		goto err_gem_object_handle_put_unlocked;
-+		goto err_gem_object_put;
- 
- 	return 0;
- 
--err_gem_object_handle_put_unlocked:
-+err_gem_object_put:
- 	while (i > 0) {
- 		--i;
--		drm_gem_object_handle_put_unlocked(objs[i]);
-+		drm_gem_object_put(objs[i]);
- 	}
- 	return ret;
- }
---- a/drivers/gpu/drm/drm_internal.h
-+++ b/drivers/gpu/drm/drm_internal.h
-@@ -161,7 +161,7 @@ void drm_sysfs_lease_event(struct drm_de
- 
- /* drm_gem.c */
- int drm_gem_init(struct drm_device *dev);
--void drm_gem_object_handle_get_unlocked(struct drm_gem_object *obj);
-+bool drm_gem_object_handle_get_if_exists_unlocked(struct drm_gem_object *obj);
- void drm_gem_object_handle_put_unlocked(struct drm_gem_object *obj);
- int drm_gem_handle_create_tail(struct drm_file *file_priv,
- 			       struct drm_gem_object *obj,
---- a/include/drm/drm_framebuffer.h
-+++ b/include/drm/drm_framebuffer.h
-@@ -23,6 +23,7 @@
- #ifndef __DRM_FRAMEBUFFER_H__
- #define __DRM_FRAMEBUFFER_H__
- 
-+#include <linux/bits.h>
- #include <linux/ctype.h>
- #include <linux/list.h>
- #include <linux/sched.h>
-@@ -100,6 +101,8 @@ struct drm_framebuffer_funcs {
- 		     unsigned num_clips);
- };
- 
-+#define DRM_FRAMEBUFFER_HAS_HANDLE_REF(_i)	BIT(0u + (_i))
-+
- /**
-  * struct drm_framebuffer - frame buffer object
-  *
-@@ -189,6 +192,10 @@ struct drm_framebuffer {
- 	 */
- 	int flags;
- 	/**
-+	 * @internal_flags: Framebuffer flags like DRM_FRAMEBUFFER_HAS_HANDLE_REF.
-+	 */
-+	unsigned int internal_flags;
-+	/**
- 	 * @filp_head: Placed on &drm_file.fbs, protected by &drm_file.fbs_lock.
- 	 */
- 	struct list_head filp_head;
+Reviewed-by: Srinivas Kandagatla <srini@kernel.org>
 
 
-Patches currently in stable-queue which might be from tzimmermann@suse.de are
+Greg, there are no more patches for fastrpc for this cycle, can you
+please pick this up via char-misc tree?
 
-queue-6.15/drm-gem-fix-race-in-drm_gem_handle_create_tail.patch
-queue-6.15/drm-gem-acquire-references-on-gem-handles-for-framebuffers.patch
-queue-6.15/drm-framebuffer-acquire-internal-references-on-gem-handles.patch
+
+thanks,
+Srini
+
+
+
+>  drivers/misc/fastrpc.c | 19 +++++++------------
+>  1 file changed, 7 insertions(+), 12 deletions(-)
+> 
+> diff --git a/drivers/misc/fastrpc.c b/drivers/misc/fastrpc.c
+> index 378923594f02..53e88a1bc430 100644
+> --- a/drivers/misc/fastrpc.c
+> +++ b/drivers/misc/fastrpc.c
+> @@ -2262,8 +2262,6 @@ static int fastrpc_rpmsg_probe(struct rpmsg_device *rpdev)
+>  	int i, err, domain_id = -1, vmcount;
+>  	const char *domain;
+>  	bool secure_dsp;
+> -	struct device_node *rmem_node;
+> -	struct reserved_mem *rmem;
+>  	unsigned int vmids[FASTRPC_MAX_VMIDS];
+>  
+>  	err = of_property_read_string(rdev->of_node, "label", &domain);
+> @@ -2306,20 +2304,17 @@ static int fastrpc_rpmsg_probe(struct rpmsg_device *rpdev)
+>  		}
+>  	}
+>  
+> -	rmem_node = of_parse_phandle(rdev->of_node, "memory-region", 0);
+> -	if (domain_id == SDSP_DOMAIN_ID && rmem_node) {
+> +	if (domain_id == SDSP_DOMAIN_ID) {
+> +		struct resource res;
+>  		u64 src_perms;
+>  
+> -		rmem = of_reserved_mem_lookup(rmem_node);
+> -		if (!rmem) {
+> -			err = -EINVAL;
+> -			goto err_free_data;
+> -		}
+> +		err = of_reserved_mem_region_to_resource(rdev->of_node, 0, &res);
+> +		if (!err) {
+> +			src_perms = BIT(QCOM_SCM_VMID_HLOS);
+>  
+> -		src_perms = BIT(QCOM_SCM_VMID_HLOS);
+> -
+> -		qcom_scm_assign_mem(rmem->base, rmem->size, &src_perms,
+> +			qcom_scm_assign_mem(res.start, resource_size(&res), &src_perms,
+>  				    data->vmperms, data->vmcount);
+> +		}
+>  
+>  	}
+>  
+
