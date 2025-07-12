@@ -2,41 +2,41 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0A8BBB02B6E
-	for <lists+dri-devel@lfdr.de>; Sat, 12 Jul 2025 16:37:22 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id BEA6BB02B70
+	for <lists+dri-devel@lfdr.de>; Sat, 12 Jul 2025 16:37:47 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id AB39B10E177;
-	Sat, 12 Jul 2025 14:37:18 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 31FB810E2E6;
+	Sat, 12 Jul 2025 14:37:46 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=fail reason="signature verification failed" (1024-bit key; unprotected) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="Nl5kwexp";
+	dkim=fail reason="signature verification failed" (1024-bit key; unprotected) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="0Fju1uOt";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from tor.source.kernel.org (tor.source.kernel.org [172.105.4.254])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 27A7510E177
- for <dri-devel@lists.freedesktop.org>; Sat, 12 Jul 2025 14:37:16 +0000 (UTC)
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id EF8E210E2E6
+ for <dri-devel@lists.freedesktop.org>; Sat, 12 Jul 2025 14:37:44 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by tor.source.kernel.org (Postfix) with ESMTP id 19C3460007;
- Sat, 12 Jul 2025 14:37:16 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id C1920C4CEEF;
- Sat, 12 Jul 2025 14:37:14 +0000 (UTC)
+ by dfw.source.kernel.org (Postfix) with ESMTP id 6CF455C543B;
+ Sat, 12 Jul 2025 14:37:44 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id C25D6C4CEF6;
+ Sat, 12 Jul 2025 14:37:43 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
- s=korg; t=1752331035;
- bh=5xKq1RXBqT9xQG7WWzukNY82PClEJn+B6mVdJmCz5Xo=;
+ s=korg; t=1752331064;
+ bh=Vs6MCROPTYo6m8lKFInHSo+1gFWNsdYy0vpB/pXwkoY=;
  h=Subject:To:Cc:From:Date:From;
- b=Nl5kwexpKC6GKqKC4DxVcp83cycPf9CEOPNrmuRWDtOKnBQOz/YJuDI7m6gtKQKiI
- Hse2N1OjQXAkTAiueN3YzARlbdr9wZ5z7c0diFDUlujKnTsGfX3ubdZD/zcxU4wUAc
- pWg3bTv8tVjVkJRMlewTMDAAplUkkJ6ktYKLZTxo=
+ b=0Fju1uOtXYRIvDFNzKrGH6pX4c61j5MwA3v40siTGxyo9B5epHW7+I8Ed8M7nBvqi
+ i1ALEw6qpYzM6WqmVSdeJf8vr976nnofTS87+3m7BVhjN+wWys+RY2vG1sIQwDg2Vq
+ 3tTEvRG/kBBGT9Uthw11IM9vLQKFLMc/sg0CHkIA=
 Subject: Patch "drm/gem: Acquire references on GEM handles for framebuffers"
- has been added to the 6.6-stable tree
+ has been added to the 6.12-stable tree
 To: asrivats@redhat.com, christian.koenig@amd.com,
  dri-devel@lists.freedesktop.org, gregkh@linuxfoundation.org,
  linaro-mm-sig@lists.linaro.org, maarten.lankhorst@linux.intel.com,
  mripard@kernel.org, sumit.semwal@linaro.org, tzimmermann@suse.de
 Cc: <stable-commits@vger.kernel.org>
 From: <gregkh@linuxfoundation.org>
-Date: Sat, 12 Jul 2025 16:37:04 +0200
-Message-ID: <2025071204-broadside-amaze-5b8c@gregkh>
+Date: Sat, 12 Jul 2025 16:37:13 +0200
+Message-ID: <2025071213-glimpse-wad-b500@gregkh>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
@@ -62,12 +62,12 @@ This is a note to let you know that I've just added the patch titled
 
     drm/gem: Acquire references on GEM handles for framebuffers
 
-to the 6.6-stable tree which can be found at:
+to the 6.12-stable tree which can be found at:
     http://www.kernel.org/git/?p=linux/kernel/git/stable/stable-queue.git;a=summary
 
 The filename of the patch is:
      drm-gem-acquire-references-on-gem-handles-for-framebuffers.patch
-and it can be found in the queue-6.6 subdirectory.
+and it can be found in the queue-6.12 subdirectory.
 
 If you, or anyone else, feels it should not be added to the stable tree,
 please let <stable@vger.kernel.org> know about it.
@@ -291,7 +291,7 @@ Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
  }
 --- a/drivers/gpu/drm/drm_internal.h
 +++ b/drivers/gpu/drm/drm_internal.h
-@@ -155,6 +155,8 @@ void drm_sysfs_lease_event(struct drm_de
+@@ -153,6 +153,8 @@ void drm_sysfs_lease_event(struct drm_de
  
  /* drm_gem.c */
  int drm_gem_init(struct drm_device *dev);
@@ -304,5 +304,5 @@ Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 
 Patches currently in stable-queue which might be from tzimmermann@suse.de are
 
-queue-6.6/drm-gem-fix-race-in-drm_gem_handle_create_tail.patch
-queue-6.6/drm-gem-acquire-references-on-gem-handles-for-framebuffers.patch
+queue-6.12/drm-gem-fix-race-in-drm_gem_handle_create_tail.patch
+queue-6.12/drm-gem-acquire-references-on-gem-handles-for-framebuffers.patch
