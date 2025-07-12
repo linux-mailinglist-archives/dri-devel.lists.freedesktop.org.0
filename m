@@ -2,79 +2,46 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 57E4AB02AEB
-	for <lists+dri-devel@lfdr.de>; Sat, 12 Jul 2025 15:12:24 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0A8BBB02B6E
+	for <lists+dri-devel@lfdr.de>; Sat, 12 Jul 2025 16:37:22 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1D13F10E2E2;
-	Sat, 12 Jul 2025 13:12:22 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id AB39B10E177;
+	Sat, 12 Jul 2025 14:37:18 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=igalia.com header.i=@igalia.com header.b="Nx1qKDPC";
+	dkim=fail reason="signature verification failed" (1024-bit key; unprotected) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="Nl5kwexp";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from fanzine2.igalia.com (fanzine2.igalia.com [213.97.179.56])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3C2B310E308;
- Sat, 12 Jul 2025 13:12:21 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com; 
- s=20170329;
- h=Content-Transfer-Encoding:Content-Type:In-Reply-To:From:
- References:Cc:To:Subject:MIME-Version:Date:Message-ID:Sender:Reply-To:
- Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
- Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
- List-Subscribe:List-Post:List-Owner:List-Archive;
- bh=tjHjeNROdx1SB8/OF5ZRFB3d/Rx5WRq/cJmA0c4AcsM=; b=Nx1qKDPCF2wihPznODJ6sNigOS
- jI2zgtkjNdGmv98+PxUgCoD8eJ3TfsJW25vytrP73B5nFktaFuZg8VuzhH9q6GyL/3ttM4Ea/b0C8
- FgMc86EDRvXFu09S5iZFGXuexh6LdKFbkqDJSI2IKRd4iltE97vSPY/8MYTS9vpO5NuZwtfISEf3o
- LDFvmOKgDFuTfeYJBkgDuiWDZUgER5aivkT7pnE1FHxevIwm9TLqRzB25c7b5DA7Yqyn0cHpj9nve
- TDsLN+oHc+0vIrkwm0Vp3t7UNim2pXQND/WH9Ejrx5JSExr364sBSq3+/3nVGJ/hDmSJd2vF1vczt
- eIuU898g==;
-Received: from [187.36.210.68] (helo=[192.168.1.111])
- by fanzine2.igalia.com with esmtpsa 
- (Cipher TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_128_GCM:128) (Exim)
- id 1uaa1W-00Fkgm-Q8; Sat, 12 Jul 2025 15:12:15 +0200
-Message-ID: <c3e224e6-cb88-405b-9008-62d0ef26a1fe@igalia.com>
-Date: Sat, 12 Jul 2025 10:12:08 -0300
+Received: from tor.source.kernel.org (tor.source.kernel.org [172.105.4.254])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 27A7510E177
+ for <dri-devel@lists.freedesktop.org>; Sat, 12 Jul 2025 14:37:16 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+ by tor.source.kernel.org (Postfix) with ESMTP id 19C3460007;
+ Sat, 12 Jul 2025 14:37:16 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id C1920C4CEEF;
+ Sat, 12 Jul 2025 14:37:14 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
+ s=korg; t=1752331035;
+ bh=5xKq1RXBqT9xQG7WWzukNY82PClEJn+B6mVdJmCz5Xo=;
+ h=Subject:To:Cc:From:Date:From;
+ b=Nl5kwexpKC6GKqKC4DxVcp83cycPf9CEOPNrmuRWDtOKnBQOz/YJuDI7m6gtKQKiI
+ Hse2N1OjQXAkTAiueN3YzARlbdr9wZ5z7c0diFDUlujKnTsGfX3ubdZD/zcxU4wUAc
+ pWg3bTv8tVjVkJRMlewTMDAAplUkkJ6ktYKLZTxo=
+Subject: Patch "drm/gem: Acquire references on GEM handles for framebuffers"
+ has been added to the 6.6-stable tree
+To: asrivats@redhat.com, christian.koenig@amd.com,
+ dri-devel@lists.freedesktop.org, gregkh@linuxfoundation.org,
+ linaro-mm-sig@lists.linaro.org, maarten.lankhorst@linux.intel.com,
+ mripard@kernel.org, sumit.semwal@linaro.org, tzimmermann@suse.de
+Cc: <stable-commits@vger.kernel.org>
+From: <gregkh@linuxfoundation.org>
+Date: Sat, 12 Jul 2025 16:37:04 +0200
+Message-ID: <2025071204-broadside-amaze-5b8c@gregkh>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2] drm/sched: Avoid double re-lock on the job free path
-To: Danilo Krummrich <dakr@kernel.org>
-Cc: Tvrtko Ursulin <tvrtko.ursulin@igalia.com>,
- dri-devel@lists.freedesktop.org, intel-xe@lists.freedesktop.org,
- amd-gfx@lists.freedesktop.org, kernel-dev@igalia.com,
- =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
- Matthew Brost <matthew.brost@intel.com>, Philipp Stanner <phasta@kernel.org>
-References: <20250711150949.48667-1-tvrtko.ursulin@igalia.com>
- <d59b7550-5833-4377-9d94-33161f375604@igalia.com>
- <7df6a7ea-658a-435a-9b4e-49a3d1b4677f@kernel.org>
-Content-Language: en-US
-From: =?UTF-8?Q?Ma=C3=ADra_Canal?= <mcanal@igalia.com>
-Autocrypt: addr=mcanal@igalia.com; keydata=
- xsBNBGcCwywBCADgTji02Sv9zjHo26LXKdCaumcSWglfnJ93rwOCNkHfPIBll85LL9G0J7H8
- /PmEL9y0LPo9/B3fhIpbD8VhSy9Sqz8qVl1oeqSe/rh3M+GceZbFUPpMSk5pNY9wr5raZ63d
- gJc1cs8XBhuj1EzeE8qbP6JAmsL+NMEmtkkNPfjhX14yqzHDVSqmAFEsh4Vmw6oaTMXvwQ40
- SkFjtl3sr20y07cJMDe++tFet2fsfKqQNxwiGBZJsjEMO2T+mW7DuV2pKHr9aifWjABY5EPw
- G7qbrh+hXgfT+njAVg5+BcLz7w9Ju/7iwDMiIY1hx64Ogrpwykj9bXav35GKobicCAwHABEB
- AAHNIE1hw61yYSBDYW5hbCA8bWNhbmFsQGlnYWxpYS5jb20+wsCRBBMBCAA7FiEE+ORdfQEW
- dwcppnfRP/MOinaI+qoFAmcCwywCGwMFCwkIBwICIgIGFQoJCAsCBBYCAwECHgcCF4AACgkQ
- P/MOinaI+qoUBQgAqz2gzUP7K3EBI24+a5FwFlruQGtim85GAJZXToBtzsfGLLVUSCL3aF/5
- O335Bh6ViSBgxmowIwVJlS/e+L95CkTGzIIMHgyUZfNefR2L3aZA6cgc9z8cfow62Wu8eXnq
- GM/+WWvrFQb/dBKKuohfBlpThqDWXxhozazCcJYYHradIuOM8zyMtCLDYwPW7Vqmewa+w994
- 7Lo4CgOhUXVI2jJSBq3sgHEPxiUBOGxvOt1YBg7H9C37BeZYZxFmU8vh7fbOsvhx7Aqu5xV7
- FG+1ZMfDkv+PixCuGtR5yPPaqU2XdjDC/9mlRWWQTPzg74RLEw5sz/tIHQPPm6ROCACFls7A
- TQRnAsMsAQgAxTU8dnqzK6vgODTCW2A6SAzcvKztxae4YjRwN1SuGhJR2isJgQHoOH6oCItW
- Xc1CGAWnci6doh1DJvbbB7uvkQlbeNxeIz0OzHSiB+pb1ssuT31Hz6QZFbX4q+crregPIhr+
- 0xeDi6Mtu+paYprI7USGFFjDUvJUf36kK0yuF2XUOBlF0beCQ7Jhc+UoI9Akmvl4sHUrZJzX
- LMeajARnSBXTcig6h6/NFVkr1mi1uuZfIRNCkxCE8QRYebZLSWxBVr3h7dtOUkq2CzL2kRCK
- T2rKkmYrvBJTqSvfK3Ba7QrDg3szEe+fENpL3gHtH6h/XQF92EOulm5S5o0I+ceREwARAQAB
- wsB2BBgBCAAgFiEE+ORdfQEWdwcppnfRP/MOinaI+qoFAmcCwywCGwwACgkQP/MOinaI+qpI
- zQf+NAcNDBXWHGA3lgvYvOU31+ik9bb30xZ7IqK9MIi6TpZqL7cxNwZ+FAK2GbUWhy+/gPkX
- it2gCAJsjo/QEKJi7Zh8IgHN+jfim942QZOkU+p/YEcvqBvXa0zqW0sYfyAxkrf/OZfTnNNE
- Tr+uBKNaQGO2vkn5AX5l8zMl9LCH3/Ieaboni35qEhoD/aM0Kpf93PhCvJGbD4n1DnRhrxm1
- uEdQ6HUjWghEjC+Jh9xUvJco2tUTepw4OwuPxOvtuPTUa1kgixYyG1Jck/67reJzMigeuYFt
- raV3P8t/6cmtawVjurhnCDuURyhUrjpRhgFp+lW8OGr6pepHol/WFIOQEg==
-In-Reply-To: <7df6a7ea-658a-435a-9b4e-49a3d1b4677f@kernel.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
+X-stable: commit
+X-Patchwork-Hint: ignore 
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -90,50 +57,252 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Danilo,
 
-On 7/11/25 16:22, Danilo Krummrich wrote:
-> On 7/11/25 9:08 PM, Maíra Canal wrote:
->> Hi Tvrtko,
->>
->> On 11/07/25 12:09, Tvrtko Ursulin wrote:
->>> Currently the job free work item will lock sched->job_list_lock first 
->>> time
->>> to see if there are any jobs, free a single job, and then lock again to
->>> decide whether to re-queue itself if there are more finished jobs.
->>>
->>> Since drm_sched_get_finished_job() already looks at the second job in 
->>> the
->>> queue we can simply add the signaled check and have it return the 
->>> presence
->>> of more jobs to be freed to the caller. That way the work item does not
->>> have to lock the list again and repeat the signaled check.
->>>
->>> Signed-off-by: Tvrtko Ursulin <tvrtko.ursulin@igalia.com>
->>> Cc: Christian König <christian.koenig@amd.com>
->>> Cc: Danilo Krummrich <dakr@kernel.org>
->>> Cc: Matthew Brost <matthew.brost@intel.com>
->>> Cc: Philipp Stanner <phasta@kernel.org>
->>> ---
->>> v2:
->>>   * Improve commit text and kerneldoc. (Philipp)
->>>   * Rename run free work helper. (Philipp)
->>
->> Maybe, would it be possible not to rename it? Otherwise, I won't be able
->> to use the function name `drm_sched_run_free_queue()` in the
->> DRM_GPU_SCHED_STAT_NO_HANG series.
->>
->> Not a big deal, but it would ease reintroducing
->> `drm_sched_run_free_queue()` if the series lands after this patch.
-> 
-> Do you intend to land your series through a different tree?
+This is a note to let you know that I've just added the patch titled
 
-No, I plan to land my series in drm-misc-next. I'm just waiting our
-discussion with König to settle down before pushing it. However, if
-Tvrtko doesn't mind, we can arrange to push this patch after my series.
+    drm/gem: Acquire references on GEM handles for framebuffers
 
-But again, not a big deal, I can rebase it later.
+to the 6.6-stable tree which can be found at:
+    http://www.kernel.org/git/?p=linux/kernel/git/stable/stable-queue.git;a=summary
 
-Best Regards,
-- Maíra
+The filename of the patch is:
+     drm-gem-acquire-references-on-gem-handles-for-framebuffers.patch
+and it can be found in the queue-6.6 subdirectory.
 
+If you, or anyone else, feels it should not be added to the stable tree,
+please let <stable@vger.kernel.org> know about it.
+
+
+From 5307dce878d4126e1b375587318955bd019c3741 Mon Sep 17 00:00:00 2001
+From: Thomas Zimmermann <tzimmermann@suse.de>
+Date: Mon, 30 Jun 2025 10:36:47 +0200
+Subject: drm/gem: Acquire references on GEM handles for framebuffers
+MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+
+From: Thomas Zimmermann <tzimmermann@suse.de>
+
+commit 5307dce878d4126e1b375587318955bd019c3741 upstream.
+
+A GEM handle can be released while the GEM buffer object is attached
+to a DRM framebuffer. This leads to the release of the dma-buf backing
+the buffer object, if any. [1] Trying to use the framebuffer in further
+mode-setting operations leads to a segmentation fault. Most easily
+happens with driver that use shadow planes for vmap-ing the dma-buf
+during a page flip. An example is shown below.
+
+[  156.791968] ------------[ cut here ]------------
+[  156.796830] WARNING: CPU: 2 PID: 2255 at drivers/dma-buf/dma-buf.c:1527 dma_buf_vmap+0x224/0x430
+[...]
+[  156.942028] RIP: 0010:dma_buf_vmap+0x224/0x430
+[  157.043420] Call Trace:
+[  157.045898]  <TASK>
+[  157.048030]  ? show_trace_log_lvl+0x1af/0x2c0
+[  157.052436]  ? show_trace_log_lvl+0x1af/0x2c0
+[  157.056836]  ? show_trace_log_lvl+0x1af/0x2c0
+[  157.061253]  ? drm_gem_shmem_vmap+0x74/0x710
+[  157.065567]  ? dma_buf_vmap+0x224/0x430
+[  157.069446]  ? __warn.cold+0x58/0xe4
+[  157.073061]  ? dma_buf_vmap+0x224/0x430
+[  157.077111]  ? report_bug+0x1dd/0x390
+[  157.080842]  ? handle_bug+0x5e/0xa0
+[  157.084389]  ? exc_invalid_op+0x14/0x50
+[  157.088291]  ? asm_exc_invalid_op+0x16/0x20
+[  157.092548]  ? dma_buf_vmap+0x224/0x430
+[  157.096663]  ? dma_resv_get_singleton+0x6d/0x230
+[  157.101341]  ? __pfx_dma_buf_vmap+0x10/0x10
+[  157.105588]  ? __pfx_dma_resv_get_singleton+0x10/0x10
+[  157.110697]  drm_gem_shmem_vmap+0x74/0x710
+[  157.114866]  drm_gem_vmap+0xa9/0x1b0
+[  157.118763]  drm_gem_vmap_unlocked+0x46/0xa0
+[  157.123086]  drm_gem_fb_vmap+0xab/0x300
+[  157.126979]  drm_atomic_helper_prepare_planes.part.0+0x487/0xb10
+[  157.133032]  ? lockdep_init_map_type+0x19d/0x880
+[  157.137701]  drm_atomic_helper_commit+0x13d/0x2e0
+[  157.142671]  ? drm_atomic_nonblocking_commit+0xa0/0x180
+[  157.147988]  drm_mode_atomic_ioctl+0x766/0xe40
+[...]
+[  157.346424] ---[ end trace 0000000000000000 ]---
+
+Acquiring GEM handles for the framebuffer's GEM buffer objects prevents
+this from happening. The framebuffer's cleanup later puts the handle
+references.
+
+Commit 1a148af06000 ("drm/gem-shmem: Use dma_buf from GEM object
+instance") triggers the segmentation fault easily by using the dma-buf
+field more widely. The underlying issue with reference counting has
+been present before.
+
+v2:
+- acquire the handle instead of the BO (Christian)
+- fix comment style (Christian)
+- drop the Fixes tag (Christian)
+- rename err_ gotos
+- add missing Link tag
+
+Suggested-by: Christian König <christian.koenig@amd.com>
+Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
+Link: https://elixir.bootlin.com/linux/v6.15/source/drivers/gpu/drm/drm_gem.c#L241 # [1]
+Cc: Thomas Zimmermann <tzimmermann@suse.de>
+Cc: Anusha Srivatsa <asrivats@redhat.com>
+Cc: Christian König <christian.koenig@amd.com>
+Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
+Cc: Maxime Ripard <mripard@kernel.org>
+Cc: Sumit Semwal <sumit.semwal@linaro.org>
+Cc: "Christian König" <christian.koenig@amd.com>
+Cc: linux-media@vger.kernel.org
+Cc: dri-devel@lists.freedesktop.org
+Cc: linaro-mm-sig@lists.linaro.org
+Cc: <stable@vger.kernel.org>
+Reviewed-by: Christian König <christian.koenig@amd.com>
+Link: https://lore.kernel.org/r/20250630084001.293053-1-tzimmermann@suse.de
+Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+---
+ drivers/gpu/drm/drm_gem.c                    |   44 ++++++++++++++++++++++++---
+ drivers/gpu/drm/drm_gem_framebuffer_helper.c |   16 +++++----
+ drivers/gpu/drm/drm_internal.h               |    2 +
+ 3 files changed, 51 insertions(+), 11 deletions(-)
+
+--- a/drivers/gpu/drm/drm_gem.c
++++ b/drivers/gpu/drm/drm_gem.c
+@@ -186,6 +186,35 @@ void drm_gem_private_object_fini(struct
+ }
+ EXPORT_SYMBOL(drm_gem_private_object_fini);
+ 
++static void drm_gem_object_handle_get(struct drm_gem_object *obj)
++{
++	struct drm_device *dev = obj->dev;
++
++	drm_WARN_ON(dev, !mutex_is_locked(&dev->object_name_lock));
++
++	if (obj->handle_count++ == 0)
++		drm_gem_object_get(obj);
++}
++
++/**
++ * drm_gem_object_handle_get_unlocked - acquire reference on user-space handles
++ * @obj: GEM object
++ *
++ * Acquires a reference on the GEM buffer object's handle. Required
++ * to keep the GEM object alive. Call drm_gem_object_handle_put_unlocked()
++ * to release the reference.
++ */
++void drm_gem_object_handle_get_unlocked(struct drm_gem_object *obj)
++{
++	struct drm_device *dev = obj->dev;
++
++	guard(mutex)(&dev->object_name_lock);
++
++	drm_WARN_ON(dev, !obj->handle_count); /* first ref taken in create-tail helper */
++	drm_gem_object_handle_get(obj);
++}
++EXPORT_SYMBOL(drm_gem_object_handle_get_unlocked);
++
+ /**
+  * drm_gem_object_handle_free - release resources bound to userspace handles
+  * @obj: GEM object to clean up.
+@@ -216,8 +245,14 @@ static void drm_gem_object_exported_dma_
+ 	}
+ }
+ 
+-static void
+-drm_gem_object_handle_put_unlocked(struct drm_gem_object *obj)
++/**
++ * drm_gem_object_handle_put_unlocked - releases reference on user-space handles
++ * @obj: GEM object
++ *
++ * Releases a reference on the GEM buffer object's handle. Possibly releases
++ * the GEM buffer object and associated dma-buf objects.
++ */
++void drm_gem_object_handle_put_unlocked(struct drm_gem_object *obj)
+ {
+ 	struct drm_device *dev = obj->dev;
+ 	bool final = false;
+@@ -242,6 +277,7 @@ drm_gem_object_handle_put_unlocked(struc
+ 	if (final)
+ 		drm_gem_object_put(obj);
+ }
++EXPORT_SYMBOL(drm_gem_object_handle_put_unlocked);
+ 
+ /*
+  * Called at device or object close to release the file's
+@@ -363,8 +399,8 @@ drm_gem_handle_create_tail(struct drm_fi
+ 	int ret;
+ 
+ 	WARN_ON(!mutex_is_locked(&dev->object_name_lock));
+-	if (obj->handle_count++ == 0)
+-		drm_gem_object_get(obj);
++
++	drm_gem_object_handle_get(obj);
+ 
+ 	/*
+ 	 * Get the user-visible handle using idr.  Preload and perform
+--- a/drivers/gpu/drm/drm_gem_framebuffer_helper.c
++++ b/drivers/gpu/drm/drm_gem_framebuffer_helper.c
+@@ -99,7 +99,7 @@ void drm_gem_fb_destroy(struct drm_frame
+ 	unsigned int i;
+ 
+ 	for (i = 0; i < fb->format->num_planes; i++)
+-		drm_gem_object_put(fb->obj[i]);
++		drm_gem_object_handle_put_unlocked(fb->obj[i]);
+ 
+ 	drm_framebuffer_cleanup(fb);
+ 	kfree(fb);
+@@ -182,8 +182,10 @@ int drm_gem_fb_init_with_funcs(struct dr
+ 		if (!objs[i]) {
+ 			drm_dbg_kms(dev, "Failed to lookup GEM object\n");
+ 			ret = -ENOENT;
+-			goto err_gem_object_put;
++			goto err_gem_object_handle_put_unlocked;
+ 		}
++		drm_gem_object_handle_get_unlocked(objs[i]);
++		drm_gem_object_put(objs[i]);
+ 
+ 		min_size = (height - 1) * mode_cmd->pitches[i]
+ 			 + drm_format_info_min_pitch(info, i, width)
+@@ -193,22 +195,22 @@ int drm_gem_fb_init_with_funcs(struct dr
+ 			drm_dbg_kms(dev,
+ 				    "GEM object size (%zu) smaller than minimum size (%u) for plane %d\n",
+ 				    objs[i]->size, min_size, i);
+-			drm_gem_object_put(objs[i]);
++			drm_gem_object_handle_put_unlocked(objs[i]);
+ 			ret = -EINVAL;
+-			goto err_gem_object_put;
++			goto err_gem_object_handle_put_unlocked;
+ 		}
+ 	}
+ 
+ 	ret = drm_gem_fb_init(dev, fb, mode_cmd, objs, i, funcs);
+ 	if (ret)
+-		goto err_gem_object_put;
++		goto err_gem_object_handle_put_unlocked;
+ 
+ 	return 0;
+ 
+-err_gem_object_put:
++err_gem_object_handle_put_unlocked:
+ 	while (i > 0) {
+ 		--i;
+-		drm_gem_object_put(objs[i]);
++		drm_gem_object_handle_put_unlocked(objs[i]);
+ 	}
+ 	return ret;
+ }
+--- a/drivers/gpu/drm/drm_internal.h
++++ b/drivers/gpu/drm/drm_internal.h
+@@ -155,6 +155,8 @@ void drm_sysfs_lease_event(struct drm_de
+ 
+ /* drm_gem.c */
+ int drm_gem_init(struct drm_device *dev);
++void drm_gem_object_handle_get_unlocked(struct drm_gem_object *obj);
++void drm_gem_object_handle_put_unlocked(struct drm_gem_object *obj);
+ int drm_gem_handle_create_tail(struct drm_file *file_priv,
+ 			       struct drm_gem_object *obj,
+ 			       u32 *handlep);
+
+
+Patches currently in stable-queue which might be from tzimmermann@suse.de are
+
+queue-6.6/drm-gem-fix-race-in-drm_gem_handle_create_tail.patch
+queue-6.6/drm-gem-acquire-references-on-gem-handles-for-framebuffers.patch
