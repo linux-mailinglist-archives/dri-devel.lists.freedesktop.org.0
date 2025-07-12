@@ -2,84 +2,83 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id A33E9B02881
-	for <lists+dri-devel@lfdr.de>; Sat, 12 Jul 2025 02:58:40 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3B2DEB02894
+	for <lists+dri-devel@lfdr.de>; Sat, 12 Jul 2025 02:58:52 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id DFE2810EB03;
-	Sat, 12 Jul 2025 00:58:38 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id F27CE10E3DD;
+	Sat, 12 Jul 2025 00:58:49 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=qualcomm.com header.i=@qualcomm.com header.b="ZxbK+gQ3";
+	dkim=pass (2048-bit key; unprotected) header.d=qualcomm.com header.i=@qualcomm.com header.b="ElWNkyCk";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com
  [205.220.168.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6DAE210EAFC
- for <dri-devel@lists.freedesktop.org>; Sat, 12 Jul 2025 00:58:37 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id ED9CA10EB04
+ for <dri-devel@lists.freedesktop.org>; Sat, 12 Jul 2025 00:58:38 +0000 (UTC)
 Received: from pps.filterd (m0279867.ppops.net [127.0.0.1])
- by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 56C0h0hT001368
- for <dri-devel@lists.freedesktop.org>; Sat, 12 Jul 2025 00:58:37 GMT
+ by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 56C0hDUv002460
+ for <dri-devel@lists.freedesktop.org>; Sat, 12 Jul 2025 00:58:38 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
  cc:content-transfer-encoding:content-type:date:from:in-reply-to
  :message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
- Ztg4BCYx+5l4ffFBXcfolxY/m0CGJMjBeYa+I+72rCQ=; b=ZxbK+gQ3o7Lg9I6o
- tW32UyfO1cE7hcJZNK52s6E4qCyyLXtZD3NlGUJWVHJIqQzMaW+zR5FJDYshzoZG
- WGfyr4GJr+7DGenQlUAyffo2YMu+unknAwcPrtgoYskZ4CNKf1r7C1GsuAAozurz
- 7UCHEyr26QK04gctvrweQeOMfyvTd6BFhYHdyzdvTZv9jVVQJftY5txVtGa6H3Di
- kbP7XhYsakcEgOE4sgWQyqqXgKz1WKitp1dXXxOhcKfuqlJq6dJsxUSpmaUM+d1r
- gv1bs5iry7WxdWuTv66MZ6UW8B2+sOimH1zxdHYGAyK7spoS+/3qUJeMuRkHmxSr
- Vu5yxw==
+ 9sfyzKfbfll0Y6pC9wYmMCCUExx6sAsV9HVVdHNnnk8=; b=ElWNkyCkiT3wToln
+ LVY4Npk6MdtzRAiDDoCttMqcCnZYHShCoNI0ukYB8dujUV66yRaFPc/iansUYcE4
+ fUCAm0nGO5L2tDCiA1fXzatyYbeSt7lhLoIChlRl98nCJEmLdZ5goy1+yJeQYLEV
+ Dajdi8VIY/fa1S4ppLcEAYPvkxrAT0pqhzGdOJivjEL6eDPSpfByJiRXzJR6kDqw
+ u4riPtQJCRHVQZk+aPoBMOLLlP8sBzBNTMww+qU0fb5dwIa0ZZ1Y1RP7zZZ1z1Ui
+ SNEIl0T+hejtu3YdapNcO8vYp6+TGLTRCqzgwSbX+6prXkrhjYZxFvTHrhoyiQlS
+ 246vbw==
 Received: from mail-pj1-f71.google.com (mail-pj1-f71.google.com
  [209.85.216.71])
- by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 47uddjr0n1-1
+ by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 47uddjr0n8-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
- for <dri-devel@lists.freedesktop.org>; Sat, 12 Jul 2025 00:58:36 +0000 (GMT)
+ for <dri-devel@lists.freedesktop.org>; Sat, 12 Jul 2025 00:58:38 +0000 (GMT)
 Received: by mail-pj1-f71.google.com with SMTP id
- 98e67ed59e1d1-313d6d671ffso2413297a91.2
- for <dri-devel@lists.freedesktop.org>; Fri, 11 Jul 2025 17:58:36 -0700 (PDT)
+ 98e67ed59e1d1-313c3915345so3819246a91.3
+ for <dri-devel@lists.freedesktop.org>; Fri, 11 Jul 2025 17:58:38 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1752281916; x=1752886716;
+ d=1e100.net; s=20230601; t=1752281917; x=1752886717;
  h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
  :mime-version:subject:date:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=Ztg4BCYx+5l4ffFBXcfolxY/m0CGJMjBeYa+I+72rCQ=;
- b=qWyerJxjJW5oSOiIkqLl7Pb/chQXjpLapc6pSKwcBZQKN8aogLwyfPxl/vMq35nexB
- sdZj5CPMOVPOmKb8Qo9iCUxorKXfg/jidWY460pcRARfyLo7XL7h0tO2iG5sUUJv6vvb
- hNjlfOBO5FlMLJC2u6C4khoi4z5bl3ePqzkrdBXA1W9z64iRXn9Rpp4lQg0Yyj1R1p/o
- nQvH+ckW6lr9q8Fx32uwTxt5h6PKnkPCZFHlCBxfrWsEW89o5EIS3UskkgxChs9ohBfH
- 0UgoDZ1lWrHsFd+6Wk8xAfSN/DtDJ/KllPBT+2hHRt24sUdm7qRFcvUbPNU60sDJGK4h
- Meww==
+ bh=9sfyzKfbfll0Y6pC9wYmMCCUExx6sAsV9HVVdHNnnk8=;
+ b=XShdvQpNeI7+I/ijHnHb19ZYLcvMxaxdnTEYr+X3zlfomiql0TC5paiwwAbZZEb5Rt
+ 3jRnBnXzDQxkEGbWN4oQNkIWowDmekQCIB+2yPn2LXpsMSFFk4yav97ick37pPtDQTdx
+ Xfmrdm6VqNR18WbAvWiMdgaRHWUpnQTvHgCQ1lAPyp8mu8bUx4DCv9PbrYqOjw6dLdyw
+ Lo1wI/M8LcGPINiP/04NSF+c+/Zw5vb+AaheOTUKyLuhLK40H6ITmzdK1hQZloJ/MaaM
+ us9XGQqeuf8L9m+qr19296qEEuT7UdHIru2ZFqwm75UbCWW0VxInbVbFeJ0tv6gVB73Z
+ zS+Q==
 X-Forwarded-Encrypted: i=1;
- AJvYcCWZFL439j6xKBnvy6VAKf2lfFrOuHuBOYtwyW/H68XIiVbbPpyCQiN+sn5UUzO1f692rf0Nb6krd/k=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YwbLkMyJzbneRYTrGSI8vZnDHnVXawS5LbJG3xpfn6HaLBwX+oE
- vpbpmq65xC7DWIqCZWDzn1EgfkZe2ObUpB40KLJWxjxYri4JzENrtA8gh2hSQg7yTKaq60NGatb
- S9L8J2PZTQg1V6KjwL85sYfKy6StOqIpoLJUEb02zL7WoonsGVWMEbKOcjJyIdt3J0swEYOM=
-X-Gm-Gg: ASbGncsvBHeGm9+pT8FWSBZuHL/UVoE4+J2ZT7DUxSAn+DuA1FPwhEKwXqXpexwH6DN
- i10Ip4c6VYaqfUrPUwXvm/v73fHarvG5VNMV0WPpB0nn9HhpBHHJt2WbW51dkmr2N/oRld5Nrw0
- wjwmUWhkMHS6ec9rr3vRqrjnaHSqDKc816Wvb1nR66JhWi64hHjcUTu3IjB7W04IG2YELNgysaA
- 91erw3lsog3EuT1H31+ZbLho6j9RJxiRoh9hdF3GThUbDm1bbZuq1nYyr5pvFYo9H7yRYeDY0KN
- IKcgN3mGsG+i/YPuyro9IeOyQ2EoPGmb6U8KIszkmwdbx8GxlsdxoDPRzzCX+GgqOQSxllmsm5b
- ZeFLxPylpXVDYuHc98eymA93a
-X-Received: by 2002:a17:90b:4b8d:b0:313:b1a:3939 with SMTP id
- 98e67ed59e1d1-31c50da140amr6038213a91.15.1752281916043; 
- Fri, 11 Jul 2025 17:58:36 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IHYEyWKARo/kBpo3bdZrLz9C/cBJUuLVhrx+I5Awn+rzHrHkONY97ZQteD6SKGI0oaeUyzVHQ==
-X-Received: by 2002:a17:90b:4b8d:b0:313:b1a:3939 with SMTP id
- 98e67ed59e1d1-31c50da140amr6038183a91.15.1752281915603; 
- Fri, 11 Jul 2025 17:58:35 -0700 (PDT)
+ AJvYcCWhOBPR8iXIbMHK8J0DH1Caxsdb4/bICLWdDzFTpyqHjIuJwhCNKJgzcBL3KsZHgyY7Z9KLz9Pz66Q=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YzBT4U6up0GA2QysgsFVYTO8m3DrlHbjapI5XqhvoSWsGy8JgZh
+ 4x6lLvNNA4+MGBnd4+zYsHesckH4pUe8x5Lpu0VWxV52bMAxMmIbi23LeRR+A7hP6fWk7Dr22SQ
+ 3W3Pae7XvvyhMM1SeYlX3BrVvJIselFDzBhAMKAtcYJxgJG1RK5LBETLUrlL/CyxY8V3xKko=
+X-Gm-Gg: ASbGncv4R0FJBUerBOoGK3/3x8kLMGvQ8WL5YG0ulLMYStkrh6nCiU72treBzEcVpvK
+ GQQDb6dwbtOZyuhCCgTRjsVNys8a7OfdOYgG4P481vFbdb6BITJeNlWGLH4jHX3wGI240IvmuEj
+ wTNYKq22q4ixYAUtrC4uZ3Hiwa88IaXeK4urjEZzWa59IuzFE7fmfQMV1cNe3WKeiuslyNw1KCE
+ 4W5gEf06nSUw26UINm5YBVIUP8H21rNyOtBIUhv80Q+/cpex9UvS5x/tu00l8g3+5aP4XeWzu3F
+ lOTNiAXBEwLj4HnIo1FaMFGbGMrvX0SpwZA3EQjVwy6fODxgbqtlCKKnoDmCizDe3BzR3Ns6ELY
+ pqKfcFtwqs/XiSE6vR4Llhh4b
+X-Received: by 2002:a17:90b:5445:b0:308:7270:d6ea with SMTP id
+ 98e67ed59e1d1-31c4cd542d1mr7102532a91.30.1752281917561; 
+ Fri, 11 Jul 2025 17:58:37 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IG88ipsfGCVjYqYZ9GRyykBzdr8Y1eqpIyUUX2i5znBDnxgzgMI8LINqhKf5XOyh1wG4OdyZQ==
+X-Received: by 2002:a17:90b:5445:b0:308:7270:d6ea with SMTP id
+ 98e67ed59e1d1-31c4cd542d1mr7102502a91.30.1752281917135; 
+ Fri, 11 Jul 2025 17:58:37 -0700 (PDT)
 Received: from jesszhan-linux.qualcomm.com (i-global254.qualcomm.com.
  [199.106.103.254]) by smtp.gmail.com with ESMTPSA id
- 98e67ed59e1d1-31c23006d72sm5202274a91.1.2025.07.11.17.58.34
+ 98e67ed59e1d1-31c23006d72sm5202274a91.1.2025.07.11.17.58.35
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 11 Jul 2025 17:58:35 -0700 (PDT)
+ Fri, 11 Jul 2025 17:58:36 -0700 (PDT)
 From: Jessica Zhang <jessica.zhang@oss.qualcomm.com>
-Date: Fri, 11 Jul 2025 17:58:11 -0700
-Subject: [PATCH 06/19] drm/msm/dp: Replace ST_DISCONNECTED with checks for
- connected
+Date: Fri, 11 Jul 2025 17:58:12 -0700
+Subject: [PATCH 07/19] drm/msm/dp: Rework unplug handling
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20250711-hpd-refactor-v1-6-33cbac823f34@oss.qualcomm.com>
+Message-Id: <20250711-hpd-refactor-v1-7-33cbac823f34@oss.qualcomm.com>
 References: <20250711-hpd-refactor-v1-0-33cbac823f34@oss.qualcomm.com>
 In-Reply-To: <20250711-hpd-refactor-v1-0-33cbac823f34@oss.qualcomm.com>
 To: Rob Clark <robin.clark@oss.qualcomm.com>,
@@ -92,26 +91,26 @@ Cc: linux-arm-msm@vger.kernel.org, dri-devel@lists.freedesktop.org,
  freedreno@lists.freedesktop.org, linux-kernel@vger.kernel.org,
  Yongxing Mou <quic_yongmou@quicinc.com>
 X-Mailer: b4 0.15-dev-a9b2a
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1752281905; l=1974;
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1752281905; l=3891;
  i=jessica.zhang@oss.qualcomm.com; s=20230329; h=from:subject:message-id;
- bh=48wdgPtyNZwMd6sZV3ZvvtvNWOvHLwkNGaRnCDc5QMk=;
- b=dzPxfM43mTJa1032ZbcABoClTN8ieb2y7bh9ZE8auswDZJG9PPyvhrjmKx0NoQMg2/vNJ1lx6
- b1y9e7Ioc0RC8W5E2bRm2Avg76t5A142aCXiryZaYeU+RfQsDfZp+6v
+ bh=A6qHQe23MoIl3Lo+738gYkpwWYMBFzzH7/YAXqyjDXc=;
+ b=qFKTKln9ZXCepyzqJoVFRVR9U8ih8agkhM9UBkPU07pTQJRSMBW5iAO6L26B8U13RCmmdqSNl
+ 0HOeAZDhO53AYTRwHx2HuWbuUBJMnRkPE4pduUu+Ddkws8LUkPuphWa
 X-Developer-Key: i=jessica.zhang@oss.qualcomm.com; a=ed25519;
  pk=gAUCgHZ6wTJOzQa3U0GfeCDH7iZLlqIEPo4rrjfDpWE=
-X-Proofpoint-ORIG-GUID: hmDmfvcZoheKMAIXA7pz9tsXvDLTTWwE
-X-Proofpoint-GUID: hmDmfvcZoheKMAIXA7pz9tsXvDLTTWwE
-X-Authority-Analysis: v=2.4 cv=ZPrXmW7b c=1 sm=1 tr=0 ts=6871b33c cx=c_pps
+X-Proofpoint-ORIG-GUID: e9SdDzbNc3Ui1SWKbyh3MM2Td7NxnMSx
+X-Proofpoint-GUID: e9SdDzbNc3Ui1SWKbyh3MM2Td7NxnMSx
+X-Authority-Analysis: v=2.4 cv=ZPrXmW7b c=1 sm=1 tr=0 ts=6871b33e cx=c_pps
  a=UNFcQwm+pnOIJct1K4W+Mw==:117 a=JYp8KDb2vCoCEuGobkYCKw==:17
- a=IkcTkHD0fZMA:10 a=Wb1JkmetP80A:10 a=EUspDBNiAAAA:8 a=iO33u3U-fp8Dsq_J1c8A:9
+ a=IkcTkHD0fZMA:10 a=Wb1JkmetP80A:10 a=EUspDBNiAAAA:8 a=4KM1mOPumagNCLxjdSoA:9
  a=QEXdDO2ut3YA:10 a=uKXjsCUrEbL0IQVhDsJ9:22
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwNzEyMDAwNCBTYWx0ZWRfX9+UmNp3fErX8
- PyEgTdYqPPTVmRYBV8tNZX0rSII3IX8Sq78NV/8hos2GvaWH/XS5r/cf9wZFukwLYvP5jkfRh87
- LtDoOnHGXCOxr2CtvgemN/649PTub3YBZCvPPvAE2tE2uU0B2E7INFY3UyDWZuDfIuXsxNYkG2c
- 4qCmGc2mX6DNPrRM0AHKzxOx6E0MNYp05sYo51KSi0SVeAaVt3SBgWUyTHV/IDc9KuauAfRI6KJ
- 7jFmxAvc8TA3FzRA5bHFF/6ViKbBAjfmPeaJpOmizD30q17uFM5yFyr7nIVlOsXhR6XRj6zfBF3
- abZY0l92L9b8Ex0CLYFbzlgN7Tdiagdym+7Bk6tBUir03ybwceS5eKjM3aJlhKaFJXDlHv5FQbn
- BYYeI1lCfDVHLtd86fKW37gV454Zsy9BDaoOGvsqEBeKNMkxmZHlJq/rN6X4pWTctin0Yso8
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwNzEyMDAwNCBTYWx0ZWRfX72ce7Gkm7YEd
+ bd2Uot9MQasIf37L0xYmSKQxQRkT+2ZaTE9DXC/bobIQGiUltetc4c0/6RgrnrE4xBxaaLz8n0M
+ zZ1cVxVpwl2RnQQeiRUw5eBNziQlIRSng7g07ihHAMq6uRCw1IrEqPsteCYsYOVBH4BMAj//+WM
+ ZerYHxaHVcCaQILvtJ4HiKaZEc1k/1FRZZSjxwKMMkHt8XV9YdWB7MJHUMlO1/8jLVWOfI3zYEM
+ f45Woxr01Oapa8YnwiJlZwT2DUczIb85RZkR4ExWg1DXs9TGKLzCGVqZqdfO3uK0UfRjfTcAR88
+ k0V4a3pNs6m4kHba16Z7j8UqzvRzanZp8wy2kcGpHAeaoG/3Uk10qgmq7zrMLdNtvtOy+lFvcnp
+ AIExIiiRM8kEsFlYu0nhiBY5Wm343gZrnaCVpBSAwxQnOViNb3iKN9Vc2cEWH5T9glfiPJtl
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.293,Aquarius:18.0.1099,Hydra:6.1.7,FMLib:17.12.80.40
  definitions=2025-07-11_07,2025-07-09_01,2025-03-28_01
@@ -136,51 +135,108 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Replace ST_DISCONNECTED checks with checks for if !msm_dp::connected as
-they both represent the DP cable being disconnected
+Simplify the unplug event handling by dropping the link teardown (as it
+is already handled as part of the atomic post_disable()).
+
+With the link teardown removed, we can also drop hpd_state-specific
+handling to minimize redundant code
 
 Signed-off-by: Jessica Zhang <jessica.zhang@oss.qualcomm.com>
 ---
- drivers/gpu/drm/msm/dp/dp_display.c | 8 ++++----
- 1 file changed, 4 insertions(+), 4 deletions(-)
+ drivers/gpu/drm/msm/dp/dp_ctrl.c    | 22 ----------------------
+ drivers/gpu/drm/msm/dp/dp_ctrl.h    |  1 -
+ drivers/gpu/drm/msm/dp/dp_display.c | 27 +++++++--------------------
+ 3 files changed, 7 insertions(+), 43 deletions(-)
 
+diff --git a/drivers/gpu/drm/msm/dp/dp_ctrl.c b/drivers/gpu/drm/msm/dp/dp_ctrl.c
+index c42fd2c17a32..4cf269b98029 100644
+--- a/drivers/gpu/drm/msm/dp/dp_ctrl.c
++++ b/drivers/gpu/drm/msm/dp/dp_ctrl.c
+@@ -2567,28 +2567,6 @@ void msm_dp_ctrl_off_link_stream(struct msm_dp_ctrl *msm_dp_ctrl)
+ 			phy, phy->init_count, phy->power_count);
+ }
+ 
+-void msm_dp_ctrl_off_link(struct msm_dp_ctrl *msm_dp_ctrl)
+-{
+-	struct msm_dp_ctrl_private *ctrl;
+-	struct phy *phy;
+-
+-	ctrl = container_of(msm_dp_ctrl, struct msm_dp_ctrl_private, msm_dp_ctrl);
+-	phy = ctrl->phy;
+-
+-	msm_dp_ctrl_mainlink_disable(ctrl);
+-
+-	dev_pm_opp_set_rate(ctrl->dev, 0);
+-	msm_dp_ctrl_link_clk_disable(&ctrl->msm_dp_ctrl);
+-
+-	DRM_DEBUG_DP("Before, phy=%p init_count=%d power_on=%d\n",
+-		phy, phy->init_count, phy->power_count);
+-
+-	phy_power_off(phy);
+-
+-	DRM_DEBUG_DP("After, phy=%p init_count=%d power_on=%d\n",
+-		phy, phy->init_count, phy->power_count);
+-}
+-
+ void msm_dp_ctrl_off(struct msm_dp_ctrl *msm_dp_ctrl)
+ {
+ 	struct msm_dp_ctrl_private *ctrl;
+diff --git a/drivers/gpu/drm/msm/dp/dp_ctrl.h b/drivers/gpu/drm/msm/dp/dp_ctrl.h
+index 124b9b21bb7f..f68bee62713f 100644
+--- a/drivers/gpu/drm/msm/dp/dp_ctrl.h
++++ b/drivers/gpu/drm/msm/dp/dp_ctrl.h
+@@ -19,7 +19,6 @@ struct phy;
+ int msm_dp_ctrl_on_link(struct msm_dp_ctrl *msm_dp_ctrl);
+ int msm_dp_ctrl_on_stream(struct msm_dp_ctrl *msm_dp_ctrl, bool force_link_train);
+ void msm_dp_ctrl_off_link_stream(struct msm_dp_ctrl *msm_dp_ctrl);
+-void msm_dp_ctrl_off_link(struct msm_dp_ctrl *msm_dp_ctrl);
+ void msm_dp_ctrl_off(struct msm_dp_ctrl *msm_dp_ctrl);
+ void msm_dp_ctrl_push_idle(struct msm_dp_ctrl *msm_dp_ctrl);
+ irqreturn_t msm_dp_ctrl_isr(struct msm_dp_ctrl *msm_dp_ctrl);
 diff --git a/drivers/gpu/drm/msm/dp/dp_display.c b/drivers/gpu/drm/msm/dp/dp_display.c
-index af3cc32aa123..0f1c1fd2b1b7 100644
+index 0f1c1fd2b1b7..1ce8051b116a 100644
 --- a/drivers/gpu/drm/msm/dp/dp_display.c
 +++ b/drivers/gpu/drm/msm/dp/dp_display.c
-@@ -521,12 +521,12 @@ static int msm_dp_display_handle_port_status_changed(struct msm_dp_display_priva
+@@ -661,32 +661,19 @@ static int msm_dp_hpd_unplug_handle(struct msm_dp_display_private *dp, u32 data)
+ 	drm_dbg_dp(dp->drm_dev, "Before, type=%d hpd_state=%d\n",
+ 			dp->msm_dp_display.connector_type, state);
  
- 	if (drm_dp_is_branch(dp->panel->dpcd) && dp->link->sink_count == 0) {
- 		drm_dbg_dp(dp->drm_dev, "sink count is zero, nothing to do\n");
--		if (dp->hpd_state != ST_DISCONNECTED) {
-+		if (dp->msm_dp_display.connected) {
- 			dp->hpd_state = ST_DISCONNECT_PENDING;
- 			msm_dp_add_event(dp, EV_USER_NOTIFICATION, false, 0);
- 		}
- 	} else {
--		if (dp->hpd_state == ST_DISCONNECTED) {
-+		if (!dp->msm_dp_display.connected) {
- 			dp->hpd_state = ST_MAINLINK_READY;
- 			rc = msm_dp_display_process_hpd_high(dp);
- 			if (rc)
-@@ -543,7 +543,7 @@ static int msm_dp_display_handle_irq_hpd(struct msm_dp_display_private *dp)
- 	u32 sink_request = dp->link->sink_request;
++	if (!dp->msm_dp_display.link_ready) {
++		mutex_unlock(&dp->event_mutex);
++		return 0;
++	}
++
+ 	dp->msm_dp_display.connected = false;
  
- 	drm_dbg_dp(dp->drm_dev, "%d\n", sink_request);
--	if (dp->hpd_state == ST_DISCONNECTED) {
-+	if (!dp->msm_dp_display.connected) {
- 		if (sink_request & DP_LINK_STATUS_UPDATED) {
- 			drm_dbg_dp(dp->drm_dev, "Disconnected sink_request: %d\n",
- 							sink_request);
-@@ -666,7 +666,7 @@ static int msm_dp_hpd_unplug_handle(struct msm_dp_display_private *dp, u32 data)
  	/* unplugged, no more irq_hpd handle */
  	msm_dp_del_event(dp, EV_IRQ_HPD_INT);
  
--	if (state == ST_DISCONNECTED) {
-+	if (!dp->msm_dp_display.connected) {
- 		/* triggered by irq_hdp with sink_count = 0 */
- 		if (dp->link->sink_count == 0) {
- 			msm_dp_display_host_phy_exit(dp);
+-	if (!dp->msm_dp_display.connected) {
+-		/* triggered by irq_hdp with sink_count = 0 */
+-		if (dp->link->sink_count == 0) {
+-			msm_dp_display_host_phy_exit(dp);
+-		}
+-		msm_dp_display_notify_disconnect(&dp->msm_dp_display.pdev->dev);
+-		mutex_unlock(&dp->event_mutex);
+-		return 0;
+-	} else if (state == ST_DISCONNECT_PENDING) {
+-		mutex_unlock(&dp->event_mutex);
+-		return 0;
+-	} else if (state != ST_CONNECTED && dp->msm_dp_display.link_ready) {
+-		msm_dp_ctrl_off_link(dp->ctrl);
++	/* triggered by irq_hdp with sink_count = 0 */
++	if (dp->link->sink_count == 0)
+ 		msm_dp_display_host_phy_exit(dp);
+-		dp->hpd_state = ST_DISCONNECTED;
+-		dp->msm_dp_display.connected = false;
+-		msm_dp_display_notify_disconnect(&dp->msm_dp_display.pdev->dev);
+-		pm_runtime_put_sync(&pdev->dev);
+-		mutex_unlock(&dp->event_mutex);
+-		return 0;
+-	}
+ 
+ 	/*
+ 	 * We don't need separate work for disconnect as
 
 -- 
 2.50.1
