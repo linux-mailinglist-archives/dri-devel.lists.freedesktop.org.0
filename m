@@ -2,33 +2,33 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4C13CB02B7D
-	for <lists+dri-devel@lfdr.de>; Sat, 12 Jul 2025 16:45:44 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 559E3B02B80
+	for <lists+dri-devel@lfdr.de>; Sat, 12 Jul 2025 16:46:02 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 94B8A10E2FF;
-	Sat, 12 Jul 2025 14:45:42 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B910910E301;
+	Sat, 12 Jul 2025 14:46:00 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=fail reason="signature verification failed" (1024-bit key; unprotected) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="Ykkj8NXD";
+	dkim=fail reason="signature verification failed" (1024-bit key; unprotected) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="r86Yv0rT";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from tor.source.kernel.org (tor.source.kernel.org [172.105.4.254])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 67AC610E2FF
- for <dri-devel@lists.freedesktop.org>; Sat, 12 Jul 2025 14:45:41 +0000 (UTC)
+Received: from sea.source.kernel.org (sea.source.kernel.org [172.234.252.31])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 15CA810E301
+ for <dri-devel@lists.freedesktop.org>; Sat, 12 Jul 2025 14:45:59 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by tor.source.kernel.org (Postfix) with ESMTP id 6DABA60007;
- Sat, 12 Jul 2025 14:45:40 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id B24DCC4CEEF;
- Sat, 12 Jul 2025 14:45:39 +0000 (UTC)
+ by sea.source.kernel.org (Postfix) with ESMTP id E9A0A4534D;
+ Sat, 12 Jul 2025 14:45:58 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7429DC4CEEF;
+ Sat, 12 Jul 2025 14:45:58 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
- s=korg; t=1752331540;
- bh=KTQ41I4+EHeakb4+wxJIpmIncPf8ZRcZzyirlKpgS2A=;
+ s=korg; t=1752331558;
+ bh=Z6nJtXxCafl9NifqOX9nM3hQiC/MyZhQS5d0tSYhyF4=;
  h=Subject:To:Cc:From:Date:From;
- b=Ykkj8NXDhjdixpC9fuJFEGOkEG9l3oxHp6lUdx/awkAq0AkH0MDKxQ9dpCYA/ES4u
- Q9fuC/hySj45d9QTwOdfRVNPckahMHCHJ82ifVCoNWyeYbOXN6CHM67lasnUKpw6do
- ujbFR0W0nd+ozgL/ZC6W/aOlyJ/Wf2FgJ8kPTazE=
+ b=r86Yv0rTNTy+4trJWEHR4hNGihv106zBku7dgI+72U3NQhayIS/l+cjSoxFWROVtH
+ JPouYVErHWbRVGHORwiedfD7orriLSt7SqkaQ3qqOd18lkygOipXsoFYM5tyi+PSMY
+ /JBkhAwqyEXnFelPBVkTOBA9UtrEHEDX1CXk08eQ=
 Subject: Patch "drm/framebuffer: Acquire internal references on GEM handles"
- has been added to the 6.12-stable tree
+ has been added to the 6.15-stable tree
 To: asrivats@redhat.com, bp@alien8.de, christian.koenig@amd.com,
  dri-devel@lists.freedesktop.org, gregkh@linuxfoundation.org,
  linaro-mm-sig@lists.linaro.org, maarten.lankhorst@linux.intel.com,
@@ -36,8 +36,8 @@ To: asrivats@redhat.com, bp@alien8.de, christian.koenig@amd.com,
  superm1@kernel.org, tzimmermann@suse.de
 Cc: <stable-commits@vger.kernel.org>
 From: <gregkh@linuxfoundation.org>
-Date: Sat, 12 Jul 2025 16:45:24 +0200
-Message-ID: <2025071224-pronto-hardhead-6e0e@gregkh>
+Date: Sat, 12 Jul 2025 16:45:33 +0200
+Message-ID: <2025071233-hydrated-transpire-04b5@gregkh>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
@@ -63,12 +63,12 @@ This is a note to let you know that I've just added the patch titled
 
     drm/framebuffer: Acquire internal references on GEM handles
 
-to the 6.12-stable tree which can be found at:
+to the 6.15-stable tree which can be found at:
     http://www.kernel.org/git/?p=linux/kernel/git/stable/stable-queue.git;a=summary
 
 The filename of the patch is:
      drm-framebuffer-acquire-internal-references-on-gem-handles.patch
-and it can be found in the queue-6.12 subdirectory.
+and it can be found in the queue-6.15 subdirectory.
 
 If you, or anyone else, feels it should not be added to the stable tree,
 please let <stable@vger.kernel.org> know about it.
@@ -140,7 +140,7 @@ Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 
 --- a/drivers/gpu/drm/drm_framebuffer.c
 +++ b/drivers/gpu/drm/drm_framebuffer.c
-@@ -860,11 +860,23 @@ void drm_framebuffer_free(struct kref *k
+@@ -862,11 +862,23 @@ EXPORT_SYMBOL_FOR_TESTS_ONLY(drm_framebu
  int drm_framebuffer_init(struct drm_device *dev, struct drm_framebuffer *fb,
  			 const struct drm_framebuffer_funcs *funcs)
  {
@@ -164,7 +164,7 @@ Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
  	INIT_LIST_HEAD(&fb->filp_head);
  
  	fb->funcs = funcs;
-@@ -873,7 +885,7 @@ int drm_framebuffer_init(struct drm_devi
+@@ -875,7 +887,7 @@ int drm_framebuffer_init(struct drm_devi
  	ret = __drm_mode_object_add(dev, &fb->base, DRM_MODE_OBJECT_FB,
  				    false, drm_framebuffer_free);
  	if (ret)
@@ -173,7 +173,7 @@ Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
  
  	mutex_lock(&dev->mode_config.fb_lock);
  	dev->mode_config.num_fb++;
-@@ -881,7 +893,16 @@ int drm_framebuffer_init(struct drm_devi
+@@ -883,7 +895,16 @@ int drm_framebuffer_init(struct drm_devi
  	mutex_unlock(&dev->mode_config.fb_lock);
  
  	drm_mode_object_register(dev, &fb->base);
@@ -191,7 +191,7 @@ Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
  	return ret;
  }
  EXPORT_SYMBOL(drm_framebuffer_init);
-@@ -958,6 +979,12 @@ EXPORT_SYMBOL(drm_framebuffer_unregister
+@@ -960,6 +981,12 @@ EXPORT_SYMBOL(drm_framebuffer_unregister
  void drm_framebuffer_cleanup(struct drm_framebuffer *fb)
  {
  	struct drm_device *dev = fb->dev;
@@ -206,7 +206,7 @@ Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
  	list_del(&fb->head);
 --- a/drivers/gpu/drm/drm_gem.c
 +++ b/drivers/gpu/drm/drm_gem.c
-@@ -197,23 +197,34 @@ static void drm_gem_object_handle_get(st
+@@ -223,23 +223,34 @@ static void drm_gem_object_handle_get(st
  }
  
  /**
@@ -248,7 +248,7 @@ Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
  
  /**
   * drm_gem_object_handle_free - release resources bound to userspace handles
-@@ -246,7 +257,7 @@ static void drm_gem_object_exported_dma_
+@@ -272,7 +283,7 @@ static void drm_gem_object_exported_dma_
  }
  
  /**
@@ -257,7 +257,7 @@ Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
   * @obj: GEM object
   *
   * Releases a reference on the GEM buffer object's handle. Possibly releases
-@@ -257,14 +268,14 @@ void drm_gem_object_handle_put_unlocked(
+@@ -283,14 +294,14 @@ void drm_gem_object_handle_put_unlocked(
  	struct drm_device *dev = obj->dev;
  	bool final = false;
  
@@ -277,7 +277,7 @@ Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
  
  	mutex_lock(&dev->object_name_lock);
  	if (--obj->handle_count == 0) {
-@@ -277,7 +288,6 @@ void drm_gem_object_handle_put_unlocked(
+@@ -303,7 +314,6 @@ void drm_gem_object_handle_put_unlocked(
  	if (final)
  		drm_gem_object_put(obj);
  }
@@ -338,7 +338,7 @@ Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
  }
 --- a/drivers/gpu/drm/drm_internal.h
 +++ b/drivers/gpu/drm/drm_internal.h
-@@ -153,7 +153,7 @@ void drm_sysfs_lease_event(struct drm_de
+@@ -161,7 +161,7 @@ void drm_sysfs_lease_event(struct drm_de
  
  /* drm_gem.c */
  int drm_gem_init(struct drm_device *dev);
@@ -381,6 +381,6 @@ Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 
 Patches currently in stable-queue which might be from tzimmermann@suse.de are
 
-queue-6.12/drm-gem-fix-race-in-drm_gem_handle_create_tail.patch
-queue-6.12/drm-gem-acquire-references-on-gem-handles-for-framebuffers.patch
-queue-6.12/drm-framebuffer-acquire-internal-references-on-gem-handles.patch
+queue-6.15/drm-gem-fix-race-in-drm_gem_handle_create_tail.patch
+queue-6.15/drm-gem-acquire-references-on-gem-handles-for-framebuffers.patch
+queue-6.15/drm-framebuffer-acquire-internal-references-on-gem-handles.patch
