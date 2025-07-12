@@ -2,52 +2,55 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 145F2B02C71
-	for <lists+dri-devel@lfdr.de>; Sat, 12 Jul 2025 20:27:51 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id D35BCB02C81
+	for <lists+dri-devel@lfdr.de>; Sat, 12 Jul 2025 21:02:47 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C176C10E0B7;
-	Sat, 12 Jul 2025 18:27:47 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id BCFAB10E06B;
+	Sat, 12 Jul 2025 19:02:43 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="ZWXW1XZg";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="HWjizx5l";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from nyc.source.kernel.org (nyc.source.kernel.org [147.75.193.91])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2BD0210E0B7
- for <dri-devel@lists.freedesktop.org>; Sat, 12 Jul 2025 18:27:46 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2573D10E06B;
+ Sat, 12 Jul 2025 19:02:42 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by nyc.source.kernel.org (Postfix) with ESMTP id 069EAA54BBB;
- Sat, 12 Jul 2025 18:27:45 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 52CFDC4CEEF;
- Sat, 12 Jul 2025 18:27:43 +0000 (UTC)
+ by nyc.source.kernel.org (Postfix) with ESMTP id 6998AA53424;
+ Sat, 12 Jul 2025 19:02:41 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 045A7C4CEEF;
+ Sat, 12 Jul 2025 19:02:39 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1752344864;
- bh=W4g+kjPJ3K8wnVxOEoch4S5NoRMOytbxldAomVbV/v0=;
+ s=k20201202; t=1752346960;
+ bh=LhsEIKj1SLsQCAk5TPT4MTfImsiSbwHmFcHOMwWmXc8=;
  h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
- b=ZWXW1XZgDikeuWRB5J/Tz5ESJdFkvhkISXQGON87SCIAGEOr3D+w2+8g32CMtr5mL
- hzpMhb5xonrIZeSJj+vuO88OTjh9J35oiByaffCj//mgGHgwQmR5/y+OZLiZ4tvJ3X
- YVKZoLYq5E8Ihj3aXPObLsFKC1XuAMNr1cPtwcSL7C1pbP0NGJiKuFmjDRIZYOyva2
- lk8nxcIYd81fT0y5Ejj/tlcZBKrLP6JJJAFE3FHIirlCUsYw5uSpDSA7JF/Y9t5cBX
- NHPBBpLkauCZGqVfrnzFOtYR8ei3eohbb8br5X3qWaXyQIj+Jn85sI76Lrikv0w2on
- efi92+bYdR9Zw==
-Message-ID: <acd5b3e3-5370-49a4-aad9-b1001aa0eb5a@kernel.org>
-Date: Sat, 12 Jul 2025 19:27:42 +0100
+ b=HWjizx5l0FEQT25bpugRRwK1iwSRYSUMnnEfumnnbKkrN1YDIHJFkE8VgedfrpLRH
+ dogoPSSvR5+vV2TXvrLEB3e+GRLCNQ5J+JnwTSnwYJBqhbSEYRUyhsWp25MUqYlCbp
+ QhS8oFlveZ5w9be6sF23N78x/sru3d5CnLo+5eZ3UF3HV6Eoy55hqAJ6v3lM9Qm1fs
+ ZULGTqqGmC3OckTk9IhfXYJ1NS25fOe0nTLMoH6ae2dEwnnL7Hx2m6cHXw9hryCOCa
+ r3C/mHyyAsrsfVhfUEaiXn/KIkEm3dVV0XDmhEo1XjZmYqCcRqVFr5uAQzdE1yshMW
+ H8COPV+f4FwFg==
+Message-ID: <35f0dd7e-f4c1-4042-bc85-19d277f4b1f9@kernel.org>
+Date: Sat, 12 Jul 2025 14:02:38 -0500
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] misc: fastrpc: Use of_reserved_mem_region_to_resource()
- for "memory-region"
-To: "Rob Herring (Arm)" <robh@kernel.org>,
- Srinivas Kandagatla <srini@kernel.org>,
- Amol Maheshwari <amahesh@qti.qualcomm.com>, Arnd Bergmann <arnd@arndb.de>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc: linux-arm-msm@vger.kernel.org, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org
-References: <20250703183455.2074215-1-robh@kernel.org>
+Subject: Re: linux-next: Tree for Jul 11 [drivers/gpu/drm/amd/amdgpu/amdgpu.ko]
+To: "Rafael J. Wysocki" <rafael@kernel.org>,
+ Randy Dunlap <rdunlap@infradead.org>,
+ Mario Limonciello <mario.limonciello@amd.com>
+Cc: Stephen Rothwell <sfr@canb.auug.org.au>,
+ Linux Next Mailing List <linux-next@vger.kernel.org>,
+ Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+ Linux DRI Development <dri-devel@lists.freedesktop.org>,
+ Samuel Zhang <guoqing.zhang@amd.com>, amd-gfx@lists.freedesktop.org
+References: <20250711191014.12a64210@canb.auug.org.au>
+ <49080a96-2c7a-4eea-a64c-deac0b7a665b@infradead.org>
+ <CAJZ5v0h1CX+aTu7dFy6vB-9LM6t5J4rt7Su3qVnq1xx-BFAm=Q@mail.gmail.com>
 Content-Language: en-US
-From: Srinivas Kandagatla <srini@kernel.org>
-In-Reply-To: <20250703183455.2074215-1-robh@kernel.org>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+From: Mario Limonciello <superm1@kernel.org>
+In-Reply-To: <CAJZ5v0h1CX+aTu7dFy6vB-9LM6t5J4rt7Su3qVnq1xx-BFAm=Q@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -65,74 +68,43 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 
 
-On 7/3/25 7:34 PM, Rob Herring (Arm) wrote:
-> Use the newly added of_reserved_mem_region_to_resource() function to
-> handle "memory-region" properties.
+On 7/12/25 3:11 AM, Rafael J. Wysocki wrote:
+> On Fri, Jul 11, 2025 at 11:25 PM Randy Dunlap <rdunlap@infradead.org> wrote:
+>>
+>>
+>>
+>> On 7/11/25 2:10 AM, Stephen Rothwell wrote:
+>>> Hi all,
+>>>
+>>> Changes since 20250710:
+>>>
+>>
+>> on x86_64, when
+>> # CONFIG_SUSPEND is not set
+>> # CONFIG_HIBERNATION is not set
+>> # CONFIG_PM is not set
+>>
+>> ERROR: modpost: "pm_hibernate_is_recovering" [drivers/gpu/drm/amd/amdgpu/amdgpu.ko] undefined!
+>>
+>> caused by commit
+>> 530694f54dd5e ("drm/amdgpu: do not resume device in thaw for normal hibernation")
+>>
+>> Rafael, is a stub appropriate for this case?
 > 
-> The error handling is a bit different. "memory-region" is optional, so
-> failed lookup is not an error. But then an error in
-> of_reserved_mem_lookup() is treated as an error. However, that
-> distinction is not really important. Either the region is available
-> and usable or it is not. So now, it is just
-> of_reserved_mem_region_to_resource() which is checked for an error.
+> pm_hibernate_is_recovering() is not supposed to be called by code that
+> does not depend on CONFIG_HIBERNATE_CALLBACKS, but a stub returning
+> false would work for this.
+
+Thanks, I just sent out a fix for this.
+
 > 
-> Signed-off-by: Rob Herring (Arm) <robh@kernel.org>
-> ---
-
-Reviewed-by: Srinivas Kandagatla <srini@kernel.org>
-
-
-Greg, there are no more patches for fastrpc for this cycle, can you
-please pick this up via char-misc tree?
-
-
-thanks,
-Srini
-
-
-
->  drivers/misc/fastrpc.c | 19 +++++++------------
->  1 file changed, 7 insertions(+), 12 deletions(-)
+> Mario, it would be good to fix this up in your tree.  Also, it would
+> be good to expose stuff to 0-day build testing before letting it go
+> into linux-next.  I use the bleeding-edge branch for this purpose.
 > 
-> diff --git a/drivers/misc/fastrpc.c b/drivers/misc/fastrpc.c
-> index 378923594f02..53e88a1bc430 100644
-> --- a/drivers/misc/fastrpc.c
-> +++ b/drivers/misc/fastrpc.c
-> @@ -2262,8 +2262,6 @@ static int fastrpc_rpmsg_probe(struct rpmsg_device *rpdev)
->  	int i, err, domain_id = -1, vmcount;
->  	const char *domain;
->  	bool secure_dsp;
-> -	struct device_node *rmem_node;
-> -	struct reserved_mem *rmem;
->  	unsigned int vmids[FASTRPC_MAX_VMIDS];
->  
->  	err = of_property_read_string(rdev->of_node, "label", &domain);
-> @@ -2306,20 +2304,17 @@ static int fastrpc_rpmsg_probe(struct rpmsg_device *rpdev)
->  		}
->  	}
->  
-> -	rmem_node = of_parse_phandle(rdev->of_node, "memory-region", 0);
-> -	if (domain_id == SDSP_DOMAIN_ID && rmem_node) {
-> +	if (domain_id == SDSP_DOMAIN_ID) {
-> +		struct resource res;
->  		u64 src_perms;
->  
-> -		rmem = of_reserved_mem_lookup(rmem_node);
-> -		if (!rmem) {
-> -			err = -EINVAL;
-> -			goto err_free_data;
-> -		}
-> +		err = of_reserved_mem_region_to_resource(rdev->of_node, 0, &res);
-> +		if (!err) {
-> +			src_perms = BIT(QCOM_SCM_VMID_HLOS);
->  
-> -		src_perms = BIT(QCOM_SCM_VMID_HLOS);
-> -
-> -		qcom_scm_assign_mem(rmem->base, rmem->size, &src_perms,
-> +			qcom_scm_assign_mem(res.start, resource_size(&res), &src_perms,
->  				    data->vmperms, data->vmcount);
-> +		}
->  
->  	}
->  
+Honestly; I'm surprised that 0-day didn't raise this on either dri-devel 
+or amd-gfx.  I had expected at least one of those lists to raise this 
+over the last week of patches.
+
+Anyone know the history why neither has 0-day?
 
