@@ -2,39 +2,98 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id CDB9CB02972
-	for <lists+dri-devel@lfdr.de>; Sat, 12 Jul 2025 07:14:41 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5E7C4B029A9
+	for <lists+dri-devel@lfdr.de>; Sat, 12 Jul 2025 09:34:06 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 66AC210E304;
-	Sat, 12 Jul 2025 05:14:39 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2864C10E0A0;
+	Sat, 12 Jul 2025 07:34:04 +0000 (UTC)
+Authentication-Results: gabe.freedesktop.org;
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="lxIvVGcd";
+	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from bmailout2.hostsharing.net (bmailout2.hostsharing.net
- [83.223.78.240])
- by gabe.freedesktop.org (Postfix) with ESMTPS id DA04C10E131
- for <dri-devel@lists.freedesktop.org>; Sat, 12 Jul 2025 05:14:37 +0000 (UTC)
-Received: from h08.hostsharing.net (h08.hostsharing.net [83.223.95.28])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256
- client-signature RSA-PSS (4096 bits) client-digest SHA256)
- (Client CN "*.hostsharing.net", Issuer "RapidSSL TLS RSA CA G1" (verified OK))
- by bmailout2.hostsharing.net (Postfix) with ESMTPS id 0B79B2015CEF;
- Sat, 12 Jul 2025 07:14:36 +0200 (CEST)
-Received: by h08.hostsharing.net (Postfix, from userid 100393)
- id E718C3C8192; Sat, 12 Jul 2025 07:14:35 +0200 (CEST)
-Date: Sat, 12 Jul 2025 07:14:35 +0200
-From: Lukas Wunner <lukas@wunner.de>
-To: Al Viro <viro@zeniv.linux.org.uk>, Yaron Avizrat <yaron.avizrat@intel.com>,
- Koby Elbaz <koby.elbaz@intel.com>,
- Konstantin Sinyuk <konstantin.sinyuk@intel.com>
-Cc: linux-fsdevel@vger.kernel.org, dri-devel@lists.freedesktop.org
-Subject: Re: [PATCH 1/2] habanalabs: fix UAF in export_dmabuf()
-Message-ID: <aHHvO5Nv984iZQy8@wunner.de>
-References: <20250712050231.GX1880847@ZenIV>
+Received: from tor.source.kernel.org (tor.source.kernel.org [172.105.4.254])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B5B2510E0A0
+ for <dri-devel@lists.freedesktop.org>; Sat, 12 Jul 2025 07:34:02 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+ by tor.source.kernel.org (Postfix) with ESMTP id C78F560008;
+ Sat, 12 Jul 2025 07:34:01 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 88F6FC4CEEF;
+ Sat, 12 Jul 2025 07:33:59 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1752305641;
+ bh=WnFWpwr7ZrVqsxmQ2TIFEDEWucdvoU4/QSqSRvOizmE=;
+ h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+ b=lxIvVGcdXMeuF1OAeqLWJsPfTdFW120NZPtmIVU99AnPLMtqFTMqChKNq+HDY3s4Z
+ PRCDahjEAsKAb5Yo/h7IY3RHDIg2XU7NX4DRjc03Qi/90NCn/YWwdcP1JBoiLu+Fo4
+ mNtHMcwh0NGp/E7duGmJpXHOHo4l2+HbDsj31j2vt1AlET+g+Iae3nALd2/fMcxqab
+ 7suEmOlFySO4c/rXpFO1ZgBi3udXxgIZLscsNkhpJMmfCn/t0jWKMHPPaAZ1P6HxOP
+ 9uHx2AZTME6cL4GmqiQF9av4tkZh0UdBFxLu9NsRaKT9BdHP5FIO1/hpQ/mLrdbMbH
+ PIrYygnJqQPXQ==
+Message-ID: <0c1e62fa-aec3-4d01-8fa0-d10817122426@kernel.org>
+Date: Sat, 12 Jul 2025 09:33:57 +0200
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20250712050231.GX1880847@ZenIV>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH V1 4/9] dt-bindings: soc: xilinx: Add AI engine DT binding
+To: "Williams, Gregory" <gregoryw@amd.com>,
+ Gregory Williams <gregory.williams@amd.com>, ogabbay@kernel.org,
+ michal.simek@amd.com, robh@kernel.org
+Cc: dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org,
+ linux-kernel@vger.kernel.org
+References: <20250702155630.1737227-1-gregory.williams@amd.com>
+ <20250702155630.1737227-5-gregory.williams@amd.com>
+ <7533fd56-aeef-4685-a25f-d64b3f6a2d78@kernel.org>
+ <eb3c843a-6762-4ac0-b863-3f500fb15b6f@amd.com>
+ <504f6660-4938-47b4-b1db-0a6fe0214e5f@kernel.org>
+ <349be13c-fef5-4fc2-b4c9-e85e28cbc06a@amd.com>
+From: Krzysztof Kozlowski <krzk@kernel.org>
+Content-Language: en-US
+Autocrypt: addr=krzk@kernel.org; keydata=
+ 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 a/A=
+In-Reply-To: <349be13c-fef5-4fc2-b4c9-e85e28cbc06a@amd.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -50,96 +109,39 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Sat, Jul 12, 2025 at 06:02:31AM +0100, Al Viro wrote:
-> [dma_buf_fd() fixes; no preferences regarding the tree it goes through -
-> up to dri folks]
+On 11/07/2025 20:33, Williams, Gregory wrote:
+>>>>> +
+>>>>> +maintainers:
+>>>>> +  - Gregory Williams <gregory.williams@amd.com>
+>>>>> +
+>>>>> +description:
+>>>>> +  The AMD AI Engine is a tile processor with many cores (up to 400) that
+>>>>> +  can run in parallel. The data routing between cores is configured through
+>>>>> +  internal switches, and shim tiles interface with external interconnect, such
+>>>>> +  as memory or PL. One AI engine device can have multiple apertures, each
+>>>>> +  has its own address space and interrupt. At runtime application can create
+>>>>> +  multiple partitions within an aperture which are groups of columns of AI
+>>>>> +  engine tiles. Each AI engine partition is the minimum resetable unit for an
+>>>>> +  AI engine application.
+>>>>> +
+>>>>> +properties:
+>>>>> +  compatible:
+>>>>> +    const: xlnx,ai-engine-v2.0
+>>>>
+>>>> What does v2.0 stands for? Versioning is discouraged, unless mapping is
+>>>> well documented.
+>>>
+>>> Sure, I will remove the versioning in V2 patch.
+>>
+>> This should be specific to product, so use the actual product/model name.
+>>
+>> Is this part of a Soc? Then standard rules apply... but I could not
+>> deduce it from the descriptions or commit msgs.
+> 
+> Yes this is part of an SoC. I will be more descriptive in V2 patch.
 
-A MAINTAINERS change for the habanalabs driver landed in Linus' tree
-a few hours ago.  I'm adding the new maintainers Yaron, Koby and
-Konstantin to the To: header.  Thanks! -- Lukas
+Huh... so you MUST use SoC compatibles. Don't upstream things entirely
+different than everything else.
 
-> As soon as we'd inserted a file reference into descriptor table, another
-> thread could close it.  That's fine for the case when all we are doing is
-> returning that descriptor to userland (it's a race, but it's a userland
-> race and there's nothing the kernel can do about it).  However, if we
-> follow fd_install() with any kind of access to objects that would be
-> destroyed on close (be it the struct file itself or anything destroyed
-> by its ->release()), we have a UAF.
-> 
-> dma_buf_fd() is a combination of reserving a descriptor and fd_install().
-> habanalabs export_dmabuf() calls it and then proceeds to access the
-> objects destroyed on close.  In particular, it grabs an extra reference to
-> another struct file that will be dropped as part of ->release() for ours;
-> that "will be" is actually "might have already been".
-> 
-> Fix that by reserving descriptor before anything else and do fd_install()
-> only when everything had been set up.  As a side benefit, we no longer
-> have the failure exit with file already created, but reference to
-> underlying file (as well as ->dmabuf_export_cnt, etc.) not grabbed yet;
-> unlike dma_buf_fd(), fd_install() can't fail.
-> 
-> Fixes: db1a8dd916aa ("habanalabs: add support for dma-buf exporter")
-> Signed-off-by: Al Viro <viro@zeniv.linux.org.uk>
-> ---
->  drivers/accel/habanalabs/common/memory.c | 23 +++++++----------------
->  1 file changed, 7 insertions(+), 16 deletions(-)
-> 
-> diff --git a/drivers/accel/habanalabs/common/memory.c b/drivers/accel/habanalabs/common/memory.c
-> index 601fdbe70179..61472a381904 100644
-> --- a/drivers/accel/habanalabs/common/memory.c
-> +++ b/drivers/accel/habanalabs/common/memory.c
-> @@ -1829,9 +1829,6 @@ static void hl_release_dmabuf(struct dma_buf *dmabuf)
->  	struct hl_dmabuf_priv *hl_dmabuf = dmabuf->priv;
->  	struct hl_ctx *ctx;
->  
-> -	if (!hl_dmabuf)
-> -		return;
-> -
->  	ctx = hl_dmabuf->ctx;
->  
->  	if (hl_dmabuf->memhash_hnode)
-> @@ -1859,7 +1856,12 @@ static int export_dmabuf(struct hl_ctx *ctx,
->  {
->  	DEFINE_DMA_BUF_EXPORT_INFO(exp_info);
->  	struct hl_device *hdev = ctx->hdev;
-> -	int rc, fd;
-> +	CLASS(get_unused_fd, fd)(flags);
-> +
-> +	if (fd < 0) {
-> +		dev_err(hdev->dev, "failed to get a file descriptor for a dma-buf, %d\n", fd);
-> +		return fd;
-> +	}
->  
->  	exp_info.ops = &habanalabs_dmabuf_ops;
->  	exp_info.size = total_size;
-> @@ -1872,13 +1874,6 @@ static int export_dmabuf(struct hl_ctx *ctx,
->  		return PTR_ERR(hl_dmabuf->dmabuf);
->  	}
->  
-> -	fd = dma_buf_fd(hl_dmabuf->dmabuf, flags);
-> -	if (fd < 0) {
-> -		dev_err(hdev->dev, "failed to get a file descriptor for a dma-buf, %d\n", fd);
-> -		rc = fd;
-> -		goto err_dma_buf_put;
-> -	}
-> -
->  	hl_dmabuf->ctx = ctx;
->  	hl_ctx_get(hl_dmabuf->ctx);
->  	atomic_inc(&ctx->hdev->dmabuf_export_cnt);
-> @@ -1890,13 +1885,9 @@ static int export_dmabuf(struct hl_ctx *ctx,
->  	get_file(ctx->hpriv->file_priv->filp);
->  
->  	*dmabuf_fd = fd;
-> +	fd_install(take_fd(fd), hl_dmabuf->dmabuf->file);
->  
->  	return 0;
-> -
-> -err_dma_buf_put:
-> -	hl_dmabuf->dmabuf->priv = NULL;
-> -	dma_buf_put(hl_dmabuf->dmabuf);
-> -	return rc;
->  }
->  
->  static int validate_export_params_common(struct hl_device *hdev, u64 addr, u64 size, u64 offset)
-> -- 
-> 2.39.5
+Best regards,
+Krzysztof
