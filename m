@@ -2,41 +2,41 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id BEA6BB02B70
-	for <lists+dri-devel@lfdr.de>; Sat, 12 Jul 2025 16:37:47 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id E1261B02B72
+	for <lists+dri-devel@lfdr.de>; Sat, 12 Jul 2025 16:37:50 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 31FB810E2E6;
-	Sat, 12 Jul 2025 14:37:46 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 566B410E2EF;
+	Sat, 12 Jul 2025 14:37:49 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=fail reason="signature verification failed" (1024-bit key; unprotected) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="0Fju1uOt";
+	dkim=fail reason="signature verification failed" (1024-bit key; unprotected) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="Z9BkD+Wy";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
- by gabe.freedesktop.org (Postfix) with ESMTPS id EF8E210E2E6
- for <dri-devel@lists.freedesktop.org>; Sat, 12 Jul 2025 14:37:44 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7ADD210E2EF
+ for <dri-devel@lists.freedesktop.org>; Sat, 12 Jul 2025 14:37:47 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by dfw.source.kernel.org (Postfix) with ESMTP id 6CF455C543B;
- Sat, 12 Jul 2025 14:37:44 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id C25D6C4CEF6;
- Sat, 12 Jul 2025 14:37:43 +0000 (UTC)
+ by dfw.source.kernel.org (Postfix) with ESMTP id 0A1345C4C6E;
+ Sat, 12 Jul 2025 14:37:47 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 64FB9C4CEEF;
+ Sat, 12 Jul 2025 14:37:46 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
- s=korg; t=1752331064;
- bh=Vs6MCROPTYo6m8lKFInHSo+1gFWNsdYy0vpB/pXwkoY=;
+ s=korg; t=1752331066;
+ bh=4NZsBeKK2X3pj7t2PeAlNndUrrDjGFEBWihxRMTX1PU=;
  h=Subject:To:Cc:From:Date:From;
- b=0Fju1uOtXYRIvDFNzKrGH6pX4c61j5MwA3v40siTGxyo9B5epHW7+I8Ed8M7nBvqi
- i1ALEw6qpYzM6WqmVSdeJf8vr976nnofTS87+3m7BVhjN+wWys+RY2vG1sIQwDg2Vq
- 3tTEvRG/kBBGT9Uthw11IM9vLQKFLMc/sg0CHkIA=
+ b=Z9BkD+WyXKUBooyEr3i+EuyHigahFBnhVgQq5DV4ZPnetQ0U37lGuOJkIc5sjb6ry
+ yKjFMvuBh+p8l87SDLF3bNNSmlu/koVvjYjA8yJZUzeFGAAS7Wd2a5XqPHmwc/4hbR
+ o8kmA7OoVasPxwTfNILeMXdhJHiKoMSnN7SwliWU=
 Subject: Patch "drm/gem: Acquire references on GEM handles for framebuffers"
- has been added to the 6.12-stable tree
+ has been added to the 6.15-stable tree
 To: asrivats@redhat.com, christian.koenig@amd.com,
  dri-devel@lists.freedesktop.org, gregkh@linuxfoundation.org,
  linaro-mm-sig@lists.linaro.org, maarten.lankhorst@linux.intel.com,
  mripard@kernel.org, sumit.semwal@linaro.org, tzimmermann@suse.de
 Cc: <stable-commits@vger.kernel.org>
 From: <gregkh@linuxfoundation.org>
-Date: Sat, 12 Jul 2025 16:37:13 +0200
-Message-ID: <2025071213-glimpse-wad-b500@gregkh>
+Date: Sat, 12 Jul 2025 16:37:21 +0200
+Message-ID: <2025071221-wish-appraiser-71fd@gregkh>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
@@ -62,12 +62,12 @@ This is a note to let you know that I've just added the patch titled
 
     drm/gem: Acquire references on GEM handles for framebuffers
 
-to the 6.12-stable tree which can be found at:
+to the 6.15-stable tree which can be found at:
     http://www.kernel.org/git/?p=linux/kernel/git/stable/stable-queue.git;a=summary
 
 The filename of the patch is:
      drm-gem-acquire-references-on-gem-handles-for-framebuffers.patch
-and it can be found in the queue-6.12 subdirectory.
+and it can be found in the queue-6.15 subdirectory.
 
 If you, or anyone else, feels it should not be added to the stable tree,
 please let <stable@vger.kernel.org> know about it.
@@ -166,7 +166,7 @@ Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 
 --- a/drivers/gpu/drm/drm_gem.c
 +++ b/drivers/gpu/drm/drm_gem.c
-@@ -186,6 +186,35 @@ void drm_gem_private_object_fini(struct
+@@ -212,6 +212,35 @@ void drm_gem_private_object_fini(struct
  }
  EXPORT_SYMBOL(drm_gem_private_object_fini);
  
@@ -202,7 +202,7 @@ Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
  /**
   * drm_gem_object_handle_free - release resources bound to userspace handles
   * @obj: GEM object to clean up.
-@@ -216,8 +245,14 @@ static void drm_gem_object_exported_dma_
+@@ -242,8 +271,14 @@ static void drm_gem_object_exported_dma_
  	}
  }
  
@@ -219,7 +219,7 @@ Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
  {
  	struct drm_device *dev = obj->dev;
  	bool final = false;
-@@ -242,6 +277,7 @@ drm_gem_object_handle_put_unlocked(struc
+@@ -268,6 +303,7 @@ drm_gem_object_handle_put_unlocked(struc
  	if (final)
  		drm_gem_object_put(obj);
  }
@@ -227,7 +227,7 @@ Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
  
  /*
   * Called at device or object close to release the file's
-@@ -363,8 +399,8 @@ drm_gem_handle_create_tail(struct drm_fi
+@@ -389,8 +425,8 @@ drm_gem_handle_create_tail(struct drm_fi
  	int ret;
  
  	WARN_ON(!mutex_is_locked(&dev->object_name_lock));
@@ -291,7 +291,7 @@ Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
  }
 --- a/drivers/gpu/drm/drm_internal.h
 +++ b/drivers/gpu/drm/drm_internal.h
-@@ -153,6 +153,8 @@ void drm_sysfs_lease_event(struct drm_de
+@@ -161,6 +161,8 @@ void drm_sysfs_lease_event(struct drm_de
  
  /* drm_gem.c */
  int drm_gem_init(struct drm_device *dev);
@@ -304,5 +304,5 @@ Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 
 Patches currently in stable-queue which might be from tzimmermann@suse.de are
 
-queue-6.12/drm-gem-fix-race-in-drm_gem_handle_create_tail.patch
-queue-6.12/drm-gem-acquire-references-on-gem-handles-for-framebuffers.patch
+queue-6.15/drm-gem-fix-race-in-drm_gem_handle_create_tail.patch
+queue-6.15/drm-gem-acquire-references-on-gem-handles-for-framebuffers.patch
