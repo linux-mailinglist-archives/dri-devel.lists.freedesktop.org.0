@@ -2,77 +2,77 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 41A82B02E8F
-	for <lists+dri-devel@lfdr.de>; Sun, 13 Jul 2025 05:12:59 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 64DB7B02E91
+	for <lists+dri-devel@lfdr.de>; Sun, 13 Jul 2025 05:15:22 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7E46910E10D;
-	Sun, 13 Jul 2025 03:12:56 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A726B10E0BD;
+	Sun, 13 Jul 2025 03:15:19 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="cNx8e/aZ";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="YMtWJHJ2";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-yw1-f181.google.com (mail-yw1-f181.google.com
- [209.85.128.181])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3C3EF10E10D
- for <dri-devel@lists.freedesktop.org>; Sun, 13 Jul 2025 03:12:55 +0000 (UTC)
-Received: by mail-yw1-f181.google.com with SMTP id
- 00721157ae682-711756ae8c9so25742257b3.3
- for <dri-devel@lists.freedesktop.org>; Sat, 12 Jul 2025 20:12:55 -0700 (PDT)
+Received: from mail-yw1-f171.google.com (mail-yw1-f171.google.com
+ [209.85.128.171])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5E60510E0BD
+ for <dri-devel@lists.freedesktop.org>; Sun, 13 Jul 2025 03:15:18 +0000 (UTC)
+Received: by mail-yw1-f171.google.com with SMTP id
+ 00721157ae682-7170344c100so28256107b3.0
+ for <dri-devel@lists.freedesktop.org>; Sat, 12 Jul 2025 20:15:18 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1752376374; x=1752981174; darn=lists.freedesktop.org;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ d=gmail.com; s=20230601; t=1752376517; x=1752981317; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:to:subject:message-id:date:from
  :in-reply-to:references:mime-version:from:to:cc:subject:date
  :message-id:reply-to;
- bh=PYXSckiGcJNn/KAUw9jmYJc1dN7gwZ3GM+cfuiI1tqw=;
- b=cNx8e/aZuAf0KKcWxkoHZCcrTIqP/kGMqrmj0xLuj8EMXeDZ4vrIQN5eriK0iZMekb
- FXf35ULKXqbazfDOtvcHJsaYWiUXaujz+Rn51unDOyJVA4nvC+5ls3vRqzLuBKixxMM+
- NpTErVQKP/ePp1FClCU9uRatf/W21on9b57c85LgZOQCJS2038K4+KMdchpyZ5A5AWSX
- e5vKbGIxoi+p6X3MGHMEX+haswlwCutm9Hq5MiL0xl9WOcIiSY72BiD9hXc7w2qh17F5
- 8Z3nxvRR0DAysQkb6/Z5OedE0S8/V8VxgFTccTeh6/DH4H/loj6iWHCgT8zQeWI5Gfus
- T0Zw==
+ bh=g1l/K+IqHggnZgD2FOM2eEb6+GapEal3UYsodL2qel0=;
+ b=YMtWJHJ2WMH2XH9BOeVG4r0Ll0EqFNbA5k4ldDl9Vf5I5T0Wd9zn8Fdu53qpE8xGOM
+ cnbpAIgSoHiAl+2SBfrokBVltfejF896tHpYaq/c3Ogt393isZH9b9aXiPVVAhcirkRM
+ LTdbCjBhrWn6rxqIQhqOBJpMXfjmaQ6uXQCzL845qfPI64cVRCNHKLQKvza9IVJXXw+d
+ 4gGedGcjC0UnQ7mX0ycVlw1kr4d9mZjE4jDuF0kAbvRBCz8/5snTfP60acPuP6P0JF+A
+ r3pB0BBz6voZI5Beu+/xCnvbigWT+x4py1AJd5dNCuP22KKLmc1NjLl1SArROxaEaf85
+ +PMw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1752376374; x=1752981174;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ d=1e100.net; s=20230601; t=1752376517; x=1752981317;
+ h=content-transfer-encoding:to:subject:message-id:date:from
  :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=PYXSckiGcJNn/KAUw9jmYJc1dN7gwZ3GM+cfuiI1tqw=;
- b=BbVYZ/zKnL5At77SwjSM1g0m02HPeV6JA8AUBm7U2AWjWAgm4MXV7THK617h/jeeAp
- UOkFfpQy1oOQ4NVCQvWuQYC6TypTEcu5cJcyU5tYJWjhsJ4ohM3/A73gZG7p0vMX5KTV
- HH6c4s3ANdadNusj+a3wgLtcgsEvvdUUERbW8moYVjESMpJDVPbXJ9nnpmSnTaDdRtwR
- k7hjbgNCcukPlidf8ruoo/TQvYe2UuADD65CLzShtH8A7zpyiLqj5HHyudFZAAUaQ2y9
- RqOseG3+3FbDt+VbqhPEX6iQEWz2wVtYCMLbdIgWyhFe9YHe2PovkKAnTin5LmKL2Eev
- lOsw==
+ bh=g1l/K+IqHggnZgD2FOM2eEb6+GapEal3UYsodL2qel0=;
+ b=TXuxINh/OLQ+ydJ1a1hqcA3C3Iec53ddX3MNtd6LgW4dcNj3T9R4rpKpiP0L7VKfmX
+ In8iD+8+XSHUs//H62cUzMZrBmXQqO725KwjSDQuYUBN8VxhZo/6C0ISMAosWH74a7ey
+ Wgh/SfSfE5fyUN664wSSqhzcq1HQZtdUFH9pba/PYM3vE+ghlg5Uecsbkec1VT5CR2qf
+ vgsc/5HduX6lj21YuHAIrqzotVaO2V60oxK+nT2Yk5Nyt7qh+h+h0ukqS3ecRNsH6r4v
+ sMNKZl7oCY4Dr3gffEZ+K2SIgmY3FMm9fwJDBCEz3AFlwnGwy8FFbI1Sl2KYeMgkRseD
+ bhbQ==
 X-Forwarded-Encrypted: i=1;
- AJvYcCWTQ03VzOf3ZUwkRp3KANa/nepTiJ1SzSWVb615sm46rA+W4W8ww0F9ba33wnu9O90BpxG0wh+xAIo=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YweuxOmPP5sFdhcJP4255sAMAP28ikHGIfnrhi/asCK1bdxkC9z
- lIBaX+75VRDQTFaP24NV6bKwuRHuOaYJG1QXwKFVZy2QlGRDQ4pgZsiXZKxvyuJihtUhhKdSjyC
- CuLjg3fw9ASijScM0uWYU20m0K2+8QhA=
-X-Gm-Gg: ASbGncvdmXAvX8UwONbH/UN1gH4gB75aGVdkPIJLycI+1WVLfaySWmIgOjFs5Bm5zww
- lYaMcizAK/4REJBSqFEexjlxL5Tv4E4USL/vMEG34C6WRqmpE31Sb1Nsiqae0nquh2fPBO7r4Hy
- JSdEOq9cviUeP4wX+sRLpBwkqsvS4LuPE9+PKeC2fa9cwkiA5wIace+mjmNKNjaRFqoH+xAbmiJ
- QyXpLZwUl5R4shyCCLzKa0nf1KgeerGTwyWIhQ=
-X-Google-Smtp-Source: AGHT+IFlVubhR76J04TenbEV/VWoM26QXR5CBaA1M4O4pbJbbN8eGEb8aJ8CPVW6NE+SUJ0q8OELnntKt6OBSMfQDPg=
-X-Received: by 2002:a05:690c:6113:b0:70d:ecdd:9bd1 with SMTP id
- 00721157ae682-717d5e9310emr135689227b3.24.1752376373865; Sat, 12 Jul 2025
- 20:12:53 -0700 (PDT)
+ AJvYcCUDINGQj+KDuELe6OQ3oVGMVxaS4feRCe0of7VP4duHvqMxM7j/BGvA6UAsmoc8Uq6Yg/UKxmIBGms=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0Yy0Ae/Hvfk9gUfipljxQ7Kv0uxXjx3f6Q54cMwflIKxr89hrI6e
+ /Djt0SYdgF5g0ub0Kc+o7tXiYuOCXGLvElqRNmV3mg9YcascEeWaFyyjwRsY48M0VapRhq4aauy
+ weHJcXtvAwkIHKY3shuYGiylgGP2icjY=
+X-Gm-Gg: ASbGncv6Miz1UBtBzV9h7Vd/zc6TZvaTdFlYK/SOqPW1/QftciulW1Q/5Orr/YkbKTl
+ coVw9MNxa4lFJ7lkleQKiYuy9xpXUXnOTiVVR219LmbmNu8FkaqzjT2OPbggOAKtPzdkkIbTc17
+ XdKHG4ACkkOCk+UeBeycSQA+bXSStYpGMw9VSbNTYvIpGlEFJC+ePcrXtBEF/gjl7fZnDW2400i
+ s2a8U0Msbkb5GTFYSvkPRBNxKnMD/WfT3JcI6w=
+X-Google-Smtp-Source: AGHT+IEGjUqaSB3UsgVl0/htAQhEKYX4HGo1vBA1pPGsrhp5eOwfpsBu4htmrwq7mUdGWj4IbgeV34xTm+uP2H4eXao=
+X-Received: by 2002:a05:690c:a99:b0:70f:8883:eb1a with SMTP id
+ 00721157ae682-717d78af82amr146281137b3.6.1752376517287; Sat, 12 Jul 2025
+ 20:15:17 -0700 (PDT)
 MIME-Version: 1.0
-References: <20250620235053.164614-1-olvaffe@gmail.com>
- <20250620235053.164614-3-olvaffe@gmail.com>
- <20250623082122.62f69579@fedora>
- <aFkZaoPXkZWaqWID@e110455-lin.cambridge.arm.com>
-In-Reply-To: <aFkZaoPXkZWaqWID@e110455-lin.cambridge.arm.com>
+References: <20250610235825.3113075-1-olvaffe@gmail.com>
+In-Reply-To: <20250610235825.3113075-1-olvaffe@gmail.com>
 From: Chia-I Wu <olvaffe@gmail.com>
-Date: Sat, 12 Jul 2025 20:12:43 -0700
-X-Gm-Features: Ac12FXy3WPTrrjYpoDpqZLdmXP9qM0fxFoDRqaumTNKzbc-mSJMltJnSf0MnYdk
-Message-ID: <CAPaKu7R57KE+VFNYxaaUBCph__U5kN7xS=FSVsLzh+c=S1cp2Q@mail.gmail.com>
-Subject: Re: [PATCH 2/4] panthor: save panthor_file in panthor_group
-To: Liviu Dudau <liviu.dudau@arm.com>
-Cc: Boris Brezillon <boris.brezillon@collabora.com>,
- Steven Price <steven.price@arm.com>, 
+Date: Sat, 12 Jul 2025 20:15:06 -0700
+X-Gm-Features: Ac12FXxfcXlhxfzALMNhQnVRlmtPZ9HqTMZpm9-bPHhDJOMV7PioUFmwOsCuW3Y
+Message-ID: <CAPaKu7Q4=fFGeXw27JqptmELX-XisMZG_M6jiRngyZihVooWxQ@mail.gmail.com>
+Subject: Re: [PATCH] drm/bridge: it6505: select REGMAP_I2C
+To: Andrzej Hajda <andrzej.hajda@intel.com>,
+ Neil Armstrong <neil.armstrong@linaro.org>, 
+ Robert Foss <rfoss@kernel.org>,
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>, 
+ Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>, 
  Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
  Maxime Ripard <mripard@kernel.org>, 
  Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
+ Simona Vetter <simona@ffwll.ch>, 
  dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
@@ -91,32 +91,36 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi,
+Can anyone help review this?  It is a trivial build fix.
 
-On Mon, Jun 23, 2025 at 2:07=E2=80=AFAM Liviu Dudau <liviu.dudau@arm.com> w=
-rote:
+On Tue, Jun 10, 2025 at 4:58=E2=80=AFPM Chia-I Wu <olvaffe@gmail.com> wrote=
+:
 >
-> On Mon, Jun 23, 2025 at 08:21:22AM +0200, Boris Brezillon wrote:
-> > On Fri, 20 Jun 2025 16:50:51 -0700
-> > Chia-I Wu <olvaffe@gmail.com> wrote:
-> >
-> > > We would like to access panthor_file from panthor_group on gpu errors=
-.
-> > > Because panthour_group can outlive drm_file, add refcount to
-> > > panthor_file to ensure its lifetime.
-> >
-> > I'm not a huge fan of refcounting panthor_file because people tend to
-> > put resource they expect to be released when the last handle goes away,
-> > and if we don't refcount these sub-resources they might live longer
-> > than they are meant to. Also not a huge fan of the circular referencing
-> > that exists between file and groups after this change.
-> >
-> > How about we move the process info to a sub-object that's refcounted
-> > and let both panthor_file and panthor_group take a ref on this object
-> > instead?
+> Fix
 >
-> I agree with Boris on this. One alternative is to put the pid and comm in
-> the panthor_group struct as panthor_file makes no use of the fields.
-I took this suggestion in v2 because, when the task that opened the
-node differs from the task that created the group, we are more
-interested in the latter.
+>   aarch64-linux-gnu-ld: drivers/gpu/drm/bridge/ite-it6505.o: in function =
+`it6505_i2c_probe':
+>   ite-it6505.c:(.text+0x754): undefined reference to `__devm_regmap_init_=
+i2c'
+>
+> Signed-off-by: Chia-I Wu <olvaffe@gmail.com>
+> ---
+>  drivers/gpu/drm/bridge/Kconfig | 1 +
+>  1 file changed, 1 insertion(+)
+>
+> diff --git a/drivers/gpu/drm/bridge/Kconfig b/drivers/gpu/drm/bridge/Kcon=
+fig
+> index b9e0ca85226a6..a6d6e62071a0e 100644
+> --- a/drivers/gpu/drm/bridge/Kconfig
+> +++ b/drivers/gpu/drm/bridge/Kconfig
+> @@ -122,6 +122,7 @@ config DRM_ITE_IT6505
+>         select EXTCON
+>         select CRYPTO
+>         select CRYPTO_HASH
+> +       select REGMAP_I2C
+>         help
+>           ITE IT6505 DisplayPort bridge chip driver.
+>
+> --
+> 2.50.0.rc0.642.g800a2b2222-goog
+>
