@@ -2,81 +2,80 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5056FB02E8A
-	for <lists+dri-devel@lfdr.de>; Sun, 13 Jul 2025 05:08:52 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 41A82B02E8F
+	for <lists+dri-devel@lfdr.de>; Sun, 13 Jul 2025 05:12:59 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8595C10E033;
-	Sun, 13 Jul 2025 03:08:50 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7E46910E10D;
+	Sun, 13 Jul 2025 03:12:56 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="PU9Hr4GZ";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="cNx8e/aZ";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pl1-f181.google.com (mail-pl1-f181.google.com
- [209.85.214.181])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9168A10E0FE
- for <dri-devel@lists.freedesktop.org>; Sun, 13 Jul 2025 03:08:48 +0000 (UTC)
-Received: by mail-pl1-f181.google.com with SMTP id
- d9443c01a7336-23c703c471dso36392685ad.0
- for <dri-devel@lists.freedesktop.org>; Sat, 12 Jul 2025 20:08:48 -0700 (PDT)
+Received: from mail-yw1-f181.google.com (mail-yw1-f181.google.com
+ [209.85.128.181])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3C3EF10E10D
+ for <dri-devel@lists.freedesktop.org>; Sun, 13 Jul 2025 03:12:55 +0000 (UTC)
+Received: by mail-yw1-f181.google.com with SMTP id
+ 00721157ae682-711756ae8c9so25742257b3.3
+ for <dri-devel@lists.freedesktop.org>; Sat, 12 Jul 2025 20:12:55 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1752376128; x=1752980928; darn=lists.freedesktop.org;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
- :reply-to; bh=FOwnLqSs1rW2UYmEVELRGgX3h26kVH+s5TT74bf5das=;
- b=PU9Hr4GZPASabd4bI7ZNOqVXDSgSo3LUxBdX4o3fcr1cOo4IJDiwDGzKEusH8XYuiE
- RkBpTdZy8tF7WKEi4/su9L62X1e6JsJKmmKFHs7z1mvjarJ8qHZjbTpQoBAII84Y0/QK
- bnHclnDzsOEUyG4PuVLUl+wPb2S6HgtscZvZX6+KR9A0UZbXegwqP5fdrnxeAF0dpQyt
- Y4LEh66Nf8Y+nUzFvNLS7wscuYRZQrYXtjHqjn6jVUXSsnrmIVhxJtKj7OBbXpOcLMG6
- zpCWEqNwXZWGroII9W3g96fJJnf/5/PEJmbSrS+uXXsd/L2tjkZ64YJ7nv13Z5m1FrUI
- /oXw==
+ d=gmail.com; s=20230601; t=1752376374; x=1752981174; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=PYXSckiGcJNn/KAUw9jmYJc1dN7gwZ3GM+cfuiI1tqw=;
+ b=cNx8e/aZuAf0KKcWxkoHZCcrTIqP/kGMqrmj0xLuj8EMXeDZ4vrIQN5eriK0iZMekb
+ FXf35ULKXqbazfDOtvcHJsaYWiUXaujz+Rn51unDOyJVA4nvC+5ls3vRqzLuBKixxMM+
+ NpTErVQKP/ePp1FClCU9uRatf/W21on9b57c85LgZOQCJS2038K4+KMdchpyZ5A5AWSX
+ e5vKbGIxoi+p6X3MGHMEX+haswlwCutm9Hq5MiL0xl9WOcIiSY72BiD9hXc7w2qh17F5
+ 8Z3nxvRR0DAysQkb6/Z5OedE0S8/V8VxgFTccTeh6/DH4H/loj6iWHCgT8zQeWI5Gfus
+ T0Zw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1752376128; x=1752980928;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
+ d=1e100.net; s=20230601; t=1752376374; x=1752981174;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=FOwnLqSs1rW2UYmEVELRGgX3h26kVH+s5TT74bf5das=;
- b=boHvpDcMqoox3LZYOKGBgV41DzMPGMv9adtyLqm34mEuMI3L+OiiNw1/0tmffrWeQU
- rc9KIiRoJzeAnpdPHDF3OSj8dWqqoW44MXO+f19cESAQjhwmRxHIMMB0WduJizEvhnic
- D022/56etCpd+1aXUZS1Ijy0ZOnLQ7+lLjH2R1X+rhowrS6x8hKEuZgV3gYOG3BsHbgq
- 1zXCTgA2PsSP83FtATCxX2gnUxui33Pku/0qB0mjfNOO/mEtWStXa3bpsaFdyxvUQUPe
- I8jOxyDdk7RkMpCdCUymO1p0sWMJkqGhxsY2YSWLWpd95PsQMopNiLtEmGY1U0x5Oix/
- M2qw==
+ bh=PYXSckiGcJNn/KAUw9jmYJc1dN7gwZ3GM+cfuiI1tqw=;
+ b=BbVYZ/zKnL5At77SwjSM1g0m02HPeV6JA8AUBm7U2AWjWAgm4MXV7THK617h/jeeAp
+ UOkFfpQy1oOQ4NVCQvWuQYC6TypTEcu5cJcyU5tYJWjhsJ4ohM3/A73gZG7p0vMX5KTV
+ HH6c4s3ANdadNusj+a3wgLtcgsEvvdUUERbW8moYVjESMpJDVPbXJ9nnpmSnTaDdRtwR
+ k7hjbgNCcukPlidf8ruoo/TQvYe2UuADD65CLzShtH8A7zpyiLqj5HHyudFZAAUaQ2y9
+ RqOseG3+3FbDt+VbqhPEX6iQEWz2wVtYCMLbdIgWyhFe9YHe2PovkKAnTin5LmKL2Eev
+ lOsw==
 X-Forwarded-Encrypted: i=1;
- AJvYcCXUdsl6SMTXdhpNcIeOVcIeRDDcolNpEPyf3tkIQbW4vJd3QnY/jkXqnc3frAhIGbRKDykOvq+XKR0=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YzLCS42VkO5l0Tw31eSpeg3PXnSldOX0QQS7Sd0WO73iTv+gPgM
- WUoVUVHmHgGmRQjr/JU6VeeVwSCRSrKopQcFeB2p+tiJqWua+uIrVXbR
-X-Gm-Gg: ASbGncsCq7nNOzv0DG2c304laDs69yCjxFyydEANpWA+1TAEH0S0L0fOb4BarPmEuH1
- Un0DT8UDlQYCcMjmGE7LQ49j3wyEkX22grIQlfOwn2xHPVFEusSOZwzZHi8TxFMq5GIKD8/LuGC
- vCcMWoZ4v5wOkr0kQq8AMV0Nhk4Z+z9cvdQhVFmIow+jU9kTXUc6jessy96aIU9hkvKz6EFKTab
- SlDYSJXe6WvDLKn3YuLJUaxrlkE6mLQ3mM9W47OtwBAv8PEuaKXUdxj0p2Y9+VcLYnv7X5PpnXH
- 2Rqo731zlkAclBAtPc+VJsZKJyHLaINL517WmbfwK6y/a7i0qYJP2yl6u63+GenQVbJL3FD7CY8
- P2qFUzsTI87gbD8OATO4+SZPIs1G3kni1YYmwHQ5E4uoc8uMicFxNuBir
-X-Google-Smtp-Source: AGHT+IHEjvSrvB+9387zR5i0O6g6zaBHfqOrSnLb9UWk7X06QM857ZJw7NrfsXYDnkcxFugrnXKMhQ==
-X-Received: by 2002:a17:902:d58d:b0:235:e1e4:edb0 with SMTP id
- d9443c01a7336-23de2ff102emr196227525ad.22.1752376127944; 
- Sat, 12 Jul 2025 20:08:47 -0700 (PDT)
-Received: from localhost (212.18.125.34.bc.googleusercontent.com.
- [34.125.18.212]) by smtp.gmail.com with UTF8SMTPSA id
- d9443c01a7336-23de4322b0csm72162565ad.113.2025.07.12.20.08.47
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sat, 12 Jul 2025 20:08:47 -0700 (PDT)
-From: Chia-I Wu <olvaffe@gmail.com>
-To: Boris Brezillon <boris.brezillon@collabora.com>,
- Steven Price <steven.price@arm.com>, Liviu Dudau <liviu.dudau@arm.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
- Simona Vetter <simona@ffwll.ch>, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org
-Subject: [PATCH v2 3/3] panthor: dump task pid and comm on gpu errors
-Date: Sat, 12 Jul 2025 20:08:31 -0700
-Message-ID: <20250713030831.3227607-4-olvaffe@gmail.com>
-X-Mailer: git-send-email 2.50.0.727.gbf7dc18ff4-goog
-In-Reply-To: <20250713030831.3227607-1-olvaffe@gmail.com>
-References: <20250713030831.3227607-1-olvaffe@gmail.com>
+ AJvYcCWTQ03VzOf3ZUwkRp3KANa/nepTiJ1SzSWVb615sm46rA+W4W8ww0F9ba33wnu9O90BpxG0wh+xAIo=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YweuxOmPP5sFdhcJP4255sAMAP28ikHGIfnrhi/asCK1bdxkC9z
+ lIBaX+75VRDQTFaP24NV6bKwuRHuOaYJG1QXwKFVZy2QlGRDQ4pgZsiXZKxvyuJihtUhhKdSjyC
+ CuLjg3fw9ASijScM0uWYU20m0K2+8QhA=
+X-Gm-Gg: ASbGncvdmXAvX8UwONbH/UN1gH4gB75aGVdkPIJLycI+1WVLfaySWmIgOjFs5Bm5zww
+ lYaMcizAK/4REJBSqFEexjlxL5Tv4E4USL/vMEG34C6WRqmpE31Sb1Nsiqae0nquh2fPBO7r4Hy
+ JSdEOq9cviUeP4wX+sRLpBwkqsvS4LuPE9+PKeC2fa9cwkiA5wIace+mjmNKNjaRFqoH+xAbmiJ
+ QyXpLZwUl5R4shyCCLzKa0nf1KgeerGTwyWIhQ=
+X-Google-Smtp-Source: AGHT+IFlVubhR76J04TenbEV/VWoM26QXR5CBaA1M4O4pbJbbN8eGEb8aJ8CPVW6NE+SUJ0q8OELnntKt6OBSMfQDPg=
+X-Received: by 2002:a05:690c:6113:b0:70d:ecdd:9bd1 with SMTP id
+ 00721157ae682-717d5e9310emr135689227b3.24.1752376373865; Sat, 12 Jul 2025
+ 20:12:53 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20250620235053.164614-1-olvaffe@gmail.com>
+ <20250620235053.164614-3-olvaffe@gmail.com>
+ <20250623082122.62f69579@fedora>
+ <aFkZaoPXkZWaqWID@e110455-lin.cambridge.arm.com>
+In-Reply-To: <aFkZaoPXkZWaqWID@e110455-lin.cambridge.arm.com>
+From: Chia-I Wu <olvaffe@gmail.com>
+Date: Sat, 12 Jul 2025 20:12:43 -0700
+X-Gm-Features: Ac12FXy3WPTrrjYpoDpqZLdmXP9qM0fxFoDRqaumTNKzbc-mSJMltJnSf0MnYdk
+Message-ID: <CAPaKu7R57KE+VFNYxaaUBCph__U5kN7xS=FSVsLzh+c=S1cp2Q@mail.gmail.com>
+Subject: Re: [PATCH 2/4] panthor: save panthor_file in panthor_group
+To: Liviu Dudau <liviu.dudau@arm.com>
+Cc: Boris Brezillon <boris.brezillon@collabora.com>,
+ Steven Price <steven.price@arm.com>, 
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, 
+ Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -92,72 +91,32 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-It is useful to know which tasks cause gpu errors.
+Hi,
 
-Signed-off-by: Chia-I Wu <olvaffe@gmail.com>
----
- drivers/gpu/drm/panthor/panthor_sched.c | 24 +++++++++++++++++++-----
- 1 file changed, 19 insertions(+), 5 deletions(-)
-
-diff --git a/drivers/gpu/drm/panthor/panthor_sched.c b/drivers/gpu/drm/panthor/panthor_sched.c
-index 823b0fe678ba6..47912b06ec9d3 100644
---- a/drivers/gpu/drm/panthor/panthor_sched.c
-+++ b/drivers/gpu/drm/panthor/panthor_sched.c
-@@ -1364,8 +1364,12 @@ cs_slot_process_fatal_event_locked(struct panthor_device *ptdev,
- 	fatal = cs_iface->output->fatal;
- 	info = cs_iface->output->fatal_info;
- 
--	if (group)
-+	if (group) {
-+		drm_warn(&ptdev->base, "CS_FATAL: pid=%d, comm=%s\n",
-+			 group->task_info.pid, group->task_info.comm);
-+
- 		group->fatal_queues |= BIT(cs_id);
-+	}
- 
- 	if (CS_EXCEPTION_TYPE(fatal) == DRM_PANTHOR_EXCEPTION_CS_UNRECOVERABLE) {
- 		/* If this exception is unrecoverable, queue a reset, and make
-@@ -1425,6 +1429,11 @@ cs_slot_process_fault_event_locked(struct panthor_device *ptdev,
- 		spin_unlock(&queue->fence_ctx.lock);
- 	}
- 
-+	if (group) {
-+		drm_warn(&ptdev->base, "CS_FAULT: pid=%d, comm=%s\n",
-+			 group->task_info.pid, group->task_info.comm);
-+	}
-+
- 	drm_warn(&ptdev->base,
- 		 "CSG slot %d CS slot: %d\n"
- 		 "CS_FAULT.EXCEPTION_TYPE: 0x%x (%s)\n"
-@@ -1641,11 +1650,15 @@ csg_slot_process_progress_timer_event_locked(struct panthor_device *ptdev, u32 c
- 
- 	lockdep_assert_held(&sched->lock);
- 
--	drm_warn(&ptdev->base, "CSG slot %d progress timeout\n", csg_id);
--
- 	group = csg_slot->group;
--	if (!drm_WARN_ON(&ptdev->base, !group))
-+	if (!drm_WARN_ON(&ptdev->base, !group)) {
-+		drm_warn(&ptdev->base, "CSG_PROGRESS_TIMER_EVENT: pid=%d, comm=%s\n",
-+			 group->task_info.pid, group->task_info.comm);
-+
- 		group->timedout = true;
-+	}
-+
-+	drm_warn(&ptdev->base, "CSG slot %d progress timeout\n", csg_id);
- 
- 	sched_queue_delayed_work(sched, tick, 0);
- }
-@@ -3227,7 +3240,8 @@ queue_timedout_job(struct drm_sched_job *sched_job)
- 	struct panthor_scheduler *sched = ptdev->scheduler;
- 	struct panthor_queue *queue = group->queues[job->queue_idx];
- 
--	drm_warn(&ptdev->base, "job timeout\n");
-+	drm_warn(&ptdev->base, "job timeout: pid=%d, comm=%s, seqno=%llu\n",
-+		 group->task_info.pid, group->task_info.comm, job->done_fence->seqno);
- 
- 	drm_WARN_ON(&ptdev->base, atomic_read(&sched->reset.in_progress));
- 
--- 
-2.50.0.727.gbf7dc18ff4-goog
-
+On Mon, Jun 23, 2025 at 2:07=E2=80=AFAM Liviu Dudau <liviu.dudau@arm.com> w=
+rote:
+>
+> On Mon, Jun 23, 2025 at 08:21:22AM +0200, Boris Brezillon wrote:
+> > On Fri, 20 Jun 2025 16:50:51 -0700
+> > Chia-I Wu <olvaffe@gmail.com> wrote:
+> >
+> > > We would like to access panthor_file from panthor_group on gpu errors=
+.
+> > > Because panthour_group can outlive drm_file, add refcount to
+> > > panthor_file to ensure its lifetime.
+> >
+> > I'm not a huge fan of refcounting panthor_file because people tend to
+> > put resource they expect to be released when the last handle goes away,
+> > and if we don't refcount these sub-resources they might live longer
+> > than they are meant to. Also not a huge fan of the circular referencing
+> > that exists between file and groups after this change.
+> >
+> > How about we move the process info to a sub-object that's refcounted
+> > and let both panthor_file and panthor_group take a ref on this object
+> > instead?
+>
+> I agree with Boris on this. One alternative is to put the pid and comm in
+> the panthor_group struct as panthor_file makes no use of the fields.
+I took this suggestion in v2 because, when the task that opened the
+node differs from the task that created the group, we are more
+interested in the latter.
