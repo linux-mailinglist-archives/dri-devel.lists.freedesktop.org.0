@@ -2,58 +2,58 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7CB4CB03008
-	for <lists+dri-devel@lfdr.de>; Sun, 13 Jul 2025 10:39:26 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id BCDBBB0300A
+	for <lists+dri-devel@lfdr.de>; Sun, 13 Jul 2025 10:39:29 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6FB2110E15B;
-	Sun, 13 Jul 2025 08:39:24 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 25D2010E34C;
+	Sun, 13 Jul 2025 08:39:28 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ed1-f49.google.com (mail-ed1-f49.google.com
- [209.85.208.49])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 01C9A10E33D
- for <dri-devel@lists.freedesktop.org>; Sun, 13 Jul 2025 08:39:22 +0000 (UTC)
-Received: by mail-ed1-f49.google.com with SMTP id
- 4fb4d7f45d1cf-60c9d8a16e5so6532520a12.0
- for <dri-devel@lists.freedesktop.org>; Sun, 13 Jul 2025 01:39:22 -0700 (PDT)
+Received: from mail-ej1-f43.google.com (mail-ej1-f43.google.com
+ [209.85.218.43])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D37B610E33F
+ for <dri-devel@lists.freedesktop.org>; Sun, 13 Jul 2025 08:39:24 +0000 (UTC)
+Received: by mail-ej1-f43.google.com with SMTP id
+ a640c23a62f3a-ae0de0c03e9so597462366b.2
+ for <dri-devel@lists.freedesktop.org>; Sun, 13 Jul 2025 01:39:24 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1752395961; x=1753000761;
+ d=1e100.net; s=20230601; t=1752395963; x=1753000763;
  h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
  :mime-version:subject:date:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=4ARZBUzEfFCMAq5v8g7vjIVwF7+PfjU6DnKWe8vqNJQ=;
- b=TtzP1TvsDvWx5VaTU+RI4zcdbPWdu8aSYLua0RCjZ5TzN4dljS3z7wQmXplMgBrMgm
- yu+YY1c2QNL7HINHpYGguMZicv9qM7XD2rv1qb/FwKH02/C7bv43rwFFWcyt77tphmnh
- 0/X+Z2nVWn+48fTOW8nA3/swu7dmgcSZqeDguJkmr24H7XDuJmNyQ2OBPdFpcpfibEdj
- hLKFSoWpgwu6LEGOHau6kzxXiUQBe/r/fOYGrw460w8+gkgT7wvgcDtxZUkN6+2oY0aH
- vSEGrt/bwx2K74uXn8YO3BGg0Us05POi3o9LB3RcF6eXn+rWJGOP0uNSm1FjN71Sdk0F
- pJUA==
+ bh=FeyMo4Jt7UfkzhL/r2KfmA979+uFc7fR7QoglkpcpSU=;
+ b=CWH6iVxoiG665hap3au25yMRRCJds8Q0q5glPLIkdAL4jhc4+8+V+aKnPjhZqhFkx0
+ d1drfpN6VYygGIturTi0LDUUXcPLCJs+QCH/X9xJl1l8h7XZVVKM8K3y3lsTo+UsZzWN
+ PBH19zzuj9azXHKkty2odtwNUN9s2yw9YcJSjvXbEfdObLQM1gtVX7t6VCFfaLO4PFH2
+ 6VjOdh1ScwDTbzzFZAL09lEumIdN4L1oVsk0cDiUCBaBHmHd6j+WRFNCzd4H3I1HAoXb
+ iXxWUPc3hSS5NHTh7Q9q13+KlY1fUJ5Q5VpWfLMXAf3Zelgbs7Ou58h41TZQC6JV5M0q
+ V6Kg==
 X-Forwarded-Encrypted: i=1;
- AJvYcCX6aoP1Hh0HA6tMX11E2O2+r7RsMyyK889w+AA0rk/ZALjSjmNv9YtQk9Xa91pKFk3hELm2ySGm4fQ=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YzYmd4VBDrRbOIJ8F6o2+Vq5daMgeQfWCW9MZyovmcKkIQ8wkX4
- AuK/rgvWLtRL/yFW95kXTXxzCXXeVnkdt6vutUZzW4EhnjwdDoOIN6wg
-X-Gm-Gg: ASbGncutsBrekMr2O5je9BD+5j/cmzgDm8PhY+sbJ5Pzp1rnh3UccEJHYVuvvE+tx1I
- kPhhr/fKkgPxoR3YAcnHaN76hXMLYVIpmb1o7nnJdo8iDIJweFgcC+K7ABUs1XsqlLJM6NTm3M3
- gLo5ki+ENEhwaBIO3Mg8PvWYG2yKVWNY5y8ArLaQvSofnThrCZtcZAz+ed1SX6DWNw0Wyxa/YLp
- 5dtA2L9ykjJ2UaIy6kh0Os0N2DOoR2TfMaSs6sEMATUYOriej3qFVgSqT7NmFvfopwVasc7fwN+
- t0GFbDaTEzZ+011c/oa8/71bFy8l3QQUdAwFxzn/5Bh5oR7AFYNS2HoN/tKRhnrRgD/q83Mfx2V
- Z5TJgerD9LtvPPdCzGaO3LwMUnMuapxrcqurF5dsrfHWpASAKLPoDOu7t
-X-Google-Smtp-Source: AGHT+IExBlEevT28yq3f8GIk8BvM6vD/0UZe4pkBaz+41fUQECzjnBCvYRpaZSboFe48piBAxJ1srQ==
-X-Received: by 2002:a17:906:c110:b0:ae0:cbc1:3468 with SMTP id
- a640c23a62f3a-ae6fbc886eamr1032521766b.15.1752395961350; 
- Sun, 13 Jul 2025 01:39:21 -0700 (PDT)
+ AJvYcCV5kwJgnJgT9JzS9ZNx6sAvEJ0DKDEX/pk+2nJdM2je+LdcnNZNbope4Vcf94WAq7yIZamrW6mCl7s=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YyIWIuzD6AaqsCnLGTsazbbg0BDhp8puwAOzX5P9jDMN6vZAYAU
+ xlnRC0zDmJFg3FkIjtBOXoK7739A4GPBQWBsLvTzItxtHBaxpCCL0Y5K
+X-Gm-Gg: ASbGncuJo5O5jDlmBfJfeuW6g8I0XuSlqx+b2taRpnXrNLyEBsrp8UoumqCxfh/piCs
+ tJfIKi5+N9b+h8xTRiVdwbLYYKYyFabC67KMft660zOf56r4OT0wCrOfAa6LS5T7NghU9HNz+Qj
+ FhpkxvtMAM10DQ+KHoiE6AIuFj8Gv5UFrup+/VVOw922jXL5TTu4TTO3QmQkxUAuFlJtUv28CCS
+ P2A4AuU3TAUZMQKDSv5KstytIm5iFR/A/KV+4dbrKiuw4OT1+tNYRVO+wxSD/7lHUpsWAuLfXfw
+ 8eozeAeajtaBuUbbZFEsheWakyOByhsha5+ZPTVtzeokAxSbDb5yleXYoqohRtB58kN8mWbKrTh
+ /qCsg73NENp6hdsFY+5S5bucH0voVUmet7IerFZIHLQQ9OVFWRPVxnOL2
+X-Google-Smtp-Source: AGHT+IHxIHGjEkE5SiJCVQleLSfE7Ew8CiAdy3INMXoGnJecgmb8mpelQgFGDmsS+2hlzLznSM+Hlw==
+X-Received: by 2002:a17:907:803:b0:add:ede0:b9c4 with SMTP id
+ a640c23a62f3a-ae6fc0c3696mr934268766b.42.1752395963198; 
+ Sun, 13 Jul 2025 01:39:23 -0700 (PDT)
 Received: from [10.42.0.1] (cst-prg-46-162.cust.vodafone.cz. [46.135.46.162])
  by smtp.gmail.com with ESMTPSA id
- a640c23a62f3a-ae6e7e90a42sm610876266b.27.2025.07.13.01.39.19
+ a640c23a62f3a-ae6e7e90a42sm610876266b.27.2025.07.13.01.39.21
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sun, 13 Jul 2025 01:39:20 -0700 (PDT)
+ Sun, 13 Jul 2025 01:39:22 -0700 (PDT)
 From: Tomeu Vizoso <tomeu@tomeuvizoso.net>
-Date: Sun, 13 Jul 2025 10:38:59 +0200
-Subject: [PATCH v8 09/10] arm64: dts: rockchip: Enable the NPU on quartzpro64
+Date: Sun, 13 Jul 2025 10:39:00 +0200
+Subject: [PATCH v8 10/10] arm64: dts: rockchip: enable NPU on ROCK 5B
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20250713-6-10-rocket-v8-9-64fa3115e910@tomeuvizoso.net>
+Message-Id: <20250713-6-10-rocket-v8-10-64fa3115e910@tomeuvizoso.net>
 References: <20250713-6-10-rocket-v8-0-64fa3115e910@tomeuvizoso.net>
 In-Reply-To: <20250713-6-10-rocket-v8-0-64fa3115e910@tomeuvizoso.net>
 To: Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
@@ -91,45 +91,86 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Enable the nodes added in a previous commit to the rk3588s device tree.
+From: Nicolas Frattaroli <nicolas.frattaroli@collabora.com>
 
-v2:
-- Split nodes (Sebastian Reichel)
-- Sort nodes (Sebastian Reichel)
-- Add board regulators (Sebastian Reichel)
+The NPU on the ROCK5B uses the same regulator for both the sram-supply
+and the npu's supply. Add this regulator, and enable all the NPU bits.
+Also add the regulator as a domain-supply to the pd_npu power domain.
 
 v8:
 - Remove notion of top core (Robin Murphy)
 
+Signed-off-by: Nicolas Frattaroli <nicolas.frattaroli@collabora.com>
 Tested-by: Heiko Stuebner <heiko@sntech.de>
 Signed-off-by: Tomeu Vizoso <tomeu@tomeuvizoso.net>
 ---
- .../arm64/boot/dts/rockchip/rk3588-quartzpro64.dts | 30 ++++++++++++++++++++++
- 1 file changed, 30 insertions(+)
+ arch/arm64/boot/dts/rockchip/rk3588-rock-5b.dtsi | 57 ++++++++++++++++++++++++
+ 1 file changed, 57 insertions(+)
 
-diff --git a/arch/arm64/boot/dts/rockchip/rk3588-quartzpro64.dts b/arch/arm64/boot/dts/rockchip/rk3588-quartzpro64.dts
-index 78aaa6635b5d20a650aba8d8c2d0d4f498ff0d33..f8a0c95be58dc6c60ec0d48a327a9151a66fec5d 100644
---- a/arch/arm64/boot/dts/rockchip/rk3588-quartzpro64.dts
-+++ b/arch/arm64/boot/dts/rockchip/rk3588-quartzpro64.dts
-@@ -415,6 +415,36 @@ &pcie3x4 {
+diff --git a/arch/arm64/boot/dts/rockchip/rk3588-rock-5b.dtsi b/arch/arm64/boot/dts/rockchip/rk3588-rock-5b.dtsi
+index 6052787d2560978d2bae6cfbeea5fc1d419d583a..06f73f16901026485c02cecf9176d0d7dc7a021a 100644
+--- a/arch/arm64/boot/dts/rockchip/rk3588-rock-5b.dtsi
++++ b/arch/arm64/boot/dts/rockchip/rk3588-rock-5b.dtsi
+@@ -309,6 +309,29 @@ regulator-state-mem {
+ 	};
+ };
+ 
++&i2c1 {
++	pinctrl-names = "default";
++	pinctrl-0 = <&i2c1m2_xfer>;
++	status = "okay";
++
++	vdd_npu_s0: regulator@42 {
++		compatible = "rockchip,rk8602";
++		reg = <0x42>;
++		fcs,suspend-voltage-selector = <1>;
++		regulator-name = "vdd_npu_s0";
++		regulator-boot-on;
++		regulator-enable-ramp-delay = <500>;
++		regulator-min-microvolt = <550000>;
++		regulator-max-microvolt = <950000>;
++		regulator-ramp-delay = <2300>;
++		vin-supply = <&vcc5v0_sys>;
++
++		regulator-state-mem {
++			regulator-off-in-suspend;
++		 };
++	};
++};
++
+ &i2c6 {
+ 	status = "okay";
+ 
+@@ -433,6 +456,10 @@ &pd_gpu {
+ 	domain-supply = <&vdd_gpu_s0>;
+ };
+ 
++&pd_npu {
++	domain-supply = <&vdd_npu_s0>;
++};
++
+ &pinctrl {
+ 	hdmirx {
+ 		hdmirx_hpd: hdmirx-5v-detection {
+@@ -487,6 +514,36 @@ &pwm1 {
  	status = "okay";
  };
  
 +&rknn_core_0 {
 +	npu-supply = <&vdd_npu_s0>;
-+	sram-supply = <&vdd_npu_mem_s0>;
++	sram-supply = <&vdd_npu_s0>;
 +	status = "okay";
 +};
 +
 +&rknn_core_1 {
 +	npu-supply = <&vdd_npu_s0>;
-+	sram-supply = <&vdd_npu_mem_s0>;
++	sram-supply = <&vdd_npu_s0>;
 +	status = "okay";
 +};
 +
 +&rknn_core_2 {
 +	npu-supply = <&vdd_npu_s0>;
-+	sram-supply = <&vdd_npu_mem_s0>;
++	sram-supply = <&vdd_npu_s0>;
 +	status = "okay";
 +};
 +
@@ -146,7 +187,7 @@ index 78aaa6635b5d20a650aba8d8c2d0d4f498ff0d33..f8a0c95be58dc6c60ec0d48a327a9151
 +};
 +
  &saradc {
- 	vref-supply = <&vcc_1v8_s0>;
+ 	vref-supply = <&avcc_1v8_s0>;
  	status = "okay";
 
 -- 
