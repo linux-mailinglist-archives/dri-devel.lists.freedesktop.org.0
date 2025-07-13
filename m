@@ -2,70 +2,106 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5B844B030DB
-	for <lists+dri-devel@lfdr.de>; Sun, 13 Jul 2025 13:34:49 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0D558B03114
+	for <lists+dri-devel@lfdr.de>; Sun, 13 Jul 2025 15:16:48 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 67FA710E16C;
-	Sun, 13 Jul 2025 11:34:46 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C187010E0E9;
+	Sun, 13 Jul 2025 13:16:44 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="A7SbSsI2";
+	dkim=pass (2048-bit key; unprotected) header.d=qualcomm.com header.i=@qualcomm.com header.b="ULnlX0DF";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from tor.source.kernel.org (tor.source.kernel.org [172.105.4.254])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7715A10E03C;
- Sun, 13 Jul 2025 11:34:44 +0000 (UTC)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by tor.source.kernel.org (Postfix) with ESMTP id 86D5761130;
- Sun, 13 Jul 2025 11:34:43 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id EBD4BC4CEF8;
- Sun, 13 Jul 2025 11:34:42 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1752406483;
- bh=3E86QT1RQXoKJncONVA3h+/7auEBcT28VLs3DwrCUJ4=;
- h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
- b=A7SbSsI2OR/9ZV0VZeg9IRYtBVuQUmq7g6rOrCjb7CQ2okLlA9HYkpdEUephz4Ptt
- aBe2ntH8E1vupFI8mDKe5n7PPDoJLcLrUjdqo99S2wqJetQ6ybo1VY3gVCd9vo/h75
- jPpI27ED7OyUpFMfaJ6r98O94KqK4XCCQ3kD9BfEekJrfRYFiPypw3iZhEKfwW5oqX
- /J7ikhA4dYrWZSBSkEy5+eNsm6zK8NMC0QwPLqk3cb83F+8hjRa64/mPe4AL4SJR7n
- 1J2tO2eg9i01+rl/koJ9rogxC9j5g4/gB+cX13VGWo6BAdCdFNiCbrTmP66BF/dsnh
- bxGAQ6Px08eZA==
-Received: by mail-oo1-f43.google.com with SMTP id
- 006d021491bc7-6119cd1a154so1709371eaf.0; 
- Sun, 13 Jul 2025 04:34:42 -0700 (PDT)
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com
+ [205.220.180.131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0B73910E0E9
+ for <dri-devel@lists.freedesktop.org>; Sun, 13 Jul 2025 13:16:43 +0000 (UTC)
+Received: from pps.filterd (m0279871.ppops.net [127.0.0.1])
+ by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 56DBpuwL011892
+ for <dri-devel@lists.freedesktop.org>; Sun, 13 Jul 2025 13:16:42 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
+ cc:content-transfer-encoding:content-type:date:from:in-reply-to
+ :message-id:mime-version:references:reply-to:subject:to; s=
+ qcppdkim1; bh=bTUx+VZ4YLVbV9D1AWkOK6pRuT0f7GMSlVwY3D452HQ=; b=UL
+ nlX0DF5b+61nX7zTfN7F5d7ks+Plznjmaf/qz74NyHN2wQ5nyRAShZ9pAlPxsjQ6
+ fbiHuCTENTFtvOZE05onoO1ePrwO7965IAKw6FFPIwlA337NwfZJG1/IFuX2w6t5
+ +ONrzCTcK3rQ8S7jadlmYot6db5h3UpdXPjTYErRUF6Z+jHJY4DWhPhUupuXBl5X
+ qBVCSewMyPU2IHCgM2ylBfK2XERhWJLGDEE7z9srf+gIubKagQ5bTMVUqMo9J8mB
+ LoR95awqTj6LgyHJiZfujgYRoAXCihgStegcXdpO5u1CzCCWzj0ymJpw4PFXjpGg
+ bCwZUeMxePFY3bHrQV/A==
+Received: from mail-oi1-f197.google.com (mail-oi1-f197.google.com
+ [209.85.167.197])
+ by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 47ufut23p5-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
+ for <dri-devel@lists.freedesktop.org>; Sun, 13 Jul 2025 13:16:42 +0000 (GMT)
+Received: by mail-oi1-f197.google.com with SMTP id
+ 5614622812f47-40b99fd68feso2428225b6e.0
+ for <dri-devel@lists.freedesktop.org>; Sun, 13 Jul 2025 06:16:42 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1752412602; x=1753017402;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :reply-to:in-reply-to:references:mime-version:x-gm-message-state
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=bTUx+VZ4YLVbV9D1AWkOK6pRuT0f7GMSlVwY3D452HQ=;
+ b=C8jzUDj8ZHQCcHVgkEl7MM3xSBS0vD5hv8x6aqzgfR4ZARe9gQs0JV/JSnxB2BV7TQ
+ J17JsVcuzLAYBg09WYHn3w0DBLpmOuyTYsy2TsRn8apGmUeUkHtw7Y4t3mkEXpSSgv+F
+ 7i+OziC5RZZiCz9RMJZYejl1rahHokOyUhycFFlRyDc6DvrZDD28gqzAoZWb+wUF80h2
+ OSCzjZXV/xBZY4yrngWRdTMUELU05HbroO1bf+jgvrmHmSmxTTcshGOhNKXKxMn9xU0I
+ JWkLxZTng9n4nqtHS8I6ZqvqNN/ubWNcEeyxDPCQ+BlLFayEcCwaPaok+2b9M/SLruVI
+ k6YA==
 X-Forwarded-Encrypted: i=1;
- AJvYcCVGY6uU+zh3aaqB3n4MJcO58arppge/B5c5p+qqQxnwkfAd8pN13CX6WKzsrUp19yqrFYc5OQ6gGwD1@lists.freedesktop.org,
- AJvYcCXvncgxibgbbMZnuKIPdRAIWtZse1m0HoTVx/t8675haSlUYhM228+PUxj9mRaI+O54XQXrFOlt@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YxeEXDaws2H+XhVrim1Hg932XwY+JlvuykYUzSd+O9WEyjlyUwq
- 8FJQnW0um6BEpBzHPWv/ePCw1RM/z2mC4r7/Xyw75pYfXJumIVnZW3SzgcnwGEIqg6p1QAKsJyB
- XJXJQ9n9MvJI1ilfGucG4k4AtUK+1+ws=
-X-Google-Smtp-Source: AGHT+IFuYADzEutbEFDy/gs33SAlKKQHOs/PwanKwOXzdQ3mwgrkBASnOMI/05PrG5u0tEDdh7iap+htCumpxf94JKI=
-X-Received: by 2002:a05:6820:4409:b0:615:7c7f:4aa6 with SMTP id
- 006d021491bc7-6157c7f622amr526377eaf.3.1752406482201; Sun, 13 Jul 2025
- 04:34:42 -0700 (PDT)
+ AJvYcCWyWFnKCmAySi/M8/piefs+FDePC3H3cDJ8KRBNRKrK7UDh7J/7gKHF3EgvjjX756kMRw9mDzcqJs0=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YwaYc2/ho/HdMWi73lSm74oGgF/x6ZShk1oMpjzNm/pxRBGmr6E
+ nmwE2r/KE6CsS7yoS3Cg1zgXxDcwKVcWPbiv1U8c8XaiwZKdVGNIUXBXb/6wUtgDJ/bQT9JMdsB
+ TAgzygY9Wnp7VTLJE4fEuBTYdKQg1fRPK51vGZRTUOcEHISiOn+vF7IuBJu4WdEKvojXSASYRPY
+ VaSoOt9r2I6s+0kKAqm7qrE91ohwQ8q/ta78zEpZRnL6d79g==
+X-Gm-Gg: ASbGncsLeRM8l5YQZV+Hw1fMVH6oXAk2J1WGd0spuUTmQB4oAksQWLMqFKJJsclhvSR
+ nUbxGCP3oPbywDu/vxnHvwkoaNCQRnHp46BO08Sy9mOBbtrjg1r9uXHeuqMwdZBt3TJUCcCQqO+
+ gZNRzCLr84e8pup0tfW3yUJaKVdr09RuXcEGQXgW2Zh5paJqzFky8T
+X-Received: by 2002:a05:6808:23cd:b0:404:dbf3:5b0d with SMTP id
+ 5614622812f47-4151d5914e7mr6575400b6e.3.1752412601979; 
+ Sun, 13 Jul 2025 06:16:41 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IH1VaQK9wqnz+FxTANYpJ62FB5qEMASGOmEnkAQmxm/t7Rjz3H1kfZoKlFbnHST+MqaPlzvrU9rnDXUzvdkudo=
+X-Received: by 2002:a05:6808:23cd:b0:404:dbf3:5b0d with SMTP id
+ 5614622812f47-4151d5914e7mr6575381b6e.3.1752412601552; Sun, 13 Jul 2025
+ 06:16:41 -0700 (PDT)
 MIME-Version: 1.0
 References: <20250711191014.12a64210@canb.auug.org.au>
- <49080a96-2c7a-4eea-a64c-deac0b7a665b@infradead.org>
- <CAJZ5v0h1CX+aTu7dFy6vB-9LM6t5J4rt7Su3qVnq1xx-BFAm=Q@mail.gmail.com>
- <35f0dd7e-f4c1-4042-bc85-19d277f4b1f9@kernel.org>
-In-Reply-To: <35f0dd7e-f4c1-4042-bc85-19d277f4b1f9@kernel.org>
-From: "Rafael J. Wysocki" <rafael@kernel.org>
-Date: Sun, 13 Jul 2025 13:34:31 +0200
-X-Gmail-Original-Message-ID: <CAJZ5v0jejQBii9U+69PUjqzebrdWPky93ZoJ9wKuqeGDpK--JQ@mail.gmail.com>
-X-Gm-Features: Ac12FXwM3thsZjq3fqSeZdk6Wyvn9W-4fbkxOYzhvQlR8d53h_Oxqxin_woNNr8
-Message-ID: <CAJZ5v0jejQBii9U+69PUjqzebrdWPky93ZoJ9wKuqeGDpK--JQ@mail.gmail.com>
-Subject: Re: linux-next: Tree for Jul 11 [drivers/gpu/drm/amd/amdgpu/amdgpu.ko]
-To: Mario Limonciello <superm1@kernel.org>
-Cc: "Rafael J. Wysocki" <rafael@kernel.org>,
- Randy Dunlap <rdunlap@infradead.org>, 
- Mario Limonciello <mario.limonciello@amd.com>,
- Stephen Rothwell <sfr@canb.auug.org.au>, 
- Linux Next Mailing List <linux-next@vger.kernel.org>, 
- Linux Kernel Mailing List <linux-kernel@vger.kernel.org>, 
+ <e744987a-2fed-4780-a9c6-fd1175698da8@infradead.org>
+In-Reply-To: <e744987a-2fed-4780-a9c6-fd1175698da8@infradead.org>
+From: Rob Clark <rob.clark@oss.qualcomm.com>
+Date: Sun, 13 Jul 2025 06:16:30 -0700
+X-Gm-Features: Ac12FXzFPCGagOTtBoMZgRaN1L0GwHmRIThJgFjwywyiNvm8JhFCpXjsqSe1SlY
+Message-ID: <CACSVV011qEHt5Srx4QdP5=L9WqxTg9yjY63rTUGwbXawq899gQ@mail.gmail.com>
+Subject: Re: linux-next: Tree for Jul 11 (drivers/gpu/drm/msm/msm_gem.c)
+To: Randy Dunlap <rdunlap@infradead.org>
+Cc: Stephen Rothwell <sfr@canb.auug.org.au>,
+ Linux Next Mailing List <linux-next@vger.kernel.org>,
+ Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
  Linux DRI Development <dri-devel@lists.freedesktop.org>,
- Samuel Zhang <guoqing.zhang@amd.com>, amd-gfx@lists.freedesktop.org
+ linux-arm-msm@vger.kernel.org
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
+X-Authority-Analysis: v=2.4 cv=e7gGSbp/ c=1 sm=1 tr=0 ts=6873b1ba cx=c_pps
+ a=WJcna6AvsNCxL/DJwPP1KA==:117 a=IkcTkHD0fZMA:10 a=Wb1JkmetP80A:10
+ a=VwQbUJbxAAAA:8 a=EUspDBNiAAAA:8 a=JfrnYn6hAAAA:8 a=PbJyB38NimUM2AyV3J8A:9
+ a=QEXdDO2ut3YA:10 a=_Y9Zt4tPzoBS9L09Snn2:22 a=1CNFftbPRP8L7MoqJWF3:22
+X-Proofpoint-GUID: 1aPUlr2jU47WtjTuAhaZ8_X4pZGfLEk2
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwNzEzMDA5MiBTYWx0ZWRfX7NCZRrBRr6gx
+ dB1vDphz4sTy1Eeyuywmum8nx0imD8xhKrj7g03EekFXBOVjDHIeWD+625DnaiXc/HoSakqho+L
+ rPAOeXuvxWU6zqI6icCatZpv8ZRpdrfIhtI9u8mWFYM2h8LR/KFtIOYF0WEOj4mC8rYkzBkauxY
+ hmU4BclHfxIaaMpgarBbofOXxfksnlvoB/Kdh9ROI6vyiiJfZEg7JoFXShTC19UWglW9H4KcGfW
+ cmITApQnP4s7rXgK3/8gRNYyvghi9rZzZV2yfGcIkSq6j1vCpBMy0aFCUq1SSPjN1rcac+u68J2
+ en7JOs/B+7hsiwhYvD+U3ZWK+liSOLjSd8RLaO2VWWUfNsWZDtM6M7VHgzxurE=
+X-Proofpoint-ORIG-GUID: 1aPUlr2jU47WtjTuAhaZ8_X4pZGfLEk2
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1099,Hydra:6.1.7,FMLib:17.12.80.40
+ definitions=2025-07-13_01,2025-07-09_01,2025-03-28_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ phishscore=0 suspectscore=0 lowpriorityscore=0 bulkscore=0 adultscore=0
+ malwarescore=0 mlxscore=0 spamscore=0 mlxlogscore=999 classifier=spam
+ authscore=0 authtc=n/a authcc= route=outbound adjust=0 reason=mlx scancount=1
+ engine=8.19.0-2505280000 definitions=main-2507130092
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -78,59 +114,55 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
+Reply-To: rob.clark@oss.qualcomm.com
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Sat, Jul 12, 2025 at 9:02=E2=80=AFPM Mario Limonciello <superm1@kernel.o=
-rg> wrote:
+On Sat, Jul 12, 2025 at 11:49=E2=80=AFPM Randy Dunlap <rdunlap@infradead.or=
+g> wrote:
 >
 >
 >
-> On 7/12/25 3:11 AM, Rafael J. Wysocki wrote:
-> > On Fri, Jul 11, 2025 at 11:25=E2=80=AFPM Randy Dunlap <rdunlap@infradea=
-d.org> wrote:
-> >>
-> >>
-> >>
-> >> On 7/11/25 2:10 AM, Stephen Rothwell wrote:
-> >>> Hi all,
-> >>>
-> >>> Changes since 20250710:
-> >>>
-> >>
-> >> on x86_64, when
-> >> # CONFIG_SUSPEND is not set
-> >> # CONFIG_HIBERNATION is not set
-> >> # CONFIG_PM is not set
-> >>
-> >> ERROR: modpost: "pm_hibernate_is_recovering" [drivers/gpu/drm/amd/amdg=
-pu/amdgpu.ko] undefined!
-> >>
-> >> caused by commit
-> >> 530694f54dd5e ("drm/amdgpu: do not resume device in thaw for normal hi=
-bernation")
-> >>
-> >> Rafael, is a stub appropriate for this case?
+> On 7/11/25 2:10 AM, Stephen Rothwell wrote:
+> > Hi all,
 > >
-> > pm_hibernate_is_recovering() is not supposed to be called by code that
-> > does not depend on CONFIG_HIBERNATE_CALLBACKS, but a stub returning
-> > false would work for this.
+> > Changes since 20250710:
 >
-> Thanks, I just sent out a fix for this.
+> on i386, when:
 >
-> >
-> > Mario, it would be good to fix this up in your tree.  Also, it would
-> > be good to expose stuff to 0-day build testing before letting it go
-> > into linux-next.  I use the bleeding-edge branch for this purpose.
-> >
-> Honestly; I'm surprised that 0-day didn't raise this on either dri-devel
-> or amd-gfx.  I had expected at least one of those lists to raise this
-> over the last week of patches.
+> CONFIG_DRM_MSM=3Dy
+> CONFIG_DRM_MSM_GPU_STATE=3Dy
+> CONFIG_DRM_MSM_GPU_SUDO=3Dy
+> # CONFIG_DRM_MSM_VALIDATE_XML is not set
+> # CONFIG_DRM_MSM_MDP4 is not set
+> # CONFIG_DRM_MSM_MDP5 is not set
+> # CONFIG_DRM_MSM_DPU is not set
 >
-> Anyone know the history why neither has 0-day?
+> so DRM_MSM_KMS is also not set:
+>
+> ../drivers/gpu/drm/msm/msm_gem.c: In function =E2=80=98msm_gem_vma_put=E2=
+=80=99:
+> ../drivers/gpu/drm/msm/msm_gem.c:106:54: error: invalid use of undefined =
+type =E2=80=98struct msm_kms=E2=80=99
+>   106 |         msm_gem_lock_vm_and_obj(&exec, obj, priv->kms->vm);
+>       |                                                      ^~
+> ../drivers/gpu/drm/msm/msm_gem.c:107:39: error: invalid use of undefined =
+type =E2=80=98struct msm_kms=E2=80=99
+>   107 |         put_iova_spaces(obj, priv->kms->vm, true, "vma_put");
+>       |                                       ^~
+> ../drivers/gpu/drm/msm/msm_gem.c: In function =E2=80=98is_kms_vm=E2=80=99=
+:
+> ../drivers/gpu/drm/msm/msm_gem.c:668:39: error: invalid use of undefined =
+type =E2=80=98struct msm_kms=E2=80=99
+>   668 |         return priv->kms && (priv->kms->vm =3D=3D vm);
+>       |                                       ^~
+>
+> --
+> ~Randy
+>
 
-Maybe they do, but it had too little time to get to testing  them.
+fixed by https://lore.kernel.org/all/20250709140838.144599-1-robin.clark@os=
+s.qualcomm.com/
 
-That's why I asked 0-day to send success reports too for my
-bleeding-edge branch.  When I get a report (either failure or success)
-for it, I know that it has been tested.
+BR,
+-R
