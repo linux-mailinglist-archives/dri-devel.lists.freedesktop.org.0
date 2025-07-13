@@ -2,79 +2,43 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id D322CB03144
-	for <lists+dri-devel@lfdr.de>; Sun, 13 Jul 2025 15:52:03 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id BB073B031BC
+	for <lists+dri-devel@lfdr.de>; Sun, 13 Jul 2025 17:25:43 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id AAF3D10E046;
-	Sun, 13 Jul 2025 13:52:00 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A7D6F10E180;
+	Sun, 13 Jul 2025 15:25:40 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="YljWTIQF";
+	dkim=pass (2048-bit key; unprotected) header.d=treblig.org header.i=@treblig.org header.b="oAq5JOJN";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-f46.google.com (mail-wr1-f46.google.com
- [209.85.221.46])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 550AA10E046
- for <dri-devel@lists.freedesktop.org>; Sun, 13 Jul 2025 13:51:59 +0000 (UTC)
-Received: by mail-wr1-f46.google.com with SMTP id
- ffacd0b85a97d-3a536ecbf6fso2149140f8f.2
- for <dri-devel@lists.freedesktop.org>; Sun, 13 Jul 2025 06:51:59 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1752414717; x=1753019517; darn=lists.freedesktop.org;
- h=content-transfer-encoding:in-reply-to:content-language:references
- :cc:to:from:subject:user-agent:mime-version:date:message-id:from:to
- :cc:subject:date:message-id:reply-to;
- bh=VSHC3KhteT7nZkNgcxjgFubbkQJHf7yi4kx20sRVEr0=;
- b=YljWTIQF0Au750F+lCEvw1yEZnWWvgBwXtoNctCRjVTDPozkI92hyw+FnThWk0Z+I5
- WnDfrQwdlb2fwEI0dWkEX0PeGfobKPPYtOqhMiQnVppkMoQzBA4TfH3EcODDyBtfCbQp
- Y85eONxpZWKwQtHXdEg9bb7o8scdN0XeENbZiQ7iqQPe66QAWjgiluD1gu6sKFxaZvIt
- dTPWnqNQIQ/IaDUcsXrQsp6Fo77P/094KVbwnSFkPEvR3LHtPycRjfXsFFS2K5RF/hcF
- OtznOX1vOubsdUXJ/g8eZutXIIuNdSzsHJ3nHeMkkB8Cq2t5JRCXHUmbFAQ9E2HA9MZg
- rqDw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1752414717; x=1753019517;
- h=content-transfer-encoding:in-reply-to:content-language:references
- :cc:to:from:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=VSHC3KhteT7nZkNgcxjgFubbkQJHf7yi4kx20sRVEr0=;
- b=hG1hREw61DP1SIYCPddM/Y9dTjUAHMhTzrgSRMpWBpkrfmBwAJUP7llddzQen2+bUm
- I5p9wxqCl8gTTbQ96Tb2Cl+uEhOxUnwP0tLwjm2VB1DSrSBbpLye+PCGyNR/0+PDwzYw
- BuhlIORZln512+Hyd9H/sRSIU+VGo4Q5/DmGJV8+4HQyGT2rtuH1wjLWd4WxRGEHjYU7
- 29NkgqwisHLFdVBVB6+dkV9ggWRdduvlcDbPur4xThWzlqVcrH9mrzwfvVKmByJpep/l
- hxoc5OYFcgsMo3eHgEhTcmnQEggV1//yQUzfLc+hXX0ezcOsTt7qLy5TF5BapjE1HGlI
- VGpQ==
-X-Gm-Message-State: AOJu0Yw88fv+nzRKdI7tCfIcn5kwC3HF8Ils0LktA6AFUx/AyARW9RY2
- V3T9/NQQ8JGf9MfDTAtwdSJtzVFtUFcQhj+c0BPK21U94khaGbzciNa5
-X-Gm-Gg: ASbGncvUl9kTTM7Tw7OBOgEDYrpTqcRIgl53sfFSp3hDLnRYtNA6XAUWRVbRCvzn2xL
- ka8yyjhuiSTnsYL6VZ1A6sX68dUC1MOm6bT2nDGzdS8WSag8+QFUFoAvMdUZptXCGS6aTOILjg6
- wvBNa2AAuWGVPWTbEzuqiXbYes6MWCUAsm13loMAdnksmC2h5LNzd1fYFUvXlalVK/Is2Orfh8l
- I2ng5KR7zlj9qT1V5YW36BsW//8ahYx/UT5WgOop5FsmBtvCV662Hjg5DHRe8fNCES8RPOHJ8xy
- /VAZ9vaArJL3+awKNyrlA3XVbuQVIgjQBi82sVk3jyLIVRO+r0B4tOe3iEfXoUhuw3TWyX4G8t2
- ThrZ9IrNkFGumBsjFR2GrMHW1v3zUcIsTmlCekZV1JD+mnC2uMcVYJsL3sB2hh/G4v/k=
-X-Google-Smtp-Source: AGHT+IFIZ4Dh1XCh27ovH4HqYOPnanQQQENN0Fqhp638zpTNKyzmv+4e10tMQG7HUL7nKdchZtMAoA==
-X-Received: by 2002:a05:6000:2a86:b0:3a5:5298:ce28 with SMTP id
- ffacd0b85a97d-3b5f18759a8mr6121982f8f.4.1752414717309; 
- Sun, 13 Jul 2025 06:51:57 -0700 (PDT)
-Received: from ?IPV6:2001:861:3385:e20:6384:4cf:52c5:3194?
- ([2001:861:3385:e20:6384:4cf:52c5:3194])
- by smtp.gmail.com with ESMTPSA id
- ffacd0b85a97d-3b5e8e0d4b5sm9955920f8f.53.2025.07.13.06.51.56
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Sun, 13 Jul 2025 06:51:56 -0700 (PDT)
-Message-ID: <11d29a7e-d36b-42e4-abe0-9f72a478c5c6@gmail.com>
-Date: Sun, 13 Jul 2025 15:51:56 +0200
+Received: from mx.treblig.org (mx.treblig.org [46.235.229.95])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9687A10E180;
+ Sun, 13 Jul 2025 15:25:39 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=treblig.org
+ ; s=bytemarkmx;
+ h=MIME-Version:Message-ID:Date:Subject:From:Content-Type:From
+ :Subject; bh=hrUEXgHrTFqR2/M0VCKko4fRT0H3nYWu5evkl7GPZJU=; b=oAq5JOJNqcvnZEQO
+ CRHFT1z/n9pD8hLRqH/Ta5/V0QAacxQvRxKRewAP4hdLxdCBj2/CTD2NbweedqPHpAlnMF/7e4xSh
+ B2jeYar1pgD265IjjJAd1j4mHR0qJj9I08A4rSG4ayD6fHirf5jgInC0KVeek6hhlEKN4rBQr9rpS
+ 1S78vHSVHxTT0UZTrsV4iGnEbmMGuIeQ2y3FyQsF0f1fq9k8M5WOYY2oj+rAwjCGuOWBub8lc51zh
+ Qs41+e00BOVXUEEOPeR2dCxBvh3FiAP11OyjPJNa4zn404eG8FJYN6q0WwqD1Utv7MMBIgsNVctLh
+ BbaqviksuN3tHM9SiA==;
+Received: from localhost ([127.0.0.1] helo=dalek.home.treblig.org)
+ by mx.treblig.org with esmtp (Exim 4.96)
+ (envelope-from <linux@treblig.org>) id 1uaya4-00FnPv-19;
+ Sun, 13 Jul 2025 15:25:32 +0000
+From: linux@treblig.org
+To: lucas.demarchi@intel.com, thomas.hellstrom@linux.intel.com,
+ rodrigo.vivi@intel.com
+Cc: airlied@gmail.com, simona@ffwll.ch, intel-xe@lists.freedesktop.org,
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ "Dr. David Alan Gilbert" <linux@treblig.org>
+Subject: [PATCH] drm/xe: Remove unused functions
+Date: Sun, 13 Jul 2025 16:25:31 +0100
+Message-ID: <20250713152531.219326-1-linux@treblig.org>
+X-Mailer: git-send-email 2.50.1
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] drm: of: fix documentation reference
-From: =?UTF-8?Q?Rapha=C3=ABl_Gallais-Pou?= <rgallaispou@gmail.com>
-To: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>
-Cc: dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
-References: <20250609-drm-misc-next-v1-1-a17b11a06940@gmail.com>
-Content-Language: en-US, fr
-In-Reply-To: <20250609-drm-misc-next-v1-1-a17b11a06940@gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -91,54 +55,149 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+From: "Dr. David Alan Gilbert" <linux@treblig.org>
 
-Le 09/06/2025 à 15:35, Raphael Gallais-Pou a écrit :
-> Documentation/devicetree/bindings/graph.txt content has move directly to
-> the dt-schema repo.
->
-> Point to the YAML of the official repo instead of the old file.
->
-> Signed-off-by: Raphael Gallais-Pou <rgallaispou@gmail.com>
+xe_bo_create_from_data() last use was removed in 2023 by
+commit 0e1a47fcabc8 ("drm/xe: Add a helper for DRM device-lifetime BO
+create")
 
-Hi,
+xe_rtp_match_first_gslice_fused_off() last use was removed in 2023 by
+commit 4e124151fcfc ("drm/xe/dg2: Drop pre-production workarounds")
 
-Gentle ping !
+Remove them, and xe_dss_mask_empty whose last use was by
+xe_rtp_match_first_gslice_fused_off().
 
-Best regards,
-Raphaël
-> ---
->   drivers/gpu/drm/drm_of.c | 7 +++++--
->   1 file changed, 5 insertions(+), 2 deletions(-)
->
-> diff --git a/drivers/gpu/drm/drm_of.c b/drivers/gpu/drm/drm_of.c
-> index d0183dea770308e77f05da364ffe087d53f3be36..4f65ce729a473ec372bd76a60ac11a40ffb5df97 100644
-> --- a/drivers/gpu/drm/drm_of.c
-> +++ b/drivers/gpu/drm/drm_of.c
-> @@ -55,7 +55,8 @@ EXPORT_SYMBOL(drm_of_crtc_port_mask);
->    * and generate the DRM mask of CRTCs which may be attached to this
->    * encoder.
->    *
-> - * See Documentation/devicetree/bindings/graph.txt for the bindings.
-> + * See https://github.com/devicetree-org/dt-schema/blob/main/dtschema/schemas/graph.yaml
-> + * for the bindings.
->    */
->   uint32_t drm_of_find_possible_crtcs(struct drm_device *dev,
->   				    struct device_node *port)
-> @@ -106,7 +107,9 @@ EXPORT_SYMBOL_GPL(drm_of_component_match_add);
->    * Parse the platform device OF node and bind all the components associated
->    * with the master. Interface ports are added before the encoders in order to
->    * satisfy their .bind requirements
-> - * See Documentation/devicetree/bindings/graph.txt for the bindings.
-> + *
-> + * See https://github.com/devicetree-org/dt-schema/blob/main/dtschema/schemas/graph.yaml
-> + * for the bindings.
->    *
->    * Returns zero if successful, or one of the standard error codes if it fails.
->    */
->
-> ---
-> base-commit: 6f392f37165008cfb3f89d723aa019e372ee79b9
-> change-id: 20250609-drm-misc-next-2f4dd8f88bb9
->
-> Best regards,
+(Xe has a bunch ofother symbols that have been added but not used,
+given how new it is, I've left those, as opposed to these that
+had the code that used them removed).
+
+Signed-off-by: Dr. David Alan Gilbert <linux@treblig.org>
+---
+ drivers/gpu/drm/xe/xe_bo.c          | 15 ---------------
+ drivers/gpu/drm/xe/xe_bo.h          |  3 ---
+ drivers/gpu/drm/xe/xe_gt_topology.c |  5 -----
+ drivers/gpu/drm/xe/xe_gt_topology.h |  2 --
+ drivers/gpu/drm/xe/xe_rtp.c         | 15 ---------------
+ drivers/gpu/drm/xe/xe_rtp.h         | 11 -----------
+ 6 files changed, 51 deletions(-)
+
+diff --git a/drivers/gpu/drm/xe/xe_bo.c b/drivers/gpu/drm/xe/xe_bo.c
+index 7aa2c17825da..6bd1287869b4 100644
+--- a/drivers/gpu/drm/xe/xe_bo.c
++++ b/drivers/gpu/drm/xe/xe_bo.c
+@@ -2156,21 +2156,6 @@ struct xe_bo *xe_bo_create_pin_map(struct xe_device *xe, struct xe_tile *tile,
+ 	return xe_bo_create_pin_map_at(xe, tile, vm, size, ~0ull, type, flags);
+ }
+ 
+-struct xe_bo *xe_bo_create_from_data(struct xe_device *xe, struct xe_tile *tile,
+-				     const void *data, size_t size,
+-				     enum ttm_bo_type type, u32 flags)
+-{
+-	struct xe_bo *bo = xe_bo_create_pin_map(xe, tile, NULL,
+-						ALIGN(size, PAGE_SIZE),
+-						type, flags);
+-	if (IS_ERR(bo))
+-		return bo;
+-
+-	xe_map_memcpy_to(xe, &bo->vmap, 0, data, size);
+-
+-	return bo;
+-}
+-
+ static void __xe_bo_unpin_map_no_vm(void *arg)
+ {
+ 	xe_bo_unpin_map_no_vm(arg);
+diff --git a/drivers/gpu/drm/xe/xe_bo.h b/drivers/gpu/drm/xe/xe_bo.h
+index 02ada1fb8a23..89b6e1487971 100644
+--- a/drivers/gpu/drm/xe/xe_bo.h
++++ b/drivers/gpu/drm/xe/xe_bo.h
+@@ -118,9 +118,6 @@ struct xe_bo *xe_bo_create_pin_map_at_aligned(struct xe_device *xe,
+ 					      size_t size, u64 offset,
+ 					      enum ttm_bo_type type, u32 flags,
+ 					      u64 alignment);
+-struct xe_bo *xe_bo_create_from_data(struct xe_device *xe, struct xe_tile *tile,
+-				     const void *data, size_t size,
+-				     enum ttm_bo_type type, u32 flags);
+ struct xe_bo *xe_managed_bo_create_pin_map(struct xe_device *xe, struct xe_tile *tile,
+ 					   size_t size, u32 flags);
+ struct xe_bo *xe_managed_bo_create_from_data(struct xe_device *xe, struct xe_tile *tile,
+diff --git a/drivers/gpu/drm/xe/xe_gt_topology.c b/drivers/gpu/drm/xe/xe_gt_topology.c
+index 516c81e3b8dd..b325eb9d3890 100644
+--- a/drivers/gpu/drm/xe/xe_gt_topology.c
++++ b/drivers/gpu/drm/xe/xe_gt_topology.c
+@@ -288,11 +288,6 @@ xe_dss_mask_group_ffs(const xe_dss_mask_t mask, int groupsize, int groupnum)
+ 	return find_next_bit(mask, XE_MAX_DSS_FUSE_BITS, groupnum * groupsize);
+ }
+ 
+-bool xe_dss_mask_empty(const xe_dss_mask_t mask)
+-{
+-	return bitmap_empty(mask, XE_MAX_DSS_FUSE_BITS);
+-}
+-
+ /**
+  * xe_gt_topology_has_dss_in_quadrant - check fusing of DSS in GT quadrant
+  * @gt: GT to check
+diff --git a/drivers/gpu/drm/xe/xe_gt_topology.h b/drivers/gpu/drm/xe/xe_gt_topology.h
+index a72d26ba0653..c8140704ad4c 100644
+--- a/drivers/gpu/drm/xe/xe_gt_topology.h
++++ b/drivers/gpu/drm/xe/xe_gt_topology.h
+@@ -41,8 +41,6 @@ xe_gt_topology_mask_last_dss(const xe_dss_mask_t mask)
+ unsigned int
+ xe_dss_mask_group_ffs(const xe_dss_mask_t mask, int groupsize, int groupnum);
+ 
+-bool xe_dss_mask_empty(const xe_dss_mask_t mask);
+-
+ bool
+ xe_gt_topology_has_dss_in_quadrant(struct xe_gt *gt, int quad);
+ 
+diff --git a/drivers/gpu/drm/xe/xe_rtp.c b/drivers/gpu/drm/xe/xe_rtp.c
+index 29e694bb1219..cc6636f6cd98 100644
+--- a/drivers/gpu/drm/xe/xe_rtp.c
++++ b/drivers/gpu/drm/xe/xe_rtp.c
+@@ -326,21 +326,6 @@ bool xe_rtp_match_first_render_or_compute(const struct xe_gt *gt,
+ 		hwe->engine_id == __ffs(render_compute_mask);
+ }
+ 
+-bool xe_rtp_match_first_gslice_fused_off(const struct xe_gt *gt,
+-					 const struct xe_hw_engine *hwe)
+-{
+-	unsigned int dss_per_gslice = 4;
+-	unsigned int dss;
+-
+-	if (drm_WARN(&gt_to_xe(gt)->drm, xe_dss_mask_empty(gt->fuse_topo.g_dss_mask),
+-		     "Checking gslice for platform without geometry pipeline\n"))
+-		return false;
+-
+-	dss = xe_dss_mask_group_ffs(gt->fuse_topo.g_dss_mask, 0, 0);
+-
+-	return dss >= dss_per_gslice;
+-}
+-
+ bool xe_rtp_match_not_sriov_vf(const struct xe_gt *gt,
+ 			       const struct xe_hw_engine *hwe)
+ {
+diff --git a/drivers/gpu/drm/xe/xe_rtp.h b/drivers/gpu/drm/xe/xe_rtp.h
+index 4fe736a11c42..86a3f1e4b3dc 100644
+--- a/drivers/gpu/drm/xe/xe_rtp.h
++++ b/drivers/gpu/drm/xe/xe_rtp.h
+@@ -465,17 +465,6 @@ bool xe_rtp_match_even_instance(const struct xe_gt *gt,
+ bool xe_rtp_match_first_render_or_compute(const struct xe_gt *gt,
+ 					  const struct xe_hw_engine *hwe);
+ 
+-/*
+- * xe_rtp_match_first_gslice_fused_off - Match when first gslice is fused off
+- *
+- * @gt: GT structure
+- * @hwe: Engine instance
+- *
+- * Returns: true if first gslice is fused off, false otherwise.
+- */
+-bool xe_rtp_match_first_gslice_fused_off(const struct xe_gt *gt,
+-					 const struct xe_hw_engine *hwe);
+-
+ /*
+  * xe_rtp_match_not_sriov_vf - Match when not on SR-IOV VF device
+  *
+-- 
+2.50.1
 
