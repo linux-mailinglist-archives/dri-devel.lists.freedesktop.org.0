@@ -2,59 +2,59 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B0F29B03004
-	for <lists+dri-devel@lfdr.de>; Sun, 13 Jul 2025 10:39:21 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id C9A01B03005
+	for <lists+dri-devel@lfdr.de>; Sun, 13 Jul 2025 10:39:23 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2233210E138;
-	Sun, 13 Jul 2025 08:39:20 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 16A1B10E33C;
+	Sun, 13 Jul 2025 08:39:22 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ej1-f46.google.com (mail-ej1-f46.google.com
- [209.85.218.46])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2B62810E33C
- for <dri-devel@lists.freedesktop.org>; Sun, 13 Jul 2025 08:39:17 +0000 (UTC)
-Received: by mail-ej1-f46.google.com with SMTP id
- a640c23a62f3a-acb5ec407b1so603042266b.1
- for <dri-devel@lists.freedesktop.org>; Sun, 13 Jul 2025 01:39:17 -0700 (PDT)
+Received: from mail-ej1-f41.google.com (mail-ej1-f41.google.com
+ [209.85.218.41])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 16BE310E15B
+ for <dri-devel@lists.freedesktop.org>; Sun, 13 Jul 2025 08:39:21 +0000 (UTC)
+Received: by mail-ej1-f41.google.com with SMTP id
+ a640c23a62f3a-ad572ba1347so460907666b.1
+ for <dri-devel@lists.freedesktop.org>; Sun, 13 Jul 2025 01:39:21 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1752395956; x=1753000756;
+ d=1e100.net; s=20230601; t=1752395960; x=1753000760;
  h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
  :mime-version:subject:date:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=petoWFIc1yVrUA7vb5hl0SJbICvldq7drqIuMNaVr3w=;
- b=EWyCIflkc5aGivtUyfypnA/w2MOFXWE6GGO9xvSVXx9rGhzE4sGcq9aOdkbLrtN59R
- 7mq4dkSv1SxstNAhUfYbXB3Wq4uKQS0EC5CcLd4FmqYmD2ovQq5IK7AKvQlO+MFZmw/v
- BB+5vNCk+jJU58MvDSWQieY6iYcvb3Nbh8RGUjAyZ1Rv0I4tJbnTRH9rqkaQoJ5285YJ
- SgQo06+G3N0pPDH1FGF2l2725nszYQdHPpAIfth3ZoINLdyxioXEtx4YA/tYcReSFfzz
- aWdCWDfyydL6R4wQtZn+grWoW7zRNk3Dp4NfAJXYLQCZIZW87lLxzH5tLwkjbecIMxd1
- vcSQ==
+ bh=5Hm16g5Mxtx53PSxMN74Q22wyf8qfoU99Wb/xlnrO7E=;
+ b=f+TAYJ9AxhOJPk03M9w3r0XcIF+PpITBIWi2OB9CEi1E69BiEmpogD8sWwyo0JxXGu
+ vyPjCppyuUwYhud9undBwSy2OdENn1/4TQIaCUH+ifX31I4c8Be/fbx9r6kUuMya2h7U
+ kjbU0zggtVC9lOoUhSGs1CqkOTQ8KFRtqYIqhpDlh6X4d2CrUQ8YC6cbJ6JCyRirfbzp
+ CPCDgsdd2nuoN4nRug1PvKFsKlOnThRqDl0sEaVjK9Jj2ekvLxDpdFF8l5xuvlFOUJHD
+ fXKtVpWxS1txfSB7KYXWojg9F/lPyYqg9HGdqRixmlhcl+JG2hav717Re+7pE3k1bhuV
+ CK5A==
 X-Forwarded-Encrypted: i=1;
- AJvYcCXiVFX0M0wSXswTa+AuwQOiDcIqIn9U/O2Ild1viCpE0L/etgNZdHd6T3ibNKt38wUgIwfC0hwvNK8=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YxR2ReRvhpZcNiqvPy5orQdDp151sGV3x/n8QydrURmk+L3WP1j
- ey5Mq7FsfIhjxqQX2PZ9X9VRP7nnTlpsr92dI5HjvYholf93LocxdHw2
-X-Gm-Gg: ASbGncs8VHuYGr75FyYRdMB1FIcQ5WkbRtCjfXhp5zXXxeqY4sLw5Lc/pYz1B3gfXPg
- Q640Rb2lSZhxMu59y/CA2ZlyRrbnOsrGYgFkUnQ3b5g4ZYDR7FZ37Nmn2fggbj3cQSvq/zzDWSA
- 3SJoOLB/68ZMQNcgvV9kJpUr2dJcAQu09QsYIzQZrBZYsS2fmN7InjsShmofdzv/+RWVezccSYj
- q5RQkf9soenQn/IbQZ3aRfdZPtCBPA7cTB3Ag9r39n5BBLjuoRUc39Q6Wo/8gD5Xb1k1r5RCd/V
- j8341oJhonoqWRbXClZWCW0oU/w24jHHYVFsBNSPC47en3iAZt/c+48alA7aLgkZc9xJy1gZKfX
- zrHU1/mj0A7tYOieR2KIa8/AdcHBJdmnJzzYKqdTkup+WVNbFv5SUeqJr
-X-Google-Smtp-Source: AGHT+IEOh5WdKdbW0T6J6UmEk9cmBDAiAC1DtupfJxwpMjim3iRySIz9Y05XcPSJrFS/GFvgalD80Q==
-X-Received: by 2002:a17:906:9fc9:b0:adb:229f:6b71 with SMTP id
- a640c23a62f3a-ae6fbc13b33mr938047266b.5.1752395955356; 
- Sun, 13 Jul 2025 01:39:15 -0700 (PDT)
+ AJvYcCXgoqqSKnhPpcWF67oBLQO5bMckqCoJj/9b00854pmthpvifAuDAK9pR2uZ24SJix8JIBFfF1XsEWQ=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YwN+cMLQReMqxVfX954/5J1x3A+8KG7gG/3cQU5Ekiy94Uut4vP
+ Oj/qrdYjpxsK1SYJefJnPvbFuIWiTzKYiviWJ4lcNatjFK+ZjuDMBa2L
+X-Gm-Gg: ASbGncvDaig1Ndr5oW46PF2862hBFFPn5jNOTMBdd9NKXRf2829pFn0SQ1r4XVOvvI4
+ /8Pm/zAuVfShZX3CEPzKR/cJTf9TxkV2OD4OIAFrjCCXSwwfURoC+8Q3eN0y8dxUnlQYmojm5Uu
+ mn/RyHCYPoA9LECQ+kvIc3jp0AOol63PmMgsKBGGWQBz1ipUem6+Y3JofQaf4SMdrA1JhR9Njrz
+ nL4YkPq7YAjnuMDlIvG+u9e7OwXGXbmkkJkD3AmhA+aBAav1gLIbxSDZXOdriha6/043FEXoZlY
+ rdjb/xxsQM8VyzXT0jk06Qv1FyNqzGOCaIq0JYYDqCVwMKFojwoLfnOoKxXzLoGUAV6ugOPuGJj
+ YhSwBGZYwDBkc8ft2N8M2i0Po3RqD5reQ+oK8TLnRe4O5aJAjGELm5Gcf
+X-Google-Smtp-Source: AGHT+IHYAnqKa11NZdx4DJugnnBcrrL8eyEdMDfMSbvMuRV0PN4x6j1/G2L31aEokbnVnM1KlwmfHA==
+X-Received: by 2002:a17:907:3f14:b0:ad8:a935:b8eb with SMTP id
+ a640c23a62f3a-ae6fc6a70b1mr950430466b.3.1752395959438; 
+ Sun, 13 Jul 2025 01:39:19 -0700 (PDT)
 Received: from [10.42.0.1] (cst-prg-46-162.cust.vodafone.cz. [46.135.46.162])
  by smtp.gmail.com with ESMTPSA id
- a640c23a62f3a-ae6e7e90a42sm610876266b.27.2025.07.13.01.39.12
+ a640c23a62f3a-ae6e7e90a42sm610876266b.27.2025.07.13.01.39.15
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sun, 13 Jul 2025 01:39:14 -0700 (PDT)
+ Sun, 13 Jul 2025 01:39:19 -0700 (PDT)
 From: Tomeu Vizoso <tomeu@tomeuvizoso.net>
-Date: Sun, 13 Jul 2025 10:38:57 +0200
-Subject: [PATCH v8 07/10] arm64: dts: rockchip: add pd_npu label for RK3588
- power domains
+Date: Sun, 13 Jul 2025 10:38:58 +0200
+Subject: [PATCH v8 08/10] arm64: dts: rockchip: Add nodes for NPU and its
+ MMU to rk3588-base
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20250713-6-10-rocket-v8-7-64fa3115e910@tomeuvizoso.net>
+Message-Id: <20250713-6-10-rocket-v8-8-64fa3115e910@tomeuvizoso.net>
 References: <20250713-6-10-rocket-v8-0-64fa3115e910@tomeuvizoso.net>
 In-Reply-To: <20250713-6-10-rocket-v8-0-64fa3115e910@tomeuvizoso.net>
 To: Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
@@ -92,34 +92,141 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Nicolas Frattaroli <nicolas.frattaroli@collabora.com>
+See Chapter 36 "RKNN" from the RK3588 TRM (Part 1).
 
-The NPU of the RK3588 has an external supply. This supply also affects
-the power domain of the NPU, not just the NPU device nodes themselves.
-Since correctly modelled boards will want the power domain to be aware
-of the regulator so that it doesn't always have to be on, add a label to
-the NPU power domain node so board files can reference it.
+The IP is divided in three cores, programmed independently. The first
+core though is special, being able to delegate work to the other cores.
 
-Signed-off-by: Nicolas Frattaroli <nicolas.frattaroli@collabora.com>
+The IOMMU of the first core is also special in that it has two subunits
+(read/write?) that need to be programmed in sync.
+
+v2:
+- Have one device for each NPU core (Sebastian Reichel)
+- Have one device for each IOMMU (Sebastian Reichel)
+- Correctly sort nodes (Diederik de Haas)
+- Add rockchip,iommu compatible to IOMMU nodes (Sebastian Reichel)
+
+v3:
+- Adapt to a split of the register block in the DT bindings (Nicolas
+  Frattaroli)
+
+v4:
+- Adapt to changes in bindings
+
+v6:
+- pclk and npu clocks are needed by all clocks (Rob Herring)
+
+v8:
+- Remove notion of top core (Robin Murphy)
+
 Tested-by: Heiko Stuebner <heiko@sntech.de>
 Signed-off-by: Tomeu Vizoso <tomeu@tomeuvizoso.net>
 ---
- arch/arm64/boot/dts/rockchip/rk3588-base.dtsi | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ arch/arm64/boot/dts/rockchip/rk3588-base.dtsi | 91 +++++++++++++++++++++++++++
+ 1 file changed, 91 insertions(+)
 
 diff --git a/arch/arm64/boot/dts/rockchip/rk3588-base.dtsi b/arch/arm64/boot/dts/rockchip/rk3588-base.dtsi
-index 70f03e68ba550d6b9142131dcca86e8ded36e2f1..1eddc69fd9c9ed95cdc810ba48d9683e3f82489a 100644
+index 1eddc69fd9c9ed95cdc810ba48d9683e3f82489a..dbd472feaa8b3f8c14597a48a4f5afbe3cb45b6a 100644
 --- a/arch/arm64/boot/dts/rockchip/rk3588-base.dtsi
 +++ b/arch/arm64/boot/dts/rockchip/rk3588-base.dtsi
-@@ -841,7 +841,7 @@ power: power-controller {
- 			status = "okay";
+@@ -1140,6 +1140,97 @@ power-domain@RK3588_PD_SDMMC {
+ 		};
+ 	};
  
- 			/* These power domains are grouped by VD_NPU */
--			power-domain@RK3588_PD_NPU {
-+			pd_npu: power-domain@RK3588_PD_NPU {
- 				reg = <RK3588_PD_NPU>;
- 				#power-domain-cells = <0>;
- 				#address-cells = <1>;
++	rknn_core_0: npu@fdab0000 {
++		compatible = "rockchip,rk3588-rknn-core";
++		reg = <0x0 0xfdab0000 0x0 0x1000>,
++		      <0x0 0xfdab1000 0x0 0x1000>,
++		      <0x0 0xfdab3000 0x0 0x1000>;
++		reg-names = "pc", "cna", "core";
++		interrupts = <GIC_SPI 110 IRQ_TYPE_LEVEL_HIGH 0>;
++		clocks = <&cru ACLK_NPU0>, <&cru HCLK_NPU0>,
++			 <&scmi_clk SCMI_CLK_NPU>, <&cru PCLK_NPU_ROOT>;
++		clock-names = "aclk", "hclk", "npu", "pclk";
++		assigned-clocks = <&scmi_clk SCMI_CLK_NPU>;
++		assigned-clock-rates = <200000000>;
++		resets = <&cru SRST_A_RKNN0>, <&cru SRST_H_RKNN0>;
++		reset-names = "srst_a", "srst_h";
++		power-domains = <&power RK3588_PD_NPUTOP>;
++		iommus = <&rknn_mmu_top>;
++		status = "disabled";
++	};
++
++	rknn_mmu_top: iommu@fdab9000 {
++		compatible = "rockchip,rk3588-iommu", "rockchip,rk3568-iommu";
++		reg = <0x0 0xfdab9000 0x0 0x100>,
++		      <0x0 0xfdaba000 0x0 0x100>;
++		interrupts = <GIC_SPI 110 IRQ_TYPE_LEVEL_HIGH 0>;
++		clocks = <&cru ACLK_NPU0>, <&cru HCLK_NPU0>;
++		clock-names = "aclk", "iface";
++		#iommu-cells = <0>;
++		power-domains = <&power RK3588_PD_NPUTOP>;
++		status = "disabled";
++	};
++
++	rknn_core_1: npu@fdac0000 {
++		compatible = "rockchip,rk3588-rknn-core";
++		reg = <0x0 0xfdac0000 0x0 0x1000>,
++		      <0x0 0xfdac1000 0x0 0x1000>,
++		      <0x0 0xfdac3000 0x0 0x1000>;
++		reg-names = "pc", "cna", "core";
++		interrupts = <GIC_SPI 111 IRQ_TYPE_LEVEL_HIGH 0>;
++		clocks = <&cru ACLK_NPU1>, <&cru HCLK_NPU1>,
++			 <&scmi_clk SCMI_CLK_NPU>, <&cru PCLK_NPU_ROOT>;
++		clock-names = "aclk", "hclk", "npu", "pclk";
++		assigned-clocks = <&scmi_clk SCMI_CLK_NPU>;
++		assigned-clock-rates = <200000000>;
++		resets = <&cru SRST_A_RKNN1>, <&cru SRST_H_RKNN1>;
++		reset-names = "srst_a", "srst_h";
++		power-domains = <&power RK3588_PD_NPU1>;
++		iommus = <&rknn_mmu_1>;
++		status = "disabled";
++	};
++
++	rknn_mmu_1: iommu@fdac9000 {
++		compatible = "rockchip,rk3588-iommu", "rockchip,rk3568-iommu";
++		reg = <0x0 0xfdaca000 0x0 0x100>;
++		interrupts = <GIC_SPI 111 IRQ_TYPE_LEVEL_HIGH 0>;
++		clocks = <&cru ACLK_NPU1>, <&cru HCLK_NPU1>;
++		clock-names = "aclk", "iface";
++		#iommu-cells = <0>;
++		power-domains = <&power RK3588_PD_NPU1>;
++		status = "disabled";
++	};
++
++	rknn_core_2: npu@fdad0000 {
++		compatible = "rockchip,rk3588-rknn-core";
++		reg = <0x0 0xfdad0000 0x0 0x1000>,
++		      <0x0 0xfdad1000 0x0 0x1000>,
++		      <0x0 0xfdad3000 0x0 0x1000>;
++		reg-names = "pc", "cna", "core";
++		interrupts = <GIC_SPI 112 IRQ_TYPE_LEVEL_HIGH 0>;
++		clocks = <&cru ACLK_NPU2>, <&cru HCLK_NPU2>,
++			 <&scmi_clk SCMI_CLK_NPU>, <&cru PCLK_NPU_ROOT>;
++		clock-names = "aclk", "hclk", "npu", "pclk";
++		assigned-clocks = <&scmi_clk SCMI_CLK_NPU>;
++		assigned-clock-rates = <200000000>;
++		resets = <&cru SRST_A_RKNN2>, <&cru SRST_H_RKNN2>;
++		reset-names = "srst_a", "srst_h";
++		power-domains = <&power RK3588_PD_NPU2>;
++		iommus = <&rknn_mmu_2>;
++		status = "disabled";
++	};
++
++	rknn_mmu_2: iommu@fdad9000 {
++		compatible = "rockchip,rk3588-iommu", "rockchip,rk3568-iommu";
++		reg = <0x0 0xfdada000 0x0 0x100>;
++		interrupts = <GIC_SPI 112 IRQ_TYPE_LEVEL_HIGH 0>;
++		clocks = <&cru ACLK_NPU2>, <&cru HCLK_NPU2>;
++		clock-names = "aclk", "iface";
++		#iommu-cells = <0>;
++		power-domains = <&power RK3588_PD_NPU2>;
++		status = "disabled";
++	};
++
+ 	vpu121: video-codec@fdb50000 {
+ 		compatible = "rockchip,rk3588-vpu121", "rockchip,rk3568-vpu";
+ 		reg = <0x0 0xfdb50000 0x0 0x800>;
 
 -- 
 2.50.0
