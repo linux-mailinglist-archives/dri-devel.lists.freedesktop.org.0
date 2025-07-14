@@ -2,79 +2,85 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9FEE6B037F0
-	for <lists+dri-devel@lfdr.de>; Mon, 14 Jul 2025 09:28:24 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id C177BB037EF
+	for <lists+dri-devel@lfdr.de>; Mon, 14 Jul 2025 09:28:23 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2255A10E40E;
-	Mon, 14 Jul 2025 07:28:17 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3600610E409;
+	Mon, 14 Jul 2025 07:28:14 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=ite.com.tw header.i=@ite.com.tw header.b="FONcMrMM";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="RtHEPuWt";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from ironport.ite.com.tw
- (hc210-202-87-179.vdslpro.static.apol.com.tw [210.202.87.179])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 58DA910E1E6
- for <dri-devel@lists.freedesktop.org>; Mon, 14 Jul 2025 03:22:38 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ite.com.tw; s=dkim;
- h=from:date:subject:mime-version:content-transfer-encoding:
- message-id:references:in-reply-to:to:cc;
- bh=+xKvYziZy9Gvntr50dLc06twjRMEnl6NNaXi41ccQvM=;
- b=FONcMrMMeEocmjGflfvKNWXcbIvgkCGNGMLW4VTv2PVAnRS0s6aIj1iB
- Ne9832qQGTNG2gZp/cunMqXwqEMED2/oMA8noSIg6owtT6xpwDAXR6sfA
- Q/qK24v3NnSYUfOLSLEq2gUA+4MeXNmUBUx3IIMAoVU2VGOYzSi6klJeP
- ZisuY4ZzVfbFFg24HGdmfuM8dJgQ4NP6MV+J2d9OzDLRKnSD+8jZTvSIH
- 0PdiY6nfOKRsKKmhvxiJvQ4fTrsbRMYEoD8UUaIzpMA04P99+g3NLd23H
- +OLlOKrUNRyw/lZZa1L6PvuwqT/tzCEMgR7m5hwCCtLJ5U78XEZWzn0+X A==;
-X-CSE-ConnectionGUID: o8EzQnz0Smqvo5vWA+sUsQ==
-X-CSE-MsgGUID: 5SExJrQvQ0uZ9tNK+eq2ig==
-Received: from unknown (HELO mse.ite.com.tw) ([192.168.35.30])
- by ironport.ite.com.tw with ESMTP; 14 Jul 2025 11:15:24 +0800
-Received: from CSBMAIL1.internal.ite.com.tw (CSBMAIL1.internal.ite.com.tw
- [192.168.65.58]) by mse.ite.com.tw with ESMTP id 56E3FIb7091142;
- Mon, 14 Jul 2025 11:15:18 +0800 (+08)
- (envelope-from Pet.Weng@ite.com.tw)
-Received: from [127.0.1.1] (192.168.72.15) by CSBMAIL1.internal.ite.com.tw
- (192.168.65.58) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.39; Mon, 14 Jul
- 2025 11:15:17 +0800
-From: Pet Weng <pet.weng@ite.com.tw>
-Date: Mon, 14 Jul 2025 11:14:34 +0800
-Subject: [PATCH 3/3] MAINTAINERS: Add entry for ITE IT61620 MIPI to HDMI
- bridge driver
+Received: from mail-pl1-f171.google.com (mail-pl1-f171.google.com
+ [209.85.214.171])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 65EC710E3FB;
+ Mon, 14 Jul 2025 06:10:39 +0000 (UTC)
+Received: by mail-pl1-f171.google.com with SMTP id
+ d9443c01a7336-2350fc2591dso36817295ad.1; 
+ Sun, 13 Jul 2025 23:10:39 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20230601; t=1752473439; x=1753078239; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:in-reply-to:from:content-language
+ :references:cc:to:subject:user-agent:mime-version:date:message-id
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=OfFqMeZyU9HS+WHoyGh+rEgFUDR1EqSVoqNyn1ejI2E=;
+ b=RtHEPuWtp9KcLoqxKxeWOlgQsQL/wyJQF7HxfRAAJLLNgljG1c/jvkdnli3ilwS2//
+ SFDWGzXEmdgUJyDN8JtZCRbWxenz2J8HZGgWgJuKNlKM7PDRxLO2swF/4YcDbrbPeuy9
+ UfCIU2hX2li5HgXMupxNOtFYpi3ShJCPEpbaw7gRcZRMgrGr6BxvxsAIB/vSE1nbiCWs
+ VrDghWxVmvCZQ+swXnSp3gm5BEVlMWObDYZV3uaGsyX9xzs4uQqzzXC+/yf0ncIAWHiM
+ 7C71yNV6ib/U8LmA2h5FMg92jSGRP/PiRKb+0FTPjRuJZOYx3TPWuHJwiNBROpvsVSUp
+ ztCw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1752473439; x=1753078239;
+ h=content-transfer-encoding:in-reply-to:from:content-language
+ :references:cc:to:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=OfFqMeZyU9HS+WHoyGh+rEgFUDR1EqSVoqNyn1ejI2E=;
+ b=gisIm1vaMrSArbdClyAJfjD9IuaSoYsfgdyJA6dseDE+SLeRA3AbJZWrruTzt2ICX4
+ WCdAArdZdxV3JixD7aZjlCSjlVrVocjZuj7ipt0jotCkYbMbFPX6WvqEr4uwA8X8RYe7
+ GZP+SRzFG1VMvT2cGLFs+0b9wrhzPSwCohehh+qpE+OmPne+EcnqnSZtlZ17tyfYzkPP
+ ZAI69U3FZ/NSALUEJZr2Quysc3vRNPNwKKVDv8+AsHsfPkvipL6fw9W3RIaKrBZVTMYG
+ lfYQ9OMxs7GtsgL7yCbX62t/C4E02lSQvwtgj3XWUxN9CXThlV+CAm/RxlatBzZ2HQQm
+ P/Yg==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCVU4pHyT2WMCJLzRFJDn911nnt7wFtpwylz2Z4CGtwdh175EKH9Rb6stcr1YkRsGAd4g050RobvxvU=@lists.freedesktop.org,
+ AJvYcCX7D4zUaqWZ5Ys2s7NyrN/BtF3snsX+ximbF4fZBPHm/Tsk4++U+Gmvr++P9DXK8T5eYzcQWywLKg==@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YxzdswIxMqOaG0tHDR+fkzoyHSkYbDCewIZlzLhV/YdETPq7ZLU
+ 8sjoKcg3+hy0Tr+9sMiL/vWRn5q5zQCN1FlKOAG7irToEgqzQJNBUm3S
+X-Gm-Gg: ASbGncuuYpYegFRMFT6rFP8K4IyTnBx+EJ4KmmCDhj1BYdotFZipFrt20mWYq0WCTKU
+ 3OwpgLONw9lOff6patr67XQjoZx3Pw2/EawLJoPyZ0ZVxatQD1+tGTvSVnWhb/dDwSlIdw9v1DG
+ zyBS1JnKUNso0/75rRObLzqAxDclLYmjgKSq03XQsz7DFdGeytgTkxMJg+S2pu/Q+Nj7DQjdwbX
+ ik6Unxx4BEGeKtsQGyNBDsW/a3pIKw0FCObX/VzCkV9Vv37fJh8WMH2i/3Cvc3GLBt1/ix/6gW1
+ a06Fyp+aCAfOnyGA/5biDopwm/B9F2pTTxRav47FLZERIvUzNJhprnF/AjHeJPLHesLGOPG4Ieq
+ oRT7WbRXJlnbWUohE5zY/H9B0FAyETKqQm8sFSyuCwT2t88rarUHIrVyqOJmjMbSMtZhE
+X-Google-Smtp-Source: AGHT+IEh5rmOi9OTdgxMZ+ZYCCwxnVNNOCtSZ7HLSFh73cHwYUInliH9Wmy7ojp7o6gQDl2FOpbi5w==
+X-Received: by 2002:a17:902:f606:b0:23c:6d5e:db4e with SMTP id
+ d9443c01a7336-23de2f47919mr267449435ad.8.1752473438744; 
+ Sun, 13 Jul 2025 23:10:38 -0700 (PDT)
+Received: from ?IPV6:2001:569:514a:9100:3f23:7b0f:f6a2:1ebd?
+ ([2001:569:514a:9100:3f23:7b0f:f6a2:1ebd])
+ by smtp.gmail.com with ESMTPSA id
+ d9443c01a7336-23de43655fbsm83226305ad.239.2025.07.13.23.10.38
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Sun, 13 Jul 2025 23:10:38 -0700 (PDT)
+Message-ID: <cda61d51-ad85-4464-a637-426b960a83c6@gmail.com>
+Date: Sun, 13 Jul 2025 23:10:37 -0700
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-ID: <20250714-it61620-0714-v1-3-3761164d0b98@ite.com.tw>
-References: <20250714-it61620-0714-v1-0-3761164d0b98@ite.com.tw>
-In-Reply-To: <20250714-it61620-0714-v1-0-3761164d0b98@ite.com.tw>
-To: Andrzej Hajda <andrzej.hajda@intel.com>, Neil Armstrong
- <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>,
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
- Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
- Conor Dooley <conor+dt@kernel.org>
-CC: <dri-devel@lists.freedesktop.org>, <devicetree@vger.kernel.org>,
- <linux-kernel@vger.kernel.org>, Hermes Wu <hermes.Wu@ite.com.tw>, Kenneth
- Hung <kenneth.Hung@ite.com.tw>, Pet Weng <pet.weng@ite.com.tw>, Pin-yen Lin
- <treapking@google.com>
-X-Mailer: b4 0.14.2
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1752462909; l=1089;
- i=pet.weng@ite.com.tw; s=20250702; h=from:subject:message-id;
- bh=+IFvH11m36wvX0dCALImUQ3my/Mqt5qCzewvfCRgKGM=;
- b=kLIzaRsXKxETsQFi2MKlQgl341RfCbkH1jTZyI2G128bOqSoeRi91F4hAl1MpUnIDRFbcsxG7
- IN6NI7ijy/8AXxC13P9Pq9PEv8RfsEKk8v5b7VV8ofxRvkKy08JIBzu
-X-Developer-Key: i=pet.weng@ite.com.tw; a=ed25519;
- pk=wd08uBtTLb93x2ixbKVNsxiZPdMh1Ov4z5klodh2bqo=
-X-Originating-IP: [192.168.72.15]
-X-ClientProxiedBy: CSBMAIL1.internal.ite.com.tw (192.168.65.58) To
- CSBMAIL1.internal.ite.com.tw (192.168.65.58)
-X-TM-SNTS-SMTP: AB5C484DFF45214EE4E133440795F671808876017C9EE7F203A2F1E899FFF2072002:8
-X-MAIL: mse.ite.com.tw 56E3FIb7091142
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] gpu: nova-core: define named constants for magic numbers
+To: Alexandre Courbot <acourbot@nvidia.com>, dakr@kernel.org
+Cc: airlied@gmail.com, simona@ffwll.ch, nouveau@lists.freedesktop.org,
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ rust-for-linux@vger.kernel.org
+References: <20250713025108.9364-2-krakow20@gmail.com>
+ <20250713025108.9364-4-krakow20@gmail.com>
+ <DBBG6Q86XAAQ.43DPC0D210TI@nvidia.com>
+Content-Language: en-US
+From: Rhys Lloyd <krakow20@gmail.com>
+In-Reply-To: <DBBG6Q86XAAQ.43DPC0D210TI@nvidia.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 X-Mailman-Approved-At: Mon, 14 Jul 2025 07:28:12 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -91,35 +97,34 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Add a new entry for the ITE IT61620 MIPI to HDMI bridge driver to the
-MAINTAINERS file, include the responsible maintainer, mailing list, and
-file patterns.
+On 7/13/25 8:11 PM, Alexandre Courbot wrote:
+> On Sun Jul 13, 2025 at 11:51 AM JST, Rhys Lloyd wrote:
+>> Introduce an associated constant `MIN_LEN` for each struct that checks
+>> the length of the input data in its constructor against a magic number.
+>>
+>> Signed-off-by: Rhys Lloyd <krakow20@gmail.com>
+> As I mentioned in [1], I think this would be better addressed by working
+> in terms of `sizeof` upon the relevant structures, after making them
+> `#[repr(C)]`. It might require splitting them a bit since some contain
+> other data (or we can maybe turn them into DSTs).
+>
+> [1] https://lore.kernel.org/rust-for-linux/DB97X8JAJFI4.3G1I8ZPC1MWLS@nvidia.com/
 
-Signed-off-by: Pet Weng <pet.weng@ite.com.tw>
----
- MAINTAINERS | 8 ++++++++
- 1 file changed, 8 insertions(+)
+As far as I can tell, only one of the five structs with `MIN_LEN` have 
+the same layout in-memory as they do in the `data` byte slice, that 
+being `BitHeader`.  Perhaps `#[repr(packed)]` could be used for 
+`PmuLookupTableEntry`, sacrificing alignment, but that is undesirable as 
+it comes with its own footguns such as unaligned loads.  The other 
+structs include optional values and vectors which do not have the same 
+encoding when reading from the `data` byte slice as they do in memory.  
+I have worked with DSTs before, but I don't recommend them for 
+non-library code since they are not first-class citizens in Rust.  
+Notably the fat pointer is not resized when taking a reference to the 
+unsized struct field, and constructing such objects is cumbersome.  
+Also, in the current version of Rust (1.88), DSTs cannot yet live 
+comfortably on the stack.
 
-diff --git a/MAINTAINERS b/MAINTAINERS
-index ee2ef9d9db2ab3a2b462aaa1a7a473018c70596d..3a7167ac8a840321d2c5b0f230e3e29f72ced0b8 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -12916,6 +12916,14 @@ T:	git https://gitlab.freedesktop.org/drm/misc/kernel.git
- F:	Documentation/devicetree/bindings/display/bridge/ite,it6263.yaml
- F:	drivers/gpu/drm/bridge/ite-it6263.c
- 
-+ITE IT61620 MIPI DSI TO HDMI BRIDGE DRIVER
-+M:	Pet Weng <pet.weng@ite.com.tw>
-+L:	dri-devel@lists.freedesktop.org
-+S:	Maintained
-+T:	git https://gitlab.freedesktop.org/drm/misc/kernel.git
-+F:	Documentation/devicetree/bindings/display/bridge/ite,it61620.yaml
-+F:	drivers/gpu/drm/bridge/ite-it61620.c
-+
- ITE IT66121 HDMI BRIDGE DRIVER
- M:	Phong LE <ple@baylibre.com>
- M:	Neil Armstrong <neil.armstrong@linaro.org>
-
--- 
-2.34.1
+This patch can be dropped if it's not valuable enough to warrant the 
+change, I only made it because of your comment here: 
+https://gitlab.freedesktop.org/drm/nova/-/merge_requests/4#note_2999761
 
