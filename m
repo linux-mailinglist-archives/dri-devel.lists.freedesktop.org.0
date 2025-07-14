@@ -2,89 +2,116 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0B24AB03B18
-	for <lists+dri-devel@lfdr.de>; Mon, 14 Jul 2025 11:42:26 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 15059B03B37
+	for <lists+dri-devel@lfdr.de>; Mon, 14 Jul 2025 11:45:27 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 07B8D10E16F;
-	Mon, 14 Jul 2025 09:42:23 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 056A010E1F8;
+	Mon, 14 Jul 2025 09:45:25 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=redhat.com header.i=@redhat.com header.b="FSgIbP1E";
+	dkim=pass (2048-bit key; unprotected) header.d=qualcomm.com header.i=@qualcomm.com header.b="UlmyLUPg";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [170.10.129.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 64D7010E16F
- for <dri-devel@lists.freedesktop.org>; Mon, 14 Jul 2025 09:42:21 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1752486140;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=p8Tx95/WvSTK8NTF77+QTvu/+GuQhrx4IJVb9WBQk78=;
- b=FSgIbP1EPtQRWbfHutByC5X/XrZG4jnvJ+psT94N7wRRzvdQD919AkDWZDrtwrIwcT4ylk
- KspWdPu6MD5XmjpEzaqP4lYvmCC3/uq2TZYhhQvD2EExBzMMTLwnfj7C4Rhlbot6T7DbIZ
- tqn6iW1NnkmpuYSpoPrhn6ejkrnCn1s=
-Received: from mail-wr1-f72.google.com (mail-wr1-f72.google.com
- [209.85.221.72]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-443-gbpOiivOOLWbBH7thOmzjA-1; Mon, 14 Jul 2025 05:42:19 -0400
-X-MC-Unique: gbpOiivOOLWbBH7thOmzjA-1
-X-Mimecast-MFC-AGG-ID: gbpOiivOOLWbBH7thOmzjA_1752486138
-Received: by mail-wr1-f72.google.com with SMTP id
- ffacd0b85a97d-3a50049f8eeso1801249f8f.3
- for <dri-devel@lists.freedesktop.org>; Mon, 14 Jul 2025 02:42:18 -0700 (PDT)
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com
+ [205.220.180.131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2E22B10E1F8
+ for <dri-devel@lists.freedesktop.org>; Mon, 14 Jul 2025 09:45:24 +0000 (UTC)
+Received: from pps.filterd (m0279872.ppops.net [127.0.0.1])
+ by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 56E95gLA026582
+ for <dri-devel@lists.freedesktop.org>; Mon, 14 Jul 2025 09:45:23 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
+ cc:content-type:date:from:in-reply-to:message-id:mime-version
+ :references:subject:to; s=qcppdkim1; bh=RAwzxfCx7GmXiy6V5DJ7j7sn
+ U1MBsuON4yb7/O794BI=; b=UlmyLUPggLg76qotGeFrsy+nINSIvvwtxKOksFd0
+ 7RVx5g2PJlNVK3FJjpsefV8CCFaAN8l3mS5dgKRvHIvqy4SRHwvCfdJ+RDT47CxX
+ ui+ArKf0zncegTI0z5dGjITETgznrr5pTqYUkhOMO2jqIO94ZeUbSITziJ2E3qFv
+ 1yRk4bmJwAkbHEHC4uaAyZkKrhvVlMY2kr+udDH9zxVjHqF57Li3Qc84ut8fWV9T
+ NtiTNLKyoH7qbxW5gIxa5AQmqC36znJaAIoknSukVFnKF9OZHzOrVeHS167fpdYH
+ Os8QxOnRyoxEOR+w8LhFjKxzpNmWya5UrQ+XHu1bnjEBgw==
+Received: from mail-qk1-f200.google.com (mail-qk1-f200.google.com
+ [209.85.222.200])
+ by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 47ug37v16e-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
+ for <dri-devel@lists.freedesktop.org>; Mon, 14 Jul 2025 09:45:22 +0000 (GMT)
+Received: by mail-qk1-f200.google.com with SMTP id
+ af79cd13be357-7d444d21b24so647258485a.1
+ for <dri-devel@lists.freedesktop.org>; Mon, 14 Jul 2025 02:45:22 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1752486138; x=1753090938;
- h=mime-version:message-id:date:references:in-reply-to:subject:cc:to
- :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=p8Tx95/WvSTK8NTF77+QTvu/+GuQhrx4IJVb9WBQk78=;
- b=vFGo7pcPzeO1/nchY2Kc9rpsTr8fD6TNoc0Oxc6nDCKXyeDL6drj1v+lm8DPYSlz6t
- /Qsk/Uw5PeM5lMKqdVAjdMurLuZKxakqoaopxylpE74o/Hl/1OM8chahkOQfbebnHJ4Q
- xftPri+h7vwCF98RNHiiR+iIOUq3gqdwqHpx6q5V2wTPC1573U9b2iAFuUUPgDmXFCHG
- 7E5CuN11RY9e1Z9cuMRc0tbqF8g8piqSz7NujuSvW3MZmvAbEhomBO5VmEtfXKeXqfWO
- X3705SN2f3hwIt+LcUrCb0YEXWDwietm/EKFqRwh87XV7BzZbAri9BVid/PNiVTe9fHk
- xMkA==
+ d=1e100.net; s=20230601; t=1752486322; x=1753091122;
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=RAwzxfCx7GmXiy6V5DJ7j7snU1MBsuON4yb7/O794BI=;
+ b=wBL12aFPpcUSpEer+sjrcymiLydBFvsXdqYlhueQB1Up3qIfFvhwhxry1yBa48cKCv
+ 6nxHgF+nKMl0ghwf3hDAFbHHEudhetan1ws3XVUjGah1aCgjoRc45YsrK61s2c4XLZrR
+ s3nib540IYoWPyMBCK6+Rig8shOwP+UjYRqQgYzkHGaKjZWgOrH/Q53ugdkBkyrK4Bns
+ s/3DNWlD4mYD9gPy5JdO14loBy4kZZwPLHLi6++qQywSYxK2ypOm9ibhkzCzqHRgoSP6
+ 6TBK/HsFjxHLWmn++wVO90tH/0ZTc3cKqo2/qmwZv/nw2BKUi2UCjfKrZyUQEiF3yDBh
+ kmKw==
 X-Forwarded-Encrypted: i=1;
- AJvYcCV+7LxRlgONXlAnesoiTIPrqECyub6aPuOCZA/gZf+US5z9eNHP8ZvALTAFnYwUlO1T0HhENe6NdE0=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0Yzkwt2zAT11PjNiu7FCRukIPnPUJm8n1kNH7nKbZcvZR1mglhDs
- tgzxqXW1jKC2n9O9kRolxv6iDNZLbm+hp73SGRZ/QfHatgZ++Tt93z/sKjrh+nd8vA27SIaAOqN
- wv8fJKRWScUBxz15QD8f8PKmxVQgejsT9CjiWKh7mqcRQj3XTBaIAIUFDDME/p0cz+NbyEA==
-X-Gm-Gg: ASbGncuEsP0BExw5WyJ4ixsTOKRImHprnytqQBdhS2dC0aef7G0sT8IG3Y0azv+fHHf
- mj430OKKdc3mrG8BTsAvCWXo9GopG+m0xpjSxmsdAnok/S0NA2Y0Rh7MLwCMO+0Z/ideVUtsZwk
- p/xWuR13QJPWNynWgu1bwOy3tmZ0VWNPrb75dGevX/k6MhYDOyO35lJo8MGZcZVMGa3n5QP1ea9
- lS9mx0YbfUHJjw8eTczthcO/+hQ6p+prtEMSii596mpv4KDodr3FvrpqSbkeoRXXtNGu5HGWdt5
- /39waNOOydpmgapFBkDYiKDQeRiKYHTqC0CnMZm0mN9Cr7o8i48rXvqFqlAJFQW8HA==
-X-Received: by 2002:a05:6000:e0a:b0:3a4:e841:b236 with SMTP id
- ffacd0b85a97d-3b5f18cebeemr8726629f8f.33.1752486137659; 
- Mon, 14 Jul 2025 02:42:17 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IG5V4Ve8BAPt6NU+cG8lX/fpEurIJIrdqdQxfcQNaUpGgaXzhyffw4d2Lxh8B67YSliB2bm2g==
-X-Received: by 2002:a05:6000:e0a:b0:3a4:e841:b236 with SMTP id
- ffacd0b85a97d-3b5f18cebeemr8726599f8f.33.1752486137180; 
- Mon, 14 Jul 2025 02:42:17 -0700 (PDT)
-Received: from localhost ([89.128.88.54]) by smtp.gmail.com with ESMTPSA id
- 5b1f17b1804b1-455ef31717dsm91187365e9.6.2025.07.14.02.42.16
+ AJvYcCX5okjbpmtkUBFa+PHNLeGpD7/bv1tvK31p7ZSbAY355JLQSYmhFZrHohsWIBG++OjSEWEXC+cYWhU=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YzWLykkoNFPL7GVhhRdDgRmjeMdbKRFxQN1up5gDc0fb3tI1E8c
+ M2R+3ZsIAhY4phN+ZHa6RGoCa+S82FjC+kF4TpOObpnVVgXSip2NtUON+S6Agp8RH5ShYa/Y+fx
+ zyIPeg7WVTYSjwP5t6z8SXZCVfPbVglx/16IzIzxgTHQnKrevdWt7j0EWLxKzaxh8O0zLPWA=
+X-Gm-Gg: ASbGnctYFYuCnQEfE8pZwGYR9PkYaC6/w55RFAAZPYqfQ5BaUAmkNs/VzsS5qfqk3cB
+ peqlgg8OUbq4UkLBNBjIftdJcFhM8OSWrNyDVbNIEo7Y+cmCHUy76w8RGLUl9lYbEdY88av1//h
+ 8/U+4PuE1V2NxGTILAdfD/BvxCcgzRLVRH0lMS8pYpdcq8MxnqapzUETBtGdeT3GNfWPAm6pQQB
+ nMMCuLEq4F304LHWrrEF4RtHaFF4yXXuigYep+To4airoBxaVWa6ZKLDRuBmI1kSLySPK/4qET4
+ qhaGyXwYlePsgGZOHyRzdSF4VqLEphWRF4NrYKO5wtJ8HbMLdroM/ocoKSYWXgcEAseeZjOZJic
+ I69ovzViD2CCS8MFmxFC/Ps+F7YguXoEy8yFo/NQthhD63VprRRvL
+X-Received: by 2002:a05:620a:319b:b0:7d3:90b3:28f with SMTP id
+ af79cd13be357-7dde9b5fcebmr1665486785a.5.1752486321972; 
+ Mon, 14 Jul 2025 02:45:21 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IFvhM/t1FHIrVZWVYG9mhbjIjtg3iUsjf8ZC04xPKQpfbPSy7xMPnq9ivIn1rnjpbbWl2zg9w==
+X-Received: by 2002:a05:620a:319b:b0:7d3:90b3:28f with SMTP id
+ af79cd13be357-7dde9b5fcebmr1665483385a.5.1752486321371; 
+ Mon, 14 Jul 2025 02:45:21 -0700 (PDT)
+Received: from umbar.lan
+ (2001-14ba-a0c3-3a00-264b-feff-fe8b-be8a.rev.dnainternet.fi.
+ [2001:14ba:a0c3:3a00:264b:feff:fe8b:be8a])
+ by smtp.gmail.com with ESMTPSA id
+ 2adb3069b0e04-5593c7ea9e4sm1889678e87.73.2025.07.14.02.45.20
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 14 Jul 2025 02:42:16 -0700 (PDT)
-From: Javier Martinez Canillas <javierm@redhat.com>
-To: Thomas Zimmermann <tzimmermann@suse.de>, linux-kernel@vger.kernel.org
-Cc: ipedrosa@redhat.com, David Airlie <airlied@gmail.com>, Maarten Lankhorst
- <maarten.lankhorst@linux.intel.com>, Marcus Folkesson
- <marcus.folkesson@gmail.com>, Maxime Ripard <mripard@kernel.org>, Simona
- Vetter <simona@ffwll.ch>, dri-devel@lists.freedesktop.org
-Subject: Re: [PATCH 2/3] drm/sitronix/st7571-i2c: Make the reset GPIO to be
- optional
-In-Reply-To: <10bb159a-0c6a-4950-b038-68608e2a771d@suse.de>
-References: <20250710102453.101078-1-javierm@redhat.com>
- <20250710102453.101078-3-javierm@redhat.com>
- <10bb159a-0c6a-4950-b038-68608e2a771d@suse.de>
-Date: Mon, 14 Jul 2025 11:42:15 +0200
-Message-ID: <87zfd7cdmw.fsf@minerva.mail-host-address-is-not-set>
+ Mon, 14 Jul 2025 02:45:20 -0700 (PDT)
+Date: Mon, 14 Jul 2025 12:45:18 +0300
+From: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
+To: Ling Xu <quic_lxu5@quicinc.com>
+Cc: srini@kernel.org, amahesh@qti.qualcomm.com, robh@kernel.org,
+ krzk+dt@kernel.org, conor+dt@kernel.org, andersson@kernel.org,
+ konradybcio@kernel.org, arnd@arndb.de, gregkh@linuxfoundation.org,
+ quic_kuiw@quicinc.com, ekansh.gupta@oss.qualcomm.com,
+ devicetree@vger.kernel.org, linux-arm-msm@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v7 4/4] misc: fastrpc: add support for gdsp remoteproc
+Message-ID: <lzdhczkz6irj2u2cwxounro3qcmp3glqzswreoqqvxibeeacny@tiohbb3bv4at>
+References: <20250714054133.3769967-1-quic_lxu5@quicinc.com>
+ <20250714054133.3769967-5-quic_lxu5@quicinc.com>
 MIME-Version: 1.0
-X-Mimecast-Spam-Score: 0
-X-Mimecast-MFC-PROC-ID: 5NAW2W_Sv64CYODXGe0dr2mZX3QdZz6ATWSeqhHzcog_1752486138
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20250714054133.3769967-5-quic_lxu5@quicinc.com>
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwNzE0MDA1NiBTYWx0ZWRfX1kiVUOjzlvzC
+ BffpFBPEIQgVUOhnsR8muKmNyn5ruWOLgQITG0AUwunWQr7qfSVS6kkr6AINUorrdYrvfqecs67
+ nTeA/Ord9f4Tido3cRiDjiIKQQqeD7y+TTADzptejftoZCj5fuKPMb0IfGBN0k72bSRjsrdhR+p
+ 4ZdyTrTDoMKQn75twm27gSqS2Ym39DB6FdoGNGRaYBPJZUTuNPhhwzttdOzacrwCW9rOlnGVbRI
+ I1ioFasMS8lBv4BfHbKmAygw1SPxdPz2v/Nh1bUDdUv5fql4i6Gs2LLp4TcgDw1I4JSK1o/9y33
+ 4MZYe5bXVR9wsv4UIFhw/8WH3icEp6MpycfCboDI552slvZWvDHjByJ8CnXCZgSTuIWSL8VLhhM
+ 51cxzf5A8/NKmP9GwRy/aBAM1gbWza1uiFCrgF2Tq+Ti1eOsRA2RSna+wQsEhc8os59OBbul
+X-Proofpoint-GUID: wDnyc9ONWSmiFKKLt_rl7l7B2EVWc1HT
+X-Authority-Analysis: v=2.4 cv=SZT3duRu c=1 sm=1 tr=0 ts=6874d1b2 cx=c_pps
+ a=hnmNkyzTK/kJ09Xio7VxxA==:117 a=xqWC_Br6kY4A:10 a=kj9zAlcOel0A:10
+ a=Wb1JkmetP80A:10 a=COk6AnOGAAAA:8 a=EUspDBNiAAAA:8 a=GAzI_fwOJHwl1SWvAbcA:9
+ a=CjuIK1q_8ugA:10 a=PEH46H7Ffwr30OY-TuGO:22 a=TjNXssC_j7lpFel5tvFf:22
+X-Proofpoint-ORIG-GUID: wDnyc9ONWSmiFKKLt_rl7l7B2EVWc1HT
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1099,Hydra:6.1.7,FMLib:17.12.80.40
+ definitions=2025-07-14_01,2025-07-09_01,2025-03-28_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ clxscore=1015 mlxlogscore=841 mlxscore=0 priorityscore=1501
+ lowpriorityscore=0 bulkscore=0 adultscore=0 impostorscore=0 malwarescore=0
+ phishscore=0 spamscore=0 suspectscore=0 classifier=spam authscore=0
+ authtc=n/a authcc= route=outbound adjust=0 reason=mlx scancount=1
+ engine=8.19.0-2505280000 definitions=main-2507140056
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -100,68 +127,22 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Thomas Zimmermann <tzimmermann@suse.de> writes:
+On Mon, Jul 14, 2025 at 11:11:33AM +0530, Ling Xu wrote:
+> Some platforms (like sa8775p) feature one or more GPDSPs (General
+> Purpose DSPs). Similar to other kinds of Hexagon DSPs, they provide
+> a FastRPC implementation, allowing code execution in both signed and
+> unsigned protection domains. Extend the checks to allow domain names
+> starting with "gdsp" (possibly followed by an index).
+> 
+> Signed-off-by: Ling Xu <quic_lxu5@quicinc.com>
+> ---
+>  drivers/misc/fastrpc.c | 6 +++++-
+>  1 file changed, 5 insertions(+), 1 deletion(-)
+> 
 
-Hello Thomas,
+Reviewed-by: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
 
-> Hi
->
-> Am 10.07.25 um 12:24 schrieb Javier Martinez Canillas:
->> Some Sitronix LCD controllers (such as the ST7567) don't have a reset pin,
->> so lets relax this in the driver and make the reset GPIO to be optional.
->>
->> The devm_gpiod_get_optional() helper is similar to devm_gpiod_get(), but
->> returns NULL when there isn't a reset-gpios property defined in a DT node.
->>
->> The DT binding schema for "sitronix,st7571" that require a reset GPIO will
->> enforce the "reset-gpios" to be present, due being a required DT property.
->> But in the driver itself the property can be made optional if not defined.
->>
->> Signed-off-by: Javier Martinez Canillas <javierm@redhat.com>
->> ---
->>
->>   drivers/gpu/drm/sitronix/st7571-i2c.c | 8 ++++++--
->>   1 file changed, 6 insertions(+), 2 deletions(-)
->>
->> diff --git a/drivers/gpu/drm/sitronix/st7571-i2c.c b/drivers/gpu/drm/sitronix/st7571-i2c.c
->> index eec846892962..73e8db25f895 100644
->> --- a/drivers/gpu/drm/sitronix/st7571-i2c.c
->> +++ b/drivers/gpu/drm/sitronix/st7571-i2c.c
->> @@ -802,15 +802,19 @@ static int st7571_parse_dt(struct st7571_device *st7571)
->>   	st7571->nlines = dt.vactive.typ;
->>   	st7571->ncols = dt.hactive.typ;
->>   
->> -	st7571->reset = devm_gpiod_get(dev, "reset", GPIOD_OUT_HIGH);
->> +	st7571->reset = devm_gpiod_get_optional(dev, "reset", GPIOD_OUT_HIGH);
->>   	if (IS_ERR(st7571->reset))
->> -		return PTR_ERR(st7571->reset);
->> +		return dev_err_probe(dev, PTR_ERR(st7571->reset),
->> +				     "Failed to get reset gpio\n");
->>   
->>   	return 0;
->>   }
->>   
->>   static void st7571_reset(struct st7571_device *st7571)
->>   {
->> +	if (!st7571->reset)
->> +		return;
->> +
->
-> My interpretation of this function is that calling it guarantees a 
-> device reset (or an error). So I'd push this test into the caller.
->
-
-That's a good point. I'll then do the check in the caller.
-
-Actually... at the end I didn't need a st7571_reset() call for ST7567
-since it has its own struct st7571_panel_data .init callback function.
-
-So I can just drop the test for st7571->reset being NULL.
 
 -- 
-Best regards,
-
-Javier Martinez Canillas
-Core Platforms
-Red Hat
-
+With best wishes
+Dmitry
