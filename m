@@ -2,77 +2,79 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8C1C0B039C2
-	for <lists+dri-devel@lfdr.de>; Mon, 14 Jul 2025 10:45:45 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4B336B03A1C
+	for <lists+dri-devel@lfdr.de>; Mon, 14 Jul 2025 10:56:04 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 17BC410E41E;
-	Mon, 14 Jul 2025 08:45:43 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A658010E426;
+	Mon, 14 Jul 2025 08:56:02 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=suse.de header.i=@suse.de header.b="kFA4lMIq";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="n1htPtkv";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="kFA4lMIq";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="n1htPtkv";
+	dkim=pass (1024-bit key; unprotected) header.d=suse.de header.i=@suse.de header.b="M/HTUKdw";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="DgkXCmSx";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="M/HTUKdw";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="DgkXCmSx";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D4B7610E41E
- for <dri-devel@lists.freedesktop.org>; Mon, 14 Jul 2025 08:45:41 +0000 (UTC)
-Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5614D10E426
+ for <dri-devel@lists.freedesktop.org>; Mon, 14 Jul 2025 08:56:00 +0000 (UTC)
+Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org
+ [IPv6:2a07:de40:b281:104:10:150:64:97])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
  (No client certificate requested)
- by smtp-out1.suse.de (Postfix) with ESMTPS id 6E8BC211F5;
- Mon, 14 Jul 2025 08:45:40 +0000 (UTC)
+ by smtp-out2.suse.de (Postfix) with ESMTPS id F00951F80B;
+ Mon, 14 Jul 2025 08:55:58 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1752482740; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ t=1752483359; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
  mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=HKQabhxM6L6Iye8u4sBIqoSWTCCFo9k8IJJ1scPoCLU=;
- b=kFA4lMIqlVmGq6gkNxP4E1BzMaY5Bzbl2VcwN5l5CulG9hKvAEeVaROforpitcjmFy5NhK
- qrMNuFSr7vvcDNxhdpMD0e2h7AA6kku1U95IGRtWkOxoeXNMvX0C+KGpIWAaZgK4SGZYEw
- o4qxcUmhS43ORcWmtCFeASkY20BIbn4=
+ bh=rgl+dgWGyWcfaNXJYYyIB+s9vydjAZwMOjZ8CA9qpCs=;
+ b=M/HTUKdwSmqoSx3KkIsrH8Rgyy0LTRu9n+5GvDloh2gzWkzK25Tn0S4z9u0A8qUSwBfQ8R
+ /ykGxmckHDNKS4Lczx/tQCj1fJbTYOZGJk8Df7toR3k6v4Op7ErcPfonTnKIou0mz5uSsN
+ Vv3cAi3DMjFWfWX+oyObfJ26kXC/PBU=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1752482740;
+ s=susede2_ed25519; t=1752483359;
  h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
  mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=HKQabhxM6L6Iye8u4sBIqoSWTCCFo9k8IJJ1scPoCLU=;
- b=n1htPtkvPhP8n6Vh5byDEd/L5fAg1PioiWm8k5mhXjGZ/0jAfE5fxBhRs13cDNBtgeZ4cU
- rHzfCsCEuJctTzDg==
-Authentication-Results: smtp-out1.suse.de;
-	none
+ bh=rgl+dgWGyWcfaNXJYYyIB+s9vydjAZwMOjZ8CA9qpCs=;
+ b=DgkXCmSxV2DTepkuBYkfv+yxMWFuFT9BiUM4+hGtaZUQBtw12RsT+o2aYilG2GEA4dBHTG
+ oF9I2II9tXk3gHDw==
+Authentication-Results: smtp-out2.suse.de;
+ dkim=pass header.d=suse.de header.s=susede2_rsa header.b="M/HTUKdw";
+ dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=DgkXCmSx
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1752482740; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ t=1752483359; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
  mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=HKQabhxM6L6Iye8u4sBIqoSWTCCFo9k8IJJ1scPoCLU=;
- b=kFA4lMIqlVmGq6gkNxP4E1BzMaY5Bzbl2VcwN5l5CulG9hKvAEeVaROforpitcjmFy5NhK
- qrMNuFSr7vvcDNxhdpMD0e2h7AA6kku1U95IGRtWkOxoeXNMvX0C+KGpIWAaZgK4SGZYEw
- o4qxcUmhS43ORcWmtCFeASkY20BIbn4=
+ bh=rgl+dgWGyWcfaNXJYYyIB+s9vydjAZwMOjZ8CA9qpCs=;
+ b=M/HTUKdwSmqoSx3KkIsrH8Rgyy0LTRu9n+5GvDloh2gzWkzK25Tn0S4z9u0A8qUSwBfQ8R
+ /ykGxmckHDNKS4Lczx/tQCj1fJbTYOZGJk8Df7toR3k6v4Op7ErcPfonTnKIou0mz5uSsN
+ Vv3cAi3DMjFWfWX+oyObfJ26kXC/PBU=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1752482740;
+ s=susede2_ed25519; t=1752483359;
  h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
  mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=HKQabhxM6L6Iye8u4sBIqoSWTCCFo9k8IJJ1scPoCLU=;
- b=n1htPtkvPhP8n6Vh5byDEd/L5fAg1PioiWm8k5mhXjGZ/0jAfE5fxBhRs13cDNBtgeZ4cU
- rHzfCsCEuJctTzDg==
+ bh=rgl+dgWGyWcfaNXJYYyIB+s9vydjAZwMOjZ8CA9qpCs=;
+ b=DgkXCmSxV2DTepkuBYkfv+yxMWFuFT9BiUM4+hGtaZUQBtw12RsT+o2aYilG2GEA4dBHTG
+ oF9I2II9tXk3gHDw==
 Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
  (No client certificate requested)
- by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 2C675138A1;
- Mon, 14 Jul 2025 08:45:40 +0000 (UTC)
+ by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 140AA138A1;
+ Mon, 14 Jul 2025 08:55:58 +0000 (UTC)
 Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
- by imap1.dmz-prg2.suse.org with ESMTPSA id U6RPCbTDdGhdMwAAD6G6ig
- (envelope-from <tzimmermann@suse.de>); Mon, 14 Jul 2025 08:45:40 +0000
-Message-ID: <10bb159a-0c6a-4950-b038-68608e2a771d@suse.de>
-Date: Mon, 14 Jul 2025 10:45:39 +0200
+ by imap1.dmz-prg2.suse.org with ESMTPSA id QBF/Ax7GdGg7NwAAD6G6ig
+ (envelope-from <tzimmermann@suse.de>); Mon, 14 Jul 2025 08:55:58 +0000
+Message-ID: <a5cb70b2-f724-4d5e-910c-0b92dd759ebf@suse.de>
+Date: Mon, 14 Jul 2025 10:55:57 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
 Subject: Re: [PATCH 2/3] drm/sitronix/st7571-i2c: Make the reset GPIO to be
@@ -114,23 +116,33 @@ Autocrypt: addr=tzimmermann@suse.de; keydata=
 In-Reply-To: <20250710102453.101078-3-javierm@redhat.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
-X-Spamd-Result: default: False [-2.80 / 50.00]; BAYES_HAM(-3.00)[100.00%];
+X-Spamd-Result: default: False [-3.01 / 50.00]; BAYES_HAM(-3.00)[100.00%];
  SUSPICIOUS_RECIPS(1.50)[]; NEURAL_HAM_LONG(-1.00)[-1.000];
+ R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
  NEURAL_HAM_SHORT(-0.20)[-1.000]; MIME_GOOD(-0.10)[text/plain];
- FREEMAIL_CC(0.00)[redhat.com,gmail.com,linux.intel.com,kernel.org,ffwll.ch,lists.freedesktop.org];
- MIME_TRACE(0.00)[0:+]; FUZZY_RATELIMITED(0.00)[rspamd.com];
- ARC_NA(0.00)[];
+ MX_GOOD(-0.01)[]; TO_MATCH_ENVRCPT_ALL(0.00)[];
+ FREEMAIL_ENVRCPT(0.00)[gmail.com];
  DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
- TO_MATCH_ENVRCPT_ALL(0.00)[]; RCVD_TLS_ALL(0.00)[];
- FREEMAIL_ENVRCPT(0.00)[gmail.com]; RCVD_VIA_SMTP_AUTH(0.00)[];
+ FUZZY_RATELIMITED(0.00)[rspamd.com];
+ RBL_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:104:10:150:64:97:from]; 
+ MIME_TRACE(0.00)[0:+]; ARC_NA(0.00)[];
+ FREEMAIL_CC(0.00)[redhat.com,gmail.com,linux.intel.com,kernel.org,ffwll.ch,lists.freedesktop.org];
+ DKIM_TRACE(0.00)[suse.de:+]; TO_DN_SOME(0.00)[];
+ RCVD_COUNT_TWO(0.00)[2];
+ DNSWL_BLOCKED(0.00)[2a07:de40:b281:106:10:150:64:167:received];
  FROM_EQ_ENVFROM(0.00)[]; FROM_HAS_DN(0.00)[];
- TO_DN_SOME(0.00)[]; RCVD_COUNT_TWO(0.00)[2];
- RCPT_COUNT_SEVEN(0.00)[9]; MID_RHS_MATCH_FROM(0.00)[];
+ RCVD_TLS_ALL(0.00)[]; MID_RHS_MATCH_FROM(0.00)[];
+ RECEIVED_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:106:10:150:64:167:received];
+ RCPT_COUNT_SEVEN(0.00)[9]; RCVD_VIA_SMTP_AUTH(0.00)[];
  TAGGED_RCPT(0.00)[];
- DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:mid,imap1.dmz-prg2.suse.org:helo]
+ DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:helo,
+ imap1.dmz-prg2.suse.org:rdns, suse.de:mid, suse.de:dkim]
 X-Spam-Flag: NO
 X-Spam-Level: 
-X-Spam-Score: -2.80
+X-Rspamd-Queue-Id: F00951F80B
+X-Rspamd-Server: rspamd2.dmz-prg2.suse.org
+X-Rspamd-Action: no action
+X-Spam-Score: -3.01
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -179,6 +191,17 @@ Am 10.07.25 um 12:24 schrieb Javier Martinez Canillas:
 > -		return PTR_ERR(st7571->reset);
 > +		return dev_err_probe(dev, PTR_ERR(st7571->reset),
 > +				     "Failed to get reset gpio\n");
+
+There's struct st7571_panel_data. It could store a flag signalling the 
+expected behavior.
+
+With more effort the panel_data could store a dedicated parse_dt pointer 
+for each panel type. ASAICT the st7567 features a subset of the other 
+type. So there might not be much code duplication.
+
+Best regards
+Thomas
+
 >   
 >   	return 0;
 >   }
@@ -188,13 +211,6 @@ Am 10.07.25 um 12:24 schrieb Javier Martinez Canillas:
 > +	if (!st7571->reset)
 > +		return;
 > +
-
-My interpretation of this function is that calling it guarantees a 
-device reset (or an error). So I'd push this test into the caller.
-
-Best regards
-Thomas
-
 >   	gpiod_set_value_cansleep(st7571->reset, 1);
 >   	fsleep(20);
 >   	gpiod_set_value_cansleep(st7571->reset, 0);
