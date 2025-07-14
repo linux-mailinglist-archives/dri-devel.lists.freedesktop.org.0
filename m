@@ -2,171 +2,193 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7BEE9B03AB5
-	for <lists+dri-devel@lfdr.de>; Mon, 14 Jul 2025 11:23:47 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id BA259B03B00
+	for <lists+dri-devel@lfdr.de>; Mon, 14 Jul 2025 11:40:31 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9C91F10E43B;
-	Mon, 14 Jul 2025 09:23:44 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9721410E438;
+	Mon, 14 Jul 2025 09:40:28 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=amd.com header.i=@amd.com header.b="PZ7UaZ42";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="k/PqFGp2";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from NAM11-CO1-obe.outbound.protection.outlook.com
- (mail-co1nam11on2067.outbound.protection.outlook.com [40.107.220.67])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3E34B10E438;
- Mon, 14 Jul 2025 09:23:43 +0000 (UTC)
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.10])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7D0CB10E43E;
+ Mon, 14 Jul 2025 09:40:26 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1752486026; x=1784022026;
+ h=date:from:to:cc:subject:message-id:references:
+ content-transfer-encoding:in-reply-to:mime-version;
+ bh=y7LmAv9k9b8SseUCjaCzc4oMWwzRJUvQ4O7y4y4p51k=;
+ b=k/PqFGp23b2p2LQtGqQ0a5wOcT81UeiiPTIc8FYZW8PdgF08kgvBzpMr
+ N3JL7hHeuu/b7riSRCuhzckn617+eMDQzkUKwWojTsRl4LtIpINH0KR4k
+ ga4GoM24nqe47P4r3vGC5wG8srOyT7L8nzezVwdPvza2yCm6OjZCoWM13
+ HHVzk8wb2lIGST/tHrzS48ULDarUvqF5oDoP4SSMCJLhq/DaVIT6+pvCb
+ Us2IsyuJ8RIhSeGKKJhj+G19AWYt40kF/R4dmBOrUY+mYX4anIbAOSMda
+ yfTUE/9G4rgq8aaZeSyn9MxS/0TPay8noSciS9MeMWjrKl1i28mb219S3 Q==;
+X-CSE-ConnectionGUID: hGp/FDIzQ+WJy/rB6Z+5dQ==
+X-CSE-MsgGUID: sVPEIgsHShKcEo+rcTMJYg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11491"; a="66030736"
+X-IronPort-AV: E=Sophos;i="6.16,310,1744095600"; d="scan'208";a="66030736"
+Received: from fmviesa005.fm.intel.com ([10.60.135.145])
+ by fmvoesa104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 14 Jul 2025 02:40:26 -0700
+X-CSE-ConnectionGUID: WVLl7qHLS5Svj0uhAHWKgA==
+X-CSE-MsgGUID: dZk7S8QWTj2tp3IL4hcOug==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.16,310,1744095600"; d="scan'208";a="161194356"
+Received: from orsmsx901.amr.corp.intel.com ([10.22.229.23])
+ by fmviesa005.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 14 Jul 2025 02:40:25 -0700
+Received: from ORSMSX901.amr.corp.intel.com (10.22.229.23) by
+ ORSMSX901.amr.corp.intel.com (10.22.229.23) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.1544.25; Mon, 14 Jul 2025 02:40:25 -0700
+Received: from ORSEDG901.ED.cps.intel.com (10.7.248.11) by
+ ORSMSX901.amr.corp.intel.com (10.22.229.23) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.1544.25 via Frontend Transport; Mon, 14 Jul 2025 02:40:25 -0700
+Received: from NAM12-BN8-obe.outbound.protection.outlook.com (40.107.237.46)
+ by edgegateway.intel.com (134.134.137.111) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.1544.25; Mon, 14 Jul 2025 02:40:24 -0700
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=hQnMjUo4FTnpZyMpqIMvSS8kNgQ9UI3rbPEZlgnsnb0T035RnpMcQko9HoS5pExG/Sdhn2WL1EZn1Px0E1Y4wbes+PpdPx3MHfMVX9FSb7eIjj/Mm05wp5pwArAV9oOeej+4eJrTH8XQQLTUp8fmZFnzsYTMnJEnakY/TcXrGXYNmrMT9NpgcdbFVoESxRdRKGBigyvF95GxqFXEjH8jTFQNH9H5zWEa+s9sWlsGR1kNeLKwjUxZA0465ZAfVMOfVLP35jrLTTKKjBYryh3ktKeZMECm7Hc+gqAw7DGMU2eJQozTTTUDo8Dqq+LA/jELGWSZyOrwHU9wozx4CXYdPA==
+ b=CWRh2q4pP14G6ReGpdXjQZRUDF9W0nHPiSr+YqX2Ij51SbG94feXiQAbw2+QUmEJK+uKuSRoOeuODmdR4/4sWE1P3sC2Tvob92QWsu5GVDJsGsXL1wnyux4Z0AyliEayHxG3fSw8bHsPVSkbfSyvq1XFmBRPFdoalJZ9LFSsyDPxgtfgrIyph+OK0Bv/hnJwXhV6vWHaa57ELnSLRhc41LUxSi6taMRKt75g8r4qEsZ4hDOaldbdfpNLVmR4aXjKPfKOompA4QYhGWNemasHuzA6PQWIo7ceVRTtNwZ5CxzGTNRvP0fvFOVs+6BoYs53r0Rf+S6YZaUNQfki63oPEA==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=C3U1SyA6sNKiJyaopN2+zglpbqIi7VKicB+kpAk/3ZA=;
- b=P4Zwajzbklqg0XFGOpNPY1oKq/bqjo6rpz2mD2fXCo/59fOu0c5aXT16UNJPUk30YomD+W9VIQt7U6p+s00UP5Ij/dFQtDetOGXxZmuORpyCN1pcgzKUFD/doeGT1s5NeOIeBaE5lMkhpgQ/yt98OeK2b2eofgiyzd3F+uGKIzwDzhqlEpAtyUrnKVxNKKJd8ZBmIqIBbQmllLqKq9B/bxRgYpeNIxssHyE5fZBawPWB3aIGtmfLNixSEgtCe8zOCjr7tvnMHRm9NsmKhUy3s/iGWF5XJRRSACbLl46AnctU/VyLgNGPUyYfN2+aGnWW3WZsfDd7p2u2rYrhBrHKsA==
+ bh=7FhW/Q7O0QWBKGXGlM8KR6owU2RRthV8sogi/lLnO/M=;
+ b=F6A+UP3FK4Uihs/K/lUlMvOylTXJN/oIHQDtWGg+bSavgzYJ4zO0Ni+Z9NKEGeG90iOcBU2TUrUQIZ6mZ7EsXW55r+wgqMfuOiq6aHedATBEi5dXvcCG806YiXSNAaNOBxEyNGnjVjuj3nxqJtuknwc4MegqbXRYpSX6YK9C1cLY26Z8HyGEGycW5Xk6hxSr4OyhnoLJpZ41CPTzG6+YE1t5hklgheQAEpJzT6IOHjB2zaFnZycYKQvt13RpDQ/nPGYGWK+NWTvvqOobFzzS0RZFMS8GcpR5zsq3TZJRTcpB/SjXkQZL9VM8623hIZNER/eT1mnrQsndNakMPFreAQ==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
- header.d=amd.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=C3U1SyA6sNKiJyaopN2+zglpbqIi7VKicB+kpAk/3ZA=;
- b=PZ7UaZ42FXDodijq6iF5/J3vldfh7v7GW0CZmrK8I+CFanNtk2qEqRvzXXXWOwdeYjLQcF+VL/gUyvVViRdkzGvVQAzNEGJLLOWFJh7OR4v0OTX6ZWHLnpE9UIEvnLCGcSkpM0CEAOhnMRb6kedV3wb4FpdRib0RGcrOAIUajGc=
+ smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
+ dkim=pass header.d=intel.com; arc=none
 Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=amd.com;
-Received: from PH7PR12MB5685.namprd12.prod.outlook.com (2603:10b6:510:13c::22)
- by DS0PR12MB6583.namprd12.prod.outlook.com (2603:10b6:8:d1::12) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8901.20; Mon, 14 Jul
- 2025 09:23:40 +0000
-Received: from PH7PR12MB5685.namprd12.prod.outlook.com
- ([fe80::46fb:96f2:7667:7ca5]) by PH7PR12MB5685.namprd12.prod.outlook.com
- ([fe80::46fb:96f2:7667:7ca5%5]) with mapi id 15.20.8901.033; Mon, 14 Jul 2025
- 09:23:40 +0000
-Message-ID: <2818cf80-4dac-4628-9079-2dd6311b48ae@amd.com>
-Date: Mon, 14 Jul 2025 11:23:33 +0200
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v5 2/8] drm/sched: Allow drivers to skip the reset and
- keep on running
-To: =?UTF-8?Q?Ma=C3=ADra_Canal?= <mcanal@igalia.com>, phasta@kernel.org,
- Matthew Brost <matthew.brost@intel.com>, Danilo Krummrich <dakr@kernel.org>,
- Tvrtko Ursulin <tvrtko.ursulin@igalia.com>, Simona Vetter <simona@ffwll.ch>,
- David Airlie <airlied@gmail.com>, Melissa Wen <mwen@igalia.com>,
- Lucas Stach <l.stach@pengutronix.de>,
- Russell King <linux+etnaviv@armlinux.org.uk>,
- Christian Gmeiner <christian.gmeiner@gmail.com>,
- Lucas De Marchi <lucas.demarchi@intel.com>,
- =?UTF-8?Q?Thomas_Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>,
- Rodrigo Vivi <rodrigo.vivi@intel.com>,
- Boris Brezillon <boris.brezillon@collabora.com>,
- Rob Herring <robh@kernel.org>, Steven Price <steven.price@arm.com>,
- Liviu Dudau <liviu.dudau@arm.com>
-Cc: kernel-dev@igalia.com, dri-devel@lists.freedesktop.org,
- etnaviv@lists.freedesktop.org, intel-xe@lists.freedesktop.org
-References: <20250708-sched-skip-reset-v5-0-2612b601f01a@igalia.com>
- <20250708-sched-skip-reset-v5-2-2612b601f01a@igalia.com>
- <20499b2a-0695-430a-9280-035a7e04d328@amd.com>
- <335c9bc57d19f17a3ba0da311f287dfdc3d580c7.camel@mailbox.org>
- <176e7f13-52e8-42d6-a9db-0bb237790aef@amd.com>
- <2347cd33-5289-4e6f-8296-b34bc05eff8b@igalia.com>
-Content-Language: en-US
-From: =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
-In-Reply-To: <2347cd33-5289-4e6f-8296-b34bc05eff8b@igalia.com>
-Content-Type: text/plain; charset=UTF-8
+ header.d=none;dmarc=none action=none header.from=intel.com;
+Received: from DM4PR11MB5373.namprd11.prod.outlook.com (2603:10b6:5:394::7) by
+ DM4PR11MB6262.namprd11.prod.outlook.com (2603:10b6:8:a7::22) with
+ Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.8901.29; Mon, 14 Jul 2025 09:39:42 +0000
+Received: from DM4PR11MB5373.namprd11.prod.outlook.com
+ ([fe80::927a:9c08:26f7:5b39]) by DM4PR11MB5373.namprd11.prod.outlook.com
+ ([fe80::927a:9c08:26f7:5b39%6]) with mapi id 15.20.8922.028; Mon, 14 Jul 2025
+ 09:39:42 +0000
+Date: Mon, 14 Jul 2025 11:39:38 +0200
+From: =?utf-8?Q?Micha=C5=82?= Winiarski <michal.winiarski@intel.com>
+To: Bjorn Helgaas <bhelgaas@google.com>
+CC: <linux-pci@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
+ <intel-xe@lists.freedesktop.org>, <dri-devel@lists.freedesktop.org>,
+ Christian =?utf-8?B?S8O2bmln?= <christian.koenig@amd.com>, Krzysztof
+ =?utf-8?Q?Wilczy=C5=84ski?= <kw@linux.com>, Ilpo =?utf-8?B?SsOkcnZpbmVu?=
+ <ilpo.jarvinen@linux.intel.com>, Rodrigo Vivi <rodrigo.vivi@intel.com>,
+ Michal Wajdeczko <michal.wajdeczko@intel.com>, Lucas De Marchi
+ <lucas.demarchi@intel.com>, Thomas =?utf-8?Q?Hellstr=C3=B6m?=
+ <thomas.hellstrom@linux.intel.com>, Maarten Lankhorst
+ <maarten.lankhorst@linux.intel.com>, Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
+ Simona Vetter <simona@ffwll.ch>, Matt Roper <matthew.d.roper@intel.com>
+Subject: Re: [PATCH v10 0/5] PCI: VF resizable BAR
+Message-ID: <elpe4ocut5y6otilll2mhf5dwhumstr4z4wt2enetpsbauvcyv@362bhrjmztkm>
+References: <20250702093522.518099-1-michal.winiarski@intel.com>
+Content-Type: text/plain; charset="utf-8"
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-X-ClientProxiedBy: BL0PR02CA0007.namprd02.prod.outlook.com
- (2603:10b6:207:3c::20) To PH7PR12MB5685.namprd12.prod.outlook.com
- (2603:10b6:510:13c::22)
+In-Reply-To: <20250702093522.518099-1-michal.winiarski@intel.com>
+X-ClientProxiedBy: VI1PR06CA0141.eurprd06.prod.outlook.com
+ (2603:10a6:803:a0::34) To DM4PR11MB5373.namprd11.prod.outlook.com
+ (2603:10b6:5:394::7)
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: PH7PR12MB5685:EE_|DS0PR12MB6583:EE_
-X-MS-Office365-Filtering-Correlation-Id: 140b17af-edb9-4c5e-67e5-08ddc2b81edf
+X-MS-TrafficTypeDiagnostic: DM4PR11MB5373:EE_|DM4PR11MB6262:EE_
+X-MS-Office365-Filtering-Correlation-Id: 972f9e87-8f31-47bd-6a4f-08ddc2ba5be6
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
- ARA:13230040|1800799024|376014|7416014|366016|921020; 
-X-Microsoft-Antispam-Message-Info: =?utf-8?B?UlduMHl6Q3d6akMwcXBaUmxqazVEVTh1cGwrZ04yUndySm5McHJFSjRsM29Q?=
- =?utf-8?B?TTcvSEc2UC96L29hYkpYRHdpZmw5NnA0SHlGTm1BSHhuVmtiSWhWdG1PY042?=
- =?utf-8?B?cXhEK3RGeE9BcXVxUHg1bkxnSU10S3ZaUWNKck9OVktyb0VMc216T1BvUGF6?=
- =?utf-8?B?dCtRQ0Q4WXgySzBZWGtGUnZWd2lsUjZObCtXaFppQWtGRHpxY3B6ZFgwbmlN?=
- =?utf-8?B?TVdUdUdaMEhVSlp0SUtIOGUzeUVPeUJRWm54NnlDb0VueUtyemtRWXVoeWdG?=
- =?utf-8?B?SmJsek94c0FwTllTVWY0U2lMWENEeW5nakVXeDRabWxjYTlPaUNMYTZXRWUz?=
- =?utf-8?B?NTNGUWg0K282QXByT3FIajJMRlYybGJZMFNmZmsxQ0N5RkY0ZFcyL1kwdHp0?=
- =?utf-8?B?a2trTi9zRzJNVWFaaHVQYTlmamJ3NG12cDkrMGpDY3g3aFlsT3hJQmdRNzlx?=
- =?utf-8?B?THFucnNQdTNCRWZTVFZiZUowQVpPSTdoNUlJbTBUTk5wbUdRRTZRR2FERzQ1?=
- =?utf-8?B?SmlvZmN0Yis4cER2SjhWRStzTXZIUURHRDN6c1dpeWpNZTNyazZqRGtIeldS?=
- =?utf-8?B?UWJTK1V2M0diOW9QR0cxZjBMdXhmdmxNempBWm9GS0ZDN2p4Qm9pRkJnQU16?=
- =?utf-8?B?L0wzRXEwTWNaV3g5TkNnbCswMDBMUW9aNDdGTHNWYkM1MzQrLytSYzBLYmN1?=
- =?utf-8?B?TjRqVVYxQnJUR1Q0Y3dESkZ2NWpPUnlPck1EZFNXQnorN2dwaGlzeE92QmNt?=
- =?utf-8?B?dGVkOWFHUkk1b1NSWndOVTVrbjRtSXhoNXhuU2swdDd3ZFFUTnBnZ2F4b3VQ?=
- =?utf-8?B?SEhhWDhzcUZ5bWVlc1crNi9lU3BEdGVqeGh4dFlWWFU4QmN6Y1F1dHo3USti?=
- =?utf-8?B?RHJEdTVLc2ZUcTBoZ2txNEJXa0c4WUZZVDJDRjhWYkdlamQyOGxnSlRRQ1p2?=
- =?utf-8?B?cTI2QmdPa2doMGtIYkdXVDhDdFdYNnppTnBJbXhTZVZIMWFpdDFtR0Y3eUxl?=
- =?utf-8?B?R2hOYnNLRzlGRnpyS1E3MjhCVC9scmlCcTlmb01CWEptSGpHYVlzak5HZ2xy?=
- =?utf-8?B?aGM2UktPV3J4M0xGMkt1U2pLZERTQzRtdzlmaGpTNU52aFd1ODFRSVFMb290?=
- =?utf-8?B?QmI3dkNlSzR1bVZrZVFsQVZVVllMc0ZTd3E2VFhXekxyMWFxWUtQSE50M2E0?=
- =?utf-8?B?Ym12RFdEQUxFVS9xaE55RERrZWtTUFU0UmcvZFBWUzM5VVZyaXMySWR3d0tx?=
- =?utf-8?B?MlZLUXlRUllDV1lCZ1g5b0w2MmhvNmNNREVxbHVoMGpYL2crdkpSendDbGd4?=
- =?utf-8?B?ZVRMSkRlZThXVWNyNmp4UFZCTmtSNGN6RFBOa1dDcXNlT3R5djB4d3JQdExi?=
- =?utf-8?B?N2NRVzQxREVzVmdjSWRKWTU3dlhVeWQwbUt5MUdmdVpQVFBMSjR3SmVqdjZR?=
- =?utf-8?B?ckNTUDlES3k3RGxNRG5KcCtwT1VNdWU4SnNWVUUrOTJ2Tmd2V003VEtBci92?=
- =?utf-8?B?QTUyY1IyWkZEd0p6Lzd6eHUwQzJDUHNvdldQMG1RZFh6VC80Q1hsMGcyT2Jw?=
- =?utf-8?B?L3FLb3ZEK29sTG1VYUVVZm44SEpZUFdhUmJpZ3pWUWthNGRScS9YT244YWJP?=
- =?utf-8?B?dmdzR2JyNG5qeEpMcjlEM1dzemFUQVgzQ3FYYXk1VEtmNWJVWWQ3RUtCTlhL?=
- =?utf-8?B?Mkk2eHdYL1M1bTY4bTVaQS90K1hhYXlwYnh5M01raG5ldGxKdTI3eWx6aTFT?=
- =?utf-8?B?RzJjOTBsNDRyVXIvT0tpTkRLVHIrM0dXUTlnQWozM3BYbmdDOUR0ODUyV3lt?=
- =?utf-8?B?NVlFb2wrQnFhT1FFOHdYRnNmenIwdVRsVExrbmxqWkpaOWorM1hKZUJzRWl2?=
- =?utf-8?B?VXhhRGI2Y1B4N1JmSXJEaFFrdkovQmhsU04ydVVvTmVuVlY4c0NnQS9WNkJo?=
- =?utf-8?B?ZGNIaVIwOHVoUkRoZXdteXJlamwwelVjNVZ3Z1RBU0poNllOQU0vTUtQWHhv?=
- =?utf-8?B?RWFwREFoVzhnPT0=?=
+X-Microsoft-Antispam: BCL:0;ARA:13230040|7416014|366016|376014|1800799024;
+X-Microsoft-Antispam-Message-Info: =?utf-8?B?QUhzUmxRTkpzeXBqcmpTZUlqeW80VjRMZjZZemFRWTJuemtxOUZpL1k3blNJ?=
+ =?utf-8?B?MWN4eGRwc1N1ZXVGL1gzTW5FN3lBNnhlRzI4cjBFZWZ5Z2xKN2JZVytuTzdt?=
+ =?utf-8?B?WTZUVkxUazdGM2graXZTbDN2NUx5ZFkwLzRQODY5TkdwV0w1ck1kV3NwdEM5?=
+ =?utf-8?B?OXpjL01zVUpmRjgyYllvUXR1aGtDcjh4ZXl0RENTVHlSckx4QXQvS2MzUTcx?=
+ =?utf-8?B?U2dtMTFYRmNwZEZZRm0raFlpcWg3dmZsMWVXUllIbGlXeEl6YlBvTE9zMmtE?=
+ =?utf-8?B?L2dqTzM2S3VJNjkzL2xNRlNOR01OTUg1ZG0vM25Icjcxcko0dUdUNk9HNkFS?=
+ =?utf-8?B?L0J5Uy9ORWpxenZvMU9USzJBcWJEMktCL2s5eThvN05ydkJnUStzR3RMekxD?=
+ =?utf-8?B?YjhCSkgvRDR5NDFuS3hlM1NwSnNkL1N0emVJNU1FTnRTaGRad2ZpTThNUkJu?=
+ =?utf-8?B?d1NGNkZrK0w4UisydmVEbHZRYjllcG9KeEx3eitvaVVIVDZIQms3SHRQenlS?=
+ =?utf-8?B?YXBSUEhScjN4WGlDU1ZpS0NiTnAzalIveFJhbGJiUndOaTVNbVltUDd0a0VO?=
+ =?utf-8?B?TW1ad1o5akpFdEl1Nzg5K0lKc1hKUHVRTzZVb2JDSmhmZzlUREorSTdrQzhv?=
+ =?utf-8?B?UVVTRTFvbWhFaDBDdW1TVk1abHJ2V3JKOFlQUG1nOWM0T0c2cHBmWWVIaDhI?=
+ =?utf-8?B?eVp4WEtWWFJ3b3pXbC9YeWJoWm4ydWEwNTJ5ME5HZ2ExY083QVdTdkN4RUtJ?=
+ =?utf-8?B?VHVpcWZGYUxTc0dFZXhENTF1Ukp3N0xmdURIaXYvZEdsU3BheEtiYXVtMjlN?=
+ =?utf-8?B?dk5vUGxROHZkR1E3akJhb3lsdzZwU1doT1ZTRHBOeHdKNS9jdzJ0WXAzalBM?=
+ =?utf-8?B?b2ptR1pjV1RWUmdzS3dmZmEvNDZDRVZ2NGJjeEJwLytXcUpiN3VTUTNWNEZp?=
+ =?utf-8?B?OTdFMTJSWHR2MGZhcTB4NnJJTi9oVzBrYjJmYjhIK3RQNHVhSkliam0xWUxC?=
+ =?utf-8?B?VzVvc3UzZ1pHNFg0N2M1NnFVMXQxaDRLWDFpWnJUTGZGc2g4MWdUdXEwUUdQ?=
+ =?utf-8?B?Q280MjRNZVFDc09nbU1iWlNmdE1YZkFoRGpROFp5Mlk5OXNTbXV2aVFsRk1m?=
+ =?utf-8?B?SjFnK0graUU2K0lxc3F2YnV6ZnNsd1F0TUZVVlQrYnkyVWl6ak4rbU1kMVlB?=
+ =?utf-8?B?T01KSVJCa1E3alpKejhrMXNHdWlYTkgvd0N1SVViWGtJbUFxTzNmaUUxcUpY?=
+ =?utf-8?B?WCt2a1gwL0tCSCtDWXpleHFOSm1HWjJYd2lETTdBYXFsUmkyeUFOVENjbHRM?=
+ =?utf-8?B?T0NFT05PdDk4dDNKeWZJTzV4blZRNVZDNm9vQXVLWG8yN3NRMEFFS1RzVktR?=
+ =?utf-8?B?c0Z2dlhJRjdDdHgrZ1AxRkdHMGhQenQyYmJYMS9oaVFCelFPbWV5dEJoWVI4?=
+ =?utf-8?B?QzlkRW1xNXVYaytJTVFZZ042QlA5emp6M2dSN0pUWWFJNzlJa2NzZ0xOQ25l?=
+ =?utf-8?B?Zm1wMTVUaG9veUxUVzVWSEo1RWJhMk1RWXBiZkFOU3FGQjR1OXl2UVV0bUxk?=
+ =?utf-8?B?bGlmSVpIMzBmRTY0bGRlK3ZCMDloMVh3MVAxUGFTQjlIeHExMi9RSXc1NHI0?=
+ =?utf-8?B?cUx1Tk5SNkFkUEVNdE1OSzdSd2p1Mnh4QUxVVW9La3J5ZjFmbFRYNlVSd1ow?=
+ =?utf-8?B?RGh4TVVUZHgrb2xUalZGWXVrZTFuRGJnM1hJTFluWG5Cd0UzR1BnTjQ0VkpW?=
+ =?utf-8?B?R0o2azBQTll0aWRoVUV2QndYKy81VU1OZ3RpOGR1cW1Dczh5WlpwT2NQbS9F?=
+ =?utf-8?B?TFVOT1BxRkFkTUoxMWVMQXZlU2M4YUNxQ1lOZ0VMUklMT3FhdTY3MGJOaXJU?=
+ =?utf-8?B?T0dTSmdTeVlscUZ1cmhDZE5kUGNIVFA4WVBRMFhmbERYWHlTUXpIQTd2SSt2?=
+ =?utf-8?Q?62nhUY+ZYKg=3D?=
 X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:PH7PR12MB5685.namprd12.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230040)(1800799024)(376014)(7416014)(366016)(921020); DIR:OUT; SFP:1101;
+ IPV:NLI; SFV:NSPM; H:DM4PR11MB5373.namprd11.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230040)(7416014)(366016)(376014)(1800799024); DIR:OUT; SFP:1101; 
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?MDNOR01zT01aM3ZJUm95Z1lzMlVlbEJpTDBFRzhpcnNweldnM3dFMGMvdVJn?=
- =?utf-8?B?d2UvbEswOWZrYnJtbWozZ0tDNkdacTR0M2JKZWh5L0Z2d2hZNGpJcjNLdzBQ?=
- =?utf-8?B?MVBWNjBIM2N1UHh5ZEVDcDJJeVRzUXJjNnJOTG1GOVd3aGszNnhwQlVmKzNk?=
- =?utf-8?B?V21OVmlTQjVPOGhCNUFNL21YZW5nY05ZaVFJWDN6c3pDUmd3eDBmTW45djRZ?=
- =?utf-8?B?STd3YVBlemF2b3hLR3V3aUovM2tFK0VZNUdRVy8zWGZxRVdMb0NhRUd5Vzg4?=
- =?utf-8?B?OWRtSm94TUlzS3RXZXI3OEFhZ2pJb0ZBYVp3THcvRTBvOUQvUHNwZkhhNUxo?=
- =?utf-8?B?L0F2ODJEYXlSR1o0K0NTYXdzTzFsczQxdi9XaWFrNW8vek5UNGdaY2wvcnQ2?=
- =?utf-8?B?blBLM3hyV0ZpRURoWVc2Y0kyV0I2UHREWW85M3k3ZkFZSUFtOHhtOUNicXRT?=
- =?utf-8?B?TFBtNHUrUTBsZk9XNmhMMGZBN3ZSSmpsU01DZzVGYk1WcHlPOUVDT1JrMGNq?=
- =?utf-8?B?QkRnUWJJN0h3d0o0TmFlOWdjVDlYL3dGN1ZkMXR5SlNTQ21lb0NQMWxqTFdz?=
- =?utf-8?B?NklxM3plQ1VrcXhYN0RpRUw0d3drRGlnZFlEYWpXeGFFeExyOGM2SFhwOXBN?=
- =?utf-8?B?SzJXYlg0SjZLU200TEZUdFM5ZEp3U3UybnJERGxyTFBtSDVrSFEvQXgvQ1hm?=
- =?utf-8?B?bDZKUjNWZXY2a2wvRVNsUDlkYVVram1FeHFpL0pFbm1iY1FCTWdJTGxGQXFJ?=
- =?utf-8?B?SWMxN3lyaHZHU3pZUnYzSzZmTVJMZ3hvZ2FxWWRWQ1ZrUjFGR29tMFVVbW50?=
- =?utf-8?B?dSttUEE5RkdraW04THR5UUEvRWdPRHEvYkRpNHdrdXRYTEVYd3d1VlNpaXJj?=
- =?utf-8?B?eFRyUkRQTU8rcXM5SkI0ZzFEL1V5R1RqTm9QSGRoQmsvRk43eW9DYm5oak5z?=
- =?utf-8?B?OXhQR0lCTkptdkU4MVRVYzR2YmM3SDFLdVRXZ0pJZm1IS2k4K1ZBVWlLd0RM?=
- =?utf-8?B?d0NjMnlPVm14dE96dzFPY1lOcUl1NXJQQnBxQzhBSnhFQ0NiYUlZMXhRY05r?=
- =?utf-8?B?aTRPMS9icitKRGdBT2lER2VIdThTS2FIRmtyUDBxdGVLVGE1U3o2QjlIK055?=
- =?utf-8?B?Y0FNMDE3WHllUmIvbll1dldXQjFBTlpib1loWHhnMEl5TE1pRGhmTS9JU0xR?=
- =?utf-8?B?MGhkd245K3M3alhqTWkvWUloVW1mclNvcDYvU3J2RXRLdHNjK1NvWlE5bEc2?=
- =?utf-8?B?VHhrS1FGcGFSK2NoN2FRMVBZRHlSQ1dnSmhqVUlkWCtxS1JTaHhQU3AyeWFn?=
- =?utf-8?B?dTV5VDdKcVEzWEF1UVUrV0M5NFlxSTJnU0dyZVMvd0t6Q3poZlpRQUd4WTZv?=
- =?utf-8?B?aWlzMU1ZK0NGaFZLOVkvelJWRlBCTVE5Ly9xeXV3M1RGcXIzcDVYQ2hNRStF?=
- =?utf-8?B?bERVdWVuenZlK1JQU2h3bklCeFljYlZYS3FzNi9uU3VNVkNudDJTcUo5ZU5D?=
- =?utf-8?B?VTZmUC9ORHdFREFGYkRJMzNqdjhOV0NPVnFKQWwrUEdZYlFST1p1TFZLKzBa?=
- =?utf-8?B?SitPeUhEWHFkNlZrWnQ1WjVGSXlBQUQ0TzNIM1dQY1dwVXJPcFRVYXE1cVh0?=
- =?utf-8?B?ZkNmU1ByRGpyYVNvZUlrZ2ZiVHNtU2dvbDRqNGhQTXBnMDJRMGkzdklyaTVI?=
- =?utf-8?B?b1NnTWZHMVhXcXM2NU9EcFcyRk5GRU0wUmdGb0h5VDhKUFJxRVR6R1JVWDY5?=
- =?utf-8?B?bk5wTWNGclRJSUJWdXZPV0gvSzFOaDZlMm9CRUg5dGJHWFRLcmtEZnVnZyta?=
- =?utf-8?B?S293WC9aQnFvUWx4K1YwdUMvOVVoeGV1Q293eUdLenRycjFSb1J2aHFEZUYr?=
- =?utf-8?B?RTA5SmMydU1kT1RhNk1NN3dvQ1pCZVhheFh1bVpxV29NbVRSbU9VSjlsejJ6?=
- =?utf-8?B?QWRTbEhWYVdKckVjUHp4UzdpT2V0U25sT0NGOVR6YUdHbUZqQVFIcWlhM2tn?=
- =?utf-8?B?ZWwzazBTTFo2by9adWFWOTdkT1N6cTdUeklUL3hmczNpa04wMGlneDU0VmtO?=
- =?utf-8?B?Z3UwWGJyZzZmOEh1RjF6MG1PZkpMNHhqdW5aTG5iT2thVzU0Qm9PWmgralND?=
- =?utf-8?Q?jzmymIJQzzStml8sKExNY3thu?=
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 140b17af-edb9-4c5e-67e5-08ddc2b81edf
-X-MS-Exchange-CrossTenant-AuthSource: PH7PR12MB5685.namprd12.prod.outlook.com
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?UXJ6YTVkRnVEUkFOU2NZU0x5ZzQ1UWsxZUxadGt6dWl0L2ZpRGU5YmliMTVi?=
+ =?utf-8?B?czNQZU5reTc0QThYbDh0ZjUwUnh4ZCs0OHJFVDFKNWo2dDRLKzcxODJoZkxj?=
+ =?utf-8?B?Y2lzSUJIZktFN01zakdPanpXV1J5dE9oNFJMSXJVa1VTMXREaVh1cm4vR2pP?=
+ =?utf-8?B?dzlZMnZFSmVEeklNR3Z6UDZMVjduV054UXFzckIrNTFqWUZoN1NOSVBkOU1T?=
+ =?utf-8?B?VEI2cFBISGEzRHdCdGE2YmMrMmF6YlRqR2hsSXRVY0VtWGZCS1E0VVh1ejBJ?=
+ =?utf-8?B?ZmZJVllhWmhVbEJjZzZSL0RZaDByeVljb2N2UVFHTVlJdElqMkNQSVE0QzNw?=
+ =?utf-8?B?ZGRiRE4wR3JzRG5pTlpIaUZONWZHaDNxWHhvV3RweW03SGhSazRyZWxvMmRp?=
+ =?utf-8?B?MDJMTDFVd3liWkJPRGpybmwzbk81WmRaeGFTZm1OY24vNi9jZWJuVTZ3M2tm?=
+ =?utf-8?B?dHJQd2UwQllJRTdYWnUzS0hpOVk1UjlTZ3kyUEo3aFE2K1FSa1RHTm1wOTc2?=
+ =?utf-8?B?NWFCMlo2cWFGbXRLQUdkZFdKQlZqWFIzM2dRK1MzSWxVOW9UQ2NzeDhwbWVj?=
+ =?utf-8?B?Q01FdG4yM1hDSnBYM1NQemlkV0VhWVZlamJVZzJ0Y2pDT1RSMGhWL2kvMVFV?=
+ =?utf-8?B?TGc0cm96bzQ0L1pnS0ZyUjNyOHJTdHcvWVZhUi9uQ1N3aE4rSEdYQXZLQ013?=
+ =?utf-8?B?d2FVMnRNRkZxV0czRDVEc083ajAwZHhvT1hNdGtUUGkyVENVZUVLZHRWNE40?=
+ =?utf-8?B?NmtxZkdEMWJmWDZKcTMwcExEem1IQnBMWGhURjNscUU4RnpJOFVhcVRGNm9Y?=
+ =?utf-8?B?SC84MTg1dFdyVXVrMGY1Y1VtQnd4bDhUVjZHbTFUS296bGpyQ0tpUzhWK2pR?=
+ =?utf-8?B?NnM5SDU2TnFnYWtsTnd0SVV6eXh5cFZjeDNzcklkcDY1K3IxcnJZOWQ2MFFK?=
+ =?utf-8?B?aWNDei8xemQxM0dUWURucHQ4NGNjTzViL1lxZEtDaTg4dE05eEJ3SUFKbEhY?=
+ =?utf-8?B?NUlFZVhqMm5uTko2S25KQ3UvbHBSbVR4b3ZrVFYwRXdCQ0ZrRWtWQVNjdXFC?=
+ =?utf-8?B?cWRDT2R3cWR6MmR5RTRnMkhWZG1HM1ZhVThBNG15RU8xdEx2TXBSSkorOU9S?=
+ =?utf-8?B?aEJZMzZSekNEbTJVclcrSzdmWXZPbFp0NktPeFhhMEppdVFRS2k1MnppZTVU?=
+ =?utf-8?B?ZnYvVGcySHlkclVlY08vRnA0c2VPQWFDRmJza3JmK05XZkt2YzdpQkRqTFVq?=
+ =?utf-8?B?SW12ckE2Nys2bFRjWnBLeVpZM0JDRkk3VjFtVXU1dEtCc3FESkNhWEpoZmgv?=
+ =?utf-8?B?YS8vS2taMWM0eGNxVWE1N2dPSXpzVG1YUktmcUsvUk0vVGJiNnZuenRVWDJX?=
+ =?utf-8?B?YjZTbUdvQ1ZEenZrNjlGaDRabTk1OU84NjdHOEtnQTBteXVDbDBGWHQvWHJV?=
+ =?utf-8?B?N2huUHltelM5OXdmQWwzY2Z2bE1weVR1Q1NsbWVJRXlzdFk5L1kxNE5ZMkVE?=
+ =?utf-8?B?SjFZZHc3bnEwWFRCZm5qSjRONEo3blZyN25tbnI4b0tiM3ZiOXplWTloMHpF?=
+ =?utf-8?B?UkpVakdyaDJaTVU4NUtMRmlmbVk3Vmh2SE1UWkVBSUZJSi9wMHpMdzYwK0ZV?=
+ =?utf-8?B?Y2FtZkI5V1dJSmZWTXhZREZwQ04ybkZLbkpxS3hGSlZIcXl4VFFWVUpDZkNX?=
+ =?utf-8?B?TXFqWEE3YjJMa2FlTUwvNkxEZkp0M0FQaXRzRGRTc2lNVWROZGFEditsTkRS?=
+ =?utf-8?B?WlNETHNMRG5oWUd0ODJqVnQ0dkNNWEYrSGh1ck1tSERsN1k5SS9USTd5MjR4?=
+ =?utf-8?B?U3NOenFYM0ZMVDlsS203a3NUakpZOHM2Q2JmZ3ozYlpWQWdlMExPOGdJenhs?=
+ =?utf-8?B?ZzcrTS80MUZWSUJhTkhEVDJWeTNoWWxOcTZqYzYzL2pncXJBZUJMK2F3VDZl?=
+ =?utf-8?B?V243Y21YV21TRUMvdkFZemRuS0k4R0dPR3d6MVNDNFpZTFNNR0k1R1FzcmxJ?=
+ =?utf-8?B?ZTJpTDdBWDdENFVoZjkwZURoSVR0QmF4Y243YTI2RkRsak5LQmVYL3V1a3VP?=
+ =?utf-8?B?NDVMYnB4VGZ5TDZKUXg1QmUrRStXQ0VSRTQ2cDNuRUUzR1ZSczZsVjNPb2Nr?=
+ =?utf-8?B?NGc1YlRuVk9OcWNNejFZMEthY0RkeksybTlndW5qOUd1ZVE0QW1XZSt6dmpM?=
+ =?utf-8?B?ZEE9PQ==?=
+X-MS-Exchange-CrossTenant-Network-Message-Id: 972f9e87-8f31-47bd-6a4f-08ddc2ba5be6
+X-MS-Exchange-CrossTenant-AuthSource: DM4PR11MB5373.namprd11.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 14 Jul 2025 09:23:40.6693 (UTC)
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 14 Jul 2025 09:39:42.0366 (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: u/1CrBOAHbvqEDR+OE0EVpfNdo8dYPvk1bTASYu9eGK7U3j87cQpHzOE0ITiMffA
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DS0PR12MB6583
+X-MS-Exchange-CrossTenant-UserPrincipalName: nM1DY0k3WphJvZyAYSk6Huww3ZwbBGsdvp5zl3Y9iXDZe4b9pZ+6VnWf+pHYs686P02kBsH1aqD5VNtxldBv3yhkoSnt0AiKZEmLYjz1jOk=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM4PR11MB6262
+X-OriginatorOrg: intel.com
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -182,90 +204,107 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 13.07.25 21:03, Maíra Canal wrote:
-> Hi Christian,
+On Wed, Jul 02, 2025 at 11:35:17AM +0200, Michał Winiarski wrote:
+> Hi,
 > 
-> On 11/07/25 12:20, Christian König wrote:
->> On 11.07.25 15:37, Philipp Stanner wrote:
->>> On Fri, 2025-07-11 at 15:22 +0200, Christian König wrote:
->>>>
->>>>
->>>> On 08.07.25 15:25, Maíra Canal wrote:
->>>>> When the DRM scheduler times out, it's possible that the GPU isn't hung;
->>>>> instead, a job just took unusually long (longer than the timeout) but is
->>>>> still running, and there is, thus, no reason to reset the hardware. This
->>>>> can occur in two scenarios:
->>>>>
->>>>>    1. The job is taking longer than the timeout, but the driver determined
->>>>>       through a GPU-specific mechanism that the hardware is still making
->>>>>       progress. Hence, the driver would like the scheduler to skip the
->>>>>       timeout and treat the job as still pending from then onward. This
->>>>>       happens in v3d, Etnaviv, and Xe.
->>>>>    2. Timeout has fired before the free-job worker. Consequently, the
->>>>>       scheduler calls `sched->ops->timedout_job()` for a job that isn't
->>>>>       timed out.
->>>>>
->>>>> These two scenarios are problematic because the job was removed from the
->>>>> `sched->pending_list` before calling `sched->ops->timedout_job()`, which
->>>>> means that when the job finishes, it won't be freed by the scheduler
->>>>> though `sched->ops->free_job()` - leading to a memory leak.
->>>>
->>>> Yeah, that is unfortunately intentional.
->>>>
->>>>> To solve these problems, create a new `drm_gpu_sched_stat`, called
->>>>> DRM_GPU_SCHED_STAT_NO_HANG, which allows a driver to skip the reset. The
->>>>> new status will indicate that the job must be reinserted into
->>>>> `sched->pending_list`, and the hardware / driver will still complete that
->>>>> job.
->>>>
->>>> Well long story short we have already tried this and the whole approach doesn't work correctly in all cases. See the git history around how we used to destroy the jobs.
->>>>
->>>> The basic problem is that you can always race between timing out and Signaling/destroying the job. This is the long lasting job lifetime issue we already discussed more than once.
->>>
->>> The scheduler destroys the job, through free_job().
->>> I think we have agreed that for now the scheduler is the party
->>> responsible for the job lifetime.
->>
->> That's what I strongly disagree on. The job is just a state bag between the submission and scheduling state of a submission.
->>
->> For the scheduler the control starts when it is pushed into the entity and ends when run_job is called.
->>
->> The real representation of the submission is the scheduler fence and that object has a perfectly defined lifetime, state and error handling.
->>
->>>>
->>>> If you want to fix this I think the correct approach is to completely drop tracking jobs in the scheduler at all.
->>>
->>> I don't see how this series introduces a problem?
->>>
->>> The fact is that drivers are abusing the API by just firing jobs back
->>> into the scheduler's job list. This series legalizes the abuse by
->>> providing scheduler functionality for that.
->>>
->>> IOW, the series improves the situation but does not add a *new*
->>> problem. Even less so as driver's aren't forced to use the new status
->>> code, but can continue having job completion race with timeout
->>> handlers.
->>
->> Maybe yes, but I'm really not sure about it.
->>
->> Take a look at the git history or job destruction, we already had exactly that approach, removed it and said that leaking memory is at least better than an use after free issue.
->>
+> The series is now reviewed, and it looks like there's no further
+> feedback.
+> To limit it to PCI subsystem, I removed the last patch in the series, as
+> it contained changes in drm/xe driver (it can still be found in v9 for
+> reference, and I expect that this single patch will go through DRM tree
+> anyways).
 > 
-> If the job was removed from the pending list in the beginning of the
-> timeout and drm_sched_get_finished_job() fetches jobs from the pending
-> list, how can we end up with an use-after-free issue?
+> v9 can be found here:
+> https://lore.kernel.org/linux-pci/20250527120637.665506-1-michal.winiarski@intel.com/
+> 
+> For regular BAR, drivers can use pci_resize_resource to resize it to the
+> desired size provided that it is supported by the hardware, which the
+> driver can query using pci_rebar_get_possible_sizes.
+> This series expands the API to work with IOV BAR as well.
+> It also adds the additional API for drivers to change the VF BAR size
+> without resizing the entire underlying reservation (within the original
+> resource boundary).
 
-By adding it back into the list after the timeout handling completed.
 
-We had exactly that before we came up with the horrible design to add it back to the pending list in drm_sched_stop() and the free_guilty flag.
+Hi Bjorn,
 
-Could be that your approach now works better, but I'm really not sure about that.
+Can you consider applying this series?
+Or do you still have some comments?
 
-Regards,
-Christian.
+Thanks,
+-Michał
 
 > 
-> Best Regards,
-> - Maíra
+> Thanks,
+> -Michał
 > 
-
+> v9 -> v10:
+> - Remove last patch with drm/xe changes
+> 
+> v8 -> v9:
+> - Use u64 as do_div() dividend (LKP)
+> - Introduce a helper to access cached vf_rebar_cap (LKP)
+> 
+> v7 -> v8:
+> - Update variable ordering and missing includes (Ilpo)
+> 
+> v6 -> v7:
+> - Eliminate the loop in pci_iov_vf_bar_get_sizes() (Ilpo)
+> - Use helper variable for indexes (Ilpo)
+> - Kerneldoc formatting (Ilpo)
+> - Refer to latest PCI spec (Ilpo)
+> - Commit message wording (Ilpo)
+> 
+> v5 -> v6:
+> - Rebased on latest pci/next
+> - Cache the VF resizable BAR capability position to avoid multiple
+>   lookups (Ilpo)
+> - Use pci_resource_n helper (Ilpo)
+> 
+> v4 -> v5:
+> - Rename pci_resource_to/from_iov helpers and add WARN if called without
+>   CONFIG_PCI_IOV (Ilpo)
+> - Reword kerneldoc for pci_iov_vf_bar_get_sizes (Bjorn)
+> - Reword commit message for VF BAR size check, extract the additional
+>   size check to separate conditional (Bjorn)
+> 
+> v3 -> v4:
+> - Change the approach to extending the BAR (Christian)
+> - Tidy the commit messages, use 80 line limit where necessary (Bjorn)
+> - Add kerneldocs to exported functions (Bjorn)
+> - Add pci_resource_to_iov() / pci_resource_from_iov() helpers (Ilpo)
+> - Use FIELD_GET(), tidy whitespace (Ilpo)
+> 
+> v2 -> v3:
+> - Extract introducing pci_resource_is_iov to separate commit and
+>   use it elsewhere in PCI subsystem (Christian)
+> - Extract restoring VF rebar state to separate commit (Christian)
+> - Reorganize memory decoding check (Christian)
+> - Don't use dev_WARN (Ilpo)
+> - Fix build without CONFIG_PCI_IOV (CI)
+> 
+> v1 -> v2:
+> - Add pci_iov_resource_extend() and usage in Xe driver
+> - Reduce the number of ifdefs (Christian)
+> - Drop patch 2/2 from v1 (Christian)
+> - Add a helper to avoid upsetting static analysis tools (Krzysztof)
+> 
+> Michał Winiarski (5):
+>   PCI/IOV: Restore VF resizable BAR state after reset
+>   PCI: Add a helper to convert between VF BAR number and IOV resource
+>   PCI: Allow IOV resources to be resized in pci_resize_resource()
+>   PCI/IOV: Check that VF BAR fits within the reservation
+>   PCI: Allow drivers to control VF BAR size
+> 
+>  drivers/pci/iov.c             | 153 +++++++++++++++++++++++++++++++---
+>  drivers/pci/pci.c             |   8 +-
+>  drivers/pci/pci.h             |  39 +++++++++
+>  drivers/pci/setup-bus.c       |   3 +-
+>  drivers/pci/setup-res.c       |  35 ++++++--
+>  include/linux/pci.h           |   6 ++
+>  include/uapi/linux/pci_regs.h |   9 ++
+>  7 files changed, 235 insertions(+), 18 deletions(-)
+> 
+> -- 
+> 2.49.0
+> 
