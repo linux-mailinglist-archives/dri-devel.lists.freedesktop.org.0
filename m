@@ -2,134 +2,152 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7F7CEB03CCC
-	for <lists+dri-devel@lfdr.de>; Mon, 14 Jul 2025 13:02:39 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0D556B03CD0
+	for <lists+dri-devel@lfdr.de>; Mon, 14 Jul 2025 13:03:40 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C944410E460;
-	Mon, 14 Jul 2025 11:02:37 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4750710E462;
+	Mon, 14 Jul 2025 11:03:38 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=suse.de header.i=@suse.de header.b="guGQsJX9";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="U/13GNpM";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="guGQsJX9";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="U/13GNpM";
+	dkim=pass (1024-bit key; unprotected) header.d=amd.com header.i=@amd.com header.b="l2D2Rj/d";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8D43110E460
- for <dri-devel@lists.freedesktop.org>; Mon, 14 Jul 2025 11:02:35 +0000 (UTC)
-Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
- (No client certificate requested)
- by smtp-out1.suse.de (Postfix) with ESMTPS id 52BEA211D4;
- Mon, 14 Jul 2025 11:02:34 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1752490954; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=jImuvTpF+YHjYKjFbeAcxsIVCLL9cH+SQxZdVF7L18c=;
- b=guGQsJX9kMttFP1NNxLcHDWSFpkDlipoafeO6QWP1TQCy5ba1CCLx+M+WH2Z6HNvUe1SfQ
- MPsbL+j6NM+Ot0/N2WeK8U+O7J7deDfrR0QtVC7viqSsFpOHt+h/LwN+Cs0HokDO0YgEh5
- FeID+34XAVv+140yfoennWruAkc+8vE=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1752490954;
- h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=jImuvTpF+YHjYKjFbeAcxsIVCLL9cH+SQxZdVF7L18c=;
- b=U/13GNpMQ7ZXc1DuBfKJ6ja63+DWCOfOZpPoCw78hWw/wxsS1lRXfPqxpcdxoiQaS+mLIC
- kBf3wY3L5wyXTlBA==
-Authentication-Results: smtp-out1.suse.de;
-	none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1752490954; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=jImuvTpF+YHjYKjFbeAcxsIVCLL9cH+SQxZdVF7L18c=;
- b=guGQsJX9kMttFP1NNxLcHDWSFpkDlipoafeO6QWP1TQCy5ba1CCLx+M+WH2Z6HNvUe1SfQ
- MPsbL+j6NM+Ot0/N2WeK8U+O7J7deDfrR0QtVC7viqSsFpOHt+h/LwN+Cs0HokDO0YgEh5
- FeID+34XAVv+140yfoennWruAkc+8vE=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1752490954;
- h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=jImuvTpF+YHjYKjFbeAcxsIVCLL9cH+SQxZdVF7L18c=;
- b=U/13GNpMQ7ZXc1DuBfKJ6ja63+DWCOfOZpPoCw78hWw/wxsS1lRXfPqxpcdxoiQaS+mLIC
- kBf3wY3L5wyXTlBA==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
- (No client certificate requested)
- by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 18DDC138A1;
- Mon, 14 Jul 2025 11:02:34 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
- by imap1.dmz-prg2.suse.org with ESMTPSA id D6WkBMrjdGhwXgAAD6G6ig
- (envelope-from <tzimmermann@suse.de>); Mon, 14 Jul 2025 11:02:34 +0000
-Message-ID: <046193df-bb11-4d84-98a4-c6d46d359316@suse.de>
-Date: Mon, 14 Jul 2025 13:02:33 +0200
-MIME-Version: 1.0
+Received: from NAM11-BN8-obe.outbound.protection.outlook.com
+ (mail-bn8nam11on2075.outbound.protection.outlook.com [40.107.236.75])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2ED5510E462
+ for <dri-devel@lists.freedesktop.org>; Mon, 14 Jul 2025 11:03:37 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=H+sFWesmcrb96i5p32kPw+AcIYuvt3TCG6IdAL4djttiX/6Z3WdbclC44q07/3X2hq5Wmcl1jrlVbFDnslfWuXsCwkQBiwIfrELg1fZsip/hz2oVqlb6RrWXeibl9aTHwWiojyDwQDD5sSDf0uaq1y5S5845NYrhjqRwqMrVkyTO5TSpsTa3UPG1EizKnIZnUITrL3toRJeqxsfcJtgNh79DyqwzjmGM7Ac8FAFY8EOX296mfV1bahrBGs/WJ3U1NA4YbNKvsFK1GPEbyCMX7mom6UFY5gc6yvllV4oUI2UEOKfQn7OziGSpq/og/VnJnepVOuZLZxV3HAFZlk+iRw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=cFIs5I9Y1w6x06cJ5/leBc6BTkrTeFeWDWUcrJ+gAvk=;
+ b=B5hbKyJHtgOYdV500jGmro88rBNn/yB17XzQsoYEKfsxydjtKvsVKWhIzbtFm7qPaUzEdd2FErlCeXnRzkjMo9Hg0nWFw6qOQ1G3BZa+Hej5/c3m3xWuIeMK/JxJo4PvmusdUIAMbakE0dTA0hIk9VuWFbgjyX6gM6fjWqzT5YM18UT9E+wzWgFRmWhaR0igdeYdxg0DLssKAoZjdvUvKy04y0LuJOVd/IEFdgCq6ZSVsxpWpvii+Uzaxjr7fivM6ME4XbdoX7P9tEvFJH9k6i065M9EZmheSrWKUOwAXbuLjaVYPr5jGm3hRk007kX8wDOFctwe0Ccve5b9Yhr7rA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
+ header.d=amd.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=cFIs5I9Y1w6x06cJ5/leBc6BTkrTeFeWDWUcrJ+gAvk=;
+ b=l2D2Rj/dwJf77+PMQ7wIQruiCCm5uudDrPSsjPtkhx/SE8kzTXIvOW2prvIXa4gYQirav0jKNzIvMxADTo8TZIHhWHeoRNN2v4jNJGwEUaI9+pK/c+Q0B/b06JlQ3fVg9eS28AALsnyLvsSo3QgyXZfhFBW1suYCXp+qc8b68m4=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=amd.com;
+Received: from PH7PR12MB5685.namprd12.prod.outlook.com (2603:10b6:510:13c::22)
+ by CY5PR12MB6060.namprd12.prod.outlook.com (2603:10b6:930:2f::9) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8901.29; Mon, 14 Jul
+ 2025 11:03:33 +0000
+Received: from PH7PR12MB5685.namprd12.prod.outlook.com
+ ([fe80::46fb:96f2:7667:7ca5]) by PH7PR12MB5685.namprd12.prod.outlook.com
+ ([fe80::46fb:96f2:7667:7ca5%5]) with mapi id 15.20.8901.033; Mon, 14 Jul 2025
+ 11:03:33 +0000
+Message-ID: <e6b3ae07-4d9b-4012-a328-b2749d88a6d7@amd.com>
+Date: Mon, 14 Jul 2025 13:03:29 +0200
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 2/3] drm/tests: edid: Update CTA-861 HDMI Vendor Specific
- Data Block
-To: Maxime Ripard <mripard@kernel.org>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>
-Cc: Dmitry Baryshkov <lumag@kernel.org>, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org
-References: <20250625-drm-update-edid-v1-0-2d963743ab9e@kernel.org>
- <20250625-drm-update-edid-v1-2-2d963743ab9e@kernel.org>
+Subject: Re: [PATCH v2] drm/scheduler: Fix sched hang when killing app with
+ dependent jobs
+To: "Lin.Cao" <lincao12@amd.com>, dri-devel@lists.freedesktop.org
+Cc: zhenguo.yin@amd.com, Emily.Deng@amd.com, phasta@kernel.org,
+ dakr@kernel.org, matthew.brost@intel.com
+References: <20250714062349.588235-1-lincao12@amd.com>
 Content-Language: en-US
-From: Thomas Zimmermann <tzimmermann@suse.de>
-Autocrypt: addr=tzimmermann@suse.de; keydata=
- xsBNBFs50uABCADEHPidWt974CaxBVbrIBwqcq/WURinJ3+2WlIrKWspiP83vfZKaXhFYsdg
- XH47fDVbPPj+d6tQrw5lPQCyqjwrCPYnq3WlIBnGPJ4/jreTL6V+qfKRDlGLWFjZcsrPJGE0
- BeB5BbqP5erN1qylK9i3gPoQjXGhpBpQYwRrEyQyjuvk+Ev0K1Jc5tVDeJAuau3TGNgah4Yc
- hdHm3bkPjz9EErV85RwvImQ1dptvx6s7xzwXTgGAsaYZsL8WCwDaTuqFa1d1jjlaxg6+tZsB
- 9GluwvIhSezPgnEmimZDkGnZRRSFiGP8yjqTjjWuf0bSj5rUnTGiyLyRZRNGcXmu6hjlABEB
- AAHNJ1Rob21hcyBaaW1tZXJtYW5uIDx0emltbWVybWFubkBzdXNlLmRlPsLAjgQTAQgAOAIb
- AwULCQgHAgYVCgkICwIEFgIDAQIeAQIXgBYhBHIX+6yM6c9jRKFo5WgNwR1TC3ojBQJftODH
- AAoJEGgNwR1TC3ojx1wH/0hKGWugiqDgLNXLRD/4TfHBEKmxIrmfu9Z5t7vwUKfwhFL6hqvo
- lXPJJKQpQ2z8+X2vZm/slsLn7J1yjrOsoJhKABDi+3QWWSGkaGwRJAdPVVyJMfJRNNNIKwVb
- U6B1BkX2XDKDGffF4TxlOpSQzdtNI/9gleOoUA8+jy8knnDYzjBNOZqLG2FuTdicBXblz0Mf
- vg41gd9kCwYXDnD91rJU8tzylXv03E75NCaTxTM+FBXPmsAVYQ4GYhhgFt8S2UWMoaaABLDe
- 7l5FdnLdDEcbmd8uLU2CaG4W2cLrUaI4jz2XbkcPQkqTQ3EB67hYkjiEE6Zy3ggOitiQGcqp
- j//OwE0EWznS4AEIAMYmP4M/V+T5RY5at/g7rUdNsLhWv1APYrh9RQefODYHrNRHUE9eosYb
- T6XMryR9hT8XlGOYRwKWwiQBoWSDiTMo/Xi29jUnn4BXfI2px2DTXwc22LKtLAgTRjP+qbU6
- 3Y0xnQN29UGDbYgyyK51DW3H0If2a3JNsheAAK+Xc9baj0LGIc8T9uiEWHBnCH+RdhgATnWW
- GKdDegUR5BkDfDg5O/FISymJBHx2Dyoklv5g4BzkgqTqwmaYzsl8UxZKvbaxq0zbehDda8lv
- hFXodNFMAgTLJlLuDYOGLK2AwbrS3Sp0AEbkpdJBb44qVlGm5bApZouHeJ/+n+7r12+lqdsA
- EQEAAcLAdgQYAQgAIAIbDBYhBHIX+6yM6c9jRKFo5WgNwR1TC3ojBQJftOH6AAoJEGgNwR1T
- C3ojVSkIALpAPkIJPQoURPb1VWjh34l0HlglmYHvZszJWTXYwavHR8+k6Baa6H7ufXNQtThR
- yIxJrQLW6rV5lm7TjhffEhxVCn37+cg0zZ3j7zIsSS0rx/aMwi6VhFJA5hfn3T0TtrijKP4A
- SAQO9xD1Zk9/61JWk8OysuIh7MXkl0fxbRKWE93XeQBhIJHQfnc+YBLprdnxR446Sh8Wn/2D
- Ya8cavuWf2zrB6cZurs048xe0UbSW5AOSo4V9M0jzYI4nZqTmPxYyXbm30Kvmz0rYVRaitYJ
- 4kyYYMhuULvrJDMjZRvaNe52tkKAvMevcGdt38H4KSVXAylqyQOW5zvPc4/sq9c=
-In-Reply-To: <20250625-drm-update-edid-v1-2-2d963743ab9e@kernel.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Spamd-Result: default: False [-4.30 / 50.00]; BAYES_HAM(-3.00)[100.00%];
- NEURAL_HAM_LONG(-1.00)[-1.000];
- NEURAL_HAM_SHORT(-0.20)[-0.999]; MIME_GOOD(-0.10)[text/plain];
- FUZZY_RATELIMITED(0.00)[rspamd.com];
- TO_MATCH_ENVRCPT_ALL(0.00)[]; ARC_NA(0.00)[];
- DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
- MIME_TRACE(0.00)[0:+];
- FREEMAIL_TO(0.00)[kernel.org,linux.intel.com,gmail.com,ffwll.ch];
- RCVD_TLS_ALL(0.00)[]; FREEMAIL_ENVRCPT(0.00)[gmail.com];
- RCVD_VIA_SMTP_AUTH(0.00)[]; FROM_EQ_ENVFROM(0.00)[];
- FROM_HAS_DN(0.00)[]; TO_DN_SOME(0.00)[];
- RCVD_COUNT_TWO(0.00)[2]; RCPT_COUNT_SEVEN(0.00)[7];
- MID_RHS_MATCH_FROM(0.00)[];
- DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:mid]
-X-Spam-Flag: NO
-X-Spam-Level: 
-X-Spam-Score: -4.30
+From: =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
+In-Reply-To: <20250714062349.588235-1-lincao12@amd.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-ClientProxiedBy: FR2P281CA0126.DEUP281.PROD.OUTLOOK.COM
+ (2603:10a6:d10:9d::20) To PH7PR12MB5685.namprd12.prod.outlook.com
+ (2603:10b6:510:13c::22)
+MIME-Version: 1.0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: PH7PR12MB5685:EE_|CY5PR12MB6060:EE_
+X-MS-Office365-Filtering-Correlation-Id: 82ce305c-fb16-487d-9350-08ddc2c612c3
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;ARA:13230040|366016|1800799024|376014;
+X-Microsoft-Antispam-Message-Info: =?utf-8?B?RnhVL0ZaOTc5QlZzZ2hIdDdiMmZlVFBwUU11MlVDbGRsaWNacVN6alpqdmFn?=
+ =?utf-8?B?U0Z4bXZ2TmthdVJwb2E5MHdyTHY2bktrN0ZROThWc1lwZDFoRlZzcWkzRGov?=
+ =?utf-8?B?MExYWHlmeE9oK2ExdkpjSE55VGpUTkJycXp0dEhDaG1pYkI1b2NiQ3BuVWFu?=
+ =?utf-8?B?YmtZOUo4N1RQTFVqcm5aakhMQjk3LzF2VUdwMk01LzB1aFNSLzcyR2xON0Iw?=
+ =?utf-8?B?UzBFRHVKREI0VFB1dE5sQUtNS1pNTEU1RFN4S2JRdDA5dDhYNFY4NHZ0MElo?=
+ =?utf-8?B?Z3dDbEhNc3FueXh0OUZsZmtRY2RyTElGRGV4OVJvTlo0Wmg4N0FQa2p3bFpq?=
+ =?utf-8?B?ZGNiNzN3cW8zbTJ0NExPRy9vUDdBdWduUkFPTUMyb1hsK2pLVDBCVVhsY3BO?=
+ =?utf-8?B?bWNIMU5hdHBnSGtKNXI2bXlGcUxNVVEwdkZ5OStqQ3U5Lytuck9YZWsxQS9l?=
+ =?utf-8?B?K3R1dm15cnV4c2NOMStBODZaL3A1empZMVpaUEZYQi9pVWdsYml2S3A4bm4v?=
+ =?utf-8?B?L2ZEWEpWUWM4b0E3SHV1OEFwanN6b05nTERYeWNFRTFXNTMyOUJnbUt4TndX?=
+ =?utf-8?B?aHJjVkdTSHpUVDBrcXNrbGhNeGs2Tlh4TGFKbGlQOExnT3dzYi9PUEtwUVpl?=
+ =?utf-8?B?Y1lQM2RqSW5kKzRGMHQvd3FwOGVEMXhtdEhEL1BzNXVsNGN5cFpvdFJ1K2RH?=
+ =?utf-8?B?N09lNmNQZHlValBpdUUyVnRwUmRxdEJXcFY3eGtuMCtWcEdEelpST3FqQUN4?=
+ =?utf-8?B?Vm8rQk1LQ0NteGlWTmZ1RzRWNnNYdUVaRmlXWWE1cmpybG93aUc1QnM5c09F?=
+ =?utf-8?B?Mlhxem15bk1VNDZHLzBIbWpRNTVqTnNzeThyNmFyU0lrVVNoQko3azQ4SlYy?=
+ =?utf-8?B?OFpTekR1L3daaFhsRWY5dS81VnoySmZEMmlhQjFZZDdEdXg3NXFDcS9SZ01y?=
+ =?utf-8?B?ZVFTb3ZzZlJ2VElGcFAzcERidWlQQ3dCUFpRSWlBUHlYTDNNcXdpUnhBVjZO?=
+ =?utf-8?B?UFllTFdLaW85bUZpYmp6aHgxd21XWExXaDEwaXhEblF2N1l4YkJOTkJLNWRE?=
+ =?utf-8?B?V1RLdCtlaHBxRWs4cC8yMlA5WW44TzVMMXNkMkcweWJzeGJQeCsvdXFHenlL?=
+ =?utf-8?B?cnZaNlZ5dEVKczNYUzNtSWIvNStkR3J4dmo4U2pOTEhnaGFFaDlqbzd3dkxO?=
+ =?utf-8?B?UzZ6VEVOL0oxWE1FcWRqV1dHdmlESktJaGk5dGxNTDNSRUM2SENyUzVCZ2t5?=
+ =?utf-8?B?NjV4ZU0zdXhSZmxEK0JpTUthRU1jSEQzWDFabksvVG5JN2NFRFpnTnhZdlFp?=
+ =?utf-8?B?QUdaeTFadS9Oc1I2eXNQUEN5K3RRR2lISHpzVGJNdkt0WXZ0U1BTWkg2RE12?=
+ =?utf-8?B?bEhFN3hwRVBVdzh6QnA1c1lQYllsRm1QYXpoV0xDQVFsTFBoMGdGV2wxeCtY?=
+ =?utf-8?B?TDBrTXFsT01pQXdSRkF4WWlsNnd0Mi80ejJHU3pLdFpETndDbHdPMlVqa2l1?=
+ =?utf-8?B?Y25paFI0ek5yRTZWMEpyU0VNYXF4Yk1zQ3QzZEthalhYdUhNZVBYQUk2Qi8y?=
+ =?utf-8?B?dHBPMVRFdnRubEpoMlRvWlYrVFEwTUorK0RHbzBobDc2ODZFaGRYcHQwOFFN?=
+ =?utf-8?B?NlFpK29sU2cvclVZaHdML3V6TFQrbkQwSDg2V3Zoa0trVzBIanl2TEZSQitU?=
+ =?utf-8?B?VG9XdnpHclN2aFE5WVlXN2dFNTY0TnFkVkpCYURoM0dhWitRWmhZZGRIYzhT?=
+ =?utf-8?B?RCtwb05JK3hTMEowUVZQeHp2dTFqY2VocnY3amJYMVRmRm04OHRaS0ZmcWw3?=
+ =?utf-8?B?VjdCMEhlWkZPRE1GNlVXY09XSy9mbDJ4bncvRkFRVDhCSlBJNEF6cDFCQ2Jr?=
+ =?utf-8?B?QzVML2h6c256azgxc0NpZWZVeFJsY3VxZTB3T05OMCs5dTgwemkyaVo1WVFt?=
+ =?utf-8?Q?UeCD/SRqwEA=3D?=
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:PH7PR12MB5685.namprd12.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230040)(366016)(1800799024)(376014); DIR:OUT; SFP:1101; 
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?ZkpuU1dTcElVWFRvbUx5Y1R5aDZZUXkyUnVqeVRwSnF2MGtjbmd5K1JrZjdX?=
+ =?utf-8?B?VDlpTW9vaGw3Q1p2emNpL0RHaExoRUJXeHNFK2U3QmV2STR5dEhDSW9qdzg4?=
+ =?utf-8?B?N3k0QlZ6L1UwZkdWVUticE5PdXdQcjJWV29hdnh6K2xUU3Uxb0drTUpWc0sx?=
+ =?utf-8?B?MlEwbXZPMmJzTXlSSDFPMDVSVE5lRmYrM25OUVNCdkpCenB5ZktTeno1K2M2?=
+ =?utf-8?B?THpIaVNOZlVYKzhjM3lZWkVWa2haRTQycm15YnRmQ0FUV2tIOFhJdExrTlk1?=
+ =?utf-8?B?QXo1K3dCOHRIcVB3OEFPdlZwd1pyUGlOUmRYTmRWeTFMWkRTdy9RRzdybHNL?=
+ =?utf-8?B?UDJiYzNHRXd2NEcxc0VMTVVUbkFlbFlaK2tHb2pMdTFRU3liNWdCdWxDT2F6?=
+ =?utf-8?B?R0FSd2o4VFN0SUxGcVN4MmU2bk5iVk5mQXNweTl0OGtRZ09mdW03SkhYSUlY?=
+ =?utf-8?B?RFY0TVR2QW4rTGYwdVBEbWFuTFhUa1puUmQwQkFIYkh3UE12eGwxWGNGeGpa?=
+ =?utf-8?B?dkl0OVR0SWhzMm9nUkxjcnByWmZacmlaa0dwRUJZNnQvWXI3UXRtL3RuU0tM?=
+ =?utf-8?B?QTRvOHNSZjRVc1Z3eWtYR1lGS2t2dEoyK0dYY0hxT0I4ejZ5TjlVbVhiTDZ2?=
+ =?utf-8?B?MTlYQzRMb0R6M0JMNlBUR0s1ZkdlNEVNek9kaDRtVjRsTzRqNGVXSnY0cDIz?=
+ =?utf-8?B?NHhPVlFQK1R4aE9McVljU2tLaDljM0VUZGI2R0lqckhCamRiVUs3c2VaT1pk?=
+ =?utf-8?B?aXpHeXlWMFJ2Z0hiUnF2aEtIKzl6RHgzTldhd1NSU1FHSXdyNjVXNnZ5ZFp6?=
+ =?utf-8?B?Qkp3Q0dlYjNYUnU4eWhhTmR1bkkvam1BWlFUOUc0UDhiRFFmRjFRT1FaclhK?=
+ =?utf-8?B?Q252bEZWU3Z2eTdKUU5rMzhqajZ3Rm5YcERlcWNTSUpwSHlQcHRFTlBScE12?=
+ =?utf-8?B?Uitad0NvWnY1anJ6OUZTLzFhTnZqbnVWZ1dVbEYvenEwZnhyb2lCbXJreGlp?=
+ =?utf-8?B?MlNVYWVicVBFWkpxR0NUcVEzYmRnYktyR29LdnFxeWtHTXZES0lZOE54OEtE?=
+ =?utf-8?B?bGRycmQyZExseExuKzZIaHhxSy8zNmxodkxoNXlDdVZsQjJzdU1hQXpVamlz?=
+ =?utf-8?B?aWJRMk5BMmtvVWpNQ215NVhqNEtJM3RVaE9ReGYwRUJzY085SmFKSkFDMFZW?=
+ =?utf-8?B?NVppLy9Nd0xscGNTWm0rUzZFMU8vVHBOdTZJWEt2a2dJZ1ptc0l0Z0t3anVI?=
+ =?utf-8?B?bFJnazNKOWIwSk1PbW5lZWx2TFhtSXZmYUhZb3JOeFhnUHVpV2JOdHZWaVFL?=
+ =?utf-8?B?YTBmc3F6b0lMMmhzbHk2b21QNGdJdytyTjZxQnFTVzB5L25CcVRDbjlkYjNt?=
+ =?utf-8?B?NVIvdW5VQTZzdGw2STVsZmJ1MWoydmhXZGNTMEVSZ2dLZitjc3h1VlR3cWRz?=
+ =?utf-8?B?d3hCWk9LRGhHTk1TK0FTZGx5RUJNWlk2NzRuT0RQV1pzb1QvaGVuR25RYjA3?=
+ =?utf-8?B?cHU5UTBzZUl2U3ExYmpuYktIam1laXRnNHJRSHZ4QW5XMVluSVBlRkYyRVBz?=
+ =?utf-8?B?K01aSUhNZ3pBenFjR251OXZwMnFJeHZqTzk0ZXBwdWZjc211N3ZqbTZqa3Rm?=
+ =?utf-8?B?TzJXUE9XMFNUU0t6YitiNXRRM08rUXlNQjQ2MFphclVhK1JuazhNWTNrSjRR?=
+ =?utf-8?B?VFZnc0FmcUZHU1pFQVFFNTFEcWErMkh6OE9pZkhzL2ErSE1ocHZxUVA4d09H?=
+ =?utf-8?B?NjIxTGpqaHU1eitPZURKS0xWMjJyWGhuWlIzb05sSzRoczhkRlY1VnhINEYw?=
+ =?utf-8?B?YUZpRE1zRzdyUVpCdS9MWjdOVWZDUi94bG9ZYnk4bmRKYlZKTWNPOHBCWlM3?=
+ =?utf-8?B?WmU4WGd2TGdXZU1XZWNMM2lUcVpFd013bTZXa3NpNVA4dXVvWHNrbDF6a2NR?=
+ =?utf-8?B?Q3hycmdqZUc0bFpuYlh4N0FVQWNGa01PMFdsWm9Qc1JMS0o4eEJXL3hxdUpl?=
+ =?utf-8?B?MUliMm5TS0Zlc2JuL3pxbTREZ0F6bnl3WE5pRmhudzRKYkJPZ1NLRkYyWkdC?=
+ =?utf-8?B?MGM3Z0tVWEVKQmdIUWgzaWwweUxtcTFSSUhSUXR6N2tOODVyZm0vRGpYR2Z3?=
+ =?utf-8?Q?4DssBr26M4vixCMjcWMol5udk?=
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 82ce305c-fb16-487d-9350-08ddc2c612c3
+X-MS-Exchange-CrossTenant-AuthSource: PH7PR12MB5685.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 14 Jul 2025 11:03:33.3700 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: nrnu43kMKc9YW7VqM+dgvAQr303trbBePVKreKNgbRK8fSC3IUBEGkXT+jY9DMb+
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: CY5PR12MB6060
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -145,352 +163,38 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi
+On 14.07.25 08:23, Lin.Cao wrote:
+> When Application A submits jobs (a1, a2, a3) and application B submits
+> job b1 with a dependency on a2's scheduler fence, killing application A
+> before run_job(a1) causes drm_sched_entity_kill_jobs_work() to force
+> signal all jobs sequentially. However, due to missing work_run_job or
+> work_free_job in entity_kill_job_work(), the scheduler enters sleep
+> state, causing application B hang.
+> 
+> Add drm_sched_wakeup() when entity_kill_job_work() to preventing
+> scheduler sleep and subsequent application hangs.
+> 
+> v2:
+> - Move drm_sched_wakeup() to after drm_sched_fence_scheduled()
+> 
+> Signed-off-by: Lin.Cao <lincao12@amd.com>
 
-Am 25.06.25 um 17:14 schrieb Maxime Ripard:
-> For some reason, the HDMI VSDBs in our kunit EDIDs had a length longer
-> than expected.
->
-> While this was harmless, we should get rid of it to make it somewhat
-> predictable.
+Reviewed-by: Christian König <christian.koenig@amd.com>
 
-Dump question: should these errors be kept in another test specifically 
-for detecting this problem?
-
-Best regards
-Thomas
-
->
-> Signed-off-by: Maxime Ripard <mripard@kernel.org>
 > ---
->   drivers/gpu/drm/tests/drm_kunit_edid.h | 85 ++++++++++++++++------------------
->   1 file changed, 40 insertions(+), 45 deletions(-)
->
-> diff --git a/drivers/gpu/drm/tests/drm_kunit_edid.h b/drivers/gpu/drm/tests/drm_kunit_edid.h
-> index ac311804b36ccb21f865ecec90dd2557bff0e4b2..14782a3840f00c50c7daee38bba98585003c13a2 100644
-> --- a/drivers/gpu/drm/tests/drm_kunit_edid.h
-> +++ b/drivers/gpu/drm/tests/drm_kunit_edid.h
-> @@ -71,18 +71,18 @@ static const unsigned char test_edid_dvi_1080p[] = {
->    * 45 00 40 84 63 00 00 1e 00 00 00 fc 00 54 65 73
->    * 74 20 45 44 49 44 0a 20 20 20 00 00 00 fd 00 32
->    * 46 1e 46 0f 00 0a 20 20 20 20 20 20 00 00 00 10
->    * 00 00 00 00 00 00 00 00 00 00 00 00 00 00 01 92
->    *
-> - * 02 03 1b 81 e3 05 00 20 41 10 e2 00 4a 6d 03 0c
-> - * 00 12 34 00 14 20 00 00 00 00 00 00 00 00 00 00
-> + * 02 03 15 81 e3 05 00 20 41 10 e2 00 4a 67 03 0c
-> + * 00 12 34 00 14 00 00 00 00 00 00 00 00 00 00 00
->    * 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
->    * 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
->    * 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
->    * 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
->    * 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
-> - * 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 e4
-> + * 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 10
->    *
->    * ----------------
->    *
->    * Block 0, Base EDID:
->    *   EDID Structure Version & Revision: 1.3
-> @@ -133,12 +133,11 @@ static const unsigned char test_edid_dvi_1080p[] = {
->    *     IT scan behavior: Always Underscanned
->    *     CE scan behavior: Always Underscanned
->    *   Vendor-Specific Data Block (HDMI), OUI 00-0C-03:
->    *     Source physical address: 1.2.3.4
->    *     Maximum TMDS clock: 100 MHz
-> - *     Extended HDMI video details:
-> - * Checksum: 0xe4  Unused space in Extension Block: 100 bytes
-> + * Checksum: 0x10  Unused space in Extension Block: 106 bytes
->    */
->   static const unsigned char test_edid_hdmi_1080p_rgb_max_100mhz[] = {
->   	0x00, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0x00, 0x31, 0xd8, 0x2a, 0x00,
->   	0x00, 0x00, 0x00, 0x00, 0x00, 0x21, 0x01, 0x03, 0x81, 0xa0, 0x5a, 0x78,
->   	0x02, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x20,
-> @@ -147,22 +146,22 @@ static const unsigned char test_edid_hdmi_1080p_rgb_max_100mhz[] = {
->   	0x2d, 0x40, 0x58, 0x2c, 0x45, 0x00, 0x40, 0x84, 0x63, 0x00, 0x00, 0x1e,
->   	0x00, 0x00, 0x00, 0xfc, 0x00, 0x54, 0x65, 0x73, 0x74, 0x20, 0x45, 0x44,
->   	0x49, 0x44, 0x0a, 0x20, 0x20, 0x20, 0x00, 0x00, 0x00, 0xfd, 0x00, 0x32,
->   	0x46, 0x1e, 0x46, 0x0f, 0x00, 0x0a, 0x20, 0x20, 0x20, 0x20, 0x20, 0x20,
->   	0x00, 0x00, 0x00, 0x10, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
-> -	0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x01, 0x92, 0x02, 0x03, 0x1b, 0x81,
-> -	0xe3, 0x05, 0x00, 0x20, 0x41, 0x10, 0xe2, 0x00, 0x4a, 0x6d, 0x03, 0x0c,
-> -	0x00, 0x12, 0x34, 0x00, 0x14, 0x20, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
-> +	0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x01, 0x92, 0x02, 0x03, 0x15, 0x81,
-> +	0xe3, 0x05, 0x00, 0x20, 0x41, 0x10, 0xe2, 0x00, 0x4a, 0x67, 0x03, 0x0c,
-> +	0x00, 0x12, 0x34, 0x00, 0x14, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
->   	0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
->   	0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
->   	0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
->   	0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
->   	0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
->   	0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
->   	0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
->   	0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
-> -	0x00, 0x00, 0x00, 0xe4
-> +	0x00, 0x00, 0x00, 0x10
->   };
->   
->   /*
->    * edid-decode (hex):
->    *
-> @@ -173,18 +172,18 @@ static const unsigned char test_edid_hdmi_1080p_rgb_max_100mhz[] = {
->    * 45 00 40 84 63 00 00 1e 00 00 00 fc 00 54 65 73
->    * 74 20 45 44 49 44 0a 20 20 20 00 00 00 fd 00 32
->    * 46 1e 46 0f 00 0a 20 20 20 20 20 20 00 00 00 10
->    * 00 00 00 00 00 00 00 00 00 00 00 00 00 00 01 92
->    *
-> - * 02 03 1b 81 e3 05 00 20 41 10 e2 00 4a 6d 03 0c
-> - * 00 12 34 00 28 20 00 00 00 00 00 00 00 00 00 00
-> + * 02 03 15 81 e3 05 00 20 41 10 e2 00 4a 67 03 0c
-> + * 00 12 34 00 28 00 00 00 00 00 00 00 00 00 00 00
->    * 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
->    * 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
->    * 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
->    * 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
->    * 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
-> - * 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 d0
-> + * 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 fc
->    *
->    * ----------------
->    *
->    * Block 0, Base EDID:
->    *   EDID Structure Version & Revision: 1.3
-> @@ -235,12 +234,11 @@ static const unsigned char test_edid_hdmi_1080p_rgb_max_100mhz[] = {
->    *     IT scan behavior: Always Underscanned
->    *     CE scan behavior: Always Underscanned
->    *   Vendor-Specific Data Block (HDMI), OUI 00-0C-03:
->    *     Source physical address: 1.2.3.4
->    *     Maximum TMDS clock: 200 MHz
-> - *     Extended HDMI video details:
-> - * Checksum: 0xd0  Unused space in Extension Block: 100 bytes
-> + * Checksum: 0xfc  Unused space in Extension Block: 106 bytes
->    */
->   static const unsigned char test_edid_hdmi_1080p_rgb_max_200mhz[] = {
->   	0x00, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0x00, 0x31, 0xd8, 0x2a, 0x00,
->   	0x00, 0x00, 0x00, 0x00, 0x00, 0x21, 0x01, 0x03, 0x81, 0xa0, 0x5a, 0x78,
->   	0x02, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x20,
-> @@ -249,22 +247,22 @@ static const unsigned char test_edid_hdmi_1080p_rgb_max_200mhz[] = {
->   	0x2d, 0x40, 0x58, 0x2c, 0x45, 0x00, 0x40, 0x84, 0x63, 0x00, 0x00, 0x1e,
->   	0x00, 0x00, 0x00, 0xfc, 0x00, 0x54, 0x65, 0x73, 0x74, 0x20, 0x45, 0x44,
->   	0x49, 0x44, 0x0a, 0x20, 0x20, 0x20, 0x00, 0x00, 0x00, 0xfd, 0x00, 0x32,
->   	0x46, 0x1e, 0x46, 0x0f, 0x00, 0x0a, 0x20, 0x20, 0x20, 0x20, 0x20, 0x20,
->   	0x00, 0x00, 0x00, 0x10, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
-> -	0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x01, 0x92, 0x02, 0x03, 0x1b, 0x81,
-> -	0xe3, 0x05, 0x00, 0x20, 0x41, 0x10, 0xe2, 0x00, 0x4a, 0x6d, 0x03, 0x0c,
-> -	0x00, 0x12, 0x34, 0x00, 0x28, 0x20, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
-> +	0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x01, 0x92, 0x02, 0x03, 0x15, 0x81,
-> +	0xe3, 0x05, 0x00, 0x20, 0x41, 0x10, 0xe2, 0x00, 0x4a, 0x67, 0x03, 0x0c,
-> +	0x00, 0x12, 0x34, 0x00, 0x28, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
->   	0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
->   	0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
->   	0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
->   	0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
->   	0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
->   	0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
->   	0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
->   	0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
-> -	0x00, 0x00, 0x00, 0xd0
-> +	0x00, 0x00, 0x00, 0xfc
->   };
->   
->   /*
->    * edid-decode (hex):
->    *
-> @@ -275,18 +273,18 @@ static const unsigned char test_edid_hdmi_1080p_rgb_max_200mhz[] = {
->    * 45 00 40 84 63 00 00 1e 00 00 00 fc 00 54 65 73
->    * 74 20 45 44 49 44 0a 20 20 20 00 00 00 fd 00 32
->    * 46 1e 46 0f 00 0a 20 20 20 20 20 20 00 00 00 10
->    * 00 00 00 00 00 00 00 00 00 00 00 00 00 00 01 92
->    *
-> - * 02 03 1b 81 e3 05 00 20 41 10 e2 00 4a 6d 03 0c
-> - * 00 12 34 00 28 20 00 00 00 00 00 00 00 00 00 00
-> + * 02 03 15 81 e3 05 00 20 41 10 e2 00 4a 67 03 0c
-> + * 00 12 34 00 44 00 00 00 00 00 00 00 00 00 00 00
->    * 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
->    * 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
->    * 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
->    * 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
->    * 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
-> - * 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 d0
-> + * 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 e0
->    *
->    * ----------------
->    *
->    * Block 0, Base EDID:
->    *   EDID Structure Version & Revision: 1.3
-> @@ -337,12 +335,11 @@ static const unsigned char test_edid_hdmi_1080p_rgb_max_200mhz[] = {
->    *     IT scan behavior: Always Underscanned
->    *     CE scan behavior: Always Underscanned
->    *   Vendor-Specific Data Block (HDMI), OUI 00-0C-03:
->    *     Source physical address: 1.2.3.4
->    *     Maximum TMDS clock: 340 MHz
-> - *     Extended HDMI video details:
-> - * Checksum: 0xd0  Unused space in Extension Block: 100 bytes
-> + * Checksum: 0xe0  Unused space in Extension Block: 106 bytes
->    */
->   static const unsigned char test_edid_hdmi_1080p_rgb_max_340mhz[] = {
->   	0x00, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0x00, 0x31, 0xd8, 0x2a, 0x00,
->   	0x00, 0x00, 0x00, 0x00, 0x00, 0x21, 0x01, 0x03, 0x81, 0xa0, 0x5a, 0x78,
->   	0x02, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x20,
-> @@ -351,22 +348,22 @@ static const unsigned char test_edid_hdmi_1080p_rgb_max_340mhz[] = {
->   	0x2d, 0x40, 0x58, 0x2c, 0x45, 0x00, 0x40, 0x84, 0x63, 0x00, 0x00, 0x1e,
->   	0x00, 0x00, 0x00, 0xfc, 0x00, 0x54, 0x65, 0x73, 0x74, 0x20, 0x45, 0x44,
->   	0x49, 0x44, 0x0a, 0x20, 0x20, 0x20, 0x00, 0x00, 0x00, 0xfd, 0x00, 0x32,
->   	0x46, 0x1e, 0x46, 0x0f, 0x00, 0x0a, 0x20, 0x20, 0x20, 0x20, 0x20, 0x20,
->   	0x00, 0x00, 0x00, 0x10, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
-> -	0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x01, 0x92, 0x02, 0x03, 0x1b, 0x81,
-> -	0xe3, 0x05, 0x00, 0x20, 0x41, 0x10, 0xe2, 0x00, 0x4a, 0x6d, 0x03, 0x0c,
-> -	0x00, 0x12, 0x34, 0x00, 0x44, 0x20, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
-> +	0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x01, 0x92, 0x02, 0x03, 0x15, 0x81,
-> +	0xe3, 0x05, 0x00, 0x20, 0x41, 0x10, 0xe2, 0x00, 0x4a, 0x67, 0x03, 0x0c,
-> +	0x00, 0x12, 0x34, 0x00, 0x44, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
->   	0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
->   	0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
->   	0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
->   	0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
->   	0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
->   	0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
->   	0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
->   	0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
-> -	0x00, 0x00, 0x00, 0xd0
-> +	0x00, 0x00, 0x00, 0xe0
->   };
->   
->   /*
->    * edid-decode (hex):
->    *
-> @@ -377,18 +374,18 @@ static const unsigned char test_edid_hdmi_1080p_rgb_max_340mhz[] = {
->    * 45 00 40 84 63 00 00 1e 00 00 00 fc 00 54 65 73
->    * 74 20 45 44 49 44 0a 20 20 20 00 00 00 fd 00 32
->    * 46 1e 46 0f 00 0a 20 20 20 20 20 20 00 00 00 10
->    * 00 00 00 00 00 00 00 00 00 00 00 00 00 00 01 7a
->    *
-> - * 02 03 1b b1 e3 05 00 20 41 10 e2 00 ca 6d 03 0c
-> - * 00 12 34 78 28 20 00 00 00 00 00 00 00 00 00 00
-> + * 02 03 15 b1 e3 05 00 20 41 10 e2 00 ca 67 03 0c
-> + * 00 12 34 78 28 00 00 00 00 00 00 00 00 00 00 00
->    * 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
->    * 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
->    * 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
->    * 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
->    * 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
-> - * 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 a8
-> + * 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 d4
->    *
->    * ----------------
->    *
->    * Block 0, Base EDID:
->    *   EDID Structure Version & Revision: 1.3
-> @@ -445,12 +442,11 @@ static const unsigned char test_edid_hdmi_1080p_rgb_max_340mhz[] = {
->    *     DC_48bit
->    *     DC_36bit
->    *     DC_30bit
->    *     DC_Y444
->    *     Maximum TMDS clock: 200 MHz
-> - *     Extended HDMI video details:
-> - * Checksum: 0xa8  Unused space in Extension Block: 100 bytes
-> + * Checksum: 0xd4  Unused space in Extension Block: 106 bytes
->    */
->   static const unsigned char test_edid_hdmi_1080p_rgb_yuv_dc_max_200mhz[] = {
->   	0x00, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0x00, 0x31, 0xd8, 0x2a, 0x00,
->   	0x00, 0x00, 0x00, 0x00, 0x00, 0x21, 0x01, 0x03, 0x81, 0xa0, 0x5a, 0x78,
->   	0x1a, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x20,
-> @@ -459,22 +455,22 @@ static const unsigned char test_edid_hdmi_1080p_rgb_yuv_dc_max_200mhz[] = {
->   	0x2d, 0x40, 0x58, 0x2c, 0x45, 0x00, 0x40, 0x84, 0x63, 0x00, 0x00, 0x1e,
->   	0x00, 0x00, 0x00, 0xfc, 0x00, 0x54, 0x65, 0x73, 0x74, 0x20, 0x45, 0x44,
->   	0x49, 0x44, 0x0a, 0x20, 0x20, 0x20, 0x00, 0x00, 0x00, 0xfd, 0x00, 0x32,
->   	0x46, 0x1e, 0x46, 0x0f, 0x00, 0x0a, 0x20, 0x20, 0x20, 0x20, 0x20, 0x20,
->   	0x00, 0x00, 0x00, 0x10, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
-> -	0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x01, 0x7a, 0x02, 0x03, 0x1b, 0xb1,
-> -	0xe3, 0x05, 0x00, 0x20, 0x41, 0x10, 0xe2, 0x00, 0xca, 0x6d, 0x03, 0x0c,
-> -	0x00, 0x12, 0x34, 0x78, 0x28, 0x20, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
-> +	0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x01, 0x7a, 0x02, 0x03, 0x15, 0xb1,
-> +	0xe3, 0x05, 0x00, 0x20, 0x41, 0x10, 0xe2, 0x00, 0xca, 0x67, 0x03, 0x0c,
-> +	0x00, 0x12, 0x34, 0x78, 0x28, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
->   	0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
->   	0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
->   	0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
->   	0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
->   	0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
->   	0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
->   	0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
->   	0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
-> -	0x00, 0x00, 0x00, 0xa8
-> +	0x00, 0x00, 0x00, 0xd4
->   };
->   
->   /*
->    * edid-decode (hex):
->    *
-> @@ -485,18 +481,18 @@ static const unsigned char test_edid_hdmi_1080p_rgb_yuv_dc_max_200mhz[] = {
->    * 45 00 40 84 63 00 00 1e 00 00 00 fc 00 54 65 73
->    * 74 20 45 44 49 44 0a 20 20 20 00 00 00 fd 00 32
->    * 46 1e 46 0f 00 0a 20 20 20 20 20 20 00 00 00 10
->    * 00 00 00 00 00 00 00 00 00 00 00 00 00 00 01 8a
->    *
-> - * 02 03 1b b1 e3 05 00 20 41 10 e2 00 ca 6d 03 0c
-> - * 00 12 34 78 44 20 00 00 00 00 00 00 00 00 00 00
-> + * 02 03 15 b1 e3 05 00 20 41 10 e2 00 ca 67 03 0c
-> + * 00 12 34 78 44 00 00 00 00 00 00 00 00 00 00 00
->    * 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
->    * 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
->    * 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
->    * 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
->    * 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
-> - * 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 8c
-> + * 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 b8
->    *
->    * ----------------
->    *
->    * Block 0, Base EDID:
->    *   EDID Structure Version & Revision: 1.3
-> @@ -553,12 +549,11 @@ static const unsigned char test_edid_hdmi_1080p_rgb_yuv_dc_max_200mhz[] = {
->    *     DC_48bit
->    *     DC_36bit
->    *     DC_30bit
->    *     DC_Y444
->    *     Maximum TMDS clock: 340 MHz
-> - *     Extended HDMI video details:
-> - * Checksum: 0x8c  Unused space in Extension Block: 100 bytes
-> + * Checksum: 0xb8  Unused space in Extension Block: 106 bytes
->    */
->   static const unsigned char test_edid_hdmi_1080p_rgb_yuv_dc_max_340mhz[] = {
->   	0x00, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0x00, 0x31, 0xd8, 0x2a, 0x00,
->   	0x00, 0x00, 0x00, 0x00, 0x00, 0x21, 0x01, 0x03, 0x81, 0xa0, 0x5a, 0x78,
->   	0x0a, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x20,
-> @@ -567,20 +562,20 @@ static const unsigned char test_edid_hdmi_1080p_rgb_yuv_dc_max_340mhz[] = {
->   	0x2d, 0x40, 0x58, 0x2c, 0x45, 0x00, 0x40, 0x84, 0x63, 0x00, 0x00, 0x1e,
->   	0x00, 0x00, 0x00, 0xfc, 0x00, 0x54, 0x65, 0x73, 0x74, 0x20, 0x45, 0x44,
->   	0x49, 0x44, 0x0a, 0x20, 0x20, 0x20, 0x00, 0x00, 0x00, 0xfd, 0x00, 0x32,
->   	0x46, 0x1e, 0x46, 0x0f, 0x00, 0x0a, 0x20, 0x20, 0x20, 0x20, 0x20, 0x20,
->   	0x00, 0x00, 0x00, 0x10, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
-> -	0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x01, 0x8a, 0x02, 0x03, 0x1b, 0xb1,
-> -	0xe3, 0x05, 0x00, 0x20, 0x41, 0x10, 0xe2, 0x00, 0xca, 0x6d, 0x03, 0x0c,
-> -	0x00, 0x12, 0x34, 0x78, 0x44, 0x20, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
-> +	0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x01, 0x8a, 0x02, 0x03, 0x15, 0xb1,
-> +	0xe3, 0x05, 0x00, 0x20, 0x41, 0x10, 0xe2, 0x00, 0xca, 0x67, 0x03, 0x0c,
-> +	0x00, 0x12, 0x34, 0x78, 0x44, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
->   	0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
->   	0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
->   	0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
->   	0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
->   	0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
->   	0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
->   	0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
->   	0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
-> -	0x00, 0x00, 0x00, 0x8c
-> +	0x00, 0x00, 0x00, 0xb8
->   };
->   
->   #endif // DRM_KUNIT_EDID_H_
->
-
--- 
---
-Thomas Zimmermann
-Graphics Driver Developer
-SUSE Software Solutions Germany GmbH
-Frankenstrasse 146, 90461 Nuernberg, Germany
-GF: Ivo Totev, Andrew Myers, Andrew McDonald, Boudien Moerman
-HRB 36809 (AG Nuernberg)
+>  drivers/gpu/drm/scheduler/sched_entity.c | 1 +
+>  1 file changed, 1 insertion(+)
+> 
+> diff --git a/drivers/gpu/drm/scheduler/sched_entity.c b/drivers/gpu/drm/scheduler/sched_entity.c
+> index e671aa241720..66f2a43c58fd 100644
+> --- a/drivers/gpu/drm/scheduler/sched_entity.c
+> +++ b/drivers/gpu/drm/scheduler/sched_entity.c
+> @@ -177,6 +177,7 @@ static void drm_sched_entity_kill_jobs_work(struct work_struct *wrk)
+>  	struct drm_sched_job *job = container_of(wrk, typeof(*job), work);
+>  
+>  	drm_sched_fence_scheduled(job->s_fence, NULL);
+> +	drm_sched_wakeup(job->sched);
+>  	drm_sched_fence_finished(job->s_fence, -ESRCH);
+>  	WARN_ON(job->s_fence->parent);
+>  	job->sched->ops->free_job(job);
 
