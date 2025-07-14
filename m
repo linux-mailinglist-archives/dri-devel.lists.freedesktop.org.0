@@ -2,87 +2,62 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 74754B0491E
-	for <lists+dri-devel@lfdr.de>; Mon, 14 Jul 2025 23:09:24 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6D867B04942
+	for <lists+dri-devel@lfdr.de>; Mon, 14 Jul 2025 23:22:06 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3C8C810E359;
-	Mon, 14 Jul 2025 21:09:22 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2374810E087;
+	Mon, 14 Jul 2025 21:22:04 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="P/5Fcks7";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="pIG4Hiep";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lj1-f177.google.com (mail-lj1-f177.google.com
- [209.85.208.177])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C473F10E359;
- Mon, 14 Jul 2025 21:09:20 +0000 (UTC)
-Received: by mail-lj1-f177.google.com with SMTP id
- 38308e7fff4ca-32b5226e6beso41368701fa.2; 
- Mon, 14 Jul 2025 14:09:20 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1752527359; x=1753132159; darn=lists.freedesktop.org;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc:subject:date
- :message-id:reply-to;
- bh=a2NGUJZIs6JXP/sAdJptIUUuAIdinFtA6zHN1UcDf48=;
- b=P/5Fcks7L96CqzSp2rS5Y9BTbGSJl24Qse2eRPPfgsT/rVmvjTlJBeBLa+OQ+2kkek
- xC06ICcctJw0M0hVjIaat4+16O0zkeRR3OTxHDCXmVmIE2A7Ls4VWABrAFWAuye30kVX
- FJC3t7ntbPBT+PWoUrc912nmcfIOZNm76JdjZ3SxX4FNx1FqAHNNTaSY/aE/N64dA4hn
- jFln2TnewJXPDOci8OU1ju5zNvYykETwdorvumeLtkhcfELzr8pVZ2D+NpqoI/KG7tT+
- na7RlZXa0X8pJtUjaTMId1Vlp4J+KQnqxyW4SeJf1EY4F3BfFi5w1Q/qlftjLwlgFqEH
- +Gxw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1752527359; x=1753132159;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=a2NGUJZIs6JXP/sAdJptIUUuAIdinFtA6zHN1UcDf48=;
- b=WpBv+U5A31BwKicovqFLxd/BWw+RWioanU+568Oaa2C5aoKycYgNCOgDfuQkUY0oq4
- W2ooloKJ+KAsT+Au51GUF8UTddFFiwXUe/yovmhU1uAD71vxxf4tGS+ttiV7qw1WlMt3
- 6UBxjXa9zKgFBU+GuAH0Q+gZPDJVUBdB7I6ebK0kE0ska4APFziFRqG58iZg+6UyeTg1
- xH2wPpueUtpQlvxOwNWZsJWz88XZTXVOQr7uQhJ2Hg2Qp3XTw8aDeVYAmiSOh9lHI7Nl
- aEvgdlLDgPBdnXrqONw76iCpaXARnwC+EX44KUpw10kE4C9P1aUDs54IC53JS8DxpVMa
- ejOQ==
-X-Forwarded-Encrypted: i=1;
- AJvYcCX8vh/Eb7RobkVJNQhLUoFQLc1jIyF4vKLYVMz+CAxj+slbK/W+ffkmDTeYDGfRDUq09b5/yH2hcEM=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YwI9+CIZipyleRFYtDcejxuD8v5sjf3kWVmq27VFN7cDnAo/TnG
- TuuZNleNTdXY+ZIKiQDXZbgPM6kKK3siDZjE7Yk5RAwiViqgWwkU3mjWe4OvApMGGqteiStvrwZ
- mmtKUyDeo7lISFYztwyMqKP8ow5cHIsI=
-X-Gm-Gg: ASbGncva5s24nyfPqW98YjBn7Ks6o50qgTHs6PoKIZBz/Jp219kadHdaLMBKc/HrwdP
- GHoZ4+Om/3c8Nt8Qym0eo3b+y+n6kd+nWMbrSpVzR+2wi0qKZN9t7GyfG7Ryk3s8K+6A2SKN/xY
- ymeTe0IOBxbzBQaAB7s/DlJSIW8tYnBYJB85NgRM7X5DUXVJ5HSvwVvQwqnRAA9KRxuQBWb+qgr
- uL8zuTySqXcFaTZ77tuu+8rEYVgWUmf9fRjFx/u/A==
-X-Google-Smtp-Source: AGHT+IFIVDCB7L/eB3uWUEMPtrD+l6c9ix8jySxxyANfqPuxUfbMymVsdKjgYjWTiEHRsDI7xj3AbxpdXdL0khzdR6c=
-X-Received: by 2002:a2e:a594:0:b0:32b:7284:7b with SMTP id
- 38308e7fff4ca-3305329b33emr52619951fa.6.1752527358610; 
- Mon, 14 Jul 2025 14:09:18 -0700 (PDT)
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6B48610E087
+ for <dri-devel@lists.freedesktop.org>; Mon, 14 Jul 2025 21:22:02 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+ by dfw.source.kernel.org (Postfix) with ESMTP id 2480B5C65AD;
+ Mon, 14 Jul 2025 21:22:01 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 90D86C4CEF0;
+ Mon, 14 Jul 2025 21:21:58 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1752528120;
+ bh=jkjnzC6sfDjlzR/6PyyPq8gX7cfAVbCf+7AS5IFUxHc=;
+ h=From:To:Cc:Subject:Date:From;
+ b=pIG4Hieprrm1uA4UcmMad5xVbCbju19dZ03/KYWx+XQvV8NEgoxno/feg6GtPL7QT
+ Wn0n/9r1FzD47RscE8VDY/GQ+e51jq2FOpdPb1AYh/wieR6ZpyKhZ1QvP/gk4G8baS
+ UzSaFh1F/fP22w7LVhKAVRvkpdkzXj6Gx2CZCkImzjpR0sHa3HP34jxyg2UbVj8tiZ
+ YF5jx0f/QDXoL+SPCBjOP872b9JCgxNopkXbqO6XZmV2igdU3sHGB3FlC1TpIw+595
+ 0Yt26o+RiEIUf0r+zbWjgbXWjkpNNK9+28GudvoMs+0dN3sjMVxq3ckYyY0VV8uBDm
+ TBd5esulbTznQ==
+From: Mario Limonciello <superm1@kernel.org>
+To: David Airlie <airlied@gmail.com>,
+	Bjorn Helgaas <bhelgaas@google.com>
+Cc: Alex Deucher <alexander.deucher@amd.com>,
+ =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>,
+ Simona Vetter <simona@ffwll.ch>, Lukas Wunner <lukas@wunner.de>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>,
+ David Woodhouse <dwmw2@infradead.org>, Lu Baolu <baolu.lu@linux.intel.com>,
+ Joerg Roedel <joro@8bytes.org>, Will Deacon <will@kernel.org>,
+ Robin Murphy <robin.murphy@arm.com>,
+ Alex Williamson <alex.williamson@redhat.com>,
+ Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
+ dri-devel@lists.freedesktop.org (open list:DRM DRIVERS),
+ linux-kernel@vger.kernel.org (open list),
+ iommu@lists.linux.dev (open list:INTEL IOMMU (VT-d)),
+ linux-pci@vger.kernel.org (open list:PCI SUBSYSTEM),
+ kvm@vger.kernel.org (open list:VFIO DRIVER),
+ linux-sound@vger.kernel.org (open list:SOUND),
+ Daniel Dadap <ddadap@nvidia.com>,
+ Mario Limonciello <mario.limonciello@amd.com>
+Subject: [PATCH v8 0/9] Adjust fbcon console device detection
+Date: Mon, 14 Jul 2025 16:21:37 -0500
+Message-ID: <20250714212147.2248039-1-superm1@kernel.org>
+X-Mailer: git-send-email 2.43.0
 MIME-Version: 1.0
-References: <20250709-core-cstr-fanout-1-v1-0-64308e7203fc@gmail.com>
- <20250709-core-cstr-fanout-1-v1-8-64308e7203fc@gmail.com>
-In-Reply-To: <20250709-core-cstr-fanout-1-v1-8-64308e7203fc@gmail.com>
-From: Tamir Duberstein <tamird@gmail.com>
-Date: Mon, 14 Jul 2025 17:08:42 -0400
-X-Gm-Features: Ac12FXyyrImsukAEONZO1t5G1kFxNsU4eIQFIToYW9Gkgy7rbvMrpAOfWyMPO9c
-Message-ID: <CAJ-ks9=ux6BuPYmRVSjhfn7kuagxPWicBZbumDFKAqmHKd8+PQ@mail.gmail.com>
-Subject: Re: [PATCH 8/9] rust: seq_file: use `kernel::{fmt,prelude::fmt!}`
-To: Danilo Krummrich <dakr@kernel.org>, David Airlie <airlied@gmail.com>,
- Simona Vetter <simona@ffwll.ch>, 
- Miguel Ojeda <ojeda@kernel.org>, Alex Gaynor <alex.gaynor@gmail.com>, 
- Boqun Feng <boqun.feng@gmail.com>, Gary Guo <gary@garyguo.net>, 
- =?UTF-8?Q?Bj=C3=B6rn_Roy_Baron?= <bjorn3_gh@protonmail.com>, 
- Benno Lossin <lossin@kernel.org>, Andreas Hindborg <a.hindborg@kernel.org>, 
- Alice Ryhl <aliceryhl@google.com>, Trevor Gross <tmgross@umich.edu>,
- Jens Axboe <axboe@kernel.dk>, 
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- "Rafael J. Wysocki" <rafael@kernel.org>, 
- Brendan Higgins <brendan.higgins@linux.dev>, David Gow <davidgow@google.com>, 
- Rae Moar <rmoar@google.com>
-Cc: nouveau@lists.freedesktop.org, dri-devel@lists.freedesktop.org, 
- linux-kernel@vger.kernel.org, rust-for-linux@vger.kernel.org, 
- linux-block@vger.kernel.org, linux-kselftest@vger.kernel.org, 
- kunit-dev@googlegroups.com, Christian Brauner <brauner@kernel.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -98,63 +73,70 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, Jul 9, 2025 at 4:00=E2=80=AFPM Tamir Duberstein <tamird@gmail.com> =
-wrote:
->
-> Reduce coupling to implementation details of the formatting machinery by
-> avoiding direct use for `core`'s formatting traits and macros.
->
-> Acked-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-> Reviewed-by: Alice Ryhl <aliceryhl@google.com>
-> Signed-off-by: Tamir Duberstein <tamird@gmail.com>
+From: Mario Limonciello <mario.limonciello@amd.com>
 
-Oops, forgot to include Christian Brauner. Christian, could you please
-take a look?
+This series started out as changes to VGA arbiter to try to handle a case
+of a system with 2 GPUs that are not VGA devices.  This was discussed
+but decided not to overload the VGA arbiter for non VGA devices.
 
-MAINTAINERS entry being added in
-https://lore.kernel.org/all/20250714124637.1905722-1-aliceryhl@google.com/.
-(Thanks Alice!)
+Instead move the x86 specific detection of framebuffer resources into x86
+specific code that the fbcon can use to properly identify the primary
+device. This code is still called from the VGA arbiter, and the logic does
+not change there. To avoid regression default to VGA arbiter and only fall
+back to looking up with x86 specific detection method.
 
-> ---
->  rust/kernel/seq_file.rs | 6 +++---
->  1 file changed, 3 insertions(+), 3 deletions(-)
->
-> diff --git a/rust/kernel/seq_file.rs b/rust/kernel/seq_file.rs
-> index 8f199b1a3bb1..59fbfc2473f8 100644
-> --- a/rust/kernel/seq_file.rs
-> +++ b/rust/kernel/seq_file.rs
-> @@ -4,7 +4,7 @@
->  //!
->  //! C header: [`include/linux/seq_file.h`](srctree/include/linux/seq_fil=
-e.h)
->
-> -use crate::{bindings, c_str, types::NotThreadSafe, types::Opaque};
-> +use crate::{bindings, c_str, fmt, types::NotThreadSafe, types::Opaque};
->
->  /// A utility for generating the contents of a seq file.
->  #[repr(transparent)]
-> @@ -31,7 +31,7 @@ pub unsafe fn from_raw<'a>(ptr: *mut bindings::seq_file=
-) -> &'a SeqFile {
->
->      /// Used by the [`seq_print`] macro.
->      #[inline]
-> -    pub fn call_printf(&self, args: core::fmt::Arguments<'_>) {
-> +    pub fn call_printf(&self, args: fmt::Arguments<'_>) {
->          // SAFETY: Passing a void pointer to `Arguments` is valid for `%=
-pA`.
->          unsafe {
->              bindings::seq_printf(
-> @@ -47,7 +47,7 @@ pub fn call_printf(&self, args: core::fmt::Arguments<'_=
->) {
->  #[macro_export]
->  macro_rules! seq_print {
->      ($m:expr, $($arg:tt)+) =3D> (
-> -        $m.call_printf(format_args!($($arg)+))
-> +        $m.call_printf($crate::prelude::fmt!($($arg)+))
->      );
->  }
->  pub use seq_print;
->
-> --
-> 2.50.0
->
+In order for userspace to also be able to discover which device was the
+primary video display device create a new sysfs file 'boot_display'.
+
+A matching userspace implementation for this file is available here:
+Link: https://gitlab.freedesktop.org/xorg/lib/libpciaccess/-/merge_requests/39
+Link: https://gitlab.freedesktop.org/xorg/xserver/-/merge_requests/2038
+
+Dave Airlie has been pinged for a comment on this approach.
+Dave had suggested in the past [1]:
+
+"
+ But yes if that doesn't work, then maybe we need to make the boot_vga
+ flag mean boot_display_gpu, and fix it in the kernel
+"
+
+This was one of the approached tried in earlier revisions and it was
+rejected in favor of creating a new sysfs file (which is what this
+version does).
+
+It is suggested that this series merge entirely through the PCI tree.
+
+Link: https://gitlab.freedesktop.org/xorg/lib/libpciaccess/-/merge_requests/37#note_2938602 [1]
+
+v8 fixes an LKP robot reported issue
+
+Mario Limonciello (9):
+  PCI: Add helper for checking if a PCI device is a display controller
+  vfio/pci: Use pci_is_display()
+  vga_switcheroo: Use pci_is_display()
+  iommu/vt-d: Use pci_is_display()
+  ALSA: hda: Use pci_is_display()
+  Fix access to video_is_primary_device() when compiled without
+    CONFIG_VIDEO
+  PCI/VGA: Replace vga_is_firmware_default() with a screen info check
+  fbcon: Use screen info to find primary device
+  PCI: Add a new 'boot_display' attribute
+
+ Documentation/ABI/testing/sysfs-bus-pci |  8 +++++
+ arch/parisc/include/asm/video.h         |  2 +-
+ arch/sparc/include/asm/video.h          |  2 ++
+ arch/x86/include/asm/video.h            |  2 ++
+ arch/x86/video/video-common.c           | 17 ++++++++-
+ drivers/gpu/vga/vga_switcheroo.c        |  2 +-
+ drivers/iommu/intel/iommu.c             |  2 +-
+ drivers/pci/pci-sysfs.c                 | 46 +++++++++++++++++++++++++
+ drivers/pci/vgaarb.c                    | 31 +++--------------
+ drivers/vfio/pci/vfio_pci_igd.c         |  3 +-
+ include/linux/pci.h                     | 15 ++++++++
+ sound/hda/hdac_i915.c                   |  2 +-
+ sound/pci/hda/hda_intel.c               |  4 +--
+ 13 files changed, 101 insertions(+), 35 deletions(-)
+
+-- 
+2.43.0
+
