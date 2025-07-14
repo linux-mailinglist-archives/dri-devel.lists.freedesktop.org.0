@@ -2,99 +2,68 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id D173FB043CA
-	for <lists+dri-devel@lfdr.de>; Mon, 14 Jul 2025 17:28:12 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5FEBFB043CF
+	for <lists+dri-devel@lfdr.de>; Mon, 14 Jul 2025 17:28:55 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id ECEAD10E4BC;
-	Mon, 14 Jul 2025 15:28:09 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9083A10E4CF;
+	Mon, 14 Jul 2025 15:28:53 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="MYSnDpkf";
+	dkim=pass (2048-bit key; unprotected) header.d=bootlin.com header.i=@bootlin.com header.b="Ya44pY77";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lj1-f169.google.com (mail-lj1-f169.google.com
- [209.85.208.169])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9A70610E4BC
- for <dri-devel@lists.freedesktop.org>; Mon, 14 Jul 2025 15:28:08 +0000 (UTC)
-Received: by mail-lj1-f169.google.com with SMTP id
- 38308e7fff4ca-32ac42bb4e4so36514081fa.0
- for <dri-devel@lists.freedesktop.org>; Mon, 14 Jul 2025 08:28:08 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1752506887; x=1753111687; darn=lists.freedesktop.org;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc:subject:date
- :message-id:reply-to;
- bh=oc+GlE+Ii/Y1/zyiLxV403jXwmHI4Vq7Wn9/5LCARxQ=;
- b=MYSnDpkfKU8eChN1yfylrQhgw2W92emBX/O1jRwEVd8f/ri1IqSh5TPwS8bOzvcWbX
- aSH+u2ABDqtiz8ncgr53UGGhF4Y0e3wAmGRPAhAMB+hX0tLdTY+99SD+XSX0QjBRmrZi
- efpSpP+QVNhG397Qq4DQnKITqcO/Su6yGyVYRkWjUXcRnLC9SwLCT3AgcTR9Myi5jhBo
- HdhflsEMYkzYbN2KnhLvNlj+jID6d+yHZQfpGS/e4ZOcss0LQKKKLU8RhA3BzHmCKyYa
- A0xN1G/HGAE685o5muSzeMC+/h12Px28BZK0duFP85eQcCfvsnBMsZCu80dIVZwfPNQP
- b/eg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1752506887; x=1753111687;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=oc+GlE+Ii/Y1/zyiLxV403jXwmHI4Vq7Wn9/5LCARxQ=;
- b=SYekWjsa7I1iheZrElftFyMDtLTFy0cXQ1lFQLrBV/j8htanKz/R9Q8bMvW7WQKYkC
- 4+rFxkixyWKnrmpyNakhXlAX63xPfzxXcNWipAX4miUgg5YB5hCFftepJpv013TutTmx
- he1seYlZRvRsT+5/2T4X6yE+hLWgs0mOUz/iFnGhMXoaryXylQT57tyqUel2OGgNAtsc
- Zog4K6YIR5xnwELywQUeQchVjBNpO8Z18KF/WMlfVixShmIY4SVCMnfiTWdo9X7BDV4p
- zO+fNwIzqXAN60bjgXsRG/s1AgfOJWT6coPx0xRA4dQV3pKswlahxeboSMFJcQ5R3OwB
- GiIA==
-X-Forwarded-Encrypted: i=1;
- AJvYcCX584Ijsgb7gSzGsFTaFdGFEp/qq3nHXkTivX0p/qvgtB3rJnKjpYDGbDAZDYG8DSQ5pY6UJtSz4QE=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0Yy9OnZy9OcLZdSfQBTx7vNemLMSC6TP7FWn43+kADV+oUW6MHja
- BYLCVYHW00Nk8BP9OmJCXyvZE2EkVb2vvmsQFuZy/VPDRRk8RcdOyrqf41Bbzv7mQkO68JVaBOZ
- +J2D+cXabEIkSulDpg8tS06a/65Qce7k=
-X-Gm-Gg: ASbGncsy6pefLjXkHNQvvigNQAZk4TGfjxv6vWE+osL1QVTwBMitEPFi0vFfvrn4IvC
- yWvnDDN9v6potFgCxXlgpHJCax2EKqTq3KzP8fqBiMcHb3Ca8s9JhBT1nbp5MLAXZZ8L5aYCxjK
- CFiK/p0Rij+3hwEpD7vlO2bm04D00wxeFo92xCHj3uQEwIX3ALlPtIVE+V3DBbkyuHj+nqiNULG
- zuVOIxCioa2ftuZvS1EHIpXcIA289RYxkY+k747NA==
-X-Google-Smtp-Source: AGHT+IH+F8scuE37tUd3Pg2ae8pcuxAEv4ojDDepRKjbKvYeGMh+F2C6iR06+KNOVOtz/FNk6yomF9YDFaXHlblFUCU=
-X-Received: by 2002:a05:651c:1108:10b0:32a:77a3:8781 with SMTP id
- 38308e7fff4ca-3305344519fmr27998491fa.30.1752506886586; Mon, 14 Jul 2025
- 08:28:06 -0700 (PDT)
+Received: from relay2-d.mail.gandi.net (relay2-d.mail.gandi.net
+ [217.70.183.194])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0850C10E4DA
+ for <dri-devel@lists.freedesktop.org>; Mon, 14 Jul 2025 15:28:51 +0000 (UTC)
+Received: by mail.gandi.net (Postfix) with ESMTPSA id 8729F442A2;
+ Mon, 14 Jul 2025 15:28:47 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
+ t=1752506930;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=FH7mbmy9dxnMHrp8nr70Ezf/5UVtiIiZlJSsEGAGlLs=;
+ b=Ya44pY77iHOQNF60LEEuM+0Eyg6Nn9Ip9xr+EVnEcKDdwS2wCBAAisJGaRKqT8ShlWuHmz
+ KlljPt9MzYtpAhUIVpmcvEq/NAPApnq83ZlfLb/MLBRDkr2ZHruyaXvFN/vaenjyV36VSM
+ TIgYWLCHaUCKahpcakMBnFFcjeuhxLhG4CashqCrx4rigem23MCmXl4pZikHkaJFHdlJa4
+ vRvGcSCtjYwWEYzHMXzacL3XbtIUyu701ikDh0wALD2gC8e8WHycvcyZp0Bj4fZ9Ni9gDU
+ bf76krJLFiByvbOqRZWXo+VhKCfTgkzIOrMEzEdNf9Z6LpvaJQiPU2Yfrj5EaA==
+Date: Mon, 14 Jul 2025 17:28:45 +0200
+From: Luca Ceresoli <luca.ceresoli@bootlin.com>
+To: Maxime Ripard <mripard@kernel.org>
+Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, Thomas Zimmermann
+ <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>, Simona Vetter
+ <simona@ffwll.ch>, Andrzej Hajda <andrzej.hajda@intel.com>, Neil Armstrong
+ <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>, Laurent
+ Pinchart <Laurent.pinchart@ideasonboard.com>, Jonas Karlman
+ <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>, Inki Dae
+ <inki.dae@samsung.com>, Jagan Teki <jagan@amarulasolutions.com>, Marek
+ Szyprowski <m.szyprowski@samsung.com>, Jani Nikula
+ <jani.nikula@linux.intel.com>, Dmitry Baryshkov <lumag@kernel.org>, Hui Pu
+ <Hui.Pu@gehealthcare.com>, Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ linux-sunxi@lists.linux.dev, Kevin Hilman <khilman@baylibre.com>, Jerome
+ Brunet <jbrunet@baylibre.com>, Martin Blumenstingl
+ <martin.blumenstingl@googlemail.com>, linux-amlogic@lists.infradead.org
+Subject: Re: [PATCH 00/32] drm/mipi-dsi: avoid DSI host drivers to have
+ pointers to DSI devices
+Message-ID: <20250714172845.1432972f@booty>
+In-Reply-To: <20250707121319.1e40a73a@booty>
+References: <20250625-drm-dsi-host-no-device-ptr-v1-0-e36bc258a7c5@bootlin.com>
+ <20250707-strange-warm-bear-cb4ee8@houat>
+ <20250707115853.128f2e6f@booty> <20250707121319.1e40a73a@booty>
+Organization: Bootlin
+X-Mailer: Claws Mail 4.3.1 (GTK 3.24.49; x86_64-redhat-linux-gnu)
 MIME-Version: 1.0
-References: <20250709-core-cstr-fanout-1-v1-0-fd793b3e58a2@gmail.com>
- <20250709-core-cstr-fanout-1-v1-1-fd793b3e58a2@gmail.com>
- <DBBQE3GJ0CHT.5PEF7RLS6C33@kernel.org>
- <CAJ-ks9=ZHtzeyyFSZaVuA1t-3C8-hc40n6r8qFWxn628qT-OeA@mail.gmail.com>
- <CANiq72kyQQMutGDkHH=McRQens+V+wkHLpiSfivmnAwwgXE62w@mail.gmail.com>
-In-Reply-To: <CANiq72kyQQMutGDkHH=McRQens+V+wkHLpiSfivmnAwwgXE62w@mail.gmail.com>
-From: Tamir Duberstein <tamird@gmail.com>
-Date: Mon, 14 Jul 2025 11:27:30 -0400
-X-Gm-Features: Ac12FXy_EgfuBW5UCKV_g6NQQc-Ao21V9VhJ3CJtjS90O4a7j1zHA01rM8fcK4c
-Message-ID: <CAJ-ks9kzrihJ7Jb8kAp0LpbPCfdouDQdFK06AHN3xi9pXNWZ9w@mail.gmail.com>
-Subject: Re: [PATCH 01/10] gpu: nova-core: use `core::ffi::CStr` method names
-To: Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>
-Cc: Danilo Krummrich <dakr@kernel.org>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- Miguel Ojeda <ojeda@kernel.org>, 
- Alex Gaynor <alex.gaynor@gmail.com>, Boqun Feng <boqun.feng@gmail.com>, 
- Gary Guo <gary@garyguo.net>,
- =?UTF-8?Q?Bj=C3=B6rn_Roy_Baron?= <bjorn3_gh@protonmail.com>, 
- Benno Lossin <lossin@kernel.org>, Andreas Hindborg <a.hindborg@kernel.org>, 
- Alice Ryhl <aliceryhl@google.com>, Trevor Gross <tmgross@umich.edu>, 
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- Dave Ertman <david.m.ertman@intel.com>, 
- Ira Weiny <ira.weiny@intel.com>, Leon Romanovsky <leon@kernel.org>,
- Breno Leitao <leitao@debian.org>, 
- "Rafael J. Wysocki" <rafael@kernel.org>, Viresh Kumar <viresh.kumar@linaro.org>,
- Luis Chamberlain <mcgrof@kernel.org>, Russ Weight <russ.weight@linux.dev>, 
- Brendan Higgins <brendan.higgins@linux.dev>, David Gow <davidgow@google.com>, 
- Rae Moar <rmoar@google.com>, FUJITA Tomonori <fujita.tomonori@gmail.com>, 
- Rob Herring <robh@kernel.org>, Saravana Kannan <saravanak@google.com>,
- dri-devel@lists.freedesktop.org, 
- linux-kernel@vger.kernel.org, rust-for-linux@vger.kernel.org, 
- linux-pm@vger.kernel.org, linux-kselftest@vger.kernel.org, 
- kunit-dev@googlegroups.com, netdev@vger.kernel.org, 
- devicetree@vger.kernel.org, Javier Martinez Canillas <javierm@redhat.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
+X-GND-State: clean
+X-GND-Score: -100
+X-GND-Cause: gggruggvucftvghtrhhoucdtuddrgeeffedrtdefgdehvdefudcutefuodetggdotefrodftvfcurfhrohhfihhlvgemucfitefpfffkpdcuggftfghnshhusghstghrihgsvgenuceurghilhhouhhtmecufedtudenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujfgurhepfffhvfevuffkjghfohfogggtgfesthejredtredtvdenucfhrhhomhepnfhutggrucevvghrvghsohhlihcuoehluhgtrgdrtggvrhgvshholhhisegsohhothhlihhnrdgtohhmqeenucggtffrrghtthgvrhhnpeeglefffefghefhtddvfeeufeeiveekgffgleekieduteekkeetvdehudekgfdvvdenucffohhmrghinhepsghoohhtlhhinhdrtghomhenucfkphepvdgrtddvmeeijedtmedvtddvtdemvggrtddumegsvgegudemleehvgejmeefgeefmeeludefvgenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepihhnvghtpedvrgdtvdemieejtdemvddtvddtmegvrgdtudemsggvgedumeelhegvjeemfeegfeemledufegvpdhhvghlohepsghoohhthidpmhgrihhlfhhrohhmpehluhgtrgdrtggvrhgvshholhhisegsohhothhlihhnrdgtohhmpdhnsggprhgtphhtthhopedvhedprhgtphhtthhopehmrhhiphgrrhgusehkvghrnhgvlhdrohhrghdprhgtphhtthhopehmrggrrhhtvghnrdhlrghnkhhhohhrshhtsehlihhnuhigrdhinhhtvghlrdgtohhmpdhrtghpthhtohepthiiihhmmhgvrhhmrghnn
+ hesshhushgvrdguvgdprhgtphhtthhopegrihhrlhhivggusehgmhgrihhlrdgtohhmpdhrtghpthhtohepshhimhhonhgrsehffhiflhhlrdgthhdprhgtphhtthhopegrnhgurhiivghjrdhhrghjuggrsehinhhtvghlrdgtohhmpdhrtghpthhtohepnhgvihhlrdgrrhhmshhtrhhonhhgsehlihhnrghrohdrohhrghdprhgtphhtthhopehrfhhoshhssehkvghrnhgvlhdrohhrgh
+X-GND-Sasl: luca.ceresoli@bootlin.com
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -110,17 +79,84 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, Jul 14, 2025 at 11:18=E2=80=AFAM Miguel Ojeda
-<miguel.ojeda.sandonis@gmail.com> wrote:
->
-> On Mon, Jul 14, 2025 at 2:35=E2=80=AFPM Tamir Duberstein <tamird@gmail.co=
-m> wrote:
-> >
-> > How should I respin this one? the subject should be drm/panic, I think.
->
-> I would mimic what the previous commits did, i.e. drm/panic indeed.
->
-> (If I happen to pick it up before a resend, I could fix it on my side)
+Hi Maxime,
 
-Yep, that's what I was going to do - but do I resend the whole series,
-or somehow just this patch?
+On Mon, 7 Jul 2025 12:13:19 +0200
+Luca Ceresoli <luca.ceresoli@bootlin.com> wrote:
+
+...
+
+> > Post scriptum. The very initial issue that led to all this discussion
+> > when writing the hotplug-bridge driver is that the samsung-dsim driver
+> > will not drm_bridge_add() until a DSI device does .attach to it. Again,
+> > see the comments before hotplug_bridge_dsi_attach() in [0] for details.
+> > However by re-examining the driver for the N-th time now from a new
+> > POV, I _think_ this is not correct and potentially easy to solve. But this leads to one fundamental question:  
+> 
+> The question is: should a DSI host bridge driver:
+> 
+>  A) wait for a DSI device to .attach before drm_bridge_add()ing itself,
+>     or
+>  B) drm_bridge_add() itself unconditionally, and let the DSI device
+>     .attach whenever it happens?
+> 
+> A) is what many drivers (IIRC the majority) does. It implies the card
+> will not be populated until .attach, which in the hotplug case could
+> happen very late
+> 
+> B) is done by a few drivers and allows the card to appear in the
+> hotplug case without the device, which is needed for hotplug.
+
+I haven't received any reply to this e-mail. Should this be due to the
+fuzzyness of what I wrote, you're perfectly understood. :-)
+
+Let me try to start cleaner, and focus only on the question quoted here
+above. It is very relevant to the hotplug work, so I'd like any informed
+opinions about it in the first place. Many other things depend on it.
+
+The samsung-dsim driver, which is in the hardware I'm working on, falls
+in the A) case, and this is problematic.
+
+> I had tried simply moving drm_bridge_add() from .attach to probe in
+> the samsung-dsim driver in the pase but that would not work. Now I did
+> yet another check at the code and I suspect it can be done with a small
+> additional change, but cannot access the hardware to test it currently.
+
+I managed to try today and test on hardware, and I can confirm that the
+samsung-dsim driver can be moved from A) to B). In other words the
+drm_bridge_add() call to add the samsung-dsim bridge can be moved from
+the mipi_dsi_host_ops.attach op to the probe function, but this
+requires an additional change, at least when using the imx8mp LCDIF:
+
+@@ -1645,6 +1645,9 @@ static int samsung_dsim_attach(struct drm_bridge *bridge,
+ {
+        struct samsung_dsim *dsi = bridge_to_dsi(bridge);
+ 
++       if (!dsi->out_bridge)
++               return -EPROBE_DEFER;
++
+        return drm_bridge_attach(encoder, dsi->out_bridge, bridge,
+                                 flags);
+ }
+
+Without the above change, the mxsfb driver will hard-fail because
+mxsfb_attach_bridge() [0] finds the next bridge (the samsung-dsim
+bridge, which is now added earlier, in probe) but cannot attach it to
+the encoder chain (the samsung-dsim bridge still hasn't got an
+out_bridge).
+
+I have a working draft of the above samsung-dsim changes working with
+the hotplug-bridge, and it makes the hotplug code one relevant step
+simpler.
+
+Your opinion would be appreciated before I proceed to cleaning up and
+sending such change.
+
+[0] https://elixir.bootlin.com/linux/v6.16-rc5/source/drivers/gpu/drm/mxsfb/mxsfb_drv.c#L128-L145
+
+Luca
+
+-- 
+Luca Ceresoli, Bootlin
+Embedded Linux and Kernel engineering
+https://bootlin.com
