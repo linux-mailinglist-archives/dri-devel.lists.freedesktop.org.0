@@ -2,67 +2,72 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 18076B05179
-	for <lists+dri-devel@lfdr.de>; Tue, 15 Jul 2025 08:05:28 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 15BF1B052E6
+	for <lists+dri-devel@lfdr.de>; Tue, 15 Jul 2025 09:25:00 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id F405710E363;
-	Tue, 15 Jul 2025 06:05:24 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7AA7910E527;
+	Tue, 15 Jul 2025 07:24:50 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="nKnvHPu9";
+	dkim=pass (1024-bit key; unprotected) header.d=ti.com header.i=@ti.com header.b="jRJpb3zk";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.20])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A436C10E363
- for <dri-devel@lists.freedesktop.org>; Tue, 15 Jul 2025 06:05:22 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1752559522; x=1784095522;
- h=date:from:to:cc:subject:message-id:references:
- mime-version:in-reply-to;
- bh=4s0NpdOUBcdw8nBgpKG7viU5jz793opptwLWmA1YS38=;
- b=nKnvHPu9UFL5spTANlv7vjFLevLX0zKtl0vELKc0hQMPlbkaa/Wq5P8E
- 1VK+UlE5tf9yFUOHvq6kj/xM0kDSF8gpajXqd8ADmQCpOJM4Zq+QxIJX4
- Oq/Wlumi3aTgBfwu/eUSQdSt3s6uGbgYpkDxn6ACAujy/1FNO1v6UrAlp
- QmpdoGxPZzNW9G0Wy08EE0blAwhWEDYNigAKPReVbPaBFVHRfxf8yiaKu
- YC6IAzYxPQ4LMlPdjtmkMfTKEQBgozgiX3d1PlOJnk4oTpGO3W2huzK6j
- /v7hB/fotH1pNcwoL2c6v1AfLnluKVDtLjpS7IMHIzIcNU/w4sPJHsOn5 Q==;
-X-CSE-ConnectionGUID: leoP9N+5TdesKomTeMk4QA==
-X-CSE-MsgGUID: PxspNGv4QBuyt/9rHWT4MQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11491"; a="54473566"
-X-IronPort-AV: E=Sophos;i="6.16,312,1744095600"; d="scan'208";a="54473566"
-Received: from fmviesa007.fm.intel.com ([10.60.135.147])
- by orvoesa112.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 14 Jul 2025 23:05:22 -0700
-X-CSE-ConnectionGUID: PSlCRGZIQQmcUVw1SqSz1w==
-X-CSE-MsgGUID: zTaZorvJTBGg1ZWmckAnoA==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.16,312,1744095600"; d="scan'208";a="156778778"
-Received: from lkp-server01.sh.intel.com (HELO 9ee84586c615) ([10.239.97.150])
- by fmviesa007.fm.intel.com with ESMTP; 14 Jul 2025 23:05:19 -0700
-Received: from kbuild by 9ee84586c615 with local (Exim 4.96)
- (envelope-from <lkp@intel.com>) id 1ubYmy-0009iV-2o;
- Tue, 15 Jul 2025 06:05:16 +0000
-Date: Tue, 15 Jul 2025 14:04:52 +0800
-From: kernel test robot <lkp@intel.com>
-To: Richard Yao <richard@scandent.com>, dri-devel@lists.freedesktop.org
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
- devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
- Akshay Athalye <akshay@scandent.com>, Richard Yao <richard@scandent.com>,
- Neil Armstrong <neil.armstrong@linaro.org>,
- Jessica Zhang <quic_jesszhan@quicinc.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>
-Subject: Re: [PATCH 3/3] drm/panel: ilitek-ili9881c: Add Tianxinwei
- TWX700100S0 support
-Message-ID: <202507151301.sFo3NzXA-lkp@intel.com>
-References: <20250714191729.2416-4-richard@scandent.com>
+X-Greylist: delayed 6903 seconds by postgrey-1.36 at gabe;
+ Mon, 14 Jul 2025 11:15:44 UTC
+Received: from fllvem-ot04.ext.ti.com (fllvem-ot04.ext.ti.com [198.47.19.246])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 00CA410E00E
+ for <dri-devel@lists.freedesktop.org>; Mon, 14 Jul 2025 11:15:44 +0000 (UTC)
+Received: from fllvem-sh03.itg.ti.com ([10.64.41.86])
+ by fllvem-ot04.ext.ti.com (8.15.2/8.15.2) with ESMTP id 56E9KCVD2579656;
+ Mon, 14 Jul 2025 04:20:12 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
+ s=ti-com-17Q1; t=1752484812;
+ bh=VpRIsrh/SskIsYvaFioLSeLx3UZ4lfhfIHEZTyHFdm4=;
+ h=Date:Subject:To:CC:References:From:In-Reply-To;
+ b=jRJpb3zkCM2TPcl/pnOSPoKvoGNKE2RRL8R3vySw8ty8MIGmfwjLeyF/u2TXmutp1
+ 3kg/8FTnKIMknYEV9gFX7feo6LK+SBynXsCac5zuUWnOD1argqveNGhHjY4N5Ds1IG
+ V6LF4DGptIMEQl/nT4H3TZDsByJhpPtZ57s301+M=
+Received: from DLEE108.ent.ti.com (dlee108.ent.ti.com [157.170.170.38])
+ by fllvem-sh03.itg.ti.com (8.18.1/8.18.1) with ESMTPS id 56E9KCRv3165019
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES128-SHA256 bits=128 verify=FAIL);
+ Mon, 14 Jul 2025 04:20:12 -0500
+Received: from DLEE109.ent.ti.com (157.170.170.41) by DLEE108.ent.ti.com
+ (157.170.170.38) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2507.55; Mon, 14
+ Jul 2025 04:20:11 -0500
+Received: from lelvem-mr06.itg.ti.com (10.180.75.8) by DLEE109.ent.ti.com
+ (157.170.170.41) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2507.55 via
+ Frontend Transport; Mon, 14 Jul 2025 04:20:11 -0500
+Received: from [172.24.26.195] (lt9560gk3.dhcp.ti.com [172.24.26.195])
+ by lelvem-mr06.itg.ti.com (8.18.1/8.18.1) with ESMTP id 56E9K55c269797;
+ Mon, 14 Jul 2025 04:20:06 -0500
+Message-ID: <268f6849-efc6-4663-af20-f6726bd4b78d@ti.com>
+Date: Mon, 14 Jul 2025 14:50:05 +0530
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20250714191729.2416-4-richard@scandent.com>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH RFC net-next 0/5] net: ethernet: ti: am65-cpsw: add AF_XDP
+ zero copy support
+To: Roger Quadros <rogerq@kernel.org>, Siddharth Vadapalli
+ <s-vadapalli@ti.com>, Andrew Lunn <andrew+netdev@lunn.ch>,
+ "David S. Miller" <davem@davemloft.net>,
+ Eric Dumazet <edumazet@google.com>, Jakub Kicinski <kuba@kernel.org>,
+ Paolo Abeni <pabeni@redhat.com>, Alexei Starovoitov <ast@kernel.org>,
+ Daniel Borkmann <daniel@iogearbox.net>, Jesper Dangaard
+ Brouer <hawk@kernel.org>, John Fastabend <john.fastabend@gmail.com>, Sumit
+ Semwal <sumit.semwal@linaro.org>, =?UTF-8?Q?Christian_K=C3=B6nig?=
+ <christian.koenig@amd.com>
+CC: <srk@ti.com>, <netdev@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
+ <bpf@vger.kernel.org>, <linux-media@vger.kernel.org>,
+ <dri-devel@lists.freedesktop.org>, <linaro-mm-sig@lists.linaro.org>
+References: <20250520-am65-cpsw-xdp-zc-v1-0-45558024f566@kernel.org>
+Content-Language: en-US
+From: "Malladi, Meghana" <m-malladi@ti.com>
+In-Reply-To: <20250520-am65-cpsw-xdp-zc-v1-0-45558024f566@kernel.org>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 7bit
+X-C2ProcessedOrg: 333ef613-75bf-4e12-a4b1-8e3623f5dcea
+X-Mailman-Approved-At: Tue, 15 Jul 2025 07:24:49 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -78,50 +83,76 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Richard,
+Hi Roger,
 
-kernel test robot noticed the following build errors:
+On 5/20/2025 3:53 PM, Roger Quadros wrote:
+> This series adds AF_XDP zero coppy support to am65-cpsw driver.
+> 
+> Tests were performed on AM62x-sk with xdpsock application [1].
+> 
+> A clear improvement is seen in 64 byte packets on Transmit (txonly)
+> and receive (rxdrop).
+> 1500 byte test seems to be limited by line rate (1G link) so no
+> improvement seen there in packet rate. A test on higher speed link
+> (or PHY-less setup) might be worthwile.
+> 
+> There is some issue during l2fwd with 64 byte packets and benchmark
+> results show 0. I'm still investigating this issue.
+> 
+> AF_XDP performance using 64 byte packets in Kpps.
+> Benchmark:	XDP-SKB		XDP-Native	XDP-Native(ZeroCopy)
+> rxdrop		317		504		824
+> txonly		400		405		757
+> l2fwd 		207		264		0
+> 
+> AF_XDP performance using 1500 byte packets in Kpps.
+> Benchmark:	XDP-SKB		XDP-Native	XDP-Native(ZeroCopy)
+> rxdrop		82		82		82
+> txonly		82		82		82
+> l2fwd 		82		82		82
+> 
+> [1]: https://github.com/xdp-project/bpf-examples/tree/master/AF_XDP-example
+> 
+> To:
+> 
+> Signed-off-by: Roger Quadros <rogerq@kernel.org>
 
-[auto build test ERROR on robh/for-next]
-[also build test ERROR on linus/master v6.16-rc6]
-[cannot apply to drm-exynos/exynos-drm-next next-20250714]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
+This series crashes Linux on am64xx-hsevm, when I tried nfs boot using 
+AM65-CPSW-NUSS driver:
+logs: 
+https://gist.github.com/MeghanaMalladiTI/d655a1c8ca88113ee7f5f57d6ab0ec4c
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Richard-Yao/dt-bindings-vendor-prefixes-Add-Tianxinwei-name/20250715-031929
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/robh/linux.git for-next
-patch link:    https://lore.kernel.org/r/20250714191729.2416-4-richard%40scandent.com
-patch subject: [PATCH 3/3] drm/panel: ilitek-ili9881c: Add Tianxinwei TWX700100S0 support
-config: arm-randconfig-001-20250715 (https://download.01.org/0day-ci/archive/20250715/202507151301.sFo3NzXA-lkp@intel.com/config)
-compiler: clang version 21.0.0git (https://github.com/llvm/llvm-project 16534d19bf50bde879a83f0ae62875e2c5120e64)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250715/202507151301.sFo3NzXA-lkp@intel.com/reproduce)
+Seems like you have reverted the fix for the same bug which was reported 
+by Siddharth and fixed by Julien: 
+https://lore.kernel.org/all/7f7fb71a-6d15-46f1-b63c-b569a2e230b7@baylibre.com/
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202507151301.sFo3NzXA-lkp@intel.com/
+reverted lines:
+		if (!common->ports[port].ndev)
+		/* FIXME should we BUG here? */
+			continue;
 
-All errors (new ones prefixed by >>):
+Can you please take a look at it.
 
->> drivers/gpu/drm/panel/panel-ilitek-ili9881c.c:1850:3: error: field designator 'lanes' does not refer to any field in type 'const struct ili9881c_desc'
-    1850 |         .lanes = 4,
-         |         ~^~~~~~~~~
-   1 error generated.
-
-
-vim +1850 drivers/gpu/drm/panel/panel-ilitek-ili9881c.c
-
-  1844	
-  1845	static const struct ili9881c_desc txw700100s0_desc = {
-  1846		.init = txw700100s0_init,
-  1847		.init_length = ARRAY_SIZE(txw700100s0_init),
-  1848		.mode = &txw700100s0_default_mode,
-  1849		.mode_flags = MIPI_DSI_MODE_VIDEO_SYNC_PULSE | MIPI_DSI_MODE_VIDEO,
-> 1850		.lanes = 4,
-  1851	};
-  1852	
+> ---
+> Roger Quadros (5):
+>        net: ethernet: ti: am65-cpsw: fix BPF Program change on multi-port CPSW
+>        net: ethernet: ti: am65-cpsw: add XSK pool helpers
+>        net: ethernet: ti: am65-cpsw: Add AF_XDP zero copy for RX
+>        net: ethernet: ti: am65-cpsw: Add AF_XDP zero copy for TX
+>        net: ethernet: ti: am65-cpsw: enable zero copy in XDP features
+> 
+>   drivers/net/ethernet/ti/Makefile         |   2 +-
+>   drivers/net/ethernet/ti/am65-cpsw-nuss.c | 526 +++++++++++++++++++++++++++----
+>   drivers/net/ethernet/ti/am65-cpsw-nuss.h |  37 ++-
+>   drivers/net/ethernet/ti/am65-cpsw-xdp.c  | 155 +++++++++
+>   4 files changed, 656 insertions(+), 64 deletions(-)
+> ---
+> base-commit: 9f607dc39b6658ba8ea647bd99725e68c66071b7
+> change-id: 20250225-am65-cpsw-xdp-zc-2af9e4be1356
+> 
+> Best regards,
 
 -- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+Thanks,
+Meghana Malladi
+
