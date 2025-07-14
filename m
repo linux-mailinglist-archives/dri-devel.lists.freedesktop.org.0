@@ -2,116 +2,89 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 15059B03B37
-	for <lists+dri-devel@lfdr.de>; Mon, 14 Jul 2025 11:45:27 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 96489B03B48
+	for <lists+dri-devel@lfdr.de>; Mon, 14 Jul 2025 11:47:46 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 056A010E1F8;
-	Mon, 14 Jul 2025 09:45:25 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1913310E1FB;
+	Mon, 14 Jul 2025 09:47:44 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=qualcomm.com header.i=@qualcomm.com header.b="UlmyLUPg";
+	dkim=pass (1024-bit key; unprotected) header.d=redhat.com header.i=@redhat.com header.b="JnmtU2rF";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com
- [205.220.180.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2E22B10E1F8
- for <dri-devel@lists.freedesktop.org>; Mon, 14 Jul 2025 09:45:24 +0000 (UTC)
-Received: from pps.filterd (m0279872.ppops.net [127.0.0.1])
- by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 56E95gLA026582
- for <dri-devel@lists.freedesktop.org>; Mon, 14 Jul 2025 09:45:23 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
- cc:content-type:date:from:in-reply-to:message-id:mime-version
- :references:subject:to; s=qcppdkim1; bh=RAwzxfCx7GmXiy6V5DJ7j7sn
- U1MBsuON4yb7/O794BI=; b=UlmyLUPggLg76qotGeFrsy+nINSIvvwtxKOksFd0
- 7RVx5g2PJlNVK3FJjpsefV8CCFaAN8l3mS5dgKRvHIvqy4SRHwvCfdJ+RDT47CxX
- ui+ArKf0zncegTI0z5dGjITETgznrr5pTqYUkhOMO2jqIO94ZeUbSITziJ2E3qFv
- 1yRk4bmJwAkbHEHC4uaAyZkKrhvVlMY2kr+udDH9zxVjHqF57Li3Qc84ut8fWV9T
- NtiTNLKyoH7qbxW5gIxa5AQmqC36znJaAIoknSukVFnKF9OZHzOrVeHS167fpdYH
- Os8QxOnRyoxEOR+w8LhFjKxzpNmWya5UrQ+XHu1bnjEBgw==
-Received: from mail-qk1-f200.google.com (mail-qk1-f200.google.com
- [209.85.222.200])
- by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 47ug37v16e-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
- for <dri-devel@lists.freedesktop.org>; Mon, 14 Jul 2025 09:45:22 +0000 (GMT)
-Received: by mail-qk1-f200.google.com with SMTP id
- af79cd13be357-7d444d21b24so647258485a.1
- for <dri-devel@lists.freedesktop.org>; Mon, 14 Jul 2025 02:45:22 -0700 (PDT)
+Received: from us-smtp-delivery-124.mimecast.com
+ (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9789F10E1FB
+ for <dri-devel@lists.freedesktop.org>; Mon, 14 Jul 2025 09:47:42 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1752486461;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=Tg6OrG2lClZinE0UYtX6042I+em3JNwfWFCrJiRfTNs=;
+ b=JnmtU2rFp8t6YbpBjb+PYQkj62p1TI39VLR0O090W2FkKamm2WnnrhBhgKyZzDwr8EYtv4
+ WBJK5HdJK9H6bAHt1HhsAJnIEjKcezLx4GJ7a6yq6Xw6l5nhBaEBxh4AI5CiH5lIS0ZlyC
+ O4PN0I4XAl0MPpmZXxQgZu0nwJqWRqI=
+Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
+ [209.85.128.70]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-392-i9rnLhT0O_Ks50fJEpK-XA-1; Mon, 14 Jul 2025 05:47:38 -0400
+X-MC-Unique: i9rnLhT0O_Ks50fJEpK-XA-1
+X-Mimecast-MFC-AGG-ID: i9rnLhT0O_Ks50fJEpK-XA_1752486458
+Received: by mail-wm1-f70.google.com with SMTP id
+ 5b1f17b1804b1-454dee17a91so30905135e9.3
+ for <dri-devel@lists.freedesktop.org>; Mon, 14 Jul 2025 02:47:38 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1752486322; x=1753091122;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
- :message-id:reply-to;
- bh=RAwzxfCx7GmXiy6V5DJ7j7snU1MBsuON4yb7/O794BI=;
- b=wBL12aFPpcUSpEer+sjrcymiLydBFvsXdqYlhueQB1Up3qIfFvhwhxry1yBa48cKCv
- 6nxHgF+nKMl0ghwf3hDAFbHHEudhetan1ws3XVUjGah1aCgjoRc45YsrK61s2c4XLZrR
- s3nib540IYoWPyMBCK6+Rig8shOwP+UjYRqQgYzkHGaKjZWgOrH/Q53ugdkBkyrK4Bns
- s/3DNWlD4mYD9gPy5JdO14loBy4kZZwPLHLi6++qQywSYxK2ypOm9ibhkzCzqHRgoSP6
- 6TBK/HsFjxHLWmn++wVO90tH/0ZTc3cKqo2/qmwZv/nw2BKUi2UCjfKrZyUQEiF3yDBh
- kmKw==
+ d=1e100.net; s=20230601; t=1752486457; x=1753091257;
+ h=mime-version:message-id:date:references:in-reply-to:subject:cc:to
+ :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=Tg6OrG2lClZinE0UYtX6042I+em3JNwfWFCrJiRfTNs=;
+ b=ZdJkyzSlSwKJ1Br0JN+BveJE0Ci2dnOFmLwIKwVr1LDKZqoh5+b63+OVI231rKVNl/
+ PnrZaoAPcViTKeXQhiXCx0JtTMHvgUZVUamAqeL8ZprF/5iBy3XfDpvtZWBMrXTDlFPG
+ Bf/l1+K/L2xUyrVw+/W4cgJIRNSqzrsziUkaHcJUuPlLe8NIlp61UFzy5yUN0rVrWrpX
+ VPC3sytcuKVtqoNSHXMdBBKLrWMW/OO3xgKhC+KHeGm1vQDNEBG9oXkVVppXBG4lvCDM
+ lskZrMALAb56tYlfQIaWKP468mZn0sILTQm0mSbxKckKYKVrpE0j6+vHYEOHt2Y9JWyS
+ LGeQ==
 X-Forwarded-Encrypted: i=1;
- AJvYcCX5okjbpmtkUBFa+PHNLeGpD7/bv1tvK31p7ZSbAY355JLQSYmhFZrHohsWIBG++OjSEWEXC+cYWhU=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YzWLykkoNFPL7GVhhRdDgRmjeMdbKRFxQN1up5gDc0fb3tI1E8c
- M2R+3ZsIAhY4phN+ZHa6RGoCa+S82FjC+kF4TpOObpnVVgXSip2NtUON+S6Agp8RH5ShYa/Y+fx
- zyIPeg7WVTYSjwP5t6z8SXZCVfPbVglx/16IzIzxgTHQnKrevdWt7j0EWLxKzaxh8O0zLPWA=
-X-Gm-Gg: ASbGnctYFYuCnQEfE8pZwGYR9PkYaC6/w55RFAAZPYqfQ5BaUAmkNs/VzsS5qfqk3cB
- peqlgg8OUbq4UkLBNBjIftdJcFhM8OSWrNyDVbNIEo7Y+cmCHUy76w8RGLUl9lYbEdY88av1//h
- 8/U+4PuE1V2NxGTILAdfD/BvxCcgzRLVRH0lMS8pYpdcq8MxnqapzUETBtGdeT3GNfWPAm6pQQB
- nMMCuLEq4F304LHWrrEF4RtHaFF4yXXuigYep+To4airoBxaVWa6ZKLDRuBmI1kSLySPK/4qET4
- qhaGyXwYlePsgGZOHyRzdSF4VqLEphWRF4NrYKO5wtJ8HbMLdroM/ocoKSYWXgcEAseeZjOZJic
- I69ovzViD2CCS8MFmxFC/Ps+F7YguXoEy8yFo/NQthhD63VprRRvL
-X-Received: by 2002:a05:620a:319b:b0:7d3:90b3:28f with SMTP id
- af79cd13be357-7dde9b5fcebmr1665486785a.5.1752486321972; 
- Mon, 14 Jul 2025 02:45:21 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IFvhM/t1FHIrVZWVYG9mhbjIjtg3iUsjf8ZC04xPKQpfbPSy7xMPnq9ivIn1rnjpbbWl2zg9w==
-X-Received: by 2002:a05:620a:319b:b0:7d3:90b3:28f with SMTP id
- af79cd13be357-7dde9b5fcebmr1665483385a.5.1752486321371; 
- Mon, 14 Jul 2025 02:45:21 -0700 (PDT)
-Received: from umbar.lan
- (2001-14ba-a0c3-3a00-264b-feff-fe8b-be8a.rev.dnainternet.fi.
- [2001:14ba:a0c3:3a00:264b:feff:fe8b:be8a])
- by smtp.gmail.com with ESMTPSA id
- 2adb3069b0e04-5593c7ea9e4sm1889678e87.73.2025.07.14.02.45.20
+ AJvYcCViHjFK4yXu0nJqll17CMqXMo7yqBOt/jvq8a4DKKRcA0bwrLEu22MRg/6UbWc+CDVpm3nkiApwk7o=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YzuRHuKHcsk4rhZNJu1n6h1Iz50IiRqjkdMU6Zvy3r6dYUTZ7aP
+ A1PiQKALKtDVlAETkICBwiTdVo/oftG8sr90MFQLW8tfuajLtG2o92t1gpzG+dXiX/M2bcoEXTB
+ JGx3Pr3GCLcWTeQpAAx0thDVCm0Gh9w0lgg2AHoq0TXV8FgtSIYOEtYKFr/qnzTt0yVmXZA==
+X-Gm-Gg: ASbGncuulgP9UUWVIGxlz4z2vtLRg+k2vGvqKT/hV9ZUzlz/O8pKZAImQJmimdGXY2K
+ 7HbKmKlqgjF/ZNJhfaPt4KojgPneFKzXapmI2kjPxpcdHX0dT5hXGotThO+h+hyAMVFsmSEwfOC
+ gabPoo/B7MlC3LbkxSvi5R2jIlaq2tBriYhprrK1HwC7DHpzwCx160C8B62fbDtkFHFW5KyIWM6
+ 8uB/TdDxmFAOQ3eMYGrdDjWlE7eh8+LV9Y0csLf2fhbcEAtAFT8SXiUgEl1R3VudLyKLC92kJRV
+ HlE1pliB2Uoa0vAZjnhD1dOlCHFFQ+eu6sd+cHBqE1O3DrZl0y5cBODgfXTL6nOBBQ==
+X-Received: by 2002:a05:600c:3512:b0:441:d437:e3b8 with SMTP id
+ 5b1f17b1804b1-454f425e54bmr104132915e9.23.1752486457487; 
+ Mon, 14 Jul 2025 02:47:37 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IH6GLJ/UoOdy4fat1894JkNggjKUy6Oe0jdCke5tLCOwZhy64jd93MzBjwuQH2IlasuWTc/rw==
+X-Received: by 2002:a05:600c:3512:b0:441:d437:e3b8 with SMTP id
+ 5b1f17b1804b1-454f425e54bmr104132715e9.23.1752486456999; 
+ Mon, 14 Jul 2025 02:47:36 -0700 (PDT)
+Received: from localhost ([89.128.88.54]) by smtp.gmail.com with ESMTPSA id
+ 5b1f17b1804b1-456111574adsm49430775e9.11.2025.07.14.02.47.36
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 14 Jul 2025 02:45:20 -0700 (PDT)
-Date: Mon, 14 Jul 2025 12:45:18 +0300
-From: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
-To: Ling Xu <quic_lxu5@quicinc.com>
-Cc: srini@kernel.org, amahesh@qti.qualcomm.com, robh@kernel.org,
- krzk+dt@kernel.org, conor+dt@kernel.org, andersson@kernel.org,
- konradybcio@kernel.org, arnd@arndb.de, gregkh@linuxfoundation.org,
- quic_kuiw@quicinc.com, ekansh.gupta@oss.qualcomm.com,
- devicetree@vger.kernel.org, linux-arm-msm@vger.kernel.org,
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v7 4/4] misc: fastrpc: add support for gdsp remoteproc
-Message-ID: <lzdhczkz6irj2u2cwxounro3qcmp3glqzswreoqqvxibeeacny@tiohbb3bv4at>
-References: <20250714054133.3769967-1-quic_lxu5@quicinc.com>
- <20250714054133.3769967-5-quic_lxu5@quicinc.com>
+ Mon, 14 Jul 2025 02:47:36 -0700 (PDT)
+From: Javier Martinez Canillas <javierm@redhat.com>
+To: Thomas Zimmermann <tzimmermann@suse.de>, linux-kernel@vger.kernel.org
+Cc: ipedrosa@redhat.com, David Airlie <airlied@gmail.com>, Maarten Lankhorst
+ <maarten.lankhorst@linux.intel.com>, Marcus Folkesson
+ <marcus.folkesson@gmail.com>, Maxime Ripard <mripard@kernel.org>, Simona
+ Vetter <simona@ffwll.ch>, dri-devel@lists.freedesktop.org
+Subject: Re: [PATCH 2/3] drm/sitronix/st7571-i2c: Make the reset GPIO to be
+ optional
+In-Reply-To: <a5cb70b2-f724-4d5e-910c-0b92dd759ebf@suse.de>
+References: <20250710102453.101078-1-javierm@redhat.com>
+ <20250710102453.101078-3-javierm@redhat.com>
+ <a5cb70b2-f724-4d5e-910c-0b92dd759ebf@suse.de>
+Date: Mon, 14 Jul 2025 11:47:35 +0200
+Message-ID: <87tt3fksso.fsf@minerva.mail-host-address-is-not-set>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20250714054133.3769967-5-quic_lxu5@quicinc.com>
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwNzE0MDA1NiBTYWx0ZWRfX1kiVUOjzlvzC
- BffpFBPEIQgVUOhnsR8muKmNyn5ruWOLgQITG0AUwunWQr7qfSVS6kkr6AINUorrdYrvfqecs67
- nTeA/Ord9f4Tido3cRiDjiIKQQqeD7y+TTADzptejftoZCj5fuKPMb0IfGBN0k72bSRjsrdhR+p
- 4ZdyTrTDoMKQn75twm27gSqS2Ym39DB6FdoGNGRaYBPJZUTuNPhhwzttdOzacrwCW9rOlnGVbRI
- I1ioFasMS8lBv4BfHbKmAygw1SPxdPz2v/Nh1bUDdUv5fql4i6Gs2LLp4TcgDw1I4JSK1o/9y33
- 4MZYe5bXVR9wsv4UIFhw/8WH3icEp6MpycfCboDI552slvZWvDHjByJ8CnXCZgSTuIWSL8VLhhM
- 51cxzf5A8/NKmP9GwRy/aBAM1gbWza1uiFCrgF2Tq+Ti1eOsRA2RSna+wQsEhc8os59OBbul
-X-Proofpoint-GUID: wDnyc9ONWSmiFKKLt_rl7l7B2EVWc1HT
-X-Authority-Analysis: v=2.4 cv=SZT3duRu c=1 sm=1 tr=0 ts=6874d1b2 cx=c_pps
- a=hnmNkyzTK/kJ09Xio7VxxA==:117 a=xqWC_Br6kY4A:10 a=kj9zAlcOel0A:10
- a=Wb1JkmetP80A:10 a=COk6AnOGAAAA:8 a=EUspDBNiAAAA:8 a=GAzI_fwOJHwl1SWvAbcA:9
- a=CjuIK1q_8ugA:10 a=PEH46H7Ffwr30OY-TuGO:22 a=TjNXssC_j7lpFel5tvFf:22
-X-Proofpoint-ORIG-GUID: wDnyc9ONWSmiFKKLt_rl7l7B2EVWc1HT
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1099,Hydra:6.1.7,FMLib:17.12.80.40
- definitions=2025-07-14_01,2025-07-09_01,2025-03-28_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- clxscore=1015 mlxlogscore=841 mlxscore=0 priorityscore=1501
- lowpriorityscore=0 bulkscore=0 adultscore=0 impostorscore=0 malwarescore=0
- phishscore=0 spamscore=0 suspectscore=0 classifier=spam authscore=0
- authtc=n/a authcc= route=outbound adjust=0 reason=mlx scancount=1
- engine=8.19.0-2505280000 definitions=main-2507140056
+X-Mimecast-Spam-Score: 0
+X-Mimecast-MFC-PROC-ID: 8SITTB6h1VkOFvc8Phl6MbdgYPVi-OUFAn375i2-Tpg_1752486458
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -127,22 +100,61 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, Jul 14, 2025 at 11:11:33AM +0530, Ling Xu wrote:
-> Some platforms (like sa8775p) feature one or more GPDSPs (General
-> Purpose DSPs). Similar to other kinds of Hexagon DSPs, they provide
-> a FastRPC implementation, allowing code execution in both signed and
-> unsigned protection domains. Extend the checks to allow domain names
-> starting with "gdsp" (possibly followed by an index).
-> 
-> Signed-off-by: Ling Xu <quic_lxu5@quicinc.com>
-> ---
->  drivers/misc/fastrpc.c | 6 +++++-
->  1 file changed, 5 insertions(+), 1 deletion(-)
-> 
+Thomas Zimmermann <tzimmermann@suse.de> writes:
 
-Reviewed-by: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
+> Hi
+>
+> Am 10.07.25 um 12:24 schrieb Javier Martinez Canillas:
+>> Some Sitronix LCD controllers (such as the ST7567) don't have a reset pin,
+>> so lets relax this in the driver and make the reset GPIO to be optional.
+>>
+>> The devm_gpiod_get_optional() helper is similar to devm_gpiod_get(), but
+>> returns NULL when there isn't a reset-gpios property defined in a DT node.
+>>
+>> The DT binding schema for "sitronix,st7571" that require a reset GPIO will
+>> enforce the "reset-gpios" to be present, due being a required DT property.
+>> But in the driver itself the property can be made optional if not defined.
+>>
+>> Signed-off-by: Javier Martinez Canillas <javierm@redhat.com>
+>> ---
+>>
+>>   drivers/gpu/drm/sitronix/st7571-i2c.c | 8 ++++++--
+>>   1 file changed, 6 insertions(+), 2 deletions(-)
+>>
+>> diff --git a/drivers/gpu/drm/sitronix/st7571-i2c.c b/drivers/gpu/drm/sitronix/st7571-i2c.c
+>> index eec846892962..73e8db25f895 100644
+>> --- a/drivers/gpu/drm/sitronix/st7571-i2c.c
+>> +++ b/drivers/gpu/drm/sitronix/st7571-i2c.c
+>> @@ -802,15 +802,19 @@ static int st7571_parse_dt(struct st7571_device *st7571)
+>>   	st7571->nlines = dt.vactive.typ;
+>>   	st7571->ncols = dt.hactive.typ;
+>>   
+>> -	st7571->reset = devm_gpiod_get(dev, "reset", GPIOD_OUT_HIGH);
+>> +	st7571->reset = devm_gpiod_get_optional(dev, "reset", GPIOD_OUT_HIGH);
+>>   	if (IS_ERR(st7571->reset))
+>> -		return PTR_ERR(st7571->reset);
+>> +		return dev_err_probe(dev, PTR_ERR(st7571->reset),
+>> +				     "Failed to get reset gpio\n");
+>
+> There's struct st7571_panel_data. It could store a flag signalling the 
+> expected behavior.
+>
 
+Indeed.
+
+> With more effort the panel_data could store a dedicated parse_dt pointer 
+> for each panel type. ASAICT the st7567 features a subset of the other 
+> type. So there might not be much code duplication.
+>
+
+This is a good idea too. I think that will do that for v2.
+
+Thanks a lot for your feedback!
 
 -- 
-With best wishes
-Dmitry
+Best regards,
+
+Javier Martinez Canillas
+Core Platforms
+Red Hat
+
