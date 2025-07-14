@@ -2,95 +2,50 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 85855B046FD
-	for <lists+dri-devel@lfdr.de>; Mon, 14 Jul 2025 19:59:44 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id E4D98B0476E
+	for <lists+dri-devel@lfdr.de>; Mon, 14 Jul 2025 20:33:34 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E99A610E29E;
-	Mon, 14 Jul 2025 17:59:24 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id AF08F10E091;
+	Mon, 14 Jul 2025 18:33:31 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=chromium.org header.i=@chromium.org header.b="TImpkLcU";
+	dkim=pass (1024-bit key; unprotected) header.d=linux.dev header.i=@linux.dev header.b="ZTEBT6Pb";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pg1-f170.google.com (mail-pg1-f170.google.com
- [209.85.215.170])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 157CE10E29E
- for <dri-devel@lists.freedesktop.org>; Mon, 14 Jul 2025 17:59:23 +0000 (UTC)
-Received: by mail-pg1-f170.google.com with SMTP id
- 41be03b00d2f7-b26f5f47ba1so3669388a12.1
- for <dri-devel@lists.freedesktop.org>; Mon, 14 Jul 2025 10:59:23 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=chromium.org; s=google; t=1752515957; x=1753120757;
- darn=lists.freedesktop.org; 
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc:subject:date
- :message-id:reply-to;
- bh=OG3AY/r+5jGyweejzWZqU76oacNUXzplqvD2s/v/W0c=;
- b=TImpkLcUoF3ZaQK0n6Ik4CF54hs1MV3LfbvPV+j6pNSmQ+f88wcvGGcm5w7lQHXEk9
- RlJE5VlFC8UcPecg1fXLKg5JhhUuWzsrMfK477N7NZWEczButrfL3TktopUm0Ps2JwjU
- VeC0cEu5akmezv1qd3q4Oe5ILqlcJ/691r1fQ=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1752515957; x=1753120757;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=OG3AY/r+5jGyweejzWZqU76oacNUXzplqvD2s/v/W0c=;
- b=wPHcMihGvRTSZEJ/0w1Cvhu5i/oZflwfbMlYeARLZ97kUlQNW+hfPFa1Pm2RSZwSu0
- BsTZniGygZIqMTQXRm6rPmfVAdF/UzmyUgX2bvm+5Ry9IpYysv/h1Q7mA4cmdceBC5Ho
- c0VOh6tA5ySBDPzR+Yi+Pw35fkV40MD/u6L6HqDYQCmUPpLItQ9kkMJ4jtubWFmvdyzO
- A7d9/TNFwdt2FaPCzfWfcWbCZjixEcMiifUIDi3ASqW9R8Hc4Y5mI7YHCQMDPFSG4sij
- hRSw7hpTb4PWf/jj3IeV8lBTA/70cmpxrnkDCA1gAJV46STk2EVgCecQGSsW9gIvxI8J
- Nl6w==
-X-Forwarded-Encrypted: i=1;
- AJvYcCUBqUgSZwz9O8n5bbN/JR3v6jszUwDuyOvPuKs9haDxyQzyQEF08cX15dNNiR6KP/yGHLEL1DulBZI=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YyT8Qtv7c/OaUn8BH+LW8SNC2DcfGj5q9Fp4Yh8Z1hbe2KdBR2U
- /yWeuBFfHRidvfoXAyLiydBvWcPuZ72XvR55IsTIrWvfPPRWzoHCldv85FgpD5fuwCybbKSioE7
- Jlos=
-X-Gm-Gg: ASbGnctSqujB2aW/TJlZUP1Rtxsr4wT2E9PrE2CYYPSLJ4VsfO22dqXtSVUj5bJaokg
- JdqVams+rrdQb7KBGAKbaSQ+BPOaoUWI6x9U14jR82Y6FMZWEElLCP920bDfp23P6pwflfAQ94X
- DsE8I0hLYjBmYOa51HU+ulJyNoIrUnc4ZZEr0AxoIEIUlCxbaOmSrmy2L5dLmK1BnRMFUoJyC+6
- Y72KQzfiEpG710OP0n+sHPb0zoN3/plHQ2r1q8h1kXVioaiZRIrIQjQnFYpTT+mQBNEouNm3Pus
- Lng78LdQ0nk/vJcxXN2Mcb2ayDcsAWaUpVSARacbUZjLIhSzn6bqSgmf2iYz98Jsu4uV0+Q6ztP
- E0j79jrv6Z8OjH5SFDYBJN6Urhie/5QxzyFha1Y0F6Lear/qHVzNhWCeWahJvnw==
-X-Google-Smtp-Source: AGHT+IFZ8s+hBGowAsNjiWMdt8PNoJUGB57zC+ttuExN00cOB5L6rzlyPR85aw9/iikm/HYVvO+SjA==
-X-Received: by 2002:a17:90b:4c0b:b0:313:2e69:8002 with SMTP id
- 98e67ed59e1d1-31c4ccdb25amr20390528a91.20.1752515957377; 
- Mon, 14 Jul 2025 10:59:17 -0700 (PDT)
-Received: from mail-pj1-f54.google.com (mail-pj1-f54.google.com.
- [209.85.216.54]) by smtp.gmail.com with ESMTPSA id
- 41be03b00d2f7-b3bbe587070sm10582052a12.29.2025.07.14.10.59.11
- for <dri-devel@lists.freedesktop.org>
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 14 Jul 2025 10:59:15 -0700 (PDT)
-Received: by mail-pj1-f54.google.com with SMTP id
- 98e67ed59e1d1-313a001d781so3622803a91.3
- for <dri-devel@lists.freedesktop.org>; Mon, 14 Jul 2025 10:59:11 -0700 (PDT)
-X-Forwarded-Encrypted: i=1;
- AJvYcCVSvLHM58CW/I+RDtbCcj46Yrr8LtgHN+Am/N0J3uKEEgK2HTSpJJfOglR1TjqgIg9G/Z6nVIv588k=@lists.freedesktop.org
-X-Received: by 2002:a17:90b:6cb:b0:311:c5d9:2c79 with SMTP id
- 98e67ed59e1d1-31c4ccdd5c0mr20464043a91.21.1752515950671; Mon, 14 Jul 2025
- 10:59:10 -0700 (PDT)
+Received: from out-171.mta0.migadu.com (out-171.mta0.migadu.com
+ [91.218.175.171])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 08CE510E091
+ for <dri-devel@lists.freedesktop.org>; Mon, 14 Jul 2025 18:33:28 +0000 (UTC)
+Date: Mon, 14 Jul 2025 11:33:21 -0700
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
+ t=1752518006;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=V0w35sJiaFHKvoa98nG7CjPkF9EmUF1Ww6GJaNOJtTs=;
+ b=ZTEBT6Pbnvhhx9aSZPRbvf9H5sxgmTRsbc4SufMQVgPBitsj+t8xI61Cd9xB+MYbfamVpr
+ Tiaxk4ECpU9Fm+pNlWcQ+tCxH4D0mESOhcrPH+gFJIEWG6AzOC8TWnhxlOFjvpxq7uOsWA
+ DrhH6wun759jmhp7wMXW0kU/w6frt8Q=
+X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and
+ include these headers.
+From: Shakeel Butt <shakeel.butt@linux.dev>
+To: Dave Airlie <airlied@gmail.com>
+Cc: dri-devel@lists.freedesktop.org, linux-mm@kvack.org, 
+ Johannes Weiner <hannes@cmpxchg.org>,
+ Christian Koenig <christian.koenig@amd.com>, 
+ Dave Chinner <david@fromorbit.com>, Kairui Song <kasong@tencent.com>, 
+ Dave Airlie <airlied@redhat.com>, Matthew Brost <matthew.brost@intel.com>, 
+ Andrew Morton <akpm@linux-foundation.org>
+Subject: Re: [PATCH 02/18] drm/ttm: use gpu mm stats to track gpu memory
+ allocations. (v3)
+Message-ID: <6jilicmybrxnrv3ynpcheh7skij6caly6bqs5mls77tovmiskz@sxhok6ewvilg>
+References: <20250714052243.1149732-1-airlied@gmail.com>
+ <20250714052243.1149732-3-airlied@gmail.com>
 MIME-Version: 1.0
-References: <20250706205723.9790-2-val@packett.cool>
- <20250706205723.9790-7-val@packett.cool>
-In-Reply-To: <20250706205723.9790-7-val@packett.cool>
-From: Doug Anderson <dianders@chromium.org>
-Date: Mon, 14 Jul 2025 10:58:58 -0700
-X-Gmail-Original-Message-ID: <CAD=FV=V7HckYJn6Lrh8deipcX=_T3s_B=oXeVSQuxt1a01dwEg@mail.gmail.com>
-X-Gm-Features: Ac12FXw7OXhFtZwKbLQwLc4HMDijZPxZ1TH2maNwjg4oUlQ_nk5JprebZ5XShwY
-Message-ID: <CAD=FV=V7HckYJn6Lrh8deipcX=_T3s_B=oXeVSQuxt1a01dwEg@mail.gmail.com>
-Subject: Re: [PATCH v3 5/5] drm/panel-edp: Add BOE NE14QDM panel for Dell
- Latitude 7455
-To: Val Packett <val@packett.cool>
-Cc: Neil Armstrong <neil.armstrong@linaro.org>, 
- Jessica Zhang <jessica.zhang@oss.qualcomm.com>, 
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, 
- Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
- Simona Vetter <simona@ffwll.ch>, 
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20250714052243.1149732-3-airlied@gmail.com>
+X-Migadu-Flow: FLOW_OUT
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -106,37 +61,104 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi,
-
-On Sun, Jul 6, 2025 at 1:59=E2=80=AFPM Val Packett <val@packett.cool> wrote=
-:
->
-> Cannot confirm which variant exactly it is, as the EDID alphanumeric data
-> contains '0RGNR' <0x80> 'NE14QDM' and ends there; but it's 60 Hz and with
-> touch.
->
-> I do not have access to datasheets for these panels, so the timing is
-> a guess that was tested to work fine on this laptop.
->
-> Raw EDID dump:
->
-> 00 ff ff ff ff ff ff 00 09 e5 1e 0b 00 00 00 00
-> 10 20 01 04 a5 1e 13 78 07 fd 85 a7 53 4c 9b 25
-> 0f 50 54 00 00 00 01 01 01 01 01 01 01 01 01 01
-> 01 01 01 01 01 01 a7 6d 00 a0 a0 40 78 60 30 20
-> 36 00 2e bc 10 00 00 1a b9 57 00 a0 a0 40 78 60
-> 30 20 36 00 2e bc 10 00 00 1a 00 00 00 fe 00 30
-> 52 47 4e 52 80 4e 45 31 34 51 44 4d 00 00 00 00
-> 00 02 41 31 a8 00 01 00 00 1a 41 0a 20 20 00 8f
->
-> Signed-off-by: Val Packett <val@packett.cool>
+On Mon, Jul 14, 2025 at 03:18:17PM +1000, Dave Airlie wrote:
+> From: Dave Airlie <airlied@redhat.com>
+> 
+> This uses the newly introduced per-node gpu tracking stats,
+> to track GPU memory allocated via TTM and reclaimable memory in
+> the TTM page pools.
+> 
+> These stats will be useful later for system information and
+> later when mem cgroups are integrated.
+> 
+> Cc: Christian Koenig <christian.koenig@amd.com>
+> Cc: Matthew Brost <matthew.brost@intel.com>
+> Cc: Johannes Weiner <hannes@cmpxchg.org>
+> Cc: linux-mm@kvack.org
+> Cc: Andrew Morton <akpm@linux-foundation.org>
+> Signed-off-by: Dave Airlie <airlied@redhat.com>
+> 
 > ---
->  drivers/gpu/drm/panel/panel-edp.c | 1 +
->  1 file changed, 1 insertion(+)
+> v2: add reclaim parameters and adjust the right counters.
+> v3: drop the nid helper and get it from page.
+> ---
+>  drivers/gpu/drm/ttm/ttm_pool.c | 25 +++++++++++++++++++------
+>  1 file changed, 19 insertions(+), 6 deletions(-)
+> 
+> diff --git a/drivers/gpu/drm/ttm/ttm_pool.c b/drivers/gpu/drm/ttm/ttm_pool.c
+> index baf27c70a419..ee2344089d47 100644
+> --- a/drivers/gpu/drm/ttm/ttm_pool.c
+> +++ b/drivers/gpu/drm/ttm/ttm_pool.c
+> @@ -150,8 +150,10 @@ static struct page *ttm_pool_alloc_page(struct ttm_pool *pool, gfp_t gfp_flags,
+>  
+>  	if (!pool->use_dma_alloc) {
+>  		p = alloc_pages_node(pool->nid, gfp_flags, order);
+> -		if (p)
+> +		if (p) {
+>  			p->private = order;
+> +			mod_node_page_state(NODE_DATA(page_to_nid(p)), NR_GPU_ACTIVE, (1 << order));
 
-Reviewed-by: Douglas Anderson <dianders@chromium.org>
+Please use mod_lruvec_page_state() here.
 
-Pushed to drm-misc-next:
+> +		}
+>  		return p;
+>  	}
+>  
+> @@ -186,7 +188,7 @@ static struct page *ttm_pool_alloc_page(struct ttm_pool *pool, gfp_t gfp_flags,
+>  
+>  /* Reset the caching and pages of size 1 << order */
+>  static void ttm_pool_free_page(struct ttm_pool *pool, enum ttm_caching caching,
+> -			       unsigned int order, struct page *p)
+> +			       unsigned int order, struct page *p, bool reclaim)
+>  {
+>  	unsigned long attr = DMA_ATTR_FORCE_CONTIGUOUS;
+>  	struct ttm_pool_dma *dma;
+> @@ -201,6 +203,9 @@ static void ttm_pool_free_page(struct ttm_pool *pool, enum ttm_caching caching,
+>  #endif
+>  
+>  	if (!pool || !pool->use_dma_alloc) {
+> +		mod_node_page_state(NODE_DATA(page_to_nid(p)),
+> +				    reclaim ? NR_GPU_RECLAIM : NR_GPU_ACTIVE,
+> +				    -(1 << order));
 
-[5/5] drm/panel-edp: Add BOE NE14QDM panel for Dell Latitude 7455
-      commit: 1a304a2f8f7dbe25f555721f502227f9197145ed
+Same here.
+
+>  		__free_pages(p, order);
+>  		return;
+>  	}
+> @@ -276,6 +281,7 @@ static void ttm_pool_unmap(struct ttm_pool *pool, dma_addr_t dma_addr,
+>  static void ttm_pool_type_give(struct ttm_pool_type *pt, struct page *p)
+>  {
+>  	unsigned int i, num_pages = 1 << pt->order;
+> +	int nid = page_to_nid(p);
+>  
+>  	for (i = 0; i < num_pages; ++i) {
+>  		if (PageHighMem(p))
+> @@ -288,17 +294,24 @@ static void ttm_pool_type_give(struct ttm_pool_type *pt, struct page *p)
+>  	list_add(&p->lru, &pt->pages);
+>  	spin_unlock(&pt->lock);
+>  	atomic_long_add(1 << pt->order, &allocated_pages);
+> +
+> +	mod_node_page_state(NODE_DATA(nid), NR_GPU_ACTIVE, -num_pages);
+> +	mod_node_page_state(NODE_DATA(nid), NR_GPU_RECLAIM, num_pages);
+
+Same here.
+
+>  }
+>  
+>  /* Take pages from a specific pool_type, return NULL when nothing available */
+>  static struct page *ttm_pool_type_take(struct ttm_pool_type *pt)
+>  {
+>  	struct page *p;
+> +	int nid;
+>  
+>  	spin_lock(&pt->lock);
+>  	p = list_first_entry_or_null(&pt->pages, typeof(*p), lru);
+>  	if (p) {
+> +		nid = page_to_nid(p);
+>  		atomic_long_sub(1 << pt->order, &allocated_pages);
+> +		mod_node_page_state(NODE_DATA(nid), NR_GPU_ACTIVE, (1 << pt->order));
+> +		mod_node_page_state(NODE_DATA(nid), NR_GPU_RECLAIM, -(1 << pt->order));
+
+Same here.
+
