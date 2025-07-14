@@ -2,82 +2,98 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 49CF1B044F9
-	for <lists+dri-devel@lfdr.de>; Mon, 14 Jul 2025 18:04:35 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3D51FB0453E
+	for <lists+dri-devel@lfdr.de>; Mon, 14 Jul 2025 18:17:48 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2419110E055;
-	Mon, 14 Jul 2025 16:04:32 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7AD0210E4F5;
+	Mon, 14 Jul 2025 16:17:46 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=darkrefraction-com.20230601.gappssmtp.com header.i=@darkrefraction-com.20230601.gappssmtp.com header.b="0Busqj+r";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="Xbd4nKjn";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ej1-f53.google.com (mail-ej1-f53.google.com
- [209.85.218.53])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 664E710E093
- for <dri-devel@lists.freedesktop.org>; Mon, 14 Jul 2025 16:04:30 +0000 (UTC)
-Received: by mail-ej1-f53.google.com with SMTP id
- a640c23a62f3a-ae0e0271d82so814190166b.3
- for <dri-devel@lists.freedesktop.org>; Mon, 14 Jul 2025 09:04:30 -0700 (PDT)
+Received: from mail-pj1-f53.google.com (mail-pj1-f53.google.com
+ [209.85.216.53])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A3CE910E4F5
+ for <dri-devel@lists.freedesktop.org>; Mon, 14 Jul 2025 16:17:45 +0000 (UTC)
+Received: by mail-pj1-f53.google.com with SMTP id
+ 98e67ed59e1d1-313dc7be67aso828864a91.0
+ for <dri-devel@lists.freedesktop.org>; Mon, 14 Jul 2025 09:17:45 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=darkrefraction-com.20230601.gappssmtp.com; s=20230601; t=1752509069;
- x=1753113869; darn=lists.freedesktop.org; 
+ d=gmail.com; s=20230601; t=1752509865; x=1753114665; darn=lists.freedesktop.org;
  h=content-transfer-encoding:cc:to:subject:message-id:date:from
  :in-reply-to:references:mime-version:from:to:cc:subject:date
  :message-id:reply-to;
- bh=dqXm/T0vczF/8wwedbnGXW3hQmadLRteatm7i2xnx2o=;
- b=0Busqj+rnoQmPv+fk4IXJMD3Rsh0MaavvekD3e1zY7f2MO5mgZ6TQ4aWCiUXI1zhkQ
- A4koF0E+c8AJK7nr4LeQMCRZLUVF5UY0S5wg+OpoUhqAslS+Y0xpkfqz0jH8hRAJIQ6q
- rCKHqlDFTpz3eJl0flTSTfvIPYNODJNPhEOuO4CgQv7Y2fuF4ocT1p9agp3epZReI0V3
- /YQSPvkt0kcV0Tl7KHIHW0npBhtkNzbG6CXp6cyydHxJ+q6TuGATJoZit1BvjxBWZpFn
- 20sNVi3IFhiU9aG2PNeKOVi2ZlavuM+GEZZ1IVCw+xzcE6/dE0aOXF1BHQleYXxb7fmD
- roAA==
+ bh=VgOAVJdh0mPlo3j6MglPtse4vJgYOB+5e63dn1DdYVk=;
+ b=Xbd4nKjnYcObIAe/+RJ02I35CGfMRI5ThmyrbarHJ4cM9NHITNFFysInnXoP8Pm7g2
+ tC+UkU/0OlBgYkjrssLyyOJs9CcgKYajKkhFGvQ28k/CNE2EpRMXPX4hW6wUrEDX/+vQ
+ e/gkLojDoBP2Qtf3Clh2IpBZEpd7z+Mcp5bb/CxOMiYCk1+lxgCITNm4kuTO+2FgYCFG
+ 1zApEOfWEa9p/AnNA6OPE1CszMuCkVrGmKwHLXnMkg4Sme7Fx19H8qj0OIgE4vTECDYr
+ RKtM9klA2FwUO+FNog3CAj+gX8P887qETbzFfTZfCh9KXYoEofMWbztWTuOn/JnKGAec
+ tE8w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1752509069; x=1753113869;
+ d=1e100.net; s=20230601; t=1752509865; x=1753114665;
  h=content-transfer-encoding:cc:to:subject:message-id:date:from
  :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=dqXm/T0vczF/8wwedbnGXW3hQmadLRteatm7i2xnx2o=;
- b=PGMj+7EqgEoC5xjTsm7XXdvOYNl7EgKdIrFuatme74Wt/32GWTY8adLbMZFvxfOLU2
- coEYHvfqJGfsPzZ+Zn6FebDZ3xPP2O4iT1m8OW3CtpqUIfErUveKyhtXiO8KUq3JkV07
- 24fg4uvKOsQPiOTR7Qg+TY60JJ2oV/nj0+1GasMe5RXFfv0z57X8zabBBVBKcwaNb6We
- sihegX5xoSTC9OkknkAvTSAAr3L5MFWJzn0SHj9PUCk3kdIdZr3ML0NVMjvi/w83S+XT
- jppeKvN4jlYk9cu15zqQDJ9l1DkxwfP4gPoZf0UcuVnCt4bGJYFHYRP0WPrLDok+ZAK4
- mAXw==
+ bh=VgOAVJdh0mPlo3j6MglPtse4vJgYOB+5e63dn1DdYVk=;
+ b=cXy0M/KEIR2OcT04ahVGz9BmvuYlrmV1QMhS4JCnxvDfqQl/PSZtQ0nO0RA+5mtoif
+ S6iwauqXJ079T3bUwCIo//NCNncK19mIzaTTafy2NA3yWX6ENpLXTcecXw8b9bd0OADY
+ o58Xh4OGqL8ekv0N+asr9FrG7eRTOHiOJ9xjqGHDSaJ+AD/YDD+BdcH3WYeIDnSU6DIo
+ 3UCNEnDctGMoAuYjEMA0vf4MPr2DUfVNa49kC7Lq196RyTWXTLr2OFF96AFTEMmmP9+5
+ SRDIVvFeZ2SNTVwQC6EPCh+Jd+9/2j/OWsZF9Tjoh9fMCzaehrfDSclvL0DhTWnu5jDm
+ f6tA==
 X-Forwarded-Encrypted: i=1;
- AJvYcCXxSguCqQVumX9anPnE06NCTx7JPczzQ23MAXP06yMUnxQl5I0wsFcru4ow24RrIvEDzNot4BgIFQk=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0Yw0vknYp3oxD7bstxPBFVxgCz4qD+G26yGi7HNBHnoCyCX+uJS6
- hpEUE5sLTmY7bvb1aWLgnVXni6/k4HZih5psHPsN/ssC1o0JwkJ8X4rMaY6wGdvLhssuf0YCKTG
- +KDbz2wxINUjsJypf5+dCC5yW+JV9WmZpAyY8yFFK3Q==
-X-Gm-Gg: ASbGnctakIf4eguEpSD/6G3BBMVqOzyYjWJJQpUgxb1hN8LMigGMQ3Ds0ogpFBbN4kN
- okgH/fNzEBw7M021n8Krp0Dm53ucpmNqxK5wQX5qVtygyOe1qU14FnurkXNKdBH+2pBs21Gam9H
- 0S5IaGHajDL+ejJHbxJ9hFVc5MEvtU1lKUhuv+opbIX52uTdrgsnukAtcz6a25FTWl3m81i8izV
- XOJlYvgwxP3LZrSo8o=
-X-Google-Smtp-Source: AGHT+IEa9/U8ZoI5SDlaH2Qpt+vmCSoSI5qreRFwcJbAXp/1OEwu7K55Iz/uHKxKmngvp65qOqd3vx9FoH0G4HY1bJw=
-X-Received: by 2002:a17:907:9811:b0:ad5:2328:e39b with SMTP id
- a640c23a62f3a-ae6fbf20e29mr1465673366b.31.1752509068346; Mon, 14 Jul 2025
- 09:04:28 -0700 (PDT)
+ AJvYcCVUHoFHI5iOD0wZIhsL2YUtAYZBRmWbUb/3h5ZvrKyrLNOkxGtoHE8UuE15wbh7CVy/OHdNQOsFNRc=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YzK1nseZ0Lh7QBpOf8/qTcKpn99p0Y41lQ/eE099+w4I+RZoACN
+ duQAh/bDxodv4guyeANZd3btPp2PnKkkiRK9YdaIDiOAv7NxpOS3ExrlfwgaB6SBYX4D83V8j67
+ dVD8N4AZ3/abktK9glMpToDnmJ3JMW8s=
+X-Gm-Gg: ASbGnctkkb+XxSrTkjYbshkp7prw4Qkpqxudlix5m256efaeEdL0XigZH+BF+pAnRKe
+ drSDHloi/g3iooNHWLChvNH8eLHmfC9J/0fSEfZMc+cOkpGp3mGuBMPMiZbpbomU4oZ6x2112Ts
+ lKVzrlm6ewroZ8zeZ1lvfQmmSR2uCCiCDGug8o0l6ang3y3dM9L38ZpTbNDowzo/E+s8Zf5kcK1
+ QfMnb+y
+X-Google-Smtp-Source: AGHT+IGRQOu48QZ3mSOJsBHbjURxIkyxYFERFZsWKzgGSlimLJJQz2LvTrTHmfQM/LmM3Tkm9Qh/bL9/Pra9XmQbDxI=
+X-Received: by 2002:a17:90b:2541:b0:313:14b5:2521 with SMTP id
+ 98e67ed59e1d1-31c4cd0e25dmr8267765a91.5.1752509865051; Mon, 14 Jul 2025
+ 09:17:45 -0700 (PDT)
 MIME-Version: 1.0
-References: <20250623220909.7591-1-mhenning@darkrefraction.com>
- <20250623220909.7591-3-mhenning@darkrefraction.com>
- <c3902fcf8bc963cf315e9bfbb9ca4c66e28857cf.camel@nvidia.com>
- <CAAgWFh05pj_9rk7Wcx24tFWR2sgMZH4WtBsm3hYrqM3svwniOQ@mail.gmail.com>
- <127e866b4bb4fd3a77e1cbfc5b709bcb2533c744.camel@nvidia.com>
- <CAAgWFh2vZt7Oay0NGs4ttSTdJ5oP7qv+wWeRz0MRr=L5LeF8JA@mail.gmail.com>
- <3c368bab-8f66-45f8-8b07-b8e62d43c8a9@nvidia.com>
-In-Reply-To: <3c368bab-8f66-45f8-8b07-b8e62d43c8a9@nvidia.com>
-From: M Henning <mhenning@darkrefraction.com>
-Date: Mon, 14 Jul 2025 12:04:02 -0400
-X-Gm-Features: Ac12FXzcvAj5jkGMjkyBym67HuBrbs9ZybatNox9USZXyOeycmxfaXT6qmdGEVM
-Message-ID: <CAAgWFh1N1_j+jXpMm+fcC9tPTs99QKACb8Ox7mph=UWx28zVjQ@mail.gmail.com>
-Subject: Re: [PATCH 2/2] drm/nouveau: Remove nvkm_gsp_fwif.enable
-To: Ben Skeggs <bskeggs@nvidia.com>
-Cc: Timur Tabi <ttabi@nvidia.com>, "kherbst@redhat.com" <kherbst@redhat.com>, 
- "martin.peres@free.fr" <martin.peres@free.fr>, 
- "faith.ekstrand@collabora.com" <faith.ekstrand@collabora.com>, 
- "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>, 
- "nouveau@lists.freedesktop.org" <nouveau@lists.freedesktop.org>,
- "dakr@kernel.org" <dakr@kernel.org>, "lyude@redhat.com" <lyude@redhat.com>
+References: <20250709-core-cstr-fanout-1-v1-0-fd793b3e58a2@gmail.com>
+ <20250709-core-cstr-fanout-1-v1-1-fd793b3e58a2@gmail.com>
+ <DBBQE3GJ0CHT.5PEF7RLS6C33@kernel.org>
+ <CAJ-ks9=ZHtzeyyFSZaVuA1t-3C8-hc40n6r8qFWxn628qT-OeA@mail.gmail.com>
+ <CANiq72kyQQMutGDkHH=McRQens+V+wkHLpiSfivmnAwwgXE62w@mail.gmail.com>
+ <CAJ-ks9kzrihJ7Jb8kAp0LpbPCfdouDQdFK06AHN3xi9pXNWZ9w@mail.gmail.com>
+In-Reply-To: <CAJ-ks9kzrihJ7Jb8kAp0LpbPCfdouDQdFK06AHN3xi9pXNWZ9w@mail.gmail.com>
+From: Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>
+Date: Mon, 14 Jul 2025 18:17:31 +0200
+X-Gm-Features: Ac12FXx-lgQiOZYDq083Q8BlSadihlGOqb-DL3tgO7LiWlt3h_pXYA1OcdWdN3A
+Message-ID: <CANiq72mgKqm+Dq98R6Tf99GWPE-n7vKOzKSTiYQR6UdddEboEA@mail.gmail.com>
+Subject: Re: [PATCH 01/10] gpu: nova-core: use `core::ffi::CStr` method names
+To: Tamir Duberstein <tamird@gmail.com>
+Cc: Danilo Krummrich <dakr@kernel.org>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+ Miguel Ojeda <ojeda@kernel.org>, 
+ Alex Gaynor <alex.gaynor@gmail.com>, Boqun Feng <boqun.feng@gmail.com>, 
+ Gary Guo <gary@garyguo.net>,
+ =?UTF-8?Q?Bj=C3=B6rn_Roy_Baron?= <bjorn3_gh@protonmail.com>, 
+ Benno Lossin <lossin@kernel.org>, Andreas Hindborg <a.hindborg@kernel.org>, 
+ Alice Ryhl <aliceryhl@google.com>, Trevor Gross <tmgross@umich.edu>, 
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ Dave Ertman <david.m.ertman@intel.com>, 
+ Ira Weiny <ira.weiny@intel.com>, Leon Romanovsky <leon@kernel.org>,
+ Breno Leitao <leitao@debian.org>, 
+ "Rafael J. Wysocki" <rafael@kernel.org>, Viresh Kumar <viresh.kumar@linaro.org>,
+ Luis Chamberlain <mcgrof@kernel.org>, Russ Weight <russ.weight@linux.dev>, 
+ Brendan Higgins <brendan.higgins@linux.dev>, David Gow <davidgow@google.com>, 
+ Rae Moar <rmoar@google.com>, FUJITA Tomonori <fujita.tomonori@gmail.com>, 
+ Rob Herring <robh@kernel.org>, Saravana Kannan <saravanak@google.com>,
+ dri-devel@lists.freedesktop.org, 
+ linux-kernel@vger.kernel.org, rust-for-linux@vger.kernel.org, 
+ linux-pm@vger.kernel.org, linux-kselftest@vger.kernel.org, 
+ kunit-dev@googlegroups.com, netdev@vger.kernel.org, 
+ devicetree@vger.kernel.org, Javier Martinez Canillas <javierm@redhat.com>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -95,11 +111,13 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Sun, Jul 13, 2025 at 11:19=E2=80=AFPM Ben Skeggs <bskeggs@nvidia.com> wr=
-ote:
-> Yeah, the GPUs that don't support GSP-RM can't hit the code that used
-> fwif.enable anyway, so the series should be fine as it is.
+On Mon, Jul 14, 2025 at 5:28=E2=80=AFPM Tamir Duberstein <tamird@gmail.com>=
+ wrote:
+>
+> Yep, that's what I was going to do - but do I resend the whole series,
+> or somehow just this patch?
 
-We're actually talking about the reverse case. That is, on Ada what
-happens if you set nouveau.config=3DNvGspRm=3D0 on the kernel command
-line?
+Whole series is simpler, I think.
+
+Cheers,
+Miguel
