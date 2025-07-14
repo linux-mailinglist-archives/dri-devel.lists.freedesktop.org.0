@@ -2,101 +2,59 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2AAC9B04353
-	for <lists+dri-devel@lfdr.de>; Mon, 14 Jul 2025 17:18:37 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id B4509B04358
+	for <lists+dri-devel@lfdr.de>; Mon, 14 Jul 2025 17:18:45 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6064E10E4B8;
-	Mon, 14 Jul 2025 15:18:35 +0000 (UTC)
-Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=suse.de header.i=@suse.de header.b="bo57XADt";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="r63eU/C8";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="bo57XADt";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="r63eU/C8";
-	dkim-atps=neutral
+	by gabe.freedesktop.org (Postfix) with ESMTP id EEA6C10E4B9;
+	Mon, 14 Jul 2025 15:18:43 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5EBD810E4B6
- for <dri-devel@lists.freedesktop.org>; Mon, 14 Jul 2025 15:18:33 +0000 (UTC)
-Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2D3A010E4B3
+ for <dri-devel@lists.freedesktop.org>; Mon, 14 Jul 2025 15:18:41 +0000 (UTC)
+Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org
+ [IPv6:2a07:de40:b281:104:10:150:64:97])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
  (No client certificate requested)
- by smtp-out1.suse.de (Postfix) with ESMTPS id 4DB4C21248;
+ by smtp-out2.suse.de (Postfix) with ESMTPS id 74D5E1F7CB;
  Mon, 14 Jul 2025 15:18:24 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1752506304; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=lxd0SFj25JXor9ZPjQO6JrBJUM2ccXKiPJbaWUCfKb0=;
- b=bo57XADtGCj5jJ5UMImAb3v1PN4x+8BYLswFPSOEZqPIhBKeSXQuy7l8rqTVGEFi7Mc8Cc
- BP8L2W8ZogMLnCl7VT1BpAwTtv+Ova38g1KI4wY/6f5tP7evRfxLq7IUAeAPKR5NENtSSj
- UAsqvF1lOSQigfgXA2Dd8RT0wQKt0gw=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1752506304;
- h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=lxd0SFj25JXor9ZPjQO6JrBJUM2ccXKiPJbaWUCfKb0=;
- b=r63eU/C8ujvXraI+73lMVNw4IV6+o6LOGBaumJ7oVOzt6El82rb1mjXvve7Xw3J+A4tNqY
- sa+iEKl+Z7WKZWCw==
-Authentication-Results: smtp-out1.suse.de;
+Authentication-Results: smtp-out2.suse.de;
 	none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1752506304; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=lxd0SFj25JXor9ZPjQO6JrBJUM2ccXKiPJbaWUCfKb0=;
- b=bo57XADtGCj5jJ5UMImAb3v1PN4x+8BYLswFPSOEZqPIhBKeSXQuy7l8rqTVGEFi7Mc8Cc
- BP8L2W8ZogMLnCl7VT1BpAwTtv+Ova38g1KI4wY/6f5tP7evRfxLq7IUAeAPKR5NENtSSj
- UAsqvF1lOSQigfgXA2Dd8RT0wQKt0gw=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1752506304;
- h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=lxd0SFj25JXor9ZPjQO6JrBJUM2ccXKiPJbaWUCfKb0=;
- b=r63eU/C8ujvXraI+73lMVNw4IV6+o6LOGBaumJ7oVOzt6El82rb1mjXvve7Xw3J+A4tNqY
- sa+iEKl+Z7WKZWCw==
 Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
  (No client certificate requested)
- by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 2ABDF138A1;
+ by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 537DD13A57;
  Mon, 14 Jul 2025 15:18:24 +0000 (UTC)
 Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
- by imap1.dmz-prg2.suse.org with ESMTPSA id OKwNCcAfdWhbMgAAD6G6ig
+ by imap1.dmz-prg2.suse.org with ESMTPSA id SLn/EsAfdWhbMgAAD6G6ig
  (envelope-from <tzimmermann@suse.de>); Mon, 14 Jul 2025 15:18:24 +0000
 From: Thomas Zimmermann <tzimmermann@suse.de>
 To: javierm@redhat.com
 Cc: dri-devel@lists.freedesktop.org,
 	Thomas Zimmermann <tzimmermann@suse.de>
-Subject: [PATCH v2 6/9] drm/format-helper: Add XRGB8888-to-RGB332 to
- drm_fb_blit()
-Date: Mon, 14 Jul 2025 17:13:06 +0200
-Message-ID: <20250714151513.309475-7-tzimmermann@suse.de>
+Subject: [PATCH v2 7/9] drm/vesadrm: Rename vesadrm_set_gamma_lut() to
+ vesadrm_set_color_lut()
+Date: Mon, 14 Jul 2025 17:13:07 +0200
+Message-ID: <20250714151513.309475-8-tzimmermann@suse.de>
 X-Mailer: git-send-email 2.50.0
 In-Reply-To: <20250714151513.309475-1-tzimmermann@suse.de>
 References: <20250714151513.309475-1-tzimmermann@suse.de>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Spamd-Result: default: False [-6.80 / 50.00]; REPLY(-4.00)[];
- BAYES_HAM(-3.00)[99.99%]; NEURAL_HAM_LONG(-1.00)[-1.000];
- MID_CONTAINS_FROM(1.00)[]; R_MISSING_CHARSET(0.50)[];
- NEURAL_HAM_SHORT(-0.20)[-0.999]; MIME_GOOD(-0.10)[text/plain];
- RCVD_COUNT_TWO(0.00)[2]; FROM_HAS_DN(0.00)[]; ARC_NA(0.00)[];
- MIME_TRACE(0.00)[0:+]; TO_DN_SOME(0.00)[];
- TO_MATCH_ENVRCPT_ALL(0.00)[]; RCVD_VIA_SMTP_AUTH(0.00)[];
- FROM_EQ_ENVFROM(0.00)[]; FUZZY_RATELIMITED(0.00)[rspamd.com];
- DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
- RCPT_COUNT_THREE(0.00)[3]; RCVD_TLS_ALL(0.00)[]
-X-Spam-Flag: NO
+X-Rspamd-Pre-Result: action=no action; module=replies;
+ Message is reply to one we originated
 X-Spam-Level: 
-X-Spam-Score: -6.80
+X-Rspamd-Server: rspamd1.dmz-prg2.suse.org
+X-Spamd-Result: default: False [-4.00 / 50.00];
+	REPLY(-4.00)[]
+X-Rspamd-Queue-Id: 74D5E1F7CB
+X-Rspamd-Pre-Result: action=no action; module=replies;
+ Message is reply to one we originated
+X-Rspamd-Action: no action
+X-Spam-Flag: NO
+X-Spam-Score: -4.00
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -112,29 +70,77 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-List the conversion from XRGB8888-to-RGB332 in drm_fb_blit(), so that
-drivers based on sysfb-helpers can use it.
+Rename vesadrm's gamma helpers in preparation of the upcoming support
+for color palettes. Gamma correction and color palettes share the same
+hardware features, but the driver's old naming only indicated support
+for gamma LUTs.
 
 Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
 Reviewed-by: Javier Martinez Canillas <javierm@redhat.com>
 ---
- drivers/gpu/drm/drm_format_helper.c | 3 +++
- 1 file changed, 3 insertions(+)
+ drivers/gpu/drm/sysfb/vesadrm.c | 16 ++++++++--------
+ 1 file changed, 8 insertions(+), 8 deletions(-)
 
-diff --git a/drivers/gpu/drm/drm_format_helper.c b/drivers/gpu/drm/drm_format_helper.c
-index 8f3daf38ca63..37d5e0a7eb46 100644
---- a/drivers/gpu/drm/drm_format_helper.c
-+++ b/drivers/gpu/drm/drm_format_helper.c
-@@ -1243,6 +1243,9 @@ int drm_fb_blit(struct iosys_map *dst, const unsigned int *dst_pitch, uint32_t d
- 		} else if (dst_format == DRM_FORMAT_BGRX8888) {
- 			drm_fb_swab(dst, dst_pitch, src, fb, clip, false, state);
- 			return 0;
-+		} else if (dst_format == DRM_FORMAT_RGB332) {
-+			drm_fb_xrgb8888_to_rgb332(dst, dst_pitch, src, fb, clip, state);
-+			return 0;
- 		}
- 	}
+diff --git a/drivers/gpu/drm/sysfb/vesadrm.c b/drivers/gpu/drm/sysfb/vesadrm.c
+index 90615e9ac86b..9596322c232b 100644
+--- a/drivers/gpu/drm/sysfb/vesadrm.c
++++ b/drivers/gpu/drm/sysfb/vesadrm.c
+@@ -82,7 +82,7 @@ static struct vesadrm_device *to_vesadrm_device(struct drm_device *dev)
+ }
  
+ /*
+- * Palette
++ * Color LUT
+  */
+ 
+ static void vesadrm_vga_cmap_write(struct vesadrm_device *vesa, unsigned int index,
+@@ -128,7 +128,7 @@ static void vesadrm_pmi_cmap_write(struct vesadrm_device *vesa, unsigned int ind
+ }
+ #endif
+ 
+-static void vesadrm_set_gamma_lut(struct drm_crtc *crtc, unsigned int index,
++static void vesadrm_set_color_lut(struct drm_crtc *crtc, unsigned int index,
+ 				  u16 red, u16 green, u16 blue)
+ {
+ 	struct drm_device *dev = crtc->dev;
+@@ -149,15 +149,15 @@ static void vesadrm_fill_gamma_lut(struct vesadrm_device *vesa,
+ 
+ 	switch (format->format) {
+ 	case DRM_FORMAT_XRGB1555:
+-		drm_crtc_fill_gamma_555(crtc, vesadrm_set_gamma_lut);
++		drm_crtc_fill_gamma_555(crtc, vesadrm_set_color_lut);
+ 		break;
+ 	case DRM_FORMAT_RGB565:
+-		drm_crtc_fill_gamma_565(crtc, vesadrm_set_gamma_lut);
++		drm_crtc_fill_gamma_565(crtc, vesadrm_set_color_lut);
+ 		break;
+ 	case DRM_FORMAT_RGB888:
+ 	case DRM_FORMAT_XRGB8888:
+ 	case DRM_FORMAT_BGRX8888:
+-		drm_crtc_fill_gamma_888(crtc, vesadrm_set_gamma_lut);
++		drm_crtc_fill_gamma_888(crtc, vesadrm_set_color_lut);
+ 		break;
+ 	default:
+ 		drm_warn_once(dev, "Unsupported format %p4cc for gamma correction\n",
+@@ -175,15 +175,15 @@ static void vesadrm_load_gamma_lut(struct vesadrm_device *vesa,
+ 
+ 	switch (format->format) {
+ 	case DRM_FORMAT_XRGB1555:
+-		drm_crtc_load_gamma_555_from_888(crtc, lut, vesadrm_set_gamma_lut);
++		drm_crtc_load_gamma_555_from_888(crtc, lut, vesadrm_set_color_lut);
+ 		break;
+ 	case DRM_FORMAT_RGB565:
+-		drm_crtc_load_gamma_565_from_888(crtc, lut, vesadrm_set_gamma_lut);
++		drm_crtc_load_gamma_565_from_888(crtc, lut, vesadrm_set_color_lut);
+ 		break;
+ 	case DRM_FORMAT_RGB888:
+ 	case DRM_FORMAT_XRGB8888:
+ 	case DRM_FORMAT_BGRX8888:
+-		drm_crtc_load_gamma_888(crtc, lut, vesadrm_set_gamma_lut);
++		drm_crtc_load_gamma_888(crtc, lut, vesadrm_set_color_lut);
+ 		break;
+ 	default:
+ 		drm_warn_once(dev, "Unsupported format %p4cc for gamma correction\n",
 -- 
 2.50.0
 
