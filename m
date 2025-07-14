@@ -2,97 +2,93 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0D47DB046C5
-	for <lists+dri-devel@lfdr.de>; Mon, 14 Jul 2025 19:42:19 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 85855B046FD
+	for <lists+dri-devel@lfdr.de>; Mon, 14 Jul 2025 19:59:44 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0085810E29D;
-	Mon, 14 Jul 2025 17:42:16 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E99A610E29E;
+	Mon, 14 Jul 2025 17:59:24 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=chromium.org header.i=@chromium.org header.b="V1fU6I0X";
+	dkim=pass (1024-bit key; unprotected) header.d=chromium.org header.i=@chromium.org header.b="TImpkLcU";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pl1-f171.google.com (mail-pl1-f171.google.com
- [209.85.214.171])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1AB4B10E08E
- for <dri-devel@lists.freedesktop.org>; Mon, 14 Jul 2025 17:42:14 +0000 (UTC)
-Received: by mail-pl1-f171.google.com with SMTP id
- d9443c01a7336-2352400344aso42640265ad.2
- for <dri-devel@lists.freedesktop.org>; Mon, 14 Jul 2025 10:42:14 -0700 (PDT)
+Received: from mail-pg1-f170.google.com (mail-pg1-f170.google.com
+ [209.85.215.170])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 157CE10E29E
+ for <dri-devel@lists.freedesktop.org>; Mon, 14 Jul 2025 17:59:23 +0000 (UTC)
+Received: by mail-pg1-f170.google.com with SMTP id
+ 41be03b00d2f7-b26f5f47ba1so3669388a12.1
+ for <dri-devel@lists.freedesktop.org>; Mon, 14 Jul 2025 10:59:23 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=chromium.org; s=google; t=1752514928; x=1753119728;
+ d=chromium.org; s=google; t=1752515957; x=1753120757;
  darn=lists.freedesktop.org; 
  h=content-transfer-encoding:cc:to:subject:message-id:date:from
  :in-reply-to:references:mime-version:from:to:cc:subject:date
  :message-id:reply-to;
- bh=6hN8YccMgbb6UtBF/LeELrVcLJIBR2bmzofizaUxZUo=;
- b=V1fU6I0XNchFdnupx2R8LBwGfbGxetAhbgZzeF8Sh6pU6oGVLWno4ngBvqenTygMCI
- ayW+EIdoKBOezGu+wrweoNyZxb3I+CWmw5Moy/vWu7z7Hdicej9wW20rH+YaXy/1LN2q
- TSxKyuMT3uYQVgqNvljrH7zIou5FH0AW0xyHY=
+ bh=OG3AY/r+5jGyweejzWZqU76oacNUXzplqvD2s/v/W0c=;
+ b=TImpkLcUoF3ZaQK0n6Ik4CF54hs1MV3LfbvPV+j6pNSmQ+f88wcvGGcm5w7lQHXEk9
+ RlJE5VlFC8UcPecg1fXLKg5JhhUuWzsrMfK477N7NZWEczButrfL3TktopUm0Ps2JwjU
+ VeC0cEu5akmezv1qd3q4Oe5ILqlcJ/691r1fQ=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1752514928; x=1753119728;
+ d=1e100.net; s=20230601; t=1752515957; x=1753120757;
  h=content-transfer-encoding:cc:to:subject:message-id:date:from
  :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=6hN8YccMgbb6UtBF/LeELrVcLJIBR2bmzofizaUxZUo=;
- b=iSDaYwfBob8JjO1tk3aJF9OxK2eJ36sOpGtVTPfgXrCg6Vq5NrN9m7EoXKvdYh7RUK
- NgTIpLxmON/HhCkIUyMGvEvDE9qSW/vs2tC5+ntkn/GfctbCIj7w2cSgJF9Mo2UdCn/l
- 9PyRPcYdPtMsnka7cqqdFgyHuEGj2DgHu2XwbTy7gqvygCz4tMDpTJqkU606RhmL7t3x
- vvXW7UC+bR2TGzn9Jouin6oNjire5WZUSAcC83KbCmcvRZQRiUD9kvBi1yCtClSWvgIb
- M7cVLhgjmlFI4QslDTZTbyntzLLk16Wqj1qPsj7r1Vv3vOB9abHYjnE2a5nrdEN+HAtI
- eZyQ==
+ bh=OG3AY/r+5jGyweejzWZqU76oacNUXzplqvD2s/v/W0c=;
+ b=wPHcMihGvRTSZEJ/0w1Cvhu5i/oZflwfbMlYeARLZ97kUlQNW+hfPFa1Pm2RSZwSu0
+ BsTZniGygZIqMTQXRm6rPmfVAdF/UzmyUgX2bvm+5Ry9IpYysv/h1Q7mA4cmdceBC5Ho
+ c0VOh6tA5ySBDPzR+Yi+Pw35fkV40MD/u6L6HqDYQCmUPpLItQ9kkMJ4jtubWFmvdyzO
+ A7d9/TNFwdt2FaPCzfWfcWbCZjixEcMiifUIDi3ASqW9R8Hc4Y5mI7YHCQMDPFSG4sij
+ hRSw7hpTb4PWf/jj3IeV8lBTA/70cmpxrnkDCA1gAJV46STk2EVgCecQGSsW9gIvxI8J
+ Nl6w==
 X-Forwarded-Encrypted: i=1;
- AJvYcCVyr2JyFVPXngG8ccB/l6SC4izBiz9x0iGIaeiL+BuAeGbev+RWc+aA0HiBBNI0YJRCmZOSsVJqKBQ=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YyDfi/LXMkjRreby59ha7yXzyE+W54BHt6VtOitg46S+dp+xvK6
- tO1+NTaizFIpEvaO5jQSRCMfnQY+1ok63jVszd7ppWsrXjCoFXMLeL+ruVnf9wYZBGUhfrkKB6f
- H2I4=
-X-Gm-Gg: ASbGncu7ZD9ZFT9gpxsicP9cvYV1/Gx4OwNdFokLA00Y7MZync9Lrfb7Y8MYEi15phX
- JhGR1Bt9/VmgOzYwUEF7VTw7p6odgWN50s2N5mInLYmDTqcQBx9nGAYEwMexu709yIDlNO8cGoP
- UqKamTavteD40RRcmXBI/2HCOryr4WvLl1wre8PIOAdlMUML8x9eol8Gf5upJ1f/d3hYaJRVdOJ
- Zj+iDyTghHc1rESn8BbnLh4/xvIlUytzXQMOdX386M2hUemF7hy54FUUdxwyVxSamocWjGld0dK
- oLyG2Qe9xX3gw0mrOTC0Q0uIxQX08pc9+q3IMfZRg7NEWu3mGfh1uIyzuUfTdu+pNRdKnQBI1VP
- atspKIA17+PSgpewN4tjkuIHtLzzn/Df1JjCuyXzVomuE93n6hz/0UCiZzq1FIg==
-X-Google-Smtp-Source: AGHT+IHoH0GBLTU7EftPfbIEk/ppIApHsH7/JPwjuO8jxK345TG2A1JbW+YtgPDMeR2j6UzfWyKqjw==
-X-Received: by 2002:a17:902:da90:b0:235:e8da:8d1 with SMTP id
- d9443c01a7336-23df07d7a01mr173069085ad.8.1752514928299; 
- Mon, 14 Jul 2025 10:42:08 -0700 (PDT)
-Received: from mail-pj1-f48.google.com (mail-pj1-f48.google.com.
- [209.85.216.48]) by smtp.gmail.com with ESMTPSA id
- d9443c01a7336-23de42ad295sm96037475ad.81.2025.07.14.10.42.06
+ AJvYcCUBqUgSZwz9O8n5bbN/JR3v6jszUwDuyOvPuKs9haDxyQzyQEF08cX15dNNiR6KP/yGHLEL1DulBZI=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YyT8Qtv7c/OaUn8BH+LW8SNC2DcfGj5q9Fp4Yh8Z1hbe2KdBR2U
+ /yWeuBFfHRidvfoXAyLiydBvWcPuZ72XvR55IsTIrWvfPPRWzoHCldv85FgpD5fuwCybbKSioE7
+ Jlos=
+X-Gm-Gg: ASbGnctSqujB2aW/TJlZUP1Rtxsr4wT2E9PrE2CYYPSLJ4VsfO22dqXtSVUj5bJaokg
+ JdqVams+rrdQb7KBGAKbaSQ+BPOaoUWI6x9U14jR82Y6FMZWEElLCP920bDfp23P6pwflfAQ94X
+ DsE8I0hLYjBmYOa51HU+ulJyNoIrUnc4ZZEr0AxoIEIUlCxbaOmSrmy2L5dLmK1BnRMFUoJyC+6
+ Y72KQzfiEpG710OP0n+sHPb0zoN3/plHQ2r1q8h1kXVioaiZRIrIQjQnFYpTT+mQBNEouNm3Pus
+ Lng78LdQ0nk/vJcxXN2Mcb2ayDcsAWaUpVSARacbUZjLIhSzn6bqSgmf2iYz98Jsu4uV0+Q6ztP
+ E0j79jrv6Z8OjH5SFDYBJN6Urhie/5QxzyFha1Y0F6Lear/qHVzNhWCeWahJvnw==
+X-Google-Smtp-Source: AGHT+IFZ8s+hBGowAsNjiWMdt8PNoJUGB57zC+ttuExN00cOB5L6rzlyPR85aw9/iikm/HYVvO+SjA==
+X-Received: by 2002:a17:90b:4c0b:b0:313:2e69:8002 with SMTP id
+ 98e67ed59e1d1-31c4ccdb25amr20390528a91.20.1752515957377; 
+ Mon, 14 Jul 2025 10:59:17 -0700 (PDT)
+Received: from mail-pj1-f54.google.com (mail-pj1-f54.google.com.
+ [209.85.216.54]) by smtp.gmail.com with ESMTPSA id
+ 41be03b00d2f7-b3bbe587070sm10582052a12.29.2025.07.14.10.59.11
  for <dri-devel@lists.freedesktop.org>
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 14 Jul 2025 10:42:06 -0700 (PDT)
-Received: by mail-pj1-f48.google.com with SMTP id
- 98e67ed59e1d1-3122368d7c4so3806979a91.1
- for <dri-devel@lists.freedesktop.org>; Mon, 14 Jul 2025 10:42:06 -0700 (PDT)
+ Mon, 14 Jul 2025 10:59:15 -0700 (PDT)
+Received: by mail-pj1-f54.google.com with SMTP id
+ 98e67ed59e1d1-313a001d781so3622803a91.3
+ for <dri-devel@lists.freedesktop.org>; Mon, 14 Jul 2025 10:59:11 -0700 (PDT)
 X-Forwarded-Encrypted: i=1;
- AJvYcCVwfn4X6to+zxumXd8bgmietcUGgtxmpWWYzytPiYL1Zu1xmwTxTydwvVm0pCg5EaWURRd2FpLJVr4=@lists.freedesktop.org
-X-Received: by 2002:a17:90b:33d1:b0:31c:15d9:8a8 with SMTP id
- 98e67ed59e1d1-31c50d5dfc7mr17730062a91.1.1752514925305; Mon, 14 Jul 2025
- 10:42:05 -0700 (PDT)
+ AJvYcCVSvLHM58CW/I+RDtbCcj46Yrr8LtgHN+Am/N0J3uKEEgK2HTSpJJfOglR1TjqgIg9G/Z6nVIv588k=@lists.freedesktop.org
+X-Received: by 2002:a17:90b:6cb:b0:311:c5d9:2c79 with SMTP id
+ 98e67ed59e1d1-31c4ccdd5c0mr20464043a91.21.1752515950671; Mon, 14 Jul 2025
+ 10:59:10 -0700 (PDT)
 MIME-Version: 1.0
-References: <20250714173554.14223-1-daleyo@gmail.com>
- <20250714173554.14223-3-daleyo@gmail.com>
-In-Reply-To: <20250714173554.14223-3-daleyo@gmail.com>
+References: <20250706205723.9790-2-val@packett.cool>
+ <20250706205723.9790-7-val@packett.cool>
+In-Reply-To: <20250706205723.9790-7-val@packett.cool>
 From: Doug Anderson <dianders@chromium.org>
-Date: Mon, 14 Jul 2025 10:41:53 -0700
-X-Gmail-Original-Message-ID: <CAD=FV=V8Z8Vq_XP=n_YGh2Junj3N4nWwdU7PeWWt323wsonL+w@mail.gmail.com>
-X-Gm-Features: Ac12FXwYxUojKbVSCKrTAuLidZaZV_hTeWFSLtqTJMBGCZSvoJjYkTTdNAw6f-M
-Message-ID: <CAD=FV=V8Z8Vq_XP=n_YGh2Junj3N4nWwdU7PeWWt323wsonL+w@mail.gmail.com>
-Subject: Re: [PATCH 2/9] dt-bindings: display: panel: samsung,atna30dw01:
- document ATNA30DW01
-To: Dale Whinham <daleyo@gmail.com>
-Cc: Neil Armstrong <neil.armstrong@linaro.org>,
- Jessica Zhang <quic_jesszhan@quicinc.com>, 
+Date: Mon, 14 Jul 2025 10:58:58 -0700
+X-Gmail-Original-Message-ID: <CAD=FV=V7HckYJn6Lrh8deipcX=_T3s_B=oXeVSQuxt1a01dwEg@mail.gmail.com>
+X-Gm-Features: Ac12FXw7OXhFtZwKbLQwLc4HMDijZPxZ1TH2maNwjg4oUlQ_nk5JprebZ5XShwY
+Message-ID: <CAD=FV=V7HckYJn6Lrh8deipcX=_T3s_B=oXeVSQuxt1a01dwEg@mail.gmail.com>
+Subject: Re: [PATCH v3 5/5] drm/panel-edp: Add BOE NE14QDM panel for Dell
+ Latitude 7455
+To: Val Packett <val@packett.cool>
+Cc: Neil Armstrong <neil.armstrong@linaro.org>, 
+ Jessica Zhang <jessica.zhang@oss.qualcomm.com>, 
  Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
  Maxime Ripard <mripard@kernel.org>, 
  Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
  Simona Vetter <simona@ffwll.ch>, 
- Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
- Conor Dooley <conor+dt@kernel.org>, 
- =?UTF-8?B?SsOpcsO0bWUgZGUgQnJldGFnbmU=?= <jerome.debretagne@gmail.com>, 
- dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org, 
- linux-kernel@vger.kernel.org
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -112,16 +108,35 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 Hi,
 
-On Mon, Jul 14, 2025 at 10:36=E2=80=AFAM Dale Whinham <daleyo@gmail.com> wr=
-ote:
+On Sun, Jul 6, 2025 at 1:59=E2=80=AFPM Val Packett <val@packett.cool> wrote=
+:
 >
-> The Samsung ATNA30DW01 panel is a 13" AMOLED eDP panel. It is similar to
-> the ATNA33XC20 except that it is smaller and has a higher resolution.
+> Cannot confirm which variant exactly it is, as the EDID alphanumeric data
+> contains '0RGNR' <0x80> 'NE14QDM' and ends there; but it's 60 Hz and with
+> touch.
 >
-> Tested-by: J=C3=A9r=C3=B4me de Bretagne <jerome.debretagne@gmail.com>
-> Signed-off-by: Dale Whinham <daleyo@gmail.com>
+> I do not have access to datasheets for these panels, so the timing is
+> a guess that was tested to work fine on this laptop.
+>
+> Raw EDID dump:
+>
+> 00 ff ff ff ff ff ff 00 09 e5 1e 0b 00 00 00 00
+> 10 20 01 04 a5 1e 13 78 07 fd 85 a7 53 4c 9b 25
+> 0f 50 54 00 00 00 01 01 01 01 01 01 01 01 01 01
+> 01 01 01 01 01 01 a7 6d 00 a0 a0 40 78 60 30 20
+> 36 00 2e bc 10 00 00 1a b9 57 00 a0 a0 40 78 60
+> 30 20 36 00 2e bc 10 00 00 1a 00 00 00 fe 00 30
+> 52 47 4e 52 80 4e 45 31 34 51 44 4d 00 00 00 00
+> 00 02 41 31 a8 00 01 00 00 1a 41 0a 20 20 00 8f
+>
+> Signed-off-by: Val Packett <val@packett.cool>
 > ---
->  .../devicetree/bindings/display/panel/samsung,atna33xc20.yaml   | 2 ++
->  1 file changed, 2 insertions(+)
+>  drivers/gpu/drm/panel/panel-edp.c | 1 +
+>  1 file changed, 1 insertion(+)
 
 Reviewed-by: Douglas Anderson <dianders@chromium.org>
+
+Pushed to drm-misc-next:
+
+[5/5] drm/panel-edp: Add BOE NE14QDM panel for Dell Latitude 7455
+      commit: 1a304a2f8f7dbe25f555721f502227f9197145ed
