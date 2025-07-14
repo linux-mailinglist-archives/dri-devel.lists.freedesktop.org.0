@@ -2,55 +2,65 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0077EB03BD1
-	for <lists+dri-devel@lfdr.de>; Mon, 14 Jul 2025 12:25:33 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id D40FDB03BF0
+	for <lists+dri-devel@lfdr.de>; Mon, 14 Jul 2025 12:32:54 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B4D8310E445;
-	Mon, 14 Jul 2025 10:25:30 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id BF8EF10E447;
+	Mon, 14 Jul 2025 10:32:48 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=fail reason="signature verification failed" (1024-bit key; unprotected) header.d=163.com header.i=@163.com header.b="NDiSIoYy";
+	dkim=pass (2048-bit key; unprotected) header.d=bootlin.com header.i=@bootlin.com header.b="ptl6aTRU";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from m16.mail.163.com (m16.mail.163.com [117.135.210.3])
- by gabe.freedesktop.org (Postfix) with ESMTP id 7904F10E445;
- Mon, 14 Jul 2025 10:25:28 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=163.com;
- s=s110527; h=Date:From:To:Subject:Content-Type:MIME-Version:
- Message-ID; bh=4YcX0keIQboTbYZKSV0XR3R1i0pUe0jDL2SvRDl6UIc=; b=N
- DiSIoYyGImlvVz+TChwvVevlrgVD1OcI1NnETXrgwlQf86dCoAAxnPSFrLz4efgT
- Yw61QCDaxbhII56RbOGKxFD8v7PMtkDnUPbi17H21nZYJJph1NqV3KRYgAIPKwv8
- NnFWv86ZQnm3y1IcTsiZkAYIyDtl1bD0mlSq2bb7KM=
-Received: from andyshrk$163.com ( [58.22.7.114] ) by
- ajax-webmail-wmsvr-40-111 (Coremail) ; Mon, 14 Jul 2025 18:24:24 +0800
- (CST)
-X-Originating-IP: [58.22.7.114]
-Date: Mon, 14 Jul 2025 18:24:24 +0800 (CST)
-From: "Andy Yan" <andyshrk@163.com>
-To: dmitry.baryshkov@oss.qualcomm.com
-Cc: mripard@kernel.org, neil.armstrong@linaro.org,
- dri-devel@lists.freedesktop.org, dianders@chromium.org,
- jani.nikula@intel.com, lyude@redhat.com, jonathanh@nvidia.com,
- p.zabel@pengutronix.de, simona@ffwll.ch, victor.liu@nxp.com,
- rfoss@kernel.org, chunkuang.hu@kernel.org,
- cristian.ciocaltea@collabora.com, Laurent.pinchart@ideasonboard.com,
- linux-arm-msm@vger.kernel.org, linux-mediatek@lists.infradead.org,
- linux-kernel@vger.kernel.org, freedreno@lists.freedesktop.org
-Subject: Re:[PATCH v3 0/2] Pass down connector to drm bridge detect hook
-X-Priority: 3
-X-Mailer: Coremail Webmail Server Version XT5.0.14 build 20250519(9504565a)
- Copyright (c) 2002-2025 www.mailtech.cn 163com
-In-Reply-To: <20250703125027.311109-1-andyshrk@163.com>
-References: <20250703125027.311109-1-andyshrk@163.com>
-X-NTES-SC: AL_Qu2eAPiTt04t4imebOkfmkcVgOw9UcO5v/Qk3oZXOJF8jDjp6wQvYXZ6IknVysOCCzuquyGucDp88MdZTa9iWIYzFZx1L0CHdIADiHTYzr4f3w==
-Content-Transfer-Encoding: base64
-Content-Type: text/plain; charset=UTF-8
+Received: from relay15.mail.gandi.net (relay15.mail.gandi.net [217.70.178.235])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A4A2310E447
+ for <dri-devel@lists.freedesktop.org>; Mon, 14 Jul 2025 10:32:46 +0000 (UTC)
+Received: by mail.gandi.net (Postfix) with ESMTPSA id DF62543190;
+ Mon, 14 Jul 2025 10:32:41 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
+ t=1752489165;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=VwUUlthEB0GL/tkuBikSXADM+QDOu8qT0EBANwcGFUY=;
+ b=ptl6aTRU6q2sZbmunyCwSMALBSosgd8KoJVbC3EzqraKunIc8Bw4Tpl7qUSwGsyZvAJpaX
+ nxMpym+ISlifa6M9yfjJNuBfLLdo8NnAo486ZnY4IyX534YPVR9/7GeHoutnlRUe8eCYoB
+ xuOKJ8T3tP2c1OnpGLpDazsGB18BEKP0R0S1NdNt+nk8q7ZsE3QZ5jucNavPk/ZPUX1Yzi
+ cyhzvnlezCJPyP3rz6Itw/IFMPyCvo9ivUjCAWMKzL+KgIdlSHKnXBbeUaOD7/p7zNvCWh
+ KsDCZ4A9j6u5VXp4d0KbE/LFj1zKX/F4YKG3yWpau0gvUZeMVJ8cajQgbuMF/A==
+Date: Mon, 14 Jul 2025 12:32:40 +0200
+From: Luca Ceresoli <luca.ceresoli@bootlin.com>
+To: Maxime Ripard <mripard@kernel.org>
+Cc: Andrzej Hajda <andrzej.hajda@intel.com>, Neil Armstrong
+ <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>, Laurent
+ Pinchart <Laurent.pinchart@ideasonboard.com>, Jonas Karlman
+ <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>, Maarten
+ Lankhorst <maarten.lankhorst@linux.intel.com>, Thomas Zimmermann
+ <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>, Simona Vetter
+ <simona@ffwll.ch>, Liu Ying <victor.liu@nxp.com>, Shawn Guo
+ <shawnguo@kernel.org>, Sascha Hauer <s.hauer@pengutronix.de>, Pengutronix
+ Kernel Team <kernel@pengutronix.de>, Fabio Estevam <festevam@gmail.com>,
+ Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>, Philipp Zabel
+ <p.zabel@pengutronix.de>, Hui Pu <Hui.Pu@gehealthcare.com>, Thomas
+ Petazzoni <thomas.petazzoni@bootlin.com>, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, imx@lists.linux.dev,
+ linux-arm-kernel@lists.infradead.org
+Subject: Re: [PATCH 4/9] drm/omapdrm: use drm_bridge_chain_get_last_bridge()
+Message-ID: <20250714123240.16d8dcb1@booty>
+In-Reply-To: <20250710-daffy-mini-booby-574fca@houat>
+References: <20250709-drm-bridge-alloc-getput-drm_bridge_get_next_bridge-v1-0-48920b9cf369@bootlin.com>
+ <20250709-drm-bridge-alloc-getput-drm_bridge_get_next_bridge-v1-4-48920b9cf369@bootlin.com>
+ <20250710-daffy-mini-booby-574fca@houat>
+Organization: Bootlin
+X-Mailer: Claws Mail 4.3.1 (GTK 3.24.49; x86_64-redhat-linux-gnu)
 MIME-Version: 1.0
-Message-ID: <39f4cd0d.8f17.1980876df93.Coremail.andyshrk@163.com>
-X-Coremail-Locale: zh_CN
-X-CM-TRANSID: bygvCgD3twzZ2nRoFHgDAA--.27342W
-X-CM-SenderInfo: 5dqg52xkunqiywtou0bp/xtbB0hOKXmh019Q1ogADse
-X-Coremail-Antispam: 1U5529EdanIXcx71UUUUU7vcSsGvfC2KfnxnUU==
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
+X-GND-State: clean
+X-GND-Score: -100
+X-GND-Cause: gggruggvucftvghtrhhoucdtuddrgeeffedrtdefgdehudejvdcutefuodetggdotefrodftvfcurfhrohhfihhlvgemucfitefpfffkpdcuggftfghnshhusghstghrihgsvgenuceurghilhhouhhtmecufedtudenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujfgurhepfffhvfevuffkjghfohfogggtgfesthejredtredtvdenucfhrhhomhepnfhutggrucevvghrvghsohhlihcuoehluhgtrgdrtggvrhgvshholhhisegsohhothhlihhnrdgtohhmqeenucggtffrrghtthgvrhhnpeeglefffefghefhtddvfeeufeeiveekgffgleekieduteekkeetvdehudekgfdvvdenucffohhmrghinhepsghoohhtlhhinhdrtghomhenucfkphepvdgrtddvmeeijedtmedvtddvtdemvggrtddumegsvgegudemleehvgejmeefgeefmeeludefvgenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepihhnvghtpedvrgdtvdemieejtdemvddtvddtmegvrgdtudemsggvgedumeelhegvjeemfeegfeemledufegvpdhhvghlohepsghoohhthidpmhgrihhlfhhrohhmpehluhgtrgdrtggvrhgvshholhhisegsohhothhlihhnrdgtohhmpdhnsggprhgtphhtthhopedvgedprhgtphhtthhopehmrhhiphgrrhgusehkvghrnhgvlhdrohhrghdprhgtphhtthhopegrnhgurhiivghjrdhhrghjuggrsehinhhtvghlrdgtohhmpdhrtghpthhtohepnhgvihhlrdgrrhhmshhtrhhonhhgsehlihhnrghro
+ hdrohhrghdprhgtphhtthhopehrfhhoshhssehkvghrnhgvlhdrohhrghdprhgtphhtthhopefnrghurhgvnhhtrdhpihhntghhrghrthesihguvggrshhonhgsohgrrhgurdgtohhmpdhrtghpthhtohepjhhonhgrsheskhifihgsohhordhsvgdprhgtphhtthhopehjvghrnhgvjhdrshhkrhgrsggvtgesghhmrghilhdrtghomhdprhgtphhtthhopehmrggrrhhtvghnrdhlrghnkhhhohhrshhtsehlihhnuhigrdhinhhtvghlrdgtohhm
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -66,77 +76,53 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-CkhlbGxvIERtaXRyee+8jAoKCkF0IDIwMjUtMDctMDMgMjA6NDk6NTEsICJBbmR5IFlhbiIgPGFu
-ZHlzaHJrQDE2My5jb20+IHdyb3RlOgo+Cj5JbiBzb21lIGFwcGxpY2F0aW9uIHNjZW5hcmlvcywg
-d2UgaG9wZSB0byBnZXQgdGhlIGNvcnJlc3BvbmRpbmcKPmNvbm5lY3RvciB3aGVuIHRoZSBicmlk
-Z2UncyBkZXRlY3QgaG9vayBpcyBpbnZva2VkLgo+Cj5Gb3IgZXhhbXBsZSwgd2UgbWF5IHdhbnQg
-dG8gY2FsbCBkcm1fZHBfcmVhZF9zaW5rX2NvdW50X2NhcCh3aGljaCBuZWVkcwo+YSBkcm1fY29u
-bmVjdG9yKSBhdCB0aGUgZHAgZGV0ZWNrIGhvb2ssIGludGVsX2RwIGFuZCBub3V2ZWF1X2RwIGRv
-IHRoaXMKPmF0IGl0J3MgY29ubmVjdG9yJ3MgZGV0ZXRjX2N0eC9kZXRlY3QgaG9vay4KPgo+QnV0
-IGZvciBhIGJyaWRnZSBkcml2ZXIsIGl0J3MgZGV0ZWN0IGhvb2sgaXMgaW5pdGlhdGVkIGJ5IHRo
-ZSBjb25uZWN0b3IsCj50aGVyZSBpcyBubyBjb25uZWN0b3IgcGFzc2VkIGRvd24uCj4KPkluIG1v
-c3QgY2FzZXMsIHdlIGNhbiBnZXQgdGhlIGNvbm5lY3RvciBieQo+ZHJtX2F0b21pY19nZXRfY29u
-bmVjdG9yX2Zvcl9lbmNvZGVyCj5pZiB0aGUgZW5jb2RlciBhdHRhY2hlZCB0byB0aGUgYnJpZGdl
-IGlzIGVuYWJsZWQsIGhvd2V2ZXIgdGhlcmUgd2lsbAo+c3RpbGwgYmUgc29tZSBzY2VuYXJpb3Mg
-d2hlcmUgdGhlIGRldGVjdCBob29rIG9mIHRoZSBicmlkZ2UgaXMgY2FsbGVkCj5idXQgdGhlIGNv
-cnJlc3BvbmRpbmcgZW5jb2RlciBoYXMgbm90IGJlZW4gZW5hYmxlZCB5ZXQuIEZvciBpbnN0YW5j
-ZSwKPnRoaXMgb2NjdXJzIHdoZW4gdGhlIGRldmljZSBpcyBob3QgcGx1ZyBpbiBmb3IgdGhlIGZp
-cnN0IHRpbWUuCj4KPlNpbmNlIHRoZSBjYWxsIHRvIGJyaWRnZSdzIGRldGVjdCBpcyBpbml0aWF0
-ZWQgYnkgdGhlIGNvbm5lY3RvciwgcGFzc2luZwo+ZG93biB0aGUgY29ycmVzcG9uZGluZyBjb25u
-ZWN0b3IgZGlyZWN0bHkgd2lsbCBtYWtlIHRoaW5ncyBzaW1wbGVyLgo+Cj5CZWZvcmUgcHJlcGFy
-aW5nIHRoaXMgcGF0Y2gsIHdlIGhhdmUgaGFkIHNvbWUgZGlzY3Vzc2lvbnMgb24gdGhlIGRldGFp
-bHMKPmhlcmVbMF0uCj4KPlBBVENIMSBhZGp1c3QgdGhlIGRwL2hkbWlfYXVkaW9fKiBjYWxsYmFj
-ayBwYXJhbWV0ZXJzIG9yZGVyLCBtYWtlIGl0Cj5tYWludGFpbiB0aGUgc2FtZSBwYXJhbWV0ZXIg
-b3JkZXIgYXMgZ2V0X21vZGVzIGFuZCBlZGlkX3JlYWQuCj5QQVRDSDIgYWRkIGNvbm5lY3RvciB0
-byBkZXRlY3QgaG9vay4KPgo+WzBdaHR0cHM6Ly9wYXRjaHdvcmsuZnJlZWRlc2t0b3Aub3JnL3Bh
-dGNoLzY0MDcxMi8/c2VyaWVzPTE0MzU3MyZyZXY9NQoKCkNvdWxkIHlvdSBwbGVhc2UgdGFrZSB0
-aGlzIHNlcmllcyBvZiBwYXRjaGVzPwpJIGhvcGUgYWZ0ZXIgdGhlIHBhdGNoZXMgYXJlIG1lcmdl
-ZCwgSSB3aWxsIGJlIGFibGUgdG8gdXBkYXRlIGEgbmV3IHZlcnNpb24gb2YgdGhlIERQIGRyaXZl
-ciBiYXNlZCBvbiB0aGlzLgpNb3Jlb3ZlciwgSSdtIHdvcnJpZWQgdGhhdCBpZiB0aGlzIHdhaXQg
-dG9vIGxvbmcsIHRoZXJlIG1pZ2h0IGJlIGNvbmZsaWN0cyB3aXRoIG90aGVyIG5ldyBicmlkZ2Ug
-ZHJpdmVycy4KCj4KPkNoYW5nZXMgaW4gdjM6Cj4tIFJlbW92ZSByZWR1bmRhbnQgU29CCj4KPkNo
-YW5nZXMgaW4gdjI6Cj4tIE1ha2UgZHAvaGRtaV9hdWRpb18qIGNhbGxiYWNrIGtlZXAgdGhlIHNh
-bWUgcGFyIGdldF9tb2Rlcwo+Cj5BbmR5IFlhbiAoMik6Cj4gIGRybS9icmlkZ2U6IE1ha2UgZHAv
-aGRtaV9hdWRpb18qIGNhbGxiYWNrIGtlZXAgdGhlIHNhbWUgcGFyYW10ZXIgb3JkZXIKPiAgICB3
-aXRoIGdldF9tb2Rlcwo+ICBkcm0vYnJpZGdlOiBQYXNzIGRvd24gY29ubmVjdG9yIHRvIGRybSBi
-cmlkZ2UgZGV0ZWN0IGhvb2sKPgo+IGRyaXZlcnMvZ3B1L2RybS9icmlkZ2UvYWR2NzUxMS9hZHY3
-NTExLmggICAgICB8IDE2ICsrKy0tLS0KPiAuLi4vZ3B1L2RybS9icmlkZ2UvYWR2NzUxMS9hZHY3
-NTExX2F1ZGlvLmMgICAgfCAxMiArKystLS0KPiBkcml2ZXJzL2dwdS9kcm0vYnJpZGdlL2Fkdjc1
-MTEvYWR2NzUxMV9jZWMuYyAgfCAgNCArLQo+IGRyaXZlcnMvZ3B1L2RybS9icmlkZ2UvYWR2NzUx
-MS9hZHY3NTExX2Rydi5jICB8ICAzICstCj4gZHJpdmVycy9ncHUvZHJtL2JyaWRnZS9hbmFsb2dp
-eC9hbng3NjI1LmMgICAgIHwgIDIgKy0KPiAuLi4vZHJtL2JyaWRnZS9jYWRlbmNlL2NkbnMtbWhk
-cDg1NDYtY29yZS5jICAgfCAgMyArLQo+IGRyaXZlcnMvZ3B1L2RybS9icmlkZ2UvY2hyb250ZWwt
-Y2g3MDMzLmMgICAgICB8ICAyICstCj4gZHJpdmVycy9ncHUvZHJtL2JyaWRnZS9kaXNwbGF5LWNv
-bm5lY3Rvci5jICAgIHwgMTEgKysrLS0KPiBkcml2ZXJzL2dwdS9kcm0vYnJpZGdlL2l0ZS1pdDYy
-NjMuYyAgICAgICAgICAgfCAgMyArLQo+IGRyaXZlcnMvZ3B1L2RybS9icmlkZ2UvaXRlLWl0NjUw
-NS5jICAgICAgICAgICB8ICAyICstCj4gZHJpdmVycy9ncHUvZHJtL2JyaWRnZS9pdGUtaXQ2NjEy
-MS5jICAgICAgICAgIHwgIDMgKy0KPiBkcml2ZXJzL2dwdS9kcm0vYnJpZGdlL2xvbnRpdW0tbHQ4
-OTEyYi5jICAgICAgfCAgNiArLS0KPiBkcml2ZXJzL2dwdS9kcm0vYnJpZGdlL2xvbnRpdW0tbHQ5
-NjExLmMgICAgICAgfCAxNSArKystLS0tCj4gZHJpdmVycy9ncHUvZHJtL2JyaWRnZS9sb250aXVt
-LWx0OTYxMXV4Yy5jICAgIHwgIDMgKy0KPiAuLi4vYnJpZGdlL21lZ2FjaGlwcy1zdGRweHh4eC1n
-ZS1iODUwdjMtZncuYyAgfCAgMyArLQo+IGRyaXZlcnMvZ3B1L2RybS9icmlkZ2Uvc2lpOTAyeC5j
-ICAgICAgICAgICAgICB8ICAzICstCj4gZHJpdmVycy9ncHUvZHJtL2JyaWRnZS9zaW1wbGUtYnJp
-ZGdlLmMgICAgICAgIHwgIDIgKy0KPiBkcml2ZXJzL2dwdS9kcm0vYnJpZGdlL3N5bm9wc3lzL2R3
-LWhkbWktcXAuYyAgfCAxNCArKystLS0tCj4gZHJpdmVycy9ncHUvZHJtL2JyaWRnZS9zeW5vcHN5
-cy9kdy1oZG1pLmMgICAgIHwgIDMgKy0KPiBkcml2ZXJzL2dwdS9kcm0vYnJpZGdlL3RjMzU4NzY3
-LmMgICAgICAgICAgICAgfCAgNSArKy0KPiBkcml2ZXJzL2dwdS9kcm0vYnJpZGdlL3RpLXNuNjVk
-c2k4Ni5jICAgICAgICAgfCAgMyArLQo+IGRyaXZlcnMvZ3B1L2RybS9icmlkZ2UvdGktdGZwNDEw
-LmMgICAgICAgICAgICB8ICAyICstCj4gZHJpdmVycy9ncHUvZHJtL2JyaWRnZS90aS10cGQxMnMw
-MTUuYyAgICAgICAgIHwgIDggKysrLQo+IC4uLi9ncHUvZHJtL2Rpc3BsYXkvZHJtX2JyaWRnZV9j
-b25uZWN0b3IuYyAgICB8IDIwICsrKystLS0tLQo+IGRyaXZlcnMvZ3B1L2RybS9kcm1fYnJpZGdl
-LmMgICAgICAgICAgICAgICAgICB8ICA1ICsrLQo+IGRyaXZlcnMvZ3B1L2RybS9tZWRpYXRlay9t
-dGtfZHAuYyAgICAgICAgICAgICB8ICAzICstCj4gZHJpdmVycy9ncHUvZHJtL21lZGlhdGVrL210
-a19oZG1pLmMgICAgICAgICAgIHwgIDMgKy0KPiBkcml2ZXJzL2dwdS9kcm0vbXNtL2RwL2RwX2F1
-ZGlvLmMgICAgICAgICAgICAgfCAgOCArKy0tCj4gZHJpdmVycy9ncHUvZHJtL21zbS9kcC9kcF9h
-dWRpby5oICAgICAgICAgICAgIHwgIDggKystLQo+IGRyaXZlcnMvZ3B1L2RybS9tc20vZHAvZHBf
-ZHJtLmMgICAgICAgICAgICAgICB8ICAzICstCj4gZHJpdmVycy9ncHUvZHJtL21zbS9oZG1pL2hk
-bWkuaCAgICAgICAgICAgICAgIHwgMTAgKystLS0KPiBkcml2ZXJzL2dwdS9kcm0vbXNtL2hkbWkv
-aGRtaV9hdWRpby5jICAgICAgICAgfCAgOCArKy0tCj4gZHJpdmVycy9ncHUvZHJtL21zbS9oZG1p
-L2hkbWlfYnJpZGdlLmMgICAgICAgIHwgIDIgKy0KPiBkcml2ZXJzL2dwdS9kcm0vbXNtL2hkbWkv
-aGRtaV9ocGQuYyAgICAgICAgICAgfCAgNCArLQo+IGRyaXZlcnMvZ3B1L2RybS9yb2NrY2hpcC9y
-azMwNjZfaGRtaS5jICAgICAgICB8ICAyICstCj4gZHJpdmVycy9ncHUvZHJtL3hsbngvenlucW1w
-X2RwLmMgICAgICAgICAgICAgIHwgIDMgKy0KPiBpbmNsdWRlL2RybS9kcm1fYnJpZGdlLmggICAg
-ICAgICAgICAgICAgICAgICAgfCA0MiArKysrKysrKysrLS0tLS0tLS0tCj4gMzcgZmlsZXMgY2hh
-bmdlZCwgMTM5IGluc2VydGlvbnMoKyksIDExMCBkZWxldGlvbnMoLSkKPgo+LS0gCj4yLjQzLjAK
-Pgo+YmFzZS1jb21taXQ6IDU2ZTUzNzViMjNmMzQyZGZhMzE3OTM5NWFhY2MxYjQ3Mzk1ZmRkZjcK
-PmJyYW5jaDogZHJtLW1pc2MtbmV4dAo=
+Hi Maxime,
+
+On Thu, 10 Jul 2025 09:13:46 +0200
+Maxime Ripard <mripard@kernel.org> wrote:
+
+> On Wed, Jul 09, 2025 at 06:48:03PM +0200, Luca Ceresoli wrote:
+> > Use drm_bridge_chain_get_last_bridge() instead of open coding a loop with
+> > two invocations of drm_bridge_get_next_bridge() per iteration.
+> > 
+> > Besides being cleaner and more efficient, this change is necessary in
+> > preparation for drm_bridge_get_next_bridge() to get a reference to the
+> > returned bridge.
+> > 
+> > Signed-off-by: Luca Ceresoli <luca.ceresoli@bootlin.com>
+> > ---
+> >  drivers/gpu/drm/omapdrm/omap_drv.c | 8 ++++----
+> >  1 file changed, 4 insertions(+), 4 deletions(-)
+> > 
+> > diff --git a/drivers/gpu/drm/omapdrm/omap_drv.c b/drivers/gpu/drm/omapdrm/omap_drv.c
+> > index 054b71dba6a75b8c42198c4b102a093f43a675a2..3bbcec01428a6f290afdfa40ef6f79629539a584 100644
+> > --- a/drivers/gpu/drm/omapdrm/omap_drv.c
+> > +++ b/drivers/gpu/drm/omapdrm/omap_drv.c
+> > @@ -378,12 +378,12 @@ static int omap_display_id(struct omap_dss_device *output)
+> >  	struct device_node *node = NULL;
+> >  
+> >  	if (output->bridge) {
+> > -		struct drm_bridge *bridge = output->bridge;
+> > -
+> > -		while (drm_bridge_get_next_bridge(bridge))
+> > -			bridge = drm_bridge_get_next_bridge(bridge);
+> > +		struct drm_bridge *bridge =
+> > +			drm_bridge_chain_get_last_bridge(output->bridge->encoder);
+> >  
+> >  		node = bridge->of_node;
+> > +
+> > +		drm_bridge_put(bridge);  
+> 
+> Any reason you're not using __free(drm_bridge_put) here?
+
+Just because the code is simple enough that an explicit
+drm_bridge_put() is clearly sufficient.
+
+Do you think __free() should be used even in such trivial cases?
+
+Luca
+
+-- 
+Luca Ceresoli, Bootlin
+Embedded Linux and Kernel engineering
+https://bootlin.com
