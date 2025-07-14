@@ -2,87 +2,68 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3634BB03B63
-	for <lists+dri-devel@lfdr.de>; Mon, 14 Jul 2025 11:53:38 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2157DB03B9B
+	for <lists+dri-devel@lfdr.de>; Mon, 14 Jul 2025 12:08:55 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0811610E1FC;
-	Mon, 14 Jul 2025 09:53:35 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B72F110E04D;
+	Mon, 14 Jul 2025 10:08:51 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="g34F/pqp";
+	dkim=pass (2048-bit key; unprotected) header.d=bootlin.com header.i=@bootlin.com header.b="FndN3beY";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-f41.google.com (mail-lf1-f41.google.com
- [209.85.167.41])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D69C310E1FC
- for <dri-devel@lists.freedesktop.org>; Mon, 14 Jul 2025 09:53:33 +0000 (UTC)
-Received: by mail-lf1-f41.google.com with SMTP id
- 2adb3069b0e04-54d98aa5981so5436903e87.0
- for <dri-devel@lists.freedesktop.org>; Mon, 14 Jul 2025 02:53:33 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1752486812; x=1753091612; darn=lists.freedesktop.org;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
- bh=9X61o1toElFjW4EGc0qCV1uxCE7n857B9KnQrGKNsPQ=;
- b=g34F/pqpIDygqITv4RArrPFvC48JF07Z+ZmSnTqGf8AotwE6iDflCzvadE9ZbQ51Wx
- PA+wlW4C2O9z0O9ZZAqc0OyxRc1d9v2OhCbKRURzz6LA76Vnvt6hUFW8LNxcpSmgjjfA
- JFhdaAS8mC4soPhuf2CIMu3E3d729AWECuBsbSvYJWyRqqKhK0yoleGRVzaaPpXMwC0H
- Qla4dPdYhHGfk4c5Rb6Z4OSgzj9ShrWoo+K6Pqfe0XB+qA6Ca5yp/RPYRs22YcnUj+xo
- SD12zL7hdui2TZiE4cQ05MS6XmduCGVnuVew2Y2uyiKN6syjoecNQJF+FFfb44tqqyhc
- 221A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1752486812; x=1753091612;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
- :message-id:reply-to;
- bh=9X61o1toElFjW4EGc0qCV1uxCE7n857B9KnQrGKNsPQ=;
- b=UKDOmfnuYevd/Sm7K7ZYT1rqG2YWTqpa/3uYrv0o4Dx7BF1WIA/WSedvAELajPGr1i
- zz6S/Ri95VofidzlHfRvH76lPwREfhraeoUyZxgrjWnNI/ElWyAlK4xtw6OWAjKGiPay
- yiEXpchDlQUY/rHi2g/29qE6bkNHrFUf3RydORR67hqsBe3ZLJFB+DyFFWX2dkiQMC6i
- bdBxtXQJ2m5yPs3wjTAM2+JGrCSMwck3srC1KrucLd5SIlO//b5s93X65GAtbQEs8Vr+
- ssPSywzGy8w//4MqJnZo2vc/Oy1azMJQioIK5OjsKNfOpwb5yXEsdAxnNcSLJ7KASVMX
- 6yyA==
-X-Forwarded-Encrypted: i=1;
- AJvYcCXFKngbS92qSDMiFTq0dEKcRw3HLY6bVcnBJ+1VpOexyuOx4OuQn6//rwRSRMwkOlbBeeeBS99a2zo=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YxmgsGNNpgPxwuTBK6wrVa/5XhrEznpgR2gOfOuNc1J6n6+0Ny3
- 8UHlKSdhuuWqLz1CE6NzxPcKOe5TIi2cgNTeZch+okFbfKRReOfBhYEt
-X-Gm-Gg: ASbGnct7YaX1oNhpLyToG1v2yMr+Z0HDqnYILc1o1r12h5+W50U278IPSB+l47gcFsp
- rwdCvCnVlxXotOM12d9tghHcuafveWUd2pIkrsiL4/UOm8rwSoLRPhzFeR4fnXloR1aZ7vIn56H
- Bh2opjoXF16+Zm+b9ka7JrwvncMbgeFOwLXPJaEkFUle102qo7iWhu3H2WUGqi1afzcl/DRfzfn
- zIuruKSgYzhtv+li8UHfvGsGQ8OLLomWWRAU8iajMYGojPNGf1cx+31WZf+p3bVcViN3q/Vw7zR
- u4mTUBnuUKShtq5V695qfJ5gL9pwIfzeYWkWcyySr1NvpXw2kVI2domJezh6yYZUYA86Tte1b8p
- gXieTd26cwmFWX04nqblnrabFSfQBlN5++Is8Fi02FUUaT4wibF3hBWH6d2IXIn0+NS7MKw==
-X-Google-Smtp-Source: AGHT+IGV0OnVPhct9hOpTRxWG6mjtuDaMUJXFWk9S5aL02iJNxqSWm0eRCQ5NNbKKfS1/BupTCWSXQ==
-X-Received: by 2002:a05:6512:6cd:b0:553:3892:5ec6 with SMTP id
- 2adb3069b0e04-55a0463a2dcmr3780494e87.35.1752486811517; 
- Mon, 14 Jul 2025 02:53:31 -0700 (PDT)
-Received: from gmail.com (83-233-6-197.cust.bredband2.com. [83.233.6.197])
- by smtp.gmail.com with ESMTPSA id
- 2adb3069b0e04-5593c9d32absm1894249e87.118.2025.07.14.02.53.30
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 14 Jul 2025 02:53:30 -0700 (PDT)
-Date: Mon, 14 Jul 2025 11:53:28 +0200
-From: Marcus Folkesson <marcus.folkesson@gmail.com>
-To: Thomas Zimmermann <tzimmermann@suse.de>
-Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
- Conor Dooley <conor+dt@kernel.org>,
- Javier Martinez Canillas <javierm@redhat.com>,
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- devicetree@vger.kernel.org
-Subject: Re: [PATCH 4/5] drm/format-helper: introduce
- drm_fb_xrgb8888_to_gray2()
-Message-ID: <aHTTmORf7aoPxZdu@gmail.com>
-References: <20250714-st7571-format-v1-0-a27e5112baff@gmail.com>
- <20250714-st7571-format-v1-4-a27e5112baff@gmail.com>
- <bc37c3e9-0e58-4d63-b271-d2b026adf3a0@suse.de>
+Received: from relay2-d.mail.gandi.net (relay2-d.mail.gandi.net
+ [217.70.183.194])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0029D10E04D
+ for <dri-devel@lists.freedesktop.org>; Mon, 14 Jul 2025 10:08:49 +0000 (UTC)
+Received: by mail.gandi.net (Postfix) with ESMTPSA id 1CF1B43185;
+ Mon, 14 Jul 2025 10:08:43 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
+ t=1752487727;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=xgutdRjLLdQi2RnkqaGrlwK27BoBj8ki0FopHfGLe9A=;
+ b=FndN3beY+pz3fPT55Ct9FIe1LlXQ/Q/0trzzGTE7v8shKaH6N8hB6rSUm5xc18XaWT6uXM
+ WBa/3dW/YemVx5qHH4SV+U/urhVy7ebch00KZ+tby7S8Jz1aQKkhH1coLFGtqkFDqsTFnR
+ IJBGe8FLiHYPZSFtmB/Zj4h0Mos6wc5s2K/U5FWZ/Af3yzyKzsXaHtz6v3j6EK6YY1/ECn
+ +El+AYDpTXnPJ1wT1dWQPHgw1g6eRf+aod4AHiIhqPlbv3nQAkC9dSfImFuSsIrwO1JTvC
+ Fyhg88E/VCE50CEOgXoHYDUA2Z8lLgF7W9haRc3nM0OMYJ8u/iK8d2o1dg+Npw==
+Date: Mon, 14 Jul 2025 12:08:42 +0200
+From: Luca Ceresoli <luca.ceresoli@bootlin.com>
+To: Maxime Ripard <mripard@kernel.org>
+Cc: Andrzej Hajda <andrzej.hajda@intel.com>, Neil Armstrong
+ <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>, Laurent
+ Pinchart <Laurent.pinchart@ideasonboard.com>, Jonas Karlman
+ <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>, Maarten
+ Lankhorst <maarten.lankhorst@linux.intel.com>, Thomas Zimmermann
+ <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>, Simona Vetter
+ <simona@ffwll.ch>, Liu Ying <victor.liu@nxp.com>, Shawn Guo
+ <shawnguo@kernel.org>, Sascha Hauer <s.hauer@pengutronix.de>, Pengutronix
+ Kernel Team <kernel@pengutronix.de>, Fabio Estevam <festevam@gmail.com>,
+ Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>, Philipp Zabel
+ <p.zabel@pengutronix.de>, Hui Pu <Hui.Pu@gehealthcare.com>, Thomas
+ Petazzoni <thomas.petazzoni@bootlin.com>, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, imx@lists.linux.dev,
+ linux-arm-kernel@lists.infradead.org
+Subject: Re: [PATCH 8/9] drm/bridge: put the bridge returned by
+ drm_bridge_get_next_bridge()
+Message-ID: <20250714120842.3b336998@booty>
+In-Reply-To: <20250710-classic-bouncy-caiman-8e2045@houat>
+References: <20250709-drm-bridge-alloc-getput-drm_bridge_get_next_bridge-v1-0-48920b9cf369@bootlin.com>
+ <20250709-drm-bridge-alloc-getput-drm_bridge_get_next_bridge-v1-8-48920b9cf369@bootlin.com>
+ <20250710-classic-bouncy-caiman-8e2045@houat>
+Organization: Bootlin
+X-Mailer: Claws Mail 4.3.1 (GTK 3.24.49; x86_64-redhat-linux-gnu)
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="tWh33p2Y97tbbhG9"
-Content-Disposition: inline
-In-Reply-To: <bc37c3e9-0e58-4d63-b271-d2b026adf3a0@suse.de>
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
+X-GND-State: clean
+X-GND-Score: -100
+X-GND-Cause: gggruggvucftvghtrhhoucdtuddrgeeffedrtdefgdehudeijecutefuodetggdotefrodftvfcurfhrohhfihhlvgemucfitefpfffkpdcuggftfghnshhusghstghrihgsvgenuceurghilhhouhhtmecufedtudenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujfgurhepfffhvfevuffkjghfohfogggtgfesthejredtredtvdenucfhrhhomhepnfhutggrucevvghrvghsohhlihcuoehluhgtrgdrtggvrhgvshholhhisegsohhothhlihhnrdgtohhmqeenucggtffrrghtthgvrhhnpeeglefffefghefhtddvfeeufeeiveekgffgleekieduteekkeetvdehudekgfdvvdenucffohhmrghinhepsghoohhtlhhinhdrtghomhenucfkphepvdgrtddvmeeijedtmedvtddvtdemvggrtddumegsvgegudemleehvgejmeefgeefmeeludefvgenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepihhnvghtpedvrgdtvdemieejtdemvddtvddtmegvrgdtudemsggvgedumeelhegvjeemfeegfeemledufegvpdhhvghlohepsghoohhthidpmhgrihhlfhhrohhmpehluhgtrgdrtggvrhgvshholhhisegsohhothhlihhnrdgtohhmpdhnsggprhgtphhtthhopedvgedprhgtphhtthhopehmrhhiphgrrhgusehkvghrnhgvlhdrohhrghdprhgtphhtthhopegrnhgurhiivghjrdhhrghjuggrsehinhhtvghlrdgtohhmpdhrtghpthhtohepnhgvihhlrdgrrhhmshhtrhhonhhgsehlihhnrghro
+ hdrohhrghdprhgtphhtthhopehrfhhoshhssehkvghrnhgvlhdrohhrghdprhgtphhtthhopefnrghurhgvnhhtrdhpihhntghhrghrthesihguvggrshhonhgsohgrrhgurdgtohhmpdhrtghpthhtohepjhhonhgrsheskhifihgsohhordhsvgdprhgtphhtthhopehjvghrnhgvjhdrshhkrhgrsggvtgesghhmrghilhdrtghomhdprhgtphhtthhopehmrggrrhhtvghnrdhlrghnkhhhohhrshhtsehlihhnuhigrdhinhhtvghlrdgtohhm
+X-GND-Sasl: luca.ceresoli@bootlin.com
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -98,60 +79,93 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+Hi Maxime,
 
---tWh33p2Y97tbbhG9
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+On Thu, 10 Jul 2025 09:27:09 +0200
+Maxime Ripard <mripard@kernel.org> wrote:
 
-Hi Thomas,
+> Hi,
+> 
+> On Wed, Jul 09, 2025 at 06:48:07PM +0200, Luca Ceresoli wrote:
+> > The bridge returned by drm_bridge_get_next_bridge() is refcounted. Put it
+> > when done.
+> > 
+> > Signed-off-by: Luca Ceresoli <luca.ceresoli@bootlin.com>  
+> 
+> You should really expand a bit more your commit logs, and provide the
+> context of why you think putting drm_bridge_put where you do is a good idea.
+> 
+> > ---
+> >  drivers/gpu/drm/drm_bridge.c | 2 ++
+> >  1 file changed, 2 insertions(+)
+> > 
+> > diff --git a/drivers/gpu/drm/drm_bridge.c b/drivers/gpu/drm/drm_bridge.c
+> > index 0b450b334afd82e0460f18fdd248f79d0a2b153d..05e85457099ab1e0a23ea7842c9654c9a6881dfb 100644
+> > --- a/drivers/gpu/drm/drm_bridge.c
+> > +++ b/drivers/gpu/drm/drm_bridge.c
+> > @@ -1147,6 +1147,8 @@ drm_atomic_bridge_propagate_bus_flags(struct drm_bridge *bridge,
+> >  	} else {
+> >  		next_bridge_state = drm_atomic_get_new_bridge_state(state,
+> >  								next_bridge);
+> > +		drm_bridge_put(next_bridge);
+> > +
+> >  		/*
+> >  		 * No bridge state attached to the next bridge, just leave the
+> >  		 * flags to 0.  
+> 
+> In particular, I don't think it is here.
+> 
+> You still have a variable in scope after that branch that you would have
+> given up the reference for, which is pretty dangerous.
+> 
+> Also, the bridge state lifetime is shorter than the bridge lifetime
+> itself, so we probably want to have the drm_bridge_put after we're done
+> with next_bridge_state too.
 
+Totally agree about this.
 
-Thank you for your comments!
+I theory moving the _put just after the last usage of next_bridge_state
+would be enough. However...
 
-On Mon, Jul 14, 2025 at 11:13:04AM +0200, Thomas Zimmermann wrote:
-> Hi
->=20
-> Am 14.07.25 um 10:04 schrieb Marcus Folkesson:
-> > drm_fb_xrgb8888_to_gray2() works like and share much code with
-> > drm_fb_xrgb8888_to_mono(), but converts XRGB8888 to
-> > 2bit grayscale instead.
-> >=20
-> > It uses drm_fb_xrgb8888_to_gray8() to convert the pixels to gray8 as an
-> > intermediate step before converting to gray2.
->=20
-> Please don't share code here.=A0 This needs a serious rework anyway. The =
-best
-> thing for now is to add a new, separate function for _gray2().
+> Overall, I think using __free here is probably the most robust solution.
 
-I see. I will instead add a separate _gray() function, even though it
-will look very similar to _mono.
+...I'm OK with using use __free here, even though it doesn't look
+strictly necessary. However for patch 9 the code path is slightly more
+complex, so I'll use __free for both.
 
->=20
-> Best regards
-> Thomas
+With this change, this patch would become:
 
-Best regards,
-Marcus Folkesson
+@@ -1121,7 +1121,6 @@ drm_atomic_bridge_propagate_bus_flags(struct drm_bridge *bridge,
+                                      struct drm_atomic_state *state)
+ {
+        struct drm_bridge_state *bridge_state, *next_bridge_state;
+-       struct drm_bridge *next_bridge;
+        u32 output_flags = 0;
+ 
+        bridge_state = drm_atomic_get_new_bridge_state(state, bridge);
+@@ -1130,7 +1129,7 @@ drm_atomic_bridge_propagate_bus_flags(struct drm_bridge *bridge,
+        if (!bridge_state)
+                return;
+ 
+-       next_bridge = drm_bridge_get_next_bridge(bridge);
++       struct drm_bridge *next_bridge __free(drm_bridge_put) = drm_bridge_get_next_bridge(bridge);
+ 
+        /*
+         * Let's try to apply the most common case here, that is, propagate
 
---tWh33p2Y97tbbhG9
-Content-Type: application/pgp-signature; name=signature.asc
+And a tentative commit message body is:
 
------BEGIN PGP SIGNATURE-----
+  The bridge returned by drm_bridge_get_next_bridge() is refcounted. Put
+  it when done. We need to ensure it is not put before either
+  next_bridge or next_bridge_state is in use, thus for simplicity use a
+  cleanup action.
 
-iQIzBAEBCAAdFiEEBVGi6LZstU1kwSxliIBOb1ldUjIFAmh005QACgkQiIBOb1ld
-UjKZ4BAAw/2UefV8Jq9HhLvLy3L1LSnhR0WRTHG0NoEnPSSYqjm3g9FIu8TBZTam
-UXsOv3u5txdvZHncT0OGbDk/s9FmcwShRunWCs4NA1+qFFb3ojT5bQwY3VD0Q5CT
-MplaW9hXNcjrG1oCIzRvY2BubEJqOtSundpy0yhhRFFchQh6i6OBhXL7Nb0Z2cki
-VuBbC4FXBdRUd1pKmApaH9/z2jAqRpfFCvWDbGciBcwajkol9pktjm2GQJz+NP1D
-6DY3Pfh93uc3eqJgLQwJS7QfTRV5uYdYUWeXPwHoEs1KZQBukCs1/LPGC2DVpepD
-lNELZnnAklnQ0e9J7qSyQR1bPySSvU1aYA6vg6NwXUrIE9DbsebRyTpDcv3ad79P
-OMAkYPg9j8xvSaa9Va3nysgMhV/7I0UoZFTFtNMpPzmHLQiKEG09CAGdAmRWlivB
-TN2SnV26rmYemhofNnhi437VYqoKZT91om5Au0RbPQEDhVJ1HgQNc4G8nSsnjlcZ
-AJGrd7qNBi7ia07MTwezV92eEsmXuZNPrZnb8WkDzjFbg9MOiTq7AD5E8wM/6JaM
-B+SMvo/nqAz0HdEYNZW/5h9iROnzXG9TYFmhLI01Sp5HCzrVo0XR6h8wEDlD/QGe
-Vfy70LhlVTZlWOWdLIdmBsaSi/sGacB1aQTs+jduTxPj83nZm2w=
-=zzGr
------END PGP SIGNATURE-----
+I'll resend with the above changes (unless you have more improvements to
+suggest) in a few days, to wait for any feedback on patch 1.
 
---tWh33p2Y97tbbhG9--
+Luca
+
+-- 
+Luca Ceresoli, Bootlin
+Embedded Linux and Kernel engineering
+https://bootlin.com
