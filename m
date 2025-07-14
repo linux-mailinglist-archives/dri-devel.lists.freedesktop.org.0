@@ -2,58 +2,98 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 639DBB04357
-	for <lists+dri-devel@lfdr.de>; Mon, 14 Jul 2025 17:18:43 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2CF03B0434A
+	for <lists+dri-devel@lfdr.de>; Mon, 14 Jul 2025 17:18:22 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A0C7410E4B3;
-	Mon, 14 Jul 2025 15:18:41 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0893610E4BD;
+	Mon, 14 Jul 2025 15:18:19 +0000 (UTC)
+Authentication-Results: gabe.freedesktop.org;
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="HxzCBDI3";
+	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 21C9C10E4B9
- for <dri-devel@lists.freedesktop.org>; Mon, 14 Jul 2025 15:18:37 +0000 (UTC)
-Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org
- [IPv6:2a07:de40:b281:104:10:150:64:97])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
- (No client certificate requested)
- by smtp-out1.suse.de (Postfix) with ESMTPS id C6F832125F;
- Mon, 14 Jul 2025 15:18:24 +0000 (UTC)
-Authentication-Results: smtp-out1.suse.de;
-	none
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
- (No client certificate requested)
- by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id A4A6F13A57;
- Mon, 14 Jul 2025 15:18:24 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
- by imap1.dmz-prg2.suse.org with ESMTPSA id cGSbJsAfdWhbMgAAD6G6ig
- (envelope-from <tzimmermann@suse.de>); Mon, 14 Jul 2025 15:18:24 +0000
-From: Thomas Zimmermann <tzimmermann@suse.de>
-To: javierm@redhat.com
-Cc: dri-devel@lists.freedesktop.org,
-	Thomas Zimmermann <tzimmermann@suse.de>
-Subject: [PATCH v2 9/9] drm/vesadrm: Support DRM_FORMAT_C8
-Date: Mon, 14 Jul 2025 17:13:09 +0200
-Message-ID: <20250714151513.309475-10-tzimmermann@suse.de>
-X-Mailer: git-send-email 2.50.0
-In-Reply-To: <20250714151513.309475-1-tzimmermann@suse.de>
-References: <20250714151513.309475-1-tzimmermann@suse.de>
+Received: from mail-pj1-f42.google.com (mail-pj1-f42.google.com
+ [209.85.216.42])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5D1EA10E4B5
+ for <dri-devel@lists.freedesktop.org>; Mon, 14 Jul 2025 15:18:17 +0000 (UTC)
+Received: by mail-pj1-f42.google.com with SMTP id
+ 98e67ed59e1d1-31305ee3281so834147a91.0
+ for <dri-devel@lists.freedesktop.org>; Mon, 14 Jul 2025 08:18:17 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20230601; t=1752506297; x=1753111097; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=H2Vfa1hTNVLtaQ3ZfRlV+2JX86DONilPDV8aWr5D5/E=;
+ b=HxzCBDI3CWjoVXQNcOa5HMRWUsgeHXOafKPwASMn9ivDS9SU8u74qKCpiHh4VQiLpJ
+ xexvbtWLixrMcNIg1+tmuBBOHn0KgqbqVL88T4wwyXckb5vO2d/pd9Djc0FGzEYVPUZr
+ WSrX694zdxUMJmClmXory4kHgN6pgVJ7di/K9W4yhYDmlpfxXViSezdWJaUl3KGzCab/
+ aR5KygdpEeiedIsvqtbDH1xOeaf/h+tfWhM77PcjYx3H5fpQsmBT0A19sRTY9amFoeqb
+ m7xEewo0EEFryTQoeoOMoz9Ki4oYcTkhaFRO301tNMVOpnjooVVG1t6Q1tn6Bcl1NJ8B
+ A+cg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1752506297; x=1753111097;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=H2Vfa1hTNVLtaQ3ZfRlV+2JX86DONilPDV8aWr5D5/E=;
+ b=uEWxubp0I+9pMvVQwsKjo/3QmN4+rqOjgInUMpIMwwcl5ux1JFTHFq8lAkSTjbVr1t
+ 4wJE0TxriG4Kq0DdM2klQRIhiHPfbRC4b3w62G3Mi6EXfsml7ZztM1xhA64EDFpOD/CA
+ xh9/iYTfnltaEcDBM9U5ZA7JlRRfAC2xc5fOl6ygB1hlZNnjEBJuztXF+UU8HujYV4S7
+ t3/KQ3piedCn4651nQ44YPCjOswbX27arfwmNkH5ol1M/MBWY5f0QoDZNUM76LoTtBi8
+ ikfJ05sb0YbxkAWEe1Trl9gjWu3h4uBCLQKLHaDC5yxCRYB5rr7m5hPyanMBY23Q4Ulp
+ zzxw==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCUi7mNYhWltKgqYDrx9aC9zxhWxu0KMvHDAZfkEspVQNHcWM5t4xBudYd66Y0hQv81ymLzmnqI5uFY=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YwFyof2eKpzYLeBd3v65OQVuUKt6hM4BdmkRfDOHWa6/WOUiTRm
+ cW7kpx8/s+OzpCGQhoZPMnnif16gJ7/otkZeA2s8jbG3IMN1rparIsEEY5HtoDOMnpsDMp8lFjW
+ H+peKPpaMI/Z1UdOZTIC6L9bQcRwqWQ0=
+X-Gm-Gg: ASbGnctk2B0CueEp+uvmUgbtFPn56FKv27uKGKWhdDzRa8b7q6bW2Xn5PaNUaCxBeI3
+ NP2bltb3NhEWclpgsJROVcKG4mcgY4mO2iESLpjE56hitVlKAE/2rexr4CS6jLWuAAySnzlePId
+ FaplitC7sGcqii1cZsfwKUb4CCkF4qahH3m+15BRvj2NpYM3N8I8iWRY/kbCTT9R2hA92Db1m09
+ fXwf7Url5kKWfGb4ro=
+X-Google-Smtp-Source: AGHT+IEAaevWA3THWIOPb1Ft9IVMbazdTZ0Roc9iuvAoj1b5HTax5adhB7GCfo0cZ1I1i+dSyxYRJQcg/1n6uYcNd6A=
+X-Received: by 2002:a17:90b:558f:b0:313:f9fc:7214 with SMTP id
+ 98e67ed59e1d1-31c4ca77626mr8723572a91.1.1752506296678; Mon, 14 Jul 2025
+ 08:18:16 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Rspamd-Pre-Result: action=no action; module=replies;
- Message is reply to one we originated
-X-Rspamd-Action: no action
-X-Spam-Flag: NO
-X-Spam-Level: 
-X-Rspamd-Server: rspamd2.dmz-prg2.suse.org
-X-Spamd-Result: default: False [-4.00 / 50.00];
-	REPLY(-4.00)[]
-X-Rspamd-Queue-Id: C6F832125F
-X-Rspamd-Pre-Result: action=no action; module=replies;
- Message is reply to one we originated
-X-Spam-Score: -4.00
+References: <20250709-core-cstr-fanout-1-v1-0-fd793b3e58a2@gmail.com>
+ <20250709-core-cstr-fanout-1-v1-1-fd793b3e58a2@gmail.com>
+ <DBBQE3GJ0CHT.5PEF7RLS6C33@kernel.org>
+ <CAJ-ks9=ZHtzeyyFSZaVuA1t-3C8-hc40n6r8qFWxn628qT-OeA@mail.gmail.com>
+In-Reply-To: <CAJ-ks9=ZHtzeyyFSZaVuA1t-3C8-hc40n6r8qFWxn628qT-OeA@mail.gmail.com>
+From: Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>
+Date: Mon, 14 Jul 2025 17:18:04 +0200
+X-Gm-Features: Ac12FXzX4FOFR5k7wOozEqN2_nmttthJfs0me70_TpwVT6YUdkB9gcZMGomkNT4
+Message-ID: <CANiq72kyQQMutGDkHH=McRQens+V+wkHLpiSfivmnAwwgXE62w@mail.gmail.com>
+Subject: Re: [PATCH 01/10] gpu: nova-core: use `core::ffi::CStr` method names
+To: Tamir Duberstein <tamird@gmail.com>
+Cc: Danilo Krummrich <dakr@kernel.org>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+ Miguel Ojeda <ojeda@kernel.org>, 
+ Alex Gaynor <alex.gaynor@gmail.com>, Boqun Feng <boqun.feng@gmail.com>, 
+ Gary Guo <gary@garyguo.net>,
+ =?UTF-8?Q?Bj=C3=B6rn_Roy_Baron?= <bjorn3_gh@protonmail.com>, 
+ Benno Lossin <lossin@kernel.org>, Andreas Hindborg <a.hindborg@kernel.org>, 
+ Alice Ryhl <aliceryhl@google.com>, Trevor Gross <tmgross@umich.edu>, 
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ Dave Ertman <david.m.ertman@intel.com>, 
+ Ira Weiny <ira.weiny@intel.com>, Leon Romanovsky <leon@kernel.org>,
+ Breno Leitao <leitao@debian.org>, 
+ "Rafael J. Wysocki" <rafael@kernel.org>, Viresh Kumar <viresh.kumar@linaro.org>,
+ Luis Chamberlain <mcgrof@kernel.org>, Russ Weight <russ.weight@linux.dev>, 
+ Brendan Higgins <brendan.higgins@linux.dev>, David Gow <davidgow@google.com>, 
+ Rae Moar <rmoar@google.com>, FUJITA Tomonori <fujita.tomonori@gmail.com>, 
+ Rob Herring <robh@kernel.org>, Saravana Kannan <saravanak@google.com>,
+ dri-devel@lists.freedesktop.org, 
+ linux-kernel@vger.kernel.org, rust-for-linux@vger.kernel.org, 
+ linux-pm@vger.kernel.org, linux-kselftest@vger.kernel.org, 
+ kunit-dev@googlegroups.com, netdev@vger.kernel.org, 
+ devicetree@vger.kernel.org, Javier Martinez Canillas <javierm@redhat.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -69,186 +109,14 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Add support for DRM_FORMAT_C8 to vesadrm. The new pixel-format
-description PIXEL_FORMAT_C8 describes the layout. Vesadrm's helpers
-vesadrm_fill_palette_lut() and vesadrm_load_palette_lut() set the
-hardware palette according to the CRTC's output format.
+On Mon, Jul 14, 2025 at 2:35=E2=80=AFPM Tamir Duberstein <tamird@gmail.com>=
+ wrote:
+>
+> How should I respin this one? the subject should be drm/panic, I think.
 
-The driver emulates XRGB8888 by converting the source buffer to
-RGB332 and using the resulting 256 colors as index into the hardware
-palette. The hardware palette converts back to RGB during scanout.
-This has no overhead compared to other format conversion, but allows
-common userspace, such as Wayland compositors, to operate on the
-display.
+I would mimic what the previous commits did, i.e. drm/panic indeed.
 
-Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
-Reviewed-by: Javier Martinez Canillas <javierm@redhat.com>
----
- drivers/gpu/drm/sysfb/vesadrm.c | 114 +++++++++++++++++++++++++++++++-
- include/video/pixel_format.h    |   3 +
- 2 files changed, 116 insertions(+), 1 deletion(-)
+(If I happen to pick it up before a resend, I could fix it on my side)
 
-diff --git a/drivers/gpu/drm/sysfb/vesadrm.c b/drivers/gpu/drm/sysfb/vesadrm.c
-index b6e5ed1863f9..1170e71e4208 100644
---- a/drivers/gpu/drm/sysfb/vesadrm.c
-+++ b/drivers/gpu/drm/sysfb/vesadrm.c
-@@ -46,6 +46,7 @@ static const struct drm_format_info *vesadrm_get_format_si(struct drm_device *de
- 		{ PIXEL_FORMAT_RGB888, DRM_FORMAT_RGB888, },
- 		{ PIXEL_FORMAT_XRGB8888, DRM_FORMAT_XRGB8888, },
- 		{ PIXEL_FORMAT_XBGR8888, DRM_FORMAT_XBGR8888, },
-+		{ PIXEL_FORMAT_C8, DRM_FORMAT_C8, },
- 	};
- 
- 	return drm_sysfb_get_format_si(dev, formats, ARRAY_SIZE(formats), si);
-@@ -192,6 +193,44 @@ static void vesadrm_load_gamma_lut(struct vesadrm_device *vesa,
- 	}
- }
- 
-+static void vesadrm_fill_palette_lut(struct vesadrm_device *vesa,
-+				     const struct drm_format_info *format)
-+{
-+	struct drm_device *dev = &vesa->sysfb.dev;
-+	struct drm_crtc *crtc = &vesa->crtc;
-+
-+	switch (format->format) {
-+	case DRM_FORMAT_C8:
-+		drm_crtc_fill_palette_8(crtc, vesadrm_set_color_lut);
-+		break;
-+	case DRM_FORMAT_RGB332:
-+		drm_crtc_fill_palette_332(crtc, vesadrm_set_color_lut);
-+		break;
-+	default:
-+		drm_warn_once(dev, "Unsupported format %p4cc for palette\n",
-+			      &format->format);
-+		break;
-+	}
-+}
-+
-+static void vesadrm_load_palette_lut(struct vesadrm_device *vesa,
-+				     const struct drm_format_info *format,
-+				     struct drm_color_lut *lut)
-+{
-+	struct drm_device *dev = &vesa->sysfb.dev;
-+	struct drm_crtc *crtc = &vesa->crtc;
-+
-+	switch (format->format) {
-+	case DRM_FORMAT_C8:
-+		drm_crtc_load_palette_8(crtc, lut, vesadrm_set_color_lut);
-+		break;
-+	default:
-+		drm_warn_once(dev, "Unsupported format %p4cc for gamma correction\n",
-+			      &format->format);
-+		break;
-+	}
-+}
-+
- /*
-  * Modesetting
-  */
-@@ -200,8 +239,67 @@ static const u64 vesadrm_primary_plane_format_modifiers[] = {
- 	DRM_SYSFB_PLANE_FORMAT_MODIFIERS,
- };
- 
-+static int vesadrm_primary_plane_helper_atomic_check(struct drm_plane *plane,
-+						     struct drm_atomic_state *new_state)
-+{
-+	struct drm_sysfb_device *sysfb = to_drm_sysfb_device(plane->dev);
-+	struct drm_plane_state *new_plane_state = drm_atomic_get_new_plane_state(new_state, plane);
-+	struct drm_framebuffer *new_fb = new_plane_state->fb;
-+	struct drm_crtc_state *new_crtc_state;
-+	struct drm_sysfb_crtc_state *new_sysfb_crtc_state;
-+	int ret;
-+
-+	ret = drm_sysfb_plane_helper_atomic_check(plane, new_state);
-+	if (ret)
-+		return ret;
-+	else if (!new_plane_state->visible)
-+		return 0;
-+
-+	/*
-+	 * Fix up format conversion for specific cases
-+	 */
-+
-+	switch (sysfb->fb_format->format) {
-+	case DRM_FORMAT_C8:
-+		new_crtc_state = drm_atomic_get_new_crtc_state(new_state, new_plane_state->crtc);
-+		new_sysfb_crtc_state = to_drm_sysfb_crtc_state(new_crtc_state);
-+
-+		switch (new_fb->format->format) {
-+		case DRM_FORMAT_XRGB8888:
-+			/*
-+			 * Reduce XRGB8888 to RGB332. Each resulting pixel is an index
-+			 * into the C8 hardware palette, which stores RGB332 colors.
-+			 */
-+			if (new_sysfb_crtc_state->format->format != DRM_FORMAT_RGB332) {
-+				new_sysfb_crtc_state->format =
-+					drm_format_info(DRM_FORMAT_RGB332);
-+				new_crtc_state->color_mgmt_changed = true;
-+			}
-+			break;
-+		case DRM_FORMAT_C8:
-+			/*
-+			 * Restore original output. Emulation of XRGB8888 set RBG332
-+			 * output format and hardware palette. This needs to be undone
-+			 * when we switch back to DRM_FORMAT_C8.
-+			 */
-+			if (new_sysfb_crtc_state->format->format == DRM_FORMAT_RGB332) {
-+				new_sysfb_crtc_state->format = sysfb->fb_format;
-+				new_crtc_state->color_mgmt_changed = true;
-+			}
-+			break;
-+		}
-+		break;
-+	};
-+
-+	return 0;
-+}
-+
- static const struct drm_plane_helper_funcs vesadrm_primary_plane_helper_funcs = {
--	DRM_SYSFB_PLANE_HELPER_FUNCS,
-+	DRM_GEM_SHADOW_PLANE_HELPER_FUNCS,
-+	.atomic_check = vesadrm_primary_plane_helper_atomic_check,
-+	.atomic_update = drm_sysfb_plane_helper_atomic_update,
-+	.atomic_disable = drm_sysfb_plane_helper_atomic_disable,
-+	.get_scanout_buffer = drm_sysfb_plane_helper_get_scanout_buffer,
- };
- 
- static const struct drm_plane_funcs vesadrm_primary_plane_funcs = {
-@@ -224,6 +322,20 @@ static void vesadrm_crtc_helper_atomic_flush(struct drm_crtc *crtc,
- 	 */
- 	if (crtc_state->enable && crtc_state->color_mgmt_changed) {
- 		switch (sysfb->fb_format->format) {
-+		/*
-+		 * Index formats
-+		 */
-+		case DRM_FORMAT_C8:
-+			if (sysfb_crtc_state->format->format == DRM_FORMAT_RGB332) {
-+				vesadrm_fill_palette_lut(vesa, sysfb_crtc_state->format);
-+			} else if (crtc->state->gamma_lut) {
-+				vesadrm_load_palette_lut(vesa,
-+							 sysfb_crtc_state->format,
-+							 crtc_state->gamma_lut->data);
-+			} else {
-+				vesadrm_fill_palette_lut(vesa, sysfb_crtc_state->format);
-+			}
-+			break;
- 		/*
- 		 * Component formats
- 		 */
-diff --git a/include/video/pixel_format.h b/include/video/pixel_format.h
-index c57019cd6ea8..6874754b0474 100644
---- a/include/video/pixel_format.h
-+++ b/include/video/pixel_format.h
-@@ -20,6 +20,9 @@ struct pixel_format {
- 	};
- };
- 
-+#define PIXEL_FORMAT_C8 \
-+	{ 8, true, { .index = {0, 8}, } }
-+
- #define PIXEL_FORMAT_XRGB1555 \
- 	{ 16, false, { .alpha = {0, 0}, .red = {10, 5}, .green = {5, 5}, .blue = {0, 5} } }
- 
--- 
-2.50.0
-
+Cheers,
+Miguel
