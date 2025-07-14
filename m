@@ -2,81 +2,95 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 469F6B037EB
-	for <lists+dri-devel@lfdr.de>; Mon, 14 Jul 2025 09:28:19 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3ACABB037F2
+	for <lists+dri-devel@lfdr.de>; Mon, 14 Jul 2025 09:28:29 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8F90810E403;
-	Mon, 14 Jul 2025 07:28:13 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 82E6910E40D;
+	Mon, 14 Jul 2025 07:28:27 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="cCXM7Rj3";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="lb4Y9G+j";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pj1-f52.google.com (mail-pj1-f52.google.com
- [209.85.216.52])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C687C10E033;
- Sun, 13 Jul 2025 02:53:46 +0000 (UTC)
-Received: by mail-pj1-f52.google.com with SMTP id
- 98e67ed59e1d1-313eeb77b1fso2793844a91.1; 
- Sat, 12 Jul 2025 19:53:46 -0700 (PDT)
+Received: from mail-pf1-f172.google.com (mail-pf1-f172.google.com
+ [209.85.210.172])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 41D1F10E1D5
+ for <dri-devel@lists.freedesktop.org>; Mon, 14 Jul 2025 03:00:04 +0000 (UTC)
+Received: by mail-pf1-f172.google.com with SMTP id
+ d2e1a72fcca58-74801bc6dc5so3029581b3a.1
+ for <dri-devel@lists.freedesktop.org>; Sun, 13 Jul 2025 20:00:04 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1752375226; x=1752980026; darn=lists.freedesktop.org;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:from:to:cc:subject:date
- :message-id:reply-to;
- bh=6BjtA+38PaXu4R7KEWbDJSP4mSWUP1v/3PF8r8C6k8w=;
- b=cCXM7Rj3mHF+NbLb3GpIAao2+Nr8rShQiaU6Ti2Ee837xRnulCoIXwp+pzW9cyj55s
- /y4q3Mvss5Vi0LArDjW7/7l4iT+6u9xX2zv2OhIfZU4HgWPALOF9jlvl1yQmNvhCWez8
- qqyq1pOa9hxJYaKWFDalo2NXb3QHSPRoYDi+If1lf41YmBip2HWtZpBhSaxD2Zz2k1GH
- GPqL6bv3aYEzgMZ6G/fkyAUwjAgpyTCoVrW8x6NJxInEtG+KqK4bWi5kISPqqs3z7zFt
- 9W5jmWFFYoXRTciWNgoioF8wGRJmYJkOhbu5F4Bbc7fE5OsK/5XGlqOZ+L45L0snkPMB
- QMBA==
+ d=gmail.com; s=20230601; t=1752462004; x=1753066804; darn=lists.freedesktop.org;
+ h=cc:to:content-transfer-encoding:mime-version:message-id:date
+ :subject:from:from:to:cc:subject:date:message-id:reply-to;
+ bh=Y6pstB75S20K2ggi+/G/IyUWheZt8LKcxEwRUgTMXz8=;
+ b=lb4Y9G+jPkV7+m1YxGez+n4NSDxaGQ2e/SPqF6Xv+J+/3LG139KInrJdy9wK7sw/ID
+ v59K0iF29IYYCqq8lMPhi3tddMB/6smuOumd0kiiZWt1N/W20trQVmRrOgzomFGCQmgO
+ PiT7AdJkBe4cngxDAEyyRKX4FmkMRy+BtY6snyNjdfpnb5mTNVQg2zOy9uHpDqKpGwBi
+ mP6azNfqkDZH0iHgZIc2cVCPgY8/diSbsunFsEaVn2Y7Qtfk43Ifhwfg/Z/MrAZn8k0o
+ XV7Xp1noRpBgG+F2sqzP9QIwFD1R/BNjIMHNwBJkDjczZ7hbXfkMSzHbtfBkLa/9BK08
+ W48Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1752375226; x=1752980026;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=6BjtA+38PaXu4R7KEWbDJSP4mSWUP1v/3PF8r8C6k8w=;
- b=WAPlHqsBaBLEGOIFjtu+iPUsPIy7c6kd8y7FZiKpqgynXf+eunqA6+vH2SyDjUJHDA
- 97XafUiXP0Q5BaZRrHxHLLQZD/gNMUEqcsDMMT4exe3TIv4x4UBQh3PccgXCWCxC5wGs
- c8UMRY+4Y3OgEOfkfz5FfJbhKn2GBYGklzJblyY8jNmhWweeQ8nQAZF3A6gLPRkiHuMh
- 7uH9kwy9eGReiJzG9gO8NXZ5MLcdYdB2RarfBB4gZDBpNDhkeGQW/iW6Rr9f24hTBzO7
- E7oBegyEH5/dxiZvM2SoSQvzPivBJXQXCMRPZha4px1bwKZz7ACJe4zyWQmZeHMz+de5
- QOFw==
+ d=1e100.net; s=20230601; t=1752462004; x=1753066804;
+ h=cc:to:content-transfer-encoding:mime-version:message-id:date
+ :subject:from:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=Y6pstB75S20K2ggi+/G/IyUWheZt8LKcxEwRUgTMXz8=;
+ b=QOLgtVxH/a19KkQFlu+m4cwB6d2WAOQHLGn8SABhF2w6k1pP8N1HCAWQmcvW8Hb5r4
+ q8Ha9OwX8lWySikWNs0V8MxLkUxkU+eteYrg2fYDciPcXSU/epm9smywgShfgcMVy0+R
+ IjNDzlIKhLw3sNHNsCFstIxVPBlxbQOiceht1k+GrZGvkDN/76946+97U8OcbtUYywOG
+ 5V+u8yMRKC+YwVgFtqxtmTTsKz2hd64vZpa/Z1NtBrdk8am68OcLY7botqdnPeNtfwFU
+ +A+zLcD8cx0C2bB6BMElztsuc7U9WM7FVZuQxPx97vUyakrw6FeGjrdAKEBlAWU3A6+6
+ UlkA==
 X-Forwarded-Encrypted: i=1;
- AJvYcCUa0k4ZOf2G+IuLT+Ayo87mc3FoZU+Az10kuxX6vYkMvynGdNwzvrE2eqE6dP8crgEkiMwF4sDUoQ==@lists.freedesktop.org,
- AJvYcCVliATgOEPwUmgtnvq52l3uqdH+oHuTmocSKT3t02bL9HyKOm3sJr8UlLOJREPEV8V3II8RTPaLBf0=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YyCrmkEUvxUvW78CZxTGJ3Ln/artGx78qcfoyHqLdeQGhtoN9Sf
- yBpjn/H0VWV17jrmoLT4RjJijBsXFU2Hj9PGCj7jSyhiMg0Xefo2tXNa
-X-Gm-Gg: ASbGncsafvm8jveaOwMbygge+94X7YvkDDN6SDAi0XLgfTS2/dt2X5GjF5F5PSmnirX
- GwSyzrKVE1cjr8v8jr803ZKr8FZVfPKuEn0RmUmchZtV+JrL7pp2exoh9oi0CoFZVhedSZUCZ/T
- yYv91autAbnq58B/5teIpkaHCcxg2QJacF7wyoK3a9CMt2I7VaKSP8XKxYBgwhx9HUlENIuOafv
- QMzJLCLxNoJqk86vcuiIDndA5xHAQfAnER+svh6qIYpkA9AtleoBJ773rFXfdKCx1qmqjndQ0D+
- j34qswJrrUx/cZRAWx+M25K8Vwi3kOlQh/s5x+AgFU3Qt5jCDn88E3y7q+GBXm8pnXFN2W5kdVj
- iOJgfT6mDxtvvHKbC551KbPbZ
-X-Google-Smtp-Source: AGHT+IEho1Foj4fnk6PgnQ8W8nqUpc5SNVdnaWd11d+U1bW/ogI/EC1H+8IGCCJPQ3wJ6U4piH66Dg==
-X-Received: by 2002:a17:90a:c88c:b0:31c:23f2:d2ac with SMTP id
- 98e67ed59e1d1-31c4f53f737mr10947368a91.19.1752375225640; 
- Sat, 12 Jul 2025 19:53:45 -0700 (PDT)
-Received: from quat-desktop ([2001:569:514a:9100:3f23:7b0f:f6a2:1ebd])
+ AJvYcCU2Aest4cZ9J+JZCNPfY+qg/ACDpo5of2sUNxqRm23tDXr7uInhizblaPegegQqKOALSopFnJdj6YA=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YxIKxBQSoUoBsTPPyjzx4qGreXOI+aZx8UfZkx/tw/GrDASIp0D
+ huMszI1PynbM41z1GWLAIlcy0St3iogKXPUdagd4yyS2VYdt6eZ/scgN
+X-Gm-Gg: ASbGncs35IAvPmCXzb3AtJonRrL1q4pAiN4vTgnb/0ZPwl5Ib8FJcEXvuD0y7mpMyaG
+ Nju5xf6hslCKnKvWCPJthasd6QYk3Fy66VZMdXNUdhvxCX+Kmupoi/WEJ4ml67eZaDlPCWvkk1A
+ 4JPsbNoQwjgWFl/81vGSxHIskBBRy5E7n+tQ4wzauYcCKIo+dftHIIZexry0voAQ5zGqFprgHpk
+ EbF9qoE7Sim9ee/099V5/xw8Kx338V0TgZN2wJN9CG8F56hIHtHoA4Y7Pky511Wb7G15WM26fsI
+ JdVF4c73V5qhOvC4LTLW3YHIiBkj6TbLh4R4s8euPr7TgukVZ8NBJxfNM0ssWY9ZFZGkzTkSR4P
+ +sub+RdnsZMGvGV6wlDEKe/soWbKugWXr6vMJgahGnMIUp+sCwT8=
+X-Google-Smtp-Source: AGHT+IFgq0CJoameSLgVhDrFKZgmjgscNozjW68vpXSBJzGFC5r8RB4R1SvSETsoFDPJWdr6HbwT7w==
+X-Received: by 2002:a05:6a00:b90:b0:746:25d1:b712 with SMTP id
+ d2e1a72fcca58-74ed0f37dbbmr15568022b3a.7.1752462003454; 
+ Sun, 13 Jul 2025 20:00:03 -0700 (PDT)
+Received: from [127.0.1.1] (211-23-39-77.hinet-ip.hinet.net. [211.23.39.77])
  by smtp.gmail.com with ESMTPSA id
- d9443c01a7336-23de4286da3sm76345145ad.34.2025.07.12.19.53.44
+ d2e1a72fcca58-74eb9f4af33sm9034577b3a.122.2025.07.13.20.00.00
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sat, 12 Jul 2025 19:53:45 -0700 (PDT)
-From: Rhys Lloyd <krakow20@gmail.com>
-To: dakr@kernel.org,
-	acourbot@nvidia.com
-Cc: airlied@gmail.com, simona@ffwll.ch, nouveau@lists.freedesktop.org,
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- rust-for-linux@vger.kernel.org, Rhys Lloyd <krakow20@gmail.com>
-Subject: [PATCH] gpu: nova-core: define named constants for magic numbers
-Date: Sat, 12 Jul 2025 19:51:10 -0700
-Message-ID: <20250713025108.9364-4-krakow20@gmail.com>
-X-Mailer: git-send-email 2.50.1
-In-Reply-To: <20250713025108.9364-2-krakow20@gmail.com>
-References: <20250713025108.9364-2-krakow20@gmail.com>
+ Sun, 13 Jul 2025 20:00:02 -0700 (PDT)
+From: LiangCheng Wang <zaq14760@gmail.com>
+Subject: [PATCH v2 0/3] Add support for Mayqueen Pixpaper e-ink panel
+Date: Mon, 14 Jul 2025 10:59:38 +0800
+Message-Id: <20250714-drm-v2-0-5d1a2e12796c@gmail.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-B4-Tracking: v=1; b=H4sIAJpydGgC/1WMQQ7CIBBFr9LMWsxARBpX3sN0QRhoJ5FioCGah
+ ruL3bl8P/+9HYrP7Avchh2yr1w4rR3UaQC32HX2gqkzKFQaDY6CchRXVJICGqnJQH++sg/8Piq
+ PqfPCZUv5c0Sr/K3/fpUCxUWj1oEsudHe52j5eXYpwtRa+wKED8UslgAAAA==
+X-Change-ID: 20250708-drm-6021df0715d7
+To: Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
+ Conor Dooley <conor+dt@kernel.org>, 
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, 
+ Sumit Semwal <sumit.semwal@linaro.org>, 
+ =?utf-8?q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>, 
+ Wig Cheng <onlywig@gmail.com>
+Cc: devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, 
+ dri-devel@lists.freedesktop.org, linux-media@vger.kernel.org, 
+ linaro-mm-sig@lists.linaro.org, LiangCheng Wang <zaq14760@gmail.com>
+X-Mailer: b4 0.14.2
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1752462000; l=2106;
+ i=zaq14760@gmail.com; h=from:subject:message-id;
+ bh=LZFxIGcaYkZxoWI8vAMHadDEgvq9NNtsNON8+he1Adc=;
+ b=AzcZ8ioBOR/11C1FrgwE4k8EJtaaO5keijkJ/PnwnqqSPRedLhDtKBYmTk9UYQWNx97c53s8l
+ /znIl5IF3FyDp0E9Dx8MAo39n3kDa4P4zg0Vb1fNS3AexJJmCduCUbQ
+X-Developer-Key: i=zaq14760@gmail.com; a=ed25519;
+ pk=5IaLhzvMqasgGPT47dsa8HEpfb0/Dv2BZC0TzSLj6E0=
 X-Mailman-Approved-At: Mon, 14 Jul 2025 07:28:12 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -93,84 +107,60 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Introduce an associated constant `MIN_LEN` for each struct that checks
-the length of the input data in its constructor against a magic number.
+This patch series adds support for the Mayqueen Pixpaper e-ink display panel,
+controlled via SPI.
 
-Signed-off-by: Rhys Lloyd <krakow20@gmail.com>
+The series includes:
+- A new vendor-prefix entry for "mayqueen"
+- Device tree binding documentation for the Pixpaper panel
+- A DRM tiny driver implementation for the Pixpaper panel
+- A MAINTAINERS entry for the Pixpaper DRM driver and binding
+
+The panel supports 122x250 resolution with XRGB8888 format and uses SPI,
+along with GPIO lines for reset, busy, and data/command control.
+
+The driver has been tested on:
+- Raspberry Pi 2 Model B
+with Linux kernel 6.16.
+
 ---
 Changes in v2:
-- Add commit description
-- Fix author to match SoB
-- Add base commit
+- Reordered patches so that DT bindings come before the driver (suggested by Rob Herring)
+- Fixed sparse warning: removed duplicate `.reset` initializer in `pixpaper_plane_funcs`
+- Fixed checkpatch issues reported by Media CI:
+  - Removed unnecessary blank line before closing brace
+  - Moved opening parentheses up to function call lines (e.g., `DRM_WARN(...)`)
+  - Fixed alignment of conditionals
+  - Fixed `dev_warn(` and `drm_universal_plane_init(` formatting
+- Thanks to Rob Herring for ack on vendor-prefix patch
+- Link to v1: https://lore.kernel.org/r/20250708-drm-v1-0-45055fdadc8a@gmail.com
+
+Thanks for the feedback!
+
+Best regards,
+LiangCheng Wang
+<zaq14760@gmail.com>
 
 ---
- drivers/gpu/nova-core/vbios.rs | 15 ++++++++++-----
- 1 file changed, 10 insertions(+), 5 deletions(-)
+LiangCheng Wang (2):
+      dt-bindings: display: Add Mayqueen Pixpaper e-ink panel
+      drm: tiny: Add support for Mayqueen Pixpaper e-ink panel
 
-diff --git a/drivers/gpu/nova-core/vbios.rs b/drivers/gpu/nova-core/vbios.rs
-index 5b5d9f38cbb3..d456c494374d 100644
---- a/drivers/gpu/nova-core/vbios.rs
-+++ b/drivers/gpu/nova-core/vbios.rs
-@@ -364,8 +364,9 @@ struct BitHeader {
- }
- 
- impl BitHeader {
-+    const MIN_LEN: usize = 12;
-     fn new(data: &[u8]) -> Result<Self> {
--        if data.len() < 12 {
-+        if data.len() < Self::MIN_LEN {
-             return Err(EINVAL);
-         }
- 
-@@ -467,8 +468,9 @@ struct PciRomHeader {
- }
- 
- impl PciRomHeader {
-+    const MIN_LEN: usize = 26;
-     fn new(pdev: &pci::Device, data: &[u8]) -> Result<Self> {
--        if data.len() < 26 {
-+        if data.len() < Self::MIN_LEN {
-             // Need at least 26 bytes to read pciDataStrucPtr and sizeOfBlock.
-             return Err(EINVAL);
-         }
-@@ -772,10 +774,11 @@ fn into_image(self) -> Result<BiosImage> {
-         BiosImage::try_from(self)
-     }
- 
-+    const MIN_LEN: usize = 26;
-     /// Creates a new BiosImageBase from raw byte data.
-     fn new(pdev: &pci::Device, data: &[u8]) -> Result<Self> {
-         // Ensure we have enough data for the ROM header.
--        if data.len() < 26 {
-+        if data.len() < Self::MIN_LEN {
-             dev_err!(pdev.as_ref(), "Not enough data for ROM header\n");
-             return Err(EINVAL);
-         }
-@@ -900,8 +903,9 @@ struct PmuLookupTableEntry {
- }
- 
- impl PmuLookupTableEntry {
-+    const MIN_LEN: usize = 6;
-     fn new(data: &[u8]) -> Result<Self> {
--        if data.len() < 6 {
-+        if data.len() < Self::MIN_LEN {
-             return Err(EINVAL);
-         }
- 
-@@ -928,8 +932,9 @@ struct PmuLookupTable {
- }
- 
- impl PmuLookupTable {
-+    const MIN_LEN: usize = 4;
-     fn new(pdev: &pci::Device, data: &[u8]) -> Result<Self> {
--        if data.len() < 4 {
-+        if data.len() < Self::MIN_LEN {
-             return Err(EINVAL);
-         }
- 
+Wig Cheng (1):
+      dt-bindings: vendor-prefixes: Add Mayqueen name
 
-base-commit: 215a3f91713383a3c0d2da82d223a608a3c17ac1
-prerequisite-patch-id: d80f92d314a0693d4c89ffb7810d9ab6990336fa
+ .../bindings/display/mayqueen,pixpaper.yaml        |  63 ++
+ .../devicetree/bindings/vendor-prefixes.yaml       |   2 +
+ MAINTAINERS                                        |   6 +
+ drivers/gpu/drm/tiny/Kconfig                       |  15 +
+ drivers/gpu/drm/tiny/Makefile                      |   1 +
+ drivers/gpu/drm/tiny/pixpaper.c                    | 777 +++++++++++++++++++++
+ 6 files changed, 864 insertions(+)
+---
+base-commit: d7b8f8e20813f0179d8ef519541a3527e7661d3a
+change-id: 20250708-drm-6021df0715d7
+
+Best regards,
 -- 
-2.50.1
+LiangCheng Wang <zaq14760@gmail.com>
 
