@@ -2,89 +2,41 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id E4DC1B044CE
-	for <lists+dri-devel@lfdr.de>; Mon, 14 Jul 2025 17:54:51 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id EE233B044DD
+	for <lists+dri-devel@lfdr.de>; Mon, 14 Jul 2025 17:59:01 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2A6F110E603;
-	Mon, 14 Jul 2025 15:54:50 +0000 (UTC)
-Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=redhat.com header.i=@redhat.com header.b="YXbyWnld";
-	dkim-atps=neutral
+	by gabe.freedesktop.org (Postfix) with ESMTP id 21F3510E4D2;
+	Mon, 14 Jul 2025 15:58:59 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [170.10.133.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 58D7710E567
- for <dri-devel@lists.freedesktop.org>; Mon, 14 Jul 2025 15:54:49 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1752508488;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=zOG1Nvo/l+gwKO8BFDZuLd2b0R76dEBumOlOk4xJ6DU=;
- b=YXbyWnldPcNIgABrf1MxIdvSzPQv+Z+/u97ukSkhOZxfXM4hMg1IbEv06wp6o5EXlRANzW
- P0jNv6c6NAGrF5abmVYPgrOm0qNkUEO79bpnQmPYXQtuaJ0ANYIbAUY/d50DBFtc1IbD/e
- pClwli+tMbHvSOsp6To564V3dnFYeDs=
-Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
- [209.85.128.71]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-582-VLW_43PfOFuH3FQFIz7wIQ-1; Mon, 14 Jul 2025 11:54:46 -0400
-X-MC-Unique: VLW_43PfOFuH3FQFIz7wIQ-1
-X-Mimecast-MFC-AGG-ID: VLW_43PfOFuH3FQFIz7wIQ_1752508485
-Received: by mail-wm1-f71.google.com with SMTP id
- 5b1f17b1804b1-451d30992bcso34908995e9.2
- for <dri-devel@lists.freedesktop.org>; Mon, 14 Jul 2025 08:54:46 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1752508485; x=1753113285;
- h=mime-version:message-id:date:references:in-reply-to:subject:cc:to
- :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=zOG1Nvo/l+gwKO8BFDZuLd2b0R76dEBumOlOk4xJ6DU=;
- b=L6S72aj+6KD6VTbXnCxUxKdPv3ZMPKTtUKPSsDqyqjKCPb1Bsu7p4kirtx2JMymGUH
- S7xSpFxCYBiYL3qHIn37ggvoHZf3EWv0ja1vHAwYPsdHarX0Uyvbj44uTOY4QfLWrZFa
- rOLwU3ptvO+A18ANF56ffGs/lYoZbxTtTsrFcZlOcdztJZByz16w/ToaN2idN5y+zEBl
- s7lwL2DEKicOEOn9Gj9fysbnyA7Wyev4k/VJGA2mrwTS1PhcQZznL6gASFmfeKsLeC6Z
- 7ewiUC5aSU4cbi9h+MHnpPsl20gZ3/F4r79rpjyHt2+ABa7a14ifQv4hgBE5UBixCaZ9
- RD+Q==
-X-Forwarded-Encrypted: i=1;
- AJvYcCX0j4fBpXM6u7g7eVuT2fhW7HZX7/ESv9083qWYd2YSi+n3wwFU9Cct/BfjgJ6lkHP/Q1nl8Gx0SUA=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0Yw9VgldGw2tYplhUWS/n1uQmH2BMBryHyvzz+4etSw0dIME7Ti7
- EJ8CSajqzEPCbZnrXHVLcpYzXTUc5GNjYcO1Z2I51b//symRIcHdoR6x2CNc7GsJYCLe4i2Sxgg
- Q2S/3LGZ6FVQ4ny7hkIC0VLcwn6KkLFW6m0Z5BUibEZXuTbtPVtebD4VhAWD1dNZVgQtSVQ==
-X-Gm-Gg: ASbGncu0nVw145uwPspFop9K454BwINVXe7nbYY8IUeP3sfKaJGvt7AGGiLLRtaFXS2
- 65dsMKL/gArwbEtdI+HRdzMYoL2trSiiT1OTlWQDGmoEahmFnW+fpewUaJcCVKtacTw7/JCRJBF
- PC4d1FWFpk1svQ1eBStR++I8nNj/tmahjim0Xii5+JW3I52EAMwZ6cCY+kOHh8jfKL+3XGeYTT6
- YtpNouR/y1tnXvpnxIc5MuN42G4C2VZNyYItd/8S998mtkrKlqnuZukkmp/R7S5YaWaySDAdfSf
- loC+VMU612feS9bJInvHdSrQwwup6b/6ArXd5fesf5i2PHLc/TxFqXgCHq1XisoY+A==
-X-Received: by 2002:a05:6000:2707:b0:3b5:f8d5:5dba with SMTP id
- ffacd0b85a97d-3b5f8d55e64mr4732085f8f.30.1752508485440; 
- Mon, 14 Jul 2025 08:54:45 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IGGz92D4MS71muOuG5qTgK18jL+PvOXMZCtPLjCp6/q9A5nOHQ2DyRXHcgTNMlTfI+AggOmBA==
-X-Received: by 2002:a05:6000:2707:b0:3b5:f8d5:5dba with SMTP id
- ffacd0b85a97d-3b5f8d55e64mr4732073f8f.30.1752508485008; 
- Mon, 14 Jul 2025 08:54:45 -0700 (PDT)
-Received: from localhost ([89.128.88.54]) by smtp.gmail.com with ESMTPSA id
- 5b1f17b1804b1-454d5103c2asm173094775e9.33.2025.07.14.08.54.44
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 14 Jul 2025 08:54:44 -0700 (PDT)
-From: Javier Martinez Canillas <javierm@redhat.com>
-To: Marcus Folkesson <marcus.folkesson@gmail.com>
-Cc: linux-kernel@vger.kernel.org, ipedrosa@redhat.com, David Airlie
- <airlied@gmail.com>, Maarten Lankhorst
- <maarten.lankhorst@linux.intel.com>, Maxime Ripard <mripard@kernel.org>,
- Simona Vetter <simona@ffwll.ch>, Thomas Zimmermann <tzimmermann@suse.de>,
- dri-devel@lists.freedesktop.org
-Subject: Re: [PATCH v2 2/5] drm/sitronix/st7571-i2c: Log probe deferral
- cause for GPIO get failure
-In-Reply-To: <aHTyTsFuakcQsEm7@gmail.com>
-References: <20250714104421.323753-1-javierm@redhat.com>
- <20250714104421.323753-3-javierm@redhat.com> <aHTyTsFuakcQsEm7@gmail.com>
-Date: Mon, 14 Jul 2025 17:54:43 +0200
-Message-ID: <874ive22f0.fsf@minerva.mail-host-address-is-not-set>
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+ by gabe.freedesktop.org (Postfix) with ESMTP id 6F91D10E4E5
+ for <dri-devel@lists.freedesktop.org>; Mon, 14 Jul 2025 15:58:58 +0000 (UTC)
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+ by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id C8C081BC0;
+ Mon, 14 Jul 2025 08:58:48 -0700 (PDT)
+Received: from [10.57.83.29] (unknown [10.57.83.29])
+ by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 99AC23F694;
+ Mon, 14 Jul 2025 08:58:55 -0700 (PDT)
+Message-ID: <9bcdf08d-eede-4bad-9445-fe0724eb7356@arm.com>
+Date: Mon, 14 Jul 2025 16:58:53 +0100
 MIME-Version: 1.0
-X-Mimecast-Spam-Score: 0
-X-Mimecast-MFC-PROC-ID: EjyvaW3EwR7SfyfmJQi7gtML2b8zCc8d1vvzFb6J2Yc_1752508485
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] drm/panthor: Remove dead VM flushing code
+To: =?UTF-8?Q?Adri=C3=A1n_Larumbe?= <adrian.larumbe@collabora.com>,
+ Boris Brezillon <boris.brezillon@collabora.com>,
+ Liviu Dudau <liviu.dudau@arm.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>
+Cc: kernel@collabora.com, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org
+References: <20250711154557.739326-1-adrian.larumbe@collabora.com>
+From: Steven Price <steven.price@arm.com>
+Content-Language: en-GB
+In-Reply-To: <20250711154557.739326-1-adrian.larumbe@collabora.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -100,26 +52,57 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Marcus Folkesson <marcus.folkesson@gmail.com> writes:
+On 11/07/2025 16:45, Adrián Larumbe wrote:
+> Commit ec62d37d2c0d("drm/panthor: Fix the fast-reset logic") did away
+> with the only reference to panthor_vm_flush_all(), so let's get rid
+> of the orphaned definition.
+> 
+> Signed-off-by: Adrián Larumbe <adrian.larumbe@collabora.com>
 
-> On Mon, Jul 14, 2025 at 12:44:01PM +0200, Javier Martinez Canillas wrote:
->> The driver already uses the dev_err_probe() helper (that only prints error
->> messages for the -EPROBE_DEFER case) when fails to get any other resource.
->> 
->> Also do the same when it fails to obtain the rest GPIO.
-> reset GPIO
+Reviewed-by: Steven Price <steven.price@arm.com>
 
-Ups, I'll fix the typo when applying the patches.
+I'll push this to drm-misc-next.
 
->> 
->> Signed-off-by: Javier Martinez Canillas <javierm@redhat.com>
->
-> Reviewed-by: Marcus Folkesson <marcus.folkesson@gmail.com>
+Thanks,
+Steve
 
--- 
-Best regards,
-
-Javier Martinez Canillas
-Core Platforms
-Red Hat
+> ---
+>  drivers/gpu/drm/panthor/panthor_mmu.c | 11 -----------
+>  drivers/gpu/drm/panthor/panthor_mmu.h |  1 -
+>  2 files changed, 12 deletions(-)
+> 
+> diff --git a/drivers/gpu/drm/panthor/panthor_mmu.c b/drivers/gpu/drm/panthor/panthor_mmu.c
+> index b39ea6acc6a9..ed3712f8d6a9 100644
+> --- a/drivers/gpu/drm/panthor/panthor_mmu.c
+> +++ b/drivers/gpu/drm/panthor/panthor_mmu.c
+> @@ -885,17 +885,6 @@ static int panthor_vm_flush_range(struct panthor_vm *vm, u64 iova, u64 size)
+>  	return ret;
+>  }
+>  
+> -/**
+> - * panthor_vm_flush_all() - Flush L2 caches for the entirety of a VM's AS
+> - * @vm: VM whose cache to flush
+> - *
+> - * Return: 0 on success, a negative error code if flush failed.
+> - */
+> -int panthor_vm_flush_all(struct panthor_vm *vm)
+> -{
+> -	return panthor_vm_flush_range(vm, vm->base.mm_start, vm->base.mm_range);
+> -}
+> -
+>  static int panthor_vm_unmap_pages(struct panthor_vm *vm, u64 iova, u64 size)
+>  {
+>  	struct panthor_device *ptdev = vm->ptdev;
+> diff --git a/drivers/gpu/drm/panthor/panthor_mmu.h b/drivers/gpu/drm/panthor/panthor_mmu.h
+> index fc274637114e..0e268fdfdb2f 100644
+> --- a/drivers/gpu/drm/panthor/panthor_mmu.h
+> +++ b/drivers/gpu/drm/panthor/panthor_mmu.h
+> @@ -33,7 +33,6 @@ int panthor_vm_active(struct panthor_vm *vm);
+>  void panthor_vm_idle(struct panthor_vm *vm);
+>  u32 panthor_vm_page_size(struct panthor_vm *vm);
+>  int panthor_vm_as(struct panthor_vm *vm);
+> -int panthor_vm_flush_all(struct panthor_vm *vm);
+>  
+>  struct panthor_heap_pool *
+>  panthor_vm_get_heap_pool(struct panthor_vm *vm, bool create);
 
