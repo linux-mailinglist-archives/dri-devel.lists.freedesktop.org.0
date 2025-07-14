@@ -2,65 +2,66 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C7AB7B052E8
-	for <lists+dri-devel@lfdr.de>; Tue, 15 Jul 2025 09:25:01 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 783F2B052F5
+	for <lists+dri-devel@lfdr.de>; Tue, 15 Jul 2025 09:25:12 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9F2B810E52E;
-	Tue, 15 Jul 2025 07:24:50 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 812AD10E53C;
+	Tue, 15 Jul 2025 07:25:06 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; secure) header.d=scandent.com header.i=@scandent.com header.b="Cj3KB0eJ";
+	dkim=pass (2048-bit key; secure) header.d=scandent.com header.i=@scandent.com header.b="djatVU1H";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-qt1-f170.google.com (mail-qt1-f170.google.com
- [209.85.160.170])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7200710E502
- for <dri-devel@lists.freedesktop.org>; Mon, 14 Jul 2025 22:18:13 +0000 (UTC)
-Received: by mail-qt1-f170.google.com with SMTP id
- d75a77b69052e-4ab6e66ea68so16741781cf.1
- for <dri-devel@lists.freedesktop.org>; Mon, 14 Jul 2025 15:18:13 -0700 (PDT)
+Received: from mail-qt1-f178.google.com (mail-qt1-f178.google.com
+ [209.85.160.178])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A936610E500
+ for <dri-devel@lists.freedesktop.org>; Mon, 14 Jul 2025 22:18:15 +0000 (UTC)
+Received: by mail-qt1-f178.google.com with SMTP id
+ d75a77b69052e-4ab60e97cf8so22968001cf.0
+ for <dri-devel@lists.freedesktop.org>; Mon, 14 Jul 2025 15:18:15 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=scandent.com; s=google; t=1752531492; x=1753136292;
+ d=scandent.com; s=google; t=1752531494; x=1753136294;
  darn=lists.freedesktop.org; 
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:from:to:cc:subject:date:message-id:reply-to;
- bh=lzGt9wsOTtCPU11nB043+95KlCYKt0UXr8OMVRklspM=;
- b=Cj3KB0eJ38ad2FzWu9Efow2kyvB0SvfJ7Q5Lhv1FLSlY2Uw9qFRIqWz57nMzRghKNY
- pNhD77/P6FjA1u5lreukXVtSLHvOekZt5XxiCpA+zFgWRULZUulEQr7uhOc5o/RReY6i
- VOn+7xdM/3gaZ9roj7o1cQz7H2iUWM1BqMSL6p5SklvqnPzDy+uTsQ23LZaKYY/TiLcC
- XSRiT2j0Qr5/XY/oDXaLhSbnSX2eZjBzi23xr7FUwm5Lva/thduNWGFbAzZIN8GVDrHK
- J3pMj8hrhoSgudUjCFAhZM0UkXS9MnD0cQT+kcDwWuZCJ/7K81FE/ehE7BWxjME63ZUu
- 7OVg==
+ h=content-transfer-encoding:mime-version:references:in-reply-to
+ :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=WIaH38Gh5kKcHJRj8XVnX3nblAGXvNpyNwpxmX14OvU=;
+ b=djatVU1HaadF8gJKwOTyKNicKgoUAGPpG8GGu0Cl3FvsCwGt8oVUhrP+JiIp+r8Wvn
+ Apj1S1adOnw7PFjnth1B8T378rSDHNn88Zw65iG4B2vNh9QquXelUyGLvKsPIGcApSRT
+ 64yKykbsaiXjn9wXEmnjgZcXtXZo+AYha14zptfKb6Q8p8e5ymsS5CCE6bYp3nnyuoNY
+ edOtAs/ZvJIQqncMlZjxC5Yoxn1MiMUHx3eWwTKELMZI9Asyc9txc+Aj9g23h9FL+dOQ
+ HlNEQP+2TsYpkl+rKG1MJC+5yEcNWAbyDAPqg3yLgZOOfhRXent7XJFLirmYyM1AWKqt
+ b3AA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1752531492; x=1753136292;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=lzGt9wsOTtCPU11nB043+95KlCYKt0UXr8OMVRklspM=;
- b=iqvYwMqREBik02F5DjKcmBTktBXZv2pOpMuQOGS+n88+SzUc6AHRB0XpWnimy+1oEX
- EQhWmq6cLbxxsP2BXtUMvc/gT58Oj4YJZJm8s094TN1rYvbqts2ctdlchHtpebEblX+J
- v0kX4+DEMAF8EYBx0Cm7+rtvzbcuJpB7aglTMxZRSs9P8FMmUEpwWH12SxjsROAXd4xF
- w8o8cEpXq3IENPxj4X0HHwhsojvWpsrBMWxULxeUyG4mCOWAMg8HZ0V57X1EZgTkjk6g
- oJBzwo6Dn1sSDCR7MpOcemuZccs2b1iQj3J+TWxOuFWbUkdiBtJzka9L6QuA7ww/4Ch4
- 3giw==
-X-Gm-Message-State: AOJu0YxSu8OjQq9vthNrQQUJnOsFwncwJ7xCf6RhnDs+trL+jMnhr7L2
- 7zKtJa6Kw+yTavW6IB0V7ll5CJPFvgYXzA8uRGl1u5eQFJ2RhJf2RODxHhz74IiV7Ku+BQHIPAX
- NLFKj1Pw=
-X-Gm-Gg: ASbGncvIOGZ+JOedQn5M0UHJCQjvO14fheInzaQ2pU/97Ruk0BR5MTkyAItmqzDSWuZ
- 361Pzyr4Cxdn8P8ZyQ8O3uTuU2OyOzBNBsbF5VuU61SWSsmOWd7fiAIRBAPU29aOTWoEr0fI+xu
- xGbroFLD+e1DB8ippdBPtzaVZoxzllHk7bwiPLWgbesOPeZk14Ef8ArUV0fOu6wzNZR/VYoNfPM
- N6zk5rVi8jNii3IngLEJaxP/z7BgkFXpmdg+rdzpLNzntXOpSIMRCVwSrPjeIi9ruD/toqNQzdU
- mNYm96m5/q4/pYMvg5TNMOyFP6JH2Go7Jvg2fSgPrna41Zs0xtGxXOtlvT6dg9HPNaEoGAcNaiO
- 19xwl85j4WGCI9tHopwTYZHBmU8dP2f8GUTpgtjX9egclV6up
-X-Google-Smtp-Source: AGHT+IGlRZA/qnX4ZWdj86YPCTr54hQC6VI5zp1c32i2B6ksY/OHCD68yCydeS/hNCHpt55KNY22Yg==
-X-Received: by 2002:ac8:5dc6:0:b0:4ab:6b08:9db8 with SMTP id
- d75a77b69052e-4ab6b08ad01mr107012131cf.11.1752531491791; 
- Mon, 14 Jul 2025 15:18:11 -0700 (PDT)
+ d=1e100.net; s=20230601; t=1752531494; x=1753136294;
+ h=content-transfer-encoding:mime-version:references:in-reply-to
+ :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=WIaH38Gh5kKcHJRj8XVnX3nblAGXvNpyNwpxmX14OvU=;
+ b=nEs2m746hxtFp4ZX9JR8TNAMjdx2MdPsw5lQZzRb+gC04PuSDJMJtX1gs85LKfOTxt
+ X8kKyThd2+ezn+8yDc1774tkh0pj3N9ua4Sfj+5oaiAQh1FKJCvOYZjFoJRvCR5+XqyN
+ iIpnC5TwEd+EeXkqB/qb3GZ89oCxTzVBoaMoGYQNreOi4ARjEDRFQrfWe6eojcZmZZNl
+ UomlsXdPMGrm/z4wXSZTvJc5EMAsiYbEFL3svUVcz3yHCLidY+MC2SzcM7jYfuWj0psI
+ gbT2bsIH4UgBRzi6l0rTMixK7GCHFevf5KKpkO/05pmI7M9eciciOhHShDUQFOi1u5BR
+ O7vg==
+X-Gm-Message-State: AOJu0YwInJIrdA+Wks+ugPNnnKMDOaGgv1JFhnk+qt8Orn1Yy9V5tuok
+ +u3JL+3QZJFW4iBwLfOPYTxPFI/5DDXsHAUWg9bNOWlTkXkHQDWQfJfkNLERKmIMex3wltSEWfa
+ v5VMXhPw=
+X-Gm-Gg: ASbGncs1cTXylOJLr9nOT+RMc13adT/4HHHRGL8wijzkj2nUh3fNjrvntvkX0Xo+hQm
+ 1bM6tOvkoIbV11wvAgEG3sInLylg1QS8mr6Q0Ia7xfsi2elBlxyX3jPS1gZahMmqcF9lbzjObjT
+ WWG7CJeJrifNygFf4MJddZ09XpcMOY0kzoFCI4dGqecdcyBTzQqYKL6vZxPhCcIJW0CGgQK4QrH
+ XrRMeif1n8mYxK2uk9XCeMJyLoDUatR1JBCP5Kt1jX6Cc9Fy4eu0ae7ZwfLe8AyY3lNHQ/i+kfI
+ FpzBfX1C9Wc+8Wa+IcUVd4ElSUzpNsQgCP4x0PrHYumCNrlOS196GsohZTXXoZgNf7AwHklakui
+ pis+pQdFOTpMApJ+wW5Ki8/V019XzGQkgV6Jds91hKn0dVP7F
+X-Google-Smtp-Source: AGHT+IHF+khwSUVbi38c6jhWBuadogmIeY/qCFpX9uS8IQMaxlml1sIb3wH8o1wLSvvGA3Y1kGkIjw==
+X-Received: by 2002:ac8:59d5:0:b0:4a4:3147:41d6 with SMTP id
+ d75a77b69052e-4aa35ca9258mr235602601cf.15.1752531494043; 
+ Mon, 14 Jul 2025 15:18:14 -0700 (PDT)
 Received: from vserver (ool-44c5118c.dyn.optonline.net. [68.197.17.140])
  by smtp.gmail.com with ESMTPSA id
- d75a77b69052e-4ab3a1ceae0sm37822021cf.25.2025.07.14.15.18.10
+ d75a77b69052e-4ab3a1ceae0sm37822021cf.25.2025.07.14.15.18.13
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 14 Jul 2025 15:18:11 -0700 (PDT)
+ Mon, 14 Jul 2025 15:18:13 -0700 (PDT)
 From: Richard Yao <richard@scandent.com>
 To: dri-devel@lists.freedesktop.org
 Cc: devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
@@ -68,18 +69,16 @@ Cc: devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
  Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
  Conor Dooley <conor+dt@kernel.org>,
  Neil Armstrong <neil.armstrong@linaro.org>,
- Geert Uytterhoeven <geert+renesas@glider.be>,
+ Jonathan Cameron <Jonathan.Cameron@huawei.com>,
  Andre Przywara <andre.przywara@arm.com>, Junhao Xie <bigfoot@classfun.cn>,
  Caleb James DeLisle <cjd@cjdns.fr>, Kever Yang <kever.yang@rock-chips.com>,
- Manivannan Sadhasivam <mani@kernel.org>,
- Jessica Zhang <quic_jesszhan@quicinc.com>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>
-Subject: [PATCH v3 0/3] drm/panel: ilitek-ili9881c: Add Tianxianwei TWX700100S0
-Date: Mon, 14 Jul 2025 18:17:58 -0400
-Message-ID: <20250714221804.25691-1-richard@scandent.com>
+ Manivannan Sadhasivam <mani@kernel.org>
+Subject: [PATCH v3 1/3] dt-bindings: vendor-prefixes: Add Tianxianwei name
+Date: Mon, 14 Jul 2025 18:17:59 -0400
+Message-ID: <20250714221804.25691-2-richard@scandent.com>
 X-Mailer: git-send-email 2.50.0
+In-Reply-To: <20250714221804.25691-1-richard@scandent.com>
+References: <20250714221804.25691-1-richard@scandent.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-Mailman-Approved-At: Tue, 15 Jul 2025 07:24:49 +0000
@@ -98,63 +97,28 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hello,
+Tianxianwei is a company based in Shenzhen, China, making LCD screens.
 
-This series adds support for the Tianxianwei TWX700100S0 panel. The
-first patch adds the Tianxianwei vendor to the vendor prefixes yaml
-file.  The second patch documents the DT binding. The third patch makes
-fairly standard changes to the ili9881c driver.
+Add their name to the list of vendors.
 
-Runtime testing and validation was done using a patched rpi-6.12.36-v8
-kernel on a CM4 using a custom carrier board designed by Scandent.
-
-I have confirmed in writing with Tianxianwei that this patch series may
-be released under the GPL after sending them an early draft for review.
-This should be superfluous given my signed-off, but I want to make it
-clear that I did not assume fair use when providing signed-off.
-
-Changes in v3:
-  - Fixed squash artifact in the third patch's commit message.
-  - Changed v1 link to use lkml.org to address mailing list rejection
-    due to "HTML part".
-  - Link to v2: https://lkml.org/lkml/2025/7/14/1504
-Changes in v2:
-  - Fixed typos in romanizations of Chinese names:
-      Tianxinwei -> Tianxianwei
-      Shenzen -> Shenzhen
-  - Link to v1: https://lkml.org/lkml/2025/7/14/1389
-
-Cc: Rob Herring <robh@kernel.org>
-Cc: Krzysztof Kozlowski <krzk+dt@kernel.org>
-Cc: Conor Dooley <conor+dt@kernel.org>
-Cc: Neil Armstrong <neil.armstrong@linaro.org>
-Cc: Geert Uytterhoeven <geert+renesas@glider.be>
-Cc: Andre Przywara <andre.przywara@arm.com>
-Cc: Junhao Xie <bigfoot@classfun.cn>
-Cc: Caleb James DeLisle <cjd@cjdns.fr>
-Cc: Kever Yang <kever.yang@rock-chips.com>
-Cc: Manivannan Sadhasivam <mani@kernel.org>
-Cc: Jessica Zhang <quic_jesszhan@quicinc.com>
-Cc: David Airlie <airlied@gmail.com>
-Cc: Simona Vetter <simona@ffwll.ch>
-Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
-Cc: Maxime Ripard <mripard@kernel.org>
-Cc: Thomas Zimmermann <tzimmermann@suse.de>
-Cc: devicetree@vger.kernel.org
-Cc: dri-devel@lists.freedesktop.org
-Cc: linux-kernel@vger.kernel.org
 Signed-off-by: Richard Yao <richard@scandent.com>
 ---
-Richard Yao (3):
-  dt-bindings: vendor-prefixes: Add Tianxianwei name
-  dt-bindings: ilitek-ili9881c: Add Tianxianwei TWX700100S0 support
-  drm/panel: ilitek-ili9881c: Add Tianxianwei TWX700100S0 support
+ Documentation/devicetree/bindings/vendor-prefixes.yaml | 2 ++
+ 1 file changed, 2 insertions(+)
 
- .../display/panel/ilitek,ili9881c.yaml        |   1 +
- .../devicetree/bindings/vendor-prefixes.yaml  |   2 +
- drivers/gpu/drm/panel/panel-ilitek-ili9881c.c | 242 ++++++++++++++++++
- 3 files changed, 245 insertions(+)
-
+diff --git a/Documentation/devicetree/bindings/vendor-prefixes.yaml b/Documentation/devicetree/bindings/vendor-prefixes.yaml
+index 5d2a7a8d3ac6..a2151e2aef4b 100644
+--- a/Documentation/devicetree/bindings/vendor-prefixes.yaml
++++ b/Documentation/devicetree/bindings/vendor-prefixes.yaml
+@@ -1548,6 +1548,8 @@ patternProperties:
+     description: Texas Instruments
+   "^tianma,.*":
+     description: Tianma Micro-electronics Co., Ltd.
++  "^tianxianwei,.*":
++    description: Shenzhen Tianxianwei technology co., LTD
+   "^tlm,.*":
+     description: Trusted Logic Mobility
+   "^tmt,.*":
 -- 
 2.50.0
 
