@@ -2,39 +2,40 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id F2DEDB035CA
-	for <lists+dri-devel@lfdr.de>; Mon, 14 Jul 2025 07:35:43 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id EF3F4B035D2
+	for <lists+dri-devel@lfdr.de>; Mon, 14 Jul 2025 07:35:53 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id F063910E3EB;
-	Mon, 14 Jul 2025 05:35:20 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5799C10E3EC;
+	Mon, 14 Jul 2025 05:35:52 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="CP/9Im8o";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="AzED9ED/";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from nyc.source.kernel.org (nyc.source.kernel.org [147.75.193.91])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3165C10E3EB
- for <dri-devel@lists.freedesktop.org>; Mon, 14 Jul 2025 05:35:20 +0000 (UTC)
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 36E3610E3EC
+ for <dri-devel@lists.freedesktop.org>; Mon, 14 Jul 2025 05:35:51 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by nyc.source.kernel.org (Postfix) with ESMTP id DB669A51D16;
- Mon, 14 Jul 2025 05:35:18 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7E63AC4CEF7;
- Mon, 14 Jul 2025 05:35:14 +0000 (UTC)
+ by dfw.source.kernel.org (Postfix) with ESMTP id B7A8E5C54C6;
+ Mon, 14 Jul 2025 05:35:50 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 73092C4CEED;
+ Mon, 14 Jul 2025 05:35:46 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1752471318;
- bh=pBCIRAJi0foXxJRoXZ3zYn02pRbQBBQBVlaAHcDr2JU=;
+ s=k20201202; t=1752471350;
+ bh=9+08Hc9UF8N52xk3lCvwIIkOnYxSZRn+lE4UAJftaJc=;
  h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
- b=CP/9Im8olLCuDP41Dxr6lvO5fHVQ2U8QdvNcUq1nn3GQmlMHb+AUJ7ICjW/9+mylh
- Kta9XJWKfjtbD9CHx3NuAb5Gi4rcuLU1j60j2O1V7GRi5zfGy0z2NuOPRYGdOK9vZf
- Yv8+Dw0beR3RQ+7Q2aWTgmLcPQGhAAO0fDaRB+EgPPCjBzA5fKKs7voMbfdqo4xcgJ
- /mTsELhrWA4wW9lPmhhzwlIZkjWsacYy+XuI3Gl1ct90rnJse9LJb/O+8lOoZbN7QY
- CbYuRYDeswhGW9XGb0POcg/kEWvw+4NmW0hFss1AayBMMLIRA/moj+2+qf+OriT7No
- XVdof3/fjV7Jw==
-Message-ID: <ed14c7ba-12e6-49f4-ba3f-1bbe57f507fd@kernel.org>
-Date: Mon, 14 Jul 2025 07:35:13 +0200
+ b=AzED9ED/brZHpr6n3jFjD4wWC7PycIp9Hp+4HXSPN7ZmzFIvqd2DLfZ0O0GWfe6sB
+ 6rLl1eTaTRJkQLuuDfcGFLeqbELIAnWhuBsrhw9yzI3ka+j3xXn/JQNkqpIfGqieY8
+ 0xio7bOjQTJiRqq9MdhX4xhdm/zfyQ6YsFAqcrvgI2Y5JHfMmV+OS3VRfIXXrRrWf3
+ x1qx7OOCtYuufCJXlAeJxHX71JiKEjtWyhNE3SFppwNLVXQY2jRqswnuBTLVAJAot2
+ G47HBDQ0Gl4Q2+/DYAV8J51aYfSVns8lR9FcpYwPUHbr3NVeeewI9eo2slV/DXWVpf
+ KxueoalNFCXog==
+Message-ID: <ab35bb65-6652-4e58-9898-ea34adaf2de8@kernel.org>
+Date: Mon, 14 Jul 2025 07:35:44 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 1/3] dt-bindings: vendor-prefixes: Add Mayqueen name
+Subject: Re: [PATCH v2 2/3] dt-bindings: display: Add Mayqueen Pixpaper e-ink
+ panel
 To: LiangCheng Wang <zaq14760@gmail.com>, Rob Herring <robh@kernel.org>,
  Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
  <conor+dt@kernel.org>, Maarten Lankhorst
@@ -47,7 +48,7 @@ Cc: devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
  dri-devel@lists.freedesktop.org, linux-media@vger.kernel.org,
  linaro-mm-sig@lists.linaro.org
 References: <20250714-drm-v2-0-5d1a2e12796c@gmail.com>
- <20250714-drm-v2-1-5d1a2e12796c@gmail.com>
+ <20250714-drm-v2-2-5d1a2e12796c@gmail.com>
 From: Krzysztof Kozlowski <krzk@kernel.org>
 Content-Language: en-US
 Autocrypt: addr=krzk@kernel.org; keydata=
@@ -93,7 +94,7 @@ Autocrypt: addr=krzk@kernel.org; keydata=
  jWt87ecuHlpL3uuQ0ZZNWqHgZoQLXoqC2ZV5KrtKWb/jyiFX/sxSrodALf0zf+tfHv0FZWT2
  zHjUqd0t4njD/UOsuIMOQn4Ig0SdivYPfZukb5cdasKJukG1NOpbW7yRNivaCnfZz6dTawXw
  XRIV/KDsHQiyVxKvN73bThKhONkcX2LWuD928tAR6XMM2G5ovxLe09vuOzzfTWQDsm++9UKF a/A=
-In-Reply-To: <20250714-drm-v2-1-5d1a2e12796c@gmail.com>
+In-Reply-To: <20250714-drm-v2-2-5d1a2e12796c@gmail.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -112,13 +113,11 @@ Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 On 14/07/2025 04:59, LiangCheng Wang wrote:
-> From: Wig Cheng <onlywig@gmail.com>
+> The binding is for the Mayqueen Pixpaper e-ink display panel,
+> controlled via an SPI interface.
 > 
-> Mayqueen is a Taiwan-based company primarily focused on the development
-> of arm64 development boards and e-paper displays.
-> 
-> Signed-off-by: Wig Cheng <onlywig@gmail.com>
-> ---
+> Signed-off-by: LiangCheng Wang <zaq14760@gmail.com>
+
 <form letter>
 This is a friendly reminder during the review process.
 
@@ -138,9 +137,6 @@ https://elixir.bootlin.com/linux/v6.12-rc3/source/Documentation/process/submitti
 
 If a tag was not added on purpose, please state why and what changed.
 </form letter>
-
-
-Acked-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
 
 Best regards,
 Krzysztof
