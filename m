@@ -2,49 +2,49 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9C545B035A6
-	for <lists+dri-devel@lfdr.de>; Mon, 14 Jul 2025 07:24:27 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 80619B035A7
+	for <lists+dri-devel@lfdr.de>; Mon, 14 Jul 2025 07:24:30 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id ED72610E39B;
-	Mon, 14 Jul 2025 05:24:25 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D050F10E396;
+	Mon, 14 Jul 2025 05:24:28 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from us-smtp-delivery-44.mimecast.com
- (us-smtp-delivery-44.mimecast.com [207.211.30.44])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5745410E396
- for <dri-devel@lists.freedesktop.org>; Mon, 14 Jul 2025 05:24:24 +0000 (UTC)
-Received: from mx-prod-mc-08.mail-002.prod.us-west-2.aws.redhat.com
+ (us-smtp-delivery-44.mimecast.com [205.139.111.44])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0919210E396
+ for <dri-devel@lists.freedesktop.org>; Mon, 14 Jul 2025 05:24:26 +0000 (UTC)
+Received: from mx-prod-mc-06.mail-002.prod.us-west-2.aws.redhat.com
  (ec2-35-165-154-97.us-west-2.compute.amazonaws.com [35.165.154.97]) by
  relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
- cipher=TLS_AES_256_GCM_SHA384) id us-mta-213-zxgitXA0NOqSjqvE1iwloA-1; Mon,
- 14 Jul 2025 01:24:19 -0400
-X-MC-Unique: zxgitXA0NOqSjqvE1iwloA-1
-X-Mimecast-MFC-AGG-ID: zxgitXA0NOqSjqvE1iwloA_1752470657
+ cipher=TLS_AES_256_GCM_SHA384) id us-mta-682-vq_rRUO6PtmqjX6xO_I5Dg-1; Mon,
+ 14 Jul 2025 01:24:24 -0400
+X-MC-Unique: vq_rRUO6PtmqjX6xO_I5Dg-1
+X-Mimecast-MFC-AGG-ID: vq_rRUO6PtmqjX6xO_I5Dg_1752470663
 Received: from mx-prod-int-05.mail-002.prod.us-west-2.aws.redhat.com
  (mx-prod-int-05.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.17])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
  (No client certificate requested)
- by mx-prod-mc-08.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS
- id CB8401809C84; Mon, 14 Jul 2025 05:24:17 +0000 (UTC)
+ by mx-prod-mc-06.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS
+ id 30E85180028B; Mon, 14 Jul 2025 05:24:23 +0000 (UTC)
 Received: from dreadlord.redhat.com (unknown [10.67.32.31])
  by mx-prod-int-05.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTP
- id 877B91977000; Mon, 14 Jul 2025 05:24:13 +0000 (UTC)
+ id B93F31977000; Mon, 14 Jul 2025 05:24:18 +0000 (UTC)
 From: Dave Airlie <airlied@gmail.com>
 To: dri-devel@lists.freedesktop.org, linux-mm@kvack.org,
  Johannes Weiner <hannes@cmpxchg.org>,
  Christian Koenig <christian.koenig@amd.com>
 Cc: Dave Chinner <david@fromorbit.com>, Kairui Song <kasong@tencent.com>,
  Dave Airlie <airlied@redhat.com>
-Subject: [PATCH 14/18] ttm: hook up memcg placement flags.
-Date: Mon, 14 Jul 2025 15:18:29 +1000
-Message-ID: <20250714052243.1149732-15-airlied@gmail.com>
+Subject: [PATCH 15/18] memcontrol: allow objcg api when memcg is config off.
+Date: Mon, 14 Jul 2025 15:18:30 +1000
+Message-ID: <20250714052243.1149732-16-airlied@gmail.com>
 In-Reply-To: <20250714052243.1149732-1-airlied@gmail.com>
 References: <20250714052243.1149732-1-airlied@gmail.com>
 MIME-Version: 1.0
 X-Scanned-By: MIMEDefang 3.0 on 10.30.177.17
 X-Mimecast-Spam-Score: 0
-X-Mimecast-MFC-PROC-ID: s0TxUnWI7brmLENO_vQmz1jOtCpByvM5rbLHhJcgk_Q_1752470657
+X-Mimecast-MFC-PROC-ID: YicDnG43JRNSpKGXZjpmAvKlRppu-Zrzu9fb8pbb6jU_1752470663
 X-Mimecast-Originator: gmail.com
 Content-Transfer-Encoding: quoted-printable
 content-type: text/plain; charset=WINDOWS-1252; x-default=true
@@ -65,99 +65,32 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 From: Dave Airlie <airlied@redhat.com>
 
-This adds a placement flag that requests that any bo with this
-placement flag set gets accounted for memcg if it's a system memory
-allocation.
+amdgpu wants to use the objcg api and not have to enable ifdef
+around it, so just add a dummy function for the config off path.
 
 Signed-off-by: Dave Airlie <airlied@redhat.com>
 ---
- drivers/gpu/drm/ttm/ttm_bo.c      | 2 +-
- drivers/gpu/drm/ttm/ttm_bo_util.c | 6 +++---
- drivers/gpu/drm/ttm/ttm_bo_vm.c   | 2 +-
- include/drm/ttm/ttm_placement.h   | 3 +++
- 4 files changed, 8 insertions(+), 5 deletions(-)
+ include/linux/memcontrol.h | 5 +++++
+ 1 file changed, 5 insertions(+)
 
-diff --git a/drivers/gpu/drm/ttm/ttm_bo.c b/drivers/gpu/drm/ttm/ttm_bo.c
-index af04bb8e2c2a..273757974b9f 100644
---- a/drivers/gpu/drm/ttm/ttm_bo.c
-+++ b/drivers/gpu/drm/ttm/ttm_bo.c
-@@ -142,7 +142,7 @@ static int ttm_bo_handle_move_mem(struct ttm_buffer_obj=
-ect *bo,
- =09=09=09goto out_err;
+diff --git a/include/linux/memcontrol.h b/include/linux/memcontrol.h
+index 21328f207d38..55f7ab318eef 100644
+--- a/include/linux/memcontrol.h
++++ b/include/linux/memcontrol.h
+@@ -1756,6 +1756,11 @@ static inline void __memcg_kmem_uncharge_page(struct=
+ page *page, int order)
+ {
+ }
 =20
- =09=09if (mem->mem_type !=3D TTM_PL_SYSTEM) {
--=09=09=09ret =3D ttm_bo_populate(bo, false, ctx);
-+=09=09=09ret =3D ttm_bo_populate(bo, mem->placement & TTM_PL_FLAG_MEMCG, c=
-tx);
- =09=09=09if (ret)
- =09=09=09=09goto out_err;
- =09=09}
-diff --git a/drivers/gpu/drm/ttm/ttm_bo_util.c b/drivers/gpu/drm/ttm/ttm_bo=
-_util.c
-index 764d1cf1ecbe..b5521d1bd517 100644
---- a/drivers/gpu/drm/ttm/ttm_bo_util.c
-+++ b/drivers/gpu/drm/ttm/ttm_bo_util.c
-@@ -167,7 +167,7 @@ int ttm_bo_move_memcpy(struct ttm_buffer_object *bo,
- =09src_man =3D ttm_manager_type(bdev, src_mem->mem_type);
- =09if (ttm && ((ttm->page_flags & TTM_TT_FLAG_SWAPPED) ||
- =09=09    dst_man->use_tt)) {
--=09=09ret =3D ttm_bo_populate(bo, false, ctx);
-+=09=09ret =3D ttm_bo_populate(bo, dst_mem->placement & TTM_PL_FLAG_MEMCG, =
-ctx);
- =09=09if (ret)
- =09=09=09return ret;
- =09}
-@@ -354,7 +354,7 @@ static int ttm_bo_kmap_ttm(struct ttm_buffer_object *bo=
-,
-=20
- =09BUG_ON(!ttm);
-=20
--=09ret =3D ttm_bo_populate(bo, false, &ctx);
-+=09ret =3D ttm_bo_populate(bo, mem->placement & TTM_PL_FLAG_MEMCG, &ctx);
- =09if (ret)
- =09=09return ret;
-=20
-@@ -511,7 +511,7 @@ int ttm_bo_vmap(struct ttm_buffer_object *bo, struct io=
-sys_map *map)
- =09=09pgprot_t prot;
- =09=09void *vaddr;
-=20
--=09=09ret =3D ttm_bo_populate(bo, false, &ctx);
-+=09=09ret =3D ttm_bo_populate(bo, mem->placement & TTM_PL_FLAG_MEMCG, &ctx=
-);
- =09=09if (ret)
- =09=09=09return ret;
-=20
-diff --git a/drivers/gpu/drm/ttm/ttm_bo_vm.c b/drivers/gpu/drm/ttm/ttm_bo_v=
-m.c
-index c5ad447debe3..dddc904f8727 100644
---- a/drivers/gpu/drm/ttm/ttm_bo_vm.c
-+++ b/drivers/gpu/drm/ttm/ttm_bo_vm.c
-@@ -226,7 +226,7 @@ vm_fault_t ttm_bo_vm_fault_reserved(struct vm_fault *vm=
-f,
-=20
- =09=09ttm =3D bo->ttm;
- =09=09err =3D ttm_bo_populate(bo,
--=09=09=09=09      false,
-+=09=09=09=09      bo->resource->placement & TTM_PL_FLAG_MEMCG,
- =09=09=09=09      &ctx);
- =09=09if (err) {
- =09=09=09if (err =3D=3D -EINTR || err =3D=3D -ERESTARTSYS ||
-diff --git a/include/drm/ttm/ttm_placement.h b/include/drm/ttm/ttm_placemen=
-t.h
-index b510a4812609..4e9f07d70483 100644
---- a/include/drm/ttm/ttm_placement.h
-+++ b/include/drm/ttm/ttm_placement.h
-@@ -70,6 +70,9 @@
- /* Placement is only used during eviction */
- #define TTM_PL_FLAG_FALLBACK=09(1 << 4)
-=20
-+/* Placement should account mem cgroup */
-+#define TTM_PL_FLAG_MEMCG=09(1 << 5)
++static inline struct obj_cgroup *get_obj_cgroup_from_current(void)
++{
++=09return NULL;
++}
 +
- /**
-  * struct ttm_place
-  *
+ static inline struct obj_cgroup *get_obj_cgroup_from_folio(struct folio *f=
+olio)
+ {
+ =09return NULL;
 --=20
 2.49.0
 
