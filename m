@@ -2,93 +2,61 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0DD2AB03C23
-	for <lists+dri-devel@lfdr.de>; Mon, 14 Jul 2025 12:45:05 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id E50C0B03C4B
+	for <lists+dri-devel@lfdr.de>; Mon, 14 Jul 2025 12:47:00 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3D3DF10E451;
-	Mon, 14 Jul 2025 10:44:56 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B553010E452;
+	Mon, 14 Jul 2025 10:46:57 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=redhat.com header.i=@redhat.com header.b="IlUm18Xb";
+	dkim=pass (1024-bit key; unprotected) header.d=ti.com header.i=@ti.com header.b="PaagJttp";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [170.10.133.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C7B1F10E451
- for <dri-devel@lists.freedesktop.org>; Mon, 14 Jul 2025 10:44:54 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1752489894;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=QcePExROBkGmXTd3pzyFFPMJePKoh9BWUTzEsDl2zWY=;
- b=IlUm18XbUD+942LfE9Lxg8EmBeIfYvLlZvSh53igBESNCMeyK32bpTa7S27eEat5j1/0PK
- OQ8dmWzK+B3UuTqdUDKC5hBE+MNYVT9png6dZD3oKuGm9fp9+u1l1F4EJJrkwslaUcX0Zp
- iKQpih1MWoltcD8iFW0KV4pTQ0uKRqo=
-Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
- [209.85.128.70]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-668-Lh5mhaTcOkWZqPZffA-rxA-1; Mon, 14 Jul 2025 06:44:50 -0400
-X-MC-Unique: Lh5mhaTcOkWZqPZffA-rxA-1
-X-Mimecast-MFC-AGG-ID: Lh5mhaTcOkWZqPZffA-rxA_1752489889
-Received: by mail-wm1-f70.google.com with SMTP id
- 5b1f17b1804b1-455ea9cb0beso21248785e9.0
- for <dri-devel@lists.freedesktop.org>; Mon, 14 Jul 2025 03:44:50 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1752489889; x=1753094689;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=QcePExROBkGmXTd3pzyFFPMJePKoh9BWUTzEsDl2zWY=;
- b=AS7tb1JduObtD2fogZRnXpp1p22owSMq2SM6GVOh1fk0GkD8SfYXPAieIS6KXWJ+cX
- FJDakI48MSpDKbBdBuJcl27EtLvajXpiDi+1+4mTYDBQC8W4XFv8Hkv1ejyOmOJWQtTm
- 5+E8kD7xXmBiuhoNA6ZfHkX1kdnFhECvUzbwSUxi2M3Gn1VVex1eyoN3ZUXMMUxyMy9c
- QEYytU/qH2OB//Tq6a6mSpknUAZtVejtifu5xIsN+z/ztNUo720KFN5mT9pX7meTdd4A
- LQwK7SpyuvPIdfA9ecLO/xI2+/QLoiGIgeVAA+rNfZxdPOsqAafYxYlHFXI7C9drNljD
- Mwqg==
-X-Forwarded-Encrypted: i=1;
- AJvYcCU7HW4jm6RdLWQeItzvT5HRlUP63dDwgcXkmruxlNVWuVy0EMq4nUauvhgc2hOhDkNnO2znoy4HhhM=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YxqF7hyURomBHqSCCgpHcmwVUEVAH9vtSEToD1c/Czsd4m6dHQZ
- A//4HLQlL5kmpM3Psn62vQb90T5AfcAcuHUdEy9Gff43krCeJ85RV3KKA40zirhiLzfqng+bIcG
- NhZ4LL8K2EI3Np0da3eaJxqYXNiGXplyVO7nz4ctCXuYxe0aUT7Ik5PyzfgWA4Y95joumfA==
-X-Gm-Gg: ASbGncvpUvIvgIvCOBgt7EIvIlBWJtLnMII+I/N+RVHK2z2XJRfqBMlNggjEizDrmmu
- VtGsD5V7DdltIvDbolbTTqX3d1XR1ST8KqovxmPr89IlWAqkya3dtuGBqB2/QsFe7XBpnvo9Ol1
- zUI/uzBIPD50KbHNMgVF0ZmDl/v7G5uQb+LupyP0AU1mc7MSNh63bS0pLuzjjPCOAcWOW3pG0sW
- NGaXVXVrNVKjvFdu5+qqYhREWHaD5pCRclkDiNzzY4axSbWJL/Yl2XemmIowPQTem3l6VD7w0lb
- I+2ze8+TOcMhGxWXuXY3o3w9nr6rjSy9
-X-Received: by 2002:a05:600c:1da7:b0:456:1b8b:b8c6 with SMTP id
- 5b1f17b1804b1-4561b8bbbf3mr26659955e9.14.1752489889157; 
- Mon, 14 Jul 2025 03:44:49 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IHGnLmL3APGndfptepWrP7aJt58jFVF0xV99rnqtzmW+5CMr6NcUHBMolv58MpEYfVkZQpmmQ==
-X-Received: by 2002:a05:600c:1da7:b0:456:1b8b:b8c6 with SMTP id
- 5b1f17b1804b1-4561b8bbbf3mr26659605e9.14.1752489888714; 
- Mon, 14 Jul 2025 03:44:48 -0700 (PDT)
-Received: from localhost ([89.128.88.54]) by smtp.gmail.com with ESMTPSA id
- ffacd0b85a97d-3b5e8e14ce6sm12240314f8f.68.2025.07.14.03.44.47
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 14 Jul 2025 03:44:47 -0700 (PDT)
-From: Javier Martinez Canillas <javierm@redhat.com>
-To: linux-kernel@vger.kernel.org
-Cc: ipedrosa@redhat.com, Javier Martinez Canillas <javierm@redhat.com>,
- Marcus Folkesson <marcus.folkesson@gmail.com>,
- David Airlie <airlied@gmail.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, Simona Vetter <simona@ffwll.ch>,
- Thomas Zimmermann <tzimmermann@suse.de>, dri-devel@lists.freedesktop.org
-Subject: [PATCH v2 5/5] drm/sitronix/st7571-i2c: Add support for the ST7567
- Controller
-Date: Mon, 14 Jul 2025 12:44:04 +0200
-Message-ID: <20250714104421.323753-6-javierm@redhat.com>
-X-Mailer: git-send-email 2.49.0
-In-Reply-To: <20250714104421.323753-1-javierm@redhat.com>
-References: <20250714104421.323753-1-javierm@redhat.com>
+Received: from fllvem-ot03.ext.ti.com (fllvem-ot03.ext.ti.com [198.47.19.245])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C796810E452
+ for <dri-devel@lists.freedesktop.org>; Mon, 14 Jul 2025 10:46:55 +0000 (UTC)
+Received: from lelvem-sh02.itg.ti.com ([10.180.78.226])
+ by fllvem-ot03.ext.ti.com (8.15.2/8.15.2) with ESMTP id 56EAjuC92359657;
+ Mon, 14 Jul 2025 05:45:56 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
+ s=ti-com-17Q1; t=1752489956;
+ bh=m9QGcwxg2jM0MyzOfa5/VcVbOr2DjOXlGp1SoOM/jGg=;
+ h=From:To:CC:Subject:Date;
+ b=PaagJttpryxkfDKIfdNpGK868g02zbRac54K8tC0O5nbFD97bNWPcExm0Ju+mYgZh
+ UvgcGBehoVygS6cmMdAOQi8lIkdB6pyKnU5jp7MJaTqhQO2r2SL+s007oTx1njJ1to
+ WxyMd2xXFJnXlgpyzXvWX8Mnin6lhNqBHuqGTyp0=
+Received: from DFLE112.ent.ti.com (dfle112.ent.ti.com [10.64.6.33])
+ by lelvem-sh02.itg.ti.com (8.18.1/8.18.1) with ESMTPS id 56EAjtYH265538
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES128-SHA256 bits=128 verify=FAIL);
+ Mon, 14 Jul 2025 05:45:55 -0500
+Received: from DFLE109.ent.ti.com (10.64.6.30) by DFLE112.ent.ti.com
+ (10.64.6.33) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2507.55; Mon, 14
+ Jul 2025 05:45:55 -0500
+Received: from lelvem-mr06.itg.ti.com (10.180.75.8) by DFLE109.ent.ti.com
+ (10.64.6.30) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2507.55 via
+ Frontend Transport; Mon, 14 Jul 2025 05:45:55 -0500
+Received: from localhost (jayesh-hp-z2-tower-g5-workstation.dhcp.ti.com
+ [172.24.227.166])
+ by lelvem-mr06.itg.ti.com (8.18.1/8.18.1) with ESMTP id 56EAjsRY409568;
+ Mon, 14 Jul 2025 05:45:55 -0500
+From: Jayesh Choudhary <j-choudhary@ti.com>
+To: <jyri.sarha@iki.fi>, <maarten.lankhorst@linux.intel.com>,
+ <mripard@kernel.org>, <tzimmermann@suse.de>,
+ <dri-devel@lists.freedesktop.org>, <devarsht@ti.com>,
+ <tomi.valkeinen@ideasonboard.com>, <mwalle@kernel.org>,
+ <aradhya.bhatia@linux.dev>
+CC: <airlied@gmail.com>, <simona@ffwll.ch>, <linux-kernel@vger.kernel.org>,
+ <j-choudhary@ti.com>
+Subject: [PATCH v2] drm/tidss: oldi: convert to devm_drm_bridge_alloc() API
+Date: Mon, 14 Jul 2025 16:15:54 +0530
+Message-ID: <20250714104554.13441-1-j-choudhary@ti.com>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
-X-Mimecast-Spam-Score: 0
-X-Mimecast-MFC-PROC-ID: dx_rQ0zHLkAXA7eJIvcHVga_0bwcbXe0bcc36KA3xvM_1752489889
-X-Mimecast-Originator: redhat.com
 Content-Transfer-Encoding: 8bit
-content-type: text/plain; charset="US-ASCII"; x-default=true
+Content-Type: text/plain
+X-C2ProcessedOrg: 333ef613-75bf-4e12-a4b1-8e3623f5dcea
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -104,143 +72,54 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The Sitronix ST7567 is a monochrome Dot Matrix LCD Controller that has SPI,
-I2C and parallel interfaces. The st7571-i2c driver only has support for I2C
-so displays using other transport interfaces are currently not supported.
+DRM bridges now use "devm_drm_bridge_alloc()" for allocation and
+initialization. "devm_kzalloc()" is not allowed anymore and it results
+in WARNING. So convert it.
 
-The DRM_FORMAT_R1 pixel format and data commands are the same than what
-is used by the ST7571 controller, so only is needed a different callback
-that implements the expected initialization sequence for the ST7567 chip.
-
-Signed-off-by: Javier Martinez Canillas <javierm@redhat.com>
-Reviewed-by: Marcus Folkesson <marcus.folkesson@gmail.com>
+Fixes: 7246e0929945 ("drm/tidss: Add OLDI bridge support")
+Reviewed-by: Devarsh Thakkar <devarsht@ti.com>
+Reviewed-by: Aradhya Bhatia <aradhya.bhatia@linux.dev>
+Signed-off-by: Jayesh Choudhary <j-choudhary@ti.com>
 ---
 
-Changes in v2:
-- Use a different parse DT function (Thomas Zimmermann).
+Changelog v1->v2:
+- Fix typo in commit message
+- Put the oldi parent and child node in case of error before returning
+  (as pointed out by Aradhya in v1)
+- Pick up "R-by" tags
 
- drivers/gpu/drm/sitronix/st7571-i2c.c | 74 +++++++++++++++++++++++++++
- 1 file changed, 74 insertions(+)
+v1 patch link:
+<https://lore.kernel.org/all/20250701055002.52336-1-j-choudhary@ti.com/>
 
-diff --git a/drivers/gpu/drm/sitronix/st7571-i2c.c b/drivers/gpu/drm/sitronix/st7571-i2c.c
-index f9c4fedb3cca..1b820ff6a9dd 100644
---- a/drivers/gpu/drm/sitronix/st7571-i2c.c
-+++ b/drivers/gpu/drm/sitronix/st7571-i2c.c
-@@ -68,6 +68,9 @@
- #define ST7571_SET_COLOR_MODE(c)		(0x10 | FIELD_PREP(GENMASK(0, 0), (c)))
- #define ST7571_COMMAND_SET_NORMAL		(0x00)
+ drivers/gpu/drm/tidss/tidss_oldi.c | 8 ++++----
+ 1 file changed, 4 insertions(+), 4 deletions(-)
+
+diff --git a/drivers/gpu/drm/tidss/tidss_oldi.c b/drivers/gpu/drm/tidss/tidss_oldi.c
+index 8223b8fec8ce..8f25159d0666 100644
+--- a/drivers/gpu/drm/tidss/tidss_oldi.c
++++ b/drivers/gpu/drm/tidss/tidss_oldi.c
+@@ -534,9 +534,10 @@ int tidss_oldi_init(struct tidss_device *tidss)
+ 			continue;
+ 		}
  
-+/* ST7567 commands */
-+#define ST7567_SET_LCD_BIAS(m) (0xa2 | FIELD_PREP(GENMASK(0, 0), (m)))
-+
- #define ST7571_PAGE_HEIGHT 8
+-		oldi = devm_kzalloc(tidss->dev, sizeof(*oldi), GFP_KERNEL);
+-		if (!oldi) {
+-			ret = -ENOMEM;
++		oldi = devm_drm_bridge_alloc(tidss->dev, struct tidss_oldi, bridge,
++					     &tidss_oldi_bridge_funcs);
++		if (IS_ERR(oldi)) {
++			ret = PTR_ERR(oldi);
+ 			goto err_put_node;
+ 		}
  
- #define DRIVER_NAME "st7571"
-@@ -774,6 +777,32 @@ static int st7571_validate_parameters(struct st7571_device *st7571)
- 	return 0;
- }
+@@ -577,7 +578,6 @@ int tidss_oldi_init(struct tidss_device *tidss)
+ 		/* Register the bridge. */
+ 		oldi->bridge.of_node = child;
+ 		oldi->bridge.driver_private = oldi;
+-		oldi->bridge.funcs = &tidss_oldi_bridge_funcs;
+ 		oldi->bridge.timings = &default_tidss_oldi_timings;
  
-+static int st7567_parse_dt(struct st7571_device *st7567)
-+{
-+	struct device *dev = &st7567->client->dev;
-+	struct device_node *np = dev->of_node;
-+	struct display_timing dt;
-+	int ret;
-+
-+	ret = of_get_display_timing(np, "panel-timing", &dt);
-+	if (ret) {
-+		dev_err(dev, "Failed to get display timing from DT\n");
-+		return ret;
-+	}
-+
-+	of_property_read_u32(np, "width-mm", &st7567->width_mm);
-+	of_property_read_u32(np, "height-mm", &st7567->height_mm);
-+
-+	st7567->pformat = &st7571_monochrome;
-+	st7567->bpp = 1;
-+
-+	st7567->startline = dt.vfront_porch.typ;
-+	st7567->nlines = dt.vactive.typ;
-+	st7567->ncols = dt.hactive.typ;
-+
-+	return 0;
-+}
-+
- static int st7571_parse_dt(struct st7571_device *st7571)
- {
- 	struct device *dev = &st7571->client->dev;
-@@ -819,6 +848,37 @@ static void st7571_reset(struct st7571_device *st7571)
- 	gpiod_set_value_cansleep(st7571->reset, 0);
- }
- 
-+static int st7567_lcd_init(struct st7571_device *st7567)
-+{
-+	/*
-+	 * Most of the initialization sequence is taken directly from the
-+	 * referential initial code in the ST7567 datasheet.
-+	 */
-+	u8 commands[] = {
-+		ST7571_DISPLAY_OFF,
-+
-+		ST7567_SET_LCD_BIAS(1),
-+
-+		ST7571_SET_SEG_SCAN_DIR(0),
-+		ST7571_SET_COM_SCAN_DIR(1),
-+
-+		ST7571_SET_REGULATOR_REG(4),
-+		ST7571_SET_CONTRAST_MSB,
-+		ST7571_SET_CONTRAST_LSB(0x20),
-+
-+		ST7571_SET_START_LINE_MSB,
-+		ST7571_SET_START_LINE_LSB(st7567->startline),
-+
-+		ST7571_SET_POWER(0x4),	/* Power Control, VC: ON, VR: OFF, VF: OFF */
-+		ST7571_SET_POWER(0x6),	/* Power Control, VC: ON, VR: ON, VF: OFF */
-+		ST7571_SET_POWER(0x7),	/* Power Control, VC: ON, VR: ON, VF: ON */
-+
-+		ST7571_SET_ENTIRE_DISPLAY_ON(0),
-+	};
-+
-+	return st7571_send_command_list(st7567, commands, ARRAY_SIZE(commands));
-+}
-+
- static int st7571_lcd_init(struct st7571_device *st7571)
- {
- 	/*
-@@ -963,6 +1023,18 @@ static void st7571_remove(struct i2c_client *client)
- 	drm_dev_unplug(&st7571->dev);
- }
- 
-+struct st7571_panel_data st7567_config = {
-+	.init = st7567_lcd_init,
-+	.parse_dt = st7567_parse_dt,
-+	.constraints = {
-+		.min_nlines = 1,
-+		.max_nlines = 64,
-+		.min_ncols = 128,
-+		.max_ncols = 128,
-+		.support_grayscale = false,
-+	},
-+};
-+
- struct st7571_panel_data st7571_config = {
- 	.init = st7571_lcd_init,
- 	.parse_dt = st7571_parse_dt,
-@@ -976,12 +1048,14 @@ struct st7571_panel_data st7571_config = {
- };
- 
- static const struct of_device_id st7571_of_match[] = {
-+	{ .compatible = "sitronix,st7567", .data = &st7567_config },
- 	{ .compatible = "sitronix,st7571", .data = &st7571_config },
- 	{},
- };
- MODULE_DEVICE_TABLE(of, st7571_of_match);
- 
- static const struct i2c_device_id st7571_id[] = {
-+	{ "st7567", 0 },
- 	{ "st7571", 0 },
- 	{ }
- };
+ 		tidss->oldis[tidss->num_oldis++] = oldi;
 -- 
-2.49.0
+2.34.1
 
