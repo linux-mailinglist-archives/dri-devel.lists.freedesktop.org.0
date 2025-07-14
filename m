@@ -2,89 +2,90 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B055DB03C6F
-	for <lists+dri-devel@lfdr.de>; Mon, 14 Jul 2025 12:49:26 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 67CE7B03C1E
+	for <lists+dri-devel@lfdr.de>; Mon, 14 Jul 2025 12:45:04 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id EF04D10E456;
-	Mon, 14 Jul 2025 10:49:24 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 98F2310E1F2;
+	Mon, 14 Jul 2025 10:44:43 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=redhat.com header.i=@redhat.com header.b="OA4/Huoq";
+	dkim=pass (1024-bit key; unprotected) header.d=redhat.com header.i=@redhat.com header.b="UIChaCXl";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from us-smtp-delivery-124.mimecast.com
  (us-smtp-delivery-124.mimecast.com [170.10.129.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2BF9010E456
- for <dri-devel@lists.freedesktop.org>; Mon, 14 Jul 2025 10:49:24 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8216110E1F2
+ for <dri-devel@lists.freedesktop.org>; Mon, 14 Jul 2025 10:44:42 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1752490163;
+ s=mimecast20190719; t=1752489881;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=yyAlKBmaunFz8ZQhBWMNPAv1OQI+eMdSmuzjRTl34ZM=;
- b=OA4/HuoqPbjxTubOVKoVCJk64Qe2dlhKL0PjOIifjs6auB5a9JoNT6I6qIS89Mf/KkJ3Qk
- KDevA3M51bMSaR5n8UkYQheg1OkV4OfbMBSv4cIuuVfcQHn/V91aSWV3dDkyhxYuif3XCr
- Ef7QXHS8qk4IlaW0AVoPNSPMfs6BLQA=
-Received: from mail-wr1-f71.google.com (mail-wr1-f71.google.com
- [209.85.221.71]) by relay.mimecast.com with ESMTP with STARTTLS
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=HNUt6/bURNRe9U6oU/7WSlTHdeKZKLnldCNgh0UMvWk=;
+ b=UIChaCXlbWDhhYsiCkVGkxx1lnb51WtQCPBl03vfmMEhfvEE42G9Gho5tqy4qDGgYVFYon
+ OYIYtgQKkdFEh8bHMkNr9C8ewyr7C3ei+KP2sTeDdXDjQWREm/VRmxwdnS1GJurPTmMhtG
+ eu3MdPrGB7I+h9npdAOtN+YbNMEgPG4=
+Received: from mail-wr1-f72.google.com (mail-wr1-f72.google.com
+ [209.85.221.72]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-21-y7vMrgJLNJCEwWnhsPREqA-1; Mon, 14 Jul 2025 06:44:37 -0400
-X-MC-Unique: y7vMrgJLNJCEwWnhsPREqA-1
-X-Mimecast-MFC-AGG-ID: y7vMrgJLNJCEwWnhsPREqA_1752489876
-Received: by mail-wr1-f71.google.com with SMTP id
- ffacd0b85a97d-3a50049f8eeso1833347f8f.3
- for <dri-devel@lists.freedesktop.org>; Mon, 14 Jul 2025 03:44:36 -0700 (PDT)
+ us-mta-163-QIAuLu8VPxGWdU1UadA-3g-1; Mon, 14 Jul 2025 06:44:40 -0400
+X-MC-Unique: QIAuLu8VPxGWdU1UadA-3g-1
+X-Mimecast-MFC-AGG-ID: QIAuLu8VPxGWdU1UadA-3g_1752489879
+Received: by mail-wr1-f72.google.com with SMTP id
+ ffacd0b85a97d-3a4f8192e2cso2382218f8f.3
+ for <dri-devel@lists.freedesktop.org>; Mon, 14 Jul 2025 03:44:40 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1752489876; x=1753094676;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=yyAlKBmaunFz8ZQhBWMNPAv1OQI+eMdSmuzjRTl34ZM=;
- b=MF6418yVELitfB+RktKQSg68Em5BiwWPfzbMnvR+a5HmgGmbx4jY9YFd3NlJLwIaI+
- a24oSsnuV1IaYbuj744qkePedDVcXXIgClFE2nX+raswFjhHjw64CT4m4l2Pt/WAims6
- QWRTQ028OxnbR7JPddoMjt6dgQIxab5Di7z7PnRUgii4+jA6U9ibpmU/03Gb0oIbRrMi
- Q0EgYO75b5OKVYAEu23WymFAzcs2v3xTLiSAVSTSF7gnUlrvhU8dy5QR0KyRXYgFg5rx
- c9k3lsGBHWJosUf5x9Vws1sDlT5XWBmMAaVAFLvxZaM9nbW47lP/0FMB2oEk9bwi1IZD
- wBxQ==
+ d=1e100.net; s=20230601; t=1752489879; x=1753094679;
+ h=content-transfer-encoding:mime-version:references:in-reply-to
+ :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=HNUt6/bURNRe9U6oU/7WSlTHdeKZKLnldCNgh0UMvWk=;
+ b=pHLNoxmoOV4PQ9CY6sO7nRQIYSyaZC/6GdvP5rLB3pb76fKm65WxzKIxEP2tC79sGb
+ Bj37g/Dt5GIKHh+srBWq7UaFuB+m2lWzS9XswuKIk8VOcQ0Rwz99aBR5cQNIqwRbGYOO
+ 2WG3hn5++3MhfnyPbPWVzj5FElZkndUJcK5M9H6R8W1hota6/D0ZJtxpPc5LAuXOg2it
+ N0LxcpqTOTy9XFlditaBoyPEwNdGJsRVz8VRcnhgxE3HQPnuZLREvKQcGOE+h0cNU+DU
+ DrV/cOWdbtNBtC2piK6vUzasQ9HnFADrR4qjTuLm+Kyb3fpIhn24LcgvXXDmCPauZL8l
+ zUaQ==
 X-Forwarded-Encrypted: i=1;
- AJvYcCXrwSi/q6LSStdZMkTuy/ZIs7yEYDt9Nngf5QVnwRKNoxK6v3jhl/kCUBZ6JK25PpuM62tY2MNkToQ=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YyxMGgu9lY67+6w8nTuXtZ6IWJYjJQQ5ZJlEB8ITmDZXGH0lHJ/
- Nsb5DX+RXuJTdGWa7nqmTOmYyHEn/kAGipFOZQKkirskVr5hIP1wwuxclx8ZC/g/bylCRZMKE4x
- ugDtRXDitAEfQ8njzny4XUgyt2y+IQC/aRR6KvUPHPXpk4wwKHIlfk/+T3kPbWbpTCBvnfg==
-X-Gm-Gg: ASbGncvBJkFqoNQwXMhCRZ1i/nztnpKAmn1rlpSdiRMsz8yj8bGlFqfmt7Mvk6Bx8tn
- RErUynlzI8uT/5TIrXACjaqIdOLE5gqDgjjP9ldP6HS+4ykoP6EN/psVoFqOIMwOR5sg2jcn066
- yM+G+1xPR+Di9Q8aFxOn6zZbcbFAvsey4yblICygN19HyXknYWv0UyaDdYImq278dc4XIVjUwwq
- QOC6ZA6TKhi5XMFSBjGPAwRdpD9LJ/6TOvv1Q01cGs0b99a6igCBsmNNvwkc5uKu0IJmGRuxj14
- NA2/435+3t14yHD/5mokL6BJD5v9+Wzt
-X-Received: by 2002:a5d:58da:0:b0:3b5:def6:4b2 with SMTP id
- ffacd0b85a97d-3b5f18d975cmr10641413f8f.45.1752489875944; 
- Mon, 14 Jul 2025 03:44:35 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IHndWVX2/3i6ySGFYkMs+g/Veyvvo3m6eT3vBl5Tmlx4cdn8hhICuraqnULOXZmnGxtJAOd6g==
-X-Received: by 2002:a5d:58da:0:b0:3b5:def6:4b2 with SMTP id
- ffacd0b85a97d-3b5f18d975cmr10641383f8f.45.1752489875477; 
- Mon, 14 Jul 2025 03:44:35 -0700 (PDT)
+ AJvYcCWaewtVFGfRiGpGfeRg+CSH6ZjyBGWeu07bbymt2YH0vrY2RvcA4N7D+cjzRdO/m3QjMvkjPfWGl4k=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YzvNM/tfbC0YHxtfBNVo+BoVd7Evi34D+tRm4qR2T4W0GUWU90U
+ DYDYSv5AkTiFnA2jhJmiE06YEIiFqIvVte3mtOFKzEJ96SQFsMt0cgZ5LJEQqCHtUcxeUdvMO8P
+ 7HH2TmFaajMgnKptW6dN9zulHy0C0y06JWVURR4quD2jgBp4IFcIvbp4h+clu68cHPFbu7w==
+X-Gm-Gg: ASbGncs6BQIJSfZGvBQ4Q54GRpk8A1sfxY3CGIbXx70pDgN8nyzfluw8ERNf4LQ84pt
+ YDoLRw12eq6W0mAfbg/ikZig5h52rdTYTxN+RBBz3zoc42Z4ssmGac+wzFR4pPR8mtRRmk+uoVn
+ aGeUFECMZLsbWonRKTAHBsrLMLoSrrcz7TykO4KscGQzvl3OfEf5P9JUpiHJI8SVnwy4es1xny1
+ tI59pRZx7753hPbpvorGIwJz3PwjhK+KKPJElMDo555EVVdSvuKDKjUF+XGMYU8jr+7zj2yO6/W
+ Pz++DJMJ2TXRJOZiejlfb8Jfzx03bloR
+X-Received: by 2002:a05:6000:2f81:b0:3a3:7baf:f06a with SMTP id
+ ffacd0b85a97d-3b5f2dfdd45mr9421887f8f.37.1752489878893; 
+ Mon, 14 Jul 2025 03:44:38 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IE2W3lgSoiGCAE5rXtFzBHRvbFoJu2axAL5r6zaGdYjc6OVX8whs77OvmSuJ9iTy/37bnR2pA==
+X-Received: by 2002:a05:6000:2f81:b0:3a3:7baf:f06a with SMTP id
+ ffacd0b85a97d-3b5f2dfdd45mr9421846f8f.37.1752489878111; 
+ Mon, 14 Jul 2025 03:44:38 -0700 (PDT)
 Received: from localhost ([89.128.88.54]) by smtp.gmail.com with ESMTPSA id
- ffacd0b85a97d-3b5e8bd15bfsm12317589f8f.19.2025.07.14.03.44.34
+ ffacd0b85a97d-3b5e8e1f4edsm11880604f8f.83.2025.07.14.03.44.37
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 14 Jul 2025 03:44:34 -0700 (PDT)
+ Mon, 14 Jul 2025 03:44:37 -0700 (PDT)
 From: Javier Martinez Canillas <javierm@redhat.com>
 To: linux-kernel@vger.kernel.org
 Cc: ipedrosa@redhat.com, Javier Martinez Canillas <javierm@redhat.com>,
- Conor Dooley <conor+dt@kernel.org>, David Airlie <airlied@gmail.com>,
- Krzysztof Kozlowski <krzk+dt@kernel.org>,
+ David Airlie <airlied@gmail.com>,
  Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
  Marcus Folkesson <marcus.folkesson@gmail.com>,
- Maxime Ripard <mripard@kernel.org>, Rob Herring <robh@kernel.org>,
- Simona Vetter <simona@ffwll.ch>, Thomas Zimmermann <tzimmermann@suse.de>,
- devicetree@vger.kernel.org, dri-devel@lists.freedesktop.org
-Subject: [PATCH v2 0/5] drm/sitronix/st7571-i2c: Add support for the ST7567
- Controller
-Date: Mon, 14 Jul 2025 12:43:59 +0200
-Message-ID: <20250714104421.323753-1-javierm@redhat.com>
+ Maxime Ripard <mripard@kernel.org>, Simona Vetter <simona@ffwll.ch>,
+ Thomas Zimmermann <tzimmermann@suse.de>, dri-devel@lists.freedesktop.org
+Subject: [PATCH v2 1/5] drm/sitronix/st7571-i2c: Fix encoder callbacks
+ function names
+Date: Mon, 14 Jul 2025 12:44:00 +0200
+Message-ID: <20250714104421.323753-2-javierm@redhat.com>
 X-Mailer: git-send-email 2.49.0
+In-Reply-To: <20250714104421.323753-1-javierm@redhat.com>
+References: <20250714104421.323753-1-javierm@redhat.com>
 MIME-Version: 1.0
 X-Mimecast-Spam-Score: 0
-X-Mimecast-MFC-PROC-ID: tzN3cybSMmLAr6bCZHbXRt41zeX5Yo4tFkdTFY7LCkc_1752489876
+X-Mimecast-MFC-PROC-ID: 2SNNJ-dTeaF8PKwrlHGvEohaw7Cyc7pQCu6N55U7TVI_1752489879
 X-Mimecast-Originator: redhat.com
 Content-Transfer-Encoding: 8bit
 content-type: text/plain; charset="US-ASCII"; x-default=true
@@ -103,45 +104,54 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-This patch-series adds support for the Sitronix ST7567 Controller, which is a
-monochrome Dot Matrix LCD Controller that has SPI, I2C and parallel interfaces.
+It seems the driver took some inspiration from ssd130x and some of the
+functions (encoder callbacks) were not renamed to use a st7571_ prefix.
 
-The st7571-i2c driver only has support for I2C so displays using other transport
-interfaces are currently not supported.
+Signed-off-by: Javier Martinez Canillas <javierm@redhat.com>
+---
 
-The DRM_FORMAT_R1 pixel format and data commands are the same than what is used
-by the ST7571 controller, so only is needed a different callback that implements
-the expected initialization sequence for the ST7567 chip and a different callback
-to parse the sub-set of DT properties needed by the ST7567.
+(no changes since v1)
 
-Patches #1 and #2 are some trivial cleanups for the driver.
+ drivers/gpu/drm/sitronix/st7571-i2c.c | 12 ++++++------
+ 1 file changed, 6 insertions(+), 6 deletions(-)
 
-Patch #3 is a preparatory change that adds the level of indirection for the DT
-parsing logic.
-
-Patch #4 adds a Device Tree binding schema for the ST7567 Controller.
-
-Patch #5 finally extends the st7571-i2c driver to also support the ST7567 device.
-
-Changes in v2:
-- Use a different parse DT function (Thomas Zimmermann).
-
-Javier Martinez Canillas (5):
-  drm/sitronix/st7571-i2c: Fix encoder callbacks function names
-  drm/sitronix/st7571-i2c: Log probe deferral cause for GPIO get failure
-  drm/sitronix/st7571-i2c: Add an indirection level to parse DT
-  dt-bindings: display: Add Sitronix ST7567 LCD Controller
-  drm/sitronix/st7571-i2c: Add support for the ST7567 Controller
-
- .../bindings/display/sitronix,st7567.yaml     | 63 +++++++++++++
- MAINTAINERS                                   |  1 +
- drivers/gpu/drm/sitronix/st7571-i2c.c         | 94 +++++++++++++++++--
- 3 files changed, 150 insertions(+), 8 deletions(-)
- create mode 100644 Documentation/devicetree/bindings/display/sitronix,st7567.yaml
-
+diff --git a/drivers/gpu/drm/sitronix/st7571-i2c.c b/drivers/gpu/drm/sitronix/st7571-i2c.c
+index eec846892962..634b426e2874 100644
+--- a/drivers/gpu/drm/sitronix/st7571-i2c.c
++++ b/drivers/gpu/drm/sitronix/st7571-i2c.c
+@@ -550,8 +550,8 @@ static const struct drm_crtc_funcs st7571_crtc_funcs = {
+  * Encoder
+  */
+ 
+-static void ssd130x_encoder_atomic_enable(struct drm_encoder *encoder,
+-					  struct drm_atomic_state *state)
++static void st7571_encoder_atomic_enable(struct drm_encoder *encoder,
++					 struct drm_atomic_state *state)
+ {
+ 	struct drm_device *drm = encoder->dev;
+ 	struct st7571_device *st7571 = drm_to_st7571(drm);
+@@ -565,8 +565,8 @@ static void ssd130x_encoder_atomic_enable(struct drm_encoder *encoder,
+ 	st7571_send_command_list(st7571, &command, 1);
+ }
+ 
+-static void ssd130x_encoder_atomic_disable(struct drm_encoder *encoder,
+-					   struct drm_atomic_state *state)
++static void st7571_encoder_atomic_disable(struct drm_encoder *encoder,
++					  struct drm_atomic_state *state)
+ {
+ 	struct drm_device *drm = encoder->dev;
+ 	struct st7571_device *st7571 = drm_to_st7571(drm);
+@@ -581,8 +581,8 @@ static const struct drm_encoder_funcs st7571_encoder_funcs = {
+ };
+ 
+ static const struct drm_encoder_helper_funcs st7571_encoder_helper_funcs = {
+-	.atomic_enable = ssd130x_encoder_atomic_enable,
+-	.atomic_disable = ssd130x_encoder_atomic_disable,
++	.atomic_enable = st7571_encoder_atomic_enable,
++	.atomic_disable = st7571_encoder_atomic_disable,
+ };
+ 
+ /*
 -- 
 2.49.0
-
-base-commit: 8f80b1d66f927e818e5205fccf572b2adc5e318b
-branch: drm-st7567-v2
 
