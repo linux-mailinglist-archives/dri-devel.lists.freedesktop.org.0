@@ -2,74 +2,71 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id EBF6BB04A0D
-	for <lists+dri-devel@lfdr.de>; Tue, 15 Jul 2025 00:08:42 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3D181B04A1B
+	for <lists+dri-devel@lfdr.de>; Tue, 15 Jul 2025 00:15:23 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3307910E4FD;
-	Mon, 14 Jul 2025 22:08:39 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5AA4910E0DB;
+	Mon, 14 Jul 2025 22:15:16 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=igalia.com header.i=@igalia.com header.b="Jbe5XYuc";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="FlsDbIcE";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from fanzine2.igalia.com (fanzine2.igalia.com [213.97.179.56])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2251710E4F2;
- Mon, 14 Jul 2025 22:08:38 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com; 
- s=20170329; h=Cc:To:In-Reply-To:References:Message-Id:
- Content-Transfer-Encoding:Content-Type:MIME-Version:Subject:Date:From:Sender:
- Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender
- :Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
- List-Subscribe:List-Post:List-Owner:List-Archive;
- bh=krH+VWHQr+aEkT3p91ADZAu3tVM2zwuCGfOiPJmDBfc=; b=Jbe5XYuct23XWzwLDpCCb/AKsN
- TwgbmgOGwhX+sr++El/fUjLJO4hKqcM4P4RM8mwQEWpNvAdk+wXdEp4lS7yC33uAnd7wJ67powJpv
- uIZI3DbGnpd3dJS9LI1CrOFG99yurL6fB9t5438HZpuLAVpiBa8bSY7X9g3HkiSbsfCRatc8/OSd6
- Qoyn8LMBjvTWAb1WOUgIzhn0ECf5cx/b9dCjXfxjMDLBqOyhdNLyFbaCgNCELyATmBRhK0gKzsuUp
- 1AVLN3DAbq2jAdOOjN0rDjeLy/KCVs3uStflzQJ40XHzPV6QK4IxmMoXO33K4u1wzy3A1/TY4kgmO
- x8MvERKw==;
-Received: from [187.36.210.68] (helo=janis.local)
- by fanzine2.igalia.com with esmtpsa 
- (Cipher TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_256_GCM:256) (Exim)
- id 1ubRLg-00Gaod-3a; Tue, 15 Jul 2025 00:08:36 +0200
-From: =?utf-8?q?Ma=C3=ADra_Canal?= <mcanal@igalia.com>
-Date: Mon, 14 Jul 2025 19:07:09 -0300
-Subject: [PATCH v6 8/8] drm/panfrost: Use DRM_GPU_SCHED_STAT_NO_HANG to
- skip the reset
-MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
-Message-Id: <20250714-sched-skip-reset-v6-8-5c5ba4f55039@igalia.com>
-References: <20250714-sched-skip-reset-v6-0-5c5ba4f55039@igalia.com>
-In-Reply-To: <20250714-sched-skip-reset-v6-0-5c5ba4f55039@igalia.com>
-To: Matthew Brost <matthew.brost@intel.com>, 
- Danilo Krummrich <dakr@kernel.org>, Philipp Stanner <phasta@kernel.org>, 
- =?utf-8?q?Christian_K=C3=B6nig?= <ckoenig.leichtzumerken@gmail.com>, 
- Tvrtko Ursulin <tvrtko.ursulin@igalia.com>, Simona Vetter <simona@ffwll.ch>, 
- David Airlie <airlied@gmail.com>, Melissa Wen <mwen@igalia.com>, 
- Lucas Stach <l.stach@pengutronix.de>, 
- Russell King <linux+etnaviv@armlinux.org.uk>, 
- Christian Gmeiner <christian.gmeiner@gmail.com>, 
- Lucas De Marchi <lucas.demarchi@intel.com>, 
- =?utf-8?q?Thomas_Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>, 
- Rodrigo Vivi <rodrigo.vivi@intel.com>, 
- Boris Brezillon <boris.brezillon@collabora.com>, 
- Rob Herring <robh@kernel.org>, Steven Price <steven.price@arm.com>, 
- Liviu Dudau <liviu.dudau@arm.com>
-Cc: kernel-dev@igalia.com, dri-devel@lists.freedesktop.org, 
- etnaviv@lists.freedesktop.org, intel-xe@lists.freedesktop.org, 
- =?utf-8?q?Ma=C3=ADra_Canal?= <mcanal@igalia.com>
-X-Mailer: b4 0.14.2
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1908; i=mcanal@igalia.com;
- h=from:subject:message-id; bh=sxWOlZK5QB5jdRqSvq8dUQVhRlLER1UbbdKyJ4mpqvI=;
- b=owEBbQGS/pANAwAIAT/zDop2iPqqAcsmYgBodX+bg6XO+ENU9AVtICFiy7EBWXTQm1f6CVsE8
- XB8e7RIebaJATMEAAEIAB0WIQT45F19ARZ3Bymmd9E/8w6Kdoj6qgUCaHV/mwAKCRA/8w6Kdoj6
- qgiQCAC1WPscGiJBVkZRQytslH7g2I9/AkFQP6i5RUh4FlPP+vfoqv6UvbKQqnloMsfbVfs+3Sv
- 3shMywgKZZMJwcBj2/WXXJz4vSZuoWsAf3uNP2M/V0cIuXsD4LYCCZeOPmspMgDMeTmRqEDQ9mq
- JxyOemyeqfVgTzQAkas7RuYE0WtDSLlMgY9DTTzXeB7NtPS/FepQOh6vQIGg30d+IOCnleamFFE
- u8hf+95RX4XTkySx1n/TZoVciCx42oSIZORCuAxS/jmfuDy45BpFrTjLFNcoajMazrKt2MGqqr3
- d+PR27T7uL306aeCAigDcIpQjLIcu7XxZ/3kXl+Ko2FBP4Kf
-X-Developer-Key: i=mcanal@igalia.com; a=openpgp;
- fpr=F8E45D7D0116770729A677D13FF30E8A7688FAAA
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 46EB710E0DB;
+ Mon, 14 Jul 2025 22:15:15 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1752531315; x=1784067315;
+ h=date:message-id:from:to:cc:subject:in-reply-to:
+ references:mime-version:content-transfer-encoding;
+ bh=3hSxTtkziUSGFdZ/QE79AJcoYavoz4VRQvR6zKD654o=;
+ b=FlsDbIcEsPaDlWgizpVMo73XkrwbLqxi37QH716ufAMKzO+lmGsFMZBq
+ 0z+9JIn/NsDURMU0d9ZOrLxpux0ezXq33wLME17qVIv1/7wJm4tqNL6wW
+ N8YWD/jp2l3ncrubti4PHFU9Qhe+KcyPviT2cy2OUu0J/CSlgwD1nO0c6
+ 1dQ887Nvh4GGJgb9TPb/gVjfP8wGPnl0NjDG38s6pJqPFKa2cLGo01SZ4
+ 1kIl3InM8RcMWkEdld0lmihBVZkD7U8QO9/lFBJcOyxoDNpy2uHIDgiDN
+ resg2TUrzSrJKNLvqMJOopSRBTAI1VPcy1S9urCTw/45XQRwe7fj7B2Gy A==;
+X-CSE-ConnectionGUID: O/7jVqm8T/KgNEF5VvVHDQ==
+X-CSE-MsgGUID: Q7NrxapAQteBpH9Kq0ptzw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11491"; a="77274272"
+X-IronPort-AV: E=Sophos;i="6.16,312,1744095600"; d="scan'208";a="77274272"
+Received: from fmviesa004.fm.intel.com ([10.60.135.144])
+ by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 14 Jul 2025 15:15:15 -0700
+X-CSE-ConnectionGUID: oACIzgexQJG57d5u3/RD8A==
+X-CSE-MsgGUID: gO4PIoEuSB2JtqOHNp9bdw==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.16,312,1744095600"; d="scan'208";a="162593975"
+Received: from orsosgc001.jf.intel.com (HELO orsosgc001.intel.com)
+ ([10.165.21.142])
+ by fmviesa004-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 14 Jul 2025 15:15:13 -0700
+Date: Mon, 14 Jul 2025 15:15:13 -0700
+Message-ID: <85ple2ju6m.wl-ashutosh.dixit@intel.com>
+From: "Dixit, Ashutosh" <ashutosh.dixit@intel.com>
+To: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
+Cc: Andy Yan <andyshrk@163.com>, mripard@kernel.org, neil.armstrong@linaro.org,
+ dri-devel@lists.freedesktop.org, dianders@chromium.org,
+ jani.nikula@intel.com, lyude@redhat.com, jonathanh@nvidia.com,
+ p.zabel@pengutronix.de, simona@ffwll.ch, victor.liu@nxp.com,
+ rfoss@kernel.org, chunkuang.hu@kernel.org,
+ cristian.ciocaltea@collabora.com, Laurent.pinchart@ideasonboard.com,
+ linux-arm-msm@vger.kernel.org, linux-mediatek@lists.infradead.org,
+ linux-kernel@vger.kernel.org, freedreno@lists.freedesktop.org,
+ Andy Yan <andy.yan@rock-chips.com>
+Subject: Re: [PATCH v3 2/2] drm/bridge: Pass down connector to drm bridge
+ detect hook
+In-Reply-To: <chznjpcx6p2vn3i5jt52peikhipzjiwzlr74gx6mzp3wjstr6p@6zhhknnl3zek>
+References: <20250703125027.311109-1-andyshrk@163.com>
+ <20250703125027.311109-3-andyshrk@163.com>
+ <chznjpcx6p2vn3i5jt52peikhipzjiwzlr74gx6mzp3wjstr6p@6zhhknnl3zek>
+User-Agent: Wanderlust/2.15.9 (Almost Unreal) SEMI-EPG/1.14.7 (Harue)
+ FLIM-LB/1.14.9 (=?ISO-8859-4?Q?Goj=F2?=) APEL-LB/10.8 EasyPG/1.0.0
+ Emacs/29.4 (x86_64-redhat-linux-gnu) MULE/6.0 (HANACHIRUSATO)
+MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
+Content-Type: text/plain; charset=ISO-8859-7
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -85,49 +82,55 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Panfrost can skip the reset if TDR has fired before the free-job worker.
-Currently, since Panfrost doesn't take any action on these scenarios, the
-job is being leaked, considering that `free_job()` won't be called.
+On Thu, 03 Jul 2025 14:27:43 -0700, Dmitry Baryshkov wrote:
+>
+> On Thu, Jul 03, 2025 at 08:49:53PM +0800, Andy Yan wrote:
 
-To avoid such leaks, inform the scheduler that the job did not actually
-timeout and no reset was performed through the new status code
-DRM_GPU_SCHED_STAT_NO_HANG.
+Hi Andy,
 
-Signed-off-by: Maíra Canal <mcanal@igalia.com>
-Reviewed-by: Steven Price <steven.price@arm.com>
----
- drivers/gpu/drm/panfrost/panfrost_job.c | 8 ++++----
- 1 file changed, 4 insertions(+), 4 deletions(-)
+> > From: Andy Yan <andy.yan@rock-chips.com>
+> >
+> > In some application scenarios, we hope to get the corresponding
+> > connector when the bridge's detect hook is invoked.
+> >
+> > In most cases, we can get the connector by drm_atomic_get_connector_for=
+_encoder
+> > if the encoder attached to the bridge is enabled, however there will
+> > still be some scenarios where the detect hook of the bridge is called
+> > but the corresponding encoder has not been enabled yet. For instance,
+> > this occurs when the device is hot plug in for the first time.
+> >
+> > Since the call to bridge's detect is initiated by the connector, passing
+> > down the corresponding connector directly will make things simpler.
+> >
+> > Signed-off-by: Andy Yan <andy.yan@rock-chips.com>
+> > ---
+> >
+>
+> Reviewed-by: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
 
-diff --git a/drivers/gpu/drm/panfrost/panfrost_job.c b/drivers/gpu/drm/panfrost/panfrost_job.c
-index afcffe7f8fe9e11f84e4ab7e8f5a72f7bf583690..842e012cdc68e130a13e08ffae3b7fdf5f8e1acc 100644
---- a/drivers/gpu/drm/panfrost/panfrost_job.c
-+++ b/drivers/gpu/drm/panfrost/panfrost_job.c
-@@ -751,11 +751,11 @@ static enum drm_gpu_sched_stat panfrost_job_timedout(struct drm_sched_job
- 	int js = panfrost_job_get_slot(job);
- 
- 	/*
--	 * If the GPU managed to complete this jobs fence, the timeout is
--	 * spurious. Bail out.
-+	 * If the GPU managed to complete this jobs fence, the timeout has
-+	 * fired before free-job worker. The timeout is spurious, so bail out.
- 	 */
- 	if (dma_fence_is_signaled(job->done_fence))
--		return DRM_GPU_SCHED_STAT_RESET;
-+		return DRM_GPU_SCHED_STAT_NO_HANG;
- 
- 	/*
- 	 * Panfrost IRQ handler may take a long time to process an interrupt
-@@ -770,7 +770,7 @@ static enum drm_gpu_sched_stat panfrost_job_timedout(struct drm_sched_job
- 
- 	if (dma_fence_is_signaled(job->done_fence)) {
- 		dev_warn(pfdev->dev, "unexpectedly high interrupt latency\n");
--		return DRM_GPU_SCHED_STAT_RESET;
-+		return DRM_GPU_SCHED_STAT_NO_HANG;
- 	}
- 
- 	dev_err(pfdev->dev, "gpu sched timeout, js=%d, config=0x%x, status=0x%x, head=0x%x, tail=0x%x, sched_job=%p",
+This seems to be breaking 'make allmodconfig'. This is what is being seen:
 
--- 
-2.50.0
+../drivers/gpu/drm/bridge/megachips-stdpxxxx-ge-b850v3-fw.c: In function =
+=A1ge_b850v3_lvds_detect=A2:
+../drivers/gpu/drm/bridge/megachips-stdpxxxx-ge-b850v3-fw.c:145:16: error: =
+too few arguments to function =A1ge_b850v3_lvds_bridge_detect=A2
+  145 |         return ge_b850v3_lvds_bridge_detect(&ge_b850v3_lvds_ptr->br=
+idge);
+      |                ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
+../drivers/gpu/drm/bridge/megachips-stdpxxxx-ge-b850v3-fw.c:124:1: note: de=
+clared here
+  124 | ge_b850v3_lvds_bridge_detect(struct drm_bridge *bridge, struct drm_=
+connector *connector)
+      | ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
+../drivers/gpu/drm/bridge/megachips-stdpxxxx-ge-b850v3-fw.c:146:1: error: c=
+ontrol reaches end of non-void function [-Werror=3Dreturn-type]
+  146 | }
+      | ^
 
+Could you please post a fix for this. Maybe do 'make allmodconfig' to check
+if you haven't missed anything else.
+
+Thanks.
+--
+Ashutosh
