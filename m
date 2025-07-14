@@ -2,74 +2,90 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8098EB04322
-	for <lists+dri-devel@lfdr.de>; Mon, 14 Jul 2025 17:14:52 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 99BD3B0434E
+	for <lists+dri-devel@lfdr.de>; Mon, 14 Jul 2025 17:18:29 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id AFB0F10E4AF;
-	Mon, 14 Jul 2025 15:14:49 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 747DE10E4B0;
+	Mon, 14 Jul 2025 15:18:26 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="H/FEVB8b";
+	dkim=pass (1024-bit key; unprotected) header.d=suse.de header.i=@suse.de header.b="smVJt/bB";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="aRGUA5C2";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="smVJt/bB";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="aRGUA5C2";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.12])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6874A10E4AF
- for <dri-devel@lists.freedesktop.org>; Mon, 14 Jul 2025 15:14:48 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1752506089; x=1784042089;
- h=date:from:to:cc:subject:message-id:references:
- mime-version:in-reply-to;
- bh=uhR4oTtyTLRPzkqDzPtiWEgon2j5NRv9mdaGjQ0k3OM=;
- b=H/FEVB8b9xRpa7Xc/WVPnq4+ZBj5QLgziPs1Qt6n3UXuQv77Zav+ybhv
- LFmYXkI0BCutQGtdi6SyX4sBmFS3Zsa6vv+qqYwh5pEVkCOHYF4FJq879
- 5lN6UJv7Vsgt1UPX/tNX8xvv5kkT5OFPTsWfTDAL1Vs021v4LoJkclNxu
- h8b58djYKF5S3L4VcDSiHHRYMJh46DhUsLjnk6REKvgReLgL8bGM3gar5
- 8FkyfX44Sji9oNd142R1swa2ov50MUN7ucn9Nd/1U2RJCQQ+H+ml/ZXVa
- Kc+m67YUJ3qeMt6KC2ue1F1xhGda7jZO+qLopcivmIftbZLCBM4P4U5X6 A==;
-X-CSE-ConnectionGUID: IAOmAcPLT7a6LMTeILlDig==
-X-CSE-MsgGUID: W3tFcRHfTYaleNPelCeGZg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11491"; a="66147849"
-X-IronPort-AV: E=Sophos;i="6.16,311,1744095600"; d="scan'208";a="66147849"
-Received: from orviesa002.jf.intel.com ([10.64.159.142])
- by orvoesa104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 14 Jul 2025 08:13:30 -0700
-X-CSE-ConnectionGUID: QsmEd6zUTNqnT0GaVeEtLA==
-X-CSE-MsgGUID: 47IN3f/gR+WROpmruZ/DZw==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.16,311,1744095600"; d="scan'208";a="187943702"
-Received: from lkp-server01.sh.intel.com (HELO 9ee84586c615) ([10.239.97.150])
- by orviesa002.jf.intel.com with ESMTP; 14 Jul 2025 08:13:23 -0700
-Received: from kbuild by 9ee84586c615 with local (Exim 4.96)
- (envelope-from <lkp@intel.com>) id 1ubKro-00092V-1w;
- Mon, 14 Jul 2025 15:13:20 +0000
-Date: Mon, 14 Jul 2025 23:12:41 +0800
-From: kernel test robot <lkp@intel.com>
-To: Mario Limonciello <superm1@kernel.org>, David Airlie <airlied@gmail.com>,
- Bjorn Helgaas <helgaas@kernel.org>
-Cc: oe-kbuild-all@lists.linux.dev, Alex Deucher <alexander.deucher@amd.com>,
- Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
- Simona Vetter <simona@ffwll.ch>, Lukas Wunner <lukas@wunner.de>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>,
- David Woodhouse <dwmw2@infradead.org>,
- Lu Baolu <baolu.lu@linux.intel.com>, Joerg Roedel <joro@8bytes.org>,
- Will Deacon <will@kernel.org>, Robin Murphy <robin.murphy@arm.com>,
- Alex Williamson <alex.williamson@redhat.com>,
- Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- "(open list:INTEL IOMMU (VT-d))" <iommu@lists.linux.dev>,
- linux-pci@vger.kernel.org, kvm@vger.kernel.org,
- linux-sound@vger.kernel.org, Daniel Dadap <ddadap@nvidia.com>,
- Mario Limonciello <mario.limonciello@amd.com>
-Subject: Re: [PATCH v7 8/9] fbcon: Use screen info to find primary device
-Message-ID: <202507142313.iWVTOSVB-lkp@intel.com>
-References: <20250706143613.1972252-9-superm1@kernel.org>
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 87F0D10E4B0
+ for <dri-devel@lists.freedesktop.org>; Mon, 14 Jul 2025 15:18:24 +0000 (UTC)
+Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ (No client certificate requested)
+ by smtp-out2.suse.de (Postfix) with ESMTPS id 52F3A1F798;
+ Mon, 14 Jul 2025 15:18:23 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+ t=1752506303; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version: content-transfer-encoding:content-transfer-encoding;
+ bh=/wVe6s8QYB1uCPFC+nMhTheFo3unxquSk3FT9BP/Ce8=;
+ b=smVJt/bB5vD7oxc272nI+Px381rVQrJYT1mzNqvJCmgGlR0RlNjJKKyOAXMTXE+S4Z90d7
+ RpxwPOlpFPl3aiZAErK+Z+eiiLY8bZzw2LHa+2rKYowjynqaLRVktjtEkhLN/Ec9TIdgFP
+ pNizsQk+i3WvEjsGjtSEtUHDbNaKu7E=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+ s=susede2_ed25519; t=1752506303;
+ h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version: content-transfer-encoding:content-transfer-encoding;
+ bh=/wVe6s8QYB1uCPFC+nMhTheFo3unxquSk3FT9BP/Ce8=;
+ b=aRGUA5C2k7oOAZgt16BdHSHU0c4rhH1kb3LRJTurEX2g9ufMc0z+ENrFSlVqHYgTLJ4JCX
+ MOsFmGNoyRiOKdDQ==
+Authentication-Results: smtp-out2.suse.de;
+	none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+ t=1752506303; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version: content-transfer-encoding:content-transfer-encoding;
+ bh=/wVe6s8QYB1uCPFC+nMhTheFo3unxquSk3FT9BP/Ce8=;
+ b=smVJt/bB5vD7oxc272nI+Px381rVQrJYT1mzNqvJCmgGlR0RlNjJKKyOAXMTXE+S4Z90d7
+ RpxwPOlpFPl3aiZAErK+Z+eiiLY8bZzw2LHa+2rKYowjynqaLRVktjtEkhLN/Ec9TIdgFP
+ pNizsQk+i3WvEjsGjtSEtUHDbNaKu7E=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+ s=susede2_ed25519; t=1752506303;
+ h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version: content-transfer-encoding:content-transfer-encoding;
+ bh=/wVe6s8QYB1uCPFC+nMhTheFo3unxquSk3FT9BP/Ce8=;
+ b=aRGUA5C2k7oOAZgt16BdHSHU0c4rhH1kb3LRJTurEX2g9ufMc0z+ENrFSlVqHYgTLJ4JCX
+ MOsFmGNoyRiOKdDQ==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ (No client certificate requested)
+ by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 30316138A1;
+ Mon, 14 Jul 2025 15:18:23 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+ by imap1.dmz-prg2.suse.org with ESMTPSA id 2JRfCr8fdWhbMgAAD6G6ig
+ (envelope-from <tzimmermann@suse.de>); Mon, 14 Jul 2025 15:18:23 +0000
+From: Thomas Zimmermann <tzimmermann@suse.de>
+To: javierm@redhat.com
+Cc: dri-devel@lists.freedesktop.org,
+	Thomas Zimmermann <tzimmermann@suse.de>
+Subject: [PATCH v2 0/9] drm/vesadrm: Support 8-bit palettes
+Date: Mon, 14 Jul 2025 17:13:00 +0200
+Message-ID: <20250714151513.309475-1-tzimmermann@suse.de>
+X-Mailer: git-send-email 2.50.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20250706143613.1972252-9-superm1@kernel.org>
+Content-Transfer-Encoding: 8bit
+X-Spamd-Result: default: False [-2.80 / 50.00]; BAYES_HAM(-3.00)[100.00%];
+ MID_CONTAINS_FROM(1.00)[]; NEURAL_HAM_LONG(-1.00)[-1.000];
+ R_MISSING_CHARSET(0.50)[]; NEURAL_HAM_SHORT(-0.20)[-0.999];
+ MIME_GOOD(-0.10)[text/plain]; RCVD_VIA_SMTP_AUTH(0.00)[];
+ MIME_TRACE(0.00)[0:+]; TO_DN_SOME(0.00)[]; ARC_NA(0.00)[];
+ FUZZY_RATELIMITED(0.00)[rspamd.com];
+ DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+ TO_MATCH_ENVRCPT_ALL(0.00)[]; FROM_HAS_DN(0.00)[];
+ RCPT_COUNT_THREE(0.00)[3]; FROM_EQ_ENVFROM(0.00)[];
+ RCVD_COUNT_TWO(0.00)[2]; RCVD_TLS_ALL(0.00)[]
+X-Spam-Flag: NO
+X-Spam-Level: 
+X-Spam-Score: -2.80
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -85,62 +101,55 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Mario,
+VESA provides a wide range of 8-bit palette modes. Add support to
+vesadrm. For compatibility with common userspace the driver also
+provides XRGB8888 on top of the palettized output.
 
-kernel test robot noticed the following build errors:
+Patches 1 to 3 prepare screen_info and struct pixel_format for
+indexed formats. This cleans up the code for other sysfb drivers as
+well. The pixel-format compare functions will be helpful in various
+places.
 
-[auto build test ERROR on pci/next]
-[also build test ERROR on pci/for-linus tiwai-sound/for-next tiwai-sound/for-linus tip/x86/core linus/master v6.16-rc6 next-20250714]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
+Patches 4 to 6 prepare for using RGB332 as intermediate format
+between XRGB8888 and C8. This requires support for format conversion
+and RGB332 hardware palettes.
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Mario-Limonciello/PCI-Add-helper-for-checking-if-a-PCI-device-is-a-display-controller/20250706-223745
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/pci/pci.git next
-patch link:    https://lore.kernel.org/r/20250706143613.1972252-9-superm1%40kernel.org
-patch subject: [PATCH v7 8/9] fbcon: Use screen info to find primary device
-config: i386-randconfig-053-20250714 (https://download.01.org/0day-ci/archive/20250714/202507142313.iWVTOSVB-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14+deb12u1) 12.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250714/202507142313.iWVTOSVB-lkp@intel.com/reproduce)
+Patches 7 to 9 update vesadrm. Patches 7 and 8 prepare the driver
+without adding new functionality. Patch 9 adds support for the color
+formats C8 and XRGB888. It adjusts output color formats in the plane's
+atomic_check helper as needed. Palette setup happens in atomic_flush
+as usual.
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202507142313.iWVTOSVB-lkp@intel.com/
+Tested on VGA hardware. Besides supporting odd use cases, this feature
+can also help with testing support for low-end displays. Such displays
+often have similar limitations.
 
-All errors (new ones prefixed by >>):
+v2:
+- improve commenting (Javier)
 
-   ld: arch/x86/video/video-common.o: in function `video_is_primary_device':
->> arch/x86/video/video-common.c:45: undefined reference to `screen_info_pci_dev'
+Thomas Zimmermann (9):
+  video: pixel_format: Add compare helpers
+  video: screen_info: Add pixel-format helper for linear framebuffers
+  drm/sysfb: Find screen_info format with helpers
+  drm/sysfb: Blit to CRTC destination format
+  drm/color-mgmt: Prepare for RGB332 palettes
+  drm/format-helper: Add XRGB8888-to-RGB332 to drm_fb_blit()
+  drm/vesadrm: Rename vesadrm_set_gamma_lut() to vesadrm_set_color_lut()
+  drm/vesadrm: Prepare color management for palette-based framebuffers
+  drm/vesadrm: Support DRM_FORMAT_C8
 
-
-vim +45 arch/x86/video/video-common.c
-
-    28	
-    29	bool video_is_primary_device(struct device *dev)
-    30	{
-    31		struct screen_info *si = &screen_info;
-    32		struct pci_dev *pdev;
-    33	
-    34		if (!dev_is_pci(dev))
-    35			return false;
-    36	
-    37		pdev = to_pci_dev(dev);
-    38	
-    39		if (!pci_is_display(pdev))
-    40			return false;
-    41	
-    42		if (pdev == vga_default_device())
-    43			return true;
-    44	
-  > 45		if (pdev == screen_info_pci_dev(si))
-    46			return true;
-    47	
-    48		return false;
-    49	}
-    50	EXPORT_SYMBOL(video_is_primary_device);
-    51	
+ drivers/gpu/drm/drm_color_mgmt.c              |  34 ++++
+ drivers/gpu/drm/drm_format_helper.c           |   3 +
+ drivers/gpu/drm/sysfb/drm_sysfb_helper.h      |   2 +-
+ drivers/gpu/drm/sysfb/drm_sysfb_modeset.c     |  29 ++--
+ drivers/gpu/drm/sysfb/drm_sysfb_screen_info.c |  21 ++-
+ drivers/gpu/drm/sysfb/vesadrm.c               | 153 ++++++++++++++++--
+ drivers/video/screen_info_generic.c           |  55 +++++++
+ include/drm/drm_color_mgmt.h                  |   1 +
+ include/linux/screen_info.h                   |   2 +
+ include/video/pixel_format.h                  |  61 +++++++
+ 10 files changed, 321 insertions(+), 40 deletions(-)
 
 -- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+2.50.0
+
