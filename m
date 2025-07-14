@@ -2,98 +2,72 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C0A58B0477D
-	for <lists+dri-devel@lfdr.de>; Mon, 14 Jul 2025 20:46:35 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 39FBFB04780
+	for <lists+dri-devel@lfdr.de>; Mon, 14 Jul 2025 20:50:17 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id EC0BD10E092;
-	Mon, 14 Jul 2025 18:46:32 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 938AD10E340;
+	Mon, 14 Jul 2025 18:50:01 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=chromium.org header.i=@chromium.org header.b="D17bBCu5";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="Q/5Wi5XG";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pl1-f175.google.com (mail-pl1-f175.google.com
- [209.85.214.175])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2543A10E092
- for <dri-devel@lists.freedesktop.org>; Mon, 14 Jul 2025 18:46:31 +0000 (UTC)
-Received: by mail-pl1-f175.google.com with SMTP id
- d9443c01a7336-23636167b30so42379465ad.1
- for <dri-devel@lists.freedesktop.org>; Mon, 14 Jul 2025 11:46:31 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=chromium.org; s=google; t=1752518787; x=1753123587;
- darn=lists.freedesktop.org; 
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc:subject:date
- :message-id:reply-to;
- bh=uhYwsgQPrArtrFiygSmDmJo6ydvTXUjtDEZ18FPii+4=;
- b=D17bBCu53jIs/3AJ5h3yfHSGHixAS0NcM1efgvKx+grD18KvRxN1u6ve1TrWJPLwWu
- 0N+dZNAQdkbKCXUxNk0TwN5oW9/oUn4aIfWC130HUnKcXj3DCOnJ2Lp2oyV7hqALVIdK
- sIx0jsOFjUssqbywliRWSzr06DAXH+DAP/QIc=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1752518787; x=1753123587;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=uhYwsgQPrArtrFiygSmDmJo6ydvTXUjtDEZ18FPii+4=;
- b=TxPPJza5YaAfNOzw+zUm8uUgTIxor30gbD/JS7jH3e/AATFOAh+ca92IpyDbXN2qgP
- EKCyMptQERtEuF13DBWyBqVGHi9tKe1n3Ie3wZHLSR1bwgwHwdoHbXIyyopp3ItBtV7h
- iJJTvGb0gmKLGL7UtuyotABIOIywKguAmzPoykJMcgoQHIV00r/eTwd4MxYHMqBPIHMQ
- WlAV2HJ+Y1zTx2wFao6/B8YQjzebTk1Lpsdapuyig3wSlKh1SxsRl96BeE/GccJWoqKo
- Olv1LyA0YB3W2WXlowXncS7/r0Eo7gWj+K6R+KDFKaKJ4tLXcNhVXmWp0P5pou5Zn4Oq
- 6C/Q==
-X-Forwarded-Encrypted: i=1;
- AJvYcCUE9UU5P2gzTp9pFIVSw7GGkhand7EzlS7vDKLbts3RDGllVfasr7L/IhMgN4Ppfl5jR+uXTUiJiWg=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YxAB03Zc1G2x8NorcMuM4p+rnTXDN7qsHwl6vii2+rGAoDSW68Z
- whCK5YUDbZCyoVkmV5P+7FqsHJ3RCKgUgXEF+L68hkH66PRZNm6v/Ia0y97SaJLZFEnjATo+Hwj
- PDvk=
-X-Gm-Gg: ASbGncuzEFernsiGz6wWLEjuWtJ1LpXYMKCGxXimg7wq2/qCrlx0G19LBPIQ6yE932q
- GPVZ4M2DZSh/pQZHCfGJd1JrbGd8568TNqbVp3Rx8S8kNVwS3wZ+3ttCltrax+rdepDfQoh3ED3
- VHMxE5Baw6tCOrolPsZE97BjDbKNFvJayeywO7HAW+GsHKXaW8s3brI/8nlhUqv8TY4JrYeREtz
- ziFCcwEfC+pb1dSIeeb3RsdmC87SGpWE0fKVOWnr2+Ak6o5eGNBlwdjpIOIxfdJpfDZYAqdIezd
- GnhmlFfEig6QL3vB0DW3QRuZo5u7pOCbr0D0in5BwWxSxGbGiW88qWXUlAfprSpsOUVUePN37FH
- afcew/jD2dMuRHd8CdqRkjKPMGLPG59bKYJLCy4zgw5U7/Ot3NR3PTPfv/EEn2x4G3w==
-X-Google-Smtp-Source: AGHT+IGD/Cr4rV4SnB0w1h/vk8S0uZiE22uvfr4qMrTXGHNRblvvRum4fjMG7AbHfy+zmf80a+qi4Q==
-X-Received: by 2002:a17:902:e74c:b0:235:eca0:12d4 with SMTP id
- d9443c01a7336-23dee0e567emr252109015ad.53.1752518787204; 
- Mon, 14 Jul 2025 11:46:27 -0700 (PDT)
-Received: from mail-pg1-f172.google.com (mail-pg1-f172.google.com.
- [209.85.215.172]) by smtp.gmail.com with ESMTPSA id
- d9443c01a7336-23de4322781sm97078565ad.125.2025.07.14.11.46.25
- for <dri-devel@lists.freedesktop.org>
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 14 Jul 2025 11:46:25 -0700 (PDT)
-Received: by mail-pg1-f172.google.com with SMTP id
- 41be03b00d2f7-b26f5f47ba1so3708627a12.1
- for <dri-devel@lists.freedesktop.org>; Mon, 14 Jul 2025 11:46:25 -0700 (PDT)
-X-Forwarded-Encrypted: i=1;
- AJvYcCUiU3jneV8fcljipf9AAChPEm/S+gvUPsPiCq09K1jUVQG5bkRSz5g9oY+FViAYgZqN+ar4c/W3FFo=@lists.freedesktop.org
-X-Received: by 2002:a17:90a:fc44:b0:311:fde5:c4be with SMTP id
- 98e67ed59e1d1-31c4cd158bamr19315242a91.35.1752518784559; Mon, 14 Jul 2025
- 11:46:24 -0700 (PDT)
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.12])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 345DC10E34D
+ for <dri-devel@lists.freedesktop.org>; Mon, 14 Jul 2025 18:50:00 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1752519000; x=1784055000;
+ h=date:from:to:cc:subject:message-id:references:
+ mime-version:in-reply-to;
+ bh=g/hdVwW4OrDEpaJ2jeOYNUGdpDfpOP3FpqeHfrFX5Q4=;
+ b=Q/5Wi5XG/r3ORiK1NWOXokARlcxVTpci73W9MXqRjFYhC7rW6ox/H5x5
+ xfg03zuhHfu/zjGFMANRASIbpPcR7eoS3vysSLmsINcGWS5xZyZceSJnF
+ bNRNZ7qf8/o+SH0gVlQDe+IvLB2DmUz5p5jJhJr6MRfyzSxFvZRGcCa4v
+ JDGZuB3251+cOVD5D7p7rpPz1YasG6mftsj+3/0GPZpdldi9Vp73y1EBQ
+ /90PEsHuNAV2nGCwkWR32a3Zw9BDIZkpi4XGpn38CvVwkEmTZOcwWpAUE
+ QD6unEDOVzKSWeFylEgEkSeoM34PRxnSSocAoEP6/arqWXO0CbPDH7oTl Q==;
+X-CSE-ConnectionGUID: bAX9sIaaSPGDYUCthL6G0g==
+X-CSE-MsgGUID: AaeBNqwMRtOimEzSjRSDdQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11491"; a="66171356"
+X-IronPort-AV: E=Sophos;i="6.16,311,1744095600"; d="scan'208";a="66171356"
+Received: from fmviesa007.fm.intel.com ([10.60.135.147])
+ by orvoesa104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 14 Jul 2025 11:50:00 -0700
+X-CSE-ConnectionGUID: n6iP6M2LTgWMCXmgik1TTw==
+X-CSE-MsgGUID: LOJAA0uFQLidXjoFjsHfaw==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.16,311,1744095600"; d="scan'208";a="156651276"
+Received: from lkp-server01.sh.intel.com (HELO 9ee84586c615) ([10.239.97.150])
+ by fmviesa007.fm.intel.com with ESMTP; 14 Jul 2025 11:49:54 -0700
+Received: from kbuild by 9ee84586c615 with local (Exim 4.96)
+ (envelope-from <lkp@intel.com>) id 1ubOFM-0009EJ-1n;
+ Mon, 14 Jul 2025 18:49:52 +0000
+Date: Tue, 15 Jul 2025 02:49:15 +0800
+From: kernel test robot <lkp@intel.com>
+To: Amirreza Zarrabi <amirreza.zarrabi@oss.qualcomm.com>,
+ Jens Wiklander <jens.wiklander@linaro.org>,
+ Sumit Garg <sumit.garg@kernel.org>, Bjorn Andersson <andersson@kernel.org>,
+ Konrad Dybcio <konradybcio@kernel.org>,
+ Bartosz Golaszewski <bartosz.golaszewski@linaro.org>,
+ Apurupa Pattapu <quic_apurupa@quicinc.com>, Kees Cook <kees@kernel.org>,
+ "Gustavo A. R. Silva" <gustavoars@kernel.org>,
+ Sumit Semwal <sumit.semwal@linaro.org>,
+ Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>
+Cc: oe-kbuild-all@lists.linux.dev, Harshal Dev <quic_hdev@quicinc.com>,
+ linux-arm-msm@vger.kernel.org, op-tee@lists.trustedfirmware.org,
+ linux-kernel@vger.kernel.org, linux-hardening@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org,
+ linux-doc@vger.kernel.org,
+ Amirreza Zarrabi <amirreza.zarrabi@oss.qualcomm.com>,
+ Neil Armstrong <neil.armstrong@linaro.org>
+Subject: Re: [PATCH v6 09/12] tee: add Qualcomm TEE driver
+Message-ID: <202507150221.oWiaX1I9-lkp@intel.com>
+References: <20250713-qcom-tee-using-tee-ss-without-mem-obj-v6-9-697fb7d41c36@oss.qualcomm.com>
 MIME-Version: 1.0
-References: <20250708085124.15445-1-johan@kernel.org>
- <20250708085124.15445-3-johan@kernel.org>
-In-Reply-To: <20250708085124.15445-3-johan@kernel.org>
-From: Doug Anderson <dianders@chromium.org>
-Date: Mon, 14 Jul 2025 11:46:12 -0700
-X-Gmail-Original-Message-ID: <CAD=FV=V1LN2Q2C9P9Ed3V+Uar_T2Sp--ssnf8H29R-N2Qz3uEA@mail.gmail.com>
-X-Gm-Features: Ac12FXxB9Xcr1r23IW5HQaM5mlJ4_4Yoc45Qq6mTbhKGiBDrgy7Y7zJvyC4IrHo
-Message-ID: <CAD=FV=V1LN2Q2C9P9Ed3V+Uar_T2Sp--ssnf8H29R-N2Qz3uEA@mail.gmail.com>
-Subject: Re: [PATCH 2/2] drm/bridge: ti-sn65dsi86: fix OF node leak
-To: Johan Hovold <johan@kernel.org>
-Cc: Andrzej Hajda <andrzej.hajda@intel.com>,
- Neil Armstrong <neil.armstrong@linaro.org>, 
- Robert Foss <rfoss@kernel.org>,
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>, 
- Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>, 
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, 
- Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
- Simona Vetter <simona@ffwll.ch>, 
- Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>,
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20250713-qcom-tee-using-tee-ss-without-mem-obj-v6-9-697fb7d41c36@oss.qualcomm.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -109,27 +83,78 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi,
+Hi Amirreza,
 
-On Tue, Jul 8, 2025 at 1:52=E2=80=AFAM Johan Hovold <johan@kernel.org> wrot=
-e:
->
-> Make sure to drop the OF node reference taken when creating the bridge
-> device when the device is later released.
->
-> Fixes: a1e3667a9835 ("drm/bridge: ti-sn65dsi86: Promote the AUX channel t=
-o its own sub-dev")
-> Cc: Douglas Anderson <dianders@chromium.org>
-> Signed-off-by: Johan Hovold <johan@kernel.org>
-> ---
->  drivers/gpu/drm/bridge/ti-sn65dsi86.c | 2 ++
->  1 file changed, 2 insertions(+)
+kernel test robot noticed the following build errors:
 
-The patch doesn't apply to drm-misc-next, which has commit
-6526b02e1020 ("drm/bridge: ti-sn65dsi86: use the auxiliary device").
-Seems like you need to resubmit as a patch to the new
-auxiliary_device_create() function? Do you feel that this is urgent
-enough that we need a separate patch for stable?
+[auto build test ERROR on 835244aba90de290b4b0b1fa92b6734f3ee7b3d9]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Amirreza-Zarrabi/tee-allow-a-driver-to-allocate-a-tee_device-without-a-pool/20250714-085215
+base:   835244aba90de290b4b0b1fa92b6734f3ee7b3d9
+patch link:    https://lore.kernel.org/r/20250713-qcom-tee-using-tee-ss-without-mem-obj-v6-9-697fb7d41c36%40oss.qualcomm.com
+patch subject: [PATCH v6 09/12] tee: add Qualcomm TEE driver
+config: sh-allmodconfig (https://download.01.org/0day-ci/archive/20250715/202507150221.oWiaX1I9-lkp@intel.com/config)
+compiler: sh4-linux-gcc (GCC) 15.1.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250715/202507150221.oWiaX1I9-lkp@intel.com/reproduce)
+
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202507150221.oWiaX1I9-lkp@intel.com/
+
+All errors (new ones prefixed by >>):
+
+   In file included from drivers/tee/qcomtee/qcomtee.h:12,
+                    from drivers/tee/qcomtee/async.c:8:
+   drivers/tee/qcomtee/qcomtee_msg.h: In function 'qcomtee_msg_num_ib':
+>> drivers/tee/qcomtee/qcomtee_msg.h:172:16: error: implicit declaration of function 'FIELD_GET' [-Wimplicit-function-declaration]
+     172 |         return FIELD_GET(QCOMTEE_MASK_IB, counts);
+         |                ^~~~~~~~~
+--
+   In file included from drivers/tee/qcomtee/qcomtee.h:12,
+                    from drivers/tee/qcomtee/core.c:14:
+   drivers/tee/qcomtee/qcomtee_msg.h: In function 'qcomtee_msg_num_ib':
+>> drivers/tee/qcomtee/qcomtee_msg.h:172:16: error: implicit declaration of function 'FIELD_GET' [-Wimplicit-function-declaration]
+     172 |         return FIELD_GET(QCOMTEE_MASK_IB, counts);
+         |                ^~~~~~~~~
+   drivers/tee/qcomtee/core.c: In function 'qcomtee_object_user_init':
+   drivers/tee/qcomtee/core.c:303:17: warning: function 'qcomtee_object_user_init' might be a candidate for 'gnu_printf' format attribute [-Wsuggest-attribute=format]
+     303 |                 object->name = kvasprintf_const(GFP_KERNEL, fmt, ap);
+         |                 ^~~~~~
+   drivers/tee/qcomtee/core.c: In function 'qcomtee_prepare_msg':
+   drivers/tee/qcomtee/core.c:417:26: error: implicit declaration of function 'copy_from_user' [-Wimplicit-function-declaration]
+     417 |                 else if (copy_from_user(ptr, u[i].b.uaddr, u[i].b.size))
+         |                          ^~~~~~~~~~~~~~
+   drivers/tee/qcomtee/core.c: In function 'qcomtee_update_args':
+   drivers/tee/qcomtee/core.c:496:26: error: implicit declaration of function 'copy_to_user' [-Wimplicit-function-declaration]
+     496 |                 else if (copy_to_user(u[i].b.uaddr, ptr, u[i].b.size))
+         |                          ^~~~~~~~~~~~
+--
+   In file included from drivers/tee/qcomtee/qcomtee.h:12,
+                    from drivers/tee/qcomtee/user_obj.c:10:
+   drivers/tee/qcomtee/qcomtee_msg.h: In function 'qcomtee_msg_num_ib':
+>> drivers/tee/qcomtee/qcomtee_msg.h:172:16: error: implicit declaration of function 'FIELD_GET' [-Wimplicit-function-declaration]
+     172 |         return FIELD_GET(QCOMTEE_MASK_IB, counts);
+         |                ^~~~~~~~~
+   drivers/tee/qcomtee/user_obj.c: In function 'qcomtee_cb_params_from_args':
+   drivers/tee/qcomtee/user_obj.c:449:29: error: implicit declaration of function 'copy_to_user' [-Wimplicit-function-declaration]
+     449 |                         if (copy_to_user(params[i].u.ubuf.uaddr, u[i].b.addr,
+         |                             ^~~~~~~~~~~~
+   drivers/tee/qcomtee/user_obj.c: In function 'qcomtee_cb_params_to_args':
+   drivers/tee/qcomtee/user_obj.c:526:29: error: implicit declaration of function 'copy_from_user' [-Wimplicit-function-declaration]
+     526 |                         if (copy_from_user(u[i].b.addr, params[i].u.ubuf.uaddr,
+         |                             ^~~~~~~~~~~~~~
 
 
--Doug
+vim +/FIELD_GET +172 drivers/tee/qcomtee/qcomtee_msg.h
+
+   169	
+   170	static inline unsigned int qcomtee_msg_num_ib(u32 counts)
+   171	{
+ > 172		return FIELD_GET(QCOMTEE_MASK_IB, counts);
+   173	}
+   174	
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
