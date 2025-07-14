@@ -2,119 +2,83 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 49D52B03DBD
-	for <lists+dri-devel@lfdr.de>; Mon, 14 Jul 2025 13:54:21 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0BDEFB03E21
+	for <lists+dri-devel@lfdr.de>; Mon, 14 Jul 2025 14:04:39 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id AA35810E473;
-	Mon, 14 Jul 2025 11:54:18 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id AAE0610E064;
+	Mon, 14 Jul 2025 12:04:36 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=qualcomm.com header.i=@qualcomm.com header.b="oOuXmr1Y";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="hv1fpmmX";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com
- [205.220.180.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8127C10E473
- for <dri-devel@lists.freedesktop.org>; Mon, 14 Jul 2025 11:54:17 +0000 (UTC)
-Received: from pps.filterd (m0279871.ppops.net [127.0.0.1])
- by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 56EA00cH011832
- for <dri-devel@lists.freedesktop.org>; Mon, 14 Jul 2025 11:54:16 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
- cc:content-type:date:from:in-reply-to:message-id:mime-version
- :references:subject:to; s=qcppdkim1; bh=hhDlRlYOa9A7BFK+SQrOUTc/
- kbhd6bQStxsgEEh3z6E=; b=oOuXmr1YZQG3vBqx4ELGnIL9QUhw4NibIF2ljHCz
- Dxyjkpt5JPwMheuwKa+VuBzdY+vR/yfC4ZaMpNm6RBxjpq5Ie0rlCzliDD8GQMrH
- 6Ao3NBx29YnpRG8DZqT3qeqquMes+il3p+jwhxGuIknfvBlO97s5wIh8DTf6J4rz
- lXUnXi0yRBSYAIedN8svvxx5ZEDLJUJyErfN6ZLNWUIFLnpqYeACMO4w61Fpijm5
- mfnHtPZDdsUovD5Sh8PkbjOlhhd9vHy1xXDtlj6AeUfrGNewxAiPFKvvqBHRfXDZ
- uui5qAo8Or9l/Im/3cNTO3eITm1vDxF3CDSeUN1Z6H5efA==
-Received: from mail-qk1-f200.google.com (mail-qk1-f200.google.com
- [209.85.222.200])
- by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 47ufut4gv4-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
- for <dri-devel@lists.freedesktop.org>; Mon, 14 Jul 2025 11:54:16 +0000 (GMT)
-Received: by mail-qk1-f200.google.com with SMTP id
- af79cd13be357-7d44a260e45so775026685a.1
- for <dri-devel@lists.freedesktop.org>; Mon, 14 Jul 2025 04:54:16 -0700 (PDT)
+Received: from mail-lf1-f42.google.com (mail-lf1-f42.google.com
+ [209.85.167.42])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 586FE10E064
+ for <dri-devel@lists.freedesktop.org>; Mon, 14 Jul 2025 12:04:35 +0000 (UTC)
+Received: by mail-lf1-f42.google.com with SMTP id
+ 2adb3069b0e04-553b5165cf5so5181107e87.0
+ for <dri-devel@lists.freedesktop.org>; Mon, 14 Jul 2025 05:04:35 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20230601; t=1752494673; x=1753099473; darn=lists.freedesktop.org;
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+ bh=CBjLuItx33Qfi8z32IrHmB0TWEC92B60Q29ghyqTY00=;
+ b=hv1fpmmXvSEzXVV4mShowaLdLDC5nriNEc91XBCmjcdsBmGxReYkIROsPFzYOz7/LU
+ P6dNZlazac65K8CJWSJhFJDk1fsoLkwlFt5ygChgfH/O4xPcxK1f/OxTcbq8p62SGY2A
+ HCAV9ERqUy5H2Pzb1nHwhTEQ6NVSJP1YXoiXt6tR2HF0nFXbYTkc9FqcRYOQVr8ODakJ
+ A8Q5pBGV2XQZdE2F/A1/jQvmx0IRISV6v0H2IFPjMLiyZDxXwWuy1/Kk5d00aF+B3quT
+ HxAzKIbDDsxRTeoEHPNnKkxoBQLP626UVR0NC8lCJcKR3m/ZXHXUpoAZ0fM05sonH7f8
+ VFSA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1752494055; x=1753098855;
+ d=1e100.net; s=20230601; t=1752494673; x=1753099473;
  h=in-reply-to:content-disposition:mime-version:references:message-id
  :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
  :message-id:reply-to;
- bh=hhDlRlYOa9A7BFK+SQrOUTc/kbhd6bQStxsgEEh3z6E=;
- b=YOmWybKXb0xJEDeLL7uA3mZXPWZIp1R5hU1vfFeFK/KsKMyirAUHAVkCj/q1GnhKJl
- mw4PIhr8/HAalbM0sdhVyRhCNmCED7Q/9/Lw/b7D3utVXYbodD7AoJzwxXcwsuOOtkzo
- 4ltJwn7Dix05vb5uQ3O44SsMp6hw/phuJLmCD66LS8inTrfa/sHqTQj8m+E/kbh1a8A1
- wZqx056Q4e9Dt/rGHRIk2vt0ipTayRNQLXG5JAv9iukkiMNYQP9hiETIvSirvekzH3bR
- QeCvDRBulKHbiE9+mTS2yQI7hPfeGkAQaArQgl/KhW0/ZZEWduZkybYFjq62ThvQ2d7B
- ycrQ==
+ bh=CBjLuItx33Qfi8z32IrHmB0TWEC92B60Q29ghyqTY00=;
+ b=KrBjHbBUUffmRmrpl0lFIttdAAwmlRkJ9wbBusOIvjvg4BWyOtU1/dw5nlEpY27Myi
+ EOpNVTxtvUl5cFy26wuAEEWcZjPKtyz0FNzIymnzllSzmez8UdN/AoCVnsf1N/bjlZpI
+ wpJUHGpNA4jA+3js3oRuJOcHPOaWchezFZpPJHe9XUW17oLrHbaib0zPfqSdsqnL6Obt
+ 8MjEm9B2IIGqoGwgAPneDQ0tMBsL0nboLbjikei2ZWLWeuuhfMq3I+Pufd+OYKuMQ/yP
+ ep27op6/huhi7Bo+HWWL1ZR9mWLQjN1pNRN5foHaKVaQXd9QrjrbB3SJ3AT8au0LR5JW
+ Lwhg==
 X-Forwarded-Encrypted: i=1;
- AJvYcCU/VcDeaO9tVAjutSUW4zkGYRpOS8RDsFofg5Gz1j8OwvQalSNDAiC8TM4XQcA598l3OBmiQRb2RxY=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YwRL3NxcFyzwqPwkNSBXrJBz8v4EzjDKAazSls/aTPxCQHHvP7v
- 2maxMyg5vZP4beXWmVQLVxXV4rUlCeO9fDk+huKklORXn6tqlNox2aLUBD4h7lULYtRyyzE6bov
- axykv6uGKE36ZHOZwPEycYctBDDmCdMTCtvGe9OSuVkodHVQtI7fwJdbqCm/l9Wr8/zN7w5MaVU
- 86KVM=
-X-Gm-Gg: ASbGncuOh0qHnLvEUsynFqtUpqVAhojQrLVi2sc2jRr5oIu5P4ll4JqTu3xrf9knYbD
- fpusQJS2S0XpO8E5l9GwWLUKs8Q7tvujiZSbGvpm9ZDLOzo1FB6/9hBtOFFNe/BFx9iwv+V5zcQ
- xVaV+SOIR4vVpsPMXebz+WM79qJaskzS+a7JzEsc7a/YE6Atvo6lx2XPvz2E67q8D8ohWIjhUkl
- 5O4/e4e0eBtRn9umiI0sDzNlev2RxewfmV9IlS9rMJZuR+XcyIB8Us4gCibMY+//wlur/JHY4gP
- +rTSRjY/uBLJyRyq6MkCaEGNj2uB2q0/SjsngGe/FPtdsbtEYdaplfoZznwYD1mobPt9E+7n0Eg
- tolrQXJDBr7DIyb62cjfVnwYNgnKgOXu8aZdwmx2vcpe3DrsR2nPl
-X-Received: by 2002:a05:620a:d86:b0:7d3:a7d9:1120 with SMTP id
- af79cd13be357-7dc99b9fb23mr2424124785a.24.1752494055340; 
- Mon, 14 Jul 2025 04:54:15 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IGMqZJV+7lQmgWTt4eaASnArEGjHjj4zcLu7wtF2nr7er4jJuci6OVCbQumR6y+apIH309lGw==
-X-Received: by 2002:a05:620a:d86:b0:7d3:a7d9:1120 with SMTP id
- af79cd13be357-7dc99b9fb23mr2424119485a.24.1752494054766; 
- Mon, 14 Jul 2025 04:54:14 -0700 (PDT)
-Received: from umbar.lan
- (2001-14ba-a0c3-3a00-264b-feff-fe8b-be8a.rev.dnainternet.fi.
- [2001:14ba:a0c3:3a00:264b:feff:fe8b:be8a])
+ AJvYcCUlEIZwW2lFlsLd0LGftbCjn5uuScB6EKY0SvGG+dQHeLcaxYhScK2OAndSPsw960jcRazzulFGWZU=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YwYH+G+nXoxlhGe69ILYXOBcUle5QdznZ9fNThH3KzbZ4shMhkM
+ MYWG+pltYZr7PBKJ9xBUEdkGjFizx7xzMozD2umzi7SH29Z1GdvPyNNZ
+X-Gm-Gg: ASbGncvbqUSXYpfly7VbOdgAnP5kFVK9IurkdW0cFhhuVJw3XbR7NgXz83bL6FSocAP
+ WRgEDKY3ghB3uMk09OJVXhR1LKHPql9WskW/WcL1V5ncjN4HIAhhkBDL5sGkl+jmARCDyin05Sb
+ Eyk6PcCFLEoWcbHLq0/wH7s1OW/Mfti4KGohff+Ajg8Q77gJNuxaIi6UTgZ6/vd4DNXiuvVQxbe
+ mIM+OtDHOg6c6JIgBawqYOvvYHqdCXzitJgnPAq0r/AhFl6nQNmMSQlhNx4Sl2W9NElY/KD6BMk
+ Y/H+1hUBmEEf+dj5lZ5bTLA5srGFRdFnzG9CwxOQsJAI67ovXkGreYQK5XYCACpSQ1SUNwrftNp
+ kLzKcCcosYi0L0CrYpPfqGCdeXcZOjJWL2BC/ob9+67bTjCnl798yiynTVlI=
+X-Google-Smtp-Source: AGHT+IFJdEdKVEj7RQIXyvRSvRfuUu9Ds5/AeKDwjQhJnrZ6iAzLBOj2g9OC4r83KdUdjkxZoP6hlA==
+X-Received: by 2002:a05:6512:1243:b0:553:cfa8:dd38 with SMTP id
+ 2adb3069b0e04-55a05864462mr3396855e87.36.1752494672821; 
+ Mon, 14 Jul 2025 05:04:32 -0700 (PDT)
+Received: from gmail.com (83-233-6-197.cust.bredband2.com. [83.233.6.197])
  by smtp.gmail.com with ESMTPSA id
- 2adb3069b0e04-55943b602ffsm1897581e87.147.2025.07.14.04.54.13
+ 2adb3069b0e04-55943b6bb3esm1945786e87.177.2025.07.14.05.04.31
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 14 Jul 2025 04:54:13 -0700 (PDT)
-Date: Mon, 14 Jul 2025 14:54:12 +0300
-From: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
-To: Jessica Zhang <jessica.zhang@oss.qualcomm.com>
-Cc: Rob Clark <robin.clark@oss.qualcomm.com>,
- Abhinav Kumar <abhinav.kumar@linux.dev>,
- Dmitry Baryshkov <lumag@kernel.org>, Sean Paul <sean@poorly.run>,
- Marijn Suijten <marijn.suijten@somainline.org>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- linux-arm-msm@vger.kernel.org, dri-devel@lists.freedesktop.org,
- freedreno@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- Yongxing Mou <quic_yongmou@quicinc.com>
-Subject: Re: [PATCH 18/19] drm/msm/dp: Move link training to atomic_enable()
-Message-ID: <cofa377vptj7on637u3c3mnxndplcmaegsb5h6idinz5wrvm6s@toylno4uapq4>
-References: <20250711-hpd-refactor-v1-0-33cbac823f34@oss.qualcomm.com>
- <20250711-hpd-refactor-v1-18-33cbac823f34@oss.qualcomm.com>
+ Mon, 14 Jul 2025 05:04:32 -0700 (PDT)
+Date: Mon, 14 Jul 2025 14:04:30 +0200
+From: Marcus Folkesson <marcus.folkesson@gmail.com>
+To: Javier Martinez Canillas <javierm@redhat.com>
+Cc: linux-kernel@vger.kernel.org, ipedrosa@redhat.com,
+ David Airlie <airlied@gmail.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, Simona Vetter <simona@ffwll.ch>,
+ Thomas Zimmermann <tzimmermann@suse.de>, dri-devel@lists.freedesktop.org
+Subject: Re: [PATCH v2 2/5] drm/sitronix/st7571-i2c: Log probe deferral cause
+ for GPIO get failure
+Message-ID: <aHTyTsFuakcQsEm7@gmail.com>
+References: <20250714104421.323753-1-javierm@redhat.com>
+ <20250714104421.323753-3-javierm@redhat.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature"; boundary="6qAGav6rfCaU7+GE"
 Content-Disposition: inline
-In-Reply-To: <20250711-hpd-refactor-v1-18-33cbac823f34@oss.qualcomm.com>
-X-Authority-Analysis: v=2.4 cv=e7gGSbp/ c=1 sm=1 tr=0 ts=6874efe8 cx=c_pps
- a=hnmNkyzTK/kJ09Xio7VxxA==:117 a=xqWC_Br6kY4A:10 a=kj9zAlcOel0A:10
- a=Wb1JkmetP80A:10 a=EUspDBNiAAAA:8 a=kAOSIj3XOs-WuWg9PYUA:9 a=CjuIK1q_8ugA:10
- a=PEH46H7Ffwr30OY-TuGO:22
-X-Proofpoint-GUID: klK3A6tByI1UgocNJR5kv_MzppPinGmt
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwNzE0MDA2OSBTYWx0ZWRfX4wnmqK1BXDRD
- lA9xP40FSOS9bO+WSjeYWvx01C9QhlWHYlvFLwkEsvP6W2YkRsYWdeoQ3GR0moxYnChvU3UAsC5
- Xma6z4AS28jKusFb9MWW139HBc5QaFnv2ch4qwe6C5lPGY1uwN6QbdjWhSY6C4S78LLtSYoldyl
- PfQI8P5zmLbzBId32KAKdQ7NgN++64h7mzbQ/QFbrj5DHV5jWEa+PPCJdhp4FgGrxJOWgf5gxzt
- G8iLg+w00ie5u8Mywi1p73/+w+g0Idz/cJp9JHbpMW/qXZZCuVuFq4Gj9QBzVzBlB27qR95N9qG
- 39QeI4R+CJ5P+EAMvUWpZxfTBSMoCFNMgNMxRXQr66D68mnNXXGN5dAqLGFv7fS6u97oa3CVuv2
- /DmLvHxUWNQIk6RIZGXmBrO4YwxkxgYj8WUOhsBJUJVyt1Xxqnubj+efeLAUHYy0C8ykzChe
-X-Proofpoint-ORIG-GUID: klK3A6tByI1UgocNJR5kv_MzppPinGmt
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1099,Hydra:6.1.7,FMLib:17.12.80.40
- definitions=2025-07-14_01,2025-07-14_01,2025-03-28_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- lowpriorityscore=0 priorityscore=1501 mlxscore=0 spamscore=0 suspectscore=0
- phishscore=0 bulkscore=0 impostorscore=0 clxscore=1015 adultscore=0
- malwarescore=0 mlxlogscore=999 classifier=spam authscore=0 authtc=n/a authcc=
- route=outbound adjust=0 reason=mlx scancount=1 engine=8.19.0-2505280000
- definitions=main-2507140069
+In-Reply-To: <20250714104421.323753-3-javierm@redhat.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -130,77 +94,41 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, Jul 11, 2025 at 05:58:23PM -0700, Jessica Zhang wrote:
-> Currently, the DP link training is being done during HPD. Move
-> link training to atomic_enable() in accordance with the atomic_enable()
-> documentation.
-> 
-> In addition, don't disable the link until atomic_post_disable() (as part
-> of the dp_ctrl_off[_link_stream]() helpers).
-> 
-> Since the link training is moved to a later part of the enable sequence,
-> change the bridge detect() to return true when the display is physically
-> connected instead of when the link is ready.
 
-These two parts should be patch #2 in the series.
+--6qAGav6rfCaU7+GE
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-> 
-> Finally, call the plug/unplug handlers directly in hpd_notify() instead
-> of queueing them in the event thread so that they aren't preempted by
-> other events.
-> 
-> Signed-off-by: Jessica Zhang <jessica.zhang@oss.qualcomm.com>
-> ---
->  drivers/gpu/drm/msm/dp/dp_display.c | 15 ++++++++-------
->  drivers/gpu/drm/msm/dp/dp_drm.c     |  6 +++---
->  2 files changed, 11 insertions(+), 10 deletions(-)
-> 
-> diff --git a/drivers/gpu/drm/msm/dp/dp_display.c b/drivers/gpu/drm/msm/dp/dp_display.c
-> index 87f2750a99ca..32e1ee40c2c3 100644
-> --- a/drivers/gpu/drm/msm/dp/dp_display.c
-> +++ b/drivers/gpu/drm/msm/dp/dp_display.c
-> @@ -410,11 +410,6 @@ static int msm_dp_display_process_hpd_high(struct msm_dp_display_private *dp)
->  	msm_dp_link_psm_config(dp->link, &dp->panel->link_info, false);
->  
->  	msm_dp_link_reset_phy_params_vx_px(dp->link);
-> -	rc = msm_dp_ctrl_on_link(dp->ctrl);
-> -	if (rc) {
-> -		DRM_ERROR("failed to complete DP link training\n");
-> -		goto end;
-> -	}
->  
->  	msm_dp_add_event(dp, EV_USER_NOTIFICATION, true, 0);
->  
-> @@ -1561,6 +1556,12 @@ void msm_dp_bridge_atomic_enable(struct drm_bridge *drm_bridge,
->  		force_link_train = true;
->  	}
->  
-> +	rc = msm_dp_ctrl_on_link(msm_dp_display->ctrl);
-> +	if (rc) {
-> +		DRM_ERROR("Failed link training (rc=%d)\n", rc);
-> +		dp->connector->state->link_status = DRM_LINK_STATUS_BAD;
-> +	}
-> +
->  	msm_dp_display_enable(msm_dp_display, force_link_train);
->  
->  	rc = msm_dp_display_post_enable(dp);
-> @@ -1706,7 +1707,7 @@ void msm_dp_bridge_hpd_notify(struct drm_bridge *bridge,
->  		return;
->  
->  	if (!msm_dp_display->link_ready && status == connector_status_connected)
-> -		msm_dp_add_event(dp, EV_HPD_PLUG_INT, 0, 0);
-> +		msm_dp_hpd_plug_handle(dp, 0);
->  	else if (msm_dp_display->link_ready && status == connector_status_disconnected)
-> -		msm_dp_add_event(dp, EV_HPD_UNPLUG_INT, 0, 0);
-> +		msm_dp_hpd_unplug_handle(dp, 0);
+On Mon, Jul 14, 2025 at 12:44:01PM +0200, Javier Martinez Canillas wrote:
+> The driver already uses the dev_err_probe() helper (that only prints error
+> messages for the -EPROBE_DEFER case) when fails to get any other resource.
+>=20
+> Also do the same when it fails to obtain the rest GPIO.
+reset GPIO
+>=20
+> Signed-off-by: Javier Martinez Canillas <javierm@redhat.com>
 
-This chunk should be separated from this patch. I'd ask to drop
-EV_HPD_PLUG_INT / EV_HPD_UNPLUG_INT completely and call DRM functions
-all over the place instead. You can do it in a single patch, which comes
-after this one.
+Reviewed-by: Marcus Folkesson <marcus.folkesson@gmail.com>
 
->  }
+--6qAGav6rfCaU7+GE
+Content-Type: application/pgp-signature; name=signature.asc
 
--- 
-With best wishes
-Dmitry
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAEBCAAdFiEEBVGi6LZstU1kwSxliIBOb1ldUjIFAmh08kgACgkQiIBOb1ld
+UjJmDhAAmMCv8Sip9jCsBWQAquCXjyAm/VndN0wHUU0cDGLbeGTBFzOL2N6rJk0s
+BSJYlQmvY3NHI5Z2Cnjvb8k7v7ZwVbQvXz/kIHxjA3qu36qhb5iefa0xh5wLwLTl
+s2c8Zynb2jxucf05++gzF4IeSuY8K7EWjWFo0LLR1MU71XYdWkKteYRWlMVyT/AU
+1Lgp8t0068QYVthOC9Xz8FtgMU+2Q1wNhBpZpL3R3ecp06tl1XqFiiw+8GmRLkav
+AF9kr+FNh4WaYyhZ9OjSN9pcHuhsZpRrl8wvyU6Up68dVsgorEHVwHddZK0UhQU3
+5YbpEKr1HPS5wstqrblPvG/sL5PjYF6/LltQEtTNLT3w3qqUiMbFvhPxSERopQ3N
+3PiZ4KpE+cdx3bf+Jyrcw/kzMhzzYLH9TCMEDgNerxCAXlcFNRSMeXMSRFMdVW89
+v5WVoloz5vD5oCC8sQQCHF1TLr3cbzZOUGLxGp1pSSSGAFsCeJPPqg9FuyrHQsOI
+c7uzDqUU86hBh5/0TVhJywhtQwgz+Nj8ec1pcqJdgePz+uM+J0HAdoth9UMMI1u1
+dB8/RJqOjB8jLP+TicWzQ7DS+YGt5V1bzi/kAMpWjHTR/3cxxUVrVQNXbjFmxXuS
+OKaSpf4ecbHV71YSAyyWY/OT0aX8MzSB0x6ttRwgWcsJNzdsL6M=
+=G5Vt
+-----END PGP SIGNATURE-----
+
+--6qAGav6rfCaU7+GE--
