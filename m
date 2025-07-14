@@ -2,83 +2,83 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 62FC8B03E33
-	for <lists+dri-devel@lfdr.de>; Mon, 14 Jul 2025 14:07:03 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 52B3FB03E3E
+	for <lists+dri-devel@lfdr.de>; Mon, 14 Jul 2025 14:08:12 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id CF21110E06A;
-	Mon, 14 Jul 2025 12:06:59 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 42CA310E47F;
+	Mon, 14 Jul 2025 12:08:08 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="jvhQTIBW";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="OZBkJPpS";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-f46.google.com (mail-lf1-f46.google.com
- [209.85.167.46])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9168E10E06A
- for <dri-devel@lists.freedesktop.org>; Mon, 14 Jul 2025 12:06:58 +0000 (UTC)
-Received: by mail-lf1-f46.google.com with SMTP id
- 2adb3069b0e04-555024588a8so3761865e87.0
- for <dri-devel@lists.freedesktop.org>; Mon, 14 Jul 2025 05:06:58 -0700 (PDT)
+Received: from mail-lj1-f170.google.com (mail-lj1-f170.google.com
+ [209.85.208.170])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 492BA10E47F
+ for <dri-devel@lists.freedesktop.org>; Mon, 14 Jul 2025 12:08:07 +0000 (UTC)
+Received: by mail-lj1-f170.google.com with SMTP id
+ 38308e7fff4ca-32ac42bb4e4so34734741fa.0
+ for <dri-devel@lists.freedesktop.org>; Mon, 14 Jul 2025 05:08:07 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1752494817; x=1753099617; darn=lists.freedesktop.org;
+ d=gmail.com; s=20230601; t=1752494885; x=1753099685; darn=lists.freedesktop.org;
  h=in-reply-to:content-disposition:mime-version:references:message-id
  :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
- bh=btwac0BtZLdtrMNOqtTVqB8u6VGbkgwcCfy4SiDo2nY=;
- b=jvhQTIBWk43WV1hjkXjBEtXLuYcUBwec9sCBs6IovsnGpNHqCzi++cQRkp/pXDeu2S
- JZbiQcmNmvuXJkrjmOMurLGmhuvkL1DNOhaP3gUn8BN3Co4IEuXhpZ2jXzezM3GvQZBW
- anw+QgDfLEP4+ht8Fo/VL96w0+LUkpAjBLwVXK333RMjMoIAzKVUt/lSutZzRUf8S6oE
- 0DqnzdZwmqNuYQYZT19JvjZaOgucMOuhSyScZNSX1lZbCKkIJvHBgIMeTIRJ8QMmpnW8
- o6j34yRJs9bG3YgyI6IrsuZkfVI9EMUJTuOIkCJqkJ+NA61opQpNIuCEtTlxzNx1Ls2n
- tTJQ==
+ bh=rrTQ1/piU5c3HlEkqsvmHmiT+sRyPTggNbv96TDoEuE=;
+ b=OZBkJPpSQpHNjjyGblPIS8h+2kEUmb1mU6eMjPImGwBtOFkyjnFYe8wrJVFMszcgLo
+ YldG+HiV0iP9AMpYi9UaiYogH1k/01ySWWH0hQZv/A21ggll0DSZmVg+qWcxM/zqsLoG
+ z1N/Pu2L/sxP/MbtHvIsmUn9JoIBKOkpCvQrDquq7TobmRzdTKEmyQVG2GXsS4TqvMlS
+ T07A7OUCUbDkCobNAmBgBk+/qIRZHs3qWhOVBFQcpZOO6Y7ku3FvejVkl09JWgvD9ABD
+ niInH7+XWLKk52ZtuuoGhYw5hYgJWLMNyO4mUxKcNWunW3wxc6Z27q5CEXK2ti2KD3QV
+ JVCg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1752494817; x=1753099617;
+ d=1e100.net; s=20230601; t=1752494885; x=1753099685;
  h=in-reply-to:content-disposition:mime-version:references:message-id
  :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
  :message-id:reply-to;
- bh=btwac0BtZLdtrMNOqtTVqB8u6VGbkgwcCfy4SiDo2nY=;
- b=mZ5YoWKZ7DEgyuHXPKrbZAGCcNSDQgTS60x3MIB0ICU+ZAJLD7lYOcazWGy4y6GxIE
- AqirLsrpWBWo7zKDySk9tnhO+1Za/A1Xf0asRT9npedXvRJAsbKZ0QvbvTj8dh0+18Ot
- CnclpaWcj7rg1m4B6bGgWQjdYZx++k90olPTFwBxtskokHm4tRf+jhOL8uuKXn7oFdX0
- GhNBUC7DGo0ruufPnrfE3oJKE5q10+QEZ1NzFHjV3XsVVsjx3L7jJrOWsbjWa8XnEgWW
- d4NsiS1ZFsr1JllCZjQjKsP4oF8NtfqbP+PB61OIKeZ0dFutTSumV7yWgJEaYMJo/NK9
- AnRg==
+ bh=rrTQ1/piU5c3HlEkqsvmHmiT+sRyPTggNbv96TDoEuE=;
+ b=gBDyfLxQ/s0iUlVlMNIoUTttlwaJJDEzTB4sYkNQZHwUIfSnUW24udnyeWmElxUFB6
+ cCbX44tdmrKOKm43wW659j41U1AYWu6v0JRgZecm9hL9rbG7tbO9hSX1L2ZRPJw8GBx5
+ de+7Uq11LGFYkWcS2/fjJUjcglQYmLjP05jJPIixZKcjJ7azp2GzUyHWK4jMXy1AowbX
+ v1LuwFWYYEmjqfFSfFPkhUoQSaxdcRXD9hSlGoOs2cr6UI7RdtX3IN7M01CTP7XW99+I
+ 9B4yV5t4jGIvEXrWm6jcO98IkwZ7QT+JYQiMftcBoP81O/eVR+fRqvN+GKaBNqS2dMCa
+ ecdQ==
 X-Forwarded-Encrypted: i=1;
- AJvYcCU4Wh8KywHlXVw1LpOeLV03EWOdahdD3zNyw13es6AwzJ9k3xgTy2FAUyQP3bztOzo1o49hH3aCX7A=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YzdqaL0czB9L0figynW+ed+5S7VpxuWPO4sciXT3Jm97W85+tIM
- vKgSW/espeImjsZO0oKZx5LUG0lhSGJZ196iE9JFxakuqBSpKXEEbcop
-X-Gm-Gg: ASbGncuKAZ/7sWhAMthJ1uGoD4EgjuXec+LX87J0nDjTY58xyYCpUhJCd8JJEBTZ8Zz
- oi5tTdhDMMgldLkhJOhTmDE0g14Rh2T2+izQAcGHIPPKJHg/JFTSvjpckLBfcl/Y5qb3JlhynYW
- n94ClSUUfvb2qFAip4vjdUXWq+dUh9LXqtd/dBVjkrUdj+Wlz29VkyI3M2gj3Q8z55gUlIdn8Jo
- LEcNSIQjU635mkM3WFEMeX8HXgJmXvQ0Yt8TaC3xLjPg+4AVAfV5utkn7vGaGLQiIjldxWIJMXu
- UXJBZz1W4E4aOqKOaNDfs4rr+F0tWQ5si+E9/JwOL7olRcuk+SujwKbTyx7i6jMXjDCTEiPEYLC
- 9M1eaGB9VzcMu3QRLEtw2unuChj7cIDqnyYLh09oCygBSNlMtVGtQRBOgKPo=
-X-Google-Smtp-Source: AGHT+IGaAzeCNW7Q+hF8O+o801w4IIYVn/OnyZ8n0KIX+S8TZTFaXkE3VXSDB+lDfrzEZMLDYey6ZA==
-X-Received: by 2002:a05:6512:31c6:b0:553:37a7:b217 with SMTP id
- 2adb3069b0e04-55a046039e1mr3818518e87.35.1752494816696; 
- Mon, 14 Jul 2025 05:06:56 -0700 (PDT)
+ AJvYcCXllFhQDXpo3f6oc8QTD2I0GHTNUceZh6e6wX61T88RsEMsFII7BtrpBEkZottfI4r468djw5RMjWI=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0Yy1JTrxDhKoX0RlN+7EExZlivhhSg9t7nSppVex2ag/F3U04EM6
+ M5Ch8JYUDEZPaYk3pYqxFVIcYEACOHZfY+01Zt27oex6Xklp+kJmpKGI
+X-Gm-Gg: ASbGncv4DpQJKCGefp8CGqhjYnAWTHg+HEYl3K9xlEJ5nbvvSjhaOHuwV5mjAatyYVQ
+ Nux1AP05lcDydxe3l4uPdblWHkgY+1bh6KW7XQVK0OaSdc5G6eGhq1P85rW945MhOZ52hUq5Ioh
+ FX+5SDw65L2rLa0QNnhA0I9g7AR/tpc9VlInoJ29BlBaErWJFXzGXUjHWSMwk6fpBsielD03uW1
+ c2TDp4mmY3Zbw56L/wNE2RhdG+hDdqKSoCAP6ge7k5ZUf27WhUcz61qdslZlRejfuXXYJigifp0
+ d0vzuEMF2pCYSj9M7Qh8Gmdv9Qenf9A22szQVbmVbFd+xjQ0E4qrZRq4KcGmVy4QP2PXiA2o6zh
+ ohM8p8D21R7tg/j++UgYCWVjfPlYzoOYb6ZpYm8+Ng1A/o8ahtqv+DViAc+sngJyBGRKoRA==
+X-Google-Smtp-Source: AGHT+IEzEQDT9SlcMJXRWaUpVIthbB3FTkJ0mV934wHqVQgkTP67sY6GyOX+sERvMFkML4JM1C6sHw==
+X-Received: by 2002:a05:651c:419c:b0:32a:81a2:ebb with SMTP id
+ 38308e7fff4ca-33053293410mr34114811fa.1.1752494885131; 
+ Mon, 14 Jul 2025 05:08:05 -0700 (PDT)
 Received: from gmail.com (83-233-6-197.cust.bredband2.com. [83.233.6.197])
  by smtp.gmail.com with ESMTPSA id
- 2adb3069b0e04-5593c7bbb16sm1915901e87.11.2025.07.14.05.06.55
+ 38308e7fff4ca-32fa29133fcsm15060511fa.3.2025.07.14.05.08.03
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 14 Jul 2025 05:06:56 -0700 (PDT)
-Date: Mon, 14 Jul 2025 14:06:54 +0200
+ Mon, 14 Jul 2025 05:08:03 -0700 (PDT)
+Date: Mon, 14 Jul 2025 14:08:01 +0200
 From: Marcus Folkesson <marcus.folkesson@gmail.com>
 To: Javier Martinez Canillas <javierm@redhat.com>
 Cc: linux-kernel@vger.kernel.org, ipedrosa@redhat.com,
- David Airlie <airlied@gmail.com>,
+ Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
  Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
  Maxime Ripard <mripard@kernel.org>, Simona Vetter <simona@ffwll.ch>,
- Thomas Zimmermann <tzimmermann@suse.de>, dri-devel@lists.freedesktop.org
-Subject: Re: [PATCH v2 1/5] drm/sitronix/st7571-i2c: Fix encoder callbacks
- function names
-Message-ID: <aHTy3tbDKA0QVqBt@gmail.com>
+ dri-devel@lists.freedesktop.org
+Subject: Re: [PATCH v2 3/5] drm/sitronix/st7571-i2c: Add an indirection level
+ to parse DT
+Message-ID: <aHTzIcxe3Z_j62-X@gmail.com>
 References: <20250714104421.323753-1-javierm@redhat.com>
- <20250714104421.323753-2-javierm@redhat.com>
+ <20250714104421.323753-4-javierm@redhat.com>
 MIME-Version: 1.0
 Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="ZntHvysbNzK599cl"
+ protocol="application/pgp-signature"; boundary="4ZunG6Sz0bu+w/YO"
 Content-Disposition: inline
-In-Reply-To: <20250714104421.323753-2-javierm@redhat.com>
+In-Reply-To: <20250714104421.323753-4-javierm@redhat.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -95,40 +95,38 @@ Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 
---ZntHvysbNzK599cl
+--4ZunG6Sz0bu+w/YO
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-On Mon, Jul 14, 2025 at 12:44:00PM +0200, Javier Martinez Canillas wrote:
-> It seems the driver took some inspiration from ssd130x and some of the
-> functions (encoder callbacks) were not renamed to use a st7571_ prefix.
-
-Outch, shame on me.
+On Mon, Jul 14, 2025 at 12:44:02PM +0200, Javier Martinez Canillas wrote:
+> Other Sitronix display controllers might need a different parsing DT
+> logic, so lets add a .parse_dt callback to struct st7571_panel_data.
 >=20
+> Suggested-by: Thomas Zimmermann <tzimmermann@suse.de>
 > Signed-off-by: Javier Martinez Canillas <javierm@redhat.com>
 
 Reviewed-by: Marcus Folkesson <marcus.folkesson@gmail.com>
 
-
---ZntHvysbNzK599cl
+--4ZunG6Sz0bu+w/YO
 Content-Type: application/pgp-signature; name=signature.asc
 
 -----BEGIN PGP SIGNATURE-----
 
-iQIzBAEBCAAdFiEEBVGi6LZstU1kwSxliIBOb1ldUjIFAmh08tgACgkQiIBOb1ld
-UjLl5RAAvKkGSF3gPiEDW7asxdOXyyZ0FyIF9ZcOqQS32YWD4+QvYmLqkjSw7O1l
-39arEYVQnwmJavO1EMrOY9hyuUoWb1Hkf4LhV6f/qCZrE4pT2aiJdOf+YUnNH+ee
-mVNew2FDhiuo/QFK7Dz7Ffxnse9g/c/mKh7wsiqTIwi5mcbiBIgVAaLzx0C8/BDa
-Q8htxvkPWqqauAIP2KE5KznUXDaJp9pK97ljG1m61RgqGUUFGPKrLNkqR5t1jDSU
-udnSYqJ7dLCOB/OPFTj2If1QEevMnBZjvnKmYoS9V2UJuFV8AfmiROxfU1ckeIeF
-YzMy8MH9z/KeGQh0lDVpJk/xbYpZBWCkvMdQwbHBDDbsTMzMA0mkXpI2MsVv2Z9l
-n9NQYdVyzGkuyJwYCNZ/NI0+IuXz3hIB73qwO0G+tfSjMUo7SqBto0hqSDMtB8mz
-kTha2puNp9ovLMZ52l0EATnNpRfx8GdW/WKsfzEMpypv/Q1cxjeCqlb0OWvuxjEn
-ZtatPZ0SMspbkC96IwCjVHYdMk1g/jSj/t1QLk7A6MCwtYkQRxvn7+BIhUqpYxlQ
-YTVj0nxDIOvnOxghxX8bWP9GsaCWrFXG8ay7jtXvRN7Q7JKs9IYnZQwCMjdLiw+F
-GRzbdR3VXecn1I+INYamQ4m6bPA4Zn8a30g88Bkd1EvFUGGndLQ=
-=5E0a
+iQIzBAEBCAAdFiEEBVGi6LZstU1kwSxliIBOb1ldUjIFAmh08xwACgkQiIBOb1ld
+UjI3nA/6AhbJzYc14e2kj9qjpjhvgbOUHXl7QmMsJ3Abc63kZe2h1CSouL1ma1on
+xVhcpVZTmWnhAi9mtFNdUZ4oaDkUvEuEQDMPC4Ky+nRIl8UIC8MIwH2YGOvv9Nhk
+LT9+UmcK0fQSlDGxtTI8v2LHoBMjaJQYYKwrOBO4khDEA8S4nYLnUxF0fVvnbuMJ
+SqOLd22GDJMHjGZHPM1a99EAOQDjLS0JYRORQOOljvtKv0bdDpB68TNY+1djaC2D
+V13Rl3AXJkBwsQ2QdCKyB9QBdF8fLCh3c2F5OtintxgANurwtM6mTqc71eDuvTA0
+yV0yO2APTKZwFBx491C4xqUjjEOxLD3aGErbe8z3czqQ32q0dyDh6WdNSuAX0VGo
+l/A0pmxaKCNKZo6Le/DDcaWYWlC42x9FnCIcd7U3J7wZLRGph82bzHiSQizivnX1
+AoiZZsro2hAEoxD9rjRxibtuyeSF6H23MTpsey8UP7S6N8P39EE7VeftBp07l/+e
+MpX6ZmVf5L8avvtbrT9RKNdcl5LZhA16isAqhGL0/N5tIYgi2kiJD7Kfb14doi38
+izpVE+91wWPEXRDc2lxMjAC2pewKB6CwJ0KJRPya7v6/zzMfcApq39fObws9RX+i
+q5CM8xY6CGvs2KeF5kVLB3BunhtDMwuI2ZlfvL3/KSZz35EOwyw=
+=JGEU
 -----END PGP SIGNATURE-----
 
---ZntHvysbNzK599cl--
+--4ZunG6Sz0bu+w/YO--
