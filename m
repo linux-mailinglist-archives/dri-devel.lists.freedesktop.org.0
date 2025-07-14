@@ -2,64 +2,55 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 27464B0494D
-	for <lists+dri-devel@lfdr.de>; Mon, 14 Jul 2025 23:22:26 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id EE600B04950
+	for <lists+dri-devel@lfdr.de>; Mon, 14 Jul 2025 23:22:32 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7DF6710E42F;
-	Mon, 14 Jul 2025 21:22:24 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5348010E4E9;
+	Mon, 14 Jul 2025 21:22:31 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="Q60MisbD";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="BvoMcceW";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from sea.source.kernel.org (sea.source.kernel.org [172.234.252.31])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E474F10E42F
- for <dri-devel@lists.freedesktop.org>; Mon, 14 Jul 2025 21:22:23 +0000 (UTC)
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 72B9B10E4E9
+ for <dri-devel@lists.freedesktop.org>; Mon, 14 Jul 2025 21:22:29 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by sea.source.kernel.org (Postfix) with ESMTP id CC328435EA;
- Mon, 14 Jul 2025 21:22:23 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7EECFC4CEF8;
- Mon, 14 Jul 2025 21:22:21 +0000 (UTC)
+ by dfw.source.kernel.org (Postfix) with ESMTP id ED0ED5C65B6;
+ Mon, 14 Jul 2025 21:22:28 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 86C3DC4CEED;
+ Mon, 14 Jul 2025 21:22:28 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1752528143;
- bh=mA7SFMfHy8OinIxgtmu9yWbldbYt6k6q8NSeQegNnJA=;
- h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=Q60MisbD95FOBih0G/23vPpGal83ekgZ28SJ47/I5DIL4UoRV88m/T9aZ8dmOHcei
- 35usRcp9gpNMuI7D6ihW86QYi+XVSRPRYGdyxIwCtDFiQpKqHpKgltuHzKQ0uRoSmE
- z1l4hyF1P2U/5OXyyfn84zPyOOT3cNGZTvkejh/bj1N2eLoiXaqDMPeKw9OJTsoIh+
- Q8XuewUUT+SMBoeZZadI6UXPxPFzh1BYd6Ey1YZoRM5BfoD3jzblmHSzhRTwarIhRy
- wRecydRGnKsvGt9GLPXwt886zRekRUsGdU9KQ5iq4mjItwreKavGRZA0zx2QGnOdpD
- ajlVFOtxieMUQ==
-From: Mario Limonciello <superm1@kernel.org>
-To: David Airlie <airlied@gmail.com>,
-	Bjorn Helgaas <bhelgaas@google.com>
-Cc: Alex Deucher <alexander.deucher@amd.com>,
- =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>,
- Simona Vetter <simona@ffwll.ch>, Lukas Wunner <lukas@wunner.de>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>,
+ s=k20201202; t=1752528148;
+ bh=XWvyEJu17/NYmt5lKHJpnUX0PIhb311yUkoU6DfI3wU=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=BvoMcceWv1Y6tF61U88roTUWlaNIqhWe/DqowtENh0zvk+4MWV1j3cMWFwYHttF/Y
+ UuvxMs5JqKQDgeJqqv1PwxSNDnq+nobMH6BW91rOqgo+W9RaZfzlgy0xLQymd8wq/h
+ OLtfnMf1xHtD3XVRiFBBMUUyByiryS60CL+gi0WSsucdf3JYGScxsO1d/SVXYZhO9u
+ 6pUzFqIrpBOgodGDqQ+shI8uUwNvx7rEF+BHh1tP3pBxlBZjCSfEkTwW1AQM+bXBKE
+ eijRQ/V8mVvJSwur+UYSibH9tMi7VYjn56cipMASCVu/Mei73KqUlomr/26Gu6h0Jl
+ 0pOnmP1G58bGA==
+Date: Mon, 14 Jul 2025 16:22:27 -0500
+From: "Rob Herring (Arm)" <robh@kernel.org>
+To: iuncuim <iuncuim@gmail.com>
+Cc: Samuel Holland <samuel@sholland.or>, linux-kernel@vger.kernel.org,
+ Krzysztof Kozlowski <krzk+dt@kernel.org>, David Airlie <airlied@gmail.com>,
  Thomas Zimmermann <tzimmermann@suse.de>,
- David Woodhouse <dwmw2@infradead.org>, Lu Baolu <baolu.lu@linux.intel.com>,
- Joerg Roedel <joro@8bytes.org>, Will Deacon <will@kernel.org>,
- Robin Murphy <robin.murphy@arm.com>,
- Alex Williamson <alex.williamson@redhat.com>,
- Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
- dri-devel@lists.freedesktop.org (open list:DRM DRIVERS),
- linux-kernel@vger.kernel.org (open list),
- iommu@lists.linux.dev (open list:INTEL IOMMU (VT-d)),
- linux-pci@vger.kernel.org (open list:PCI SUBSYSTEM),
- kvm@vger.kernel.org (open list:VFIO DRIVER),
- linux-sound@vger.kernel.org (open list:SOUND),
- Daniel Dadap <ddadap@nvidia.com>,
- Mario Limonciello <mario.limonciello@amd.com>
-Subject: [PATCH v8 9/9] PCI: Add a new 'boot_display' attribute
-Date: Mon, 14 Jul 2025 16:21:46 -0500
-Message-ID: <20250714212147.2248039-10-superm1@kernel.org>
-X-Mailer: git-send-email 2.43.0
-In-Reply-To: <20250714212147.2248039-1-superm1@kernel.org>
-References: <20250714212147.2248039-1-superm1@kernel.org>
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Jernej Skrabec <jernej.skrabec@gmail.com>,
+ Conor Dooley <conor+dt@kernel.org>, linux-sunxi@lists.linux.dev,
+ Chen-Yu Tsai <wens@csie.org>, Simona Vetter <simona@ffwll.ch>,
+ dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org,
+ Maxime Ripard <mripard@kernel.org>, linux-arm-kernel@lists.infradead.org
+Subject: Re: [PATCH v2 1/3] dt-bindings: gpu: mali-bifrost: Add Allwinner
+ A523 compatible
+Message-ID: <175252718830.3073791.16346905793933146110.robh@kernel.org>
+References: <20250711035730.17507-1-iuncuim@gmail.com>
+ <20250711035730.17507-2-iuncuim@gmail.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20250711035730.17507-2-iuncuim@gmail.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -75,135 +66,18 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Mario Limonciello <mario.limonciello@amd.com>
 
-On systems with multiple GPUs there can be uncertainty which GPU is the
-primary one used to drive the display at bootup. In order to disambiguate
-this add a new sysfs attribute 'boot_display' that uses the output of
-video_is_primary_device() to populate whether a PCI device was used for
-driving the display.
+On Fri, 11 Jul 2025 11:57:27 +0800, iuncuim wrote:
+> From: Mikhail Kalashnikov <iuncuim@gmail.com>
+> 
+> Add a compatible for the Allwinner A523 SoC, with an integrated
+> ARM Mali G57 MC1 (Valhall-JM) GPU.
+> 
+> Signed-off-by: Mikhail Kalashnikov <iuncuim@gmail.com>
+> ---
+>  Documentation/devicetree/bindings/gpu/arm,mali-bifrost.yaml | 1 +
+>  1 file changed, 1 insertion(+)
+> 
 
-Reviewed-by: Thomas Zimmermann <tzimmermann@suse.de>
-Signed-off-by: Mario Limonciello <mario.limonciello@amd.com>
----
-v7:
- * fix lkp failure
- * Add tag
-v6:
- * Only show for the device that is boot display
- * Only create after PCI device sysfs files are initialized to ensure
-   that resources are ready.
-v4:
- * new patch
----
- Documentation/ABI/testing/sysfs-bus-pci |  8 +++++
- drivers/pci/pci-sysfs.c                 | 46 +++++++++++++++++++++++++
- 2 files changed, 54 insertions(+)
-
-diff --git a/Documentation/ABI/testing/sysfs-bus-pci b/Documentation/ABI/testing/sysfs-bus-pci
-index 69f952fffec72..8b455b1a58852 100644
---- a/Documentation/ABI/testing/sysfs-bus-pci
-+++ b/Documentation/ABI/testing/sysfs-bus-pci
-@@ -612,3 +612,11 @@ Description:
- 
- 		  # ls doe_features
- 		  0001:01        0001:02        doe_discovery
-+
-+What:		/sys/bus/pci/devices/.../boot_display
-+Date:		October 2025
-+Contact:	Linux PCI developers <linux-pci@vger.kernel.org>
-+Description:
-+		This file indicates the device was used as a boot
-+		display. If the device was used as the boot display, the file
-+		will be present and contain "1".
-diff --git a/drivers/pci/pci-sysfs.c b/drivers/pci/pci-sysfs.c
-index 268c69daa4d57..6b1a0ae254d3a 100644
---- a/drivers/pci/pci-sysfs.c
-+++ b/drivers/pci/pci-sysfs.c
-@@ -30,6 +30,7 @@
- #include <linux/msi.h>
- #include <linux/of.h>
- #include <linux/aperture.h>
-+#include <asm/video.h>
- #include "pci.h"
- 
- #ifndef ARCH_PCI_DEV_GROUPS
-@@ -679,6 +680,13 @@ const struct attribute_group *pcibus_groups[] = {
- 	NULL,
- };
- 
-+static ssize_t boot_display_show(struct device *dev, struct device_attribute *attr,
-+				 char *buf)
-+{
-+	return sysfs_emit(buf, "1\n");
-+}
-+static DEVICE_ATTR_RO(boot_display);
-+
- static ssize_t boot_vga_show(struct device *dev, struct device_attribute *attr,
- 			     char *buf)
- {
-@@ -1051,6 +1059,37 @@ void pci_remove_legacy_files(struct pci_bus *b)
- }
- #endif /* HAVE_PCI_LEGACY */
- 
-+/**
-+ * pci_create_boot_display_file - create a file in sysfs for @dev
-+ * @pdev: dev in question
-+ *
-+ * Creates a file `boot_display` in sysfs for the PCI device @pdev
-+ * if it is the boot display device.
-+ */
-+static int pci_create_boot_display_file(struct pci_dev *pdev)
-+{
-+#ifdef CONFIG_VIDEO
-+	if (video_is_primary_device(&pdev->dev))
-+		return sysfs_create_file(&pdev->dev.kobj, &dev_attr_boot_display.attr);
-+#endif
-+	return 0;
-+}
-+
-+/**
-+ * pci_remove_boot_display_file - remove the boot display file for @dev
-+ * @pdev: dev in question
-+ *
-+ * Removes the file `boot_display` in sysfs for the PCI device @pdev
-+ * if it is the boot display device.
-+ */
-+static void pci_remove_boot_display_file(struct pci_dev *pdev)
-+{
-+#ifdef CONFIG_VIDEO
-+	if (video_is_primary_device(&pdev->dev))
-+		sysfs_remove_file(&pdev->dev.kobj, &dev_attr_boot_display.attr);
-+#endif
-+}
-+
- #if defined(HAVE_PCI_MMAP) || defined(ARCH_GENERIC_PCI_MMAP_RESOURCE)
- /**
-  * pci_mmap_resource - map a PCI resource into user memory space
-@@ -1654,9 +1693,15 @@ static const struct attribute_group pci_dev_resource_resize_group = {
- 
- int __must_check pci_create_sysfs_dev_files(struct pci_dev *pdev)
- {
-+	int retval;
-+
- 	if (!sysfs_initialized)
- 		return -EACCES;
- 
-+	retval = pci_create_boot_display_file(pdev);
-+	if (retval)
-+		return retval;
-+
- 	return pci_create_resource_files(pdev);
- }
- 
-@@ -1671,6 +1716,7 @@ void pci_remove_sysfs_dev_files(struct pci_dev *pdev)
- 	if (!sysfs_initialized)
- 		return;
- 
-+	pci_remove_boot_display_file(pdev);
- 	pci_remove_resource_files(pdev);
- }
- 
--- 
-2.43.0
+Applied, thanks!
 
