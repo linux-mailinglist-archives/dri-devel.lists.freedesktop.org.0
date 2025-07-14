@@ -2,71 +2,79 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 15BF1B052E6
-	for <lists+dri-devel@lfdr.de>; Tue, 15 Jul 2025 09:25:00 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8FD29B052F1
+	for <lists+dri-devel@lfdr.de>; Tue, 15 Jul 2025 09:25:09 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7AA7910E527;
-	Tue, 15 Jul 2025 07:24:50 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A603210E536;
+	Tue, 15 Jul 2025 07:25:05 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=ti.com header.i=@ti.com header.b="jRJpb3zk";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="f9NtvMl+";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-X-Greylist: delayed 6903 seconds by postgrey-1.36 at gabe;
- Mon, 14 Jul 2025 11:15:44 UTC
-Received: from fllvem-ot04.ext.ti.com (fllvem-ot04.ext.ti.com [198.47.19.246])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 00CA410E00E
- for <dri-devel@lists.freedesktop.org>; Mon, 14 Jul 2025 11:15:44 +0000 (UTC)
-Received: from fllvem-sh03.itg.ti.com ([10.64.41.86])
- by fllvem-ot04.ext.ti.com (8.15.2/8.15.2) with ESMTP id 56E9KCVD2579656;
- Mon, 14 Jul 2025 04:20:12 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
- s=ti-com-17Q1; t=1752484812;
- bh=VpRIsrh/SskIsYvaFioLSeLx3UZ4lfhfIHEZTyHFdm4=;
- h=Date:Subject:To:CC:References:From:In-Reply-To;
- b=jRJpb3zkCM2TPcl/pnOSPoKvoGNKE2RRL8R3vySw8ty8MIGmfwjLeyF/u2TXmutp1
- 3kg/8FTnKIMknYEV9gFX7feo6LK+SBynXsCac5zuUWnOD1argqveNGhHjY4N5Ds1IG
- V6LF4DGptIMEQl/nT4H3TZDsByJhpPtZ57s301+M=
-Received: from DLEE108.ent.ti.com (dlee108.ent.ti.com [157.170.170.38])
- by fllvem-sh03.itg.ti.com (8.18.1/8.18.1) with ESMTPS id 56E9KCRv3165019
- (version=TLSv1.2 cipher=ECDHE-RSA-AES128-SHA256 bits=128 verify=FAIL);
- Mon, 14 Jul 2025 04:20:12 -0500
-Received: from DLEE109.ent.ti.com (157.170.170.41) by DLEE108.ent.ti.com
- (157.170.170.38) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2507.55; Mon, 14
- Jul 2025 04:20:11 -0500
-Received: from lelvem-mr06.itg.ti.com (10.180.75.8) by DLEE109.ent.ti.com
- (157.170.170.41) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2507.55 via
- Frontend Transport; Mon, 14 Jul 2025 04:20:11 -0500
-Received: from [172.24.26.195] (lt9560gk3.dhcp.ti.com [172.24.26.195])
- by lelvem-mr06.itg.ti.com (8.18.1/8.18.1) with ESMTP id 56E9K55c269797;
- Mon, 14 Jul 2025 04:20:06 -0500
-Message-ID: <268f6849-efc6-4663-af20-f6726bd4b78d@ti.com>
-Date: Mon, 14 Jul 2025 14:50:05 +0530
+Received: from mail-pf1-f181.google.com (mail-pf1-f181.google.com
+ [209.85.210.181])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6A99C10E452;
+ Mon, 14 Jul 2025 10:45:20 +0000 (UTC)
+Received: by mail-pf1-f181.google.com with SMTP id
+ d2e1a72fcca58-74264d1832eso5239100b3a.0; 
+ Mon, 14 Jul 2025 03:45:20 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20230601; t=1752489920; x=1753094720; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:from:to:cc:subject:date:message-id:reply-to;
+ bh=DThnUhw5TFFjYMJ6Q+QpynsJ5dmeEt17gTWIuYiMaTo=;
+ b=f9NtvMl+FrHzjHMrbLfB/e904p3JWrl4o7DYINwcy44InYm1FISZ+TYWBnfn+0f0ha
+ 5NWdDi2jxp3QL2N18VNfJmbkH7sdAsjvXYniDXF1U4AoFV379nqv4aP/oy6wAXYZf/O5
+ /m5J0tsRiGFnPlO57dQc5jx/p3MoBLHNiK/+sMeJqnlGqMTAPUkcdnFQZ5H8tsCv2MWa
+ OhQ8Ww0vtE8bPpyxoQmNlt+gEPHW5yJJP+gfffS/J4oA9GBLF26JzEaCdrTI/6Nea/Kh
+ xbPn00GI50uwl3z2TyD+E3Prh/ymiMvucx5FvUBmVz+LxeRUb0lzv+oBkF4jRWdWG2WK
+ ZNMQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1752489920; x=1753094720;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=DThnUhw5TFFjYMJ6Q+QpynsJ5dmeEt17gTWIuYiMaTo=;
+ b=vfnsWk6ZHAZ0AfDUfbiAbIfhLx4BfDZvH7xsxj2qpB3S8+3gROF+/H1lAIIfOz4YL/
+ sbKazIJcckvlUfitxIcw72s8IBhfL+htR8evMV8gM0fLedaMc8F0GpW/wAVrd2odKVtn
+ qq8f0wEq9AZECCkitmQ92wm1HVPRLCpksF1YAmqSRV3rZSAffYWqr971xILTY05s/JWZ
+ 49w3ZnMkcR6TDNZzSrikv2wKJ2ybE0QpQhMIrEaMg2H7SS57jIAWx0BtNEG5XWWJ4w+7
+ E/9u6RHwakjy23lq02lIvarY4zke5wFbn20zc0STQ0NJ5lnBBZ88s55RbPi60JTz7Vn3
+ 54fA==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCWSWpoFIqtwOF6FqzO6Ku+zx4rwkblbbC6WnlUiRSVX/mL96R/bnPxecXZXLAXrZAYW3RwkfWWg7vw=@lists.freedesktop.org,
+ AJvYcCWt89AEcgTlMSbvJ3VgEDf7iRwr/GFd8/wUZeOM84wl5u6bjlUZEeN3kNs3CnqqprVmodR6qI28sA==@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YxjpAzrmQi5x6wPOGx6L0nZxvj5a1HQWWUxNMJS42udWIremqSd
+ yUnCTjC+xL/q6BLdZ0TmNQB1PesAZBBkLMlv7DLqfTyLEQx4e81YQh5MWOCkqcTxAjU=
+X-Gm-Gg: ASbGncsZ5SjaKKsr9311cULBJX9UnXKAXs9w6P4PZvL/uiRO+gqAUm+uOVIAhFugNHE
+ 9sWg/VTk3Zqi+X+w1wUhmhYtsNuS4Y2YRaFlOW0MO3jfbcvmmRNAMFy0DuyetFNIpGGV260g5yI
+ cnp9RQgJzJBGsjplhfykzpAqxNaHpScKh8O6dqi/FX7qRC7lqZbK3p/7LQomZVY3LGqjTxuwMN+
+ 94tYEublqaBKcCapNQqJbm8VNraLppCum1Zy3VT3Ld0Mfn9mrCNlhnA3lr+wApsLF7Ug6ymUpeo
+ BRRk/nFoSWMeU96AAWSQwrRc8VHxkEQs7TO0Bibw4KFhoRUFw5ve6LTJ/NfBhSbY5qxA/z9Qk2M
+ 89jKsAp5g75mUjKoNOb14W1JX
+X-Google-Smtp-Source: AGHT+IHh8nvQAWLf0IaWZQL6rQlZ7/oYqf00LH67GRlU2rIWMZm1c6jUnva8RdcSbzLdp26M/41yaA==
+X-Received: by 2002:a05:6a21:3318:b0:1fa:9819:c0a5 with SMTP id
+ adf61e73a8af0-231363657d3mr19458861637.11.1752489919804; 
+ Mon, 14 Jul 2025 03:45:19 -0700 (PDT)
+Received: from quat-desktop ([2001:569:514a:9100:3f23:7b0f:f6a2:1ebd])
+ by smtp.gmail.com with ESMTPSA id
+ d2e1a72fcca58-74eb9e058fesm10320909b3a.40.2025.07.14.03.45.19
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 14 Jul 2025 03:45:19 -0700 (PDT)
+From: Rhys Lloyd <krakow20@gmail.com>
+To: acourbot@nvidia.com,
+	dakr@kernel.org
+Cc: Rhys Lloyd <krakow20@gmail.com>, rust-for-linux@vger.kernel.org,
+ airlied@gmail.com, simona@ffwll.ch, nouveau@lists.freedesktop.org,
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
+Subject: [PATCH] gpu: nova-core: vbios: change PmuLookupTableEntry to relax
+ alignment
+Date: Mon, 14 Jul 2025 03:43:12 -0700
+Message-ID: <20250714104322.100511-1-krakow20@gmail.com>
+X-Mailer: git-send-email 2.50.1
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH RFC net-next 0/5] net: ethernet: ti: am65-cpsw: add AF_XDP
- zero copy support
-To: Roger Quadros <rogerq@kernel.org>, Siddharth Vadapalli
- <s-vadapalli@ti.com>, Andrew Lunn <andrew+netdev@lunn.ch>,
- "David S. Miller" <davem@davemloft.net>,
- Eric Dumazet <edumazet@google.com>, Jakub Kicinski <kuba@kernel.org>,
- Paolo Abeni <pabeni@redhat.com>, Alexei Starovoitov <ast@kernel.org>,
- Daniel Borkmann <daniel@iogearbox.net>, Jesper Dangaard
- Brouer <hawk@kernel.org>, John Fastabend <john.fastabend@gmail.com>, Sumit
- Semwal <sumit.semwal@linaro.org>, =?UTF-8?Q?Christian_K=C3=B6nig?=
- <christian.koenig@amd.com>
-CC: <srk@ti.com>, <netdev@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
- <bpf@vger.kernel.org>, <linux-media@vger.kernel.org>,
- <dri-devel@lists.freedesktop.org>, <linaro-mm-sig@lists.linaro.org>
-References: <20250520-am65-cpsw-xdp-zc-v1-0-45558024f566@kernel.org>
-Content-Language: en-US
-From: "Malladi, Meghana" <m-malladi@ti.com>
-In-Reply-To: <20250520-am65-cpsw-xdp-zc-v1-0-45558024f566@kernel.org>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 7bit
-X-C2ProcessedOrg: 333ef613-75bf-4e12-a4b1-8e3623f5dcea
+Content-Transfer-Encoding: 8bit
 X-Mailman-Approved-At: Tue, 15 Jul 2025 07:24:49 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -83,76 +91,63 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Roger,
+Instead of the data field containing a u32 and changing the alignment,
+change data to [u8; 4] and convert to u32 with a helper function.
+Removes another magic number by making the struct the same size as
+the data it needs to read, allowing the use of
+`size_of::<PmuLookupTableEntry>()`
 
-On 5/20/2025 3:53 PM, Roger Quadros wrote:
-> This series adds AF_XDP zero coppy support to am65-cpsw driver.
-> 
-> Tests were performed on AM62x-sk with xdpsock application [1].
-> 
-> A clear improvement is seen in 64 byte packets on Transmit (txonly)
-> and receive (rxdrop).
-> 1500 byte test seems to be limited by line rate (1G link) so no
-> improvement seen there in packet rate. A test on higher speed link
-> (or PHY-less setup) might be worthwile.
-> 
-> There is some issue during l2fwd with 64 byte packets and benchmark
-> results show 0. I'm still investigating this issue.
-> 
-> AF_XDP performance using 64 byte packets in Kpps.
-> Benchmark:	XDP-SKB		XDP-Native	XDP-Native(ZeroCopy)
-> rxdrop		317		504		824
-> txonly		400		405		757
-> l2fwd 		207		264		0
-> 
-> AF_XDP performance using 1500 byte packets in Kpps.
-> Benchmark:	XDP-SKB		XDP-Native	XDP-Native(ZeroCopy)
-> rxdrop		82		82		82
-> txonly		82		82		82
-> l2fwd 		82		82		82
-> 
-> [1]: https://github.com/xdp-project/bpf-examples/tree/master/AF_XDP-example
-> 
-> To:
-> 
-> Signed-off-by: Roger Quadros <rogerq@kernel.org>
+Signed-off-by: Rhys Lloyd <krakow20@gmail.com>
+---
+ drivers/gpu/nova-core/vbios.rs | 13 +++++++++----
+ 1 file changed, 9 insertions(+), 4 deletions(-)
 
-This series crashes Linux on am64xx-hsevm, when I tried nfs boot using 
-AM65-CPSW-NUSS driver:
-logs: 
-https://gist.github.com/MeghanaMalladiTI/d655a1c8ca88113ee7f5f57d6ab0ec4c
+diff --git a/drivers/gpu/nova-core/vbios.rs b/drivers/gpu/nova-core/vbios.rs
+index 5b5d9f38cbb3..40244485283c 100644
+--- a/drivers/gpu/nova-core/vbios.rs
++++ b/drivers/gpu/nova-core/vbios.rs
+@@ -896,21 +896,26 @@ fn try_from(base: BiosImageBase) -> Result<Self> {
+ struct PmuLookupTableEntry {
+     application_id: u8,
+     target_id: u8,
+-    data: u32,
++    data: [u8; 4],
+ }
+ 
+ impl PmuLookupTableEntry {
+     fn new(data: &[u8]) -> Result<Self> {
+-        if data.len() < 6 {
++        if data.len() < core::mem::size_of::<Self>() {
+             return Err(EINVAL);
+         }
+ 
+         Ok(PmuLookupTableEntry {
+             application_id: data[0],
+             target_id: data[1],
+-            data: u32::from_le_bytes(data[2..6].try_into().map_err(|_| EINVAL)?),
++            data: [data[2], data[3], data[4], data[5]],
+         })
+     }
++
++    /// Construct a u32 from `self.data`.
++    fn get_data(&self) -> u32 {
++        u32::from_le_bytes(self.data)
++    }
+ }
+ 
+ /// The [`PmuLookupTableEntry`] structure is used to find the [`PmuLookupTableEntry`] for a given
+@@ -1037,7 +1042,7 @@ fn setup_falcon_data(
+             .find_entry_by_type(FALCON_UCODE_ENTRY_APPID_FWSEC_PROD)
+         {
+             Ok(entry) => {
+-                let mut ucode_offset = entry.data as usize;
++                let mut ucode_offset = entry.get_data() as usize;
+                 ucode_offset -= pci_at_image.base.data.len();
+                 if ucode_offset < first_fwsec.base.data.len() {
+                     dev_err!(pdev.as_ref(), "Falcon Ucode offset not in second Fwsec.\n");
 
-Seems like you have reverted the fix for the same bug which was reported 
-by Siddharth and fixed by Julien: 
-https://lore.kernel.org/all/7f7fb71a-6d15-46f1-b63c-b569a2e230b7@baylibre.com/
-
-reverted lines:
-		if (!common->ports[port].ndev)
-		/* FIXME should we BUG here? */
-			continue;
-
-Can you please take a look at it.
-
-> ---
-> Roger Quadros (5):
->        net: ethernet: ti: am65-cpsw: fix BPF Program change on multi-port CPSW
->        net: ethernet: ti: am65-cpsw: add XSK pool helpers
->        net: ethernet: ti: am65-cpsw: Add AF_XDP zero copy for RX
->        net: ethernet: ti: am65-cpsw: Add AF_XDP zero copy for TX
->        net: ethernet: ti: am65-cpsw: enable zero copy in XDP features
-> 
->   drivers/net/ethernet/ti/Makefile         |   2 +-
->   drivers/net/ethernet/ti/am65-cpsw-nuss.c | 526 +++++++++++++++++++++++++++----
->   drivers/net/ethernet/ti/am65-cpsw-nuss.h |  37 ++-
->   drivers/net/ethernet/ti/am65-cpsw-xdp.c  | 155 +++++++++
->   4 files changed, 656 insertions(+), 64 deletions(-)
-> ---
-> base-commit: 9f607dc39b6658ba8ea647bd99725e68c66071b7
-> change-id: 20250225-am65-cpsw-xdp-zc-2af9e4be1356
-> 
-> Best regards,
-
+base-commit: 215a3f91713383a3c0d2da82d223a608a3c17ac1
+prerequisite-patch-id: d80f92d314a0693d4c89ffb7810d9ab6990336fa
 -- 
-Thanks,
-Meghana Malladi
+2.50.1
 
