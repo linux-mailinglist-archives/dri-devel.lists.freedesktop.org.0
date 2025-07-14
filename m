@@ -2,41 +2,40 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 15803B03CF1
-	for <lists+dri-devel@lfdr.de>; Mon, 14 Jul 2025 13:09:53 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 875EBB03CF8
+	for <lists+dri-devel@lfdr.de>; Mon, 14 Jul 2025 13:11:59 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3084110E205;
-	Mon, 14 Jul 2025 11:09:51 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 85B6A10E45E;
+	Mon, 14 Jul 2025 11:11:56 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="A/NN8tQT";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="gCUgbVuw";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from nyc.source.kernel.org (nyc.source.kernel.org [147.75.193.91])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7669510E205
- for <dri-devel@lists.freedesktop.org>; Mon, 14 Jul 2025 11:09:50 +0000 (UTC)
+Received: from sea.source.kernel.org (sea.source.kernel.org [172.234.252.31])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4D88810E45E
+ for <dri-devel@lists.freedesktop.org>; Mon, 14 Jul 2025 11:11:55 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by nyc.source.kernel.org (Postfix) with ESMTP id 33230A56FF4;
- Mon, 14 Jul 2025 11:09:49 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id E7B04C4CEED;
- Mon, 14 Jul 2025 11:09:41 +0000 (UTC)
+ by sea.source.kernel.org (Postfix) with ESMTP id 9C2DD457D0;
+ Mon, 14 Jul 2025 11:11:54 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 96EF4C4CEED;
+ Mon, 14 Jul 2025 11:11:47 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1752491388;
- bh=RpiEzxCKkkEachf+ZeEwRHRoaG1XxJFVTXSqrmNVzLM=;
- h=Date:From:Subject:Cc:To:References:In-Reply-To:From;
- b=A/NN8tQT88eMzpyi9QVo5FopZDYNFWMiZau8tGoF66U4JSIfIX2CKajUNXaNepUcH
- eYFQfQmFpbhsabtEazM3xEe6oFK0ex6S6Cn+T1pWTMjOqbO+mzrjte62VIOqcXglse
- /r0bTJ84RmPuOo4LU3Q9T/BCAIaPb7eirWu+pO3Gj8nnpvzQQIwcQX5055n+7kIz/k
- A3WIuPRFj9SVJh6uEr3U+pLQRTXbsbwI7tyMDKmxH/ejSIrniqJ4YY1F85yvU8F9bV
- AC8NmGAynyYd7UlXt4N9iE4nQkbXMivv2fB8Xkx4pcJfAU2i+JjWLn/08Ccpp9fV8w
- MTdtClgm4LeVg==
+ s=k20201202; t=1752491514;
+ bh=LrX0RGuZdher2wedibFNe23KtTBoU4hFNhSrfZry7Z4=;
+ h=Date:Subject:Cc:To:From:References:In-Reply-To:From;
+ b=gCUgbVuwCBrCSO4Mvgufqg+JpYNjqKPjojpWwPo1arW27+Jg9nGXgu6P+7VTj9QPI
+ 6bnAZTw/FrAzII7XqkEOFdZ50MvW2xtqcE03w2JNnNqQ9qAgCKJTwAbU3/T8I+02oY
+ 7dFhsh4iDA3DUvFzimMeKU73jHfcPheoWlGZ7+w+0OdXvXEAjJdOOUEtGp1wxiPQuz
+ O4Mdi3PSbaM+Q1bhNRkHWrG3NYSzmW2b6M8M52ZYCCJ1oUfjj87HnhG4OQC85jRFXw
+ v0fMh/csvBThGIlzhxj8krg0NCShqECGro1wDLJvgmR9cOGXKDTgJ2eyz2rTCTkBZy
+ NsrDVuXgyCawA==
 Mime-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 Content-Type: text/plain; charset=UTF-8
-Date: Mon, 14 Jul 2025 13:09:39 +0200
-Message-Id: <DBBQCHNN1N7F.3O470V9YDXE70@kernel.org>
-From: "Danilo Krummrich" <dakr@kernel.org>
-Subject: Re: [PATCH 05/10] rust: drm: use `core::ffi::CStr` method names
+Date: Mon, 14 Jul 2025 13:11:45 +0200
+Message-Id: <DBBQE3GJ0CHT.5PEF7RLS6C33@kernel.org>
+Subject: Re: [PATCH 01/10] gpu: nova-core: use `core::ffi::CStr` method names
 Cc: "Maarten Lankhorst" <maarten.lankhorst@linux.intel.com>, "Maxime Ripard"
  <mripard@kernel.org>, "Thomas Zimmermann" <tzimmermann@suse.de>, "David
  Airlie" <airlied@gmail.com>, "Simona Vetter" <simona@ffwll.ch>, "Miguel
@@ -59,9 +58,10 @@ Cc: "Maarten Lankhorst" <maarten.lankhorst@linux.intel.com>, "Maxime Ripard"
  <linux-kselftest@vger.kernel.org>, <kunit-dev@googlegroups.com>,
  <netdev@vger.kernel.org>, <devicetree@vger.kernel.org>
 To: "Tamir Duberstein" <tamird@gmail.com>
+From: "Danilo Krummrich" <dakr@kernel.org>
 References: <20250709-core-cstr-fanout-1-v1-0-fd793b3e58a2@gmail.com>
- <20250709-core-cstr-fanout-1-v1-5-fd793b3e58a2@gmail.com>
-In-Reply-To: <20250709-core-cstr-fanout-1-v1-5-fd793b3e58a2@gmail.com>
+ <20250709-core-cstr-fanout-1-v1-1-fd793b3e58a2@gmail.com>
+In-Reply-To: <20250709-core-cstr-fanout-1-v1-1-fd793b3e58a2@gmail.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -86,22 +86,7 @@ On Wed Jul 9, 2025 at 9:58 PM CEST, Tamir Duberstein wrote:
 > Reviewed-by: Alice Ryhl <aliceryhl@google.com>
 > Signed-off-by: Tamir Duberstein <tamird@gmail.com>
 > ---
->  rust/kernel/drm/device.rs | 4 ++--
->  1 file changed, 2 insertions(+), 2 deletions(-)
->
-> diff --git a/rust/kernel/drm/device.rs b/rust/kernel/drm/device.rs
-> index b7ee3c464a12..998b942b6dd8 100644
-> --- a/rust/kernel/drm/device.rs
-> +++ b/rust/kernel/drm/device.rs
-> @@ -83,8 +83,8 @@ impl<T: drm::Driver> Device<T> {
->          major: T::INFO.major,
->          minor: T::INFO.minor,
->          patchlevel: T::INFO.patchlevel,
-> -        name: T::INFO.name.as_char_ptr().cast_mut(),
-> -        desc: T::INFO.desc.as_char_ptr().cast_mut(),
-> +        name: crate::str::as_char_ptr_in_const_context(T::INFO.name).cas=
-t_mut(),
-> +        desc: crate::str::as_char_ptr_in_const_context(T::INFO.desc).cas=
-t_mut(),
+>  drivers/gpu/drm/drm_panic_qr.rs | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
 
-Maybe looks slightly cleaner to import this function, not a blocker though.
+This doesn't look like nova-core. :)
