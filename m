@@ -2,84 +2,84 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 67581B03EE4
-	for <lists+dri-devel@lfdr.de>; Mon, 14 Jul 2025 14:39:48 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 14CD4B03EE6
+	for <lists+dri-devel@lfdr.de>; Mon, 14 Jul 2025 14:40:35 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E55FF10E48F;
-	Mon, 14 Jul 2025 12:39:44 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4CCCD10E48E;
+	Mon, 14 Jul 2025 12:40:33 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; secure) header.d=ffwll.ch header.i=@ffwll.ch header.b="hMmxChMM";
+	dkim=pass (1024-bit key; secure) header.d=ffwll.ch header.i=@ffwll.ch header.b="AD7z8Jq5";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-f46.google.com (mail-wr1-f46.google.com
- [209.85.221.46])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7A96410E48C
- for <dri-devel@lists.freedesktop.org>; Mon, 14 Jul 2025 12:39:43 +0000 (UTC)
-Received: by mail-wr1-f46.google.com with SMTP id
- ffacd0b85a97d-3a52874d593so3538668f8f.0
- for <dri-devel@lists.freedesktop.org>; Mon, 14 Jul 2025 05:39:43 -0700 (PDT)
+Received: from mail-wm1-f41.google.com (mail-wm1-f41.google.com
+ [209.85.128.41])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E986510E48E
+ for <dri-devel@lists.freedesktop.org>; Mon, 14 Jul 2025 12:40:32 +0000 (UTC)
+Received: by mail-wm1-f41.google.com with SMTP id
+ 5b1f17b1804b1-4560add6cd2so12349425e9.0
+ for <dri-devel@lists.freedesktop.org>; Mon, 14 Jul 2025 05:40:32 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=ffwll.ch; s=google; t=1752496782; x=1753101582; darn=lists.freedesktop.org; 
+ d=ffwll.ch; s=google; t=1752496831; x=1753101631; darn=lists.freedesktop.org; 
  h=in-reply-to:content-transfer-encoding:content-disposition
  :mime-version:references:message-id:subject:cc:to:from:date:from:to
  :cc:subject:date:message-id:reply-to;
- bh=XErAJu/6i7g4EFf9vKNbP+OcUQZQKENL92ttAjzjYEU=;
- b=hMmxChMMCbhPzyyuptZxZaXBxuD0tslMaJRY0Nm5C9cA3kgSMkuENLgAisV6yeVXfz
- JnJ7Kx35V86OdutNWKu4gLg/cohNlpFRCIVFDsl8tJwwhnQTVY0PBF8jdRwYjjcxEvco
- 5pV2j8FaqZlfj/CAfxZ2ELmtQ7o9aP2BrwJDk=
+ bh=rP8qGmbzg1jKLZErjo0X3K9yWVc1Te/xNd21J+Imr9Y=;
+ b=AD7z8Jq5NsE39vJ6F87rkeGVZ0wJQfydBO24oo8x0y+JCziwSWoYvQ5yvk6IgcsNpK
+ 46YqLkh2g8KESxHVzDZtxjdKYN0WsXZ+WkIDdAmn6uqeult/Hf2mhd2G5Ls+kXV63KdC
+ CjxSTBKKINZWqOrdNdpvK7C3jmlZe8jcboURs=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1752496782; x=1753101582;
+ d=1e100.net; s=20230601; t=1752496831; x=1753101631;
  h=in-reply-to:content-transfer-encoding:content-disposition
  :mime-version:references:message-id:subject:cc:to:from:date
  :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=XErAJu/6i7g4EFf9vKNbP+OcUQZQKENL92ttAjzjYEU=;
- b=KJLH+G+sGs90U6w+EvftCx0wElWVuP+i6nhYoOd2kmUftNShRagjdE/0tbPIx/S2dz
- F7SaYs5Net56zNeD6LuALyhrGx02V3NrfDYcXQD6087muoiJGDVxpBj6YYUVK00wDh5n
- fPux37/a7f5nbkQ17Cy7tiI/iRTzb9GqRMtlc2PVta+4ueWzfbxm2C9BjilSVVI3mldi
- ST+nygAWh83B/DMWpPkbDtFXCF/o440zPhg0gk2oHfnyTUwuY6dcz/TllF1sRAgVCK6a
- aAIPP78rDnKYt9t1pJY8uufR8tb6Sq5omNmrH0bHTY+WWFRrmo58gMaqA/EuLXO4DUz+
- QkKQ==
+ bh=rP8qGmbzg1jKLZErjo0X3K9yWVc1Te/xNd21J+Imr9Y=;
+ b=rueeQdY0EYMX1APDX4gdykh9NAn4+Rk3BJjYEbSt8nyApOX1oc/t4ksPAEmS0FlbL0
+ feurh51ERU5SpcpYJl/WtnS8MJDMPdvq/zV3DyOZk4HBcJhUDdB8JJpZ09+PariXa2uH
+ ZVvrseBW/hbfiM6oqYXyLdinfMDFgXlbd44pzD79d1Xmv6qGePPq+A6xrA4etQy438PW
+ 554l7bgFXH5ON9IL904+qmEPUH1RUp28YAvSQmoTPTitZsoc50BirHDSShm6IBctR3tM
+ ytIeMGXCy2EMbljc6ngBr5Bnvt/7PuVOL8tSIAF86kgazKHkPkEFiWrVvAeI37a1lsTu
+ 3bzw==
 X-Forwarded-Encrypted: i=1;
- AJvYcCVtzt8jfS6bf6lnYksRl/c5Ptr7bceaYKiO7Hwqq/jWkC4bZ6mTj7CochMw0Lt3Tkt3g1Q2vK/8yao=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0Yy5gtxDpA5UmoGK/x+4l8onHeXdX1C2CSmgaZu60iFqKnAhU66T
- 7W/zggzcy+l9cBvMAv+Eni+i+K7nvEcvPTLaFQDV4I5CP2YDPMhhSiZ7WfvToaKJBY0=
-X-Gm-Gg: ASbGncuOO+U695FPg4qMy3bNg8O7yh5tNBMs6zF4DPk/ko2iL4x7XmS8MW2fbuUuYxx
- 7Ir5KA3tOSHA3aMf7o4Yc4PwDt8rU7vNTbSP6SpTQBxdQURxNV0IW1+RUyelUfVLgnQivHbq5qS
- MzoWmxm9S1K03eUHSc+cdtq00GXi5omnUsPqb9KgxAcwQSul1lFuwGOgYUbnPx9skiFTTWCH1bJ
- d9iiqMCcJmotJE7oQV4uKWzwXI9mJ7tVQ+BFMdpFqTcZnruC4PWfsRE+QWkwovG18m/AKmHmsyW
- X1lpNKPz/+ohcdsHOAm3T9+qPstslkL8wYIyGG+bHfcsqNeYez6cXy7Qu0naI5fShnxQSjSpXlT
- xZ/yMuYrptYHL4QonUBrLccd9kPCjFFoIjdQrrq4J+s6k
-X-Google-Smtp-Source: AGHT+IG6tSn1rFwzUvQrU3dFhdLGnz5/j4mh9qiCr0au1QUPGoiO9awMtbUHlEtASqVdx2HXNSxeBQ==
-X-Received: by 2002:a05:6000:25f6:b0:3a5:2875:f985 with SMTP id
- ffacd0b85a97d-3b5f18ffd7bmr10766504f8f.59.1752496781706; 
- Mon, 14 Jul 2025 05:39:41 -0700 (PDT)
+ AJvYcCXcHRpbS24M8dYwQj36nTx7Jm69fr3l5TZkccObYvmgn1GwM5Rbd9IlBeh2IxFpzdM6de/TcDJmJQE=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YwxexS+ZDb8RzmkDi77zMPKC/jGFaSnEsLXuZOiKhpXILKPkaaC
+ kpYOAT7/bPnh35bs8KCwwziN2cBpeP5jnUtb2n5REM+3roXbBVqNhZBe93GKoUvNYNqcxwj6O6V
+ oGMSFNys=
+X-Gm-Gg: ASbGnctwMuKs1su6WY6jdiSFKL9y07LuesYPKIwc9lclS/txaIqFJutjpiATjQ0NLhE
+ gI0Y3rs9Tk/8SOYa+6q79qlQluhkHTnFYisRDatQ/qD/bjdJrtMheUiiuHXhN9kiy7RdMSi98Wl
+ SvR2isO70FMS9lZqxyYzh6k9AbOGgN7SOuqQbE125Dou/ySS9HLxefcyIeFTDoZ1++LaoxFd+Dw
+ sK9aJUkJ1Tg/uwVb0Z8FO//c+V/rKFYrGiXGeVwaxP41vtLUYSMqozVe4QzZLimCkyPxkN3MAh2
+ 3+ihH5Ntys2Vs51eoPl5MZmEzEdNQ9wCWXBDCG5TdAUJF1V4E1RsXjkIUkCgh7rMlvLpUs0jn07
+ MjH6lYxFLW8jNwEjSvUuDfgX1pi6l+b8dwQ==
+X-Google-Smtp-Source: AGHT+IHnWjRlHShHz4DWS5W+vOlsGqazES3YQeM+43pB5em+Fbxl+K/hAAf+NPXDTN+yrpt0494SAQ==
+X-Received: by 2002:a05:600c:4746:b0:453:7713:476c with SMTP id
+ 5b1f17b1804b1-455bd8e63aemr98322575e9.2.1752496831208; 
+ Mon, 14 Jul 2025 05:40:31 -0700 (PDT)
 Received: from phenom.ffwll.local ([2a02:168:57f4:0:5485:d4b2:c087:b497])
  by smtp.gmail.com with ESMTPSA id
- ffacd0b85a97d-3b5e8e26938sm12188789f8f.89.2025.07.14.05.39.40
+ 5b1f17b1804b1-454cd56d936sm115510615e9.0.2025.07.14.05.40.30
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 14 Jul 2025 05:39:41 -0700 (PDT)
-Date: Mon, 14 Jul 2025 14:39:39 +0200
+ Mon, 14 Jul 2025 05:40:30 -0700 (PDT)
+Date: Mon, 14 Jul 2025 14:40:28 +0200
 From: Simona Vetter <simona.vetter@ffwll.ch>
-To: Thomas Zimmermann <tzimmermann@suse.de>
-Cc: simona@ffwll.ch, airlied@gmail.com, christian.koenig@amd.com,
- torvalds@linux-foundation.org, maarten.lankhorst@linux.intel.com,
- mripard@kernel.org, l.stach@pengutronix.de,
- linux+etnaviv@armlinux.org.uk, kraxel@redhat.com,
- christian.gmeiner@gmail.com, dmitry.osipenko@collabora.com,
- gurchetansingh@chromium.org, olvaffe@gmail.com,
- zack.rusin@broadcom.com, bcm-kernel-feedback-list@broadcom.com,
- dri-devel@lists.freedesktop.org, etnaviv@lists.freedesktop.org,
- virtualization@lists.linux.dev, intel-gfx@lists.freedesktop.org
-Subject: Re: [PATCH 0/9] drm: Revert general use of struct
- drm_gem_object.dma_buf
-Message-ID: <aHT6i723ffg2_m2v@phenom.ffwll.local>
-References: <20250711093744.120962-1-tzimmermann@suse.de>
+To: Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>
+Cc: Simona Vetter <simona.vetter@ffwll.ch>,
+ David Francis <David.Francis@amd.com>,
+ dri-devel@lists.freedesktop.org, tvrtko.ursulin@igalia.com,
+ Felix.Kuehling@amd.com, David.YatSin@amd.com,
+ Chris.Freehill@amd.com, dcostantino@meta.com, sruffell@meta.com,
+ simona@ffwll.ch, mripard@kernel.org, tzimmermann@suse.de
+Subject: Re: [PATCH 2/2] drm: Move drm_gem ioctl kerneldoc to uapi file
+Message-ID: <aHT6vC61bEQ6DIRx@phenom.ffwll.local>
+References: <20250711145342.89720-1-David.Francis@amd.com>
+ <20250711145342.89720-3-David.Francis@amd.com>
+ <aHGIQNEuDM-MgmnZ@phenom.ffwll.local>
+ <48c0cbcb-c613-4f0b-b922-d6807f2eefec@amd.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <20250711093744.120962-1-tzimmermann@suse.de>
+In-Reply-To: <48c0cbcb-c613-4f0b-b922-d6807f2eefec@amd.com>
 X-Operating-System: Linux phenom 6.12.30-amd64 
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -96,89 +96,167 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, Jul 11, 2025 at 11:35:15AM +0200, Thomas Zimmermann wrote:
-> Revert the use of drm_gem_object.dma_buf back to .import_attach->dmabuf
-> in the affected places. Also revert any fixes on top. Separates references
-> to imported and exported DMA bufs within a GEM object; as before.
+On Mon, Jul 14, 2025 at 11:50:32AM +0200, Christian König wrote:
+> On 11.07.25 23:55, Simona Vetter wrote:
+> > On Fri, Jul 11, 2025 at 10:53:42AM -0400, David Francis wrote:
+> >> The drm_gem ioctls were documented in internal file drm_gem.c
+> >> instead of uapi header drm.h. Move them there and change to
+> >> appropriate kerneldoc formatting.
+> >>
+> >> Signed-off-by: David Francis <David.Francis@amd.com>
+> > 
+> > Thanks a lot for taking care of this!
+> > 
+> > Reviewed-by: Simona Vetter <simona.vetter@ffwll.ch>
+> > 
+> > I'll leave review for the first patch to folks who care about criu, but it
+> > looked good to me too.
 > 
-> Using the dma_buf as the one authoritative field for the DMA buf turns
-> out to be fragile. The GEM object's dma_buf pointer can be NULL if
-> userspace releases the GEM handle too early. Sima mentioned that the fix
-> in commit 5307dce878d4 ("drm/gem: Acquire references on GEM handles for
-> framebuffers") is conceptionally broken. Linus still notices boot-up
-> hangs that might be related.
+> I will take that as an Acked-by.
 > 
-> Reverting the whole thing is the only sensible action here.
+> Are you ok that we push this into drm-misc-next by the end of the week when we have the IGT test ready?
+
+Aye, sounds like a plan.
+-Sima
+
 > 
-> Tested on virtio; and amdgpu, simpledrm plus udl for dma-buf sharing.
+> The patches for the CRIU code are ready and IIRC there will be a merge
+> request made, but it will take quite a while until they are actually
+> merged I think.
+
 > 
-> Thomas Zimmermann (9):
->   Revert "drm/framebuffer: Acquire internal references on GEM handles"
->   Revert "drm/gem: Acquire references on GEM handles for framebuffers"
-
-Ok, I think all the below we should still apply for -fixes, because
-fundamentally gem_bo->dma_buf is not invariant over the lifetime of the
-buffer, while gem_bo->import_attach.dmabuf is. And so we blow up.
-
-For display drivers the handle_count reference mostly papers over the
-issues, but even display drivers are allowed to keep internal references
-to the underlying gem bo for longer. So there could be a bunch of really
-tricky bugs lurking.
-
-For render drivers it's even clearer, they don't have framebuffers as
-objects, so there the fb handle_count references does not help.
-
-I'm not opposed to trying to unify these fields for imported dma_buf, but
-currently they're just not. Hence all the reverts.
-
-The patches also need Fixes: and as needed, cc: stable added for merging.
-With that and the above text as additional justification added:
-
-Reviewed-by: Simona Vetter <simona.vetter@ffwll.ch>
-
-Also we'd need to chase down any addiotional conversions that have only
-landed in -next meanwhile of course.
-
-â‚£or the handle_count patches I'm less sure. I don't think they're
-justified for fixing the gem_bo->dma_buf NULL pointer issues, but they do
-probably help with the GETFB/2 confusion Christian has pointed out.
-Personally my preference is:
-1. Apply the two reverts.
-2. Create an igt testcase for the GETFB confusion
-3. Figure out what the right fix for that is, which might or might not be
-the handle_count reference of drm_fb.
-
-But with my maintainer hat on I don't mind about the exact path, as long
-as we get there somehow. If you decide to do land the reverts, they also
-have my:
-
-Reviewed-by: Simona Vetter <simona.vetter@ffwll.ch>
-
-Cheers, Sima
-
->   Revert "drm/virtio: Use dma_buf from GEM object instance"
->   Revert "drm/vmwgfx: Use dma_buf from GEM object instance"
->   Revert "drm/etnaviv: Use dma_buf from GEM object instance"
->   Revert "drm/prime: Use dma_buf from GEM object instance"
->   Revert "drm/gem-framebuffer: Use dma_buf from GEM object instance"
->   Revert "drm/gem-shmem: Use dma_buf from GEM object instance"
->   Revert "drm/gem-dma: Use dma_buf from GEM object instance"
+> Christian.
 > 
->  drivers/gpu/drm/drm_framebuffer.c            | 31 +---------
->  drivers/gpu/drm/drm_gem.c                    | 64 +++-----------------
->  drivers/gpu/drm/drm_gem_dma_helper.c         |  2 +-
->  drivers/gpu/drm/drm_gem_framebuffer_helper.c |  8 ++-
->  drivers/gpu/drm/drm_gem_shmem_helper.c       |  4 +-
->  drivers/gpu/drm/drm_internal.h               |  2 -
->  drivers/gpu/drm/drm_prime.c                  |  8 ++-
->  drivers/gpu/drm/etnaviv/etnaviv_gem_prime.c  |  4 +-
->  drivers/gpu/drm/virtio/virtgpu_prime.c       |  5 +-
->  drivers/gpu/drm/vmwgfx/vmwgfx_gem.c          |  6 +-
->  include/drm/drm_framebuffer.h                |  7 ---
->  11 files changed, 35 insertions(+), 106 deletions(-)
-> 
-> -- 
-> 2.50.0
+> > -Sima
+> > 
+> >> ---
+> >>  drivers/gpu/drm/drm_gem.c | 30 -----------------------------
+> >>  include/uapi/drm/drm.h    | 40 +++++++++++++++++++++++++++------------
+> >>  2 files changed, 28 insertions(+), 42 deletions(-)
+> >>
+> >> diff --git a/drivers/gpu/drm/drm_gem.c b/drivers/gpu/drm/drm_gem.c
+> >> index 3166230d0119..08778a15eefb 100644
+> >> --- a/drivers/gpu/drm/drm_gem.c
+> >> +++ b/drivers/gpu/drm/drm_gem.c
+> >> @@ -820,14 +820,6 @@ long drm_gem_dma_resv_wait(struct drm_file *filep, u32 handle,
+> >>  }
+> >>  EXPORT_SYMBOL(drm_gem_dma_resv_wait);
+> >>  
+> >> -/**
+> >> - * drm_gem_close_ioctl - implementation of the GEM_CLOSE ioctl
+> >> - * @dev: drm_device
+> >> - * @data: ioctl data
+> >> - * @file_priv: drm file-private structure
+> >> - *
+> >> - * Releases the handle to an mm object.
+> >> - */
+> >>  int
+> >>  drm_gem_close_ioctl(struct drm_device *dev, void *data,
+> >>  		    struct drm_file *file_priv)
+> >> @@ -843,17 +835,6 @@ drm_gem_close_ioctl(struct drm_device *dev, void *data,
+> >>  	return ret;
+> >>  }
+> >>  
+> >> -/**
+> >> - * drm_gem_flink_ioctl - implementation of the GEM_FLINK ioctl
+> >> - * @dev: drm_device
+> >> - * @data: ioctl data
+> >> - * @file_priv: drm file-private structure
+> >> - *
+> >> - * Create a global name for an object, returning the name.
+> >> - *
+> >> - * Note that the name does not hold a reference; when the object
+> >> - * is freed, the name goes away.
+> >> - */
+> >>  int
+> >>  drm_gem_flink_ioctl(struct drm_device *dev, void *data,
+> >>  		    struct drm_file *file_priv)
+> >> @@ -893,17 +874,6 @@ drm_gem_flink_ioctl(struct drm_device *dev, void *data,
+> >>  	return ret;
+> >>  }
+> >>  
+> >> -/**
+> >> - * drm_gem_open_ioctl - implementation of the GEM_OPEN ioctl
+> >> - * @dev: drm_device
+> >> - * @data: ioctl data
+> >> - * @file_priv: drm file-private structure
+> >> - *
+> >> - * Open an object using the global name, returning a handle and the size.
+> >> - *
+> >> - * This handle (of course) holds a reference to the object, so the object
+> >> - * will not go away until the handle is deleted.
+> >> - */
+> >>  int
+> >>  drm_gem_open_ioctl(struct drm_device *dev, void *data,
+> >>  		   struct drm_file *file_priv)
+> >> diff --git a/include/uapi/drm/drm.h b/include/uapi/drm/drm.h
+> >> index e3940b657e16..e512da8f3baf 100644
+> >> --- a/include/uapi/drm/drm.h
+> >> +++ b/include/uapi/drm/drm.h
+> >> @@ -597,31 +597,47 @@ struct drm_set_version {
+> >>  	int drm_dd_minor;
+> >>  };
+> >>  
+> >> -/* DRM_IOCTL_GEM_CLOSE ioctl argument type */
+> >> +/**
+> >> + * struct drm_gem_close - Argument for &DRM_IOCTL_GEM_CLOSE ioctl.
+> >> + * @handle: Handle of the object to be closed.
+> >> + * @pad: Padding.
+> >> + *
+> >> + * Releases the handle to an mm object.
+> >> + */
+> >>  struct drm_gem_close {
+> >> -	/** Handle of the object to be closed. */
+> >>  	__u32 handle;
+> >>  	__u32 pad;
+> >>  };
+> >>  
+> >> -/* DRM_IOCTL_GEM_FLINK ioctl argument type */
+> >> +/**
+> >> + * struct drm_gem_flink - Argument for &DRM_IOCTL_GEM_FLINK ioctl.
+> >> + * @handle: Handle for the object being named.
+> >> + * @name: Returned global name.
+> >> + *
+> >> + * Create a global name for an object, returning the name.
+> >> + *
+> >> + * Note that the name does not hold a reference; when the object
+> >> + * is freed, the name goes away.
+> >> + */
+> >>  struct drm_gem_flink {
+> >> -	/** Handle for the object being named */
+> >>  	__u32 handle;
+> >> -
+> >> -	/** Returned global name */
+> >>  	__u32 name;
+> >>  };
+> >>  
+> >> -/* DRM_IOCTL_GEM_OPEN ioctl argument type */
+> >> +/**
+> >> + * struct drm_gem_open - Argument for &DRM_IOCTL_GEM_OPEN ioctl.
+> >> + * @name: Name of object being opened.
+> >> + * @handle: Returned handle for the object.
+> >> + * @size: Returned size of the object
+> >> + *
+> >> + * Open an object using the global name, returning a handle and the size.
+> >> + *
+> >> + * This handle (of course) holds a reference to the object, so the object
+> >> + * will not go away until the handle is deleted.
+> >> + */
+> >>  struct drm_gem_open {
+> >> -	/** Name of object being opened */
+> >>  	__u32 name;
+> >> -
+> >> -	/** Returned handle for the object */
+> >>  	__u32 handle;
+> >> -
+> >> -	/** Returned size of the object */
+> >>  	__u64 size;
+> >>  };
+> >>  
+> >> -- 
+> >> 2.34.1
+> >>
+> > 
 > 
 
 -- 
