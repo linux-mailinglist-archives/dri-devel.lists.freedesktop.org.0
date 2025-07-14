@@ -2,86 +2,134 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 01411B03CC4
-	for <lists+dri-devel@lfdr.de>; Mon, 14 Jul 2025 13:02:01 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7F7CEB03CCC
+	for <lists+dri-devel@lfdr.de>; Mon, 14 Jul 2025 13:02:39 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1205910E45F;
-	Mon, 14 Jul 2025 11:01:58 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C944410E460;
+	Mon, 14 Jul 2025 11:02:37 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="i8xy+/fb";
+	dkim=pass (1024-bit key; unprotected) header.d=suse.de header.i=@suse.de header.b="guGQsJX9";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="U/13GNpM";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="guGQsJX9";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="U/13GNpM";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-f49.google.com (mail-lf1-f49.google.com
- [209.85.167.49])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 09D7710E45F
- for <dri-devel@lists.freedesktop.org>; Mon, 14 Jul 2025 11:01:57 +0000 (UTC)
-Received: by mail-lf1-f49.google.com with SMTP id
- 2adb3069b0e04-55622414cf4so3406206e87.3
- for <dri-devel@lists.freedesktop.org>; Mon, 14 Jul 2025 04:01:56 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1752490915; x=1753095715; darn=lists.freedesktop.org;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
- bh=TEdmQ3sQzz4m1gTGlsELMQXiHmt7M9QslQ5TdDOoX78=;
- b=i8xy+/fbz1+ihf7wnVL25/amrFp5IQJf7H65lNqcFNulRb11HLwEPDoBKFrM7wW+ao
- E8wxpLOv5uMOFQlm7NPpBSaKio7w+akL09F/a72gWdJ9ic3szgobg5xedymum04PjQjS
- blcys6lKA8B+9VTO2aGuEj6w9Cgc0E5zVDNODyI5CW7g7/eIPZLkdqJbN79cDbS/tiO5
- 2IQZ+/pLc9Jyxzucgn/CCyX0jEA+9hV1iiKpx37bN7LhxNkkPqlPSUo3aan3LC29i9DP
- 7VZ5UvtQE0gu3pC+GvfH94cvQzi8fiwgUubXPj//m/QRx0drgUuyfihduTKo7bXA6W2z
- UP0A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1752490915; x=1753095715;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
- :message-id:reply-to;
- bh=TEdmQ3sQzz4m1gTGlsELMQXiHmt7M9QslQ5TdDOoX78=;
- b=Rs5k4DDnGaylLL0xNQptGOwtmugIyjpDQrvBTyULOvwf6kOt3C+OxwAGMR5VkTQg28
- HRH5+JLF+dCLfklLkGYxKO8/9lLOPPIpQJoHlZcV7tO0FwmvmGS7dx4DgG/Owag+m33Y
- BiaYvCc9MWvit8/7mK3rdfvNl6I+C1aeJxJdv54xhJTS11+uUmPAykZf5zTZkeidTgfn
- wX8V2WxPXNu2aJTPQA52TM4kDXWbZS79pSSygBwFNn+3YClH3NWNDKiBzrG3fNBxhvEk
- lFJw9Pbj8lnvAiPR1oquQuhCYkmSjwFvisoodB5q7ktjxSa9krSTfPC4/Q/rPjNB84PH
- XUxA==
-X-Forwarded-Encrypted: i=1;
- AJvYcCWIKrDrajOROZqmCbxpHh2NgYXO5WAbjq2z/lOeg8nVSYnl4xcDb0tkTa/A5mACOTOy3XoxlbUqupw=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YyrMDJPYPxPGcMWTRAbuukOfArOo3+n5fajY4b3vzriFMQLcGBR
- Tp57bHmzJbqu9/pNOPIEqVIGv1uCRbMeVj2GgR4y7s3IubuDrH2vnMy8
-X-Gm-Gg: ASbGncvW2pJOkOA+Ag3/fyKGj9lW3gqhkPriiLsVYlF0wAIt7EtQoUwb2WIQsuiAuPj
- sM1rXdhVbWv4e+sujd6OXuof7fSoq50yzklP2orVB9Le9u1E6I8+1osyHnyajNPCRcEQXeqdS7f
- dHzowa3dCE8QbISwCRCwhm7BP1wyDpmtSktvq8+Cs549w+wSp/HUSzqyF93CvHnQEbQj4A73XF9
- PBYf5cippejg6HR8FUxiASjBKie02y4coYOOvssLz6Z5lGHAeg/pz0eI89d43KEv5lbURhwCKPe
- Ozww0gx6OJGc6/In8m1EEJel50WYxj0p2IOHKnNIL796fCeQuUoWXQ7HNjpY63UBwyOJosb2PQT
- Wp4VfxPO9C1RO6+m5k+Z4ZpqiAf4c/NFbM6kRzncbmReg5DPT3FJxXSuuKcc=
-X-Google-Smtp-Source: AGHT+IHjS9hZdr8cyMVFntbRjNYb2Oumvk3FGh6U8F2VpP3TacRH3nymulm+jQlQNNGanb7gPRa5pA==
-X-Received: by 2002:a2e:a006:0:b0:32b:3cf5:7358 with SMTP id
- 38308e7fff4ca-33053473347mr25758041fa.28.1752490914855; 
- Mon, 14 Jul 2025 04:01:54 -0700 (PDT)
-Received: from gmail.com (83-233-6-197.cust.bredband2.com. [83.233.6.197])
- by smtp.gmail.com with ESMTPSA id
- 38308e7fff4ca-32fa29141d1sm15310181fa.12.2025.07.14.04.01.52
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 14 Jul 2025 04:01:54 -0700 (PDT)
-Date: Mon, 14 Jul 2025 13:01:51 +0200
-From: Marcus Folkesson <marcus.folkesson@gmail.com>
-To: Javier Martinez Canillas <javierm@redhat.com>
-Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
- Conor Dooley <conor+dt@kernel.org>, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org, devicetree@vger.kernel.org
-Subject: Re: [PATCH 2/5] dt-bindings: display: sitronix,st7571: add optional
- inverted property
-Message-ID: <aHTjn3NqhuwwjQVh@gmail.com>
-References: <20250714-st7571-format-v1-0-a27e5112baff@gmail.com>
- <20250714-st7571-format-v1-2-a27e5112baff@gmail.com>
- <87o6tnkpun.fsf@minerva.mail-host-address-is-not-set>
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8D43110E460
+ for <dri-devel@lists.freedesktop.org>; Mon, 14 Jul 2025 11:02:35 +0000 (UTC)
+Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ (No client certificate requested)
+ by smtp-out1.suse.de (Postfix) with ESMTPS id 52BEA211D4;
+ Mon, 14 Jul 2025 11:02:34 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+ t=1752490954; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+ bh=jImuvTpF+YHjYKjFbeAcxsIVCLL9cH+SQxZdVF7L18c=;
+ b=guGQsJX9kMttFP1NNxLcHDWSFpkDlipoafeO6QWP1TQCy5ba1CCLx+M+WH2Z6HNvUe1SfQ
+ MPsbL+j6NM+Ot0/N2WeK8U+O7J7deDfrR0QtVC7viqSsFpOHt+h/LwN+Cs0HokDO0YgEh5
+ FeID+34XAVv+140yfoennWruAkc+8vE=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+ s=susede2_ed25519; t=1752490954;
+ h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+ bh=jImuvTpF+YHjYKjFbeAcxsIVCLL9cH+SQxZdVF7L18c=;
+ b=U/13GNpMQ7ZXc1DuBfKJ6ja63+DWCOfOZpPoCw78hWw/wxsS1lRXfPqxpcdxoiQaS+mLIC
+ kBf3wY3L5wyXTlBA==
+Authentication-Results: smtp-out1.suse.de;
+	none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+ t=1752490954; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+ bh=jImuvTpF+YHjYKjFbeAcxsIVCLL9cH+SQxZdVF7L18c=;
+ b=guGQsJX9kMttFP1NNxLcHDWSFpkDlipoafeO6QWP1TQCy5ba1CCLx+M+WH2Z6HNvUe1SfQ
+ MPsbL+j6NM+Ot0/N2WeK8U+O7J7deDfrR0QtVC7viqSsFpOHt+h/LwN+Cs0HokDO0YgEh5
+ FeID+34XAVv+140yfoennWruAkc+8vE=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+ s=susede2_ed25519; t=1752490954;
+ h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+ bh=jImuvTpF+YHjYKjFbeAcxsIVCLL9cH+SQxZdVF7L18c=;
+ b=U/13GNpMQ7ZXc1DuBfKJ6ja63+DWCOfOZpPoCw78hWw/wxsS1lRXfPqxpcdxoiQaS+mLIC
+ kBf3wY3L5wyXTlBA==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ (No client certificate requested)
+ by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 18DDC138A1;
+ Mon, 14 Jul 2025 11:02:34 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+ by imap1.dmz-prg2.suse.org with ESMTPSA id D6WkBMrjdGhwXgAAD6G6ig
+ (envelope-from <tzimmermann@suse.de>); Mon, 14 Jul 2025 11:02:34 +0000
+Message-ID: <046193df-bb11-4d84-98a4-c6d46d359316@suse.de>
+Date: Mon, 14 Jul 2025 13:02:33 +0200
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="Hnxh8WnDa6UQU/LQ"
-Content-Disposition: inline
-In-Reply-To: <87o6tnkpun.fsf@minerva.mail-host-address-is-not-set>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 2/3] drm/tests: edid: Update CTA-861 HDMI Vendor Specific
+ Data Block
+To: Maxime Ripard <mripard@kernel.org>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>
+Cc: Dmitry Baryshkov <lumag@kernel.org>, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org
+References: <20250625-drm-update-edid-v1-0-2d963743ab9e@kernel.org>
+ <20250625-drm-update-edid-v1-2-2d963743ab9e@kernel.org>
+Content-Language: en-US
+From: Thomas Zimmermann <tzimmermann@suse.de>
+Autocrypt: addr=tzimmermann@suse.de; keydata=
+ xsBNBFs50uABCADEHPidWt974CaxBVbrIBwqcq/WURinJ3+2WlIrKWspiP83vfZKaXhFYsdg
+ XH47fDVbPPj+d6tQrw5lPQCyqjwrCPYnq3WlIBnGPJ4/jreTL6V+qfKRDlGLWFjZcsrPJGE0
+ BeB5BbqP5erN1qylK9i3gPoQjXGhpBpQYwRrEyQyjuvk+Ev0K1Jc5tVDeJAuau3TGNgah4Yc
+ hdHm3bkPjz9EErV85RwvImQ1dptvx6s7xzwXTgGAsaYZsL8WCwDaTuqFa1d1jjlaxg6+tZsB
+ 9GluwvIhSezPgnEmimZDkGnZRRSFiGP8yjqTjjWuf0bSj5rUnTGiyLyRZRNGcXmu6hjlABEB
+ AAHNJ1Rob21hcyBaaW1tZXJtYW5uIDx0emltbWVybWFubkBzdXNlLmRlPsLAjgQTAQgAOAIb
+ AwULCQgHAgYVCgkICwIEFgIDAQIeAQIXgBYhBHIX+6yM6c9jRKFo5WgNwR1TC3ojBQJftODH
+ AAoJEGgNwR1TC3ojx1wH/0hKGWugiqDgLNXLRD/4TfHBEKmxIrmfu9Z5t7vwUKfwhFL6hqvo
+ lXPJJKQpQ2z8+X2vZm/slsLn7J1yjrOsoJhKABDi+3QWWSGkaGwRJAdPVVyJMfJRNNNIKwVb
+ U6B1BkX2XDKDGffF4TxlOpSQzdtNI/9gleOoUA8+jy8knnDYzjBNOZqLG2FuTdicBXblz0Mf
+ vg41gd9kCwYXDnD91rJU8tzylXv03E75NCaTxTM+FBXPmsAVYQ4GYhhgFt8S2UWMoaaABLDe
+ 7l5FdnLdDEcbmd8uLU2CaG4W2cLrUaI4jz2XbkcPQkqTQ3EB67hYkjiEE6Zy3ggOitiQGcqp
+ j//OwE0EWznS4AEIAMYmP4M/V+T5RY5at/g7rUdNsLhWv1APYrh9RQefODYHrNRHUE9eosYb
+ T6XMryR9hT8XlGOYRwKWwiQBoWSDiTMo/Xi29jUnn4BXfI2px2DTXwc22LKtLAgTRjP+qbU6
+ 3Y0xnQN29UGDbYgyyK51DW3H0If2a3JNsheAAK+Xc9baj0LGIc8T9uiEWHBnCH+RdhgATnWW
+ GKdDegUR5BkDfDg5O/FISymJBHx2Dyoklv5g4BzkgqTqwmaYzsl8UxZKvbaxq0zbehDda8lv
+ hFXodNFMAgTLJlLuDYOGLK2AwbrS3Sp0AEbkpdJBb44qVlGm5bApZouHeJ/+n+7r12+lqdsA
+ EQEAAcLAdgQYAQgAIAIbDBYhBHIX+6yM6c9jRKFo5WgNwR1TC3ojBQJftOH6AAoJEGgNwR1T
+ C3ojVSkIALpAPkIJPQoURPb1VWjh34l0HlglmYHvZszJWTXYwavHR8+k6Baa6H7ufXNQtThR
+ yIxJrQLW6rV5lm7TjhffEhxVCn37+cg0zZ3j7zIsSS0rx/aMwi6VhFJA5hfn3T0TtrijKP4A
+ SAQO9xD1Zk9/61JWk8OysuIh7MXkl0fxbRKWE93XeQBhIJHQfnc+YBLprdnxR446Sh8Wn/2D
+ Ya8cavuWf2zrB6cZurs048xe0UbSW5AOSo4V9M0jzYI4nZqTmPxYyXbm30Kvmz0rYVRaitYJ
+ 4kyYYMhuULvrJDMjZRvaNe52tkKAvMevcGdt38H4KSVXAylqyQOW5zvPc4/sq9c=
+In-Reply-To: <20250625-drm-update-edid-v1-2-2d963743ab9e@kernel.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Spamd-Result: default: False [-4.30 / 50.00]; BAYES_HAM(-3.00)[100.00%];
+ NEURAL_HAM_LONG(-1.00)[-1.000];
+ NEURAL_HAM_SHORT(-0.20)[-0.999]; MIME_GOOD(-0.10)[text/plain];
+ FUZZY_RATELIMITED(0.00)[rspamd.com];
+ TO_MATCH_ENVRCPT_ALL(0.00)[]; ARC_NA(0.00)[];
+ DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+ MIME_TRACE(0.00)[0:+];
+ FREEMAIL_TO(0.00)[kernel.org,linux.intel.com,gmail.com,ffwll.ch];
+ RCVD_TLS_ALL(0.00)[]; FREEMAIL_ENVRCPT(0.00)[gmail.com];
+ RCVD_VIA_SMTP_AUTH(0.00)[]; FROM_EQ_ENVFROM(0.00)[];
+ FROM_HAS_DN(0.00)[]; TO_DN_SOME(0.00)[];
+ RCVD_COUNT_TWO(0.00)[2]; RCPT_COUNT_SEVEN(0.00)[7];
+ MID_RHS_MATCH_FROM(0.00)[];
+ DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:mid]
+X-Spam-Flag: NO
+X-Spam-Level: 
+X-Spam-Score: -4.30
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -97,72 +145,352 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+Hi
 
---Hnxh8WnDa6UQU/LQ
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Am 25.06.25 um 17:14 schrieb Maxime Ripard:
+> For some reason, the HDMI VSDBs in our kunit EDIDs had a length longer
+> than expected.
+>
+> While this was harmless, we should get rid of it to make it somewhat
+> predictable.
 
-On Mon, Jul 14, 2025 at 12:51:12PM +0200, Javier Martinez Canillas wrote:
-> Marcus Folkesson <marcus.folkesson@gmail.com> writes:
->=20
-> > Depending on which display that is connected to the controller, an "1"
-> > means either a black or a white pixel.
-> >
-> > The supported formats (R1/R2/XRGB8888) expects the pixels
-> > to map against (4bit):
-> > 00 =3D> Black
-> > 01 =3D> Dark Gray
-> > 10 =3D> Light Gray
-> > 11 =3D> White
-> >
-> > If this is not what the display map against, the controller has support
-> > to invert these values.
-> >
-> > Signed-off-by: Marcus Folkesson <marcus.folkesson@gmail.com>
-> > ---
->=20
-> Could you please rebase on top of my series that adds the ST7567? Because
-> I see that this controller also have a "Inverse Display" command, so this
-> property will also apply.
+Dump question: should these errors be kept in another test specifically 
+for detecting this problem?
 
-Sure, I will rebase on top of your series and include support for the
-inverse display command for the ST7567 controller as well.
+Best regards
+Thomas
 
->=20
-> Or do you prefer for this to land before and then I could post a v3 on to=
-p?
->=20
-> Reviewed-by: Javier Martinez Canillas <javierm@redhat.com>
->=20
-> --=20
-> Best regards,
->=20
-> Javier Martinez Canillas
-> Core Platforms
-> Red Hat
+>
+> Signed-off-by: Maxime Ripard <mripard@kernel.org>
+> ---
+>   drivers/gpu/drm/tests/drm_kunit_edid.h | 85 ++++++++++++++++------------------
+>   1 file changed, 40 insertions(+), 45 deletions(-)
+>
+> diff --git a/drivers/gpu/drm/tests/drm_kunit_edid.h b/drivers/gpu/drm/tests/drm_kunit_edid.h
+> index ac311804b36ccb21f865ecec90dd2557bff0e4b2..14782a3840f00c50c7daee38bba98585003c13a2 100644
+> --- a/drivers/gpu/drm/tests/drm_kunit_edid.h
+> +++ b/drivers/gpu/drm/tests/drm_kunit_edid.h
+> @@ -71,18 +71,18 @@ static const unsigned char test_edid_dvi_1080p[] = {
+>    * 45 00 40 84 63 00 00 1e 00 00 00 fc 00 54 65 73
+>    * 74 20 45 44 49 44 0a 20 20 20 00 00 00 fd 00 32
+>    * 46 1e 46 0f 00 0a 20 20 20 20 20 20 00 00 00 10
+>    * 00 00 00 00 00 00 00 00 00 00 00 00 00 00 01 92
+>    *
+> - * 02 03 1b 81 e3 05 00 20 41 10 e2 00 4a 6d 03 0c
+> - * 00 12 34 00 14 20 00 00 00 00 00 00 00 00 00 00
+> + * 02 03 15 81 e3 05 00 20 41 10 e2 00 4a 67 03 0c
+> + * 00 12 34 00 14 00 00 00 00 00 00 00 00 00 00 00
+>    * 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+>    * 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+>    * 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+>    * 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+>    * 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+> - * 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 e4
+> + * 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 10
+>    *
+>    * ----------------
+>    *
+>    * Block 0, Base EDID:
+>    *   EDID Structure Version & Revision: 1.3
+> @@ -133,12 +133,11 @@ static const unsigned char test_edid_dvi_1080p[] = {
+>    *     IT scan behavior: Always Underscanned
+>    *     CE scan behavior: Always Underscanned
+>    *   Vendor-Specific Data Block (HDMI), OUI 00-0C-03:
+>    *     Source physical address: 1.2.3.4
+>    *     Maximum TMDS clock: 100 MHz
+> - *     Extended HDMI video details:
+> - * Checksum: 0xe4  Unused space in Extension Block: 100 bytes
+> + * Checksum: 0x10  Unused space in Extension Block: 106 bytes
+>    */
+>   static const unsigned char test_edid_hdmi_1080p_rgb_max_100mhz[] = {
+>   	0x00, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0x00, 0x31, 0xd8, 0x2a, 0x00,
+>   	0x00, 0x00, 0x00, 0x00, 0x00, 0x21, 0x01, 0x03, 0x81, 0xa0, 0x5a, 0x78,
+>   	0x02, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x20,
+> @@ -147,22 +146,22 @@ static const unsigned char test_edid_hdmi_1080p_rgb_max_100mhz[] = {
+>   	0x2d, 0x40, 0x58, 0x2c, 0x45, 0x00, 0x40, 0x84, 0x63, 0x00, 0x00, 0x1e,
+>   	0x00, 0x00, 0x00, 0xfc, 0x00, 0x54, 0x65, 0x73, 0x74, 0x20, 0x45, 0x44,
+>   	0x49, 0x44, 0x0a, 0x20, 0x20, 0x20, 0x00, 0x00, 0x00, 0xfd, 0x00, 0x32,
+>   	0x46, 0x1e, 0x46, 0x0f, 0x00, 0x0a, 0x20, 0x20, 0x20, 0x20, 0x20, 0x20,
+>   	0x00, 0x00, 0x00, 0x10, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
+> -	0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x01, 0x92, 0x02, 0x03, 0x1b, 0x81,
+> -	0xe3, 0x05, 0x00, 0x20, 0x41, 0x10, 0xe2, 0x00, 0x4a, 0x6d, 0x03, 0x0c,
+> -	0x00, 0x12, 0x34, 0x00, 0x14, 0x20, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
+> +	0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x01, 0x92, 0x02, 0x03, 0x15, 0x81,
+> +	0xe3, 0x05, 0x00, 0x20, 0x41, 0x10, 0xe2, 0x00, 0x4a, 0x67, 0x03, 0x0c,
+> +	0x00, 0x12, 0x34, 0x00, 0x14, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
+>   	0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
+>   	0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
+>   	0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
+>   	0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
+>   	0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
+>   	0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
+>   	0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
+>   	0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
+> -	0x00, 0x00, 0x00, 0xe4
+> +	0x00, 0x00, 0x00, 0x10
+>   };
+>   
+>   /*
+>    * edid-decode (hex):
+>    *
+> @@ -173,18 +172,18 @@ static const unsigned char test_edid_hdmi_1080p_rgb_max_100mhz[] = {
+>    * 45 00 40 84 63 00 00 1e 00 00 00 fc 00 54 65 73
+>    * 74 20 45 44 49 44 0a 20 20 20 00 00 00 fd 00 32
+>    * 46 1e 46 0f 00 0a 20 20 20 20 20 20 00 00 00 10
+>    * 00 00 00 00 00 00 00 00 00 00 00 00 00 00 01 92
+>    *
+> - * 02 03 1b 81 e3 05 00 20 41 10 e2 00 4a 6d 03 0c
+> - * 00 12 34 00 28 20 00 00 00 00 00 00 00 00 00 00
+> + * 02 03 15 81 e3 05 00 20 41 10 e2 00 4a 67 03 0c
+> + * 00 12 34 00 28 00 00 00 00 00 00 00 00 00 00 00
+>    * 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+>    * 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+>    * 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+>    * 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+>    * 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+> - * 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 d0
+> + * 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 fc
+>    *
+>    * ----------------
+>    *
+>    * Block 0, Base EDID:
+>    *   EDID Structure Version & Revision: 1.3
+> @@ -235,12 +234,11 @@ static const unsigned char test_edid_hdmi_1080p_rgb_max_100mhz[] = {
+>    *     IT scan behavior: Always Underscanned
+>    *     CE scan behavior: Always Underscanned
+>    *   Vendor-Specific Data Block (HDMI), OUI 00-0C-03:
+>    *     Source physical address: 1.2.3.4
+>    *     Maximum TMDS clock: 200 MHz
+> - *     Extended HDMI video details:
+> - * Checksum: 0xd0  Unused space in Extension Block: 100 bytes
+> + * Checksum: 0xfc  Unused space in Extension Block: 106 bytes
+>    */
+>   static const unsigned char test_edid_hdmi_1080p_rgb_max_200mhz[] = {
+>   	0x00, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0x00, 0x31, 0xd8, 0x2a, 0x00,
+>   	0x00, 0x00, 0x00, 0x00, 0x00, 0x21, 0x01, 0x03, 0x81, 0xa0, 0x5a, 0x78,
+>   	0x02, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x20,
+> @@ -249,22 +247,22 @@ static const unsigned char test_edid_hdmi_1080p_rgb_max_200mhz[] = {
+>   	0x2d, 0x40, 0x58, 0x2c, 0x45, 0x00, 0x40, 0x84, 0x63, 0x00, 0x00, 0x1e,
+>   	0x00, 0x00, 0x00, 0xfc, 0x00, 0x54, 0x65, 0x73, 0x74, 0x20, 0x45, 0x44,
+>   	0x49, 0x44, 0x0a, 0x20, 0x20, 0x20, 0x00, 0x00, 0x00, 0xfd, 0x00, 0x32,
+>   	0x46, 0x1e, 0x46, 0x0f, 0x00, 0x0a, 0x20, 0x20, 0x20, 0x20, 0x20, 0x20,
+>   	0x00, 0x00, 0x00, 0x10, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
+> -	0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x01, 0x92, 0x02, 0x03, 0x1b, 0x81,
+> -	0xe3, 0x05, 0x00, 0x20, 0x41, 0x10, 0xe2, 0x00, 0x4a, 0x6d, 0x03, 0x0c,
+> -	0x00, 0x12, 0x34, 0x00, 0x28, 0x20, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
+> +	0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x01, 0x92, 0x02, 0x03, 0x15, 0x81,
+> +	0xe3, 0x05, 0x00, 0x20, 0x41, 0x10, 0xe2, 0x00, 0x4a, 0x67, 0x03, 0x0c,
+> +	0x00, 0x12, 0x34, 0x00, 0x28, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
+>   	0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
+>   	0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
+>   	0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
+>   	0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
+>   	0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
+>   	0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
+>   	0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
+>   	0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
+> -	0x00, 0x00, 0x00, 0xd0
+> +	0x00, 0x00, 0x00, 0xfc
+>   };
+>   
+>   /*
+>    * edid-decode (hex):
+>    *
+> @@ -275,18 +273,18 @@ static const unsigned char test_edid_hdmi_1080p_rgb_max_200mhz[] = {
+>    * 45 00 40 84 63 00 00 1e 00 00 00 fc 00 54 65 73
+>    * 74 20 45 44 49 44 0a 20 20 20 00 00 00 fd 00 32
+>    * 46 1e 46 0f 00 0a 20 20 20 20 20 20 00 00 00 10
+>    * 00 00 00 00 00 00 00 00 00 00 00 00 00 00 01 92
+>    *
+> - * 02 03 1b 81 e3 05 00 20 41 10 e2 00 4a 6d 03 0c
+> - * 00 12 34 00 28 20 00 00 00 00 00 00 00 00 00 00
+> + * 02 03 15 81 e3 05 00 20 41 10 e2 00 4a 67 03 0c
+> + * 00 12 34 00 44 00 00 00 00 00 00 00 00 00 00 00
+>    * 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+>    * 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+>    * 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+>    * 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+>    * 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+> - * 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 d0
+> + * 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 e0
+>    *
+>    * ----------------
+>    *
+>    * Block 0, Base EDID:
+>    *   EDID Structure Version & Revision: 1.3
+> @@ -337,12 +335,11 @@ static const unsigned char test_edid_hdmi_1080p_rgb_max_200mhz[] = {
+>    *     IT scan behavior: Always Underscanned
+>    *     CE scan behavior: Always Underscanned
+>    *   Vendor-Specific Data Block (HDMI), OUI 00-0C-03:
+>    *     Source physical address: 1.2.3.4
+>    *     Maximum TMDS clock: 340 MHz
+> - *     Extended HDMI video details:
+> - * Checksum: 0xd0  Unused space in Extension Block: 100 bytes
+> + * Checksum: 0xe0  Unused space in Extension Block: 106 bytes
+>    */
+>   static const unsigned char test_edid_hdmi_1080p_rgb_max_340mhz[] = {
+>   	0x00, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0x00, 0x31, 0xd8, 0x2a, 0x00,
+>   	0x00, 0x00, 0x00, 0x00, 0x00, 0x21, 0x01, 0x03, 0x81, 0xa0, 0x5a, 0x78,
+>   	0x02, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x20,
+> @@ -351,22 +348,22 @@ static const unsigned char test_edid_hdmi_1080p_rgb_max_340mhz[] = {
+>   	0x2d, 0x40, 0x58, 0x2c, 0x45, 0x00, 0x40, 0x84, 0x63, 0x00, 0x00, 0x1e,
+>   	0x00, 0x00, 0x00, 0xfc, 0x00, 0x54, 0x65, 0x73, 0x74, 0x20, 0x45, 0x44,
+>   	0x49, 0x44, 0x0a, 0x20, 0x20, 0x20, 0x00, 0x00, 0x00, 0xfd, 0x00, 0x32,
+>   	0x46, 0x1e, 0x46, 0x0f, 0x00, 0x0a, 0x20, 0x20, 0x20, 0x20, 0x20, 0x20,
+>   	0x00, 0x00, 0x00, 0x10, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
+> -	0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x01, 0x92, 0x02, 0x03, 0x1b, 0x81,
+> -	0xe3, 0x05, 0x00, 0x20, 0x41, 0x10, 0xe2, 0x00, 0x4a, 0x6d, 0x03, 0x0c,
+> -	0x00, 0x12, 0x34, 0x00, 0x44, 0x20, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
+> +	0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x01, 0x92, 0x02, 0x03, 0x15, 0x81,
+> +	0xe3, 0x05, 0x00, 0x20, 0x41, 0x10, 0xe2, 0x00, 0x4a, 0x67, 0x03, 0x0c,
+> +	0x00, 0x12, 0x34, 0x00, 0x44, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
+>   	0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
+>   	0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
+>   	0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
+>   	0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
+>   	0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
+>   	0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
+>   	0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
+>   	0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
+> -	0x00, 0x00, 0x00, 0xd0
+> +	0x00, 0x00, 0x00, 0xe0
+>   };
+>   
+>   /*
+>    * edid-decode (hex):
+>    *
+> @@ -377,18 +374,18 @@ static const unsigned char test_edid_hdmi_1080p_rgb_max_340mhz[] = {
+>    * 45 00 40 84 63 00 00 1e 00 00 00 fc 00 54 65 73
+>    * 74 20 45 44 49 44 0a 20 20 20 00 00 00 fd 00 32
+>    * 46 1e 46 0f 00 0a 20 20 20 20 20 20 00 00 00 10
+>    * 00 00 00 00 00 00 00 00 00 00 00 00 00 00 01 7a
+>    *
+> - * 02 03 1b b1 e3 05 00 20 41 10 e2 00 ca 6d 03 0c
+> - * 00 12 34 78 28 20 00 00 00 00 00 00 00 00 00 00
+> + * 02 03 15 b1 e3 05 00 20 41 10 e2 00 ca 67 03 0c
+> + * 00 12 34 78 28 00 00 00 00 00 00 00 00 00 00 00
+>    * 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+>    * 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+>    * 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+>    * 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+>    * 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+> - * 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 a8
+> + * 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 d4
+>    *
+>    * ----------------
+>    *
+>    * Block 0, Base EDID:
+>    *   EDID Structure Version & Revision: 1.3
+> @@ -445,12 +442,11 @@ static const unsigned char test_edid_hdmi_1080p_rgb_max_340mhz[] = {
+>    *     DC_48bit
+>    *     DC_36bit
+>    *     DC_30bit
+>    *     DC_Y444
+>    *     Maximum TMDS clock: 200 MHz
+> - *     Extended HDMI video details:
+> - * Checksum: 0xa8  Unused space in Extension Block: 100 bytes
+> + * Checksum: 0xd4  Unused space in Extension Block: 106 bytes
+>    */
+>   static const unsigned char test_edid_hdmi_1080p_rgb_yuv_dc_max_200mhz[] = {
+>   	0x00, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0x00, 0x31, 0xd8, 0x2a, 0x00,
+>   	0x00, 0x00, 0x00, 0x00, 0x00, 0x21, 0x01, 0x03, 0x81, 0xa0, 0x5a, 0x78,
+>   	0x1a, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x20,
+> @@ -459,22 +455,22 @@ static const unsigned char test_edid_hdmi_1080p_rgb_yuv_dc_max_200mhz[] = {
+>   	0x2d, 0x40, 0x58, 0x2c, 0x45, 0x00, 0x40, 0x84, 0x63, 0x00, 0x00, 0x1e,
+>   	0x00, 0x00, 0x00, 0xfc, 0x00, 0x54, 0x65, 0x73, 0x74, 0x20, 0x45, 0x44,
+>   	0x49, 0x44, 0x0a, 0x20, 0x20, 0x20, 0x00, 0x00, 0x00, 0xfd, 0x00, 0x32,
+>   	0x46, 0x1e, 0x46, 0x0f, 0x00, 0x0a, 0x20, 0x20, 0x20, 0x20, 0x20, 0x20,
+>   	0x00, 0x00, 0x00, 0x10, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
+> -	0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x01, 0x7a, 0x02, 0x03, 0x1b, 0xb1,
+> -	0xe3, 0x05, 0x00, 0x20, 0x41, 0x10, 0xe2, 0x00, 0xca, 0x6d, 0x03, 0x0c,
+> -	0x00, 0x12, 0x34, 0x78, 0x28, 0x20, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
+> +	0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x01, 0x7a, 0x02, 0x03, 0x15, 0xb1,
+> +	0xe3, 0x05, 0x00, 0x20, 0x41, 0x10, 0xe2, 0x00, 0xca, 0x67, 0x03, 0x0c,
+> +	0x00, 0x12, 0x34, 0x78, 0x28, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
+>   	0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
+>   	0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
+>   	0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
+>   	0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
+>   	0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
+>   	0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
+>   	0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
+>   	0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
+> -	0x00, 0x00, 0x00, 0xa8
+> +	0x00, 0x00, 0x00, 0xd4
+>   };
+>   
+>   /*
+>    * edid-decode (hex):
+>    *
+> @@ -485,18 +481,18 @@ static const unsigned char test_edid_hdmi_1080p_rgb_yuv_dc_max_200mhz[] = {
+>    * 45 00 40 84 63 00 00 1e 00 00 00 fc 00 54 65 73
+>    * 74 20 45 44 49 44 0a 20 20 20 00 00 00 fd 00 32
+>    * 46 1e 46 0f 00 0a 20 20 20 20 20 20 00 00 00 10
+>    * 00 00 00 00 00 00 00 00 00 00 00 00 00 00 01 8a
+>    *
+> - * 02 03 1b b1 e3 05 00 20 41 10 e2 00 ca 6d 03 0c
+> - * 00 12 34 78 44 20 00 00 00 00 00 00 00 00 00 00
+> + * 02 03 15 b1 e3 05 00 20 41 10 e2 00 ca 67 03 0c
+> + * 00 12 34 78 44 00 00 00 00 00 00 00 00 00 00 00
+>    * 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+>    * 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+>    * 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+>    * 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+>    * 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+> - * 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 8c
+> + * 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 b8
+>    *
+>    * ----------------
+>    *
+>    * Block 0, Base EDID:
+>    *   EDID Structure Version & Revision: 1.3
+> @@ -553,12 +549,11 @@ static const unsigned char test_edid_hdmi_1080p_rgb_yuv_dc_max_200mhz[] = {
+>    *     DC_48bit
+>    *     DC_36bit
+>    *     DC_30bit
+>    *     DC_Y444
+>    *     Maximum TMDS clock: 340 MHz
+> - *     Extended HDMI video details:
+> - * Checksum: 0x8c  Unused space in Extension Block: 100 bytes
+> + * Checksum: 0xb8  Unused space in Extension Block: 106 bytes
+>    */
+>   static const unsigned char test_edid_hdmi_1080p_rgb_yuv_dc_max_340mhz[] = {
+>   	0x00, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0x00, 0x31, 0xd8, 0x2a, 0x00,
+>   	0x00, 0x00, 0x00, 0x00, 0x00, 0x21, 0x01, 0x03, 0x81, 0xa0, 0x5a, 0x78,
+>   	0x0a, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x20,
+> @@ -567,20 +562,20 @@ static const unsigned char test_edid_hdmi_1080p_rgb_yuv_dc_max_340mhz[] = {
+>   	0x2d, 0x40, 0x58, 0x2c, 0x45, 0x00, 0x40, 0x84, 0x63, 0x00, 0x00, 0x1e,
+>   	0x00, 0x00, 0x00, 0xfc, 0x00, 0x54, 0x65, 0x73, 0x74, 0x20, 0x45, 0x44,
+>   	0x49, 0x44, 0x0a, 0x20, 0x20, 0x20, 0x00, 0x00, 0x00, 0xfd, 0x00, 0x32,
+>   	0x46, 0x1e, 0x46, 0x0f, 0x00, 0x0a, 0x20, 0x20, 0x20, 0x20, 0x20, 0x20,
+>   	0x00, 0x00, 0x00, 0x10, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
+> -	0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x01, 0x8a, 0x02, 0x03, 0x1b, 0xb1,
+> -	0xe3, 0x05, 0x00, 0x20, 0x41, 0x10, 0xe2, 0x00, 0xca, 0x6d, 0x03, 0x0c,
+> -	0x00, 0x12, 0x34, 0x78, 0x44, 0x20, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
+> +	0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x01, 0x8a, 0x02, 0x03, 0x15, 0xb1,
+> +	0xe3, 0x05, 0x00, 0x20, 0x41, 0x10, 0xe2, 0x00, 0xca, 0x67, 0x03, 0x0c,
+> +	0x00, 0x12, 0x34, 0x78, 0x44, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
+>   	0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
+>   	0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
+>   	0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
+>   	0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
+>   	0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
+>   	0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
+>   	0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
+>   	0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
+> -	0x00, 0x00, 0x00, 0x8c
+> +	0x00, 0x00, 0x00, 0xb8
+>   };
+>   
+>   #endif // DRM_KUNIT_EDID_H_
+>
 
-Best regards,
-Marcus Folkesson
+-- 
+--
+Thomas Zimmermann
+Graphics Driver Developer
+SUSE Software Solutions Germany GmbH
+Frankenstrasse 146, 90461 Nuernberg, Germany
+GF: Ivo Totev, Andrew Myers, Andrew McDonald, Boudien Moerman
+HRB 36809 (AG Nuernberg)
 
---Hnxh8WnDa6UQU/LQ
-Content-Type: application/pgp-signature; name=signature.asc
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAEBCAAdFiEEBVGi6LZstU1kwSxliIBOb1ldUjIFAmh045oACgkQiIBOb1ld
-UjIBbxAAgTFlu5KKAUWMswSzSlDNwsZ15dXj/w13i2R5WRaObTVQscLH3IpabSWN
-vW2sSUlaiOkzSzIm/RVXzTEiU2Dz3tXan4vPGABBolmg+0kVKpXLr0NzDMQyy6P5
-vu7yrtg3Fa6fBZeBMQodEoVNCXezJ7UV3AtOP8j6vSN98CnNl8NG1N5OpT+hfsmN
-hxLL5qCAj0xw1t8v/75bVEUQReaPqNlBWckBo2tlJmw2J7WLAZ2K3jKzxjPfxxEL
-Kq1cQ2RuSNyLF9BxjJgtZrY4+3M6to+Nzlre1kUPNPmGvu7IbyRQa9EZiAXO/mvV
-RNLC+y4G5qworVGO9hJUrKoRM9gA9YXCK7+d1wyDxQK8stP1K9NwBA3lF6o71wyS
-sejM5v9qN7Yc6xGSpcEtYOIGfT+znmbBmi5Gq/xVZJRtT4gg9ylxEtVJODInk60K
-M05Rj9S4RzhM4CGF2B7Eie5wyZ/QVbAn1PZYzH8zOy+dWHlSY+75iuLjtk8/RDW+
-XyrVBO8HOHUW4r601mDO9LiH/D6u2XDRIVKlMSy9zZctOah0WB8Sf3kKUPQuuF7l
-ixyk170qygFa4kt+Rqc7pm2SH6gfGkIeE6ZmNGTI5yS7/LkZ62bNsoNvT+9BWkIa
-bcERs0rvmAUaz5vz/x3uehgV6OGB5M/GklMHlPP37HeElKi3CZw=
-=DDNb
------END PGP SIGNATURE-----
-
---Hnxh8WnDa6UQU/LQ--
