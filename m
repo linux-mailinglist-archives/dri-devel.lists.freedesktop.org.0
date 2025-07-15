@@ -2,33 +2,35 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 91188B05DA9
-	for <lists+dri-devel@lfdr.de>; Tue, 15 Jul 2025 15:45:52 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id C4D68B05DAD
+	for <lists+dri-devel@lfdr.de>; Tue, 15 Jul 2025 15:45:55 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E58A510E5D1;
-	Tue, 15 Jul 2025 13:45:50 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3583D10E5D3;
+	Tue, 15 Jul 2025 13:45:54 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=uniontech.com header.i=@uniontech.com header.b="cYNpNWbY";
+	dkim=pass (1024-bit key; unprotected) header.d=uniontech.com header.i=@uniontech.com header.b="dt/d39U/";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from bg1.exmail.qq.com (bg1.exmail.qq.com [114.132.73.137])
- by gabe.freedesktop.org (Postfix) with ESMTPS id EFB3D10E5D1;
- Tue, 15 Jul 2025 13:45:46 +0000 (UTC)
+X-Greylist: delayed 23254 seconds by postgrey-1.36 at gabe;
+ Tue, 15 Jul 2025 13:45:51 UTC
+Received: from smtpbg154.qq.com (smtpbg154.qq.com [15.184.224.54])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 935C010E5D4;
+ Tue, 15 Jul 2025 13:45:51 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=uniontech.com;
- s=onoh2408; t=1752587119;
- bh=VbDjsaSgaoEPlFZ9K3vL7MSzjcmGihKEVnrA99JNOYI=;
+ s=onoh2408; t=1752587127;
+ bh=DQOAtGRHzOhokt1byV1hDfgfMVfreeOvNYgUQQUEI+w=;
  h=From:To:Subject:Date:Message-ID:MIME-Version;
- b=cYNpNWbYqKgbtSDrgMMfjJ2xkHgZRACyt6gucq3evEQo11N5w57rJeRzQ7B2fzh9e
- Wvr4qxNetJdS4xTKmYCMM2vK+tntv0eZYCh5l36LjGooQUOks3svE9xekEGP1XEEL2
- zPbk/ivgtwq0VZZgsVVizuezciF49dM5Ni64086s=
-X-QQ-mid: zesmtpip2t1752587106t97bb4b6a
-X-QQ-Originating-IP: fr1CmoslNJ1j99md0Ifh9EAzvQnNvfGQS6SMdf3j/kc=
+ b=dt/d39U/JvCGRYvJywjrnl6l+GFiWSoghBEC8LTHxqR9Qje6oIFcAkRizOqLdSzXs
+ GMHBh5+6oynlPBWuLPdwN8DzoqGlX+xfe8PDbLUefu65zP9IgoIjFczk1dMH/QJHiX
+ Fa3X5qoKmbn21HWedq5TPEsnWWmhrHTAmkKDcYFU=
+X-QQ-mid: zesmtpip2t1752587114t4242d337
+X-QQ-Originating-IP: bUZPMnhKZ8NU12puD/0nV8FvyCDfWloR8Qvt76r6nV8=
 Received: from avenger-e500 ( [localhost]) by bizesmtp.qq.com (ESMTP) with 
- id ; Tue, 15 Jul 2025 21:45:01 +0800 (CST)
+ id ; Tue, 15 Jul 2025 21:45:09 +0800 (CST)
 X-QQ-SSF: 0000000000000000000000000000000
 X-QQ-GoodBg: 1
-X-BIZMAIL-ID: 4765109323548060574
+X-BIZMAIL-ID: 17289734867236313614
 EX-QQ-RecipientCnt: 63
 From: WangYuli <wangyuli@uniontech.com>
 To: wangyuli@uniontech.com
@@ -55,9 +57,9 @@ Cc: airlied@gmail.com, akpm@linux-foundation.org, alison.schofield@intel.com,
  simona@ffwll.ch, sstabellini@kernel.org, tglx@linutronix.de,
  thomas.hellstrom@linux.intel.com, vishal.l.verma@intel.com, x86@kernel.org,
  xen-devel@lists.xenproject.org, yujiaoliang@vivo.com, zhanjun@uniontech.com
-Subject: [PATCH v2 5/8] wifi: brcmfmac: Fix typo "notifer"
-Date: Tue, 15 Jul 2025 21:44:04 +0800
-Message-ID: <F92035B0A9123150+20250715134407.540483-5-wangyuli@uniontech.com>
+Subject: [PATCH v2 6/8] serial: 8250_dw: Fix typo "notifer"
+Date: Tue, 15 Jul 2025 21:44:05 +0800
+Message-ID: <2BF1749F02ADE664+20250715134407.540483-6-wangyuli@uniontech.com>
 X-Mailer: git-send-email 2.50.0
 In-Reply-To: <BD5C52D2838AEA48+20250715134050.539234-1-wangyuli@uniontech.com>
 References: <BD5C52D2838AEA48+20250715134050.539234-1-wangyuli@uniontech.com>
@@ -65,24 +67,24 @@ MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-QQ-SENDSIZE: 520
 Feedback-ID: zesmtpip:uniontech.com:qybglogicsvrgz:qybglogicsvrgz8a-1
-X-QQ-XMAILINFO: NqpYruwlneiLbbMXibSF/Jw99ADSpZwhYZdtrpEogWm6GFFTjIUVxKs8
- tzurL/0a3h+MDp1L0HHo9Fadnk0ssOfLtFAQjF8//xsX6ZduVt043IyLtGW5/2BVYzOYMjr
- ecom+AxOAxXyP6Ko153/jbbr2I8KMcw41eh6nDovrtpgUP5N87Zxq5sFQA2H2zuYiIFYJod
- AvCCk41VmtavzLtaFf+qJH1yYaFXn706++Z+Cuzjqgj8T4axADd6XFfjSoeghwI4CgDNqIf
- 4xW1dSCkn7SfWSG9I/1IdCDQmr88nwiCPLkhuNw0uxoPJgut1NABRgK7lhpMNWimcJ91iqi
- 5JXIlaSuBdWJcB4GKICs3IaLIiYuGhxechK9sFYgvK6ZQsdKcihwAlyouAZ9WuwoNrI173+
- V0eCoKweSjBlJu+aH0I3wjpclOtleHRNETe0u8UOQ5L3w0UwIJ3RNzTPV7jUwqR9qYHuxzH
- l6txhWHwsUEzqWZoEzZKTodpbk8prWNHe7udHTL5y9xDxf8feC3FzRbi2dATa+8KA23+TGu
- jVP7Hes/B9MOOEUICYnJ0pMqjT9A/Tt7FdYC/H43+purPbgfRqsClSmZIB/Rfzb28bAP8B/
- i1e3d9OAXEbSyaJAG50WHlU1O2ZdcRzRQeENVZSX3YJDiwRrqnNmc0tN97srodbhYBb5mmf
- 0SLYCqwwC8Wib5exbsvpCMvsU+JQfB39NRq675MyemAKLa8ZhRzz5NKhoTjQVftWlEb7/kX
- b9k6yNjcz7qvXCBdpbi0QFIKaQB10/a9Npmd5hWU7M6AKLfP+MIZqSa8C4lM9ZFitY4lByc
- 6bH8vinxYDNgG+dhn4FYxLk6ZJys3cS/s4WPM0gyDsaz3haEKCw7n3KuYaNqvKtfByxMh8D
- Bcp8GZrAjCrf1RpFO/1lYuRi8vUlHjmDFwbTpLf5JGnq5/RI0HWrJ2mgQyeMT5P5oFphUYO
- Iy5vxWfdF9wFTUlvBXd+T2H8QL68gbhlCNm8T2sbhEFu+QFTCYk2xTekIPFR0E4l0UnKxyA
- Nr8wYmOuPA2kt9EEHO+x0jsm0tQCw2SchbG0tTKM/GgUxD+7pV+A4/0I4nqLmuEfKVMJQUR
- svBOlCalFeFY5cGcB06y/+SJafLQuFidrd3vnGlgLv9h3QKTltkAizyx7nS+TPXtA==
-X-QQ-XMRINFO: NyFYKkN4Ny6FSmKK/uo/jdU=
+X-QQ-XMAILINFO: NYuZLBhQBuqvZPqTaA6eCRNOw1rsjH/1V0incXI0TTkXhIqjT7OcyVpB
+ U4BwUK7IzVbCUS+z9mPFOXnqeyiiIwmM3D5JHQyd+IBkFoGpDBTfRxU982pmEMODO1iaxKY
+ D48NOO0SiNjVs8fA9CcJ+qADBbnc+Qq6wEfJEREPTT54OKcldJY9fVxNhnH6sFSyZdZr1r+
+ QhZ+SFC4XDjSNOFewsNqmG1gdtoI5qlIjUH3jOpiv7hjFQnZ/rHku2YFBeJUI9wgQu/EZ2g
+ 1SHvFKk7b4+awytyd6trjgbB00PeVMLjlfrTxj9kxoHbCtD928FdzMZo2Gtnt+xtZyi9vdd
+ xmxCmPa1+SWXVGMJElU6ck0QgB6Gu96yBRNEfs4KoC12IgmPa8C6kyrhBLpeLsL0BQfh8DW
+ rmvUy+khQwMdaV2duDMxGBqB6u+dGdAcZp2JbS/blmkcJXaAx1f/mmFinZVe6tyqB7GVobX
+ 8/pako5aZr+woWT+p9txzW2E5uSmir4xXa1u1zVyTCGk2TtJdeZe5u3JPxrq0Bw5QGG/DUM
+ FZWj5jTkINwLqHc0UrudOSiQ3uABt53gye9gBlFEanwVKt8dCe/RuDHOVnzHob0VTXzeXG1
+ LonRGyEjbzoOkl/Iq8WlEqSv7mm91gapRqeIv9tTSYdljJSr6+I7S0mo5+o1QSDHQiVzktm
+ PA1h8R0OREJoJfygD1WNfmzH1b/KltS8ePC9yAeJXq3WoLJEbO+1dAX0MX1n1JEleDlZpXL
+ YMDRU81uTsLV6Zd9gywX8FGcu9RhBTw6RLR1kK4DXtAOEeECV0iZE2UNGXpWUKoNsKVspzi
+ 3bIBCVfcK6GnIX2R45rvjdHh82MP4jIVrPHIOovNuC0R5+uNV1ZAWzCpVGc8iQHEcY/wXAe
+ ymu5iDY28lWKG+hHKuvDrTAzpGr/6cIe7xlq+IQge73r9PjfXPp/qx6bSuF3QnyvKq5C97h
+ 1Pa9z/dsdW6qzlVBgSAT6g8T6asn4XPy97OzJbneZfv6yu+3LicvLYJi50aGC0JDgQb3/eB
+ LGINhlHiuRFPDJYACemTkiooy1LjK0y5rkmmrwRe7Gr9CIoLmnfnDjDPtqoRKTAFPa+FnsD
+ 6JUUZK/LCruGk7cYsWkCUM=
+X-QQ-XMRINFO: OD9hHCdaPRBwq3WW+NvGbIU=
 X-QQ-RECHKSPAM: 0
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -105,22 +107,22 @@ should be 'notifier'.
 Link: https://lore.kernel.org/all/B3C019B63C93846F+20250715071245.398846-1-wangyuli@uniontech.com/
 Signed-off-by: WangYuli <wangyuli@uniontech.com>
 ---
- drivers/net/wireless/broadcom/brcm80211/brcmfmac/cfg80211.c | 2 +-
+ drivers/tty/serial/8250/8250_dw.c | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/drivers/net/wireless/broadcom/brcm80211/brcmfmac/cfg80211.c b/drivers/net/wireless/broadcom/brcm80211/brcmfmac/cfg80211.c
-index b94c3619526c..bcd56c7c4e42 100644
---- a/drivers/net/wireless/broadcom/brcm80211/brcmfmac/cfg80211.c
-+++ b/drivers/net/wireless/broadcom/brcm80211/brcmfmac/cfg80211.c
-@@ -8313,7 +8313,7 @@ struct brcmf_cfg80211_info *brcmf_cfg80211_attach(struct brcmf_pub *drvr,
- 	cfg->d11inf.io_type = (u8)io_type;
- 	brcmu_d11_attach(&cfg->d11inf);
- 
--	/* regulatory notifer below needs access to cfg so
-+	/* regulatory notifier below needs access to cfg so
- 	 * assign it now.
- 	 */
- 	drvr->config = cfg;
+diff --git a/drivers/tty/serial/8250/8250_dw.c b/drivers/tty/serial/8250/8250_dw.c
+index 1902f29444a1..6d9af6417620 100644
+--- a/drivers/tty/serial/8250/8250_dw.c
++++ b/drivers/tty/serial/8250/8250_dw.c
+@@ -392,7 +392,7 @@ static void dw8250_set_termios(struct uart_port *p, struct ktermios *termios,
+ 	rate = clk_round_rate(d->clk, newrate);
+ 	if (rate > 0) {
+ 		/*
+-		 * Note that any clock-notifer worker will block in
++		 * Note that any clock-notifier worker will block in
+ 		 * serial8250_update_uartclk() until we are done.
+ 		 */
+ 		ret = clk_set_rate(d->clk, newrate);
 -- 
 2.50.0
 
