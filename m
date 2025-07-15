@@ -2,82 +2,74 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 25A42B06992
-	for <lists+dri-devel@lfdr.de>; Wed, 16 Jul 2025 00:59:49 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id A5BD2B06995
+	for <lists+dri-devel@lfdr.de>; Wed, 16 Jul 2025 00:59:58 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7EFFA10E715;
-	Tue, 15 Jul 2025 22:59:47 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0C08710E70F;
+	Tue, 15 Jul 2025 22:59:57 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="jvvpVscm";
+	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="k5V+qsm1";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ot1-f43.google.com (mail-ot1-f43.google.com
- [209.85.210.43])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C14CC10E715
- for <dri-devel@lists.freedesktop.org>; Tue, 15 Jul 2025 22:59:46 +0000 (UTC)
-Received: by mail-ot1-f43.google.com with SMTP id
- 46e09a7af769-73ce7b40d7aso199073a34.1
- for <dri-devel@lists.freedesktop.org>; Tue, 15 Jul 2025 15:59:46 -0700 (PDT)
+Received: from mail-ot1-f41.google.com (mail-ot1-f41.google.com
+ [209.85.210.41])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5BB0610E70F
+ for <dri-devel@lists.freedesktop.org>; Tue, 15 Jul 2025 22:59:55 +0000 (UTC)
+Received: by mail-ot1-f41.google.com with SMTP id
+ 46e09a7af769-73e4a448370so1302762a34.0
+ for <dri-devel@lists.freedesktop.org>; Tue, 15 Jul 2025 15:59:55 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1752620386; x=1753225186; darn=lists.freedesktop.org;
+ d=linaro.org; s=google; t=1752620394; x=1753225194; darn=lists.freedesktop.org;
  h=content-disposition:mime-version:message-id:subject:cc:to:from:date
  :from:to:cc:subject:date:message-id:reply-to;
- bh=OFDftDinGJeWeNvMt3z+fTzSOMnuJXF888WFq+QttdM=;
- b=jvvpVscmIhW5WQdBa29moTPeVcCltUzAv9KvTVUVB580P64OPPwjkdO/z92OsbW4t/
- IF9mkrqHf6zWTLraYu6jFKjAfLC7jDxrnNY/rsxsCM/TOCsVWMbkF9y7l43NTwLfZBGK
- QWXBNSoo0I1awGzP7Bwui667k4CPMrvNCqGCixYOAsnrIxcryiH0HxLFvO/rRZtUN02N
- XfOPvzZEgBs9Toovxd1qyGKKlIjJXiLNdW+fZFA89FiXOyN+4sxByas7tpffxT/okO0o
- SDt/dgs4CwuU05SmWvv2xVRH+E4djaT4uvWfTsIVZNnOBwtWBeQB98kVY+ca/taTMC7Y
- 7AWA==
+ bh=JxD59q5j7TwPEyReo+0JHxJnc1xOUi+p5HrxPKMsgOA=;
+ b=k5V+qsm1BV2M3BNHfyxXijHrWjoTSaLbTrfYv8sSwcyUNZGE7VMMpndLMeMaughn9t
+ qO5YLMrNcOpcToJdADSF0Klhd5+FI7bFO1nnTm7zXuk0mOM+m2QDG/bLaepLLYfvsx7m
+ PlELFyIzhTEiNCuJ/avySkLEVhdRXGOTizZXvicN/DVltd0+hoarDVQZKaOdEv6TNn/m
+ DKkILavmleuDI4XVvBd5iOLwaK17mvGhXIXGJHj/IhQb5R1HB76gDWqvsna6mUTcaSeU
+ iehlRS0MTI0bmwT0hE8VAvItL7ZiOY6EydNMEiZ0DLn5WmanNOX7//o6pQfGkWTQia1o
+ zlOA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1752620386; x=1753225186;
+ d=1e100.net; s=20230601; t=1752620394; x=1753225194;
  h=content-disposition:mime-version:message-id:subject:cc:to:from:date
  :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=OFDftDinGJeWeNvMt3z+fTzSOMnuJXF888WFq+QttdM=;
- b=GDla6RhNVw2i4Vzk8SAJj6d/7Ph6LIe0AU9s/9qnBRVoXTkkZVf8G77/Qhi2Ke6ITM
- ClqlTiE3QNmFMUiUkSfig+YQod5WzZf5tutojWT2bbLDRZWZlglBzyZV9JNBucIIMQpQ
- ZsgCllra2PZPxvT1GMWDxGSEY7VpKMjVCen6jzTu0Y3nUwOVUAE9vd/0+Rme6Y8TyOrw
- z/UN8nKHs/FJ01cf46gPOCoEPA2aTfpkCqUHIVKPmcctggjbbXtwbAPUzy/u/khab/5O
- HFTmUOwAuIqF6QDhtmD2Nve8bGB8iKp2VEPs911xPyd0f/52lfF1FTGrUPRlVQN1Msgd
- STSw==
+ bh=JxD59q5j7TwPEyReo+0JHxJnc1xOUi+p5HrxPKMsgOA=;
+ b=WETSOYks09QBbnfBrICaTQGTsWWL46CYkmj4XG8oHO3S0bNkS7eTcJS89IMrL6R0Qt
+ V7+cKKyLWvHquzgDlES3IHxv5SMGTXQjn1VAkUeAle5EHqVKIdNAOCHCN7qDwh01CCaM
+ P0GaJdnSHgCFNeTzhZeWcpqj+GDozg82AAv0x5ngjMDXMGgC28I1jujD2f4VtUUa7hvn
+ m3IytULb2FYooob/VrTJJpyQFLb/sR6VY+DCs1hwZLoKD8Q7biLhFiPDRJShgxtemakU
+ Z4JSkk0zBOdJ9ng5PiTdZgPDaG0GLrJ+q2u5E0btwAyecDzGo9Xb40hj3H2A93r4iYCB
+ hGyA==
 X-Forwarded-Encrypted: i=1;
- AJvYcCVDy9UMlkidalPFhPJH7Oxt7KYmV0xT8JeDfNOKF9ue7vbrzRAlv5TKu5bLjgBo8D0EnlHg7u9fw4k=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0Ywjz6AAjN4Jqm0RDgK5GIj8kGFBWTFQh2mcqQ/AGPQAQ3SbJasK
- Mwku/+f3pyfKFjfKS3uc7EYlumHW3/4sOoxae/1/IMuRklqHb2pM6NdMjXOu6Fjr4G0=
-X-Gm-Gg: ASbGncvKqyAs/+hh22LOqHruxDmKfk+2CkCQ658TL+AI8rXAaWn3QbuzH2/W+7kAPOW
- 3C4tdHJTIWrByyo2TbQ3XZn+4/0QNSlyAtF2HXwZnfUbQfGhJj8C5yCRxTeqw0DKeBkc1cGBCg+
- Nbabsj2Ui6FWjkFUVwMXh1JHBnOgASeZCZMalz5GIIBw8d8yRXvPcKhlPSkjLXlIhUaFvDiA1to
- X8JSE95Zcwoi2pf/xysZ8INhDaH6YaCQbGjEPa6m1erAxcFa9b1TPycdrRgaMDiAmzXJEKbwzPj
- +n+ulHlHKqs3itYANrH7w2CR27MEIE6Tbp2arU3/p/XMPWICdLNYSi/kr9FUynNbk2Ays4r09wM
- Bhgrva8bCSt3A9BdXwHl0MrLBhzsJ
-X-Google-Smtp-Source: AGHT+IFowfVX3G4HjzfwSYl1lhCis63CfINpQgLZSZ3TnKOciDf8Pn3iqvnmzXQdfCjFJtdK0DYWAw==
-X-Received: by 2002:a05:6830:98:b0:73a:8a05:cd3d with SMTP id
- 46e09a7af769-73e5734d2c2mr3545805a34.0.1752620386019; 
- Tue, 15 Jul 2025 15:59:46 -0700 (PDT)
+ AJvYcCWn0WaU67/EgVvh288pz4Sg/E+zXstY267V9DK+IpvCYAUZYdT815SydIQhxLb81WHHiR7dvnQWsXk=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YwW/n0EpXs+JHd/VOrcRH36qNlItUKgVEyxKLFwh+tOT7ejwU9f
+ qYnRIZbEQ4te7dfSLvAZlfXIKbaxOiiOxHMVurZLyitEL6uYL+QlrxBKfpKJR1Ri/rY=
+X-Gm-Gg: ASbGnctwC42o9kN7qJjJsVX7MGGygWBDAiKaYUsv81QWWR4Tjis2VVM9nm38QvJzO8h
+ OzOx7vR6DAL0aXdk7TFnMGAMomZN+3COpq0BorwkrwvTYYadbtk5V8CEeEPDoIizYl9W8VipgX7
+ B5EfX6U2f6fPM1iXwn8bFGaP+GWv4I4JDrIzUj0PNIeLQulc+svKvEiUOsHynjj+ODolFHVdfK1
+ 3ckxQWftYH4Ol49d03LKeVqoR9XY3B9sr8G8sWQYyvDUOeD7diDrJL0puWT480SeSEalgw+9Ey/
+ OmFUt1Kkk3ywz0zEcKcCyyLQ/T29mI0ze/uNfwA/A7AM250aQA0EAPAwp6Jp86yhE5CePz78ztE
+ FIQnsID6obiGqs0CAvxQPpwBnq2Ge
+X-Google-Smtp-Source: AGHT+IGyVyUsX81Tau12YsnZbGFNUOEpzY/xhYIdOgE4GcPtaUqfNxDJDY3qrBhSFwF4MoA79xDaxQ==
+X-Received: by 2002:a05:6830:7311:b0:72b:9bb3:67cd with SMTP id
+ 46e09a7af769-73e64a8bf13mr1155076a34.12.1752620394618; 
+ Tue, 15 Jul 2025 15:59:54 -0700 (PDT)
 Received: from localhost ([2603:8080:b800:f700:9b4e:9dd8:875d:d59])
  by smtp.gmail.com with UTF8SMTPSA id
- 46e09a7af769-73e541c3a6fsm1022866a34.57.2025.07.15.15.59.45
+ 46e09a7af769-73cf10aa35esm2518632a34.27.2025.07.15.15.59.53
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 15 Jul 2025 15:59:45 -0700 (PDT)
-Date: Tue, 15 Jul 2025 17:59:44 -0500
+ Tue, 15 Jul 2025 15:59:54 -0700 (PDT)
+Date: Tue, 15 Jul 2025 17:59:53 -0500
 From: Dan Carpenter <dan.carpenter@linaro.org>
-To: Heikki Krogerus <heikki.krogerus@linux.intel.com>
-Cc: Lucas De Marchi <lucas.demarchi@intel.com>,
- Thomas =?iso-8859-1?Q?Hellstr=F6m?= <thomas.hellstrom@linux.intel.com>,
- Rodrigo Vivi <rodrigo.vivi@intel.com>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- "Michael J. Ruhl" <michael.j.ruhl@intel.com>,
- Andi Shyti <andi.shyti@linux.intel.com>,
- intel-xe@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org, kernel-janitors@vger.kernel.org
-Subject: [PATCH next] drm/xe: Fix a NULL vs IS_ERR() bug in
- xe_i2c_register_adapter()
-Message-ID: <65825d00-81ab-4665-af51-4fff6786a250@sabinyo.mountain>
+To: Zhanjun Dong <zhanjun.dong@intel.com>
+Cc: intel-xe@lists.freedesktop.org, dri-devel@lists.freedesktop.org
+Subject: [bug report] drm/xe/uc: Disable GuC communication on hardware
+ initialization error
+Message-ID: <23dd9160-df79-4827-a814-99e486c08ea4@sabinyo.mountain>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-X-Mailer: git-send-email haha only kidding
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -93,30 +85,51 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The fwnode_create_software_node() function returns error pointers.  It
-never returns NULL.  Update the checks to match.
+Hello Zhanjun Dong,
 
-Fixes: f0e53aadd702 ("drm/xe: Support for I2C attached MCUs")
-Signed-off-by: Dan Carpenter <dan.carpenter@linaro.org>
----
- drivers/gpu/drm/xe/xe_i2c.c | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+Commit b2c4ac219fa4 ("drm/xe/uc: Disable GuC communication on
+hardware initialization error") from Jul 7, 2025 (linux-next), leads
+to the following Smatch static checker warning:
 
-diff --git a/drivers/gpu/drm/xe/xe_i2c.c b/drivers/gpu/drm/xe/xe_i2c.c
-index db9c0340be5c..1f19718db559 100644
---- a/drivers/gpu/drm/xe/xe_i2c.c
-+++ b/drivers/gpu/drm/xe/xe_i2c.c
-@@ -96,8 +96,8 @@ static int xe_i2c_register_adapter(struct xe_i2c *i2c)
- 	int ret;
- 
- 	fwnode = fwnode_create_software_node(xe_i2c_adapter_properties, NULL);
--	if (!fwnode)
--		return -ENOMEM;
-+	if (IS_ERR(fwnode))
-+		return PTR_ERR(fwnode);
- 
- 	/*
- 	 * Not using platform_device_register_full() here because we don't have
--- 
-2.47.2
+	drivers/gpu/drm/xe/xe_uc.c:167 vf_uc_load_hw()
+	warn: missing unwind goto?
 
+drivers/gpu/drm/xe/xe_uc.c
+    147 static int vf_uc_load_hw(struct xe_uc *uc)
+    148 {
+    149         int err;
+    150 
+    151         err = xe_uc_sanitize_reset(uc);
+    152         if (err)
+    153                 return err;
+    154 
+    155         err = xe_guc_enable_communication(&uc->guc);
+    156         if (err)
+    157                 return err;
+    158 
+    159         err = xe_gt_sriov_vf_connect(uc_to_gt(uc));
+    160         if (err)
+    161                 goto err_out;
+    162 
+    163         uc->guc.submission_state.enabled = true;
+    164 
+    165         err = xe_guc_opt_in_features_enable(&uc->guc);
+    166         if (err)
+--> 167                 return err;
+                        ^^^^^^^^^^^
+Should this be "goto err_out;" as well?
+
+    168 
+    169         err = xe_gt_record_default_lrcs(uc_to_gt(uc));
+    170         if (err)
+    171                 goto err_out;
+    172 
+    173         return 0;
+    174 
+    175 err_out:
+    176         xe_guc_sanitize(&uc->guc);
+    177         return err;
+    178 }
+
+regards,
+dan carpenter
