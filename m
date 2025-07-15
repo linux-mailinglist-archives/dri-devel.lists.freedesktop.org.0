@@ -2,36 +2,36 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0EF4BB058D9
-	for <lists+dri-devel@lfdr.de>; Tue, 15 Jul 2025 13:31:35 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id DABDBB058CF
+	for <lists+dri-devel@lfdr.de>; Tue, 15 Jul 2025 13:30:49 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7119B10E597;
-	Tue, 15 Jul 2025 11:31:33 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9D95210E37F;
+	Tue, 15 Jul 2025 11:30:46 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=airkyi.com header.i=@airkyi.com header.b="WF4FH3Px";
+	dkim=pass (1024-bit key; unprotected) header.d=airkyi.com header.i=@airkyi.com header.b="a6+e9Ch/";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-X-Greylist: delayed 344 seconds by postgrey-1.36 at gabe;
- Tue, 15 Jul 2025 11:31:31 UTC
-Received: from smtpbguseast1.qq.com (smtpbguseast1.qq.com [54.204.34.129])
- by gabe.freedesktop.org (Postfix) with ESMTPS id DDB4510E597
- for <dri-devel@lists.freedesktop.org>; Tue, 15 Jul 2025 11:31:31 +0000 (UTC)
+X-Greylist: delayed 300 seconds by postgrey-1.36 at gabe;
+ Tue, 15 Jul 2025 11:30:44 UTC
+Received: from bg5.exmail.qq.com (bg5.exmail.qq.com [43.154.209.5])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A3E3110E37F
+ for <dri-devel@lists.freedesktop.org>; Tue, 15 Jul 2025 11:30:44 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=airkyi.com;
- s=altu2504; t=1752579089;
- bh=sGnlcbGkTpVe+jRIfMZ3RjpXeqeQnWzdixj31SR4Fb0=;
+ s=altu2504; t=1752579038;
+ bh=6Q8tj7y2fVh1DqqXLpoIzvx75MH7E6vfXU9jWGAciCk=;
  h=From:To:Subject:Date:Message-Id;
- b=WF4FH3PxfV7nhvTC9XWPUurl6EVyMmHgEsOT75PRsVVFV+VA5EnXo9zPjZKkpnDLn
- kLbh0r7c0jBUlX0LfL8j/PR2xY1w7z+LH2MWqlghO2JcUMZ9gs9sim1O3mc4f/jZ9p
- MCqm1caDKYwfq2a7Lx8Ou8xvQIaSJ0NRcV9LnUV4=
-X-QQ-mid: zesmtpsz3t1752578706tf14436e8
-X-QQ-Originating-IP: uovcXhhJiGiAlXUvswW9NV/gOyyyF7ZPgZz7Ciqcoww=
+ b=a6+e9Ch/9PbUeAv2VoDlGYt0B+BmFfnh1R7gnGTGqWnRdCIaxAlNt8t+AFIZt2cHo
+ LUDzeudMXrZJ78dvoIRLiQDyjmi3BabCfmlg5MvwiD9PkaIcboqjV4wFZc5std5A+q
+ wccWJtW34D0vYQuT5qbFv/IARq3CwAJ4jeAdrIOE=
+X-QQ-mid: zesmtpsz3t1752578709t1424522d
+X-QQ-Originating-IP: Y2jgY0DzpsnsowblI/Y8vYsFKW2TRFdQuFkynBZV9Zs=
 Received: from DESKTOP-8BT1A2O.localdomain ( [58.22.7.114])
  by bizesmtp.qq.com (ESMTP) with 
- id ; Tue, 15 Jul 2025 19:25:04 +0800 (CST)
+ id ; Tue, 15 Jul 2025 19:25:07 +0800 (CST)
 X-QQ-SSF: 0000000000000000000000000000000
 X-QQ-GoodBg: 0
-X-BIZMAIL-ID: 10341645025017690004
+X-BIZMAIL-ID: 6650864007286814184
 From: Chaoyi Chen <kernel@airkyi.com>
 To: Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
  Conor Dooley <conor+dt@kernel.org>, Vinod Koul <vkoul@kernel.org>,
@@ -51,28 +51,32 @@ To: Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
 Cc: devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
  linux-phy@lists.infradead.org, linux-arm-kernel@lists.infradead.org,
  linux-rockchip@lists.infradead.org, dri-devel@lists.freedesktop.org
-Subject: [PATCH 0/5] Add Type-C DP support for RK3399 EVB IND board
-Date: Tue, 15 Jul 2025 19:24:51 +0800
-Message-Id: <20250715112456.101-1-kernel@airkyi.com>
+Subject: [PATCH 1/5] dt-bindings: connector: Add displayport connector for
+ hotplug notify
+Date: Tue, 15 Jul 2025 19:24:52 +0800
+Message-Id: <20250715112456.101-2-kernel@airkyi.com>
 X-Mailer: git-send-email 2.17.1
+In-Reply-To: <20250715112456.101-1-kernel@airkyi.com>
+References: <20250715112456.101-1-kernel@airkyi.com>
 X-QQ-SENDSIZE: 520
 Feedback-ID: zesmtpsz:airkyi.com:qybglogicsvrsz:qybglogicsvrsz4a-0
-X-QQ-XMAILINFO: NAeO0+xU6W76d5kq9LLvslwjguL2xeraIg95JXLjdwWhVeBFgUPf0IXo
- dmGzjg25kOW5Xj5hwGL8hp4lykLLrCIGSmADpp9ViG98T9RLgGXNWp4TLGvbc+s2c2HTEqH
- kLw7ISNUKEekGBncpAiXOW7BRvu2q8OJhIGkUBmJZaQVDF/TLBaBZzzniN0oGzVBG+yYGtt
- BaV2g4WeXodkbKglVtg90shL1TLjlwrrQGAUpS5aqZJMdBMMMacgxdcELO1WS5kjRqNHW3w
- GaMoecx9CVN2RC0knnwdYCQ1Ls0xK1wCGGI8JgLKsq1511Ly2mvPa4/CHzhj+eQVOxJB+sZ
- HbOXqindKCKiqmhrxjdQ8v65ZogExjlBIMjH2Tg7+NVceFZWyeE6OwGhGRbL6eKisI70ptX
- PaYxyWjXsHNwYltjhybeNh9NYEqxrcP/pxgg7FbAM+Z24sJ7U729+7B/Rwzw9khCdyghKTN
- 88KfFqL0afT+aDZpyQSYHWRHw1Gitd/QO74Kwpg1DEfb/x+0plWeRntozWbs6gn/7dcoHEO
- q7Wtn6r3w9FdjHewGmP2/oQpwuv56tPQOBH8HXc4KA5U9JNwigPTiu0V5JjVzOi30WUkYWk
- vOLubWuaShxTWrotbi8C2aBhclg4yvCkRovNxzmDWzP/f6B2OdD3W7EBCfGqZq7YraniRXU
- 1OeKyw+VvL65qCgdS0Tcln56rcTjkseM+TiQYsLvXmNMk5RsSf4Tu5KoeiMLrly/XnUbqo+
- aF78WWpMPCMu3RByyF2GLneoZJWRa/fF8YBMyWjtVmKXf2n5z9QKirNmCjOyvrQWodD0klx
- ViMMq3vrhFaRQ563J6SCAUTHGQGTZryZmQeodRWyzofXhVGnCWddl6KW22doIaBKCWDBMja
- Uj2M4x2xoHk6YmPQhn3c2aTmzZL1Tmq7j9ZYfaqEuTkmUuX8zl+ps6zuHVzq4n2cnQiTKdH
- +Z72bX4wPg7AIMm9b4GTturAAr6MsDRf+6yOz2RlHsR4fOw==
-X-QQ-XMRINFO: MSVp+SPm3vtS1Vd6Y4Mggwc=
+X-QQ-XMAILINFO: OW4JKxETGMY2/WNlNtPBdQP+QJTNc0SLe+TAzifsFeeiMbCPHsTkNiHM
+ PvwiY9GmX1M5yHLCqSp1dBvr/hXbdaA8IqTq9DF7cfrIJ+Z4NsE0ZcncE7tzeY0XuFN8/As
+ K6HQ7kduqtzP2T7U37L9HWwuuYW47hR0V9sW32TzFuRCYXmhsddccjdUKaS1WqVM0n5rWI+
+ x6EsyoHE7eyN7hcBBeCa0jggiZzR9/1oKIS8B1DiKQg5zp2IvdUZQyOGAufQdqOuhT/WcUP
+ 4TO9FIx7nj1dXGz5ZizOoJxqNT3h0jrimcd6kYnqdKOyOun0UV60I576a20RgEHbxxj0wMZ
+ AX18M954RFWzjH5gPWTkUzTCLbvRF9WKSOBxyWlGUgL9CP7TgJIdWtgCC7ikBaQ0J7qpIVm
+ trQ6zmMEWuk2azhPwl+0W/UCuxfqhH1oCI369/5fFe48zshahXAgWrEdRaR6ItfrLMWd4FM
+ KtyyZa2HJG7TQBBGTpftvPLSShAohUY5zMoBriRjXZU3pZcKoYfn5w5e2zBOXFRqAlhsyeu
+ IU65nTUBQ5q5lfyFw6dLVFBzP59629LHj3JdqPy8MWX1zFvk5pwv+RuK0QzTZjxWmHPoDyL
+ 8H3PDRe84+wjlnQdBfHwXOxMvm2L/xNCmQzrpdSToVk62/BsftSm0rl3mTF02Tgnchto/Fk
+ Ehfs2cDlXzLlZai3pqXBQfrbJElES+GG++4W6xXuhD38Qvwxh5PZSPw3IjaOxg1Q7wO029f
+ nLkiQs++Blk3Hj1q0VeKAhQCVJEKunHLq1/sYaf98p6E9+NcvaI/xaFKe5T5Y4GRHwDhrJk
+ 5BsyAl4Q1tJkcVQ9CTeByW2cGwyMpCBpKHRmcJXFeftp9EeiPDk9WcRzVTBWGomiaJpP+E0
+ OoQsk9gxr7fRZn+yjI9njqBiSxJsl3kQQZ9iU7mh82P3XpOWbja//0YfZ3OYPXJ4W6vF6X6
+ PzOFAIP6dsCEQTsIV0uQWhxLzZJG1iYjULxYSJUaWrQJbRIvj8977nwLITD7f06VdykKpkd
+ 0JfOAPRQ==
+X-QQ-XMRINFO: M/715EihBoGSf6IYSX1iLFg=
 X-QQ-RECHKSPAM: 0
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -91,36 +95,31 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 From: Chaoyi Chen <chaoyi.chen@rock-chips.com>
 
-The RK3399 EVB IND board has a Type-C interface DisplayPort. It use
-fusb302 chip as Type-C controller.
+The USB Type-C DisplayPort alternate mode driver will find
+"displayport" property for DRM hotplug event notify[0].
 
-This series focuses on adding TCPM support for USBDP PHY and DP driver.
-Before this, the USBDP PHY and DP controller of RK3399 sensed state
-changes through extcon, and devices such as the RK3399 Gru-Chromebook
-rely on them. This series should not break them.
+[0]: https://lore.kernel.org/all/20210817215201.795062-9-hdegoede@redhat.com/
 
-Patch1 add missing "displayport" prop for USB connector binding.
-Patch2 add new Type-C mode/orientation switch for RK3399 USBDP phy
-binding.
-Patch3 add TCPM support for RK3399 USBDP PHY.
-Patch4 add TCPM support for CDN-DP.
-Patch5 add Type-C DP support for RK3399 EVB IND board.
+Signed-off-by: Chaoyi Chen <chaoyi.chen@rock-chips.com>
+---
+ .../devicetree/bindings/connector/usb-connector.yaml          | 4 ++++
+ 1 file changed, 4 insertions(+)
 
-Chaoyi Chen (5):
-  dt-bindings: connector: Add displayport connector for hotplug notify
-  dt-bindings: phy: rockchip: rk3399-typec-phy: Support mode/orientation
-    switch
-  phy: rockchip: phy-rockchip-typec: Add support for Type-C TCPM
-  drm/rockchip: cdn-dp: Add support for Type-C TCPM
-  arm64: dts: rockchip: rk3399-evb-ind: Add support for DisplayPort
-
- .../bindings/connector/usb-connector.yaml     |   4 +
- .../phy/rockchip,rk3399-typec-phy.yaml        |  14 +
- .../boot/dts/rockchip/rk3399-evb-ind.dts      | 119 +++++++
- drivers/gpu/drm/rockchip/cdn-dp-core.c        |  37 +-
- drivers/phy/rockchip/phy-rockchip-typec.c     | 335 +++++++++++++++++-
- 5 files changed, 482 insertions(+), 27 deletions(-)
-
+diff --git a/Documentation/devicetree/bindings/connector/usb-connector.yaml b/Documentation/devicetree/bindings/connector/usb-connector.yaml
+index 11e40d225b9f..ccb258972cd6 100644
+--- a/Documentation/devicetree/bindings/connector/usb-connector.yaml
++++ b/Documentation/devicetree/bindings/connector/usb-connector.yaml
+@@ -300,6 +300,10 @@ properties:
+     $ref: /schemas/types.yaml#/definitions/uint8-array
+     maxItems: 4
+ 
++  displayport:
++    description: A phandle to displayport connector for DRM hotplug event notify.
++    $ref: /schemas/types.yaml#/definitions/phandle
++
+ dependencies:
+   sink-vdos-v1: [ sink-vdos ]
+   sink-vdos: [ sink-vdos-v1 ]
 -- 
 2.49.0
 
