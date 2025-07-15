@@ -2,68 +2,54 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id DE300B05AD4
-	for <lists+dri-devel@lfdr.de>; Tue, 15 Jul 2025 15:08:03 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id DFDEEB05B3C
+	for <lists+dri-devel@lfdr.de>; Tue, 15 Jul 2025 15:18:54 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4A89610E5B8;
-	Tue, 15 Jul 2025 13:08:02 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3E36710E5A9;
+	Tue, 15 Jul 2025 13:18:53 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; secure) header.d=mailbox.org header.i=@mailbox.org header.b="LOtz3Ymd";
+	dkim=pass (1024-bit key; unprotected) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="qaHJvotO";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mout-p-201.mailbox.org (mout-p-201.mailbox.org [80.241.56.171])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2C39610E5A9
- for <dri-devel@lists.freedesktop.org>; Tue, 15 Jul 2025 13:07:58 +0000 (UTC)
-Received: from smtp2.mailbox.org (smtp2.mailbox.org
- [IPv6:2001:67c:2050:b231:465::2])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
- (No client certificate requested)
- by mout-p-201.mailbox.org (Postfix) with ESMTPS id 4bhKHG2KR5z9tCJ;
- Tue, 15 Jul 2025 15:07:54 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mailbox.org;
- s=mail20150812; 
- t=1752584874; h=from:from:reply-to:reply-to:subject:subject:date:date:
- message-id:message-id:to:to:cc:cc:mime-version:mime-version:
- content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=kTWWH5E2Iz/0G6SXEyaa4KtSF5ZYYeFT7TdjvFWgkfI=;
- b=LOtz3Ymdcv00LhcKVHLi6cO8dUPV2D3h9KH3AR0Khc+zWk7N8xlncqPT60Mwizymxx+8Ak
- IEV9a3nptIDsUBpQMFbvlaCiyv8t6F0WYMR2+d/X1EXC9Bwrxv5Zpuec4a9Moa5F3RNOmM
- AsKXAtt2Unfm5YG7/ZrrYpyq9AxB78rVgHEv8kDzachzNsoltn3PngUE7CJ2xJ23kaILrh
- LHIYmFvv/rz7ZUfeghn0yg60UfdG5YrHve7XEfd4LocmcQaea93DRCLerZFAEoLOR1Yt1j
- CVgZrNABEI+CtUfqKwRfZkJ+fmQ/fPIHtfdettz59HptBxI5wSKv7WmwWCvduA==
-Message-ID: <6562a1df16c4d810542a7c42f10c5471723931ad.camel@mailbox.org>
-Subject: Re: [PATCH v2] drm/scheduler: Fix sched hang when killing app with
- dependent jobs
-From: Philipp Stanner <phasta@mailbox.org>
-To: Christian =?ISO-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>, 
- phasta@kernel.org, "cao, lin" <lin.cao@amd.com>, 
- "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>
-Cc: "Yin, ZhenGuo (Chris)" <ZhenGuo.Yin@amd.com>, "Deng, Emily"
- <Emily.Deng@amd.com>, "dakr@kernel.org" <dakr@kernel.org>, 
- "matthew.brost@intel.com" <matthew.brost@intel.com>
-Date: Tue, 15 Jul 2025 15:07:51 +0200
-In-Reply-To: <db50d1eb-02ed-465a-b98d-a24caa7829c7@amd.com>
-References: <20250714062349.588235-1-lincao12@amd.com>
- <87d61f5b7809828a55caf779b10a90be802fe83a.camel@mailbox.org>
- <a8e473bd-6ea8-41e0-b5b2-10c420e5a935@amd.com>
- <70d9c6a43846c3a3c266d4a7a431c1c4b3fcd05f.camel@mailbox.org>
- <164c69fe-9ab1-4e04-8103-b25e4804e74d@amd.com>
- <PH0PR12MB549781447809324DF9A7E0D6F557A@PH0PR12MB5497.namprd12.prod.outlook.com>
- <8dc0a31c06d33f45bbcb32d8805579015db91b21.camel@mailbox.org>
- <PH0PR12MB54974724ECC2262A6F00AE18F557A@PH0PR12MB5497.namprd12.prod.outlook.com>
- <44bdc3fd5628a7db07c64331007509aa39a13df4.camel@mailbox.org>
- <ba4770ce-f70b-4825-aba4-34e13c9b910f@amd.com>
- <564b80a454c5d537071c4e63622982f2d6be5639.camel@mailbox.org>
- <db50d1eb-02ed-465a-b98d-a24caa7829c7@amd.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Received: from nyc.source.kernel.org (nyc.source.kernel.org [147.75.193.91])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id EDFA110E5A9
+ for <dri-devel@lists.freedesktop.org>; Tue, 15 Jul 2025 13:18:50 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+ by nyc.source.kernel.org (Postfix) with ESMTP id AB27CA5497F;
+ Tue, 15 Jul 2025 13:18:49 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 09D5CC4CEE3;
+ Tue, 15 Jul 2025 13:18:48 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
+ s=korg; t=1752585529;
+ bh=sdgPHpmQIxPooMihWiGcUt/qCPORZsgGCxwb7Xrx4B0=;
+ h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+ b=qaHJvotOaJT/XhVegkEjB1hMxCTP/JY6CruWhNtdi/mPefThrdWpL0k8hfuqPGovI
+ hKytDMp/n3xZDZrrj4Jlzkt5plxjlXOXDPgsSMoEIR3LEIDD66QCzXDuVdC1nbOqWX
+ qUDUZCGb5esgoCRv7Fqy6gE2rHFup3/GasaEBEuk=
+From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+To: stable@vger.kernel.org
+Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>, patches@lists.linux.dev,
+ =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>,
+ Thomas Zimmermann <tzimmermann@suse.de>,
+ Anusha Srivatsa <asrivats@redhat.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, Sumit Semwal <sumit.semwal@linaro.org>,
+ linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ linaro-mm-sig@lists.linaro.org
+Subject: [PATCH 6.12 074/163] drm/gem: Acquire references on GEM handles for
+ framebuffers
+Date: Tue, 15 Jul 2025 15:12:22 +0200
+Message-ID: <20250715130811.705959272@linuxfoundation.org>
+X-Mailer: git-send-email 2.50.1
+In-Reply-To: <20250715130808.777350091@linuxfoundation.org>
+References: <20250715130808.777350091@linuxfoundation.org>
+User-Agent: quilt/0.68
+X-stable: review
+X-Patchwork-Hint: ignore
 MIME-Version: 1.0
-X-MBO-RS-META: d1hn46erxqx66qn69peoi8ioypbxwph4
-X-MBO-RS-ID: f12edfa853e1e2ce734
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -76,503 +62,231 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Reply-To: phasta@kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, 2025-07-15 at 14:32 +0200, Christian K=C3=B6nig wrote:
-> On 15.07.25 14:20, Philipp Stanner wrote:
-> > On Tue, 2025-07-15 at 12:52 +0200, Christian K=C3=B6nig wrote:
-> > > On 15.07.25 12:27, Philipp Stanner wrote:
-> > > > On Tue, 2025-07-15 at 09:51 +0000, cao, lin wrote:
-> > > > >=20
-> > > > > [AMD Official Use Only - AMD Internal Distribution Only]
-> > > > >=20
-> > > > >=20
-> > > > >=20
-> > > > > Hi Philipp,
-> > > > >=20
-> > > > >=20
-> > > > > Thanks for your review, let me try to clarify why I added
-> > > > > drm_sched_wakeup() to drm_sched_entity_kill_jobs_work():
-> > > > >=20
-> > > > >=20
-> > > > > When application A submits jobs (a1, a2, a3) and application
-> > > > > B
-> > > > > submits job b1 with a dependency on a1's scheduled fence, the
-> > > > > normal execution flow is (function drm_sched_run_job_work()):
-> > > > > 1. a1 gets popped from the entity by the scheduler
-> > > > > 2. run_job(a1) executes
-> > > > > 3. a1's scheduled fence gets signaled=C2=A0
-> > > > > 4. drm_sched_run_job_work() calls drm_sched_run_job_queue()
-> > > > > at
-> > > > > the end
-> > > > > 5. The scheduler wakes up and re-selects entities to pop jobs
-> > > > > 6. Since b1's dependency is cleared, the scheduler can select
-> > > > > b1
-> > > > > and continue the same flow
-> > > > >=20
-> > > > >=20
-> > > > > However, if application A is killed before a1 gets popped by
-> > > > > the
-> > > > > scheduler, then a1, a2, a3 are killed sequentially by
-> > > > > drm_sched_entity_kill_jobs_cb(). During the kill process,
-> > > > > their
-> > > > > scheduled fences are still signaled, but the kill process
-> > > > > itself
-> > > > > lacks work_run_job. This means b1's dependency gets cleared,
-> > > > > but
-> > > > > there's no work_run_job to drive the scheduler to continue
-> > > > > running, or we can saystep 4 in the normal flow is missing,
-> > > > > and
-> > > > > the scheduler enters sleep state, which causes application B
-> > > > > to
-> > > > > hang.
-> > > > > So if we add drm_sched_wakeup() in
-> > > > > drm_sched_entity_kill_jobs_work() after
-> > > > > drm_sched_fence_scheduled(), the scheduler can be woken up,
-> > > > > and
-> > > > > application B can continue running after a1's scheduled fence
-> > > > > is
-> > > > > force signaled.
-> > > >=20
-> > > > Thanks for the detailed explanation. Makes sense.
-> > > > Maybe you can detail in v3 that this "optimization" consists of
-> > > > the
-> > > > work item not being scheduled.
-> > >=20
-> > > Yeah, removing this "optimization" would also be a valid solution
-> > > to
-> > > the problem.
-> >=20
-> > If you at AMD are willing to work on that that'd be definitely
-> > fine.
-> > Removing code is usually better than adding code.
->=20
-> I fear I won't have time for that before my retirement :)=20
+6.12-stable review patch.  If anyone has any objections, please let me know.
 
-You've got fresh, powerful folks like Lin! :)
+------------------
 
-But either solution is fine. If you just want it fixed, we can merge
-the existing approach.
+From: Thomas Zimmermann <tzimmermann@suse.de>
 
->=20
-> > Do you think being afraid of a performance regression is realistic
-> > here, though?
->=20
-> No, absolutely not. It was just a micro optimization done long ago.
->=20
-> On the other hand with the scheduler code base I'm not sure of
-> anything any more.
+commit 5307dce878d4126e1b375587318955bd019c3741 upstream.
 
-"In my subsystem you have to run as fast as you can just to remain at
-the same place", said the Red Queen to Alice.
+A GEM handle can be released while the GEM buffer object is attached
+to a DRM framebuffer. This leads to the release of the dma-buf backing
+the buffer object, if any. [1] Trying to use the framebuffer in further
+mode-setting operations leads to a segmentation fault. Most easily
+happens with driver that use shadow planes for vmap-ing the dma-buf
+during a page flip. An example is shown below.
 
-:)
+[  156.791968] ------------[ cut here ]------------
+[  156.796830] WARNING: CPU: 2 PID: 2255 at drivers/dma-buf/dma-buf.c:1527 dma_buf_vmap+0x224/0x430
+[...]
+[  156.942028] RIP: 0010:dma_buf_vmap+0x224/0x430
+[  157.043420] Call Trace:
+[  157.045898]  <TASK>
+[  157.048030]  ? show_trace_log_lvl+0x1af/0x2c0
+[  157.052436]  ? show_trace_log_lvl+0x1af/0x2c0
+[  157.056836]  ? show_trace_log_lvl+0x1af/0x2c0
+[  157.061253]  ? drm_gem_shmem_vmap+0x74/0x710
+[  157.065567]  ? dma_buf_vmap+0x224/0x430
+[  157.069446]  ? __warn.cold+0x58/0xe4
+[  157.073061]  ? dma_buf_vmap+0x224/0x430
+[  157.077111]  ? report_bug+0x1dd/0x390
+[  157.080842]  ? handle_bug+0x5e/0xa0
+[  157.084389]  ? exc_invalid_op+0x14/0x50
+[  157.088291]  ? asm_exc_invalid_op+0x16/0x20
+[  157.092548]  ? dma_buf_vmap+0x224/0x430
+[  157.096663]  ? dma_resv_get_singleton+0x6d/0x230
+[  157.101341]  ? __pfx_dma_buf_vmap+0x10/0x10
+[  157.105588]  ? __pfx_dma_resv_get_singleton+0x10/0x10
+[  157.110697]  drm_gem_shmem_vmap+0x74/0x710
+[  157.114866]  drm_gem_vmap+0xa9/0x1b0
+[  157.118763]  drm_gem_vmap_unlocked+0x46/0xa0
+[  157.123086]  drm_gem_fb_vmap+0xab/0x300
+[  157.126979]  drm_atomic_helper_prepare_planes.part.0+0x487/0xb10
+[  157.133032]  ? lockdep_init_map_type+0x19d/0x880
+[  157.137701]  drm_atomic_helper_commit+0x13d/0x2e0
+[  157.142671]  ? drm_atomic_nonblocking_commit+0xa0/0x180
+[  157.147988]  drm_mode_atomic_ioctl+0x766/0xe40
+[...]
+[  157.346424] ---[ end trace 0000000000000000 ]---
 
-P.
+Acquiring GEM handles for the framebuffer's GEM buffer objects prevents
+this from happening. The framebuffer's cleanup later puts the handle
+references.
 
->=20
-> Regards,
-> Christian.
->=20
-> >=20
-> >=20
-> > P.
-> >=20
-> > >=20
-> > > Christian.
-> > >=20
-> > > > I think that was the piece of the puzzle
-> > > > I was missing.
-> > > >=20
-> > > > I / DRM tools will also include a link to this thread, so I
-> > > > think
-> > > > that
-> > > > will then be sufficient.
-> > > >=20
-> > > > Thx
-> > > > P.
-> > > >=20
-> > > > >=20
-> > > > > Thanks,
-> > > > > Lin
-> > > > >=20
-> > > > >=20
-> > > > >=20
-> > > > >=20
-> > > > >=20
-> > > > > From:=C2=A0Philipp Stanner <phasta@mailbox.org>
-> > > > > Sent:=C2=A0Tuesday, July 15, 2025 17:12
-> > > > > To:=C2=A0cao, lin <lin.cao@amd.com>; Koenig, Christian
-> > > > > <Christian.Koenig@amd.com>;
-> > > > > phasta@kernel.org=C2=A0<phasta@kernel.org>;
-> > > > > dri-devel@lists.freedesktop.org=C2=A0<
-> > > > > dri-devel@lists.freedesktop.org>
-> > > > > Cc:=C2=A0Yin, ZhenGuo (Chris) <ZhenGuo.Yin@amd.com>; Deng, Emily
-> > > > > <Emily.Deng@amd.com>; dakr@kernel.org=C2=A0<dakr@kernel.org>;
-> > > > > matthew.brost@intel.com=C2=A0<matthew.brost@intel.com>
-> > > > > Subject:=C2=A0Re: [PATCH v2] drm/scheduler: Fix sched hang when
-> > > > > killing app with dependent jobs
-> > > > >=20
-> > > > >=20
-> > > > > On Tue, 2025-07-15 at 03:38 +0000, cao, lin wrote:
-> > > > > >=20
-> > > > > > [AMD Official Use Only - AMD Internal Distribution Only]
-> > > > > >=20
-> > > > > >=20
-> > > > > >=20
-> > > > > > Hi Christian, Philipp,
-> > > > > >=20
-> > > > > >=20
-> > > > > > I modified=C2=A0the commit msg, and I hope it makes more=C2=A0s=
-ense:
-> > > > > >=20
-> > > > > >=20
-> > > > > > drm/sched: wake up scheduler when killing jobs to prevent
-> > > > > > hang
-> > > > >=20
-> > > > > nit:
-> > > > > s/wake/Wake
-> > > > >=20
-> > > > > >=20
-> > > > > >=20
-> > > > > > When application A submits jobs (a1, a2, a3) and
-> > > > > > application B
-> > > > > > submits
-> > > > > > job b1 with a dependency on a2's scheduler fence, killing
-> > > > > > application A
-> > > > > > before run_job(a1) causes drm_sched_entity_kill_jobs_work()
-> > > > > > to
-> > > > > > force
-> > > > > > signal all jobs sequentially. However, the optimization in
-> > > > > > drm_sched_entity_add_dependency_cb() waits for the fence to
-> > > > > > be
-> > > > > > scheduled
-> > > > > > by adding a callback (drm_sched_entity_clear_dep) instead
-> > > > > > of
-> > > > > > immediately
-> > > > > > waking up the scheduler. When A is killed before its jobs
-> > > > > > can
-> > > > > > run, the
-> > > > > > callback gets triggered but drm_sched_entity_clear_dep()
-> > > > > > only
-> > > > > > clears the
-> > > > > > dependency without waking up the scheduler, causing the
-> > > > > > scheduler to enter
-> > > > > > sleep state and application B to hang.
-> > > > >=20
-> > > > > That now reads as if drm_sched_entity_clear_dep() is supposed
-> > > > > to
-> > > > > wake
-> > > > > up the scheduler. But you add the wakeup to a different
-> > > > > function
-> > > > > (the
-> > > > > work item).
-> > > > >=20
-> > > > > Also the code actually looks like that:
-> > > > >=20
-> > > > >=20
-> > > > > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0 xa_erase(&job->dependencies, index);
-> > > > > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0 if (f && !dma_fence_add_callback(f, &job-
-> > > > > > finish_cb,
-> > > > > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0
-> > > > > drm_sched_entity_kill_jobs_cb))
-> > > > > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
- return;
-> > > > >=20
-> > > > > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0 dma_fence_put(f);
-> > > > > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 }
-> > > > >=20
-> > > > > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 INIT_WORK(&job->work,
-> > > > > drm_sched_entity_kill_jobs_work);
-> > > > > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 schedule_work(&job->wo=
-rk);
-> > > > > }
-> > > > >=20
-> > > > > So if adding that callback succeeds we.. return immediately
-> > > > > but
-> > > > > we.. do
-> > > > > that for the first dependency, not for all of them?
-> > > > >=20
-> > > > > Oh boy. That code base. We(tm) should look into pimping that
-> > > > > up.
-> > > > > Also
-> > > > > lacks documentation everywhere.
-> > > > >=20
-> > > > >=20
-> > > > > Anyways. If this solves a bug for you the patch looks fine
-> > > > > (i.e.,
-> > > > > not
-> > > > > potentially harmful) by me and if the tests succeed we can
-> > > > > merge
-> > > > > it.
-> > > > > However, I'd feel better if you could clarify more why that
-> > > > > function is
-> > > > > the right place to solve the bug.
-> > > > >=20
-> > > > >=20
-> > > > > Thanks,
-> > > > > P.
-> > > > >=20
-> > > > >=20
-> > > > > >=20
-> > > > > >=20
-> > > > > > Add drm_sched_wakeup() in entity_kill_job_work() to prevent
-> > > > > > scheduler
-> > > > > > sleep and subsequent application hangs.
-> > > > > >=20
-> > > > > >=20
-> > > > > > v2:
-> > > > > > - Move drm_sched_wakeup() to after
-> > > > > > drm_sched_fence_scheduled()
-> > > > > >=20
-> > > > > >=20
-> > > > > > Thanks,
-> > > > > > Lin
-> > > > > >=20
-> > > > > >=20
-> > > > > > From: Koenig, Christian <Christian.Koenig@amd.com>
-> > > > > > Sent: Monday, July 14, 2025 21:39
-> > > > > > To: phasta@kernel.org=C2=A0<phasta@kernel.org>; cao, lin
-> > > > > > <lin.cao@amd.com>;
-> > > > > > dri-devel@lists.freedesktop.org=C2=A0<
-> > > > > > dri-devel@lists.freedesktop.org
-> > > > > > >=20
-> > > > > > Cc: Yin, ZhenGuo (Chris) <ZhenGuo.Yin@amd.com>; Deng, Emily
-> > > > > > <Emily.Deng@amd.com>; dakr@kernel.org=C2=A0<dakr@kernel.org>;
-> > > > > > matthew.brost@intel.com=C2=A0<matthew.brost@intel.com>
-> > > > > > Subject: Re: [PATCH v2] drm/scheduler: Fix sched hang when
-> > > > > > killing app with dependent jobs
-> > > > > >=20
-> > > > > > =C2=A0
-> > > > > >=20
-> > > > > >=20
-> > > > > > On 14.07.25 15:27, Philipp Stanner wrote:
-> > > > > > > On Mon, 2025-07-14 at 15:08 +0200, Christian K=C3=B6nig wrote=
-:
-> > > > > > > >=20
-> > > > > > > >=20
-> > > > > > > > On 14.07.25 14:46, Philipp Stanner wrote:
-> > > > > > > > > regarding the patch subject: the prefix we use for
-> > > > > > > > > the
-> > > > > > > > > scheduler
-> > > > > > > > > is:
-> > > > > > > > > drm/sched:
-> > > > > > > > >=20
-> > > > > > > > >=20
-> > > > > > > > > On Mon, 2025-07-14 at 14:23 +0800, Lin.Cao wrote:
-> > > > > > > > >=20
-> > > > > > > > > > When Application A submits jobs (a1, a2, a3) and
-> > > > > > > > > > application B
-> > > > > > > > > > submits
-> > > > > > > > >=20
-> > > > > > > > > s/Application/application
-> > > > > > > > >=20
-> > > > > > > > > > job b1 with a dependency on a2's scheduler fence,
-> > > > > > > > > > killing
-> > > > > > > > > > application A
-> > > > > > > > > > before run_job(a1) causes
-> > > > > > > > > > drm_sched_entity_kill_jobs_work() to
-> > > > > > > > > > force
-> > > > > > > > > > signal all jobs sequentially. However, due to
-> > > > > > > > > > missing
-> > > > > > > > > > work_run_job or
-> > > > > > > > > > work_free_job
-> > > > > > > > > >=20
-> > > > > > > > >=20
-> > > > > > > > > You probably mean "due to the work items work_run_job
-> > > > > > > > > and
-> > > > > > > > > work_free_job
-> > > > > > > > > not being started [=E2=80=A6]".
-> > > > > > > > >=20
-> > > > > > > > > However, the call you add, drm_sched_wakeup(),
-> > > > > > > > > immediately only
-> > > > > > > > > triggers work_run_job. It's not clear to me why you
-> > > > > > > > > mention
-> > > > > > > > > work_free_job, because
-> > > > > > > > > drm_sched_entity_kill_jobs_work()
-> > > > > > > > > directly
-> > > > > > > > > invokes the free_job() callback.
-> > > > > > > >=20
-> > > > > > > > Yeah the description is rather confusing, took me more
-> > > > > > > > than
-> > > > > > > > one try
-> > > > > > > > to understand what's going on here as well. Let me try
-> > > > > > > > to
-> > > > > > > > explain it
-> > > > > > > > in my words:
-> > > > > > > >=20
-> > > > > > > > When an application A is killed the pending submissions
-> > > > > > > > from it are
-> > > > > > > > not executed, but rather torn down by
-> > > > > > > > drm_sched_entity_kill_jobs_work().
-> > > > > > > >=20
-> > > > > > > > If now a submission from application B depends on
-> > > > > > > > something
-> > > > > > > > application A wanted to do on the same scheduler
-> > > > > > > > instance
-> > > > > > > > the
-> > > > > > > > function drm_sched_entity_add_dependency_cb() would
-> > > > > > > > have
-> > > > > > > > optimized
-> > > > > > > > this dependency and assumed that the scheduler work
-> > > > > > > > would
-> > > > > > > > already run
-> > > > > > > > and try to pick a job.
-> > > > > > > >=20
-> > > > > > > > But that isn't the case when the submissions from
-> > > > > > > > application A are
-> > > > > > > > all killed. So make sure to start the scheduler work
-> > > > > > > > from
-> > > > > > > > drm_sched_entity_kill_jobs_work() to handle that case.
-> > > > > > >=20
-> > > > > > > Alright, so the bug then depends on B setting a
-> > > > > > > dependency on
-> > > > > > > A _after_
-> > > > > > > A was killed, doesn't it? Because the optimization in
-> > > > > > > _add_dependency_cb() can only have an effect after A's
-> > > > > > > jobs
-> > > > > > > have been
-> > > > > > > torn down.
-> > > > > >=20
-> > > > > > No, application A and application B submit right behind
-> > > > > > each
-> > > > > > other. Application A is then killed later on.
-> > > > > >=20
-> > > > > > The optimization in _add_dependency_cb() just waits for As
-> > > > > > submission to be handled by the scheduler, but that never
-> > > > > > happens because it was killed.
-> > > > > >=20
-> > > > > > > If there is such a timing order problem, the commit
-> > > > > > > message
-> > > > > > > should
-> > > > > > > mention it.
-> > > > > > >=20
-> > > > > > > The commit message definitely also needs to mention this
-> > > > > > > optimization
-> > > > > > > in drm_sched_entity_add_dependency_cb() since it's
-> > > > > > > essential
-> > > > > > > for
-> > > > > > > understanding the bug.
-> > > > > >=20
-> > > > > > +1
-> > > > > >=20
-> > > > > > Christian.
-> > > > > >=20
-> > > > > > >=20
-> > > > > > >=20
-> > > > > > > Danke
-> > > > > > > P.
-> > > > > > >=20
-> > > > > > >=20
-> > > > > > > >=20
-> > > > > > > > Regards,
-> > > > > > > > Christian.
-> > > > > > > >=20
-> > > > > > > > >=20
-> > > > > > > > > > =C2=A0in entity_kill_job_work(), the scheduler enters
-> > > > > > > > > > sleep
-> > > > > > > > > > state, causing application B hang.
-> > > > > > > > >=20
-> > > > > > > > > So the issue is that if a1 never ran, the scheduler
-> > > > > > > > > will
-> > > > > > > > > not
-> > > > > > > > > continue
-> > > > > > > > > with the jobs of application B, correct?
-> > > > > > > > >=20
-> > > > > > > > > >=20
-> > > > > > > > > > Add drm_sched_wakeup() when entity_kill_job_work()
-> > > > > > > > > > to
-> > > > > > > > > > preventing
-> > > > > > > > >=20
-> > > > > > > > > s/to preventing/to prevent
-> > > > > > > > >=20
-> > > > > > > > > > scheduler sleep and subsequent application hangs.
-> > > > > > > > > >=20
-> > > > > > > > > > v2:
-> > > > > > > > > > - Move drm_sched_wakeup() to after
-> > > > > > > > > > drm_sched_fence_scheduled()
-> > > > > > > > >=20
-> > > > > > > > > Changelogs are cool and useful, but move them below
-> > > > > > > > > the
-> > > > > > > > > Signed-off
-> > > > > > > > > area
-> > > > > > > > > with another --- please, like so:
-> > > > > > > > >=20
-> > > > > > > > > Signed-off by: =E2=80=A6
-> > > > > > > > > ---
-> > > > > > > > > v2:
-> > > > > > > > > =E2=80=A6
-> > > > > > > > > ---
-> > > > > > > > > drivers/gpu/drm/scheduler/sched_entity.c | 1 +
-> > > > > > > > >=20
-> > > > > > > > >=20
-> > > > > > > > > >=20
-> > > > > > > > > > Signed-off-by: Lin.Cao <lincao12@amd.com>
-> > > > > > > > >=20
-> > > > > > > > > This fixes a bug. Even a racy bug, it seems. So we
-> > > > > > > > > need a
-> > > > > > > > > Fixes tag
-> > > > > > > > > and
-> > > > > > > > > put the stable kernel in CC.
-> > > > > > > > >=20
-> > > > > > > > > Please figure out with git blame, git log and git tag
-> > > > > > > > > --
-> > > > > > > > > contains
-> > > > > > > > > which
-> > > > > > > > > commit your patch fixes and which is the oldest
-> > > > > > > > > kernel
-> > > > > > > > > that
-> > > > > > > > > contains
-> > > > > > > > > the bug. Then add a Fixes: tag and Cc: the stable
-> > > > > > > > > kernel.
-> > > > > > > > > You'll
-> > > > > > > > > find
-> > > > > > > > > lots of examples for that in git log.
-> > > > > > > > >=20
-> > > > > > > > >=20
-> > > > > > > > > Thx
-> > > > > > > > > P.
-> > > > > > > > >=20
-> > > > > > > > > > ---
-> > > > > > > > > > =C2=A0drivers/gpu/drm/scheduler/sched_entity.c | 1 +
-> > > > > > > > > > =C2=A01 file changed, 1 insertion(+)
-> > > > > > > > > >=20
-> > > > > > > > > > diff --git
-> > > > > > > > > > a/drivers/gpu/drm/scheduler/sched_entity.c
-> > > > > > > > > > b/drivers/gpu/drm/scheduler/sched_entity.c
-> > > > > > > > > > index e671aa241720..66f2a43c58fd 100644
-> > > > > > > > > > --- a/drivers/gpu/drm/scheduler/sched_entity.c
-> > > > > > > > > > +++ b/drivers/gpu/drm/scheduler/sched_entity.c
-> > > > > > > > > > @@ -177,6 +177,7 @@ static void
-> > > > > > > > > > drm_sched_entity_kill_jobs_work(struct work_struct
-> > > > > > > > > > *wrk)
-> > > > > > > > > > =C2=A0=C2=A0 struct drm_sched_job *job =3D container_of=
-(wrk,
-> > > > > > > > > > typeof(*job), work);
-> > > > > > > > > > =C2=A0
-> > > > > > > > > > =C2=A0=C2=A0 drm_sched_fence_scheduled(job->s_fence, NU=
-LL);
-> > > > > > > > > > +=C2=A0 drm_sched_wakeup(job->sched);
-> > > > > > > > > > =C2=A0=C2=A0 drm_sched_fence_finished(job->s_fence, -ES=
-RCH);
-> > > > > > > > > > =C2=A0=C2=A0 WARN_ON(job->s_fence->parent);
-> > > > > > > > > > =C2=A0=C2=A0 job->sched->ops->free_job(job);
-> > > > > > > > >=20
-> > > > > > > >=20
-> > > > > > >=20
-> > > > > >=20
-> > > > >=20
-> > > >=20
-> > >=20
-> >=20
->=20
+Commit 1a148af06000 ("drm/gem-shmem: Use dma_buf from GEM object
+instance") triggers the segmentation fault easily by using the dma-buf
+field more widely. The underlying issue with reference counting has
+been present before.
+
+v2:
+- acquire the handle instead of the BO (Christian)
+- fix comment style (Christian)
+- drop the Fixes tag (Christian)
+- rename err_ gotos
+- add missing Link tag
+
+Suggested-by: Christian König <christian.koenig@amd.com>
+Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
+Link: https://elixir.bootlin.com/linux/v6.15/source/drivers/gpu/drm/drm_gem.c#L241 # [1]
+Cc: Thomas Zimmermann <tzimmermann@suse.de>
+Cc: Anusha Srivatsa <asrivats@redhat.com>
+Cc: Christian König <christian.koenig@amd.com>
+Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
+Cc: Maxime Ripard <mripard@kernel.org>
+Cc: Sumit Semwal <sumit.semwal@linaro.org>
+Cc: "Christian König" <christian.koenig@amd.com>
+Cc: linux-media@vger.kernel.org
+Cc: dri-devel@lists.freedesktop.org
+Cc: linaro-mm-sig@lists.linaro.org
+Cc: <stable@vger.kernel.org>
+Reviewed-by: Christian König <christian.koenig@amd.com>
+Link: https://lore.kernel.org/r/20250630084001.293053-1-tzimmermann@suse.de
+Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+---
+ drivers/gpu/drm/drm_gem.c                    |   44 ++++++++++++++++++++++++---
+ drivers/gpu/drm/drm_gem_framebuffer_helper.c |   16 +++++----
+ drivers/gpu/drm/drm_internal.h               |    2 +
+ 3 files changed, 51 insertions(+), 11 deletions(-)
+
+--- a/drivers/gpu/drm/drm_gem.c
++++ b/drivers/gpu/drm/drm_gem.c
+@@ -186,6 +186,35 @@ void drm_gem_private_object_fini(struct
+ }
+ EXPORT_SYMBOL(drm_gem_private_object_fini);
+ 
++static void drm_gem_object_handle_get(struct drm_gem_object *obj)
++{
++	struct drm_device *dev = obj->dev;
++
++	drm_WARN_ON(dev, !mutex_is_locked(&dev->object_name_lock));
++
++	if (obj->handle_count++ == 0)
++		drm_gem_object_get(obj);
++}
++
++/**
++ * drm_gem_object_handle_get_unlocked - acquire reference on user-space handles
++ * @obj: GEM object
++ *
++ * Acquires a reference on the GEM buffer object's handle. Required
++ * to keep the GEM object alive. Call drm_gem_object_handle_put_unlocked()
++ * to release the reference.
++ */
++void drm_gem_object_handle_get_unlocked(struct drm_gem_object *obj)
++{
++	struct drm_device *dev = obj->dev;
++
++	guard(mutex)(&dev->object_name_lock);
++
++	drm_WARN_ON(dev, !obj->handle_count); /* first ref taken in create-tail helper */
++	drm_gem_object_handle_get(obj);
++}
++EXPORT_SYMBOL(drm_gem_object_handle_get_unlocked);
++
+ /**
+  * drm_gem_object_handle_free - release resources bound to userspace handles
+  * @obj: GEM object to clean up.
+@@ -216,8 +245,14 @@ static void drm_gem_object_exported_dma_
+ 	}
+ }
+ 
+-static void
+-drm_gem_object_handle_put_unlocked(struct drm_gem_object *obj)
++/**
++ * drm_gem_object_handle_put_unlocked - releases reference on user-space handles
++ * @obj: GEM object
++ *
++ * Releases a reference on the GEM buffer object's handle. Possibly releases
++ * the GEM buffer object and associated dma-buf objects.
++ */
++void drm_gem_object_handle_put_unlocked(struct drm_gem_object *obj)
+ {
+ 	struct drm_device *dev = obj->dev;
+ 	bool final = false;
+@@ -242,6 +277,7 @@ drm_gem_object_handle_put_unlocked(struc
+ 	if (final)
+ 		drm_gem_object_put(obj);
+ }
++EXPORT_SYMBOL(drm_gem_object_handle_put_unlocked);
+ 
+ /*
+  * Called at device or object close to release the file's
+@@ -363,8 +399,8 @@ drm_gem_handle_create_tail(struct drm_fi
+ 	int ret;
+ 
+ 	WARN_ON(!mutex_is_locked(&dev->object_name_lock));
+-	if (obj->handle_count++ == 0)
+-		drm_gem_object_get(obj);
++
++	drm_gem_object_handle_get(obj);
+ 
+ 	/*
+ 	 * Get the user-visible handle using idr.  Preload and perform
+--- a/drivers/gpu/drm/drm_gem_framebuffer_helper.c
++++ b/drivers/gpu/drm/drm_gem_framebuffer_helper.c
+@@ -99,7 +99,7 @@ void drm_gem_fb_destroy(struct drm_frame
+ 	unsigned int i;
+ 
+ 	for (i = 0; i < fb->format->num_planes; i++)
+-		drm_gem_object_put(fb->obj[i]);
++		drm_gem_object_handle_put_unlocked(fb->obj[i]);
+ 
+ 	drm_framebuffer_cleanup(fb);
+ 	kfree(fb);
+@@ -182,8 +182,10 @@ int drm_gem_fb_init_with_funcs(struct dr
+ 		if (!objs[i]) {
+ 			drm_dbg_kms(dev, "Failed to lookup GEM object\n");
+ 			ret = -ENOENT;
+-			goto err_gem_object_put;
++			goto err_gem_object_handle_put_unlocked;
+ 		}
++		drm_gem_object_handle_get_unlocked(objs[i]);
++		drm_gem_object_put(objs[i]);
+ 
+ 		min_size = (height - 1) * mode_cmd->pitches[i]
+ 			 + drm_format_info_min_pitch(info, i, width)
+@@ -193,22 +195,22 @@ int drm_gem_fb_init_with_funcs(struct dr
+ 			drm_dbg_kms(dev,
+ 				    "GEM object size (%zu) smaller than minimum size (%u) for plane %d\n",
+ 				    objs[i]->size, min_size, i);
+-			drm_gem_object_put(objs[i]);
++			drm_gem_object_handle_put_unlocked(objs[i]);
+ 			ret = -EINVAL;
+-			goto err_gem_object_put;
++			goto err_gem_object_handle_put_unlocked;
+ 		}
+ 	}
+ 
+ 	ret = drm_gem_fb_init(dev, fb, mode_cmd, objs, i, funcs);
+ 	if (ret)
+-		goto err_gem_object_put;
++		goto err_gem_object_handle_put_unlocked;
+ 
+ 	return 0;
+ 
+-err_gem_object_put:
++err_gem_object_handle_put_unlocked:
+ 	while (i > 0) {
+ 		--i;
+-		drm_gem_object_put(objs[i]);
++		drm_gem_object_handle_put_unlocked(objs[i]);
+ 	}
+ 	return ret;
+ }
+--- a/drivers/gpu/drm/drm_internal.h
++++ b/drivers/gpu/drm/drm_internal.h
+@@ -153,6 +153,8 @@ void drm_sysfs_lease_event(struct drm_de
+ 
+ /* drm_gem.c */
+ int drm_gem_init(struct drm_device *dev);
++void drm_gem_object_handle_get_unlocked(struct drm_gem_object *obj);
++void drm_gem_object_handle_put_unlocked(struct drm_gem_object *obj);
+ int drm_gem_handle_create_tail(struct drm_file *file_priv,
+ 			       struct drm_gem_object *obj,
+ 			       u32 *handlep);
+
 
