@@ -2,113 +2,69 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9E4B3B05A1C
-	for <lists+dri-devel@lfdr.de>; Tue, 15 Jul 2025 14:30:27 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0CC8BB05A32
+	for <lists+dri-devel@lfdr.de>; Tue, 15 Jul 2025 14:31:24 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1D49B10E5B7;
-	Tue, 15 Jul 2025 12:30:25 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7A48810E5B6;
+	Tue, 15 Jul 2025 12:31:07 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=suse.de header.i=@suse.de header.b="fZP0dWCz";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="76J/k3jK";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="fZP0dWCz";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="76J/k3jK";
+	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=igalia.com header.i=@igalia.com header.b="QF8lJOGM";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 44B5C10E5B0
- for <dri-devel@lists.freedesktop.org>; Tue, 15 Jul 2025 12:30:23 +0000 (UTC)
-Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
- (No client certificate requested)
- by smtp-out1.suse.de (Postfix) with ESMTPS id 5599621250;
- Tue, 15 Jul 2025 12:30:04 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1752582604; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=WfIwDLueUpdSLLQiafQ4ArRKWl+h2XDcNKHLfewAO8E=;
- b=fZP0dWCzbVasw5rkikeRR9v/UB3Qy1brvJl6bTF14MWV5UNnjSDc3J6x3S+gLxax+eHYrI
- QoQUNwb6H4/NsGRh8/4HyMsDK0rxFIs3CCB4r6yJ5QUbZYtQ1MXddZjEF3CfNWfTmUkRAa
- 6UzQ8HGtttb5jlg1ntl4kHxRFML937Y=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1752582604;
- h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=WfIwDLueUpdSLLQiafQ4ArRKWl+h2XDcNKHLfewAO8E=;
- b=76J/k3jKQo40f/90yjZH7qtWlJCciblfX+qiHezSGaPo4Kpxza6jrnllOlTct6GxjNVfrr
- MQiEdq+IIpApwfDA==
-Authentication-Results: smtp-out1.suse.de;
-	none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1752582604; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=WfIwDLueUpdSLLQiafQ4ArRKWl+h2XDcNKHLfewAO8E=;
- b=fZP0dWCzbVasw5rkikeRR9v/UB3Qy1brvJl6bTF14MWV5UNnjSDc3J6x3S+gLxax+eHYrI
- QoQUNwb6H4/NsGRh8/4HyMsDK0rxFIs3CCB4r6yJ5QUbZYtQ1MXddZjEF3CfNWfTmUkRAa
- 6UzQ8HGtttb5jlg1ntl4kHxRFML937Y=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1752582604;
- h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=WfIwDLueUpdSLLQiafQ4ArRKWl+h2XDcNKHLfewAO8E=;
- b=76J/k3jKQo40f/90yjZH7qtWlJCciblfX+qiHezSGaPo4Kpxza6jrnllOlTct6GxjNVfrr
- MQiEdq+IIpApwfDA==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
- (No client certificate requested)
- by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id B244613306;
- Tue, 15 Jul 2025 12:30:03 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
- by imap1.dmz-prg2.suse.org with ESMTPSA id mFAkKstJdmgaIwAAD6G6ig
- (envelope-from <tzimmermann@suse.de>); Tue, 15 Jul 2025 12:30:03 +0000
-From: Thomas Zimmermann <tzimmermann@suse.de>
-To: lee@kernel.org, danielt@kernel.org, jingoohan1@gmail.com,
- neil.armstrong@linaro.org, jessica.zhang@oss.qualcomm.com, deller@gmx.de,
- maarten.lankhorst@linux.intel.com, mripard@kernel.org, airlied@gmail.com,
- simona@ffwll.ch, fnkl.kernel@gmail.com, j@jannau.net, hdegoede@redhat.com,
- ilpo.jarvinen@linux.intel.com, sven@kernel.org, alyssa@rosenzweig.io,
- neal@gompa.dev, support.opensource@diasemi.com, duje.mihanovic@skole.hr
-Cc: dri-devel@lists.freedesktop.org, asahi@lists.linux.dev,
- platform-driver-x86@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
- linux-fbdev@vger.kernel.org, Thomas Zimmermann <tzimmermann@suse.de>
-Subject: [PATCH v2 15/15] backlight: Do not include <linux/fb.h> in header file
-Date: Tue, 15 Jul 2025 14:24:52 +0200
-Message-ID: <20250715122643.137027-16-tzimmermann@suse.de>
+Received: from fanzine2.igalia.com (fanzine2.igalia.com [213.97.179.56])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B0CD8892AA;
+ Tue, 15 Jul 2025 12:31:03 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com; 
+ s=20170329;
+ h=Content-Transfer-Encoding:Content-Type:MIME-Version:References:
+ In-Reply-To:Message-ID:Date:Subject:Cc:To:From:Sender:Reply-To:Content-ID:
+ Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc
+ :Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:List-Subscribe:
+ List-Post:List-Owner:List-Archive;
+ bh=G5tGG9amdL2b0ifcnhepNyhm4h9SwYWFaCFHBzhKkUo=; b=QF8lJOGMamFp3i34+/XW5O2GDn
+ 71NiknX0apJ3b+619bcPJXd2PBL6R+06254tF6QlVTJftkaOUrW4vUD7h893zRA+7bBCQlOvxCGcx
+ OihUhWlMYgOIKNjWzUITbw2ZxNZ+2dBdmUshHouaClGY7bLUvTeLBaRLkKKiMsCaK9Qy9jR7J1TdZ
+ G22u76BSZtn+pdiLUbBD3VBZFgIqKhGNyIEAGz5ebzQk+JSxz0BRsSFj87fHZ4Nug49hXI8Iar+8M
+ jNIFqj05xBUYz3euuROmgAnbGnDrRGI7DVRpewUxl+JB3cJJM8HUM+ospZkqODk+qBaPdajyFGg7J
+ GLKyCtsg==;
+Received: from [187.36.210.68] (helo=morissey)
+ by fanzine2.igalia.com with esmtpsa 
+ (Cipher TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_256_GCM:256) (Exim)
+ id 1ubenv-00GpXn-Oc; Tue, 15 Jul 2025 14:30:40 +0200
+From: =?UTF-8?q?Ma=C3=ADra=20Canal?= <mcanal@igalia.com>
+To: Matthew Brost <matthew.brost@intel.com>,
+ Danilo Krummrich <dakr@kernel.org>, Philipp Stanner <phasta@kernel.org>,
+ =?UTF-8?q?Christian=20K=C3=B6nig?= <ckoenig.leichtzumerken@gmail.com>,
+ Tvrtko Ursulin <tvrtko.ursulin@igalia.com>,
+ Simona Vetter <simona@ffwll.ch>, David Airlie <airlied@gmail.com>,
+ Melissa Wen <mwen@igalia.com>, Lucas Stach <l.stach@pengutronix.de>,
+ Russell King <linux+etnaviv@armlinux.org.uk>,
+ Christian Gmeiner <christian.gmeiner@gmail.com>,
+ Lucas De Marchi <lucas.demarchi@intel.com>,
+ =?UTF-8?q?Thomas=20Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>,
+ Rodrigo Vivi <rodrigo.vivi@intel.com>,
+ Boris Brezillon <boris.brezillon@collabora.com>,
+ Rob Herring <robh@kernel.org>, Steven Price <steven.price@arm.com>,
+ Liviu Dudau <liviu.dudau@arm.com>,
+ =?UTF-8?q?Ma=C3=ADra=20Canal?= <mcanal@igalia.com>
+Cc: kernel-dev@igalia.com, dri-devel@lists.freedesktop.org,
+ etnaviv@lists.freedesktop.org, intel-xe@lists.freedesktop.org,
+ Min Ma <min.ma@amd.com>, Lizhi Hou <lizhi.hou@amd.com>,
+ Oded Gabbay <ogabbay@kernel.org>, Frank Binns <frank.binns@imgtec.com>,
+ Matt Coster <matt.coster@imgtec.com>, Qiang Yu <yuq825@gmail.com>,
+ Lyude Paul <lyude@redhat.com>, Alex Deucher <alexander.deucher@amd.com>,
+ =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>
+Subject: Re: [PATCH v6 0/8] drm/sched: Allow drivers to skip the reset with
+ DRM_GPU_SCHED_STAT_NO_HANG
+Date: Tue, 15 Jul 2025 09:30:18 -0300
+Message-ID: <175258238784.119068.1577042922667240898.b4-ty@igalia.com>
 X-Mailer: git-send-email 2.50.0
-In-Reply-To: <20250715122643.137027-1-tzimmermann@suse.de>
-References: <20250715122643.137027-1-tzimmermann@suse.de>
+In-Reply-To: <20250714-sched-skip-reset-v6-0-5c5ba4f55039@igalia.com>
+References: <20250714-sched-skip-reset-v6-0-5c5ba4f55039@igalia.com>
 MIME-Version: 1.0
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
-X-Spam-Level: 
-X-Spamd-Result: default: False [-1.30 / 50.00]; BAYES_HAM(-3.00)[100.00%];
- SUSPICIOUS_RECIPS(1.50)[]; MID_CONTAINS_FROM(1.00)[];
- NEURAL_HAM_LONG(-1.00)[-1.000]; R_MISSING_CHARSET(0.50)[];
- NEURAL_HAM_SHORT(-0.20)[-1.000]; MIME_GOOD(-0.10)[text/plain];
- FREEMAIL_TO(0.00)[kernel.org,gmail.com,linaro.org,oss.qualcomm.com,gmx.de,linux.intel.com,ffwll.ch,jannau.net,redhat.com,rosenzweig.io,gompa.dev,diasemi.com,skole.hr];
- RCPT_COUNT_TWELVE(0.00)[25]; MIME_TRACE(0.00)[0:+];
- TO_MATCH_ENVRCPT_ALL(0.00)[];
- DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
- ARC_NA(0.00)[]; FUZZY_RATELIMITED(0.00)[rspamd.com];
- RCVD_TLS_ALL(0.00)[];
- R_RATELIMIT(0.00)[to_ip_from(RLc48bcaq7qz9wekwjsx9fywoc),to(RLpx6hatunazuh7ud675imbh78)];
- FROM_EQ_ENVFROM(0.00)[]; FROM_HAS_DN(0.00)[];
- TO_DN_SOME(0.00)[]; RCVD_COUNT_TWO(0.00)[2];
- TAGGED_RCPT(0.00)[];
- DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:helo,suse.de:email,suse.de:mid];
- RCVD_VIA_SMTP_AUTH(0.00)[];
- FREEMAIL_ENVRCPT(0.00)[gmail.com,gmx.de]
-X-Spam-Flag: NO
-X-Spam-Score: -1.30
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -124,26 +80,32 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The backlight interfaces don't require anything from <linux/fb.h>, so
-don't include it.
 
-Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
----
- include/linux/backlight.h | 1 -
- 1 file changed, 1 deletion(-)
+On Mon, 14 Jul 2025 19:07:01 -0300, Maíra Canal wrote:
+> TL;DR: No changes from v5, I just rebased it on top of drm-misc-next. I
+> plan to push the series to the drm-misc tree tomorrow.
+> 
+> Thanks for all the reviews!
+> 
 
-diff --git a/include/linux/backlight.h b/include/linux/backlight.h
-index 10e626db7eee..f29a9ef1052e 100644
---- a/include/linux/backlight.h
-+++ b/include/linux/backlight.h
-@@ -10,7 +10,6 @@
- #define _LINUX_BACKLIGHT_H
- 
- #include <linux/device.h>
--#include <linux/fb.h>
- #include <linux/mutex.h>
- #include <linux/types.h>
- 
--- 
-2.50.0
+Applied, thanks!
 
+[1/8] drm/sched: Rename DRM_GPU_SCHED_STAT_NOMINAL to DRM_GPU_SCHED_STAT_RESET
+      commit: 0a5dc1b67ef5c7e851b57764a2aab8cc4341a7b7
+[2/8] drm/sched: Allow drivers to skip the reset and keep on running
+      commit: 0b1217bfdfddf664c15954d1d51ee18ed88a2ccf
+[3/8] drm/sched: Make timeout KUnit tests faster
+      commit: 9b9b5a3605b9a5ef1d412e47b2ae70090c8d3580
+[4/8] drm/sched: Add new test for DRM_GPU_SCHED_STAT_NO_HANG
+      commit: 1472e7549f84c472a9ebb9a8bb0aaafe985ea608
+[5/8] drm/v3d: Use DRM_GPU_SCHED_STAT_NO_HANG to skip the reset
+      commit: 6b37fbacd087fbd517b6b276ca8bebd1dc052fb7
+[6/8] drm/etnaviv: Use DRM_GPU_SCHED_STAT_NO_HANG to skip the reset
+      commit: 8902c2b17a6ec723ab7924bc4113bef47603c0dc
+[7/8] drm/xe: Use DRM_GPU_SCHED_STAT_NO_HANG to skip the reset
+      commit: 53dcd0eaa271e870ca5d0b203be67b468214c1bc
+[8/8] drm/panfrost: Use DRM_GPU_SCHED_STAT_NO_HANG to skip the reset
+      commit: 9fb32803dfba63697080db7969bc3aa1bf323dc3
+
+Best regards,
+- Maíra
