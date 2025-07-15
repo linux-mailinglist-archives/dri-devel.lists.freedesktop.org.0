@@ -2,33 +2,35 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5D3A2B05DAE
-	for <lists+dri-devel@lfdr.de>; Tue, 15 Jul 2025 15:45:59 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1A74BB05DB6
+	for <lists+dri-devel@lfdr.de>; Tue, 15 Jul 2025 15:46:21 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A9D3D10E5D2;
-	Tue, 15 Jul 2025 13:45:57 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7CFA610E5D4;
+	Tue, 15 Jul 2025 13:46:19 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=uniontech.com header.i=@uniontech.com header.b="S1ENMm7f";
+	dkim=pass (1024-bit key; unprotected) header.d=uniontech.com header.i=@uniontech.com header.b="L7T2ccFh";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from smtpbguseast2.qq.com (smtpbguseast2.qq.com [54.204.34.130])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2EB0D10E5D2;
- Tue, 15 Jul 2025 13:45:54 +0000 (UTC)
+X-Greylist: delayed 23150 seconds by postgrey-1.36 at gabe;
+ Tue, 15 Jul 2025 13:46:17 UTC
+Received: from bg5.exmail.qq.com (bg5.exmail.qq.com [43.154.209.5])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 762BC10E5D4;
+ Tue, 15 Jul 2025 13:46:17 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=uniontech.com;
- s=onoh2408; t=1752587135;
- bh=ltFUUSzAPz2OoVfH54nkwDpFnO/axW/szGNu9HIiAOI=;
+ s=onoh2408; t=1752587152;
+ bh=NWDrOIeUTkfMgeyG9DirCptVDnqPmotqOLDK+VZpCcc=;
  h=From:To:Subject:Date:Message-ID:MIME-Version;
- b=S1ENMm7fYMw+wC3Nc2T3W/1mnOrrRxwGSj+HE9H3+L091aDpIgD6Awpfjaz9oABYV
- ctOVZ/zt5hFQcVniHRXwpmmjkuoS0JpQZz87BbfHHONx220+fIhL/4OmFSeOxFyeKM
- u7o3HWlJC3p334oMD1WZaIXnaDSJIQGAOU9Q5Zo4=
-X-QQ-mid: zesmtpip2t1752587121taaa03ec6
-X-QQ-Originating-IP: IIvVAyKvuXb4Hz7pVF2rGJuCkoWUtC78LZlVFBjDx2g=
+ b=L7T2ccFhTmKG3T6mh99/NWel04UXnbnWQG6H0UsAuRVoyzg0rSWMDQ6CfsGkWl33k
+ +qzhfTCd+IfyTEwSQEhSnfW2Nu6TBzcLfzdaXYa89VWv40tRLzf/axMm3ldWw220cL
+ 97y04t2d1nAvgy4g4V5utln46rvikis/m/9sdMs0=
+X-QQ-mid: zesmtpip2t1752587129tb54538eb
+X-QQ-Originating-IP: PsIrTfnu37O5BQpc09CPKOeWtbwmOWY2B4qF0spybKw=
 Received: from avenger-e500 ( [localhost]) by bizesmtp.qq.com (ESMTP) with 
- id ; Tue, 15 Jul 2025 21:45:17 +0800 (CST)
+ id ; Tue, 15 Jul 2025 21:45:25 +0800 (CST)
 X-QQ-SSF: 0000000000000000000000000000000
 X-QQ-GoodBg: 1
-X-BIZMAIL-ID: 8982638937609059235
+X-BIZMAIL-ID: 9443703254596192763
 EX-QQ-RecipientCnt: 63
 From: WangYuli <wangyuli@uniontech.com>
 To: wangyuli@uniontech.com
@@ -55,9 +57,10 @@ Cc: airlied@gmail.com, akpm@linux-foundation.org, alison.schofield@intel.com,
  simona@ffwll.ch, sstabellini@kernel.org, tglx@linutronix.de,
  thomas.hellstrom@linux.intel.com, vishal.l.verma@intel.com, x86@kernel.org,
  xen-devel@lists.xenproject.org, yujiaoliang@vivo.com, zhanjun@uniontech.com
-Subject: [PATCH v2 7/8] xen/xenbus: Fix typo "notifer"
-Date: Tue, 15 Jul 2025 21:44:06 +0800
-Message-ID: <906F22CD3C183048+20250715134407.540483-7-wangyuli@uniontech.com>
+Subject: [PATCH v2 8/8] scripts/spelling.txt: Add notifer||notifier to
+ spelling.txt
+Date: Tue, 15 Jul 2025 21:44:07 +0800
+Message-ID: <A205796B545C4241+20250715134407.540483-8-wangyuli@uniontech.com>
 X-Mailer: git-send-email 2.50.0
 In-Reply-To: <BD5C52D2838AEA48+20250715134050.539234-1-wangyuli@uniontech.com>
 References: <BD5C52D2838AEA48+20250715134050.539234-1-wangyuli@uniontech.com>
@@ -65,24 +68,24 @@ MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-QQ-SENDSIZE: 520
 Feedback-ID: zesmtpip:uniontech.com:qybglogicsvrgz:qybglogicsvrgz8a-1
-X-QQ-XMAILINFO: N/2JuoeGxbayhPHFCOmm5knYdufO0wCvl67pOQ3z1q+3LsO+nWTEzKpN
- iMIC7SutcsbyBSAoeroMDwOSLv8mdyb756+NAq8qMJ6lx7ymPfPW1gWynHyjHQiV7ZWJ/cL
- a6b0RSvVXzhXMeN+sEYQUU/DB41c2ya6dOJNTQ186nan7KQT1zR7urZfvIY2eULaec6z8lr
- DELriyT3kIkinX8DWEbM3PcU5z0mfqtBG05zhJDZacFECuhzB40iUTuBk/fP6k/bPPEyIW1
- JWwCHZjIXUNDnJoCdofpoxJ8SYs3oiTOOeTpKOZGVslZ+8E6RrBgaW4kyBZlPuvJaVbeuD5
- w9S3rU+2axUVmsnK72fw4pmN/aft4iD7ED+PlLrUBdPqc+YBnxTSv2gB7nUnzPnVFEdWkA5
- sqoM4JYMJfiniNT0KkHGlj1IguHh0JOt/ZsuPNYDCQMfRI1z5qHnXc/ClFqHh5Hinz0bNeN
- oksCdyvSx8/wWUGnukLUOXvU+hs+PBiVelLCK7WJvhAu2HZxj9gUM639+ylfZPvHghxZBKp
- fcm4yLgMBAIO/fTB3uafGMTRVSMjzyqesB244xjoSHQkP1yoLdAkXhNyCP5I4MUFK4DJwvR
- 8c+MIfBFQO7HEjBXFpXCAirXk76Ih0prYesYClI0c9pK4F35kPdvgnKk3Do1pCnJwgfgJVw
- w0q5b5EDDFbmQwUuh4qf9WJnhN6RR15kd6es5C4iSyLxRV/gZIzmF5PKa33NetVTXNpXHSu
- JB7Ey5V6hzdXpSdsMcOT93nmNFNoPskCjHp0iWCijR9QtjV2dEcYdBP2fSWfazqmlBzXhJz
- e1mAnL4qPUmn2DTLvjq8MdUdALMtJs5gbYbq+phQJfisZYh6GsF1NvlGKOaQ3jI9Jpo1Go2
- EAweA48jqTNJ8ovyfmRjxhffp8xpOgO98kLyV8iGo4AydUzfcN+IN/VBne33XdhuYZsNGSt
- kCV0Tus/qNOzjiXBzrRfre6wc9dd0+ZMOpl5Bi2I7YYeZoiEZR6Bz4sYt0wRyG6XFqX6xtN
- IVaE5fJeFW3QqCHaJ7VkWshpIY7lN0Om0jJ8MsunHUvLt7ICcvYSnp76ds08XEiFur5BFEJ
- d88WPDg77fmSAD9odPlwpSLa3tgMhYjsv0gqUidcomHp29EnqnYL/4=
-X-QQ-XMRINFO: Nq+8W0+stu50PRdwbJxPCL0=
+X-QQ-XMAILINFO: NfZ1G3mfsVwmGGfmgJkLyMvl+VoDzXXq2IYtJWnKuWo9l1qkey4A26Hv
+ SvTEwKhn6on76DtphpKDmnp2WJC9f2R3CDWC5laPHEPT/iOJA+2/pv/COPzFg6M0QTwvf+D
+ 6ttVN9VDRkD8+zvL3VCyoPUHl7z73gjejIf/ZS5VVanhM9+31ucc7w43aOiU6lFiOjLulW7
+ Rr567Y28DdcRkaB6sa9mPRFZZBRu3p+FN/bDbYSIf3gpu3WpwmfkwXpBmhJVdQItsAzAWbb
+ fhbcuJjtFMUUwV0uevVM+8jQTvCqoklXnwQDkGQ3xCW9Rvf3JdqzfjOj8C49Of6ebzL+PGN
+ 335BovIcz/ABfWYTwC107g4rwWYNu4r6nOoLFYbYpmYWygKfcoOQBiBibJTbIRw284jwJIg
+ rNJytL+dtSOMFAv3uCsMgDyN6GOuEj9vP8GsAbkTYzl1zM026u6566/OnrXTWhuAQZqQzq4
+ jTbbWRgbgqHZABH0r99LHELaQQQUXu0rYb+WFPCYcj/FpokvDuwS2zkvT/4HhsQWG9eIPLj
+ /d2WHb65dpLtMvqvBime6RBUNRZvpBRrT6GUjfhJO4HceuerfXJ8QUw/bLNECBsBskU0Yp8
+ 1Ug3J5ggzGnRCvxFQJWKxdkHDWxb3Jw492fNdsvrdAJWNhv6nO4tuGWgbcWiMiiPdwXkNmn
+ o2cHF5Jj+289BRT3rDSw9hiBrQ7/0RGpqA5G1fMy8iGvQdpvK0aeqwsOSwRb5TKaTgZMZRr
+ G0p81zwr/E1K7Mn/2p2wfPpniCL4LrOrSSLo4Gb3p08WIM69mdvanMKFsHXmd0/fXZfpmUm
+ rgPVOA2r/NwFBE9h8n1ey7xQ0RJk8akgFJXQIMxf8yGwtepIngU3xFtEPC9EQ6jZyu7iwfe
+ xQUP3jG+j7xTUXHl3wogbx23sk7NyZGueojSPbb2CGbqUpnQSvaZG56gBZ7jVWEhppQaZjR
+ PWmBCLtR52wESklVmJo8+EPR7fTjC4ZZwrqfHy6nKCJmW5uKAX4AfUJr969cB1pvvMXf5X3
+ IOXqWGfFbBBbYGXmkAQFEo3C2IgrFRWzNp3h9jUoNNtKIDzj+9KCfRcqMCfWRCzpRMpdMrV
+ PhpUXh8Je5z
+X-QQ-XMRINFO: MPJ6Tf5t3I/ycC2BItcBVIA=
 X-QQ-RECHKSPAM: 0
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -99,28 +102,27 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-There is a spelling mistake of 'notifer' in the comment which
-should be 'notifier'.
+This typo was not listed in scripts/spelling.txt, thus it was more
+difficult to detect. Add it for convenience.
 
 Link: https://lore.kernel.org/all/B3C019B63C93846F+20250715071245.398846-1-wangyuli@uniontech.com/
 Signed-off-by: WangYuli <wangyuli@uniontech.com>
 ---
- include/xen/xenbus.h | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ scripts/spelling.txt | 1 +
+ 1 file changed, 1 insertion(+)
 
-diff --git a/include/xen/xenbus.h b/include/xen/xenbus.h
-index 3f90bdd387b6..00b84f2e402b 100644
---- a/include/xen/xenbus.h
-+++ b/include/xen/xenbus.h
-@@ -180,7 +180,7 @@ int xenbus_printf(struct xenbus_transaction t,
-  * sprintf-style type string, and pointer. Returns 0 or errno.*/
- int xenbus_gather(struct xenbus_transaction t, const char *dir, ...);
- 
--/* notifer routines for when the xenstore comes up */
-+/* notifier routines for when the xenstore comes up */
- extern int xenstored_ready;
- int register_xenstore_notifier(struct notifier_block *nb);
- void unregister_xenstore_notifier(struct notifier_block *nb);
+diff --git a/scripts/spelling.txt b/scripts/spelling.txt
+index c9a6df5be281..d824c4b17390 100644
+--- a/scripts/spelling.txt
++++ b/scripts/spelling.txt
+@@ -1099,6 +1099,7 @@ notication||notification
+ notications||notifications
+ notifcations||notifications
+ notifed||notified
++notifer||notifier
+ notity||notify
+ notfify||notify
+ nubmer||number
 -- 
 2.50.0
 
