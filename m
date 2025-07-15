@@ -2,31 +2,31 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0BCEEB05BFA
-	for <lists+dri-devel@lfdr.de>; Tue, 15 Jul 2025 15:26:11 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6ABB6B05D1A
+	for <lists+dri-devel@lfdr.de>; Tue, 15 Jul 2025 15:41:32 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E572910E5C5;
-	Tue, 15 Jul 2025 13:26:08 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 108B110E5C6;
+	Tue, 15 Jul 2025 13:41:30 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="QqGzHLlC";
+	dkim=pass (1024-bit key; unprotected) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="ZzvMvOuO";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2A26A10E5BE
- for <dri-devel@lists.freedesktop.org>; Tue, 15 Jul 2025 13:26:07 +0000 (UTC)
+Received: from tor.source.kernel.org (tor.source.kernel.org [172.105.4.254])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B0F2B10E5C6
+ for <dri-devel@lists.freedesktop.org>; Tue, 15 Jul 2025 13:41:29 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by dfw.source.kernel.org (Postfix) with ESMTP id 152145C6520;
- Tue, 15 Jul 2025 13:26:05 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6BFF7C4CEF1;
- Tue, 15 Jul 2025 13:26:04 +0000 (UTC)
+ by tor.source.kernel.org (Postfix) with ESMTP id E4B0861441;
+ Tue, 15 Jul 2025 13:41:28 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4D711C4CEE3;
+ Tue, 15 Jul 2025 13:41:28 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
- s=korg; t=1752585964;
- bh=jvKop24sFrKkwzLsEaMNehHH5CtJHJJ4dw1F+3jOxnA=;
+ s=korg; t=1752586888;
+ bh=6SVTdv2PHH1o4vCL0tIukxTMNTheFe5amjAULzo2Up8=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=QqGzHLlCp2QyZ6iLVSFL+zl8y8I9Fwh0KeZmUaWigIV8XjXErYWYGSiNzLpc64lWL
- wmh0/8AnHuI+/6VuCxJL7asH27hwe0TllENtX650xEpsPv6FUxWYWhDs1KtIWqM2sb
- aZxJxJ/JPOo5sSxnDDjqf/M+H2hg6g0kXkInlMdk=
+ b=ZzvMvOuO2M+c/h1mDl57XcVHRXhKQP4nfHVLiU8Py0fneS9OdOv+WH0wddYlqyz+q
+ 0Itl3JKjGEJPB+wF4K6NXr2Xp/B9Aa4Pv80y8D2cscpo4XUGpzQ650o71sLApiwuZ6
+ ZhZbJz91jKmhYb2rwi5ZeLT275oUbDhJUTcMtgVM=
 From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 To: stable@vger.kernel.org
 Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>, patches@lists.linux.dev,
@@ -37,13 +37,13 @@ Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>, patches@lists.linux.dev,
  Maxime Ripard <mripard@kernel.org>, Sumit Semwal <sumit.semwal@linaro.org>,
  linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org,
  linaro-mm-sig@lists.linaro.org
-Subject: [PATCH 6.6 043/109] drm/gem: Acquire references on GEM handles for
+Subject: [PATCH 6.15 085/192] drm/gem: Acquire references on GEM handles for
  framebuffers
-Date: Tue, 15 Jul 2025 15:12:59 +0200
-Message-ID: <20250715130800.605137510@linuxfoundation.org>
+Date: Tue, 15 Jul 2025 15:13:00 +0200
+Message-ID: <20250715130818.327986464@linuxfoundation.org>
 X-Mailer: git-send-email 2.50.1
-In-Reply-To: <20250715130758.864940641@linuxfoundation.org>
-References: <20250715130758.864940641@linuxfoundation.org>
+In-Reply-To: <20250715130814.854109770@linuxfoundation.org>
+References: <20250715130814.854109770@linuxfoundation.org>
 User-Agent: quilt/0.68
 X-stable: review
 X-Patchwork-Hint: ignore
@@ -65,7 +65,7 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-6.6-stable review patch.  If anyone has any objections, please let me know.
+6.15-stable review patch.  If anyone has any objections, please let me know.
 
 ------------------
 
@@ -154,7 +154,7 @@ Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 
 --- a/drivers/gpu/drm/drm_gem.c
 +++ b/drivers/gpu/drm/drm_gem.c
-@@ -186,6 +186,35 @@ void drm_gem_private_object_fini(struct
+@@ -212,6 +212,35 @@ void drm_gem_private_object_fini(struct
  }
  EXPORT_SYMBOL(drm_gem_private_object_fini);
  
@@ -190,7 +190,7 @@ Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
  /**
   * drm_gem_object_handle_free - release resources bound to userspace handles
   * @obj: GEM object to clean up.
-@@ -216,8 +245,14 @@ static void drm_gem_object_exported_dma_
+@@ -242,8 +271,14 @@ static void drm_gem_object_exported_dma_
  	}
  }
  
@@ -207,7 +207,7 @@ Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
  {
  	struct drm_device *dev = obj->dev;
  	bool final = false;
-@@ -242,6 +277,7 @@ drm_gem_object_handle_put_unlocked(struc
+@@ -268,6 +303,7 @@ drm_gem_object_handle_put_unlocked(struc
  	if (final)
  		drm_gem_object_put(obj);
  }
@@ -215,7 +215,7 @@ Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
  
  /*
   * Called at device or object close to release the file's
-@@ -363,8 +399,8 @@ drm_gem_handle_create_tail(struct drm_fi
+@@ -389,8 +425,8 @@ drm_gem_handle_create_tail(struct drm_fi
  	int ret;
  
  	WARN_ON(!mutex_is_locked(&dev->object_name_lock));
@@ -279,7 +279,7 @@ Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
  }
 --- a/drivers/gpu/drm/drm_internal.h
 +++ b/drivers/gpu/drm/drm_internal.h
-@@ -155,6 +155,8 @@ void drm_sysfs_lease_event(struct drm_de
+@@ -161,6 +161,8 @@ void drm_sysfs_lease_event(struct drm_de
  
  /* drm_gem.c */
  int drm_gem_init(struct drm_device *dev);
