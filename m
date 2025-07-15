@@ -2,79 +2,108 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 59FEEB058D4
-	for <lists+dri-devel@lfdr.de>; Tue, 15 Jul 2025 13:31:12 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2372BB058EB
+	for <lists+dri-devel@lfdr.de>; Tue, 15 Jul 2025 13:35:07 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C676B10E598;
-	Tue, 15 Jul 2025 11:31:10 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0C2FA10E599;
+	Tue, 15 Jul 2025 11:35:05 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=airkyi.com header.i=@airkyi.com header.b="bZmRwCJt";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="KyKm831a";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from bg1.exmail.qq.com (bg1.exmail.qq.com [114.132.74.132])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D890B10E598
- for <dri-devel@lists.freedesktop.org>; Tue, 15 Jul 2025 11:31:08 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=airkyi.com;
- s=altu2504; t=1752579063;
- bh=7XLP8/2EgWjHsxetg5+9fnw9v4HpdEFPJtMEGTR/Kxc=;
- h=From:To:Subject:Date:Message-Id;
- b=bZmRwCJtlKRHRrCD3It24cawlC9w9ixAKEq0dlBnbuvMzC2KTklIh+8gVnbVZCPG8
- lyqYFkYU9fN01+XjlwV/6UhuHzzRjNo3a9kHUiJ3wXHCwPaPCnCW+8P4tfv8tcBzjS
- RqJUiyK6J2h8obW3CAOKqpAFb8wIVilw5BVpFR5g=
-X-QQ-mid: zesmtpsz3t1752578721ta9aaee12
-X-QQ-Originating-IP: ziPpytnZRUvE2L1gAOs1LkViZuJVWgTk5QV/nyGdLmA=
-Received: from DESKTOP-8BT1A2O.localdomain ( [58.22.7.114])
- by bizesmtp.qq.com (ESMTP) with 
- id ; Tue, 15 Jul 2025 19:25:19 +0800 (CST)
-X-QQ-SSF: 0000000000000000000000000000000
-X-QQ-GoodBg: 0
-X-BIZMAIL-ID: 3805871955137023780
-From: Chaoyi Chen <kernel@airkyi.com>
-To: Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
- Conor Dooley <conor+dt@kernel.org>, Vinod Koul <vkoul@kernel.org>,
- Kishon Vijay Abraham I <kishon@kernel.org>,
- Heiko Stuebner <heiko@sntech.de>, Sandy Huang <hjc@rock-chips.com>,
+Received: from tor.source.kernel.org (tor.source.kernel.org [172.105.4.254])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id EDA5D10E599
+ for <dri-devel@lists.freedesktop.org>; Tue, 15 Jul 2025 11:35:03 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+ by tor.source.kernel.org (Postfix) with ESMTP id 1E60760053;
+ Tue, 15 Jul 2025 11:35:03 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id E5E44C4CEE3;
+ Tue, 15 Jul 2025 11:34:56 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1752579302;
+ bh=1uGKmWWiwvicpa4TMcg7RSuKjBjr5n7fBm5dAiA0GBw=;
+ h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+ b=KyKm831aWmUAhJ8zOZ5/4azrxZzz5R/2NkhTuCZ4HeM/HPSFYjMK1XINCo4ZUJ4Lr
+ tbX/0iUCbZet0ZGdKSnmDRhx8KIf9IhAcEJenOn8a1unue0nIdPpchvlZNgG7LvzoY
+ 2mqg+R9TIIPFkad/J2Z19gH+5qKmIPr4VZgP8fuggaPc/xp2nJoqOr/ZM048OOY51k
+ NASCBk9QRy60+WKrv+0vpYBsHTce7Bs+6KTr89hXTvQ53UcViheA3ZzHXffxvW86W5
+ smTqBNFibClpYwrsvdcoXhPBtGkvIZ49qiO4CCAAWVqE5d2SkC1R/7ViPchYo5W3Wz
+ Qb2uSh2y+p0fg==
+Message-ID: <4dfed94c-665d-4e04-b527-ddd34fd3db8f@kernel.org>
+Date: Tue, 15 Jul 2025 13:34:54 +0200
+MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 2/5] dt-bindings: phy: rockchip: rk3399-typec-phy: Support
+ mode/orientation switch
+To: Chaoyi Chen <kernel@airkyi.com>, Rob Herring <robh@kernel.org>,
+ Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
+ <conor+dt@kernel.org>, Vinod Koul <vkoul@kernel.org>,
+ Kishon Vijay Abraham I <kishon@kernel.org>, Heiko Stuebner
+ <heiko@sntech.de>, Sandy Huang <hjc@rock-chips.com>,
  Andy Yan <andy.yan@rock-chips.com>,
  Yubing Zhang <yubing.zhang@rock-chips.com>,
  Frank Wang <frank.wang@rock-chips.com>,
  Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
- Simona Vetter <simona@ffwll.ch>, Amit Sunil Dhamne <amitsd@google.com>,
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+ Amit Sunil Dhamne <amitsd@google.com>,
  Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- Chaoyi Chen <chaoyi.chen@rock-chips.com>,
- Dragan Simic <dsimic@manjaro.org>, Johan Jonker <jbx6244@gmail.com>,
- Diederik de Haas <didi.debian@cknow.org>
+ Chaoyi Chen <chaoyi.chen@rock-chips.com>, Dragan Simic <dsimic@manjaro.org>,
+ Johan Jonker <jbx6244@gmail.com>, Diederik de Haas <didi.debian@cknow.org>
 Cc: devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
  linux-phy@lists.infradead.org, linux-arm-kernel@lists.infradead.org,
  linux-rockchip@lists.infradead.org, dri-devel@lists.freedesktop.org
-Subject: [PATCH 5/5] arm64: dts: rockchip: rk3399-evb-ind: Add support for
- DisplayPort
-Date: Tue, 15 Jul 2025 19:24:56 +0800
-Message-Id: <20250715112456.101-6-kernel@airkyi.com>
-X-Mailer: git-send-email 2.17.1
-In-Reply-To: <20250715112456.101-1-kernel@airkyi.com>
 References: <20250715112456.101-1-kernel@airkyi.com>
-X-QQ-SENDSIZE: 520
-Feedback-ID: zesmtpsz:airkyi.com:qybglogicsvrsz:qybglogicsvrsz4a-0
-X-QQ-XMAILINFO: N2bAIxLK0elnxzwM3GPcOMotvexIcAj3OtKFCTTyF6Yc9XfEHGd2ujAz
- 9sGeNSiU67i35f0HM9Z0MlLzvHYkc9riGlw4hCHtYsIDux2PnI99X43E5wfCTDWw5SL/J0M
- ltSJD9juF8wiTwkTidyTpmN/H4/hOPuwDOxf5P3IdQFndb3RmX0QNXIpxLpbuye3SXWhdiu
- 8EfbD0LCf9lIorQ7BQDKP7KkI/5HPiuerpw0RDCQ5ubaQopF4v/hAkxcAE7ZT20mt4U/ntg
- WEtf4Zhcah/lxooGN/Pel0hfkliz9tiVcODR1gI5QPQQIbGFEVv6ffH4LL88MHqRY3SwJfd
- 0iNpzOuUQdjJjyTU7NlB523HPPxD/Ct3uouywARmS3HEN72GCDlgucVaIZwG0HHqwizFL4d
- ZwFrCO6eBfVzSn5Pv/u0uHIksLvxgHy9Y/gIBuGCZn+8NI87SzzEC1cL8CBiczTv5figNZC
- 6ONqdcWWKQSO10FIQrn8KQzg5lAJtkJxDHxn6ZEfJlKu1j1DFUhSofjOzSWFMYDPMsZ5tf/
- SBQ3Jmt/6FdFkF3Qy9G3xWwvLiRT3k02qoYlQNKWMKCAS1+aio6d3n3BRzpPq5qa1buNOk7
- M0dmcmR8IghkZzR7r0lDZ8n9Sb5E26wmA7/Er9SWuOOamz437KvICkTrPHJzmbbf5k5QYn3
- eIP0PUOCMrQVBhT2zCIWganuqUcq4GwTyEVvqpigHvHwgQMsoVPBE6ApR83f0LE36DMe041
- s4Djb+rbS9L4MIKCQBLPCpd7VxMaU6jcTEF1pKYEAcLKr8VqzScwUWYdMZ2HphJD8JpA2Zf
- hpws4LWC+KMimv9gKFmLaIzfEBlNTwHzfDcwCpxyaYGLQwikIywCHpZ8k8ew1Dp0F/wG1Wh
- tWVzh0TRdBZnfvhew/MxQBm50pNXtpZnAgu1S1o3Vh2vwDrXCIeaV5ixBPZZgki2eTltTj6
- IaD+VX2UNFQP98X5rMIWmKS+duAEftukgi60EKXiXwYpe7aD4wO3iNTLf
-X-QQ-XMRINFO: NyFYKkN4Ny6FSmKK/uo/jdU=
-X-QQ-RECHKSPAM: 0
+ <20250715112456.101-3-kernel@airkyi.com>
+From: Krzysztof Kozlowski <krzk@kernel.org>
+Content-Language: en-US
+Autocrypt: addr=krzk@kernel.org; keydata=
+ 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 a/A=
+In-Reply-To: <20250715112456.101-3-kernel@airkyi.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -90,190 +119,53 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Chaoyi Chen <chaoyi.chen@rock-chips.com>
+On 15/07/2025 13:24, Chaoyi Chen wrote:
+> From: Chaoyi Chen <chaoyi.chen@rock-chips.com>
+> 
+> Add support for Type-C orientation and altmode switch.
+> The Type-C controller can be specified to handling switching.
 
-The RK3399 EVB IND board has a Type-C interface DisplayPort.
-It use fusb302 chip as Type-C controller.
+Please describe the hardware in details. Above sentences don't help me
+to understand this.
 
-Signed-off-by: Chaoyi Chen <chaoyi.chen@rock-chips.com>
----
- .../boot/dts/rockchip/rk3399-evb-ind.dts      | 119 ++++++++++++++++++
- 1 file changed, 119 insertions(+)
 
-diff --git a/arch/arm64/boot/dts/rockchip/rk3399-evb-ind.dts b/arch/arm64/boot/dts/rockchip/rk3399-evb-ind.dts
-index 70aee1ab904c..9ceda32456a0 100644
---- a/arch/arm64/boot/dts/rockchip/rk3399-evb-ind.dts
-+++ b/arch/arm64/boot/dts/rockchip/rk3399-evb-ind.dts
-@@ -4,6 +4,7 @@
-  */
- 
- /dts-v1/;
-+#include <dt-bindings/usb/pd.h>
- #include "rk3399.dtsi"
- 
- / {
-@@ -19,6 +20,16 @@ chosen {
- 		stdout-path = "serial2:1500000n8";
- 	};
- 
-+	vbus_typec: vbus-typec-regulator {
-+		compatible = "regulator-fixed";
-+		enable-active-high;
-+		gpio = <&gpio1 RK_PC2 GPIO_ACTIVE_HIGH>;
-+		pinctrl-names = "default";
-+		pinctrl-0 = <&vcc5v0_typec0_en>;
-+		regulator-name = "vbus_typec";
-+		vin-supply = <&vcc5v0_sys>;
-+	};
-+
- 	vcc5v0_sys: regulator-vcc5v0-sys {
- 		compatible = "regulator-fixed";
- 		enable-active-high;
-@@ -29,6 +40,16 @@ vcc5v0_sys: regulator-vcc5v0-sys {
- 		regulator-max-microvolt = <5000000>;
- 		regulator-min-microvolt = <5000000>;
- 	};
-+
-+	sound: sound {
-+		compatible = "rockchip,rk3399-gru-sound";
-+		rockchip,cpu = <&i2s0 &spdif>;
-+	};
-+};
-+
-+&cdn_dp {
-+	status = "okay";
-+	phys = <&tcphy0_dp>;
- };
- 
- &cpu_b0 {
-@@ -341,6 +362,66 @@ regulator-state-mem {
- 	};
- };
- 
-+&i2c4 {
-+	i2c-scl-rising-time-ns = <475>;
-+	i2c-scl-falling-time-ns = <26>;
-+	status = "okay";
-+
-+	usbc0: fusb302@22 {
-+		compatible = "fcs,fusb302";
-+		reg = <0x22>;
-+		interrupt-parent = <&gpio1>;
-+		interrupts = <RK_PA2 IRQ_TYPE_LEVEL_LOW>;
-+		pinctrl-names = "default";
-+		pinctrl-0 = <&usbc0_int>;
-+		vbus-supply = <&vbus_typec>;
-+		status = "okay";
-+
-+		usb_con: connector {
-+			compatible = "usb-c-connector";
-+			label = "USB-C";
-+			data-role = "dual";
-+			power-role = "dual";
-+			try-power-role = "sink";
-+			op-sink-microwatt = <1000000>;
-+			sink-pdos =
-+				<PDO_FIXED(5000, 2500, PDO_FIXED_USB_COMM)>;
-+			source-pdos =
-+				<PDO_FIXED(5000, 1500, PDO_FIXED_USB_COMM)>;
-+
-+			displayport = <&cdn_dp>;
-+
-+			altmodes {
-+				displayport {
-+					svid = /bits/ 16 <0xff01>;
-+					vdo = <0xffffffff>;
-+				};
-+			};
-+
-+			ports {
-+				#address-cells = <1>;
-+				#size-cells = <0>;
-+
-+				port@0 {
-+					reg = <0>;
-+
-+					usbc0_orien_sw: endpoint {
-+						remote-endpoint = <&tcphy0_orientation_switch>;
-+					};
-+				};
-+
-+				port@1 {
-+					reg = <1>;
-+
-+					dp_mode_sw: endpoint {
-+						remote-endpoint = <&tcphy_dp_altmode_switch>;
-+					};
-+				};
-+			};
-+		};
-+	};
-+};
-+
- &i2s2 {
- 	status = "okay";
- };
-@@ -354,6 +435,16 @@ &io_domains {
- };
- 
- &pinctrl {
-+	usb-typec {
-+		usbc0_int: usbc0-int {
-+			rockchip,pins = <1 RK_PA2 RK_FUNC_GPIO &pcfg_pull_up>;
-+		};
-+
-+		vcc5v0_typec0_en: vcc5v0-typec0-en {
-+			rockchip,pins = <1 RK_PC2 RK_FUNC_GPIO &pcfg_pull_none>;
-+		};
-+	};
-+
- 	pmic {
- 		pmic_int_l: pmic-int-l {
- 			rockchip,pins = <1 RK_PC5 RK_FUNC_GPIO &pcfg_pull_up>;
-@@ -400,8 +491,35 @@ &sdmmc {
- 	status = "okay";
- };
- 
-+&sound {
-+	rockchip,codec = <&cdn_dp>;
-+	status = "okay";
-+};
-+
-+&spdif {
-+	status = "okay";
-+};
-+
- &tcphy0 {
-+	mode-switch;
-+	orientation-switch;
- 	status = "okay";
-+
-+	port {
-+		#address-cells = <1>;
-+		#size-cells = <0>;
-+
-+		tcphy0_orientation_switch: endpoint@0 {
-+			reg = <0>;
-+			remote-endpoint = <&usbc0_orien_sw>;
-+		};
-+
-+		tcphy_dp_altmode_switch: endpoint@1 {
-+			reg = <1>;
-+			remote-endpoint = <&dp_mode_sw>;
-+		};
-+	};
-+
- };
- 
- &tcphy1 {
-@@ -461,6 +579,7 @@ &usb_host1_ohci {
- };
- 
- &usbdrd_dwc3_0 {
-+	usb-role-switch;
- 	status = "okay";
- };
- 
--- 
-2.49.0
+> 
+> Signed-off-by: Chaoyi Chen <chaoyi.chen@rock-chips.com>
+> ---
+>  .../bindings/phy/rockchip,rk3399-typec-phy.yaml    | 14 ++++++++++++++
+>  1 file changed, 14 insertions(+)
+> 
+> diff --git a/Documentation/devicetree/bindings/phy/rockchip,rk3399-typec-phy.yaml b/Documentation/devicetree/bindings/phy/rockchip,rk3399-typec-phy.yaml
+> index 91c011f68cd0..a885c6893a90 100644
+> --- a/Documentation/devicetree/bindings/phy/rockchip,rk3399-typec-phy.yaml
+> +++ b/Documentation/devicetree/bindings/phy/rockchip,rk3399-typec-phy.yaml
+> @@ -43,6 +43,20 @@ properties:
+>      description:
+>        Phandle to the syscon managing the "general register files" (GRF).
+>  
+> +  orientation-switch:
+> +    description: Flag the port as possible handler of orientation switching
+> +    type: boolean
+> +
+> +  mode-switch:
+> +    description: Flag the port as possible handler of altmode switching
+> +    type: boolean
+> +
+> +  port:
+> +    $ref: /schemas/graph.yaml#/properties/port
+> +    description:
+> +      A port node to link the PHY to a TypeC controller for the purpose of
+> +      handling orientation switching.
 
+
+You are using usb-switch.yaml properties in phy node, which raises
+questions whether this is actually complete. It might be, but commit msg
+is so vague that I have doubts.
+
+Also, why only one port?
+
+Or wait... you already have ports! two of them. This needs to stop, why
+are you adding more?
+
+Best regards,
+Krzysztof
