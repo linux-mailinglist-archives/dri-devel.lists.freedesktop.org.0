@@ -2,67 +2,82 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5FCE7B0625C
-	for <lists+dri-devel@lfdr.de>; Tue, 15 Jul 2025 17:08:24 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id B045AB0627F
+	for <lists+dri-devel@lfdr.de>; Tue, 15 Jul 2025 17:11:58 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id BB89E10E5E3;
-	Tue, 15 Jul 2025 15:08:22 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5686E10E5F0;
+	Tue, 15 Jul 2025 15:11:56 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=collabora.com header.i=caterina.shablia@collabora.com header.b="DLVy41uQ";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="Q0ndQ6mS";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from sender4-op-o14.zoho.com (sender4-op-o14.zoho.com
- [136.143.188.14])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1779610E5E3
- for <dri-devel@lists.freedesktop.org>; Tue, 15 Jul 2025 15:08:21 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; t=1752592098; cv=none; 
- d=zohomail.com; s=zohoarc; 
- b=SMb5GLJpgtZ71ENMoFidv9PUxv6GseJo5+pRZ06/IFDf0vvEBm0ix515Sk2LvorJTm439N2H0blOroGxvX6by9b/1pU7jPl3WUu4EUtNXd29yKoI6XIncfgksNmcBWOmx6aMRcIGWJXiWG0bmBrdS+IGEBq6yO92fNR9TOaPSsI=
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com;
- s=zohoarc; t=1752592098;
- h=Content-Type:Content-Transfer-Encoding:Cc:Cc:Date:Date:From:From:In-Reply-To:MIME-Version:Message-ID:References:Subject:Subject:To:To:Message-Id:Reply-To;
- bh=bDjel0QpBiMC/6B+gn7IB1ZB6MToTTJkdyGIMHOO89w=; 
- b=Sz1ZMI4UDUg64JfaJKL3rrbmoETDrKTaMFEwyukZfpWsNPOd4SxdinNMFcIk9O0AqT3wo5z9b4lmgcFsqztExk1DAgWSCXXIgsdSAbVOQ450YTjXlWluNU4B8RoAmFCk2tPngQiMcdUlsqB5gDQatwfDf+o6zvFdBPC+5SNMV+M=
-ARC-Authentication-Results: i=1; mx.zohomail.com;
- dkim=pass  header.i=collabora.com;
- spf=pass  smtp.mailfrom=caterina.shablia@collabora.com;
- dmarc=pass header.from=<caterina.shablia@collabora.com>
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1752592097; 
- s=zohomail; d=collabora.com; i=caterina.shablia@collabora.com; 
- h=From:From:To:To:Cc:Cc:Subject:Subject:Date:Date:Message-ID:In-Reply-To:References:MIME-Version:Content-Transfer-Encoding:Content-Type:Message-Id:Reply-To;
- bh=bDjel0QpBiMC/6B+gn7IB1ZB6MToTTJkdyGIMHOO89w=;
- b=DLVy41uQL3qlx9aialLRT6mnQiKzHta3uirR6ZOH22SgR58Eg8PL3RzAEEWXe0Su
- CYaHoS+Y9IWwsi26dQ4q0YA+gpSl+g27ujaqR8+/00oFEQRa6Ql0QYEZw9DsZS/CcrW
- Wpc81cJg8a1OL5O9do64U2AO517j0YifHaEKmAgQ=
-Received: by mx.zohomail.com with SMTPS id 1752592095729528.7515991456567;
- Tue, 15 Jul 2025 08:08:15 -0700 (PDT)
-From: Caterina Shablia <caterina.shablia@collabora.com>
-To: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- Frank Binns <frank.binns@imgtec.com>, Matt Coster <matt.coster@imgtec.com>,
- Karol Herbst <kherbst@redhat.com>, Lyude Paul <lyude@redhat.com>,
- Danilo Krummrich <dakr@kernel.org>,
- Boris Brezillon <boris.brezillon@collabora.com>,
- Liviu Dudau <liviu.dudau@arm.com>,
- Lucas De Marchi <lucas.demarchi@intel.com>,
- Thomas =?UTF-8?B?SGVsbHN0csO2bQ==?= <thomas.hellstrom@linux.intel.com>,
- Rodrigo Vivi <rodrigo.vivi@intel.com>, Steven Price <steven.price@arm.com>
-Cc: dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- nouveau@lists.freedesktop.org, intel-xe@lists.freedesktop.org,
- asahi@lists.linux.dev, Asahi Lina <lina@asahilina.net>
-Subject: Re: [PATCH v4 1/7] drm/panthor: Add support for atomic page table
- updates
-Date: Tue, 15 Jul 2025 17:08:09 +0200
-Message-ID: <2813151.QOukoFCf94@xps>
-In-Reply-To: <d4a6208b-a4a4-451f-9799-7b9f5fb20c37@arm.com>
-References: <20250707170442.1437009-1-caterina.shablia@collabora.com>
- <20250707170442.1437009-2-caterina.shablia@collabora.com>
- <d4a6208b-a4a4-451f-9799-7b9f5fb20c37@arm.com>
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.14])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0BE2510E5ED;
+ Tue, 15 Jul 2025 15:11:55 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1752592315; x=1784128315;
+ h=message-id:date:mime-version:subject:to:cc:references:
+ from:in-reply-to:content-transfer-encoding;
+ bh=GT9YCMpmO/oGbAXwtofhY5F7e46WJk2TBT21YGNxioQ=;
+ b=Q0ndQ6mSMIuQOLDINHH5prIeJmLF8CE1RMrncLNEZorDHJMwsB5k2UGx
+ ppy5y8Te1J+hDDTGm8OhLFziwgLr1iNJFK+4t08kEsswbgKeCnEcRvTmk
+ DmksVl3dM1rgQhFw3QaO9pnJpQ0IOagiK4OwOcI055ZxtCEU584dPq6E7
+ wd49OylARGVDaBVphLwWGdUq47vqHJaXlQS67P679iR8OLKVIk+9eNu8H
+ tKdx2ymhVp59Iby8RtNlHBX4zMPd+ozL4GHwhLzVUeT3AY+N6raphXxnr
+ vmqJpAFZ8GOyMenp5cTFEeQPdptb2Ih9ThG/1KmkqIx9z6QwctcuJEnPa g==;
+X-CSE-ConnectionGUID: OThKHnYcRTaw7+acbSZRGA==
+X-CSE-MsgGUID: X9QJmPwgQ9CJpXRCODeSpA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11493"; a="54907817"
+X-IronPort-AV: E=Sophos;i="6.16,313,1744095600"; d="scan'208";a="54907817"
+Received: from orviesa007.jf.intel.com ([10.64.159.147])
+ by fmvoesa108.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 15 Jul 2025 08:09:24 -0700
+X-CSE-ConnectionGUID: kRlxMx3/SPu8BGSVLj+Ezg==
+X-CSE-MsgGUID: VgyJUB25RxeWdk6pmX7cWw==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.16,313,1744095600"; d="scan'208";a="157354678"
+Received: from tcingleb-desk1.amr.corp.intel.com (HELO [10.125.111.148])
+ ([10.125.111.148])
+ by orviesa007-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 15 Jul 2025 08:09:19 -0700
+Message-ID: <841e6d14-e3cc-4c23-9256-96f0c4e2d761@intel.com>
+Date: Tue, 15 Jul 2025 08:09:18 -0700
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset="utf-8"
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2 2/8] cxl: mce: Fix typo "notifer"
+To: WangYuli <wangyuli@uniontech.com>
+Cc: airlied@gmail.com, akpm@linux-foundation.org, alison.schofield@intel.com, 
+ andrew+netdev@lunn.ch, andriy.shevchenko@linux.intel.com,
+ arend.vanspriel@broadcom.com, bp@alien8.de,
+ brcm80211-dev-list.pdl@broadcom.com, brcm80211@lists.linux.dev,
+ colin.i.king@gmail.com, cvam0000@gmail.com, dan.j.williams@intel.com,
+ dave.hansen@linux.intel.com, dave@stgolabs.net, davem@davemloft.net,
+ dri-devel@lists.freedesktop.org, edumazet@google.com,
+ gregkh@linuxfoundation.org, guanwentao@uniontech.com, hpa@zytor.com,
+ ilpo.jarvinen@linux.intel.com, intel-xe@lists.freedesktop.org,
+ ira.weiny@intel.com, j@jannau.net, jeff.johnson@oss.qualcomm.com,
+ jgross@suse.com, jirislaby@kernel.org, johannes.berg@intel.com,
+ jonathan.cameron@huawei.com, kuba@kernel.org, kvalo@kernel.org,
+ kvm@vger.kernel.org, linux-cxl@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-serial@vger.kernel.org,
+ linux-wireless@vger.kernel.org, linux@treblig.org, lucas.demarchi@intel.com,
+ marcin.s.wojtas@gmail.com, ming.li@zohomail.com, mingo@kernel.org,
+ mingo@redhat.com, netdev@vger.kernel.org, niecheng1@uniontech.com,
+ oleksandr_tyshchenko@epam.com, pabeni@redhat.com, pbonzini@redhat.com,
+ quic_ramess@quicinc.com, ragazenta@gmail.com, rodrigo.vivi@intel.com,
+ seanjc@google.com, shenlichuan@vivo.com, simona@ffwll.ch,
+ sstabellini@kernel.org, tglx@linutronix.de,
+ thomas.hellstrom@linux.intel.com, vishal.l.verma@intel.com, x86@kernel.org,
+ xen-devel@lists.xenproject.org, yujiaoliang@vivo.com, zhanjun@uniontech.com
+References: <BD5C52D2838AEA48+20250715134050.539234-1-wangyuli@uniontech.com>
+ <65FC7B96ECBDB052+20250715134407.540483-2-wangyuli@uniontech.com>
+Content-Language: en-US
+From: Dave Jiang <dave.jiang@intel.com>
+In-Reply-To: <65FC7B96ECBDB052+20250715134407.540483-2-wangyuli@uniontech.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -78,252 +93,31 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-El viernes, 11 de julio de 2025 15:30:21 (hora de verano de Europa central)=
-,=20
-Steven Price escribi=C3=B3:
-> On 07/07/2025 18:04, Caterina Shablia wrote:
-> > From: Boris Brezillon <boris.brezillon@collabora.com>
-> >=20
-> > Move the lock/flush_mem operations around the gpuvm_sm_map() calls so
-> > we can implement true atomic page updates, where any access in the
-> > locked range done by the GPU has to wait for the page table updates
-> > to land before proceeding.
-> >=20
-> > This is needed for vkQueueBindSparse(), so we can replace the dummy
-> > page mapped over the entire object by actual BO backed pages in an atom=
-ic
-> > way.
-> >=20
-> > Signed-off-by: Boris Brezillon <boris.brezillon@collabora.com>
-> > Signed-off-by: Caterina Shablia <caterina.shablia@collabora.com>
-> > ---
-> >=20
-> >  drivers/gpu/drm/panthor/panthor_mmu.c | 65 +++++++++++++++++++++++++--
-> >  1 file changed, 62 insertions(+), 3 deletions(-)
-> >=20
-> > diff --git a/drivers/gpu/drm/panthor/panthor_mmu.c
-> > b/drivers/gpu/drm/panthor/panthor_mmu.c index b39ea6acc6a9..9caaba03c5eb
-> > 100644
-> > --- a/drivers/gpu/drm/panthor/panthor_mmu.c
-> > +++ b/drivers/gpu/drm/panthor/panthor_mmu.c
-> > @@ -387,6 +387,15 @@ struct panthor_vm {
-> >=20
-> >  	 * flagged as faulty as a result.
-> >  	 */
-> >  =09
-> >  	bool unhandled_fault;
-> >=20
-> > +
-> > +	/** @locked_region: Information about the currently locked region
-> > currently. */ +	struct {
-> > +		/** @locked_region.start: Start of the locked region.=20
-*/
-> > +		u64 start;
-> > +
-> > +		/** @locked_region.size: Size of the locked region. */
-> > +		u64 size;
-> > +	} locked_region;
-> >=20
-> >  };
-> > =20
-> >  /**
-> >=20
-> > @@ -775,6 +784,10 @@ int panthor_vm_active(struct panthor_vm *vm)
-> >=20
-> >  	}
-> >  =09
-> >  	ret =3D panthor_mmu_as_enable(vm->ptdev, vm->as.id, transtab,=20
-transcfg,
-> >  	vm->memattr);>=20
-> > +	if (!ret && vm->locked_region.size) {
-> > +		lock_region(ptdev, vm->as.id, vm->locked_region.start,
-> > vm->locked_region.size); +		ret =3D wait_ready(ptdev, vm-
->as.id);
-> > +	}
->=20
-> Do we need to do this? It seems odd to restore a MMU context and
-> immediately set a lock region. Is there a good reason we can't just
-> WARN_ON if there's a lock region set in panthor_vm_idle()?
-So IIUC, when things are otherwise idle and we do a vm_bind, the vm will be=
-=20
-inactive, in which case we're not going to poke the mmu to inform it of the=
-=20
-locked region, because it literally is not aware of this vm. Now if in the=
-=20
-meanwhile something submits a job and activates the vm, we need to inform t=
-he=20
-mmu of the locked region, as vm_bind job might still be going on. I don't s=
-ee=20
-why panthor_vm_idle while a region is locked would be a problem? That can=20
-arise e.g. when a job completes but there's a concurrent vm_bind going on?
->=20
-> I think we need to briefly take vm->op_lock to ensure synchronisation
-> but that doesn't seem a big issue. Or perhaps there's a good reason that
-> I'm missing?
-I think you're right, all other accesses to locked_region are guarded by=20
-op_lock. GPU job submit poke vm_active concurrently with vm_bind jobs doing=
-=20
-region {,un}locks.
->=20
-> >  out_make_active:
-> >  	if (!ret) {
-> >=20
-> > @@ -902,6 +915,9 @@ static int panthor_vm_unmap_pages(struct panthor_vm
-> > *vm, u64 iova, u64 size)>=20
-> >  	struct io_pgtable_ops *ops =3D vm->pgtbl_ops;
-> >  	u64 offset =3D 0;
-> >=20
-> > +	drm_WARN_ON(&ptdev->base,
-> > +		    (iova < vm->locked_region.start) ||
-> > +		    (iova + size > vm->locked_region.start + vm-
->locked_region.size));
-> >=20
-> >  	drm_dbg(&ptdev->base, "unmap: as=3D%d, iova=3D%llx, len=3D%llx", vm-
->as.id,
-> >  	iova, size);
-> >  =09
-> >  	while (offset < size) {
-> >=20
-> > @@ -915,13 +931,12 @@ static int panthor_vm_unmap_pages(struct panthor_=
-vm
-> > *vm, u64 iova, u64 size)>=20
-> >  				iova + offset + unmapped_sz,
-> >  				iova + offset + pgsize * pgcount,
-> >  				iova, iova + size);
-> >=20
-> > -			panthor_vm_flush_range(vm, iova, offset +=20
-unmapped_sz);
-> >=20
-> >  			return  -EINVAL;
-> >  	=09
-> >  		}
-> >  		offset +=3D unmapped_sz;
-> >  =09
-> >  	}
-> >=20
-> > -	return panthor_vm_flush_range(vm, iova, size);
-> > +	return 0;
-> >=20
-> >  }
-> > =20
-> >  static int
-> >=20
-> > @@ -938,6 +953,10 @@ panthor_vm_map_pages(struct panthor_vm *vm, u64 io=
-va,
-> > int prot,>=20
-> >  	if (!size)
-> >  =09
-> >  		return 0;
-> >=20
-> > +	drm_WARN_ON(&ptdev->base,
-> > +		    (iova < vm->locked_region.start) ||
-> > +		    (iova + size > vm->locked_region.start + vm-
->locked_region.size));
-> > +
-> >=20
-> >  	for_each_sgtable_dma_sg(sgt, sgl, count) {
-> >  =09
-> >  		dma_addr_t paddr =3D sg_dma_address(sgl);
-> >  		size_t len =3D sg_dma_len(sgl);
-> >=20
-> > @@ -985,7 +1004,7 @@ panthor_vm_map_pages(struct panthor_vm *vm, u64 io=
-va,
-> > int prot,>=20
-> >  		offset =3D 0;
-> >  =09
-> >  	}
-> >=20
-> > -	return panthor_vm_flush_range(vm, start_iova, iova - start_iova);
-> > +	return 0;
-> >=20
-> >  }
-> > =20
-> >  static int flags_to_prot(u32 flags)
-> >=20
-> > @@ -1654,6 +1673,38 @@ static const char *access_type_name(struct
-> > panthor_device *ptdev,>=20
-> >  	}
-> > =20
-> >  }
-> >=20
-> > +static int panthor_vm_lock_region(struct panthor_vm *vm, u64 start, u64
-> > size) +{
-> > +	struct panthor_device *ptdev =3D vm->ptdev;
-> > +	int ret =3D 0;
-> > +
-> > +	mutex_lock(&ptdev->mmu->as.slots_lock);
-> > +	drm_WARN_ON(&ptdev->base, vm->locked_region.start ||
-> > vm->locked_region.size); +	vm->locked_region.start =3D start;
-> > +	vm->locked_region.size =3D size;
-> > +	if (vm->as.id >=3D 0) {
-> > +		lock_region(ptdev, vm->as.id, start, size);
-> > +		ret =3D wait_ready(ptdev, vm->as.id);
-> > +	}
-> > +	mutex_unlock(&ptdev->mmu->as.slots_lock);
-> > +
-> > +	return ret;
-> > +}
-> > +
-> > +static void panthor_vm_unlock_region(struct panthor_vm *vm)
-> > +{
-> > +	struct panthor_device *ptdev =3D vm->ptdev;
-> > +
-> > +	mutex_lock(&ptdev->mmu->as.slots_lock);
-> > +	if (vm->as.id >=3D 0) {
-> > +		write_cmd(ptdev, vm->as.id, AS_COMMAND_FLUSH_MEM);
-> > +		drm_WARN_ON(&ptdev->base, wait_ready(ptdev, vm-
->as.id));
-> > +	}
-> > +	vm->locked_region.start =3D 0;
-> > +	vm->locked_region.size =3D 0;
-> > +	mutex_unlock(&ptdev->mmu->as.slots_lock);
-> > +}
->=20
-> Do we need to include a drm_dev_enter() somewhere here? I note that
-> panthor_vm_flush_range() has one and you've effectively replaced that
-> code with the above.
-Looks like we should.
->=20
-> Thanks,
-> Steve
->=20
-> > +
-> >=20
-> >  static void panthor_mmu_irq_handler(struct panthor_device *ptdev, u32
-> >  status) {
-> > =20
-> >  	bool has_unhandled_faults =3D false;
-> >=20
-> > @@ -2179,6 +2230,11 @@ panthor_vm_exec_op(struct panthor_vm *vm, struct
-> > panthor_vm_op_ctx *op,>=20
-> >  	mutex_lock(&vm->op_lock);
-> >  	vm->op_ctx =3D op;
-> >=20
-> > +
-> > +	ret =3D panthor_vm_lock_region(vm, op->va.addr, op->va.range);
-> > +	if (ret)
-> > +		goto out;
-> > +
-> >=20
-> >  	switch (op_type) {
-> >  =09
-> >  	case DRM_PANTHOR_VM_BIND_OP_TYPE_MAP:
-> >  		if (vm->unusable) {
-> >=20
-> > @@ -2199,6 +2255,9 @@ panthor_vm_exec_op(struct panthor_vm *vm, struct
-> > panthor_vm_op_ctx *op,>=20
-> >  		break;
-> >  =09
-> >  	}
-> >=20
-> > +	panthor_vm_unlock_region(vm);
-> > +
-> >=20
-> > +out:
-> >  	if (ret && flag_vm_unusable_on_failure)
-> >  =09
-> >  		vm->unusable =3D true;
 
 
+On 7/15/25 6:44 AM, WangYuli wrote:
+> According to the context, "mce_notifer" should be "mce_notifier".
+> 
+> Link: https://lore.kernel.org/all/B3C019B63C93846F+20250715071245.398846-1-wangyuli@uniontech.com/
+> Fixes: 516e5bd0b6bf ("cxl: Add mce notifier to emit aliased address for extended linear cache")
+> Signed-off-by: WangYuli <wangyuli@uniontech.com>
 
+Reviewed-by: Dave Jiang <dave.jiang@intel.com>
+> ---
+>  drivers/cxl/core/mce.h | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+> 
+> diff --git a/drivers/cxl/core/mce.h b/drivers/cxl/core/mce.h
+> index ace73424eeb6..ca272e8db6c7 100644
+> --- a/drivers/cxl/core/mce.h
+> +++ b/drivers/cxl/core/mce.h
+> @@ -7,7 +7,7 @@
+>  
+>  #ifdef CONFIG_CXL_MCE
+>  int devm_cxl_register_mce_notifier(struct device *dev,
+> -				   struct notifier_block *mce_notifer);
+> +				   struct notifier_block *mce_notifier);
+>  #else
+>  static inline int
+>  devm_cxl_register_mce_notifier(struct device *dev,
 
