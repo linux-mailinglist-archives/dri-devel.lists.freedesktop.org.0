@@ -2,33 +2,33 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9F8CAB0545B
-	for <lists+dri-devel@lfdr.de>; Tue, 15 Jul 2025 10:14:41 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 00788B05467
+	for <lists+dri-devel@lfdr.de>; Tue, 15 Jul 2025 10:14:47 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C92E310E566;
-	Tue, 15 Jul 2025 08:14:38 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4356110E572;
+	Tue, 15 Jul 2025 08:14:46 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1D25D10E563
- for <dri-devel@lists.freedesktop.org>; Tue, 15 Jul 2025 08:14:37 +0000 (UTC)
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 851BD10E56A
+ for <dri-devel@lists.freedesktop.org>; Tue, 15 Jul 2025 08:14:42 +0000 (UTC)
 Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org
  [IPv6:2a07:de40:b281:104:10:150:64:97])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
  (No client certificate requested)
- by smtp-out2.suse.de (Postfix) with ESMTPS id EB2A01F44F;
- Tue, 15 Jul 2025 08:14:32 +0000 (UTC)
-Authentication-Results: smtp-out2.suse.de;
+ by smtp-out1.suse.de (Postfix) with ESMTPS id 7EF7D21248;
+ Tue, 15 Jul 2025 08:14:33 +0000 (UTC)
+Authentication-Results: smtp-out1.suse.de;
 	none
 Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
  (No client certificate requested)
- by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 6636A13A6C;
+ by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id F242613306;
  Tue, 15 Jul 2025 08:14:32 +0000 (UTC)
 Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
- by imap1.dmz-prg2.suse.org with ESMTPSA id kMbIF+gNdmgJUAAAD6G6ig
+ by imap1.dmz-prg2.suse.org with ESMTPSA id GC3+OegNdmgJUAAAD6G6ig
  (envelope-from <tzimmermann@suse.de>); Tue, 15 Jul 2025 08:14:32 +0000
 From: Thomas Zimmermann <tzimmermann@suse.de>
 To: simona@ffwll.ch, airlied@gmail.com, christian.koenig@amd.com,
@@ -41,10 +41,10 @@ Cc: bcm-kernel-feedback-list@broadcom.com, dri-devel@lists.freedesktop.org,
  etnaviv@lists.freedesktop.org, virtualization@lists.linux.dev,
  intel-gfx@lists.freedesktop.org, Thomas Zimmermann <tzimmermann@suse.de>,
  Simona Vetter <simona.vetter@ffwll.ch>
-Subject: [PATCH v2 3/7] Revert "drm/etnaviv: Use dma_buf from GEM object
+Subject: [PATCH v2 4/7] Revert "drm/prime: Use dma_buf from GEM object
  instance"
-Date: Tue, 15 Jul 2025 10:07:54 +0200
-Message-ID: <20250715081121.34473-4-tzimmermann@suse.de>
+Date: Tue, 15 Jul 2025 10:07:55 +0200
+Message-ID: <20250715081121.34473-5-tzimmermann@suse.de>
 X-Mailer: git-send-email 2.50.0
 In-Reply-To: <20250715081121.34473-1-tzimmermann@suse.de>
 References: <20250715081121.34473-1-tzimmermann@suse.de>
@@ -52,15 +52,15 @@ MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-Rspamd-Pre-Result: action=no action; module=replies;
  Message is reply to one we originated
-X-Spam-Level: 
-X-Rspamd-Server: rspamd1.dmz-prg2.suse.org
-X-Spamd-Result: default: False [-4.00 / 50.00]; REPLY(-4.00)[];
- TAGGED_RCPT(0.00)[etnaviv]
-X-Rspamd-Queue-Id: EB2A01F44F
-X-Rspamd-Pre-Result: action=no action; module=replies;
- Message is reply to one we originated
 X-Rspamd-Action: no action
 X-Spam-Flag: NO
+X-Spam-Level: 
+X-Rspamd-Server: rspamd2.dmz-prg2.suse.org
+X-Spamd-Result: default: False [-4.00 / 50.00]; REPLY(-4.00)[];
+ TAGGED_RCPT(0.00)[etnaviv]
+X-Rspamd-Queue-Id: 7EF7D21248
+X-Rspamd-Pre-Result: action=no action; module=replies;
+ Message is reply to one we originated
 X-Spam-Score: -4.00
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -77,7 +77,7 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-This reverts commit e91eb3ae415472b28211d7fed07fa283845b311e.
+This reverts commit f83a9b8c7fd0557b0c50784bfdc1bbe9140c9bf8.
 
 The dma_buf field in struct drm_gem_object is not stable over the
 object instance's lifetime. The field becomes NULL when user space
@@ -95,31 +95,28 @@ Hence, this revert to going back to using .import_attach->dmabuf.
 Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
 Reviewed-by: Simona Vetter <simona.vetter@ffwll.ch>
 ---
- drivers/gpu/drm/etnaviv/etnaviv_gem_prime.c | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+ drivers/gpu/drm/drm_prime.c | 8 +++++++-
+ 1 file changed, 7 insertions(+), 1 deletion(-)
 
-diff --git a/drivers/gpu/drm/etnaviv/etnaviv_gem_prime.c b/drivers/gpu/drm/etnaviv/etnaviv_gem_prime.c
-index 917ad527c961..40a50c60dfff 100644
---- a/drivers/gpu/drm/etnaviv/etnaviv_gem_prime.c
-+++ b/drivers/gpu/drm/etnaviv/etnaviv_gem_prime.c
-@@ -65,7 +65,7 @@ static void etnaviv_gem_prime_release(struct etnaviv_gem_object *etnaviv_obj)
- 	struct iosys_map map = IOSYS_MAP_INIT_VADDR(etnaviv_obj->vaddr);
+diff --git a/drivers/gpu/drm/drm_prime.c b/drivers/gpu/drm/drm_prime.c
+index b703f83874e1..a23fc712a8b7 100644
+--- a/drivers/gpu/drm/drm_prime.c
++++ b/drivers/gpu/drm/drm_prime.c
+@@ -453,7 +453,13 @@ struct dma_buf *drm_gem_prime_handle_to_dmabuf(struct drm_device *dev,
+ 	}
  
- 	if (etnaviv_obj->vaddr)
--		dma_buf_vunmap_unlocked(etnaviv_obj->base.dma_buf, &map);
-+		dma_buf_vunmap_unlocked(etnaviv_obj->base.import_attach->dmabuf, &map);
- 
- 	/* Don't drop the pages for imported dmabuf, as they are not
- 	 * ours, just free the array we allocated:
-@@ -82,7 +82,7 @@ static void *etnaviv_gem_prime_vmap_impl(struct etnaviv_gem_object *etnaviv_obj)
- 
- 	lockdep_assert_held(&etnaviv_obj->lock);
- 
--	ret = dma_buf_vmap(etnaviv_obj->base.dma_buf, &map);
-+	ret = dma_buf_vmap(etnaviv_obj->base.import_attach->dmabuf, &map);
- 	if (ret)
- 		return NULL;
- 	return map.vaddr;
+ 	mutex_lock(&dev->object_name_lock);
+-	/* re-export the original imported/exported object */
++	/* re-export the original imported object */
++	if (obj->import_attach) {
++		dmabuf = obj->import_attach->dmabuf;
++		get_dma_buf(dmabuf);
++		goto out_have_obj;
++	}
++
+ 	if (obj->dma_buf) {
+ 		get_dma_buf(obj->dma_buf);
+ 		dmabuf = obj->dma_buf;
 -- 
 2.50.0
 
