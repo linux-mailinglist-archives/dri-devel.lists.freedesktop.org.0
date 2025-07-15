@@ -2,36 +2,34 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id DABDBB058CF
-	for <lists+dri-devel@lfdr.de>; Tue, 15 Jul 2025 13:30:49 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id B6965B058B4
+	for <lists+dri-devel@lfdr.de>; Tue, 15 Jul 2025 13:25:51 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9D95210E37F;
-	Tue, 15 Jul 2025 11:30:46 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 443DC10E224;
+	Tue, 15 Jul 2025 11:25:49 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=airkyi.com header.i=@airkyi.com header.b="a6+e9Ch/";
+	dkim=pass (1024-bit key; unprotected) header.d=airkyi.com header.i=@airkyi.com header.b="YuIUcMBu";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-X-Greylist: delayed 300 seconds by postgrey-1.36 at gabe;
- Tue, 15 Jul 2025 11:30:44 UTC
-Received: from bg5.exmail.qq.com (bg5.exmail.qq.com [43.154.209.5])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A3E3110E37F
- for <dri-devel@lists.freedesktop.org>; Tue, 15 Jul 2025 11:30:44 +0000 (UTC)
+Received: from bg1.exmail.qq.com (bg1.exmail.qq.com [114.132.74.132])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8D89110E224
+ for <dri-devel@lists.freedesktop.org>; Tue, 15 Jul 2025 11:25:47 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=airkyi.com;
- s=altu2504; t=1752579038;
- bh=6Q8tj7y2fVh1DqqXLpoIzvx75MH7E6vfXU9jWGAciCk=;
+ s=altu2504; t=1752578714;
+ bh=PdxuukrMJyMvzJ16KhGFmRwb53DnIsrK3r7HucbSbmc=;
  h=From:To:Subject:Date:Message-Id;
- b=a6+e9Ch/9PbUeAv2VoDlGYt0B+BmFfnh1R7gnGTGqWnRdCIaxAlNt8t+AFIZt2cHo
- LUDzeudMXrZJ78dvoIRLiQDyjmi3BabCfmlg5MvwiD9PkaIcboqjV4wFZc5std5A+q
- wccWJtW34D0vYQuT5qbFv/IARq3CwAJ4jeAdrIOE=
-X-QQ-mid: zesmtpsz3t1752578709t1424522d
-X-QQ-Originating-IP: Y2jgY0DzpsnsowblI/Y8vYsFKW2TRFdQuFkynBZV9Zs=
+ b=YuIUcMBux9vcBm31tT4VniU5BFwp5Ncdb+ntuBiE3Upec8MzRfeu+YykP8ThbULz+
+ VjO4Ial6lHC+GNUzvOpxkXq+26Kz7L3amcPQ6icZ0OK0B7fvmR8mX9g6orUSJXfUP6
+ vLPZcCLIDb2rcCMCBoMl7RXIGIGxxoYhuOIOV4io=
+X-QQ-mid: zesmtpsz3t1752578712tf0188769
+X-QQ-Originating-IP: XVdB7d8ltncWpCfKxfEuv57ere8QMwHyZ9NM2AK9eVk=
 Received: from DESKTOP-8BT1A2O.localdomain ( [58.22.7.114])
  by bizesmtp.qq.com (ESMTP) with 
- id ; Tue, 15 Jul 2025 19:25:07 +0800 (CST)
+ id ; Tue, 15 Jul 2025 19:25:10 +0800 (CST)
 X-QQ-SSF: 0000000000000000000000000000000
 X-QQ-GoodBg: 0
-X-BIZMAIL-ID: 6650864007286814184
+X-BIZMAIL-ID: 11091658648405409275
 From: Chaoyi Chen <kernel@airkyi.com>
 To: Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
  Conor Dooley <conor+dt@kernel.org>, Vinod Koul <vkoul@kernel.org>,
@@ -51,32 +49,32 @@ To: Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
 Cc: devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
  linux-phy@lists.infradead.org, linux-arm-kernel@lists.infradead.org,
  linux-rockchip@lists.infradead.org, dri-devel@lists.freedesktop.org
-Subject: [PATCH 1/5] dt-bindings: connector: Add displayport connector for
- hotplug notify
-Date: Tue, 15 Jul 2025 19:24:52 +0800
-Message-Id: <20250715112456.101-2-kernel@airkyi.com>
+Subject: [PATCH 2/5] dt-bindings: phy: rockchip: rk3399-typec-phy: Support
+ mode/orientation switch
+Date: Tue, 15 Jul 2025 19:24:53 +0800
+Message-Id: <20250715112456.101-3-kernel@airkyi.com>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20250715112456.101-1-kernel@airkyi.com>
 References: <20250715112456.101-1-kernel@airkyi.com>
 X-QQ-SENDSIZE: 520
 Feedback-ID: zesmtpsz:airkyi.com:qybglogicsvrsz:qybglogicsvrsz4a-0
-X-QQ-XMAILINFO: OW4JKxETGMY2/WNlNtPBdQP+QJTNc0SLe+TAzifsFeeiMbCPHsTkNiHM
- PvwiY9GmX1M5yHLCqSp1dBvr/hXbdaA8IqTq9DF7cfrIJ+Z4NsE0ZcncE7tzeY0XuFN8/As
- K6HQ7kduqtzP2T7U37L9HWwuuYW47hR0V9sW32TzFuRCYXmhsddccjdUKaS1WqVM0n5rWI+
- x6EsyoHE7eyN7hcBBeCa0jggiZzR9/1oKIS8B1DiKQg5zp2IvdUZQyOGAufQdqOuhT/WcUP
- 4TO9FIx7nj1dXGz5ZizOoJxqNT3h0jrimcd6kYnqdKOyOun0UV60I576a20RgEHbxxj0wMZ
- AX18M954RFWzjH5gPWTkUzTCLbvRF9WKSOBxyWlGUgL9CP7TgJIdWtgCC7ikBaQ0J7qpIVm
- trQ6zmMEWuk2azhPwl+0W/UCuxfqhH1oCI369/5fFe48zshahXAgWrEdRaR6ItfrLMWd4FM
- KtyyZa2HJG7TQBBGTpftvPLSShAohUY5zMoBriRjXZU3pZcKoYfn5w5e2zBOXFRqAlhsyeu
- IU65nTUBQ5q5lfyFw6dLVFBzP59629LHj3JdqPy8MWX1zFvk5pwv+RuK0QzTZjxWmHPoDyL
- 8H3PDRe84+wjlnQdBfHwXOxMvm2L/xNCmQzrpdSToVk62/BsftSm0rl3mTF02Tgnchto/Fk
- Ehfs2cDlXzLlZai3pqXBQfrbJElES+GG++4W6xXuhD38Qvwxh5PZSPw3IjaOxg1Q7wO029f
- nLkiQs++Blk3Hj1q0VeKAhQCVJEKunHLq1/sYaf98p6E9+NcvaI/xaFKe5T5Y4GRHwDhrJk
- 5BsyAl4Q1tJkcVQ9CTeByW2cGwyMpCBpKHRmcJXFeftp9EeiPDk9WcRzVTBWGomiaJpP+E0
- OoQsk9gxr7fRZn+yjI9njqBiSxJsl3kQQZ9iU7mh82P3XpOWbja//0YfZ3OYPXJ4W6vF6X6
- PzOFAIP6dsCEQTsIV0uQWhxLzZJG1iYjULxYSJUaWrQJbRIvj8977nwLITD7f06VdykKpkd
- 0JfOAPRQ==
-X-QQ-XMRINFO: M/715EihBoGSf6IYSX1iLFg=
+X-QQ-XMAILINFO: OKKHiI6c9SH36/h/9qneLh9I5MxAB90IO8g4kzM0Wgvv6GpZEEm4QTxW
+ n7YdQKFjCn9IcqtrY+28B01QzRRH4tbGXtRIPiNO947eusZ0xYiSzxW8xg4dl15MKAyumJW
+ 4ZzY8CH7keStm3tMSod/FryURZPpBmNv4SJ2jbiGVtNiSTcudvW1aKAV1p/BIq1VFPcf4dA
+ jUQb2MeoZgL+090l9q7OhlGwxPaHTTwBJps5mqnyEdetSxq/MWsgnuSKnYDosuyQtwX2NWc
+ Oh8YGdAwMJNZqJswbrISqjk3+wy2IZc39VrPWkdsFuMJ//Nj92Me6N6oaaTy9CHhZl2BtDR
+ MiE/7RSamUNxMole/gTiLa+kdEMT4sF0PbmnlA/ec8BaNK082uTAQuDY5hrac3r3JAN+GGg
+ 4zUCepmVRLnRM55M/uM08QtLUbuXcg3Rsj1Y8zpQFuDMfC2ccFFbd9//PJUHW3HliLLN0Rs
+ C0bmVzPZh3GhEMZb+0OcVEMlRteHSlr2MK41gcVRExF1vujgk3eWphlx3ax0p1tpQUH/djQ
+ o4E0/RrHE30cVikKO5Gd334FcxcYQ94hFar7qbiWl8bkH+VmpfSVUpC+shPx9VnyTQa5BQu
+ kPFAk6Vp5kkOgU1d82HsiaMxixaD22WSmokDMRvMFLwOanwVyYKZrK8elKIPuP7DZsuY+xp
+ GKYvVTEH2uz4XHIvhY9aQqHPcusQfPU4VTFrLSQgnQ/8opbaQvdo+0KCpiJnpBTI+sicbTD
+ 4Nj7zTQXOR3zsxbqOq4z1qZ1wUc8iAEeDGxbi3bN+M/w9j/q7ZpbTDPe4EDzn+ALTGsVD+Y
+ IeLoHjKDax0X4z8OXKLhzHDMw047y1Ocb4Z5xZa3r6/gi3+fYWqcbywucRDZjnntdRBMtgU
+ Gnw/YqvwC9INC/LuApRHEQMKolN1XS0hl4tFrljJyWjpSclorEJc7esqHPlJmI+FZ+y33oo
+ MXxECCUc0KlTLhYNDsfpb881VWGAD7H5LFr/q+O7LBx3A6oDGztibL0VFAlq1Jyq+5kFRdn
+ kyBVoFSg==
+X-QQ-XMRINFO: NS+P29fieYNw95Bth2bWPxk=
 X-QQ-RECHKSPAM: 0
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -95,31 +93,39 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 From: Chaoyi Chen <chaoyi.chen@rock-chips.com>
 
-The USB Type-C DisplayPort alternate mode driver will find
-"displayport" property for DRM hotplug event notify[0].
-
-[0]: https://lore.kernel.org/all/20210817215201.795062-9-hdegoede@redhat.com/
+Add support for Type-C orientation and altmode switch.
+The Type-C controller can be specified to handling switching.
 
 Signed-off-by: Chaoyi Chen <chaoyi.chen@rock-chips.com>
 ---
- .../devicetree/bindings/connector/usb-connector.yaml          | 4 ++++
- 1 file changed, 4 insertions(+)
+ .../bindings/phy/rockchip,rk3399-typec-phy.yaml    | 14 ++++++++++++++
+ 1 file changed, 14 insertions(+)
 
-diff --git a/Documentation/devicetree/bindings/connector/usb-connector.yaml b/Documentation/devicetree/bindings/connector/usb-connector.yaml
-index 11e40d225b9f..ccb258972cd6 100644
---- a/Documentation/devicetree/bindings/connector/usb-connector.yaml
-+++ b/Documentation/devicetree/bindings/connector/usb-connector.yaml
-@@ -300,6 +300,10 @@ properties:
-     $ref: /schemas/types.yaml#/definitions/uint8-array
-     maxItems: 4
+diff --git a/Documentation/devicetree/bindings/phy/rockchip,rk3399-typec-phy.yaml b/Documentation/devicetree/bindings/phy/rockchip,rk3399-typec-phy.yaml
+index 91c011f68cd0..a885c6893a90 100644
+--- a/Documentation/devicetree/bindings/phy/rockchip,rk3399-typec-phy.yaml
++++ b/Documentation/devicetree/bindings/phy/rockchip,rk3399-typec-phy.yaml
+@@ -43,6 +43,20 @@ properties:
+     description:
+       Phandle to the syscon managing the "general register files" (GRF).
  
-+  displayport:
-+    description: A phandle to displayport connector for DRM hotplug event notify.
-+    $ref: /schemas/types.yaml#/definitions/phandle
++  orientation-switch:
++    description: Flag the port as possible handler of orientation switching
++    type: boolean
 +
- dependencies:
-   sink-vdos-v1: [ sink-vdos ]
-   sink-vdos: [ sink-vdos-v1 ]
++  mode-switch:
++    description: Flag the port as possible handler of altmode switching
++    type: boolean
++
++  port:
++    $ref: /schemas/graph.yaml#/properties/port
++    description:
++      A port node to link the PHY to a TypeC controller for the purpose of
++      handling orientation switching.
++
+   dp-port:
+     type: object
+     additionalProperties: false
 -- 
 2.49.0
 
