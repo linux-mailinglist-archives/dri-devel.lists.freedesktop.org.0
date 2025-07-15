@@ -2,58 +2,54 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1587EB04F9C
-	for <lists+dri-devel@lfdr.de>; Tue, 15 Jul 2025 05:58:51 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 36F8DB04FAA
+	for <lists+dri-devel@lfdr.de>; Tue, 15 Jul 2025 06:03:02 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7C5C210E500;
-	Tue, 15 Jul 2025 03:58:48 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 01EFC10E501;
+	Tue, 15 Jul 2025 04:02:59 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="nCwqJ8Ry";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="lsX97MIc";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from sea.source.kernel.org (sea.source.kernel.org [172.234.252.31])
- by gabe.freedesktop.org (Postfix) with ESMTPS id CF15010E500
- for <dri-devel@lists.freedesktop.org>; Tue, 15 Jul 2025 03:58:46 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 260A110E501
+ for <dri-devel@lists.freedesktop.org>; Tue, 15 Jul 2025 04:02:57 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by sea.source.kernel.org (Postfix) with ESMTP id 92C9444EE0;
- Tue, 15 Jul 2025 03:58:46 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 52A22C4CEE3;
- Tue, 15 Jul 2025 03:58:46 +0000 (UTC)
+ by sea.source.kernel.org (Postfix) with ESMTP id F19C9457DF;
+ Tue, 15 Jul 2025 04:02:56 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 93614C4CEF1;
+ Tue, 15 Jul 2025 04:02:56 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1752551926;
- bh=E1bP2qyrdHOflkUNF5HIzZ1cwKCdQr2yzEaRreh3xcc=;
+ s=k20201202; t=1752552176;
+ bh=2UGiN6zW5O4q0oWpGhmgtuQBTPCLQxSYx40hiYynJ4g=;
  h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=nCwqJ8RyiHOZpyii7xllAANTbVcSC47F0pmFvRK+AK2LUU/o24PyFHn03RqffxClA
- jJYlGYh0vlU8CBMSR74UZs+CxAhZb3SL5l6+FhXqDwjYt9a0kzM6HH6+SYh8L5e9nN
- 6+feukmQHpnCic44wuNHjRY0WSmu0LhakmtKYhUbeZnCavbCAI4BHZqIaupVn28QCC
- vnGqb2ozc1dvBqEyWktYUjPy/g0KxBig6qUa3KcVOkJ4SqGui31Ovs4BrbEYJprnjY
- i1DAb9BoJ7EYqDALGC7elsaJTnpf7T36DUkDzG+M5Rq/dIWLJ9mayNzh4NQGz750Uo
- ErvL5OcBLjE5A==
-Date: Mon, 14 Jul 2025 22:58:45 -0500
+ b=lsX97MIcclRndAAs44TUN1hYIi6ddUaZcsyFAuXClWuXLRnl9Xyys1K/xd+PDGXe+
+ kt+hOFLyiQ9ruCxNjDg8eQ6MlMbIjsyFxwpsoK0v9ZR5/iGS2X52kIiwXeQ9ewF5G0
+ xdSWJaLQOYcXvTa8tJzd6oMxwG16wNCBQm7a15AUrwfr4T9HLT7dDyHC0H/s6K7Q8P
+ P+rKc9nJQAvgSwf52zESiquJEU+1Afx9nmZUd5E3cZc063pSlahbl0eDrI0zsq0dAg
+ WkoGxGAUZKM0IseiDmqyEw3SB5ITLeB/qhp6NmYiKJWVmZWH0iH+5y3spiEEvgN0Cx
+ nmJHlzpUlStvA==
+Date: Mon, 14 Jul 2025 23:02:55 -0500
 From: "Rob Herring (Arm)" <robh@kernel.org>
-To: Dale Whinham <daleyo@gmail.com>
-Cc: Conor Dooley <conor+dt@kernel.org>,
+To: Richard Yao <richard@scandent.com>
+Cc: Krzysztof Kozlowski <krzk+dt@kernel.org>,
+ Akshay Athalye <akshay@scandent.com>, linux-kernel@vger.kernel.org,
  Neil Armstrong <neil.armstrong@linaro.org>,
- Simona Vetter <simona@ffwll.ch>, Thomas Zimmermann <tzimmermann@suse.de>,
- Jessica Zhang <quic_jesszhan@quicinc.com>,
- Krzysztof Kozlowski <krzk+dt@kernel.org>,
- Douglas Anderson <dianders@chromium.org>,
- =?iso-8859-1?B?Suly9G1l?= de Bretagne <jerome.debretagne@gmail.com>,
- dri-devel@lists.freedesktop.org, Maxime Ripard <mripard@kernel.org>,
- linux-kernel@vger.kernel.org,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- devicetree@vger.kernel.org, David Airlie <airlied@gmail.com>
-Subject: Re: [PATCH 2/9] dt-bindings: display: panel: samsung,atna30dw01:
- document ATNA30DW01
-Message-ID: <175255192501.20738.16784196888105498389.robh@kernel.org>
-References: <20250714173554.14223-1-daleyo@gmail.com>
- <20250714173554.14223-3-daleyo@gmail.com>
+ Conor Dooley <conor+dt@kernel.org>,
+ Jonathan Cameron <Jonathan.Cameron@huawei.com>,
+ Caleb James DeLisle <cjd@cjdns.fr>, Junhao Xie <bigfoot@classfun.cn>,
+ Manivannan Sadhasivam <mani@kernel.org>,
+ Kever Yang <kever.yang@rock-chips.com>, devicetree@vger.kernel.org,
+ Andre Przywara <andre.przywara@arm.com>, dri-devel@lists.freedesktop.org
+Subject: Re: [PATCH 1/3] dt-bindings: vendor-prefixes: Add Tianxinwei name
+Message-ID: <175255217503.27396.17909209264231260319.robh@kernel.org>
+References: <20250714191729.2416-1-richard@scandent.com>
+ <20250714191729.2416-2-richard@scandent.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20250714173554.14223-3-daleyo@gmail.com>
+In-Reply-To: <20250714191729.2416-2-richard@scandent.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -70,14 +66,14 @@ Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 
-On Mon, 14 Jul 2025 18:35:38 +0100, Dale Whinham wrote:
-> The Samsung ATNA30DW01 panel is a 13" AMOLED eDP panel. It is similar to
-> the ATNA33XC20 except that it is smaller and has a higher resolution.
+On Mon, 14 Jul 2025 15:17:21 -0400, Richard Yao wrote:
+> Tianxinwei is a company based in Shenzen, China, making LCD screens.
 > 
-> Tested-by: Jérôme de Bretagne <jerome.debretagne@gmail.com>
-> Signed-off-by: Dale Whinham <daleyo@gmail.com>
+> Add their name to the list of vendors.
+> 
+> Signed-off-by: Richard Yao <richard@scandent.com>
 > ---
->  .../devicetree/bindings/display/panel/samsung,atna33xc20.yaml   | 2 ++
+>  Documentation/devicetree/bindings/vendor-prefixes.yaml | 2 ++
 >  1 file changed, 2 insertions(+)
 > 
 
