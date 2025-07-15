@@ -2,66 +2,152 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 953D3B06305
-	for <lists+dri-devel@lfdr.de>; Tue, 15 Jul 2025 17:33:27 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 38444B06341
+	for <lists+dri-devel@lfdr.de>; Tue, 15 Jul 2025 17:42:13 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9906910E5FC;
-	Tue, 15 Jul 2025 15:33:23 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 90FF810E5F5;
+	Tue, 15 Jul 2025 15:42:11 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=collabora.com header.i=caterina.shablia@collabora.com header.b="QrBKbjO7";
+	dkim=pass (1024-bit key; unprotected) header.d=amd.com header.i=@amd.com header.b="Cugj0rRL";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from sender4-op-o14.zoho.com (sender4-op-o14.zoho.com
- [136.143.188.14])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B2B4089056;
- Tue, 15 Jul 2025 15:33:21 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; t=1752593599; cv=none; 
- d=zohomail.com; s=zohoarc; 
- b=lRZyrNw5Afsl0YmrZxEiOkWwe++p6PTK3mqyAD9Tkkkr/YgTCmrc3PPGwzUJHKhGgxytNEP1VjJe5V6/5nCHuKqtudRvykB/F70RnetsuT0uUukHkveuxl2pkGD2SohtMOHY9Qj03PTfZEmSmeOt4kEvqjWYsdn6vN+cSgt/RrE=
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com;
- s=zohoarc; t=1752593599;
- h=Content-Type:Content-Transfer-Encoding:Cc:Cc:Date:Date:From:From:In-Reply-To:MIME-Version:Message-ID:References:Subject:Subject:To:To:Message-Id:Reply-To;
- bh=YoRshJ8yvxDVuRAWmF4aZ5TITCx/VnZJ1sQdaBr6bq4=; 
- b=B6hxWuQzGPARdI+Kx6MeKLxxH5/F72Zxnsnd2IH/l08ZFaHQLCqA5I59/OeDxu2sQuV3iaoEoPgJufQQF3gmHdTzpK4Q3XGHyOSKzRlOndNmYHW8pSmaACraRnIDiXQBsyN+KoC+n05biPGULS4b+ikJGwztAqOEExxMOpODwcM=
-ARC-Authentication-Results: i=1; mx.zohomail.com;
- dkim=pass  header.i=collabora.com;
- spf=pass  smtp.mailfrom=caterina.shablia@collabora.com;
- dmarc=pass header.from=<caterina.shablia@collabora.com>
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1752593599; 
- s=zohomail; d=collabora.com; i=caterina.shablia@collabora.com; 
- h=From:From:To:To:Cc:Cc:Subject:Subject:Date:Date:Message-ID:In-Reply-To:References:MIME-Version:Content-Transfer-Encoding:Content-Type:Message-Id:Reply-To;
- bh=YoRshJ8yvxDVuRAWmF4aZ5TITCx/VnZJ1sQdaBr6bq4=;
- b=QrBKbjO7ulC1aHKwaYOPVyM9W0h90ww9YEbpWqzkh5C4S4zdmIdgVNlvyftmqv7Q
- J1ovJCNLog74nmFC0PkJFAF3HNTGiPOPHCCfn2rxlWg/HU5LtyW66sooTTiwOLsOPhH
- 4b7TxkNQIacNkVYzZZHoAUOTxCZPmM+3klopi0fI=
-Received: by mx.zohomail.com with SMTPS id 1752593597020280.59212037774194;
- Tue, 15 Jul 2025 08:33:17 -0700 (PDT)
-From: Caterina Shablia <caterina.shablia@collabora.com>
-To: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- Frank Binns <frank.binns@imgtec.com>, Matt Coster <matt.coster@imgtec.com>,
- Karol Herbst <kherbst@redhat.com>, Lyude Paul <lyude@redhat.com>,
- Danilo Krummrich <dakr@kernel.org>,
- Boris Brezillon <boris.brezillon@collabora.com>,
- Liviu Dudau <liviu.dudau@arm.com>,
- Lucas De Marchi <lucas.demarchi@intel.com>,
- Thomas =?UTF-8?B?SGVsbHN0csO2bQ==?= <thomas.hellstrom@linux.intel.com>,
- Rodrigo Vivi <rodrigo.vivi@intel.com>, Steven Price <steven.price@arm.com>
-Cc: dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- nouveau@lists.freedesktop.org, intel-xe@lists.freedesktop.org,
- asahi@lists.linux.dev, Asahi Lina <lina@asahilina.net>
-Subject: Re: [PATCH v4 1/7] drm/panthor: Add support for atomic page table
- updates
-Date: Tue, 15 Jul 2025 17:33:10 +0200
-Message-ID: <2434159.cojqenx9y0@xps>
-In-Reply-To: <2813151.QOukoFCf94@xps>
-References: <20250707170442.1437009-1-caterina.shablia@collabora.com>
- <d4a6208b-a4a4-451f-9799-7b9f5fb20c37@arm.com> <2813151.QOukoFCf94@xps>
+Received: from NAM12-DM6-obe.outbound.protection.outlook.com
+ (mail-dm6nam12on2050.outbound.protection.outlook.com [40.107.243.50])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2CD5510E5F5
+ for <dri-devel@lists.freedesktop.org>; Tue, 15 Jul 2025 15:42:11 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=imMmPt8iI9WRolHlKwM3TRNaf+huptf5N6DBAbpcrJl5OrirnyWqtLqBxzX8hPM/eNy2nRRp6vPMXgA53yg38GcECgKEW9B+EjyDb33Ll0S3CiC8J+7blCDfsQlgD9rSnLogRRs2sq/P5P4UfRrwjJqOda4FzJlDRwFabKMHndDCsjKW34Far053zC/VGsWv/lcz1XClOtl/cnWGddAxUgP9iIK6p9h4Rifgxd/Yg3cK8bkvZZq8h8uWyXNo9Wiqv9jeKpbiyTAAwCUF5WEHC6TSvKVmQXBdxLmFfI4DIL6LUROyMNOsP56gmzu4Xys88aTxME6K75o8wZ2pYMPXAg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=c4narCNUwRkqcJFxbeuOSPp8CvQf0TjvAMit5NOpJv0=;
+ b=IHBAMG998uqahM5Gz5uLCU64Muxpc2yQTq6oGWSpiCMhN0UjlTiHiXI1VMBi0myjy9BdG/LOVSVUG6fVZskvV+fhzlbxvU40vIoe1TTWZWwxV8+TfTUegTKu+bFh8OnY3sY6UzzoiE/6C3Wad8QHvbKgbpvqJ0fOREt6mrz0L8mU1T5rA0XqI2OXAG18LsIYY0HcmOUjWiNaiw0+aa06tNQugXPN/NvmCPbjV/mNLr/loN7/WLX/bGE6lu8ckIqRiWFaYCX+RSd6v7U05CzUJ4PHrUBL11oD/Uqe+ruy8K1KjhBPyvEO76JZnDFLEh2ySPruJW2+aFuSq+tvN2oNuQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
+ header.d=amd.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=c4narCNUwRkqcJFxbeuOSPp8CvQf0TjvAMit5NOpJv0=;
+ b=Cugj0rRLbwFS7xRf3UPlYVKjgd2u68Hj7vcDgazK/OvkfCn/5l+jnhaBYjPeNYLDAl4DHePRRG+qPN5qphYk5VPvb08TeIlG+XA89LvlYxoe3AL7bnulVL7pZB/P4WKEsHMqOm0VGiJZdmX4ud2bAmlMyCU7TkYiLPR5pc4jWBU=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=amd.com;
+Received: from PH7PR12MB5685.namprd12.prod.outlook.com (2603:10b6:510:13c::22)
+ by SN7PR12MB7178.namprd12.prod.outlook.com (2603:10b6:806:2a6::19)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8922.25; Tue, 15 Jul
+ 2025 15:42:08 +0000
+Received: from PH7PR12MB5685.namprd12.prod.outlook.com
+ ([fe80::46fb:96f2:7667:7ca5]) by PH7PR12MB5685.namprd12.prod.outlook.com
+ ([fe80::46fb:96f2:7667:7ca5%5]) with mapi id 15.20.8901.033; Tue, 15 Jul 2025
+ 15:42:07 +0000
+Message-ID: <19818715-b1c8-49cc-b6b9-2abfc1eac1f6@amd.com>
+Date: Tue, 15 Jul 2025 17:42:03 +0200
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] drm/sched: Remove optimization that causes hang when
+ killing dependent jobs
+To: "Lin.Cao" <lincao12@amd.com>, dri-devel@lists.freedesktop.org
+Cc: zhenguo.yin@amd.com, Emily.Deng@amd.com, phasta@kernel.org,
+ dakr@kernel.org, matthew.brost@intel.com
+References: <20250715135033.706126-1-lincao12@amd.com>
+Content-Language: en-US
+From: =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
+In-Reply-To: <20250715135033.706126-1-lincao12@amd.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-ClientProxiedBy: FR2P281CA0037.DEUP281.PROD.OUTLOOK.COM
+ (2603:10a6:d10:92::6) To PH7PR12MB5685.namprd12.prod.outlook.com
+ (2603:10b6:510:13c::22)
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset="utf-8"
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: PH7PR12MB5685:EE_|SN7PR12MB7178:EE_
+X-MS-Office365-Filtering-Correlation-Id: 147c8543-73c1-4aae-4e0f-08ddc3b627d3
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;ARA:13230040|366016|1800799024|376014;
+X-Microsoft-Antispam-Message-Info: =?utf-8?B?Z2MyMlBHVlpHZnJ1Y3lhSHdGZTB5OWZJMm9KUGk0aitOeW9XRmtOaUVybmhx?=
+ =?utf-8?B?dDNHVjMwdXVFUDdrOFd5YU0wNnFkUEYxclY1S29SQWxkK0xDL2hzTHFjeUxP?=
+ =?utf-8?B?cTMzOHRWZWFiSXR6N1pxVzNZKzlEaXNMc3UrVHgvNnVJUXB4YXFmL2xNMm5q?=
+ =?utf-8?B?b3BuVjhOUTB1TEp6Q1cyY010WWM3cjQydnVYTHlnREVLcSszVWlyVkxZMHRQ?=
+ =?utf-8?B?R3QzS25hVVBZRWoxVjFLU1BaUlBJMC9qR1NDaWd1VUlBTUdQak92YUtySlZr?=
+ =?utf-8?B?anFvRDY0QXJrTHVVRERZb1RtVENBcDJIOHdWWlo4N084QUQ4RnhCdXdRN214?=
+ =?utf-8?B?WnEvRE9scXE0eDNncm8ycW52cjhLb25Id21FVUJHanlMRyt1NlM4NFFnZHBU?=
+ =?utf-8?B?NVY5TGFMa2xoUzh1NElGVWVNWThPVkRJWFRwT09lYURBK2ZneTR2dkZwWjN6?=
+ =?utf-8?B?QkJxMkVvWkd1dDBERTVkWjVncHdSQkRkOXJuRVVnVjBVdVM5K1pWT0ZIajRL?=
+ =?utf-8?B?M3I3V1pOUGNFblF3RFRlYUpkNWJaRUx6ZStMVDlMY3ZHQjBsZTh4T0NhbWVv?=
+ =?utf-8?B?SHBRc0N2T3k3cGttUWNzQWZONlRkWnM2eG1IRmcxV2w3T09JWDNCTVBGN0Vq?=
+ =?utf-8?B?UUI5QlZNZGFveWR5elY3MXlwdEp5UzlCekdnb05xMlgvQ2s3NHMzY2RPdkRV?=
+ =?utf-8?B?a09Gb05HdXNVY0NVNGFiRTBZZEFvNENkVnpCNlcxVTRCSHNVRUtacWUyb3lL?=
+ =?utf-8?B?eVhhSzR2aENtbGJLUFp2Q2Y0T0ExZTN6LzVYL3N6S2l3Yzk4VjhvSGdLSVFl?=
+ =?utf-8?B?M0w3blFxcDU4NDIwTXhBMzhzVjJEMDdEL3FUZitEYjBUL0FrRXpoZWIxdjB2?=
+ =?utf-8?B?RnNkaVJrbEZVY2ZkWUVKMTU3amdZblUyYzdpakdITWN3TnpHREFmb1Vwb1Rm?=
+ =?utf-8?B?R21INVpRN1hLc3BaLzVwa25XWEFKdFRYWEtzSUxvU0VaLzZaWWluVkhCckJV?=
+ =?utf-8?B?dTVkdUJlV3poRWFJRHNZYmtMMGsrWUZRWTBGODZxWnpBWVNRemxXRU1VbnlM?=
+ =?utf-8?B?SmxPTGZNM2RMQzhJYS9NYUwxamhia0JabGFZYldpS1dEQiswRWFMQ29PTU1F?=
+ =?utf-8?B?WkNQQUR5eStFek12ME5JVjBIL2syY1NmUHo0U0EvaU5Oc1RaZWY0ckEwQUI4?=
+ =?utf-8?B?SDR6N3Y5cTdBU0s5Tk5YZVB4NEhXNmNHcTQxcjB3eWJ0QVZQTkVTckxBRmtl?=
+ =?utf-8?B?bE9QV2JCeDBtZVl4Z0Q1Z0FtU283RzZRbEQ5WkhIbjVQeXNIN042aEVNdGtr?=
+ =?utf-8?B?WTRnRmpVRFhpWHhXM1NxVDVKLzE3SXNjNEpqU1E4b0dtOCtMVWZVeVlpMkNa?=
+ =?utf-8?B?NWdva2JhVHVRaDlrMCtFaTFMU2tmWlJQeXIxZFhsMit3VWU4S0lWRml3YWVF?=
+ =?utf-8?B?VEdScXdhSTNpYzlBMEZ6VG5IRXVOVHBtRlEvUEVIN3JzSE5yazdidHZ5M1hm?=
+ =?utf-8?B?UVBYUVAvcjRDMSt2M3AzWHkwb1RHVmtHb1BKcDViclUwTmJaSUdYZmpOK2VM?=
+ =?utf-8?B?VStqOWlseGp2R1o5ajdEWHFBVXh4U0prL0Q1Qktydm15K2lpMkUwTnRYcDdo?=
+ =?utf-8?B?ZmdrbkRJRXhnTmtWRTNOWm01c3F3T294WGUxWTloWFNRdEw5UjlEamh2TGFD?=
+ =?utf-8?B?bnlPL0FFYmZBM3ZBREtmVXhIS1pEYVExUDk4SHEzd1BXRnJDRllmbmU1bGRX?=
+ =?utf-8?B?QVFoUjcyT1dLenM0TE9ORmJUMVFTSjVydXhDeWNYcndSdVhqNzVNbEZoaVRO?=
+ =?utf-8?B?V1l0L3U1Q2FLZlV2a2JaYmFXdlFLSHJpb3BVMWU4b2poaHhMQUV6UStyY1Qx?=
+ =?utf-8?B?NzlQczJlZE1VVVJMQ0llc1NuRnIyYmlTSlQ0b0ZOMnFnZnR6b01rQjRYT2V0?=
+ =?utf-8?Q?xC/X0FuEMoA=3D?=
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:PH7PR12MB5685.namprd12.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230040)(366016)(1800799024)(376014); DIR:OUT; SFP:1101; 
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?S1l4dEpmcVJJK2twRVZ1ZEFaNnNyOTVoWVd0a2xQWDg4cklnbzZUUFVkRzdF?=
+ =?utf-8?B?b25ZL29FeWJqSWVScnMrejgydmtUTGhuZ1hNMllGQzFZd2tlRHVxcFVtQkxN?=
+ =?utf-8?B?OUZZWE1CWXBySzhpcnpld2JaTlI3RnhiUTIrNzJTL2FieHF1T1FMUzNaTlNo?=
+ =?utf-8?B?Zmh2bkNJQUxhbTZRaEthQjVTdjNSei9XSmJtWnQ4Nk1JZTF4UGU3WHJxaUV4?=
+ =?utf-8?B?TnNLUXBUWkg1NHlIWDVjQ2pRUS9OeFZUeFlSbnZKSE05d2Fjcm44MWZBaGFS?=
+ =?utf-8?B?SXBpL2RndUVMWE5HeXVXNnN3bEpxOUV2blR2aFNYWTZVaXZGa1AzMVh1eStr?=
+ =?utf-8?B?YWFvSGVTVUI1MERsdDJRNDJyWGZlT3AyWGtzZy96Z2NreXlUc1JmaVo0cHJF?=
+ =?utf-8?B?dzR4YmRoVi9IUU9NcnVaUVBYVm5IU0pWeWhhZHRwRmFvdDRHSy81K3R0d3VY?=
+ =?utf-8?B?cUIvdmVGYVk1SjdETFpxOURNRFhwRnBrYkdkREpFUHNEa1B0cG1NMXJ1aFdl?=
+ =?utf-8?B?eFM3WXYxM09Ka24zdm03emxMNFVLT0pVMWhscUZhQ1dGSW1Db3FsbkQvMFBs?=
+ =?utf-8?B?ektzeDAzbkllVWh6SnFiRUxyTE9LcEkzazZCNmplVFZMaDlYMit6WTFuZzRR?=
+ =?utf-8?B?KzdaTGUwK254ZnJjcXRZZlY1RnkxWXpHYkoxUGlXWjZ6cCs0eUpLeU0rY1Nj?=
+ =?utf-8?B?MXBJVGVlN09WakZZSjhJV0hmMngxSDA3SktRRTkwY3RpWjV2ZVRXN21JM2VK?=
+ =?utf-8?B?cXQvREpnYi9PUWx6b3NRNGhaL09KK1RqVWF3L0QwZHJWczFTbXZlNm1ha1lY?=
+ =?utf-8?B?dXdDejNwN1VWeDZDay94YjhyNXk1SmcveDRzYjJURnpiZ3JpNFAvcGdOQnB0?=
+ =?utf-8?B?SVpLOHZKL3RROEJhckdLTzkveit3dnN1TzdxTlZrNERxQXJDUS9MLzJiaTl6?=
+ =?utf-8?B?OS8yZFRwQ1NpUlVWQVdwNVVwaHU4TUd0SDN1cml6QUFVWFl0dGdZc0Y0SXo3?=
+ =?utf-8?B?SVVKZC9tcnVLVjdjZnIrK0RYYzN1TG5OWHdhTEFKMENTY2VVbWVRbjFBTmpJ?=
+ =?utf-8?B?bVN6WlZSdWhnUWJna3pLRktzOUJkdUNSV3lxYVRUSEllMWZ6S3RCRTgyRHo2?=
+ =?utf-8?B?RWNQRjZEcXh6MFlQNHB4aGZRM2tLdkRGaW1JZmVXWW04L25lOU5JdG1JNkk0?=
+ =?utf-8?B?ZWRvT2VFQUtHakh3VnpGQ1ptN2FZUVgxVExpUFJRK0RXbmYzait6bmFlbmZp?=
+ =?utf-8?B?VU1NWHVsaEhaTWpzMlVDYlUzUmpvWHZ4WVV6K2R2SXY3ZzlrOUtSQmNhb1V4?=
+ =?utf-8?B?ZnF2aElqT0dsdGx1WUR4UEdGYTc5UXhJUloxTUFpRmp2MXJ5WGhnZ2hYOG9h?=
+ =?utf-8?B?cXZIZ2IvbzMrdmFjS1IxaGV4b0ZGM2dsa3dGU0wwcUgvWXpwL2lkSnpWRVMv?=
+ =?utf-8?B?azBJOVdxMGNHVWpMK2FWQzJkTHBOVG9YdEVKWUhSa2xzMWVyWG1MM2hWYy9L?=
+ =?utf-8?B?R01jWk1OSWxxQmtuWkV0ZDd2dlI5K0w3bktUYlJhMGVnVXRxcVRwekQ2RXhZ?=
+ =?utf-8?B?d0hUcmRndUxXRTQveUp6OStVeTZ1clRrQ1M4ZzZBTnJyMjhCNHVqKzEwSk1K?=
+ =?utf-8?B?dlhoUHJmdGFEQkJWMzN6bi9WTytHbzVoQ3lKcG8weWlVVVNlZGRPbkx1WlZH?=
+ =?utf-8?B?RmJ5ckNjZzRHaHpvZkt3dWFsU3c3VklwNC9PV0dLTndZUWNHY1cxN1FyUUFV?=
+ =?utf-8?B?RGhvTzlHbkNFbDVkSjZuZHVBeTQxUkhqNDF0bTlSVCtLcGhpWFY2Zmx4WVZI?=
+ =?utf-8?B?dFNZZ3FGTEhzYmVQQi9XK3VYQVJCcElSM2ZUS3dxT0lWQThocG5NY2pkRWVo?=
+ =?utf-8?B?a0FVS0RFck92NjhjR3Y2ay94S3hXWktTMGxNYVM4ZmM2VDc5R3lJWW9ZTlpp?=
+ =?utf-8?B?MXlpekFDUTZialpjMVhQMnZWUlRsN0VQcERReXZlZEhJak9sS0lpdllZeHh3?=
+ =?utf-8?B?ZFd1TjdjaDYvSDYwZ3E2MmlyY3pEcG1wcHBRZXZYc0NTL2ZKb3Y4bHNBcXFi?=
+ =?utf-8?B?SXZoR00xRm1XaXBqTDZnVGdTSWpuV1VpTUlNb3lWUWt5UVVvYlpsN1BEZ2xX?=
+ =?utf-8?Q?/PnoahFUCFpwSl4xqS8U8cZxj?=
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 147c8543-73c1-4aae-4e0f-08ddc3b627d3
+X-MS-Exchange-CrossTenant-AuthSource: PH7PR12MB5685.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 15 Jul 2025 15:42:07.8935 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: 8Ex9WKkgoxcwn0FkFDJHbXfqdGwNPygbOZS7coUKkrUHs+L4g5s6DiV5ef5GjmuH
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SN7PR12MB7178
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -77,290 +163,73 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-El martes, 15 de julio de 2025 17:08:09 (hora de verano de Europa central),=
-=20
-Caterina Shablia escribi=C3=B3:
-> El viernes, 11 de julio de 2025 15:30:21 (hora de verano de Europa centra=
-l),
-> Steven Price escribi=C3=B3:
-> > On 07/07/2025 18:04, Caterina Shablia wrote:
-> > > From: Boris Brezillon <boris.brezillon@collabora.com>
-> > >=20
-> > > Move the lock/flush_mem operations around the gpuvm_sm_map() calls so
-> > > we can implement true atomic page updates, where any access in the
-> > > locked range done by the GPU has to wait for the page table updates
-> > > to land before proceeding.
-> > >=20
-> > > This is needed for vkQueueBindSparse(), so we can replace the dummy
-> > > page mapped over the entire object by actual BO backed pages in an
-> > > atomic
-> > > way.
-> > >=20
-> > > Signed-off-by: Boris Brezillon <boris.brezillon@collabora.com>
-> > > Signed-off-by: Caterina Shablia <caterina.shablia@collabora.com>
-> > > ---
-> > >=20
-> > >  drivers/gpu/drm/panthor/panthor_mmu.c | 65 +++++++++++++++++++++++++=
-=2D-
-> > >  1 file changed, 62 insertions(+), 3 deletions(-)
-> > >=20
-> > > diff --git a/drivers/gpu/drm/panthor/panthor_mmu.c
-> > > b/drivers/gpu/drm/panthor/panthor_mmu.c index b39ea6acc6a9..9caaba03c=
-5eb
-> > > 100644
-> > > --- a/drivers/gpu/drm/panthor/panthor_mmu.c
-> > > +++ b/drivers/gpu/drm/panthor/panthor_mmu.c
-> > > @@ -387,6 +387,15 @@ struct panthor_vm {
-> > >=20
-> > >  	 * flagged as faulty as a result.
-> > >  	 */
-> > >  =09
-> > >  	bool unhandled_fault;
-> > >=20
-> > > +
-> > > +	/** @locked_region: Information about the currently locked region
-> > > currently. */ +	struct {
-> > > +		/** @locked_region.start: Start of the locked region.
->=20
-> */
->=20
-> > > +		u64 start;
-> > > +
-> > > +		/** @locked_region.size: Size of the locked region. */
-> > > +		u64 size;
-> > > +	} locked_region;
-> > >=20
-> > >  };
-> > > =20
-> > >  /**
-> > >=20
-> > > @@ -775,6 +784,10 @@ int panthor_vm_active(struct panthor_vm *vm)
-> > >=20
-> > >  	}
-> > >  =09
-> > >  	ret =3D panthor_mmu_as_enable(vm->ptdev, vm->as.id, transtab,
->=20
-> transcfg,
->=20
-> > >  	vm->memattr);>
-> > >=20
-> > > +	if (!ret && vm->locked_region.size) {
-> > > +		lock_region(ptdev, vm->as.id, vm->locked_region.start,
-> > > vm->locked_region.size); +		ret =3D wait_ready(ptdev, vm-
-> >
-> >as.id);
-> >
-> > > +	}
-> >=20
-> > Do we need to do this? It seems odd to restore a MMU context and
-> > immediately set a lock region. Is there a good reason we can't just
-> > WARN_ON if there's a lock region set in panthor_vm_idle()?
->=20
-> So IIUC, when things are otherwise idle and we do a vm_bind, the vm will =
-be
-> inactive, in which case we're not going to poke the mmu to inform it of t=
-he
-> locked region, because it literally is not aware of this vm. Now if in the
-> meanwhile something submits a job and activates the vm, we need to inform
-> the mmu of the locked region, as vm_bind job might still be going on. I
-> don't see why panthor_vm_idle while a region is locked would be a problem?
-> That can arise e.g. when a job completes but there's a concurrent vm_bind
-> going on?
-> > I think we need to briefly take vm->op_lock to ensure synchronisation
-> > but that doesn't seem a big issue. Or perhaps there's a good reason that
-> > I'm missing?
->=20
-> I think you're right, all other accesses to locked_region are guarded by
-> op_lock. GPU job submit poke vm_active concurrently with vm_bind jobs doi=
-ng
-> region {,un}locks.
-Actually no, that's not necessary. Access to locked_region is protected by=
-=20
-slots_lock, which is held here. Trying to lock vm->op_lock would also be=20
-detrimental here, because these locks are often taken together and slots_lo=
-ck=20
-is taken after op_lock is taken, so taking op_lock here would be extremely=
-=20
-deadlockful.
->=20
-> > >  out_make_active:
-> > >  	if (!ret) {
-> > >=20
-> > > @@ -902,6 +915,9 @@ static int panthor_vm_unmap_pages(struct panthor_=
-vm
-> > > *vm, u64 iova, u64 size)>
-> > >=20
-> > >  	struct io_pgtable_ops *ops =3D vm->pgtbl_ops;
-> > >  	u64 offset =3D 0;
-> > >=20
-> > > +	drm_WARN_ON(&ptdev->base,
-> > > +		    (iova < vm->locked_region.start) ||
-> > > +		    (iova + size > vm->locked_region.start + vm-
-> >
-> >locked_region.size));
-> >
-> > >  	drm_dbg(&ptdev->base, "unmap: as=3D%d, iova=3D%llx, len=3D%llx", vm-
-> >
-> >as.id,
-> >
-> > >  	iova, size);
-> > >  =09
-> > >  	while (offset < size) {
-> > >=20
-> > > @@ -915,13 +931,12 @@ static int panthor_vm_unmap_pages(struct
-> > > panthor_vm
-> > > *vm, u64 iova, u64 size)>
-> > >=20
-> > >  				iova + offset + unmapped_sz,
-> > >  				iova + offset + pgsize * pgcount,
-> > >  				iova, iova + size);
-> > >=20
-> > > -			panthor_vm_flush_range(vm, iova, offset +
->=20
-> unmapped_sz);
->=20
-> > >  			return  -EINVAL;
-> > >  	=09
-> > >  		}
-> > >  		offset +=3D unmapped_sz;
-> > >  =09
-> > >  	}
-> > >=20
-> > > -	return panthor_vm_flush_range(vm, iova, size);
-> > > +	return 0;
-> > >=20
-> > >  }
-> > > =20
-> > >  static int
-> > >=20
-> > > @@ -938,6 +953,10 @@ panthor_vm_map_pages(struct panthor_vm *vm, u64
-> > > iova,
-> > > int prot,>
-> > >=20
-> > >  	if (!size)
-> > >  =09
-> > >  		return 0;
-> > >=20
-> > > +	drm_WARN_ON(&ptdev->base,
-> > > +		    (iova < vm->locked_region.start) ||
-> > > +		    (iova + size > vm->locked_region.start + vm-
-> >
-> >locked_region.size));
-> >
-> > > +
-> > >=20
-> > >  	for_each_sgtable_dma_sg(sgt, sgl, count) {
-> > >  =09
-> > >  		dma_addr_t paddr =3D sg_dma_address(sgl);
-> > >  		size_t len =3D sg_dma_len(sgl);
-> > >=20
-> > > @@ -985,7 +1004,7 @@ panthor_vm_map_pages(struct panthor_vm *vm, u64
-> > > iova,
-> > > int prot,>
-> > >=20
-> > >  		offset =3D 0;
-> > >  =09
-> > >  	}
-> > >=20
-> > > -	return panthor_vm_flush_range(vm, start_iova, iova - start_iova);
-> > > +	return 0;
-> > >=20
-> > >  }
-> > > =20
-> > >  static int flags_to_prot(u32 flags)
-> > >=20
-> > > @@ -1654,6 +1673,38 @@ static const char *access_type_name(struct
-> > > panthor_device *ptdev,>
-> > >=20
-> > >  	}
-> > > =20
-> > >  }
-> > >=20
-> > > +static int panthor_vm_lock_region(struct panthor_vm *vm, u64 start, =
-u64
-> > > size) +{
-> > > +	struct panthor_device *ptdev =3D vm->ptdev;
-> > > +	int ret =3D 0;
-> > > +
-> > > +	mutex_lock(&ptdev->mmu->as.slots_lock);
-> > > +	drm_WARN_ON(&ptdev->base, vm->locked_region.start ||
-> > > vm->locked_region.size); +	vm->locked_region.start =3D start;
-> > > +	vm->locked_region.size =3D size;
-> > > +	if (vm->as.id >=3D 0) {
-> > > +		lock_region(ptdev, vm->as.id, start, size);
-> > > +		ret =3D wait_ready(ptdev, vm->as.id);
-> > > +	}
-> > > +	mutex_unlock(&ptdev->mmu->as.slots_lock);
-> > > +
-> > > +	return ret;
-> > > +}
-> > > +
-> > > +static void panthor_vm_unlock_region(struct panthor_vm *vm)
-> > > +{
-> > > +	struct panthor_device *ptdev =3D vm->ptdev;
-> > > +
-> > > +	mutex_lock(&ptdev->mmu->as.slots_lock);
-> > > +	if (vm->as.id >=3D 0) {
-> > > +		write_cmd(ptdev, vm->as.id, AS_COMMAND_FLUSH_MEM);
-> > > +		drm_WARN_ON(&ptdev->base, wait_ready(ptdev, vm-
-> >
-> >as.id));
-> >
-> > > +	}
-> > > +	vm->locked_region.start =3D 0;
-> > > +	vm->locked_region.size =3D 0;
-> > > +	mutex_unlock(&ptdev->mmu->as.slots_lock);
-> > > +}
-> >=20
-> > Do we need to include a drm_dev_enter() somewhere here? I note that
-> > panthor_vm_flush_range() has one and you've effectively replaced that
-> > code with the above.
->=20
-> Looks like we should.
->=20
-> > Thanks,
-> > Steve
-> >=20
-> > > +
-> > >=20
-> > >  static void panthor_mmu_irq_handler(struct panthor_device *ptdev, u32
-> > >  status) {
-> > > =20
-> > >  	bool has_unhandled_faults =3D false;
-> > >=20
-> > > @@ -2179,6 +2230,11 @@ panthor_vm_exec_op(struct panthor_vm *vm, stru=
-ct
-> > > panthor_vm_op_ctx *op,>
-> > >=20
-> > >  	mutex_lock(&vm->op_lock);
-> > >  	vm->op_ctx =3D op;
-> > >=20
-> > > +
-> > > +	ret =3D panthor_vm_lock_region(vm, op->va.addr, op->va.range);
-> > > +	if (ret)
-> > > +		goto out;
-> > > +
-> > >=20
-> > >  	switch (op_type) {
-> > >  =09
-> > >  	case DRM_PANTHOR_VM_BIND_OP_TYPE_MAP:
-> > >  		if (vm->unusable) {
-> > >=20
-> > > @@ -2199,6 +2255,9 @@ panthor_vm_exec_op(struct panthor_vm *vm, struct
-> > > panthor_vm_op_ctx *op,>
-> > >=20
-> > >  		break;
-> > >  =09
-> > >  	}
-> > >=20
-> > > +	panthor_vm_unlock_region(vm);
-> > > +
-> > >=20
-> > > +out:
-> > >  	if (ret && flag_vm_unusable_on_failure)
-> > >  =09
-> > >  		vm->unusable =3D true;
+On 15.07.25 15:50, Lin.Cao wrote:
+> When application A submits jobs and application B submits a job with a
+> dependency on A's fence, the normal flow wakes up the scheduler after
+> processing each job. However, the optimization in
+> drm_sched_entity_add_dependency_cb() uses a callback that only clears
+> dependencies without waking up the scheduler.
+> 
+> When application A is killed before its jobs can run, the callback gets
+> triggered but only clears the dependency without waking up the scheduler,
+> causing the scheduler to enter sleep state and application B to hang.
+> 
+> Remove the optimization by deleting drm_sched_entity_clear_dep() and its
+> usage, ensuring the scheduler is always woken up when dependencies are
+> cleared.
+> 
+> Signed-off-by: Lin.Cao <lincao12@amd.com>
 
+Reviewed-by: Christian König <christian.koenig@amd.com>
 
-
+> ---
+>  drivers/gpu/drm/scheduler/sched_entity.c | 21 ++-------------------
+>  1 file changed, 2 insertions(+), 19 deletions(-)
+> 
+> diff --git a/drivers/gpu/drm/scheduler/sched_entity.c b/drivers/gpu/drm/scheduler/sched_entity.c
+> index e671aa241720..ac678de7fe5e 100644
+> --- a/drivers/gpu/drm/scheduler/sched_entity.c
+> +++ b/drivers/gpu/drm/scheduler/sched_entity.c
+> @@ -355,17 +355,6 @@ void drm_sched_entity_destroy(struct drm_sched_entity *entity)
+>  }
+>  EXPORT_SYMBOL(drm_sched_entity_destroy);
+>  
+> -/* drm_sched_entity_clear_dep - callback to clear the entities dependency */
+> -static void drm_sched_entity_clear_dep(struct dma_fence *f,
+> -				       struct dma_fence_cb *cb)
+> -{
+> -	struct drm_sched_entity *entity =
+> -		container_of(cb, struct drm_sched_entity, cb);
+> -
+> -	entity->dependency = NULL;
+> -	dma_fence_put(f);
+> -}
+> -
+>  /*
+>   * drm_sched_entity_wakeup - callback to clear the entity's dependency and
+>   * wake up the scheduler
+> @@ -376,7 +365,8 @@ static void drm_sched_entity_wakeup(struct dma_fence *f,
+>  	struct drm_sched_entity *entity =
+>  		container_of(cb, struct drm_sched_entity, cb);
+>  
+> -	drm_sched_entity_clear_dep(f, cb);
+> +	entity->dependency = NULL;
+> +	dma_fence_put(f);
+>  	drm_sched_wakeup(entity->rq->sched);
+>  }
+>  
+> @@ -429,13 +419,6 @@ static bool drm_sched_entity_add_dependency_cb(struct drm_sched_entity *entity)
+>  		fence = dma_fence_get(&s_fence->scheduled);
+>  		dma_fence_put(entity->dependency);
+>  		entity->dependency = fence;
+> -		if (!dma_fence_add_callback(fence, &entity->cb,
+> -					    drm_sched_entity_clear_dep))
+> -			return true;
+> -
+> -		/* Ignore it when it is already scheduled */
+> -		dma_fence_put(fence);
+> -		return false;
+>  	}
+>  
+>  	if (!dma_fence_add_callback(entity->dependency, &entity->cb,
 
