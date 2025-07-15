@@ -2,86 +2,68 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 79D8EB05BAC
-	for <lists+dri-devel@lfdr.de>; Tue, 15 Jul 2025 15:22:42 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 22C13B05C32
+	for <lists+dri-devel@lfdr.de>; Tue, 15 Jul 2025 15:28:58 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D2FBF10E5C3;
-	Tue, 15 Jul 2025 13:22:40 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D799310E5BE;
+	Tue, 15 Jul 2025 13:28:55 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; secure) header.d=ffwll.ch header.i=@ffwll.ch header.b="E1hOLphk";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="SY3/KylB";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-f46.google.com (mail-wm1-f46.google.com
- [209.85.128.46])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C306010E5C3
- for <dri-devel@lists.freedesktop.org>; Tue, 15 Jul 2025 13:22:38 +0000 (UTC)
-Received: by mail-wm1-f46.google.com with SMTP id
- 5b1f17b1804b1-4550709f2c1so27159405e9.3
- for <dri-devel@lists.freedesktop.org>; Tue, 15 Jul 2025 06:22:38 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=ffwll.ch; s=google; t=1752585757; x=1753190557; darn=lists.freedesktop.org; 
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
- bh=61QFwRWr9Ndvk2ttgipTe3LJv9XUBOlZkiPA5AUFmfs=;
- b=E1hOLphkfMyDHHFR9BxwgfwR8DrqJiKpyCML7ksdp89FJw9ux2xyqD1hSR1xT8aIhu
- tgdVu9jihLZL4dhiCmFTNKiC4bLqEflRYoBt3W0YWA40KNyGfUigODQzRvwoPBhwx4C+
- oVxWqDEDnX+rFghmHzG44eK/qvh+pYeIc2dtM=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1752585757; x=1753190557;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
- :message-id:reply-to;
- bh=61QFwRWr9Ndvk2ttgipTe3LJv9XUBOlZkiPA5AUFmfs=;
- b=ftijxr0eCgo9nOrCxf0S/9kbtQefm1jNkKD0oICLeEmpc3XCNptWXKcZ1ZcEnJKC7T
- fNEO0h6aOm4INFXR3b8zOF96AtqSWu+MsoAr/AC0XrbDRJtX0VWmCwXmG6ZefAwtSxHm
- nP5hx5ByY+EsErI1psrXGJcq0KknZVFvwaaUkx0FQa/DndH7dgHCRU/CZWzTK/4cG40b
- Rhbc/QQBZICz5703Yaf25V7u5kO18VvVa84QlFAvL7nYd7rB49FTEwWwMJR4bH5ImYIp
- LDVwP0lxJwuktXdpZy7Gd9dIf9XBpHjuLrANk5key/qIK31zzib2fE2vYtucin1D9Yxh
- ZdBA==
+Received: from sea.source.kernel.org (sea.source.kernel.org [172.234.252.31])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9D32610E5BE
+ for <dri-devel@lists.freedesktop.org>; Tue, 15 Jul 2025 13:28:54 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+ by sea.source.kernel.org (Postfix) with ESMTP id 6155F46A31
+ for <dri-devel@lists.freedesktop.org>; Tue, 15 Jul 2025 13:28:54 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3BE1AC16AAE
+ for <dri-devel@lists.freedesktop.org>; Tue, 15 Jul 2025 13:28:54 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1752586134;
+ bh=cjc0RDMZbltboQ1RR5x3p4nAwpio8fE7hnW+L8x5WwQ=;
+ h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+ b=SY3/KylBUzz31er79bfw/JgAJdDa2ngkftst0JZzy928l/GgYBS73xdw7M/MN4DW5
+ Z6dbSTP4JvIOP96BayczV5VUU+43jcoyu/15zQKSWIbj0cjQ1eHhKuPwJHQmFX66Ao
+ c1JAE0zXp/BrQ2teMrDElkQoln1mQBLwl6ShQRGRFPSSIKFTeagmpdyi7/xYT3Hkg7
+ bi+LNkWJoOrhdN7+s1WZ6cFgXYFnoXTuzlvnUYC28IJkt31IxnxPD0LlORY2dJE4y2
+ CFzk1DuBG+y3ktemrkz/2iMka1VwssdRacpiFf2Vad9euP/bH1P/shMIDlNwrtHfsj
+ q3mx5Fy+aie7w==
+Received: by mail-ej1-f44.google.com with SMTP id
+ a640c23a62f3a-ae3703c2a8bso1022341366b.0
+ for <dri-devel@lists.freedesktop.org>; Tue, 15 Jul 2025 06:28:54 -0700 (PDT)
 X-Forwarded-Encrypted: i=1;
- AJvYcCWFIMvut62EquskAm86x5cb1YJ0/UnHwNDczORhOiYZqc1bWvteIjv0FXCfHgvG1wSGAs+Knoibomg=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YwjxzyH1NrfmbkcZ1gEumy164xsGnWfQU3axIpbo4v1Q4qeIlht
- IBtEbU6qZoc0kFrAqDf0ayG2iattMSetR4KbwaXJs7Nz4OU3sX1r+pVwowuMwxpkYPU=
-X-Gm-Gg: ASbGncva4v/hPltX5HP2XRWbU/BkplMutP8CDX2lUuPBWH0zBE5e8tJ6SVOvIxxjhcF
- oxFZ6nvC+LxBFE3FSeQrLSvYdBXIyAtIKgEV72hkcokMnQ1mxk3ysSiZDsobUkgF0Z2IWTXZlNK
- 3ypMMgtq8tZV9jQbmyz/X1HXYRCtc5NuulG/LkXkcpd4Z6Qtd2ow4fDeUReRSHJNp1+thPSesoN
- 1LZzreC3dIZjDtDop3ztrZBdT3OaGQTgmPG8Hjp8SBYJ/qIUjZnzdfN9BFFRhppwC4HOqvsHTIZ
- NULxzqUO14TnmjvgYK3Ze35EjqeazwHB6KoI9PeoBPW5tJ0IBEsMk5IY2+9bKkq8N7rtD9sUV4J
- 44QL3XJE4MQVxnX9px+kIT+p40pn11eaZcA==
-X-Google-Smtp-Source: AGHT+IGd8c2xyf0Uxkux0OC1AuHlKA+muy38gHZuCpdnRoCjje75nBhjsGOEghV+rD/6jvj+dlKRcA==
-X-Received: by 2002:a05:600c:1911:b0:456:1121:3ad8 with SMTP id
- 5b1f17b1804b1-45611213e56mr119039315e9.10.1752585757203; 
- Tue, 15 Jul 2025 06:22:37 -0700 (PDT)
-Received: from phenom.ffwll.local ([2a02:168:57f4:0:5485:d4b2:c087:b497])
- by smtp.gmail.com with ESMTPSA id
- 5b1f17b1804b1-45624651a09sm31053395e9.12.2025.07.15.06.22.36
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 15 Jul 2025 06:22:36 -0700 (PDT)
-Date: Tue, 15 Jul 2025 15:22:34 +0200
-From: Simona Vetter <simona.vetter@ffwll.ch>
-To: Thomas Zimmermann <tzimmermann@suse.de>
-Cc: lee@kernel.org, danielt@kernel.org, jingoohan1@gmail.com,
- neil.armstrong@linaro.org, jessica.zhang@oss.qualcomm.com,
- deller@gmx.de, maarten.lankhorst@linux.intel.com,
- mripard@kernel.org, airlied@gmail.com, simona@ffwll.ch,
- fnkl.kernel@gmail.com, j@jannau.net, hdegoede@redhat.com,
- ilpo.jarvinen@linux.intel.com, sven@kernel.org,
- alyssa@rosenzweig.io, neal@gompa.dev,
- support.opensource@diasemi.com, duje.mihanovic@skole.hr,
- dri-devel@lists.freedesktop.org, asahi@lists.linux.dev,
- platform-driver-x86@vger.kernel.org,
- linux-arm-kernel@lists.infradead.org, linux-fbdev@vger.kernel.org
-Subject: Re: [PATCH v2 15/15] backlight: Do not include <linux/fb.h> in
- header file
-Message-ID: <aHZWGnJ9D72YFgNh@phenom.ffwll.local>
-References: <20250715122643.137027-1-tzimmermann@suse.de>
- <20250715122643.137027-16-tzimmermann@suse.de>
+ AJvYcCWGqg9F6PksrRWwHsF1mYn8TIlj6Vl1SX4hZykfBbAgF4U/isGGxqGuVdRRwXyIDwuCFa+ffbS0NYA=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YwocFiOx3sm/01OXX8QyD0dB9yKWNqQUTE09Y2yHMS5I5NeV4Mz
+ pW6e8G0+Ge4znSqhq5CUH7YuDzqFN7TiFaJ3nJZfkqrRvT5N9ANeBkCNfzSGKnYYVrF0kusPB1M
+ syyAnIEb3vocKowhzPTzfLsg4HOCzjQ==
+X-Google-Smtp-Source: AGHT+IFs4W+Mc6KDmPR+BhSyiX4vw23rKBtHp3go5SamoCNjOmpMqCPQF8aMkbamXqomTl4rbMZSJDZEUQ5/54iNNzQ=
+X-Received: by 2002:a17:906:730b:b0:ad5:4a43:5ae8 with SMTP id
+ a640c23a62f3a-ae6fbc63f70mr1723987166b.12.1752586132534; Tue, 15 Jul 2025
+ 06:28:52 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20250715122643.137027-16-tzimmermann@suse.de>
-X-Operating-System: Linux phenom 6.12.30-amd64 
+References: <20250715122643.137027-1-tzimmermann@suse.de>
+ <20250715122643.137027-5-tzimmermann@suse.de>
+In-Reply-To: <20250715122643.137027-5-tzimmermann@suse.de>
+From: Rob Herring <robh@kernel.org>
+Date: Tue, 15 Jul 2025 08:28:41 -0500
+X-Gmail-Original-Message-ID: <CAL_JsqJ-o05oO1TGexj7s68=9peSQURxF3siw5hDK2fU7AgMxQ@mail.gmail.com>
+X-Gm-Features: Ac12FXxI8wW_XXiQYlbiT9UidRz349kSHXmlUTD2OUpFDmpZ1t1a8EguF44xgCA
+Message-ID: <CAL_JsqJ-o05oO1TGexj7s68=9peSQURxF3siw5hDK2fU7AgMxQ@mail.gmail.com>
+Subject: Re: [PATCH v2 04/15] drm/panel: panel-summit: Include <linux/of.h>
+To: Thomas Zimmermann <tzimmermann@suse.de>
+Cc: lee@kernel.org, danielt@kernel.org, jingoohan1@gmail.com, 
+ neil.armstrong@linaro.org, jessica.zhang@oss.qualcomm.com, deller@gmx.de, 
+ maarten.lankhorst@linux.intel.com, mripard@kernel.org, airlied@gmail.com, 
+ simona@ffwll.ch, fnkl.kernel@gmail.com, j@jannau.net, hdegoede@redhat.com, 
+ ilpo.jarvinen@linux.intel.com, sven@kernel.org, alyssa@rosenzweig.io, 
+ neal@gompa.dev, support.opensource@diasemi.com, duje.mihanovic@skole.hr, 
+ dri-devel@lists.freedesktop.org, asahi@lists.linux.dev, 
+ platform-driver-x86@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
+ linux-fbdev@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -97,42 +79,35 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, Jul 15, 2025 at 02:24:52PM +0200, Thomas Zimmermann wrote:
-> The backlight interfaces don't require anything from <linux/fb.h>, so
-> don't include it.
-> 
+On Tue, Jul 15, 2025 at 7:30=E2=80=AFAM Thomas Zimmermann <tzimmermann@suse=
+.de> wrote:
+>
+> Include <linux/of.h> to declare device_property_read_u32() and
+> struct of_device_id. Avoids dependency on backlight header to include
+> it.
+
+Neither of those come from of.h.
+
+
 > Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
-
-I like this very much.
-
-Reviewed-by: Simona Vetter <simona.vetter@ffwll.ch>
-
-I guess also my Acked-by for merging the entire pile through the backlight
-subsystem, that's probably the easiest path to land this all.
-
-Cheers, Sima
-
+> Reviewed-by: Janne Grunau <j@jannau.net>
 > ---
->  include/linux/backlight.h | 1 -
->  1 file changed, 1 deletion(-)
-> 
-> diff --git a/include/linux/backlight.h b/include/linux/backlight.h
-> index 10e626db7eee..f29a9ef1052e 100644
-> --- a/include/linux/backlight.h
-> +++ b/include/linux/backlight.h
-> @@ -10,7 +10,6 @@
->  #define _LINUX_BACKLIGHT_H
->  
->  #include <linux/device.h>
-> -#include <linux/fb.h>
->  #include <linux/mutex.h>
->  #include <linux/types.h>
->  
-> -- 
+>  drivers/gpu/drm/panel/panel-summit.c | 1 +
+>  1 file changed, 1 insertion(+)
+>
+> diff --git a/drivers/gpu/drm/panel/panel-summit.c b/drivers/gpu/drm/panel=
+/panel-summit.c
+> index 4854437e2899..02aa1ec287d6 100644
+> --- a/drivers/gpu/drm/panel/panel-summit.c
+> +++ b/drivers/gpu/drm/panel/panel-summit.c
+> @@ -1,6 +1,7 @@
+>  // SPDX-License-Identifier: GPL-2.0-only
+>
+>  #include <linux/backlight.h>
+> +#include <linux/of.h>
+>  #include <drm/drm_device.h>
+>  #include <drm/drm_mipi_dsi.h>
+>  #include <drm/drm_mode.h>
+> --
 > 2.50.0
-> 
-
--- 
-Simona Vetter
-Software Engineer, Intel Corporation
-http://blog.ffwll.ch
+>
