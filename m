@@ -2,177 +2,155 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8CD9DB05D35
-	for <lists+dri-devel@lfdr.de>; Tue, 15 Jul 2025 15:42:24 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 562C0B05D57
+	for <lists+dri-devel@lfdr.de>; Tue, 15 Jul 2025 15:43:20 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3394010E5C9;
-	Tue, 15 Jul 2025 13:42:16 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id BC4BE10E5CB;
+	Tue, 15 Jul 2025 13:43:18 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="PKCpuzu/";
+	dkim=pass (1024-bit key; unprotected) header.d=amd.com header.i=@amd.com header.b="rPNEkWiv";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.15])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 30B9F10E37B;
- Tue, 15 Jul 2025 13:42:15 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1752586935; x=1784122935;
- h=date:from:to:cc:subject:message-id:references:
- content-transfer-encoding:in-reply-to:mime-version;
- bh=Ams39bzue8uDbk2vwZqN6w4UfLgF5VEaeHLBEOvrGko=;
- b=PKCpuzu/VpL4F7YSl2IkAAzKIC5ZNuZ314Khr2pndFssgvFhqEafFN2S
- LVb0XxBYIP54g6U9xGgtJnyGlj+tsVa/SqMjeHNC91phkU2irWrSRgq61
- KSNIwjXZvmaTxjnd6xan2VowTr9DNEitFNr8RYU3fp25I8WEBIQNM4HXB
- +8dkHhkFTwqXin7OkKXrFQfUTQQiL/tze8vUhMT3srFjLuuMnf44tEy06
- lww2VQV4tOTEieRpXLTKLbn8V6hnv3b43ltYNkr2nXuMeGyF3PFW+nCtM
- V8Fmy0ENLXsDgv6yDuQXe2385LdmSdh3iyAoLYPvjLhLOVemciJqEldyH g==;
-X-CSE-ConnectionGUID: JoYfQf1HSLyvwguTYcY4wQ==
-X-CSE-MsgGUID: VGU4UZGDR9iPSTNlf169IA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11493"; a="58462108"
-X-IronPort-AV: E=Sophos;i="6.16,313,1744095600"; d="scan'208";a="58462108"
-Received: from fmviesa002.fm.intel.com ([10.60.135.142])
- by orvoesa107.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 15 Jul 2025 06:42:14 -0700
-X-CSE-ConnectionGUID: iHom+LjzQVWqeZwVRD0c7Q==
-X-CSE-MsgGUID: La+VCTzUTQuSLRYuV9evOA==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.16,313,1744095600"; d="scan'208";a="180928654"
-Received: from orsmsx901.amr.corp.intel.com ([10.22.229.23])
- by fmviesa002.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 15 Jul 2025 06:42:13 -0700
-Received: from ORSMSX901.amr.corp.intel.com (10.22.229.23) by
- ORSMSX901.amr.corp.intel.com (10.22.229.23) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.1748.26; Tue, 15 Jul 2025 06:42:09 -0700
-Received: from ORSEDG901.ED.cps.intel.com (10.7.248.11) by
- ORSMSX901.amr.corp.intel.com (10.22.229.23) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.1748.26 via Frontend Transport; Tue, 15 Jul 2025 06:42:09 -0700
-Received: from NAM12-MW2-obe.outbound.protection.outlook.com (40.107.244.61)
- by edgegateway.intel.com (134.134.137.111) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.1748.26; Tue, 15 Jul 2025 06:42:08 -0700
+Received: from NAM11-DM6-obe.outbound.protection.outlook.com
+ (mail-dm6nam11on2047.outbound.protection.outlook.com [40.107.223.47])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id EECFB10E5CB
+ for <dri-devel@lists.freedesktop.org>; Tue, 15 Jul 2025 13:43:16 +0000 (UTC)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=ZX1z5OHYzMRuW/8pipJo9GdpdQ4TyuHrKa36cvyQ5do+BCZr9WNu62myUMDEyUGt39ZvjFvxXC3OvVwxWwSCPJs9A5Jd3n510W4EZ+c6+Dsn0KR41V0rtnmeGc3AugxO3+toyYpZIriJSH2ihhwnSIQGvnxEYGWPOnGVXFz1m8OM+ncXAg6PXiDe772edfcIQHkNMzcGv0tlEdvt+Y8kH1nWsD1yObYEec9LQ1KRjx7vK2NdBe7pDgI1Xe/6wlCcO31nrRqhfR5FqZIDS0zCNjeLYpyhRWyoyLZL/k2qpZHAqVm6GHTESun9jqS3dhYRCTHHVvZlmyqIajDODPTV0A==
+ b=BXNTvXJjwqJuATBbCCojX/XhuUbCY2ECnXjd55ds4hdQKTmRfZbXgdPA3bP9Qxg28mCyRzF9iJGd0CPQFtmbAeNbKywFBFR3fIx7OVNoZszrf2jxGe016+KruO5VRO6ooAilj5I2ChjoM8Q+vltAo0ueqaFg/wrWo2IqkwPdthOGNuxhcV3RruehOoOP/x7lcdat0kc54XKN32wKc5rVzNZ+dO0k4VwYTXE6SEP+xQUPAW7Bn2QZi7roQYW/SXj2A2/Hgf66UTQZ0tMtXLJmxmL21P+pt0LbRui23/PyxyuelliJ0rOWvcxqtkrj011fU2pmbqFgI6fgHgWkjxhz3Q==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=00vcCzFuqtdMofONVatUU+BOM+/VPMlG3nOUho7VsAU=;
- b=C+0gsTxRR7yRPSA5SjzNp4V0FXYxmPVXipYcwVBKYRYVpz53hM9loTq015WQNrG/vaxDZdoizoxL1FSzFJOI38dYSB8q+3L+oDSoZJUo5gQ14z2mmcvtIIexR/njdd3+rrc0QxY8dkqeHhF+jzh4T5mo/6hEEDbXJE9HfIhoDaSl9Z4ZLyyd0mzk1NAVUU7lcZgC2tSTq80Nn8Fz6htVuhCLZPRPlHUySpEySOW0uieRl7Vx/PzPNLPQcva9ai/gG4jcIaWiCd2Bwmfvd0CP6XukIPE7GWqEL2Xbu5TdFj3GV9sbxtE/X+YuYYKOxEHfcaCoYPh10vqtu/R3Gcx4RQ==
+ bh=YIl0Ipdjud87YzyIJAGQ51WL7CQ3haeXFO79ONSMRyY=;
+ b=y4XCACi7RtEbXDMbRcBnrFlxGzWi9MY+8ktFr6oZKX/N6QxbzyH5FFdOU9X+UyDOBmwS5FtHvvWIRGFRt9Xg66co1JuuO9oUvgcu/+Zq1zmKB/U0FbgKK3MD/G0flJoo5Zrptt0L0mcyanQHyBPgtA0CGJGXTUPDRD/j4F2vjuxeQSROqkRWZfU3cbeC35AfQVpUY6VHimWNrykrgdDD2742BEKE8Kud7WKYx+phMdQ6mQx4pJjU6Q3r/Fmi6vzYNlslx9o8Ufl/juVGkZsR7hYkpCRFe1oDhOBedYb+uIZvzOrzgTm7yeWG7EqUOdqugm4LZgGL53iqCcEHEsyyyQ==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
- dkim=pass header.d=intel.com; arc=none
+ smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
+ header.d=amd.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=YIl0Ipdjud87YzyIJAGQ51WL7CQ3haeXFO79ONSMRyY=;
+ b=rPNEkWivrJus1TIEbleNo93i3sktIjPUaL/lCmLCDG8agy5NKuLq82b6iR5Ok8wREb0I/FgVgTVVnKW8gNMxvoARNRURZRaggaZOgTUXetQ5OcpLZOHMRGr/kMqgIafpaXnlrVEhraq8owcK8t8vEiDHN3VGRTQ/Vm0SmeBDIL4=
 Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=intel.com;
-Received: from CYYPR11MB8430.namprd11.prod.outlook.com (2603:10b6:930:c6::19)
- by CO1PR11MB5156.namprd11.prod.outlook.com (2603:10b6:303:94::10)
+ header.d=none;dmarc=none action=none header.from=amd.com;
+Received: from PH7PR12MB5685.namprd12.prod.outlook.com (2603:10b6:510:13c::22)
+ by MN2PR12MB4320.namprd12.prod.outlook.com (2603:10b6:208:15f::7)
  with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8922.32; Tue, 15 Jul
- 2025 13:42:06 +0000
-Received: from CYYPR11MB8430.namprd11.prod.outlook.com
- ([fe80::76d2:8036:2c6b:7563]) by CYYPR11MB8430.namprd11.prod.outlook.com
- ([fe80::76d2:8036:2c6b:7563%5]) with mapi id 15.20.8922.023; Tue, 15 Jul 2025
- 13:42:06 +0000
-Date: Tue, 15 Jul 2025 09:42:02 -0400
-From: Rodrigo Vivi <rodrigo.vivi@intel.com>
-To: Imre Deak <imre.deak@intel.com>
-CC: Thomas Zimmermann <tzimmermann@suse.de>, Joonas Lahtinen
- <joonas.lahtinen@linux.intel.com>, Maxime Ripard <mripard@kernel.org>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, Ville
- =?iso-8859-1?Q?Syrj=E4l=E4?= <ville.syrjala@linux.intel.com>, Jani Nikula
- <jani.nikula@linux.intel.com>, Paul Menzel <pmenzel@molgen.mpg.de>, "Jonathan
- Cavitt" <jonathan.cavitt@intel.com>, <intel-gfx@lists.freedesktop.org>,
- <intel-xe@lists.freedesktop.org>, <dri-devel@lists.freedesktop.org>
-Subject: Re: [PATCH] drm/dp: Change AUX DPCD probe address from
- LANE0_1_STATUS to TRAINING_PATTERN_SET
-Message-ID: <aHZaqpX3z0z6eE-W@intel.com>
-References: <20250708212331.112898-1-imre.deak@intel.com>
- <aG-j3NuvQCwLJKCO@ideak-desk> <aHTGkoRydum652gC@ideak-desk>
- <6588c619-01b6-4df5-9cc1-27a96efb76bf@suse.de>
- <aHVjXHZ6xe4WHTJI@ideak-desk>
-Content-Type: text/plain; charset="iso-8859-1"
-Content-Disposition: inline
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8901.35; Tue, 15 Jul
+ 2025 13:43:13 +0000
+Received: from PH7PR12MB5685.namprd12.prod.outlook.com
+ ([fe80::46fb:96f2:7667:7ca5]) by PH7PR12MB5685.namprd12.prod.outlook.com
+ ([fe80::46fb:96f2:7667:7ca5%5]) with mapi id 15.20.8901.033; Tue, 15 Jul 2025
+ 13:43:13 +0000
+Message-ID: <d52b4d04-cb02-48d2-9042-b135a30f8a8e@amd.com>
+Date: Tue, 15 Jul 2025 15:43:08 +0200
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 6.15 085/192] drm/gem: Acquire references on GEM handles
+ for framebuffers
+To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>, stable@vger.kernel.org
+Cc: patches@lists.linux.dev, Thomas Zimmermann <tzimmermann@suse.de>,
+ Anusha Srivatsa <asrivats@redhat.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, Sumit Semwal <sumit.semwal@linaro.org>,
+ linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ linaro-mm-sig@lists.linaro.org
+References: <20250715130814.854109770@linuxfoundation.org>
+ <20250715130818.327986464@linuxfoundation.org>
+Content-Language: en-US
+From: =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
+In-Reply-To: <20250715130818.327986464@linuxfoundation.org>
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <aHVjXHZ6xe4WHTJI@ideak-desk>
-X-ClientProxiedBy: SJ0PR05CA0151.namprd05.prod.outlook.com
- (2603:10b6:a03:339::6) To CYYPR11MB8430.namprd11.prod.outlook.com
- (2603:10b6:930:c6::19)
+X-ClientProxiedBy: FR2P281CA0093.DEUP281.PROD.OUTLOOK.COM
+ (2603:10a6:d10:9b::18) To PH7PR12MB5685.namprd12.prod.outlook.com
+ (2603:10b6:510:13c::22)
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: CYYPR11MB8430:EE_|CO1PR11MB5156:EE_
-X-MS-Office365-Filtering-Correlation-Id: 1c92e118-5a29-4f3b-f7d8-08ddc3a56353
+X-MS-TrafficTypeDiagnostic: PH7PR12MB5685:EE_|MN2PR12MB4320:EE_
+X-MS-Office365-Filtering-Correlation-Id: fe8f94f4-77b1-423c-88bf-08ddc3a58b68
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
- ARA:13230040|376014|7416014|366016|1800799024|13003099007; 
-X-Microsoft-Antispam-Message-Info: =?iso-8859-1?Q?BsivTg0geUjvDgRItKCq/iGpZ9SnBOPuuYcStqK1CY3yMQfVkZD1R73rCB?=
- =?iso-8859-1?Q?RSTHTwH/wm3j+WC4I8r0ZJooDG5UVJuoHj17eXtsdCuSEHvXvieZ+tNdGR?=
- =?iso-8859-1?Q?xlBg/fv4r/MwZo03Tu8/KJAT7QpTcWk2K0GXxOFyZlCgnwAzw6FwC1hno4?=
- =?iso-8859-1?Q?WyWMW1ZTtIQbXjNk281xXHR6YGGfAzgclXtqh9XIlRfGL6TiBXnr7f2RZD?=
- =?iso-8859-1?Q?2V/og4UeZhFW57RF0PnrnUKl2VGR94uxd+y6x6V0h/G0qeSK3463XwBGn0?=
- =?iso-8859-1?Q?hhiMmcOlVRShbIxtMqOvvI3zWfKhbpaUWmOj63lcOuuIJNn4T4CukxrPx9?=
- =?iso-8859-1?Q?k7YY2u/WbHmxJPSVMSuICuzpadqS+u6gRcVE5NHGyqa/33F4YuarPN+I6W?=
- =?iso-8859-1?Q?9FQmQ8eT9D4ahDZBsN37tYRaECxaMBzxTuyU8jZ9lhzhxXMcO57CbyrHlc?=
- =?iso-8859-1?Q?+9pQn05Fis28MdgZjz4wNzwd36z8eEdqG1KPIz0lzlFqPj4AVmG68WiX8J?=
- =?iso-8859-1?Q?X6bwYR8n7hh2y5xd1ZvNEhpyDWmQqlbT3xPcmtlK++ulqFERvEc+zfiOov?=
- =?iso-8859-1?Q?TjXyYPsQhYS+ajEUnoW06NVA+gtlmXj6NbqoDeIncQL8gxaCZOMqAri3yN?=
- =?iso-8859-1?Q?RKRjM5K/yMzAG2fnbt0oysZKr7pocBZwbvUcYFRUYBIH57Wic82pDnLKXO?=
- =?iso-8859-1?Q?Ts/X7UE1OfqciG5S++RIGOm6RlksJzQorXqi2Z3YzsPcLtUSsiaxSFQwCq?=
- =?iso-8859-1?Q?cRf0w8rNuAmnz2pJB1VYMiKHc/+3VNiz2UOmygK5im5O3mS51T6aqh1ua0?=
- =?iso-8859-1?Q?IeKb5I6wQbziK2xEJxaCl4nP1tFgB2FjNgVB6lBQZfsUvVETAW2AGxEqbm?=
- =?iso-8859-1?Q?TWaHrTpqJAS2PVW9aWZhY67/OFg9NnjHGKTGhD0pIYj42Tix79oFZGfQSJ?=
- =?iso-8859-1?Q?ZZQ7LxqeP4w7VOvJXvKlx1eFdVc8lRk2mk12JGKCcLQav4nM+p9zl2iJa1?=
- =?iso-8859-1?Q?HB5Con3U2i4hNRDDQsmiahFoTUqAycc/jZS4bAG0waW9bkE5Gixj6pERtL?=
- =?iso-8859-1?Q?A2iKFQvpI2wNd2RP+OZQzTNBdag5jxrZ8K0kihy7XmhPG9XAHjtzxhwvCJ?=
- =?iso-8859-1?Q?uRHdfE5SscnfIb/E4DyPZT1Fb20R5sFdzyEkUuPCBiUcR/UGCf8DaUA95Z?=
- =?iso-8859-1?Q?vQ0MccQmKk6OMSjPCaCYgb1DD9hh17Cwkak8DbC5/AqiHWFIciqyvgYOnV?=
- =?iso-8859-1?Q?o6fU5joQdWqKyf+XE+sBy5K4QgJyVHjzadtQ5+R5y3LzWfAp89DdROlJAX?=
- =?iso-8859-1?Q?BcZDBJdnbw1BgMtjDHgrUB/lB77aVmmjKgeexz9JGe+VHTjKohjve6vOUD?=
- =?iso-8859-1?Q?DKMUgk++dTlxhe5iOyJnfMADI7DE3tMV/1Fj9Q2gwlojQgDpedTR8=3D?=
+X-Microsoft-Antispam: BCL:0;ARA:13230040|7416014|376014|366016|1800799024;
+X-Microsoft-Antispam-Message-Info: =?utf-8?B?dEtFVjJwWTFNT3puTHNwUVN1bmsrbVEraGJ1WnFkbFl3N3hNQnlaS2I5akNq?=
+ =?utf-8?B?RUpBZzc3UEZxR3Y3WWI5NEVtZHdPNnllVG93UVp2cFZFT2duejA1VFA2aWg4?=
+ =?utf-8?B?TXhNUWFJVGNCQzkyVExZTWpJYkQzd0gyaDBwYUVnRnc0QWVrakxIYytlWEF3?=
+ =?utf-8?B?SUJ5Szc0b0crUENMY01xTEw0cE8rZzVqcmlFYkRYdzFnT1UwZ2xYLzBHNUxM?=
+ =?utf-8?B?dk5FUDRxSnlLUmJ6T0xoMmQ2Tkk1SXBzcFV2SFlQaHBaU3c5OHF5cXNreXBC?=
+ =?utf-8?B?NVJBKzd4T3JEZ0JWYzRzMjRrNCtXWmVlYVpCR01xTUR6RE4zZ25hWlkybXF4?=
+ =?utf-8?B?YnR2bmhOd2QvamZEeWRNcGJOR0krV09mYUVDOWw2alpkWS9NQmpMVE9CVWZF?=
+ =?utf-8?B?Q2ZtbFRzam9IMWJqdXh4Y2JYQzNnYU0yK0ZpazJ1NWxFV3BkZ0FrNUw3dndO?=
+ =?utf-8?B?VzhEYXZCcXZQM2dVOWZrcjlZZmtIY29HT1JxeE1lbzA1RE5zeXZLdjB0di9Y?=
+ =?utf-8?B?cTE3YnBySkUzakROWmNIRmFaNndLMUZKNTBWSWl5U042eUVLTlYvcXFSTHg0?=
+ =?utf-8?B?aXlVTmlhajY4TGN5Qkk1T3ozSmc2R1NBYkxGRzRTd3M1RW1qUTZTdmJjbXBv?=
+ =?utf-8?B?TktQRlF0ck83aWZYeTQ0NnhBOVlVWWNYYmZLeWFiWFhYMWQxVVkvNlhGSVln?=
+ =?utf-8?B?dGZWUmlDcDhqMHVTUHhLTkNsNnc3RGJMbmswWDl2UE90RTUxQjFYYTdjQTlD?=
+ =?utf-8?B?KzZYeXk2MmJ1OVdhRWp6SVovQlpXaHRJdWxLSlJnMG00em1yMWVsYVZpWFJw?=
+ =?utf-8?B?WGhCYkNxbWJ5ZE01OG5IZXE0Qjl0ZVlRWlMvUmdGOFJOUGRJWGdtSnpCSzN5?=
+ =?utf-8?B?NnB2YVV5TkhPdlhON2lTNUdyZmFONUQwL0krcmdoTm5PYVJIY3N6UndyUnlm?=
+ =?utf-8?B?MVNFTGhHdHNONjIxb05QT3dHeE9INlhpb2RFaVVVNm5jWERONWJ1VVpUWEYz?=
+ =?utf-8?B?dGQ0TmtwMWNNSVQrdU5nTUFsc252c0syTjVnOTVaMW9iUnhQT3RoZGU2MVRY?=
+ =?utf-8?B?akJvOVJZL2krQVpONnRmZmJRVTVMRE5uU0h1eHFZc2ZtSkk1MTBVK0twbDBS?=
+ =?utf-8?B?V3NWSytnTDd4QTBpN3drUGU3Zzc3ZnNEalc2bnpkcXBBR25udDZHL0duSU05?=
+ =?utf-8?B?dFhBNkVTR1Fab09GNFo1WWlkZlFMbzVEUGszMHJ6MllnbW03N0daM2VqaE1J?=
+ =?utf-8?B?S1BsTXk4a3dvM2pmdjV1Z3FrWHBoV1pJNmJ2RVhZOFB6ZnpTQUdMei9lZmdu?=
+ =?utf-8?B?ZE1GTGFWSFpRNFdLUllMdS82UGpiK2J3R3VNVXRqNHFVZ1N4RFdxQ3lzZWpo?=
+ =?utf-8?B?QXRhOXRoa1huWXFRUWRKTXkrTm93V212NFdzUWE4WEh6eDI2MWF0L2VBRVQx?=
+ =?utf-8?B?R2wvcnJGY2R6NXN0WDU0M2duTmpQa0JwWXNSY3I0cEVINCtBVVBMbzlwQ1Bo?=
+ =?utf-8?B?WENvcWh6bjNocmNnVE9QdFdqV0dmdk9xc09HVDc5Uyt1TndlNktGWC9OWmVp?=
+ =?utf-8?B?ZWNiRGJHS080aFJNejBPRnBSb0k2bnBOaGFoNzRuU0YrUzREU2xNQ3FxTUhn?=
+ =?utf-8?B?OEV0WkRLT0RQbjEvdCtwVFVuZnF2MUNGQ2Z4V3lBRXphRXp2RmVoZFVxeS92?=
+ =?utf-8?B?OHovSXY2MlZsekhSaks5am0ySHNINHpVT28vLzhrYlNSY1h5SE1uT3NCMU1p?=
+ =?utf-8?B?d1ZzdVpidmhobGw3N293NFlsWFR4V29kMytxd3JMdkx6cnJUN0k0aDF2eXhr?=
+ =?utf-8?Q?ruOBG2mrilhRnUYG0/OyIMhUOjpJlzoM7gX/k=3D?=
 X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:CYYPR11MB8430.namprd11.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230040)(376014)(7416014)(366016)(1800799024)(13003099007); DIR:OUT;
- SFP:1101; 
+ IPV:NLI; SFV:NSPM; H:PH7PR12MB5685.namprd12.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230040)(7416014)(376014)(366016)(1800799024); DIR:OUT; SFP:1101; 
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?iso-8859-1?Q?i4oMC3O99spl9L6K16z0OD7IOeuKJxKjNxHNzxowZUCr9QBWdO4xOU8Umm?=
- =?iso-8859-1?Q?7FMn3QNEug9cE6I1kS/l3ktM4T3nuNA4jXiUPse6K4ca1OWzU7IezIzqZN?=
- =?iso-8859-1?Q?1QpCjfJnIDYQUv/fH3ix7KMB5L08xpoLPB/h5hGAt47whtLa5ALsXc5UJc?=
- =?iso-8859-1?Q?XLhnNaDK2KQJVyP/mS1OlzX8Yx0xCWIv4IrPODUbeV+sHDCQmzkxUCvlQ5?=
- =?iso-8859-1?Q?yaCLOQDJkvxJ9XXSU7rcY+DJJjKoUmws4MSHr29PNxGi6bbL+081Po2/NL?=
- =?iso-8859-1?Q?XyZhD5Kyiq/e8UKYOUhrxuZMtXnb150TlcMDcf112nkyNAe3vjncLpprHL?=
- =?iso-8859-1?Q?bqxW6v18eJnm//8XQAAk5qNpbZNCXEsc1EVZiwExhef5qBBjkpNd5Dvbxo?=
- =?iso-8859-1?Q?CR3SJk8kJzG6QTl5xj8plbxmUVZuTBuQwXr2/F8n08aAo/pcvCcf+2tXdd?=
- =?iso-8859-1?Q?N/8H2zBrhK315YEzjEsKiqTwP3b+6TInYMG4F+10+9q6ma3XfskISWffHE?=
- =?iso-8859-1?Q?Dik1QsX8mT7h+fzCltaRtyWiMNL3f+1XhCxijjjaA1tIjc++eFZQxZ/Q2H?=
- =?iso-8859-1?Q?oLYfFlGf9BuqFYt1zsaZth9A8cz7vAFNx5zdpeigzJigK8q9wNd3m6+4OY?=
- =?iso-8859-1?Q?V/60GZS2RBU9ztldzFc7rZuwZ5Yee3LyB0F3ksTrG6CVtWbyP3oK+vjzq1?=
- =?iso-8859-1?Q?17TTV9FOCHuJgS75sBXUTufRcPWSucGA/XAHnDt5fsCyBbnKFSyu6Zi0xj?=
- =?iso-8859-1?Q?5Kwa+ZYN6cg7LuqN7UxndlyqK0Y2jfDZyymO37Ft0CHrMigySNgIET6euI?=
- =?iso-8859-1?Q?35jto24HpnH7R4k1+raXbPWxKBDKEtxf2P7CCA1kGB3MWgDZbvK4VBPoiN?=
- =?iso-8859-1?Q?E/HjakjEFZOKb06rWMYI9wkYII8BYpp03QPJAI8QpWblGZtrCSoW86+xUZ?=
- =?iso-8859-1?Q?vxYjvY3EuChNZ/GN2lkbkKmPIRD7IKwv75X4sfN69suNUNw+oKDXgMLF52?=
- =?iso-8859-1?Q?s51sh52tohyIU/atre+wMLf7/tb78JF3EfKb4qPMUraUbpeh3Or9dHlThg?=
- =?iso-8859-1?Q?Cxra9jm2SYMGH93yzazcuyaaj/KyYqD8jlHuK0DzXX39NBkmXJStJxtgfA?=
- =?iso-8859-1?Q?93UI/1qBIk7HnQb3Hc/eHn5JZ+Bb8JuwUeBd5BJtWZMAc+iXz0104jHq3A?=
- =?iso-8859-1?Q?ZIk3Qvq1HVLTwt9c+2gSrigrshm45OTZe2jtgP9NylHtpfQA+uybXRe5J2?=
- =?iso-8859-1?Q?ysSQWW2UD6PLUUGcNzupRrf8AOqvPaJ3ACin2rqklyTnIqd+mDEcI0lgvV?=
- =?iso-8859-1?Q?vlYbc2W2ycwCOmEWvdiT2H15//iCJGVDweqUw1jUuLi2P9OgGv/n3UPY7u?=
- =?iso-8859-1?Q?Z7AX3k2YasztoYKgXS5GBOAUb/d36DL3Lyx4kjeovYsVJ5bTNvd1MN1i+c?=
- =?iso-8859-1?Q?/XkUzpEQoLD1M0sIOTseZALRypIQ+B9ITBqXR02VAIs0HpAysK2fQfVXk/?=
- =?iso-8859-1?Q?Q96zKFaDA/K+KufqxRAkisdNiJ8H+Ecpqg9PB0HZxzTPf9NzEvYZhDkTzW?=
- =?iso-8859-1?Q?+Affz/rh0slwiO7in/DgwBQjnx6sYAc8gWVzugdpohmlYBZl+HFbvYoUv3?=
- =?iso-8859-1?Q?AWqj+ljLBPLJsHOqNlcqjfuZP73iwSrntw?=
-X-MS-Exchange-CrossTenant-Network-Message-Id: 1c92e118-5a29-4f3b-f7d8-08ddc3a56353
-X-MS-Exchange-CrossTenant-AuthSource: CYYPR11MB8430.namprd11.prod.outlook.com
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?d1Zidmo4a0ZObDNsQkdFWnBpQmpKSHBLeDlmdTJjcmtrbUs0TVB1Und3bnNT?=
+ =?utf-8?B?dGpWYXNjMFgyTVVjWDh1TkRVWUUwZFhnQWxyamhKbnJQS21yZ0t5M1VaSldU?=
+ =?utf-8?B?bktZL0VLN1o1VG5icGRhRC80WThvMjg0a0VkWkR5V1lmcSsybkZIYWxGMVFp?=
+ =?utf-8?B?VlgxYnpReDAwNXhqSVY3YmsrRkU0Zk1teFMwQnZmRkQ2ai9pOTd2Yk1xUzhR?=
+ =?utf-8?B?UWdzUGgxLzVJSjNYbHgybGlLZ3djbmxvL3Z4NjJwSndObmNrY25Dc21BL0ZR?=
+ =?utf-8?B?cTR0a29EV095cUxINWs0WlhuZlVhUHFGelczV1NYYy9SUGpYelZMam9OZ01o?=
+ =?utf-8?B?aGNsdzRZaHQ2ZTRmOWZkMDUxREhKOU9BNFZ2emhuTlNFNklHSjFLbkxNQita?=
+ =?utf-8?B?elcxalMwZVVwQ0RLUGVTUXF1VS8yOTFCNDJVa3JCZHZrU3F3Q3RyVDZsdlRl?=
+ =?utf-8?B?cFd4YXdFbTU2TWIrdzlqdmk0QksvVzBHQ1ZsQjloOEhsL1JIaU5GeTE0MnJq?=
+ =?utf-8?B?SUljQk1RbCtreFgrTXgrY2dvaGh6NVdoRVg3WWR2aGlWNFhZVGlIVEZETjkr?=
+ =?utf-8?B?TlNOV09xc3hlR0MvMFJtVWlZdTcxbG4yOVA1Y1dzMjRFQk9iMW9DS2VVa2R2?=
+ =?utf-8?B?c2pSWTU1UnoySDByMU5MbTN2Y01TWnNhOTBIZkRtRnJkdExWTWNzVmF1S1NV?=
+ =?utf-8?B?Wnpxdjh4NHcxRHJnZm9RUGJpS3BOWDNTM2tWMzIxUStQNlRpL3RJRUdoa0gv?=
+ =?utf-8?B?YWM3VnRQeWE1cit5ZkJLVXNZQlVPNkVuTG5jUE9hNTd5MCtNa1RMYXdMKzhR?=
+ =?utf-8?B?STVVdmVZcUV4TWNnRkxraVk2STN2dFEwRGVidVArRDZoRHNiRGZJYnZzMzcy?=
+ =?utf-8?B?VzV0T08za2hFSDBkVGZaekJPL21mQkM5ekFGbjk1aVRZM1JxVHR4d09sR2VQ?=
+ =?utf-8?B?Sm9qS3VTbStINTZYa3lsUzFKd3U0d2xzczhMU1BDTnVKTDBIOUJ6UGlMMHpB?=
+ =?utf-8?B?WnV4UTlERFBwN1ZGVmgvcDJub01RN0hEQTdGcWlRa0krRytNc0QydGZwRFhz?=
+ =?utf-8?B?UjgzTkd4UHBiZHpDaVppN0RPZTJTaFY3NWthV0RTUmZZVnZZbnJSMWZVSDZU?=
+ =?utf-8?B?ME8vOStoL3RtR0l4SWdFVzQxY1ptY0ZKL29pWC93SVg2SGFMQWxZQ1FsYWt0?=
+ =?utf-8?B?UHZPZnNNUXlNaEUra1FMN0tIN2ZGS3hIQzhLajUrTkNnVGhTeGVtbEFZSkVv?=
+ =?utf-8?B?U2ZWd1BzYXY2OWx5Q1loMEsyUnY4NXQrQVJIakYxSm9jSU5GOC9XOStmaVly?=
+ =?utf-8?B?R2RXaVFWWmpocjZ0OGZJVDFncWhzTWs5N0tEYWlUZEZIclJCR3lkc2FFd0N1?=
+ =?utf-8?B?WkxmZ2xrZTBqSmhhNmkzbzA0MHBqRGo0UjJ1RldjdFdmMVhQK0hocC9JZ05u?=
+ =?utf-8?B?VTUyVkhHVHdoc1pWSkdVajExcHFvOHVUMWJxRzYyalh4OTEzOWJsdWR1U3RY?=
+ =?utf-8?B?WlJMckJaV2o2bjBMV1N2dE45NUFHR1RuZStvYzA4bmpMOFdQc3o4ci9DVGxT?=
+ =?utf-8?B?bWRxWlhGWjc2aGNuUjJFbFc0dDIzelpCK3JWQ01wS2hGUGMxY1l6K1JaYWNH?=
+ =?utf-8?B?OG5BdFphaVYzVFVYS3U5M25oUENOMDZ5MHJBdHBUcUNXbjF0TlE0VlplMlJt?=
+ =?utf-8?B?MGY0T0hyVHd4bTNTeW9jZmY4cWUyRFN0a2FFVTJSNHlhWGsvQ1BJMitqTjRB?=
+ =?utf-8?B?SHRGd1lTSUhTSmZTK3V2dGdITDNqUU15RENncnZTcFlXNDBhdTk2L3lLbVRM?=
+ =?utf-8?B?c2hOUm5SVUdKZThySnpIeVAzb1pvVFI0VlhITTUxdjVXWitlUm42dzBzQlhZ?=
+ =?utf-8?B?K01HTUdjSkRTYnBGTUhwNDlDM2dJK2ZkZlp5ZksxQUpqK2N2Z2Z5OHVuaVRC?=
+ =?utf-8?B?VVF5RERNRlhvbzltRlBwVWh2dXFxZksxbThPWEJ5RGVEZW0rMjRWZGtaZTFD?=
+ =?utf-8?B?SzZXQzJlMVNlR2cxck4zVjF0SllEei9DcytaNm41cDNoUXpqVEc0NHg0RUJM?=
+ =?utf-8?B?RUI2aklvYkR4TkZBS3RpWjJWTURGaENONk1GQW1qK3JJWHJZMHMxcWs1VE15?=
+ =?utf-8?Q?ipe6RoWqX6pJpmmhlFcGs4mzI?=
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: fe8f94f4-77b1-423c-88bf-08ddc3a58b68
+X-MS-Exchange-CrossTenant-AuthSource: PH7PR12MB5685.namprd12.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 15 Jul 2025 13:42:06.2174 (UTC)
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 15 Jul 2025 13:43:13.3664 (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: RxYliW8i8xBgI/O/fgpmVs32yJHjOGZaXoXldnMDrH3AfDahYs7oW0ENMEQJWmFW925qziP44b+5u2tP8MJEiQ==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: CO1PR11MB5156
-X-OriginatorOrg: intel.com
+X-MS-Exchange-CrossTenant-UserPrincipalName: tHwIKl0TOOmVhVP/Magzevx48G4gElPyRbKX4vLrqFgMa4dvheHlqNYretiMHshQ
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: MN2PR12MB4320
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -188,219 +166,235 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, Jul 14, 2025 at 11:06:52PM +0300, Imre Deak wrote:
-> On Mon, Jul 14, 2025 at 11:00:08AM +0200, Thomas Zimmermann wrote:
-> > 
-> > Am 14.07.25 um 10:57 schrieb Imre Deak:
-> > > Hi,
-> > > 
-> > > On Thu, Jul 10, 2025 at 02:28:28PM +0300, Imre Deak wrote:
-> > > > Hi Thomas, Maxime, Maarten,
-> > > > 
-> > > > the patch this change fixes (commit a40c5d727b81) was merged via
-> > > > drm-intel and is also part of v6.16-rc4 (there cherry-picked in commit
-> > > > a3ef3c2da675).
-> > > > 
-> > > > Are you ok with merging this fix via drm-intel as well, so that it could
-> > > > be still merged to v6.16 before that's released?
-> > > any objections to merging this patch to drm-intel? If not, could someone
-> > > ack it?
-> > 
-> > Sure, a-b me.
-> 
-> Ok, thanks.
-> 
-> I pushed the patch to drm-intel-next, thanks for the report, testing,
-> review and ack.
-> 
-> I'd like to request that this patch be applied to drm-intel-fixes as
-> well, so that it can still make it to v6.16. To do that, the change
-> needs to be rebased on drm-intel-fixes, I attached the corresponding
-> patch.
+We are about to revert this patch. Not sure if backporting it makes sense at the moment.
 
-pushed to drm-intel-fixes. Thanks for the backport
+Regards,
+Christian.
 
+On 15.07.25 15:13, Greg Kroah-Hartman wrote:
+> 6.15-stable review patch.  If anyone has any objections, please let me know.
 > 
-> Thanks,
-> Imre
+> ------------------
 > 
-> > Best regards
-> > Thomas
-> > 
-> > > 
-> > > Thanks,
-> > > Imre
-> > > 
-> > > > Thanks,
-> > > > Imre
-> > > > 
-> > > > On Wed, Jul 09, 2025 at 12:23:31AM +0300, Imre Deak wrote:
-> > > > > Commit a40c5d727b81 ("drm/dp: Change AUX DPCD probe address from
-> > > > > DPCD_REV to LANE0_1_STATUS") stopped using the DPCD_REV register for
-> > > > > DPCD probing, since this results in link training failures at least when
-> > > > > using an Intel Barlow Ridge TBT hub at UHBR link rates (the
-> > > > > DP_INTRA_HOP_AUX_REPLY_INDICATION never getting cleared after the failed
-> > > > > link training). Since accessing DPCD_REV during link training is
-> > > > > prohibited by the DP Standard, LANE0_1_STATUS (0x202) was used instead,
-> > > > > as it falls within the Standard's valid register address range
-> > > > > (0x102-0x106, 0x202-0x207, 0x200c-0x200f, 0x2216) and it fixed the link
-> > > > > training on the above TBT hub.
-> > > > > 
-> > > > > However, reading the LANE0_1_STATUS register also has a side-effect at
-> > > > > least on a Novatek eDP panel, as reported on the Closes: link below,
-> > > > > resulting in screen flickering on that panel. One clear side-effect when
-> > > > > doing the 1-byte probe reads from LANE0_1_STATUS during link training
-> > > > > before reading out the full 6 byte link status starting at the same
-> > > > > address is that the panel will report the link training as completed
-> > > > > with voltage swing 0. This is different from the normal, flicker-free
-> > > > > scenario when no DPCD probing is done, the panel reporting the link
-> > > > > training complete with voltage swing 2.
-> > > > > 
-> > > > > Using the TRAINING_PATTERN_SET register for DPCD probing doesn't have
-> > > > > the above side-effect, the panel will link train with voltage swing 2 as
-> > > > > expected and it will stay flicker-free. This register is also in the
-> > > > > above valid register range and is unlikely to have a side-effect as that
-> > > > > of LANE0_1_STATUS: Reading LANE0_1_STATUS is part of the link training
-> > > > > CR/EQ sequences and so it may cause a state change in the sink - even if
-> > > > > inadvertently as I suspect in the case of the above Novatek panel. As
-> > > > > opposed to this, reading TRAINING_PATTERN_SET is not part of the link
-> > > > > training sequence (it must be only written once at the beginning of the
-> > > > > CR/EQ sequences), so it's unlikely to cause any state change in the
-> > > > > sink.
-> > > > > 
-> > > > > As a side-note, this Novatek panel also lacks support for TPS3, while
-> > > > > claiming support for HBR2, which violates the DP Standard (the Standard
-> > > > > mandating TPS3 for HBR2).
-> > > > > 
-> > > > > Besides the Novatek panel (PSR 1), which this change fixes, I also
-> > > > > verified the change on a Samsung (PSR 1) and an Analogix (PSR 2) eDP
-> > > > > panel as well as on the Intel Barlow Ridge TBT hub.
-> > > > > 
-> > > > > Note that in the drm-tip tree (targeting the v6.17 kernel version) the
-> > > > > i915 and xe drivers keep DPCD probing enabled only for the panel known
-> > > > > to require this (HP ZR24w), hence those drivers in drm-tip are not
-> > > > > affected by the above problem.
-> > > > > 
-> > > > > Cc: Ville Syrjälä <ville.syrjala@linux.intel.com>
-> > > > > Cc: Jani Nikula <jani.nikula@linux.intel.com>
-> > > > > Fixes: a40c5d727b81 ("drm/dp: Change AUX DPCD probe address from DPCD_REV to LANE0_1_STATUS")
-> > > > > Reported-and-tested-by: Paul Menzel <pmenzel@molgen.mpg.de>
-> > > > > Closes: https://gitlab.freedesktop.org/drm/i915/kernel/-/issues/14558
-> > > > > Signed-off-by: Imre Deak <imre.deak@intel.com>
-> > > > > ---
-> > > > >   drivers/gpu/drm/display/drm_dp_helper.c | 2 +-
-> > > > >   1 file changed, 1 insertion(+), 1 deletion(-)
-> > > > > 
-> > > > > diff --git a/drivers/gpu/drm/display/drm_dp_helper.c b/drivers/gpu/drm/display/drm_dp_helper.c
-> > > > > index 1c3920297906b..1ecc3df7e3167 100644
-> > > > > --- a/drivers/gpu/drm/display/drm_dp_helper.c
-> > > > > +++ b/drivers/gpu/drm/display/drm_dp_helper.c
-> > > > > @@ -742,7 +742,7 @@ ssize_t drm_dp_dpcd_read(struct drm_dp_aux *aux, unsigned int offset,
-> > > > >   	int ret;
-> > > > >   	if (dpcd_access_needs_probe(aux)) {
-> > > > > -		ret = drm_dp_dpcd_probe(aux, DP_LANE0_1_STATUS);
-> > > > > +		ret = drm_dp_dpcd_probe(aux, DP_TRAINING_PATTERN_SET);
-> > > > >   		if (ret < 0)
-> > > > >   			return ret;
-> > > > >   	}
-> > > > > -- 
-> > > > > 2.44.2
-> > > > > 
-> > 
-> > -- 
-> > --
-> > Thomas Zimmermann
-> > Graphics Driver Developer
-> > SUSE Software Solutions Germany GmbH
-> > Frankenstrasse 146, 90461 Nuernberg, Germany
-> > GF: Ivo Totev, Andrew Myers, Andrew McDonald, Boudien Moerman
-> > HRB 36809 (AG Nuernberg)
-> > 
-
-> From d468740cb8688070ebbd534c2849b49729ae2af8 Mon Sep 17 00:00:00 2001
-> From: Imre Deak <imre.deak@intel.com>
-> Date: Wed, 9 Jul 2025 00:23:31 +0300
-> Subject: [PATCH] drm/dp: Change AUX DPCD probe address from LANE0_1_STATUS to
->  TRAINING_PATTERN_SET
-> MIME-Version: 1.0
-> Content-Type: text/plain; charset=UTF-8
-> Content-Transfer-Encoding: 8bit
+> From: Thomas Zimmermann <tzimmermann@suse.de>
 > 
-> Commit a40c5d727b81 ("drm/dp: Change AUX DPCD probe address from
-> DPCD_REV to LANE0_1_STATUS") stopped using the DPCD_REV register for
-> DPCD probing, since this results in link training failures at least when
-> using an Intel Barlow Ridge TBT hub at UHBR link rates (the
-> DP_INTRA_HOP_AUX_REPLY_INDICATION never getting cleared after the failed
-> link training). Since accessing DPCD_REV during link training is
-> prohibited by the DP Standard, LANE0_1_STATUS (0x202) was used instead,
-> as it falls within the Standard's valid register address range
-> (0x102-0x106, 0x202-0x207, 0x200c-0x200f, 0x2216) and it fixed the link
-> training on the above TBT hub.
+> commit 5307dce878d4126e1b375587318955bd019c3741 upstream.
 > 
-> However, reading the LANE0_1_STATUS register also has a side-effect at
-> least on a Novatek eDP panel, as reported on the Closes: link below,
-> resulting in screen flickering on that panel. One clear side-effect when
-> doing the 1-byte probe reads from LANE0_1_STATUS during link training
-> before reading out the full 6 byte link status starting at the same
-> address is that the panel will report the link training as completed
-> with voltage swing 0. This is different from the normal, flicker-free
-> scenario when no DPCD probing is done, the panel reporting the link
-> training complete with voltage swing 2.
+> A GEM handle can be released while the GEM buffer object is attached
+> to a DRM framebuffer. This leads to the release of the dma-buf backing
+> the buffer object, if any. [1] Trying to use the framebuffer in further
+> mode-setting operations leads to a segmentation fault. Most easily
+> happens with driver that use shadow planes for vmap-ing the dma-buf
+> during a page flip. An example is shown below.
 > 
-> Using the TRAINING_PATTERN_SET register for DPCD probing doesn't have
-> the above side-effect, the panel will link train with voltage swing 2 as
-> expected and it will stay flicker-free. This register is also in the
-> above valid register range and is unlikely to have a side-effect as that
-> of LANE0_1_STATUS: Reading LANE0_1_STATUS is part of the link training
-> CR/EQ sequences and so it may cause a state change in the sink - even if
-> inadvertently as I suspect in the case of the above Novatek panel. As
-> opposed to this, reading TRAINING_PATTERN_SET is not part of the link
-> training sequence (it must be only written once at the beginning of the
-> CR/EQ sequences), so it's unlikely to cause any state change in the
-> sink.
+> [  156.791968] ------------[ cut here ]------------
+> [  156.796830] WARNING: CPU: 2 PID: 2255 at drivers/dma-buf/dma-buf.c:1527 dma_buf_vmap+0x224/0x430
+> [...]
+> [  156.942028] RIP: 0010:dma_buf_vmap+0x224/0x430
+> [  157.043420] Call Trace:
+> [  157.045898]  <TASK>
+> [  157.048030]  ? show_trace_log_lvl+0x1af/0x2c0
+> [  157.052436]  ? show_trace_log_lvl+0x1af/0x2c0
+> [  157.056836]  ? show_trace_log_lvl+0x1af/0x2c0
+> [  157.061253]  ? drm_gem_shmem_vmap+0x74/0x710
+> [  157.065567]  ? dma_buf_vmap+0x224/0x430
+> [  157.069446]  ? __warn.cold+0x58/0xe4
+> [  157.073061]  ? dma_buf_vmap+0x224/0x430
+> [  157.077111]  ? report_bug+0x1dd/0x390
+> [  157.080842]  ? handle_bug+0x5e/0xa0
+> [  157.084389]  ? exc_invalid_op+0x14/0x50
+> [  157.088291]  ? asm_exc_invalid_op+0x16/0x20
+> [  157.092548]  ? dma_buf_vmap+0x224/0x430
+> [  157.096663]  ? dma_resv_get_singleton+0x6d/0x230
+> [  157.101341]  ? __pfx_dma_buf_vmap+0x10/0x10
+> [  157.105588]  ? __pfx_dma_resv_get_singleton+0x10/0x10
+> [  157.110697]  drm_gem_shmem_vmap+0x74/0x710
+> [  157.114866]  drm_gem_vmap+0xa9/0x1b0
+> [  157.118763]  drm_gem_vmap_unlocked+0x46/0xa0
+> [  157.123086]  drm_gem_fb_vmap+0xab/0x300
+> [  157.126979]  drm_atomic_helper_prepare_planes.part.0+0x487/0xb10
+> [  157.133032]  ? lockdep_init_map_type+0x19d/0x880
+> [  157.137701]  drm_atomic_helper_commit+0x13d/0x2e0
+> [  157.142671]  ? drm_atomic_nonblocking_commit+0xa0/0x180
+> [  157.147988]  drm_mode_atomic_ioctl+0x766/0xe40
+> [...]
+> [  157.346424] ---[ end trace 0000000000000000 ]---
 > 
-> As a side-note, this Novatek panel also lacks support for TPS3, while
-> claiming support for HBR2, which violates the DP Standard (the Standard
-> mandating TPS3 for HBR2).
+> Acquiring GEM handles for the framebuffer's GEM buffer objects prevents
+> this from happening. The framebuffer's cleanup later puts the handle
+> references.
 > 
-> Besides the Novatek panel (PSR 1), which this change fixes, I also
-> verified the change on a Samsung (PSR 1) and an Analogix (PSR 2) eDP
-> panel as well as on the Intel Barlow Ridge TBT hub.
+> Commit 1a148af06000 ("drm/gem-shmem: Use dma_buf from GEM object
+> instance") triggers the segmentation fault easily by using the dma-buf
+> field more widely. The underlying issue with reference counting has
+> been present before.
 > 
-> Note that in the drm-tip tree (targeting the v6.17 kernel version) the
-> i915 and xe drivers keep DPCD probing enabled only for the panel known
-> to require this (HP ZR24w), hence those drivers in drm-tip are not
-> affected by the above problem.
+> v2:
+> - acquire the handle instead of the BO (Christian)
+> - fix comment style (Christian)
+> - drop the Fixes tag (Christian)
+> - rename err_ gotos
+> - add missing Link tag
 > 
-> Cc: Ville Syrjälä <ville.syrjala@linux.intel.com>
-> Cc: Jani Nikula <jani.nikula@linux.intel.com>
-> Fixes: a40c5d727b81 ("drm/dp: Change AUX DPCD probe address from DPCD_REV to LANE0_1_STATUS")
-> Reported-and-tested-by: Paul Menzel <pmenzel@molgen.mpg.de>
-> Closes: https://gitlab.freedesktop.org/drm/i915/kernel/-/issues/14558
-> Reviewed-by: Jonathan Cavitt <jonathan.cavitt@intel.com>
-> Acked-by: Thomas Zimmermann <tzimmermann@suse.de>
-> Link: https://lore.kernel.org/r/20250708212331.112898-1-imre.deak@intel.com
-> (cherry picked from commit bba9aa41654036534d86b198f5647a9ce15ebd7f)
-> [Imre: Rebased on drm-intel-fixes]
-> Signed-off-by: Imre Deak <imre.deak@intel.com>
+> Suggested-by: Christian KÃ¶nig <christian.koenig@amd.com>
+> Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
+> Link: https://elixir.bootlin.com/linux/v6.15/source/drivers/gpu/drm/drm_gem.c#L241 # [1]
+> Cc: Thomas Zimmermann <tzimmermann@suse.de>
+> Cc: Anusha Srivatsa <asrivats@redhat.com>
+> Cc: Christian KÃ¶nig <christian.koenig@amd.com>
+> Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
+> Cc: Maxime Ripard <mripard@kernel.org>
+> Cc: Sumit Semwal <sumit.semwal@linaro.org>
+> Cc: "Christian KÃ¶nig" <christian.koenig@amd.com>
+> Cc: linux-media@vger.kernel.org
+> Cc: dri-devel@lists.freedesktop.org
+> Cc: linaro-mm-sig@lists.linaro.org
+> Cc: <stable@vger.kernel.org>
+> Reviewed-by: Christian KÃ¶nig <christian.koenig@amd.com>
+> Link: https://lore.kernel.org/r/20250630084001.293053-1-tzimmermann@suse.de
+> Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 > ---
->  drivers/gpu/drm/display/drm_dp_helper.c | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
+>  drivers/gpu/drm/drm_gem.c                    |   44 ++++++++++++++++++++++++---
+>  drivers/gpu/drm/drm_gem_framebuffer_helper.c |   16 +++++----
+>  drivers/gpu/drm/drm_internal.h               |    2 +
+>  3 files changed, 51 insertions(+), 11 deletions(-)
 > 
-> diff --git a/drivers/gpu/drm/display/drm_dp_helper.c b/drivers/gpu/drm/display/drm_dp_helper.c
-> index dc622c78db9d..ea78c6c8ca7a 100644
-> --- a/drivers/gpu/drm/display/drm_dp_helper.c
-> +++ b/drivers/gpu/drm/display/drm_dp_helper.c
-> @@ -725,7 +725,7 @@ ssize_t drm_dp_dpcd_read(struct drm_dp_aux *aux, unsigned int offset,
->  	 * monitor doesn't power down exactly after the throw away read.
->  	 */
->  	if (!aux->is_remote) {
-> -		ret = drm_dp_dpcd_probe(aux, DP_LANE0_1_STATUS);
-> +		ret = drm_dp_dpcd_probe(aux, DP_TRAINING_PATTERN_SET);
->  		if (ret < 0)
->  			return ret;
+> --- a/drivers/gpu/drm/drm_gem.c
+> +++ b/drivers/gpu/drm/drm_gem.c
+> @@ -212,6 +212,35 @@ void drm_gem_private_object_fini(struct
+>  }
+>  EXPORT_SYMBOL(drm_gem_private_object_fini);
+>  
+> +static void drm_gem_object_handle_get(struct drm_gem_object *obj)
+> +{
+> +	struct drm_device *dev = obj->dev;
+> +
+> +	drm_WARN_ON(dev, !mutex_is_locked(&dev->object_name_lock));
+> +
+> +	if (obj->handle_count++ == 0)
+> +		drm_gem_object_get(obj);
+> +}
+> +
+> +/**
+> + * drm_gem_object_handle_get_unlocked - acquire reference on user-space handles
+> + * @obj: GEM object
+> + *
+> + * Acquires a reference on the GEM buffer object's handle. Required
+> + * to keep the GEM object alive. Call drm_gem_object_handle_put_unlocked()
+> + * to release the reference.
+> + */
+> +void drm_gem_object_handle_get_unlocked(struct drm_gem_object *obj)
+> +{
+> +	struct drm_device *dev = obj->dev;
+> +
+> +	guard(mutex)(&dev->object_name_lock);
+> +
+> +	drm_WARN_ON(dev, !obj->handle_count); /* first ref taken in create-tail helper */
+> +	drm_gem_object_handle_get(obj);
+> +}
+> +EXPORT_SYMBOL(drm_gem_object_handle_get_unlocked);
+> +
+>  /**
+>   * drm_gem_object_handle_free - release resources bound to userspace handles
+>   * @obj: GEM object to clean up.
+> @@ -242,8 +271,14 @@ static void drm_gem_object_exported_dma_
 >  	}
-> -- 
-> 2.44.2
+>  }
+>  
+> -static void
+> -drm_gem_object_handle_put_unlocked(struct drm_gem_object *obj)
+> +/**
+> + * drm_gem_object_handle_put_unlocked - releases reference on user-space handles
+> + * @obj: GEM object
+> + *
+> + * Releases a reference on the GEM buffer object's handle. Possibly releases
+> + * the GEM buffer object and associated dma-buf objects.
+> + */
+> +void drm_gem_object_handle_put_unlocked(struct drm_gem_object *obj)
+>  {
+>  	struct drm_device *dev = obj->dev;
+>  	bool final = false;
+> @@ -268,6 +303,7 @@ drm_gem_object_handle_put_unlocked(struc
+>  	if (final)
+>  		drm_gem_object_put(obj);
+>  }
+> +EXPORT_SYMBOL(drm_gem_object_handle_put_unlocked);
+>  
+>  /*
+>   * Called at device or object close to release the file's
+> @@ -389,8 +425,8 @@ drm_gem_handle_create_tail(struct drm_fi
+>  	int ret;
+>  
+>  	WARN_ON(!mutex_is_locked(&dev->object_name_lock));
+> -	if (obj->handle_count++ == 0)
+> -		drm_gem_object_get(obj);
+> +
+> +	drm_gem_object_handle_get(obj);
+>  
+>  	/*
+>  	 * Get the user-visible handle using idr.  Preload and perform
+> --- a/drivers/gpu/drm/drm_gem_framebuffer_helper.c
+> +++ b/drivers/gpu/drm/drm_gem_framebuffer_helper.c
+> @@ -99,7 +99,7 @@ void drm_gem_fb_destroy(struct drm_frame
+>  	unsigned int i;
+>  
+>  	for (i = 0; i < fb->format->num_planes; i++)
+> -		drm_gem_object_put(fb->obj[i]);
+> +		drm_gem_object_handle_put_unlocked(fb->obj[i]);
+>  
+>  	drm_framebuffer_cleanup(fb);
+>  	kfree(fb);
+> @@ -182,8 +182,10 @@ int drm_gem_fb_init_with_funcs(struct dr
+>  		if (!objs[i]) {
+>  			drm_dbg_kms(dev, "Failed to lookup GEM object\n");
+>  			ret = -ENOENT;
+> -			goto err_gem_object_put;
+> +			goto err_gem_object_handle_put_unlocked;
+>  		}
+> +		drm_gem_object_handle_get_unlocked(objs[i]);
+> +		drm_gem_object_put(objs[i]);
+>  
+>  		min_size = (height - 1) * mode_cmd->pitches[i]
+>  			 + drm_format_info_min_pitch(info, i, width)
+> @@ -193,22 +195,22 @@ int drm_gem_fb_init_with_funcs(struct dr
+>  			drm_dbg_kms(dev,
+>  				    "GEM object size (%zu) smaller than minimum size (%u) for plane %d\n",
+>  				    objs[i]->size, min_size, i);
+> -			drm_gem_object_put(objs[i]);
+> +			drm_gem_object_handle_put_unlocked(objs[i]);
+>  			ret = -EINVAL;
+> -			goto err_gem_object_put;
+> +			goto err_gem_object_handle_put_unlocked;
+>  		}
+>  	}
+>  
+>  	ret = drm_gem_fb_init(dev, fb, mode_cmd, objs, i, funcs);
+>  	if (ret)
+> -		goto err_gem_object_put;
+> +		goto err_gem_object_handle_put_unlocked;
+>  
+>  	return 0;
+>  
+> -err_gem_object_put:
+> +err_gem_object_handle_put_unlocked:
+>  	while (i > 0) {
+>  		--i;
+> -		drm_gem_object_put(objs[i]);
+> +		drm_gem_object_handle_put_unlocked(objs[i]);
+>  	}
+>  	return ret;
+>  }
+> --- a/drivers/gpu/drm/drm_internal.h
+> +++ b/drivers/gpu/drm/drm_internal.h
+> @@ -161,6 +161,8 @@ void drm_sysfs_lease_event(struct drm_de
+>  
+>  /* drm_gem.c */
+>  int drm_gem_init(struct drm_device *dev);
+> +void drm_gem_object_handle_get_unlocked(struct drm_gem_object *obj);
+> +void drm_gem_object_handle_put_unlocked(struct drm_gem_object *obj);
+>  int drm_gem_handle_create_tail(struct drm_file *file_priv,
+>  			       struct drm_gem_object *obj,
+>  			       u32 *handlep);
+> 
 > 
 
