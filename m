@@ -2,78 +2,78 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0A045B05994
-	for <lists+dri-devel@lfdr.de>; Tue, 15 Jul 2025 14:06:04 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 66E97B059A0
+	for <lists+dri-devel@lfdr.de>; Tue, 15 Jul 2025 14:12:01 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 67BFF10E59F;
-	Tue, 15 Jul 2025 12:06:02 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 54BD710E5AA;
+	Tue, 15 Jul 2025 12:11:58 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=qualcomm.com header.i=@qualcomm.com header.b="oQoi5OSE";
+	dkim=pass (2048-bit key; unprotected) header.d=qualcomm.com header.i=@qualcomm.com header.b="B5E23Pc1";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com
  [205.220.168.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id DE83110E59F
- for <dri-devel@lists.freedesktop.org>; Tue, 15 Jul 2025 12:06:00 +0000 (UTC)
-Received: from pps.filterd (m0279867.ppops.net [127.0.0.1])
- by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 56F6CBIX023283
- for <dri-devel@lists.freedesktop.org>; Tue, 15 Jul 2025 12:06:00 GMT
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6884E10E5A4
+ for <dri-devel@lists.freedesktop.org>; Tue, 15 Jul 2025 12:11:56 +0000 (UTC)
+Received: from pps.filterd (m0279862.ppops.net [127.0.0.1])
+ by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 56F65qNi012586
+ for <dri-devel@lists.freedesktop.org>; Tue, 15 Jul 2025 12:11:56 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
  cc:content-type:date:from:in-reply-to:message-id:mime-version
- :references:subject:to; s=qcppdkim1; bh=whgpErroktFXqC6PFq2WcPTx
- Y5NFQM6yRWXrcNe/B5E=; b=oQoi5OSEalOMhOlaVsCQwivDCxIQJkwdw2Gjk36d
- KOoK/PSWH19kWIRgR6wfPCM2d0JymbeYro1VX9x92LvyDpRE3DF1SmtAmAceD+Oi
- zu2OG52GP8B7uh7a7ZCc/ZSEfQPSO18KyCErrQsMv1y/LlXTzYrBp3oFbKt9bclj
- 3sdLK0ezqdYtrn1iKYc5rjpr4JzHTvfWeO/5QLqKEJdOKScjpyheIyNgkzOf6sON
- Uuoc4w8OYOGRkDBTcmmTFjb9LXp2TPxZY0wPwtkN4U5VuS2dKdgBjYbhTOuBUaHc
- mn+ycF5PDfrV9hDh5sdBx6QVpeOzJdMVKLJvsMIMSlJVyw==
-Received: from mail-qk1-f198.google.com (mail-qk1-f198.google.com
- [209.85.222.198])
- by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 47w5dpaxhp-1
+ :references:subject:to; s=qcppdkim1; bh=NIGACv/TQ7bqRyy/PxlnetvI
+ UcYh9t4jJhtdvHTuDJE=; b=B5E23Pc1HCFS3LLj6OvBQSBZUOR4c6EY32SQlq3j
+ MfFZd2iPNzvNtr5UWDWfDwIkHh2R+GjaWOa7Ht05lGxT26d8ATyYVP5kauOEajiC
+ IuNOlHzt0uysHQYxLSKRFpfoaDYuSjL4BAV23GqruAUsQEATDdgOjFRPlyYGAj8e
+ en2yTB2i0T0e/nuTG0ZnnX/+kyO4OnrNYLb+TctSXdG6MzWDHYECxI/XCQCnJCup
+ 81Iw0sVu0DX7pvCSVIp+p5HskR0kLIbS3lNjee7PguS7jZUGG0Rm7DgM5dB8Y/mf
+ M5c54JeRLifbZimgU2nsKaM3XsM2j/GOHx4bUXtvqLQEkA==
+Received: from mail-qk1-f199.google.com (mail-qk1-f199.google.com
+ [209.85.222.199])
+ by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 47w5dyjy39-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
- for <dri-devel@lists.freedesktop.org>; Tue, 15 Jul 2025 12:06:00 +0000 (GMT)
-Received: by mail-qk1-f198.google.com with SMTP id
- af79cd13be357-7c5cd0f8961so1004329785a.1
- for <dri-devel@lists.freedesktop.org>; Tue, 15 Jul 2025 05:06:00 -0700 (PDT)
+ for <dri-devel@lists.freedesktop.org>; Tue, 15 Jul 2025 12:11:55 +0000 (GMT)
+Received: by mail-qk1-f199.google.com with SMTP id
+ af79cd13be357-7d44a260e45so956177885a.1
+ for <dri-devel@lists.freedesktop.org>; Tue, 15 Jul 2025 05:11:55 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1752581159; x=1753185959;
+ d=1e100.net; s=20230601; t=1752581514; x=1753186314;
  h=in-reply-to:content-disposition:mime-version:references:message-id
  :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
  :message-id:reply-to;
- bh=whgpErroktFXqC6PFq2WcPTxY5NFQM6yRWXrcNe/B5E=;
- b=THXRgf0F4xbCURSVEE1CapojSR/gSJkSsnrcUkK4WpKjTQbvSS0vXuJh91g8ZZJxsE
- lSijsiEkqL6TLdTpj3XtVa1f7hu8Hbsm1BW/8VN4SJtWOypK7b6ydwAjRZrI+IIIh2Wh
- ilQSc7IUlLISVmfcY9Iy5YAUoa/2A4jw21uct9+9VXSS5J4oeEfeEj/UHJw95QNLQ9AN
- QFfUzUqhtyJxa/IhGSuxeLD9RK7qGySH7W3EWMCoHohP4UfJGcFWgKx1+HQVS2oiqgRu
- NUdvRT+mflOISob/rVaqQ1pLv16Jbm/Ks8aIWY8K8bweyDaXDiEOaJEbzWU3VO1dfJoe
- SNJA==
+ bh=NIGACv/TQ7bqRyy/PxlnetvIUcYh9t4jJhtdvHTuDJE=;
+ b=kb+XYeszb1SdApiiCJYqnj76YdryyOVk3s2DQ7eSva68/2zXpsnc0v2FeCnZbtxMOT
+ MFaVBsjFoIusRacbMXpOA+NxTqmU/iPZTquL2HEhfa35k6A1id8zXcxxJ7F3kqh9ZVM7
+ NjU3BSjQvuIEwGT/WMb6pRxqN74Hl1pzJOtp32i/V4PDQSlXy7xe44+wS/ak/0o9+mC6
+ bhdqqhHxfF8HkXPTC5pzK8dsDGDGdM2bHEl0PM+7kXL/gakkXzz4X9mmPLGx2YggPmfe
+ tCIztSBpHSHubOQgcAoNdhAcWTbZ3Q+xBZYUkYUGfeP7VcMeNNeDl8k7uHDg3J5UjZgO
+ xqug==
 X-Forwarded-Encrypted: i=1;
- AJvYcCUD8xpexkkq8TzYe9f/QHAC33k5AZQXXKZQiEE4sW5vz4rf0R86Hg/Lyn0XatmRnECfobIUlz4sPI8=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0Yx5JTx8zWqb+E/jfpRDQMiF4DqBPa58j8qGGDfw01818gEvotzq
- I5WHS6GUIDM5LvkwbjYMJbdQPgNhgA3Fvt2gQCcD3ooYd1qA/ALA2tNDSz4fVRRSfo51JsOsCQX
- u7uojybR6KiCvGinQy9h/3kA61yekotgSf6mOs+BvovDkW9xZPO+/FJNC3kJw8bhc///FCZI=
-X-Gm-Gg: ASbGncta+lo/aGPdhua9I1PT8AhVxZ2S17m5ZdtonbiC/NvRUAQVoeZL/A7xbwT7dRT
- uUS6A4ihE33+bPDRTWsE9Ft0K6eGilL4nS6IOXLWZRB0cX3b2Pv1UEaPk+snynu4dwnlN4tgYVl
- Dulp1TT4Uuezt4o3n4oH9+LNf0ZjLejJyo9CLByYk3KqHgFulIpbiW20m+qWP3FbmV/F8ZAf9JT
- s2nbxA7HwHn0kh6tGmUWV5ewtrLiM8ULJdLICeJBXEm8hsRh+x72ImraxNWwv8fDmnLAkYkyNlF
- gG8JNmF+msrn3TzPK3WRD2GwhbouumqqgSCnO+6kIilZHmi8aba/dfybfcGZ7pJ+QtWnHLo78Ur
- 9+VDrEwdaO0yoLzUWx1fxf/eFt1hXMgSiyGy0c6lIzbK1qtV5IMNI
-X-Received: by 2002:a05:620a:2617:b0:7db:52b9:2060 with SMTP id
- af79cd13be357-7de06bbb9acmr3084722785a.36.1752581158908; 
- Tue, 15 Jul 2025 05:05:58 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IHIm9VPHvsWFqJ0lg2fwfKKO9Xor4P4bNsy7V94yiewt2Z36zolTE2cwObNp3IrftJTJDg+rw==
-X-Received: by 2002:a05:620a:2617:b0:7db:52b9:2060 with SMTP id
- af79cd13be357-7de06bbb9acmr3084715885a.36.1752581158361; 
- Tue, 15 Jul 2025 05:05:58 -0700 (PDT)
+ AJvYcCVl2eV8RAcD7JDKOp1BtrYzrJVsJvWFzLrDMCmBTE6QGstM0cQMUcbc/Dqd3udfo1mp9GrQxE8BVrw=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YxpdgKK8roy4Vzpm+spjAO9QoHT45pMEA4PAVpL4+OQWdxmm9f8
+ /gQKnpz3w7ZQ5pZWd8Kf2qig6u/vZivzSBNk3jdkR6ERRxuS2QgEnHAX0PtEzl8/1TA7KK711Vg
+ Uqvy1u4YeZYrjAJIwsmV/JT8F8h0aRcsNPUrQsNiqJUtXaMZ1r0PuniHKEg07MM2bvng1Diw=
+X-Gm-Gg: ASbGncttzRLxDsVYMLsWLvvMCfOjrH9sXUEqZVx2fup1jzM5LWqc/rP9BkKvgRBBEan
+ eVIBP0bpCJwB62Da9KOEsG5IPh2OAch3JirqD59REoC31h+dZywTWV60hFoZWrSwSOGdtgmgCse
+ 3oGnEyCHm4cyszWUzZZgbQ20lYjWTGvP7Gy4YcRxfqG333x0d1dOHYIoKYGW9u3g8Vq6W9hcnC+
+ HlvuLDwBbR0tVpBkS5VMV5FXrbkPXtgcsai7nacgnjClenF3qzjpK+DJdaleteEVBChFp6X2ptO
+ Q5hfbAdrnt/tdrjY339uzWMbK2sY7oKVn7lpElowMcL/kHnNtPYIErphJpIrW9+TGbLNDoLhdrn
+ JPuiO/3uj2miYf/Kv4QEprmm3xWMm5i45jLfLgoj5bh1aA5bO5fD1
+X-Received: by 2002:a05:620a:4e9a:b0:7d3:a4fa:ee06 with SMTP id
+ af79cd13be357-7e337b853a9mr367283685a.29.1752581514261; 
+ Tue, 15 Jul 2025 05:11:54 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IEmF+y4l+jOb95aKZxJ7DfbPfnTn84DO87g2W9GzSKv0rFVZnPjZcECn3fW8CZwMFIojixCWQ==
+X-Received: by 2002:a05:620a:4e9a:b0:7d3:a4fa:ee06 with SMTP id
+ af79cd13be357-7e337b853a9mr367279885a.29.1752581513627; 
+ Tue, 15 Jul 2025 05:11:53 -0700 (PDT)
 Received: from umbar.lan
  (2001-14ba-a0c3-3a00-264b-feff-fe8b-be8a.rev.dnainternet.fi.
  [2001:14ba:a0c3:3a00:264b:feff:fe8b:be8a])
  by smtp.gmail.com with ESMTPSA id
- 38308e7fff4ca-32fab8e4b7asm18929411fa.75.2025.07.15.05.05.57
+ 2adb3069b0e04-55943b736d5sm2263762e87.213.2025.07.15.05.11.52
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 15 Jul 2025 05:05:57 -0700 (PDT)
-Date: Tue, 15 Jul 2025 15:05:55 +0300
+ Tue, 15 Jul 2025 05:11:52 -0700 (PDT)
+Date: Tue, 15 Jul 2025 15:11:51 +0300
 From: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
 To: Chaoyi Chen <kernel@airkyi.com>
 Cc: Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
@@ -95,37 +95,37 @@ Cc: Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
  linux-kernel@vger.kernel.org, linux-phy@lists.infradead.org,
  linux-arm-kernel@lists.infradead.org,
  linux-rockchip@lists.infradead.org, dri-devel@lists.freedesktop.org
-Subject: Re: [PATCH 3/5] phy: rockchip: phy-rockchip-typec: Add support for
- Type-C TCPM
-Message-ID: <eqb5m22om6bx2ypjtnlwdjmgfyycpmgrlvro34xwlwjj4j2jeq@mrarg36wetp6>
+Subject: Re: [PATCH 5/5] arm64: dts: rockchip: rk3399-evb-ind: Add support
+ for DisplayPort
+Message-ID: <2bfaqx6unfejlqg53jaw47s6qzymdcvyiy6wuqgua43mnitzbt@5wfqp6ucxcsx>
 References: <20250715112456.101-1-kernel@airkyi.com>
- <20250715112456.101-4-kernel@airkyi.com>
+ <20250715112456.101-6-kernel@airkyi.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20250715112456.101-4-kernel@airkyi.com>
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwNzE1MDExMSBTYWx0ZWRfXzPOeto1y7XbY
- OCVv5P9jTs68n8KsViNpTduuEzOxzJ+KU5RhhrAEPE/LXbV/UwI7WCwZfvpBFq1maGpE2z0hbQv
- gOU3ORE+pMtl7EWHoi/8Jy+h11onWxzMEmnWrgkKAk1UJc0KO8zfq+WHC/hPXglOQebb72r6gwu
- qe5FGvHjKfMQ3kqzBDLT1Jgg4UjE7n7JiHu8qsLo0V2N7qdT+9jL20ZI6jnzZKXPMofU5+798+6
- 1AOAzLAF0QcPX7YwKe/Ge0hPa8Mjwul2lR9HMf9bLPaTcAKGg7/khHwerFhMwn9fDUJ0LQEdQOv
- Fi4DEY4RRMe185xxqmJQO9Dhguo2DOOLjWjo5R2w/KM96CoCPvZlAw/aXh2CbdsDc9mC9NmV4vn
- RHHf6VLrGqd1PGL8svMbaSfIK2gh37wkEz+esSv8rMshpTzUKKJL6tHNSV6PoV41Bhn8HCnE
-X-Proofpoint-GUID: eJqf70XO0VHt9IbjLgRjYpk0uwGK3WK-
-X-Proofpoint-ORIG-GUID: eJqf70XO0VHt9IbjLgRjYpk0uwGK3WK-
-X-Authority-Analysis: v=2.4 cv=Y+r4sgeN c=1 sm=1 tr=0 ts=68764428 cx=c_pps
- a=qKBjSQ1v91RyAK45QCPf5w==:117 a=xqWC_Br6kY4A:10 a=kj9zAlcOel0A:10
- a=Wb1JkmetP80A:10 a=s8YR1HE3AAAA:8 a=8-VJQ8zMMZwrctniyC0A:9 a=CjuIK1q_8ugA:10
- a=NFOGd7dJGGMPyQGDc5-O:22 a=jGH_LyMDp9YhSvY-UuyI:22
+In-Reply-To: <20250715112456.101-6-kernel@airkyi.com>
+X-Proofpoint-ORIG-GUID: OQOJTLqPJjCXxfxfL3a7beOyKZm6B20F
+X-Authority-Analysis: v=2.4 cv=RtXFLDmK c=1 sm=1 tr=0 ts=6876458b cx=c_pps
+ a=HLyN3IcIa5EE8TELMZ618Q==:117 a=xqWC_Br6kY4A:10 a=kj9zAlcOel0A:10
+ a=Wb1JkmetP80A:10 a=s8YR1HE3AAAA:8 a=ikJCsuYIIW8Wf-eC7T4A:9 a=CjuIK1q_8ugA:10
+ a=bTQJ7kPSJx9SKPbeHEYW:22 a=jGH_LyMDp9YhSvY-UuyI:22
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwNzE1MDExMSBTYWx0ZWRfXw9r8yYp3ijvZ
+ IXXoFMfG/DsoFRFqLpPkr6bMIFau7bOzpQT7fLGWa/1oS8ATKCktHrCeQqyOZvz9xh+0plOrBkC
+ ABlVOE1uv4itDeMvWtaj40HZUK0/X6YQLIdbPzDTLotBXkmi5V82EhUbqn9oJLktmOzw8ZBeVxs
+ hKYL4d6o0CCaLkM9c8qjLyzIxnuSvKC4WXNM+0Qc+FZdDSdRiFEO0b7AzGryVBtAVwwuM8F8TM4
+ 1ieatL+nGy1nK7gckR2Iqcmj0yePNRnOfQ6qh3s+iv4YEH+m/DjpvBIiuaIqn7ShGnUqqjpak0K
+ uwUXcwTgiZdrIge3SWZNe8sBqEN39MqgP8tC5iqMwkpv2hVZXSXmO9SbK+DehNXIRacO5KyJoSK
+ DfC9DjUuU+GfEv0V1R1u84QW5gMTUxE2pHxWDh83gq/nBbSNyQGreRa35EjBCBJ445g7Krrt
+X-Proofpoint-GUID: OQOJTLqPJjCXxfxfL3a7beOyKZm6B20F
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.293,Aquarius:18.0.1099,Hydra:6.1.7,FMLib:17.12.80.40
  definitions=2025-07-15_03,2025-07-14_01,2025-03-28_01
 X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- clxscore=1015 mlxlogscore=832 phishscore=0 malwarescore=0 priorityscore=1501
- adultscore=0 impostorscore=0 mlxscore=0 suspectscore=0 lowpriorityscore=0
- bulkscore=0 spamscore=0 classifier=spam authscore=0 authtc=n/a authcc=
- route=outbound adjust=0 reason=mlx scancount=1 engine=8.19.0-2505280000
- definitions=main-2507150111
+ adultscore=0 mlxscore=0 bulkscore=0 suspectscore=0 lowpriorityscore=0
+ impostorscore=0 malwarescore=0 clxscore=1015 mlxlogscore=999
+ priorityscore=1501 phishscore=0 spamscore=0 classifier=spam authscore=0
+ authtc=n/a authcc= route=outbound adjust=0 reason=mlx scancount=1
+ engine=8.19.0-2505280000 definitions=main-2507150111
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -141,19 +141,198 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, Jul 15, 2025 at 07:24:54PM +0800, Chaoyi Chen wrote:
+On Tue, Jul 15, 2025 at 07:24:56PM +0800, Chaoyi Chen wrote:
 > From: Chaoyi Chen <chaoyi.chen@rock-chips.com>
 > 
-> This patch add support for Type-C Port Controller Manager.
-> The extcon device should still be supported.
+> The RK3399 EVB IND board has a Type-C interface DisplayPort.
+> It use fusb302 chip as Type-C controller.
 > 
 > Signed-off-by: Chaoyi Chen <chaoyi.chen@rock-chips.com>
 > ---
->  drivers/phy/rockchip/phy-rockchip-typec.c | 335 ++++++++++++++++++++--
->  1 file changed, 319 insertions(+), 16 deletions(-)
+>  .../boot/dts/rockchip/rk3399-evb-ind.dts      | 119 ++++++++++++++++++
+>  1 file changed, 119 insertions(+)
+> 
+> diff --git a/arch/arm64/boot/dts/rockchip/rk3399-evb-ind.dts b/arch/arm64/boot/dts/rockchip/rk3399-evb-ind.dts
+> index 70aee1ab904c..9ceda32456a0 100644
+> --- a/arch/arm64/boot/dts/rockchip/rk3399-evb-ind.dts
+> +++ b/arch/arm64/boot/dts/rockchip/rk3399-evb-ind.dts
+> @@ -4,6 +4,7 @@
+>   */
+>  
+>  /dts-v1/;
+> +#include <dt-bindings/usb/pd.h>
+>  #include "rk3399.dtsi"
+>  
+>  / {
+> @@ -19,6 +20,16 @@ chosen {
+>  		stdout-path = "serial2:1500000n8";
+>  	};
+>  
+> +	vbus_typec: vbus-typec-regulator {
+> +		compatible = "regulator-fixed";
+> +		enable-active-high;
+> +		gpio = <&gpio1 RK_PC2 GPIO_ACTIVE_HIGH>;
+> +		pinctrl-names = "default";
+> +		pinctrl-0 = <&vcc5v0_typec0_en>;
+> +		regulator-name = "vbus_typec";
+> +		vin-supply = <&vcc5v0_sys>;
+> +	};
+> +
+>  	vcc5v0_sys: regulator-vcc5v0-sys {
+>  		compatible = "regulator-fixed";
+>  		enable-active-high;
+> @@ -29,6 +40,16 @@ vcc5v0_sys: regulator-vcc5v0-sys {
+>  		regulator-max-microvolt = <5000000>;
+>  		regulator-min-microvolt = <5000000>;
+>  	};
+> +
+> +	sound: sound {
+> +		compatible = "rockchip,rk3399-gru-sound";
+> +		rockchip,cpu = <&i2s0 &spdif>;
+> +	};
+> +};
+> +
+> +&cdn_dp {
+> +	status = "okay";
+> +	phys = <&tcphy0_dp>;
+>  };
+>  
+>  &cpu_b0 {
+> @@ -341,6 +362,66 @@ regulator-state-mem {
+>  	};
+>  };
+>  
+> +&i2c4 {
+> +	i2c-scl-rising-time-ns = <475>;
+> +	i2c-scl-falling-time-ns = <26>;
+> +	status = "okay";
+> +
+> +	usbc0: fusb302@22 {
+> +		compatible = "fcs,fusb302";
+> +		reg = <0x22>;
+> +		interrupt-parent = <&gpio1>;
+> +		interrupts = <RK_PA2 IRQ_TYPE_LEVEL_LOW>;
+> +		pinctrl-names = "default";
+> +		pinctrl-0 = <&usbc0_int>;
+> +		vbus-supply = <&vbus_typec>;
+> +		status = "okay";
+> +
+> +		usb_con: connector {
+> +			compatible = "usb-c-connector";
+> +			label = "USB-C";
+> +			data-role = "dual";
+> +			power-role = "dual";
+> +			try-power-role = "sink";
+> +			op-sink-microwatt = <1000000>;
+> +			sink-pdos =
+> +				<PDO_FIXED(5000, 2500, PDO_FIXED_USB_COMM)>;
+> +			source-pdos =
+> +				<PDO_FIXED(5000, 1500, PDO_FIXED_USB_COMM)>;
+> +
+> +			displayport = <&cdn_dp>;
+> +
+> +			altmodes {
+> +				displayport {
+> +					svid = /bits/ 16 <0xff01>;
+> +					vdo = <0xffffffff>;
+> +				};
+> +			};
+> +
+> +			ports {
+> +				#address-cells = <1>;
+> +				#size-cells = <0>;
+> +
+> +				port@0 {
 
-Please keep TCPM implementation under drivers/usb/typec/tcpm/ . Create
-an aux device and write an aux driver for the TCPM part.
+Which signals are described by these ports? port@0 should be used for
+USB HS lines.
+
+> +					reg = <0>;
+> +
+> +					usbc0_orien_sw: endpoint {
+> +						remote-endpoint = <&tcphy0_orientation_switch>;
+> +					};
+> +				};
+> +
+> +				port@1 {
+> +					reg = <1>;
+> +
+> +					dp_mode_sw: endpoint {
+> +						remote-endpoint = <&tcphy_dp_altmode_switch>;
+> +					};
+> +				};
+> +			};
+> +		};
+> +	};
+> +};
+> +
+>  &i2s2 {
+>  	status = "okay";
+>  };
+> @@ -354,6 +435,16 @@ &io_domains {
+>  };
+>  
+>  &pinctrl {
+> +	usb-typec {
+> +		usbc0_int: usbc0-int {
+> +			rockchip,pins = <1 RK_PA2 RK_FUNC_GPIO &pcfg_pull_up>;
+> +		};
+> +
+> +		vcc5v0_typec0_en: vcc5v0-typec0-en {
+> +			rockchip,pins = <1 RK_PC2 RK_FUNC_GPIO &pcfg_pull_none>;
+> +		};
+> +	};
+> +
+>  	pmic {
+>  		pmic_int_l: pmic-int-l {
+>  			rockchip,pins = <1 RK_PC5 RK_FUNC_GPIO &pcfg_pull_up>;
+> @@ -400,8 +491,35 @@ &sdmmc {
+>  	status = "okay";
+>  };
+>  
+> +&sound {
+> +	rockchip,codec = <&cdn_dp>;
+> +	status = "okay";
+> +};
+> +
+> +&spdif {
+> +	status = "okay";
+> +};
+> +
+>  &tcphy0 {
+> +	mode-switch;
+> +	orientation-switch;
+>  	status = "okay";
+> +
+> +	port {
+> +		#address-cells = <1>;
+> +		#size-cells = <0>;
+> +
+> +		tcphy0_orientation_switch: endpoint@0 {
+> +			reg = <0>;
+> +			remote-endpoint = <&usbc0_orien_sw>;
+> +		};
+> +
+> +		tcphy_dp_altmode_switch: endpoint@1 {
+> +			reg = <1>;
+> +			remote-endpoint = <&dp_mode_sw>;
+> +		};
+> +	};
+> +
+>  };
+>  
+>  &tcphy1 {
+> @@ -461,6 +579,7 @@ &usb_host1_ohci {
+>  };
+>  
+>  &usbdrd_dwc3_0 {
+> +	usb-role-switch;
+>  	status = "okay";
+>  };
+>  
+> -- 
+> 2.49.0
+> 
 
 -- 
 With best wishes
