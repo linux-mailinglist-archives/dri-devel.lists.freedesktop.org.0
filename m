@@ -2,28 +2,28 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2E13FB05DF0
-	for <lists+dri-devel@lfdr.de>; Tue, 15 Jul 2025 15:48:34 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id E217DB05E1E
+	for <lists+dri-devel@lfdr.de>; Tue, 15 Jul 2025 15:50:23 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0DF7D10E5D5;
-	Tue, 15 Jul 2025 13:48:31 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1C42F10E5D8;
+	Tue, 15 Jul 2025 13:50:21 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from frasgout.his.huawei.com (frasgout.his.huawei.com
  [185.176.79.56])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 57F9810E5D5
- for <dri-devel@lists.freedesktop.org>; Tue, 15 Jul 2025 13:48:29 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8E6A110E5D8
+ for <dri-devel@lists.freedesktop.org>; Tue, 15 Jul 2025 13:50:19 +0000 (UTC)
 Received: from mail.maildlp.com (unknown [172.18.186.231])
- by frasgout.his.huawei.com (SkyGuard) with ESMTP id 4bhL8c12BFz6M4Z3;
- Tue, 15 Jul 2025 21:47:12 +0800 (CST)
+ by frasgout.his.huawei.com (SkyGuard) with ESMTP id 4bhLBl3dbyz6M4gG;
+ Tue, 15 Jul 2025 21:49:03 +0800 (CST)
 Received: from frapeml500008.china.huawei.com (unknown [7.182.85.71])
- by mail.maildlp.com (Postfix) with ESMTPS id 2579A1402EB;
- Tue, 15 Jul 2025 21:48:26 +0800 (CST)
+ by mail.maildlp.com (Postfix) with ESMTPS id 7F934140446;
+ Tue, 15 Jul 2025 21:50:17 +0800 (CST)
 Received: from localhost (10.203.177.66) by frapeml500008.china.huawei.com
  (7.182.85.71) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.1.2507.39; Tue, 15 Jul
- 2025 15:48:23 +0200
-Date: Tue, 15 Jul 2025 14:48:22 +0100
+ 2025 15:50:15 +0200
+Date: Tue, 15 Jul 2025 14:50:14 +0100
 From: Jonathan Cameron <Jonathan.Cameron@huawei.com>
 To: WangYuli <wangyuli@uniontech.com>
 CC: <airlied@gmail.com>, <akpm@linux-foundation.org>,
@@ -51,11 +51,12 @@ CC: <airlied@gmail.com>, <akpm@linux-foundation.org>,
  <thomas.hellstrom@linux.intel.com>, <vishal.l.verma@intel.com>,
  <x86@kernel.org>, <xen-devel@lists.xenproject.org>, <yujiaoliang@vivo.com>,
  <zhanjun@uniontech.com>
-Subject: Re: [PATCH v2 2/8] cxl: mce: Fix typo "notifer"
-Message-ID: <20250715144822.000006b9@huawei.com>
-In-Reply-To: <65FC7B96ECBDB052+20250715134407.540483-2-wangyuli@uniontech.com>
+Subject: Re: [PATCH v2 8/8] scripts/spelling.txt: Add notifer||notifier to
+ spelling.txt
+Message-ID: <20250715145014.000075ec@huawei.com>
+In-Reply-To: <A205796B545C4241+20250715134407.540483-8-wangyuli@uniontech.com>
 References: <BD5C52D2838AEA48+20250715134050.539234-1-wangyuli@uniontech.com>
- <65FC7B96ECBDB052+20250715134407.540483-2-wangyuli@uniontech.com>
+ <A205796B545C4241+20250715134407.540483-8-wangyuli@uniontech.com>
 X-Mailer: Claws Mail 4.3.0 (GTK 3.24.42; x86_64-w64-mingw32)
 MIME-Version: 1.0
 Content-Type: text/plain; charset="US-ASCII"
@@ -78,31 +79,37 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, 15 Jul 2025 21:44:01 +0800
+On Tue, 15 Jul 2025 21:44:07 +0800
 WangYuli <wangyuli@uniontech.com> wrote:
 
-> According to the context, "mce_notifer" should be "mce_notifier".
+> This typo was not listed in scripts/spelling.txt, thus it was more
+> difficult to detect. Add it for convenience.
 > 
 > Link: https://lore.kernel.org/all/B3C019B63C93846F+20250715071245.398846-1-wangyuli@uniontech.com/
-> Fixes: 516e5bd0b6bf ("cxl: Add mce notifier to emit aliased address for extended linear cache")
+
+Adding a link tag to your own previous patch doesn't seem particularly
+useful as something to end up in the git log (which depending on
+maintainer preference may gain a link tag to this version).
+
 > Signed-off-by: WangYuli <wangyuli@uniontech.com>
+other than that, LGTM
+
 Reviewed-by: Jonathan Cameron <jonathan.cameron@huawei.com>
 
 > ---
->  drivers/cxl/core/mce.h | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
+>  scripts/spelling.txt | 1 +
+>  1 file changed, 1 insertion(+)
 > 
-> diff --git a/drivers/cxl/core/mce.h b/drivers/cxl/core/mce.h
-> index ace73424eeb6..ca272e8db6c7 100644
-> --- a/drivers/cxl/core/mce.h
-> +++ b/drivers/cxl/core/mce.h
-> @@ -7,7 +7,7 @@
->  
->  #ifdef CONFIG_CXL_MCE
->  int devm_cxl_register_mce_notifier(struct device *dev,
-> -				   struct notifier_block *mce_notifer);
-> +				   struct notifier_block *mce_notifier);
->  #else
->  static inline int
->  devm_cxl_register_mce_notifier(struct device *dev,
+> diff --git a/scripts/spelling.txt b/scripts/spelling.txt
+> index c9a6df5be281..d824c4b17390 100644
+> --- a/scripts/spelling.txt
+> +++ b/scripts/spelling.txt
+> @@ -1099,6 +1099,7 @@ notication||notification
+>  notications||notifications
+>  notifcations||notifications
+>  notifed||notified
+> +notifer||notifier
+>  notity||notify
+>  notfify||notify
+>  nubmer||number
 
