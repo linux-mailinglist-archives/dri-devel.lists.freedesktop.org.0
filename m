@@ -2,75 +2,85 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C466BB05B17
-	for <lists+dri-devel@lfdr.de>; Tue, 15 Jul 2025 15:17:02 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id F0E08B05B60
+	for <lists+dri-devel@lfdr.de>; Tue, 15 Jul 2025 15:20:04 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2A88E10E37C;
-	Tue, 15 Jul 2025 13:17:01 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3E12F10E5BA;
+	Tue, 15 Jul 2025 13:20:03 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; secure) header.d=ffwll.ch header.i=@ffwll.ch header.b="YsMTVYUv";
+	dkim=pass (1024-bit key; secure) header.d=ffwll.ch header.i=@ffwll.ch header.b="jpTp4tks";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-f53.google.com (mail-wr1-f53.google.com
- [209.85.221.53])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9F6B510E37C
- for <dri-devel@lists.freedesktop.org>; Tue, 15 Jul 2025 13:16:59 +0000 (UTC)
-Received: by mail-wr1-f53.google.com with SMTP id
- ffacd0b85a97d-3a4ef2c2ef3so4071293f8f.2
- for <dri-devel@lists.freedesktop.org>; Tue, 15 Jul 2025 06:16:59 -0700 (PDT)
+Received: from mail-wr1-f45.google.com (mail-wr1-f45.google.com
+ [209.85.221.45])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3580410E5BA
+ for <dri-devel@lists.freedesktop.org>; Tue, 15 Jul 2025 13:20:01 +0000 (UTC)
+Received: by mail-wr1-f45.google.com with SMTP id
+ ffacd0b85a97d-3a4ef2c2ef3so4073585f8f.2
+ for <dri-devel@lists.freedesktop.org>; Tue, 15 Jul 2025 06:20:01 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=ffwll.ch; s=google; t=1752585418; x=1753190218; darn=lists.freedesktop.org; 
+ d=ffwll.ch; s=google; t=1752585600; x=1753190400; darn=lists.freedesktop.org; 
  h=in-reply-to:content-disposition:mime-version:references:message-id
  :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
- bh=7oxcnIHUFGM9XgAtLrDfZFgv0IUYHjLuIAuAxAwmdIU=;
- b=YsMTVYUvCFIkwbi3RduC88+++028rc8fu8AeeqrwIicqozuDKKl0q6lF9v3EnsOBlB
- GpenHgGZeXidVRzppQbVNMs/EGKGhCXT1BX1686dyNWY+yRbE73AwmyzKnnXgyP1gUyL
- uWflSE1VHu4pgnSeMwHGlYhSxu2BX+7gknrd4=
+ bh=RZNdJdvnKf8QKxgnS87V8b+rsQrk+0DHovoGkwxahd4=;
+ b=jpTp4tksVjo+C9bF9kwoRfUck/F7RRYZQdmXAJMZq05pI4cXhG/LAH5EwdRL5EKnei
+ cRKT8jTiDyGrRjc6/NQz/mvE8pIwFQQ6KnpYCGupbdyCY1P2OZUvv9xykZVD87/mZqGN
+ A81cQhnr77LpjLi0RCazsz1qIaKyPmhQgpD+Q=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1752585418; x=1753190218;
+ d=1e100.net; s=20230601; t=1752585600; x=1753190400;
  h=in-reply-to:content-disposition:mime-version:references:message-id
  :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
  :message-id:reply-to;
- bh=7oxcnIHUFGM9XgAtLrDfZFgv0IUYHjLuIAuAxAwmdIU=;
- b=Ju8K5HsrTmjDdCiXy/gwbPxtehwjGl/8yem6CBh40JAnkyvJ6imACVQbFoqmY5BDbN
- EbBMQXulxv+O6eTgXG6AX1Ef4nFv4vwOa3+Vv4QpEsDvj8HgBlPoBuZSgqYzyShHo0s5
- f2w0e36tqWwV5BVjB/qPKnFFgioVlYxsvD7hTzEL+2wwI2mBL7ccV3ODftZ/cZhnIoSF
- SSnpHOp0SjF/L6XpKeOo9BXwwEAJmg75OA8C6HWHuKCijPNfl5rB6Kxuta3G6+QjyYit
- yfaH95+ogD3F0rK/M744pRC+Seig7JXDPiE5UisaNjGJTIzrxCVcfOV/ug5xTsQdCu2U
- +3lw==
+ bh=RZNdJdvnKf8QKxgnS87V8b+rsQrk+0DHovoGkwxahd4=;
+ b=btc9K/op+yoN+EHVE2l/yq9mlPTN4yOaDOvbCnfflQq118aBaZ3DjOJpk+AprihIw9
+ Q6gSAwa0P+M1lrtcavqXGsjp9k5NmWiGLPoOjWZZsG4qrX04B2Xm67PjnOsNBpu+x2z/
+ n2teyPCS7YgxsLEiDvQs8tulFcfZaqYPProioel0SbtvXu9V6LQZ1Ng8ikcvtciPM8YX
+ G0UpcqDquQhTv+p/xxL+KDp2IWqmAMS0LJF6vCr0C35UWbXrovEaIx5Hq8SGG4exXPAi
+ eT97G/13XR/Y1ERHj98bNblbo24DrbFfRRDw01avDY8WiJYFXeBmK+doKV/PQJPA8TgY
+ uGHQ==
 X-Forwarded-Encrypted: i=1;
- AJvYcCVaRYhIiMcdNbp8ZdeVlB3/OFOm9oMMu1iKt+I+5tk/Mk/IDO56G7TeK6fcOxHJ3czZurM0fhvwASY=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YxTdFMHTJER7Si3xq1uhV5sKUr/Wozplaua3bnu0pGCPhr1oZrs
- 6PPIXWYK5ulMws6CCpwxUzLBvnBtzdG7iAm5fUnuAwVFUWb2+bZb5JR/V2o86gy3BEs=
-X-Gm-Gg: ASbGncvwF5oFWJkfengJImh5yYLficLTMVQMishplPiTdqImBYbg7oTBJpHfl+fXKEB
- DejeHd5Hh1kXlK+N2wIyukPh8W3PX6dXuH3OV/kl5xsXK03UqfDE3spKCkd4FHoOnjGiWWDNEpo
- LERxqBiUBFKW+IHbFWLZRTVVxtap75f4vg8qvR71oCgZ+Om7tswno2Wvl7/wJx28JeY3vrzSzOZ
- dS4QbXvgzY4w48AldYj4xM7ZwsjvzJGQCkxvvX7yubTYGBOvPXWPipPfcWBjqEfUE6p342vTnEv
- ZA4KEBYJTS7c1aLDbmnTpw1/xAahrh7EjBk5ShBQOwrYuNlLpbCWy/kVq9NPg9ypw+/7x6NqvRT
- xo8rFCpFA2iI29mU7Ov6phIhoUMTahyAwJw==
-X-Google-Smtp-Source: AGHT+IF6/YjsEXq6Q2lwzXNbCW3+FTVujjcrP9eO/s3mZxOODp1c3RGVgSacc6YHmi98kBgi2QH/KA==
-X-Received: by 2002:a05:6000:2f81:b0:3a3:7baf:f06a with SMTP id
- ffacd0b85a97d-3b5f2dfdd45mr13263647f8f.37.1752585418009; 
- Tue, 15 Jul 2025 06:16:58 -0700 (PDT)
+ AJvYcCXvVNjQ9iLrsiKpb5oseSyNFK41C9I6jAYpVZzGRxustGPMpGuzFJ0xWxODc7z0vaW9Y2TfxhVzr/Y=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YyG1S5MoPSgJAoUUVGwxF4hKENVfCz0O9XamlTbutTbXiJeFZ8e
+ QXzIEwjhIy6vYp90/n4gcWpLTtS7N8D9A+nczJOD01sXQ/sIauypT5sxaik1bgL7rq0=
+X-Gm-Gg: ASbGncu9uDcg2w/XabTw/6PMGqYpjdtGOQZoxrQLoO7eAg6pmKSaoQrDikfxZepss5c
+ IEE+Iw9aO7Xl0i+QbGsI64SIk2QweebgEnk+LFSTfTsujV7oyx51/a8moMnXf/A63IP64F0Wi+P
+ VcVj+9rqST8bXx7m4UlrY/1S6kTFk9syRAh8oaE1mMcRADZasDLW8jfM3ca5rn7oYOOs0XekaPs
+ 9p+n5A3ofA5gfvSG8Tq0I9rmK2I2zjKjpNJmgsxPsh1L0zNiEXmhgMLEQQM0uMh0exUxCxeDE6d
+ HBVV0pCNibGWuYHbrrDItsyTEUqTN2DRx1BDImdFVXqOl5hG+L/5aR7lnmSu9OPWw040V+/EhWR
+ JxTzEvDbydEWVS1tAM/Ku/JwFSTbXR8tUHA==
+X-Google-Smtp-Source: AGHT+IGgOrGKdM3z4rYXREjB5K13TQWQc9hzSbnGlRYyUFMTZTPMvyOf/txGJ4PS42ny0/qCStlXJg==
+X-Received: by 2002:a05:6000:290a:b0:3a4:f038:af74 with SMTP id
+ ffacd0b85a97d-3b5f2e3ad53mr14816635f8f.51.1752585599669; 
+ Tue, 15 Jul 2025 06:19:59 -0700 (PDT)
 Received: from phenom.ffwll.local ([2a02:168:57f4:0:5485:d4b2:c087:b497])
  by smtp.gmail.com with ESMTPSA id
- 5b1f17b1804b1-4561752340esm71577095e9.38.2025.07.15.06.16.57
+ ffacd0b85a97d-3b5e8e0d70csm15389832f8f.62.2025.07.15.06.19.58
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 15 Jul 2025 06:16:57 -0700 (PDT)
-Date: Tue, 15 Jul 2025 15:16:55 +0200
+ Tue, 15 Jul 2025 06:19:58 -0700 (PDT)
+Date: Tue, 15 Jul 2025 15:19:56 +0200
 From: Simona Vetter <simona.vetter@ffwll.ch>
 To: Thomas Zimmermann <tzimmermann@suse.de>
-Cc: thierry.reding@gmail.com, mperttunen@nvidia.com, airlied@gmail.com,
- simona@ffwll.ch, jonathanh@nvidia.com, linux-tegra@vger.kernel.org,
- dri-devel@lists.freedesktop.org
-Subject: Re: [PATCH] Revert "drm/tegra: Use dma_buf from GEM object instance"
-Message-ID: <aHZUx4dJw1WtetyQ@phenom.ffwll.local>
-References: <20250715084549.41473-1-tzimmermann@suse.de>
+Cc: lee@kernel.org, danielt@kernel.org, jingoohan1@gmail.com,
+ neil.armstrong@linaro.org, jessica.zhang@oss.qualcomm.com,
+ deller@gmx.de, maarten.lankhorst@linux.intel.com,
+ mripard@kernel.org, airlied@gmail.com, simona@ffwll.ch,
+ fnkl.kernel@gmail.com, j@jannau.net, hdegoede@redhat.com,
+ ilpo.jarvinen@linux.intel.com, sven@kernel.org,
+ alyssa@rosenzweig.io, neal@gompa.dev,
+ support.opensource@diasemi.com, duje.mihanovic@skole.hr,
+ dri-devel@lists.freedesktop.org, asahi@lists.linux.dev,
+ platform-driver-x86@vger.kernel.org,
+ linux-arm-kernel@lists.infradead.org, linux-fbdev@vger.kernel.org
+Subject: Re: [PATCH v2 02/15] drm/panel: panel-samsung-s6e63m0: Include
+ <linux/of.h>
+Message-ID: <aHZVfD9Koa-fi5CQ@phenom.ffwll.local>
+References: <20250715122643.137027-1-tzimmermann@suse.de>
+ <20250715122643.137027-3-tzimmermann@suse.de>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20250715084549.41473-1-tzimmermann@suse.de>
+In-Reply-To: <20250715122643.137027-3-tzimmermann@suse.de>
 X-Operating-System: Linux phenom 6.12.30-amd64 
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -87,43 +97,30 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, Jul 15, 2025 at 10:45:39AM +0200, Thomas Zimmermann wrote:
-> This reverts commit 482c7e296edc0f594e8869a789a40be53c49bd6a.
-> 
-> The dma_buf field in struct drm_gem_object is not stable over the
-> object instance's lifetime. The field becomes NULL when user space
-> releases the final GEM handle on the buffer object. This resulted
-> in a NULL-pointer deref.
-> 
-> Workarounds in commit 5307dce878d4 ("drm/gem: Acquire references on
-> GEM handles for framebuffers") and commit f6bfc9afc751 ("drm/framebuffer:
-> Acquire internal references on GEM handles") only solved the problem
-> partially. They especially don't work for buffer objects without a DRM
-> framebuffer associated.
-> 
-> Hence, this revert to going back to using .import_attach->dmabuf.
+On Tue, Jul 15, 2025 at 02:24:39PM +0200, Thomas Zimmermann wrote:
+> Include <linux/of.h> to declare device_property_read_u32(). Avoids
+> dependency on backlight header to include it.
 > 
 > Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
 
 Reviewed-by: Simona Vetter <simona.vetter@ffwll.ch>
 
 > ---
->  drivers/gpu/drm/tegra/gem.c | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
+>  drivers/gpu/drm/panel/panel-samsung-s6e63m0.c | 1 +
+>  1 file changed, 1 insertion(+)
 > 
-> diff --git a/drivers/gpu/drm/tegra/gem.c b/drivers/gpu/drm/tegra/gem.c
-> index 41a285ec889f..8ede07fb7a21 100644
-> --- a/drivers/gpu/drm/tegra/gem.c
-> +++ b/drivers/gpu/drm/tegra/gem.c
-> @@ -526,7 +526,7 @@ void tegra_bo_free_object(struct drm_gem_object *gem)
->  		if (drm_gem_is_imported(gem)) {
->  			dma_buf_unmap_attachment_unlocked(gem->import_attach, bo->sgt,
->  							  DMA_TO_DEVICE);
-> -			dma_buf_detach(gem->dma_buf, gem->import_attach);
-> +			dma_buf_detach(gem->import_attach->dmabuf, gem->import_attach);
->  		}
->  	}
->  
+> diff --git a/drivers/gpu/drm/panel/panel-samsung-s6e63m0.c b/drivers/gpu/drm/panel/panel-samsung-s6e63m0.c
+> index ea241c89593b..930948cb615f 100644
+> --- a/drivers/gpu/drm/panel/panel-samsung-s6e63m0.c
+> +++ b/drivers/gpu/drm/panel/panel-samsung-s6e63m0.c
+> @@ -16,6 +16,7 @@
+>  #include <linux/export.h>
+>  #include <linux/gpio/consumer.h>
+>  #include <linux/module.h>
+> +#include <linux/of.h>
+>  #include <linux/property.h>
+>  #include <linux/regulator/consumer.h>
+>  #include <linux/media-bus-format.h>
 > -- 
 > 2.50.0
 > 
