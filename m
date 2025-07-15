@@ -2,119 +2,66 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 154E3B059A8
-	for <lists+dri-devel@lfdr.de>; Tue, 15 Jul 2025 14:14:42 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4511EB059E0
+	for <lists+dri-devel@lfdr.de>; Tue, 15 Jul 2025 14:21:13 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6EDD010E213;
-	Tue, 15 Jul 2025 12:14:40 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id BAA8910E386;
+	Tue, 15 Jul 2025 12:21:05 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=qualcomm.com header.i=@qualcomm.com header.b="pAR7DWyP";
+	dkim=pass (2048-bit key; secure) header.d=mailbox.org header.i=@mailbox.org header.b="XRRypLO3";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com
- [205.220.168.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2D80D10E213
- for <dri-devel@lists.freedesktop.org>; Tue, 15 Jul 2025 12:14:39 +0000 (UTC)
-Received: from pps.filterd (m0279867.ppops.net [127.0.0.1])
- by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 56FC8jVY021130
- for <dri-devel@lists.freedesktop.org>; Tue, 15 Jul 2025 12:14:38 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
- cc:content-transfer-encoding:content-type:date:from:in-reply-to
- :message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
- Jfw3xvfS4NbEz+jsLHsBmAengRL2X8sb/oc+/LO2vCE=; b=pAR7DWyPBxVpTXT0
- h9YnTblgqYuJIXGydih9tv0twZK8VIO7ntLAd9wbUHTHG+jYowx44+BKRoRKCgO3
- pPJI23mQ/lxWGzkwg6OZNqNr0BLKs8D+91giy10Y3oRWGuh2gpEBsoOBS7eERO7+
- 28gwND+lghCCxhf+SeEEA02wgWB5/hyCuR6sBKEjrhioUpZAejuHTgvsgjmB8u1x
- JdOWpBBLhPv00bBpVmAew6PkTmi8guAKTNX5m9gjdSIfb4YngOoUXvkWWtrHKwJM
- QSTViKVoXyUfxepVrVVX19kcpG8Cp4EgUKUP3gNBI0qlRDk9J/tCW4TFVCEzRUH8
- iwezdw==
-Received: from mail-qk1-f200.google.com (mail-qk1-f200.google.com
- [209.85.222.200])
- by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 47w5dpayeu-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
- for <dri-devel@lists.freedesktop.org>; Tue, 15 Jul 2025 12:14:38 +0000 (GMT)
-Received: by mail-qk1-f200.google.com with SMTP id
- af79cd13be357-7e237c2f4ddso377990085a.0
- for <dri-devel@lists.freedesktop.org>; Tue, 15 Jul 2025 05:14:38 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1752581677; x=1753186477;
- h=content-transfer-encoding:mime-version:date:message-id:subject
- :references:in-reply-to:cc:to:from:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=Jfw3xvfS4NbEz+jsLHsBmAengRL2X8sb/oc+/LO2vCE=;
- b=orLzGFBEx4/AaXBN/HW/UrUWwrFxzQzAWNR/XrEHFqtemR5+a6Y2SaHTwOl0QH/rbv
- 404h7X/86LjJy/w8P5Y4FNOIcMz/O3q2j3a3jx3hIXq5HHTQLg1R8CRr/BvZ6H7nkrGy
- cseHCN0ajj1BQqRzvzwkW3BLheScotVucC+MgS/3Pz8ejpUU6WyxqSKIdgEcmhrZBGaL
- 5q2myPDYqrltRfyKihTyDjJy2A7yqTF6RR48IhT+pQ+Hv2Ba/2m9nFEcLOMnn5EBjadp
- cpuxy/qK4BF04LSbyhrTcaVQYPx6El36Cm7jK4cy1VBih7WbN7eph6bUHFy4GGH6IljH
- uyuQ==
-X-Forwarded-Encrypted: i=1;
- AJvYcCXrGTc99aABH3jLnvh1kRQEKyTtBDjQ4kBLVv9DWph66VNrUMs/W+MjZ5svDsabvhTUpwta/KGMXE4=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0Yynr+ODs09AsLaqDDN+Lq0HIFcdPy6pmELLzyEBLaMLKpAKbFs7
- hQTqzhMfWO8vqTdPgaq9L7AdPGyHU5G4KNxL7yKTxZTmfHligF7W13/hUtA2/QOq/RIGOVqNIb3
- SWIsvnDTgqUQkRBLPFnoEKQER+QxFHihsuq9SdUes6XwiVIeEDYoFnV69OA842MBkuc1aCnU=
-X-Gm-Gg: ASbGncvqi6m8Eyq1dZnX9W9ry+F9NgaThikn0QcqhSlykWO1qwPqcydKJCAzHmJcDuW
- OkitBZw+eZIu08PYzincTTzW84Q1JA8DgnF+ONJJ0/6TpGF/Upcm9AxsMYTZC5rYzdg84smTcGn
- mha3BbsBXiectOGAsa2MFdtTI40wgiafDk046SNX2O7I1KFY9WxrBzU/tOl8sNM/BV+rVSDDr7x
- uLUmQXaLlDsKpjVU907h/b7+DRvDEtEeUGyE6DkkqDE6KejVidOlqa3NvYdHO2rRndBGq+6aZCS
- CNDL3fE6awjdlK6E8FChr4bplpaA2KFPFk72wJuIKnkNwH9ql2BB6aB8bFkjHpy6pGrq+S16jxn
- uFJrbufwnV7uGwabuCOJO5N4Y5tKO85N2Vh6oJfO1EfgmtRgDDk8t
-X-Received: by 2002:a05:620a:44cc:b0:7d2:1953:a410 with SMTP id
- af79cd13be357-7ddea60f5a4mr2007318085a.17.1752581677196; 
- Tue, 15 Jul 2025 05:14:37 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IFPBdsY71vp+xrMliT1xr5TakX7NuGQX6TNVLrGNnn8LGe7tYWNBXLw8v3IZLOAETZNjIReLA==
-X-Received: by 2002:a05:620a:44cc:b0:7d2:1953:a410 with SMTP id
- af79cd13be357-7ddea60f5a4mr2007313785a.17.1752581676616; 
- Tue, 15 Jul 2025 05:14:36 -0700 (PDT)
-Received: from umbar.lan
- (2001-14ba-a0c3-3a00-264b-feff-fe8b-be8a.rev.dnainternet.fi.
- [2001:14ba:a0c3:3a00:264b:feff:fe8b:be8a])
- by smtp.gmail.com with ESMTPSA id
- 38308e7fff4ca-32fa29134fcsm18126581fa.15.2025.07.15.05.14.34
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 15 Jul 2025 05:14:34 -0700 (PDT)
-From: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
-To: Andy Yan <andyshrk@163.com>
-Cc: simona@ffwll.ch, andrzej.hajda@intel.com, airlied@gmail.com,
- ian.ray@ge.com, jernej.skrabec@gmail.com, jonas@kwiboo.se,
- Laurent.pinchart@ideasonboard.com, maarten.lankhorst@linux.intel.com,
- martyn.welch@collabora.co.uk, mripard@kernel.org,
- neil.armstrong@linaro.org, peter.senna@gmail.com, rfoss@kernel.org,
- tzimmermann@suse.de, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org, Dixit Ashutosh <ashutosh.dixit@intel.com>
-In-Reply-To: <20250715054754.800765-1-andyshrk@163.com>
-References: <20250715054754.800765-1-andyshrk@163.com>
-Subject: Re: [PATCH] drm/bridge: megachips-stdpxxxx-ge-b850v3-fw: Fix a
- compile error due to bridge->detect parameter changes
-Message-Id: <175258167425.3629548.5679606306596835842.b4-ty@oss.qualcomm.com>
-Date: Tue, 15 Jul 2025 15:14:34 +0300
+Received: from mout-p-102.mailbox.org (mout-p-102.mailbox.org [80.241.56.152])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4AE6910E386
+ for <dri-devel@lists.freedesktop.org>; Tue, 15 Jul 2025 12:21:04 +0000 (UTC)
+Received: from smtp1.mailbox.org (smtp1.mailbox.org
+ [IPv6:2001:67c:2050:b231:465::1])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ (No client certificate requested)
+ by mout-p-102.mailbox.org (Postfix) with ESMTPS id 4bhJF91PMBz9twR;
+ Tue, 15 Jul 2025 14:21:01 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mailbox.org;
+ s=mail20150812; 
+ t=1752582061; h=from:from:reply-to:reply-to:subject:subject:date:date:
+ message-id:message-id:to:to:cc:cc:mime-version:mime-version:
+ content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=ywvB6lhH3jYfzXfPEjqr2PT/Gzws6XrvncI75sRZ/jU=;
+ b=XRRypLO3EVDmqom60h03eXXt+y0iqV6naZ+9jyz4yGZveeNGwIfuraA2JlM9JGYVUMGeTg
+ tesfob15CimXhHmOeGSdN9YVAe7p65sTKRhPm/9Zqe7T2aDqXvuynVHU+/+fnDk+LovNJU
+ 6WOvx2ibYPk5Jkbr7BdBYrutJUUVpRctZWT4HXCaLTPTCQvvVaizxQKEzD5hTkXr7g+Ytf
+ PWACR0x9agA7DPrhCNCwNazHTKE+IiPrrRVS0P8pjkhQvIrtaKt0zyiH6CjNe0Ntw1uL8M
+ m9R2mWWuGDDTEQmCbxjfB5igpsNAAAihNf6yprkBaCW/3fruz8Gwfv7bsSrnvg==
+Message-ID: <564b80a454c5d537071c4e63622982f2d6be5639.camel@mailbox.org>
+Subject: Re: [PATCH v2] drm/scheduler: Fix sched hang when killing app with
+ dependent jobs
+From: Philipp Stanner <phasta@mailbox.org>
+To: Christian =?ISO-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>, 
+ phasta@kernel.org, "cao, lin" <lin.cao@amd.com>, 
+ "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>
+Cc: "Yin, ZhenGuo (Chris)" <ZhenGuo.Yin@amd.com>, "Deng, Emily"
+ <Emily.Deng@amd.com>, "dakr@kernel.org" <dakr@kernel.org>, 
+ "matthew.brost@intel.com" <matthew.brost@intel.com>
+Date: Tue, 15 Jul 2025 14:20:57 +0200
+In-Reply-To: <ba4770ce-f70b-4825-aba4-34e13c9b910f@amd.com>
+References: <20250714062349.588235-1-lincao12@amd.com>
+ <87d61f5b7809828a55caf779b10a90be802fe83a.camel@mailbox.org>
+ <a8e473bd-6ea8-41e0-b5b2-10c420e5a935@amd.com>
+ <70d9c6a43846c3a3c266d4a7a431c1c4b3fcd05f.camel@mailbox.org>
+ <164c69fe-9ab1-4e04-8103-b25e4804e74d@amd.com>
+ <PH0PR12MB549781447809324DF9A7E0D6F557A@PH0PR12MB5497.namprd12.prod.outlook.com>
+ <8dc0a31c06d33f45bbcb32d8805579015db91b21.camel@mailbox.org>
+ <PH0PR12MB54974724ECC2262A6F00AE18F557A@PH0PR12MB5497.namprd12.prod.outlook.com>
+ <44bdc3fd5628a7db07c64331007509aa39a13df4.camel@mailbox.org>
+ <ba4770ce-f70b-4825-aba4-34e13c9b910f@amd.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-X-Mailer: b4 0.14.2
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwNzE1MDExMSBTYWx0ZWRfX9+NGGyYwJQrx
- ZMTaMRy8MLJvvvo+UbcJ74ymitZO2SN4nn9lhdbOyC7/s8ABdRxkHrf+xoAbdNBZ+zN38ivd/qP
- i4cPQu8Ki9cZpEzg3pgxVAABuxgO+hT4rPRYSG0CKECH7QGugU0xEu9m2gaok6jiL+2kF9oCS3N
- wofuHxu91stNs+uY7U67B07zdnw2gc3nXGCoVKZ2wkbuv5y4xhgScn9d9kNc/vJurRoYURLtB+u
- OW0CPwJ33WOpKzU0oFJ5YoCdVM711fM4r/1AqiNUMZnNqFTg0PJdRaq10n7qD5thQp7ckGLtcyp
- Lnpi4xAlIbrpzsxkFm15HkWUVrdFieRP1m0EeObCyxKZ0pTHaANT7tc5jfkwFygZLuVBSSqIURk
- T3ir6GDtqgk5HMuTZ1wH1kB5t3P3bB/nklOAYDfrfYKTIU8f3rhDuBiO+K9V5DqmwYaKgnCf
-X-Proofpoint-GUID: Oaypez1_-CbnJ9goAsrmraKGXiwH_lmL
-X-Proofpoint-ORIG-GUID: Oaypez1_-CbnJ9goAsrmraKGXiwH_lmL
-X-Authority-Analysis: v=2.4 cv=Y+r4sgeN c=1 sm=1 tr=0 ts=6876462e cx=c_pps
- a=hnmNkyzTK/kJ09Xio7VxxA==:117 a=xqWC_Br6kY4A:10 a=IkcTkHD0fZMA:10
- a=Wb1JkmetP80A:10 a=eKgQYgMGIk0790w6_cYA:9 a=QEXdDO2ut3YA:10
- a=PEH46H7Ffwr30OY-TuGO:22
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1099,Hydra:6.1.7,FMLib:17.12.80.40
- definitions=2025-07-15_03,2025-07-14_01,2025-03-28_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- clxscore=1015 mlxlogscore=999 phishscore=0 malwarescore=0 priorityscore=1501
- adultscore=0 impostorscore=0 mlxscore=0 suspectscore=0 lowpriorityscore=0
- bulkscore=0 spamscore=0 classifier=spam authscore=0 authtc=n/a authcc=
- route=outbound adjust=0 reason=mlx scancount=1 engine=8.19.0-2505280000
- definitions=main-2507150111
+X-MBO-RS-ID: fe6b24d4ebf5464bf0a
+X-MBO-RS-META: 6fa45pkpoqmppf1ws9f93x3z1h1qmt8e
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -127,22 +74,417 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
+Reply-To: phasta@kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, 15 Jul 2025 13:47:52 +0800, Andy Yan wrote:
-> Fix the compile error due to bridge->detect parameter changes.
-> 
-> 
+On Tue, 2025-07-15 at 12:52 +0200, Christian K=C3=B6nig wrote:
+> On 15.07.25 12:27, Philipp Stanner wrote:
+> > On Tue, 2025-07-15 at 09:51 +0000, cao, lin wrote:
+> > >=20
+> > > [AMD Official Use Only - AMD Internal Distribution Only]
+> > >=20
+> > >=20
+> > >=20
+> > > Hi Philipp,
+> > >=20
+> > >=20
+> > > Thanks for your review, let me try to clarify why I added
+> > > drm_sched_wakeup() to drm_sched_entity_kill_jobs_work():
+> > >=20
+> > >=20
+> > > When application A submits jobs (a1, a2, a3) and application B
+> > > submits job b1 with a dependency on a1's scheduled fence, the
+> > > normal execution flow is (function drm_sched_run_job_work()):
+> > > 1. a1 gets popped from the entity by the scheduler
+> > > 2. run_job(a1) executes
+> > > 3. a1's scheduled fence gets signaled=C2=A0
+> > > 4. drm_sched_run_job_work() calls drm_sched_run_job_queue() at
+> > > the end
+> > > 5. The scheduler wakes up and re-selects entities to pop jobs
+> > > 6. Since b1's dependency is cleared, the scheduler can select b1
+> > > and continue the same flow
+> > >=20
+> > >=20
+> > > However, if application A is killed before a1 gets popped by the
+> > > scheduler, then a1, a2, a3 are killed sequentially by
+> > > drm_sched_entity_kill_jobs_cb(). During the kill process, their
+> > > scheduled fences are still signaled, but the kill process itself
+> > > lacks work_run_job. This means b1's dependency gets cleared, but
+> > > there's no work_run_job to drive the scheduler to continue
+> > > running, or we can saystep 4 in the normal flow is missing, and
+> > > the scheduler enters sleep state, which causes application B to
+> > > hang.
+> > > So if we add drm_sched_wakeup() in
+> > > drm_sched_entity_kill_jobs_work() after
+> > > drm_sched_fence_scheduled(), the scheduler can be woken up, and
+> > > application B can continue running after a1's scheduled fence is
+> > > force signaled.
+> >=20
+> > Thanks for the detailed explanation. Makes sense.
+> > Maybe you can detail in v3 that this "optimization" consists of the
+> > work item not being scheduled.
+>=20
+> Yeah, removing this "optimization" would also be a valid solution to
+> the problem.
 
-Applied to drm-misc-next, thanks!
+If you at AMD are willing to work on that that'd be definitely fine.
+Removing code is usually better than adding code.
 
-[1/1] drm/bridge: megachips-stdpxxxx-ge-b850v3-fw: Fix a compile error due to bridge->detect parameter changes
-      commit: a622663dbf874ae5ae2326a9878ceb410c8a34a4
+Do you think being afraid of a performance regression is realistic
+here, though?
 
-Best regards,
--- 
-With best wishes
-Dmitry
 
+P.
+
+>=20
+> Christian.
+>=20
+> > I think that was the piece of the puzzle
+> > I was missing.
+> >=20
+> > I / DRM tools will also include a link to this thread, so I think
+> > that
+> > will then be sufficient.
+> >=20
+> > Thx
+> > P.
+> >=20
+> > >=20
+> > > Thanks,
+> > > Lin
+> > >=20
+> > >=20
+> > >=20
+> > >=20
+> > >=20
+> > > From:=C2=A0Philipp Stanner <phasta@mailbox.org>
+> > > Sent:=C2=A0Tuesday, July 15, 2025 17:12
+> > > To:=C2=A0cao, lin <lin.cao@amd.com>; Koenig, Christian
+> > > <Christian.Koenig@amd.com>;
+> > > phasta@kernel.org=C2=A0<phasta@kernel.org>;
+> > > dri-devel@lists.freedesktop.org=C2=A0<dri-devel@lists.freedesktop.org=
+>
+> > > Cc:=C2=A0Yin, ZhenGuo (Chris) <ZhenGuo.Yin@amd.com>; Deng, Emily
+> > > <Emily.Deng@amd.com>; dakr@kernel.org=C2=A0<dakr@kernel.org>;
+> > > matthew.brost@intel.com=C2=A0<matthew.brost@intel.com>
+> > > Subject:=C2=A0Re: [PATCH v2] drm/scheduler: Fix sched hang when
+> > > killing app with dependent jobs
+> > >=20
+> > >=20
+> > > On Tue, 2025-07-15 at 03:38 +0000, cao, lin wrote:
+> > > >=20
+> > > > [AMD Official Use Only - AMD Internal Distribution Only]
+> > > >=20
+> > > >=20
+> > > >=20
+> > > > Hi Christian, Philipp,
+> > > >=20
+> > > >=20
+> > > > I modified=C2=A0the commit msg, and I hope it makes more=C2=A0sense=
+:
+> > > >=20
+> > > >=20
+> > > > drm/sched: wake up scheduler when killing jobs to prevent hang
+> > >=20
+> > > nit:
+> > > s/wake/Wake
+> > >=20
+> > > >=20
+> > > >=20
+> > > > When application A submits jobs (a1, a2, a3) and application B
+> > > > submits
+> > > > job b1 with a dependency on a2's scheduler fence, killing
+> > > > application A
+> > > > before run_job(a1) causes drm_sched_entity_kill_jobs_work() to
+> > > > force
+> > > > signal all jobs sequentially. However, the optimization in
+> > > > drm_sched_entity_add_dependency_cb() waits for the fence to be
+> > > > scheduled
+> > > > by adding a callback (drm_sched_entity_clear_dep) instead of
+> > > > immediately
+> > > > waking up the scheduler. When A is killed before its jobs can
+> > > > run, the
+> > > > callback gets triggered but drm_sched_entity_clear_dep() only
+> > > > clears the
+> > > > dependency without waking up the scheduler, causing the
+> > > > scheduler to enter
+> > > > sleep state and application B to hang.
+> > >=20
+> > > That now reads as if drm_sched_entity_clear_dep() is supposed to
+> > > wake
+> > > up the scheduler. But you add the wakeup to a different function
+> > > (the
+> > > work item).
+> > >=20
+> > > Also the code actually looks like that:
+> > >=20
+> > >=20
+> > > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0 xa_erase(&job->dependencies, index);
+> > > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0 if (f && !dma_fence_add_callback(f, &job-
+> > > >finish_cb,
+> > > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0
+> > > drm_sched_entity_kill_jobs_cb))
+> > > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 retur=
+n;
+> > >=20
+> > > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0 dma_fence_put(f);
+> > > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 }
+> > >=20
+> > > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 INIT_WORK(&job->work, drm_=
+sched_entity_kill_jobs_work);
+> > > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 schedule_work(&job->work);
+> > > }
+> > >=20
+> > > So if adding that callback succeeds we.. return immediately but
+> > > we.. do
+> > > that for the first dependency, not for all of them?
+> > >=20
+> > > Oh boy. That code base. We(tm) should look into pimping that up.
+> > > Also
+> > > lacks documentation everywhere.
+> > >=20
+> > >=20
+> > > Anyways. If this solves a bug for you the patch looks fine (i.e.,
+> > > not
+> > > potentially harmful) by me and if the tests succeed we can merge
+> > > it.
+> > > However, I'd feel better if you could clarify more why that
+> > > function is
+> > > the right place to solve the bug.
+> > >=20
+> > >=20
+> > > Thanks,
+> > > P.
+> > >=20
+> > >=20
+> > > >=20
+> > > >=20
+> > > > Add drm_sched_wakeup() in entity_kill_job_work() to prevent
+> > > > scheduler
+> > > > sleep and subsequent application hangs.
+> > > >=20
+> > > >=20
+> > > > v2:
+> > > > - Move drm_sched_wakeup() to after drm_sched_fence_scheduled()
+> > > >=20
+> > > >=20
+> > > > Thanks,
+> > > > Lin
+> > > >=20
+> > > >=20
+> > > > From: Koenig, Christian <Christian.Koenig@amd.com>
+> > > > Sent: Monday, July 14, 2025 21:39
+> > > > To: phasta@kernel.org=C2=A0<phasta@kernel.org>; cao, lin
+> > > > <lin.cao@amd.com>;
+> > > > dri-devel@lists.freedesktop.org=C2=A0<dri-devel@lists.freedesktop.o=
+rg
+> > > > >
+> > > > Cc: Yin, ZhenGuo (Chris) <ZhenGuo.Yin@amd.com>; Deng, Emily
+> > > > <Emily.Deng@amd.com>; dakr@kernel.org=C2=A0<dakr@kernel.org>;
+> > > > matthew.brost@intel.com=C2=A0<matthew.brost@intel.com>
+> > > > Subject: Re: [PATCH v2] drm/scheduler: Fix sched hang when
+> > > > killing app with dependent jobs
+> > > >=20
+> > > > =C2=A0
+> > > >=20
+> > > >=20
+> > > > On 14.07.25 15:27, Philipp Stanner wrote:
+> > > > > On Mon, 2025-07-14 at 15:08 +0200, Christian K=C3=B6nig wrote:
+> > > > > >=20
+> > > > > >=20
+> > > > > > On 14.07.25 14:46, Philipp Stanner wrote:
+> > > > > > > regarding the patch subject: the prefix we use for the
+> > > > > > > scheduler
+> > > > > > > is:
+> > > > > > > drm/sched:
+> > > > > > >=20
+> > > > > > >=20
+> > > > > > > On Mon, 2025-07-14 at 14:23 +0800, Lin.Cao wrote:
+> > > > > > >=20
+> > > > > > > > When Application A submits jobs (a1, a2, a3) and
+> > > > > > > > application B
+> > > > > > > > submits
+> > > > > > >=20
+> > > > > > > s/Application/application
+> > > > > > >=20
+> > > > > > > > job b1 with a dependency on a2's scheduler fence,
+> > > > > > > > killing
+> > > > > > > > application A
+> > > > > > > > before run_job(a1) causes
+> > > > > > > > drm_sched_entity_kill_jobs_work() to
+> > > > > > > > force
+> > > > > > > > signal all jobs sequentially. However, due to missing
+> > > > > > > > work_run_job or
+> > > > > > > > work_free_job
+> > > > > > > >=20
+> > > > > > >=20
+> > > > > > > You probably mean "due to the work items work_run_job and
+> > > > > > > work_free_job
+> > > > > > > not being started [=E2=80=A6]".
+> > > > > > >=20
+> > > > > > > However, the call you add, drm_sched_wakeup(),
+> > > > > > > immediately only
+> > > > > > > triggers work_run_job. It's not clear to me why you
+> > > > > > > mention
+> > > > > > > work_free_job, because drm_sched_entity_kill_jobs_work()
+> > > > > > > directly
+> > > > > > > invokes the free_job() callback.
+> > > > > >=20
+> > > > > > Yeah the description is rather confusing, took me more than
+> > > > > > one try
+> > > > > > to understand what's going on here as well. Let me try to
+> > > > > > explain it
+> > > > > > in my words:
+> > > > > >=20
+> > > > > > When an application A is killed the pending submissions
+> > > > > > from it are
+> > > > > > not executed, but rather torn down by
+> > > > > > drm_sched_entity_kill_jobs_work().
+> > > > > >=20
+> > > > > > If now a submission from application B depends on something
+> > > > > > application A wanted to do on the same scheduler instance
+> > > > > > the
+> > > > > > function drm_sched_entity_add_dependency_cb() would have
+> > > > > > optimized
+> > > > > > this dependency and assumed that the scheduler work would
+> > > > > > already run
+> > > > > > and try to pick a job.
+> > > > > >=20
+> > > > > > But that isn't the case when the submissions from
+> > > > > > application A are
+> > > > > > all killed. So make sure to start the scheduler work from
+> > > > > > drm_sched_entity_kill_jobs_work() to handle that case.
+> > > > >=20
+> > > > > Alright, so the bug then depends on B setting a dependency on
+> > > > > A _after_
+> > > > > A was killed, doesn't it? Because the optimization in
+> > > > > _add_dependency_cb() can only have an effect after A's jobs
+> > > > > have been
+> > > > > torn down.
+> > > >=20
+> > > > No, application A and application B submit right behind each
+> > > > other. Application A is then killed later on.
+> > > >=20
+> > > > The optimization in _add_dependency_cb() just waits for As
+> > > > submission to be handled by the scheduler, but that never
+> > > > happens because it was killed.
+> > > >=20
+> > > > > If there is such a timing order problem, the commit message
+> > > > > should
+> > > > > mention it.
+> > > > >=20
+> > > > > The commit message definitely also needs to mention this
+> > > > > optimization
+> > > > > in drm_sched_entity_add_dependency_cb() since it's essential
+> > > > > for
+> > > > > understanding the bug.
+> > > >=20
+> > > > +1
+> > > >=20
+> > > > Christian.
+> > > >=20
+> > > > >=20
+> > > > >=20
+> > > > > Danke
+> > > > > P.
+> > > > >=20
+> > > > >=20
+> > > > > >=20
+> > > > > > Regards,
+> > > > > > Christian.
+> > > > > >=20
+> > > > > > >=20
+> > > > > > > > =C2=A0in entity_kill_job_work(), the scheduler enters sleep
+> > > > > > > > state, causing application B hang.
+> > > > > > >=20
+> > > > > > > So the issue is that if a1 never ran, the scheduler will
+> > > > > > > not
+> > > > > > > continue
+> > > > > > > with the jobs of application B, correct?
+> > > > > > >=20
+> > > > > > > >=20
+> > > > > > > > Add drm_sched_wakeup() when entity_kill_job_work() to
+> > > > > > > > preventing
+> > > > > > >=20
+> > > > > > > s/to preventing/to prevent
+> > > > > > >=20
+> > > > > > > > scheduler sleep and subsequent application hangs.
+> > > > > > > >=20
+> > > > > > > > v2:
+> > > > > > > > - Move drm_sched_wakeup() to after
+> > > > > > > > drm_sched_fence_scheduled()
+> > > > > > >=20
+> > > > > > > Changelogs are cool and useful, but move them below the
+> > > > > > > Signed-off
+> > > > > > > area
+> > > > > > > with another --- please, like so:
+> > > > > > >=20
+> > > > > > > Signed-off by: =E2=80=A6
+> > > > > > > ---
+> > > > > > > v2:
+> > > > > > > =E2=80=A6
+> > > > > > > ---
+> > > > > > > drivers/gpu/drm/scheduler/sched_entity.c | 1 +
+> > > > > > >=20
+> > > > > > >=20
+> > > > > > > >=20
+> > > > > > > > Signed-off-by: Lin.Cao <lincao12@amd.com>
+> > > > > > >=20
+> > > > > > > This fixes a bug. Even a racy bug, it seems. So we need a
+> > > > > > > Fixes tag
+> > > > > > > and
+> > > > > > > put the stable kernel in CC.
+> > > > > > >=20
+> > > > > > > Please figure out with git blame, git log and git tag --
+> > > > > > > contains
+> > > > > > > which
+> > > > > > > commit your patch fixes and which is the oldest kernel
+> > > > > > > that
+> > > > > > > contains
+> > > > > > > the bug. Then add a Fixes: tag and Cc: the stable kernel.
+> > > > > > > You'll
+> > > > > > > find
+> > > > > > > lots of examples for that in git log.
+> > > > > > >=20
+> > > > > > >=20
+> > > > > > > Thx
+> > > > > > > P.
+> > > > > > >=20
+> > > > > > > > ---
+> > > > > > > > =C2=A0drivers/gpu/drm/scheduler/sched_entity.c | 1 +
+> > > > > > > > =C2=A01 file changed, 1 insertion(+)
+> > > > > > > >=20
+> > > > > > > > diff --git a/drivers/gpu/drm/scheduler/sched_entity.c
+> > > > > > > > b/drivers/gpu/drm/scheduler/sched_entity.c
+> > > > > > > > index e671aa241720..66f2a43c58fd 100644
+> > > > > > > > --- a/drivers/gpu/drm/scheduler/sched_entity.c
+> > > > > > > > +++ b/drivers/gpu/drm/scheduler/sched_entity.c
+> > > > > > > > @@ -177,6 +177,7 @@ static void
+> > > > > > > > drm_sched_entity_kill_jobs_work(struct work_struct
+> > > > > > > > *wrk)
+> > > > > > > > =C2=A0=C2=A0 struct drm_sched_job *job =3D container_of(wrk=
+,
+> > > > > > > > typeof(*job), work);
+> > > > > > > > =C2=A0
+> > > > > > > > =C2=A0=C2=A0 drm_sched_fence_scheduled(job->s_fence, NULL);
+> > > > > > > > +=C2=A0 drm_sched_wakeup(job->sched);
+> > > > > > > > =C2=A0=C2=A0 drm_sched_fence_finished(job->s_fence, -ESRCH)=
+;
+> > > > > > > > =C2=A0=C2=A0 WARN_ON(job->s_fence->parent);
+> > > > > > > > =C2=A0=C2=A0 job->sched->ops->free_job(job);
+> > > > > > >=20
+> > > > > >=20
+> > > > >=20
+> > > >=20
+> > >=20
+> >=20
+>=20
 
