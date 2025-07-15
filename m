@@ -2,47 +2,53 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9FB80B05E79
-	for <lists+dri-devel@lfdr.de>; Tue, 15 Jul 2025 15:54:26 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0BCEEB05BFA
+	for <lists+dri-devel@lfdr.de>; Tue, 15 Jul 2025 15:26:11 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0F0AE10E5DD;
-	Tue, 15 Jul 2025 13:54:25 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E572910E5C5;
+	Tue, 15 Jul 2025 13:26:08 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="sQIemzrl";
+	dkim=pass (1024-bit key; unprotected) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="QqGzHLlC";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from tor.source.kernel.org (tor.source.kernel.org [172.105.4.254])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3DF5C10E5DD
- for <dri-devel@lists.freedesktop.org>; Tue, 15 Jul 2025 13:54:24 +0000 (UTC)
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2A26A10E5BE
+ for <dri-devel@lists.freedesktop.org>; Tue, 15 Jul 2025 13:26:07 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by tor.source.kernel.org (Postfix) with ESMTP id 769FB61360;
- Tue, 15 Jul 2025 13:54:23 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id CA11BC4CEE3;
- Tue, 15 Jul 2025 13:54:22 +0000 (UTC)
+ by dfw.source.kernel.org (Postfix) with ESMTP id 152145C6520;
+ Tue, 15 Jul 2025 13:26:05 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6BFF7C4CEF1;
+ Tue, 15 Jul 2025 13:26:04 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
- s=korg; t=1752587663;
- bh=h//pkb/TrtJiMs4uc1hwJ7mvR/U/cQmrFantLR8SKLs=;
+ s=korg; t=1752585964;
+ bh=jvKop24sFrKkwzLsEaMNehHH5CtJHJJ4dw1F+3jOxnA=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=sQIemzrlLFNe9Btrki89iN1AQNf1zU2Tzy9wtgo7m8eK8o7ATdcOdkMR4byhIXJXf
- 8i0cdypc+JGhcWZDmqpQRu/ARGLVoqDqiYqnMzBOc6fqMnV5FskGh0AKifpKuN0Ymm
- CpENIjzdfszbHvyohh7bExQeYS8o9wtIAIOEwnXQ=
+ b=QqGzHLlCp2QyZ6iLVSFL+zl8y8I9Fwh0KeZmUaWigIV8XjXErYWYGSiNzLpc64lWL
+ wmh0/8AnHuI+/6VuCxJL7asH27hwe0TllENtX650xEpsPv6FUxWYWhDs1KtIWqM2sb
+ aZxJxJ/JPOo5sSxnDDjqf/M+H2hg6g0kXkInlMdk=
 From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 To: stable@vger.kernel.org
 Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>, patches@lists.linux.dev,
- Thomas Zimmermann <tzimmermann@suse.de>, dri-devel@lists.freedesktop.org,
- Patrik Jakobsson <patrik.r.jakobsson@gmail.com>
-Subject: [PATCH 5.10 065/208] drm/udl: Unregister device before cleaning up on
- disconnect
-Date: Tue, 15 Jul 2025 15:12:54 +0200
-Message-ID: <20250715130813.557353171@linuxfoundation.org>
+ =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>,
+ Thomas Zimmermann <tzimmermann@suse.de>,
+ Anusha Srivatsa <asrivats@redhat.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, Sumit Semwal <sumit.semwal@linaro.org>,
+ linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ linaro-mm-sig@lists.linaro.org
+Subject: [PATCH 6.6 043/109] drm/gem: Acquire references on GEM handles for
+ framebuffers
+Date: Tue, 15 Jul 2025 15:12:59 +0200
+Message-ID: <20250715130800.605137510@linuxfoundation.org>
 X-Mailer: git-send-email 2.50.1
-In-Reply-To: <20250715130810.830580412@linuxfoundation.org>
-References: <20250715130810.830580412@linuxfoundation.org>
+In-Reply-To: <20250715130758.864940641@linuxfoundation.org>
+References: <20250715130758.864940641@linuxfoundation.org>
 User-Agent: quilt/0.68
 X-stable: review
 X-Patchwork-Hint: ignore
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -59,52 +65,228 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-5.10-stable review patch.  If anyone has any objections, please let me know.
+6.6-stable review patch.  If anyone has any objections, please let me know.
 
 ------------------
 
 From: Thomas Zimmermann <tzimmermann@suse.de>
 
-commit ff9cb6d2035c586ea7c8f1754d4409eec7a2d26d upstream.
+commit 5307dce878d4126e1b375587318955bd019c3741 upstream.
 
-Disconnecting a DisplayLink device results in the following kernel
-error messages
+A GEM handle can be released while the GEM buffer object is attached
+to a DRM framebuffer. This leads to the release of the dma-buf backing
+the buffer object, if any. [1] Trying to use the framebuffer in further
+mode-setting operations leads to a segmentation fault. Most easily
+happens with driver that use shadow planes for vmap-ing the dma-buf
+during a page flip. An example is shown below.
 
-[   93.041748] [drm:udl_urb_completion [udl]] *ERROR* udl_urb_completion - nonzero write bulk status received: -115
-[   93.055299] [drm:udl_submit_urb [udl]] *ERROR* usb_submit_urb error fffffffe
-[   93.065363] [drm:udl_urb_completion [udl]] *ERROR* udl_urb_completion - nonzero write bulk status received: -115
-[   93.078207] [drm:udl_submit_urb [udl]] *ERROR* usb_submit_urb error fffffffe
+[  156.791968] ------------[ cut here ]------------
+[  156.796830] WARNING: CPU: 2 PID: 2255 at drivers/dma-buf/dma-buf.c:1527 dma_buf_vmap+0x224/0x430
+[...]
+[  156.942028] RIP: 0010:dma_buf_vmap+0x224/0x430
+[  157.043420] Call Trace:
+[  157.045898]  <TASK>
+[  157.048030]  ? show_trace_log_lvl+0x1af/0x2c0
+[  157.052436]  ? show_trace_log_lvl+0x1af/0x2c0
+[  157.056836]  ? show_trace_log_lvl+0x1af/0x2c0
+[  157.061253]  ? drm_gem_shmem_vmap+0x74/0x710
+[  157.065567]  ? dma_buf_vmap+0x224/0x430
+[  157.069446]  ? __warn.cold+0x58/0xe4
+[  157.073061]  ? dma_buf_vmap+0x224/0x430
+[  157.077111]  ? report_bug+0x1dd/0x390
+[  157.080842]  ? handle_bug+0x5e/0xa0
+[  157.084389]  ? exc_invalid_op+0x14/0x50
+[  157.088291]  ? asm_exc_invalid_op+0x16/0x20
+[  157.092548]  ? dma_buf_vmap+0x224/0x430
+[  157.096663]  ? dma_resv_get_singleton+0x6d/0x230
+[  157.101341]  ? __pfx_dma_buf_vmap+0x10/0x10
+[  157.105588]  ? __pfx_dma_resv_get_singleton+0x10/0x10
+[  157.110697]  drm_gem_shmem_vmap+0x74/0x710
+[  157.114866]  drm_gem_vmap+0xa9/0x1b0
+[  157.118763]  drm_gem_vmap_unlocked+0x46/0xa0
+[  157.123086]  drm_gem_fb_vmap+0xab/0x300
+[  157.126979]  drm_atomic_helper_prepare_planes.part.0+0x487/0xb10
+[  157.133032]  ? lockdep_init_map_type+0x19d/0x880
+[  157.137701]  drm_atomic_helper_commit+0x13d/0x2e0
+[  157.142671]  ? drm_atomic_nonblocking_commit+0xa0/0x180
+[  157.147988]  drm_mode_atomic_ioctl+0x766/0xe40
+[...]
+[  157.346424] ---[ end trace 0000000000000000 ]---
 
-coming from KMS poll helpers. Shutting down poll helpers runs them
-one final time when the USB device is already gone.
+Acquiring GEM handles for the framebuffer's GEM buffer objects prevents
+this from happening. The framebuffer's cleanup later puts the handle
+references.
 
-Run drm_dev_unplug() first in udl's USB disconnect handler. Udl's
-polling code already handles disconnects gracefully if the device has
-been marked as unplugged.
+Commit 1a148af06000 ("drm/gem-shmem: Use dma_buf from GEM object
+instance") triggers the segmentation fault easily by using the dma-buf
+field more widely. The underlying issue with reference counting has
+been present before.
 
+v2:
+- acquire the handle instead of the BO (Christian)
+- fix comment style (Christian)
+- drop the Fixes tag (Christian)
+- rename err_ gotos
+- add missing Link tag
+
+Suggested-by: Christian König <christian.koenig@amd.com>
 Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
-Fixes: b1a981bd5576 ("drm/udl: drop drm_driver.release hook")
+Link: https://elixir.bootlin.com/linux/v6.15/source/drivers/gpu/drm/drm_gem.c#L241 # [1]
+Cc: Thomas Zimmermann <tzimmermann@suse.de>
+Cc: Anusha Srivatsa <asrivats@redhat.com>
+Cc: Christian König <christian.koenig@amd.com>
+Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
+Cc: Maxime Ripard <mripard@kernel.org>
+Cc: Sumit Semwal <sumit.semwal@linaro.org>
+Cc: "Christian König" <christian.koenig@amd.com>
+Cc: linux-media@vger.kernel.org
 Cc: dri-devel@lists.freedesktop.org
-Cc: <stable@vger.kernel.org> # v5.8+
-Reviewed-by: Patrik Jakobsson <patrik.r.jakobsson@gmail.com>
-Link: https://patchwork.freedesktop.org/patch/msgid/20250303145604.62962-2-tzimmermann@suse.de
+Cc: linaro-mm-sig@lists.linaro.org
+Cc: <stable@vger.kernel.org>
+Reviewed-by: Christian König <christian.koenig@amd.com>
+Link: https://lore.kernel.org/r/20250630084001.293053-1-tzimmermann@suse.de
 Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 ---
- drivers/gpu/drm/udl/udl_drv.c |    2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ drivers/gpu/drm/drm_gem.c                    |   44 ++++++++++++++++++++++++---
+ drivers/gpu/drm/drm_gem_framebuffer_helper.c |   16 +++++----
+ drivers/gpu/drm/drm_internal.h               |    2 +
+ 3 files changed, 51 insertions(+), 11 deletions(-)
 
---- a/drivers/gpu/drm/udl/udl_drv.c
-+++ b/drivers/gpu/drm/udl/udl_drv.c
-@@ -115,9 +115,9 @@ static void udl_usb_disconnect(struct us
- {
- 	struct drm_device *dev = usb_get_intfdata(interface);
+--- a/drivers/gpu/drm/drm_gem.c
++++ b/drivers/gpu/drm/drm_gem.c
+@@ -186,6 +186,35 @@ void drm_gem_private_object_fini(struct
+ }
+ EXPORT_SYMBOL(drm_gem_private_object_fini);
  
-+	drm_dev_unplug(dev);
- 	drm_kms_helper_poll_fini(dev);
- 	udl_drop_usb(dev);
--	drm_dev_unplug(dev);
++static void drm_gem_object_handle_get(struct drm_gem_object *obj)
++{
++	struct drm_device *dev = obj->dev;
++
++	drm_WARN_ON(dev, !mutex_is_locked(&dev->object_name_lock));
++
++	if (obj->handle_count++ == 0)
++		drm_gem_object_get(obj);
++}
++
++/**
++ * drm_gem_object_handle_get_unlocked - acquire reference on user-space handles
++ * @obj: GEM object
++ *
++ * Acquires a reference on the GEM buffer object's handle. Required
++ * to keep the GEM object alive. Call drm_gem_object_handle_put_unlocked()
++ * to release the reference.
++ */
++void drm_gem_object_handle_get_unlocked(struct drm_gem_object *obj)
++{
++	struct drm_device *dev = obj->dev;
++
++	guard(mutex)(&dev->object_name_lock);
++
++	drm_WARN_ON(dev, !obj->handle_count); /* first ref taken in create-tail helper */
++	drm_gem_object_handle_get(obj);
++}
++EXPORT_SYMBOL(drm_gem_object_handle_get_unlocked);
++
+ /**
+  * drm_gem_object_handle_free - release resources bound to userspace handles
+  * @obj: GEM object to clean up.
+@@ -216,8 +245,14 @@ static void drm_gem_object_exported_dma_
+ 	}
  }
  
+-static void
+-drm_gem_object_handle_put_unlocked(struct drm_gem_object *obj)
++/**
++ * drm_gem_object_handle_put_unlocked - releases reference on user-space handles
++ * @obj: GEM object
++ *
++ * Releases a reference on the GEM buffer object's handle. Possibly releases
++ * the GEM buffer object and associated dma-buf objects.
++ */
++void drm_gem_object_handle_put_unlocked(struct drm_gem_object *obj)
+ {
+ 	struct drm_device *dev = obj->dev;
+ 	bool final = false;
+@@ -242,6 +277,7 @@ drm_gem_object_handle_put_unlocked(struc
+ 	if (final)
+ 		drm_gem_object_put(obj);
+ }
++EXPORT_SYMBOL(drm_gem_object_handle_put_unlocked);
+ 
  /*
+  * Called at device or object close to release the file's
+@@ -363,8 +399,8 @@ drm_gem_handle_create_tail(struct drm_fi
+ 	int ret;
+ 
+ 	WARN_ON(!mutex_is_locked(&dev->object_name_lock));
+-	if (obj->handle_count++ == 0)
+-		drm_gem_object_get(obj);
++
++	drm_gem_object_handle_get(obj);
+ 
+ 	/*
+ 	 * Get the user-visible handle using idr.  Preload and perform
+--- a/drivers/gpu/drm/drm_gem_framebuffer_helper.c
++++ b/drivers/gpu/drm/drm_gem_framebuffer_helper.c
+@@ -99,7 +99,7 @@ void drm_gem_fb_destroy(struct drm_frame
+ 	unsigned int i;
+ 
+ 	for (i = 0; i < fb->format->num_planes; i++)
+-		drm_gem_object_put(fb->obj[i]);
++		drm_gem_object_handle_put_unlocked(fb->obj[i]);
+ 
+ 	drm_framebuffer_cleanup(fb);
+ 	kfree(fb);
+@@ -182,8 +182,10 @@ int drm_gem_fb_init_with_funcs(struct dr
+ 		if (!objs[i]) {
+ 			drm_dbg_kms(dev, "Failed to lookup GEM object\n");
+ 			ret = -ENOENT;
+-			goto err_gem_object_put;
++			goto err_gem_object_handle_put_unlocked;
+ 		}
++		drm_gem_object_handle_get_unlocked(objs[i]);
++		drm_gem_object_put(objs[i]);
+ 
+ 		min_size = (height - 1) * mode_cmd->pitches[i]
+ 			 + drm_format_info_min_pitch(info, i, width)
+@@ -193,22 +195,22 @@ int drm_gem_fb_init_with_funcs(struct dr
+ 			drm_dbg_kms(dev,
+ 				    "GEM object size (%zu) smaller than minimum size (%u) for plane %d\n",
+ 				    objs[i]->size, min_size, i);
+-			drm_gem_object_put(objs[i]);
++			drm_gem_object_handle_put_unlocked(objs[i]);
+ 			ret = -EINVAL;
+-			goto err_gem_object_put;
++			goto err_gem_object_handle_put_unlocked;
+ 		}
+ 	}
+ 
+ 	ret = drm_gem_fb_init(dev, fb, mode_cmd, objs, i, funcs);
+ 	if (ret)
+-		goto err_gem_object_put;
++		goto err_gem_object_handle_put_unlocked;
+ 
+ 	return 0;
+ 
+-err_gem_object_put:
++err_gem_object_handle_put_unlocked:
+ 	while (i > 0) {
+ 		--i;
+-		drm_gem_object_put(objs[i]);
++		drm_gem_object_handle_put_unlocked(objs[i]);
+ 	}
+ 	return ret;
+ }
+--- a/drivers/gpu/drm/drm_internal.h
++++ b/drivers/gpu/drm/drm_internal.h
+@@ -155,6 +155,8 @@ void drm_sysfs_lease_event(struct drm_de
+ 
+ /* drm_gem.c */
+ int drm_gem_init(struct drm_device *dev);
++void drm_gem_object_handle_get_unlocked(struct drm_gem_object *obj);
++void drm_gem_object_handle_put_unlocked(struct drm_gem_object *obj);
+ int drm_gem_handle_create_tail(struct drm_file *file_priv,
+ 			       struct drm_gem_object *obj,
+ 			       u32 *handlep);
 
 
