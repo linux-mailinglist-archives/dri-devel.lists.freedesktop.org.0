@@ -2,40 +2,40 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2372BB058EB
-	for <lists+dri-devel@lfdr.de>; Tue, 15 Jul 2025 13:35:07 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id E1E94B058F8
+	for <lists+dri-devel@lfdr.de>; Tue, 15 Jul 2025 13:36:44 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0C2FA10E599;
-	Tue, 15 Jul 2025 11:35:05 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4BC8310E59E;
+	Tue, 15 Jul 2025 11:36:43 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="KyKm831a";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="iz9lxkMA";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from tor.source.kernel.org (tor.source.kernel.org [172.105.4.254])
- by gabe.freedesktop.org (Postfix) with ESMTPS id EDA5D10E599
- for <dri-devel@lists.freedesktop.org>; Tue, 15 Jul 2025 11:35:03 +0000 (UTC)
+Received: from sea.source.kernel.org (sea.source.kernel.org [172.234.252.31])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8381910E59A
+ for <dri-devel@lists.freedesktop.org>; Tue, 15 Jul 2025 11:36:42 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by tor.source.kernel.org (Postfix) with ESMTP id 1E60760053;
- Tue, 15 Jul 2025 11:35:03 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id E5E44C4CEE3;
- Tue, 15 Jul 2025 11:34:56 +0000 (UTC)
+ by sea.source.kernel.org (Postfix) with ESMTP id 2AE9D44AF5;
+ Tue, 15 Jul 2025 11:36:42 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id A9557C4CEE3;
+ Tue, 15 Jul 2025 11:36:35 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1752579302;
- bh=1uGKmWWiwvicpa4TMcg7RSuKjBjr5n7fBm5dAiA0GBw=;
+ s=k20201202; t=1752579402;
+ bh=/ylle1xZMdj/zXOOKBEBI5yYp6ullFXneRP4z4g54+Q=;
  h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
- b=KyKm831aWmUAhJ8zOZ5/4azrxZzz5R/2NkhTuCZ4HeM/HPSFYjMK1XINCo4ZUJ4Lr
- tbX/0iUCbZet0ZGdKSnmDRhx8KIf9IhAcEJenOn8a1unue0nIdPpchvlZNgG7LvzoY
- 2mqg+R9TIIPFkad/J2Z19gH+5qKmIPr4VZgP8fuggaPc/xp2nJoqOr/ZM048OOY51k
- NASCBk9QRy60+WKrv+0vpYBsHTce7Bs+6KTr89hXTvQ53UcViheA3ZzHXffxvW86W5
- smTqBNFibClpYwrsvdcoXhPBtGkvIZ49qiO4CCAAWVqE5d2SkC1R/7ViPchYo5W3Wz
- Qb2uSh2y+p0fg==
-Message-ID: <4dfed94c-665d-4e04-b527-ddd34fd3db8f@kernel.org>
-Date: Tue, 15 Jul 2025 13:34:54 +0200
+ b=iz9lxkMACNlUUE4KMMsaCeA3ZSg3HOmLBkoo7d9W2yc6XAWTesJ5OBnvOp7KojpCt
+ waDSLm4bshmPiD/tJWprf4N0YuNHZk9P/Rx4rEa73IfxaHA2v+uMUfjHVRdJIjVPcL
+ SZkmAlcobwMATmnatev2oYu5vaGTkT8xrLs1856TZ+yu/ifF+jdOYJVRJk3cZEbB16
+ onigiaEOhJv+Qmr1Vvs02Q2tK4uNXa1QBiHsSBXt0hHMkc/iTuks08nuX6Xcy0DCl/
+ 1oRWD11AZoCRCrT8L78/H9E2/8pjYdWHdHQUT0KxAN1u2bTxudrZF4VHVE9fNbXBaU
+ k6pFIJgU6Zf8g==
+Message-ID: <dab567f3-cc62-4b52-a0dd-5929297b68a0@kernel.org>
+Date: Tue, 15 Jul 2025 13:36:34 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 2/5] dt-bindings: phy: rockchip: rk3399-typec-phy: Support
- mode/orientation switch
+Subject: Re: [PATCH 1/5] dt-bindings: connector: Add displayport connector for
+ hotplug notify
 To: Chaoyi Chen <kernel@airkyi.com>, Rob Herring <robh@kernel.org>,
  Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
  <conor+dt@kernel.org>, Vinod Koul <vkoul@kernel.org>,
@@ -55,7 +55,7 @@ Cc: devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
  linux-phy@lists.infradead.org, linux-arm-kernel@lists.infradead.org,
  linux-rockchip@lists.infradead.org, dri-devel@lists.freedesktop.org
 References: <20250715112456.101-1-kernel@airkyi.com>
- <20250715112456.101-3-kernel@airkyi.com>
+ <20250715112456.101-2-kernel@airkyi.com>
 From: Krzysztof Kozlowski <krzk@kernel.org>
 Content-Language: en-US
 Autocrypt: addr=krzk@kernel.org; keydata=
@@ -101,7 +101,7 @@ Autocrypt: addr=krzk@kernel.org; keydata=
  jWt87ecuHlpL3uuQ0ZZNWqHgZoQLXoqC2ZV5KrtKWb/jyiFX/sxSrodALf0zf+tfHv0FZWT2
  zHjUqd0t4njD/UOsuIMOQn4Ig0SdivYPfZukb5cdasKJukG1NOpbW7yRNivaCnfZz6dTawXw
  XRIV/KDsHQiyVxKvN73bThKhONkcX2LWuD928tAR6XMM2G5ovxLe09vuOzzfTWQDsm++9UKF a/A=
-In-Reply-To: <20250715112456.101-3-kernel@airkyi.com>
+In-Reply-To: <20250715112456.101-2-kernel@airkyi.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -122,50 +122,34 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 On 15/07/2025 13:24, Chaoyi Chen wrote:
 > From: Chaoyi Chen <chaoyi.chen@rock-chips.com>
 > 
-> Add support for Type-C orientation and altmode switch.
-> The Type-C controller can be specified to handling switching.
-
-Please describe the hardware in details. Above sentences don't help me
-to understand this.
-
-
+> The USB Type-C DisplayPort alternate mode driver will find
+> "displayport" property for DRM hotplug event notify[0].
+> 
+> [0]: https://lore.kernel.org/all/20210817215201.795062-9-hdegoede@redhat.com/
 > 
 > Signed-off-by: Chaoyi Chen <chaoyi.chen@rock-chips.com>
 > ---
->  .../bindings/phy/rockchip,rk3399-typec-phy.yaml    | 14 ++++++++++++++
->  1 file changed, 14 insertions(+)
+>  .../devicetree/bindings/connector/usb-connector.yaml          | 4 ++++
+>  1 file changed, 4 insertions(+)
 > 
-> diff --git a/Documentation/devicetree/bindings/phy/rockchip,rk3399-typec-phy.yaml b/Documentation/devicetree/bindings/phy/rockchip,rk3399-typec-phy.yaml
-> index 91c011f68cd0..a885c6893a90 100644
-> --- a/Documentation/devicetree/bindings/phy/rockchip,rk3399-typec-phy.yaml
-> +++ b/Documentation/devicetree/bindings/phy/rockchip,rk3399-typec-phy.yaml
-> @@ -43,6 +43,20 @@ properties:
->      description:
->        Phandle to the syscon managing the "general register files" (GRF).
+> diff --git a/Documentation/devicetree/bindings/connector/usb-connector.yaml b/Documentation/devicetree/bindings/connector/usb-connector.yaml
+> index 11e40d225b9f..ccb258972cd6 100644
+> --- a/Documentation/devicetree/bindings/connector/usb-connector.yaml
+> +++ b/Documentation/devicetree/bindings/connector/usb-connector.yaml
+> @@ -300,6 +300,10 @@ properties:
+>      $ref: /schemas/types.yaml#/definitions/uint8-array
+>      maxItems: 4
 >  
-> +  orientation-switch:
-> +    description: Flag the port as possible handler of orientation switching
-> +    type: boolean
-> +
-> +  mode-switch:
-> +    description: Flag the port as possible handler of altmode switching
-> +    type: boolean
-> +
-> +  port:
-> +    $ref: /schemas/graph.yaml#/properties/port
-> +    description:
-> +      A port node to link the PHY to a TypeC controller for the purpose of
-> +      handling orientation switching.
+> +  displayport:
+> +    description: A phandle to displayport connector for DRM hotplug event notify.
+> +    $ref: /schemas/types.yaml#/definitions/phandle
+
+That's not how you express graphs. Plus I don't understand why you need
+ONE more port property, beside existing ones.
+
+Look at the binding first - what's there.
 
 
-You are using usb-switch.yaml properties in phy node, which raises
-questions whether this is actually complete. It might be, but commit msg
-is so vague that I have doubts.
-
-Also, why only one port?
-
-Or wait... you already have ports! two of them. This needs to stop, why
-are you adding more?
 
 Best regards,
 Krzysztof
