@@ -2,64 +2,48 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id DFBF5B04F3E
-	for <lists+dri-devel@lfdr.de>; Tue, 15 Jul 2025 05:41:24 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id A1A4DB04F8E
+	for <lists+dri-devel@lfdr.de>; Tue, 15 Jul 2025 05:55:23 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D38CB10E2B7;
-	Tue, 15 Jul 2025 03:41:21 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 54A6710E4FB;
+	Tue, 15 Jul 2025 03:55:20 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="m26Od6kO";
+	dkim=pass (2048-bit key; secure) header.d=canb.auug.org.au header.i=@canb.auug.org.au header.b="C/yHqu7T";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A8FD610E2B7
- for <dri-devel@lists.freedesktop.org>; Tue, 15 Jul 2025 03:41:20 +0000 (UTC)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by dfw.source.kernel.org (Postfix) with ESMTP id 2A8495C309E
- for <dri-devel@lists.freedesktop.org>; Tue, 15 Jul 2025 03:41:20 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPS id CD3A7C4CEE3
- for <dri-devel@lists.freedesktop.org>; Tue, 15 Jul 2025 03:41:19 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1752550879;
- bh=cqApSMFZXCimpL18ySCaDrtOS0bA+n/U49JIXffaHt0=;
- h=From:To:Subject:Date:From;
- b=m26Od6kO/7ZaXWN/4Xl8ufybk62lcUBjZND5xI/wSsGqKuybLPXffH/uk7JMVGW89
- Ju+RCuYC5viC06Wi/8NAC66LLJ60EHKBmpxqEegR7xQ2mtxvodiQ0ZzTGNXl/T4G6G
- lIwxDAPb7iOdmOTAOr8EWK0Ft9y1PGeDxzKv3+7nQmoNNFpDtRnz81jcoO/bIylt6J
- 4PD+if+ZwMakaHD1N3UztTt6/0xSDvkzPh0fOlpMDPgEaHqwPAiBjsQON55CJWp1oH
- RHtat/J3ugloAf66Q9HTkVigGPJD6E9bwBwOwm8a28zr5WEwukXPOWa2bQUPUSpUFM
- 4ICAuWaUZ43Ig==
-Received: by aws-us-west-2-korg-bugzilla-1.web.codeaurora.org (Postfix,
- from userid 48) id C1B2CC41613; Tue, 15 Jul 2025 03:41:19 +0000 (UTC)
-From: bugzilla-daemon@kernel.org
-To: dri-devel@lists.freedesktop.org
-Subject: [Bug 220339] New: Use-After-Free in vmw_surface_unref_ioctl() in
- vmwgfx DRM Driver via Stale Surface Handle Dereference
-Date: Tue, 15 Jul 2025 03:41:19 +0000
-X-Bugzilla-Reason: None
-X-Bugzilla-Type: new
-X-Bugzilla-Watch-Reason: AssignedTo drivers_video-dri@kernel-bugs.osdl.org
-X-Bugzilla-Product: Drivers
-X-Bugzilla-Component: Video(DRI - non Intel)
-X-Bugzilla-Version: 2.5
-X-Bugzilla-Keywords: 
-X-Bugzilla-Severity: normal
-X-Bugzilla-Who: lewischarlie2571@gmail.com
-X-Bugzilla-Status: NEW
-X-Bugzilla-Resolution: 
-X-Bugzilla-Priority: P3
-X-Bugzilla-Assigned-To: drivers_video-dri@kernel-bugs.osdl.org
-X-Bugzilla-Flags: 
-X-Bugzilla-Changed-Fields: bug_id short_desc product version rep_platform
- op_sys bug_status bug_severity priority component assigned_to reporter
- cf_regression
-Message-ID: <bug-220339-2300@https.bugzilla.kernel.org/>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Bugzilla-URL: https://bugzilla.kernel.org/
-Auto-Submitted: auto-generated
+Received: from mail.ozlabs.org (gandalf.ozlabs.org [150.107.74.76])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6984E10E14C;
+ Tue, 15 Jul 2025 03:55:17 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=canb.auug.org.au;
+ s=202503; t=1752551605;
+ bh=OhkOOt47JdseESe8RK+r92ft58pVEWn8H3iWaphyf04=;
+ h=Date:From:To:Cc:Subject:From;
+ b=C/yHqu7TQClDILJRuopUj0lV5SND1q4boALGG009VnV4wVTUJQZcQl8czC1U4cyV9
+ ZNJ9k6A2gyj7XS0S0luesogKicHjZWfMLQGPsiFBHAvsX2HVW0slav58/yroynfx0e
+ GW5zvr41afhK7ySVf2rRK9dmM80RvebBvagye01Q2+J3EuUUEoYEIgT1m4udI0Nu82
+ paj8E/dDJBeDuKsFodQTOByNQ4Ns/L9xP88XtYRDwqvjCweWq32hvKJCV/heAtDbzf
+ 65cH0XLbwn9W7PmPrQNcQz4QVJYh2khP5ozZGj4khZcwFVlJnmeu6Vkp4BR4dTBvm1
+ B6sqgzJCnSPfw==
+Received: from authenticated.ozlabs.org (localhost [127.0.0.1])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ (Client did not present a certificate)
+ by mail.ozlabs.org (Postfix) with ESMTPSA id 4bh4zS58qKz4wb0;
+ Tue, 15 Jul 2025 13:53:24 +1000 (AEST)
+Date: Tue, 15 Jul 2025 13:55:11 +1000
+From: Stephen Rothwell <sfr@canb.auug.org.au>
+To: Simona Vetter <simona.vetter@ffwll.ch>
+Cc: Andy Yan <andy.yan@rock-chips.com>, Dmitry Baryshkov
+ <dmitry.baryshkov@oss.qualcomm.com>, Intel Graphics
+ <intel-gfx@lists.freedesktop.org>, DRI <dri-devel@lists.freedesktop.org>,
+ Linux Kernel Mailing List <linux-kernel@vger.kernel.org>, Linux Next
+ Mailing List <linux-next@vger.kernel.org>
+Subject: linux-next: build failure after merge of the drm-misc tree
+Message-ID: <20250715135511.63774cdb@canb.auug.org.au>
 MIME-Version: 1.0
+Content-Type: multipart/signed; boundary="Sig_/E6YDZpzCLRnEVVi85ze/GKj";
+ protocol="application/pgp-signature"; micalg=pgp-sha256
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -75,153 +59,56 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-https://bugzilla.kernel.org/show_bug.cgi?id=3D220339
+--Sig_/E6YDZpzCLRnEVVi85ze/GKj
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: quoted-printable
 
-            Bug ID: 220339
-           Summary: Use-After-Free in vmw_surface_unref_ioctl() in vmwgfx
-                    DRM Driver via Stale Surface Handle Dereference
-           Product: Drivers
-           Version: 2.5
-          Hardware: All
-                OS: Linux
-            Status: NEW
-          Severity: normal
-          Priority: P3
-         Component: Video(DRI - non Intel)
-          Assignee: drivers_video-dri@kernel-bugs.osdl.org
-          Reporter: lewischarlie2571@gmail.com
-        Regression: No
+Hi all,
 
-Vulnerability Summary
+After merging the drm-misc tree, today's linux-next build (x86_64
+allmodconfig) failed like this:
 
-A local use-after-free (UAF) vulnerability exists in the VMware graphics dr=
-iver
-(vmwgfx) within the Linux kernel. Specifically, the bug lies in the
-vmw_surface_unref_ioctl() handler in drivers/gpu/drm/vmwgfx/vmwgfx_surface.=
-c.
-This function may invoke a function pointer on a freed surface object, lead=
-ing
-to a NULL dereference or controlled RIP hijack depending on heap state. Und=
-er
-controlled conditions, this can result in full local privilege escalation
-(LPE).
+drivers/gpu/drm/bridge/megachips-stdpxxxx-ge-b850v3-fw.c: In function 'ge_b=
+850v3_lvds_detect':
+drivers/gpu/drm/bridge/megachips-stdpxxxx-ge-b850v3-fw.c:145:16: error: too=
+ few arguments to function 'ge_b850v3_lvds_bridge_detect'
+  145 |         return ge_b850v3_lvds_bridge_detect(&ge_b850v3_lvds_ptr->br=
+idge);
+      |                ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
+drivers/gpu/drm/bridge/megachips-stdpxxxx-ge-b850v3-fw.c:124:1: note: decla=
+red here
+  124 | ge_b850v3_lvds_bridge_detect(struct drm_bridge *bridge, struct drm_=
+connector *connector)
+      | ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
+drivers/gpu/drm/bridge/megachips-stdpxxxx-ge-b850v3-fw.c:146:1: error: cont=
+rol reaches end of non-void function [-Werror=3Dreturn-type]
+  146 | }
+      | ^
 
+Caused by commit
 
-Affected Component
+  5d156a9c3d5e ("drm/bridge: Pass down connector to drm bridge detect hook")
 
-Subsystem: drivers/gpu/drm/vmwgfx/
-
-File: vmwgfx_surface.c
-
-Function: vmw_surface_unref_ioctl()
-
-Kernel Version: Confirmed on 6.11.2-amd64 (Kali Linux)
-
-Upstream Impact: Likely still present upstream if no recent logic changes w=
-ere
-made in the unref path
-
-
-Vulnerability Details
-
-The vmw_surface_unref_ioctl() function is responsible for unreferencing sur=
-face
-objects allocated by vmw_surface_define_ioctl(). Internally, each surface is
-tracked via struct vmw_surface, which embeds a struct vmw_resource. This
-resource structure contains a function pointer table (res.func) used for
-cleanup operations.
-
-If a surface is freed (e.g., via multiple unref calls or race conditions), =
-but
-the object is still referenced and later used, the kernel may dereference a
-dangling function pointer via:
-
-
-surface->res.func->destroy(&surface->res, file_priv);
-
-This results in:
-
-NULL pointer dereference (if the function pointer is cleared)
-
-Controlled RIP hijack (if the heap is sprayed with a fake struct vmw_resour=
-ce
-pointing into userland)
-
-Local Privilege Escalation
-
-
-Exploit Conditions
-
-Access Vector: Local
-
-Privileges Required: Access to /dev/dri/card0 (being in the video group whi=
-ch
-is unlikely for alot of users in systems but still possible)
-
-Exploitation Primitives:
-
-Predictable heap layout via object spraying
-
-Memory mapped fake surface object (e.g., at 0xdead000)
-
-Controlled overwrite of res.func or related pointers
-
-
-Proof-of-Concept Summary
-
-// PoC behavior:
-1. mmap(0xdead000, ...)
-2. Write fake ROP chain and fake function pointer table
-3. Spray surface objects to groom heap
-4. Trigger unref via ioctl()
-5. RIP hijack or kernel crash
-
-
-Kernel Output (dmesg):
-
-[ 4111.830421] uaf[4350]: segfault at 0 ip 0000000000000000 sp 00007ffedac8=
-4fc0
-error 14 in uaf[400000+1000]
-[ 4111.830485] Code: Unable to access opcode bytes at 0xffffffffffffffd6.
-
-
-Root Cause
-
-// vmw_surface_unref_ioctl() pseudocode:
-surface =3D vmw_surface_lookup(dev_priv, sid);  // May return freed object
-...
-surface->res.func->destroy(&surface->res, file_priv);  // Dangling pointer
-deref
-If surface has been freed and memory is reallocated or attacker-controlled,
-this dereference leads to a segfault or arbitrary code execution in kernel
-mode.
-
-Impact
-
-Denial of Service (DoS): via NULL pointer dereference
-
-Privilege Escalation (LPE): via RIP hijack and controlled ROP chain executi=
-on
-in kernel
-
-
-Recommended Fix
-
-Validate surface->res.func before use
-
-Implement reference count protection on vmw_surface
-
-Apply lock or RCU logic to guard against stale pointer dereference
-
-
-Adittional Info:
-
-Im waiting on the Linux Kernel to finish Building with Kasan to get the Kas=
-an
-Report. Once completed I will add as an attachment / comment.
+I have used the drm-misc tree from next-20250714 for today.
 
 --=20
-You may reply to this email to add a comment.
+Cheers,
+Stephen Rothwell
 
-You are receiving this mail because:
-You are watching the assignee of the bug.=
+--Sig_/E6YDZpzCLRnEVVi85ze/GKj
+Content-Type: application/pgp-signature
+Content-Description: OpenPGP digital signature
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAEBCAAdFiEENIC96giZ81tWdLgKAVBC80lX0GwFAmh10R8ACgkQAVBC80lX
+0GyjQAf+LeKu6+Iw/kgHxqZHyhgEEw9F5xWJ/3rp6/wQ/bSZmbx9RXWn1+DZUxpN
+Y1L6Z6T7xeZh+ffh8w2nkPSJg4v9P5704xktvrSyrxStslr3k7gsdgdJdwYKeWYO
+wX/25ahNKL7ZYWF8VGN6XpRylrW2G3amaurfISOdJuLuuh62TdCoXg3Ht45DCEK3
+lhJY1/u69DnpAJ9wJmrKwnjOjII46WisxOZtiN5d5L5hcfDRRArGxBAxTQavon8g
+LsE22IWmAoty9MoZlX2AAkSPQhGnJW7t+dawz5Gvfv5OQj8ahQxytTwOyrc2eFYK
+TzBdyj2xcg05yfiBSZjJGV1dlIwQzw==
+=845W
+-----END PGP SIGNATURE-----
+
+--Sig_/E6YDZpzCLRnEVVi85ze/GKj--
