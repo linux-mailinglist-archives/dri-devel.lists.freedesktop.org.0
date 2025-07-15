@@ -2,77 +2,168 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 652ECB065D5
-	for <lists+dri-devel@lfdr.de>; Tue, 15 Jul 2025 20:16:16 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 038E8B065E7
+	for <lists+dri-devel@lfdr.de>; Tue, 15 Jul 2025 20:21:16 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0050D10E0B5;
-	Tue, 15 Jul 2025 18:16:12 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5AA1D10E637;
+	Tue, 15 Jul 2025 18:21:13 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=broadcom.com header.i=@broadcom.com header.b="QNOJUKiT";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="YfeG7hfO";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-yw1-f173.google.com (mail-yw1-f173.google.com
- [209.85.128.173])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6228F10E234
- for <dri-devel@lists.freedesktop.org>; Tue, 15 Jul 2025 18:16:11 +0000 (UTC)
-Received: by mail-yw1-f173.google.com with SMTP id
- 00721157ae682-710fd2d0372so1425217b3.0
- for <dri-devel@lists.freedesktop.org>; Tue, 15 Jul 2025 11:16:11 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=broadcom.com; s=google; t=1752603370; x=1753208170;
- darn=lists.freedesktop.org; 
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:from:to:cc:subject:date:message-id:reply-to;
- bh=pJd2ihlg5SmF872c2W+HTSn2f1K7d5d3k6LRsE24iak=;
- b=QNOJUKiTznJUMraZUYu8/GpiaR4YH28L5Cvr8LwVqoHnfhK1lvcfcAIFcseSxoPoHQ
- h1eUAYeOLS1fnSgdbn+WTcSiqkjk2ytCM2MT+WeXPKumir31rC5FdMexZhqhphBLDfji
- peDU7zH5bLCK605EFx8ngA+btnfMRsf6/5OGg=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1752603370; x=1753208170;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=pJd2ihlg5SmF872c2W+HTSn2f1K7d5d3k6LRsE24iak=;
- b=WdS/XR8h7so+ldhIE1TbIs8ywDbra9z6wvjhr27ryj8bDgtWduEBuzHqNPfd9LSwsa
- +0MzZs6wlEhMc5t8rJCkRmz8JX6FJTWBvXyf3mO76nrB+Av9ynD4RU8VA3Ro7oQSTRI9
- U8TaOaXx0Yi1l5zmhkwLtZaEvkUbOK4g7aeUQXa4CtuSir5omTsFFsPykl3LMRDayBQx
- cvfmKab17pDpUqSB3wYlGSZsQVqpLKk/CMCLIOmGzULE53TM+4uivCodGGQDg711hYca
- 8Do21+xBXXA6g+PgqmnioQrq8QP0zYs2XqoQ7M/+wmAFFfqu30Y5r8vkrvsconIIea3d
- an2A==
-X-Forwarded-Encrypted: i=1;
- AJvYcCXPFXF2Lc3dPk6ugtRQr5Yee7qzTL+Rr5RI9DsTPOzLSROZCyHRJP7U3NvIt6xTYrMUfaRnmrkL2wI=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0Yxo8CvqrOavb6utlFApslujfxuDA3XVezyk9WwOHuV6se7ibamu
- 3siFJ8tP8XYUN0Su+C6gwHj+YTXBzx3rVgvbC+ll0iMbIhayhRfzKRQ1105SszYY8mrjssiQV8B
- XkIg8P9vFbJ52vC3N8yge5+NTQlyXRVvVhyD+gJpS
-X-Gm-Gg: ASbGnctH2YDaHZ6eWIBOetFmJNL7LV+TWregMrITCEnc7+qQBarvj7KV1XB3vbA5vrb
- a406Ad37RX4CtUV/lQbqg214ljrL/mK4MrMk1D7RCiwxH0rg9p3Xm1iM+W5Vm3MTjyXB9hCKVhV
- Q6fiiZjqGsnJ6gDoiK6DMx4HYSqoP/2RfNRFVoPOQjTxIMSh89IGxWN2D294H+VeE+k/Lxc+kcn
- D9Wwjy0zk5hciICJsc=
-X-Google-Smtp-Source: AGHT+IH18HIzDfiAUMtuCYdRmgoCqftHm0U2aeiTXjCkRgmxVFuZ5mWpVYYUMHrwJ2Oq+BhQ8JmA0/msgew5ZSA4pKc=
-X-Received: by 2002:a05:690c:b91:b0:70e:7f7f:cfda with SMTP id
- 00721157ae682-718350314d1mr3060677b3.10.1752603370280; Tue, 15 Jul 2025
- 11:16:10 -0700 (PDT)
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.18])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B85C010E629;
+ Tue, 15 Jul 2025 18:21:11 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1752603672; x=1784139672;
+ h=date:from:to:cc:subject:message-id:mime-version;
+ bh=aJDZp/1uafkYbeMEuUvaF1btpk4qZzGt6aesTJ6Ntg8=;
+ b=YfeG7hfOsQ1nKlilELVcVRNZ8jbFp5INdwNQO/TRy5GP0ANQ5C3fJpHq
+ pGGoueN+ifxCE5OuuaEbvBSIGiJ5IEwn23XLfJCxiE4g3uN3eySa2bffj
+ OriCCNssVMyyttrjoG5IF1RCPh49TKOniFRwbah51VYudw1tfelAvKZfQ
+ dj91XyFWNKOdq4l/nelt8V80tuk9ceSeVekSRlEieTqPE8aqg8vQa0hc7
+ uT4awfns6huHtdGH9JPtS3c4XbgTojStVhh7RUh3FJD/NpxsSwy1TemGf
+ AuOo4wASoLvP3BjW/QgEUbZD8Pz1bvLNpwTZyEEf8LVZHxjvOCmJXPEyD Q==;
+X-CSE-ConnectionGUID: wZ+CGE9KRheGyM3AXavimw==
+X-CSE-MsgGUID: 4pU3kWJOQHaTjluXe5cwZg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11493"; a="54960170"
+X-IronPort-AV: E=Sophos;i="6.16,314,1744095600"; d="scan'208";a="54960170"
+Received: from orviesa006.jf.intel.com ([10.64.159.146])
+ by orvoesa110.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 15 Jul 2025 11:21:11 -0700
+X-CSE-ConnectionGUID: 9v/4H7GwTMSBMaG0di4oxg==
+X-CSE-MsgGUID: x4RnglMLQ6WoNEW4x/CY+Q==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.16,314,1744095600"; d="scan'208";a="156701165"
+Received: from orsmsx903.amr.corp.intel.com ([10.22.229.25])
+ by orviesa006.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 15 Jul 2025 11:21:11 -0700
+Received: from ORSMSX903.amr.corp.intel.com (10.22.229.25) by
+ ORSMSX903.amr.corp.intel.com (10.22.229.25) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.1748.26; Tue, 15 Jul 2025 11:21:10 -0700
+Received: from ORSEDG903.ED.cps.intel.com (10.7.248.13) by
+ ORSMSX903.amr.corp.intel.com (10.22.229.25) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.1748.26 via Frontend Transport; Tue, 15 Jul 2025 11:21:10 -0700
+Received: from NAM12-BN8-obe.outbound.protection.outlook.com (40.107.237.74)
+ by edgegateway.intel.com (134.134.137.113) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.1748.26; Tue, 15 Jul 2025 11:21:10 -0700
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=sNskrPYE5wCfSpBsR831GaDcNYkAGZE45AdsqvoUlLPrkNRBggLem3seZNFGefKvq5wYMP0x6tWZYwwzFF76Sc7RK9cnGqnHjsPPuzb89iC0oK01s3jU6d9jORKaktyMoVrPy+16m5YEhz1WPPi6Hp4cj2nj+ifXjK72/LrhHki5iQQj2MMGvlyoXlkbTeJ/fCviQpRZ6Ye1hvzKK+7fitMT14UmRr5VO/A5qpLsQ+bxEhwW9Yg9YP3u1F9gJYzyr5HZGQwoBhC6TDmua1yfQr30Zr3AhD6E3KhXgErgBDrN6yodzZNK2NNTLPEfYiEZnP5nNZI6nPYC1Q1n/ExBew==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=SpIlbqP5X61RAh7II5fyuVh8SAGHMv+A6InicbDLyfM=;
+ b=tFDER9FwjNwHOGZKfLBbYJNEk4/f1a+lIy+FNFg42Ic+l+R5i7MuftswgBviWF9AkA2gg2DBKd9adENGzS4I/oK6C+dBY8v0/jOiK8kNgAGGdCL8eAAdiJ1GHmpMLJ09BfKGVK+G+p9FfUJ9g1PZkuXh24mri/TK2y/VA7rgdc0D5z7G3n2VHfvvOGpf6P6pSRXt9qQjtJ1wdnVQmicJQfBwF5IrOjuDpG/CHpSWobzeMKl+pth7xdvkaFnXM0fP+Ozyg51cIL8Je4CzVYm+YqEbeztEINCl29n2I2GbHFdcl+TPwpnUNBi5RkJtC19uK54bElRR7kD7OmVO+g6ggw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
+ dkim=pass header.d=intel.com; arc=none
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=intel.com;
+Received: from CYYPR11MB8430.namprd11.prod.outlook.com (2603:10b6:930:c6::19)
+ by SA2PR11MB5210.namprd11.prod.outlook.com (2603:10b6:806:fa::23)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8922.32; Tue, 15 Jul
+ 2025 18:21:08 +0000
+Received: from CYYPR11MB8430.namprd11.prod.outlook.com
+ ([fe80::76d2:8036:2c6b:7563]) by CYYPR11MB8430.namprd11.prod.outlook.com
+ ([fe80::76d2:8036:2c6b:7563%5]) with mapi id 15.20.8922.023; Tue, 15 Jul 2025
+ 18:21:08 +0000
+Date: Tue, 15 Jul 2025 14:21:02 -0400
+From: Rodrigo Vivi <rodrigo.vivi@intel.com>
+To: Dave Airlie <airlied@gmail.com>, Simona Vetter <simona.vetter@ffwll.ch>
+CC: Jani Nikula <jani.nikula@linux.intel.com>, Joonas Lahtinen
+ <joonas.lahtinen@linux.intel.com>, Tvrtko Ursulin <tursulin@ursulin.net>,
+ Rodrigo Vivi <rodrigo.vivi@intel.com>, Thomas Zimmermann
+ <tzimmermann@suse.de>, Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
+ Maxime Ripard <mripard@kernel.org>, Thomas =?iso-8859-1?Q?Hellstr=F6m?=
+ <thomas.hellstrom@linux.intel.com>, Oded Gabbay <ogabbay@kernel.org>, "Lucas
+ De Marchi" <lucas.demarchi@intel.com>, <dri-devel@lists.freedesktop.org>,
+ <intel-gfx@lists.freedesktop.org>, <intel-xe@lists.freedesktop.org>,
+ <dim-tools@lists.freedesktop.org>
+Subject: [PULL] drm-xe-next
+Message-ID: <aHacDvF9IaVHI61C@intel.com>
+Content-Type: text/plain; charset="us-ascii"
+Content-Disposition: inline
+X-ClientProxiedBy: BY3PR10CA0022.namprd10.prod.outlook.com
+ (2603:10b6:a03:255::27) To CYYPR11MB8430.namprd11.prod.outlook.com
+ (2603:10b6:930:c6::19)
 MIME-Version: 1.0
-References: <20250715155934.150656-1-tzimmermann@suse.de>
-In-Reply-To: <20250715155934.150656-1-tzimmermann@suse.de>
-From: Zack Rusin <zack.rusin@broadcom.com>
-Date: Tue, 15 Jul 2025 14:15:59 -0400
-X-Gm-Features: Ac12FXxKEg1ugAQfc0kfIJatq4gdtnJJzB--PAhTyzI-iXu_KNJDMhlPIG8plIQ
-Message-ID: <CABQX2QNJ_Yd9h_L3iNhtFx2QZ8SiZQus3anNJ2d5OGOBz3ywHA@mail.gmail.com>
-Subject: Re: [PATCH v3 0/7] drm: Revert general use of struct
- drm_gem_object.dma_buf
-To: Thomas Zimmermann <tzimmermann@suse.de>
-Cc: simona@ffwll.ch, airlied@gmail.com, christian.koenig@amd.com, 
- torvalds@linux-foundation.org, maarten.lankhorst@linux.intel.com, 
- mripard@kernel.org, l.stach@pengutronix.de, linux+etnaviv@armlinux.org.uk, 
- kraxel@redhat.com, christian.gmeiner@gmail.com, dmitry.osipenko@collabora.com, 
- gurchetansingh@chromium.org, olvaffe@gmail.com, 
- bcm-kernel-feedback-list@broadcom.com, dri-devel@lists.freedesktop.org, 
- etnaviv@lists.freedesktop.org, virtualization@lists.linux.dev, 
- intel-gfx@lists.freedesktop.org
-Content-Type: multipart/signed; protocol="application/pkcs7-signature";
- micalg=sha-256; boundary="000000000000565e970639fbc5ae"
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: CYYPR11MB8430:EE_|SA2PR11MB5210:EE_
+X-MS-Office365-Filtering-Correlation-Id: 5d14cdee-03b7-416f-e41f-08ddc3cc5e56
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;ARA:13230040|366016|1800799024|7416014|376014;
+X-Microsoft-Antispam-Message-Info: =?us-ascii?Q?HMuLqDt5M7wVrjAaCljCBj/c3MWEh9QKwsG18ciFkvjTfSUmK3C6ddwcxt32?=
+ =?us-ascii?Q?2viN5sC6lSDQkiC9Tsl3iYxUhaA/TCNjJyqO1ZI84kGJ87xMCO8c0Emg18iM?=
+ =?us-ascii?Q?yHgSzAvhz12gA6yaSawPKTA9xJQleFI3uP4bNEw7H9p3mbV6a2RXVKd13RWU?=
+ =?us-ascii?Q?kUS9WKHoCJC2XPRl8mmkk22EYyh0FoeWJ9DBx2sPDODA9FNCF2TXCAOTL6Sr?=
+ =?us-ascii?Q?GOVNTbQLHOsJHJGotC/lfIrhYtp5+z1hwFlN/BeiJZs9xdNSFteBbMF8Vm1u?=
+ =?us-ascii?Q?r0DhY5aJQ+72CfGbk9LHi85VWXQmkJ8DMnwrd4Lf+L4INubDJ/BafRfSyypw?=
+ =?us-ascii?Q?/hnfyYtvUzdWHFOtytaY2jzhGmqnH8nC8nTQ3KXa/QzlP+fjmmJ2xVoJWQuh?=
+ =?us-ascii?Q?HycpyMdGTZAf8/+PAYOLtasJtkVmcomIrh+NObGpRJdSW3s2bLW4OFRLtMmY?=
+ =?us-ascii?Q?+QTN6KZEpXOW8eCXcPtnrXDWHoVlPIrj7EfjOBCsXTKRdjGGNUQACEW2xN/G?=
+ =?us-ascii?Q?RzPTGKjVQUNZbS/M0w0WnU2BGM+becl5XhMYaPlo/+TKFT9hPT8qz04XAumy?=
+ =?us-ascii?Q?RlmzAp/VLpGgHd2ZvevGQxECxDJb0B90adUzFw5A/nfRILmpPQ18i3bm+P8Y?=
+ =?us-ascii?Q?93bfIrWRf79Hva9OgUktgWu4Op0k6lEKa4L4eU3+JUC/YJg3tQ28tWVcrWh6?=
+ =?us-ascii?Q?Kod+sOHPFHGjDQ7ROxgNELZxGblgagm2ijd9AOCGC/aB0BODhZJ9HZiKujd1?=
+ =?us-ascii?Q?OVLu/I2gy9DE4La7dofgZnbyTanilWqPX7xcdQmcXBP69CCRcM9pTAzP52PG?=
+ =?us-ascii?Q?5UZw7bSCSlW88tL10ggrZ5cH2gKAH4v2EkY6PrI/flQS9zd48CPv/9uu+I/g?=
+ =?us-ascii?Q?JgkHGnXFHCR87yXeQRFtdUeH4QabKEFk0ALqnotFr9JvTw9/tlwZ02nqB+9R?=
+ =?us-ascii?Q?gYi/5JciMsObmYeJ93iF8C+ziY2Tk0UO56cR0O7f+27lKaDEqqHc+F+KCY7s?=
+ =?us-ascii?Q?B7/6fGaKLiLTRxjUcqF4naVkeggpLTbD6B57byGcvhLRILR0d72AXpMM1O7Y?=
+ =?us-ascii?Q?m9dQ8Ia2PZXmButj5pCdVRL8wV+s9k33LwFA3TF92vssBkV2uadCIjLAXJxy?=
+ =?us-ascii?Q?2fGMJzxLmV74Ru89x/UogETUb9TlVcjVJj1U1zIcqdOAxOSy2KxJHq5rw0pF?=
+ =?us-ascii?Q?RiqdP8MBcrrlFQRN51pS6KpvoWjoGM0q5d5ljtsMZ0OFEyvGgKm53uEZadkf?=
+ =?us-ascii?Q?kEodLnagzxhIXj9GG5+nkTs8rIJYQxCmw/UTNFlfDz40UnhkhxIsbTJsFMqK?=
+ =?us-ascii?Q?cHendra8c0H0vhszcxAZzxVkZlfrVpgm4eULB3Kf2+AY3hy08uIyei89gmNC?=
+ =?us-ascii?Q?W+TPOq4=3D?=
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:CYYPR11MB8430.namprd11.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230040)(366016)(1800799024)(7416014)(376014); DIR:OUT; SFP:1101; 
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?JEopVg+/AmOOJhgeO1ujTZ8cmzaeKOd6dUzDjrcEz3RXEtCdD2xgmqyP/OUu?=
+ =?us-ascii?Q?1uZ18WZrUxf+6f3XAxBdq8U6Pv0uGjlRkyB6rxZuy1ZDFWFauD9Gme34/WBR?=
+ =?us-ascii?Q?hA/CftSiXnrXqZtZtj67p5NQQU5CarqFmbrO/naBSAwqAmQdMmi3TagXbiPO?=
+ =?us-ascii?Q?OIKyVHu7RRQw/fDJ/PMwFscCnsd1q+Wd8YZYJjoFdwH2SEFDJLxAwqrFlseT?=
+ =?us-ascii?Q?OBeRb2Mn5abRB+l5w1iiIUYyz6vsf1EqSk7IcHZmDPzeVlhDz+7FpdxM2v/O?=
+ =?us-ascii?Q?wlHvP7XJw+IfE8lJobz79iKkwRw2zeOz/nwoKy/pJGEz+M8GXhx6i1UDK7Cl?=
+ =?us-ascii?Q?WGdpvY3YYLKV7GMVrluAQ6pgpNGisODOrHTpr0VhOt7NpY4t8JlSQhhrHE5g?=
+ =?us-ascii?Q?RUmqGYRctZTuA35+kH4g0t/Qjs6u+NikwddKZZeNGazrWjOSzIdp+p8oZ7/T?=
+ =?us-ascii?Q?YHKMRu9NupGSJaAqE1E2vK3li8aoQPQjcCb4+C2vH5z/hYKJLIZnnlJ0nlaC?=
+ =?us-ascii?Q?FoDttkKlQloDObuSvz0zBHg0aRsXantlExrPiDfA1XB9oIbgvYdqasOPcXZe?=
+ =?us-ascii?Q?YOOvxDAPFo8cxbWc+2OGAPGPIXH4Z1VFyHGkjtZEv/htJF7hOqzRJ08n64Fd?=
+ =?us-ascii?Q?X9WoVYNnMKMiFNSCxbVBh9E9eh/Ro3uJZM53ULGVlrzBhrqAZ6R2jqVgaDGp?=
+ =?us-ascii?Q?afu2OI0Gmg70clP8EKzRStocRtvwQGJ0QYkYopce5EinRurhdGK3nianNdmE?=
+ =?us-ascii?Q?ocBWbZhN3IF+ZLoRyCI0HpujcRXSiugGJqjIZRgd8UkEh7p0UTNcQ3HVxe6g?=
+ =?us-ascii?Q?oqC+/+R7uEDrFuxEN6ah2mq+acrJTd3Ys2MPWQ9yD+1VYTtCFWXI7sGGtUcC?=
+ =?us-ascii?Q?AkTQ7MhHbUbop4J0gLz7+EZU2C086Gvm1D8iTK7g2e2LYBRapnaPjF5jWN9q?=
+ =?us-ascii?Q?jQWKetUZ++wxmJCdgTaVwvICp4akHZBwQ7ULgVMPIeIuSryM6WZ6e5gbNM7Y?=
+ =?us-ascii?Q?cFQsUTJ4Cod8SpSzWYg3wBiB8GwRg9Jeu6pHJDGrxw4j8CtAsfnxJNoZx+et?=
+ =?us-ascii?Q?ZROclUPN/tV5XHSu1SHiI1K3eyZqDp4KSTpnwkukjluSC95iiWh16ty0dnTZ?=
+ =?us-ascii?Q?AYpjnLXE0gmV6LsDTVIoxRBZ3QrAn9yQsoz82QI8f3b0/kltnluq2bJFAHbC?=
+ =?us-ascii?Q?eXFESLHEo+r1kI7w2CE/LheiCtOv/77tbj/1YUUb/OFkNx2hR+jftJplo/dz?=
+ =?us-ascii?Q?JAgrJ/HNiGxoAfHRr+fgoaw28duyOG+Y1MKLf3QNSkKNUwbS8ioJ1vFnYh3X?=
+ =?us-ascii?Q?og8HZMZeJ86oozHOdjNaZgRk8UhV3hfSaNBdSDwrNbVm7HjLOUdInzh5xqVO?=
+ =?us-ascii?Q?u/BRMaJ+Jp9bMa8mZcTrsp7LuRbvDaUGxwD9VwuU2KFQ263iPAnVWU79wwC2?=
+ =?us-ascii?Q?iq7i9wDDhxBqYNVMXYhMgpb+Tb33YAT8zhDPlKvzlkoAWVrGz6NuyNgj5zjh?=
+ =?us-ascii?Q?/Q2XoLMpkwGmY5329SqeBSFH+O7plizsUdT/396PAvelB/ESt6AfSgnOGQD6?=
+ =?us-ascii?Q?PHz5CvJFSk8u0o5aJvxyzdXzwfu1vRFhN6l2flJw?=
+X-MS-Exchange-CrossTenant-Network-Message-Id: 5d14cdee-03b7-416f-e41f-08ddc3cc5e56
+X-MS-Exchange-CrossTenant-AuthSource: CYYPR11MB8430.namprd11.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 15 Jul 2025 18:21:08.2494 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: hC1Wqfjc2n5rt60X+jxKHzIJ3/TRWrKxIq3CHDp/PoUTk3cPVb+DYPHtUFekIJ13L87owfwtGHyTljy1vD4JHA==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SA2PR11MB5210
+X-OriginatorOrg: intel.com
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -88,159 +179,177 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
---000000000000565e970639fbc5ae
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Hi Dave and Sima,
 
-On Tue, Jul 15, 2025 at 12:02=E2=80=AFPM Thomas Zimmermann <tzimmermann@sus=
-e.de> wrote:
->
-> Revert the use of drm_gem_object.dma_buf back to .import_attach->dmabuf
-> in the affected places. Separates references to imported and exported DMA
-> bufs within a GEM object; as before.
->
-> The dma_buf field in struct drm_gem_object is not stable over the object
-> instance's lifetime. The field becomes NULL when user space releases the
-> final GEM handle on the buffer object. This resulted in a NULL-pointer
-> deref.
->
-> Workarounds in commit 5307dce878d4 ("drm/gem: Acquire references on GEM
-> handles for framebuffers") and commit f6bfc9afc751 ("drm/framebuffer:
-> Acquire internal references on GEM handles") only solved the problem
-> partially. They especially don't work for buffer objects without a DRM
-> framebuffer associated.
->
-> v3:
-> - cc stable where necessary
-> v2:
-> - extended commit messages (Sima)
-> - drop the GEM-handle changes to be resolved separately
->
-> Thomas Zimmermann (7):
->   Revert "drm/virtio: Use dma_buf from GEM object instance"
->   Revert "drm/vmwgfx: Use dma_buf from GEM object instance"
->   Revert "drm/etnaviv: Use dma_buf from GEM object instance"
->   Revert "drm/prime: Use dma_buf from GEM object instance"
->   Revert "drm/gem-framebuffer: Use dma_buf from GEM object instance"
->   Revert "drm/gem-shmem: Use dma_buf from GEM object instance"
->   Revert "drm/gem-dma: Use dma_buf from GEM object instance"
->
->  drivers/gpu/drm/drm_gem_dma_helper.c         | 2 +-
->  drivers/gpu/drm/drm_gem_framebuffer_helper.c | 8 ++++++--
->  drivers/gpu/drm/drm_gem_shmem_helper.c       | 4 ++--
->  drivers/gpu/drm/drm_prime.c                  | 8 +++++++-
->  drivers/gpu/drm/etnaviv/etnaviv_gem_prime.c  | 4 ++--
->  drivers/gpu/drm/virtio/virtgpu_prime.c       | 5 +++--
->  drivers/gpu/drm/vmwgfx/vmwgfx_gem.c          | 6 +++---
->  7 files changed, 24 insertions(+), 13 deletions(-)
->
-> --
+Here goes our last drm-xe-next PR towards 6.17.
 
-Thanks for taking care of this.
+It brings a lot of workarounds infra and additions and
+the enabling of SRIOV capability in BMG, as long as
+underneath hardware SKU and Firmware supports it as well.
 
-Acked-by: Zack Rusin <zack.rusin@broadcom.com>
+Thanks,
+Rodrigo.
 
-z
+drm-xe-next-2025-07-15:
+Driver Changes:
+ - Create and use XE_DEVICE_WA infrastructure (Atwood)
+ - SRIOV: Mark BMG as SR-IOV capable (Michal)
+ - Dont skip TLB invalidations on VF (Tejas)
+ - Fix migration copy direction in access_memory (Auld)
+ - General code clean-up (Lucas, Brost, Dr. David, Xin)
+ - More missing XeLP workarounds (Tvrtko)
+ - SRIOV: Relax VF/PF version negotiation (Michal)
+ - SRIOV: LMTT invalidation (Michal)
+The following changes since commit 94de94d24ea8cf567ec7254a723c3192c72c2ca6:
 
---000000000000565e970639fbc5ae
-Content-Type: application/pkcs7-signature; name="smime.p7s"
-Content-Transfer-Encoding: base64
-Content-Disposition: attachment; filename="smime.p7s"
-Content-Description: S/MIME Cryptographic Signature
+  drm/xe/guc: Cancel ongoing H2G requests when stopping CT (2025-07-10 21:46:29 +0200)
 
-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
-6U6qgI8F5eiKsQyE0HgYrQJx/sDs9LLVZlaNiA3U8M8CgEnb8VhuH3BN/yXphhEQdJXb1TyaJA60
-SmHcZdEQZbl4EjwUcs3UIowmI/Mhi7ADQB7VNsO/BaOVBEQk53xH+4djY/cg7jvqTTeliY05j2Yx
-uwwXcDC4mWjGzxAT5DVqC8fKQvon1uc2heorHb555+sLdwYxAgMBAAGjggHYMIIB1DAOBgNVHQ8B
-Af8EBAMCBaAwgZMGCCsGAQUFBwEBBIGGMIGDMEYGCCsGAQUFBzAChjpodHRwOi8vc2VjdXJlLmds
-b2JhbHNpZ24uY29tL2NhY2VydC9nc2djY3I2c21pbWVjYTIwMjMuY3J0MDkGCCsGAQUFBzABhi1o
-dHRwOi8vb2NzcC5nbG9iYWxzaWduLmNvbS9nc2djY3I2c21pbWVjYTIwMjMwZQYDVR0gBF4wXDAJ
-BgdngQwBBQMBMAsGCSsGAQQBoDIBKDBCBgorBgEEAaAyCgMCMDQwMgYIKwYBBQUHAgEWJmh0dHBz
-Oi8vd3d3Lmdsb2JhbHNpZ24uY29tL3JlcG9zaXRvcnkvMAkGA1UdEwQCMAAwQQYDVR0fBDowODA2
-oDSgMoYwaHR0cDovL2NybC5nbG9iYWxzaWduLmNvbS9nc2djY3I2c21pbWVjYTIwMjMuY3JsMCIG
-A1UdEQQbMBmBF3phY2sucnVzaW5AYnJvYWRjb20uY29tMBMGA1UdJQQMMAoGCCsGAQUFBwMEMB8G
-A1UdIwQYMBaAFAApNp5ceroPry1QLdugI4UYsKCSMB0GA1UdDgQWBBQNDn2m/OLuDx9YjEqPLCDB
-s/VKNTANBgkqhkiG9w0BAQsFAAOCAgEAF463syOLTQkWZmEyyR60W1sM3J1cbnMRrBFUBt3S2NTY
-SJ2NAvkTAxbPoOhK6IQdaTyrWi8xdg2tftr5FC1bOSUdxudY6dipq2txe7mEoUE6VlpJid/56Mo4
-QJRb6YiykQeIfoJiYMKsyuXWsTB1rhQxlxfnaFxi8Xy3+xKAeX68DcsHG3ZU0h1beBURA44tXcz6
-fFDNPQ2k6rWDFz+XNN2YOPqfse2wEm3DXpqNT79ycU7Uva7e51b8XdbmJ6XVzUFmWzhjXy5hvV8z
-iF+DvP+KT1/bjO6aNL2/3PWiy1u6xjnWvobHuAYVrXxQ5wzk8aPOnED9Q8pt2nqk/UIzw2f67Cn9
-3CxrVqXUKm93J+rupyKVTGgKO9T1ODVPo665aIbM72RxSI9Wsofatm2fo8DWOkrfs29pYfy6eECl
-91qfFMl+IzIVfDgIrEX6gSngJ2ZLaG6L+/iNrUxHxxsaUmyDwBbTfjYwr10H6NKES3JaxVRslnpF
-06HTTciJNx2wowbYF1c+BFY4r/19LHygijIVa+hZEgNuMrVLyAamaAKZ1AWxTdv8Q/eeNN3Myq61
-b1ykTSPCXjBq/03CMF/wT1wly16jYjLDXZ6II/HYyJt34QeqnBENU9zXTc9RopqcuHD2g+ROT7lI
-VLi5ffzC8rVliltTltbYPc7F0lAvGKAxggJXMIICUwIBATBiMFIxCzAJBgNVBAYTAkJFMRkwFwYD
-VQQKExBHbG9iYWxTaWduIG52LXNhMSgwJgYDVQQDEx9HbG9iYWxTaWduIEdDQyBSNiBTTUlNRSBD
-QSAyMDIzAgxhPxw+eieHWB40hPkwDQYJYIZIAWUDBAIBBQCggccwLwYJKoZIhvcNAQkEMSIEIBcG
-ACp2vnr6+UOvAvSF8xGC/jbk5OWkJiWFwUiMKYumMBgGCSqGSIb3DQEJAzELBgkqhkiG9w0BBwEw
-HAYJKoZIhvcNAQkFMQ8XDTI1MDcxNTE4MTYxMFowXAYJKoZIhvcNAQkPMU8wTTALBglghkgBZQME
-ASowCwYJYIZIAWUDBAEWMAsGCWCGSAFlAwQBAjAKBggqhkiG9w0DBzALBgkqhkiG9w0BAQcwCwYJ
-YIZIAWUDBAIBMA0GCSqGSIb3DQEBAQUABIIBABd4T/163I7Q38CBtt30fgpIbMKckSIiwax+niIb
-hkRD7c5WGqU2ljZv3Rm7ypZD0NXEFWqcnxdCueeeUbOic2pmfiRFcAEl+ZJnC1qQjAYLAP4zy5sR
-4hr0K+ae2g3zeeXKJZ72jgUAeuTYI69R08b6T95BAX7KakZ0gqalgoYx6jcw+NGxm0z7UaHjK98G
-pltqcBeKtSo5r01N9e8XiNfmyDKxsw1bFdeWhEznsA7e6hlhrZAXpZ2d39OLZar9DSinqh21k+0c
-9m3WS9amejtpA+LwEeGr8OTyys40dIpbq/DBmKONNl1+17xEJTPfElLyeKSuu7+ya0qV0V2M8IU=
---000000000000565e970639fbc5ae--
+are available in the Git repository at:
+
+  https://gitlab.freedesktop.org/drm/xe/kernel.git tags/drm-xe-next-2025-07-15
+
+for you to fetch changes up to a81648768178f6adf171d98db486b4b2613f645a:
+
+  drm/xe/pf: Invalidate LMTT after completing changes (2025-07-15 13:05:22 +0200)
+
+----------------------------------------------------------------
+Driver Changes:
+ - Create and use XE_DEVICE_WA infrastructure (Atwood)
+ - SRIOV: Mark BMG as SR-IOV capable (Michal)
+ - Dont skip TLB invalidations on VF (Tejas)
+ - Fix migration copy direction in access_memory (Auld)
+ - General code clean-up (Lucas, Brost, Dr. David, Xin)
+ - More missing XeLP workarounds (Tvrtko)
+ - SRIOV: Relax VF/PF version negotiation (Michal)
+ - SRIOV: LMTT invalidation (Michal)
+
+----------------------------------------------------------------
+Dr. David Alan Gilbert (1):
+      drm/xe: Remove unused functions
+
+Lucas De Marchi (9):
+      drm/xe/migrate: Fix alignment check
+      drm/xe: Normalize default param values
+      drm/xe: Fix missing kernel-doc
+      drm/xe/lrc: Reduce scope of empty lrc data
+      drm/xe: Count dwords before allocating
+      drm/xe/gt: Extract emit_job_sync()
+      drm/xe/lrc: Remove leftover TODO/FIXME
+      drm/xe/gt: Drop third submission for default context
+      drm/xe/lrc: Add table with LRC layout
+
+Matt Atwood (6):
+      drm/xe: prepare xe_gen_wa_oob to be multi-use
+      drm/xe: add xe_device_wa infrastructure
+      drm/xe: add new type to RTP context
+      drm/xe: Add infrastructure for Device OOB workarounds
+      drm/xe: Move Wa_15015404425 to use the new XE_DEVICE_WA macro
+      drm/xe: extend Wa_15015404425 to apply to PTL
+
+Matthew Auld (1):
+      drm/xe/migrate: fix copy direction in access_memory
+
+Matthew Brost (2):
+      drm/xe: Move page fault init after topology init
+      drm/xe: Remove references to CONFIG_DRM_XE_DEVMEM_MIRROR
+
+Michal Wajdeczko (14):
+      drm/xe/sriov: Mark BMG as SR-IOV capable
+      drm/xe: Combine PF and VF device data into union
+      drm/xe: Move PF and VF device types to separate headers
+      drm/xe: Introduce xe_tile_is_root helper
+      drm/xe: Introduce xe_gt_is_main_type helper
+      drm/xe/pf: Expose basic info about VFs in debugfs
+      drm/xe/pf: Stop requiring VF/PF version negotiation on every GT
+      drm/xe/vf: Store negotiated VF/PF ABI version at device level
+      drm/xe/pf: Prepare to stop SR-IOV support prior GT reset
+      drm/xe/pf: Resend PF provisioning after GT reset
+      drm/xe/pf: Move GGTT config KLVs encoding to helper
+      drm/xe/pf: Force GuC virtualization mode
+      drm/xe/pf: Invalidate LMTT during LMEM unprovisioning
+      drm/xe/pf: Invalidate LMTT after completing changes
+
+Tejas Upadhyay (1):
+      drm/xe: Dont skip TLB invalidations on VF
+
+Tvrtko Ursulin (7):
+      drm/xe: Generalize wa bb emission code
+      drm/xe: Pass wa bb setup arguments in a struct
+      drm/xe: Rename utilization workaround emission function
+      drm/xe: Track number of written dwords from workaround batch buffer emission
+      drm/xe: Allow specifying number of extra dwords at the end of wa bb emission
+      drm/xe: Add plumbing for indirect context workarounds
+      drm/xe: Waste fewer instructions in emit_wa_job()
+
+Xin Wang (1):
+      drm/xe: Update register definitions in LRC layout header
+
+ drivers/gpu/drm/xe/Makefile                        |  12 +-
+ drivers/gpu/drm/xe/regs/xe_lrc_layout.h            |   7 +
+ .../gpu/drm/xe/tests/xe_gt_sriov_pf_service_test.c | 232 ------------------
+ .../gpu/drm/xe/tests/xe_sriov_pf_service_kunit.c   | 227 +++++++++++++++++
+ drivers/gpu/drm/xe/xe_bb.c                         |   2 +-
+ drivers/gpu/drm/xe/xe_bb.h                         |   2 +-
+ drivers/gpu/drm/xe/xe_bo.c                         |  15 --
+ drivers/gpu/drm/xe/xe_bo.h                         |   3 -
+ drivers/gpu/drm/xe/xe_debugfs.c                    |  24 ++
+ drivers/gpu/drm/xe/xe_device.c                     |   8 +
+ drivers/gpu/drm/xe/xe_device.h                     |   4 +
+ drivers/gpu/drm/xe/xe_device_types.h               |  25 +-
+ drivers/gpu/drm/xe/xe_device_wa_oob.rules          |   2 +
+ drivers/gpu/drm/xe/xe_force_wake.c                 |   2 +-
+ drivers/gpu/drm/xe/xe_gen_wa_oob.c                 |  45 +++-
+ drivers/gpu/drm/xe/xe_gsc_proxy.c                  |   3 +-
+ drivers/gpu/drm/xe/xe_gt.c                         | 191 +++++++--------
+ drivers/gpu/drm/xe/xe_gt.h                         |   5 +
+ drivers/gpu/drm/xe/xe_gt_idle.c                    |   2 +-
+ drivers/gpu/drm/xe/xe_gt_sriov_pf.c                |  19 ++
+ drivers/gpu/drm/xe/xe_gt_sriov_pf.h                |   5 +
+ drivers/gpu/drm/xe/xe_gt_sriov_pf_config.c         | 126 +++++++---
+ drivers/gpu/drm/xe/xe_gt_sriov_pf_control.c        |   7 +-
+ drivers/gpu/drm/xe/xe_gt_sriov_pf_debugfs.c        |   9 +-
+ drivers/gpu/drm/xe/xe_gt_sriov_pf_service.c        | 166 +------------
+ drivers/gpu/drm/xe/xe_gt_sriov_pf_service.h        |   2 -
+ drivers/gpu/drm/xe/xe_gt_sriov_vf.c                |  34 +--
+ drivers/gpu/drm/xe/xe_gt_sriov_vf_types.h          |  12 -
+ drivers/gpu/drm/xe/xe_gt_tlb_invalidation.c        |  34 +++
+ drivers/gpu/drm/xe/xe_gt_tlb_invalidation.h        |   1 +
+ drivers/gpu/drm/xe/xe_gt_topology.c                |   5 -
+ drivers/gpu/drm/xe/xe_gt_topology.h                |   2 -
+ drivers/gpu/drm/xe/xe_irq.c                        |   7 +-
+ drivers/gpu/drm/xe/xe_lmtt.c                       |  54 +++++
+ drivers/gpu/drm/xe/xe_lmtt.h                       |   1 +
+ drivers/gpu/drm/xe/xe_lrc.c                        | 269 ++++++++++++++++-----
+ drivers/gpu/drm/xe/xe_lrc.h                        |   2 +-
+ drivers/gpu/drm/xe/xe_lrc_types.h                  |   3 +-
+ drivers/gpu/drm/xe/xe_migrate.c                    |   6 +-
+ drivers/gpu/drm/xe/xe_mmio.c                       |   8 +-
+ drivers/gpu/drm/xe/xe_module.c                     |  35 ++-
+ drivers/gpu/drm/xe/xe_oa.c                         |   6 +-
+ drivers/gpu/drm/xe/xe_pci.c                        |   1 +
+ drivers/gpu/drm/xe/xe_ring_ops.c                   |  22 +-
+ drivers/gpu/drm/xe/xe_rtp.c                        |  47 ++--
+ drivers/gpu/drm/xe/xe_rtp.h                        |  14 +-
+ drivers/gpu/drm/xe/xe_rtp_types.h                  |   2 +
+ drivers/gpu/drm/xe/xe_sriov_pf.c                   |  61 ++++-
+ drivers/gpu/drm/xe/xe_sriov_pf.h                   |   6 +
+ drivers/gpu/drm/xe/xe_sriov_pf_service.c           | 216 +++++++++++++++++
+ drivers/gpu/drm/xe/xe_sriov_pf_service.h           |  23 ++
+ drivers/gpu/drm/xe/xe_sriov_pf_service_types.h     |  36 +++
+ drivers/gpu/drm/xe/xe_sriov_pf_types.h             |  45 ++++
+ drivers/gpu/drm/xe/xe_sriov_types.h                |  36 ---
+ drivers/gpu/drm/xe/xe_sriov_vf_types.h             |  41 ++++
+ drivers/gpu/drm/xe/xe_tile.h                       |   6 +
+ drivers/gpu/drm/xe/xe_vm.c                         |   4 +-
+ drivers/gpu/drm/xe/xe_wa.c                         |  58 +++++
+ drivers/gpu/drm/xe/xe_wa.h                         |  22 +-
+ drivers/gpu/drm/xe/xe_wa_oob.rules                 |   2 +
+ 60 files changed, 1501 insertions(+), 765 deletions(-)
+ delete mode 100644 drivers/gpu/drm/xe/tests/xe_gt_sriov_pf_service_test.c
+ create mode 100644 drivers/gpu/drm/xe/tests/xe_sriov_pf_service_kunit.c
+ create mode 100644 drivers/gpu/drm/xe/xe_device_wa_oob.rules
+ create mode 100644 drivers/gpu/drm/xe/xe_sriov_pf_service.c
+ create mode 100644 drivers/gpu/drm/xe/xe_sriov_pf_service.h
+ create mode 100644 drivers/gpu/drm/xe/xe_sriov_pf_service_types.h
+ create mode 100644 drivers/gpu/drm/xe/xe_sriov_pf_types.h
+ create mode 100644 drivers/gpu/drm/xe/xe_sriov_vf_types.h
