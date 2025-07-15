@@ -2,82 +2,138 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B045AB0627F
-	for <lists+dri-devel@lfdr.de>; Tue, 15 Jul 2025 17:11:58 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2DAC1B06283
+	for <lists+dri-devel@lfdr.de>; Tue, 15 Jul 2025 17:12:22 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5686E10E5F0;
-	Tue, 15 Jul 2025 15:11:56 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9075510E5F3;
+	Tue, 15 Jul 2025 15:12:20 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="Q0ndQ6mS";
+	dkim=pass (2048-bit key; unprotected) header.d=qualcomm.com header.i=@qualcomm.com header.b="ElfxlvT0";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.14])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0BE2510E5ED;
- Tue, 15 Jul 2025 15:11:55 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1752592315; x=1784128315;
- h=message-id:date:mime-version:subject:to:cc:references:
- from:in-reply-to:content-transfer-encoding;
- bh=GT9YCMpmO/oGbAXwtofhY5F7e46WJk2TBT21YGNxioQ=;
- b=Q0ndQ6mSMIuQOLDINHH5prIeJmLF8CE1RMrncLNEZorDHJMwsB5k2UGx
- ppy5y8Te1J+hDDTGm8OhLFziwgLr1iNJFK+4t08kEsswbgKeCnEcRvTmk
- DmksVl3dM1rgQhFw3QaO9pnJpQ0IOagiK4OwOcI055ZxtCEU584dPq6E7
- wd49OylARGVDaBVphLwWGdUq47vqHJaXlQS67P679iR8OLKVIk+9eNu8H
- tKdx2ymhVp59Iby8RtNlHBX4zMPd+ozL4GHwhLzVUeT3AY+N6raphXxnr
- vmqJpAFZ8GOyMenp5cTFEeQPdptb2Ih9ThG/1KmkqIx9z6QwctcuJEnPa g==;
-X-CSE-ConnectionGUID: OThKHnYcRTaw7+acbSZRGA==
-X-CSE-MsgGUID: X9QJmPwgQ9CJpXRCODeSpA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11493"; a="54907817"
-X-IronPort-AV: E=Sophos;i="6.16,313,1744095600"; d="scan'208";a="54907817"
-Received: from orviesa007.jf.intel.com ([10.64.159.147])
- by fmvoesa108.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 15 Jul 2025 08:09:24 -0700
-X-CSE-ConnectionGUID: kRlxMx3/SPu8BGSVLj+Ezg==
-X-CSE-MsgGUID: VgyJUB25RxeWdk6pmX7cWw==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.16,313,1744095600"; d="scan'208";a="157354678"
-Received: from tcingleb-desk1.amr.corp.intel.com (HELO [10.125.111.148])
- ([10.125.111.148])
- by orviesa007-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 15 Jul 2025 08:09:19 -0700
-Message-ID: <841e6d14-e3cc-4c23-9256-96f0c4e2d761@intel.com>
-Date: Tue, 15 Jul 2025 08:09:18 -0700
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com
+ [205.220.168.131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id BD3F210E5ED
+ for <dri-devel@lists.freedesktop.org>; Tue, 15 Jul 2025 15:12:18 +0000 (UTC)
+Received: from pps.filterd (m0279866.ppops.net [127.0.0.1])
+ by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 56FAGO8j027505
+ for <dri-devel@lists.freedesktop.org>; Tue, 15 Jul 2025 15:12:18 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
+ cc:content-type:date:from:in-reply-to:message-id:mime-version
+ :references:subject:to; s=qcppdkim1; bh=/8/GQmYozt0hkVdJKNP3dY4c
+ 27MmXYLwdf8DyqAf4/8=; b=ElfxlvT0VzYDBYqLPcqcx5u7gpdJm/0FYmMwnBnG
+ y+B4eho5GQ38s7gyWa5V2do3XLCADnVdKyNIdYEaRxCT0C1n6voidTAPb/dJ8PNM
+ cQjD55+s9FTC8E0DR8gaP1UR/8u1e6FZJsdhUG9oFq65KyWJvm1FKx/OIVGZhCDY
+ GqP34VrlblGX7kQjhS4nxUIVXBXKFZ9NLggE072UbjrSEaUUDqK9bPvusCTM1sc8
+ TYWch1G+ETibhGOgFvTa8N8/FWEZDaZpp8bAT7BoxZ0ifVXNJ6WcBNJaKwt99/uv
+ EPvODnurcR0dUiYP2bhTrorQpVZq/UucSCwyWS482wIFPA==
+Received: from mail-io1-f69.google.com (mail-io1-f69.google.com
+ [209.85.166.69])
+ by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 47wkruhbfp-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
+ for <dri-devel@lists.freedesktop.org>; Tue, 15 Jul 2025 15:12:18 +0000 (GMT)
+Received: by mail-io1-f69.google.com with SMTP id
+ ca18e2360f4ac-86a5def8869so1097574239f.0
+ for <dri-devel@lists.freedesktop.org>; Tue, 15 Jul 2025 08:12:18 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1752592337; x=1753197137;
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=/8/GQmYozt0hkVdJKNP3dY4c27MmXYLwdf8DyqAf4/8=;
+ b=dlZoG1WefvOMuu9inLEPpApTx9THYvd3XjxW/ANBiGdOwz5+1rtz9HopAKVS4jXIbT
+ +spnqIMuizQw227qJXt3ma9oPGnVEliI6ZVzPuV1K+vkxzuCQWpHQGBgt2EcarPkwPvY
+ H3fUnTBsLr6jHqAvz44G1gy9PYWnJVmWlyPvflST9QWFL4jEXxF8Zmnn84bvh/jl5d07
+ 8aMxvUExKOOJe2MytrqQpgD7h5NqLQBeP5jwcfAneCJYBPT8aHPfHskoHC0VgkAU2QPB
+ ZurfUfsI6/Hp0Quv+22OtoGpdwJ8xDVsDLq5wUSmavkETccbO1QNKZ3zI0x9zRsIYu/3
+ 7uhw==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCWR53ZeMhg0h075cRqxSICB1+1ohOKpIpuTNITUDDXPmexLZGvh1joA1BfrTP13umPAGhOfgxaZ8TQ=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0Yxxx5fQ6sf3Ns8LtyI8s2pa5QOhJk/8ajAVK+dVdM0XoFwEjvjo
+ PCJcSB9EsTuxxSA3BKE55O1KGmM04/4ZgGMc5ARLPLbH7dxD0CI6q2899BwPyg/z0VtIUIkBXP1
+ NCcr3+acj6Q0gbUch41SVrILKw0OEezPkjrAYVA9KO+Yaye9+Zg6GdEP7XCD+KjITxLR/1ec=
+X-Gm-Gg: ASbGnctVZGbuEz40n73+UAgC1h0NG5LefEzmIACW9IEKxEx/jepAImKj2MxfgwywGt2
+ kBEMbWUMjL9Q+HF03V0ANEwtcSXqRtfqg14hRpzqvI7n9ceC7srqkYCVmx1M2iHxQIphsZWr9nv
+ pGt4xnXyKwiacR6rD3wvtmA3rdR59fgF8mh0W9O1Q7GkmDtivRHaJqutSlLKXIllZGOX1c/OWTd
+ tFJ5hhV/9n3uhsZFBKW5T/wrIU3OxVG6sjoicTVoKEDUluvAP9DW9N5o7NMjKVKElabXlogDwX2
+ S10NmXupBMyjleFf+91ZCfYzAO4v9t2W+WlodA2wKGLOouPRU/DOPXSgfBVY4gZv0uxwFaUSYz1
+ afPk0CQTBCzxiIZjTCj9evUpud1AIE36Y3Cosyh4yCIeknmRLxwjF
+X-Received: by 2002:a05:6e02:b23:b0:3e0:5042:6a0e with SMTP id
+ e9e14a558f8ab-3e253317f2fmr190550645ab.14.1752592336609; 
+ Tue, 15 Jul 2025 08:12:16 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IGuCcHGzu/NV0coaNVvZvnyxMM3fWdvavBShiCcBGZwVBVkpyKA9SgxNyTJ8HCuKA2VAmYM7Q==
+X-Received: by 2002:a05:6e02:b23:b0:3e0:5042:6a0e with SMTP id
+ e9e14a558f8ab-3e253317f2fmr190549775ab.14.1752592336031; 
+ Tue, 15 Jul 2025 08:12:16 -0700 (PDT)
+Received: from umbar.lan
+ (2001-14ba-a0c3-3a00-264b-feff-fe8b-be8a.rev.dnainternet.fi.
+ [2001:14ba:a0c3:3a00:264b:feff:fe8b:be8a])
+ by smtp.gmail.com with ESMTPSA id
+ 2adb3069b0e04-5593c7f380dsm2345658e87.83.2025.07.15.08.12.14
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 15 Jul 2025 08:12:15 -0700 (PDT)
+Date: Tue, 15 Jul 2025 18:12:13 +0300
+From: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
+To: Brian Masney <bmasney@redhat.com>
+Cc: Philipp Zabel <p.zabel@pengutronix.de>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>,
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+ Shawn Guo <shawnguo@kernel.org>, Sascha Hauer <s.hauer@pengutronix.de>,
+ Pengutronix Kernel Team <kernel@pengutronix.de>,
+ Fabio Estevam <festevam@gmail.com>,
+ Linus Walleij <linus.walleij@linaro.org>,
+ Rob Clark <robin.clark@oss.qualcomm.com>,
+ Dmitry Baryshkov <lumag@kernel.org>,
+ Abhinav Kumar <abhinav.kumar@linux.dev>,
+ Jessica Zhang <jessica.zhang@oss.qualcomm.com>,
+ Sean Paul <sean@poorly.run>,
+ Marijn Suijten <marijn.suijten@somainline.org>,
+ Yannick Fertre <yannick.fertre@foss.st.com>,
+ Raphael Gallais-Pou <raphael.gallais-pou@foss.st.com>,
+ Philippe Cornu <philippe.cornu@foss.st.com>,
+ Maxime Coquelin <mcoquelin.stm32@gmail.com>,
+ Alexandre Torgue <alexandre.torgue@foss.st.com>,
+ Chen-Yu Tsai <wens@csie.org>, Jernej Skrabec <jernej.skrabec@gmail.com>,
+ Samuel Holland <samuel@sholland.org>, Stephen Boyd <sboyd@kernel.org>,
+ dri-devel@lists.freedesktop.org, imx@lists.linux.dev,
+ linux-clk@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+ linux-kernel@vger.kernel.org, linux-arm-msm@vger.kernel.org,
+ freedreno@lists.freedesktop.org,
+ linux-stm32@st-md-mailman.stormreply.com, linux-sunxi@lists.linux.dev
+Subject: Re: [PATCH 3/9] drm/msm/disp/mdp4/mdp4_lvds_pll: convert from
+ round_rate() to determine_rate()
+Message-ID: <tkqu2zt5yulnngwvda462fhmkmtmtjnwieruel6lfjr475h7ld@47goit7jldgk>
+References: <20250710-drm-clk-round-rate-v1-0-601b9ea384c3@redhat.com>
+ <20250710-drm-clk-round-rate-v1-3-601b9ea384c3@redhat.com>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 2/8] cxl: mce: Fix typo "notifer"
-To: WangYuli <wangyuli@uniontech.com>
-Cc: airlied@gmail.com, akpm@linux-foundation.org, alison.schofield@intel.com, 
- andrew+netdev@lunn.ch, andriy.shevchenko@linux.intel.com,
- arend.vanspriel@broadcom.com, bp@alien8.de,
- brcm80211-dev-list.pdl@broadcom.com, brcm80211@lists.linux.dev,
- colin.i.king@gmail.com, cvam0000@gmail.com, dan.j.williams@intel.com,
- dave.hansen@linux.intel.com, dave@stgolabs.net, davem@davemloft.net,
- dri-devel@lists.freedesktop.org, edumazet@google.com,
- gregkh@linuxfoundation.org, guanwentao@uniontech.com, hpa@zytor.com,
- ilpo.jarvinen@linux.intel.com, intel-xe@lists.freedesktop.org,
- ira.weiny@intel.com, j@jannau.net, jeff.johnson@oss.qualcomm.com,
- jgross@suse.com, jirislaby@kernel.org, johannes.berg@intel.com,
- jonathan.cameron@huawei.com, kuba@kernel.org, kvalo@kernel.org,
- kvm@vger.kernel.org, linux-cxl@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-serial@vger.kernel.org,
- linux-wireless@vger.kernel.org, linux@treblig.org, lucas.demarchi@intel.com,
- marcin.s.wojtas@gmail.com, ming.li@zohomail.com, mingo@kernel.org,
- mingo@redhat.com, netdev@vger.kernel.org, niecheng1@uniontech.com,
- oleksandr_tyshchenko@epam.com, pabeni@redhat.com, pbonzini@redhat.com,
- quic_ramess@quicinc.com, ragazenta@gmail.com, rodrigo.vivi@intel.com,
- seanjc@google.com, shenlichuan@vivo.com, simona@ffwll.ch,
- sstabellini@kernel.org, tglx@linutronix.de,
- thomas.hellstrom@linux.intel.com, vishal.l.verma@intel.com, x86@kernel.org,
- xen-devel@lists.xenproject.org, yujiaoliang@vivo.com, zhanjun@uniontech.com
-References: <BD5C52D2838AEA48+20250715134050.539234-1-wangyuli@uniontech.com>
- <65FC7B96ECBDB052+20250715134407.540483-2-wangyuli@uniontech.com>
-Content-Language: en-US
-From: Dave Jiang <dave.jiang@intel.com>
-In-Reply-To: <65FC7B96ECBDB052+20250715134407.540483-2-wangyuli@uniontech.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20250710-drm-clk-round-rate-v1-3-601b9ea384c3@redhat.com>
+X-Proofpoint-GUID: hlhrSOevpjhOjR0rmu1fuHzhof5rEIKA
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwNzE1MDEzOSBTYWx0ZWRfX6TnBqt8Q15bA
+ ma4kj8nJqfaGXq6UWPCjtz3Yyt0+ziFctNe3zQDypMXuEtrcNi+nsJj5uwODfJlxVTApOqlzOq6
+ wIY1jINDtxo7lrbSRP3vy6UXdOzCVWyOEZ77MG43NSrzou4k2Z3PhOeTBezBYH8OW8dKlvYSFuh
+ LN7dZYff1i/mhB2g3hF5SbdVNH2OedLzyexSzdDgfewKVPtsovcpXyti8RHqXI4qBjdiJzY41Ez
+ p6VxWBCatD+nxxHLhN9X4ed0NcLwsPSMTpySIpodxBnGovDbW+GeU2r0IuXHpc4OQnhnUKmgxQO
+ KAgDzXcZFDKLsnXQFnf17PgT3ENATkxVmusSmfkEQ4XgbqRhzzEGkEwx4hUykCWsogq3BUorl3h
+ 4vTGcEShPJWEsU1YecA4k8XAHP3InBx6Uvm0bHx6FgBiAR5kP66AUy7sNOy/hFRtFEKRZ/e7
+X-Authority-Analysis: v=2.4 cv=WqUrMcfv c=1 sm=1 tr=0 ts=68766fd2 cx=c_pps
+ a=7F85Ct0dzgNClt63SJIU8Q==:117 a=xqWC_Br6kY4A:10 a=kj9zAlcOel0A:10
+ a=Wb1JkmetP80A:10 a=20KFwNOVAAAA:8 a=EUspDBNiAAAA:8 a=oBXrOfH6mq4iYN50PBoA:9
+ a=CjuIK1q_8ugA:10 a=LKR0efx6xuerLj5D82wC:22
+X-Proofpoint-ORIG-GUID: hlhrSOevpjhOjR0rmu1fuHzhof5rEIKA
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1099,Hydra:6.1.9,FMLib:17.12.80.40
+ definitions=2025-07-15_04,2025-07-15_01,2025-03-28_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ suspectscore=0 phishscore=0 mlxscore=0 mlxlogscore=999 bulkscore=0
+ adultscore=0 priorityscore=1501 impostorscore=0 clxscore=1015
+ lowpriorityscore=0 malwarescore=0 spamscore=0 classifier=spam authscore=0
+ authtc=n/a authcc= route=outbound adjust=0 reason=mlx scancount=1
+ engine=8.19.0-2505280000 definitions=main-2507150139
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -93,31 +149,22 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-
-
-On 7/15/25 6:44 AM, WangYuli wrote:
-> According to the context, "mce_notifer" should be "mce_notifier".
+On Thu, Jul 10, 2025 at 01:43:04PM -0400, Brian Masney wrote:
+> The round_rate() clk ops is deprecated, so migrate this driver from
+> round_rate() to determine_rate() using the Coccinelle semantic patch
+> on the cover letter of this series.
 > 
-> Link: https://lore.kernel.org/all/B3C019B63C93846F+20250715071245.398846-1-wangyuli@uniontech.com/
-> Fixes: 516e5bd0b6bf ("cxl: Add mce notifier to emit aliased address for extended linear cache")
-> Signed-off-by: WangYuli <wangyuli@uniontech.com>
-
-Reviewed-by: Dave Jiang <dave.jiang@intel.com>
+> Signed-off-by: Brian Masney <bmasney@redhat.com>
 > ---
->  drivers/cxl/core/mce.h | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
+>  drivers/gpu/drm/msm/disp/mdp4/mdp4_lvds_pll.c | 13 ++++++++-----
+>  1 file changed, 8 insertions(+), 5 deletions(-)
 > 
-> diff --git a/drivers/cxl/core/mce.h b/drivers/cxl/core/mce.h
-> index ace73424eeb6..ca272e8db6c7 100644
-> --- a/drivers/cxl/core/mce.h
-> +++ b/drivers/cxl/core/mce.h
-> @@ -7,7 +7,7 @@
->  
->  #ifdef CONFIG_CXL_MCE
->  int devm_cxl_register_mce_notifier(struct device *dev,
-> -				   struct notifier_block *mce_notifer);
-> +				   struct notifier_block *mce_notifier);
->  #else
->  static inline int
->  devm_cxl_register_mce_notifier(struct device *dev,
 
+Acked-by: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
+
+Please take this via the drm-misc tree (I assume the rest is going to be
+merged that way).
+
+-- 
+With best wishes
+Dmitry
