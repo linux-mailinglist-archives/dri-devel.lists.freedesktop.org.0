@@ -2,108 +2,118 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id E9C1AB058FF
-	for <lists+dri-devel@lfdr.de>; Tue, 15 Jul 2025 13:38:20 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id A9133B05986
+	for <lists+dri-devel@lfdr.de>; Tue, 15 Jul 2025 14:03:13 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id F35C510E59A;
-	Tue, 15 Jul 2025 11:38:08 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 094B810E5A1;
+	Tue, 15 Jul 2025 12:02:54 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="DHCY5xQj";
+	dkim=pass (2048-bit key; unprotected) header.d=qualcomm.com header.i=@qualcomm.com header.b="KMKctzsZ";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from tor.source.kernel.org (tor.source.kernel.org [172.105.4.254])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 85DAD10E59A
- for <dri-devel@lists.freedesktop.org>; Tue, 15 Jul 2025 11:38:07 +0000 (UTC)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by tor.source.kernel.org (Postfix) with ESMTP id C550B60053;
- Tue, 15 Jul 2025 11:38:06 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 44BEDC4CEF1;
- Tue, 15 Jul 2025 11:38:00 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1752579486;
- bh=k3Pt22s3urH1ffPht49H+gTfknzAhbGPucTExEY/I64=;
- h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
- b=DHCY5xQjmFJX69MUX4vYWPw8P17yNMGOpFFR35NcdrKuCa9bNGljgInX7Iyvks0BV
- g2BdCE6bEtcWQXKsPR3t76G6LNF3oBVrxIB7RGS4faIf0EOemPNRYmhferOp7sna+9
- 7ZBskGv1Eb8CRRcPEuIxwaDgLA/44hkbaVxt9OyJg8CBZ0923dNyBJRGGzmF88JuKn
- 11U7XL3MwiZ4w7diF5Om0zFOdkDkyE2KfJwdPr9JTMJqCGxumd2phg+jKqzu+Xx7Y7
- ZHeLSRMMa++3DCWGk1W7CpFAy0HWWlRK6y+PDRFv8VTl5OnAdqlmBURUpIhDYPEVMR
- ctzEdSx3SPj8A==
-Message-ID: <c62d168b-92b5-44a2-9a9a-402d7f4815a2@kernel.org>
-Date: Tue, 15 Jul 2025 13:37:58 +0200
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com
+ [205.220.168.131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 353E110E0C5
+ for <dri-devel@lists.freedesktop.org>; Tue, 15 Jul 2025 12:02:52 +0000 (UTC)
+Received: from pps.filterd (m0279865.ppops.net [127.0.0.1])
+ by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 56F5w83Q028256
+ for <dri-devel@lists.freedesktop.org>; Tue, 15 Jul 2025 12:02:51 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
+ cc:content-type:date:from:in-reply-to:message-id:mime-version
+ :references:subject:to; s=qcppdkim1; bh=UyvvQBMgtajbfKdGdnnoGUgR
+ +QFHhmOiew9p+7Bprro=; b=KMKctzsZHgfBy/hGall1wlDYbSjiIYkpbOvYiRTg
+ 00VsLDU+nvAHFg0qvF1CJkKOta8QR0QYEHcVklkMGv7gCohSn8vnZ+plbUuTPZ7l
+ ch/plH44WYR4DyFY7Ouah2MCmSDVSoiFvlJEpmiLRMZV6q5VF5wLy3bwilOWPbSd
+ ELqOTNV7AX2xfD+JC3i4PKEB0vq07Tp5u6+5X0l6CtHW4YxIcWCKFJVkm+3PMEtf
+ aIl2FqElNjAjjkiDf8XtST/iUc2eIrLCTVrgCnlu+XGri5I6ef1nyEAqVbgU3ezL
+ 5WwaZz9/H5MRgcB/MNvQeuniDNf6iWE9zaDg7I9xAekEiA==
+Received: from mail-ot1-f70.google.com (mail-ot1-f70.google.com
+ [209.85.210.70])
+ by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 47w5drjxgm-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
+ for <dri-devel@lists.freedesktop.org>; Tue, 15 Jul 2025 12:02:51 +0000 (GMT)
+Received: by mail-ot1-f70.google.com with SMTP id
+ 46e09a7af769-73e47c3b5acso81504a34.0
+ for <dri-devel@lists.freedesktop.org>; Tue, 15 Jul 2025 05:02:51 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1752580970; x=1753185770;
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=UyvvQBMgtajbfKdGdnnoGUgR+QFHhmOiew9p+7Bprro=;
+ b=uBOh+so+FRpsSAHfD/i6kKGwQYSCfH8xFbbslx3jBV8omAcRiauEcLWWru++oJLks3
+ QmD/kiHReV7E44wCTsCpZi9LQttC4d5dDlHBJKEhX9me/1PetXNspz+i8a5dDdkVIHpb
+ v8byXz48gj7gB5NxCIm9nCD8BEoleMKqzN87BH3tzhYBM6d+yzHWtGVskINT87XOZ5zA
+ /wcEjYEg4MPch1k0sI+/2KjXXFLXzuHCRylohEz2jhCeVIHebHNfHcaEBPJoum5897fc
+ rfBemL6XtjZIEc8pQWtbyMf9LE2otdnz2x/FghnjPZ3KMSeva6SwGJRGHngh6vJT1P+f
+ yfOQ==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCVC65+hj8qO7Sakglus3qnLsJYt7GB+DYeOUVOXid/AOWxJUam/13e8reagoIY8WIvr21RKgmWz5lo=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0Yy37OZRaLiveshqn8dqsb52iuZ6Wur+rbZz+5mv/nFcDxzHSTt3
+ WtkBmU9Tj6l9iss0w73PY66lPu5mJMAVZk2R3bGjtCSL5mteRbyxHpZWy4VzSzLYWbA5x5QMWyQ
+ i7rO55Chtlu6rC8DdI4T3m6byLCMsNIitLuF327cWO49mmk8aInocembahR1Wo5PJIRyQIQo=
+X-Gm-Gg: ASbGnctlfcKz9b/8fgPLg8T041m8S214lFcOd8HAd0HMdWIbydC2ZA1gg5XDuIuQcVr
+ FO3FCGgXkB8d+5aKFNmm5q9sEJgVsB7M9QrScaxJK1+yladQ/bC5/qfV6TTzFA1a8xKFhf+f5Yf
+ peeaHmYlEmctZM3I2yJxdWUWfk296QVcZ/NqdaKw+tK6RB3Brku+LXfS4Y+TT/sGQmXeORUowJg
+ sHV1mH9aAx1uIwyU6NIsXibfuWh+VOX1h0isJ713aiF/sNynrdxbdJAzFej5bzkcbl8kXu4hb1p
+ wr5oCkdqiIJq/RG8zw1SHnUjs4rpwPs0FbiT1PuLbD+VamDfxbiRZy1ew9WaUmk4dGVwq/2y6to
+ poxablc9lMjZBihcDsnojEKRZiDuon56f+REQbgjJl4UIED7aHijB
+X-Received: by 2002:a05:6830:3692:b0:73a:99db:aa30 with SMTP id
+ 46e09a7af769-73cf9df0d64mr11073236a34.11.1752580970546; 
+ Tue, 15 Jul 2025 05:02:50 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IHRldZmaGruwEtV93mfPK7DeHfUeVU3CqYU97eA4DGqB+RrTOx1wiarAqLcagJKllyUevLfNQ==
+X-Received: by 2002:a05:6830:3692:b0:73a:99db:aa30 with SMTP id
+ 46e09a7af769-73cf9df0d64mr11073201a34.11.1752580970169; 
+ Tue, 15 Jul 2025 05:02:50 -0700 (PDT)
+Received: from umbar.lan
+ (2001-14ba-a0c3-3a00-264b-feff-fe8b-be8a.rev.dnainternet.fi.
+ [2001:14ba:a0c3:3a00:264b:feff:fe8b:be8a])
+ by smtp.gmail.com with ESMTPSA id
+ 38308e7fff4ca-32fab9117fbsm18753031fa.98.2025.07.15.05.02.49
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 15 Jul 2025 05:02:49 -0700 (PDT)
+Date: Tue, 15 Jul 2025 15:02:47 +0300
+From: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
+To: Andy Yan <andyshrk@163.com>
+Cc: simona@ffwll.ch, andrzej.hajda@intel.com, airlied@gmail.com,
+ ian.ray@ge.com, jernej.skrabec@gmail.com, jonas@kwiboo.se,
+ Laurent.pinchart@ideasonboard.com, maarten.lankhorst@linux.intel.com,
+ martyn.welch@collabora.co.uk, mripard@kernel.org,
+ neil.armstrong@linaro.org, peter.senna@gmail.com, rfoss@kernel.org,
+ tzimmermann@suse.de, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org, Dixit Ashutosh <ashutosh.dixit@intel.com>
+Subject: Re: [PATCH] drm/bridge: megachips-stdpxxxx-ge-b850v3-fw: Fix a
+ compile error due to bridge->detect parameter changes
+Message-ID: <nrtzmsohsvdux5wsd5g76f27ironu3nnc2s74soo43zl3tvu5t@bald3bp5mldc>
+References: <20250715054754.800765-1-andyshrk@163.com>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 5/5] arm64: dts: rockchip: rk3399-evb-ind: Add support for
- DisplayPort
-To: Chaoyi Chen <kernel@airkyi.com>, Rob Herring <robh@kernel.org>,
- Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
- <conor+dt@kernel.org>, Vinod Koul <vkoul@kernel.org>,
- Kishon Vijay Abraham I <kishon@kernel.org>, Heiko Stuebner
- <heiko@sntech.de>, Sandy Huang <hjc@rock-chips.com>,
- Andy Yan <andy.yan@rock-chips.com>,
- Yubing Zhang <yubing.zhang@rock-chips.com>,
- Frank Wang <frank.wang@rock-chips.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- Amit Sunil Dhamne <amitsd@google.com>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- Chaoyi Chen <chaoyi.chen@rock-chips.com>, Dragan Simic <dsimic@manjaro.org>,
- Johan Jonker <jbx6244@gmail.com>, Diederik de Haas <didi.debian@cknow.org>
-Cc: devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-phy@lists.infradead.org, linux-arm-kernel@lists.infradead.org,
- linux-rockchip@lists.infradead.org, dri-devel@lists.freedesktop.org
-References: <20250715112456.101-1-kernel@airkyi.com>
- <20250715112456.101-6-kernel@airkyi.com>
-From: Krzysztof Kozlowski <krzk@kernel.org>
-Content-Language: en-US
-Autocrypt: addr=krzk@kernel.org; keydata=
- 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 a/A=
-In-Reply-To: <20250715112456.101-6-kernel@airkyi.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20250715054754.800765-1-andyshrk@163.com>
+X-Proofpoint-ORIG-GUID: rzLSGFx7dn2WlELpJAVsBQu9s6m9FeIk
+X-Authority-Analysis: v=2.4 cv=D4xHKuRj c=1 sm=1 tr=0 ts=6876436b cx=c_pps
+ a=7uPEO8VhqeOX8vTJ3z8K6Q==:117 a=xqWC_Br6kY4A:10 a=kj9zAlcOel0A:10
+ a=Wb1JkmetP80A:10 a=VwQbUJbxAAAA:8 a=EUspDBNiAAAA:8 a=QyXUC8HyAAAA:8
+ a=Byx-y9mGAAAA:8 a=8aKB3WWJpCxwycPcSpwA:9 a=CjuIK1q_8ugA:10
+ a=EXS-LbY8YePsIyqnH6vw:22
+X-Proofpoint-GUID: rzLSGFx7dn2WlELpJAVsBQu9s6m9FeIk
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwNzE1MDExMCBTYWx0ZWRfX5ZRjtOGPwWS0
+ OKWwieIyv3Y9n9qunl01PKczI356eonmxXRn2wfVEPJ+H0X9Gd8nZsI1VS6MjJ8dyuvOeuLU0X2
+ HSTJozV/R34f73ebWEk86pzw6CzZQyDsJfeM8zTXdJeu1otmiaY1/JlAR69FnxX3axnCHaMMsm3
+ 0MsPmbQDWgOP3Fz2mb92DyvrcnAX3sapU6utCrkMREA2tTMFFgUh2rBSnzky3r/APVrlzosYXpy
+ dwGfdBSzORb+9W3m4d5HxfmV2lsOBaKJ4AYojggqt5XCfT3xdRTJ806DMDXS4xodYXVcsG59BWH
+ J0X3cM9RWHEODWgv+V4pKIXYgqqT+QlaAPGusCxbUB56Yg9OVqC1Z4RE6lsLyXPHro3FrPqvRdx
+ UCHgMrsIGCaBJJqsq6W4q2JpIiOeb2183VXcy6tVjwWV4BwBih77/hhVik8L40XuMCHC3Ecr
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1099,Hydra:6.1.7,FMLib:17.12.80.40
+ definitions=2025-07-15_03,2025-07-14_01,2025-03-28_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ adultscore=0 mlxlogscore=803 impostorscore=0 spamscore=0 clxscore=1015
+ lowpriorityscore=0 malwarescore=0 suspectscore=0 bulkscore=0 mlxscore=0
+ priorityscore=1501 phishscore=0 classifier=spam authscore=0 authtc=n/a
+ authcc= route=outbound adjust=0 reason=mlx scancount=1
+ engine=8.19.0-2505280000 definitions=main-2507150110
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -119,79 +129,22 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 15/07/2025 13:24, Chaoyi Chen wrote:
->  /dts-v1/;
-> +#include <dt-bindings/usb/pd.h>
->  #include "rk3399.dtsi"
->  
->  / {
-> @@ -19,6 +20,16 @@ chosen {
->  		stdout-path = "serial2:1500000n8";
->  	};
->  
-> +	vbus_typec: vbus-typec-regulator {
+On Tue, Jul 15, 2025 at 01:47:52PM +0800, Andy Yan wrote:
+> Fix the compile error due to bridge->detect parameter changes.
+> 
+> Reported-by: Dixit Ashutosh <ashutosh.dixit@intel.com>
+> Closes: https://lore.kernel.org/dri-devel/175250667117.3567548.8371527247937906463.b4-ty@oss.qualcomm.com/T/#m8ecd00a05a330bc9c76f11c981daafcb30a7c2e0
+> Fixes: 5d156a9c3d5e ("drm/bridge: Pass down connector to drm bridge detect hook")
+> Signed-off-by: Andy Yan <andyshrk@163.com>
+> ---
+> 
+>  drivers/gpu/drm/bridge/megachips-stdpxxxx-ge-b850v3-fw.c | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+> 
 
-use consistent naming. How other regulators are called? foo-regulator?
-
-> +		compatible = "regulator-fixed";
-> +		enable-active-high;
-> +		gpio = <&gpio1 RK_PC2 GPIO_ACTIVE_HIGH>;
-> +		pinctrl-names = "default";
-> +		pinctrl-0 = <&vcc5v0_typec0_en>;
-> +		regulator-name = "vbus_typec";
-> +		vin-supply = <&vcc5v0_sys>;
-> +	};
-> +
->  	vcc5v0_sys: regulator-vcc5v0-sys {
->  		compatible = "regulator-fixed";
->  		enable-active-high;
-> @@ -29,6 +40,16 @@ vcc5v0_sys: regulator-vcc5v0-sys {
->  		regulator-max-microvolt = <5000000>;
->  		regulator-min-microvolt = <5000000>;
->  	};
-> +
-> +	sound: sound {
-> +		compatible = "rockchip,rk3399-gru-sound";
-> +		rockchip,cpu = <&i2s0 &spdif>;
-> +	};
-> +};
-> +
-> +&cdn_dp {
-> +	status = "okay";
-> +	phys = <&tcphy0_dp>;
->  };
->  
->  &cpu_b0 {
-> @@ -341,6 +362,66 @@ regulator-state-mem {
->  	};
->  };
->  
-> +&i2c4 {
-> +	i2c-scl-rising-time-ns = <475>;
-> +	i2c-scl-falling-time-ns = <26>;
-> +	status = "okay";
-> +
-> +	usbc0: fusb302@22 {
-
-Node names should be generic. See also an explanation and list of
-examples (not exhaustive) in DT specification:
-https://devicetree-specification.readthedocs.io/en/latest/chapter2-devicetree-basics.html#generic-names-recommendation
+Reviewed-by: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
 
 
-> +		compatible = "fcs,fusb302";
-> +		reg = <0x22>;
-> +		interrupt-parent = <&gpio1>;
-> +		interrupts = <RK_PA2 IRQ_TYPE_LEVEL_LOW>;
-> +		pinctrl-names = "default";
-> +		pinctrl-0 = <&usbc0_int>;
-> +		vbus-supply = <&vbus_typec>;
-> +		status = "okay";
-
-Why? What disabled it?
-
-> +
-> +		usb_con: connector {
-> +			compatible = "usb-c-connector";
-> +			label = "USB-C";
-Best regards,
-Krzysztof
+-- 
+With best wishes
+Dmitry
