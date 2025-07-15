@@ -2,56 +2,76 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3DC11B05D56
-	for <lists+dri-devel@lfdr.de>; Tue, 15 Jul 2025 15:43:16 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id B0763B05B12
+	for <lists+dri-devel@lfdr.de>; Tue, 15 Jul 2025 15:16:45 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9993410E5CA;
-	Tue, 15 Jul 2025 13:43:14 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 59C0810E20D;
+	Tue, 15 Jul 2025 13:16:42 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="WM4etS/x";
+	dkim=pass (1024-bit key; secure) header.d=ffwll.ch header.i=@ffwll.ch header.b="HnAzQgwp";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0FF1E10E5CA
- for <dri-devel@lists.freedesktop.org>; Tue, 15 Jul 2025 13:43:13 +0000 (UTC)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by dfw.source.kernel.org (Postfix) with ESMTP id 423845C651C;
- Tue, 15 Jul 2025 13:43:12 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6B527C4CEE3;
- Tue, 15 Jul 2025 13:43:11 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
- s=korg; t=1752586991;
- bh=7YerTNqOXzIZgs1HpEXiEzXdESWh8PU4yrLhBIfwM38=;
- h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=WM4etS/xGjrWpt4kTS6lYTj8XkFP+VgNminUnmZ5ss37sN3BRKSOEPSrStMMvmSM7
- ZkoReTfUGllM4yk88hRx0C6iIebMroXFtinF1ds05IJNwrW8rlJ79uTGilslsm8WQl
- Sa2u0NhhZ99OE4b4tq1LJLjXT71T3uBXw+3gj9UA=
-From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-To: stable@vger.kernel.org
-Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>, patches@lists.linux.dev,
- Thomas Zimmermann <tzimmermann@suse.de>, Bert Karwatzki <spasswolf@web.de>,
- Mario Limonciello <superm1@kernel.org>,
- "Borislav Petkov (AMD)" <bp@alien8.de>,
- Anusha Srivatsa <asrivats@redhat.com>,
- =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, Sumit Semwal <sumit.semwal@linaro.org>,
- linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org,
- linaro-mm-sig@lists.linaro.org
-Subject: [PATCH 6.15 094/192] drm/framebuffer: Acquire internal references on
- GEM handles
-Date: Tue, 15 Jul 2025 15:13:09 +0200
-Message-ID: <20250715130818.676257162@linuxfoundation.org>
-X-Mailer: git-send-email 2.50.1
-In-Reply-To: <20250715130814.854109770@linuxfoundation.org>
-References: <20250715130814.854109770@linuxfoundation.org>
-User-Agent: quilt/0.68
-X-stable: review
-X-Patchwork-Hint: ignore
+Received: from mail-wm1-f44.google.com (mail-wm1-f44.google.com
+ [209.85.128.44])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id F125B10E20D
+ for <dri-devel@lists.freedesktop.org>; Tue, 15 Jul 2025 13:16:40 +0000 (UTC)
+Received: by mail-wm1-f44.google.com with SMTP id
+ 5b1f17b1804b1-45618ddd62fso23020055e9.3
+ for <dri-devel@lists.freedesktop.org>; Tue, 15 Jul 2025 06:16:40 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=ffwll.ch; s=google; t=1752585399; x=1753190199; darn=lists.freedesktop.org; 
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+ bh=KSNHtnaETw4DtlzGAY8NvYjbcn3Lhzp8vASuZK7f+jQ=;
+ b=HnAzQgwpJ8NKiyrjLBobTrQYLg4GDH8Lkh5p+8QU1zV6TPl+xDvuthHKT0Z/Svcx0T
+ ejUrfl6t3QTPeNH/VhP/Hmaf4cxPYLpEb1Ry+CigJoqJDy6Vs52kQZfnNqdf1rYbFzun
+ PQiZxLYJtK8dM3Iqc71DWxIECyc9a0Zq9PiUk=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1752585399; x=1753190199;
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=KSNHtnaETw4DtlzGAY8NvYjbcn3Lhzp8vASuZK7f+jQ=;
+ b=wyoceN6K3YJoWdkwsXA7fNRvhNU6z72j14d7wGBHY37o1Y3FKUZjaKSqNfI2XPkCR7
+ qRiRWx8OyPTljDF+ZtkPMhfiE7x/xsgYdOiXcBUv5KkQ8/xtVjaJc3DR7vADtMnShdrl
+ wYIKWMKgXdX0q1T0iQ3LLH/Ju9Dyv7WwrTFXEh/eE3BJoe3Vc//t0gG9Ier2itiuw23w
+ myfvoKjkXflQc0QY1kLXpe1C8oqtfyhKDlCBkjlzjwtkDjfvciTJN2J/PXnsNHtVXoYN
+ EaGQfaKvTYf2XInEG5ug/jruU0pV1GbOkYnJCnpRea67m/O2GgouQfvwMfOhfxLc0S1l
+ s1FQ==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCVr+VKJM9dWJkFlEtcefVwp96vxZAFn7ForYlKyyPzv9fUPHedQiNipUETCiR8on/vfc/zT53Heiko=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YxxYRcesU73kMujYGmG/N/pIAVnaObbRKuzD4rObGRys97GYTjb
+ +diSCgCxjNzCN4d3HwGJbqUVlM4p3m0W4a1EmO5nuTB/hAN8MDhKS/Wfn1Pb0EakWL0=
+X-Gm-Gg: ASbGncuEqw9T+3gm7ndMgRAV+GAa352mg++8JT+08Ac9re+DF/vEBLCMM9X//TamNO9
+ dSm2o7tlqnZ4l/foiE+72sHuCWO0zSFCPib6pXvpTkBF+nt+NrnLyoizmeoa98JDrfu57VQ08Wo
+ 7IHtpp1Jv4tvWlCFcfKHVghNNjL9XWxXSkEu+C69ic9fjnbGB63x9C988WkykkdiINrSiGO66Z1
+ j+hdtezfdtCtCFRZOEpGNEDtzcaEjhxriv2X1+70bQ96OZK4twy9R5JuIuyja/g29BG/rZwqH36
+ b4DSd82OXG51TG4hEhttjuTU+Cok3SgmrctzIeAuokiOg4tiNZFwBp98yFEAln5v1H4XN9/IlYi
+ mr3oT7OGzmbYWZgJOsFTYpySwxw9cf2BeXumaiGuQLvQk
+X-Google-Smtp-Source: AGHT+IE6AVE3VzANWiPdrua10GyZdj4f6vBrn2kcw3n5QovC7tZwk4OkyMeCMgiFtC85TLlBWyscYg==
+X-Received: by 2002:a05:600c:610:b0:43c:f44c:72a6 with SMTP id
+ 5b1f17b1804b1-455174367demr115789855e9.2.1752585399385; 
+ Tue, 15 Jul 2025 06:16:39 -0700 (PDT)
+Received: from phenom.ffwll.local ([2a02:168:57f4:0:5485:d4b2:c087:b497])
+ by smtp.gmail.com with ESMTPSA id
+ 5b1f17b1804b1-4562797b8d2sm19149335e9.8.2025.07.15.06.16.38
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 15 Jul 2025 06:16:38 -0700 (PDT)
+Date: Tue, 15 Jul 2025 15:16:37 +0200
+From: Simona Vetter <simona.vetter@ffwll.ch>
+To: Thomas Zimmermann <tzimmermann@suse.de>
+Cc: alexander.deucher@amd.com, christian.koenig@amd.com, airlied@gmail.com,
+ simona@ffwll.ch, amd-gfx@lists.freedesktop.org,
+ dri-devel@lists.freedesktop.org
+Subject: Re: [PATCH] Revert "drm/amdgpu: Use dma_buf from GEM object instance"
+Message-ID: <aHZUtdhU26IVoNwa@phenom.ffwll.local>
+References: <20250715082635.34974-1-tzimmermann@suse.de>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20250715082635.34974-1-tzimmermann@suse.de>
+X-Operating-System: Linux phenom 6.12.30-amd64 
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -67,304 +87,77 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-6.15-stable review patch.  If anyone has any objections, please let me know.
+On Tue, Jul 15, 2025 at 10:26:22AM +0200, Thomas Zimmermann wrote:
+> This reverts commit 515986100d176663d0a03219a3056e4252f729e6.
+> 
+> The dma_buf field in struct drm_gem_object is not stable over the
+> object instance's lifetime. The field becomes NULL when user space
+> releases the final GEM handle on the buffer object. This resulted
+> in a NULL-pointer deref.
+> 
+> Workarounds in commit 5307dce878d4 ("drm/gem: Acquire references on
+> GEM handles for framebuffers") and commit f6bfc9afc751 ("drm/framebuffer:
+> Acquire internal references on GEM handles") only solved the problem
+> partially. They especially don't work for buffer objects without a DRM
+> framebuffer associated.
+> 
+> Hence, this revert to going back to using .import_attach->dmabuf.
+> 
+> Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
 
-------------------
+Reviewed-by: Simona Vetter <simona.vetter@ffwll.ch>
 
-From: Thomas Zimmermann <tzimmermann@suse.de>
+> ---
+>  drivers/gpu/drm/amd/amdgpu/amdgpu_dma_buf.c | 2 +-
+>  drivers/gpu/drm/amd/amdgpu/amdgpu_gem.c     | 3 ++-
+>  drivers/gpu/drm/amd/amdgpu/amdgpu_vm.c      | 2 +-
+>  3 files changed, 4 insertions(+), 3 deletions(-)
+> 
+> diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_dma_buf.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_dma_buf.c
+> index ff98c87b2e0b..5743ebb2f1b7 100644
+> --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_dma_buf.c
+> +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_dma_buf.c
+> @@ -514,7 +514,7 @@ bool amdgpu_dmabuf_is_xgmi_accessible(struct amdgpu_device *adev,
+>  		return false;
+>  
+>  	if (drm_gem_is_imported(obj)) {
+> -		struct dma_buf *dma_buf = obj->dma_buf;
+> +		struct dma_buf *dma_buf = obj->import_attach->dmabuf;
+>  
+>  		if (dma_buf->ops != &amdgpu_dmabuf_ops)
+>  			/* No XGMI with non AMD GPUs */
+> diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_gem.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_gem.c
+> index 6626a6e64ff5..d1ccbfcf21fa 100644
+> --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_gem.c
+> +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_gem.c
+> @@ -317,7 +317,8 @@ static int amdgpu_gem_object_open(struct drm_gem_object *obj,
+>  	 */
+>  	if (!vm->is_compute_context || !vm->process_info)
+>  		return 0;
+> -	if (!drm_gem_is_imported(obj) || !dma_buf_is_dynamic(obj->dma_buf))
+> +	if (!drm_gem_is_imported(obj) ||
+> +	    !dma_buf_is_dynamic(obj->import_attach->dmabuf))
+>  		return 0;
+>  	mutex_lock_nested(&vm->process_info->lock, 1);
+>  	if (!WARN_ON(!vm->process_info->eviction_fence)) {
+> diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_vm.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_vm.c
+> index af0f655dfd5b..b9b4f7d9186e 100644
+> --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_vm.c
+> +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_vm.c
+> @@ -1272,7 +1272,7 @@ int amdgpu_vm_bo_update(struct amdgpu_device *adev, struct amdgpu_bo_va *bo_va,
+>  		struct drm_gem_object *obj = &bo->tbo.base;
+>  
+>  		if (drm_gem_is_imported(obj) && bo_va->is_xgmi) {
+> -			struct dma_buf *dma_buf = obj->dma_buf;
+> +			struct dma_buf *dma_buf = obj->import_attach->dmabuf;
+>  			struct drm_gem_object *gobj = dma_buf->priv;
+>  			struct amdgpu_bo *abo = gem_to_amdgpu_bo(gobj);
+>  
+> -- 
+> 2.50.0
+> 
 
-commit f6bfc9afc7510cb5e6fbe0a17c507917b0120280 upstream.
-
-Acquire GEM handles in drm_framebuffer_init() and release them in
-the corresponding drm_framebuffer_cleanup(). Ties the handle's
-lifetime to the framebuffer. Not all GEM buffer objects have GEM
-handles. If not set, no refcounting takes place. This is the case
-for some fbdev emulation. This is not a problem as these GEM objects
-do not use dma-bufs and drivers will not release them while fbdev
-emulation is running. Framebuffer flags keep a bit per color plane
-of which the framebuffer holds a GEM handle reference.
-
-As all drivers use drm_framebuffer_init(), they will now all hold
-dma-buf references as fixed in commit 5307dce878d4 ("drm/gem: Acquire
-references on GEM handles for framebuffers").
-
-In the GEM framebuffer helpers, restore the original ref counting
-on buffer objects. As the helpers for handle refcounting are now
-no longer called from outside the DRM core, unexport the symbols.
-
-v3:
-- don't mix internal flags with mode flags (Christian)
-v2:
-- track framebuffer handle refs by flag
-- drop gma500 cleanup (Christian)
-
-Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
-Fixes: 5307dce878d4 ("drm/gem: Acquire references on GEM handles for framebuffers")
-Reported-by: Bert Karwatzki <spasswolf@web.de>
-Closes: https://lore.kernel.org/dri-devel/20250703115915.3096-1-spasswolf@web.de/
-Tested-by: Bert Karwatzki <spasswolf@web.de>
-Tested-by: Mario Limonciello <superm1@kernel.org>
-Tested-by: Borislav Petkov (AMD) <bp@alien8.de>
-Cc: Thomas Zimmermann <tzimmermann@suse.de>
-Cc: Anusha Srivatsa <asrivats@redhat.com>
-Cc: Christian König <christian.koenig@amd.com>
-Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
-Cc: Maxime Ripard <mripard@kernel.org>
-Cc: Sumit Semwal <sumit.semwal@linaro.org>
-Cc: "Christian König" <christian.koenig@amd.com>
-Cc: linux-media@vger.kernel.org
-Cc: dri-devel@lists.freedesktop.org
-Cc: linaro-mm-sig@lists.linaro.org
-Cc: <stable@vger.kernel.org>
-Reviewed-by: Christian König <christian.koenig@amd.com>
-Link: https://lore.kernel.org/r/20250707131224.249496-1-tzimmermann@suse.de
-Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
----
- drivers/gpu/drm/drm_framebuffer.c            |   31 ++++++++++++++++++++--
- drivers/gpu/drm/drm_gem.c                    |   38 +++++++++++++++++----------
- drivers/gpu/drm/drm_gem_framebuffer_helper.c |   16 ++++-------
- drivers/gpu/drm/drm_internal.h               |    2 -
- include/drm/drm_framebuffer.h                |    7 ++++
- 5 files changed, 68 insertions(+), 26 deletions(-)
-
---- a/drivers/gpu/drm/drm_framebuffer.c
-+++ b/drivers/gpu/drm/drm_framebuffer.c
-@@ -862,11 +862,23 @@ EXPORT_SYMBOL_FOR_TESTS_ONLY(drm_framebu
- int drm_framebuffer_init(struct drm_device *dev, struct drm_framebuffer *fb,
- 			 const struct drm_framebuffer_funcs *funcs)
- {
-+	unsigned int i;
- 	int ret;
-+	bool exists;
- 
- 	if (WARN_ON_ONCE(fb->dev != dev || !fb->format))
- 		return -EINVAL;
- 
-+	for (i = 0; i < fb->format->num_planes; i++) {
-+		if (drm_WARN_ON_ONCE(dev, fb->internal_flags & DRM_FRAMEBUFFER_HAS_HANDLE_REF(i)))
-+			fb->internal_flags &= ~DRM_FRAMEBUFFER_HAS_HANDLE_REF(i);
-+		if (fb->obj[i]) {
-+			exists = drm_gem_object_handle_get_if_exists_unlocked(fb->obj[i]);
-+			if (exists)
-+				fb->internal_flags |= DRM_FRAMEBUFFER_HAS_HANDLE_REF(i);
-+		}
-+	}
-+
- 	INIT_LIST_HEAD(&fb->filp_head);
- 
- 	fb->funcs = funcs;
-@@ -875,7 +887,7 @@ int drm_framebuffer_init(struct drm_devi
- 	ret = __drm_mode_object_add(dev, &fb->base, DRM_MODE_OBJECT_FB,
- 				    false, drm_framebuffer_free);
- 	if (ret)
--		goto out;
-+		goto err;
- 
- 	mutex_lock(&dev->mode_config.fb_lock);
- 	dev->mode_config.num_fb++;
-@@ -883,7 +895,16 @@ int drm_framebuffer_init(struct drm_devi
- 	mutex_unlock(&dev->mode_config.fb_lock);
- 
- 	drm_mode_object_register(dev, &fb->base);
--out:
-+
-+	return 0;
-+
-+err:
-+	for (i = 0; i < fb->format->num_planes; i++) {
-+		if (fb->internal_flags & DRM_FRAMEBUFFER_HAS_HANDLE_REF(i)) {
-+			drm_gem_object_handle_put_unlocked(fb->obj[i]);
-+			fb->internal_flags &= ~DRM_FRAMEBUFFER_HAS_HANDLE_REF(i);
-+		}
-+	}
- 	return ret;
- }
- EXPORT_SYMBOL(drm_framebuffer_init);
-@@ -960,6 +981,12 @@ EXPORT_SYMBOL(drm_framebuffer_unregister
- void drm_framebuffer_cleanup(struct drm_framebuffer *fb)
- {
- 	struct drm_device *dev = fb->dev;
-+	unsigned int i;
-+
-+	for (i = 0; i < fb->format->num_planes; i++) {
-+		if (fb->internal_flags & DRM_FRAMEBUFFER_HAS_HANDLE_REF(i))
-+			drm_gem_object_handle_put_unlocked(fb->obj[i]);
-+	}
- 
- 	mutex_lock(&dev->mode_config.fb_lock);
- 	list_del(&fb->head);
---- a/drivers/gpu/drm/drm_gem.c
-+++ b/drivers/gpu/drm/drm_gem.c
-@@ -223,23 +223,34 @@ static void drm_gem_object_handle_get(st
- }
- 
- /**
-- * drm_gem_object_handle_get_unlocked - acquire reference on user-space handles
-+ * drm_gem_object_handle_get_if_exists_unlocked - acquire reference on user-space handle, if any
-  * @obj: GEM object
-  *
-- * Acquires a reference on the GEM buffer object's handle. Required
-- * to keep the GEM object alive. Call drm_gem_object_handle_put_unlocked()
-- * to release the reference.
-+ * Acquires a reference on the GEM buffer object's handle. Required to keep
-+ * the GEM object alive. Call drm_gem_object_handle_put_if_exists_unlocked()
-+ * to release the reference. Does nothing if the buffer object has no handle.
-+ *
-+ * Returns:
-+ * True if a handle exists, or false otherwise
-  */
--void drm_gem_object_handle_get_unlocked(struct drm_gem_object *obj)
-+bool drm_gem_object_handle_get_if_exists_unlocked(struct drm_gem_object *obj)
- {
- 	struct drm_device *dev = obj->dev;
- 
- 	guard(mutex)(&dev->object_name_lock);
- 
--	drm_WARN_ON(dev, !obj->handle_count); /* first ref taken in create-tail helper */
-+	/*
-+	 * First ref taken during GEM object creation, if any. Some
-+	 * drivers set up internal framebuffers with GEM objects that
-+	 * do not have a GEM handle. Hence, this counter can be zero.
-+	 */
-+	if (!obj->handle_count)
-+		return false;
-+
- 	drm_gem_object_handle_get(obj);
-+
-+	return true;
- }
--EXPORT_SYMBOL(drm_gem_object_handle_get_unlocked);
- 
- /**
-  * drm_gem_object_handle_free - release resources bound to userspace handles
-@@ -272,7 +283,7 @@ static void drm_gem_object_exported_dma_
- }
- 
- /**
-- * drm_gem_object_handle_put_unlocked - releases reference on user-space handles
-+ * drm_gem_object_handle_put_unlocked - releases reference on user-space handle
-  * @obj: GEM object
-  *
-  * Releases a reference on the GEM buffer object's handle. Possibly releases
-@@ -283,14 +294,14 @@ void drm_gem_object_handle_put_unlocked(
- 	struct drm_device *dev = obj->dev;
- 	bool final = false;
- 
--	if (WARN_ON(READ_ONCE(obj->handle_count) == 0))
-+	if (drm_WARN_ON(dev, READ_ONCE(obj->handle_count) == 0))
- 		return;
- 
- 	/*
--	* Must bump handle count first as this may be the last
--	* ref, in which case the object would disappear before we
--	* checked for a name
--	*/
-+	 * Must bump handle count first as this may be the last
-+	 * ref, in which case the object would disappear before
-+	 * we checked for a name.
-+	 */
- 
- 	mutex_lock(&dev->object_name_lock);
- 	if (--obj->handle_count == 0) {
-@@ -303,7 +314,6 @@ void drm_gem_object_handle_put_unlocked(
- 	if (final)
- 		drm_gem_object_put(obj);
- }
--EXPORT_SYMBOL(drm_gem_object_handle_put_unlocked);
- 
- /*
-  * Called at device or object close to release the file's
---- a/drivers/gpu/drm/drm_gem_framebuffer_helper.c
-+++ b/drivers/gpu/drm/drm_gem_framebuffer_helper.c
-@@ -99,7 +99,7 @@ void drm_gem_fb_destroy(struct drm_frame
- 	unsigned int i;
- 
- 	for (i = 0; i < fb->format->num_planes; i++)
--		drm_gem_object_handle_put_unlocked(fb->obj[i]);
-+		drm_gem_object_put(fb->obj[i]);
- 
- 	drm_framebuffer_cleanup(fb);
- 	kfree(fb);
-@@ -182,10 +182,8 @@ int drm_gem_fb_init_with_funcs(struct dr
- 		if (!objs[i]) {
- 			drm_dbg_kms(dev, "Failed to lookup GEM object\n");
- 			ret = -ENOENT;
--			goto err_gem_object_handle_put_unlocked;
-+			goto err_gem_object_put;
- 		}
--		drm_gem_object_handle_get_unlocked(objs[i]);
--		drm_gem_object_put(objs[i]);
- 
- 		min_size = (height - 1) * mode_cmd->pitches[i]
- 			 + drm_format_info_min_pitch(info, i, width)
-@@ -195,22 +193,22 @@ int drm_gem_fb_init_with_funcs(struct dr
- 			drm_dbg_kms(dev,
- 				    "GEM object size (%zu) smaller than minimum size (%u) for plane %d\n",
- 				    objs[i]->size, min_size, i);
--			drm_gem_object_handle_put_unlocked(objs[i]);
-+			drm_gem_object_put(objs[i]);
- 			ret = -EINVAL;
--			goto err_gem_object_handle_put_unlocked;
-+			goto err_gem_object_put;
- 		}
- 	}
- 
- 	ret = drm_gem_fb_init(dev, fb, mode_cmd, objs, i, funcs);
- 	if (ret)
--		goto err_gem_object_handle_put_unlocked;
-+		goto err_gem_object_put;
- 
- 	return 0;
- 
--err_gem_object_handle_put_unlocked:
-+err_gem_object_put:
- 	while (i > 0) {
- 		--i;
--		drm_gem_object_handle_put_unlocked(objs[i]);
-+		drm_gem_object_put(objs[i]);
- 	}
- 	return ret;
- }
---- a/drivers/gpu/drm/drm_internal.h
-+++ b/drivers/gpu/drm/drm_internal.h
-@@ -161,7 +161,7 @@ void drm_sysfs_lease_event(struct drm_de
- 
- /* drm_gem.c */
- int drm_gem_init(struct drm_device *dev);
--void drm_gem_object_handle_get_unlocked(struct drm_gem_object *obj);
-+bool drm_gem_object_handle_get_if_exists_unlocked(struct drm_gem_object *obj);
- void drm_gem_object_handle_put_unlocked(struct drm_gem_object *obj);
- int drm_gem_handle_create_tail(struct drm_file *file_priv,
- 			       struct drm_gem_object *obj,
---- a/include/drm/drm_framebuffer.h
-+++ b/include/drm/drm_framebuffer.h
-@@ -23,6 +23,7 @@
- #ifndef __DRM_FRAMEBUFFER_H__
- #define __DRM_FRAMEBUFFER_H__
- 
-+#include <linux/bits.h>
- #include <linux/ctype.h>
- #include <linux/list.h>
- #include <linux/sched.h>
-@@ -100,6 +101,8 @@ struct drm_framebuffer_funcs {
- 		     unsigned num_clips);
- };
- 
-+#define DRM_FRAMEBUFFER_HAS_HANDLE_REF(_i)	BIT(0u + (_i))
-+
- /**
-  * struct drm_framebuffer - frame buffer object
-  *
-@@ -189,6 +192,10 @@ struct drm_framebuffer {
- 	 */
- 	int flags;
- 	/**
-+	 * @internal_flags: Framebuffer flags like DRM_FRAMEBUFFER_HAS_HANDLE_REF.
-+	 */
-+	unsigned int internal_flags;
-+	/**
- 	 * @filp_head: Placed on &drm_file.fbs, protected by &drm_file.fbs_lock.
- 	 */
- 	struct list_head filp_head;
-
-
+-- 
+Simona Vetter
+Software Engineer, Intel Corporation
+http://blog.ffwll.ch
