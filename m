@@ -2,63 +2,138 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7837DB06242
-	for <lists+dri-devel@lfdr.de>; Tue, 15 Jul 2025 17:04:10 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 93EC3B06256
+	for <lists+dri-devel@lfdr.de>; Tue, 15 Jul 2025 17:07:49 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E32F810E227;
-	Tue, 15 Jul 2025 15:04:08 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7A33510E5EB;
+	Tue, 15 Jul 2025 15:07:46 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=collabora.com header.i=caterina.shablia@collabora.com header.b="RXdpNAOs";
+	dkim=pass (2048-bit key; unprotected) header.d=qualcomm.com header.i=@qualcomm.com header.b="kms4CHhK";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-X-Greylist: delayed 904 seconds by postgrey-1.36 at gabe;
- Tue, 15 Jul 2025 15:04:08 UTC
-Received: from sender4-op-o14.zoho.com (sender4-op-o14.zoho.com
- [136.143.188.14])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2F33E10E227
- for <dri-devel@lists.freedesktop.org>; Tue, 15 Jul 2025 15:04:08 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; t=1752590929; cv=none; 
- d=zohomail.com; s=zohoarc; 
- b=NLKS4l7nztxW21MIa6vh82w6apF0HOua5Qkdoh9PRNtE93kYvnEgj+wruyJ2hOTsdEdd/Pi4OFHAL5yKf3dTLjxt+Ws43SgaEmkbvBIIDB1csFz/8NmRArN6LT7G7MS3CQsb0sdaMhiFdZVSpsMFR7xv0PhaCOYV/HqHwv1e6bI=
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com;
- s=zohoarc; t=1752590929;
- h=Content-Type:Content-Transfer-Encoding:Cc:Cc:Date:Date:From:From:In-Reply-To:MIME-Version:Message-ID:References:Subject:Subject:To:To:Message-Id:Reply-To;
- bh=xFVZ1c6WnKw4ORI58frXJc1W+Rm8JeEJu25qU2qDMtE=; 
- b=QG8/HMyAVQpYVD6I4rKCEOp8v2DJo/57nRsUQf2YWLcnppaetyxBaidDDa8tr53Qs7JyjpHOsGJVMnPwovtxjQCpe/bEWa0ILQXXmDk3t2vV3HgES320Jq8LwVhHh14Op5ILMRk/f8JjGKUUIyo474N0IkzYM8t8tL6z7Dr0TIE=
-ARC-Authentication-Results: i=1; mx.zohomail.com;
- dkim=pass  header.i=collabora.com;
- spf=pass  smtp.mailfrom=caterina.shablia@collabora.com;
- dmarc=pass header.from=<caterina.shablia@collabora.com>
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1752590929; 
- s=zohomail; d=collabora.com; i=caterina.shablia@collabora.com; 
- h=From:From:To:To:Cc:Cc:Subject:Subject:Date:Date:Message-ID:In-Reply-To:References:MIME-Version:Content-Transfer-Encoding:Content-Type:Message-Id:Reply-To;
- bh=xFVZ1c6WnKw4ORI58frXJc1W+Rm8JeEJu25qU2qDMtE=;
- b=RXdpNAOshXyaTWeIuqgynTqFV7bbnyYpgn3AIS4gAb+shAz8CyWp9Al8KnQ3MCxm
- up640mI+WcKTnZFnP0p+Ld7muybq/DuMTTRZ0UfeBPcktFaxzViF/U76+Smdxh8CHQF
- IgT4l8Ek9N/dDC2Lmo3z+tCPaLVTadGjDmNckbj8=
-Received: by mx.zohomail.com with SMTPS id 1752590927616603.6004449742125;
- Tue, 15 Jul 2025 07:48:47 -0700 (PDT)
-From: Caterina Shablia <caterina.shablia@collabora.com>
-To: Adrian Larumbe <adrian.larumbe@collabora.com>
-Cc: Boris Brezillon <boris.brezillon@collabora.com>,
- Steven Price <steven.price@arm.com>, Liviu Dudau <liviu.dudau@arm.com>,
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com
+ [205.220.180.131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1D85310E5E3
+ for <dri-devel@lists.freedesktop.org>; Tue, 15 Jul 2025 15:07:45 +0000 (UTC)
+Received: from pps.filterd (m0279872.ppops.net [127.0.0.1])
+ by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 56FCY18j008069
+ for <dri-devel@lists.freedesktop.org>; Tue, 15 Jul 2025 15:07:44 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
+ cc:content-type:date:from:in-reply-to:message-id:mime-version
+ :references:subject:to; s=qcppdkim1; bh=UFE3yd+yxu1P9RbRQyZIroNt
+ ei5T0YAfVddPN3zIsz4=; b=kms4CHhKguztPZrh6aMbRBtnl6d9uGu4uOFm50lw
+ iMEm3Hk1vAypjt53Ce3yleNqozyM/XTTCxr+e4G/uDCfYHbXQAg9h5hQNPK9y3I2
+ udYhwnexMqZsF9/inyxAfUZ76hBWYT3td4TY3OazGAs+vHQuinCcwiorjzrk+l0g
+ 1Za2lALAmOj85o6c8rScrhk/vR+IhdCd7eBxxr3eg9cgxubjapge0iJaHFWolH36
+ PYJa/KbYNYKjmbLO0zdUTqedsIENjxR/LKLsuUc3U4b4zj/FX1nbUJwrZnhLZ3fE
+ bV+7Tw6R8Bs9zY0xs7ikJuxKj8mBvjo/d/+R4DU3M38Xdg==
+Received: from mail-ot1-f71.google.com (mail-ot1-f71.google.com
+ [209.85.210.71])
+ by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 47ug380tsm-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
+ for <dri-devel@lists.freedesktop.org>; Tue, 15 Jul 2025 15:07:44 +0000 (GMT)
+Received: by mail-ot1-f71.google.com with SMTP id
+ 46e09a7af769-736f37286a2so4991361a34.2
+ for <dri-devel@lists.freedesktop.org>; Tue, 15 Jul 2025 08:07:44 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1752592063; x=1753196863;
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=UFE3yd+yxu1P9RbRQyZIroNtei5T0YAfVddPN3zIsz4=;
+ b=dwXCAk/Dq/cKhsQSzvNoro1XptivGe2qrnpXCtnQ0ySJA7ONYhidXWA6Erou5Id5Z0
+ nsRWQS5oKHV8pzfN/abPKaFM4R7kDixS0wMuZTbpcKN8fYQF4Lpo59Qeb5vkZRy8KEXP
+ Tnm5C/nUn0/luZcWCzXWp3HtKWyWNS5DY8oGMkdlhWAG5ioTCfZurdpvTvlkDt3DGe77
+ W/pPL+OhL0nWGo7ClSGeoIobOkNn/DmvA1KeNzTTweFGd5z7ZiiaODkSOfGjQ45S5L1W
+ ogCmjY89v9wzzHgMtsSlsTVsvX7Tu7XGN7Wjf2X9lfxaJF523wvTFFRgqF3P7IVO9sPr
+ 3nsQ==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCVeFIThbWGpxl9wNg0/W7VYC6NZcFw545/ONZHl3lyHUqrIqglCPKmAKBJ+snPKdaMQtvLEFbN8ccA=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YwVyiAP+ai7/7uu4akQ/DTS1m5xEiD3mwAAe99C6MI5BgPRMllc
+ BDZbQY+X1dOd0EXryfhR0hAxmAO9qcBJHoF+yP33Ne85VhwVXOd4exSbvdPODfkuSb7m9gsjTKB
+ s617oGiQngz9T6sNSO9DxJplGJKW32+gmny1MCBgCKAxdUy5Eyz2E/PUVu3OAGHrVia+78/Y=
+X-Gm-Gg: ASbGncsd/p5aPiYa2IpdsxpZL8vUH9fdYR7/1/ShsCdP6PfuAURCEVGdppsnFnbQxXZ
+ Uufdp3MIj3pvvUU2QkLNsX4IAdjvyOhdzP68wW9KS6CbenUoa+kpncnW7bcF7Ow0ILud2+zlL7A
+ ouq6UlD8oDVO2D8JNbvTFQXSMuzhIlXZIBT7a4pslLQ3YxjrMc7W1GdMWULj6ZfvVz8yspHubp2
+ 61oqQz/Ya/UROAlBbcVPmIdKODREwjmZHmcujrigX6aa1cXXCXa/w/e0S1SrahMSHBwtiXxoO8Q
+ vC5zFxQmATmbfux9HHSioGGL+up9oNcDXRxnn8BiZQnQV+jsdKMoQFJsmecK1QQnMNhgpb2xAS6
+ a5RYNK5Sfqh773u5rvDcTfzQGz4J/Z4q77hx4FT4EemjBLqVLrDxk
+X-Received: by 2002:a05:6870:5b96:b0:2ff:8f89:950d with SMTP id
+ 586e51a60fabf-2ff8f899b18mr3018622fac.11.1752592063050; 
+ Tue, 15 Jul 2025 08:07:43 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IGzt/a91mT3BodYIFDMVy8jVt1HoRKIa+1bUOyQbH9aZS0Ib97nHGb4Ty6uV5H10BORptHD0g==
+X-Received: by 2002:a05:6870:5b96:b0:2ff:8f89:950d with SMTP id
+ 586e51a60fabf-2ff8f899b18mr3018555fac.11.1752592062451; 
+ Tue, 15 Jul 2025 08:07:42 -0700 (PDT)
+Received: from umbar.lan
+ (2001-14ba-a0c3-3a00-264b-feff-fe8b-be8a.rev.dnainternet.fi.
+ [2001:14ba:a0c3:3a00:264b:feff:fe8b:be8a])
+ by smtp.gmail.com with ESMTPSA id
+ 2adb3069b0e04-5593c9d092csm2317122e87.114.2025.07.15.08.07.40
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 15 Jul 2025 08:07:41 -0700 (PDT)
+Date: Tue, 15 Jul 2025 18:07:39 +0300
+From: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
+To: Brian Masney <bmasney@redhat.com>
+Cc: Philipp Zabel <p.zabel@pengutronix.de>,
  Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
+ Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>,
  David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- kernel@collabora.com, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v2 1/7] drm/panthor: Add support for atomic page table
- updates
-Date: Tue, 15 Jul 2025 16:48:43 +0200
-Message-ID: <2696295.fDdHjke4Dd@xps>
-In-Reply-To: <5wxljw27mc4f2i6ag54upmpjxjj5odnd6d57fiiozpb3hjl4zi@okwx34aj56b6>
-References: <20250703152908.16702-2-caterina.shablia@collabora.com>
- <20250703152908.16702-3-caterina.shablia@collabora.com>
- <5wxljw27mc4f2i6ag54upmpjxjj5odnd6d57fiiozpb3hjl4zi@okwx34aj56b6>
+ Shawn Guo <shawnguo@kernel.org>, Sascha Hauer <s.hauer@pengutronix.de>,
+ Pengutronix Kernel Team <kernel@pengutronix.de>,
+ Fabio Estevam <festevam@gmail.com>,
+ Linus Walleij <linus.walleij@linaro.org>,
+ Rob Clark <robin.clark@oss.qualcomm.com>,
+ Dmitry Baryshkov <lumag@kernel.org>,
+ Abhinav Kumar <abhinav.kumar@linux.dev>,
+ Jessica Zhang <jessica.zhang@oss.qualcomm.com>,
+ Sean Paul <sean@poorly.run>,
+ Marijn Suijten <marijn.suijten@somainline.org>,
+ Yannick Fertre <yannick.fertre@foss.st.com>,
+ Raphael Gallais-Pou <raphael.gallais-pou@foss.st.com>,
+ Philippe Cornu <philippe.cornu@foss.st.com>,
+ Maxime Coquelin <mcoquelin.stm32@gmail.com>,
+ Alexandre Torgue <alexandre.torgue@foss.st.com>,
+ Chen-Yu Tsai <wens@csie.org>, Jernej Skrabec <jernej.skrabec@gmail.com>,
+ Samuel Holland <samuel@sholland.org>, Stephen Boyd <sboyd@kernel.org>,
+ dri-devel@lists.freedesktop.org, imx@lists.linux.dev,
+ linux-clk@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+ linux-kernel@vger.kernel.org, linux-arm-msm@vger.kernel.org,
+ freedreno@lists.freedesktop.org,
+ linux-stm32@st-md-mailman.stormreply.com, linux-sunxi@lists.linux.dev
+Subject: Re: [PATCH 4/9] drm/msm/hdmi_pll_8960: convert from round_rate() to
+ determine_rate()
+Message-ID: <qk4v2znryznnvg2vcye2m7taurfhoozjjdtye3fmk4fgawm5jq@2qlqgg4htfnl>
+References: <20250710-drm-clk-round-rate-v1-0-601b9ea384c3@redhat.com>
+ <20250710-drm-clk-round-rate-v1-4-601b9ea384c3@redhat.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset="utf-8"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20250710-drm-clk-round-rate-v1-4-601b9ea384c3@redhat.com>
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwNzE1MDEzOSBTYWx0ZWRfXyQjzz5hv3AvM
+ EmjwdBSdqNbcL+PbC/x1fq3w1MPLUpcek57xijwNFE42BBeT2WrIc77tyAj2n/w3onoyW7PSlqX
+ DGInDsYYadPmtGtxiDGnhReO+2Y67Nl5cFq/6s2KHSqtrIJt1Hr1KkZIFYon7CTSzc1dr32EyWb
+ g/Qrcu+Tv5bfrcOcW7P97lefVkAQ7/Tjo9eGEHsGdaZFIA4uUOaCg5M9BPZJ7/08bKxRHXpuGYN
+ IgrhPLFM74Dp0GEIuQAW6DMFJZ5MOLj7qXWtnuqmPFOUsoycCW3t/dgDAb1yA53jibjT2hoX60X
+ FVzZNGPd4NfK3qTmtpLAIF66c/6EqzJzYuU7coRWC74uByI8nT2eUvZCcrvH9iqV9rkB/Jgb4JO
+ 5SCizOtnv0nA02iDDOstZC/zNRmeHIqiV1hwW+GEluNVsgr3sOWD/A6F/oR3To1mkrsxtqRF
+X-Proofpoint-GUID: xPxUXzpwD1iSrusg82IeYQf3Fui2KlKL
+X-Authority-Analysis: v=2.4 cv=SZT3duRu c=1 sm=1 tr=0 ts=68766ec0 cx=c_pps
+ a=OI0sxtj7PyCX9F1bxD/puw==:117 a=xqWC_Br6kY4A:10 a=kj9zAlcOel0A:10
+ a=Wb1JkmetP80A:10 a=20KFwNOVAAAA:8 a=EUspDBNiAAAA:8 a=oBXrOfH6mq4iYN50PBoA:9
+ a=CjuIK1q_8ugA:10 a=Z1Yy7GAxqfX1iEi80vsk:22
+X-Proofpoint-ORIG-GUID: xPxUXzpwD1iSrusg82IeYQf3Fui2KlKL
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1099,Hydra:6.1.9,FMLib:17.12.80.40
+ definitions=2025-07-15_04,2025-07-15_01,2025-03-28_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ clxscore=1015 mlxlogscore=903 mlxscore=0 priorityscore=1501
+ lowpriorityscore=0 bulkscore=0 adultscore=0 impostorscore=0 malwarescore=0
+ phishscore=0 spamscore=0 suspectscore=0 classifier=spam authscore=0
+ authtc=n/a authcc= route=outbound adjust=0 reason=mlx scancount=1
+ engine=8.19.0-2505280000 definitions=main-2507150139
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -74,282 +149,22 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-El viernes, 11 de julio de 2025 21:11:15 (hora de verano de Europa central)=
-,=20
-Adrian Larumbe escribi=C3=B3:
-> Hi Caterina,
->=20
-> On 03.07.2025 15:28, Caterina Shablia wrote:
-> > From: Boris Brezillon <boris.brezillon@collabora.com>
-> >=20
-> > Move the lock/flush_mem operations around the gpuvm_sm_map() calls so
-> > we can implement true atomic page updates, where any access in the
-> > locked range done by the GPU has to wait for the page table updates
-> > to land before proceeding.
-> >=20
-> > This is needed for vkQueueBindSparse(), so we can replace the dummy
-> > page mapped over the entire object by actual BO backed pages in an atom=
-ic
-> > way.
-> >=20
-> > Signed-off-by: Boris Brezillon <boris.brezillon@collabora.com>
-> > Signed-off-by: Caterina Shablia <caterina.shablia@collabora.com>
-> > ---
-> >=20
-> >  drivers/gpu/drm/panthor/panthor_mmu.c | 65 +++++++++++++++++++++++++--
-> >  1 file changed, 62 insertions(+), 3 deletions(-)
-> >=20
-> > diff --git a/drivers/gpu/drm/panthor/panthor_mmu.c
-> > b/drivers/gpu/drm/panthor/panthor_mmu.c index b39ea6acc6a9..1e58948587a9
-> > 100644
-> > --- a/drivers/gpu/drm/panthor/panthor_mmu.c
-> > +++ b/drivers/gpu/drm/panthor/panthor_mmu.c
-> > @@ -387,6 +387,15 @@ struct panthor_vm {
-> >=20
-> >  	 * flagged as faulty as a result.
-> >  	 */
-> >  =09
-> >  	bool unhandled_fault;
-> >=20
-> > +
-> > +	/** @locked_region: Information about the currently locked region
-> > currently. */
-> Nit: delete second 'current'
->=20
-> > +	struct {
-> > +		/** @locked_region.start: Start of the locked region.=20
-*/
-> > +		u64 start;
-> > +
-> > +		/** @locked_region.size: Size of the locked region. */
-> > +		u64 size;
-> > +	} locked_region;
-> >=20
-> >  };
-> > =20
-> >  /**
-> >=20
-> > @@ -775,6 +784,10 @@ int panthor_vm_active(struct panthor_vm *vm)
-> >=20
-> >  	}
-> >  =09
-> >  	ret =3D panthor_mmu_as_enable(vm->ptdev, vm->as.id, transtab,=20
-transcfg,
-> >  	vm->memattr);>=20
-> > +	if (!ret && vm->locked_region.size) {
-> > +		lock_region(ptdev, vm->as.id, vm->locked_region.start,
-> > vm->locked_region.size);
-> Why do we need to lock the region after enabling a new AS?
-See explanation further below for what happens in panthor_vm_lock_region. I=
-n=20
-short, we might poke vm_bind on a vm that's not active, locking a region.=20
-Because vm is not active, there's nothing for us to do to lock the region,=
-=20
-beyond just specifying the region itself. If a vm in the meanwhile becomes=
-=20
-active while some region is locked, we'll need to inform the mmu about the=
-=20
-region that's supposed to be locked.=20
->=20
-> > +		ret =3D wait_ready(ptdev, vm->as.id);
-> > +	}
-> >=20
-> >  out_make_active:
-> >  	if (!ret) {
-> >=20
-> > @@ -902,6 +915,9 @@ static int panthor_vm_unmap_pages(struct panthor_vm
-> > *vm, u64 iova, u64 size)>=20
-> >  	struct io_pgtable_ops *ops =3D vm->pgtbl_ops;
-> >  	u64 offset =3D 0;
-> >=20
-> > +	drm_WARN_ON(&ptdev->base,
-> > +		    (iova < vm->locked_region.start) ||
-> > +		    (iova + size > vm->locked_region.start + vm-
->locked_region.size));
-> >=20
-> >  	drm_dbg(&ptdev->base, "unmap: as=3D%d, iova=3D%llx, len=3D%llx", vm-
->as.id,
-> >  	iova, size);
-> >  =09
-> >  	while (offset < size) {
-> >=20
-> > @@ -915,13 +931,12 @@ static int panthor_vm_unmap_pages(struct panthor_=
-vm
-> > *vm, u64 iova, u64 size)>=20
-> >  				iova + offset + unmapped_sz,
-> >  				iova + offset + pgsize * pgcount,
-> >  				iova, iova + size);
-> >=20
-> > -			panthor_vm_flush_range(vm, iova, offset +=20
-unmapped_sz);
->=20
-> We've removed all calls to panthor_vm_flush_range(), but I don't see it
-> being done in panthor_vm_exec_op() before the region is unlocked. It's
-> effectively become dead code.
->=20
-> However, even if we did 'panthor_vm_flush_range(vm, op->va.addr,
-> op->va.range);' in panthor_vm_exec_op() right before we unlock the region,
-> we wouldn't be dealing well with the case in which only a partial unmap
-> happens, but maybe this isn't a big deal either.
-panthor_vm_unlock_region will do the necessary flushes.
->=20
-> >  			return  -EINVAL;
-> >  	=09
-> >  		}
-> >  		offset +=3D unmapped_sz;
-> >  =09
-> >  	}
-> >=20
-> > -	return panthor_vm_flush_range(vm, iova, size);
-> > +	return 0;
-> >=20
-> >  }
-> > =20
-> >  static int
-> >=20
-> > @@ -938,6 +953,10 @@ panthor_vm_map_pages(struct panthor_vm *vm, u64 io=
-va,
-> > int prot,>=20
-> >  	if (!size)
-> >  =09
-> >  		return 0;
-> >=20
-> > +	drm_WARN_ON(&ptdev->base,
-> > +		    (iova < vm->locked_region.start) ||
-> > +		    (iova + size > vm->locked_region.start + vm-
->locked_region.size));
-> > +
-> >=20
-> >  	for_each_sgtable_dma_sg(sgt, sgl, count) {
-> >  =09
-> >  		dma_addr_t paddr =3D sg_dma_address(sgl);
-> >  		size_t len =3D sg_dma_len(sgl);
-> >=20
-> > @@ -985,7 +1004,7 @@ panthor_vm_map_pages(struct panthor_vm *vm, u64 io=
-va,
-> > int prot,>=20
-> >  		offset =3D 0;
-> >  =09
-> >  	}
-> >=20
-> > -	return panthor_vm_flush_range(vm, start_iova, iova - start_iova);
-> >=20
-> >=20
-> > +	return 0;
-> >=20
-> >  }
-> > =20
-> >  static int flags_to_prot(u32 flags)
-> >=20
-> > @@ -1654,6 +1673,38 @@ static const char *access_type_name(struct
-> > panthor_device *ptdev,>=20
-> >  	}
-> > =20
-> >  }
-> >=20
-> > +static int panthor_vm_lock_region(struct panthor_vm *vm, u64 start, u64
-> > size) +{
-> > +	struct panthor_device *ptdev =3D vm->ptdev;
-> > +	int ret;
-> > +
-> > +	mutex_lock(&ptdev->mmu->as.slots_lock);
-> > +	drm_WARN_ON(&ptdev->base, vm->locked_region.start ||
-> > vm->locked_region.size); +	vm->locked_region.start =3D start;
-> > +	vm->locked_region.size =3D size;
-> > +	if (vm->as.id >=3D 0) {
->=20
-> I guess VM bind operations don't increase the active_cnt of a VM, so we
-> might try to be mapping addresses from UM while no active groups are
-> submitting jobs targetting this VM?
-vm_bind, beyond locking the region, does not involve the gpu and is perform=
-ed=20
-entirely on host. If we were to try vm_binding while active_cnt is 0, we wo=
-n't=20
-poke the mmu to do any locking. Instead, when panthor_vm_active is poked to=
-=20
-make the vm active, we'll poke the mmu to actually lock the region supposed=
- to=20
-be locked.
-> > +		lock_region(ptdev, vm->as.id, start, size);
-> > +		ret =3D wait_ready(ptdev, vm->as.id);
->=20
-> I've noticed in mmu_hw_do_operation_locked() we don't do wait_ready() aft=
-er
-> locking the region. Is it missing or else maybe waiting for the AS to be
-> locked isn't necessary here?
-> > +	}
-> > +	mutex_unlock(&ptdev->mmu->as.slots_lock);
-> > +
-> > +	return ret;
-> > +}
-> > +
-> > +static void panthor_vm_unlock_region(struct panthor_vm *vm)
-> > +{
-> > +	struct panthor_device *ptdev =3D vm->ptdev;
-> > +
-> > +	mutex_lock(&ptdev->mmu->as.slots_lock);
-> > +	if (vm->as.id >=3D 0) {
-> > +		write_cmd(ptdev, vm->as.id, AS_COMMAND_FLUSH_MEM);
->=20
-> I guess this is why we no longer need to call panthor_vm_flush_range() ri=
-ght
-> before this function. Does AS_COMMAND_FLUSH_MEM only flush the locked
-> region? Also, why not AS_COMMAND_FLUSH_PT instead?
-IIUC FLUSH_MEM is less heavy of the two hammers. The doc says that it only=
-=20
-invalidates MMU caches when used without a previous LOCK, so I guess it doe=
-s=20
-something smarter in this case. FLUSH_PT invalidates MMU caches=20
-unconditionally.
-> > +		drm_WARN_ON(&ptdev->base, wait_ready(ptdev, vm-
->as.id));
-> > +	}
-> > +	vm->locked_region.start =3D 0;
-> > +	vm->locked_region.size =3D 0;
-> > +	mutex_unlock(&ptdev->mmu->as.slots_lock);
-> > +}
-> > +
-> >=20
-> >  static void panthor_mmu_irq_handler(struct panthor_device *ptdev, u32
-> >  status) {
-> > =20
-> >  	bool has_unhandled_faults =3D false;
-> >=20
-> > @@ -2179,6 +2230,11 @@ panthor_vm_exec_op(struct panthor_vm *vm, struct
-> > panthor_vm_op_ctx *op,>=20
-> >  	mutex_lock(&vm->op_lock);
-> >  	vm->op_ctx =3D op;
-> >=20
-> > +
-> > +	ret =3D panthor_vm_lock_region(vm, op->va.addr, op->va.range);
-> > +	if (ret)
-> > +		goto out;
-> > +
-> >=20
-> >  	switch (op_type) {
-> >  =09
-> >  	case DRM_PANTHOR_VM_BIND_OP_TYPE_MAP:
-> >  		if (vm->unusable) {
-> >=20
-> > @@ -2199,6 +2255,9 @@ panthor_vm_exec_op(struct panthor_vm *vm, struct
-> > panthor_vm_op_ctx *op,>=20
-> >  		break;
-> >  =09
-> >  	}
-> >=20
-> > +	panthor_vm_unlock_region(vm);
-> > +
-> >=20
-> > +out:
-> >  	if (ret && flag_vm_unusable_on_failure)
-> >  =09
-> >  		vm->unusable =3D true;
-> >=20
-> > --
-> > 2.47.2
->=20
-> Adrian Larumbe
+On Thu, Jul 10, 2025 at 01:43:05PM -0400, Brian Masney wrote:
+> The round_rate() clk ops is deprecated, so migrate this driver from
+> round_rate() to determine_rate() using the Coccinelle semantic patch
+> on the cover letter of this series.
+> 
+> Signed-off-by: Brian Masney <bmasney@redhat.com>
+> ---
+>  drivers/gpu/drm/msm/hdmi/hdmi_pll_8960.c | 12 +++++++-----
+>  1 file changed, 7 insertions(+), 5 deletions(-)
+> 
 
+Acked-by: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
 
+Please take this via the drm-misc tree (I assume the rest is going to be
+merged that way).
 
-
+-- 
+With best wishes
+Dmitry
