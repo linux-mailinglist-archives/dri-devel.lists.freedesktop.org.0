@@ -2,75 +2,75 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B0763B05B12
-	for <lists+dri-devel@lfdr.de>; Tue, 15 Jul 2025 15:16:45 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id C466BB05B17
+	for <lists+dri-devel@lfdr.de>; Tue, 15 Jul 2025 15:17:02 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 59C0810E20D;
-	Tue, 15 Jul 2025 13:16:42 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2A88E10E37C;
+	Tue, 15 Jul 2025 13:17:01 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; secure) header.d=ffwll.ch header.i=@ffwll.ch header.b="HnAzQgwp";
+	dkim=pass (1024-bit key; secure) header.d=ffwll.ch header.i=@ffwll.ch header.b="YsMTVYUv";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-f44.google.com (mail-wm1-f44.google.com
- [209.85.128.44])
- by gabe.freedesktop.org (Postfix) with ESMTPS id F125B10E20D
- for <dri-devel@lists.freedesktop.org>; Tue, 15 Jul 2025 13:16:40 +0000 (UTC)
-Received: by mail-wm1-f44.google.com with SMTP id
- 5b1f17b1804b1-45618ddd62fso23020055e9.3
- for <dri-devel@lists.freedesktop.org>; Tue, 15 Jul 2025 06:16:40 -0700 (PDT)
+Received: from mail-wr1-f53.google.com (mail-wr1-f53.google.com
+ [209.85.221.53])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9F6B510E37C
+ for <dri-devel@lists.freedesktop.org>; Tue, 15 Jul 2025 13:16:59 +0000 (UTC)
+Received: by mail-wr1-f53.google.com with SMTP id
+ ffacd0b85a97d-3a4ef2c2ef3so4071293f8f.2
+ for <dri-devel@lists.freedesktop.org>; Tue, 15 Jul 2025 06:16:59 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=ffwll.ch; s=google; t=1752585399; x=1753190199; darn=lists.freedesktop.org; 
+ d=ffwll.ch; s=google; t=1752585418; x=1753190218; darn=lists.freedesktop.org; 
  h=in-reply-to:content-disposition:mime-version:references:message-id
  :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
- bh=KSNHtnaETw4DtlzGAY8NvYjbcn3Lhzp8vASuZK7f+jQ=;
- b=HnAzQgwpJ8NKiyrjLBobTrQYLg4GDH8Lkh5p+8QU1zV6TPl+xDvuthHKT0Z/Svcx0T
- ejUrfl6t3QTPeNH/VhP/Hmaf4cxPYLpEb1Ry+CigJoqJDy6Vs52kQZfnNqdf1rYbFzun
- PQiZxLYJtK8dM3Iqc71DWxIECyc9a0Zq9PiUk=
+ bh=7oxcnIHUFGM9XgAtLrDfZFgv0IUYHjLuIAuAxAwmdIU=;
+ b=YsMTVYUvCFIkwbi3RduC88+++028rc8fu8AeeqrwIicqozuDKKl0q6lF9v3EnsOBlB
+ GpenHgGZeXidVRzppQbVNMs/EGKGhCXT1BX1686dyNWY+yRbE73AwmyzKnnXgyP1gUyL
+ uWflSE1VHu4pgnSeMwHGlYhSxu2BX+7gknrd4=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1752585399; x=1753190199;
+ d=1e100.net; s=20230601; t=1752585418; x=1753190218;
  h=in-reply-to:content-disposition:mime-version:references:message-id
  :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
  :message-id:reply-to;
- bh=KSNHtnaETw4DtlzGAY8NvYjbcn3Lhzp8vASuZK7f+jQ=;
- b=wyoceN6K3YJoWdkwsXA7fNRvhNU6z72j14d7wGBHY37o1Y3FKUZjaKSqNfI2XPkCR7
- qRiRWx8OyPTljDF+ZtkPMhfiE7x/xsgYdOiXcBUv5KkQ8/xtVjaJc3DR7vADtMnShdrl
- wYIKWMKgXdX0q1T0iQ3LLH/Ju9Dyv7WwrTFXEh/eE3BJoe3Vc//t0gG9Ier2itiuw23w
- myfvoKjkXflQc0QY1kLXpe1C8oqtfyhKDlCBkjlzjwtkDjfvciTJN2J/PXnsNHtVXoYN
- EaGQfaKvTYf2XInEG5ug/jruU0pV1GbOkYnJCnpRea67m/O2GgouQfvwMfOhfxLc0S1l
- s1FQ==
+ bh=7oxcnIHUFGM9XgAtLrDfZFgv0IUYHjLuIAuAxAwmdIU=;
+ b=Ju8K5HsrTmjDdCiXy/gwbPxtehwjGl/8yem6CBh40JAnkyvJ6imACVQbFoqmY5BDbN
+ EbBMQXulxv+O6eTgXG6AX1Ef4nFv4vwOa3+Vv4QpEsDvj8HgBlPoBuZSgqYzyShHo0s5
+ f2w0e36tqWwV5BVjB/qPKnFFgioVlYxsvD7hTzEL+2wwI2mBL7ccV3ODftZ/cZhnIoSF
+ SSnpHOp0SjF/L6XpKeOo9BXwwEAJmg75OA8C6HWHuKCijPNfl5rB6Kxuta3G6+QjyYit
+ yfaH95+ogD3F0rK/M744pRC+Seig7JXDPiE5UisaNjGJTIzrxCVcfOV/ug5xTsQdCu2U
+ +3lw==
 X-Forwarded-Encrypted: i=1;
- AJvYcCVr+VKJM9dWJkFlEtcefVwp96vxZAFn7ForYlKyyPzv9fUPHedQiNipUETCiR8on/vfc/zT53Heiko=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YxxYRcesU73kMujYGmG/N/pIAVnaObbRKuzD4rObGRys97GYTjb
- +diSCgCxjNzCN4d3HwGJbqUVlM4p3m0W4a1EmO5nuTB/hAN8MDhKS/Wfn1Pb0EakWL0=
-X-Gm-Gg: ASbGncuEqw9T+3gm7ndMgRAV+GAa352mg++8JT+08Ac9re+DF/vEBLCMM9X//TamNO9
- dSm2o7tlqnZ4l/foiE+72sHuCWO0zSFCPib6pXvpTkBF+nt+NrnLyoizmeoa98JDrfu57VQ08Wo
- 7IHtpp1Jv4tvWlCFcfKHVghNNjL9XWxXSkEu+C69ic9fjnbGB63x9C988WkykkdiINrSiGO66Z1
- j+hdtezfdtCtCFRZOEpGNEDtzcaEjhxriv2X1+70bQ96OZK4twy9R5JuIuyja/g29BG/rZwqH36
- b4DSd82OXG51TG4hEhttjuTU+Cok3SgmrctzIeAuokiOg4tiNZFwBp98yFEAln5v1H4XN9/IlYi
- mr3oT7OGzmbYWZgJOsFTYpySwxw9cf2BeXumaiGuQLvQk
-X-Google-Smtp-Source: AGHT+IE6AVE3VzANWiPdrua10GyZdj4f6vBrn2kcw3n5QovC7tZwk4OkyMeCMgiFtC85TLlBWyscYg==
-X-Received: by 2002:a05:600c:610:b0:43c:f44c:72a6 with SMTP id
- 5b1f17b1804b1-455174367demr115789855e9.2.1752585399385; 
- Tue, 15 Jul 2025 06:16:39 -0700 (PDT)
+ AJvYcCVaRYhIiMcdNbp8ZdeVlB3/OFOm9oMMu1iKt+I+5tk/Mk/IDO56G7TeK6fcOxHJ3czZurM0fhvwASY=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YxTdFMHTJER7Si3xq1uhV5sKUr/Wozplaua3bnu0pGCPhr1oZrs
+ 6PPIXWYK5ulMws6CCpwxUzLBvnBtzdG7iAm5fUnuAwVFUWb2+bZb5JR/V2o86gy3BEs=
+X-Gm-Gg: ASbGncvwF5oFWJkfengJImh5yYLficLTMVQMishplPiTdqImBYbg7oTBJpHfl+fXKEB
+ DejeHd5Hh1kXlK+N2wIyukPh8W3PX6dXuH3OV/kl5xsXK03UqfDE3spKCkd4FHoOnjGiWWDNEpo
+ LERxqBiUBFKW+IHbFWLZRTVVxtap75f4vg8qvR71oCgZ+Om7tswno2Wvl7/wJx28JeY3vrzSzOZ
+ dS4QbXvgzY4w48AldYj4xM7ZwsjvzJGQCkxvvX7yubTYGBOvPXWPipPfcWBjqEfUE6p342vTnEv
+ ZA4KEBYJTS7c1aLDbmnTpw1/xAahrh7EjBk5ShBQOwrYuNlLpbCWy/kVq9NPg9ypw+/7x6NqvRT
+ xo8rFCpFA2iI29mU7Ov6phIhoUMTahyAwJw==
+X-Google-Smtp-Source: AGHT+IF6/YjsEXq6Q2lwzXNbCW3+FTVujjcrP9eO/s3mZxOODp1c3RGVgSacc6YHmi98kBgi2QH/KA==
+X-Received: by 2002:a05:6000:2f81:b0:3a3:7baf:f06a with SMTP id
+ ffacd0b85a97d-3b5f2dfdd45mr13263647f8f.37.1752585418009; 
+ Tue, 15 Jul 2025 06:16:58 -0700 (PDT)
 Received: from phenom.ffwll.local ([2a02:168:57f4:0:5485:d4b2:c087:b497])
  by smtp.gmail.com with ESMTPSA id
- 5b1f17b1804b1-4562797b8d2sm19149335e9.8.2025.07.15.06.16.38
+ 5b1f17b1804b1-4561752340esm71577095e9.38.2025.07.15.06.16.57
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 15 Jul 2025 06:16:38 -0700 (PDT)
-Date: Tue, 15 Jul 2025 15:16:37 +0200
+ Tue, 15 Jul 2025 06:16:57 -0700 (PDT)
+Date: Tue, 15 Jul 2025 15:16:55 +0200
 From: Simona Vetter <simona.vetter@ffwll.ch>
 To: Thomas Zimmermann <tzimmermann@suse.de>
-Cc: alexander.deucher@amd.com, christian.koenig@amd.com, airlied@gmail.com,
- simona@ffwll.ch, amd-gfx@lists.freedesktop.org,
+Cc: thierry.reding@gmail.com, mperttunen@nvidia.com, airlied@gmail.com,
+ simona@ffwll.ch, jonathanh@nvidia.com, linux-tegra@vger.kernel.org,
  dri-devel@lists.freedesktop.org
-Subject: Re: [PATCH] Revert "drm/amdgpu: Use dma_buf from GEM object instance"
-Message-ID: <aHZUtdhU26IVoNwa@phenom.ffwll.local>
-References: <20250715082635.34974-1-tzimmermann@suse.de>
+Subject: Re: [PATCH] Revert "drm/tegra: Use dma_buf from GEM object instance"
+Message-ID: <aHZUx4dJw1WtetyQ@phenom.ffwll.local>
+References: <20250715084549.41473-1-tzimmermann@suse.de>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20250715082635.34974-1-tzimmermann@suse.de>
+In-Reply-To: <20250715084549.41473-1-tzimmermann@suse.de>
 X-Operating-System: Linux phenom 6.12.30-amd64 
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -87,8 +87,8 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, Jul 15, 2025 at 10:26:22AM +0200, Thomas Zimmermann wrote:
-> This reverts commit 515986100d176663d0a03219a3056e4252f729e6.
+On Tue, Jul 15, 2025 at 10:45:39AM +0200, Thomas Zimmermann wrote:
+> This reverts commit 482c7e296edc0f594e8869a789a40be53c49bd6a.
 > 
 > The dma_buf field in struct drm_gem_object is not stable over the
 > object instance's lifetime. The field becomes NULL when user space
@@ -108,50 +108,21 @@ On Tue, Jul 15, 2025 at 10:26:22AM +0200, Thomas Zimmermann wrote:
 Reviewed-by: Simona Vetter <simona.vetter@ffwll.ch>
 
 > ---
->  drivers/gpu/drm/amd/amdgpu/amdgpu_dma_buf.c | 2 +-
->  drivers/gpu/drm/amd/amdgpu/amdgpu_gem.c     | 3 ++-
->  drivers/gpu/drm/amd/amdgpu/amdgpu_vm.c      | 2 +-
->  3 files changed, 4 insertions(+), 3 deletions(-)
+>  drivers/gpu/drm/tegra/gem.c | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
 > 
-> diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_dma_buf.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_dma_buf.c
-> index ff98c87b2e0b..5743ebb2f1b7 100644
-> --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_dma_buf.c
-> +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_dma_buf.c
-> @@ -514,7 +514,7 @@ bool amdgpu_dmabuf_is_xgmi_accessible(struct amdgpu_device *adev,
->  		return false;
->  
->  	if (drm_gem_is_imported(obj)) {
-> -		struct dma_buf *dma_buf = obj->dma_buf;
-> +		struct dma_buf *dma_buf = obj->import_attach->dmabuf;
->  
->  		if (dma_buf->ops != &amdgpu_dmabuf_ops)
->  			/* No XGMI with non AMD GPUs */
-> diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_gem.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_gem.c
-> index 6626a6e64ff5..d1ccbfcf21fa 100644
-> --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_gem.c
-> +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_gem.c
-> @@ -317,7 +317,8 @@ static int amdgpu_gem_object_open(struct drm_gem_object *obj,
->  	 */
->  	if (!vm->is_compute_context || !vm->process_info)
->  		return 0;
-> -	if (!drm_gem_is_imported(obj) || !dma_buf_is_dynamic(obj->dma_buf))
-> +	if (!drm_gem_is_imported(obj) ||
-> +	    !dma_buf_is_dynamic(obj->import_attach->dmabuf))
->  		return 0;
->  	mutex_lock_nested(&vm->process_info->lock, 1);
->  	if (!WARN_ON(!vm->process_info->eviction_fence)) {
-> diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_vm.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_vm.c
-> index af0f655dfd5b..b9b4f7d9186e 100644
-> --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_vm.c
-> +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_vm.c
-> @@ -1272,7 +1272,7 @@ int amdgpu_vm_bo_update(struct amdgpu_device *adev, struct amdgpu_bo_va *bo_va,
->  		struct drm_gem_object *obj = &bo->tbo.base;
->  
->  		if (drm_gem_is_imported(obj) && bo_va->is_xgmi) {
-> -			struct dma_buf *dma_buf = obj->dma_buf;
-> +			struct dma_buf *dma_buf = obj->import_attach->dmabuf;
->  			struct drm_gem_object *gobj = dma_buf->priv;
->  			struct amdgpu_bo *abo = gem_to_amdgpu_bo(gobj);
+> diff --git a/drivers/gpu/drm/tegra/gem.c b/drivers/gpu/drm/tegra/gem.c
+> index 41a285ec889f..8ede07fb7a21 100644
+> --- a/drivers/gpu/drm/tegra/gem.c
+> +++ b/drivers/gpu/drm/tegra/gem.c
+> @@ -526,7 +526,7 @@ void tegra_bo_free_object(struct drm_gem_object *gem)
+>  		if (drm_gem_is_imported(gem)) {
+>  			dma_buf_unmap_attachment_unlocked(gem->import_attach, bo->sgt,
+>  							  DMA_TO_DEVICE);
+> -			dma_buf_detach(gem->dma_buf, gem->import_attach);
+> +			dma_buf_detach(gem->import_attach->dmabuf, gem->import_attach);
+>  		}
+>  	}
 >  
 > -- 
 > 2.50.0
