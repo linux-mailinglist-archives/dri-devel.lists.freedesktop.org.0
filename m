@@ -2,64 +2,117 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6E311B078D2
-	for <lists+dri-devel@lfdr.de>; Wed, 16 Jul 2025 16:59:14 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7C834B078E0
+	for <lists+dri-devel@lfdr.de>; Wed, 16 Jul 2025 17:00:45 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7BFFA10E689;
-	Wed, 16 Jul 2025 14:59:12 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id DD72810E7CC;
+	Wed, 16 Jul 2025 15:00:43 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; secure) header.d=sntech.de header.i=@sntech.de header.b="mHv5BEaQ";
+	dkim=pass (2048-bit key; unprotected) header.d=qualcomm.com header.i=@qualcomm.com header.b="at6/24Ga";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from gloria.sntech.de (gloria.sntech.de [185.11.138.130])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9588710E689
- for <dri-devel@lists.freedesktop.org>; Wed, 16 Jul 2025 14:59:10 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=sntech.de; 
- s=gloria202408;
- h=Content-Type:Content-Transfer-Encoding:MIME-Version:
- References:In-Reply-To:Message-ID:Date:Subject:Cc:To:From:Reply-To;
- bh=vU3zIFgy3U7gHHh/kUTJxPxNHd0D81vJde+B7Dlosp4=; b=mHv5BEaQ1qNRqFW3ov30nAEfsD
- Yp0QdrdwqyYz6IDNOKfF8ChyVx8o13MT8Bko12XUwdEdyBVxGcxeFrH/rU4Aqe+JRHDnJcpW4Kzjz
- /ExkCohirnTAW1cB0Picxvlz3xNfIRiiV1EsGSLVOsJyp0LBX+poDwX0TEyfzzi8luXE3b8Rp5t2n
- 0sqUnl0A480vSoFgI6Skze2qGvxni/Y5BqVikQgVFAiCLTZtg/CrcRQibBYeFxjEqleyQduCEMFM2
- o3rs3miSHlKuG/GchQMR5/xBUwfpos9B2Tru/VaPCr8hS+crZwM9RijobVAp9ALGRVpaTGdQTNCr/
- sS+cVQSQ==;
-Received: from i53875a74.versanet.de ([83.135.90.116] helo=diego.localnet)
- by gloria.sntech.de with esmtpsa (TLS1.3) tls
- TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384 (Exim 4.94.2)
- (envelope-from <heiko@sntech.de>)
- id 1uc3ae-0002tO-SX; Wed, 16 Jul 2025 16:58:36 +0200
-From: Heiko =?UTF-8?B?U3TDvGJuZXI=?= <heiko@sntech.de>
-To: Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
- Conor Dooley <conor+dt@kernel.org>, Oded Gabbay <ogabbay@kernel.org>,
- Jonathan Corbet <corbet@lwn.net>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- Sumit Semwal <sumit.semwal@linaro.org>,
- Christian =?UTF-8?B?S8O2bmln?= <christian.koenig@amd.com>,
- Sebastian Reichel <sebastian.reichel@collabora.com>,
- Nicolas Frattaroli <nicolas.frattaroli@collabora.com>,
- Kever Yang <kever.yang@rock-chips.com>, Robin Murphy <robin.murphy@arm.com>,
- Daniel Stone <daniel@fooishbar.org>, Da Xue <da@libre.computer>,
- Philipp Zabel <p.zabel@pengutronix.de>,
- Jeff Hugo <jeff.hugo@oss.qualcomm.com>, Tomeu Vizoso <tomeu@tomeuvizoso.net>
-Cc: devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
- linux-rockchip@lists.infradead.org, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, linux-doc@vger.kernel.org,
- linux-media@vger.kernel.org, linaro-mm-sig@lists.linaro.org,
- Tomeu Vizoso <tomeu@tomeuvizoso.net>
-Subject: Re: [PATCH v8 08/10] arm64: dts: rockchip: Add nodes for NPU and its
- MMU to rk3588-base
-Date: Wed, 16 Jul 2025 16:58:38 +0200
-Message-ID: <4525998.iIbC2pHGDl@diego>
-In-Reply-To: <20250713-6-10-rocket-v8-8-64fa3115e910@tomeuvizoso.net>
-References: <20250713-6-10-rocket-v8-0-64fa3115e910@tomeuvizoso.net>
- <20250713-6-10-rocket-v8-8-64fa3115e910@tomeuvizoso.net>
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com
+ [205.220.180.131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5838010E7CC
+ for <dri-devel@lists.freedesktop.org>; Wed, 16 Jul 2025 15:00:42 +0000 (UTC)
+Received: from pps.filterd (m0279869.ppops.net [127.0.0.1])
+ by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 56GDb2XK026001
+ for <dri-devel@lists.freedesktop.org>; Wed, 16 Jul 2025 15:00:41 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
+ cc:content-type:date:from:in-reply-to:message-id:mime-version
+ :references:subject:to; s=qcppdkim1; bh=jF52cvUSvshXb9p4qQS6TK4m
+ /ZISonXy0nEmQgM1hBo=; b=at6/24Ga+F+8Vvdxi5MQ8Z/aKzQ+QzS5eKU482hu
+ 9yw7KL38x0cl/MFRl1/agbWUDihD2bPPA9Z3VLwiNLilwY71acLUupABwXtBJDEX
+ Q/99juCdVfXgVkrAUnnQ0xK9s/rY46PtJ5H3pRN4ACywXoxJsB5yL8Qlubg+xtJ9
+ qkY6T2OCkn6b7Ded9apRS8xBXeXIzJjtB1VVMnjzpUpXhL3K5QwQMRexB9FKn2Kc
+ YlTxEGxEWUaA3DeYyR42WIQwgaQ4M0DR4VTYG/b8+NpNyHSJP2MPn4bLVkqDb8bV
+ pHwiLJAUN6BzzUv3YRl5q2uuLFCspjpjsdcWswkPVvayZw==
+Received: from mail-qk1-f197.google.com (mail-qk1-f197.google.com
+ [209.85.222.197])
+ by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 47wfca5k05-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
+ for <dri-devel@lists.freedesktop.org>; Wed, 16 Jul 2025 15:00:41 +0000 (GMT)
+Received: by mail-qk1-f197.google.com with SMTP id
+ af79cd13be357-7e32df3ace0so266805385a.0
+ for <dri-devel@lists.freedesktop.org>; Wed, 16 Jul 2025 08:00:41 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1752678040; x=1753282840;
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=jF52cvUSvshXb9p4qQS6TK4m/ZISonXy0nEmQgM1hBo=;
+ b=eBPmjGAN9j+O2kxVupJ3sTmy4UX4HxEVGDuuoBu0MXENXFFXwTlYBxo9wE6AU1SmFl
+ lp0Wk60QLXrpIEVZMdLC8xe7HzpiN9tHSxTOx3T3LWEvpwBihnBvov2QrwHCnP1IoAJ/
+ LUpwY6ZyY/+6cJb4VtlmuqCEBmou1oUMLG5s7AOP3mGO9PYnkpjWOzOAQyyMuhrBdR9/
+ +E1LckFAJ/9Z0M1LJ9+qQi5agOhfgxLB5zwd/k0aLneOPCOD2rQ1/HpkGNbh2K1eMXai
+ vSRnlipZXIXJ63kCXeQPaBLcQAdvPYwNkz/8qtTKWtcOal3VGwiBZHxXd3rwc9KfXt4d
+ KwQA==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCVEg+qWwCC7xiHrrhzdVuBH9y7i8/KGhwYQp3BUk/nCz8ZkgJVSYnBFnnXDThnE7ekyYkmD/58IKyQ=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0Yw1r36wzNaY12jvAgUSMRD4zqqwQeHK0qXadKd74giN9QtHwFaC
+ wJdiXyf9TVlt8wLR4WzpECiUMr7TMikLTzl1J1bEgaaGgLM66fBYB50aa+L0Nw3zC6u+E61l47c
+ IlEG5YSsgWzsa9/r0wj05qXHVwu3BE8OmsH5HH46/Ih+0tHSjZvhHI7dzZGAUkazkPKJPRdg=
+X-Gm-Gg: ASbGncvRa9kpr324ZQxANxxZw9LnNVfG6BGt6c7m7B7KLYrtHVL6Fcqk7BLBJ3tlSdI
+ zc8XOnaM7JpNmSVfyitX1OVhjEzegsOCnkUNaHPCTMQ5jbdOEAXrFdIi3jDZIBaPSQv6rr0e4kT
+ vJgcsp+qUR13tz0bgp6IWsCu0iF1Urx/WkTu9ucpHmHyootS89BzcfgjFunY0vjyUw6LAP0FDoW
+ GiPIXVOkMyeNaqvh+mXFDxq3OKY/u2vKJv9jb/MmH3ScOjCuC6VbHnSyXcO0kGFcVJ6rwhk4Zbx
+ qz4mJPjYW9SYgf3lmoJ3S6k9VBTYoYGfJDY6Yws/zwHJvJxbKRlJ91gtudkSSc6YYi7MYVg6kGM
+ IbxSW3fBLM3xlb4ppI6aB72ucWyQKEIJLL6BPPrVUCwYdOrFlATwZ
+X-Received: by 2002:a05:620a:688d:b0:7e3:3019:e16a with SMTP id
+ af79cd13be357-7e34356f603mr435572785a.17.1752678039056; 
+ Wed, 16 Jul 2025 08:00:39 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IFxt4H5FXg39a4tOdmD3AP63qnFyd2IRuTr09Fx8yHgRyZMJ6icisMhrFI2Cre9KzAr64FPuQ==
+X-Received: by 2002:a05:620a:688d:b0:7e3:3019:e16a with SMTP id
+ af79cd13be357-7e34356f603mr435563585a.17.1752678038354; 
+ Wed, 16 Jul 2025 08:00:38 -0700 (PDT)
+Received: from umbar.lan
+ (2001-14ba-a0c3-3a00-264b-feff-fe8b-be8a.rev.dnainternet.fi.
+ [2001:14ba:a0c3:3a00:264b:feff:fe8b:be8a])
+ by smtp.gmail.com with ESMTPSA id
+ 38308e7fff4ca-32fab9134b5sm21435371fa.102.2025.07.16.08.00.37
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 16 Jul 2025 08:00:37 -0700 (PDT)
+Date: Wed, 16 Jul 2025 18:00:35 +0300
+From: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
+To: Ling Xu <quic_lxu5@quicinc.com>
+Cc: srini@kernel.org, amahesh@qti.qualcomm.com, robh@kernel.org,
+ krzk+dt@kernel.org, conor+dt@kernel.org, andersson@kernel.org,
+ konradybcio@kernel.org, arnd@arndb.de, gregkh@linuxfoundation.org,
+ quic_kuiw@quicinc.com, ekansh.gupta@oss.qualcomm.com,
+ devicetree@vger.kernel.org, linux-arm-msm@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v9 3/5] misc: fastrpc: Remove kernel-side domain checks
+ from capability ioctl
+Message-ID: <aepmtv6mxlzhpncwcwlmgfrb3m2c4xe2edl4y5qsnjpxmvivla@gwufrh37y473>
+References: <20250716132836.1008119-1-quic_lxu5@quicinc.com>
+ <20250716132836.1008119-4-quic_lxu5@quicinc.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset="utf-8"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20250716132836.1008119-4-quic_lxu5@quicinc.com>
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwNzE2MDEzNSBTYWx0ZWRfX1aF8SkX3snaj
+ qDMdS7FXOngvikjeFyJeolxBtmkX9TB3wGSiPA13DwcvlUYX4+wlYe75kqkkoNWXPnB+uPLJMZt
+ NrZo5MMb4Aw2Ymiea2aSg/h0t+n4mFQw6yomEVkFFn5xlxdB6H0IikzfRwtxoYIBk9Ez85iH24H
+ Oks23X5M+ibw83WvKzpFxAmErB7ryC/DGU/nwphkJyzg+cox+As3aKoh/QRkyFL7hsp91X4sfIy
+ Q599iFVpuPPEy0xYS+UsRMKCn2H/yxgTZIuG9tdpTOciH+7io82goXkeldn+6bqynXSAzGt1wrn
+ p0zZ5cgy0emMgvgqsVJ2taZ4sNj6rxgEn+A0/tQNAfBkWmCFv7Xg1uNTIGFkSAbVpfDgCoqqY8c
+ 6pRPMJENXRWFekSRO/ElsMItOz8h8p+4M48o5/zTHV485xhuUnjB7i2ijkRThEEKDs2v1W6Q
+X-Proofpoint-GUID: wCHoI7qud5nXchfn5b48KrPIn1GWhM5r
+X-Authority-Analysis: v=2.4 cv=SeX3duRu c=1 sm=1 tr=0 ts=6877be99 cx=c_pps
+ a=50t2pK5VMbmlHzFWWp8p/g==:117 a=xqWC_Br6kY4A:10 a=kj9zAlcOel0A:10
+ a=Wb1JkmetP80A:10 a=COk6AnOGAAAA:8 a=lc4KdpPQecCvDiYUKO0A:9 a=CjuIK1q_8ugA:10
+ a=IoWCM6iH3mJn3m4BftBB:22 a=TjNXssC_j7lpFel5tvFf:22
+X-Proofpoint-ORIG-GUID: wCHoI7qud5nXchfn5b48KrPIn1GWhM5r
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1099,Hydra:6.1.9,FMLib:17.12.80.40
+ definitions=2025-07-16_02,2025-07-16_02,2025-03-28_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ spamscore=0 mlxscore=0 priorityscore=1501 bulkscore=0 phishscore=0
+ lowpriorityscore=0 mlxlogscore=811 impostorscore=0 clxscore=1015 adultscore=0
+ suspectscore=0 malwarescore=0 classifier=spam authscore=0 authtc=n/a authcc=
+ route=outbound adjust=0 reason=mlx scancount=1 engine=8.19.0-2505280000
+ definitions=main-2507160135
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -75,86 +128,18 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Am Sonntag, 13. Juli 2025, 10:38:58 Mitteleurop=C3=A4ische Sommerzeit schri=
-eb Tomeu Vizoso:
-> See Chapter 36 "RKNN" from the RK3588 TRM (Part 1).
->=20
-> The IP is divided in three cores, programmed independently. The first
-> core though is special, being able to delegate work to the other cores.
->=20
-> The IOMMU of the first core is also special in that it has two subunits
-> (read/write?) that need to be programmed in sync.
->=20
-> v2:
-> - Have one device for each NPU core (Sebastian Reichel)
-> - Have one device for each IOMMU (Sebastian Reichel)
-> - Correctly sort nodes (Diederik de Haas)
-> - Add rockchip,iommu compatible to IOMMU nodes (Sebastian Reichel)
->=20
-> v3:
-> - Adapt to a split of the register block in the DT bindings (Nicolas
->   Frattaroli)
->=20
-> v4:
-> - Adapt to changes in bindings
->=20
-> v6:
-> - pclk and npu clocks are needed by all clocks (Rob Herring)
->=20
-> v8:
-> - Remove notion of top core (Robin Murphy)
->=20
-> Tested-by: Heiko Stuebner <heiko@sntech.de>
-> Signed-off-by: Tomeu Vizoso <tomeu@tomeuvizoso.net>
+On Wed, Jul 16, 2025 at 06:58:34PM +0530, Ling Xu wrote:
+> Domain ID in the uAPI is misleading. Remove checks and log messages
+> related to 'domain' field in capability structure. Update UAPI to
+> mark the field as unused.
+> 
+> Signed-off-by: Ling Xu <quic_lxu5@quicinc.com>
 > ---
->  arch/arm64/boot/dts/rockchip/rk3588-base.dtsi | 91 +++++++++++++++++++++=
-++++++
->  1 file changed, 91 insertions(+)
->=20
-> diff --git a/arch/arm64/boot/dts/rockchip/rk3588-base.dtsi b/arch/arm64/b=
-oot/dts/rockchip/rk3588-base.dtsi
-> index 1eddc69fd9c9ed95cdc810ba48d9683e3f82489a..dbd472feaa8b3f8c14597a48a=
-4f5afbe3cb45b6a 100644
-> --- a/arch/arm64/boot/dts/rockchip/rk3588-base.dtsi
-> +++ b/arch/arm64/boot/dts/rockchip/rk3588-base.dtsi
-> @@ -1140,6 +1140,97 @@ power-domain@RK3588_PD_SDMMC {
->  		};
->  	};
-> =20
-> +	rknn_core_0: npu@fdab0000 {
-> +		compatible =3D "rockchip,rk3588-rknn-core";
-> +		reg =3D <0x0 0xfdab0000 0x0 0x1000>,
-> +		      <0x0 0xfdab1000 0x0 0x1000>,
-> +		      <0x0 0xfdab3000 0x0 0x1000>;
-> +		reg-names =3D "pc", "cna", "core";
-> +		interrupts =3D <GIC_SPI 110 IRQ_TYPE_LEVEL_HIGH 0>;
-> +		clocks =3D <&cru ACLK_NPU0>, <&cru HCLK_NPU0>,
-> +			 <&scmi_clk SCMI_CLK_NPU>, <&cru PCLK_NPU_ROOT>;
-> +		clock-names =3D "aclk", "hclk", "npu", "pclk";
-> +		assigned-clocks =3D <&scmi_clk SCMI_CLK_NPU>;
-> +		assigned-clock-rates =3D <200000000>;
-> +		resets =3D <&cru SRST_A_RKNN0>, <&cru SRST_H_RKNN0>;
-> +		reset-names =3D "srst_a", "srst_h";
-> +		power-domains =3D <&power RK3588_PD_NPUTOP>;
-> +		iommus =3D <&rknn_mmu_top>;
-> +		status =3D "disabled";
-> +	};
-> +
-> +	rknn_mmu_top: iommu@fdab9000 {
+>  drivers/misc/fastrpc.c      | 14 +-------------
+>  include/uapi/misc/fastrpc.h |  2 +-
+>  2 files changed, 2 insertions(+), 14 deletions(-)
+> 
 
-nit: phandle for the mmu should probably also follow the naming change?
-I.e. become rknn_mmu_0 ?
-
-> +		compatible =3D "rockchip,rk3588-iommu", "rockchip,rk3568-iommu";
-> +		reg =3D <0x0 0xfdab9000 0x0 0x100>,
-> +		      <0x0 0xfdaba000 0x0 0x100>;
-> +		interrupts =3D <GIC_SPI 110 IRQ_TYPE_LEVEL_HIGH 0>;
-> +		clocks =3D <&cru ACLK_NPU0>, <&cru HCLK_NPU0>;
-> +		clock-names =3D "aclk", "iface";
-> +		#iommu-cells =3D <0>;
-> +		power-domains =3D <&power RK3588_PD_NPUTOP>;
-> +		status =3D "disabled";
-> +	};
-
-
-
+-- 
+With best wishes
+Dmitry
