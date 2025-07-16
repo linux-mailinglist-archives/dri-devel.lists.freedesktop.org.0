@@ -2,54 +2,89 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id EE20DB07681
-	for <lists+dri-devel@lfdr.de>; Wed, 16 Jul 2025 15:00:38 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id B76BDB076EF
+	for <lists+dri-devel@lfdr.de>; Wed, 16 Jul 2025 15:29:23 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0118410E28B;
-	Wed, 16 Jul 2025 13:00:37 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0AE9C10E3A0;
+	Wed, 16 Jul 2025 13:29:21 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=fail reason="signature verification failed" (1024-bit key; unprotected) header.d=163.com header.i=@163.com header.b="ExaBptvo";
+	dkim=pass (2048-bit key; unprotected) header.d=quicinc.com header.i=@quicinc.com header.b="oPE9QAtM";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from m16.mail.163.com (m16.mail.163.com [117.135.210.3])
- by gabe.freedesktop.org (Postfix) with ESMTP id 6CF2E10E28B
- for <dri-devel@lists.freedesktop.org>; Wed, 16 Jul 2025 13:00:35 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=163.com;
- s=s110527; h=Date:From:To:Subject:Content-Type:MIME-Version:
- Message-ID; bh=b+O16EHi6+OgaieHCvV/ddJBsiec8Rf8oT5frpBM7cQ=; b=E
- xaBptvoz2Nbk4ELLdUSNbfC9rxgaB/LJNBJFDXj+MpEXanorr14wEijQ3MNTG/hw
- IT20nFOQu/htl6bsjRuLCCpmLV/UI0vI6J9XGAxXXVZe7AYTLrJlRHqfRf4bLpxH
- HcAM4cNoyKoVG7KOjgnguvK8BbFI8UBMGV9OtExP2Y=
-Received: from andyshrk$163.com ( [58.22.7.114] ) by
- ajax-webmail-wmsvr-40-109 (Coremail) ; Wed, 16 Jul 2025 21:00:19 +0800
- (CST)
-X-Originating-IP: [58.22.7.114]
-Date: Wed, 16 Jul 2025 21:00:19 +0800 (CST)
-From: "Andy Yan" <andyshrk@163.com>
-To: "Stephen Rothwell" <sfr@canb.auug.org.au>
-Cc: "Simona Vetter" <simona.vetter@ffwll.ch>,
- "Andy Yan" <andy.yan@rock-chips.com>,
- "Dmitry Baryshkov" <dmitry.baryshkov@oss.qualcomm.com>,
- "Intel Graphics" <intel-gfx@lists.freedesktop.org>,
- DRI <dri-devel@lists.freedesktop.org>,
- "Linux Kernel Mailing List" <linux-kernel@vger.kernel.org>,
- "Linux Next Mailing List" <linux-next@vger.kernel.org>
-Subject: Re:linux-next: build warning after merge of the drm-misc tree
-X-Priority: 3
-X-Mailer: Coremail Webmail Server Version XT5.0.14 build 20250519(9504565a)
- Copyright (c) 2002-2025 www.mailtech.cn 163com
-In-Reply-To: <20250716203115.6e02e50c@canb.auug.org.au>
-References: <20250716203115.6e02e50c@canb.auug.org.au>
-X-NTES-SC: AL_Qu2eAPqcv0Aq7yafYukfmkcVgOw9UcO5v/Qk3oZXOJF8jCPp9C0vUnNTMUnG6MWDDiCwnQiHWzVR6spgbahGYoQgOxQv46vnKE/sRjyZt5I8dg==
-Content-Transfer-Encoding: base64
-Content-Type: text/plain; charset=UTF-8
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com
+ [205.220.168.131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id EB75810E3A0
+ for <dri-devel@lists.freedesktop.org>; Wed, 16 Jul 2025 13:29:19 +0000 (UTC)
+Received: from pps.filterd (m0279862.ppops.net [127.0.0.1])
+ by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 56GD1ijE014502;
+ Wed, 16 Jul 2025 13:29:13 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
+ cc:content-transfer-encoding:content-type:date:from:message-id
+ :mime-version:subject:to; s=qcppdkim1; bh=umpelYDRPaENSzFdU/fdMi
+ J120l4CwR4raHIWu0Krjc=; b=oPE9QAtMqZXFzI/kqv+OqaLDXK2+FRl6OaY0Xp
+ diQ/yJhsiOL4Um5LUctzkuqDrPxsq5cjk24aVL8wtdLmWRPMYK+iWlcL38QqTnE1
+ zJ8FUSyzURCvugEiGiJluVhsypimxE7YgKhdOClkY5cweqvGXJ5EEJSINpRv9hZc
+ j1ZYHvb/EOhlf/cmn9n8EMl/iru0q1KFmRzECE/xDfTxvcLKE7vGA7oNzVmkBZfP
+ e8CtgaoqddoN9bltTD1d2EXLyYD6kR2giar7ICC7gWTOmiEV4yDUlS0NTrVunw9z
+ cvY5YY9clqF7bBpeVVfaFxG408jH5U6MOSD+7XUInqRLnkLg==
+Received: from nasanppmta05.qualcomm.com (i-global254.qualcomm.com
+ [199.106.103.254])
+ by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 47w5dypy9k-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Wed, 16 Jul 2025 13:29:13 +0000 (GMT)
+Received: from nasanex01c.na.qualcomm.com (nasanex01c.na.qualcomm.com
+ [10.45.79.139])
+ by NASANPPMTA05.qualcomm.com (8.18.1.2/8.18.1.2) with ESMTPS id 56GDTCal031009
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Wed, 16 Jul 2025 13:29:12 GMT
+Received: from hu-lxu5-sha.qualcomm.com (10.80.80.8) by
+ nasanex01c.na.qualcomm.com (10.45.79.139) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.1748.10; Wed, 16 Jul 2025 06:29:08 -0700
+From: Ling Xu <quic_lxu5@quicinc.com>
+To: <srini@kernel.org>, <amahesh@qti.qualcomm.com>, <robh@kernel.org>,
+ <krzk+dt@kernel.org>, <conor+dt@kernel.org>, <andersson@kernel.org>,
+ <konradybcio@kernel.org>, <arnd@arndb.de>, <gregkh@linuxfoundation.org>
+CC: <quic_kuiw@quicinc.com>, <ekansh.gupta@oss.qualcomm.com>,
+ <devicetree@vger.kernel.org>, <linux-arm-msm@vger.kernel.org>,
+ <dri-devel@lists.freedesktop.org>, <linux-kernel@vger.kernel.org>, Ling Xu
+ <quic_lxu5@quicinc.com>
+Subject: [PATCH v9 0/5] Add support for gdsp remoteproc on sa8775p
+Date: Wed, 16 Jul 2025 18:58:31 +0530
+Message-ID: <20250716132836.1008119-1-quic_lxu5@quicinc.com>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
-Message-ID: <73ab4497.98ab.19813525561.Coremail.andyshrk@163.com>
-X-Coremail-Locale: zh_CN
-X-CM-TRANSID: bSgvCgD3H_Jjondou30FAA--.40498W
-X-CM-SenderInfo: 5dqg52xkunqiywtou0bp/xtbBkBiMXmh3ljHqCwACsB
-X-Coremail-Antispam: 1U5529EdanIXcx71UUUUU7vcSsGvfC2KfnxnUU==
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-Originating-IP: [10.80.80.8]
+X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
+ nasanex01c.na.qualcomm.com (10.45.79.139)
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
+ signatures=585085
+X-Proofpoint-ORIG-GUID: D2aQFu3kL5zUfEb6BCjMbrSQ0cCXB8w0
+X-Authority-Analysis: v=2.4 cv=RtXFLDmK c=1 sm=1 tr=0 ts=6877a929 cx=c_pps
+ a=JYp8KDb2vCoCEuGobkYCKw==:117 a=JYp8KDb2vCoCEuGobkYCKw==:17
+ a=GEpy-HfZoHoA:10 a=Wb1JkmetP80A:10 a=VwQbUJbxAAAA:8 a=COk6AnOGAAAA:8
+ a=qgJfyGv91k1fQCYRv54A:9 a=TjNXssC_j7lpFel5tvFf:22
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwNzE2MDEyMSBTYWx0ZWRfXzBHRFFPgfNWY
+ GPTSStnWX747/HEqJAD5OpNcOS7kQkJIJpYLv5al27K/99s3qMt3VCUlj2onAQO5z2eMf9Y291W
+ SYQTMaYTT69mx4z71hRTnlva8+x5UdNdINcf3AoKduFuR1e5zDAqyXmVWxLw0mIiRuaWoSnHNZl
+ zj8G1Mu7pFLx+L0TgZ6a7rww0TeIqJCTMc8IjblHz5pL8CIzOtoK1j/u7xmewS/u0Ct/r9y98Du
+ cTmaKadLflZ+TanCW27gew9krm0cK82tEu9QRMN/d52dwR3tWROgZXblCV0VTC1JqRRRFIs5zdX
+ MNKRaeK+yzOi4JwMr5wEjtpeqti6Kh71fkZ6Lrwmr+IMfFYIVxBLBvTJdtEhPb2t/wHtqsgpyic
+ c+oN65EY/ixXo5ogbF2l9RiDSEMO4E0vbfDfvlq9fgfwHgjNmf1JfgYmFL7ikUj10vDfHXpM
+X-Proofpoint-GUID: D2aQFu3kL5zUfEb6BCjMbrSQ0cCXB8w0
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1099,Hydra:6.1.9,FMLib:17.12.80.40
+ definitions=2025-07-16_02,2025-07-16_01,2025-03-28_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ adultscore=0 mlxscore=0 bulkscore=0 suspectscore=0 lowpriorityscore=0
+ impostorscore=0 malwarescore=0 clxscore=1015 mlxlogscore=637
+ priorityscore=1501 phishscore=0 spamscore=0 classifier=spam authscore=0
+ authtc=n/a authcc= route=outbound adjust=0 reason=mlx scancount=1
+ engine=8.19.0-2505280000 definitions=main-2507160121
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -65,17 +100,44 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-CgpIaSBhbGwsCgpBdCAyMDI1LTA3LTE2IDE4OjMxOjE1LCAiU3RlcGhlbiBSb3Rod2VsbCIgPHNm
-ckBjYW5iLmF1dWcub3JnLmF1PiB3cm90ZToKPkhpIGFsbCwKPgo+QWZ0ZXIgbWVyZ2luZyB0aGUg
-ZHJtLW1pc2MgdHJlZSwgdG9kYXkncyBsaW51eC1uZXh0IGJ1aWxkIChodG1sZG9jcykKPnByb2R1
-Y2VkIHRoaXMgd2FybmluZzoKPgo+ZHJpdmVycy9ncHUvZHJtL2RybV9icmlkZ2UuYzoxMjQyOiB3
-YXJuaW5nOiBGdW5jdGlvbiBwYXJhbWV0ZXIgb3Igc3RydWN0IG1lbWJlciAnY29ubmVjdG9yJyBu
-b3QgZGVzY3JpYmVkIGluICdkcm1fYnJpZGdlX2RldGVjdCcKPgo+SW50cm9kdWNlZCBieSBjb21t
-aXQKPgo+ICA1ZDE1NmE5YzNkNWUgKCJkcm0vYnJpZGdlOiBQYXNzIGRvd24gY29ubmVjdG9yIHRv
-IGRybSBicmlkZ2UgZGV0ZWN0IGhvb2siKQoKT25jZSBhZ2FpbiwgSSBhcG9sb2dpemUuIEkgaGF2
-ZSBzZW50IGEgcGF0Y2hbMF0gIHdoaWNoIEkgaG9wZSB3aWxsIGZpeCB0aGlzIGlzc3VlLgpXaGVu
-IEkgcmFuICJtYWtlIGh0bWxkb2NzIiBsb2NhbGx5LCBJIGRpZG4ndCBzZWUgdGhpcyB3YXJuaW5n
-LiBJJ20gbm90IHN1cmUgaWYgaXQncyBiZWNhdXNlIG15IG1ldGhvZCB3YXMgaW5jb3JyZWN0LgoK
-ClswXWh0dHBzOi8vbG9yZS5rZXJuZWwub3JnL2RyaS1kZXZlbC8yMDI1MDcxNjEyNTYwMi4zMTY2
-NTczLTEtYW5keXNocmtAMTYzLmNvbS9ULyN1CgoKPgo+LS0gCj5DaGVlcnMsCj5TdGVwaGVuIFJv
-dGh3ZWxsCg==
+The fastrpc driver has support for 5 types of remoteprocs. There are
+some products which support GDSP remoteprocs. GDSP is General Purpose
+DSP where tasks can be offloaded. Add fastrpc nodes and task offload
+support for GDSP. Also strict domain IDs for domain.
+Patch [v9]: https://lore.kernel.org/linux-arm-msm/20250715085227.224661-1-quic_lxu5@quicinc.com/
+
+Changes in v9:
+  - Change the patches order.
+Changes in v8:
+  - Split patch.
+Changes in v7:
+  - Edit commit message.
+Changes in v6:
+  - Edit commit message.
+  - Remove unused definition.
+Changes in v5:
+  - Edit commit message and add sapce before comment end.
+  - Move domain definitions back to driver.
+Changes in v4:
+  - Split patch and change to common syntax.
+Changes in v3:
+  - Restrict domain IDs to represent a domain.
+Changes in v2:
+  - Add GPDSP labels in dt-bindings.
+
+Ling Xu (5):
+  dt-bindings: misc: qcom,fastrpc: Add GDSP label
+  arm64: dts: qcom: sa8775p: add GDSP fastrpc-compute-cb nodes
+  misc: fastrpc: Remove kernel-side domain checks from capability ioctl
+  misc: fastrpc: Cleanup the domain names
+  misc: fastrpc: add support for gdsp remoteproc
+
+ .../bindings/misc/qcom,fastrpc.yaml           |  2 +
+ arch/arm64/boot/dts/qcom/sa8775p.dtsi         | 57 +++++++++++++++++++
+ drivers/misc/fastrpc.c                        | 54 ++++++++----------
+ include/uapi/misc/fastrpc.h                   |  2 +-
+ 4 files changed, 85 insertions(+), 30 deletions(-)
+
+-- 
+2.34.1
+
