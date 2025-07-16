@@ -2,81 +2,53 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 17CDCB077AD
-	for <lists+dri-devel@lfdr.de>; Wed, 16 Jul 2025 16:11:41 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 29A60B077B6
+	for <lists+dri-devel@lfdr.de>; Wed, 16 Jul 2025 16:14:04 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4448110E03E;
-	Wed, 16 Jul 2025 14:11:38 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 85F5F10E2AA;
+	Wed, 16 Jul 2025 14:14:02 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; secure) header.d=mailbox.org header.i=@mailbox.org header.b="Ttp3yrOR";
-	dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b="Pxd9Mszt";
+	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=igalia.com header.i=@igalia.com header.b="j2OM+ZNu";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mout-p-101.mailbox.org (mout-p-101.mailbox.org [80.241.56.151])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5A48410E7C0
- for <dri-devel@lists.freedesktop.org>; Wed, 16 Jul 2025 14:11:35 +0000 (UTC)
-Received: from smtp202.mailbox.org (smtp202.mailbox.org [10.196.197.202])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
- (No client certificate requested)
- by mout-p-101.mailbox.org (Postfix) with ESMTPS id 4bhyfF6bCfz9svm;
- Wed, 16 Jul 2025 16:11:33 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mailbox.org;
- s=mail20150812; 
- t=1752675093; h=from:from:reply-to:reply-to:subject:subject:date:date:
- message-id:message-id:to:to:cc:cc:mime-version:mime-version:
- content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=dkTA/82R8j53qvFejMMTMSc0nVHIRGksK6KvPM96JZY=;
- b=Ttp3yrOREE9PRzZxbmAS7wLtTGSVyKcWWWEZP+qUVkPEoQdH2t3TCEamjNK1MW8dNuiIPG
- FJI5JQPZY+rHuueTVnI2HFjOCaxa54p6mQOO/Gmj2ttmX90CelJzc/Zx1i4xUuWVmCzORX
- u7qPTOmrugaObSa8KRrrNLKLoJyX62UjWxfBH4EnaLny1/0+Fas/Af9p5w1gZt1oO9lhkl
- xGtdXEfzxB41w9n1y7dKi4X7QKm995yure0iIRdLjfD9gQ789dZFwfEX8ZmeGy2epCIpGB
- EE+wLhFvNpKeSStJfBkmDlgpxEK7Zc/nUiX7ulR0+APbHStADj+IaoDI0gXHFA==
-Message-ID: <d229a8b9ddaa169d504bd2dd68faf209709cff60.camel@mailbox.org>
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mailbox.org;
- s=mail20150812; 
- t=1752675091; h=from:from:reply-to:reply-to:subject:subject:date:date:
- message-id:message-id:to:to:cc:cc:mime-version:mime-version:
- content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=dkTA/82R8j53qvFejMMTMSc0nVHIRGksK6KvPM96JZY=;
- b=Pxd9MsztvuSCR+Mcwf6Ocw2Y684oXoSACxG2Opv2Q/sgSAH/eBzShw6/cHqIs5iNxAa0q/
- UACXLSAD4i3gTNwrMwALyV3EwkutjsvPmI/H+hUC2sQbWU6lRn8QA2pvNiEfpnifEMyDxY
- W/W/nhVwtSCnpzr7/t5ExVrYdVsCO9nmIFMiQwws2TdhomqQ4WbbEJ9uFXVZs4pddthNaH
- SVT+lDgq63e7DkY868DXwYp1YbxEJq7L8xgjWQtx5DHKEonsDgg/9CaWRQagI8WYjfX88Z
- 67z0sluZIXoRfIwaLjae3F8NajBwUIfKHD3FgP39tikiB1uwEBp+dYnyl26WUw==
-Subject: Re: [PATCH] drm/sched: Remove optimization that causes hang when
- killing dependent jobs
-From: Philipp Stanner <phasta@mailbox.org>
-To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>, phasta@kernel.org
-Cc: Christian =?ISO-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>, Michel
- =?ISO-8859-1?Q?D=E4nzer?= <michel.daenzer@mailbox.org>, "cao, lin"
- <lin.cao@amd.com>,  "dri-devel@lists.freedesktop.org"
- <dri-devel@lists.freedesktop.org>, "Yin, ZhenGuo (Chris)"
- <ZhenGuo.Yin@amd.com>,  "Deng, Emily" <Emily.Deng@amd.com>,
- "dakr@kernel.org" <dakr@kernel.org>, "matthew.brost@intel.com"
- <matthew.brost@intel.com>, Sasha Levin <sashal@kernel.org>
-Date: Wed, 16 Jul 2025 16:11:27 +0200
-In-Reply-To: <2025071620-reunion-polka-ae73@gregkh>
-References: <20250715135033.706126-1-lincao12@amd.com>
- <b7e207ef3a775fed0f344ca24990c5aeb36b2507.camel@mailbox.org>
- <CO6PR12MB5491F9E1F21F95C89CC91DA2F556A@CO6PR12MB5491.namprd12.prod.outlook.com>
- <df5fe40e79db8e988661704ea4f72be1a2e4c14c.camel@mailbox.org>
- <fd46ca0c-e484-4bf8-b74e-0139ecc7deae@mailbox.org>
- <49d822fc0f46e0fdeaccaeb2fbb1ade1c5cb1e5d.camel@mailbox.org>
- <ff383098-b453-44bd-9862-c6fc1447cf1d@amd.com>
- <2025071635-petition-unhitched-bdd0@gregkh>
- <0e58a96e61054ae88de112cb8be7e45e2b6f4f0c.camel@mailbox.org>
- <2025071620-reunion-polka-ae73@gregkh>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Received: from fanzine2.igalia.com (fanzine2.igalia.com [213.97.179.56])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2C71210E2AA
+ for <dri-devel@lists.freedesktop.org>; Wed, 16 Jul 2025 14:14:01 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com; 
+ s=20170329;
+ h=Content-Transfer-Encoding:Content-Type:In-Reply-To:From:
+ References:Cc:To:Subject:MIME-Version:Date:Message-ID:Sender:Reply-To:
+ Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
+ Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
+ List-Subscribe:List-Post:List-Owner:List-Archive;
+ bh=jtGnjAaRE5rw7FQzFBXqLybdgh/q5ka86Khq/MDbz14=; b=j2OM+ZNuHBQW3qgT3vI9oga3Uy
+ kUzs8kbtgGZPqQpy4J55ndoTCKrXj6a3oYMlHZdqnKFITPLBSQzM8Df6KpozuayUPdYlsml72H/P4
+ FSFpgrnW3cQG6dtrsST5xxi9BOxeW+RLN9E3abmrko5q73gX0sBezOOts6TCe6iL2zzyGOYXf0ncG
+ +BIb+4rAOrIRvR844uu2AFj+HHyoBhV8VcdJs/w3tLYFLC9VaJ/dJKdRAIaSmBQ1o5t1dSkBfh5Ba
+ cBdGIxN7oqifFGaVMUC/5n6X9L9MafTOUZ6R5AJSEbpxXqNYYNFM4oIqEOjh6eNrB//U0RsjRaiiu
+ kdAcABWA==;
+Received: from [84.66.36.92] (helo=[192.168.0.101])
+ by fanzine2.igalia.com with esmtpsa 
+ (Cipher TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_128_GCM:128) (Exim)
+ id 1uc2tT-00HLQT-GB; Wed, 16 Jul 2025 16:13:59 +0200
+Message-ID: <79c5974e-d1f8-4b29-8e54-4008ae54a3df@igalia.com>
+Date: Wed, 16 Jul 2025 15:13:58 +0100
 MIME-Version: 1.0
-X-MBO-RS-META: ptyuqcftwdc61ryk84ato91bsyq3abcp
-X-MBO-RS-ID: c8f861cab532c2fb70a
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] drm/sched: Fix a race in DRM_GPU_SCHED_STAT_NO_HANG test
+To: =?UTF-8?Q?Ma=C3=ADra_Canal?= <mcanal@igalia.com>,
+ dri-devel@lists.freedesktop.org
+Cc: kernel-dev@igalia.com, Philipp Stanner <phasta@kernel.org>
+References: <20250716084817.56797-1-tvrtko.ursulin@igalia.com>
+ <629ab61a-ee69-43cd-a05e-b8d262cc0a51@igalia.com>
+ <68b7afc6-11fc-4a80-abb7-b9b03bc5f4fe@igalia.com>
+ <d01b77a1-710b-4996-80cb-c33e688a779c@igalia.com>
+Content-Language: en-GB
+From: Tvrtko Ursulin <tvrtko.ursulin@igalia.com>
+In-Reply-To: <d01b77a1-710b-4996-80cb-c33e688a779c@igalia.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -89,167 +61,150 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Reply-To: phasta@kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, 2025-07-16 at 14:05 +0200, Greg Kroah-Hartman wrote:
-> On Wed, Jul 16, 2025 at 01:32:42PM +0200, Philipp Stanner wrote:
-> > On Wed, 2025-07-16 at 13:15 +0200, Greg Kroah-Hartman wrote:
-> > > On Wed, Jul 16, 2025 at 12:58:28PM +0200, Christian K=C3=B6nig wrote:
-> > > > On 16.07.25 12:46, Philipp Stanner wrote:
-> > > > > +Cc Greg, Sasha
-> > > > >=20
-> > > > > On Wed, 2025-07-16 at 12:40 +0200, Michel D=C3=A4nzer wrote:
-> > > > > > On 16.07.25 11:57, Philipp Stanner wrote:
-> > > > > > > On Wed, 2025-07-16 at 09:43 +0000, cao, lin wrote:
-> > > > > > > >=20
-> > > > > > > > Hi Philipp,
-> > > > > > > >=20
-> > > > > > > >=20
-> > > > > > > > Thank you for the review. I found that this
-> > > > > > > > optimization
-> > > > > > > > was
-> > > > > > > > introduced 9 years ago in commit
-> > > > > > > > 777dbd458c89d4ca74a659f85ffb5bc817f29a35 ("drm/amdgpu:
-> > > > > > > > drop
-> > > > > > > > a
-> > > > > > > > dummy
-> > > > > > > > wakeup scheduler").
-> > > > > > > >=20
-> > > > > > > >=20
-> > > > > > > > Given that the=C2=A0codebase has undergone significant
-> > > > > > > > changes
-> > > > > > > > over
-> > > > > > > > these
-> > > > > > > > 9 years. May I ask if I still need to include the
-> > > > > > > > Fixes:
-> > > > > > > > tag?
-> > > > > > >=20
-> > > > > > > Yes. It's a helpful marker to see where the problem comes
-> > > > > > > from, and
-> > > > > > > it
-> > > > > > > adds redundancy helping the stable-kernel maintainers in
-> > > > > > > figuring
-> > > > > > > out
-> > > > > > > to which kernels to backport it to.
-> > > > > > >=20
-> > > > > > > If stable can't apply a patch to a very old stable kernel
-> > > > > > > because
-> > > > > > > the
-> > > > > > > code base changed too much, they'll ping us and we might
-> > > > > > > provide a
-> > > > > > > dedicated fix.
-> > > > > > >=20
-> > > > > > > So like that:
-> > > > > > >=20
-> > > > > > > Cc: stable@vger.kernel.org=C2=A0# v4.6+
-> > > > > > > Fixes: 777dbd458c89 ("drm/amdgpu: drop a dummy wakeup
-> > > > > > > scheduler")
-> > > > > >=20
-> > > > > > FWIW, Fixes: alone is enough for getting backported to
-> > > > > > stable
-> > > > > > branches, Cc: stable is redundant with it.
-> > > > >=20
-> > > > > Both are used all the time together, though. And the official
-> > > > > documentation does not list dropping Cc: stable as a valid
-> > > > > option
-> > > > > in
-> > > > > this regard
-> > > > >=20
-> > > > > https://www.kernel.org/doc/html/latest/process/stable-kernel-rule=
-s.html#option-1
-> > > > >=20
-> > > > >=20
-> > > > > As long as the official documentation demands it, I'm not
-> > > > > willing
-> > > > > to
-> > > > > drop it. If the docu were to be changed, that would be fine
-> > > > > by
-> > > > > me, too.
-> > > >=20
-> > > > As far as I understand "CC: stable" and "Fixes:" tags are to
-> > > > handle
-> > > > two distinct use cases.
-> > >=20
-> > > Yes.
-> > >=20
-> > > > "CC: stable..." means please backport, eventually with a kernel
-> > > > version and/or necessary pre-requisites.
-> > >=20
-> > > Yes.
-> > >=20
-> > > > "Fixes:" only backport if you have this patch in your tree as
-> > > > well.
-> > > > In other words it is a restriction when to backport something.
-> > >=20
-> > > No.
-> > >=20
-> > > "Fixes:" is only for you to say "this commit fixes this other
-> > > commit".
-> > > And when you add a cc: stable, that will get you a FAILED email
-> > > if
-> > > the
-> > > commit does NOT apply that far back.
-> >=20
-> > Does that mean we should NOT add Fixes: if the fixing patch does
-> > not
-> > apply on top of that old commit?
->=20
-> Add Fixes: if you feel it accurataly describes the commit that caused
-> the problem that this commit is fixing.=C2=A0 That is independant of "you
-> need other commits after that to apply this one", that issue can be
-> resolved by reading the stable kernel rules document and following
-> what
-> it says there to do for that.
->=20
-> > And if so, should we drop the Fixes: tag completely in such cases
-> > as
-> > Lin suggested in this thread?
->=20
-> If you don't want to ever be notified of any failures of stable
-> patches
-> being applied as far back as they should be applied, sure, don't put
-> a
-> Fixes: tag.=C2=A0 That means I do a "best effort" and just stop applying
-> when
-> they don't apply anymore.
->=20
-> It also means that if you do NOT have a Fixes: tag, and the commit
-> ends
-> up getting assigned a CVE, we have to assume that the bug has been
-> there
-> since "the beginning of time" and will mark it as such.=C2=A0 Which might
-> cause you headaches if you are responsible for keeping older kernels
-> alive for vendors :)
->=20
-> your call.
->=20
-> hope this helps, and really, this should all be documented already,
-> right?=C2=A0 If not, what is missing (becides the CVE stuff.)
 
-It does help, thank you.
+On 16/07/2025 15:05, Maíra Canal wrote:
+> Hi Tvrtko,
+> 
+> On 16/07/25 10:41, Tvrtko Ursulin wrote:
+>>
+>> On 16/07/2025 13:47, Maíra Canal wrote:
+>>> Hi Tvrtko,
+>>>
+>>> On 16/07/25 05:48, Tvrtko Ursulin wrote:
+>>>> The "skip reset" test waits for the timeout handler to run for the
+>>>> duration of 2 * MOCK_TIMEOUT, and because the mock scheduler opted to
+>>>
+>>> Would it make any sense to wait for 1.5 * MOCK_TIMEOUT? This way we
+>>> would guarantee that only one timeout happened. I'm fine with the
+>>> current solution as well.
+>>
+>> 1.5 * MOCK_TIMEOUT would work as well. I considered it, and even 
+>> though I thought it would be safe, I concluded that it is better to 
+>> have fewer dependencies on timings given these are two threads in this 
+>> story.
+> 
+> Why not both? Just to make sure we won't run the timedout function
+> twice, but still fixing the timing dependency by using
+> DRM_MOCK_SCHED_JOB_RESET_SKIPPED.
 
-Regarding documentation, I can only tell you that the stable kernel
-docu only sparringly mentions the Fixes: tag and it certainly doesn't
-mention what you detail above.
+Just because I think probably does not guarantee timedout worker does 
+not run twice. It still in _theory_ could if the unit test thread would 
+be starved by some other system activity. In practice however it does 
+work, because nothing much is running in parallel to the unit test, for 
+vast majority of use cases. So I thought someone would be bound to 
+complain if I just did the 1.5x approach. If no one objects I can add 
+that tweak, no problem.
 
-https://www.kernel.org/doc/html/latest/process/stable-kernel-rules.html#opt=
-ion-1
+>> Making the DRM_MOCK_SCHED_JOB_DONT_RESET persist allows for not having 
+>> to think about timings. So slight preference to that. At least until 
+>> some more advanced tests are attempted to be added.
+>>
+>>>> remove the "skip reset" flag once it fires, this gives opportunity 
+>>>> for the
+>>>> timeout handler to run twice. Second time the job will be removed 
+>>>> from the
+>>>> mock scheduler job list and the drm_mock_sched_advance() call in the 
+>>>> test
+>>>> will fail.
+>>>>
+>>>> Fix it by making the "don't reset" flag persist for the lifetime of the
+>>>> job and add a new flag to verify that the code path had executed as
+>>>> expected.
+>>>>
+>>>> Signed-off-by: Tvrtko Ursulin <tvrtko.ursulin@igalia.com>
+>>>> Fixes: 1472e7549f84 ("drm/sched: Add new test for 
+>>>> DRM_GPU_SCHED_STAT_NO_HANG")
+>>>  > Cc: Maíra Canal <mcanal@igalia.com>> Cc: Philipp Stanner 
+>>> <phasta@kernel.org>
+>>>> ---
+>>>>   drivers/gpu/drm/scheduler/tests/mock_scheduler.c | 2 +-
+>>>>   drivers/gpu/drm/scheduler/tests/sched_tests.h    | 7 ++++---
+>>>>   drivers/gpu/drm/scheduler/tests/tests_basic.c    | 4 ++--
+>>>>   3 files changed, 7 insertions(+), 6 deletions(-)
+>>>>
+>>>> diff --git a/drivers/gpu/drm/scheduler/tests/mock_scheduler.c b/ 
+>>>> drivers/gpu/drm/scheduler/tests/mock_scheduler.c
+>>>> index 65acffc3fea8..8e9ae7d980eb 100644
+>>>> --- a/drivers/gpu/drm/scheduler/tests/mock_scheduler.c
+>>>> +++ b/drivers/gpu/drm/scheduler/tests/mock_scheduler.c
+>>>> @@ -219,7 +219,7 @@ mock_sched_timedout_job(struct drm_sched_job 
+>>>> *sched_job)
+>>>>       unsigned long flags;
+>>>>       if (job->flags & DRM_MOCK_SCHED_JOB_DONT_RESET) {
+>>>> -        job->flags &= ~DRM_MOCK_SCHED_JOB_DONT_RESET;
+>>>> +        job->flags |= DRM_MOCK_SCHED_JOB_RESET_SKIPPED;
+>>>>           return DRM_GPU_SCHED_STAT_NO_HANG;
+>>>>       }
+>>>> diff --git a/drivers/gpu/drm/scheduler/tests/sched_tests.h b/ 
+>>>> drivers/ gpu/drm/scheduler/tests/sched_tests.h
+>>>> index 63d4f2ac7074..5b262126b776 100644
+>>>> --- a/drivers/gpu/drm/scheduler/tests/sched_tests.h
+>>>> +++ b/drivers/gpu/drm/scheduler/tests/sched_tests.h
+>>>> @@ -95,9 +95,10 @@ struct drm_mock_sched_job {
+>>>>       struct completion    done;
+>>>> -#define DRM_MOCK_SCHED_JOB_DONE        0x1
+>>>> -#define DRM_MOCK_SCHED_JOB_TIMEDOUT    0x2
+>>>> -#define DRM_MOCK_SCHED_JOB_DONT_RESET    0x4
+>>>> +#define DRM_MOCK_SCHED_JOB_DONE            0x1
+>>>> +#define DRM_MOCK_SCHED_JOB_TIMEDOUT        0x2
+>>>> +#define DRM_MOCK_SCHED_JOB_DONT_RESET        0x4
+>>>> +#define DRM_MOCK_SCHED_JOB_RESET_SKIPPED    0x8
+>>>>       unsigned long        flags;
+>>>>       struct list_head    link;
+>>>> diff --git a/drivers/gpu/drm/scheduler/tests/tests_basic.c b/ 
+>>>> drivers/ gpu/drm/scheduler/tests/tests_basic.c
+>>>> index 55eb142bd7c5..82a41a456b0a 100644
+>>>> --- a/drivers/gpu/drm/scheduler/tests/tests_basic.c
+>>>> +++ b/drivers/gpu/drm/scheduler/tests/tests_basic.c
+>>>> @@ -317,8 +317,8 @@ static void drm_sched_skip_reset(struct kunit 
+>>>> *test)
+>>>>       KUNIT_ASSERT_FALSE(test, done);
+>>>>       KUNIT_ASSERT_EQ(test,
+>>>> -            job->flags & DRM_MOCK_SCHED_JOB_DONT_RESET,
+>>>> -            0);
+>>>> +            job->flags & DRM_MOCK_SCHED_JOB_RESET_SKIPPED,
+>>>> +            DRM_MOCK_SCHED_JOB_RESET_SKIPPED);
+>>>
+>>> Maybe we could assert that job->flags & DRM_MOCK_SCHED_JOB_TIMEDOUT == 0
+>>
+>> Could but I am not sure it is needed.
+> 
+> Np.
+> 
+>>
+>>> Anyway, thanks for the fix!
+>>>
+>>> Reviewed-by: Maíra Canal <mcanal@igalia.com>
+>>
+>> Thank you!
+>>
+>> Btw the failure for the record:
+>>
+>> [09:07:20] # drm_sched_skip_reset: ASSERTION FAILED at drivers/gpu/ 
+>> drm/ scheduler/tests/tests_basic.c:324
+>> [09:07:20] Expected i == 1, but
+>> [09:07:20]     i == 0 (0x0)
+>> [09:07:20] [FAILED] drm_sched_skip_reset
+>> [09:07:20]     # module: drm_sched_tests
+>> [09:07:20] # drm_sched_basic_timeout_tests: pass:1 fail:1 skip:0 total:2
+>> [09:07:20] # Totals: pass:1 fail:1 skip:0 total:2
+> 
+> Unfortunately, I didn't get this error during my test run. On the other
+> hand, I only ran it once before pushing the series, so that's on me.
+> Thanks for catching it!
 
-I think such questions are an excellent example for an FAQ section
+No worries.
 
-"
-FAQ
+Regards,
 
-1. Do patches for the stable kernel have to include a Fixes: tag?
-"
+Tvrtko
 
-
-P.
-
->=20
-> thanks,
->=20
-> greg k-h
+>>>>       i = drm_mock_sched_advance(sched, 1);
+>>>>       KUNIT_ASSERT_EQ(test, i, 1);
+>>>
+>>
+> 
 
