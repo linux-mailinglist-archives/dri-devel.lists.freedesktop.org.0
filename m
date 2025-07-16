@@ -2,159 +2,70 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4E341B06B23
-	for <lists+dri-devel@lfdr.de>; Wed, 16 Jul 2025 03:28:34 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 91856B06B37
+	for <lists+dri-devel@lfdr.de>; Wed, 16 Jul 2025 03:39:06 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2E05610E652;
-	Wed, 16 Jul 2025 01:28:31 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 05D6C10E719;
+	Wed, 16 Jul 2025 01:39:04 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=Nvidia.com header.i=@Nvidia.com header.b="dafV4TJb";
+	dkim=pass (1024-bit key; unprotected) header.d=rock-chips.com header.i=@rock-chips.com header.b="QAuzT6Lq";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from NAM11-BN8-obe.outbound.protection.outlook.com
- (mail-bn8nam11on2081.outbound.protection.outlook.com [40.107.236.81])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 402B4882AF;
- Wed, 16 Jul 2025 01:28:30 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=jwfMstlKU1cTKyz5pklroHqnk8xyt6+2TszJO60zKwcW+kgyMvfVO1Z3Rtp/MONNSqyxY8hBvcPwurwpWNSjxRqdarrtVkNeyvVv29PWkTP6B3ntDCJWPYsk0rlfotGjkrU8EqhANun2P/jRbGBxD4A7yhs56Ea6n7BZMBiDzXnTA8jAgxWO0RecPQRL81kVy/CT3BFZ3VL5M3XidNWZ5KLO3ZkdL2JYUzicYWse6xAc6obrWTRUk8Lz9K/J/MGBS7/ef5Vvjb1Ztl8SdriotKM45yQCOpHTiCwAgP/lwh1U49VtAMyz024KjMrurgh0iDWCgT9/JSrmsZfwCP+46Q==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=j4NA+cfFEAQQkRXkLRQTfbo6CsHNal/TeYicGYRIQZs=;
- b=WdNnDR/3K51OOOTjwVnhh2r7uytVQN2rGPXAb6ygQzUfugyepmRMh7/D0H9hi5IV5Qs7yvlKGysH0lZBB+1uhJk/dhg4PDFEwcWNII8wefUO4H+fFE8RqYu22JFJXvq06ZS0w+5AsXW8fJTUFfbymYPysg0sMW7FXC8zK26zMgAFbpZxCxoiV3D+g45+X0g+jm6AazBYS0hJzRN7wBz8QbN0ELxDwsBPivkXzHZU+UZtsYimbrh6a391oqkB9dg/JfXUBfbP2SbKG01xdorbVl9PSBV9B7nNzJyhNn0a+153qahaADzaQqFzK7p/MvLA756ZXFLeZVDS24gbhHuUvw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
- dkim=pass header.d=nvidia.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=j4NA+cfFEAQQkRXkLRQTfbo6CsHNal/TeYicGYRIQZs=;
- b=dafV4TJbScTB5ey76sEy5ykwEragKvfwB3n55Rh3jjzbwr6Vl2fWEDinS4PU8fUnf/0pSsocG+Y6hbGtDcX4d+Tk7mMJltJgxfbtgYnTD3O16jhVvO/E+E1GO9ZGYOslTpkaw63oW/XrU0dxHHDV4TRlHDCkv1XutBHhmeQaG6IYmhSpCGxIqDSL3kGBCNv0fTXNPLXvVDUbFFUYfoKEvkBNXLMJ5tfqvLS668tpF8DaUQ9R6oV1lGYx268IJF3/jEA2raUvYAVUaFTGKKmbyV8/yMABYj7xcouhGSQj8E2U7lEYpY6dpWrfMaJGgjNM3zQqy8fm2J7TSpUVkvc7lA==
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=nvidia.com;
-Received: from CH2PR12MB3990.namprd12.prod.outlook.com (2603:10b6:610:28::18)
- by CH3PR12MB8535.namprd12.prod.outlook.com (2603:10b6:610:160::19)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8901.35; Wed, 16 Jul
- 2025 01:28:26 +0000
-Received: from CH2PR12MB3990.namprd12.prod.outlook.com
- ([fe80::6e37:569f:82ee:3f99]) by CH2PR12MB3990.namprd12.prod.outlook.com
- ([fe80::6e37:569f:82ee:3f99%4]) with mapi id 15.20.8901.021; Wed, 16 Jul 2025
- 01:28:26 +0000
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset=UTF-8
-Date: Wed, 16 Jul 2025 10:28:22 +0900
-Message-Id: <DBD38ILN8ANI.K75X0M10PLNL@nvidia.com>
-Cc: "Rhys Lloyd" <krakow20@gmail.com>, <dakr@kernel.org>,
- <rust-for-linux@vger.kernel.org>, <airlied@gmail.com>, <simona@ffwll.ch>,
- <nouveau@lists.freedesktop.org>, <dri-devel@lists.freedesktop.org>,
- <linux-kernel@vger.kernel.org>
-Subject: Re: [PATCH v2] gpu: nova-core: vbios: change PmuLookupTableEntry to
- relax alignment
-From: "Alexandre Courbot" <acourbot@nvidia.com>
-To: "Joel Fernandes" <joelagnelf@nvidia.com>, "Alice Ryhl"
- <aliceryhl@google.com>
-X-Mailer: aerc 0.20.1-0-g2ecb8770224a-dirty
-References: <20250714110229.141221-1-krakow20@gmail.com>
- <20250714144837.GA2996266@joelnvbox>
- <CAH5fLgiFOFm+Lh0K_PDZ2eCFa0EAOMk9GRh0Cgh2sm8fay=qnA@mail.gmail.com>
- <b56a6923-7795-4b5f-a57a-5775a3c08f19@nvidia.com>
-In-Reply-To: <b56a6923-7795-4b5f-a57a-5775a3c08f19@nvidia.com>
-X-ClientProxiedBy: TY4PR01CA0076.jpnprd01.prod.outlook.com
- (2603:1096:405:36c::12) To CH2PR12MB3990.namprd12.prod.outlook.com
- (2603:10b6:610:28::18)
+X-Greylist: delayed 1192 seconds by postgrey-1.36 at gabe;
+ Wed, 16 Jul 2025 01:39:02 UTC
+Received: from mail-m19731101.qiye.163.com (mail-m19731101.qiye.163.com
+ [220.197.31.101])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9394110E734
+ for <dri-devel@lists.freedesktop.org>; Wed, 16 Jul 2025 01:39:02 +0000 (UTC)
+Received: from [127.0.0.1] (gy-adaptive-ssl-proxy-2-entmail-virt205.gy.ntes
+ [58.22.7.114]) by smtp.qiye.163.com (Hmail) with ESMTP id 1c21ae026;
+ Wed, 16 Jul 2025 09:38:51 +0800 (GMT+08:00)
+Message-ID: <91933881-e91e-4e3f-a027-1a28a30823ed@rock-chips.com>
+Date: Wed, 16 Jul 2025 09:38:49 +0800
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: CH2PR12MB3990:EE_|CH3PR12MB8535:EE_
-X-MS-Office365-Filtering-Correlation-Id: 787a7fad-eb61-4e12-fdde-08ddc4080fb6
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0; ARA:13230040|376014|1800799024|10070799003|366016;
-X-Microsoft-Antispam-Message-Info: =?utf-8?B?M0UvKzYyZ21KMGlRK2tkRnNLVHNPczBGYmlJam4zcXdlSSthSnZtWk1Vdnpn?=
- =?utf-8?B?YzZSZlFiZW0rVlpkNHdGYTgzU2t2bHg5MDhvUi9uR1I4VTVkZXVEMThGNUsv?=
- =?utf-8?B?MFU3cmZzZjJ4cGVsVTlzU09rVWhranBMUnVIRnZUVU5aRkRmbDVsOC9UL1Br?=
- =?utf-8?B?NkxNbHZJaExsdjlrcFUzVXJFdmRyZGRleXhKS0p0MXRUUDVzVktBdzg3TXov?=
- =?utf-8?B?am03bzY0QlJwWmR0a013WTdDT2E3cHo4V1J2ckNzeVJTUjROd3Y1VjFXUUEx?=
- =?utf-8?B?Zi92MzdtQTdkTFdvS2JlYXdOVEpHalhGMjNLdWFrQzBMbStnQWhrMG1EanNI?=
- =?utf-8?B?Vjl4aWxGUlZkWGM3SThzUEVXaUFzcFdWcDN5TWl6OWdLb1Z6K1N2bEFFaVRn?=
- =?utf-8?B?bkQ5dWovc1JYdzRJMnZ5SGdzTnBGdXN3VkdRNlZwdC9GMEhOVHU2UHV2OFFq?=
- =?utf-8?B?QVlQM3ZKaW9YcEJVMEQ3anFVRjdITVE5YTVIczVuRDQ2TlNTeTBKeVBTSTJW?=
- =?utf-8?B?T1p5QnY5emJva3Rua1k2UVlZRm51RW90eXpveE53anM3eWZPMDEwV1JmODE2?=
- =?utf-8?B?S3JKbUxVcnVPSDlhNTV1UFROYUNRSFlNOXlSTGoxRkRGZVpDZTc2WXdOWnZa?=
- =?utf-8?B?M2RCVnAzUU94K1ZQaTN5OHVDblNCOEVNMWt0S2Jwa0czQmtOelRyT1B2Tmtk?=
- =?utf-8?B?V1F6T2cwVjZMTlJtdUhlQkZQaHVwM2E4L1Y3clV1dXlVM2JmclZBd2V6MW1t?=
- =?utf-8?B?UG0yVWxOS0FzMnliaTdIMGxsWGdOUEdlYm5BMThiaDQ4WmF3ekROeUVwVUFk?=
- =?utf-8?B?ZTFCNm1FL3ErbnN6VEtDOE5IUFp4ME9UK05IU2hLSHBxUDFYVi9OK0ViNUZD?=
- =?utf-8?B?MHJZa3RicUQ3TkhmN3NBbU9UbzBxMXVLaVcvMVZQbVByR0VzVVI4MGwvdmlq?=
- =?utf-8?B?bG1uWTJCWWkvUFVRYk9BbXdwZE5nYnpGNFJpSktWemgreFh1TzdsUVpZWmVZ?=
- =?utf-8?B?VHdEK1FnWExZSUt0RG16NXplWEFrb3ltTGJKOVpDdlFWTG1OcUlhVXlxczEx?=
- =?utf-8?B?WnZhQTZuZzdhV0hjVzZZeFlYbW1pYS9BZVhyRjZmaHlWb3o4MDZCZVR3UXBn?=
- =?utf-8?B?dWhxbStlZm1aM1NnOVFEM1c5ZlNnODcxdm43YTA3dmVXN2pRdnNWV3dZZmE1?=
- =?utf-8?B?ZGR2dzd6aDRlQWhiVldTRmw5OFo0SUFSQ0JWOE83bld4amU4ODd2NHAxclNq?=
- =?utf-8?B?cTJaN1M1WW9rOTM4SEg0Z2p0NGdHYmp5VkpHYW00Qm1NbFlEeWtkZmY5Y0Vo?=
- =?utf-8?B?WGhvREpHOGVpTzBMRjRVdWQ0eURIWDZ3NS9oR0F0YWNyakpwZVUwTVpNQURq?=
- =?utf-8?B?OFFLbXpqeGVOZjlKRjVXbXBDby9wTzZWY1dqdk5lOTBDcm1kTXdDUm9POEZi?=
- =?utf-8?B?L0h1THMyQnMvOXZKS0N2a2prQXphdjhrTjVnVGdkUzRSV01UUUwvZlpjditi?=
- =?utf-8?B?ckNNYUh2VllOMENSeVlQUnhDQUdhVDVEdVVkZXR4c1owWEVlQUtYakNpUnV5?=
- =?utf-8?B?OGtBRXpib3RlbUs0OVpVWnZ2MTlzMGtlakIrclpIdExVTDlSdjJ6M1UxK3Ex?=
- =?utf-8?B?M1ZpUC9mSWlwMGRUYkZublhkR2VVVFRkMGxKejF2RUNiV05TS25FWFRFSVpO?=
- =?utf-8?B?QXlVZWhsSXFhODh4UEdSTlIvL3VxZHVFSU9wcGNoSmlrd253QStGSWtGb3VG?=
- =?utf-8?B?cUYwSFY4aXpYOHQ2eFNxKytldmM3ZHJ2bTRTVlZpU2Nrd2JKRzc4WWZRRHpI?=
- =?utf-8?B?S2d3WHNLWXB1VEJINkc2VkZwOUdxMTdDOEFBcktETTE2M0tSS0ZXbkNTMzBL?=
- =?utf-8?B?bXQwZHQyK3dtZytJeFgyRVZVQk1KK3pSSTdIK1o2c3hqNFd1YmRXUjc0SUIw?=
- =?utf-8?Q?o4q+iri7aFo=3D?=
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:CH2PR12MB3990.namprd12.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230040)(376014)(1800799024)(10070799003)(366016); DIR:OUT; SFP:1101; 
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?WitkcU83SE95WVF5bzlrQVJSLzhFSGN2SHdDWlczTWdZN1NSRU51c3FDcnFG?=
- =?utf-8?B?R0FzUDdOSjJqd1NGdE9GNUZOeTVEVm81K2ZDNXZIUDlwUkg4b2krdXFkNVhS?=
- =?utf-8?B?amZJWVc4djJPUi96SkN1TXBmdzFGVmpJUnQvRW1uTks0VWVvUlJXT0I3TnhB?=
- =?utf-8?B?TU5lTUt6NjhmNnU0YURla2drZWpYUW5GdHhwbHhZVTlieTVYQTRTZ294UjUz?=
- =?utf-8?B?a2V4M0RFWnNtVU5haXBQSDZydkk1WllseXdrQ09pQ3lMRlVmY2R4SXFmUnF6?=
- =?utf-8?B?Q0J5c3RlUTMzUm1EeGRTRVFjS2F6Q2psMTlDY3NFSEczYk5uZkRmdFhkckFl?=
- =?utf-8?B?VWIzQzlyeEVyZWlWZlY2YnU1ajdQZG9JY3lzeDN0TjU2Rlk0L3hvWjBNM1dT?=
- =?utf-8?B?R3NIVUpDYmowZi8xZzdXWWE4cmtnOE5GRmRrTjE1alpWNCtCVXE3a09CUFNZ?=
- =?utf-8?B?d0hqbEM2OGRHUVNPNnM4Q0Y0Z2ZIUExlWEJ0SHpxbnFWMmRzZGpxKzlvTGQ4?=
- =?utf-8?B?T0xkYlVPRUNkdUt3ZW5LZ2ZGMnVNeFBMcDIvQ0RLYUFKdTNURUx5U2oyUm9L?=
- =?utf-8?B?Vk50Ym56UldHcnphNTU0NkM2SUdTT3hQWWx0MmwzOHF6SEtIQUpEM29Vbndn?=
- =?utf-8?B?bHBkd3BVTGdHUENrb0hDejZCQkJEak4xamRxdzQyMWdMVzNlNzlGY2todWdp?=
- =?utf-8?B?WW5kd1FrcFNhNk9ZTXp1NkRaVW4xd2t4aXh5WUc5VE1rTzY2MkhwRjg3SlFm?=
- =?utf-8?B?bEF6dER6aVF1R0hVb083bEVjMytETkFTajBXSUw5QWZoWmlMdHpsYUVYVmJ5?=
- =?utf-8?B?TVlXWXpSSGYrOVBvUE82Vm5sS1BOZFdtK0ljdjc1bGQ4WmVTQWRiMGZla241?=
- =?utf-8?B?aUMxTlpLUThxSk10MG5DUnhWMHVZM0pINSticHlCcVUxbWpydGRrdmRpeXBD?=
- =?utf-8?B?L0UzS3VJbmFmRU1kSlpyazFCaUJTdS8vckN0bkJCUHhsam4wbHVOOU1Ib2c1?=
- =?utf-8?B?VHplNUpBSjlncnV5MVBmSEFGbEV1dFFvbkxZZVNtblJIU1hRMjl5ZEl4S1JT?=
- =?utf-8?B?enpoWTZLZVZJcncwTU5MeHJEbXIxWjdqKzNDVW0zRkg1Uk1kbFNML0VVVTNL?=
- =?utf-8?B?R1AyWmdMY3h4Q2JzS2FLVWZ5VWtNKy9yR1UraVV4dml2a1BmQmpJS0lEUDdi?=
- =?utf-8?B?eTVPVGxYMVZWWDUvVmpLdzNJVWxEMm4vT21PZHVISVlUdUs5N0ViT3BERFZY?=
- =?utf-8?B?OTFwa0dKS3RtY0lHOTk0UzM2YUZYYVpMN1R4WUU1MGhQZEl0dVVvS3plZStr?=
- =?utf-8?B?a1FYUHF5QmU5a2dRWmI0bDNVcGh4dHl1Q1ZjTWNNaXRiQS9weTJsU2FpUDFr?=
- =?utf-8?B?NjlMSmZQVys1MDBwdnJZamJabDIxbDdEUHVUWHpqVlpJUzZTODBscW85Z0pj?=
- =?utf-8?B?bGVkTkFHZHlDcnBZNVVNUERpU1ZQWFArdXNGczYza2diRTNqMU9zK3Zvbmgx?=
- =?utf-8?B?MDNBMHByN1ZKTEdCMXFIeFFHUFlXaUJEK1E3ZGgzc3NSaTF6RzVSRzZhbEU0?=
- =?utf-8?B?dzFHNldBOUUxeEcxcU5NMEdodFE2TFc2bGRkLzBqWmNsVHBPdXRVSkNDeGoy?=
- =?utf-8?B?aWY5aU9rYUNsejlBeHAvakl2Y0Z5TUFGK2s2NDFQVGV5bU4vbW9aREVuNHpY?=
- =?utf-8?B?QTZzQ2ZFbkhralhQbjZwWERZSjJldVBhUDRiYWZGMFZ5QVVWTXk4V0ZYZXJJ?=
- =?utf-8?B?K0pkaUpaaUIwUFVtN3dtam10WUhpaVljbnVhT0V5cFhNTURiSWhmcXVjQ08y?=
- =?utf-8?B?OHYzWmlVdVlOQVdxYU10b2dPSEhqTmE2d2d4cU5UL0ZxRW5ZaGZ6ZC8vWGRM?=
- =?utf-8?B?cG9sanR0ZUEwNlQxVW5VcVpicDU4VGdrTEVjVTVrR0RRaXUxRE9DZFpRR09o?=
- =?utf-8?B?ZkkvRFVBYXFlZndrVHVWL3U2clpPQ0RmTnhrTFJjWWxxV1dwZUtWQWg0NzZJ?=
- =?utf-8?B?S0ZIdDVTcnRDeG5xcllKQmNWRjZUUG9SemVVa1FFUE1NaVhadHdVY29LRHNk?=
- =?utf-8?B?QjhodHJ5WXExVkRnNjFvNkFYeHFXeHhUaTRkeWU1RkNic0NuZUV5SFovNFZs?=
- =?utf-8?B?QjhmeWcvekU0L1dzcm4zVzRxaGordkY5dnlFVkVvdUo3WEw5cW9XM3hHVGJj?=
- =?utf-8?Q?7gLXYkuWAxGeLr4RcQHtVsk8B973JDOZlqHzoKa05iv4?=
-X-OriginatorOrg: Nvidia.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 787a7fad-eb61-4e12-fdde-08ddc4080fb6
-X-MS-Exchange-CrossTenant-AuthSource: CH2PR12MB3990.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 16 Jul 2025 01:28:26.1501 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: 5Hf4VBsRYv0hN97MqdTht2ib6PnPCc44XetV42VN+0BVPhUMKjsQhLntL5AV1zp4ag4a9j70PZU87UKqm1hFJw==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: CH3PR12MB8535
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 5/5] arm64: dts: rockchip: rk3399-evb-ind: Add support for
+ DisplayPort
+To: Krzysztof Kozlowski <krzk@kernel.org>, Chaoyi Chen <kernel@airkyi.com>,
+ Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
+ Conor Dooley <conor+dt@kernel.org>, Vinod Koul <vkoul@kernel.org>,
+ Kishon Vijay Abraham I <kishon@kernel.org>, Heiko Stuebner
+ <heiko@sntech.de>, Sandy Huang <hjc@rock-chips.com>,
+ Andy Yan <andy.yan@rock-chips.com>,
+ Yubing Zhang <yubing.zhang@rock-chips.com>,
+ Frank Wang <frank.wang@rock-chips.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+ Amit Sunil Dhamne <amitsd@google.com>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ Dragan Simic <dsimic@manjaro.org>, Johan Jonker <jbx6244@gmail.com>,
+ Diederik de Haas <didi.debian@cknow.org>
+Cc: devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-phy@lists.infradead.org, linux-arm-kernel@lists.infradead.org,
+ linux-rockchip@lists.infradead.org, dri-devel@lists.freedesktop.org
+References: <20250715112456.101-1-kernel@airkyi.com>
+ <20250715112456.101-6-kernel@airkyi.com>
+ <c62d168b-92b5-44a2-9a9a-402d7f4815a2@kernel.org>
+From: Chaoyi Chen <chaoyi.chen@rock-chips.com>
+In-Reply-To: <c62d168b-92b5-44a2-9a9a-402d7f4815a2@kernel.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-HM-Spam-Status: e1kfGhgUHx5ZQUpXWQgPGg8OCBgUHx5ZQUlOS1dZFg8aDwILHllBWSg2Ly
+ tZV1koWUFDSUNOT01LS0k3V1ktWUFJV1kPCRoVCBIfWUFZQklOSlYeGE9NHU5DGE4eHk1WFRQJFh
+ oXVRMBExYaEhckFA4PWVdZGBILWUFZTkNVSUlVTFVKSk9ZV1kWGg8SFR0UWUFZT0tIVUpLSUhCS0
+ NVSktLVUpCWQY+
+X-HM-Tid: 0a9810e26b8b03abkunm2384780b142b984
+X-HM-MType: 1
+X-HM-Sender-Digest: e1kMHhlZQR0aFwgeV1kSHx4VD1lBWUc6PiI6Vjo4SDEzQgk3TgsMCwMQ
+ Mj0wC1FVSlVKTE5JTUlCQk9LTUtNVTMWGhIXVRgTGhQCElUYEx4VOwkUGBBWGBMSCwhVGBQWRVlX
+ WRILWUFZTkNVSUlVTFVKSk9ZV1kIAVlBSEJITTcG
+DKIM-Signature: a=rsa-sha256;
+ b=QAuzT6LqqsdRYzbgiQV0dzdyntiVHNrp/6t4TvOeZeNboxwtNUTzyldzugRxbhjyKOZ8NlArNywxKchxXvUB4wm/zoE9KD7sZsPgRwe0l9DPt4qQm7qka21rrg6UUIf7MziMjtmBrwi7GvrXQG91QQYTnAdRN0D9i1vZOrsBPi4=;
+ c=relaxed/relaxed; s=default; d=rock-chips.com; v=1; 
+ bh=hOSQSL8Ks5IN7rF3LDLzamVst2rGAcbD12z6Zr7VP7c=;
+ h=date:mime-version:subject:message-id:from;
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -170,55 +81,93 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue Jul 15, 2025 at 12:22 AM JST, Joel Fernandes wrote:
->
->
-> On 7/14/2025 10:53 AM, Alice Ryhl wrote:
->> On Mon, Jul 14, 2025 at 4:49=E2=80=AFPM Joel Fernandes <joelagnelf@nvidi=
-a.com> wrote:
->>>
->>> Hello, Rhys,
->>>
->>> On Mon, Jul 14, 2025 at 04:02:23AM -0700, Rhys Lloyd wrote:
->>>> Instead of the data field containing a u32 and changing the alignment,
->>>> change data to [u8; 4] and convert to u32 with a helper function.
->>>> Removes another magic number by making the struct the same size as
->>>> the data it needs to read, allowing the use of
->>>> `size_of::<PmuLookupTableEntry>()`
->>>>
->>>> Signed-off-by: Rhys Lloyd <krakow20@gmail.com>
->>>> ---
->>>> Changes in v2:
->>>> - get_data helper function renamed to data
->>>>
->>>> ---
->>>>  drivers/gpu/nova-core/vbios.rs | 13 +++++++++----
->>>>  1 file changed, 9 insertions(+), 4 deletions(-)
->>>>
->>>> diff --git a/drivers/gpu/nova-core/vbios.rs b/drivers/gpu/nova-core/vb=
-ios.rs
->>>> index 5b5d9f38cbb3..339c66e63c7e 100644
->>>> --- a/drivers/gpu/nova-core/vbios.rs
->>>> +++ b/drivers/gpu/nova-core/vbios.rs
->>>> @@ -896,21 +896,26 @@ fn try_from(base: BiosImageBase) -> Result<Self>=
- {
->>>>  struct PmuLookupTableEntry {
->>>>      application_id: u8,
->>>>      target_id: u8,
->>>> -    data: u32,
->>>> +    data: [u8; 4],
->>>
->>> Instead of this, could we make the struct as #repr[(C, packed)] or does=
- that
->>> not work for some reason?
->>=20
->> It would probably, but packed structs aren't very nice to work with
->> because Rust has to be really careful to never generate a reference to
->> unaligned fields.
-> Oh, interesting. I am Ok with the [u8; 4] then. Btw, we do have several
-> #[repr(C, packed)] in vbios.rs already.
+Hi Krzysztof,
 
-Yeah, in this particular case this is a module-local struct for which
-(AFAICT) we don't need to generate references to, so unless there are
-other issues I think making it packed and storing the properly-ordered
-u32 at construction time is both simpler and safer.
+On 2025/7/15 19:37, Krzysztof Kozlowski wrote:
+> On 15/07/2025 13:24, Chaoyi Chen wrote:
+>>   /dts-v1/;
+>> +#include <dt-bindings/usb/pd.h>
+>>   #include "rk3399.dtsi"
+>>   
+>>   / {
+>> @@ -19,6 +20,16 @@ chosen {
+>>   		stdout-path = "serial2:1500000n8";
+>>   	};
+>>   
+>> +	vbus_typec: vbus-typec-regulator {
+> use consistent naming. How other regulators are called? foo-regulator?
+
+Will fix in v2.
+
+
+>
+>> +		compatible = "regulator-fixed";
+>> +		enable-active-high;
+>> +		gpio = <&gpio1 RK_PC2 GPIO_ACTIVE_HIGH>;
+>> +		pinctrl-names = "default";
+>> +		pinctrl-0 = <&vcc5v0_typec0_en>;
+>> +		regulator-name = "vbus_typec";
+>> +		vin-supply = <&vcc5v0_sys>;
+>> +	};
+>> +
+>>   	vcc5v0_sys: regulator-vcc5v0-sys {
+>>   		compatible = "regulator-fixed";
+>>   		enable-active-high;
+>> @@ -29,6 +40,16 @@ vcc5v0_sys: regulator-vcc5v0-sys {
+>>   		regulator-max-microvolt = <5000000>;
+>>   		regulator-min-microvolt = <5000000>;
+>>   	};
+>> +
+>> +	sound: sound {
+>> +		compatible = "rockchip,rk3399-gru-sound";
+>> +		rockchip,cpu = <&i2s0 &spdif>;
+>> +	};
+>> +};
+>> +
+>> +&cdn_dp {
+>> +	status = "okay";
+>> +	phys = <&tcphy0_dp>;
+>>   };
+>>   
+>>   &cpu_b0 {
+>> @@ -341,6 +362,66 @@ regulator-state-mem {
+>>   	};
+>>   };
+>>   
+>> +&i2c4 {
+>> +	i2c-scl-rising-time-ns = <475>;
+>> +	i2c-scl-falling-time-ns = <26>;
+>> +	status = "okay";
+>> +
+>> +	usbc0: fusb302@22 {
+> Node names should be generic. See also an explanation and list of
+> examples (not exhaustive) in DT specification:
+> https://devicetree-specification.readthedocs.io/en/latest/chapter2-devicetree-basics.html#generic-names-recommendation
+
+Thank you for the explanation. Will fix in v2.
+
+
+>
+>
+>> +		compatible = "fcs,fusb302";
+>> +		reg = <0x22>;
+>> +		interrupt-parent = <&gpio1>;
+>> +		interrupts = <RK_PA2 IRQ_TYPE_LEVEL_LOW>;
+>> +		pinctrl-names = "default";
+>> +		pinctrl-0 = <&usbc0_int>;
+>> +		vbus-supply = <&vbus_typec>;
+>> +		status = "okay";
+> Why? What disabled it?
+
+Oh, that is redundant. Will drop it in v2.
+
+
+>
+>> +
+>> +		usb_con: connector {
+>> +			compatible = "usb-c-connector";
+>> +			label = "USB-C";
+> Best regards,
+> Krzysztof
+>
+>
