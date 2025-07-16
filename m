@@ -2,58 +2,71 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id BBF39B069FF
-	for <lists+dri-devel@lfdr.de>; Wed, 16 Jul 2025 01:43:08 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 047B9B06B10
+	for <lists+dri-devel@lfdr.de>; Wed, 16 Jul 2025 03:21:07 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8592D10E730;
-	Tue, 15 Jul 2025 23:43:06 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A2FC710E245;
+	Wed, 16 Jul 2025 01:21:04 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="kzkvdF8/";
+	dkim=pass (1024-bit key; unprotected) header.d=rock-chips.com header.i=@rock-chips.com header.b="QErOC5Uo";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from tor.source.kernel.org (tor.source.kernel.org [172.105.4.254])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D557610E730
- for <dri-devel@lists.freedesktop.org>; Tue, 15 Jul 2025 23:43:05 +0000 (UTC)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by tor.source.kernel.org (Postfix) with ESMTP id F35F861489;
- Tue, 15 Jul 2025 23:43:04 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 79D22C4CEE3;
- Tue, 15 Jul 2025 23:43:04 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1752622984;
- bh=oIkUYfDgAMBmComyQL46QfRRvvbeCNaERG0b0OclZGA=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=kzkvdF8/yTgHzxS4GWWzOX3MNf4yT/HYcZnvr8glkE4W0Pxmu1lz7A2uYcEN+XzuW
- nOVolShmJUUj28oA7KzqfIQmVGgOHB1uSA956PstXl9/dP6eBxTYNrd5zbcDNUCaky
- mcMRxKlylObJc+6tQ8djX6o71Mw8eSltMXt00dopXLGeGeRZwZwA+15HQq6/KQ31iE
- HelbunvlA9M9ptdjzLuuVQ+MxVeZbnaucqNQa/LJLrG87dvcuKUp6VCBAhGgcgLnCx
- pzn3lOi3QgJC46OAhOkiOWujzQ0zWjhRR9bZaJNiECosEvyiX5jUrsjf9lSgiPRbIx
- jhLz6kvar9zZQ==
-Received: by venus (Postfix, from userid 1000)
- id 6D31F180F0F; Wed, 16 Jul 2025 01:43:02 +0200 (CEST)
-Date: Wed, 16 Jul 2025 01:43:02 +0200
-From: Sebastian Reichel <sre@kernel.org>
-To: Thomas Zimmermann <tzimmermann@suse.de>
-Cc: lee@kernel.org, danielt@kernel.org, jingoohan1@gmail.com, 
- neil.armstrong@linaro.org, jessica.zhang@oss.qualcomm.com, deller@gmx.de, 
- maarten.lankhorst@linux.intel.com, mripard@kernel.org, airlied@gmail.com,
- simona@ffwll.ch, fnkl.kernel@gmail.com, j@jannau.net, hdegoede@redhat.com,
- ilpo.jarvinen@linux.intel.com, 
- sven@kernel.org, alyssa@rosenzweig.io, neal@gompa.dev, 
- support.opensource@diasemi.com, duje.mihanovic@skole.hr,
- dri-devel@lists.freedesktop.org, 
- asahi@lists.linux.dev, platform-driver-x86@vger.kernel.org, 
- linux-arm-kernel@lists.infradead.org, linux-fbdev@vger.kernel.org
-Subject: Re: [PATCH v2 02/15] drm/panel: panel-samsung-s6e63m0: Include
- <linux/of.h>
-Message-ID: <67hurwpxz4c2ropgbq3q6umybr2fgucgtbdu4qc6y3qk3uypc4@3xkijgin5ydl>
-References: <20250715122643.137027-1-tzimmermann@suse.de>
- <20250715122643.137027-3-tzimmermann@suse.de>
+X-Greylist: delayed 302 seconds by postgrey-1.36 at gabe;
+ Wed, 16 Jul 2025 01:21:02 UTC
+Received: from mail-m49211.qiye.163.com (mail-m49211.qiye.163.com
+ [45.254.49.211])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2267B10E245
+ for <dri-devel@lists.freedesktop.org>; Wed, 16 Jul 2025 01:21:01 +0000 (UTC)
+Received: from [127.0.0.1] (gy-adaptive-ssl-proxy-2-entmail-virt205.gy.ntes
+ [58.22.7.114]) by smtp.qiye.163.com (Hmail) with ESMTP id 1c20d7125;
+ Wed, 16 Jul 2025 09:15:47 +0800 (GMT+08:00)
+Message-ID: <3a27b7f6-a614-49b4-85dd-5ecba1fbbf70@rock-chips.com>
+Date: Wed, 16 Jul 2025 09:13:19 +0800
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20250715122643.137027-3-tzimmermann@suse.de>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 1/5] dt-bindings: connector: Add displayport connector for
+ hotplug notify
+To: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>,
+ Chaoyi Chen <kernel@airkyi.com>
+Cc: Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
+ Conor Dooley <conor+dt@kernel.org>, Vinod Koul <vkoul@kernel.org>,
+ Kishon Vijay Abraham I <kishon@kernel.org>, Heiko Stuebner
+ <heiko@sntech.de>, Sandy Huang <hjc@rock-chips.com>,
+ Andy Yan <andy.yan@rock-chips.com>,
+ Yubing Zhang <yubing.zhang@rock-chips.com>,
+ Frank Wang <frank.wang@rock-chips.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+ Amit Sunil Dhamne <amitsd@google.com>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ Dragan Simic <dsimic@manjaro.org>, Johan Jonker <jbx6244@gmail.com>,
+ Diederik de Haas <didi.debian@cknow.org>, devicetree@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-phy@lists.infradead.org,
+ linux-arm-kernel@lists.infradead.org, linux-rockchip@lists.infradead.org,
+ dri-devel@lists.freedesktop.org
+References: <20250715112456.101-1-kernel@airkyi.com>
+ <20250715112456.101-2-kernel@airkyi.com>
+ <r7b4y74lr5qwejkejquosaar75mthjvjfy4pp6bbl4pgte6cq4@n3gwjolsaw2j>
+From: Chaoyi Chen <chaoyi.chen@rock-chips.com>
+In-Reply-To: <r7b4y74lr5qwejkejquosaar75mthjvjfy4pp6bbl4pgte6cq4@n3gwjolsaw2j>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-HM-Spam-Status: e1kfGhgUHx5ZQUpXWQgPGg8OCBgUHx5ZQUlOS1dZFg8aDwILHllBWSg2Ly
+ tZV1koWUFDSUNOT01LS0k3V1ktWUFJV1kPCRoVCBIfWUFZQkxOSVZISklNSh0dHkIYGk9WFRQJFh
+ oXVRMBExYaEhckFA4PWVdZGBILWUFZTkNVSUlVTFVKSk9ZV1kWGg8SFR0UWUFZT0tIVUpLSEpOTE
+ 9VSktLVUpCS0tZBg++
+X-HM-Tid: 0a9810cd504203abkunm840d694a1422a31
+X-HM-MType: 1
+X-HM-Sender-Digest: e1kMHhlZQR0aFwgeV1kSHx4VD1lBWUc6PDo6KCo4ITE1QgkzSBFDOBBD
+ KD4wCg1VSlVKTE5JTUlDTk5MT0tLVTMWGhIXVRgTGhQCElUYEx4VOwkUGBBWGBMSCwhVGBQWRVlX
+ WRILWUFZTkNVSUlVTFVKSk9ZV1kIAVlBSU5ITTcG
+DKIM-Signature: a=rsa-sha256;
+ b=QErOC5UoqyDYWY6i+q1Kg2Q45UWi3O2IVyJcMA1U/7LcGrlGgWVB09uVvIPfrOYKEcsJjjpCUbjXms9J4bcz4KxHOo2ErvusAHAuHfIyYmuk3PwbGw6m0m6hCQLlKA6SYkIKMj/7nPuL8sgKuV/dILnY4vDV16XIqVGUvBs+5u4=;
+ c=relaxed/relaxed; s=default; d=rock-chips.com; v=1; 
+ bh=8tvZ89+8JoZnHFukEKSRMTvjOkm6vgN7ue8AXAXJ2pE=;
+ h=date:mime-version:subject:message-id:from;
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -69,37 +82,23 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi,
+On 2025/7/15 20:04, Dmitry Baryshkov wrote:
 
-On Tue, Jul 15, 2025 at 02:24:39PM +0200, Thomas Zimmermann wrote:
-> Include <linux/of.h> to declare device_property_read_u32(). Avoids
-> dependency on backlight header to include it.
+> On Tue, Jul 15, 2025 at 07:24:52PM +0800, Chaoyi Chen wrote:
+>> From: Chaoyi Chen <chaoyi.chen@rock-chips.com>
+>>
+>> The USB Type-C DisplayPort alternate mode driver will find
+>> "displayport" property for DRM hotplug event notify[0].
+>>
+>> [0]: https://lore.kernel.org/all/20210817215201.795062-9-hdegoede@redhat.com/
+>>
+>> Signed-off-by: Chaoyi Chen <chaoyi.chen@rock-chips.com>
+>> ---
+>>   .../devicetree/bindings/connector/usb-connector.yaml          | 4 ++++
+>>   1 file changed, 4 insertions(+)
+>>
+> Please see how it was done on other platforms. For example, qualcomm
+> (both tcpm and pmic-glink) use port / endpoint to link to the DP PHY /
+> DP controller.
+Thank you! I'll check these out.
 
-device_property_*() is from <linux/property.h>, which is already
-included in the following line...
-
-Greetings,
-
--- Sebastian
-
-> 
-> Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
-> ---
->  drivers/gpu/drm/panel/panel-samsung-s6e63m0.c | 1 +
->  1 file changed, 1 insertion(+)
-> 
-> diff --git a/drivers/gpu/drm/panel/panel-samsung-s6e63m0.c b/drivers/gpu/drm/panel/panel-samsung-s6e63m0.c
-> index ea241c89593b..930948cb615f 100644
-> --- a/drivers/gpu/drm/panel/panel-samsung-s6e63m0.c
-> +++ b/drivers/gpu/drm/panel/panel-samsung-s6e63m0.c
-> @@ -16,6 +16,7 @@
->  #include <linux/export.h>
->  #include <linux/gpio/consumer.h>
->  #include <linux/module.h>
-> +#include <linux/of.h>
->  #include <linux/property.h>
->  #include <linux/regulator/consumer.h>
->  #include <linux/media-bus-format.h>
-> -- 
-> 2.50.0
-> 
