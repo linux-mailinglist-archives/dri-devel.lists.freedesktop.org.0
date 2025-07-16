@@ -2,53 +2,60 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B2931B077D3
-	for <lists+dri-devel@lfdr.de>; Wed, 16 Jul 2025 16:20:01 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3987AB077F2
+	for <lists+dri-devel@lfdr.de>; Wed, 16 Jul 2025 16:24:51 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 276F610E6DF;
-	Wed, 16 Jul 2025 14:20:00 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0539410E757;
+	Wed, 16 Jul 2025 14:24:49 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=igalia.com header.i=@igalia.com header.b="q4T8yjZD";
+	dkim=pass (1024-bit key; unprotected) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="draWh2eO";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from fanzine2.igalia.com (fanzine2.igalia.com [213.97.179.56])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3E4B710E6DF
- for <dri-devel@lists.freedesktop.org>; Wed, 16 Jul 2025 14:19:59 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com; 
- s=20170329;
- h=Content-Transfer-Encoding:Content-Type:In-Reply-To:From:
- References:Cc:To:Subject:MIME-Version:Date:Message-ID:Sender:Reply-To:
- Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
- Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
- List-Subscribe:List-Post:List-Owner:List-Archive;
- bh=ld+itMx7y/nab8YY3r43g7NPo9OMvTnmz1idDixr9f8=; b=q4T8yjZD/tVG9nh8XeFalVcKqi
- 8UAolaul4q1Hp9dRlzi3lLA5sv2rfvymfAMao89WpdHziMGJM4AjF2b7xNnL/BFdEHzlWg5PyRXvY
- 2+A/8tr+KnxQi29q9drt5JDO7imLWK87lYdmzI/ZGflLvw7mpp+phQg1XPJAysqQycF5nlzDaDBSr
- eTwLi+q6I8TReQRHz/9g/7Wxy8Ahm0CwxourNTeHM/dhizx11YFEARDMSS5wCm8b/9Fjv0PME9qJX
- QjbqAfR/CF604ZopOqrGDBYcNjWmaQVOokc+qJQ3ZZIX363Qyz8Z4Pi9JZdxHewFs/lr9Cms0sDPz
- ToQx+BwQ==;
-Received: from [187.36.210.68] (helo=[192.168.1.103])
- by fanzine2.igalia.com with esmtpsa 
- (Cipher TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_128_GCM:128) (Exim)
- id 1uc2zF-00HLeP-6g; Wed, 16 Jul 2025 16:19:57 +0200
-Message-ID: <c957c95a-5703-40a5-aef5-681b72144818@igalia.com>
-Date: Wed, 16 Jul 2025 11:19:52 -0300
+Received: from tor.source.kernel.org (tor.source.kernel.org [172.105.4.254])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 78A3910E757
+ for <dri-devel@lists.freedesktop.org>; Wed, 16 Jul 2025 14:24:47 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+ by tor.source.kernel.org (Postfix) with ESMTP id 6D1D0614A1;
+ Wed, 16 Jul 2025 14:24:46 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id A6418C4CEE7;
+ Wed, 16 Jul 2025 14:24:45 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
+ s=korg; t=1752675886;
+ bh=GcRVyuyICkB4oYe+kNj5tR7mu/raflvNKtFzB2rF/rw=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=draWh2eO3YZdQSdhKfGiQv5HceZ46q38NDX5a8WwvB3SSqdjUEQiICT9amU58tYvD
+ ueHETWvA6yewuqf8qD9mW3LkJULiEgQclHFVxO8wkVsPi1CUtEhmntuL/JDMk7vIGX
+ IfB1VlKdy813cg28+ROsgMRYdZosZUm2ryFqvw3Q=
+Date: Wed, 16 Jul 2025 16:24:43 +0200
+From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+To: phasta@kernel.org
+Cc: Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
+ Michel =?iso-8859-1?Q?D=E4nzer?= <michel.daenzer@mailbox.org>,
+ "cao, lin" <lin.cao@amd.com>,
+ "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
+ "Yin, ZhenGuo (Chris)" <ZhenGuo.Yin@amd.com>,
+ "Deng, Emily" <Emily.Deng@amd.com>, "dakr@kernel.org" <dakr@kernel.org>,
+ "matthew.brost@intel.com" <matthew.brost@intel.com>,
+ Sasha Levin <sashal@kernel.org>
+Subject: Re: [PATCH] drm/sched: Remove optimization that causes hang when
+ killing dependent jobs
+Message-ID: <2025071623-sanitary-gully-a1b6@gregkh>
+References: <b7e207ef3a775fed0f344ca24990c5aeb36b2507.camel@mailbox.org>
+ <CO6PR12MB5491F9E1F21F95C89CC91DA2F556A@CO6PR12MB5491.namprd12.prod.outlook.com>
+ <df5fe40e79db8e988661704ea4f72be1a2e4c14c.camel@mailbox.org>
+ <fd46ca0c-e484-4bf8-b74e-0139ecc7deae@mailbox.org>
+ <49d822fc0f46e0fdeaccaeb2fbb1ade1c5cb1e5d.camel@mailbox.org>
+ <ff383098-b453-44bd-9862-c6fc1447cf1d@amd.com>
+ <2025071635-petition-unhitched-bdd0@gregkh>
+ <0e58a96e61054ae88de112cb8be7e45e2b6f4f0c.camel@mailbox.org>
+ <2025071620-reunion-polka-ae73@gregkh>
+ <d229a8b9ddaa169d504bd2dd68faf209709cff60.camel@mailbox.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] drm/sched: Fix a race in DRM_GPU_SCHED_STAT_NO_HANG test
-To: Tvrtko Ursulin <tvrtko.ursulin@igalia.com>, dri-devel@lists.freedesktop.org
-Cc: kernel-dev@igalia.com, Philipp Stanner <phasta@kernel.org>
-References: <20250716084817.56797-1-tvrtko.ursulin@igalia.com>
- <629ab61a-ee69-43cd-a05e-b8d262cc0a51@igalia.com>
- <68b7afc6-11fc-4a80-abb7-b9b03bc5f4fe@igalia.com>
- <d01b77a1-710b-4996-80cb-c33e688a779c@igalia.com>
- <79c5974e-d1f8-4b29-8e54-4008ae54a3df@igalia.com>
-Content-Language: en-US
-From: =?UTF-8?Q?Ma=C3=ADra_Canal?= <mcanal@igalia.com>
-In-Reply-To: <79c5974e-d1f8-4b29-8e54-4008ae54a3df@igalia.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
+In-Reply-To: <d229a8b9ddaa169d504bd2dd68faf209709cff60.camel@mailbox.org>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -64,159 +71,163 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Tvrtko,
+On Wed, Jul 16, 2025 at 04:11:27PM +0200, Philipp Stanner wrote:
+> On Wed, 2025-07-16 at 14:05 +0200, Greg Kroah-Hartman wrote:
+> > On Wed, Jul 16, 2025 at 01:32:42PM +0200, Philipp Stanner wrote:
+> > > On Wed, 2025-07-16 at 13:15 +0200, Greg Kroah-Hartman wrote:
+> > > > On Wed, Jul 16, 2025 at 12:58:28PM +0200, Christian K�nig wrote:
+> > > > > On 16.07.25 12:46, Philipp Stanner wrote:
+> > > > > > +Cc Greg, Sasha
+> > > > > > 
+> > > > > > On Wed, 2025-07-16 at 12:40 +0200, Michel D�nzer wrote:
+> > > > > > > On 16.07.25 11:57, Philipp Stanner wrote:
+> > > > > > > > On Wed, 2025-07-16 at 09:43 +0000, cao, lin wrote:
+> > > > > > > > > 
+> > > > > > > > > Hi Philipp,
+> > > > > > > > > 
+> > > > > > > > > 
+> > > > > > > > > Thank you for the review. I found that this
+> > > > > > > > > optimization
+> > > > > > > > > was
+> > > > > > > > > introduced 9 years ago in commit
+> > > > > > > > > 777dbd458c89d4ca74a659f85ffb5bc817f29a35 ("drm/amdgpu:
+> > > > > > > > > drop
+> > > > > > > > > a
+> > > > > > > > > dummy
+> > > > > > > > > wakeup scheduler").
+> > > > > > > > > 
+> > > > > > > > > 
+> > > > > > > > > Given that the�codebase has undergone significant
+> > > > > > > > > changes
+> > > > > > > > > over
+> > > > > > > > > these
+> > > > > > > > > 9 years. May I ask if I still need to include the
+> > > > > > > > > Fixes:
+> > > > > > > > > tag?
+> > > > > > > > 
+> > > > > > > > Yes. It's a helpful marker to see where the problem comes
+> > > > > > > > from, and
+> > > > > > > > it
+> > > > > > > > adds redundancy helping the stable-kernel maintainers in
+> > > > > > > > figuring
+> > > > > > > > out
+> > > > > > > > to which kernels to backport it to.
+> > > > > > > > 
+> > > > > > > > If stable can't apply a patch to a very old stable kernel
+> > > > > > > > because
+> > > > > > > > the
+> > > > > > > > code base changed too much, they'll ping us and we might
+> > > > > > > > provide a
+> > > > > > > > dedicated fix.
+> > > > > > > > 
+> > > > > > > > So like that:
+> > > > > > > > 
+> > > > > > > > Cc: stable@vger.kernel.org�# v4.6+
+> > > > > > > > Fixes: 777dbd458c89 ("drm/amdgpu: drop a dummy wakeup
+> > > > > > > > scheduler")
+> > > > > > > 
+> > > > > > > FWIW, Fixes: alone is enough for getting backported to
+> > > > > > > stable
+> > > > > > > branches, Cc: stable is redundant with it.
+> > > > > > 
+> > > > > > Both are used all the time together, though. And the official
+> > > > > > documentation does not list dropping Cc: stable as a valid
+> > > > > > option
+> > > > > > in
+> > > > > > this regard
+> > > > > > 
+> > > > > > https://www.kernel.org/doc/html/latest/process/stable-kernel-rules.html#option-1
+> > > > > > 
+> > > > > > 
+> > > > > > As long as the official documentation demands it, I'm not
+> > > > > > willing
+> > > > > > to
+> > > > > > drop it. If the docu were to be changed, that would be fine
+> > > > > > by
+> > > > > > me, too.
+> > > > > 
+> > > > > As far as I understand "CC: stable" and "Fixes:" tags are to
+> > > > > handle
+> > > > > two distinct use cases.
+> > > > 
+> > > > Yes.
+> > > > 
+> > > > > "CC: stable..." means please backport, eventually with a kernel
+> > > > > version and/or necessary pre-requisites.
+> > > > 
+> > > > Yes.
+> > > > 
+> > > > > "Fixes:" only backport if you have this patch in your tree as
+> > > > > well.
+> > > > > In other words it is a restriction when to backport something.
+> > > > 
+> > > > No.
+> > > > 
+> > > > "Fixes:" is only for you to say "this commit fixes this other
+> > > > commit".
+> > > > And when you add a cc: stable, that will get you a FAILED email
+> > > > if
+> > > > the
+> > > > commit does NOT apply that far back.
+> > > 
+> > > Does that mean we should NOT add Fixes: if the fixing patch does
+> > > not
+> > > apply on top of that old commit?
+> > 
+> > Add Fixes: if you feel it accurataly describes the commit that caused
+> > the problem that this commit is fixing.� That is independant of "you
+> > need other commits after that to apply this one", that issue can be
+> > resolved by reading the stable kernel rules document and following
+> > what
+> > it says there to do for that.
+> > 
+> > > And if so, should we drop the Fixes: tag completely in such cases
+> > > as
+> > > Lin suggested in this thread?
+> > 
+> > If you don't want to ever be notified of any failures of stable
+> > patches
+> > being applied as far back as they should be applied, sure, don't put
+> > a
+> > Fixes: tag.� That means I do a "best effort" and just stop applying
+> > when
+> > they don't apply anymore.
+> > 
+> > It also means that if you do NOT have a Fixes: tag, and the commit
+> > ends
+> > up getting assigned a CVE, we have to assume that the bug has been
+> > there
+> > since "the beginning of time" and will mark it as such.� Which might
+> > cause you headaches if you are responsible for keeping older kernels
+> > alive for vendors :)
+> > 
+> > your call.
+> > 
+> > hope this helps, and really, this should all be documented already,
+> > right?� If not, what is missing (becides the CVE stuff.)
+> 
+> It does help, thank you.
+> 
+> Regarding documentation, I can only tell you that the stable kernel
+> docu only sparringly mentions the Fixes: tag and it certainly doesn't
+> mention what you detail above.
+> 
+> https://www.kernel.org/doc/html/latest/process/stable-kernel-rules.html#option-1
 
-On 16/07/25 11:13, Tvrtko Ursulin wrote:
-> 
-> On 16/07/2025 15:05, Maíra Canal wrote:
->> Hi Tvrtko,
->>
->> On 16/07/25 10:41, Tvrtko Ursulin wrote:
->>>
->>> On 16/07/2025 13:47, Maíra Canal wrote:
->>>> Hi Tvrtko,
->>>>
->>>> On 16/07/25 05:48, Tvrtko Ursulin wrote:
->>>>> The "skip reset" test waits for the timeout handler to run for the
->>>>> duration of 2 * MOCK_TIMEOUT, and because the mock scheduler opted to
->>>>
->>>> Would it make any sense to wait for 1.5 * MOCK_TIMEOUT? This way we
->>>> would guarantee that only one timeout happened. I'm fine with the
->>>> current solution as well.
->>>
->>> 1.5 * MOCK_TIMEOUT would work as well. I considered it, and even 
->>> though I thought it would be safe, I concluded that it is better to 
->>> have fewer dependencies on timings given these are two threads in 
->>> this story.
->>
->> Why not both? Just to make sure we won't run the timedout function
->> twice, but still fixing the timing dependency by using
->> DRM_MOCK_SCHED_JOB_RESET_SKIPPED.
-> 
-> Just because I think probably does not guarantee timedout worker does 
-> not run twice. It still in _theory_ could if the unit test thread would 
-> be starved by some other system activity. In practice however it does 
-> work, because nothing much is running in parallel to the unit test, for 
-> vast majority of use cases. So I thought someone would be bound to 
-> complain if I just did the 1.5x approach. If no one objects I can add 
-> that tweak, no problem.
+Yes, it does not mention Fixes: because that's not the way to get a
+patch applied to the stable trees.
 
-Fair, I'm okay in keeping it as it is.
+It says, in plain words:
 
-Best Regards,
-- Maíra
+	Option 1
 
-> 
->>> Making the DRM_MOCK_SCHED_JOB_DONT_RESET persist allows for not 
->>> having to think about timings. So slight preference to that. At least 
->>> until some more advanced tests are attempted to be added.
->>>
->>>>> remove the "skip reset" flag once it fires, this gives opportunity 
->>>>> for the
->>>>> timeout handler to run twice. Second time the job will be removed 
->>>>> from the
->>>>> mock scheduler job list and the drm_mock_sched_advance() call in 
->>>>> the test
->>>>> will fail.
->>>>>
->>>>> Fix it by making the "don't reset" flag persist for the lifetime of 
->>>>> the
->>>>> job and add a new flag to verify that the code path had executed as
->>>>> expected.
->>>>>
->>>>> Signed-off-by: Tvrtko Ursulin <tvrtko.ursulin@igalia.com>
->>>>> Fixes: 1472e7549f84 ("drm/sched: Add new test for 
->>>>> DRM_GPU_SCHED_STAT_NO_HANG")
->>>>  > Cc: Maíra Canal <mcanal@igalia.com>> Cc: Philipp Stanner 
->>>> <phasta@kernel.org>
->>>>> ---
->>>>>   drivers/gpu/drm/scheduler/tests/mock_scheduler.c | 2 +-
->>>>>   drivers/gpu/drm/scheduler/tests/sched_tests.h    | 7 ++++---
->>>>>   drivers/gpu/drm/scheduler/tests/tests_basic.c    | 4 ++--
->>>>>   3 files changed, 7 insertions(+), 6 deletions(-)
->>>>>
->>>>> diff --git a/drivers/gpu/drm/scheduler/tests/mock_scheduler.c b/ 
->>>>> drivers/gpu/drm/scheduler/tests/mock_scheduler.c
->>>>> index 65acffc3fea8..8e9ae7d980eb 100644
->>>>> --- a/drivers/gpu/drm/scheduler/tests/mock_scheduler.c
->>>>> +++ b/drivers/gpu/drm/scheduler/tests/mock_scheduler.c
->>>>> @@ -219,7 +219,7 @@ mock_sched_timedout_job(struct drm_sched_job 
->>>>> *sched_job)
->>>>>       unsigned long flags;
->>>>>       if (job->flags & DRM_MOCK_SCHED_JOB_DONT_RESET) {
->>>>> -        job->flags &= ~DRM_MOCK_SCHED_JOB_DONT_RESET;
->>>>> +        job->flags |= DRM_MOCK_SCHED_JOB_RESET_SKIPPED;
->>>>>           return DRM_GPU_SCHED_STAT_NO_HANG;
->>>>>       }
->>>>> diff --git a/drivers/gpu/drm/scheduler/tests/sched_tests.h b/ 
->>>>> drivers/ gpu/drm/scheduler/tests/sched_tests.h
->>>>> index 63d4f2ac7074..5b262126b776 100644
->>>>> --- a/drivers/gpu/drm/scheduler/tests/sched_tests.h
->>>>> +++ b/drivers/gpu/drm/scheduler/tests/sched_tests.h
->>>>> @@ -95,9 +95,10 @@ struct drm_mock_sched_job {
->>>>>       struct completion    done;
->>>>> -#define DRM_MOCK_SCHED_JOB_DONE        0x1
->>>>> -#define DRM_MOCK_SCHED_JOB_TIMEDOUT    0x2
->>>>> -#define DRM_MOCK_SCHED_JOB_DONT_RESET    0x4
->>>>> +#define DRM_MOCK_SCHED_JOB_DONE            0x1
->>>>> +#define DRM_MOCK_SCHED_JOB_TIMEDOUT        0x2
->>>>> +#define DRM_MOCK_SCHED_JOB_DONT_RESET        0x4
->>>>> +#define DRM_MOCK_SCHED_JOB_RESET_SKIPPED    0x8
->>>>>       unsigned long        flags;
->>>>>       struct list_head    link;
->>>>> diff --git a/drivers/gpu/drm/scheduler/tests/tests_basic.c b/ 
->>>>> drivers/ gpu/drm/scheduler/tests/tests_basic.c
->>>>> index 55eb142bd7c5..82a41a456b0a 100644
->>>>> --- a/drivers/gpu/drm/scheduler/tests/tests_basic.c
->>>>> +++ b/drivers/gpu/drm/scheduler/tests/tests_basic.c
->>>>> @@ -317,8 +317,8 @@ static void drm_sched_skip_reset(struct kunit 
->>>>> *test)
->>>>>       KUNIT_ASSERT_FALSE(test, done);
->>>>>       KUNIT_ASSERT_EQ(test,
->>>>> -            job->flags & DRM_MOCK_SCHED_JOB_DONT_RESET,
->>>>> -            0);
->>>>> +            job->flags & DRM_MOCK_SCHED_JOB_RESET_SKIPPED,
->>>>> +            DRM_MOCK_SCHED_JOB_RESET_SKIPPED);
->>>>
->>>> Maybe we could assert that job->flags & DRM_MOCK_SCHED_JOB_TIMEDOUT 
->>>> == 0
->>>
->>> Could but I am not sure it is needed.
->>
->> Np.
->>
->>>
->>>> Anyway, thanks for the fix!
->>>>
->>>> Reviewed-by: Maíra Canal <mcanal@igalia.com>
->>>
->>> Thank you!
->>>
->>> Btw the failure for the record:
->>>
->>> [09:07:20] # drm_sched_skip_reset: ASSERTION FAILED at drivers/gpu/ 
->>> drm/ scheduler/tests/tests_basic.c:324
->>> [09:07:20] Expected i == 1, but
->>> [09:07:20]     i == 0 (0x0)
->>> [09:07:20] [FAILED] drm_sched_skip_reset
->>> [09:07:20]     # module: drm_sched_tests
->>> [09:07:20] # drm_sched_basic_timeout_tests: pass:1 fail:1 skip:0 total:2
->>> [09:07:20] # Totals: pass:1 fail:1 skip:0 total:2
->>
->> Unfortunately, I didn't get this error during my test run. On the other
->> hand, I only ran it once before pushing the series, so that's on me.
->> Thanks for catching it!
-> 
-> No worries.
-> 
-> Regards,
-> 
-> Tvrtko
-> 
->>>>>       i = drm_mock_sched_advance(sched, 1);
->>>>>       KUNIT_ASSERT_EQ(test, i, 1);
->>>>
->>>
->>
-> 
+	To have a patch you submit for mainline inclusion later
+	automatically picked up for stable trees, add this tag in the
+	sign-off area:
+		Cc: stable@vger.kernel.org
 
+Simple, complete, and correct, what more do you want?  :)
+
+thanks,
+
+greg k-h
