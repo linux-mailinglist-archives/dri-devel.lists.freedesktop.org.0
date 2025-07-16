@@ -2,92 +2,51 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 94F21B0776F
-	for <lists+dri-devel@lfdr.de>; Wed, 16 Jul 2025 15:57:04 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8B855B07796
+	for <lists+dri-devel@lfdr.de>; Wed, 16 Jul 2025 16:05:56 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A40DE10E399;
-	Wed, 16 Jul 2025 13:57:01 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0254F10E752;
+	Wed, 16 Jul 2025 14:05:54 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=redhat.com header.i=@redhat.com header.b="RzBhAzCJ";
+	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=igalia.com header.i=@igalia.com header.b="Qz/PA8Ut";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [170.10.133.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C848310E399
- for <dri-devel@lists.freedesktop.org>; Wed, 16 Jul 2025 13:56:59 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1752674218;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=8fU90Rrx5Q2FZQjCI0B6EMx3qMx3LCWE+lzijdY4q10=;
- b=RzBhAzCJUl/s5ozcvzoOvk1Ux64xaBDA/Ppz21ZAUempTMjx39g10sKcd9hQXKIHFAIlOc
- Xkzrzwf8KKlLYhYkjdLK8G37Jv70fu/XN4+5KCQVAew9jKWlA2CVMqwp8sBgeSGQoKhzKF
- cFcrU0K6pQ2UAkwgnBeLcfkM+qWUzdc=
-Received: from mail-wr1-f70.google.com (mail-wr1-f70.google.com
- [209.85.221.70]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-156-VNE8g-OwPaaeBKFe25cEPg-1; Wed, 16 Jul 2025 09:56:56 -0400
-X-MC-Unique: VNE8g-OwPaaeBKFe25cEPg-1
-X-Mimecast-MFC-AGG-ID: VNE8g-OwPaaeBKFe25cEPg_1752674215
-Received: by mail-wr1-f70.google.com with SMTP id
- ffacd0b85a97d-3a4f7ebfd00so2811593f8f.2
- for <dri-devel@lists.freedesktop.org>; Wed, 16 Jul 2025 06:56:56 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1752674215; x=1753279015;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
- :message-id:reply-to;
- bh=8fU90Rrx5Q2FZQjCI0B6EMx3qMx3LCWE+lzijdY4q10=;
- b=JuSo+csw3krDy5fypvmHCTuomNG5l9RbVrBrMyKu/pYtRcGDVzhTyoNmcjFWz5QWAc
- DRv7je1fqeoWtqu3fljMvjxhf0fu+vtZYktrqbO702JuplZaMbNkR5HEJDXg1TGAKacS
- fFmr4IVYoyBNBpkCpzK7jH80Vf7pLL4s8tDJ/bLufkF/P8bKLyjuaHJxwXUaI+5Fm+xg
- OgzXvJTGGWFjBrZVmpCrMYeoe9R2TmcyIibxlSQf7rqY4RVpakBnT8OIHasVtcv4U1JQ
- AoiPcPTUj+M19qevyv/zp8A+TPehBDd0h9GBUc5dgD4uAh//ffdCDazAPtby/1FPYrHf
- VsrA==
-X-Forwarded-Encrypted: i=1;
- AJvYcCXVoyiNZPwA4ZG2rRXNckZOhcEYU25ShBf+TXEFHSpJzWCe8M561B1uKrtbfq1Gl9rffS4Fm1ahGxg=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YxKav3vHyD/TdXS/zcZ13DgD3ziDLYVzSauKpgUU9tL/+d1Fsfn
- halwcGQj4Mat8a+34nlCGTC2rTIx51zqaBN7icL47wBl7d8T0qCn47y7h64mqGMIQBNxIhRr3KO
- bCj6CoxjNu87tqiN909XJnimj2U0eFlJAaLmMa1LT1NYgRdvlPC2LYFoGlCKMlxvMySYI9w==
-X-Gm-Gg: ASbGncvkyx31jqEK2il42Aq3r/2H8Lk3LmH5RAlywDfRogT0NinGwokJ6GhAu/rqsn7
- Z9UusEVIAMdyp2chzG7ZFqARLa3gjHo3bjxpWOUPhWJdybb4RlxDSm3wboRQxad8KQ5PjdJEShw
- E4knjqXrtxiaKaMsqC2LxEq/PQTzTcGVgxXHM4RT312lSi5t3bX5OyS2uYN1tRXKCalTTSrVM3R
- aP0hdptDjLxPSLSksJG3aI1hPCF2lV95s9jHKDXIgV4j0DK4EsAdSFLT9eNFKF0z5AJ7JGbmCN2
- mWnWUg7j7tBSQGJI2dZgtHG9ZC9xrBCC
-X-Received: by 2002:adf:f64b:0:b0:3b6:936:92fa with SMTP id
- ffacd0b85a97d-3b60dd8df46mr2367239f8f.52.1752674215040; 
- Wed, 16 Jul 2025 06:56:55 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IEDkw4tjXyAdhQ6LVjUDIf1HaSWqF1ZS/CeOQWr/qZekbvwZ8qxdZocOeTQ+5WAYNkarEumJw==
-X-Received: by 2002:adf:f64b:0:b0:3b6:936:92fa with SMTP id
- ffacd0b85a97d-3b60dd8df46mr2367218f8f.52.1752674214534; 
- Wed, 16 Jul 2025 06:56:54 -0700 (PDT)
-Received: from redhat.com ([2a0d:6fc0:150d:fc00:de3:4725:47c6:6809])
- by smtp.gmail.com with ESMTPSA id
- ffacd0b85a97d-3b5e8bd15bfsm18252140f8f.19.2025.07.16.06.56.52
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 16 Jul 2025 06:56:54 -0700 (PDT)
-Date: Wed, 16 Jul 2025 09:56:46 -0400
-From: "Michael S. Tsirkin" <mst@redhat.com>
-To: jiang.peng9@zte.com.cn
-Cc: jasowang@redhat.com, krzk@kernel.org, xuanzhuo@linux.alibaba.com,
- eperezma@redhat.com, sumit.semwal@linaro.org,
- christian.koenig@amd.com, virtualization@lists.linux.dev,
- linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
- dri-devel@lists.freedesktop.org, xu.xin16@zte.com.cn,
- yang.yang29@zte.com.cn
-Subject: Re: [PATCH v2] virtio: Update kerneldoc in
- drivers/virtio/virtio_dma_buf.c
-Message-ID: <20250716095046-mutt-send-email-mst@kernel.org>
-References: <20250705105803198ff11jYCkg1TxntcCEb00R@zte.com.cn>
+Received: from fanzine2.igalia.com (fanzine2.igalia.com [213.97.179.56])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 70F9F10E752
+ for <dri-devel@lists.freedesktop.org>; Wed, 16 Jul 2025 14:05:52 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com; 
+ s=20170329;
+ h=Content-Transfer-Encoding:Content-Type:In-Reply-To:From:
+ References:Cc:To:Subject:MIME-Version:Date:Message-ID:Sender:Reply-To:
+ Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
+ Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
+ List-Subscribe:List-Post:List-Owner:List-Archive;
+ bh=pi9ssUMyDvhR6UiR7TGwzJ2cPjbgn8vR20peKDz2TJU=; b=Qz/PA8Ut/ZD/ZP+zHEt6K5a8eH
+ H0SJL1IexuXmSGeRUCptxpBNcZqx7a4KBi7frSd7q5PH1CxYslOTt5aAaUThS8D8bAh+ZGZEcf6AR
+ M0lYbaggVgCm+iaFoB4iBzDKU20KZEw8/dMC6LhOcAb19mClW6njT+s3vZLxUfyhIYFSXtqC8LvhZ
+ RljPflsI4zYt2PrPILHmpwtiWKxklR5O2Zy3yDxN/cbdfHcTjDTzY9SlFL04rnCq3NyL0buL9V+hi
+ wgQXyCeKe582fG7u/Emtp21Y+XM+bk/WK1i489jQT8PaI9aBk5eA8IqHqHnyDMx1Xy7hwPFbPm6JK
+ +gnX1Rtg==;
+Received: from [187.36.210.68] (helo=[192.168.1.103])
+ by fanzine2.igalia.com with esmtpsa 
+ (Cipher TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_128_GCM:128) (Exim)
+ id 1uc2la-00HLFo-CH; Wed, 16 Jul 2025 16:05:50 +0200
+Message-ID: <d01b77a1-710b-4996-80cb-c33e688a779c@igalia.com>
+Date: Wed, 16 Jul 2025 11:05:44 -0300
 MIME-Version: 1.0
-In-Reply-To: <20250705105803198ff11jYCkg1TxntcCEb00R@zte.com.cn>
-X-Mimecast-Spam-Score: 0
-X-Mimecast-MFC-PROC-ID: w2O4aKI00s9KQSX3qZrG4rkx_d5pnE10w-YFDRWyxG0_1752674215
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] drm/sched: Fix a race in DRM_GPU_SCHED_STAT_NO_HANG test
+To: Tvrtko Ursulin <tvrtko.ursulin@igalia.com>, dri-devel@lists.freedesktop.org
+Cc: kernel-dev@igalia.com, Philipp Stanner <phasta@kernel.org>
+References: <20250716084817.56797-1-tvrtko.ursulin@igalia.com>
+ <629ab61a-ee69-43cd-a05e-b8d262cc0a51@igalia.com>
+ <68b7afc6-11fc-4a80-abb7-b9b03bc5f4fe@igalia.com>
+Content-Language: en-US
+From: =?UTF-8?Q?Ma=C3=ADra_Canal?= <mcanal@igalia.com>
+In-Reply-To: <68b7afc6-11fc-4a80-abb7-b9b03bc5f4fe@igalia.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -103,117 +62,137 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Sat, Jul 05, 2025 at 10:58:03AM +0800, jiang.peng9@zte.com.cn wrote:
-> From: Peng Jiang <jiang.peng9@zte.com.cn>
+Hi Tvrtko,
+
+On 16/07/25 10:41, Tvrtko Ursulin wrote:
 > 
-> Fix kernel-doc descriptions in virtio_dma_buf.c to fix W=1 warnings:
+> On 16/07/2025 13:47, Maíra Canal wrote:
+>> Hi Tvrtko,
+>>
+>> On 16/07/25 05:48, Tvrtko Ursulin wrote:
+>>> The "skip reset" test waits for the timeout handler to run for the
+>>> duration of 2 * MOCK_TIMEOUT, and because the mock scheduler opted to
+>>
+>> Would it make any sense to wait for 1.5 * MOCK_TIMEOUT? This way we
+>> would guarantee that only one timeout happened. I'm fine with the
+>> current solution as well.
 > 
-> drivers/virtio/virtio_dma_buf.c:41 function parameter 'dma_buf' not described in 'virtio_dma_buf_attach'
-> drivers/virtio/virtio_dma_buf.c:41 function parameter 'attach' not described in 'virtio_dma_buf_attach'
+> 1.5 * MOCK_TIMEOUT would work as well. I considered it, and even though 
+> I thought it would be safe, I concluded that it is better to have fewer 
+> dependencies on timings given these are two threads in this story.
+
+Why not both? Just to make sure we won't run the timedout function
+twice, but still fixing the timing dependency by using
+DRM_MOCK_SCHED_JOB_RESET_SKIPPED.
+
 > 
-> Signed-off-by: Peng Jiang <jiang.peng9@zte.com.cn>
-
-
-The extra documentation unfortunately just mechanically repeats what the
-code does. Code comments should explain the reasoning behind the code,
-instead.
-
-
-> ---
->  drivers/virtio/virtio_dma_buf.c | 30 +++++++++++++++++++++++++-----
->  1 file changed, 25 insertions(+), 5 deletions(-)
+> Making the DRM_MOCK_SCHED_JOB_DONT_RESET persist allows for not having 
+> to think about timings. So slight preference to that. At least until 
+> some more advanced tests are attempted to be added.
 > 
-> diff --git a/drivers/virtio/virtio_dma_buf.c b/drivers/virtio/virtio_dma_buf.c
-> index 3fe1d03b0645..0b39b1b209ee 100644
-> --- a/drivers/virtio/virtio_dma_buf.c
-> +++ b/drivers/virtio/virtio_dma_buf.c
-> @@ -9,13 +9,20 @@
->  #include <linux/virtio_dma_buf.h>
+>>> remove the "skip reset" flag once it fires, this gives opportunity 
+>>> for the
+>>> timeout handler to run twice. Second time the job will be removed 
+>>> from the
+>>> mock scheduler job list and the drm_mock_sched_advance() call in the 
+>>> test
+>>> will fail.
+>>>
+>>> Fix it by making the "don't reset" flag persist for the lifetime of the
+>>> job and add a new flag to verify that the code path had executed as
+>>> expected.
+>>>
+>>> Signed-off-by: Tvrtko Ursulin <tvrtko.ursulin@igalia.com>
+>>> Fixes: 1472e7549f84 ("drm/sched: Add new test for 
+>>> DRM_GPU_SCHED_STAT_NO_HANG")
+>>  > Cc: Maíra Canal <mcanal@igalia.com>> Cc: Philipp Stanner 
+>> <phasta@kernel.org>
+>>> ---
+>>>   drivers/gpu/drm/scheduler/tests/mock_scheduler.c | 2 +-
+>>>   drivers/gpu/drm/scheduler/tests/sched_tests.h    | 7 ++++---
+>>>   drivers/gpu/drm/scheduler/tests/tests_basic.c    | 4 ++--
+>>>   3 files changed, 7 insertions(+), 6 deletions(-)
+>>>
+>>> diff --git a/drivers/gpu/drm/scheduler/tests/mock_scheduler.c b/ 
+>>> drivers/gpu/drm/scheduler/tests/mock_scheduler.c
+>>> index 65acffc3fea8..8e9ae7d980eb 100644
+>>> --- a/drivers/gpu/drm/scheduler/tests/mock_scheduler.c
+>>> +++ b/drivers/gpu/drm/scheduler/tests/mock_scheduler.c
+>>> @@ -219,7 +219,7 @@ mock_sched_timedout_job(struct drm_sched_job 
+>>> *sched_job)
+>>>       unsigned long flags;
+>>>       if (job->flags & DRM_MOCK_SCHED_JOB_DONT_RESET) {
+>>> -        job->flags &= ~DRM_MOCK_SCHED_JOB_DONT_RESET;
+>>> +        job->flags |= DRM_MOCK_SCHED_JOB_RESET_SKIPPED;
+>>>           return DRM_GPU_SCHED_STAT_NO_HANG;
+>>>       }
+>>> diff --git a/drivers/gpu/drm/scheduler/tests/sched_tests.h b/drivers/ 
+>>> gpu/drm/scheduler/tests/sched_tests.h
+>>> index 63d4f2ac7074..5b262126b776 100644
+>>> --- a/drivers/gpu/drm/scheduler/tests/sched_tests.h
+>>> +++ b/drivers/gpu/drm/scheduler/tests/sched_tests.h
+>>> @@ -95,9 +95,10 @@ struct drm_mock_sched_job {
+>>>       struct completion    done;
+>>> -#define DRM_MOCK_SCHED_JOB_DONE        0x1
+>>> -#define DRM_MOCK_SCHED_JOB_TIMEDOUT    0x2
+>>> -#define DRM_MOCK_SCHED_JOB_DONT_RESET    0x4
+>>> +#define DRM_MOCK_SCHED_JOB_DONE            0x1
+>>> +#define DRM_MOCK_SCHED_JOB_TIMEDOUT        0x2
+>>> +#define DRM_MOCK_SCHED_JOB_DONT_RESET        0x4
+>>> +#define DRM_MOCK_SCHED_JOB_RESET_SKIPPED    0x8
+>>>       unsigned long        flags;
+>>>       struct list_head    link;
+>>> diff --git a/drivers/gpu/drm/scheduler/tests/tests_basic.c b/drivers/ 
+>>> gpu/drm/scheduler/tests/tests_basic.c
+>>> index 55eb142bd7c5..82a41a456b0a 100644
+>>> --- a/drivers/gpu/drm/scheduler/tests/tests_basic.c
+>>> +++ b/drivers/gpu/drm/scheduler/tests/tests_basic.c
+>>> @@ -317,8 +317,8 @@ static void drm_sched_skip_reset(struct kunit *test)
+>>>       KUNIT_ASSERT_FALSE(test, done);
+>>>       KUNIT_ASSERT_EQ(test,
+>>> -            job->flags & DRM_MOCK_SCHED_JOB_DONT_RESET,
+>>> -            0);
+>>> +            job->flags & DRM_MOCK_SCHED_JOB_RESET_SKIPPED,
+>>> +            DRM_MOCK_SCHED_JOB_RESET_SKIPPED);
+>>
+>> Maybe we could assert that job->flags & DRM_MOCK_SCHED_JOB_TIMEDOUT == 0
 > 
->  /**
-> - * virtio_dma_buf_export - Creates a new dma-buf for a virtio exported object
-> + * virtio_dma_buf_export() - Creates a new dma-buf for a virtio exported object
+> Could but I am not sure it is needed.
 
-virtio core uses the form without () consistently, everywhere.
+Np.
 
-
-
->   * @exp_info: [in] see dma_buf_export(). ops MUST refer to a dma_buf_ops
->   *     struct embedded in a virtio_dma_buf_ops.
->   *
->   * This wraps dma_buf_export() to allow virtio drivers to create a dma-buf
->   * for an virtio exported object that can be queried by other virtio drivers
->   * for the object's UUID.
-> + *
-> + * Returns:
-> + *   - Valid struct dma_buf pointer on success
-> + *   - ERR_PTR(-EINVAL) if:
-> + *     - exp_info->ops is NULL
-> + *     - attach callback isn't virtio_dma_buf_attach()
-> + *     - virtio_ops->get_uuid() is not implemented
-
-Too verbose, no one will rememeber to update this when changing code.
-Just 
-	Returns the dma_buf or ERR_PTR
-
-is enough.
-
-
->   */
->  struct dma_buf *virtio_dma_buf_export
->         (const struct dma_buf_export_info *exp_info)
-> @@ -35,7 +42,16 @@ struct dma_buf *virtio_dma_buf_export
->  EXPORT_SYMBOL(virtio_dma_buf_export);
 > 
->  /**
-> - * virtio_dma_buf_attach - mandatory attach callback for virtio dma-bufs
-> + * virtio_dma_buf_attach() - Mandatory attach callback for virtio dma-bufs
-> + * @dma_buf: Pointer to the shared dma-buf structure
-> + * @attach: Pointer to the newly created attachment metadata
-> + *
-> + * Implements the standard dma-buf attach operation for virtio devices.
-> + * Retrieves virtio-specific operations through container_of macro,
-> + * then invokes device-specific attach callback if present.
-> + * This enables virtio devices to participate in dma-buf sharing.
-> + *
-
-Same thing pls do not repeat all of code.
-
-> + * Return: 0 on success, error code on failure
-
-we say "Returns zero or a negative error" elsewhere. seems clearer.
-
->   */
->  int virtio_dma_buf_attach(struct dma_buf *dma_buf,
->                           struct dma_buf_attachment *attach)
-> @@ -55,8 +71,12 @@ int virtio_dma_buf_attach(struct dma_buf *dma_buf,
->  EXPORT_SYMBOL(virtio_dma_buf_attach);
+>> Anyway, thanks for the fix!
+>>
+>> Reviewed-by: Maíra Canal <mcanal@igalia.com>
 > 
->  /**
-> - * is_virtio_dma_buf - returns true if the given dma-buf is a virtio dma-buf
-> - * @dma_buf: buffer to query
-> + * is_virtio_dma_buf() - Check if a dma-buf was created by virtio DMA framework
-> + * @dma_buf: [in] buffer to query
-> + *
-> + * Returns:
-> + *   - true  if the dma-buf uses virtio_dma_buf_attach() as its attach callback
-> + *   - false otherwise
-
-
-one is return one is returns ... no consistency.
-
->   */
->  bool is_virtio_dma_buf(struct dma_buf *dma_buf)
->  {
-> @@ -65,7 +85,7 @@ bool is_virtio_dma_buf(struct dma_buf *dma_buf)
->  EXPORT_SYMBOL(is_virtio_dma_buf);
+> Thank you!
 > 
->  /**
-> - * virtio_dma_buf_get_uuid - gets a virtio dma-buf's exported object's uuid
-> + * virtio_dma_buf_get_uuid() - gets a virtio dma-buf's exported object's uuid
->   * @dma_buf: [in] buffer to query
->   * @uuid: [out] the uuid
->   *
-> -- 
-> 2.25.1
+> Btw the failure for the record:
+> 
+> [09:07:20] # drm_sched_skip_reset: ASSERTION FAILED at drivers/gpu/drm/ 
+> scheduler/tests/tests_basic.c:324
+> [09:07:20] Expected i == 1, but
+> [09:07:20]     i == 0 (0x0)
+> [09:07:20] [FAILED] drm_sched_skip_reset
+> [09:07:20]     # module: drm_sched_tests
+> [09:07:20] # drm_sched_basic_timeout_tests: pass:1 fail:1 skip:0 total:2
+> [09:07:20] # Totals: pass:1 fail:1 skip:0 total:2
+
+Unfortunately, I didn't get this error during my test run. On the other
+hand, I only ran it once before pushing the series, so that's on me.
+Thanks for catching it!
+
+Best Regards,
+- Maíra
+
+> 
+> Regards,
+> 
+> Tvrtko
+> 
+>>>       i = drm_mock_sched_advance(sched, 1);
+>>>       KUNIT_ASSERT_EQ(test, i, 1);
+>>
+> 
 
