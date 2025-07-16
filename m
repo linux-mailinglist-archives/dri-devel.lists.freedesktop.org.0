@@ -2,46 +2,192 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7D00CB07502
-	for <lists+dri-devel@lfdr.de>; Wed, 16 Jul 2025 13:48:52 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id D35C9B07534
+	for <lists+dri-devel@lfdr.de>; Wed, 16 Jul 2025 13:58:43 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7A9B2893AB;
-	Wed, 16 Jul 2025 11:48:49 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0E46B10E042;
+	Wed, 16 Jul 2025 11:58:32 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="kct9J5Op";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="bhgaZ5fK";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from tor.source.kernel.org (tor.source.kernel.org [172.105.4.254])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 576DA8933E;
- Wed, 16 Jul 2025 11:48:46 +0000 (UTC)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by tor.source.kernel.org (Postfix) with ESMTP id 2E0706145E;
- Wed, 16 Jul 2025 11:48:46 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8BEC0C4CEF0;
- Wed, 16 Jul 2025 11:48:45 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
- s=korg; t=1752666525;
- bh=tl1rNucj+1PnBWqkjsBduOuaImRbp6Pai12LyS2yc6M=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=kct9J5OpRx/i/vMo4YAvTF0DcaMw21GfileyTIAJ2VWGixfP/j6q0OXh5R+DZa5Zy
- 0jO4x351zP5UeFzg5LdQIR/cVMgntgGHShqrolatZhkPPhFPOdIxtE8hslrM8Sfoch
- yazJ6Cqv9w7odlA6dLV07IvFGV+wSqCqp2kGjOJA=
-Date: Wed, 16 Jul 2025 13:48:38 +0200
-From: Greg KH <gregkh@linuxfoundation.org>
-To: Rodrigo Vivi <rodrigo.vivi@intel.com>
-Cc: intel-xe@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org, daniele.ceraolospurio@intel.com,
- anshuman.gupta@intel.com, alexander.usyskin@intel.com,
- Badal Nilawar <badal.nilawar@intel.com>
-Subject: Re: [PATCH 2/9] mei: late_bind: add late binding component driver
-Message-ID: <2025071611-decode-hastiness-df63@gregkh>
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.14])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 40EDC10E042;
+ Wed, 16 Jul 2025 11:58:31 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1752667111; x=1784203111;
+ h=from:to:cc:subject:date:message-id:references:
+ in-reply-to:content-transfer-encoding:mime-version;
+ bh=OFD9VfJxRUxUUBbt5kcwrYhD/+Fi9n6rrQ+afr6714g=;
+ b=bhgaZ5fKNWhgAC0rKsb0qGrXX4HpwSheXEsqrXEZzsQd2DybzKQ6fS7g
+ TffTUPGjjW1qe0BFZZpo80uRrDDJK6n6tRwOolpX5UG82/Ens3kA537BF
+ 6pLMm5Q+Yneb+zip/sQWnFgPZgNhsSZy7B4ZZlOLDDYEtNuIYStY9+74G
+ zrScbUiNUxalrJ4udfzTAoaQb6XjAdVNYWxLuRmzgho4DBygWq4+4eaZz
+ 2Ofzsi24u7g3F6DaEEocbgccd4gYWFoGBt1jQaSgsLdYKPCTYZZTDhSMT
+ Xwn9tiSltmrd9EqU9tQmoZWElwHHq46HuRv5M550fzqvbpV3pMBnzHog5 A==;
+X-CSE-ConnectionGUID: ix9bDRaPRGGYCml83bPJUQ==
+X-CSE-MsgGUID: wb15YnMvR+K6F1L4MbQVQg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11493"; a="58677794"
+X-IronPort-AV: E=Sophos;i="6.16,316,1744095600"; d="scan'208";a="58677794"
+Received: from orviesa002.jf.intel.com ([10.64.159.142])
+ by orvoesa106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 16 Jul 2025 04:58:31 -0700
+X-CSE-ConnectionGUID: aqjhw2nbSqCVCgm2q6I0+g==
+X-CSE-MsgGUID: nNycz3YvQIyD8kiQWuKEWQ==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.16,316,1744095600"; d="scan'208";a="188447478"
+Received: from orsmsx903.amr.corp.intel.com ([10.22.229.25])
+ by orviesa002.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 16 Jul 2025 04:58:31 -0700
+Received: from ORSMSX901.amr.corp.intel.com (10.22.229.23) by
+ ORSMSX903.amr.corp.intel.com (10.22.229.25) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.1748.26; Wed, 16 Jul 2025 04:58:30 -0700
+Received: from ORSEDG901.ED.cps.intel.com (10.7.248.11) by
+ ORSMSX901.amr.corp.intel.com (10.22.229.23) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.1748.26 via Frontend Transport; Wed, 16 Jul 2025 04:58:30 -0700
+Received: from NAM11-BN8-obe.outbound.protection.outlook.com (40.107.236.62)
+ by edgegateway.intel.com (134.134.137.111) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.1748.26; Wed, 16 Jul 2025 04:58:28 -0700
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=itXJihpsGW6pwqRqbpihBvn1grKtaQEF5mYKEph0R2HHHMlavIzX7+gptzVEnXy6/Dl45PLxIFC7SEANIsHhWJI+U3r5c3w4TtzIU3/uY9R2S9/gyoR+WLlsJIf5TgKPHt31Fhz8kAIAASlvejdj3MeIlGOawtKK59/7EdM/c13YGpLIs2R8bKRC+FZX/9ET9bL2P1yVtw3yfFwTms7qTLWuQJarWmUJtXEwnmuQFh8FLwi5+u7SUzqllIASffUxqSoJ4MEIbHf4U4/Hywh8nMekDpwl3Qozpo8c8W+EiTe/6XxdoBNGYoNk73hRSapWpGrZ96nrboyXDq0g3bAFSw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=OFD9VfJxRUxUUBbt5kcwrYhD/+Fi9n6rrQ+afr6714g=;
+ b=NRy4unL8H0qjGl+xqjFf/Wj/T/j9BO1fxZMfIk/yFlTUUY3azxNATQAKP3X9Xs10h0NsU+5pvQ1hH8kBYmcJbpUOSXsTFU1cy0H0ub0vPIgDI8JJVV+sXDvUL5ftzJzle9YClgxPfwYccXFKCbOBZTiVmRSV3bRAfD6HvORj4dXLFOrfTQjGxWgPvAgtWlW+oBIGAzk2lFIONsRE61YlcNo8D7foh8o6rI593ksw6UK6EdluRpQ91+j9t/IhkkyDNfmqYQ4WQh567Mz9K6il4SenOfKJfamCzS3LsQ+Duea4oH6+yCT9EofSgK0BjcVchwrhmSuJyGvZww619iVStA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
+ dkim=pass header.d=intel.com; arc=none
+Received: from CY5PR11MB6366.namprd11.prod.outlook.com (2603:10b6:930:3a::8)
+ by SJ2PR11MB7600.namprd11.prod.outlook.com (2603:10b6:a03:4cd::6) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8901.35; Wed, 16 Jul
+ 2025 11:58:20 +0000
+Received: from CY5PR11MB6366.namprd11.prod.outlook.com
+ ([fe80::6826:6928:9e6:d778]) by CY5PR11MB6366.namprd11.prod.outlook.com
+ ([fe80::6826:6928:9e6:d778%5]) with mapi id 15.20.8901.033; Wed, 16 Jul 2025
+ 11:58:20 +0000
+From: "Usyskin, Alexander" <alexander.usyskin@intel.com>
+To: Greg KH <gregkh@linuxfoundation.org>, "Vivi, Rodrigo"
+ <rodrigo.vivi@intel.com>
+CC: "intel-xe@lists.freedesktop.org" <intel-xe@lists.freedesktop.org>,
+ "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
+ "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>, "Ceraolo
+ Spurio, Daniele" <daniele.ceraolospurio@intel.com>, "Gupta, Anshuman"
+ <anshuman.gupta@intel.com>, "Nilawar, Badal" <badal.nilawar@intel.com>
+Subject: RE: [PATCH 2/9] mei: late_bind: add late binding component driver
+Thread-Topic: [PATCH 2/9] mei: late_bind: add late binding component driver
+Thread-Index: AQHb8ayIhXESPJtrZE+rqVMT5r8sErQ0q8kAgAAAt5A=
+Date: Wed, 16 Jul 2025 11:58:19 +0000
+Message-ID: <CY5PR11MB63666310C54B48FB3624D9E0ED56A@CY5PR11MB6366.namprd11.prod.outlook.com>
 References: <20250710150831.3018674-11-rodrigo.vivi@intel.com>
  <20250710150831.3018674-13-rodrigo.vivi@intel.com>
+ <2025071611-decode-hastiness-df63@gregkh>
+In-Reply-To: <2025071611-decode-hastiness-df63@gregkh>
+Accept-Language: en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+authentication-results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=intel.com;
+x-ms-publictraffictype: Email
+x-ms-traffictypediagnostic: CY5PR11MB6366:EE_|SJ2PR11MB7600:EE_
+x-ms-office365-filtering-correlation-id: ab516975-c839-4b34-cca9-08ddc4600eb4
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam: BCL:0; ARA:13230040|366016|376014|1800799024|38070700018;
+x-microsoft-antispam-message-info: =?utf-8?B?L2JNMUNhUWhhNHh0Z21uZVp5Slh2WU5NVWpVQytxWDdKRXVzbWpnZkU3bDJJ?=
+ =?utf-8?B?dERsNHpmNHJpZFdCY3BiaHVQYVdiRlJHTmhNRnh6VXU3Mkt0bTRqaEd4OTZa?=
+ =?utf-8?B?TW00bjMzN3dhSllkcHNURzREQ2Y3blRCdzVCQXIyd0ZIWmZ3TTByYTVJTUJr?=
+ =?utf-8?B?Ukc5aDJUejFTSUdFTHE3Rmx5b1FRdDlDanZZblJqNk1uRjRLNmNRdE40TDBM?=
+ =?utf-8?B?YVZ2OTd3UGhNNUk5N3ZWbGZnTjNKVUdhV2VQZHJ2VDI2MzRycWE3QWpJbzNw?=
+ =?utf-8?B?eDZ1d2NqQ2YyVVFtSHNPdmV4OWhJajdPaDJaVnN5TkVNVFBWeEtuSzJlQkxL?=
+ =?utf-8?B?ZXpuVHdieG1RdVJYSVZTQVFWenI1clJydmdDZTZXTVpoRFBTYUI0cHcwUWlw?=
+ =?utf-8?B?VG5MV3MzYVBtQTR0cG1CVE5HaEVKQjFlczQ0eEQ0NGE0YTdNNWV2bmE0ek5W?=
+ =?utf-8?B?cnJaQTBOSGFTd0xMdk5GRDREYmNNb3FpYlV1Z1dOTTNsRTMvVFlKcWQ5SGth?=
+ =?utf-8?B?SW0wMnN6aEpSc3Z3UTIyY1lURmZuOC9SMzdSaWRKN0tKWUcyL1cyRkdLajBs?=
+ =?utf-8?B?bWgzb3F6VWE1SnlJS1o4U1NWaTBIWmw2ZVViallQa0tjanBPUzRNUmhlajZI?=
+ =?utf-8?B?cm5MQTBORW9Pd3RjeExieFV1OHhmdndSMFlkalVxT0NxSjZnSGgrc1dTVGdR?=
+ =?utf-8?B?dFB2NktRdGRnRkxkRFZxTE1TVUVNQ2NKN0xkYllOTlYrQWUvVDdacnZVb1RI?=
+ =?utf-8?B?L3p1RDJsb0lUQW1rSkJiTW85SldiV3BSOGdWbTI2aWZ6SGk0MXhvSzBDTEZL?=
+ =?utf-8?B?TFVYOC9hVGpEZEZpc2lRQzdFMU5UVU9EbDBUNi8wSVhSc0RXelhYb0lKS3Mx?=
+ =?utf-8?B?eG0zWnNiZCtFTWpGVnI5VlBST0RTYTVWVWU1UGVOUW8zNDlCQUhnR3JRNWQ0?=
+ =?utf-8?B?MFhSazFGTHFxdHp6bCsyallCRitEakhieGo4SHV2RnM0eWhVNjBiZmlqcm9k?=
+ =?utf-8?B?TUYxc1h3MjlvTG94YUwvNWh0eXprQnlGTkVLVG1rbHZudFljS3lDUldtVDBn?=
+ =?utf-8?B?MExUVytQMitjOTFUcm1aS0pTRUdDUzl1RUVGN2ZLaExDZlIyYURicWVnOHRo?=
+ =?utf-8?B?SzI1MUgwY1VyaGJCcmpDcXg1NUI3QkRXZ2pBcmVhcmFFTC9DS0hKVTFQTDVn?=
+ =?utf-8?B?Rnd1QVJKT0lQb2pnZkx3eEtIbmhkUFlEU3kxMEZ1dGdETFc2TTQzL0NCMVRX?=
+ =?utf-8?B?RVVLWTVVZDJVb25FZlV6aDhmRDdMZ2F2QjdsMzIwZHVkVHhZVkpHdnJrVklt?=
+ =?utf-8?B?TmVEemRqUTE0QVZhVVJNWkNoMThuUjZjOG4yaWdibkl5enVnUC9XRXVYL3FX?=
+ =?utf-8?B?TE9jcXp4OUhoQjYrNmk3SEpEcHdwL1EyMC9Gelo2eEFqcnZEcVowUXZrNE9G?=
+ =?utf-8?B?MWRmRnEzL2djeXJMUWlxL3krVEorN2RYbnF4VUwzNGhTL1RNNlJiWG80Q0py?=
+ =?utf-8?B?eVdFQUZBVjkyNEVETmtybzVXU3Z6N1RVeGRBdmhMTCtsMkFuODhQT2VHbWUz?=
+ =?utf-8?B?RjYwUVozbEJJWGNvbDQ5UGNmY0R6VzFTQ3ArZVV2c29kQVJsMkZ3ZjlnaCtz?=
+ =?utf-8?B?Qm5SYkdoS2hHeWc2dmdJejJza3hTcGEzR0ZoRDNxbStGencydis5SU5BeEtS?=
+ =?utf-8?B?R1lTOExtYmpMeUY5WFc4bGNCQWxjMG4reXRhNDVEY2lCQ3lyZFdlRk5uR0d6?=
+ =?utf-8?B?ZUdZQ0RGcjN0Q3BXcE1NbnhXd2pNY1hvcTZPdE5BazNHT1hOcXZOWkVNZmx2?=
+ =?utf-8?B?NkZpU0RIY3JSSVVDZEUxM2h6TFB5OXdjSE51WEhEUUxscm1uOVB3amxmQ0cy?=
+ =?utf-8?B?R05ZSWlSalk5RGxraFRjMGE5c0FUWk9McFVoYWpGRlIyVTlXK0Z1ZEZLZXps?=
+ =?utf-8?B?cTlHZkRuOTYxanZTNTRWVFBmVkZLYVBuNEUrY0ErR1BhVHNTYys0Sm1NWFV6?=
+ =?utf-8?B?WExFQkhkUFhRPT0=?=
+x-forefront-antispam-report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:CY5PR11MB6366.namprd11.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230040)(366016)(376014)(1800799024)(38070700018); DIR:OUT; SFP:1101; 
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0: =?utf-8?B?UGdwRkNLS0tXZmtJUmNPMlVVM3N1ZStNUW5ibmZobnpnbGRvUHpzZjhOcFRx?=
+ =?utf-8?B?bHg0VHAwOFpxdm9UNE53WUFaVkFKdjdJeWVBREF6Nkt3cHVKY3BjSUVXZjVr?=
+ =?utf-8?B?L0FtbWF2aHZ5bDlDM2NtQmdBNFNiMDE4RWs5Y3RYV04xV2g4T3VIaU96djkv?=
+ =?utf-8?B?ZnB5SEpVRFZOZHEyRit5aS9PRWF4cTYxZEdmalVVZG9DaVRzMWw4KzdXRTZP?=
+ =?utf-8?B?YkZhOWdIemlQVFRxaExnTWJPR2V4NW5FNFRwV3c3ZTQ3eVd3UGl2YTZTSUVa?=
+ =?utf-8?B?VkI4Q0pSZ0lPYzN3ek9TSndUMC9ua1Vob25lQ0ZxQ1BndTFPcml3eUh3amlh?=
+ =?utf-8?B?TkQ5RWJiS3F6cEw5NzRkcW1oU1BhZksyczZyNFMrYnlhUlNNSUxtWGwvSDdl?=
+ =?utf-8?B?MGdsQ3N4Q040RjZIS2JzM3BSK1NZVUpYYUpxSDhxYmppNlRncGdtSWRRTzFs?=
+ =?utf-8?B?N3lldUN4VFczUERySGhBTWZHVDdoekVSZkJ1anF4U2cwdVJqMUY1UUJLazJ3?=
+ =?utf-8?B?aEhkVGFGK1ljaUxJek1aenJDNHBFemV6MHQyRVZoRnplOVdBOEJWQ2k4dU5w?=
+ =?utf-8?B?MzdrQk9rRWFjQ3pyT1JINnFYck1naDJpSjEyTHF6b2V1UUhtZk96enF0K3gx?=
+ =?utf-8?B?L0d3RnRnOGZOLzMrbktKN2Zndlh0cURGbmZnd3hQYmVlcVRmUEJjakk0Yldx?=
+ =?utf-8?B?QmpJcFN1cllBcE9VVFV6Ly9oMWM0bkZwM3ZzS3BGR3VsVlJYWW5XQlR3SlYy?=
+ =?utf-8?B?bkNnR0x5NlJZeUtXb2wyTGpCZkN4WnVINENUZjV5UjZxOHU2M2RISGRKbUJJ?=
+ =?utf-8?B?RTlyc29zNk8ySUpoMzJmZnp3eGt0TVI2TXh6Nm9UY0NlM01PcHNPaUNudWlr?=
+ =?utf-8?B?VzBVeE9Hc2hUNzlVZUZHZmJJUjVMbVdTRFNSQ1ZoU0Zyb1Z2b2RCUWVMMnBR?=
+ =?utf-8?B?VVQzTlJwYmNhMjJPTXZiTDNVVUpRaHU1enNORms3bHd4cXdSYXIybjVQc3h2?=
+ =?utf-8?B?V3VsVkoxbm4zUU9CUWNxMnZFR2JkSGJkVCtDUUFSUysxRVNPdDdPeGRtdEJr?=
+ =?utf-8?B?ZlI5Y3daQWVMeXpQMWhWb1ZBQnpSTituUmU1dVJtY0UvNkVxdDhiTnhYbGJk?=
+ =?utf-8?B?ajBBZUpDVmNOZk42dTRZaEVTc1JqdTFHMjdlVEgycXpkM3hYK2V1TlB1alZ6?=
+ =?utf-8?B?bExMbnFobjVONVhBamFvd2xBUjVLM0d2K3ZkVk1Id1ZaaVErbDFydU5oaE9P?=
+ =?utf-8?B?bkpSTzdQVUI1TDhjWVdMcEg4K0d0SjRxdk5VQktSaEs5Q1dlenRHQ3JmTGJS?=
+ =?utf-8?B?OTJLWTlBWTlEQ01vcTlJc3NWT2J2ZHQ2WVJCSEl0VkJJK1VTVytpRHkvYVJU?=
+ =?utf-8?B?M0w1ZEdIV2lCNmVlVEI1dnlxZSs4UjRjb3VHWUtuZFA0NkhZaFdwakFiYjkz?=
+ =?utf-8?B?cmw0RGQ0cGZTUERTRVQ5UjhINU80NFNkcVZlblZ1UWFaV2trbDVhdnFBd3Qr?=
+ =?utf-8?B?RDc3Q2xCVVp6WkNVS0Z0T1lTVHh5U25YS25QMkhEMlJabFd1VE9aTVVGUXFN?=
+ =?utf-8?B?emR4QjNJZ0Zidk4vVnEwcEZzeEtacXdVdUt6TFlUOFEreVZ0ejUraC82MHQ3?=
+ =?utf-8?B?TmxqaVc3TnpQV3ArRlkvNXdpT2tPOUxINXdudTcxZ1lSa0hHc0U0OHE2Nncy?=
+ =?utf-8?B?bVhTdWxOUDU3OVpoUVB1V3lTOUhkVGFKdTRNN1lQTXIyTTBiVGV0QnV3dXZY?=
+ =?utf-8?B?ZFl4N1QycVZYTis5SS94bW9GdXJDVDlrUTRKWDB2YjJjV0xCcnVXQStVa3pt?=
+ =?utf-8?B?azIrbTBJR3Q3c2lDM3RMRWZkRTFnNUJNNThUY2xoWDVXWDdpbVZWa0JXNnB1?=
+ =?utf-8?B?SmgvUHI1R1lRODNoTkxiRGlCK2ZKTVhZcDgvN0pKWnR2UFpRMmZtUDJsTzNN?=
+ =?utf-8?B?KzVrNkt3TUxDa0NRTlEvbzlEMnBrR0xSa1NEYTZUWjhDYUZxKzFENzRyQ1Zs?=
+ =?utf-8?B?dFE4MFVPYlBKLy92UkVYY2tiMlBjeldPeUVzbFgvWlFQVk9VZWFsTUVKQzk3?=
+ =?utf-8?B?cHlxQXF2dTZvNDd0NGFhMDcvZXRsNGQvNEdtZDBxUnYvVDg4c21nYVIxUnp6?=
+ =?utf-8?Q?BGBstxdbv+9vDCAvMA2+ZyB6+?=
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20250710150831.3018674-13-rodrigo.vivi@intel.com>
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: CY5PR11MB6366.namprd11.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: ab516975-c839-4b34-cca9-08ddc4600eb4
+X-MS-Exchange-CrossTenant-originalarrivaltime: 16 Jul 2025 11:58:19.8784 (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 46c98d88-e344-4ed4-8496-4ed7712e255d
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: PL+svaVDsyA+P+wWHJb3o2H0ssWczv8ofOeSADeR9ga6hkpyYTGocT6zM50OsajkzjAMVL282kXAFRaoQUF1L0pRar1QfyqLbsl2zeg+GNM=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SJ2PR11MB7600
+X-OriginatorOrg: intel.com
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -57,300 +203,210 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, Jul 10, 2025 at 11:08:33AM -0400, Rodrigo Vivi wrote:
-> From: Alexander Usyskin <alexander.usyskin@intel.com>
-> 
-> Introduce a new MEI client driver to support Late Binding firmware
-> upload/update for Intel discrete graphics platforms.
-> 
-> Late Binding is a runtime firmware upload/update mechanism that allows
-> payloads, such as fan control and voltage regulator, to be securely
-> delivered and applied without requiring SPI flash updates or
-> system reboots. This driver enables the Xe graphics driver and other
-> user-space tools to push such firmware blobs to the authentication
-> firmware via the MEI interface.
-> 
-> The driver handles authentication, versioning, and communication
-> with the authentication firmware, which in turn coordinates with
-> the PUnit/PCODE to apply the payload.
-> 
-> This is a foundational component for enabling dynamic, secure,
-> and re-entrant configuration updates on platforms like Battlemage.
-> 
-> Signed-off-by: Alexander Usyskin <alexander.usyskin@intel.com>
-> Signed-off-by: Badal Nilawar <badal.nilawar@intel.com>
-> Reviewed-by: Anshuman Gupta <anshuman.gupta@intel.com>
-> Signed-off-by: Rodrigo Vivi <rodrigo.vivi@intel.com>
-> ---
-> 
-> Changes in this revision:
-> - Proper commit message
-> - Proper explanation of 'Late Binding' on Kconfig help and doc
-> - Consistency in naming:
->   + mei_ prefix where it makes sense
->   + use 'lb' for short of 'Late Binding' instead of 'late_bind'
->     Including s/CONFIG_INTEL_MEI_LATE_BIND/CONFIG_INTEL_MEI_LB
->   + remove stray 'struct module'
->   + Fix structs and enum documentation style and fields
->   + Remove 'CSC' to avoid yet another acronym. 'Authentication firmware' it is.
->   + specify size unit
->   + s/push_config/push_payload
-> 
->  drivers/misc/mei/Kconfig                   |  13 +
->  drivers/misc/mei/Makefile                  |   1 +
->  drivers/misc/mei/mei_lb.c                  | 315 +++++++++++++++++++++
->  include/drm/intel/i915_component.h         |   1 +
->  include/drm/intel/intel_lb_mei_interface.h |  70 +++++
->  5 files changed, 400 insertions(+)
->  create mode 100644 drivers/misc/mei/mei_lb.c
->  create mode 100644 include/drm/intel/intel_lb_mei_interface.h
-> 
-> diff --git a/drivers/misc/mei/Kconfig b/drivers/misc/mei/Kconfig
-> index 7575fee96cc6..f8b04e49e4ba 100644
-> --- a/drivers/misc/mei/Kconfig
-> +++ b/drivers/misc/mei/Kconfig
-> @@ -81,6 +81,19 @@ config INTEL_MEI_VSC
->  	  This driver can also be built as a module. If so, the module
->  	  will be called mei-vsc.
->  
-> +config INTEL_MEI_LB
-> +	tristate "Intel Late Binding (LB) support on ME Interface"
-> +	depends on INTEL_MEI_ME
-> +	depends on DRM_XE
-> +	help
-> +	  Enable support for Intel Late Binding (LB) via the MEI interface.
-> +
-> +	  Late Binding is a method for applying firmware updates at runtime,
-> +	  allowing the Intel Xe driver to load firmware payloads such as
-> +	  fan controller or voltage regulator. These firmware updates are
-> +	  authenticated and versioned, and do not require firmware flashing
-> +	  or system reboot.
-> +
->  source "drivers/misc/mei/hdcp/Kconfig"
->  source "drivers/misc/mei/pxp/Kconfig"
->  source "drivers/misc/mei/gsc_proxy/Kconfig"
-> diff --git a/drivers/misc/mei/Makefile b/drivers/misc/mei/Makefile
-> index 6f9fdbf1a495..a203ed766b33 100644
-> --- a/drivers/misc/mei/Makefile
-> +++ b/drivers/misc/mei/Makefile
-> @@ -31,6 +31,7 @@ CFLAGS_mei-trace.o = -I$(src)
->  obj-$(CONFIG_INTEL_MEI_HDCP) += hdcp/
->  obj-$(CONFIG_INTEL_MEI_PXP) += pxp/
->  obj-$(CONFIG_INTEL_MEI_GSC_PROXY) += gsc_proxy/
-> +obj-$(CONFIG_INTEL_MEI_LB) += mei_lb.o
->  
->  obj-$(CONFIG_INTEL_MEI_VSC_HW) += mei-vsc-hw.o
->  mei-vsc-hw-y := vsc-tp.o
-> diff --git a/drivers/misc/mei/mei_lb.c b/drivers/misc/mei/mei_lb.c
-> new file mode 100644
-> index 000000000000..fddef862712d
-> --- /dev/null
-> +++ b/drivers/misc/mei/mei_lb.c
-> @@ -0,0 +1,315 @@
-> +// SPDX-License-Identifier: GPL-2.0
-> +/*
-> + * Copyright (C) 2025 Intel Corporation
-> + */
-> +#include <drm/intel/i915_component.h>
-> +#include <drm/intel/intel_lb_mei_interface.h>
-> +#include <linux/component.h>
-> +#include <linux/pci.h>
-> +#include <linux/mei_cl_bus.h>
-> +#include <linux/module.h>
-> +#include <linux/overflow.h>
-> +#include <linux/slab.h>
-> +#include <linux/uuid.h>
-> +
-> +#include "mkhi.h"
-> +
-> +/**
-> + * DOC: Late Binding Firmware Update/Upload
-> + *
-> + * Late Binding is a firmware update/upload mechanism that allows configuration
-> + * payloads to be securely delivered and applied at runtime, rather than
-> + * being embedded in the system firmware image (e.g., IFWI or SPI flash).
-> + *
-> + * This mechanism is used to update device-level configuration such as:
-> + * - Fan controller
-> + * - Voltage regulator (VR)
-> + *
-> + * Key Characteristics:
-> + * ---------------------
-> + * - Runtime Delivery:
-> + *   Firmware blobs are loaded by the host driver (e.g., Xe KMD)
-> + *   after the GPU or SoC has booted.
-> + *
-> + * - Secure and Authenticated:
-> + *   All payloads are signed and verified by the authentication firmware.
-> + *
-> + * - No Firmware Flashing Required:
-> + *   Updates are applied in volatile memory and do not require SPI flash
-> + *   modification or system reboot.
-> + *
-> + * - Re-entrant:
-> + *   Multiple updates of the same or different types can be applied
-> + *   sequentially within a single boot session.
-> + *
-> + * - Version Controlled:
-> + *   Each payload includes version and security version number (SVN)
-> + *   metadata to support anti-rollback enforcement.
-> + *
-> + * Upload Flow:
-> + * ------------
-> + * 1. Host driver (KMD or user-space tool) loads the late binding firmware.
-> + * 2. Firmware is passed to the MEI interface and forwarded to
-> + *    authentication firmware.
-> + * 3. Authentication firmware authenticates the payload and extracts
-> + *    command and data arrays.
-> + * 4. Authentication firmware delivers the configuration to PUnit/PCODE.
-> + * 5. Status is returned back to the host via MEI.
-> + */
-> +
-> +#define INTEL_LB_CMD 0x12
-> +#define INTEL_LB_RSP (INTEL_LB_CMD | 0x80)
-> +
-> +#define INTEL_LB_SEND_TIMEOUT_MSEC 3000
-> +#define INTEL_LB_RECV_TIMEOUT_MSEC 3000
-> +
-> +/**
-> + * struct mei_lb_req - Late Binding request structure
-> + * @header: MKHI message header (see struct mkhi_msg_hdr)
-> + * @type: Type of the Late Binding payload
-> + * @flags: Flags to be passed to the authentication firmware (e.g. %INTEL_LB_FLAGS_IS_PERSISTENT)
-> + * @reserved: Reserved for future use by authentication firmware, must be set to 0
-> + * @payload_size: Size of the payload data in bytes
-> + * @payload: Payload data to be sent to the authentication firmware
-> + */
-> +struct mei_lb_req {
-> +	struct mkhi_msg_hdr header;
-> +	__le32 type;
-> +	__le32 flags;
-> +	__le32 reserved[2];
-> +	__le32 payload_size;
-> +	u8  payload[] __counted_by(payload_size);
-> +} __packed;
-> +
-> +/**
-> + * struct mei_lb_rsp - Late Binding response structure
-> + * @header: MKHI message header (see struct mkhi_msg_hdr)
-> + * @type: Type of the Late Binding payload
-> + * @reserved: Reserved for future use by authentication firmware, must be set to 0
-> + * @status: Status returned by authentication firmware (see enum intel_lb_status)
-> + */
-> +struct mei_lb_rsp {
-> +	struct mkhi_msg_hdr header;
-> +	__le32 type;
-> +	__le32 reserved[2];
-> +	__le32 status;
-> +} __packed;
-> +
-> +static int mei_lb_check_response(const struct device *dev, const struct mkhi_msg_hdr *hdr)
-> +{
-> +	if (hdr->group_id != MKHI_GROUP_ID_GFX) {
-> +		dev_err(dev, "Mismatch group id: 0x%x instead of 0x%x\n",
-> +			hdr->group_id, MKHI_GROUP_ID_GFX);
-> +		return -EINVAL;
-> +	}
-> +
-> +	if (hdr->command != INTEL_LB_RSP) {
-> +		dev_err(dev, "Mismatch command: 0x%x instead of 0x%x\n",
-> +			hdr->command, INTEL_LB_RSP);
-> +		return -EINVAL;
-> +	}
-> +
-> +	if (hdr->result) {
-> +		dev_err(dev, "Error in result: 0x%x\n", hdr->result);
-> +		return -EINVAL;
-> +	}
-> +
-> +	return 0;
-> +}
-> +
-> +static int mei_lb_push_payload(struct device *dev,
-> +			       enum intel_lb_type type, u32 flags,
-> +			       const void *payload, size_t payload_size)
-> +{
-> +	struct mei_cl_device *cldev;
-> +	struct mei_lb_req *req = NULL;
-> +	struct mei_lb_rsp rsp;
-> +	size_t req_size;
-> +	ssize_t bytes;
-> +	int ret;
-> +
-> +	cldev = to_mei_cl_device(dev);
-> +
-> +	ret = mei_cldev_enable(cldev);
-> +	if (ret) {
-> +		dev_dbg(dev, "mei_cldev_enable failed. %d\n", ret);
-> +		return ret;
-> +	}
-> +
-> +	req_size = struct_size(req, payload, payload_size);
-> +	if (req_size > mei_cldev_mtu(cldev)) {
-> +		dev_err(dev, "Payload is too big %zu\n", payload_size);
-> +		ret = -EMSGSIZE;
-> +		goto end;
-> +	}
-> +
-> +	req = kmalloc(req_size, GFP_KERNEL);
-> +	if (!req) {
-> +		ret = -ENOMEM;
-> +		goto end;
-> +	}
-> +
-> +	req->header.group_id = MKHI_GROUP_ID_GFX;
-> +	req->header.command = INTEL_LB_CMD;
-> +	req->type = cpu_to_le32(type);
-> +	req->flags = cpu_to_le32(flags);
-> +	req->reserved[0] = 0;
-> +	req->reserved[1] = 0;
-> +	req->payload_size = cpu_to_le32(payload_size);
-> +	memcpy(req->payload, payload, payload_size);
-> +
-> +	bytes = mei_cldev_send_timeout(cldev,
-> +				       (void *)req, req_size, INTEL_LB_SEND_TIMEOUT_MSEC);
-> +	if (bytes < 0) {
-> +		dev_err(dev, "mei_cldev_send failed. %zd\n", bytes);
-> +		ret = bytes;
-> +		goto end;
-> +	}
-> +
-> +	bytes = mei_cldev_recv_timeout(cldev,
-> +				       (void *)&rsp, sizeof(rsp), INTEL_LB_RECV_TIMEOUT_MSEC);
-> +	if (bytes < 0) {
-> +		dev_err(dev, "mei_cldev_recv failed. %zd\n", bytes);
-> +		ret = bytes;
-> +		goto end;
-> +	}
-> +	if (bytes < sizeof(rsp.header)) {
-> +		dev_err(dev, "bad response header from the firmware: size %zd < %zu\n",
-> +			bytes, sizeof(rsp.header));
-> +		ret = -EPROTO;
-> +		goto end;
-> +	}
-> +	if (mei_lb_check_response(dev, &rsp.header)) {
-> +		dev_err(dev, "bad result response from the firmware: 0x%x\n",
-> +			*(uint32_t *)&rsp.header);
-
-What exactly are you printing out to userspace here?  A pointer?  Or a
-random value from the firmware?  Why?
-
-> +		ret = -EPROTO;
-> +		goto end;
-> +	}
-
-You forgot to check the type and reserved fields of the rsp structure :(
-
-> +	if (bytes < sizeof(rsp)) {
-> +		dev_err(dev, "bad response from the firmware: size %zd < %zu\n",
-> +			bytes, sizeof(rsp));
-> +		ret = -EPROTO;
-> +		goto end;
-> +	}
-
-Why not check this above when you check against the size of the header?
-You only need one size check, not 2.
-
-thanks,
-
-greg k-h
+PiBTdWJqZWN0OiBSZTogW1BBVENIIDIvOV0gbWVpOiBsYXRlX2JpbmQ6IGFkZCBsYXRlIGJpbmRp
+bmcgY29tcG9uZW50IGRyaXZlcg0KPiANCj4gT24gVGh1LCBKdWwgMTAsIDIwMjUgYXQgMTE6MDg6
+MzNBTSAtMDQwMCwgUm9kcmlnbyBWaXZpIHdyb3RlOg0KPiA+IEZyb206IEFsZXhhbmRlciBVc3lz
+a2luIDxhbGV4YW5kZXIudXN5c2tpbkBpbnRlbC5jb20+DQo+ID4NCj4gPiBJbnRyb2R1Y2UgYSBu
+ZXcgTUVJIGNsaWVudCBkcml2ZXIgdG8gc3VwcG9ydCBMYXRlIEJpbmRpbmcgZmlybXdhcmUNCj4g
+PiB1cGxvYWQvdXBkYXRlIGZvciBJbnRlbCBkaXNjcmV0ZSBncmFwaGljcyBwbGF0Zm9ybXMuDQo+
+ID4NCj4gPiBMYXRlIEJpbmRpbmcgaXMgYSBydW50aW1lIGZpcm13YXJlIHVwbG9hZC91cGRhdGUg
+bWVjaGFuaXNtIHRoYXQgYWxsb3dzDQo+ID4gcGF5bG9hZHMsIHN1Y2ggYXMgZmFuIGNvbnRyb2wg
+YW5kIHZvbHRhZ2UgcmVndWxhdG9yLCB0byBiZSBzZWN1cmVseQ0KPiA+IGRlbGl2ZXJlZCBhbmQg
+YXBwbGllZCB3aXRob3V0IHJlcXVpcmluZyBTUEkgZmxhc2ggdXBkYXRlcyBvcg0KPiA+IHN5c3Rl
+bSByZWJvb3RzLiBUaGlzIGRyaXZlciBlbmFibGVzIHRoZSBYZSBncmFwaGljcyBkcml2ZXIgYW5k
+IG90aGVyDQo+ID4gdXNlci1zcGFjZSB0b29scyB0byBwdXNoIHN1Y2ggZmlybXdhcmUgYmxvYnMg
+dG8gdGhlIGF1dGhlbnRpY2F0aW9uDQo+ID4gZmlybXdhcmUgdmlhIHRoZSBNRUkgaW50ZXJmYWNl
+Lg0KPiA+DQo+ID4gVGhlIGRyaXZlciBoYW5kbGVzIGF1dGhlbnRpY2F0aW9uLCB2ZXJzaW9uaW5n
+LCBhbmQgY29tbXVuaWNhdGlvbg0KPiA+IHdpdGggdGhlIGF1dGhlbnRpY2F0aW9uIGZpcm13YXJl
+LCB3aGljaCBpbiB0dXJuIGNvb3JkaW5hdGVzIHdpdGgNCj4gPiB0aGUgUFVuaXQvUENPREUgdG8g
+YXBwbHkgdGhlIHBheWxvYWQuDQo+ID4NCj4gPiBUaGlzIGlzIGEgZm91bmRhdGlvbmFsIGNvbXBv
+bmVudCBmb3IgZW5hYmxpbmcgZHluYW1pYywgc2VjdXJlLA0KPiA+IGFuZCByZS1lbnRyYW50IGNv
+bmZpZ3VyYXRpb24gdXBkYXRlcyBvbiBwbGF0Zm9ybXMgbGlrZSBCYXR0bGVtYWdlLg0KPiA+DQo+
+ID4gU2lnbmVkLW9mZi1ieTogQWxleGFuZGVyIFVzeXNraW4gPGFsZXhhbmRlci51c3lza2luQGlu
+dGVsLmNvbT4NCj4gPiBTaWduZWQtb2ZmLWJ5OiBCYWRhbCBOaWxhd2FyIDxiYWRhbC5uaWxhd2Fy
+QGludGVsLmNvbT4NCj4gPiBSZXZpZXdlZC1ieTogQW5zaHVtYW4gR3VwdGEgPGFuc2h1bWFuLmd1
+cHRhQGludGVsLmNvbT4NCj4gPiBTaWduZWQtb2ZmLWJ5OiBSb2RyaWdvIFZpdmkgPHJvZHJpZ28u
+dml2aUBpbnRlbC5jb20+DQo+ID4gLS0tDQo+ID4NCj4gPiBDaGFuZ2VzIGluIHRoaXMgcmV2aXNp
+b246DQo+ID4gLSBQcm9wZXIgY29tbWl0IG1lc3NhZ2UNCj4gPiAtIFByb3BlciBleHBsYW5hdGlv
+biBvZiAnTGF0ZSBCaW5kaW5nJyBvbiBLY29uZmlnIGhlbHAgYW5kIGRvYw0KPiA+IC0gQ29uc2lz
+dGVuY3kgaW4gbmFtaW5nOg0KPiA+ICAgKyBtZWlfIHByZWZpeCB3aGVyZSBpdCBtYWtlcyBzZW5z
+ZQ0KPiA+ICAgKyB1c2UgJ2xiJyBmb3Igc2hvcnQgb2YgJ0xhdGUgQmluZGluZycgaW5zdGVhZCBv
+ZiAnbGF0ZV9iaW5kJw0KPiA+ICAgICBJbmNsdWRpbmcgcy9DT05GSUdfSU5URUxfTUVJX0xBVEVf
+QklORC9DT05GSUdfSU5URUxfTUVJX0xCDQo+ID4gICArIHJlbW92ZSBzdHJheSAnc3RydWN0IG1v
+ZHVsZScNCj4gPiAgICsgRml4IHN0cnVjdHMgYW5kIGVudW0gZG9jdW1lbnRhdGlvbiBzdHlsZSBh
+bmQgZmllbGRzDQo+ID4gICArIFJlbW92ZSAnQ1NDJyB0byBhdm9pZCB5ZXQgYW5vdGhlciBhY3Jv
+bnltLiAnQXV0aGVudGljYXRpb24gZmlybXdhcmUnIGl0DQo+IGlzLg0KPiA+ICAgKyBzcGVjaWZ5
+IHNpemUgdW5pdA0KPiA+ICAgKyBzL3B1c2hfY29uZmlnL3B1c2hfcGF5bG9hZA0KPiA+DQo+ID4g
+IGRyaXZlcnMvbWlzYy9tZWkvS2NvbmZpZyAgICAgICAgICAgICAgICAgICB8ICAxMyArDQo+ID4g
+IGRyaXZlcnMvbWlzYy9tZWkvTWFrZWZpbGUgICAgICAgICAgICAgICAgICB8ICAgMSArDQo+ID4g
+IGRyaXZlcnMvbWlzYy9tZWkvbWVpX2xiLmMgICAgICAgICAgICAgICAgICB8IDMxNSArKysrKysr
+KysrKysrKysrKysrKysNCj4gPiAgaW5jbHVkZS9kcm0vaW50ZWwvaTkxNV9jb21wb25lbnQuaCAg
+ICAgICAgIHwgICAxICsNCj4gPiAgaW5jbHVkZS9kcm0vaW50ZWwvaW50ZWxfbGJfbWVpX2ludGVy
+ZmFjZS5oIHwgIDcwICsrKysrDQo+ID4gIDUgZmlsZXMgY2hhbmdlZCwgNDAwIGluc2VydGlvbnMo
+KykNCj4gPiAgY3JlYXRlIG1vZGUgMTAwNjQ0IGRyaXZlcnMvbWlzYy9tZWkvbWVpX2xiLmMNCj4g
+PiAgY3JlYXRlIG1vZGUgMTAwNjQ0IGluY2x1ZGUvZHJtL2ludGVsL2ludGVsX2xiX21laV9pbnRl
+cmZhY2UuaA0KPiA+DQo+ID4gZGlmZiAtLWdpdCBhL2RyaXZlcnMvbWlzYy9tZWkvS2NvbmZpZyBi
+L2RyaXZlcnMvbWlzYy9tZWkvS2NvbmZpZw0KPiA+IGluZGV4IDc1NzVmZWU5NmNjNi4uZjhiMDRl
+NDllNGJhIDEwMDY0NA0KPiA+IC0tLSBhL2RyaXZlcnMvbWlzYy9tZWkvS2NvbmZpZw0KPiA+ICsr
+KyBiL2RyaXZlcnMvbWlzYy9tZWkvS2NvbmZpZw0KPiA+IEBAIC04MSw2ICs4MSwxOSBAQCBjb25m
+aWcgSU5URUxfTUVJX1ZTQw0KPiA+ICAJICBUaGlzIGRyaXZlciBjYW4gYWxzbyBiZSBidWlsdCBh
+cyBhIG1vZHVsZS4gSWYgc28sIHRoZSBtb2R1bGUNCj4gPiAgCSAgd2lsbCBiZSBjYWxsZWQgbWVp
+LXZzYy4NCj4gPg0KPiA+ICtjb25maWcgSU5URUxfTUVJX0xCDQo+ID4gKwl0cmlzdGF0ZSAiSW50
+ZWwgTGF0ZSBCaW5kaW5nIChMQikgc3VwcG9ydCBvbiBNRSBJbnRlcmZhY2UiDQo+ID4gKwlkZXBl
+bmRzIG9uIElOVEVMX01FSV9NRQ0KPiA+ICsJZGVwZW5kcyBvbiBEUk1fWEUNCj4gPiArCWhlbHAN
+Cj4gPiArCSAgRW5hYmxlIHN1cHBvcnQgZm9yIEludGVsIExhdGUgQmluZGluZyAoTEIpIHZpYSB0
+aGUgTUVJIGludGVyZmFjZS4NCj4gPiArDQo+ID4gKwkgIExhdGUgQmluZGluZyBpcyBhIG1ldGhv
+ZCBmb3IgYXBwbHlpbmcgZmlybXdhcmUgdXBkYXRlcyBhdCBydW50aW1lLA0KPiA+ICsJICBhbGxv
+d2luZyB0aGUgSW50ZWwgWGUgZHJpdmVyIHRvIGxvYWQgZmlybXdhcmUgcGF5bG9hZHMgc3VjaCBh
+cw0KPiA+ICsJICBmYW4gY29udHJvbGxlciBvciB2b2x0YWdlIHJlZ3VsYXRvci4gVGhlc2UgZmly
+bXdhcmUgdXBkYXRlcyBhcmUNCj4gPiArCSAgYXV0aGVudGljYXRlZCBhbmQgdmVyc2lvbmVkLCBh
+bmQgZG8gbm90IHJlcXVpcmUgZmlybXdhcmUgZmxhc2hpbmcNCj4gPiArCSAgb3Igc3lzdGVtIHJl
+Ym9vdC4NCj4gPiArDQo+ID4gIHNvdXJjZSAiZHJpdmVycy9taXNjL21laS9oZGNwL0tjb25maWci
+DQo+ID4gIHNvdXJjZSAiZHJpdmVycy9taXNjL21laS9weHAvS2NvbmZpZyINCj4gPiAgc291cmNl
+ICJkcml2ZXJzL21pc2MvbWVpL2dzY19wcm94eS9LY29uZmlnIg0KPiA+IGRpZmYgLS1naXQgYS9k
+cml2ZXJzL21pc2MvbWVpL01ha2VmaWxlIGIvZHJpdmVycy9taXNjL21laS9NYWtlZmlsZQ0KPiA+
+IGluZGV4IDZmOWZkYmYxYTQ5NS4uYTIwM2VkNzY2YjMzIDEwMDY0NA0KPiA+IC0tLSBhL2RyaXZl
+cnMvbWlzYy9tZWkvTWFrZWZpbGUNCj4gPiArKysgYi9kcml2ZXJzL21pc2MvbWVpL01ha2VmaWxl
+DQo+ID4gQEAgLTMxLDYgKzMxLDcgQEAgQ0ZMQUdTX21laS10cmFjZS5vID0gLUkkKHNyYykNCj4g
+PiAgb2JqLSQoQ09ORklHX0lOVEVMX01FSV9IRENQKSArPSBoZGNwLw0KPiA+ICBvYmotJChDT05G
+SUdfSU5URUxfTUVJX1BYUCkgKz0gcHhwLw0KPiA+ICBvYmotJChDT05GSUdfSU5URUxfTUVJX0dT
+Q19QUk9YWSkgKz0gZ3NjX3Byb3h5Lw0KPiA+ICtvYmotJChDT05GSUdfSU5URUxfTUVJX0xCKSAr
+PSBtZWlfbGIubw0KPiA+DQo+ID4gIG9iai0kKENPTkZJR19JTlRFTF9NRUlfVlNDX0hXKSArPSBt
+ZWktdnNjLWh3Lm8NCj4gPiAgbWVpLXZzYy1ody15IDo9IHZzYy10cC5vDQo+ID4gZGlmZiAtLWdp
+dCBhL2RyaXZlcnMvbWlzYy9tZWkvbWVpX2xiLmMgYi9kcml2ZXJzL21pc2MvbWVpL21laV9sYi5j
+DQo+ID4gbmV3IGZpbGUgbW9kZSAxMDA2NDQNCj4gPiBpbmRleCAwMDAwMDAwMDAwMDAuLmZkZGVm
+ODYyNzEyZA0KPiA+IC0tLSAvZGV2L251bGwNCj4gPiArKysgYi9kcml2ZXJzL21pc2MvbWVpL21l
+aV9sYi5jDQo+ID4gQEAgLTAsMCArMSwzMTUgQEANCj4gPiArLy8gU1BEWC1MaWNlbnNlLUlkZW50
+aWZpZXI6IEdQTC0yLjANCj4gPiArLyoNCj4gPiArICogQ29weXJpZ2h0IChDKSAyMDI1IEludGVs
+IENvcnBvcmF0aW9uDQo+ID4gKyAqLw0KPiA+ICsjaW5jbHVkZSA8ZHJtL2ludGVsL2k5MTVfY29t
+cG9uZW50Lmg+DQo+ID4gKyNpbmNsdWRlIDxkcm0vaW50ZWwvaW50ZWxfbGJfbWVpX2ludGVyZmFj
+ZS5oPg0KPiA+ICsjaW5jbHVkZSA8bGludXgvY29tcG9uZW50Lmg+DQo+ID4gKyNpbmNsdWRlIDxs
+aW51eC9wY2kuaD4NCj4gPiArI2luY2x1ZGUgPGxpbnV4L21laV9jbF9idXMuaD4NCj4gPiArI2lu
+Y2x1ZGUgPGxpbnV4L21vZHVsZS5oPg0KPiA+ICsjaW5jbHVkZSA8bGludXgvb3ZlcmZsb3cuaD4N
+Cj4gPiArI2luY2x1ZGUgPGxpbnV4L3NsYWIuaD4NCj4gPiArI2luY2x1ZGUgPGxpbnV4L3V1aWQu
+aD4NCj4gPiArDQo+ID4gKyNpbmNsdWRlICJta2hpLmgiDQo+ID4gKw0KPiA+ICsvKioNCj4gPiAr
+ICogRE9DOiBMYXRlIEJpbmRpbmcgRmlybXdhcmUgVXBkYXRlL1VwbG9hZA0KPiA+ICsgKg0KPiA+
+ICsgKiBMYXRlIEJpbmRpbmcgaXMgYSBmaXJtd2FyZSB1cGRhdGUvdXBsb2FkIG1lY2hhbmlzbSB0
+aGF0IGFsbG93cw0KPiBjb25maWd1cmF0aW9uDQo+ID4gKyAqIHBheWxvYWRzIHRvIGJlIHNlY3Vy
+ZWx5IGRlbGl2ZXJlZCBhbmQgYXBwbGllZCBhdCBydW50aW1lLCByYXRoZXIgdGhhbg0KPiA+ICsg
+KiBiZWluZyBlbWJlZGRlZCBpbiB0aGUgc3lzdGVtIGZpcm13YXJlIGltYWdlIChlLmcuLCBJRldJ
+IG9yIFNQSSBmbGFzaCkuDQo+ID4gKyAqDQo+ID4gKyAqIFRoaXMgbWVjaGFuaXNtIGlzIHVzZWQg
+dG8gdXBkYXRlIGRldmljZS1sZXZlbCBjb25maWd1cmF0aW9uIHN1Y2ggYXM6DQo+ID4gKyAqIC0g
+RmFuIGNvbnRyb2xsZXINCj4gPiArICogLSBWb2x0YWdlIHJlZ3VsYXRvciAoVlIpDQo+ID4gKyAq
+DQo+ID4gKyAqIEtleSBDaGFyYWN0ZXJpc3RpY3M6DQo+ID4gKyAqIC0tLS0tLS0tLS0tLS0tLS0t
+LS0tLQ0KPiA+ICsgKiAtIFJ1bnRpbWUgRGVsaXZlcnk6DQo+ID4gKyAqICAgRmlybXdhcmUgYmxv
+YnMgYXJlIGxvYWRlZCBieSB0aGUgaG9zdCBkcml2ZXIgKGUuZy4sIFhlIEtNRCkNCj4gPiArICog
+ICBhZnRlciB0aGUgR1BVIG9yIFNvQyBoYXMgYm9vdGVkLg0KPiA+ICsgKg0KPiA+ICsgKiAtIFNl
+Y3VyZSBhbmQgQXV0aGVudGljYXRlZDoNCj4gPiArICogICBBbGwgcGF5bG9hZHMgYXJlIHNpZ25l
+ZCBhbmQgdmVyaWZpZWQgYnkgdGhlIGF1dGhlbnRpY2F0aW9uIGZpcm13YXJlLg0KPiA+ICsgKg0K
+PiA+ICsgKiAtIE5vIEZpcm13YXJlIEZsYXNoaW5nIFJlcXVpcmVkOg0KPiA+ICsgKiAgIFVwZGF0
+ZXMgYXJlIGFwcGxpZWQgaW4gdm9sYXRpbGUgbWVtb3J5IGFuZCBkbyBub3QgcmVxdWlyZSBTUEkg
+Zmxhc2gNCj4gPiArICogICBtb2RpZmljYXRpb24gb3Igc3lzdGVtIHJlYm9vdC4NCj4gPiArICoN
+Cj4gPiArICogLSBSZS1lbnRyYW50Og0KPiA+ICsgKiAgIE11bHRpcGxlIHVwZGF0ZXMgb2YgdGhl
+IHNhbWUgb3IgZGlmZmVyZW50IHR5cGVzIGNhbiBiZSBhcHBsaWVkDQo+ID4gKyAqICAgc2VxdWVu
+dGlhbGx5IHdpdGhpbiBhIHNpbmdsZSBib290IHNlc3Npb24uDQo+ID4gKyAqDQo+ID4gKyAqIC0g
+VmVyc2lvbiBDb250cm9sbGVkOg0KPiA+ICsgKiAgIEVhY2ggcGF5bG9hZCBpbmNsdWRlcyB2ZXJz
+aW9uIGFuZCBzZWN1cml0eSB2ZXJzaW9uIG51bWJlciAoU1ZOKQ0KPiA+ICsgKiAgIG1ldGFkYXRh
+IHRvIHN1cHBvcnQgYW50aS1yb2xsYmFjayBlbmZvcmNlbWVudC4NCj4gPiArICoNCj4gPiArICog
+VXBsb2FkIEZsb3c6DQo+ID4gKyAqIC0tLS0tLS0tLS0tLQ0KPiA+ICsgKiAxLiBIb3N0IGRyaXZl
+ciAoS01EIG9yIHVzZXItc3BhY2UgdG9vbCkgbG9hZHMgdGhlIGxhdGUgYmluZGluZyBmaXJtd2Fy
+ZS4NCj4gPiArICogMi4gRmlybXdhcmUgaXMgcGFzc2VkIHRvIHRoZSBNRUkgaW50ZXJmYWNlIGFu
+ZCBmb3J3YXJkZWQgdG8NCj4gPiArICogICAgYXV0aGVudGljYXRpb24gZmlybXdhcmUuDQo+ID4g
+KyAqIDMuIEF1dGhlbnRpY2F0aW9uIGZpcm13YXJlIGF1dGhlbnRpY2F0ZXMgdGhlIHBheWxvYWQg
+YW5kIGV4dHJhY3RzDQo+ID4gKyAqICAgIGNvbW1hbmQgYW5kIGRhdGEgYXJyYXlzLg0KPiA+ICsg
+KiA0LiBBdXRoZW50aWNhdGlvbiBmaXJtd2FyZSBkZWxpdmVycyB0aGUgY29uZmlndXJhdGlvbiB0
+byBQVW5pdC9QQ09ERS4NCj4gPiArICogNS4gU3RhdHVzIGlzIHJldHVybmVkIGJhY2sgdG8gdGhl
+IGhvc3QgdmlhIE1FSS4NCj4gPiArICovDQo+ID4gKw0KPiA+ICsjZGVmaW5lIElOVEVMX0xCX0NN
+RCAweDEyDQo+ID4gKyNkZWZpbmUgSU5URUxfTEJfUlNQIChJTlRFTF9MQl9DTUQgfCAweDgwKQ0K
+PiA+ICsNCj4gPiArI2RlZmluZSBJTlRFTF9MQl9TRU5EX1RJTUVPVVRfTVNFQyAzMDAwDQo+ID4g
+KyNkZWZpbmUgSU5URUxfTEJfUkVDVl9USU1FT1VUX01TRUMgMzAwMA0KPiA+ICsNCj4gPiArLyoq
+DQo+ID4gKyAqIHN0cnVjdCBtZWlfbGJfcmVxIC0gTGF0ZSBCaW5kaW5nIHJlcXVlc3Qgc3RydWN0
+dXJlDQo+ID4gKyAqIEBoZWFkZXI6IE1LSEkgbWVzc2FnZSBoZWFkZXIgKHNlZSBzdHJ1Y3QgbWto
+aV9tc2dfaGRyKQ0KPiA+ICsgKiBAdHlwZTogVHlwZSBvZiB0aGUgTGF0ZSBCaW5kaW5nIHBheWxv
+YWQNCj4gPiArICogQGZsYWdzOiBGbGFncyB0byBiZSBwYXNzZWQgdG8gdGhlIGF1dGhlbnRpY2F0
+aW9uIGZpcm13YXJlIChlLmcuDQo+ICVJTlRFTF9MQl9GTEFHU19JU19QRVJTSVNURU5UKQ0KPiA+
+ICsgKiBAcmVzZXJ2ZWQ6IFJlc2VydmVkIGZvciBmdXR1cmUgdXNlIGJ5IGF1dGhlbnRpY2F0aW9u
+IGZpcm13YXJlLCBtdXN0IGJlDQo+IHNldCB0byAwDQo+ID4gKyAqIEBwYXlsb2FkX3NpemU6IFNp
+emUgb2YgdGhlIHBheWxvYWQgZGF0YSBpbiBieXRlcw0KPiA+ICsgKiBAcGF5bG9hZDogUGF5bG9h
+ZCBkYXRhIHRvIGJlIHNlbnQgdG8gdGhlIGF1dGhlbnRpY2F0aW9uIGZpcm13YXJlDQo+ID4gKyAq
+Lw0KPiA+ICtzdHJ1Y3QgbWVpX2xiX3JlcSB7DQo+ID4gKwlzdHJ1Y3QgbWtoaV9tc2dfaGRyIGhl
+YWRlcjsNCj4gPiArCV9fbGUzMiB0eXBlOw0KPiA+ICsJX19sZTMyIGZsYWdzOw0KPiA+ICsJX19s
+ZTMyIHJlc2VydmVkWzJdOw0KPiA+ICsJX19sZTMyIHBheWxvYWRfc2l6ZTsNCj4gPiArCXU4ICBw
+YXlsb2FkW10gX19jb3VudGVkX2J5KHBheWxvYWRfc2l6ZSk7DQo+ID4gK30gX19wYWNrZWQ7DQo+
+ID4gKw0KPiA+ICsvKioNCj4gPiArICogc3RydWN0IG1laV9sYl9yc3AgLSBMYXRlIEJpbmRpbmcg
+cmVzcG9uc2Ugc3RydWN0dXJlDQo+ID4gKyAqIEBoZWFkZXI6IE1LSEkgbWVzc2FnZSBoZWFkZXIg
+KHNlZSBzdHJ1Y3QgbWtoaV9tc2dfaGRyKQ0KPiA+ICsgKiBAdHlwZTogVHlwZSBvZiB0aGUgTGF0
+ZSBCaW5kaW5nIHBheWxvYWQNCj4gPiArICogQHJlc2VydmVkOiBSZXNlcnZlZCBmb3IgZnV0dXJl
+IHVzZSBieSBhdXRoZW50aWNhdGlvbiBmaXJtd2FyZSwgbXVzdCBiZQ0KPiBzZXQgdG8gMA0KPiA+
+ICsgKiBAc3RhdHVzOiBTdGF0dXMgcmV0dXJuZWQgYnkgYXV0aGVudGljYXRpb24gZmlybXdhcmUg
+KHNlZSBlbnVtDQo+IGludGVsX2xiX3N0YXR1cykNCj4gPiArICovDQo+ID4gK3N0cnVjdCBtZWlf
+bGJfcnNwIHsNCj4gPiArCXN0cnVjdCBta2hpX21zZ19oZHIgaGVhZGVyOw0KPiA+ICsJX19sZTMy
+IHR5cGU7DQo+ID4gKwlfX2xlMzIgcmVzZXJ2ZWRbMl07DQo+ID4gKwlfX2xlMzIgc3RhdHVzOw0K
+PiA+ICt9IF9fcGFja2VkOw0KPiA+ICsNCj4gPiArc3RhdGljIGludCBtZWlfbGJfY2hlY2tfcmVz
+cG9uc2UoY29uc3Qgc3RydWN0IGRldmljZSAqZGV2LCBjb25zdCBzdHJ1Y3QNCj4gbWtoaV9tc2df
+aGRyICpoZHIpDQo+ID4gK3sNCj4gPiArCWlmIChoZHItPmdyb3VwX2lkICE9IE1LSElfR1JPVVBf
+SURfR0ZYKSB7DQo+ID4gKwkJZGV2X2VycihkZXYsICJNaXNtYXRjaCBncm91cCBpZDogMHgleCBp
+bnN0ZWFkIG9mIDB4JXhcbiIsDQo+ID4gKwkJCWhkci0+Z3JvdXBfaWQsIE1LSElfR1JPVVBfSURf
+R0ZYKTsNCj4gPiArCQlyZXR1cm4gLUVJTlZBTDsNCj4gPiArCX0NCj4gPiArDQo+ID4gKwlpZiAo
+aGRyLT5jb21tYW5kICE9IElOVEVMX0xCX1JTUCkgew0KPiA+ICsJCWRldl9lcnIoZGV2LCAiTWlz
+bWF0Y2ggY29tbWFuZDogMHgleCBpbnN0ZWFkIG9mIDB4JXhcbiIsDQo+ID4gKwkJCWhkci0+Y29t
+bWFuZCwgSU5URUxfTEJfUlNQKTsNCj4gPiArCQlyZXR1cm4gLUVJTlZBTDsNCj4gPiArCX0NCj4g
+PiArDQo+ID4gKwlpZiAoaGRyLT5yZXN1bHQpIHsNCj4gPiArCQlkZXZfZXJyKGRldiwgIkVycm9y
+IGluIHJlc3VsdDogMHgleFxuIiwgaGRyLT5yZXN1bHQpOw0KPiA+ICsJCXJldHVybiAtRUlOVkFM
+Ow0KPiA+ICsJfQ0KPiA+ICsNCj4gPiArCXJldHVybiAwOw0KPiA+ICt9DQo+ID4gKw0KPiA+ICtz
+dGF0aWMgaW50IG1laV9sYl9wdXNoX3BheWxvYWQoc3RydWN0IGRldmljZSAqZGV2LA0KPiA+ICsJ
+CQkgICAgICAgZW51bSBpbnRlbF9sYl90eXBlIHR5cGUsIHUzMiBmbGFncywNCj4gPiArCQkJICAg
+ICAgIGNvbnN0IHZvaWQgKnBheWxvYWQsIHNpemVfdCBwYXlsb2FkX3NpemUpDQo+ID4gK3sNCj4g
+PiArCXN0cnVjdCBtZWlfY2xfZGV2aWNlICpjbGRldjsNCj4gPiArCXN0cnVjdCBtZWlfbGJfcmVx
+ICpyZXEgPSBOVUxMOw0KPiA+ICsJc3RydWN0IG1laV9sYl9yc3AgcnNwOw0KPiA+ICsJc2l6ZV90
+IHJlcV9zaXplOw0KPiA+ICsJc3NpemVfdCBieXRlczsNCj4gPiArCWludCByZXQ7DQo+ID4gKw0K
+PiA+ICsJY2xkZXYgPSB0b19tZWlfY2xfZGV2aWNlKGRldik7DQo+ID4gKw0KPiA+ICsJcmV0ID0g
+bWVpX2NsZGV2X2VuYWJsZShjbGRldik7DQo+ID4gKwlpZiAocmV0KSB7DQo+ID4gKwkJZGV2X2Ri
+ZyhkZXYsICJtZWlfY2xkZXZfZW5hYmxlIGZhaWxlZC4gJWRcbiIsIHJldCk7DQo+ID4gKwkJcmV0
+dXJuIHJldDsNCj4gPiArCX0NCj4gPiArDQo+ID4gKwlyZXFfc2l6ZSA9IHN0cnVjdF9zaXplKHJl
+cSwgcGF5bG9hZCwgcGF5bG9hZF9zaXplKTsNCj4gPiArCWlmIChyZXFfc2l6ZSA+IG1laV9jbGRl
+dl9tdHUoY2xkZXYpKSB7DQo+ID4gKwkJZGV2X2VycihkZXYsICJQYXlsb2FkIGlzIHRvbyBiaWcg
+JXp1XG4iLCBwYXlsb2FkX3NpemUpOw0KPiA+ICsJCXJldCA9IC1FTVNHU0laRTsNCj4gPiArCQln
+b3RvIGVuZDsNCj4gPiArCX0NCj4gPiArDQo+ID4gKwlyZXEgPSBrbWFsbG9jKHJlcV9zaXplLCBH
+RlBfS0VSTkVMKTsNCj4gPiArCWlmICghcmVxKSB7DQo+ID4gKwkJcmV0ID0gLUVOT01FTTsNCj4g
+PiArCQlnb3RvIGVuZDsNCj4gPiArCX0NCj4gPiArDQo+ID4gKwlyZXEtPmhlYWRlci5ncm91cF9p
+ZCA9IE1LSElfR1JPVVBfSURfR0ZYOw0KPiA+ICsJcmVxLT5oZWFkZXIuY29tbWFuZCA9IElOVEVM
+X0xCX0NNRDsNCj4gPiArCXJlcS0+dHlwZSA9IGNwdV90b19sZTMyKHR5cGUpOw0KPiA+ICsJcmVx
+LT5mbGFncyA9IGNwdV90b19sZTMyKGZsYWdzKTsNCj4gPiArCXJlcS0+cmVzZXJ2ZWRbMF0gPSAw
+Ow0KPiA+ICsJcmVxLT5yZXNlcnZlZFsxXSA9IDA7DQo+ID4gKwlyZXEtPnBheWxvYWRfc2l6ZSA9
+IGNwdV90b19sZTMyKHBheWxvYWRfc2l6ZSk7DQo+ID4gKwltZW1jcHkocmVxLT5wYXlsb2FkLCBw
+YXlsb2FkLCBwYXlsb2FkX3NpemUpOw0KPiA+ICsNCj4gPiArCWJ5dGVzID0gbWVpX2NsZGV2X3Nl
+bmRfdGltZW91dChjbGRldiwNCj4gPiArCQkJCSAgICAgICAodm9pZCAqKXJlcSwgcmVxX3NpemUs
+DQo+IElOVEVMX0xCX1NFTkRfVElNRU9VVF9NU0VDKTsNCj4gPiArCWlmIChieXRlcyA8IDApIHsN
+Cj4gPiArCQlkZXZfZXJyKGRldiwgIm1laV9jbGRldl9zZW5kIGZhaWxlZC4gJXpkXG4iLCBieXRl
+cyk7DQo+ID4gKwkJcmV0ID0gYnl0ZXM7DQo+ID4gKwkJZ290byBlbmQ7DQo+ID4gKwl9DQo+ID4g
+Kw0KPiA+ICsJYnl0ZXMgPSBtZWlfY2xkZXZfcmVjdl90aW1lb3V0KGNsZGV2LA0KPiA+ICsJCQkJ
+ICAgICAgICh2b2lkICopJnJzcCwgc2l6ZW9mKHJzcCksDQo+IElOVEVMX0xCX1JFQ1ZfVElNRU9V
+VF9NU0VDKTsNCj4gPiArCWlmIChieXRlcyA8IDApIHsNCj4gPiArCQlkZXZfZXJyKGRldiwgIm1l
+aV9jbGRldl9yZWN2IGZhaWxlZC4gJXpkXG4iLCBieXRlcyk7DQo+ID4gKwkJcmV0ID0gYnl0ZXM7
+DQo+ID4gKwkJZ290byBlbmQ7DQo+ID4gKwl9DQo+ID4gKwlpZiAoYnl0ZXMgPCBzaXplb2YocnNw
+LmhlYWRlcikpIHsNCj4gPiArCQlkZXZfZXJyKGRldiwgImJhZCByZXNwb25zZSBoZWFkZXIgZnJv
+bSB0aGUgZmlybXdhcmU6IHNpemUNCj4gJXpkIDwgJXp1XG4iLA0KPiA+ICsJCQlieXRlcywgc2l6
+ZW9mKHJzcC5oZWFkZXIpKTsNCj4gPiArCQlyZXQgPSAtRVBST1RPOw0KPiA+ICsJCWdvdG8gZW5k
+Ow0KPiA+ICsJfQ0KPiA+ICsJaWYgKG1laV9sYl9jaGVja19yZXNwb25zZShkZXYsICZyc3AuaGVh
+ZGVyKSkgew0KPiA+ICsJCWRldl9lcnIoZGV2LCAiYmFkIHJlc3VsdCByZXNwb25zZSBmcm9tIHRo
+ZSBmaXJtd2FyZToNCj4gMHgleFxuIiwNCj4gPiArCQkJKih1aW50MzJfdCAqKSZyc3AuaGVhZGVy
+KTsNCj4gDQo+IFdoYXQgZXhhY3RseSBhcmUgeW91IHByaW50aW5nIG91dCB0byB1c2Vyc3BhY2Ug
+aGVyZT8gIEEgcG9pbnRlcj8gIE9yIGENCj4gcmFuZG9tIHZhbHVlIGZyb20gdGhlIGZpcm13YXJl
+PyAgV2h5Pw0KV2UndmUgY2hlY2tlZCB0aGlzIGRhdGEgZm9yIHZhbGlkaXR5IGFuZCBjaGVjayBp
+cyBmYWlsZWQuDQpTb21ldGltZXMgd2hvbGUgaGVhZGVyIG5lZWRlZCB0byBkZWJ1ZyB0aGUgaXNz
+dWUsIHNvIHdlIGFyZSBwcmludGluZyBpdCBoZXJlLg0KDQo+IA0KPiA+ICsJCXJldCA9IC1FUFJP
+VE87DQo+ID4gKwkJZ290byBlbmQ7DQo+ID4gKwl9DQo+IA0KPiBZb3UgZm9yZ290IHRvIGNoZWNr
+IHRoZSB0eXBlIGFuZCByZXNlcnZlZCBmaWVsZHMgb2YgdGhlIHJzcCBzdHJ1Y3R1cmUgOigNCllv
+dSBhcmUgcmlnaHQsIGJldHRlciB0byBjaGVjayB0eXBlIHRvby4NClNob3VsZCByZXNlcnZlZCBi
+aXRzIGJlIGNoZWNrZWQgZm9yIDA/IE9yIGl0IHdpbGwgYmUgb3ZlcmtpbGw/DQoNCj4gDQo+ID4g
+KwlpZiAoYnl0ZXMgPCBzaXplb2YocnNwKSkgew0KPiA+ICsJCWRldl9lcnIoZGV2LCAiYmFkIHJl
+c3BvbnNlIGZyb20gdGhlIGZpcm13YXJlOiBzaXplICV6ZCA8DQo+ICV6dVxuIiwNCj4gPiArCQkJ
+Ynl0ZXMsIHNpemVvZihyc3ApKTsNCj4gPiArCQlyZXQgPSAtRVBST1RPOw0KPiA+ICsJCWdvdG8g
+ZW5kOw0KPiA+ICsJfQ0KPiANCj4gV2h5IG5vdCBjaGVjayB0aGlzIGFib3ZlIHdoZW4geW91IGNo
+ZWNrIGFnYWluc3QgdGhlIHNpemUgb2YgdGhlIGhlYWRlcj8NCj4gWW91IG9ubHkgbmVlZCBvbmUg
+c2l6ZSBjaGVjaywgbm90IDIuDQpGaXJtd2FyZSBtYXkgcmV0dXJuIG9ubHkgaGVhZGVyIHdpdGgg
+cmVzdWx0IGZpZWxkIHNldCB3aXRob3V0IHRoZSBkYXRhLg0KV2UgYXJlIHBhcnNpbmcgdGhlIGhl
+YWRlciBmaXJzdCBhbmQgdGhlbiBzdGFydGluZyB0byBwYXJzZSBkYXRhLg0KSWYgd2UgY2hlY2sg
+Zm9yIHdob2xlIG1lc3NhZ2Ugc2l6ZSBhdCB0aGUgYmVnaW5uaW5nIHdlJ2xsIG1pc3MgdGhlIHJl
+c3VsdCBkYXRhLg0KDQotIC0gDQpUaGFua3MsDQpTYXNoYQ0KDQoNCg==
