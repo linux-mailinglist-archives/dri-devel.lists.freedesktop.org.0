@@ -2,72 +2,64 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 649E2B06F12
-	for <lists+dri-devel@lfdr.de>; Wed, 16 Jul 2025 09:36:46 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1750AB06F28
+	for <lists+dri-devel@lfdr.de>; Wed, 16 Jul 2025 09:40:35 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C56DC10E690;
-	Wed, 16 Jul 2025 07:36:44 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8D54310E263;
+	Wed, 16 Jul 2025 07:40:32 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="IL2DhtWk";
+	dkim=pass (2048-bit key; secure) header.d=sntech.de header.i=@sntech.de header.b="FTxmbPG1";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from sea.source.kernel.org (sea.source.kernel.org [172.234.252.31])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3E72310E690;
- Wed, 16 Jul 2025 07:36:44 +0000 (UTC)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by sea.source.kernel.org (Postfix) with ESMTP id ACE1D43BB8;
- Wed, 16 Jul 2025 07:36:43 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 06E68C4CEF0;
- Wed, 16 Jul 2025 07:36:32 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1752651403;
- bh=X+LoooskKcWhlAk2v6lNXE/e0zZx766RhuQ3yNOXPys=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=IL2DhtWkL8GDzqJNo9+kBPyWdkfG4GzpC2X36NeLSTin8LCx+WYzbrCpq6G0Dx8SS
- zArHhlzubKDio5Zro02MVteupBYUx+LntvJuzZe9iENIH2yMp8bsI7rqrHAkJPHs5t
- UYon4DAT51Cfe6549+kL80qFPh0YWlhHPaP+nyhxbbvDaxfXt2qAr+/qu9gAlYC4RD
- eWQELv9GKJhWdGr1wuiKilj3h0h6g+m5p91k9Nr9XdppMcjzkk+uMayh4/b1NsdN78
- kdORh0vvOWrU9L25zluzsIbqMTSQwMyn1eEUj6sfWG5/RYBdJz/kkol7HSKvq2/Pc2
- SY5E7sSIHOjxw==
-Date: Wed, 16 Jul 2025 08:36:30 +0100
-From: Simon Horman <horms@kernel.org>
-To: WangYuli <wangyuli@uniontech.com>
-Cc: airlied@gmail.com, akpm@linux-foundation.org,
- alison.schofield@intel.com, andrew+netdev@lunn.ch,
- andriy.shevchenko@linux.intel.com, arend.vanspriel@broadcom.com,
- bp@alien8.de, brcm80211-dev-list.pdl@broadcom.com,
- brcm80211@lists.linux.dev, colin.i.king@gmail.com,
- cvam0000@gmail.com, dan.j.williams@intel.com,
- dave.hansen@linux.intel.com, dave.jiang@intel.com,
- dave@stgolabs.net, davem@davemloft.net,
- dri-devel@lists.freedesktop.org, edumazet@google.com,
- gregkh@linuxfoundation.org, guanwentao@uniontech.com, hpa@zytor.com,
- ilpo.jarvinen@linux.intel.com, intel-xe@lists.freedesktop.org,
- ira.weiny@intel.com, j@jannau.net, jeff.johnson@oss.qualcomm.com,
- jgross@suse.com, jirislaby@kernel.org, johannes.berg@intel.com,
- jonathan.cameron@huawei.com, kuba@kernel.org, kvalo@kernel.org,
- kvm@vger.kernel.org, linux-cxl@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-serial@vger.kernel.org,
- linux-wireless@vger.kernel.org, linux@treblig.org,
- lucas.demarchi@intel.com, marcin.s.wojtas@gmail.com,
- ming.li@zohomail.com, mingo@kernel.org, mingo@redhat.com,
- netdev@vger.kernel.org, niecheng1@uniontech.com,
- oleksandr_tyshchenko@epam.com, pabeni@redhat.com,
- pbonzini@redhat.com, quic_ramess@quicinc.com, ragazenta@gmail.com,
- rodrigo.vivi@intel.com, seanjc@google.com, shenlichuan@vivo.com,
- simona@ffwll.ch, sstabellini@kernel.org, tglx@linutronix.de,
- thomas.hellstrom@linux.intel.com, vishal.l.verma@intel.com,
- x86@kernel.org, xen-devel@lists.xenproject.org,
- yujiaoliang@vivo.com, zhanjun@uniontech.com
-Subject: Re: [PATCH v2 4/8] net: mvneta: Fix typo "notifer"
-Message-ID: <20250716073630.GB1428042@horms.kernel.org>
-References: <BD5C52D2838AEA48+20250715134050.539234-1-wangyuli@uniontech.com>
- <41013AF60AF9B5BE+20250715134407.540483-4-wangyuli@uniontech.com>
+Received: from gloria.sntech.de (gloria.sntech.de [185.11.138.130])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id DAFFC10E263
+ for <dri-devel@lists.freedesktop.org>; Wed, 16 Jul 2025 07:40:29 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=sntech.de; 
+ s=gloria202408;
+ h=Content-Type:Content-Transfer-Encoding:MIME-Version:
+ References:In-Reply-To:Message-ID:Date:Subject:Cc:To:From:Reply-To;
+ bh=qgtjBGVAZ1tS5fJXKd4+bhI2PQYUrEH4Cz/qfvC/2po=; b=FTxmbPG1x9gKKjsM5WAh+rNIRC
+ /+YNAwSYKFOaLt++uJ4akLU4L1U3GETfMY892VjCy5ZAPJnsrTOxzSQtdS2Npx5vrgDaI+q2gfISo
+ FaSHyV2RSkf2RiUvTVOgEFrZKhcu6NXSPclXeHBTz793LdTFZqCMt3lVmXh8gVkH2Y9keELpbryPl
+ CZ8aDjoPcXgtHDjDNDuGI7sPMsDiQz0cDk4gyULnFp1hcUNUtnyUDulCnWUUWYbmuzcqXsl2lz2z8
+ UFk5YsvH+HJU7Co075/zAc39Up67VtRcLRfZlG6I+JYhQdESBQ4dEJG0WcGPM0E4hvxo/GOw83Sqw
+ pXOdRX6A==;
+Received: from i53875a74.versanet.de ([83.135.90.116] helo=diego.localnet)
+ by gloria.sntech.de with esmtpsa (TLS1.3) tls
+ TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384 (Exim 4.94.2)
+ (envelope-from <heiko@sntech.de>)
+ id 1ubwjz-0008Vz-1P; Wed, 16 Jul 2025 09:39:47 +0200
+From: Heiko =?UTF-8?B?U3TDvGJuZXI=?= <heiko@sntech.de>
+To: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>,
+ Chaoyi Chen <kernel@airkyi.com>, Chaoyi Chen <chaoyi.chen@rock-chips.com>
+Cc: Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
+ Conor Dooley <conor+dt@kernel.org>, Vinod Koul <vkoul@kernel.org>,
+ Kishon Vijay Abraham I <kishon@kernel.org>, Sandy Huang <hjc@rock-chips.com>, 
+ Andy Yan <andy.yan@rock-chips.com>,
+ Yubing Zhang <yubing.zhang@rock-chips.com>,
+ Frank Wang <frank.wang@rock-chips.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+ Amit Sunil Dhamne <amitsd@google.com>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ Dragan Simic <dsimic@manjaro.org>, Johan Jonker <jbx6244@gmail.com>,
+ Diederik de Haas <didi.debian@cknow.org>, devicetree@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-phy@lists.infradead.org,
+ linux-arm-kernel@lists.infradead.org, linux-rockchip@lists.infradead.org,
+ dri-devel@lists.freedesktop.org
+Subject: Re: [PATCH 3/5] phy: rockchip: phy-rockchip-typec: Add support for
+ Type-C TCPM
+Date: Wed, 16 Jul 2025 09:39:48 +0200
+Message-ID: <23651445.EfDdHjke4D@diego>
+In-Reply-To: <c84cb838-e6e7-4ed0-8d12-67b82f85ff28@rock-chips.com>
+References: <20250715112456.101-1-kernel@airkyi.com>
+ <eqb5m22om6bx2ypjtnlwdjmgfyycpmgrlvro34xwlwjj4j2jeq@mrarg36wetp6>
+ <c84cb838-e6e7-4ed0-8d12-67b82f85ff28@rock-chips.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <41013AF60AF9B5BE+20250715134407.540483-4-wangyuli@uniontech.com>
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset="utf-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -83,18 +75,42 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, Jul 15, 2025 at 09:44:03PM +0800, WangYuli wrote:
-> There is a spelling mistake of 'notifer' in the comment which
-> should be 'notifier'.
-> 
-> Link: https://lore.kernel.org/all/B3C019B63C93846F+20250715071245.398846-1-wangyuli@uniontech.com/
+Am Mittwoch, 16. Juli 2025, 03:56:27 Mitteleurop=C3=A4ische Sommerzeit schr=
+ieb Chaoyi Chen:
+> Hi Dmitry,
+>=20
+> On 2025/7/15 20:05, Dmitry Baryshkov wrote:
+> > On Tue, Jul 15, 2025 at 07:24:54PM +0800, Chaoyi Chen wrote:
+> >> From: Chaoyi Chen <chaoyi.chen@rock-chips.com>
+> >>
+> >> This patch add support for Type-C Port Controller Manager.
+> >> The extcon device should still be supported.
+> >>
+> >> Signed-off-by: Chaoyi Chen <chaoyi.chen@rock-chips.com>
+> >> ---
+> >>   drivers/phy/rockchip/phy-rockchip-typec.c | 335 ++++++++++++++++++++=
+=2D-
+> >>   1 file changed, 319 insertions(+), 16 deletions(-)
+> > Please keep TCPM implementation under drivers/usb/typec/tcpm/ . Create
+> > an aux device and write an aux driver for the TCPM part.
+>=20
+> Sorry, the commit messages may not be described accurately enough.
+>=20
+> This patch adds mux/switch operations to the PHY driver to improve=20
+> communication with the TCPM framework. Since this PHY is a combo USB/DP=20
+> PHY, it requires configuration changes to the PHY lanes based on the=20
+> USB-C  plug orientation (CC logic), similar to the existing extcon=20
+> mechanism implementation. Of course, the original extcon functionality=20
+> will remain fully compatible.
 
-As suggested by Jonathan Cameron elsewhere in this thread, this link to an
-earlier version doesn't seem appropriate here. I'd suggest it belongs
-below the scissors ('---') with a note that it is a link to v1.
+and looking at other users of for example typec_switch_register() [0],
+there are a number of them already used in other phy drivers accross
+=46reescale, Qualcomm, Rockchip and Samsung.
 
-> Signed-off-by: WangYuli <wangyuli@uniontech.com>
+Grouping the mux/switch with the phy driver as this patch does, makes
+way more sense than to introduce additional infrastruture.
 
-The comment above notwithstanding this looks good to me.
 
-Reviewed-by: Simon Horman <horms@kernel.org>
+[0] https://elixir.bootlin.com/linux/v6.15.6/A/ident/typec_switch_register
+
+
