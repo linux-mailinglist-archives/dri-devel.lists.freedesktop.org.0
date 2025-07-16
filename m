@@ -2,48 +2,60 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 67D2CB07371
-	for <lists+dri-devel@lfdr.de>; Wed, 16 Jul 2025 12:31:21 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 92032B073A5
+	for <lists+dri-devel@lfdr.de>; Wed, 16 Jul 2025 12:40:46 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A0A5A10E78E;
-	Wed, 16 Jul 2025 10:31:19 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id DA42610E275;
+	Wed, 16 Jul 2025 10:40:43 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; secure) header.d=canb.auug.org.au header.i=@canb.auug.org.au header.b="qt1azQGH";
+	dkim=pass (2048-bit key; secure) header.d=mailbox.org header.i=@mailbox.org header.b="B7hYPd0s";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail.ozlabs.org (gandalf.ozlabs.org [150.107.74.76])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1905010E78E;
- Wed, 16 Jul 2025 10:31:18 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=canb.auug.org.au;
- s=202503; t=1752661760;
- bh=YM5CD0wi9sXVlQrwReajd16Ogn8j5KZtBYTgVnrYdMc=;
- h=Date:From:To:Cc:Subject:From;
- b=qt1azQGHh0kTgPw2jZGT9ilbFZrb3b0Te1MdqZUbcTakVor0xMw55MvAc1HdGDsFO
- TF37qoiYms7nUa6mrtz7JBJjwfz3t+UwPemwQe+defX4qTD5i/FvjVX1zXKGS9YS/m
- X5LaVf1+1Zt3nRSCTQKR4gCbdVAcfQA4dWOqXQbFuR93Q91KaxaqitAqu9t6zZiuzm
- +JqSAkv8hUn2AzOx56zdcskq63SC73NhHIqUDaB9kuz+BF/VCCenh+vyPI4BpHuvSH
- xF3wdX5Fb9TUp5QlvAzfcQhWy74y06ZGpsbINV0uCuL0WNpkOI7CgysjZ9i8o/36Y1
- NfmlYdW+XD1Yw==
-Received: from authenticated.ozlabs.org (localhost [127.0.0.1])
+Received: from mout-p-202.mailbox.org (mout-p-202.mailbox.org [80.241.56.172])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9FB7710E275
+ for <dri-devel@lists.freedesktop.org>; Wed, 16 Jul 2025 10:40:41 +0000 (UTC)
+Received: from smtp202.mailbox.org (smtp202.mailbox.org [10.196.197.202])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
- (Client did not present a certificate)
- by mail.ozlabs.org (Postfix) with ESMTPSA id 4bhsjq4ZQWz4x4v;
- Wed, 16 Jul 2025 20:29:19 +1000 (AEST)
-Date: Wed, 16 Jul 2025 20:31:15 +1000
-From: Stephen Rothwell <sfr@canb.auug.org.au>
-To: Simona Vetter <simona.vetter@ffwll.ch>
-Cc: Andy Yan <andy.yan@rock-chips.com>, Dmitry Baryshkov
- <dmitry.baryshkov@oss.qualcomm.com>, Intel Graphics
- <intel-gfx@lists.freedesktop.org>, DRI <dri-devel@lists.freedesktop.org>,
- Linux Kernel Mailing List <linux-kernel@vger.kernel.org>, Linux Next
- Mailing List <linux-next@vger.kernel.org>
-Subject: linux-next: build warning after merge of the drm-misc tree
-Message-ID: <20250716203115.6e02e50c@canb.auug.org.au>
+ (No client certificate requested)
+ by mout-p-202.mailbox.org (Postfix) with ESMTPS id 4bhsys4LmDz9t74;
+ Wed, 16 Jul 2025 12:40:37 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mailbox.org;
+ s=mail20150812; t=1752662437;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=wXRQmJDPVKJRTM9t2/aWWBgsSj1CebZBIyG26mAoACM=;
+ b=B7hYPd0sXGdusAka78IUvduxe0Ci1p+1oHluDY03ol10uUz+fenwc70EG27+o+sdiki/p9
+ grQxAW1HOEmefALZQMCJ/ZgxucS/k9m4RqwN5KSc6MfiDautBp1TkkdZRLdeON/L1tUb/6
+ NIbUDCHgpxodT8SJ3mKpvFij4FcvvPpfQ82hWzMA5+kZRquCmcofle1igFv/vY8utkgFer
+ 2CnLWIFGPHE9D3TY+zyU6aOY81+9vjN3MoB36XLSTvTfqBmcJRGjvwfz41yP5YUNvt+6sc
+ U3j4qLvOQmelWWEjZjiHTTZJ7ks2TyANAdnoUDC9fMQvyg/ZB3+MVKdnxZQ4wA==
+Message-ID: <fd46ca0c-e484-4bf8-b74e-0139ecc7deae@mailbox.org>
+Date: Wed, 16 Jul 2025 12:40:35 +0200
 MIME-Version: 1.0
-Content-Type: multipart/signed; boundary="Sig_/b9i2EU98fNzWaJSltlNFa/h";
- protocol="application/pgp-signature"; micalg=pgp-sha256
+Subject: Re: [PATCH] drm/sched: Remove optimization that causes hang when
+ killing dependent jobs
+To: phasta@kernel.org, "cao, lin" <lin.cao@amd.com>,
+ "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>
+Cc: "Yin, ZhenGuo (Chris)" <ZhenGuo.Yin@amd.com>,
+ "Deng, Emily" <Emily.Deng@amd.com>,
+ "Koenig, Christian" <Christian.Koenig@amd.com>,
+ "dakr@kernel.org" <dakr@kernel.org>,
+ "matthew.brost@intel.com" <matthew.brost@intel.com>
+References: <20250715135033.706126-1-lincao12@amd.com>
+ <b7e207ef3a775fed0f344ca24990c5aeb36b2507.camel@mailbox.org>
+ <CO6PR12MB5491F9E1F21F95C89CC91DA2F556A@CO6PR12MB5491.namprd12.prod.outlook.com>
+ <df5fe40e79db8e988661704ea4f72be1a2e4c14c.camel@mailbox.org>
+From: =?UTF-8?Q?Michel_D=C3=A4nzer?= <michel.daenzer@mailbox.org>
+Content-Language: de-CH-frami, en-CA
+In-Reply-To: <df5fe40e79db8e988661704ea4f72be1a2e4c14c.camel@mailbox.org>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-MBO-RS-ID: a53cba667e746d60af1
+X-MBO-RS-META: sfpp931esq7hpzddyk8yf3iqdnpiykeq
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -59,40 +71,37 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
---Sig_/b9i2EU98fNzWaJSltlNFa/h
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: quoted-printable
+On 16.07.25 11:57, Philipp Stanner wrote:
+> On Wed, 2025-07-16 at 09:43 +0000, cao, lin wrote:
+>>
+>> Hi Philipp,
+>>
+>>
+>> Thank you for the review. I found that this optimization was
+>> introduced 9 years ago in commit
+>> 777dbd458c89d4ca74a659f85ffb5bc817f29a35 ("drm/amdgpu: drop a dummy
+>> wakeup scheduler").
+>>
+>>
+>> Given that the codebase has undergone significant changes over these
+>> 9 years. May I ask if I still need to include the Fixes: tag?
+> 
+> Yes. It's a helpful marker to see where the problem comes from, and it
+> adds redundancy helping the stable-kernel maintainers in figuring out
+> to which kernels to backport it to.
+> 
+> If stable can't apply a patch to a very old stable kernel because the
+> code base changed too much, they'll ping us and we might provide a
+> dedicated fix.
+> 
+> So like that:
+> 
+> Cc: stable@vger.kernel.org # v4.6+
+> Fixes: 777dbd458c89 ("drm/amdgpu: drop a dummy wakeup scheduler")
 
-Hi all,
+FWIW, Fixes: alone is enough for getting backported to stable branches, Cc: stable is redundant with it.
 
-After merging the drm-misc tree, today's linux-next build (htmldocs)
-produced this warning:
 
-drivers/gpu/drm/drm_bridge.c:1242: warning: Function parameter or struct me=
-mber 'connector' not described in 'drm_bridge_detect'
-
-Introduced by commit
-
-  5d156a9c3d5e ("drm/bridge: Pass down connector to drm bridge detect hook")
-
---=20
-Cheers,
-Stephen Rothwell
-
---Sig_/b9i2EU98fNzWaJSltlNFa/h
-Content-Type: application/pgp-signature
-Content-Description: OpenPGP digital signature
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAEBCAAdFiEENIC96giZ81tWdLgKAVBC80lX0GwFAmh3f3MACgkQAVBC80lX
-0GzJOQgAmpCq0YSRtNRb6Khe7E2WiPGc+ZxCfaVMDF6aBuTPhb4+A+FFEGHJdJbJ
-7oPeiAhjpMAtE8nr+BprQibAu0n32wWfmypP0oA1Z4fyCe1T97OgNUfFnpM2cowD
-KboyF/4H8NBV1fD8RDv+ISh7D/d2szo88SmOeYQASxntWgmx1kTNIP1dKkxK1YGM
-VE+FoRtz1J5sHIKnsuNznPV06I6xlY0zHZylqdI7lmkdXN/6Ha8BJ7bu7lMvn90C
-LOy2SgejWdVZFxUKnScONm5ke/5ifOmxhZ1YH2D5uXb/VdlfQMOqDA/Reuff7Vdv
-Hic5HWcCy0iTmyzgqjVvr5sp6OeUxg==
-=hdR0
------END PGP SIGNATURE-----
-
---Sig_/b9i2EU98fNzWaJSltlNFa/h--
+-- 
+Earthling Michel Dänzer       \        GNOME / Xwayland / Mesa developer
+https://redhat.com             \               Libre software enthusiast
