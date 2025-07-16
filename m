@@ -2,63 +2,54 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 33C67B07096
-	for <lists+dri-devel@lfdr.de>; Wed, 16 Jul 2025 10:31:22 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id B06FAB070A1
+	for <lists+dri-devel@lfdr.de>; Wed, 16 Jul 2025 10:33:18 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B7F8F10E705;
-	Wed, 16 Jul 2025 08:31:19 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E002710E6FE;
+	Wed, 16 Jul 2025 08:33:16 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=bootlin.com header.i=@bootlin.com header.b="IStlULGD";
+	dkim=pass (2048-bit key; secure) header.d=mailbox.org header.i=@mailbox.org header.b="pOVZ2p64";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from relay3-d.mail.gandi.net (relay3-d.mail.gandi.net
- [217.70.183.195])
- by gabe.freedesktop.org (Postfix) with ESMTPS id EFE9E10E705
- for <dri-devel@lists.freedesktop.org>; Wed, 16 Jul 2025 08:31:18 +0000 (UTC)
-Received: by mail.gandi.net (Postfix) with ESMTPSA id ED0171FD3A;
- Wed, 16 Jul 2025 08:31:14 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
- t=1752654677;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+Received: from mout-p-103.mailbox.org (mout-p-103.mailbox.org [80.241.56.161])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 958C910E6FE
+ for <dri-devel@lists.freedesktop.org>; Wed, 16 Jul 2025 08:33:15 +0000 (UTC)
+Received: from smtp202.mailbox.org (smtp202.mailbox.org [10.196.197.202])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ (No client certificate requested)
+ by mout-p-103.mailbox.org (Postfix) with ESMTPS id 4bhq7r29xzz9scY;
+ Wed, 16 Jul 2025 10:33:12 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mailbox.org;
+ s=mail20150812; 
+ t=1752654792; h=from:from:reply-to:reply-to:subject:subject:date:date:
+ message-id:message-id:to:to:cc:cc:mime-version:mime-version:
+ content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=vhc5XXVzPBMiAxEHTDwHceDpsK/iOnBDxRP9eROs3iM=;
- b=IStlULGD5+t389s2SOVgjgYNtuo5hkMYmw2w6F+aITGlTrBXakDtkSn2iiexi3dPVgZlPn
- PHj8qhpHL92J5v88aH4+ot8Wq2rw9awRQLffDagp8xBekRSKRO2JYYAJbc7+9XG6uFa9ud
- n/UGdrbLlMcgTMGtJ9TdrGhSyGc2iToIZH0HQQ7XL/9bDEcNQ4/dpe9O3Wt9VYdqyI2xCw
- gWMvu9q6a7yN8nT+7BPUe3e86vLskVy5CZ4ukgR565KMPTsw7YLZfdcjr16Tl3KUA7vbhf
- pYPhIVRBYG9of/jEjRLZty63Ip9Xszbu9EaTrb6tON1Gr/Eftv9iJtLlKr1xHQ==
-Date: Wed, 16 Jul 2025 10:31:13 +0200
-From: Luca Ceresoli <luca.ceresoli@bootlin.com>
-To: Dan Carpenter <dan.carpenter@linaro.org>
-Cc: Marek Szyprowski <m.szyprowski@samsung.com>, Andrzej Hajda
- <andrzej.hajda@intel.com>, Neil Armstrong <neil.armstrong@linaro.org>,
- Robert Foss <rfoss@kernel.org>, Laurent Pinchart
- <Laurent.pinchart@ideasonboard.com>, Jonas Karlman <jonas@kwiboo.se>,
- Jernej Skrabec <jernej.skrabec@gmail.com>, Maarten Lankhorst
- <maarten.lankhorst@linux.intel.com>, Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
- Simona Vetter <simona@ffwll.ch>, Dmitry Baryshkov
- <dmitry.baryshkov@oss.qualcomm.com>, Douglas Anderson
- <dianders@chromium.org>, Damon Ding <damon.ding@rock-chips.com>,
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- kernel-janitors@vger.kernel.org
-Subject: Re: [PATCH next] drm/bridge: analogix_dp: Fix a NULL vs IS_ERR() bug
-Message-ID: <20250716103113.5b321b7e@booty>
-In-Reply-To: <d679e2f0-f449-41c4-83ed-c3e26e440a4a@sabinyo.mountain>
-References: <d679e2f0-f449-41c4-83ed-c3e26e440a4a@sabinyo.mountain>
-Organization: Bootlin
-X-Mailer: Claws Mail 4.3.1 (GTK 3.24.49; x86_64-redhat-linux-gnu)
+ bh=KjQJhG1pKpWS9IoU9EXIgMhnaY9UGlpALaosr4b14Gc=;
+ b=pOVZ2p64nQCP0KVZPerSJNDSDQOVYEvBrz8ULKJksNh0/zgTUeSz+vyZyj6a+0n0YmQAzl
+ ufYgwhSREM004jyUrUisP2QHvJXCFlSeQ2LCizUNkcOEvGUlb/9p0+mqymG+JBMEUsr2fJ
+ S7EccryDV9SbOEQtvn0EKdsidtzpsvK4VLLASSLCyNS2R4uK1lfOOkqJTQd90WNqscqQan
+ ITaMCh2AKYimBX918tlACo7Ailni6V6DsPzpdpXDv/n44r9Dze4VORBhxRAeiQBNr0lbuV
+ RWozMHHAM6ftNIkdkFVX8KfsQ+nvMAg7DioCbE11us8mIN5bR9WkPzoQiboD1Q==
+Message-ID: <b7e207ef3a775fed0f344ca24990c5aeb36b2507.camel@mailbox.org>
+Subject: Re: [PATCH] drm/sched: Remove optimization that causes hang when
+ killing dependent jobs
+From: Philipp Stanner <phasta@mailbox.org>
+To: "Lin.Cao" <lincao12@amd.com>, dri-devel@lists.freedesktop.org
+Cc: zhenguo.yin@amd.com, Emily.Deng@amd.com, Christian
+ =?ISO-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>, phasta@kernel.org,
+ dakr@kernel.org,  matthew.brost@intel.com
+Date: Wed, 16 Jul 2025 10:33:08 +0200
+In-Reply-To: <20250715135033.706126-1-lincao12@amd.com>
+References: <20250715135033.706126-1-lincao12@amd.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
-X-GND-State: clean
-X-GND-Score: -100
-X-GND-Cause: gggruggvucftvghtrhhoucdtuddrgeeffedrtdefgdehjedvfecutefuodetggdotefrodftvfcurfhrohhfihhlvgemucfitefpfffkpdcuggftfghnshhusghstghrihgsvgenuceurghilhhouhhtmecufedtudenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujfgurhepfffhvfevuffkjghfohfogggtgfesthejredtredtvdenucfhrhhomhepnfhutggrucevvghrvghsohhlihcuoehluhgtrgdrtggvrhgvshholhhisegsohhothhlihhnrdgtohhmqeenucggtffrrghtthgvrhhnpeeglefffefghefhtddvfeeufeeiveekgffgleekieduteekkeetvdehudekgfdvvdenucffohhmrghinhepsghoohhtlhhinhdrtghomhenucfkphepvdgrtddvmeeijedtmedvtddvtdemvggrtddumegsvgegudemleehvgejmeefgeefmeeludefvgenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepihhnvghtpedvrgdtvdemieejtdemvddtvddtmegvrgdtudemsggvgedumeelhegvjeemfeegfeemledufegvpdhhvghlohepsghoohhthidpmhgrihhlfhhrohhmpehluhgtrgdrtggvrhgvshholhhisegsohhothhlihhnrdgtohhmpdhnsggprhgtphhtthhopeduledprhgtphhtthhopegurghnrdgtrghrphgvnhhtvghrsehlihhnrghrohdrohhrghdprhgtphhtthhopehmrdhsiiihphhrohifshhkihesshgrmhhsuhhnghdrtghomhdprhgtphhtthhopegrnhgurhiivghjrdhhrghjuggrs
- ehinhhtvghlrdgtohhmpdhrtghpthhtohepnhgvihhlrdgrrhhmshhtrhhonhhgsehlihhnrghrohdrohhrghdprhgtphhtthhopehrfhhoshhssehkvghrnhgvlhdrohhrghdprhgtphhtthhopefnrghurhgvnhhtrdhpihhntghhrghrthesihguvggrshhonhgsohgrrhgurdgtohhmpdhrtghpthhtohepjhhonhgrsheskhifihgsohhordhsvgdprhgtphhtthhopehjvghrnhgvjhdrshhkrhgrsggvtgesghhmrghilhdrtghomh
-X-GND-Sasl: luca.ceresoli@bootlin.com
+X-MBO-RS-META: zwn1k6tu1zni66mee7kc3w4u43wdikzx
+X-MBO-RS-ID: 1b72ff3abc724d82ca1
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -71,43 +62,93 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
+Reply-To: phasta@kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hello Dan,
+On Tue, 2025-07-15 at 21:50 +0800, Lin.Cao wrote:
+> When application A submits jobs and application B submits a job with
+> a
+> dependency on A's fence, the normal flow wakes up the scheduler after
+> processing each job. However, the optimization in
+> drm_sched_entity_add_dependency_cb() uses a callback that only clears
+> dependencies without waking up the scheduler.
+>=20
+> When application A is killed before its jobs can run, the callback
+> gets
+> triggered but only clears the dependency without waking up the
+> scheduler,
+> causing the scheduler to enter sleep state and application B to hang.
+>=20
+> Remove the optimization by deleting drm_sched_entity_clear_dep() and
+> its
+> usage, ensuring the scheduler is always woken up when dependencies
+> are
+> cleared.
+>=20
+> Signed-off-by: Lin.Cao <lincao12@amd.com>
 
-On Tue, 15 Jul 2025 17:59:06 -0500
-Dan Carpenter <dan.carpenter@linaro.org> wrote:
+This is, still, a bug fix, so it needs Fixes: and Cc: stable :)
 
-> The devm_drm_bridge_alloc() function returns error pointers on error.  It
-> never returns NULL.
-> 
-> Fixes: 48f05c3b4b70 ("drm/bridge: analogix_dp: Use devm_drm_bridge_alloc() API")
-> Signed-off-by: Dan Carpenter <dan.carpenter@linaro.org>
+Could also include a Suggested-by: Christian
+
+P.
+
 > ---
->  drivers/gpu/drm/bridge/analogix/analogix_dp_core.c | 4 ++--
->  1 file changed, 2 insertions(+), 2 deletions(-)
-> 
-> diff --git a/drivers/gpu/drm/bridge/analogix/analogix_dp_core.c b/drivers/gpu/drm/bridge/analogix/analogix_dp_core.c
-> index ed35e567d117..4b9b444bd249 100644
-> --- a/drivers/gpu/drm/bridge/analogix/analogix_dp_core.c
-> +++ b/drivers/gpu/drm/bridge/analogix/analogix_dp_core.c
-> @@ -1474,8 +1474,8 @@ analogix_dp_probe(struct device *dev, struct analogix_dp_plat_data *plat_data)
->  
->  	dp = devm_drm_bridge_alloc(dev, struct analogix_dp_device, bridge,
->  				   &analogix_dp_bridge_funcs);
-> -	if (!dp)
-> -		return ERR_PTR(-ENOMEM);
-> +	if (IS_ERR(dp))
-> +		return dp;
+> =C2=A0drivers/gpu/drm/scheduler/sched_entity.c | 21 ++-------------------
+> =C2=A01 file changed, 2 insertions(+), 19 deletions(-)
+>=20
+> diff --git a/drivers/gpu/drm/scheduler/sched_entity.c
+> b/drivers/gpu/drm/scheduler/sched_entity.c
+> index e671aa241720..ac678de7fe5e 100644
+> --- a/drivers/gpu/drm/scheduler/sched_entity.c
+> +++ b/drivers/gpu/drm/scheduler/sched_entity.c
+> @@ -355,17 +355,6 @@ void drm_sched_entity_destroy(struct
+> drm_sched_entity *entity)
+> =C2=A0}
+> =C2=A0EXPORT_SYMBOL(drm_sched_entity_destroy);
+> =C2=A0
+> -/* drm_sched_entity_clear_dep - callback to clear the entities
+> dependency */
+> -static void drm_sched_entity_clear_dep(struct dma_fence *f,
+> -				=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 struct dma_fence_cb *cb)
+> -{
+> -	struct drm_sched_entity *entity =3D
+> -		container_of(cb, struct drm_sched_entity, cb);
+> -
+> -	entity->dependency =3D NULL;
+> -	dma_fence_put(f);
+> -}
+> -
+> =C2=A0/*
+> =C2=A0 * drm_sched_entity_wakeup - callback to clear the entity's
+> dependency and
+> =C2=A0 * wake up the scheduler
+> @@ -376,7 +365,8 @@ static void drm_sched_entity_wakeup(struct
+> dma_fence *f,
+> =C2=A0	struct drm_sched_entity *entity =3D
+> =C2=A0		container_of(cb, struct drm_sched_entity, cb);
+> =C2=A0
+> -	drm_sched_entity_clear_dep(f, cb);
+> +	entity->dependency =3D NULL;
+> +	dma_fence_put(f);
+> =C2=A0	drm_sched_wakeup(entity->rq->sched);
+> =C2=A0}
+> =C2=A0
+> @@ -429,13 +419,6 @@ static bool
+> drm_sched_entity_add_dependency_cb(struct drm_sched_entity *entity)
+> =C2=A0		fence =3D dma_fence_get(&s_fence->scheduled);
+> =C2=A0		dma_fence_put(entity->dependency);
+> =C2=A0		entity->dependency =3D fence;
+> -		if (!dma_fence_add_callback(fence, &entity->cb,
+> -					=C2=A0=C2=A0=C2=A0
+> drm_sched_entity_clear_dep))
+> -			return true;
+> -
+> -		/* Ignore it when it is already scheduled */
+> -		dma_fence_put(fence);
+> -		return false;
+> =C2=A0	}
+> =C2=A0
+> =C2=A0	if (!dma_fence_add_callback(entity->dependency, &entity->cb,
 
-Reviewed-by: Luca Ceresoli <luca.ceresoli@bootlin.com>
-
-Thanks!
-
-Luca
-
--- 
-Luca Ceresoli, Bootlin
-Embedded Linux and Kernel engineering
-https://bootlin.com
