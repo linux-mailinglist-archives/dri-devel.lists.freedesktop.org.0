@@ -2,54 +2,48 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id E0F8EB072E3
-	for <lists+dri-devel@lfdr.de>; Wed, 16 Jul 2025 12:13:48 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 00EDEB07307
+	for <lists+dri-devel@lfdr.de>; Wed, 16 Jul 2025 12:17:06 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7588710E26E;
-	Wed, 16 Jul 2025 10:13:46 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 98DA310E65A;
+	Wed, 16 Jul 2025 10:17:02 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="akg/1Ibp";
+	dkim=pass (2048-bit key; secure) header.d=canb.auug.org.au header.i=@canb.auug.org.au header.b="B8VovUOJ";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
- by gabe.freedesktop.org (Postfix) with ESMTPS id CF0C410E26E
- for <dri-devel@lists.freedesktop.org>; Wed, 16 Jul 2025 10:13:44 +0000 (UTC)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by dfw.source.kernel.org (Postfix) with ESMTP id 98D845C5BD4;
- Wed, 16 Jul 2025 10:13:43 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id CD124C4CEFB;
- Wed, 16 Jul 2025 10:13:41 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1752660823;
- bh=zmDlJEcCkAItmsN91VxH+Y6Za18HjPTr6bGwSTCinHY=;
- h=Date:Subject:Cc:To:From:References:In-Reply-To:From;
- b=akg/1IbpGQsucT58cuZhLdB2RRERE4XZIWg5O5PiZ+6//1gCDoRPpkm5P/YePBBP7
- NInKGnoyerSChhUxsWtv4CeZ5g/7KCvelVIdt0BpHm2gQrbhnu65MjdXWI+QfE4xZ+
- yNg0zIquPPEzhow9WQtLCw3Rv/h+b/hr0e6uguMarBKz4eXVHo98xVPX7QC5glBL/b
- PTceu4QBRWeidkAFDFGlOUw/92Ly1GBcjWNwNy6IB5cx1gf7gzBtHl/tP/Gm2M19tC
- 0V+ePTPs7Q8dyOrKKQZKXzGHKI3QzY3p9oiitOpC5FvQUDcqT7If2qOytwRAwKFSDb
- DZ9Cu/SSJ0BfA==
-Mime-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset=UTF-8
-Date: Wed, 16 Jul 2025 12:13:40 +0200
-Message-Id: <DBDEEPDKQAX2.261COQD2QRTVF@kernel.org>
-Subject: Re: [PATCH] drm/sched: Remove optimization that causes hang when
- killing dependent jobs
-Cc: "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
- "phasta@kernel.org" <phasta@kernel.org>, "Yin, ZhenGuo (Chris)"
- <ZhenGuo.Yin@amd.com>, "Deng, Emily" <Emily.Deng@amd.com>, "Koenig,
- Christian" <Christian.Koenig@amd.com>, "matthew.brost@intel.com"
- <matthew.brost@intel.com>
-To: "cao, lin" <lin.cao@amd.com>
-From: "Danilo Krummrich" <dakr@kernel.org>
-References: <20250715135033.706126-1-lincao12@amd.com>
- <b7e207ef3a775fed0f344ca24990c5aeb36b2507.camel@mailbox.org>
- <CO6PR12MB5491F9E1F21F95C89CC91DA2F556A@CO6PR12MB5491.namprd12.prod.outlook.com>
- <df5fe40e79db8e988661704ea4f72be1a2e4c14c.camel@mailbox.org>
- <CO6PR12MB5491D8AC9F0920FA75D2CD6AF556A@CO6PR12MB5491.namprd12.prod.outlook.com>
-In-Reply-To: <CO6PR12MB5491D8AC9F0920FA75D2CD6AF556A@CO6PR12MB5491.namprd12.prod.outlook.com>
+Received: from mail.ozlabs.org (gandalf.ozlabs.org [150.107.74.76])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1853210E65A;
+ Wed, 16 Jul 2025 10:16:59 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=canb.auug.org.au;
+ s=202503; t=1752660901;
+ bh=vfFNFk28QfT9KpRR3twKaJ6fyuRuP6P64ejSwvxbXsQ=;
+ h=Date:From:To:Cc:Subject:From;
+ b=B8VovUOJKsX84IYYfcYscLfoQdsJABv2iwY6FZ5y0VwK6gs8HHtpV9xNbmdgSfmoA
+ fBCgTn//1syjkjicX9tmyFO6EEycJVzp5oDA+5AfKS9YuK9ut5f4v/VWdwOu6Z+SR8
+ qMWHSsShapUvTUkHoCh5/zbUBmA2vnu5ymGQphX7hGYkL2WTbYASpruuIbzsrNKZJD
+ f8uUwoBkaDgFVRhJCESd16d4tO5ec3lc7H5eQQ2gB9t1k7up6qHrMCH+vKiVrYCeO/
+ FgeLk+FXhJWSdSXROWAbSA6fuHbnQ1VW24oBrSunDpsDEGfc2+PTTfmbZGemO02V6t
+ MEjxMAEPAsZDA==
+Received: from authenticated.ozlabs.org (localhost [127.0.0.1])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ (Client did not present a certificate)
+ by mail.ozlabs.org (Postfix) with ESMTPSA id 4bhsPK1WPhz4wbn;
+ Wed, 16 Jul 2025 20:15:01 +1000 (AEST)
+Date: Wed, 16 Jul 2025 20:16:56 +1000
+From: Stephen Rothwell <sfr@canb.auug.org.au>
+To: Miguel Ojeda <ojeda@kernel.org>, Simona Vetter <simona.vetter@ffwll.ch>
+Cc: Alice Ryhl <aliceryhl@google.com>, Danilo Krummrich <dakr@kernel.org>,
+ Intel Graphics <intel-gfx@lists.freedesktop.org>, DRI
+ <dri-devel@lists.freedesktop.org>, Linux Kernel Mailing List
+ <linux-kernel@vger.kernel.org>, Linux Next Mailing List
+ <linux-next@vger.kernel.org>
+Subject: linux-next: manual merge of the rust tree with the drm-misc tree
+Message-ID: <20250716201656.4f0ea8d7@canb.auug.org.au>
+MIME-Version: 1.0
+Content-Type: multipart/signed; boundary="Sig_/axF9tQlUxjmD/o3e4O5X_DP";
+ protocol="application/pgp-signature"; micalg=pgp-sha256
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -65,19 +59,77 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed Jul 16, 2025 at 12:05 PM CEST, lin cao wrote:
-> [AMD Official Use Only - AMD Internal Distribution Only]
+--Sig_/axF9tQlUxjmD/o3e4O5X_DP
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: quoted-printable
 
-Two small off-topic remarks from my side. :)
+Hi all,
 
-Can you please remove "AMD Official Use Only" header when sending to public
-mailing lists? Otherwise people may have to delete your mails unread.
+Today's linux-next merge of the rust tree got a conflict in:
 
-Please try to avoid top-post replies [1].
+  rust/kernel/drm/gem/mod.rs
 
-Thanks!
+between commit:
 
-- Danilo
+  917b10d90990 ("drm: rust: rename as_ref() to from_raw() for drm construct=
+ors")
 
-[1] https://subspace.kernel.org/etiquette.html#do-not-top-post-when-replyin=
-g
+from the drm-misc tree and commit:
+
+  8802e1684378 ("rust: types: add Opaque::cast_from")
+
+from the rust tree.
+
+I fixed it up (see below) and can carry the fix as necessary. This
+is now fixed as far as linux-next is concerned, but any non trivial
+conflicts should be mentioned to your upstream maintainer when your tree
+is submitted for merging.  You may also want to consider cooperating
+with the maintainer of the conflicting tree to minimise any particularly
+complex conflicts.
+
+--=20
+Cheers,
+Stephen Rothwell
+
+diff --cc rust/kernel/drm/gem/mod.rs
+index a24c9a2fc201,6f914ae0a5aa..000000000000
+--- a/rust/kernel/drm/gem/mod.rs
++++ b/rust/kernel/drm/gem/mod.rs
+@@@ -124,12 -124,10 +124,10 @@@ impl<T: DriverObject> IntoGEMObject fo
+          self.obj.get()
+      }
+ =20
+ -    unsafe fn as_ref<'a>(self_ptr: *mut bindings::drm_gem_object) -> &'a =
+Self {
+ +    unsafe fn from_raw<'a>(self_ptr: *mut bindings::drm_gem_object) -> &'=
+a Self {
+-         let self_ptr: *mut Opaque<bindings::drm_gem_object> =3D self_ptr.=
+cast();
+-=20
+          // SAFETY: `obj` is guaranteed to be in an `Object<T>` via the sa=
+fety contract of this
+          // function
+-         unsafe { &*crate::container_of!(self_ptr, Object<T>, obj) }
++         unsafe { &*crate::container_of!(Opaque::cast_from(self_ptr), Obje=
+ct<T>, obj) }
+      }
+  }
+ =20
+
+--Sig_/axF9tQlUxjmD/o3e4O5X_DP
+Content-Type: application/pgp-signature
+Content-Description: OpenPGP digital signature
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAEBCAAdFiEENIC96giZ81tWdLgKAVBC80lX0GwFAmh3fBgACgkQAVBC80lX
+0Gx0jAf9G/9ea6ueWCOlqmAoJhA4+jh+eVhFw5JBFTWSWS48AP8VlKf1JhPaj7hj
+Zhmw6NX/w7tM6Cr/YlQ/tSinsebhRyH2bs6D30lBenFtQprqSqivc2PgK+p/HnsW
+ZYW+ECdBNC87Wm6+Jxz0OpNJdhkcF3SAnfZ3hHYVROsN5Ds/CS+7Ca09JkMekaF6
+X1B3Utv4RfOZRXjlF2Nag2J9j5FginurZ1YeOnQ+muN0/uDEZ0CWRU3pnSsxoIj1
++Fc/mgV/CrsOm5CJtBY8nJwkA69HiXSNjcF7kE1pAcF//59mrIMGGqYoIFRUd/Pu
+glNVtOCnq+dGTneBgwFkYKStTMVgUA==
+=ncWP
+-----END PGP SIGNATURE-----
+
+--Sig_/axF9tQlUxjmD/o3e4O5X_DP--
