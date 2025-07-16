@@ -2,29 +2,29 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6F1BCB07286
-	for <lists+dri-devel@lfdr.de>; Wed, 16 Jul 2025 12:05:31 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id BAD21B07283
+	for <lists+dri-devel@lfdr.de>; Wed, 16 Jul 2025 12:05:26 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7961E10E784;
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0F5A010E781;
 	Wed, 16 Jul 2025 10:05:25 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=163.com header.i=@163.com header.b="Q+u1DzX2";
+	dkim=pass (1024-bit key; unprotected) header.d=163.com header.i=@163.com header.b="qNTcbync";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from m16.mail.163.com (m16.mail.163.com [117.135.210.5])
- by gabe.freedesktop.org (Postfix) with ESMTP id 720B110E77F
- for <dri-devel@lists.freedesktop.org>; Wed, 16 Jul 2025 10:05:20 +0000 (UTC)
+Received: from m16.mail.163.com (m16.mail.163.com [220.197.31.3])
+ by gabe.freedesktop.org (Postfix) with ESMTP id DCCF210E77E
+ for <dri-devel@lists.freedesktop.org>; Wed, 16 Jul 2025 10:05:21 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=163.com;
- s=s110527; h=From:To:Subject:Date:Message-ID:MIME-Version; bh=vB
- 8wLIz0WHvujVMHowKC0Q/8HNa8Qgp3eo7drb5rVz4=; b=Q+u1DzX2yClakYLJo5
- S/hrxWlyMbYv6I4UVWjL8Dk1p3JpXeMrIdE68Y9XymGW5oDN0feFSZWlVTsVnSVB
- ooqgdDzn6OckQvw8AqJddhPW1Cgoc9irdUUjv5+s2kjRrNMx3uIrBd/66VIQjB+e
- TpvmBfKyQmjhueiH0Y5M1dOa8=
+ s=s110527; h=From:To:Subject:Date:Message-ID:MIME-Version; bh=c8
+ TbWEVDRePQ3AnKdtwVwl22ZdGy/aRprexuwiKErqQ=; b=qNTcbyncVhnc5zX2H2
+ m0rvzcLyPrJbqtODyCQZ+eqPaWkslzeqhT+PXyrKnijRQkZqvjAPtH7/eCGY5Xb1
+ v6tzzIfJB7X9VVVRUg+4QonLNJ6VPJB3RhHbjqYMn68KQJOUCCxjdRRW6fY0xT/B
+ oJQldsox0xRmblKZHArKqDOFw=
 Received: from ProDesk.. (unknown [])
  by gzga-smtp-mtada-g1-2 (Coremail) with SMTP id
- _____wAH0s46eXdoG0BuFQ--.1985S7; 
- Wed, 16 Jul 2025 18:05:03 +0800 (CST)
+ _____wAH0s46eXdoG0BuFQ--.1985S8; 
+ Wed, 16 Jul 2025 18:05:05 +0800 (CST)
 From: Andy Yan <andyshrk@163.com>
 To: dmitry.baryshkov@oss.qualcomm.com,
 	heiko@sntech.de
@@ -35,24 +35,23 @@ Cc: hjc@rock-chips.com, mripard@kernel.org, naoki@radxa.com, stephen@radxa.com,
  dri-devel@lists.freedesktop.org, linux-arm-kernel@lists.infradead.org,
  linux-kernel@vger.kernel.org, linux-rockchip@lists.infradead.org,
  robh@kernel.org, sebastian.reichel@collabora.com,
- Andy Yan <andy.yan@rock-chips.com>,
- Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-Subject: [PATCH v5 05/10] dt-bindings: display: simple-bridge: Add ra620
- compatible
-Date: Wed, 16 Jul 2025 18:04:32 +0800
-Message-ID: <20250716100440.816351-6-andyshrk@163.com>
+ Andy Yan <andy.yan@rock-chips.com>
+Subject: [PATCH v5 06/10] drm/birdge: simple-bridge: Add support for radxa
+ ra620
+Date: Wed, 16 Jul 2025 18:04:33 +0800
+Message-ID: <20250716100440.816351-7-andyshrk@163.com>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <20250716100440.816351-1-andyshrk@163.com>
 References: <20250716100440.816351-1-andyshrk@163.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-CM-TRANSID: _____wAH0s46eXdoG0BuFQ--.1985S7
-X-Coremail-Antispam: 1Uf129KBjvdXoWrZw1UZrWxKw4DCw4kKF18Grg_yoWDAFc_X3
- Z7Aw1UJr1FqasYgFs8ZFs7Gry3Xw48KrWrCr10yrs7Ar4S934DKa97J34rGr1rAF1I9Fn7
- ur1fW39rCwsrujkaLaAFLSUrUUUUjb8apTn2vfkv8UJUUUU8Yxn0WfASr-VFAUDa7-sFnT
- 9fnUUvcSsGvfC2KfnxnUUI43ZEXa7IU82Nt7UUUUU==
+X-CM-TRANSID: _____wAH0s46eXdoG0BuFQ--.1985S8
+X-Coremail-Antispam: 1Uf129KBjvdXoW7Gw47tr48Jr4ftr4xKrWUtwb_yoWkZrg_uF
+ nayryUJr45XF9YgF43Zw43A34Iv3W8urZ7Wr1vgrZxAws3Zw47W39rur9xZ34fAF10yF9F
+ y3W3JFW7Ar17ujkaLaAFLSUrUUUUjb8apTn2vfkv8UJUUUU8Yxn0WfASr-VFAUDa7-sFnT
+ 9fnUUvcSsGvfC2KfnxnUUI43ZEXa7IU0-18DUUUUU==
 X-Originating-IP: [103.29.142.67]
-X-CM-SenderInfo: 5dqg52xkunqiywtou0bp/xtbB0giMXmh3dDKMagAAs3
+X-CM-SenderInfo: 5dqg52xkunqiywtou0bp/xtbBEgWMXmh3cPPqbgAAsd
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -70,13 +69,13 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 From: Andy Yan <andy.yan@rock-chips.com>
 
-RA620 is a DP to HDMI bridge converter from RADXA, which first
-found be used on ROCK 5 ITX.
+The RA620 is an active DP to HDMI converter chip, basically
+no software is involved to drive it.
 
-This chip can be used without involving software.
+Add it to simple bridge to make it can be find by the drm bridge chain.
 
 Signed-off-by: Andy Yan <andy.yan@rock-chips.com>
-Acked-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+Reviewed-by: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
 
 ---
 
@@ -85,21 +84,25 @@ Acked-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
 Changes in v3:
 - First introduced in this version.
 
- .../devicetree/bindings/display/bridge/simple-bridge.yaml        | 1 +
- 1 file changed, 1 insertion(+)
+ drivers/gpu/drm/bridge/simple-bridge.c | 5 +++++
+ 1 file changed, 5 insertions(+)
 
-diff --git a/Documentation/devicetree/bindings/display/bridge/simple-bridge.yaml b/Documentation/devicetree/bindings/display/bridge/simple-bridge.yaml
-index 43cf4df9811a5..421f99ca42d9b 100644
---- a/Documentation/devicetree/bindings/display/bridge/simple-bridge.yaml
-+++ b/Documentation/devicetree/bindings/display/bridge/simple-bridge.yaml
-@@ -28,6 +28,7 @@ properties:
-       - enum:
-           - adi,adv7123
-           - dumb-vga-dac
-+          - radxa,ra620
-           - ti,opa362
-           - ti,ths8134
-           - ti,ths8135
+diff --git a/drivers/gpu/drm/bridge/simple-bridge.c b/drivers/gpu/drm/bridge/simple-bridge.c
+index 3d15ddd394703..1f16d568bcc4e 100644
+--- a/drivers/gpu/drm/bridge/simple-bridge.c
++++ b/drivers/gpu/drm/bridge/simple-bridge.c
+@@ -261,6 +261,11 @@ static const struct of_device_id simple_bridge_match[] = {
+ 			.timings = &default_bridge_timings,
+ 			.connector_type = DRM_MODE_CONNECTOR_VGA,
+ 		},
++	}, {
++		.compatible = "radxa,ra620",
++		.data = &(const struct simple_bridge_info) {
++			.connector_type = DRM_MODE_CONNECTOR_HDMIA,
++		},
+ 	}, {
+ 		.compatible = "ti,opa362",
+ 		.data = &(const struct simple_bridge_info) {
 -- 
 2.43.0
 
