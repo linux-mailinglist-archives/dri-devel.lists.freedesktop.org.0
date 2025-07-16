@@ -2,80 +2,68 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 90BABB07AA7
-	for <lists+dri-devel@lfdr.de>; Wed, 16 Jul 2025 18:06:11 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 40892B07AE5
+	for <lists+dri-devel@lfdr.de>; Wed, 16 Jul 2025 18:17:42 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9DE6710E7E2;
-	Wed, 16 Jul 2025 16:06:08 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id EA78510E2C7;
+	Wed, 16 Jul 2025 16:17:38 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="hAemDpeR";
+	dkim=pass (1024-bit key; unprotected) header.d=ti.com header.i=@ti.com header.b="W5RMj8eT";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-f51.google.com (mail-wr1-f51.google.com
- [209.85.221.51])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 30B1710E7DA;
- Wed, 16 Jul 2025 16:06:06 +0000 (UTC)
-Received: by mail-wr1-f51.google.com with SMTP id
- ffacd0b85a97d-3a4f72cba73so710212f8f.1; 
- Wed, 16 Jul 2025 09:06:06 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1752681965; x=1753286765; darn=lists.freedesktop.org;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
- :reply-to; bh=Pyzg6d+Fpl4BI0JGiI7+zESUkb8q/0jGrd9Qmztq5Tk=;
- b=hAemDpeRZvoZMEetJ53jl+zwDZmDMydP/bXnxSxXi7I1dgkoe2cYhtzGVTyL1QjAjq
- 6i5X6r46oQNmZAQrd1nN+RhpCFGpFbNnIa4jWcsK1WRfo8+1j7DS3/Tzw5XdY4y9NyRe
- S4nw0zc2Zto6eoHMvJujIgbsmnjSs3uqAbm+3FpNIWIYhDt+M+DZBh1sYfbO9ifHCt4i
- QdtSE4wGYiOtlKwaHW7976P9jGuNgq/w834mTb60PEpYOIoMtNAUl9BCsRYHWU4vEQ3u
- vHaraHVPguQytonehEzFqN81bX31h0N+8q963QLvqo6R8gxWZoS4Y4Sxwcc51ZGlDyE4
- DWBQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1752681965; x=1753286765;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=Pyzg6d+Fpl4BI0JGiI7+zESUkb8q/0jGrd9Qmztq5Tk=;
- b=py46BpGdnWgTWM9ttIl9rDbJ8ucTEFxMbMMGAMnhV+h1c7J/egjDlFJds6BY605nrw
- k3lozA/uyO+SFMwJkla4CI7R8wYTcZwAE+AHIQwLXs0NHiQa1SJ/OpwgFRei48/bXxIo
- b6H6lfB2NtGMRKabQTbgycnpPbuM7q9744zEYZYVwvbPMymGuursVNq3SWIeZecDVEal
- vWOiGn/8pzvf89F0CvOA0GHxPPbxbO5m0p1mGRXJGXutpGnbFzewEo+D7WE+jGcFI1jU
- ef292bDxZHJjnaynL12A88poLm1Hm5OEbvbU+naPuCJyYpWXYKZvA8xuwH/tWUMh/K+n
- y9oQ==
-X-Forwarded-Encrypted: i=1;
- AJvYcCV0ZxUfalolBsNXKMaMn8gXNKCulSHs1tzBspeaIxyf1pDCoo9o6miDaZXRVApvjIrBWXA25/i+QrE=@lists.freedesktop.org,
- AJvYcCVzOhzKc/QeTlFtE0M/aWqzXSfxRVelfA5qkO0ES21agYa3P2s1issVRS6jJEIA5v8RHcEQvPtd/y4=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0Ywk4laLdOSOodfhQ/U7Ncw65hEN564ZegNjn5q6ODqTzZbOrZKh
- lADYs+USijNY3xkTMkbCiD0SIGjkAfOEpPiFAdXa5XDI4LvcoyobNHG/
-X-Gm-Gg: ASbGncvekhKrh0nUVexI9uHMBnwy9pEkDs1uNQjeuy8VMDn2XCsK8whlSpzWDl70pDe
- ABkSQ5BEuWSL/yohWAVT3bgBVwKvy+qyEQQouUTzl+O7/az1/N9MpLAlTs6dhTqXDEws0XadH3C
- AZ6ohAbh/9Qk9780BeutSnBFbKM4CXlbpz0q4REKoHELA4aWca99IUd6q1R1P/wqF9NLZKHSY8h
- 1pjaoMbNC8lYKujQ297msWIlrz0fuYCYfTbAJbxp77LVGp2va+03GH+1PrE4I4yLjleoXAdcSZJ
- GNd5XfKq6BYTHaOXG8LopM8rrTGMqa3qPDon8lzP/vflI/TwGxSlQu3Hz8VjMd1sy1uQYXBMvHU
- EHP9MnLdIuSFJDuPNl3i1WD0hA3guBp9dHLQ=
-X-Google-Smtp-Source: AGHT+IG7NgHsZk6IxKnsRJIVX5nEq9hmbAGUcs2YyjVTGE+0kpCb3I44Sx/zYKNdg9L4w576qzsNGg==
-X-Received: by 2002:a5d:64e8:0:b0:3b5:f8ea:28ff with SMTP id
- ffacd0b85a97d-3b6139ca66fmr35165f8f.6.1752681964470; 
- Wed, 16 Jul 2025 09:06:04 -0700 (PDT)
-Received: from able.fritz.box ([2a00:e180:15ac:3200:9bfa:f68e:168b:a67a])
- by smtp.gmail.com with ESMTPSA id
- 5b1f17b1804b1-4562e884779sm25296185e9.19.2025.07.16.09.06.03
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 16 Jul 2025 09:06:04 -0700 (PDT)
-From: "=?UTF-8?q?Christian=20K=C3=B6nig?=" <ckoenig.leichtzumerken@gmail.com>
-X-Google-Original-From: =?UTF-8?q?Christian=20K=C3=B6nig?=
- <christian.koenig@amd.com>
-To: matthew.brost@intel.com, thomas.hellstrom@linux.intel.com,
- dri-devel@lists.freedesktop.org, intel-xe@lists.freedesktop.org
-Subject: [PATCH 7/7] drm/xe: remove workaround for TTM internals
-Date: Wed, 16 Jul 2025 18:04:26 +0200
-Message-ID: <20250716160555.20217-8-christian.koenig@amd.com>
-X-Mailer: git-send-email 2.43.0
-In-Reply-To: <20250716160555.20217-1-christian.koenig@amd.com>
-References: <20250716160555.20217-1-christian.koenig@amd.com>
+Received: from lelvem-ot01.ext.ti.com (lelvem-ot01.ext.ti.com [198.47.23.234])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D078C10E2C7
+ for <dri-devel@lists.freedesktop.org>; Wed, 16 Jul 2025 16:17:36 +0000 (UTC)
+Received: from fllvem-sh03.itg.ti.com ([10.64.41.86])
+ by lelvem-ot01.ext.ti.com (8.15.2/8.15.2) with ESMTP id 56GGHSMF2540402;
+ Wed, 16 Jul 2025 11:17:28 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
+ s=ti-com-17Q1; t=1752682648;
+ bh=ft3Wq6C1Q+KCfARaoberFidaRltktScsYGYlfSEwaro=;
+ h=Date:Subject:To:CC:References:From:In-Reply-To;
+ b=W5RMj8eTZcR2ac5EvYEJwO2NAMxtLHsyT/FOoaCkkSjCdv0vN0A6aUigg4Xgr70H7
+ THuS9Athxb8CcYb3ckaXDe/helWL0/AN1opyIhptp15Gi9AEB4ihSb3AIQLNztDsli
+ /K8i+zaBYJ3NYnUF4QoeHAg7pT9bglitwhEzDA48=
+Received: from DFLE105.ent.ti.com (dfle105.ent.ti.com [10.64.6.26])
+ by fllvem-sh03.itg.ti.com (8.18.1/8.18.1) with ESMTPS id 56GGHR63998251
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES128-SHA256 bits=128 verify=FAIL);
+ Wed, 16 Jul 2025 11:17:27 -0500
+Received: from DFLE113.ent.ti.com (10.64.6.34) by DFLE105.ent.ti.com
+ (10.64.6.26) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2507.55; Wed, 16
+ Jul 2025 11:17:27 -0500
+Received: from lelvem-mr05.itg.ti.com (10.180.75.9) by DFLE113.ent.ti.com
+ (10.64.6.34) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2507.55 via
+ Frontend Transport; Wed, 16 Jul 2025 11:17:27 -0500
+Received: from [10.249.42.149] ([10.249.42.149])
+ by lelvem-mr05.itg.ti.com (8.18.1/8.18.1) with ESMTP id 56GGHQQ9753586;
+ Wed, 16 Jul 2025 11:17:26 -0500
+Message-ID: <d76c0299-a19d-4524-b026-79874fee10ee@ti.com>
+Date: Wed, 16 Jul 2025 11:17:26 -0500
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla Thunderbird
+Subject: Re: [RFC PATCH 1/3] dt-bindings: gpu: img: Add AM62P SoC specific
+ compatible
+To: Michael Walle <mwalle@kernel.org>, Frank Binns <frank.binns@imgtec.com>,
+ Matt Coster <matt.coster@imgtec.com>, Maarten Lankhorst
+ <maarten.lankhorst@linux.intel.com>, Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>,
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+ Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
+ Conor Dooley <conor+dt@kernel.org>, Nishanth Menon <nm@ti.com>,
+ Vignesh Raghavendra <vigneshr@ti.com>, Tero Kristo <kristo@kernel.org>
+CC: <dri-devel@lists.freedesktop.org>, <devicetree@vger.kernel.org>,
+ <linux-kernel@vger.kernel.org>, <linux-arm-kernel@lists.infradead.org>
+References: <20250716134717.4085567-1-mwalle@kernel.org>
+ <20250716134717.4085567-2-mwalle@kernel.org>
+Content-Language: en-US
+From: Andrew Davis <afd@ti.com>
+In-Reply-To: <20250716134717.4085567-2-mwalle@kernel.org>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 7bit
+X-C2ProcessedOrg: 333ef613-75bf-4e12-a4b1-8e3623f5dcea
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -91,66 +79,47 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-This should no longer be necessary, TTM doesn't lock the BO without a
-reference any more.
+On 7/16/25 8:47 AM, Michael Walle wrote:
+> The AM62P and the J722S features the same BXS-4 GPU as the J721S2. Add a
+> new SoC specific compatible.
+> 
 
-Only compile tested!
+If the GPU is the same, and the integration is the same, do you really need
+a new compatible?
 
-Signed-off-by: Christian König <christian.koenig@amd.com>
----
- drivers/gpu/drm/xe/xe_bo.c | 32 +++++---------------------------
- 1 file changed, 5 insertions(+), 27 deletions(-)
+> Signed-off-by: Michael Walle <mwalle@kernel.org>
+> ---
+>   Documentation/devicetree/bindings/gpu/img,powervr-rogue.yaml | 1 +
+>   1 file changed, 1 insertion(+)
+> 
+> diff --git a/Documentation/devicetree/bindings/gpu/img,powervr-rogue.yaml b/Documentation/devicetree/bindings/gpu/img,powervr-rogue.yaml
+> index 4450e2e73b3c..bad3e412a168 100644
+> --- a/Documentation/devicetree/bindings/gpu/img,powervr-rogue.yaml
+> +++ b/Documentation/devicetree/bindings/gpu/img,powervr-rogue.yaml
+> @@ -23,6 +23,7 @@ properties:
+>             - const: img,img-rogue
+>         - items:
+>             - enum:
+> +              - ti,am62p-gpu
 
-diff --git a/drivers/gpu/drm/xe/xe_bo.c b/drivers/gpu/drm/xe/xe_bo.c
-index 9411114c6d5c..250ebd9ff184 100644
---- a/drivers/gpu/drm/xe/xe_bo.c
-+++ b/drivers/gpu/drm/xe/xe_bo.c
-@@ -1409,31 +1409,6 @@ static unsigned long xe_ttm_io_mem_pfn(struct ttm_buffer_object *ttm_bo,
- 
- static void __xe_bo_vunmap(struct xe_bo *bo);
- 
--/*
-- * TODO: Move this function to TTM so we don't rely on how TTM does its
-- * locking, thereby abusing TTM internals.
-- */
--static bool xe_ttm_bo_lock_in_destructor(struct ttm_buffer_object *ttm_bo)
--{
--	struct xe_device *xe = ttm_to_xe_device(ttm_bo->bdev);
--	bool locked;
--
--	xe_assert(xe, !kref_read(&ttm_bo->base.refcount));
--
--	/*
--	 * We can typically only race with TTM trylocking under the
--	 * lru_lock, which will immediately be unlocked again since
--	 * the ttm_bo refcount is zero at this point. So trylocking *should*
--	 * always succeed here, as long as we hold the lru lock.
--	 */
--	spin_lock(&ttm_bo->bdev->lru_lock);
--	locked = dma_resv_trylock(ttm_bo->base.resv);
--	spin_unlock(&ttm_bo->bdev->lru_lock);
--	xe_assert(xe, locked);
--
--	return locked;
--}
--
- static void xe_ttm_bo_release_notify(struct ttm_buffer_object *ttm_bo)
- {
- 	struct dma_resv_iter cursor;
-@@ -1454,8 +1429,11 @@ static void xe_ttm_bo_release_notify(struct ttm_buffer_object *ttm_bo)
- 	if (ttm_bo->base.resv != &ttm_bo->base._resv)
- 		return;
- 
--	if (!xe_ttm_bo_lock_in_destructor(ttm_bo))
--		return;
-+	/*
-+	 * This should never fail since there are no other references to the BO
-+	 * any more.
-+	 */
-+	WARN_ON(!dma_resv_trylock(ttm_bo->base.resv));
- 
- 	/*
- 	 * Scrub the preempt fences if any. The unbind fence is already
--- 
-2.43.0
+There is a check below based on SoC compat:
 
+>  - if:
+>      properties:
+>        compatible:
+>          contains:
+>            enum:
+>              - ti,am62-gpu
+>              - ti,j721s2-gpu
+>    then:
+>      properties:
+>        clocks:
+>          maxItems: 1
+
+If you do add a new SoC specific compatible does this check need updating?
+
+Andrew
+
+>                 - ti,j721s2-gpu
+>             - const: img,img-bxs-4-64
+>             - const: img,img-rogue
