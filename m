@@ -2,54 +2,92 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 58E02B07758
-	for <lists+dri-devel@lfdr.de>; Wed, 16 Jul 2025 15:49:12 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 94F21B0776F
+	for <lists+dri-devel@lfdr.de>; Wed, 16 Jul 2025 15:57:04 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A4DCD10E7BD;
-	Wed, 16 Jul 2025 13:49:10 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A40DE10E399;
+	Wed, 16 Jul 2025 13:57:01 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=igalia.com header.i=@igalia.com header.b="E3KF1ZFm";
+	dkim=pass (1024-bit key; unprotected) header.d=redhat.com header.i=@redhat.com header.b="RzBhAzCJ";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from fanzine2.igalia.com (fanzine2.igalia.com [213.97.179.56])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D8DAD10E7B0;
- Wed, 16 Jul 2025 13:49:08 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com; 
- s=20170329;
- h=Content-Transfer-Encoding:Content-Type:In-Reply-To:From:
- References:Cc:To:Subject:MIME-Version:Date:Message-ID:Sender:Reply-To:
- Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
- Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
- List-Subscribe:List-Post:List-Owner:List-Archive;
- bh=zGUv7eTSYxsOgqMtPbVV//yRn5tnzskdilRU13XzeVo=; b=E3KF1ZFmxl8GXTV5xrAADPaf7f
- mmF+gzNrTLPrdDBr+Iy1NFzTiTmcw7HSi31v5L6F476vCcI/lNJ0BG0jor0er/rXjxGXI0nsqtKv3
- zCdGk+EW9WF7LZrH05tDIspE2ALUMFJum/Vu6yZiNR6p9ixS81m8/DBgpXyqkIGm09pn5xVcKldJz
- LUKtiL902AWG9WFEdpZcs5AsgSGHnJOs9gyNB5KQTKAn+7gGVQuLzp2xxtfOt4KpHAybIG8WPT7Qj
- lxQmgPVmGPINPu5gIPSwbiRGe7toDK6xOHzhrxajjvJqWHG+tI2tSZUpeiF/rmJj2a1zdYqGlwrm7
- g9KJtWJQ==;
-Received: from [84.66.36.92] (helo=[192.168.0.101])
- by fanzine2.igalia.com with esmtpsa 
- (Cipher TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_128_GCM:128) (Exim)
- id 1uc2VO-00HKuG-Ri; Wed, 16 Jul 2025 15:49:06 +0200
-Message-ID: <52d32846-0286-4979-ab2f-c1aa1aa02e20@igalia.com>
-Date: Wed, 16 Jul 2025 14:49:05 +0100
+Received: from us-smtp-delivery-124.mimecast.com
+ (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C848310E399
+ for <dri-devel@lists.freedesktop.org>; Wed, 16 Jul 2025 13:56:59 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1752674218;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=8fU90Rrx5Q2FZQjCI0B6EMx3qMx3LCWE+lzijdY4q10=;
+ b=RzBhAzCJUl/s5ozcvzoOvk1Ux64xaBDA/Ppz21ZAUempTMjx39g10sKcd9hQXKIHFAIlOc
+ Xkzrzwf8KKlLYhYkjdLK8G37Jv70fu/XN4+5KCQVAew9jKWlA2CVMqwp8sBgeSGQoKhzKF
+ cFcrU0K6pQ2UAkwgnBeLcfkM+qWUzdc=
+Received: from mail-wr1-f70.google.com (mail-wr1-f70.google.com
+ [209.85.221.70]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-156-VNE8g-OwPaaeBKFe25cEPg-1; Wed, 16 Jul 2025 09:56:56 -0400
+X-MC-Unique: VNE8g-OwPaaeBKFe25cEPg-1
+X-Mimecast-MFC-AGG-ID: VNE8g-OwPaaeBKFe25cEPg_1752674215
+Received: by mail-wr1-f70.google.com with SMTP id
+ ffacd0b85a97d-3a4f7ebfd00so2811593f8f.2
+ for <dri-devel@lists.freedesktop.org>; Wed, 16 Jul 2025 06:56:56 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1752674215; x=1753279015;
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=8fU90Rrx5Q2FZQjCI0B6EMx3qMx3LCWE+lzijdY4q10=;
+ b=JuSo+csw3krDy5fypvmHCTuomNG5l9RbVrBrMyKu/pYtRcGDVzhTyoNmcjFWz5QWAc
+ DRv7je1fqeoWtqu3fljMvjxhf0fu+vtZYktrqbO702JuplZaMbNkR5HEJDXg1TGAKacS
+ fFmr4IVYoyBNBpkCpzK7jH80Vf7pLL4s8tDJ/bLufkF/P8bKLyjuaHJxwXUaI+5Fm+xg
+ OgzXvJTGGWFjBrZVmpCrMYeoe9R2TmcyIibxlSQf7rqY4RVpakBnT8OIHasVtcv4U1JQ
+ AoiPcPTUj+M19qevyv/zp8A+TPehBDd0h9GBUc5dgD4uAh//ffdCDazAPtby/1FPYrHf
+ VsrA==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCXVoyiNZPwA4ZG2rRXNckZOhcEYU25ShBf+TXEFHSpJzWCe8M561B1uKrtbfq1Gl9rffS4Fm1ahGxg=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YxKav3vHyD/TdXS/zcZ13DgD3ziDLYVzSauKpgUU9tL/+d1Fsfn
+ halwcGQj4Mat8a+34nlCGTC2rTIx51zqaBN7icL47wBl7d8T0qCn47y7h64mqGMIQBNxIhRr3KO
+ bCj6CoxjNu87tqiN909XJnimj2U0eFlJAaLmMa1LT1NYgRdvlPC2LYFoGlCKMlxvMySYI9w==
+X-Gm-Gg: ASbGncvkyx31jqEK2il42Aq3r/2H8Lk3LmH5RAlywDfRogT0NinGwokJ6GhAu/rqsn7
+ Z9UusEVIAMdyp2chzG7ZFqARLa3gjHo3bjxpWOUPhWJdybb4RlxDSm3wboRQxad8KQ5PjdJEShw
+ E4knjqXrtxiaKaMsqC2LxEq/PQTzTcGVgxXHM4RT312lSi5t3bX5OyS2uYN1tRXKCalTTSrVM3R
+ aP0hdptDjLxPSLSksJG3aI1hPCF2lV95s9jHKDXIgV4j0DK4EsAdSFLT9eNFKF0z5AJ7JGbmCN2
+ mWnWUg7j7tBSQGJI2dZgtHG9ZC9xrBCC
+X-Received: by 2002:adf:f64b:0:b0:3b6:936:92fa with SMTP id
+ ffacd0b85a97d-3b60dd8df46mr2367239f8f.52.1752674215040; 
+ Wed, 16 Jul 2025 06:56:55 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IEDkw4tjXyAdhQ6LVjUDIf1HaSWqF1ZS/CeOQWr/qZekbvwZ8qxdZocOeTQ+5WAYNkarEumJw==
+X-Received: by 2002:adf:f64b:0:b0:3b6:936:92fa with SMTP id
+ ffacd0b85a97d-3b60dd8df46mr2367218f8f.52.1752674214534; 
+ Wed, 16 Jul 2025 06:56:54 -0700 (PDT)
+Received: from redhat.com ([2a0d:6fc0:150d:fc00:de3:4725:47c6:6809])
+ by smtp.gmail.com with ESMTPSA id
+ ffacd0b85a97d-3b5e8bd15bfsm18252140f8f.19.2025.07.16.06.56.52
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 16 Jul 2025 06:56:54 -0700 (PDT)
+Date: Wed, 16 Jul 2025 09:56:46 -0400
+From: "Michael S. Tsirkin" <mst@redhat.com>
+To: jiang.peng9@zte.com.cn
+Cc: jasowang@redhat.com, krzk@kernel.org, xuanzhuo@linux.alibaba.com,
+ eperezma@redhat.com, sumit.semwal@linaro.org,
+ christian.koenig@amd.com, virtualization@lists.linux.dev,
+ linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, xu.xin16@zte.com.cn,
+ yang.yang29@zte.com.cn
+Subject: Re: [PATCH v2] virtio: Update kerneldoc in
+ drivers/virtio/virtio_dma_buf.c
+Message-ID: <20250716095046-mutt-send-email-mst@kernel.org>
+References: <20250705105803198ff11jYCkg1TxntcCEb00R@zte.com.cn>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] drm/sched: Avoid double re-lock on the job free path
-To: =?UTF-8?Q?Ma=C3=ADra_Canal?= <mcanal@igalia.com>,
- dri-devel@lists.freedesktop.org
-Cc: kernel-dev@igalia.com, intel-xe@lists.freedesktop.org,
- amd-gfx@lists.freedesktop.org, =?UTF-8?Q?Christian_K=C3=B6nig?=
- <christian.koenig@amd.com>, Danilo Krummrich <dakr@kernel.org>,
- Matthew Brost <matthew.brost@intel.com>, Philipp Stanner <phasta@kernel.org>
-References: <20250716085117.56864-1-tvrtko.ursulin@igalia.com>
- <8e527b62-d968-4bc3-a0dc-491d193c02ce@igalia.com>
-Content-Language: en-GB
-From: Tvrtko Ursulin <tvrtko.ursulin@igalia.com>
-In-Reply-To: <8e527b62-d968-4bc3-a0dc-491d193c02ce@igalia.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+In-Reply-To: <20250705105803198ff11jYCkg1TxntcCEb00R@zte.com.cn>
+X-Mimecast-Spam-Score: 0
+X-Mimecast-MFC-PROC-ID: w2O4aKI00s9KQSX3qZrG4rkx_d5pnE10w-YFDRWyxG0_1752674215
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -65,177 +103,117 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-
-On 16/07/2025 14:31, Maíra Canal wrote:
-> Hi Tvrtko,
+On Sat, Jul 05, 2025 at 10:58:03AM +0800, jiang.peng9@zte.com.cn wrote:
+> From: Peng Jiang <jiang.peng9@zte.com.cn>
 > 
-> On 16/07/25 05:51, Tvrtko Ursulin wrote:
->> Currently the job free work item will lock sched->job_list_lock first 
->> time
->> to see if there are any jobs, free a single job, and then lock again to
->> decide whether to re-queue itself if there are more finished jobs.
->>
->> Since drm_sched_get_finished_job() already looks at the second job in the
->> queue we can simply add the signaled check and have it return the 
->> presence
->> of more jobs to be freed to the caller. That way the work item does not
->> have to lock the list again and repeat the signaled check.
->>
->> Signed-off-by: Tvrtko Ursulin <tvrtko.ursulin@igalia.com>
->> Cc: Christian König <christian.koenig@amd.com>
->> Cc: Danilo Krummrich <dakr@kernel.org>
->> Cc: Maíra Canal <mcanal@igalia.com>
->> Cc: Matthew Brost <matthew.brost@intel.com>
->> Cc: Philipp Stanner <phasta@kernel.org>
->> ---
->> v2:
->>   * Improve commit text and kerneldoc. (Philipp)
->>   * Rename run free work helper. (Philipp)
->>
->> v3:
->>   * Rebase on top of Maira's changes.
->> ---
->>   drivers/gpu/drm/scheduler/sched_main.c | 53 ++++++++++----------------
->>   1 file changed, 21 insertions(+), 32 deletions(-)
->>
->> diff --git a/drivers/gpu/drm/scheduler/sched_main.c b/drivers/gpu/drm/ 
->> scheduler/sched_main.c
->> index e2cda28a1af4..5a550fd76bf0 100644
->> --- a/drivers/gpu/drm/scheduler/sched_main.c
->> +++ b/drivers/gpu/drm/scheduler/sched_main.c
->> @@ -349,34 +349,13 @@ static void drm_sched_run_job_queue(struct 
->> drm_gpu_scheduler *sched)
->>   }
->>   /**
->> - * __drm_sched_run_free_queue - enqueue free-job work
->> - * @sched: scheduler instance
->> - */
->> -static void __drm_sched_run_free_queue(struct drm_gpu_scheduler *sched)
->> -{
->> -    if (!READ_ONCE(sched->pause_submit))
->> -        queue_work(sched->submit_wq, &sched->work_free_job);
->> -}
->> -
->> -/**
->> - * drm_sched_run_free_queue - enqueue free-job work if ready
->> + * drm_sched_run_free_queue - enqueue free-job work
->>    * @sched: scheduler instance
->>    */
->>   static void drm_sched_run_free_queue(struct drm_gpu_scheduler *sched)
->>   {
->> -    struct drm_sched_job *job;
->> -
->> -    job = list_first_entry_or_null(&sched->pending_list,
->> -                       struct drm_sched_job, list);
->> -    if (job && dma_fence_is_signaled(&job->s_fence->finished))
->> -        __drm_sched_run_free_queue(sched);
+> Fix kernel-doc descriptions in virtio_dma_buf.c to fix W=1 warnings:
 > 
-> I believe we'd still need this chunk for DRM_GPU_SCHED_STAT_NO_HANG
-> (check the comment in drm_sched_job_reinsert_on_false_timeout()). How
-
-You mean the "is there a signaled job in the list check" is needed for 
-drm_sched_job_reinsert_on_false_timeout()? Hmm why? Worst case is a 
-false positive wakeup on the free worker, no?
-
-> about only deleting drm_sched_run_free_queue_unlocked() and keep using
-> __drm_sched_run_free_queue()?
-
-You mean use __drm_sched_run_free_queue() from 
-drm_sched_job_reinsert_on_false_timeout()? That is the same as 
-drm_sched_run_free_queue() with this patch.
-
-Regards,
-
-Tvrtko
-
->> -}
->> -
->> -static void drm_sched_run_free_queue_unlocked(struct 
->> drm_gpu_scheduler *sched)
->> -{
->> -    spin_lock(&sched->job_list_lock);
->> -    drm_sched_run_free_queue(sched);
->> -    spin_unlock(&sched->job_list_lock);
->> +    if (!READ_ONCE(sched->pause_submit))
->> +        queue_work(sched->submit_wq, &sched->work_free_job);
->>   }
->>   /**
->> @@ -398,7 +377,7 @@ static void drm_sched_job_done(struct 
->> drm_sched_job *s_job, int result)
->>       dma_fence_get(&s_fence->finished);
->>       drm_sched_fence_finished(s_fence, result);
->>       dma_fence_put(&s_fence->finished);
->> -    __drm_sched_run_free_queue(sched);
->> +    drm_sched_run_free_queue(sched);
->>   }
->>   /**
->> @@ -1134,12 +1113,16 @@ drm_sched_select_entity(struct 
->> drm_gpu_scheduler *sched)
->>    * drm_sched_get_finished_job - fetch the next finished job to be 
->> destroyed
->>    *
->>    * @sched: scheduler instance
->> + * @have_more: are there more finished jobs on the list
->> + *
->> + * Informs the caller through @have_more whether there are more 
->> finished jobs
->> + * besides the returned one.
->>    *
->>    * Returns the next finished job from the pending list (if there is 
->> one)
->>    * ready for it to be destroyed.
->>    */
->>   static struct drm_sched_job *
->> -drm_sched_get_finished_job(struct drm_gpu_scheduler *sched)
->> +drm_sched_get_finished_job(struct drm_gpu_scheduler *sched, bool 
->> *have_more)
->>   {
->>       struct drm_sched_job *job, *next;
->> @@ -1147,22 +1130,25 @@ drm_sched_get_finished_job(struct 
->> drm_gpu_scheduler *sched)
->>       job = list_first_entry_or_null(&sched->pending_list,
->>                          struct drm_sched_job, list);
->> -
->>       if (job && dma_fence_is_signaled(&job->s_fence->finished)) {
->>           /* remove job from pending_list */
->>           list_del_init(&job->list);
->>           /* cancel this job's TO timer */
->>           cancel_delayed_work(&sched->work_tdr);
->> -        /* make the scheduled timestamp more accurate */
->> +
->> +        *have_more = false;
->>           next = list_first_entry_or_null(&sched->pending_list,
->>                           typeof(*next), list);
->> -
->>           if (next) {
->> +            /* make the scheduled timestamp more accurate */
->>               if (test_bit(DMA_FENCE_FLAG_TIMESTAMP_BIT,
->>                        &next->s_fence->scheduled.flags))
->>                   next->s_fence->scheduled.timestamp =
->>                       dma_fence_timestamp(&job->s_fence->finished);
->> +
->> +            *have_more = dma_fence_is_signaled(&next->s_fence- 
->> >finished);
->> +
->>               /* start TO timer for next job */
->>               drm_sched_start_timeout(sched);
->>           }
->> @@ -1221,12 +1207,15 @@ static void drm_sched_free_job_work(struct 
->> work_struct *w)
->>       struct drm_gpu_scheduler *sched =
->>           container_of(w, struct drm_gpu_scheduler, work_free_job);
->>       struct drm_sched_job *job;
->> +    bool have_more;
->> -    job = drm_sched_get_finished_job(sched);
->> -    if (job)
->> +    job = drm_sched_get_finished_job(sched, &have_more);
->> +    if (job) {
->>           sched->ops->free_job(job);
->> +        if (have_more)
->> +            drm_sched_run_free_queue(sched);
->> +    }
->> -    drm_sched_run_free_queue_unlocked(sched);
->>       drm_sched_run_job_queue(sched);
->>   }
+> drivers/virtio/virtio_dma_buf.c:41 function parameter 'dma_buf' not described in 'virtio_dma_buf_attach'
+> drivers/virtio/virtio_dma_buf.c:41 function parameter 'attach' not described in 'virtio_dma_buf_attach'
 > 
+> Signed-off-by: Peng Jiang <jiang.peng9@zte.com.cn>
+
+
+The extra documentation unfortunately just mechanically repeats what the
+code does. Code comments should explain the reasoning behind the code,
+instead.
+
+
+> ---
+>  drivers/virtio/virtio_dma_buf.c | 30 +++++++++++++++++++++++++-----
+>  1 file changed, 25 insertions(+), 5 deletions(-)
+> 
+> diff --git a/drivers/virtio/virtio_dma_buf.c b/drivers/virtio/virtio_dma_buf.c
+> index 3fe1d03b0645..0b39b1b209ee 100644
+> --- a/drivers/virtio/virtio_dma_buf.c
+> +++ b/drivers/virtio/virtio_dma_buf.c
+> @@ -9,13 +9,20 @@
+>  #include <linux/virtio_dma_buf.h>
+> 
+>  /**
+> - * virtio_dma_buf_export - Creates a new dma-buf for a virtio exported object
+> + * virtio_dma_buf_export() - Creates a new dma-buf for a virtio exported object
+
+virtio core uses the form without () consistently, everywhere.
+
+
+
+>   * @exp_info: [in] see dma_buf_export(). ops MUST refer to a dma_buf_ops
+>   *     struct embedded in a virtio_dma_buf_ops.
+>   *
+>   * This wraps dma_buf_export() to allow virtio drivers to create a dma-buf
+>   * for an virtio exported object that can be queried by other virtio drivers
+>   * for the object's UUID.
+> + *
+> + * Returns:
+> + *   - Valid struct dma_buf pointer on success
+> + *   - ERR_PTR(-EINVAL) if:
+> + *     - exp_info->ops is NULL
+> + *     - attach callback isn't virtio_dma_buf_attach()
+> + *     - virtio_ops->get_uuid() is not implemented
+
+Too verbose, no one will rememeber to update this when changing code.
+Just 
+	Returns the dma_buf or ERR_PTR
+
+is enough.
+
+
+>   */
+>  struct dma_buf *virtio_dma_buf_export
+>         (const struct dma_buf_export_info *exp_info)
+> @@ -35,7 +42,16 @@ struct dma_buf *virtio_dma_buf_export
+>  EXPORT_SYMBOL(virtio_dma_buf_export);
+> 
+>  /**
+> - * virtio_dma_buf_attach - mandatory attach callback for virtio dma-bufs
+> + * virtio_dma_buf_attach() - Mandatory attach callback for virtio dma-bufs
+> + * @dma_buf: Pointer to the shared dma-buf structure
+> + * @attach: Pointer to the newly created attachment metadata
+> + *
+> + * Implements the standard dma-buf attach operation for virtio devices.
+> + * Retrieves virtio-specific operations through container_of macro,
+> + * then invokes device-specific attach callback if present.
+> + * This enables virtio devices to participate in dma-buf sharing.
+> + *
+
+Same thing pls do not repeat all of code.
+
+> + * Return: 0 on success, error code on failure
+
+we say "Returns zero or a negative error" elsewhere. seems clearer.
+
+>   */
+>  int virtio_dma_buf_attach(struct dma_buf *dma_buf,
+>                           struct dma_buf_attachment *attach)
+> @@ -55,8 +71,12 @@ int virtio_dma_buf_attach(struct dma_buf *dma_buf,
+>  EXPORT_SYMBOL(virtio_dma_buf_attach);
+> 
+>  /**
+> - * is_virtio_dma_buf - returns true if the given dma-buf is a virtio dma-buf
+> - * @dma_buf: buffer to query
+> + * is_virtio_dma_buf() - Check if a dma-buf was created by virtio DMA framework
+> + * @dma_buf: [in] buffer to query
+> + *
+> + * Returns:
+> + *   - true  if the dma-buf uses virtio_dma_buf_attach() as its attach callback
+> + *   - false otherwise
+
+
+one is return one is returns ... no consistency.
+
+>   */
+>  bool is_virtio_dma_buf(struct dma_buf *dma_buf)
+>  {
+> @@ -65,7 +85,7 @@ bool is_virtio_dma_buf(struct dma_buf *dma_buf)
+>  EXPORT_SYMBOL(is_virtio_dma_buf);
+> 
+>  /**
+> - * virtio_dma_buf_get_uuid - gets a virtio dma-buf's exported object's uuid
+> + * virtio_dma_buf_get_uuid() - gets a virtio dma-buf's exported object's uuid
+>   * @dma_buf: [in] buffer to query
+>   * @uuid: [out] the uuid
+>   *
+> -- 
+> 2.25.1
 
