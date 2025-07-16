@@ -2,53 +2,53 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 69F4AB0774C
-	for <lists+dri-devel@lfdr.de>; Wed, 16 Jul 2025 15:47:46 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 58E02B07758
+	for <lists+dri-devel@lfdr.de>; Wed, 16 Jul 2025 15:49:12 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C9B6E10E7CA;
-	Wed, 16 Jul 2025 13:47:44 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A4DCD10E7BD;
+	Wed, 16 Jul 2025 13:49:10 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="J/hiXrDM";
+	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=igalia.com header.i=@igalia.com header.b="E3KF1ZFm";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from sea.source.kernel.org (sea.source.kernel.org [172.234.252.31])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C86E510E7C7
- for <dri-devel@lists.freedesktop.org>; Wed, 16 Jul 2025 13:47:43 +0000 (UTC)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by sea.source.kernel.org (Postfix) with ESMTP id 7F3DE450D3;
- Wed, 16 Jul 2025 13:47:43 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id F3C0EC4CEF6;
- Wed, 16 Jul 2025 13:47:39 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1752673663;
- bh=rdQDdI9JouSQXlopIgj0zTq8D4QW2KHFO3f9GHrlvrs=;
- h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=J/hiXrDMKTQO05nvgVSvUQAgzWP8ULEvvHhKJo+3ZDWK0YCUhDi/uoyNF+ngznSZ/
- DcSEndLqgj70AVgNsiThGVM7FCWx8X4Eyay593WZUaf2YwXapEOr3p9acKsE+yWyVs
- uX7ItNEO35RyrxwTE5tKmEo5gLqLQSr+ErY4FQIl+iGrfsOnG/acyciI2AP297H3Uy
- xv0o1luCOglbDmxs5OBcpTQN5o9FEH+s01kTHYjYjV827XkWBvc+AMiqXVZDix8lAp
- FgpDyfB85TffhRocGdU1pS3T4+GPacOwLmAWspoJZT9cP/9NPGO3o0fhI94mmTj/Bu
- IbyM+UqBVYxwQ==
-From: Michael Walle <mwalle@kernel.org>
-To: Frank Binns <frank.binns@imgtec.com>, Matt Coster <matt.coster@imgtec.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
- Simona Vetter <simona@ffwll.ch>, Rob Herring <robh@kernel.org>,
- Krzysztof Kozlowski <krzk+dt@kernel.org>,
- Conor Dooley <conor+dt@kernel.org>, Nishanth Menon <nm@ti.com>,
- Vignesh Raghavendra <vigneshr@ti.com>, Tero Kristo <kristo@kernel.org>
-Cc: dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
- Michael Walle <mwalle@kernel.org>
-Subject: [RFC PATCH 3/3] arm64: dts: ti: add GPU node
-Date: Wed, 16 Jul 2025 15:47:17 +0200
-Message-Id: <20250716134717.4085567-4-mwalle@kernel.org>
-X-Mailer: git-send-email 2.39.5
-In-Reply-To: <20250716134717.4085567-1-mwalle@kernel.org>
-References: <20250716134717.4085567-1-mwalle@kernel.org>
+Received: from fanzine2.igalia.com (fanzine2.igalia.com [213.97.179.56])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D8DAD10E7B0;
+ Wed, 16 Jul 2025 13:49:08 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com; 
+ s=20170329;
+ h=Content-Transfer-Encoding:Content-Type:In-Reply-To:From:
+ References:Cc:To:Subject:MIME-Version:Date:Message-ID:Sender:Reply-To:
+ Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
+ Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
+ List-Subscribe:List-Post:List-Owner:List-Archive;
+ bh=zGUv7eTSYxsOgqMtPbVV//yRn5tnzskdilRU13XzeVo=; b=E3KF1ZFmxl8GXTV5xrAADPaf7f
+ mmF+gzNrTLPrdDBr+Iy1NFzTiTmcw7HSi31v5L6F476vCcI/lNJ0BG0jor0er/rXjxGXI0nsqtKv3
+ zCdGk+EW9WF7LZrH05tDIspE2ALUMFJum/Vu6yZiNR6p9ixS81m8/DBgpXyqkIGm09pn5xVcKldJz
+ LUKtiL902AWG9WFEdpZcs5AsgSGHnJOs9gyNB5KQTKAn+7gGVQuLzp2xxtfOt4KpHAybIG8WPT7Qj
+ lxQmgPVmGPINPu5gIPSwbiRGe7toDK6xOHzhrxajjvJqWHG+tI2tSZUpeiF/rmJj2a1zdYqGlwrm7
+ g9KJtWJQ==;
+Received: from [84.66.36.92] (helo=[192.168.0.101])
+ by fanzine2.igalia.com with esmtpsa 
+ (Cipher TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_128_GCM:128) (Exim)
+ id 1uc2VO-00HKuG-Ri; Wed, 16 Jul 2025 15:49:06 +0200
+Message-ID: <52d32846-0286-4979-ab2f-c1aa1aa02e20@igalia.com>
+Date: Wed, 16 Jul 2025 14:49:05 +0100
 MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] drm/sched: Avoid double re-lock on the job free path
+To: =?UTF-8?Q?Ma=C3=ADra_Canal?= <mcanal@igalia.com>,
+ dri-devel@lists.freedesktop.org
+Cc: kernel-dev@igalia.com, intel-xe@lists.freedesktop.org,
+ amd-gfx@lists.freedesktop.org, =?UTF-8?Q?Christian_K=C3=B6nig?=
+ <christian.koenig@amd.com>, Danilo Krummrich <dakr@kernel.org>,
+ Matthew Brost <matthew.brost@intel.com>, Philipp Stanner <phasta@kernel.org>
+References: <20250716085117.56864-1-tvrtko.ursulin@igalia.com>
+ <8e527b62-d968-4bc3-a0dc-491d193c02ce@igalia.com>
+Content-Language: en-GB
+From: Tvrtko Ursulin <tvrtko.ursulin@igalia.com>
+In-Reply-To: <8e527b62-d968-4bc3-a0dc-491d193c02ce@igalia.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -65,37 +65,177 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The J722S features a BXS-4 GPU. Add the node for it.
 
-Signed-off-by: Michael Walle <mwalle@kernel.org>
----
- .../boot/dts/ti/k3-am62p-j722s-common-main.dtsi     | 13 +++++++++++++
- 1 file changed, 13 insertions(+)
+On 16/07/2025 14:31, Maíra Canal wrote:
+> Hi Tvrtko,
+> 
+> On 16/07/25 05:51, Tvrtko Ursulin wrote:
+>> Currently the job free work item will lock sched->job_list_lock first 
+>> time
+>> to see if there are any jobs, free a single job, and then lock again to
+>> decide whether to re-queue itself if there are more finished jobs.
+>>
+>> Since drm_sched_get_finished_job() already looks at the second job in the
+>> queue we can simply add the signaled check and have it return the 
+>> presence
+>> of more jobs to be freed to the caller. That way the work item does not
+>> have to lock the list again and repeat the signaled check.
+>>
+>> Signed-off-by: Tvrtko Ursulin <tvrtko.ursulin@igalia.com>
+>> Cc: Christian König <christian.koenig@amd.com>
+>> Cc: Danilo Krummrich <dakr@kernel.org>
+>> Cc: Maíra Canal <mcanal@igalia.com>
+>> Cc: Matthew Brost <matthew.brost@intel.com>
+>> Cc: Philipp Stanner <phasta@kernel.org>
+>> ---
+>> v2:
+>>   * Improve commit text and kerneldoc. (Philipp)
+>>   * Rename run free work helper. (Philipp)
+>>
+>> v3:
+>>   * Rebase on top of Maira's changes.
+>> ---
+>>   drivers/gpu/drm/scheduler/sched_main.c | 53 ++++++++++----------------
+>>   1 file changed, 21 insertions(+), 32 deletions(-)
+>>
+>> diff --git a/drivers/gpu/drm/scheduler/sched_main.c b/drivers/gpu/drm/ 
+>> scheduler/sched_main.c
+>> index e2cda28a1af4..5a550fd76bf0 100644
+>> --- a/drivers/gpu/drm/scheduler/sched_main.c
+>> +++ b/drivers/gpu/drm/scheduler/sched_main.c
+>> @@ -349,34 +349,13 @@ static void drm_sched_run_job_queue(struct 
+>> drm_gpu_scheduler *sched)
+>>   }
+>>   /**
+>> - * __drm_sched_run_free_queue - enqueue free-job work
+>> - * @sched: scheduler instance
+>> - */
+>> -static void __drm_sched_run_free_queue(struct drm_gpu_scheduler *sched)
+>> -{
+>> -    if (!READ_ONCE(sched->pause_submit))
+>> -        queue_work(sched->submit_wq, &sched->work_free_job);
+>> -}
+>> -
+>> -/**
+>> - * drm_sched_run_free_queue - enqueue free-job work if ready
+>> + * drm_sched_run_free_queue - enqueue free-job work
+>>    * @sched: scheduler instance
+>>    */
+>>   static void drm_sched_run_free_queue(struct drm_gpu_scheduler *sched)
+>>   {
+>> -    struct drm_sched_job *job;
+>> -
+>> -    job = list_first_entry_or_null(&sched->pending_list,
+>> -                       struct drm_sched_job, list);
+>> -    if (job && dma_fence_is_signaled(&job->s_fence->finished))
+>> -        __drm_sched_run_free_queue(sched);
+> 
+> I believe we'd still need this chunk for DRM_GPU_SCHED_STAT_NO_HANG
+> (check the comment in drm_sched_job_reinsert_on_false_timeout()). How
 
-diff --git a/arch/arm64/boot/dts/ti/k3-am62p-j722s-common-main.dtsi b/arch/arm64/boot/dts/ti/k3-am62p-j722s-common-main.dtsi
-index 17c0949ac1d7..8f3d39d8004b 100644
---- a/arch/arm64/boot/dts/ti/k3-am62p-j722s-common-main.dtsi
-+++ b/arch/arm64/boot/dts/ti/k3-am62p-j722s-common-main.dtsi
-@@ -1229,6 +1229,19 @@ dsi0: dsi@30500000 {
- 		status = "disabled";
- 	};
- 
-+	gpu: gpu@fd80000 {
-+		compatible = "ti,am62p-gpu", "img,img-bxs-4-64", "img,img-rogue";
-+		reg = <0x00 0x0fd80000 0x00 0x80000>;
-+		clocks = <&k3_clks 237 3>;
-+		clock-names = "core";
-+		assigned-clocks = <&k3_clks 237 3>;
-+		assigned-clock-rates = <800000000>;
-+		interrupts = <GIC_SPI 241 IRQ_TYPE_LEVEL_HIGH>;
-+		power-domains = <&k3_pds 237 TI_SCI_PD_EXCLUSIVE>,
-+				<&k3_pds 242 TI_SCI_PD_EXCLUSIVE>;
-+		power-domain-names = "a", "b";
-+	};
-+
- 	vpu: video-codec@30210000 {
- 		compatible = "ti,j721s2-wave521c", "cnm,wave521c";
- 		reg = <0x00 0x30210000 0x00 0x10000>;
--- 
-2.39.5
+You mean the "is there a signaled job in the list check" is needed for 
+drm_sched_job_reinsert_on_false_timeout()? Hmm why? Worst case is a 
+false positive wakeup on the free worker, no?
+
+> about only deleting drm_sched_run_free_queue_unlocked() and keep using
+> __drm_sched_run_free_queue()?
+
+You mean use __drm_sched_run_free_queue() from 
+drm_sched_job_reinsert_on_false_timeout()? That is the same as 
+drm_sched_run_free_queue() with this patch.
+
+Regards,
+
+Tvrtko
+
+>> -}
+>> -
+>> -static void drm_sched_run_free_queue_unlocked(struct 
+>> drm_gpu_scheduler *sched)
+>> -{
+>> -    spin_lock(&sched->job_list_lock);
+>> -    drm_sched_run_free_queue(sched);
+>> -    spin_unlock(&sched->job_list_lock);
+>> +    if (!READ_ONCE(sched->pause_submit))
+>> +        queue_work(sched->submit_wq, &sched->work_free_job);
+>>   }
+>>   /**
+>> @@ -398,7 +377,7 @@ static void drm_sched_job_done(struct 
+>> drm_sched_job *s_job, int result)
+>>       dma_fence_get(&s_fence->finished);
+>>       drm_sched_fence_finished(s_fence, result);
+>>       dma_fence_put(&s_fence->finished);
+>> -    __drm_sched_run_free_queue(sched);
+>> +    drm_sched_run_free_queue(sched);
+>>   }
+>>   /**
+>> @@ -1134,12 +1113,16 @@ drm_sched_select_entity(struct 
+>> drm_gpu_scheduler *sched)
+>>    * drm_sched_get_finished_job - fetch the next finished job to be 
+>> destroyed
+>>    *
+>>    * @sched: scheduler instance
+>> + * @have_more: are there more finished jobs on the list
+>> + *
+>> + * Informs the caller through @have_more whether there are more 
+>> finished jobs
+>> + * besides the returned one.
+>>    *
+>>    * Returns the next finished job from the pending list (if there is 
+>> one)
+>>    * ready for it to be destroyed.
+>>    */
+>>   static struct drm_sched_job *
+>> -drm_sched_get_finished_job(struct drm_gpu_scheduler *sched)
+>> +drm_sched_get_finished_job(struct drm_gpu_scheduler *sched, bool 
+>> *have_more)
+>>   {
+>>       struct drm_sched_job *job, *next;
+>> @@ -1147,22 +1130,25 @@ drm_sched_get_finished_job(struct 
+>> drm_gpu_scheduler *sched)
+>>       job = list_first_entry_or_null(&sched->pending_list,
+>>                          struct drm_sched_job, list);
+>> -
+>>       if (job && dma_fence_is_signaled(&job->s_fence->finished)) {
+>>           /* remove job from pending_list */
+>>           list_del_init(&job->list);
+>>           /* cancel this job's TO timer */
+>>           cancel_delayed_work(&sched->work_tdr);
+>> -        /* make the scheduled timestamp more accurate */
+>> +
+>> +        *have_more = false;
+>>           next = list_first_entry_or_null(&sched->pending_list,
+>>                           typeof(*next), list);
+>> -
+>>           if (next) {
+>> +            /* make the scheduled timestamp more accurate */
+>>               if (test_bit(DMA_FENCE_FLAG_TIMESTAMP_BIT,
+>>                        &next->s_fence->scheduled.flags))
+>>                   next->s_fence->scheduled.timestamp =
+>>                       dma_fence_timestamp(&job->s_fence->finished);
+>> +
+>> +            *have_more = dma_fence_is_signaled(&next->s_fence- 
+>> >finished);
+>> +
+>>               /* start TO timer for next job */
+>>               drm_sched_start_timeout(sched);
+>>           }
+>> @@ -1221,12 +1207,15 @@ static void drm_sched_free_job_work(struct 
+>> work_struct *w)
+>>       struct drm_gpu_scheduler *sched =
+>>           container_of(w, struct drm_gpu_scheduler, work_free_job);
+>>       struct drm_sched_job *job;
+>> +    bool have_more;
+>> -    job = drm_sched_get_finished_job(sched);
+>> -    if (job)
+>> +    job = drm_sched_get_finished_job(sched, &have_more);
+>> +    if (job) {
+>>           sched->ops->free_job(job);
+>> +        if (have_more)
+>> +            drm_sched_run_free_queue(sched);
+>> +    }
+>> -    drm_sched_run_free_queue_unlocked(sched);
+>>       drm_sched_run_job_queue(sched);
+>>   }
+> 
 
