@@ -2,60 +2,125 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id DF93AB07EDA
-	for <lists+dri-devel@lfdr.de>; Wed, 16 Jul 2025 22:26:46 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9E0C4B07F03
+	for <lists+dri-devel@lfdr.de>; Wed, 16 Jul 2025 22:36:38 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id BBD5410E3C2;
-	Wed, 16 Jul 2025 20:26:43 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0019110E3BD;
+	Wed, 16 Jul 2025 20:36:13 +0000 (UTC)
+Authentication-Results: gabe.freedesktop.org;
+	dkim=pass (1024-bit key; unprotected) header.d=amd.com header.i=@amd.com header.b="KXYNVKoM";
+	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from inva020.nxp.com (inva020.nxp.com [92.121.34.13])
- by gabe.freedesktop.org (Postfix) with ESMTPS id BAF1A10E23F
- for <dri-devel@lists.freedesktop.org>; Wed, 16 Jul 2025 07:17:45 +0000 (UTC)
-Received: from inva020.nxp.com (localhost [127.0.0.1])
- by inva020.eu-rdc02.nxp.com (Postfix) with ESMTP id 758411A0A77;
- Wed, 16 Jul 2025 09:08:43 +0200 (CEST)
-Received: from aprdc01srsp001v.ap-rdc01.nxp.com
- (aprdc01srsp001v.ap-rdc01.nxp.com [165.114.16.16])
- by inva020.eu-rdc02.nxp.com (Postfix) with ESMTP id 3848B1A017B;
- Wed, 16 Jul 2025 09:08:43 +0200 (CEST)
-Received: from lsvm11u0000395.swis.ap-northeast-2.aws.nxp.com
- (lsvm11u0000395.swis.ap-northeast-2.aws.nxp.com [10.52.9.99])
- by aprdc01srsp001v.ap-rdc01.nxp.com (Postfix) with ESMTP id 82808180009C;
- Wed, 16 Jul 2025 15:08:40 +0800 (+08)
-From: Joseph Guo <qijian.guo@nxp.com>
-Date: Wed, 16 Jul 2025 16:08:31 +0900
-Subject: [PATCH 3/3] drm: bridge: Add waveshare DSI2DPI unit driver
+Received: from NAM12-DM6-obe.outbound.protection.outlook.com
+ (mail-dm6nam12on2067.outbound.protection.outlook.com [40.107.243.67])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3ADC210E3BD;
+ Wed, 16 Jul 2025 20:36:13 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=E57U/gnteb2LlevicFLaxiIlGPeqHoW6IlmrWla1lPPVvAQ9UmVZWv28LsNNhtkM4UAKoBc+VEXMxqhWi57ye/yjyDP4yhwxMT82OIHAe7qX3U+c8Bv/7legkDF3iVjZCt8R0VBYljb84d1J9GFCfwGcI7qbWYU9p18vrRbdnLmqYFmW89ztGuy9j+w/i17l/kdo/5RbLcLzuBnhK9U9712pjrEzNlQackKWPovcOt1uagOZK1Dd19y2gvgx7HrVlNS2GdRh1MfnOOe8cKTfqhgFWRJAcq9tMuBDUx3idBBzADnYeSKvJOphz4Mv1z5Uj0VsxmKZBxoBarvOUtHKZA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=uxylae/ZKY3dmphg9IY7pAigRvBazhLAYFkR9zpNRK8=;
+ b=X19V0cwLnE1BAKa+qMSCse4x6QSGEW9SzIxvXyisaM4BNEF3O1XaAT8bCcNQCIsU/HwTxo5jjX0lj8faygCJdCm7it+YxkZ2TfGqzW+hI4JGmDIJGDDElhkrZVL5jgb+tnGilKIZKyLtRChPZtFIbNtXwISB2KwYdgjeIPaXqA+CC6OpCRydmT2mIrR7n6nFq0TBWbkKaXHTOgol6pHG4oU0tJuvE9ECtRLps2Tee3gY+z3FzHP2lLt2VOzai/3jZ79zR+uI1m20vPKJQn8A0ey1ABzvAcAW4rigOVSjx6VUFTB0LyIk4R7e2gSNnJhCsDwHvE8b67HbFN/VSnZXbg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
+ 165.204.84.17) smtp.rcpttodomain=gmail.com smtp.mailfrom=amd.com; dmarc=pass
+ (p=quarantine sp=quarantine pct=100) action=none header.from=amd.com;
+ dkim=none (message not signed); arc=none (0)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=uxylae/ZKY3dmphg9IY7pAigRvBazhLAYFkR9zpNRK8=;
+ b=KXYNVKoM209gl5GorKKZ2TrT3t1AHNsx2RIwbg4XHorzqkjsJMj5j8cfM4ZLgktlLfI+ZaqaoQ69vc0QWrAmyV4xVk94yC7F9XsSIfM+qzGl9P0e2eCL4zhDmsMvlsavlc+ZNJre30RLbS85wQv02Z+OrpvsLCVLLpst5AwYhR0=
+Received: from MW4PR04CA0139.namprd04.prod.outlook.com (2603:10b6:303:84::24)
+ by LV8PR12MB9112.namprd12.prod.outlook.com (2603:10b6:408:184::17)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8901.29; Wed, 16 Jul
+ 2025 20:36:10 +0000
+Received: from MWH0EPF000A6733.namprd04.prod.outlook.com
+ (2603:10b6:303:84:cafe::ca) by MW4PR04CA0139.outlook.office365.com
+ (2603:10b6:303:84::24) with Microsoft SMTP Server (version=TLS1_3,
+ cipher=TLS_AES_256_GCM_SHA384) id 15.20.8943.20 via Frontend Transport; Wed,
+ 16 Jul 2025 20:36:10 +0000
+X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 165.204.84.17)
+ smtp.mailfrom=amd.com; dkim=none (message not signed)
+ header.d=none;dmarc=pass action=none header.from=amd.com;
+Received-SPF: Pass (protection.outlook.com: domain of amd.com designates
+ 165.204.84.17 as permitted sender) receiver=protection.outlook.com;
+ client-ip=165.204.84.17; helo=SATLEXMB04.amd.com; pr=C
+Received: from SATLEXMB04.amd.com (165.204.84.17) by
+ MWH0EPF000A6733.mail.protection.outlook.com (10.167.249.25) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.20.8922.22 via Frontend Transport; Wed, 16 Jul 2025 20:36:09 +0000
+Received: from kylin.lan (10.180.168.240) by SATLEXMB04.amd.com
+ (10.181.40.145) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.39; Wed, 16 Jul
+ 2025 15:36:06 -0500
+From: Alex Hung <alex.hung@amd.com>
+To: <harry.wentland@amd.com>, <sunpeng.li@amd.com>,
+ <alexander.deucher@amd.com>, <christian.koenig@amd.com>, <airlied@gmail.com>, 
+ <simona@ffwll.ch>, <aric.cyr@amd.com>, <aurabindo.pillai@amd.com>,
+ <amd-gfx@lists.freedesktop.org>, <dri-devel@lists.freedesktop.org>,
+ <Yihan.Zhu@amd.com>
+CC: Alex Hung <alex.hung@amd.com>
+Subject: [PATCH] drm/amd/display: Fix kernel docs for struct mpc_color_caps
+Date: Wed, 16 Jul 2025 14:35:46 -0600
+Message-ID: <20250716203546.505788-1-alex.hung@amd.com>
+X-Mailer: git-send-email 2.43.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20250716-waveshare-v1-3-81cb03fb25a3@nxp.com>
-References: <20250716-waveshare-v1-0-81cb03fb25a3@nxp.com>
-In-Reply-To: <20250716-waveshare-v1-0-81cb03fb25a3@nxp.com>
-To: Andrzej Hajda <andrzej.hajda@intel.com>, 
- Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>, 
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>, 
- Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>, 
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, 
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
- Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
- Conor Dooley <conor+dt@kernel.org>, 
- Jessica Zhang <quic_jesszhan@quicinc.com>, 
- Thierry Reding <thierry.reding@gmail.com>, Sam Ravnborg <sam@ravnborg.org>
-Cc: dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org, 
- linux-kernel@vger.kernel.org, victor.liu@nxp.com, 
- Joseph Guo <qijian.guo@nxp.com>
-X-Mailer: b4 0.14.2
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1752649713; l=7757;
- i=qijian.guo@nxp.com; s=20250519; h=from:subject:message-id;
- bh=v4Qtuw0iQCGaRh9wXepraWYmf0E+O5vuzs/bBBqvwyM=;
- b=wuGuKiGK7IKHuQO49/doanJEJC1zjRiQMIAZ0dUjlWzmatxRZzLUBwWJ6xV8MJnQ/hivHlLEE
- zD78BSSGgAfATMaegQ2o/V2YZcaD04ksY6wcz7eMSp5I+KmzHFOl+Hf
-X-Developer-Key: i=qijian.guo@nxp.com; a=ed25519;
- pk=VRjOOFhVecTRwBzK4mt/k3JBnHoYfuXKCm9FM+hHQhs=
-X-Virus-Scanned: ClamAV using ClamSMTP
-X-Mailman-Approved-At: Wed, 16 Jul 2025 20:26:43 +0000
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-Originating-IP: [10.180.168.240]
+X-ClientProxiedBy: SATLEXMB03.amd.com (10.181.40.144) To SATLEXMB04.amd.com
+ (10.181.40.145)
+X-EOPAttributedMessage: 0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: MWH0EPF000A6733:EE_|LV8PR12MB9112:EE_
+X-MS-Office365-Filtering-Correlation-Id: 64bee458-ab9a-4632-c1eb-08ddc4a865f3
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+ ARA:13230040|1800799024|82310400026|376014|36860700013|921020; 
+X-Microsoft-Antispam-Message-Info: =?us-ascii?Q?34uvy7qOBso2p9MzHNx/CFOn/XGR9qoTiq2Nl7jqCUODG5LdoMenpz1lmTrW?=
+ =?us-ascii?Q?Bxj1FTbhpdzFKO1qqvg/qiLxvIzx3kzH6jHy23O4YXMm2FLGxqRNaH6l3HxB?=
+ =?us-ascii?Q?/l8aEh6pW8nLIE6KTvInfG46s7i09ZTtcgP3NBCL2T5AX9H6uW0v5pzyFGxQ?=
+ =?us-ascii?Q?w0GGdKqsYrxwhIrqQixOm+jiSo69j9Y6GnZNAwEoDeS41eKYP7tsrjGuinG5?=
+ =?us-ascii?Q?vNobQz1leGKPKlDb9EfzbHZkn6AehL9agq3yVO75CiADU00IQ6FDPLVtnRTY?=
+ =?us-ascii?Q?+J1JN0Sv4ZWQ6Lms3TVN1JICjkbcb7LNAn6WkhsuNGsnJ2PKcZhhnqHqMWZd?=
+ =?us-ascii?Q?Lz/iRKjPXZH+VoiBxowmqqcoWlXzTZadLJ9CJzVPp3t1Ms26FtSzcxetEBif?=
+ =?us-ascii?Q?iWJZA6DbZw5wCkzzhSYbuYWL0OxvDy9TlZTnJtRgIs9DK/2Ou5YyteIHwgQa?=
+ =?us-ascii?Q?3kep+DJ5L09h55SpIFYU3SCWc2LBF+jjDZVWUa3Q9izXcJApdoiASWsOtOyd?=
+ =?us-ascii?Q?FoQkuXCUCqTdcod3jddu8ZMHlpqsPcEPqVO70MiXcFEX/kccAFpW8ZqCJTFs?=
+ =?us-ascii?Q?jX0Kl5oR7UZzlcHLz9qATvR14XCci+IhMVKinnfRj9amIkFL6cObblHmcdPY?=
+ =?us-ascii?Q?i0LH3bYHh1JLYNZEladi/wYWF/w9Tby8HIxHGnJvcOitmjcTMGCYpCtm/j9O?=
+ =?us-ascii?Q?MowitJ/008yLn63Z5x0ZiOM4RWJCc8G1tNfKGLjKlIf8yApc1dybVoYfZ3gM?=
+ =?us-ascii?Q?PJPHiaQsagMJIcbvlEO53yjpo/g1zFUWbKRrtXM8C/yhCR1FUDygNlqt6EwD?=
+ =?us-ascii?Q?ky2MPMUl6ChbmO23+Ye19p8+77HNhM1KD/pzd5u/cEk4VhRgiBPHYrRTEVSD?=
+ =?us-ascii?Q?MyqMDkxXeIZ8BujQOcCvmCNhNNef/oEuFVzTYVpFM/elJlH2gxjrzTJKDYU2?=
+ =?us-ascii?Q?0Oqt7fLkUe/jTsQG4peXNk55JsDpYqG0O66L3jdzaYo8W1fuHsuPilz4wDPo?=
+ =?us-ascii?Q?AfMejwl1/IWyFHWq83+OUOumiy77qxAoxh8okJNL9E6tNScxexY+2YR32f3P?=
+ =?us-ascii?Q?wDrnqgKQagEF1Kjzlf5tZE9FGdKCGIKorDIY9zgYy11QrDPTE3xR/WbIW+Mv?=
+ =?us-ascii?Q?LobXs8BXVb89KwDoHRQEhweM/ZLMhj8Qbt1TdWE20CJai7YydUAQucNvDxJH?=
+ =?us-ascii?Q?vAgwR1GiZZcpjDRn+VxObvTMMsqJF4vN/KfXaGyDvcGYcJgXSWahYe6b2TVz?=
+ =?us-ascii?Q?qrkuPeA36xpGKhxoCkh1VzMysdOUqHCkuOgeZIFRXmm6bYV8JLpn8UxwlDFr?=
+ =?us-ascii?Q?C3xdlBsXTx4QQoU0j4u5Yt3MbMHH1Pc7RRq3BDA4OXa0plqKv8g07FceEr5q?=
+ =?us-ascii?Q?jNanTzvjm4nIdxrKjnqTpJ3wC9/XOdEDTZ33tCMJbO2NVr59wbf+sE/OlHxn?=
+ =?us-ascii?Q?Alx7OU9gbF0pt2TPOqugzEycd++MdvHCENykr2n7CNZE3SS6TYpCvdY6DBJt?=
+ =?us-ascii?Q?5qb2pcbMA+7/CDUGBpgcmz2KcD0ysho1R/aCaiMiZz87lewnTivgUqwKGw?=
+ =?us-ascii?Q?=3D=3D?=
+X-Forefront-Antispam-Report: CIP:165.204.84.17; CTRY:US; LANG:en; SCL:1; SRV:;
+ IPV:CAL; SFV:NSPM; H:SATLEXMB04.amd.com; PTR:InfoDomainNonexistent; CAT:NONE;
+ SFS:(13230040)(1800799024)(82310400026)(376014)(36860700013)(921020); DIR:OUT;
+ SFP:1101; 
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 16 Jul 2025 20:36:09.9161 (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: 64bee458-ab9a-4632-c1eb-08ddc4a865f3
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=3dd8961f-e488-4e60-8e11-a82d994e183d; Ip=[165.204.84.17];
+ Helo=[SATLEXMB04.amd.com]
+X-MS-Exchange-CrossTenant-AuthSource: MWH0EPF000A6733.namprd04.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: LV8PR12MB9112
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -71,266 +136,32 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Waveshare touchscreen consists of a DPI panel and a driver board.
-The waveshare driver board consists of ICN6211 and a MCU to
-convert DSI to DPI and control the backlight.
-This driver treats the MCU and ICN6211 board as a whole unit.
-It can support all resolution waveshare DSI2DPI based panel,
-the timing table should come from 'panel-dpi' panel in the device tree.
+[WHAT & HOW]
+Add kernel-doc for a new struct member "num_rmcm_3dluts".
 
-Signed-off-by: Joseph Guo <qijian.guo@nxp.com>
+This fixes the follow warnings from "make htmldocs".
+
+./drivers/gpu/drm/amd/display/dc/dc.h:255: warning: Function parameter
+or struct member 'num_rmcm_3dluts' not described in 'mpc_color_caps'
+
+Reviewed-by: Yihan Zhu <Yihan.Zhu@amd.com>
+Signed-off-by: Alex Hung <alex.hung@amd.com>
 ---
- drivers/gpu/drm/bridge/Kconfig         |  11 ++
- drivers/gpu/drm/bridge/Makefile        |   1 +
- drivers/gpu/drm/bridge/waveshare-dsi.c | 210 +++++++++++++++++++++++++++++++++
- 3 files changed, 222 insertions(+)
+ drivers/gpu/drm/amd/display/dc/dc.h | 1 +
+ 1 file changed, 1 insertion(+)
 
-diff --git a/drivers/gpu/drm/bridge/Kconfig b/drivers/gpu/drm/bridge/Kconfig
-index cb3b797fcea1c73e83c9187fef6582296b340305..26fec25c61ed7d950c094e0224f1196946079485 100644
---- a/drivers/gpu/drm/bridge/Kconfig
-+++ b/drivers/gpu/drm/bridge/Kconfig
-@@ -472,4 +472,15 @@ config DRM_ITE_IT6161
- 	help
- 	  ITE IT6161 bridge chip driver.
- 
-+config DRM_WAVESHARE_BRIDGE
-+	tristate "Waveshare DSI bridge"
-+	depends on OF
-+	select DRM_PANEL_BRIDGE
-+	select DRM_KMS_HELPER
-+	select DRM_MIPI_DSI
-+	select REGMAP_I2C
-+	help
-+	  Driver for waveshare DSI to DPI bridge board.
-+	  Please say Y if you have such hardware
-+
- endmenu
-diff --git a/drivers/gpu/drm/bridge/Makefile b/drivers/gpu/drm/bridge/Makefile
-index d1db90688a150fdc3a5fd40acebe740798c452b0..3caa4d8f71675804328aa5a51ec67b2587938621 100644
---- a/drivers/gpu/drm/bridge/Makefile
-+++ b/drivers/gpu/drm/bridge/Makefile
-@@ -48,3 +48,4 @@ obj-$(CONFIG_DRM_ITE_IT6263) += it6263.o
- obj-$(CONFIG_DRM_ITE_IT6161) += it6161.o
- obj-$(CONFIG_DRM_SEC_MIPI_DSIM) += sec-dsim.o
- obj-$(CONFIG_DRM_NXP_SEIKO_43WVFIG) += nxp-seiko-43wvfig.o
-+obj-$(CONFIG_DRM_WAVESHARE_BRIDGE) += waveshare-dsi.o
-diff --git a/drivers/gpu/drm/bridge/waveshare-dsi.c b/drivers/gpu/drm/bridge/waveshare-dsi.c
-new file mode 100644
-index 0000000000000000000000000000000000000000..efb3a2fc501b5725b02f49862526d1704a3a4b7b
---- /dev/null
-+++ b/drivers/gpu/drm/bridge/waveshare-dsi.c
-@@ -0,0 +1,210 @@
-+// SPDX-License-Identifier: GPL-2.0
-+/*
-+ *  Copyright 2025 NXP
-+ * Based on panel-raspberrypi-touchscreen by Broadcom
-+ */
-+
-+#include <linux/backlight.h>
-+#include <linux/err.h>
-+#include <linux/i2c.h>
-+#include <linux/module.h>
-+#include <linux/of.h>
-+#include <linux/of_graph.h>
-+#include <linux/regmap.h>
-+
-+#include <drm/drm_atomic_helper.h>
-+#include <drm/drm_bridge.h>
-+#include <drm/drm_mipi_dsi.h>
-+#include <drm/drm_of.h>
-+#include <drm/drm_panel.h>
-+#include <drm/drm_print.h>
-+
-+struct ws_bridge {
-+	struct drm_bridge bridge;
-+	struct drm_bridge *next_bridge;
-+	struct backlight_device *backlight;
-+	struct device *dev;
-+	struct regmap *reg_map;
-+};
-+
-+static const struct regmap_config ws_regmap_config = {
-+	.reg_bits = 8,
-+	.val_bits = 8,
-+	.max_register = 0xff,
-+	.disable_debugfs = true,
-+};
-+
-+static struct ws_bridge *bridge_to_ws_bridge(struct drm_bridge *bridge)
-+{
-+	return container_of(bridge, struct ws_bridge, bridge);
-+}
-+
-+static int ws_bridge_attach_dsi(struct ws_bridge *ws)
-+{
-+	struct device_node *dsi_host_node;
-+	struct mipi_dsi_host *host;
-+	struct mipi_dsi_device *dsi;
-+	const struct mipi_dsi_device_info info = {
-+		.type = "ws-bridge",
-+		.channel = 0,
-+		.node = NULL,
-+	};
-+	struct device *dev = ws->dev;
-+	int ret;
-+
-+	dsi_host_node = of_graph_get_remote_node(dev->of_node, 0, 0);
-+	if (!dsi_host_node) {
-+		dev_err(dev, "Failed to get remote port\n");
-+		return -ENODEV;
-+	}
-+
-+	host = of_find_mipi_dsi_host_by_node(dsi_host_node);
-+
-+	of_node_put(dsi_host_node);
-+	if (!host)
-+		return dev_err_probe(dev, -EPROBE_DEFER, "Failed to find dsi_host\n");
-+
-+	dsi = devm_mipi_dsi_device_register_full(dev, host, &info);
-+
-+	if (IS_ERR(dsi))
-+		return dev_err_probe(dev, PTR_ERR(dsi), "Failed to create dsi device\n");
-+
-+	dsi->mode_flags = MIPI_DSI_MODE_VIDEO_HSE | MIPI_DSI_MODE_VIDEO |
-+			  MIPI_DSI_CLOCK_NON_CONTINUOUS;
-+	dsi->format = MIPI_DSI_FMT_RGB888;
-+	dsi->lanes = 2;
-+
-+	ret = devm_mipi_dsi_attach(dev, dsi);
-+	if (ret < 0)
-+		return dev_err_probe(dev, ret, "Failed to attach dsi to host\n");
-+
-+	return 0;
-+}
-+
-+static int ws_bridge_bridge_attach(struct drm_bridge *bridge,
-+				   enum drm_bridge_attach_flags flags)
-+{
-+	struct ws_bridge *ws = bridge_to_ws_bridge(bridge);
-+	int ret;
-+
-+	ret = ws_bridge_attach_dsi(ws);
-+	if (ret)
-+		return ret;
-+
-+	return drm_bridge_attach(ws->bridge.encoder, ws->next_bridge,
-+				 &ws->bridge, flags);
-+}
-+
-+static void ws_bridge_bridge_enable(struct drm_bridge *bridge)
-+{
-+	struct ws_bridge *ws = bridge_to_ws_bridge(bridge);
-+
-+	regmap_write(ws->reg_map, 0xad, 0x01);
-+	backlight_enable(ws->backlight);
-+}
-+
-+static void ws_bridge_bridge_disable(struct drm_bridge *bridge)
-+{
-+	struct ws_bridge *ws = bridge_to_ws_bridge(bridge);
-+
-+	backlight_disable(ws->backlight);
-+	regmap_write(ws->reg_map, 0xad, 0x00);
-+}
-+
-+static const struct drm_bridge_funcs ws_bridge_bridge_funcs = {
-+	.enable = ws_bridge_bridge_enable,
-+	.disable = ws_bridge_bridge_disable,
-+	.attach = ws_bridge_bridge_attach,
-+};
-+
-+static int ws_bridge_bl_update_status(struct backlight_device *bl)
-+{
-+	struct ws_bridge *ws = bl_get_data(bl);
-+
-+	regmap_write(ws->reg_map, 0xab, 0xff - backlight_get_brightness(bl));
-+	regmap_write(ws->reg_map, 0xaa, 0x01);
-+
-+	return 0;
-+}
-+
-+static const struct backlight_ops ws_bridge_bl_ops = {
-+	.update_status = ws_bridge_bl_update_status,
-+};
-+
-+static struct backlight_device *ws_bridge_create_backlight(struct ws_bridge *ws)
-+{
-+	struct device *dev = ws->dev;
-+	const struct backlight_properties props = {
-+		.type = BACKLIGHT_RAW,
-+		.brightness = 255,
-+		.max_brightness = 255,
-+	};
-+
-+	return devm_backlight_device_register(dev, dev_name(dev), dev, ws,
-+					      &ws_bridge_bl_ops, &props);
-+}
-+
-+static int ws_bridge_probe(struct i2c_client *i2c)
-+{
-+	struct device *dev = &i2c->dev;
-+	struct ws_bridge *ws;
-+	struct drm_panel *panel;
-+	int ret;
-+	struct backlight_device *backlight;
-+
-+	ws = devm_kzalloc(dev, sizeof(*ws), GFP_KERNEL);
-+	if (!ws)
-+		return -ENOMEM;
-+
-+	ws->dev = dev;
-+
-+	ws->reg_map = devm_regmap_init_i2c(i2c, &ws_regmap_config);
-+	if (IS_ERR(ws->reg_map))
-+		return dev_err_probe(dev, PTR_ERR(ws->reg_map), "Failed to allocate regmap\n");
-+
-+	ret = drm_of_find_panel_or_bridge(dev->of_node, 1, -1, &panel, NULL);
-+	if (ret)
-+		return dev_err_probe(dev, ret, "Failed to find remote panel\n");
-+
-+	ws->next_bridge = devm_drm_panel_bridge_add(dev, panel);
-+	if (IS_ERR(ws->next_bridge))
-+		return PTR_ERR(ws->next_bridge);
-+
-+	ws->backlight = ws_bridge_create_backlight(ws);
-+	if (IS_ERR(backlight)) {
-+		ret = PTR_ERR(backlight);
-+		dev_err(dev, "Failed to create backlight: %d\n", ret);
-+		return ret;
-+	}
-+
-+	regmap_write(ws->reg_map, 0xc0, 0x01);
-+	regmap_write(ws->reg_map, 0xc2, 0x01);
-+	regmap_write(ws->reg_map, 0xac, 0x01);
-+
-+	ws->bridge.funcs = &ws_bridge_bridge_funcs;
-+	ws->bridge.type = DRM_MODE_CONNECTOR_DPI;
-+	ws->bridge.of_node = dev->of_node;
-+	devm_drm_bridge_add(dev, &ws->bridge);
-+
-+	return 0;
-+}
-+
-+static const struct of_device_id ws_bridge_of_ids[] = {
-+	{.compatible = "waveshare,dsi2dpi",},
-+	{ }
-+};
-+
-+MODULE_DEVICE_TABLE(of, ws_bridge_of_ids);
-+
-+static struct i2c_driver ws_bridge_driver = {
-+	.driver = {
-+		.name = "ws_dsi2dpi",
-+		.of_match_table = ws_bridge_of_ids,
-+	},
-+	.probe = ws_bridge_probe,
-+};
-+module_i2c_driver(ws_bridge_driver);
-+
-+MODULE_AUTHOR("Joseph Guo <qijian.guo@nxp.com>");
-+MODULE_DESCRIPTION("Waveshare DSI2DPI bridge driver");
-+MODULE_LICENSE("GPL");
-
+diff --git a/drivers/gpu/drm/amd/display/dc/dc.h b/drivers/gpu/drm/amd/display/dc/dc.h
+index 59c07756130d..fac976b2cbee 100644
+--- a/drivers/gpu/drm/amd/display/dc/dc.h
++++ b/drivers/gpu/drm/amd/display/dc/dc.h
+@@ -234,6 +234,7 @@ struct lut3d_caps {
+  * @ogam_ram: programmable out gamma LUT
+  * @ocsc: output color space conversion matrix
+  * @num_3dluts: MPC 3D LUT; always assumes a preceding shaper LUT
++ * @num_rmcm_3dluts: number of RMCM hardware instances
+  * @shared_3d_lut: shared 3D LUT flag. Can be either DPP or MPC, but single
+  * instance
+  * @ogam_rom_caps: pre-definied curve caps for regamma 1D LUT
 -- 
-2.34.1
+2.43.0
 
