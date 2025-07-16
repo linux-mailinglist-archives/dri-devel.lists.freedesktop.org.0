@@ -2,76 +2,56 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B6C9EB07F0F
-	for <lists+dri-devel@lfdr.de>; Wed, 16 Jul 2025 22:41:17 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 940DFB07F15
+	for <lists+dri-devel@lfdr.de>; Wed, 16 Jul 2025 22:44:26 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E678410E3C6;
-	Wed, 16 Jul 2025 20:41:13 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A8E0710E2BB;
+	Wed, 16 Jul 2025 20:44:23 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="HSPU/JFw";
+	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=igalia.com header.i=@igalia.com header.b="iFuHGNnz";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pj1-f50.google.com (mail-pj1-f50.google.com
- [209.85.216.50])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0165F10E26B;
- Wed, 16 Jul 2025 20:41:12 +0000 (UTC)
-Received: by mail-pj1-f50.google.com with SMTP id
- 98e67ed59e1d1-313fab41fd5so79205a91.1; 
- Wed, 16 Jul 2025 13:41:12 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1752698472; x=1753303272; darn=lists.freedesktop.org;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc:subject:date
- :message-id:reply-to;
- bh=9WTk3ecSPyAdaWfFH64n9hfQBBys+xnWczCgTkT/lXE=;
- b=HSPU/JFwJ7duJwzWHnBBJ2Kz6546ZGOJZ7qm+iXnIoUMyAJkwrYKLbeW7FyOd3Q0QA
- FFYc9xDkQydmdFy2fv+042Gry7c+WCgG/dAsHogapyHYv3y5YkX3bpFbdGOaWpJF94at
- 1GKmYnLzNiNpzTfcrb3qZrllaoSMbsGYGBDbxEpKfHkTIbEJXlEucl/Gf1VVB/tTinil
- spGwnffT0zgqRRnuyGco4hcuI46Y3GotXOa/F4+tk6M4iY/M8UelL4p1EgKAnudb6unB
- YSM//TCqwIoJw+1LjpK486sNCCj4grqa7dV298E0L2IgN5h9o10020LcS/afFQrJvPaT
- hTCw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1752698472; x=1753303272;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=9WTk3ecSPyAdaWfFH64n9hfQBBys+xnWczCgTkT/lXE=;
- b=UgWMPYLOQ5B8j1SYbwAIR6bFNwvp1FY+PwmWqkJui6E4mDezfjTbMch8P2MlaQYOyW
- JFEeC9ly/1brJwOLpconrFn++maXQn/VRu76n7XsUinxOObeRrmtR9rsRDw5la9rbKpX
- 2tQVO1YnIK32d72dRmyA5HGh4pyjn61d0Sp9lme8lT3QqkbdHltVmKorm3Gp/VQJJQAr
- lrKuw7ca3sDlP6g+VVFvwKSINxIrcMtHGPKDp1kTEttTlZXNNlPN10syk4rHjlmdaKOP
- 5P+wcoXBhnjcezoRc6onXFU9lzu+UHrOK9gRFtmrnZip+A7KTZHoR51UsJwjmoG48anQ
- AthA==
-X-Forwarded-Encrypted: i=1;
- AJvYcCUkqcw+p8WgArC0bjpdLakV5Pt2BOvu8tN7wfRyrjgpCQ70qO482z8ZoG2D8GOIRPaDi1WbC4CQr6QZ@lists.freedesktop.org,
- AJvYcCXjFfUMlBuCLcN7vDLxD8GkzzwG02cB2RdDKtDtfcQj6M6cnSbEyyNTVYfYBs/3skx3qpLS3i3S@lists.freedesktop.org
-X-Gm-Message-State: AOJu0Yy6fUHt73OquRpG8CgdbKqUcNtq6V2dIZps0NcxapOVWVe+Brcs
- /hiVcuq1aPFeddllixxCS9vmxYaM/nfNWNSHKZNaHO0G4eWqVsPTa143WZlgTJR6kN8RjEymyTu
- UUywu7fml6qBlqgIFw6VuUIW6W5n46pU=
-X-Gm-Gg: ASbGncv7gFdyvMVA2tBJd/4yM3181YIS00MLTxGNTboTG5u9HhiWJOGIRR2mdwzYCGX
- Nek46sGhfEeFQAfV6y26LzczKFxgfE3Hdo7DDNgyubOXmzI5h8/GyTaIaquvBSGOadR3IHUfozf
- 2jd7kBTmbQo+NlPCVvhbWB2ZMJfdB8EAoKgnlqMIB/vufWzfoX3JGKzIMJrJ2EPqsDun84uhdAx
- KRzhllU
-X-Google-Smtp-Source: AGHT+IHuHUD2m7ZHZ47B7El682iJGXBuIMMlr9IIW1bcSj4FYiX4jkSjOzexVGhwwdlc0xDtvJfZAg9JN03gQ2X+ToM=
-X-Received: by 2002:a17:90b:2689:b0:313:151a:8653 with SMTP id
- 98e67ed59e1d1-31c9e7a412bmr2253586a91.8.1752698472350; Wed, 16 Jul 2025
- 13:41:12 -0700 (PDT)
+Received: from fanzine2.igalia.com (fanzine2.igalia.com [213.97.179.56])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 30BA910E2BB;
+ Wed, 16 Jul 2025 20:44:22 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com; 
+ s=20170329;
+ h=Content-Transfer-Encoding:Content-Type:In-Reply-To:From:
+ References:Cc:To:Subject:MIME-Version:Date:Message-ID:Sender:Reply-To:
+ Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
+ Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
+ List-Subscribe:List-Post:List-Owner:List-Archive;
+ bh=RLK6FEnm0hvLnrj85LWZZ8JQjRffonZXKM+V8Caxf+8=; b=iFuHGNnzseuJbuCL+IRM1UoQS/
+ EPxG0hry/mCJhO1rZKEjqv3bIBgbALivq8sPmQPboUuz7pCqi21/vb3j+2U6OOP30VeN6yD/Dbiup
+ xepYemoqffnKFylUQ1UXQWVyye7bzsMM5AWlV7Jvz6r9wmG6Mlb5Yi+q8VrTHLUKJinw351G6r4qv
+ FKLUU/+G0RXo7HU3c93wLMi8Biq3CTSKcZ4ggAhDO2WbIqaYswoFkgC/XhkzSC1LPBH5LWDM0hoSg
+ 7ZR4XoopA/no0mNS4eP65lC3+Oy2jFp7xdf1WSoFBN0rHTCWE4nAyc64CZk0I3/RPDO4zkB4JKYef
+ ceoGxjbA==;
+Received: from [187.36.210.68] (helo=[192.168.1.103])
+ by fanzine2.igalia.com with esmtpsa 
+ (Cipher TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_128_GCM:128) (Exim)
+ id 1uc8zD-00HTyk-KI; Wed, 16 Jul 2025 22:44:20 +0200
+Message-ID: <c1c9bb53-399d-4f1a-a6de-8cf354c2e903@igalia.com>
+Date: Wed, 16 Jul 2025 17:44:12 -0300
 MIME-Version: 1.0
-References: <20250716203546.505788-1-alex.hung@amd.com>
-In-Reply-To: <20250716203546.505788-1-alex.hung@amd.com>
-From: Alex Deucher <alexdeucher@gmail.com>
-Date: Wed, 16 Jul 2025 16:40:59 -0400
-X-Gm-Features: Ac12FXwkZjc7IGICBgoi7ZjfjRMfZtsC05b3P-zGF2GmgP9MfBQMimTLLynsjxU
-Message-ID: <CADnq5_NDv4heRD6rWCEuqZfhieJ3PK+Ez6uO9fc_e90KjFTJrQ@mail.gmail.com>
-Subject: Re: [PATCH] drm/amd/display: Fix kernel docs for struct mpc_color_caps
-To: Alex Hung <alex.hung@amd.com>, Stephen Rothwell <sfr@canb.auug.org.au>
-Cc: harry.wentland@amd.com, sunpeng.li@amd.com, alexander.deucher@amd.com, 
- christian.koenig@amd.com, airlied@gmail.com, simona@ffwll.ch, 
- aric.cyr@amd.com, aurabindo.pillai@amd.com, amd-gfx@lists.freedesktop.org, 
- dri-devel@lists.freedesktop.org, Yihan.Zhu@amd.com
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] drm/sched: Avoid double re-lock on the job free path
+To: Tvrtko Ursulin <tvrtko.ursulin@igalia.com>, dri-devel@lists.freedesktop.org
+Cc: kernel-dev@igalia.com, intel-xe@lists.freedesktop.org,
+ amd-gfx@lists.freedesktop.org, =?UTF-8?Q?Christian_K=C3=B6nig?=
+ <christian.koenig@amd.com>, Danilo Krummrich <dakr@kernel.org>,
+ Matthew Brost <matthew.brost@intel.com>, Philipp Stanner <phasta@kernel.org>
+References: <20250716085117.56864-1-tvrtko.ursulin@igalia.com>
+ <8e527b62-d968-4bc3-a0dc-491d193c02ce@igalia.com>
+ <52d32846-0286-4979-ab2f-c1aa1aa02e20@igalia.com>
+ <f535c0bf-225a-40c9-b6a1-5bfbb5ebec0d@igalia.com>
+ <b5ff1fba-0e2c-4d02-8b9d-49c3c313e65d@igalia.com>
+Content-Language: en-US
+From: =?UTF-8?Q?Ma=C3=ADra_Canal?= <mcanal@igalia.com>
+In-Reply-To: <b5ff1fba-0e2c-4d02-8b9d-49c3c313e65d@igalia.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -87,41 +67,107 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, Jul 16, 2025 at 4:36=E2=80=AFPM Alex Hung <alex.hung@amd.com> wrote=
-:
->
-> [WHAT & HOW]
-> Add kernel-doc for a new struct member "num_rmcm_3dluts".
->
-> This fixes the follow warnings from "make htmldocs".
->
-> ./drivers/gpu/drm/amd/display/dc/dc.h:255: warning: Function parameter
-> or struct member 'num_rmcm_3dluts' not described in 'mpc_color_caps'
->
-> Reviewed-by: Yihan Zhu <Yihan.Zhu@amd.com>
-> Signed-off-by: Alex Hung <alex.hung@amd.com>
+Hi Tvrtko,
 
-Reported-by: Stephen Rothwell <sfr@canb.auug.org.au>
-Fixes: 26ad78fffc66 ("drm/amd/display: MPC basic allocation logic and TMZ")
+On 16/07/25 11:46, Tvrtko Ursulin wrote:
+> 
+> On 16/07/2025 15:30, Maíra Canal wrote:
+>> Hi Tvrtko,
+>>
+>> On 16/07/25 10:49, Tvrtko Ursulin wrote:
+>>>
+>>> On 16/07/2025 14:31, Maíra Canal wrote:
+>>>> Hi Tvrtko,
+>>>>
+>>>> On 16/07/25 05:51, Tvrtko Ursulin wrote:
+>>>>> Currently the job free work item will lock sched->job_list_lock 
+>>>>> first time
+>>>>> to see if there are any jobs, free a single job, and then lock 
+>>>>> again to
+>>>>> decide whether to re-queue itself if there are more finished jobs.
+>>>>>
+>>>>> Since drm_sched_get_finished_job() already looks at the second job 
+>>>>> in the
+>>>>> queue we can simply add the signaled check and have it return the 
+>>>>> presence
+>>>>> of more jobs to be freed to the caller. That way the work item does 
+>>>>> not
+>>>>> have to lock the list again and repeat the signaled check.
+>>>>>
+>>>>> Signed-off-by: Tvrtko Ursulin <tvrtko.ursulin@igalia.com>
+>>>>> Cc: Christian König <christian.koenig@amd.com>
+>>>>> Cc: Danilo Krummrich <dakr@kernel.org>
+>>>>> Cc: Maíra Canal <mcanal@igalia.com>
+>>>>> Cc: Matthew Brost <matthew.brost@intel.com>
+>>>>> Cc: Philipp Stanner <phasta@kernel.org>
+>>>>> ---
+>>>>> v2:
+>>>>>   * Improve commit text and kerneldoc. (Philipp)
+>>>>>   * Rename run free work helper. (Philipp)
+>>>>>
+>>>>> v3:
+>>>>>   * Rebase on top of Maira's changes.
+>>>>> ---
+>>>>>   drivers/gpu/drm/scheduler/sched_main.c | 53 +++++++++ 
+>>>>> +----------------
+>>>>>   1 file changed, 21 insertions(+), 32 deletions(-)
+>>>>>
+>>>>> diff --git a/drivers/gpu/drm/scheduler/sched_main.c b/drivers/gpu/ 
+>>>>> drm/ scheduler/sched_main.c
+>>>>> index e2cda28a1af4..5a550fd76bf0 100644
+>>>>> --- a/drivers/gpu/drm/scheduler/sched_main.c
+>>>>> +++ b/drivers/gpu/drm/scheduler/sched_main.c
+>>>>> @@ -349,34 +349,13 @@ static void drm_sched_run_job_queue(struct 
+>>>>> drm_gpu_scheduler *sched)
+>>>>>   }
+>>>>>   /**
+>>>>> - * __drm_sched_run_free_queue - enqueue free-job work
+>>>>> - * @sched: scheduler instance
+>>>>> - */
+>>>>> -static void __drm_sched_run_free_queue(struct drm_gpu_scheduler 
+>>>>> *sched)
+>>>>> -{
+>>>>> -    if (!READ_ONCE(sched->pause_submit))
+>>>>> -        queue_work(sched->submit_wq, &sched->work_free_job);
+>>>>> -}
+>>>>> -
+>>>>> -/**
+>>>>> - * drm_sched_run_free_queue - enqueue free-job work if ready
+>>>>> + * drm_sched_run_free_queue - enqueue free-job work
+>>>>>    * @sched: scheduler instance
+>>>>>    */
+>>>>>   static void drm_sched_run_free_queue(struct drm_gpu_scheduler 
+>>>>> *sched)
+>>>>>   {
+>>>>> -    struct drm_sched_job *job;
+>>>>> -
+>>>>> -    job = list_first_entry_or_null(&sched->pending_list,
+>>>>> -                       struct drm_sched_job, list);
+>>>>> -    if (job && dma_fence_is_signaled(&job->s_fence->finished))
+>>>>> -        __drm_sched_run_free_queue(sched);
+>>>>
+>>>> I believe we'd still need this chunk for DRM_GPU_SCHED_STAT_NO_HANG
+>>>> (check the comment in drm_sched_job_reinsert_on_false_timeout()). How
+>>>
+>>> You mean the "is there a signaled job in the list check" is needed 
+>>> for drm_sched_job_reinsert_on_false_timeout()? Hmm why? Worst case is 
+>>> a false positive wakeup on the free worker, no?
+>>
+>> Correct me if I'm mistaken, we would also have a false positive wake-up
+>> on the run_job worker, which I believe it could be problematic in the
+>> cases that we skipped the reset because the job is still running.
+> 
+> Run job worker exits when it sees no free credits so I don't think there 
+> is a problem. What am I missing?
+> 
 
-> ---
->  drivers/gpu/drm/amd/display/dc/dc.h | 1 +
->  1 file changed, 1 insertion(+)
->
-> diff --git a/drivers/gpu/drm/amd/display/dc/dc.h b/drivers/gpu/drm/amd/di=
-splay/dc/dc.h
-> index 59c07756130d..fac976b2cbee 100644
-> --- a/drivers/gpu/drm/amd/display/dc/dc.h
-> +++ b/drivers/gpu/drm/amd/display/dc/dc.h
-> @@ -234,6 +234,7 @@ struct lut3d_caps {
->   * @ogam_ram: programmable out gamma LUT
->   * @ocsc: output color space conversion matrix
->   * @num_3dluts: MPC 3D LUT; always assumes a preceding shaper LUT
-> + * @num_rmcm_3dluts: number of RMCM hardware instances
->   * @shared_3d_lut: shared 3D LUT flag. Can be either DPP or MPC, but sin=
-gle
->   * instance
->   * @ogam_rom_caps: pre-definied curve caps for regamma 1D LUT
-> --
-> 2.43.0
->
+I was the one missing the code in `drm_sched_can_queue()`. Sorry for the
+misleading comments. This is:
+
+Reviewed-by: Maíra Canal <mcanal@igalia.com>
+
+Best Regards,
+- Maíra
+
+
+
