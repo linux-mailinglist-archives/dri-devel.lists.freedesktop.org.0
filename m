@@ -2,119 +2,53 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id DBABCB07252
-	for <lists+dri-devel@lfdr.de>; Wed, 16 Jul 2025 11:58:34 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id C4AB1B07281
+	for <lists+dri-devel@lfdr.de>; Wed, 16 Jul 2025 12:05:22 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5020E10E772;
-	Wed, 16 Jul 2025 09:58:33 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5501610E783;
+	Wed, 16 Jul 2025 10:05:20 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=qualcomm.com header.i=@qualcomm.com header.b="TD7TaINl";
+	dkim=pass (1024-bit key; unprotected) header.d=163.com header.i=@163.com header.b="EgIw32oL";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com
- [205.220.180.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6377210E762
- for <dri-devel@lists.freedesktop.org>; Wed, 16 Jul 2025 09:58:31 +0000 (UTC)
-Received: from pps.filterd (m0279869.ppops.net [127.0.0.1])
- by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 56G5uGv3026001
- for <dri-devel@lists.freedesktop.org>; Wed, 16 Jul 2025 09:58:30 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
- cc:content-transfer-encoding:content-type:date:from:in-reply-to
- :message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
- uCPi2EzrNB692xy9We9a/N/3HeKk+7QZjy0Feteaw+Y=; b=TD7TaINlKPIASE36
- u/IbN+GDCE0I8aXSUbZMgWJU5NLyxC3OiBPrp/w94eJ2CIRTzCtvErpjFnPBsIKY
- dEoPnit2bh26v+QbjDsA08VXCjUStPFtRonIes9qDcEcSPf1Rckx0ks9IgGr0Ulp
- /ZFd1CGsPFstiDMvrOhiTJ+CgMKmcQIGvXWRag6QCDVN7AqIXuLa09ElQm2W61WD
- uKJ0GCCuX6oqQhJhFdSaFr/LcQGPVOUHdiQvg7iD+itE+anVeK9B1Pra+Nj5ePtF
- RlFj1INTotKb96Um/t3VD+YR/PYkYlsdtQMWFKJERhJXZMf9bOiynuOEB3PG8/no
- JoW32Q==
-Received: from mail-qv1-f70.google.com (mail-qv1-f70.google.com
- [209.85.219.70])
- by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 47wfca4nxu-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
- for <dri-devel@lists.freedesktop.org>; Wed, 16 Jul 2025 09:58:30 +0000 (GMT)
-Received: by mail-qv1-f70.google.com with SMTP id
- 6a1803df08f44-6f539358795so17550476d6.3
- for <dri-devel@lists.freedesktop.org>; Wed, 16 Jul 2025 02:58:30 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1752659909; x=1753264709;
- h=content-transfer-encoding:in-reply-to:from:content-language
- :references:cc:to:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=uCPi2EzrNB692xy9We9a/N/3HeKk+7QZjy0Feteaw+Y=;
- b=sEEnBwErg4qCidyG9Oi0oXLLORX4EY2fX4ViOLxT7n/pL8I3tkBANWgyQEWjEmPqn8
- SgUhhVdkN9FkLQupzqn6Nuir5XRG99vPJSQ5IZY2jXZLUOZYxyHDmgOPRk2zoh4IOvWg
- zBe9/wGEi735JoJpIk+0FD8oQhFr6Xps1lXW7Kz6L3r/avbcTYbQDEar9DH/WR858B62
- 5+vbO1iJaon4W7AM0RRIItM4Ed2SNNL7hROKpIQszIrlUoXTTsGQTJWY9mvjbITZ4x6i
- EIbyjuSGGd1wPnY1BMI97rFJxLKn1lvsvHSZepkZkZsrGO0MjdemgjwxZrPSmjrbXcgP
- ATqg==
-X-Forwarded-Encrypted: i=1;
- AJvYcCUakKAs3d/j/2LHCyjCpKQKsF2cLf2UFmyCDqwKbgSHNR3JeqpR5w9jmHo/ex0jdpHpOgplRzxE90w=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YyVWV0XV7+AnFgQQJEa+U2xGYbVhU13BoTEKG7rG6vDb4x3NIHs
- nsfils09Wvn3Vowv3kWzD+kp5Vhhgs69jF+Qw3fl+9GwQuh6B7yB3WdPYEUalceIoTtGjggDA86
- L1/IGqq6/sOetO/mSSHrNiqBOgAFcuntsbb9I4EOa5M+bqo0YKPdQXV/bG3pRGotAMYOaO881Cg
- j9WoE=
-X-Gm-Gg: ASbGncvsyEaSQxw0hN8vDgV4ARulttu4bWCBXxQvGSttvRV6Tz3A0T5SFZQRpcxyI+A
- x3ctoOXCxNrG1zOqKjVl0c1AaRbzZ+eeI0PMtqZomlF9Thw+TwfJkfhRa/oagavZNLAZt88uIgW
- 6a/hvDUMsBjHdaa75iqnPGjReMkNQFZ2nKSQ2V8cy9Rf6bCA/uIFRs9wbhFGsqis13hrBYduHX2
- 8OelvubCQxkGLhNYau6Ehs3DPscx8ttiBO9amHvSQmZH5XXs4nlVJx6fm9y4kP2/b714DY5RQHx
- D4b3wmYukn5GRh6JgLFsU/wSyovNH5eV6lSpVcq2f9/gzBam2LiRWUao6mI/RfwguAnm8t4dGSu
- lwtldvnxN9N+aIlW0XcKr
-X-Received: by 2002:a05:620a:28c1:b0:7e3:297d:ec32 with SMTP id
- af79cd13be357-7e342b37074mr137700685a.10.1752659909173; 
- Wed, 16 Jul 2025 02:58:29 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IHpnCpN/dC4tnBcVCDR8doy3/WCq6HZeBLkingkmeSVXbTv0Ng7Hs+rCJV4fx9aFN6b/RA0hQ==
-X-Received: by 2002:a05:620a:28c1:b0:7e3:297d:ec32 with SMTP id
- af79cd13be357-7e342b37074mr137699885a.10.1752659908851; 
- Wed, 16 Jul 2025 02:58:28 -0700 (PDT)
-Received: from [192.168.143.225] (078088045245.garwolin.vectranet.pl.
- [78.88.45.245]) by smtp.gmail.com with ESMTPSA id
- a640c23a62f3a-ae6e82df2efsm1166796766b.151.2025.07.16.02.58.26
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 16 Jul 2025 02:58:28 -0700 (PDT)
-Message-ID: <ad1afd1b-9cad-47d1-8dc9-0d62b25f502a@oss.qualcomm.com>
-Date: Wed, 16 Jul 2025 11:58:25 +0200
+Received: from m16.mail.163.com (m16.mail.163.com [220.197.31.2])
+ by gabe.freedesktop.org (Postfix) with ESMTP id 66F5B10E77E
+ for <dri-devel@lists.freedesktop.org>; Wed, 16 Jul 2025 10:05:19 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=163.com;
+ s=s110527; h=From:To:Subject:Date:Message-ID:MIME-Version; bh=Po
+ cQ/nDHIATBOFJGSZ66fxv31g7Z72Z6uzRz+exnXWo=; b=EgIw32oLWCRlRqMHrx
+ 14RcuGB1TxGnOaYcrqy+fBiYGDARkRulBCDQWwziRA+Az1vbEl40+w0Z7/lyX5OJ
+ EGoxG3/2FWaGsW2xfg0K849g6vfG8CtqtckHo0+NzG3lJR+EmQ/JNxBKw8BId2L6
+ tgILwys7LQXOJf3l0YlIrC6YM=
+Received: from ProDesk.. (unknown [])
+ by gzga-smtp-mtada-g1-2 (Coremail) with SMTP id
+ _____wAH0s46eXdoG0BuFQ--.1985S2; 
+ Wed, 16 Jul 2025 18:04:49 +0800 (CST)
+From: Andy Yan <andyshrk@163.com>
+To: dmitry.baryshkov@oss.qualcomm.com,
+	heiko@sntech.de
+Cc: hjc@rock-chips.com, mripard@kernel.org, naoki@radxa.com, stephen@radxa.com,
+ cristian.ciocaltea@collabora.com, neil.armstrong@linaro.org,
+ Laurent.pinchart@ideasonboard.com, yubing.zhang@rock-chips.com,
+ krzk+dt@kernel.org, devicetree@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, linux-arm-kernel@lists.infradead.org,
+ linux-kernel@vger.kernel.org, linux-rockchip@lists.infradead.org,
+ robh@kernel.org, sebastian.reichel@collabora.com,
+ Andy Yan <andy.yan@rock-chips.com>
+Subject: [PATCH v5 00/10] Add support for RK3588 DisplayPort Controller
+Date: Wed, 16 Jul 2025 18:04:27 +0800
+Message-ID: <20250716100440.816351-1-andyshrk@163.com>
+X-Mailer: git-send-email 2.43.0
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] drm/msm/kms: move snapshot init earlier in KMS init
-To: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>,
- Rob Clark <robin.clark@oss.qualcomm.com>, Dmitry Baryshkov
- <lumag@kernel.org>, Abhinav Kumar <abhinav.kumar@linux.dev>,
- Jessica Zhang <jessica.zhang@oss.qualcomm.com>,
- Sean Paul <sean@poorly.run>,
- Marijn Suijten <marijn.suijten@somainline.org>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>
-Cc: linux-arm-msm@vger.kernel.org, dri-devel@lists.freedesktop.org,
- freedreno@lists.freedesktop.org, linux-kernel@vger.kernel.org
-References: <20250715-msm-move-snapshot-init-v1-1-f39c396192ab@oss.qualcomm.com>
-Content-Language: en-US
-From: Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>
-In-Reply-To: <20250715-msm-move-snapshot-init-v1-1-f39c396192ab@oss.qualcomm.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwNzE2MDA4OSBTYWx0ZWRfX2zFg4s9JU+5e
- 9pRPFxpbZMc+aPvI5ozyT4gKPdxuYfzv9DNt10CBc5hFrrg5geNy00/tsGWNbeGQILJVdW52cvp
- 5NYsW5ab1lJI62fTWCLHGUta5gbL8eXz4UlVL+S9/+UI/pc4FKux1aPzb5gbf116y65m6ypDDmY
- Xq+9PzcubJ8pH2YVlh0IWb/iTDAHpOX5QXdHgUrcjkJvp4s3nnm7vq2dTZPy47IbPKM7B1MpDow
- DpLFcrq3FHw9n1D85zN9ZYXCvh4C9jXZU6g/rXaAEJisqBOghCJEbsNDjA9pPA7JDFrqJjrMDEj
- +vr9T0qBAGmkifs50wuJtaIJgEoAm0l1VUTE3JkXrA9e1bPjPKsixjh9DCjP77htikfMAGCTNBt
- 0KVbjZIjYt3MEzXcdj2ZD7P+8+HXxqfpUxMBLlmegTK706Zyn8adnpYMN8Y5lRYq6an/94+A
-X-Proofpoint-GUID: 796GdQ-6gBt9Mg22zG-mnO_plu96sYFo
-X-Authority-Analysis: v=2.4 cv=SeX3duRu c=1 sm=1 tr=0 ts=687777c6 cx=c_pps
- a=oc9J++0uMp73DTRD5QyR2A==:117 a=FpWmc02/iXfjRdCD7H54yg==:17
- a=IkcTkHD0fZMA:10 a=Wb1JkmetP80A:10 a=EUspDBNiAAAA:8 a=qnTbvVf9oJKgxClKmkgA:9
- a=QEXdDO2ut3YA:10 a=iYH6xdkBrDN1Jqds4HTS:22
-X-Proofpoint-ORIG-GUID: 796GdQ-6gBt9Mg22zG-mnO_plu96sYFo
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1099,Hydra:6.1.9,FMLib:17.12.80.40
- definitions=2025-07-16_01,2025-07-15_02,2025-03-28_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- spamscore=0 mlxscore=0 priorityscore=1501 bulkscore=0 phishscore=0
- lowpriorityscore=0 mlxlogscore=999 impostorscore=0 clxscore=1015 adultscore=0
- suspectscore=0 malwarescore=0 classifier=spam authscore=0 authtc=n/a authcc=
- route=outbound adjust=0 reason=mlx scancount=1 engine=8.19.0-2505280000
- definitions=main-2507160089
+Content-Transfer-Encoding: 8bit
+X-CM-TRANSID: _____wAH0s46eXdoG0BuFQ--.1985S2
+X-Coremail-Antispam: 1Uf129KBjvJXoWxZrWUZrWxJr4xWrWrWrykKrg_yoWrCr4fpa
+ 1UAry5JrWUWFW2qrs2kFn7Crs3Z3ZFy3yrKwn3J342vF12kFyUAwnIkFsxXr9rXF17AFW2
+ krnxXr1xCFW7ZF7anT9S1TB71UUUUU7qnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
+ 9KBjDUYxBIdaVFxhVjvjDU0xZFpf9x07jYbyZUUUUU=
+X-Originating-IP: [103.29.142.67]
+X-CM-SenderInfo: 5dqg52xkunqiywtou0bp/xtbB0h6MXmh3dDKLQAAAsM
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -130,19 +64,109 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 7/15/25 5:50 PM, Dmitry Baryshkov wrote:
-> Various parts of the display driver can be triggering the display
-> snapshot (including the IOMMU fault handlers). Move the call to
-> msm_disp_snapshot_init() before KMS initialization, otherwise it is
-> possible to ocassionally trigger the kernel fault during init:
+From: Andy Yan <andy.yan@rock-chips.com>
 
-[...]
 
-> Reported-by: Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>
-> Fixes: 98659487b845 ("drm/msm: add support to take dpu snapshot")
-> Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
-> ---
+There are two DW DPTX based DisplayPort Controller on rk3588 which
+are compliant with the DisplayPort Specification Version 1.4 with
+the following features:
 
-Reviewed-by: Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>
+* DisplayPort 1.4a
+* Main Link: 1/2/4 lanes
+* Main Link Support 1.62Gbps, 2.7Gbps, 5.4Gbps and 8.1Gbps
+* AUX channel 1Mbps
+* Single Stream Transport(SST)
+* Multistream Transport (MST)
+* Type-C support (alternate mode)
+* HDCP 2.2, HDCP 1.3
+* Supports up to 8/10 bits per color component
+* Supports RBG, YCbCr4:4:4, YCbCr4:2:2, YCbCr4:2:0
+* Pixel clock up to 594MHz
+* I2S, SPDIF audio interface
 
-Konrad
+The current version of this patch series only supports basic display outputs.
+I conducted tests with DP0 in 1080p and 4K@60 YCbCr4:2:0 modes; the ALT/Type-C
+mode was tested on Rock 5B, DP1 was tested on Rock 5 ITX by Stephen and Piotr.
+HDCP and audio features remain unimplemented.
+For RK3588, it's only support SST, while in the upcoming RK3576, it can support
+MST output.
+
+
+Changes in v5:
+- Use drm_dp_read_sink_count_cap instead of the private implementation.
+- Add MAINTAINERS entry.
+- Link to v4: https://lore.kernel.org/linux-rockchip/20250619063900.700491-1-andyshrk@163.com/
+
+Changes in v4:
+- Drop unnecessary header files
+- Switch to devm_drm_bridge_alloc
+- Drop unused function
+- Add platform_set_drvdata
+- Link to v3: https://lore.kernel.org/linux-rockchip/20250403033748.245007-1-andyshrk@163.com/
+
+Changes in v3:
+- Rebase on drm-misc-next
+- Switch to common helpers to power up/down dp link
+- Only pass parameters to phy that should be set
+- First introduced in this version.
+- First introduced in this version.
+- Add RA620 into bridge chain.
+- Link to v2: https://lore.kernel.org/linux-rockchip/20250312104214.525242-1-andyshrk@163.com/
+
+Changes in v2:
+- Link to V1: https://lore.kernel.org/linux-rockchip/20250223113036.74252-1-andyshrk@163.com/
+- Fix a character encoding issue
+- Fix compile error when build as module
+- Add phy init
+- Only use one dw_dp_link_train_set
+- inline dw_dp_phy_update_vs_emph
+- Use dp_sdp
+- Check return value of drm_modeset_lock
+- Merge code in atomic_pre_enable/mode_fixup to atomic_check
+- Return NULL if can't find a supported output format
+- Fix max_link_rate from plat_data
+- no include uapi path
+- switch to drmm_encoder_init
+- Sort in alphabetical order
+
+Andy Yan (10):
+  dt-bindings: display: rockchip: Add schema for RK3588 DPTX Controller
+  drm/bridge: synopsys: Add DW DPTX Controller support library
+  drm/rockchip: Add RK3588 DPTX output support
+  MAINTAINERS: Add entry for DW DPTX Controller bridge
+  dt-bindings: display: simple-bridge: Add ra620 compatible
+  drm/birdge: simple-bridge: Add support for radxa ra620
+  arm64: dts: rockchip: Add DP0 for rk3588
+  arm64: dts: rockchip: Add DP1 for rk3588
+  arm64: dts: rockchip: Enable DisplayPort for rk3588s Cool Pi 4B
+  arm64: dts: rockchip: Enable DP2HDMI for ROCK 5 ITX
+
+ .../display/bridge/simple-bridge.yaml         |    1 +
+ .../display/rockchip/rockchip,dw-dp.yaml      |  150 ++
+ MAINTAINERS                                   |    8 +
+ arch/arm64/boot/dts/rockchip/rk3588-base.dtsi |   30 +
+ .../arm64/boot/dts/rockchip/rk3588-extra.dtsi |   30 +
+ .../boot/dts/rockchip/rk3588-rock-5-itx.dts   |   59 +
+ .../boot/dts/rockchip/rk3588s-coolpi-4b.dts   |   37 +
+ drivers/gpu/drm/bridge/simple-bridge.c        |    5 +
+ drivers/gpu/drm/bridge/synopsys/Kconfig       |    7 +
+ drivers/gpu/drm/bridge/synopsys/Makefile      |    1 +
+ drivers/gpu/drm/bridge/synopsys/dw-dp.c       | 2044 +++++++++++++++++
+ drivers/gpu/drm/rockchip/Kconfig              |    9 +
+ drivers/gpu/drm/rockchip/Makefile             |    1 +
+ drivers/gpu/drm/rockchip/dw_dp-rockchip.c     |  150 ++
+ drivers/gpu/drm/rockchip/rockchip_drm_drv.c   |    1 +
+ drivers/gpu/drm/rockchip/rockchip_drm_drv.h   |    1 +
+ include/drm/bridge/dw_dp.h                    |   20 +
+ 17 files changed, 2554 insertions(+)
+ create mode 100644 Documentation/devicetree/bindings/display/rockchip/rockchip,dw-dp.yaml
+ create mode 100644 drivers/gpu/drm/bridge/synopsys/dw-dp.c
+ create mode 100644 drivers/gpu/drm/rockchip/dw_dp-rockchip.c
+ create mode 100644 include/drm/bridge/dw_dp.h
+
+-- 
+2.43.0
+
+base-commit: 6085a45a069d2aeab6bb3e5f3fdd32e259703106
+branch: rk3588-dp-upstream-v5
+
