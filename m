@@ -2,54 +2,49 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id AE006B08A4C
-	for <lists+dri-devel@lfdr.de>; Thu, 17 Jul 2025 12:08:34 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3277AB08A66
+	for <lists+dri-devel@lfdr.de>; Thu, 17 Jul 2025 12:20:00 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C729588FBD;
-	Thu, 17 Jul 2025 10:08:31 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3C14C10E7F1;
+	Thu, 17 Jul 2025 10:19:57 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; secure) header.d=mailbox.org header.i=@mailbox.org header.b="YVJ6eRz9";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="X0Qke+UA";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mout-p-101.mailbox.org (mout-p-101.mailbox.org [80.241.56.151])
- by gabe.freedesktop.org (Postfix) with ESMTPS id EF88B10E7F1
- for <dri-devel@lists.freedesktop.org>; Thu, 17 Jul 2025 10:08:29 +0000 (UTC)
-Received: from smtp2.mailbox.org (smtp2.mailbox.org [10.196.197.2])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
- (No client certificate requested)
- by mout-p-101.mailbox.org (Postfix) with ESMTPS id 4bjTCG6Rvqz9slH;
- Thu, 17 Jul 2025 12:08:26 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mailbox.org;
- s=mail20150812; 
- t=1752746906; h=from:from:reply-to:reply-to:subject:subject:date:date:
- message-id:message-id:to:to:cc:cc:mime-version:mime-version:
- content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=kkniIW6itQEmHyxZdcli4mu4iJB8BDUCEml3Ox9YEw0=;
- b=YVJ6eRz9KShz8+M0hohyJXFbl+K5tKsdKOPKoDzuUW7pOBmFoz9NigjkQe00rYsGTaj4k9
- 2Ef4lzjzxmf/gIkO2tgJ1PEgSfqo4hBL3hZKL2VjOlS+tk6sozbPUw5YOMqNx29DAbAt0Y
- PzCDOPlwBiy5mqqGhfQ4ppZRi0gs6MKSiQCv18tHEwbfNnY4Ljnav+fcsJpDyBm0vWXsxn
- 29DbU7jMh7HNbO/Psu8gfz2eELaNKXC4LgfLnCnVSk41/8t5cMj7K8NosODoSLt66aIctD
- SIV6iPhOxhrRsrllzLV+ZrvmdrKY74TXPaGqvcEDAZU5MB8YGhCMg84OMIKBPA==
-Message-ID: <1cf711f37fdb9d5f13b8aa51a2d4993221fcf2e0.camel@mailbox.org>
-Subject: Re: [PATCH v2] drm/sched: Remove optimization that causes hang when
- killing dependent jobs
-From: Philipp Stanner <phasta@mailbox.org>
-To: "Lin.Cao" <lincao12@amd.com>, dri-devel@lists.freedesktop.org
-Cc: zhenguo.yin@amd.com, Emily.Deng@amd.com, Christian
- =?ISO-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>, phasta@kernel.org,
- dakr@kernel.org,  matthew.brost@intel.com
-Date: Thu, 17 Jul 2025 12:08:23 +0200
-In-Reply-To: <20250717084453.921097-1-lincao12@amd.com>
-References: <20250717084453.921097-1-lincao12@amd.com>
-Content-Type: text/plain; charset="UTF-8"
+Received: from nyc.source.kernel.org (nyc.source.kernel.org [147.75.193.91])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id BDCB010E7F1;
+ Thu, 17 Jul 2025 10:19:55 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+ by nyc.source.kernel.org (Postfix) with ESMTP id 02F68A57836;
+ Thu, 17 Jul 2025 10:19:55 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id DAAA8C4CEE3;
+ Thu, 17 Jul 2025 10:19:52 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1752747594;
+ bh=UqaanJMLK5JXW9cS5/RggIMPlM6vJBVDHyUtlI59T2c=;
+ h=Date:To:From:Subject:Cc:References:In-Reply-To:From;
+ b=X0Qke+UA/CaY4ZfEPXZ0WxZ2J2GrHfuxSCL3JVwB+QeR5Xdznqn5TMHwSZZz0t4WD
+ EPJrOMp1o1rijeQl0WkQyYekixY1D49uZHqIwBV62pTKt5RfwVTuvDtAMrPuLhWodO
+ 0H4b2p/iXEQKkEDpLoCv4k9B+xqMkS5hyXlg3Sh4LzWag5aGM1pPPWysQnmasudKg4
+ nDnSvq21RTrcmXvMUQgFJbLpQXuOjXubGAJ/n27kYOqnojCIGKuaMO4UeT17Yx4FJF
+ yeFuqO3Y8tiGuGLK8gQ9Vq2yKXHMy3K7QK8PmXZMdjwgEvnKIXjMDZ7v5dkcm3KfWt
+ vYtiS37lLbfmg==
+Mime-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
-MIME-Version: 1.0
-X-MBO-RS-META: hoyko6aij4epdu1h1r851d1ghf8y9fhw
-X-MBO-RS-ID: d5711be0d4f96444cf2
+Content-Type: text/plain; charset=UTF-8
+Date: Thu, 17 Jul 2025 12:19:51 +0200
+Message-Id: <DBE95ZE9P9Y8.3FUVSD95O9CGJ@kernel.org>
+To: "Tvrtko Ursulin" <tvrtko.ursulin@igalia.com>
+From: "Danilo Krummrich" <dakr@kernel.org>
+Subject: Re: [PATCH] drm/sched: Consolidate drm_sched_job_timedout
+Cc: <dri-devel@lists.freedesktop.org>, <kernel-dev@igalia.com>,
+ <intel-xe@lists.freedesktop.org>, <amd-gfx@lists.freedesktop.org>,
+ =?utf-8?q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
+ =?utf-8?q?Ma=C3=ADra_Canal?= <mcanal@igalia.com>, "Matthew Brost"
+ <matthew.brost@intel.com>, "Philipp Stanner" <phasta@kernel.org>
+References: <20250716144832.62494-1-tvrtko.ursulin@igalia.com>
+In-Reply-To: <20250716144832.62494-1-tvrtko.ursulin@igalia.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -62,95 +57,39 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Reply-To: phasta@kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, 2025-07-17 at 16:44 +0800, Lin.Cao wrote:
-> When application A submits jobs and application B submits a job with
-> a
-> dependency on A's fence, the normal flow wakes up the scheduler after
-> processing each job. However, the optimization in
-> drm_sched_entity_add_dependency_cb() uses a callback that only clears
-> dependencies without waking up the scheduler.
->=20
-> When application A is killed before its jobs can run, the callback
-> gets
-> triggered but only clears the dependency without waking up the
-> scheduler,
-> causing the scheduler to enter sleep state and application B to hang.
->=20
-> Remove the optimization by deleting drm_sched_entity_clear_dep() and
-> its
-> usage, ensuring the scheduler is always woken up when dependencies
-> are
-> cleared.
->=20
-> Fixes: 777dbd458c89 ("drm/amdgpu: drop a dummy wakeup scheduler")
-> Cc: stable@vger.kernel.org=C2=A0# v4.6+
->=20
-> Signed-off-by: Lin.Cao <lincao12@amd.com>
-> Reviewed-by: Christian K=C3=B6nig <christian.koenig@amd.com>
+On Wed Jul 16, 2025 at 4:48 PM CEST, Tvrtko Ursulin wrote:
+> Reduce to one spin_unlock for hopefully a little bit clearer flow in the
+> function. It may appear that there is a behavioural change with the
+> drm_sched_start_timeout_unlocked() now not being called if there were
+> initially no jobs on the pending list, and then some appeared after
+> unlock, however if the code would rely on the TDR handler restarting
+> itself then it would fail to do that if the job arrived on the pending
+> list after the check.
 
-Applied to drm-misc-fixes, thank you.
+To me this patch comes down to "don't call drm_sched_start_timeout_unlocked=
+()
+when the pending list is empty".
 
-P.
+That's the whole premise for the early return the patch is based on.
 
-> ---
-> =C2=A0drivers/gpu/drm/scheduler/sched_entity.c | 21 ++-------------------
-> =C2=A01 file changed, 2 insertions(+), 19 deletions(-)
->=20
-> diff --git a/drivers/gpu/drm/scheduler/sched_entity.c
-> b/drivers/gpu/drm/scheduler/sched_entity.c
-> index e671aa241720..ac678de7fe5e 100644
-> --- a/drivers/gpu/drm/scheduler/sched_entity.c
-> +++ b/drivers/gpu/drm/scheduler/sched_entity.c
-> @@ -355,17 +355,6 @@ void drm_sched_entity_destroy(struct
-> drm_sched_entity *entity)
-> =C2=A0}
-> =C2=A0EXPORT_SYMBOL(drm_sched_entity_destroy);
-> =C2=A0
-> -/* drm_sched_entity_clear_dep - callback to clear the entities
-> dependency */
-> -static void drm_sched_entity_clear_dep(struct dma_fence *f,
-> -				=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 struct dma_fence_cb *cb)
-> -{
-> -	struct drm_sched_entity *entity =3D
-> -		container_of(cb, struct drm_sched_entity, cb);
-> -
-> -	entity->dependency =3D NULL;
-> -	dma_fence_put(f);
-> -}
-> -
-> =C2=A0/*
-> =C2=A0 * drm_sched_entity_wakeup - callback to clear the entity's
-> dependency and
-> =C2=A0 * wake up the scheduler
-> @@ -376,7 +365,8 @@ static void drm_sched_entity_wakeup(struct
-> dma_fence *f,
-> =C2=A0	struct drm_sched_entity *entity =3D
-> =C2=A0		container_of(cb, struct drm_sched_entity, cb);
-> =C2=A0
-> -	drm_sched_entity_clear_dep(f, cb);
-> +	entity->dependency =3D NULL;
-> +	dma_fence_put(f);
-> =C2=A0	drm_sched_wakeup(entity->rq->sched);
-> =C2=A0}
-> =C2=A0
-> @@ -429,13 +419,6 @@ static bool
-> drm_sched_entity_add_dependency_cb(struct drm_sched_entity *entity)
-> =C2=A0		fence =3D dma_fence_get(&s_fence->scheduled);
-> =C2=A0		dma_fence_put(entity->dependency);
-> =C2=A0		entity->dependency =3D fence;
-> -		if (!dma_fence_add_callback(fence, &entity->cb,
-> -					=C2=A0=C2=A0=C2=A0
-> drm_sched_entity_clear_dep))
-> -			return true;
-> -
-> -		/* Ignore it when it is already scheduled */
-> -		dma_fence_put(fence);
-> -		return false;
-> =C2=A0	}
-> =C2=A0
-> =C2=A0	if (!dma_fence_add_callback(entity->dependency, &entity->cb,
+The commit subject / message makes this more of a side note and when I read=
+ it,
+it wasn't obvious to me why that's correct.
 
+Can you please emphasise this a bit more, since that's really the actual ch=
+ange,
+and make it more clear why drm_sched_start_timeout_unlocked() only needs to=
+ be
+called when we actually find a job on the pending list.
+
+The reason you mention in the commit message "if the code would rely on the=
+ TDR
+handler restarting itself then it would fail to do that if the job arrived =
+on
+the pending list after the check" reads more like "the approch can't work
+anyways, hence remove it". That's not a justification why removing it is co=
+rrect
+though.
