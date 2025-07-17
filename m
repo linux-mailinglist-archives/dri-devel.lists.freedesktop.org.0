@@ -2,36 +2,36 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 48C7FB0969C
-	for <lists+dri-devel@lfdr.de>; Thu, 17 Jul 2025 23:58:18 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 33C1EB0969D
+	for <lists+dri-devel@lfdr.de>; Thu, 17 Jul 2025 23:58:22 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A7E1F10E8C2;
-	Thu, 17 Jul 2025 21:58:16 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8EC5010E8C4;
+	Thu, 17 Jul 2025 21:58:20 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=collabora.com header.i=@collabora.com header.b="ppw6/cyO";
+	dkim=pass (2048-bit key; unprotected) header.d=collabora.com header.i=@collabora.com header.b="S2AwcGSc";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from bali.collaboradmins.com (bali.collaboradmins.com
  [148.251.105.195])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 887A210E8C4
- for <dri-devel@lists.freedesktop.org>; Thu, 17 Jul 2025 21:58:15 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E082F10E8C5
+ for <dri-devel@lists.freedesktop.org>; Thu, 17 Jul 2025 21:58:18 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
- s=mail; t=1752789494;
- bh=l+stcsHBGwL0jJ++yfnXWYCS37dvD6reGe7NiDK7mwg=;
+ s=mail; t=1752789497;
+ bh=UlmKtimZv0mcncJupvIcvhzZK8a2K3i6JEcDqY2dLcI=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=ppw6/cyOHwtyjfkecEuwRUHjGbPCqIQzqOY+026KiIGMrvwtnd2kXThj1UBAaSCvY
- r6Y436f8SDkac3TusYAu5lmrNhfoA//q5+xIIfa8a4pGMhkqh73BBH3+WFyUG2S8lC
- MJoF8S6A1nTVxcTjkTyiP8Qm2xbYliVMRY+oTe2yMhlZZcLMQjjW8sEpqR6L7nS9hu
- ZubEYvU8trJK39KfqHgcreWS0dZEKE07dz5BfJ7IEwdlLxy7Yf+a6JjZjEmtpBtqfb
- FqONR0fKkBe7d9cxTZzrz3TzJBYRf9L8YD8TG7OjK15A9xYlQ+rWf7MscGF7+vFROY
- zRq7HzGLytN1A==
+ b=S2AwcGSch9VmhIqBfQr+dxXo8YLlc7vsvClliBhOved3g8jBVDPsCtC4ecPqfbwjX
+ 1Zc1FiPhfmG1rTfckPRxmFIyzDHdHmgh2k38kKm2CfYFxYGLSRTuhAWyKmKoXYgwp+
+ /YM1vVyb1DnB9L49OdVQL+RsIfpuyhcdFxUk+eZM0ug+kQFTuIzw7dMqpfeePPyZXi
+ 3yie/F7qElt+pAba4BACU00rzRKpUnJk5mRwiVMhdJPsLdkE6WEdB/UAWSJsSPBrwP
+ Lq12L2+kyy2UufpXDEiDa7uakQLuNkBcMTRqLDGdXFc4P0Bf17rHDF+B2mFLPc3/jv
+ jsHp4i1EElFMw==
 Received: from trenzalore.hitronhub.home (unknown [23.233.251.139])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
  (No client certificate requested) (Authenticated sender: detlev)
- by bali.collaboradmins.com (Postfix) with ESMTPSA id E6C0F17E1500;
- Thu, 17 Jul 2025 23:58:10 +0200 (CEST)
+ by bali.collaboradmins.com (Postfix) with ESMTPSA id 706DA17E1562;
+ Thu, 17 Jul 2025 23:58:14 +0200 (CEST)
 From: Detlev Casanova <detlev.casanova@collabora.com>
 To: linux-kernel@vger.kernel.org
 Cc: Andrzej Hajda <andrzej.hajda@intel.com>,
@@ -52,9 +52,10 @@ Cc: Andrzej Hajda <andrzej.hajda@intel.com>,
  Charles Keepax <ckeepax@opensource.cirrus.com>,
  Raag Jadav <raag.jadav@intel.com>, dri-devel@lists.freedesktop.org,
  linux-sound@vger.kernel.org, kernel@collabora.com
-Subject: [PATCH 2/3] ASoC: hdac_hdmi: Use dev_info on invalid ELD version
-Date: Thu, 17 Jul 2025 17:56:19 -0400
-Message-ID: <20250717215620.288651-3-detlev.casanova@collabora.com>
+Subject: [PATCH 3/3] drm/bridge: synopsys: Do not warn about audio params
+ computation
+Date: Thu, 17 Jul 2025 17:56:20 -0400
+Message-ID: <20250717215620.288651-4-detlev.casanova@collabora.com>
 X-Mailer: git-send-email 2.50.1
 In-Reply-To: <20250717215620.288651-1-detlev.casanova@collabora.com>
 References: <20250717215620.288651-1-detlev.casanova@collabora.com>
@@ -75,37 +76,28 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-When disconnected, the ELD data cannot be read by the display driver, so
-it just sets the data to 0.
-
-That makes the ELD parsing code read an ELD version of 0, which is
-invalid. In hdac_hdmi, that is logged with dev_err(), but should be
-logged with dev_info() instead as it is done in sound/core/pcm_drm_eld.c
-
-This avoids printing multiple messages like:
-
-    HDMI: Unknown ELD version 0
-
-in the kernel log when userspace tries to open the sound device.
+There is no need to warn about non pre-computed values, just change it to
+dbg.
 
 Signed-off-by: Detlev Casanova <detlev.casanova@collabora.com>
 ---
- sound/soc/codecs/hdac_hdmi.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ drivers/gpu/drm/bridge/synopsys/dw-hdmi-qp.c | 3 +--
+ 1 file changed, 1 insertion(+), 2 deletions(-)
 
-diff --git a/sound/soc/codecs/hdac_hdmi.c b/sound/soc/codecs/hdac_hdmi.c
-index 1139a2754ca33..4cc3b7a1062bd 100644
---- a/sound/soc/codecs/hdac_hdmi.c
-+++ b/sound/soc/codecs/hdac_hdmi.c
-@@ -1232,7 +1232,7 @@ static int hdac_hdmi_parse_eld(struct hdac_device *hdev,
- 						>> DRM_ELD_VER_SHIFT;
+diff --git a/drivers/gpu/drm/bridge/synopsys/dw-hdmi-qp.c b/drivers/gpu/drm/bridge/synopsys/dw-hdmi-qp.c
+index 7d3d7b5084c8d..0571d604d8aa3 100644
+--- a/drivers/gpu/drm/bridge/synopsys/dw-hdmi-qp.c
++++ b/drivers/gpu/drm/bridge/synopsys/dw-hdmi-qp.c
+@@ -276,8 +276,7 @@ static unsigned int dw_hdmi_qp_find_n(struct dw_hdmi_qp *hdmi, unsigned long pix
+ 	if (n > 0)
+ 		return n;
  
- 	if (ver != ELD_VER_CEA_861D && ver != ELD_VER_PARTIAL) {
--		dev_err(&hdev->dev, "HDMI: Unknown ELD version %d\n", ver);
-+		dev_info(&hdev->dev, "HDMI: Unknown ELD version %d\n", ver);
- 		return -EINVAL;
- 	}
+-	dev_warn(hdmi->dev, "Rate %lu missing; compute N dynamically\n",
+-		 pixel_clk);
++	dev_dbg(hdmi->dev, "Rate %lu missing; compute N dynamically\n", pixel_clk);
  
+ 	return dw_hdmi_qp_compute_n(hdmi, pixel_clk, sample_rate);
+ }
 -- 
 2.50.1
 
