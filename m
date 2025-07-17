@@ -2,67 +2,101 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6F817B094A5
-	for <lists+dri-devel@lfdr.de>; Thu, 17 Jul 2025 21:14:42 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 97B8BB094B4
+	for <lists+dri-devel@lfdr.de>; Thu, 17 Jul 2025 21:16:46 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1947810E886;
-	Thu, 17 Jul 2025 19:14:39 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id F310610E889;
+	Thu, 17 Jul 2025 19:16:44 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=igalia.com header.i=@igalia.com header.b="kOgkxz6L";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="RAL2y2X4";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from fanzine2.igalia.com (fanzine2.igalia.com [213.97.179.56])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6BE6B10E31C;
- Thu, 17 Jul 2025 19:14:36 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com; 
- s=20170329;
- h=Content-Transfer-Encoding:Content-Type:Message-ID:References:
- In-Reply-To:Subject:Cc:To:From:Date:MIME-Version:Sender:Reply-To:Content-ID:
- Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc
- :Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:List-Subscribe:
- List-Post:List-Owner:List-Archive;
- bh=4Vzv94knqwRbntDWxFd4Vizy5WPQYB3ppSESwHVjIdk=; b=kOgkxz6LfntapiSpptYqJLa9Iq
- jn6rdRqlHApZVybZmVnBTt1qLPnSHrfi8oknW5UCGgHcuZmZKucA7SanXT1A5HI3OrX+o4zjKfskU
- jgBTNyqyppgQ/NBkQ5DcuqS8mcmA2dhrP4p8IhNvtkTdwEqsoR24VfYAj9dS0X4u4IG6v534dwoF1
- xACirmtydpcCdq0AGoq7jFv87Q9DoP9/6k+GIONndH3ZkurVqJFkZRzIxnIjvM1zxGMKFZ+JsACeC
- QIZmBZx7wNPQx/EahLRmsbmPyeRrgj2Ki+EjlkJuDb2liIerwWiFyPTWEwO4TACeKXEQliEwc+V5s
- 7qHBdBGA==;
-Received: from maestria.local.igalia.com ([192.168.10.14] helo=mail.igalia.com)
- by fanzine2.igalia.com with esmtps 
- (Cipher TLS1.3:ECDHE_SECP256R1__RSA_PSS_RSAE_SHA256__AES_256_GCM:256) (Exim)
- id 1ucU3t-000Gw0-2c; Thu, 17 Jul 2025 21:14:33 +0200
-Received: from webmail.service.igalia.com ([192.168.21.45])
- by mail.igalia.com with esmtp (Exim)
- id 1ucU3q-009r8E-M3; Thu, 17 Jul 2025 21:14:32 +0200
-Received: from localhost ([127.0.0.1] helo=webmail.igalia.com)
- by webmail with esmtp (Exim 4.96) (envelope-from <mwen@igalia.com>)
- id 1ucU3q-00FFWp-0K; Thu, 17 Jul 2025 21:14:30 +0200
+Received: from mail-wr1-f47.google.com (mail-wr1-f47.google.com
+ [209.85.221.47])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id EA0E410E889
+ for <dri-devel@lists.freedesktop.org>; Thu, 17 Jul 2025 19:16:43 +0000 (UTC)
+Received: by mail-wr1-f47.google.com with SMTP id
+ ffacd0b85a97d-3b49ffbb31bso826033f8f.3
+ for <dri-devel@lists.freedesktop.org>; Thu, 17 Jul 2025 12:16:43 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20230601; t=1752779802; x=1753384602; darn=lists.freedesktop.org;
+ h=cc:to:content-transfer-encoding:mime-version:message-id:date
+ :subject:from:from:to:cc:subject:date:message-id:reply-to;
+ bh=Mzt9wZOnZ6+CbKPnKZeU8dqGY8Qw3egF+06TS84cda4=;
+ b=RAL2y2X4b5ginhFaOymyyKuKmxDuFfwGShoZMLp23HYFv3quAKulTZS0/KTUfO8VxN
+ MF/8xyZvEXPAMyDUxX4XjdmH+PSLuM3bspmjTLeLxPiMbC6B3lt2uI6oGFnDS0ulELsj
+ g7EAlC5WXF8Wuq+jBzFDV/FNfOnf58Kt33o1MR8cwrGTP0CMUWyH9Yhx6UVmCG5AtaZ7
+ kUKpzYw/q2ZTmifTrFtEx65t8nlopZy8PpwJkGfTNssPT7dwQSftB9662+iiWd742JD9
+ LmTMNuWI4APC8cb4Q8Eb5CVefr5NJnUsTylswpGe7SSzksiE4mAUjzmq58cJfpMfBkSy
+ K6Lg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1752779802; x=1753384602;
+ h=cc:to:content-transfer-encoding:mime-version:message-id:date
+ :subject:from:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=Mzt9wZOnZ6+CbKPnKZeU8dqGY8Qw3egF+06TS84cda4=;
+ b=TlFZoZQsTM1ByFDnCjEGBp1F758MhqIdIOam6qylLR5hM0gwLvvAaI4IFEBomhMLT5
+ TniT8flYrYAAepyMA4v17/+AAAT1pIg3TClzXuxxe/NZJpjXLry1/GoFhr15qiJD0M5H
+ yfmcK9kUpCc7yK+8ov62BhrrpE7ELBVGe7zEIPAIu09Od5fv59OEuaoaSwBEOWObGpyM
+ Qeb4w0nK2VXMo808wGMYdJOwowR/EwvJQ/JV9M590bmV8/JneRBAwLPgKzASsy5iMwDF
+ okCwDiu536OQdsHh+oGSMZaaI0TXtmh1gchLROUWib88GHsn0qcNXHRAGLkH0qd7lXGY
+ SROg==
+X-Gm-Message-State: AOJu0YyszhBTCXsXt0O+ZGVMoUbPLqPDKBPFE4rpy9QKNFenCseiOeQj
+ zF6SdnPHoUdvUSI0DOGel5l4E2AH6sjIgnAi5RGu1jUWw+7GIlR4tFulwn1RMw==
+X-Gm-Gg: ASbGnctb2ah8e5wei8KPz/D0FintImehfM0P5vjVd9xrhnix+xvkyIS+ZI6fIEcigkc
+ gI1DPY2TxNt41BuegHpXIBVKo9uKJ3TIIsEsyAc4quYy4ONAEgvrGSWuQudvi8UcoXRPObsJJjh
+ eN35MsQy6HRML8F9IaKxOgxnR6x08Jhx6g6ZE8SDEdUt2+1R8OQwoe5i+27gThbATT1xSfeKd0C
+ jhbEku26VM0xRqDqetbsZZZxfHDdUHa3Ow0ezY6bI4yd6Db/Orx4X1dkXXwDHPs/JvvDbGQqmso
+ WbrwbXITbVeTR40hPTegiJK3KdVjfxQHhHWFrvmYyBeEQGWaz91jFZ41h4PFdS1xkMFim4otPzn
+ FCTuZIMxoducIlIKt7MgXZnKBXi/kBO0t
+X-Google-Smtp-Source: AGHT+IFF8lsVWJTJwrDMD6i4As+eyuiIbEESQQF0qhNLx6tTwcszxJEOXDFYIrXcHilqwhBPrGxWeg==
+X-Received: by 2002:a05:6000:420b:b0:3a8:6260:d321 with SMTP id
+ ffacd0b85a97d-3b613e60143mr3320230f8f.3.1752779802135; 
+ Thu, 17 Jul 2025 12:16:42 -0700 (PDT)
+Received: from localhost ([2001:861:3385:e20:6384:4cf:52c5:3194])
+ by smtp.gmail.com with UTF8SMTPSA id
+ ffacd0b85a97d-3b5e8dc22a8sm21918017f8f.34.2025.07.17.12.16.41
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 17 Jul 2025 12:16:41 -0700 (PDT)
+From: Raphael Gallais-Pou <rgallaispou@gmail.com>
+Subject: [PATCH 0/4] STi device-tree display subsystem rework
+Date: Thu, 17 Jul 2025 21:15:31 +0200
+Message-Id: <20250717-sti-rework-v1-0-46d516fb1ebb@gmail.com>
 MIME-Version: 1.0
-Date: Thu, 17 Jul 2025 18:14:30 -0100
-From: Melissa Wen <mwen@igalia.com>
-To: "Limonciello, Mario" <Mario.Limonciello@amd.com>
-Cc: "Wentland, Harry" <Harry.Wentland@amd.com>, "Li, Sun peng (Leo)"
- <Sunpeng.Li@amd.com>, "Deucher, Alexander" <Alexander.Deucher@amd.com>,
- "Koenig, Christian" <Christian.Koenig@amd.com>, airlied@gmail.com,
- simona@ffwll.ch, "Hung, Alex" <Alex.Hung@amd.com>, "Liu, Charlene"
- <Charlene.Liu@amd.com>, amd-gfx@lists.freedesktop.org,
- dri-devel@lists.freedesktop.org, kernel-dev@igalia.com
-Subject: Re: [PATCH] Revert "drm/amd/display: limit clear_update_flags to
- dcn32 and above"
-In-Reply-To: <55467ebe-42c8-4387-9a61-aa60b3a84053@amd.com>
-References: <20250717143738.84722-1-mwen@igalia.com>
- <70ac7b1e-9a28-45ff-b7b2-ab0f4fe9030a@amd.com>
- <bb4099a70c2a8c78ef07d5fb6a8f0d3b@igalia.com>
- <55467ebe-42c8-4387-9a61-aa60b3a84053@amd.com>
-Message-ID: <b558c116a5a5cb6e60cc288870e86fdb@igalia.com>
-X-Sender: mwen@igalia.com
-Content-Type: text/plain; charset=US-ASCII
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-X-Spam-Report: NO, Score=-4.7, Tests=ALL_TRUSTED=-3, AWL=-2.550, BAYES_50=0.8,
- URIBL_BLOCKED=0.001
-X-Spam-Score: -46
-X-Spam-Bar: ----
+X-B4-Tracking: v=1; b=H4sIANNLeWgC/03M0QrCIBTG8VcZ5zrjaNNYV71H7EKd2w61OXRYM
+ Xz3bBB0+f/g+20QXSAX4VJtEFyiSH4uwQ8V2FHPg2PUlQaBQmKNnMWVWHBPH+7MIDZScn1SwkI
+ 5LMH19NqxW1t6pLj68N7tJL7rj1H/TBIMWceN4r3Bc1Or6zBpehytn6DNOX8A7qr4j6QAAAA=
+X-Change-ID: 20250401-sti-rework-b009551a362c
+To: Alain Volmat <alain.volmat@foss.st.com>, 
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, 
+ Patrice Chotard <patrice.chotard@foss.st.com>, 
+ Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
+ Conor Dooley <conor+dt@kernel.org>
+Cc: dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org, 
+ linux-arm-kernel@lists.infradead.org, devicetree@vger.kernel.org
+X-Mailer: b4 0.14.2
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1460; i=rgallaispou@gmail.com; 
+ h=from:subject:message-id;
+ bh=PyayYQ0JPKYC1bSL+yF6YQ9AEnmvymFEa0T+fiUNE9w=; 
+ b=owEBbQKS/ZANAwAKAechimjUEsK1AcsmYgBoeUwQs4pAM5O38T3nlF8WEU7Y1ach2SghQdlSd
+ adJbgagmsiJAjMEAAEKAB0WIQQgmXv2E+fvbV/9ui/nIYpo1BLCtQUCaHlMEAAKCRDnIYpo1BLC
+ tUxUEACQ1QihV0/vZF+Z/ZIMLTCNbEanzLlzjAJHu/gACUzwmyqQJhxOU2sI0NlfI4fNnrDXVXX
+ 3jXo+32bwmKHyRv00ls59P4a2tNtmANDSLl29KDKXRQofRMWv8Z4gadAbZyH9+vV08C5a34d7KP
+ HGmgHSzq3EzRHjI3+uLXSSayuLzZlWKc8wF0XPbSLvna47gLHxqjZ9TQg9QOIyswiDsIXchnSKs
+ JSJGCTSQQzbU04fuToq8JHXUSoMUHclxDppK0+SfJ/r77L4+0DWUy2bzuyf8G/ixqNragahIjBW
+ YvoOvV/xGgXrdKUnt7cfP2CRRCpIcgRUx9KL0hBol/m6Xm5QuSY66guBwaNJkBCBjLnibmw/jab
+ uny3szjVv6tviSINjWBqFxxIqV9lPGGjs1krT4VhA8pxmNIDvWhyRw0iz+FbyU/8nhyKkFGKzwM
+ egEKm3+tFJSy5/nT/2BiC7P36ip9UyFi1s7+1lhIV3kY5ZCy6j3XDET5JyyC445WceMSPGy9drt
+ PdKXf1ILK1uaMaOTREFlH5zQb8pADUj/v3A8n1c7PJPtC479R7Er/hFwGPD8VXo7lU4dALC7IGA
+ oW1UaNYAKydYyRTL0a8gHxXM2jeIj12ozjm2xhrJO2uE4jZ+aav5Ou/vGzJn29QZ0zJqBylIydS
+ 4yPttkUKVVLkHTg==
+X-Developer-Key: i=rgallaispou@gmail.com; a=openpgp;
+ fpr=20997BF613E7EF6D5FFDBA2FE7218A68D412C2B5
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -78,85 +112,38 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 17-07-2025 15:58, Limonciello, Mario wrote:
-> On 7/17/25 11:55 AM, Melissa Wen wrote:
->> On 17-07-2025 13:39, Limonciello, Mario wrote:
->>> On 7/17/25 9:36 AM, Melissa Wen wrote:
->>>> This reverts commit e1bd5e0bb4ca0d633ad698abd3658f8265009b81.
->>>>
->>>> The commit causes a regression in Steam Deck (DCN 3.01), reintroducing a
->>>> functional issue reported in [1] that was fixed by calling the
->>>> clear_update_flags() from commit 7671f62c10f2a.
->>>>
->>>> On Steam Deck, we use multiple hw plane color caps and up to two overlay
->>>> planes with dynamic pipe split policy. I.e. with 1 primary + 1 overlay,
->>>> the driver split planes into two (with 4 pipes), but with 1 primary + 2
->>>> overlays, we don't have enough pipe for splitting. Glitches appear in
->>>> this pipe-split transition of 1-2 overlay planes, if the driver doesn't
->>>> clear update flags.
->>>>
->>>> Besides that, the issue the commit e1bd5e0bb4ca tries to address [2]
->>>> isn't functional.
->>>>
->>>> Link: https://gitlab.freedesktop.org/drm/amd/-/issues/3441 [1]
->>>> Link: https://gitlab.freedesktop.org/drm/amd/-/issues/4129 [2]
->>>> Signed-off-by: Melissa Wen <mwen@igalia.com>
->>>
->>> Can you please double check the use case that prompted
->>> e1bd5e0bb4ca0d633ad698abd3658f8265009b81 in the first place?  IE With
->>> this revert you proposed do you see a traceback on unplug of external
->>> display?
->> 
->> Hi Mario,
->> 
->> I don't see either traceback or REG_WAIT timeout when unplugging an
->> external HDMI-connected display.
->> I tried with the Deck Dock and USB-C to HDMI adapter. Not sure if there
->> is a very specific scenario that triggers this that I didn't cover.
-> 
-> No; it's quite a general problem and easy to reproduce.  This makes me 
-> wonder if there should be an exception carved out for Steam Deck instead.
+This serie aims to rework the display-subsystem node, which was
+previously included directly within the SoC node.  This was wrong
+because it is an abstraction and describes how IPs behave together, not
+what the hardware is.  Instead, extract display-subsystem outside of the
+SoC node, and let IPs describe their connections.  Doing so helps the
+readability, and eases the understanding of the hardware.
 
-No idea...
-I'm using `amd-staging-drm-next` branch with the AMD driver-specific
-color properties enabled.
-But those color properties are not used on desktop mode, for example.
+Several nodes have been renamed to stick to the generic names defined in
+the device-tree specification.
 
-> 
->> 
->> The only message on dmesg from this action is:
->> amdgpu 0000:04:00.0: amdgpu: pp_od_clk_voltage is not accessible if
->> power_dpm_force_performance_level is not in manual mode!
->> 
->> Moreover, if I move to the Desktop mode (KDE), there is no message.
->> 
->> Melissa
->> 
->>>
->>>> ---
->>>>    drivers/gpu/drm/amd/display/dc/core/dc.c | 5 +++--
->>>>    1 file changed, 3 insertions(+), 2 deletions(-)
->>>>
->>>> diff --git a/drivers/gpu/drm/amd/display/dc/core/dc.c b/drivers/gpu/drm/amd/display/dc/core/dc.c
->>>> index c31f7f8e409f..7c48f72e5917 100644
->>>> --- a/drivers/gpu/drm/amd/display/dc/core/dc.c
->>>> +++ b/drivers/gpu/drm/amd/display/dc/core/dc.c
->>>> @@ -5443,7 +5443,8 @@ bool dc_update_planes_and_stream(struct dc *dc,
->>>>    	else
->>>>    		ret = update_planes_and_stream_v2(dc, srf_updates,
->>>>    			surface_count, stream, stream_update);
->>>> -	if (ret && dc->ctx->dce_version >= DCN_VERSION_3_2)
->>>> +
->>>> +	if (ret)
->>>>    		clear_update_flags(srf_updates, surface_count, stream);
->>>>    
->>>>    	return ret;
->>>> @@ -5474,7 +5475,7 @@ void dc_commit_updates_for_stream(struct dc *dc,
->>>>    		ret = update_planes_and_stream_v1(dc, srf_updates, surface_count, stream,
->>>>    				stream_update, state);
->>>>    
->>>> -	if (ret && dc->ctx->dce_version >= DCN_VERSION_3_2)
->>>> +	if (ret)
->>>>    		clear_update_flags(srf_updates, surface_count, stream);
->>>>    }
->>>>
+This series depends on another sent a few days ago.  It is not critical
+though, since not having it only triggers warnings when building
+deprecated device-trees.  Please see link below.
+
+Link: https://lore.kernel.org/lkml/20250714-sti-rework-v2-0-f4274920858b@gmail.com
+
+Signed-off-by: Raphael Gallais-Pou <rgallaispou@gmail.com>
+---
+Raphael Gallais-Pou (4):
+      drm/sti: check dma_set_coherent_mask return value
+      drm/sti: make use of drm_of_component_probe
+      ARM: dts: sti: extract display subsystem out of soc
+      ARM: dts: sti: remove useless cells fields
+
+ arch/arm/boot/dts/st/stih410.dtsi | 316 ++++++++++++++++++++++----------------
+ drivers/gpu/drm/sti/sti_drv.c     |  18 +--
+ 2 files changed, 192 insertions(+), 142 deletions(-)
+---
+base-commit: b9a572f471993d3e8bf874fcb57f331d66650440
+change-id: 20250401-sti-rework-b009551a362c
+
+Best regards,
+-- 
+Raphael Gallais-Pou <rgallaispou@gmail.com>
+
