@@ -2,136 +2,74 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C3FF9B0881A
-	for <lists+dri-devel@lfdr.de>; Thu, 17 Jul 2025 10:45:29 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 79AB4B08967
+	for <lists+dri-devel@lfdr.de>; Thu, 17 Jul 2025 11:37:45 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6463410E0CC;
-	Thu, 17 Jul 2025 08:45:27 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 62C6710E13F;
+	Thu, 17 Jul 2025 09:37:42 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=amd.com header.i=@amd.com header.b="etEHjmRx";
+	dkim=pass (1024-bit key; unprotected) header.d=ti.com header.i=@ti.com header.b="bqWLdI83";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from NAM02-SN1-obe.outbound.protection.outlook.com
- (mail-sn1nam02on2044.outbound.protection.outlook.com [40.107.96.44])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 76AD010E0CC
- for <dri-devel@lists.freedesktop.org>; Thu, 17 Jul 2025 08:45:26 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=ijq9r5Xwkvxn/uJ/PwDJq9Gg2TgKj+H9zrF87f5fszN3hFoJiISORbTgfjZ+SCOnqqXOJ46syMbqKzn2KPgrFkjDAno451k6bGXzic7RfG4c1BTScmW6UiAWLYufNfX/pYXLWPhxPi0QeKBwMsb3bZwNY2T7hckbKUtZ0bTQY42d4zz0tEPnLKuCO0AhTxrYjAhbTOZSGZFaHrPSjLv90k8xG0U7mmT9/cH6iy7B9mTxzTTpWjesUB3Msvf06rduo32jvs4dSFLmySrdZJHPsBR+I5VrI40HhcDq6SLUQYQy/hTcwz1wu+YBg3V+Xht3IqI9Ji8/6VHIGgJACw/nnw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=Tfie1Z3JSZbGuMD4fAFdIGmBcv6Jb/6URqCi2wYPU0w=;
- b=O/89j9B+fYSh3xNQkMis8Cz4nJlQHE4JHxTKRftkUIkcr5VDTMh6eKWbiLhhLC1Hh/RQyFvYGEPrE7QCZw+3qF9C2AOYOYiS6n+qN1XePAL8GQr4gr+1+3DFUipQ8+N/7JZbXG45xJnzQqsyF7llzjuFGyJ+fF115X1tQLTtbZc8TlTepaoF2RgkfbYkKtYfwMcI5N5KTYuKfdOdXtX30k9J/9A1q/dImf27WH8wWubDiS6FV2EFxTECFEl0mlJegbXlOGy/do8787KwnWk4fuC1gRClFyC08Llgq1KFXrD2ihz9wGwM3BnaAYd0tXZdbNponkgckXchn4trVZvCag==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
- 165.204.84.17) smtp.rcpttodomain=lists.freedesktop.org smtp.mailfrom=amd.com; 
- dmarc=pass (p=quarantine sp=quarantine pct=100) action=none
- header.from=amd.com; dkim=none (message not signed); arc=none (0)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=Tfie1Z3JSZbGuMD4fAFdIGmBcv6Jb/6URqCi2wYPU0w=;
- b=etEHjmRxBuPUqZ2Epl5HMRlHgOkjq01V2ohFsHVZMBSrHu0Xxjj3e8Usj3/8Un0wqWZUbKXEAd5gSz9hkJnStcOz0Ja46u7yBy+CuAo1fCyjU2twu2IpNUfAtYbh1PZheEGN5bpr3sIATwuG4jV/EVrj1u5778wgTc/YJtt3ILM=
-Received: from BN0PR10CA0015.namprd10.prod.outlook.com (2603:10b6:408:143::33)
- by MW4PR12MB7440.namprd12.prod.outlook.com (2603:10b6:303:223::22)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8922.39; Thu, 17 Jul
- 2025 08:45:21 +0000
-Received: from BL02EPF0001A108.namprd05.prod.outlook.com
- (2603:10b6:408:143:cafe::fa) by BN0PR10CA0015.outlook.office365.com
- (2603:10b6:408:143::33) with Microsoft SMTP Server (version=TLS1_3,
- cipher=TLS_AES_256_GCM_SHA384) id 15.20.8943.20 via Frontend Transport; Thu,
- 17 Jul 2025 08:45:20 +0000
-X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 165.204.84.17)
- smtp.mailfrom=amd.com; dkim=none (message not signed)
- header.d=none;dmarc=pass action=none header.from=amd.com;
-Received-SPF: Pass (protection.outlook.com: domain of amd.com designates
- 165.204.84.17 as permitted sender) receiver=protection.outlook.com;
- client-ip=165.204.84.17; helo=SATLEXMB04.amd.com; pr=C
-Received: from SATLEXMB04.amd.com (165.204.84.17) by
- BL02EPF0001A108.mail.protection.outlook.com (10.167.241.138) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.20.8943.21 via Frontend Transport; Thu, 17 Jul 2025 08:45:20 +0000
-Received: from SATLEXMB06.amd.com (10.181.40.147) by SATLEXMB04.amd.com
- (10.181.40.145) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.39; Thu, 17 Jul
- 2025 03:45:13 -0500
-Received: from SATLEXMB04.amd.com (10.181.40.145) by SATLEXMB06.amd.com
- (10.181.40.147) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.39; Thu, 17 Jul
- 2025 03:45:12 -0500
-Received: from lcaoubuntu-server.amd.com (10.180.168.240) by
- SATLEXMB04.amd.com (10.181.40.145) with Microsoft SMTP Server id 15.1.2507.39
- via Frontend Transport; Thu, 17 Jul 2025 03:45:11 -0500
-From: Lin.Cao <lincao12@amd.com>
-To: <dri-devel@lists.freedesktop.org>
-CC: <zhenguo.yin@amd.com>, <Emily.Deng@amd.com>,
- =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>,
- <phasta@kernel.org>, <dakr@kernel.org>, <matthew.brost@intel.com>
-Subject: [PATCH v2] drm/sched: Remove optimization that causes hang when
- killing dependent jobs
-Date: Thu, 17 Jul 2025 16:44:53 +0800
-Message-ID: <20250717084453.921097-1-lincao12@amd.com>
-X-Mailer: git-send-email 2.46.1
+Received: from lelvem-ot01.ext.ti.com (lelvem-ot01.ext.ti.com [198.47.23.234])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1531A10E13F
+ for <dri-devel@lists.freedesktop.org>; Thu, 17 Jul 2025 09:37:40 +0000 (UTC)
+Received: from lelvem-sh02.itg.ti.com ([10.180.78.226])
+ by lelvem-ot01.ext.ti.com (8.15.2/8.15.2) with ESMTP id 56H9b60e2705714;
+ Thu, 17 Jul 2025 04:37:06 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
+ s=ti-com-17Q1; t=1752745026;
+ bh=grVloWar2O621fo+lHDBYQS6zJaquwGGstUgJpQKtxI=;
+ h=Date:Subject:To:CC:References:From:In-Reply-To;
+ b=bqWLdI83FpU0lpfxPEaArnuH/G6gIqCUioxaySxEYehblTjj1rEGffjtNwJhNDC7x
+ GIGPl4rGSOjYyF4bWbpIai6ox4QPEhcWgWDjeceje+nkyXfR7ddQB6M6jipgM7OcoW
+ IaK4tvBOmfm1d4DyTRiUjKIlH6ujF0GWx2n1Hg/A=
+Received: from DLEE103.ent.ti.com (dlee103.ent.ti.com [157.170.170.33])
+ by lelvem-sh02.itg.ti.com (8.18.1/8.18.1) with ESMTPS id 56H9b5Io2698835
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES128-SHA256 bits=128 verify=FAIL);
+ Thu, 17 Jul 2025 04:37:05 -0500
+Received: from DLEE101.ent.ti.com (157.170.170.31) by DLEE103.ent.ti.com
+ (157.170.170.33) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2507.55; Thu, 17
+ Jul 2025 04:37:05 -0500
+Received: from lelvem-mr05.itg.ti.com (10.180.75.9) by DLEE101.ent.ti.com
+ (157.170.170.31) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2507.55 via
+ Frontend Transport; Thu, 17 Jul 2025 04:37:05 -0500
+Received: from [172.24.227.193] (devarsh-precision-tower-3620.dhcp.ti.com
+ [172.24.227.193])
+ by lelvem-mr05.itg.ti.com (8.18.1/8.18.1) with ESMTP id 56H9awA31949552;
+ Thu, 17 Jul 2025 04:36:59 -0500
+Message-ID: <8728de80-f154-46fa-a8a6-da40cb5fdc65@ti.com>
+Date: Thu, 17 Jul 2025 15:06:58 +0530
 MIME-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 8bit
-X-EOPAttributedMessage: 0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: BL02EPF0001A108:EE_|MW4PR12MB7440:EE_
-X-MS-Office365-Filtering-Correlation-Id: abb078b2-17c6-471e-068f-08ddc50e432a
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
- ARA:13230040|1800799024|36860700013|376014|82310400026; 
-X-Microsoft-Antispam-Message-Info: =?utf-8?B?UmI4amVXRHkvSmgvQ0lmQW43VHF3KzdmbVZLbXFyZ3psNXhaZXdxbGVnNmtl?=
- =?utf-8?B?Zm0vdUcxZUJsT0pUa0JsTUJUa3JVQmZVMnQxZ2xjOGRJME4xWk1EY3p6V3Rk?=
- =?utf-8?B?bUFlbi8zQXptQkVML21LZlpYLzhUcy83dFpSRFVTNng3dHNkeGF3QmZTTDNX?=
- =?utf-8?B?UVVXakJBZzhKKzBCNTlpVTN3dG5Ja0l4N1U3eHQwTmJYenJEdk5pOWVieVBq?=
- =?utf-8?B?ZzJKSU1uOENtOTluc1l1RXcyTXhwRXRXQUQyWVBBMnlBd2FhZmduWjZZMVE2?=
- =?utf-8?B?c0JVRVNGNzY4Unh0Um54a3FVVjFucmpxZVNXQnJsaFZTQjdMUXAzRGdTVUxM?=
- =?utf-8?B?dW5KVTNLUTZFRmNnWklYL2JtanVuQVN4azlHSUFPVHI2K1BMZDF1eTU1TjVI?=
- =?utf-8?B?akdlL1ZoOEZ5VUZucUFEQ1pqUnVRamVYWVlNcUxtN2lTTFp4TXpRdEJldTVo?=
- =?utf-8?B?QTdwdEI0OGhuUW9jZmtYM1NjbUF5aC9DTzQ4eGo4c1pLcUZrTXRsdVJHUkQ1?=
- =?utf-8?B?QkIveWkxQ2dLMkNrZFZiU0c5eEd1aGMyZVk0VFJzYlF3eXp1QVd3TWxnd3I2?=
- =?utf-8?B?bXorVTZVZ0VCbmgrY2p0UVpCRTlQM0tacFpJaWJxZ0RtUGZXTlg2WTlsSnY4?=
- =?utf-8?B?S3NXYm1zOEZaWllxeXQ5bE1CNmNZbm5jUzVwbGEvdFBKVFcrb2haQWtyWUxX?=
- =?utf-8?B?dnBLaEc2U3p0K3FpM1c1NHFlQ2dtYVFYUDh1QjFHSFBIUFdiYWZlUjdrQmtS?=
- =?utf-8?B?NzdJaGFxRG8zbFdxbFZJcDJWMlhPZHlVQmhNTERkZjg0bXVxYjJ0MzJuVnNn?=
- =?utf-8?B?RWFwOXRqQkJkODJqU3RIcFBtOTdxVGhZY0o3dUtwdjFaazVFUWs2R1hoWlVJ?=
- =?utf-8?B?ZXBwQXFHYy8vZnBLV05tZWt2SmtzeVdMWVFIdURwT0o5ZVRVNGV0bmhVbVhv?=
- =?utf-8?B?cVlIeGNGZ3h1UFJqcVFWYks2R0FmRmowOUtVZXBYV1dXeGtSNDkrVVJRdjFT?=
- =?utf-8?B?L0FDaUdLOVpmVk5WSnVVL0JmMVNhSmRCc1AyQ3duL2VNQUVKZXBWWTN2RFpv?=
- =?utf-8?B?QVROdnFmVDdlTEZmZDc5bDBEMkRHb1hlNDVialhuTEZQR0ZnOEJMR3d3bUIy?=
- =?utf-8?B?Z0thOGc5cERWanhMTVIzWnRIUm1HbktsQ00vMU8wdUV3dEU4S0g4TGRsall6?=
- =?utf-8?B?bGVtTFZjdDhHR3ZzemdqZUhDWDI2d2h2VXd0NmxGVG1HSVBIRXpubzZUR2x3?=
- =?utf-8?B?SzFSemdZbWNyY2ZvOStwajYwODFYQko2aEswSzNVWDhoQjhYTEI4anp3NHE3?=
- =?utf-8?B?YWZMWUxGWE5LNExBYk9yZDV6aWtQaG04N2ZOUDQya05OQXJpOWVRQm5NQUtC?=
- =?utf-8?B?U1lJODlVQ0hsTlBhTldwaWxzankzdCtKNVFNRVo5OE80eTQwMkdxczFwN1hK?=
- =?utf-8?B?YlUwNDlTTWo5UEpvY0Y4M2ZaV1A2enZtY21OditmaVJCYnVYS2tZdzhpcHc0?=
- =?utf-8?B?cVBrZGtTRndIVFNWNk5MWnpQYjY1aEl3MXVEVUJoLzQ2SitRYktzaDBnU2Ny?=
- =?utf-8?B?dGJXb1g0RGNxRGxmRDh0R3YxNzROSXMrYmZwSFd5YmpSWDk0eVEzYlg0UDVB?=
- =?utf-8?B?SGxDRnZFdnNVM1lFVy9sTkswMThqYWFDNFcxb05jUFhhZmhkckdQWDUyY0sr?=
- =?utf-8?B?UVNZdXNSYklidUF1MkMxbGN5T1l3c2U1ZWthc2NnZWZkenNDR0RwOFIzN2VB?=
- =?utf-8?B?TTZwWmFuUy82Qmk2dWxUaVhPcmhQbU5lS3lCTE5yWXpSMDBvRXJBdi9hdFJt?=
- =?utf-8?B?TkNGMWVOejFHUFphOUQ2QXB1UVJUWWpLdWhRL3FKdDBUT1Zzd0duNHBNb0lI?=
- =?utf-8?B?MnFLZXFHYWVIbWtkUW1tSU5nVk5UV0h6ajVtRVVNQktmK1Q2QUozVVJkOGly?=
- =?utf-8?B?SDl1YmJ3d2k1bERTcHZyVGxZcXhUdHRIY01UNXJjdzdLUzVaNGdwT3YvZWdw?=
- =?utf-8?B?eDdSTlVKYUZqM2ttYzBOUWFmM2hweGE3RWtHQXU5K3FpLzd5M2JlMmgyUHd1?=
- =?utf-8?Q?4NcuQU?=
-X-Forefront-Antispam-Report: CIP:165.204.84.17; CTRY:US; LANG:en; SCL:1; SRV:;
- IPV:CAL; SFV:NSPM; H:SATLEXMB04.amd.com; PTR:InfoDomainNonexistent; CAT:NONE;
- SFS:(13230040)(1800799024)(36860700013)(376014)(82310400026); DIR:OUT;
- SFP:1101; 
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 17 Jul 2025 08:45:20.3080 (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: abb078b2-17c6-471e-068f-08ddc50e432a
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=3dd8961f-e488-4e60-8e11-a82d994e183d; Ip=[165.204.84.17];
- Helo=[SATLEXMB04.amd.com]
-X-MS-Exchange-CrossTenant-AuthSource: BL02EPF0001A108.namprd05.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Anonymous
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: MW4PR12MB7440
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v4 17/17] drm/bridge: cdns-dsi: Don't fail on
+ MIPI_DSI_MODE_VIDEO_BURST
+To: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>, Jyri Sarha
+ <jyri.sarha@iki.fi>, Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>,
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+ Vinod Koul <vkoul@kernel.org>, Kishon Vijay Abraham I <kishon@kernel.org>,
+ Andrzej Hajda <andrzej.hajda@intel.com>,
+ Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>,
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
+ Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>,
+ Jayesh Choudhary <j-choudhary@ti.com>, Dmitry Baryshkov <lumag@kernel.org>
+CC: <dri-devel@lists.freedesktop.org>, <linux-kernel@vger.kernel.org>,
+ <linux-phy@lists.infradead.org>, Francesco Dolcini <francesco@dolcini.it>,
+ Aradhya Bhatia <aradhya.bhatia@linux.dev>, Parth Pancholi
+ <parth.pancholi@toradex.com>
+References: <20250618-cdns-dsi-impro-v4-0-862c841dbe02@ideasonboard.com>
+ <20250618-cdns-dsi-impro-v4-17-862c841dbe02@ideasonboard.com>
+Content-Language: en-US
+From: Devarsh Thakkar <devarsht@ti.com>
+In-Reply-To: <20250618-cdns-dsi-impro-v4-17-862c841dbe02@ideasonboard.com>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 7bit
+X-C2ProcessedOrg: 333ef613-75bf-4e12-a4b1-8e3623f5dcea
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -147,75 +85,63 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-When application A submits jobs and application B submits a job with a
-dependency on A's fence, the normal flow wakes up the scheduler after
-processing each job. However, the optimization in
-drm_sched_entity_add_dependency_cb() uses a callback that only clears
-dependencies without waking up the scheduler.
+Hi Tomi
 
-When application A is killed before its jobs can run, the callback gets
-triggered but only clears the dependency without waking up the scheduler,
-causing the scheduler to enter sleep state and application B to hang.
+Thanks for the patch.
 
-Remove the optimization by deleting drm_sched_entity_clear_dep() and its
-usage, ensuring the scheduler is always woken up when dependencies are
-cleared.
+On 18/06/25 15:29, Tomi Valkeinen wrote:
+> While the cdns-dsi does not support DSI burst mode, the burst mode is
+> essentially DSI event mode with more versatile clocking and timings.
+I don't fully agree with this statement, DSI burst mode and DSI event 
+mode are two different things having separate requirements. DSI burst 
+mode maps to MIPI_DSI_MODE_VIDEO_BURST. I don't see a separate flag for 
+event mode but I guess,
 
-Fixes: 777dbd458c89 ("drm/amdgpu: drop a dummy wakeup scheduler")
-Cc: stable@vger.kernel.org # v4.6+
+> Thus cdns-dsi doesn't need to fail if the DSI peripheral driver requests
+> MIPI_DSI_MODE_VIDEO_BURST.
 
-Signed-off-by: Lin.Cao <lincao12@amd.com>
-Reviewed-by: Christian König <christian.koenig@amd.com>
----
- drivers/gpu/drm/scheduler/sched_entity.c | 21 ++-------------------
- 1 file changed, 2 insertions(+), 19 deletions(-)
+MIPI_DSI_MODE_VIDEO_BURST is currently not supported by the cadence DSI 
+host driver, so only if DSI peripheral driver is saying that burst mode 
+is the only one it supports in that case only we should fail.
 
-diff --git a/drivers/gpu/drm/scheduler/sched_entity.c b/drivers/gpu/drm/scheduler/sched_entity.c
-index e671aa241720..ac678de7fe5e 100644
---- a/drivers/gpu/drm/scheduler/sched_entity.c
-+++ b/drivers/gpu/drm/scheduler/sched_entity.c
-@@ -355,17 +355,6 @@ void drm_sched_entity_destroy(struct drm_sched_entity *entity)
- }
- EXPORT_SYMBOL(drm_sched_entity_destroy);
- 
--/* drm_sched_entity_clear_dep - callback to clear the entities dependency */
--static void drm_sched_entity_clear_dep(struct dma_fence *f,
--				       struct dma_fence_cb *cb)
--{
--	struct drm_sched_entity *entity =
--		container_of(cb, struct drm_sched_entity, cb);
--
--	entity->dependency = NULL;
--	dma_fence_put(f);
--}
--
- /*
-  * drm_sched_entity_wakeup - callback to clear the entity's dependency and
-  * wake up the scheduler
-@@ -376,7 +365,8 @@ static void drm_sched_entity_wakeup(struct dma_fence *f,
- 	struct drm_sched_entity *entity =
- 		container_of(cb, struct drm_sched_entity, cb);
- 
--	drm_sched_entity_clear_dep(f, cb);
-+	entity->dependency = NULL;
-+	dma_fence_put(f);
- 	drm_sched_wakeup(entity->rq->sched);
- }
- 
-@@ -429,13 +419,6 @@ static bool drm_sched_entity_add_dependency_cb(struct drm_sched_entity *entity)
- 		fence = dma_fence_get(&s_fence->scheduled);
- 		dma_fence_put(entity->dependency);
- 		entity->dependency = fence;
--		if (!dma_fence_add_callback(fence, &entity->cb,
--					    drm_sched_entity_clear_dep))
--			return true;
--
--		/* Ignore it when it is already scheduled */
--		dma_fence_put(fence);
--		return false;
- 	}
- 
- 	if (!dma_fence_add_callback(entity->dependency, &entity->cb,
--- 
-2.46.1
+> 
+> In my particular use case, this allows the use of ti-sn65dsi83 driver.
+> 
+> Tested-by: Parth Pancholi <parth.pancholi@toradex.com>
+> Tested-by: Jayesh Choudhary <j-choudhary@ti.com>
+> Signed-off-by: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
+> ---
+>   drivers/gpu/drm/bridge/cadence/cdns-dsi-core.c | 4 ----
+>   1 file changed, 4 deletions(-)
+> 
+> diff --git a/drivers/gpu/drm/bridge/cadence/cdns-dsi-core.c b/drivers/gpu/drm/bridge/cadence/cdns-dsi-core.c
+> index 114d883c65dc..09b289f0fcbf 100644
+> --- a/drivers/gpu/drm/bridge/cadence/cdns-dsi-core.c
+> +++ b/drivers/gpu/drm/bridge/cadence/cdns-dsi-core.c
+> @@ -1052,10 +1052,6 @@ static int cdns_dsi_attach(struct mipi_dsi_host *host,
+>   	if (output->dev)
+>   		return -EBUSY;
+>   
+> -	/* We do not support burst mode yet. */
+> -	if (dev->mode_flags & MIPI_DSI_MODE_VIDEO_BURST)
+> -		return -ENOTSUPP;
+> -
 
+Removing this check also gives a false impression that burst mode is 
+supported by the driver and can also lead to failures too in case device 
+is only supporting burst mode.
+
+I think it makes sense to fail only if burst mode is the only one being 
+supported by the device, something like below should work I believe,
+
+if (dev->mode_flags & MIPI_DSI_MODE_VIDEO_BURST == 
+MIPI_DSI_MODE_VIDEO_BURST)
+		return -ENOTSUPP;
+
+Regards
+Devarsh
+
+>   	/*
+>   	 * The host <-> device link might be described using an OF-graph
+>   	 * representation, in this case we extract the device of_node from
+> 
