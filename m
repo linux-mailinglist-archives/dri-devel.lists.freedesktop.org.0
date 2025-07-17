@@ -2,89 +2,51 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9FEE7B08EFF
-	for <lists+dri-devel@lfdr.de>; Thu, 17 Jul 2025 16:22:16 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5F163B08F7C
+	for <lists+dri-devel@lfdr.de>; Thu, 17 Jul 2025 16:32:56 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 98D8410E834;
-	Thu, 17 Jul 2025 14:22:14 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7B60510E7C7;
+	Thu, 17 Jul 2025 14:32:53 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="cVzxP4r7";
+	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=igalia.com header.i=@igalia.com header.b="NStf+bRw";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-f51.google.com (mail-lf1-f51.google.com
- [209.85.167.51])
- by gabe.freedesktop.org (Postfix) with ESMTPS id F109D10E830
- for <dri-devel@lists.freedesktop.org>; Thu, 17 Jul 2025 14:22:09 +0000 (UTC)
-Received: by mail-lf1-f51.google.com with SMTP id
- 2adb3069b0e04-55a28be32eeso907906e87.2
- for <dri-devel@lists.freedesktop.org>; Thu, 17 Jul 2025 07:22:09 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1752762128; x=1753366928; darn=lists.freedesktop.org;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:from:to:cc:subject:date
- :message-id:reply-to;
- bh=4jzyEI3ac/uOo6smhtFQv3Lt7kPNZfLb7UDBGDyA0w8=;
- b=cVzxP4r71WR38eGwH/9Snjc+d0bsoJqhrrd6A6GtfyvTmjENpcLtSvw9mMnqbbx3aS
- F/Tv2YcGzbxOSCJGhGPm4dZJTQAjjp6rFnRMMWwaHCTD59792Bra3wTJhoYvDHvNRDuB
- 8SDf1T2yYOWIbEOiW2H5YJyS/Nokg4OcGY306MlumRX7y4In3lLy1QHfdjDiraytrIjB
- tNTxNHaM9NV2ONS7WbZ5GY09bXGIFq0htB0CmQ0WtC1/3G3u4AlcAfFNJjRGKfOaWgq+
- 5cDmVpHDd7HGw71AjXWUd0IUpmKZVF3TnoJjXLTw/yzj5TU+uNFcGqi3wcGlaGiLxQF8
- 7B2A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1752762128; x=1753366928;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=4jzyEI3ac/uOo6smhtFQv3Lt7kPNZfLb7UDBGDyA0w8=;
- b=KMJsiDiUVMFqn94P1PI0eCVp4DF9fDZamT6IyRJw+r0LDnQu02/NPlr3YQcg/uQFf9
- 5LnJeFI3WbPZ+qLIc9ZBZboFYXfYnsyEf+CJIce+Psxy6il/M1Ko1xlMMiWQoSECUmDA
- OGEvVDzAz4aDGoM1Rhgw/jaDqw6hopMfT68DdZTAFW0nd07AEXVJ6bGqlnEw3ck0cQM6
- VjDjV/NntPNBFpJWmCInUKP+x0/wpjb7UO+/q4gkAd1Ep7unSWACfF8paO/YrOyiiPRY
- yYsH6S81jRR7CTWsAHkH+3zuuRPEeoXpJ1lNEdFZ8KObq7qnSB5rEWnyNfm88rC7WsjM
- vGpQ==
-X-Gm-Message-State: AOJu0YxagWpep2mpUBlnKoqjg3oa20c7OiOEfxbLv/SA/7qby59aPe4F
- VoO7nJkPoVsy7vlXipM+gTP4il8kzxp0dBVFLe83w3hjLBglp/pTv0LX
-X-Gm-Gg: ASbGncvuhz7rbWyqg4IZlBpU3Fr2JyIOr74fPl/IP2AChTImazkk0WbBCu5aM5vPE4c
- Lzu3rrUV9X1WS4pZ2kb/3+w5UrCdACRIO/AAD+BLqEiEIHX7kCVVOnQvC8z0869sKvk2q3ZUZFc
- 6xckOYwAUAzVdNEj7gLrqTR9Z+eCR5TrpJqwmqSSpmFbhRjTURrf6RLFrgoxi8GXrqaPsIyJ3HF
- 3w/8MDD1HgzXx4iBLMpUQQlsJN+uAiz8O8gL8lp4UQf/aBqWk27i0bfRvv6/00edyLcwlpxzFmC
- r8HUY3WW4jpwC1HDBYEmCHtCrA01UmdfQWOPOJgl1HDYMzLMjGgq45OB2a828Tx+ErDhjZ2MgjL
- WwYoAHeO/IWJcPSHv3x2i1XGt
-X-Google-Smtp-Source: AGHT+IESYH2Sz2RGJLeVpKp3IKX4ZOErGb7b+04X70EABSWL+fmITawGH+Sfa4Vm3XmfnZhj3gzEDg==
-X-Received: by 2002:a05:6512:3f25:b0:553:314e:8200 with SMTP id
- 2adb3069b0e04-55a2958fc8emr1141661e87.8.1752762127827; 
- Thu, 17 Jul 2025 07:22:07 -0700 (PDT)
-Received: from xeon.. ([188.163.112.60]) by smtp.gmail.com with ESMTPSA id
- 2adb3069b0e04-55943b61134sm3079983e87.162.2025.07.17.07.22.06
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 17 Jul 2025 07:22:07 -0700 (PDT)
-From: Svyatoslav Ryhel <clamor95@gmail.com>
-To: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
- Simona Vetter <simona@ffwll.ch>, Rob Herring <robh@kernel.org>,
- Krzysztof Kozlowski <krzk+dt@kernel.org>,
- Conor Dooley <conor+dt@kernel.org>,
- Thierry Reding <thierry.reding@gmail.com>,
- Thierry Reding <treding@nvidia.com>,
- Jonathan Hunter <jonathanh@nvidia.com>,
- Peter De Schrijver <pdeschrijver@nvidia.com>,
- Prashant Gaikwad <pgaikwad@nvidia.com>,
- Michael Turquette <mturquette@baylibre.com>,
- Stephen Boyd <sboyd@kernel.org>, Mikko Perttunen <mperttunen@nvidia.com>,
- Svyatoslav Ryhel <clamor95@gmail.com>, Dmitry Osipenko <digetx@gmail.com>
-Cc: dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org,
- linux-tegra@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-clk@vger.kernel.org
-Subject: [PATCH v1 5/5] ARM: tegra: add MIPI calibration binding for
- Tegra20/Tegra30
-Date: Thu, 17 Jul 2025 17:21:39 +0300
-Message-ID: <20250717142139.57621-6-clamor95@gmail.com>
-X-Mailer: git-send-email 2.48.1
-In-Reply-To: <20250717142139.57621-1-clamor95@gmail.com>
-References: <20250717142139.57621-1-clamor95@gmail.com>
+Received: from fanzine2.igalia.com (fanzine2.igalia.com [213.97.179.56])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 360FB10E833
+ for <dri-devel@lists.freedesktop.org>; Thu, 17 Jul 2025 14:32:49 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com; 
+ s=20170329;
+ h=Content-Transfer-Encoding:Content-Type:MIME-Version:References:
+ In-Reply-To:Message-ID:Date:Subject:Cc:To:From:Sender:Reply-To:Content-ID:
+ Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc
+ :Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:List-Subscribe:
+ List-Post:List-Owner:List-Archive;
+ bh=4XPkkckc/DJj54bqsY25CUcSeyCxJKTjldAJQY1yZtQ=; b=NStf+bRwA+1XPwz5vtOrZzbrej
+ tbj0VAlnxSL3dXMD04GbyIa8ZhQx0MVqvlQMAVlFmJ7M+0p6ZTSSsiGCt5h3M+5y2L/WqeDDyaZ/N
+ IvoBOwT4SJn0A7SDjOZchd/DSBSTC9U41Pb91nmPKM2MtjWzKfX32zDMhiC57ce9CdwAX9kunSKY/
+ imcIiCO3k9VqpUvrftOUvcD+4RQlPIHKo29Ni9YR8JfU7Nx8CqjM1y5kpeABwW3vXCTRDAV0cbDSx
+ f641ruE5SAXF/qA7baaLTvemoKvrewICcUysMGjxU7UranmrD3ub7bW7NujMYnPKNsZUG0alrCxOu
+ 1P3ER4Rg==;
+Received: from [187.36.210.68] (helo=morissey)
+ by fanzine2.igalia.com with esmtpsa 
+ (Cipher TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_256_GCM:256) (Exim)
+ id 1ucPfC-000BBJ-QY; Thu, 17 Jul 2025 16:32:47 +0200
+From: =?UTF-8?q?Ma=C3=ADra=20Canal?= <mcanal@igalia.com>
+To: "Juan A. Suarez" <jasuarez@igalia.com>,
+ Iago Toral Quiroga <itoral@igalia.com>, Melissa Wen <mwen@igalia.com>,
+ =?UTF-8?q?Ma=C3=ADra=20Canal?= <mcanal@igalia.com>
+Cc: kernel-dev@igalia.com,
+	dri-devel@lists.freedesktop.org
+Subject: Re: [PATCH 0/2] drm/v3d: Expose global and per-context GPU reset
+ counters
+Date: Thu, 17 Jul 2025 11:31:31 -0300
+Message-ID: <175276268275.480028.16171876563541540745.b4-ty@igalia.com>
+X-Mailer: git-send-email 2.50.0
+In-Reply-To: <20250711-v3d-reset-counter-v1-0-1ac73e9fca2d@igalia.com>
+References: <20250711-v3d-reset-counter-v1-0-1ac73e9fca2d@igalia.com>
 MIME-Version: 1.0
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -101,98 +63,24 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Add MIPI calibration device node for Tegra20 and Tegra30.
 
-Signed-off-by: Svyatoslav Ryhel <clamor95@gmail.com>
----
- arch/arm/boot/dts/nvidia/tegra20.dtsi | 14 ++++++++++++++
- arch/arm/boot/dts/nvidia/tegra30.dtsi | 18 ++++++++++++++++++
- 2 files changed, 32 insertions(+)
+On Fri, 11 Jul 2025 12:18:30 -0300, Maíra Canal wrote:
+> The GL extension KHR_robustness requires a mechanism for a GL application
+> to learn about graphics resets that affect a GL context. With the goal
+> to provide support for such extension in Mesa, this series implements
+> global and per-context GPU reset counters that user-space can retrieve
+> using the DRM_IOCTL_V3D_GET_PARAM ioctl.
+> 
+> The corresponding user-space implementation for this series is available at [1].
+> 
+> [...]
 
-diff --git a/arch/arm/boot/dts/nvidia/tegra20.dtsi b/arch/arm/boot/dts/nvidia/tegra20.dtsi
-index 92d422f83ea4..521261045cc8 100644
---- a/arch/arm/boot/dts/nvidia/tegra20.dtsi
-+++ b/arch/arm/boot/dts/nvidia/tegra20.dtsi
-@@ -74,6 +74,16 @@ vi@54080000 {
- 			status = "disabled";
- 		};
- 
-+		/* DSI MIPI calibration logic is a part of VI/CSI */
-+		mipi: mipi@54080220 {
-+			compatible = "nvidia,tegra20-mipi";
-+			reg = <0x54080220 0x100>;
-+			clocks = <&tegra_car TEGRA20_CLK_VI>,
-+				 <&tegra_car TEGRA20_CLK_CSI>;
-+			clock-names = "vi", "csi";
-+			#nvidia,mipi-calibrate-cells = <1>;
-+		};
-+
- 		epp@540c0000 {
- 			compatible = "nvidia,tegra20-epp";
- 			reg = <0x540c0000 0x00040000>;
-@@ -219,9 +229,13 @@ dsi@54300000 {
- 			clock-names = "dsi", "parent";
- 			resets = <&tegra_car 48>;
- 			reset-names = "dsi";
-+			nvidia,mipi-calibrate = <&mipi 0>;
- 			power-domains = <&pd_core>;
- 			operating-points-v2 = <&dsi_dvfs_opp_table>;
- 			status = "disabled";
-+
-+			#address-cells = <1>;
-+			#size-cells = <0>;
- 		};
- 	};
- 
-diff --git a/arch/arm/boot/dts/nvidia/tegra30.dtsi b/arch/arm/boot/dts/nvidia/tegra30.dtsi
-index 50b0446f43fc..c52ad3715505 100644
---- a/arch/arm/boot/dts/nvidia/tegra30.dtsi
-+++ b/arch/arm/boot/dts/nvidia/tegra30.dtsi
-@@ -164,6 +164,16 @@ vi@54080000 {
- 			status = "disabled";
- 		};
- 
-+		/* DSI MIPI calibration logic is a part of VI/CSI */
-+		mipi: mipi@54080220 {
-+			compatible = "nvidia,tegra30-mipi";
-+			reg = <0x54080220 0x100>;
-+			clocks = <&tegra_car TEGRA30_CLK_VI>,
-+				 <&tegra_car TEGRA30_CLK_CSI>;
-+			clock-names = "vi", "csi";
-+			#nvidia,mipi-calibrate-cells = <1>;
-+		};
-+
- 		epp@540c0000 {
- 			compatible = "nvidia,tegra30-epp";
- 			reg = <0x540c0000 0x00040000>;
-@@ -321,9 +331,13 @@ dsi@54300000 {
- 			clock-names = "dsi", "parent";
- 			resets = <&tegra_car 48>;
- 			reset-names = "dsi";
-+			nvidia,mipi-calibrate = <&mipi 0>;
- 			power-domains = <&pd_core>;
- 			operating-points-v2 = <&dsia_dvfs_opp_table>;
- 			status = "disabled";
-+
-+			#address-cells = <1>;
-+			#size-cells = <0>;
- 		};
- 
- 		dsi@54400000 {
-@@ -334,9 +348,13 @@ dsi@54400000 {
- 			clock-names = "dsi", "parent";
- 			resets = <&tegra_car 84>;
- 			reset-names = "dsi";
-+			nvidia,mipi-calibrate = <&mipi 0>;
- 			power-domains = <&pd_core>;
- 			operating-points-v2 = <&dsib_dvfs_opp_table>;
- 			status = "disabled";
-+
-+			#address-cells = <1>;
-+			#size-cells = <0>;
- 		};
- 	};
- 
--- 
-2.48.1
+Applied to drm-misc/drm-misc-next, thanks!
 
+[1/2] drm/v3d: Add parameter to retrieve the global number of GPU resets
+      commit: 5774b3cfdedb3624ef0d2c82cccbfd61bcb60fd5
+[2/2] drm/v3d: Add parameter to retrieve the number of GPU resets per-fd
+      commit: 769c153cfc3c6669c7b318f66c2b21ec3951fb4a
+
+Best regards,
+- Maíra
