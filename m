@@ -2,49 +2,49 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4E94AB08317
-	for <lists+dri-devel@lfdr.de>; Thu, 17 Jul 2025 04:47:45 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id D0118B0839C
+	for <lists+dri-devel@lfdr.de>; Thu, 17 Jul 2025 05:58:53 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6747210E300;
-	Thu, 17 Jul 2025 02:47:42 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id EE6A710E69C;
+	Thu, 17 Jul 2025 03:58:50 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; secure) header.d=canb.auug.org.au header.i=@canb.auug.org.au header.b="i/sMf7ML";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="TZc6t/iO";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail.ozlabs.org (gandalf.ozlabs.org [150.107.74.76])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6D56C10E300;
- Thu, 17 Jul 2025 02:47:40 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=canb.auug.org.au;
- s=202503; t=1752720334;
- bh=J1vTukhoZZsy+dM7+gF/ok/tMoxEtuRTVn5Sfcyx7Ss=;
- h=Date:From:To:Cc:Subject:From;
- b=i/sMf7MLCAhtAvTD5aFqQu0tiiWfLkjrr2Fc5y06A4hUf/din/y2xAq7LB2HLDvBz
- V7ZtuQ6fu/GOMQWMWl+KpcLNS0Vo7qWQ7PhBqQ1HcsuaSV0oPgsLIletvniB5ZGgsc
- 8uQq3KNsm2E2axUOrQEjqm0x8SE2qIr7/373GcP2ftVygNKssCS3YtrbSieNyXPm1H
- obON9LnHRQdcHqVe9sEgxUWPSkUIVgNHEBHxivJAAgXFL3KIiQtqLG5p9L6+mHSxAQ
- 01ECghxubuF7B7BUFTBiE8ghKKWxxHR54QyhtB9z1VDmUxTAUnoMvVwdqDpsSgva82
- 0Y3PA26H5B98Q==
-Received: from authenticated.ozlabs.org (localhost [127.0.0.1])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
- (Client did not present a certificate)
- by mail.ozlabs.org (Postfix) with ESMTPSA id 4bjHNB6z36z4x3d;
- Thu, 17 Jul 2025 12:45:30 +1000 (AEST)
-Date: Thu, 17 Jul 2025 12:46:57 +1000
-From: Stephen Rothwell <sfr@canb.auug.org.au>
-To: Alex Deucher <alexdeucher@gmail.com>, Simona Vetter
- <simona.vetter@ffwll.ch>
-Cc: Alex Deucher <alexander.deucher@amd.com>, =?UTF-8?B?QW5kcsOp?= Almeida
- <andrealmeid@igalia.com>, Intel Graphics <intel-gfx@lists.freedesktop.org>,
- DRI <dri-devel@lists.freedesktop.org>, Linux Kernel Mailing List
- <linux-kernel@vger.kernel.org>, Linux Next Mailing List
- <linux-next@vger.kernel.org>
-Subject: linux-next: manual merge of the amdgpu tree with the drm-misc tree
-Message-ID: <20250717124657.3e56c86c@canb.auug.org.au>
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C0C2610E2E5;
+ Thu, 17 Jul 2025 03:58:49 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+ by dfw.source.kernel.org (Postfix) with ESMTP id 591585C56A3;
+ Thu, 17 Jul 2025 03:58:48 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 57E08C4CEE3;
+ Thu, 17 Jul 2025 03:58:47 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1752724728;
+ bh=OuzF5v3J010RWFCaX1BImq3F2ytx3Yt7cAPBVFMCgwA=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=TZc6t/iOUPrx1jgNt6AXw3o4wPg1rnkVvRyhIbCAqIENC21mapwgWhtL0CRwS9Tdp
+ osMfg81OVk1GlQ7YpnH/1b62mNW/JONAZsLyKLv6oEpkWPa4wpN8elDO6Nsj47AhK2
+ zlBJuwMbLh/GiDesEYM98Nplw5bqxwvldyVQx4jRlxOHmkD80Yds5OSVs7t29INr7x
+ p4mr+sAAcPF/IggBgdEAueqZr062YbKGHCzWDw3NldjkCa73n4CZiTXjr/88voHI8S
+ UKdKAbElEjp1fLMJSCL6zSUWNsH37e7IphDxFQsF0rgxebYqCSNlsAYb6zrGx36iPF
+ dVOoKtlvAXjKw==
+Date: Wed, 16 Jul 2025 22:58:45 -0500
+From: Bjorn Andersson <andersson@kernel.org>
+To: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
+Cc: Konrad Dybcio <konradybcio@kernel.org>, 
+ Rob Clark <robin.clark@oss.qualcomm.com>,
+ Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>, 
+ linux-arm-msm@vger.kernel.org, freedreno@lists.freedesktop.org,
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] soc: qcom: ubwc: provide no-UBWC configuration
+Message-ID: <i3fezbte3sdfs4sjbf3bahooodx3u5dyiiqee5cvns2xpbjhoy@cs2eyiwfpagk>
+References: <20250706-ubwc-no-ubwc-v1-1-e39552aa04df@oss.qualcomm.com>
 MIME-Version: 1.0
-Content-Type: multipart/signed; boundary="Sig_/jQUhQzpdIOaIPJrP0Mk09d3";
- protocol="application/pgp-signature"; micalg=pgp-sha256
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20250706-ubwc-no-ubwc-v1-1-e39552aa04df@oss.qualcomm.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -60,68 +60,64 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
---Sig_/jQUhQzpdIOaIPJrP0Mk09d3
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: quoted-printable
+On Sun, Jul 06, 2025 at 02:01:03PM +0300, Dmitry Baryshkov wrote:
+> After the commit 45a2974157d2 ("drm/msm: Use the central UBWC config
+> database") the MDSS driver errors out if UBWC database didn't provide it
+> with the UBWC configuration. Make UBWC database return zero data for
+> MSM8916 / APQ8016, MSM8974 / APQ8074, MSM8226 and MSM8939.
+> 
+> Fixes: 1924272b9ce1 ("soc: qcom: Add UBWC config provider")
+> Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
 
-Hi all,
+Acked-by: Bjorn Andersson <andersson@kernel.org>
 
-Today's linux-next merge of the amdgpu tree got a conflict in:
-
-  drivers/gpu/drm/amd/amdgpu/amdgpu_job.c
-
-between commit:
-
-  667efb341917 ("drm/amdgpu: Fix lifetime of struct amdgpu_task_info after =
-ring reset")
-
-from the drm-misc tree and commit:
-
-  77cc0da39c7c ("drm/amdgpu: track ring state associated with a fence")
-
-from the amdgpu tree.
-
-I fixed it up (see below) and can carry the fix as necessary. This
-is now fixed as far as linux-next is concerned, but any non trivial
-conflicts should be mentioned to your upstream maintainer when your tree
-is submitted for merging.  You may also want to consider cooperating
-with the maintainer of the conflicting tree to minimise any particularly
-complex conflicts.
-
---=20
-Cheers,
-Stephen Rothwell
-
-diff --cc drivers/gpu/drm/amd/amdgpu/amdgpu_job.c
-index ec73cf3a9024,5cb7bf9420f7..000000000000
---- a/drivers/gpu/drm/amd/amdgpu/amdgpu_job.c
-+++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_job.c
-@@@ -90,8 -90,8 +90,8 @@@ static enum drm_gpu_sched_stat amdgpu_j
-  	struct amdgpu_ring *ring =3D to_amdgpu_ring(s_job->sched);
-  	struct amdgpu_job *job =3D to_amdgpu_job(s_job);
-  	struct drm_wedge_task_info *info =3D NULL;
-- 	struct amdgpu_task_info *ti =3D NULL;
-  	struct amdgpu_device *adev =3D ring->adev;
- -	struct amdgpu_task_info *ti;
-++	struct amdgpu_task_info *ti =3D NULL;
-  	int idx, r;
- =20
-  	if (!drm_dev_enter(adev_to_drm(adev), &idx)) {
-
---Sig_/jQUhQzpdIOaIPJrP0Mk09d3
-Content-Type: application/pgp-signature
-Content-Description: OpenPGP digital signature
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAEBCAAdFiEENIC96giZ81tWdLgKAVBC80lX0GwFAmh4ZCEACgkQAVBC80lX
-0GyaXggAlKd3pKidEHwWEfHhp75VkpiiUx0zFaU0zfpG+FOSEbZR4vN38w/8QZi5
-QSKpwgoKP/IpUgFDxaSDVUtke5P3iGhsOirHPzHxxnNPaTEhxLllzU5cvUx/Kdrn
-A7yeOh4qFSwWZ6tA7sPAYpIEYe80eYieNnA8tDqBljoIQ6lswVGuVBoJrZldCxQl
-KvXTy3vs3LDiNasNbEGXlj8clooPvkH6+XK6ClGNwHWLbxha60oSdMyGRlKQACCG
-WMuT6Ec/rc/7xHH3rRPfhfyleOdIm6/Q0v8YFS0VEkFUo3+iPpgSBrGpC5UfRmhj
-7bsD8QdcjZTrQ6OA+WnuZLfXsuI/Mw==
-=Nzw5
------END PGP SIGNATURE-----
-
---Sig_/jQUhQzpdIOaIPJrP0Mk09d3--
+> ---
+> Note: the driver is a part of drivers/soc, but as it got merged through
+> drm/msm tree, this fix should also go through the drm/msm tree.
+> ---
+>  drivers/soc/qcom/ubwc_config.c | 10 ++++++++++
+>  1 file changed, 10 insertions(+)
+> 
+> diff --git a/drivers/soc/qcom/ubwc_config.c b/drivers/soc/qcom/ubwc_config.c
+> index bd0a98aad9f3b222abcf0a7af85a318caffa9841..df074520a8cae1a202a14ca094903bb1e7389066 100644
+> --- a/drivers/soc/qcom/ubwc_config.c
+> +++ b/drivers/soc/qcom/ubwc_config.c
+> @@ -12,6 +12,10 @@
+>  
+>  #include <linux/soc/qcom/ubwc.h>
+>  
+> +static const struct qcom_ubwc_cfg_data no_ubwc_data = {
+> +	/* no UBWC, no HBB */
+> +};
+> +
+>  static const struct qcom_ubwc_cfg_data msm8937_data = {
+>  	.ubwc_enc_version = UBWC_1_0,
+>  	.ubwc_dec_version = UBWC_1_0,
+> @@ -215,11 +219,17 @@ static const struct qcom_ubwc_cfg_data x1e80100_data = {
+>  };
+>  
+>  static const struct of_device_id qcom_ubwc_configs[] __maybe_unused = {
+> +	{ .compatible = "qcom,apq8016", .data = &no_ubwc_data },
+> +	{ .compatible = "qcom,apq8074", .data = &no_ubwc_data },
+>  	{ .compatible = "qcom,apq8096", .data = &msm8998_data },
+> +	{ .compatible = "qcom,msm8226", .data = &no_ubwc_data },
+> +	{ .compatible = "qcom,msm8916", .data = &no_ubwc_data },
+>  	{ .compatible = "qcom,msm8917", .data = &msm8937_data },
+>  	{ .compatible = "qcom,msm8937", .data = &msm8937_data },
+> +	{ .compatible = "qcom,msm8939", .data = &no_ubwc_data },
+>  	{ .compatible = "qcom,msm8953", .data = &msm8937_data },
+>  	{ .compatible = "qcom,msm8956", .data = &msm8937_data },
+> +	{ .compatible = "qcom,msm8974", .data = &no_ubwc_data },
+>  	{ .compatible = "qcom,msm8976", .data = &msm8937_data },
+>  	{ .compatible = "qcom,msm8996", .data = &msm8998_data },
+>  	{ .compatible = "qcom,msm8998", .data = &msm8998_data },
+> 
+> ---
+> base-commit: 8290d37ad2b087bbcfe65fa5bcaf260e184b250a
+> change-id: 20250706-ubwc-no-ubwc-3c5919273e03
+> 
+> Best regards,
+> -- 
+> With best wishes
+> Dmitry
+> 
