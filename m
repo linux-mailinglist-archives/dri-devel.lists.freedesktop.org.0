@@ -2,77 +2,84 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C0D58B09209
-	for <lists+dri-devel@lfdr.de>; Thu, 17 Jul 2025 18:41:40 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3F707B0920A
+	for <lists+dri-devel@lfdr.de>; Thu, 17 Jul 2025 18:41:44 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2F08210E852;
-	Thu, 17 Jul 2025 16:41:39 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A221F10E6F3;
+	Thu, 17 Jul 2025 16:41:42 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=brighamcampbell.com header.i=@brighamcampbell.com header.b="DvnAAeNp";
+	dkim=pass (2048-bit key; unprotected) header.d=brighamcampbell.com header.i=@brighamcampbell.com header.b="jnIM9mav";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pj1-f45.google.com (mail-pj1-f45.google.com
- [209.85.216.45])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0B6B310E854
- for <dri-devel@lists.freedesktop.org>; Thu, 17 Jul 2025 16:41:38 +0000 (UTC)
-Received: by mail-pj1-f45.google.com with SMTP id
- 98e67ed59e1d1-3138e64b42aso1409617a91.0
- for <dri-devel@lists.freedesktop.org>; Thu, 17 Jul 2025 09:41:38 -0700 (PDT)
+Received: from mail-pl1-f180.google.com (mail-pl1-f180.google.com
+ [209.85.214.180])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B0B0D10E858
+ for <dri-devel@lists.freedesktop.org>; Thu, 17 Jul 2025 16:41:39 +0000 (UTC)
+Received: by mail-pl1-f180.google.com with SMTP id
+ d9443c01a7336-237311f5a54so9668915ad.2
+ for <dri-devel@lists.freedesktop.org>; Thu, 17 Jul 2025 09:41:39 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=brighamcampbell.com; s=google; t=1752770497; x=1753375297;
+ d=brighamcampbell.com; s=google; t=1752770499; x=1753375299;
  darn=lists.freedesktop.org; 
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:from:to:cc:subject:date:message-id:reply-to;
- bh=8zaVonVNWKr3b0dyGZR9LCJexaagL6PKA2t2eXcHfTo=;
- b=DvnAAeNpYdNSx25oMu5Ue5LRyBovoLSpEmi99yst9/kyYg98Vq4YhqyLPE6grYYtA5
- V1zJg0sR5BBI4pmB2Ph83SsxKV6tIOGoYxvVtSAy2gXtRDGtFrXJ1izVqvhjC4ExJmlQ
- 5OxDGmaiHJy1h0BjnHWijVsdEYoqpx0AvLeXY23DJ+F7deyHvVe60wSy4/sCo43LhK4N
- uP6kzlLpjldxNKPtrivmj4ev7L9Pa+gBLbVODYMMuvzROKGhJnBnjiD8xgfhIfW4pOmq
- rl56GTGW6DVfZuL5zDG5Xf2BWWV7IuYFwtUKPbiVT9IQhPQFI9m7/LZzZspxg5QzMdT/
- I/cQ==
+ h=content-transfer-encoding:mime-version:references:in-reply-to
+ :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=QXRb/auSmvjfek8uJ1YIyvtZo0QCAaoEdhxcCrHaPWM=;
+ b=jnIM9mav/Ct0YmZ7MHLEUhu5Qn5r6qKo2vLzTgJBzw46ntsSgvGpzHEXIBLST7uree
+ gOlxPwKgSJISeF+WI91dEG5JWEO/d/b93HC72DjZ7sHr+4RpRWZnkTSrbD1gh5Nl8Cg7
+ qrNhHFugsEvuFGKGUrjoUfmZs566dYE8WDTXz/xm64ubeEMoFERO4kuKntdTDh7U/1f8
+ AZI1NHX6Cnzf/vAdXfxET8sXH98RNxFohwlrWFnFb58IusHhOpH1ftTnjM2DgIx/hhlz
+ BzccMp4e7j/RSF5EkWG19g8yYcA/Qq+qcs4Fi9TadBtyjuostHCq1ceWTs7if6x7W1D6
+ 70Ew==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1752770497; x=1753375297;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=8zaVonVNWKr3b0dyGZR9LCJexaagL6PKA2t2eXcHfTo=;
- b=ck4iGLg2COw9rOdhmIlHP4QljXMLGBFUkymKSNweynGR55m0AIGyIPls/bOid1GdE2
- y797IPl3ERpySnBj8XzBuKFGLX7GSfbz1cxwVLzsu5eAi2ulLfQWFzQOMijdqPR034BX
- Ax0pJ6YBnuL23USUIUuzgQvXuny6t8vKanbMIYtk47hcnq60BzwaGtVU00iEq+U21Lbm
- QH0SjM8qaHo6/duqNRLOLyMPLSgyHyF9t5QI5nN4zgiTzUig0bvoqcH3kw7eGg3iXUJm
- Tz1emJSMyQdOk5MjALGk3gKJJ/CiONZnCzVluEQcNiX0QGCoazVyhw5UAjRU6s9s6Ts1
- EFsA==
+ d=1e100.net; s=20230601; t=1752770499; x=1753375299;
+ h=content-transfer-encoding:mime-version:references:in-reply-to
+ :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=QXRb/auSmvjfek8uJ1YIyvtZo0QCAaoEdhxcCrHaPWM=;
+ b=IU00p4zAZyAYrf037qE7Ls1HDd5PF6rdbyE8wmi9YMNMsueJI111E7Zy7UsvDH3NDz
+ pZeaR7HTmdEByhX+y1pgDu7pbFYmcUIMKSeshsvO8SXGafCrvdk5YMTfd7L7TLkEHvOg
+ 5+Gp8Jix509e2qArGjHcrxTlXSveZo4vBQLzrek6QFAG4KaTVYmtZawxOvEr+maakv3F
+ PmVxNhrr1BNweo2/c7R3gRoKFeIzOJv4qt9pN35NRGFaGJfj8rnkk0sHeLg4FY1ITN63
+ fl0ybS01XbVFauoH0gPBen4BlKOYdPi7+2N+81k3PyCt3hnjeI5VcL45oREHxZdZp3G7
+ yTWw==
 X-Forwarded-Encrypted: i=1;
- AJvYcCWO018BP4FTAFqrdAtnQ2rF/dzSILRdASaeOwmeqY4umw+LJ+vwIb+qns/yu8XjbRtpwpMC1euSrf4=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YybXGOab4sTeDOOBNOT3ZAE9B3aKqLamMi+ndavx9EutvUjTu9W
- y1VFD+9TSAW58O/uc1Wirhzk9bYatu4YkHhGACzCszAy38K3u17rOIwi+1tO0znO/Y0=
-X-Gm-Gg: ASbGncttzwZa/AMXbS5ZRg+iSrz5XW4TFF6irSEgLAvTga1PyGmEEIyQFO5i3H8g3Ll
- N+oFcq/ZT7OFcjOr1IYfY/6Hlv1LD+gvJ0QUdus1Ks9kgLN8qdF2/lKdBLAoOclkgQ7KkDD4xBl
- B/D8BSmlSrlc8WPr2I+Xi9Y3HemUW4qHsoHe0CAtym2q2decl7ymM9Zbe15eKBvto1Az4Rz+8YM
- zBjOa6X6fAOwiKuKA5OM1qplO511tcUwrImkx62GD0CJtv434hPuqxe3zDZx7XIzmRSw8oR8ZTy
- 8DTvkYVAEbgM1ptcy1NKKJipfF4e+z+DbdKnslN2M5X7nWWCm4YrxWBHqTImwXDnYGyJ3byo35R
- ZWorpGu+QEfSMRwDePLkPf+8U32sX/iMmhpSG/ewzwJxVDaakgQ==
-X-Google-Smtp-Source: AGHT+IHnWxMFl+xdFfhd6iN1u48GSI5UYMmS7BfoELEh5F4oPsMjJBqSiWUBF1GSB6ivy5k7UULcDQ==
-X-Received: by 2002:a17:90b:390f:b0:313:1e60:584d with SMTP id
- 98e67ed59e1d1-31caf844db3mr5977675a91.11.1752770497172; 
- Thu, 17 Jul 2025 09:41:37 -0700 (PDT)
+ AJvYcCW3YSsu18LkMMDHMnY6XLdfyzW3Z/edZNPA8+UYnVHpakg5Hzlw8NQSwSgqktozaulVRhHdaPU+dLs=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0Ywbg3ySMrgX3jrCXX41GQBlOv7s/VbcqaJJRfWLwWS4uLNKZWVH
+ EUDyyTDsFUf8X8lvCd89C18dJEBaTHv03G1Ev2zUaCTV6LrpMl46eHbhY057Np75PO/7K+fY/Of
+ gwAorTavybg==
+X-Gm-Gg: ASbGncv8xi3xVv1MBP9G9yOpKjUNIZpH0b8s4wnpst5+OcqHjB9GWCc2BpoZBa4NXWb
+ pPgrgd9UlEFs+DYohjqjrBVPJmq5daKfnP5197AZalV2omNnf3Sei1HvQwSqYYbEVBzLDR0JYbm
+ E2OiGS2Bvz++VrPmtzAFWoX7u/WvczCncKv3KEW80JnP0cxHhU5cYhvxM+4qu5stgNb6GCGiegx
+ GdCtMR7nD1FgLlqz11MqunIDiofbOLerpJqRjf+NAhAp8S9uAgusNJTwMPx57Hmi0CZZ7Oq3mSV
+ HRjN8WwH647EHYzfLTMaVCfxNV0OfgRHbnthWMeiUnIm9RKAUP6fKRNrWWzUKq8nOrX0cLrVLX3
+ DRXXrO7z/U9huR0U9GXp70ZSX/QuxAPZ5YLGCPXOCL1g7fJ0nTU8h8r+GIZtR
+X-Google-Smtp-Source: AGHT+IHQUhEP8RVdomUjbzwvcSpmkLRrN2k+b3W2P/yZEwrE1afYAZj5NI3TgnCfzxILvDYUugHslQ==
+X-Received: by 2002:a17:90b:4e:b0:31c:15da:2175 with SMTP id
+ 98e67ed59e1d1-31c9f47c6e9mr10439506a91.9.1752770499083; 
+ Thu, 17 Jul 2025 09:41:39 -0700 (PDT)
 Received: from mystery-machine.tail542cf.ts.net ([64.71.154.6])
  by smtp.gmail.com with ESMTPSA id
- 98e67ed59e1d1-31caf7e8ae4sm1821750a91.24.2025.07.17.09.41.35
+ 98e67ed59e1d1-31caf7e8ae4sm1821750a91.24.2025.07.17.09.41.37
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 17 Jul 2025 09:41:36 -0700 (PDT)
+ Thu, 17 Jul 2025 09:41:38 -0700 (PDT)
 From: Brigham Campbell <me@brighamcampbell.com>
 To: dianders@chromium.org, tejasvipin76@gmail.com,
  diogo.ivo@tecnico.ulisboa.pt, skhan@linuxfoundation.org,
  linux-kernel-mentees@lists.linux.dev, dri-devel@lists.freedesktop.org,
- linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
+ linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
+ Simona Vetter <simona@ffwll.ch>
 Cc: Brigham Campbell <me@brighamcampbell.com>
-Subject: [PATCH v3 0/4] drm: Fix bug in panel driver,
- update MIPI support macros
-Date: Thu, 17 Jul 2025 10:40:48 -0600
-Message-ID: <20250717164053.284969-1-me@brighamcampbell.com>
+Subject: [PATCH v4 1/4] drm: Create mipi_dsi_dual macro
+Date: Thu, 17 Jul 2025 10:40:49 -0600
+Message-ID: <20250717164053.284969-2-me@brighamcampbell.com>
 X-Mailer: git-send-email 2.50.1
+In-Reply-To: <20250717164053.284969-1-me@brighamcampbell.com>
+References: <20250717164053.284969-1-me@brighamcampbell.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -90,56 +97,50 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-This series removes the unintuitive mipi_dsi_generic_write_seq() macro
-and related mipi_dsi_generic_write_chatty() method from the drm
-subsystem. This is in accordance with a TODO item from Douglas Anderson
-in the drm subsystem documentation. Tejas Vipin (among others) has
-largely spearheaded this effort up until now, converting MIPI panel
-drivers one at a time.
+Create mipi_dsi_dual macro for panels which are driven by two parallel
+serial interfaces. This allows for the reduction of code duplication in
+drivers for these panels.
 
-The second patch of the series removes the last remaining references to
-mipi_dsi_generic_write_seq() in the jdi-lpm102a188a driver and updates
-the driver to use the undeprecated _multi variants of MIPI functions. It
-fixes a bug in the driver's unprepare function and cleans up duplicated
-code using the new mipi_dsi_dual macro introduced in the first patch.
+Signed-off-by: Brigham Campbell <me@brighamcampbell.com>
+---
+ include/drm/drm_mipi_dsi.h | 24 ++++++++++++++++++++++++
+ 1 file changed, 24 insertions(+)
 
-changes to v4:
- - Fix whitespace (I forgot to run checkpatch. Thanks for your patience
-   as I familiarize myself with the kernel development process)
- - Initialize mipi_dsi_multi_context struct
-
-changes to v3:
- - Define new mipi_dsi_dual macro in drm_mipi_dsi.h to reduce code
-   duplication.
- - Fix bug in lpm102a188a panel driver's unprepare function which causes
-   it to return a nonsensical value.
- - Make lpm102a188a panel driver's unprepare function send "display off"
-   and "enter sleep mode" commands to both serial interfaces regardless
-   of whether an error occurred when sending the last command.
-
-changes to v2:
- - Remove all usages of deprecated MIPI functions from jdi-lpm102a188a
-   driver instead of just mipi_dsi_generic_write_seq().
- - Update TODO item in drm documentation instead of removing it
-   entirely.
-
-Brigham Campbell (4):
-  drm: Create mipi_dsi_dual macro
-  drm/panel: jdi-lpm102a188a: Fix bug and clean up driver
-  drm: Remove unused MIPI write seq and chatty functions
-  drm: docs: Update task from drm TODO list
-
- Documentation/gpu/todo.rst                    |  22 +-
- drivers/gpu/drm/drm_mipi_dsi.c                |  34 +--
- drivers/gpu/drm/panel/panel-jdi-lpm102a188a.c | 197 ++++++------------
- include/drm/drm_mipi_dsi.h                    |  47 +++--
- 4 files changed, 98 insertions(+), 202 deletions(-)
-
-v3: https://lore.kernel.org/all/20250717065757.246122-1-me@brighamcampbell.com/
-v2: https://lore.kernel.org/all/20250708073901.90027-1-me@brighamcampbell.com/
-v1: https://lore.kernel.org/all/20250707075659.75810-1-me@brighamcampbell.com/
-
-base-commit: 667efb341917bde19f5d7517b65defcdaed67c9e
+diff --git a/include/drm/drm_mipi_dsi.h b/include/drm/drm_mipi_dsi.h
+index 369b0d8830c3..03199c966ea5 100644
+--- a/include/drm/drm_mipi_dsi.h
++++ b/include/drm/drm_mipi_dsi.h
+@@ -431,6 +431,30 @@ void mipi_dsi_dcs_set_tear_off_multi(struct mipi_dsi_multi_context *ctx);
+ 		mipi_dsi_dcs_write_buffer_multi(ctx, d, ARRAY_SIZE(d)); \
+ 	} while (0)
+ 
++/**
++ * mipi_dsi_dual - send the same MIPI DSI command to two interfaces
++ *
++ * This macro will send the specified MIPI DSI command twice, once per each of
++ * the two interfaces supplied. This is useful for reducing duplication of code
++ * in panel drivers which use two parallel serial interfaces.
++ *
++ * @_func: MIPI DSI function or macro to pass context and arguments into
++ * @_dsi1: First DSI interface to act as recipient of the MIPI DSI command
++ * @_dsi2: Second DSI interface to act as recipient of the MIPI DSI command
++ * @_ctx: Context for multiple DSI transactions
++ * @...: Arguments to pass to MIPI DSI function or macro
++ */
++#define mipi_dsi_dual(_func, _dsi1, _dsi2, _ctx, ...)		 \
++	_mipi_dsi_dual(_func, _dsi1, _dsi2, _ctx, ##__VA_ARGS__)
++
++#define _mipi_dsi_dual(_func, _dsi1, _dsi2, _ctx, ...) \
++	do {					       \
++		(_ctx)->dsi = (_dsi1);		       \
++		_func((_ctx), ##__VA_ARGS__);	       \
++		(_ctx)->dsi = (_dsi2);		       \
++		_func((_ctx), ##__VA_ARGS__);	       \
++	} while (0)
++
+ /**
+  * struct mipi_dsi_driver - DSI driver
+  * @driver: device driver model driver
 -- 
 2.50.1
 
