@@ -2,62 +2,63 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6AC0CB08EF7
-	for <lists+dri-devel@lfdr.de>; Thu, 17 Jul 2025 16:22:07 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id DFC24B08EFA
+	for <lists+dri-devel@lfdr.de>; Thu, 17 Jul 2025 16:22:10 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2963010E823;
-	Thu, 17 Jul 2025 14:22:05 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1BF2710E82F;
+	Thu, 17 Jul 2025 14:22:07 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="VAHmzZVb";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="mfnOiQeT";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-f47.google.com (mail-lf1-f47.google.com
- [209.85.167.47])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 298A110E823
- for <dri-devel@lists.freedesktop.org>; Thu, 17 Jul 2025 14:22:03 +0000 (UTC)
-Received: by mail-lf1-f47.google.com with SMTP id
- 2adb3069b0e04-55516abe02cso1052001e87.0
- for <dri-devel@lists.freedesktop.org>; Thu, 17 Jul 2025 07:22:03 -0700 (PDT)
+Received: from mail-lf1-f50.google.com (mail-lf1-f50.google.com
+ [209.85.167.50])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 52A0310E823
+ for <dri-devel@lists.freedesktop.org>; Thu, 17 Jul 2025 14:22:04 +0000 (UTC)
+Received: by mail-lf1-f50.google.com with SMTP id
+ 2adb3069b0e04-555163cd09aso865246e87.3
+ for <dri-devel@lists.freedesktop.org>; Thu, 17 Jul 2025 07:22:04 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1752762121; x=1753366921; darn=lists.freedesktop.org;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:from:to:cc:subject:date:message-id:reply-to;
- bh=fzV/r9uQPwH3fg/E4X8ZbrbeGCJOX8rINpZLXDiidxQ=;
- b=VAHmzZVb2ceGfJTxshDDNu7h8QkH6gDLAtnwqoDVByKANo5vdEmp56+wsP4GxYLA8b
- Vg4+6aHTMQ4JIYLgf/xjpFYqNZ6OPUi5jqtDhdKUIyQvjOr9srAe8pcl3SpzAXhXhHxb
- tyI9/GBHTYSAeiDb4lYkDFws3rIYR5AviUZAy6IaFXwe2E+0Wi7WAHnS7FlJcDSxCame
- TxrXfJxCiFCdzhDhdom+4bKoR/wMFBL+Uvk/fVt78PPk2Thl8RqmR+IElgh8PKqoIfld
- UkXCeX3Q22W65tLoW2Umy+sxY5mKv3Oq2U7bOj4KNp26MeORe1lNds0Muh9SrfBi/E4R
- T5vg==
+ d=gmail.com; s=20230601; t=1752762123; x=1753366923; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:mime-version:references:in-reply-to
+ :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=g7ue/q490Bd452PA3a4MG8OCwMqBN1HWIRSyCiyX4Tk=;
+ b=mfnOiQeTdb7RI6B2kh0FjQnpXM60J7Wv7ZiXifJTyFESysKZPsoDB5BVhzAfwW3L/N
+ aCfybd0vYDqxtYZE0/MxGUK6JNwlG+MzZo4AHdq2MSC+30RzzwYGG9j2lJCC/8jSbMvF
+ K6ykqY3IgbGj2jfr1Nm1vJWd8Pd2ygepycTANJQVC3CvRLoMCVqQu36Qv/RIEWa6Hmic
+ zs79sHnFr38DhYWkxJkzeJ8CbYS7hAbIBXqKzQ/m+1fE7kzUEXp90ZzaS9GTVlHtE+G5
+ I61wIMwDywrQR97hGs2jCH3LYWBvkcGBTXA+Zlf4ZtgH6bvwt8ds/nVF3bAianNDZwjj
+ GM3A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1752762121; x=1753366921;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=fzV/r9uQPwH3fg/E4X8ZbrbeGCJOX8rINpZLXDiidxQ=;
- b=mxbcPEM8L0ss6tZqyJWxTUvxw97YGRVv0DBeS7ZPbeZKqqncPeL06R/WFexQOOtlim
- nHocDao2h0bi0gSInNlvLEQ9pJYWN9OQMFkGZpgDG6EkC9bqT/FGAOHMyjjHD3NVtcfd
- m2yQ/FJ/mFIQYHBnysVq5B7+yeKh354TaCl/5E0yjSUOLBfnNw0GLaA0UHAhac7Asg0z
- 3/ltWGDN3N1LwgDq8H5KzoSTyCNpe3c/qL4VtyjnE4rJopWHGboC3z1Vi0XC8miLQCHK
- jXGQtbkzyOoEA2TbG5msCwD71H2r71Xi+rQkFH+4/VRyRbrsksqJvqrdO8SkqZjayyAd
- ldeA==
-X-Gm-Message-State: AOJu0Yy10e8EF94L+Xchmy/XcXnq6UgeOxCWv/uIlog1BqrtdcDr7SoW
- 3O82mQWhA6BltYAl4+QwvJ8h8IYL3d46GEXs2rz7MR1AD7WKKHrFxKk7
-X-Gm-Gg: ASbGnctE6HYBDKgD4SMJCqp4aPmN6awEdTIaruG6w2xHRebRk+rvCHHbtDj6l9DJbVJ
- IpHMJGDHHjP2w/ota+bfSSzbSj/YVex7QkiMPgZ0Iyu+zPvNaZk5r9xwc+DR9TvDxXF2sFPt9Q9
- 7jY83T+DpnM6JK8+8igGNHktDi5ZZpjxK6xJChp6trBojOaZL3ybrdlyBR+O5UReYc3vdmQQ/57
- 8IPBlvqQj1q+zzAGVTbi+qxYhetqd5V2HiGpcG5/33K+p/Zmt3oF7zQhUnIzF2gNqum77IxnA4G
- aiLRQrVYrbWZ9gwGLkQfaqerEzkvNBcAm/pX4hB22XYbHCbeHa7Wy48q4NqSVlFXMFbXH32p1dV
- hGFj3pYWCat1ABg==
-X-Google-Smtp-Source: AGHT+IETVuaIe0yIblxMsrahFaAnGTb5KS0kw9IE1R3XPGpMq4J2+RHE3rnYN8FwOfpJSG6kzmwHbw==
-X-Received: by 2002:a05:6512:124d:b0:553:2308:1ac5 with SMTP id
- 2adb3069b0e04-55a28c92645mr908636e87.4.1752762120941; 
- Thu, 17 Jul 2025 07:22:00 -0700 (PDT)
+ d=1e100.net; s=20230601; t=1752762123; x=1753366923;
+ h=content-transfer-encoding:mime-version:references:in-reply-to
+ :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=g7ue/q490Bd452PA3a4MG8OCwMqBN1HWIRSyCiyX4Tk=;
+ b=XwbdtbiZ+zi7If5Oao8diduWapvAyUKrjunSA8SG3MCd59I4lvCx7GSJuGQe27XZ19
+ VMRVrCeski/D/uXazNiDcMrKH6UVprxcDjfPKNIQymYQZXZIBXSXN6w6nmhMUDXKf4D/
+ 4WShNOZf7QfNhibNnnAbA87p3jkQlUnn7wJ6MlIq0mHlV/IFV0NNjAsN4esqoN+xRZq2
+ g5ejvFQNI+9UyI0sd66HfADvl9XOmYedjjDis9/MwCXmamF3o1yPLCdQytzo6X5rUNah
+ T6g4l8h3sU8P466zPFoLeIEZBZuBHxGVNooo3q4NZeI/Fktt/2fILKemwocUr8TUBRnF
+ 1BFw==
+X-Gm-Message-State: AOJu0YzWiNhJJJQkOlotFjUMzlng0DTLtQHwmknYcXP6/+nmZk5fNjkd
+ E6CXoMs+/ZMnW8dcYzJkhzx5S2tkbi/D5hgS4MBzMDhF/rFm/z2RkDrU
+X-Gm-Gg: ASbGncseL9iQIFPJhsLUFnR6FpPz8FyWvuaFFsCJzVyrqhfUiZ9smvyXzOCWi3Sn13V
+ tny2n83J++O757s32N5Ewv5cVf9GpVV/WYkfVYA9YmrjkJoGeqqYa5/l4aUPfA7mW+jCQQhkfdD
+ IYaYBnxZx3FO69F1Z8VkdQvOIBGbMfyp2qeSUzoPTpRDgZVBVHpJi62ICAgERSKaYESKaG2NjWN
+ dYUkv1rnw9aO00/0u+SG0is1bbNi6QwoRVpe3mNRDD7J0amkNSQx/SrXXaXKGAZhwU8wKEorcAL
+ plTULzOqgPFp2/xgmq+5nuGH0D8xZXf5RIbmWYA+EN/5o9KM/ZSXbDNN2McY4RCt2xU1FuIA0l2
+ K+hJblhZhfKrr1w==
+X-Google-Smtp-Source: AGHT+IEYk+/QbStoViVMLJIO/p/fftz94aAho/XA0aw08ZkztVpXmEoajpb3l1K1Fxb88pX9WHm7QA==
+X-Received: by 2002:a05:6512:398d:b0:553:35ad:2f45 with SMTP id
+ 2adb3069b0e04-55a29729104mr984896e87.50.1752762122328; 
+ Thu, 17 Jul 2025 07:22:02 -0700 (PDT)
 Received: from xeon.. ([188.163.112.60]) by smtp.gmail.com with ESMTPSA id
- 2adb3069b0e04-55943b61134sm3079983e87.162.2025.07.17.07.21.59
+ 2adb3069b0e04-55943b61134sm3079983e87.162.2025.07.17.07.22.01
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 17 Jul 2025 07:22:00 -0700 (PDT)
+ Thu, 17 Jul 2025 07:22:01 -0700 (PDT)
 From: Svyatoslav Ryhel <clamor95@gmail.com>
 To: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
  Maxime Ripard <mripard@kernel.org>,
@@ -76,10 +77,13 @@ To: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
 Cc: dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org,
  linux-tegra@vger.kernel.org, linux-kernel@vger.kernel.org,
  linux-clk@vger.kernel.org
-Subject: [PATCH v1 0/5] gpu/drm: tegra: add DSI support for Tegra20/Tegra30
-Date: Thu, 17 Jul 2025 17:21:34 +0300
-Message-ID: <20250717142139.57621-1-clamor95@gmail.com>
+Subject: [PATCH v1 1/5] dt-bindings: display: tegra: document MIPI calibration
+ for Tegra20/Tegra30
+Date: Thu, 17 Jul 2025 17:21:35 +0300
+Message-ID: <20250717142139.57621-2-clamor95@gmail.com>
 X-Mailer: git-send-email 2.48.1
+In-Reply-To: <20250717142139.57621-1-clamor95@gmail.com>
+References: <20250717142139.57621-1-clamor95@gmail.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -97,29 +101,82 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Tegra20/Tegra30 DSI is quite similar to Tegra114+ apart MIPI calibration
-logic and clocks. With a few minor tweaks, existing tegra DSI driver
-should work on Tegra20/Tegra30 devices just fine. Tested on
-Motorola Atrix 4G (T20) and ASUS VivoTab RT TF600T (T30).
+Adjust Tegra114 MIPI calibration schema to include Tegra20/Tegra30 MIPI
+calibration logic.
 
-Svyatoslav Ryhel (5):
-  dt-bindings: display: tegra: document MIPI calibration for
-    Tegra20/Tegra30
-  clk: tegra20: reparent dsi clock to pll_d_out0
-  gpu/drm: host1x: mipi: add Tegra20/Tegra30 MIPI calibration logic
-  gpu/drm: tegra: dsi: add support for Tegra20/Tegra30
-  ARM: tegra: add MIPI calibration binding for Tegra20/Tegra30
+Signed-off-by: Svyatoslav Ryhel <clamor95@gmail.com>
+---
+ .../display/tegra/nvidia,tegra114-mipi.yaml   | 41 ++++++++++++++++---
+ 1 file changed, 36 insertions(+), 5 deletions(-)
 
- .../display/tegra/nvidia,tegra114-mipi.yaml   | 41 ++++++++--
- arch/arm/boot/dts/nvidia/tegra20.dtsi         | 14 ++++
- arch/arm/boot/dts/nvidia/tegra30.dtsi         | 18 ++++
- drivers/clk/tegra/clk-tegra20.c               |  5 +-
- drivers/gpu/drm/tegra/drm.c                   |  2 +
- drivers/gpu/drm/tegra/dsi.c                   | 69 ++++++++++------
- drivers/gpu/drm/tegra/dsi.h                   | 10 +++
- drivers/gpu/host1x/mipi.c                     | 82 +++++++++++++++++++
- 8 files changed, 206 insertions(+), 35 deletions(-)
-
+diff --git a/Documentation/devicetree/bindings/display/tegra/nvidia,tegra114-mipi.yaml b/Documentation/devicetree/bindings/display/tegra/nvidia,tegra114-mipi.yaml
+index 193ddb105283..ddf1b9fff085 100644
+--- a/Documentation/devicetree/bindings/display/tegra/nvidia,tegra114-mipi.yaml
++++ b/Documentation/devicetree/bindings/display/tegra/nvidia,tegra114-mipi.yaml
+@@ -16,6 +16,8 @@ properties:
+ 
+   compatible:
+     enum:
++      - nvidia,tegra20-mipi
++      - nvidia,tegra30-mipi
+       - nvidia,tegra114-mipi
+       - nvidia,tegra124-mipi
+       - nvidia,tegra210-mipi
+@@ -25,12 +27,12 @@ properties:
+     maxItems: 1
+ 
+   clocks:
+-    items:
+-      - description: module clock
++    minItems: 1
++    maxItems: 2
+ 
+   clock-names:
+-    items:
+-      - const: mipi-cal
++    minItems: 1
++    maxItems: 2
+ 
+   power-domains:
+     maxItems: 1
+@@ -42,7 +44,36 @@ properties:
+     $ref: /schemas/types.yaml#/definitions/uint32
+     const: 1
+ 
+-additionalProperties: false
++allOf:
++  - if:
++      properties:
++        compatible:
++          contains:
++            enum:
++              - nvidia,tegra20-dsi
++              - nvidia,tegra30-dsi
++    then:
++      properties:
++        clocks:
++          items:
++            - description: VI module clock
++            - description: CSI module clock
++
++        clock-names:
++          items:
++            - const: vi
++            - const: csi
++    else:
++      properties:
++        clocks:
++          items:
++            - description: module clock
++
++        clock-names:
++          items:
++            - const: mipi-cal
++
++unevaluatedProperties: false
+ 
+ required:
+   - compatible
 -- 
 2.48.1
 
