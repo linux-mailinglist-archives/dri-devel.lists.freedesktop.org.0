@@ -2,113 +2,54 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 95379B09047
-	for <lists+dri-devel@lfdr.de>; Thu, 17 Jul 2025 17:12:13 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9EBE6B09067
+	for <lists+dri-devel@lfdr.de>; Thu, 17 Jul 2025 17:18:56 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 396D510E242;
-	Thu, 17 Jul 2025 15:12:10 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6EC2910E83F;
+	Thu, 17 Jul 2025 15:18:54 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=qualcomm.com header.i=@qualcomm.com header.b="G8AscNDs";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="UrHJ1mw/";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com
- [205.220.180.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7357E10E83F
- for <dri-devel@lists.freedesktop.org>; Thu, 17 Jul 2025 15:12:09 +0000 (UTC)
-Received: from pps.filterd (m0279871.ppops.net [127.0.0.1])
- by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 56HCYMcq025197
- for <dri-devel@lists.freedesktop.org>; Thu, 17 Jul 2025 15:12:08 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
- cc:content-transfer-encoding:date:from:message-id:mime-version
- :subject:to; s=qcppdkim1; bh=9pJTFEenY3rWVgqlsRhih+or7W0MW5NJ012
- 2DRYZs8s=; b=G8AscNDsDktygSubSOSuuClEkViZ1voMSYdMFDhtdunPUR0EhvL
- v6b7c56Wiz2NOApId5/ok6ytPHNU392+vJ2g1mK9liSAvtsGTWHRrE9KL7DzDb2t
- /y08LE+AWiaJ/4HgY6+EjIRlfoBOSoO32iT403u9egb807ythASsuylRFeX3XNRv
- AmYy8llaKMTWLMnFEMsmwyxRyykTbtdARDkcmryxwZfYnevrkYkhzSZOiUWDsAb5
- G9gCoi0VuZ+DFb5VSMi/I5cwvZlmN4POT9bdcIkuoubQhCyx+VV4J1EEhERhUojz
- G+Okan//1h0laG764Evx4GavBX4xhqIwFEw==
-Received: from mail-pf1-f197.google.com (mail-pf1-f197.google.com
- [209.85.210.197])
- by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 47xbsqcbfm-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
- for <dri-devel@lists.freedesktop.org>; Thu, 17 Jul 2025 15:12:08 +0000 (GMT)
-Received: by mail-pf1-f197.google.com with SMTP id
- d2e1a72fcca58-74ae13e99d6so1336647b3a.0
- for <dri-devel@lists.freedesktop.org>; Thu, 17 Jul 2025 08:12:08 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1752765127; x=1753369927;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=9pJTFEenY3rWVgqlsRhih+or7W0MW5NJ0122DRYZs8s=;
- b=qNvyLX2VOm6v1W4uOLtoDm8HN49R/E7cgGRjThFphGass5tmeTBCXOhfTerrEe8jTD
- OZR02FsuhwXZPOi8qhbguyHo2G8KUmMofgZP7J9N54H2seYcWt+h8otHigsCxduK0FJh
- nNs96id3lAk1Gu8cEjPOTaGdAkeNUSFvkr5WHNuiahF61QVWQEZxLxjjCKHgJinH3m3B
- 9EoVVVc/CwZZvsIXF0agjvepOEydiRsftf3Z92DalhYqXdPW3EkuAifjKEEz65hiwbtR
- PGi0Af8XMrihvMgz/ddhlV3miuaeMrBwd9NXc/MM8Hng/e31M99PR3skeeWIRDzmY0Ci
- 5mtg==
-X-Gm-Message-State: AOJu0Yz1SIeiiOycOWkfrfEboeDr803ruWwn1ZoUPJobEsMx4hC2LAvW
- PU/G7aa1BRkxMBhJ9AltzTX99O6e+FFPxvJWPiTG2WiTlEe34Ifds54ScVsKZVc7R6XzdhGn8kl
- dBROo6gc7k0wRGMLbIpU3X83XFHikdswXy8nIebEYSml1daWWskH1Z5dTXha1VMsK731Q9pUHm4
- fChDA=
-X-Gm-Gg: ASbGncu14jDtYlM6bxs46GYgF5bTb/1yfw71CuXMZ0CutHy7gU0Rdm2irVQfnNJDSQv
- uSMoPqCwQ075cPDGuTjMHupX1o/MdLFm8aJfiWrhHsW6uNfOwMEEpVYRb0+1AyQ4OJ7RqiTaWD8
- bMfXIkQbIY/HwDEFw+MdfIOinq//06Au1v1vi7C9OjER+tzxUQlxyV5v0kSoQBFBjfIp9UvPlPO
- NeZrLvXUEKqk0z/m1vNjAJOncQbn1XnaqV2jSKWlKQ+OgPKrwxq2ngRmVVyEUZp0HDzZAxD23+o
- Xpp2BHTOAY7723IoLtqDOEAsqkaeQcoD68RNfFqay1tx/WXqFsE=
-X-Received: by 2002:a05:6a21:329d:b0:234:21aa:b538 with SMTP id
- adf61e73a8af0-2390c744e99mr5905538637.1.1752765126996; 
- Thu, 17 Jul 2025 08:12:06 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IHTO8+Xo0qyZNjecPdyEQ1E7S+g3tlFLsy6r4ztKGL0EU33rzpzcW1a1wjSpktmiADaNdA2KQ==
-X-Received: by 2002:a05:6a21:329d:b0:234:21aa:b538 with SMTP id
- adf61e73a8af0-2390c744e99mr5905493637.1.1752765126508; 
- Thu, 17 Jul 2025 08:12:06 -0700 (PDT)
-Received: from localhost ([2601:1c0:5000:d5c:5b3e:de60:4fda:e7b1])
- by smtp.gmail.com with ESMTPSA id
- d2e1a72fcca58-74eb9dd5d3esm16293073b3a.4.2025.07.17.08.12.05
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 17 Jul 2025 08:12:06 -0700 (PDT)
-From: Rob Clark <robin.clark@oss.qualcomm.com>
-To: dri-devel@lists.freedesktop.org
-Cc: linux-arm-msm@vger.kernel.org, freedreno@lists.freedesktop.org,
- Rob Clark <robin.clark@oss.qualcomm.com>,
- Dan Carpenter <dan.carpenter@linaro.org>,
- Dmitry Baryshkov <lumag@kernel.org>,
- Abhinav Kumar <abhinav.kumar@linux.dev>,
- Jessica Zhang <jessica.zhang@oss.qualcomm.com>,
- Sean Paul <sean@poorly.run>,
- Marijn Suijten <marijn.suijten@somainline.org>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- linux-kernel@vger.kernel.org (open list)
-Subject: [PATCH] drm/msm: Drop unneeded NULL check
-Date: Thu, 17 Jul 2025 08:12:01 -0700
-Message-ID: <20250717151202.7987-1-robin.clark@oss.qualcomm.com>
-X-Mailer: git-send-email 2.50.1
+Received: from sea.source.kernel.org (sea.source.kernel.org [172.234.252.31])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D695410E83F
+ for <dri-devel@lists.freedesktop.org>; Thu, 17 Jul 2025 15:18:53 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+ by sea.source.kernel.org (Postfix) with ESMTP id 8AE9744CCB;
+ Thu, 17 Jul 2025 15:18:53 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 64FDAC4CEE3;
+ Thu, 17 Jul 2025 15:18:52 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1752765533;
+ bh=i51GL0/XBY+T8EAFA0XMbcleXQzO6d2CK+vxamRH1O8=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=UrHJ1mw/O+W7jGxquzxO/p0OFh/Wl36U4kuTP+metx4SiSzajc1xtIzSOCfIzfAc1
+ T6fCpUJxUEDRU+WQbX9YOjLTghQ+fHozow2zWHlqCw17vGI+wWK+rY5X1jVb3+FjMl
+ Kq/mieDHzjeIUq/T4meNx5civIbqS3i8WQzZS6hE0dIhEv8Tq5Xn2sFk6uZxCvgLso
+ at3hdRpJky76Y95d4gSHvn51jBbkgiKD4wBgeCHL0awVPf/HSUxEfjANaWhPmK4M4J
+ sTfgtNvZb02kGfgfEW9pmCwIvaqG7/xsgBvgrboXztmCC4yaV7xJmnGaBlByXW3/j/
+ xLrxWrxyLkvkw==
+Date: Thu, 17 Jul 2025 10:18:50 -0500
+From: Bjorn Andersson <andersson@kernel.org>
+To: Ling Xu <quic_lxu5@quicinc.com>
+Cc: srini@kernel.org, amahesh@qti.qualcomm.com, robh@kernel.org, 
+ krzk+dt@kernel.org, conor+dt@kernel.org, konradybcio@kernel.org, arnd@arndb.de,
+ gregkh@linuxfoundation.org, quic_kuiw@quicinc.com,
+ ekansh.gupta@oss.qualcomm.com, 
+ devicetree@vger.kernel.org, linux-arm-msm@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v7 4/4] misc: fastrpc: add support for gdsp remoteproc
+Message-ID: <nayazjofc3aexosw5v7xpnn7rwbcjlzyvrgv7ixf3m5o26rdu7@obmkmmvjcjc6>
+References: <20250714054133.3769967-1-quic_lxu5@quicinc.com>
+ <20250714054133.3769967-5-quic_lxu5@quicinc.com>
+ <qg7uvhr2pazrjqrqyraj7pr3hxbzadhenbkps7q4uqhilao2o2@653xyxcx2iak>
+ <95541f45-141b-49c9-9b87-1339ee4b436b@quicinc.com>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-X-Authority-Analysis: v=2.4 cv=ad1hnQot c=1 sm=1 tr=0 ts=687912c8 cx=c_pps
- a=rEQLjTOiSrHUhVqRoksmgQ==:117 a=xqWC_Br6kY4A:10 a=Wb1JkmetP80A:10
- a=KKAkSRfTAAAA:8 a=EUspDBNiAAAA:8 a=eWlSUfSnBrBg5eVjM6UA:9
- a=2VI0MkxyNR6bbpdq8BZq:22 a=cvBusfyB2V15izCimMoJ:22
-X-Proofpoint-ORIG-GUID: fVvPxg5ue9eTTdZORn2YkyK_gT7XCyGM
-X-Proofpoint-GUID: fVvPxg5ue9eTTdZORn2YkyK_gT7XCyGM
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwNzE3MDEzMyBTYWx0ZWRfXz75ffvJTSg2S
- cWdRKXLuXve5Uygd1uLytQQmZ3992jfShG9oh5DJq+5Be1AA5STEFEQrkx05NA/uWQdcjIw94XT
- vuk41gxSyKG2MXjSoq0d1FanliTSmcnkzqzel6b294T0VHbKE+Xb30VYWTeUXpDZgQam+9hVVb5
- aPyfshDMgqcSRARHevZrQfiuCSnyFGXAnQnraBvSnXNmMATHjMfR72e1nkyn5nb2Xl78e1mvC4+
- FzS+0fP9x6Cw+/Niq1aeEALeupVouf9F1gjECvsfbbDT/byWH7V9yqTn3lcOOGtnUuYKXZXJBut
- dRfBOFZ0EUU/3zgxbmytEDy85W0gE3yteq+1+QskCGNuDwZ1CZKL9oM+7fz78fTrdi+kBTIGWz4
- HUHm7lniJOpHMzCMC5/ATa4ljVCB4WeqRjEAXD2gx9rqy8KjFcE3n4hWlcppRo/C6TNAi6Hp
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1099,Hydra:6.1.9,FMLib:17.12.80.40
- definitions=2025-07-17_01,2025-07-17_02,2025-03-28_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- adultscore=0 bulkscore=0 mlxlogscore=999 suspectscore=0 spamscore=0
- malwarescore=0 phishscore=0 mlxscore=0 lowpriorityscore=0 clxscore=1015
- priorityscore=1501 impostorscore=0 classifier=spam authscore=0 authtc=n/a
- authcc= route=outbound adjust=0 reason=mlx scancount=1
- engine=8.19.0-2505280000 definitions=main-2507170133
+In-Reply-To: <95541f45-141b-49c9-9b87-1339ee4b436b@quicinc.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -124,27 +65,94 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-This is always set in msm_gpu_init(), and can never be NULL.
+On Thu, Jul 17, 2025 at 10:28:44AM +0800, Ling Xu wrote:
+> 在 7/17/2025 3:31 AM, Bjorn Andersson 写道:
+> > On Mon, Jul 14, 2025 at 11:11:33AM +0530, Ling Xu wrote:
+> >> Some platforms (like sa8775p) feature one or more GPDSPs (General
+> >> Purpose DSPs). Similar to other kinds of Hexagon DSPs, they provide
+> >> a FastRPC implementation, allowing code execution in both signed and
+> >> unsigned protection domains. Extend the checks to allow domain names
+> >> starting with "gdsp" (possibly followed by an index).
+> >>
+> > 
+> > This was called cdsp1 before patch 3 where you removed it and now the
+> > same id is introduced but this time with the name GDSP.
+> > 
+> > Iirc there was a cdsp1 in SA8295P/SA8540P, are you silently dropping
+> > support for that here? Or perhaps just renaming it?
+> > 
+> Cdsp1 support is still there. It's instance of cdsp domain, so we merged it
+> in cdsp logic.
+> 
 
-Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
-Signed-off-by: Rob Clark <robin.clark@oss.qualcomm.com>
----
- drivers/gpu/drm/msm/msm_iommu.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+But doesn't that mean that
 
-diff --git a/drivers/gpu/drm/msm/msm_iommu.c b/drivers/gpu/drm/msm/msm_iommu.c
-index 55c29f49b788..cefa50192391 100644
---- a/drivers/gpu/drm/msm/msm_iommu.c
-+++ b/drivers/gpu/drm/msm/msm_iommu.c
-@@ -768,7 +768,7 @@ struct msm_mmu *msm_iommu_gpu_new(struct device *dev, struct msm_gpu *gpu, unsig
- 		return mmu;
- 
- 	iommu = to_msm_iommu(mmu);
--	if (adreno_smmu && adreno_smmu->cookie) {
-+	if (adreno_smmu->cookie) {
- 		const struct io_pgtable_cfg *cfg =
- 			adreno_smmu->get_ttbr1_cfg(adreno_smmu->cookie);
- 		size_t tblsz = get_tblsz(cfg);
--- 
-2.50.1
+  #define CDSP1_DOMAIN_ID (4)
 
+was wrong? It should have been using the 3?
+
+Isn't that a bugfix? If so there should be one patch fixing that.
+
+Perhaps I'm misunderstanding the relevance of these numbers though.
+
+Regards,
+Bjorn
+
+> else if (!strncmp(domain, "cdsp", 4))
+> 	return CDSP_DOMAIN_ID;
+> 
+> In fastrpc_get_domain_id, it return CDSP_DOMAIN_ID for cdsp1 because they use
+> same deamon.
+> > Regards,
+> > Bjorn
+> > 
+> >> Signed-off-by: Ling Xu <quic_lxu5@quicinc.com>
+> >> ---
+> >>  drivers/misc/fastrpc.c | 6 +++++-
+> >>  1 file changed, 5 insertions(+), 1 deletion(-)
+> >>
+> >> diff --git a/drivers/misc/fastrpc.c b/drivers/misc/fastrpc.c
+> >> index 85b6eb16b616..d05969de406e 100644
+> >> --- a/drivers/misc/fastrpc.c
+> >> +++ b/drivers/misc/fastrpc.c
+> >> @@ -27,6 +27,7 @@
+> >>  #define MDSP_DOMAIN_ID (1)
+> >>  #define SDSP_DOMAIN_ID (2)
+> >>  #define CDSP_DOMAIN_ID (3)
+> >> +#define GDSP_DOMAIN_ID (4)
+> >>  #define FASTRPC_MAX_SESSIONS	14
+> >>  #define FASTRPC_MAX_VMIDS	16
+> >>  #define FASTRPC_ALIGN		128
+> >> @@ -2249,6 +2250,8 @@ static int fastrpc_get_domain_id(const char *domain)
+> >>  		return MDSP_DOMAIN_ID;
+> >>  	else if (!strncmp(domain, "sdsp", 4))
+> >>  		return SDSP_DOMAIN_ID;
+> >> +	else if (!strncmp(domain, "gdsp", 4))
+> >> +		return GDSP_DOMAIN_ID;
+> >>  
+> >>  	return -EINVAL;
+> >>  }
+> >> @@ -2323,13 +2326,14 @@ static int fastrpc_rpmsg_probe(struct rpmsg_device *rpdev)
+> >>  	case ADSP_DOMAIN_ID:
+> >>  	case MDSP_DOMAIN_ID:
+> >>  	case SDSP_DOMAIN_ID:
+> >> -		/* Unsigned PD offloading is only supported on CDSP */
+> >> +		/* Unsigned PD offloading is only supported on CDSP and GDSP */
+> >>  		data->unsigned_support = false;
+> >>  		err = fastrpc_device_register(rdev, data, secure_dsp, domain);
+> >>  		if (err)
+> >>  			goto err_free_data;
+> >>  		break;
+> >>  	case CDSP_DOMAIN_ID:
+> >> +	case GDSP_DOMAIN_ID:
+> >>  		data->unsigned_support = true;
+> >>  		/* Create both device nodes so that we can allow both Signed and Unsigned PD */
+> >>  		err = fastrpc_device_register(rdev, data, true, domain);
+> >> -- 
+> >> 2.34.1
+> >>
+> 
+> -- 
+> Thx and BRs,
+> Ling Xu
+> 
