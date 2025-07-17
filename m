@@ -2,82 +2,80 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 518D0B085A1
-	for <lists+dri-devel@lfdr.de>; Thu, 17 Jul 2025 08:58:18 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id A9607B085A2
+	for <lists+dri-devel@lfdr.de>; Thu, 17 Jul 2025 08:58:19 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A945A10E6BF;
-	Thu, 17 Jul 2025 06:58:16 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 297C810E6DE;
+	Thu, 17 Jul 2025 06:58:17 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=brighamcampbell.com header.i=@brighamcampbell.com header.b="ezhA3hfb";
+	dkim=pass (2048-bit key; unprotected) header.d=brighamcampbell.com header.i=@brighamcampbell.com header.b="QLpfNrOB";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pf1-f172.google.com (mail-pf1-f172.google.com
- [209.85.210.172])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7969110E6BF
- for <dri-devel@lists.freedesktop.org>; Thu, 17 Jul 2025 06:58:13 +0000 (UTC)
-Received: by mail-pf1-f172.google.com with SMTP id
- d2e1a72fcca58-7490702fc7cso450000b3a.1
- for <dri-devel@lists.freedesktop.org>; Wed, 16 Jul 2025 23:58:13 -0700 (PDT)
+Received: from mail-pf1-f182.google.com (mail-pf1-f182.google.com
+ [209.85.210.182])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 74BC810E6BF
+ for <dri-devel@lists.freedesktop.org>; Thu, 17 Jul 2025 06:58:15 +0000 (UTC)
+Received: by mail-pf1-f182.google.com with SMTP id
+ d2e1a72fcca58-74924255af4so611847b3a.1
+ for <dri-devel@lists.freedesktop.org>; Wed, 16 Jul 2025 23:58:15 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=brighamcampbell.com; s=google; t=1752735493; x=1753340293;
+ d=brighamcampbell.com; s=google; t=1752735495; x=1753340295;
  darn=lists.freedesktop.org; 
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=/H4K+0OM84CcvR+j8iQAIfmopw+k66j+SclsWu5fEzM=;
- b=ezhA3hfbaAYheSsBrycrU4KSe3hALz3X+4QMfOcplBo6gXkbUvbwLN95OLcWQoqXaz
- FeNWfGarT1sQiQ0NPRtsfAyiGcLZSNloedbBiJu1u1JKuP8Mv5xjs9hEnLxJMKNGLzT/
- VX7JPrct2LppVZlOPYU1vck0W6GCWI+Hb2x7F5bHOGWu1PomKc+QGI+rv8eq9EYZHYmf
- dtPw1cgZBVXaxwNHgVoS+aJ9lCh4MbHS28jLHUTPBYBT/1I2Me6xk2e/5zrjRD2+qrS0
- OPvomycE7GENgm/mzsm5VyPhFJMWaeEV5JbaoHsPsuPROl5RdV7UrtF0m5VDz7yBGfFw
- Eeww==
+ bh=CcDUtidcIz4q2tNw/LqIMZV2WGjfWu8YabyIVvd6cck=;
+ b=QLpfNrOBZ1PEyOnNHshNlrV+e0399CI12+5OI/WVWnonqf7FG0FBiOtNn9KDyc1sfc
+ y4LQ+40qTItgNgzldHQpnxRCLtkF4EgIGELY3bp6LiKEWnQoJEyvC4yZmUFLiYpZyvna
+ xAC8aw4GExJhtBsUXSkNKl6HgMQBlvjpjyyUf8ySXvFVTkmiS/3FIeEz3yd7gKYslGrR
+ uDzZCGYlQQiDpx+M8hkzVbh7fqLOC50tC+MNPr1w4LE5Yjwyts7gMMHER/L6edmTQzfi
+ VftW0eNUQFlvR0iTKFLmCyhWJZ1OeoR68n9t8lYS1rB2UiDV55bIiOW6Z6joZnvcVl2f
+ auGg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1752735493; x=1753340293;
+ d=1e100.net; s=20230601; t=1752735495; x=1753340295;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=/H4K+0OM84CcvR+j8iQAIfmopw+k66j+SclsWu5fEzM=;
- b=gNGNRrkHc4kU0EGQy8Vl6j5NLVMco1JVZVF10dnp7ucvdcLoQhNr1m3kcgqgI06ph8
- jiZJ/pr8cJU385cMkrq3lmbOeqSl3HevwFpaUBIBM2z6CAPS2PduhN+u7pUOKggD/8GX
- indfDhMhOpPNEADWNCOLXl2GQJjhbijRFYheSuO9IT37YU3pmRjnV2aSrMBENP7XZpw+
- lkkTJ4OmaDOYtbSdf3fK+CYJN7V3b/j8dNRetHXwQx//Af2LJ+vz3WW/Yg5ZWOPUHZNR
- 5grVShs7QQrnYbkTgW7QnRP2CZKETrrKkjvoMsVoP9wKXT4+lnvoxDQaDwIuC1LYitFG
- WDaQ==
+ bh=CcDUtidcIz4q2tNw/LqIMZV2WGjfWu8YabyIVvd6cck=;
+ b=gqn9FbjCqxWetHmSyXqXp8EAjAw7Rc8136bdh9YWNFw9oMWKNgI0MiylNBChuFsBsx
+ G3VIF86zVGQlX2LxYM+edAmgofXgqzohoemhpSse16kIRu47uWDMiLuxXZGNunGcOZYy
+ MkmX7yprSAdb2nS0t3qCovubMSZTIQYjviEOFAFLpZdsn3X4sbVVYZQ503oouVbesFIK
+ MqTB0bW0sqfMN0bd7ieRj+Mt+KgMJONysYXD6EXkXJ6caW1BJ741/NSvfj1xutH7tJHu
+ zO3ZXmvIqkb1wZnWQS4WwWOiBkK+p3gmCQZN5uW2qN95XDwEmVqqkNRxATzDV+Ol5QEw
+ nIUA==
 X-Forwarded-Encrypted: i=1;
- AJvYcCXGk8Ba3PMhLD8JnczATCQGPjK5fOFlqTqclIaPF3SJht97dp8iK7VEqWeqWx45SDOuslEnQqhP8YA=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0Yz68EKUg1LgoecBv8ssmZBgfhEfJECT8MmnGy4YvCrHcNjzZGrM
- t0eP7t3OJu3ai/H9p+szSF84kvjLdyfw7iQ3ka1ng1fXWEcKi7rxgKop29tSwwpEVys=
-X-Gm-Gg: ASbGncv+UjAC0/kpDrhW/ppTRCKSRqRbtsn9RF2OA/6sD2UL2g8E7IUS6IWMk36b26l
- ycXLxxYUKZKk2izoFiVzscIGRWmkj7jumyVuTbUcOW9vMkcRwQH87SV6hJB3+MyszeFgZ3nDPIr
- i7KrYqhbeYM6fKa1nhCC3fz4e8knxESp9vLKGouiyM3830NleClmFFNmCds7r3/ghRKDMP4egQs
- pIPhDq6emtrd41m0Zjzhif1fqjc/Hbhjb0SDGwLWBoEiv1h6+G1APFhRGJ751LYrvDoDuVyeZu4
- +CfDANpQL0R092Arqn9ZdwEw/zbfDjaC57nCkH0TyEvjim+C1glIj1inZY4qG85LBbUHIM4o/1R
- Q0L0tGxgh8CyR66qAFGiCom+uXKAHchvQnwGKVMdO3tSUxu/w/lXUBw==
-X-Google-Smtp-Source: AGHT+IHH/vgpxV6vqdCi5vMoBUmo5CXiyXWtxttI7E89xJuwKL7vDndmJMVY1qcKcLpgkZTs1ukI7A==
-X-Received: by 2002:a05:6a20:3d84:b0:232:36e3:9a4e with SMTP id
- adf61e73a8af0-237d7b6cdadmr9956537637.40.1752735492853; 
- Wed, 16 Jul 2025 23:58:12 -0700 (PDT)
+ AJvYcCUYmp68xTiuzIA1onenlcC0DQ77Y6XcX8kh3cviMhhOsT9Qpv8862NZ1C+6nvldl+bWxZ+RWV4muO0=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YymKMdLAFaBR1nc7erps9zwchImLEiNWFVfj+QkcosOuQhP5YiU
+ RBtKbagMKWCuS/FRjKpwxIvHD84oBLxyajhziywSH2I1VaP+HU2YSRdpEhreGE4ElV8=
+X-Gm-Gg: ASbGnctSSSblsFvM+M+BlJBmwHU4XkdX7WamzF8BSV8RwRMxNYfV75ZHJJ6V0BnFlRL
+ OwoFiA56pVeHJUAXyWSLxbLSGHPrzM5XIa15eQ9y8aQoWQBgHNff6G1iZ7wOBUJOgzyYqUM1z0m
+ ZASFaaJr7pqcqL5IzqtL/vA2kxh9sH8yXd5Ue8qtNryOfq8daKrtaExGMyHGyBHXgnLHJCM9wud
+ PvdJU0uStqsiWE9vr0vl3j/OT6L6ZXYuyKI6uNfnPKO0yi3TOAv8vlqUfGX8nh6RN5bfVPVAIj8
+ B64hRnd32Aq4WF74/C5r3BfDWRfgHDvxjommaDl2uWsqPTUh+JtlBLc0zr1pttJYAHvH8F/AygT
+ lnquGzt6V38DZKKrDuDIqYqOSEIjVRtSDGJSLnQP8s8vyZNOIHDy59w==
+X-Google-Smtp-Source: AGHT+IHtXjv1j8/b35hlWwb7zAfmQUs+V6Fqss1rT4O/h1FVsmO78slSmyNXzYvHuFstjqrEM2uOFg==
+X-Received: by 2002:a05:6a00:188f:b0:740:9d7c:8f5c with SMTP id
+ d2e1a72fcca58-75725589c70mr7614496b3a.18.1752735494900; 
+ Wed, 16 Jul 2025 23:58:14 -0700 (PDT)
 Received: from mystery-machine.brighamcampbell.com ([64.71.154.6])
  by smtp.gmail.com with ESMTPSA id
- d2e1a72fcca58-74eb9f4bc51sm15157293b3a.116.2025.07.16.23.58.11
+ d2e1a72fcca58-74eb9f4bc51sm15157293b3a.116.2025.07.16.23.58.13
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 16 Jul 2025 23:58:12 -0700 (PDT)
+ Wed, 16 Jul 2025 23:58:14 -0700 (PDT)
 From: Brigham Campbell <me@brighamcampbell.com>
 To: dianders@chromium.org, tejasvipin76@gmail.com,
  diogo.ivo@tecnico.ulisboa.pt, skhan@linuxfoundation.org,
  linux-kernel-mentees@lists.linux.dev, dri-devel@lists.freedesktop.org,
  linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
- Neil Armstrong <neil.armstrong@linaro.org>,
- Jessica Zhang <jessica.zhang@oss.qualcomm.com>,
  Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
  Maxime Ripard <mripard@kernel.org>,
  Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
  Simona Vetter <simona@ffwll.ch>
 Cc: Brigham Campbell <me@brighamcampbell.com>
-Subject: [PATCH v3 2/4] drm/panel: jdi-lpm102a188a: Fix bug and clean up driver
-Date: Thu, 17 Jul 2025 00:57:54 -0600
-Message-ID: <20250717065757.246122-3-me@brighamcampbell.com>
+Subject: [PATCH v3 3/4] drm: Remove unused MIPI write seq and chatty functions
+Date: Thu, 17 Jul 2025 00:57:55 -0600
+Message-ID: <20250717065757.246122-4-me@brighamcampbell.com>
 X-Mailer: git-send-email 2.49.0
 In-Reply-To: <20250717065757.246122-1-me@brighamcampbell.com>
 References: <20250717065757.246122-1-me@brighamcampbell.com>
@@ -98,267 +96,107 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Fix bug in unprepare() which causes the function's return value to be
-that of the last mipi "enter sleep mode" command.
+Remove the deprecated mipi_dsi_generic_write_seq() and
+mipi_dsi_generic_write_chatty() functions now that they are no longer
+used.
 
-Update driver to use the "multi" variant of MIPI functions in order to
-facilitate improved error handling and remove the panel's dependency on
-deprecated MIPI functions.
-
-Use the new mipi_dsi_dual macro to reduce code duplication.
-
+Reviewed-by: Douglas Anderson <dianders@chromium.org>
 Signed-off-by: Brigham Campbell <me@brighamcampbell.com>
 ---
- drivers/gpu/drm/panel/panel-jdi-lpm102a188a.c | 187 ++++++------------
- 1 file changed, 55 insertions(+), 132 deletions(-)
+ drivers/gpu/drm/drm_mipi_dsi.c | 34 +++-------------------------------
+ include/drm/drm_mipi_dsi.h     | 23 -----------------------
+ 2 files changed, 3 insertions(+), 54 deletions(-)
 
-diff --git a/drivers/gpu/drm/panel/panel-jdi-lpm102a188a.c b/drivers/gpu/drm/panel/panel-jdi-lpm102a188a.c
-index 5b5082efb282..b72b6518a090 100644
---- a/drivers/gpu/drm/panel/panel-jdi-lpm102a188a.c
-+++ b/drivers/gpu/drm/panel/panel-jdi-lpm102a188a.c
-@@ -81,25 +81,25 @@ static int jdi_panel_disable(struct drm_panel *panel)
- static int jdi_panel_unprepare(struct drm_panel *panel)
- {
- 	struct jdi_panel *jdi = to_panel_jdi(panel);
--	int ret;
+diff --git a/drivers/gpu/drm/drm_mipi_dsi.c b/drivers/gpu/drm/drm_mipi_dsi.c
+index a00d76443128..3b8ff24980b4 100644
+--- a/drivers/gpu/drm/drm_mipi_dsi.c
++++ b/drivers/gpu/drm/drm_mipi_dsi.c
+@@ -772,41 +772,13 @@ ssize_t mipi_dsi_generic_write(struct mipi_dsi_device *dsi, const void *payload,
+ EXPORT_SYMBOL(mipi_dsi_generic_write);
  
--	ret = mipi_dsi_dcs_set_display_off(jdi->link1);
--	if (ret < 0)
--		dev_err(panel->dev, "failed to set display off: %d\n", ret);
-+	/*
-+	 * One context per panel since we'll continue trying to shut down the
-+	 * other panel even if one isn't responding.
-+	 */
-+	struct mipi_dsi_multi_context dsi_ctx1 = { .dsi = jdi->link1 };
-+	struct mipi_dsi_multi_context dsi_ctx2 = { .dsi = jdi->link2 };
- 
--	ret = mipi_dsi_dcs_set_display_off(jdi->link2);
--	if (ret < 0)
--		dev_err(panel->dev, "failed to set display off: %d\n", ret);
-+	mipi_dsi_dcs_set_display_off_multi(&dsi_ctx1);
-+	mipi_dsi_dcs_set_display_off_multi(&dsi_ctx2);
- 
- 	/* Specified by JDI @ 50ms, subject to change */
- 	msleep(50);
- 
--	ret = mipi_dsi_dcs_enter_sleep_mode(jdi->link1);
--	if (ret < 0)
--		dev_err(panel->dev, "failed to enter sleep mode: %d\n", ret);
--	ret = mipi_dsi_dcs_enter_sleep_mode(jdi->link2);
--	if (ret < 0)
--		dev_err(panel->dev, "failed to enter sleep mode: %d\n", ret);
-+	/* Doesn't hurt to try sleep mode even if display off fails */
-+	dsi_ctx1.accum_err = 0;
-+	dsi_ctx2.accum_err = 0;
-+	mipi_dsi_dcs_enter_sleep_mode_multi(&dsi_ctx1);
-+	mipi_dsi_dcs_enter_sleep_mode_multi(&dsi_ctx2);
- 
- 	/* Specified by JDI @ 150ms, subject to change */
- 	msleep(150);
-@@ -123,72 +123,47 @@ static int jdi_panel_unprepare(struct drm_panel *panel)
- 	/* Specified by JDI @ 20ms, subject to change */
- 	msleep(20);
- 
--	return ret;
-+	return 0;
- }
- 
--static int jdi_setup_symmetrical_split(struct mipi_dsi_device *left,
-+static void jdi_setup_symmetrical_split(struct mipi_dsi_multi_context *dsi_ctx,
-+				       struct mipi_dsi_device *left,
- 				       struct mipi_dsi_device *right,
- 				       const struct drm_display_mode *mode)
- {
--	int err;
+ /**
+- * mipi_dsi_generic_write_chatty() - mipi_dsi_generic_write() w/ an error log
+- * @dsi: DSI peripheral device
+- * @payload: buffer containing the payload
+- * @size: size of payload buffer
+- *
+- * Like mipi_dsi_generic_write() but includes a dev_err()
+- * call for you and returns 0 upon success, not the number of bytes sent.
+- *
+- * Return: 0 on success or a negative error code on failure.
+- */
+-int mipi_dsi_generic_write_chatty(struct mipi_dsi_device *dsi,
+-				  const void *payload, size_t size)
+-{
+-	struct device *dev = &dsi->dev;
+-	ssize_t ret;
 -
--	err = mipi_dsi_dcs_set_column_address(left, 0, mode->hdisplay / 2 - 1);
--	if (err < 0) {
--		dev_err(&left->dev, "failed to set column address: %d\n", err);
--		return err;
--	}
--
--	err = mipi_dsi_dcs_set_column_address(right, 0, mode->hdisplay / 2 - 1);
--	if (err < 0) {
--		dev_err(&right->dev, "failed to set column address: %d\n", err);
--		return err;
--	}
--
--	err = mipi_dsi_dcs_set_page_address(left, 0, mode->vdisplay - 1);
--	if (err < 0) {
--		dev_err(&left->dev, "failed to set page address: %d\n", err);
--		return err;
--	}
--
--	err = mipi_dsi_dcs_set_page_address(right, 0, mode->vdisplay - 1);
--	if (err < 0) {
--		dev_err(&right->dev, "failed to set page address: %d\n", err);
--		return err;
+-	ret = mipi_dsi_generic_write(dsi, payload, size);
+-	if (ret < 0) {
+-		dev_err(dev, "sending generic data %*ph failed: %zd\n",
+-			(int)size, payload, ret);
+-		return ret;
 -	}
 -
 -	return 0;
-+	mipi_dsi_dual(mipi_dsi_dcs_set_column_address_multi,
-+			left, right, dsi_ctx,
-+			0, mode->hdisplay / 2 - 1);
-+	mipi_dsi_dual(mipi_dsi_dcs_set_page_address_multi,
-+			left, right, dsi_ctx,
-+			0, mode->vdisplay - 1);
- }
- 
--static int jdi_write_dcdc_registers(struct jdi_panel *jdi)
-+static void jdi_write_dcdc_registers(struct mipi_dsi_multi_context *dsi_ctx,
-+				    struct jdi_panel *jdi)
- {
- 	/* Clear the manufacturer command access protection */
--	mipi_dsi_generic_write_seq(jdi->link1, MCS_CMD_ACS_PROT,
--				   MCS_CMD_ACS_PROT_OFF);
--	mipi_dsi_generic_write_seq(jdi->link2, MCS_CMD_ACS_PROT,
--				   MCS_CMD_ACS_PROT_OFF);
-+	mipi_dsi_dual(mipi_dsi_generic_write_seq_multi,
-+			jdi->link1, jdi->link2, dsi_ctx,
-+			MCS_CMD_ACS_PROT, MCS_CMD_ACS_PROT_OFF);
- 	/*
--	 * Change the VGH/VGL divide rations to move the noise generated by the
-+	 * Change the VGH/VGL divide ratios to move the noise generated by the
- 	 * TCONN. This should hopefully avoid interaction with the backlight
- 	 * controller.
- 	 */
--	mipi_dsi_generic_write_seq(jdi->link1, MCS_PWR_CTRL_FUNC,
--				   MCS_PWR_CTRL_PARAM1_VGH_330_DIV |
--				   MCS_PWR_CTRL_PARAM1_DEFAULT,
--				   MCS_PWR_CTRL_PARAM2_VGL_410_DIV |
--				   MCS_PWR_CTRL_PARAM2_DEFAULT);
+-}
+-EXPORT_SYMBOL(mipi_dsi_generic_write_chatty);
 -
--	mipi_dsi_generic_write_seq(jdi->link2, MCS_PWR_CTRL_FUNC,
--				   MCS_PWR_CTRL_PARAM1_VGH_330_DIV |
--				   MCS_PWR_CTRL_PARAM1_DEFAULT,
--				   MCS_PWR_CTRL_PARAM2_VGL_410_DIV |
--				   MCS_PWR_CTRL_PARAM2_DEFAULT);
+-/**
+- * mipi_dsi_generic_write_multi() - mipi_dsi_generic_write_chatty() w/ accum_err
++ * mipi_dsi_generic_write_multi() - mipi_dsi_generic_write() w/ accum_err
+  * @ctx: Context for multiple DSI transactions
+  * @payload: buffer containing the payload
+  * @size: size of payload buffer
+  *
+- * Like mipi_dsi_generic_write_chatty() but deals with errors in a way that
+- * makes it convenient to make several calls in a row.
++ * A wrapper around mipi_dsi_generic_write() that deals with errors in a way
++ * that makes it convenient to make several calls in a row.
+  */
+ void mipi_dsi_generic_write_multi(struct mipi_dsi_multi_context *ctx,
+ 				  const void *payload, size_t size)
+diff --git a/include/drm/drm_mipi_dsi.h b/include/drm/drm_mipi_dsi.h
+index 32da8861f9de..526308e24f6c 100644
+--- a/include/drm/drm_mipi_dsi.h
++++ b/include/drm/drm_mipi_dsi.h
+@@ -285,8 +285,6 @@ void mipi_dsi_picture_parameter_set_multi(struct mipi_dsi_multi_context *ctx,
+ 
+ ssize_t mipi_dsi_generic_write(struct mipi_dsi_device *dsi, const void *payload,
+ 			       size_t size);
+-int mipi_dsi_generic_write_chatty(struct mipi_dsi_device *dsi,
+-				  const void *payload, size_t size);
+ void mipi_dsi_generic_write_multi(struct mipi_dsi_multi_context *ctx,
+ 				  const void *payload, size_t size);
+ ssize_t mipi_dsi_generic_read(struct mipi_dsi_device *dsi, const void *params,
+@@ -379,27 +377,6 @@ void mipi_dsi_dcs_set_tear_scanline_multi(struct mipi_dsi_multi_context *ctx,
+ 					  u16 scanline);
+ void mipi_dsi_dcs_set_tear_off_multi(struct mipi_dsi_multi_context *ctx);
+ 
+-/**
+- * mipi_dsi_generic_write_seq - transmit data using a generic write packet
+- *
+- * This macro will print errors for you and will RETURN FROM THE CALLING
+- * FUNCTION (yes this is non-intuitive) upon error.
+- *
+- * Because of the non-intuitive return behavior, THIS MACRO IS DEPRECATED.
+- * Please replace calls of it with mipi_dsi_generic_write_seq_multi().
+- *
+- * @dsi: DSI peripheral device
+- * @seq: buffer containing the payload
+- */
+-#define mipi_dsi_generic_write_seq(dsi, seq...)                                \
+-	do {                                                                   \
+-		static const u8 d[] = { seq };                                 \
+-		int ret;                                                       \
+-		ret = mipi_dsi_generic_write_chatty(dsi, d, ARRAY_SIZE(d));    \
+-		if (ret < 0)                                                   \
+-			return ret;                                            \
+-	} while (0)
 -
--	return 0;
-+	mipi_dsi_dual(mipi_dsi_generic_write_seq_multi,
-+			jdi->link1, jdi->link2, dsi_ctx,
-+			MCS_PWR_CTRL_FUNC,
-+			MCS_PWR_CTRL_PARAM1_VGH_330_DIV |
-+			MCS_PWR_CTRL_PARAM1_DEFAULT,
-+			MCS_PWR_CTRL_PARAM2_VGL_410_DIV |
-+			MCS_PWR_CTRL_PARAM2_DEFAULT);
- }
- 
- static int jdi_panel_prepare(struct drm_panel *panel)
- {
- 	struct jdi_panel *jdi = to_panel_jdi(panel);
-+	struct mipi_dsi_multi_context dsi_ctx;
- 	int err;
- 
- 	/* Disable backlight to avoid showing random pixels
-@@ -231,88 +206,36 @@ static int jdi_panel_prepare(struct drm_panel *panel)
- 	 * put in place to communicate the configuration back to the DSI host
- 	 * controller.
- 	 */
--	err = jdi_setup_symmetrical_split(jdi->link1, jdi->link2,
-+	jdi_setup_symmetrical_split(&dsi_ctx, jdi->link1, jdi->link2,
- 					  jdi->mode);
--	if (err < 0) {
--		dev_err(panel->dev, "failed to set up symmetrical split: %d\n",
--			err);
--		goto poweroff;
--	}
- 
--	err = mipi_dsi_dcs_set_tear_scanline(jdi->link1,
--					     jdi->mode->vdisplay - 16);
--	if (err < 0) {
--		dev_err(panel->dev, "failed to set tear scanline: %d\n", err);
--		goto poweroff;
--	}
-+	mipi_dsi_dual(mipi_dsi_dcs_set_tear_scanline_multi,
-+			jdi->link1, jdi->link2, &dsi_ctx,
-+			jdi->mode->vdisplay - 16);
- 
--	err = mipi_dsi_dcs_set_tear_scanline(jdi->link2,
--					     jdi->mode->vdisplay - 16);
--	if (err < 0) {
--		dev_err(panel->dev, "failed to set tear scanline: %d\n", err);
--		goto poweroff;
--	}
-+	mipi_dsi_dual(mipi_dsi_dcs_set_tear_on_multi,
-+			jdi->link1, jdi->link2, &dsi_ctx,
-+			MIPI_DSI_DCS_TEAR_MODE_VBLANK);
- 
--	err = mipi_dsi_dcs_set_tear_on(jdi->link1,
--				       MIPI_DSI_DCS_TEAR_MODE_VBLANK);
--	if (err < 0) {
--		dev_err(panel->dev, "failed to set tear on: %d\n", err);
--		goto poweroff;
--	}
-+	mipi_dsi_dual(mipi_dsi_dcs_set_pixel_format_multi,
-+			jdi->link1, jdi->link2, &dsi_ctx,
-+			MIPI_DCS_PIXEL_FMT_24BIT);
- 
--	err = mipi_dsi_dcs_set_tear_on(jdi->link2,
--				       MIPI_DSI_DCS_TEAR_MODE_VBLANK);
--	if (err < 0) {
--		dev_err(panel->dev, "failed to set tear on: %d\n", err);
--		goto poweroff;
--	}
-+	mipi_dsi_dual(mipi_dsi_dcs_exit_sleep_mode_multi,
-+			jdi->link1, jdi->link2, &dsi_ctx);
- 
--	err = mipi_dsi_dcs_set_pixel_format(jdi->link1, MIPI_DCS_PIXEL_FMT_24BIT);
--	if (err < 0) {
--		dev_err(panel->dev, "failed to set pixel format: %d\n", err);
--		goto poweroff;
--	}
--
--	err = mipi_dsi_dcs_set_pixel_format(jdi->link2, MIPI_DCS_PIXEL_FMT_24BIT);
--	if (err < 0) {
--		dev_err(panel->dev, "failed to set pixel format: %d\n", err);
--		goto poweroff;
--	}
--
--	err = mipi_dsi_dcs_exit_sleep_mode(jdi->link1);
--	if (err < 0) {
--		dev_err(panel->dev, "failed to exit sleep mode: %d\n", err);
--		goto poweroff;
--	}
--
--	err = mipi_dsi_dcs_exit_sleep_mode(jdi->link2);
--	if (err < 0) {
--		dev_err(panel->dev, "failed to exit sleep mode: %d\n", err);
--		goto poweroff;
--	}
--
--	err = jdi_write_dcdc_registers(jdi);
--	if (err < 0) {
--		dev_err(panel->dev, "failed to write dcdc registers: %d\n", err);
--		goto poweroff;
--	}
-+	jdi_write_dcdc_registers(&dsi_ctx, jdi);
- 	/*
--	 * We need to wait 150ms between mipi_dsi_dcs_exit_sleep_mode() and
--	 * mipi_dsi_dcs_set_display_on().
-+	 * We need to wait 150ms between mipi_dsi_dcs_exit_sleep_mode_multi()
-+	 * and mipi_dsi_dcs_set_display_on_multi().
- 	 */
--	msleep(150);
-+	mipi_dsi_msleep(&dsi_ctx, 150);
- 
--	err = mipi_dsi_dcs_set_display_on(jdi->link1);
--	if (err < 0) {
--		dev_err(panel->dev, "failed to set display on: %d\n", err);
--		goto poweroff;
--	}
-+	mipi_dsi_dual(mipi_dsi_dcs_set_display_on_multi,
-+			jdi->link1, jdi->link2, &dsi_ctx);
- 
--	err = mipi_dsi_dcs_set_display_on(jdi->link2);
--	if (err < 0) {
--		dev_err(panel->dev, "failed to set display on: %d\n", err);
-+	if (dsi_ctx.accum_err < 0)
- 		goto poweroff;
--	}
- 
- 	jdi->link1->mode_flags &= ~MIPI_DSI_MODE_LPM;
- 	jdi->link2->mode_flags &= ~MIPI_DSI_MODE_LPM;
+ /**
+  * mipi_dsi_generic_write_seq_multi - transmit data using a generic write packet
+  *
 -- 
 2.49.0
 
