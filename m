@@ -2,102 +2,113 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B7D18B08A87
-	for <lists+dri-devel@lfdr.de>; Thu, 17 Jul 2025 12:30:03 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0E583B08B24
+	for <lists+dri-devel@lfdr.de>; Thu, 17 Jul 2025 12:51:25 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0705A10E1DB;
-	Thu, 17 Jul 2025 10:30:01 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6501610E800;
+	Thu, 17 Jul 2025 10:51:22 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="mIynV+0U";
+	dkim=pass (2048-bit key; secure) header.d=web.de header.i=markus.elfring@web.de header.b="akf2AHgg";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
- [213.167.242.64])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 71AD910E1DB
- for <dri-devel@lists.freedesktop.org>; Thu, 17 Jul 2025 10:29:59 +0000 (UTC)
-Received: from [192.168.88.20] (91-158-153-178.elisa-laajakaista.fi
- [91.158.153.178])
- by perceval.ideasonboard.com (Postfix) with ESMTPSA id 5742DE92;
- Thu, 17 Jul 2025 12:29:22 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
- s=mail; t=1752748164;
- bh=vdLYDH/0FP+BqD0OZjHgZRlz3qLb2TjSX75DQnNBPOw=;
- h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
- b=mIynV+0Up6dKjNsz70e+5XjvSmImQe7bp80kQCu/wpkU4H1DwJAXYdVyJspOGpcu2
- hTeQkVmJeztY1KhicnOZvd6pMobTA6KuqpVV73MvEk9/8nTs9tiEtyeAdKItxTETca
- lCZl9oqPlBAdrksbOfMvLeCFcWnR7H0aKHr6fWRM=
-Message-ID: <5377d377-2822-4d35-981e-45e7352ade17@ideasonboard.com>
-Date: Thu, 17 Jul 2025 13:29:52 +0300
+Received: from mout.web.de (mout.web.de [212.227.17.12])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 970F010E800
+ for <dri-devel@lists.freedesktop.org>; Thu, 17 Jul 2025 10:51:15 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=web.de;
+ s=s29768273; t=1752749433; x=1753354233; i=markus.elfring@web.de;
+ bh=bimHPaBVRFzOcIg3hsOFOyJmN+xsJmZuG39O1v5bTas=;
+ h=X-UI-Sender-Class:Message-ID:Date:MIME-Version:To:Cc:References:
+ Subject:From:In-Reply-To:Content-Type:Content-Transfer-Encoding:
+ cc:content-transfer-encoding:content-type:date:from:message-id:
+ mime-version:reply-to:subject:to;
+ b=akf2AHggwn+Aep1URneTLW2uzULXnOCMAyaEeA3UnobWXA5sr1NssSc2gR7X5MyK
+ MlwHiOETwO4CfJJHbH7isSCjBhbLRkACAYYlwUw/w/dYbhWJOSTV1JQXTVFzVfE54
+ AUYSazV0FrZB+ZKW3kE4jheUNhqXN+xXP9IBqSN5S/yzj5upiOMBEsy9wDzjleHq8
+ nMkyvz8VBsPPW+Y3KeYQEYx8wdZkjyFLJ2tRNCCqwVu/ui6KPXkpGZg0zcnTn9rLD
+ 0A1a3etw/sAJWwaRecNfct0g2IeJhCWKYPbC/BhsV02OL3HcuQcv+7ItzSvMI1B7p
+ 5wcLDI0udZNEn/uBNA==
+X-UI-Sender-Class: 814a7b36-bfc1-4dae-8640-3722d8ec6cd6
+Received: from [192.168.178.29] ([94.31.69.185]) by smtp.web.de (mrweb105
+ [213.165.67.124]) with ESMTPSA (Nemesis) id 1MbTL1-1v9V5M1Jof-00kWzM; Thu, 17
+ Jul 2025 12:50:33 +0200
+Message-ID: <e46c137e-8d31-4c61-83b0-ec01e1d8513d@web.de>
+Date: Thu, 17 Jul 2025 12:50:06 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v4 17/17] drm/bridge: cdns-dsi: Don't fail on
- MIPI_DSI_MODE_VIDEO_BURST
-To: Devarsh Thakkar <devarsht@ti.com>
-Cc: dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- linux-phy@lists.infradead.org, Francesco Dolcini <francesco@dolcini.it>,
- Aradhya Bhatia <aradhya.bhatia@linux.dev>,
- Parth Pancholi <parth.pancholi@toradex.com>, Jyri Sarha <jyri.sarha@iki.fi>,
+To: lihongtao@kylinos.cn, dri-devel@lists.freedesktop.org
+Cc: LKML <linux-kernel@vger.kernel.org>,
+ Boris Brezillon <boris.brezillon@collabora.com>,
+ David Airlie <airlied@gmail.com>,
  Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- Vinod Koul <vkoul@kernel.org>, Kishon Vijay Abraham I <kishon@kernel.org>,
- Andrzej Hajda <andrzej.hajda@intel.com>,
- Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>,
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
- Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>,
- Jayesh Choudhary <j-choudhary@ti.com>, Dmitry Baryshkov <lumag@kernel.org>
-References: <20250618-cdns-dsi-impro-v4-0-862c841dbe02@ideasonboard.com>
- <20250618-cdns-dsi-impro-v4-17-862c841dbe02@ideasonboard.com>
- <8728de80-f154-46fa-a8a6-da40cb5fdc65@ti.com>
-Content-Language: en-US
-From: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
-Autocrypt: addr=tomi.valkeinen@ideasonboard.com; keydata=
- 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
-In-Reply-To: <8728de80-f154-46fa-a8a6-da40cb5fdc65@ti.com>
+ Maxime Ripard <mripard@kernel.org>, Rob Herring <robh@kernel.org>,
+ Steven Price <steven.price@arm.com>, Simona Vetter <simona@ffwll.ch>,
+ Thomas Zimmermann <tzimmermann@suse.de>
+References: <20250710030527.167710-1-lihongtao@kylinos.cn>
+Subject: Re: [PATCH] drm/panfrost: Fix leak when free gem object
+Content-Language: en-GB, de-DE
+From: Markus Elfring <Markus.Elfring@web.de>
+In-Reply-To: <20250710030527.167710-1-lihongtao@kylinos.cn>
 Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: quoted-printable
+X-Provags-ID: V03:K1:NBgso35dyLgdBM7vmiBKrv/TFW4bOmXCDYZ1muVQgmvlmXby2nJ
+ 0pKCx0hPIMaRH3YtDLcM+aj318jhhx7nDWmK+0FTIH7zGHXw+4q0jZz6O2T063SqPXGupe0
+ YGi6vL446fb11C9cuIBcaPhqvPQktGf1kwJ6q9yKWE0SK6oambNzwGtC0EjzJjuSmdrSxm+
+ yu4Hf8AiNtQbHsJoW8I7w==
+X-Spam-Flag: NO
+UI-OutboundReport: notjunk:1;M01:P0:UUVsK4oT/w8=;441H2mriJgR5bJznIpan8tFWcFt
+ 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
+ kO0ZSWQLUHCRiC7KLZmqiqhLww
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -113,79 +124,15 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi,
+> obj->mappings.lock should be destroyed when free
+> panfrost gem object in panfrost_gem_free_object.
 
-On 17/07/2025 12:36, Devarsh Thakkar wrote:
-> Hi Tomi
-> 
-> Thanks for the patch.
-> 
-> On 18/06/25 15:29, Tomi Valkeinen wrote:
->> While the cdns-dsi does not support DSI burst mode, the burst mode is
->> essentially DSI event mode with more versatile clocking and timings.
-> I don't fully agree with this statement, DSI burst mode and DSI event
-> mode are two different things having separate requirements. DSI burst
-> mode maps to MIPI_DSI_MODE_VIDEO_BURST. I don't see a separate flag for
-> event mode but I guess,
+How do you think about to add any tags (like =E2=80=9CFixes=E2=80=9D and =
+=E2=80=9CCc=E2=80=9D) accordingly?
 
-Well, what does DSI burst mode mean? Signal-wise it's the same as DSI
-event mode. "burst" just means that the DSI TX is allowed to send the
-data much faster than the pixel clock. But there's no strict requirement
-that it _must_ be faster.
+See also:
+https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tree/Do=
+cumentation/process/submitting-patches.rst?h=3Dv6.16-rc6#n94
 
-So, DSI burst mode is basically DSI event mode with more freedom on the
-timings. Thus, afaics, DSI TX in DSI event mode should always work if
-the DSI RX expects DSI burst mode.
-
- Tomi
-
->> Thus cdns-dsi doesn't need to fail if the DSI peripheral driver requests
->> MIPI_DSI_MODE_VIDEO_BURST.
-> 
-> MIPI_DSI_MODE_VIDEO_BURST is currently not supported by the cadence DSI
-> host driver, so only if DSI peripheral driver is saying that burst mode
-> is the only one it supports in that case only we should fail.
-> 
->>
->> In my particular use case, this allows the use of ti-sn65dsi83 driver.
->>
->> Tested-by: Parth Pancholi <parth.pancholi@toradex.com>
->> Tested-by: Jayesh Choudhary <j-choudhary@ti.com>
->> Signed-off-by: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
->> ---
->>   drivers/gpu/drm/bridge/cadence/cdns-dsi-core.c | 4 ----
->>   1 file changed, 4 deletions(-)
->>
->> diff --git a/drivers/gpu/drm/bridge/cadence/cdns-dsi-core.c b/drivers/
->> gpu/drm/bridge/cadence/cdns-dsi-core.c
->> index 114d883c65dc..09b289f0fcbf 100644
->> --- a/drivers/gpu/drm/bridge/cadence/cdns-dsi-core.c
->> +++ b/drivers/gpu/drm/bridge/cadence/cdns-dsi-core.c
->> @@ -1052,10 +1052,6 @@ static int cdns_dsi_attach(struct mipi_dsi_host
->> *host,
->>       if (output->dev)
->>           return -EBUSY;
->>   -    /* We do not support burst mode yet. */
->> -    if (dev->mode_flags & MIPI_DSI_MODE_VIDEO_BURST)
->> -        return -ENOTSUPP;
->> -
-> 
-> Removing this check also gives a false impression that burst mode is
-> supported by the driver and can also lead to failures too in case device
-> is only supporting burst mode.
-> 
-> I think it makes sense to fail only if burst mode is the only one being
-> supported by the device, something like below should work I believe,
-> 
-> if (dev->mode_flags & MIPI_DSI_MODE_VIDEO_BURST ==
-> MIPI_DSI_MODE_VIDEO_BURST)
->         return -ENOTSUPP;
-> 
-> Regards
-> Devarsh
-> 
->>       /*
->>        * The host <-> device link might be described using an OF-graph
->>        * representation, in this case we extract the device of_node from
->>
-
+Regards,
+Markus
