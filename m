@@ -2,92 +2,111 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 251F7B0916E
-	for <lists+dri-devel@lfdr.de>; Thu, 17 Jul 2025 18:10:52 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3E345B091FA
+	for <lists+dri-devel@lfdr.de>; Thu, 17 Jul 2025 18:37:25 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 80F4910E84A;
-	Thu, 17 Jul 2025 16:10:50 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5D35710E318;
+	Thu, 17 Jul 2025 16:37:22 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="OYWkK9XT";
+	dkim=pass (2048-bit key; unprotected) header.d=bootlin.com header.i=@bootlin.com header.b="ko81sSJW";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
- [213.167.242.64])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9F59710E850
- for <dri-devel@lists.freedesktop.org>; Thu, 17 Jul 2025 16:10:44 +0000 (UTC)
-Received: from [192.168.88.20] (91-158-153-178.elisa-laajakaista.fi
- [91.158.153.178])
- by perceval.ideasonboard.com (Postfix) with ESMTPSA id 010E421F2;
- Thu, 17 Jul 2025 18:10:08 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
- s=mail; t=1752768609;
- bh=j/jUBoayLMfzGyfXosaYmmQinHFyMwPgVBfEFl/PxJQ=;
- h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
- b=OYWkK9XT5Jz+8Ibc9m2g1FXaHMTAw03yDozKOCVXBOOiZ9cF+J7dDkm4nGz2JE2nW
- U0nw01BBZt6T5pSA/VpQDdeGOgNnoaPmDlYOom4pkinrkAgqnS/186T2j9VIcjhTCY
- 2WuPmqLQ8S/tl2+54nLxuZvqk+p9V4SQjYb/p9W4=
-Message-ID: <426fd0c1-1de5-4b39-9e7b-9532e522d5a3@ideasonboard.com>
-Date: Thu, 17 Jul 2025 19:10:42 +0300
+Received: from relay5-d.mail.gandi.net (relay5-d.mail.gandi.net
+ [217.70.183.197])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5142610E318
+ for <dri-devel@lists.freedesktop.org>; Thu, 17 Jul 2025 16:37:21 +0000 (UTC)
+Received: by mail.gandi.net (Postfix) with ESMTPSA id 9DACD44343;
+ Thu, 17 Jul 2025 16:37:17 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
+ t=1752770238;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+ bh=CcLp3A2P4/xvEEpYBjQjKtopmhmP8XtLLtWugnPUkP8=;
+ b=ko81sSJWc1pToXF/vqbkc4COvy4d0RAi41T3l+fkNBgEfzcSyJHVK9EW01a2tjl2tRuO9h
+ W7dluo9Nmq48ZVmKMvcs6WxkKwUxRplGW9QboAoQcXtgQJ4XhOZBIbB4LaQbIKgxRwLXQs
+ 7/vzz7WQ+75BPoZ8OCk0y9yeOWb1epbMDOYpRyt9o2PPAYlvzvsrxsnaYSSXeOLMJXjh35
+ w7oaTAxhBNOggC+DjvnVKkznYuy4S7ZhHF/zAr1dPp5qzK4eUeIg8tFGndS6H/U9p5uAQN
+ 6SOJw637PpyRJg/0CSrTX/2tFP8AjkksNZEc/u+IuDyfKi94lMf03pS110xCSQ==
+Message-ID: <57e425ff-2731-47d7-b5ce-c34f5baf71b4@bootlin.com>
+Date: Thu, 17 Jul 2025 18:37:17 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v4 3/3] drm/tidss: oldi: Add atomic_check hook for oldi
- bridge
-To: Jayesh Choudhary <j-choudhary@ti.com>
-Cc: airlied@gmail.com, simona@ffwll.ch, linux-kernel@vger.kernel.org,
- jyri.sarha@iki.fi, maarten.lankhorst@linux.intel.com, mripard@kernel.org,
- tzimmermann@suse.de, dri-devel@lists.freedesktop.org, devarsht@ti.com,
- mwalle@kernel.org
-References: <20250704094851.182131-1-j-choudhary@ti.com>
- <20250704094851.182131-4-j-choudhary@ti.com>
+Subject: Re: [PATCH v5 00/16] drm/vkms: Add configfs support
+To: =?UTF-8?B?Sm9zw6kgRXhww7NzaXRv?= <jose.exposito89@gmail.com>,
+ tzimmermann@suse.de, mripard@kernel.org, simona@ffwll.ch,
+ sebastian.wick@redhat.com, victoria@system76.com,
+ Mark Yacoub <markyacoub@google.com>, xaver.hugl@kde.org
+Cc: hamohammed.sa@gmail.com, melissa.srw@gmail.com,
+ maarten.lankhorst@linux.intel.com, airlied@gmail.com,
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
+References: <20250507135431.53907-1-jose.exposito89@gmail.com>
 Content-Language: en-US
-From: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
-Autocrypt: addr=tomi.valkeinen@ideasonboard.com; keydata=
- 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
-In-Reply-To: <20250704094851.182131-4-j-choudhary@ti.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+From: Louis Chauvet <louis.chauvet@bootlin.com>
+Autocrypt: addr=louis.chauvet@bootlin.com; keydata=
+ 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
+In-Reply-To: <20250507135431.53907-1-jose.exposito89@gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-GND-State: clean
+X-GND-Score: -100
+X-GND-Cause: gggruggvucftvghtrhhoucdtuddrgeeffedrtdefgdeiuddtjecutefuodetggdotefrodftvfcurfhrohhfihhlvgemucfitefpfffkpdcuggftfghnshhusghstghrihgsvgenuceurghilhhouhhtmecufedtudenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujfgurhepkfffgggfuffvvehfhfgjtgfgsehtkeertddtvdejnecuhfhrohhmpefnohhuihhsucevhhgruhhvvghtuceolhhouhhishdrtghhrghuvhgvthessghoohhtlhhinhdrtghomheqnecuggftrfgrthhtvghrnhepveettdevgeegvdeigedtieffvdetheeffeehvdeggfejffeiuddtgeffieeljeefnecuffhomhgrihhnpehgnhhomhgvrdhorhhgpdhgihhthhhusgdrtghomhdpfhhrvggvuggvshhkthhophdrohhrghdpkhgvrhhnvghlrdhorhhgpdgsohhothhlihhnrdgtohhmnecukfhppeeltddrkeelrdduieefrdduvdejnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehinhgvthepledtrdekledrudeifedruddvjedphhgvlhhopegludelvddrudeikedrtddrvddtngdpmhgrihhlfhhrohhmpehlohhuihhsrdgthhgruhhvvghtsegsohhothhlihhnrdgtohhmpdhnsggprhgtphhtthhopedugedprhgtphhtthhopehjohhsvgdrvgigphhoshhithhokeelsehgmhgrihhlrdgtohhmpdhrtghpthhtohepthiiihhmmhgvrhhmrghnnhesshhushgvrdguvgdprhgtphhtthhopehmrhhiphgrrhgusehkv
+ ghrnhgvlhdrohhrghdprhgtphhtthhopehsihhmohhnrgesfhhffihllhdrtghhpdhrtghpthhtohepshgvsggrshhtihgrnhdrfihitghksehrvgguhhgrthdrtghomhdprhgtphhtthhopehvihgtthhorhhirgesshihshhtvghmjeeirdgtohhmpdhrtghpthhtohepmhgrrhhkhigrtghouhgssehgohhoghhlvgdrtghomhdprhgtphhtthhopeigrghvvghrrdhhuhhglheskhguvgdrohhrgh
+X-GND-Sasl: louis.chauvet@bootlin.com
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -103,87 +122,136 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi,
++CC: Mark (Google), Sebastian (Mutter), Xaver (KWin), Victoria (Cosmic)
 
-On 04/07/2025 12:48, Jayesh Choudhary wrote:
-> Since OLDI consumes DSS VP clock directly as serial clock, certain
+Hi everyone,
 
-I don't think that's true. Although depends what you mean with VP clock.
-I think VP clock is whatever pclk goes into the DSS.
+Last week, I presented this work at the Display Next Hackfest, and the 
+feedback from compositors was very positive. At least KWin, Mutter, and 
+Cosmic are interested in integrating it into their tests, so it would be 
+great if someone could review it.
 
-OLDI gets a serial clock from the PLL. That same clock also goes through
-a divider, and then goes into DSS as the VP clock.
+Sebastian quickly tested this work (using [2] for full features) with 
+their existing VKMS tests [1], and it worked. From what I understand, 
+the tests are quite basic —just sanity checks— but we were able to 
+reproduce the default vkms device using ConfigFS.
 
-And the problem is, if I'm not mistaken, that the DSS can't
-clk_set_rate()/clk_round_rate() to the VP clock, as the divider won't
-propagate the rate change to the PLL. Another problem is that the OLDI
-driver is controlling the clock, so DSS shouldn't.
+If another compositor wants to test the ConfigFS interface (I will try 
+to keep [2] updated), that would be amazing. Feel free to send feedback!
 
-As a side topic/question, I wonder if the divider should propagate the
-rate change, and DSS should be in control of the clock...
+A small note: This series has a minor conflict since the conversion to 
+the faux device, but it can be applied using `b4 am -3 ... && git am -3 
+...`.
+@josé, if you send a new iteration, can you add markyacoub@google.com in 
+copy, and maybe Sebastian, Xaver, Victoria if they want to follow the 
+upstreaming?
 
-> checks cannot be performed in tidss driver which should be checked
+Thank you,
+Louis Chauvet
 
-"certain checks"? It's not good to be very vague in the patch descriptions.
+[1]:https://gitlab.gnome.org/swick/mutter/-/commit/88a7354942d9728dae06fb83cc4f2d2c7b08b694
+[2]:https://github.com/Fomys/linux/tree/configfs-everything
 
-> in oldi driver. Add check for mode clock and set the curr_max_pclk
-> field for tidss in case the VP is OLDI.
 
-The check part makes sense after reading the description, but the
-"curr_max_pclk" part doesn't. I think it needs a few extra words. But
-also, the code is the same as in DSS, isn't it... Maybe OLDI can just
-call check_pixel_clock() (or whatever it is named, perhaps with the
-changes I mentioned in the previous mail).
 
- Tomi
-
-> Fixes: 7246e0929945 ("drm/tidss: Add OLDI bridge support")
-> Reviewed-by: Devarsh Thakkar <devarsht@ti.com>
-> Signed-off-by: Jayesh Choudhary <j-choudhary@ti.com>
-> ---
->  drivers/gpu/drm/tidss/tidss_oldi.c | 24 ++++++++++++++++++++++++
->  1 file changed, 24 insertions(+)
+Le 07/05/2025 à 15:54, José Expósito a écrit :
+> Hi everyone,
 > 
-> diff --git a/drivers/gpu/drm/tidss/tidss_oldi.c b/drivers/gpu/drm/tidss/tidss_oldi.c
-> index 63e07c8edeaa..486e7373531b 100644
-> --- a/drivers/gpu/drm/tidss/tidss_oldi.c
-> +++ b/drivers/gpu/drm/tidss/tidss_oldi.c
-> @@ -309,6 +309,29 @@ static u32 *tidss_oldi_atomic_get_input_bus_fmts(struct drm_bridge *bridge,
->  	return input_fmts;
->  }
->  
-> +static int tidss_oldi_atomic_check(struct drm_bridge *bridge,
-> +				   struct drm_bridge_state *bridge_state,
-> +				   struct drm_crtc_state *crtc_state,
-> +				   struct drm_connector_state *conn_state)
-> +{
-> +	struct tidss_oldi *oldi = drm_bridge_to_tidss_oldi(bridge);
-> +	struct drm_display_mode *adjusted_mode;
-> +	unsigned long round_clock;
-> +
-> +	adjusted_mode = &crtc_state->adjusted_mode;
-> +
-> +	if (adjusted_mode->clock > oldi->tidss->curr_max_pclk[oldi->parent_vp]) {
-> +		round_clock = clk_round_rate(oldi->serial, adjusted_mode->clock * 7 * 1000);
-> +
-> +		if (dispc_pclk_diff(adjusted_mode->clock * 7 * 1000, round_clock) > 5)
-> +			return -EINVAL;
-> +
-> +		oldi->tidss->curr_max_pclk[oldi->parent_vp] = round_clock;
-> +	}
-> +
-> +	return 0;
-> +}
-> +
->  static const struct drm_bridge_funcs tidss_oldi_bridge_funcs = {
->  	.attach	= tidss_oldi_bridge_attach,
->  	.atomic_pre_enable = tidss_oldi_atomic_pre_enable,
-> @@ -317,6 +340,7 @@ static const struct drm_bridge_funcs tidss_oldi_bridge_funcs = {
->  	.atomic_duplicate_state = drm_atomic_helper_bridge_duplicate_state,
->  	.atomic_destroy_state = drm_atomic_helper_bridge_destroy_state,
->  	.atomic_reset = drm_atomic_helper_bridge_reset,
-> +	.atomic_check = tidss_oldi_atomic_check,
->  };
->  
->  static int get_oldi_mode(struct device_node *oldi_tx, int *companion_instance)
+> This series allow to configure one or more VKMS instances without having
+> to reload the driver using configfs.
+> 
+> The series is structured in 3 blocks:
+> 
+>    - Patches 1..11: Basic device configuration. For simplicity, I kept the
+>      available options as minimal as possible.
+> 
+>    - Patches 12 and 13: New option to skip the default device creation and to-do
+>      cleanup.
+> 
+>    - Patches 14, 15 and 16: Allow to hot-plug and unplug connectors. This is not
+>      part of the minimal set of options, but I included in this series so it can
+>      be used as a template/example of how new configurations can be added.
+> 
+> The process of configuring a VKMS device is documented in "vkms.rst".
+> 
+> Finally, the code is thoroughly tested by a collection of IGT tests [1].
+> 
+> Best wishes,
+> José Expósito
+> 
+> [1] https://lists.freedesktop.org/archives/igt-dev/2025-February/086071.html
+> 
+> Changes in v5:
+> 
+>    - Added Reviewed-by tags, thanks Louis!
+>    - Rebased on top of drm-misc-next
+>    - Link to v4: https://lore.kernel.org/dri-devel/20250407081425.6420-1-jose.exposito89@gmail.com/
+> 
+> Changes in v4:
+> 
+>    - Since Louis and I worked on this together, set him as the author of some of
+>      the patches and me as co-developed-by to reflect this joint effort.
+>    - Rebased on top of drm-misc-next
+>    - Link to v3: https://lore.kernel.org/all/20250307163353.5896-1-jose.exposito89@gmail.com/
+> 
+> Changes in v3:
+> 
+>    - Applied review comments by Louis Chauvet: (thanks!!)
+>      - Use scoped_guard() instead of guard(mutex)(...)
+>      - Fix a use-after-free error in the connector hot-plug code
+>    - Rebased on top of drm-misc-next
+>    - Link to v2: https://lore.kernel.org/all/20250225175936.7223-1-jose.exposito89@gmail.com/
+> 
+> Changes in v2:
+> 
+>    - Applied review comments by Louis Chauvet:
+>      - Use guard(mutex)(...) instead of lock/unlock
+>      - Return -EBUSY when trying to modify a enabled device
+>      - Move the connector hot-plug related patches to the end
+>    - Rebased on top of drm-misc-next
+>    - Link to v1: https://lore.kernel.org/dri-devel/20250218170808.9507-1-jose.exposito89@gmail.com/T/
+> 
+> José Expósito (6):
+>    drm/vkms: Expose device creation and destruction
+>    drm/vkms: Allow to configure the default device creation
+>    drm/vkms: Remove completed task from the TODO list
+>    drm/vkms: Allow to configure connector status
+>    drm/vkms: Allow to update the connector status
+>    drm/vkms: Allow to configure connector status via configfs
+> 
+> Louis Chauvet (10):
+>    drm/vkms: Add and remove VKMS instances via configfs
+>    drm/vkms: Allow to configure multiple planes via configfs
+>    drm/vkms: Allow to configure the plane type via configfs
+>    drm/vkms: Allow to configure multiple CRTCs via configfs
+>    drm/vkms: Allow to configure CRTC writeback support via configfs
+>    drm/vkms: Allow to attach planes and CRTCs via configfs
+>    drm/vkms: Allow to configure multiple encoders via configfs
+>    drm/vkms: Allow to attach encoders and CRTCs via configfs
+>    drm/vkms: Allow to configure multiple connectors via configfs
+>    drm/vkms: Allow to attach connectors and encoders via configfs
+> 
+>   Documentation/gpu/vkms.rst                    | 100 ++-
+>   drivers/gpu/drm/vkms/Kconfig                  |   1 +
+>   drivers/gpu/drm/vkms/Makefile                 |   3 +-
+>   drivers/gpu/drm/vkms/tests/vkms_config_test.c |  24 +
+>   drivers/gpu/drm/vkms/vkms_config.c            |   8 +-
+>   drivers/gpu/drm/vkms/vkms_config.h            |  26 +
+>   drivers/gpu/drm/vkms/vkms_configfs.c          | 833 ++++++++++++++++++
+>   drivers/gpu/drm/vkms/vkms_configfs.h          |   8 +
+>   drivers/gpu/drm/vkms/vkms_connector.c         |  35 +
+>   drivers/gpu/drm/vkms/vkms_connector.h         |   9 +
+>   drivers/gpu/drm/vkms/vkms_drv.c               |  18 +-
+>   drivers/gpu/drm/vkms/vkms_drv.h               |  20 +
+>   12 files changed, 1072 insertions(+), 13 deletions(-)
+>   create mode 100644 drivers/gpu/drm/vkms/vkms_configfs.c
+>   create mode 100644 drivers/gpu/drm/vkms/vkms_configfs.h
+> 
+> 
+> base-commit: a6c0a91ccb257eaec2aee080df06863ce7601315
+
+-- 
+Louis Chauvet, Bootlin
+Embedded Linux and Kernel engineering
+https://bootlin.com
 
