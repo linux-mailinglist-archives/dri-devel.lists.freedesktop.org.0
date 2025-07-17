@@ -2,45 +2,52 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 82660B097CB
-	for <lists+dri-devel@lfdr.de>; Fri, 18 Jul 2025 01:29:23 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 14B80B09841
+	for <lists+dri-devel@lfdr.de>; Fri, 18 Jul 2025 01:40:42 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D1EF010E8AF;
-	Thu, 17 Jul 2025 23:29:21 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B4E9610E8B4;
+	Thu, 17 Jul 2025 23:40:27 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="k+io4Ola";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="QalwuOgE";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from tor.source.kernel.org (tor.source.kernel.org [172.105.4.254])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 59C1A10E8AF
- for <dri-devel@lists.freedesktop.org>; Thu, 17 Jul 2025 23:29:21 +0000 (UTC)
+Received: from nyc.source.kernel.org (nyc.source.kernel.org [147.75.193.91])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7162710E8B4
+ for <dri-devel@lists.freedesktop.org>; Thu, 17 Jul 2025 23:40:26 +0000 (UTC)
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by tor.source.kernel.org (Postfix) with ESMTP id 6F44C613F3;
- Thu, 17 Jul 2025 23:29:20 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id B7B2BC4CEE3;
- Thu, 17 Jul 2025 23:29:18 +0000 (UTC)
+ by nyc.source.kernel.org (Postfix) with ESMTP id B0E59A57A28;
+ Thu, 17 Jul 2025 23:40:25 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 43832C4CEEB;
+ Thu, 17 Jul 2025 23:40:25 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1752794960;
- bh=umj1MpXiyHSIhgzpDKbeJ+au+K5ZOO0CIxaQKQnTow8=;
- h=From:To:Subject:Date:From;
- b=k+io4OlaZL1Pvj9ZSSBwbhB148SFYr+9VpNuBc4msqDMvHl9BhavwiIYyclcskhAz
- fKVRFAl2K0kIhwN+irdtZcadYgSOOwCinSFY8N+K0D5bo/tltEka+pJBIb+dphCENJ
- UPwdMgW2oYVQ1Ooe8n4b1NQfaYRZ3JX9D7HCFWmmllp08eLimyKfFSfbH6JWbvxYt3
- NilE0lJ6jiUAIgeVKecMfc5VWNoGL/XWI2G3j2p/p2hfXyIUyxW3G0efYIiDrWnw+F
- tNBcNYpQ7OCr/AeyMsg2tleJp+59hGnv/c+SCYUa8XREq25FFTBoDOT+XEq0yAHtqf
- aU748VO3fo1uQ==
-From: Chun-Kuang Hu <chunkuang.hu@kernel.org>
-To: David Airlie <airlied@linux.ie>, Daniel Vetter <daniel@ffwll.ch>,
- dri-devel@lists.freedesktop.org, linux-mediatek@lists.infradead.org,
- Jason-JH Lin <jason-jh.lin@mediatek.com>, Icenowy Zheng <uwu@icenowy.me>,
- Louis-Alexis Eyraud <louisalexis.eyraud@collabora.com>
-Subject: [GIT PULL] mediatek drm fixes - 20250718
-Date: Thu, 17 Jul 2025 23:29:16 +0000
-Message-Id: <20250717232916.12372-1-chunkuang.hu@kernel.org>
-X-Mailer: git-send-email 2.34.1
+ s=k20201202; t=1752795625;
+ bh=SLWT0EwWugKFmXyWBecyX2YOOzE33RWcso9rWV+H+sc=;
+ h=Date:From:To:Cc:Subject:In-Reply-To:From;
+ b=QalwuOgEJQSJY/yW6nKuzzLXbQZLPRKCvV0T1SXwb6GxQdFSJNxowxsAUFlBl4YRr
+ z41IVtyibynhfAmmseTwhzaNDDBW9PDORLw3KO1OV8TCp6HnniX3uH9dYwrvGgNBJQ
+ r0+7c/492WzE+HSMsGR7rmaHkz16QtCYVkK4rknt7z8O8e1B7+vGYlBL/XWeN0gUsU
+ dpU31xZYKXnkJ83x4CT1gOJ4bk4JpvE7tR9YNWmQIDwE4TCiwLbJ14yAaI2OKm4wEY
+ CxViozkMHDpsTqbEJnoOJJ2qzZ13FOxs4a7ZL5u4CLKcOTDgteW0psfSnEBVNAyvIr
+ 7CEZ8x2zJLPyg==
+Date: Thu, 17 Jul 2025 18:40:24 -0500
+From: Bjorn Helgaas <helgaas@kernel.org>
+To: Lukas Wunner <lukas@wunner.de>
+Cc: Hans de Goede <hansg@kernel.org>, Andi Kleen <ak@linux.intel.com>,
+ David Airlie <airlied@redhat.com>,
+ Ben Hutchings <ben@decadent.org.uk>, Joerg Roedel <joro@8bytes.org>,
+ Suravee Suthikulpanit <suravee.suthikulpanit@amd.com>,
+ Ahmed Salem <x0rw3ll@gmail.com>, Borislav Petkov <bp@alien8.de>,
+ Hans de Goede <hdegoede@redhat.com>, Thomas Gleixner <tglx@linutronix.de>,
+ dri-devel@lists.freedesktop.org, iommu@lists.linux.dev,
+ linux-pci@vger.kernel.org
+Subject: Re: [PATCH v2] agp/amd64: Check AGP Capability before binding to
+ unsupported devices
+Message-ID: <20250717234024.GA2663372@bhelgaas>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <aGvShrJJTj2ERdZr@wunner.de>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -56,52 +63,32 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi, Dave & Daniel:
+On Mon, Jul 07, 2025 at 03:58:30PM +0200, Lukas Wunner wrote:
+> On Mon, Jul 07, 2025 at 02:53:32PM +0200, Hans de Goede wrote:
+> > So I think we should move forward with Lukas' fix dor 6.16 and then
+> > my patch to disable probing of unsupported devices by default can
+> > be merged into linux-next .
+> 
+> Sounds good to me.
+> 
+> Dave is out all week and has not commented on this matter at all so far:
+> 
+> https://lore.kernel.org/r/CAPM=9tzrmRS9++MP_Y4ab95W71UxjFLzTd176Mok7akwdT2q+w@mail.gmail.com/
+> 
+> I assume Bjorn may not be comfortable applying my patch without an ack
+> from Dave.  I am technically able to apply my own patch through drm-misc
+> and I believe Hans' Reviewed-by is sufficient to allow me to do that.
+> 
+> I'd feel more comfortable having additional acks or Reviewed-by's though.
+> I'm contemplating applying the patch to drm-misc by Wednesday evening,
+> that would allow it to land in Linus' tree before v6.16-rc6.
+> 
+> If anyone has objections, needs more time to review or wants to apply
+> the patch, please let me know.
 
-This includes:
-1. Add wait_event_timeout when disabling plane
-2. only announce AFBC if really supported
-3. mtk_dpi: Reorder output formats on MT8195/88
+Looks like this is now upstream:
+https://git.kernel.org/linus/d88dfb756d55 ("agp/amd64: Check AGP Capability before binding to unsupported devices")
 
-Regards,
-Chun-Kuang.
+Seems OK to me, but I'm certainly not an AGP expert.
 
-The following changes since commit 19272b37aa4f83ca52bdf9c16d5d81bdd1354494:
-
-  Linux 6.16-rc1 (2025-06-08 13:44:43 -0700)
-
-are available in the Git repository at:
-
-  https://git.kernel.org/pub/scm/linux/kernel/git/chunkuang.hu/linux.git tags/mediatek-drm-fixes-20250718
-
-for you to fetch changes up to 5ceed7a6d34a8800bc39673bf2d5573990fbac4d:
-
-  drm/mediatek: mtk_dpi: Reorder output formats on MT8195/88 (2025-07-17 23:19:05 +0000)
-
-----------------------------------------------------------------
-Mediatek DRM Fixes - 20250718
-
-1. Add wait_event_timeout when disabling plane
-2. only announce AFBC if really supported
-3. mtk_dpi: Reorder output formats on MT8195/88
-
-----------------------------------------------------------------
-Icenowy Zheng (1):
-      drm/mediatek: only announce AFBC if really supported
-
-Jason-JH Lin (1):
-      drm/mediatek: Add wait_event_timeout when disabling plane
-
-Louis-Alexis Eyraud (1):
-      drm/mediatek: mtk_dpi: Reorder output formats on MT8195/88
-
- drivers/gpu/drm/mediatek/mtk_crtc.c     | 36 ++++++++++++++++++++++++++++++++-
- drivers/gpu/drm/mediatek/mtk_crtc.h     |  1 +
- drivers/gpu/drm/mediatek/mtk_ddp_comp.c |  1 +
- drivers/gpu/drm/mediatek/mtk_ddp_comp.h |  9 +++++++++
- drivers/gpu/drm/mediatek/mtk_disp_drv.h |  1 +
- drivers/gpu/drm/mediatek/mtk_disp_ovl.c |  7 +++++++
- drivers/gpu/drm/mediatek/mtk_dpi.c      |  4 ++--
- drivers/gpu/drm/mediatek/mtk_plane.c    | 12 +++++++++--
- drivers/gpu/drm/mediatek/mtk_plane.h    |  3 ++-
- 9 files changed, 68 insertions(+), 6 deletions(-)
+Bjorn
