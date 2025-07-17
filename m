@@ -2,63 +2,63 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id BE0FFB08EFB
-	for <lists+dri-devel@lfdr.de>; Thu, 17 Jul 2025 16:22:12 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id CE58AB08EFE
+	for <lists+dri-devel@lfdr.de>; Thu, 17 Jul 2025 16:22:15 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2488910E830;
-	Thu, 17 Jul 2025 14:22:11 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 27B5510E831;
+	Thu, 17 Jul 2025 14:22:14 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="B6pjkcxF";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="BpU1GG3K";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mail-lf1-f42.google.com (mail-lf1-f42.google.com
  [209.85.167.42])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 235DC10E830
- for <dri-devel@lists.freedesktop.org>; Thu, 17 Jul 2025 14:22:07 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7F29410E830
+ for <dri-devel@lists.freedesktop.org>; Thu, 17 Jul 2025 14:22:08 +0000 (UTC)
 Received: by mail-lf1-f42.google.com with SMTP id
- 2adb3069b0e04-553b584ac96so1106874e87.1
- for <dri-devel@lists.freedesktop.org>; Thu, 17 Jul 2025 07:22:07 -0700 (PDT)
+ 2adb3069b0e04-555163cd09aso865323e87.3
+ for <dri-devel@lists.freedesktop.org>; Thu, 17 Jul 2025 07:22:08 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1752762125; x=1753366925; darn=lists.freedesktop.org;
+ d=gmail.com; s=20230601; t=1752762127; x=1753366927; darn=lists.freedesktop.org;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=sbJjEkdr1gdwOgkOrbiUvdWUHFLgDfQGisgY8rnIeVg=;
- b=B6pjkcxFD5mdSMYIJyCPAwTEH1LhTix2ZNZ4VpiRRvraNv1jT8zTSFRcbGcJhbBE/K
- M+RWSa9uQ/yGEpN26d46yFfkVrG4ngHcW7Sn2HXavlMimNOtzSZDQ48hVWjtBiRGKRSo
- rhZDgw/+f5LpRKPy492SfMA/zcjKlFFa7nvzGRyTLZh+ko+nlW6De/kcu8i6lpyzPEUc
- 4gssSiB0iQSolkHqg68Ux2Q+nmFyRA9d0GI9oZb8TAuBuc4zLIwajqkbgRC5xAlwBhI+
- wIEOhfIjkDxRKk1TqtDv3rE8TIMmwd/7T6y6VLbhJwlEEOnyQGi+Wwj8DLrDHmCQ64xu
- Mbfw==
+ bh=FCRPXJuyMzLZkmX2SvGMR/caiVTF8zEmEw035VGaKNA=;
+ b=BpU1GG3KrktPQNCx2WwAEKrbtSG7R2JTYjhWNthPAICgGArq6S37mZIHWbpYjqZbnj
+ xDcFgfLILTLDprQiBo/a2l65dQ1ZTm+IWER21g0e8sk4aKrJRIgom7eYMu9b/2h9guic
+ bGFeT3RMkHwt4Rf9vcYUq0W1ZcRbyepHniDB7+etVMwjpYsxXtduFCTm1jKgnBLgRYQE
+ b5H9mJoWhBsg2+Tn8w9k3aIZG9Eb64gFFl8kykD8bj1dizf4kkjbfO2P/GznjR/Vxf5d
+ RPYQ37zx0tmUOpQDB3apCbEs/34/7TO7dHuEZ1YfMW9X2t9RBcMovdh+ZPfwiJ4dJXuc
+ sPlg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1752762125; x=1753366925;
+ d=1e100.net; s=20230601; t=1752762127; x=1753366927;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=sbJjEkdr1gdwOgkOrbiUvdWUHFLgDfQGisgY8rnIeVg=;
- b=cBvz0ji29Gb1nVnvacMuflR7SU/RIflEC+8Xpn88vNaWRQnQMrbfU5JLbwOwN0dW4G
- Y4yabGVYBFTLzhyCPTjlUpBqYSLmYe4ckFK7bKCOpxlIjKihdPDJ+VnUQi0/wwAU1Fdy
- ZfnNH8U93APLMWFJmpp3p+LhK2ynsY2BcyJhFIof+DJA4bcb3HkJ9QGfUSvh/Z8J1cC9
- IZnx2ipJd4h9Pg6xEtPK/6kZ+qf0SWttRb68PQbkU7ueH2Fm+6g+Ed77rP+BBPikn5Nd
- LMyG8053UEaDw2SKquYfeAAej3REKU2pW3O3jZZInakQQsvgkKLB0f9mt9Cu95CIO8Hb
- FeRg==
-X-Gm-Message-State: AOJu0YwFEOnxEVpUcoyDN5L9e/YysUN8U6Bs5TSjA+mdQzPU9s3wOSbx
- cd7ZQJYGd7kARm2el/LE+wBMWWpW1hhBTlPJGUZB+d586+GCGsbWmbH1
-X-Gm-Gg: ASbGncsEZ6O59XtklD7CQBzWf07rGKIvoqJbzCZi2v1X5LWVQnI7OZto+vVtU16AKjL
- YXHlRtdK7NYCVixykgEz9P75ph65RG/Mo0gVBhTdBAK1T33NlRn9B3k6nMYeHpDJzZWsEVTq36e
- QrG/dZMLNs+wyzPH3UkJS1E0bTwOaFJPgD/2+6WvENcJ9qicv7QgMyZj4oaKrsoYGYYVoZYoaij
- sWEFb+OxfJ8P4rDZzdP/FbVpqNVBWlaTnjv/WGjhKnkQvrx3nNkLuNbwU2hTeeYQkbSy271N86j
- 6Dt4EBUbt3ZDdP9zF7/czESpwMYSkml9WFQBHBJef2dghmvr4qbJLVpfNfX2m+VXwj7I4pGg8xq
- NiSBSvsCXZv8r9A==
-X-Google-Smtp-Source: AGHT+IH4RXFtqCVL0YLN65Wn9Bt/27qc4euvLq73T0KycYwtneIb2P1HZxNmdruVVnLF2O/oLuvpoQ==
-X-Received: by 2002:a05:6512:ea4:b0:553:2480:2308 with SMTP id
- 2adb3069b0e04-55a23331f60mr2013665e87.21.1752762125077; 
- Thu, 17 Jul 2025 07:22:05 -0700 (PDT)
+ bh=FCRPXJuyMzLZkmX2SvGMR/caiVTF8zEmEw035VGaKNA=;
+ b=A063NNVyFQCauwUsdHZvibJirs1MdlXCdc+6p7kQ6w/bqLyD8x3mSbVCOemvNlLskW
+ jdcYQPy/zFLe+NuER9YM9kzmnVLziBf+xsTdCXApm4pK+r++HNWCMxycx9FmouoBe1wB
+ GFSFkU0qdKqOtXeQa7I6wThrlnaR+uLDp9ReCCU0+n4KSltos2Rb2cMXqT4Gg3XgQgi3
+ EKLMDrOQKfwoqOJ29vroXnJligp7NCtdkrP6RkUesHwdPoCAX5dnXem6WMJjNCeHn2m1
+ SMtFz3l7lhtZ03XmWuf7G3T2l8QL8VmJkDLGYT6gxGB0EIlW5ilrOXiRBxt5tbhQ4qWo
+ A0Jg==
+X-Gm-Message-State: AOJu0Yy8IXka/tqLl+HO07liKb0xS7WNbpiExNUZRznwE/LDpNrx06T4
+ DVxMCz7i7Krp7jCG4T/q/FVpwhL0axMoyBiCzgD3/u0J3vCjSuYjZNoS
+X-Gm-Gg: ASbGnctvzM5qV59Sy2u/IAjA6yZK33Mnc3yHHpWDmvNU90Vqm2ZAANmTnbDeKxSdHNM
+ kWYSGljCw9XoPSirBkmFj/qmRxcWrFxIlZJ1kgvZ938zoUwMwUMryBC8ah61GvfjQ+XJuZ3xGeQ
+ vumSZNIINEGK+y6ToDRq7/noUZxAtDnOXnOm/x50J1yHxCWVgPtyaI+Z1i/WJlhPG98wx99Mwqv
+ VADC+uDxi/5t7pkBp0voMD3qQp/mZELNW3IjOQy6iCgsUnOneHctz58RcJxnKMzOVRbUO+0GhNY
+ SHc7TzfLDFUTpwkH/91+A5LFEA4W6RpxSHG/+tf8cbbvLYIpPNOn/UgElFWbohvREo9RHKfF6P0
+ XAxZFSO2l5xodJw==
+X-Google-Smtp-Source: AGHT+IGrbN5mHRPiiMtppVmbuHGOd3g9rJ3Oq45Lxs0VPpdE/NlkM5b45zOZqDMAcFqvsAHYbXrcfw==
+X-Received: by 2002:a05:6512:39d6:b0:553:2a16:2513 with SMTP id
+ 2adb3069b0e04-55a2971a2afmr1090464e87.47.1752762126484; 
+ Thu, 17 Jul 2025 07:22:06 -0700 (PDT)
 Received: from xeon.. ([188.163.112.60]) by smtp.gmail.com with ESMTPSA id
- 2adb3069b0e04-55943b61134sm3079983e87.162.2025.07.17.07.22.03
+ 2adb3069b0e04-55943b61134sm3079983e87.162.2025.07.17.07.22.05
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 17 Jul 2025 07:22:04 -0700 (PDT)
+ Thu, 17 Jul 2025 07:22:06 -0700 (PDT)
 From: Svyatoslav Ryhel <clamor95@gmail.com>
 To: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
  Maxime Ripard <mripard@kernel.org>,
@@ -77,10 +77,9 @@ To: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
 Cc: dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org,
  linux-tegra@vger.kernel.org, linux-kernel@vger.kernel.org,
  linux-clk@vger.kernel.org
-Subject: [PATCH v1 3/5] gpu/drm: host1x: mipi: add Tegra20/Tegra30 MIPI
- calibration logic
-Date: Thu, 17 Jul 2025 17:21:37 +0300
-Message-ID: <20250717142139.57621-4-clamor95@gmail.com>
+Subject: [PATCH v1 4/5] gpu/drm: tegra: dsi: add support for Tegra20/Tegra30
+Date: Thu, 17 Jul 2025 17:21:38 +0300
+Message-ID: <20250717142139.57621-5-clamor95@gmail.com>
 X-Mailer: git-send-email 2.48.1
 In-Reply-To: <20250717142139.57621-1-clamor95@gmail.com>
 References: <20250717142139.57621-1-clamor95@gmail.com>
@@ -101,206 +100,166 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Tegra20/Tegra30 have no dedicated MIPI calibration device and calibration
-registers are incorporated into CSI. Lets reuse Tegra114 calibration
-framework and add Tegra20/Tegra30 as a special case.
+Tegra20/Tegra30 are fully compatible with existing tegra DSI driver apart
+clock configuration and MIPI calibration which are addressed by this patch.
 
 Signed-off-by: Svyatoslav Ryhel <clamor95@gmail.com>
 ---
- drivers/gpu/host1x/mipi.c | 82 +++++++++++++++++++++++++++++++++++++++
- 1 file changed, 82 insertions(+)
+ drivers/gpu/drm/tegra/drm.c |  2 ++
+ drivers/gpu/drm/tegra/dsi.c | 69 ++++++++++++++++++++++---------------
+ drivers/gpu/drm/tegra/dsi.h | 10 ++++++
+ 3 files changed, 54 insertions(+), 27 deletions(-)
 
-diff --git a/drivers/gpu/host1x/mipi.c b/drivers/gpu/host1x/mipi.c
-index e51b43dd15a3..cfaa27e0f892 100644
---- a/drivers/gpu/host1x/mipi.c
-+++ b/drivers/gpu/host1x/mipi.c
-@@ -61,6 +61,13 @@
- #define MIPI_CAL_CONFIG_DSID_CLK	0x1d
- #define MIPI_CAL_CONFIG_CSIE_CLK	0x1d
+diff --git a/drivers/gpu/drm/tegra/drm.c b/drivers/gpu/drm/tegra/drm.c
+index 4596073fe28f..5d64cd57e764 100644
+--- a/drivers/gpu/drm/tegra/drm.c
++++ b/drivers/gpu/drm/tegra/drm.c
+@@ -1359,10 +1359,12 @@ static SIMPLE_DEV_PM_OPS(host1x_drm_pm_ops, host1x_drm_suspend,
  
-+/* DSI V0 controller */
-+#define CSI_CIL_PAD_CONFIG		0x09
-+#define CSI_CILA_MIPI_CAL_CONFIG	0x0a
-+#define CSI_CILB_MIPI_CAL_CONFIG	0x0b
-+#define CSI_DSI_MIPI_CAL_CONFIG		0x14
-+#define CSI_MIPIBIAS_PAD_CONFIG		0x15
-+
- /* for data and clock lanes */
- #define MIPI_CAL_CONFIG_SELECT		(1 << 21)
- 
-@@ -92,6 +99,8 @@ struct tegra_mipi_pad {
- };
- 
- struct tegra_mipi_soc {
-+	bool dsi_v0;
-+
- 	bool has_clk_lane;
- 	const struct tegra_mipi_pad *pads;
- 	unsigned int num_pads;
-@@ -122,6 +131,7 @@ struct tegra_mipi {
- 	void __iomem *regs;
- 	struct mutex lock;
- 	struct clk *clk;
-+	struct clk *csi_clk;
- 
- 	unsigned long usage_count;
- };
-@@ -265,6 +275,9 @@ int tegra_mipi_enable(struct tegra_mipi_device *dev)
+ static const struct of_device_id host1x_drm_subdevs[] = {
+ 	{ .compatible = "nvidia,tegra20-dc", },
++	{ .compatible = "nvidia,tegra20-dsi", },
+ 	{ .compatible = "nvidia,tegra20-hdmi", },
+ 	{ .compatible = "nvidia,tegra20-gr2d", },
+ 	{ .compatible = "nvidia,tegra20-gr3d", },
+ 	{ .compatible = "nvidia,tegra30-dc", },
++	{ .compatible = "nvidia,tegra30-dsi", },
+ 	{ .compatible = "nvidia,tegra30-hdmi", },
+ 	{ .compatible = "nvidia,tegra30-gr2d", },
+ 	{ .compatible = "nvidia,tegra30-gr3d", },
+diff --git a/drivers/gpu/drm/tegra/dsi.c b/drivers/gpu/drm/tegra/dsi.c
+index 3f91a24ebef2..85bcb8bee1ae 100644
+--- a/drivers/gpu/drm/tegra/dsi.c
++++ b/drivers/gpu/drm/tegra/dsi.c
+@@ -662,39 +662,48 @@ static int tegra_dsi_pad_enable(struct tegra_dsi *dsi)
  {
- 	int err = 0;
- 
-+	if (dev->mipi->soc->dsi_v0)
-+		return 0;
-+
- 	mutex_lock(&dev->mipi->lock);
- 
- 	if (dev->mipi->usage_count++ == 0)
-@@ -281,6 +294,9 @@ int tegra_mipi_disable(struct tegra_mipi_device *dev)
- {
- 	int err = 0;
- 
-+	if (dev->mipi->soc->dsi_v0)
-+		return 0;
-+
- 	mutex_lock(&dev->mipi->lock);
- 
- 	if (--dev->mipi->usage_count == 0)
-@@ -300,6 +316,9 @@ int tegra_mipi_finish_calibration(struct tegra_mipi_device *device)
  	u32 value;
- 	int err;
  
-+	if (mipi->soc->dsi_v0)
-+		return 0;
+-	value = DSI_PAD_CONTROL_VS1_PULLDN(0) | DSI_PAD_CONTROL_VS1_PDIO(0);
+-	tegra_dsi_writel(dsi, value, DSI_PAD_CONTROL_0);
++	/* Tegra20/30 uses DSIv0 while Tegra114+ uses DSIv1 */
++	if (of_device_is_compatible(dsi->dev->of_node, "nvidia,tegra20-dsi") ||
++	    of_device_is_compatible(dsi->dev->of_node, "nvidia,tegra30-dsi")) {
++		value = DSI_PAD_CONTROL_LPUPADJ(0x1) | DSI_PAD_CONTROL_LPDNADJ(0x1) |
++			DSI_PAD_CONTROL_PREEMP_EN(0x1) | DSI_PAD_CONTROL_SLEWDNADJ(0x6) |
++			DSI_PAD_CONTROL_SLEWUPADJ(0x6) | DSI_PAD_CONTROL_PDIO(0) |
++			DSI_PAD_CONTROL_PDIO_CLK(0) | DSI_PAD_CONTROL_PULLDN_ENAB(0);
++		tegra_dsi_writel(dsi, value, DSI_PAD_CONTROL_0);
++	} else {
++		/*
++		 * XXX Is this still needed? The module reset is deasserted right
++		 * before this function is called.
++		 */
++		tegra_dsi_writel(dsi, 0, DSI_PAD_CONTROL_0);
++		tegra_dsi_writel(dsi, 0, DSI_PAD_CONTROL_1);
++		tegra_dsi_writel(dsi, 0, DSI_PAD_CONTROL_2);
++		tegra_dsi_writel(dsi, 0, DSI_PAD_CONTROL_3);
++		tegra_dsi_writel(dsi, 0, DSI_PAD_CONTROL_4);
 +
- 	err = readl_relaxed_poll_timeout(status_reg, value,
- 					 !(value & MIPI_CAL_STATUS_ACTIVE) &&
- 					 (value & MIPI_CAL_STATUS_DONE), 50,
-@@ -311,6 +330,43 @@ int tegra_mipi_finish_calibration(struct tegra_mipi_device *device)
- }
- EXPORT_SYMBOL(tegra_mipi_finish_calibration);
- 
-+static int tegra20_mipi_calibration(struct tegra_mipi_device *device)
-+{
-+	struct tegra_mipi *mipi = device->mipi;
-+	const struct tegra_mipi_soc *soc = mipi->soc;
-+	u32 value;
-+	int err;
++		value = DSI_PAD_CONTROL_VS1_PULLDN(0) | DSI_PAD_CONTROL_VS1_PDIO(0);
++		tegra_dsi_writel(dsi, value, DSI_PAD_CONTROL_0);
 +
-+	err = clk_enable(mipi->csi_clk);
-+	if (err < 0)
-+		return err;
++		value = DSI_PAD_SLEW_UP(0x7) | DSI_PAD_SLEW_DN(0x7) |
++			DSI_PAD_LP_UP(0x1) | DSI_PAD_LP_DN(0x1) |
++			DSI_PAD_OUT_CLK(0x0);
++		tegra_dsi_writel(dsi, value, DSI_PAD_CONTROL_2);
 +
-+	mutex_lock(&mipi->lock);
-+
-+	value = MIPI_CAL_CONFIG_TERMOS(soc->termos);
-+	tegra_mipi_writel(mipi, value, CSI_CILA_MIPI_CAL_CONFIG);
-+
-+	value = MIPI_CAL_CONFIG_TERMOS(soc->termos);
-+	tegra_mipi_writel(mipi, value, CSI_CILB_MIPI_CAL_CONFIG);
-+
-+	value = MIPI_CAL_CONFIG_HSPDOS(soc->hspdos) |
-+		MIPI_CAL_CONFIG_HSPUOS(soc->hspuos);
-+	tegra_mipi_writel(mipi, value, CSI_DSI_MIPI_CAL_CONFIG);
-+
-+	value = MIPI_CAL_BIAS_PAD_DRV_DN_REF(soc->pad_drive_down_ref) |
-+		MIPI_CAL_BIAS_PAD_DRV_UP_REF(soc->pad_drive_up_ref);
-+	tegra_mipi_writel(mipi, value, CSI_MIPIBIAS_PAD_CONFIG);
-+
-+	tegra_mipi_writel(mipi, 0x0, CSI_CIL_PAD_CONFIG);
-+
-+	mutex_unlock(&mipi->lock);
-+
-+	clk_disable(mipi->csi_clk);
-+	clk_disable(mipi->clk);
-+
-+	return 0;
-+}
-+
- int tegra_mipi_start_calibration(struct tegra_mipi_device *device)
- {
- 	const struct tegra_mipi_soc *soc = device->mipi->soc;
-@@ -322,6 +378,9 @@ int tegra_mipi_start_calibration(struct tegra_mipi_device *device)
- 	if (err < 0)
- 		return err;
- 
-+	if (soc->dsi_v0)
-+		return tegra20_mipi_calibration(device);
-+
- 	mutex_lock(&device->mipi->lock);
- 
- 	value = MIPI_CAL_BIAS_PAD_DRV_DN_REF(soc->pad_drive_down_ref) |
-@@ -386,6 +445,15 @@ int tegra_mipi_start_calibration(struct tegra_mipi_device *device)
- }
- EXPORT_SYMBOL(tegra_mipi_start_calibration);
- 
-+static const struct tegra_mipi_soc tegra20_mipi_soc = {
-+	.dsi_v0 = true,
-+	.pad_drive_down_ref = 0x5,
-+	.pad_drive_up_ref = 0x7,
-+	.hspdos = 0x4,
-+	.hspuos = 0x3,
-+	.termos = 0x4,
-+};
-+
- static const struct tegra_mipi_pad tegra114_mipi_pads[] = {
- 	{ .data = MIPI_CAL_CONFIG_CSIA },
- 	{ .data = MIPI_CAL_CONFIG_CSIB },
-@@ -399,6 +467,7 @@ static const struct tegra_mipi_pad tegra114_mipi_pads[] = {
- };
- 
- static const struct tegra_mipi_soc tegra114_mipi_soc = {
-+	.dsi_v0 = false,
- 	.has_clk_lane = false,
- 	.pads = tegra114_mipi_pads,
- 	.num_pads = ARRAY_SIZE(tegra114_mipi_pads),
-@@ -426,6 +495,7 @@ static const struct tegra_mipi_pad tegra124_mipi_pads[] = {
- };
- 
- static const struct tegra_mipi_soc tegra124_mipi_soc = {
-+	.dsi_v0 = false,
- 	.has_clk_lane = true,
- 	.pads = tegra124_mipi_pads,
- 	.num_pads = ARRAY_SIZE(tegra124_mipi_pads),
-@@ -443,6 +513,7 @@ static const struct tegra_mipi_soc tegra124_mipi_soc = {
- };
- 
- static const struct tegra_mipi_soc tegra132_mipi_soc = {
-+	.dsi_v0 = false,
- 	.has_clk_lane = true,
- 	.pads = tegra124_mipi_pads,
- 	.num_pads = ARRAY_SIZE(tegra124_mipi_pads),
-@@ -473,6 +544,7 @@ static const struct tegra_mipi_pad tegra210_mipi_pads[] = {
- };
- 
- static const struct tegra_mipi_soc tegra210_mipi_soc = {
-+	.dsi_v0 = false,
- 	.has_clk_lane = true,
- 	.pads = tegra210_mipi_pads,
- 	.num_pads = ARRAY_SIZE(tegra210_mipi_pads),
-@@ -490,6 +562,8 @@ static const struct tegra_mipi_soc tegra210_mipi_soc = {
- };
- 
- static const struct of_device_id tegra_mipi_of_match[] = {
-+	{ .compatible = "nvidia,tegra20-mipi", .data = &tegra20_mipi_soc },
-+	{ .compatible = "nvidia,tegra30-mipi", .data = &tegra20_mipi_soc },
- 	{ .compatible = "nvidia,tegra114-mipi", .data = &tegra114_mipi_soc },
- 	{ .compatible = "nvidia,tegra124-mipi", .data = &tegra124_mipi_soc },
- 	{ .compatible = "nvidia,tegra132-mipi", .data = &tegra132_mipi_soc },
-@@ -525,6 +599,14 @@ static int tegra_mipi_probe(struct platform_device *pdev)
- 		return PTR_ERR(mipi->clk);
- 	}
- 
-+	if (mipi->soc->dsi_v0) {
-+		mipi->csi_clk = devm_clk_get_prepared(&pdev->dev, "csi");
-+		if (IS_ERR(mipi->csi_clk)) {
-+			dev_err(&pdev->dev, "failed to get CSI clock\n");
-+			return PTR_ERR(mipi->csi_clk);
-+		}
++		value = DSI_PAD_PREEMP_PD_CLK(0x3) | DSI_PAD_PREEMP_PU_CLK(0x3) |
++			DSI_PAD_PREEMP_PD(0x03) | DSI_PAD_PREEMP_PU(0x3);
++		tegra_dsi_writel(dsi, value, DSI_PAD_CONTROL_3);
 +	}
-+
- 	platform_set_drvdata(pdev, mipi);
  
  	return 0;
+ }
+ 
+ static int tegra_dsi_pad_calibrate(struct tegra_dsi *dsi)
+ {
+-	u32 value;
+ 	int err;
+ 
+-	/*
+-	 * XXX Is this still needed? The module reset is deasserted right
+-	 * before this function is called.
+-	 */
+-	tegra_dsi_writel(dsi, 0, DSI_PAD_CONTROL_0);
+-	tegra_dsi_writel(dsi, 0, DSI_PAD_CONTROL_1);
+-	tegra_dsi_writel(dsi, 0, DSI_PAD_CONTROL_2);
+-	tegra_dsi_writel(dsi, 0, DSI_PAD_CONTROL_3);
+-	tegra_dsi_writel(dsi, 0, DSI_PAD_CONTROL_4);
+-
+ 	/* start calibration */
+ 	tegra_dsi_pad_enable(dsi);
+ 
+-	value = DSI_PAD_SLEW_UP(0x7) | DSI_PAD_SLEW_DN(0x7) |
+-		DSI_PAD_LP_UP(0x1) | DSI_PAD_LP_DN(0x1) |
+-		DSI_PAD_OUT_CLK(0x0);
+-	tegra_dsi_writel(dsi, value, DSI_PAD_CONTROL_2);
+-
+-	value = DSI_PAD_PREEMP_PD_CLK(0x3) | DSI_PAD_PREEMP_PU_CLK(0x3) |
+-		DSI_PAD_PREEMP_PD(0x03) | DSI_PAD_PREEMP_PU(0x3);
+-	tegra_dsi_writel(dsi, value, DSI_PAD_CONTROL_3);
+-
+ 	err = tegra_mipi_start_calibration(dsi->mipi);
+ 	if (err < 0)
+ 		return err;
+@@ -1615,7 +1624,7 @@ static int tegra_dsi_probe(struct platform_device *pdev)
+ 		goto remove;
+ 	}
+ 
+-	dsi->clk_lp = devm_clk_get(&pdev->dev, "lp");
++	dsi->clk_lp = devm_clk_get_optional(&pdev->dev, "lp");
+ 	if (IS_ERR(dsi->clk_lp)) {
+ 		err = dev_err_probe(&pdev->dev, PTR_ERR(dsi->clk_lp),
+ 				    "cannot get low-power clock\n");
+@@ -1636,10 +1645,14 @@ static int tegra_dsi_probe(struct platform_device *pdev)
+ 		goto remove;
+ 	}
+ 
+-	err = tegra_dsi_setup_clocks(dsi);
+-	if (err < 0) {
+-		dev_err(&pdev->dev, "cannot setup clocks\n");
+-		goto remove;
++	/* Tegra20/Tegra30 do not use DSI parent muxing */
++	if (!of_device_is_compatible(dsi->dev->of_node, "nvidia,tegra20-dsi") &&
++	    !of_device_is_compatible(dsi->dev->of_node, "nvidia,tegra30-dsi")) {
++		err = tegra_dsi_setup_clocks(dsi);
++		if (err < 0) {
++			dev_err(&pdev->dev, "cannot setup clocks\n");
++			return err;
++		}
+ 	}
+ 
+ 	regs = platform_get_resource(pdev, IORESOURCE_MEM, 0);
+@@ -1709,6 +1722,8 @@ static const struct of_device_id tegra_dsi_of_match[] = {
+ 	{ .compatible = "nvidia,tegra132-dsi", },
+ 	{ .compatible = "nvidia,tegra124-dsi", },
+ 	{ .compatible = "nvidia,tegra114-dsi", },
++	{ .compatible = "nvidia,tegra30-dsi", },
++	{ .compatible = "nvidia,tegra20-dsi", },
+ 	{ },
+ };
+ MODULE_DEVICE_TABLE(of, tegra_dsi_of_match);
+diff --git a/drivers/gpu/drm/tegra/dsi.h b/drivers/gpu/drm/tegra/dsi.h
+index f39594e65e97..d834ac0c47ab 100644
+--- a/drivers/gpu/drm/tegra/dsi.h
++++ b/drivers/gpu/drm/tegra/dsi.h
+@@ -95,6 +95,16 @@
+ #define DSI_TALLY_LRX(x)		(((x) & 0xff) <<  8)
+ #define DSI_TALLY_HTX(x)		(((x) & 0xff) <<  0)
+ #define DSI_PAD_CONTROL_0		0x4b
++/* Tegra20/Tegra30 */
++#define DSI_PAD_CONTROL_PULLDN_ENAB(x)	(((x) & 0x1) << 28)
++#define DSI_PAD_CONTROL_SLEWUPADJ(x)	(((x) & 0x7) << 24)
++#define DSI_PAD_CONTROL_SLEWDNADJ(x)	(((x) & 0x7) << 20)
++#define DSI_PAD_CONTROL_PREEMP_EN(x)	(((x) & 0x1) << 19)
++#define DSI_PAD_CONTROL_PDIO_CLK(x)	(((x) & 0x1) << 18)
++#define DSI_PAD_CONTROL_PDIO(x)		(((x) & 0x3) << 16)
++#define DSI_PAD_CONTROL_LPUPADJ(x)	(((x) & 0x3) << 14)
++#define DSI_PAD_CONTROL_LPDNADJ(x)	(((x) & 0x3) << 12)
++/* Tegra114+ */
+ #define DSI_PAD_CONTROL_VS1_PDIO(x)	(((x) & 0xf) <<  0)
+ #define DSI_PAD_CONTROL_VS1_PDIO_CLK	(1 <<  8)
+ #define DSI_PAD_CONTROL_VS1_PULLDN(x)	(((x) & 0xf) << 16)
 -- 
 2.48.1
 
