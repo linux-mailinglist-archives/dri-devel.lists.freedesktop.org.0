@@ -2,19 +2,21 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id EFF89B09612
-	for <lists+dri-devel@lfdr.de>; Thu, 17 Jul 2025 22:58:27 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 69655B09607
+	for <lists+dri-devel@lfdr.de>; Thu, 17 Jul 2025 22:55:01 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0C15210E8A4;
-	Thu, 17 Jul 2025 20:58:26 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5092F10E89C;
+	Thu, 17 Jul 2025 20:54:58 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
+X-Greylist: delayed 381 seconds by postgrey-1.36 at gabe;
+ Thu, 17 Jul 2025 20:54:57 UTC
 Received: from erminea.space (erminea.space [51.250.125.203])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 727EE10E8A3;
- Thu, 17 Jul 2025 20:58:24 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9AEF310E29F;
+ Thu, 17 Jul 2025 20:54:57 +0000 (UTC)
 Received: from alyaptyap (unknown [37.204.49.201])
- by erminea.space (Postfix) with ESMTPSA id 9ACAA13CF;
- Thu, 17 Jul 2025 23:48:34 +0300 (MSK)
+ by erminea.space (Postfix) with ESMTPSA id 37F0213CE;
+ Thu, 17 Jul 2025 23:54:56 +0300 (MSK)
 From: Peter Shkenev <mustela@erminea.space>
 To: alexander.deucher@amd.com, amd-gfx@lists.freedesktop.org,
  christian.koenig@amd.com
@@ -22,8 +24,8 @@ Cc: airlied@gmail.com, simona@ffwll.ch, dri-devel@lists.freedesktop.org,
  linux-kernel@vger.kernel.org
 Subject: [PATCH] drm/amdgpu: check if hubbub is NULL in
  debugfs/amdgpu_dm_capabilities
-Date: Thu, 17 Jul 2025 23:48:17 +0300
-Message-ID: <20250717204819.731936-1-mustela@erminea.space>
+Date: Thu, 17 Jul 2025 23:54:48 +0300
+Message-ID: <20250717205449.763512-1-mustela@erminea.space>
 X-Mailer: git-send-email 2.50.1
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
