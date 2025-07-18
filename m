@@ -2,57 +2,74 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8C19FB0A4B3
-	for <lists+dri-devel@lfdr.de>; Fri, 18 Jul 2025 15:03:31 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 45731B0A4E1
+	for <lists+dri-devel@lfdr.de>; Fri, 18 Jul 2025 15:12:26 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4C91310E9B7;
-	Fri, 18 Jul 2025 13:03:28 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8BEBA10E9C3;
+	Fri, 18 Jul 2025 13:12:07 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=collabora.com header.i=@collabora.com header.b="SBVNTNlV";
+	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=igalia.com header.i=@igalia.com header.b="lMnSJBlW";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from bali.collaboradmins.com (bali.collaboradmins.com
- [148.251.105.195])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8645710E9B0
- for <dri-devel@lists.freedesktop.org>; Fri, 18 Jul 2025 13:03:26 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
- s=mail; t=1752843805;
- bh=cW+z4FdoCZgI8glcU8gCowaqVnQtd9xnbTSUBw+y7i0=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=SBVNTNlV+jZT/W4IAFxNQTBR9mVQ1dGxgYXUxbRH1Yx/WSt+I+L4z4de08SaxTTp2
- Ucsxq0t2Kl+JkbMWoeTSiX2pRXwIkWdoDSCocRJpCMXTbZd52HxacDstmyRELpyKNm
- BCkh5MWV6WgZ4Tk7FEXzrKmkEqcH+sAapvZH7e+jIAlBfWuWf8j0x33xU1t52huPCh
- U0PX82e+U+9TYc7VZmFFTKYkTb9r/t9R/uh+1+aGk8ytPtF18k0eTp8u2VEtisJxRh
- dFIsyru7uAK3Wj8gAET0dhmFJ5CX72SF3+hwx89RsgW4E61IntVeXKxnswo+jS8yCw
- 0Gj0duCzE+lLg==
-Received: from xpredator (unknown
- [IPv6:2a02:2f08:e40d:4800:e88e:21ff:fe65:be18])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange ECDHE (prime256v1) server-signature RSA-PSS (4096 bits)
- server-digest SHA256) (No client certificate requested)
- (Authenticated sender: mvlad)
- by bali.collaboradmins.com (Postfix) with ESMTPSA id BBBE517E1541;
- Fri, 18 Jul 2025 15:03:24 +0200 (CEST)
-Date: Fri, 18 Jul 2025 16:03:23 +0300
-From: Marius Vlad <marius.vlad@collabora.com>
-To: Louis Chauvet <louis.chauvet@bootlin.com>
-Cc: =?iso-8859-1?Q?Jos=E9_Exp=F3sito?= <jose.exposito89@gmail.com>,
- tzimmermann@suse.de, mripard@kernel.org, simona@ffwll.ch,
- sebastian.wick@redhat.com, victoria@system76.com,
- Mark Yacoub <markyacoub@google.com>, xaver.hugl@kde.org,
- hamohammed.sa@gmail.com, melissa.srw@gmail.com,
- maarten.lankhorst@linux.intel.com, airlied@gmail.com,
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v5 00/16] drm/vkms: Add configfs support
-Message-ID: <aHpGGxZyimpJ8Ehz@xpredator>
-References: <20250507135431.53907-1-jose.exposito89@gmail.com>
- <57e425ff-2731-47d7-b5ce-c34f5baf71b4@bootlin.com>
+Received: from fanzine2.igalia.com (fanzine2.igalia.com [213.97.179.56])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D2ACB10E9C2;
+ Fri, 18 Jul 2025 13:12:02 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com; 
+ s=20170329;
+ h=Content-Transfer-Encoding:Content-Type:Message-ID:References:
+ In-Reply-To:Subject:Cc:To:From:Date:MIME-Version:Sender:Reply-To:Content-ID:
+ Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc
+ :Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:List-Subscribe:
+ List-Post:List-Owner:List-Archive;
+ bh=AwU7bt8MAvt9UXAndNFX+doc5wRh0645T3vY748a7p8=; b=lMnSJBlWkX8FSxQuOMoUSOKkbl
+ 7ChAXCwspgLSj7A56x+UI07xXtZUXgV8HRhCZ1U55csorv1oFe9zvobtBoQg/1qIWpqzTgylXLICC
+ 2WpJEI145+nu6ovJxSCOtVS8AHGsQfP0Aw/gg8T6YxsBQIGjxTnbRtjkqbd+dw87rneNcPAj0Qv7X
+ A0wyX/7mJWG7QUzVGM1pzz3Vk+n98oqwPPK5Cd14jMKT2FwquCkbh1BFU2ZXr10jwo90ciK6B1dqP
+ xj35hTdz5sQoEkwb5yrlVJj2bARF785hE6VwI4Y5SSjd1bqL0RufYubd2X3F1zvGbbaZaq1MgFsoW
+ N74Gpvsg==;
+Received: from maestria.local.igalia.com ([192.168.10.14] helo=mail.igalia.com)
+ by fanzine2.igalia.com with esmtps 
+ (Cipher TLS1.3:ECDHE_SECP256R1__RSA_PSS_RSAE_SHA256__AES_256_GCM:256) (Exim)
+ id 1ucksP-000a1q-4B; Fri, 18 Jul 2025 15:11:49 +0200
+Received: from webmail.service.igalia.com ([192.168.21.45])
+ by mail.igalia.com with esmtp (Exim)
+ id 1ucksM-00Ae9x-M1; Fri, 18 Jul 2025 15:11:48 +0200
+Received: from localhost ([127.0.0.1] helo=webmail.igalia.com)
+ by webmail with esmtp (Exim 4.96) (envelope-from <mwen@igalia.com>)
+ id 1ucksM-00FOx5-0J; Fri, 18 Jul 2025 15:11:46 +0200
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="ZXexRpYrw3I/y90c"
-Content-Disposition: inline
-In-Reply-To: <57e425ff-2731-47d7-b5ce-c34f5baf71b4@bootlin.com>
+Date: Fri, 18 Jul 2025 12:11:46 -0100
+From: Melissa Wen <mwen@igalia.com>
+To: Matthew Schwartz <matthew.schwartz@linux.dev>
+Cc: Matthew Schwartz <mattschwartz@gwmail.gwu.edu>, "Limonciello, Mario"
+ <Mario.Limonciello@amd.com>, "Wentland, Harry" <Harry.Wentland@amd.com>,
+ "Li, Sun peng (Leo)" <Sunpeng.Li@amd.com>, "Deucher, Alexander"
+ <Alexander.Deucher@amd.com>, "Koenig, Christian" <Christian.Koenig@amd.com>,
+ airlied@gmail.com, simona@ffwll.ch, "Hung, Alex" <Alex.Hung@amd.com>, "Liu,
+ Charlene" <Charlene.Liu@amd.com>, amd-gfx@lists.freedesktop.org,
+ dri-devel@lists.freedesktop.org, kernel-dev@igalia.com
+Subject: Re: [PATCH] Revert "drm/amd/display: limit clear_update_flags to
+ dcn32 and above"
+In-Reply-To: <8d859c5f-2551-4624-a9b8-a816f1809feb@linux.dev>
+References: <20250717143738.84722-1-mwen@igalia.com>
+ <70ac7b1e-9a28-45ff-b7b2-ab0f4fe9030a@amd.com>
+ <bb4099a70c2a8c78ef07d5fb6a8f0d3b@igalia.com>
+ <55467ebe-42c8-4387-9a61-aa60b3a84053@amd.com>
+ <BA28247C-9779-4C4C-A8E3-ACF57BEF1521@gwmail.gwu.edu>
+ <67169725b87e02cc8fdc19be5fc7df59@igalia.com>
+ <CAD9O9Dq=dAsMs5a3VzgSvLwfuYYhkARDFBXyWUy+yktEZv5WbQ@mail.gmail.com>
+ <bdfc8786-d4b8-4391-a4d4-c5fe06020802@igalia.com>
+ <CAD9O9DqxJQyAJM=po4yDbAC=hHK2pi12qTVYeb+ar_GenGpMnw@mail.gmail.com>
+ <478eb8175779f03a399f7d933614e14c@igalia.com>
+ <8d859c5f-2551-4624-a9b8-a816f1809feb@linux.dev>
+Message-ID: <801d0d97e7cdd1eb3b845347ccb5ddbf@igalia.com>
+X-Sender: mwen@igalia.com
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
+X-Spam-Report: NO, Score=-2.2, Tests=ALL_TRUSTED=-3,BAYES_50=0.8
+X-Spam-Score: -21
+X-Spam-Bar: --
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -68,196 +85,98 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+On 18-07-2025 00:51, Matthew Schwartz wrote:
+[...]
+> 
+> Sure, going to use my Legion Go S w/ Z2 Go for this (DCN 3.1.2). All
+> of these are from amd-staging-drm-next with AMD_PRIVATE_COLOR=y.
+> 
+> DTN log from Hades II with MangoHud enabled:
+> https://gist.github.com/matte-schwartz/0c290ffe99bdb4f0d7369ee8817d1145
+> 
+> DTN log from Hades II with MangoHud disabled:
+> https://gist.github.com/matte-schwartz/3e2867e192ec9742ec545d2c5dd3096a
+> 
+> drm_info from Hades II with MangoHud enabled:
+> https://gist.github.com/matte-schwartz/456684fc60f7e84173ee2f42de4b774b
+> 
+> drm_info from Hades II with MangoHud disabled:
+> https://gist.github.com/matte-schwartz/6b635fa584d033234b435667f5d2c153
+> 
 
---ZXexRpYrw3I/y90c
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Hey Matthew,
 
-Hi,
+Thanks for the logs.
+There is actually a difference between your hw and Steam Deck in terms
+of pipe split.
+With your hw, there is no pipe split in both scenarios. However, on
+Steam Deck with MangoHud disabled, we can see the split (2 planes):
 
-FWIW, we (Weston) also use vkms in CI and we have in plan to make use of
-these changes to exercise some internal code paths and enhance our tests.=
-=20
-Look forward to getting these into the tree and have it a in release. We
-tend to follow with a branch/stable release so I suppose that's going be
-a while. Just wanted to also say thanks a lot for driving this.
+HUBP:  format  addr_hi  width  height  rot  mir  sw_mode  dcc_en 
+blank_en  clock_en  ttu_dis  underflow   min_ttu_vblank       qos_low_wm
+     qos_high_wm
+[ 0]:      8h      f4h   1280     400   3h   0h      1bh       1        
+0         1        0         0h           36.562            0.000       
+   33.854
+[ 1]:      8h      f4h   1280     400   3h   0h      1bh       1        
+0         1        0         0h           36.562            0.000       
+   33.854
+[ 2]:      8h      f4h   1280     400   3h   0h      1bh       1        
+0         1        0         0h           36.562            0.000       
+   33.854
+[ 3]:      8h      f4h   1280     400   3h   0h      1bh       1        
+0         1        0         0h           36.562            0.000       
+   33.854
 
-Just curios, in the current form would it be possible to configure the
-plane's zpos position? Apart from testing underlay/overlay in the same
-time, some drivers today allows the primary to be independently
-positioned. Simulating these type of configurations would allow see what
-architectural changes we might need to do to transition towards a place
-where we can use any other plane as a (fallback) compositing one like we
-do today with the primary one.
+For completion, this is the DTN log of Steam Deck with MangoHud enabled
+(3 planes, no pipe split):
 
-On Thu, Jul 17, 2025 at 06:37:17PM +0200, Louis Chauvet wrote:
-> +CC: Mark (Google), Sebastian (Mutter), Xaver (KWin), Victoria (Cosmic)
->=20
-> Hi everyone,
->=20
-> Last week, I presented this work at the Display Next Hackfest, and the
-> feedback from compositors was very positive. At least KWin, Mutter, and
-> Cosmic are interested in integrating it into their tests, so it would be
-> great if someone could review it.
->=20
-> Sebastian quickly tested this work (using [2] for full features) with the=
-ir
-> existing VKMS tests [1], and it worked. From what I understand, the tests
-> are quite basic =E2=80=94just sanity checks=E2=80=94 but we were able to =
-reproduce the
-> default vkms device using ConfigFS.
->=20
-> If another compositor wants to test the ConfigFS interface (I will try to
-> keep [2] updated), that would be amazing. Feel free to send feedback!
->=20
-> A small note: This series has a minor conflict since the conversion to the
-> faux device, but it can be applied using `b4 am -3 ... && git am -3 ...`.
-> @jos=C3=A9, if you send a new iteration, can you add markyacoub@google.co=
-m in
-> copy, and maybe Sebastian, Xaver, Victoria if they want to follow the
-> upstreaming?
->=20
-> Thank you,
-> Louis Chauvet
->=20
-> [1]:https://gitlab.gnome.org/swick/mutter/-/commit/88a7354942d9728dae06fb=
-83cc4f2d2c7b08b694
-> [2]:https://github.com/Fomys/linux/tree/configfs-everything
->=20
->=20
->=20
-> Le 07/05/2025 =C3=A0 15:54, Jos=C3=A9 Exp=C3=B3sito a =C3=A9crit=C2=A0:
-> > Hi everyone,
-> >=20
-> > This series allow to configure one or more VKMS instances without having
-> > to reload the driver using configfs.
-> >=20
-> > The series is structured in 3 blocks:
-> >=20
-> >    - Patches 1..11: Basic device configuration. For simplicity, I kept =
-the
-> >      available options as minimal as possible.
-> >=20
-> >    - Patches 12 and 13: New option to skip the default device creation =
-and to-do
-> >      cleanup.
-> >=20
-> >    - Patches 14, 15 and 16: Allow to hot-plug and unplug connectors. Th=
-is is not
-> >      part of the minimal set of options, but I included in this series =
-so it can
-> >      be used as a template/example of how new configurations can be add=
-ed.
-> >=20
-> > The process of configuring a VKMS device is documented in "vkms.rst".
-> >=20
-> > Finally, the code is thoroughly tested by a collection of IGT tests [1].
-> >=20
-> > Best wishes,
-> > Jos=C3=A9 Exp=C3=B3sito
-> >=20
-> > [1] https://lists.freedesktop.org/archives/igt-dev/2025-February/086071=
-=2Ehtml
-> >=20
-> > Changes in v5:
-> >=20
-> >    - Added Reviewed-by tags, thanks Louis!
-> >    - Rebased on top of drm-misc-next
-> >    - Link to v4: https://lore.kernel.org/dri-devel/20250407081425.6420-=
-1-jose.exposito89@gmail.com/
-> >=20
-> > Changes in v4:
-> >=20
-> >    - Since Louis and I worked on this together, set him as the author o=
-f some of
-> >      the patches and me as co-developed-by to reflect this joint effort.
-> >    - Rebased on top of drm-misc-next
-> >    - Link to v3: https://lore.kernel.org/all/20250307163353.5896-1-jose=
-=2Eexposito89@gmail.com/
-> >=20
-> > Changes in v3:
-> >=20
-> >    - Applied review comments by Louis Chauvet: (thanks!!)
-> >      - Use scoped_guard() instead of guard(mutex)(...)
-> >      - Fix a use-after-free error in the connector hot-plug code
-> >    - Rebased on top of drm-misc-next
-> >    - Link to v2: https://lore.kernel.org/all/20250225175936.7223-1-jose=
-=2Eexposito89@gmail.com/
-> >=20
-> > Changes in v2:
-> >=20
-> >    - Applied review comments by Louis Chauvet:
-> >      - Use guard(mutex)(...) instead of lock/unlock
-> >      - Return -EBUSY when trying to modify a enabled device
-> >      - Move the connector hot-plug related patches to the end
-> >    - Rebased on top of drm-misc-next
-> >    - Link to v1: https://lore.kernel.org/dri-devel/20250218170808.9507-=
-1-jose.exposito89@gmail.com/T/
-> >=20
-> > Jos=C3=A9 Exp=C3=B3sito (6):
-> >    drm/vkms: Expose device creation and destruction
-> >    drm/vkms: Allow to configure the default device creation
-> >    drm/vkms: Remove completed task from the TODO list
-> >    drm/vkms: Allow to configure connector status
-> >    drm/vkms: Allow to update the connector status
-> >    drm/vkms: Allow to configure connector status via configfs
-> >=20
-> > Louis Chauvet (10):
-> >    drm/vkms: Add and remove VKMS instances via configfs
-> >    drm/vkms: Allow to configure multiple planes via configfs
-> >    drm/vkms: Allow to configure the plane type via configfs
-> >    drm/vkms: Allow to configure multiple CRTCs via configfs
-> >    drm/vkms: Allow to configure CRTC writeback support via configfs
-> >    drm/vkms: Allow to attach planes and CRTCs via configfs
-> >    drm/vkms: Allow to configure multiple encoders via configfs
-> >    drm/vkms: Allow to attach encoders and CRTCs via configfs
-> >    drm/vkms: Allow to configure multiple connectors via configfs
-> >    drm/vkms: Allow to attach connectors and encoders via configfs
-> >=20
-> >   Documentation/gpu/vkms.rst                    | 100 ++-
-> >   drivers/gpu/drm/vkms/Kconfig                  |   1 +
-> >   drivers/gpu/drm/vkms/Makefile                 |   3 +-
-> >   drivers/gpu/drm/vkms/tests/vkms_config_test.c |  24 +
-> >   drivers/gpu/drm/vkms/vkms_config.c            |   8 +-
-> >   drivers/gpu/drm/vkms/vkms_config.h            |  26 +
-> >   drivers/gpu/drm/vkms/vkms_configfs.c          | 833 ++++++++++++++++++
-> >   drivers/gpu/drm/vkms/vkms_configfs.h          |   8 +
-> >   drivers/gpu/drm/vkms/vkms_connector.c         |  35 +
-> >   drivers/gpu/drm/vkms/vkms_connector.h         |   9 +
-> >   drivers/gpu/drm/vkms/vkms_drv.c               |  18 +-
-> >   drivers/gpu/drm/vkms/vkms_drv.h               |  20 +
-> >   12 files changed, 1072 insertions(+), 13 deletions(-)
-> >   create mode 100644 drivers/gpu/drm/vkms/vkms_configfs.c
-> >   create mode 100644 drivers/gpu/drm/vkms/vkms_configfs.h
-> >=20
-> >=20
-> > base-commit: a6c0a91ccb257eaec2aee080df06863ce7601315
->=20
-> --=20
-> Louis Chauvet, Bootlin
-> Embedded Linux and Kernel engineering
-> https://bootlin.com
->=20
+HUBP:  format  addr_hi  width  height  rot  mir  sw_mode  dcc_en 
+blank_en  clock_en  ttu_dis  underflow   min_ttu_vblank       qos_low_wm
+     qos_high_wm
+[ 0]:      8h      f4h   1280     800   3h   0h      1bh       1        
+0         1        0         0h           44.708            0.000       
+   33.854
+[ 1]:      0h       0h      0       0   0h   0h       0h       0        
+0         0        0         0h            0.000            0.000       
+    0.000
+[ 2]:      8h      f4h   1280     800   3h   0h      1bh       1        
+0         1        0         0h           44.708            0.000       
+   33.854
+[ 3]:      8h      f4h   1280     800   3h   0h      1bh       1        
+0         1        0         0h           44.708            0.000       
+   33.854
 
---ZXexRpYrw3I/y90c
-Content-Type: application/pgp-signature; name="signature.asc"
+I couldn't find a pipe-split policy specific for 3.1.2, but I guess it
+follows the 3.1 Dynamic policy, that is the same of the Steam Deck:
 
------BEGIN PGP SIGNATURE-----
+drivers/gpu/drm/amd/display/dc/resource/dcn31/dcn31_resource.c:863:    
+.pipe_split_policy = MPC_SPLIT_DYNAMIC,
+drivers/gpu/drm/amd/display/dc/resource/dcn314/dcn314_resource.c:883:  
+.pipe_split_policy = MPC_SPLIT_DYNAMIC,
+drivers/gpu/drm/amd/display/dc/resource/dcn315/dcn315_resource.c:863:  
+.pipe_split_policy = MPC_SPLIT_DYNAMIC,
+drivers/gpu/drm/amd/display/dc/resource/dcn316/dcn316_resource.c:858:  
+.pipe_split_policy = MPC_SPLIT_DYNAMIC,
 
-iQIzBAABCAAdFiEEcDKHej6x6uPk3J379jQS5glH1u8FAmh6RhgACgkQ9jQS5glH
-1u+xXA/9Guh9hSv56Ur4XksUAh5J1d8f3v6HQIDEhGdL9EgulHUcH+BR62Mq5FbU
-pIZ8O6L0p2Gx8uyHngeWiZuO9vWUwZiTwwKzc9xAkbSWUal5LQzi3PiXzdb7igN1
-U5pXGm4uDJSC2qgAfaObRcq48kkARrMbN9Bui0tsJrDVHO6NGf4H5lkxPi77GZmK
-MMNEtY70xgrF1uJrVUl5e8km90vMbrEf72A/sKlnJB7c68YnZCcaAwO0Pt/bMaCG
-Ymmg1R2xEwM5n3Uf5vbR5LWO1fGidAw7FsRUX/UPHVI5FrYlzRx+yqqCvCO9qZLU
-qmYVHz08Lk+bKAMNym28X/shGTvGTVEYN4OdpKF+sECkagqbmkXJN+F4mhGu3CzE
-PcPn1bERneW8QuS8gJIZwOSkd4yzapA2cboVYVHs4VWK5uJZ7Yhy1s+bY+Y9h+aP
-JALAEjbUANuLGwUGrkDWbfVtkteiAPkzoT09tgbUVz5wJfLaZbDJ3GzZpy7In9pa
-V+kuz1EBdplbB/0941Hk4y6mamCFrzIIwjPMEIo9vWXtDXWNnyndovsmhXu2qsIR
-4+D2CWpF4s9nK5oP69eCAXqB6vfyNoioBsYacSJW6fXWPQVtJDklA0b+ycH3gD0p
-mq1sq0PNEBMsO/6pnBW4ZOff7G4b9F5M4hDNVDZ66Fd5/U/omkE=
-=m/20
------END PGP SIGNATURE-----
+I remember that we have discussed about the possibility of workaround
+those glitches by avoiding pipe split (and then we would avoid the
+"split" transition), right?
 
---ZXexRpYrw3I/y90c--
+In short, there is a chance that you are not seeing those glitches
+because there are no changes in the pipe split when transitioning
+between 1-2 overlay planes in your hw, but the split happens on steam
+deck for some reasons. I don't know how the driver decides whether or
+not to split pipes.
+
+That said, if AMD prefers to go with an exception for steam deck, better
+if this situation is documented.
+
+Steam Deck still needs the clear_update_flags() because it uses plane
+color caps and therefore sets multiple update flags, and some glitches
+appear when transitioning from 2 planes (with pipe split) to 3 planes
+(no pipe split). It might be related to minimal transition machinery.
+
+Thank you for all inputs.
+
+Melissa
