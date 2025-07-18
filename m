@@ -2,71 +2,71 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 30B78B09F02
-	for <lists+dri-devel@lfdr.de>; Fri, 18 Jul 2025 11:18:10 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id AA301B09F18
+	for <lists+dri-devel@lfdr.de>; Fri, 18 Jul 2025 11:19:39 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6717410E15F;
-	Fri, 18 Jul 2025 09:18:08 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 11B6B10E33A;
+	Fri, 18 Jul 2025 09:19:38 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="mAdpektt";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="FOXlLEXO";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-f47.google.com (mail-wm1-f47.google.com
- [209.85.128.47])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0A69610E15F
- for <dri-devel@lists.freedesktop.org>; Fri, 18 Jul 2025 09:18:08 +0000 (UTC)
-Received: by mail-wm1-f47.google.com with SMTP id
- 5b1f17b1804b1-454f428038eso15752735e9.2
- for <dri-devel@lists.freedesktop.org>; Fri, 18 Jul 2025 02:18:07 -0700 (PDT)
+Received: from mail-wm1-f41.google.com (mail-wm1-f41.google.com
+ [209.85.128.41])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5564A10E33A
+ for <dri-devel@lists.freedesktop.org>; Fri, 18 Jul 2025 09:19:37 +0000 (UTC)
+Received: by mail-wm1-f41.google.com with SMTP id
+ 5b1f17b1804b1-451dbe494d6so19984235e9.1
+ for <dri-devel@lists.freedesktop.org>; Fri, 18 Jul 2025 02:19:37 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1752830286; x=1753435086; darn=lists.freedesktop.org;
+ d=gmail.com; s=20230601; t=1752830376; x=1753435176; darn=lists.freedesktop.org;
  h=content-transfer-encoding:cc:to:subject:message-id:date:from
  :in-reply-to:references:mime-version:from:to:cc:subject:date
  :message-id:reply-to;
- bh=txHiNEgzLT/qSl4OZgY8NqRe0t4qidcOPq+VdRZOPkE=;
- b=mAdpekttzhSrUakCmp89SQakz6RT/Bxuvp7gsvUbEvPFvPYO5JRQHtO5yb1eg/Z/RE
- 0C7q1QPH52e/FaX+iCw/1NuYEgGDF97YhyX7ASwn5K6CfEATNNVi0YQFLmkz0UJ81G9X
- 2KOaWuqU+69Yi5f+46U9cQkh8COTbVuw48E3JSqWYmBIgzTPVeWl9ejdwBOSaZCWDt8y
- hTLWT6aQ2C9hF5TCcBOs4xbNsLKTpBuNSf9NmgLeW2C93coQWMJGZj3qgmJdmZj46+gN
- aV0siAXtrNnthFLxvVlL2MoKS0/Eg9z3Lg/jNY4IpQfDl3tZDpk4dESc+5xRjj1dtQpe
- hzbQ==
+ bh=F9624kxdlf6YfwvmNaKwA8YxPHmSVKpCcbiEww8Vk3E=;
+ b=FOXlLEXOjuTqTCWEQTLtTpx4/i246fINrBEsvdXD9ypWx0Qij9z3ya0vK6IQD1JqiM
+ DXwMEExMY1/HSHA9a1e2zjJg0rQlbQCxgfdnTjkrt98jm3VDZ98rNHmMUiLbhIzPC6hI
+ /u9HaA1+1iSVmvfbtTUgygni8bZw8FXA8K17ZtWF6Qwt3BYS/IHZFlOclMULMi2varjw
+ ukw+SpIhjicA6MAo/Ah3AuzI0LJZK8Qlpk9L7tKh1fnYwjqrg+upl0eaKMJwbvTP23VA
+ mP5/oO4vD77wEHobgo/mliVsVOH5sW1dFOu6s+PGNwy/kAji6FEqUzfM5Iyt2E/eWlbK
+ mHsQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1752830286; x=1753435086;
+ d=1e100.net; s=20230601; t=1752830376; x=1753435176;
  h=content-transfer-encoding:cc:to:subject:message-id:date:from
  :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=txHiNEgzLT/qSl4OZgY8NqRe0t4qidcOPq+VdRZOPkE=;
- b=q183r0mdecjw0YXkpnHCwIhvmcnwAJGbf743qeS+XcC+zdUl/DP4Hwck41P4FPyFlx
- CxYyYpvRFjczgqHmNZ059NGRCbXh04ADbRoewUcFjVAs4X+PlqcYdxou7gIi0Up8veDP
- OymFHZvLqD3irX+B1q6DQKtORl3IP+DnKh442KLF3CXH7HodMxyiMOglC8ugnhs1N88A
- x/vS5Gwa80RvbjoNtkI/yTHVN41W7p6yfAAueTAnKpc+xD55WVzGq6XN1OtDJW+reQli
- eyz+1FR6bvsH6I6kAcsDAN8r7nf7pEt1AQsZpIsNtQDpfzPUuNu4aJXRo9IA5Pg7ipXz
- grzA==
+ bh=F9624kxdlf6YfwvmNaKwA8YxPHmSVKpCcbiEww8Vk3E=;
+ b=KdmMyT6wgMpEajjDpi/rXHvJLRZMv2IaeVL7DgLBPq5DFHhSphcFnHswRgCFf/hrxP
+ QuqOqiacsQbPa6V7sABsMls4UYnxXAkgUDWsShOI1M9mNCfZHY5tvy1IB53TgCFn2nij
+ 0sCw5Eo1HbQ7NfsWHxAHNHNuJTcICanN7w77uc8h1MHF15XOHgIzDrgOH26ES9GHrsVt
+ sMIwrWvYeN69cQ07j091FodqUcBqrZmeKxMimW//dJsmd/oIyitjN74VOHKoCk9RB5tZ
+ 7mV0iuRKD+NAWHidYSQg7iLafAaajbzAtQqHJ7RPB3XrmAlORzIoBI8sW7qRFwMoGfCn
+ 4LWA==
 X-Forwarded-Encrypted: i=1;
- AJvYcCVipc5Uw91isrrbnHhusv9iWnt/LIZY0XDxyANaBiLyNG7YDPH7JWyntsRAQ4+N0n6mrAopLMl+hQI=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0Yz5P/b1hu6hi3rpuJwFJcymu06QVwEXDrkAgshOENX/ao72Fyaz
- TgjJ7etklIa18cyyC06bu2J44inal4p3CrvlzEwZit6jtEPQBKMFmEXS+HPdJ8tYLcmZ3atHUEL
- LYMjOcSC8YmFlKf/pubaJb6xDV+pSIwU=
-X-Gm-Gg: ASbGncul6S02PNxjaTIDAIhOj9IGVF8QctT9duQoYK4KKvoyaI3oMSMw2iXOfrp0jd/
- rybqvBCDwr6XSbvv7fmk0+u3+zBC3qUdhF7freZ8f43ShYsvL/+T7kMj+8k2YFTrE4cnZ3e0UtL
- VxlUlNB5/yMB7xvVfedtCW31aY4t9KrKAWJwfKbTdMgkQQcmS5ICFm9cAGO1LG5X4WXy6vfbD/9
- QE1iTvf
-X-Google-Smtp-Source: AGHT+IFZ8wMKIx/E8isGBLpDzTPqGmr8RwNbZDlMMF40PNFijmWy4bBhyf8VmTn9JDl/xhNB1IGk3vhk8pOYlQo2rAs=
-X-Received: by 2002:a05:600c:4f85:b0:44a:b478:1387 with SMTP id
- 5b1f17b1804b1-4562e39b996mr115055915e9.17.1752830285977; Fri, 18 Jul 2025
- 02:18:05 -0700 (PDT)
+ AJvYcCVOEP+5ylfjUhKJgX8hcAXT8LgwYHY56uIoILhV/LfPYqDv3XUDX1uvqTGcX7zbawJ+9ZNs4/V7PXQ=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YxeLD3rG/ge49ww66QDxo5reLWL68wbnbBtiVa5g/ORJqIBFQ9d
+ B7A3WCTgWA86IzeWRbB6qiUltoYgMLpbZzMLvLQwxnwxytYhc3tErI9HUdfDppVT8jtfWb+fJPa
+ 2kWUCsYYR+ahlISbfDkaa+/6l0dotXIk=
+X-Gm-Gg: ASbGncsDJ7voCHpsmZDS1fgq3Ci6rvMYuMAPi+vaz8WhHycY2PUZkgb+YRAygH6wcCl
+ ImuCQO5qVqEoQ1JMo988zHx2s0iojuD1kr06V9A/EzGAt/zI9rL9iISWj0SnMFAmJGtL1HpMAhr
+ NcSouoXj/XfVl+TvDEurPrGnEqYgVgFmBu0YUdJRgusmUYkXlJahyvWXT+y1HZtEMZDv1QiVyzV
+ mm2Snrt
+X-Google-Smtp-Source: AGHT+IFXFUxkSHC0x5yD9GpDrGnP0Vkk/6Hcqaopw6DVq8kJphRsVttXTBgES6eJ3vh7JXBvsfZ8EFDzCZr6pelsBmI=
+X-Received: by 2002:a05:600c:4f4f:b0:456:2cd9:fc41 with SMTP id
+ 5b1f17b1804b1-4562e3b9937mr83880645e9.20.1752830375388; Fri, 18 Jul 2025
+ 02:19:35 -0700 (PDT)
 MIME-Version: 1.0
 References: <20250717142139.57621-1-clamor95@gmail.com>
- <20250717142139.57621-4-clamor95@gmail.com>
- <5474709.5fSG56mABF@senjougahara>
-In-Reply-To: <5474709.5fSG56mABF@senjougahara>
+ <20250717142139.57621-5-clamor95@gmail.com>
+ <10778402.NyiUUSuA9g@senjougahara>
+In-Reply-To: <10778402.NyiUUSuA9g@senjougahara>
 From: Svyatoslav Ryhel <clamor95@gmail.com>
-Date: Fri, 18 Jul 2025 12:17:54 +0300
-X-Gm-Features: Ac12FXwkiKFiGNrvrcZRa65PO2Me53wmAzQtfzYTCB6B1QYpAjOt5b9oveZCdW0
-Message-ID: <CAPVz0n1TxOb_hKgKYTdeJ=Ka0STqfiHLtwAv+Ws=vtq=G-MAow@mail.gmail.com>
-Subject: Re: [PATCH v1 3/5] gpu/drm: host1x: mipi: add Tegra20/Tegra30 MIPI
- calibration logic
+Date: Fri, 18 Jul 2025 12:19:24 +0300
+X-Gm-Features: Ac12FXzJO2FaPvG3kozLgWWtNWGcHAVWJUosR9Xg-jWP9kyKhG0okiB-C1KmNR4
+Message-ID: <CAPVz0n1u3=UcYvbZEfC59kMLD647pJKKiOQ308oQ9qde4vQcyQ@mail.gmail.com>
+Subject: Re: [PATCH v1 4/5] gpu/drm: tegra: dsi: add support for
+ Tegra20/Tegra30
 To: Mikko Perttunen <mperttunen@nvidia.com>
 Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
  Maxime Ripard <mripard@kernel.org>, 
@@ -75,9 +75,12 @@ Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
  Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
  Conor Dooley <conor+dt@kernel.org>, 
  Thierry Reding <thierry.reding@gmail.com>, Thierry Reding <treding@nvidia.com>,
- Jonathan Hunter <jonathanh@nvidia.com>, Prashant Gaikwad <pgaikwad@nvidia.com>,
- Michael Turquette <mturquette@baylibre.com>, Stephen Boyd <sboyd@kernel.org>, 
- Dmitry Osipenko <digetx@gmail.com>, dri-devel@lists.freedesktop.org, 
+ Jonathan Hunter <jonathanh@nvidia.com>,
+ Peter De Schrijver <pdeschrijver@nvidia.com>, 
+ Prashant Gaikwad <pgaikwad@nvidia.com>,
+ Michael Turquette <mturquette@baylibre.com>, 
+ Stephen Boyd <sboyd@kernel.org>, Dmitry Osipenko <digetx@gmail.com>,
+ dri-devel@lists.freedesktop.org, 
  devicetree@vger.kernel.org, linux-tegra@vger.kernel.org, 
  linux-kernel@vger.kernel.org, linux-clk@vger.kernel.org
 Content-Type: text/plain; charset="UTF-8"
@@ -97,64 +100,71 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-=D0=BF=D1=82, 18 =D0=BB=D0=B8=D0=BF. 2025=E2=80=AF=D1=80. =D0=BE 12:11 Mikk=
+=D0=BF=D1=82, 18 =D0=BB=D0=B8=D0=BF. 2025=E2=80=AF=D1=80. =D0=BE 12:15 Mikk=
 o Perttunen <mperttunen@nvidia.com> =D0=BF=D0=B8=D1=88=D0=B5:
 >
 > On Thursday, July 17, 2025 11:21=E2=80=AFPM Svyatoslav Ryhel wrote:
-> > ...
-> > @@ -311,6 +330,43 @@ int tegra_mipi_finish_calibration(struct
-> > tegra_mipi_device *device) }
-> >  EXPORT_SYMBOL(tegra_mipi_finish_calibration);
+> > Tegra20/Tegra30 are fully compatible with existing tegra DSI driver apa=
+rt
+>
+> 'apart from'
+>
+> > clock configuration and MIPI calibration which are addressed by this pa=
+tch.
 > >
-> > +static int tegra20_mipi_calibration(struct tegra_mipi_device *device)
-> > +{
-> > +     struct tegra_mipi *mipi =3D device->mipi;
-> > +     const struct tegra_mipi_soc *soc =3D mipi->soc;
-> > +     u32 value;
-> > +     int err;
-> > +
-> > +     err =3D clk_enable(mipi->csi_clk);
-> > +     if (err < 0)
-> > +             return err;
-> > +
-> > +     mutex_lock(&mipi->lock);
-> > +
-> > +     value =3D MIPI_CAL_CONFIG_TERMOS(soc->termos);
-> > +     tegra_mipi_writel(mipi, value, CSI_CILA_MIPI_CAL_CONFIG);
-> > +
-> > +     value =3D MIPI_CAL_CONFIG_TERMOS(soc->termos);
-> > +     tegra_mipi_writel(mipi, value, CSI_CILB_MIPI_CAL_CONFIG);
-> > +
-> > +     value =3D MIPI_CAL_CONFIG_HSPDOS(soc->hspdos) |
-> > +             MIPI_CAL_CONFIG_HSPUOS(soc->hspuos);
-> > +     tegra_mipi_writel(mipi, value, CSI_DSI_MIPI_CAL_CONFIG);
-> > +
-> > +     value =3D MIPI_CAL_BIAS_PAD_DRV_DN_REF(soc->pad_drive_down_ref) |
-> > +             MIPI_CAL_BIAS_PAD_DRV_UP_REF(soc->pad_drive_up_ref);
-> > +     tegra_mipi_writel(mipi, value, CSI_MIPIBIAS_PAD_CONFIG);
-> > +
-> > +     tegra_mipi_writel(mipi, 0x0, CSI_CIL_PAD_CONFIG);
-> > +
-> > +     mutex_unlock(&mipi->lock);
-> > +
-> > +     clk_disable(mipi->csi_clk);
-> > +     clk_disable(mipi->clk);
-> > +
-> > +     return 0;
-> > +}
-> > +
+> > Signed-off-by: Svyatoslav Ryhel <clamor95@gmail.com>
+> > ---
+> >  drivers/gpu/drm/tegra/drm.c |  2 ++
+> >  drivers/gpu/drm/tegra/dsi.c | 69 ++++++++++++++++++++++---------------
+> >  drivers/gpu/drm/tegra/dsi.h | 10 ++++++
+> >  3 files changed, 54 insertions(+), 27 deletions(-)
+> >
+> > diff --git a/drivers/gpu/drm/tegra/drm.c b/drivers/gpu/drm/tegra/drm.c
+> > index 4596073fe28f..5d64cd57e764 100644
+> > --- a/drivers/gpu/drm/tegra/drm.c
+> > +++ b/drivers/gpu/drm/tegra/drm.c
+> > @@ -1359,10 +1359,12 @@ static SIMPLE_DEV_PM_OPS(host1x_drm_pm_ops,
+> > host1x_drm_suspend,
+> >
+> >  static const struct of_device_id host1x_drm_subdevs[] =3D {
+> >       { .compatible =3D "nvidia,tegra20-dc", },
+> > +     { .compatible =3D "nvidia,tegra20-dsi", },
+> >       { .compatible =3D "nvidia,tegra20-hdmi", },
+> >       { .compatible =3D "nvidia,tegra20-gr2d", },
+> >       { .compatible =3D "nvidia,tegra20-gr3d", },
+> >       { .compatible =3D "nvidia,tegra30-dc", },
+> > +     { .compatible =3D "nvidia,tegra30-dsi", },
+> >       { .compatible =3D "nvidia,tegra30-hdmi", },
+> >       { .compatible =3D "nvidia,tegra30-gr2d", },
+> >       { .compatible =3D "nvidia,tegra30-gr3d", },
+> > diff --git a/drivers/gpu/drm/tegra/dsi.c b/drivers/gpu/drm/tegra/dsi.c
+> > index 3f91a24ebef2..85bcb8bee1ae 100644
+> > --- a/drivers/gpu/drm/tegra/dsi.c
+> > +++ b/drivers/gpu/drm/tegra/dsi.c
+> > @@ -662,39 +662,48 @@ static int tegra_dsi_pad_enable(struct tegra_dsi =
+*dsi)
+> > {
+> >       u32 value;
+> >
+> > -     value =3D DSI_PAD_CONTROL_VS1_PULLDN(0) | DSI_PAD_CONTROL_VS1_PDI=
+O(0);
+> > -     tegra_dsi_writel(dsi, value, DSI_PAD_CONTROL_0);
+> > +     /* Tegra20/30 uses DSIv0 while Tegra114+ uses DSIv1 */
+> > +     if (of_device_is_compatible(dsi->dev->of_node, "nvidia,tegra20-ds=
+i")
+> ||
+> > +         of_device_is_compatible(dsi->dev->of_node, "nvidia,tegra30-ds=
+i"))
 >
-> Where does this sequence come from? It looks a bit strange to me, since i=
-t
-> doesn't trigger calibration at all. It would be useful to mention the sou=
-rce
-> in the commit message.
+> You need to add "soc data" structures to the of_match table instead of
+> checking for compatible string in the code itself.
 >
+
+I assumed that introducing "soc data" for 2 occurrences would be excessive.
+
+> Thanks,
 > Mikko
-
-Downstream nvidia sources, 3.1.10 and 3.4, dsi driver, function
-tegra_dsi_pad_calibration
-
+>
 >
 >
 >
