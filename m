@@ -2,131 +2,120 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4ACBCB0A96A
-	for <lists+dri-devel@lfdr.de>; Fri, 18 Jul 2025 19:26:54 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 77181B0A979
+	for <lists+dri-devel@lfdr.de>; Fri, 18 Jul 2025 19:28:52 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id ABD2610EA24;
-	Fri, 18 Jul 2025 17:26:52 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5A20F10EA26;
+	Fri, 18 Jul 2025 17:28:27 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=qualcomm.com header.i=@qualcomm.com header.b="WkhBU3LM";
+	dkim=pass (2048-bit key; unprotected) header.d=qualcomm.com header.i=@qualcomm.com header.b="hL3fYOQC";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com
- [205.220.180.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 27D0B10EA24
- for <dri-devel@lists.freedesktop.org>; Fri, 18 Jul 2025 17:26:52 +0000 (UTC)
-Received: from pps.filterd (m0279870.ppops.net [127.0.0.1])
- by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 56IFxKPI030598
- for <dri-devel@lists.freedesktop.org>; Fri, 18 Jul 2025 17:26:51 GMT
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com
+ [205.220.168.131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id CB45610EA27
+ for <dri-devel@lists.freedesktop.org>; Fri, 18 Jul 2025 17:28:26 +0000 (UTC)
+Received: from pps.filterd (m0279865.ppops.net [127.0.0.1])
+ by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 56IFl9k2001312
+ for <dri-devel@lists.freedesktop.org>; Fri, 18 Jul 2025 17:28:26 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
  cc:content-transfer-encoding:content-type:date:from:in-reply-to
  :message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
- fv+mEh4f0MhcLN21Yyg9tehverC4r+K2gbgLijocXdM=; b=WkhBU3LMpFoMdlPM
- vAqhiFUJdo1Zy9EYgRDMvp+udPTuHcKx9lPDzeI2ZXq/5cm7elI1QDI9LLxeG7gS
- hM6o9dZC2AWKDDE9ER2UAtPb/2eWJ6s7I3lTT8VDrIQ8Lz+8/oZgNsOnR6tkiv3M
- 94c+I8oV1nqbS5IF9e9qGIAskI1hdNYx8UqAIqikMGRgjMivqEVAGMXOOwgcHFDw
- 86IzJ625OAki5wWOvc3cxljvy5wf4/Gn9QN7kvCjiE5iYaW7iZNCxeJgbNqMtIKR
- jnNnOF8dKB9rBjiPu7wk4qG9V5hUF7oHJKiK64hHUIbeNs/4uKN/X6SZ8025kYzP
- 0hTlwg==
-Received: from mail-pf1-f200.google.com (mail-pf1-f200.google.com
- [209.85.210.200])
- by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 47x8x7s8x0-1
+ m3LoWx9DJ0TyeqCc/zXgNGefaOcySK/itM7vHhC503E=; b=hL3fYOQCMSzfdzZe
+ ARYdewThhNQpHTxU9N5K5FEGaVx+b6EyURyjSKgeEY05Surk9walCPC6uH3da5kM
+ moiRe8ECpMYOhbwKNv2N5EZQP99VZA8OMHEFDTFQkoM6/eThJPecHLpCq6DZWWt7
+ zLe7E9CkPzejy4CdqKdIifKZEA6CUdob6+dbeWyHbNUXJyxyzuRpmYtrYWX8XYnx
+ Jmv9Zq/6pNmnNLa2Tug6NgWZTA+7oXWZn90cUMOOkoFhaz8iYAL1xILGlbSG6zMQ
+ vjuQwEXALfkTvBftllkkaBt9BreiI61wcEFH6BvwLbyNUl7JPgYwRBEnUJgifCGx
+ XJbQ8g==
+Received: from mail-qk1-f197.google.com (mail-qk1-f197.google.com
+ [209.85.222.197])
+ by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 47w5dryfx7-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
- for <dri-devel@lists.freedesktop.org>; Fri, 18 Jul 2025 17:26:51 +0000 (GMT)
-Received: by mail-pf1-f200.google.com with SMTP id
- d2e1a72fcca58-74913385dd8so3211632b3a.0
- for <dri-devel@lists.freedesktop.org>; Fri, 18 Jul 2025 10:26:50 -0700 (PDT)
+ for <dri-devel@lists.freedesktop.org>; Fri, 18 Jul 2025 17:28:26 +0000 (GMT)
+Received: by mail-qk1-f197.google.com with SMTP id
+ af79cd13be357-7e095227f5dso370755885a.1
+ for <dri-devel@lists.freedesktop.org>; Fri, 18 Jul 2025 10:28:26 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1752859610; x=1753464410;
- h=content-transfer-encoding:in-reply-to:from:content-language
- :references:cc:to:subject:user-agent:mime-version:date:message-id
+ d=1e100.net; s=20230601; t=1752859705; x=1753464505;
+ h=in-reply-to:content-transfer-encoding:content-disposition
+ :mime-version:references:message-id:subject:cc:to:from:date
  :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=fv+mEh4f0MhcLN21Yyg9tehverC4r+K2gbgLijocXdM=;
- b=GgvQGaZhql0y0CQey0hkcHorR6gFKX8bNkZHW7CW73CRRv519q0JxlBMC1IpMqmaj6
- lAiNh9Jeh4fYlTFt+Xif6N4LOl35tycdoCLQduRYiGc4KTlYkPoMmeE7Yd8eUz/Jsz2z
- F5erJxIRfsfs+Rt6h77wHNNOyLFLPwDbzQ7yibYFyx/qJaX7ECneHheXARfKiGmeGjp9
- eMy0HKtPFhUscZjpX8XWe04UCh2pTjrkhFMrxFjHYL2YcxcOD61ZJ97WiK9WH1reO41v
- ewLwmBn8siGpFRRX+HS90KpmArCCkHQhcOlfg+joRDYyb4PmQ/n+uHV7pY8r7UAP2OtH
- 0FAA==
+ bh=m3LoWx9DJ0TyeqCc/zXgNGefaOcySK/itM7vHhC503E=;
+ b=Zew8rzFzsmaj0UaUR59ZPEfBLjlceoeJZlP9VfIDq7Rtcp0k2HzfFKkIcxoofaYYwl
+ AlV6cnyu5Zdx4pmFTgrEW3OXLcYIcZA99bW3Bf13O+zR0N7ii+Qa5KP5tMr9YLmZZGJ0
+ BQROeQYtJxYcdHh7YqROlkjqtyvbNRzuD1Ftd2ONm0n9o8j6JD92BVaBTTr42NrKBEPL
+ 33Azwnf1NDhPUaIqUAyCmxwVVUyjqdgnhmpV/bc7VMiniPGT1mxkyKimI2GzjQjSyeZb
+ 8I8KHcH+ErXirsuHucHjZ2XHYQfMvg3HXeyEUCeaB6L9bkZdzifPHnpr9fRwO5ejj+VZ
+ S5fw==
 X-Forwarded-Encrypted: i=1;
- AJvYcCWXginrZhcpo+gl2zso9hm5gGLejAw6LeAEqphnG1VOSXxjvLpn6/XfWfXzc7g7tuX+oBiqSxXTj1o=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YzUKfpN+reH6tspYa27537cyo19juqjvkweAZw6jKbw2dE44xlz
- 1rva+o4G7jZOUs+k/LD4r/gCMn6jltCDRKeYu+UvMVAblzfgtsVYfKcRKLIMAo/1lVyP70NT9mr
- k/N29KIy0LJ9TFPK6GnvaKAWTocC2UxuCcH19G1AN3q3+B61+4Keppk3Y/b6HF/2fDG0HkUw=
-X-Gm-Gg: ASbGncsLQM0Y1VBVzlqF0C3mi2bIlUxy33DTmisRih3CUOW8GiAJXN6kYa3yLQmo2P0
- ltMSCMm7s5XkY4yMaftBw72lY9t7nwA77JkvuFm8qCgoeo3SisQg9RBSW8ZjzGahhxV2fO7VxXL
- g4Kfa0J38ABmK//v6biDd3oDDpDW5dCzIdRLJyaW0K72zgd6xVi4lqixZ+VMr8COdzXFYpMyYBR
- Q0t6nxzQshdVOfaAwIZAKFf2hFL9rJry7e0ceJ7ar1hKNajRcX5JBEG83OhekuOB1ZDRlCWRW9y
- wRVz03gavb8XOYVbmtl/Kib7qu7WaM+dtVJwz0yIp57Qyp2s5syUWV2N8j9A6licMPQzJUm5ROz
- P8x+/wmKW4xjeMg==
-X-Received: by 2002:a05:6a00:3392:b0:740:9e87:9625 with SMTP id
- d2e1a72fcca58-7572267d1f8mr16458224b3a.4.1752859609750; 
- Fri, 18 Jul 2025 10:26:49 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IHqQ9S63kSJn6y6OyUDc3uTWz9C+4cH8naBY6AZisiTbM1Dmrh1Aqbj7AEM/eK1YFdABEhA9g==
-X-Received: by 2002:a05:6a00:3392:b0:740:9e87:9625 with SMTP id
- d2e1a72fcca58-7572267d1f8mr16458162b3a.4.1752859609159; 
- Fri, 18 Jul 2025 10:26:49 -0700 (PDT)
-Received: from [10.226.59.182] (i-global254.qualcomm.com. [199.106.103.254])
+ AJvYcCW2nj1vjLOGDrTJSm27P7UOLHa4aDC5bSiVL2fEYFlB5aT+Q9XwKwrH7kNzIyvojFeUi4/kxHG8oMM=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0Yw531ZMKzt7iXpyqGYNZo6vy6WmuIKwjNNsng3r3wci7qse+sjf
+ s1SUhxzlPliZxJFh7gsSjxZ+T00ZpYnrnM210oSho6tYliK1G0QlDcg28huJorKYTkgYyIUjvgg
+ qyliISD9xWMYS+QxLgZRgFAou72MlFCpABsijN/7VNn1NosDetwBrgvev5bcEHi5GLEsjcYI=
+X-Gm-Gg: ASbGncufl9XrNkr5bju1F+/B9TNqaSgsKFyqii35evrh9coZcw1XYc+5ZRVZBpAXh9Z
+ ufzOOQCKy97gCrYECHp3e4kHtufc+IZZgx8pk5uIfK2BEjQRBEZwF6L1TwW5RHGMVr+TtjgAAQa
+ 2c336JPlhzD5+peUYtF10wvsFfzMUVV2+Wux55Zk69Fm/NaPQNSh0xA1vThWw4Yq7Ooeghv+GzI
+ BuKRWi4Njufirzc4xnVuhOFSohqVWsw9d2YgmzwT5w44caOmpVQNtYvS2M8PXHL8HeN/XvludoR
+ HAIg1Sx2uBwN3NRl7eRTe/uZwW8sKAo+xOYiUHEvGjk6V9hZM20NfCWXvmQVXMqbHLPGlYSfmUD
+ I8FTzpU7M0Tk8koz/RMCWj/YG1I/2/SWrbTEFC4E+milwAcwt3uDh
+X-Received: by 2002:a05:620a:31a2:b0:7e1:ef9c:551b with SMTP id
+ af79cd13be357-7e342aaa43cmr1705213385a.14.1752859704670; 
+ Fri, 18 Jul 2025 10:28:24 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IHi1fx7XAxIa0TvF/aFCXfwm8ex0+eb4Ytu8ukrsy0ujfZiAFNB/UKSTVvQ3I4n6jhoSky01Q==
+X-Received: by 2002:a05:620a:31a2:b0:7e1:ef9c:551b with SMTP id
+ af79cd13be357-7e342aaa43cmr1705206985a.14.1752859703989; 
+ Fri, 18 Jul 2025 10:28:23 -0700 (PDT)
+Received: from umbar.lan
+ (2001-14ba-a0c3-3a00-264b-feff-fe8b-be8a.rev.dnainternet.fi.
+ [2001:14ba:a0c3:3a00:264b:feff:fe8b:be8a])
  by smtp.gmail.com with ESMTPSA id
- d2e1a72fcca58-759cbd67ed2sm1530796b3a.135.2025.07.18.10.26.46
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 18 Jul 2025 10:26:48 -0700 (PDT)
-Message-ID: <cd36e463-2499-4e3f-8a02-60ea43de83dd@oss.qualcomm.com>
-Date: Fri, 18 Jul 2025 11:26:45 -0600
-MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v8 04/10] accel/rocket: Add job submission IOCTL
-To: Tomeu Vizoso <tomeu@tomeuvizoso.net>, Rob Herring <robh@kernel.org>,
- Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
- <conor+dt@kernel.org>, Heiko Stuebner <heiko@sntech.de>,
- Oded Gabbay <ogabbay@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>,
+ 2adb3069b0e04-55a31a9b71esm334910e87.30.2025.07.18.10.28.22
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Fri, 18 Jul 2025 10:28:23 -0700 (PDT)
+Date: Fri, 18 Jul 2025 20:28:21 +0300
+From: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
+To: Thomas =?utf-8?Q?Wei=C3=9Fschuh?= <thomas.weissschuh@linutronix.de>
+Cc: Rob Clark <robin.clark@oss.qualcomm.com>,
+ Dmitry Baryshkov <lumag@kernel.org>,
+ Abhinav Kumar <abhinav.kumar@linux.dev>,
+ Jessica Zhang <jessica.zhang@oss.qualcomm.com>,
+ Sean Paul <sean@poorly.run>,
+ Marijn Suijten <marijn.suijten@somainline.org>,
  David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- Sumit Semwal <sumit.semwal@linaro.org>,
- =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
- Sebastian Reichel <sebastian.reichel@collabora.com>,
- Nicolas Frattaroli <nicolas.frattaroli@collabora.com>,
- Kever Yang <kever.yang@rock-chips.com>,
- Robin Murphy <robin.murphy@arm.com>,
- Daniel Stone <daniel@fooishbar.org>, Da Xue <da@libre.computer>,
- Philipp Zabel <p.zabel@pengutronix.de>
-Cc: devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
- linux-rockchip@lists.infradead.org, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, linux-doc@vger.kernel.org,
- linux-media@vger.kernel.org, linaro-mm-sig@lists.linaro.org
-References: <20250713-6-10-rocket-v8-0-64fa3115e910@tomeuvizoso.net>
- <20250713-6-10-rocket-v8-4-64fa3115e910@tomeuvizoso.net>
-Content-Language: en-US
-From: Jeff Hugo <jeff.hugo@oss.qualcomm.com>
-In-Reply-To: <20250713-6-10-rocket-v8-4-64fa3115e910@tomeuvizoso.net>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwNzE4MDEzOCBTYWx0ZWRfX9jJEI34xQgu6
- HPLS/pr/5wb/d6GNyCvu8YZmeq4fpnVsM4aptAGCNoV8Zt/epYG0ZO9Y1q+aLhAcNHrB11fFwWE
- a3qo82Eo0F0jYjL5lL+h/fWXLqIAmSuWs4vMVphqS6xlUhxYHHghvhsz2iA+uavWdDUjWcGdamS
- lITxZE5BXAgwsRNAcKpNOFz9sX/qDmr4BFb7lCHYR/E55nNKyxD97PyQgkdIB7z/AD3Mxcni6ul
- kpO4VFAsOF29bepU4dVtmRtyn8S4aSb/aO5PJwXjcazBiNoKrULPN/czt5GKJ4ufjQIi8qbKiur
- 5LKgIcQzzgX7eSNDzJrSuobC2VgPKSMjNe9bXjYFYiAwLiP8qn8YnDLsjDPcDvgSasJ9a3isGF6
- ZL8MdpIWnbRXctHkNQTWwszXfJpJ3YTvt7FMcdqNEEZiwPSO8s6py39H9xWr/WZrCezGepvw
-X-Proofpoint-GUID: 18uiaDV7ls1SRewp_jOHA_hR9iolmvCs
-X-Proofpoint-ORIG-GUID: 18uiaDV7ls1SRewp_jOHA_hR9iolmvCs
-X-Authority-Analysis: v=2.4 cv=N9YpF39B c=1 sm=1 tr=0 ts=687a83db cx=c_pps
- a=mDZGXZTwRPZaeRUbqKGCBw==:117 a=JYp8KDb2vCoCEuGobkYCKw==:17
- a=IkcTkHD0fZMA:10 a=Wb1JkmetP80A:10 a=DISFzqtZAAAA:8 a=EUspDBNiAAAA:8
- a=OV0_J1LtQ3fB1FIpcGAA:9 a=QEXdDO2ut3YA:10 a=zc0IvFSfCIW2DFIPzwfm:22
- a=aug85vrO5LANNmmtkfAW:22
+ linux-arm-msm@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ freedreno@lists.freedesktop.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v2] drm/msm: Don't use %pK through printk
+Message-ID: <kb7m3ybmvpt6ywbzawjeqzzxpinc2k7b5hgm5333gay557hxrv@swg4dz4sh7ft>
+References: <20250718-restricted-pointers-drm-v2-1-3d9f8566f927@linutronix.de>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20250718-restricted-pointers-drm-v2-1-3d9f8566f927@linutronix.de>
+X-Proofpoint-ORIG-GUID: A5a-SkrCq_geeFxo2wNItq5RNiDNuJ0s
+X-Authority-Analysis: v=2.4 cv=D4xHKuRj c=1 sm=1 tr=0 ts=687a843a cx=c_pps
+ a=50t2pK5VMbmlHzFWWp8p/g==:117 a=xqWC_Br6kY4A:10 a=8nJEP1OIZ-IA:10
+ a=Wb1JkmetP80A:10 a=VwQbUJbxAAAA:8 a=EUspDBNiAAAA:8 a=FzZ3ZiyTMWqXPo3om_sA:9
+ a=3ZKOabzyN94A:10 a=wPNLvfGTeEIA:10 a=IoWCM6iH3mJn3m4BftBB:22
+X-Proofpoint-GUID: A5a-SkrCq_geeFxo2wNItq5RNiDNuJ0s
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwNzE4MDEzOCBTYWx0ZWRfX5yd456tcVZ/J
+ RLpbRjn/WtMDA97ACx/70yVtaludo41XV+tMylkaTaaqqAoqhmyqhuUcs7hdUwuXZH6SAO+sAaC
+ VjbVOGqjBMfP8JTXJKhUNftQqszVUhZYygIcmtPXmqE5i6/64Nij/+b4/243nj27usA0CXVlrlF
+ 8+Kt9KTbaALkUWtzJ841UKwaG8FqKr3jRV/bueXMOPkncBYHpRbmwi9A5zWfI3Z5rVvZiPfooF/
+ KM4ksTYawtxWf/yempF5yXBmdcZuaVa3YDiYW+sM3x9866mn5hETvELfa7ikC0b9+RvtU9n8OcA
+ C/beNBzMtVd93LbqDPkxHUefmspIw49lxwo6aKN6WpTixRZVB+1W4cVrpWXDNPxAh9BdSWnYzql
+ V0DirgfhWO8pyk9DsSBQv0b090sXkJI+owd8fEk/OpWAxxvfFWI15TcTmuoiJyTw5mfVF6Qe
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.293,Aquarius:18.0.1099,Hydra:6.1.9,FMLib:17.12.80.40
  definitions=2025-07-18_04,2025-07-17_02,2025-03-28_01
 X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- spamscore=0 lowpriorityscore=0 mlxlogscore=999 bulkscore=0 adultscore=0
- priorityscore=1501 clxscore=1015 mlxscore=0 suspectscore=0 impostorscore=0
- phishscore=0 malwarescore=0 classifier=spam authscore=0 authtc=n/a authcc=
- route=outbound adjust=0 reason=mlx scancount=1 engine=8.19.0-2505280000
- definitions=main-2507180138
+ adultscore=0 mlxlogscore=999 impostorscore=0 spamscore=0 clxscore=1015
+ lowpriorityscore=0 malwarescore=0 suspectscore=0 bulkscore=0 mlxscore=0
+ priorityscore=1501 phishscore=0 classifier=spam authscore=0 authtc=n/a
+ authcc= route=outbound adjust=0 reason=mlx scancount=1
+ engine=8.19.0-2505280000 definitions=main-2507180138
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -142,73 +131,34 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 7/13/2025 2:38 AM, Tomeu Vizoso wrote:
-> Using the DRM GPU scheduler infrastructure, with a scheduler for each
-> core.
+On Fri, Jul 18, 2025 at 03:27:37PM +0200, Thomas Weiﬂschuh wrote:
+> In the past %pK was preferable to %p as it would not leak raw pointer
+> values into the kernel log.
+> Since commit ad67b74d2469 ("printk: hash addresses printed with %p")
+> the regular %p has been improved to avoid this issue.
+> Furthermore, restricted pointers ("%pK") were never meant to be used
+> through printk(). They can still unintentionally leak raw pointers or
+> acquire sleeping locks in atomic contexts.
 > 
-> Userspace can decide for a series of tasks to be executed sequentially
-> in the same core, so SRAM locality can be taken advantage of.
+> Switch to the regular pointer formatting which is safer and
+> easier to reason about.
 > 
-> The job submission code was initially based on Panfrost.
+> Signed-off-by: Thomas Weiﬂschuh <thomas.weissschuh@linutronix.de>
+> ---
+> Changes in v2:
+> - Drop already applied patches
+> - Link to v1: https://lore.kernel.org/r/20250618-restricted-pointers-drm-v1-0-781e0d88cd92@linutronix.de
+> ---
+>  drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.c    | 2 +-
+>  drivers/gpu/drm/msm/disp/dpu1/dpu_hw_dspp.c | 4 ++--
+>  drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c     | 4 ++--
+>  drivers/gpu/drm/msm/msm_mdss.c              | 2 +-
+>  4 files changed, 6 insertions(+), 6 deletions(-)
 > 
-> v2:
-> - Remove hardcoded number of cores
-> - Misc. style fixes (Jeffrey Hugo)
-> - Repack IOCTL struct (Jeffrey Hugo)
-> 
-> v3:
-> - Adapt to a split of the register block in the DT bindings (Nicolas
->    Frattaroli)
-> - Make use of GPL-2.0-only for the copyright notice (Jeff Hugo)
-> - Use drm_* logging functions (Thomas Zimmermann)
-> - Rename reg i/o macros (Thomas Zimmermann)
-> - Add padding to ioctls and check for zero (Jeff Hugo)
-> - Improve error handling (Nicolas Frattaroli)
-> 
-> v6:
-> - Use mutexes guard (Markus Elfring)
-> - Use u64_to_user_ptr (Jeff Hugo)
-> - Drop rocket_fence (Rob Herring)
-> 
-> v7:
-> - Assign its own IOMMU domain to each client, for isolation (Daniel
->    Stone and Robin Murphy)
-> 
-> v8:
-> - Use reset lines to reset the cores (Robin Murphy)
-> - Use the macros to compute the values for the bitfields (Robin Murphy)
-> - More descriptive name for the IRQ (Robin Murphy)
-> - Simplify job interrupt handing (Robin Murphy)
-> - Correctly acquire a reference to the IOMMU (Robin Murphy)
-> - Specify the size of the embedded structs in the IOCTLs for future
->    extensibility (Rob Herring)
-> - Expose only 32 bits for the address of the regcmd BO (Robin Murphy)
-> 
-> Tested-by: Heiko Stuebner <heiko@sntech.de>
-> Signed-off-by: Tomeu Vizoso <tomeu@tomeuvizoso.net>
 
-Reviewed-by: Jeff Hugo <jeff.hugo@oss.qualcomm.com>
+Reviewed-by: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
 
-One optional nit below -
 
-> +/**
-> + * struct drm_rocket_submit - ioctl argument for submitting commands to the NPU.
-> + *
-> + * The kernel will schedule the execution of these jobs in dependency order.
-> + */
-> +struct drm_rocket_submit {
-> +	/** Input: Pointer to an array of struct drm_rocket_job. */
-> +	__u64 jobs;
-> +
-> +	/** Input: Number of jobs passed in. */
-> +	__u32 job_count;
-> +
-> +	/** Input: Size in bytes of the structs in the @jobs field. */
-> +	__u32 job_struct_size;
-> +
-> +	/** Reserved, must be zero. */
-> +	__u64 reserved;
-
-It does not appear that this field is needed for padding, and I don't 
-see the rest of the series using this. This could be dropped, although 
-maybe you have a use for it in the near future?
+-- 
+With best wishes
+Dmitry
