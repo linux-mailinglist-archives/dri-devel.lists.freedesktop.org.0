@@ -2,145 +2,77 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id DC0BBB09B36
-	for <lists+dri-devel@lfdr.de>; Fri, 18 Jul 2025 08:17:01 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6CC0EB09B6E
+	for <lists+dri-devel@lfdr.de>; Fri, 18 Jul 2025 08:29:49 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B999C10E0A8;
-	Fri, 18 Jul 2025 06:16:57 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A9E0B10E8D0;
+	Fri, 18 Jul 2025 06:29:47 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=linaro.org header.i=@linaro.org header.b="sUy69MV0";
+	dkim=pass (1024-bit key; unprotected) header.d=airkyi.com header.i=@airkyi.com header.b="bjTwLlWE";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ed1-f54.google.com (mail-ed1-f54.google.com
- [209.85.208.54])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A2B2C10E0A8
- for <dri-devel@lists.freedesktop.org>; Fri, 18 Jul 2025 06:16:55 +0000 (UTC)
-Received: by mail-ed1-f54.google.com with SMTP id
- 4fb4d7f45d1cf-606b39b19b6so276225a12.1
- for <dri-devel@lists.freedesktop.org>; Thu, 17 Jul 2025 23:16:55 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linaro.org; s=google; t=1752819414; x=1753424214; darn=lists.freedesktop.org;
- h=content-transfer-encoding:in-reply-to:autocrypt:content-language
- :from:references:cc:to:subject:user-agent:mime-version:date
- :message-id:from:to:cc:subject:date:message-id:reply-to;
- bh=z1JxVJ0cGy/4vRl8q2hnJqL2Htk4WJ35GqE3f6gUHZE=;
- b=sUy69MV0525+HxRvkuj5BtR8UMT1KFUN2iDuIP2TKviWvSegySbDuca7WKeF9u73jS
- ILfn9jnIw2YE4Z+ZzUCnYikGOQVJgPN6ecWFmdv34CR5tr77GtT1fOrEGcaOjTVVD/Lj
- 8RW+K55z1792z4nPlStS8aunyA83QIhdxY8Ou+H16qJstUDNg8pv1UCbzCPQRjcIfn1s
- hh1k4sAPEL5zvJTGU8T3+dhSsWx/WzDs4dbIKxtI0n2av5Js710aQCTB8oG+RdIOFbUJ
- JFprT3miSKmbNfSI9ppY7pPchYc3AzXg8jSSnnybSWTY+TmW9qJYcpBsabAYT3qtmZ+Y
- C2sw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1752819414; x=1753424214;
- h=content-transfer-encoding:in-reply-to:autocrypt:content-language
- :from:references:cc:to:subject:user-agent:mime-version:date
- :message-id:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=z1JxVJ0cGy/4vRl8q2hnJqL2Htk4WJ35GqE3f6gUHZE=;
- b=SFgAbYTsNOlMd8tk+1SeF3SBFhJTgCcWYFILi6X4f6VjLFkRWFeuMUJSbT4AtsDzfB
- SMCQ02RVxHwsJYLCApz086gIYQeaDSR0GaxoOR1QCJFQR9pnsPBbHUIoKltiUreB3njd
- sIYonOa1XJEaeIwmYebdrdmzjrdas7rHBkEG8UVKUiCaFOT1e/fPlG7hzn9D3GZoYo66
- tuDI/Js0KAXdqBF07mIxzEL1WuLFVP1N8PRK4NdNd/7z8V6xldbqNijbsm0K6+nBPemA
- hPGI1hHiOeKVT6tDHfHkqkYTRiJjn040eyReaiFQb+NAjvZD7GldTGE2OmGsPyNHbven
- 0lJg==
-X-Forwarded-Encrypted: i=1;
- AJvYcCVTDTuDBEib/+YKVvGnHXPW53yjl819XA73BrrxRY2RoSjlGhSos41eM87G1ezDSMKTj1fL2nGWgvs=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YxnnluvlfzDENLrYp0ui3xpxYpwoY9n2ryk1m7Cd9iHjQ78BOvx
- iyi2G5deY4ZY2vkY9e5vb9N3wSD6y1jubnyfJlcveWQTOVqnIq9YjJgYW7sI9rzmen4=
-X-Gm-Gg: ASbGncuKabW98Pm5ZZYDd1b7qbpNy/MRJUwg8ENgUwPK5iXPPTIoCb+KCGa6xpC9OVL
- ESnjTDyqsgnAIe5SVYusda+SQDJ5iPbbR2mRebAFhKC0RU3F/Fg0E4AnyzwB+Xl36dmeGYRKhfO
- F2WeJ/r9+jxt4JhX2NHtH7wTMag5huilQ97x7pM8hILkTXjCHhDX7qDA6obd1MtIwVvo+4HrcGD
- rdElGWiKq/dSfQFwZL7ZsCNCYcDmxFNyLZxcb50BrP4qdWxiDJg+Ncd4BsNfTFtwrW+mlMRXGoN
- VYdozCsu2wNaHlnNINNM52RMGc1A/pR8+5O9QoG3PwUkEuMNMvzUe7spMOs1WUQ51T/ChoJzFsn
- oWvgi+ZYLqycuobyYaX6VmgykzB9LuphnDR3rCl0ocg==
-X-Google-Smtp-Source: AGHT+IEw3Mcsz89XFSoarNt5H3TImNWXTbq78NJurRa8he4GJCSKW9GRBJizI3fHv5QihPCFF6p8UA==
-X-Received: by 2002:a05:6402:13cb:b0:612:ce8b:8e2b with SMTP id
- 4fb4d7f45d1cf-612ce8b9481mr223054a12.7.1752819413593; 
- Thu, 17 Jul 2025 23:16:53 -0700 (PDT)
-Received: from [192.168.1.29] ([178.197.222.89])
- by smtp.gmail.com with ESMTPSA id
- 4fb4d7f45d1cf-612c8f335e9sm489075a12.17.2025.07.17.23.16.50
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 17 Jul 2025 23:16:52 -0700 (PDT)
-Message-ID: <b8d6edef-6809-4166-b936-fd000513df90@linaro.org>
-Date: Fri, 18 Jul 2025 08:16:50 +0200
-MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v3 1/5] dt-bindings: Fixup x1e80100 to add DP MST support
-To: Jessica Zhang <jessica.zhang@oss.qualcomm.com>,
- Abhinav Kumar <quic_abhinavk@quicinc.com>,
- Dmitry Baryshkov <lumag@kernel.org>, Sean Paul <sean@poorly.run>,
- Marijn Suijten <marijn.suijten@somainline.org>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+Received: from bg1.exmail.qq.com (bg1.exmail.qq.com [114.132.74.132])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6B3CF10E8CC
+ for <dri-devel@lists.freedesktop.org>; Fri, 18 Jul 2025 06:29:45 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=airkyi.com;
+ s=altu2504; t=1752820179;
+ bh=67zBKAFFwPEqpjYU6DUQenOYYuvrA+r8ErnMRmV64A0=;
+ h=From:To:Subject:Date:Message-Id;
+ b=bjTwLlWEftam4MfNrvl1DuZ7QDOOz5pnmnkYu4+UX8ICTCwU/KnymVOFJ27Of82O4
+ dbbnDRKOIJt4wAsloIgLXFP+FsScgdPFQAJZfdsJrm+t6KS5HyVEwA/seFYq98MTM9
+ uBUoam4oQnwfggEsQ+lzNcTcqv+ugnQSBirAVcrM=
+X-QQ-mid: zesmtpgz7t1752819986td7cbe615
+X-QQ-Originating-IP: r5wfY5yuY9UU3ArV/GPId12LkrXTc5e4liuG9amroX4=
+Received: from DESKTOP-8BT1A2O.localdomain ( [58.22.7.114])
+ by bizesmtp.qq.com (ESMTP) with 
+ id ; Fri, 18 Jul 2025 14:26:23 +0800 (CST)
+X-QQ-SSF: 0000000000000000000000000000000
+X-QQ-GoodBg: 0
+X-BIZMAIL-ID: 13786534937215164042
+From: Chaoyi Chen <kernel@airkyi.com>
+To: Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
+ Conor Dooley <conor+dt@kernel.org>, Vinod Koul <vkoul@kernel.org>,
+ Kishon Vijay Abraham I <kishon@kernel.org>,
+ Heiko Stuebner <heiko@sntech.de>, Sandy Huang <hjc@rock-chips.com>,
+ Andy Yan <andy.yan@rock-chips.com>,
+ Yubing Zhang <yubing.zhang@rock-chips.com>,
+ Frank Wang <frank.wang@rock-chips.com>,
  Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
- Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
- Conor Dooley <conor+dt@kernel.org>, Kuogee Hsieh <quic_khsieh@quicinc.com>,
- Abel Vesa <abel.vesa@linaro.org>, Bjorn Andersson <andersson@kernel.org>,
- Michael Turquette <mturquette@baylibre.com>, Stephen Boyd
- <sboyd@kernel.org>, Mahadevan <quic_mahap@quicinc.com>,
- Krishna Manikandan <quic_mkrishn@quicinc.com>,
- Konrad Dybcio <konradybcio@kernel.org>,
- Rob Clark <robin.clark@oss.qualcomm.com>,
- Abhinav Kumar <abhinav.kumar@linux.dev>, Danila Tikhonov
- <danila@jiaxyga.com>, cros-qcom-dts-watchers@chromium.org
-Cc: Abhinav Kumar <abhinav.kumar@oss.qualcomm.com>,
- linux-arm-msm@vger.kernel.org, dri-devel@lists.freedesktop.org,
- freedreno@lists.freedesktop.org, devicetree@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-clk@vger.kernel.org,
- Yongxing Mou <quic_yongmou@quicinc.com>
-References: <20250717-dp_mst_bindings-v3-0-72ce08285703@oss.qualcomm.com>
- <20250717-dp_mst_bindings-v3-1-72ce08285703@oss.qualcomm.com>
-From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-Content-Language: en-US
-Autocrypt: addr=krzysztof.kozlowski@linaro.org; keydata=
- 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
- 2+47PN9NZAOyb771QoVr8A==
-In-Reply-To: <20250717-dp_mst_bindings-v3-1-72ce08285703@oss.qualcomm.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+ Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
+ Simona Vetter <simona@ffwll.ch>, Amit Sunil Dhamne <amitsd@google.com>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ Chaoyi Chen <chaoyi.chen@rock-chips.com>,
+ Dragan Simic <dsimic@manjaro.org>, Johan Jonker <jbx6244@gmail.com>,
+ Diederik de Haas <didi.debian@cknow.org>,
+ Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
+Cc: devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-phy@lists.infradead.org, linux-arm-kernel@lists.infradead.org,
+ linux-rockchip@lists.infradead.org, dri-devel@lists.freedesktop.org
+Subject: [PATCH v2 0/5] Add Type-C DP support for RK3399 EVB IND board
+Date: Fri, 18 Jul 2025 14:26:14 +0800
+Message-Id: <20250718062619.99-1-kernel@airkyi.com>
+X-Mailer: git-send-email 2.17.1
+X-QQ-SENDSIZE: 520
+Feedback-ID: zesmtpgz:airkyi.com:qybglogicsvrsz:qybglogicsvrsz4a-0
+X-QQ-XMAILINFO: NAeO0+xU6W76d5kq9LLvslzDLftxRS/cNW2x2heHC3866cTZHfIjj3w6
+ yDGCiFwAYuncq9LW9pJGT8VJNLxsR+tzOOb7/mYdH5MVEJH4Aj2W6mrSZ0YUm7keUZoJo+O
+ 5p+O5Id41bxuWPySLgmoJvV3BSht4TldnlM6tvRxPhhr0HOVgH7Puhzgq2GWmE07CXGDMUA
+ wkWW+I0OJvRpcO63A+g4lA1qpDH37+Rko4Spm+ve0jh8xCXHyoCHgIW7jYBpJMsTYKQ2vz1
+ sj9mT0UOuVB0cKBx40+3p1vSyyx8S6+Ny/h+EyE7ry2h2k7pxOu0d1EU8osGDOVftvvMv54
+ EUsECqToRDdrRdIVeytSP5pIRqkfzTWMizSsWlNsx93Kas6UPYlKRJxeFms2Evf2hAoYuu1
+ 7jfpyuFfoxS4Zzs6D5XB4poE1XCfhbxnUY8gh+Ij3zbaDl7c8/rj+Oapc1HkGpfWvpaUoT6
+ KPnf31Z8MoGKg5ZKnAJdiMlIZYt+hdvP6SE6Qq2ELIHsbYaXKqnXgaTfDTjtFMPabmeT22h
+ 734B5tg1LHrXBiR0bdmKWh/vcvgVkRBV3Rn69QqGu7k0fx0CHAmRzo8d40pKSAuPPM4kA9s
+ bgYgcPh5VxMgjllVIfxk9hyAHA0NZCUxlaiUsWqhcymPfRNEgh+VL17sL/i5s83Z9PvVzv8
+ DOVSYZspGx7rJk6M/xOnjs3r4gMoHAMFC0zMKgdvmwIk1Jc/6EG6Wqtpkcf/lDEYbvehfK+
+ QEXMPL/uUxi0fyJ1IgfRNLa6T+cVIQnDPSSnGL+zxGfhBbL40Dr9sdV1yx/9AQlD1HTKiqZ
+ bBSmmB34bWUYgtkK+T8SAlNhGQnsCD1CpQO6/QX41hY0debn1GMu4HkvPEce9DkzFsphMcM
+ owKSUmqsymGX82ikcsMd9G0SrIYKT2Sn5Lh1SELZNUAiKgi9mosK+2CJGuKPbXvpwPQHP78
+ 8ccObCO6UeIAEv0VsSnVTBCBFNyE6KbKh+bjHtlsfbA72Ya900JvE7ikT
+X-QQ-XMRINFO: NS+P29fieYNw95Bth2bWPxk=
+X-QQ-RECHKSPAM: 0
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -156,20 +88,72 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 18/07/2025 01:28, Jessica Zhang wrote:
-> From: Abhinav Kumar <quic_abhinavk@quicinc.com>
-> 
-> Add x1e80100 to the dp-controller bindings, fix the
-> displayport-controller reg bindings, and drop
-> assigned-clock-parents/assigned-clocks
-> 
-> Signed-off-by: Abhinav Kumar <quic_abhinavk@quicinc.com>
-> Reviewed-by: "Rob Herring (Arm)" <robh@kernel.org>
+From: Chaoyi Chen <chaoyi.chen@rock-chips.com>
+
+The RK3399 has two USB/DP combo PHY and one CDN-DP controller. And
+the CDN-DP can be switched to output to one of the PHYs. For USB
+Type-C interfaces, an external chip assists the PHY in handling
+altmode switching and orientation switching.
+
+Their connection diagram is shown below:
+
+external Type-C Chip0 ---> USB/DP PHY0 ---+
+                                          | <----> CDN-DP controller
+external Type-C Chip1 ---> USB/DP PHY1 ---+
+
+The RK3399 EVB IND board has a Type-C interface DisplayPort. It use
+fusb302 chip as Type-C controller. The connection diagram is shown below:
+
+fusb302 chip ---> USB/DP PHY0 <----> CDN-DP controller
+
+This series focuses on adding TCPM support for USBDP PHY and DP driver.
+Before this, the USBDP PHY and DP controller of RK3399 sensed state
+changes through extcon, and devices such as the RK3399 Gru-Chromebook
+rely on them. This series should not break them.
+
+BTW, one of the important things to do is to implement extcon-like
+notifications. I found include/drm/bridge/aux-bridge.h , but if the
+aux-bridge is used, the bridge chain would look like this:
+
+PHY0 aux-bridge ---+
+                   | ----> CDN-DP bridge
+PHY1 aux-bridge ---+
+
+Oh, CDN-DP bridge has two previous aux-bridge!
+
+Now, I try to use drm_connector_oob_hotplug_event() to notify HPD
+state between PHY and CDN-DP controller.
+
+Patch1 add new Type-C mode switch for RK3399 USBDP phy binding.
+Patch2 add typec_mux and typec_switch for RK3399 USBDP PHY.
+Patch3 drops CDN-DP's extcon dependency when Type-C is present.
+Patch4 add missing dp_out port for RK3399 CDN-DP.
+Patch5 add Type-C DP support for RK3399 EVB IND board.
+
+Changes in v2:
+- Link to V1: https://lore.kernel.org/all/20250715112456.101-1-kernel@airkyi.com/
+- Reuse dp-port/usb3-port in rk3399-typec-phy binding.
+- Fix compile error when CONFIG_TYPEC is not enabled.
+- Notify DP HPD state by USB/DP PHY.
+- Ignore duplicate HPD events.
+- Add endpoint to link DP PHY and DP controller.
+- Fix devicetree coding style.
+
+Chaoyi Chen (5):
+  dt-bindings: phy: rockchip: rk3399-typec-phy: Support mode-switch
+  phy: rockchip: phy-rockchip-typec: Add typec_mux/typec_switch support
+  drm/rockchip: cdn-dp: Support handle lane info and HPD without extcon
+  arm64: dts: rockchip: Add missing dp_out port for RK3399 CDN-DP
+  arm64: dts: rockchip: rk3399-evb-ind: Add support for DisplayPort
+
+ .../phy/rockchip,rk3399-typec-phy.yaml        |   4 +
+ arch/arm64/boot/dts/rockchip/rk3399-base.dtsi |  12 +-
+ .../boot/dts/rockchip/rk3399-evb-ind.dts      | 133 ++++++
+ drivers/gpu/drm/rockchip/cdn-dp-core.c        |  37 +-
+ drivers/phy/rockchip/phy-rockchip-typec.c     | 403 +++++++++++++++++-
+ 5 files changed, 564 insertions(+), 25 deletions(-)
+
+-- 
+2.49.0
 
 
-That's not a correct tag really - drop the quotes. If this was added by
-b4, I think you might be using an older version.
-
-
-Best regards,
-Krzysztof
