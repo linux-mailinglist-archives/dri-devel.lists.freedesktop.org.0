@@ -2,118 +2,90 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id E49A5B0AC43
-	for <lists+dri-devel@lfdr.de>; Sat, 19 Jul 2025 00:48:18 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 38966B0AC66
+	for <lists+dri-devel@lfdr.de>; Sat, 19 Jul 2025 01:00:56 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 182A610E192;
-	Fri, 18 Jul 2025 22:48:16 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E994B10E013;
+	Fri, 18 Jul 2025 23:00:52 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=qualcomm.com header.i=@qualcomm.com header.b="b9qNCDFI";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="hiWkK/QN";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com
- [205.220.180.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 535CF10E192
- for <dri-devel@lists.freedesktop.org>; Fri, 18 Jul 2025 22:48:14 +0000 (UTC)
-Received: from pps.filterd (m0279871.ppops.net [127.0.0.1])
- by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 56IGlTKM025441
- for <dri-devel@lists.freedesktop.org>; Fri, 18 Jul 2025 22:48:13 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
- cc:content-type:date:from:in-reply-to:message-id:mime-version
- :references:subject:to; s=qcppdkim1; bh=HHGP8L0TyeRKQJV/lR6+jNfw
- 4z8jT1bWYC47YlMabyg=; b=b9qNCDFIiF37zkPVPxVrouahLXOkCPf8fNx8sF50
- q3scs4vq+BXcx9vVlQBA6nQxRIB2+7jV/r7KfOixhUY0vfz+WAamicYdmKyEHjUO
- uIIaLvoiYPo9jxC0XmARGr3Ui1g9HQ6xaDaGXVQM2HPwPsDu7kiul3Cm/SU5fbJ2
- ycl2x7ZAf6AFr9XWUYfu0VThVk09jwUmMyQouSv2LhB2N2Zsl5mYxbSMaFgmJumz
- NIHE35HFnjm+RVQmD6YQIWNLiqICZq0hixNAUVrKuuCXQzHURxkLwwLNFhpcSDVZ
- Z6onBgv91wQwkrnIq/gj+y2xNZhLb6CL2PNOoWYI/0wpNg==
-Received: from mail-qk1-f200.google.com (mail-qk1-f200.google.com
- [209.85.222.200])
- by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 47xbsqh9aq-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
- for <dri-devel@lists.freedesktop.org>; Fri, 18 Jul 2025 22:48:13 +0000 (GMT)
-Received: by mail-qk1-f200.google.com with SMTP id
- af79cd13be357-7c5bb68b386so663502985a.3
- for <dri-devel@lists.freedesktop.org>; Fri, 18 Jul 2025 15:48:13 -0700 (PDT)
+Received: from mail-pj1-f50.google.com (mail-pj1-f50.google.com
+ [209.85.216.50])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8A3BB10E013;
+ Fri, 18 Jul 2025 23:00:52 +0000 (UTC)
+Received: by mail-pj1-f50.google.com with SMTP id
+ 98e67ed59e1d1-313290ea247so448080a91.3; 
+ Fri, 18 Jul 2025 16:00:52 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gmail.com; s=20230601; t=1752879652; x=1753484452; darn=lists.freedesktop.org;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:from:to:cc:subject:date:message-id:reply-to;
+ bh=sXnSFrZQu6iHu8Vl2fFaximoXMxICZGZWhV/y8jBr6I=;
+ b=hiWkK/QNBUzRJS4Hf+oTmQ8FfIeAKnjZqRjHgkirhm40pqAINlLuyjP354rJhtXUEQ
+ ynCGEprk50BQbvLSXU4sRoW0diWbgxBZ+MdYr2yHW+9ob9j8bU/eti0Irsa2lBCw7dtR
+ Ot6zYafzoYFqPP1a1yZkYca9EtlS02O04JQz4Z9mQ0BQJq7CT8ISI8OsQBTO7c2JmJ6J
+ YrZCg/sF8BXESu85fTg+zOELJbaIRt0AAArC/dBF6nyJ13FmTiTcuzqErzFXbZY+FFkl
+ Rb7xaX9TpA8HNcnJR4QtAWypG3MMqWgWzbjlzJfqGtyHpkGMK7nGdBmUq+WeYazw09ld
+ C0Mg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1752878892; x=1753483692;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
- :message-id:reply-to;
- bh=HHGP8L0TyeRKQJV/lR6+jNfw4z8jT1bWYC47YlMabyg=;
- b=xDu6d9QEQeURrAIfCvcqLQ32BCeCrQ345A6x/8noStwKblNtPwVO7vMgqetxvp7KFo
- PCuYDOuamM5KprLyZwSItZdHfNoyOWF6xWgjJ8oQwyCphfRZCrGNKIWFwhBAcGnOXgfn
- ZedUL080OfLDy57D0Jgze680bjStDtZ/nMJvC/X2k4yQYzZ9KEV5jHAo2PuaZbxvwzAg
- cOxMH/Nx065EcgMmNsEgmuFQOJBJq1xFrZ5kUDPVcXLUwVBL/CzfXRIPWwrgpB9Tyrf5
- pCrF652l9lTxSxqS0BD44KwMBo6CXIIzV6+9cPEgCJKwUtG6PN+oQklV98Y6VEepM6OO
- woMQ==
+ d=1e100.net; s=20230601; t=1752879652; x=1753484452;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=sXnSFrZQu6iHu8Vl2fFaximoXMxICZGZWhV/y8jBr6I=;
+ b=eKzmR2rBUqKSi5+W98zbQTMVbbGsGQkKYEDXT10i2Iqan4mGYlElcEY89dhOeZ9ZjC
+ oHX5jaDnP9A44bf47bKD/sQiVNWffSNa5t+lrRFsDUTwHuQV7ptrL5aw9FT4huGDHf55
+ LkcoO/2fuS59s1LlQHrbujiV82dWNFG0U2ZEiHXzcXP8GclfE6OgduB0yejR+TaR1R3i
+ eKLEryXVwGjUu8uqpkiOSy/cP3aPZ6f92wGlgxx+Isv3X3OFH8Ozjeq6viXnFleXNuZS
+ NeqFG2FwPzPBNVitWjJG3D23V6xtkPlPP0jrhZNXRN6+186F3iUndfbqL6KpWVQeh8If
+ v47g==
 X-Forwarded-Encrypted: i=1;
- AJvYcCUBGeLCi7rYzigJLwyAJvUC6IueXSGzJBy0u27Bjxx6egL+RGDIG+083q0E7z/cGeqMMiLH2jTaPaU=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0Yx4b03+g+gXID12BTPbnFdrseqQ73xxljRtAEvYdd0QeRfnwbJ7
- /j2EcUg1Bchu9HGo1ntmCtp/TNHlvMPMsoQaHiiDMKEZ73YkYvSDp3Zg45iCkDhbEPcRlGeDMtG
- OPetIA99sdld+jc6qSh4U3qXNgMCQjoqoFYbTNIlWYMY0t9x5tMmW91fwNeAmhMFZk3ik8Ms=
-X-Gm-Gg: ASbGncvXWKDSOsAvIFK8hGVkmJNG2Vy7V/e+Oqg4kMu1IWSLi1zoGpm02NVaPJAwia5
- 0FYzuQ76UIeV9EWteTVnOvhwYGsZhwMoySy4t5kKM9GD443kl/ry1SPIqtEMS9wepu0ephIjMT6
- N4COnmby/Wgc/ijtCI/v2szR2EPkUM/Nwb5Pi8Th8eetm0Yho5WfD2gs9Ii1FczVkCTebaD6E2m
- PAzFdDhVEuwDrgmSv3vB1/k33VTrdbEupzXST8YUs5gSfgaa451H1maOQIJk3KLbpGqQ/AyzCDA
- 25T/bvj8kTVUQwUnXRpE5vOCz3RWulWvMLclgHn9GpqBuKJBsYJrBM/ePSUhmsLXEIBHbPB+W8o
- IGTpOnQBb8UJR3zgWQbKJ+zr0CpBj2i0s/TRBgavI7Bn5NituE0ot
-X-Received: by 2002:a05:620a:19a8:b0:7e2:3a27:a10b with SMTP id
- af79cd13be357-7e356b08261mr557583885a.51.1752878892425; 
- Fri, 18 Jul 2025 15:48:12 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IF/wGMWsIGMuMedQ4IyeHVUwmgTIKPo1srnscW5QKnARy5UV9vAyXmC6qAal8+ZyC/iIeQGkA==
-X-Received: by 2002:a05:620a:19a8:b0:7e2:3a27:a10b with SMTP id
- af79cd13be357-7e356b08261mr557580285a.51.1752878891882; 
- Fri, 18 Jul 2025 15:48:11 -0700 (PDT)
-Received: from umbar.lan
- (2001-14ba-a0c3-3a00-264b-feff-fe8b-be8a.rev.dnainternet.fi.
- [2001:14ba:a0c3:3a00:264b:feff:fe8b:be8a])
- by smtp.gmail.com with ESMTPSA id
- 38308e7fff4ca-330a91049c9sm3710941fa.39.2025.07.18.15.48.10
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 18 Jul 2025 15:48:11 -0700 (PDT)
-Date: Sat, 19 Jul 2025 01:48:09 +0300
-From: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
-To: Jessica Zhang <jessica.zhang@oss.qualcomm.com>
-Cc: Rob Clark <robin.clark@oss.qualcomm.com>,
- Dmitry Baryshkov <lumag@kernel.org>,
- Abhinav Kumar <abhinav.kumar@linux.dev>, Sean Paul <sean@poorly.run>,
- Marijn Suijten <marijn.suijten@somainline.org>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- linux-arm-msm@vger.kernel.org, dri-devel@lists.freedesktop.org,
- freedreno@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- Sean Paul <seanpaul@chromium.org>
-Subject: Re: [PATCH] drm/msm/dp: Propagate core clock enable error in runtime
- resume
-Message-ID: <rpoild7nomdoh2tr5kizt5jkv23gd772nf42nvb3x3eltmizda@jpwx5pbphuaz>
-References: <20250718-dp-clk-error-v1-1-9bb5f28d4927@oss.qualcomm.com>
+ AJvYcCU8AsaSKo4t6HM4HEzGHpfh1lmLweS7zLcjZ8Q8O0sPpw1Fdloy811DJr0GEr4aQxG+1bu9vKzrrBTd@lists.freedesktop.org,
+ AJvYcCW/Z6UCqfEL4Ru1l3KHqQlvSts+uDI4Sm7bx3jC8dnWt2nDYDfTvk6SAXI/OjfL2OLKso9hof46@lists.freedesktop.org
+X-Gm-Message-State: AOJu0Yzs+SP2avLU2Lt6xntHMg1TZkT9YDPVIcn1qdazurjpgBcf9V77
+ mw3t1LxmOUgdKs3HsbyXy+XdaL49IHhAxPq6UY8HLJX27Yw868VlVAxNXgL1IO89vch0b0Dyc9d
+ HU4uVtq7x7WCOcj9gsIWSs+4DJJSvPU4=
+X-Gm-Gg: ASbGncvZra5xUU3FP7KxJmi1jEHUxokx4AVqxggvJTSA9tpQ16gJAPtUeTrG0uOLdxo
+ CSU5pbdyixt8OjC2F/FnUaQ/YC+e/X4n/Gx/Xn1L1p/XGhAFbJDgeGSj2bzqWFyyBI7sedIsGhK
+ r25OUuV+mTvRoaCnRskZcXlboTyr76py0Xy361dhIEW28uwe+JjkRcN/gW6P+0RtZpAFmVMB3OK
+ aIFPWj0
+X-Google-Smtp-Source: AGHT+IHee7URO5AdAIetWQOqWSNF+tiB8BcaFoilq0xjITd/WfrQ4fVADkrn9hF8q620zqo7hJHNja1AQMJNZ6dfziQ=
+X-Received: by 2002:a17:90a:e18c:b0:311:a314:c2dd with SMTP id
+ 98e67ed59e1d1-31c9e77394emr6978695a91.4.1752879651725; Fri, 18 Jul 2025
+ 16:00:51 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20250718-dp-clk-error-v1-1-9bb5f28d4927@oss.qualcomm.com>
-X-Authority-Analysis: v=2.4 cv=ad1hnQot c=1 sm=1 tr=0 ts=687acf2d cx=c_pps
- a=hnmNkyzTK/kJ09Xio7VxxA==:117 a=xqWC_Br6kY4A:10 a=kj9zAlcOel0A:10
- a=Wb1JkmetP80A:10 a=EUspDBNiAAAA:8 a=K_Du84Slk-LVA_55HQ4A:9 a=CjuIK1q_8ugA:10
- a=PEH46H7Ffwr30OY-TuGO:22
-X-Proofpoint-ORIG-GUID: deRwiZfS9rIemFHmoFtPAU1dW771EgUO
-X-Proofpoint-GUID: deRwiZfS9rIemFHmoFtPAU1dW771EgUO
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwNzE4MDE4NyBTYWx0ZWRfX2fZqpv6k2HaV
- 64u3bi7tyaAZuUmKwVjHECSjU4/fSqnRqTzTmil7NH1P2Nh9U5bt0l3a9qgNWaSHEQFW5oPFZxW
- HMvLybKIG3SE9+S70OYdejOySa0ER2azcEwds/Z6btN4VLmHHAqbQttTZzkQpCrcLEXVLsWIDvN
- 9KAEYxJOW9CSjIT1ELOBQatDFiN9kCLRckWuoLy+XiNCynqnNI24ZU2UWegnlW+DCILkdMdJb4A
- sxrz5ErX8hN0SwoDG0lb8M3/8itM3ne6OK/h+wR6u0RCY5CjK6q+1xdHs5qi2AEMyKDj3HTWMkp
- v2zaxRQ6uDmi+URrPaqsS03T0o+01eRv5E6xZ8iC9d1jDvsyQb8MY/yxekwcdIxWkLqqrfBWRiV
- zI9h+QoJrda0PdEyThBCwVBQUSYZuT3vxgigSFzGstItQ05wt+/6IbsbS0/fcAakNSQmzR6R
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1099,Hydra:6.1.9,FMLib:17.12.80.40
- definitions=2025-07-18_05,2025-07-17_02,2025-03-28_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- adultscore=0 bulkscore=0 mlxlogscore=999 suspectscore=0 spamscore=0
- malwarescore=0 phishscore=0 mlxscore=0 lowpriorityscore=0 clxscore=1015
- priorityscore=1501 impostorscore=0 classifier=spam authscore=0 authtc=n/a
- authcc= route=outbound adjust=0 reason=mlx scancount=1
- engine=8.19.0-2505280000 definitions=main-2507180187
+References: <20250716161753.231145-1-bgeffon@google.com>
+ <CADnq5_P+a2g_YzKW7S4YSF5kQgXe+PNrMKEOAHuf9yhFg98pSQ@mail.gmail.com>
+ <CADyq12zB7+opz0vUgyAQSdbHcYMwbZrZp+qxKdYcqaeCeRVbCw@mail.gmail.com>
+ <CADnq5_OeTJqzg0DgV06b-u_AmgaqXL5XWdQ6h40zcgGj1mCE_A@mail.gmail.com>
+ <CADyq12ysC9C2tsQ3GrQJB3x6aZPzM1o8pyTW8z4bxjGPsfEZvw@mail.gmail.com>
+ <CADnq5_PnktmP+0Hw0T04VkrkKoF_TGz5HOzRd1UZq6XOE0Rm1g@mail.gmail.com>
+ <CADyq12x1f0VLjHKWEmfmis8oLncqSWxeTGs5wL0Xj2hua+onOQ@mail.gmail.com>
+ <CADnq5_OhHpZDmV5J_5kA+avOdLrexnoRVCCCRddLQ=PPVAJsPQ@mail.gmail.com>
+ <46bdb101-11c6-46d4-8224-b17d1d356504@amd.com>
+ <CADnq5_PwyUwqdv1QG_O2XgvNnax+FNskuppBaKx8d0Kp582wXg@mail.gmail.com>
+ <eff0ef03-d054-487e-b3bf-96bf394a3bf5@amd.com>
+In-Reply-To: <eff0ef03-d054-487e-b3bf-96bf394a3bf5@amd.com>
+From: Alex Deucher <alexdeucher@gmail.com>
+Date: Fri, 18 Jul 2025 19:00:39 -0400
+X-Gm-Features: Ac12FXxsQb-K5hPEFVe-vUn9sPWELbN3hUPlB9ioULbkI7TQ40Q9TxxIpU6AUMA
+Message-ID: <CADnq5_NvPsxmm8j0URD_B8a5gg9NQNX8VY0d93AqUDis46cdXA@mail.gmail.com>
+Subject: Re: [PATCH] drm/amdgpu: Raven: don't allow mixing GTT and VRAM
+To: Leo Li <sunpeng.li@amd.com>
+Cc: Brian Geffon <bgeffon@google.com>, "Wentland,
+ Harry" <Harry.Wentland@amd.com>, 
+ Alex Deucher <alexander.deucher@amd.com>, christian.koenig@amd.com, 
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, 
+ Tvrtko Ursulin <tvrtko.ursulin@igalia.com>, Yunxiang Li <Yunxiang.Li@amd.com>, 
+ Lijo Lazar <lijo.lazar@amd.com>, Prike Liang <Prike.Liang@amd.com>, 
+ Pratap Nirujogi <pratap.nirujogi@amd.com>, Luben Tuikov <luben.tuikov@amd.com>,
+ amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org, 
+ linux-kernel@vger.kernel.org, Garrick Evans <garrick@google.com>, 
+ Thadeu Lima de Souza Cascardo <cascardo@igalia.com>, stable@vger.kernel.org
+Content-Type: multipart/mixed; boundary="000000000000f9bb55063a3c187b"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -129,93 +101,375 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, Jul 18, 2025 at 03:15:51PM -0700, Jessica Zhang wrote:
-> Currently, runtime resume will always return success even if the core
-> clock enable fails.
-> 
-> Propagate any core clock enable errors during the resume to avoid any
-> crashes later.
-> 
-> Signed-off-by: Jessica Zhang <jessica.zhang@oss.qualcomm.com>
-> ---
->  drivers/gpu/drm/msm/dp/dp_display.c | 16 ++++++++++++----
->  1 file changed, 12 insertions(+), 4 deletions(-)
-> 
-> diff --git a/drivers/gpu/drm/msm/dp/dp_display.c b/drivers/gpu/drm/msm/dp/dp_display.c
-> index d87d47cc7ec3..77d5e89239d2 100644
-> --- a/drivers/gpu/drm/msm/dp/dp_display.c
-> +++ b/drivers/gpu/drm/msm/dp/dp_display.c
-> @@ -463,17 +463,24 @@ static void msm_dp_display_host_phy_exit(struct msm_dp_display_private *dp)
->  	}
->  }
->  
-> -static void msm_dp_display_host_init(struct msm_dp_display_private *dp)
-> +static int msm_dp_display_host_init(struct msm_dp_display_private *dp)
->  {
-> +	int rc;
-> +
->  	drm_dbg_dp(dp->drm_dev, "type=%d core_init=%d phy_init=%d\n",
->  		dp->msm_dp_display.connector_type, dp->core_initialized,
->  		dp->phy_initialized);
->  
-> -	msm_dp_ctrl_core_clk_enable(dp->ctrl);
-> +	rc = msm_dp_ctrl_core_clk_enable(dp->ctrl);
-> +	if (rc)
-> +		return rc;
-> +
->  	msm_dp_ctrl_reset(dp->ctrl);
->  	msm_dp_ctrl_enable_irq(dp->ctrl);
->  	msm_dp_aux_init(dp->aux);
->  	dp->core_initialized = true;
-> +
-> +	return 0;
->  }
->  
->  static void msm_dp_display_host_deinit(struct msm_dp_display_private *dp)
-> @@ -1453,6 +1460,7 @@ static int msm_dp_pm_runtime_suspend(struct device *dev)
->  static int msm_dp_pm_runtime_resume(struct device *dev)
->  {
->  	struct msm_dp_display_private *dp = dev_get_dp_display_private(dev);
-> +	int rc;
->  
->  	/*
->  	 * for eDP, host cotroller, HPD block and PHY are enabled here
-> @@ -1462,14 +1470,14 @@ static int msm_dp_pm_runtime_resume(struct device *dev)
->  	 * HPD block is enabled at msm_dp_bridge_hpd_enable()
->  	 * PHY will be enabled at plugin handler later
->  	 */
-> -	msm_dp_display_host_init(dp);
-> +	rc = msm_dp_display_host_init(dp);
+--000000000000f9bb55063a3c187b
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+On Fri, Jul 18, 2025 at 6:01=E2=80=AFPM Leo Li <sunpeng.li@amd.com> wrote:
+>
+>
+>
+> On 2025-07-18 17:33, Alex Deucher wrote:
+> > On Fri, Jul 18, 2025 at 5:02=E2=80=AFPM Leo Li <sunpeng.li@amd.com> wro=
+te:
+> >>
+> >>
+> >>
+> >> On 2025-07-18 16:07, Alex Deucher wrote:
+> >>> On Fri, Jul 18, 2025 at 1:57=E2=80=AFPM Brian Geffon <bgeffon@google.=
+com> wrote:
+> >>>>
+> >>>> On Thu, Jul 17, 2025 at 10:59=E2=80=AFAM Alex Deucher <alexdeucher@g=
+mail.com> wrote:
+> >>>>>
+> >>>>> On Wed, Jul 16, 2025 at 8:13=E2=80=AFPM Brian Geffon <bgeffon@googl=
+e.com> wrote:
+> >>>>>>
+> >>>>>> On Wed, Jul 16, 2025 at 5:03=E2=80=AFPM Alex Deucher <alexdeucher@=
+gmail.com> wrote:
+> >>>>>>>
+> >>>>>>> On Wed, Jul 16, 2025 at 12:40=E2=80=AFPM Brian Geffon <bgeffon@go=
+ogle.com> wrote:
+> >>>>>>>>
+> >>>>>>>> On Wed, Jul 16, 2025 at 12:33=E2=80=AFPM Alex Deucher <alexdeuch=
+er@gmail.com> wrote:
+> >>>>>>>>>
+> >>>>>>>>> On Wed, Jul 16, 2025 at 12:18=E2=80=AFPM Brian Geffon <bgeffon@=
+google.com> wrote:
+> >>>>>>>>>>
+> >>>>>>>>>> Commit 81d0bcf99009 ("drm/amdgpu: make display pinning more fl=
+exible (v2)")
+> >>>>>>>>>> allowed for newer ASICs to mix GTT and VRAM, this change also =
+noted that
+> >>>>>>>>>> some older boards, such as Stoney and Carrizo do not support t=
+his.
+> >>>>>>>>>> It appears that at least one additional ASIC does not support =
+this which
+> >>>>>>>>>> is Raven.
+> >>>>>>>>>>
+> >>>>>>>>>> We observed this issue when migrating a device from a 5.4 to 6=
+.6 kernel
+> >>>>>>>>>> and have confirmed that Raven also needs to be excluded from m=
+ixing GTT
+> >>>>>>>>>> and VRAM.
+> >>>>>>>>>
+> >>>>>>>>> Can you elaborate a bit on what the problem is?  For carrizo an=
+d
+> >>>>>>>>> stoney this is a hardware limitation (all display buffers need =
+to be
+> >>>>>>>>> in GTT or VRAM, but not both).  Raven and newer don't have this
+> >>>>>>>>> limitation and we tested raven pretty extensively at the time.s
+> >>>>>>>>
+> >>>>>>>> Thanks for taking the time to look. We have automated testing an=
+d a
+> >>>>>>>> few igt gpu tools tests failed and after debugging we found that
+> >>>>>>>> commit 81d0bcf99009 is what introduced the failures on this hard=
+ware
+> >>>>>>>> on 6.1+ kernels. The specific tests that fail are kms_async_flip=
+s and
+> >>>>>>>> kms_plane_alpha_blend, excluding Raven from this sharing of GTT =
+and
+> >>>>>>>> VRAM buffers resolves the issue.
+> >>>>>>>
+> >>>>>>> + Harry and Leo
+> >>>>>>>
+> >>>>>>> This sounds like the memory placement issue we discussed last wee=
+k.
+> >>>>>>> In that case, the issue is related to where the buffer ends up wh=
+en we
+> >>>>>>> try to do an async flip.  In that case, we can't do an async flip
+> >>>>>>> without a full modeset if the buffers locations are different tha=
+n the
+> >>>>>>> last modeset because we need to update more than just the buffer =
+base
+> >>>>>>> addresses.  This change works around that limitation by always fo=
+rcing
+> >>>>>>> display buffers into VRAM or GTT.  Adding raven to this case may =
+fix
+> >>>>>>> those tests but will make the overall experience worse because we=
+'ll
+> >>>>>>> end up effectively not being able to not fully utilize both gtt a=
+nd
+> >>>>>>> vram for display which would reintroduce all of the problems fixe=
+d by
+> >>>>>>> 81d0bcf99009 ("drm/amdgpu: make display pinning more flexible (v2=
+)").
+> >>>>>>
+> >>>>>> Thanks Alex, the thing is, we only observe this on Raven boards, w=
+hy
+> >>>>>> would Raven only be impacted by this? It would seem that all devic=
+es
+> >>>>>> would have this issue, no? Also, I'm not familiar with how
+> >>>>>
+> >>>>> It depends on memory pressure and available memory in each pool.
+> >>>>> E.g., initially the display buffer is in VRAM when the initial mode
+> >>>>> set happens.  The watermarks, etc. are set for that scenario.  One =
+of
+> >>>>> the next frames ends up in a pool different than the original.  Now
+> >>>>> the buffer is in GTT.  The async flip interface does a fast validat=
+ion
+> >>>>> to try and flip as soon as possible, but that validation fails beca=
+use
+> >>>>> the watermarks need to be updated which requires a full modeset.
+> >>
+> >> Huh, I'm not sure if this actually is an issue for APUs. The fix that =
+introduced
+> >> a check for same memory placement on async flips was on a system with =
+a DGPU,
+> >> for which VRAM placement does matter:
+> >> https://github.com/torvalds/linux/commit/a7c0cad0dc060bb77e9c9d235d684=
+41b0fc69507
+> >>
+> >> Looking around in DM/DML, for APUs, I don't see any logic that changes=
+ DCN
+> >> bandwidth validation depending on memory placement. There's a gpuvm_en=
+able flag
+> >> for SG, but it's statically set to 1 on APU DCN versions. It sounds li=
+ke for
+> >> APUs specifically, we *should* be able to ignore the mem placement che=
+ck. I can
+> >> spin up a patch to test this out.
+> >
+> > Is the gpu_vm_support flag ever set for dGPUs?  The allowed domains
+> > for display buffers are determined by
+> > amdgpu_display_supported_domains() and we only allow GTT as a domain
+> > if gpu_vm_support is set, which I think is just for APUs.  In that
+> > case, we could probably only need the checks specifically for
+> > CHIP_CARRIZO and CHIP_STONEY since IIRC, they don't support mixed VRAM
+> > and GTT (only one or the other?).  dGPUs and really old APUs will
+> > always get VRAM, and newer APUs will get VRAM | GTT.
+>
+> It doesn't look like gpu_vm_support is set for DGPUs
+> https://elixir.bootlin.com/linux/v6.15.6/source/drivers/gpu/drm/amd/displ=
+ay/amdgpu_dm/amdgpu_dm.c#L1866
+>
+> Though interestingly, further up at #L1858, Raven has gpu_vm_support =3D =
+0. Maybe it had stability issues?
+> https://github.com/torvalds/linux/commit/098c13079c6fdd44f10586b69132c392=
+ebf87450
+
+We need to be a little careful here asic_type =3D=3D CHIP_RAVEN covers
+several variants:
+apu_flags & AMD_APU_IS_RAVEN - raven1 (gpu_vm_support =3D false)
+apu_flags & AMD_APU_IS_RAVEN2 - raven2 (gpu_vm_support =3D true)
+apu_flags & AMD_APU_IS_PICASSO - picasso (gpu_vm_support =3D true)
+
+amdgpu_display_supported_domains() only sets AMDGPU_GEM_DOMAIN_GTT if
+gpu_vm_support is true.  so we'd never get into the check in
+amdgpu_bo_get_preferred_domain() for raven1.
+
+Anyway, back to your suggestion, I think we can probably drop the
+checks as you should always get a compatible memory buffer due to
+amdgpu_bo_get_preferred_domain(). Pinning should fail if we can't pin
+in the required domain.  amdgpu_display_supported_domains() will
+ensure you always get VRAM or GTT or VRAM | GTT depending on what the
+chip supports.  Then amdgpu_bo_get_preferred_domain() will either
+leave that as is, or force VRAM or GTT for the STONEY/CARRIZO case.
+On the off chance we do get incompatible memory, something like the
+attached patch should do the trick.
+
+Alex
 
 
-if (rc)
-	return rc;
+>
+> - Leo
+>
+> >
+> > Alex
+> >
+> >>
+> >> Thanks,
+> >> Leo
+> >>
+> >>>>>
+> >>>>> It's tricky to fix because you don't want to use the worst case
+> >>>>> watermarks all the time because that will limit the number availabl=
+e
+> >>>>> display options and you don't want to force everything to a particu=
+lar
+> >>>>> memory pool because that will limit the amount of memory that can b=
+e
+> >>>>> used for display (which is what the patch in question fixed).  Idea=
+lly
+> >>>>> the caller would do a test commit before the page flip to determine
+> >>>>> whether or not it would succeed before issuing it and then we'd hav=
+e
+> >>>>> some feedback mechanism to tell the caller that the commit would fa=
+il
+> >>>>> due to buffer placement so it would do a full modeset instead.  We
+> >>>>> discussed this feedback mechanism last week at the display hackfest=
+.
+> >>>>>
+> >>>>>
+> >>>>>> kms_plane_alpha_blend works, but does this also support that test
+> >>>>>> failing as the cause?
+> >>>>>
+> >>>>> That may be related.  I'm not too familiar with that test either, b=
+ut
+> >>>>> Leo or Harry can provide some guidance.
+> >>>>>
+> >>>>> Alex
+> >>>>
+> >>>> Thanks everyone for the input so far. I have a question for the
+> >>>> maintainers, given that it seems that this is functionally broken fo=
+r
+> >>>> ASICs which are iGPUs, and there does not seem to be an easy fix, do=
+es
+> >>>> it make sense to extend this proposed patch to all iGPUs until a mor=
+e
+> >>>> permanent fix can be identified? At the end of the day I'll take
+> >>>> functional correctness over performance.
+> >>>
+> >>> It's not functional correctness, it's usability.  All that is
+> >>> potentially broken is async flips (which depend on memory pressure an=
+d
+> >>> buffer placement), while if you effectively revert the patch, you end
+> >>> up  limiting all display buffers to either VRAM or GTT which may end
+> >>> up causing the inability to display anything because there is not
+> >>> enough memory in that pool for the next modeset.  We'll start getting
+> >>> bug reports about blank screens and failure to set modes because of
+> >>> memory pressure.  I think if we want a short term fix, it would be to
+> >>> always set the worst case watermarks.  The downside to that is that i=
+t
+> >>> would possibly cause some working display setups to stop working if
+> >>> they were on the margins to begin with.
+> >>>
+> >>> Alex
+> >>>
+> >>>>
+> >>>> Brian
+> >>>>
+> >>>>>
+> >>>>>>
+> >>>>>> Thanks again,
+> >>>>>> Brian
+> >>>>>>
+> >>>>>>>
+> >>>>>>> Alex
+> >>>>>>>
+> >>>>>>>>
+> >>>>>>>> Brian
+> >>>>>>>>
+> >>>>>>>>>
+> >>>>>>>>>
+> >>>>>>>>> Alex
+> >>>>>>>>>
+> >>>>>>>>>>
+> >>>>>>>>>> Fixes: 81d0bcf99009 ("drm/amdgpu: make display pinning more fl=
+exible (v2)")
+> >>>>>>>>>> Cc: Luben Tuikov <luben.tuikov@amd.com>
+> >>>>>>>>>> Cc: Christian K=C3=B6nig <christian.koenig@amd.com>
+> >>>>>>>>>> Cc: Alex Deucher <alexander.deucher@amd.com>
+> >>>>>>>>>> Cc: stable@vger.kernel.org # 6.1+
+> >>>>>>>>>> Tested-by: Thadeu Lima de Souza Cascardo <cascardo@igalia.com>
+> >>>>>>>>>> Signed-off-by: Brian Geffon <bgeffon@google.com>
+> >>>>>>>>>> ---
+> >>>>>>>>>>  drivers/gpu/drm/amd/amdgpu/amdgpu_object.c | 3 ++-
+> >>>>>>>>>>  1 file changed, 2 insertions(+), 1 deletion(-)
+> >>>>>>>>>>
+> >>>>>>>>>> diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_object.c b/driv=
+ers/gpu/drm/amd/amdgpu/amdgpu_object.c
+> >>>>>>>>>> index 73403744331a..5d7f13e25b7c 100644
+> >>>>>>>>>> --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_object.c
+> >>>>>>>>>> +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_object.c
+> >>>>>>>>>> @@ -1545,7 +1545,8 @@ uint32_t amdgpu_bo_get_preferred_domain(=
+struct amdgpu_device *adev,
+> >>>>>>>>>>                                             uint32_t domain)
+> >>>>>>>>>>  {
+> >>>>>>>>>>         if ((domain =3D=3D (AMDGPU_GEM_DOMAIN_VRAM | AMDGPU_GE=
+M_DOMAIN_GTT)) &&
+> >>>>>>>>>> -           ((adev->asic_type =3D=3D CHIP_CARRIZO) || (adev->a=
+sic_type =3D=3D CHIP_STONEY))) {
+> >>>>>>>>>> +           ((adev->asic_type =3D=3D CHIP_CARRIZO) || (adev->a=
+sic_type =3D=3D CHIP_STONEY) ||
+> >>>>>>>>>> +            (adev->asic_type =3D=3D CHIP_RAVEN))) {
+> >>>>>>>>>>                 domain =3D AMDGPU_GEM_DOMAIN_VRAM;
+> >>>>>>>>>>                 if (adev->gmc.real_vram_size <=3D AMDGPU_SG_TH=
+RESHOLD)
+> >>>>>>>>>>                         domain =3D AMDGPU_GEM_DOMAIN_GTT;
+> >>>>>>>>>> --
+> >>>>>>>>>> 2.50.0.727.gbf7dc18ff4-goog
+> >>>>>>>>>>
+> >>
+>
 
+--000000000000f9bb55063a3c187b
+Content-Type: text/x-patch; charset="US-ASCII"; 
+	name="0001-drm-amd-display-refine-framebuffer-placement-checks.patch"
+Content-Disposition: attachment; 
+	filename="0001-drm-amd-display-refine-framebuffer-placement-checks.patch"
+Content-Transfer-Encoding: base64
+Content-ID: <f_md9f8jvm0>
+X-Attachment-Id: f_md9f8jvm0
 
->  	if (dp->msm_dp_display.is_edp) {
->  		msm_dp_aux_hpd_enable(dp->aux);
->  		msm_dp_display_host_phy_init(dp);
->  	}
->  
->  	enable_irq(dp->irq);
-> -	return 0;
-> +	return rc;
-
-Keep 'return 0' here.
-
->  }
->  
->  static const struct dev_pm_ops msm_dp_pm_ops = {
-> 
-> ---
-> base-commit: d086c886ceb9f59dea6c3a9dae7eb89e780a20c9
-> change-id: 20250703-dp-clk-error-7c1965066541
-> 
-> Best regards,
-> --  
-> Jessica Zhang <jessica.zhang@oss.qualcomm.com>
-> 
-
--- 
-With best wishes
-Dmitry
+RnJvbSBjY2UxNjUyYzYyYzQyYzg1OGRlNjRjMzA2ZWEwZGRjN2FmM2JkMGIxIE1vbiBTZXAgMTcg
+MDA6MDA6MDAgMjAwMQpGcm9tOiBBbGV4IERldWNoZXIgPGFsZXhhbmRlci5kZXVjaGVyQGFtZC5j
+b20+CkRhdGU6IEZyaSwgMTggSnVsIDIwMjUgMTg6NDA6MjYgLTA0MDAKU3ViamVjdDogW1BBVENI
+XSBkcm0vYW1kL2Rpc3BsYXk6IHJlZmluZSBmcmFtZWJ1ZmZlciBwbGFjZW1lbnQgY2hlY2tzCgpX
+aGVuIHdlIGNvbW1pdCBwbGFuZXMsIHdlIG5lZWQgdG8gbWFrZSBzdXJlIHRoZQpmcmFtZWJ1ZmZl
+ciBtZW1vcnkgbG9jYXRpb25zIGFyZSBjb21wYXRpYmxlLiBWYXJpb3VzCmhhcmR3YXJlIGhhcyB0
+aGUgZm9sbG93aW5nIHJlcXVpcmVtZW50cyBmb3IgZGlzcGxheSBidWZmZXJzOgpkR1BVcywgb2xk
+IEFQVXMsIHJhdmVuMSAtIG11c3QgYmUgaW4gVlJBTQpjYXp6aXJvL3N0b25leSAtIG11c3QgYmUg
+aW4gVlJBTSBvciBHVFQsIGJ1dCBub3QgYm90aApuZXdlciBBUFVzIChyYXZlbjIvcGljYXNzbyBh
+bmQgbmV3ZXIpIC0gY2FuIGJlIGluIFZSQU0gb3IgR1RUCgpZb3Ugc2hvdWxkIGFsd2F5cyBnZXQg
+YSBjb21wYXRpYmxlIG1lbW9yeSBidWZmZXIgZHVlIHRvCmFtZGdwdV9ib19nZXRfcHJlZmVycmVk
+X2RvbWFpbigpLiBhbWRncHVfZGlzcGxheV9zdXBwb3J0ZWRfZG9tYWlucygpCndpbGwgZW5zdXJl
+IHlvdSBhbHdheXMgZ2V0IFZSQU0gb3IgR1RUIG9yIFZSQU0gfCBHVFQgZGVwZW5kaW5nIG9uCndo
+YXQgdGhlIGNoaXAgc3VwcG9ydHMuICBUaGVuIGFtZGdwdV9ib19nZXRfcHJlZmVycmVkX2RvbWFp
+bigpCndpbGwgZWl0aGVyIGxlYXZlIHRoYXQgYXMgaXMgd2hlbiBwaW5uaW5nLCBvciBmb3JjZSBW
+UkFNIG9yIEdUVApmb3IgdGhlIFNUT05FWS9DQVJSSVpPIGNhc2UuCgpBcyBzdWNoIHRoZSBjaGVj
+a3MgY291bGQgcHJvYmFibHkgYmUgcmVtb3ZlZCwgYnV0IG9uIHRoZSBvZmYgY2hhbmNlCndlIGRv
+IGVuZCB1cCBnZXR0aW5nIGRpZmZlcmVudCBtZW1vcnkgcG9vbCBmb3IgdGhlIG9sZAphbmQgbmV3
+IGZyYW1lYnVmZmVycywgcmVmaW5lIHRoZSBjaGVjayB0byB0YWtlIGludG8gYWNjb3VudCB0aGUK
+aGFyZHdhcmUgY2FwYWJpbGl0aWVzLgoKRml4ZXM6IGE3YzBjYWQwZGMwNiAoImRybS9hbWQvZGlz
+cGxheTogZW5zdXJlIGFzeW5jIGZsaXBzIGFyZSBvbmx5IGFjY2VwdGVkIGZvciBmYXN0IHVwZGF0
+ZXMiKQpSZXBvcnRlZC1ieTogQnJpYW4gR2VmZm9uIDxiZ2VmZm9uQGdvb2dsZS5jb20+CkNjOiBM
+ZW8gTGkgPHN1bnBlbmcubGlAYW1kLmNvbT4KU2lnbmVkLW9mZi1ieTogQWxleCBEZXVjaGVyIDxh
+bGV4YW5kZXIuZGV1Y2hlckBhbWQuY29tPgotLS0KIC4uLi9ncHUvZHJtL2FtZC9kaXNwbGF5L2Ft
+ZGdwdV9kbS9hbWRncHVfZG0uYyB8IDIwICsrKysrKysrKysrKysrKystLS0KIDEgZmlsZSBjaGFu
+Z2VkLCAxNyBpbnNlcnRpb25zKCspLCAzIGRlbGV0aW9ucygtKQoKZGlmZiAtLWdpdCBhL2RyaXZl
+cnMvZ3B1L2RybS9hbWQvZGlzcGxheS9hbWRncHVfZG0vYW1kZ3B1X2RtLmMgYi9kcml2ZXJzL2dw
+dS9kcm0vYW1kL2Rpc3BsYXkvYW1kZ3B1X2RtL2FtZGdwdV9kbS5jCmluZGV4IDEyOTQ3NmI2ZDVm
+YTkuLmRlMmJkNzg5ZWMxNWIgMTAwNjQ0Ci0tLSBhL2RyaXZlcnMvZ3B1L2RybS9hbWQvZGlzcGxh
+eS9hbWRncHVfZG0vYW1kZ3B1X2RtLmMKKysrIGIvZHJpdmVycy9ncHUvZHJtL2FtZC9kaXNwbGF5
+L2FtZGdwdV9kbS9hbWRncHVfZG0uYwpAQCAtOTI4OCw2ICs5Mjg4LDE4IEBAIHN0YXRpYyB2b2lk
+IGFtZGdwdV9kbV9lbmFibGVfc2VsZl9yZWZyZXNoKHN0cnVjdCBhbWRncHVfY3J0YyAqYWNydGNf
+YXR0YWNoLAogCX0KIH0KIAorc3RhdGljIGJvb2wgYW1kZ3B1X2RtX21lbV90eXBlX2NvbXBhdGli
+bGUoc3RydWN0IGFtZGdwdV9kZXZpY2UgKmFkZXYsCisJCQkJCSAgc3RydWN0IGRybV9mcmFtZWJ1
+ZmZlciAqb2xkX2ZiLAorCQkJCQkgIHN0cnVjdCBkcm1fZnJhbWVidWZmZXIgKm5ld19mYikKK3sK
+KwlpZiAoIWFkZXYtPm1vZGVfaW5mby5ncHVfdm1fc3VwcG9ydCB8fAorCSAgICAoYWRldi0+YXNp
+Y190eXBlID09IENISVBfQ0FSUklaTykgfHwKKwkgICAgKGFkZXYtPmFzaWNfdHlwZSA9PSBDSElQ
+X1NUT05FWSkpCisJCXJldHVybiBnZXRfbWVtX3R5cGUob2xkX2ZiKSA9PSBnZXRfbWVtX3R5cGUo
+bmV3X2ZiKTsKKworCXJldHVybiB0cnVlOworfQorCiBzdGF0aWMgdm9pZCBhbWRncHVfZG1fY29t
+bWl0X3BsYW5lcyhzdHJ1Y3QgZHJtX2F0b21pY19zdGF0ZSAqc3RhdGUsCiAJCQkJICAgIHN0cnVj
+dCBkcm1fZGV2aWNlICpkZXYsCiAJCQkJICAgIHN0cnVjdCBhbWRncHVfZGlzcGxheV9tYW5hZ2Vy
+ICpkbSwKQEAgLTk0NjUsNyArOTQ3Nyw3IEBAIHN0YXRpYyB2b2lkIGFtZGdwdV9kbV9jb21taXRf
+cGxhbmVzKHN0cnVjdCBkcm1fYXRvbWljX3N0YXRlICpzdGF0ZSwKIAkJICovCiAJCWlmIChjcnRj
+LT5zdGF0ZS0+YXN5bmNfZmxpcCAmJgogCQkgICAgKGFjcnRjX3N0YXRlLT51cGRhdGVfdHlwZSAh
+PSBVUERBVEVfVFlQRV9GQVNUIHx8Ci0JCSAgICAgZ2V0X21lbV90eXBlKG9sZF9wbGFuZV9zdGF0
+ZS0+ZmIpICE9IGdldF9tZW1fdHlwZShmYikpKQorCQkgICAgICFhbWRncHVfZG1fbWVtX3R5cGVf
+Y29tcGF0aWJsZShkbS0+YWRldiwgb2xkX3BsYW5lX3N0YXRlLT5mYiwgZmIpKSkKIAkJCWRybV93
+YXJuX29uY2Uoc3RhdGUtPmRldiwKIAkJCQkgICAgICAiW1BMQU5FOiVkOiVzXSBhc3luYyBmbGlw
+IHdpdGggbm9uLWZhc3QgdXBkYXRlXG4iLAogCQkJCSAgICAgIHBsYW5lLT5iYXNlLmlkLCBwbGFu
+ZS0+bmFtZSk7CkBAIC05NDczLDcgKzk0ODUsNyBAQCBzdGF0aWMgdm9pZCBhbWRncHVfZG1fY29t
+bWl0X3BsYW5lcyhzdHJ1Y3QgZHJtX2F0b21pY19zdGF0ZSAqc3RhdGUsCiAJCWJ1bmRsZS0+Zmxp
+cF9hZGRyc1twbGFuZXNfY291bnRdLmZsaXBfaW1tZWRpYXRlID0KIAkJCWNydGMtPnN0YXRlLT5h
+c3luY19mbGlwICYmCiAJCQlhY3J0Y19zdGF0ZS0+dXBkYXRlX3R5cGUgPT0gVVBEQVRFX1RZUEVf
+RkFTVCAmJgotCQkJZ2V0X21lbV90eXBlKG9sZF9wbGFuZV9zdGF0ZS0+ZmIpID09IGdldF9tZW1f
+dHlwZShmYik7CisJCQlhbWRncHVfZG1fbWVtX3R5cGVfY29tcGF0aWJsZShkbS0+YWRldiwgb2xk
+X3BsYW5lX3N0YXRlLT5mYiwgZmIpOwogCiAJCXRpbWVzdGFtcF9ucyA9IGt0aW1lX2dldF9ucygp
+OwogCQlidW5kbGUtPmZsaXBfYWRkcnNbcGxhbmVzX2NvdW50XS5mbGlwX3RpbWVzdGFtcF9pbl91
+cyA9IGRpdl91NjQodGltZXN0YW1wX25zLCAxMDAwKTsKQEAgLTExNzYwLDYgKzExNzcyLDcgQEAg
+c3RhdGljIGJvb2wgYW1kZ3B1X2RtX2NydGNfbWVtX3R5cGVfY2hhbmdlZChzdHJ1Y3QgZHJtX2Rl
+dmljZSAqZGV2LAogCQkJCQkgICAgc3RydWN0IGRybV9hdG9taWNfc3RhdGUgKnN0YXRlLAogCQkJ
+CQkgICAgc3RydWN0IGRybV9jcnRjX3N0YXRlICpjcnRjX3N0YXRlKQogeworCXN0cnVjdCBhbWRn
+cHVfZGV2aWNlICphZGV2ID0gZHJtX3RvX2FkZXYoZGV2KTsKIAlzdHJ1Y3QgZHJtX3BsYW5lICpw
+bGFuZTsKIAlzdHJ1Y3QgZHJtX3BsYW5lX3N0YXRlICpuZXdfcGxhbmVfc3RhdGUsICpvbGRfcGxh
+bmVfc3RhdGU7CiAKQEAgLTExNzczLDcgKzExNzg2LDggQEAgc3RhdGljIGJvb2wgYW1kZ3B1X2Rt
+X2NydGNfbWVtX3R5cGVfY2hhbmdlZChzdHJ1Y3QgZHJtX2RldmljZSAqZGV2LAogCQl9CiAKIAkJ
+aWYgKG9sZF9wbGFuZV9zdGF0ZS0+ZmIgJiYgbmV3X3BsYW5lX3N0YXRlLT5mYiAmJgotCQkgICAg
+Z2V0X21lbV90eXBlKG9sZF9wbGFuZV9zdGF0ZS0+ZmIpICE9IGdldF9tZW1fdHlwZShuZXdfcGxh
+bmVfc3RhdGUtPmZiKSkKKwkJICAgICFhbWRncHVfZG1fbWVtX3R5cGVfY29tcGF0aWJsZShhZGV2
+LCBvbGRfcGxhbmVfc3RhdGUtPmZiLAorCQkJCQkJICAgbmV3X3BsYW5lX3N0YXRlLT5mYikpCiAJ
+CQlyZXR1cm4gdHJ1ZTsKIAl9CiAKLS0gCjIuNTAuMQoK
+--000000000000f9bb55063a3c187b--
