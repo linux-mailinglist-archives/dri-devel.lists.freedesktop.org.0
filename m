@@ -2,64 +2,55 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id E62DFB09FF8
-	for <lists+dri-devel@lfdr.de>; Fri, 18 Jul 2025 11:41:40 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 59D97B0A006
+	for <lists+dri-devel@lfdr.de>; Fri, 18 Jul 2025 11:47:11 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5142010E93A;
-	Fri, 18 Jul 2025 09:41:18 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 758A910E339;
+	Fri, 18 Jul 2025 09:47:08 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; secure) header.d=mailbox.org header.i=@mailbox.org header.b="GAeptTTd";
+	dkim=pass (1024-bit key; unprotected) header.d=collabora.com header.i=robert.mader@collabora.com header.b="XDQCh9ks";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mout-p-103.mailbox.org (mout-p-103.mailbox.org [80.241.56.161])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5186510E93A;
- Fri, 18 Jul 2025 09:41:16 +0000 (UTC)
-Received: from smtp1.mailbox.org (smtp1.mailbox.org [10.196.197.1])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
- (No client certificate requested)
- by mout-p-103.mailbox.org (Postfix) with ESMTPS id 4bk4YN6cSsz9t2R;
- Fri, 18 Jul 2025 11:41:12 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mailbox.org;
- s=mail20150812; 
- t=1752831673; h=from:from:reply-to:reply-to:subject:subject:date:date:
- message-id:message-id:to:to:cc:cc:mime-version:mime-version:
- content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=a2Zg4QEe0LqebhVzLVIQHsMhWzN9W8MKDz2KfO089x0=;
- b=GAeptTTdUlbq2mCRPrYZQ9a82ysB/A77mUGeD8nIg06l3vaFU3Or8rKH22BIMJQ5By6/30
- x2CfRxvpZEHotXaLelDFTAJVyiuE8DPXbSUgHQ7q0b/leYcDWoH69z3u3YMtzLpLRc/fcC
- AlvdR4NhavVDUfuZ/3lJtSJfYdj37kUSx9JeJv2fNJbjn2cYO6JrqiHH39CyPOegcKdpkE
- /POMAZVIYEcoN5w73vk4XVqGvhYR/juSgob969p3gNG+pkpp/HzJP62y2EhKzbqylhP1b0
- DBsKaHp46/KmBN5RlRVQ/P1gGXDavE+4KMoqKT62WVzo/DM+b6+trT4LOwRaZQ==
-Message-ID: <48c311e35a4ed983433fc049bf465edde7930405.camel@mailbox.org>
-Subject: Re: [PATCH] drm/sched: Avoid double re-lock on the job free path
-From: Philipp Stanner <phasta@mailbox.org>
-To: Tvrtko Ursulin <tvrtko.ursulin@igalia.com>, phasta@kernel.org, 
- dri-devel@lists.freedesktop.org
-Cc: kernel-dev@igalia.com, intel-xe@lists.freedesktop.org, 
- amd-gfx@lists.freedesktop.org, Christian =?ISO-8859-1?Q?K=F6nig?=
- <christian.koenig@amd.com>, Danilo Krummrich <dakr@kernel.org>, Matthew
- Brost <matthew.brost@intel.com>, =?ISO-8859-1?Q?Ma=EDra?= Canal
- <mcanal@igalia.com>
-Date: Fri, 18 Jul 2025 11:41:09 +0200
-In-Reply-To: <c4e252ba-6ac2-4115-9606-c7f6f18f1abf@igalia.com>
-References: <20250716085117.56864-1-tvrtko.ursulin@igalia.com>
- <8e527b62-d968-4bc3-a0dc-491d193c02ce@igalia.com>
- <52d32846-0286-4979-ab2f-c1aa1aa02e20@igalia.com>
- <f535c0bf-225a-40c9-b6a1-5bfbb5ebec0d@igalia.com>
- <b5ff1fba-0e2c-4d02-8b9d-49c3c313e65d@igalia.com>
- <c1c9bb53-399d-4f1a-a6de-8cf354c2e903@igalia.com>
- <ad66eeac-26d7-4f46-b29c-7b43ce793ea8@igalia.com>
- <3448a6cf097051ea9fbd5beba741b624c831df2c.camel@mailbox.org>
- <c4e252ba-6ac2-4115-9606-c7f6f18f1abf@igalia.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Received: from sender4-pp-f112.zoho.com (sender4-pp-f112.zoho.com
+ [136.143.188.112])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2E40810E941
+ for <dri-devel@lists.freedesktop.org>; Fri, 18 Jul 2025 09:47:07 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; t=1752832024; cv=none; 
+ d=zohomail.com; s=zohoarc; 
+ b=XboJuV81rEj0JQ3PfzZFkJgSBQwuIA8PgyawCSFgXwh4BXWa0ZAdyeePsIafZMly821WsIgh91+dBJWhMurJ0ivpPhKfDm+i8YMwdtaq1UjHkRvH2/hM6skWkz1JMFM9NhA3/TEH+YCYRdD1UezCfttOYcXotYHuwO4MeEBs47E=
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com;
+ s=zohoarc; t=1752832024;
+ h=Content-Type:Cc:Cc:Date:Date:From:From:In-Reply-To:MIME-Version:Message-ID:References:Subject:Subject:To:To:Message-Id:Reply-To;
+ bh=JA79SFGCqALxsS0OqnrqTVYc8CF4TMuJhfSpOPOMgpM=; 
+ b=JhrSwR/LRfc+5XCkDz7iA8Fkz6EngodT4KWau4IjQ6/VZLfLY8RVvilZooqZ/dMWkgzbqLhqISLf2xCrEnIOk10dA0/iUZZSr+PF7Qp1Hd2lmxLD6k69nJ0/VQNsSUH769gw6ztvLqDRp8MbqFTTT2n+TbXAU/luh7f9WjHf1/A=
+ARC-Authentication-Results: i=1; mx.zohomail.com;
+ dkim=pass  header.i=collabora.com;
+ spf=pass  smtp.mailfrom=robert.mader@collabora.com;
+ dmarc=pass header.from=<robert.mader@collabora.com>
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1752832024; 
+ s=zohomail; d=collabora.com; i=robert.mader@collabora.com;
+ h=Content-Type:Message-ID:Date:Date:MIME-Version:Subject:Subject:To:To:Cc:Cc:References:From:From:In-Reply-To:Message-Id:Reply-To;
+ bh=JA79SFGCqALxsS0OqnrqTVYc8CF4TMuJhfSpOPOMgpM=;
+ b=XDQCh9ksc9/HDoN+vcJvOL6kbA0q0uBkxrJbQI6+eoq6H/E7qQPr5FTs4/Ljx0af
+ NhC1UfDUF2HIdsVrMFwWgnPv1pDYg5ySxpMsMlKD+FhAESZLziznIfedCTaaOyr3zQc
+ 4MBC/Pc+53qalR1p8l6gQFQB3HwtJoKgmNZrJ5/o=
+Received: by mx.zohomail.com with SMTPS id 1752832022334678.381179197415;
+ Fri, 18 Jul 2025 02:47:02 -0700 (PDT)
+Content-Type: multipart/alternative;
+ boundary="------------r0eWxL2eulaegJTEQtIXSVMm"
+Message-ID: <2163dd96-0542-4a39-8d7e-36f6bd357fa2@collabora.com>
+Date: Fri, 18 Jul 2025 11:46:59 +0200
 MIME-Version: 1.0
-X-MBO-RS-ID: 0f20e2a877c70a13885
-X-MBO-RS-META: qbb99t1j1czmoy5iciiu3a347h1pontj
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v1] drm/vkms: Add writeback encoders as possible clones
+To: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
+Cc: dri-devel@lists.freedesktop.org
+References: <20250703090335.23595-1-robert.mader@collabora.com>
+ <27oxphsevfwolf5mpm2vygrmp6wryujwmw65lsb7eqktykdw3z@lahceblqorgn>
+Content-Language: en-US, de-DE
+From: Robert Mader <robert.mader@collabora.com>
+In-Reply-To: <27oxphsevfwolf5mpm2vygrmp6wryujwmw65lsb7eqktykdw3z@lahceblqorgn>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -72,220 +63,142 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Reply-To: phasta@kernel.org
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, 2025-07-18 at 10:35 +0100, Tvrtko Ursulin wrote:
->=20
-> On 18/07/2025 10:31, Philipp Stanner wrote:
-> > On Fri, 2025-07-18 at 08:13 +0100, Tvrtko Ursulin wrote:
-> > >=20
-> > > On 16/07/2025 21:44, Ma=C3=ADra Canal wrote:
-> > > > Hi Tvrtko,
-> > > >=20
-> > > > On 16/07/25 11:46, Tvrtko Ursulin wrote:
-> > > > >=20
-> > > > > On 16/07/2025 15:30, Ma=C3=ADra Canal wrote:
-> > > > > > Hi Tvrtko,
-> > > > > >=20
-> > > > > > On 16/07/25 10:49, Tvrtko Ursulin wrote:
-> > > > > > >=20
-> > > > > > > On 16/07/2025 14:31, Ma=C3=ADra Canal wrote:
-> > > > > > > > Hi Tvrtko,
-> > > > > > > >=20
-> > > > > > > > On 16/07/25 05:51, Tvrtko Ursulin wrote:
-> > > > > > > > > Currently the job free work item will lock sched-
-> > > > > > > > > >job_list_lock
-> > > > > > > > > first time
-> > > > > > > > > to see if there are any jobs, free a single job, and
-> > > > > > > > > then lock
-> > > > > > > > > again to
-> > > > > > > > > decide whether to re-queue itself if there are more
-> > > > > > > > > finished jobs.
-> > > > > > > > >=20
-> > > > > > > > > Since drm_sched_get_finished_job() already looks at
-> > > > > > > > > the second job
-> > > > > > > > > in the
-> > > > > > > > > queue we can simply add the signaled check and have
-> > > > > > > > > it return the
-> > > > > > > > > presence
-> > > > > > > > > of more jobs to be freed to the caller. That way the
-> > > > > > > > > work item
-> > > > > > > > > does not
-> > > > > > > > > have to lock the list again and repeat the signaled
-> > > > > > > > > check.
-> > > > > > > > >=20
-> > > > > > > > > Signed-off-by: Tvrtko Ursulin
-> > > > > > > > > <tvrtko.ursulin@igalia.com>
-> > > > > > > > > Cc: Christian K=C3=B6nig <christian.koenig@amd.com>
-> > > > > > > > > Cc: Danilo Krummrich <dakr@kernel.org>
-> > > > > > > > > Cc: Ma=C3=ADra Canal <mcanal@igalia.com>
-> > > > > > > > > Cc: Matthew Brost <matthew.brost@intel.com>
-> > > > > > > > > Cc: Philipp Stanner <phasta@kernel.org>
-> > > > > > > > > ---
-> > > > > > > > > v2:
-> > > > > > > > > =C2=A0=C2=A0 * Improve commit text and kerneldoc. (Philip=
-p)
-> > > > > > > > > =C2=A0=C2=A0 * Rename run free work helper. (Philipp)
-> > > > > > > > >=20
-> > > > > > > > > v3:
-> > > > > > > > > =C2=A0=C2=A0 * Rebase on top of Maira's changes.
-> > > > > > > > > ---
-> > > > > > > > > =C2=A0=C2=A0 drivers/gpu/drm/scheduler/sched_main.c | 53
-> > > > > > > > > +++++++++
-> > > > > > > > > +----------------
-> > > > > > > > > =C2=A0=C2=A0 1 file changed, 21 insertions(+), 32 deletio=
-ns(-)
-> > > > > > > > >=20
-> > > > > > > > > diff --git a/drivers/gpu/drm/scheduler/sched_main.c
-> > > > > > > > > b/drivers/gpu/
-> > > > > > > > > drm/ scheduler/sched_main.c
-> > > > > > > > > index e2cda28a1af4..5a550fd76bf0 100644
-> > > > > > > > > --- a/drivers/gpu/drm/scheduler/sched_main.c
-> > > > > > > > > +++ b/drivers/gpu/drm/scheduler/sched_main.c
-> > > > > > > > > @@ -349,34 +349,13 @@ static void
-> > > > > > > > > drm_sched_run_job_queue(struct
-> > > > > > > > > drm_gpu_scheduler *sched)
-> > > > > > > > > =C2=A0=C2=A0 }
-> > > > > > > > > =C2=A0=C2=A0 /**
-> > > > > > > > > - * __drm_sched_run_free_queue - enqueue free-job
-> > > > > > > > > work
-> > > > > > > > > - * @sched: scheduler instance
-> > > > > > > > > - */
-> > > > > > > > > -static void __drm_sched_run_free_queue(struct
-> > > > > > > > > drm_gpu_scheduler
-> > > > > > > > > *sched)
-> > > > > > > > > -{
-> > > > > > > > > -=C2=A0=C2=A0=C2=A0 if (!READ_ONCE(sched->pause_submit))
-> > > > > > > > > -=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 queue_work(sc=
-hed->submit_wq, &sched-
-> > > > > > > > > >work_free_job);
-> > > > > > > > > -}
-> > > > > > > > > -
-> > > > > > > > > -/**
-> > > > > > > > > - * drm_sched_run_free_queue - enqueue free-job work
-> > > > > > > > > if ready
-> > > > > > > > > + * drm_sched_run_free_queue - enqueue free-job work
-> > > > > > > > > =C2=A0=C2=A0=C2=A0 * @sched: scheduler instance
-> > > > > > > > > =C2=A0=C2=A0=C2=A0 */
-> > > > > > > > > =C2=A0=C2=A0 static void drm_sched_run_free_queue(struct
-> > > > > > > > > drm_gpu_scheduler
-> > > > > > > > > *sched)
-> > > > > > > > > =C2=A0=C2=A0 {
-> > > > > > > > > -=C2=A0=C2=A0=C2=A0 struct drm_sched_job *job;
-> > > > > > > > > -
-> > > > > > > > > -=C2=A0=C2=A0=C2=A0 job =3D list_first_entry_or_null(&sch=
-ed-
-> > > > > > > > > >pending_list,
-> > > > > > > > > -=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0 struct drm_sched_job, list);
-> > > > > > > > > -=C2=A0=C2=A0=C2=A0 if (job && dma_fence_is_signaled(&job=
-->s_fence-
-> > > > > > > > > >finished))
-> > > > > > > > > -=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 __drm_sched_r=
-un_free_queue(sched);
-> > > > > > > >=20
-> > > > > > > > I believe we'd still need this chunk for
-> > > > > > > > DRM_GPU_SCHED_STAT_NO_HANG
-> > > > > > > > (check the comment in
-> > > > > > > > drm_sched_job_reinsert_on_false_timeout()). How
-> > > > > > >=20
-> > > > > > > You mean the "is there a signaled job in the list check"
-> > > > > > > is needed
-> > > > > > > for drm_sched_job_reinsert_on_false_timeout()? Hmm why?
-> > > > > > > Worst case
-> > > > > > > is a false positive wakeup on the free worker, no?
-> > > > > >=20
-> > > > > > Correct me if I'm mistaken, we would also have a false
-> > > > > > positive wake-up
-> > > > > > on the run_job worker, which I believe it could be
-> > > > > > problematic in the
-> > > > > > cases that we skipped the reset because the job is still
-> > > > > > running.
-> > > > >=20
-> > > > > Run job worker exits when it sees no free credits so I don't
-> > > > > think
-> > > > > there is a problem. What am I missing?
-> > > > >=20
-> > > >=20
-> > > > I was the one missing the code in `drm_sched_can_queue()`.
-> > > > Sorry for the
-> > > > misleading comments. This is:
-> > > >=20
-> > > > Reviewed-by: Ma=C3=ADra Canal <mcanal@igalia.com>
-> > >=20
-> > > No worries, and thanks!
-> > >=20
-> > > Philipp - are you okay with this version? V2 was done to address
-> > > your
-> > > feedback so that should be good now.
-> >=20
-> > Was just giving it another spin when you wrote. (a [PATCH v3]
-> > would've
-> > been neat for identification, though =E2=80=93 I almost pulled the wron=
-g
-> > patch
-> > from the archive *wink*)
->=20
-> Oops, my bad.
->=20
-> > LGTM, improves things, can be merged.
-> >=20
-> > However, we had to merge Lin Cao's bug fix [1] recently. That one
-> > is
-> > now in drm-misc-fixes, and your patch should go to drm-misc-next.
-> > This
-> > would cause a conflict once the two branches meet.
-> >=20
-> > So I suggest that we wait with this non-urgent patch until drm-
-> > misc-
-> > fixes / Linus's -rc gets merged into drm-misc-next, and then we
-> > apply
-> > it. Should be next week or the week after AFAIK.
-> >=20
-> > Unless somebody has a better idea, of course?
->=20
-> Lin's patch touches sched_entity.c only and mine only sched_main.c -
-> ie.=20
-> no conflict AFAICT?
+This is a multi-part message in MIME format.
+--------------r0eWxL2eulaegJTEQtIXSVMm
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-Aaahhh, I had a hallucination ^^'
+Thanks for the feedback!
 
-It doesn't apply to drm-misc-fixes, but that is because fixes misses
-changes that yours is based on. Because Lin's patch was the last thing
-I touched on that branch I seem to have jumped to that conclusion.
+On 06.07.25 13:29, Dmitry Baryshkov wrote:
+> On Thu, Jul 03, 2025 at 11:03:35AM +0200, Robert Mader wrote:
+>> Since commit 41b4b11da0215 ("drm: Add valid clones check") setting
+>> the `possible_clones` values is a hard requirement for cloning.
+>> `vkms` supports cloning for writeback connectors in order to capture
+>> CRTC content, however that broke with said commit.
+>>
+>> Writeback connectors are created on a per-CRTC basis, thus mark
+>> every non-writeback connector that is compatible with a given CRTC
+>> as possible clone - and vice-versa.
+>>
+>> Using a default configuration, the corresponding `drm_info` output
+>> changes from:
+> It feels like the current possible_clones is incorrect according to the
+> documentation. Should there be a Fixes tag?
 
-Should be fine, then. My bad.
+The issue is that possible_clones was never explicitly set, making it 
+fall back to the default value - every encoder only being compatible 
+with itself. So candidates for a Fixes tag would be either the initial 
+implementation of the writeback connector in vkms - or the commit that 
+started enforcing correct values ("drm: Add valid clones check") as 
+previously the values where simply ignored.
 
-Will apply.
+Unfortunately the patch is not easily backportable either way because of 
+the changes in https://patchwork.freedesktop.org/series/144091/#rev4 
+that recently landed - i.e. 6.15 would need a completely rewritten fix, 
+and previous kernels don't really need it.
 
+Thus I'd rather leave it out if that's ok with you?
 
-P.
+>>
+>> Signed-off-by: Robert Mader<robert.mader@collabora.com>
+>> ---
+>>   drivers/gpu/drm/vkms/vkms_output.c    | 12 ++++++++++++
+>>   drivers/gpu/drm/vkms/vkms_writeback.c |  2 ++
+>>   2 files changed, 14 insertions(+)
+>>
+-- 
+Robert Mader
+Consultant Software Developer
 
+Collabora Ltd.
+Platinum Building, St John's Innovation Park, Cambridge CB4 0DS, UK
+Registered in England & Wales, no. 5513718
 
->=20
-> Regards,
->=20
-> Tvrtko
->=20
-> >=20
-> > Remind me in case I forget.
-> >=20
-> >=20
-> > P.
-> >=20
-> > [1]
-> > https://gitlab.freedesktop.org/drm/misc/kernel/-/commit/15f77764e90a713=
-ee3916ca424757688e4f565b9
-> >=20
-> >=20
-> > >=20
-> > > Regards,
-> > >=20
-> > > Tvrtko
-> > >=20
-> >=20
->=20
+--------------r0eWxL2eulaegJTEQtIXSVMm
+Content-Type: text/html; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  </head>
+  <body>
+    <div class="moz-cite-prefix">Thanks for the feedback!<br>
+    </div>
+    <div class="moz-cite-prefix"><br>
+    </div>
+    <div class="moz-cite-prefix">On 06.07.25 13:29, Dmitry Baryshkov
+      wrote:<br>
+    </div>
+    <blockquote type="cite"
+cite="mid:27oxphsevfwolf5mpm2vygrmp6wryujwmw65lsb7eqktykdw3z@lahceblqorgn">
+      <pre wrap="" class="moz-quote-pre">On Thu, Jul 03, 2025 at 11:03:35AM +0200, Robert Mader wrote:
+</pre>
+      <blockquote type="cite">
+        <pre wrap="" class="moz-quote-pre">Since commit 41b4b11da0215 ("drm: Add valid clones check") setting
+the `possible_clones` values is a hard requirement for cloning.
+`vkms` supports cloning for writeback connectors in order to capture
+CRTC content, however that broke with said commit.
+
+Writeback connectors are created on a per-CRTC basis, thus mark
+every non-writeback connector that is compatible with a given CRTC
+as possible clone - and vice-versa.
+
+Using a default configuration, the corresponding `drm_info` output
+changes from:
+</pre>
+      </blockquote>
+      <pre wrap="" class="moz-quote-pre">
+It feels like the current possible_clones is incorrect according to the
+documentation. Should there be a Fixes tag?</pre>
+    </blockquote>
+    <span style="white-space: pre-wrap">
+</span>
+    <p>The issue is that possible_clones was never explicitly set,
+      making it fall back to the default value - every encoder only
+      being compatible with itself. So candidates for a Fixes tag would
+      be either the initial implementation of the writeback connector in
+      vkms - or the commit that started enforcing correct values ("drm:
+      Add valid clones check") as previously the values where simply
+      ignored.</p>
+    <p>Unfortunately the patch is not easily backportable either way
+      because of the changes in
+      <a class="moz-txt-link-freetext" href="https://patchwork.freedesktop.org/series/144091/#rev4">https://patchwork.freedesktop.org/series/144091/#rev4</a> that
+      recently landed - i.e. 6.15 would need a completely rewritten fix,
+      and previous kernels don't really need it.</p>
+    <p>Thus I'd rather leave it out if that's ok with you?<br>
+    </p>
+    <blockquote type="cite"
+cite="mid:27oxphsevfwolf5mpm2vygrmp6wryujwmw65lsb7eqktykdw3z@lahceblqorgn">
+      <pre wrap="" class="moz-quote-pre">
+</pre>
+      <blockquote type="cite">
+        <pre wrap="" class="moz-quote-pre">
+
+Signed-off-by: Robert Mader <a class="moz-txt-link-rfc2396E" href="mailto:robert.mader@collabora.com">&lt;robert.mader@collabora.com&gt;</a>
+---
+ drivers/gpu/drm/vkms/vkms_output.c    | 12 ++++++++++++
+ drivers/gpu/drm/vkms/vkms_writeback.c |  2 ++
+ 2 files changed, 14 insertions(+)
+
+</pre>
+      </blockquote>
+      <pre wrap="" class="moz-quote-pre">
+</pre>
+    </blockquote>
+    <pre class="moz-signature" cols="72">-- 
+Robert Mader
+Consultant Software Developer 
+
+Collabora Ltd.
+Platinum Building, St John's Innovation Park, Cambridge CB4 0DS, UK
+Registered in England &amp; Wales, no. 5513718</pre>
+  </body>
+</html>
+
+--------------r0eWxL2eulaegJTEQtIXSVMm--
