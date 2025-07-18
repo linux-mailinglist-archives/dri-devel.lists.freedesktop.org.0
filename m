@@ -2,62 +2,104 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5CDD6B0A078
-	for <lists+dri-devel@lfdr.de>; Fri, 18 Jul 2025 12:19:07 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 42DF3B0A08D
+	for <lists+dri-devel@lfdr.de>; Fri, 18 Jul 2025 12:23:44 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5950010E942;
-	Fri, 18 Jul 2025 10:19:04 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A56B310E12C;
+	Fri, 18 Jul 2025 10:23:41 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=igalia.com header.i=@igalia.com header.b="OAjG/WbA";
+	dkim=pass (2048-bit key; unprotected) header.d=bootlin.com header.i=@bootlin.com header.b="HJj51Ej+";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from fanzine2.igalia.com (fanzine2.igalia.com [213.97.179.56])
- by gabe.freedesktop.org (Postfix) with ESMTPS id EAB9510E940;
- Fri, 18 Jul 2025 10:19:01 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com; 
- s=20170329;
- h=Content-Transfer-Encoding:Content-Type:In-Reply-To:From:
- References:Cc:To:Subject:MIME-Version:Date:Message-ID:Sender:Reply-To:
- Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
- Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
- List-Subscribe:List-Post:List-Owner:List-Archive;
- bh=aEtRLscCkdZ/WwAepzG57aESIU4DJhtby8VKrgzbpVc=; b=OAjG/WbAkf2JPPhKVLz02shunt
- cLywRymDx6MCh/2HqhIff+/SugpGEVm96Qut03cx2K+TU6kPK3a54ZYocYz40asIn/i66EW5cMaNj
- tZ12DzowwvKmROAJMwPQZM21v01floH9QXzeTTT7UmV8lgPAJNLLkb3TfXrzXTam/a2BgPIuxDFFl
- vL0y0/Fv/Xy3Lva3oMVd8XI0nr6DXn0oM17qsLaon7f2bBv2DXvBNfBMokMcK/zGbWcNnbp7Jee5C
- SMEHTaqLJuw5Wexa6fer1aBNWbz4sg9qpoVIrGlVwpwNW72QbOF+HQWeDqKmG2j5AGZiwK6QreWWq
- 3AsiGbKA==;
-Received: from [84.66.36.92] (helo=[192.168.0.101])
- by fanzine2.igalia.com with esmtpsa 
- (Cipher TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_128_GCM:128) (Exim)
- id 1uciB9-000Wcn-Fx; Fri, 18 Jul 2025 12:18:59 +0200
-Message-ID: <2ac70557-0295-4cc4-bfab-ed3452a72199@igalia.com>
-Date: Fri, 18 Jul 2025 11:18:58 +0100
+Received: from relay4-d.mail.gandi.net (relay4-d.mail.gandi.net
+ [217.70.183.196])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5AD3610E12C
+ for <dri-devel@lists.freedesktop.org>; Fri, 18 Jul 2025 10:23:39 +0000 (UTC)
+Received: by mail.gandi.net (Postfix) with ESMTPSA id 276734336F;
+ Fri, 18 Jul 2025 10:23:36 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
+ t=1752834217;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+ bh=Z/91SYSzxQzEzQbPuqVtLokR5Cu7fwDO/PI62hKOp3M=;
+ b=HJj51Ej+d7FIA4aG9jEmt2U68C5lFbGV4jo2+s0vqaSVeozIM+UgVJKaT7FUzwBSNO03kg
+ /eiDpi5cfreAZXnfnMHyrvvqiYWBysEII9qzUH01MvmwNDqOMxf4FK30CZkU7NIWksXOsv
+ Xtvd8JNZ3tf9dG6EsTqNvJtbEop9lSIGEPJ3ZNztQgGUnOMGmToxvM+7lkuFQST/h6Uh6D
+ mlmGMXt0qd551+SRovzAt4q/WpOygYzCGmOxnhIMLaF139puZvSUtSh2KehT47NPD1LC79
+ 3wuMnH2dME7vls2TrVhngUSuATUTsuj+Yu8695MK0bAApGxICfEDCpi2Tzc9sA==
+Message-ID: <8449716a-9c8b-424b-b12f-d5b272e051b3@bootlin.com>
+Date: Fri, 18 Jul 2025 12:23:35 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] drm/sched: Avoid double re-lock on the job free path
-To: phasta@kernel.org, dri-devel@lists.freedesktop.org
-Cc: kernel-dev@igalia.com, intel-xe@lists.freedesktop.org,
- amd-gfx@lists.freedesktop.org, =?UTF-8?Q?Christian_K=C3=B6nig?=
- <christian.koenig@amd.com>, Danilo Krummrich <dakr@kernel.org>,
- Matthew Brost <matthew.brost@intel.com>, =?UTF-8?Q?Ma=C3=ADra_Canal?=
- <mcanal@igalia.com>
-References: <20250716085117.56864-1-tvrtko.ursulin@igalia.com>
- <8e527b62-d968-4bc3-a0dc-491d193c02ce@igalia.com>
- <52d32846-0286-4979-ab2f-c1aa1aa02e20@igalia.com>
- <f535c0bf-225a-40c9-b6a1-5bfbb5ebec0d@igalia.com>
- <b5ff1fba-0e2c-4d02-8b9d-49c3c313e65d@igalia.com>
- <c1c9bb53-399d-4f1a-a6de-8cf354c2e903@igalia.com>
- <ad66eeac-26d7-4f46-b29c-7b43ce793ea8@igalia.com>
- <3448a6cf097051ea9fbd5beba741b624c831df2c.camel@mailbox.org>
- <c4e252ba-6ac2-4115-9606-c7f6f18f1abf@igalia.com>
- <48c311e35a4ed983433fc049bf465edde7930405.camel@mailbox.org>
-Content-Language: en-GB
-From: Tvrtko Ursulin <tvrtko.ursulin@igalia.com>
-In-Reply-To: <48c311e35a4ed983433fc049bf465edde7930405.camel@mailbox.org>
+Subject: Re: [PATCH v1] drm/vkms: Add writeback encoders as possible clones
+To: Robert Mader <robert.mader@collabora.com>, dri-devel@lists.freedesktop.org
+References: <20250703090335.23595-1-robert.mader@collabora.com>
+Content-Language: en-US
+From: Louis Chauvet <louis.chauvet@bootlin.com>
+Autocrypt: addr=louis.chauvet@bootlin.com; keydata=
+ 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
+In-Reply-To: <20250703090335.23595-1-robert.mader@collabora.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
+X-GND-State: clean
+X-GND-Score: -100
+X-GND-Cause: gggruggvucftvghtrhhoucdtuddrgeeffedrtdefgdeifedvudcutefuodetggdotefrodftvfcurfhrohhfihhlvgemucfitefpfffkpdcuggftfghnshhusghstghrihgsvgenuceurghilhhouhhtmecufedtudenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujfgurhepkfffgggfuffvfhfhjggtgfesthekredttddvjeenucfhrhhomhepnfhouhhishcuvehhrghuvhgvthcuoehlohhuihhsrdgthhgruhhvvghtsegsohhothhlihhnrdgtohhmqeenucggtffrrghtthgvrhhnpeeuvdetgeevkefhiedugfekveejieeiveeigeeiveduffehfffhgeffffetheekgfenucffohhmrghinhepsghoohhtlhhinhdrtghomhenucfkphepledtrdekledrudeifedruddvjeenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepihhnvghtpeeltddrkeelrdduieefrdduvdejpdhhvghloheplgduledvrdduieekrddtrddvtdgnpdhmrghilhhfrhhomheplhhouhhishdrtghhrghuvhgvthessghoohhtlhhinhdrtghomhdpnhgspghrtghpthhtohepvddprhgtphhtthhopehrohgsvghrthdrmhgruggvrhestgholhhlrggsohhrrgdrtghomhdprhgtphhtthhopegurhhiqdguvghvvghlsehlihhsthhsrdhfrhgvvgguvghskhhtohhprdhorhhg
+X-GND-Sasl: louis.chauvet@bootlin.com
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -74,206 +116,107 @@ Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 
-On 18/07/2025 10:41, Philipp Stanner wrote:
-> On Fri, 2025-07-18 at 10:35 +0100, Tvrtko Ursulin wrote:
->>
->> On 18/07/2025 10:31, Philipp Stanner wrote:
->>> On Fri, 2025-07-18 at 08:13 +0100, Tvrtko Ursulin wrote:
->>>>
->>>> On 16/07/2025 21:44, Maíra Canal wrote:
->>>>> Hi Tvrtko,
->>>>>
->>>>> On 16/07/25 11:46, Tvrtko Ursulin wrote:
->>>>>>
->>>>>> On 16/07/2025 15:30, Maíra Canal wrote:
->>>>>>> Hi Tvrtko,
->>>>>>>
->>>>>>> On 16/07/25 10:49, Tvrtko Ursulin wrote:
->>>>>>>>
->>>>>>>> On 16/07/2025 14:31, Maíra Canal wrote:
->>>>>>>>> Hi Tvrtko,
->>>>>>>>>
->>>>>>>>> On 16/07/25 05:51, Tvrtko Ursulin wrote:
->>>>>>>>>> Currently the job free work item will lock sched-
->>>>>>>>>>> job_list_lock
->>>>>>>>>> first time
->>>>>>>>>> to see if there are any jobs, free a single job, and
->>>>>>>>>> then lock
->>>>>>>>>> again to
->>>>>>>>>> decide whether to re-queue itself if there are more
->>>>>>>>>> finished jobs.
->>>>>>>>>>
->>>>>>>>>> Since drm_sched_get_finished_job() already looks at
->>>>>>>>>> the second job
->>>>>>>>>> in the
->>>>>>>>>> queue we can simply add the signaled check and have
->>>>>>>>>> it return the
->>>>>>>>>> presence
->>>>>>>>>> of more jobs to be freed to the caller. That way the
->>>>>>>>>> work item
->>>>>>>>>> does not
->>>>>>>>>> have to lock the list again and repeat the signaled
->>>>>>>>>> check.
->>>>>>>>>>
->>>>>>>>>> Signed-off-by: Tvrtko Ursulin
->>>>>>>>>> <tvrtko.ursulin@igalia.com>
->>>>>>>>>> Cc: Christian König <christian.koenig@amd.com>
->>>>>>>>>> Cc: Danilo Krummrich <dakr@kernel.org>
->>>>>>>>>> Cc: Maíra Canal <mcanal@igalia.com>
->>>>>>>>>> Cc: Matthew Brost <matthew.brost@intel.com>
->>>>>>>>>> Cc: Philipp Stanner <phasta@kernel.org>
->>>>>>>>>> ---
->>>>>>>>>> v2:
->>>>>>>>>>     * Improve commit text and kerneldoc. (Philipp)
->>>>>>>>>>     * Rename run free work helper. (Philipp)
->>>>>>>>>>
->>>>>>>>>> v3:
->>>>>>>>>>     * Rebase on top of Maira's changes.
->>>>>>>>>> ---
->>>>>>>>>>     drivers/gpu/drm/scheduler/sched_main.c | 53
->>>>>>>>>> +++++++++
->>>>>>>>>> +----------------
->>>>>>>>>>     1 file changed, 21 insertions(+), 32 deletions(-)
->>>>>>>>>>
->>>>>>>>>> diff --git a/drivers/gpu/drm/scheduler/sched_main.c
->>>>>>>>>> b/drivers/gpu/
->>>>>>>>>> drm/ scheduler/sched_main.c
->>>>>>>>>> index e2cda28a1af4..5a550fd76bf0 100644
->>>>>>>>>> --- a/drivers/gpu/drm/scheduler/sched_main.c
->>>>>>>>>> +++ b/drivers/gpu/drm/scheduler/sched_main.c
->>>>>>>>>> @@ -349,34 +349,13 @@ static void
->>>>>>>>>> drm_sched_run_job_queue(struct
->>>>>>>>>> drm_gpu_scheduler *sched)
->>>>>>>>>>     }
->>>>>>>>>>     /**
->>>>>>>>>> - * __drm_sched_run_free_queue - enqueue free-job
->>>>>>>>>> work
->>>>>>>>>> - * @sched: scheduler instance
->>>>>>>>>> - */
->>>>>>>>>> -static void __drm_sched_run_free_queue(struct
->>>>>>>>>> drm_gpu_scheduler
->>>>>>>>>> *sched)
->>>>>>>>>> -{
->>>>>>>>>> -    if (!READ_ONCE(sched->pause_submit))
->>>>>>>>>> -        queue_work(sched->submit_wq, &sched-
->>>>>>>>>>> work_free_job);
->>>>>>>>>> -}
->>>>>>>>>> -
->>>>>>>>>> -/**
->>>>>>>>>> - * drm_sched_run_free_queue - enqueue free-job work
->>>>>>>>>> if ready
->>>>>>>>>> + * drm_sched_run_free_queue - enqueue free-job work
->>>>>>>>>>      * @sched: scheduler instance
->>>>>>>>>>      */
->>>>>>>>>>     static void drm_sched_run_free_queue(struct
->>>>>>>>>> drm_gpu_scheduler
->>>>>>>>>> *sched)
->>>>>>>>>>     {
->>>>>>>>>> -    struct drm_sched_job *job;
->>>>>>>>>> -
->>>>>>>>>> -    job = list_first_entry_or_null(&sched-
->>>>>>>>>>> pending_list,
->>>>>>>>>> -                       struct drm_sched_job, list);
->>>>>>>>>> -    if (job && dma_fence_is_signaled(&job->s_fence-
->>>>>>>>>>> finished))
->>>>>>>>>> -        __drm_sched_run_free_queue(sched);
->>>>>>>>>
->>>>>>>>> I believe we'd still need this chunk for
->>>>>>>>> DRM_GPU_SCHED_STAT_NO_HANG
->>>>>>>>> (check the comment in
->>>>>>>>> drm_sched_job_reinsert_on_false_timeout()). How
->>>>>>>>
->>>>>>>> You mean the "is there a signaled job in the list check"
->>>>>>>> is needed
->>>>>>>> for drm_sched_job_reinsert_on_false_timeout()? Hmm why?
->>>>>>>> Worst case
->>>>>>>> is a false positive wakeup on the free worker, no?
->>>>>>>
->>>>>>> Correct me if I'm mistaken, we would also have a false
->>>>>>> positive wake-up
->>>>>>> on the run_job worker, which I believe it could be
->>>>>>> problematic in the
->>>>>>> cases that we skipped the reset because the job is still
->>>>>>> running.
->>>>>>
->>>>>> Run job worker exits when it sees no free credits so I don't
->>>>>> think
->>>>>> there is a problem. What am I missing?
->>>>>>
->>>>>
->>>>> I was the one missing the code in `drm_sched_can_queue()`.
->>>>> Sorry for the
->>>>> misleading comments. This is:
->>>>>
->>>>> Reviewed-by: Maíra Canal <mcanal@igalia.com>
->>>>
->>>> No worries, and thanks!
->>>>
->>>> Philipp - are you okay with this version? V2 was done to address
->>>> your
->>>> feedback so that should be good now.
->>>
->>> Was just giving it another spin when you wrote. (a [PATCH v3]
->>> would've
->>> been neat for identification, though – I almost pulled the wrong
->>> patch
->>> from the archive *wink*)
->>
->> Oops, my bad.
->>
->>> LGTM, improves things, can be merged.
->>>
->>> However, we had to merge Lin Cao's bug fix [1] recently. That one
->>> is
->>> now in drm-misc-fixes, and your patch should go to drm-misc-next.
->>> This
->>> would cause a conflict once the two branches meet.
->>>
->>> So I suggest that we wait with this non-urgent patch until drm-
->>> misc-
->>> fixes / Linus's -rc gets merged into drm-misc-next, and then we
->>> apply
->>> it. Should be next week or the week after AFAIK.
->>>
->>> Unless somebody has a better idea, of course?
->>
->> Lin's patch touches sched_entity.c only and mine only sched_main.c -
->> ie.
->> no conflict AFAICT?
-> 
-> Aaahhh, I had a hallucination ^^'
-> 
-> It doesn't apply to drm-misc-fixes, but that is because fixes misses
-> changes that yours is based on. Because Lin's patch was the last thing
-> I touched on that branch I seem to have jumped to that conclusion.
-> 
-> Should be fine, then. My bad.
-> 
-> Will apply.
 
-Thank you!
-
-This enables me to send out a rebase of the fair DRM scheduler series soon.
-
-Regards,
-
-Tvrtko
-
->>> Remind me in case I forget.
->>>
->>>
->>> P.
->>>
->>> [1]
->>> https://gitlab.freedesktop.org/drm/misc/kernel/-/commit/15f77764e90a713ee3916ca424757688e4f565b9
->>>
->>>
->>>>
->>>> Regards,
->>>>
->>>> Tvrtko
->>>>
->>>
->>
+Le 03/07/2025 à 11:03, Robert Mader a écrit :
+> Since commit 41b4b11da0215 ("drm: Add valid clones check") setting
+> the `possible_clones` values is a hard requirement for cloning.
+> `vkms` supports cloning for writeback connectors in order to capture
+> CRTC content, however that broke with said commit.
 > 
+> Writeback connectors are created on a per-CRTC basis, thus mark
+> every non-writeback connector that is compatible with a given CRTC
+> as possible clone - and vice-versa.
+> 
+> Using a default configuration, the corresponding `drm_info` output
+> changes from:
+> 
+> ├───Encoders
+> │   ├───Encoder 0
+> │   │   ├───Object ID: 40
+> │   │   ├───Type: virtual
+> │   │   ├───CRTCS: {0}
+> │   │   └───Clones: {0}
+> │   └───Encoder 1
+> │       ├───Object ID: 41
+> │       ├───Type: virtual
+> │       ├───CRTCS: {0}
+> │       └───Clones: {1}
+> 
+> to:
+> 
+> ├───Encoders
+> │   ├───Encoder 0
+> │   │   ├───Object ID: 44
+> │   │   ├───Type: virtual
+> │   │   ├───CRTCS: {0}
+> │   │   └───Clones: {0, 1}
+> │   └───Encoder 1
+> │       ├───Object ID: 50
+> │       ├───Type: virtual
+> │       ├───CRTCS: {0}
+> │       └───Clones: {0, 1}
+> 
+> Signed-off-by: Robert Mader <robert.mader@collabora.com>
+
+Hi,
+
+About the Fixes tag, I think you can add it anyway, if the patch is not 
+applicable on previous kernel version, this is not an issue, it will 
+just be ignored.
+
+> ---
+>   drivers/gpu/drm/vkms/vkms_output.c    | 12 ++++++++++++
+>   drivers/gpu/drm/vkms/vkms_writeback.c |  2 ++
+>   2 files changed, 14 insertions(+)
+> 
+> diff --git a/drivers/gpu/drm/vkms/vkms_output.c b/drivers/gpu/drm/vkms/vkms_output.c
+> index 8d7ca0cdd79f..21935eb88198 100644
+> --- a/drivers/gpu/drm/vkms/vkms_output.c
+> +++ b/drivers/gpu/drm/vkms/vkms_output.c
+> @@ -77,9 +77,21 @@ int vkms_output_init(struct vkms_device *vkmsdev)
+>   			return ret;
+>   		}
+>   
+> +		encoder_cfg->encoder->possible_clones |= BIT(drm_encoder_index(encoder_cfg->encoder));
+> +
+>   		vkms_config_encoder_for_each_possible_crtc(encoder_cfg, idx, possible_crtc) {
+>   			encoder_cfg->encoder->possible_crtcs |=
+>   				drm_crtc_mask(&possible_crtc->crtc->crtc);
+> +
+> +			if (vkms_config_crtc_get_writeback(possible_crtc)) {
+> +				struct drm_encoder *wb_encoder =
+> +					&possible_crtc->crtc->wb_encoder;
+> +
+> +				encoder_cfg->encoder->possible_clones |=
+> +					BIT(drm_encoder_index(wb_encoder));
+> +				wb_encoder->possible_clones |=
+> +					BIT(drm_encoder_index(encoder_cfg->encoder));
+
+Can you use drm_encoder_mask directly?
+
+Thanks a lot for this patch,
+Louis Chauvet
+
+> +			}
+>   		}
+>   	}
+>   
+> diff --git a/drivers/gpu/drm/vkms/vkms_writeback.c b/drivers/gpu/drm/vkms/vkms_writeback.c
+> index fe163271d5b5..12b60fb97c68 100644
+> --- a/drivers/gpu/drm/vkms/vkms_writeback.c
+> +++ b/drivers/gpu/drm/vkms/vkms_writeback.c
+> @@ -174,6 +174,8 @@ int vkms_enable_writeback_connector(struct vkms_device *vkmsdev,
+>   	if (ret)
+>   		return ret;
+>   	vkms_output->wb_encoder.possible_crtcs |= drm_crtc_mask(&vkms_output->crtc);
+> +	vkms_output->wb_encoder.possible_clones |=
+> +		BIT(drm_encoder_index(&vkms_output->wb_encoder));
+>   
+>   	drm_connector_helper_add(&wb->base, &vkms_wb_conn_helper_funcs);
+>   
+
+-- 
+Louis Chauvet, Bootlin
+Embedded Linux and Kernel engineering
+https://bootlin.com
 
