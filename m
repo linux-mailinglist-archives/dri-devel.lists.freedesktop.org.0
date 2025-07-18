@@ -2,67 +2,125 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8C693B0A0DC
-	for <lists+dri-devel@lfdr.de>; Fri, 18 Jul 2025 12:43:35 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9B777B0A111
+	for <lists+dri-devel@lfdr.de>; Fri, 18 Jul 2025 12:52:21 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 989E810E142;
-	Fri, 18 Jul 2025 10:43:32 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 69FA010E951;
+	Fri, 18 Jul 2025 10:52:18 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; secure) header.d=tecnico.ulisboa.pt header.i=@tecnico.ulisboa.pt header.b="fKkWo/Q3";
+	dkim=pass (2048-bit key; unprotected) header.d=qualcomm.com header.i=@qualcomm.com header.b="XQ3fnn8K";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from smtp1.tecnico.ulisboa.pt (smtp1.tecnico.ulisboa.pt
- [193.136.128.21])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3F19510E94F
- for <dri-devel@lists.freedesktop.org>; Fri, 18 Jul 2025 10:43:26 +0000 (UTC)
-Received: from localhost (localhost.localdomain [127.0.0.1])
- by smtp1.tecnico.ulisboa.pt (Postfix) with ESMTP id 77C99600343C;
- Fri, 18 Jul 2025 11:43:24 +0100 (WEST)
-X-Virus-Scanned: by amavis-2.13.0 (20230106) (Debian) at tecnico.ulisboa.pt
-Received: from smtp1.tecnico.ulisboa.pt ([127.0.0.1])
- by localhost (smtp1.tecnico.ulisboa.pt [127.0.0.1]) (amavis, port 10025)
- with LMTP id 6DHWSyV4V5To; Fri, 18 Jul 2025 11:43:22 +0100 (WEST)
-Received: from mail1.tecnico.ulisboa.pt (mail1.ist.utl.pt [193.136.128.10])
- by smtp1.tecnico.ulisboa.pt (Postfix) with ESMTPS id 0103B600024F;
- Fri, 18 Jul 2025 11:43:21 +0100 (WEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=tecnico.ulisboa.pt;
- s=mail; t=1752835402;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=okyo7RN/5T+nGVlbhx/5uQVBucvQdaKOetxBZHKb90k=;
- b=fKkWo/Q3KTDG0gtM4VokVwM87V7Y+7gIgSWh3BtCsJcOmIra1sreIdBbp1S/w4cwjpCF6f
- LqQpyO3LjLGiw2gAcTsZUj7494Ju/02pGU3XIS9tU2obYbgyj99wORdkxDmvqApODbWAKl
- q6wyffoGPRBMc88fuMg40JeXR5xdQZ0=
-Received: from [IPV6:2001:8a0:57db:f00:3ee2:38aa:e2c9:7dde] (unknown
- [IPv6:2001:8a0:57db:f00:3ee2:38aa:e2c9:7dde])
- (Authenticated sender: ist187313)
- by mail1.tecnico.ulisboa.pt (Postfix) with ESMTPSA id 898A3360071;
- Fri, 18 Jul 2025 11:43:20 +0100 (WEST)
-Message-ID: <fe1d5f6b-006e-494f-8d07-e6c751d4c694@tecnico.ulisboa.pt>
-Date: Fri, 18 Jul 2025 11:43:20 +0100
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com
+ [205.220.180.131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 07CCA10E951
+ for <dri-devel@lists.freedesktop.org>; Fri, 18 Jul 2025 10:52:16 +0000 (UTC)
+Received: from pps.filterd (m0279869.ppops.net [127.0.0.1])
+ by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 56I8wIJI008417
+ for <dri-devel@lists.freedesktop.org>; Fri, 18 Jul 2025 10:52:16 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
+ cc:content-transfer-encoding:content-type:date:from:in-reply-to
+ :message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
+ z5VSiGr2ZsbWALN5zUGrP4LvnTpKbEmqDudeNgwiofk=; b=XQ3fnn8KWQnlFULU
+ 5L3W73USuyaN7s2dXbIcdUf6p7jmGnYi+oke2do1OxoajZRizQRTxrENbqmhs2Hw
+ GYvuHVhwEm8qWnR56XeNF2cuT1eRtQ3D0HZ7PmoP3fhHB+StAnc3DDP/30xVU2+h
+ Bi+OeqluFL5oHg1PycnzPfWSVOJl5Nqqrg6hHQfvskCZsQKbpgD+7/TQISiMldkB
+ RflRK94JMxxC8YJLNfsEcyQc4ez8zmq28wM3y90BXwId2VNXTM2Dj5LL4b1OehHE
+ AWstoSXfcxsCwDemu8BRjgxb3GyFCYPFBL8S5YwYx90GYdPU1MW6p9BplYHZTiMm
+ 9Pe8vQ==
+Received: from mail-qv1-f69.google.com (mail-qv1-f69.google.com
+ [209.85.219.69])
+ by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 47wfcacbxx-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
+ for <dri-devel@lists.freedesktop.org>; Fri, 18 Jul 2025 10:52:15 +0000 (GMT)
+Received: by mail-qv1-f69.google.com with SMTP id
+ 6a1803df08f44-6fd3aeb2825so59402616d6.3
+ for <dri-devel@lists.freedesktop.org>; Fri, 18 Jul 2025 03:52:15 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1752835935; x=1753440735;
+ h=in-reply-to:content-transfer-encoding:content-disposition
+ :mime-version:references:message-id:subject:cc:to:from:date
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=z5VSiGr2ZsbWALN5zUGrP4LvnTpKbEmqDudeNgwiofk=;
+ b=gWmvvEUdOh1cpFBi6get2+rBx9u/6U+IWf6OXv4K5Q1VSVP6aUvDbrdqJek+uGfF8e
+ ZPcyqqkqV0EtrMzobQDZYYRGOLgju+pLPOOWask+qyMRm5TpdCLw6ZigL7Wzi+ich/8d
+ fl1iEqVVGRswfFsvnb01o2yTU/Dg54NLQBWFhAuoyCyovWm2yLRAkjYjd4//WIYhuVkk
+ AajSK5cWPLTgUtup+JlDK1cNwfs752SUBYI2ImfwSr+YlTtdCH9Iufwxm8abiAWOiB2n
+ 9jKHcVXqEbFtmHsmbYMIOBtsFVb+Ay92axmaBw54WrM4XdggQWtcz2V+1dJbYGQ0I6gH
+ TLxA==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCWO4Bvh6uPg1E3riQoEUPIkLps18Zfa1cJoYdv/q7uNVjexF585RSaYmhExtZsANpZMJvdHOdYPX0Q=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0Yx+wTMyfP74J0KAYWNwZhgXp2dZcm/gcqI0efwcIgVA4CWjhkOk
+ fEprclx+pYutVJniXO0u0DxNZSD5o8nSvQxfwlouRZFHPU9D6Aj23GTRwdONQvbUyWCCpaIU2Z0
+ kaNoageRZZlQ76Y61qfYFBEvo1g7Go1X6t05OgY+daKQIA03V9vjiL3SMBV1RgwctA1owbYc=
+X-Gm-Gg: ASbGncsrxNrRpHSwuy26/X+QIK3kDmQaw1GEwF97dN7rd0BkBw8fsN1xWFx8CWW+ONn
+ tze1Cep8xAPpYEksujyyQ419zLG2uPniajio4yDu9/U6DnV4XXwDGlDbyHpCGKQ78hmDCrCcbW+
+ DdhaZkD5qdsVLPgODgIpIOxnUb2NI657/us4YZXzycstGnMQ6OUoXjks2buPBaTo0xNuldrYLqk
+ BsQZfYD+HXaITgrFIVLgFSa6aSXS4FVwk3r/PEgkr9dGir2Ix4hTZhzbyxvoX1MffZWMiTRUIZG
+ L4aPx/krjmIgOj5FeIfodIgweZ3/3G9UX0TUzbdrukvcXrasund4cSiVvOrruoet2Flc4Glw0Ge
+ rVT4NViVomgVG7qMePcxK4c1BrHFrZS59+rW7PGz2mjTrMf4nLa0e
+X-Received: by 2002:a05:6214:e8f:b0:702:d1aa:46e6 with SMTP id
+ 6a1803df08f44-7051a113c5amr35693476d6.28.1752835934550; 
+ Fri, 18 Jul 2025 03:52:14 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IGKvAUe8ztGpRE1cKK45MSgMouCPAT64Xsgug+JyUGRTY/H140Uw/uocYvI3w9Cr7n97LJF1w==
+X-Received: by 2002:a05:6214:e8f:b0:702:d1aa:46e6 with SMTP id
+ 6a1803df08f44-7051a113c5amr35692906d6.28.1752835934062; 
+ Fri, 18 Jul 2025 03:52:14 -0700 (PDT)
+Received: from umbar.lan
+ (2001-14ba-a0c3-3a00-264b-feff-fe8b-be8a.rev.dnainternet.fi.
+ [2001:14ba:a0c3:3a00:264b:feff:fe8b:be8a])
+ by smtp.gmail.com with ESMTPSA id
+ 2adb3069b0e04-55a31d7c6b2sm212215e87.86.2025.07.18.03.52.12
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Fri, 18 Jul 2025 03:52:13 -0700 (PDT)
+Date: Fri, 18 Jul 2025 13:52:11 +0300
+From: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
+To: =?utf-8?B?SsOpcsO0bWU=?= de Bretagne <jerome.debretagne@gmail.com>
+Cc: Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>,
+ Xilin Wu <sophon@radxa.com>, Dale Whinham <daleyo@gmail.com>,
+ Rob Clark <robdclark@gmail.com>, Abhinav Kumar <quic_abhinavk@quicinc.com>,
+ Dmitry Baryshkov <lumag@kernel.org>, Sean Paul <sean@poorly.run>,
+ Marijn Suijten <marijn.suijten@somainline.org>,
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+ linux-arm-msm@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ freedreno@lists.freedesktop.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH 6/9] drm/msm/dp: Work around bogus maximum link rate
+Message-ID: <jsynzhzzt4drqcrvbuprjnvu33go4gow3l3hxgafuczdn67uhm@2eq7c5rzflr5>
+References: <20250714173554.14223-1-daleyo@gmail.com>
+ <20250714173554.14223-7-daleyo@gmail.com>
+ <A9DB4AE061FD8BB9+3519a519-1a29-49c1-a07d-28a0577677cc@radxa.com>
+ <CA+kEDGGaKrYO9Pu3un_Nq_6AOZC5L9sG+CEwh2ZEzWFeHGqtEA@mail.gmail.com>
+ <eb0f5be5-3a6f-4969-affd-c01a6216ad0c@oss.qualcomm.com>
+ <CA+kEDGE1kb12pW_OH1n4LmB9PVtgEsft563p9Cx_Mxev9Em3Ow@mail.gmail.com>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v4 2/4] drm/panel: jdi-lpm102a188a: Fix bug and clean up
- driver
-To: Brigham Campbell <me@brighamcampbell.com>, dianders@chromium.org,
- tejasvipin76@gmail.com, skhan@linuxfoundation.org,
- linux-kernel-mentees@lists.linux.dev, dri-devel@lists.freedesktop.org,
- linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
- Neil Armstrong <neil.armstrong@linaro.org>,
- Jessica Zhang <jessica.zhang@oss.qualcomm.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>
-References: <20250717164053.284969-1-me@brighamcampbell.com>
- <20250717164053.284969-3-me@brighamcampbell.com>
-Content-Language: en-US
-From: Diogo Ivo <diogo.ivo@tecnico.ulisboa.pt>
-In-Reply-To: <20250717164053.284969-3-me@brighamcampbell.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <CA+kEDGE1kb12pW_OH1n4LmB9PVtgEsft563p9Cx_Mxev9Em3Ow@mail.gmail.com>
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwNzE4MDA4NSBTYWx0ZWRfXyYY4y9Y8jR+S
+ DY+zw0BZiJybVy9ivhehYNxMJRhBNWt5FQ6Kvxi/nHhFxansEHcN6ymGNkC884g539Uh3rP+NKg
+ 5woWlIcLaqxTkje1PBLitJEQ7gpQH8QY2MaE4T6hf5Vh7R0zdEy03v2Y8HSlTaXPaj6vGQoC0wh
+ R+lh/8N33jbbDMHS0s+7ymHtsIzH/YOb06ycXNzJES1R2q48cSTSUVKnXmTaCLuvWyTRYDiguuM
+ fgxQ6F070vJx376v7y0EFO9zGmLfoNIGxRUqEHN36BxQR9ZkFJrYICOhebXl1wrg/SQHEaha4n8
+ nSahaX2LF7FcmgD68qEk+g0V5gIwUf0b6FClUFiiwvMqBlJjKt0rLhPamPsbsQdqoJX8VC1l1Rw
+ f7UXK1Ph0U0uXxAKBRuUpU/A0/KVK3swpQjML1+PJQVS31xY/ul53VYgss64xiPHhDTNqFna
+X-Proofpoint-GUID: rHvriOk6R9pMixEoZRpNPoJNAMeJXakw
+X-Authority-Analysis: v=2.4 cv=SeX3duRu c=1 sm=1 tr=0 ts=687a275f cx=c_pps
+ a=wEM5vcRIz55oU/E2lInRtA==:117 a=xqWC_Br6kY4A:10 a=8nJEP1OIZ-IA:10
+ a=Wb1JkmetP80A:10 a=EUspDBNiAAAA:8 a=ksxQWNrZAAAA:8 a=pGLkceISAAAA:8
+ a=7PkR_4yZ3uwBbB41sqoA:9 a=3ZKOabzyN94A:10 a=wPNLvfGTeEIA:10
+ a=OIgjcC2v60KrkQgK7BGD:22 a=l7WU34MJF0Z5EO9KEJC3:22
+X-Proofpoint-ORIG-GUID: rHvriOk6R9pMixEoZRpNPoJNAMeJXakw
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1099,Hydra:6.1.9,FMLib:17.12.80.40
+ definitions=2025-07-18_02,2025-07-17_02,2025-03-28_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ spamscore=0 mlxscore=0 priorityscore=1501 bulkscore=0 phishscore=0
+ lowpriorityscore=0 mlxlogscore=999 impostorscore=0 clxscore=1015 adultscore=0
+ suspectscore=0 malwarescore=0 classifier=spam authscore=0 authtc=n/a authcc=
+ route=outbound adjust=0 reason=mlx scancount=1 engine=8.19.0-2505280000
+ definitions=main-2507180085
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -78,283 +136,65 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+On Thu, Jul 17, 2025 at 11:36:38PM +0200, Jérôme de Bretagne wrote:
+> Le jeu. 17 juil. 2025 à 23:10, Konrad Dybcio
+> <konrad.dybcio@oss.qualcomm.com> a écrit :
+> >
+> > On 7/17/25 10:27 PM, Jérôme de Bretagne wrote:
+> > > On 2025/7/17 04:21, Xilin Wu <sophon@radxa.com> wrote :
+> > >>
+> > >> On 2025/7/15 01:35:42, Dale Whinham wrote:
+> > >>> From: Jérôme de Bretagne <jerome.debretagne@gmail.com>
+> > >>>
+> > >>> The OLED display in the Surface Pro 11 reports a maximum link rate of
+> > >>> zero in its DPCD, causing it to fail to probe correctly.
+> > >>>
+> > >>> The Surface Pro 11's DSDT table contains some XML with an
+> > >>> "EDPOverrideDPCDCaps" block that defines the max link rate as 0x1E
+> > >>> (8.1Gbps/HBR3).
+> > >>>
+> > >>> Add a quirk to conditionally override the max link rate if its value
+> > >>> is zero specifically for this model.
+> > >>>
+> > >>> Signed-off-by: Jérôme de Bretagne <jerome.debretagne@gmail.com>
+> > >>> Signed-off-by: Dale Whinham <daleyo@gmail.com>
+> > >>> ---
+> > >>>   drivers/gpu/drm/msm/dp/dp_panel.c | 13 +++++++++++++
+> > >>>   1 file changed, 13 insertions(+)
+> > >>>
 
+[...]
 
-On 7/17/25 5:40 PM, Brigham Campbell wrote:
-> Fix bug in unprepare() which causes the function's return value to be
-> that of the last mipi "enter sleep mode" command.
 > 
-> Update driver to use the "multi" variant of MIPI functions in order to
-> facilitate improved error handling and remove the panel's dependency on
-> deprecated MIPI functions.
+> > >
+> > > Is it a feature planned in the short-medium term within the MSM driver?
+> > > If not, would a quirk like [4] be acceptable upstream in the meanwhile?
+> >
+> > I'm not a display guy, but this looks like yet another block of code
+> > begging to be commonized across DP drivers,
 > 
-> Use the new mipi_dsi_dual macro to reduce code duplication.
+> I agree 100% in principle, but the 3 implementations are different today.
 > 
-> Signed-off-by: Brigham Campbell <me@brighamcampbell.com>
-
-Reviewed-by: Diogo Ivo <diogo.ivo@tecnico.ulisboa.pt>
-Tested-by: Diogo Ivo <diogo.ivo@tecnico.ulisboa.pt>
-
-Thanks for the patch! Just the smallest of nits in the review but it's
-fine by me if this goes in as is.
-
-> ---
->   drivers/gpu/drm/panel/panel-jdi-lpm102a188a.c | 197 ++++++------------
->   1 file changed, 60 insertions(+), 137 deletions(-)
+> > so I wouldn't expect it to be a big blocker.
 > 
-> diff --git a/drivers/gpu/drm/panel/panel-jdi-lpm102a188a.c b/drivers/gpu/drm/panel/panel-jdi-lpm102a188a.c
-> index 5b5082efb282..9df67facdc47 100644
-> --- a/drivers/gpu/drm/panel/panel-jdi-lpm102a188a.c
-> +++ b/drivers/gpu/drm/panel/panel-jdi-lpm102a188a.c
-> @@ -81,25 +81,25 @@ static int jdi_panel_disable(struct drm_panel *panel)
->   static int jdi_panel_unprepare(struct drm_panel *panel)
->   {
->   	struct jdi_panel *jdi = to_panel_jdi(panel);
-> -	int ret;
->   
-> -	ret = mipi_dsi_dcs_set_display_off(jdi->link1);
-> -	if (ret < 0)
-> -		dev_err(panel->dev, "failed to set display off: %d\n", ret);
-> +	/*
-> +	 * One context per panel since we'll continue trying to shut down the
-> +	 * other panel even if one isn't responding.
-> +	 */
-> +	struct mipi_dsi_multi_context dsi_ctx1 = { .dsi = jdi->link1 };
-> +	struct mipi_dsi_multi_context dsi_ctx2 = { .dsi = jdi->link2 };
->   
-> -	ret = mipi_dsi_dcs_set_display_off(jdi->link2);
-> -	if (ret < 0)
-> -		dev_err(panel->dev, "failed to set display off: %d\n", ret);
-> +	mipi_dsi_dcs_set_display_off_multi(&dsi_ctx1);
-> +	mipi_dsi_dcs_set_display_off_multi(&dsi_ctx2);
->   
->   	/* Specified by JDI @ 50ms, subject to change */
->   	msleep(50);
->   
-> -	ret = mipi_dsi_dcs_enter_sleep_mode(jdi->link1);
-> -	if (ret < 0)
-> -		dev_err(panel->dev, "failed to enter sleep mode: %d\n", ret);
-> -	ret = mipi_dsi_dcs_enter_sleep_mode(jdi->link2);
-> -	if (ret < 0)
-> -		dev_err(panel->dev, "failed to enter sleep mode: %d\n", ret);
-> +	/* Doesn't hurt to try sleep mode even if display off fails */
-> +	dsi_ctx1.accum_err = 0;
-> +	dsi_ctx2.accum_err = 0;
-> +	mipi_dsi_dcs_enter_sleep_mode_multi(&dsi_ctx1);
-> +	mipi_dsi_dcs_enter_sleep_mode_multi(&dsi_ctx2);
->   
->   	/* Specified by JDI @ 150ms, subject to change */
->   	msleep(150);
-> @@ -123,72 +123,47 @@ static int jdi_panel_unprepare(struct drm_panel *panel)
->   	/* Specified by JDI @ 20ms, subject to change */
->   	msleep(20);
->   
-> -	return ret;
-> -}
-> -
-> -static int jdi_setup_symmetrical_split(struct mipi_dsi_device *left,
-> -				       struct mipi_dsi_device *right,
-> -				       const struct drm_display_mode *mode)
-> -{
-> -	int err;
-> -
-> -	err = mipi_dsi_dcs_set_column_address(left, 0, mode->hdisplay / 2 - 1);
-> -	if (err < 0) {
-> -		dev_err(&left->dev, "failed to set column address: %d\n", err);
-> -		return err;
-> -	}
-> -
-> -	err = mipi_dsi_dcs_set_column_address(right, 0, mode->hdisplay / 2 - 1);
-> -	if (err < 0) {
-> -		dev_err(&right->dev, "failed to set column address: %d\n", err);
-> -		return err;
-> -	}
-> -
-> -	err = mipi_dsi_dcs_set_page_address(left, 0, mode->vdisplay - 1);
-> -	if (err < 0) {
-> -		dev_err(&left->dev, "failed to set page address: %d\n", err);
-> -		return err;
-> -	}
-> -
-> -	err = mipi_dsi_dcs_set_page_address(right, 0, mode->vdisplay - 1);
-> -	if (err < 0) {
-> -		dev_err(&right->dev, "failed to set page address: %d\n", err);
-> -		return err;
-> -	}
-> -
->   	return 0;
->   }
->   
-> -static int jdi_write_dcdc_registers(struct jdi_panel *jdi)
-> +static void jdi_setup_symmetrical_split(struct mipi_dsi_multi_context *dsi_ctx,
-> +					struct mipi_dsi_device *left,
-> +					struct mipi_dsi_device *right,
-> +					const struct drm_display_mode *mode)
-> +{
-> +	mipi_dsi_dual(mipi_dsi_dcs_set_column_address_multi,
-> +		      left, right, dsi_ctx,
-> +		      0, mode->hdisplay / 2 - 1);
-> +	mipi_dsi_dual(mipi_dsi_dcs_set_page_address_multi,
-> +		      left, right, dsi_ctx,
-> +		      0, mode->vdisplay - 1);
-> +}
-> +
-> +static void jdi_write_dcdc_registers(struct mipi_dsi_multi_context *dsi_ctx,
-> +				     struct jdi_panel *jdi)
->   {
->   	/* Clear the manufacturer command access protection */
-> -	mipi_dsi_generic_write_seq(jdi->link1, MCS_CMD_ACS_PROT,
-> -				   MCS_CMD_ACS_PROT_OFF);
-> -	mipi_dsi_generic_write_seq(jdi->link2, MCS_CMD_ACS_PROT,
-> -				   MCS_CMD_ACS_PROT_OFF);
-> +	mipi_dsi_dual(mipi_dsi_generic_write_seq_multi,
-> +		      jdi->link1, jdi->link2, dsi_ctx,
-> +		      MCS_CMD_ACS_PROT, MCS_CMD_ACS_PROT_OFF);
->   	/*
-> -	 * Change the VGH/VGL divide rations to move the noise generated by the
-> +	 * Change the VGH/VGL divide ratios to move the noise generated by the
->   	 * TCONN. This should hopefully avoid interaction with the backlight
->   	 * controller.
->   	 */
-> -	mipi_dsi_generic_write_seq(jdi->link1, MCS_PWR_CTRL_FUNC,
-> -				   MCS_PWR_CTRL_PARAM1_VGH_330_DIV |
-> -				   MCS_PWR_CTRL_PARAM1_DEFAULT,
-> -				   MCS_PWR_CTRL_PARAM2_VGL_410_DIV |
-> -				   MCS_PWR_CTRL_PARAM2_DEFAULT);
-> -
-> -	mipi_dsi_generic_write_seq(jdi->link2, MCS_PWR_CTRL_FUNC,
-> -				   MCS_PWR_CTRL_PARAM1_VGH_330_DIV |
-> -				   MCS_PWR_CTRL_PARAM1_DEFAULT,
-> -				   MCS_PWR_CTRL_PARAM2_VGL_410_DIV |
-> -				   MCS_PWR_CTRL_PARAM2_DEFAULT);
-> -
-> -	return 0;
-> +	mipi_dsi_dual(mipi_dsi_generic_write_seq_multi,
-> +		      jdi->link1, jdi->link2, dsi_ctx,
-> +		      MCS_PWR_CTRL_FUNC,
-> +		      MCS_PWR_CTRL_PARAM1_VGH_330_DIV |
-> +		      MCS_PWR_CTRL_PARAM1_DEFAULT,
-> +		      MCS_PWR_CTRL_PARAM2_VGL_410_DIV |
-> +		      MCS_PWR_CTRL_PARAM2_DEFAULT);
->   }
->   
->   static int jdi_panel_prepare(struct drm_panel *panel)
->   {
->   	struct jdi_panel *jdi = to_panel_jdi(panel);
-> +	struct mipi_dsi_multi_context dsi_ctx = { .accum_err = 0 };
+> Well, it is for me :)
+> 
+> > Adding a panel quirk doesn't seem in order, as the panel is /probably/
+> > very much in spec, and it's the driver bit that's missing.
+> 
+> I agree that a quirk shouldn't be needed. I guess we'll work on
+> upstreaming everything else and keep an out-of-tree patch for this
+> issue for the moment That's a bit sad as this will block regular
+> users from easily installing / testing via the Ubuntu Concept ISO
+> for instance.
+> 
+> Or could the quirk be accepted temporarily with good comments
+> then reverted when the driver adds the missing support? I guess
+> it would depend on the time scale of this support landing.
 
-Technically this should be in reverse christmas tree order but it is
-just a tiny nitpick.
+Unforutunately, there is more than that. We should also be writing the
+LINK_RATE_SET register. So, just setting the max_bw is not enough.
 
->   	int err;
->   
->   	/* Disable backlight to avoid showing random pixels
-> @@ -231,88 +206,36 @@ static int jdi_panel_prepare(struct drm_panel *panel)
->   	 * put in place to communicate the configuration back to the DSI host
->   	 * controller.
->   	 */
-> -	err = jdi_setup_symmetrical_split(jdi->link1, jdi->link2,
-> -					  jdi->mode);
-> -	if (err < 0) {
-> -		dev_err(panel->dev, "failed to set up symmetrical split: %d\n",
-> -			err);
-> -		goto poweroff;
-> -	}
-> +	jdi_setup_symmetrical_split(&dsi_ctx, jdi->link1, jdi->link2,
-> +				    jdi->mode);
->   
-> -	err = mipi_dsi_dcs_set_tear_scanline(jdi->link1,
-> -					     jdi->mode->vdisplay - 16);
-> -	if (err < 0) {
-> -		dev_err(panel->dev, "failed to set tear scanline: %d\n", err);
-> -		goto poweroff;
-> -	}
-> +	mipi_dsi_dual(mipi_dsi_dcs_set_tear_scanline_multi,
-> +		      jdi->link1, jdi->link2, &dsi_ctx,
-> +		      jdi->mode->vdisplay - 16);
->   
-> -	err = mipi_dsi_dcs_set_tear_scanline(jdi->link2,
-> -					     jdi->mode->vdisplay - 16);
-> -	if (err < 0) {
-> -		dev_err(panel->dev, "failed to set tear scanline: %d\n", err);
-> -		goto poweroff;
-> -	}
-> +	mipi_dsi_dual(mipi_dsi_dcs_set_tear_on_multi,
-> +		      jdi->link1, jdi->link2, &dsi_ctx,
-> +		      MIPI_DSI_DCS_TEAR_MODE_VBLANK);
->   
-> -	err = mipi_dsi_dcs_set_tear_on(jdi->link1,
-> -				       MIPI_DSI_DCS_TEAR_MODE_VBLANK);
-> -	if (err < 0) {
-> -		dev_err(panel->dev, "failed to set tear on: %d\n", err);
-> -		goto poweroff;
-> -	}
-> +	mipi_dsi_dual(mipi_dsi_dcs_set_pixel_format_multi,
-> +		      jdi->link1, jdi->link2, &dsi_ctx,
-> +		      MIPI_DCS_PIXEL_FMT_24BIT);
->   
-> -	err = mipi_dsi_dcs_set_tear_on(jdi->link2,
-> -				       MIPI_DSI_DCS_TEAR_MODE_VBLANK);
-> -	if (err < 0) {
-> -		dev_err(panel->dev, "failed to set tear on: %d\n", err);
-> -		goto poweroff;
-> -	}
-> +	mipi_dsi_dual(mipi_dsi_dcs_exit_sleep_mode_multi,
-> +		      jdi->link1, jdi->link2, &dsi_ctx);
->   
-> -	err = mipi_dsi_dcs_set_pixel_format(jdi->link1, MIPI_DCS_PIXEL_FMT_24BIT);
-> -	if (err < 0) {
-> -		dev_err(panel->dev, "failed to set pixel format: %d\n", err);
-> -		goto poweroff;
-> -	}
-> -
-> -	err = mipi_dsi_dcs_set_pixel_format(jdi->link2, MIPI_DCS_PIXEL_FMT_24BIT);
-> -	if (err < 0) {
-> -		dev_err(panel->dev, "failed to set pixel format: %d\n", err);
-> -		goto poweroff;
-> -	}
-> -
-> -	err = mipi_dsi_dcs_exit_sleep_mode(jdi->link1);
-> -	if (err < 0) {
-> -		dev_err(panel->dev, "failed to exit sleep mode: %d\n", err);
-> -		goto poweroff;
-> -	}
-> -
-> -	err = mipi_dsi_dcs_exit_sleep_mode(jdi->link2);
-> -	if (err < 0) {
-> -		dev_err(panel->dev, "failed to exit sleep mode: %d\n", err);
-> -		goto poweroff;
-> -	}
-> -
-> -	err = jdi_write_dcdc_registers(jdi);
-> -	if (err < 0) {
-> -		dev_err(panel->dev, "failed to write dcdc registers: %d\n", err);
-> -		goto poweroff;
-> -	}
-> +	jdi_write_dcdc_registers(&dsi_ctx, jdi);
->   	/*
-> -	 * We need to wait 150ms between mipi_dsi_dcs_exit_sleep_mode() and
-> -	 * mipi_dsi_dcs_set_display_on().
-> +	 * We need to wait 150ms between mipi_dsi_dcs_exit_sleep_mode_multi()
-> +	 * and mipi_dsi_dcs_set_display_on_multi().
->   	 */
-> -	msleep(150);
-> +	mipi_dsi_msleep(&dsi_ctx, 150);
->   
-> -	err = mipi_dsi_dcs_set_display_on(jdi->link1);
-> -	if (err < 0) {
-> -		dev_err(panel->dev, "failed to set display on: %d\n", err);
-> -		goto poweroff;
-> -	}
-> +	mipi_dsi_dual(mipi_dsi_dcs_set_display_on_multi,
-> +		      jdi->link1, jdi->link2, &dsi_ctx);
->   
-> -	err = mipi_dsi_dcs_set_display_on(jdi->link2);
-> -	if (err < 0) {
-> -		dev_err(panel->dev, "failed to set display on: %d\n", err);
-> +	if (dsi_ctx.accum_err < 0)
->   		goto poweroff;
-> -	}
->   
->   	jdi->link1->mode_flags &= ~MIPI_DSI_MODE_LPM;
->   	jdi->link2->mode_flags &= ~MIPI_DSI_MODE_LPM;
+-- 
+With best wishes
+Dmitry
