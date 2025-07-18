@@ -2,64 +2,65 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2E459B09B86
-	for <lists+dri-devel@lfdr.de>; Fri, 18 Jul 2025 08:38:28 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0227BB09B87
+	for <lists+dri-devel@lfdr.de>; Fri, 18 Jul 2025 08:38:31 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A626E10E8CC;
-	Fri, 18 Jul 2025 06:38:25 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B04ED10E8D5;
+	Fri, 18 Jul 2025 06:38:27 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="TLGZhHi9";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="TTOtZd4p";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pf1-f179.google.com (mail-pf1-f179.google.com
- [209.85.210.179])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C33B210E8CC
- for <dri-devel@lists.freedesktop.org>; Fri, 18 Jul 2025 06:38:24 +0000 (UTC)
-Received: by mail-pf1-f179.google.com with SMTP id
- d2e1a72fcca58-748fe69a7baso1684483b3a.3
- for <dri-devel@lists.freedesktop.org>; Thu, 17 Jul 2025 23:38:24 -0700 (PDT)
+Received: from mail-pl1-f177.google.com (mail-pl1-f177.google.com
+ [209.85.214.177])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D30F210E8D5
+ for <dri-devel@lists.freedesktop.org>; Fri, 18 Jul 2025 06:38:25 +0000 (UTC)
+Received: by mail-pl1-f177.google.com with SMTP id
+ d9443c01a7336-234c5b57557so16144355ad.3
+ for <dri-devel@lists.freedesktop.org>; Thu, 17 Jul 2025 23:38:25 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1752820704; x=1753425504; darn=lists.freedesktop.org;
- h=content-transfer-encoding:mime-version:message-id:date:subject:to
- :from:from:to:cc:subject:date:message-id:reply-to;
- bh=BwdSPh4JvmFHd+Iv/wF6gcUfSJNt2xnQHwuiHcjJGJA=;
- b=TLGZhHi9+bCKpLXQgWaKmTKFA/TVMLv7PDXB4PisHc/SbQkgs+hvbQoXvnyjnMt6dt
- mFCoekWGQYvjfiesNakDXZ148Su8E7wIj0pg6OjKpFFfstE1LCxMWnNU+ziOdiG6UusO
- g0iPhe6DLvgniHN9nAtSZOK0PJqYCy+z8G6qNJYGIyKHZt/a/6Vktk3hDLHbgrFQctMn
- SUuLYecz91PbR2OWRULLnKX5wjY94JaqDuFapAUEbXccmSYucL/hxoNxy2SCIcs0DZTQ
- z6lU+nb4MgmJ6q24tidVrwGr5foZdHCB0/0vKgtRYUfl1PXBswtQxQZnTymKfXAL4+UG
- AGVQ==
+ d=gmail.com; s=20230601; t=1752820705; x=1753425505; darn=lists.freedesktop.org;
+ h=content-transfer-encoding:mime-version:references:in-reply-to
+ :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
+ :reply-to; bh=VXvmkRtZbf2b+Njy0K8dmXZ8wWln74jkiBHLW9XMXyE=;
+ b=TTOtZd4pD8B3SaQS2+lhZmJCtBb4Sj1WVNZUuMiAign9mb7gp4qVjkQTBfzawhbLx2
+ vNSJDE1Ict4w50ci/Iue2paPEfi201KO8NvL1xjQF8Ds9840fHZSOv/5zmcYX6rHlq+7
+ rL9TWsWFIdex2nJ9MNhQzefqP7stnSlberpqB+FGJFaUJh5RpNhyslzoLIkchRQjYI7o
+ CPitrYxmzeyqAcReqsWzcfDwFceF0rr1ruw9lLHI2BN/SlWyCAc13E+9sek0LCHZjbj9
+ uWo2Xnl7sR3pVKLO65kBpghvxnTXpcL1IqB+FWwRCAinyjXZ+bmSV0RZkw9l6LFOHFEV
+ SI7Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1752820704; x=1753425504;
- h=content-transfer-encoding:mime-version:message-id:date:subject:to
- :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=BwdSPh4JvmFHd+Iv/wF6gcUfSJNt2xnQHwuiHcjJGJA=;
- b=VeM//iI+d2xCMl2mQ9ezDm6ujeT87Z7Lx9JnxHRgCarMR0TOxbV3+7n7UpNnEzcaKp
- pyO64ximGcjFZ9PKpEex4HZbj+uiph7L0D1O6nxSLgRkN0uFGgTvO8U0Ir45Rio2q2fk
- L98Cc2liUIW76YqHImGnFjRfV0qU/0qlUhqf1pDgLZPSGpnKk69LH7z29fym5ahsV3pm
- mHmLw2mL8bZseC7Qgw0d8cOmf8oFmRllFrs8Gf448upZKIT7jNHwW+jnIzmrnslf7eyR
- oaGJidG119nB9to95VYX8ZcVuyo4oMLaspJFzGTddlzQpPVbEtJFmeXp7BrP9KH5TMUD
- tTCw==
+ d=1e100.net; s=20230601; t=1752820705; x=1753425505;
+ h=content-transfer-encoding:mime-version:references:in-reply-to
+ :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=VXvmkRtZbf2b+Njy0K8dmXZ8wWln74jkiBHLW9XMXyE=;
+ b=gBc/AZ58LN2e4/8b+fo9YQJxXd/D7WZ9Y3d1ZNmid5dd7k8bW+JtgTsgXOTiAKoPzj
+ OAJhjNqDOOpaWcvxvvNlJPReiqfpG5N0zvkW9kZYjX2L/3arI8Zqaz3OqhBEV3GX1aZR
+ coK2YDoiSOlitTfbetUVI896mS4YhGHRrwPaJBu/wN8SKcXFXOPvS6HuglUicYJAKYN+
+ /VpQYdvnRoaxTuHystzp2oi4A6ZGBvLeOhmniW9SJd+3RbFx0bdO9k+EeVyTx0gp5LEb
+ F3me9vSKByAZPrmvK/ukfdYZRBbA3IRwQbc5XWsaGcDVLZgZcoGUqrToJsRqhI2dKESv
+ aHbQ==
 X-Forwarded-Encrypted: i=1;
- AJvYcCWJ/u1zo0+qbk2FgK7pbLwVdS3Kj0ZGD8m+6D/utHo0LwnwiKHwizU5ByxClRFbJWis1qKAP0HAh1A=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YwtBQkezGnsuRn2BKENUEoub8Z/yeZVQvRJBNRVpKbT8t10hT/8
- l+lsrt3V/nwKav1gOvZhIRv6u0KDKpgGnHXwxcOla0nFPi1yahLMR5y+OOWyfwvGW9Y=
-X-Gm-Gg: ASbGncu4p8gL/+bD/D2snQZ09nCo+wNu2SQGLi3D8KasdB2lWz3tUlBg8z5M/j642ZL
- NGCnlLDkpzwA9KQDfdWVicNXhHnXvuXt9X+cyoFN9aXQWLvGpgUbH9Fps8vHNZJC/SGuep1oSop
- e6sS7vM25ty8A7QQaLg3rmhJbKE6VKy2kDSx0a1coXbWcVpm0oFtY5Solnb+xpVhKTL/TKn2yJK
- iZiAmYVes0ymagDEmZ7XdfogYPCpxU/DaNVXh1UHML9O7sQ6FNgAYh97Xb45DHit+Ke/rJP+jNh
- DyJzSdIphN/Kp3NEtK6nXQatZXvICdF+r1hcmR70knBeCB7lVhcW6wMwyMFvTJXnYYoSBb9Genb
- hdv/U4RZUR+CO08HXy4vGcZ6URgZ6WfkFMGyi+ZFP0LiZZ7NITRJYwEzt
-X-Google-Smtp-Source: AGHT+IEZ1zQnWI3otwhr8y5LlqoEUCJegDnSK/x/zcL8x+MwvxlKyS+ojAWhWHoDTHssrGqPUTARzQ==
-X-Received: by 2002:a05:6a21:1709:b0:1f5:79c4:5da6 with SMTP id
- adf61e73a8af0-2390da529b1mr9223362637.5.1752820704230; 
- Thu, 17 Jul 2025 23:38:24 -0700 (PDT)
+ AJvYcCXbgbCEgqQuJT+B6F7hEZhqoPzkyuEYXFGciReewvJ6RyLOmmGxM1nfL5x3XJ5QCTzUHTTDIH4f5jA=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0Yyttdi7oHdmayNOhs4CfkmRPkIRiG6fI4HrgZgQMpBZvnjhOnjF
+ pJP1SVv6ApFcGyQ58yzcd+NMSuG/iNc+HOJO08biPRuR08KQ9KtEQ014
+X-Gm-Gg: ASbGncu7ISTRX/60m77pyF8L7JG2/lVb5HMOUQHYw7dSRsT9VyQoh9gYSqUMRGQ2vUf
+ jEvUftPviuxfFCI15jyJjBPImsGpIrOcYlzuxYcISeMhUJMzP6IUHzTYFabuYenxyFg+OqMhQVC
+ 9Cx8Uf4t1EDJxJ/bFOibVy3SKJ7yC3a12kvqjozgjZ+5+HuJCGgF8YQDELYvaNda7H8MgXnI7dZ
+ FxjerwkueS/KxDx2SlqfdN7HTVtiQ7YcdIq9g62QPBxY5cEXO1eSgnwFBCGrbgfxbK/l36qHoCS
+ v0cQPnOXQKNr91IRH+kFkcYyfvrccqptX3Ek6pgyz3zKNgDzgb2bSMIstZElnMSvbcFbD+j8HXw
+ CQd2yHqKjTrejmcVQkBgHX0biuOS6b6sZDL3hZIkFV+iw9MfsGZKrYg6G7WZgBjYX/0w=
+X-Google-Smtp-Source: AGHT+IEQjg2rhR17Fe62KMqonv9XJcQ8PgfAvORPla3hXiivMClvZtuzEB+4ymJa8aFwwnm69RTumA==
+X-Received: by 2002:a17:903:22d2:b0:234:f580:a11 with SMTP id
+ d9443c01a7336-23e256c951amr114024735ad.19.1752820705235; 
+ Thu, 17 Jul 2025 23:38:25 -0700 (PDT)
 Received: from localhost (212.18.125.34.bc.googleusercontent.com.
  [34.125.18.212]) by smtp.gmail.com with UTF8SMTPSA id
- d2e1a72fcca58-759cb155d77sm576969b3a.78.2025.07.17.23.38.23
+ 98e67ed59e1d1-31cc3e4599dsm589125a91.9.2025.07.17.23.38.24
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 17 Jul 2025 23:38:23 -0700 (PDT)
+ Thu, 17 Jul 2025 23:38:24 -0700 (PDT)
 From: Chia-I Wu <olvaffe@gmail.com>
 To: Boris Brezillon <boris.brezillon@collabora.com>,
  Steven Price <steven.price@arm.com>, Liviu Dudau <liviu.dudau@arm.com>,
@@ -68,10 +69,12 @@ To: Boris Brezillon <boris.brezillon@collabora.com>,
  Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
  Simona Vetter <simona@ffwll.ch>, dri-devel@lists.freedesktop.org,
  linux-kernel@vger.kernel.org
-Subject: [PATCH v3 0/3] panthor: print task pid and comm on gpu errors
-Date: Thu, 17 Jul 2025 23:38:13 -0700
-Message-ID: <20250718063816.1452123-1-olvaffe@gmail.com>
+Subject: [PATCH v3 1/3] panthor: set owner field for driver fops
+Date: Thu, 17 Jul 2025 23:38:14 -0700
+Message-ID: <20250718063816.1452123-2-olvaffe@gmail.com>
 X-Mailer: git-send-email 2.50.0.727.gbf7dc18ff4-goog
+In-Reply-To: <20250718063816.1452123-1-olvaffe@gmail.com>
+References: <20250718063816.1452123-1-olvaffe@gmail.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -89,23 +92,62 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-This series saves task pid and comm in panthor_group and prints task pid and
-comm on gpu errors.
+It allows us to get rid of manual try_module_get / module_put.
 
-v3: fix new kerneldoc warnings
-v2: save the task info in panthor_group on panthor_group_create, rather than
-    in panthor_file on panthor_open, because, when the two differ, we are more
-    interested in the task that created the group.
+Signed-off-by: Chia-I Wu <olvaffe@gmail.com>
+Reviewed-by: Boris Brezillon <boris.brezillon@collabora.com>
+Reviewed-by: Steven Price <steven.price@arm.com>
+---
+ drivers/gpu/drm/panthor/panthor_drv.c | 14 +++-----------
+ 1 file changed, 3 insertions(+), 11 deletions(-)
 
-Chia-I Wu (3):
-  panthor: set owner field for driver fops
-  panthor: save task pid and comm in panthor_group
-  panthor: dump task pid and comm on gpu errors
-
- drivers/gpu/drm/panthor/panthor_drv.c   | 14 ++------
- drivers/gpu/drm/panthor/panthor_sched.c | 43 ++++++++++++++++++++++---
- 2 files changed, 41 insertions(+), 16 deletions(-)
-
+diff --git a/drivers/gpu/drm/panthor/panthor_drv.c b/drivers/gpu/drm/panthor/panthor_drv.c
+index 1116f2d2826ee..775a66c394544 100644
+--- a/drivers/gpu/drm/panthor/panthor_drv.c
++++ b/drivers/gpu/drm/panthor/panthor_drv.c
+@@ -1400,14 +1400,9 @@ panthor_open(struct drm_device *ddev, struct drm_file *file)
+ 	struct panthor_file *pfile;
+ 	int ret;
+ 
+-	if (!try_module_get(THIS_MODULE))
+-		return -EINVAL;
+-
+ 	pfile = kzalloc(sizeof(*pfile), GFP_KERNEL);
+-	if (!pfile) {
+-		ret = -ENOMEM;
+-		goto err_put_mod;
+-	}
++	if (!pfile)
++		return -ENOMEM;
+ 
+ 	pfile->ptdev = ptdev;
+ 	pfile->user_mmio.offset = DRM_PANTHOR_USER_MMIO_OFFSET;
+@@ -1439,9 +1434,6 @@ panthor_open(struct drm_device *ddev, struct drm_file *file)
+ 
+ err_free_file:
+ 	kfree(pfile);
+-
+-err_put_mod:
+-	module_put(THIS_MODULE);
+ 	return ret;
+ }
+ 
+@@ -1454,7 +1446,6 @@ panthor_postclose(struct drm_device *ddev, struct drm_file *file)
+ 	panthor_vm_pool_destroy(pfile);
+ 
+ 	kfree(pfile);
+-	module_put(THIS_MODULE);
+ }
+ 
+ static const struct drm_ioctl_desc panthor_drm_driver_ioctls[] = {
+@@ -1555,6 +1546,7 @@ static void panthor_show_fdinfo(struct drm_printer *p, struct drm_file *file)
+ }
+ 
+ static const struct file_operations panthor_drm_driver_fops = {
++	.owner = THIS_MODULE,
+ 	.open = drm_open,
+ 	.release = drm_release,
+ 	.unlocked_ioctl = drm_ioctl,
 -- 
 2.50.0.727.gbf7dc18ff4-goog
 
