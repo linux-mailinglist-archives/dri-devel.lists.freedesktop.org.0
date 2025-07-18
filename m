@@ -2,104 +2,143 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 42DF3B0A08D
-	for <lists+dri-devel@lfdr.de>; Fri, 18 Jul 2025 12:23:44 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8D62EB0A095
+	for <lists+dri-devel@lfdr.de>; Fri, 18 Jul 2025 12:27:00 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A56B310E12C;
-	Fri, 18 Jul 2025 10:23:41 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9C5D910E943;
+	Fri, 18 Jul 2025 10:26:58 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=bootlin.com header.i=@bootlin.com header.b="HJj51Ej+";
+	dkim=pass (1024-bit key; unprotected) header.d=broadcom.com header.i=@broadcom.com header.b="H71nClKD";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from relay4-d.mail.gandi.net (relay4-d.mail.gandi.net
- [217.70.183.196])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5AD3610E12C
- for <dri-devel@lists.freedesktop.org>; Fri, 18 Jul 2025 10:23:39 +0000 (UTC)
-Received: by mail.gandi.net (Postfix) with ESMTPSA id 276734336F;
- Fri, 18 Jul 2025 10:23:36 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
- t=1752834217;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=Z/91SYSzxQzEzQbPuqVtLokR5Cu7fwDO/PI62hKOp3M=;
- b=HJj51Ej+d7FIA4aG9jEmt2U68C5lFbGV4jo2+s0vqaSVeozIM+UgVJKaT7FUzwBSNO03kg
- /eiDpi5cfreAZXnfnMHyrvvqiYWBysEII9qzUH01MvmwNDqOMxf4FK30CZkU7NIWksXOsv
- Xtvd8JNZ3tf9dG6EsTqNvJtbEop9lSIGEPJ3ZNztQgGUnOMGmToxvM+7lkuFQST/h6Uh6D
- mlmGMXt0qd551+SRovzAt4q/WpOygYzCGmOxnhIMLaF139puZvSUtSh2KehT47NPD1LC79
- 3wuMnH2dME7vls2TrVhngUSuATUTsuj+Yu8695MK0bAApGxICfEDCpi2Tzc9sA==
-Message-ID: <8449716a-9c8b-424b-b12f-d5b272e051b3@bootlin.com>
-Date: Fri, 18 Jul 2025 12:23:35 +0200
+Received: from mail-qk1-f179.google.com (mail-qk1-f179.google.com
+ [209.85.222.179])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9D2B410E943
+ for <dri-devel@lists.freedesktop.org>; Fri, 18 Jul 2025 10:26:56 +0000 (UTC)
+Received: by mail-qk1-f179.google.com with SMTP id
+ af79cd13be357-7dd8773f9d9so180130285a.2
+ for <dri-devel@lists.freedesktop.org>; Fri, 18 Jul 2025 03:26:56 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=broadcom.com; s=google; t=1752834415; x=1753439215;
+ darn=lists.freedesktop.org; 
+ h=content-transfer-encoding:in-reply-to:autocrypt:from
+ :content-language:references:cc:to:subject:user-agent:mime-version
+ :date:message-id:from:to:cc:subject:date:message-id:reply-to;
+ bh=Tceb6O3nBrebvy+ZDwLDwrGTRdGaZ8naYMQfV4XKrrU=;
+ b=H71nClKDQgr2Oomm/gjBWWIIREqATZyMCEvisvZFsQyMBuCXdEIvK6ygJ8A+h7VwIU
+ Da1RR3wqK/O+LE9Z8XcwqBB050c2njEQHSakqkOHBHiyRLL7WIIz2XdM2/qrgoDot7d9
+ aNkTxTsy48mUmk+scyH0RYj117XkMaMMY0d7I=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1752834415; x=1753439215;
+ h=content-transfer-encoding:in-reply-to:autocrypt:from
+ :content-language:references:cc:to:subject:user-agent:mime-version
+ :date:message-id:x-gm-message-state:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=Tceb6O3nBrebvy+ZDwLDwrGTRdGaZ8naYMQfV4XKrrU=;
+ b=cUsJS5g36n+SjNxsrGTKBx9QsBloyeLAOBG+Lwht1ne8/acIA3TAbL73o/8SCKj+xm
+ YvPLAAMRHNyLYb7eLZEAc7UjoGmJa95y+ApyQY4hneZZWS09Wp9k2oKJgEsaAz1Qzx+I
+ I1aJoaGXfRBayhK1GQcBOvwH47rRcOAGwYaNa3ek0fuxQBVQvKKAWBCxMxxlGDPyMggq
+ vzvdXLDmq+PMS9nowljf21n4ChDNx8+iJ9j1LJKtLp399s79HYpTgOZm6we8HAheycSX
+ jDbNwwU+svMV942CcB4fm3/LUp7RmX+r894Zdbk27qAhFQY17lzNIMy5DYsqsrk25jIx
+ /xYA==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCWwbiUN4hPQW2P7UK+o2HhfaasYz33/yv33zNs+GRGlD24v62/a4QRuk7IjcXwLpHwfl16iiq+NUFY=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YxMLlxCJ0BANX9xQ8yib+hgXvSnjOzAy8/4KRdB/S+V+6biwTuZ
+ 3Oiauhg4Uc/6Ha0mM80tgHUe2UbPKwUhi+i7v1bzj5VtNqQ8boHY/+RB0bRmRVdGSQ==
+X-Gm-Gg: ASbGncto42FuW/UlY95ka+ULh73h44VfvlTK6TmAo/wVg/esSZOHmJfUCj4Rz2A8ut0
+ SvuSc9kiH0SEcUHlfWGchIC7RBE4x1VqWbpmpMdpeM5/GXsMMvrTvAE3vzssVPqrCdvZ1uT6Kpn
+ jpSR5wSVSYAGTV4DG7o90WWKLKNJSUC1cOsjuzTffmbF3kcfNPBEEYaebhMMPxv5F9JO4f+NHoC
+ iQjUIe9S88vqHpuZZ1cu2WpZdREkek7b7kHAKWvWc+EHthq8S1y2JbZ89L8UMXq7o/apsGyH6Mr
+ SxF+AWxfVDiOhaieukVAEzXYNvdVAswmVA8NPYXKy3tgsa0fV4r8UuoL9eiIP03V4kGq39g7QmF
+ gd/98Ux8QoTeXFmMJ6NShW9Brme+NbtIjJnhZ25ixY/TG/XWUZDk=
+X-Google-Smtp-Source: AGHT+IEqo4UAFanleVPdYl4dXVyU1lZnXf1z6whg+8xWt/p2QDWx5PJ8H+d/5db0hyJyi9WF5q8VPA==
+X-Received: by 2002:a05:620a:19a5:b0:7e3:52f6:66e5 with SMTP id
+ af79cd13be357-7e352f6672amr568859885a.35.1752834415217; 
+ Fri, 18 Jul 2025 03:26:55 -0700 (PDT)
+Received: from [10.229.41.1] ([192.19.176.250])
+ by smtp.gmail.com with ESMTPSA id
+ af79cd13be357-7e356b46814sm68537885a.30.2025.07.18.03.26.45
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Fri, 18 Jul 2025 03:26:54 -0700 (PDT)
+Message-ID: <4445c7ec-a580-4c28-89cf-2df5790de6ac@broadcom.com>
+Date: Fri, 18 Jul 2025 12:26:43 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v1] drm/vkms: Add writeback encoders as possible clones
-To: Robert Mader <robert.mader@collabora.com>, dri-devel@lists.freedesktop.org
-References: <20250703090335.23595-1-robert.mader@collabora.com>
+Subject: Re: [PATCH v2 5/8] wifi: brcmfmac: Fix typo "notifer"
+To: WangYuli <wangyuli@uniontech.com>
+Cc: airlied@gmail.com, akpm@linux-foundation.org, alison.schofield@intel.com, 
+ andrew+netdev@lunn.ch, andriy.shevchenko@linux.intel.com, bp@alien8.de,
+ brcm80211-dev-list.pdl@broadcom.com, brcm80211@lists.linux.dev,
+ colin.i.king@gmail.com, cvam0000@gmail.com, dan.j.williams@intel.com,
+ dave.hansen@linux.intel.com, dave.jiang@intel.com, dave@stgolabs.net,
+ davem@davemloft.net, dri-devel@lists.freedesktop.org, edumazet@google.com,
+ gregkh@linuxfoundation.org, guanwentao@uniontech.com, hpa@zytor.com,
+ ilpo.jarvinen@linux.intel.com, intel-xe@lists.freedesktop.org,
+ ira.weiny@intel.com, j@jannau.net, jeff.johnson@oss.qualcomm.com,
+ jgross@suse.com, jirislaby@kernel.org, johannes.berg@intel.com,
+ jonathan.cameron@huawei.com, kuba@kernel.org, kvalo@kernel.org,
+ kvm@vger.kernel.org, linux-cxl@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-serial@vger.kernel.org,
+ linux-wireless@vger.kernel.org, linux@treblig.org, lucas.demarchi@intel.com,
+ marcin.s.wojtas@gmail.com, ming.li@zohomail.com, mingo@kernel.org,
+ mingo@redhat.com, netdev@vger.kernel.org, niecheng1@uniontech.com,
+ oleksandr_tyshchenko@epam.com, pabeni@redhat.com, pbonzini@redhat.com,
+ quic_ramess@quicinc.com, ragazenta@gmail.com, rodrigo.vivi@intel.com,
+ seanjc@google.com, shenlichuan@vivo.com, simona@ffwll.ch,
+ sstabellini@kernel.org, tglx@linutronix.de,
+ thomas.hellstrom@linux.intel.com, vishal.l.verma@intel.com, x86@kernel.org,
+ xen-devel@lists.xenproject.org, yujiaoliang@vivo.com, zhanjun@uniontech.com
+References: <BD5C52D2838AEA48+20250715134050.539234-1-wangyuli@uniontech.com>
+ <F92035B0A9123150+20250715134407.540483-5-wangyuli@uniontech.com>
 Content-Language: en-US
-From: Louis Chauvet <louis.chauvet@bootlin.com>
-Autocrypt: addr=louis.chauvet@bootlin.com; keydata=
- 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
-In-Reply-To: <20250703090335.23595-1-robert.mader@collabora.com>
+From: Arend van Spriel <arend.vanspriel@broadcom.com>
+Autocrypt: addr=arend.vanspriel@broadcom.com; keydata=
+ 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
+In-Reply-To: <F92035B0A9123150+20250715134407.540483-5-wangyuli@uniontech.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-GND-State: clean
-X-GND-Score: -100
-X-GND-Cause: gggruggvucftvghtrhhoucdtuddrgeeffedrtdefgdeifedvudcutefuodetggdotefrodftvfcurfhrohhfihhlvgemucfitefpfffkpdcuggftfghnshhusghstghrihgsvgenuceurghilhhouhhtmecufedtudenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujfgurhepkfffgggfuffvfhfhjggtgfesthekredttddvjeenucfhrhhomhepnfhouhhishcuvehhrghuvhgvthcuoehlohhuihhsrdgthhgruhhvvghtsegsohhothhlihhnrdgtohhmqeenucggtffrrghtthgvrhhnpeeuvdetgeevkefhiedugfekveejieeiveeigeeiveduffehfffhgeffffetheekgfenucffohhmrghinhepsghoohhtlhhinhdrtghomhenucfkphepledtrdekledrudeifedruddvjeenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepihhnvghtpeeltddrkeelrdduieefrdduvdejpdhhvghloheplgduledvrdduieekrddtrddvtdgnpdhmrghilhhfrhhomheplhhouhhishdrtghhrghuvhgvthessghoohhtlhhinhdrtghomhdpnhgspghrtghpthhtohepvddprhgtphhtthhopehrohgsvghrthdrmhgruggvrhestgholhhlrggsohhrrgdrtghomhdprhgtphhtthhopegurhhiqdguvghvvghlsehlihhsthhsrdhfrhgvvgguvghskhhtohhprdhorhhg
-X-GND-Sasl: louis.chauvet@bootlin.com
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -115,108 +154,19 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+On 7/15/2025 3:44 PM, WangYuli wrote:
+> There is a spelling mistake of 'notifer' in the comment which
+> should be 'notifier'.
+> 
+> Link:https://lore.kernel.org/all/B3C019B63C93846F+20250715071245.398846-1- 
+> wangyuli@uniontech.com/
 
+I think it has been said on other patches but it is not common to link 
+to obsolete version of the patch series. Apart from that:
 
-Le 03/07/2025 à 11:03, Robert Mader a écrit :
-> Since commit 41b4b11da0215 ("drm: Add valid clones check") setting
-> the `possible_clones` values is a hard requirement for cloning.
-> `vkms` supports cloning for writeback connectors in order to capture
-> CRTC content, however that broke with said commit.
-> 
-> Writeback connectors are created on a per-CRTC basis, thus mark
-> every non-writeback connector that is compatible with a given CRTC
-> as possible clone - and vice-versa.
-> 
-> Using a default configuration, the corresponding `drm_info` output
-> changes from:
-> 
-> ├───Encoders
-> │   ├───Encoder 0
-> │   │   ├───Object ID: 40
-> │   │   ├───Type: virtual
-> │   │   ├───CRTCS: {0}
-> │   │   └───Clones: {0}
-> │   └───Encoder 1
-> │       ├───Object ID: 41
-> │       ├───Type: virtual
-> │       ├───CRTCS: {0}
-> │       └───Clones: {1}
-> 
-> to:
-> 
-> ├───Encoders
-> │   ├───Encoder 0
-> │   │   ├───Object ID: 44
-> │   │   ├───Type: virtual
-> │   │   ├───CRTCS: {0}
-> │   │   └───Clones: {0, 1}
-> │   └───Encoder 1
-> │       ├───Object ID: 50
-> │       ├───Type: virtual
-> │       ├───CRTCS: {0}
-> │       └───Clones: {0, 1}
-> 
-> Signed-off-by: Robert Mader <robert.mader@collabora.com>
-
-Hi,
-
-About the Fixes tag, I think you can add it anyway, if the patch is not 
-applicable on previous kernel version, this is not an issue, it will 
-just be ignored.
-
+Acked-by: Arend van Spriel <arend.vanspriel@broadcom.com>> 
+Signed-off-by: WangYuli<wangyuli@uniontech.com>
 > ---
->   drivers/gpu/drm/vkms/vkms_output.c    | 12 ++++++++++++
->   drivers/gpu/drm/vkms/vkms_writeback.c |  2 ++
->   2 files changed, 14 insertions(+)
-> 
-> diff --git a/drivers/gpu/drm/vkms/vkms_output.c b/drivers/gpu/drm/vkms/vkms_output.c
-> index 8d7ca0cdd79f..21935eb88198 100644
-> --- a/drivers/gpu/drm/vkms/vkms_output.c
-> +++ b/drivers/gpu/drm/vkms/vkms_output.c
-> @@ -77,9 +77,21 @@ int vkms_output_init(struct vkms_device *vkmsdev)
->   			return ret;
->   		}
->   
-> +		encoder_cfg->encoder->possible_clones |= BIT(drm_encoder_index(encoder_cfg->encoder));
-> +
->   		vkms_config_encoder_for_each_possible_crtc(encoder_cfg, idx, possible_crtc) {
->   			encoder_cfg->encoder->possible_crtcs |=
->   				drm_crtc_mask(&possible_crtc->crtc->crtc);
-> +
-> +			if (vkms_config_crtc_get_writeback(possible_crtc)) {
-> +				struct drm_encoder *wb_encoder =
-> +					&possible_crtc->crtc->wb_encoder;
-> +
-> +				encoder_cfg->encoder->possible_clones |=
-> +					BIT(drm_encoder_index(wb_encoder));
-> +				wb_encoder->possible_clones |=
-> +					BIT(drm_encoder_index(encoder_cfg->encoder));
-
-Can you use drm_encoder_mask directly?
-
-Thanks a lot for this patch,
-Louis Chauvet
-
-> +			}
->   		}
->   	}
->   
-> diff --git a/drivers/gpu/drm/vkms/vkms_writeback.c b/drivers/gpu/drm/vkms/vkms_writeback.c
-> index fe163271d5b5..12b60fb97c68 100644
-> --- a/drivers/gpu/drm/vkms/vkms_writeback.c
-> +++ b/drivers/gpu/drm/vkms/vkms_writeback.c
-> @@ -174,6 +174,8 @@ int vkms_enable_writeback_connector(struct vkms_device *vkmsdev,
->   	if (ret)
->   		return ret;
->   	vkms_output->wb_encoder.possible_crtcs |= drm_crtc_mask(&vkms_output->crtc);
-> +	vkms_output->wb_encoder.possible_clones |=
-> +		BIT(drm_encoder_index(&vkms_output->wb_encoder));
->   
->   	drm_connector_helper_add(&wb->base, &vkms_wb_conn_helper_funcs);
->   
-
--- 
-Louis Chauvet, Bootlin
-Embedded Linux and Kernel engineering
-https://bootlin.com
+>   drivers/net/wireless/broadcom/brcm80211/brcmfmac/cfg80211.c | 2 +-
+>   1 file changed, 1 insertion(+), 1 deletion(-)
 
