@@ -2,81 +2,81 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id AAEFCB0A914
-	for <lists+dri-devel@lfdr.de>; Fri, 18 Jul 2025 19:09:43 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 963FFB0A936
+	for <lists+dri-devel@lfdr.de>; Fri, 18 Jul 2025 19:14:51 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7306110EA1A;
-	Fri, 18 Jul 2025 17:09:41 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id ED54910EA18;
+	Fri, 18 Jul 2025 17:14:49 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=qualcomm.com header.i=@qualcomm.com header.b="BhVQL7bg";
+	dkim=pass (2048-bit key; unprotected) header.d=qualcomm.com header.i=@qualcomm.com header.b="G9HONGQ2";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com
- [205.220.180.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 325C110EA1A
- for <dri-devel@lists.freedesktop.org>; Fri, 18 Jul 2025 17:09:40 +0000 (UTC)
-Received: from pps.filterd (m0279870.ppops.net [127.0.0.1])
- by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 56IEais6030397
- for <dri-devel@lists.freedesktop.org>; Fri, 18 Jul 2025 17:09:39 GMT
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com
+ [205.220.168.131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1CBE710EA18
+ for <dri-devel@lists.freedesktop.org>; Fri, 18 Jul 2025 17:14:48 +0000 (UTC)
+Received: from pps.filterd (m0279863.ppops.net [127.0.0.1])
+ by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 56IF1Rm1022444
+ for <dri-devel@lists.freedesktop.org>; Fri, 18 Jul 2025 17:14:47 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
  cc:content-transfer-encoding:content-type:date:from:in-reply-to
  :message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
- MvWIjxTgsWqTg+EpU1jF6w7w0dCuZOGk2IF4h2JIZKw=; b=BhVQL7bg08dH1Lyy
- sCNahyhXgLOooPUk6k8lhKr8X6uJk+1Pa2UywOtv1yU1ysnUtDgNZt4yqdpLZuE+
- K0tv2dxCzW6dvx8A4AAJj193IuREjeMHuDLlmtdnunNxuIVo2SkVCir+j0RyVX/M
- DYLgDAHww3n9z70tbq466VWkBPIVGCMhK+FGx8MfhiEBU9WEbLjFPgNtruQac7W4
- H0ncRaq33YzE0XB6rSNXGqFRZcmgcu5MhyjlXY0V7iyZJUiP7XPWZL0Oj9dh/qRa
- WzKiISQhUKpSQuddWBkeXHQ2hpidzoxFHYU6x5T5fvEiwFh+6mY2YvQkzlkNqfQh
- hbR8bA==
-Received: from mail-pl1-f199.google.com (mail-pl1-f199.google.com
- [209.85.214.199])
- by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 47x8x7s7db-1
+ hvQRsE2lG7WyIIQnwV/DeD9T4vuk4piXmEgdbjYc460=; b=G9HONGQ2Qa2uUbLZ
+ VJY4Lqvyrv1n/8Lykdjk8ImdB8+wf9SYMMzho7gbPSwHGSDoxrUBE0CiNNwxX9tU
+ eiuk2i03SYOOUMR/fzdvSMV4XqbJNDyDuvShdivyYxYc+NZo6O9pnZkJG20id4xH
+ +GQ6CivijZWO/Yf86g+q8FR696sTRXmGqNM957Ntrk/wR/1dcjZG442XRPYcu9Dl
+ 2t6TTIi6n2flM1t9PB5QfE+BihzXzRoIFag/A/QdGofEojZLvcAH6xsAgHzN8Kev
+ m3Vck5j3SQIkQddI4fbh5TebcaUGQBnIOFC3p8FE571tDb26sN/rlJWab2c9WjXO
+ d5BCRQ==
+Received: from mail-pj1-f72.google.com (mail-pj1-f72.google.com
+ [209.85.216.72])
+ by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 47wqsycda9-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
- for <dri-devel@lists.freedesktop.org>; Fri, 18 Jul 2025 17:09:39 +0000 (GMT)
-Received: by mail-pl1-f199.google.com with SMTP id
- d9443c01a7336-23536f7c2d7so38765515ad.2
- for <dri-devel@lists.freedesktop.org>; Fri, 18 Jul 2025 10:09:39 -0700 (PDT)
+ for <dri-devel@lists.freedesktop.org>; Fri, 18 Jul 2025 17:14:47 +0000 (GMT)
+Received: by mail-pj1-f72.google.com with SMTP id
+ 98e67ed59e1d1-311e7337f26so2456020a91.3
+ for <dri-devel@lists.freedesktop.org>; Fri, 18 Jul 2025 10:14:47 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1752858578; x=1753463378;
+ d=1e100.net; s=20230601; t=1752858886; x=1753463686;
  h=content-transfer-encoding:in-reply-to:from:content-language
  :references:cc:to:subject:user-agent:mime-version:date:message-id
  :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=MvWIjxTgsWqTg+EpU1jF6w7w0dCuZOGk2IF4h2JIZKw=;
- b=NUvgXUzH29XOKIhJ9wJErR4zKmG2r0Yrf23L7/F70981kH265wwgZ9cfDY1sJLWob1
- OVWXxvMOS1ZO93ZFvrumqxiOiflSzLSVSSXTuex96i94pdjWySRVfmuzdOfczV3c8pEX
- gf25y0HWVPGFwA+mxxiJ1PpYfV2oODex3ipW3t52ZzXDUbto6CNA6nWQ+Gp60ybutH2F
- VL3X7k/rAFGsCOCVxEruy+GF1p7JyOQU9JwQCgV+P0p5CBCxpGIzRvwSufmHsJCFkS7J
- MPkfGKOZMKoEbtPxluMD8FBtqIFrt5KxIJu5sfGX5SddAvQWoq/gbRf2fpUDbbOR4ILF
- 0pDA==
+ bh=hvQRsE2lG7WyIIQnwV/DeD9T4vuk4piXmEgdbjYc460=;
+ b=EUOaXTbHC1HjeoD0NweSRMbhn1DFSp2dkeuG+KH0O7yLrsY6aLeTEcq/O2rTlPmayg
+ vzg4QWzyBRDLtkxgkXSeN3GywJiczW5CIRx89h5Zu9CREd1lFBwlq7/HXtjaWKlQolHt
+ 2vWxCq5VLm0sFHwXmCPLE8ZUpa3WAn8vd/gfzdnjXhpDLlUUhqgYfwXJCgGsExMrzxHq
+ RZMHKFp9f9kx2mumQpyN9CTBLQbAHS5ToCGI/4bP+7XXgSrBTVayAubUk0sFQd8RVXBp
+ LEmzxeVNMDdEUaKXMq5pzKEIjy0u2dG2pwP53JEf3IEdaWjlAo4QYPMl88GE0Z1tJovs
+ T1kg==
 X-Forwarded-Encrypted: i=1;
- AJvYcCVBvUdxBYMTUVeVcE/6qROdlbTe+jjQUI4x5F9scThHmEC9aWP23uAlq3ojD3W/C7x/6JKZAw8IBb4=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YwckpuuwdMKj+/VTC3KJ1sOfv2Mj8J19byN22ozStn+Jkf7tgQO
- rh54OKqtkhtNOB4afqMs2vlqSrIRcOXiEYLR6wbJqousA5d8t2L6NGaxrH9rTRbaH5i2W+KR3xE
- 00ab+HEMp4Bb0GVu+mTrZXAyiTwYUdE+KfGfLsdK1wn/Z/QfrcoIu0IKgMqV+I0+H+8OTZoQ=
-X-Gm-Gg: ASbGncsZDAd0+t1r57JNJ2n/mQ3lztUGFCxSdhqgdDO1DFhEKe/eCZz5D2dBrnrSjV/
- 5Qfs2ws6v1NSqAIeaEt8K1sZfHF72D1FcVmq3D5qJQFQE4/tNjRv+a1KfyhXkUIxzV5ZAkQJP9m
- MMRPQa3jrX0md0m8kLxV5X/Ps3sDQDHzB63ulyFmC7xlN30eSAZ6uGsoXoJcjy15Ky/E5h5R82E
- rylUJdSzRy7BZrGaWh6Y3cWn2Hi6iFx4U+Jl6aXHi+T/fQwosMn/nRqJvMZZEpvzkDfrLucBuos
- iLpWubBPhZXgvt0lOEVZ0JFVOmRB0AjxV5YSBJnC3xgUB7uxyc808ZasRiQXiMb88+CQQC0Wnrj
- Mvp26OTNYyVvUOQ==
-X-Received: by 2002:a17:902:c40a:b0:235:1706:1fe7 with SMTP id
- d9443c01a7336-23e25693727mr159582715ad.4.1752858577943; 
- Fri, 18 Jul 2025 10:09:37 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IETvEp5rZykda6Fkwq9ZXpRv9woHFJ3xh4GKGF4HzLDjXZN+/v8QGQrNtiX8DgvikLdgkWCIA==
-X-Received: by 2002:a17:902:c40a:b0:235:1706:1fe7 with SMTP id
- d9443c01a7336-23e25693727mr159582215ad.4.1752858577500; 
- Fri, 18 Jul 2025 10:09:37 -0700 (PDT)
+ AJvYcCW7AoD4TQ8tep+psIrngw5fGYpveiHsbZPK2hfhlI/i4dUyH9gsLqNn85PIjkfFSOQMznLY9zk8pFM=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0Yx9PEzxt3rZLrmFc5XVkPzlYmin1jxu07ZDeAFARYvokD7LQAkP
+ 7wejC/EyJoMQ0iFh4yGUkV1rDgRqDity/UPMBlu2d6YxfLWSOvRkina/splxLtOEn+Iwb6Lgq/r
+ ScEcKbaedJ/ia9DiRErduu7Fahw969hPAyQYrcUqIET5wYdPHw7DL6xgRAwmu/FLl2RKA2hs=
+X-Gm-Gg: ASbGnctnSBA1MpbhQQHCdNIGawxjGKw6UXw13LRBFOlNmiHEUlk9eaHUkapsc+YK6x5
+ a3pKMB+A5jA0/uRgCd0v+juU3I8KJA85QE8wK0mOzlMH9vSMH6XXOTv0MnyjMmsoF7v3bRM5/+u
+ M/je2mqsxE/A4gRh+PgNv0H/8ZCPHSrFp9rwzTnMU5bZwo/y+UjduF0abdT49f/sdHZqPWcS2S3
+ 79AGti5f/yCvrD3VHDzyzCkoPwS8a4KWQYexmNOu2WpO07KwU08IySNifyqZiXn+nexWpsQvHCi
+ UZBfT1SDORXvWdmRz0PB5+GRsTpuCi/+kQQJcCqC6n6KC5BUNfhZcrM/RaffdqAHeVP1DRq2pK1
+ fECcd5sEsUdQqfw==
+X-Received: by 2002:a17:90b:48c8:b0:315:b07a:ac12 with SMTP id
+ 98e67ed59e1d1-31c9e6f71b8mr18347574a91.14.1752858886378; 
+ Fri, 18 Jul 2025 10:14:46 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IHAZ4uYoT0jpgwok+1LqJLQaSu3L2fEp1diUxE597ewVDpbjd87lEWbuWkSUsEweCpZR2VK2w==
+X-Received: by 2002:a17:90b:48c8:b0:315:b07a:ac12 with SMTP id
+ 98e67ed59e1d1-31c9e6f71b8mr18347517a91.14.1752858885895; 
+ Fri, 18 Jul 2025 10:14:45 -0700 (PDT)
 Received: from [10.226.59.182] (i-global254.qualcomm.com. [199.106.103.254])
  by smtp.gmail.com with ESMTPSA id
- d9443c01a7336-23e3b60ec88sm16079385ad.65.2025.07.18.10.09.34
+ 98e67ed59e1d1-31cc3e5b56fsm1593934a91.16.2025.07.18.10.14.43
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 18 Jul 2025 10:09:37 -0700 (PDT)
-Message-ID: <b7653a05-f747-4764-9c33-793346cae223@oss.qualcomm.com>
-Date: Fri, 18 Jul 2025 11:09:33 -0600
+ Fri, 18 Jul 2025 10:14:45 -0700 (PDT)
+Message-ID: <7753e1e8-5e2d-4d8b-8a46-a6fbc58a144d@oss.qualcomm.com>
+Date: Fri, 18 Jul 2025 11:14:42 -0600
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v8 01/10] accel/rocket: Add registers header
+Subject: Re: [PATCH v8 02/10] accel/rocket: Add a new driver for Rockchip's NPU
 To: Tomeu Vizoso <tomeu@tomeuvizoso.net>, Rob Herring <robh@kernel.org>,
  Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
  <conor+dt@kernel.org>, Heiko Stuebner <heiko@sntech.de>,
@@ -99,35 +99,35 @@ Cc: devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
  linux-media@vger.kernel.org, linaro-mm-sig@lists.linaro.org,
  Robert Foss <rfoss@kernel.org>
 References: <20250713-6-10-rocket-v8-0-64fa3115e910@tomeuvizoso.net>
- <20250713-6-10-rocket-v8-1-64fa3115e910@tomeuvizoso.net>
+ <20250713-6-10-rocket-v8-2-64fa3115e910@tomeuvizoso.net>
 Content-Language: en-US
 From: Jeff Hugo <jeff.hugo@oss.qualcomm.com>
-In-Reply-To: <20250713-6-10-rocket-v8-1-64fa3115e910@tomeuvizoso.net>
+In-Reply-To: <20250713-6-10-rocket-v8-2-64fa3115e910@tomeuvizoso.net>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwNzE4MDEzNSBTYWx0ZWRfXxJER+oSVUJL/
- xjGxFFrVK1chegK3ylMkUn3H1Kg8sRghIdg6tkVNAKW9eHxvMaHw8QIiomcHfWY4JI4NC/Wmmps
- w5ef6Pnr79iR3kNsYzhmydJgRynvRCOBbutU5gAkDs4aho/e090RJgPXfA5FZP1GAhaD3CI/Yun
- qUlaMzfunNIQzJRYnsvmVoXofkN3xG0Ohgvot4drPKJUbRwfrx2pvFPWXjpxs3ORzP4mJUChAT/
- cem9Ms1dzfatnzVipMpZ9fLm3ekgXwmBEIx7cjTFRtIo3iP/mJ7rmeS2VsdgiXbnnezGh5NXDbT
- a2VtoCIJzkjwis/8kOpSzlQG9ghQbgVR38uyZ/iskODE651hq7P9yP5Ea9fKgXNC9Xodgq7gZrR
- WfhGtxlTkUbCySrmlAplQSYF1Ob+8BDXanEXZ0WeAPlMMJ/XFhEkClRQ/q/zdqQgIPoCQc0R
-X-Proofpoint-GUID: 8XdYIJ1Tgz6Mb0BDNpoHWw5qnllZhnHP
-X-Proofpoint-ORIG-GUID: 8XdYIJ1Tgz6Mb0BDNpoHWw5qnllZhnHP
-X-Authority-Analysis: v=2.4 cv=N9YpF39B c=1 sm=1 tr=0 ts=687a7fd3 cx=c_pps
- a=JL+w9abYAAE89/QcEU+0QA==:117 a=JYp8KDb2vCoCEuGobkYCKw==:17
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwNzE4MDEzNiBTYWx0ZWRfX21Zpvs1S8kTG
+ U7mON8kCLhAFcdMvM13toz4QOecQX4QhwsRcQs4orAFS4q6Ed15maGVVUoY6EUgjYNL3t2+bVWy
+ IqXWCRTXgHbQ+fBZUfS/PZj4+FysD+qTBoYyiKme9NJZ2wmQPsl/HB2r6m3TIvJFcaAc6xZgAiV
+ XJ1HiX5QS6xN+iAA9KXpEpy21RRctVOquBK+ZHVBzZxUv3iMLeK6WNOQZUBPnNuR7PC6w18WG05
+ 9iz4daWffhDOVTpMip/M3t9DviPaQdXGz2gFyq3KMj2YmcRbm+IN6baCltCtoEXhkGoz+BKDzpw
+ AjJQvSymznVtfLxdFcQ7RhYtkXfmfN8GyhircL1yGc8xhHCIHm0a5VB+c5R2DFK/c/YnXvlAmWz
+ ILn11rC0qxpoP7UHAmxFDz+E0CsrUpYoIRB114LHXiEDe9dZnDQOhcOTHscJBdxDW8sJoeIc
+X-Proofpoint-GUID: 9cHrDzUvg_F_E24TVj_g2XpC8F54dMiu
+X-Proofpoint-ORIG-GUID: 9cHrDzUvg_F_E24TVj_g2XpC8F54dMiu
+X-Authority-Analysis: v=2.4 cv=McZsu4/f c=1 sm=1 tr=0 ts=687a8107 cx=c_pps
+ a=RP+M6JBNLl+fLTcSJhASfg==:117 a=JYp8KDb2vCoCEuGobkYCKw==:17
  a=IkcTkHD0fZMA:10 a=Wb1JkmetP80A:10 a=VwQbUJbxAAAA:8 a=DISFzqtZAAAA:8
- a=EUspDBNiAAAA:8 a=4Ppn7do-3_l0xiadvqUA:9 a=QEXdDO2ut3YA:10
- a=324X-CrmTo6CU4MGRt3R:22 a=aug85vrO5LANNmmtkfAW:22
+ a=EUspDBNiAAAA:8 a=V6djkQ_TFPnTOxwyQKcA:9 a=QEXdDO2ut3YA:10
+ a=iS9zxrgQBfv6-_F4QbHw:22 a=aug85vrO5LANNmmtkfAW:22
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.293,Aquarius:18.0.1099,Hydra:6.1.9,FMLib:17.12.80.40
  definitions=2025-07-18_04,2025-07-17_02,2025-03-28_01
 X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- spamscore=0 lowpriorityscore=0 mlxlogscore=884 bulkscore=0 adultscore=0
- priorityscore=1501 clxscore=1015 mlxscore=0 suspectscore=0 impostorscore=0
- phishscore=0 malwarescore=0 classifier=spam authscore=0 authtc=n/a authcc=
+ malwarescore=0 mlxlogscore=999 impostorscore=0 mlxscore=0 phishscore=0
+ adultscore=0 lowpriorityscore=0 bulkscore=0 clxscore=1015 suspectscore=0
+ spamscore=0 priorityscore=1501 classifier=spam authscore=0 authtc=n/a authcc=
  route=outbound adjust=0 reason=mlx scancount=1 engine=8.19.0-2505280000
- definitions=main-2507180135
+ definitions=main-2507180136
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -144,25 +144,58 @@ Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 On 7/13/2025 2:38 AM, Tomeu Vizoso wrote:
-> A XML file was generated with the data from the TRM, and then this
-> header was generated from it.
+> This initial version supports the NPU as shipped in the RK3588 SoC and
+> described in the first part of its TRM, in Chapter 36.
 > 
-> The canonical location for the XML file is the Mesa3D repository.
+> This NPU contains 3 independent cores that the driver can submit jobs
+> to.
+> 
+> This commit adds just hardware initialization and power management.
+> 
+> v2:
+> - Split cores and IOMMUs as independent devices (Sebastian Reichel)
+> - Add some documentation (Jeffrey Hugo)
+> - Be more explicit in the Kconfig documentation (Jeffrey Hugo)
+> - Remove resets, as these haven't been found useful so far (Zenghui Yu)
+> - Repack structs (Jeffrey Hugo)
+> - Use DEFINE_DRM_ACCEL_FOPS (Jeffrey Hugo)
+> - Use devm_drm_dev_alloc (Jeffrey Hugo)
+> - Use probe log helper (Jeffrey Hugo)
+> - Introduce UABI header in a later patch (Jeffrey Hugo)
 > 
 > v3:
+> - Adapt to a split of the register block in the DT bindings (Nicolas
+>    Frattaroli)
+> - Move registers header to its own commit (Thomas Zimmermann)
+> - Misc. cleanups (Thomas Zimmermann and Jeff Hugo)
 > - Make use of GPL-2.0-only for the copyright notice (Jeff Hugo)
+> - PM improvements (Nicolas Frattaroli)
+> 
+> v4:
+> - Use bulk clk API (Krzysztof Kozlowski)
+> 
+> v6:
+> - Remove mention to NVDLA, as the hardware is only incidentally related
+>    (Kever Yang)
+> - Use calloc instead of GFP_ZERO (Jeff Hugo)
+> - Explicitly include linux/container_of.h (Jeff Hugo)
+> - pclk and npu clocks are now needed by all cores (Rob Herring)
+> 
+> v7:
+> - Assign its own IOMMU domain to each client, for isolation (Daniel
+>    Stone and Robin Murphy)
 > 
 > v8:
-> - Remove full MIT license blob, to match other files with the same
->    licensing arrangement in the kernel
+> - Kconfig: fix depends to be more explicit about Rockchip, and remove
+>    superfluous selects (Robin Murphy)
+> - Use reset lines to reset the cores (Robin Murphy)
+> - Reference count the module
+> - Set dma_set_max_seg_size
+> - Correctly acquire a reference to the IOMMU (Robin Murphy)
+> - Remove notion of top core (Robin Murphy)
 > 
 > Reviewed-by: Robert Foss <rfoss@kernel.org>
 > Tested-by: Heiko Stuebner <heiko@sntech.de>
 > Signed-off-by: Tomeu Vizoso <tomeu@tomeuvizoso.net>
-
-Structure of the file and markings look sane. I'm not familiar with the 
-hardware specifics, so the autogenerated content is a bit over my head, 
-but I guess for something so large using automated generation should 
-minimize errors.
 
 Reviewed-by: Jeff Hugo <jeff.hugo@oss.qualcomm.com>
