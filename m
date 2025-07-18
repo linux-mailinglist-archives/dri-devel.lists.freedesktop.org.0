@@ -2,75 +2,120 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9DFAEB0AAD3
-	for <lists+dri-devel@lfdr.de>; Fri, 18 Jul 2025 21:56:05 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1A1A3B0AADC
+	for <lists+dri-devel@lfdr.de>; Fri, 18 Jul 2025 21:58:12 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 42D7910E069;
-	Fri, 18 Jul 2025 19:56:02 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3824C10EA36;
+	Fri, 18 Jul 2025 19:58:02 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; secure) header.d=estudante.ufscar.br header.i=@estudante.ufscar.br header.b="XF3DIqOz";
+	dkim=pass (1024-bit key; unprotected) header.d=amd.com header.i=@amd.com header.b="rDDMZBrc";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-oa1-f43.google.com (mail-oa1-f43.google.com
- [209.85.160.43])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E236710E002
- for <dri-devel@lists.freedesktop.org>; Fri, 18 Jul 2025 19:56:00 +0000 (UTC)
-Received: by mail-oa1-f43.google.com with SMTP id
- 586e51a60fabf-301a83477e5so443957fac.1
- for <dri-devel@lists.freedesktop.org>; Fri, 18 Jul 2025 12:56:00 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=estudante.ufscar.br; s=google; t=1752868560; x=1753473360;
- darn=lists.freedesktop.org; 
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:from:to:cc:subject:date:message-id:reply-to;
- bh=Jn8giDL749wRMcd6XK3joiEssp/skQmnWKpjb3i6mtY=;
- b=XF3DIqOzkwo3rkaFKPxXSjrZ3N4s4UKtxTCL4EGBR1kDRpk9EDyq3ktg5Inqu57dDS
- 5YfOBFcnG8pKGUwj9pcTbUi+0BTyoSmb39IdvbFsTNfMe0hJXm/ilj1hhtbuVIEJxRqs
- EtvFbo7U+VR7ZckRkbpWgtLQAxyK2pxfqT1Sc=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1752868560; x=1753473360;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=Jn8giDL749wRMcd6XK3joiEssp/skQmnWKpjb3i6mtY=;
- b=GLIyn6b8GN1m10LDlX8ptprstVTE0BVoNEcUFU6QFS4a2qeTFfI7gF/8a19I276AVp
- Yu6gPU7VyAAgu1T1BpMHCfxGCQgbAMQdt4+b24TKrgSYMzCXaFsewD/Rlu635qhiD6Q6
- cS4ZIwAIrNDO90/q1PYefclCIEfhCLSa76s1nHf3OqJmIG+uzUROwxZalb6Cc+ih5yUn
- p1SZl96aVAlyWowFjxXQx5Rp1huz9lakovoqvm2t7kS2maxY7EKn4LQzy5CziR19LpiE
- kM4YNf+ctu1Z48Jj0tQfCQTqozEV4PCJWmcIdti5X8HVFrCFQsj2MeTqzrSViZ5YP3TD
- 3kRw==
-X-Forwarded-Encrypted: i=1;
- AJvYcCVkgv7F7iF9+GVus3m06eanrJ7RY5eJS1+AhYIhrBWLFGqsBElSUbX5HtzHkh8pEDbIq/mE54X7r3Y=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YyW3vF65waUR9nYjKKiRb/Ff+JgFeVz4/peCXwX9pHAtBK9wMSZ
- jbgDmu4SYyqsvfkrykhBrnsg67b5eVXjpKvzE1sytlTGRpiB+3qJdQRU0mZ0y47qLbY=
-X-Gm-Gg: ASbGncvx37b9acluf8yzjhW2pp2tIJWroMHA3jHOFI/Fo0+pppBEHlYOWMS5kIDG9+1
- fHeNYHjJoc1x15m6pxX2bf4a7voyww1vbiz4rIDHQER3u81TCoFFwS2Xq0+aIX8CIbOTGN7cRmS
- VBwKiXKKMK38Uz+xyJvcKKuiGVr5/dixX7hw+ma+TJbvqr2Me32NQ1NDuGbs76cEvML9bP1IrU4
- zeKVubUSQW2tIOZpqYG0Bx0+xb7Dt7/Z32DK2fyaIVixfvuwN1Z9nk52kKdKrPWELUU2mqZskPf
- KgkaZ/1z5wGRZjY3mdCykbvwceiD4QsWBzlxYjgqKBmA97L2yG/1UFb9W/w18GL1qxFe8yWKxt/
- vrc9DpDpW188Ot5MYnYNsvzwMdJyHq6RvPlrFhQphlb1jQ6Gr/O0M
-X-Google-Smtp-Source: AGHT+IFyG7f8ZAZx/Oo5MSbyeOITQKRV5wZCXPGtSwh4ZCc6lHsVMnOo+fhLI8iYH/kBVXvKYfc+/A==
-X-Received: by 2002:a05:6870:40cd:b0:2bc:8c4a:aac2 with SMTP id
- 586e51a60fabf-2ffaf5442e4mr10395209fac.27.1752868559831; 
- Fri, 18 Jul 2025 12:55:59 -0700 (PDT)
-Received: from localhost.localdomain ([2804:2894:c100:61f6:9607:54a9:55b1:8d3])
- by smtp.gmail.com with ESMTPSA id
- 586e51a60fabf-30101cd74a6sm1016408fac.14.2025.07.18.12.55.53
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 18 Jul 2025 12:55:58 -0700 (PDT)
-From: Luiz Otavio Mello <luiz.mello@estudante.ufscar.br>
-To: airlied@gmail.com, jani.nikula@linux.intel.com,
- joonas.lahtinen@linux.intel.com, simona@ffwll.ch, mripard@kernel.org
-Cc: intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
- mairacanal@riseup.net, Luiz Otavio Mello <luiz.mello@estudante.ufscar.br>
-Subject: [PATCH] [PATCH v3] drm/i915: move struct_mutex from drm_device to
- drm_i915_private
-Date: Fri, 18 Jul 2025 16:55:43 -0300
-Message-ID: <20250718195543.301391-1-luiz.mello@estudante.ufscar.br>
+Received: from NAM10-BN7-obe.outbound.protection.outlook.com
+ (mail-bn7nam10on2047.outbound.protection.outlook.com [40.107.92.47])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B3CC810EA37;
+ Fri, 18 Jul 2025 19:57:59 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=Kie9Pz6o80BYZID7AZhQDxQM6R+9OV93IIQCxwLeTGBQnXLdSdTUPs/gBwStg672pW1+oQouRGERNl/Ao+3NyAmRmFp2Onu6F+1fHV46utWTbiZMDXvfRwhIg9IYcPmVb9YxdyRjSAUVEOWTEgcSPUlrp2tENp9I/TOZqNekOEBInfbXko4lOKQLFuGXpTHX/uqrUhQrVHtUeMVG97A151kHsjWjZkWw7W/78NSMEhSLUOoGL+ZGonOhh1nYGGY6Cw4gDBY2Wx5UYcLSOT6TvdShoXCBzJZnNlsavwDT0on7s5apoxNji5IkCb0pc6QviVbaSLs97y6GG1yf24IAdA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=0h/vvLTr3vp23UIWRG1caB1uXy4sSnpqNlISDykx+MA=;
+ b=vaCdFmkzlW7nzSmTjNJDX9JOTNW2+qqWgKDoBFLjQSY01N4P7bOSO29MLi+K1xiJji7i5YEztIprX21lYiTPmJPebv+R3Qie169y2mHFGcj4QuVcuq+ACIEMVT3kTAird+vuXrNoy+dKk1W3AgXjmao/DiBDZ7MZRQDqOpv9LVHCbeJ9rz716lyLt0k6WQe/eKipECEeLTK8jgiderPKDJS6aN+/kXtWBlGaO45HeJ7h2uTIqeIDtS5dqcGi1r3SZtzb6p2c6GiWN5r3SQVI6EALhkjQ2jx2H/LIOOt5g2L6qPcxIkKTtDDcBhfvu8MrCHroQ5xYGfGEBaGzn8Cdrg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
+ 165.204.84.17) smtp.rcpttodomain=lists.freedesktop.org smtp.mailfrom=amd.com; 
+ dmarc=pass (p=quarantine sp=quarantine pct=100) action=none
+ header.from=amd.com; dkim=none (message not signed); arc=none (0)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=0h/vvLTr3vp23UIWRG1caB1uXy4sSnpqNlISDykx+MA=;
+ b=rDDMZBrcOar2PVbwqqu8xeya8MuE317GXTNUOo4fG7pyVgV4/+BygvXIxoFU1Y9KwWV5RZcbCYnLG8NauNXCAQYZvYRq0aTPfhziEyUWCh76Pjj3w5igSrbutATW5GAo3BKErxn3Pdif3U1ZFq8njnpw8h/s3IBlP2Mhhg/uH6c=
+Received: from SA0PR11CA0002.namprd11.prod.outlook.com (2603:10b6:806:d3::7)
+ by PH7PR12MB6396.namprd12.prod.outlook.com (2603:10b6:510:1fc::14) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8943.25; Fri, 18 Jul
+ 2025 19:57:53 +0000
+Received: from SN1PEPF0002BA4F.namprd03.prod.outlook.com
+ (2603:10b6:806:d3:cafe::23) by SA0PR11CA0002.outlook.office365.com
+ (2603:10b6:806:d3::7) with Microsoft SMTP Server (version=TLS1_3,
+ cipher=TLS_AES_256_GCM_SHA384) id 15.20.8943.23 via Frontend Transport; Fri,
+ 18 Jul 2025 19:57:53 +0000
+X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 165.204.84.17)
+ smtp.mailfrom=amd.com; dkim=none (message not signed)
+ header.d=none;dmarc=pass action=none header.from=amd.com;
+Received-SPF: Pass (protection.outlook.com: domain of amd.com designates
+ 165.204.84.17 as permitted sender) receiver=protection.outlook.com;
+ client-ip=165.204.84.17; helo=SATLEXMB04.amd.com; pr=C
+Received: from SATLEXMB04.amd.com (165.204.84.17) by
+ SN1PEPF0002BA4F.mail.protection.outlook.com (10.167.242.72) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.20.8943.21 via Frontend Transport; Fri, 18 Jul 2025 19:57:51 +0000
+Received: from tr4.amd.com (10.180.168.240) by SATLEXMB04.amd.com
+ (10.181.40.145) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.39; Fri, 18 Jul
+ 2025 14:57:51 -0500
+From: Alex Deucher <alexander.deucher@amd.com>
+To: <amd-gfx@lists.freedesktop.org>, <dri-devel@lists.freedesktop.org>
+CC: Alex Deucher <alexander.deucher@amd.com>
+Subject: [PATCH 1/3] drm/amdgpu: update mmhub 3.0.1 client id mappings
+Date: Fri, 18 Jul 2025 15:57:36 -0400
+Message-ID: <20250718195738.2919761-1-alexander.deucher@amd.com>
 X-Mailer: git-send-email 2.50.1
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-Originating-IP: [10.180.168.240]
+X-ClientProxiedBy: SATLEXMB03.amd.com (10.181.40.144) To SATLEXMB04.amd.com
+ (10.181.40.145)
+X-EOPAttributedMessage: 0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: SN1PEPF0002BA4F:EE_|PH7PR12MB6396:EE_
+X-MS-Office365-Filtering-Correlation-Id: cd02fd57-ffd6-49aa-4846-08ddc6356110
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+ ARA:13230040|82310400026|376014|1800799024|36860700013; 
+X-Microsoft-Antispam-Message-Info: =?us-ascii?Q?1sEtXt4lYLd/swHh2N7MBXUhqH6zbjTYRpKEAemPoR0CDb4LLcBMoD448loj?=
+ =?us-ascii?Q?4uWwGhhlCLjXRvKFLf5cX5tZlI43vyLVc6/1lFDbZwPTYiKSG381vCwU/piA?=
+ =?us-ascii?Q?r87jiU6sFaeriWySAVKhqo077BP53WCfEy1AOTnjpgrklgvf49hVZAs3VBXN?=
+ =?us-ascii?Q?Z3WihHPKzUpEvI3jrdhISD01o9zRnI5LyXpl1J/qFHajl8/4LTYsoXsoV6Hw?=
+ =?us-ascii?Q?CYUlR12dYQN1yI3h6jw/ftbH4N2TF2EInOOyMyfhnrs8VtH5NxedcL2oUKg1?=
+ =?us-ascii?Q?s8qsskrtUMsrqpZD8tiVygDEioIiOEgh6QRSAwD6fixCd2AjuLttQfrIXMQ4?=
+ =?us-ascii?Q?LEZUa1nB9WZ4BaUFTg2zzxge5LEq8ZtYW4bNrOwBv17ni9620myNiS9bNkhW?=
+ =?us-ascii?Q?9b8BVCA/t05LHaRYpgwio3SHXsK53AW8PQBHy5le+79sJYZ/ECPBnS8dQ1pW?=
+ =?us-ascii?Q?c0mBYxt9V5eNurnbk0a4+RUg3l9hF4RItGlvTBW0/xydbEPWPV0QL6K+jgoY?=
+ =?us-ascii?Q?bko3wepDWz8nnF457Hgu1WuNIAcFFaP5hwUNXpri8w0fFMrk/rnnzcsmfPFe?=
+ =?us-ascii?Q?rb+pHEHDgQLwBPj/LBV4x6vvfEla6JcYzpmhCmFjOnLmtE+TjLfad/gvqjBc?=
+ =?us-ascii?Q?TtQovj2tg985lghYE50R/st17EOLkjIHbkwoITxs2PehbGwT8o2RvVpFKnQx?=
+ =?us-ascii?Q?tHlcV82zPUC3rV+kmuwhWNS4qzLdIe8YfE7IOXSFMbmxFQzl4KFak2TNHIHL?=
+ =?us-ascii?Q?btT4fmvBR7gtsVBqszsaTh5hERi38Nd7KK6VyU+eC2t77TigpculJI87vvOc?=
+ =?us-ascii?Q?ZDWCgz49mzyxBS0RRUBIdPmzAIaaFZFevIo5Jmi/TCEOrccNlZHNlsM56u8H?=
+ =?us-ascii?Q?nhyASsJFfdqkeVm8KCXE86c3MaDfCB+UGdDbPgBHWkzDmjgTQ2VYDEiLDPAw?=
+ =?us-ascii?Q?ros+G3K6m/gKJ5XCK2k2i4wbv9Lt219FTwKs5k19Td5EQxCnU+j0pLogf3S6?=
+ =?us-ascii?Q?r/Mb4wNjUVLOZeTJWlCqIv4M41ftXVAWiy0pdyeGXbhv8sE1vBXtsHS3s3oi?=
+ =?us-ascii?Q?ppi6WEKNqKM6Wjv4VLQYRGLmf+s3gnZKWsVmkKTO154qzd2N98tZ9gv8WDDR?=
+ =?us-ascii?Q?5UVyukvZ4aUwSHt21AXv3H4mV9P6mpicQxz5tXdR3sTde04hAymYu7/29zgd?=
+ =?us-ascii?Q?KJeGk05hPS4GJucUmZJodm51nFimv08MGCFnHjw/uqT2UTz2XBU9dr199asM?=
+ =?us-ascii?Q?8CvbO/x6NwmW2QPZBG2vyBh8hcY9LOClyZu7ElzO0NdlzIMfYkevFK0Aq1S3?=
+ =?us-ascii?Q?XCSR0oDQEwMtxM4m6uG8Zesfh2IV2jps59fbY63cmXIeLZ8HJyp4XaX8B4yG?=
+ =?us-ascii?Q?k5urcS9sGdrfpXcRTKc+2lxkt2+8846fzrUVgkYtJkmQQTwfBmA7uorn2CHn?=
+ =?us-ascii?Q?7OfBAakR+oYerEw5//+1ayTNpTmdfNcOPXNJftMk7GwpohMg7gNc47V20NOC?=
+ =?us-ascii?Q?Xg/COgUn6adwoLeSbCBLG4OhHR+/Su/AhRtg?=
+X-Forefront-Antispam-Report: CIP:165.204.84.17; CTRY:US; LANG:en; SCL:1; SRV:;
+ IPV:CAL; SFV:NSPM; H:SATLEXMB04.amd.com; PTR:InfoDomainNonexistent; CAT:NONE;
+ SFS:(13230040)(82310400026)(376014)(1800799024)(36860700013); DIR:OUT;
+ SFP:1101; 
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 18 Jul 2025 19:57:51.9859 (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: cd02fd57-ffd6-49aa-4846-08ddc6356110
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=3dd8961f-e488-4e60-8e11-a82d994e183d; Ip=[165.204.84.17];
+ Helo=[SATLEXMB04.amd.com]
+X-MS-Exchange-CrossTenant-AuthSource: SN1PEPF0002BA4F.namprd03.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH7PR12MB6396
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -86,156 +131,91 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Includes the missing file drm_device.h, which was unintentionally
-omitted in v1.
+Update the client id mapping so the correct clients
+get printed when there is a mmhub page fault.
 
-i915 is the only remaining user of struct_mutex lock.
-
-Move it from drm_device to drm_i915_private so it is only used within
-the i915 driver.
-
-Also update intel_guc_log.c to use the new location of struct_mutex.
-
-Signed-off-by: Luiz Otavio Mello <luiz.mello@estudante.ufscar.br>
+Signed-off-by: Alex Deucher <alexander.deucher@amd.com>
 ---
+ drivers/gpu/drm/amd/amdgpu/mmhub_v3_0_1.c | 57 +++++++++++++----------
+ 1 file changed, 32 insertions(+), 25 deletions(-)
 
-Hi,
-
-In this version, I fixed a typo in a comment in i915_irq.c where I mistakenly wrote "BLK" instead of "BKL".
-
-I also corrected the usage of struct_mutex in i915_irq.c to properly reference it through drm_i915_private.
-
-Additionally, I removed the TODO from Documentation/gpu/todo.rst since this task has now been completed.
-
-Signed-off-by: Luiz Otavio Mello <luiz.mello@estudante.ufscar.br>
----
- Documentation/gpu/todo.rst                 | 25 ----------------------
- drivers/gpu/drm/i915/gt/uc/intel_guc_log.c |  4 ++--
- drivers/gpu/drm/i915/i915_drv.h            |  8 +++++++
- drivers/gpu/drm/i915/i915_irq.c            |  4 ++--
- include/drm/drm_device.h                   | 10 ---------
- 5 files changed, 12 insertions(+), 39 deletions(-)
-
-diff --git a/Documentation/gpu/todo.rst b/Documentation/gpu/todo.rst
-index c57777a24e03..ff8f4ee32bee 100644
---- a/Documentation/gpu/todo.rst
-+++ b/Documentation/gpu/todo.rst
-@@ -173,31 +173,6 @@ Contact: Simona Vetter
+diff --git a/drivers/gpu/drm/amd/amdgpu/mmhub_v3_0_1.c b/drivers/gpu/drm/amd/amdgpu/mmhub_v3_0_1.c
+index 134c4ec108878..910337dc28d10 100644
+--- a/drivers/gpu/drm/amd/amdgpu/mmhub_v3_0_1.c
++++ b/drivers/gpu/drm/amd/amdgpu/mmhub_v3_0_1.c
+@@ -36,40 +36,47 @@
  
- Level: Intermediate
+ static const char *mmhub_client_ids_v3_0_1[][2] = {
+ 	[0][0] = "VMC",
++	[1][0] = "ISPXT",
++	[2][0] = "ISPIXT",
+ 	[4][0] = "DCEDMC",
+ 	[5][0] = "DCEVGA",
+ 	[6][0] = "MP0",
+ 	[7][0] = "MP1",
+-	[8][0] = "MPIO",
+-	[16][0] = "HDP",
+-	[17][0] = "LSDMA",
+-	[18][0] = "JPEG",
+-	[19][0] = "VCNU0",
+-	[21][0] = "VSCH",
+-	[22][0] = "VCNU1",
+-	[23][0] = "VCN1",
+-	[32+20][0] = "VCN0",
+-	[2][1] = "DBGUNBIO",
++	[8][0] = "MPM",
++	[12][0] = "ISPTNR",
++	[14][0] = "ISPCRD0",
++	[15][0] = "ISPCRD1",
++	[16][0] = "ISPCRD2",
++	[22][0] = "HDP",
++	[23][0] = "LSDMA",
++	[24][0] = "JPEG",
++	[27][0] = "VSCH",
++	[28][0] = "VCNU",
++	[29][0] = "VCN",
++	[1][1] = "ISPXT",
++	[2][1] = "ISPIXT",
+ 	[3][1] = "DCEDWB",
+ 	[4][1] = "DCEDMC",
+ 	[5][1] = "DCEVGA",
+ 	[6][1] = "MP0",
+ 	[7][1] = "MP1",
+-	[8][1] = "MPIO",
+-	[10][1] = "DBGU0",
+-	[11][1] = "DBGU1",
+-	[12][1] = "DBGU2",
+-	[13][1] = "DBGU3",
+-	[14][1] = "XDP",
+-	[15][1] = "OSSSYS",
+-	[16][1] = "HDP",
+-	[17][1] = "LSDMA",
+-	[18][1] = "JPEG",
+-	[19][1] = "VCNU0",
+-	[20][1] = "VCN0",
+-	[21][1] = "VSCH",
+-	[22][1] = "VCNU1",
+-	[23][1] = "VCN1",
++	[8][1] = "MPM",
++	[10][1] = "ISPMWR0",
++	[11][1] = "ISPMWR1",
++	[12][1] = "ISPTNR",
++	[13][1] = "ISPSWR",
++	[14][1] = "ISPCWR0",
++	[15][1] = "ISPCWR1",
++	[16][1] = "ISPCWR2",
++	[17][1] = "ISPCWR3",
++	[18][1] = "XDP",
++	[21][1] = "OSSSYS",
++	[22][1] = "HDP",
++	[23][1] = "LSDMA",
++	[24][1] = "JPEG",
++	[27][1] = "VSCH",
++	[28][1] = "VCNU",
++	[29][1] = "VCN",
+ };
  
--Get rid of dev->struct_mutex from GEM drivers
-----------------------------------------------
--
--``dev->struct_mutex`` is the Big DRM Lock from legacy days and infested
--everything. Nowadays in modern drivers the only bit where it's mandatory is
--serializing GEM buffer object destruction. Which unfortunately means drivers
--have to keep track of that lock and either call ``unreference`` or
--``unreference_locked`` depending upon context.
--
--Core GEM doesn't have a need for ``struct_mutex`` any more since kernel 4.8,
--and there's a GEM object ``free`` callback for any drivers which are
--entirely ``struct_mutex`` free.
--
--For drivers that need ``struct_mutex`` it should be replaced with a driver-
--private lock. The tricky part is the BO free functions, since those can't
--reliably take that lock any more. Instead state needs to be protected with
--suitable subordinate locks or some cleanup work pushed to a worker thread. For
--performance-critical drivers it might also be better to go with a more
--fine-grained per-buffer object and per-context lockings scheme. Currently only
--the ``msm`` and `i915` drivers use ``struct_mutex``.
--
--Contact: Simona Vetter, respective driver maintainers
--
--Level: Advanced
--
- Move Buffer Object Locking to dma_resv_lock()
- ---------------------------------------------
- 
-diff --git a/drivers/gpu/drm/i915/gt/uc/intel_guc_log.c b/drivers/gpu/drm/i915/gt/uc/intel_guc_log.c
-index e8a04e476c57..7135fdb0ebb4 100644
---- a/drivers/gpu/drm/i915/gt/uc/intel_guc_log.c
-+++ b/drivers/gpu/drm/i915/gt/uc/intel_guc_log.c
-@@ -678,7 +678,7 @@ int intel_guc_log_set_level(struct intel_guc_log *log, u32 level)
- 	if (level < GUC_LOG_LEVEL_DISABLED || level > GUC_LOG_LEVEL_MAX)
- 		return -EINVAL;
- 
--	mutex_lock(&i915->drm.struct_mutex);
-+	mutex_lock(&i915->struct_mutex);
- 
- 	if (log->level == level)
- 		goto out_unlock;
-@@ -696,7 +696,7 @@ int intel_guc_log_set_level(struct intel_guc_log *log, u32 level)
- 	log->level = level;
- 
- out_unlock:
--	mutex_unlock(&i915->drm.struct_mutex);
-+	mutex_unlock(&i915->struct_mutex);
- 
- 	return ret;
- }
-diff --git a/drivers/gpu/drm/i915/i915_drv.h b/drivers/gpu/drm/i915/i915_drv.h
-index d0e1980dcba2..0384dae6fa97 100644
---- a/drivers/gpu/drm/i915/i915_drv.h
-+++ b/drivers/gpu/drm/i915/i915_drv.h
-@@ -224,6 +224,14 @@ struct drm_i915_private {
- 
- 	bool irqs_enabled;
- 
-+	/*
-+	 * Currently, struct_mutex is only used by the i915 driver as a replacement
-+	 * for BKL. 
-+	 * 
-+	 * For this reason, it is no longer part of struct drm_device.
-+	*/
-+	struct mutex struct_mutex;
-+
- 	/* LPT/WPT IOSF sideband protection */
- 	struct mutex sbi_lock;
- 
-diff --git a/drivers/gpu/drm/i915/i915_irq.c b/drivers/gpu/drm/i915/i915_irq.c
-index 95042879bec4..7b29062fed50 100644
---- a/drivers/gpu/drm/i915/i915_irq.c
-+++ b/drivers/gpu/drm/i915/i915_irq.c
-@@ -166,7 +166,7 @@ static void ivb_parity_work(struct work_struct *work)
- 	 * In order to prevent a get/put style interface, acquire struct mutex
- 	 * any time we access those registers.
- 	 */
--	mutex_lock(&dev_priv->drm.struct_mutex);
-+	mutex_lock(&dev_priv->struct_mutex);
- 
- 	/* If we've screwed up tracking, just let the interrupt fire again */
- 	if (drm_WARN_ON(&dev_priv->drm, !dev_priv->l3_parity.which_slice))
-@@ -224,7 +224,7 @@ static void ivb_parity_work(struct work_struct *work)
- 	gen5_gt_enable_irq(gt, GT_PARITY_ERROR(dev_priv));
- 	spin_unlock_irq(gt->irq_lock);
- 
--	mutex_unlock(&dev_priv->drm.struct_mutex);
-+	mutex_unlock(&dev_priv->struct_mutex);
- }
- 
- static irqreturn_t valleyview_irq_handler(int irq, void *arg)
-diff --git a/include/drm/drm_device.h b/include/drm/drm_device.h
-index e2f894f1b90a..c374c58fb975 100644
---- a/include/drm/drm_device.h
-+++ b/include/drm/drm_device.h
-@@ -177,16 +177,6 @@ struct drm_device {
- 	/** @unique: Unique name of the device */
- 	char *unique;
- 
--	/**
--	 * @struct_mutex:
--	 *
--	 * Lock for others (not &drm_minor.master and &drm_file.is_master)
--	 *
--	 * TODO: This lock used to be the BKL of the DRM subsystem. Move the
--	 *       lock into i915, which is the only remaining user.
--	 */
--	struct mutex struct_mutex;
--
- 	/**
- 	 * @master_mutex:
- 	 *
+ static uint32_t mmhub_v3_0_1_get_invalidate_req(unsigned int vmid,
 -- 
 2.50.1
 
