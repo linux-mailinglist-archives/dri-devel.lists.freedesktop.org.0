@@ -2,68 +2,68 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 56E00B0A382
-	for <lists+dri-devel@lfdr.de>; Fri, 18 Jul 2025 13:52:13 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4A7DCB0A386
+	for <lists+dri-devel@lfdr.de>; Fri, 18 Jul 2025 13:52:23 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B43A010E97F;
-	Fri, 18 Jul 2025 11:52:11 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 873C310E983;
+	Fri, 18 Jul 2025 11:52:21 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=Nvidia.com header.i=@Nvidia.com header.b="CCKiesY/";
+	dkim=pass (2048-bit key; unprotected) header.d=Nvidia.com header.i=@Nvidia.com header.b="HzB+vcMW";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from NAM10-DM6-obe.outbound.protection.outlook.com
- (mail-dm6nam10on2084.outbound.protection.outlook.com [40.107.93.84])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 38E1510E979;
- Fri, 18 Jul 2025 11:52:10 +0000 (UTC)
+Received: from NAM12-DM6-obe.outbound.protection.outlook.com
+ (mail-dm6nam12on2048.outbound.protection.outlook.com [40.107.243.48])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 46B4810E981;
+ Fri, 18 Jul 2025 11:52:20 +0000 (UTC)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=BQCLDT7IKWtzcraaPxfg8N0WeU7ocX3RSpFnadBhm2QX5wOthiNo3qdqgaeFgvjgc5Eh/z29kLgI0rsLfwoP7hjUMzDRmBsocb3KtsEAz9elIbcKDCaVboxNDPW/5VyHKF0CS3a7rfFOsOTJc7CmqIaTPyk1Rz2XERCCfkiOAdIJMt5FHuJrf9w0RTajhabdzM3OFKLdw3sNTd4Q/N+bPtriT+KTA/pwNT/3WIRaNkCY48EUwiQU97J8jbmNd5CFOn9/Ikt6TBZCUB6VSPasNGqNUMth+LKY0cWys3EAQmdzFTpMLi94exWN1jkBB32dgw/jCYk/nU/FsLv656tlAQ==
+ b=jjxXOFUNbMOwQMxoc5OlE5RyEE8/tejFnju81bEg9XDgLrwD4WTruxcJFdcQZwzyKG8i4ViHzKhXI2fMMdDvbDwuVWPH/Cnhd++X+1ipPTJkZ/vx5KBJS6tYKUwN6nZoqflw2K5rTduwrzxdhTfH5IFrg+uDhmruhxyQeC5mglVzRmC7RZyPVobRodYVOVg9pdYhlREMTKo3NXL+EZ9JJcRVnj/gQu2UVw+1qyFh9CD0ib9RENPs8YF6V2dQ67VEgZWWCm6oKg3KFn9dUZtjZ7zX6AzQZ6jTbJV429OZbVTxFKFWRMsbb6aBEjtM3fuS9YLauHmvBug32qi828viXg==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=MOPJvGgWjA/YEI0pFjv5YfuT3rt/ytuNzi1aJNt7a6M=;
- b=YYcYN6fN2/O9sFsPF70ZL5FlGGQHyzxQmH0jN8foCh8mtRp7THvsr0Cw7fQrOwLGNYHHYlomk8MgE8cCI/SKVtVU59Na4FbC07yYTJCYRk+9TniQJjesD5kVlhau6Gf6WbjCPo/aYNQdpLH9Cggfk6RiCR9hUtpXIiDdWz/EPY2L7PEZiZ8Me5uB41CGU9x2nsLHMbGAw64qxv0CuYeXvKdObfWCm/YGObO4byloOVHHis/Tfh/uTHPey/+CpppNGYxKd4j//NPPgTIMYTjCqf7FpRFYSVhOQuGcrv02gTT8J8e+80xVFtDMDqKRJ90/Cu/fwCeC6YXGj8RhA87fIA==
+ bh=av8Aqxmk0pEQWQt6lpo+65OnSS1BZfQyJA2wl0eSI1U=;
+ b=wpOs4dNGMiBPn3QEKaXTpkqSsOFW+lRw4fHkNybdO83Cxs5cmIFypusf4+7jOQZ3CHJB68Y1y7qYEja2x2dvYUEMASKfKky4hFcK9eFEaZBBTH7qnpRNeKjCZufUw3jzdamzjGRAca97fCkRWjM3TEFy5lNCgGMUDyHUD7iDZi1Rrx/O36f/MggOrzhXyw49jndRVwRHEx9lhb2aXrj+Qfvx2AaR94LfLu4dYjctuKrkYMu/sv4OkMu3Zc48P3p5ZjeZXKQglGG70Waba9xl1twN8eki9vzfXnEOM+Pyr0MNV8hLWOhazNRfM+T8pMZBJSVXvHE0jpjLwroNN7D4MA==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
- 216.228.117.161) smtp.rcpttodomain=redhat.com smtp.mailfrom=nvidia.com;
+ 216.228.117.160) smtp.rcpttodomain=redhat.com smtp.mailfrom=nvidia.com;
  dmarc=pass (p=reject sp=reject pct=100) action=none header.from=nvidia.com;
  dkim=none (message not signed); arc=none (0)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
  s=selector2;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=MOPJvGgWjA/YEI0pFjv5YfuT3rt/ytuNzi1aJNt7a6M=;
- b=CCKiesY/avP3kIcyANQx1o9d1MOroODYqApdxyiZX4hkHo7YW4KnURk0ejr0Cth5sqJUdjwH2H5Ofd0o1dlM/wu84sWVOy3T91kU/Sxttg+DYAu84oVbUzD1cOTWEKZ3aFX+297cq2XqrQg8KhHGyVXFioGkKZjoolrzNsseGM3tL0KFpxccBwYAQI/b2+hjKmi3AqvfsURlQh0Pj8ouQkJOl9px/aJfASJmQ8436/9eG0kQo4PKrHRyYHrmr5/fHNwLPChvtFQrt1+5I1sjulJ83KTVh8esHwrO8+Q1pcl6QQomVJq5eK+9Ew+lXHuAURNEZtMcnZ0iyYakya7KYg==
-Received: from MW2PR16CA0042.namprd16.prod.outlook.com (2603:10b6:907:1::19)
- by DS0PR12MB6487.namprd12.prod.outlook.com (2603:10b6:8:c4::18) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8922.39; Fri, 18 Jul
- 2025 11:52:06 +0000
-Received: from SJ5PEPF00000204.namprd05.prod.outlook.com
- (2603:10b6:907:1:cafe::3) by MW2PR16CA0042.outlook.office365.com
- (2603:10b6:907:1::19) with Microsoft SMTP Server (version=TLS1_3,
- cipher=TLS_AES_256_GCM_SHA384) id 15.20.8943.20 via Frontend Transport; Fri,
- 18 Jul 2025 11:52:05 +0000
-X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 216.228.117.161)
+ bh=av8Aqxmk0pEQWQt6lpo+65OnSS1BZfQyJA2wl0eSI1U=;
+ b=HzB+vcMWjsy7otIBFIMzQKzhrJjWV4sZzUtzxisHvB+ID7PB/Ve9jazPm0856EHPIwKKJjwtBRx1mYt/TKwLAlghoeNpJZFZvprr9a3H1T9no4k8+i3DQuQ5hbjkekJ3UgvR7y4/lmviNzlaM75y6m/OBAEbWhiyx2+tAgRQmpYvvNivm0rY5gnbt7B2zijRpAROFpXdxLbQ+qzbhs0yHHGkr5AqSLgaSy3lEDPvrAk/p9rTQQBmHvgkeJsOKfBHHRnVOjor03J3tRlU9l2egtT1SmnEwCek/iV+RLBKbOyILrQBkI0wLPYa3GWmBn60JDg5RfZ+oBFGFcUmE/cu+A==
+Received: from SA9PR13CA0046.namprd13.prod.outlook.com (2603:10b6:806:22::21)
+ by IA1PR12MB6067.namprd12.prod.outlook.com (2603:10b6:208:3ed::10)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8943.28; Fri, 18 Jul
+ 2025 11:52:13 +0000
+Received: from SN1PEPF0002636A.namprd02.prod.outlook.com
+ (2603:10b6:806:22:cafe::fd) by SA9PR13CA0046.outlook.office365.com
+ (2603:10b6:806:22::21) with Microsoft SMTP Server (version=TLS1_3,
+ cipher=TLS_AES_256_GCM_SHA384) id 15.20.8964.12 via Frontend Transport; Fri,
+ 18 Jul 2025 11:52:13 +0000
+X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 216.228.117.160)
  smtp.mailfrom=nvidia.com;
  dkim=none (message not signed)
  header.d=none;dmarc=pass action=none header.from=nvidia.com;
 Received-SPF: Pass (protection.outlook.com: domain of nvidia.com designates
- 216.228.117.161 as permitted sender) receiver=protection.outlook.com;
- client-ip=216.228.117.161; helo=mail.nvidia.com; pr=C
-Received: from mail.nvidia.com (216.228.117.161) by
- SJ5PEPF00000204.mail.protection.outlook.com (10.167.244.37) with Microsoft
+ 216.228.117.160 as permitted sender) receiver=protection.outlook.com;
+ client-ip=216.228.117.160; helo=mail.nvidia.com; pr=C
+Received: from mail.nvidia.com (216.228.117.160) by
+ SN1PEPF0002636A.mail.protection.outlook.com (10.167.241.135) with Microsoft
  SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.8943.21 via Frontend Transport; Fri, 18 Jul 2025 11:52:05 +0000
+ 15.20.8943.21 via Frontend Transport; Fri, 18 Jul 2025 11:52:12 +0000
 Received: from rnnvmail201.nvidia.com (10.129.68.8) by mail.nvidia.com
- (10.129.200.67) with Microsoft SMTP Server (version=TLS1_2,
+ (10.129.200.66) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.4; Fri, 18 Jul
- 2025 04:51:47 -0700
+ 2025 04:51:54 -0700
 Received: from rnnvmail202.nvidia.com (10.129.68.7) by rnnvmail201.nvidia.com
  (10.129.68.8) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.14; Fri, 18 Jul
- 2025 04:51:47 -0700
+ 2025 04:51:54 -0700
 Received: from vdi.nvidia.com (10.127.8.9) by mail.nvidia.com (10.129.68.7)
  with Microsoft SMTP Server id 15.2.1544.14 via Frontend Transport; Fri, 18
- Jul 2025 04:51:41 -0700
+ Jul 2025 04:51:48 -0700
 From: Yonatan Maman <ymaman@nvidia.com>
 To: =?UTF-8?q?J=C3=A9r=C3=B4me=20Glisse?= <jglisse@redhat.com>, Andrew Morton
  <akpm@linux-foundation.org>, Jason Gunthorpe <jgg@ziepe.ca>,
@@ -77,10 +77,9 @@ CC: Lyude Paul <lyude@redhat.com>, Danilo Krummrich <dakr@kernel.org>, "David
  <linux-rdma@vger.kernel.org>, <dri-devel@lists.freedesktop.org>,
  <nouveau@lists.freedesktop.org>, <linux-kernel@vger.kernel.org>, "Yonatan
  Maman" <Ymaman@Nvidia.com>, Gal Shalom <GalShalom@Nvidia.com>
-Subject: [PATCH v2 1/5] mm/hmm: HMM API to enable P2P DMA for device private
- pages
-Date: Fri, 18 Jul 2025 14:51:08 +0300
-Message-ID: <20250718115112.3881129-2-ymaman@nvidia.com>
+Subject: [PATCH v2 2/5] nouveau/dmem: HMM P2P DMA for private dev pages
+Date: Fri, 18 Jul 2025 14:51:09 +0300
+Message-ID: <20250718115112.3881129-3-ymaman@nvidia.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20250718115112.3881129-1-ymaman@nvidia.com>
 References: <20250718115112.3881129-1-ymaman@nvidia.com>
@@ -90,52 +89,52 @@ Content-Type: text/plain
 X-NV-OnPremToCloud: AnonymousSubmission
 X-EOPAttributedMessage: 0
 X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: SJ5PEPF00000204:EE_|DS0PR12MB6487:EE_
-X-MS-Office365-Filtering-Correlation-Id: 30e3c9f0-552e-4446-0144-08ddc5f1847a
+X-MS-TrafficTypeDiagnostic: SN1PEPF0002636A:EE_|IA1PR12MB6067:EE_
+X-MS-Office365-Filtering-Correlation-Id: 87185bc8-c921-4ccf-f5b6-08ddc5f188e8
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: BCL:0;
  ARA:13230040|36860700013|82310400026|7416014|376014|1800799024; 
-X-Microsoft-Antispam-Message-Info: =?us-ascii?Q?N7gaRVMlTCFleMXWmxcOhI2h9M7YrxsNQUcMmNU8jZHNYqV5j0eXCRvG2UkV?=
- =?us-ascii?Q?gPnnpnF4fUZIDmWbP/NnNXP6C2/rYQfVcTik6ckStKm4XrJJtK1nXrR76xPw?=
- =?us-ascii?Q?FoLSvTVEiZpJ7/2NGDn2hpPamZGUoMnCvQ58YtT1kyCbued8ErcqUYAUDcKz?=
- =?us-ascii?Q?KFaQqLHri7gZFPRZyUKjWKlGGmyvQ8Hr4lmFq8UGNyClsif1NMUUmmUW/dLP?=
- =?us-ascii?Q?igu4V1qNcNeQwWWZ/1plCNM7ETBUTB+NAM+lNBEOLhqUaEcavnA08tMCzv6O?=
- =?us-ascii?Q?u2O50jl3laPsDpggsWv8cTVArukXOmWPugu1QVVI2rfuhEiBtcsDAe3YKY0Q?=
- =?us-ascii?Q?3EEGisklW8DH2UrTS5hTAusnxEQrDutduFbr67BxgdFm8c+pl0XsmamSF4SQ?=
- =?us-ascii?Q?RQFr4rsSPQ9afagffG3mFGlfhBuMTMaiefCf/Z9jhOSlUNI1cwyYeMZ0zk2M?=
- =?us-ascii?Q?JhIIzj9oDgDva78GUu2BJni0IlcfrACxwXoucpz01zcy3uG36r5mrGmMMLa2?=
- =?us-ascii?Q?9ZfONM3V05BZtPtyKyyrnxOTluUcSA2OOsGrN1PgCRLzuic/H3Pq55h7/AZ3?=
- =?us-ascii?Q?SOwCXuU0sOEw9j8mcpW+YbS6M0/Fyif0oqWizDoYAQ7zNQafbKrN2KHbMOfz?=
- =?us-ascii?Q?b5JeKyqASrLagUFFCNACqmg4Y0bxlgCHRdVFW9pAAqKCg7IW3S7Yz71LP6kx?=
- =?us-ascii?Q?YDrVYWrAtkreodoNSAIeDSapGUmlhza3dPXijVjmepMREJ0S3k5BoRhrvLQ/?=
- =?us-ascii?Q?sPLvpK1gBTkCqfsLnjZHmhQ2tUTVXvHZWZY25G7j0TXSepJZEzXGOo39lOIw?=
- =?us-ascii?Q?Oyfu+KiynHOaJHqiZ64q70TKau24mUvcZzL5DaprDSIF2/9UoBtlGjOGbQI4?=
- =?us-ascii?Q?mNOPvuWUAoNswV1XGcBO0zuoB+VRisszU8I9iQPa03TMcr2odWq9RPn6ytWM?=
- =?us-ascii?Q?GZ9LqHPw4j+KgnO2A4GeBLrDobBKhJ/rDMTvcmvNha3wzs6zFq5ZDmefFjFC?=
- =?us-ascii?Q?MbzPTzBnD/zY6+2cZ9DTbeOFF7l/u/m78VYYs6Cxaw/ZjcfarSTe+/I/r9II?=
- =?us-ascii?Q?VLtnik9vajOBnNXtvVwrHrbLZpvBdvnwCTckv9qAbbcMsTiFFPfaDkqKTf7f?=
- =?us-ascii?Q?phsDn+wBbT0OFgCF4Zei6YAIlmJD/vOXVPpdd8iVqhkBXZhfwavwVW/YXp0e?=
- =?us-ascii?Q?3kj3W8rd7EUw+HEI5+FAqAxJT4N4Cuegm3knwtxhfYWBxmnmGO6q+kTCj6Sn?=
- =?us-ascii?Q?AyhlzvyVFaoGWgR4lrVufWz2RrRFM6Ic3002CHjxSzKckjHRZW45a9RfrPdr?=
- =?us-ascii?Q?O/LCRBauQkREcYDpU1gmiASQDs14eWkr+IlqmJ2xE7RjvpX+hGOJ9wZGvC5Z?=
- =?us-ascii?Q?QqhJlQYfwh4xYh6Kj9uivPLTSdjLpQPiQ0YT5jMOUgLEc2tTAzxiY45OAwQ+?=
- =?us-ascii?Q?agGCXXvHfRWj0evmk6DHpWARpnx6/cQcQkDw4h4XN0q67rKlBwI0RS90FL4Z?=
- =?us-ascii?Q?y7al2nRq/qa4MrqLNTUxv4WH6+kc6owjHscy?=
-X-Forefront-Antispam-Report: CIP:216.228.117.161; CTRY:US; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:mail.nvidia.com; PTR:dc6edge2.nvidia.com; CAT:NONE;
+X-Microsoft-Antispam-Message-Info: =?us-ascii?Q?EdeWmPCW6mtm/NmXF6l8WpR4ewiTc7ynjvgBBkrdLJVQ5w/S3Sy52MxtvE5W?=
+ =?us-ascii?Q?y+4400FGd5lwRW5LjxMXL+wdIV27yDgHfyTzDdI66B/iL8zOiAyQsHa0Avkk?=
+ =?us-ascii?Q?Yo8MvXXCiyQywI9aHCTcaJzbiw4jpnExclUhaZYpi3mypP+JLJ1P9yd2+RDt?=
+ =?us-ascii?Q?2OzEshUeCOvgRCd7MQcxthuDh6IM4U/T3LidNd86UsVXoWc0pw3vkM0JBKpZ?=
+ =?us-ascii?Q?RkPgGQuP60up3b6VVGFlf9jcOCruce8RmnV5lVrz8kobRUYkRfDjcw6QezWD?=
+ =?us-ascii?Q?81bNhxGh6kUTW3AXdjCYK/F8qber+abidTA6vcq4UgWpmVKEIL3Vv7HBX5EO?=
+ =?us-ascii?Q?6/0eWD2CILE8cvJPZu3a+VlRhDF4V7wN5zxK8W/rdF1fRsSSKd+Wxc+vQwxO?=
+ =?us-ascii?Q?4t7wyYJRngLAiPUwkx9CKKH6VKMTn2SzTneIUU+ir6QOWKt+UfIoffSDZ5A2?=
+ =?us-ascii?Q?wOci6ueeQOAyZfttHn0FIwbmJt2qmHsLvVIDWiCzTjQ8qjV7WgPbicL6jO0P?=
+ =?us-ascii?Q?SFaKDjW+ANPh5bcDDN+VieMEWqF5o9B38p3Uyn6YnFGxU9FvAPQNpQxNSCmR?=
+ =?us-ascii?Q?rvdJPidCIafrz3o5APawAai+l/DaBCgmtOaXyJn4jC6Z7jjGONN3Z/HpTy08?=
+ =?us-ascii?Q?f5uPI9Lylw55oM1DNpQkcn3YOmQ8oAkAtiA5fox1rLox85j8VgnGUHAZf/80?=
+ =?us-ascii?Q?cr93VZmxa1WGPX+xmZJM+DajfNVHh6fdopnOrZG9PK9ZfHEganIll2uk9F7t?=
+ =?us-ascii?Q?lEH4RcaamDlw3UNNWdhCAYR1NkjSfh9yHKphaFCGCwCmFHmDndCBADENYuv4?=
+ =?us-ascii?Q?iKkNPByFaUVBa/Lt1bpo7ZkfBYFLnSLIQrNnJaEZh/SLdOWEEZ9pUQdNUybV?=
+ =?us-ascii?Q?NmqAh82n8h/iq0d4eqalMQ4uoVEDxx89A/sy75Z6tCfxodY41CNmjUc/obGN?=
+ =?us-ascii?Q?RmpBuR7JsXth0o6D55Jf0O5WjeK6EcamHTGq6hk3XfqVCDXtFILj0mSlul7h?=
+ =?us-ascii?Q?4dzsgGGNKfBmIVzgar+w4/h9KlboWb5W1dhGHsYLZSjKXRqlSHaxwIoDlgKa?=
+ =?us-ascii?Q?nIeNGEAjpKCgqJTZCa2vMwzo5bEZleEoWApmiJbLNH/lRtHpmCnJBhx6j4Ri?=
+ =?us-ascii?Q?QgWm0e7fcttzcacJ8XuTQ6hNEJWjarrhE7/o+pR/I+fq6K4gULFEBkhi5JZE?=
+ =?us-ascii?Q?h767Z28jh0GMp/ytMoEmKMywHifOjRpVciRHD3kF9GK0/xCcwXmEtWUGcTQ+?=
+ =?us-ascii?Q?eFpCZB+5GJ2fB3r3N4w4CSRnBRrFbxwMih0ay75YbOqYCf2Tz38ElaNM8U2Y?=
+ =?us-ascii?Q?8qIoiMLJahm7uIfckyr5pDzTkORRqmRWCpItqfPgndaFbhXdCv52cHVYwK67?=
+ =?us-ascii?Q?8OBiSv1UAxxfGgNrzUb1BMUsaf/ljEP7DaJtydmsz5PhTL4PIT3uViPFOvRJ?=
+ =?us-ascii?Q?zRap7xtQs4WhlRxauGl1kt1F7BAElzJK8qhtcuYhwlBuzUw67OWSRW/xBeUc?=
+ =?us-ascii?Q?alI/db1NBYFaKFceqsQu1ooJzYhNXs+nynMO?=
+X-Forefront-Antispam-Report: CIP:216.228.117.160; CTRY:US; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:mail.nvidia.com; PTR:dc6edge1.nvidia.com; CAT:NONE;
  SFS:(13230040)(36860700013)(82310400026)(7416014)(376014)(1800799024); DIR:OUT;
  SFP:1101; 
 X-OriginatorOrg: Nvidia.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 18 Jul 2025 11:52:05.6428 (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: 30e3c9f0-552e-4446-0144-08ddc5f1847a
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 18 Jul 2025 11:52:12.9731 (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: 87185bc8-c921-4ccf-f5b6-08ddc5f188e8
 X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=43083d15-7273-40c1-b7db-39efd9ccc17a; Ip=[216.228.117.161];
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=43083d15-7273-40c1-b7db-39efd9ccc17a; Ip=[216.228.117.160];
  Helo=[mail.nvidia.com]
-X-MS-Exchange-CrossTenant-AuthSource: SJ5PEPF00000204.namprd05.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthSource: SN1PEPF0002636A.namprd02.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Anonymous
 X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DS0PR12MB6487
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: IA1PR12MB6067
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -153,153 +152,227 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 From: Yonatan Maman <Ymaman@Nvidia.com>
 
-hmm_range_fault() by default triggered a page fault on device private
-when HMM_PFN_REQ_FAULT flag was set. pages, migrating them to RAM. In some
-cases, such as with RDMA devices, the migration overhead between the
-device (e.g., GPU) and the CPU, and vice-versa, significantly degrades
-performance. Thus, enabling Peer-to-Peer (P2P) DMA access for device
-private page might be crucial for minimizing data transfer overhead.
+Enabling Peer-to-Peer DMA (P2P DMA) access in GPU-centric applications
+is crucial for minimizing data transfer overhead (e.g., for RDMA use-
+case).
 
-Introduced an API to support P2P DMA for device private pages,includes:
- - Leveraging the struct pagemap_ops for P2P Page Callbacks. This callback
-   involves mapping the page for P2P DMA and returning the corresponding
-   PCI_P2P page.
+This change aims to enable that capability for Nouveau over HMM device
+private pages. P2P DMA for private device pages allows the GPU to
+directly exchange data with other devices (e.g., NICs) without needing
+to traverse system RAM.
 
- - Utilizing hmm_range_fault for initializing P2P DMA. The API
-   also adds the HMM_PFN_REQ_TRY_P2P flag option for the
-   hmm_range_fault caller to initialize P2P. If set, hmm_range_fault
-   attempts initializing the P2P connection first, if the owner device
-   supports P2P, using p2p_page. In case of failure or lack of support,
-   hmm_range_fault will continue with the regular flow of migrating the
-   page to RAM.
+To fully support Peer-to-Peer for device private pages, the following
+changes are made:
 
-This change does not affect previous use-cases of hmm_range_fault,
-because both the caller and the page owner must explicitly request and
-support it to initialize P2P connection.
+ - Introduce struct nouveau_dmem_hmm_p2p within struct nouveau_dmem
+   to manage BAR1 PCI P2P memory. p2p_start_addr holds the virtual
+   address allocated with pci_alloc_p2pmem(), and p2p_size represents
+   the allocated size of the PCI P2P memory.
+
+ - nouveau_dmem_init - Ensure BAR1 accessibility and assign struct
+   pages (PCI_P2P_PAGE) for all BAR1 pages. Introduce
+   nouveau_alloc_bar1_pci_p2p_mem in nouveau_dmem to expose BAR1 for
+   use as P2P memory via pci_p2pdma_add_resource and implement static
+   allocation and assignment of struct pages using pci_alloc_p2pmem.
+   This function will be called from nouveau_dmem_init, and failure
+   triggers a warning message instead of driver failure.
+
+ - nouveau_dmem_fini - Ensure BAR1 PCI P2P memory is properly
+   destroyed during driver cleanup. Introduce
+   nouveau_destroy_bar1_pci_p2p_mem to handle freeing of PCI P2P
+   memory associated with Nouveau BAR1. Modify nouveau_dmem_fini to
+   call nouveau_destroy_bar1_pci_p2p_mem.
+
+ - Implement Nouveau `p2p_page` callback function - Implement BAR1
+   mapping for the chunk using `io_mem_reserve` if no mapping exists.
+   Retrieve the pre-allocated P2P virtual address and size from
+   `hmm_p2p`. Calculate the page offset within BAR1 and return the
+   corresponding P2P page.
 
 Signed-off-by: Yonatan Maman <Ymaman@Nvidia.com>
-Signed-off-by: Gal Shalom <GalShalom@Nvidia.com>
+Reviewed-by: Gal Shalom <GalShalom@Nvidia.com>
 ---
- include/linux/hmm.h      |  2 ++
- include/linux/memremap.h |  8 ++++++
- mm/hmm.c                 | 57 +++++++++++++++++++++++++++++++---------
- 3 files changed, 55 insertions(+), 12 deletions(-)
+ drivers/gpu/drm/nouveau/nouveau_dmem.c | 110 +++++++++++++++++++++++++
+ 1 file changed, 110 insertions(+)
 
-diff --git a/include/linux/hmm.h b/include/linux/hmm.h
-index db75ffc949a7..988c98c0edcc 100644
---- a/include/linux/hmm.h
-+++ b/include/linux/hmm.h
-@@ -27,6 +27,7 @@ struct mmu_interval_notifier;
-  * HMM_PFN_P2PDMA_BUS - Bus mapped P2P transfer
-  * HMM_PFN_DMA_MAPPED - Flag preserved on input-to-output transformation
-  *                      to mark that page is already DMA mapped
-+ * HMM_PFN_ALLOW_P2P - Allow returning PCI P2PDMA page
-  *
-  * On input:
-  * 0                 - Return the current state of the page, do not fault it.
-@@ -47,6 +48,7 @@ enum hmm_pfn_flags {
- 	HMM_PFN_DMA_MAPPED = 1UL << (BITS_PER_LONG - 4),
- 	HMM_PFN_P2PDMA     = 1UL << (BITS_PER_LONG - 5),
- 	HMM_PFN_P2PDMA_BUS = 1UL << (BITS_PER_LONG - 6),
-+	HMM_PFN_ALLOW_P2P = 1UL << (BITS_PER_LONG - 7),
- 
- 	HMM_PFN_ORDER_SHIFT = (BITS_PER_LONG - 11),
- 
-diff --git a/include/linux/memremap.h b/include/linux/memremap.h
-index 4aa151914eab..79becc37df00 100644
---- a/include/linux/memremap.h
-+++ b/include/linux/memremap.h
-@@ -89,6 +89,14 @@ struct dev_pagemap_ops {
- 	 */
- 	vm_fault_t (*migrate_to_ram)(struct vm_fault *vmf);
- 
-+	/*
-+	 * Used for private (un-addressable) device memory only. Return a
-+	 * corresponding PFN for a page that can be mapped to device
-+	 * (e.g using dma_map_page)
-+	 */
-+	int (*get_dma_pfn_for_device)(struct page *private_page,
-+				      unsigned long *dma_pfn);
+diff --git a/drivers/gpu/drm/nouveau/nouveau_dmem.c b/drivers/gpu/drm/nouveau/nouveau_dmem.c
+index ca4932a150e3..acac1449d8cb 100644
+--- a/drivers/gpu/drm/nouveau/nouveau_dmem.c
++++ b/drivers/gpu/drm/nouveau/nouveau_dmem.c
+@@ -40,6 +40,9 @@
+ #include <linux/hmm.h>
+ #include <linux/memremap.h>
+ #include <linux/migrate.h>
++#include <linux/pci-p2pdma.h>
++#include <nvkm/core/pci.h>
 +
- 	/*
- 	 * Handle the memory failure happens on a range of pfns.  Notify the
- 	 * processes who are using these pfns, and try to recover the data on
-diff --git a/mm/hmm.c b/mm/hmm.c
-index feac86196a65..089e522b346b 100644
---- a/mm/hmm.c
-+++ b/mm/hmm.c
-@@ -232,6 +232,49 @@ static inline unsigned long pte_to_hmm_pfn_flags(struct hmm_range *range,
- 	return pte_write(pte) ? (HMM_PFN_VALID | HMM_PFN_WRITE) : HMM_PFN_VALID;
+ 
+ /*
+  * FIXME: this is ugly right now we are using TTM to allocate vram and we pin
+@@ -77,9 +80,15 @@ struct nouveau_dmem_migrate {
+ 	struct nouveau_channel *chan;
+ };
+ 
++struct nouveau_dmem_hmm_p2p {
++	size_t p2p_size;
++	void *p2p_start_addr;
++};
++
+ struct nouveau_dmem {
+ 	struct nouveau_drm *drm;
+ 	struct nouveau_dmem_migrate migrate;
++	struct nouveau_dmem_hmm_p2p hmm_p2p;
+ 	struct list_head chunks;
+ 	struct mutex mutex;
+ 	struct page *free_pages;
+@@ -159,6 +168,60 @@ static int nouveau_dmem_copy_one(struct nouveau_drm *drm, struct page *spage,
+ 	return 0;
  }
  
-+static bool hmm_handle_device_private(struct hmm_range *range,
-+				      unsigned long pfn_req_flags,
-+				      swp_entry_t entry,
-+				      unsigned long *hmm_pfn)
++static int nouveau_dmem_bar1_mapping(struct nouveau_bo *nvbo,
++				     unsigned long long *bus_addr)
 +{
-+	struct page *page = pfn_swap_entry_to_page(entry);
-+	struct dev_pagemap *pgmap = page_pgmap(page);
 +	int ret;
++	struct ttm_resource *mem = nvbo->bo.resource;
 +
-+	pfn_req_flags &= range->pfn_flags_mask;
-+	pfn_req_flags |= range->default_flags;
-+
-+	/*
-+	 * Don't fault in device private pages owned by the caller,
-+	 * just report the PFN.
-+	 */
-+	if (pgmap->owner == range->dev_private_owner) {
-+		*hmm_pfn = swp_offset_pfn(entry);
-+		goto found;
++	if (mem->bus.offset) {
++		*bus_addr = mem->bus.offset;
++		return 0;
 +	}
 +
-+	/*
-+	 * P2P for supported pages, and according to caller request
-+	 * translate the private page to the match P2P page if it fails
-+	 * continue with the regular flow
-+	 */
-+	if (pfn_req_flags & HMM_PFN_ALLOW_P2P &&
-+	    pgmap->ops->get_dma_pfn_for_device) {
-+		ret = pgmap->ops->get_dma_pfn_for_device(page, hmm_pfn);
-+		if (!ret)
-+			goto found;
++	if (PFN_UP(nvbo->bo.base.size) > PFN_UP(nvbo->bo.resource->size))
++		return -EINVAL;
 +
-+	}
++	ret = ttm_bo_reserve(&nvbo->bo, false, false, NULL);
++	if (ret)
++		return ret;
 +
-+	return false;
++	ret = nvbo->bo.bdev->funcs->io_mem_reserve(nvbo->bo.bdev, mem);
++	*bus_addr = mem->bus.offset;
 +
-+found:
-+	*hmm_pfn |= HMM_PFN_VALID;
-+	if (is_writable_device_private_entry(entry))
-+		*hmm_pfn |= HMM_PFN_WRITE;
-+	return true;
++	ttm_bo_unreserve(&nvbo->bo);
++	return ret;
 +}
 +
- static int hmm_vma_handle_pte(struct mm_walk *walk, unsigned long addr,
- 			      unsigned long end, pmd_t *pmdp, pte_t *ptep,
- 			      unsigned long *hmm_pfn)
-@@ -255,19 +298,9 @@ static int hmm_vma_handle_pte(struct mm_walk *walk, unsigned long addr,
- 	if (!pte_present(pte)) {
- 		swp_entry_t entry = pte_to_swp_entry(pte);
++static int nouveau_dmem_get_dma_pfn(struct page *private_page,
++				    unsigned long *dma_pfn)
++{
++	int ret;
++	unsigned long long offset_in_chunk;
++	unsigned long long chunk_bus_addr;
++	unsigned long long bar1_base_addr;
++	struct nouveau_drm *drm = page_to_drm(private_page);
++	struct nouveau_bo *nvbo = nouveau_page_to_chunk(private_page)->bo;
++	struct nvkm_device *nv_device = nvxx_device(drm);
++	size_t p2p_size = drm->dmem->hmm_p2p.p2p_size;
++
++	bar1_base_addr = nv_device->func->resource_addr(nv_device, 1);
++	offset_in_chunk =
++		(page_to_pfn(private_page) << PAGE_SHIFT) -
++		nouveau_page_to_chunk(private_page)->pagemap.range.start;
++
++	ret = nouveau_dmem_bar1_mapping(nvbo, &chunk_bus_addr);
++	if (ret)
++		return ret;
++
++	*dma_pfn = chunk_bus_addr + offset_in_chunk;
++	if (!p2p_size || *dma_pfn > bar1_base_addr + p2p_size ||
++	    *dma_pfn < bar1_base_addr)
++		return -ENOMEM;
++
++	return 0;
++}
++
+ static vm_fault_t nouveau_dmem_migrate_to_ram(struct vm_fault *vmf)
+ {
+ 	struct nouveau_drm *drm = page_to_drm(vmf->page);
+@@ -222,6 +285,7 @@ static vm_fault_t nouveau_dmem_migrate_to_ram(struct vm_fault *vmf)
+ static const struct dev_pagemap_ops nouveau_dmem_pagemap_ops = {
+ 	.page_free		= nouveau_dmem_page_free,
+ 	.migrate_to_ram		= nouveau_dmem_migrate_to_ram,
++	.get_dma_pfn_for_device = nouveau_dmem_get_dma_pfn,
+ };
  
--		/*
--		 * Don't fault in device private pages owned by the caller,
--		 * just report the PFN.
--		 */
- 		if (is_device_private_entry(entry) &&
--		    page_pgmap(pfn_swap_entry_to_page(entry))->owner ==
--		    range->dev_private_owner) {
--			cpu_flags = HMM_PFN_VALID;
--			if (is_writable_device_private_entry(entry))
--				cpu_flags |= HMM_PFN_WRITE;
--			new_pfn_flags = swp_offset_pfn(entry) | cpu_flags;
--			goto out;
--		}
-+		    hmm_handle_device_private(range, pfn_req_flags, entry, hmm_pfn))
-+			return 0;
+ static int
+@@ -407,14 +471,31 @@ nouveau_dmem_evict_chunk(struct nouveau_dmem_chunk *chunk)
+ 	kvfree(dma_addrs);
+ }
  
- 		required_fault =
- 			hmm_pte_need_fault(hmm_vma_walk, pfn_req_flags, 0);
++static void nouveau_destroy_bar1_pci_p2p_mem(struct nouveau_drm *drm,
++					     struct pci_dev *pdev,
++					     void *p2p_start_addr,
++					     size_t p2p_size)
++{
++	if (p2p_size)
++		pci_free_p2pmem(pdev, p2p_start_addr, p2p_size);
++
++	NV_INFO(drm, "PCI P2P memory freed(%p)\n", p2p_start_addr);
++}
++
+ void
+ nouveau_dmem_fini(struct nouveau_drm *drm)
+ {
+ 	struct nouveau_dmem_chunk *chunk, *tmp;
++	struct nvkm_device *nv_device = nvxx_device(drm);
+ 
+ 	if (drm->dmem == NULL)
+ 		return;
+ 
++	nouveau_destroy_bar1_pci_p2p_mem(drm,
++					 nv_device->func->pci(nv_device)->pdev,
++					 drm->dmem->hmm_p2p.p2p_start_addr,
++					 drm->dmem->hmm_p2p.p2p_size);
++
+ 	mutex_lock(&drm->dmem->mutex);
+ 
+ 	list_for_each_entry_safe(chunk, tmp, &drm->dmem->chunks, list) {
+@@ -579,10 +660,28 @@ nouveau_dmem_migrate_init(struct nouveau_drm *drm)
+ 	return -ENODEV;
+ }
+ 
++static int nouveau_alloc_bar1_pci_p2p_mem(struct nouveau_drm *drm,
++					  struct pci_dev *pdev, size_t size,
++					  void **pp2p_start_addr)
++{
++	int ret;
++
++	ret = pci_p2pdma_add_resource(pdev, 1, size, 0);
++	if (ret)
++		return ret;
++
++	*pp2p_start_addr = pci_alloc_p2pmem(pdev, size);
++
++	NV_INFO(drm, "PCI P2P memory allocated(%p)\n", *pp2p_start_addr);
++	return 0;
++}
++
+ void
+ nouveau_dmem_init(struct nouveau_drm *drm)
+ {
+ 	int ret;
++	struct nvkm_device *nv_device = nvxx_device(drm);
++	size_t bar1_size;
+ 
+ 	/* This only make sense on PASCAL or newer */
+ 	if (drm->client.device.info.family < NV_DEVICE_INFO_V0_PASCAL)
+@@ -603,6 +702,17 @@ nouveau_dmem_init(struct nouveau_drm *drm)
+ 		kfree(drm->dmem);
+ 		drm->dmem = NULL;
+ 	}
++
++	/* Expose BAR1 for HMM P2P Memory */
++	bar1_size = nv_device->func->resource_size(nv_device, 1);
++	ret = nouveau_alloc_bar1_pci_p2p_mem(drm,
++					     nv_device->func->pci(nv_device)->pdev,
++					     bar1_size,
++					     &drm->dmem->hmm_p2p.p2p_start_addr);
++	drm->dmem->hmm_p2p.p2p_size = (ret) ? 0 : bar1_size;
++	if (ret)
++		NV_WARN(drm,
++			"PCI P2P memory allocation failed, HMM P2P won't be supported\n");
+ }
+ 
+ static unsigned long nouveau_dmem_migrate_copy_one(struct nouveau_drm *drm,
 -- 
 2.34.1
 
