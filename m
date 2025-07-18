@@ -2,64 +2,67 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id D57F8B09DB1
-	for <lists+dri-devel@lfdr.de>; Fri, 18 Jul 2025 10:19:25 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id CA079B09DFA
+	for <lists+dri-devel@lfdr.de>; Fri, 18 Jul 2025 10:30:40 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8C50710E3F5;
-	Fri, 18 Jul 2025 08:19:23 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id CA90910E922;
+	Fri, 18 Jul 2025 08:30:37 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="XqpWhvwX";
+	dkim=fail reason="signature verification failed" (1024-bit key; unprotected) header.d=rock-chips.com header.i=@rock-chips.com header.b="f4elrr2y";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from tor.source.kernel.org (tor.source.kernel.org [172.105.4.254])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5F1EA10E3F5
- for <dri-devel@lists.freedesktop.org>; Fri, 18 Jul 2025 08:19:22 +0000 (UTC)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by tor.source.kernel.org (Postfix) with ESMTP id 7F47F601D3
- for <dri-devel@lists.freedesktop.org>; Fri, 18 Jul 2025 08:19:21 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPS id 36594C4CEF5
- for <dri-devel@lists.freedesktop.org>; Fri, 18 Jul 2025 08:19:21 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1752826761;
- bh=TMCR+AW7rbjE3t71ltT8r8uKebUwike2HN7RH5DQ0d0=;
- h=From:To:Subject:Date:In-Reply-To:References:From;
- b=XqpWhvwXP9NVVlbtnerTS5M5EmDF/UbDXLcyg1Sn3gYSiTDrCSS4Qn6cJdjzYloIP
- XaPTN38cP3hZfbpwlPqUE/L3dG/zmgS3yl1rzDQ5zuuHbG1mRt6TTkzWbILc1A+tl5
- 4sK5PdyWj9+Q83eEPuHQSpdtyV1nDD1txq1f8ECj3N/PyX1xKdjrlO28xN2e9s9KRU
- /Lga9gU2ZLaIrnAEq2Cy/uPpx+WfbZBGQj4LaGanIjer9ffaJdUit3k+UVLNVl/JBG
- DkO2BMwPj1+sYq1b0+er8L/N3Q0ahQNkLzyFzNXPqOzgEqtw16vgxTPf7pDRj87akA
- j/RdrbCQm9kjA==
-Received: by aws-us-west-2-korg-bugzilla-1.web.codeaurora.org (Postfix,
- from userid 48) id 242A5C53BBF; Fri, 18 Jul 2025 08:19:21 +0000 (UTC)
-From: bugzilla-daemon@kernel.org
-To: dri-devel@lists.freedesktop.org
-Subject: [Bug 220339] Use-After-Free in vmw_surface_unref_ioctl() in vmwgfx
- DRM Driver via Stale Surface Handle Dereference
-Date: Fri, 18 Jul 2025 08:19:20 +0000
-X-Bugzilla-Reason: None
-X-Bugzilla-Type: changed
-X-Bugzilla-Watch-Reason: AssignedTo drivers_video-dri@kernel-bugs.osdl.org
-X-Bugzilla-Product: Drivers
-X-Bugzilla-Component: Video(DRI - non Intel)
-X-Bugzilla-Version: 2.5
-X-Bugzilla-Keywords: 
-X-Bugzilla-Severity: normal
-X-Bugzilla-Who: aros@gmx.com
-X-Bugzilla-Status: RESOLVED
-X-Bugzilla-Resolution: WILL_NOT_FIX
-X-Bugzilla-Priority: P3
-X-Bugzilla-Assigned-To: drivers_video-dri@kernel-bugs.osdl.org
-X-Bugzilla-Flags: 
-X-Bugzilla-Changed-Fields: bug_status resolution
-Message-ID: <bug-220339-2300-WoPlr5hlku@https.bugzilla.kernel.org/>
-In-Reply-To: <bug-220339-2300@https.bugzilla.kernel.org/>
-References: <bug-220339-2300@https.bugzilla.kernel.org/>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Bugzilla-URL: https://bugzilla.kernel.org/
-Auto-Submitted: auto-generated
+Received: from mail-m1973187.qiye.163.com (mail-m1973187.qiye.163.com
+ [220.197.31.87])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5A6C110E922
+ for <dri-devel@lists.freedesktop.org>; Fri, 18 Jul 2025 08:30:36 +0000 (UTC)
+Received: from [172.16.12.153]
+ (gy-adaptive-ssl-proxy-2-entmail-virt205.gy.ntes [58.22.7.114])
+ by smtp.qiye.163.com (Hmail) with ESMTP id 1c79131e1;
+ Fri, 18 Jul 2025 16:30:22 +0800 (GMT+08:00)
+Message-ID: <71251cf5-edf9-489f-94db-9eb74791ea54@rock-chips.com>
+Date: Fri, 18 Jul 2025 16:29:42 +0800
 MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2 5/5] arm64: dts: rockchip: rk3399-evb-ind: Add support
+ for DisplayPort
+To: Krzysztof Kozlowski <krzk@kernel.org>, Chaoyi Chen <kernel@airkyi.com>,
+ Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
+ Conor Dooley <conor+dt@kernel.org>, Vinod Koul <vkoul@kernel.org>,
+ Kishon Vijay Abraham I <kishon@kernel.org>, Heiko Stuebner
+ <heiko@sntech.de>, Sandy Huang <hjc@rock-chips.com>,
+ Andy Yan <andy.yan@rock-chips.com>,
+ Yubing Zhang <yubing.zhang@rock-chips.com>,
+ Frank Wang <frank.wang@rock-chips.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+ Amit Sunil Dhamne <amitsd@google.com>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ Dragan Simic <dsimic@manjaro.org>, Johan Jonker <jbx6244@gmail.com>,
+ Diederik de Haas <didi.debian@cknow.org>,
+ Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
+Cc: devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-phy@lists.infradead.org, linux-arm-kernel@lists.infradead.org,
+ linux-rockchip@lists.infradead.org, dri-devel@lists.freedesktop.org
+References: <20250718062619.99-1-kernel@airkyi.com>
+ <20250718062619.99-6-kernel@airkyi.com>
+ <2691a1ca-7325-4129-999d-61d883d1bac4@kernel.org>
+From: Chaoyi Chen <chaoyi.chen@rock-chips.com>
+In-Reply-To: <2691a1ca-7325-4129-999d-61d883d1bac4@kernel.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-HM-Tid: 0a981ca7e66903abkunmc03baa52123841
+X-HM-MType: 1
+X-HM-Spam-Status: e1kfGhgUHx5ZQUpXWQgPGg8OCBgUHx5ZQUlOS1dZFg8aDwILHllBWSg2Ly
+ tZV1koWUFDSUNOT01LS0k3V1ktWUFJV1kPCRoVCBIfWUFZQ08eQlYaHUoZHkNKGkIfSE5WFRQJFh
+ oXVRMBExYaEhckFA4PWVdZGBILWUFZTkNVSUlVTFVKSk9ZV1kWGg8SFR0UWUFZT0tIVUpLSEpPSE
+ xVSktLVUpCS0tZBg++
+DKIM-Signature: a=rsa-sha256;
+ b=f4elrr2yrukBrG0T2pA0xg2Zn1ijyeEtt36iL+JwKtzWgjhTbohQ23NYc1T1ISuHDdevrv8P9aJ3mpWCaVJoFWB7OQROrbmrnQL4wZlgOFRUZWKj+O1waTPK+7R2e25Wvg5cVr54ZTu5LSLmbzlhMbczTTFaqdZiBsqUs8mHr9o=;
+ s=default; c=relaxed/relaxed; d=rock-chips.com; v=1; 
+ bh=3qLZheDap41+YH7RXHcCPq8E9eTIuAxIIHxzGTMVwQE=;
+ h=date:mime-version:subject:message-id:from;
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -75,22 +78,45 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-https://bugzilla.kernel.org/show_bug.cgi?id=3D220339
+Hi Krzysztof,
 
-Artem S. Tashkinov (aros@gmx.com) changed:
+On 2025/7/18 16:14, Krzysztof Kozlowski wrote:
+> On 18/07/2025 08:26, Chaoyi Chen wrote:
+>> +			altmodes {
+>> +				displayport {
+>> +					svid = /bits/ 16 <0xff01>;
+>> +					vdo = <0xffffffff>;
+>> +				};
+>> +			};
+>> +
+>> +			ports {
+>> +				#address-cells = <1>;
+>> +				#size-cells = <0>;
+>> +
+>> +				port@0 {
+>> +					reg = <0>;
+>> +
+>> +					usbc0_orien_sw: endpoint {
+>> +						remote-endpoint = <&tcphy0_orientation_switch>;
+> How did you address feedback given here? I don't see any replies.
 
-           What    |Removed                     |Added
-----------------------------------------------------------------------------
-             Status|NEW                         |RESOLVED
-         Resolution|---                         |WILL_NOT_FIX
+Sorry, I miss it. The port@0 should be used for USB HS. Will fix in v3.
 
---- Comment #1 from Artem S. Tashkinov (aros@gmx.com) ---
-This kernel release is not supported.
 
-Try to reproduce in 6.15.7 or 6.16-rc6 and reopen if needed.
-
---=20
-You may reply to this email to add a comment.
-
-You are receiving this mail because:
-You are watching the assignee of the bug.=
+>
+>> +					};
+>> +				};
+>> +
+>> +				port@1 {
+>> +					reg = <1>;
+>> +
+>> +					dp_mode_sw: endpoint {
+>> +						remote-endpoint = <&tcphy_dp_altmode_switch>;
+>> +					};
+>> +				};
+>
+>
+> Best regards,
+> Krzysztof
+>
+>
