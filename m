@@ -2,67 +2,67 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id EC6A3B0A0C2
-	for <lists+dri-devel@lfdr.de>; Fri, 18 Jul 2025 12:34:06 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 59710B0A0CC
+	for <lists+dri-devel@lfdr.de>; Fri, 18 Jul 2025 12:39:45 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B92DF10E940;
-	Fri, 18 Jul 2025 10:34:04 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D7E0710E947;
+	Fri, 18 Jul 2025 10:39:42 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="LIXgbOrw";
+	dkim=fail reason="signature verification failed" (1024-bit key; unprotected) header.d=rock-chips.com header.i=@rock-chips.com header.b="ZuLZxF+W";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ed1-f54.google.com (mail-ed1-f54.google.com
- [209.85.208.54])
- by gabe.freedesktop.org (Postfix) with ESMTPS id F155110E940
- for <dri-devel@lists.freedesktop.org>; Fri, 18 Jul 2025 10:34:02 +0000 (UTC)
-Received: by mail-ed1-f54.google.com with SMTP id
- 4fb4d7f45d1cf-60707b740a6so2644521a12.0
- for <dri-devel@lists.freedesktop.org>; Fri, 18 Jul 2025 03:34:02 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1752834841; x=1753439641; darn=lists.freedesktop.org;
- h=cc:to:subject:message-id:date:from:mime-version:from:to:cc:subject
- :date:message-id:reply-to;
- bh=2qBzQmRBIh3BDUW1vW6d6WLsqLJRkox9K+h2IOJ36Pw=;
- b=LIXgbOrwGZ+Cri1/zWZA5i99Cm527m30/XHNKfHTz7AZDEYCN9U5xZhWDKnXnQfF5U
- O5soZrAnHg2ATJE2+riBtKJjY3Ts2Zz4TvkN0pBEXpqhOdPNtEAVFGpC9kQZiW1Ioxcu
- 2xpsg1jsjkjxEBisV+wWhCNb7x0EB//vYJ0EChqPZ+BoMep5tTOoLMiUBpm+A60Rcd/z
- Wa3ed0zaAVN+/pD/1JWvX4BCBCek4Kh19ZdHECGvD9o39snsGVdOU0q8VM2wVgaNqM40
- gYq5wbFNBfLgtLwDR6bgjZfhNOynGz0dRefrnXde+UTrfBU7Toz6FTvmljqf+XZPqOuD
- ZcKg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1752834841; x=1753439641;
- h=cc:to:subject:message-id:date:from:mime-version:x-gm-message-state
- :from:to:cc:subject:date:message-id:reply-to;
- bh=2qBzQmRBIh3BDUW1vW6d6WLsqLJRkox9K+h2IOJ36Pw=;
- b=G8MD78RCqmbKRYbmm1+c3CdsZ2ehanbnrAtJ0qqGOVoDuytQkYyuD735QgetGc6Tep
- zmlQmY4FQ3oUyMdMdtU3mXcUPyYyuiCWta0vZwl0XzXLSmeRSOwnfhm3jlHVHDNyQv27
- 7gBvJlJ+QlRC6iTSTakp6GebGslNcA8nl6jjAs/aq7ur1jiu0MHNCGEUwDfXl89+a9/T
- F/ltTpjCNFSYdQoP1vD/7vn9P0B7Gx299tYygjwrSERRViKuZzlKia9sgbdTW953wyAS
- ktuBQ/M18sBlsxAuX7MdLfhC0EQkyAnmHyM7EMQb+AUVG5eo2ZbPTRb5aagv5YWMed7S
- 5P3A==
-X-Gm-Message-State: AOJu0YwZWs2qOiZliKvkovFiN3sGmpfJ1PrqvA75rVwYdPwDPVwF8uR+
- T+7bLDPYukKsJo7d5Gp9xS7wKF4Z31Mhfzer5CH6DIzitdYHsxKE89rOrKj4HYsaEo9Afw+nNmt
- 4n5Cp6fwPdOTcmAKnOOrGI3CVx07oiaY=
-X-Gm-Gg: ASbGncvtNJO/FGySywIkyizLMQfmB0UFEY/Si09M1ppuoMR9e4U1gECgyaBO28AlBY1
- 6prvat+YyryaooqVYsv/ynsydlB7YI4OKWUyDZpv9ijMVW71lrnta7uRxj3fCjpz7uWv8j6XmR5
- d1tqC3PxvJfpXrSjyObqPuzt/7jKh+KjpyyP88HMbfYXFWjJED7Dq+Fqa2NFtNOoW8Q7lQ/6QcN
- XIGOA==
-X-Google-Smtp-Source: AGHT+IG2UzroybGbjxMAlDl+usjSPFuJ7OORDuvOW1+VPzbf93etkJSI7Wt8vOuBB4n18PT3HeNRfnA/8mQpbZ7TJ1A=
-X-Received: by 2002:a17:907:3e9c:b0:ae3:c968:370 with SMTP id
- a640c23a62f3a-ae9ce1e8c11mr801676266b.59.1752834841039; Fri, 18 Jul 2025
- 03:34:01 -0700 (PDT)
+Received: from mail-m49238.qiye.163.com (mail-m49238.qiye.163.com
+ [45.254.49.238])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7652910E947
+ for <dri-devel@lists.freedesktop.org>; Fri, 18 Jul 2025 10:39:41 +0000 (UTC)
+Received: from [172.16.12.153]
+ (gy-adaptive-ssl-proxy-3-entmail-virt135.gy.ntes [58.22.7.114])
+ by smtp.qiye.163.com (Hmail) with ESMTP id 1c7e0c39a;
+ Fri, 18 Jul 2025 18:39:28 +0800 (GMT+08:00)
+Message-ID: <45c9eaa6-6ad0-4364-b5f8-b56aa3c44f69@rock-chips.com>
+Date: Fri, 18 Jul 2025 18:39:28 +0800
 MIME-Version: 1.0
-From: Dave Airlie <airlied@gmail.com>
-Date: Fri, 18 Jul 2025 20:33:49 +1000
-X-Gm-Features: Ac12FXxPoz0a_9s4aNvXMBUDtxzj332uUJx2lcLhSuVeOysV_Ak0Yc-0WKNLnIg
-Message-ID: <CAPM=9tzJPpV89V934YdOO=i1gEVwx9NOMV+w8+hqRgDLk+6L+A@mail.gmail.com>
-Subject: [git pull] drm fixes for 6.16-rc7
-To: Linus Torvalds <torvalds@linux-foundation.org>,
- Simona Vetter <simona@ffwll.ch>
-Cc: dri-devel <dri-devel@lists.freedesktop.org>,
- LKML <linux-kernel@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2 1/5] dt-bindings: phy: rockchip: rk3399-typec-phy:
+ Support mode-switch
+To: Krzysztof Kozlowski <krzk@kernel.org>, Chaoyi Chen <kernel@airkyi.com>
+Cc: Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
+ Conor Dooley <conor+dt@kernel.org>, Vinod Koul <vkoul@kernel.org>,
+ Kishon Vijay Abraham I <kishon@kernel.org>, Heiko Stuebner
+ <heiko@sntech.de>, Sandy Huang <hjc@rock-chips.com>,
+ Andy Yan <andy.yan@rock-chips.com>,
+ Yubing Zhang <yubing.zhang@rock-chips.com>,
+ Frank Wang <frank.wang@rock-chips.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+ Amit Sunil Dhamne <amitsd@google.com>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ Dragan Simic <dsimic@manjaro.org>, Johan Jonker <jbx6244@gmail.com>,
+ Diederik de Haas <didi.debian@cknow.org>,
+ Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>,
+ devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-phy@lists.infradead.org, linux-arm-kernel@lists.infradead.org,
+ linux-rockchip@lists.infradead.org, dri-devel@lists.freedesktop.org
+References: <20250718062619.99-1-kernel@airkyi.com>
+ <20250718062619.99-2-kernel@airkyi.com>
+ <20250718-psychedelic-panda-of-defiance-ef6aac@kuoka>
+From: Chaoyi Chen <chaoyi.chen@rock-chips.com>
+In-Reply-To: <20250718-psychedelic-panda-of-defiance-ef6aac@kuoka>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-HM-Tid: 0a981d1e190003abkunm7ec24102152465
+X-HM-MType: 1
+X-HM-Spam-Status: e1kfGhgUHx5ZQUpXWQgPGg8OCBgUHx5ZQUlOS1dZFg8aDwILHllBWSg2Ly
+ tZV1koWUFDSUNOT01LS0k3V1ktWUFJV1kPCRoVCBIfWUFZGkNLGVZMTEseS08eHR9IQ0pWFRQJFh
+ oXVRMBExYaEhckFA4PWVdZGBILWUFZTkNVSUlVTFVKSk9ZV1kWGg8SFR0UWUFZT0tIVUpLSEpPSE
+ xVSktLVUpCS0tZBg++
+DKIM-Signature: a=rsa-sha256;
+ b=ZuLZxF+WTFuWApXhP8dJJ5vNLXac2B6ezKmHuKb2coSmmtZwD9oTwpU+21pr6ArbSjEit/L7TtYifgkka1DZNyUpAbFrB1qW0xRuOXbzluQkT5jfXNwcCUszbsRGex/72Cs9IS1/qGQeBzD2IywmuWZwF7+3WYhnThas02obWKs=;
+ s=default; c=relaxed/relaxed; d=rock-chips.com; v=1; 
+ bh=zmzQ+FhY/AiTq0leos07zT40/sgCDe3I6hdGUfeDUWc=;
+ h=date:mime-version:subject:message-id:from;
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -78,184 +78,46 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Linus,
+Hi Krzysztof,
 
-Thanks to Simona for taking over the fixes duties last week, it seems
-like I missed a fun week of regression hunting!
+On 2025/7/18 16:10, Krzysztof Kozlowski wrote:
+> On Fri, Jul 18, 2025 at 02:26:15PM +0800, Chaoyi Chen wrote:
+>> From: Chaoyi Chen <chaoyi.chen@rock-chips.com>
+>>
+>> The RK3399 has two USB/DP combo PHY. With the help of external Type-C
+>> controller, the PHY can switch altmode between USB and DP.
+>>
+>> Their connection diagram is shown below:
+>>
+>> external Type-C Chip0 ---> USB/DP PHY0 ---+
+>>                                            | <----> CDN-DP controller
+>> external Type-C Chip1 ---> USB/DP PHY1 ---+
+> It looks like your "external" controller is not described. Look at your
+> port property - "Connection to USB Type-C connector". Lack of proper
+> hardware description leads you to claim that the PHY is the mode switch.
+> I have doubts on that.
+>
+> You already received the comments that you need to come with rationale
+> why making PHY a USB switch is correct. I don't see the arguments for
+> that.
 
-Seems like a quiet enough week, xe/amdgpu being the usual suspects,
-then mediatek with a few fixes, and otherwise just misc other bits.
+Sorry, I didn't get your point before. Now let me clear it up.
 
-Dave.
+The RK3399 USB/DP commbo PHY support  change it's pin mapping, this 
+means that we can implement the function of typec switch by changing the 
+pin mapping through software configuration. In addition, DP lane can be 
+configured for PHYs via software. Therefore, both mode-switch and 
+orientation-switch are actually performed by the PHY itself, rather than 
+by an external Type-C controller chip. The external chip is only used to 
+report PD events.
 
-drm-fixes-2025-07-18-1:
-drm fixes for 6.16-rc7
+Besides RK3399, RK3576/RK3588 also integrate these capabilities in their 
+USB/DP PHY, with both mode-switch and orientation-switch handled by the 
+PHY[0] .
 
-dp:
-- aux dpcd address fix
+Thanks for pointing this out. I'll add more detail in v3.
 
-xe:
-- SR-IOV fixes for GT reset and TLB invalidation
-- Fix memory copy direction during migration
-- Fix alignment check on migration
-- Fix MOCS and page fault init order to correctly
-  account for topology
 
-amdgpu:
-- Fix a DC memory leak
-- DCN 4.0.1 degamma LUT fix
-- Fix reset counter handling for soft recovery
-- GC 8 fix
+[0]: 
+https://elixir.bootlin.com/linux/v6.15.6/source/drivers/phy/rockchip/phy-rockchip-usbdp.c#L693
 
-radeon:
-- Drop console locks when suspending/resuming
-
-nouveau:
-- ioctl validation fix
-
-panfrost:
-- scheduler bug fix
-
-mediatek:
-- Add wait_event_timeout when disabling plane
-- only announce AFBC if really supported
-- mtk_dpi: Reorder output formats on MT8195/88
-The following changes since commit 347e9f5043c89695b01e66b3ed111755afcf1911:
-
-  Linux 6.16-rc6 (2025-07-13 14:25:58 -0700)
-
-are available in the Git repository at:
-
-  https://gitlab.freedesktop.org/drm/kernel.git tags/drm-fixes-2025-07-18-1
-
-for you to fetch changes up to 4d33ed640ffc06734271cebda5ac2e3b5a79f453:
-
-  Merge tag 'drm-xe-fixes-2025-07-17' of
-https://gitlab.freedesktop.org/drm/xe/kernel into drm-fixes
-(2025-07-18 14:04:06 +1000)
-
-----------------------------------------------------------------
-drm fixes for 6.16-rc7
-
-dp:
-- aux dpcd address fix
-
-xe:
-- SR-IOV fixes for GT reset and TLB invalidation
-- Fix memory copy direction during migration
-- Fix alignment check on migration
-- Fix MOCS and page fault init order to correctly
-  account for topology
-
-amdgpu:
-- Fix a DC memory leak
-- DCN 4.0.1 degamma LUT fix
-- Fix reset counter handling for soft recovery
-- GC 8 fix
-
-radeon:
-- Drop console locks when suspending/resuming
-
-nouveau:
-- ioctl validation fix
-
-panfrost:
-- scheduler bug fix
-
-mediatek:
-- Add wait_event_timeout when disabling plane
-- only announce AFBC if really supported
-- mtk_dpi: Reorder output formats on MT8195/88
-
-----------------------------------------------------------------
-Arnd Bergmann (1):
-      drm/nouveau: check ioctl command codes better
-
-Balasubramani Vivekanandan (1):
-      drm/xe/mocs: Initialize MOCS index early
-
-Clayton King (1):
-      drm/amd/display: Free memory allocation
-
-Dave Airlie (5):
-      Merge tag 'drm-misc-fixes-2025-07-16' of
-https://gitlab.freedesktop.org/drm/misc/kernel into drm-fixes
-      Merge tag 'drm-intel-fixes-2025-07-17' of
-https://gitlab.freedesktop.org/drm/i915/kernel into drm-fixes
-      Merge tag 'amd-drm-fixes-6.16-2025-07-17' of
-https://gitlab.freedesktop.org/agd5f/linux into drm-fixes
-      Merge tag 'mediatek-drm-fixes-20250718' of
-https://git.kernel.org/pub/scm/linux/kernel/git/chunkuang.hu/linux
-into drm-fixes
-      Merge tag 'drm-xe-fixes-2025-07-17' of
-https://gitlab.freedesktop.org/drm/xe/kernel into drm-fixes
-
-Eeli Haapalainen (1):
-      drm/amdgpu/gfx8: reset compute ring wptr on the GPU on resume
-
-Icenowy Zheng (1):
-      drm/mediatek: only announce AFBC if really supported
-
-Imre Deak (1):
-      drm/dp: Change AUX DPCD probe address from LANE0_1_STATUS to
-TRAINING_PATTERN_SET
-
-Jason-JH Lin (1):
-      drm/mediatek: Add wait_event_timeout when disabling plane
-
-Lijo Lazar (1):
-      drm/amdgpu: Increase reset counter only on success
-
-Louis-Alexis Eyraud (1):
-      drm/mediatek: mtk_dpi: Reorder output formats on MT8195/88
-
-Lucas De Marchi (1):
-      drm/xe/migrate: Fix alignment check
-
-Matthew Auld (1):
-      drm/xe/migrate: fix copy direction in access_memory
-
-Matthew Brost (1):
-      drm/xe: Move page fault init after topology init
-
-Melissa Wen (1):
-      drm/amd/display: Disable CRTC degamma LUT for DCN401
-
-Michal Wajdeczko (2):
-      drm/xe/pf: Prepare to stop SR-IOV support prior GT reset
-      drm/xe/pf: Resend PF provisioning after GT reset
-
-Philipp Stanner (1):
-      drm/panfrost: Fix scheduler workqueue bug
-
-Tejas Upadhyay (1):
-      drm/xe: Dont skip TLB invalidations on VF
-
-Thomas Zimmermann (2):
-      drm/radeon: Do not hold console lock while suspending clients
-      drm/radeon: Do not hold console lock during resume
-
- drivers/gpu/drm/amd/amdgpu/amdgpu_ring.c           |  9 ++++--
- drivers/gpu/drm/amd/amdgpu/gfx_v8_0.c              |  1 +
- .../gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_crtc.c | 11 ++++++-
- .../amd/display/dc/clk_mgr/dcn401/dcn401_clk_mgr.c |  3 +-
- drivers/gpu/drm/display/drm_dp_helper.c            |  2 +-
- drivers/gpu/drm/mediatek/mtk_crtc.c                | 36 +++++++++++++++++++++-
- drivers/gpu/drm/mediatek/mtk_crtc.h                |  1 +
- drivers/gpu/drm/mediatek/mtk_ddp_comp.c            |  1 +
- drivers/gpu/drm/mediatek/mtk_ddp_comp.h            |  9 ++++++
- drivers/gpu/drm/mediatek/mtk_disp_drv.h            |  1 +
- drivers/gpu/drm/mediatek/mtk_disp_ovl.c            |  7 +++++
- drivers/gpu/drm/mediatek/mtk_dpi.c                 |  4 +--
- drivers/gpu/drm/mediatek/mtk_plane.c               | 12 ++++++--
- drivers/gpu/drm/mediatek/mtk_plane.h               |  3 +-
- drivers/gpu/drm/nouveau/nouveau_drm.c              | 11 +++----
- drivers/gpu/drm/panfrost/panfrost_job.c            |  2 +-
- drivers/gpu/drm/radeon/radeon_device.c             | 23 ++++----------
- drivers/gpu/drm/xe/xe_gt.c                         | 15 +++++----
- drivers/gpu/drm/xe/xe_gt_sriov_pf.c                | 19 ++++++++++++
- drivers/gpu/drm/xe/xe_gt_sriov_pf.h                |  5 +++
- drivers/gpu/drm/xe/xe_gt_sriov_pf_config.c         | 27 ++++++++++++++++
- drivers/gpu/drm/xe/xe_migrate.c                    |  6 ++--
- drivers/gpu/drm/xe/xe_ring_ops.c                   | 22 ++++++-------
- 23 files changed, 174 insertions(+), 56 deletions(-)
