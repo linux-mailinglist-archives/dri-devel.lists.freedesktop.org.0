@@ -2,87 +2,50 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 24AB9B0A9E0
-	for <lists+dri-devel@lfdr.de>; Fri, 18 Jul 2025 19:57:46 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7AA0BB0A9E8
+	for <lists+dri-devel@lfdr.de>; Fri, 18 Jul 2025 20:02:16 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 26F7810EA2A;
-	Fri, 18 Jul 2025 17:57:20 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9257410EA2C;
+	Fri, 18 Jul 2025 18:02:13 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=google.com header.i=@google.com header.b="z43EccIG";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="snR7cUWK";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pl1-f169.google.com (mail-pl1-f169.google.com
- [209.85.214.169])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9773310EA2A
- for <dri-devel@lists.freedesktop.org>; Fri, 18 Jul 2025 17:57:19 +0000 (UTC)
-Received: by mail-pl1-f169.google.com with SMTP id
- d9443c01a7336-235e389599fso22035ad.0
- for <dri-devel@lists.freedesktop.org>; Fri, 18 Jul 2025 10:57:19 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=google.com; s=20230601; t=1752861439; x=1753466239;
- darn=lists.freedesktop.org; 
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc:subject:date
- :message-id:reply-to;
- bh=fQwq6XL4XMMDUVPyAAts9uHNc3Wh3Ah7TMpl+x8VXU4=;
- b=z43EccIG2lRK9j1LP1nZmdFBxXoPGUnzbBry4agKBKx10LQ+ni1bzFBVlagILBwbHs
- TMfvSDloojsr+jxI8YwNQMLuN1uP2mzAQ+dhPPQiZqhtOj81C7yFuXZIcNYKFF8ggxaU
- uk76sANW7Cq5xFjUWv1c4Z2osdeES8nyS44hu2R41ROLMZOhAtPjc6gX2SxUvpDd1xmS
- nr8nBEfKxiV2pPQ1doZRzGmYGsEz/9gU2YYvuXYihPfKS3mrlqzz6ECLiYSR1Shu6wHN
- cC1XAIBpbMBo2M09yonP0zhs1xTRIcS41UKIkK38EzdsAFdyU52qGmbhVBoCd9Y+irzo
- GxcA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1752861439; x=1753466239;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=fQwq6XL4XMMDUVPyAAts9uHNc3Wh3Ah7TMpl+x8VXU4=;
- b=KE9JT7yr98H+kb5DsmDJBhyE+a8HnQkAPU748maTJZ/AzZj0L8nu9caqDbvImyycpq
- Uk3Spt6uGIRpapsa2c2oGk1wYX6PfFKOnmeMlYuMi2vqY1dYb/xLnAufgKOWpL5wDn6X
- 1Ifj4MP6OruXrV14ME7KsqJWlUYZNrEQ5zNUnqPpKycxiYkIahKkZzAIrWU1IO4vA3Eh
- Wh1HhbPKWwH5IZwd6ZL6N2ZCdfFjAnwrRRgh4B6FZgxgicslk5Q7gPQN4sfkSNNEqjlj
- f9vaJAQtiO8GGh7QZAKhEIC+F1WRF05uwfn7LO7SKCnWvNxFdry56NOiSDC2H4njOgAr
- jEag==
-X-Forwarded-Encrypted: i=1;
- AJvYcCVIRjoCrC4QKzqBga7QD3M37Nbkx/EJC43qZ2WYdlYRMF7qvoTFDuPMn2MA0lmIxcOsdtE9nsd93BE=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0Yy/vn6js9g/yKffV4JfmEn6BYiZ16pz2QVZIdHWab2lcbywycr7
- 6+ipCQo60WB/wZYNcz5qpn+7F/wRQeIKZUpznEMlroio5uN1kJtDgv2DMfNYP40u0ILaqz/dXoD
- 45N87SrVS85gDKH6jCRlQfk/9nPmpTgQxojhf6m8g
-X-Gm-Gg: ASbGncvJLj3XZjkKevKzCTXwSxO8Ho7pBFtt97eqkHMjVfQcLmZ0KFRqU88QUQa4n8K
- QqkBUn0E/r6FDCY+Sz7vhH9HQFV6eF5KmPIy++0Xia5o+JWY8Je6f6Z0o0y3f92r1ZMmDs7OQg6
- GpLHlPiHTdcWCWjp33RvlcDLbuLSYBKl5JDAIOsQj/3y2DXnY3owQfOCy+aBXh5HjuxKfrLhsOl
- MinCA==
-X-Google-Smtp-Source: AGHT+IFB7mRsL16wpHPWottVi1OKrwf75zBs0DCPDQD+QRajm4wHJjRQeKVuBUPTfJF/u36oAJXSpzv3mDvRuLFSvUg=
-X-Received: by 2002:a17:902:e845:b0:231:d0ef:e8ff with SMTP id
- d9443c01a7336-23f71cf6272mr147495ad.8.1752861438668; Fri, 18 Jul 2025
- 10:57:18 -0700 (PDT)
+Received: from tor.source.kernel.org (tor.source.kernel.org [172.105.4.254])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1403910EA2C;
+ Fri, 18 Jul 2025 18:02:13 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+ by tor.source.kernel.org (Postfix) with ESMTP id 3190C601E4;
+ Fri, 18 Jul 2025 18:02:12 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 31649C4CEEB;
+ Fri, 18 Jul 2025 18:02:11 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1752861731;
+ bh=9gbDS2Rr9beCpsYg25XZUXXeDJsoQe1hI6qfRj03xus=;
+ h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+ b=snR7cUWK/mqnhvQntZ/tEA5j4RKRYBInG83M9tPbAwqIuBSXNHoDv0e0Aoq8mmoUw
+ LBbayIbOIoYIcbahBGFTMGVJ5+62EBIcn41us9JyWav1fTPyvRTX1KS6GvgdUOkB78
+ PxbJ+S0NK+b52SYQNj8plmCRWyjTPKR90k1RN3JI+Jp5S0SVhS8EwK6C5zL5xbyTPc
+ 1SGWNHM3KQ8kOLkGNihvGocduq4zvMkiEuq0h7u4wFmQa5xZU6BssAN7yvLqh/+5C0
+ PGy2JINjp/UZ+En3shWkr8cc0zVWaLBPCPJcO6i2TQ0VvEu4ypDjXGrK3cYeGIN6EA
+ yRdmRJVw0uEQw==
+Message-ID: <1c64c181-4e96-4274-975b-454f7207af92@kernel.org>
+Date: Fri, 18 Jul 2025 13:02:09 -0500
 MIME-Version: 1.0
-References: <20250716161753.231145-1-bgeffon@google.com>
- <CADnq5_P+a2g_YzKW7S4YSF5kQgXe+PNrMKEOAHuf9yhFg98pSQ@mail.gmail.com>
- <CADyq12zB7+opz0vUgyAQSdbHcYMwbZrZp+qxKdYcqaeCeRVbCw@mail.gmail.com>
- <CADnq5_OeTJqzg0DgV06b-u_AmgaqXL5XWdQ6h40zcgGj1mCE_A@mail.gmail.com>
- <CADyq12ysC9C2tsQ3GrQJB3x6aZPzM1o8pyTW8z4bxjGPsfEZvw@mail.gmail.com>
- <CADnq5_PnktmP+0Hw0T04VkrkKoF_TGz5HOzRd1UZq6XOE0Rm1g@mail.gmail.com>
-In-Reply-To: <CADnq5_PnktmP+0Hw0T04VkrkKoF_TGz5HOzRd1UZq6XOE0Rm1g@mail.gmail.com>
-From: Brian Geffon <bgeffon@google.com>
-Date: Fri, 18 Jul 2025 13:56:42 -0400
-X-Gm-Features: Ac12FXy1d35S96EobB812Shedx-VhbSYaFw_UhX7goQUz4ANBgmd9GU0nbH0gb8
-Message-ID: <CADyq12x1f0VLjHKWEmfmis8oLncqSWxeTGs5wL0Xj2hua+onOQ@mail.gmail.com>
-Subject: Re: [PATCH] drm/amdgpu: Raven: don't allow mixing GTT and VRAM
-To: Alex Deucher <alexdeucher@gmail.com>
-Cc: "Wentland, Harry" <Harry.Wentland@amd.com>,
- "Leo (Sunpeng) Li" <Sunpeng.Li@amd.com>, 
- Alex Deucher <alexander.deucher@amd.com>, christian.koenig@amd.com, 
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, 
- Tvrtko Ursulin <tvrtko.ursulin@igalia.com>, Yunxiang Li <Yunxiang.Li@amd.com>, 
- Lijo Lazar <lijo.lazar@amd.com>, Prike Liang <Prike.Liang@amd.com>, 
- Pratap Nirujogi <pratap.nirujogi@amd.com>, Luben Tuikov <luben.tuikov@amd.com>,
- amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org, 
- linux-kernel@vger.kernel.org, Garrick Evans <garrick@google.com>, 
- Thadeu Lima de Souza Cascardo <cascardo@igalia.com>, stable@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+User-Agent: Mozilla Thunderbird
+Subject: Re: Regression: DDC I2C Display Freezing for internal displays
+To: Felix Richter <judge@felixrichter.tech>,
+ Harry Wentland <harry.wentland@amd.com>, Leo Li <sunpeng.li@amd.com>
+Cc: Linux regressions mailing list <regressions@lists.linux.dev>,
+ amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org, jonas@3j14.de
+References: <0863bc3e-7364-4572-bb72-fc85657cbad7@felixrichter.tech>
+ <d9706fe0-7965-457d-830e-19f9aafee855@felixrichter.tech>
+Content-Language: en-US
+From: Mario Limonciello <superm1@kernel.org>
+In-Reply-To: <d9706fe0-7965-457d-830e-19f9aafee855@felixrichter.tech>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -98,161 +61,136 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, Jul 17, 2025 at 10:59=E2=80=AFAM Alex Deucher <alexdeucher@gmail.co=
-m> wrote:
->
-> On Wed, Jul 16, 2025 at 8:13=E2=80=AFPM Brian Geffon <bgeffon@google.com>=
- wrote:
-> >
-> > On Wed, Jul 16, 2025 at 5:03=E2=80=AFPM Alex Deucher <alexdeucher@gmail=
-.com> wrote:
-> > >
-> > > On Wed, Jul 16, 2025 at 12:40=E2=80=AFPM Brian Geffon <bgeffon@google=
-.com> wrote:
-> > > >
-> > > > On Wed, Jul 16, 2025 at 12:33=E2=80=AFPM Alex Deucher <alexdeucher@=
-gmail.com> wrote:
-> > > > >
-> > > > > On Wed, Jul 16, 2025 at 12:18=E2=80=AFPM Brian Geffon <bgeffon@go=
-ogle.com> wrote:
-> > > > > >
-> > > > > > Commit 81d0bcf99009 ("drm/amdgpu: make display pinning more fle=
-xible (v2)")
-> > > > > > allowed for newer ASICs to mix GTT and VRAM, this change also n=
-oted that
-> > > > > > some older boards, such as Stoney and Carrizo do not support th=
-is.
-> > > > > > It appears that at least one additional ASIC does not support t=
-his which
-> > > > > > is Raven.
-> > > > > >
-> > > > > > We observed this issue when migrating a device from a 5.4 to 6.=
-6 kernel
-> > > > > > and have confirmed that Raven also needs to be excluded from mi=
-xing GTT
-> > > > > > and VRAM.
-> > > > >
-> > > > > Can you elaborate a bit on what the problem is?  For carrizo and
-> > > > > stoney this is a hardware limitation (all display buffers need to=
- be
-> > > > > in GTT or VRAM, but not both).  Raven and newer don't have this
-> > > > > limitation and we tested raven pretty extensively at the time.
-> > > >
-> > > > Thanks for taking the time to look. We have automated testing and a
-> > > > few igt gpu tools tests failed and after debugging we found that
-> > > > commit 81d0bcf99009 is what introduced the failures on this hardwar=
-e
-> > > > on 6.1+ kernels. The specific tests that fail are kms_async_flips a=
-nd
-> > > > kms_plane_alpha_blend, excluding Raven from this sharing of GTT and
-> > > > VRAM buffers resolves the issue.
-> > >
-> > > + Harry and Leo
-> > >
-> > > This sounds like the memory placement issue we discussed last week.
-> > > In that case, the issue is related to where the buffer ends up when w=
-e
-> > > try to do an async flip.  In that case, we can't do an async flip
-> > > without a full modeset if the buffers locations are different than th=
-e
-> > > last modeset because we need to update more than just the buffer base
-> > > addresses.  This change works around that limitation by always forcin=
-g
-> > > display buffers into VRAM or GTT.  Adding raven to this case may fix
-> > > those tests but will make the overall experience worse because we'll
-> > > end up effectively not being able to not fully utilize both gtt and
-> > > vram for display which would reintroduce all of the problems fixed by
-> > > 81d0bcf99009 ("drm/amdgpu: make display pinning more flexible (v2)").
-> >
-> > Thanks Alex, the thing is, we only observe this on Raven boards, why
-> > would Raven only be impacted by this? It would seem that all devices
-> > would have this issue, no? Also, I'm not familiar with how
->
-> It depends on memory pressure and available memory in each pool.
-> E.g., initially the display buffer is in VRAM when the initial mode
-> set happens.  The watermarks, etc. are set for that scenario.  One of
-> the next frames ends up in a pool different than the original.  Now
-> the buffer is in GTT.  The async flip interface does a fast validation
-> to try and flip as soon as possible, but that validation fails because
-> the watermarks need to be updated which requires a full modeset.
->
-> It's tricky to fix because you don't want to use the worst case
-> watermarks all the time because that will limit the number available
-> display options and you don't want to force everything to a particular
-> memory pool because that will limit the amount of memory that can be
-> used for display (which is what the patch in question fixed).  Ideally
-> the caller would do a test commit before the page flip to determine
-> whether or not it would succeed before issuing it and then we'd have
-> some feedback mechanism to tell the caller that the commit would fail
-> due to buffer placement so it would do a full modeset instead.  We
-> discussed this feedback mechanism last week at the display hackfest.
->
->
-> > kms_plane_alpha_blend works, but does this also support that test
-> > failing as the cause?
->
-> That may be related.  I'm not too familiar with that test either, but
-> Leo or Harry can provide some guidance.
->
-> Alex
+On 7/17/2025 2:42 PM, Felix Richter wrote:
+> Hi,
+> 
+> just tested that this Bug still exists in kernel version 6.16-rc6. The 
+> example trigger from my previous mail still works triggering screen 
+> freezing shortly after invocation.
+> 
+> I also learned that setting kernel param `amdgpu.dcdebugmask=0x10` works 
+> as a workaround.
+> 
+> Kind regards,
+> Felix Richter
+> 
+> On 4/22/25 21:44, Felix Richter wrote:
+>> Hi,
+>>
+>> it has been quite at while since I first started experiencing this 
+>> particular bug I am about to describe. Suffice it to say during my 
+>> Easter holiday I finally had the time to dig into it. It all started 
+>> with an update of linux LTS from 6.6 to 6.12.
+>>
+>> I am a user of the sway tiling window manager and have written a small 
+>> utility to manage my display configuration across different setups. 
+>> With the added twist that I wrote some code to determine which monitor 
+>> inputs is currently in use using the monitor command interface. Anyway 
+>> the interesting detail here is that, starting with kernel 6.12 I 
+>> started running into the following problem. With my display management 
+>> daemon running and attaching my Laptop to an external display my 
+>> internal display would just freeze with no way to bring it back apart 
+>> from power cycling the entire device. When my management daemon was 
+>> not running this would not happen, I would then need to manually 
+>> configure my display setup. Further investigation into the what is 
+>> triggering the display freeze lead me into the part of the code where 
+>> I am enumerating attached displays and am trying to match `i2c` 
+>> devices to their corresponding display.
+>>
+>> To get more specific the procedure is as follows, using udev enumerate 
+>> all `i2c` busses and filter them base on some heuristics like device 
+>> name and devices with parent devices drm / graphics device. Sadly this 
+>> is not quite enough to already match an `i2c` command interface to the 
+>> corresponding monitor, in many cases it is required to manually read 
+>> the EDID information via the i2c interface and compare it to the known 
+>> attached displays to get the match. And this is where the trigger for 
+>> the display freeze is to be found.
+>>
+>> Here is the output when scanning sysfs for my internal laptop display:
+>> ```
+>> # ls -al /sys/devices/pci0000:00/0000:00:08.1/0000:04:00.0/drm/card1/ 
+>> card1-eDP-1
+>> total 0
+>> drwxr-xr-x  6 root root    0 22. Apr 18:07 .
+>> drwxr-xr-x 11 root root    0 22. Apr 18:07 ..
+>> drwxr-xr-x  3 root root    0 22. Apr 18:07 amdgpu_bl1
+>> -r--r--r--  1 root root 4096 22. Apr 18:07 connector_id
+>> lrwxrwxrwx  1 root root    0 22. Apr 18:07 ddc -> ../../../i2c-3
+>> lrwxrwxrwx  1 root root    0 22. Apr 18:07 device -> ../../card1
+>> -r--r--r--  1 root root 4096 22. Apr 18:07 dpms
+>> drwxr-xr-x  3 root root    0 22. Apr 18:07 drm_dp_aux0
+>> -r--r--r--  1 root root    0 22. Apr 18:07 edid
+>> -r--r--r--  1 root root 4096 22. Apr 18:07 enabled
+>> drwxr-xr-x  4 root root    0 22. Apr 18:07 i2c-11
+>> -r--r--r--  1 root root 4096 22. Apr 18:07 modes
+>> drwxr-xr-x  2 root root    0 22. Apr 18:07 power
+>> -rw-r--r--  1 root root 4096 22. Apr 18:07 status
+>> lrwxrwxrwx  1 root root    0 22. Apr 18:07 subsystem - 
+>> > ../../../../../../../class/drm
+>> -rw-r--r--  1 root root 4096 22. Apr 18:07 uevent
+>> ```
+>>
+>> As can be seen there are two i2c devices present, i2c-3 (as ddc 
+>> symlink) and i2c-11. Now from the perspective of udev i2c-11 has the 
+>> parent set to card1-eDP-1 while i2c-3 has the parent set to the drm 
+>> device itself. More importantly I can not rule out i2c-3 as a valid 
+>> command interface because in some cases valid command channels are 
+>> never assigned to the corresponding display output directly but only 
+>> live directly on the drm device, this is especially true when monitors 
+>> are not attached directly but via a docking station. So I do have to 
+>> look at each i2c device on its own. The freeze is trigged by trying to 
+>> read edid from i2c-3: This is the code snipped I used to trigger the 
+>> bug: https://github.com/ju6ge/libmonitor/ 
+>> blob/918b2543eafb96aca29f66debc70fd18fa21ee11/examples/via-i2c-dev.rs 
+>> (adjusted target i2c interface accordingly). To be absolutely clear 
+>> this is not the i2c device that is expected to work in every case of 
+>> trying this with kernel 6.6 to 6.12 I get the following error message: 
+>> DdcError(CommunicationError(ReceiveError(EIO: I/O error))). That is 
+>> expected internal laptop displays do not support the command interface 
+>> in most cases anyway. But what I do not expect to happen is that my 
+>> Laptop screen freezes! And since this did not happen with kernel 6.6 
+>> but started happening with 6.12 this seems to be a software issue and 
+>> with that a regression!
+>>
+>> Next I bisected the kernel from 6.6 to 6.12 to determine when this 
+>> regression was introduced. I attached the full bisect log to the email ;)
+>>
+>> The offending commit seems to be:
+>>
+>> [58a261bfc96763a851cb48b203ed57da37e157b8] drm/amd/display: use a more 
+>> lax vblank enable policy for older ASICs
+>>
+>> Since this is quite a small commit I validated this by reverting the 
+>> changes on a newer kernel version (patch attached as well). Testing 
+>> actually shows that reverting the change resolves the screen freezing 
+>> behavior for me.
+>>
+>> Now I am not deep enough into graphics drivers to claim that just 
+>> reverting the commit should be considered a valid fix. Just that the 
+>> change is definitely responsible for the screen freezing now as 
+>> apposed to before.
+>>
+>> So what should be done here? I can validate any other suggested fixes 
+>> against my setup or provide more information if need be.
+>>
+>> Kind regards,
+>> Felix Richter
+>>
+>> #regzbot introduced: v6.6..v6.12
+> 
+> 
 
-Thanks everyone for the input so far. I have a question for the
-maintainers, given that it seems that this is functionally broken for
-ASICs which are iGPUs, and there does not seem to be an easy fix, does
-it make sense to extend this proposed patch to all iGPUs until a more
-permanent fix can be identified? At the end of the day I'll take
-functional correctness over performance.
+At least to me, this issue sounds like a case that multiple entities are 
+trying to communicate with the panel at the same time.
 
-Brian
+By setting dcdebugmask=0x10 what you're essentially doing is stopping 
+the display hardware from trying to put the panel into PSR.  So there is 
+"less" I2C traffic to fight with.
 
->
-> >
-> > Thanks again,
-> > Brian
-> >
-> > >
-> > > Alex
-> > >
-> > > >
-> > > > Brian
-> > > >
-> > > > >
-> > > > >
-> > > > > Alex
-> > > > >
-> > > > > >
-> > > > > > Fixes: 81d0bcf99009 ("drm/amdgpu: make display pinning more fle=
-xible (v2)")
-> > > > > > Cc: Luben Tuikov <luben.tuikov@amd.com>
-> > > > > > Cc: Christian K=C3=B6nig <christian.koenig@amd.com>
-> > > > > > Cc: Alex Deucher <alexander.deucher@amd.com>
-> > > > > > Cc: stable@vger.kernel.org # 6.1+
-> > > > > > Tested-by: Thadeu Lima de Souza Cascardo <cascardo@igalia.com>
-> > > > > > Signed-off-by: Brian Geffon <bgeffon@google.com>
-> > > > > > ---
-> > > > > >  drivers/gpu/drm/amd/amdgpu/amdgpu_object.c | 3 ++-
-> > > > > >  1 file changed, 2 insertions(+), 1 deletion(-)
-> > > > > >
-> > > > > > diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_object.c b/drive=
-rs/gpu/drm/amd/amdgpu/amdgpu_object.c
-> > > > > > index 73403744331a..5d7f13e25b7c 100644
-> > > > > > --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_object.c
-> > > > > > +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_object.c
-> > > > > > @@ -1545,7 +1545,8 @@ uint32_t amdgpu_bo_get_preferred_domain(s=
-truct amdgpu_device *adev,
-> > > > > >                                             uint32_t domain)
-> > > > > >  {
-> > > > > >         if ((domain =3D=3D (AMDGPU_GEM_DOMAIN_VRAM | AMDGPU_GEM=
-_DOMAIN_GTT)) &&
-> > > > > > -           ((adev->asic_type =3D=3D CHIP_CARRIZO) || (adev->as=
-ic_type =3D=3D CHIP_STONEY))) {
-> > > > > > +           ((adev->asic_type =3D=3D CHIP_CARRIZO) || (adev->as=
-ic_type =3D=3D CHIP_STONEY) ||
-> > > > > > +            (adev->asic_type =3D=3D CHIP_RAVEN))) {
-> > > > > >                 domain =3D AMDGPU_GEM_DOMAIN_VRAM;
-> > > > > >                 if (adev->gmc.real_vram_size <=3D AMDGPU_SG_THR=
-ESHOLD)
-> > > > > >                         domain =3D AMDGPU_GEM_DOMAIN_GTT;
-> > > > > > --
-> > > > > > 2.50.0.727.gbf7dc18ff4-goog
-> > > > > >
+*Why* are you using I2C to read the EDID like this?  Could you instead 
+use /sys/class/drm/cardX-inputY/edid?  Or even better - can you use the 
+information from drm_info to make decisions?
+
+I think the less I2C traffic done directly from userspace the better 
+when it comes to synchronization issues..
+
