@@ -2,43 +2,96 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1BCB8B0A7FB
-	for <lists+dri-devel@lfdr.de>; Fri, 18 Jul 2025 17:55:22 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id B4A8CB0A849
+	for <lists+dri-devel@lfdr.de>; Fri, 18 Jul 2025 18:18:22 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5CD4210E9F1;
-	Fri, 18 Jul 2025 15:55:20 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id F2E2F10EA01;
+	Fri, 18 Jul 2025 16:18:20 +0000 (UTC)
+Authentication-Results: gabe.freedesktop.org;
+	dkim=pass (1024-bit key; unprotected) header.d=chromium.org header.i=@chromium.org header.b="VA1aM7z5";
+	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
- by gabe.freedesktop.org (Postfix) with ESMTP id 9DEEE10E9F1
- for <dri-devel@lists.freedesktop.org>; Fri, 18 Jul 2025 15:55:18 +0000 (UTC)
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
- by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 057E116A3;
- Fri, 18 Jul 2025 08:55:11 -0700 (PDT)
-Received: from [10.1.26.19] (e122027.cambridge.arm.com [10.1.26.19])
- by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 0DE513F694;
- Fri, 18 Jul 2025 08:55:15 -0700 (PDT)
-Message-ID: <0f542e8c-548f-41fd-9426-3a21afc9ea96@arm.com>
-Date: Fri, 18 Jul 2025 16:55:14 +0100
+Received: from mail-pj1-f52.google.com (mail-pj1-f52.google.com
+ [209.85.216.52])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5808410EA01
+ for <dri-devel@lists.freedesktop.org>; Fri, 18 Jul 2025 16:18:19 +0000 (UTC)
+Received: by mail-pj1-f52.google.com with SMTP id
+ 98e67ed59e1d1-315c1b0623cso2234455a91.1
+ for <dri-devel@lists.freedesktop.org>; Fri, 18 Jul 2025 09:18:19 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=chromium.org; s=google; t=1752855499; x=1753460299;
+ darn=lists.freedesktop.org; 
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=YjMu1e4Z2kPIqjvwczTBgX85r3dXx3nHkHeoGheSPn8=;
+ b=VA1aM7z5pmsOx5gW+mBaUO34Nul7dV1J/lsczNpvKCIMgB/ee/Kq2qimcusqEX6r+w
+ O3ZRzLLm46HmAhRGk9GSgyUulcmug7FX/kawgyx5loqddzZ2O+RT1ChaYwuWICgz3l82
+ ta3oBR1CXUW7eKzdOwujSwGWtXX2/SktCuILc=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1752855499; x=1753460299;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=YjMu1e4Z2kPIqjvwczTBgX85r3dXx3nHkHeoGheSPn8=;
+ b=b1AEuH0N+Q5FQu9uJJN9A/Lmtkzt3HCBUc+CKZGAPyI7kkZOsMtIJHfzo0lw7Ecqb5
+ HbIdkcwMGFVHsW/8zvmKdvo2ShnpcRriUaaxy40AeipqptkpzPqX6psfebeSgnpqO/zL
+ RTSZhi1y6dcR1O/b+HyPQzKmz337xRToriZwFXftEBT0ITa/OKWVV2Yli1GL59fMdgwe
+ zs6du5Glppu23567so24tdqIWeoh4lJdH7MLiQLLOSywNv33rZpkJ1jf1qY72I3fraOB
+ QZUnlnApn63krws9ZyeubAye3/or22i+g59ATWMu7l/BOERYeOOCtsYsR4T0D6xcdoD3
+ /AGA==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCUEjif2B2XqCT5/06d4O5k3EHa1+6sMX/MCTGuVh6l78fZwU1izAH/0S9PA0nHbjqmE6wemA/7lzzU=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YxF4Veun9p1myjwUuDoO5jd4EG3PY7Rw1rhSjJPjIUjQ0DdlgJz
+ rC3rjkPGtvz50WdN3r5xNHsvZSUbftwS8LLmmToZekmx4Jnn1yPCTCggO7C1KlRaCcuwXxXMFYf
+ qH4A=
+X-Gm-Gg: ASbGncvUB76A+0tYnmOnGiqyEwfNoyKjKSZTJ0woqX5dN0BaWCsi8m8KYleh2y3i58+
+ /sYzY1rLdi4vBHERL9IoHdwJu2jfxINRsS+a2ZeBPq707JgeI4t3QE7L7ROv76zuvHECr1VefBX
+ eS7bYcgtEc88cedGS1nQUEMi9mg2T2QOGBl8h/WaQbKf6z3AK4pNCY5nm0KIfBDzKw8ex+Oi9rr
+ yGWDAlOuvE7yyf+Gh23vnAf6/oi/KbsyWpGeep98epXNxTbAe7vi2yzan/CVAP2dLa3xt56csmX
+ VYgxkIkmfWNdHX6uSRY5HqXuxokE9PQB16kKAWvkaVen6n9i9GXqlTZh00zrQAD+W8Toyvl/8Co
+ wfbVgScc+ldlGKDJC+tzvVMUITSvK5XFGI49xdRm7VSpAIXPo6riw5BRNI2dHyqLsKzp51geHd3
+ kL
+X-Google-Smtp-Source: AGHT+IG5P7FlMF5dsfjIMKEeeHJBnh78ft1+fJQf7BAztPXrQ8QzcCAwBv80pBMzvt/dNrsJ/LTYQA==
+X-Received: by 2002:a05:6a00:3d07:b0:756:d026:10a7 with SMTP id
+ d2e1a72fcca58-75725a89319mr16770649b3a.21.1752855034330; 
+ Fri, 18 Jul 2025 09:10:34 -0700 (PDT)
+Received: from mail-pg1-f177.google.com (mail-pg1-f177.google.com.
+ [209.85.215.177]) by smtp.gmail.com with ESMTPSA id
+ d2e1a72fcca58-759cbc6bf14sm1456321b3a.158.2025.07.18.09.10.33
+ for <dri-devel@lists.freedesktop.org>
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Fri, 18 Jul 2025 09:10:34 -0700 (PDT)
+Received: by mail-pg1-f177.google.com with SMTP id
+ 41be03b00d2f7-b3220c39cffso2203964a12.0
+ for <dri-devel@lists.freedesktop.org>; Fri, 18 Jul 2025 09:10:33 -0700 (PDT)
+X-Forwarded-Encrypted: i=1;
+ AJvYcCU0DgWu9D4fcLLN6cTszg8Ym/aVr7q+H6Pe3lsHhEWQGWtbCI6w9cQyd0mwfgZfx7E86fm9wzmWj/s=@lists.freedesktop.org
+X-Received: by 2002:a17:90b:2b4c:b0:311:eb85:96ea with SMTP id
+ 98e67ed59e1d1-31c9f3c5719mr16511405a91.9.1752855033213; Fri, 18 Jul 2025
+ 09:10:33 -0700 (PDT)
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] drm/panthor: Fix memory leak in
- panthor_ioctl_group_create()
-To: Jann Horn <jannh@google.com>,
- Boris Brezillon <boris.brezillon@collabora.com>,
- Liviu Dudau <liviu.dudau@arm.com>
-Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- Mary Guillemard <mary.guillemard@collabora.com>,
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- stable@vger.kernel.org
-References: <20241113-panthor-fix-gcq-bailout-v1-1-654307254d68@google.com>
-From: Steven Price <steven.price@arm.com>
-Content-Language: en-GB
-In-Reply-To: <20241113-panthor-fix-gcq-bailout-v1-1-654307254d68@google.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+References: <20250717164053.284969-1-me@brighamcampbell.com>
+ <20250717164053.284969-2-me@brighamcampbell.com>
+In-Reply-To: <20250717164053.284969-2-me@brighamcampbell.com>
+From: Doug Anderson <dianders@chromium.org>
+Date: Fri, 18 Jul 2025 09:10:21 -0700
+X-Gmail-Original-Message-ID: <CAD=FV=WYBFrm-J55BTEJ7s=Jk4EFuMVAkahVZfdzW6V8mxE7Tg@mail.gmail.com>
+X-Gm-Features: Ac12FXz_prqGT_YDn81ubqDHwEClWFafCp94o67Bin1GS3o7VQCq9ZD3Qej-Cnw
+Message-ID: <CAD=FV=WYBFrm-J55BTEJ7s=Jk4EFuMVAkahVZfdzW6V8mxE7Tg@mail.gmail.com>
+Subject: Re: [PATCH v4 1/4] drm: Create mipi_dsi_dual macro
+To: Brigham Campbell <me@brighamcampbell.com>
+Cc: tejasvipin76@gmail.com, diogo.ivo@tecnico.ulisboa.pt, 
+ skhan@linuxfoundation.org, linux-kernel-mentees@lists.linux.dev, 
+ dri-devel@lists.freedesktop.org, linux-doc@vger.kernel.org, 
+ linux-kernel@vger.kernel.org, 
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, 
+ Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
+ Simona Vetter <simona@ffwll.ch>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -54,100 +107,80 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 13/11/2024 21:03, Jann Horn wrote:
-> When bailing out due to group_priority_permit() failure, the queue_args
-> need to be freed. Fix it by rearranging the function to use the
-> goto-on-error pattern, such that the success case flows straight without
-> indentation while error cases jump forward to cleanup.
-> 
-> Cc: stable@vger.kernel.org
-> Fixes: 5f7762042f8a ("drm/panthor: Restrict high priorities on group_create")
-> Signed-off-by: Jann Horn <jannh@google.com>
+Hi,
 
-I've just discovered that this was never merged. Sorry for taking so
-long, I've now applied this to drm-misc-next.
-
-Thanks,
-Steve
-
+On Thu, Jul 17, 2025 at 9:41=E2=80=AFAM Brigham Campbell <me@brighamcampbel=
+l.com> wrote:
+>
+> Create mipi_dsi_dual macro for panels which are driven by two parallel
+> serial interfaces. This allows for the reduction of code duplication in
+> drivers for these panels.
+>
+> Signed-off-by: Brigham Campbell <me@brighamcampbell.com>
 > ---
-> testcase:
-> ```
-> #include <err.h>
-> #include <fcntl.h>
-> #include <stddef.h>
-> #include <sys/ioctl.h>
-> #include <drm/panthor_drm.h>
-> 
-> #define SYSCHK(x) ({          \
->   typeof(x) __res = (x);      \
->   if (__res == (typeof(x))-1) \
->     err(1, "SYSCHK(" #x ")"); \
->   __res;                      \
-> })
-> 
-> #define GPU_PATH "/dev/dri/by-path/platform-fb000000.gpu-card"
-> 
-> int main(void) {
->   int fd = SYSCHK(open(GPU_PATH, O_RDWR));
-> 
->   while (1) {
->     struct drm_panthor_queue_create qc[16] = {};
->     struct drm_panthor_group_create gc = {
->       .queues = {
->         .stride = sizeof(struct drm_panthor_queue_create),
->         .count = 16,
->         .array = (unsigned long)qc
->       },
->       .priority = PANTHOR_GROUP_PRIORITY_HIGH+1/*invalid*/
->     };
->     ioctl(fd, DRM_IOCTL_PANTHOR_GROUP_CREATE, &gc);
->   }
-> }
-> ```
-> 
-> I have tested that without this patch, after running the testcase for a
-> few seconds and then manually killing it, 2G of RAM in kmalloc-128 have
-> been leaked. With the patch applied, the memory leak is gone.
-> 
-> (By the way, get_maintainer.pl suggests that I also send this patch to
-> the general DRM maintainers and the DRM-misc maintainers; looking at
-> MAINTAINERS, it looks like it is normal that the general DRM maintainers
-> are listed for everything under drivers/gpu/, but DRM-misc has exclusion
-> rules for a bunch of drivers but not panthor. I don't know if that is
-> intentional.)
-> ---
->  drivers/gpu/drm/panthor/panthor_drv.c | 11 ++++++-----
->  1 file changed, 6 insertions(+), 5 deletions(-)
-> 
-> diff --git a/drivers/gpu/drm/panthor/panthor_drv.c b/drivers/gpu/drm/panthor/panthor_drv.c
-> index c520f156e2d73f7e735f8bf2d6d8e8efacec9362..815c23cff25f305d884e8e3e263fa22888f7d5ce 100644
-> --- a/drivers/gpu/drm/panthor/panthor_drv.c
-> +++ b/drivers/gpu/drm/panthor/panthor_drv.c
-> @@ -1032,14 +1032,15 @@ static int panthor_ioctl_group_create(struct drm_device *ddev, void *data,
->  
->  	ret = group_priority_permit(file, args->priority);
->  	if (ret)
-> -		return ret;
-> +		goto out;
->  
->  	ret = panthor_group_create(pfile, args, queue_args);
-> -	if (ret >= 0) {
-> -		args->group_handle = ret;
-> -		ret = 0;
-> -	}
-> +	if (ret < 0)
-> +		goto out;
-> +	args->group_handle = ret;
-> +	ret = 0;
->  
-> +out:
->  	kvfree(queue_args);
->  	return ret;
->  }
-> 
-> ---
-> base-commit: 9f8e716d46c68112484a23d1742d9ec725e082fc
-> change-id: 20241113-panthor-fix-gcq-bailout-2d9ac36590ed
-> 
+>  include/drm/drm_mipi_dsi.h | 24 ++++++++++++++++++++++++
+>  1 file changed, 24 insertions(+)
+>
+> diff --git a/include/drm/drm_mipi_dsi.h b/include/drm/drm_mipi_dsi.h
+> index 369b0d8830c3..03199c966ea5 100644
+> --- a/include/drm/drm_mipi_dsi.h
+> +++ b/include/drm/drm_mipi_dsi.h
+> @@ -431,6 +431,30 @@ void mipi_dsi_dcs_set_tear_off_multi(struct mipi_dsi=
+_multi_context *ctx);
+>                 mipi_dsi_dcs_write_buffer_multi(ctx, d, ARRAY_SIZE(d)); \
+>         } while (0)
+>
+> +/**
+> + * mipi_dsi_dual - send the same MIPI DSI command to two interfaces
+> + *
+> + * This macro will send the specified MIPI DSI command twice, once per e=
+ach of
+> + * the two interfaces supplied. This is useful for reducing duplication =
+of code
+> + * in panel drivers which use two parallel serial interfaces.
+> + *
+> + * @_func: MIPI DSI function or macro to pass context and arguments into
+> + * @_dsi1: First DSI interface to act as recipient of the MIPI DSI comma=
+nd
+> + * @_dsi2: Second DSI interface to act as recipient of the MIPI DSI comm=
+and
+> + * @_ctx: Context for multiple DSI transactions
+> + * @...: Arguments to pass to MIPI DSI function or macro
+> + */
+> +#define mipi_dsi_dual(_func, _dsi1, _dsi2, _ctx, ...)           \
+> +       _mipi_dsi_dual(_func, _dsi1, _dsi2, _ctx, ##__VA_ARGS__)
+> +
+> +#define _mipi_dsi_dual(_func, _dsi1, _dsi2, _ctx, ...) \
+> +       do {                                           \
+> +               (_ctx)->dsi =3D (_dsi1);                 \
+> +               _func((_ctx), ##__VA_ARGS__);          \
 
+nit: shouldn't func be in parenthesis for safety? It's unlikely to
+really matter, but just in case it's somehow a calculated value that
+would make it safe from an order-of-operations point of view.
+
+
+> +               (_ctx)->dsi =3D (_dsi2);                 \
+> +               _func((_ctx), ##__VA_ARGS__);          \
+> +       } while (0)
+
+Can you explain why you need the extra level of indirection here (in
+other words, why do you need to define _mipi_dsi_dual() and then use
+it in mipi_dsi_dual())? I don't see it buying anything, but maybe it's
+performing some magic trick I'm not aware of?
+
+Reading this with a fresh set of eyes, I also realize that this macro
+is probably vulnerable to issues where arguments have side effects
+since we have to repeat them. I don't think there's a way around this
+and I think the macro is still worthwhile, but something to go into
+with open eyes. Possibly worth noting in the macro description? We
+could probably at least eliminate the need to reference "_ctx" more
+than once by assigning it to a local variable. I think referencing
+"_func" and "__VA_ARGS__" more than once is unavoidable...
+
+Maybe this is what you were trying to solve with the extra level of
+indirection, but (at least with my knowledge of the C preprocessor), I
+don't think it does.
+
+
+-Doug
