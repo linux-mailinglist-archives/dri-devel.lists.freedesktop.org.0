@@ -2,47 +2,73 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id EC70BB0AAA8
-	for <lists+dri-devel@lfdr.de>; Fri, 18 Jul 2025 21:21:04 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9DFAEB0AAD3
+	for <lists+dri-devel@lfdr.de>; Fri, 18 Jul 2025 21:56:05 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 21E1610EA34;
-	Fri, 18 Jul 2025 19:21:03 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 42D7910E069;
+	Fri, 18 Jul 2025 19:56:02 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="XCFzNfmM";
+	dkim=pass (1024-bit key; secure) header.d=estudante.ufscar.br header.i=@estudante.ufscar.br header.b="XF3DIqOz";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 395BC10EA31;
- Fri, 18 Jul 2025 19:21:00 +0000 (UTC)
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
- by dfw.source.kernel.org (Postfix) with ESMTP id 992F95C6979;
- Fri, 18 Jul 2025 19:20:58 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7D2D5C4CEF6;
- Fri, 18 Jul 2025 19:20:57 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1752866458;
- bh=MXulk40WrhMSfazklRDPLjWyPsn6UWw3jWMMvJXWmOg=;
- h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=XCFzNfmMezrfQRDTjlp5orhJKg3OKglOd1+hWvCjAoqIp1Om/75oXrNes/VdfvI5Y
- jiqg4Ukfep/aOs5jyiIXXMwrTkfplevEbAoddgRDvd2SwNs4lPFSz7d8R2EE8g8HeA
- GrC08hVoP1+mh74skKlrcg3hHGeWsgOW9AZo1UII2mVz7daUW0Ukq5X4H23jzIRPho
- m8JVi+pJlJB40l8wK89Pqzw8IVV7mEaQ/XYAuFXjKfJY89T/q3Z2sjfpWMuVYLxs8I
- Rs9eF2ibGyqEY0+Na4X+4MtjZwNlS29bogg+pV3l0S63p4RkbH2kzcFMbJOXR4XFz/
- skcjeBgnHiixQ==
-From: Mario Limonciello <superm1@kernel.org>
-To: amd-gfx@lists.freedesktop.org
-Cc: Simon Ser <contact@emersion.fr>, Harry Wentland <Harry.Wentland@amd.com>,
- Xaver Hugl <xaver.hugl@gmail.com>, dri-devel@lists.freedesktop.org,
- Leo Li <sunpeng.li@amd.com>, Mario Limonciello <mario.limonciello@amd.com>,
- Xaver Hugl <xaver.hugl@kde.org>
-Subject: [PATCH v6 1/1] drm/amd: Re-introduce property to control adaptive
- backlight modulation
-Date: Fri, 18 Jul 2025 14:20:45 -0500
-Message-ID: <20250718192045.2091650-2-superm1@kernel.org>
-X-Mailer: git-send-email 2.43.0
-In-Reply-To: <20250718192045.2091650-1-superm1@kernel.org>
-References: <20250718192045.2091650-1-superm1@kernel.org>
+Received: from mail-oa1-f43.google.com (mail-oa1-f43.google.com
+ [209.85.160.43])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E236710E002
+ for <dri-devel@lists.freedesktop.org>; Fri, 18 Jul 2025 19:56:00 +0000 (UTC)
+Received: by mail-oa1-f43.google.com with SMTP id
+ 586e51a60fabf-301a83477e5so443957fac.1
+ for <dri-devel@lists.freedesktop.org>; Fri, 18 Jul 2025 12:56:00 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=estudante.ufscar.br; s=google; t=1752868560; x=1753473360;
+ darn=lists.freedesktop.org; 
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:from:to:cc:subject:date:message-id:reply-to;
+ bh=Jn8giDL749wRMcd6XK3joiEssp/skQmnWKpjb3i6mtY=;
+ b=XF3DIqOzkwo3rkaFKPxXSjrZ3N4s4UKtxTCL4EGBR1kDRpk9EDyq3ktg5Inqu57dDS
+ 5YfOBFcnG8pKGUwj9pcTbUi+0BTyoSmb39IdvbFsTNfMe0hJXm/ilj1hhtbuVIEJxRqs
+ EtvFbo7U+VR7ZckRkbpWgtLQAxyK2pxfqT1Sc=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1752868560; x=1753473360;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=Jn8giDL749wRMcd6XK3joiEssp/skQmnWKpjb3i6mtY=;
+ b=GLIyn6b8GN1m10LDlX8ptprstVTE0BVoNEcUFU6QFS4a2qeTFfI7gF/8a19I276AVp
+ Yu6gPU7VyAAgu1T1BpMHCfxGCQgbAMQdt4+b24TKrgSYMzCXaFsewD/Rlu635qhiD6Q6
+ cS4ZIwAIrNDO90/q1PYefclCIEfhCLSa76s1nHf3OqJmIG+uzUROwxZalb6Cc+ih5yUn
+ p1SZl96aVAlyWowFjxXQx5Rp1huz9lakovoqvm2t7kS2maxY7EKn4LQzy5CziR19LpiE
+ kM4YNf+ctu1Z48Jj0tQfCQTqozEV4PCJWmcIdti5X8HVFrCFQsj2MeTqzrSViZ5YP3TD
+ 3kRw==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCVkgv7F7iF9+GVus3m06eanrJ7RY5eJS1+AhYIhrBWLFGqsBElSUbX5HtzHkh8pEDbIq/mE54X7r3Y=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YyW3vF65waUR9nYjKKiRb/Ff+JgFeVz4/peCXwX9pHAtBK9wMSZ
+ jbgDmu4SYyqsvfkrykhBrnsg67b5eVXjpKvzE1sytlTGRpiB+3qJdQRU0mZ0y47qLbY=
+X-Gm-Gg: ASbGncvx37b9acluf8yzjhW2pp2tIJWroMHA3jHOFI/Fo0+pppBEHlYOWMS5kIDG9+1
+ fHeNYHjJoc1x15m6pxX2bf4a7voyww1vbiz4rIDHQER3u81TCoFFwS2Xq0+aIX8CIbOTGN7cRmS
+ VBwKiXKKMK38Uz+xyJvcKKuiGVr5/dixX7hw+ma+TJbvqr2Me32NQ1NDuGbs76cEvML9bP1IrU4
+ zeKVubUSQW2tIOZpqYG0Bx0+xb7Dt7/Z32DK2fyaIVixfvuwN1Z9nk52kKdKrPWELUU2mqZskPf
+ KgkaZ/1z5wGRZjY3mdCykbvwceiD4QsWBzlxYjgqKBmA97L2yG/1UFb9W/w18GL1qxFe8yWKxt/
+ vrc9DpDpW188Ot5MYnYNsvzwMdJyHq6RvPlrFhQphlb1jQ6Gr/O0M
+X-Google-Smtp-Source: AGHT+IFyG7f8ZAZx/Oo5MSbyeOITQKRV5wZCXPGtSwh4ZCc6lHsVMnOo+fhLI8iYH/kBVXvKYfc+/A==
+X-Received: by 2002:a05:6870:40cd:b0:2bc:8c4a:aac2 with SMTP id
+ 586e51a60fabf-2ffaf5442e4mr10395209fac.27.1752868559831; 
+ Fri, 18 Jul 2025 12:55:59 -0700 (PDT)
+Received: from localhost.localdomain ([2804:2894:c100:61f6:9607:54a9:55b1:8d3])
+ by smtp.gmail.com with ESMTPSA id
+ 586e51a60fabf-30101cd74a6sm1016408fac.14.2025.07.18.12.55.53
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Fri, 18 Jul 2025 12:55:58 -0700 (PDT)
+From: Luiz Otavio Mello <luiz.mello@estudante.ufscar.br>
+To: airlied@gmail.com, jani.nikula@linux.intel.com,
+ joonas.lahtinen@linux.intel.com, simona@ffwll.ch, mripard@kernel.org
+Cc: intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+ mairacanal@riseup.net, Luiz Otavio Mello <luiz.mello@estudante.ufscar.br>
+Subject: [PATCH] [PATCH v3] drm/i915: move struct_mutex from drm_device to
+ drm_i915_private
+Date: Fri, 18 Jul 2025 16:55:43 -0300
+Message-ID: <20250718195543.301391-1-luiz.mello@estudante.ufscar.br>
+X-Mailer: git-send-email 2.50.1
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -60,233 +86,156 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Mario Limonciello <mario.limonciello@amd.com>
+Includes the missing file drm_device.h, which was unintentionally
+omitted in v1.
 
-commit 0887054d14ae2 ("drm/amd: Drop abm_level property") dropped the
-abm level property in favor of sysfs control. Since then there have
-been discussions that compositors showed an interest in modifying
-a vendor specific property instead.
+i915 is the only remaining user of struct_mutex lock.
 
-So re-introduce the abm level property, but with different semantics.
-Rather than being an integer it's now an enum. One of the enum options
-is 'sysfs', and that is because there is still a sysfs file for use by
-userspace when the compositor doesn't support this property.
+Move it from drm_device to drm_i915_private so it is only used within
+the i915 driver.
 
-If usespace has not modified this property, the default value will
-be for sysfs to control it. Once userspace has set the property stop
-allowing sysfs control.
+Also update intel_guc_log.c to use the new location of struct_mutex.
 
-The property is only attached to non-OLED eDP panels.
-
-Cc: Xaver Hugl <xaver.hugl@kde.org>
-Signed-off-by: Mario Limonciello <mario.limonciello@amd.com>
+Signed-off-by: Luiz Otavio Mello <luiz.mello@estudante.ufscar.br>
 ---
- drivers/gpu/drm/amd/amdgpu/amdgpu_display.c   | 60 ++++++++++++++++++-
- drivers/gpu/drm/amd/amdgpu/amdgpu_display.h   |  7 +++
- drivers/gpu/drm/amd/amdgpu/amdgpu_mode.h      |  2 +
- .../gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c | 39 +++++++++++-
- .../gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.h |  1 +
- 5 files changed, 106 insertions(+), 3 deletions(-)
 
-diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_display.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_display.c
-index 35c778426a7c7..f061f63e31993 100644
---- a/drivers/gpu/drm/amd/amdgpu/amdgpu_display.c
-+++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_display.c
-@@ -1363,6 +1363,64 @@ static const struct drm_prop_enum_list amdgpu_dither_enum_list[] = {
- 	{ AMDGPU_FMT_DITHER_ENABLE, "on" },
- };
+Hi,
+
+In this version, I fixed a typo in a comment in i915_irq.c where I mistakenly wrote "BLK" instead of "BKL".
+
+I also corrected the usage of struct_mutex in i915_irq.c to properly reference it through drm_i915_private.
+
+Additionally, I removed the TODO from Documentation/gpu/todo.rst since this task has now been completed.
+
+Signed-off-by: Luiz Otavio Mello <luiz.mello@estudante.ufscar.br>
+---
+ Documentation/gpu/todo.rst                 | 25 ----------------------
+ drivers/gpu/drm/i915/gt/uc/intel_guc_log.c |  4 ++--
+ drivers/gpu/drm/i915/i915_drv.h            |  8 +++++++
+ drivers/gpu/drm/i915/i915_irq.c            |  4 ++--
+ include/drm/drm_device.h                   | 10 ---------
+ 5 files changed, 12 insertions(+), 39 deletions(-)
+
+diff --git a/Documentation/gpu/todo.rst b/Documentation/gpu/todo.rst
+index c57777a24e03..ff8f4ee32bee 100644
+--- a/Documentation/gpu/todo.rst
++++ b/Documentation/gpu/todo.rst
+@@ -173,31 +173,6 @@ Contact: Simona Vetter
  
-+/**
-+ * DOC: property for adaptive backlight modulation
-+ *
-+ * The 'adaptive backlight modulation' property is used for the compositor to
-+ * directly control the adaptive backlight modulation power savings feature
-+ * that is part of DCN hardware.
-+ *
-+ * The property will be attached specifically to eDP panels that support it.
-+ *
-+ * The property is by default set to 'sysfs' to allow the sysfs file 'panel_power_savings'
-+ * to be able to control it.
-+ * If set to 'off' the compositor will ensure it stays off.
-+ * The other values 'min', 'bias min', 'bias max', and 'max' will control the
-+ * intensity of the power savings.
-+ *
-+ * Modifying this value can have implications on color accuracy, so tread
-+ * carefully.
-+ */
-+static int amdgpu_display_setup_abm_prop(struct amdgpu_device *adev)
-+{
-+	const struct drm_prop_enum_list props[] = {
-+		{ ABM_SYSFS_CONTROL, "sysfs" },
-+		{ ABM_LEVEL_OFF, "off" },
-+		{ ABM_LEVEL_MIN, "min" },
-+		{ ABM_LEVEL_BIAS_MIN, "bias min" },
-+		{ ABM_LEVEL_BIAS_MAX, "bias max" },
-+		{ ABM_LEVEL_MAX, "max" },
-+	};
-+	struct drm_property *prop;
-+	int i;
-+
-+	if (!adev->dc_enabled)
-+		return 0;
-+
-+	prop = drm_property_create(adev_to_drm(adev), DRM_MODE_PROP_ENUM,
-+				"adaptive backlight modulation",
-+				6);
-+	if (!prop)
-+		return -ENOMEM;
-+
-+	for (i = 0; i < ARRAY_SIZE(props); i++) {
-+		int ret;
-+
-+		ret = drm_property_add_enum(prop, props[i].type,
-+						props[i].name);
-+
-+		if (ret) {
-+			drm_property_destroy(adev_to_drm(adev), prop);
-+
-+			return ret;
-+		}
-+	}
-+
-+	adev->mode_info.abm_level_property = prop;
-+
-+	return 0;
-+}
-+
- int amdgpu_display_modeset_create_props(struct amdgpu_device *adev)
- {
- 	int sz;
-@@ -1409,7 +1467,7 @@ int amdgpu_display_modeset_create_props(struct amdgpu_device *adev)
- 					 "dither",
- 					 amdgpu_dither_enum_list, sz);
+ Level: Intermediate
  
--	return 0;
-+	return amdgpu_display_setup_abm_prop(adev);
- }
+-Get rid of dev->struct_mutex from GEM drivers
+----------------------------------------------
+-
+-``dev->struct_mutex`` is the Big DRM Lock from legacy days and infested
+-everything. Nowadays in modern drivers the only bit where it's mandatory is
+-serializing GEM buffer object destruction. Which unfortunately means drivers
+-have to keep track of that lock and either call ``unreference`` or
+-``unreference_locked`` depending upon context.
+-
+-Core GEM doesn't have a need for ``struct_mutex`` any more since kernel 4.8,
+-and there's a GEM object ``free`` callback for any drivers which are
+-entirely ``struct_mutex`` free.
+-
+-For drivers that need ``struct_mutex`` it should be replaced with a driver-
+-private lock. The tricky part is the BO free functions, since those can't
+-reliably take that lock any more. Instead state needs to be protected with
+-suitable subordinate locks or some cleanup work pushed to a worker thread. For
+-performance-critical drivers it might also be better to go with a more
+-fine-grained per-buffer object and per-context lockings scheme. Currently only
+-the ``msm`` and `i915` drivers use ``struct_mutex``.
+-
+-Contact: Simona Vetter, respective driver maintainers
+-
+-Level: Advanced
+-
+ Move Buffer Object Locking to dma_resv_lock()
+ ---------------------------------------------
  
- void amdgpu_display_update_priority(struct amdgpu_device *adev)
-diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_display.h b/drivers/gpu/drm/amd/amdgpu/amdgpu_display.h
-index dfa0d642ac161..2b1536a167527 100644
---- a/drivers/gpu/drm/amd/amdgpu/amdgpu_display.h
-+++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_display.h
-@@ -54,4 +54,11 @@ int amdgpu_display_resume_helper(struct amdgpu_device *adev);
- int amdgpu_display_get_scanout_buffer(struct drm_plane *plane,
- 				      struct drm_scanout_buffer *sb);
- 
-+#define ABM_SYSFS_CONTROL	-1
-+#define ABM_LEVEL_OFF		0
-+#define ABM_LEVEL_MIN		1
-+#define ABM_LEVEL_BIAS_MIN	2
-+#define ABM_LEVEL_BIAS_MAX	3
-+#define ABM_LEVEL_MAX		4
-+
- #endif
-diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_mode.h b/drivers/gpu/drm/amd/amdgpu/amdgpu_mode.h
-index 6da4f946cac00..169bc667572e2 100644
---- a/drivers/gpu/drm/amd/amdgpu/amdgpu_mode.h
-+++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_mode.h
-@@ -326,6 +326,8 @@ struct amdgpu_mode_info {
- 	struct drm_property *audio_property;
- 	/* FMT dithering */
- 	struct drm_property *dither_property;
-+	/* Adaptive Backlight Modulation (power feature) */
-+	struct drm_property *abm_level_property;
- 	/* hardcoded DFP edid from BIOS */
- 	const struct drm_edid *bios_hardcoded_edid;
- 
-diff --git a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
-index 928f61f972a1f..4025575d2f536 100644
---- a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
-+++ b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
-@@ -5042,6 +5042,7 @@ static int initialize_plane(struct amdgpu_display_manager *dm,
- static void setup_backlight_device(struct amdgpu_display_manager *dm,
- 				   struct amdgpu_dm_connector *aconnector)
- {
-+	struct amdgpu_dm_backlight_caps *caps;
- 	struct dc_link *link = aconnector->dc_link;
- 	int bl_idx = dm->num_of_edps;
- 
-@@ -5061,6 +5062,13 @@ static void setup_backlight_device(struct amdgpu_display_manager *dm,
- 	dm->num_of_edps++;
- 
- 	update_connector_ext_caps(aconnector);
-+	caps = &dm->backlight_caps[aconnector->bl_idx];
-+
-+	/* Only offer ABM property when non-OLED and user didn't turn off by module parameter */
-+	if (!caps->ext_caps->bits.oled && amdgpu_dm_abm_level < 0)
-+		drm_object_attach_property(&aconnector->base.base,
-+					   dm->adev->mode_info.abm_level_property,
-+					   ABM_SYSFS_CONTROL);
- }
- 
- static void amdgpu_set_panel_orientation(struct drm_connector *connector);
-@@ -7122,6 +7130,20 @@ int amdgpu_dm_connector_atomic_set_property(struct drm_connector *connector,
- 	} else if (property == adev->mode_info.underscan_property) {
- 		dm_new_state->underscan_enable = val;
- 		ret = 0;
-+	} else if (property == adev->mode_info.abm_level_property) {
-+		switch (val) {
-+		case ABM_SYSFS_CONTROL:
-+			dm_new_state->abm_sysfs_forbidden = false;
-+			break;
-+		case ABM_LEVEL_OFF:
-+			dm_new_state->abm_sysfs_forbidden = true;
-+			dm_new_state->abm_level = ABM_LEVEL_IMMEDIATE_DISABLE;
-+			break;
-+		default:
-+			dm_new_state->abm_sysfs_forbidden = true;
-+			dm_new_state->abm_level = val;
-+		};
-+		ret = 0;
- 	}
- 
- 	return ret;
-@@ -7164,6 +7186,13 @@ int amdgpu_dm_connector_atomic_get_property(struct drm_connector *connector,
- 	} else if (property == adev->mode_info.underscan_property) {
- 		*val = dm_state->underscan_enable;
- 		ret = 0;
-+	} else if (property == adev->mode_info.abm_level_property) {
-+		if (!dm_state->abm_sysfs_forbidden)
-+			*val = ABM_SYSFS_CONTROL;
-+		else
-+			*val = (dm_state->abm_level != ABM_LEVEL_IMMEDIATE_DISABLE) ?
-+				dm_state->abm_level : 0;
-+		ret = 0;
- 	}
- 
- 	return ret;
-@@ -7216,10 +7245,16 @@ static ssize_t panel_power_savings_store(struct device *device,
+diff --git a/drivers/gpu/drm/i915/gt/uc/intel_guc_log.c b/drivers/gpu/drm/i915/gt/uc/intel_guc_log.c
+index e8a04e476c57..7135fdb0ebb4 100644
+--- a/drivers/gpu/drm/i915/gt/uc/intel_guc_log.c
++++ b/drivers/gpu/drm/i915/gt/uc/intel_guc_log.c
+@@ -678,7 +678,7 @@ int intel_guc_log_set_level(struct intel_guc_log *log, u32 level)
+ 	if (level < GUC_LOG_LEVEL_DISABLED || level > GUC_LOG_LEVEL_MAX)
  		return -EINVAL;
  
- 	drm_modeset_lock(&dev->mode_config.connection_mutex, NULL);
--	to_dm_connector_state(connector->state)->abm_level = val ?:
--		ABM_LEVEL_IMMEDIATE_DISABLE;
-+	if (to_dm_connector_state(connector->state)->abm_sysfs_forbidden)
-+		ret = -EBUSY;
-+	else
-+		to_dm_connector_state(connector->state)->abm_level = val ?:
-+			ABM_LEVEL_IMMEDIATE_DISABLE;
- 	drm_modeset_unlock(&dev->mode_config.connection_mutex);
+-	mutex_lock(&i915->drm.struct_mutex);
++	mutex_lock(&i915->struct_mutex);
  
-+	if (ret)
-+		return ret;
+ 	if (log->level == level)
+ 		goto out_unlock;
+@@ -696,7 +696,7 @@ int intel_guc_log_set_level(struct intel_guc_log *log, u32 level)
+ 	log->level = level;
+ 
+ out_unlock:
+-	mutex_unlock(&i915->drm.struct_mutex);
++	mutex_unlock(&i915->struct_mutex);
+ 
+ 	return ret;
+ }
+diff --git a/drivers/gpu/drm/i915/i915_drv.h b/drivers/gpu/drm/i915/i915_drv.h
+index d0e1980dcba2..0384dae6fa97 100644
+--- a/drivers/gpu/drm/i915/i915_drv.h
++++ b/drivers/gpu/drm/i915/i915_drv.h
+@@ -224,6 +224,14 @@ struct drm_i915_private {
+ 
+ 	bool irqs_enabled;
+ 
++	/*
++	 * Currently, struct_mutex is only used by the i915 driver as a replacement
++	 * for BKL. 
++	 * 
++	 * For this reason, it is no longer part of struct drm_device.
++	*/
++	struct mutex struct_mutex;
 +
- 	drm_kms_helper_hotplug_event(dev);
+ 	/* LPT/WPT IOSF sideband protection */
+ 	struct mutex sbi_lock;
  
- 	return count;
-diff --git a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.h b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.h
-index 0b964bfdd4a55..5a38373e054a8 100644
---- a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.h
-+++ b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.h
-@@ -969,6 +969,7 @@ struct dm_connector_state {
- 	bool underscan_enable;
- 	bool freesync_capable;
- 	bool update_hdcp;
-+	bool abm_sysfs_forbidden;
- 	uint8_t abm_level;
- 	int vcpi_slots;
- 	uint64_t pbn;
+diff --git a/drivers/gpu/drm/i915/i915_irq.c b/drivers/gpu/drm/i915/i915_irq.c
+index 95042879bec4..7b29062fed50 100644
+--- a/drivers/gpu/drm/i915/i915_irq.c
++++ b/drivers/gpu/drm/i915/i915_irq.c
+@@ -166,7 +166,7 @@ static void ivb_parity_work(struct work_struct *work)
+ 	 * In order to prevent a get/put style interface, acquire struct mutex
+ 	 * any time we access those registers.
+ 	 */
+-	mutex_lock(&dev_priv->drm.struct_mutex);
++	mutex_lock(&dev_priv->struct_mutex);
+ 
+ 	/* If we've screwed up tracking, just let the interrupt fire again */
+ 	if (drm_WARN_ON(&dev_priv->drm, !dev_priv->l3_parity.which_slice))
+@@ -224,7 +224,7 @@ static void ivb_parity_work(struct work_struct *work)
+ 	gen5_gt_enable_irq(gt, GT_PARITY_ERROR(dev_priv));
+ 	spin_unlock_irq(gt->irq_lock);
+ 
+-	mutex_unlock(&dev_priv->drm.struct_mutex);
++	mutex_unlock(&dev_priv->struct_mutex);
+ }
+ 
+ static irqreturn_t valleyview_irq_handler(int irq, void *arg)
+diff --git a/include/drm/drm_device.h b/include/drm/drm_device.h
+index e2f894f1b90a..c374c58fb975 100644
+--- a/include/drm/drm_device.h
++++ b/include/drm/drm_device.h
+@@ -177,16 +177,6 @@ struct drm_device {
+ 	/** @unique: Unique name of the device */
+ 	char *unique;
+ 
+-	/**
+-	 * @struct_mutex:
+-	 *
+-	 * Lock for others (not &drm_minor.master and &drm_file.is_master)
+-	 *
+-	 * TODO: This lock used to be the BKL of the DRM subsystem. Move the
+-	 *       lock into i915, which is the only remaining user.
+-	 */
+-	struct mutex struct_mutex;
+-
+ 	/**
+ 	 * @master_mutex:
+ 	 *
 -- 
-2.43.0
+2.50.1
 
