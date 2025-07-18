@@ -2,60 +2,169 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id EDFF9B09A16
-	for <lists+dri-devel@lfdr.de>; Fri, 18 Jul 2025 05:11:04 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8391DB09A2C
+	for <lists+dri-devel@lfdr.de>; Fri, 18 Jul 2025 05:32:04 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0D78C10E32A;
-	Fri, 18 Jul 2025 03:11:02 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E015110E0FE;
+	Fri, 18 Jul 2025 03:32:00 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=collabora.com header.i=adrian.larumbe@collabora.com header.b="gRGWM4x3";
+	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="aDqdnsv4";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from sender4-pp-f112.zoho.com (sender4-pp-f112.zoho.com
- [136.143.188.112])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5FA6910E333
- for <dri-devel@lists.freedesktop.org>; Fri, 18 Jul 2025 03:11:00 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; t=1752808254; cv=none; 
- d=zohomail.com; s=zohoarc; 
- b=F6rsgXt1OFhK9xRWuMcbNlzC/xqrVBmAfa1YMezQAptTkNW96s+mX6RAt28drazGmehiYR7+ePPpVnzRsQU+QFTVzmIUcL/G6KTIIopFZr/lbtIrxq8JRBu6aSXaaBOHyhCv3It37uiUS//FCrsw20ajdhMfjbq/LB6oiIeFqdw=
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com;
- s=zohoarc; t=1752808254;
- h=Content-Type:Cc:Cc:Date:Date:From:From:In-Reply-To:MIME-Version:Message-ID:References:Subject:Subject:To:To:Message-Id:Reply-To;
- bh=cCkGUyMFbvVF1lv3gMiBz+wBa3g8+jZyUZVPLa5Dzl8=; 
- b=GksfS6gHZvmkS7dw76Xq602RJQK8f6y3qWXXdZsUVicCvmQQrzUveHZQqmKr8GUnLj0GGdxlRr+5GsghpNFWMi1NT6UDipFLGIoNuc1Y5wueQhQY1A8WMFsRJxyGlwPWJQ0tAnWjnFII/5iTwvnn0W6BuKHkO5osloxBQPBOrXI=
-ARC-Authentication-Results: i=1; mx.zohomail.com;
- dkim=pass  header.i=collabora.com;
- spf=pass  smtp.mailfrom=adrian.larumbe@collabora.com;
- dmarc=pass header.from=<adrian.larumbe@collabora.com>
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1752808254; 
- s=zohomail; d=collabora.com; i=adrian.larumbe@collabora.com;
- h=Date:Date:From:From:To:To:Cc:Cc:Subject:Subject:Message-ID:References:MIME-Version:Content-Type:In-Reply-To:Message-Id:Reply-To;
- bh=cCkGUyMFbvVF1lv3gMiBz+wBa3g8+jZyUZVPLa5Dzl8=;
- b=gRGWM4x36z26U2GkzQB+JzKCsAFbc9gfbAu19naEIVFplqtrpXH8NxAxSz90dNV4
- 71j0zfe5zERcSgnq/xISj6wwmzAegCB7T6VYZkWTz/hxnfSoB0tnpK1BKu0wkx58o2P
- F0IWlLdeCFxE9SvOZbj/fjZHpFXuUbZgvqZs0Vuw=
-Received: by mx.zohomail.com with SMTPS id 1752808252721460.2044643663314;
- Thu, 17 Jul 2025 20:10:52 -0700 (PDT)
-Date: Fri, 18 Jul 2025 04:10:47 +0100
-From: =?utf-8?Q?Adri=C3=A1n?= Larumbe <adrian.larumbe@collabora.com>
-To: Lukas Zapolskas <lukas.zapolskas@arm.com>
-Cc: Boris Brezillon <boris.brezillon@collabora.com>, 
- Steven Price <steven.price@arm.com>, Liviu Dudau <liviu.dudau@arm.com>, 
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, 
- Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>, 
- Simona Vetter <simona@ffwll.ch>, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v4 3/7] drm/panthor: Add panthor perf initialization and
- termination
-Message-ID: <i2hdrxnd4whzpfzjsmx4mmcvghqu5t6rzki2tnsrarxewnr76j@clmkf6zyiy4p>
-References: <cover.1747148172.git.lukas.zapolskas@arm.com>
- <c53f9e012e148329a437013a812fc688e797a26b.1747148172.git.lukas.zapolskas@arm.com>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.21])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3AEF710E033;
+ Fri, 18 Jul 2025 03:31:59 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1752809520; x=1784345520;
+ h=date:from:to:cc:subject:message-id:mime-version;
+ bh=xN0Lf9oDVvmoBtRXCqdxbrsDqluq1vZ1xIqv+8fqWM8=;
+ b=aDqdnsv4tJkabfblTv68MoF8WFqTYuV1rZO00LslEKRqtP9SDx2KLv8V
+ 8zPXmMUARFso8FTh5Aq/Ft/kQhwzHUIN3dp42MvhJRH2sOYFnPHR9Vz1j
+ SMM7gsd2AW5emDMtFkZhHL8WYj5+73YSBN2Uu3a9XKhZxXUJzojw38deB
+ 3m42KIPUuf7Va6INicHC1ZFH7hcbyKGbzgABKHuO0o+2Th+DYbpYuk/Af
+ vI6B0eW003a5KOv0ZYTC6S3+Oh3xXYyNvd05ESq6xs+niLKWLFKGVWuTo
+ 6Q1ShHtLIXpMx0Y+qajyzv9ScqLsB+G9BiUrhngsfXnm5rHsWcJQOBobi Q==;
+X-CSE-ConnectionGUID: CeWZLgT+QS+DFSLsNz16HQ==
+X-CSE-MsgGUID: LxettuAFTFi2bQp8r0EvVA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11495"; a="54979991"
+X-IronPort-AV: E=Sophos;i="6.16,320,1744095600"; d="scan'208";a="54979991"
+Received: from fmviesa010.fm.intel.com ([10.60.135.150])
+ by orvoesa113.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 17 Jul 2025 20:31:59 -0700
+X-CSE-ConnectionGUID: OcZ0lJrfSlGPAjGqiJwT2g==
+X-CSE-MsgGUID: cMKWfbuuRlqAn5gXhy8oLQ==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.16,320,1744095600"; d="scan'208";a="158653835"
+Received: from orsmsx901.amr.corp.intel.com ([10.22.229.23])
+ by fmviesa010.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 17 Jul 2025 20:31:58 -0700
+Received: from ORSMSX903.amr.corp.intel.com (10.22.229.25) by
+ ORSMSX901.amr.corp.intel.com (10.22.229.23) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.1748.26; Thu, 17 Jul 2025 20:31:57 -0700
+Received: from ORSEDG901.ED.cps.intel.com (10.7.248.11) by
+ ORSMSX903.amr.corp.intel.com (10.22.229.25) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.1748.26 via Frontend Transport; Thu, 17 Jul 2025 20:31:57 -0700
+Received: from NAM12-MW2-obe.outbound.protection.outlook.com (40.107.244.81)
+ by edgegateway.intel.com (134.134.137.111) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.1748.26; Thu, 17 Jul 2025 20:31:55 -0700
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=VV5rNA5/zbaRpNXQk1iPFMGvYDNzfJK52uDPabeAloI/vNvt5ie0uWMBQAgAYUsS8bw55QP+NXWXNDiH/pOe9vJ1NmFBdXxNF57hGvYTF5/9qcDsWPhOEKewex5a6MMnL81iYGa+3eDGNwUZyIfiO44gXSm6tJcfCO+sGLHHOKRJIzgcUQfDufTtU0LWzJhRCRI6/ExtYh5sKLD6j3CVmN/prbLsoQ71Mfnvt3L4XgIspc6hJKhqfILAL0QUl8rlGRaSfmRIwYzDaQ6u/t8hK57YGbQqjVdNYqhx/hwTxKr+M1PckkKq43vgkUL8wzuevxYyPdi7ANCQ6seG8rdwhA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=BDTlUp9HrkXFwsYiSItyn1rFUgWKlw7GgyePttVxztY=;
+ b=I9w/UISgEIleePihVKQJ1vkT/AcOqQd+c+4YqwRFs9ycH+Jsm4SnX3HUEIE5kQGxn3+SSeeudR4UDrrZldGdKJNWC3X1eQ2qVfcOub479PSjuKaryr/ARuU2Hl3uezkHjyQbYoGw6aOew3hUPa0PXQ1hitPYnCWqOqvLctsavS3KaAV5PukUSdHmYm2p4afNJDEiUK8VpL3Aux98ZgTxKvFiivAdgMBzeOsEVI07HDz80ZQrjExxfkjrNLEOBRzJ3wGK/qAeoMD836urFRD5nDIFLF5I754i9mpz0KcaYQw85pgYXE9e2oNht/M3nEcCzu5tVyXBqdekNuwtq2Jjcw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
+ dkim=pass header.d=intel.com; arc=none
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=intel.com;
+Received: from CY5PR11MB6139.namprd11.prod.outlook.com (2603:10b6:930:29::17)
+ by CY5PR11MB6391.namprd11.prod.outlook.com (2603:10b6:930:38::21)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8922.39; Fri, 18 Jul
+ 2025 03:31:49 +0000
+Received: from CY5PR11MB6139.namprd11.prod.outlook.com
+ ([fe80::7141:316f:77a0:9c44]) by CY5PR11MB6139.namprd11.prod.outlook.com
+ ([fe80::7141:316f:77a0:9c44%5]) with mapi id 15.20.8922.037; Fri, 18 Jul 2025
+ 03:31:49 +0000
+Date: Fri, 18 Jul 2025 00:31:41 -0300
+From: Lucas De Marchi <lucas.demarchi@intel.com>
+To: Dave Airlie <airlied@gmail.com>, Simona Vetter <simona.vetter@ffwll.ch>
+CC: Jani Nikula <jani.nikula@linux.intel.com>, Joonas Lahtinen
+ <joonas.lahtinen@linux.intel.com>, Tvrtko Ursulin <tursulin@ursulin.net>,
+ Rodrigo Vivi <rodrigo.vivi@intel.com>, Thomas Zimmermann
+ <tzimmermann@suse.de>, Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
+ Maxime Ripard <mripard@kernel.org>, Thomas =?utf-8?Q?Hellstr=C3=B6m?=
+ <thomas.hellstrom@linux.intel.com>, Oded Gabbay <ogabbay@kernel.org>, "Lucas
+ De Marchi" <lucas.demarchi@intel.com>, <dri-devel@lists.freedesktop.org>,
+ <intel-gfx@lists.freedesktop.org>, <intel-xe@lists.freedesktop.org>,
+ <dim-tools@lists.freedesktop.org>
+Subject: [PULL] drm-xe-fixes
+Message-ID: <6jworkgupwstm4v7aohbuzod3dyz4u7pyfhshr5ifgf2xisgj3@cm5em5yupjiu>
+Content-Type: text/plain; charset="us-ascii"; format=flowed
 Content-Disposition: inline
-In-Reply-To: <c53f9e012e148329a437013a812fc688e797a26b.1747148172.git.lukas.zapolskas@arm.com>
+X-ClientProxiedBy: SJ0PR03CA0096.namprd03.prod.outlook.com
+ (2603:10b6:a03:333::11) To CY5PR11MB6139.namprd11.prod.outlook.com
+ (2603:10b6:930:29::17)
+MIME-Version: 1.0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: CY5PR11MB6139:EE_|CY5PR11MB6391:EE_
+X-MS-Office365-Filtering-Correlation-Id: da3a500e-3a91-45e0-b25a-08ddc5aba0e4
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;ARA:13230040|376014|7416014|366016|1800799024;
+X-Microsoft-Antispam-Message-Info: =?us-ascii?Q?O31xgNHMEVOcbOhchEaMECYxZELjk7aqBXIdK7R6Z8aPe4riLaawwAJVWMv5?=
+ =?us-ascii?Q?bOv2H1QkgGy+7RBnzP/mTAKFr/KdnZYhJGP0chZho97QomYO9gs7CUC0KQyc?=
+ =?us-ascii?Q?fbBxpPuhIVBODZ33VlZ01pUntQWd7xsZOw2jeOYxlcXnN6uDunV2MLOx8sn3?=
+ =?us-ascii?Q?8a0uz4gDJ5Yfq0jQ3CuGF7KffN0XH3F7S0F5bxNKVvFK1u3V8c4rU8KeFxKq?=
+ =?us-ascii?Q?IzYSAbWbMalCtqLht9dZCfmc2n1aYdLFvBE1Ao62c8Xd7Ag08Fx5b8MUSZcE?=
+ =?us-ascii?Q?iYtNDrE/j2eF56NaMcaO7/ZhFby5zJz/9f95uiHS6vH3CsO41f4U4ovPjNBI?=
+ =?us-ascii?Q?RP2FwZOtHwXJpL8inMD+6ySTWe7P9QXCw0qQSSq0BOV4L6VPNn4wJyGmLlk4?=
+ =?us-ascii?Q?RL11dXY1NRyOnvPdE4t3VR8zHALCj70xdyANd/XxpxqxJJHpOoY1odnJEwyr?=
+ =?us-ascii?Q?nhnSV4mWGlQM0kit+7w3OT738XAvOPJvV+LemZG6KT/u0iEz13B+gz6hEMFw?=
+ =?us-ascii?Q?O56oba7UqIZlKAK5eM/BVeDunZrEEX8NYTbCxGonrVcS/r8R5B7W4x7fb8SY?=
+ =?us-ascii?Q?GheZ86dq53imX2NzVnb6dPhgJYhFMj+vB6iG41YneeU5NGTuI3vsAr7z6U+F?=
+ =?us-ascii?Q?jUXS0EafqwzKn0Iq3V0UaVlNDJK0VL8/o41GDgx6OWO4V3iuLzueZ2Dix7Qx?=
+ =?us-ascii?Q?M+PfdGVGebvuoEUr2IPtrvIS1msFUhwjomOBtlFbXdXa4RcSD5oIsUKtdANe?=
+ =?us-ascii?Q?KlL0h3YYq2Cl4aw8J7Fgk5QKZgCHJW+1wHQwHfrDaKhbW1jCEcHGxU3Dz/oM?=
+ =?us-ascii?Q?rtUQu2S4iTarLZPja1p4oljbIYMxWeGbnZjB0e5LD0RabpSy6VWew+4Pq7wm?=
+ =?us-ascii?Q?OEWt3JJKAsPvVpXzMqkDyyHmMD17m4lZ+ZwKd6r8WA5DzRITiLmzj4vbzgyq?=
+ =?us-ascii?Q?ta3WO+ByMzziyP97qFo0NGHSIrmiEvjmqz/fb+GYjyHDxgnzvRqv9PikP9IP?=
+ =?us-ascii?Q?/ENXNHxdZmfsJVHiab8POZPo17sMl7djrk3E3WdaO7BsbWZx95DIl2pv9m7P?=
+ =?us-ascii?Q?ANLwjF1yzIZR+CbhtR7y7pPt519Sw3b6/jYnAGiA4zowJFQWioKuJnTPvR0O?=
+ =?us-ascii?Q?jgzc+rohXwGTosVCzQx4nwXEDY2vn2ljV6EdEytDvGxryAw6LVYLf5JBqqwg?=
+ =?us-ascii?Q?IkWFkBx2KjlOtUn9Niv/C8yX/PT+WOT6YoDda9sASxsMk1xxvt6Btlyvueit?=
+ =?us-ascii?Q?byNl6T++7gU2O2hYRQKjsv24OQxgi2qc2Yw7I9MoNbVENcDzjc6azh8zcfpK?=
+ =?us-ascii?Q?epaBPjJstX44e9o4+bKxiHq0rRvWJocEHCWFj0fB/YApASpo+86RVt0l9x38?=
+ =?us-ascii?Q?Bhq+KJk=3D?=
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:CY5PR11MB6139.namprd11.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230040)(376014)(7416014)(366016)(1800799024); DIR:OUT; SFP:1101; 
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?1cmwnMRybsZhPZutcm2Pex5g6jAkfNxGdbbIt09H1NB2OhkaN4YbVtNGqT4r?=
+ =?us-ascii?Q?VIrjGf8ue9dozHoUhRjKC8979JOFcvnnfBOrSH9H3iS9njvJINNmNAp63a7U?=
+ =?us-ascii?Q?nA2Ngrjn4p1oti8CZfsqpJaqKFjgu5J6/+BJFR4wsc2KqelNg9vRMKrRyoKC?=
+ =?us-ascii?Q?OqEZ+cWaCmq0lsWtc0ORtvSXZ3CfPXzQH7/RZ4FGVTkWxglKt2TiwNCqA+ye?=
+ =?us-ascii?Q?dwZWhlbZzT9oyArP5DnKwPy184cSUu2OEoDoMGkyHHQPpEITM7akba4hw1ln?=
+ =?us-ascii?Q?RaweGT3TU5cgLZQHG51AIzZeQ9oh3g5LtonMIVLSaoDomqcJlGbDvZfo/Bu1?=
+ =?us-ascii?Q?Wn++AjB2KzMlniAD42pKO6Fkcju5JY1iy3RA0sXIte3KstuOZ329+1tCHqlK?=
+ =?us-ascii?Q?yuSs+gp0Hxh0qlCojuuaY9lRQD/DjMvr0QYleOLMNFLbYs7igyGoyRfLHsLt?=
+ =?us-ascii?Q?i0iSA5VkEdRrDf6WWPDxjRp1CUhlWvAktRXeJM9H1jlxNrXPIDOZqe+1TsaF?=
+ =?us-ascii?Q?AoSfZfBuzCYcH6MMtZlBZSHAUuzxO6idauhw0LbEEI56s5KoM3EbIzrPbqp0?=
+ =?us-ascii?Q?fPNWIbKLvAvKCzTZR1crTn0kJ0gEugBMlLGDj69aAavm4pGyx1Q9xjm3J+YB?=
+ =?us-ascii?Q?z4PuFeAJDvJ/bdrchubRwKfxLdVHoM7LYGFIkmjnhGwUZd6ole8u6m2AutZQ?=
+ =?us-ascii?Q?/lokGMT9/Np+wVOelPlksFWdDsXfXYIwlz/JeX5pX2IC9XmDWwsUSHwPHA9i?=
+ =?us-ascii?Q?l0+Inafcufc0WDA2T0k1haj44VrOEkts1lJLOV93r7E+NkUCYSQ0tP6e9OLF?=
+ =?us-ascii?Q?1vuU+00yLSGweXkU6PyI/oRLE4l2sFKSVxA2/xDYGxAzn1JPVCt7oa0ceiil?=
+ =?us-ascii?Q?o30B93X2k3f03xB/Ooht8Ox5Y9kvSSLTFzbqLA4Mjc9sBF24nKgI62fXxRid?=
+ =?us-ascii?Q?bngppX+KSN5u1d7OdNmG630fhtvr/7HbBUmlLUJsO44C0vedEB7FMa33G4DE?=
+ =?us-ascii?Q?SI1ytorVWheCBuYPJo4adqYfYhBdkSMICHqEg4huTu8c1wQcmyUixILfEp7t?=
+ =?us-ascii?Q?7ePMm8W5sWscV2y1LEhDgZGAQB+9kBgjzeLCJ51bluVhsSwpoySV7D6/+ym7?=
+ =?us-ascii?Q?ZRWFEvzinNMMKIzmPQdgc8abHnal8h1kxlamqVW8Bhjoja7vGTByY8XGeT0z?=
+ =?us-ascii?Q?ddbvYWXP1Rf6+NWj6Gvk/c1Z8QAwrmdp4o6zReQ4JneC+MMMKB6CpPI1oNkr?=
+ =?us-ascii?Q?6Yjv4TXV9I9ZdghCUfjjsxAQdwVeL8CqGtB7N4KhzoY1QsWL6artnPMbtWss?=
+ =?us-ascii?Q?HHJ3Cxegktr2HO+8VBnih8+1P2Gdb6tJ5HClaVWgaEtWqBkHLAVf2QWnmNWy?=
+ =?us-ascii?Q?qq2eGaXMp5NjEVYrTASjx6qDB7qmw3OletlrM54abS0tpyqHqYvbDjSJVr3G?=
+ =?us-ascii?Q?qZZGgv2xb35jgR4cW9630LcRfdpVd653P18fn1/A5md4ElFOk/HXT8zdCgwe?=
+ =?us-ascii?Q?ilMNQ6dFJS6Y5RrE9Obd0AzsUSGDwzEhVC0Oi6Rz0HjTpdP5rz2LiJa01bBb?=
+ =?us-ascii?Q?KjEjgkvqJXytZL8Dg8XIKbJQIePsnKbFcQLG8m7Y1nT4j+/C8QSXFe47P4bz?=
+ =?us-ascii?Q?KQ=3D=3D?=
+X-MS-Exchange-CrossTenant-Network-Message-Id: da3a500e-3a91-45e0-b25a-08ddc5aba0e4
+X-MS-Exchange-CrossTenant-AuthSource: CY5PR11MB6139.namprd11.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 18 Jul 2025 03:31:48.9850 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: TwNDxwPsH50xSP4YZg8RHSnGEO9D4EwDX17OjXim+vbd47Z2HR6Rg0wG+cLoRn/UEboPF61Z+reunrZAItLVZFu8ienHXHctjFx52Lr5Npc=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: CY5PR11MB6391
+X-OriginatorOrg: intel.com
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -71,171 +180,70 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 16.05.2025 16:49, Lukas Zapolskas wrote:
-> Added the panthor_perf system initialization and unplug code to allow
-> for the handling of userspace sessions to be added in follow-up
-> patches.
->
-> Signed-off-by: Lukas Zapolskas <lukas.zapolskas@arm.com>
-> ---
->  drivers/gpu/drm/panthor/panthor_device.c |  2 +
->  drivers/gpu/drm/panthor/panthor_device.h |  5 +-
->  drivers/gpu/drm/panthor/panthor_perf.c   | 62 +++++++++++++++++++++++-
->  drivers/gpu/drm/panthor/panthor_perf.h   |  1 +
->  4 files changed, 68 insertions(+), 2 deletions(-)
->
-> diff --git a/drivers/gpu/drm/panthor/panthor_device.c b/drivers/gpu/drm/panthor/panthor_device.c
-> index 76b4cf3dc391..7ac985d44655 100644
-> --- a/drivers/gpu/drm/panthor/panthor_device.c
-> +++ b/drivers/gpu/drm/panthor/panthor_device.c
-> @@ -98,6 +98,7 @@ void panthor_device_unplug(struct panthor_device *ptdev)
->  	/* Now, try to cleanly shutdown the GPU before the device resources
->  	 * get reclaimed.
->  	 */
-> +	panthor_perf_unplug(ptdev);
->  	panthor_sched_unplug(ptdev);
->  	panthor_fw_unplug(ptdev);
->  	panthor_mmu_unplug(ptdev);
-> @@ -277,6 +278,7 @@ int panthor_device_init(struct panthor_device *ptdev)
->
->  err_disable_autosuspend:
->  	pm_runtime_dont_use_autosuspend(ptdev->base.dev);
-> +	panthor_perf_unplug(ptdev);
->  	panthor_sched_unplug(ptdev);
->
->  err_unplug_fw:
-> diff --git a/drivers/gpu/drm/panthor/panthor_device.h b/drivers/gpu/drm/panthor/panthor_device.h
-> index 657ccc39568c..818c4d96d448 100644
-> --- a/drivers/gpu/drm/panthor/panthor_device.h
-> +++ b/drivers/gpu/drm/panthor/panthor_device.h
-> @@ -27,7 +27,7 @@ struct panthor_heap_pool;
->  struct panthor_job;
->  struct panthor_mmu;
->  struct panthor_fw;
-> -struct panthor_perfcnt;
-> +struct panthor_perf;
->  struct panthor_vm;
->  struct panthor_vm_pool;
->
-> @@ -138,6 +138,9 @@ struct panthor_device {
->  	/** @devfreq: Device frequency scaling management data. */
->  	struct panthor_devfreq *devfreq;
->
-> +	/** @perf: Performance counter management data. */
-> +	struct panthor_perf *perf;
-> +
->  	/** @unplug: Device unplug related fields. */
->  	struct {
->  		/** @lock: Lock used to serialize unplug operations. */
-> diff --git a/drivers/gpu/drm/panthor/panthor_perf.c b/drivers/gpu/drm/panthor/panthor_perf.c
-> index 66e9a197ac1f..9365ce9fed04 100644
-> --- a/drivers/gpu/drm/panthor/panthor_perf.c
-> +++ b/drivers/gpu/drm/panthor/panthor_perf.c
-> @@ -9,6 +9,19 @@
->  #include "panthor_fw.h"
->  #include "panthor_perf.h"
+Hi Dave and Sima,
 
-You must include "panthor_regs.h" here or else GPU_MEM_FEATURES_L2_SLICES() won't be available.
-However, it seems this is something that should be done in the previous patch.
+Here is drm-xe-fixes targeting v6.16-rc7:
 
->
-> +struct panthor_perf {
-> +	/** @next_session: The ID of the next session. */
-> +	u32 next_session;
-> +
-> +	/** @session_range: The number of sessions supported at a time. */
-> +	struct xa_limit session_range;
-> +
-> +	/**
-> +	 * @sessions: Global map of sessions, accessed by their ID.
-> +	 */
-> +	struct xarray sessions;
-> +};
-> +
->  struct panthor_perf_counter_block {
->  	struct drm_panthor_perf_block_header header;
->  	u64 counters[];
-> @@ -63,14 +76,61 @@ static void panthor_perf_info_init(struct panthor_device *ptdev)
->   * panthor_perf_init - Initialize the performance counter subsystem.
->   * @ptdev: Panthor device
->   *
-> + * The performance counters require the FW interface to be available to setup the
-> + * sampling ringbuffers, so this must be called only after FW is initialized.
-> + *
->   * Return: 0 on success, negative error code on failure.
->   */
->  int panthor_perf_init(struct panthor_device *ptdev)
->  {
-> +	struct panthor_perf *perf __free(kfree) = NULL;
-> +	int ret = 0;
-> +
->  	if (!ptdev)
->  		return -EINVAL;
->
->  	panthor_perf_info_init(ptdev);
->
-> -	return 0;
-> +	perf = kzalloc(sizeof(*perf), GFP_KERNEL);
-> +	if (ZERO_OR_NULL_PTR(perf))
-> +		return -ENOMEM;
-> +
-> +	xa_init_flags(&perf->sessions, XA_FLAGS_ALLOC);
-> +
-> +	perf->session_range = (struct xa_limit) {
-> +		.min = 0,
-> +		.max = 1,
-> +	};
-> +
-> +	drm_info(&ptdev->base, "Performance counter subsystem initialized");
-> +
-> +	ptdev->perf = no_free_ptr(perf);
-> +
-> +	return ret;
-> +}
-> +
-> +/**
-> + * panthor_perf_unplug - Terminate the performance counter subsystem.
-> + * @ptdev: Panthor device.
-> + *
-> + * This function will terminate the performance counter control structures and any remaining
-> + * sessions, after waiting for any pending interrupts.
-> + */
-> +void panthor_perf_unplug(struct panthor_device *ptdev)
-> +{
-> +	struct panthor_perf *perf = ptdev->perf;
-> +
-> +	if (!perf)
-> +		return;
-> +
-> +	if (!xa_empty(&perf->sessions)) {
-> +		drm_err(&ptdev->base,
-> +			"Performance counter sessions active when unplugging the driver!");
-> +	}
+drm-xe-fixes-2025-07-17:
+Driver Changes:
+- SR-IOV fixes for GT reset and TLB invalidation
+- Fix memory copy direction during migration
+- Fix alignment check on migration
+- Fix MOCS and page fault init order to correctly
+   account for topology
 
-I think this could only happen if someone forces module unload, even
-though there might still be processes which haven't yet closed the DRM
-file?
+There's a small conflict when applying drm-next and when applying
+drm-xe-next on top of them, but should be trivial and already solved in
+drm-tip.
 
-> +
-> +	xa_destroy(&perf->sessions);
-> +
-> +	kfree(ptdev->perf);
-> +
-> +	ptdev->perf = NULL;
->  }
-> diff --git a/drivers/gpu/drm/panthor/panthor_perf.h b/drivers/gpu/drm/panthor/panthor_perf.h
-> index 3c32c24c164c..e4805727b9e7 100644
-> --- a/drivers/gpu/drm/panthor/panthor_perf.h
-> +++ b/drivers/gpu/drm/panthor/panthor_perf.h
-> @@ -10,6 +10,7 @@
->  struct panthor_device;
->
->  int panthor_perf_init(struct panthor_device *ptdev);
-> +void panthor_perf_unplug(struct panthor_device *ptdev);
->
->  #endif /* __PANTHOR_PERF_H__ */
->
-> --
-> 2.33.0.dirty
 
-Adrian Larumbe
+thanks,
+Lucas De Marchi.
+
+The following changes since commit 347e9f5043c89695b01e66b3ed111755afcf1911:
+
+   Linux 6.16-rc6 (2025-07-13 14:25:58 -0700)
+
+are available in the Git repository at:
+
+   https://gitlab.freedesktop.org/drm/xe/kernel.git tags/drm-xe-fixes-2025-07-17
+
+for you to fetch changes up to 5c244eeca57ff4e47e1f60310d059346d1b86b9b:
+
+   drm/xe/pf: Resend PF provisioning after GT reset (2025-07-17 09:51:51 -0300)
+
+----------------------------------------------------------------
+Driver Changes:
+- SR-IOV fixes for GT reset and TLB invalidation
+- Fix memory copy direction during migration
+- Fix alignment check on migration
+- Fix MOCS and page fault init order to correctly
+   account for topology
+
+----------------------------------------------------------------
+Balasubramani Vivekanandan (1):
+       drm/xe/mocs: Initialize MOCS index early
+
+Lucas De Marchi (1):
+       drm/xe/migrate: Fix alignment check
+
+Matthew Auld (1):
+       drm/xe/migrate: fix copy direction in access_memory
+
+Matthew Brost (1):
+       drm/xe: Move page fault init after topology init
+
+Michal Wajdeczko (2):
+       drm/xe/pf: Prepare to stop SR-IOV support prior GT reset
+       drm/xe/pf: Resend PF provisioning after GT reset
+
+Tejas Upadhyay (1):
+       drm/xe: Dont skip TLB invalidations on VF
+
+  drivers/gpu/drm/xe/xe_gt.c                 | 15 +++++++++------
+  drivers/gpu/drm/xe/xe_gt_sriov_pf.c        | 19 +++++++++++++++++++
+  drivers/gpu/drm/xe/xe_gt_sriov_pf.h        |  5 +++++
+  drivers/gpu/drm/xe/xe_gt_sriov_pf_config.c | 27 +++++++++++++++++++++++++++
+  drivers/gpu/drm/xe/xe_migrate.c            |  6 +++---
+  drivers/gpu/drm/xe/xe_ring_ops.c           | 22 ++++++++++------------
+  6 files changed, 73 insertions(+), 21 deletions(-)
