@@ -2,139 +2,145 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 55DC7B0A38F
-	for <lists+dri-devel@lfdr.de>; Fri, 18 Jul 2025 13:52:43 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id EBD73B0A3B9
+	for <lists+dri-devel@lfdr.de>; Fri, 18 Jul 2025 14:00:20 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A488D10E988;
-	Fri, 18 Jul 2025 11:52:41 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 52D9010E992;
+	Fri, 18 Jul 2025 12:00:19 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=Nvidia.com header.i=@Nvidia.com header.b="IS5d/OYq";
+	dkim=pass (1024-bit key; unprotected) header.d=suse.de header.i=@suse.de header.b="AW4t1ESf";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="JoWzKV9X";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="AW4t1ESf";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="JoWzKV9X";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from NAM10-BN7-obe.outbound.protection.outlook.com
- (mail-bn7nam10on2060.outbound.protection.outlook.com [40.107.92.60])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 140A310E987;
- Fri, 18 Jul 2025 11:52:40 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=Nox+gIgjZsuhB0fzxHPAesEBZ7uhPb6tu91AQkCMabShuRym5RSdZDiJG2YZRTXkRhtcr26I0QYC2BrQ38rlf4ZehRlUDyVTWQmAjudVThN4MRHJMHrwpQKX18S3Tg+Q5BrwaXTReDLcxsehy3uNI26bqQD9mSeBQcG/dEy9kWcG9UTSc6J1teITW72Isx/s38ax/+UF/ePhyBHpIwSVCwOy0SENY2Lw6K7gQ9Q6HMvJNXlHzbna/U/m0I93jsZqAUcJibT7SHYWKHdjjDOdT8EUFoMJHp5K5koZ8pwsQm2N9FUHD0yXZ4Nw4ewMCKfwSrAN0FN9XiUCq4eSAUnfaw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=JJK1Qb7GFsD9TqJmyw7UxdYE1kG7BmOSavNaiR/sUF8=;
- b=gyabsGvmd7wUFCWe0APkanV6fgkOzxWDNi4VYdtmtllXQu0jpmRishXglAiEMvmq6OK9Deej5KR0kIe90shGikMf7iZtAPXtsETz4jBnXB6Pxogb4xFa5q6UgtjzYujRVrQxgy79Uypxs+zWaayY5AAvx3arcDj5MQo/wf2aJwESg1AOjs+tf3tA1A+GO7smTy9oKivgTu4NyaoM4mOSvIVmYEjSf5BBiQPlf4eXDYUk8xSqhTlbCu2Q9RdPjjJRKkiiYh7e3SUsNKDwFD/EezCQBYYNXAzSNHiSQ7CVnANSKAZtoGM6aI5YOn4Cr4UopXvRCYkuj30U4ffcw9AlfQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
- 216.228.117.160) smtp.rcpttodomain=redhat.com smtp.mailfrom=nvidia.com;
- dmarc=pass (p=reject sp=reject pct=100) action=none header.from=nvidia.com;
- dkim=none (message not signed); arc=none (0)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=JJK1Qb7GFsD9TqJmyw7UxdYE1kG7BmOSavNaiR/sUF8=;
- b=IS5d/OYqG2aGN022r/DgIHFr95rI4Y1bAEAhS3+ECeueLrPV37SEsbu6o0d53+Ed048lXardELw7brL/AMoYRhn8QnXk7ASF6JTzF/a2VOFZQtP16W5a1OKnQ8haGFP0oPjavtVnbk0Bii0amc5zuMXoVOGg64y3zzWvQE2hm3XRvy5wqGkzCwn0edt1TkOI9hOGoxvx4LuBEq4lUbA1celu8f8Nx8MCOQn9P0ysquV8JFyzGhCa89VLxs3+fBezdD+go3LKlLaYI3FP8Pxw+6HgBUo5rBLCFe616+kChRwGQGcLZBM35vzPtvq0KXunzHUJWhiydTMCr8keV2A6SA==
-Received: from SA1P222CA0083.NAMP222.PROD.OUTLOOK.COM (2603:10b6:806:35e::21)
- by SJ0PR12MB7460.namprd12.prod.outlook.com (2603:10b6:a03:48d::17)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8922.39; Fri, 18 Jul
- 2025 11:52:35 +0000
-Received: from SN1PEPF0002636C.namprd02.prod.outlook.com
- (2603:10b6:806:35e:cafe::f9) by SA1P222CA0083.outlook.office365.com
- (2603:10b6:806:35e::21) with Microsoft SMTP Server (version=TLS1_3,
- cipher=TLS_AES_256_GCM_SHA384) id 15.20.8943.23 via Frontend Transport; Fri,
- 18 Jul 2025 11:52:35 +0000
-X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 216.228.117.160)
- smtp.mailfrom=nvidia.com;
- dkim=none (message not signed)
- header.d=none;dmarc=pass action=none header.from=nvidia.com;
-Received-SPF: Pass (protection.outlook.com: domain of nvidia.com designates
- 216.228.117.160 as permitted sender) receiver=protection.outlook.com;
- client-ip=216.228.117.160; helo=mail.nvidia.com; pr=C
-Received: from mail.nvidia.com (216.228.117.160) by
- SN1PEPF0002636C.mail.protection.outlook.com (10.167.241.137) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.8943.21 via Frontend Transport; Fri, 18 Jul 2025 11:52:35 +0000
-Received: from rnnvmail202.nvidia.com (10.129.68.7) by mail.nvidia.com
- (10.129.200.66) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.4; Fri, 18 Jul
- 2025 04:52:17 -0700
-Received: from rnnvmail202.nvidia.com (10.129.68.7) by rnnvmail202.nvidia.com
- (10.129.68.7) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.14; Fri, 18 Jul
- 2025 04:52:17 -0700
-Received: from vdi.nvidia.com (10.127.8.9) by mail.nvidia.com (10.129.68.7)
- with Microsoft SMTP Server id 15.2.1544.14 via Frontend Transport; Fri, 18
- Jul 2025 04:52:12 -0700
-From: Yonatan Maman <ymaman@nvidia.com>
-To: =?UTF-8?q?J=C3=A9r=C3=B4me=20Glisse?= <jglisse@redhat.com>, Andrew Morton
- <akpm@linux-foundation.org>, Jason Gunthorpe <jgg@ziepe.ca>,
- Leon Romanovsky <leon@kernel.org>
-CC: Lyude Paul <lyude@redhat.com>, Danilo Krummrich <dakr@kernel.org>, "David
- Airlie" <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- Alistair Popple
- <apopple@nvidia.com>, Ben Skeggs <bskeggs@nvidia.com>, Michael Guralnik
- <michaelgur@nvidia.com>, Or Har-Toov <ohartoov@nvidia.com>, Daisuke Matsuda
- <dskmtsd@gmail.com>, Shay Drory <shayd@nvidia.com>, <linux-mm@kvack.org>,
- <linux-rdma@vger.kernel.org>, <dri-devel@lists.freedesktop.org>,
- <nouveau@lists.freedesktop.org>, <linux-kernel@vger.kernel.org>, "Yonatan
- Maman" <Ymaman@Nvidia.com>, Gal Shalom <GalShalom@Nvidia.com>
-Subject: [PATCH v2 5/5] RDMA/mlx5: Enabling ATS for ODP memory
-Date: Fri, 18 Jul 2025 14:51:12 +0300
-Message-ID: <20250718115112.3881129-6-ymaman@nvidia.com>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20250718115112.3881129-1-ymaman@nvidia.com>
-References: <20250718115112.3881129-1-ymaman@nvidia.com>
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id AFDCE10E98B
+ for <dri-devel@lists.freedesktop.org>; Fri, 18 Jul 2025 12:00:17 +0000 (UTC)
+Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org
+ [IPv6:2a07:de40:b281:104:10:150:64:97])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ (No client certificate requested)
+ by smtp-out1.suse.de (Postfix) with ESMTPS id 24AC8211BA;
+ Fri, 18 Jul 2025 12:00:16 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+ t=1752840016; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+ bh=/oJfLE2RimQsDx7Kxa2gwaUv8iRBLCnqa5J0JlzZEpw=;
+ b=AW4t1ESfHA7AKc2lbTC+3fgONl+JK3a3YqejRR8LAzfSn2/usiLzOMbdWfJEObJHE0vcBh
+ +bFsjOD1tk+Q7fp1/dYN/mm5JEsEdip/uUwZj4baAHqHswnRpk8aOiDZcU32e3d3RPvcOX
+ vejzuFhQkOkZ4OAlUMOzKTMKTF7hjTE=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+ s=susede2_ed25519; t=1752840016;
+ h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+ bh=/oJfLE2RimQsDx7Kxa2gwaUv8iRBLCnqa5J0JlzZEpw=;
+ b=JoWzKV9XahOb3PtuJkt+NcqpySz0mBXvlR1Sp9EMHrqQRpxI2HXb23pfyvhTzzS0Ye8vex
+ i2qG3J7wZ54dezCQ==
+Authentication-Results: smtp-out1.suse.de;
+ dkim=pass header.d=suse.de header.s=susede2_rsa header.b=AW4t1ESf;
+ dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=JoWzKV9X
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+ t=1752840016; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+ bh=/oJfLE2RimQsDx7Kxa2gwaUv8iRBLCnqa5J0JlzZEpw=;
+ b=AW4t1ESfHA7AKc2lbTC+3fgONl+JK3a3YqejRR8LAzfSn2/usiLzOMbdWfJEObJHE0vcBh
+ +bFsjOD1tk+Q7fp1/dYN/mm5JEsEdip/uUwZj4baAHqHswnRpk8aOiDZcU32e3d3RPvcOX
+ vejzuFhQkOkZ4OAlUMOzKTMKTF7hjTE=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+ s=susede2_ed25519; t=1752840016;
+ h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+ bh=/oJfLE2RimQsDx7Kxa2gwaUv8iRBLCnqa5J0JlzZEpw=;
+ b=JoWzKV9XahOb3PtuJkt+NcqpySz0mBXvlR1Sp9EMHrqQRpxI2HXb23pfyvhTzzS0Ye8vex
+ i2qG3J7wZ54dezCQ==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ (No client certificate requested)
+ by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id D7B7F13A52;
+ Fri, 18 Jul 2025 12:00:15 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+ by imap1.dmz-prg2.suse.org with ESMTPSA id jcozM083emj7CQAAD6G6ig
+ (envelope-from <tzimmermann@suse.de>); Fri, 18 Jul 2025 12:00:15 +0000
+Message-ID: <fbb77c0f-2bc1-45b4-9475-d2b17c9bcf8b@suse.de>
+Date: Fri, 18 Jul 2025 14:00:15 +0200
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-NV-OnPremToCloud: AnonymousSubmission
-X-EOPAttributedMessage: 0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: SN1PEPF0002636C:EE_|SJ0PR12MB7460:EE_
-X-MS-Office365-Filtering-Correlation-Id: e54f7cd4-055e-45db-d1cd-08ddc5f1962c
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
- ARA:13230040|1800799024|36860700013|7416014|376014|82310400026; 
-X-Microsoft-Antispam-Message-Info: =?us-ascii?Q?+biFyDegrfRiNf/HlXYPNvVGRtM54in/6aog1xbFCPJ0hdopYeztHIIyzDBh?=
- =?us-ascii?Q?5AQuoLYVDD35TnI8pgU4G/4QVxeD3o1HFac9sFVpT1nXfz3ujQpHoYW6b7Bn?=
- =?us-ascii?Q?a8LhiedPNhkBCVMCvfC15piZTScDUYrmZYj02pXYaUsUUIC5oe7nIBFHkTy2?=
- =?us-ascii?Q?PUc2Ro1in9C/SDvc669eZZLChsXuTtALDgjEiFoivIcjTQgyF9nTBzLgpHJy?=
- =?us-ascii?Q?SN1q86XlAWrD40/8N6P2IQxvd2dRYmohCQ3OjauHdVhgIdnxOCq8js4UVw1c?=
- =?us-ascii?Q?6+P3Ag4Z0x4r/dhqaGrT1OaBbxTfW8N/04Oh/JKQrCOqbryRLkP7tmneB99m?=
- =?us-ascii?Q?7k5zRoyRO8f9rMf9rNYFYyM1SvViHLb2HENEfQn1LVP2WXjDahgkYj/nVDU5?=
- =?us-ascii?Q?2S/CPD0Zjn2uu8Fz2zdgRPbaXU2QKnDYu6yZA/aGLbGLUiLf8R/64eea7rXA?=
- =?us-ascii?Q?WYGya6Wz+NmzZqSf3eKNAdjfAcFq0wFFJp6TXCHCJA4UjLS4VVijbJj1LyJU?=
- =?us-ascii?Q?D/wk/vZ9dr24eLZZKZRsGMd7jeGwLsKRW0KLflL1LPNM+S78lXVydj8hnZyE?=
- =?us-ascii?Q?BhgCttDfB1qm08Bty+P9KITwOsbwlVOlP0gH8m0Le1qtjOkhv3B1Co5dLykh?=
- =?us-ascii?Q?7rBSWB7O3rcKSIA2SFhO63o1h/4xILPJfithSN+2UMWBB4I0pdHzwW1Pz825?=
- =?us-ascii?Q?Bk0XYGX5ui/E0uEoAfeTrymen8SGPw8IhKdWPBLn/RF7JzV62snLBddz6qgu?=
- =?us-ascii?Q?B6PzME8F9dkdoaKsPWQBcn7p+9l2F2ak0pKfTm9HBH4mwax614R/fyKkIJhy?=
- =?us-ascii?Q?3nsK5/YQD9EBaQlItHvPlqdfKe+A7vWlQUB/+PrUdijV7ZxrKK62kzMsSuQM?=
- =?us-ascii?Q?fQxvPnbGEajT8yrKe6NTA8lLC10sECvDlZedW+xcgDynl9bPgVNgoq/E6BRY?=
- =?us-ascii?Q?9VHOvk1nF7F+zScGQWlAPJtZUq+tLnEYNmA4M64BOup6k0RKffcE6QSGjAL3?=
- =?us-ascii?Q?0Wj4h8v+Kvg5zn671xR6o+SKlTS+/mhL78aw5h+pJj6Tn1RTysZ/8vStZ2vu?=
- =?us-ascii?Q?GRhtJ3GK/9F97Xr3aHa9LJzkmFFr9algtnAItG80cyanmlpjRro4vQxqw8bX?=
- =?us-ascii?Q?/nYPlWfJjoR+sC1gMhkxlSkM4vm0aZMg2JeBXoNckwR1aCta7oKR2PwF0EWX?=
- =?us-ascii?Q?nMN3c7MEcWlQz4z6P5jbo3hJfOmAGZEMSL63mYJy/ru2j1bqQ9eLAGhWNHKV?=
- =?us-ascii?Q?ZwYSwGd7C85YGgKUMM3/OHBVEjow5QomeQjlwVy83DOGpv4yr8NG8NUwYn77?=
- =?us-ascii?Q?coQBTSNAe2av3kRDuyWt3BgV8RoPkqcDHotzalod4EaWSv72dLV15dmUVFZo?=
- =?us-ascii?Q?K6H7y2RcIie3Qrjug12a9rrEfiF1Q0PYtLvAmsuCprVaRh33xKK87I6IQiVf?=
- =?us-ascii?Q?n8Aw9Hsy81o6kltsqRU2eSRCqe8YVfd0GKpQ6JieAx2GY7+AUXdWA42T7HXf?=
- =?us-ascii?Q?I1nbp3zVELA3D1krEzivdFenn+rlhbAn4jv/?=
-X-Forefront-Antispam-Report: CIP:216.228.117.160; CTRY:US; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:mail.nvidia.com; PTR:dc6edge1.nvidia.com; CAT:NONE;
- SFS:(13230040)(1800799024)(36860700013)(7416014)(376014)(82310400026); DIR:OUT;
- SFP:1101; 
-X-OriginatorOrg: Nvidia.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 18 Jul 2025 11:52:35.2142 (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: e54f7cd4-055e-45db-d1cd-08ddc5f1962c
-X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=43083d15-7273-40c1-b7db-39efd9ccc17a; Ip=[216.228.117.160];
- Helo=[mail.nvidia.com]
-X-MS-Exchange-CrossTenant-AuthSource: SN1PEPF0002636C.namprd02.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Anonymous
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SJ0PR12MB7460
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] drm/sitronix/st7571-i2c: Make st7571_panel_data to be
+ static variables
+To: Javier Martinez Canillas <javierm@redhat.com>, linux-kernel@vger.kernel.org
+Cc: kernel test robot <lkp@intel.com>, David Airlie <airlied@gmail.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Marcus Folkesson <marcus.folkesson@gmail.com>,
+ Maxime Ripard <mripard@kernel.org>, Simona Vetter <simona@ffwll.ch>,
+ dri-devel@lists.freedesktop.org
+References: <20250718072541.686759-1-javierm@redhat.com>
+Content-Language: en-US
+From: Thomas Zimmermann <tzimmermann@suse.de>
+Autocrypt: addr=tzimmermann@suse.de; keydata=
+ xsBNBFs50uABCADEHPidWt974CaxBVbrIBwqcq/WURinJ3+2WlIrKWspiP83vfZKaXhFYsdg
+ XH47fDVbPPj+d6tQrw5lPQCyqjwrCPYnq3WlIBnGPJ4/jreTL6V+qfKRDlGLWFjZcsrPJGE0
+ BeB5BbqP5erN1qylK9i3gPoQjXGhpBpQYwRrEyQyjuvk+Ev0K1Jc5tVDeJAuau3TGNgah4Yc
+ hdHm3bkPjz9EErV85RwvImQ1dptvx6s7xzwXTgGAsaYZsL8WCwDaTuqFa1d1jjlaxg6+tZsB
+ 9GluwvIhSezPgnEmimZDkGnZRRSFiGP8yjqTjjWuf0bSj5rUnTGiyLyRZRNGcXmu6hjlABEB
+ AAHNJ1Rob21hcyBaaW1tZXJtYW5uIDx0emltbWVybWFubkBzdXNlLmRlPsLAjgQTAQgAOAIb
+ AwULCQgHAgYVCgkICwIEFgIDAQIeAQIXgBYhBHIX+6yM6c9jRKFo5WgNwR1TC3ojBQJftODH
+ AAoJEGgNwR1TC3ojx1wH/0hKGWugiqDgLNXLRD/4TfHBEKmxIrmfu9Z5t7vwUKfwhFL6hqvo
+ lXPJJKQpQ2z8+X2vZm/slsLn7J1yjrOsoJhKABDi+3QWWSGkaGwRJAdPVVyJMfJRNNNIKwVb
+ U6B1BkX2XDKDGffF4TxlOpSQzdtNI/9gleOoUA8+jy8knnDYzjBNOZqLG2FuTdicBXblz0Mf
+ vg41gd9kCwYXDnD91rJU8tzylXv03E75NCaTxTM+FBXPmsAVYQ4GYhhgFt8S2UWMoaaABLDe
+ 7l5FdnLdDEcbmd8uLU2CaG4W2cLrUaI4jz2XbkcPQkqTQ3EB67hYkjiEE6Zy3ggOitiQGcqp
+ j//OwE0EWznS4AEIAMYmP4M/V+T5RY5at/g7rUdNsLhWv1APYrh9RQefODYHrNRHUE9eosYb
+ T6XMryR9hT8XlGOYRwKWwiQBoWSDiTMo/Xi29jUnn4BXfI2px2DTXwc22LKtLAgTRjP+qbU6
+ 3Y0xnQN29UGDbYgyyK51DW3H0If2a3JNsheAAK+Xc9baj0LGIc8T9uiEWHBnCH+RdhgATnWW
+ GKdDegUR5BkDfDg5O/FISymJBHx2Dyoklv5g4BzkgqTqwmaYzsl8UxZKvbaxq0zbehDda8lv
+ hFXodNFMAgTLJlLuDYOGLK2AwbrS3Sp0AEbkpdJBb44qVlGm5bApZouHeJ/+n+7r12+lqdsA
+ EQEAAcLAdgQYAQgAIAIbDBYhBHIX+6yM6c9jRKFo5WgNwR1TC3ojBQJftOH6AAoJEGgNwR1T
+ C3ojVSkIALpAPkIJPQoURPb1VWjh34l0HlglmYHvZszJWTXYwavHR8+k6Baa6H7ufXNQtThR
+ yIxJrQLW6rV5lm7TjhffEhxVCn37+cg0zZ3j7zIsSS0rx/aMwi6VhFJA5hfn3T0TtrijKP4A
+ SAQO9xD1Zk9/61JWk8OysuIh7MXkl0fxbRKWE93XeQBhIJHQfnc+YBLprdnxR446Sh8Wn/2D
+ Ya8cavuWf2zrB6cZurs048xe0UbSW5AOSo4V9M0jzYI4nZqTmPxYyXbm30Kvmz0rYVRaitYJ
+ 4kyYYMhuULvrJDMjZRvaNe52tkKAvMevcGdt38H4KSVXAylqyQOW5zvPc4/sq9c=
+In-Reply-To: <20250718072541.686759-1-javierm@redhat.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Spam-Level: 
+X-Spam-Flag: NO
+X-Rspamd-Queue-Id: 24AC8211BA
+X-Rspamd-Action: no action
+X-Rspamd-Server: rspamd1.dmz-prg2.suse.org
+X-Spamd-Result: default: False [-3.01 / 50.00]; BAYES_HAM(-3.00)[100.00%];
+ SUSPICIOUS_RECIPS(1.50)[]; NEURAL_HAM_LONG(-1.00)[-1.000];
+ R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+ NEURAL_HAM_SHORT(-0.20)[-1.000]; MIME_GOOD(-0.10)[text/plain];
+ MX_GOOD(-0.01)[]; TO_MATCH_ENVRCPT_ALL(0.00)[];
+ FREEMAIL_ENVRCPT(0.00)[gmail.com];
+ DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+ MIME_TRACE(0.00)[0:+];
+ FREEMAIL_CC(0.00)[intel.com,gmail.com,linux.intel.com,kernel.org,ffwll.ch,lists.freedesktop.org];
+ ARC_NA(0.00)[]; FUZZY_RATELIMITED(0.00)[rspamd.com];
+ RCVD_TLS_ALL(0.00)[]; DKIM_TRACE(0.00)[suse.de:+];
+ RCVD_VIA_SMTP_AUTH(0.00)[]; RCVD_COUNT_TWO(0.00)[2];
+ FROM_EQ_ENVFROM(0.00)[]; FROM_HAS_DN(0.00)[];
+ TO_DN_SOME(0.00)[];
+ DNSWL_BLOCKED(0.00)[2a07:de40:b281:104:10:150:64:97:from,2a07:de40:b281:106:10:150:64:167:received];
+ RCPT_COUNT_SEVEN(0.00)[9]; MID_RHS_MATCH_FROM(0.00)[];
+ TAGGED_RCPT(0.00)[];
+ RECEIVED_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:106:10:150:64:167:received];
+ DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:rdns,
+ imap1.dmz-prg2.suse.org:helo, suse.de:dkim, suse.de:mid]
+X-Spam-Score: -3.01
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -150,36 +156,62 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Yonatan Maman <Ymaman@Nvidia.com>
+Hi Javier
 
-ATS (Address Translation Services) mainly utilized to optimize PCI
-Peer-to-Peer transfers and prevent bus failures. This change employed
-ATS usage for ODP memory, to optimize DMA P2P for ODP memory. (e.g DMA
-P2P for private device pages - ODP memory).
+Am 18.07.25 um 09:25 schrieb Javier Martinez Canillas:
+> The kernel test robot reported that sparse gives the following warnings:
+>
+> make C=2 M=drivers/gpu/drm/sitronix/
+>    CC [M]  st7571-i2c.o
+>    CHECK   st7571-i2c.c
+> st7571-i2c.c:1027:26: warning: symbol 'st7567_config' was not declared. Should it be static?
+> st7571-i2c.c:1039:26: warning: symbol 'st7571_config' was not declared. Should it be static?
+>    MODPOST Module.symvers
+>    LD [M]  st7571-i2c.ko
+>
+> Reported-by: kernel test robot <lkp@intel.com>
+> Closes: https://lore.kernel.org/oe-kbuild-all/202507180503.nfyD9uRv-lkp@intel.com
+> Signed-off-by: Javier Martinez Canillas <javierm@redhat.com>
+> ---
+>
+>   drivers/gpu/drm/sitronix/st7571-i2c.c | 4 ++--
+>   1 file changed, 2 insertions(+), 2 deletions(-)
+>
+> diff --git a/drivers/gpu/drm/sitronix/st7571-i2c.c b/drivers/gpu/drm/sitronix/st7571-i2c.c
+> index 453eb7e045e5..7fe5b69e6f2f 100644
+> --- a/drivers/gpu/drm/sitronix/st7571-i2c.c
+> +++ b/drivers/gpu/drm/sitronix/st7571-i2c.c
+> @@ -1024,7 +1024,7 @@ static void st7571_remove(struct i2c_client *client)
+>   	drm_dev_unplug(&st7571->dev);
+>   }
+>   
+> -struct st7571_panel_data st7567_config = {
+> +static struct st7571_panel_data st7567_config = {
 
-Signed-off-by: Yonatan Maman <Ymaman@Nvidia.com>
-Signed-off-by: Gal Shalom <GalShalom@Nvidia.com>
----
- drivers/infiniband/hw/mlx5/mlx5_ib.h | 6 +++---
- 1 file changed, 3 insertions(+), 3 deletions(-)
+Make it 'static const' please. Here and below.
 
-diff --git a/drivers/infiniband/hw/mlx5/mlx5_ib.h b/drivers/infiniband/hw/mlx5/mlx5_ib.h
-index fde859d207ae..a7b7a565b7e8 100644
---- a/drivers/infiniband/hw/mlx5/mlx5_ib.h
-+++ b/drivers/infiniband/hw/mlx5/mlx5_ib.h
-@@ -1734,9 +1734,9 @@ static inline bool rt_supported(int ts_cap)
- static inline bool mlx5_umem_needs_ats(struct mlx5_ib_dev *dev,
- 				       struct ib_umem *umem, int access_flags)
- {
--	if (!MLX5_CAP_GEN(dev->mdev, ats) || !umem->is_dmabuf)
--		return false;
--	return access_flags & IB_ACCESS_RELAXED_ORDERING;
-+	if (MLX5_CAP_GEN(dev->mdev, ats) && (umem->is_dmabuf || umem->is_odp))
-+		return access_flags & IB_ACCESS_RELAXED_ORDERING;
-+	return false;
- }
- 
- int set_roce_addr(struct mlx5_ib_dev *dev, u32 port_num,
+Best regards
+Thomas
+
+>   	.init = st7567_lcd_init,
+>   	.parse_dt = st7567_parse_dt,
+>   	.constraints = {
+> @@ -1036,7 +1036,7 @@ struct st7571_panel_data st7567_config = {
+>   	},
+>   };
+>   
+> -struct st7571_panel_data st7571_config = {
+> +static struct st7571_panel_data st7571_config = {
+>   	.init = st7571_lcd_init,
+>   	.parse_dt = st7571_parse_dt,
+>   	.constraints = {
+
 -- 
-2.34.1
+--
+Thomas Zimmermann
+Graphics Driver Developer
+SUSE Software Solutions Germany GmbH
+Frankenstrasse 146, 90461 Nuernberg, Germany
+GF: Ivo Totev, Andrew Myers, Andrew McDonald, Boudien Moerman
+HRB 36809 (AG Nuernberg)
 
