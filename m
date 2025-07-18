@@ -2,143 +2,67 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8D62EB0A095
-	for <lists+dri-devel@lfdr.de>; Fri, 18 Jul 2025 12:27:00 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id EC6A3B0A0C2
+	for <lists+dri-devel@lfdr.de>; Fri, 18 Jul 2025 12:34:06 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9C5D910E943;
-	Fri, 18 Jul 2025 10:26:58 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B92DF10E940;
+	Fri, 18 Jul 2025 10:34:04 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=broadcom.com header.i=@broadcom.com header.b="H71nClKD";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="LIXgbOrw";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-qk1-f179.google.com (mail-qk1-f179.google.com
- [209.85.222.179])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9D2B410E943
- for <dri-devel@lists.freedesktop.org>; Fri, 18 Jul 2025 10:26:56 +0000 (UTC)
-Received: by mail-qk1-f179.google.com with SMTP id
- af79cd13be357-7dd8773f9d9so180130285a.2
- for <dri-devel@lists.freedesktop.org>; Fri, 18 Jul 2025 03:26:56 -0700 (PDT)
+Received: from mail-ed1-f54.google.com (mail-ed1-f54.google.com
+ [209.85.208.54])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id F155110E940
+ for <dri-devel@lists.freedesktop.org>; Fri, 18 Jul 2025 10:34:02 +0000 (UTC)
+Received: by mail-ed1-f54.google.com with SMTP id
+ 4fb4d7f45d1cf-60707b740a6so2644521a12.0
+ for <dri-devel@lists.freedesktop.org>; Fri, 18 Jul 2025 03:34:02 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=broadcom.com; s=google; t=1752834415; x=1753439215;
- darn=lists.freedesktop.org; 
- h=content-transfer-encoding:in-reply-to:autocrypt:from
- :content-language:references:cc:to:subject:user-agent:mime-version
- :date:message-id:from:to:cc:subject:date:message-id:reply-to;
- bh=Tceb6O3nBrebvy+ZDwLDwrGTRdGaZ8naYMQfV4XKrrU=;
- b=H71nClKDQgr2Oomm/gjBWWIIREqATZyMCEvisvZFsQyMBuCXdEIvK6ygJ8A+h7VwIU
- Da1RR3wqK/O+LE9Z8XcwqBB050c2njEQHSakqkOHBHiyRLL7WIIz2XdM2/qrgoDot7d9
- aNkTxTsy48mUmk+scyH0RYj117XkMaMMY0d7I=
+ d=gmail.com; s=20230601; t=1752834841; x=1753439641; darn=lists.freedesktop.org;
+ h=cc:to:subject:message-id:date:from:mime-version:from:to:cc:subject
+ :date:message-id:reply-to;
+ bh=2qBzQmRBIh3BDUW1vW6d6WLsqLJRkox9K+h2IOJ36Pw=;
+ b=LIXgbOrwGZ+Cri1/zWZA5i99Cm527m30/XHNKfHTz7AZDEYCN9U5xZhWDKnXnQfF5U
+ O5soZrAnHg2ATJE2+riBtKJjY3Ts2Zz4TvkN0pBEXpqhOdPNtEAVFGpC9kQZiW1Ioxcu
+ 2xpsg1jsjkjxEBisV+wWhCNb7x0EB//vYJ0EChqPZ+BoMep5tTOoLMiUBpm+A60Rcd/z
+ Wa3ed0zaAVN+/pD/1JWvX4BCBCek4Kh19ZdHECGvD9o39snsGVdOU0q8VM2wVgaNqM40
+ gYq5wbFNBfLgtLwDR6bgjZfhNOynGz0dRefrnXde+UTrfBU7Toz6FTvmljqf+XZPqOuD
+ ZcKg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1752834415; x=1753439215;
- h=content-transfer-encoding:in-reply-to:autocrypt:from
- :content-language:references:cc:to:subject:user-agent:mime-version
- :date:message-id:x-gm-message-state:from:to:cc:subject:date
- :message-id:reply-to;
- bh=Tceb6O3nBrebvy+ZDwLDwrGTRdGaZ8naYMQfV4XKrrU=;
- b=cUsJS5g36n+SjNxsrGTKBx9QsBloyeLAOBG+Lwht1ne8/acIA3TAbL73o/8SCKj+xm
- YvPLAAMRHNyLYb7eLZEAc7UjoGmJa95y+ApyQY4hneZZWS09Wp9k2oKJgEsaAz1Qzx+I
- I1aJoaGXfRBayhK1GQcBOvwH47rRcOAGwYaNa3ek0fuxQBVQvKKAWBCxMxxlGDPyMggq
- vzvdXLDmq+PMS9nowljf21n4ChDNx8+iJ9j1LJKtLp399s79HYpTgOZm6we8HAheycSX
- jDbNwwU+svMV942CcB4fm3/LUp7RmX+r894Zdbk27qAhFQY17lzNIMy5DYsqsrk25jIx
- /xYA==
-X-Forwarded-Encrypted: i=1;
- AJvYcCWwbiUN4hPQW2P7UK+o2HhfaasYz33/yv33zNs+GRGlD24v62/a4QRuk7IjcXwLpHwfl16iiq+NUFY=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YxMLlxCJ0BANX9xQ8yib+hgXvSnjOzAy8/4KRdB/S+V+6biwTuZ
- 3Oiauhg4Uc/6Ha0mM80tgHUe2UbPKwUhi+i7v1bzj5VtNqQ8boHY/+RB0bRmRVdGSQ==
-X-Gm-Gg: ASbGncto42FuW/UlY95ka+ULh73h44VfvlTK6TmAo/wVg/esSZOHmJfUCj4Rz2A8ut0
- SvuSc9kiH0SEcUHlfWGchIC7RBE4x1VqWbpmpMdpeM5/GXsMMvrTvAE3vzssVPqrCdvZ1uT6Kpn
- jpSR5wSVSYAGTV4DG7o90WWKLKNJSUC1cOsjuzTffmbF3kcfNPBEEYaebhMMPxv5F9JO4f+NHoC
- iQjUIe9S88vqHpuZZ1cu2WpZdREkek7b7kHAKWvWc+EHthq8S1y2JbZ89L8UMXq7o/apsGyH6Mr
- SxF+AWxfVDiOhaieukVAEzXYNvdVAswmVA8NPYXKy3tgsa0fV4r8UuoL9eiIP03V4kGq39g7QmF
- gd/98Ux8QoTeXFmMJ6NShW9Brme+NbtIjJnhZ25ixY/TG/XWUZDk=
-X-Google-Smtp-Source: AGHT+IEqo4UAFanleVPdYl4dXVyU1lZnXf1z6whg+8xWt/p2QDWx5PJ8H+d/5db0hyJyi9WF5q8VPA==
-X-Received: by 2002:a05:620a:19a5:b0:7e3:52f6:66e5 with SMTP id
- af79cd13be357-7e352f6672amr568859885a.35.1752834415217; 
- Fri, 18 Jul 2025 03:26:55 -0700 (PDT)
-Received: from [10.229.41.1] ([192.19.176.250])
- by smtp.gmail.com with ESMTPSA id
- af79cd13be357-7e356b46814sm68537885a.30.2025.07.18.03.26.45
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 18 Jul 2025 03:26:54 -0700 (PDT)
-Message-ID: <4445c7ec-a580-4c28-89cf-2df5790de6ac@broadcom.com>
-Date: Fri, 18 Jul 2025 12:26:43 +0200
+ d=1e100.net; s=20230601; t=1752834841; x=1753439641;
+ h=cc:to:subject:message-id:date:from:mime-version:x-gm-message-state
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=2qBzQmRBIh3BDUW1vW6d6WLsqLJRkox9K+h2IOJ36Pw=;
+ b=G8MD78RCqmbKRYbmm1+c3CdsZ2ehanbnrAtJ0qqGOVoDuytQkYyuD735QgetGc6Tep
+ zmlQmY4FQ3oUyMdMdtU3mXcUPyYyuiCWta0vZwl0XzXLSmeRSOwnfhm3jlHVHDNyQv27
+ 7gBvJlJ+QlRC6iTSTakp6GebGslNcA8nl6jjAs/aq7ur1jiu0MHNCGEUwDfXl89+a9/T
+ F/ltTpjCNFSYdQoP1vD/7vn9P0B7Gx299tYygjwrSERRViKuZzlKia9sgbdTW953wyAS
+ ktuBQ/M18sBlsxAuX7MdLfhC0EQkyAnmHyM7EMQb+AUVG5eo2ZbPTRb5aagv5YWMed7S
+ 5P3A==
+X-Gm-Message-State: AOJu0YwZWs2qOiZliKvkovFiN3sGmpfJ1PrqvA75rVwYdPwDPVwF8uR+
+ T+7bLDPYukKsJo7d5Gp9xS7wKF4Z31Mhfzer5CH6DIzitdYHsxKE89rOrKj4HYsaEo9Afw+nNmt
+ 4n5Cp6fwPdOTcmAKnOOrGI3CVx07oiaY=
+X-Gm-Gg: ASbGncvtNJO/FGySywIkyizLMQfmB0UFEY/Si09M1ppuoMR9e4U1gECgyaBO28AlBY1
+ 6prvat+YyryaooqVYsv/ynsydlB7YI4OKWUyDZpv9ijMVW71lrnta7uRxj3fCjpz7uWv8j6XmR5
+ d1tqC3PxvJfpXrSjyObqPuzt/7jKh+KjpyyP88HMbfYXFWjJED7Dq+Fqa2NFtNOoW8Q7lQ/6QcN
+ XIGOA==
+X-Google-Smtp-Source: AGHT+IG2UzroybGbjxMAlDl+usjSPFuJ7OORDuvOW1+VPzbf93etkJSI7Wt8vOuBB4n18PT3HeNRfnA/8mQpbZ7TJ1A=
+X-Received: by 2002:a17:907:3e9c:b0:ae3:c968:370 with SMTP id
+ a640c23a62f3a-ae9ce1e8c11mr801676266b.59.1752834841039; Fri, 18 Jul 2025
+ 03:34:01 -0700 (PDT)
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 5/8] wifi: brcmfmac: Fix typo "notifer"
-To: WangYuli <wangyuli@uniontech.com>
-Cc: airlied@gmail.com, akpm@linux-foundation.org, alison.schofield@intel.com, 
- andrew+netdev@lunn.ch, andriy.shevchenko@linux.intel.com, bp@alien8.de,
- brcm80211-dev-list.pdl@broadcom.com, brcm80211@lists.linux.dev,
- colin.i.king@gmail.com, cvam0000@gmail.com, dan.j.williams@intel.com,
- dave.hansen@linux.intel.com, dave.jiang@intel.com, dave@stgolabs.net,
- davem@davemloft.net, dri-devel@lists.freedesktop.org, edumazet@google.com,
- gregkh@linuxfoundation.org, guanwentao@uniontech.com, hpa@zytor.com,
- ilpo.jarvinen@linux.intel.com, intel-xe@lists.freedesktop.org,
- ira.weiny@intel.com, j@jannau.net, jeff.johnson@oss.qualcomm.com,
- jgross@suse.com, jirislaby@kernel.org, johannes.berg@intel.com,
- jonathan.cameron@huawei.com, kuba@kernel.org, kvalo@kernel.org,
- kvm@vger.kernel.org, linux-cxl@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-serial@vger.kernel.org,
- linux-wireless@vger.kernel.org, linux@treblig.org, lucas.demarchi@intel.com,
- marcin.s.wojtas@gmail.com, ming.li@zohomail.com, mingo@kernel.org,
- mingo@redhat.com, netdev@vger.kernel.org, niecheng1@uniontech.com,
- oleksandr_tyshchenko@epam.com, pabeni@redhat.com, pbonzini@redhat.com,
- quic_ramess@quicinc.com, ragazenta@gmail.com, rodrigo.vivi@intel.com,
- seanjc@google.com, shenlichuan@vivo.com, simona@ffwll.ch,
- sstabellini@kernel.org, tglx@linutronix.de,
- thomas.hellstrom@linux.intel.com, vishal.l.verma@intel.com, x86@kernel.org,
- xen-devel@lists.xenproject.org, yujiaoliang@vivo.com, zhanjun@uniontech.com
-References: <BD5C52D2838AEA48+20250715134050.539234-1-wangyuli@uniontech.com>
- <F92035B0A9123150+20250715134407.540483-5-wangyuli@uniontech.com>
-Content-Language: en-US
-From: Arend van Spriel <arend.vanspriel@broadcom.com>
-Autocrypt: addr=arend.vanspriel@broadcom.com; keydata=
- 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
-In-Reply-To: <F92035B0A9123150+20250715134407.540483-5-wangyuli@uniontech.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+From: Dave Airlie <airlied@gmail.com>
+Date: Fri, 18 Jul 2025 20:33:49 +1000
+X-Gm-Features: Ac12FXxPoz0a_9s4aNvXMBUDtxzj332uUJx2lcLhSuVeOysV_Ak0Yc-0WKNLnIg
+Message-ID: <CAPM=9tzJPpV89V934YdOO=i1gEVwx9NOMV+w8+hqRgDLk+6L+A@mail.gmail.com>
+Subject: [git pull] drm fixes for 6.16-rc7
+To: Linus Torvalds <torvalds@linux-foundation.org>,
+ Simona Vetter <simona@ffwll.ch>
+Cc: dri-devel <dri-devel@lists.freedesktop.org>,
+ LKML <linux-kernel@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -154,19 +78,184 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 7/15/2025 3:44 PM, WangYuli wrote:
-> There is a spelling mistake of 'notifer' in the comment which
-> should be 'notifier'.
-> 
-> Link:https://lore.kernel.org/all/B3C019B63C93846F+20250715071245.398846-1- 
-> wangyuli@uniontech.com/
+Hi Linus,
 
-I think it has been said on other patches but it is not common to link 
-to obsolete version of the patch series. Apart from that:
+Thanks to Simona for taking over the fixes duties last week, it seems
+like I missed a fun week of regression hunting!
 
-Acked-by: Arend van Spriel <arend.vanspriel@broadcom.com>> 
-Signed-off-by: WangYuli<wangyuli@uniontech.com>
-> ---
->   drivers/net/wireless/broadcom/brcm80211/brcmfmac/cfg80211.c | 2 +-
->   1 file changed, 1 insertion(+), 1 deletion(-)
+Seems like a quiet enough week, xe/amdgpu being the usual suspects,
+then mediatek with a few fixes, and otherwise just misc other bits.
 
+Dave.
+
+drm-fixes-2025-07-18-1:
+drm fixes for 6.16-rc7
+
+dp:
+- aux dpcd address fix
+
+xe:
+- SR-IOV fixes for GT reset and TLB invalidation
+- Fix memory copy direction during migration
+- Fix alignment check on migration
+- Fix MOCS and page fault init order to correctly
+  account for topology
+
+amdgpu:
+- Fix a DC memory leak
+- DCN 4.0.1 degamma LUT fix
+- Fix reset counter handling for soft recovery
+- GC 8 fix
+
+radeon:
+- Drop console locks when suspending/resuming
+
+nouveau:
+- ioctl validation fix
+
+panfrost:
+- scheduler bug fix
+
+mediatek:
+- Add wait_event_timeout when disabling plane
+- only announce AFBC if really supported
+- mtk_dpi: Reorder output formats on MT8195/88
+The following changes since commit 347e9f5043c89695b01e66b3ed111755afcf1911:
+
+  Linux 6.16-rc6 (2025-07-13 14:25:58 -0700)
+
+are available in the Git repository at:
+
+  https://gitlab.freedesktop.org/drm/kernel.git tags/drm-fixes-2025-07-18-1
+
+for you to fetch changes up to 4d33ed640ffc06734271cebda5ac2e3b5a79f453:
+
+  Merge tag 'drm-xe-fixes-2025-07-17' of
+https://gitlab.freedesktop.org/drm/xe/kernel into drm-fixes
+(2025-07-18 14:04:06 +1000)
+
+----------------------------------------------------------------
+drm fixes for 6.16-rc7
+
+dp:
+- aux dpcd address fix
+
+xe:
+- SR-IOV fixes for GT reset and TLB invalidation
+- Fix memory copy direction during migration
+- Fix alignment check on migration
+- Fix MOCS and page fault init order to correctly
+  account for topology
+
+amdgpu:
+- Fix a DC memory leak
+- DCN 4.0.1 degamma LUT fix
+- Fix reset counter handling for soft recovery
+- GC 8 fix
+
+radeon:
+- Drop console locks when suspending/resuming
+
+nouveau:
+- ioctl validation fix
+
+panfrost:
+- scheduler bug fix
+
+mediatek:
+- Add wait_event_timeout when disabling plane
+- only announce AFBC if really supported
+- mtk_dpi: Reorder output formats on MT8195/88
+
+----------------------------------------------------------------
+Arnd Bergmann (1):
+      drm/nouveau: check ioctl command codes better
+
+Balasubramani Vivekanandan (1):
+      drm/xe/mocs: Initialize MOCS index early
+
+Clayton King (1):
+      drm/amd/display: Free memory allocation
+
+Dave Airlie (5):
+      Merge tag 'drm-misc-fixes-2025-07-16' of
+https://gitlab.freedesktop.org/drm/misc/kernel into drm-fixes
+      Merge tag 'drm-intel-fixes-2025-07-17' of
+https://gitlab.freedesktop.org/drm/i915/kernel into drm-fixes
+      Merge tag 'amd-drm-fixes-6.16-2025-07-17' of
+https://gitlab.freedesktop.org/agd5f/linux into drm-fixes
+      Merge tag 'mediatek-drm-fixes-20250718' of
+https://git.kernel.org/pub/scm/linux/kernel/git/chunkuang.hu/linux
+into drm-fixes
+      Merge tag 'drm-xe-fixes-2025-07-17' of
+https://gitlab.freedesktop.org/drm/xe/kernel into drm-fixes
+
+Eeli Haapalainen (1):
+      drm/amdgpu/gfx8: reset compute ring wptr on the GPU on resume
+
+Icenowy Zheng (1):
+      drm/mediatek: only announce AFBC if really supported
+
+Imre Deak (1):
+      drm/dp: Change AUX DPCD probe address from LANE0_1_STATUS to
+TRAINING_PATTERN_SET
+
+Jason-JH Lin (1):
+      drm/mediatek: Add wait_event_timeout when disabling plane
+
+Lijo Lazar (1):
+      drm/amdgpu: Increase reset counter only on success
+
+Louis-Alexis Eyraud (1):
+      drm/mediatek: mtk_dpi: Reorder output formats on MT8195/88
+
+Lucas De Marchi (1):
+      drm/xe/migrate: Fix alignment check
+
+Matthew Auld (1):
+      drm/xe/migrate: fix copy direction in access_memory
+
+Matthew Brost (1):
+      drm/xe: Move page fault init after topology init
+
+Melissa Wen (1):
+      drm/amd/display: Disable CRTC degamma LUT for DCN401
+
+Michal Wajdeczko (2):
+      drm/xe/pf: Prepare to stop SR-IOV support prior GT reset
+      drm/xe/pf: Resend PF provisioning after GT reset
+
+Philipp Stanner (1):
+      drm/panfrost: Fix scheduler workqueue bug
+
+Tejas Upadhyay (1):
+      drm/xe: Dont skip TLB invalidations on VF
+
+Thomas Zimmermann (2):
+      drm/radeon: Do not hold console lock while suspending clients
+      drm/radeon: Do not hold console lock during resume
+
+ drivers/gpu/drm/amd/amdgpu/amdgpu_ring.c           |  9 ++++--
+ drivers/gpu/drm/amd/amdgpu/gfx_v8_0.c              |  1 +
+ .../gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_crtc.c | 11 ++++++-
+ .../amd/display/dc/clk_mgr/dcn401/dcn401_clk_mgr.c |  3 +-
+ drivers/gpu/drm/display/drm_dp_helper.c            |  2 +-
+ drivers/gpu/drm/mediatek/mtk_crtc.c                | 36 +++++++++++++++++++++-
+ drivers/gpu/drm/mediatek/mtk_crtc.h                |  1 +
+ drivers/gpu/drm/mediatek/mtk_ddp_comp.c            |  1 +
+ drivers/gpu/drm/mediatek/mtk_ddp_comp.h            |  9 ++++++
+ drivers/gpu/drm/mediatek/mtk_disp_drv.h            |  1 +
+ drivers/gpu/drm/mediatek/mtk_disp_ovl.c            |  7 +++++
+ drivers/gpu/drm/mediatek/mtk_dpi.c                 |  4 +--
+ drivers/gpu/drm/mediatek/mtk_plane.c               | 12 ++++++--
+ drivers/gpu/drm/mediatek/mtk_plane.h               |  3 +-
+ drivers/gpu/drm/nouveau/nouveau_drm.c              | 11 +++----
+ drivers/gpu/drm/panfrost/panfrost_job.c            |  2 +-
+ drivers/gpu/drm/radeon/radeon_device.c             | 23 ++++----------
+ drivers/gpu/drm/xe/xe_gt.c                         | 15 +++++----
+ drivers/gpu/drm/xe/xe_gt_sriov_pf.c                | 19 ++++++++++++
+ drivers/gpu/drm/xe/xe_gt_sriov_pf.h                |  5 +++
+ drivers/gpu/drm/xe/xe_gt_sriov_pf_config.c         | 27 ++++++++++++++++
+ drivers/gpu/drm/xe/xe_migrate.c                    |  6 ++--
+ drivers/gpu/drm/xe/xe_ring_ops.c                   | 22 ++++++-------
+ 23 files changed, 174 insertions(+), 56 deletions(-)
