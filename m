@@ -2,60 +2,143 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 219E1B0A6F7
-	for <lists+dri-devel@lfdr.de>; Fri, 18 Jul 2025 17:19:57 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 36865B0A6FF
+	for <lists+dri-devel@lfdr.de>; Fri, 18 Jul 2025 17:21:17 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id BE82410E0DC;
-	Fri, 18 Jul 2025 15:19:54 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 98C7010E9E4;
+	Fri, 18 Jul 2025 15:21:15 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=collabora.com header.i=adrian.larumbe@collabora.com header.b="jpbdAgKP";
+	dkim=pass (2048-bit key; unprotected) header.d=qualcomm.com header.i=@qualcomm.com header.b="VxzhaWjN";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from sender4-pp-f112.zoho.com (sender4-pp-f112.zoho.com
- [136.143.188.112])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7E5DB10E0DC
- for <dri-devel@lists.freedesktop.org>; Fri, 18 Jul 2025 15:19:53 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; t=1752851988; cv=none; 
- d=zohomail.com; s=zohoarc; 
- b=EaCZ9aRdu4i2eiwbif/s5zZTI5TPZPOO2WHVqFh2MGneaZk2O3QaVVbuCH8IocfJcy/j3G/XsRbicr9NHP0d9zKrDsfO8QNZjLMQ3dnwshlRz0+iI2sJNW/i+5aP8EUizPrlWuNazHKRT7qnukRCBO3B8Y47CItiAqw5q64Qbio=
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com;
- s=zohoarc; t=1752851988;
- h=Content-Type:Content-Transfer-Encoding:Cc:Cc:Date:Date:From:From:In-Reply-To:MIME-Version:Message-ID:References:Subject:Subject:To:To:Message-Id:Reply-To;
- bh=OF0kHX7UF/JVFqm4cotKVWfW2Am2CvrxTWVXyfotluo=; 
- b=XkDuXfGZ40p264DiEbrxG8nr8PQAmbgpQCBIWRjgQ9N8bqlHTIpk7lPkb7nhHLaFe6Ri8RYeNlfoXlmK73eGJiwmLL94GP1P3ufbAv6cNxXAj6zqsMwYvlqXHR3PbYTAo84+gQxZvD1GFQTOCqEGcNVOdOfOg8SMtYtlA8xwD94=
-ARC-Authentication-Results: i=1; mx.zohomail.com;
- dkim=pass  header.i=collabora.com;
- spf=pass  smtp.mailfrom=adrian.larumbe@collabora.com;
- dmarc=pass header.from=<adrian.larumbe@collabora.com>
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1752851988; 
- s=zohomail; d=collabora.com; i=adrian.larumbe@collabora.com;
- h=Date:Date:From:From:To:To:Cc:Cc:Subject:Subject:Message-ID:References:MIME-Version:Content-Type:Content-Transfer-Encoding:In-Reply-To:Message-Id:Reply-To;
- bh=OF0kHX7UF/JVFqm4cotKVWfW2Am2CvrxTWVXyfotluo=;
- b=jpbdAgKPOuljP8Hh3gz15cX0H0nGvdbVfTDkq5BedFWNTdnbfqY2Fiu/KN9ympkV
- f35HWVYOG0H2O6tWO3tgpmWPhp2cN0pvTfZnIQdJe9q0xHLCRzUj3dKywprQgcjXL+A
- E+9ICxQBexzvVAFu9+qHda/j2uNNIjx7IWvflMqw=
-Received: by mx.zohomail.com with SMTPS id 1752851985881837.7539688087678;
- Fri, 18 Jul 2025 08:19:45 -0700 (PDT)
-Date: Fri, 18 Jul 2025 16:19:41 +0100
-From: =?utf-8?Q?Adri=C3=A1n?= Larumbe <adrian.larumbe@collabora.com>
-To: Lukas Zapolskas <lukas.zapolskas@arm.com>
-Cc: Boris Brezillon <boris.brezillon@collabora.com>, 
- Steven Price <steven.price@arm.com>, Liviu Dudau <liviu.dudau@arm.com>, 
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, 
- Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>, 
- Simona Vetter <simona@ffwll.ch>, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v4 7/7] drm/panthor: Expose the panthor perf ioctls
-Message-ID: <xbia7yhrqgmagxqaa4c34ngj5gksy7saxlsnea6aarlvolqj6a@ebvrj2vhmy3z>
-References: <cover.1747148172.git.lukas.zapolskas@arm.com>
- <d196bcce96cf0e3672905c3cb0336505728ddc52.1747148172.git.lukas.zapolskas@arm.com>
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com
+ [205.220.168.131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 783DC10E9E4
+ for <dri-devel@lists.freedesktop.org>; Fri, 18 Jul 2025 15:21:14 +0000 (UTC)
+Received: from pps.filterd (m0279864.ppops.net [127.0.0.1])
+ by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 56I8hOJh028094
+ for <dri-devel@lists.freedesktop.org>; Fri, 18 Jul 2025 15:21:14 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
+ cc:content-transfer-encoding:content-type:date:from:message-id
+ :mime-version:subject:to; s=qcppdkim1; bh=13kqIIhvX8G/h4Zyb4Bf0S
+ syUcZjDX5f8XV6NFySlbc=; b=VxzhaWjNb02Cs8EjdF4CxETxfROq7KxpJOKDej
+ O6tpWw34I4DPlGeSwh4Qd1BIo9mDYr1T7gJRVU5YgWJ4kmPPioSGGcjIwDuzpu+I
+ 1e96n6+vXNBe8nSenamcEpnvcxsicaUPjkA49MnC7yU7PZP/bEuOns5LXepDdje7
+ TRVsikGQJVp65LX162On9HMCJB4b6OJuCccRsW2hfP3Kl/qr0UZK1ofmZr+c4Fob
+ dFJQmjF1qzZ/8AlltQzUMimLiLZeEfDHc+fuF1V7OdNweBDpW3VyMnn96TO87FiG
+ Hcb8gLSt5ZxVeKkV6IWyMwNk2Q6Pu+5TsRfE71zFBMm51W5Q==
+Received: from mail-qk1-f197.google.com (mail-qk1-f197.google.com
+ [209.85.222.197])
+ by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 47wnh649ux-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
+ for <dri-devel@lists.freedesktop.org>; Fri, 18 Jul 2025 15:21:13 +0000 (GMT)
+Received: by mail-qk1-f197.google.com with SMTP id
+ af79cd13be357-7e093bccd5eso339980885a.0
+ for <dri-devel@lists.freedesktop.org>; Fri, 18 Jul 2025 08:21:13 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1752852072; x=1753456872;
+ h=cc:to:content-transfer-encoding:mime-version:message-id:date
+ :subject:from:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=13kqIIhvX8G/h4Zyb4Bf0SsyUcZjDX5f8XV6NFySlbc=;
+ b=QIKbhGgMQkpEn2Or5Y7whsl/kcRy+Y6GLDl0k5fdBYeeSmGauA974pWbKnGu0kZRET
+ srFszsoGCzgEE6XTyW+7iYedEeZwPkLlHgbmlEayvyd2j/DbiDHiBP/0pmyH3IEyHvO2
+ /7DsZWkLdRQUT+WeI21SAFBNaeh2V6SCau/BLxOqL3CdsHR+gvXQTcz1B53MyslKb0yc
+ WXawsn5yS8sVAa4Lox0EtYNdrPBOYNSjfwONhje0yJ/NDs+7spcjvdod79J6aBL3Ij38
+ fMKEnTNyAFhfbVWtSdWeu3yXnKWBA1kWxQ52rF1ZQnkAZePduBCcGaZVPGFpD1yA+ugA
+ dAAw==
+X-Gm-Message-State: AOJu0YwtJQKYGMhl5xSRy9tB2jDXWCk9Rq0rDNQseHMEKglacrvLMdCU
+ mewqT+drW8CwFzz/ZalMBxDM/FRIkeZeTbQplraGE3GYXIB0zo5+/JuvdddzpqYb/vjVgXdP2HC
+ YilzWbaDVjqz7JIZ6PEyIDKW9lagmtySLb6lxmLLlkiEzXzojXEiQ+Vo6gkEeYeGYuQf3Luk=
+X-Gm-Gg: ASbGncvruOjM1DAjqczMmUmX25+X6qEh7dI1hbIpTU3I6j7Ez8GOxza0rJi+3LbYWcb
+ qSIHX349Z42RAHP9a2tzBC80H9/Uw+XUOEPJjRh5e/8Rcg7BXz2Zt1Yeh9frlA16R5pvPZkD+PX
+ 5uRqIB4m5Bm6/G9uOCKmRpTTAxHf1XrZonrtuhetJRRWjCtrHperLL0+WXO5JR6mdM5YnWBYwjs
+ vcaWhoU0AiPdCF1wuh1kdsnD18v+yiN48JQn+uCiE5W+mcYAoyUkNXDDINtX4prNyyQNn88Ef/w
+ /4fvGvKkb2ObT5Hal2kPHOhahcJJ79b8wpePeqZfocKVRjDUHiQrytybUHtAdIKIZUBXY89Z/kd
+ 2OD18AL99enJZiTQ2kg9nwnkCx5iOVn5bW5Gpqtesn1lerIrNqH8e
+X-Received: by 2002:a05:620a:2145:b0:7e3:5550:22af with SMTP id
+ af79cd13be357-7e3555022ffmr475411185a.16.1752852072317; 
+ Fri, 18 Jul 2025 08:21:12 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IGih5HUBirffAz2WZL4QKYwy08DDOZqNQMloXSzP16EApN9OS9U886pytxqNhKO8kzqfu4L4Q==
+X-Received: by 2002:a05:620a:2145:b0:7e3:5550:22af with SMTP id
+ af79cd13be357-7e3555022ffmr475405285a.16.1752852071615; 
+ Fri, 18 Jul 2025 08:21:11 -0700 (PDT)
+Received: from umbar.lan
+ (2001-14ba-a0c3-3a00-264b-feff-fe8b-be8a.rev.dnainternet.fi.
+ [2001:14ba:a0c3:3a00:264b:feff:fe8b:be8a])
+ by smtp.gmail.com with ESMTPSA id
+ 38308e7fff4ca-330a91f09a9sm2515041fa.94.2025.07.18.08.21.10
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Fri, 18 Jul 2025 08:21:10 -0700 (PDT)
+From: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
+Subject: [PATCH 0/2] drm/bridge: lontium-lt9611uxc: switch to
+ DRM_BRIDGE_OP_HDMI_AUDIO
+Date: Fri, 18 Jul 2025 18:21:07 +0300
+Message-Id: <20250718-lt9611uxc-hdmi-v1-0-0aa8dd26a57a@oss.qualcomm.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <d196bcce96cf0e3672905c3cb0336505728ddc52.1747148172.git.lukas.zapolskas@arm.com>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-B4-Tracking: v=1; b=H4sIAGNmemgC/6tWKk4tykwtVrJSqFYqSi3LLM7MzwNyDHUUlJIzE
+ vPSU3UzU4B8JSMDI1MDc0ML3ZwSSzNDw9KKZN2MlNxMXeOUFEszYwOz5JS0NCWgpoKi1LTMCrC
+ B0bG1tQByS41fYAAAAA==
+X-Change-ID: 20250718-lt9611uxc-hdmi-3dd96306cdff
+To: Andrzej Hajda <andrzej.hajda@intel.com>,
+ Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>,
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
+ Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>,
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+ Kevin Hilman <khilman@baylibre.com>, Jerome Brunet <jbrunet@baylibre.com>,
+ Martin Blumenstingl <martin.blumenstingl@googlemail.com>,
+ Rob Clark <robin.clark@oss.qualcomm.com>,
+ Dmitry Baryshkov <lumag@kernel.org>,
+ Abhinav Kumar <abhinav.kumar@linux.dev>,
+ Jessica Zhang <jessica.zhang@oss.qualcomm.com>,
+ Sean Paul <sean@poorly.run>,
+ Marijn Suijten <marijn.suijten@somainline.org>,
+ Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
+Cc: dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ linux-amlogic@lists.infradead.org,
+ linux-arm-kernel@lists.infradead.org, linux-arm-msm@vger.kernel.org,
+ freedreno@lists.freedesktop.org
+X-Mailer: b4 0.14.2
+X-Developer-Signature: v=1; a=openpgp-sha256; l=970;
+ i=dmitry.baryshkov@oss.qualcomm.com; h=from:subject:message-id;
+ bh=8QWEbzhz2HbUL5CsjbPmWgU/3XJPnqot8B2ZA16nFWs=;
+ b=owEBbQGS/pANAwAKAYs8ij4CKSjVAcsmYgBoemZmrEL2Zztp1/d85i0Oy9Zc2oZaO+hb0CQUZ
+ ZBKX+ii2zqJATMEAAEKAB0WIQRMcISVXLJjVvC4lX+LPIo+Aiko1QUCaHpmZgAKCRCLPIo+Aiko
+ 1Rd/CACs4rPc7tst3TZYIDDeEoQX9zKw6b34Lk1QY82wtNiwp1z7kv5KTqL+H5iB5gH9P1UDiSS
+ nw3HcHcejQ5xrn5NDQRYCAtIh+Yk8v3MYHW1UHNxSPIHyMS8SbNufXY3ThYqJMcFkJ5OF+mVlVe
+ 3nQcukkkQUAj59qsqfWFJsN70YCDBUQIe9qu1Y9Sx6orOgASt4ws1mGKpBEx0TTwa/F5j8cSk1v
+ y1NqCttIgJc/n5GDXUbDDzKXUJxU16RWjIDq+u8NnSu8N2+u1+mtGdsTKxEh89zBNGgpILUZhTR
+ ybERI466cwrPMuVeppkJibCtOrWqkLHbQsc6qCw9J4KcJ+gV
+X-Developer-Key: i=dmitry.baryshkov@oss.qualcomm.com; a=openpgp;
+ fpr=8F88381DD5C873E4AE487DA5199BF1243632046A
+X-Authority-Analysis: v=2.4 cv=dKimmPZb c=1 sm=1 tr=0 ts=687a666a cx=c_pps
+ a=50t2pK5VMbmlHzFWWp8p/g==:117 a=xqWC_Br6kY4A:10 a=IkcTkHD0fZMA:10
+ a=Wb1JkmetP80A:10 a=EUspDBNiAAAA:8 a=viR3P9R_XIStfHs_oGYA:9 a=QEXdDO2ut3YA:10
+ a=IoWCM6iH3mJn3m4BftBB:22
+X-Proofpoint-GUID: R8lmLRgJ9LZEF687rQW5VJEGDTPG2EWD
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwNzE4MDExOSBTYWx0ZWRfX8NOf1TEOfgks
+ 8PW86BxlKS/b3jpJ0ItkZriRX2bl1VqWKvbQSyI00U3mIuSBaSigii64Z7mPFF2L4AwwJQY1Igb
+ /HlHygewKe2Vewz4wazEiaxMfQQnTeB2/dpll18tqFy1D2I2y//6D1P/HQw4/K5rA+333U4BI9L
+ NZNO7rP3wyb6YNIx+CyyFoTNeGV4f3o2j7Yw09Rh8yNXUn262PunSw2h4uHHxUmRTTMaQLeTIWR
+ kb17vdG4Rr23MyepHfxYFx3v/T7ayrVcI+BFXG2jaRVbvHJfPuDY/zgkAnqo9kisi20nBuhjHoL
+ tm8UGOvU3+FIyBeZOOhm76pGdxZ0j617FGP/b6rhi79iHAnaUBhdM3SA/b/XNy9tWPmPhNXUXJI
+ weWLt0nrQQPCZb/Nr+yaXNpaYoQaIEYq+BZ7NtcWl/pEE238AuhRK3QDqbK5hLuHv6JFd/GI
+X-Proofpoint-ORIG-GUID: R8lmLRgJ9LZEF687rQW5VJEGDTPG2EWD
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1099,Hydra:6.1.9,FMLib:17.12.80.40
+ definitions=2025-07-18_03,2025-07-17_02,2025-03-28_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ malwarescore=0 clxscore=1015 mlxlogscore=999 mlxscore=0 spamscore=0
+ adultscore=0 impostorscore=0 priorityscore=1501 suspectscore=0 bulkscore=0
+ phishscore=0 lowpriorityscore=0 classifier=spam authscore=0 authtc=n/a
+ authcc= route=outbound adjust=0 reason=mlx scancount=1
+ engine=8.19.0-2505280000 definitions=main-2507180119
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -71,234 +154,29 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Lucas, another missing remark from the original review,
+Use DRM HDMI audio helpers in order to implement HDMI audio support for
+Lontium LT9611UXC bridge.
 
-On 16.05.2025 16:49, Lukas Zapolskas wrote:
-> This patch implements the PANTHOR_PERF_CONTROL ioctl series, and
-> a PANTHOR_GET_UOBJ wrapper to deal with the backwards and forwards
-> compatibility of the uAPI.
->
-> The minor version is bumped to indicate that the feature is now
-> supported.
->
-> Signed-off-by: Lukas Zapolskas <lukas.zapolskas@arm.com>
-> Reviewed-by: Adrián Larumbe <adrian.larumbe@collabora.com>
-> ---
->  drivers/gpu/drm/panthor/panthor_drv.c | 141 +++++++++++++++++++++++++-
->  1 file changed, 139 insertions(+), 2 deletions(-)
->
-> diff --git a/drivers/gpu/drm/panthor/panthor_drv.c b/drivers/gpu/drm/panthor/panthor_drv.c
-> index 4c1381320859..850a894fe91b 100644
-> --- a/drivers/gpu/drm/panthor/panthor_drv.c
-> +++ b/drivers/gpu/drm/panthor/panthor_drv.c
-> @@ -31,6 +31,7 @@
->  #include "panthor_gpu.h"
->  #include "panthor_heap.h"
->  #include "panthor_mmu.h"
-> +#include "panthor_perf.h"
->  #include "panthor_regs.h"
->  #include "panthor_sched.h"
->
-> @@ -73,6 +74,39 @@ panthor_set_uobj(u64 usr_ptr, u32 usr_size, u32 min_size, u32 kern_size, const v
->  	return 0;
->  }
->
-> +/**
-> + * panthor_get_uobj() - Copy kernel object to user object.
-> + * @usr_ptr: Users pointer.
-> + * @usr_size: Size of the user object.
-> + * @min_size: Minimum size for this object.
-> + *
-> + * Helper automating kernel -> user object copies.
-> + *
-> + * Don't use this function directly, use PANTHOR_UOBJ_GET() instead.
-> + *
-> + * Return: valid pointer on success, an encoded error code otherwise.
-> + */
-> +static void*
-> +panthor_get_uobj(u64 usr_ptr, u32 usr_size, u32 min_size)
-> +{
-> +	int ret;
-> +	void *out_alloc __free(kvfree) = NULL;
-> +
-> +	/* User size shouldn't be smaller than the minimal object size. */
-> +	if (usr_size < min_size)
-> +		return ERR_PTR(-EINVAL);
-> +
-> +	out_alloc = kvmalloc(min_size, GFP_KERNEL);
-> +	if (!out_alloc)
-> +		return ERR_PTR(-ENOMEM);
-> +
-> +	ret = copy_struct_from_user(out_alloc, min_size, u64_to_user_ptr(usr_ptr), usr_size);
-> +	if (ret)
-> +		return ERR_PTR(ret);
-> +
-> +	return_ptr(out_alloc);
-> +}
-> +
->  /**
->   * panthor_get_uobj_array() - Copy a user object array into a kernel accessible object array.
->   * @in: The object array to copy.
-> @@ -176,7 +210,12 @@ panthor_get_uobj_array(const struct drm_panthor_obj_array *in, u32 min_stride,
->  		 PANTHOR_UOBJ_DECL(struct drm_panthor_queue_submit, syncs), \
->  		 PANTHOR_UOBJ_DECL(struct drm_panthor_queue_create, ringbuf_size), \
->  		 PANTHOR_UOBJ_DECL(struct drm_panthor_vm_bind_op, syncs), \
-> -		 PANTHOR_UOBJ_DECL(struct drm_panthor_perf_info, shader_blocks))
-> +		 PANTHOR_UOBJ_DECL(struct drm_panthor_perf_info, shader_blocks), \
-> +		 PANTHOR_UOBJ_DECL(struct drm_panthor_perf_cmd_setup, shader_enable_mask), \
-> +		 PANTHOR_UOBJ_DECL(struct drm_panthor_perf_cmd_start, user_data), \
-> +		 PANTHOR_UOBJ_DECL(struct drm_panthor_perf_cmd_stop, user_data), \
-> +		 PANTHOR_UOBJ_DECL(struct drm_panthor_perf_cmd_sample, user_data))
-> +
->
->  /**
->   * PANTHOR_UOBJ_SET() - Copy a kernel object to a user object.
-> @@ -191,6 +230,24 @@ panthor_get_uobj_array(const struct drm_panthor_obj_array *in, u32 min_stride,
->  			 PANTHOR_UOBJ_MIN_SIZE(_src_obj), \
->  			 sizeof(_src_obj), &(_src_obj))
->
-> +/**
-> + * PANTHOR_UOBJ_GET() - Copies a user object from _usr_ptr to a kernel accessible _dest_ptr.
-> + * @_dest_ptr: Local variable
-> + * @_usr_size: Size of the user object.
-> + * @_usr_ptr: The pointer of the object in userspace.
-> + *
-> + * Return: Error code. See panthor_get_uobj().
-> + */
-> +#define PANTHOR_UOBJ_GET(_dest_ptr, _usr_size, _usr_ptr) \
-> +	({ \
-> +		typeof(_dest_ptr) _tmp; \
-> +		_tmp = panthor_get_uobj(_usr_ptr, _usr_size, \
-> +				PANTHOR_UOBJ_MIN_SIZE(_tmp[0])); \
-> +		if (!IS_ERR(_tmp)) \
-> +			_dest_ptr = _tmp; \
-> +		PTR_ERR_OR_ZERO(_tmp); \
-> +	})
-> +
->  /**
->   * PANTHOR_UOBJ_GET_ARRAY() - Copy a user object array to a kernel accessible
->   * object array.
-> @@ -1339,6 +1396,83 @@ static int panthor_ioctl_vm_get_state(struct drm_device *ddev, void *data,
->  	return 0;
->  }
->
-> +#define perf_cmd(command) \
-> +	({ \
-> +		struct drm_panthor_perf_cmd_##command *command##_args __free(kvfree) = NULL; \
-> +		int _ret = PANTHOR_UOBJ_GET(command##_args, args->size, args->pointer); \
-> +		if (_ret) \
-> +			return _ret; \
-> +		return panthor_perf_session_##command(pfile, ptdev->perf, args->handle, \
-> +				command##_args->user_data); \
-> +	})
-> +
-> +static int panthor_ioctl_perf_control(struct drm_device *ddev, void *data,
-> +				      struct drm_file *file)
-> +{
-> +	struct panthor_device *ptdev = container_of(ddev, struct panthor_device, base);
-> +	struct panthor_file *pfile = file->driver_priv;
-> +	struct drm_panthor_perf_control *args = data;
-> +	int ret;
-> +
-> +	if (!args->pointer) {
-> +		switch (args->cmd) {
-> +		case DRM_PANTHOR_PERF_COMMAND_SETUP:
-> +			args->size = sizeof(struct drm_panthor_perf_cmd_setup);
-> +			return 0;
-> +
-> +		case DRM_PANTHOR_PERF_COMMAND_TEARDOWN:
-> +			args->size = 0;
-> +			return 0;
-> +
-> +		case DRM_PANTHOR_PERF_COMMAND_START:
-> +			args->size = sizeof(struct drm_panthor_perf_cmd_start);
-> +			return 0;
-> +
-> +		case DRM_PANTHOR_PERF_COMMAND_STOP:
-> +			args->size = sizeof(struct drm_panthor_perf_cmd_stop);
-> +			return 0;
-> +
-> +		case DRM_PANTHOR_PERF_COMMAND_SAMPLE:
-> +			args->size = sizeof(struct drm_panthor_perf_cmd_sample);
-> +			return 0;
-> +
-> +		default:
-> +			return -EINVAL;
-> +		}
-> +	}
-> +
-> +	switch (args->cmd) {
-> +	case DRM_PANTHOR_PERF_COMMAND_SETUP:
-> +	{
-> +		struct drm_panthor_perf_cmd_setup *setup_args __free(kvfree) = NULL;
-> +
-> +		ret = PANTHOR_UOBJ_GET(setup_args, args->size, args->pointer);
-> +		if (ret)
-> +			return -EINVAL;
-> +
-> +		return panthor_perf_session_setup(ptdev, ptdev->perf, setup_args, pfile);
+Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
+---
+Dmitry Baryshkov (2):
+      drm/bridge: add connector argument to .hpd_notify callback
+      drm/bridge: lontium-lt9611uxc: switch to HDMI audio helpers
 
-I think this is something I had already brought up in the revision for v2 of the patch series,
-but I think I would pass the drm_file here straight away rather than the panthor file,
-then retrieve the panthor_file pointer from the file's driver_priv field inside
-panthor_perf_session_setup, and that way you can get rid of struct panthor_file::drm_file.
+ drivers/gpu/drm/bridge/lontium-lt9611uxc.c     | 125 ++++++++++---------------
+ drivers/gpu/drm/display/drm_bridge_connector.c |   2 +-
+ drivers/gpu/drm/meson/meson_encoder_hdmi.c     |   1 +
+ drivers/gpu/drm/msm/dp/dp_display.c            |   3 +-
+ drivers/gpu/drm/msm/dp/dp_drm.h                |   3 +-
+ drivers/gpu/drm/omapdrm/dss/hdmi4.c            |   1 +
+ include/drm/drm_bridge.h                       |   1 +
+ 7 files changed, 57 insertions(+), 79 deletions(-)
+---
+base-commit: 024e09e444bd2b06aee9d1f3fe7b313c7a2df1bb
+change-id: 20250718-lt9611uxc-hdmi-3dd96306cdff
 
-I think this should be alright, because the only place where it'd be essential to keep
-a copy of the drm_file is in the session struct, to make sure sessions match their DRM device fd's.
+Best regards,
+-- 
+With best wishes
+Dmitry
 
-> +	}
-> +	case DRM_PANTHOR_PERF_COMMAND_TEARDOWN:
-> +	{
-> +		return panthor_perf_session_teardown(pfile, ptdev->perf, args->handle);
-> +	}
-> +	case DRM_PANTHOR_PERF_COMMAND_START:
-> +	{
-> +		perf_cmd(start);
-> +	}
-> +	case DRM_PANTHOR_PERF_COMMAND_STOP:
-> +	{
-> +		perf_cmd(stop);
-> +	}
-> +	case DRM_PANTHOR_PERF_COMMAND_SAMPLE:
-> +	{
-> +		perf_cmd(sample);
-> +	}
-> +	default:
-> +		return -EINVAL;
-> +	}
-> +}
-> +
->  static int
->  panthor_open(struct drm_device *ddev, struct drm_file *file)
->  {
-> @@ -1409,6 +1543,7 @@ static const struct drm_ioctl_desc panthor_drm_driver_ioctls[] = {
->  	PANTHOR_IOCTL(TILER_HEAP_CREATE, tiler_heap_create, DRM_RENDER_ALLOW),
->  	PANTHOR_IOCTL(TILER_HEAP_DESTROY, tiler_heap_destroy, DRM_RENDER_ALLOW),
->  	PANTHOR_IOCTL(GROUP_SUBMIT, group_submit, DRM_RENDER_ALLOW),
-> +	PANTHOR_IOCTL(PERF_CONTROL, perf_control, DRM_RENDER_ALLOW),
->  };
->
->  static int panthor_mmap(struct file *filp, struct vm_area_struct *vma)
-> @@ -1518,6 +1653,8 @@ static void panthor_debugfs_init(struct drm_minor *minor)
->   * - 1.2 - adds DEV_QUERY_GROUP_PRIORITIES_INFO query
->   *       - adds PANTHOR_GROUP_PRIORITY_REALTIME priority
->   * - 1.3 - adds DRM_PANTHOR_GROUP_STATE_INNOCENT flag
-> + * - 1.4 - adds DEV_QUERY_PERF_INFO query
-> + *       - adds PERF_CONTROL ioctl
->   */
->  static const struct drm_driver panthor_drm_driver = {
->  	.driver_features = DRIVER_RENDER | DRIVER_GEM | DRIVER_SYNCOBJ |
-> @@ -1531,7 +1668,7 @@ static const struct drm_driver panthor_drm_driver = {
->  	.name = "panthor",
->  	.desc = "Panthor DRM driver",
->  	.major = 1,
-> -	.minor = 3,
-> +	.minor = 4,
->
->  	.gem_create_object = panthor_gem_create_object,
->  	.gem_prime_import_sg_table = drm_gem_shmem_prime_import_sg_table,
-> --
-> 2.33.0.dirty
-
-
-Adrian Larumbe
