@@ -2,53 +2,53 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 18B62B09C7F
-	for <lists+dri-devel@lfdr.de>; Fri, 18 Jul 2025 09:27:29 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id E7212B09C80
+	for <lists+dri-devel@lfdr.de>; Fri, 18 Jul 2025 09:27:32 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6198910E920;
-	Fri, 18 Jul 2025 07:27:27 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 46E3610E906;
+	Fri, 18 Jul 2025 07:27:31 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=Nvidia.com header.i=@Nvidia.com header.b="kTmGC77h";
+	dkim=pass (2048-bit key; unprotected) header.d=Nvidia.com header.i=@Nvidia.com header.b="qMQ7tjQo";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from NAM04-BN8-obe.outbound.protection.outlook.com
- (mail-bn8nam04on2089.outbound.protection.outlook.com [40.107.100.89])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E7FD010E915;
- Fri, 18 Jul 2025 07:27:23 +0000 (UTC)
+Received: from NAM02-DM3-obe.outbound.protection.outlook.com
+ (mail-dm3nam02on2062.outbound.protection.outlook.com [40.107.95.62])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0D74710E920;
+ Fri, 18 Jul 2025 07:27:27 +0000 (UTC)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=uVW6cE+tj4Moa0fn8zCcXpz5kZyEK3U+uI42CT5AjTiSqTaiBxQf000IZqLw77+bI1mhQX6qMrRFh/6QWy7iiErPE8wKe8O7etTF9yJIkIHvkjadB5TycoTgdvBMGfOOfu8qbYynY4lqeQjFaYcjH7iunRb6WDEoD29ltWgHjMMFKlXEN8SiH/AHS54Bi7ly1FohxF8sDl3C8ZX6q1sXlsA9MAGoV643FF5PMfbYt1a8Wa+T8BUQxtaHjR8qRj/UZZE26AwrWLtX4NlAUopRp06E7GmelPPKkkBAoRl90SxUW4FkHCfp4WJLhA+hy4IadBrSXEnWhm4apwzkjoipRw==
+ b=GDgoZJkUd/OGOFHLN315HyBsxJW1KaW5sbglhXU2Xp0YJrW5yBNkyE+5O35sFC7F/fTV3N8B30hvdrMjmc/+UO8VdwjkxF3IDtumYcUkSnJdgplD9n2Wqr/A7EPbd/sY8kH/ZeuCbFIeba/Yw7iltbf/5yxi/wE3x1G8jASE7KTG/nddkVm6FYAbgr8XqvoOoqNJNVoQJQ27wU3kv33spsXi9+2G5RvGVVCkLYVKsjgOfKEUtvC8a0byf1gJm/mGn20atgpvSgSlQgcJYXY86X0EgW/4Ux8h79o2qzVFIZSVIgXlDBTYAe9O7ZYWatzrCbzVD8B3iEDOnCrw3Ulqcw==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=pDGPw28ukkl78vMQAQ+PBmps3XPY1IKPoGAzXHgTQvw=;
- b=cu/mEreYzuTJQEZjE9dk5I/KR7opoJrkcyFlfllohJ7DYPaivCPyBlyyLFJyKjXWyTKK5Fk/OXeoelpLG3dI4/vQXZ9yHaBKAcbfa+DnIkOc6hz1GLpqY6Xa985Og0iGIjzcnSQUBfKlGexUDhWmBy3vz3kYlQJhtycMGAvWpHio0LUece2hFHR/iqh1umtY4SLmdYb84qeerpgM7aMZQJcUWIoLXsOtrWvfo5rlx9tMdsflid7OjVHeiZ8r2JuhUWqFpqyZJTBsLNvcnwUZwW2n/w9IVwCzk/lEBk2fdXoRwtBUzcfQkKOl4UO5FYT6I87gtFLOnRe3nnQQOBDV7Q==
+ bh=1VJOo8YjWHEfL81msuZBZRQkrmA/gVduJUjNQJfdWJo=;
+ b=aihymz4Nc8izqtYtuj6W4+ZyFrQe3zxG44rDmOD1CcLtGWmbPlXcO9x4fXpy5IaZRuBDdtn2saDM48quCBOjlcICJLoUg1tZixBMwP8BsmzGjBoCgCsLfskpZvYy9Nw1vfaQW7oGNKEeA/RfKmO4AdOsZeegAOL22KgRwWxU8LH4UzPOGoEI06KLAm7eUsLXPGnvx8ffuLwaMJ3G6dHquJFqxXghzQonlhEbiorMm4ijrSTKqf5O/oIHyqsi+qSx+hekKUajrKE00HrtP6iAZ34EU6VpSX3Jsr/KjZ18AR0K56aZMiJnGmf8HvHc6EjmJu640Rkzivqniufsz+FYDg==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
  dkim=pass header.d=nvidia.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
  s=selector2;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=pDGPw28ukkl78vMQAQ+PBmps3XPY1IKPoGAzXHgTQvw=;
- b=kTmGC77hmRVrmDz7EVA2JxLI9SMTD/wwb3JpnlYnK2ptKgQTKwa9JYX35t+X7EEH9EvUgzcKYOiNn/sSf2gnhFCW8cV/zMdG8a621F6zYyW5VRoK+4SMsPPRtpaq8rZ6djLrZFDYldgmb+JIeegyjMsboaxhg7MSw7GzX6N0Ssyb0SoxtaYL3yxDX90oJVkgnX7wmtAXVFxe68S16HHJldrVmLXdKoygY0Ike78OpnRfT+9d7I86EqAIDL/f7/MDIUJNPvi/22f2Lk80g61hoDxRRV3EDlRYHslqaKAPwpY4G2cQHYKldYQ6eDFR1zcyfVfZyV+WMcdIWxRFR62ePA==
+ bh=1VJOo8YjWHEfL81msuZBZRQkrmA/gVduJUjNQJfdWJo=;
+ b=qMQ7tjQoJrL5Rf/Mi8zfcLtXXmhp42i9UvjircKMp1Ckj2iKu/OgsnYrKqTmKOPIrbNbLohbQYR2EwptHUd6v8gHe/mWXAd7X20HbKV5HSuiMS5paPmdei4X+NEiyWc1KaGx8cJzh9Ccxa7ZOnog32eLbZrhaOE/lLW7e46pNrg2CZ17PfPUhcUdXwOelTHiZehK8StMjxS85o/WxSocnvJnz8WG27HM8XjvwYNAoUog1xE8DBmUcqkeSiCamjhEdGW3XZGzXCL6enObOLVNjLMf964J5ygEOZsatg8qi16OjfEBUVcbpWa6QLdykrHgjAKbsdDpypGlTKRU8y2Uag==
 Authentication-Results: dkim=none (message not signed)
  header.d=none;dmarc=none action=none header.from=nvidia.com;
 Received: from CH2PR12MB3990.namprd12.prod.outlook.com (2603:10b6:610:28::18)
  by MW3PR12MB4427.namprd12.prod.outlook.com (2603:10b6:303:52::10)
  with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8901.26; Fri, 18 Jul
- 2025 07:27:21 +0000
+ 2025 07:27:24 +0000
 Received: from CH2PR12MB3990.namprd12.prod.outlook.com
  ([fe80::6e37:569f:82ee:3f99]) by CH2PR12MB3990.namprd12.prod.outlook.com
  ([fe80::6e37:569f:82ee:3f99%4]) with mapi id 15.20.8922.037; Fri, 18 Jul 2025
- 07:27:21 +0000
+ 07:27:24 +0000
 From: Alexandre Courbot <acourbot@nvidia.com>
-Date: Fri, 18 Jul 2025 16:26:23 +0900
-Subject: [PATCH v2 18/19] gpu: nova-core: falcon: use register arrays for
- FUSE registers
+Date: Fri, 18 Jul 2025 16:26:24 +0900
+Subject: [PATCH v2 19/19] gpu: nova-core: register: add support for
+ relative array registers
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20250718-nova-regs-v2-18-7b6a762aa1cd@nvidia.com>
+Message-Id: <20250718-nova-regs-v2-19-7b6a762aa1cd@nvidia.com>
 References: <20250718-nova-regs-v2-0-7b6a762aa1cd@nvidia.com>
 In-Reply-To: <20250718-nova-regs-v2-0-7b6a762aa1cd@nvidia.com>
 To: Danilo Krummrich <dakr@kernel.org>, David Airlie <airlied@gmail.com>, 
@@ -60,101 +60,101 @@ Cc: Daniel Almeida <daniel.almeida@collabora.com>,
  dri-devel@lists.freedesktop.org, rust-for-linux@vger.kernel.org, 
  linux-kernel@vger.kernel.org, Alexandre Courbot <acourbot@nvidia.com>
 X-Mailer: b4 0.14.2
-X-ClientProxiedBy: TY2PR06CA0028.apcprd06.prod.outlook.com
- (2603:1096:404:2e::16) To CH2PR12MB3990.namprd12.prod.outlook.com
+X-ClientProxiedBy: TYCP286CA0248.JPNP286.PROD.OUTLOOK.COM
+ (2603:1096:400:456::16) To CH2PR12MB3990.namprd12.prod.outlook.com
  (2603:10b6:610:28::18)
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
 X-MS-TrafficTypeDiagnostic: CH2PR12MB3990:EE_|MW3PR12MB4427:EE_
-X-MS-Office365-Filtering-Correlation-Id: 45189653-79f5-4836-473b-08ddc5cc8885
+X-MS-Office365-Filtering-Correlation-Id: a9e06537-882d-4365-c4cc-08ddc5cc8a47
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: BCL:0;
  ARA:13230040|10070799003|1800799024|366016|376014|7416014; 
-X-Microsoft-Antispam-Message-Info: =?utf-8?B?Tkx5Y3p5ZS9GaFpjZk1lYUhza2E0bk9sRTJOcnVsRU4wbEpGbndZcWdHZk1D?=
- =?utf-8?B?TFdEaWIwNHZBQlNhSFhtVUEyQThvaWU0Z0dSVm82RTdtRXk3VUIxRlJFL1h6?=
- =?utf-8?B?ZXMyMTlBclU0ZklvRWpma0RyUWcxaDR6SHBmQWtWeGxBRndPYkF4N04yNFUz?=
- =?utf-8?B?QVNGT0FTRzRycFBLTXlpVkFjcVRWdGhIbjd0S2I5TkpaZURzWWJ3dnFUcjFi?=
- =?utf-8?B?UFJmZzFYYzZyYU9hQmpNRnNjb1R4ZnA5eW5PeWVsWEpjbU5qSDVmcHM3TXFG?=
- =?utf-8?B?Z1NnZFBZRTM2aFhwb1gvZ1BiT2h6YVdrbUV0ZGtHa3U5RGZaV1FUdnFYWld2?=
- =?utf-8?B?b2F4STk0RXBLT01iL3ozd3RPYlBsa0NTSW5TWnlLcHpRUTRDUjVGUmhmTjFn?=
- =?utf-8?B?TDE0TDQzUXNBWGQwSENLdUtHNEhJWDVIQnBPcFdyTDlKVm44N0QyMzFBVE1Z?=
- =?utf-8?B?MmQwb2RIWXVwaHRJc01XUUtLOGtFbWZzVjJqei9nL3RWY21TOVpQSWRjU3gx?=
- =?utf-8?B?c0JreTYwMjVuV3Nram9Sc2U4VGk3aFVVNXl2N2NuZ0JNYTBEYXEzVkZVb0RZ?=
- =?utf-8?B?Z1NIWERTV2xRbzdqQzB3S29NTDdMUlk0YWlsK1R1UE1SZVlhSjlHdnltQXRT?=
- =?utf-8?B?OWxXYUxSdkNWSjkzOFhyL3p1eWh1b1F2b3RHRkZ5TEdOYTVKMkVNTVBieTZn?=
- =?utf-8?B?OUhVM1VOUHVhcDFhT0JoNG90cEJsWE1LcExKUXYvUnR5VHA1aFUvN29ITUZr?=
- =?utf-8?B?TWNzb0hvOGJLYnZ1WXdMTVB0eEdkSXhsNTlMYnRMYk5OenM1empjSlBKdkk2?=
- =?utf-8?B?bjdyTE9GYmNSbElmWGpFb3VOVU1jd25rWDFpVUhsWm03RmNLd3hyZTh0UTl4?=
- =?utf-8?B?QTc1bE5uQlg0VzZQbU9RdDJwSFRxTGdRc3g0RzB6NklWbERxUXVnS3NKclNq?=
- =?utf-8?B?aEp5WDZXT1JFaDdPa0pyMnFPWGNLNTNSZlZFVXBVMXE5L3Z0aUVJREtZYWFU?=
- =?utf-8?B?SjhMRnJENkRObmh6MThwQ2YrOVBrb04zYzdSN25kbDk2NXNOVmE3S3B3ZDdR?=
- =?utf-8?B?RU84enh2TDNHYi9DeE9xOGd0VkJpYllZYkNBanNCcWpPUUMxMlRTZFlHeDZH?=
- =?utf-8?B?dDBtdzJHdy9vNHNESkJoSDdCV0RRYSt5MkZQZVd0TDJNc1FjcXlGUHRRY2E1?=
- =?utf-8?B?eVVxQ1BQYllUMWpzL1BPL1VtdWt3elRDbWFFRjBRbHlZajRubGxMMytKekpw?=
- =?utf-8?B?d0haU3RyQkNYenNCNXBmSm11bUx4ZFRPV0MvL2tWdDUySGlKNzNOMzhUM2Jv?=
- =?utf-8?B?OEY0SXQxditVRjBXNUFNQzlmTzRDdzB4MTFXQjZJRm5mbHJScE4xUjNnQTdR?=
- =?utf-8?B?TFZ5eXN1SjBvM1NiTU1La1V1NTNOQXhVdENPSVBjdkpDeTlMWWg2OGFxeDlx?=
- =?utf-8?B?aWovL3E4YjJTRHJJSjYyeU9NR3NPOTNFVTIxSFlWTjNKYTB4clNVdDBLcUZ5?=
- =?utf-8?B?OWdrOTVyRm96SlZFeFBHRkFYcnJ4bktxZXJESWI2Yk5IU09KWEQ3a2x0S1JX?=
- =?utf-8?B?Sk95djZyS0hOMkFRWFZ0Q2Jjbm1DWDI2UkVubytqdExvUkVtV2p5bG1zd2ZD?=
- =?utf-8?B?OHQ1QU5sSWhQYU8wSmJSeks5MnZxcUk0VldZOWYzWlZVZTRYcW42U1U3MUM1?=
- =?utf-8?B?Q1VhVkozMGZVVzM1S2IrbUkwbFo1bDBBeW5CeDA2R0ZJdFZna05uaEg5UDJ6?=
- =?utf-8?B?dW1leGx3ejFMczREbnZNd2EydFJ5Q0VWUE8zS2g3SU5hR1FhaEovQmlQajZu?=
- =?utf-8?B?UEZTRUtDZllhL09oVi8rWW5iU3JJcElyeW1UeE52SDJTODFielloaXNXVHNl?=
- =?utf-8?B?ekhrTDJHVmRRZnBFdjJrbUY5NDdvakdjdWEwRXA0Ym0xVk9XR2tRRzNYSVND?=
- =?utf-8?Q?cq2FCLOCe6o=3D?=
+X-Microsoft-Antispam-Message-Info: =?utf-8?B?SDI2UDBuaTB1SDNOQ1lCcXJmNHhqZDgxMS9hblBKRHBDMWljNUFZdjlwUm4w?=
+ =?utf-8?B?UWpadnc2SkJBUW9FSENRZnAveENydzR0NDNtNWFwbHYydTk1YlJpbHU5Y1lI?=
+ =?utf-8?B?bTllRzhRMFNrUTBSWmRqcnZXck9YaVVQUzVlaUhPM1ZxcGVpRmp2MGJES2tD?=
+ =?utf-8?B?YjlUUisxWmpFNHVoMTFIbXV6V1N6WkZrSDA5NWhQbEFkaVhrdnNlUlkyN3gr?=
+ =?utf-8?B?ejVTOWlZa3VyVGFLdDN1dEFrQUhjbVd4V21mdzFEOWthK2pyTC9HWDJpaTA2?=
+ =?utf-8?B?Z0czU2dYK1FzR1BEcklqeW4xUDlZZ3p5UC9UV0R1b09YcWJwSDhEVGtac3Ju?=
+ =?utf-8?B?cWZobXkxSkNkeVg5WUl2eHR1WjBWeU9meTJHOFdMaUlWQTIzaWNsV3o4eWVl?=
+ =?utf-8?B?OEYrVUhuSnBRcDl5SHk4b2ZlODlFd1o2U2ZnVCtBeHJ0UDBHVmVVc0RhZFVz?=
+ =?utf-8?B?YVo0T0pXdFJRc2VrYURsN2d4cU5OWWs4MXhXaGYzbXQzcWtOTVdxWnhIbnpl?=
+ =?utf-8?B?SThicW1nemJGWWtpem5kVk1ocHVURzQwb0kvclNYeWFsbGl3ckU2TklxVmZq?=
+ =?utf-8?B?Nm5DcHRQRjhiN0ZreENPTGVvV05pcW5PZTBuQWFIRnF6amlBbEZnY0hDM3Jk?=
+ =?utf-8?B?emtMLzN6MzVsZmpNNjdncVg4RGV1bEl2cGxYNldJblRycVBNQWlzSTBvRzhv?=
+ =?utf-8?B?RHhuZXpIellxN3NxcnJvYjJOVzlmREZ1OHRaN0thSzU2QVM3UHVXL2JTZnNJ?=
+ =?utf-8?B?b2VFam0wZSszd2RIUXh4bmZwTVdDRXhEREh1ZDEvVSt0K0d0WVdtZG4wTlBj?=
+ =?utf-8?B?VFFHcXlrVGxXZ1E3UFNkRXdadzJOKy8vQjRqM0NNOUZYVjQ1a1JnRXZWaVJy?=
+ =?utf-8?B?a1RNOHdhemNNdEtIUi9IRTVTV0RaVytMbVlnWTllQjBOQ0cwMmhHRTY3MzVD?=
+ =?utf-8?B?MkRzMFkzdmVpQW41QmtLNVFYWW52azRpMmU1V2Z4MlgyWTE4V3FBTHQ4RGFR?=
+ =?utf-8?B?M1g3dWlpRm56Z2lma08vQXRudEJIenUrREIvaVYxcUFOZWZpM3JrRFc1ZXZ2?=
+ =?utf-8?B?OUw3aXZaZFNFSVZiWEx6bisyd2phWEsyd2ZsZHhQSmY4dWFnRHZvVmxFOUNQ?=
+ =?utf-8?B?VVpzZzdyWDFNWmhCMC9rRWZRQlAzdStIVUtKY3RGZXExYVpVLzZ2SnNoN3Rt?=
+ =?utf-8?B?dzJqYzU5Q3ZoWU1VTno3cEttVU1zdTVrRXE3clFhTk00bXRsZ0dNd21HbW5i?=
+ =?utf-8?B?cEwvczNsVndHZllleGYzbGdjUzFZV0hXWE43bHVFa0NSanNTWlA5KzIvOU92?=
+ =?utf-8?B?blEzOEtxQlhoSWY1d2tKNC9hYlFyc2xiUnpvanBMNkEyYnBsZFBJZW9kNSt6?=
+ =?utf-8?B?NkN5RUduR0FYZ1VFYlJ1dUF1d2lJa2pmZlVGYzUrMTJMOWovaHR4YTdsamZT?=
+ =?utf-8?B?RWVPKzZsY0NMUDliaGxZYStSakVZRmpuaDRnWVVFTUtOY3h0eXM0RXFaV3cy?=
+ =?utf-8?B?ZFJmTWlIU216VEluU0tpMXhMb3RqalVxSWt0SVlEQ0pWR0lLZmVhUWRJdGUr?=
+ =?utf-8?B?L0dCOUtGNVp6a1M1MER0ajlSdVUvbW9JUmZJTnZ2d0IyeXNma0pKNzZxR2Jm?=
+ =?utf-8?B?NlNMNmRWbWhySFdQQjc1UXp0QWlkcU1SUHhvMWU3a0V3SCt3T3dFU3IxWmVE?=
+ =?utf-8?B?b0x1cFkxbWNTZkVlemZ1akFRVzVGdjVlSXVaWFp0L25JOFFHdjBmbC9JenhO?=
+ =?utf-8?B?alJtYlFQVmVWMm52dUJYUTdoYkhZZ3ZZcU8vTlhOUXR6MFl3ZzBzWFlaRmJo?=
+ =?utf-8?B?TzljWnczK2orMlNDc09Ldmc4Q09jeUw4YTVRQlVZbG5ZNlhNeElOOXlPYjJV?=
+ =?utf-8?B?MnNZWUpWRDhBT1pCcDRBSXdOTUd5NEczZXdtNWZsKzQzb2FuRWVYNkJTVDRp?=
+ =?utf-8?Q?qAzvXZb8Uus=3D?=
 X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
  IPV:NLI; SFV:NSPM; H:CH2PR12MB3990.namprd12.prod.outlook.com; PTR:; CAT:NONE;
  SFS:(13230040)(10070799003)(1800799024)(366016)(376014)(7416014); DIR:OUT;
  SFP:1101; 
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?K1h6NlVGNklEWjczcndyR2hIT0dkQWhRSTBTRjFaaGhMSFR2aHgybU45L2dE?=
- =?utf-8?B?WmxuajFBRGVVT01oV3V0K0FMNFJ2RXZJdUZHWisyS0ZzbWtCUlg4K2YzL3Zi?=
- =?utf-8?B?cVNjeEFaOXFZd3ZHdTFqQlJLMktQRE14UkpDd2tsczZpKzRxd1FLcGpTTkFa?=
- =?utf-8?B?OTZ5VS96czBjaFVQYUpBM0o0dDZKcE1BV1NMNFhEZDBDdG1mWnlRRDVTa1Np?=
- =?utf-8?B?TlJlSjV4eVZxdzJqTmhuR0RIZGFjRGh0cDcrY0twREQra3luZ2tmYXlnQmxE?=
- =?utf-8?B?S0RDenB5WEVKTnJqZjRBajNTdXV1QTNtYlY3NHJZK25DWnlLaUd1WFJGV0o0?=
- =?utf-8?B?M0pRZGlNeFFvZzVEaFIzTjdJWFEvejNDR05LeVBRWFBMeUQ4cTNqc3p6ZTAz?=
- =?utf-8?B?cUlqamt3TFloTXExSk93SDF2clBoaXM4SGI0WjNWN2ZuUWxlN0VyVlNSTHJL?=
- =?utf-8?B?NjR4VndNOHZSd1hLK0FwdXFmdGFRZkxRcHdkVlZsL25hRHhGYjNLTk5hdnNk?=
- =?utf-8?B?c0VCZ2RlY3VkTm9PbkVNak1ybm8vdkdpRzlaSC9mVEJ2dEpBclNsM1VzUjFq?=
- =?utf-8?B?akhVVHVhSmxQQTArOERIRnh1RktrdEU0a0FmWXBDT1ZDWDZwcFJxaFZvUE9X?=
- =?utf-8?B?VUZneDI0V1NqVllhNGVnbHNubkpqN1lVNkd0NlNaVkVvUDAva3ZHWkRYdTk5?=
- =?utf-8?B?MXJGd3BZVXNGdnRWQ2w2RExwb0VFb1BYSm9qQlZpWWhRZHR6OCtBWUptYVZN?=
- =?utf-8?B?RW84WXhua0JPNlZKYk5ScnQyZERhY29xNmc2ZGRXVmpFODNwaWFVL1dvUDA5?=
- =?utf-8?B?bFhYODY3ZTJkREx3RVVFdGZTQUNFMHRXcytxelFHVXM4VUhUdTVjRjU4eFdQ?=
- =?utf-8?B?ZzV1WXFObGl0M3hkR0FsZmVOY0hyTWVwY0tGdC82WUFiNW5sQlZLSHdXZGx5?=
- =?utf-8?B?dUFnVThDd3A5NFhHVFlKalNIc210bWtrQVh4OEpqQmplVEI0YzhJRjcxRU0z?=
- =?utf-8?B?T21mbXlzRlFUeHphUW5DKytpTUZzbFlVYVNyM3VvRHhpalBGQWZ1dTVSL2ds?=
- =?utf-8?B?MUZZWXdTbCtiR3AvWEk3MlpkQXpEVUorc3Zxc0l3VjdmT1VndVV6by9pZEJM?=
- =?utf-8?B?SWhMWkpybjdQL0w2RldRQ1M5Y0kzOXpRVS9hdXhFRXR1a3ZFSUxxc0NhSHlq?=
- =?utf-8?B?K1IwMnZVaDBGeTBFa2MzQm1HdmkrQ3hEWU9naWl5MkJGcXd1aVNTa0hxK3Mx?=
- =?utf-8?B?TXFLM251bTNQdXlibVlDbStwbEdNdEozV1FDQjRTTU5oOUZuNjdRRDBaZ05M?=
- =?utf-8?B?MU9yQ296OFVxZEZMUlFmcFcrNnBuektXR1pvbnRzZ3lCRFhEQ2pjZVlwanlp?=
- =?utf-8?B?UnkrOGJ5ODBsZ0lJY1N1TGUyTWkyby9tRTlZaGNUamJ0UDJha09ITFh6QWdU?=
- =?utf-8?B?VWxyKzFmeE1Ca3I4WGRUbTc3NzE3Ykp4Y0x6YWQzUk9xRUp0Sno5MVpMVVdn?=
- =?utf-8?B?RzVTdG5TVzZWUmxocWN6MWVWVXNRa0NQdDZ5SHlnL1ZaWjNSaEduTmMzbXg5?=
- =?utf-8?B?OWpRcXpRSDQrMC9GQzJxY3dqTUhBUFYzV3JIcWxsOGVPNitFNHBYVnA2czJM?=
- =?utf-8?B?MThlT3JLZUd5OWxXajk5UmlIdERoK2RscnkydWtXWllxVnI3ZVpQT0h1Qktp?=
- =?utf-8?B?STFNQ0Y3U21JcFhEdlg4OE5Xei9FK21TdE9NaTRKV244WTNBampqLzJ2RGlT?=
- =?utf-8?B?YTJaU1lSSXhhRW9LQk5SYVM4eDduVXhXSElJR2Y5bFJHWUh1Nk81ZzkrNEVm?=
- =?utf-8?B?SlZ1bU9kdkUrb1QvTzY2M21jdi92YndrZVZWSnRGbUs3VytLSG1rOHVGdksv?=
- =?utf-8?B?NWxwNFVlOTZHUlZOVVJzcEwvZlcrdSt1MFFJczdQZ3gyZHIvYjM3Vi9vTFUy?=
- =?utf-8?B?cW1aZ3Q5eS85dlE5dU5YSFhlajJjUysvWXhEWEYzWEk2MGU5TktGUjNCeUZF?=
- =?utf-8?B?eEN6S2hmRldzODY0NXhob0l0RXJQc2hDdW8rdnZqa2p3ZnZZcDVDU05DMjhn?=
- =?utf-8?B?ek1wQnhMRklTbDArWTlmZEl6WWVCT2w2bzFtZkQ5UUtIK0xvMXRxTnZXdEtT?=
- =?utf-8?B?MnhLZXo4Z0h5TytESU1mb3ZGVEdWeEFZVmYrOXNJYXk2M1llcnlpQWY0cFpr?=
- =?utf-8?Q?FD+CEGtkQD/JiPl5QRp21P9qQYBloETW8XVMB5b0XaKe?=
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?N0s0dGY3TXZiZzh1bDFMc3ZUMERCWFlDcDNNcUVaRTdGYyswQ3JpMHhIdW01?=
+ =?utf-8?B?R1pxTUFnM3FYaGJQNTV0WGwvYUlqZjVEa1FCUkxueUxFRE80djJnMEQwSk9U?=
+ =?utf-8?B?OUNRQzZId1dXWGRHOC9BRFJHaElTclpMb2pVU1B3NkFTazR1VkRsTzkwVFJh?=
+ =?utf-8?B?dXB0ZFZhTXRqUHFZYjI4OUgwRHZxTjJrc3IwSHRmdWw1NW1xRUZoN1NabFVz?=
+ =?utf-8?B?d1M3a3J2aFUwRUFOV2Q3SWdocSsvZjNqODlaRC9KejlKMjBjUU50NWVNOUtj?=
+ =?utf-8?B?enB4ZUEzT3d1TndEdkhtZWpVbmVkRVNNc0pzMTl0YnJsS1FlbVMycVFKTTRk?=
+ =?utf-8?B?d1ZYK2d5SnpkQ21zQ29wVk5OWituSkdmZXRsbGlpdjQ5ZnE3d0dlUDI3Y0h1?=
+ =?utf-8?B?YjdVbDEra3czL01MNmFKbExpV2NGV2RRRkdzVFUrcjhTRDdkNmp6Tlhqa0E1?=
+ =?utf-8?B?c2NQcFppTEY1Y1dTVVdiL0tVaU80U3cxNFp6ekJuTXc3aUdPM0lxcXdXVk55?=
+ =?utf-8?B?d1hGUmxPWUIrcmVETkFKdnI5YVpWREQzRThTS1NhNW5zQUE5c0NyZ0FNSGxy?=
+ =?utf-8?B?ZHp5bGNKVmY4ZjdJNXAwVURTSmxRL0tGVGZHZEM0bSszR3YxUTQ0RFJoamlC?=
+ =?utf-8?B?bHhYMFRvVW1nTzd6RmxBWm5qRG9jdWVZL25wVlEzQUpCc2lpVHZVbWRZMS9U?=
+ =?utf-8?B?K2pZNU9RQktmcmdTQVJUTWFrdEN0aSs5UzUxZ3loMGhjOCtnVlhrcmdXc056?=
+ =?utf-8?B?SGl1VUIxRnZZMk9XU2I2alNBSkdQWjRiU2NmeGdBVnNOVHdtZzgxRGdlbmdN?=
+ =?utf-8?B?K3o5QWFsanNaVlhtTFVWeExNUzZHWkRQV3k3WGJVVHdKbWN4Q0ZrNFhFUyt2?=
+ =?utf-8?B?eUFKdnozU0NMRnd0Uy9OUUs4RDZTMUdGMGw3cjJxNW9FZU5VaWpETkhHeEp2?=
+ =?utf-8?B?VWQ3ajcvRmJPNEFQWnhTakRYelU0c2kraWRFRGhsTGVZZnJTbkhjaSt4Q1Js?=
+ =?utf-8?B?RjhLcTVHNW1xTGp4MThNNnc0NEtmTlIyZlNUMGJnNTJPL1JRUzhTZXppQ05B?=
+ =?utf-8?B?V1p2WldSWUJvRTFIV2tzOTR6eVBwS2VUaGJhYkxjSjAyeVBkbDNjOU1IS0FF?=
+ =?utf-8?B?S3lzamJFdWc3eEp6VmJMQm9SVUk4Q3lBTi85ci9LV1dGa08yZFVuOTIzYUN3?=
+ =?utf-8?B?MFR4UVkydXk4U1pPaStISmc1YTgvRUdiUGFWYStCcTcxSm5aUzdCeFFVRW9K?=
+ =?utf-8?B?cGl5R1lTOWdBZVhMYkJPUmhUL3YyRDNRSjBtQzNBYm1hNHNOeGVKa1NxbjYw?=
+ =?utf-8?B?WUZVMzlPeThnV1pyMG1MVVVQeEtwOHB3YjVPeXdNTFhEb3hSNEw0TDVIZ0ZH?=
+ =?utf-8?B?N2xIaGovcWkwOWFDTzFaL1V6b1JBdk1HMTAyMTVSYW1FR3dNM05WLzhRTjd3?=
+ =?utf-8?B?RCtnQkNHTi9EOENuTys3NVI0bERaL2ZEVDg1bGIxaHUzRkhJQXdwazROSzJD?=
+ =?utf-8?B?UDBwVFhIWVllRW8rZ3hUQWFBN0pocTF4VEFvS2ZVSG05NC9LWmxkZjNST2NB?=
+ =?utf-8?B?NkEyYmZlRUJZTTBMVklCRDZLMk0vdWd3NWVSRFFna216QXA1dTM4cTcyM1Bm?=
+ =?utf-8?B?UFRCRjhhbUZSN1BwV0FaWHUraGRoNGlEQXlwY2s3MkMvMnp0YTFweFJvTkFP?=
+ =?utf-8?B?ZTkxQmdxUzJ2Q0I4ME9ZOHFBQ3pvWGwzaVI3VU9LdE83a2hTMTY4SVZLRTV1?=
+ =?utf-8?B?MGpjS0JhdFQvNWMvSENGT1NSeWxLU1NXUXBqSVNVYlNRYWZ0ZEF0QWJFRm1L?=
+ =?utf-8?B?dS9GQk5CdUZTb01za29IZ0N5R2NVajMzWm50eEgrWU92bm5ad2VtbER2RjJI?=
+ =?utf-8?B?cGV1YWM0SmVUZEhnTFpZVUFwWGo4bWM0b1NqU3RNeHlrMkNORnMyN1YyVExD?=
+ =?utf-8?B?bVVPTTIxUndBY2VjWnhsSTM2UVprRU9rN0dRWkNBTFJDVnUvcnYvNm9lSlpQ?=
+ =?utf-8?B?N2VxYjZ4aGpGVUU2MWk2MDdVTTh5VVVGL1dwdmRoNmJhRXkrR3JjT2M3dnpH?=
+ =?utf-8?B?a0hNdzNZMjlHRUpKR09zbU1NU0FUSmpyWlF3SnlpbWtldHJSWVhvYWxkWTNS?=
+ =?utf-8?B?dzFZVEF6b0tVUDNHZUFmUGZCN1hxRnJ2SVhUQkgzMWhkYUQwT2xpUm0rMFht?=
+ =?utf-8?Q?LdNYFSianusabohZRc9JVA8vwSj2wA5ob6kfTHO2wRja?=
 X-OriginatorOrg: Nvidia.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 45189653-79f5-4836-473b-08ddc5cc8885
+X-MS-Exchange-CrossTenant-Network-Message-Id: a9e06537-882d-4365-c4cc-08ddc5cc8a47
 X-MS-Exchange-CrossTenant-AuthSource: CH2PR12MB3990.namprd12.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 18 Jul 2025 07:27:21.2005 (UTC)
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 18 Jul 2025 07:27:24.1478 (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: Zfkrrf/aASgzaQyMoksitFbuOX5dL8+yYRuWrpP+zlbZOdQtR3Ip4ajH7M+y9RHabKdwcz+upSOMIV5jRVveOg==
+X-MS-Exchange-CrossTenant-UserPrincipalName: 3iaRVMRtycGQai7J/QrmmwK0f6Rxkrcmb9XXqYuPnCPuZxEaaGjMUaQibRsdKX1iJS7TeLrlDsqOYaOZVCUW5Q==
 X-MS-Exchange-Transport-CrossTenantHeadersStamped: MW3PR12MB4427
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -171,96 +171,352 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-FUSE registers are an array of 16 consecutive registers. Use the
-newly available register array feature to define them properly and
-improve the code using them.
+Add support for declaring arrays of registers available from a variable
+base. This is effectively a combination of the relative and array
+registers features.
+
+nova-core does not make much use of this yet, but it will become helpful
+to have for GSP boot.
 
 Signed-off-by: Alexandre Courbot <acourbot@nvidia.com>
 ---
- drivers/gpu/nova-core/falcon/hal/ga102.rs | 33 ++++++++++++++-----------------
- drivers/gpu/nova-core/regs.rs             |  8 +++++---
- 2 files changed, 20 insertions(+), 21 deletions(-)
+ Documentation/gpu/nova/core/todo.rst      |   1 -
+ drivers/gpu/nova-core/falcon.rs           |   2 +-
+ drivers/gpu/nova-core/falcon/hal/ga102.rs |   2 +-
+ drivers/gpu/nova-core/regs.rs             |   8 +-
+ drivers/gpu/nova-core/regs/macros.rs      | 242 ++++++++++++++++++++++++++++++
+ 5 files changed, 248 insertions(+), 7 deletions(-)
 
+diff --git a/Documentation/gpu/nova/core/todo.rst b/Documentation/gpu/nova/core/todo.rst
+index a1d12c1b289d89251d914fc271b7243ced11d487..48b20656dcb16056db7784fa186f161126aae9aa 100644
+--- a/Documentation/gpu/nova/core/todo.rst
++++ b/Documentation/gpu/nova/core/todo.rst
+@@ -131,7 +131,6 @@ crate so it can be used by other components as well.
+ 
+ Features desired before this happens:
+ 
+-* Arrays of registers with build-time index validation,
+ * Make I/O optional I/O (for field values that are not registers),
+ * Support other sizes than `u32`,
+ * Allow visibility control for registers and individual fields,
+diff --git a/drivers/gpu/nova-core/falcon.rs b/drivers/gpu/nova-core/falcon.rs
+index 2ecdcc6b9b9dea39889eb9e41e3a8293fc56a54d..d235a6f9efca452cc46e2d13c61789eb00252de2 100644
+--- a/drivers/gpu/nova-core/falcon.rs
++++ b/drivers/gpu/nova-core/falcon.rs
+@@ -516,7 +516,7 @@ fn dma_wr<F: FalconFirmware<Target = E>>(
+     pub(crate) fn dma_load<F: FalconFirmware<Target = E>>(&self, bar: &Bar0, fw: &F) -> Result {
+         regs::NV_PFALCON_FBIF_CTL::alter(bar, &E::ID, |v| v.set_allow_phys_no_ctx(true));
+         regs::NV_PFALCON_FALCON_DMACTL::default().write(bar, &E::ID);
+-        regs::NV_PFALCON_FBIF_TRANSCFG::alter(bar, &E::ID, |v| {
++        regs::NV_PFALCON_FBIF_TRANSCFG::alter(bar, &E::ID, 0, |v| {
+             v.set_target(FalconFbifTarget::CoherentSysmem)
+                 .set_mem_type(FalconFbifMemType::Physical)
+         });
 diff --git a/drivers/gpu/nova-core/falcon/hal/ga102.rs b/drivers/gpu/nova-core/falcon/hal/ga102.rs
-index 3fdacd19322dd122eb00e245de4be8d1edd61a5f..13c945fd6d6b7b1acbb466678af0bf18da506265 100644
+index 13c945fd6d6b7b1acbb466678af0bf18da506265..0b1cbe7853b3e85cb9c03f8e3987ec50a30253fb 100644
 --- a/drivers/gpu/nova-core/falcon/hal/ga102.rs
 +++ b/drivers/gpu/nova-core/falcon/hal/ga102.rs
-@@ -42,35 +42,32 @@ fn signature_reg_fuse_version_ga102(
-     engine_id_mask: u16,
-     ucode_id: u8,
- ) -> Result<u32> {
--    // TODO[REGA]: The ucode fuse versions are contained in the
--    // FUSE_OPT_FPF_<ENGINE>_UCODE<X>_VERSION registers, which are an array. Our register
--    // definition macros do not allow us to manage them properly, so we need to hardcode their
--    // addresses for now. Clean this up once we support register arrays.
-+    const NV_FUSE_OPT_FPF_SIZE: u8 = regs::NV_FUSE_OPT_FPF_SIZE as u8;
- 
-     // Each engine has 16 ucode version registers numbered from 1 to 16.
--    if ucode_id == 0 || ucode_id > 16 {
--        dev_err!(dev, "invalid ucode id {:#x}", ucode_id);
--        return Err(EINVAL);
--    }
-+    let ucode_idx = match ucode_id {
-+        1..=NV_FUSE_OPT_FPF_SIZE => (ucode_id - 1) as usize,
-+        _ => {
-+            dev_err!(dev, "invalid ucode id {:#x}", ucode_id);
-+            return Err(EINVAL);
-+        }
-+    };
- 
--    // Base address of the FUSE registers array corresponding to the engine.
--    let reg_fuse_base = if engine_id_mask & 0x0001 != 0 {
--        regs::NV_FUSE_OPT_FPF_SEC2_UCODE1_VERSION::OFFSET
-+    // `ucode_idx` is guaranteed to be in the range [0..15], making the `read` calls provable valid
-+    // at build-time.
-+    let reg_fuse_version = if engine_id_mask & 0x0001 != 0 {
-+        regs::NV_FUSE_OPT_FPF_SEC2_UCODE1_VERSION::read(bar, ucode_idx).data()
-     } else if engine_id_mask & 0x0004 != 0 {
--        regs::NV_FUSE_OPT_FPF_NVDEC_UCODE1_VERSION::OFFSET
-+        regs::NV_FUSE_OPT_FPF_NVDEC_UCODE1_VERSION::read(bar, ucode_idx).data()
-     } else if engine_id_mask & 0x0400 != 0 {
--        regs::NV_FUSE_OPT_FPF_GSP_UCODE1_VERSION::OFFSET
-+        regs::NV_FUSE_OPT_FPF_GSP_UCODE1_VERSION::read(bar, ucode_idx).data()
-     } else {
-         dev_err!(dev, "unexpected engine_id_mask {:#x}", engine_id_mask);
-         return Err(EINVAL);
-     };
- 
--    // Read `reg_fuse_base[ucode_id - 1]`.
--    let reg_fuse_version =
--        bar.read32(reg_fuse_base + ((ucode_id - 1) as usize * core::mem::size_of::<u32>()));
--
-     // TODO[NUMM]: replace with `last_set_bit` once it lands.
--    Ok(u32::BITS - reg_fuse_version.leading_zeros())
-+    Ok(u16::BITS - reg_fuse_version.leading_zeros())
- }
- 
+@@ -73,7 +73,7 @@ fn signature_reg_fuse_version_ga102(
  fn program_brom_ga102<E: FalconEngine>(bar: &Bar0, params: &FalconBromParams) -> Result {
+     regs::NV_PFALCON2_FALCON_BROM_PARAADDR::default()
+         .set_value(params.pkc_data_offset)
+-        .write(bar, &E::ID);
++        .write(bar, &E::ID, 0);
+     regs::NV_PFALCON2_FALCON_BROM_ENGIDMASK::default()
+         .set_value(u32::from(params.engine_id_mask))
+         .write(bar, &E::ID);
 diff --git a/drivers/gpu/nova-core/regs.rs b/drivers/gpu/nova-core/regs.rs
-index 0c857842b31f9ca5d842ee5b1e5841de480d1f1f..05a728e9c9881ec315aac8448d11035501eaa559 100644
+index 05a728e9c9881ec315aac8448d11035501eaa559..dfac6bf4fd72cb75729fd6bc179c9d52844d94bf 100644
 --- a/drivers/gpu/nova-core/regs.rs
 +++ b/drivers/gpu/nova-core/regs.rs
-@@ -181,15 +181,17 @@ pub(crate) fn vga_workspace_addr(self) -> Option<u64> {
+@@ -288,8 +288,7 @@ pub(crate) fn mem_scrubbing_done(self) -> bool {
+     0:0     reset as bool;
+ });
  
- // FUSE
+-// TODO[REGA]: this is an array of registers.
+-register!(NV_PFALCON_FBIF_TRANSCFG @ PFalconBase[0x00000600] {
++register!(NV_PFALCON_FBIF_TRANSCFG @ PFalconBase[0x00000600[8]] {
+     1:0     target as u8 ?=> FalconFbifTarget;
+     2:2     mem_type as bool => FalconFbifMemType;
+ });
+@@ -312,8 +311,9 @@ pub(crate) fn mem_scrubbing_done(self) -> bool {
+     31:0    value as u32;
+ });
  
--register!(NV_FUSE_OPT_FPF_NVDEC_UCODE1_VERSION @ 0x00824100 {
-+pub(crate) const NV_FUSE_OPT_FPF_SIZE: usize = 16;
+-// TODO[REGA]: this is an array of registers.
+-register!(NV_PFALCON2_FALCON_BROM_PARAADDR @ PFalcon2Base[0x00000210] {
++// OpenRM defines this as a register array, but doesn't specify its size and only uses its first
++// element. Be conservative until we know the actual size or need to use more registers.
++register!(NV_PFALCON2_FALCON_BROM_PARAADDR @ PFalcon2Base[0x00000210[1]] {
+     31:0    value as u32;
+ });
+ 
+diff --git a/drivers/gpu/nova-core/regs/macros.rs b/drivers/gpu/nova-core/regs/macros.rs
+index 0b5ccc50967b1deb02cf927142d5f422141e780d..7c00647f716bd42eb30a286a6cd4a1e3ec26f16a 100644
+--- a/drivers/gpu/nova-core/regs/macros.rs
++++ b/drivers/gpu/nova-core/regs/macros.rs
+@@ -213,6 +213,74 @@ pub(crate) trait RegisterBase<T> {
+ /// # Ok(())
+ /// # }
+ /// ```
++///
++/// ## Relative arrays of registers
++///
++/// Combining the two features described in the sections above, arrays of registers accessible from
++/// a base can also be defined:
++///
++/// ```no_run
++/// # fn no_run() -> Result<(), Error> {
++/// # fn get_scratch_idx() -> usize {
++/// #   0x15
++/// # }
++/// // Type used as parameter of `RegisterBase` to specify the base.
++/// pub(crate) struct CpuCtlBase;
++///
++/// // ZST describing `CPU0`.
++/// struct Cpu0;
++/// impl RegisterBase<CpuCtlBase> for Cpu0 {
++///     const BASE: usize = 0x100;
++/// }
++/// // Singleton of `CPU0` used to identify it.
++/// const CPU0: Cpu0 = Cpu0;
++///
++/// // ZST describing `CPU1`.
++/// struct Cpu1;
++/// impl RegisterBase<CpuCtlBase> for Cpu1 {
++///     const BASE: usize = 0x200;
++/// }
++/// // Singleton of `CPU1` used to identify it.
++/// const CPU1: Cpu1 = Cpu1;
++///
++/// // 64 per-cpu scratch registers, arranged as an contiguous array.
++/// register!(CPU_SCRATCH @ CpuCtlBase[0x00000080[64]], "Per-CPU scratch registers" {
++///     31:0    value as u32;
++/// });
++///
++/// let cpu0_scratch_0 = CPU_SCRATCH::read(bar, &Cpu0, 0).value();
++/// let cpu1_scratch_15 = CPU_SCRATCH::read(bar, &Cpu1, 15).value();
++///
++/// // This won't build.
++/// // let cpu0_scratch_128 = CPU_SCRATCH::read(bar, &Cpu0, 128).value();
++///
++/// // Runtime-obtained array index.
++/// let scratch_idx = get_scratch_idx();
++/// // Access on a runtime value returns an error if it is out-of-bounds.
++/// let cpu0_some_scratch = CPU_SCRATCH::try_read(bar, &Cpu0, scratch_idx)?.value();
++///
++/// // `SCRATCH[8]` is used to convey the firmware exit code.
++/// register!(CPU_FIRMWARE_STATUS => CpuCtlBase[CPU_SCRATCH[8]],
++///     "Per-CPU firmware exit status code" {
++///     7:0     status as u8;
++/// });
++///
++/// let cpu0_status = CPU_FIRMWARE_STATUS::read(bar, &Cpu0).status();
++///
++/// // Non-contiguous register arrays can be defined by adding a stride parameter.
++/// // Here, each of the 16 registers of the array are separated by 8 bytes, meaning that the
++/// // registers of the two declarations below are interleaved.
++/// register!(CPU_SCRATCH_INTERLEAVED_0 @ CpuCtlBase[0x00000d00[16 ; 8]],
++///           "Scratch registers bank 0" {
++///     31:0    value as u32;
++/// });
++/// register!(CPU_SCRATCH_INTERLEAVED_1 @ CpuCtlBase[0x00000d04[16 ; 8]],
++///           "Scratch registers bank 1" {
++///     31:0    value as u32;
++/// });
++/// # Ok(())
++/// # }
++/// ```
+ macro_rules! register {
+     // Creates a register at a fixed offset of the MMIO space.
+     ($name:ident @ $offset:literal $(, $comment:literal)? { $($fields:tt)* } ) => {
+@@ -260,7 +328,41 @@ macro_rules! register {
+         } );
+     };
+ 
++    // Creates an array of registers at a relative offset from a base address provider.
++    (
++        $name:ident @ $base:ty [ $offset:literal [ $size:expr ; $stride:expr ] ]
++            $(, $comment:literal)? { $($fields:tt)* }
++    ) => {
++        static_assert!(::core::mem::size_of::<u32>() <= $stride);
++        register!(@core $name $(, $comment)? { $($fields)* } );
++        register!(@io_relative_array $name @ $base [ $offset [ $size ; $stride ] ]);
++    };
 +
-+register!(NV_FUSE_OPT_FPF_NVDEC_UCODE1_VERSION @ 0x00824100[NV_FUSE_OPT_FPF_SIZE] {
-     15:0    data as u16;
- });
- 
--register!(NV_FUSE_OPT_FPF_SEC2_UCODE1_VERSION @ 0x00824140 {
-+register!(NV_FUSE_OPT_FPF_SEC2_UCODE1_VERSION @ 0x00824140[NV_FUSE_OPT_FPF_SIZE] {
-     15:0    data as u16;
- });
- 
--register!(NV_FUSE_OPT_FPF_GSP_UCODE1_VERSION @ 0x008241c0 {
-+register!(NV_FUSE_OPT_FPF_GSP_UCODE1_VERSION @ 0x008241c0[NV_FUSE_OPT_FPF_SIZE] {
-     15:0    data as u16;
- });
- 
++    // Shortcut for contiguous array of relative registers (stride == size of element).
++    (
++        $name:ident @ $base:ty [ $offset:literal [ $size:expr ] ] $(, $comment:literal)? {
++            $($fields:tt)*
++        }
++    ) => {
++        register!($name @ $base [ $offset [ $size ; ::core::mem::size_of::<u32>() ] ]
++            $(, $comment)? { $($fields)* } );
++    };
++
++    // Creates an alias of register `idx` of relative array of registers `alias` with its own
++    // fields.
++    (
++        $name:ident => $base:ty [ $alias:ident [ $idx:expr ] ] $(, $comment:literal)? {
++            $($fields:tt)*
++        }
++    ) => {
++        static_assert!($idx < $alias::SIZE);
++        register!(@core $name $(, $comment)? { $($fields)* } );
++        register!(@io_relative $name @ $base [ $alias::OFFSET + $idx * $alias::STRIDE ] );
++    };
++
+     // Creates an alias of register `idx` of array of registers `alias` with its own fields.
++    // This rule belongs to the (non-relative) register arrays set, but needs to be put last
++    // to avoid it being interpreted in place of the relative register array alias rule.
+     ($name:ident => $alias:ident [ $idx:expr ] $(, $comment:literal)? { $($fields:tt)* }) => {
+         static_assert!($idx < $alias::SIZE);
+         register!(@core $name $(, $comment)? { $($fields)* } );
+@@ -715,4 +817,144 @@ pub(crate) fn try_alter<const SIZE: usize, T, F>(
+             }
+         }
+     };
++
++    // Generates the IO accessors for an array of relative registers.
++    (
++        @io_relative_array $name:ident @ $base:ty
++            [ $offset:literal [ $size:expr ; $stride:expr ] ]
++    ) => {
++        #[allow(dead_code)]
++        impl $name {
++            pub(crate) const OFFSET: usize = $offset;
++            pub(crate) const SIZE: usize = $size;
++            pub(crate) const STRIDE: usize = $stride;
++
++            /// Read the array register at index `idx` from `io`, using the base address provided
++            /// by `base` and adding the register's offset to it.
++            #[inline(always)]
++            pub(crate) fn read<const SIZE: usize, T, B>(
++                io: &T,
++                #[allow(unused_variables)]
++                base: &B,
++                idx: usize,
++            ) -> Self where
++                T: ::core::ops::Deref<Target = ::kernel::io::Io<SIZE>>,
++                B: crate::regs::macros::RegisterBase<$base>,
++            {
++                build_assert!(idx < Self::SIZE);
++
++                let offset = <B as crate::regs::macros::RegisterBase<$base>>::BASE +
++                    Self::OFFSET + (idx * Self::STRIDE);
++                let value = io.read32(offset);
++
++                Self(value)
++            }
++
++            /// Write the value contained in `self` to `io`, using the base address provided by
++            /// `base` and adding the offset of array register `idx` to it.
++            #[inline(always)]
++            pub(crate) fn write<const SIZE: usize, T, B>(
++                self,
++                io: &T,
++                #[allow(unused_variables)]
++                base: &B,
++                idx: usize
++            ) where
++                T: ::core::ops::Deref<Target = ::kernel::io::Io<SIZE>>,
++                B: crate::regs::macros::RegisterBase<$base>,
++            {
++                build_assert!(idx < Self::SIZE);
++
++                let offset = <B as crate::regs::macros::RegisterBase<$base>>::BASE +
++                    Self::OFFSET + (idx * Self::STRIDE);
++
++                io.write32(self.0, offset);
++            }
++
++            /// Read the array register at index `idx` from `io`, using the base address provided
++            /// by `base` and adding the register's offset to it, then run `f` on its value to
++            /// obtain a new value to write back.
++            #[inline(always)]
++            pub(crate) fn alter<const SIZE: usize, T, B, F>(
++                io: &T,
++                base: &B,
++                idx: usize,
++                f: F,
++            ) where
++                T: ::core::ops::Deref<Target = ::kernel::io::Io<SIZE>>,
++                B: crate::regs::macros::RegisterBase<$base>,
++                F: ::core::ops::FnOnce(Self) -> Self,
++            {
++                let reg = f(Self::read(io, base, idx));
++                reg.write(io, base, idx);
++            }
++
++            /// Read the array register at index `idx` from `io`, using the base address provided
++            /// by `base` and adding the register's offset to it.
++            ///
++            /// The validity of `idx` is checked at run-time, and `EINVAL` is returned is the
++            /// access was out-of-bounds.
++            #[inline(always)]
++            pub(crate) fn try_read<const SIZE: usize, T, B>(
++                io: &T,
++                base: &B,
++                idx: usize,
++            ) -> ::kernel::error::Result<Self> where
++                T: ::core::ops::Deref<Target = ::kernel::io::Io<SIZE>>,
++                B: crate::regs::macros::RegisterBase<$base>,
++            {
++                if idx < Self::SIZE {
++                    Ok(Self::read(io, base, idx))
++                } else {
++                    Err(EINVAL)
++                }
++            }
++
++            /// Write the value contained in `self` to `io`, using the base address provided by
++            /// `base` and adding the offset of array register `idx` to it.
++            ///
++            /// The validity of `idx` is checked at run-time, and `EINVAL` is returned is the
++            /// access was out-of-bounds.
++            #[inline(always)]
++            pub(crate) fn try_write<const SIZE: usize, T, B>(
++                self,
++                io: &T,
++                base: &B,
++                idx: usize,
++            ) -> ::kernel::error::Result where
++                T: ::core::ops::Deref<Target = ::kernel::io::Io<SIZE>>,
++                B: crate::regs::macros::RegisterBase<$base>,
++            {
++                if idx < Self::SIZE {
++                    Ok(self.write(io, base, idx))
++                } else {
++                    Err(EINVAL)
++                }
++            }
++
++            /// Read the array register at index `idx` from `io`, using the base address provided
++            /// by `base` and adding the register's offset to it, then run `f` on its value to
++            /// obtain a new value to write back.
++            ///
++            /// The validity of `idx` is checked at run-time, and `EINVAL` is returned is the
++            /// access was out-of-bounds.
++            #[inline(always)]
++            pub(crate) fn try_alter<const SIZE: usize, T, B, F>(
++                io: &T,
++                base: &B,
++                idx: usize,
++                f: F,
++            ) -> ::kernel::error::Result where
++                T: ::core::ops::Deref<Target = ::kernel::io::Io<SIZE>>,
++                B: crate::regs::macros::RegisterBase<$base>,
++                F: ::core::ops::FnOnce(Self) -> Self,
++            {
++                if idx < Self::SIZE {
++                    Ok(Self::alter(io, base, idx, f))
++                } else {
++                    Err(EINVAL)
++                }
++            }
++        }
++    };
+ }
 
 -- 
 2.50.1
