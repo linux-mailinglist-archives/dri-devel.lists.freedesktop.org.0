@@ -2,120 +2,65 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9F261B0A97D
-	for <lists+dri-devel@lfdr.de>; Fri, 18 Jul 2025 19:28:52 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7845BB0A982
+	for <lists+dri-devel@lfdr.de>; Fri, 18 Jul 2025 19:29:12 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7AB8210EA28;
-	Fri, 18 Jul 2025 17:28:43 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D14BE10EA27;
+	Fri, 18 Jul 2025 17:29:10 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=qualcomm.com header.i=@qualcomm.com header.b="TOjihzHU";
+	dkim=pass (2048-bit key; unprotected) header.d=kernel.org header.i=@kernel.org header.b="oyH3+WVK";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com
- [205.220.168.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id CBFC810EA28
- for <dri-devel@lists.freedesktop.org>; Fri, 18 Jul 2025 17:28:41 +0000 (UTC)
-Received: from pps.filterd (m0279865.ppops.net [127.0.0.1])
- by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 56IFfAgb000598
- for <dri-devel@lists.freedesktop.org>; Fri, 18 Jul 2025 17:28:41 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
- cc:content-type:date:from:in-reply-to:message-id:mime-version
- :references:subject:to; s=qcppdkim1; bh=f6yNaiRLHAcK+6GC8eMfTdPL
- ypI+sKJ1RhRN3e/m+tM=; b=TOjihzHUobpA6dFi1+++Hpb9xgD+bHm3xJHRqLqd
- CV4XWt9vKzLLg51HQ9F+OCmYbxK2s8LfdHOPNyCjtr+1qujPhZivZxfVHGnTjjIl
- OCg6TVvyjhWZvUYXTpjTQy6AnCUtShf8RUcL/+rOxqYWsRRNj6AsyyczA/dT5D2d
- SNEl+EFiynDyIT/mDLsDmGQOhE8CAwmg1hhv5IfU7xzibtcW3chHD4isF52Gqomd
- APa0HuB0GLjFDnwYzvB3859uVjnGpRro63e7kUcI29A+bs7Se991AjQiw6jGc4Uj
- g9fIwhGe8Tt5vJIWUu7P5yCA3kmo+l21eoeKHIlQcDJaDw==
-Received: from mail-qk1-f200.google.com (mail-qk1-f200.google.com
- [209.85.222.200])
- by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 47w5dryfy3-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
- for <dri-devel@lists.freedesktop.org>; Fri, 18 Jul 2025 17:28:41 +0000 (GMT)
-Received: by mail-qk1-f200.google.com with SMTP id
- af79cd13be357-7c5cd0f8961so424042685a.1
- for <dri-devel@lists.freedesktop.org>; Fri, 18 Jul 2025 10:28:41 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1752859720; x=1753464520;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
- :message-id:reply-to;
- bh=f6yNaiRLHAcK+6GC8eMfTdPLypI+sKJ1RhRN3e/m+tM=;
- b=HBcURMEWXStJ4eEBA5Qo1dznjdxJGSsiwXiBH9LJQGbrKxUibGP9GqwXZjJgas11Rx
- 3lZq8p19u1ESD5gy70+4BUu+IDqvtg3Yf1Bmm2CI1pAfq2+BnpOGVtwRwj8EWQdgSmLy
- Lbredb5kiCXHIfOb33Q1kf33AUiQuK6kAl8QncLOsnMcJpE661OqKr0X7bNlAhkg3fOS
- EKP0Nj1u99EBfNdseszmq0ZfB3eTlozR03CqXGgSUWl6U3Gy4dmQGvYBHxjYML4G4r9S
- iijF9lKXk1ncJQ1lHZCMzM8hTUpXenPQ1Y2PRTCzhpfUwhmO/c/lRbDxKFRmqXwrRH+C
- 97+g==
-X-Forwarded-Encrypted: i=1;
- AJvYcCXm8ps8QJhz5tLyMJU6vvL7uvWaK6fQrh9zplbGuFHNVfiEKuxdCSfoMilnDs/LnPkY6gG+wiAW+cc=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YxW6NLSTqLxtcj9Xn2mvbrV6c0oV8FwbQKwhufo4TdlqKxWgIn6
- JiVz8u1U98hEWaFMyqft+wkBgLnB185qkmv0jR5/9QxwHXZ3DT26lGPHj2amtbV1tKp7U5j1zRD
- ltnASi450mR+I4CHKSnoA0w4nwGbQJqdp4UIi1zF+H2Y41CvY7FY7ON1G8PwDGt7wvbOVfhg=
-X-Gm-Gg: ASbGncu+LB+wVf234Sc2NfJB6fEG9UvUpRT2p+nfgApNvdQbVNo2Qelb2A7myF9JC9L
- Y2RvnmmaJsT13VILSNm0duGbIDriE0Bt5/J+1aBt6fxSBOvL9y9dVcfR+x8DVF0oDPJ0E2aSrw0
- dLTTCSBXusYHIxI/24cHyB1gBJ7UtCbaUBFusBSSNuiP6O9IjPIfFc7UVciXdWOkkmqFlyMMJQ4
- faSc8q2bfxrP6Ekw8eIKu/E8RYujOr51xZ0DUI/k7E8j8IMHtADkP7kImeTAwwRPI74ZXwjOO9k
- eHHaHO2Nbj9uJnObX2kdoB6GaWqodWVGqizl+Co36RfMvp+9bBKh9kVI/ssLgbGuX55Nw/LPT13
- QwFJkzd8I8ikIaFM1y7FH5kxHf5CAZXxxoEJFNo3IB1luGt8jgorA
-X-Received: by 2002:a05:620a:4088:b0:7e1:538d:5c5e with SMTP id
- af79cd13be357-7e3436253d2mr1626777585a.46.1752859719433; 
- Fri, 18 Jul 2025 10:28:39 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IH1w3sp9zVGjYWBmgKH917pY8I7F8sCh3F9gp3Q6iMWVLnWjt4QkDQ8fFwWBHnJpBaRVJQW4A==
-X-Received: by 2002:a05:620a:4088:b0:7e1:538d:5c5e with SMTP id
- af79cd13be357-7e3436253d2mr1626770785a.46.1752859718706; 
- Fri, 18 Jul 2025 10:28:38 -0700 (PDT)
-Received: from umbar.lan
- (2001-14ba-a0c3-3a00-264b-feff-fe8b-be8a.rev.dnainternet.fi.
- [2001:14ba:a0c3:3a00:264b:feff:fe8b:be8a])
- by smtp.gmail.com with ESMTPSA id
- 2adb3069b0e04-55a31aac76bsm336325e87.68.2025.07.18.10.28.37
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 18 Jul 2025 10:28:37 -0700 (PDT)
-Date: Fri, 18 Jul 2025 20:28:35 +0300
-From: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
-To: Colin Ian King <colin.i.king@gmail.com>
-Cc: Rob Clark <robin.clark@oss.qualcomm.com>, Sean Paul <sean@poorly.run>,
- Konrad Dybcio <konradybcio@kernel.org>,
- Dmitry Baryshkov <lumag@kernel.org>,
- Abhinav Kumar <abhinav.kumar@linux.dev>,
- Jessica Zhang <jessica.zhang@oss.qualcomm.com>,
- Marijn Suijten <marijn.suijten@somainline.org>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- linux-arm-msm@vger.kernel.org, dri-devel@lists.freedesktop.org,
- freedreno@lists.freedesktop.org, kernel-janitors@vger.kernel.org,
- linux-kernel@vger.kernel.org
-Subject: Re: [PATCH][next] drm/msm: remove extraneous semicolon after a
- statement
-Message-ID: <qjvxpdibdt76vvw2capf6mupiuqvjlcevtfl66dkqp634ot2zd@eau52bnkh5ec>
-References: <20250718133404.2047673-1-colin.i.king@gmail.com>
+Received: from tor.source.kernel.org (tor.source.kernel.org [172.105.4.254])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A337610EA29
+ for <dri-devel@lists.freedesktop.org>; Fri, 18 Jul 2025 17:29:09 +0000 (UTC)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+ by tor.source.kernel.org (Postfix) with ESMTP id D92D1601E4;
+ Fri, 18 Jul 2025 17:29:08 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 22618C4CEEB;
+ Fri, 18 Jul 2025 17:29:06 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1752859748;
+ bh=wf2avfRaqrJbyST3UyYxQ4ZifExp4p/EYoTF5IOX4og=;
+ h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+ b=oyH3+WVK+94ytu5NuypH0ZbrxnNvx7RPO9oCOGa6WbgJuE1xZPcQ2STcJW2KoiAp/
+ qKhB/KbYJwrjekI6pYGFvptl61nwKOoMR/V8Yh0Vn3l3iTcw0krdE2jhfGQ0aTuWfw
+ 9JCKRJeBR65tpSt55AdSDeWOfxbaMjBtnOYGFVFrFdZCFYL6netTPMTj5+uAc0hLS5
+ biDg7wo9Wbz3vNKA2CvzBSALJPdmAKZ7jwoJ5lTats7na+696mdexLBPWcfnfAu6L/
+ IyTptfws8krwmPdyOeMlDzXzvdVhXvdaIcm7LX5L6sVW2YhhF+ugNSkkmcDJSMJme0
+ MfINcWjsQaDeg==
+Message-ID: <ee2907ba-bcda-4e60-a764-078c59b463a8@kernel.org>
+Date: Fri, 18 Jul 2025 12:29:05 -0500
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20250718133404.2047673-1-colin.i.king@gmail.com>
-X-Proofpoint-ORIG-GUID: Zwl5-0NHiFhN6HAULX3bGNipYrEJKwP5
-X-Authority-Analysis: v=2.4 cv=D4xHKuRj c=1 sm=1 tr=0 ts=687a8449 cx=c_pps
- a=hnmNkyzTK/kJ09Xio7VxxA==:117 a=xqWC_Br6kY4A:10 a=kj9zAlcOel0A:10
- a=Wb1JkmetP80A:10 a=pGLkceISAAAA:8 a=EUspDBNiAAAA:8 a=xHVDqe4EictJAN7MuBgA:9
- a=CjuIK1q_8ugA:10 a=PEH46H7Ffwr30OY-TuGO:22
-X-Proofpoint-GUID: Zwl5-0NHiFhN6HAULX3bGNipYrEJKwP5
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwNzE4MDEzOCBTYWx0ZWRfX54nnzfvvITPp
- A7C8iBM25tVQvF9fIDAYor/0e0Vt11VC/dPavGaovrhXAwBRdL55jlnrTp8uxN6VdgMK4T2weJJ
- LHGEnZOZ91t933zE2Yz8ZkUL5fOu4AtCdVFCdlw2GHN6MkuxuHuXh0Gj0Ym/bBP+xfD3idHET9J
- 9NVQbP89QcRE6jy771ux4qerntw0htMRTRaJpUz+H7mF4Q5ht2nfroYy/hY7eqOqv8ZuwiRBVD5
- nVx0MajM+hjGUVWl1qNPePYd2Vc+OmYMaS93mNhO+nEzl9Wb3JolwdUr/ks3FKhWQiA+QgiYhzb
- S4fugqV33MzqlaOmK5q+D5N+cO5KYLe6RvqtlkiIFN0ycquG3fBEKcZja6/dpzkizJNr6wESdaI
- Iva7wiDJ89nFndiN+CjDCEYFjyfO2OyXxC73nN71feZ7+4yuOxD7MMNgDtNPwpuuWKFL518l
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1099,Hydra:6.1.9,FMLib:17.12.80.40
- definitions=2025-07-18_04,2025-07-17_02,2025-03-28_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- adultscore=0 mlxlogscore=806 impostorscore=0 spamscore=0 clxscore=1015
- lowpriorityscore=0 malwarescore=0 suspectscore=0 bulkscore=0 mlxscore=0
- priorityscore=1501 phishscore=0 classifier=spam authscore=0 authtc=n/a
- authcc= route=outbound adjust=0 reason=mlx scancount=1
- engine=8.19.0-2505280000 definitions=main-2507180138
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v9 9/9] PCI: Add a new 'boot_display' attribute
+To: Bjorn Helgaas <helgaas@kernel.org>
+Cc: David Airlie <airlied@gmail.com>, Bjorn Helgaas <bhelgaas@google.com>,
+ Alex Deucher <alexander.deucher@amd.com>,
+ =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
+ Simona Vetter <simona@ffwll.ch>, Lukas Wunner <lukas@wunner.de>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
+ David Woodhouse <dwmw2@infradead.org>, Lu Baolu <baolu.lu@linux.intel.com>,
+ Joerg Roedel <joro@8bytes.org>, Will Deacon <will@kernel.org>,
+ Robin Murphy <robin.murphy@arm.com>,
+ Alex Williamson <alex.williamson@redhat.com>,
+ Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
+ "open list:DRM DRIVERS" <dri-devel@lists.freedesktop.org>,
+ open list <linux-kernel@vger.kernel.org>,
+ "open list:INTEL IOMMU (VT-d)" <iommu@lists.linux.dev>,
+ "open list:PCI SUBSYSTEM" <linux-pci@vger.kernel.org>,
+ "open list:VFIO DRIVER" <kvm@vger.kernel.org>,
+ "open list:SOUND" <linux-sound@vger.kernel.org>,
+ Daniel Dadap <ddadap@nvidia.com>,
+ Mario Limonciello <mario.limonciello@amd.com>
+References: <20250718172545.GA2703510@bhelgaas>
+Content-Language: en-US
+From: Mario Limonciello <superm1@kernel.org>
+In-Reply-To: <20250718172545.GA2703510@bhelgaas>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -131,18 +76,68 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, Jul 18, 2025 at 02:34:04PM +0100, Colin Ian King wrote:
-> There is a statement that has an extraneous semicolon; remove it.
+On 7/18/2025 12:25 PM, Bjorn Helgaas wrote:
+> On Thu, Jul 17, 2025 at 12:38:12PM -0500, Mario Limonciello wrote:
+>> From: Mario Limonciello <mario.limonciello@amd.com>
+>>
+>> On systems with multiple GPUs there can be uncertainty which GPU is the
+>> primary one used to drive the display at bootup. In some desktop
+>> environments this can lead to increased power consumption because
+>> secondary GPUs may be used for rendering and never go to a low power
+>> state. In order to disambiguate this add a new sysfs attribute
+>> 'boot_display' that uses the output of video_is_primary_device() to
+>> populate whether a PCI device was used for driving the display.
 > 
-> Signed-off-by: Colin Ian King <colin.i.king@gmail.com>
-> ---
->  drivers/gpu/drm/msm/msm_gpu.c | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
+>> +What:		/sys/bus/pci/devices/.../boot_display
+>> +Date:		October 2025
+>> +Contact:	Linux PCI developers <linux-pci@vger.kernel.org>
+>> +Description:
+>> +		This file indicates that displays connected to the device were
+>> +		used to display the boot sequence.  If a display connected to
+>> +		the device was used to display the boot sequence the file will
+>> +		be present and contain "1".
 > 
+>>   int __must_check pci_create_sysfs_dev_files(struct pci_dev *pdev)
+>>   {
+>> +	int retval;
+>> +
+>>   	if (!sysfs_initialized)
+>>   		return -EACCES;
+>>   
+>> +	retval = pci_create_boot_display_file(pdev);
+> 
+> In addition to Mani's question about whether /sys/bus/pci/ is the
+> right place for this (which is a very good question), it's also been
+> pointed out to me that we've been trying to get rid of
+> pci_create_sysfs_dev_files() for years.
+> 
+> If it's possible to make this a static attribute that would be much,
+> much cleaner.
 
-Reviewed-by: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
+Right - I tried to do this, but the problem is at the time the PCI 
+device is created the information needed to make the judgement isn't 
+ready.  The options end up being:
+* a sysfs file for every display device with 0/1
+* a sysfs file that is not accurate until later in the boot
 
+So IMO it /needs/ to come later.
 
--- 
-With best wishes
-Dmitry
+> 
+>> +	if (retval)
+>> +		return retval;
+>> +
+>>   	return pci_create_resource_files(pdev);
+>>   }
+>>   
+>> @@ -1671,6 +1716,7 @@ void pci_remove_sysfs_dev_files(struct pci_dev *pdev)
+>>   	if (!sysfs_initialized)
+>>   		return;
+>>   
+>> +	pci_remove_boot_display_file(pdev);
+>>   	pci_remove_resource_files(pdev);
+>>   }
+>>   
+>> -- 
+>> 2.43.0
+>>
+
