@@ -2,74 +2,67 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 45731B0A4E1
-	for <lists+dri-devel@lfdr.de>; Fri, 18 Jul 2025 15:12:26 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3F4CFB0A523
+	for <lists+dri-devel@lfdr.de>; Fri, 18 Jul 2025 15:27:46 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8BEBA10E9C3;
-	Fri, 18 Jul 2025 13:12:07 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6668010E9AA;
+	Fri, 18 Jul 2025 13:27:43 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=fail reason="signature verification failed" (2048-bit key; unprotected) header.d=igalia.com header.i=@igalia.com header.b="lMnSJBlW";
+	dkim=pass (2048-bit key; secure) header.d=linutronix.de header.i=@linutronix.de header.b="oCAN643G";
+	dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="eaLHvwgl";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from fanzine2.igalia.com (fanzine2.igalia.com [213.97.179.56])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D2ACB10E9C2;
- Fri, 18 Jul 2025 13:12:02 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com; 
- s=20170329;
- h=Content-Transfer-Encoding:Content-Type:Message-ID:References:
- In-Reply-To:Subject:Cc:To:From:Date:MIME-Version:Sender:Reply-To:Content-ID:
- Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc
- :Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:List-Subscribe:
- List-Post:List-Owner:List-Archive;
- bh=AwU7bt8MAvt9UXAndNFX+doc5wRh0645T3vY748a7p8=; b=lMnSJBlWkX8FSxQuOMoUSOKkbl
- 7ChAXCwspgLSj7A56x+UI07xXtZUXgV8HRhCZ1U55csorv1oFe9zvobtBoQg/1qIWpqzTgylXLICC
- 2WpJEI145+nu6ovJxSCOtVS8AHGsQfP0Aw/gg8T6YxsBQIGjxTnbRtjkqbd+dw87rneNcPAj0Qv7X
- A0wyX/7mJWG7QUzVGM1pzz3Vk+n98oqwPPK5Cd14jMKT2FwquCkbh1BFU2ZXr10jwo90ciK6B1dqP
- xj35hTdz5sQoEkwb5yrlVJj2bARF785hE6VwI4Y5SSjd1bqL0RufYubd2X3F1zvGbbaZaq1MgFsoW
- N74Gpvsg==;
-Received: from maestria.local.igalia.com ([192.168.10.14] helo=mail.igalia.com)
- by fanzine2.igalia.com with esmtps 
- (Cipher TLS1.3:ECDHE_SECP256R1__RSA_PSS_RSAE_SHA256__AES_256_GCM:256) (Exim)
- id 1ucksP-000a1q-4B; Fri, 18 Jul 2025 15:11:49 +0200
-Received: from webmail.service.igalia.com ([192.168.21.45])
- by mail.igalia.com with esmtp (Exim)
- id 1ucksM-00Ae9x-M1; Fri, 18 Jul 2025 15:11:48 +0200
-Received: from localhost ([127.0.0.1] helo=webmail.igalia.com)
- by webmail with esmtp (Exim 4.96) (envelope-from <mwen@igalia.com>)
- id 1ucksM-00FOx5-0J; Fri, 18 Jul 2025 15:11:46 +0200
+Received: from galois.linutronix.de (Galois.linutronix.de [193.142.43.55])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8C85310E6EA;
+ Fri, 18 Jul 2025 13:27:41 +0000 (UTC)
+From: =?utf-8?q?Thomas_Wei=C3=9Fschuh?= <thomas.weissschuh@linutronix.de>
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
+ s=2020; t=1752845258;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=80yt9PNGZ40066R0qjg7QPOIFgJ0BIytwbIbV0r3YLo=;
+ b=oCAN643GsWhpiOlaV27hV7jYVi2ciU4EsTR4XN512a68GbM4QHhzrgzE/o5FERgoMgD55U
+ zpavaDJDi4kVRgOxdXywEK2vh8i0QMj1lWseeSK2lj+rTyD1pur2ngD7s8okIt5GVHNsaN
+ UOMn9rUrFyQA13mSPlEJna5A0Pt9sKYLLaMA48ifslLklDG6/DpVlL9xLgtAuWPyvAXfet
+ 4LmVPPCmU7lvz1ym5jJfg3HmhMtDCfxx+tFX5WOLVDPRDGbSsNFDhCOBzfYO8K4+Pdll/J
+ XemtCPgBaCmye+oEXGrY8JgLvHF8YO6zHH6z3Dr+Skl0xJlQYG9lDwFCEpR3zg==
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=linutronix.de;
+ s=2020e; t=1752845258;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=80yt9PNGZ40066R0qjg7QPOIFgJ0BIytwbIbV0r3YLo=;
+ b=eaLHvwgl4BJI9zNp6GtF6PLOadkYibJtpUyG5TOwhuxK5f7ZzjZLaVA3K8apvD0fiitzot
+ zbYLnfau4jy88SAw==
+Date: Fri, 18 Jul 2025 15:27:37 +0200
+Subject: [PATCH v2] drm/msm: Don't use %pK through printk
 MIME-Version: 1.0
-Date: Fri, 18 Jul 2025 12:11:46 -0100
-From: Melissa Wen <mwen@igalia.com>
-To: Matthew Schwartz <matthew.schwartz@linux.dev>
-Cc: Matthew Schwartz <mattschwartz@gwmail.gwu.edu>, "Limonciello, Mario"
- <Mario.Limonciello@amd.com>, "Wentland, Harry" <Harry.Wentland@amd.com>,
- "Li, Sun peng (Leo)" <Sunpeng.Li@amd.com>, "Deucher, Alexander"
- <Alexander.Deucher@amd.com>, "Koenig, Christian" <Christian.Koenig@amd.com>,
- airlied@gmail.com, simona@ffwll.ch, "Hung, Alex" <Alex.Hung@amd.com>, "Liu,
- Charlene" <Charlene.Liu@amd.com>, amd-gfx@lists.freedesktop.org,
- dri-devel@lists.freedesktop.org, kernel-dev@igalia.com
-Subject: Re: [PATCH] Revert "drm/amd/display: limit clear_update_flags to
- dcn32 and above"
-In-Reply-To: <8d859c5f-2551-4624-a9b8-a816f1809feb@linux.dev>
-References: <20250717143738.84722-1-mwen@igalia.com>
- <70ac7b1e-9a28-45ff-b7b2-ab0f4fe9030a@amd.com>
- <bb4099a70c2a8c78ef07d5fb6a8f0d3b@igalia.com>
- <55467ebe-42c8-4387-9a61-aa60b3a84053@amd.com>
- <BA28247C-9779-4C4C-A8E3-ACF57BEF1521@gwmail.gwu.edu>
- <67169725b87e02cc8fdc19be5fc7df59@igalia.com>
- <CAD9O9Dq=dAsMs5a3VzgSvLwfuYYhkARDFBXyWUy+yktEZv5WbQ@mail.gmail.com>
- <bdfc8786-d4b8-4391-a4d4-c5fe06020802@igalia.com>
- <CAD9O9DqxJQyAJM=po4yDbAC=hHK2pi12qTVYeb+ar_GenGpMnw@mail.gmail.com>
- <478eb8175779f03a399f7d933614e14c@igalia.com>
- <8d859c5f-2551-4624-a9b8-a816f1809feb@linux.dev>
-Message-ID: <801d0d97e7cdd1eb3b845347ccb5ddbf@igalia.com>
-X-Sender: mwen@igalia.com
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
-X-Spam-Report: NO, Score=-2.2, Tests=ALL_TRUSTED=-3,BAYES_50=0.8
-X-Spam-Score: -21
-X-Spam-Bar: --
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
+Message-Id: <20250718-restricted-pointers-drm-v2-1-3d9f8566f927@linutronix.de>
+X-B4-Tracking: v=1; b=H4sIAMhLemgC/3WNQQ6CMBBFr0JmbU1bkRZW3sOwQDrIJNqSaSUYw
+ t2tuHb5XvLfXyEiE0ZoihUYZ4oUfAZ9KKAfO39HQS4zaKnPspSlYIyJqU/oxBTIJ+QoHD+FNTc
+ jT5Wph85BXk+MAy17+dpmHimmwO/9aFZf+2tWyv5tzkpIYaxC6aztXa0vD/KvxMHTcnQI7bZtH
+ xH0DfHCAAAA
+X-Change-ID: 20250404-restricted-pointers-drm-87b703679fad
+To: Rob Clark <robin.clark@oss.qualcomm.com>, 
+ Dmitry Baryshkov <lumag@kernel.org>, 
+ Abhinav Kumar <abhinav.kumar@linux.dev>, 
+ Jessica Zhang <jessica.zhang@oss.qualcomm.com>, Sean Paul <sean@poorly.run>, 
+ Marijn Suijten <marijn.suijten@somainline.org>, 
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>
+Cc: linux-arm-msm@vger.kernel.org, dri-devel@lists.freedesktop.org, 
+ freedreno@lists.freedesktop.org, linux-kernel@vger.kernel.org, 
+ =?utf-8?q?Thomas_Wei=C3=9Fschuh?= <thomas.weissschuh@linutronix.de>
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1752845258; l=4224;
+ i=thomas.weissschuh@linutronix.de; s=20240209; h=from:subject:message-id;
+ bh=VWAH+3AGXcFzWM1iqUfxiu+KLg26t8PA+iVM7DpFyjE=;
+ b=eWaz9frDehJCeSMgrLB5NPtTUy4c6S5MzkkKUGrqlpQ8KeEhwxUFESvF+038wbq8IuvOmyMGh
+ /4qI74uRl8zD6c3iyOi1iKtbGEi786xLqtGBf/RNqcOmhtWOHIlNkpN
+X-Developer-Key: i=thomas.weissschuh@linutronix.de; a=ed25519;
+ pk=pfvxvpFUDJV2h2nY0FidLUml22uGLSjByFbM6aqQQws=
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -85,98 +78,104 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 18-07-2025 00:51, Matthew Schwartz wrote:
-[...]
-> 
-> Sure, going to use my Legion Go S w/ Z2 Go for this (DCN 3.1.2). All
-> of these are from amd-staging-drm-next with AMD_PRIVATE_COLOR=y.
-> 
-> DTN log from Hades II with MangoHud enabled:
-> https://gist.github.com/matte-schwartz/0c290ffe99bdb4f0d7369ee8817d1145
-> 
-> DTN log from Hades II with MangoHud disabled:
-> https://gist.github.com/matte-schwartz/3e2867e192ec9742ec545d2c5dd3096a
-> 
-> drm_info from Hades II with MangoHud enabled:
-> https://gist.github.com/matte-schwartz/456684fc60f7e84173ee2f42de4b774b
-> 
-> drm_info from Hades II with MangoHud disabled:
-> https://gist.github.com/matte-schwartz/6b635fa584d033234b435667f5d2c153
-> 
+In the past %pK was preferable to %p as it would not leak raw pointer
+values into the kernel log.
+Since commit ad67b74d2469 ("printk: hash addresses printed with %p")
+the regular %p has been improved to avoid this issue.
+Furthermore, restricted pointers ("%pK") were never meant to be used
+through printk(). They can still unintentionally leak raw pointers or
+acquire sleeping locks in atomic contexts.
 
-Hey Matthew,
+Switch to the regular pointer formatting which is safer and
+easier to reason about.
 
-Thanks for the logs.
-There is actually a difference between your hw and Steam Deck in terms
-of pipe split.
-With your hw, there is no pipe split in both scenarios. However, on
-Steam Deck with MangoHud disabled, we can see the split (2 planes):
+Signed-off-by: Thomas Weißschuh <thomas.weissschuh@linutronix.de>
+---
+Changes in v2:
+- Drop already applied patches
+- Link to v1: https://lore.kernel.org/r/20250618-restricted-pointers-drm-v1-0-781e0d88cd92@linutronix.de
+---
+ drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.c    | 2 +-
+ drivers/gpu/drm/msm/disp/dpu1/dpu_hw_dspp.c | 4 ++--
+ drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c     | 4 ++--
+ drivers/gpu/drm/msm/msm_mdss.c              | 2 +-
+ 4 files changed, 6 insertions(+), 6 deletions(-)
 
-HUBP:  format  addr_hi  width  height  rot  mir  sw_mode  dcc_en 
-blank_en  clock_en  ttu_dis  underflow   min_ttu_vblank       qos_low_wm
-     qos_high_wm
-[ 0]:      8h      f4h   1280     400   3h   0h      1bh       1        
-0         1        0         0h           36.562            0.000       
-   33.854
-[ 1]:      8h      f4h   1280     400   3h   0h      1bh       1        
-0         1        0         0h           36.562            0.000       
-   33.854
-[ 2]:      8h      f4h   1280     400   3h   0h      1bh       1        
-0         1        0         0h           36.562            0.000       
-   33.854
-[ 3]:      8h      f4h   1280     400   3h   0h      1bh       1        
-0         1        0         0h           36.562            0.000       
-   33.854
+diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.c
+index d4b545448d74657aafc96e9042c7756654b4f0e7..94912b4708fb5be937f1b3898a5676f7b481bd42 100644
+--- a/drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.c
++++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.c
+@@ -596,7 +596,7 @@ static void _dpu_crtc_complete_flip(struct drm_crtc *crtc)
+ 
+ 	spin_lock_irqsave(&dev->event_lock, flags);
+ 	if (dpu_crtc->event) {
+-		DRM_DEBUG_VBL("%s: send event: %pK\n", dpu_crtc->name,
++		DRM_DEBUG_VBL("%s: send event: %p\n", dpu_crtc->name,
+ 			      dpu_crtc->event);
+ 		trace_dpu_crtc_complete_flip(DRMID(crtc));
+ 		drm_crtc_send_vblank_event(crtc, dpu_crtc->event);
+diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_dspp.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_dspp.c
+index 11fb1bc54fa92a5d9926addb437bc4b8f283723b..54b20faa0b697e3bf8ad81bd806adb49de98f2b5 100644
+--- a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_dspp.c
++++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_dspp.c
+@@ -31,14 +31,14 @@ static void dpu_setup_dspp_pcc(struct dpu_hw_dspp *ctx,
+ 	u32 base;
+ 
+ 	if (!ctx) {
+-		DRM_ERROR("invalid ctx %pK\n", ctx);
++		DRM_ERROR("invalid ctx %p\n", ctx);
+ 		return;
+ 	}
+ 
+ 	base = ctx->cap->sblk->pcc.base;
+ 
+ 	if (!base) {
+-		DRM_ERROR("invalid ctx %pK pcc base 0x%x\n", ctx, base);
++		DRM_ERROR("invalid ctx %p pcc base 0x%x\n", ctx, base);
+ 		return;
+ 	}
+ 
+diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c
+index 12dcb32b472497f9e59619db4e810abfbf610c7c..a306077647c317af9345eeff13082230906b5767 100644
+--- a/drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c
++++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c
+@@ -1345,7 +1345,7 @@ static int dpu_kms_mmap_mdp5(struct dpu_kms *dpu_kms)
+ 		dpu_kms->mmio = NULL;
+ 		return ret;
+ 	}
+-	DRM_DEBUG("mapped dpu address space @%pK\n", dpu_kms->mmio);
++	DRM_DEBUG("mapped dpu address space @%p\n", dpu_kms->mmio);
+ 
+ 	dpu_kms->vbif[VBIF_RT] = msm_ioremap_mdss(mdss_dev,
+ 						  dpu_kms->pdev,
+@@ -1380,7 +1380,7 @@ static int dpu_kms_mmap_dpu(struct dpu_kms *dpu_kms)
+ 		dpu_kms->mmio = NULL;
+ 		return ret;
+ 	}
+-	DRM_DEBUG("mapped dpu address space @%pK\n", dpu_kms->mmio);
++	DRM_DEBUG("mapped dpu address space @%p\n", dpu_kms->mmio);
+ 
+ 	dpu_kms->vbif[VBIF_RT] = msm_ioremap(pdev, "vbif");
+ 	if (IS_ERR(dpu_kms->vbif[VBIF_RT])) {
+diff --git a/drivers/gpu/drm/msm/msm_mdss.c b/drivers/gpu/drm/msm/msm_mdss.c
+index 1f5fe7811e016909282087176a42a2349b21c9c4..39885b333910bb7aab7f72b9846f49ab16cfe5cc 100644
+--- a/drivers/gpu/drm/msm/msm_mdss.c
++++ b/drivers/gpu/drm/msm/msm_mdss.c
+@@ -423,7 +423,7 @@ static struct msm_mdss *msm_mdss_init(struct platform_device *pdev, bool is_mdp5
+ 	if (IS_ERR(msm_mdss->mmio))
+ 		return ERR_CAST(msm_mdss->mmio);
+ 
+-	dev_dbg(&pdev->dev, "mapped mdss address space @%pK\n", msm_mdss->mmio);
++	dev_dbg(&pdev->dev, "mapped mdss address space @%p\n", msm_mdss->mmio);
+ 
+ 	ret = msm_mdss_parse_data_bus_icc_path(&pdev->dev, msm_mdss);
+ 	if (ret)
 
-For completion, this is the DTN log of Steam Deck with MangoHud enabled
-(3 planes, no pipe split):
+---
+base-commit: d086c886ceb9f59dea6c3a9dae7eb89e780a20c9
+change-id: 20250404-restricted-pointers-drm-87b703679fad
 
-HUBP:  format  addr_hi  width  height  rot  mir  sw_mode  dcc_en 
-blank_en  clock_en  ttu_dis  underflow   min_ttu_vblank       qos_low_wm
-     qos_high_wm
-[ 0]:      8h      f4h   1280     800   3h   0h      1bh       1        
-0         1        0         0h           44.708            0.000       
-   33.854
-[ 1]:      0h       0h      0       0   0h   0h       0h       0        
-0         0        0         0h            0.000            0.000       
-    0.000
-[ 2]:      8h      f4h   1280     800   3h   0h      1bh       1        
-0         1        0         0h           44.708            0.000       
-   33.854
-[ 3]:      8h      f4h   1280     800   3h   0h      1bh       1        
-0         1        0         0h           44.708            0.000       
-   33.854
+Best regards,
+-- 
+Thomas Weißschuh <thomas.weissschuh@linutronix.de>
 
-I couldn't find a pipe-split policy specific for 3.1.2, but I guess it
-follows the 3.1 Dynamic policy, that is the same of the Steam Deck:
-
-drivers/gpu/drm/amd/display/dc/resource/dcn31/dcn31_resource.c:863:    
-.pipe_split_policy = MPC_SPLIT_DYNAMIC,
-drivers/gpu/drm/amd/display/dc/resource/dcn314/dcn314_resource.c:883:  
-.pipe_split_policy = MPC_SPLIT_DYNAMIC,
-drivers/gpu/drm/amd/display/dc/resource/dcn315/dcn315_resource.c:863:  
-.pipe_split_policy = MPC_SPLIT_DYNAMIC,
-drivers/gpu/drm/amd/display/dc/resource/dcn316/dcn316_resource.c:858:  
-.pipe_split_policy = MPC_SPLIT_DYNAMIC,
-
-I remember that we have discussed about the possibility of workaround
-those glitches by avoiding pipe split (and then we would avoid the
-"split" transition), right?
-
-In short, there is a chance that you are not seeing those glitches
-because there are no changes in the pipe split when transitioning
-between 1-2 overlay planes in your hw, but the split happens on steam
-deck for some reasons. I don't know how the driver decides whether or
-not to split pipes.
-
-That said, if AMD prefers to go with an exception for steam deck, better
-if this situation is documented.
-
-Steam Deck still needs the clear_update_flags() because it uses plane
-color caps and therefore sets multiple update flags, and some glitches
-appear when transitioning from 2 planes (with pipe split) to 3 planes
-(no pipe split). It might be related to minimal transition machinery.
-
-Thank you for all inputs.
-
-Melissa
