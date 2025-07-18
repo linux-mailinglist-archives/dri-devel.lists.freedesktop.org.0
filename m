@@ -2,45 +2,42 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id CE832B0A1AF
-	for <lists+dri-devel@lfdr.de>; Fri, 18 Jul 2025 13:13:12 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 107C3B0A1C0
+	for <lists+dri-devel@lfdr.de>; Fri, 18 Jul 2025 13:15:02 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 14BE510E960;
-	Fri, 18 Jul 2025 11:13:10 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7628110E167;
+	Fri, 18 Jul 2025 11:15:00 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="qlEtODsg";
+	dkim=pass (1024-bit key; unprotected) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="Z5Eck8cS";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
  [213.167.242.64])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1A44B10E960
- for <dri-devel@lists.freedesktop.org>; Fri, 18 Jul 2025 11:13:08 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7154910E167
+ for <dri-devel@lists.freedesktop.org>; Fri, 18 Jul 2025 11:14:59 +0000 (UTC)
 Received: from [192.168.88.20] (91-158-153-178.elisa-laajakaista.fi
  [91.158.153.178])
- by perceval.ideasonboard.com (Postfix) with ESMTPSA id AB60D6F2;
- Fri, 18 Jul 2025 13:12:31 +0200 (CEST)
+ by perceval.ideasonboard.com (Postfix) with ESMTPSA id 2BE2259E3;
+ Fri, 18 Jul 2025 13:14:23 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
- s=mail; t=1752837152;
- bh=zcc1FsJKCdLkZjwtdLWh1p8vAM2cAkcsK47dlKLomTQ=;
+ s=mail; t=1752837263;
+ bh=0tXa0DihUCQxoJ+KhbL5vl1PybXkSLXe/KQnpNNj80A=;
  h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
- b=qlEtODsg6FyI/I4r/cIIXSb6NhEBA/ujQg3FOR0EoTJkm1y2pm52SkRrLXuLqJfWe
- qz6+HMHJdeD8Utq72px4X09T5zqlcyIHm5GOKwcBoT3DY1MbW6+PMZMeRL2cKodGjg
- KccU0KMSk4sleHrB+4Tjog7IK16PV4q8Xyev/Ycc=
-Message-ID: <93ab2ae3-46f4-4245-8d2b-e87700372ba6@ideasonboard.com>
-Date: Fri, 18 Jul 2025 14:13:03 +0300
+ b=Z5Eck8cS5prKrRv7fB3M6tS62jkuWJM9vG8xQqrH2BvqnlB6Ql6EX5nMOm1z4t+Su
+ PNDt8PnH7mVpjT+xTlsfuRujGRaY98p8wyfczY7YqBx+2XOLuC3V176OCtu97NSfyG
+ SeahgSVZC+YRXbIlIqGL4lsmOehnODQ+P7y8UMDw=
+Message-ID: <13a7078f-4ca6-4ec5-9f84-eaad94c64cc4@ideasonboard.com>
+Date: Fri, 18 Jul 2025 14:14:55 +0300
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] drm/tidss: encoder: convert to devm_drm_bridge_alloc()
-To: Luca Ceresoli <luca.ceresoli@bootlin.com>,
- Michael Walle <mwalle@kernel.org>, Jyri Sarha <jyri.sarha@iki.fi>
-Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
-References: <20250716134107.4084945-1-mwalle@kernel.org>
- <20250717094153.35f854b7@booty> <DBE5Z1SRJ086.NA0KUAWX1MS3@kernel.org>
- <20250717155659.000eb000@booty>
+Subject: Re: [PATCH v2] drm/tidss: oldi: convert to devm_drm_bridge_alloc() API
+To: Jayesh Choudhary <j-choudhary@ti.com>
+Cc: airlied@gmail.com, simona@ffwll.ch, linux-kernel@vger.kernel.org,
+ jyri.sarha@iki.fi, maarten.lankhorst@linux.intel.com, mripard@kernel.org,
+ tzimmermann@suse.de, dri-devel@lists.freedesktop.org, devarsht@ti.com,
+ mwalle@kernel.org, aradhya.bhatia@linux.dev
+References: <20250714104554.13441-1-j-choudhary@ti.com>
 Content-Language: en-US
 From: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
 Autocrypt: addr=tomi.valkeinen@ideasonboard.com; keydata=
@@ -86,7 +83,7 @@ Autocrypt: addr=tomi.valkeinen@ideasonboard.com; keydata=
  ueeIlwJl5CpT5l8RpoZXEOVtXYn8zzOJ7oGZYINRV9Pf8qKGLf3Dft7zKBP832I3PQjeok7F
  yjt+9S+KgSFSHP3Pa4E7lsSdWhSlHYNdG/czhoUkSCN09C0rEK93wxACx3vtxPLjXu6RptBw
  3dRq7n+mQChEB1am0BueV1JZaBboIL0AGlSJkm23kw==
-In-Reply-To: <20250717155659.000eb000@booty>
+In-Reply-To: <20250714104554.13441-1-j-choudhary@ti.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -106,55 +103,57 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 Hi,
 
-On 17/07/2025 16:56, Luca Ceresoli wrote:
-> Hello Jyri, Tomi, Michael,
+On 14/07/2025 13:45, Jayesh Choudhary wrote:
+> DRM bridges now use "devm_drm_bridge_alloc()" for allocation and
+> initialization. "devm_kzalloc()" is not allowed anymore and it results
+> in WARNING. So convert it.
 > 
-> On Thu, 17 Jul 2025 09:49:44 +0200
-> "Michael Walle" <mwalle@kernel.org> wrote:
+> Fixes: 7246e0929945 ("drm/tidss: Add OLDI bridge support")
+> Reviewed-by: Devarsh Thakkar <devarsht@ti.com>
+> Reviewed-by: Aradhya Bhatia <aradhya.bhatia@linux.dev>
+> Signed-off-by: Jayesh Choudhary <j-choudhary@ti.com>
+> ---
 > 
->> Hi,
->>
->> thanks for taking a look!
->>
->>> However allocating an encoder using a bridge alloc function (while we
->>> used to call an encoder allocation function) looks counter-intuitive.
->>>
->>> We had discussed on IRC a different idea, adding a wrapper structure
->>> around the bridge. Quoting your proposal:
->>>
->>>   struct tidss_encoder_bridge {
->>>     struct drm_bridge bridge;
->>>     struct tidss_encoder *encoder
->>>   }
->>>
->>> and then in the bridge funcs go from drm_bridge to tidss_encoder_brigde
->>> and use the pointer to get the original private struct.  
->>
->> I was doing that until I've realized that meson/meson_encoder_* is
->> doing it the way this patch does it.
+> Changelog v1->v2:
+> - Fix typo in commit message
+> - Put the oldi parent and child node in case of error before returning
+>   (as pointed out by Aradhya in v1)
+> - Pick up "R-by" tags
 > 
-> Which was done by, er, myself. O:-)
+> v1 patch link:
+> <https://lore.kernel.org/all/20250701055002.52336-1-j-choudhary@ti.com/>
 > 
-> To my excuse, meson was using *_encoder_alloc() but rather
-> devm_kzalloc() + drm_simple_encoder_init(), and the change was
-> semi-automated via a coccinelle script, so I didn't fully realize that.
+>  drivers/gpu/drm/tidss/tidss_oldi.c | 8 ++++----
+>  1 file changed, 4 insertions(+), 4 deletions(-)
 > 
->>> That would be cleaner and more intuitive, but use a bit more memory and
->>> have an additional pointer deref, thus I think we can live with the
->>> patch you just sent, at least for now.  
->>
->> I'm fine with changing it to the wrapper struct. It's your/the
->> maintainers call :)
-> 
-> I think the driver maintainers opinion is more relevant, but in lack of
-> one I think we can take the patch as is, given it's already written.
-> 
-> Jyri, Tomi?
+> diff --git a/drivers/gpu/drm/tidss/tidss_oldi.c b/drivers/gpu/drm/tidss/tidss_oldi.c
+> index 8223b8fec8ce..8f25159d0666 100644
+> --- a/drivers/gpu/drm/tidss/tidss_oldi.c
+> +++ b/drivers/gpu/drm/tidss/tidss_oldi.c
+> @@ -534,9 +534,10 @@ int tidss_oldi_init(struct tidss_device *tidss)
+>  			continue;
+>  		}
+>  
+> -		oldi = devm_kzalloc(tidss->dev, sizeof(*oldi), GFP_KERNEL);
+> -		if (!oldi) {
+> -			ret = -ENOMEM;
+> +		oldi = devm_drm_bridge_alloc(tidss->dev, struct tidss_oldi, bridge,
+> +					     &tidss_oldi_bridge_funcs);
+> +		if (IS_ERR(oldi)) {
+> +			ret = PTR_ERR(oldi);
+>  			goto err_put_node;
+>  		}
+>  
+> @@ -577,7 +578,6 @@ int tidss_oldi_init(struct tidss_device *tidss)
+>  		/* Register the bridge. */
+>  		oldi->bridge.of_node = child;
+>  		oldi->bridge.driver_private = oldi;
+> -		oldi->bridge.funcs = &tidss_oldi_bridge_funcs;
+>  		oldi->bridge.timings = &default_tidss_oldi_timings;
+>  
+>  		tidss->oldis[tidss->num_oldis++] = oldi;
 
-I think this is fine, even though I do agree the tidss_encoder.c is very
-confusing.
-
-I'll pick this up. I think drm-misc-next-fixes is the correct branch here.
+Thanks, I'll pick this up.
 
  Tomi
 
