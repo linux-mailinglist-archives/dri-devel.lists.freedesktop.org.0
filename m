@@ -2,141 +2,114 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8500BB0A737
-	for <lists+dri-devel@lfdr.de>; Fri, 18 Jul 2025 17:27:53 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id E2388B0A7E9
+	for <lists+dri-devel@lfdr.de>; Fri, 18 Jul 2025 17:51:48 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7040310E9EA;
-	Fri, 18 Jul 2025 15:27:50 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B936B10E9F3;
+	Fri, 18 Jul 2025 15:51:45 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=suse.de header.i=@suse.de header.b="K8XH0/yX";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="zF+vee1H";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="K8XH0/yX";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="zF+vee1H";
+	dkim=pass (2048-bit key; unprotected) header.d=bootlin.com header.i=@bootlin.com header.b="RWlyf6cd";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 63CCB10E9E8
- for <dri-devel@lists.freedesktop.org>; Fri, 18 Jul 2025 15:27:49 +0000 (UTC)
-Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org
- [IPv6:2a07:de40:b281:104:10:150:64:97])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
- (No client certificate requested)
- by smtp-out1.suse.de (Postfix) with ESMTPS id 0B86521228;
- Fri, 18 Jul 2025 15:27:48 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1752852468; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
+Received: from relay8-d.mail.gandi.net (relay8-d.mail.gandi.net
+ [217.70.183.201])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A92B810E9EC
+ for <dri-devel@lists.freedesktop.org>; Fri, 18 Jul 2025 15:51:43 +0000 (UTC)
+Received: by mail.gandi.net (Postfix) with ESMTPSA id DC22143370;
+ Fri, 18 Jul 2025 15:51:40 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
+ t=1752853902;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=pTbb2oCwGiN8kr1siQcDghl4vFqKGzrl2ph6c4KQApc=;
- b=K8XH0/yXgpIfuyvQ8C0kJKM5K8PUaeDu6/DEC2KgwEooaTwmETwgYmdauMcBZhaAYuVwQc
- AuHVANxIEXgxKPbIl7UNt3Rjy4tcZO3UZZ7V8PEyDlhuZDM25DKEBPMM78IOMROO/+S+mA
- wDCC44iloNtYpuCdN+CVK7EQ2amszCk=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1752852468;
- h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=pTbb2oCwGiN8kr1siQcDghl4vFqKGzrl2ph6c4KQApc=;
- b=zF+vee1HDXPX22qbKWE1IxG3heOD/AgKJucyLgSdi+/ZD292K0AASUA4D8AwpsjGSdXGNq
- Gxm+NeynUncObpCg==
-Authentication-Results: smtp-out1.suse.de;
- dkim=pass header.d=suse.de header.s=susede2_rsa header.b="K8XH0/yX";
- dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=zF+vee1H
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1752852468; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=pTbb2oCwGiN8kr1siQcDghl4vFqKGzrl2ph6c4KQApc=;
- b=K8XH0/yXgpIfuyvQ8C0kJKM5K8PUaeDu6/DEC2KgwEooaTwmETwgYmdauMcBZhaAYuVwQc
- AuHVANxIEXgxKPbIl7UNt3Rjy4tcZO3UZZ7V8PEyDlhuZDM25DKEBPMM78IOMROO/+S+mA
- wDCC44iloNtYpuCdN+CVK7EQ2amszCk=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1752852468;
- h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=pTbb2oCwGiN8kr1siQcDghl4vFqKGzrl2ph6c4KQApc=;
- b=zF+vee1HDXPX22qbKWE1IxG3heOD/AgKJucyLgSdi+/ZD292K0AASUA4D8AwpsjGSdXGNq
- Gxm+NeynUncObpCg==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
- (No client certificate requested)
- by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id DAD0E138D2;
- Fri, 18 Jul 2025 15:27:47 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
- by imap1.dmz-prg2.suse.org with ESMTPSA id SdD5M/NnemgURQAAD6G6ig
- (envelope-from <tzimmermann@suse.de>); Fri, 18 Jul 2025 15:27:47 +0000
-Message-ID: <598098e1-f5fa-46cb-a7e6-589f75ce7234@suse.de>
-Date: Fri, 18 Jul 2025 17:27:47 +0200
+ bh=gDZdKx+VEWMEY5yqee1h5FxpYUrowarpeNmT55PDBwA=;
+ b=RWlyf6cdpN32uikdhn7wKFZaX8fHMFWqzsRBhig6I1KpJ+Ij9LNxQE73TMu38ZA/1w9Gzw
+ RRH/DBw9TPNuAOBdtqz8KYj7OsnuxR0Nbvv+frm94tu3rrRcXi7q3jRCC2SoOdQqM1OkZT
+ 6MwcMAD7kM42VqCGowd9MEnt58CCh9o+wtv8YlOmX0pG1bvHk2L+WpboZgGSnrbV1q7GzQ
+ 9Vr6UmNkEhZHgabOT0ZBfJGz5yCPokqgDzovWXsDm43A3vZyr4Peqg4rGuLWw367ksjh8f
+ C6k3X75Z4Y/l/dS1ERLi6wP6hmDKbNxyeMy/vfdrzVaysWtFGNJB7wJoGvBNqw==
+Message-ID: <bc0d775e-21dc-4cb7-a905-06b81028267b@bootlin.com>
+Date: Fri, 18 Jul 2025 17:51:40 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] iosys-map: Fix undefined behavior in iosys_map_clear()
-To: Andi Shyti <andi.shyti@linux.intel.com>,
- Nitin Gote <nitin.r.gote@intel.com>
-Cc: intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org
-References: <20250718105051.2709487-1-nitin.r.gote@intel.com>
- <aHpelIVPhfR74SUH@ashyti-mobl2.lan>
+Subject: Re: [PATCH v5 00/16] drm/vkms: Add configfs support
+To: Marius Vlad <marius.vlad@collabora.com>
+Cc: =?UTF-8?B?Sm9zw6kgRXhww7NzaXRv?= <jose.exposito89@gmail.com>,
+ tzimmermann@suse.de, mripard@kernel.org, simona@ffwll.ch,
+ sebastian.wick@redhat.com, victoria@system76.com,
+ Mark Yacoub <markyacoub@google.com>, xaver.hugl@kde.org,
+ hamohammed.sa@gmail.com, melissa.srw@gmail.com,
+ maarten.lankhorst@linux.intel.com, airlied@gmail.com,
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
+References: <20250507135431.53907-1-jose.exposito89@gmail.com>
+ <57e425ff-2731-47d7-b5ce-c34f5baf71b4@bootlin.com>
+ <aHpGGxZyimpJ8Ehz@xpredator>
 Content-Language: en-US
-From: Thomas Zimmermann <tzimmermann@suse.de>
-Autocrypt: addr=tzimmermann@suse.de; keydata=
- xsBNBFs50uABCADEHPidWt974CaxBVbrIBwqcq/WURinJ3+2WlIrKWspiP83vfZKaXhFYsdg
- XH47fDVbPPj+d6tQrw5lPQCyqjwrCPYnq3WlIBnGPJ4/jreTL6V+qfKRDlGLWFjZcsrPJGE0
- BeB5BbqP5erN1qylK9i3gPoQjXGhpBpQYwRrEyQyjuvk+Ev0K1Jc5tVDeJAuau3TGNgah4Yc
- hdHm3bkPjz9EErV85RwvImQ1dptvx6s7xzwXTgGAsaYZsL8WCwDaTuqFa1d1jjlaxg6+tZsB
- 9GluwvIhSezPgnEmimZDkGnZRRSFiGP8yjqTjjWuf0bSj5rUnTGiyLyRZRNGcXmu6hjlABEB
- AAHNJ1Rob21hcyBaaW1tZXJtYW5uIDx0emltbWVybWFubkBzdXNlLmRlPsLAjgQTAQgAOAIb
- AwULCQgHAgYVCgkICwIEFgIDAQIeAQIXgBYhBHIX+6yM6c9jRKFo5WgNwR1TC3ojBQJftODH
- AAoJEGgNwR1TC3ojx1wH/0hKGWugiqDgLNXLRD/4TfHBEKmxIrmfu9Z5t7vwUKfwhFL6hqvo
- lXPJJKQpQ2z8+X2vZm/slsLn7J1yjrOsoJhKABDi+3QWWSGkaGwRJAdPVVyJMfJRNNNIKwVb
- U6B1BkX2XDKDGffF4TxlOpSQzdtNI/9gleOoUA8+jy8knnDYzjBNOZqLG2FuTdicBXblz0Mf
- vg41gd9kCwYXDnD91rJU8tzylXv03E75NCaTxTM+FBXPmsAVYQ4GYhhgFt8S2UWMoaaABLDe
- 7l5FdnLdDEcbmd8uLU2CaG4W2cLrUaI4jz2XbkcPQkqTQ3EB67hYkjiEE6Zy3ggOitiQGcqp
- j//OwE0EWznS4AEIAMYmP4M/V+T5RY5at/g7rUdNsLhWv1APYrh9RQefODYHrNRHUE9eosYb
- T6XMryR9hT8XlGOYRwKWwiQBoWSDiTMo/Xi29jUnn4BXfI2px2DTXwc22LKtLAgTRjP+qbU6
- 3Y0xnQN29UGDbYgyyK51DW3H0If2a3JNsheAAK+Xc9baj0LGIc8T9uiEWHBnCH+RdhgATnWW
- GKdDegUR5BkDfDg5O/FISymJBHx2Dyoklv5g4BzkgqTqwmaYzsl8UxZKvbaxq0zbehDda8lv
- hFXodNFMAgTLJlLuDYOGLK2AwbrS3Sp0AEbkpdJBb44qVlGm5bApZouHeJ/+n+7r12+lqdsA
- EQEAAcLAdgQYAQgAIAIbDBYhBHIX+6yM6c9jRKFo5WgNwR1TC3ojBQJftOH6AAoJEGgNwR1T
- C3ojVSkIALpAPkIJPQoURPb1VWjh34l0HlglmYHvZszJWTXYwavHR8+k6Baa6H7ufXNQtThR
- yIxJrQLW6rV5lm7TjhffEhxVCn37+cg0zZ3j7zIsSS0rx/aMwi6VhFJA5hfn3T0TtrijKP4A
- SAQO9xD1Zk9/61JWk8OysuIh7MXkl0fxbRKWE93XeQBhIJHQfnc+YBLprdnxR446Sh8Wn/2D
- Ya8cavuWf2zrB6cZurs048xe0UbSW5AOSo4V9M0jzYI4nZqTmPxYyXbm30Kvmz0rYVRaitYJ
- 4kyYYMhuULvrJDMjZRvaNe52tkKAvMevcGdt38H4KSVXAylqyQOW5zvPc4/sq9c=
-In-Reply-To: <aHpelIVPhfR74SUH@ashyti-mobl2.lan>
+From: Louis Chauvet <louis.chauvet@bootlin.com>
+Autocrypt: addr=louis.chauvet@bootlin.com; keydata=
+ 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
+In-Reply-To: <aHpGGxZyimpJ8Ehz@xpredator>
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Spam-Level: 
-X-Spam-Flag: NO
-X-Rspamd-Queue-Id: 0B86521228
-X-Rspamd-Action: no action
-X-Rspamd-Server: rspamd1.dmz-prg2.suse.org
-X-Spamd-Result: default: False [-4.51 / 50.00]; BAYES_HAM(-3.00)[100.00%];
- NEURAL_HAM_LONG(-1.00)[-1.000];
- R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
- NEURAL_HAM_SHORT(-0.20)[-1.000]; MIME_GOOD(-0.10)[text/plain];
- MX_GOOD(-0.01)[]; FUZZY_RATELIMITED(0.00)[rspamd.com];
- RCVD_VIA_SMTP_AUTH(0.00)[]; RCVD_TLS_ALL(0.00)[];
- ARC_NA(0.00)[]; MIME_TRACE(0.00)[0:+];
- RBL_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:104:10:150:64:97:from]; 
- SPAMHAUS_XBL(0.00)[2a07:de40:b281:104:10:150:64:97:from];
- TO_DN_SOME(0.00)[];
- RECEIVED_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:106:10:150:64:167:received];
- MID_RHS_MATCH_FROM(0.00)[];
- DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
- FROM_EQ_ENVFROM(0.00)[]; FROM_HAS_DN(0.00)[];
- RCPT_COUNT_THREE(0.00)[4]; RCVD_COUNT_TWO(0.00)[2];
- TO_MATCH_ENVRCPT_ALL(0.00)[];
- DBL_BLOCKED_OPENRESOLVER(0.00)[intel.com:email,suse.de:dkim,suse.de:mid,suse.de:email,imap1.dmz-prg2.suse.org:rdns,imap1.dmz-prg2.suse.org:helo];
- DNSWL_BLOCKED(0.00)[2a07:de40:b281:104:10:150:64:97:from,2a07:de40:b281:106:10:150:64:167:received];
- DKIM_TRACE(0.00)[suse.de:+]
-X-Spam-Score: -4.51
+Content-Transfer-Encoding: 8bit
+X-GND-State: clean
+X-GND-Score: -100
+X-GND-Cause: gggruggvucftvghtrhhoucdtuddrgeeffedrtdefgdeifeekiecutefuodetggdotefrodftvfcurfhrohhfihhlvgemucfitefpfffkpdcuggftfghnshhusghstghrihgsvgenuceurghilhhouhhtmecufedtudenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujfgurhepkfffgggfuffvvehfhfgjtgfgsehtkeertddtvdejnecuhfhrohhmpefnohhuihhsucevhhgruhhvvghtuceolhhouhhishdrtghhrghuvhgvthessghoohhtlhhinhdrtghomheqnecuggftrfgrthhtvghrnhepleegieeggeffjeegudefuefffeelleffieeigfefudevjeeuhffgvdefjeefgeeknecuffhomhgrihhnpegsohhothhlihhnrdgtohhmpdhgnhhomhgvrdhorhhgpdhgihhthhhusgdrtghomhdpfhhrvggvuggvshhkthhophdrohhrghdpkhgvrhhnvghlrdhorhhgnecukfhppedvtddtudemkeeiudemgedugedtmegtkeeitdemheguiedumeeifeefleemieeirgeimegvtdejheenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepihhnvghtpedvtddtudemkeeiudemgedugedtmegtkeeitdemheguiedumeeifeefleemieeirgeimegvtdejhedphhgvlhhopeglkffrggeimedvtddtudemkeeiudemgedugedtmegtkeeitdemheguiedumeeifeefleemieeirgeimegvtdejhegnpdhmrghilhhfrhhomheplhhouhhishdrtghhrghuvhgvthessghoohhtlhhinhdrtghomhdpnhgspghrtghpthhto
+ hepudehpdhrtghpthhtohepmhgrrhhiuhhsrdhvlhgrugestgholhhlrggsohhrrgdrtghomhdprhgtphhtthhopehjohhsvgdrvgigphhoshhithhokeelsehgmhgrihhlrdgtohhmpdhrtghpthhtohepthiiihhmmhgvrhhmrghnnhesshhushgvrdguvgdprhgtphhtthhopehmrhhiphgrrhgusehkvghrnhgvlhdrohhrghdprhgtphhtthhopehsihhmohhnrgesfhhffihllhdrtghhpdhrtghpthhtohepshgvsggrshhtihgrnhdrfihitghksehrvgguhhgrthdrtghomhdprhgtphhtthhopehvihgtthhorhhirgesshihshhtvghmjeeirdgtohhmpdhrtghpthhtohepmhgrrhhkhigrtghouhgssehgohhoghhlvgdrtghomh
+X-GND-Sasl: louis.chauvet@bootlin.com
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -152,82 +125,190 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi
 
-Am 18.07.25 um 16:47 schrieb Andi Shyti:
-> Hi Nitin,
->
-> On Fri, Jul 18, 2025 at 04:20:51PM +0530, Nitin Gote wrote:
->> The current iosys_map_clear() implementation reads the potentially
->> uninitialized 'is_iomem' boolean field to decide which union member
->> to clear. This causes undefined behavior when called on uninitialized
->> structures, as 'is_iomem' may contain garbage values like 0xFF.
+
+Le 18/07/2025 à 15:03, Marius Vlad a écrit :
+> Hi,
+> 
+> FWIW, we (Weston) also use vkms in CI and we have in plan to make use of
+> these changes to exercise some internal code paths and enhance our tests.
+> Look forward to getting these into the tree and have it a in release. We
+> tend to follow with a branch/stable release so I suppose that's going be
+> a while. Just wanted to also say thanks a lot for driving this.
+
+Hi,
+
+Thanks a lot for this positive feedback!
+
+> Just curios, in the current form would it be possible to configure the
+> plane's zpos position? Apart from testing underlay/overlay in the same
+> time, some drivers today allows the primary to be independently
+> positioned. Simulating these type of configurations would allow see what
+> architectural changes we might need to do to transition towards a place
+> where we can use any other plane as a (fallback) compositing one like we
+> do today with the primary one.
+
+Currently nothing is done to do a proper z-pos managment, and even 
+worse: the z-order is not really predictable (order of creation in 
+configfs, so if userspace creates cursor-primary, the cursor will be 
+behind the primary plane).
+
+We need to change this before merging ConfigFS. Fir the first iteration, 
+we can simply: make primary plane always at the back (zpos=0), overlay 
+with undefined ordering (zpos=1), cursor on top (zpos=2) directly in 
+vkms_plane_init. I need to check if this will be a uAPI break if we add 
+later some configfs attributes like default_zpos / zpos_min / zpos_max.
+
+Even with this, we need to fix [1] to compose planes in the correct 
+order (I don't think this is broken right now because we create primary 
+then overlays then cursor, so the composition order will be correct).
+
+[1]:https://elixir.bootlin.com/linux/v6.15.6/source/drivers/gpu/drm/vkms/vkms_composer.c#L392-L394
+
+@José, I will fix the vkms_composer to use plane->state->zpos or 
+normalized_zpos.
+
+Thanks a lot for this suggestion which showed a flaw in the current 
+implementation!
+
+Louis Chauvet
+
+> On Thu, Jul 17, 2025 at 06:37:17PM +0200, Louis Chauvet wrote:
+>> +CC: Mark (Google), Sebastian (Mutter), Xaver (KWin), Victoria (Cosmic)
 >>
->> UBSAN detects this as:
->>      UBSAN: invalid-load in include/linux/iosys-map.h:267
->>      load of value 255 is not a valid value for type '_Bool'
+>> Hi everyone,
 >>
->> Fix by unconditionally clearing the entire structure with memset(),
->> eliminating the need to read uninitialized data and ensuring all
->> fields are set to known good values.
+>> Last week, I presented this work at the Display Next Hackfest, and the
+>> feedback from compositors was very positive. At least KWin, Mutter, and
+>> Cosmic are interested in integrating it into their tests, so it would be
+>> great if someone could review it.
 >>
->> Closes: https://gitlab.freedesktop.org/drm/i915/kernel/-/issues/14639
->> Fixes: 01fd30da0474 ("dma-buf: Add struct dma-buf-map for storing struct dma_buf.vaddr_ptr")
->> Signed-off-by: Nitin Gote <nitin.r.gote@intel.com>
-> +Thomas and the dri-devel mailing list.
->
-> In any case, your patch makes sense to me:
-
-The call to iosys_map_clear() is at
-
-https://elixir.bootlin.com/linux/v6.15.6/source/drivers/dma-buf/dma-buf.c#L1571
-
-It's a defensive measure for cases where the caller reads the returned 
-map address when it was never initialized by the vmap implementation. 
-I'm not a big fan of memset(), but OK. Preferably, iosys_map_clear() 
-would simply set vaddr = NULL and is_iomem = false. Anyway,
-
-Reviewed-by: Thomas Zimmermann <tzimmermann@suse.de>
-
-Best regards
-Thomas
-
->
-> Reviewed-by: Andi Shyti <andi.shyti@linux.intel.com>
->
-> Andi
->
->> ---
->>   include/linux/iosys-map.h | 7 +------
->>   1 file changed, 1 insertion(+), 6 deletions(-)
+>> Sebastian quickly tested this work (using [2] for full features) with their
+>> existing VKMS tests [1], and it worked. From what I understand, the tests
+>> are quite basic —just sanity checks— but we were able to reproduce the
+>> default vkms device using ConfigFS.
 >>
->> diff --git a/include/linux/iosys-map.h b/include/linux/iosys-map.h
->> index 4696abfd311c..3e85afe794c0 100644
->> --- a/include/linux/iosys-map.h
->> +++ b/include/linux/iosys-map.h
->> @@ -264,12 +264,7 @@ static inline bool iosys_map_is_set(const struct iosys_map *map)
->>    */
->>   static inline void iosys_map_clear(struct iosys_map *map)
->>   {
->> -	if (map->is_iomem) {
->> -		map->vaddr_iomem = NULL;
->> -		map->is_iomem = false;
->> -	} else {
->> -		map->vaddr = NULL;
->> -	}
->> +	memset(map, 0, sizeof(*map));
->>   }
->>   
->>   /**
+>> If another compositor wants to test the ConfigFS interface (I will try to
+>> keep [2] updated), that would be amazing. Feel free to send feedback!
+>>
+>> A small note: This series has a minor conflict since the conversion to the
+>> faux device, but it can be applied using `b4 am -3 ... && git am -3 ...`.
+>> @josé, if you send a new iteration, can you add markyacoub@google.com in
+>> copy, and maybe Sebastian, Xaver, Victoria if they want to follow the
+>> upstreaming?
+>>
+>> Thank you,
+>> Louis Chauvet
+>>
+>> [1]:https://gitlab.gnome.org/swick/mutter/-/commit/88a7354942d9728dae06fb83cc4f2d2c7b08b694
+>> [2]:https://github.com/Fomys/linux/tree/configfs-everything
+>>
+>>
+>>
+>> Le 07/05/2025 à 15:54, José Expósito a écrit :
+>>> Hi everyone,
+>>>
+>>> This series allow to configure one or more VKMS instances without having
+>>> to reload the driver using configfs.
+>>>
+>>> The series is structured in 3 blocks:
+>>>
+>>>     - Patches 1..11: Basic device configuration. For simplicity, I kept the
+>>>       available options as minimal as possible.
+>>>
+>>>     - Patches 12 and 13: New option to skip the default device creation and to-do
+>>>       cleanup.
+>>>
+>>>     - Patches 14, 15 and 16: Allow to hot-plug and unplug connectors. This is not
+>>>       part of the minimal set of options, but I included in this series so it can
+>>>       be used as a template/example of how new configurations can be added.
+>>>
+>>> The process of configuring a VKMS device is documented in "vkms.rst".
+>>>
+>>> Finally, the code is thoroughly tested by a collection of IGT tests [1].
+>>>
+>>> Best wishes,
+>>> José Expósito
+>>>
+>>> [1] https://lists.freedesktop.org/archives/igt-dev/2025-February/086071.html
+>>>
+>>> Changes in v5:
+>>>
+>>>     - Added Reviewed-by tags, thanks Louis!
+>>>     - Rebased on top of drm-misc-next
+>>>     - Link to v4: https://lore.kernel.org/dri-devel/20250407081425.6420-1-jose.exposito89@gmail.com/
+>>>
+>>> Changes in v4:
+>>>
+>>>     - Since Louis and I worked on this together, set him as the author of some of
+>>>       the patches and me as co-developed-by to reflect this joint effort.
+>>>     - Rebased on top of drm-misc-next
+>>>     - Link to v3: https://lore.kernel.org/all/20250307163353.5896-1-jose.exposito89@gmail.com/
+>>>
+>>> Changes in v3:
+>>>
+>>>     - Applied review comments by Louis Chauvet: (thanks!!)
+>>>       - Use scoped_guard() instead of guard(mutex)(...)
+>>>       - Fix a use-after-free error in the connector hot-plug code
+>>>     - Rebased on top of drm-misc-next
+>>>     - Link to v2: https://lore.kernel.org/all/20250225175936.7223-1-jose.exposito89@gmail.com/
+>>>
+>>> Changes in v2:
+>>>
+>>>     - Applied review comments by Louis Chauvet:
+>>>       - Use guard(mutex)(...) instead of lock/unlock
+>>>       - Return -EBUSY when trying to modify a enabled device
+>>>       - Move the connector hot-plug related patches to the end
+>>>     - Rebased on top of drm-misc-next
+>>>     - Link to v1: https://lore.kernel.org/dri-devel/20250218170808.9507-1-jose.exposito89@gmail.com/T/
+>>>
+>>> José Expósito (6):
+>>>     drm/vkms: Expose device creation and destruction
+>>>     drm/vkms: Allow to configure the default device creation
+>>>     drm/vkms: Remove completed task from the TODO list
+>>>     drm/vkms: Allow to configure connector status
+>>>     drm/vkms: Allow to update the connector status
+>>>     drm/vkms: Allow to configure connector status via configfs
+>>>
+>>> Louis Chauvet (10):
+>>>     drm/vkms: Add and remove VKMS instances via configfs
+>>>     drm/vkms: Allow to configure multiple planes via configfs
+>>>     drm/vkms: Allow to configure the plane type via configfs
+>>>     drm/vkms: Allow to configure multiple CRTCs via configfs
+>>>     drm/vkms: Allow to configure CRTC writeback support via configfs
+>>>     drm/vkms: Allow to attach planes and CRTCs via configfs
+>>>     drm/vkms: Allow to configure multiple encoders via configfs
+>>>     drm/vkms: Allow to attach encoders and CRTCs via configfs
+>>>     drm/vkms: Allow to configure multiple connectors via configfs
+>>>     drm/vkms: Allow to attach connectors and encoders via configfs
+>>>
+>>>    Documentation/gpu/vkms.rst                    | 100 ++-
+>>>    drivers/gpu/drm/vkms/Kconfig                  |   1 +
+>>>    drivers/gpu/drm/vkms/Makefile                 |   3 +-
+>>>    drivers/gpu/drm/vkms/tests/vkms_config_test.c |  24 +
+>>>    drivers/gpu/drm/vkms/vkms_config.c            |   8 +-
+>>>    drivers/gpu/drm/vkms/vkms_config.h            |  26 +
+>>>    drivers/gpu/drm/vkms/vkms_configfs.c          | 833 ++++++++++++++++++
+>>>    drivers/gpu/drm/vkms/vkms_configfs.h          |   8 +
+>>>    drivers/gpu/drm/vkms/vkms_connector.c         |  35 +
+>>>    drivers/gpu/drm/vkms/vkms_connector.h         |   9 +
+>>>    drivers/gpu/drm/vkms/vkms_drv.c               |  18 +-
+>>>    drivers/gpu/drm/vkms/vkms_drv.h               |  20 +
+>>>    12 files changed, 1072 insertions(+), 13 deletions(-)
+>>>    create mode 100644 drivers/gpu/drm/vkms/vkms_configfs.c
+>>>    create mode 100644 drivers/gpu/drm/vkms/vkms_configfs.h
+>>>
+>>>
+>>> base-commit: a6c0a91ccb257eaec2aee080df06863ce7601315
+>>
 >> -- 
->> 2.25.1
+>> Louis Chauvet, Bootlin
+>> Embedded Linux and Kernel engineering
+>> https://bootlin.com
+>>
 
 -- 
---
-Thomas Zimmermann
-Graphics Driver Developer
-SUSE Software Solutions Germany GmbH
-Frankenstrasse 146, 90461 Nuernberg, Germany
-GF: Ivo Totev, Andrew Myers, Andrew McDonald, Boudien Moerman
-HRB 36809 (AG Nuernberg)
+Louis Chauvet, Bootlin
+Embedded Linux and Kernel engineering
+https://bootlin.com
 
