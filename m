@@ -2,74 +2,73 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C302BB0B254
-	for <lists+dri-devel@lfdr.de>; Sun, 20 Jul 2025 00:42:47 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 78BBFB0B255
+	for <lists+dri-devel@lfdr.de>; Sun, 20 Jul 2025 00:42:50 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2A95C10E42C;
-	Sat, 19 Jul 2025 22:42:46 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id CC05C10E428;
+	Sat, 19 Jul 2025 22:42:48 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="X1lWL/Ns";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="P4FXXIv2";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-qt1-f169.google.com (mail-qt1-f169.google.com
- [209.85.160.169])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4970010E42B
- for <dri-devel@lists.freedesktop.org>; Sat, 19 Jul 2025 22:42:44 +0000 (UTC)
-Received: by mail-qt1-f169.google.com with SMTP id
- d75a77b69052e-4ab81d0169cso45049581cf.2
- for <dri-devel@lists.freedesktop.org>; Sat, 19 Jul 2025 15:42:44 -0700 (PDT)
+Received: from mail-qk1-f170.google.com (mail-qk1-f170.google.com
+ [209.85.222.170])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2C2A710E42D
+ for <dri-devel@lists.freedesktop.org>; Sat, 19 Jul 2025 22:42:46 +0000 (UTC)
+Received: by mail-qk1-f170.google.com with SMTP id
+ af79cd13be357-7dfff5327fbso440976585a.1
+ for <dri-devel@lists.freedesktop.org>; Sat, 19 Jul 2025 15:42:46 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1752964963; x=1753569763; darn=lists.freedesktop.org;
+ d=gmail.com; s=20230601; t=1752964965; x=1753569765; darn=lists.freedesktop.org;
  h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
  :mime-version:subject:date:from:from:to:cc:subject:date:message-id
- :reply-to; bh=D1SWgEVSx8t26BC4XVR8BuzhCGARx2Hrfiqdp97fGW0=;
- b=X1lWL/Ns24dyh46kY61gEcr6faCKL5bUfvPO74zBzaCA33L1n7VxbbtHORe4gJbx5M
- 0NzjE09l+dZ57ZgVN03sQuQ1zjgLfoWsp53lljhL9UfbDCjjMdh9nTfUqpQn4xw9glU4
- E//TlgV/89zItOGxbBOIhNQwRaDHJomDsDnPXU4AtXOo52cmpXocr07m4eJnEg3lEB0l
- hLBdWX/IYkat0udNqC7qD/ar2OJgW216Dli8hYPC8ue06mw9Dw25EVPQ/ClakwEVU0HZ
- dUyNLH/CaoUe+zTR1WYTyL+iXi8O2kFjwUPEl5vlaYUHW8Pd+k6ulkFbWB/PtyUwpzLw
- Dl9g==
+ :reply-to; bh=uDWC2vJajr5e99NLv/Ti1ax5HIYUjw/FV4qUgNUzVj8=;
+ b=P4FXXIv2HUEZCF9WGxZu54VKCxbXBUa+UMqNLNRdk5z0pdYXXQHdfYxwByXve8DSip
+ 9OLRb5cjxLcX/QZbrM+AcEN42N/Gn1K43puwgI9aRFLJaEW4ATGGonSUbDpBlFF1m0dZ
+ taiOTFddx7L7FGEJkqmz7dv9EuJIb0uMc/yN29/3wS01Lk521Eg7tslGZvp76bBK+CTp
+ IWJNHsi+iwJTjqMLYi5kF+iKZ+D3dDqx5jMl7DFXc1IdPwb0m2NCvabmlQhFpdL/12+B
+ tGuERmffs7himN7qkoxNAKu4yo852IGsDwQUxfAdzU3z43wlNugpy3iKKHMHiBgkvPdk
+ ubhg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1752964963; x=1753569763;
+ d=1e100.net; s=20230601; t=1752964965; x=1753569765;
  h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
  :mime-version:subject:date:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=D1SWgEVSx8t26BC4XVR8BuzhCGARx2Hrfiqdp97fGW0=;
- b=dvyqsgZuFM5Uqcz4/0swPLnJ1BBbcDlH1Qy1XdqaEnodcfGQTpXTt2KS4BBbkIw/hl
- 4UGOTVFNSmg8q5p96FiH+s7Ryn7zPnZDF8Y/VEuCs/T+qw/QBZg5bMr/BerUr51UbpwX
- YG7upeRMPQ3pr3/pyIkmABSwAcPa6baTVd0k/b9i/TwWfrgnCCzVIEcSdWKfstB27kUZ
- 8SZuYtv0AOIie5ztiuxcNZJBiGyIZL9RstHSbKUCqVMRJT6kP/5K08UWDdAhniUYhQQF
- TG4Cb28FgWIwjLcv82lfqIm+Fz/epkHgjD+3GX7BRfkD/mOiUAyYsoYPon374naREvwY
- SvVg==
-X-Gm-Message-State: AOJu0Yz3174GYydyekv4PEMcvRtFFMtHVvuMDsl5+ZA5bGA9A3nMh++d
- F/HSDThHzhpSXQ9RVG+0PW22jFtCmvq/qGvl1d4fTHx6EfYoT+JuYZ5p
-X-Gm-Gg: ASbGnct4wpXyoL4r2zKQbM2iGFOpvdHJeK4upW8dKt7u9hKWGG8iF+ai7cOtCK8OzW7
- P7gRIrCV7XkrTQWxTB9tK/YmSYI3wKqVviutNP5w7Kn+wlgdUfDPM34PdP8qO4tLxps+/fmylAL
- DcUgZO4VIIUG9eCC7r0VSt9NvlNMxhEVFhMU5U5hoQ3uY+1ONa5mvsBA96zpDm3Cy16sWC+RLWu
- 7ocRMiX8gjw/W9o8ywQbwhVgSgiSIW2J3DZbz0kAjImfd5wrUsNAspKauTha9EslfISIY2U34dg
- 8id9EitpjavV0pk75iQOFwdYdf8SMaSUBXjRa+PfUVtQF6OpewjqcLw5cpolA6+fiun8dRZ1ZIe
- 8fIupszJaK1UfbVxBe9qyipcppK56tI/NMb3xza1SC87ZyVeYAVjBJZS38gRUztxUGIlM21tfVu
- ZdyVi1xfoyfOylTFLJEJ5uOxjV585H
-X-Google-Smtp-Source: AGHT+IGRlT7IbYJgy7k1zYKpPXDBr5ooJQrVQvFfzRdeHWam1H4YjOS2fabtOnVtCOJV/ysDqUjrDQ==
-X-Received: by 2002:ac8:5dc6:0:b0:4ab:579d:2343 with SMTP id
- d75a77b69052e-4ab90cb6c2cmr251175531cf.46.1752964963333; 
- Sat, 19 Jul 2025 15:42:43 -0700 (PDT)
+ bh=uDWC2vJajr5e99NLv/Ti1ax5HIYUjw/FV4qUgNUzVj8=;
+ b=NdxE1hFPPmfAoiYK0v9WC9B7v34XmUiMVmr52O+MIrlDs3Vwq5gSW2SKaN13HcDXuc
+ DTz7Cxk2KwbtRCjCm6YsARvWbXhzuHhPgWP4BRsJVTh//GCcmCFriddrUcZbiujuJpYM
+ zYawTyv7KOfhm2O7UqM6I+GTbyrKhONUit2CGGvp7UWr9gaPpM/P/y2vojhjH3Kco59N
+ 8ZSh7Wg3/O+naCeiGlT2QZKFofv/zyd6VSO67ynGXJLXbkkBHofPojui9KfjA/Q5cOPt
+ rHJQxPcY4dISTE4u+NXQ/0TNgIIlg+u5ZOVCD9wfSKEXlj/HtraCbjbhTkEwlJZ4FG+N
+ CqzQ==
+X-Gm-Message-State: AOJu0Yz1zYW/lSDIf4CHMokeJKOZoqtgB+N7ZKSQOz2othGmrEdeQEWe
+ 6cskBjp9wC7EfEcSysCsW53puagliNELEA1GRPS686G4/U8GfJcL0uO6
+X-Gm-Gg: ASbGncszG2TnJwIMoMIbgN2pmOvvlng5HCsq81jkkBPesO9x7H1ZQJW3iieqfc+EuAc
+ 5peYWByKpnXfoY5UOn49eimuHqV2UwdHSDrFyNcpi5z17gsOOb5KEnHGYjxk9bEKqUrMduciaDO
+ VuU+Y91dZ6QvRSY3LX3ILF/2FrZRNZh6wjmOu91qqrfK0OBnzmlea1Hjq3B5xf+B+y3IQb2iLeg
+ BXdxLYErRNqNAiFuaxVF60hlLHuozSn9q4xhDxYLcNNlVic5xMeluOkdWM0sTNeg9g+LR/l2M7G
+ XIEnZwdHF2ERiLw3xBVGBgkPpBgFoDk97hd4IXGlUjojWlAWF2471KSXqwdWy2fJQqAsjx4IaR3
+ bP8B4MuozO65ISHN/nQzVJYjz094USPnmcfNdlmZlh30YGmZtBg8VSmLjeZbTlz2oYkV5SYwd/T
+ aZPvrFV0XKvFZO5lHOSIGAjQCsk1cIhHTenATHh/w=
+X-Google-Smtp-Source: AGHT+IE9V4lUrp6+KizRk5T1lH1N1yFglQFV1kwy0rjAllnBSIOC4NKWikOxAmpD+50/9TKsIJOTpA==
+X-Received: by 2002:a05:620a:6019:b0:7c5:3d60:7f91 with SMTP id
+ af79cd13be357-7e34355ebc3mr2518295185a.15.1752964965239; 
+ Sat, 19 Jul 2025 15:42:45 -0700 (PDT)
 Received: from
  1.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.ip6.arpa
  ([2600:4041:5c29:e400:78d6:5625:d350:50d1])
  by smtp.gmail.com with ESMTPSA id
- d75a77b69052e-4abb4b1f1d5sm23671841cf.50.2025.07.19.15.42.41
+ d75a77b69052e-4abb4b1f1d5sm23671841cf.50.2025.07.19.15.42.43
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sat, 19 Jul 2025 15:42:42 -0700 (PDT)
+ Sat, 19 Jul 2025 15:42:44 -0700 (PDT)
 From: Tamir Duberstein <tamird@gmail.com>
-Date: Sat, 19 Jul 2025 18:42:32 -0400
-Subject: [PATCH v2 03/10] rust: configfs: use `core::ffi::CStr` method
- names
+Date: Sat, 19 Jul 2025 18:42:33 -0400
+Subject: [PATCH v2 04/10] rust: cpufreq: use `core::ffi::CStr` method names
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20250719-core-cstr-fanout-1-v2-3-e1cb53f6d233@gmail.com>
+Message-Id: <20250719-core-cstr-fanout-1-v2-4-e1cb53f6d233@gmail.com>
 References: <20250719-core-cstr-fanout-1-v2-0-e1cb53f6d233@gmail.com>
 In-Reply-To: <20250719-core-cstr-fanout-1-v2-0-e1cb53f6d233@gmail.com>
 To: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
@@ -97,13 +96,13 @@ Cc: dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
  netdev@vger.kernel.org, devicetree@vger.kernel.org, 
  Tamir Duberstein <tamird@gmail.com>
 X-Mailer: b4 0.15-dev
-X-Developer-Signature: v=1; a=openssh-sha256; t=1752964955; l=2423;
+X-Developer-Signature: v=1; a=openssh-sha256; t=1752964955; l=1043;
  i=tamird@gmail.com; h=from:subject:message-id;
- bh=UU7lGn7kGhm+SuFb1MnLqyAXhBVLI0I6DYrJ7+r+OSQ=;
+ bh=Md5viX5GUz2R5mJkUWEkGx2lyxvokj0qp94Xg8uiCEU=;
  b=U1NIU0lHAAAAAQAAADMAAAALc3NoLWVkMjU1MTkAAAAgtYz36g7iDMSkY5K7Ab51ksGX7hJgs
  MRt+XVZTrIzMVIAAAAGcGF0YXR0AAAAAAAAAAZzaGE1MTIAAABTAAAAC3NzaC1lZDI1NTE5AAAA
- QNeaAkv8xgwX4NEWMvKht3s0HML9oOBF7rc4CRx7dxJy9p52pTiBMrgmqOCFBudOkZhQkUhg678
- 43mmwZSWFQgY=
+ QBE0v/HGS7nTLm+VoHQjFRVbHknYbIoX7Qf4J+/U3Mp8SY1LNU4ZJaFGEgU3gct0Sxv0sDo4F/t
+ 03jQu+PPrfwo=
 X-Developer-Key: i=tamird@gmail.com; a=openssh;
  fpr=SHA256:264rPmnnrb+ERkS7DDS3tuwqcJss/zevJRzoylqMsbc
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -124,9 +123,6 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 Prepare for `core::ffi::CStr` taking the place of `kernel::str::CStr` by
 avoid methods that only exist on the latter.
 
-Also avoid `Deref<Target=BStr> for CStr` as that impl doesn't exist on
-`core::ffi::CStr`.
-
 Link: https://github.com/Rust-for-Linux/linux/issues/1075
 Acked-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 Reviewed-by: Alice Ryhl <aliceryhl@google.com>
@@ -134,45 +130,22 @@ Reviewed-by: Benno Lossin <lossin@kernel.org>
 Acked-by: Danilo Krummrich <dakr@kernel.org>
 Signed-off-by: Tamir Duberstein <tamird@gmail.com>
 ---
- rust/kernel/configfs.rs       | 4 ++--
- samples/rust/rust_configfs.rs | 2 +-
- 2 files changed, 3 insertions(+), 3 deletions(-)
+ rust/kernel/cpufreq.rs | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/rust/kernel/configfs.rs b/rust/kernel/configfs.rs
-index 2736b798cdc6..9fb5ef825e41 100644
---- a/rust/kernel/configfs.rs
-+++ b/rust/kernel/configfs.rs
-@@ -263,7 +263,7 @@ pub fn new(
-         try_pin_init!(Self {
-             group <- pin_init::init_zeroed().chain(|v: &mut Opaque<bindings::config_group>| {
-                 let place = v.get();
--                let name = name.as_bytes_with_nul().as_ptr();
-+                let name = name.to_bytes_with_nul().as_ptr();
-                 // SAFETY: It is safe to initialize a group once it has been zeroed.
-                 unsafe {
-                     bindings::config_group_init_type_name(place, name.cast(), item_type.as_ptr())
-@@ -613,7 +613,7 @@ impl<const ID: u64, O, Data> Attribute<ID, O, Data>
-     pub const fn new(name: &'static CStr) -> Self {
-         Self {
-             attribute: Opaque::new(bindings::configfs_attribute {
--                ca_name: name.as_char_ptr(),
-+                ca_name: crate::str::as_char_ptr_in_const_context(name),
-                 ca_owner: core::ptr::null_mut(),
-                 ca_mode: 0o660,
-                 show: Some(Self::show),
-diff --git a/samples/rust/rust_configfs.rs b/samples/rust/rust_configfs.rs
-index af04bfa35cb2..5005453f874d 100644
---- a/samples/rust/rust_configfs.rs
-+++ b/samples/rust/rust_configfs.rs
-@@ -94,7 +94,7 @@ impl configfs::AttributeOperations<0> for Configuration {
+diff --git a/rust/kernel/cpufreq.rs b/rust/kernel/cpufreq.rs
+index e8d231971276..71d601f7c261 100644
+--- a/rust/kernel/cpufreq.rs
++++ b/rust/kernel/cpufreq.rs
+@@ -1018,7 +1018,7 @@ impl<T: Driver> Registration<T> {
+     };
  
-     fn show(container: &Configuration, page: &mut [u8; PAGE_SIZE]) -> Result<usize> {
-         pr_info!("Show message\n");
--        let data = container.message;
-+        let data = container.message.to_bytes();
-         page[0..data.len()].copy_from_slice(data);
-         Ok(data.len())
-     }
+     const fn copy_name(name: &'static CStr) -> [c_char; CPUFREQ_NAME_LEN] {
+-        let src = name.as_bytes_with_nul();
++        let src = name.to_bytes_with_nul();
+         let mut dst = [0; CPUFREQ_NAME_LEN];
+ 
+         build_assert!(src.len() <= CPUFREQ_NAME_LEN);
 
 -- 
 2.50.1
