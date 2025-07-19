@@ -2,79 +2,79 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id E2BB6B0AE72
-	for <lists+dri-devel@lfdr.de>; Sat, 19 Jul 2025 09:43:58 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 70225B0AEA1
+	for <lists+dri-devel@lfdr.de>; Sat, 19 Jul 2025 10:27:07 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 765BC10E1DC;
-	Sat, 19 Jul 2025 07:43:56 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4F7FD10E03F;
+	Sat, 19 Jul 2025 08:27:04 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=intel.com header.i=@intel.com header.b="XA6I82EQ";
+	dkim=pass (2048-bit key; unprotected) header.d=brighamcampbell.com header.i=@brighamcampbell.com header.b="MhexPego";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E623910E1DC
- for <dri-devel@lists.freedesktop.org>; Sat, 19 Jul 2025 07:43:53 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1752911035; x=1784447035;
- h=date:from:to:cc:subject:message-id:references:
- mime-version:in-reply-to;
- bh=ExeIcKQFSS1qmlfLTGq6NdRwBIsy7m51VTTE43vJJ1A=;
- b=XA6I82EQk+ozlm26IKz38NoubQ1Zl/W1ZWH9mJmm+p4FAUjL20XGjLOw
- f6a2O65Ontp3hwgyOUE8bnfG/HfjlFkuv7ZXiJXcNudVl6CpfN5CtpicD
- +WzhJdJ06cccndeHSv6GhxpJixQi82w/nZTsBnEYFnoIH3rL6tQ5v8kQ5
- GPwYVj1E2sytIwIc0Lhm8C0HIK/GeJGvP+dpzVtYkWQupclUHU5fFkh63
- N8fi99OocH6v4TzmAT+7DKVulTn7I0R9KbWemX0SZtH1cEEXpZO90THVA
- 96Oc1fRIUv5yjL3mr79BNcQpQRb+pZEekRg0tG6bmdky8vKP9oqpNQhj9 Q==;
-X-CSE-ConnectionGUID: 85M2o2loTAGCh93KEGMRzA==
-X-CSE-MsgGUID: lUR/OJ41TDS8kjJ+vINEow==
-X-IronPort-AV: E=McAfee;i="6800,10657,11496"; a="72651131"
-X-IronPort-AV: E=Sophos;i="6.16,323,1744095600"; d="scan'208";a="72651131"
-Received: from orviesa007.jf.intel.com ([10.64.159.147])
- by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 19 Jul 2025 00:43:54 -0700
-X-CSE-ConnectionGUID: iaIxP5gRQweAL56B3D2Alw==
-X-CSE-MsgGUID: X3Qv0Y49S/O0oDqks2wQNg==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.16,323,1744095600"; d="scan'208";a="158517427"
-Received: from lkp-server01.sh.intel.com (HELO 9ee84586c615) ([10.239.97.150])
- by orviesa007.jf.intel.com with ESMTP; 19 Jul 2025 00:43:46 -0700
-Received: from kbuild by 9ee84586c615 with local (Exim 4.96)
- (envelope-from <lkp@intel.com>) id 1ud2ER-000FJj-1P;
- Sat, 19 Jul 2025 07:43:43 +0000
-Date: Sat, 19 Jul 2025 15:42:49 +0800
-From: kernel test robot <lkp@intel.com>
-To: Chaoyi Chen <kernel@airkyi.com>, Rob Herring <robh@kernel.org>,
- Krzysztof Kozlowski <krzk@kernel.org>,
- Conor Dooley <conor+dt@kernel.org>, Vinod Koul <vkoul@kernel.org>,
- Kishon Vijay Abraham I <kishon@kernel.org>,
- Heiko Stuebner <heiko@sntech.de>, Sandy Huang <hjc@rock-chips.com>,
- Andy Yan <andy.yan@rock-chips.com>,
- Yubing Zhang <yubing.zhang@rock-chips.com>,
- Frank Wang <frank.wang@rock-chips.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- Amit Sunil Dhamne <amitsd@google.com>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- Chaoyi Chen <chaoyi.chen@rock-chips.com>,
- Dragan Simic <dsimic@manjaro.org>, Johan Jonker <jbx6244@gmail.com>,
- Diederik de Haas <didi.debian@cknow.org>,
- Dmitry Baryshkov <lumag@kernel.org>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
- devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-phy@lists.infradead.org, linux-arm-kernel@lists.infradead.org,
- linux-rockchip@lists.infradead.org, dri-devel@lists.freedesktop.org
-Subject: Re: [PATCH v2 2/5] phy: rockchip: phy-rockchip-typec: Add
- typec_mux/typec_switch support
-Message-ID: <202507191526.Ts6qTQJj-lkp@intel.com>
-References: <20250718062619.99-3-kernel@airkyi.com>
+Received: from mail-pf1-f175.google.com (mail-pf1-f175.google.com
+ [209.85.210.175])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B2B8510E03F
+ for <dri-devel@lists.freedesktop.org>; Sat, 19 Jul 2025 08:27:02 +0000 (UTC)
+Received: by mail-pf1-f175.google.com with SMTP id
+ d2e1a72fcca58-74ce477af25so1898367b3a.3
+ for <dri-devel@lists.freedesktop.org>; Sat, 19 Jul 2025 01:27:02 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=brighamcampbell.com; s=google; t=1752913622; x=1753518422;
+ darn=lists.freedesktop.org; 
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:from:to:cc:subject:date:message-id:reply-to;
+ bh=EPId7hlRtak29cJpHNdXMRMJJGzWtgzI1RuZFg9RVGU=;
+ b=MhexPegogMq2TLFSGxLtet7iC/3KIUdj8evdoXqlrBCuxHorZBl21kUD2ib38gU4Nc
+ fHC5D7VmqWuH/y2hvmlAmyXeqX/Y8WXis13wx+eSjQdR4UI8hqwUMTvEgL6LJLYxYkwV
+ xtgFWI1RIGy2QC8cOOsQXcGU19BoG8hloE2/RfElARu3DeiBThUef3xh+yF4I01CB7F8
+ qnZ0rxZmFiFz1yTqqEGeRIPU5cJyRo4KeDRkCf7R1zWnZpUpPAztfdz6T6p/Zkt5jQsL
+ rwTV3u5wl+uEkSmFYDJr6oSBYpQuh79TdatEPRfbnSkZRw/7Ulb/w9VcTa9u+wKoB6c0
+ nUmQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1752913622; x=1753518422;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=EPId7hlRtak29cJpHNdXMRMJJGzWtgzI1RuZFg9RVGU=;
+ b=lklIjd9vlBVbBbAtBONwlYeUxXOdzR5YFdGhot0XEYzkzESkuEUjPtBiG7/8MQI3cm
+ ny/B2FcvGAx+bwhfRTQkMNlSk4EOiTzmOnYzMEHmd+1vRSCT29WTYMPRAgVmYP6LJgGl
+ FQGd+qy2ctaJo2BHizyL2y+lG39IqkV3YnvRlR5U2W+zrOoaSDz3YoFz0VT/sQ2wyrtI
+ 6M+c5SG7eyOGq7fb66p+OSvUpYMcGEaoEVFJTJzlOnzLFthifIT+jPG+C1v+QWEd58Nx
+ BzDWuQDqeY/2O12HDUMILIbCm7IbkZqTXzRmYHjjOYvFn/QqySjGfjZYHxK+rSAgCYn0
+ vgUA==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCXcToP2VaCX1oy6nktOjB9YZV72IXdAV1wrPlEgKJpO9n2cIRvWGBG+rNBiUvCpIjRm/ANimL+0nCA=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0Yz+TF5/lwsK2jjzm62pJrldrhmU96W0/laGa4eon+s8pG0hPnmp
+ KmsKS1Z4ggi9aqQCbyBmfw6C1jEC/wWQzYWInDqBPonITp2C//8he7HJxReAxBlE2Sw=
+X-Gm-Gg: ASbGncvkNiSf3grmHtaekeRMN6EBPaxU0WbwkpqVnSdKv3ctJxBUehlGEohD56ACqFf
+ pSQnTwiKpRiwmiW/E6fkt68k97ZBDKv5w8F9ZEwL5mGcQ0j3oTcvGt7sR64GRFSAxzjnHuG+/fL
+ WVMrJjVtvvYY4WbSYUC8rz7wSsLS1s/jEuRyBw7DeR5cFSfgq70PGUiYlZWoyI2QMxuZTyTX1ld
+ AO5nCxLbC5Cx5qwmEjM2l5lqYFzlGSBNxnfkcuoJGsJxb9L5xnMbniRRF3UybIA8s+34lz9OfUV
+ 8khSImkjU+o5xGcsmekcIPcL9bxZZZfcZpu/xzMwFcxVavLZx5H/u9MbunrddjOk6BNbe48Nfzf
+ bkbF/Kx512yxG3pSOw910pT5Ux3SPz8AWjrJgvw+33/XIqBZCUw==
+X-Google-Smtp-Source: AGHT+IEzBjqgE2BlaLz1oOWFjBrHioQyEDfCtdHE+F0FDfd8OvpCDexvgvzMEwrHYyRAhMYVJmlFCA==
+X-Received: by 2002:a05:6a00:3a11:b0:736:51ab:7aed with SMTP id
+ d2e1a72fcca58-75724180944mr17224932b3a.16.1752913621977; 
+ Sat, 19 Jul 2025 01:27:01 -0700 (PDT)
+Received: from mystery-machine.tail542cf.ts.net ([64.71.154.6])
+ by smtp.gmail.com with ESMTPSA id
+ d2e1a72fcca58-759cb157635sm2475260b3a.83.2025.07.19.01.27.00
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Sat, 19 Jul 2025 01:27:01 -0700 (PDT)
+From: Brigham Campbell <me@brighamcampbell.com>
+To: dianders@chromium.org, tejasvipin76@gmail.com,
+ diogo.ivo@tecnico.ulisboa.pt, skhan@linuxfoundation.org,
+ linux-kernel-mentees@lists.linux.dev, dri-devel@lists.freedesktop.org,
+ linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
+Cc: Brigham Campbell <me@brighamcampbell.com>
+Subject: [PATCH v5 0/4] drm: Fix bug in panel driver,
+ update MIPI support macros
+Date: Sat, 19 Jul 2025 02:26:34 -0600
+Message-ID: <20250719082639.307545-1-me@brighamcampbell.com>
+X-Mailer: git-send-email 2.50.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20250718062619.99-3-kernel@airkyi.com>
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -90,46 +90,68 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Chaoyi,
+This series removes the unintuitive mipi_dsi_generic_write_seq() macro
+and related mipi_dsi_generic_write_chatty() method from the drm
+subsystem. This is in accordance with a TODO item from Douglas Anderson
+in the drm subsystem documentation. Tejas Vipin (among others) has
+largely spearheaded this effort up until now, converting MIPI panel
+drivers one at a time.
 
-kernel test robot noticed the following build errors:
+The second patch of the series removes the last remaining references to
+mipi_dsi_generic_write_seq() in the jdi-lpm102a188a driver and updates
+the driver to use the undeprecated _multi variants of MIPI functions. It
+fixes a bug in the driver's unprepare function and cleans up duplicated
+code using the new mipi_dsi_dual macro introduced in the first patch.
 
-[auto build test ERROR on next-20250717]
-[also build test ERROR on linus/master v6.16-rc6]
-[cannot apply to robh/for-next rockchip/for-next krzk/for-next krzk-dt/for-next v6.16-rc6 v6.16-rc5 v6.16-rc4]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
+changes to v5:
+ - Rework mipi_dsi_dual to explicitly not support passing macros into
+   _func and add "dual" variants of the generic and dcs write macros.
+ - Make jdi-lpm102a188a use the new
+   mipi_dsi_dual_generic_write_seq_multi macro.
+ - Make local struct variable in jdi-lpm102a188a conform to reverse
+   christmas tree order.
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Chaoyi-Chen/dt-bindings-phy-rockchip-rk3399-typec-phy-Support-mode-switch/20250718-142814
-base:   next-20250717
-patch link:    https://lore.kernel.org/r/20250718062619.99-3-kernel%40airkyi.com
-patch subject: [PATCH v2 2/5] phy: rockchip: phy-rockchip-typec: Add typec_mux/typec_switch support
-config: arm64-randconfig-004-20250719 (https://download.01.org/0day-ci/archive/20250719/202507191526.Ts6qTQJj-lkp@intel.com/config)
-compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250719/202507191526.Ts6qTQJj-lkp@intel.com/reproduce)
+changes to v4:
+ - Fix whitespace (I forgot to run checkpatch. Thanks for your patience
+   as I familiarize myself with the kernel development process)
+ - Initialize mipi_dsi_multi_context struct
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202507191526.Ts6qTQJj-lkp@intel.com/
+changes to v3:
+ - Define new mipi_dsi_dual macro in drm_mipi_dsi.h to reduce code
+   duplication.
+ - Fix bug in lpm102a188a panel driver's unprepare function which causes
+   it to return a nonsensical value.
+ - Make lpm102a188a panel driver's unprepare function send "display off"
+   and "enter sleep mode" commands to both serial interfaces regardless
+   of whether an error occurred when sending the last command.
 
-All errors (new ones prefixed by >>):
+changes to v2:
+ - Remove all usages of deprecated MIPI functions from jdi-lpm102a188a
+   driver instead of just mipi_dsi_generic_write_seq().
+ - Update TODO item in drm documentation instead of removing it
+   entirely.
 
->> ld.lld: error: undefined symbol: typec_mux_register
-   >>> referenced by phy-rockchip-typec.c
-   >>>               drivers/phy/rockchip/phy-rockchip-typec.o:(rockchip_typec_phy_probe) in archive vmlinux.a
---
->> ld.lld: error: undefined symbol: typec_mux_unregister
-   >>> referenced by phy-rockchip-typec.c
-   >>>               drivers/phy/rockchip/phy-rockchip-typec.o:(rockchip_typec_phy_probe) in archive vmlinux.a
-   >>> referenced by phy-rockchip-typec.c
-   >>>               drivers/phy/rockchip/phy-rockchip-typec.o:(tcphy_typec_mux_unregister) in archive vmlinux.a
---
->> ld.lld: error: undefined symbol: typec_mux_get_drvdata
-   >>> referenced by phy-rockchip-typec.c
-   >>>               drivers/phy/rockchip/phy-rockchip-typec.o:(tcphy_typec_mux_set) in archive vmlinux.a
+Brigham Campbell (4):
+  drm: Create mipi_dsi_dual* macros
+  drm/panel: jdi-lpm102a188a: Fix bug and clean up driver
+  drm: Remove unused MIPI write seq and chatty functions
+  drm: docs: Update task from drm TODO list
 
+ Documentation/gpu/todo.rst                    |  22 +-
+ drivers/gpu/drm/drm_mipi_dsi.c                |  82 +++++---
+ drivers/gpu/drm/panel/panel-jdi-lpm102a188a.c | 196 ++++++------------
+ include/drm/drm_mipi_dsi.h                    | 112 ++++++++--
+ 4 files changed, 210 insertions(+), 202 deletions(-)
+
+v4: https://lore.kernel.org/all/20250717164053.284969-1-me@brighamcampbell.com/
+v3: https://lore.kernel.org/all/20250717065757.246122-1-me@brighamcampbell.com/
+v2: https://lore.kernel.org/all/20250708073901.90027-1-me@brighamcampbell.com/
+v1: https://lore.kernel.org/all/20250707075659.75810-1-me@brighamcampbell.com/
+
+base-commit: ca2a6abdaee43808034cdb218428d2ed85fd3db8
+
+May you all have a wonderful weekend. I'll be riding my motorcycle up
+Logan Canyon.
 -- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+2.50.1
+
