@@ -2,105 +2,128 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 44132B0AF13
-	for <lists+dri-devel@lfdr.de>; Sat, 19 Jul 2025 11:19:58 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id B8AC5B0AF20
+	for <lists+dri-devel@lfdr.de>; Sat, 19 Jul 2025 11:43:43 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6250610E13B;
-	Sat, 19 Jul 2025 09:19:55 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 93EBE10E061;
+	Sat, 19 Jul 2025 09:43:40 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=qualcomm.com header.i=@qualcomm.com header.b="LwVVF8mn";
+	dkim=pass (2048-bit key; unprotected) header.d=qualcomm.com header.i=@qualcomm.com header.b="eIKe/XQW";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com
  [205.220.180.131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id DA92310E13B
- for <dri-devel@lists.freedesktop.org>; Sat, 19 Jul 2025 09:19:54 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2580B10E043
+ for <dri-devel@lists.freedesktop.org>; Sat, 19 Jul 2025 09:43:39 +0000 (UTC)
 Received: from pps.filterd (m0279869.ppops.net [127.0.0.1])
- by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 56J4FgEb018269
- for <dri-devel@lists.freedesktop.org>; Sat, 19 Jul 2025 09:19:54 GMT
+ by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 56J4EETi015375
+ for <dri-devel@lists.freedesktop.org>; Sat, 19 Jul 2025 09:43:38 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
- cc:content-type:date:from:in-reply-to:message-id:mime-version
- :references:subject:to; s=qcppdkim1; bh=fgOH2EMBXPQoK79TfkIp2MYG
- GZpvPv+GXdFI8RzZGME=; b=LwVVF8mn8nWKHE79wwKCX/hA8cQPK322+nqhA+33
- cZ9GvIaRKii2zf/E6zXyQuBfmLMUiAGOHYfbAHXN9BvwpiIPLtQp8EzGPd0Wh3/s
- Mqlp0g/Jg/ymbQnVmmkUpjpOvnqKJhhMFEe2e4gzVKNAga6/SZMG1f95UUkXZmiJ
- HajOJzq1QS8+NBOpnhYbW/boGgdLJjITliS0tcU21xCzgeLbDOYUxB2Y9h/OKGSd
- ltMH1H0ZgFQAuaq1hOCZoV1cB1UKkmWGOdPTOlMRNM9+9cAa03HRYJzUcFA3KKw6
- p8xXhUrb0m6S4uUQPhcKMdAd/xJThltCxqqX/ndoV4Bo/Q==
-Received: from mail-qk1-f200.google.com (mail-qk1-f200.google.com
- [209.85.222.200])
- by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 48045h8djv-1
+ cc:content-transfer-encoding:content-type:date:from:in-reply-to
+ :message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
+ rhgfcFJFu0pycjGyM1cFEjZ0PRIhr6IT98FgwjCWEYk=; b=eIKe/XQW+VCrw6qy
+ YDZuIu71jU6krVAEG2ro//VgSU2zD6oREy2R73F5f006S9h81k8XEGWAIURic6/s
+ 3C/z2ibBhsgp0kMODRuAAN+JBFcjgvxv/koBXdeEy39ebHbJAxNJqDY17Gwpojwq
+ f/KI17OGkh0tUZ4fhv39qWLu7OlGVjfbVkD0m57Ao03Sn0UGqG6EhvTY1rU6Coce
+ RoIwuwbAHtSCf3oPsN5jdsd1aMnjD/beax6buRrZfJimzhSvAS3+kcO7eCbWRKYN
+ cXCct5kYpWcudSGRIiTgogUiLLa+1MOoQLpfnConsFxieo1+CKhVwXaferS3JKCf
+ avz83w==
+Received: from mail-qk1-f198.google.com (mail-qk1-f198.google.com
+ [209.85.222.198])
+ by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 48045h8eh5-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
- for <dri-devel@lists.freedesktop.org>; Sat, 19 Jul 2025 09:19:53 +0000 (GMT)
-Received: by mail-qk1-f200.google.com with SMTP id
- af79cd13be357-7e347b1a6c7so659444085a.0
- for <dri-devel@lists.freedesktop.org>; Sat, 19 Jul 2025 02:19:53 -0700 (PDT)
+ for <dri-devel@lists.freedesktop.org>; Sat, 19 Jul 2025 09:43:37 +0000 (GMT)
+Received: by mail-qk1-f198.google.com with SMTP id
+ af79cd13be357-7e33af599bcso474656685a.1
+ for <dri-devel@lists.freedesktop.org>; Sat, 19 Jul 2025 02:43:37 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1752916793; x=1753521593;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
- :message-id:reply-to;
- bh=fgOH2EMBXPQoK79TfkIp2MYGGZpvPv+GXdFI8RzZGME=;
- b=oOZOZdfycFB+k1WhvG+lLzstn/qToakF59RJaeLoN0UIPxyWjeMOigAzdGxGtIktlC
- JBLM3dDyw+q/v4UDn+Eu4oa2ScaHsEVtQSN15JUNRX6TQDqMGrPtzWPbp7W5imFL7aGh
- 067r3dxUTTyRpAsIz6z3s5hehFRomXhY6dX/mcFg/0v5EILhfwB1yP/aEHi5vryxhajj
- vh9YJqVVujGfbsQ+szss+5ZTQDYQyZhcQbt0gf5k0knwyL7a0BXdzTUIEL80YFCRxjbr
- HStxRJdcIcDDsLaJBvEdQqiYRtQ3oxyuJSCMyK2l/eagX0N0EVAdEi1aatZmLnmiPduF
- nUZA==
+ d=1e100.net; s=20230601; t=1752918217; x=1753523017;
+ h=in-reply-to:content-transfer-encoding:content-disposition
+ :mime-version:references:message-id:subject:cc:to:from:date
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=rhgfcFJFu0pycjGyM1cFEjZ0PRIhr6IT98FgwjCWEYk=;
+ b=JcHgbm0tkEGTHHPio4qYWUEM9QM5stg/WXIc7lw6kZRMY1RN0L5/HoOaa4C2t85oCS
+ ZtxTt5Il5utendweUClPPm6pk6QAWL/3D3JzSv2icg6BGL3Ly54S4krU3UAvcgrkRws6
+ 7mnmIjbthysDUxfJtjusK3btOsSVbsYDgiJCqCqxrKBohPheMZaEjy6hPaPy2EaynoZq
+ 60iBC3TpJh7LHywZNpJ9dRCJZ8sD/axtf8SedtTZtK5eRApWQuRRf54boSeCyUOT9xq1
+ /JE0o5v7wdCVlv/WrP5s0v+jgWfbGIHj03VI8zWR62Ylj5fBMeOHz8tDAAgpec69C794
+ tXTw==
 X-Forwarded-Encrypted: i=1;
- AJvYcCUKk+uDbBkUVq+6ifSARG38axzsHreOfH8PPHJpjDK3VCLhRFzrKehp453gyLbk2cWTDfD1Xsod1fA=@lists.freedesktop.org
-X-Gm-Message-State: AOJu0YzHv63HKyZ80zyjqlzXBC0zvuMZozVwFaFdYC6lQlFztrUEfQiR
- TaB9p7G7hElhrqmj6DpSHupdPTJGYHbfY4WGxjk9Q7V+W6/m044iv1A44NNB+/XPswkPmWrUbDS
- XcYtAVXV24KdXAHS7WlCPLZBU75UJvblq/l7hMb8p/jNvGBVqgSqKaFqXjzlTBvhCvPQ5FNQ=
-X-Gm-Gg: ASbGncuSWHZ6xTdURiU/g9sKEdSvz0T3P9L0VP1XLEvOez87nvogpwXKheFyLOCLzKF
- e0lDAnibQgs0L63K7+eCFfLkuSyKwbR2hNan84YhbJdTnmb4x4hsEgtHlT1SV4tEGUC8oU7LIKf
- sKJbNZ6zddB9TByaN9OK8Z8VNA72vNV0mUXcjUAmcu9P5FjhYlcvSJraP341h453n85+G9DCeAf
- ykihy9eMgI1Lwu3zo8R1Phic12LeXVfBPDKqieNXasCI0sNJF2odZ4SzSQcTZHjtK7SsICL5O+A
- p31SC9dzZHyaiuV3YcK9XOFoVYEJyXE2y9Mud5vib1sX8K9A3vf/BWbBjkT8V0pYm9YM5EnVPAH
- byC+qA8NFvABysKkjGWEygoX86C/zkrw4/YwZ0pbSgyu1DcLVTf8y
-X-Received: by 2002:a05:620a:2943:b0:7e3:2c03:a198 with SMTP id
- af79cd13be357-7e34362d8cemr1715370785a.51.1752916792961; 
- Sat, 19 Jul 2025 02:19:52 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IHrTVJZ6H+BDUrXWMtyZHvBXjeITWziIhnLeZNZgm7ut9rW4DupNl8jJmWor3RXExsowMtcPQ==
-X-Received: by 2002:a05:620a:2943:b0:7e3:2c03:a198 with SMTP id
- af79cd13be357-7e34362d8cemr1715369185a.51.1752916792436; 
- Sat, 19 Jul 2025 02:19:52 -0700 (PDT)
+ AJvYcCVaZ/jjF+zRRcyX27WrHqtI7sTTCwBhdI6dUtiC/2FZ3TH9LLWImYVqvD1pjWmi4pEVytmt8OLyqb8=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YwmxAbq+RKF1fmJiTEKO5wWQnhPxVAb6E3juL70ZXU5xXOXELhH
+ vpZ4XcFm45LDCD59KO7giuFKFUMRkm8tkwjOV9uBJVJAt2JgJ+Mcp4yXqaZ4Pkhl7svBXHUuO2c
+ BRsxEQbPhy6xza9TXWL8iSWe+wXS/yz0p/DvlGoNAEVhLA04HpESnw7LAMBniijN5xg+xksU=
+X-Gm-Gg: ASbGncsqJeOEYcZ7Q7leuZ+Bd2vkuXzSe2c7YRctIY76sEFz9H6ohuI7K0ldS/FItsC
+ MwNeaqFH281CU0Q2iFITqsBBAeuLIC+OiLmq6ey1fDDUn1BCcKs5/4F0DQGFqkF0axh3vDr86S0
+ DlCBRPaapALi8RcfxIC2Fdhj3c8wXFvNAU2Ye7SV0QxuGNin4u4I6+wglTgu/jCP8MFhqqZorFc
+ gGoSnA9t8UKQoK1nDzJMp5bK6KlnN8ubH4pp6Gv8kduoSYzX09cxYYG2nTHSr/xfZi7YIcsBQeF
+ U0rN0qpYRHLXw6ewIy4h3tGlxYBuIJIMfXlG147D9J1PkmHAdnN1oqR/WBXqbls171OGxZ97ydT
+ 6sjtW7JbznwXTdwXfn9cAWJFmOgDx3U7/og9Brr1C0LSdmgHaHRQp
+X-Received: by 2002:a05:620a:8509:b0:7e3:35e3:3412 with SMTP id
+ af79cd13be357-7e34d9ac2e5mr834617685a.34.1752918217079; 
+ Sat, 19 Jul 2025 02:43:37 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IEO4TN2m1HCMk2uK61roXdJAndfjxoSfPKSTjVyKPnhMXeMW5zR1fepHcMLF91nfBnN6lMC7g==
+X-Received: by 2002:a05:620a:8509:b0:7e3:35e3:3412 with SMTP id
+ af79cd13be357-7e34d9ac2e5mr834614885a.34.1752918216533; 
+ Sat, 19 Jul 2025 02:43:36 -0700 (PDT)
 Received: from umbar.lan
  (2001-14ba-a0c3-3a00-264b-feff-fe8b-be8a.rev.dnainternet.fi.
  [2001:14ba:a0c3:3a00:264b:feff:fe8b:be8a])
  by smtp.gmail.com with ESMTPSA id
- 38308e7fff4ca-330a91c1575sm5342391fa.52.2025.07.19.02.19.51
+ 2adb3069b0e04-55a31d7c7basm652746e87.94.2025.07.19.02.43.35
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sat, 19 Jul 2025 02:19:51 -0700 (PDT)
-Date: Sat, 19 Jul 2025 12:19:50 +0300
+ Sat, 19 Jul 2025 02:43:35 -0700 (PDT)
+Date: Sat, 19 Jul 2025 12:43:33 +0300
 From: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
-To: Loic Poulain <loic.poulain@oss.qualcomm.com>
-Cc: robin.clark@oss.qualcomm.com, lumag@kernel.org, airlied@gmail.com,
- simona@ffwll.ch, linux-arm-msm@vger.kernel.org,
+To: Xiangxu Yin <xiangxu.yin@oss.qualcomm.com>
+Cc: Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>,
+ Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
+ Rob Clark <robdclark@gmail.com>,
+ Abhinav Kumar <quic_abhinavk@quicinc.com>, Sean Paul <sean@poorly.run>,
+ Marijn Suijten <marijn.suijten@somainline.org>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>,
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+ Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
+ Conor Dooley <conor+dt@kernel.org>,
+ Kuogee Hsieh <quic_khsieh@quicinc.com>, Vinod Koul <vkoul@kernel.org>,
+ Kishon Vijay Abraham I <kishon@kernel.org>,
+ Linus Walleij <linus.walleij@linaro.org>,
+ Bartosz Golaszewski <brgl@bgdev.pl>, quic_lliu6@quicinc.com,
+ quic_fangez@quicinc.com, linux-arm-msm@vger.kernel.org,
  dri-devel@lists.freedesktop.org, freedreno@lists.freedesktop.org,
- abhinav.kumar@linux.dev, jessica.zhang@oss.qualcomm.com,
- sean@poorly.run, marijn.suijten@somainline.org
-Subject: Re: [PATCH v3] drm/msm/dsi: Fix 14nm DSI PHY PLL Lock issue
-Message-ID: <y7tffafhe3skb7pgx7r4hx2dxccfl36jylko2ujndejxktfbiw@gzbrhnesntxn>
-References: <20250709140836.124143-1-loic.poulain@oss.qualcomm.com>
+ devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-phy@lists.infradead.org, linux-gpio@vger.kernel.org,
+ quic_xiangxuy@quicinc.com
+Subject: Re: [PATCH 7/8] drm/msm/dp: Retry Link Training 2 with lower pattern
+Message-ID: <w66xyhu5w7ajpkennvj24cad4j6izvapsp3reyla7iui2jdgkx@d43b6z3qw5tj>
+References: <20241129-add-displayport-support-for-qcs615-platform-v1-0-09a4338d93ef@quicinc.com>
+ <20241129-add-displayport-support-for-qcs615-platform-v1-7-09a4338d93ef@quicinc.com>
+ <CAA8EJpoN1qBHyZrQJT_=e_26+tcaKRnSrhtxrK6zBP4BwpL=Hg@mail.gmail.com>
+ <b4345b9e-62c6-470d-b1b0-4758cef7f175@quicinc.com>
+ <xlmgdysjah3ueypdrdu5b6botvidb2wn4rfm4qpeysclscmuwy@vpfv2ymprblj>
+ <b4e1ea54-ff3c-408e-8716-f48001ec9113@oss.qualcomm.com>
+ <d427de7d-76ac-4e5b-b79a-3b7638a8e7fc@oss.qualcomm.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20250709140836.124143-1-loic.poulain@oss.qualcomm.com>
-X-Authority-Analysis: v=2.4 cv=ZtDtK87G c=1 sm=1 tr=0 ts=687b6339 cx=c_pps
- a=hnmNkyzTK/kJ09Xio7VxxA==:117 a=xqWC_Br6kY4A:10 a=kj9zAlcOel0A:10
- a=Wb1JkmetP80A:10 a=EUspDBNiAAAA:8 a=vVdACntxX79Zt9NN4_cA:9 a=CjuIK1q_8ugA:10
- a=PEH46H7Ffwr30OY-TuGO:22
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwNzE5MDA5MiBTYWx0ZWRfX9Stv8E1Kmn4z
- hcYgVEPiF567Jgq61/9Pm+Pu4SM7o8Myz7FpwIxdU7jVgCXDfQ8igy6ORuz4iTIJvQJ0ZVCpV60
- K1LvpSkS+Wo9BcNGmYpW92z8txVx2Wn+oy6aojY3vo8tFLUmMt97xHQk21d9DUAoFKo4ge4fr45
- qr16vwnPpzY0JFFlZwdFJYpoAkgaGoSzmZYNWSQQwNAUxzgxxQ9MHSbmBCS4v3jbBz6pjZDJ6zY
- ubf0UZR1MKnWfS61t7VouLyArb4b2Dnt0bVFvGSWlrs9WS/tNmCXihksSkFHiwk2KXCbbQg0aUz
- CnUhKNz1OEaC+jQWOJtqQllK0cRhcsCnfP85fO/Sqp8iqubnPAEV7fAP6p7KPS3W+vlZji7dlSO
- RIxYZacfRy0yaJCOaLrAuULr+Dd/rlmbu0e//AoGnR+Yw9OAETAwQTZw0htVYUS10TklaNlp
-X-Proofpoint-GUID: JCXHe9AGcbriYHegtczixAxZY-KO9CBv
-X-Proofpoint-ORIG-GUID: JCXHe9AGcbriYHegtczixAxZY-KO9CBv
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <d427de7d-76ac-4e5b-b79a-3b7638a8e7fc@oss.qualcomm.com>
+X-Authority-Analysis: v=2.4 cv=ZtDtK87G c=1 sm=1 tr=0 ts=687b68ca cx=c_pps
+ a=qKBjSQ1v91RyAK45QCPf5w==:117 a=xqWC_Br6kY4A:10 a=IkcTkHD0fZMA:10
+ a=Wb1JkmetP80A:10 a=COk6AnOGAAAA:8 a=YZjHnbvoZT85EzRjquwA:9 a=3ZKOabzyN94A:10
+ a=QEXdDO2ut3YA:10 a=NFOGd7dJGGMPyQGDc5-O:22 a=TjNXssC_j7lpFel5tvFf:22
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwNzE5MDA5NiBTYWx0ZWRfX/bDFxwDjJkv0
+ NMorBpWsLFuZZZRh2UlyQBnaLRzRMKTJVgg2TncOtzQh9ZYDXdX3IOAMF04vjgFsYN/mGBQ+cF/
+ yhCEWHJ3RNOpjRq5KYK8CZHRob8oTbp+OV6LPTMIVD4G0Bp0LzyzhhHocE5RRvABfoaegSd2byX
+ bVsPjJJecMTtViO5L1iumu8rHXW2XgDkp2G2sF0AQh8VuvLsPYiTuoS5LxhtKPJ009rxmbMEx4R
+ xHkA/thRmOvOfMS94mgg6FTETE7V+s1RTb4ZQsZsDsgK/fqENM13HZfcrirSAcIKv53sA3Y3Pdj
+ ZY+vEuliMDeH+3EDPsUPfFkVBucXDDACZvgeJg+P59LGMLJm0qOMuwk04lUWr6QfDLGr1a9DmCF
+ YLiXYE0ykZHt0bVPWuY0uIAkwD3vNY1u+Em4BjX3XFnwgLaOyNZVY6bOG54reX16wd1VWB5M
+X-Proofpoint-GUID: zJwqo3sIRoOemaL3wHw5HKzi-09Rneo_
+X-Proofpoint-ORIG-GUID: zJwqo3sIRoOemaL3wHw5HKzi-09Rneo_
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.293,Aquarius:18.0.1099,Hydra:6.1.9,FMLib:17.12.80.40
  definitions=2025-07-19_01,2025-07-17_02,2025-03-28_01
@@ -109,7 +132,7 @@ X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
  malwarescore=0 priorityscore=1501 impostorscore=0 mlxlogscore=999
  suspectscore=0 mlxscore=0 lowpriorityscore=0 classifier=spam authscore=0
  authtc=n/a authcc= route=outbound adjust=0 reason=mlx scancount=1
- engine=8.19.0-2505280000 definitions=main-2507190092
+ engine=8.19.0-2505280000 definitions=main-2507190096
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -125,58 +148,63 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, Jul 09, 2025 at 04:08:36PM +0200, Loic Poulain wrote:
-> To configure and enable the DSI PHY PLL clocks, the MDSS AHB clock must
-> be active for MMIO operations. Typically, this AHB clock is enabled as
-> part of the DSI PHY interface enabling (dsi_phy_enable_resource).
+On Wed, Jul 09, 2025 at 05:16:02PM +0800, Xiangxu Yin wrote:
 > 
-> However, since these PLL clocks are registered as clock entities, they
-> can be enabled independently of the DSI PHY interface, leading to
-> enabling failures and subsequent warnings:
 > 
-> ```
-> msm_dsi_phy 5e94400.phy: [drm:dsi_pll_14nm_vco_prepare] *ERROR* DSI PLL lock failed
-> ------------[ cut here ]------------
-> dsi0pllbyte already disabled
-> WARNING: CPU: 3 PID: 1 at drivers/clk/clk.c:1194 clk_core_disable+0xa4/0xac
-> CPU: 3 UID: 0 PID: 1 Comm: swapper/0 Tainted:
-> Tainted: [W]=WARN
-> Hardware name: Qualcomm Technologies, Inc. Robotics RB1 (DT)
-> pstate: 600000c5 (nZCv daIF -PAN -UAO -TCO -DIT -SSBS BTYPE=--)
-> [...]
-> ```
-> 
-> This issue is particularly prevalent at boot time during the disabling of
-> unused clocks (clk_disable_unused()) which includes enabling the parent
-> clock(s) when CLK_OPS_PARENT_ENABLE flag is set (this is the case for the
-> 14nm DSI PHY PLL consumers).
-> 
-> To resolve this issue, we move the AHB clock as a PM dependency of the DSI
-> PHY device (via pm_clk). Since the DSI PHY device is the parent of the PLL
-> clocks, this resolves the PLL/AHB dependency. Now the AHB clock is enabled
-> prior the PLL clk_prepare callback, as part of the runtime-resume chain.
-> 
-> We also eliminate dsi_phy_[enable|disable]_resource functions, which are
-> superseded by runtime PM.
-> 
-> Note that it breaks compatibility with kernels before 6.0, as we do not
-> support anymore the legacy `iface_clk` name.
-> 
-> Signed-off-by: Loic Poulain <loic.poulain@oss.qualcomm.com>
-> ---
->  v3: Drop extra pm_runtime calls from probe
->      Reword resume error on message 
->      Document compatibility break
-> 
->  v2: Move AHB clock into a proper PM dep instead of manually toggling it
->      from the PLL clock driver.
-> 
->  drivers/gpu/drm/msm/dsi/phy/dsi_phy.c | 59 ++++++++-------------------
->  drivers/gpu/drm/msm/dsi/phy/dsi_phy.h |  1 -
->  2 files changed, 18 insertions(+), 42 deletions(-)
+> On 5/28/2025 4:49 AM, Konrad Dybcio wrote:
+> > On 12/3/24 3:07 PM, Dmitry Baryshkov wrote:
+> >> On Tue, Dec 03, 2024 at 04:13:22PM +0800, Xiangxu Yin wrote:
+> >>>
+> >>>
+> >>> On 11/29/2024 9:53 PM, Dmitry Baryshkov wrote:
+> >>>> On Fri, 29 Nov 2024 at 09:59, Xiangxu Yin <quic_xiangxuy@quicinc.com> wrote:
+> >>>>>
+> >>>>> Add a mechanism to retry Link Training 2 by lowering the pattern level
+> >>>>> when the link training #2 first attempt fails. This approach enhances
+> >>>>> compatibility, particularly addressing issues caused by certain hub
+> >>>>> configurations.
+> >>>>
+> >>>> Please reference corresponding part of the standard, describing this lowering.
+> >>>>
+> >>> Per DisplayPort 1.4a specification Section 3.5.1.2 and Table 3-10, while the standard doesn't explicitly define a TPS downgrade mechanism, it does specify:
+> >>
+> >> Anything in DP 2.1?
+> >>
+> In the DP 2.1 spec, mainly on section '3.6.7.2 8b/10b DP Link Layer LTTPR Link Training Mandates', defined 'LTTPR shall support TPS4'.
+> The other parts seems similar to the 1.4 spec.
+> >>> - All devices shall support TPS1 and TPS2
+> >>> - HDR2-capable devices shall support TPS3
+> >>> - HDR3-capable devices shall support TPS4
+> >>> While these capabilities are explicitly defined DPCD for sink devices, source device capabilities are less strictly defined, with the minimum requirement being support for TPS1 and TPS2.
+> >>> In QCS615 DP phy is only supporting to HBR2, we observed a critical interoperability scenario with a DP->HDMI bridge. When link training at TPS4 consistently failed, downgrading to the next lower training pattern successfully established the link and display output successfully.
+> >>
+> >> Any other driver doing such TPS lowering? Or maybe we should be
+> >> selecting TPS3 for HBR2-only devices?
+> > 
+> This logic is porting from qualcomm downstream, 
 
-Reviewed-by: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
+Hopefully a downstream has some sensible commit message which describes
+the issue and the configuration to reproduce it?
 
+> For other device, only found in some older Tx chips like i915（intel_dp_training_pattern) used the maximum hardware-supported patterns, but not lowering.
+> 
+> According to the description in DPCD table 2-232 003h, From the DP spec perspective, it appears that all supported cases should preferably adopt TPS4, as it is more robust.
+
+If other drivers don't perform this kind of lowering, I'd prefer if we
+don't perform it too.
+
+> 'DPRXs should support TPS4 and set this bit, regardless of whether the DPRX supports HBR3 because TPS4 is more conducive to robust link establishment than TPS2 and TPS3.
+> 0 = TPS4 is not supported.
+> 1 = TPS4 is supported (shall be supported for downstream devices with DPCD r1.4, except for eDPRXs).'
+> 
+> Although maximum capability of QCS615 is HBR2, but the actual pattern supports TPS4. 
+> From pure design perspective, it would be cleaner to drop this lowering in next patch. 
+> > Bump, this patch looks interesting and I'd like to see it revisited if
+> > it's correct
+> > 
+> > Konrad
+> 
+> 
 
 -- 
 With best wishes
