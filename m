@@ -2,89 +2,118 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C75C5B0AF46
-	for <lists+dri-devel@lfdr.de>; Sat, 19 Jul 2025 12:11:07 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 50DF9B0AF55
+	for <lists+dri-devel@lfdr.de>; Sat, 19 Jul 2025 12:32:42 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 342B810E1E4;
-	Sat, 19 Jul 2025 10:11:06 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 34BBC10E16F;
+	Sat, 19 Jul 2025 10:32:39 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (1024-bit key; unprotected) header.d=felixrichter.tech header.i=@felixrichter.tech header.b="Jl34XNkt";
+	dkim=pass (2048-bit key; unprotected) header.d=qualcomm.com header.i=@qualcomm.com header.b="P7qGKWCl";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from dijkstra.felixrichter.tech (unknown [37.120.184.171])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2FA1210E1E4;
- Sat, 19 Jul 2025 10:11:05 +0000 (UTC)
-Received: from [10.130.10.1] (unknown [10.130.10.1])
- by dijkstra.felixrichter.tech (Postfix) with ESMTPSA id BF8651A30BD;
- Sat, 19 Jul 2025 12:11:38 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=felixrichter.tech;
- s=20210926; t=1752919899;
- bh=3VNfUxSAOp65CvuEaSzBq77SlXZOKw58vVaXGiL/O5w=;
- h=Date:Subject:To:Cc:References:From:In-Reply-To;
- b=Jl34XNktwUvmuKXe7npo+PCYFQW/xOBr1+GtI/8at3IY6Mfm29wl8adA41SvXnFAl
- PoDU7ZOUVe8YMCXvQHyJh+XFfmiHXON4PLPjQnNncDG0YYX+KsiLQvT0u5fZBJuNZ3
- z0TOW2IAFN6kQhgrqR4phjTkIX+jkZZxYAWNY22A=
-Message-ID: <5f63ae37-793e-4e34-a8ab-1845121fcd7e@felixrichter.tech>
-Date: Sat, 19 Jul 2025 12:10:51 +0200
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com
+ [205.220.168.131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2962810E16F
+ for <dri-devel@lists.freedesktop.org>; Sat, 19 Jul 2025 10:32:38 +0000 (UTC)
+Received: from pps.filterd (m0279867.ppops.net [127.0.0.1])
+ by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 56J4CDto030531
+ for <dri-devel@lists.freedesktop.org>; Sat, 19 Jul 2025 10:32:37 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
+ cc:content-type:date:from:in-reply-to:message-id:mime-version
+ :references:subject:to; s=qcppdkim1; bh=G06iwEutK3GO5lHqQU1Eqf05
+ c4jNYrzpMWxGrGkxhJo=; b=P7qGKWClADMSME/mv2lvSzusTfdruXgsRvc8STfH
+ rN6Byk2gxnN+etDjq70KR41ths+fuho2v3STtqSh0tp4lPiHC9fiMDYUD0aJI8DQ
+ +djVqF4dCoPsjS4LP665vLNdGR8FbtRXYnKmH840WfZwIIpMKyiaVMPIqJedoDZJ
+ 16o4k0CoW3k0c89dJc98bnuZTsoZEzm5N0Y8liCwMh5rhLZhz6hg/wt8zyRUBudw
+ 8uoPAxubE5n0sraVoNcJKaHkjB1m6txCpveJJi6P7+oP2TL/mZg8xTZXQFzG/hGE
+ KBXTCnud/NFFzGXHBO5eHH+UtheMEshZtHfkGpVi/4joqw==
+Received: from mail-qk1-f200.google.com (mail-qk1-f200.google.com
+ [209.85.222.200])
+ by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 48044f8ghb-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
+ for <dri-devel@lists.freedesktop.org>; Sat, 19 Jul 2025 10:32:37 +0000 (GMT)
+Received: by mail-qk1-f200.google.com with SMTP id
+ af79cd13be357-7e2c8137662so501760285a.2
+ for <dri-devel@lists.freedesktop.org>; Sat, 19 Jul 2025 03:32:37 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20230601; t=1752921156; x=1753525956;
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=G06iwEutK3GO5lHqQU1Eqf05c4jNYrzpMWxGrGkxhJo=;
+ b=AsuQZiICF80jM5CypZCj9AwRDmU1s6PLa0qVvQxGRlzpbZEnsUBQ7YDQDaWscI9pxs
+ l+HDOPMZOkH8JvV8dfXqaH4ArLBcw2vfjwX8tjGdS/fScW7iDKgT6Bmm2p6195NhAiQA
+ CtiMrOVFujrcMokIsOU1i8VBOjjIeR9c36epcZ5zgLxmdwztsgaWSj+gZHZrijnfONlh
+ tuSt9stqZM7HMkORBVJk32qcD4KoXGnE+rMVfAPkYt9FlEdtNj4GTNLbjTKzUPFThAew
+ dlujhhXo2iynNmw0ESZWzErC6ItjxJrjZzVUNwHqb4GSneX3mqNtQEB6LRNB4O/oH+gF
+ iZIw==
+X-Forwarded-Encrypted: i=1;
+ AJvYcCVRFrNOmXVjA9thqzyP0QQcmAgsphw0bACI4qz5zuH6z7oJuLQZelFMu6crlOVGNw7n/0b2VElz1pM=@lists.freedesktop.org
+X-Gm-Message-State: AOJu0YzZnT6HbtmtiSNUYhOnFl6uonja+vbpC58b9Ga8LWTbiAm5hjBP
+ AL2FNE+t+ncv0X8G+WF+A+55WBQzSbRUThXhYhDmetZcCPdWk7PDWRHoQxTu5oUfNbj9jtSWX1l
+ ohHT27DG4jhh/AEOS7hX6CizxSexW1rdbVrQbffyWqiKn33yI7KrO5Qtw0/agYlAcnPw9ESs=
+X-Gm-Gg: ASbGncsGXYCSwYQSbc8X9nBDlmKvcN3z5xRAeugGUW1vK7pqRGHd1+h/VQSB+axcz9F
+ ExfgMuTVLTzvLbfJJ009Lx3dVXcj2itCkZbBvD1ZxAjBX7TWmgeBf9ZhnwSIpbzS0DkqZA1LfD8
+ evbdxipfuPSgv41KpBpe9XL5srNEnZLXrChv+OvAlJotpQLb756KosrfxgA9+CnA8uzRSJUPAiT
+ eNmskn7+p55rELdkRrqdaaXwxMxvP+T8VlLeG3nzbZJDmnG12G4bQmcdkIWcRx/jTxnbR60uCPK
+ othBjbmNgsuzrABd2064hlZMRg/3/5w8+V48cVopdPk6HkRNbpqhW+3mK39soXVMu+KDADqLsz9
+ ccipaeUfLODTKQPpOdi0ZT3MRUsEauy+L/RBYBxl0CXqU3u5pAZq3
+X-Received: by 2002:a05:620a:4413:b0:7e3:3417:8c80 with SMTP id
+ af79cd13be357-7e3435eb5c8mr1843006185a.31.1752921155711; 
+ Sat, 19 Jul 2025 03:32:35 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IFPks1HjgTCMsnblTK4TjsiAlwy/vjObFV82l5OdaaO+bcfhs7Bu3VSA6ZEe50HuSOATIjNgw==
+X-Received: by 2002:a05:620a:4413:b0:7e3:3417:8c80 with SMTP id
+ af79cd13be357-7e3435eb5c8mr1843003785a.31.1752921155315; 
+ Sat, 19 Jul 2025 03:32:35 -0700 (PDT)
+Received: from umbar.lan
+ (2001-14ba-a0c3-3a00-264b-feff-fe8b-be8a.rev.dnainternet.fi.
+ [2001:14ba:a0c3:3a00:264b:feff:fe8b:be8a])
+ by smtp.gmail.com with ESMTPSA id
+ 2adb3069b0e04-55a31d7c226sm658791e87.85.2025.07.19.03.32.32
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Sat, 19 Jul 2025 03:32:34 -0700 (PDT)
+Date: Sat, 19 Jul 2025 13:32:31 +0300
+From: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
+To: Brigham Campbell <me@brighamcampbell.com>
+Cc: dianders@chromium.org, tejasvipin76@gmail.com,
+ diogo.ivo@tecnico.ulisboa.pt, skhan@linuxfoundation.org,
+ linux-kernel-mentees@lists.linux.dev, dri-devel@lists.freedesktop.org,
+ linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>,
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>
+Subject: Re: [PATCH v5 1/4] drm: Create mipi_dsi_dual* macros
+Message-ID: <arbdzp3r726vvfwds65cw7thcvxu2hpnwbjwdb4u2rgm4irir5@w25kvujy36kf>
+References: <20250719082639.307545-1-me@brighamcampbell.com>
+ <20250719082639.307545-2-me@brighamcampbell.com>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: Regression: DDC I2C Display Freezing for internal displays
-To: Mario Limonciello <superm1@kernel.org>,
- Harry Wentland <harry.wentland@amd.com>, Leo Li <sunpeng.li@amd.com>
-Cc: Linux regressions mailing list <regressions@lists.linux.dev>,
- amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org, jonas@3j14.de
-References: <0863bc3e-7364-4572-bb72-fc85657cbad7@felixrichter.tech>
- <d9706fe0-7965-457d-830e-19f9aafee855@felixrichter.tech>
- <1c64c181-4e96-4274-975b-454f7207af92@kernel.org>
-Content-Language: en-US
-From: Felix Richter <judge@felixrichter.tech>
-Autocrypt: addr=judge@felixrichter.tech; keydata=
- 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
-In-Reply-To: <1c64c181-4e96-4274-975b-454f7207af92@kernel.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20250719082639.307545-2-me@brighamcampbell.com>
+X-Proofpoint-ORIG-GUID: aEQHgOfHbwmbGYsRwfYCzvCyU_OxjgC7
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwNzE5MDEwNSBTYWx0ZWRfXxHjevbqXFYgv
+ cyE6ZkouqyXZvmWQEI6SR684yRElw7LFt3xg2hJRO+cPpaiD3A7GH9Kl4JN15PiNWWP0Fnexxdb
+ HcLyY+Fsf43ZKRMSojwuB6CBW5Iu64VLIL17c9ZcMCcj8kV8mIoAkFno2W+avj3h8+xQdJy5IOw
+ HRCM7qXB0EnRZCyUh/aZ/e7k7NQXPGbbEAGvZKm/PTd0FAtX2y+HMDa8WTZDBMAEB8/4xbFcmIm
+ XjWMO8jOw6v3QAqniCYn2i9JHArXNfxUMG5KjKHQwf5or3NWNpkbcRk/cyYbUxq13gf0W4LplYF
+ QF/EUV1dBi85UQBF7pt8CnUj2aaG/yz78HUJwWlB678IIemaoveSdWkm/ovVrwLxxZXnZp9714N
+ gv17Ose37J/o2zZSDoEp/xGJd8xLDwk1lY3BlP6dFEDm8ltdIekqgRdQUI3SOLVUDyUGdlLp
+X-Proofpoint-GUID: aEQHgOfHbwmbGYsRwfYCzvCyU_OxjgC7
+X-Authority-Analysis: v=2.4 cv=YtcPR5YX c=1 sm=1 tr=0 ts=687b7445 cx=c_pps
+ a=hnmNkyzTK/kJ09Xio7VxxA==:117 a=xqWC_Br6kY4A:10 a=kj9zAlcOel0A:10
+ a=Wb1JkmetP80A:10 a=wukD7SXyAAAA:8 a=EUspDBNiAAAA:8 a=n_CNi66bQm-mhO-RI4YA:9
+ a=CjuIK1q_8ugA:10 a=PEH46H7Ffwr30OY-TuGO:22 a=n7THaJik3DRP1sDdJiGm:22
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1099,Hydra:6.1.9,FMLib:17.12.80.40
+ definitions=2025-07-19_01,2025-07-17_02,2025-03-28_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ mlxscore=0 priorityscore=1501 malwarescore=0 lowpriorityscore=0
+ impostorscore=0 mlxlogscore=738 suspectscore=0 clxscore=1015 spamscore=0
+ phishscore=0 adultscore=0 bulkscore=0 classifier=spam authscore=0 authtc=n/a
+ authcc= route=outbound adjust=0 reason=mlx scancount=1
+ engine=8.19.0-2505280000 definitions=main-2507190105
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -100,52 +129,27 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Thanks for the reply.
+On Sat, Jul 19, 2025 at 02:26:35AM -0600, Brigham Campbell wrote:
+> Create mipi_dsi_dual, mipi_dsi_dual_dcs_write_seq_multi, and
+> mipi_dsi_dual_generic_write_seq_multi macros for panels which are driven
+> by two parallel serial interfaces. This allows for the reduction of code
+> duplication in drivers for these panels.
+> 
+> Signed-off-by: Brigham Campbell <me@brighamcampbell.com>
+> ---
+> 
+> mipi_dsi_dual_dcs_write_seq_multi goes unused by jdi-lpm102a188a. It's
+> included in this patch for completeness and in anticipation of its use
+> in other drivers in the future.
+> 
+>  drivers/gpu/drm/drm_mipi_dsi.c | 48 ++++++++++++++++++
+>  include/drm/drm_mipi_dsi.h     | 89 ++++++++++++++++++++++++++++++++++
+>  2 files changed, 137 insertions(+)
+> 
 
-I am aware that i can read and `edid` via sysfs from the drm device. I 
-did not know about `drm_info` but from a quick look at it I don't think 
-it provides the information I need.
-
-The problem is not that I need more information about the attached 
-display. The problem is that there is not enough information about the 
-what `i2c` device corresponds to which monitors ddc channel. Relying on 
-udev hierarchies is not sufficient, because in many cases the relevant 
-i2c device has no parent drm output device. So when I have no 
-information about the i2c device I need to get more information by 
-reading from it. Then I know more and can map the device to the correct 
-display. I am happy to change the approach if there is a simpler way for 
-me to get this information.
-
-Ultimately I don't think that me accessing the bus should be the issue 
-here … This issue did not happen with kernel 6.6, so it definitely 
-qualifies as a regression. In my mind it is the job of the driver to 
-handle resource allocation, so if the bus is in use by somebody else it 
-is the kernels job to handle who uses it. It is not the users job to 
-have to worry about some sort of synchronization issue. That is the 
-operating systems job.
-
-People have been experiencing similar screen freezing issues randomly on 
-this drm issue thread: 
-https://gitlab.freedesktop.org/drm/amd/-/issues/4141#note_3016182
-
-This example highlights an issue that can be triggered reliably with a 
-very similar effect. It may not be the same issue, but they may be related.
+Reviewed-by: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
 
 
-On 7/18/25 20:02, Mario Limonciello wrote:
->
-> At least to me, this issue sounds like a case that multiple entities 
-> are trying to communicate with the panel at the same time.
->
-> By setting dcdebugmask=0x10 what you're essentially doing is stopping 
-> the display hardware from trying to put the panel into PSR.  So there 
-> is "less" I2C traffic to fight with.
->
-> *Why* are you using I2C to read the EDID like this?  Could you instead 
-> use /sys/class/drm/cardX-inputY/edid?  Or even better - can you use 
-> the information from drm_info to make decisions?
->
-> I think the less I2C traffic done directly from userspace the better 
-> when it comes to synchronization issues..
->
-
+-- 
+With best wishes
+Dmitry
