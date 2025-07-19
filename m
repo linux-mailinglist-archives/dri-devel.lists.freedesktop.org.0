@@ -2,74 +2,73 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 234B0B0B257
-	for <lists+dri-devel@lfdr.de>; Sun, 20 Jul 2025 00:42:55 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 25C60B0B259
+	for <lists+dri-devel@lfdr.de>; Sun, 20 Jul 2025 00:42:57 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 84DE710E42F;
-	Sat, 19 Jul 2025 22:42:53 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 53A9210E42D;
+	Sat, 19 Jul 2025 22:42:55 +0000 (UTC)
 Authentication-Results: gabe.freedesktop.org;
-	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="EQaKPf2f";
+	dkim=pass (2048-bit key; unprotected) header.d=gmail.com header.i=@gmail.com header.b="XoQPoTfY";
 	dkim-atps=neutral
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-qt1-f172.google.com (mail-qt1-f172.google.com
- [209.85.160.172])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8E46110E42F
- for <dri-devel@lists.freedesktop.org>; Sat, 19 Jul 2025 22:42:50 +0000 (UTC)
-Received: by mail-qt1-f172.google.com with SMTP id
- d75a77b69052e-4ab92d06ddeso47472171cf.3
- for <dri-devel@lists.freedesktop.org>; Sat, 19 Jul 2025 15:42:50 -0700 (PDT)
+Received: from mail-qt1-f171.google.com (mail-qt1-f171.google.com
+ [209.85.160.171])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6A27E10E42D
+ for <dri-devel@lists.freedesktop.org>; Sat, 19 Jul 2025 22:42:52 +0000 (UTC)
+Received: by mail-qt1-f171.google.com with SMTP id
+ d75a77b69052e-4ab6e66ea68so43304661cf.1
+ for <dri-devel@lists.freedesktop.org>; Sat, 19 Jul 2025 15:42:52 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gmail.com; s=20230601; t=1752964969; x=1753569769; darn=lists.freedesktop.org;
+ d=gmail.com; s=20230601; t=1752964971; x=1753569771; darn=lists.freedesktop.org;
  h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
  :mime-version:subject:date:from:from:to:cc:subject:date:message-id
- :reply-to; bh=shIOPZHNE3YOj8YEFGq9npDcc3SRxzlV4M7LnlpOpn8=;
- b=EQaKPf2fHuPqPv1BVt7HGFuFC8pQzmY42tUR3ffEiUyMa/9WFQLTPSPKEN1WujCwDZ
- mumWn/8m4p10oYJpHTfI+xIvyzy2r6EdwMh3qrEffMDmByWyXBiEXB+L/BBAAiUbgbcv
- Lr5W23+3TBgE7JgtBv7dSrgL9CO4EFlrUY/1M5ToFv9lnuPzfctbl1GS8fjenrH02DZ3
- 6Z63bONOcTBjLYU5cg4mVjVlkENB+fizYNyCMBtsGGnCOl15Bb5yyl+DRA3hU3snVRfH
- PJ3Ze8Hi1hFcsLKKycDj0Wdpy18blklLON72IfWGxOLCrSl8gsRABpXX3i12YPCwaVB+
- n0kg==
+ :reply-to; bh=NVwZZ6Mo9+UIM4MULp9oEI1KWAAVmyUYypitaepCOB0=;
+ b=XoQPoTfYMcbxSJHnEitREpYV+GU0tW5tzYDQUtcIu5X2bR+93Kfd7k2oRf7/KfV45i
+ o5MorcnCif7qzYkUH6/QQ7+RZNcASq8cLA9P73zpUEWYrRCrC64TXXV+jSeK+U0IeLHu
+ UC7i7Z0EXusLJbkWQwRj3JGui01KJnpt9M1mvjhyz83h/ANXF8OC5Z9q7oEqPsyRSsBw
+ pSRRz5c13rFq3FilkshZoFpy5Pri1/LIfGRSMKhBO6k8L7lgHoIP8T45WhpTRwag1QMY
+ ScQgRPR+eW+1afLxRGpQHOe+0NCQVWejnFGP4xjbe9KDHyAS/pVFkXmqPkNnFJThg3hf
+ 86GA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20230601; t=1752964969; x=1753569769;
+ d=1e100.net; s=20230601; t=1752964971; x=1753569771;
  h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
  :mime-version:subject:date:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=shIOPZHNE3YOj8YEFGq9npDcc3SRxzlV4M7LnlpOpn8=;
- b=JmPrIjjDJuUvEYKyn/X2tSAlBUchDUCJpZuBU3SEJWrgoa78SAFhHOfk+jGbYvbQHa
- P+UAdWZnFJSuQdREMfQ6pb4Jr+4fKDTOsKZPfug9QhXMBHh8quLNg+/PqZI53jKm2or5
- YfsCO9RYei8aQByJ3MrFXUatJmFTWQ7qXUagxmyxPen/5DUws20zmwfP/sIs55+LZgC/
- S625XNk2aeE4J9pgA4TAq/oI2azBR1B4JSQrjno3oSvIBtZgO7ROFW3cQGJyVCU8P7e2
- 97DnKEmw2O7kWNFvJksMBOIksAy8b1GuIpTb/Hz4OI5EMZEDdoxtjducqz97NoJaOslF
- NOUg==
-X-Gm-Message-State: AOJu0Yz695Zpc2NiSi57vJqEN7cvXPq9XOwdLw//C8wPIwdA9SkU/Te/
- Tp7bsJSEcU5MXxBp3YOoL4vebyfUnG/aiIo9v5xZPvLpoPaYtjjGHdB+
-X-Gm-Gg: ASbGncsxYf3QVwveTpNwncWuolxdlHuocCyryToGro11dg4PaXOVGhVnTyXnOaNQ55N
- MlcHsFzMwLsqaQPSY9DD+8shssSCRn0UTi0iitcBuwxHuCI3fejSxn3PpZsLCiLs1JWntDcmPmn
- KbuNnhpipGmw14UwN7D54xgy9WCUD7Y/cBaL6jIAT/Gjsg6jJ2z88nz7m2bbC6qZ0gZjXtWppNe
- hSZ+BiVu8eozR+srTVHGuZq4gyHKFJznK6nBfN91E5WZOxkGoSulMLNfYatzp5ODB4rEtX33nc+
- dNME9tI7TfYPpZdOoDMDnFZJ3rQqTQovN8H0hDGPdzPzepbHpdB5UuAvZHiwNsyemQuCtxALFUz
- jmXSD77KAUXLlGuRvT6E2cHI97XEZNDo1/SGoTiKcuOf/MyBGdpMUINJ/bFowe1hhwL2kkGPgMk
- wHUsPk5MbOgzUQd0+bwd+qT7rTdNIA
-X-Google-Smtp-Source: AGHT+IEGo/MTvkIry259WaVh/tw9rDFQDiRK5HBiJnLYSAsembv5QYNewH86zQneZbtR/Kc+tN9uQQ==
-X-Received: by 2002:ac8:5888:0:b0:4ab:8692:408e with SMTP id
- d75a77b69052e-4ab93d8db2cmr238698361cf.25.1752964969436; 
- Sat, 19 Jul 2025 15:42:49 -0700 (PDT)
+ bh=NVwZZ6Mo9+UIM4MULp9oEI1KWAAVmyUYypitaepCOB0=;
+ b=g40yecMlEx6KqqUL8faN4LSzA+rA/YybE/caNzDTJ+eIJahly1ybMchQPx/P3HrEZu
+ AUsbgs2KLi5pUxisZTtAjcPv6h7pgqH2EDG2vZKu1T95KsLFjfXSibPj57/fUPTJH2BV
+ rbGmMzdVB/Xo5oHi9uK0kLeuL0vo5frKMYJyaPYmRDl8LThbMSz3uZAFQkq2K5PQpFJZ
+ /u1q9I2F495sTH0TG26GVOoUh455mV45kS/l+pWrTlcl8uydX4PNEB7GvXHVwYKzsegL
+ Nd+hOmDKRd3rsYa/w5RcwOq52fFIuRrH2YZIkXb6Ge9DX/IxW14tDtKAk0TvPC7M4Xo5
+ 8AmA==
+X-Gm-Message-State: AOJu0YyFndDBqYHdU3zld+j4vxMXuQMraZ737ew5BJxAL4W4z5Pdo5DF
+ BQp4gGK+LR/350NLGewQGswDGyVWMO4i/OjJH8vapjXOf3k+0C5sK4Ju
+X-Gm-Gg: ASbGncsCF8/l1YwXXOoYowPhBZB1OQpj5QKNpvX6ZbYbuPnnnLOnXMvRQdDJA1ji9Ft
+ dVXG/ov2Fz4XzmZG4Sh5X6tbzkm17pH8RTRBc3EwlkYT5C/txTDb/jMoOCa166IumtApDCtpNQ4
+ q8BlhBBa5c6N4dzGrs7ldsNwNZkSaFYDuS9YyykTvQqfb0689qd1e8R4CjQix9RGnD0TG0oMieS
+ 3Inm6TXEvBwig1CHxdvWcXTHQQbDRYolruj3s20WHr9PO+qrF/BFJ4tL7OOOq2RDN2WmcxM+WDG
+ 6QdNd0+b1qaV4p+vdDIpkGWBogf+fowc9x68v6WIFyvQYJAyS0i52lL91SwrCcieI4smqreB27V
+ +N30W+41p33X3MS++oKBcvxuNKs/qPik+WygjNTeSMOw2v2uJ81Bxtk63wUeWh0Wa8JuEUZFWaS
+ KBFzxn6Fcp8HUwizlheHP6ks8c8tvc
+X-Google-Smtp-Source: AGHT+IGrDAPhwT5uKgChUAOHQtHYjjVfCjGcgBqOR6dnOpB3dSPlP6wDfXu7rVGYdgsmj8RAJZS9ig==
+X-Received: by 2002:a05:622a:258e:b0:4ab:5941:a919 with SMTP id
+ d75a77b69052e-4aba3df1b41mr175208651cf.40.1752964971453; 
+ Sat, 19 Jul 2025 15:42:51 -0700 (PDT)
 Received: from
  1.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.ip6.arpa
  ([2600:4041:5c29:e400:78d6:5625:d350:50d1])
  by smtp.gmail.com with ESMTPSA id
- d75a77b69052e-4abb4b1f1d5sm23671841cf.50.2025.07.19.15.42.47
+ d75a77b69052e-4abb4b1f1d5sm23671841cf.50.2025.07.19.15.42.49
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sat, 19 Jul 2025 15:42:48 -0700 (PDT)
+ Sat, 19 Jul 2025 15:42:50 -0700 (PDT)
 From: Tamir Duberstein <tamird@gmail.com>
-Date: Sat, 19 Jul 2025 18:42:35 -0400
-Subject: [PATCH v2 06/10] rust: firmware: use `core::ffi::CStr` method
- names
+Date: Sat, 19 Jul 2025 18:42:36 -0400
+Subject: [PATCH v2 07/10] rust: kunit: use `core::ffi::CStr` method names
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20250719-core-cstr-fanout-1-v2-6-e1cb53f6d233@gmail.com>
+Message-Id: <20250719-core-cstr-fanout-1-v2-7-e1cb53f6d233@gmail.com>
 References: <20250719-core-cstr-fanout-1-v2-0-e1cb53f6d233@gmail.com>
 In-Reply-To: <20250719-core-cstr-fanout-1-v2-0-e1cb53f6d233@gmail.com>
 To: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
@@ -97,13 +96,13 @@ Cc: dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
  netdev@vger.kernel.org, devicetree@vger.kernel.org, 
  Tamir Duberstein <tamird@gmail.com>
 X-Mailer: b4 0.15-dev
-X-Developer-Signature: v=1; a=openssh-sha256; t=1752964955; l=1139;
+X-Developer-Signature: v=1; a=openssh-sha256; t=1752964955; l=1799;
  i=tamird@gmail.com; h=from:subject:message-id;
- bh=eJzxwo6+dOxZLnVsYJ7KLApzPh+yuXrFuqz7GoEm5V8=;
+ bh=csKsHCFbalTxJs2cYRiqc+aWsYXh/UqWq0VHOjKXa4U=;
  b=U1NIU0lHAAAAAQAAADMAAAALc3NoLWVkMjU1MTkAAAAgtYz36g7iDMSkY5K7Ab51ksGX7hJgs
  MRt+XVZTrIzMVIAAAAGcGF0YXR0AAAAAAAAAAZzaGE1MTIAAABTAAAAC3NzaC1lZDI1NTE5AAAA
- QP1e6JGRPX2Yn2Vgs8WZJjmjU+81WfzK4lKb2id8EqsgtG1MZLLxYbdgmtODlw4OTWKcgMCQa+x
- S01m6sOBO/Aw=
+ QOCZHQE3BNkYXCKJ+RyA32p/mSSS2r3g8aNiyzb0jETg6Ga0rgHtLN1SgqEcI0cBAzwMZUvRsRy
+ Exo2ggC1/0gs=
 X-Developer-Key: i=tamird@gmail.com; a=openssh;
  fpr=SHA256:264rPmnnrb+ERkS7DDS3tuwqcJss/zevJRzoylqMsbc
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -131,22 +130,37 @@ Reviewed-by: Benno Lossin <lossin@kernel.org>
 Acked-by: Danilo Krummrich <dakr@kernel.org>
 Signed-off-by: Tamir Duberstein <tamird@gmail.com>
 ---
- rust/kernel/firmware.rs | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ rust/kernel/kunit.rs | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
 
-diff --git a/rust/kernel/firmware.rs b/rust/kernel/firmware.rs
-index be684e860ed2..ca00aa2b4d85 100644
---- a/rust/kernel/firmware.rs
-+++ b/rust/kernel/firmware.rs
-@@ -291,7 +291,7 @@ const fn push_module_name(self) -> Self {
-         let module_name = this.module_name;
+diff --git a/rust/kernel/kunit.rs b/rust/kernel/kunit.rs
+index 099a61bbb8f4..3fd33c0c5ecc 100644
+--- a/rust/kernel/kunit.rs
++++ b/rust/kernel/kunit.rs
+@@ -102,12 +102,12 @@ unsafe impl Sync for Location {}
+             unsafe impl Sync for UnaryAssert {}
  
-         if !this.module_name.is_empty() {
--            this = this.push_internal(module_name.as_bytes_with_nul());
-+            this = this.push_internal(module_name.to_bytes_with_nul());
+             static LOCATION: Location = Location($crate::bindings::kunit_loc {
+-                file: FILE.as_char_ptr(),
++                file: $crate::str::as_char_ptr_in_const_context(FILE),
+                 line: LINE,
+             });
+             static ASSERTION: UnaryAssert = UnaryAssert($crate::bindings::kunit_unary_assert {
+                 assert: $crate::bindings::kunit_assert {},
+-                condition: CONDITION.as_char_ptr(),
++                condition: $crate::str::as_char_ptr_in_const_context(CONDITION),
+                 expected_true: true,
+             });
  
-             if N != 0 {
-                 // Re-use the space taken by the NULL terminator and swap it with the '.' separator.
+@@ -202,7 +202,7 @@ pub const fn kunit_case(
+ ) -> kernel::bindings::kunit_case {
+     kernel::bindings::kunit_case {
+         run_case: Some(run_case),
+-        name: name.as_char_ptr(),
++        name: kernel::str::as_char_ptr_in_const_context(name),
+         attr: kernel::bindings::kunit_attributes {
+             speed: kernel::bindings::kunit_speed_KUNIT_SPEED_NORMAL,
+         },
 
 -- 
 2.50.1
